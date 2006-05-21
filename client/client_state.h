@@ -69,7 +69,8 @@ enum SUSPEND_REASON {
     SUSPEND_REASON_USER_REQ = 4,
     SUSPEND_REASON_TIME_OF_DAY = 8,
     SUSPEND_REASON_BENCHMARKS = 16,
-    SUSPEND_REASON_DISK_SIZE = 32
+    SUSPEND_REASON_DISK_SIZE = 32,
+    SUSPEND_REASON_CPU_USAGE_LIMIT = 64,
 };
 
 // CLIENT_STATE encapsulates the global variables of the core client.
@@ -354,7 +355,7 @@ public:
     int allowed_disk_usage(double&);
     int allowed_project_disk_usage(double&);
     int suspend_tasks(int reason);
-    int resume_tasks();
+    int resume_tasks(int reason=0);
     int suspend_network(int reason);
     int resume_network();
 private:
@@ -474,4 +475,5 @@ extern double calculate_exponential_backoff(
     int n, double MIN, double MAX
 );
 
+#define POLL_INTERVAL   1.0
 #endif

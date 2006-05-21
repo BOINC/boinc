@@ -4883,3 +4883,25 @@ David  21 May 2006
     html/inc/
         prefs.inc
         stats_sites.inc
+
+David 21 May 2006
+	- core client: implement "CPU usage limit" preference
+	- core client: print CPU scheduling messages only if
+		"tasks" log flag is set
+	- core client: mechanisms for suspending activities
+		(idle, time-of-day, explicit control)
+		affect only CPU, not network usage
+	- Manager: fix garbled message about needing network connection
+
+	client/
+		app_control.C
+		app_start.C
+		client_state.C,h
+		cs_apps.C
+		cs_prefs.C
+		log_flags.C
+		main.C
+	clientgui/
+		BOINCDialupManager.cpp
+	lib/
+		prefs.C,h

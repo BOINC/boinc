@@ -144,32 +144,52 @@ void CLIENT_STATE::check_suspend_activities(int& reason) {
     // Don't work while we're running CPU benchmarks
     //
     if (are_cpu_benchmarks_running()) {
-        reason |= SUSPEND_REASON_BENCHMARKS;
-    }
-
-    if (user_run_request == USER_RUN_REQUEST_ALWAYS) return;
-
-    if (user_run_request == USER_RUN_REQUEST_NEVER) {
-        reason |= SUSPEND_REASON_USER_REQ;
+        reason = SUSPEND_REASON_BENCHMARKS;
         return;
     }
 
-    if (!global_prefs.run_on_batteries
-        && host_info.host_is_running_on_batteries()
-    ) {
-        reason |= SUSPEND_REASON_BATTERIES;
+    switch(user_run_request) {
+    case USER_RUN_REQUEST_ALWAYS: break;
+    case USER_RUN_REQUEST_NEVER:
+        reason = SUSPEND_REASON_USER_REQ;
+        return;
+    default:
+        if (!global_prefs.run_on_batteries
+            && host_info.host_is_running_on_batteries()
+        ) {
+            reason = SUSPEND_REASON_BATTERIES;
+            return;
+        }
+
+        if (!global_prefs.run_if_user_active
+            && !host_info.users_idle(
+                check_all_logins, global_prefs.idle_time_to_run
+            )
+        ) {
+            reason = SUSPEND_REASON_USER_ACTIVE;
+            return;
+        }
+
+        if (!now_between_two_hours(global_prefs.start_hour, global_prefs.end_hour)) {
+            reason = SUSPEND_REASON_TIME_OF_DAY;
+            return;
+        }
     }
 
-    if (!global_prefs.run_if_user_active
-        && !host_info.users_idle(
-            check_all_logins, global_prefs.idle_time_to_run
-        )
-    ) {
-        reason |= SUSPEND_REASON_USER_ACTIVE;
-    }
-
-    if (!now_between_two_hours(global_prefs.start_hour, global_prefs.end_hour)) {
-        reason |= SUSPEND_REASON_TIME_OF_DAY;
+    if (global_prefs.cpu_usage_limit != 100) {
+        static double last_time=0, debt=0;
+        if (last_time) {
+            double diff = now - last_time;
+            if (diff >= POLL_INTERVAL/2. && diff < POLL_INTERVAL*10.) {
+                debt += diff*global_prefs.cpu_usage_limit/100;
+                if (debt < 0) {
+                    reason = SUSPEND_REASON_CPU_USAGE_LIMIT;
+                } else {
+                    debt -= diff;
+                }
+            }
+        }
+        last_time = now;
     }
 }
 
@@ -197,17 +217,26 @@ static string reason_string(int reason) {
 }
 
 int CLIENT_STATE::suspend_tasks(int reason) {
-    string s_reason;
-    s_reason = "Suspending computation" + reason_string(reason);
-    msg_printf(NULL, MSG_INFO, const_cast<char*>(s_reason.c_str()));
-    active_tasks.suspend_all(global_prefs.leave_apps_in_memory);
+    if (reason == SUSPEND_REASON_CPU_USAGE_LIMIT) {
+        active_tasks.suspend_all(true);
+    } else {
+        string s_reason;
+        s_reason = "Suspending computation" + reason_string(reason);
+        msg_printf(NULL, MSG_INFO, s_reason.c_str());
+        active_tasks.suspend_all(global_prefs.leave_apps_in_memory);
+    }
     return 0;
 }
 
-int CLIENT_STATE::resume_tasks() {
-    msg_printf(NULL, MSG_INFO, "Resuming computation");
-    active_tasks.unsuspend_all();
-    gstate.request_schedule_cpus("Resuming computation");
+int CLIENT_STATE::resume_tasks(int reason) {
+    if (reason == SUSPEND_REASON_CPU_USAGE_LIMIT) {
+        active_tasks.unsuspend_all();
+        gstate.request_schedule_cpus("usage limit");
+    } else {
+        msg_printf(NULL, MSG_INFO, "Resuming computation");
+        active_tasks.unsuspend_all();
+        gstate.request_schedule_cpus("Resuming computation");
+    }
     return 0;
 }
 
@@ -229,7 +258,7 @@ void CLIENT_STATE::check_suspend_network(int& reason) {
 int CLIENT_STATE::suspend_network(int reason) {
     string s_reason;
     s_reason = "Suspending network activity" + reason_string(reason);
-    msg_printf(NULL, MSG_INFO, const_cast<char*>(s_reason.c_str()));
+    msg_printf(NULL, MSG_INFO, s_reason.c_str());
     pers_file_xfers->suspend();
     return 0;
 }

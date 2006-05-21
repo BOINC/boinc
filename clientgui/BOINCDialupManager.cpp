@@ -296,8 +296,7 @@ int CBOINCDialUpManager::NotifyUserNeedConnection() {
         // 2st %s is the application name
         //    i.e. 'BOINC Manager', 'GridRepublic Manager'
         strDialogMessage.Printf(
-            _("%s needs a connection to the Internet to perform some maintenance, open the %s to connect"
-              "up and perform the needed work."),
+            _("%s needs to connect to the Internet.  Please click to open %s."),
             wxGetApp().GetBrand()->GetProjectName().c_str(),
             wxGetApp().GetBrand()->GetApplicationName().c_str()
         );

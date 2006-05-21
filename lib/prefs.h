@@ -61,6 +61,7 @@ struct GLOBAL_PREFS {
     //int max_memory_mbytes;
     int proc_priority;
     int cpu_affinity;
+    double cpu_usage_limit;
     char source_project[256];
     char source_scheduler[256];
 

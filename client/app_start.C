@@ -61,6 +61,7 @@ using std::vector;
 #include "client_msgs.h"
 #include "client_state.h"
 #include "file_names.h"
+#include "log_flags.h"
 
 #include "app.h"
 
@@ -611,13 +612,15 @@ int ACTIVE_TASK::resume_or_start() {
         );
         return 0;
     }
-    msg_printf(result->project, MSG_INFO,
-        "%s task %s using %s version %d",
-        str,
-        result->name,
-        app_version->app->name,
-        app_version->version_num
-    );
+    if (log_flags.task) {
+        msg_printf(result->project, MSG_INFO,
+            "%s task %s using %s version %d",
+            str,
+            result->name,
+            app_version->app->name,
+            app_version->version_num
+        );
+    }
     return 0;
 }
 

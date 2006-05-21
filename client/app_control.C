@@ -59,6 +59,7 @@ using std::vector;
 #include "client_msgs.h"
 #include "client_state.h"
 #include "file_names.h"
+#include "log_flags.h"
 
 #include "app.h"
 
@@ -153,10 +154,12 @@ int ACTIVE_TASK::preempt(bool quit_task) {
 
     scheduler_state = CPU_SCHED_PREEMPTED;
 
-    msg_printf(result->project, MSG_INFO,
-        "Pausing task %s (%s)",
-        result->name, (quit_task ? "removed from memory" : "left in memory")
-    );
+    if (log_flags.task) {
+        msg_printf(result->project, MSG_INFO,
+            "Pausing task %s (%s)",
+            result->name, (quit_task ? "removed from memory" : "left in memory")
+        );
+    }
     return 0;
 }
 

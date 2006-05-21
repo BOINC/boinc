@@ -537,7 +537,7 @@ int boinc_main_loop() {
 
     while (1) {
         if (!gstate.poll_slow_events()) {
-            gstate.do_io_or_sleep(1.0);
+            gstate.do_io_or_sleep(POLL_INTERVAL);
         }
         fflush(stdout);
 

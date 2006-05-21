@@ -65,6 +65,7 @@ void GLOBAL_PREFS::defaults() {
     //max_memory_mbytes = 128;
     proc_priority = 1;
     cpu_affinity = -1;
+    cpu_usage_limit = 1;
 
     // don't initialize source_project, source_scheduler here
     // since they are outside of <venue> elements
@@ -208,6 +209,8 @@ int GLOBAL_PREFS::parse_override(
             continue;
 #endif
         } else if (parse_int(buf, "<cpu_affinity>", cpu_affinity)) {
+            continue;
+        } else if (parse_double(buf, "<cpu_usage_limit>", cpu_usage_limit)) {
             continue;
         }
     }

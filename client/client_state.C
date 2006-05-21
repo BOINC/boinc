@@ -414,6 +414,7 @@ void CLIENT_STATE::do_io_or_sleep(double x) {
 //
 bool CLIENT_STATE::poll_slow_events() {
     int actions = 0, suspend_reason, network_suspend_reason, retval;
+    static int last_suspend_reason=0;
     SCOPE_MSG_LOG scope_messages(log_messages, CLIENT_MSG_LOG::DEBUG_POLL);
     static bool tasks_restarted = false;
 
@@ -449,9 +450,10 @@ bool CLIENT_STATE::poll_slow_events() {
             if (!tasks_suspended) {
                 suspend_tasks(suspend_reason);
             }
+            last_suspend_reason = suspend_reason;
         } else {
             if (tasks_suspended) {
-                resume_tasks();
+                resume_tasks(last_suspend_reason);
             }
         }
     }
@@ -470,24 +472,24 @@ bool CLIENT_STATE::poll_slow_events() {
     }
 
     check_suspend_network(network_suspend_reason);
-    suspend_reason |= network_suspend_reason;
 
     // if we've had a GUI RPC in last few minutes, relax the normal rules
     //
     if (gui_rpcs.got_recent_rpc(300)) {
-        suspend_reason &= !SUSPEND_REASON_USER_ACTIVE;
-        suspend_reason &= !SUSPEND_REASON_BATTERIES;
+        network_suspend_reason &= !SUSPEND_REASON_USER_ACTIVE;
+        network_suspend_reason &= !SUSPEND_REASON_BATTERIES;
     }
-    if (suspend_reason) {
+    if (network_suspend_reason) {
         if (!network_suspended) {
-            suspend_network(suspend_reason);
+            suspend_network(network_suspend_reason);
+            network_suspended = true;
         }
     } else {
         if (network_suspended) {
             resume_network();
+            network_suspended = false;
         }
     }
-    network_suspended = (suspend_reason != 0);
 
     scope_messages.printf("CLIENT_STATE::poll_slow_events(): Begin poll:\n");
     ++scope_messages;

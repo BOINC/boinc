@@ -44,7 +44,7 @@ LOG_FLAGS::LOG_FLAGS() {
 
     // informational output is on by default
     //
-    task = true;
+    task = false;
     file_xfer = true;
     sched_ops = true;
 
