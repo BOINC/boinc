@@ -59,7 +59,7 @@ extern void get_master_filename(PROJECT&, char*);
 #define MASTER_BASE                 "master_"
 #define SCHED_OP_REQUEST_BASE       "sched_request_"
 #define SCHED_OP_REPLY_BASE         "sched_reply_"
-#define LOG_FLAGS_FILE              "log_flags.xml"
+#define CONFIG_FILE                 "cc_config.xml"
 #define TEMP_FILE_NAME              "temp.xml"
 #define STDERR_FILE_NAME            "stderr.txt"
 #define STDOUT_FILE_NAME            "stdout.txt"

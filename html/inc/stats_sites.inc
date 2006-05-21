@@ -67,6 +67,8 @@ $stats_sites = array(
 );
 
 $team_stats_sites = array(
+    array("http://boinc.radax.net/de_boinc.htm", "BOINC@Austria"),
+    array("http://jmb.boinc.fr/", "L'Alliance Francophone"),
     array("http://boincdenmark.dk/", "BOINC@Denmark", "(Danish)"),
     array("http://boincdenmark.dk/default_en.html", "BOINC@Denmark", "(English)"),
     array("http://www.bigbee.be/comp/boinc/index.php",

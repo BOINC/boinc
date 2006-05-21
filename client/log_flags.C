@@ -38,6 +38,7 @@
 #include "filesys.h"
 
 LOG_FLAGS log_flags;
+CONFIG config;
 
 LOG_FLAGS::LOG_FLAGS() {
 
@@ -69,8 +70,6 @@ LOG_FLAGS::LOG_FLAGS() {
 int LOG_FLAGS::parse(FILE* in) {
     char buf[256];
 
-    fgets(buf, 256, in);
-    if (!match_tag(buf, "<log_flags>")) return ERR_XML_PARSE;
     while (fgets(buf, 256, in)) {
         if (strlen(buf) < 2) continue;
         if (match_tag(buf, "</log_flags>")) return 0;
@@ -91,21 +90,43 @@ int LOG_FLAGS::parse(FILE* in) {
         else if (parse_bool(buf, "sched_cpu_debug", sched_cpu_debug)) continue;
         else if (parse_bool(buf, "scrsave_debug", scrsave_debug)) continue;
         else if (parse_bool(buf, "dont_check_file_sizes", dont_check_file_sizes)) continue;
-        else {
-            msg_printf(NULL, MSG_ERROR, "Unparsed line in %s: %s\n",
-                LOG_FLAGS_FILE, buf
-            );
-        }
+        msg_printf(NULL, MSG_ERROR, "Unparsed line in %s: %s\n",
+            CONFIG_FILE, buf
+        );
     }
     return ERR_XML_PARSE;
 }
 
-void read_log_flags() {
+CONFIG::CONFIG() {
+    save_stats_days = 30;
+}
+
+int CONFIG::parse(FILE* in) {
+    char buf[256];
+
+    while (fgets(buf, 256, in)) {
+        if (strlen(buf) < 2) continue;
+        if (match_tag(buf, "</cc_config>")) return 0;
+        if (match_tag(buf, "<log_flags>")) {
+            log_flags.parse(in);
+            continue;
+        }
+        if (parse_int(buf, "<save_stats_days>", save_stats_days)) {
+            continue;
+        }
+        msg_printf(NULL, MSG_ERROR, "Unparsed line in %s: %s\n",
+            CONFIG_FILE, buf
+        );
+    }
+    return ERR_XML_PARSE;
+}
+
+void read_config_file() {
     FILE* f;
 
-    if (boinc_file_exists(LOG_FLAGS_FILE)) {
-        f = boinc_fopen(LOG_FLAGS_FILE, "r");
-        log_flags.parse(f);
+    if (boinc_file_exists(CONFIG_FILE)) {
+        f = boinc_fopen(CONFIG_FILE, "r");
+        config.parse(f);
         fclose(f);
     }
 

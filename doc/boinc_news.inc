@@ -1,6 +1,11 @@
 <?
 
 $project_news = array(
+array("May 17, 2006",
+    "The costs of electricity, both monetary and environmental, are increasing.
+    Be aware of the <a href=energy.php>energy considerations</a>
+    associated with BOINC and volunteer computing."
+),
 array("May 11, 2006",
     "Version 5.4 of the BOINC client software has been released.
     This version lets you use <a href=acct_mgt.php>account managers</a> -

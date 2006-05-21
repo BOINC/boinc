@@ -61,8 +61,6 @@ the CPU scheduling policy optimizes the likelihood of meeting deadlines,
 at the expense of variety.
 </ul>
 
-
-
 <h2>Concepts and terms</h2>
 
 <h3>Wall CPU time</h3>
@@ -121,7 +119,14 @@ the scheduler should send it at least 360 GFLOPs of work.
 R is <b>runnable</b> if
 <ul>
 <li> Neither R nor R.project is suspended, and
-<li> R's files have been downloaded, and
+<li> R's input files have been downloaded, and
+<li> R hasn't finished computing
+</ul>
+
+R is <b>nearly runnable</b> if
+<ul>
+<li> Neither R nor R.project is suspended, and
+<li> None of R's input files is in a 'download deferred' state.
 <li> R hasn't finished computing
 </ul>
 
@@ -203,7 +208,7 @@ over all project, is zero.
 <p>
 The CPU scheduling and work fetch policies use the results
 of a simulation of weighted round-robin scheduling
-applied to the current work queue.
+applied to the set of nearly runnable results.
 The simulation takes into account on-fraction and active-fraction.
 It produces the following outputs:
 <ul>
@@ -283,10 +288,10 @@ and let T be the time the scheduler last ran.
 The enforcement policy is as follows:
 <ul>
 <li> If deadline_missed(R) for some R in X,
-then preempt a result in Y, and run R.
-Repeat.
-<li> If there is a result R in Y that
-checkpointed more recently than T,
+then preempt a result in Y, and run R
+(preempt the result with the least CPU wall time since checkpoint).
+Repeat as needed.
+<li> If there is a result R in Y that checkpointed more recently than T,
 then preempt R and run a result in X.
 </ul>
 

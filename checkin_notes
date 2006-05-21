@@ -4854,3 +4854,32 @@ Rom    19 May 2006
     
     client/
         hostinfo_unix.C
+
+David  21 May 2006
+    - core client: change name of configuration file
+        old name: log_flags.xml
+        new name: cc_config.xml
+            format:
+                <cc_config>
+                    <log_flags>
+                        ...
+                    </log_flags>
+                    [ <save_stats_days>N</save_stats_days> ]
+                </cc_config>
+    - core client: limit on how many days of statistics to save
+        is now configurable (see above)
+    - user web: add "CPU usage limit" preference
+        (soon to be implemented in client)
+    - add wrapper program for existing binaries (not finished)
+
+    apps/
+        wrapper.C
+        Makefile.am
+    client/
+        file_names.h
+        log_flags.C,h
+        main.C
+        scheduler_op.C
+    html/inc/
+        prefs.inc
+        stats_sites.inc

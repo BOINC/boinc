@@ -43,6 +43,12 @@ suspend and resume results, file transfers, and projects.
 <li> Shut down your computer and reboot it.
 Make sure client and manager start up OK.
 
+<li> Suspend and/or hibernate your computer, and resume it.
+Make sure client and manager resume OK.
+
+<li> If anything seems significantly slower as a result of BOINC,
+report it as a minor bug.
+
 </ul>
 
 <h3>Clean install</h3>

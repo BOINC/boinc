@@ -30,8 +30,7 @@
 #include <stdio.h>
 #endif
 
-class LOG_FLAGS {
-public:
+struct LOG_FLAGS {
     // the following write user-readable summaries
     //
     bool task;              // task executions
@@ -59,8 +58,15 @@ public:
     int parse(FILE*);
 };
 
+struct CONFIG {
+    int save_stats_days;
+    CONFIG();
+    int parse(FILE*);
+};
+
 extern LOG_FLAGS log_flags;
-extern void read_log_flags();
+extern CONFIG config;
+extern void read_config_file();
 
 #endif
 

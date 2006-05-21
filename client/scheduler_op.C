@@ -591,14 +591,14 @@ int SCHEDULER_REPLY::parse(FILE* in, PROJECT* project) {
         if (match_tag(buf, "</scheduler_reply>")) {
 
             // update statistics after parsing the scheduler reply
-
-            // check if vector is empty or we have a new day
+            // add new record if vector is empty or we have a new day
+            //
             if (project->statistics.empty() || project->statistics.back().day!=dday()) {
 
                 // delete old stats
                 while (!project->statistics.empty()) {
                     DAILY_STATS& ds = project->statistics[0];
-                    if (dday() - ds.day > 30*86400) {
+                    if (dday() - ds.day > config.save_stats_days*86400) {
                         project->statistics.erase(project->statistics.begin());
                     } else {
                         break;

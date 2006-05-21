@@ -76,8 +76,8 @@ function html_text($x) {
     ";
 }
 
-function list_start() {
-    echo "<p><table border=1 cellpadding=6 width=100%>\n";
+function list_start($attrs = 'width=100%') {
+    echo "<p><table border=1 cellpadding=6 $attrs>\n";
 }
 
 function list_heading($x, $y, $z=null) {

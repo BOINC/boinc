@@ -352,7 +352,7 @@ static void init_core_client(int argc, char** argv) {
                 // Our umask will be inherited by all our child processes
 #endif
 
-    read_log_flags();
+    read_config_file();
     gstate.parse_cmdline(argc, argv);
 
     // Initialize the BOINC Diagnostics Framework
