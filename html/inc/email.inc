@@ -256,9 +256,11 @@ function send_report_post_email($user, $thread,  $post, $message) {
     $body = PROJECT." notification:
 
 This email is sent to inform you that one of the posts in the forum was reported as offensive in ".PROJECT.":
-    Thread:         ".$thread->title."
-    Post:           ".$post->id."
-    Link:           $master_url/forum_thread.php?id=".$thread->id."#".$post->id."
+    Reporting User Id: ".$user->id."
+    Reporting User:    ".$user->name."
+    Thread:            ".$thread->title."
+    Post:              ".$post->id."
+    Link:              $master_url/forum_thread.php?id=".$thread->id."#".$post->id."
     
 The reporting user gave this explanation to why the post was reported:
 ".$message."
