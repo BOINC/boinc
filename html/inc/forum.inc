@@ -497,7 +497,7 @@ function show_post2($post, $n) {
     $m = $n%2;
     if($post->hidden) {
         //Todo: factor this array out, it is also used elsewhere
-        $deleted_text = array( "Obscene", "Flame/Hate", "Commercial spam" );
+        $deleted_text = array( "Obscene", "Flame/Hate", "Commercial spam", "Doublepost", "Off Topic", "Flamebait" );
         $deleted = "<br><font color=red>[Deleted " .
                    "by a moderator as " . $deleted_text[$post->hidden-1] .
                    "] </font>";

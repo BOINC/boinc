@@ -59,6 +59,7 @@ if (get_str('action')=="hide") {
     <option value=\"3\">Commercial spam</option>
     <option value=\"4\">Doublepost</option>
     <option value=\"5\">Off Topic</option>
+    <option value=\"6\">Flamebait</option>
 </select>");
 } elseif (get_str('action')=="move") {
 
