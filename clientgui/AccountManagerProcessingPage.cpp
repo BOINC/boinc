@@ -289,6 +289,10 @@ void CAccountManagerProcessingPage::OnStateChange( CAccountManagerProcessingPage
                     (ERR_BAD_EMAIL_ADDR == reply.error_num) ||
                     (ERR_BAD_PASSWD == reply.error_num) ||
                     CHECK_DEBUG_FLAG(WIZDEBUG_ERRACCOUNTNOTFOUND)) {
+
+                    // For any logon error, make sure we do not attempt to use cached credentials
+                    //   on any follow-ups.
+                    pWAM->m_bCredentialsCached = false;
                     SetProjectAccountNotFound(true);
                 } else {
                     SetProjectAccountNotFound(false);

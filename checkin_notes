@@ -4219,7 +4219,6 @@ Rom    5 May 2006 (boinc_core_release_5_4)
     - Tag for 5.4.9 release, all platforms
       boinc_core_release_5_4_9
 
-
 Walt  8 May 2006
     - Bug fix:  DNS lookup when network was unavailable consumed all
          available CPU.  Fix limits times thru loop and adds a short
@@ -4227,3 +4226,24 @@ Walt  8 May 2006
         
     client/
         client_state.C
+
+Rom    15 May 2006
+    - Bug Fix: Change the account not found window title to login failed.
+    - Bug Fix: If a login call fails for an account manager turn off using
+        cached credentials for the next login request.
+    - Remove what is now dead code in the manager.
+    
+    clientgui/
+        AccountManagerProcessingPage.cpp
+        AccountManagerPropertiesPage.cpp, .h
+        NotFoundPage.cpp
+        ProjectPropertiesPage.cpp, .h
+
+David 21 May 2006
+    - Bug Fix: Properly deal with network suspension
+	- Manager: fix garbled message about needing network connection
+
+	client/
+		client_state.C
+	clientgui/
+		BOINCDialupManager.cpp
