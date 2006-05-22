@@ -625,6 +625,7 @@ int SCHEDULER_REPLY::parse(FILE* in, PROJECT* project) {
         else if (parse_str(buf, "<master_url>", master_url, sizeof(master_url))) {
             continue;
         }
+        else if (parse_str(buf, "<symstore>", project->symstore, sizeof(project->symstore))) continue;
         else if (parse_str(buf, "<user_name>", project->user_name, sizeof(project->user_name))) continue;
         else if (parse_double(buf, "<user_total_credit>", project->user_total_credit)) continue;
         else if (parse_double(buf, "<user_expavg_credit>", project->user_expavg_credit)) continue;

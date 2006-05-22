@@ -62,7 +62,6 @@ LOG_FLAGS::LOG_FLAGS() {
     guirpc_debug = false;
     sched_cpu_debug = false;
     scrsave_debug = false;
-    dont_check_file_sizes = false;
 }
 
 // Parse log flag preferences
@@ -89,7 +88,6 @@ int LOG_FLAGS::parse(FILE* in) {
         else if (parse_bool(buf, "guirpc_debug", guirpc_debug)) continue;
         else if (parse_bool(buf, "sched_cpu_debug", sched_cpu_debug)) continue;
         else if (parse_bool(buf, "scrsave_debug", scrsave_debug)) continue;
-        else if (parse_bool(buf, "dont_check_file_sizes", dont_check_file_sizes)) continue;
         msg_printf(NULL, MSG_ERROR, "Unparsed line in %s: %s\n",
             CONFIG_FILE, buf
         );
@@ -98,6 +96,7 @@ int LOG_FLAGS::parse(FILE* in) {
 }
 
 CONFIG::CONFIG() {
+    dont_check_file_sizes = false;
     save_stats_days = 30;
 }
 
@@ -111,9 +110,8 @@ int CONFIG::parse(FILE* in) {
             log_flags.parse(in);
             continue;
         }
-        if (parse_int(buf, "<save_stats_days>", save_stats_days)) {
-            continue;
-        }
+        if (parse_int(buf, "<save_stats_days>", save_stats_days)) continue;
+        if (parse_bool(buf, "dont_check_file_sizes", dont_check_file_sizes)) continue;
         msg_printf(NULL, MSG_ERROR, "Unparsed line in %s: %s\n",
             CONFIG_FILE, buf
         );

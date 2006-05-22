@@ -181,6 +181,7 @@ public:
     std::vector<std::string> scheduler_urls;
         // where to find scheduling servers
     char project_name[256];             // descriptive.  not unique
+    char symstore[256];
     char user_name[256];
     char team_name[256];
     char email_hash[MD5_LEN];

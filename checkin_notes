@@ -4911,3 +4911,34 @@ Rom    21 May 2006
     
     lib/
         diagnostics_win.C
+
+David  21 May 2006
+    - core client: move "dont_check_file_sizes" tag out of log flags
+        section of config file
+
+    client/
+        cs_files.C
+        log_flags.C,h
+
+David  22 May 2006
+    Support for Microsoft "symstore" mechanism,
+    for getting symbols from a remote server:
+
+    - core client: add "symstore" element to PROJECT.
+        Parse this from scheduler reply file;
+        store in client state file.
+        Add to app info file that's passed to applications.
+    - API: parse symstore from app init file
+    - server: parse symstore URL from config file;
+        include in scheduler reply
+
+    client/
+        app_start.C
+        client_types.C,h
+        scheduler_op.C
+    lib/
+        app_ipc.C,h
+        hostinfo.h
+    sched/
+        sched_config.C,h
+        server_types.C

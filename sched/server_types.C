@@ -479,6 +479,9 @@ int SCHEDULER_REPLY::write(FILE* fout) {
         config.long_name
     );
 
+    if (strlen(config.symstore)) {
+        fprintf(fout, "<symstore>%s</symstore>\n", config.symstore);
+    }
     if (user.id) {
         xml_escape(user.name, buf);
         fprintf(fout,

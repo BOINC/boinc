@@ -93,6 +93,9 @@ int write_init_data_file(FILE* f, APP_INIT_DATA& ai) {
     if (strlen(ai.app_name)) {
         fprintf(f, "<app_name>%s</app_name>\n", ai.app_name);
     }
+    if (strlen(ai.symstore)) {
+        fprintf(f, "<symstore>%s</symstore>\n", ai.symstore);
+    }
     if (ai.project_preferences && strlen(ai.project_preferences)) {
         fprintf(f, "<project_preferences>\n%s</project_preferences>\n", ai.project_preferences);
     }
@@ -186,6 +189,7 @@ int parse_init_data_file(FILE* f, APP_INIT_DATA& ai) {
         else if (parse_int(buf, "<release>", ai.release)) continue;
         else if (parse_int(buf, "<app_version>", ai.app_version)) continue;
         else if (parse_str(buf, "<app_name>", ai.app_name, sizeof(ai.app_name))) continue;
+        else if (parse_str(buf, "<symstore>", ai.symstore, sizeof(ai.symstore))) continue;
         else if (parse_str(buf, "<user_name>", ai.user_name, sizeof(ai.user_name))) continue;
         else if (parse_str(buf, "<team_name>", ai.team_name, sizeof(ai.team_name))) continue;
         else if (parse_str(buf, "<project_dir>", ai.project_dir, sizeof(ai.project_dir))) continue;

@@ -161,6 +161,7 @@ struct APP_INIT_DATA {
     int release;
     int app_version;
     char app_name[256];
+    char symstore[256];
     char* project_preferences;
     int userid;
     int teamid;

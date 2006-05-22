@@ -115,6 +115,7 @@ show_name("David Anderson");
 show_name("Noaa Avital");
 show_name("Don Bashford");
 show_name("Lars Bausch");
+show_name("Frederic Bor");
 show_name("Brian Boshes");
 show_name("Jens Breitbart");
 show_name("Tim Brown");

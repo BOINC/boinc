@@ -50,11 +50,6 @@ public:
     bool ignore_upload_certificates;
     bool dont_generate_upload_certificates;
     bool ignore_delay_bound;
-#if 0
-    bool deletion_policy_priority;
-    bool deletion_policy_expire;
-    bool delete_from_self;
-#endif
     bool use_transactions;
     bool grant_claimed_credit;
     int daily_result_quota;     // max results per host per day
@@ -75,6 +70,7 @@ public:
     double default_disk_max_used_gb;
     double default_disk_max_used_pct;
     double default_disk_min_free_gb;
+    char symstore[256];
 
     int parse(char*);
     int parse_file(const char* dir=".");

@@ -63,6 +63,7 @@ void PROJECT::init() {
     strcpy(host_venue, "");
     scheduler_urls.clear();
     strcpy(project_name, "");
+    strcpy(symstore, "");
     strcpy(user_name, "");
     strcpy(team_name, "");
     strcpy(email_hash, "");
@@ -120,6 +121,7 @@ int PROJECT::parse_state(MIOFILE& in) {
         }
         else if (parse_str(buf, "<master_url>", master_url, sizeof(master_url))) continue;
         else if (parse_str(buf, "<project_name>", project_name, sizeof(project_name))) continue;
+        else if (parse_str(buf, "<symstore>", symstore, sizeof(symstore))) continue;
 #if 0
         else if (parse_double(buf, "<share_size>", share_size)) continue;
         else if (parse_double(buf, "<size>", size)) continue;
@@ -194,6 +196,7 @@ int PROJECT::write_state(MIOFILE& out, bool gui_rpc) {
     out.printf(
         "    <master_url>%s</master_url>\n"
         "    <project_name>%s</project_name>\n"
+        "    <symstore>%s</symstore>\n"
         "    <user_name>%s</user_name>\n"
         "    <team_name>%s</team_name>\n"
         "    <email_hash>%s</email_hash>\n"
@@ -216,6 +219,7 @@ int PROJECT::write_state(MIOFILE& out, bool gui_rpc) {
         "%s%s%s%s%s%s%s%s%s",
         master_url,
         project_name,
+        symstore,
         un,
         tn,
         email_hash,

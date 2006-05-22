@@ -64,11 +64,6 @@ int SCHED_CONFIG::parse(char* buf) {
     parse_bool(buf, "msg_to_host", msg_to_host);
     parse_bool(buf, "ignore_upload_certificates", ignore_upload_certificates);
     parse_bool(buf, "dont_generate_upload_certificates", dont_generate_upload_certificates);
-#if 0
-    parse_bool(buf, "deletion_policy_priority", deletion_policy_priority);
-    parse_bool(buf, "deletion_policy_expire", deletion_policy_expire);
-    parse_bool(buf, "delete_from_self", delete_from_self);
-#endif
     parse_bool(buf, "ignore_delay_bound", ignore_delay_bound);
     parse_bool(buf, "use_transactions", use_transactions);
     parse_int(buf, "<min_sendwork_interval>", min_sendwork_interval);
@@ -92,6 +87,7 @@ int SCHED_CONFIG::parse(char* buf) {
     parse_double(buf, "<default_disk_max_used_gb>", default_disk_max_used_gb);
     parse_double(buf, "<default_disk_max_used_pct>", default_disk_max_used_pct);
     parse_double(buf, "<default_disk_min_free_gb>", default_disk_min_free_gb);
+    parse_str(buf, "<symstore>", symstore, sizeof(symstore));
 
     if (match_tag(buf, "</config>")) {
         char hostname[256];

@@ -44,8 +44,7 @@ public:
     char p_vendor[256];
     char p_model[256];
     char p_capabilities[256];
-        // which intruction sets are supported by the processor and operating
-        // system.
+        // instruction set extensions like SSE and MMX
     double p_fpops;
     double p_iops;
     double p_membw;
@@ -55,16 +54,14 @@ public:
     double m_cache;
     double m_swap;                // Total amount of swap space in bytes
 
-    double d_total;               // Total amount of diskspace in bytes
-    double d_free;                // Total amount of available diskspace in bytes
+    double d_total;               // Total amount of disk in bytes
+    double d_free;                // Total amount of free disk in bytes
 
     char os_name[256];
     char os_version[256];
 
     char accelerators[256];
-        // Next generation video cards are going to include physics engines
-        //   and other types of co-processors.  Collect the data for now.
-
+        // text description of graphics coprocessors or other accelerators
 
     HOST_INFO();
     int parse(MIOFILE&);

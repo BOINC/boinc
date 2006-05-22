@@ -122,7 +122,7 @@ int FILE_INFO::verify_file(bool strict) {
         return 0;
     }
 
-    if (nbytes && (nbytes != size) && (!log_flags.dont_check_file_sizes)) {
+    if (nbytes && (nbytes != size) && (!config.dont_check_file_sizes)) {
         status = ERR_WRONG_SIZE;
         return ERR_WRONG_SIZE;
     }

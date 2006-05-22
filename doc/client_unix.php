@@ -13,10 +13,13 @@ advanced users.</b>
 BOINC uses the following configuration files.
 You can pre-populate these files to control BOINC in various ways.
 <ul>
-<li> <a href=client_files.php>Account files</a>: each done
+<li> <a href=client_files.php>Account files</a>: each one
 describes an attached project.
-<li> <a href=prefs_override.php>global_prefs_override.xml</a>: override global prefernces
-<li> <a href=client_msgs.php>log_flags.xml</a>: control message logging
+<li> <a href=prefs_override.php>global_prefs_override.xml</a>:
+override global preferences
+<li> <a href=client_msgs.php>cc_config.xml</a>:
+turn log messages on/off by category,
+ and other core client configuration options.
 <li> <a href=gui_rpc.php>remote_hosts.cfg</a>: hosts from which remote GUI RPCs is allowed
 <li> <a href=gui_rpc.php>gui_rpc_auth.cfg</a>: GUI RPC password
 <li> <a href=client_startup.php>project_init.xml</a>: startup project

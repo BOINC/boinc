@@ -67,6 +67,7 @@ htmlspecialchars("
     [ <sched_disk_space_check_hardcoded/> ]
     [ <max_claimed_credit>X</max_claimed_credit ]
     [ <grant_claimed_credit/> ]
+    [ <symstore>URL</symstore> ]
 
 
     <!-- optional; defaults as indicated: -->
@@ -350,6 +351,10 @@ list_item("grant_claimed_credit",
     different instances of the same job
     can do much different amounts of work.
     "
+);
+list_item("symstore",
+    "URL of your project's symbol store,
+    used for debugging Windows applications."
 );
 
 

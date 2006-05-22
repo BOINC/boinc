@@ -52,13 +52,13 @@ struct LOG_FLAGS {
     bool guirpc_debug;
     bool sched_cpu_debug;
     bool scrsave_debug;
-    bool dont_check_file_sizes;
 
     LOG_FLAGS();
     int parse(FILE*);
 };
 
 struct CONFIG {
+    bool dont_check_file_sizes;
     int save_stats_days;
     CONFIG();
     int parse(FILE*);
