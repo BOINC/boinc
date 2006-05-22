@@ -4247,3 +4247,10 @@ David 21 May 2006
 		client_state.C
 	clientgui/
 		BOINCDialupManager.cpp
+
+David  23 May 2006
+	- core client: fix logic error involving the
+		"5 minutes of network after GUI RPC" thing.
+
+	client/
+		client_state.C
