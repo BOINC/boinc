@@ -476,8 +476,8 @@ bool CLIENT_STATE::poll_slow_events() {
     // if we've had a GUI RPC in last few minutes, relax the normal rules
     //
     if (gui_rpcs.got_recent_rpc(300)) {
-        network_suspend_reason &= !SUSPEND_REASON_USER_ACTIVE;
-        network_suspend_reason &= !SUSPEND_REASON_BATTERIES;
+        network_suspend_reason &= ~SUSPEND_REASON_USER_ACTIVE;
+        network_suspend_reason &= ~SUSPEND_REASON_BATTERIES;
     }
     if (network_suspend_reason) {
         if (!network_suspended) {

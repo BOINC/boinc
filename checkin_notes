@@ -4954,3 +4954,10 @@ Rom    22 May 2006
         
     lib/
         diagnostics_win.C
+
+David  23 May 2006
+	- core client: fix logic error involving the
+		"5 minutes of network after GUI RPC" thing.
+
+	client/
+		client_state.C
