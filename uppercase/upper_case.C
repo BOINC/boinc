@@ -61,6 +61,7 @@ using std::string;
 bool run_slow;
 bool raise_signal;
 bool random_exit;
+bool random_crash;
 double cpu_time=20;
 
 int do_checkpoint(MFILE& mf, int nchars) {
@@ -157,6 +158,26 @@ void worker() {
             boinc_sleep(1.);
         }
 
+#ifdef HAVE_SIGNAL_H
+        if (raise_signal) {
+            raise(SIGHUP);
+        }
+#endif
+        if (random_exit) {
+            if (drand() < 0.05) {
+                exit(-10);
+            }
+        }
+
+        if (random_crash) {
+            if (drand() < 0.05) {
+                Sleep(5000);
+#ifdef _WIN32
+                DebugBreak();
+#endif
+            }
+        }
+
         int flag = boinc_time_to_checkpoint();
         if (flag) {
             retval = do_checkpoint(out, nchars);
@@ -192,11 +213,17 @@ int main(int argc, char **argv) {
     boinc_init_diagnostics(
         BOINC_DIAG_DUMPCALLSTACKENABLED |
         BOINC_DIAG_HEAPCHECKENABLED |
-        BOINC_DIAG_REDIRECTSTDERR |
-        BOINC_DIAG_TRACETOSTDERR
+        BOINC_DIAG_MEMORYLEAKCHECKENABLED |
+        BOINC_DIAG_TRACETOSTDERR |
+        BOINC_DIAG_REDIRECTSTDERR
     );
 
+    // NOTE: if you change output here, remember to change the output that
+    // test_uc.py pattern-matches against.
+
     for (i=0; i<argc; i++) {
+        if (!strcmp(argv[i], "-exit")) random_exit = true;
+        if (!strcmp(argv[i], "-crash")) random_crash = true;
         if (!strcmp(argv[i], "-run_slow")) run_slow = true;
         if (!strcmp(argv[i], "-cpu_time")) {
             cpu_time = atof(argv[++i]);
