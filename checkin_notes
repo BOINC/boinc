@@ -4905,3 +4905,9 @@ David 21 May 2006
 		BOINCDialupManager.cpp
 	lib/
 		prefs.C,h
+
+Rom    21 May 2006
+    - Translate the process and thread priorities into text.
+    
+    lib/
+        diagnostics_win.C

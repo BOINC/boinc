@@ -756,6 +756,43 @@ char* diagnostics_format_thread_wait_reason(int thread_wait_reason) {
 }
 
 
+// Translate the process priority class into a human readable form.
+//
+// See: http://msdn.microsoft.com/library/default.asp?url=/library/en-us/dllproc/base/scheduling_priorities.asp
+//
+char* diagnostics_format_process_priority(int process_priority) {
+    switch(process_priority) {
+        case IDLE_PRIORITY_CLASS: return "Idle";
+        case BELOW_NORMAL_PRIORITY_CLASS: return "Below Normal";
+        case NORMAL_PRIORITY_CLASS: return "Normal";
+        case ABOVE_NORMAL_PRIORITY_CLASS: return "Above Normal";
+        case HIGH_PRIORITY_CLASS: return "High";
+        case REALTIME_PRIORITY_CLASS: return "Realtime";
+        default: return "Unknown";
+    }
+    return "";
+}
+
+
+// Translate the thread priority class into a human readable form.
+//
+// See: http://msdn.microsoft.com/library/default.asp?url=/library/en-us/dllproc/base/scheduling_priorities.asp
+//
+char* diagnostics_format_thread_priority(int thread_priority) {
+    switch(thread_priority) {
+        case THREAD_PRIORITY_IDLE: return "Idle";
+        case THREAD_PRIORITY_LOWEST: return "Lowest";
+        case THREAD_PRIORITY_BELOW_NORMAL: return "Below Normal";
+        case THREAD_PRIORITY_NORMAL: return "Normal";
+        case THREAD_PRIORITY_ABOVE_NORMAL: return "Above Normal";
+        case THREAD_PRIORITY_HIGHEST: return "Highest";
+        case THREAD_PRIORITY_TIME_CRITICAL: return "Time Critical";
+        default: return "Unknown";
+    }
+    return "";
+}
+
+
 // Provide a mechinism to trap and report messages sent to the debugger's
 //   viewport.  This should only been enabled if a debugger isn't running
 //   against the current process already.
@@ -1272,16 +1309,19 @@ int diagnostics_foreground_window_dump(PBOINC_WINDOWCAPTURE window_info) {
 // Dump the captured information for a given thread.
 //
 int diagnostics_dump_thread_information(PBOINC_THREADLISTENTRY pThreadEntry) {
-    std::string strThreadStatus;
-    std::string strThreadWaitReason;
-
-    strThreadStatus = diagnostics_format_thread_state(pThreadEntry->crash_state);
+    std::string strStatusExtra;
 
     if (pThreadEntry->crash_state == ThreadStateWaiting) {
-        strThreadWaitReason += "Wait Reason: ";
-        strThreadWaitReason += diagnostics_format_thread_wait_reason(pThreadEntry->crash_wait_reason);
-        strThreadWaitReason += ", ";
-
+        strStatusExtra += "Wait Reason: ";
+        strStatusExtra += diagnostics_format_thread_wait_reason(pThreadEntry->crash_wait_reason);
+        strStatusExtra += ", ";
+    } else {
+        strStatusExtra += "Base Priority: ";
+        strStatusExtra += diagnostics_format_thread_priority(pThreadEntry->crash_base_priority);
+        strStatusExtra += ", ";
+        strStatusExtra += "Priority: ";
+        strStatusExtra += diagnostics_format_thread_priority(pThreadEntry->crash_priority);
+        strStatusExtra += ", ";
     }
 
     fprintf(
@@ -1296,8 +1336,8 @@ int diagnostics_dump_thread_information(PBOINC_THREADLISTENTRY pThreadEntry) {
         "\n",
         pThreadEntry->name,
         pThreadEntry->thread_id,
-        strThreadStatus.c_str(),
-        strThreadWaitReason.c_str(),
+        diagnostics_format_thread_state(pThreadEntry->crash_state),
+        strStatusExtra.c_str(),
         pThreadEntry->crash_kernel_time,
         pThreadEntry->crash_user_time,
         pThreadEntry->crash_wait_time
