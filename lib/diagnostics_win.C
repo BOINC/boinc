@@ -1223,7 +1223,7 @@ int diagnostics_init_unhandled_exception_monitor() {
     // Create the thread that is going to monitor any unhandled exceptions
     // NOTE: Only attempt to create the thread if all the thread sync objects
     //   have been created.
-    if (!hExceptionMonitorHalt && !hExceptionDetectedEvent && !hExceptionQuitEvent && !hExceptionQuitFinishedEvent) {
+    if (hExceptionMonitorHalt && hExceptionDetectedEvent && hExceptionQuitEvent && hExceptionQuitFinishedEvent) {
         hExceptionMonitorThread = (HANDLE)_beginthreadex(
             NULL,
             0,
