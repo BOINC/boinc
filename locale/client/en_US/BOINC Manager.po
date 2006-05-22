@@ -2,7 +2,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: BOINC Manager 4.x\n"
 "POT-Creation-Date: \n"
-"PO-Revision-Date: 2006-04-17 18:53-0800\n"
+"PO-Revision-Date: 2006-05-21 22:09-0800\n"
 "Last-Translator: Rom Walton <rwalton@ssl.berkeley.edu>\n"
 "Language-Team: BOINC Development Team <rwalton@ssl.berkeley.edu>\n"
 "MIME-Version: 1.0\n"
@@ -157,7 +157,7 @@ msgstr ""
 msgid "Please wait..."
 msgstr ""
 
-#: clientgui/AccountManagerProcessingPage.cpp:300
+#: clientgui/AccountManagerProcessingPage.cpp:304
 #: clientgui/ProjectProcessingPage.cpp:472
 #: clientgui/ProjectProcessingPage.cpp:534
 msgid "An internal server error has occurred.\n"
@@ -211,24 +211,24 @@ msgid ""
 "Please connect to the Internet, then select the 'retry communications' item off the advanced menu."
 msgstr ""
 
-#: clientgui/BOINCDialupManager.cpp:297
+#: clientgui/BOINCDialupManager.cpp:299
 #, c-format
-msgid "%s needs a connection to the Internet to perform some maintenance, open the %s to connectup and perform the needed work."
+msgid "%s needs to connect to the Internet.  Please click to open %s."
 msgstr ""
 
-#: clientgui/BOINCDialupManager.cpp:339
+#: clientgui/BOINCDialupManager.cpp:340
 #, c-format
 msgid ""
 "%s needs to connect to the Internet.\n"
 "May it do so now?"
 msgstr ""
 
-#: clientgui/BOINCDialupManager.cpp:352
+#: clientgui/BOINCDialupManager.cpp:353
 #, c-format
 msgid "%s is connecting to the Internet."
 msgstr ""
 
-#: clientgui/BOINCDialupManager.cpp:383
+#: clientgui/BOINCDialupManager.cpp:384
 #, c-format
 msgid ""
 "%s couldn't do Internet communication, and no default connection is selected.\n"
@@ -236,29 +236,29 @@ msgid ""
 "using Advanced/Options/Connections."
 msgstr ""
 
-#: clientgui/BOINCDialupManager.cpp:412
+#: clientgui/BOINCDialupManager.cpp:413
 #, c-format
 msgid "%s has successfully connected to the Internet."
 msgstr ""
 
-#: clientgui/BOINCDialupManager.cpp:437
+#: clientgui/BOINCDialupManager.cpp:438
 #, c-format
 msgid "%s failed to connect to the Internet."
 msgstr ""
 
-#: clientgui/BOINCDialupManager.cpp:473
+#: clientgui/BOINCDialupManager.cpp:474
 #, c-format
 msgid ""
 "%s has detected it is now connected to the Internet.\n"
 "Updating all projects and retrying all transfers."
 msgstr ""
 
-#: clientgui/BOINCDialupManager.cpp:512
+#: clientgui/BOINCDialupManager.cpp:513
 #, c-format
 msgid "%s has successfully disconnected from the Internet."
 msgstr ""
 
-#: clientgui/BOINCDialupManager.cpp:528
+#: clientgui/BOINCDialupManager.cpp:529
 #, c-format
 msgid "%s failed to disconnected from the Internet."
 msgstr ""
@@ -307,19 +307,19 @@ msgid ""
 "without stopping the experiment."
 msgstr ""
 
-#: clientgui/BOINCGUIApp.cpp:491
+#: clientgui/BOINCGUIApp.cpp:488
 msgid "Startup BOINC so only the system tray icon is visible"
 msgstr ""
 
-#: clientgui/BOINCGUIApp.cpp:551
+#: clientgui/BOINCGUIApp.cpp:548
 msgid "(Automatic Detection)"
 msgstr ""
 
-#: clientgui/BOINCGUIApp.cpp:552
+#: clientgui/BOINCGUIApp.cpp:549
 msgid "(Unknown)"
 msgstr ""
 
-#: clientgui/BOINCGUIApp.cpp:553
+#: clientgui/BOINCGUIApp.cpp:550
 msgid "(User Defined)"
 msgstr ""
 
@@ -1073,49 +1073,49 @@ msgstr ""
 msgid "The %s's default language has been changed, in order for this change to take affect you must restart the %s."
 msgstr ""
 
-#: clientgui/MainFrame.cpp:1895
-#: clientgui/MainFrame.cpp:1898
+#: clientgui/MainFrame.cpp:1905
+#: clientgui/MainFrame.cpp:1908
 #, c-format
 msgid "%s - (%s)"
 msgstr ""
 
-#: clientgui/MainFrame.cpp:1896
+#: clientgui/MainFrame.cpp:1906
 #, c-format
 msgid "Connecting to %s"
 msgstr ""
 
-#: clientgui/MainFrame.cpp:1899
+#: clientgui/MainFrame.cpp:1909
 #, c-format
 msgid "Connected to %s"
 msgstr ""
 
-#: clientgui/MainFrame.cpp:2064
+#: clientgui/MainFrame.cpp:2069
 #, c-format
 msgid "%s - Connection Error"
 msgstr ""
 
-#: clientgui/MainFrame.cpp:2070
+#: clientgui/MainFrame.cpp:2075
 msgid "The password you have provided is incorrect, please try again."
 msgstr ""
 
-#: clientgui/MainFrame.cpp:2087
+#: clientgui/MainFrame.cpp:2092
 #, c-format
 msgid "%s - Connection Failed"
 msgstr ""
 
-#: clientgui/MainFrame.cpp:2096
+#: clientgui/MainFrame.cpp:2101
 #, c-format
 msgid ""
 "%s is not able to connect to a %s client.\n"
 "Would you like to try to connect again?"
 msgstr ""
 
-#: clientgui/MainFrame.cpp:2123
+#: clientgui/MainFrame.cpp:2128
 #, c-format
 msgid "%s - Connection Status"
 msgstr ""
 
-#: clientgui/MainFrame.cpp:2134
+#: clientgui/MainFrame.cpp:2139
 #, c-format
 msgid ""
 "%s is not currently connected to a %s client.\n"
@@ -1155,7 +1155,7 @@ msgid ""
 msgstr ""
 
 #: clientgui/NotFoundPage.cpp:176
-msgid "Account not found"
+msgid "Login Failed."
 msgstr ""
 
 #: clientgui/NotFoundPage.cpp:180
@@ -1931,7 +1931,7 @@ msgid "Question"
 msgstr ""
 
 #: clientgui/wizardex.cpp:359
-#: clientgui/wizardex.cpp:551
+#: clientgui/wizardex.cpp:548
 msgid "&Next >"
 msgstr ""
 
@@ -1939,7 +1939,7 @@ msgstr ""
 msgid "< &Back"
 msgstr ""
 
-#: clientgui/wizardex.cpp:549
+#: clientgui/wizardex.cpp:546
 msgid "&Finish"
 msgstr ""
 
