@@ -4942,3 +4942,15 @@ David  22 May 2006
     sched/
         sched_config.C,h
         server_types.C
+
+Rom    22 May 2006
+    - Add some additional logging to the unhandled exception filter
+        initialization routine.
+    - If the unhandled exception filter monitor hasn't been created
+        for some reason don't even attempt to signal the thread to
+        do anything just terminate the process with the exception
+        code.  If more than one thread crashes at a time let the OS
+        decide who wins the critical section.
+        
+    lib/
+        diagnostics_win.C

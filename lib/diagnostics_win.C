@@ -910,6 +910,11 @@ int diagnostics_init_message_monitor() {
                 0,
                 NULL
             );
+            if (!hMessageMonitorThread) {
+                fprintf(
+                    stderr, "diagnostics_init_message_monitor(): _beginthreadex, errno %d\n", errno
+                );
+            }
         } else {
             retval = ERROR_NOT_SUPPORTED;
         }
@@ -1164,40 +1169,82 @@ typedef struct _BOINC_WINDOWCAPTURE {
     DWORD        window_thread_id;
 } BOINC_WINDOWCAPTURE, *PBOINC_WINDOWCAPTURE;
 
-static HANDLE hExceptionMonitorThread;
-static HANDLE hExceptionMonitorHalt;
-static HANDLE hExceptionDetectedEvent;
-static HANDLE hExceptionQuitEvent;
-static HANDLE hExceptionQuitFinishedEvent;
+static HANDLE hExceptionMonitorThread = NULL;
+static HANDLE hExceptionMonitorHalt = NULL;
+static HANDLE hExceptionDetectedEvent = NULL;
+static HANDLE hExceptionQuitEvent = NULL;
+static HANDLE hExceptionQuitFinishedEvent = NULL;
+static CRITICAL_SECTION csExceptionMonitorFallback; 
 
 // Initialize the needed structures and startup the unhandled exception
 //   monitor thread.
 int diagnostics_init_unhandled_exception_monitor() {
     int retval = 0;
 
+    // Initialize the fallback critical section in case we fail to create the
+    //   unhandled exception monitor.
+    InitializeCriticalSection(&csExceptionMonitorFallback);
+
+
     // Create a mutex that can be used to put any thread that has thrown
     //   an unhandled exception to sleep.
     hExceptionMonitorHalt = CreateMutex(NULL, FALSE, NULL);
+    if (!hExceptionMonitorHalt) {
+        fprintf(
+            stderr, "diagnostics_init_unhandled_exception_monitor(): Creating hExceptionMonitorHalt failed, GLE %d\n", GetLastError()
+        );
+    }
 
     // The following event is thrown by a thread that has experienced an
     //   unhandled exception after storing its exception record but before
     //   it attempts to aquire the halt mutex.
     hExceptionDetectedEvent = CreateEvent(NULL, FALSE, FALSE, NULL);
+    if (!hExceptionDetectedEvent) {
+        fprintf(
+            stderr, "diagnostics_init_unhandled_exception_monitor(): Creating hExceptionDetectedEvent failed, GLE %d\n", GetLastError()
+        );
+    }
 
     // Create an event that we can use to shutdown the unhandled exception
     //   monitoring thread.
     hExceptionQuitEvent = CreateEvent(NULL, FALSE, FALSE, NULL);
+    if (!hExceptionQuitEvent) {
+        fprintf(
+            stderr, "diagnostics_init_unhandled_exception_monitor(): Creating hExceptionQuitEvent failed, GLE %d\n", GetLastError()
+        );
+    }
     hExceptionQuitFinishedEvent = CreateEvent(NULL, FALSE, FALSE, NULL);
+    if (!hExceptionQuitFinishedEvent) {
+        fprintf(
+            stderr, "diagnostics_init_unhandled_exception_monitor(): Creating hExceptionQuitFinishedEvent failed, GLE %d\n", GetLastError()
+        );
+    }
 
     // Create the thread that is going to monitor any unhandled exceptions
-    hExceptionMonitorThread = (HANDLE)_beginthreadex(
-        NULL,
-        0,
-        diagnostics_unhandled_exception_monitor,
-        0,
-        0,
-        NULL
-    );
+    // NOTE: Only attempt to create the thread if all the thread sync objects
+    //   have been created.
+    if (!hExceptionMonitorHalt && !hExceptionDetectedEvent && !hExceptionQuitEvent && !hExceptionQuitFinishedEvent) {
+        hExceptionMonitorThread = (HANDLE)_beginthreadex(
+            NULL,
+            0,
+            diagnostics_unhandled_exception_monitor,
+            0,
+            0,
+            NULL
+        );
+        if (!hExceptionMonitorThread) {
+            fprintf(
+                stderr, "diagnostics_init_unhandled_exception_monitor(): Creating hExceptionMonitorThread failed, errno %d\n", errno
+            );
+        }
+    }
+
+    if (!hExceptionMonitorThread) {
+        fprintf(
+            stderr, "WARNING: BOINC Windows Runtime Debugger has been disabled.\n"
+        );
+        retval = ERR_THREAD;
+    }
 
     return retval;
 }
@@ -1222,6 +1269,9 @@ int diagnostics_finish_unhandled_exception_monitor() {
     if (hExceptionQuitFinishedEvent) CloseHandle(hExceptionQuitFinishedEvent);
     if (hExceptionMonitorHalt) CloseHandle(hExceptionMonitorHalt);
     if (hExceptionMonitorThread) CloseHandle(hExceptionMonitorThread);
+
+    // Cleanup the fallback critical section.
+    DeleteCriticalSection(&csExceptionMonitorFallback);
 
     return 0;
 }
@@ -1788,14 +1838,35 @@ LONG CALLBACK boinc_catch_signal(PEXCEPTION_POINTERS pExPtrs) {
         return EXCEPTION_CONTINUE_EXECUTION;
     }
 
-    // Store the exception record pointers.
-    diagnostics_set_thread_exception_record(pExPtrs);
+    if (hExceptionMonitorThread) {
 
-    // Wake the unhandled exception monitor up to process the exception.
-    SetEvent(hExceptionDetectedEvent);
+        // Engage the BOINC Windows Runtime Debugger and dump as much diagnostic
+        //   data as possible.
+        //
 
-    // Go to sleep waiting for something this thread will never see.
-    WaitForSingleObject(hExceptionMonitorHalt, INFINITE);
+        // Store the exception record pointers.
+        diagnostics_set_thread_exception_record(pExPtrs);
+
+        // Wake the unhandled exception monitor up to process the exception.
+        SetEvent(hExceptionDetectedEvent);
+
+        // Go to sleep waiting for something this thread will never see.
+        WaitForSingleObject(hExceptionMonitorHalt, INFINITE);
+
+    } else {
+
+        // This is a really bad place to be.  The unhandled exception monitor wasn't
+        //   created, so we need to bail out as quickly as possible.
+
+        // Enter the critical section in case multiple threads decide to try and blow
+        //   chunks at the same time.  Let the OS decide who gets to determine what
+        //   error code we return.
+        EnterCriticalSection(&csExceptionMonitorFallback);
+
+        TerminateProcess(GetCurrentProcess(), pExPtrs->ExceptionRecord->ExceptionCode);
+
+        LeaveCriticalSection(&csExceptionMonitorFallback);
+    }
 
     // We won't make it to this point, but make the compiler happy anyway.
     return EXCEPTION_CONTINUE_SEARCH;
