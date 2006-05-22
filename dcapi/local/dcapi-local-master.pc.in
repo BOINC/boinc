@@ -8,3 +8,4 @@ Description: Local master implementation for DC-API
 Version: @PACKAGE_VERSION@
 Requires: glib-2.0 uuid
 Libs: -L${libdir} -ldc-local
+Cflags: -I${includedir}

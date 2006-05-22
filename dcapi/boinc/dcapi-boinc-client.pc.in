@@ -8,3 +8,4 @@ Description: BOINC client implementation for DC-API
 Version: @PACKAGE_VERSION@
 Requires: glib-2.0
 Libs: -L${libdir} -ldc-client-boinc @BOINC_CLIENT_LIBS@
+Cflags: -I${includedir}
