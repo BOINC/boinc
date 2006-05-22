@@ -1,9 +1,9 @@
 msgid ""
 msgstr ""
-"Project-Id-Version: 1.32.2.1\n"
+"Project-Id-Version: 1.33\n"
 "POT-Creation-Date: \n"
-"PO-Revision-Date: 2006-05-18 07:42+0100\n"
-"Last-Translator: Jens Seidler <webmaster@boinc.de>\n"
+"PO-Revision-Date: 2006-05-22 10:19-0800\n"
+"Last-Translator: Rom Walton <rwalton@ssl.berkeley.edu>\n"
 "Language-Team: www.EQUN.com <zenith.yin@gmail.com>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=utf-8\n"
@@ -160,7 +160,7 @@ msgstr "正在和服务器进行通讯。"
 msgid "Please wait..."
 msgstr "请稍候..."
 
-#: clientgui/AccountManagerProcessingPage.cpp:300
+#: clientgui/AccountManagerProcessingPage.cpp:304
 #: clientgui/ProjectProcessingPage.cpp:472
 #: clientgui/ProjectProcessingPage.cpp:534
 msgid "An internal server error has occurred.\n"
@@ -222,12 +222,12 @@ msgstr ""
 "%s无法和项目进行通讯，需要连接到互联网。\n"
 "请连接至互联网并从菜单中选择'高级->重试所有连接'。"
 
-#: clientgui/BOINCDialupManager.cpp:297
+#: clientgui/BOINCDialupManager.cpp:299
 #, c-format
-msgid "%s needs a connection to the Internet to perform some maintenance, open the %s to connectup and perform the needed work."
-msgstr "%s需要连接至互联网以进行维护，请打开%s进行连接并完成必要的工作。"
+msgid "%s needs to connect to the Internet.  Please click to open %s."
+msgstr "%s需要连接至互联网。请点击打开%s。"
 
-#: clientgui/BOINCDialupManager.cpp:339
+#: clientgui/BOINCDialupManager.cpp:340
 #, c-format
 msgid ""
 "%s needs to connect to the Internet.\n"
@@ -236,12 +236,12 @@ msgstr ""
 "%s需要连接至互联网。\n"
 "现在就进行连接吗？"
 
-#: clientgui/BOINCDialupManager.cpp:352
+#: clientgui/BOINCDialupManager.cpp:353
 #, c-format
 msgid "%s is connecting to the Internet."
 msgstr "%s正在连接至互联网。"
 
-#: clientgui/BOINCDialupManager.cpp:383
+#: clientgui/BOINCDialupManager.cpp:384
 #, c-format
 msgid ""
 "%s couldn't do Internet communication, and no default connection is selected.\n"
@@ -251,17 +251,17 @@ msgstr ""
 "%s无法在互联网上进行通讯，也没有设定缺省连接。\n"
 "请连接至互联网或者在从菜单中选择'高级->选项'然后切换到连接页面以设定一个缺省连接。"
 
-#: clientgui/BOINCDialupManager.cpp:412
+#: clientgui/BOINCDialupManager.cpp:413
 #, c-format
 msgid "%s has successfully connected to the Internet."
 msgstr "%s已经成功地连接至互联网。"
 
-#: clientgui/BOINCDialupManager.cpp:437
+#: clientgui/BOINCDialupManager.cpp:438
 #, c-format
 msgid "%s failed to connect to the Internet."
 msgstr "%s连接至互联网失败。"
 
-#: clientgui/BOINCDialupManager.cpp:473
+#: clientgui/BOINCDialupManager.cpp:474
 #, c-format
 msgid ""
 "%s has detected it is now connected to the Internet.\n"
@@ -270,12 +270,12 @@ msgstr ""
 "%s已经检测到与互联网的连接。\n"
 "请更新所有项目并重试所有网络传输。"
 
-#: clientgui/BOINCDialupManager.cpp:512
+#: clientgui/BOINCDialupManager.cpp:513
 #, c-format
 msgid "%s has successfully disconnected from the Internet."
 msgstr "%s已经成功地断开至互联网的连接。"
 
-#: clientgui/BOINCDialupManager.cpp:528
+#: clientgui/BOINCDialupManager.cpp:529
 #, c-format
 msgid "%s failed to disconnected from the Internet."
 msgstr "%s断开至互联网的连接失败。"
@@ -333,19 +333,19 @@ msgstr ""
 "这将会停止您的实验直到它根据您的参数设置自动重新运行。\n"
 "通过关闭窗口来关闭管理器并不会停止您的实验。"
 
-#: clientgui/BOINCGUIApp.cpp:491
+#: clientgui/BOINCGUIApp.cpp:488
 msgid "Startup BOINC so only the system tray icon is visible"
 msgstr "启动BOINC时仅显示在系统托盘区"
 
-#: clientgui/BOINCGUIApp.cpp:551
+#: clientgui/BOINCGUIApp.cpp:548
 msgid "(Automatic Detection)"
 msgstr "(自动检测)"
 
-#: clientgui/BOINCGUIApp.cpp:552
+#: clientgui/BOINCGUIApp.cpp:549
 msgid "(Unknown)"
 msgstr "(未知)"
 
-#: clientgui/BOINCGUIApp.cpp:553
+#: clientgui/BOINCGUIApp.cpp:550
 msgid "(User Defined)"
 msgstr "(用户自定义)"
 
@@ -1119,37 +1119,37 @@ msgstr "%s - 语言选择"
 msgid "The %s's default language has been changed, in order for this change to take affect you must restart the %s."
 msgstr "%s的缺省语言已被修改，且必须重启%s才能生效。"
 
-#: clientgui/MainFrame.cpp:1895
-#: clientgui/MainFrame.cpp:1898
+#: clientgui/MainFrame.cpp:1905
+#: clientgui/MainFrame.cpp:1908
 #, c-format
 msgid "%s - (%s)"
 msgstr "%s - (%s)"
 
-#: clientgui/MainFrame.cpp:1896
+#: clientgui/MainFrame.cpp:1906
 #, c-format
 msgid "Connecting to %s"
 msgstr "正在连接至 %s"
 
-#: clientgui/MainFrame.cpp:1899
+#: clientgui/MainFrame.cpp:1909
 #, c-format
 msgid "Connected to %s"
 msgstr "已连接至 %s"
 
-#: clientgui/MainFrame.cpp:2064
+#: clientgui/MainFrame.cpp:2069
 #, c-format
 msgid "%s - Connection Error"
 msgstr "%s - 连接错误"
 
-#: clientgui/MainFrame.cpp:2070
+#: clientgui/MainFrame.cpp:2075
 msgid "The password you have provided is incorrect, please try again."
 msgstr "您提供的密码不正确，请重试。"
 
-#: clientgui/MainFrame.cpp:2087
+#: clientgui/MainFrame.cpp:2092
 #, c-format
 msgid "%s - Connection Failed"
 msgstr "%s - 连接失败"
 
-#: clientgui/MainFrame.cpp:2096
+#: clientgui/MainFrame.cpp:2101
 #, c-format
 msgid ""
 "%s is not able to connect to a %s client.\n"
@@ -1158,12 +1158,12 @@ msgstr ""
 "%s无法连接至%s客户端。\n"
 "您想再连接一次吗？"
 
-#: clientgui/MainFrame.cpp:2123
+#: clientgui/MainFrame.cpp:2128
 #, c-format
 msgid "%s - Connection Status"
 msgstr "%s - 连接状态"
 
-#: clientgui/MainFrame.cpp:2134
+#: clientgui/MainFrame.cpp:2139
 #, c-format
 msgid ""
 "%s is not currently connected to a %s client.\n"
@@ -1212,8 +1212,8 @@ msgstr ""
 "请检查该网址并重试。"
 
 #: clientgui/NotFoundPage.cpp:176
-msgid "Account not found"
-msgstr "查找账号失败"
+msgid "Login Failed."
+msgstr "登录失败。"
 
 #: clientgui/NotFoundPage.cpp:180
 msgid "Check the username and password, and try again."
@@ -2018,7 +2018,7 @@ msgid "Question"
 msgstr "问题"
 
 #: clientgui/wizardex.cpp:359
-#: clientgui/wizardex.cpp:551
+#: clientgui/wizardex.cpp:548
 msgid "&Next >"
 msgstr "下一步(&N) >"
 
@@ -2026,7 +2026,7 @@ msgstr "下一步(&N) >"
 msgid "< &Back"
 msgstr "< 上一步(&B)"
 
-#: clientgui/wizardex.cpp:549
+#: clientgui/wizardex.cpp:546
 msgid "&Finish"
 msgstr "完成(&F)"
 
