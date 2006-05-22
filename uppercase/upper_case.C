@@ -170,8 +170,8 @@ void worker() {
         }
 
         if (random_crash) {
+            boinc_sleep(1.);
             if (drand() < 0.05) {
-                Sleep(5000);
 #ifdef _WIN32
                 DebugBreak();
 #endif
