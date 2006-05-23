@@ -277,7 +277,7 @@ DC_MasterEvent *DC_waitWUEvent(DC_Workunit *wu, int timeout)
 	return event;
 }
 
-void DC_DestroyMasterEvent(DC_MasterEvent *event)
+void DC_destroyMasterEvent(DC_MasterEvent *event)
 {
 	if (!event)
 		return;
