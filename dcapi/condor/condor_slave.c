@@ -2,6 +2,10 @@
 /* c-file-style: "linux" */
 /* End: */
 
+#include <string.h>
+#include <stdlib.h>
+
+#include "dc_common.h"
 #include "dc_client.h"
 
 
@@ -16,7 +20,9 @@ int DC_initClient(void)
 char *DC_resolveFileName(DC_FileType type,
 			 const char *logicalFileName)
 {
-	return(0);
+	if (!strcmp(logicalFileName, DC_CHECKPOINT_FILE))
+		return("dc_checkpoint.txt");
+	return((char*)logicalFileName);
 }
 
 
@@ -64,7 +70,7 @@ void DC_fractionDone(double fraction)
 /* Finishes computation. */
 void DC_finishClient(int exitcode)
 {
-	for (;;) ;
+	exit(exitcode);
 }
 
 
