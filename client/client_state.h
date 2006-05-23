@@ -94,7 +94,6 @@ public:
     NET_STATS net_stats;
     SS_LOGIC ss_logic;
     GUI_RPC_CONN_SET gui_rpcs;
-    LANGUAGE language;
     TIME_STATS time_stats;
     PROXY_INFO proxy_info;
     GUI_HTTP gui_http;
