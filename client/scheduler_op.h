@@ -103,6 +103,7 @@ struct USER_MESSAGE {
 struct SCHEDULER_REPLY {
     int hostid;
     double request_delay;
+    double next_rpc_delay;
     std::vector<USER_MESSAGE> messages;
     char* global_prefs_xml;
         // not including <global_preferences> tags;

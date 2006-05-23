@@ -4955,7 +4955,7 @@ Rom    22 May 2006
     lib/
         diagnostics_win.C
 
-David  23 May 2006
+David  22 May 2006
 	- core client: fix logic error involving the
 		"5 minutes of network after GUI RPC" thing.
 
@@ -4973,3 +4973,13 @@ Bruce 23 May 2006
     sched/
         transitioner.C
 
+David  22 May 2006
+    - Client: handle "<next_rpc_delay>" element in scheduler reply.
+        This tells the client to do another scheduler RPC after X seconds.
+
+    apps/
+        wrapper.C
+    client/
+        client_types.C,h
+        cs_scheduler.C
+        scheduler_op.C,h

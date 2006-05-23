@@ -26,6 +26,12 @@
 // - reporting CPU time
 // - loss of heartbeat from core client
 //
+// Does NOT handle:
+// - checkpointing
+// If your app does checkpointing,
+// and there's some way to figure out when it's done it,
+// this program could be modified to report to the core client.
+//
 // Takes an input file "job.xml" of the form
 // <job_desc>
 //    <application>NAME</application>

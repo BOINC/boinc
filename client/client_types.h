@@ -181,29 +181,41 @@ public:
     std::vector<std::string> scheduler_urls;
         // where to find scheduling servers
     char project_name[256];             // descriptive.  not unique
-    char symstore[256];
+    char symstore[256];             // URL of symbol server (Windows)
     char user_name[256];
     char team_name[256];
     char email_hash[MD5_LEN];
     char cross_project_id[MD5_LEN];
-    double user_total_credit;      // as reported by server
-    double user_expavg_credit;     // as reported by server
-    double user_create_time;       // as reported by server
-    int rpc_seqno;
+    double user_total_credit;
+    double user_expavg_credit;
+    double user_create_time;
     int hostid;
-    double host_total_credit;      // as reported by server
-    double host_expavg_credit;     // as reported by server
-    double host_create_time;       // as reported by server
+    double host_total_credit;
+    double host_expavg_credit;
+    double host_create_time;
+
+    // stuff related to scheduler RPCs and master fetch
+    //
+    int rpc_seqno;
     int nrpc_failures;          // # of consecutive times we've failed to
                                 // contact all scheduling servers
     int master_fetch_failures;
     double min_rpc_time;           // earliest time to contact any server
-                                  // of this project (or zero)
+                                   // of this project (or zero)
+    void set_min_rpc_time(double future_time);
+    bool waiting_until_min_rpc_time();
+        // returns true if min_rpc_time > now
     bool master_url_fetch_pending;
                                 // need to fetch and parse the master URL
-    bool sched_rpc_pending;     // contact scheduling server for preferences
+    bool sched_rpc_pending;
+        // we need to do a scheduler RPC, for various possible reasons:
+        // user request, propagate host CPID, time-based, etc
+    double next_rpc_time;
+        // if nonzero, specifies a time when another scheduler RPC
+        // should be done (as requested by server)
     bool trickle_up_pending;    // have trickle up to send
     bool tentative;             // master URL and account ID not confirmed
+
     bool anonymous_platform;    // app_versions.xml file found in project dir;
                             // use those apps rather then getting from server
     bool non_cpu_intensive;
@@ -212,9 +224,9 @@ public:
         // in the next scheduler reply
     bool suspended_via_gui;
     bool dont_request_more_work; 
-        // set the project to only return work and not request more
-        // for a clean exit to a project, or if a user wants to 
-        // pause doing work for the project
+        // Return work, but don't request more
+        // Used for a clean exit to a project,
+        // or if a user wants to pause doing work for the project
     bool attached_via_acct_mgr;
     char code_sign_key[MAX_KEY_LEN];
     std::vector<FILE_REF> user_files;
@@ -318,14 +330,6 @@ public:
     int parse_state(MIOFILE&);
     int write_state(MIOFILE&, bool gui_rpc=false);
     void attach_failed(int reason);
-#if 0
-    bool associate_file(FILE_INFO*);
-#endif
-
-    // set min_rpc_time and have_reported_min_rpc_time
-    void set_min_rpc_time(double future_time);
-    // returns true if min_rpc_time > now; may print a message
-    bool waiting_until_min_rpc_time();
 
     // statistic of the last x days
     std::vector<DAILY_STATS> statistics;

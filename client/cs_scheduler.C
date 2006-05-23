@@ -89,7 +89,6 @@ void PROJECT::set_min_rpc_time(double future_time) {
 }
 
 // Return true iff we should not contact the project yet.
-// Print a message to the user if we haven't recently
 //
 bool PROJECT::waiting_until_min_rpc_time() {
     return (min_rpc_time > gstate.now);
@@ -122,6 +121,10 @@ PROJECT* CLIENT_STATE::next_project_sched_rpc_pending() {
     for (i=0; i<projects.size(); i++) {
         p = projects[i];
         if (p->waiting_until_min_rpc_time()) continue;
+        if (p->next_rpc_time && p->next_rpc_time<now) {
+            p->sched_rpc_pending = true;
+            p->next_rpc_time = 0;
+        }
         //if (p->suspended_via_gui) continue;
         // do the RPC even if suspended.
         // This is critical for acct mgrs, to propagate new host CPIDs
@@ -1090,6 +1093,12 @@ int CLIENT_STATE::handle_scheduler_reply(
         if (x > project->min_rpc_time) project->min_rpc_time = x;
     } else {
         project->min_rpc_time = 0;
+    }
+
+    if (sr.next_rpc_delay) {
+        project->next_rpc_time = gstate.now + sr.next_rpc_delay;
+    } else {
+        project->next_rpc_time = 0;
     }
 
     // The project returns a hostid only if it has created a new host record.

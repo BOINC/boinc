@@ -139,7 +139,7 @@ echo "
 ";
 shuffle($projects);
 foreach ($projects as $p) {
-    echo "<li> <a href=$p[1] onmouseover=\"return escape('<img align=right vspace=4 hspace=4 src=images/$p[5]><b>Home:</b> $p[2]<br><b>Area:</b> $p[3]<br><b>Goal:</b> $p[4]')\">$p[0]</a>
+    echo "<li> <a href=$p[1] onmouseover=\"return escape('<img align=right vspace=4 hspace=4 src=images/$p[5]><b>Home:</b> $p[2]<hr><b>Area:</b> $p[3]<hr><b>Goal:</b> $p[4]')\">$p[0]</a>
     ";
 }
 echo "

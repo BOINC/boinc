@@ -567,6 +567,7 @@ int SCHEDULER_REPLY::parse(FILE* in, PROJECT* project) {
 
     hostid = 0;
     request_delay = 0;
+    next_rpc_delay = 0;
     global_prefs_xml = 0;
     project_prefs_xml = 0;
     strcpy(host_venue, "");
@@ -637,6 +638,7 @@ int SCHEDULER_REPLY::parse(FILE* in, PROJECT* project) {
         else if (parse_str(buf, "<host_venue>", host_venue, sizeof(host_venue))) continue;
         else if (parse_double(buf, "<host_create_time>", project->host_create_time)) continue;
         else if (parse_double(buf, "<request_delay>", request_delay)) continue;
+        else if (parse_double(buf, "<next_rpc_delay>", next_rpc_delay)) continue;
         else if (match_tag(buf, "<global_preferences>")) {
             retval = dup_element_contents(
                 in,
