@@ -49,6 +49,12 @@ typedef enum
 	FILE_DCAPI
 } WorkdirFile;
 
+/* DCAPI configuration keys */
+#define CFG_SLEEPINTERVAL	"SleepingInterval"
+#define CFG_ARCHITECTURES	"Architectures"
+#define CFG_CLIENT_ARCH_NAME	"Client_%s_%s"	/* client_name, architecture */
+/*#define CFG_WORKDIR		"WorkingDirectory"*/
+/*#define CFG_INSTANCEUUID	"InstanceUUID"*/
 
 #ifdef __cplusplus
 }
