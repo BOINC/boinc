@@ -1,3 +1,10 @@
+dcapi (0.9-3) unstable; urgency=low
+
+  * Bugzilla bugs fixed:
+      #785: State file error
+
+ -- Gábor Gombás <gombasg@sztaki.hu>  Tue, 23 May 2006 14:26:27 +0200
+
 dcapi (0.9-2) unstable; urgency=low
 
   * Bugzilla bugs fixed:
