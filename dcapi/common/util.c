@@ -7,6 +7,8 @@
 #include <stdlib.h>
 #include <errno.h>
 #include <fcntl.h>
+#include <sys/types.h>
+#include <sys/stat.h>
 
 #include <dc_internal.h>
 #include <dc_common.h>
@@ -28,6 +30,7 @@ int _DC_copyFile(const char *src, const char *dst)
 	int sfd, dfd;
 	ssize_t ret;
 	char *buf;
+	struct stat s;
 
 	buf = (char *)malloc(COPY_BUFSIZE);
 	if (!buf)
@@ -43,7 +46,8 @@ int _DC_copyFile(const char *src, const char *dst)
 		free(buf);
 		return -1;
 	}
-	dfd = open(dst, O_WRONLY | O_CREAT | O_TRUNC);
+	fstat(sfd, &s);
+	dfd = open(dst, O_WRONLY | O_CREAT | O_TRUNC, s.st_mode);
 	if (dfd == -1)
 	{
 #if 0
