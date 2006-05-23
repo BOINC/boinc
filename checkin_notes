@@ -4983,3 +4983,12 @@ David  22 May 2006
         client_types.C,h
         cs_scheduler.C
         scheduler_op.C,h
+
+Rom    22 May 2006 (From Sebastian Masch)
+    - Bug Fix: Keep the CPU capabilities string from growing without
+        bound by initializing the string each time
+        get_processor_capabilities() is called.
+        
+    client/win/
+        hostinfo_win.cpp
+
