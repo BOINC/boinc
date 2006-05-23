@@ -118,10 +118,37 @@ unsigned DC_getGridCapabilities(void)
  * Client API functions
  */
 
+static int parse_wu_name(void)
+{
+	struct stat st;
+	char *buf;
+	FILE *f;
+	int ret;
+
+	/* Extract the WU name from init_data.xml */
+	ret = stat(INIT_DATA_FILE, &st);
+	if (ret)
+		return DC_ERR_SYSTEM;
+
+	f = boinc_fopen(INIT_DATA_FILE, "r");
+	if (!f)
+		return DC_ERR_SYSTEM;
+
+	buf = (char *)malloc(st.st_size + 1);
+	fread(buf, st.st_size, 1, f);
+	fclose(f);
+	buf[st.st_size] = '\0';
+
+	ret = parse_str(buf, "<wu_name>", wu_name, sizeof(wu_name));
+	free(buf);
+	if (!ret)
+		return DC_ERR_INTERNAL;
+	return 0;
+}
+
 int DC_initClient(void)
 {
 	char path[PATH_MAX], *buf, label[32];
-	struct stat st;
 	int i, ret;
 	FILE *f;
 
@@ -134,6 +161,16 @@ int DC_initClient(void)
 
 	if (boinc_init())
 		return DC_ERR_INTERNAL;
+
+	/* Parse the config file if the master sent one */
+	buf = DC_resolveFileName(DC_FILE_IN, DC_CONFIG_FILE);
+	if (buf && access(buf, R_OK))
+	{
+		ret = _DC_parseCfg(buf);
+		if (ret)
+			return ret;
+	}
+	free(buf);
 
 	/* Check if we are starting from a checkpoint file */
 	if ((f = boinc_fopen(LAST_CKPT_FILE, "r")))
@@ -148,34 +185,17 @@ int DC_initClient(void)
 	else
 		last_complete_ckpt = DC_resolveFileName(DC_FILE_IN, CKPT_LABEL_IN);
 
-	/* Extract the WU name from init_data.xml */
-	ret = stat(INIT_DATA_FILE, &st);
+	if (last_complete_ckpt)
+		DC_log(LOG_INFO, "Found initial checkpoint file %s",
+			last_complete_ckpt);
+
+	ret = parse_wu_name();
 	if (ret)
-		return DC_ERR_INTERNAL;
-
-	f = boinc_fopen(INIT_DATA_FILE, "r");
-	if (!f)
-		return DC_ERR_INTERNAL;
-
-	buf = (char *)malloc(st.st_size + 1);
-	fread(buf, st.st_size, 1, f);
-	fclose(f);
-	buf[st.st_size] = '\0';
-
-	ret = parse_str(buf, "<wu_name>", wu_name, sizeof(wu_name));
-	free(buf);
-	if (!ret)
-		return DC_ERR_INTERNAL;
-
-	/* Parse the config file if the master sent one */
-	buf = DC_resolveFileName(DC_FILE_IN, DC_CONFIG_FILE);
-	if (buf && access(buf, R_OK))
 	{
-		ret = _DC_parseCfg(buf);
-		if (ret)
-			return ret;
+		DC_log(LOG_WARNING, "Failed to determine the WU name, "
+			"stand-alone mode is assumed");
+		wu_name[0] = '\0';
 	}
-	free(buf);
 
 	/* Initialize all optional output files as empty to prevent
 	 * <file_xfer_error>s */
@@ -319,6 +339,12 @@ int DC_sendMessage(const char *message)
 {
 	std::string xml, msg;
 	int ret;
+
+	if (!wu_name[0])
+	{
+		DC_log(LOG_ERR, "Messaging is not available in stand-alone mode");
+		return DC_ERR_NOTIMPL;
+	}
 
 	msg = message;
 	xml_escape(msg, xml);
