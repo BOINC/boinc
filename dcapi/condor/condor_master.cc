@@ -30,11 +30,28 @@ DC_initMaster (const char *configFile)
 	int ret;
 	char *cfgval = NULL;
 
+	if (!configFile)
+		configFile= DC_CONFIG_FILE;
+	ret= _DC_parseCfg(configFile);
+	if (ret)
+	{
+		DC_log(LOG_ERR, "DC-API config file (%s) parse error",
+		       configFile);
+		return ret;
+	}
+	
 	if (!wu_table)
 		wu_table =
 			g_hash_table_new_full (g_str_hash, g_str_equal, NULL,
 					       NULL);
 
+	cfgval= DC_getCfgStr(CFG_INSTANCEUUID);
+	if (!cfgval)
+	{
+		DC_log(LOG_ERR, "Setting of %s is missing from config file %s",
+		       CFG_INSTANCEUUID, configFile);
+		return DC_ERR_CONFIG;
+	}
 	ret = uuid_parse ((char *) cfgval, project_uuid);
 	if (ret)
 	{
@@ -64,7 +81,9 @@ DC_createWU (const char *clientName,
 	GString *str;
 	int ret;
 
-	wu = g_new0 (DC_Workunit, 1);
+	wu= g_new0 (DC_Workunit, 1);
+
+	wu->client_name= g_strdup(clientName);
 
 	wu->argv = g_strdupv ((char **) arguments);
 	for (wu->argc = 0; arguments && arguments[wu->argc]; wu->argc++)
@@ -117,6 +136,8 @@ DC_createWU (const char *clientName,
 		DC_initMaster (NULL);
 	g_hash_table_insert (wu_table, wu->name, wu);
 
+	wu_make_client_executables(wu);
+
 	return (wu);
 }
 
@@ -129,45 +150,52 @@ DC_destroyWU (DC_Workunit * wu)
 		return;
 
 	if (wu_table)
-		g_hash_table_remove (wu_table, wu->name);
+		g_hash_table_remove(wu_table, wu->name);
 
 	if (wu->workdir)
 	{
 		const char *name;
 		GDir *dir;
 		int ret;
+		GString *fn;
 
-		dir = g_dir_open (wu->workdir, 0, NULL);
+		/* Removing generated files */
+		fn= g_string_new(wu->workdir);
+		fn= g_string_append(fn, "/condor_submit.txt");
+		unlink(fn->str);
+		g_string_free(fn, TRUE);
+
+		dir = g_dir_open(wu->workdir, 0, NULL);
 		/* The work directory should not contain any extra files, but
 		 * just in case */
-		while (dir && (name = g_dir_read_name (dir)))
+		while (dir && (name= g_dir_read_name (dir)))
 		{
-			GString *str = g_string_new (wu->workdir);
-			g_string_append_c (str, G_DIR_SEPARATOR);
-			g_string_append (str, name);
-			DC_log (LOG_INFO, "Removing unknown file %s",
-				str->str);
-			unlink (str->str);
-			g_string_free (str, TRUE);
+			GString *str= g_string_new (wu->workdir);
+			g_string_append_c(str, G_DIR_SEPARATOR);
+			g_string_append(str, name);
+			DC_log(LOG_INFO, "Removing unknown file %s",
+			       str->str);
+			unlink(str->str);
+			g_string_free(str, TRUE);
 		}
 		if (dir)
-			g_dir_close (dir);
+			g_dir_close(dir);
 
-		ret = rmdir (wu->workdir);
+		ret= rmdir(wu->workdir);
 		if (ret)
-			DC_log (LOG_WARNING, "Failed to remove WU working "
-				"directory %s: %s", wu->workdir,
-				strerror (errno));
-		g_free (wu->workdir);
+			DC_log(LOG_WARNING, "Failed to remove WU working "
+			       "directory %s: %s", wu->workdir,
+			       strerror (errno));
+		g_free(wu->workdir);
 	}
 
-	g_free (wu->client_name);
-	g_free (wu->uuid_str);
-	g_strfreev (wu->argv);
-	g_free (wu->tag);
-	g_free (wu->name);
+	g_free(wu->client_name);
+	g_free(wu->uuid_str);
+	g_strfreev(wu->argv);
+	g_free(wu->tag);
+	g_free(wu->name);
 
-	g_free (wu);
+	g_free(wu);
 }
 
 
@@ -182,51 +210,56 @@ DC_addWUInput (DC_Workunit * wu,
 	int ret;
 
 	/* Sanity checks */
-	ret = wu_check_logical_name (wu, logicalFileName);
+	ret= wu_check_logical_name(wu, logicalFileName);
 	if (ret)
 		return (ret);
-
-	workpath = wu_get_workdir_path (wu, logicalFileName, FILE_IN);
-	file = _DC_createPhysicalFile (logicalFileName, workpath);
-	g_free (workpath);
+	workpath= wu_get_workdir_path(wu, logicalFileName, FILE_IN);
+	file= _DC_createPhysicalFile(logicalFileName, workpath);
+	g_free(workpath);
 	if (!file)
-		return (DC_ERR_INTERNAL);
+		return(DC_ERR_INTERNAL);
 
 	switch (fileMode)
 	{
 	case DC_FILE_REGULAR:
-		ret = copy_file (URL, file->path);
+		DC_log(LOG_DEBUG, "Copying regular file %s to %s",
+		       URL, file->path);
+		ret= _DC_copyFile(URL, file->path);
 		if (ret)
 		{
-			_DC_destroyPhysicalFile (file);
-			return (DC_ERR_BADPARAM);	/* XXX */
+			_DC_destroyPhysicalFile(file);
+			return(ret/*DC_ERR_BADPARAM*/);	/* XXX */
 		}
 		break;
 	case DC_FILE_PERSISTENT:
-		ret = link (URL, file->path);
+		DC_log(LOG_DEBUG, "Copying persistent file %s to %s",
+		       URL, file->path);
+		ret= _DC_copyFile(URL, file->path);
 		if (ret)
 		{
-			DC_log (LOG_ERR, "Failed to link %s to %s: %s",
-				URL, file->path, strerror (errno));
+			DC_log(LOG_ERR, "Failed to link %s to %s: %s",
+			       URL, file->path, strerror (errno));
 			_DC_destroyPhysicalFile (file);
-			return (DC_ERR_BADPARAM);	/* XXX */
+			return(DC_ERR_BADPARAM);	/* XXX */
 		}
 		/* Remember the file mode */
-		file->mode = DC_FILE_PERSISTENT;
+		file->mode= DC_FILE_PERSISTENT;
 		break;
 	case DC_FILE_VOLATILE:
-		ret = rename (URL, file->path);
+		DC_log(LOG_DEBUG, "Renaming %s to %s",
+		       URL, file->path);
+		ret= rename(URL, file->path);
 		if (ret)
 		{
-			DC_log (LOG_ERR, "Failed to rename %s to %s: %s",
-				URL, file->path, strerror (errno));
+			DC_log(LOG_ERR, "Failed to rename %s to %s: %s",
+			       URL, file->path, strerror (errno));
 			_DC_destroyPhysicalFile (file);
-			return (DC_ERR_BADPARAM);
+			return(DC_ERR_BADPARAM);
 		}
 		break;
 	}
 
-	wu->input_files = g_list_append (wu->input_files, file);
+	wu->input_files= g_list_append(wu->input_files, file);
 	/*wu->num_inputs++; */
 
 	return (0);
@@ -237,6 +270,17 @@ DC_addWUInput (DC_Workunit * wu,
 int
 DC_addWUOutput (DC_Workunit * wu, const char *logicalFileName)
 {
+	int ret;
+
+	/* Sanity checks */
+	ret = wu_check_logical_name(wu, logicalFileName);
+	if (ret)
+		return ret;
+	DC_log(LOG_DEBUG, "Adding out file %s",
+	       logicalFileName);
+	wu->output_files= g_list_append(wu->output_files,
+					g_strdup(logicalFileName));
+	/*wu->num_outputs++;*/
 	return (0);
 }
 
@@ -338,40 +382,6 @@ DC_destroyMasterEvent (DC_MasterEvent * event)
 }
 
 
-/*************************************************************** Manage WUs */
-
-/* Submits a work unit. */
-int
-DC_submitWU (DC_Workunit * wu)
-{
-	return (0);
-}
-
-
-/* Cancels all computations for a given work unit. */
-int
-DC_cancelWU (DC_Workunit * wu)
-{
-	return (0);
-}
-
-
-/* Temporarily suspends the execution of a work unit. */
-int
-DC_suspendWU (DC_Workunit * wu)
-{
-	return (0);
-}
-
-
-/* Resumes computation of a previously suspended work unit. */
-int
-DC_resumeWU (DC_Workunit * wu)
-{
-	return (0);
-}
-
-
 /**************************************************************** Messaging */
 
 /* Sends a message to a running work unit. */
@@ -413,34 +423,6 @@ char *
 DC_getResultOutput (const DC_Result * result, const char *logicalFileName)
 {
 	return (0);
-}
-
-
-/****************************************************************************/
-
-DC_PhysicalFile *
-_DC_createPhysicalFile (const char *label, const char *path)
-{
-	DC_PhysicalFile *file;
-
-	file = g_new (DC_PhysicalFile, 1);
-	file->label = g_strdup (label);
-	file->path = g_strdup (path);
-	file->mode = DC_FILE_REGULAR;
-
-	return (file);
-}
-
-
-void
-_DC_destroyPhysicalFile (DC_PhysicalFile * file)
-{
-	if (!file)
-		return;
-
-	g_free (file->label);
-	g_free (file->path);
-	g_free (file);
 }
 
 
