@@ -127,7 +127,7 @@ int init(int argc, char *argv[])
 	}
 
 	printf("Initialise DC\n");
-	retval = DC_initMaster("uppercase-demo-master.conf");
+	retval = DC_initMaster("t.conf");
 	if (retval != DC_OK)
 	{
 		printf("DC_init returned with error. Exit application.\n");
@@ -314,7 +314,7 @@ static int createWU(void)
 	for (i = 0; i < wu_num; i++)
 	{
 		printf("Creating upper_case workunit\n");
-		wu[i] = DC_createWU("upper_case", NULL, 5, "testing");
+		wu[i] = DC_createWU("ts", NULL, 5, "testing");
 		if (!wu[i])
 		{
 			printf("DC_createWU returned with NULL\n");
