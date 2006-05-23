@@ -164,7 +164,7 @@ int DC_initClient(void)
 
 	/* Parse the config file if the master sent one */
 	buf = DC_resolveFileName(DC_FILE_IN, DC_CONFIG_FILE);
-	if (buf && access(buf, R_OK))
+	if (buf && !access(buf, R_OK))
 	{
 		ret = _DC_parseCfg(buf);
 		if (ret)
@@ -224,6 +224,7 @@ int DC_initClient(void)
 char *DC_resolveFileName(DC_FileType type, const char *logicalFileName)
 {
 	char buf[PATH_MAX];
+	int ret;
 
 	if (!strcmp(logicalFileName, DC_CHECKPOINT_FILE))
 	{
@@ -252,9 +253,14 @@ char *DC_resolveFileName(DC_FileType type, const char *logicalFileName)
 	if (type == DC_FILE_TMP)
 		return strdup(logicalFileName);
 
-	if (boinc_resolve_filename(logicalFileName, buf, sizeof(buf)))
-		return NULL;
-	return strdup(buf);
+	ret = boinc_resolve_filename(logicalFileName, buf, sizeof(buf));
+	if (!ret)
+		return strdup(buf);
+
+	/* Do not fail for missing output files in stand-alone mode */
+	if (!wu_name[0] && type == DC_FILE_OUT)
+		return strdup(logicalFileName);
+	return NULL;
 }
 
 int DC_sendResult(const char *logicalFileName, const char *path,
