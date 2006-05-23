@@ -4961,3 +4961,15 @@ David  23 May 2006
 
 	client/
 		client_state.C
+
+Bruce 23 May 2006
+    - Make backend more robust, to prevent 'stuck' workunits. Now
+      transitioner will not sent the transition_time to INT_MAX
+      UNLESS a canonical result has been found.  Otherwise it is
+      set to MAX(ten days, 1.5*delay_bound) in the future.  This
+      ensures that the transition will 'see' the workunit again
+      if no canonical result has been found.
+
+    sched/
+        transitioner.C
+

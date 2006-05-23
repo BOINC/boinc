@@ -475,7 +475,18 @@ int handle_wu(
 
     // compute next transition time = minimum timeout of in-progress results
     //
-    wu_item.transition_time = INT_MAX;
+    if (wu_item.canonical_resultid) {
+        wu_item.transition_time = INT_MAX;
+    } else {
+        // If there is no canonical result, make sure that the transitioner will 'see'
+        // this WU again.  In principle this is NOT needed, but it is one way to make
+        // the BOINC back-end more robust.
+        //
+        const int ten_days = 10*86400;
+        int long_delay = 1.5*wu_item.delay_bound;
+        wu_item.transition_time = (long_delay > ten_days) ? long_delay : ten_days;
+        wu_item.transition_time += time(0);
+    }  
     for (i=0; i<items.size(); i++) {
         TRANSITIONER_ITEM& res_item = items[i];
         if (res_item.res_id) {
