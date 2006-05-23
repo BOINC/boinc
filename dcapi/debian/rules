@@ -20,8 +20,10 @@ endif
 
 ifneq (,$(findstring debug,$(DEB_BUILD_OPTIONS)))
 	CFLAGS = -g
+	CXXFLAGS = -g
 else
 	CFLAGS = -O2 -g
+	CXXFLAGS = -O2 -g
 endif
 ifeq (,$(findstring nostrip,$(DEB_BUILD_OPTIONS)))
 	INSTALL_PROGRAM += -s
@@ -40,7 +42,8 @@ config.status: configure
 		--disable-backend-clgr \
 		--enable-gtk-doc \
 		--with-html-dir=/usr/share/doc/libdcapi-doc/html \
-		CFLAGS="$(CFLAGS)"
+		CFLAGS="$(CFLAGS)" \
+		CXXFLAGS="$(CXXFLAGS)"
 
 configure: configure.ac cf/boinc.m4
 	autoreconf --install --symlink --force
