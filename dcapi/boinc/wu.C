@@ -712,13 +712,18 @@ static void fill_wu_params(const DC_Workunit *wu, struct wu_params *params)
 		(int)log(params->min_quorum + 2) + 1;
 }
 
-static void append_file_ref(GString *tmpl, int idx, const char *label)
+static void append_wu_file_info(GString *tmpl, int idx)
+{
+	g_string_append(tmpl, "<file_info>\n");
+	g_string_append_printf(tmpl, "\t<number>%d</number>\n", idx);
+	g_string_append(tmpl, "</file_info>\n");
+}
+
+static void append_wu_file_ref(GString *tmpl, int idx, const char *label)
 {
 	g_string_append(tmpl, "\t<file_ref>\n");
-	g_string_append_printf(tmpl,
-		"\t\t<file_number>%d</file_number>\n", idx);
-	g_string_append_printf(tmpl,
-		"\t\t<open_name>%s</open_name>\n", label);
+	g_string_append_printf(tmpl, "\t\t<file_number>%d</file_number>\n", idx);
+	g_string_append_printf(tmpl, "\t\t<open_name>%s</open_name>\n", label);
 	g_string_append(tmpl, "\t</file_ref>\n");
 }
 
@@ -737,13 +742,12 @@ static char *generate_wu_template(DC_Workunit *wu)
 	if (wu->ckpt_name)
 		num_inputs++;
 
-	tmpl = g_string_new("<file_info>\n");
+	tmpl = g_string_new("");
 	for (i = 0; i < num_inputs; i++)
-		g_string_append_printf(tmpl, "\t<number>%d</number>\n", i);
+		append_wu_file_info(tmpl, i);
 	/* Checkpoint file, if exists */
 	if (wu->ckpt_name)
-		g_string_append_printf(tmpl, "\t<number>%d</number>\n", i++);
-	g_string_append(tmpl, "</file_info>\n");
+		append_wu_file_info(tmpl, i++);
 
 	/* Generate the workunit description */
 	g_string_append(tmpl, "<workunit>\n");
@@ -752,12 +756,12 @@ static char *generate_wu_template(DC_Workunit *wu)
 	{
 		DC_PhysicalFile *file = (DC_PhysicalFile *)l->data;
 
-		append_file_ref(tmpl, i, file->label);
+		append_wu_file_ref(tmpl, i, file->label);
 	}
 
 	/* Checkpoint file */
 	if (wu->ckpt_name)
-		append_file_ref(tmpl, i++, CKPT_LABEL_IN);
+		append_wu_file_ref(tmpl, i++, CKPT_LABEL_IN);
 
 	/* Concatenate the shell-quoted argv elements into a single string */
 	cmd = g_string_new("");
@@ -810,6 +814,7 @@ static char *generate_wu_template(DC_Workunit *wu)
 	g_string_append_printf(tmpl,
 		"\t<max_total_results>%d</max_total_results>\n",
 		params.max_total_results);
+
 	g_string_append(tmpl, "</workunit>\n");
 
 	p = tmpl->str;
@@ -817,7 +822,8 @@ static char *generate_wu_template(DC_Workunit *wu)
 	return p;
 }
 
-static void emit_file_info(FILE *tmpl, int idx, int auto_upload, int max_output)
+static void emit_result_file_info(FILE *tmpl, int idx, int auto_upload,
+	int max_output)
 {
 	fprintf(tmpl, "<file_info>\n");
 	fprintf(tmpl, "\t<name><OUTFILE_%d/></name>\n", idx);
@@ -829,9 +835,9 @@ static void emit_file_info(FILE *tmpl, int idx, int auto_upload, int max_output)
 	fprintf(tmpl, "</file_info>\n");
 }
 
-static void emit_file_ref(FILE *tmpl, int idx, char *fmt, ...)
+static void emit_result_file_ref(FILE *tmpl, int idx, char *fmt, ...)
 	G_GNUC_PRINTF(3, 4);
-static void emit_file_ref(FILE *tmpl, int idx, char *fmt, ...)
+static void emit_result_file_ref(FILE *tmpl, int idx, char *fmt, ...)
 {
 	va_list ap;
 
@@ -878,28 +884,29 @@ static char *generate_result_template(DC_Workunit *wu)
 	file_cnt = 0;
 	/* Slots for output files */
 	for (i = 0; i < wu->num_outputs; i++)
-		emit_file_info(tmpl, file_cnt++, TRUE, max_output_size);
+		emit_result_file_info(tmpl, file_cnt++, TRUE, max_output_size);
 	/* Slots for subresults - no automatic uploading */
 	for (i = 0; i < wu->subresults; i++)
-		emit_file_info(tmpl, file_cnt++, FALSE, max_output_size);
+		emit_result_file_info(tmpl, file_cnt++, FALSE, max_output_size);
 	/* Slot for the checkpoint file */
-	emit_file_info(tmpl, file_cnt++, TRUE, max_output_size);
+	emit_result_file_info(tmpl, file_cnt++, TRUE, max_output_size);
 
 	fprintf(tmpl, "<result>\n");
 	file_cnt = 0;
 	/* The output templates */
 	for (l = wu->output_files; l; l = l->next)
-		emit_file_ref(tmpl, file_cnt++, "%s", (char *)l->data);
+		emit_result_file_ref(tmpl, file_cnt++, "%s", (char *)l->data);
 
 	/* The subresult templates */
 	for (i = 0; i < wu->subresults; i++)
 	{
-		emit_file_ref(tmpl, file_cnt, "%s%d", SUBRESULT_PFX, file_cnt);
+		emit_result_file_ref(tmpl, file_cnt, "%s%d", SUBRESULT_PFX,
+			file_cnt);
 		file_cnt++;
 	}
 
 	/* The checkpoint template */
-	emit_file_ref(tmpl, file_cnt++, "%s", CKPT_LABEL_OUT);
+	emit_result_file_ref(tmpl, file_cnt++, "%s", CKPT_LABEL_OUT);
 
 	fprintf(tmpl, "</result>\n");
 	fclose(tmpl);
@@ -998,8 +1005,7 @@ int DC_submitWU(DC_Workunit *wu)
 	infiles[i] = NULL;
 
 	ret = create_work(dbwu, wu_template, result_template_file, result_path,
-		const_cast<const char **>(infiles), wu->num_inputs,
-		dc_boinc_config);
+		const_cast<const char **>(infiles), ninputs, dc_boinc_config);
 	g_free(result_path);
 	g_strfreev(infiles);
 	g_free(result_template_file);
