@@ -95,6 +95,17 @@ BOOL diagnostics_get_registry_value(LPCTSTR lpName, LPDWORD lpdwType, LPDWORD lp
 }
 
 
+// Provide a structure to store process measurements at the time of a
+//   crash.
+typedef struct _BOINC_PROCESSENTRY {
+    DWORD               process_id;
+    VM_COUNTERS         vm_counters;
+    IO_COUNTERS         io_counters;
+} BOINC_PROCESSENTRY, *PBOINC_PROCESSENTRY;
+
+static BOINC_PROCESSENTRY diagnostics_process;
+
+
 // Provide a set of API's which can be used to display more friendly
 //   information about each thread.  These should also be used to
 //   dump the callstacks for each executing thread when an unhandled
@@ -147,23 +158,32 @@ int diagnostics_init_thread_entry(PBOINC_THREADLISTENTRY entry) {
 // Initialize the thread list, which means empty it if anything is
 //   in it.
 int diagnostics_init_thread_list() {
+    int retval = 0;
     size_t i;
     size_t size;
 
     // Create a Mutex that can be used to syncronize data access
     //   to the global thread list.
     hThreadListSync = CreateMutex(NULL, TRUE, NULL);
+    if (!hThreadListSync) {
+        fprintf(
+            stderr, "diagnostics_init_thread_list(): Creating hThreadListSync failed, GLE %d\n", GetLastError()
+        );
+        retval = GetLastError();
+    } else {
 
-    size = diagnostics_threads.size();
-    for (i=0; i<size; i++) {
-        delete diagnostics_threads[i];
+        size = diagnostics_threads.size();
+        for (i=0; i<size; i++) {
+            delete diagnostics_threads[i];
+        }
+        diagnostics_threads.clear();
+
+        // Release the Mutex
+        ReleaseMutex(hThreadListSync);
+
     }
-    diagnostics_threads.clear();
 
-    // Release the Mutex
-    ReleaseMutex(hThreadListSync);
-
-    return 0;
+    return retval;
 }
 
 
@@ -365,6 +385,10 @@ int diagnostics_update_thread_list_NT() {
         //   update the thread data.
         if (pProcesses->ProcessId == dwCurrentProcessId) {
 
+            // Store the process information we now know about.
+            diagnostics_process.process_id = pProcesses->ProcessId;
+            diagnostics_process.vm_counters = pProcesses->VmCounters;
+
             // Enumerate the threads
             for(uiSystemIndex = 0; uiSystemIndex < pProcesses->ThreadCount; uiSystemIndex++) {
                 pThread = &pProcesses->Threads[uiSystemIndex];
@@ -453,6 +477,12 @@ int diagnostics_update_thread_list_XP() {
         // Okay, found the current procceses entry now we just need to
         //   update the thread data.
         if (pProcesses->ProcessId == dwCurrentProcessId) {
+
+            // Store the process information we now know about.
+            diagnostics_process.process_id = pProcesses->ProcessId;
+            diagnostics_process.vm_counters = pProcesses->VmCounters;
+            diagnostics_process.io_counters = pProcesses->IoCounters;
+
             // Enumerate the threads
             for(uiSystemIndex = 0; uiSystemIndex < pProcesses->ThreadCount; uiSystemIndex++) {
                 pThread = &pProcesses->Threads[uiSystemIndex];
@@ -840,10 +870,18 @@ int diagnostics_init_message_monitor() {
     sa.bInheritHandle = TRUE;
     sa.lpSecurityDescriptor = &sd;
 
+    InitializeSecurityDescriptor(&sd, SECURITY_DESCRIPTOR_REVISION);
+    SetSecurityDescriptorDacl(&sd, TRUE, (PACL)NULL, FALSE);
+
 
     // Create a mutex that can be used to syncronize data access
     //   to the global thread list.
     hMessageMonitorSync = CreateMutex(NULL, TRUE, NULL);
+    if (!hMessageMonitorSync) {
+        fprintf(
+            stderr, "diagnostics_init_message_monitor(): Creating hMessageMonitorSync failed, GLE %d\n", GetLastError()
+        );
+    }
 
     // Clear out any previous messages.
     for (i=0; i<diagnostics_monitor_messages.size(); i++) {
@@ -876,14 +914,35 @@ int diagnostics_init_message_monitor() {
     pIDP = (tIDP) GetProcAddress(hKernel32Lib, "IsDebuggerPresent");
 
     if (pIDP) {
-        if (!pIDP() && dwCaptureMessages) {
-            InitializeSecurityDescriptor(&sd, SECURITY_DESCRIPTOR_REVISION);
-            SetSecurityDescriptorDacl(&sd, TRUE, (PACL)NULL, FALSE);
+        if (!pIDP() && hMessageMonitorSync && dwCaptureMessages) {
 
             hMessageAckEvent = CreateEvent(&sa, FALSE, FALSE, "DBWIN_BUFFER_READY");
+            if (!hMessageAckEvent) {
+                fprintf(
+                    stderr, "diagnostics_init_message_monitor(): Creating hMessageAckEvent failed, GLE %d\n", GetLastError()
+                );
+            }
+
             hMessageReadyEvent = CreateEvent(&sa, FALSE, FALSE, "DBWIN_DATA_READY");
+            if (!hMessageReadyEvent) {
+                fprintf(
+                    stderr, "diagnostics_init_message_monitor(): Creating hMessageReadyEvent failed, GLE %d\n", GetLastError()
+                );
+            }
+
             hMessageQuitEvent = CreateEvent(NULL, FALSE, FALSE, NULL);
+            if (!hMessageQuitEvent) {
+                fprintf(
+                    stderr, "diagnostics_init_message_monitor(): Creating hMessageQuitEvent failed, GLE %d\n", GetLastError()
+                );
+            }
+
             hMessageQuitFinishedEvent = CreateEvent(NULL, FALSE, FALSE, NULL);
+            if (!hMessageQuitFinishedEvent) {
+                fprintf(
+                    stderr, "diagnostics_init_message_monitor(): Creating hMessageQuitFinishedEvent failed, GLE %d\n", GetLastError()
+                );
+            }
 
             hMessageSharedMap = CreateFileMapping(
                 INVALID_HANDLE_VALUE,    // use paging file
@@ -893,6 +952,11 @@ int diagnostics_init_message_monitor() {
                 sizeof(DEBUGGERMESSAGE), // buffer size  
                 "DBWIN_BUFFER"           // name of mapping object
             );
+            if (!hMessageSharedMap) {
+                fprintf(
+                    stderr, "diagnostics_init_message_monitor(): CreateFileMapping hMessageSharedMap failed, GLE %d\n", GetLastError()
+                );
+            }
 
             pMessageBuffer = (PDEBUGGERMESSAGE)MapViewOfFile(
                 hMessageSharedMap,
@@ -901,6 +965,11 @@ int diagnostics_init_message_monitor() {
                 0,                       // file offset low
                 sizeof(DEBUGGERMESSAGE)  // # of bytes to map (entire file)
             );
+            if (!pMessageBuffer) {
+                fprintf(
+                    stderr, "diagnostics_init_message_monitor(): MapViewOfFile pMessageBuffer failed, GLE %d\n", GetLastError()
+                );
+            }
 
             hMessageMonitorThread = (HANDLE)_beginthreadex(
                 NULL,
@@ -1356,6 +1425,65 @@ int diagnostics_foreground_window_dump(PBOINC_WINDOWCAPTURE window_info) {
 }
 
 
+// Dump the captured information for a the current process.
+//
+int diagnostics_dump_process_information() {
+    // Header
+    fprintf(
+        stderr, 
+        "*** Dump of the Process Statistics: ***\n\n"
+    );
+
+    // I/O Counters
+    fprintf(
+        stderr, 
+        "- I/O Operations Counters -\n"
+        "Read: %d, Write: %d, Other %d\n"
+        "\n"
+        "- I/O Transfers Counters -\n"
+        "Read: %d, Write: %d, Other %d\n"
+        "\n",
+        diagnostics_process.io_counters.ReadOperationCount,
+        diagnostics_process.io_counters.WriteOperationCount,
+        diagnostics_process.io_counters.OtherOperationCount,
+        diagnostics_process.io_counters.ReadTransferCount,
+        diagnostics_process.io_counters.WriteTransferCount,
+        diagnostics_process.io_counters.OtherTransferCount
+    );
+
+    // VM Counters
+    fprintf(
+        stderr, 
+        "- Paged Pool Usage -\n"
+        "QuotaPagedPoolUsage: %d, QuotaPeakPagedPoolUsage: %d\n"
+        "QuotaNonPagedPoolUsage: %d, QuotaPeakNonPagedPoolUsage: %d\n"
+        "\n"
+        "- Virtual Memory Usage -\n"
+        "VirtualSize: %d, PeakVirtualSize: %d\n"
+        "\n"
+        "- Pagefile Usage -\n"
+        "PagefileUsage: %d, PeakPagefileUsage: %d\n"
+        "\n"
+        "- Working Set Size -\n"
+        "WorkingSetSize: %d, PeakWorkingSetSize: %d, PageFaultCount: %d\n"
+        "\n",
+        diagnostics_process.vm_counters.QuotaPagedPoolUsage,
+        diagnostics_process.vm_counters.QuotaPeakPagedPoolUsage,
+        diagnostics_process.vm_counters.QuotaNonPagedPoolUsage,
+        diagnostics_process.vm_counters.QuotaPeakNonPagedPoolUsage,
+        diagnostics_process.vm_counters.VirtualSize,
+        diagnostics_process.vm_counters.PeakVirtualSize,
+        diagnostics_process.vm_counters.PagefileUsage,
+        diagnostics_process.vm_counters.PeakPagefileUsage,
+        diagnostics_process.vm_counters.WorkingSetSize,
+        diagnostics_process.vm_counters.PeakWorkingSetSize,
+        diagnostics_process.vm_counters.PageFaultCount
+    );
+
+    return 0;
+}
+
+
 // Dump the captured information for a given thread.
 //
 int diagnostics_dump_thread_information(PBOINC_THREADLISTENTRY pThreadEntry) {
@@ -1634,6 +1762,8 @@ UINT WINAPI diagnostics_unhandled_exception_monitor(LPVOID lpParameter) {
                 // Dump any useful information
                 DebuggerDisplayDiagnostics();
 #endif
+                // Dump the process statistics
+                diagnostics_dump_process_information();
 
                 // Dump the other threads stack.
                 for (i=0; i<diagnostics_threads.size(); i++) {

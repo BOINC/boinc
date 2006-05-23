@@ -4992,3 +4992,9 @@ Rom    22 May 2006 (From Sebastian Masch)
     client/win/
         hostinfo_win.cpp
 
+Rom    23 May 2006
+    - Dump process statistics and the time of a crash.
+    - Add some more error logging to the diagnostics startup routines.
+    
+    lib/
+        diagnostics_win.C
