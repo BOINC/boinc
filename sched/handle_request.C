@@ -303,7 +303,7 @@ lookup_user_and_make_new_host:
                 log_messages.printf(
                     SCHED_MSG_LOG::MSG_CRITICAL,
                     "[HOST#%d] [USER#%d] User has another host with same CPID. Marking in-progress results as errors.\n",
-                    sreq.host.id, sreq.host.userid
+                    host.id, host.userid
                 );
                 mark_results_aborted(host);
                 goto got_host;
