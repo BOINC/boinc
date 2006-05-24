@@ -4998,3 +4998,13 @@ Rom    23 May 2006
     
     lib/
         diagnostics_win.C
+
+Bruce 24 May 2006
+    - Adding a bit of logging to the scheduler to try and track down a
+      bug that might have been introduced ~ March 11, which is marking
+      some 'in progress' results as 'client error' and triggering
+      the transitioner.
+
+    sched/
+        handle_request.C
+

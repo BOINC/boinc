@@ -149,6 +149,12 @@ static void mark_results_aborted(DB_HOST& host) {
         wu.id = result.workunitid;
         sprintf(buf2, "transition_time=%d", (int)time(0));
         wu.update_field(buf2);
+
+        log_messages.printf(
+            SCHED_MSG_LOG::MSG_CRITICAL,
+            "[HOST#%d] [RESULT#%d] [WU#%d] marking in-progress result %s as client error!\n",
+            host.id, result.id, result.workunitid, result.name
+        );
     }
 }
 
@@ -294,6 +300,11 @@ lookup_user_and_make_new_host:
         //
         if (strlen(sreq.host.host_cpid)) {
             if (find_host_by_cpid(user, sreq.host.host_cpid, host)) {
+                log_messages.printf(
+                    SCHED_MSG_LOG::MSG_CRITICAL,
+                    "[HOST#%d] [USER#%d] User has another host with same CPID. Marking in-progress results as errors.\n",
+                    sreq.host.id, sreq.host.userid
+                );
                 mark_results_aborted(host);
                 goto got_host;
             }
