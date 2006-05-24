@@ -142,6 +142,7 @@ struct SCHEDULER_REQUEST {
     std::vector<FILE_INFO> file_infos;   // sticky files reported by host for locality scheduling
 #ifdef EINSTEIN_AT_HOME
     std::vector<FILE_INFO> file_delete_candidates;   // sticky files reported by host, deletion candidates
+    std::vector<FILE_INFO> files_not_needed;         // sticky files reported by host, no longer needed
 #endif
     std::vector<OTHER_RESULT> other_results;
     std::vector<IP_RESULT> ip_results;

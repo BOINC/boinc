@@ -919,25 +919,45 @@ void send_work_locality(
 #ifdef EINSTEIN_AT_HOME
     std::vector<FILE_INFO> eah_copy = sreq.file_infos;
     sreq.file_infos.clear();
+    sreq.files_not_needed.clear();
     nfiles = (int) eah_copy.size();
     for (i=0; i<nfiles; i++) {
-	if (strncmp("skygrid_", eah_copy[i].name, 8) && strncmp("Config_", eah_copy[i].name, 7)) {
-            sreq.file_infos.push_back(eah_copy[i]);
-        } else {
+        char *fname = eah_copy[i].name;
+
+        // here, put a list of patterns of ALL files that are not needed anymore
+        // and should simply be deleted as soon as possible.
+        //
+        bool useful = strncmp("H1_", fname, 3) && strncmp("l1_", fname, 3) && strncmp("w1_", fname, 3);
+
+        // here, put a list of patterns of ALL files that are still needed to be
+        // sticky, but are not 'data' files for locality scheduling purposes, eg they
+        // do not have associated WU with names FILENAME__*
+        //
+        bool data_files = strncmp("skygrid_", fname, 8) && strncmp("Config_", fname, 7);
+
+        if (!useful) {
+            sreq.files_not_needed.push_back(eah_copy[i]);
+            log_messages.printf(
+                SCHED_MSG_LOG::MSG_DEBUG,
+                "[HOST#%d] adding file %s to files_not_needed list\n", reply.host.id, fname
+            );
+        } else if (!data_files) {
             sreq.file_delete_candidates.push_back(eah_copy[i]);
             log_messages.printf(
                 SCHED_MSG_LOG::MSG_DEBUG,
-                "[HOST#%d]: removing file %s from file_infos list\n", reply.host.id, eah_copy[i].name
+                "[HOST#%d] removing file %s from file_infos list\n", reply.host.id, fname
             );
+        } else {
+            sreq.file_infos.push_back(eah_copy[i]);
         }
     }
-#endif
+#endif // EINSTEIN_AT_HOME
 
     nfiles = (int) sreq.file_infos.size();
     for (i=0; i<nfiles; i++)
         log_messages.printf(
                 SCHED_MSG_LOG::MSG_DEBUG,
-                "[HOST#%d]: has file %s\n", reply.host.id, sreq.file_infos[i].name
+                "[HOST#%d] has file %s\n", reply.host.id, sreq.file_infos[i].name
         );
 
     if (!nfiles)

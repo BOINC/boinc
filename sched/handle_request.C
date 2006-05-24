@@ -1355,8 +1355,24 @@ void handle_request(
     //        "THIS IS A VERY LONG TEST MESSAGE. THIS IS A VERY LONG TEST MESSAGE.", "high");
         // sreply.insert_message(um2);
     }
+
+    // delete useless files
+    int num_useless = sreq.files_not_needed.size();
+    int i;
+    for (i=0; i<num_useless; i++) {
+        char buf[256];
+        FILE_INFO& fi = sreq.files_not_needed[i];                                                                                                                             
+        sreply.file_deletes.push_back(fi);                                                                                                                              
+        log_messages.printf(                                                                                                                                            
+            SCHED_MSG_LOG::MSG_DEBUG,                                                                                                                                   
+            "[HOST#%d]: delete file %s (not needed)\n", sreply.host.id, fi.name                                                                                         
+        );
+        sprintf(buf, "BOINC will delete file %s (no longer needed)", fi.name);                                                                                       
+        USER_MESSAGE um(buf, "low");                                                                                                                                    
+        sreply.insert_message(um);                                                                                                                                      
+     }
 #endif
-    
+
     // if we got no work, and we have no file space, delete some files
     //
     if (sreply.results.size()==0 && (sreply.wreq.insufficient_disk || sreply.wreq.disk_available<0)) {
