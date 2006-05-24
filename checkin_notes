@@ -5004,7 +5004,11 @@ Bruce 24 May 2006
       bug that might have been introduced ~ March 11, which is marking
       some 'in progress' results as 'client error' and triggering
       the transitioner.
+    - Have scheduler ignore some additional unrecognized tags in sched
+      requests: cache_l[123] and cpu_caps.  These appear not to be
+      anywhere in the source code tree or documented anywhere!!
 
     sched/
         handle_request.C
+        server_types.C
 

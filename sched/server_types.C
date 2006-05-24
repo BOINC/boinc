@@ -780,6 +780,14 @@ int HOST::parse(FILE* fin) {
         else if (match_tag(buf, "<p_iop_err>")) continue;
         else if (match_tag(buf, "<p_membw_err>")) continue;
 
+        // don't know if these are deprecated but can't find
+        // them in ANY code or header files!!  BA 2006/05/24
+        //
+        else if (match_tag(buf, "<cache_l1>")) continue;
+        else if (match_tag(buf, "<cache_l2>")) continue;
+        else if (match_tag(buf, "<cache_l3>")) continue;
+        else if (match_tag(buf, "<cpu_caps>")) continue;
+
         else {
             log_messages.printf(SCHED_MSG_LOG::MSG_NORMAL,
                 "HOST::parse(): unrecognized: %s\n", buf
