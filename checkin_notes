@@ -5012,3 +5012,9 @@ Bruce 24 May 2006
         handle_request.C
         server_types.C
 
+Rom    24 May 2006
+    - Provide a way for an application to specify its symstore even when
+        the core client doesn't yet support symstores.
+        
+    lib/
+        diagnostics.C, .h

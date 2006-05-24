@@ -81,6 +81,7 @@ extern int diagnostics_is_flag_set( int flags );
 // Properties
 extern char* diagnostics_get_boinc_dir();
 extern char* diagnostics_get_symstore();
+extern int diagnostics_set_symstore(char* symstore);
 extern int diagnostics_is_proxy_enabled();
 extern char* diagnostics_get_proxy();
 

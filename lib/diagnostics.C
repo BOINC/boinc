@@ -268,7 +268,7 @@ int diagnostics_init(
         if (boinc_proxy_enabled) {
             int buffer_used = snprintf(boinc_proxy, sizeof(boinc_proxy), "%s:%d", proxy_address, proxy_port);
             if ((sizeof(boinc_proxy) == buffer_used) || (-1 == buffer_used)) { 
-                boinc_proxy[255] = '\0';
+                boinc_proxy[sizeof(boinc_proxy)-1] = '\0';
             }
         }
     }
@@ -348,10 +348,23 @@ char* diagnostics_get_boinc_dir() {
 }
 
 
-// return the location of the Symbol Store.
+// return the location of the symbol store.
 //
 char* diagnostics_get_symstore() {
     return symstore;
+}
+
+
+// store the location of the symbol store.
+//
+int diagnostics_set_symstore(char* project_symstore) {
+    if (!strlen(symstore)) {
+        int buffer_used = snprintf(symstore, sizeof(symstore), "%s", project_symstore);
+        if ((sizeof(symstore) == buffer_used) || (-1 == buffer_used)) { 
+            symstore[sizeof(symstore)-1] = '\0';
+        }
+    }
+    return 0;
 }
 
 
