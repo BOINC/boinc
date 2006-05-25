@@ -92,4 +92,9 @@ extern void xml_unescape(const char*, char*);
 extern void extract_venue(char*, char*, char*);
 extern int skip_unrecognized(char* buf, FILE*);
 
+extern bool get_tag(FILE*, char* tag, char* contents=0);
+extern bool get_bool(char* contents);
+extern int get_int(char* contents);
+extern double get_double(char* contents);
+
 #endif

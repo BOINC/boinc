@@ -72,7 +72,7 @@ public:
     double default_disk_min_free_gb;
     char symstore[256];
 
-    int parse(char*);
+    int parse(FILE*);
     int parse_file(const char* dir=".");
 };
 

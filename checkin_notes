@@ -5018,3 +5018,24 @@ Rom    24 May 2006
         
     lib/
         diagnostics.C, .h
+
+David  24 May 2006
+    - Implement a new XML parsing mechanism, consisting of functions
+        get_tag(), get_int(), get_double(), and get_bool().
+        These will correctly (and efficiently) parse both
+            <foo>X</foo>
+        and
+            <foo>
+                X
+            </foo>
+        The python-generated XML (e.g. config.xml) is of the latter form.
+        Currently the new code is used to parse config.xml.
+        Eventually all XML parsing should be done this way.
+    - User web: initialize cpu_usage_limit in prefs
+
+    html/inc/
+        prefs.inc
+    lib/
+        parse.C,h
+    sched/
+        sched_config.C,h

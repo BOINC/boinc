@@ -302,6 +302,7 @@ function element_end_global($parser, $name) {
         $parse_result->max_cpus = $text;
         break;
     case "cpu_usage_limit":
+        if (!$text) $text=100;
         $parse_result->cpu_usage_limit = $text;
         break;
     case "disk_interval":

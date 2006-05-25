@@ -403,4 +403,82 @@ int skip_unrecognized(char* buf, FILE* in) {
     return ERR_XML_PARSE;
 }
 
+// Get next XML element or tag.
+// If it's a close tag, or the contents pointer is NULL, just return the tag.
+// Otherwise return the contents.
+// Note: this is not a general XML parser, but it can parse both
+// <foo>X</foo>
+// and
+// <foo>
+//    X
+// </foo>
+//
+bool get_tag(FILE* f, char* tag, char* contents) {
+    char buf[1024], *p, *q;
+
+    if (contents) *contents = 0;
+    while (1) {
+        fgets(buf, 1024, f);
+        p = strchr(buf, '<');
+        if (p) break;
+    }
+    p++;
+
+    q = strchr(p, '>');
+    if (!q) return false;
+
+    // see if it's a self-closed tag (like <foo/>)
+    //
+    if (q[-1]=='/') {
+        q[-1] = 0;
+        strcpy(tag, p);
+        return true;
+    }
+    *q = 0;
+    strcpy(tag, p);
+
+    // see if this is a close tag
+    //
+    if (*p == '/') {
+        return true;
+    }
+    if (!contents) return true;
+
+    // see if close tag is on the same line; copy contents if so
+    //
+    q++;
+    p = strchr(q, '<');
+    if (p) {
+        *p = 0;
+        if (contents) strcpy(contents, q);
+        return true;
+    }
+
+    // close tag is not on same line.
+    // Copy contents until find close tag
+    //
+    while (1) {
+        fgets(buf, 1024, f);
+        if (strchr(buf, '<')) return true;
+        strip_whitespace(buf);
+        strcat(contents, buf);
+    }
+}
+
+bool get_bool(char* contents) {
+    if (!strlen(contents)) return true;
+    if (atoi(contents)) return true;
+    return false;
+}
+
+int get_int(char* contents) {
+    return strtol(contents, 0, 0);
+}
+
+double get_double(char* contents) {
+    double x = atof(contents);
+    if (finite(x)) return x;
+    return 0;
+}
+
 const char *BOINC_RCSID_3f3de9eb18 = "$Id$";
