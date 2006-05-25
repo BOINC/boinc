@@ -5137,3 +5137,10 @@ David  25 May 2006
         gui_rpc_client_ops.C
         result_state.h
         util.C
+
+David  25 May 2006
+	- compile fixes
+
+	lib/
+		gui_rpc_client.h
+		gui_rpc_client_print.C

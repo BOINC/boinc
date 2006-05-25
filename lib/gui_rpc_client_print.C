@@ -118,7 +118,6 @@ void RESULT::print() {
     printf("   exit_status: %d\n", exit_status);
     printf("   signal: %d\n", signal);
     printf("   suspended via GUI: %s\n", suspended_via_gui?"yes":"no");
-    printf("   aborted via GUI: %s\n", aborted_via_gui?"yes":"no");
     printf("   active_task_state: %d\n", active_task_state);
     printf("   stderr_out: %s\n", stderr_out.c_str());
     printf("   app version num: %d\n", app_version_num);

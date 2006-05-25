@@ -59,6 +59,7 @@
 #define RESULT_COMPUTE_ERROR                        3
 #define RESULT_FILES_UPLOADING                      4
 #define RESULT_FILES_UPLOADED                       5
+#define RESULT_ABORTED                              6
 
 #define CPU_SCHED_UNINITIALIZED                     0
 #define CPU_SCHED_PREEMPTED                         1
