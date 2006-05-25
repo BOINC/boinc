@@ -136,7 +136,6 @@ static int have_network = 1;
 static HANDLE hSharedMem;
 HANDLE worker_thread_handle;
     // used to suspend worker thread, and to measure its CPU time
-static MMRESULT timer_id;
 #else
 static pthread_t timer_thread_handle;
 static pthread_mutex_t timer_mutex=PTHREAD_MUTEX_INITIALIZER;
@@ -388,11 +387,6 @@ int boinc_finish(int status) {
         send_trickle_up_msg();
     }
 #ifdef _WIN32
-    // Stop the timer
-    if (timer_id) {
-      timeKillEvent(timer_id);
-      timer_id=0;
-    }
     CloseHandle(worker_thread_handle);
 #endif
     if (options.main_program && status==0) {
@@ -414,14 +408,6 @@ int boinc_finish(int status) {
 // This is called from the worker, timer, and graphics threads.
 //
 void boinc_exit(int status) {
-
-#ifdef _WIN32
-    // Free up the windows timer event, so Win98 doesn't run out.
-    if (timer_id) {
-      timeKillEvent(timer_id);
-      timer_id=0;
-    }
-#endif
 
     // Shutdown graphics thread if it is running
     //
@@ -741,7 +727,7 @@ void boinc_worker_timer() {
   if (timer_thread_created) {
     return;
   } else {
-    int diff=time(0)-last_call;
+    time_t diff=time(0)-last_call;
     while (diff>=TIMER_PERIOD) {
       diff-=TIMER_PERIOD;
       last_call+=TIMER_PERIOD;

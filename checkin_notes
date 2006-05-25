@@ -5039,3 +5039,10 @@ David  24 May 2006
         parse.C,h
     sched/
         sched_config.C,h
+
+Rom    24 May 2006
+    - Remove references to the MM Timer stuff.  A real thread is now used
+        in its place.
+    
+    api/
+        boinc_api.C
