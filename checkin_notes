@@ -5144,3 +5144,11 @@ David  25 May 2006
 	lib/
 		gui_rpc_client.h
 		gui_rpc_client_print.C
+
+David  25 May 2006
+	- fixes for result abort logic
+
+	client/
+		cs_apps.C
+	clientgui/
+		ViewWork.cpp

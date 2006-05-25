@@ -777,11 +777,14 @@ wxInt32 CViewWork::FormatStatus(wxInt32 item, wxString& strBuffer) const {
                 }
                 break;
             case RESULT_ABORTED:
-                if (result->state == ERR_ABORTED_VIA_GUI) {
+                switch(result->exit_status) {
+                case ERR_ABORTED_VIA_GUI:
                     strBuffer = _("Aborted by user");
-                } else if (result->state == ERR_ABORTED_BY_PROJECT) {
+                    break;
+                case ERR_ABORTED_BY_PROJECT:
                     strBuffer = _("Aborted by project");
-                } else {
+                    break;
+                default:
                     strBuffer = _("Aborted");
                 }
                 break;

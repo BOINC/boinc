@@ -136,10 +136,16 @@ int CLIENT_STATE::app_finished(ACTIVE_TASK& at) {
     }
 
     if (had_error) {
-        rp->state = RESULT_COMPUTE_ERROR;
+        switch (rp->exit_status) {
+        case ERR_ABORTED_VIA_GUI:
+        case ERR_ABORTED_BY_PROJECT:
+            rp->state = RESULT_ABORTED;
+            break;
+        default:
+            rp->state = RESULT_COMPUTE_ERROR;
+        }
     } else {
         rp->state = RESULT_FILES_UPLOADING;
-
         rp->project->update_duration_correction_factor(rp);
     }
 
