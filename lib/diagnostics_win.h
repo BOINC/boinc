@@ -136,4 +136,46 @@ typedef enum _THREAD_WAIT_REASON {
     ThreadWaitReasonMaximumWaitReason
 } THREAD_WAIT_REASON;
 
+
+// Delay Load Error Handling stuff
+#ifndef _DELAY_IMP_VER
+
+#define FACILITY_VISUALCPP  ((LONG)0x6d)
+#define VcppException(sev,err)  ((sev) | (FACILITY_VISUALCPP<<16) | err)
+
+typedef struct ImgDelayDescr {
+    DWORD           grAttrs;        // attributes
+    RVA             rvaDLLName;     // RVA to dll name
+    RVA             rvaHmod;        // RVA of module handle
+    RVA             rvaIAT;         // RVA of the IAT
+    RVA             rvaINT;         // RVA of the INT
+    RVA             rvaBoundIAT;    // RVA of the optional bound IAT
+    RVA             rvaUnloadIAT;   // RVA of optional copy of original IAT
+    DWORD           dwTimeStamp;    // 0 if not bound,
+                                    // O.W. date/time stamp of DLL bound to (Old BIND)
+} ImgDelayDescr, *PImgDelayDescr;
+
+typedef const ImgDelayDescr *PCImgDelayDescr;
+
+typedef struct DelayLoadProc {
+    BOOL                fImportByName;
+    union {
+        LPCSTR          szProcName;
+        DWORD           dwOrdinal;
+        };
+} DelayLoadProc;
+
+typedef struct DelayLoadInfo {
+    DWORD               cb;         // size of structure
+    PCImgDelayDescr     pidd;       // raw form of data (everything is there)
+    FARPROC *           ppfn;       // points to address of function to load
+    LPCSTR              szDll;      // name of dll
+    DelayLoadProc       dlp;        // name or ordinal of procedure
+    HMODULE             hmodCur;    // the hInstance of the library we have loaded
+    FARPROC             pfnCur;     // the actual function that will be called
+    DWORD               dwLastError;// error received (if an error notification)
+} DelayLoadInfo, * PDelayLoadInfo;
+
+#endif
+
 #endif

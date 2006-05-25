@@ -5046,3 +5046,24 @@ Rom    24 May 2006
     
     api/
         boinc_api.C
+
+Rom    25 May 2006
+    - Trap delay load exceptions and dump meaningful messages when a delay
+        load dll fails to load.
+        
+      NOTE: At a minimum projects should flag GDI32.DLL, OPENGL32.DLL, and
+        GLU32.DLL as delay load dlls.  If all goes well we'll see more
+        meaningful messages when one of the system graphics dll's fail to
+        load for whatever reason.  For those who are building their
+        applications with Visual Studio you can detect the DLL load
+        failure and just disable graphics for that instance of the
+        application.
+        
+        0xC0000135 = STATUS_DLL_NOT_FOUND
+        0xC0000139 = STATUS_ENTRYPOINT_NOT_FOUND
+        0xC0000142 = STATUS_DLL_INIT_FAILED
+        0xC0000143 = STATUS_MISSING_SYSTEMFILE
+        
+    lib/
+        diagnostics_win.C, .h
+        

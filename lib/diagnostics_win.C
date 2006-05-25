@@ -131,6 +131,7 @@ typedef struct _BOINC_THREADLISTENTRY {
     INT                 crash_state;
     INT                 crash_wait_reason;
     PEXCEPTION_POINTERS crash_exception_record;
+    char                crash_message[1024];
 } BOINC_THREADLISTENTRY, *PBOINC_THREADLISTENTRY;
 
 static std::vector<PBOINC_THREADLISTENTRY> diagnostics_threads;
@@ -151,6 +152,7 @@ int diagnostics_init_thread_entry(PBOINC_THREADLISTENTRY entry) {
     entry->crash_state = 0;
     entry->crash_wait_reason = 0;
     entry->crash_exception_record = NULL;
+    strncpy(entry->crash_message, "", sizeof(entry->crash_message));
     return 0;
 }
 
@@ -726,6 +728,34 @@ int diagnostics_set_thread_worker() {
     pThreadEntry = diagnostics_find_thread_entry(GetCurrentThreadId());
     if (pThreadEntry) {
         pThreadEntry->worker_thread = TRUE;
+    }
+
+    // Release the Mutex
+    ReleaseMutex(hThreadListSync);
+
+    return 0;
+}
+
+
+// Set the current thread's crash message.
+//
+int diagnostics_set_thread_crash_message(char* message) {
+    PBOINC_THREADLISTENTRY pThreadEntry = NULL;
+
+    // Wait for the ThreadListSync mutex before writing updates
+    WaitForSingleObject(hThreadListSync, INFINITE);
+
+    pThreadEntry = diagnostics_find_thread_entry(GetCurrentThreadId());
+    if (pThreadEntry) {
+        int buffer_used = snprintf(
+            pThreadEntry->crash_message, 
+            sizeof(pThreadEntry->crash_message),
+            "%s",
+            message
+        );
+        if ((sizeof(pThreadEntry->crash_message) == buffer_used) || (-1 == buffer_used)) { 
+            pThreadEntry->crash_message[sizeof(pThreadEntry->crash_message)-1] = '\0';
+        }
     }
 
     // Release the Mutex
@@ -1356,9 +1386,8 @@ int diagnostics_unhandled_exception_dump_banner() {
     _strtime(pszTemp2);
 
     fprintf( stderr, "\n\n");
-    fprintf( stderr, "**********\n");
-    fprintf( stderr, "**********\n");
-    fprintf( stderr, "\n");
+    fprintf( stderr, "********************\n");
+    fprintf( stderr, "\n\n");
     fprintf( stderr, "BOINC Windows Runtime Debugger Version %s\n", BOINC_VERSION_STRING);
     fprintf( stderr, "\n\n");
     fprintf( stderr, "Dump Timestamp    : ");
@@ -1525,15 +1554,56 @@ int diagnostics_dump_thread_information(PBOINC_THREADLISTENTRY pThreadEntry) {
 }
 
 
+// Provide a generic way to format exceptions
+//
+int diagnostics_dump_generic_exception(char* exception_desc, DWORD exception_code, PVOID exception_address) {
+    fprintf(
+        stderr, 
+        "Reason: %s (0x%x) at address 0x%p\n\n",
+        exception_desc,
+        exception_code,
+        exception_address
+    );
+    return 0;
+}
+
 // Dump the exception code record to stderr in a human readable form.
 //
 int diagnostics_dump_exception_record(PEXCEPTION_POINTERS pExPtrs) {
-    char  status[256];
-    char  substatus[256];
-    PVOID exceptionAddr = pExPtrs->ExceptionRecord->ExceptionAddress;
-    DWORD exceptionCode = pExPtrs->ExceptionRecord->ExceptionCode;
+    char           status[256];
+    char           substatus[256];
+    char           message[1024];
+    PVOID          exception_address = pExPtrs->ExceptionRecord->ExceptionAddress;
+    DWORD          exception_code = pExPtrs->ExceptionRecord->ExceptionCode;
+    PDelayLoadInfo delay_load_info = NULL;
 
-    switch (exceptionCode) {
+    // Print unhandled exception banner
+    fprintf(stderr, "- Unhandled Exception Record -\n");
+
+    switch (exception_code) {
+        case VcppException(ERROR_SEVERITY_ERROR, ERROR_MOD_NOT_FOUND):
+            delay_load_info = (PDelayLoadInfo)pExPtrs->ExceptionRecord->ExceptionInformation[0];
+            fprintf(
+                stderr,
+                "Delay Load Failure: Attempting to load '%s' failed.\n\n",
+                delay_load_info->szDll
+            );
+            break;
+        case VcppException(ERROR_SEVERITY_ERROR, ERROR_PROC_NOT_FOUND):
+            delay_load_info = (PDelayLoadInfo)pExPtrs->ExceptionRecord->ExceptionInformation[0];
+            fprintf(
+                stderr,
+                "Delay Load Failure: Attempting to find '%s' in '%s' failed.\n\n",
+                delay_load_info->dlp.szProcName,
+                delay_load_info->szDll
+            );
+            break;
+        case 0xC0000135:                     // STATUS_DLL_NOT_FOUND
+        case 0xC0000139:                     // STATUS_ENTRYPOINT_NOT_FOUND
+        case 0xC0000142:                     // STATUS_DLL_INIT_FAILED
+        case 0xC0000143:                     // STATUS_MISSING_SYSTEMFILE
+            fprintf(stderr, "%s\n\n", windows_format_error_string(exception_code, message, sizeof(message)));
+            break;
         case EXCEPTION_ACCESS_VIOLATION:
             strcpy(status, "Access Violation");
             if (pExPtrs->ExceptionRecord->NumberParameters == 2) {
@@ -1546,83 +1616,77 @@ int diagnostics_dump_exception_record(PEXCEPTION_POINTERS pExPtrs) {
                     break;
                 }
             }
+            fprintf(stderr, "Reason: %s (0x%x) at address 0x%p %s\n\n", status, exception_code, exception_address, substatus);
             break;
         case EXCEPTION_DATATYPE_MISALIGNMENT:
-            strcpy(status, "Data Type Misalignment");
+            diagnostics_dump_generic_exception("Data Type Misalignment", exception_code, exception_address);
             break;
         case EXCEPTION_BREAKPOINT:
-            strcpy(status, "Breakpoint Encountered");
+            diagnostics_dump_generic_exception("Breakpoint Encountered", exception_code, exception_address);
             break;
         case EXCEPTION_SINGLE_STEP:
-            strcpy(status, "Single Instruction Executed");
+            diagnostics_dump_generic_exception("Single Instruction Executed", exception_code, exception_address);
             break;
         case EXCEPTION_ARRAY_BOUNDS_EXCEEDED:
-            strcpy(status, "Array Bounds Exceeded");
+            diagnostics_dump_generic_exception("Array Bounds Exceeded", exception_code, exception_address);
             break;
         case EXCEPTION_FLT_DENORMAL_OPERAND:
-            strcpy(status, "Float Denormal Operand");
+            diagnostics_dump_generic_exception("Float Denormal Operand", exception_code, exception_address);
             break;
         case EXCEPTION_FLT_DIVIDE_BY_ZERO:
-            strcpy(status, "Divide by Zero");
+            diagnostics_dump_generic_exception("Divide by Zero", exception_code, exception_address);
             break;
         case EXCEPTION_FLT_INEXACT_RESULT:
-            strcpy(status, "Float Inexact Result");
+            diagnostics_dump_generic_exception("Float Inexact Result", exception_code, exception_address);
             break;
         case EXCEPTION_FLT_INVALID_OPERATION:
-            strcpy(status, "Float Invalid Operation");
+            diagnostics_dump_generic_exception("Float Invalid Operation", exception_code, exception_address);
             break;
         case EXCEPTION_FLT_OVERFLOW:
-            strcpy(status, "Float Overflow");
+            diagnostics_dump_generic_exception("Float Overflow", exception_code, exception_address);
             break;
         case EXCEPTION_FLT_STACK_CHECK:
-            strcpy(status, "Float Stack Check");
+            diagnostics_dump_generic_exception("Float Stack Check", exception_code, exception_address);
             break;
         case EXCEPTION_FLT_UNDERFLOW:
-            strcpy(status, "Float Underflow");
+            diagnostics_dump_generic_exception("Float Underflow", exception_code, exception_address);
             break;
         case EXCEPTION_INT_DIVIDE_BY_ZERO:
-            strcpy(status, "Integer Divide by Zero");
+            diagnostics_dump_generic_exception("Integer Divide by Zero", exception_code, exception_address);
             break;
         case EXCEPTION_INT_OVERFLOW:
-            strcpy(status, "Integer Overflow");
+            diagnostics_dump_generic_exception("Integer Overflow", exception_code, exception_address);
             break;
         case EXCEPTION_PRIV_INSTRUCTION:
-            strcpy(status, "Privileged Instruction");
+            diagnostics_dump_generic_exception("Privileged Instruction", exception_code, exception_address);
             break;
         case EXCEPTION_IN_PAGE_ERROR:
-            strcpy(status, "In Page Error");
+            diagnostics_dump_generic_exception("In Page Error", exception_code, exception_address);
             break;
         case EXCEPTION_ILLEGAL_INSTRUCTION:
-            strcpy(status, "Illegal Instruction");
+            diagnostics_dump_generic_exception("Illegal Instruction", exception_code, exception_address);
             break;
         case EXCEPTION_NONCONTINUABLE_EXCEPTION:
-            strcpy(status, "Noncontinuable Exception");
+            diagnostics_dump_generic_exception("Noncontinuable Exception", exception_code, exception_address);
             break;
         case EXCEPTION_STACK_OVERFLOW:
-            strcpy(status, "Stack Overflow");
+            diagnostics_dump_generic_exception("Stack Overflow", exception_code, exception_address);
             break;
         case EXCEPTION_INVALID_DISPOSITION:
-            strcpy(status, "Invalid Disposition");
+            diagnostics_dump_generic_exception("Invalid Disposition", exception_code, exception_address);
             break;
         case EXCEPTION_GUARD_PAGE:
-            strcpy(status, "Guard Page Violation");
+            diagnostics_dump_generic_exception("Guard Page Violation", exception_code, exception_address);
             break;
         case EXCEPTION_INVALID_HANDLE:
-            strcpy(status, "Invalid Handle");
+            diagnostics_dump_generic_exception("Invalid Handle", exception_code, exception_address);
             break;
         case CONTROL_C_EXIT:
-            strcpy(status, "Ctrl+C Exit");
+            diagnostics_dump_generic_exception("Ctrl+C Exit", exception_code, exception_address);
             break;
         default:
-            strcpy(status, "Unknown exception");
+            diagnostics_dump_generic_exception("Unknown exception", exception_code, exception_address);
             break;
-    }
-
-    fprintf(stderr, "- Unhandled Exception Record -\n");
-    if (EXCEPTION_ACCESS_VIOLATION == exceptionCode) {
-        fprintf(stderr, "Reason: %s (0x%x) at address 0x%p %s\n\n", status, exceptionCode, exceptionAddr, substatus);
-    } else {
-        fprintf(stderr, "Reason: %s (0x%x) at address 0x%p\n\n", status, exceptionCode, exceptionAddr);
     }
 
     return 0;
@@ -1968,11 +2032,15 @@ LONG CALLBACK boinc_catch_signal(PEXCEPTION_POINTERS pExPtrs) {
         return EXCEPTION_CONTINUE_EXECUTION;
     }
 
+    fprintf( stderr, "\n\n");
+    fprintf( stderr, "Unhandled Exception Detected...\n");
+
     if (hExceptionMonitorThread) {
 
         // Engage the BOINC Windows Runtime Debugger and dump as much diagnostic
         //   data as possible.
         //
+        fprintf( stderr, "Engaging BOINC Windows Runtime Debugger...\n");
 
         // Store the exception record pointers.
         diagnostics_set_thread_exception_record(pExPtrs);
@@ -1987,6 +2055,11 @@ LONG CALLBACK boinc_catch_signal(PEXCEPTION_POINTERS pExPtrs) {
 
         // This is a really bad place to be.  The unhandled exception monitor wasn't
         //   created, so we need to bail out as quickly as possible.
+        //
+        fprintf( stderr, "BOINC Windows Runtime Debugger not configured, terminating application...\n");
+
+        // Dump what we know about...
+        diagnostics_dump_exception_record(pExPtrs);
 
         // Enter the critical section in case multiple threads decide to try and blow
         //   chunks at the same time.  Let the OS decide who gets to determine what
