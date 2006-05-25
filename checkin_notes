@@ -5083,3 +5083,38 @@ David  25 May 2006
     sched/
         sched_config.C,h
         server_types.C
+
+David  25 May 2006
+    - core client: add optional <result_abort> and <result_abort_if_unstarted>
+        elements to scheduler reply.
+        Each is a list of result names.
+        In the first case the results are aborted.
+        In the second case the results are aborted if they
+        haven't started computing yet.
+        NOTE: the scheduler doesn't currently use these.
+        But they're there in case we want them.
+    - added RESULT_ABORTED status code and ERR_ABORTED_BY_PROJECT error number.
+        This eliminates the kludge in which aborted results
+        were classified as RESULT_COMPUTE_ERROR
+    - core client: remove aborted_via_gui field from RESULT.
+        Aborts are now always handled immediately,
+        and recorded in the "state" and "exit_status" fields of RESULT.
+    - Manager: changes to reflect the above
+
+    client/
+        app_start.C
+        client_types.C,h
+        cpu_sched.C
+        cs_scheduler.C
+        gui_rpc_server_ops.C
+        scheduler_op.C,h
+    clientgui/
+        ViewWork.cpp
+    html/inc/
+        result.inc
+    lib/
+        error_numbers.h
+        gui_rpc_client.h
+        gui_rpc_client_ops.C
+        result_state.h
+        util.C

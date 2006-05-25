@@ -1022,6 +1022,7 @@ const char* boincerror(int which_error) {
         case ERR_FFLUSH: return "Couldn't flush file";
         case ERR_FSYNC: return "Couldn't sync file";
         case ERR_TRUNCATE: return "Couldn't truncate file";
+        case ERR_ABORTED_BY_PROJECT: return "Aborted by project";
         case 404: return "HTTP file not found";
         case 407: return "HTTP proxy authentication failure";
         case 416: return "HTTP range request error";

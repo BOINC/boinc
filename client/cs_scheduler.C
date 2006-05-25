@@ -1075,6 +1075,29 @@ int CLIENT_STATE::handle_scheduler_reply(
         }
     }
 
+    // handle result abort requests
+    //
+    for (i=0; i<sr.result_abort.size(); i++) {
+        RESULT* rp = lookup_result(project, sr.result_abort[i].name);
+        if (rp) {
+            ACTIVE_TASK* atp = lookup_active_task_by_result(rp);
+            if (atp) {
+                atp->abort_task(ERR_ABORTED_BY_PROJECT, "aborted by project");
+            } else {
+                rp->abort_inactive(ERR_ABORTED_BY_PROJECT);
+            }
+        }
+    }
+    for (i=0; i<sr.result_abort_if_unstarted.size(); i++) {
+        RESULT* rp = lookup_result(project, sr.result_abort[i].name);
+        if (rp) {
+            ACTIVE_TASK* atp = lookup_active_task_by_result(rp);
+            if (!atp) {
+                rp->abort_inactive(ERR_ABORTED_BY_PROJECT);
+            }
+        }
+    }
+
     // remove acked trickle files
     //
     if (sr.message_ack) {

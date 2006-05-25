@@ -339,10 +339,6 @@ int RESULT::parse(MIOFILE& in) {
             project_suspended_via_gui = true;
             continue;
         }
-        else if (match_tag(buf, "<aborted_via_gui/>")) {
-            aborted_via_gui = true;
-            continue;
-        }
         else if (match_tag(buf, "<active_task>")) {
             active_task = true;
             continue;
@@ -394,7 +390,6 @@ void RESULT::clear() {
     estimated_cpu_time_remaining = 0.0;
     suspended_via_gui = false;
     project_suspended_via_gui = false;
-    aborted_via_gui = false;
     supports_graphics = false;
 }
 

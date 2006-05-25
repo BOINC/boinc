@@ -268,14 +268,6 @@ int ACTIVE_TASK::start(bool first_time) {
     SCOPE_MSG_LOG scope_messages(log_messages, CLIENT_MSG_LOG::DEBUG_TASK);
     scope_messages.printf("ACTIVE_TASK::start(first_time=%d)\n", first_time);
 
-    if (result->aborted_via_gui) {
-        task_state = PROCESS_ABORTED;
-        result->state = RESULT_COMPUTE_ERROR;
-        result->exit_status = ERR_ABORTED_VIA_GUI;
-        gstate.report_result_error(*result, "Aborted by user");
-        return ERR_ABORTED_VIA_GUI;
-    }
-
     if (first_time) {
         checkpoint_cpu_time = 0;
     }

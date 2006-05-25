@@ -167,6 +167,7 @@
 #define ERR_TRUNCATE        -218
 #define ERR_WRONG_URL       -219
 #define ERR_DUP_NAME        -220
+#define ERR_ABORTED_BY_PROJECT  -221
 
 
 // PLEASE: add a text description of your error to 

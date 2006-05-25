@@ -36,6 +36,8 @@
     // Output files for result are being uploaded
 #define RESULT_FILES_UPLOADED    5
     // Files are uploaded, notify scheduling server at some point
+#define RESULT_ABORTED          6
+    // result was aborted
 
 #endif
 

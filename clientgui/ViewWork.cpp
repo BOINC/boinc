@@ -635,10 +635,11 @@ wxInt32 CViewWork::FormatCPUTime(wxInt32 item, wxString& strBuffer) const {
         if (result->active_task) {
             fBuffer = result->current_cpu_time;
         } else {
-            if(result->state < RESULT_COMPUTE_ERROR)
+            if(result->state < RESULT_COMPUTE_ERROR) {
                 fBuffer = 0;
-            else 
+            } else {
                 fBuffer = result->final_cpu_time;
+            }
         }
     }
 
@@ -747,9 +748,7 @@ wxInt32 CViewWork::FormatStatus(wxInt32 item, wxString& strBuffer) const {
                 }
                 break;
             case RESULT_FILES_DOWNLOADED:
-                if (result->aborted_via_gui) {
-                    strBuffer = _("Aborted by user");
-                } else if (result->project_suspended_via_gui) {
+                if (result->project_suspended_via_gui) {
                     strBuffer = _("Project suspended by user");
                 } else if (result->suspended_via_gui) {
                     strBuffer = _("Suspended by user");
@@ -768,20 +767,22 @@ wxInt32 CViewWork::FormatStatus(wxInt32 item, wxString& strBuffer) const {
                 }
                 break;
             case RESULT_COMPUTE_ERROR:
-                // both tests below are needed, because the boolean flag is not changed
-                // right away
-                //
-                if (result->aborted_via_gui || result->exit_status == ERR_ABORTED_VIA_GUI) {
-                    strBuffer = _("Aborted by user");
-                } else {
-                    strBuffer = _("Computation error");
-                }
+                strBuffer = _("Computation error");
                 break;
             case RESULT_FILES_UPLOADING:
                 if (result->ready_to_report) {
                     strBuffer = _("Upload failed");
                 } else {
                     strBuffer = _("Uploading");
+                }
+                break;
+            case RESULT_ABORTED:
+                if (result->state == ERR_ABORTED_VIA_GUI) {
+                    strBuffer = _("Aborted by user");
+                } else if (result->state == ERR_ABORTED_BY_PROJECT) {
+                    strBuffer = _("Aborted by project");
+                } else {
+                    strBuffer = _("Aborted");
                 }
                 break;
             default:

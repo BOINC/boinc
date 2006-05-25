@@ -442,7 +442,7 @@ static void handle_result_op(char* buf, MIOFILE& fout, const char* op) {
         if (atp) {
             atp->abort_task(ERR_ABORTED_VIA_GUI, "aborted by user");
         } else {
-            rp->aborted_via_gui = true;
+            rp->abort_inactive(ERR_ABORTED_VIA_GUI);
         }
     } else if (!strcmp(op, "suspend")) {
         if (p->non_cpu_intensive) {

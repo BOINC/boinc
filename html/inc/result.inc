@@ -59,10 +59,11 @@ function result_client_state_string($s) {
     switch($s) {
     case 0: return "New";
     case 1: return "Downloading";
-    case 2: return "Downloaded";
-    case 3: return "Computing";
+    case 2: return "Computing";
+    case 3: return "Compute error";
     case 4: return "Uploading";
     case 5: return "Done";
+    case 6: return "Aborted";
     }
 }
 

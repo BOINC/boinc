@@ -423,7 +423,6 @@ struct RESULT {
         //
         // - <stderr_txt>X</stderr_txt>, where X is the app's stderr output
     bool suspended_via_gui;
-    bool aborted_via_gui;
 
     APP* app;
     WORKUNIT* wup;
@@ -433,13 +432,17 @@ struct RESULT {
     void clear();
     int parse_server(MIOFILE&);
     int parse_state(MIOFILE&);
-    int parse_ack(FILE*);
+    int parse_name(FILE*, const char* end_tag);
     int write(MIOFILE&, bool to_server);
     int write_gui(MIOFILE&);
     bool is_upload_done();    // files uploaded?
     void reset_files();
     FILE_REF* lookup_file(FILE_INFO*);
     FILE_INFO* lookup_file_logical(const char*);
+    void abort_inactive(int);
+        // abort the result if it hasn't started computing yet
+        // Called only for results with no active task
+        // (otherwise you need to abort the active task)
 
     // stuff related to CPU scheduling
 

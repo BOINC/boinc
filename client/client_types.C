@@ -1199,16 +1199,15 @@ void WORKUNIT::clear_errors() {
     }
 }
 
-int RESULT::parse_ack(FILE* in) {
+int RESULT::parse_name(FILE* in, const char* end_tag) {
     char buf[256];
 
     SCOPE_MSG_LOG scope_messages(log_messages, CLIENT_MSG_LOG::DEBUG_STATE);
-
     strcpy(name, "");
     while (fgets(buf, 256, in)) {
-        if (match_tag(buf, "</result_ack>")) return 0;
+        if (match_tag(buf, end_tag)) return 0;
         else if (parse_str(buf, "<name>", name, sizeof(name))) continue;
-        else scope_messages.printf("RESULT::parse(): unrecognized: %s\n", buf);
+        else scope_messages.printf("RESULT::parse_name(): unrecognized: %s\n", buf);
     }
     return ERR_XML_PARSE;
 }
@@ -1226,7 +1225,6 @@ void RESULT::clear() {
     exit_status = 0;
     stderr_out = "";
     suspended_via_gui = false;
-    aborted_via_gui = false;
     fpops_per_cpu_sec = 0;
     fpops_cumulative = 0;
     intops_per_cpu_sec = 0;
@@ -1312,7 +1310,6 @@ int RESULT::parse_state(MIOFILE& in) {
         else if (match_tag(buf, "<ready_to_report/>")) ready_to_report = true;
         else if (parse_double(buf, "<completed_time>", completed_time)) continue;
         else if (match_tag(buf, "<suspended_via_gui/>")) suspended_via_gui = true;
-        else if (match_tag(buf, "<aborted_via_gui/>")) aborted_via_gui = true;
         else if (parse_int(buf, "<state>", state)) continue;
         else if (match_tag(buf, "<stderr_out>")) {
             while (in.fgets(buf, 256)) {
@@ -1394,7 +1391,6 @@ int RESULT::write(MIOFILE& out, bool to_server) {
         if (ready_to_report) out.printf("    <ready_to_report/>\n");
         if (completed_time) out.printf("    <completed_time>%f</completed_time>\n", completed_time);
         if (suspended_via_gui) out.printf("    <suspended_via_gui/>\n");
-        if (aborted_via_gui) out.printf("    <aborted_via_gui/>\n");
         out.printf(
             "    <wu_name>%s</wu_name>\n"
             "    <report_deadline>%f</report_deadline>\n",
@@ -1435,7 +1431,6 @@ int RESULT::write_gui(MIOFILE& out) {
     if (completed_time) out.printf("    <completed_time>%f</completed_time>\n", completed_time);
     if (suspended_via_gui) out.printf("    <suspended_via_gui/>\n");
     if (project->suspended_via_gui) out.printf("    <project_suspended_via_gui/>\n");
-    if (aborted_via_gui) out.printf("    <aborted_via_gui/>\n");
     ACTIVE_TASK* atp = gstate.active_tasks.lookup_result(this);
     if (atp) {
         atp->write(out);
@@ -1568,6 +1563,12 @@ FILE_INFO* RESULT::lookup_file_logical(const char* lname) {
         }
     }
     return 0;
+}
+
+void RESULT::abort_inactive(int status) {
+    if (state >= RESULT_COMPUTE_ERROR) return;
+    state = RESULT_ABORTED;
+    exit_status = status;
 }
 
 const char *BOINC_RCSID_b81ff9a584 = "$Id$";
