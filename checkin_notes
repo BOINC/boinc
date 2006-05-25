@@ -5066,4 +5066,20 @@ Rom    25 May 2006
         
     lib/
         diagnostics_win.C, .h
-        
+
+David  25 May 2006
+    - scheduler: add "next_rpc_delay" item to config file.
+        This lets a project tell clients to reconnect after some interval.
+        It's intended to support projects with tight delay bounds
+        (e.g. a few minutes) and therefore need to control the rate
+        of client requests.
+        Currently the delay interval is specified in the config file.
+        This is for testing.
+        Ultimately we'll need a dynamic mechanism.
+    - default cpu_usage_limit is 100, not 1
+
+    lib/
+        prefs.C
+    sched/
+        sched_config.C,h
+        server_types.C

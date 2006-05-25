@@ -101,6 +101,8 @@ int SCHED_CONFIG::parse(FILE* f) {
         else if (!strcmp(tag, "default_disk_max_used_pct")) default_disk_max_used_pct = get_double(contents);
         else if (!strcmp(tag, "default_disk_min_free_gb")) default_disk_min_free_gb = get_double(contents);
         else if (!strcmp(tag, "symstore")) strcpy(symstore, contents);
+        else if (!strcmp(tag, "next_rpc_delay")) next_rpc_delay = get_double(contents);
+        else fprintf(stderr, "unknown tag: %s\n", tag);
     }   
     return ERR_XML_PARSE;
 }

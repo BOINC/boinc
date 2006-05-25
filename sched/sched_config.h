@@ -71,6 +71,7 @@ public:
     double default_disk_max_used_pct;
     double default_disk_min_free_gb;
     char symstore[256];
+    double next_rpc_delay;
 
     int parse(FILE*);
     int parse_file(const char* dir=".");

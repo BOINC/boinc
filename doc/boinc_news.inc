@@ -1,6 +1,16 @@
 <?
 
 $project_news = array(
+array("May 25, 2006",
+    "BOINC has added preliminary support for 'low-latency' computing;
+    e.g. delay bounds of minutes rather than days.
+    This requires having clients contact the server frequently;
+    we've added a mechanism that lets the server specify
+    the connection interval.
+    This will be available in the next release (5.6) of the client software.
+    Projects that are interested in using this mechanism should
+    <a href=contact.php>contact us</a>."
+),
 array("May 17, 2006",
     "The costs of electricity, both monetary and environmental, are increasing.
     Be aware of the <a href=energy.php>energy considerations</a>

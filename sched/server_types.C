@@ -482,6 +482,9 @@ int SCHEDULER_REPLY::write(FILE* fout) {
     if (strlen(config.symstore)) {
         fprintf(fout, "<symstore>%s</symstore>\n", config.symstore);
     }
+    if (config.next_rpc_delay) {
+        fprintf(fout, "<next_rpc_delay>%f</next_rpc_delay>\n", config.next_rpc_delay);
+    }
     if (user.id) {
         xml_escape(user.name, buf);
         fprintf(fout,

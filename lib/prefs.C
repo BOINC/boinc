@@ -65,7 +65,7 @@ void GLOBAL_PREFS::defaults() {
     //max_memory_mbytes = 128;
     proc_priority = 1;
     cpu_affinity = -1;
-    cpu_usage_limit = 1;
+    cpu_usage_limit = 100;
 
     // don't initialize source_project, source_scheduler here
     // since they are outside of <venue> elements
