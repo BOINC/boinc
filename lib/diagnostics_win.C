@@ -2033,14 +2033,17 @@ LONG CALLBACK boinc_catch_signal(PEXCEPTION_POINTERS pExPtrs) {
     }
 
     fprintf( stderr, "\n\n");
-    fprintf( stderr, "Unhandled Exception Detected...\n");
+    fprintf( stderr, "Unhandled Exception Detected...\n\n");
+
+    // Dump what we know about...
+    diagnostics_dump_exception_record(pExPtrs);
 
     if (hExceptionMonitorThread) {
 
         // Engage the BOINC Windows Runtime Debugger and dump as much diagnostic
         //   data as possible.
         //
-        fprintf( stderr, "Engaging BOINC Windows Runtime Debugger...\n");
+        fprintf( stderr, "Engaging BOINC Windows Runtime Debugger...\n\n");
 
         // Store the exception record pointers.
         diagnostics_set_thread_exception_record(pExPtrs);
@@ -2057,9 +2060,6 @@ LONG CALLBACK boinc_catch_signal(PEXCEPTION_POINTERS pExPtrs) {
         //   created, so we need to bail out as quickly as possible.
         //
         fprintf( stderr, "BOINC Windows Runtime Debugger not configured, terminating application...\n");
-
-        // Dump what we know about...
-        diagnostics_dump_exception_record(pExPtrs);
 
         // Enter the critical section in case multiple threads decide to try and blow
         //   chunks at the same time.  Let the OS decide who gets to determine what
