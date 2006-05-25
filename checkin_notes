@@ -5022,13 +5022,32 @@ Rom    24 May 2006
 David  24 May 2006
     - Implement a new XML parsing mechanism, consisting of functions
         get_tag(), get_int(), get_double(), and get_bool().
-        These will correctly (and efficiently) parse both
+        These will correctly (and efficiently) parse
             <foo>X</foo>
         and
             <foo>
                 X
             </foo>
-        The python-generated XML (e.g. config.xml) is of the latter form.
+        and
+            <foo>
+
+            X
+
+            </foo>
+        etc.
+        It will parse
+            <foo/>
+        and
+            <foo></foo>
+        and
+            <foo>
+
+            </foo>
+        identically.
+        The python-generated XML (e.g. config.xml) is of the form
+            <foo>
+            X
+            </foo>
         Currently the new code is used to parse config.xml.
         Eventually all XML parsing should be done this way.
     - User web: initialize cpu_usage_limit in prefs
