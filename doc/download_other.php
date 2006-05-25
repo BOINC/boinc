@@ -71,9 +71,9 @@ list_item_array(array(
     and <a href=http://packages.debian.org/boinc-manager>BOINC manager</a>"
 ));
 list_item_array(array(
-    "<a href=http://www.guntec.de/Crunch3r>Matthias Pilch</a>",
-    "Linux on DEC, IA64",
-    "BOINC, SETI@home"
+    "<a href=http://calbe.dw70.de>Matthias Pilch</a>",
+    "Windows, Linux on DEC, IA64, FreeBSD",
+    "BOINC, SETI@home, SETI@home Enhanced"
 ));
 list_item_array(array(
     "<a href=http://www.kulthea.net/boinc/>SETI@Kulthea.net</a>",

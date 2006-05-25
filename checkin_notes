@@ -5152,3 +5152,12 @@ David  25 May 2006
 		cs_apps.C
 	clientgui/
 		ViewWork.cpp
+
+David  25 May 2006
+    - scheduler: if client reports a result, and it currently has
+        state = OVER and outcome != NO_REPLY,
+        then don't change its state or process it further.
+        (from Bruce Allen)
+
+    sched/
+        handle_request.C

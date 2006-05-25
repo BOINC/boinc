@@ -616,13 +616,25 @@ int handle_results(SCHEDULER_REQUEST& sreq, SCHEDULER_REPLY& reply) {
         // If one of them fails, set srip->id = 0,
         // which suppresses the DB update later on
         //
+        if (srip->server_state == RESULT_SERVER_STATE_OVER && srip->outcome != RESULT_OUTCOME_NO_REPLY) {
+            log_messages.printf(
+                SCHED_MSG_LOG::MSG_CRITICAL,
+                "[HOST#%d] [RESULT#%d %s] result already over\n",
+                reply.host.id, srip->id, srip->name
+            );
+            // perhaps also send a message to the user saying
+            // that this result was already over?
+            srip->id = 0;
+            reply.result_acks.push_back(std::string(rp->name));
+            continue;
+        } 
         if (srip->server_state == RESULT_SERVER_STATE_UNSENT) {
             log_messages.printf(
                 SCHED_MSG_LOG::MSG_CRITICAL,
                 "[HOST#%d] [RESULT#%d %s] got unexpected result: server state is %d\n",
                 reply.host.id, srip->id, srip->name, srip->server_state
             );
-            srip->id=0; // mark to skip when updating DB
+            srip->id = 0;
             reply.result_acks.push_back(std::string(rp->name));
             continue;
         }
@@ -633,7 +645,7 @@ int handle_results(SCHEDULER_REQUEST& sreq, SCHEDULER_REPLY& reply) {
                 "[HOST#%d] [RESULT#%d %s] got result twice\n",
                 reply.host.id, srip->id, srip->name
             );
-            srip->id=0;  // mark to skip when updating DB
+            srip->id = 0;
             reply.result_acks.push_back(std::string(rp->name));
             continue;
         }
@@ -653,7 +665,7 @@ int handle_results(SCHEDULER_REQUEST& sreq, SCHEDULER_REPLY& reply) {
                     "[RESULT#%d %s] Can't lookup [HOST#%d]\n",
                     srip->id, srip->name, srip->hostid
                 );
-                srip->id=0; // mark to skip when updating DB
+                srip->id = 0;
                 reply.result_acks.push_back(std::string(rp->name));
                 continue;
             } else if (result_host.userid != reply.host.userid) {
@@ -662,7 +674,7 @@ int handle_results(SCHEDULER_REQUEST& sreq, SCHEDULER_REPLY& reply) {
                     "[USER#%d] [HOST#%d] [RESULT#%d %s] Not even the same user; expected [USER#%d]\n",
                     reply.host.userid, reply.host.id, srip->id, srip->name, result_host.userid
                 );
-                srip->id=0; // mark to skip when updating DB
+                srip->id = 0;
                 reply.result_acks.push_back(std::string(rp->name));
                 continue;
             } else {
