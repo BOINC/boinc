@@ -450,7 +450,10 @@ bool get_tag(FILE* f, char* tag, char* contents) {
     p = strchr(q, '<');
     if (p) {
         *p = 0;
-        if (contents) strcpy(contents, q);
+        if (contents) {
+            strcpy(contents, q);
+            strip_whitespace(contents);
+        }
         return true;
     }
 

@@ -5161,3 +5161,10 @@ David  25 May 2006
 
     sched/
         handle_request.C
+
+David  26 May 2006
+    - bug fix in new XML parser - wasn't stripping whitespace
+        from single-line elements
+
+    lib/
+        parse.C
