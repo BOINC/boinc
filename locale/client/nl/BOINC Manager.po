@@ -2,7 +2,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: BOINC Manager 4.x\n"
 "POT-Creation-Date: \n"
-"PO-Revision-Date: 2006-05-03 20:34+0100\n"
+"PO-Revision-Date: 2006-05-24 20:10+0100\n"
 "Last-Translator: Rene Oskam <oskamjr@wanadoo.nl>\n"
 "Language-Team: BOINC Development Team <rwalton@ssl.berkeley.edu>\n"
 "MIME-Version: 1.0\n"
@@ -139,7 +139,7 @@ msgstr "Vul het URL in van de account manager website."
 #: clientgui/AccountManagerInfoPage.cpp:173
 #: clientgui/ProjectInfoPage.cpp:229
 msgid "You can copy and paste the URL from your browser's address bar."
-msgstr "( Het is mogelijk dit URL te kopiëren uit de adresbalk van je browser )"
+msgstr "(Het is mogelijk dit URL te kopiëren uit de adresbalk van je browser.)"
 
 #: clientgui/AccountManagerInfoPage.cpp:176
 msgid "Account Manager &URL:"
@@ -165,7 +165,7 @@ msgstr "Aan het communiceren met de server."
 msgid "Please wait..."
 msgstr "Even geduld..."
 
-#: clientgui/AccountManagerProcessingPage.cpp:300
+#: clientgui/AccountManagerProcessingPage.cpp:304
 #: clientgui/ProjectProcessingPage.cpp:472
 #: clientgui/ProjectProcessingPage.cpp:534
 msgid "An internal server error has occurred.\n"
@@ -227,14 +227,14 @@ msgid ""
 "Please connect to the Internet, then select the 'retry communications' item off the advanced menu."
 msgstr ""
 "%s heeft een verbinding nodig met het internet voor onderhoud aan het project.\n"
-"Maak een internet verbindig en klik op 'Probeer opnieuw te verbinden' onder 'Geavanceerd'. "
+"Maak een internet verbindig en klik op 'Probeer opnieuw te verbinden' onder 'Geavanceerd'."
 
-#: clientgui/BOINCDialupManager.cpp:297
+#: clientgui/BOINCDialupManager.cpp:299
 #, c-format
-msgid "%s needs a connection to the Internet to perform some maintenance, open the %s to connectup and perform the needed work."
-msgstr "%s heeft een verbinding nodig met het internet voor onderhoud, open %s om een verbinding te maken en dit mogelijk te maken."
+msgid "%s needs to connect to the Internet.  Please click to open %s."
+msgstr "%s heeft een verbinding nodig met het internet.  Klik om de %s te openen."
 
-#: clientgui/BOINCDialupManager.cpp:339
+#: clientgui/BOINCDialupManager.cpp:340
 #, c-format
 msgid ""
 "%s needs to connect to the Internet.\n"
@@ -243,12 +243,12 @@ msgstr ""
 "%s heeft een verbinding met het internet\n"
 "nodig, mag dit nu?"
 
-#: clientgui/BOINCDialupManager.cpp:352
+#: clientgui/BOINCDialupManager.cpp:353
 #, c-format
 msgid "%s is connecting to the Internet."
 msgstr "%s is bezig met verbinden."
 
-#: clientgui/BOINCDialupManager.cpp:383
+#: clientgui/BOINCDialupManager.cpp:384
 #, c-format
 msgid ""
 "%s couldn't do Internet communication, and no default connection is selected.\n"
@@ -259,17 +259,17 @@ msgstr ""
 "ingesteld. Maak een verbinding met het internet of geef in het 'Opties' menu bij\n"
 "'Geavanceerd' aan welke verbinding moet worden gebruikt."
 
-#: clientgui/BOINCDialupManager.cpp:412
+#: clientgui/BOINCDialupManager.cpp:413
 #, c-format
 msgid "%s has successfully connected to the Internet."
 msgstr "%s heeft een internet verbinding gemaakt."
 
-#: clientgui/BOINCDialupManager.cpp:437
+#: clientgui/BOINCDialupManager.cpp:438
 #, c-format
 msgid "%s failed to connect to the Internet."
 msgstr "%s kon geen internet verbinding maken."
 
-#: clientgui/BOINCDialupManager.cpp:473
+#: clientgui/BOINCDialupManager.cpp:474
 #, c-format
 msgid ""
 "%s has detected it is now connected to the Internet.\n"
@@ -278,12 +278,12 @@ msgstr ""
 "%s heeft de internet verbinding gedetecteerd en probeert\n"
 "alle projecten bij te werken."
 
-#: clientgui/BOINCDialupManager.cpp:512
+#: clientgui/BOINCDialupManager.cpp:513
 #, c-format
 msgid "%s has successfully disconnected from the Internet."
 msgstr "%s heeft de internet verbinding verbroken."
 
-#: clientgui/BOINCDialupManager.cpp:528
+#: clientgui/BOINCDialupManager.cpp:529
 #, c-format
 msgid "%s failed to disconnected from the Internet."
 msgstr "%s kon de internet verbinding niet verbreken."
@@ -348,19 +348,19 @@ msgstr ""
 "worden hervat als de manager opnieuw wordt opgestart. Minimaliseer of\n"
 "sluit het venster als je het werk niet wilt onderbreken."
 
-#: clientgui/BOINCGUIApp.cpp:491
+#: clientgui/BOINCGUIApp.cpp:488
 msgid "Startup BOINC so only the system tray icon is visible"
 msgstr "Start BOINC zodat deze alleen zichbaar is in het syteemvak."
 
-#: clientgui/BOINCGUIApp.cpp:551
+#: clientgui/BOINCGUIApp.cpp:548
 msgid "(Automatic Detection)"
 msgstr "(Automatische Detectie)"
 
-#: clientgui/BOINCGUIApp.cpp:552
+#: clientgui/BOINCGUIApp.cpp:549
 msgid "(Unknown)"
 msgstr "(Onbekend)"
 
-#: clientgui/BOINCGUIApp.cpp:553
+#: clientgui/BOINCGUIApp.cpp:550
 msgid "(User Defined)"
 msgstr "(Gedefineerd door gebruiker)"
 
@@ -728,7 +728,7 @@ msgstr "Mijn account"
 #: clientgui/Localization.cpp:89
 #: clientgui/Localization.cpp:115
 msgid "View your account information and credit totals"
-msgstr "Bekijk informatie over en punten totaal van je eigen account"
+msgstr "Bekijk informatie over en het punten totaal van je eigen account"
 
 #: clientgui/Localization.cpp:45
 msgid "Your preferences"
@@ -801,7 +801,7 @@ msgstr "Rapporteer problemen"
 
 #: clientgui/Localization.cpp:81
 msgid "A link to the Einstein@Home problems and bug reports message board"
-msgstr "Ga naar de Einstein@Home forums over problemen en fout rapportages"
+msgstr "Bekijk de Einstein@Home forums over problemen en fout rapportages"
 
 #: clientgui/Localization.cpp:85
 msgid "View and modify your Einstein@Home account profile and preferences"
@@ -821,7 +821,7 @@ msgstr "LIGO project"
 
 #: clientgui/Localization.cpp:105
 msgid "The home page of the Laser Interferometer Gravitational-wave Observatory (LIGO) project"
-msgstr "Ga naar de webpagina van het 'Laser Interferometer Gravitational-wave Observatory' (LIGO) project"
+msgstr "Bekijk de webpagina van het 'Laser Interferometer Gravitational-wave Observatory' (LIGO) project"
 
 #: clientgui/Localization.cpp:107
 msgid "GEO-600 project"
@@ -829,7 +829,7 @@ msgstr "GEO-600 project"
 
 #: clientgui/Localization.cpp:109
 msgid "The home page of the GEO-600 project"
-msgstr "Ga naar de webpagina van het GEO-600 project"
+msgstr "Belijk de webpagina van het GEO-600 project"
 
 #: clientgui/Localization.cpp:117
 #: clientgui/Localization.cpp:135
@@ -843,7 +843,7 @@ msgstr "Bekijk informatie over je eigen team"
 
 #: clientgui/Localization.cpp:125
 msgid "Get help for climateprediction.net"
-msgstr "Ga naar de climateprediction.net help pagina"
+msgstr "Bekijk de climateprediction.net help pagina"
 
 #: clientgui/Localization.cpp:127
 msgid "News"
@@ -916,7 +916,7 @@ msgstr "Verbinding verbroken"
 #: clientgui/MainFrame.cpp:343
 #, c-format
 msgid "Exit the %s"
-msgstr "Sluit %s af"
+msgstr "Sluit de %s af"
 
 #: clientgui/MainFrame.cpp:358
 #: clientgui/MainFrame.cpp:460
@@ -1138,37 +1138,37 @@ msgstr "%s - Taalselectie"
 msgid "The %s's default language has been changed, in order for this change to take affect you must restart the %s."
 msgstr "De standaard taal van de %s is gewijzigd, om dit te activeren dien je de %s te herstarten."
 
-#: clientgui/MainFrame.cpp:1895
-#: clientgui/MainFrame.cpp:1898
+#: clientgui/MainFrame.cpp:1905
+#: clientgui/MainFrame.cpp:1908
 #, c-format
 msgid "%s - (%s)"
 msgstr "%s - (%s)"
 
-#: clientgui/MainFrame.cpp:1896
+#: clientgui/MainFrame.cpp:1906
 #, c-format
 msgid "Connecting to %s"
 msgstr "Bezig te verbinden met %s"
 
-#: clientgui/MainFrame.cpp:1899
+#: clientgui/MainFrame.cpp:1909
 #, c-format
 msgid "Connected to %s"
 msgstr "Verbonden met %s"
 
-#: clientgui/MainFrame.cpp:2064
+#: clientgui/MainFrame.cpp:2069
 #, c-format
 msgid "%s - Connection Error"
 msgstr "%s - Verbindings Fout"
 
-#: clientgui/MainFrame.cpp:2070
+#: clientgui/MainFrame.cpp:2075
 msgid "The password you have provided is incorrect, please try again."
 msgstr "Het ingevulde wachtwoord in niet correct, probeer het a.u.b. opnieuw."
 
-#: clientgui/MainFrame.cpp:2087
+#: clientgui/MainFrame.cpp:2092
 #, c-format
 msgid "%s - Connection Failed"
 msgstr "%s - Verbinding Mislukt"
 
-#: clientgui/MainFrame.cpp:2096
+#: clientgui/MainFrame.cpp:2101
 #, c-format
 msgid ""
 "%s is not able to connect to a %s client.\n"
@@ -1177,12 +1177,12 @@ msgstr ""
 "%s kan geen verbinding maken met een\n"
 "%s client. Wil je het opnieuw proberen?"
 
-#: clientgui/MainFrame.cpp:2123
+#: clientgui/MainFrame.cpp:2128
 #, c-format
 msgid "%s - Connection Status"
 msgstr "%s - Verbindings Status"
 
-#: clientgui/MainFrame.cpp:2134
+#: clientgui/MainFrame.cpp:2139
 #, c-format
 msgid ""
 "%s is not currently connected to a %s client.\n"
@@ -1232,8 +1232,8 @@ msgstr ""
 "Controleer a.u.b. het URL en probeer opnieuw."
 
 #: clientgui/NotFoundPage.cpp:176
-msgid "Account not found"
-msgstr "Account niet gevonden"
+msgid "Login Failed."
+msgstr "Inloggen Mislukt"
 
 #: clientgui/NotFoundPage.cpp:180
 msgid "Check the username and password, and try again."
@@ -2047,7 +2047,7 @@ msgid "Question"
 msgstr "Vraag"
 
 #: clientgui/wizardex.cpp:359
-#: clientgui/wizardex.cpp:551
+#: clientgui/wizardex.cpp:548
 msgid "&Next >"
 msgstr "Volgende >"
 
@@ -2055,7 +2055,7 @@ msgstr "Volgende >"
 msgid "< &Back"
 msgstr "< Vorige"
 
-#: clientgui/wizardex.cpp:549
+#: clientgui/wizardex.cpp:546
 msgid "&Finish"
 msgstr "Voltooien"
 
