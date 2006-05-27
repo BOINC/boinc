@@ -114,11 +114,11 @@ void worker() {
     double fsize;
     char resolved_name[512];
     MFILE out;
-    FILE* state, *in;
+    FILE* state, *infile;
 
     boinc_resolve_filename(INPUT_FILENAME, resolved_name, sizeof(resolved_name));
-    in = boinc_fopen(resolved_name, "r");
-    if (in == NULL) {
+    infile = boinc_fopen(resolved_name, "r");
+    if (!infile) {
         fprintf(
             stderr,
             "Couldn't find input file, resolved name %s.\n",
@@ -133,7 +133,7 @@ void worker() {
     state = boinc_fopen(resolved_name, "r");
     if (state) {
         fscanf(state, "%d", &nchars);
-        fseek(in, nchars, SEEK_SET);
+        fseek(infile, nchars, SEEK_SET);
         boinc_resolve_filename(OUTPUT_FILENAME, resolved_name, sizeof(resolved_name));
         retval = out.open(resolved_name, "a");
     } else {
@@ -147,7 +147,7 @@ void worker() {
         exit(1);
     }
     while (1) {
-        c = fgetc(in);
+        c = fgetc(infile);
 
         if (c == EOF) break;
         c = toupper(c);

@@ -74,3 +74,10 @@ David  1 May 2006
 
 	uppercase/
         uc_graphics.C
+
+David  26 May 2006
+    - Added sleeper application (to test non-CPU-intensive features)
+
+    sleeper/
+        sleeper.C
+        Makefile

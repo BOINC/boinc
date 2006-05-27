@@ -14,6 +14,7 @@ CXXFLAGS = -g \
     -L /usr/X11R6/lib \
     -L.
 
+# the following should be freeglut; use nm to check
 LIBGLUT = /usr/local/lib/libglut.a
 LIBGLU = /usr/X11R6/lib/libGLU.a
 LIBJPEG = /usr/lib/libjpeg.a
