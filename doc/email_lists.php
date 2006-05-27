@@ -32,7 +32,7 @@ list_item(
 );
 list_item(
     "<a href=http://ssl.berkeley.edu/mailman/listinfo/boinc_projects>boinc_projects</a>",
-    "An email list for people operating BOINC projects.
+    "An email list for people developing and operating BOINC projects.
     Questions and problems involving BOINC server software.
     Announcements of upgrades and changes.
 ");

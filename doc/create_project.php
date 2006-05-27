@@ -145,6 +145,7 @@ Miscellaneous
 <li> <a href=grid.php>Integrating BOINC projects with Grids</a>
 <li> <a href=boinc_version.php>Versions of BOINC</a>
 <li> <a href=mysql_config.php>Configuring MySQL for BOINC</a>
+<li> <a href=account_control.php>Controlling account creation</a>
 </ul>
 ";
 page_tail();

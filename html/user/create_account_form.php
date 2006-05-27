@@ -47,6 +47,16 @@ if ($teamid) {
     }
 }
 start_table();
+
+// Using invitation codes to restrict access?
+//
+if(defined('INVITE_CODES')) {
+     row2(
+         tr(AC_INVITE_CODE)."<br><span class=description>".tr(AC_INVITE_CODE_DESC)."</span",
+         "<input name=invite_code size=30>"
+     );
+} 
+
 row2(
     tr(CREATE_AC_NAME)."<br><span class=description>".tr(CREATE_AC_NAME_DESC)."</span>",
     "<input name=new_name size=30>"

@@ -12,7 +12,7 @@ db_init();
 xml_header();
 
 $config = get_config();
-if (parse_bool($config, "disable_account_creation")) {
+if (parse_bool($config, "disable_account_creation") || defined('INVITE_CODES')) {
     echo "<account_out>\n";
     echo "<error_num>-208</error_num>\n";
     echo "</account_out>\n";

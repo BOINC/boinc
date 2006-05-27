@@ -5,23 +5,26 @@ page_head("Make your own client software");
 echo "
 <p>
 BOINC applications, and the BOINC core client, are native-mode programs, so
-different versions are required for each platform (a 'platform' is the
-combination of an operating system and a processor type: e.g.,
-Linux and Intel/x86).
+different versions are required for each platform
+(a 'platform' is the combination of an operating system and a processor type:
+e.g., Linux/Intel).
 
 <p>
-BOINC-based projects compile program versions for common platforms
-(Windows/Intel, Linux/Intel, Mac OS/X. etc.), and place them on its servers.
-A participant downloads the core client for his platform (assuming that
-platform is supported by the project).  When the core client requests work
-from the project's scheduling server, the client tells the server its
-platform, and the server instructs it to download the appropriate
-executables.
+The BOINC core client is available for common platforms
+(Windows/Intel, Linux/Intel, Mac OS/X. etc.) from
+<a href=download.php>this web site</a>.
+BOINC-based projects compile program versions for some or all of these platforms
+and place them on their servers.
+Typically, you download the BOINC core client version for your platform.
+When the core client requests work from the project's scheduling server,
+the client tells the server its platform,
+and the server instructs it to download the appropriate program version.
 <p>
 This addresses the needs of most BOINC participants, but it's inadequate if:
 <ul>
 <li>
-your computers have platforms not supported by the project;
+your computers have platforms not supported by BOINC
+or by the project;
 <li>
 for security reasons, you want to only run executables you have compiled
 yourself;
@@ -30,34 +33,39 @@ you want to optimize applications for particular architectures.
 </ul>
 
 <p>
-To handle these cases, BOINC lets you make or obtain
-the client software yourself rather than downloading it.
-<p>
-First, get the BOINC client software for your computer.
-You can do this in either of two ways:
+To handle these cases, BOINC lets you make the client software yourself,
+or obtain it from a third party,
+rather than downloading it from its 'official' source.
+This applies to both the core client and to project-specific applications.
 
+<h3>BOINC client software</h3>
+<p>
+You can get the BOINC client software in any of three ways:
 
 <ul>
+<li> <a href=download.php>Download an executable</a> it from this web site.
 <li>
-<a href=compile.php>Download and compile</a>
-the BOINC client software on your computer.
+<a href=compile.php>Download the source code and compile it yourself</a>
+on your computer.
 <li>
-If available, download BOINC executablers for your
+Download BOINC executables for your
 computer from a third-party source.
 A list of such sources is <a href=download_other.php>here</a>.
 </ul>
 
-Second, get the project's application for your computer.
-Again, you can either compile it yourself
-or download the executable from a third party.
-The details vary between projects,
-and not all projects make their source code available.
+<h3>Project-specific applications</h3>
+<p>
+Not all BOINC projects make their source code available.
+The following applies only to projects that make their source code available.
 As an example, instructions for SETI@home are
 <a href=http://setiweb.ssl.berkeley.edu/sah_porting.php>here</a>.
 
 <p>
-Finally:
 <ul>
+<li>
+Either get the application source code and compile it yourself,
+or download an executable from a third party.
+
 <li>
 Run the core client and attach to the project.  This will create a
 'project directory' (whose name is the project URL) in the BOINC
@@ -95,8 +103,10 @@ for those applications.
 </ul>
 
 <p>
-This model is possible only with projects that make their application source
-code available.
+<b>
+Note: if you decide to switch back to using the project-supplied
+executables, you must delete the app_info.xml file, then reset the project.
+</b>
 <p>
 You may want to check out the following email lists (e.g. the port may
 already exist):

@@ -59,7 +59,6 @@ htmlspecialchars("
     [ <nowork_skip> N </nowork_skip> ]
     [ <sched_lockfile_dir> path </sched_lockfile_dir> ]
     [ <min_passwd_length> N </min_passwd_length> ]
-    [ <client_account_creation_disabled/> ]
     [ <fp_benchmark_weight> X </fp_benchmark_weight> ]
     [ <default_disk_max_used_gb> X </default_disk_max_used_gb> ]
     [ <default_disk_max_used_pct> X </default_disk_max_used_pct> ]
@@ -283,13 +282,6 @@ list_item("nowork_skip",
 );
 list_item("min_passwd_length",
     "Minimum length of user passwords.  Default is 6."
-);
-list_item("client_account_creation_disabled",
-    "If set, this project doesn't support the web RPCs for
-    looking up and creating accounts.
-    This is a temporary kludge as we transition from
-    version 4 to version 5 software.
-    It should be removed by 12/2005 or so."
 );
 list_item("fp_benchmark_weight",
     "The weighting given to the Whetstone benchmark

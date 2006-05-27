@@ -41,6 +41,16 @@ if ($teamid) {
     $project_prefs = "";
 }
 
+if(defined('INVITE_CODES')) {
+    $invite_code = process_user_text($_POST["invite_code"]);
+    if (strlen($invite_code)==0) {
+        show_error( tr(AC_INVITE_REQUIRED) );
+    }
+    if (!preg_match(INVITE_CODES, $invite_code)) {
+        show_error( tr(AC_INVITE_INVALID) );
+    }
+} 
+
 $new_name = process_user_text($_POST["new_name"]);
 if (strlen($new_name)==0) {
     show_error("You must supply a name for your account");
