@@ -5187,3 +5187,12 @@ David  27 May 2006
             create_account_action.php
             create_account_form.php
             get_project_config.php
+
+David  28 May 2006
+    - Add account manager URL to APP_INIT_DATA structure
+        (so that apps can see what acct mgr is being used, if they want)
+
+    client/
+        app_start.C
+    lib/
+        app_ipc.C,h

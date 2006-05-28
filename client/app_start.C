@@ -161,6 +161,7 @@ int ACTIVE_TASK::write_app_init_file() {
     aid.app_version = app_version->version_num;
     safe_strcpy(aid.app_name, wup->app->name);
     safe_strcpy(aid.symstore, wup->project->symstore);
+    safe_strcpy(aid.acct_mgr_url, gstate.acct_mgr_info.acct_mgr_url);
     safe_strcpy(aid.user_name, wup->project->user_name);
     safe_strcpy(aid.team_name, wup->project->team_name);
     if (wup->project->project_specific_prefs.length()) {

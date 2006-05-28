@@ -162,6 +162,7 @@ struct APP_INIT_DATA {
     int app_version;
     char app_name[256];
     char symstore[256];
+    char acct_mgr_url[256];
     char* project_preferences;
     int userid;
     int teamid;
