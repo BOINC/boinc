@@ -81,3 +81,10 @@ David  26 May 2006
     sleeper/
         sleeper.C
         Makefile
+
+David  29 May 2006
+    - moved wrapper application here from boinc/apps
+
+    wrapper/
+        wrapper.C
+        Makefile
