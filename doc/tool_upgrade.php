@@ -16,7 +16,7 @@ The steps in upgrading are as follows:
 <ol>
 <li> (Optional) stop the project,
     and make backups of the project database and the project tree.
-<li> Download (using CVS) the current source code.
+<li> <a href=source_code.php>Download</a> (using CVS) the current source code.
 Compile it in your BOINC source directory.
 <li> 
 Run the <code>upgrade</code> script:

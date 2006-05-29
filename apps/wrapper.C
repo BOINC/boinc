@@ -52,6 +52,7 @@
 
 #include "boinc_api.h"
 #include "filesys.h"
+#include "parse.h"
 #include "util.h"
 #include "error_numbers.h"
 
@@ -62,7 +63,11 @@ vector<string> input_files;
 vector<string> output_files;
 string application;
 bool first = true;
+#ifdef _WIN32
+HANDLE pid_handle;
+#else
 int pid;
+#endif
 bool app_suspended = false;
 
 int copy_input_files() {
@@ -88,11 +93,38 @@ int copy_output_files() {
 }
 
 int parse_job_file() {
-    char buf[1024];
+    char tag[256], contents[1024], buf[256];
     boinc_resolve_filename("job.xml", buf, 1024);
     FILE* f = boinc_fopen(buf, "r");
+    if (!f) return ERR_FOPEN;
+    get_tag(f, tag);
+    if (strstr(tag, "?xml")) get_tag(f, tag);
+    if (strcmp(tag, "job_desc")) return ERR_XML_PARSE;
+    while(get_tag(f, tag, contents)) {
+        if (!strcmp(tag, "/job_desc")) {
+            return 0;
+        }
+        if (!strcmp(tag, "application")) {
+            application = contents;
+            continue;
+        }
+        if (!strcmp(tag, "input_file")) {
+            string temp = contents;
+            input_files.push_back(temp);
+            continue;
+        }
+        if (!strcmp(tag, "output_file")) {
+            string temp = contents;
+            output_files.push_back(temp);
+            continue;
+        }
+    }
+    return ERR_XML_PARSE;
 }
 
+// the "state file" might tell us which app we're in the middle of,
+// what the starting CPU time is, etc.
+//
 void parse_state_file() {
 }
 
@@ -100,22 +132,51 @@ int run_application(char** argv) {
     int retval;
 
 #ifdef _WIN32
+    PROCESS_INFORMATION process_info;
+    STARTUPINFO startup_info;
+    memset(&process_info, 0, sizeof(process_info));
+    memset(&startup_info, 0, sizeof(startup_info));
+             
+    if (!CreateProcess(exec_path,
+        (LPSTR)application.c_str(),
+        NULL,
+        NULL,
+        FALSE,
+        CREATE_NO_WINDOW|IDLE_PRIORITY_CLASS,
+        NULL,
+        NULL,
+        &startup_info,
+        &process_info
+    )) {
+        return ERR_EXEC;
+    }
 #else
-    char progname[256];
+    char progname[256], buf[256];
     pid = fork();
     if (pid == -1) {
         boinc_finish(ERR_FORK);
     }
     if (pid == 0) {
         strcpy(progname, application.c_str());
-        retval = execv(progname, argv);
+        boinc_resolve_filename(progname, buf, sizeof(buf));
+        printf("running %s\n", buf);
+        argv[0] = buf;
+        retval = execv(buf, argv);
         exit(ERR_EXEC);
     }
 #endif
+    return 0;
 }
 
 bool poll_application(int& status) {
 #ifdef _WIN32
+    unsigned long exit_code;
+    if (GetExitCodeProcess(pid_handle, &exit_code)) {
+        if (exit_code != STILL_ACTIVE) {
+            return true;
+            status = exit_code;
+        }
+    }
 #else
     int wpid, stat;
     wpid = waitpid(pid, &stat, WNOHANG);
@@ -129,6 +190,7 @@ bool poll_application(int& status) {
 
 void kill_app() {
 #ifdef _WIN32
+    TerminateProcess(pid_handle, -1);
 #else
     kill(pid, SIGKILL);
 #endif
@@ -174,6 +236,7 @@ int main(int argc, char** argv) {
     boinc_init_options(&options);
     retval = parse_job_file();
     if (retval) {
+        fprintf(stderr, "can't parse job file: %d\n", retval);
         boinc_finish(retval);
     }
 
@@ -184,6 +247,10 @@ int main(int argc, char** argv) {
     }
 
     retval = run_application(argv);
+    if (retval) {
+        fprintf(stderr, "can't run app: %d\n", retval);
+        boinc_finish(retval);
+    }
     while(1) {
         int status;
         if (poll_application(status)) {
