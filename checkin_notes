@@ -85,6 +85,9 @@ David  26 May 2006
 David  29 May 2006
     - moved wrapper application here from boinc/apps
 
+	win_build
+		sleeper.vcproj
+		wrapper.vcproj
     wrapper/
         wrapper.C
         Makefile

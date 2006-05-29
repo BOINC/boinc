@@ -65,6 +65,7 @@ string application;
 bool first = true;
 #ifdef _WIN32
 HANDLE pid_handle;
+HANDLE thread_handle;
 #else
 int pid;
 #endif
@@ -129,15 +130,13 @@ void parse_state_file() {
 }
 
 int run_application(char** argv) {
-    int retval;
-
 #ifdef _WIN32
     PROCESS_INFORMATION process_info;
     STARTUPINFO startup_info;
     memset(&process_info, 0, sizeof(process_info));
     memset(&startup_info, 0, sizeof(startup_info));
              
-    if (!CreateProcess(exec_path,
+    if (!CreateProcess(application.c_str(),
         (LPSTR)application.c_str(),
         NULL,
         NULL,
@@ -150,7 +149,10 @@ int run_application(char** argv) {
     )) {
         return ERR_EXEC;
     }
+    pid_handle = process_info.hProcess;
+    thread_handle = process_info.hThread;
 #else
+    int retval;
     char progname[256], buf[256];
     pid = fork();
     if (pid == -1) {
@@ -184,8 +186,8 @@ bool poll_application(int& status) {
         status = stat;
         return true;
     }
-    return false;
 #endif
+    return false;
 }
 
 void kill_app() {
@@ -193,6 +195,22 @@ void kill_app() {
     TerminateProcess(pid_handle, -1);
 #else
     kill(pid, SIGKILL);
+#endif
+}
+
+void stop_app() {
+#ifdef _WIN32
+    SuspendThread(thread_handle);
+#else
+    kill(pid, SIGSTOP);
+#endif
+}
+
+void resume_app() {
+#ifdef _WIN32
+    ResumeThread(thread_handle);
+#else
+    kill(pid, SIGCONT);
 #endif
 }
 
@@ -204,21 +222,21 @@ void poll_boinc_messages() {
         exit(0);
     }
     if (status.quit_request) {
-        kill(pid, SIGKILL);
+        kill_app();
         exit(0);
     }
     if (status.abort_request) {
-        kill(pid, SIGKILL);
+        kill_app();
         exit(0);
     }
     if (status.suspended) {
         if (!app_suspended) {
-            kill(pid, SIGSTOP);
+            stop_app();
             app_suspended = true;
         }
     } else {
         if (app_suspended) {
-            kill(pid, SIGCONT);
+            resume_app();
             app_suspended = false;
         }
     }
@@ -261,3 +279,16 @@ int main(int argc, char** argv) {
         boinc_sleep(1.);
     }
 }
+
+#ifdef _WIN32
+
+int WINAPI WinMain(HINSTANCE hInst, HINSTANCE hPrevInst, LPSTR Args, int WinMode) {
+    LPSTR command_line;
+    char* argv[100];
+    int argc;
+
+    command_line = GetCommandLine();
+    argc = parse_command_line( command_line, argv );
+    return main(argc, argv);
+}
+#endif
