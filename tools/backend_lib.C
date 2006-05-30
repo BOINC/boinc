@@ -393,7 +393,9 @@ int create_result(
     sprintf(result.name, "%s_%s", wu.name, result_name_suffix);
     sprintf(base_outfile_name, "%s_", result.name);
 
-    retval = read_filename(result_template_filename, result_template, sizeof(result_template));
+    retval = read_filename(
+        result_template_filename, result_template, sizeof(result_template)
+    );
     if (retval) {
         fprintf(stderr,
             "Failed to read result template file '%s': %d\n",
@@ -408,6 +410,9 @@ int create_result(
         base_outfile_name,
         config
     );
+    if (retval) {
+        fprintf(stderr, "process_result_template() error: %d\n", retval);
+    }
     if (strlen(result_template) > sizeof(result.xml_doc_in)-1) {
         fprintf(stderr,
             "result XML doc is too long: %d bytes, max is %d\n",

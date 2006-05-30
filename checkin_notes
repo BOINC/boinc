@@ -5221,3 +5221,14 @@ Rom    29 May 2006
         
     lib/
         diagnostics_win.C    
+
+David  30 May 2006
+    - Transitioner: check return value of process_result_template()
+        (e.g. if upload certificate generation fails)
+    - move wrapper.C to boinc_samples
+
+    apps/
+        Makefile.am
+        wrapper.C (removed)
+    tools/
+        backend_lib.C
