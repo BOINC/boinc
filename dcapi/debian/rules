@@ -41,6 +41,8 @@ config.status: configure
 		--disable-maintainer-mode \
 		--disable-backend-clgr \
 		--enable-gtk-doc \
+		--disable-backend-condor \
+		--disable-backend-local \
 		--with-html-dir=/usr/share/doc/libdcapi-doc/html \
 		CFLAGS="$(CFLAGS)" \
 		CXXFLAGS="$(CXXFLAGS)"
