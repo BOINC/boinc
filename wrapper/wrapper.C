@@ -242,6 +242,41 @@ void poll_boinc_messages() {
     }
 }
 
+double cpu_time() {
+#ifdef _WIN32
+    FILETIME creation_time, exit_time, kernel_time, user_time;
+    ULARGE_INTEGER tKernel, tUser;
+    LONGLONG totTime;
+
+    GetProcessTimes(
+        pid_handle, &creation_time, &exit_time, &kernel_time, &user_time
+    );
+
+    tKernel.LowPart  = kernel_time.dwLowDateTime;
+    tKernel.HighPart = kernel_time.dwHighDateTime;
+    tUser.LowPart    = user_time.dwLowDateTime;
+    tUser.HighPart   = user_time.dwHighDateTime;
+    totTime = tKernel.QuadPart + tUser.QuadPart;
+
+    double cpu = totTime / 1.e7;
+    return cpu;
+#else
+    static double t=0, cpu;
+    if (t) {
+        double now = dtime();
+        cpu += now-t;
+        t = now;
+    } else {
+        t = dtime();
+    }
+    return cpu;
+#endif
+}
+
+void send_status_message() {
+    boinc_report_app_status(cpu_time(), 0, 0);
+}
+
 int main(int argc, char** argv) {
     BOINC_OPTIONS options;
     int retval;
@@ -276,6 +311,7 @@ int main(int argc, char** argv) {
             boinc_finish(status);
         }
         poll_boinc_messages();
+        send_status_message();
         boinc_sleep(1.);
     }
 }
