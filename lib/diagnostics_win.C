@@ -587,17 +587,48 @@ int diagnostics_update_thread_list() {
     return retval;
 }
 
-#ifdef _MSC_VER
 
-// Set the current threads name to make it easy to know what the
-//   thread is supposed to be doing.
-typedef struct tagTHREADNAME_INFO
-{
-    DWORD dwType; // must be 0x1000
-    LPCSTR szName; // pointer to name (in user addr space)
+// Setting the current threads name happens in two places.  Once for
+//   us and once for any full featured debugger that might be attached
+//   and listening.  The full featured debuggers expect an exception
+//   to be rasied with a special exception code.  When the debugger
+//   sees the exception code it extracts the thread name from the
+//   exception data block marshalled to the debugger by Windows.
+//
+// After the debugger is done it should resume the application
+//   where it left off.
+//
+// See KB Article:
+//   http://msdn.microsoft.com/en-us/library/xcb2z8hs.aspx
+//
+// The orginal implementation requires that the compiler understands
+//   SEH, which is a problem for those using compilers that only want
+//   to deal with "Standard C/C++".
+//
+// Work around the problem by using a special unhandled exception
+//   filter which will look for the special exception and ignore it
+//   should the debugger pass it back to the application.  All other
+//   exceptions will be passed to the original unhandled ception
+//   filter for processing.
+//
+typedef struct tagTHREADNAME_INFO {
+    DWORD dwType;     // must be 0x1000
+    LPCSTR szName;    // pointer to name (in user addr space)
     DWORD dwThreadID; // thread ID (-1=caller thread)
-    DWORD dwFlags; // reserved for future use, must be zero
+    DWORD dwFlags;    // reserved for future use, must be zero
 } THREADNAME_INFO;
+
+static LPTOP_LEVEL_EXCEPTION_FILTER pPreviousExceptionHandler = NULL;
+
+LONG CALLBACK set_thread_name_exception_filter(PEXCEPTION_POINTERS pExPtrs) {
+    if ( 0x406D1388 == pExPtrs->ExceptionRecord->ExceptionCode) {
+        // This is the special exception code used to name threads
+        //   within a debugger.  If no debugger is attached, then
+        //   continue execution of the application.
+        return EXCEPTION_CONTINUE_EXECUTION;
+    }
+    return pPreviousExceptionHandler(pExPtrs);
+}
 
 void SetThreadName( DWORD dwThreadID, LPCSTR szThreadName )
 {
@@ -607,14 +638,15 @@ void SetThreadName( DWORD dwThreadID, LPCSTR szThreadName )
     info.dwThreadID = dwThreadID;
     info.dwFlags = 0;
 
-    __try
-    {
-        RaiseException( 0x406D1388, 0, sizeof(info)/sizeof(DWORD), (DWORD*)&info );
-    }
-    __except(EXCEPTION_CONTINUE_EXECUTION){}
-}
+    pPreviousExceptionHandler = SetUnhandledExceptionFilter(set_thread_name_exception_filter);
 
-#endif
+    // Pass the thread name off to a debugger where the debugger will read
+    //   the exception data block and extract the thread name.  After
+    //   processing the thread name the application should resume normally.
+    RaiseException( 0x406D1388, 0, sizeof(info)/sizeof(DWORD), (DWORD*)&info );
+
+    SetUnhandledExceptionFilter(pPreviousExceptionHandler);
+}
 
 int diagnostics_set_thread_name( char* name ) {
     HANDLE hThread;
@@ -648,13 +680,11 @@ int diagnostics_set_thread_name( char* name ) {
         diagnostics_threads.push_back(pThreadEntry);
     }
 
-    // Release the Mutex
-    ReleaseMutex(hThreadListSync);
-
-#ifdef _MSC_VER
     // Set the thread name in the debugger
     SetThreadName(pThreadEntry->thread_id, pThreadEntry->name);
-#endif
+
+    // Release the Mutex
+    ReleaseMutex(hThreadListSync);
 
     return 0;
 }

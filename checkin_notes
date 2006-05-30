@@ -5214,3 +5214,10 @@ Rom    29 May 2006
         
     lib/
         diagnostics_win.C, .h
+
+Rom    29 May 2006
+    - Bug Fix: Implemented the thread naming code for compilers that do not
+        understand SEH exceptions.
+        
+    lib/
+        diagnostics_win.C    
