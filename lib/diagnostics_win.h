@@ -143,6 +143,8 @@ typedef enum _THREAD_WAIT_REASON {
 #define FACILITY_VISUALCPP  ((LONG)0x6d)
 #define VcppException(sev,err)  ((sev) | (FACILITY_VISUALCPP<<16) | err)
 
+typedef DWORD  RVA;
+
 typedef struct ImgDelayDescr {
     DWORD           grAttrs;        // attributes
     RVA             rvaDLLName;     // RVA to dll name

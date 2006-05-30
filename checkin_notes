@@ -5202,3 +5202,15 @@ David  29 May 2006
 
     apps/
         wrapper.C
+
+Rom    29 May 2006
+    - Bug Fix: MinGW doesn't define RVA so define it.
+    - Bug Fix: When building under something other than a Microsoft compiler
+        comment out some of the thread naming code so that other compilers
+        can be happy.  At some point we should revisit this as a project
+        who builds with MinGW may need somebody to debug their application
+        with the Debugging Tools for Windows which does understand the
+        thread naming convention.
+        
+    lib/
+        diagnostics_win.C, .h

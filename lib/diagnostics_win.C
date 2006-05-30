@@ -587,33 +587,34 @@ int diagnostics_update_thread_list() {
     return retval;
 }
 
+#ifdef _MSC_VER
 
 // Set the current threads name to make it easy to know what the
 //   thread is supposed to be doing.
 typedef struct tagTHREADNAME_INFO
 {
-   DWORD dwType; // must be 0x1000
-   LPCSTR szName; // pointer to name (in user addr space)
-   DWORD dwThreadID; // thread ID (-1=caller thread)
-   DWORD dwFlags; // reserved for future use, must be zero
+    DWORD dwType; // must be 0x1000
+    LPCSTR szName; // pointer to name (in user addr space)
+    DWORD dwThreadID; // thread ID (-1=caller thread)
+    DWORD dwFlags; // reserved for future use, must be zero
 } THREADNAME_INFO;
 
-void SetThreadName( DWORD dwThreadID, LPCSTR szThreadName)
+void SetThreadName( DWORD dwThreadID, LPCSTR szThreadName )
 {
-   THREADNAME_INFO info;
-   info.dwType = 0x1000;
-   info.szName = szThreadName;
-   info.dwThreadID = dwThreadID;
-   info.dwFlags = 0;
+    THREADNAME_INFO info;
+    info.dwType = 0x1000;
+    info.szName = szThreadName;
+    info.dwThreadID = dwThreadID;
+    info.dwFlags = 0;
 
-   __try
-   {
-      RaiseException( 0x406D1388, 0, sizeof(info)/sizeof(DWORD), (DWORD*)&info );
-   }
-   __except(EXCEPTION_CONTINUE_EXECUTION)
-   {
-   }
+    __try
+    {
+        RaiseException( 0x406D1388, 0, sizeof(info)/sizeof(DWORD), (DWORD*)&info );
+    }
+    __except(EXCEPTION_CONTINUE_EXECUTION){}
 }
+
+#endif
 
 int diagnostics_set_thread_name( char* name ) {
     HANDLE hThread;
@@ -650,8 +651,10 @@ int diagnostics_set_thread_name( char* name ) {
     // Release the Mutex
     ReleaseMutex(hThreadListSync);
 
+#ifdef _MSC_VER
     // Set the thread name in the debugger
     SetThreadName(pThreadEntry->thread_id, pThreadEntry->name);
+#endif
 
     return 0;
 }
