@@ -170,8 +170,8 @@ void worker() {
         }
 
         if (random_crash) {
-            boinc_sleep(1.);
             if (drand() < 0.05) {
+                boinc_sleep(5.0);
 #ifdef _WIN32
                 DebugBreak();
 #endif
@@ -208,7 +208,9 @@ void worker() {
 }
 
 int main(int argc, char **argv) {
-    int i, retval;
+    int i;
+    int retval = 0;
+    bool nographics_flag = false;
 
     boinc_init_diagnostics(
         BOINC_DIAG_DUMPCALLSTACKENABLED |
@@ -217,6 +219,27 @@ int main(int argc, char **argv) {
         BOINC_DIAG_TRACETOSTDERR |
         BOINC_DIAG_REDIRECTSTDERR
     );
+
+    // Write through to disk
+    setbuf(stderr, 0);
+
+#ifdef _WIN32
+	// Attempt to load the dlls that are required to display graphics, if
+	// any of them fail do not start the application in graphics mode.
+	if (FAILED(__HrLoadAllImportsForDll("GDI32.dll"))) {
+	   fprintf( stderr, "Failed to load GDI32.DLL...\n" );
+	   nographics_flag = true;
+	}
+	if (FAILED(__HrLoadAllImportsForDll("OPENGL32.dll"))) {
+	   fprintf( stderr, "Failed to load OPENGL32.DLL...\n" );
+	   nographics_flag = true;
+	}
+	if (FAILED(__HrLoadAllImportsForDll("GLU32.dll"))) {
+	   fprintf( stderr, "Failed to load GLU32.DLL...\n" );
+	   nographics_flag = true;
+	}
+#endif
+
 
     // NOTE: if you change output here, remember to change the output that
     // test_uc.py pattern-matches against.
@@ -232,10 +255,13 @@ int main(int argc, char **argv) {
 
 #ifdef BOINC_APP_GRAPHICS
 #if defined(_WIN32) || defined(__APPLE__)
-    retval = boinc_init_graphics(worker);
+    if (!nographics_flag) {
+        retval = boinc_init_graphics(worker);
+    }
 #else
-    setbuf(stderr, 0);
-    retval = boinc_init_graphics_lib(worker, argv[0]);
+    if (!nographics_flag) {
+        retval = boinc_init_graphics_lib(worker, argv[0]);
+    }
 #endif
     if (retval) exit(retval);
 #else

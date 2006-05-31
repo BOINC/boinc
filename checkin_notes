@@ -91,3 +91,9 @@ David  29 May 2006
     wrapper/
         wrapper.C
         Makefile
+
+Rom    31 May 2006
+    - Demonstrate delay load functionality on graphics libraries for Windows.
+    
+	uppercase/
+        uc_graphics.C
