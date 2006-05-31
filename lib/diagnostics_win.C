@@ -620,18 +620,23 @@ typedef struct tagTHREADNAME_INFO {
 
 static LPTOP_LEVEL_EXCEPTION_FILTER pPreviousExceptionHandler = NULL;
 
-LONG CALLBACK set_thread_name_exception_filter(PEXCEPTION_POINTERS pExPtrs) {
+LONG WINAPI set_thread_name_exception_filter(PEXCEPTION_POINTERS pExPtrs) {
     if ( 0x406D1388 == pExPtrs->ExceptionRecord->ExceptionCode) {
         // This is the special exception code used to name threads
         //   within a debugger.  If no debugger is attached, then
         //   continue execution of the application.
         return EXCEPTION_CONTINUE_EXECUTION;
     }
+    if (!pPreviousExceptionHandler) {
+        // This can happen if the default unhandled exception filter
+        //   hasn't been initialized yet.  No since dereferencing a
+        //   NULL pointer.
+        return EXCEPTION_CONTINUE_SEARCH;
+    }
     return pPreviousExceptionHandler(pExPtrs);
 }
 
-void SetThreadName( DWORD dwThreadID, LPCSTR szThreadName )
-{
+void SetThreadName( DWORD dwThreadID, LPCSTR szThreadName ) {
     THREADNAME_INFO info;
     info.dwType = 0x1000;
     info.szName = szThreadName;
@@ -1303,6 +1308,7 @@ typedef struct _BOINC_WINDOWCAPTURE {
 
 static HANDLE hExceptionMonitorThread = NULL;
 static HANDLE hExceptionMonitorHalt = NULL;
+static HANDLE hExceptionMonitorStartedEvent = NULL;
 static HANDLE hExceptionDetectedEvent = NULL;
 static HANDLE hExceptionQuitEvent = NULL;
 static HANDLE hExceptionQuitFinishedEvent = NULL;
@@ -1324,6 +1330,15 @@ int diagnostics_init_unhandled_exception_monitor() {
     if (!hExceptionMonitorHalt) {
         fprintf(
             stderr, "diagnostics_init_unhandled_exception_monitor(): Creating hExceptionMonitorHalt failed, GLE %d\n", GetLastError()
+        );
+    }
+
+    // The following event is thrown by the exception monitoring thread
+    //   right before it waits for the hExceptionDetectedEvent event.
+    hExceptionMonitorStartedEvent = CreateEvent(NULL, FALSE, FALSE, NULL);
+    if (!hExceptionMonitorStartedEvent) {
+        fprintf(
+            stderr, "diagnostics_init_unhandled_exception_monitor(): Creating hExceptionMonitorStartedEvent failed, GLE %d\n", GetLastError()
         );
     }
 
@@ -1376,6 +1391,12 @@ int diagnostics_init_unhandled_exception_monitor() {
             stderr, "WARNING: BOINC Windows Runtime Debugger has been disabled.\n"
         );
         retval = ERR_THREAD;
+    } else {
+
+        // Wait until the exception monitor is ready for business.
+        //
+        WaitForSingleObject(hExceptionMonitorStartedEvent, INFINITE);
+
     }
 
     return retval;
@@ -1790,10 +1811,13 @@ UINT WINAPI diagnostics_unhandled_exception_monitor(LPVOID lpParameter) {
     //   at bay until we are ready to deal with them.
     WaitForSingleObject(hExceptionMonitorHalt, INFINITE);
 
-
     // Which events do we want to wait for?
     hEvents[0] = hExceptionQuitEvent;
     hEvents[1] = hExceptionDetectedEvent;
+
+    // Notify the initialization thread that initialization is complete and now
+    //  we are waiting for an exception event.
+    SetEvent(hExceptionMonitorStartedEvent);
 
     while (bContinue) {
         dwEvent = WaitForMultipleObjects( 

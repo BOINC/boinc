@@ -5232,3 +5232,11 @@ David  30 May 2006
         wrapper.C (removed)
     tools/
         backend_lib.C
+
+Rom    29 May 2006
+    - Bug Fix: Wait until the exception monitor has finished initializing
+        before finishing boinc_diagnostics_init() in case the very next thing
+        the program does is throw an exception.
+        
+    lib/
+        diagnostics_win.C    
