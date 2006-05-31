@@ -119,11 +119,11 @@ void DB_PLATFORM::db_print(char* buf){
 void DB_PLATFORM::db_parse(MYSQL_ROW &r) {
     int i=0;
     clear();
-    id=atol(r[i++]);
-    create_time=atol(r[i++]);
+    id = atoi(r[i++]);
+    create_time = atoi(r[i++]);
     strcpy2(name, r[i++]);
     strcpy2(user_friendly_name, r[i++]);
-    deprecated=atol(r[i++]);
+    deprecated = atoi(r[i++]);
 }
 
 void DB_APP::db_print(char* buf){
@@ -138,7 +138,7 @@ void DB_APP::db_print(char* buf){
 void DB_APP::db_parse(MYSQL_ROW &r) {
     int i=0;
     clear();
-    id=atol(r[i++]);
+    id = atoi(r[i++]);
     create_time = atoi(r[i++]);
     strcpy2(name, r[i++]);
     min_version = atoi(r[i++]);
@@ -161,7 +161,7 @@ void DB_APP_VERSION::db_print(char* buf){
 void DB_APP_VERSION::db_parse(MYSQL_ROW &r) {
     int i=0;
     clear();
-    id=atol(r[i++]);
+    id = atoi(r[i++]);
     create_time = atoi(r[i++]);
     appid = atoi(r[i++]);
     version_num = atoi(r[i++]);
@@ -382,7 +382,7 @@ void DB_HOST::db_print(char* buf){
 void DB_HOST::db_parse(MYSQL_ROW &r) {
     int i=0;
     clear();
-    id=atol(r[i++]);
+    id = atoi(r[i++]);
     create_time = atoi(r[i++]);
     userid = atoi(r[i++]);
     rpc_seqno = atoi(r[i++]);
@@ -646,7 +646,7 @@ void DB_WORKUNIT::db_print(char* buf){
 void DB_WORKUNIT::db_parse(MYSQL_ROW &r) {
     int i=0;
     clear();
-    id=atol(r[i++]);
+    id = atoi(r[i++]);
     create_time = atoi(r[i++]);
     appid = atoi(r[i++]);
     strcpy2(name, r[i++]);
@@ -758,7 +758,7 @@ int DB_RESULT::mark_as_sent(int old_server_state) {
 void DB_RESULT::db_parse(MYSQL_ROW &r) {
     int i=0;
     clear();
-    id=atol(r[i++]);
+    id = atoi(r[i++]);
     create_time = atoi(r[i++]);
     workunitid = atoi(r[i++]);
     server_state = atoi(r[i++]);
@@ -807,9 +807,9 @@ void DB_MSG_FROM_HOST::db_print(char* buf) {
 void DB_MSG_FROM_HOST::db_parse(MYSQL_ROW& r) {
     int i=0;
     clear();
-    id = atol(r[i++]);
-    create_time = atol(r[i++]);
-    hostid = atol(r[i++]);
+    id = atoi(r[i++]);
+    create_time = atoi(r[i++]);
+    hostid = atoi(r[i++]);
     strcpy2(variety, r[i++]);
     handled = atoi(r[i++]);
     strcpy2(xml, r[i++]);
@@ -831,11 +831,11 @@ void DB_MSG_TO_HOST::db_print(char* buf) {
 void DB_MSG_TO_HOST::db_parse(MYSQL_ROW& r) {
     int i=0;
     clear();
-    id = atol(r[i++]);
-    create_time = atol(r[i++]);
-    hostid = atol(r[i++]);
+    id = atoi(r[i++]);
+    create_time = atoi(r[i++]);
+    hostid = atoi(r[i++]);
     strcpy2(variety, r[i++]);
-    handled = atol(r[i++]);
+    handled = atoi(r[i++]);
     strcpy2(xml, r[i++]);
 }
 
@@ -1128,10 +1128,8 @@ int DB_VALIDATOR_ITEM_SET::enumerate(
             "   res.sent_time, "
             "   res.received_time "
             "FROM "
-            "   workunit AS wu "
-            "       LEFT JOIN result AS res ON wu.id = res.workunitid "
-            "WHERE "
-            "   wu.appid = %d and wu.need_validate > 0 %s "
+            "   workunit AS wu, result AS res where wu.id = res.workunitid "
+            "   and wu.appid = %d and wu.need_validate > 0 %s "
             "LIMIT "
             "   %d ",
             priority, appid, mod_clause, nresult_limit
@@ -1227,7 +1225,7 @@ void WORK_ITEM::parse(MYSQL_ROW& r) {
     int i=0;
     memset(this, 0, sizeof(WORK_ITEM));
     res_id = atoi(r[i++]);
-    wu.id=atol(r[i++]);
+    wu.id = atoi(r[i++]);
     wu.create_time = atoi(r[i++]);
     wu.appid = atoi(r[i++]);
     strcpy2(wu.name, r[i++]);
@@ -1263,9 +1261,9 @@ int DB_WORK_ITEM::enumerate(
     MYSQL_ROW row;
     if (!cursor.active) {
         sprintf(query,
-            "select high_priority result.id, workunit.* from result left join workunit "
-            "on workunit.id = result.workunitid "
-            "where result.server_state=%d "
+            "select high_priority result.id, workunit.* from result, workunit "
+            "where workunit.id = result.workunitid "
+            "and result.server_state=%d "
             " %s "
             " %s "
             "limit %d",
@@ -1280,7 +1278,9 @@ int DB_WORK_ITEM::enumerate(
         if (!cursor.rp) return mysql_errno(db->mysql);
         cursor.active = true;
     }
+again:
     row = mysql_fetch_row(cursor.rp);
+
     if (!row) {
         mysql_free_result(cursor.rp);
         cursor.active = false;

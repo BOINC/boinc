@@ -1,6 +1,19 @@
 <?
 
 $project_news = array(
+array("May 31, 2006",
+    "Recent newspaper articles on BOINC and Rosetta@home:
+    <a href=http://seattletimes.nwsource.com/html/localnews/2003027071_computersider30m.html>Worldwide, 690,000 help computer effort</a> and
+    <a href=http://seattlepi.nwsource.com/local/6420AP_WA_Research_at_Home.html>Medical researcher taps the power of home computing</a>."
+),
+array("May 30, 2006",
+    "The <a href=http://bam.boincstats.com>BOINCStats Account Manager</a>
+    (BAM!) is now available for use.
+    BAM! provides 'one-stop shopping' for finding
+    and attaching to BOINC project;
+    see the news item of May 11.
+    Thanks to Willy de Zutter for developing BAM!."
+),
 array("May 25, 2006",
     "BOINC has added preliminary support for 'low-latency' computing;
     e.g. delay bounds of minutes rather than days.

@@ -5240,3 +5240,20 @@ Rom    29 May 2006
         
     lib/
         diagnostics_win.C    
+
+David  31 May 2006
+    - database code: the following functions
+        DB_VALIDATOR_ITEM_SET::enumerate()
+        DB_WORK_ITEM::enumerate()
+        were using a left join on (workunit, result) or (result, workunit),
+        then parsing the result in a way that would crash
+        if only one item was present
+        (e.g. if there's a WU without corresponding result, or vice-versa).
+
+        Solution: replaced "left join" with a "natural join", i.e.
+        select ... from workunit, result where ...
+
+    db/
+        boinc_db.C
+    sched/
+        sched_config.C

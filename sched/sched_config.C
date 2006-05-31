@@ -112,6 +112,7 @@ int SCHED_CONFIG::parse(FILE* f) {
         else if (!strcmp(tag, "output_level")) continue;
         else if (!strcmp(tag, "profile_screening")) continue;
         else if (!strcmp(tag, "min_passwd_length")) continue;
+        else if (!strcmp(tag, "disable_account_creation")) continue;
         else fprintf(stderr, "unknown tag: %s\n", tag);
     }   
     return ERR_XML_PARSE;
