@@ -89,7 +89,7 @@ int DC_getMaxSubresults(void)
 	if (!dir)
 		return 0;
 	while ((d = readdir(dir)))
-		if (!strncasecmp(d->d_name, SUBRESULT_PFX, strlen(SUBRESULT_PFX)))
+		if (!strncmp(d->d_name, SUBRESULT_PFX, strlen(SUBRESULT_PFX)))
 			max_subresults++;
 	closedir(dir);
 	return max_subresults;
@@ -216,7 +216,7 @@ int DC_initClient(void)
 			fclose(f);
 	}
 
-	DC_log(LOG_DEBUG, "DC-API initializef for work unit %s", wu_name);
+	DC_log(LOG_INFO, "DC-API initialized for work unit %s", wu_name);
 
 	return 0;
 }
@@ -243,6 +243,8 @@ char *DC_resolveFileName(DC_FileType type, const char *logicalFileName)
 
 			snprintf(active_ckpt, sizeof(active_ckpt), "dc_ckpt_%d",
 				++ckpt_generation);
+			DC_log(LOG_DEBUG, "Opened new checkpoint file %s",
+				active_ckpt);
 			return strdup(active_ckpt);
 		}
 		else
@@ -330,6 +332,9 @@ int DC_sendResult(const char *logicalFileName, const char *path,
 		return DC_ERR_INTERNAL;
 	}
 
+	DC_log(LOG_INFO, "File %s (%s) has been scheduled for upload",
+		logicalFileName, label);
+
 	snprintf(msg, sizeof(msg), "%s:%s:%s:%s", DCAPI_MSG_PFX, DC_MSG_UPLOAD,
 		p, logicalFileName);
 	DC_sendMessage(msg);
@@ -386,11 +391,13 @@ static DC_ClientEvent *handle_special_msg(const char *message)
 				message + strlen(DC_MSG_CANCEL) + 1);
 			return NULL;
 		}
+		DC_log(LOG_NOTICE, "Received cancel request from the master");
 		client_state = STATE_FINISH;
 		return new_event(DC_CLIENT_FINISH);
 	}
 	if (!strcmp(message, DC_MSG_SUSPEND))
 	{
+		DC_log(LOG_NOTICE, "Received suspend request from the master");
 		client_state = STATE_SUSPEND;
 		return new_event(DC_CLIENT_CHECKPOINT);
 	}
@@ -408,7 +415,10 @@ DC_ClientEvent *DC_checkClientEvent(void)
 
 	/* Check for checkpoint requests */
 	if (boinc_time_to_checkpoint())
+	{
+		DC_log(LOG_DEBUG, "Core client requested checkpoint");
 		return new_event(DC_CLIENT_CHECKPOINT);
+	}
 
 	/* Check for messages */
 	buf = (char *)malloc(MAX_MESSAGE_SIZE);
@@ -445,6 +455,8 @@ DC_ClientEvent *DC_checkClientEvent(void)
 			free(msg);
 			return event;
 		}
+
+		DC_log(LOG_DEBUG, "Received trickle message");
 
 		event = new_event(DC_CLIENT_MESSAGE);
 		event->message = buf;
@@ -484,6 +496,8 @@ void DC_checkpointMade(const char *filename)
 		return;
 	}
 
+	DC_log(LOG_INFO, "Completed checkpoint %s", filename);
+
 	/* Remember which was the last completed checkpoint */
 	f = boinc_fopen(LAST_CKPT_FILE, "w");
 	if (f)
@@ -522,6 +536,9 @@ void DC_finishClient(int exitcode)
 		ret = link(last_complete_ckpt, path);
 		if (ret)
 			_DC_copyFile(last_complete_ckpt, path);
+
+		DC_log(LOG_DEBUG, "Uploading last complete checkpoint %s",
+			last_complete_ckpt);
 	}
 
 	/* Delete files that we have created */
@@ -531,12 +548,25 @@ void DC_finishClient(int exitcode)
 		unlink(active_ckpt);
 	unlink(LAST_CKPT_FILE);
 
+	/* Make sure the output is on disk */
+	DC_log(LOG_DEBUG, "Flushing stdout/stderr");
+	fflush(stdout);
+	fflush(stderr);
+
 	if (!boinc_resolve_filename(DC_LABEL_STDOUT, path, sizeof(path)))
+	{
+		DC_log(LOG_DEBUG, "Uploading stdout.txt");
 		_DC_copyFile("stdout.txt", path);
+	}
 
 	if (!boinc_resolve_filename(DC_LABEL_STDERR, path, sizeof(path)))
+	{
+		DC_log(LOG_DEBUG, "Uploading stderr.txt");
 		_DC_copyFile("stderr.txt", path);
+	}
 
+	DC_log(LOG_INFO, "DC-API: Application finished with exit code %d",
+		exitcode);
 	boinc_finish(exitcode);
 	/* We should never get here, but boinc_finish() is not marked
 	 * with "noreturn" so this avoids a GCC warning */
