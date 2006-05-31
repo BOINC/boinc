@@ -67,8 +67,8 @@ using namespace std;
 #define DEBUG_LEVEL  999
 #define MAX_FCGI_COUNT  20
 
-#define REQ_FILE_PREFIX "boinc_req_"
-#define REPLY_FILE_PREFIX "boinc_reply_"
+#define REQ_FILE_PREFIX "/tmp/boinc_req_"
+#define REPLY_FILE_PREFIX "/tmp/boinc_reply_"
 bool use_files = false;     // use disk files for req/reply msgs (for debugging)
 
 SCHED_CONFIG config;

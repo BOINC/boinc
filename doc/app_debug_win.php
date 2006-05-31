@@ -20,15 +20,16 @@ echo "
             <li><a href=\"#Debug Message Dump\">Debug Message Dump</a>
             <li><a href=\"#Foreground Window Data\">Foreground Window Data</a>
         </ul>
-    <li><a href=\"Common Issues\">Common Issues</a>
+    <li><a href=\"#Symbol Stores\">Symbol Stores</a>
+    <li><a href=\"#Common Issues\">Common Issues</a>
 </ul>
 
 <h3><a name=\"Anatomy of a Windows stack trace\">Anatomy of a Windows stack trace</a></h3>
-
 <h4><a name=\"Introduction\">Introduction</a></h4>
-
+<p>
+This section is going to describe what the output of a crash dump looks like and what it contains.
+<p>
 <h4><a name=\"Debugger version\">Debugger version</a></h4>
-
 <table width=100%>
   <tr>
     <td bgcolor=ddddff width=100%>
@@ -60,7 +61,6 @@ is a pretty good chance that most of the data in the dump will be useless.
 <p>
 
 <h4><a name=\"Module List\">Module List</a></h4>
-
 <table width=100%>
   <tr>
     <td bgcolor=ddddff width=100%>
@@ -76,14 +76,32 @@ ModLoad: 7c800000 000c0000 C:\\WINDOWS\\system32\\ntdll.dll (5.2.3790.1830) (PDB
   </tr>
 </table>
 <p>
-Information about which modules were loaded into the processes memory space can be 
-found here. The first hexdecimal value is the address in memory in which the module
-was loaded, the second hexdecimal is the size of the module.
+Information about which modules were loaded into the processes memory space can be found 
+here. The first hexadecimal value is the address in memory in which the module was loaded; 
+the second hexadecimal is the size of the module.
 <p>
-If a version record was found inside the module, it'll be dumped out as part of the
-module list dump.
+If a version record was found inside the module, it'll be dumped out as part of the module 
+list dump.
 <p>
-
+If the correct symbol file can be found, it'll display what symbol file type is in use. 
+The three most common symbol types in modern software are 'PDB', 'exports', and 
+'-no symbols-'. Symbol files are pretty large and so most projects do not like to include 
+them as part of the APP VERSION package.  Luckily Microsoft has created a technology called 
+Symbol Stores which enable an application to be able to grab its symbol file from a web 
+server at the time of a crash in a compressed format.  We will describe setting up a 
+symbol store later in this document.
+<p>
+PDB files are generated at compilation time and usually have to be turned on for release 
+builds. This file will contain all the needed information to generate a pretty good 
+callstack which you can use to diagnose problems.
+<p>
+Export symbols usually only appear on DLLs since DLLs can export function pointers via 
+the export table. When you see this in the module list you’ll only see functions which 
+are listed in the export table in the callstack.
+<p>
+No symbols means that the runtime debugger could not determine a way to give you any 
+symbolic information. You’ll only receive function pointers in the callstack.
+<p>
 <h4><a name=\"Process Information\">Process Information</a></h4>
 <table width=100%>
   <tr>
@@ -113,9 +131,12 @@ WorkingSetSize: 19210240, PeakWorkingSetSize: 26361856, PageFaultCount: 6729
     </td>
   </tr>
 </table>
-
+<p>
+This is some overall useful information about the process.  Most of the time the 
+'Virtual Memory', 'Pagefile', and 'Working Set' are the most useful indicications 
+of whether or not the process was under low available memory pressure from the OS.
+<p>
 <h4><a name=\"Thread Information\">Thread Information</a></h4>
-
 <table width=100%>
   <tr>
     <td bgcolor=ddddff width=100%>
@@ -125,9 +146,14 @@ WorkingSetSize: 19210240, PeakWorkingSetSize: 26361856, PageFaultCount: 6729
     </td>
   </tr>
 </table>
-
+<p>
+This identifies the thread for which additional information is going to be 
+displayed.  Both the thread name and thread ID are displayed.  To set the thread
+name for any thread you have created in your program just call
+diagnostics_set_thread_name() as defined in diagnostics.h to set the thread name
+for the currently executing thread.
+<p>
 <h5><a name=\"General Information\">General Information</a></h5>
-
 <table width=100%>
   <tr>
     <td bgcolor=ddddff width=100%>
@@ -138,9 +164,9 @@ Status: Waiting, Wait Reason: UserRequest, Kernel Time: 0.000000, User Time: 0.0
     </td>
   </tr>
 </table>
-
+<p>
+<p>
 <h5><a name=\"Unhandled Exception Record\">Unhandled Exception Record</a></h5>
-
 <table width=100%>
   <tr>
     <td bgcolor=ddddff width=100%>
@@ -151,9 +177,9 @@ Reason: Breakpoint Encountered (0x80000003) at address 0x7C822583
     </td>
   </tr>
 </table>
-
+<p>
+<p>
 <h5><a name=\"Registers\">Registers</a></h5>
-
 <table width=100%>
   <tr>
     <td bgcolor=ddddff width=100%>
@@ -166,9 +192,9 @@ cs=001b  ss=0023  ds=0023  es=0023  fs=003b  gs=0000             efl=00000202
     </td>
   </tr>
 </table>
-
+<p>
+<p>
 <h5><a name=\"Callstack\">Callstack</a></h5>
-
 <table width=100%>
   <tr>
     <td bgcolor=ddddff width=100%>
@@ -183,9 +209,9 @@ ChildEBP RetAddr  Args to Child
     </td>
   </tr>
 </table>
-
+<p>
+<p>
 <h4><a name=\"Debug Message Dump\">Debug Message Dump</a></h4>
-
 <table width=100%>
   <tr>
     <td bgcolor=ddddff width=100%>
@@ -195,9 +221,9 @@ ChildEBP RetAddr  Args to Child
     </td>
   </tr>
 </table>
-
+<p>
+<p>
 <h4><a name=\"Foreground Window Data\">Foreground Window Data</a></h4>
-
 <table width=100%>
   <tr>
     <td bgcolor=ddddff width=100%>
@@ -211,7 +237,11 @@ ChildEBP RetAddr  Args to Child
     </td>
   </tr>
 </table>
-
+<p>
+<p>
+<h3><a name=\"Symbol Stores\">Symbol Stores</a></h3>
+<p>
+<p>
 <h3><a name=\"Common Issues\">Common Issues</a></h3>
 
 ";

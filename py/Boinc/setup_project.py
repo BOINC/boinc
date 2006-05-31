@@ -290,14 +290,13 @@ def create_project_dirs(dest_dir):
             'html/user_profile/images'
         ])
 
-    # make directories writeable to Apache.
-    # make the CGI writeable in case scheduler writes req/reply files
-    # TODO: that is a security risk; don't do this in the future - write
-    # req/reply files somewhere else
+    # Make directories group-writeable and setGID
+    # Assuming that the "apache" user belongs to our primary group,
+    # any files or dirs created by apache will be owned by
+    # our primary group (not Apache's).
     #
-    map(lambda d: os.chmod(dir(d), 0777),
+    map(lambda d: os.chmod(dir(d), 02770),
         [
-            'cgi-bin',
             'upload',
             'html/cache',
             'html/inc',
@@ -418,7 +417,7 @@ class Project:
 
     def create_logdir(self):
         os.mkdir(self.logdir())
-        os.chmod(self.logdir(), 0777)
+        os.chmod(self.logdir(), 02770)
 
     def query_create_keys(self):
         return query_yesno("Keys don't exist in %s; generate them?"%self.keydir())

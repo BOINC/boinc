@@ -241,49 +241,18 @@ To get the X11 support,
 select the relevant options when you're installing Linux,
 or (Redhat) go to System Settings/Add Software.
 
-<ul>
-<li>
-Notes for <a href=debian_linux_install.txt>Debian Linux</a>.
-</ul>
+<p>
+See notes for <a href=debian_linux_install.txt>Debian Linux</a>.
 
 <h3>Apache notes</h3>
+<p>
+Read about <a href=groups.php>groups and permissions</a>.
 <p>
 In httpd.conf, set the default MIME type as follows
 (otherwise you'll get file upload signature verification errors):
 <pre>
 DefaultType application/octet-stream
 </pre>
-Suppose Apache runs as user 'apache'
-and BOINC daemons runs as user 'boincadm'.
-Directories created by apache need to be writable to boincadm.
-This can be done in any of several ways:
-<ul>
-<li> Use Apache's suexec mechanism
-to make the CGI programs run as boincadm.
-<li> Make the CGI programs setuid and owned by boincadm.
-<li>
-Edit /etc/group so that boincadm belongs
-to group apache, i.e. the line:
-<pre>
-    apache:x:48:
-</pre>
-becomes:
-<pre>
-    apache:x:48:boincadm
-</pre>
-Add these two lines to the beginning of the apache start script
-(called apachectl, usually in /usr/sbin on linux):
-<pre>
-    umask 2
-    export umask
-</pre>
-Apache will need to be stopped/restarted for this to take effect.
-
-Now any file apache creates should have group writable permissions
-(thanks to the umask) and user boincadm, who now belongs to group
-apache, should be able to update/delete these files.
-</ul>
-
 <hr>
 
 <h2>Windows</h2>

@@ -21,6 +21,12 @@ Tell all daemon process to exit.
 Have the web site return 'project down' messages
 for all functions that require database access.
 
+<pre>
+   stop_upload
+</pre>
+Have the file upload handler return transient error messages to clients
+(they'll back off and retry later).
+
 <p>
 The presence of a file triggers the function.
 For example, to turn off data-driven web pages, type

@@ -5276,3 +5276,37 @@ Bruce 31 May 2006
         file_upload_handler.C
         sched_config.C
  
+David  31 May 2006
+    - Server: new scheme for directory permissions.
+        The scheme assumes that the 'apache' user belongs
+        to the primary group of the project creator (say, 'boinc').
+        The components are:
+        1) make_project sets the permissions of various directories
+            (upload, profiles, etc.)  to 02770 (set GID).
+            This means that when apache creates a file or directory
+            within that directory,
+            it will be owned by group 'boinc'.
+        2) The code that creates files and directories uses 0770 permissions,
+            so by default nothing is world-accessible.
+
+        This fixes a bug where directories and files created by apache
+        (i.e. by the scheduler or file upload handler)
+        are inaccessible to the project creator.
+        (So that, e.g., the file deleter can't delete files)
+
+        There are other schemes for handling this problem; see
+        http://boinc.berkeley.edu/groups.php
+        but this one is the best, IMHO.
+    - document 'stop_upload'
+
+    doc/
+        groups.php (new)
+        tool_start.php
+    lib/
+        filesys.C
+    py/Boinc/
+        setup_project.py
+    sched/
+        main.C
+        sched_util.C
+        

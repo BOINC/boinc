@@ -457,7 +457,7 @@ int boinc_mkdir(const char* path) {
 #ifdef _WIN32
     return !CreateDirectory(path, NULL);
 #else
-    return mkdir(path, 0777);
+    return mkdir(path, 0770);
 #endif
 }
 

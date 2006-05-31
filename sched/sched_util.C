@@ -125,7 +125,7 @@ void get_log_path(char* p, const char* filename) {
     if (q) *q=0;
     sprintf(dir, "../log_%s", host);
     sprintf(p, "%s/%s", dir, filename);
-    mkdir(dir, 0777);
+    mkdir(dir, 02770);
 }
 
 static void filename_hash(const char* filename, int fanout, char* dir) {

@@ -77,6 +77,7 @@ Creating a BOINC project
 <li> <a href=configuration.php>The project configuration file</a>
 </ul>
 <li> <a href=compile.php>Compile BOINC software</a>
+<li> <a href=groups.php>Groups and permissions</a>
 <li> How to create a project
 <ul>
 <li> <a href=make_project.php>The make_project script</a>
