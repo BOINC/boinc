@@ -88,9 +88,14 @@ int DC_getMaxSubresults(void)
 	dir = opendir(".");
 	if (!dir)
 		return 0;
+
+	DC_log(LOG_DEBUG, "Workdir contents:");
 	while ((d = readdir(dir)))
+	{
+		DC_log(LOG_DEBUG, "\t%s", d->d_name);
 		if (!strncmp(d->d_name, SUBRESULT_PFX, strlen(SUBRESULT_PFX)))
 			max_subresults++;
+	}
 	closedir(dir);
 	return max_subresults;
 }
