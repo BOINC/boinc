@@ -13,6 +13,7 @@
 #include <dc_client.h>
 #endif
 
+/* Set the log level to -1 so the first call to DC_log() will call init_log() */
 static int loglevel = -1;
 static FILE *logfile;
 
