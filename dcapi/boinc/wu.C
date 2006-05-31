@@ -907,11 +907,7 @@ static char *generate_result_template(DC_Workunit *wu)
 
 	/* The subresult templates */
 	for (i = 0; i < wu->subresults; i++)
-	{
-		emit_result_file_ref(tmpl, file_cnt, "%s%d", SUBRESULT_PFX,
-			file_cnt);
-		file_cnt++;
-	}
+		emit_result_file_ref(tmpl, file_cnt++, "%s%d", SUBRESULT_PFX, i);
 
 	/* The checkpoint template */
 	emit_result_file_ref(tmpl, file_cnt++, "%s", CKPT_LABEL_OUT);
