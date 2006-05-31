@@ -37,6 +37,7 @@
 #include "parse.h"
 #include "util.h"
 #include "error_numbers.h"
+#include "filesys.h"
 
 #include "sched_config.h"
 #include "sched_util.h"
@@ -581,6 +582,11 @@ int main() {
 
     log_messages.pid = getpid();
     log_messages.set_debug_level(DEBUG_LEVEL);
+
+    if (boinc_file_exists("../stop_upload")) {
+        return_error(ERR_TRANSIENT, "Maintenance underway: file uploads are temporarily disabled.");
+        exit(1);
+    }
 
     retval = config.parse_file("..");
     if (retval) {

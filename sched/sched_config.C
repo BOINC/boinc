@@ -185,12 +185,12 @@ int SCHED_CONFIG::parse(char* buf) {
 #endif
 
 int SCHED_CONFIG::parse_file(const char* dir) {
-    char* p;
     char path[256];
     int retval;
 
     sprintf(path, "%s/%s", dir, CONFIG_FILE);
 #if 0
+    char* p;
     retval = read_file_malloc(path, p);
     if (retval) return retval;
     retval =  parse(p);

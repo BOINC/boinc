@@ -568,7 +568,7 @@ int handle_results(SCHEDULER_REQUEST& sreq, SCHEDULER_REPLY& reply) {
     // read results from database into "result_handler".
     // Quantities that must be read from the DB are those
     // where srip (see below) appears as an rval.
-    // These are: id, name, server_state, received_time, hostid.
+    // These are: id, name, server_state, received_time, hostid, validate_state.
     // Quantities that must be written to the DB are those for
     // which srip appears as an lval. These are:
     // hostid, teamid, received_time, client_state, cpu_time, exit_status,
@@ -616,18 +616,64 @@ int handle_results(SCHEDULER_REQUEST& sreq, SCHEDULER_REPLY& reply) {
         // If one of them fails, set srip->id = 0,
         // which suppresses the DB update later on
         //
-        if (srip->server_state == RESULT_SERVER_STATE_OVER && srip->outcome != RESULT_OUTCOME_NO_REPLY) {
-            log_messages.printf(
-                SCHED_MSG_LOG::MSG_CRITICAL,
-                "[HOST#%d] [RESULT#%d %s] result already over\n",
-                reply.host.id, srip->id, srip->name
-            );
-            // perhaps also send a message to the user saying
-            // that this result was already over?
-            srip->id = 0;
-            reply.result_acks.push_back(std::string(rp->name));
-            continue;
-        } 
+
+        // If result is ALREADY over, do we replace it??
+        //
+        if (srip->server_state == RESULT_SERVER_STATE_OVER) {
+            char *dont_replace_result = NULL;
+            switch (srip->outcome) {
+                case RESULT_OUTCOME_INIT:
+                    // should never happen!
+                    dont_replace_result = "server shows no record of having sent this work";
+                    break;
+                case RESULT_OUTCOME_SUCCESS:
+                    // don't replace a successful result!
+                    dont_replace_result = "successful result already reported for this result";
+                    break;
+                case RESULT_OUTCOME_COULDNT_SEND:
+                    // should never happen!
+                    dont_replace_result = "server records show that this work was not sent (couldn't send)";
+                    break;
+                case RESULT_OUTCOME_CLIENT_ERROR:
+                    // result was previously cancelled on server side.
+                    // keep this new, real result ONLY if validator has
+                    // not already been invoked.
+                    if (srip->validate_state != VALIDATE_STATE_INIT) {
+                        dont_replace_result = "previous result reported as error, or canceled on server";
+                    }
+                    break;
+                case RESULT_OUTCOME_NO_REPLY:
+                    // result is late in arriving, but keep it anyhow
+                    break;
+                case RESULT_OUTCOME_DIDNT_NEED:
+                    // should never happen
+                    dont_replace_result = "server records show that this work was not sent (not needed)";
+                    break;
+                case RESULT_OUTCOME_VALIDATE_ERROR:
+                    // we already passed through the validator, so
+                    // don't keep the new result
+                    dont_replace_result = "server records show that an invalid result was already returned";
+                    break;
+                default:
+                    dont_replace_result = "server logic bug; please alert BOINC developers";
+                    break;
+            }
+            if (dont_replace_result) {
+                char buf[256];
+                log_messages.printf(
+                    SCHED_MSG_LOG::MSG_CRITICAL,
+                    "[HOST#%d] [RESULT#%d %s] result already over [outcome=%d validate_state=%d]\n",
+                    reply.host.id, srip->id, srip->name, srip->outcome, srip->validate_state
+                );
+                sprintf(buf, "Completed result %s refused: %s", srip->name, dont_replace_result);
+                USER_MESSAGE um(buf, "high");
+                reply.insert_message(um);
+                srip->id = 0;
+                reply.result_acks.push_back(std::string(rp->name));
+                continue;
+            } 
+        }
+
         if (srip->server_state == RESULT_SERVER_STATE_UNSENT) {
             log_messages.printf(
                 SCHED_MSG_LOG::MSG_CRITICAL,

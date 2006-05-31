@@ -5257,3 +5257,22 @@ David  31 May 2006
         boinc_db.C
     sched/
         sched_config.C
+
+Bruce 31 May 2006
+
+    - scheduler: do a better job of accepting results from host machines
+      which may modify an EXISTING & OVER result in the database.
+
+    - file_upload_handler: check for 'stop_upload' trigger file in the
+      project root directory.  If so, return ERR_TRANSIENT to hosts which
+      attempt uploads.  This is the equivalent of 'stop_sched' for the
+      scheduler.  (Eric, you may want to check that this is FCGI compatible).
+
+    db/
+        boinc_db.C
+
+    sched/
+        handle_request.C
+        file_upload_handler.C
+        sched_config.C
+ 
