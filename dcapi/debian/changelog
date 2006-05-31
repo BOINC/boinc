@@ -2,8 +2,9 @@ dcapi (0.9-5) unstable; urgency=low
 
   * Bugzilla bugs fixed:
       #789: Nincs stderr, es stdout
+      #777: Hibas Resultok 2
 
- -- Gábor Gombás <gombasg@sztaki.hu>  Wed, 31 May 2006 15:52:37 +0200
+ -- Gábor Gombás <gombasg@sztaki.hu>  Wed, 31 May 2006 17:42:35 +0200
 
 dcapi (0.9-4) unstable; urgency=low
 
