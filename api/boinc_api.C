@@ -369,6 +369,8 @@ static void send_trickle_up_msg() {
 // an "unrecoverable error", which will be reported back to server. 
 // A zero exit-status tells the client we've successfully finished the result.
 //
+// This function can be called from any thread.
+//
 int boinc_finish(int status) {
     if (options.send_status_msgs) {
         double total_cpu;
@@ -386,9 +388,6 @@ int boinc_finish(int status) {
     if (options.handle_trickle_ups) {
         send_trickle_up_msg();
     }
-#ifdef _WIN32
-    CloseHandle(worker_thread_handle);
-#endif
     if (options.main_program && status==0) {
         FILE* f = fopen(BOINC_FINISH_CALLED_FILE, "w");
         if (f) fclose(f);

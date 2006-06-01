@@ -5328,3 +5328,14 @@ David  31 May 2006
     lib/
         gui_rpc_client.h
         gui_rpc_client_ops.C
+
+Rom    1 June 2006
+    - Bug Fix: boinc_finish() can be called from any thread, so do not
+        close the handle to one of the potiential calling threads from it.
+        
+      NOTE: I haven't found any documentation that states what the expected
+        behavior is for closing the handle to the actively running thread
+        but I don't expect it to be good.
+        
+    api/
+        boinc_api.C
