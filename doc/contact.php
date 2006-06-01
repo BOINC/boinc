@@ -199,6 +199,7 @@ BOINC alpha testers include:
 ";
 $i = 0;
 echo "<table bgcolor=ddddff width=100% border=2 cellpadding=6>\n";
+show_name("James Bearden");
 show_name("Martin Burall");
 show_name("Comatose");
 show_name("Nathan Crawford");
@@ -207,7 +208,6 @@ show_name("Heinrich Feldmueller");
 show_name("Rob Hague");
 show_name("Fred Harmon aka fharmon");
 show_name("Darrell Holz");
-show_name("James (Kajunfisher)");
 show_name("Jamie Kemp");
 show_name("Graham Lawton");
 show_name("Fons Maartens");
@@ -218,6 +218,7 @@ show_name("Alex Piskun");
 show_name("Dennis Peters");
 show_name("Scott Sutherland");
 show_name("Chris Sutton");
+show_name("Dave Sutton aka UBT - Halifax--Lad");
 show_name("Sven Teirlinck");
 echo "
 </table>
