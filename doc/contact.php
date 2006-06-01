@@ -204,9 +204,10 @@ show_name("Martin Burall");
 show_name("Comatose");
 show_name("Nathan Crawford");
 show_name("Jay Curtis");
+show_name("Jorden van der Elst");
 show_name("Heinrich Feldmueller");
 show_name("Rob Hague");
-show_name("Fred Harmon aka fharmon");
+show_name("Fred Harmon");
 show_name("Darrell Holz");
 show_name("Jamie Kemp");
 show_name("Graham Lawton");
@@ -218,7 +219,8 @@ show_name("Alex Piskun");
 show_name("Dennis Peters");
 show_name("Scott Sutherland");
 show_name("Chris Sutton");
-show_name("Dave Sutton aka UBT - Halifax--Lad");
+show_name("Dave Sutton");
+show_name("Lynn W. Taylor");
 show_name("Sven Teirlinck");
 echo "
 </table>
