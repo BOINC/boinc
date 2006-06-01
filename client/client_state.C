@@ -131,47 +131,6 @@ void CLIENT_STATE::show_host_info() {
     msg_printf(NULL, MSG_INFO, "Disk: %s total, %s free", buf, buf2);
 }
 
-// Get global preferences.
-// 1) read the prefs file to get the source project
-// 2) get the main host venue (venue of source project)
-// 3) read the prefs file again, using that venue
-// 4) read the local "override" file, if any
-//
-void CLIENT_STATE::read_global_prefs() {
-    bool found_venue;
-    int retval;
-
-    retval = global_prefs.parse_file(GLOBAL_PREFS_FILE_NAME, "", found_venue);
-    if (retval) {
-        msg_printf(NULL, MSG_INFO,
-            "No general preferences found - using BOINC defaults"
-        );
-    } else {
-        PROJECT* p = global_prefs_source_project();
-        if (p) {
-            strcpy(main_host_venue, p->host_venue);
-            retval = global_prefs.parse_file(
-                GLOBAL_PREFS_FILE_NAME, p->host_venue, found_venue
-            );
-        }
-        show_global_prefs_source(found_venue);
-    }
-    read_global_prefs_override();
-}
-
-void CLIENT_STATE::read_global_prefs_override() {
-    bool found_venue;
-    FILE* f = fopen(GLOBAL_PREFS_OVERRIDE_FILE, "r");
-    if (f) {
-        MIOFILE mf;
-        mf.init_file(f);
-        global_prefs.parse_override(mf, main_host_venue, found_venue);
-        msg_printf(NULL, MSG_INFO, "Reading preferences override file");
-        fclose(f);
-    }
-    install_global_prefs();
-}
-
 int CLIENT_STATE::init() {
     int retval;
     unsigned int i;

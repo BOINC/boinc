@@ -217,8 +217,6 @@ public:
 public:
     CLIENT_STATE();
     void show_host_info();
-    void read_global_prefs();
-    void read_global_prefs_override();
     int init();
     bool poll_slow_events();
         // Never blocks.
@@ -358,6 +356,8 @@ public:
     int resume_tasks(int reason=0);
     int suspend_network(int reason);
     int resume_network();
+    void read_global_prefs();
+    void read_global_prefs_override();
     int save_global_prefs(char* prefs, char* url, char* sched);
     int process_global_prefs_file(char* venue);
 private:

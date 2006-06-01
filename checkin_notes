@@ -5394,3 +5394,12 @@ David  1 June 2006
     sched/
         db_dump.C
         db_purge.C
+
+David  1 June 2006
+    - don't ignore global prefs override file when handling
+        new prefs from a project (from Ian Hay)
+
+    client/
+        acct_mgr.C
+        client_state.C,h
+        cs_prefs.C

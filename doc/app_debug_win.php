@@ -238,7 +238,26 @@ ChildEBP RetAddr  Args to Child
   </tr>
 </table>
 <p>
+This describes the state in which the thread was in at the time of the exception. ChildEBP and
+RetAddr are not really useful unless you can reproduce the issue using the same OS version.
 <p>
+Args to Child are the first four parameters passed to the function.
+<p>
+The next piece of information has the following format:<br>
+&lt;Module Name&gt;!&lt;Function Name&gt;@&lt;Function Ordinal&gt;+&lt;Symbol Offset&gt; &lt;File/Line Information&gt;
+<p>
+<dl>
+  <dt>Module Name</dt>
+  <dd>The friendly name for the DLL or EXE.</dd>
+  <dt>Function Name</dt>
+  <dd>The name of the function.</dd>
+  <dt>Function Ordinal</dt>
+  <dd></dd>
+  <dt>Symbol Offset</dt>
+  <dd></dd>
+  <dt>File/Line Information</dt>
+  <dd></dd>
+</dl>
 <h4><a name=\"Debug Message Dump\">Debug Message Dump</a></h4>
 <table width=100%>
   <tr>
