@@ -369,7 +369,7 @@ static void send_trickle_up_msg() {
 // an "unrecoverable error", which will be reported back to server. 
 // A zero exit-status tells the client we've successfully finished the result.
 //
-// This function can be called from any thread.
+// This function can be called from any thread. (Timer, Worker, and Graphics)
 //
 int boinc_finish(int status) {
     if (options.send_status_msgs) {
