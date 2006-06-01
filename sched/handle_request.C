@@ -624,22 +624,22 @@ int handle_results(SCHEDULER_REQUEST& sreq, SCHEDULER_REPLY& reply) {
             switch (srip->outcome) {
                 case RESULT_OUTCOME_INIT:
                     // should never happen!
-                    dont_replace_result = "server shows no record of having sent this work";
+                    dont_replace_result = "this work was NEVER sent";
                     break;
                 case RESULT_OUTCOME_SUCCESS:
                     // don't replace a successful result!
-                    dont_replace_result = "successful result already reported for this result";
+                    dont_replace_result = "successful result ALREADY reported for this work";
                     break;
                 case RESULT_OUTCOME_COULDNT_SEND:
                     // should never happen!
-                    dont_replace_result = "server records show that this work was not sent (couldn't send)";
+                    dont_replace_result = "this work could NOT be sent";
                     break;
                 case RESULT_OUTCOME_CLIENT_ERROR:
                     // result was previously cancelled on server side.
                     // keep this new, real result ONLY if validator has
                     // not already been invoked.
                     if (srip->validate_state != VALIDATE_STATE_INIT) {
-                        dont_replace_result = "previous result reported as error, or canceled on server";
+                        dont_replace_result = "result ALREADY reported as error, or canceled on server";
                     }
                     break;
                 case RESULT_OUTCOME_NO_REPLY:
@@ -647,12 +647,12 @@ int handle_results(SCHEDULER_REQUEST& sreq, SCHEDULER_REPLY& reply) {
                     break;
                 case RESULT_OUTCOME_DIDNT_NEED:
                     // should never happen
-                    dont_replace_result = "server records show that this work was not sent (not needed)";
+                    dont_replace_result = "this work was NEVER sent (not needed)";
                     break;
                 case RESULT_OUTCOME_VALIDATE_ERROR:
                     // we already passed through the validator, so
                     // don't keep the new result
-                    dont_replace_result = "server records show that an invalid result was already returned";
+                    dont_replace_result = "an invalid result was ALREADY returned";
                     break;
                 default:
                     dont_replace_result = "server logic bug; please alert BOINC developers";
@@ -662,8 +662,8 @@ int handle_results(SCHEDULER_REQUEST& sreq, SCHEDULER_REPLY& reply) {
                 char buf[256];
                 log_messages.printf(
                     SCHED_MSG_LOG::MSG_CRITICAL,
-                    "[HOST#%d] [RESULT#%d %s] result already over [outcome=%d validate_state=%d]\n",
-                    reply.host.id, srip->id, srip->name, srip->outcome, srip->validate_state
+                    "[HOST#%d] [RESULT#%d %s] result already over [outcome=%d validate_state=%d]: %s\n",
+                    reply.host.id, srip->id, srip->name, srip->outcome, srip->validate_state, dont_replace_result
                 );
                 sprintf(buf, "Completed result %s refused: %s", srip->name, dont_replace_result);
                 USER_MESSAGE um(buf, "high");

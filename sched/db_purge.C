@@ -53,6 +53,9 @@
             // being closed.  In any case the files are compressed
             // when db_purge exits on a signal.
 
+// -sleep N // when done with a pass of purging the DB, sleep
+            // for N seconds before the next pass.  Default
+            // value is 600 seconds.
 
 #include "config.h"
 #include <cstdio>
@@ -557,7 +560,7 @@ int main(int argc, char** argv) {
     int retval;
     bool asynch = false, one_pass = false;
     int i;
-
+    int sleep_sec = 600;
     check_stop_daemons();
     for (i=1; i<argc; i++) {
         if (!strcmp(argv[i], "-asynch")) {
@@ -576,6 +579,15 @@ int main(int argc, char** argv) {
             compression_type=COMPRESSION_GZIP;
         } else if (!strcmp(argv[i], "-max_wu_per_file")) {
             max_wu_per_file = atoi(argv[++i]);
+        } else if (!strcmp(argv[i], "-sleep")) {
+            sleep_sec = atoi(argv[++i]);
+            if (sleep_sec < 1 || sleep_sec > 86400) {
+                log_messages.printf(SCHED_MSG_LOG::MSG_CRITICAL,
+                    "Unreasonable value of sleep interval: %d seconds\n",
+                    sleep_sec
+                );
+                exit(1);
+            }
         } else {
             log_messages.printf(SCHED_MSG_LOG::MSG_CRITICAL,
                 "Unrecognized arg: %s\n", argv[i]
@@ -626,7 +638,7 @@ int main(int argc, char** argv) {
             log_messages.printf(SCHED_MSG_LOG::MSG_NORMAL,
             	"Sleeping....\n"
             );
-	    sleep(600);
+	    sleep(sleep_sec);
         }
     }
 

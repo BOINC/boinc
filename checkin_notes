@@ -5339,3 +5339,14 @@ Rom    1 June 2006
         
     api/
         boinc_api.C
+
+Bruce 1 June 2006
+    - scheduler: clearer messages to use if refusing to accept a result.
+    - DB purger: make sleep interval a command line option (current 600
+                 secs is still the default value).
+
+    sched/
+        db_purge.C
+        handle_request.C
+
+.
