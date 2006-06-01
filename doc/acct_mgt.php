@@ -195,8 +195,12 @@ list_item("input", html_text("
     <domain_name>host.domain</domain_name>
     <client_version>5.3.2</client_version>
     <run_mode>auto</run_mode>
-    <prefs_mod_time>1133905881</prefs_mod_time>
-    <prefs_source_project>http://setiathome.berkeley.edu/</prefs_source_project>
+    <global_preferences>
+        <source_project>http://a.b.c</source_project>
+        <source_scheduler>http://a.b.c</source_scheduler>
+        <mod_time>1144105331</mod_time>
+        ... [ global preferences ]
+    </global_preferences>
     <project>
        <url>http://setiathome.berkeley.edu/</url>
        <project_name>SETI@home</project_name>
@@ -231,21 +235,27 @@ c8b3217e6cdff938ec0454330c70553fbe3d1f0d0184d8c628db2e093121ee98
     [ ... ]
     [ <error>MSG</error> ]
     [ <repeat_sec>xxx</repeat_sec> ]
+    <global_preferences>
+        [ <source_project>http://a.b.c</source_project> ]
+        [ <source_scheduler>http://a.b.c</source_scheduler> ]
+        <mod_time>1144105331</mod_time>
+        ... [ global preferences ]
+    </global_preferences>
     [ 
-      <account>
-         <url>URL</url>
-         <url_signature>
+    <account>
+       <url>URL</url>
+       <url_signature>
 397d250e02ec02be8141b8d196a118d909d5ec73e592ed50f9d0ad1ce5bf87de
 e37f48079db76128b20f913a04e911489330a7cab8c346177f1682d236bc7201
 42b32665d0d83474bf12aebd97b2bb9a4c4461fa3f0b49bbd40ecfa16715ced7
 f72103eb0995be77cac54f253c0ba639a814d3293646ae11894e9d1367a98790
 .
-         </url_signature>
-         <authenticator>KEY</authenticator>
-         [ <update/> ]
-         [ <detach/> ]
-      </account>
-        ...
+       </url_signature>
+       <authenticator>KEY</authenticator>
+       [ <update/> ]
+       [ <detach/> ]
+    </account>
+    ...
     ]
 </acct_mgr_reply>")
 );
@@ -272,6 +282,8 @@ list_item("action",
     <dd> GUI RPC information.
         Included only if the &lt;send_gui_rpc_info&gt; element
         is included in the AM URL file (see above).
+    <dt> global_preferences
+    </dd> The current global preferences.
     </dl>
     In addition, a list of projects and their suspended flags is included.
     <p>
@@ -286,6 +298,9 @@ list_item("action",
     Use the BOINC <a href=key_setup.php>crypt_prog</a> program to generate this.
     <dt> message
     <dd> A message to be displayed to the user.
+    <dt> global_preferences
+    <dd> New global preferences.  Included only if these are
+        newer than those in the request message.
     </dl>
     For each account, the following items are returned:
     <dl>

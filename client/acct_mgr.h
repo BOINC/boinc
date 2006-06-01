@@ -79,6 +79,9 @@ struct ACCT_MGR_OP: public GUI_HTTP_OP {
     std::string error_str;
     std::vector<AM_ACCOUNT> accounts;
     double repeat_sec;
+    char* global_prefs_xml;
+    char host_venue[256];
+
     int do_rpc(
         std::string url, std::string name, std::string password,
         bool via_gui
@@ -86,7 +89,7 @@ struct ACCT_MGR_OP: public GUI_HTTP_OP {
     int parse(FILE*);
     virtual void handle_reply(int http_op_retval);
 
-    ACCT_MGR_OP(){}
+    ACCT_MGR_OP();
     virtual ~ACCT_MGR_OP(){}
 };
 

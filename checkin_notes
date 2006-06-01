@@ -5349,4 +5349,23 @@ Bruce 1 June 2006
         db_purge.C
         handle_request.C
 
-.
+David  1 June 2006
+    - Changes to account manager protocol,
+        to allow account managers to directly manipulate global preferences:
+        1) request message now includes <global_preferences> element,
+            with current global preferences,
+            and their source and mod time
+        2) request message no longer includes <prefs_mod_time>
+            and <prefs_source_project>;
+            these items are in the new <global_preferences> element.
+        3) reply message now includes optional <global_preferences> element.
+            This should be sent only if prefs are newer
+            than those in the request message.
+        4) reply message now includes optional <host_venue> element.
+            This determines what preferences set is used.
+
+    client/
+        acct_mgr.C,h
+        client_state.h
+        cs_prefs.C
+        cs_scheduler.C

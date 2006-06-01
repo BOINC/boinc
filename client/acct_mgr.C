@@ -39,6 +39,10 @@
 
 static const char *run_mode_name[] = {"", "always", "auto", "never"};
 
+ACCT_MGR_OP::ACCT_MGR_OP() {
+    global_prefs_xml = 0;
+}
+
 // do an account manager RPC;
 // if url is null, detach from current account manager
 //
@@ -55,6 +59,10 @@ int ACCT_MGR_OP::do_rpc(
 
     error_num = ERR_IN_PROGRESS;
     via_gui = _via_gui;
+    if (global_prefs_xml) {
+        free(global_prefs_xml);
+        global_prefs_xml = 0;
+    }
 
     if (!strlen(buf) && strlen(gstate.acct_mgr_info.acct_mgr_url)) {
         msg_printf(NULL, MSG_INFO, "Removing account manager info");
@@ -90,8 +98,6 @@ int ACCT_MGR_OP::do_rpc(
         "   <domain_name>%s</domain_name>\n"
         "   <client_version>%d.%d.%d</client_version>\n"
         "   <run_mode>%s</run_mode>\n"
-        "   <prefs_mod_time>%d</prefs_mod_time>\n"
-        "   <prefs_source_project>%s</prefs_source_project>\n",
         name.c_str(), password_hash.c_str(),
         gstate.host_info.host_cpid,
         gstate.host_info.domain_name,
@@ -150,6 +156,13 @@ int ACCT_MGR_OP::do_rpc(
             p->attached_via_acct_mgr?"      <attached_via_acct_mgr/>\n":""
         );
     }
+    if (boinc_file_exists(GLOBAL_PREFS_FILE_NAME)) {
+        FILE* fprefs = fopen(GLOBAL_PREFS_FILE_NAME, "r");
+        if (fprefs) {
+            copy_stream(fprefs, f);
+            fclose(fprefs);
+        }
+    }
     fprintf(f, "</acct_mgr_request>\n");
     fclose(f);
     sprintf(buf, "%srpc.php", url.c_str());
@@ -164,8 +177,6 @@ int ACCT_MGR_OP::do_rpc(
 
     return 0;
 }
-
-
 
 int AM_ACCOUNT::parse(FILE* f) {
     char buf[256];
@@ -209,6 +220,7 @@ int ACCT_MGR_OP::parse(FILE* f) {
     error_str = "";
     error_num = 0;
     repeat_sec = 0;
+    strcpy(host_venue, "");
     while (fgets(buf, sizeof(buf), f)) {
         if (match_tag(buf, "</acct_mgr_reply>")) return 0;
         if (parse_str(buf, "<name>", ami.acct_mgr_name, 256)) continue;
@@ -235,6 +247,22 @@ int ACCT_MGR_OP::parse(FILE* f) {
             if (!retval) accounts.push_back(account);
             continue;
         }
+        if (match_tag(buf, "<global_preferences>")) {
+            retval = dup_element_contents(
+                f,
+                "</global_preferences>",
+                &global_prefs_xml
+            );
+            if (retval) {
+                msg_printf(NULL, MSG_ERROR,
+                    "Can't parse global prefs in account manager reply: %s",
+                    boincerror(retval)
+                );
+                return retval;
+            }
+            continue;
+        }
+        if (parse_str(buf, "<host_venue>", host_venue, sizeof(host_venue))) continue;
     }
     return ERR_XML_PARSE;
 }
@@ -303,7 +331,7 @@ void ACCT_MGR_OP::handle_reply(int http_op_retval) {
         strcpy(gstate.acct_mgr_info.login_name, ami.login_name);
         strcpy(gstate.acct_mgr_info.password_hash, ami.password_hash);
 
-        // attach to new projects
+        // process projects
         //
         for (i=0; i<accounts.size(); i++) {
             AM_ACCOUNT& acct = accounts[i];
@@ -342,6 +370,21 @@ void ACCT_MGR_OP::handle_reply(int http_op_retval) {
                         acct.url.c_str(), acct.authenticator.c_str(), true
                     );
                 }
+            }
+        }
+
+        // process prefs if any
+        //
+        if (global_prefs_xml) {
+            retval = gstate.save_global_prefs(
+                global_prefs_xml, ami.acct_mgr_url, ami.acct_mgr_url
+            );
+            if (retval) {
+                msg_printf(NULL, MSG_ERROR, "Can't save global prefs");
+            }
+            retval = gstate.process_global_prefs_file(host_venue);
+            if (retval) {
+                msg_printf(NULL, MSG_ERROR, "Can't process global prefs");
             }
         }
     }

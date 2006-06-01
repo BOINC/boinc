@@ -358,6 +358,8 @@ public:
     int resume_tasks(int reason=0);
     int suspend_network(int reason);
     int resume_network();
+    int save_global_prefs(char* prefs, char* url, char* sched);
+    int process_global_prefs_file(char* venue);
 private:
     void check_suspend_activities(int&);
     void check_suspend_network(int&);

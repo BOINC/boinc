@@ -350,4 +350,53 @@ int PROJECT::parse_preferences_for_user_files() {
     return 0;
 }
 
+int CLIENT_STATE::save_global_prefs(
+    char* global_prefs_xml, char* master_url, char* scheduler_url
+) {
+    FILE* f = boinc_fopen(GLOBAL_PREFS_FILE_NAME, "w");
+    if (!f) return ERR_FOPEN;
+    fprintf(f,
+        "<global_preferences>\n"
+    );
+
+    // tag with the project and scheduler URL,
+    // but only if not already tagged
+    //
+    if (!strstr(global_prefs_xml, "<source_project>")) {
+        fprintf(f,
+            "    <source_project>%s</source_project>\n"
+            "    <source_scheduler>%s</source_scheduler>\n",
+            master_url,
+            scheduler_url
+        );
+    }
+    fprintf(f,
+        "%s"
+        "</global_preferences>\n",
+        global_prefs_xml
+    );
+    fclose(f);
+    return 0;
+}
+
+int CLIENT_STATE::process_global_prefs_file(char* host_venue) {
+    int retval;
+    bool found_venue;
+
+    retval = global_prefs.parse_file(
+        GLOBAL_PREFS_FILE_NAME, host_venue, found_venue
+    );
+    if (retval) return retval;
+    show_global_prefs_source(found_venue);
+    int ncpus_old = ncpus;
+    install_global_prefs();
+    if (ncpus != ncpus_old) {
+        msg_printf(0, MSG_INFO,
+            "Number of usable CPUs has changed.  Running benchmarks."
+        );
+        run_cpu_benchmarks = true;
+    }
+    return 0;
+}
+
 const char *BOINC_RCSID_92ad99cddf = "$Id$";

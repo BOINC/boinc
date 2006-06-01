@@ -838,49 +838,19 @@ int CLIENT_STATE::handle_scheduler_reply(
     // insert extra elements, write to disk, and parse
     //
     if (sr.global_prefs_xml) {
-        f = boinc_fopen(GLOBAL_PREFS_FILE_NAME, "w");
-        if (!f) return ERR_FOPEN;
-        fprintf(f,
-            "<global_preferences>\n"
+        retval = save_global_prefs(
+            sr.global_prefs_xml, project->master_url, scheduler_url
         );
-
-        // tag with the project and scheduler URL,
-        // but only if not already tagged
-        //
-        if (!strstr(sr.global_prefs_xml, "<source_project>")) {
-            fprintf(f,
-                "    <source_project>%s</source_project>\n"
-                "    <source_scheduler>%s</source_scheduler>\n",
-                project->master_url,
-                scheduler_url
-            );
+        if (retval) {
+            return retval;
         }
-        fprintf(f,
-            "%s"
-            "</global_preferences>\n",
-            sr.global_prefs_xml
-        );
-        fclose(f);
         update_global_prefs = true;
     }
 
     if (update_global_prefs) {
-        bool found_venue;
-        retval = global_prefs.parse_file(
-            GLOBAL_PREFS_FILE_NAME, project->host_venue, found_venue
-        );
+        retval = process_global_prefs_file(project->host_venue);
         if (retval) {
             msg_printf(project, MSG_ERROR, "Can't parse general preferences");
-        } else {
-            show_global_prefs_source(found_venue);
-            int ncpus_old = ncpus;
-            install_global_prefs();
-            if (ncpus != ncpus_old) {
-                msg_printf(0, MSG_INFO,
-                    "Number of usable CPUs has changed.  Running benchmarks."
-                );
-                run_cpu_benchmarks = true;
-            }
         }
     }
 

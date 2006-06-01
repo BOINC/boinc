@@ -116,7 +116,10 @@ echo "
 <h1>
 Berkeley Open Infrastructure for Network Computing
 </h1>
-<br>
+BOINC is free, open-source software for distributed computing.
+It was designed for volunteer computing,
+but also works well for desktop grid computing within organizations.
+<p>
 ";
 search_form();
 echo "
