@@ -78,7 +78,7 @@ void APP_INIT_DATA::copy(const APP_INIT_DATA& a) {
 }
 
 int write_init_data_file(FILE* f, APP_INIT_DATA& ai) {
-    char buf[1024];
+    char buf[2048];
     fprintf(f,
         "<app_init_data>\n"
         "<major_version>%d</major_version>\n"

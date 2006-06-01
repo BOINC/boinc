@@ -5369,3 +5369,28 @@ David  1 June 2006
         client_state.h
         cs_prefs.C
         cs_scheduler.C
+
+David  1 June 2006
+    - wherever xml_escape() is used, make sure the output buffer
+        is at least 6X the size of the input,
+        since the largest expansion is X -> &#NNN;
+
+        This is a kludge.
+        We should switch to #defined buffer-size params,
+        instead of having 256 and 2048 everywhere.
+        Or we should use std::string everywhere.
+        (but I don't think we can do this, because I've seen
+        repeated performance problems and outright bugs with std::string).
+
+
+    client/
+        client_types.C
+    db/
+        boinc_db.C
+    lib/
+        app_ipc.C
+        parse.C
+        proxy_info.C
+    sched/
+        db_dump.C
+        db_purge.C

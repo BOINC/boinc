@@ -267,7 +267,9 @@ int archive_result(DB_RESULT& result) {
         result.id
     );
 
-    char buf[LARGE_BLOB_SIZE];
+    // xml_escape can increase size by factor of 6, e.g. x -> &#NNN;
+    //
+    char buf[LARGE_BLOB_SIZE*6];
     xml_escape(result.stderr_out, buf);
 
     fprintf(

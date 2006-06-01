@@ -15,9 +15,20 @@ This document has the structure
     [ <account_manager/> ]
     [ <uses_username/> ]
     [ <account_creation_disabled/> ]
-    [ <client_account_creation_disabled/> ]
     [ <rpc_prefix>URL</rpc_prefix> ]
     [ <error_num>N</error_num> ]
+    [
+      <system_requirements>
+        [ <p_fpops>N</p_fpops> ]
+        [ <p_iops>N</p_iops> ]
+        [ <p_membw>N</p_membw> ]
+        [ <m_nbytes>N</m_nbytes> ]
+        [ <m_swap>N</m_swap> ]
+        [ <d_free>N</d_free> ]
+        [ <bwup>N</bwup> ]
+        [ <bwdown>N</bwdown> ]
+      </system_requirements>
+    ]
 </project_config>
 ")."
 The elements are:
@@ -34,10 +45,6 @@ list_item("uses_username",
 list_item("account_creation_disabled",
     "If present, this project is not allowing creation of new accounts"
 );
-list_item("client_account_creation_disabled",
-    "If present, this project doesn't allow account creation via web RPCs.
-    Users must visit the web site to create accounts."
-);
 list_item("min_passwd_length",
     "Minimum password length (for new account creation)"
 );
@@ -46,6 +53,14 @@ list_item("rpc_prefix",
 );
 list_item("error_num",
     "The project is currently down.  A BOINC error number is returned."
+);
+list_item("system_requirements",
+    "Hardware requirements for participating in this project.
+    If a computer doesn't meet these requirements it may not
+    get sent any work by the project.
+    All requirements are 'net'; e.g. the CPU requirements
+    are after factors like on-fraction, active-fraction,
+    and resource share have been taken into consideration."
 );
 list_end();
 echo "

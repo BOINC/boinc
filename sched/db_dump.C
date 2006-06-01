@@ -289,7 +289,7 @@ void NUMBERED_ZFILE::set_id(int id) {
 
 void write_host(HOST& host, FILE* f, bool detail) {
     int retval;
-    char p_vendor[1024], p_model[1024], os_name[1024], os_version[1024];
+    char p_vendor[2048], p_model[2048], os_name[2048], os_version[2048];
 
     xml_escape(host.p_vendor, p_vendor);
     xml_escape(host.p_model, p_model);
@@ -378,7 +378,7 @@ void write_user(USER& user, FILE* f, bool /*detail*/) {
     char buf[1024];
     char cpid[MD5_LEN];
 
-    char name[1024], url[1024];
+    char name[2048], url[2048];
     xml_escape(user.name, name);
     xml_escape(user.url, url);
 
@@ -447,8 +447,8 @@ void write_user(USER& user, FILE* f, bool /*detail*/) {
 void write_team(TEAM& team, FILE* f, bool detail) {
     DB_USER user;
     char buf[256];
-    char name[1024];
-    char url[1024], name_html[1024], description[1024];
+    char name[2048];
+    char url[2048], name_html[2048], description[2048];
     int retval;
 
     xml_escape(team.name, name);
@@ -477,7 +477,7 @@ void write_team(TEAM& team, FILE* f, bool detail) {
     //
     retval = user.lookup_id(team.userid);
     if (!retval) {
-        char fname[1024];
+        char fname[2048];
         xml_escape(user.name, fname);
         fprintf(f,
             "  <founder_name>%s</founder_name>\n",

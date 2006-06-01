@@ -315,6 +315,8 @@ char* sgets(char* buf, int len, char*& in) {
 // NOTE: these used to take std::string instead of char* args.
 // But this performed poorly.
 //
+// NOTE: output buffer should be 6X size of input
+//
 void xml_escape(const char* in, char* out) {
     char buf[256], *p;
 
@@ -350,6 +352,8 @@ void xml_escape(const char* in, char* out) {
     *p = 0;
 }
 
+// output buffer need not be larger than input
+//
 void xml_unescape(const char* in, char* out) {
     char* p = out;
     while (*in) {

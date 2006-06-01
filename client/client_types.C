@@ -187,7 +187,7 @@ int PROJECT::parse_state(MIOFILE& in) {
 //
 int PROJECT::write_state(MIOFILE& out, bool gui_rpc) {
     unsigned int i;
-    char un[1024], tn[1024];
+    char un[2048], tn[2048];
 
     out.printf(
         "<project>\n"

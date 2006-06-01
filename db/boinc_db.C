@@ -1278,9 +1278,7 @@ int DB_WORK_ITEM::enumerate(
         if (!cursor.rp) return mysql_errno(db->mysql);
         cursor.active = true;
     }
-again:
     row = mysql_fetch_row(cursor.rp);
-
     if (!row) {
         mysql_free_result(cursor.rp);
         cursor.active = false;
