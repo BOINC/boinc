@@ -165,6 +165,13 @@ Status: Waiting, Wait Reason: UserRequest, Kernel Time: 0.000000, User Time: 0.0
   </tr>
 </table>
 <p>
+Status shows what state the thread was in when the snapshot was taken.  If the 
+thread is waiting, wait reason will describe why the thread is waiting.  If the
+thread is running both the base thread priority and current thread priority will
+be displayed.
+<p>
+Kernel time, user time, and wait time describe how much time, in nanoseconds, the
+thread has spent in each of those states.
 <p>
 <h5><a name=\"Unhandled Exception Record\">Unhandled Exception Record</a></h5>
 <table width=100%>
@@ -178,6 +185,23 @@ Reason: Breakpoint Encountered (0x80000003) at address 0x7C822583
   </tr>
 </table>
 <p>
+This section if included in the thread describes what event ocurred that caused
+the runtime debugger to engage.  Structured Exceptions in Windows are not the same
+thing as C++ exceptions.  Unless you are using a compiler that knows about both types
+it is unlikely that a C++ catch is going to actually catch this type of exception.
+<p>
+Further information about Structured Exception Handling can be found 
+<a href=\"http://msdn.microsoft.com/library/default.asp?url=/library/en-us/debug/base/about_structured_exception_handling.asp\">
+here.
+</a>
+<p>
+It is important to note that both hardware and software exceptions can bubble up from
+the operating system through this mechinism.
+<p>
+The example above shows that 
+EXCEPTION_BREAKPOINT(PlatformSDK\\Include\\winbase.h) was raised at 0x7C822583. 
+EXCEPTION_BREAKPOINT is defined as STATUS_BREAKPOINT(PlatformSDK\\Include\\ntstatus.h) 
+which is defined as ((NTSTATUS)0x80000003L).
 <p>
 <h5><a name=\"Registers\">Registers</a></h5>
 <table width=100%>
@@ -193,6 +217,10 @@ cs=001b  ss=0023  ds=0023  es=0023  fs=003b  gs=0000             efl=00000202
   </tr>
 </table>
 <p>
+This is a basic dump of the processor registers at the time the exception was raised and 
+will look different for each process type.
+<p>
+In this example these are the registers and flags for the Intel based x86 processor.
 <p>
 <h5><a name=\"Callstack\">Callstack</a></h5>
 <table width=100%>

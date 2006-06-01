@@ -927,28 +927,6 @@ void ACCOUNT_OUT::clear() {
     authenticator.clear();
 }
 
-LOOKUP_WEBSITE::LOOKUP_WEBSITE() {
-    clear();
-}
-
-LOOKUP_WEBSITE::~LOOKUP_WEBSITE() {
-    clear();
-}
-
-int LOOKUP_WEBSITE::parse(MIOFILE& in) {
-    char buf[256];
-    clear();
-    while (in.fgets(buf, 256)) {
-        if (match_tag(buf, "</lookup_website>")) return 0;
-        else if (parse_int(buf, "<error_num>", error_num)) return error_num;
-    }
-    return ERR_XML_PARSE;
-}
-
-void LOOKUP_WEBSITE::clear() {
-    error_num = 0;
-}
-
 /////////// END OF PARSING FUNCTIONS.  RPCS START HERE ////////////////
 
 int RPC_CLIENT::get_state(CC_STATE& state) {
@@ -1205,24 +1183,38 @@ int RPC_CLIENT::get_statistics(PROJECTS& p) {
     return retval;
 }
 
-int RPC_CLIENT::network_status(int& status) {
-    int retval = -1;
-    int checkpoint;
+int RPC_CLIENT::get_cc_status(CC_STATUS& status) {
     SET_LOCALE sl;
     char buf[256];
     RPC rpc(this);
 
-    checkpoint = rpc.do_rpc("<network_status/>\n");
-    if (!checkpoint) {
+    int retval = rpc.do_rpc("<network_status/>\n");
+    status.network_status = -1;
+    status.ams_password_error = false;
+    if (!retval) {
+        while (rpc.fin.fgets(buf, 256)) {
+            if (parse_int(buf, "<network_status>", status.network_status)) continue;
+            if (parse_bool(buf, "ams_password_error", status.ams_password_error)) continue;
+        }
+    }
+    return retval;
+}
+
+int RPC_CLIENT::network_status(int& status) {
+    int retval;
+    SET_LOCALE sl;
+    char buf[256];
+    RPC rpc(this);
+
+    retval = rpc.do_rpc("<network_status/>\n");
+    if (!retval) {
+        retval = ERR_XML_PARSE;
         while (rpc.fin.fgets(buf, 256)) {
             if (parse_int(buf, "<status>", status)) {
                 retval = 0;
             }
         }
-    } else {
-        retval = checkpoint;
     }
-
     return retval;
 }
 
@@ -1856,47 +1848,6 @@ int RPC_CLIENT::create_account_poll(ACCOUNT_OUT& ao) {
     }
     return retval;
 }
-
-#if 0
-int RPC_CLIENT::lookup_website(int website_id) {
-    int retval;
-    SET_LOCALE sl;
-    char buf[256];
-    RPC rpc(this);
-
-    switch (website_id) {
-    case LOOKUP_GOOGLE:
-    case LOOKUP_YAHOO:
-        break;
-    default:
-        return ERR_INVALID_PARAM;
-    }
-
-    sprintf(buf,
-        "<lookup_website>\n"
-        "    %s%s\n"
-        "</lookup_website>\n",
-        (LOOKUP_GOOGLE == website_id)?"<google/>":"",
-        (LOOKUP_YAHOO == website_id)?"<yahoo/>":""
-    );
-
-    retval = rpc.do_rpc(buf);
-    return retval;
-}
-
-int RPC_CLIENT::lookup_website_poll() {
-    int retval;
-    SET_LOCALE sl;
-    LOOKUP_WEBSITE lw;
-    RPC rpc(this);
-
-    retval = rpc.do_rpc("<lookup_website_poll/>\n");
-    if (!retval) {
-        retval = lw.parse(rpc.fin);
-    }
-    return retval;
-}
-#endif
 
 int RPC_CLIENT::get_newer_version(std::string& version) {
     int retval;

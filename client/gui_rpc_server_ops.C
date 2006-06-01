@@ -520,6 +520,17 @@ static void handle_network_status(char*, MIOFILE& fout) {
     fout.printf("<status>%d</status>\n", gstate.network_status());
 }
 
+static void handle_get_cc_status(MIOFILE& fout) {
+    fout.printf(
+        "<cc_status>\n"
+        "   <network_status>%d</network_status>\n"
+        "   <ams_password_error>%d</ams_password_error>\n"
+        "</cc_status>\n",
+        gstate.network_status(),
+        gstate.acct_mgr_info.password_error?1:0
+    );
+}
+
 static void handle_network_available(char*, MIOFILE&) {
     gstate.network_available();
 }
@@ -603,32 +614,6 @@ static void handle_create_account_poll(char*, MIOFILE& fout) {
         fout.printf("%s", gstate.create_account_op.reply.c_str());
     }
 }
-
-#if 0
-static void handle_lookup_website(char* buf, MIOFILE& fout) {
-    std::string url;
-    if (match_tag(buf, "<yahoo")) {
-        url = "http://www.yahoo.com/";
-        gstate.lookup_website_op.do_rpc(url);
-    } else if (match_tag(buf, "<google")) {
-        url = "http://www.google.com/";
-        gstate.lookup_website_op.do_rpc(url);
-    } else {
-        fout.printf("<error>Invalid website</error>\n");
-        return;
-    }
-    fout.printf("<success/>\n");
-}
-
-static void handle_lookup_website_poll(char*, MIOFILE& fout) {
-    fout.printf(
-        "<lookup_website>\n"
-        "    <error_num>%d</error_num>\n"
-        "</lookup_website>\n",
-        gstate.lookup_website_op.error_num
-    );
-}
-#endif
 
 static void handle_project_attach(char* buf, MIOFILE& fout) {
     string url, authenticator;
@@ -732,7 +717,7 @@ static void handle_acct_mgr_rpc(char* buf, MIOFILE& fout) {
     if (bad_arg) {
         fout.printf("<error>bad arg</error>\n");
     } else {
-        gstate.acct_mgr_op.do_rpc(url, name, password_hash);
+        gstate.acct_mgr_op.do_rpc(url, name, password_hash, true);
         fout.printf("<success/>\n");
     }
 }
@@ -931,6 +916,8 @@ int GUI_RPC_CONN::handle_rpc() {
             handle_acct_mgr_rpc(request_msg, mf);
         } else if (match_tag(request_msg, "<acct_mgr_rpc_poll")) {
             handle_acct_mgr_rpc_poll(request_msg, mf);
+        } else if (match_tag(request_msg, "<get_cc_status")) {
+            handle_get_cc_status(mf);
         } else {
             mf.printf("<error>unrecognized op</error>\n");
         }

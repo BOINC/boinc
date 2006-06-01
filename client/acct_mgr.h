@@ -45,6 +45,7 @@ struct ACCT_MGR_INFO {
     bool send_gui_rpc_info;
         // whether to include GUI RPC port and password hash
         // in AM RPCs (used for "farm management")
+    bool password_error;
 
     ACCT_MGR_INFO();
     int parse_url(MIOFILE&);
@@ -70,6 +71,7 @@ struct AM_ACCOUNT {
 };
 
 struct ACCT_MGR_OP: public GUI_HTTP_OP {
+    bool via_gui;
     int error_num;
     ACCT_MGR_INFO ami;
         // a temporary copy while doing RPC.
@@ -77,7 +79,10 @@ struct ACCT_MGR_OP: public GUI_HTTP_OP {
     std::string error_str;
     std::vector<AM_ACCOUNT> accounts;
     double repeat_sec;
-    int do_rpc(std::string url, std::string name, std::string password);
+    int do_rpc(
+        std::string url, std::string name, std::string password,
+        bool via_gui
+    );
     int parse(FILE*);
     virtual void handle_reply(int http_op_retval);
 

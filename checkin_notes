@@ -5297,6 +5297,8 @@ David  31 May 2006
         There are other schemes for handling this problem; see
         http://boinc.berkeley.edu/groups.php
         but this one is the best, IMHO.
+    - scheduler: if store req/reply messages in files,
+        put them in /tmp, not in cgi-bin/
     - document 'stop_upload'
 
     doc/
@@ -5310,3 +5312,19 @@ David  31 May 2006
         main.C
         sched_util.C
         
+
+David  31 May 2006
+    - Add new GUI RPC <get_cc_status>: returns
+        1) network status (same as <network_status> RPC)
+        2) flag saying whether a timer-driven account managaer RPC
+            has returned a bad-password error
+            (so Manager can notify user)
+        ... any future status items will be added here
+    - got rid of commented-out <lookup_website> RPC
+
+    client/
+        acct_mgr.C,h
+        gui_rpc_server_ops.C
+    lib/
+        gui_rpc_client.h
+        gui_rpc_client_ops.C

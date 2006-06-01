@@ -43,7 +43,8 @@ static const char *run_mode_name[] = {"", "always", "auto", "never"};
 // if url is null, detach from current account manager
 //
 int ACCT_MGR_OP::do_rpc(
-    std::string url, std::string name, std::string password_hash
+    std::string url, std::string name, std::string password_hash,
+    bool _via_gui
 ) {
     int retval;
     unsigned int i;
@@ -53,6 +54,7 @@ int ACCT_MGR_OP::do_rpc(
     strlcpy(buf, url.c_str(), sizeof(buf));
 
     error_num = ERR_IN_PROGRESS;
+    via_gui = _via_gui;
 
     if (!strlen(buf) && strlen(gstate.acct_mgr_info.acct_mgr_url)) {
         msg_printf(NULL, MSG_INFO, "Removing account manager info");
@@ -256,6 +258,10 @@ void ACCT_MGR_OP::handle_reply(int http_op_retval) {
         error_num = http_op_retval;
     }
 
+    gstate.acct_mgr_info.password_error = false;
+    if (error_num == ERR_BAD_PASSWD && !via_gui) {
+        gstate.acct_mgr_info.password_error = true;
+    }
     // check both error_str and error_num since an account manager may only
     // return a BOINC based error code for password failures or invalid
     // email addresses
@@ -407,6 +413,7 @@ void ACCT_MGR_INFO::clear() {
     strcpy(previous_host_cpid, "");
     next_rpc_time = 0;
     send_gui_rpc_info = false;
+    password_error = false;
 }
 
 ACCT_MGR_INFO::ACCT_MGR_INFO() {
@@ -468,7 +475,9 @@ bool ACCT_MGR_INFO::poll() {
 
     if (gstate.now > next_rpc_time) {
         next_rpc_time = gstate.now + 86400;
-        gstate.acct_mgr_op.do_rpc(acct_mgr_url, login_name, password_hash);
+        gstate.acct_mgr_op.do_rpc(
+            acct_mgr_url, login_name, password_hash, false
+        );
         return true;
     }
     return false;
