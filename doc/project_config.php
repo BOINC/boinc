@@ -29,6 +29,13 @@ This document has the structure
         [ <bwdown>N</bwdown> ]
       </system_requirements>
     ]
+    [
+      <platforms>
+        <platform>windows_intelx86</platform>
+        <platform>i686-pc-linux-gnu powerpc-apple-darwin</platform>
+        ...
+      </platforms>
+    ]
 </project_config>
 ")."
 The elements are:
@@ -61,6 +68,9 @@ list_item("system_requirements",
     All requirements are 'net'; e.g. the CPU requirements
     are after factors like on-fraction, active-fraction,
     and resource share have been taken into consideration."
+);
+list_item("platforms",
+    "A list of platforms for which the project has application versions."
 );
 list_end();
 echo "

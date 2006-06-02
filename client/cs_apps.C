@@ -291,12 +291,23 @@ int CLIENT_STATE::restart_tasks() {
 }
 
 void CLIENT_STATE::set_ncpus() {
+    if (ncpus == 0) ncpus = host_info.p_ncpus;
+
+    int ncpus_old = ncpus;
+
     if (host_info.p_ncpus > 0) {
         ncpus = host_info.p_ncpus;
     } else {
         ncpus = 1;
     }
     if (ncpus > global_prefs.max_cpus) ncpus = global_prefs.max_cpus;
+
+    if (ncpus != ncpus_old) {
+        msg_printf(0, MSG_INFO,
+            "Number of usable CPUs has changed.  Running benchmarks."
+        );
+        run_cpu_benchmarks = true;
+    }
 }
 
 inline double force_fraction(double f) {

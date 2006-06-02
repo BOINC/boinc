@@ -49,17 +49,6 @@ using std::string;
 #define MAX_PROJ_PREFS_LEN  65536
     // max length of project-specific prefs
 
-void CLIENT_STATE::install_global_prefs() {
-    net_xfers->max_bytes_sec_up = global_prefs.max_bytes_sec_up;
-    net_xfers->max_bytes_sec_down = global_prefs.max_bytes_sec_down;
-    net_xfers->bytes_left_up = global_prefs.max_bytes_sec_up;
-    net_xfers->bytes_left_down = global_prefs.max_bytes_sec_down;
-
-    // max_cpus may have changed, so update ncpus
-    //
-    set_ncpus();
-}
-
 #if 0
 // Return the maximum allowed disk usage as determined by user preferences.
 // There are three different settings in the prefs;
@@ -360,26 +349,19 @@ void CLIENT_STATE::read_global_prefs() {
     bool found_venue;
     int retval;
 
-    retval = global_prefs.parse_file(GLOBAL_PREFS_FILE_NAME, "", found_venue);
+    retval = global_prefs.parse_file(
+        GLOBAL_PREFS_FILE_NAME, main_host_venue, found_venue
+    );
     if (retval) {
         msg_printf(NULL, MSG_INFO,
             "No general preferences found - using BOINC defaults"
         );
     } else {
-        PROJECT* p = global_prefs_source_project();
-        if (p) {
-            strcpy(main_host_venue, p->host_venue);
-            retval = global_prefs.parse_file(
-                GLOBAL_PREFS_FILE_NAME, p->host_venue, found_venue
-            );
-        }
         show_global_prefs_source(found_venue);
     }
-    read_global_prefs_override();
-}
 
-void CLIENT_STATE::read_global_prefs_override() {
-    bool found_venue;
+    // read the override file
+    //
     FILE* f = fopen(GLOBAL_PREFS_OVERRIDE_FILE, "r");
     if (f) {
         MIOFILE mf;
@@ -388,7 +370,17 @@ void CLIENT_STATE::read_global_prefs_override() {
         msg_printf(NULL, MSG_INFO, "Reading preferences override file");
         fclose(f);
     }
-    install_global_prefs();
+
+    // put new prefs into effect
+    //
+    net_xfers->max_bytes_sec_up = global_prefs.max_bytes_sec_up;
+    net_xfers->max_bytes_sec_down = global_prefs.max_bytes_sec_down;
+    net_xfers->bytes_left_up = global_prefs.max_bytes_sec_up;
+    net_xfers->bytes_left_down = global_prefs.max_bytes_sec_down;
+
+    // max_cpus may have changed, so update ncpus
+    //
+    set_ncpus();
 }
 
 int CLIENT_STATE::save_global_prefs(
@@ -417,26 +409,6 @@ int CLIENT_STATE::save_global_prefs(
         global_prefs_xml
     );
     fclose(f);
-    return 0;
-}
-
-int CLIENT_STATE::process_global_prefs_file(char* host_venue) {
-    int retval;
-    bool found_venue;
-
-    retval = global_prefs.parse_file(
-        GLOBAL_PREFS_FILE_NAME, host_venue, found_venue
-    );
-    if (retval) return retval;
-    show_global_prefs_source(found_venue);
-    int ncpus_old = ncpus;
-    read_global_prefs_override();
-    if (ncpus != ncpus_old) {
-        msg_printf(0, MSG_INFO,
-            "Number of usable CPUs has changed.  Running benchmarks."
-        );
-        run_cpu_benchmarks = true;
-    }
     return 0;
 }
 

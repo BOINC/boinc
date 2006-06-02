@@ -371,6 +371,12 @@ void ACCT_MGR_OP::handle_reply(int http_op_retval) {
             }
         }
 
+        bool read_prefs = false;
+        if (strlen(host_venue) && strcmp(host_venue, gstate.main_host_venue)) {
+            strcpy(gstate.main_host_venue, host_venue);
+            read_prefs = true;
+        }
+
         // process prefs if any
         //
         if (global_prefs_xml) {
@@ -380,10 +386,13 @@ void ACCT_MGR_OP::handle_reply(int http_op_retval) {
             if (retval) {
                 msg_printf(NULL, MSG_ERROR, "Can't save global prefs");
             }
-            retval = gstate.process_global_prefs_file(host_venue);
-            if (retval) {
-                msg_printf(NULL, MSG_ERROR, "Can't process global prefs");
-            }
+            read_prefs = true;
+        }
+
+        // process prefs if prefs or venue changed
+        //
+        if (read_prefs) {
+            gstate.read_global_prefs();
         }
     }
 

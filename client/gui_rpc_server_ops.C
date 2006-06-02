@@ -871,7 +871,7 @@ int GUI_RPC_CONN::handle_rpc() {
     } else if (match_tag(request_msg, "<acct_mgr_info")) {
         handle_acct_mgr_info(request_msg, mf);
     } else if (match_tag(request_msg, "<read_global_prefs_override/>")) {
-        gstate.read_global_prefs_override();
+        gstate.read_global_prefs();
         gstate.request_schedule_cpus("Preferences override");
     } else {
 

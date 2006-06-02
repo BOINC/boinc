@@ -21,6 +21,9 @@ echo "
             <li><a href=\"#Foreground Window Data\">Foreground Window Data</a>
         </ul>
     <li><a href=\"#Symbol Stores\">Symbol Stores</a>
+        <ul>
+            <li><a href=\"#SymIntroduction\">Introduction</a>
+        </ul>
     <li><a href=\"#Common Issues\">Common Issues</a>
 </ul>
 
@@ -252,11 +255,15 @@ The next piece of information has the following format:<br>
   <dt>Function Name</dt>
   <dd>The name of the function.</dd>
   <dt>Function Ordinal</dt>
-  <dd></dd>
+  <dd>Function ordinals only apply to functions that are publically exported from a DLL.</dd>
   <dt>Symbol Offset</dt>
-  <dd></dd>
+  <dd>If the symbol file being used has private symbols stripped, then the symbol displayed may 
+      not be the correct symbol. You can use the symbol offset to lookup the correct symbol
+      from the object file or some other tool that can map symbols to source.</dd>
   <dt>File/Line Information</dt>
-  <dd></dd>
+  <dd>Source file and line number information is not available in all symbol file formats, but
+      if it is there it'll be displayed.  PDB files are generally the best symbol file format 
+      to use.</dd>
 </dl>
 <h4><a name=\"Debug Message Dump\">Debug Message Dump</a></h4>
 <table width=100%>
@@ -269,6 +276,40 @@ The next piece of information has the following format:<br>
   </tr>
 </table>
 <p>
+This feature is disabled by default.
+<p>
+What is allows for is capturing the debugger viewport data at runtime just as though you were
+running the application within a debugger.  Since all applications use the same block of memory
+is can slow down any and all applications that want to write to the debugger viewport, even on
+release builds which is why it is disabled by default.  Video capture, edit, and playback
+software tends to dump data to the viewport even when running a release build.
+<p>
+The following regedit script demonstrates how to enable the debug message dump:
+<table width=100%>
+  <tr>
+    <td bgcolor=ddddff width=100%>
+      <pre>
+Windows Registry Editor Version 5.00
+
+[HKEY_CURRENT_USER\Software\Space Sciences Laboratory, U.C. Berkeley\BOINC Diagnostics]
+\"CaptureMessages\"=dword:00000001
+      </pre>
+    </td>
+  </tr>
+</table>
+To disable able the message capture use this regedit script:
+<table width=100%>
+  <tr>
+    <td bgcolor=ddddff width=100%>
+      <pre>
+Windows Registry Editor Version 5.00
+
+[HKEY_CURRENT_USER\Software\Space Sciences Laboratory, U.C. Berkeley\BOINC Diagnostics]
+\"CaptureMessages\"=dword:00000000
+      </pre>
+    </td>
+  </tr>
+</table>
 <p>
 <h4><a name=\"Foreground Window Data\">Foreground Window Data</a></h4>
 <table width=100%>
@@ -285,12 +326,22 @@ The next piece of information has the following format:<br>
   </tr>
 </table>
 <p>
+This shows which window has the user input focus.  The feature was originally meant to
+detect potiential problems with 3rd party application injecting code into BOINC
+applications and displaying UI to the user.
+<p>
+This feature turns out to be problematic since the foreground window might be hung 
+which would mean that trying to get the window name and class would cause the runtime 
+debugger to hang as well.  This feature will probably be removed in the future.
 <p>
 <h3><a name=\"Symbol Stores\">Symbol Stores</a></h3>
+<h4><a name=\"SymIntroduction\">Introduction</a></h4>
 <p>
+
 <p>
 <h3><a name=\"Common Issues\">Common Issues</a></h3>
-
+<p>
+<p>
 ";
 
 page_tail();

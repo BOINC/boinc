@@ -37,8 +37,15 @@ may not have any value to the project and may not be granted credit).
 so that NCPUS processors will be busy for at least
 min_queue days (min_queue is a user preference).
 <li> Project resource shares should be honored over the long term.
-<li> Variety: if a computer is attached to multiple projects,
-execution should rotate among projects on a frequent basis.
+<li> If a computer is attached to multiple projects,
+execution should rotate among projects on a frequent basis
+(as defined by the user's 'CPU scheduling period' preference).
+<li>
+Execution should not switch between projects much more frequently
+than the scheduling period,
+Otherwise, if the 'remove processes from memory' preference is set,
+and some applications take a long time to resume from a checkpoint,
+lot of CPU time will be wasted.
 </ol>
 
 <p>
@@ -257,6 +264,9 @@ Tiebreaker: least index in result array.
     decrement P's anticipated debt, and decrement deadlines_missed(P).
 <li> If there are more CPUs, and projects with deadlines_missed(P)>0, go to 1.
 <li> If all CPUs are scheduled, stop.
+<li> If there is a result R that is currently running,
+    and has been running for less than the CPU scheduling period,
+    schedule R and go to 5.
 <li> Find the project P with the greatest anticipated debt,
 select one of P's runnable results
 (picking one that is already running, if possible,
@@ -264,7 +274,7 @@ else the result with earliest deadline)
 and schedule that result.
 <li> Decrement P's anticipated debt by the 'expected payoff'
 (the scheduling period divided by NCPUS).
-<li> Repeat steps 6 and 7 for additional CPUs
+<li> Go to 5.
 </ol>
 
 <p>
@@ -281,7 +291,7 @@ but it doesn't enforce this decision.
 This enforcement is done by a separate
 <b>scheduler enforcement function</b>,
 which is called by the CPU scheduler at its conclusion
-and which also runs periodically.
+and which also runs periodically (every few seconds).
 Let X be the set of scheduled results that are not currently running,
 let Y be the set of running results that are not scheduled,
 and let T be the time the scheduler last ran.
@@ -422,12 +432,37 @@ plus the following optional parameters:
 <ul>
 <li> NCPUS: number of CPUS (default 1)
 <li> min_queue
+<li> leave_in_memory
+<li> cpu_scheduling_period
 </ul>
 
-Hence a typical scenario description is:
+An example scenario description is:
 <pre>
-(P1(1000, 2000, .5), P2(1, 10, .5), NCPUS=4)
+P1(1000, 2000, .5)
+P2(1, 10, .5)
+NCPUS=4
 </pre>
+<h2>Scenarios</h2>
+<h3>Scenario 1</h3>
+<p>
+<pre>
+P1(0.1, 1, .5)
+P2(1, 24, .25)
+P3(1, 24, .25)
+NCPUS = 2
+leave_in_memory = false
+cpu_scheduling_period = 1
+</pre>
+Typically one CPU will process 6-minute tasks for P1,
+and the other CPU will alternate between P2 and P3.
+It's critical that the scheduler run each task of P2 and P3
+for the full CPU scheduling period.
+If we went strictly by debt, we'd end up switching between
+them every 6 minutes,
+and both P2 and P3 would have to resume from a checkpoint each time.
+For some apps (e.g. Einstein@home) resuming from a checking
+takes several minutes.
+So we'd end up wasting most of the time on one CPU.
 ";
 page_tail();
 ?>

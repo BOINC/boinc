@@ -824,7 +824,7 @@ int CLIENT_STATE::handle_scheduler_reply(
 
     // see if we have a new venue from this project
     //
-    if (strlen(sr.host_venue) && strcmp(project->host_venue, sr.host_venue)) {
+    if (strcmp(project->host_venue, sr.host_venue)) {
         safe_strcpy(project->host_venue, sr.host_venue);
         msg_printf(project, MSG_INFO, "New host venue: %s", sr.host_venue);
         update_project_prefs = true;
@@ -848,10 +848,7 @@ int CLIENT_STATE::handle_scheduler_reply(
     }
 
     if (update_global_prefs) {
-        retval = process_global_prefs_file(project->host_venue);
-        if (retval) {
-            msg_printf(project, MSG_ERROR, "Can't parse general preferences");
-        }
+        read_global_prefs();
     }
 
     // deal with project preferences (should always be there)

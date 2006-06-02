@@ -124,6 +124,7 @@ public:
         // stores URL for -update_prefs option
     char main_host_venue[256];
         // venue from project that gave us general prefs
+        // or from account manager
     char attach_project_url[256];
     char attach_project_auth[256];
     bool exit_before_upload;
@@ -357,9 +358,7 @@ public:
     int suspend_network(int reason);
     int resume_network();
     void read_global_prefs();
-    void read_global_prefs_override();
     int save_global_prefs(char* prefs, char* url, char* sched);
-    int process_global_prefs_file(char* venue);
 private:
     void check_suspend_activities(int&);
     void check_suspend_network(int&);

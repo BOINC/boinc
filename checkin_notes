@@ -5409,3 +5409,13 @@ Charlie 1 June 2006
 
     clientgui/
         BOINCTaskBar.cpp
+
+David  2 June 2006
+    - Code cleanup and logic fixes in general prefs code
+
+    client/
+        acct_mgr.C
+        client_state.h
+        cs_apps.C
+        cs_prefs.C
+        cs_scheduler.C
