@@ -37,6 +37,11 @@ BEGIN_EVENT_TABLE (CTaskBarIcon, wxTaskBarIconEx)
     EVT_MENU(ID_OPENWEBSITE, CTaskBarIcon::OnOpenWebsite)
     EVT_MENU(ID_TB_SUSPEND, CTaskBarIcon::OnSuspend)
     EVT_MENU(wxID_ABOUT, CTaskBarIcon::OnAbout)
+#if   defined(__WXMAC__)
+    // wxMac-2.6.3 "helpfully" converts wxID_ABOUT to kHICommandAbout, wxID_EXIT to kHICommandQuit, 
+    //  wxID_PREFERENCES to kHICommandPreferences
+    EVT_MENU(kHICommandAbout, CTaskBarIcon::OnAbout)
+#endif
     EVT_MENU(wxID_EXIT, CTaskBarIcon::OnExit)
 
 #ifdef __WXMSW__

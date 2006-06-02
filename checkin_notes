@@ -4787,7 +4787,7 @@ Rom    16 May 2006
         diagnostics_win.C
 
 Charlie 16 May 2006
-    - Mac: Update XCode roject, build instructions and build scripts 
+    - Mac: Update XCode project, build instructions and build scripts 
         to use wxMac-2.6.3 instead of 2.6.2.
         Remove obsolete files exception.C,.h from XCode project.
     - Compile fix: don't #include <malloc.h> in stdwx.h if Mac.
@@ -5403,3 +5403,9 @@ David  1 June 2006
         acct_mgr.C
         client_state.C,h
         cs_prefs.C
+
+Charlie 1 June 2006
+    - Mac: Fix "About BOINC" menu item in Dock when linking with wxMac-2.6.3.
+
+    clientgui/
+        BOINCTaskBar.cpp
