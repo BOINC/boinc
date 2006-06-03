@@ -608,8 +608,8 @@ int handle_results(SCHEDULER_REQUEST& sreq, SCHEDULER_REPLY& reply) {
         }
 
         log_messages.printf(
-            SCHED_MSG_LOG::MSG_NORMAL, "[HOST#%d] [RESULT#%d %s] got result (DB: server_state=%d outcome=%d client_state=%d validate_state=%d)\n",
-            reply.host.id, srip->id, srip->name, srip->server_state, srip->outcome, srip->client_state, srip->validate_state
+            SCHED_MSG_LOG::MSG_NORMAL, "[HOST#%d] [RESULT#%d %s] got result (DB: server_state=%d outcome=%d client_state=%d validate_state=%d delete_state=%d)\n",
+            reply.host.id, srip->id, srip->name, srip->server_state, srip->outcome, srip->client_state, srip->validate_state, srip->file_delete_state
         );
 
         // Do various sanity checks.
@@ -640,6 +640,8 @@ int handle_results(SCHEDULER_REQUEST& sreq, SCHEDULER_REPLY& reply) {
                     // not already been invoked.
                     if (srip->validate_state != VALIDATE_STATE_INIT) {
                         dont_replace_result = "result ALREADY reported as error, or canceled on server";
+                    } else if (srip->file_delete_state != FILE_DELETE_INIT) {
+                        dont_replace_result = "result ALREADY reported as error or canceled on server, and deleted";
                     }
                     break;
                 case RESULT_OUTCOME_NO_REPLY:

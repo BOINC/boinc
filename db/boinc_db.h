@@ -678,6 +678,7 @@ struct SCHED_RESULT_ITEM {
     char stderr_out[LARGE_BLOB_SIZE];
     int app_version_num;
     int exit_status;
+    int file_delete_state;
 
     void clear();
     void parse(MYSQL_ROW& row);

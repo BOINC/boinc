@@ -5423,6 +5423,10 @@ David  2 June 2006
 Bruce 3 June 2006
     - Transitioner: nasty bug in logging, wrong result id/name
     - Scheduler: clearer logging for debugging purposes
+    - Scheduler: refuse to upload results if DB item is
+      (1) over and (2) validate state init and (3) NOT file_delete==INIT.
+
+      (David, please bless addition of file_delete_state to SCHED_RESULT_ITEM.)
 
     db/
         boinc_db.C
@@ -5430,3 +5434,4 @@ Bruce 3 June 2006
     sched/
         handle_request.C
         transitioner.C
+
