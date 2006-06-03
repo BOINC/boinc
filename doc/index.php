@@ -123,8 +123,6 @@ but also works well for desktop grid computing within organizations.
 ";
 search_form();
 echo "
-</center>
-</div>
 <br clear=all>
 
 <table width=100% border=0 cellspacing=0 cellpadding=4>

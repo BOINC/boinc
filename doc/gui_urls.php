@@ -45,7 +45,7 @@ they will be sent only if the user belongs to a team.
 The components of a <code>&lt;gui_url></code> element are:
 ";
 list_start();
-list_item("name", "A short name, used e.g. as a menu item");
+list_item("name", "A short name, used e.g. as a button name or menu item");
 list_item("description", "An explanation, used e.g. as a rollover popup");
 list_item("url", "The URL");
 list_end();

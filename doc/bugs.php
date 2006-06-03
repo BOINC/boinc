@@ -27,4 +27,5 @@ and is readable by the rest of the world.
 </ul>
 ";
 }
+page_tail();
 ?>

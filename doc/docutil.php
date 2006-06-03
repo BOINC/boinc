@@ -143,4 +143,19 @@ function error_page($x) {
     exit();
 }
 
+function block_start() {
+    global $light_blue;
+    echo "
+<table width=100% cellpadding=4>
+  <tr>
+    <td bgcolor=$light_blue width=100%>
+      <pre>";
+}
+
+function block_end() {
+      echo "</pre> </td> </tr>      </table>
+          ";
+
+}
+
 ?>

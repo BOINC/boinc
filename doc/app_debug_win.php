@@ -33,10 +33,7 @@ echo "
 This section is going to describe what the output of a crash dump looks like and what it contains.
 <p>
 <h4><a name=\"Debugger version\">Debugger version</a></h4>
-<table width=100%>
-  <tr>
-    <td bgcolor=ddddff width=100%>
-      <pre>
+"; block_start(); echo "
 BOINC Windows Runtime Debugger Version 5.5.0
 
 Dump Timestamp    : 04/16/06 23:41:39
@@ -45,10 +42,7 @@ Symbol Search Path: C:\\BOINCSRC\\Main\\boinc_samples\\win_build\\Release;
 C:\\BOINCSRC\\Main\\boinc_samples\\win_build\\Release;
 srv*c:\\windows\\symbols*http://msdl.microsoft.com/download/symbols;
 srv*C:\\DOCUME~1\\romw\\LOCALS~1\\Temp\\symbols*http://boinc.berkeley.edu/symstore
-      </pre>
-    </td>
-  </tr>
-</table>
+"; block_end(); echo "
 <p>
 This area provides some basic information about the version of the BOINC debugger 
 being used, when the crash occured, and what the internal version of the Windows
