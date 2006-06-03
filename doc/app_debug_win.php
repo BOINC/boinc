@@ -196,10 +196,7 @@ exception was raised and will look different for each process type.
 In this example these are the registers and flags for the Intel based x86 processor.
 <p>
 <h5><a name=\"Callstack\">Callstack</a></h5>
-<table width=100%>
-  <tr>
-    <td bgcolor=ddddff width=100%>
-      <pre>
+"; block_start(); echo "
 - Callstack -
 ChildEBP RetAddr  Args to Child
 00aafd60 00402221 00000000 00000000 00000000 00000001 ntdll!_DbgBreakPoint@0+0x0 FPO: [0,0,0] 
