@@ -5425,6 +5425,8 @@ Bruce 3 June 2006
     - Scheduler: clearer logging for debugging purposes
     - Scheduler: refuse to upload results if DB item is
       (1) over and (2) validate state init and (3) NOT file_delete==INIT.
+    - Unix package: since BOINC manager now starts client, change message
+      to user after install.
 
       (David, please bless addition of file_delete_state to SCHED_RESULT_ITEM.)
 

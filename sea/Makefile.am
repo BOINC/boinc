@@ -67,7 +67,7 @@ BOINC/binstall.sh: BOINC Makefile
 	echo "cd \"$$PWD\" && exec ./boincmgr \$$@" > run_manager &&\
 	chmod +x run_client &&\
 	chmod +x run_manager &&\
-	echo now run $$PWD/run_client to run the client and $$PWD/run_manager to run the GUI' > BOINC/binstall.sh
+	echo use $$PWD/run_manager to start BOINC' > BOINC/binstall.sh
 
 BOINC_debug/binstall.sh: BOINC_debug Makefile
 	echo 'cd BOINC_debug &&\
@@ -75,7 +75,7 @@ BOINC_debug/binstall.sh: BOINC_debug Makefile
 	echo "cd \"$$PWD\" && exec ./boincmgr.unmodified \$$@" > run_manager &&\
 	chmod +x run_client &&\
 	chmod +x run_manager &&\
-	echo now run $$PWD/run_client to run the client and $$PWD/run_manager to run the GUI' > BOINC_debug/binstall.sh
+	echo use $$PWD/run_manager to start BOINC' > BOINC_debug/binstall.sh
 
 BOINC:
 	mkdir -p BOINC
