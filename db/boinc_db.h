@@ -466,7 +466,7 @@ struct MSG_TO_HOST {
 };
 
 struct TRANSITIONER_ITEM {
-    int id;
+    int id; // WARNING: this is the WU ID
     char name[256];
     int appid;
     int min_quorum;
@@ -483,7 +483,7 @@ struct TRANSITIONER_ITEM {
     char result_template_file[64];
     int priority;
     int batch;
-    int res_id;
+    int res_id; // This is the RESULT ID
     char res_name[256];
     int res_report_deadline;
     int res_server_state;

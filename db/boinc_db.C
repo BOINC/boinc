@@ -1308,6 +1308,7 @@ void SCHED_RESULT_ITEM::parse(MYSQL_ROW& r) {
     received_time = atoi(r[i++]);
     validate_state = atoi(r[i++]);
     outcome = atoi(r[i++]);
+    client_state = atoi(r[i++]);
 }
 
 int DB_SCHED_RESULT_ITEM_SET::add_result(char* result_name) {
@@ -1338,7 +1339,8 @@ int DB_SCHED_RESULT_ITEM_SET::enumerate() {
         "   sent_time, "
         "   received_time, "
         "   validate_state, "
-        "   outcome "
+        "   outcome, "
+        "   client_state "
         "FROM "
         "   result "
         "WHERE "

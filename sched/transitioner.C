@@ -215,8 +215,8 @@ int handle_wu(
                         log_messages.printf(
                             SCHED_MSG_LOG::MSG_NORMAL,
                             "[WU#%d %s] [RESULT#%d %s] validate_state:INIT=>TOO_LATE retval %d\n",
-                            wu_item.id, wu_item.name, res_item.id,
-                            res_item.name, retval
+                            wu_item.id, wu_item.name, res_item.res_id,
+                            res_item.res_name, retval
                         );
                     } else {
                         have_new_result_to_validate = true;

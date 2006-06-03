@@ -152,7 +152,7 @@ static void mark_results_aborted(DB_HOST& host) {
 
         log_messages.printf(
             SCHED_MSG_LOG::MSG_CRITICAL,
-            "[HOST#%d] [RESULT#%d] [WU#%d] marking in-progress result %s as client error!\n",
+            "[HOST#%d] [RESULT#%d] [WU#%d] changed CPID: marking in-progress result %s as client error!\n",
             host.id, result.id, result.workunitid, result.name
         );
     }
@@ -302,7 +302,7 @@ lookup_user_and_make_new_host:
             if (find_host_by_cpid(user, sreq.host.host_cpid, host)) {
                 log_messages.printf(
                     SCHED_MSG_LOG::MSG_CRITICAL,
-                    "[HOST#%d] [USER#%d] User has another host with same CPID. Marking in-progress results as errors.\n",
+                    "[HOST#%d] [USER#%d] User has another host with same CPID.\n",
                     host.id, host.userid
                 );
                 mark_results_aborted(host);
@@ -608,8 +608,8 @@ int handle_results(SCHEDULER_REQUEST& sreq, SCHEDULER_REPLY& reply) {
         }
 
         log_messages.printf(
-            SCHED_MSG_LOG::MSG_NORMAL, "[HOST#%d] [RESULT#%d %s] got result\n",
-            reply.host.id, srip->id, srip->name
+            SCHED_MSG_LOG::MSG_NORMAL, "[HOST#%d] [RESULT#%d %s] got result (DB: server_state=%d outcome=%d client_state=%d validate_state=%d)\n",
+            reply.host.id, srip->id, srip->name, srip->server_state, srip->outcome, srip->client_state, srip->validate_state
         );
 
         // Do various sanity checks.

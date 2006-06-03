@@ -5419,3 +5419,14 @@ David  2 June 2006
         cs_apps.C
         cs_prefs.C
         cs_scheduler.C
+
+Bruce 3 June 2006
+    - Transitioner: nasty bug in logging, wrong result id/name
+    - Scheduler: clearer logging for debugging purposes
+
+    db/
+        boinc_db.C
+        boinc_db.h
+    sched/
+        handle_request.C
+        transitioner.C
