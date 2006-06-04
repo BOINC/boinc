@@ -26,7 +26,7 @@ define("NOLOGIN", "Not logged in. Click <a href=\"login.php\">here</a> to login.
 
 function admin_page_head($title) {
   //TODO: Add DOCTYPE description here when ready for HTML 4.01
-  echo "<html><head><title>$title</title><body " . BODY_COLOR . ">\n";
+  echo "<html><head><title>$title</title></head><body " . BODY_COLOR . ">\n";
   echo TABLE . "<tr " . TITLE_COLOR . "><td>" . TITLE_FONT . "<font size=\"6\"><b><a href=\"index.php\">".PROJECT.":</a>  $title</b></font></td></tr></table>\n";
 }
 
