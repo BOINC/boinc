@@ -5437,3 +5437,10 @@ Bruce 3 June 2006
         handle_request.C
         transitioner.C
 
+Bruce 4 June 2006
+    - HTML ops page: properly display queries containing '<' and '>'.
+
+    html/
+        ops/
+            db_action.php
+

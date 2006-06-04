@@ -39,7 +39,12 @@ $last = $start_at + $entries_to_show;
 
 $main_query = $q->get_select_query($entries_to_show, $start_at);
 
-echo "<p>Query: <b>$main_query</b><p>\n";
+// For display, convert query string characters < and > into 'html form' so
+// that they will be displayed.
+//
+$html_text=str_replace('<', '&lt;', str_replace('>', '&gt;', $main_query));
+
+echo "<p>Query: <b>$html_text</b><p>\n";
     
 $start_1_offset = $start_at + 1;
 echo "
