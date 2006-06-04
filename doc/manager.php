@@ -18,7 +18,7 @@ On Windows:
     <li>Right-click on the icon to access its menu (shown below).
     </ul>
 <br>
-<a name=icon>
+<a name=icon/>
 <img src=mgrsystraymenu.png>
 <br>
 On Mac OS X:
@@ -125,7 +125,7 @@ Each task is either:
 <li>Uploading:
     Output files are being uploaded.
 <li>Activities Suspended:
-    BOINC is suspended, either by the Command->Suspend menu item or 
+    BOINC is suspended, either by the Activity->Suspend menu item or 
     benchmarks are running
 <li>Project suspended by user:
     Project has been suspended by user.  Use the 'Resume' button on the
@@ -273,7 +273,7 @@ The BOINC manager has the following menus:
     </ul>
 
 <br>
-<a name=activity>
+<a name=activity/>
 <li> <b>Activity</b>
     <ul>
     <li> <b>Run always</b>: do work, regardless of preferences.

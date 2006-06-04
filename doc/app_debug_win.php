@@ -94,7 +94,7 @@ callstack which you can use to diagnose problems.
 <p>
 Export symbols usually only appear on DLLs since DLLs
 can export function pointers via the export table.
-When you see this in the module list you’ll only see functions which 
+When you see this in the module list you'll only see functions which 
 are listed in the export table in the callstack.
 <p>
 No symbols means that the runtime debugger could not determine a way to give you any 

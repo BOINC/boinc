@@ -47,24 +47,26 @@ to copy this workunit as needed to maintain a given supply of work.
 This program is supplied by BOINC and is application independent.
 It creates a shared-memory segment used to pass database records
 to CGI scheduler processes.
+This data includes applications, application versions,
+and 'work items' (an unsent result and its corresponding workunit).
 It has the following command-line options:
 ";
 list_start();
 list_item("-random_order",
-    "Enumerate in order of increasing result.random"
+    "Enumerate work items in order of increasing result.random"
 );
 list_item("-priority_order",
-    "Enumerate in order of decreasing result.priority"
+    "Enumerate work items in order of decreasing result.priority"
 );
 list_item("-priority_order_create_time",
-    "Enumerate in order of decreasing result.priority,
+    "Enumerate work items in order of decreasing result.priority,
     then increasing workunit.create_time"
 );
 list_item("-sleep_interval N",
     "Sleep N seconds if nothing to do"
 );
 list_item("-allapps",
-    "Interleave results from all applications uniformly"
+    "Interleave work items from all applications uniformly"
 );
 list_item("-purge_stale X",
     " remove work items from the shared memory segment
