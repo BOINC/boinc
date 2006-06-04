@@ -60,8 +60,7 @@ function page_tail() {
         <a href=\"/\">Return to BOINC main page</a>
         </center><p>
             <br>
-            <font color=888888>
-            <font size='2'>Last modified $d.<br>
+            <font color=888888 size='2'>Last modified $d.<br>
     ";
     copyright();
     echo "
