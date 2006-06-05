@@ -240,7 +240,7 @@ max_success_results
 <p>
 Here's a program that generates one workunit
 (error-checking is omitted for clarity):
-<pre>
+"; block_start(); echo "
 #include \"backend_lib.h\"
 
 main() {
@@ -278,8 +278,8 @@ main() {
         config
     );
 }
+"; block_end(); echo "
 
-</pre>
 This program must be run in the project directory
 since it expects to find the config.xml file in the current directory.
 
@@ -295,7 +295,7 @@ their input files, their command-line arguments, or both.
 For example, let's say you want to run a program
 on ten input files 'file0', 'file1', ..., 'file9'.
 You might modify the above program with the following code:
-<pre>
+"; block_start(); echo "
     char filename[256];
     char* infiles[1];
     infiles[0] = filename;
@@ -312,7 +312,7 @@ You might modify the above program with the following code:
             config
         );
     }
-</pre>
+"; block_end(); echo "
 Note that you only need one workunit template file
 and one result template file.
 
@@ -321,7 +321,7 @@ Now suppose you want to run a program against
 a single input file, but with ten command lines,
 '-flag 0', '-flag 1', ..., '-flag 9'.
 You might modify the above program with the following code:
-<pre>
+"; block_start(); echo "
     char command_line[256];
     ...
     for (i=0; i<10; i++) {
@@ -337,8 +337,7 @@ You might modify the above program with the following code:
             command_line
         );
     }
-</pre>
-
+"; block_end(); echo "
 Again, you only need one workunit template file
 and one result template file.
 ";

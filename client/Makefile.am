@@ -15,7 +15,7 @@ if OS_DARWIN
    LIBS += -framework IOKit -framework Foundation -framework ScreenSaver -framework Cocoa
 endif
 
-bin_PROGRAMS = boinc_client
+bin_PROGRAMS = boinc_client switcher
 lib_LIBRARIES = libbenchmark.a 
 
 LIBS += libbenchmark.a 

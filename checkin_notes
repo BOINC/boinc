@@ -5447,3 +5447,10 @@ Bruce 4 June 2006
         inc/
             util_ops.php
 
+David  4 June 2006
+    - add "switcher" program (part of new sandbox scheme)
+
+    client/
+        Makefile.am
+        app.C
+        switcher.C (new)
