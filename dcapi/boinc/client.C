@@ -123,34 +123,6 @@ unsigned DC_getGridCapabilities(void)
  * Client API functions
  */
 
-static int parse_wu_name(void)
-{
-	struct stat st;
-	char *buf;
-	FILE *f;
-	int ret;
-
-	/* Extract the WU name from init_data.xml */
-	ret = stat(INIT_DATA_FILE, &st);
-	if (ret)
-		return DC_ERR_SYSTEM;
-
-	f = boinc_fopen(INIT_DATA_FILE, "r");
-	if (!f)
-		return DC_ERR_SYSTEM;
-
-	buf = (char *)malloc(st.st_size + 1);
-	fread(buf, st.st_size, 1, f);
-	fclose(f);
-	buf[st.st_size] = '\0';
-
-	ret = parse_str(buf, "<wu_name>", wu_name, sizeof(wu_name));
-	free(buf);
-	if (!ret)
-		return DC_ERR_INTERNAL;
-	return 0;
-}
-
 int DC_initClient(void)
 {
 	char path[PATH_MAX], *buf, label[32];
@@ -194,12 +166,19 @@ int DC_initClient(void)
 		DC_log(LOG_INFO, "Found initial checkpoint file %s",
 			last_complete_ckpt);
 
-	ret = parse_wu_name();
-	if (ret)
+	/* Extract the WU name from init_data.xml */
+	if (boinc_is_standalone())
 	{
-		DC_log(LOG_WARNING, "Failed to determine the WU name, "
-			"stand-alone mode is assumed");
+		DC_log(LOG_NOTICE, "Running in stand-alone mode, some "
+			"functions are not available");
 		wu_name[0] = '\0';
+	}
+	else
+	{
+		APP_INIT_DATA init_data;
+
+		boinc_get_init_data(init_data);
+		strncpy(wu_name, init_data.wu_name, sizeof(wu_name));
 	}
 
 	/* Initialize all optional output files as empty to prevent
