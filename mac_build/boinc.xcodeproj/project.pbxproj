@@ -874,7 +874,7 @@
 		DD73E36208A06ED400656EB1 /* gui_rpc_server_ops.C */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.cpp.cpp; name = gui_rpc_server_ops.C; path = ../client/gui_rpc_server_ops.C; sourceTree = SOURCE_ROOT; };
 		DD73E3A308A078AF00656EB1 /* Localization.cpp */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.cpp.cpp; name = Localization.cpp; path = ../clientgui/Localization.cpp; sourceTree = SOURCE_ROOT; };
 		DD73E3A408A078AF00656EB1 /* Localization.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = Localization.h; path = ../clientgui/Localization.h; sourceTree = SOURCE_ROOT; };
-		DD7748980A356C880025D05E /* Security */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = Security; sourceTree = BUILT_PRODUCTS_DIR; };
+		DD7748980A356C880025D05E /* SetUpSecurity */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = SetUpSecurity; sourceTree = BUILT_PRODUCTS_DIR; };
 		DD7748B40A356D6C0025D05E /* SetupSecurity.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = SetupSecurity.cpp; path = ../clientgui/mac/SetupSecurity.cpp; sourceTree = SOURCE_ROOT; };
 		DD7C5E7508110AE3002FCE1E /* ScreenSaver.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = ScreenSaver.framework; path = /System/Library/Frameworks/ScreenSaver.framework; sourceTree = "<absolute>"; };
 		DD81C3D507C5CEB50098A04D /* cpp.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = cpp.h; path = ../client/cpp.h; sourceTree = SOURCE_ROOT; };
@@ -1102,7 +1102,7 @@
 				DD1277B3081F3D67007B5DE1 /* Postinstall.app */,
 				DD69FEE808416C1300C01361 /* boinc_cmd */,
 				DD6381EA0870DC9D007A2F8E /* MakeAppIcon_h */,
-				DD7748980A356C880025D05E /* Security */,
+				DD7748980A356C880025D05E /* SetUpSecurity */,
 			);
 			name = Products;
 			sourceTree = SOURCE_ROOT;
@@ -1968,7 +1968,7 @@
 			);
 			name = SetUpSecurity;
 			productName = Security;
-			productReference = DD7748980A356C880025D05E /* Security */;
+			productReference = DD7748980A356C880025D05E /* SetUpSecurity */;
 			productType = "com.apple.product-type.tool";
 		};
 		DD96AFF80811075000A06F22 /* ScreenSaver */ = {
@@ -2725,7 +2725,7 @@
 					Carbon,
 				);
 				PREBINDING = NO;
-				PRODUCT_NAME = Security;
+				PRODUCT_NAME = SetUpSecurity;
 				ZERO_LINK = NO;
 			};
 			name = Development;
@@ -2743,7 +2743,7 @@
 					Carbon,
 				);
 				PREBINDING = NO;
-				PRODUCT_NAME = Security;
+				PRODUCT_NAME = SetUpSecurity;
 				ZERO_LINK = NO;
 			};
 			name = ppc_Deployment;
@@ -2761,7 +2761,7 @@
 					Carbon,
 				);
 				PREBINDING = NO;
-				PRODUCT_NAME = Security;
+				PRODUCT_NAME = SetUpSecurity;
 				ZERO_LINK = NO;
 			};
 			name = i386_Deployment;
@@ -2781,7 +2781,7 @@
 					Carbon,
 				);
 				PREBINDING = NO;
-				PRODUCT_NAME = Security;
+				PRODUCT_NAME = SetUpSecurity;
 				ZERO_LINK = NO;
 			};
 			name = Deployment;
