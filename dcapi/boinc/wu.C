@@ -1171,7 +1171,7 @@ DC_Workunit *_DC_getWUByName(const char *name)
 	}
 
 	/* WU name syntax: <uuid> '_' <uuid> [ '_' <tag> ] */
-	if (name[36] != '_' || (strlen(name) >= 73 && name[73] != '_'))
+	if (name[36] != '_' || (strlen(name) > 73 && name[73] != '_'))
 	{
 		DC_log(LOG_ERR, "Illegal WU name syntax");
 		return NULL;
