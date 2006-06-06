@@ -133,8 +133,11 @@ list_item("server_state",
     <ul>
     <li> Initially UNSENT
     <li> Set by scheduler to IN_PROGRESS when send result
-    <li> Set by scheduler to OVER when get reply from client
-    <li> Set by transitioner to OVER if now > result.report_deadline
+    <li> Set by scheduler to OVER when result is reported
+        in request message from client.
+    <li> Set by scheduler to OVER when it thinks
+        host has detached project.
+    <li> Set by transitioner to OVER if now &gt; result.report_deadline
     <li> Set by transitioner to OVER if WU has error condition
         and result.server_state=UNSENT
     <li> Set by validator to OVER if WU has canonical result
@@ -143,22 +146,29 @@ list_item("server_state",
     "
 );
 list_item("outcome",
-    "Values: SUCCESS, COULDNT_SEND, CLIENT_ERROR, NO_REPLY, DIDNT_NEED.
+    "Values: SUCCESS, COULDNT_SEND, CLIENT_ERROR, NO_REPLY, DIDNT_NEED,
+    VALIDATE_ERROR.
     <br>Defined iff result.server_state=OVER
     <ul>
     <li> Set by scheduler to SUCCESS if get reply and no client error
     <li> Set by scheduler to CLIENT_ERROR if get reply and client error
+    <li> Set by scheduler to NO_REPLY if it thinks host has detached project.
     <li> Set by transitioner to NO_REPLY if server_state=IN_PROGRESS
-        and now<report_deadline
+        and now &lt; report_deadline
     <li> Set by transitioner to DIDNT_NEED if WU has error condition
         and result.server_state=UNSENT
     <li> Set by validator to DIDNT_NEED if WU has canonical result
         and result.server_state=UNSENT
+    <li> Set by validator to VALIDATE_ERROR if outcome was initially
+        SUCCESS, but the validator had a permanent error reading a result file,
+        or a file had a syntax error.
+        Prevents the validator from trying again.
     </ul>
     "
 );
 list_item("client_state",
-    "Records the client state (upload, process, or download)
+    "Records the client state (DOWNLOADING, DOWNLOADED,
+    COMPUTE_ERROR, UPLOADING, UPLOADED, ABORTED)
     where an error occurred.
     Defined if outcome is CLIENT_ERROR.
     "
@@ -172,7 +182,7 @@ list_item("file_delete_state",
         and file_delete_state=INIT,
         and wu.assimilate_state=DONE,
         and all the results have server_state=OVER,
-        and all all the results with outcome=SUCCESS have validate_state<>INIT 
+        and all all the results with outcome=SUCCESS have validate_state&lt;&gt;INIT 
     <li> Set by transitioner to READY if wu.assimilate_state=DONE
         and result.outcome=CLIENT_ERROR
         or result.validate_state!=INIT
@@ -187,11 +197,16 @@ list_item("validate_state",
     <li> Initially INIT
     <li> Set by validator to VALID if outcome=SUCCESS and matches canonical result
     <li> Set by validator to INVALID if outcome=SUCCESS and doesn't match canonical result
+    <li> Set by transitioner to NO_CHECK if the WU had an error;
+    this avoids showing claimed credit as 'pending'.
     <li> Set by validator to ERROR if outcome=SUCCESS and
         had a permanent error trying to read an output file,
         or an output file had a syntax error.
     <li> Set by validator to INCONCLUSIVE if check_set()
         didn't find a consensus in a set of results containing this one.
+    <li> Set by scheduler to TOO_LATE if the result was reported
+        after the canonical result's files were deleted.
+        
     </ul>
     "
 );

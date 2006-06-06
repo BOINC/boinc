@@ -166,6 +166,7 @@ int create_shmem(key_t key, int size, void** pp) {
         id = shmget(key, size, IPC_CREAT|SHM_R|SHM_W);
     }
     if (id < 0) {
+        perror("shmget");
         return ERR_SHMGET;
     }
     return attach_shmem(key, pp);
@@ -179,9 +180,13 @@ int destroy_shmem(key_t key){
     id = shmget(key, 0, 0);
     if (id < 0) return 0;           // assume it doesn't exist
     retval = shmctl(id, IPC_STAT, &buf);
-    if (retval) return ERR_SHMCTL;
+    if (retval) {
+        perror("shmctl STAT");
+        return ERR_SHMCTL;
+    }
     retval = shmctl(id, IPC_RMID, 0);
     if (retval) {
+        perror("shmctl RMID");
         return ERR_SHMCTL;
     }
     return 0;
@@ -193,10 +198,12 @@ int attach_shmem(key_t key, void** pp){
 
     id = shmget(key, 0, 0);
     if (id < 0) {
+        perror("shmget");
         return ERR_SHMGET;
     }
     p = shmat(id, 0, 0);
     if ((long)p == -1) {
+        perror("shmat");
         return ERR_SHMAT;
     }
     *pp = p;

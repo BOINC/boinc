@@ -5468,3 +5468,28 @@ Charlie 6 June 2006
     mac_build/
         boinc.xcodeproj/
             project.pbxproj
+
+David  6 June 2006
+    - scheduler: if we think a host has detached
+        (because of zero host ID but existing CPID)
+        marks its in-progress results as NO_REPLY, not CLIENT_ERROR
+    - scheduler: remove special handling for reported results
+        that are OVER/CLIENT_ERROR
+        (with above change, this shouldn't happen)
+    - scheduler: if we can't attach to shared memory,
+        return "Project encountered internal error" to client,
+        not misleading "Project is temporarily shut down for maintenance"
+    - shmem-related functions: call perror() on error
+    - make_project: <show_results>, not <show_result>
+
+    db/
+        boinc_db.h
+    html/ops/
+        watchdog.php
+    lib/
+        shmem.C
+    py/Boinc/
+        setup_project.py
+    sched/
+        handle_request.C
+        main.C

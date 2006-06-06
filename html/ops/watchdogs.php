@@ -15,8 +15,7 @@
 
 function sound_alarm($x) {
     //echo "alarm: $x\n";
-    mail("davea@ssl.berkeley.edu", "BOINC problem", $x);
-    mail("eheien@ssl.berkeley.edu", "BOINC problem", $x);
+    mail(SYS_ADMIN_EMAIL, "BOINC problem", $x);
 }
 
 function check_log_file($file, $last_time) {

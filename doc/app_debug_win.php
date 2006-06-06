@@ -23,8 +23,16 @@ echo "
     <li><a href=\"#Symbol Stores\">Symbol Stores</a>
         <ul>
             <li><a href=\"#SymIntroduction\">Introduction</a>
+            <li><a href=\"#SymRequirements\">Requirements</a>
+            <li><a href=\"#SymProject\">Project Symbol Store</a>
+            <li><a href=\"#SymAdd\">Adding symbols to the symbol store</a>
+            <li><a href=\"#SymUpload\">Uploading symbols to the symbol store</a>
         </ul>
     <li><a href=\"#Common Issues\">Common Issues</a>
+        <ul>
+            <li><a href=\"#CommonIntroduction\">Introduction</a>
+            <li><a href=\"#Common0xc0000096\">Privileged Instruction (0xc0000096)</a>
+        </ul>
 </ul>
 
 <h3><a name=\"Anatomy of a Windows stack trace\">Anatomy of a Windows stack trace</a></h3>
@@ -94,7 +102,7 @@ callstack which you can use to diagnose problems.
 <p>
 Export symbols usually only appear on DLLs since DLLs
 can export function pointers via the export table.
-When you see this in the module list you'll only see functions which 
+When you see this in the module list you’ll only see functions which 
 are listed in the export table in the callstack.
 <p>
 No symbols means that the runtime debugger could not determine a way to give you any 
@@ -283,11 +291,136 @@ This feature will probably be removed in the future.
 <h3><a name=\"Symbol Stores\">Symbol Stores</a></h3>
 <h4><a name=\"SymIntroduction\">Introduction</a></h4>
 <p>
-
+In order to obtain useful diagnostic information in the event of an application crash, 
+it is necessary to dump a callstack and any other relevant information about what was 
+going on at the time of the crash.  Symbols are only needed during a crash event, 
+therefore they are stripped from most applications to cut down on the binary size and 
+bandwidth requirements to deploy a new release.
+<p>
+Without symbols, callstacks tend to be nothing more than a list of function pointers 
+in memory.  A developer has to load the un-stripped executable in memory using the 
+same operating system and similar processor to jump to that memory address in order 
+to determine the function name and parameters.  This is very labor intensive and 
+generally not a very fun job.
+<p>
+Microsoft created a technology called a 'Symbol Store' to use with their debugger 
+technology which allows Windows debuggers to locate and download compressed symbol 
+files to diagnose problems and convert function pointers into human readable text. 
+This greatly speeds up the process of diagnosing and fixing bugs.
+<p>
+With the BOINC Runtime Debugger for Windows framework a project can publish their 
+symbol files and only have to distribute the application to each of the BOINC 
+clients.  When a crash event occurs the runtime framework will download the symbol 
+file from the symbol store and then proceed to dump as much diagnostic information 
+as possible to help projects diagnose the failure.
+<p>
+<h4><a name=\"SymRequirements\">Requirements</a></h4>
+<p>
+You'll need the latest stable release of the 
+<a href='http://www.microsoft.com/whdc/devtools/debugging/default.mspx'>
+  Debugging Tools for Windows.
+</a>
+<p>
+Verify that your executable is setup to generate PDB debugging symbols for a release
+build.  
+<p>
+Verify that the advance linker option to generate a checksum is enabled for a release
+build.
+<p>
+You'll need to explictly name both your EXE and PDB before compilation since
+the debugger bases the name of the PDB file off of information that is stored in the
+executable header.  
+<p>
+<h4><a name=\"SymProject\">Project Symbol Store</a></h4>
+<p>
+Specifying a project wide symbol store is as easy as adding the symstore element
+to your config.xml file for the project.
+<p>
+Below is an XML shred with an example symstore element.
+<p>
+". html_text("
+<boinc>
+    <config>
+        <symstore>http://sample.example.com/symstore</symstore>
+    </config>
+</boinc>
+")."
+<p>
+<h4><a name=\"SymAdd\">Adding symbols to the symbol store</a></h4>
+<p>
+<a href='http://msdn.microsoft.com/library/default.asp?url=/library/en-us/debug/base/using_symstore.asp'>Symstore</a>
+is a utility to manage symbol stores.  You'll want to create a local symbol store on
+your Windows build machine in which you'll initially add new symbol files with each
+revision of your application.
+<p>
+Symstore will compress the symbol file and then copy it into your local symbol store.
+<p>
+Below is an example command which you can run from the Windows command line or
+cygwin command line.
+<p>
+"; block_start(); echo "
+symstore.exe add /l /f c:\SampleSrc\*.pdb /s c:\symstore /compress /t \"Sample\" /v \"5.02\" /o /c \"Application Release\"
+"; block_end(); echo "
+<p>
+<h4><a name=\"SymUpload\">Uploading symbols to the symbol store</a></h4>
+<p>
+Most projects tend to use scp to copy files between Windows machines and their project
+server.
+<p>
+The example below copies the entire symstore to the target location.  After the copy
+operation you can delete all the subdirectories except '000Admin' to save time uploading
+for future application symbols.
+<p>
+"; block_start(); echo "
+pscp.exe -r -C -batch c:\symstore sample@project.example.com:projects/sample/html/user/symstore
+"; block_end(); echo "
 <p>
 <h3><a name=\"Common Issues\">Common Issues</a></h3>
+<h4><a name=\"CommonIntroduction\">Introduction</a></h4>
 <p>
 <p>
+<h4><a name=\"Common0xc0000096\">Privileged Instruction (0xc0000096)</a></h4>
+"; block_start(); echo "
+- Unhandled Exception Record -
+Reason: Privileged Instruction (0xc0000096) at address 0x008E9808
+
+- Registers -
+eax=00000400 ebx=00000000 ecx=00002922 edx=00b0c650 esi=01e1f7ec edi=027e2abc
+eip=008e9808 esp=01e1f778 ebp=ffffffff
+cs=001b  ss=0023  ds=0023  es=0023  fs=003b  gs=0000             efl=00010202
+
+- Callstack -
+ChildEBP RetAddr  Args to Child
+01e1f7b4 008ea16b 3f4bcaf9 3f827d51 01e1f7ec 01e1f7fc rosetta_beta_5.19_windows_intel!spherical+0x1 (rosetta++\structure.cc:1436) 
+01e1f83c 008ec11f 00b38180 00000003 00000009 01e1f974 rosetta_beta_5.19_windows_intel!HSpair_score+0x0 (rosetta++\structure.cc:367) 
+01e1f854 008b6d18 00b38058 00b3805c 00b38180 00b381b0 rosetta_beta_5.19_windows_intel!evaluate_ss+0x6 (rosetta++\structure.cc:102) 
+01e1f974 00937bf6 a8af5c9d 0001c3f9 00001473 00000100 rosetta_beta_5.19_windows_intel!scorefxn+0x25 (rosetta++\score.cc:190) 
+01e1f9b0 005e435f 00000009 008b7960 0001c3f9 a8af5cd5 rosetta_beta_5.19_windows_intel!main_frag_trial+0x4 (rosetta++\torsion_bbmove_trials.cc:446) 
+01e1fb74 006f1c01 a8af5e9d 3030302e 3c303030 00000000 rosetta_beta_5.19_windows_intel!fold_abinitio+0xc (rosetta++\fold_abinitio.cc:270) 
+01e1ffb0 006363c0 7c80b50b 00000000 3030302e 3c303030 rosetta_beta_5.19_windows_intel!main_rosetta+0x5 (rosetta++\main.cc:343) 
+01e1ffb4 7c80b50b 00000000 3030302e 3c303030 00000000 rosetta_beta_5.19_windows_intel!foobar+0x0 (boinc\api\graphics_impl.c:75) 
+01e1ffec 00000000 006363b0 00000000 00000000 00000000 kernel32!_BaseThreadStart@8+0x0 (boinc\api\graphics_impl.c:75) 
+"; block_end(); echo "
+<p>
+In this example it appears the processor took exception to the fact that a user mode
+process attempted to push a kernel mode address onto the stack without first switching
+to kernel mode.
+<p>
+Look at the EBP register, 'ffffffff' when converted into a signed int is equal to '-1' 
+and when converted to an unsigned int it is equal to 4GB.  On Windows anything above 2GB 
+is considered a kernel mode address.  If the Windows machine supports PAE and the /3GB
+boot option is specified in BOOT.INI then kernel addresses will start at 3GB instead.
+<p>
+What has probably happened here is that a function is about to be called and a 'push EBP'
+instruction was called to push a new address onto the stack, the CPU threw the exception 
+since the address was outside user mode land. EBP should have had a similar progression 
+as all the other stack frames ChildEBP values.
+<p>
+If EBP had some random kernel mode address it would be pretty easy to dismiss this as
+a CPU overheating.  'ffffffff' begs the question is the stack being overwritten by an
+error result from another function?
+<p>
+Investigation of this issue is still ongoing.
 ";
 
 page_tail();

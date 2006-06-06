@@ -125,10 +125,15 @@ static bool find_host_by_cpid(DB_USER& user, char* host_cpid, DB_HOST& host) {
     return false;
 }
 
-// scan in-progress results for the given host,
-// and mark them as done, client error
+// Called when there's evidence that the host has detached.
+// Mark in-progress results for the given host
+// as server state OVER, outcome NO_REPLY.
+// This serves two purposes:
+// 1) make sure we don't resend these results to the host
+//    (they may be the reason the user detached)
+// 2) trigger the generation of new results for these WUs
 //
-static void mark_results_aborted(DB_HOST& host) {
+static void mark_results_over(DB_HOST& host) {
     char buf[256], buf2[256];
     DB_RESULT result;
     sprintf(buf, "where hostid=%d and server_state=%d",
@@ -139,7 +144,7 @@ static void mark_results_aborted(DB_HOST& host) {
         sprintf(buf2,
             "server_state=%d, outcome=%d",
             RESULT_SERVER_STATE_OVER,
-            RESULT_OUTCOME_CLIENT_ERROR
+            RESULT_OUTCOME_NO_REPLY
         );
         result.update_field(buf2);
 
@@ -305,7 +310,7 @@ lookup_user_and_make_new_host:
                     "[HOST#%d] [USER#%d] User has another host with same CPID.\n",
                     host.id, host.userid
                 );
-                mark_results_aborted(host);
+                mark_results_over(host);
                 goto got_host;
             }
         }
@@ -617,7 +622,9 @@ int handle_results(SCHEDULER_REQUEST& sreq, SCHEDULER_REPLY& reply) {
         // which suppresses the DB update later on
         //
 
-        // If result is ALREADY over, do we replace it??
+        // If result has server_state OVER
+        //   if outcome NO_REPLY accept it (it's just late).
+        //   else ignore it
         //
         if (srip->server_state == RESULT_SERVER_STATE_OVER) {
             char *dont_replace_result = NULL;
@@ -635,14 +642,8 @@ int handle_results(SCHEDULER_REQUEST& sreq, SCHEDULER_REPLY& reply) {
                     dont_replace_result = "this work could NOT be sent";
                     break;
                 case RESULT_OUTCOME_CLIENT_ERROR:
-                    // result was previously cancelled on server side.
-                    // keep this new, real result ONLY if validator has
-                    // not already been invoked.
-                    if (srip->validate_state != VALIDATE_STATE_INIT) {
-                        dont_replace_result = "result ALREADY reported as error, or canceled on server";
-                    } else if (srip->file_delete_state != FILE_DELETE_INIT) {
-                        dont_replace_result = "result ALREADY reported as error or canceled on server, and deleted";
-                    }
+                    // should never happen!
+                    dont_replace_result = "result ALREADY reported as error";
                     break;
                 case RESULT_OUTCOME_NO_REPLY:
                     // result is late in arriving, but keep it anyhow

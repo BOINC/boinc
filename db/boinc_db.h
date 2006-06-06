@@ -362,10 +362,8 @@ struct WORKUNIT {
 // especially for a project already running -
 // the database will become inconsistent
 
-#define RESULT_SERVER_STATE_INACTIVE       1
+//#define RESULT_SERVER_STATE_INACTIVE       1
 #define RESULT_SERVER_STATE_UNSENT         2
-#define RESULT_SERVER_STATE_UNSENT_SEQ     3
-    // unsent, part of a work sequence
 #define RESULT_SERVER_STATE_IN_PROGRESS    4
 #define RESULT_SERVER_STATE_OVER           5
     // we received a reply, timed out, or decided not to send.

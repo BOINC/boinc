@@ -296,14 +296,14 @@ Let X be the set of scheduled results that are not currently running,
 let Y be the set of running results that are not scheduled,
 and let T be the time the scheduler last ran.
 The enforcement policy is as follows:
-<ul>
+<ol>
 <li> If deadline_missed(R) for some R in X,
 then preempt a result in Y, and run R
 (preempt the result with the least CPU wall time since checkpoint).
 Repeat as needed.
 <li> If there is a result R in Y that checkpointed more recently than T,
 then preempt R and run a result in X.
-</ul>
+</ol>
 
 
 
@@ -362,6 +362,10 @@ if total_shortfall > 0
         and are proportional to P.resource_share
 </pre>
 
+<p>
+For non-CPU-intensive projects,
+P.work_request_size is set to 1 if P has no nearly-runnable result,
+otherwise 0.
 <p>
 The scheduler RPC mechanism may select a project to contact
 because of a user request, an outstanding trickle-up message,

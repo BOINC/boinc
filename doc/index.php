@@ -146,7 +146,6 @@ foreach ($projects as $p) {
 echo "
     </ul>
     <p>
-    BOINC is an open-source software platform for volunteer computing.
     You can participate in several projects, ensuring that
     your computer will be kept busy even when one project has no work.
     <p>

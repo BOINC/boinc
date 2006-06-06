@@ -385,7 +385,7 @@ class Project:
         config.max_wus_to_send = 50
         config.daily_result_quota = 500
         config.disable_account_creation = 1
-        config.show_result = 1
+        config.show_results = 1
 
         config.master_url    = master_url or os.path.join(options.html_url , self.short_name , '')
         config.download_url  = os.path.join(config.master_url, 'download')

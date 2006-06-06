@@ -76,7 +76,7 @@ GUI_URLS gui_urls;
 key_t sema_key;
 int g_pid;
 static bool db_opened=false;
-bool project_stopped = false;
+bool shmem_failed = false;
 
 void send_message(const char* msg, int delay, bool send_header) {
     if (send_header) {
@@ -198,9 +198,10 @@ SCHED_SHMEM* attach_to_feeder_shmem() {
     retval = attach_shmem(config.shmem_key, &p);
     if (retval || p==0) {
         log_messages.printf(SCHED_MSG_LOG::MSG_CRITICAL,
-            "Can't attach shmem (feeder not running?)\n"
+            "Can't attach shmem: %d (feeder not running?)\n",
+            retval
         );
-        project_stopped = true;
+        shmem_failed = true;
     } else {
         ssp = (SCHED_SHMEM*)p;
         retval = ssp->verify();
@@ -214,12 +215,16 @@ SCHED_SHMEM* attach_to_feeder_shmem() {
 
         for (i=0; i<10; i++) {
             if (ssp->ready) break;
-            log_messages.printf(SCHED_MSG_LOG::MSG_DEBUG, "waiting for ready flag\n");
+            log_messages.printf(SCHED_MSG_LOG::MSG_DEBUG,
+                "waiting for ready flag\n"
+            );
             sleep(1);
         }
         if (!ssp->ready) {
-            log_messages.printf(SCHED_MSG_LOG::MSG_CRITICAL, "feeder doesn't seem to be running\n");
-            send_message("Server has software problem", 3600, true);
+            log_messages.printf(SCHED_MSG_LOG::MSG_CRITICAL,
+                "feeder doesn't seem to be running\n"
+            );
+            send_message("Project encountered internal error: feeder not running", 3600, true);
             exit(0);
         }
     }
@@ -286,7 +291,9 @@ int main(int argc, char** argv) {
 
     retval = config.parse_file("..");
     if (retval) {
-        log_messages.printf(SCHED_MSG_LOG::MSG_CRITICAL, "Can't parse config file\n");
+        log_messages.printf(SCHED_MSG_LOG::MSG_CRITICAL,
+            "Can't parse config file\n"
+        );
         send_message("Server can't parse configuration file", 3600, true);
         exit(0);
     }
@@ -311,8 +318,8 @@ int main(int argc, char** argv) {
     while(FCGI_Accept() >= 0) {
     counter++;
 #endif
-    if (project_stopped) {
-        send_message("Project is temporarily shut down for maintenance", 3600, true);
+    if (shmem_failed) {
+        send_message("Project encountered internal error: shared memory", 3600, true);
         goto done;
     }
     log_request_info(length);
@@ -330,7 +337,9 @@ int main(int argc, char** argv) {
         sprintf(reply_path, "%s%d_%u", REPLY_FILE_PREFIX, g_pid, counter);
         fout = fopen(req_path, "w");
         if (!fout) {
-            log_messages.printf(SCHED_MSG_LOG::MSG_CRITICAL, "can't write request file\n");
+            log_messages.printf(SCHED_MSG_LOG::MSG_CRITICAL,
+                "can't write request file\n"
+            );
             exit(1);
         }
         copy_stream(stdin, fout);
@@ -345,12 +354,16 @@ int main(int argc, char** argv) {
 
         fin = fopen(req_path, "r");
         if (!fin) {
-            log_messages.printf(SCHED_MSG_LOG::MSG_CRITICAL, "can't read request file\n");
+            log_messages.printf(SCHED_MSG_LOG::MSG_CRITICAL,
+                "can't read request file\n"
+            );
             exit(1);
         }
         fout = fopen(reply_path, "w");
         if (!fout) {
-            log_messages.printf(SCHED_MSG_LOG::MSG_CRITICAL, "can't write reply file\n");
+            log_messages.printf(SCHED_MSG_LOG::MSG_CRITICAL,
+                "can't write reply file\n"
+            );
             exit(1);
         }
 
@@ -359,7 +372,9 @@ int main(int argc, char** argv) {
         fclose(fout);
         fin = fopen(reply_path, "r");
         if (!fin) {
-            log_messages.printf(SCHED_MSG_LOG::MSG_CRITICAL, "can't read reply file\n");
+            log_messages.printf(SCHED_MSG_LOG::MSG_CRITICAL,
+                "can't read reply file\n"
+            );
             exit(1);
         }
         copy_stream(fin, stdout);
