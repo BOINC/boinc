@@ -48,23 +48,6 @@ static char                    memberdPath[] = "/usr/sbin/memberd";
 
 int main(int argc, char *argv[]) {
     OSStatus                err = noErr;
-    Handle                  userListH = nil;
-    AuthorizationRights     ourAuthRights;
-
-    ourAuthRights.count = 0;
-    ourAuthRights.items = NULL;
-
-    err = AuthorizationCreate (&ourAuthRights, kAuthorizationEmptyEnvironment, kAuthorizationFlagDefaults, &gOurAuthRef);
-    if (err != noErr) {
-        ShowSecurityError("AuthorizationCreate returned error %d", err);
-        return err;
-    }
-    
-    err = GetAuthorization();
-    if (err != noErr) {
-        ShowSecurityError("GetAuthorization returned error %d", err);
-        return err;
-    }
 
     err = CreateUserAndGroup(boinc_master_name);
     if (err != noErr)
@@ -131,6 +114,7 @@ static OSStatus CreateUserAndGroup(char * name) {
     // neither a user ID or a group ID.
     // If we need both a new user ID and a new group ID, finds a value that can be used for both.
     if ( (userid == 0) || (groupid == 0) ) {
+        for(i=MIN_ID; ; i++) {
            if ((uid_t)i != userid) {
                 pw = getpwuid((uid_t)i);
                 if (pw)
@@ -152,6 +136,12 @@ static OSStatus CreateUserAndGroup(char * name) {
                 
             break;                          // Success!
         }
+    }
+
+    err = GetAuthorization();
+    if (err != noErr) {
+        ShowSecurityError("GetAuthorization returned error %d", err);
+        return err;
     }
 
     sprintf(buf1, "/groups/%s", name);
@@ -258,10 +248,19 @@ static OSStatus GetAuthorization (void)
     AuthorizationFlags      ourAuthFlags;
     AuthorizationItem       ourAuthItem[5];
     OSErr                   err = noErr;
-    
+
     if (sIsAuthorized)
         return noErr;
         
+    ourAuthRights.count = 0;
+    ourAuthRights.items = NULL;
+
+    err = AuthorizationCreate (&ourAuthRights, kAuthorizationEmptyEnvironment, kAuthorizationFlagDefaults, &gOurAuthRef);
+    if (err != noErr) {
+        ShowSecurityError("AuthorizationCreate returned error %d", err);
+        return err;
+    }
+     
     ourAuthItem[0].name = kAuthorizationRightExecute;
     ourAuthItem[0].value = dsclPath;
     ourAuthItem[0].valueLength = strlen (dsclPath);
@@ -293,6 +292,9 @@ static OSStatus GetAuthorization (void)
     ourAuthFlags = kAuthorizationFlagInteractionAllowed | kAuthorizationFlagExtendRights;
     
     err = AuthorizationCopyRights (gOurAuthRef, &ourAuthRights, kAuthorizationEmptyEnvironment, ourAuthFlags, NULL);
+    
+    if (err == noErr)
+        sIsAuthorized = true;
     
     return err;
 }

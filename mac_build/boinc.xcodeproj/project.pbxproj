@@ -1469,7 +1469,6 @@
 		F5C5403402BFC5C701BEDAB8 /* mac */ = {
 			isa = PBXGroup;
 			children = (
-				DD7748B40A356D6C0025D05E /* SetupSecurity.cpp */,
 				DD30446A0864332D00D73756 /* config.h */,
 				DD1F0ACD0822069E00AFC5FA /* MacGUI.pch */,
 				DD2F32F707F2A88B00645DDC /* MacSysMenu.cpp */,
@@ -1479,6 +1478,7 @@
 				DD0C59580816573E00CEC5D7 /* mac_saver_module.cpp */,
 				DD0C59590816573E00CEC5D7 /* Mac_Saver_ModuleView.h */,
 				DD0C595A0816573E00CEC5D7 /* Mac_Saver_ModuleView.m */,
+				DD7748B40A356D6C0025D05E /* SetupSecurity.cpp */,
 				DDAEC9E707FA58A000A7BC36 /* SetVersion.C */,
 			);
 			name = mac;
