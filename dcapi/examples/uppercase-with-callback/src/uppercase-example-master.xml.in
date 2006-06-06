@@ -1,10 +1,10 @@
 <?xml version="1.0" standalone="no"?>
 <!--
-	Configuration template for the numsys search master
+	Configuration template for the uppercase example application
 -->
 <master>
 	<!-- Application name -->
-	<name>uppercase-demo</name>
+	<name>uppercase-example</name>
 
 	<!-- Application version. There are no restrictions for the format of
 	     master version numbers -->
@@ -16,16 +16,16 @@
 
 	<!-- Master daemon definition -->
 	<daemon>
-		<binary>uppercase-demo-master</binary>
+		<binary>uppercase-example-master</binary>
 		<arguments>
 			<arg>--config</arg>
-			<arg>${workdir}/uppercase-demo-master.conf</arg>
+			<arg>${workdir}/master.conf</arg>
 		</arguments>
 	</daemon>
 
 	<!-- The application manager script will substitute the correct
 	     values for us -->
-	<dcapi-conf>uppercase-demo-master.conf</dcapi-conf>
+	<dcapi-conf>master.conf</dcapi-conf>
 
 	<!-- Validator daemon definition -->
 	<daemon>
@@ -34,7 +34,7 @@
 			<arg>-d</arg>
 			<arg>3</arg>
 			<arg>-app</arg>
-			<arg>uppercase-demo</arg>
+			<arg>uppercase-example</arg>
 		</arguments>
 	</daemon>
 </master>

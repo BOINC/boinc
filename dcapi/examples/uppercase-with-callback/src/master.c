@@ -3,6 +3,7 @@
  * 
  * Created by: Gabor Vida
  * Fine tuned by: Adam Kornafeld
+ * Upgraded to DC-API 2.0 by: Gabor Vida
  *
  * The aim of the program is to process text files 
  * (make all of their characters uppercase) in a Public Resource Computing
@@ -26,7 +27,7 @@
 
 #define	MAX_N_OF_WUS	20
 
-static DC_Workunit wus[MAX_N_OF_WUS];
+static DC_Workunit *wus[MAX_N_OF_WUS];
 static int max_wus;
 static int assimilatedWUs = 0;
 
@@ -68,37 +69,51 @@ static void CalculateFinalResult(void){
 }
 
 /* Copies the output files into the master working directory */
-static void cb_assimilate_result(DC_Result result)
+static void cb_assimilate_result(DC_Workunit *wu, DC_Result *result)
 {
     char syscmd[256];
+    char *output_filename;
     int i;
 
-    fprintf(stdout, "Num of output files: %d\n", result->noutfiles);
-    fprintf(stdout, "result_dir: %s\n", result->outfiles_dir);
-    fprintf(stdout, "outputfile: %s\n", result->outfiles[0]);
-    fflush(stdout);
-    if (result->noutfiles != 1){
-	fprintf(stderr, "Master: Error: the number of output files :%d\n", result->noutfiles);
+    output_filename = DC_getResultOutput(result, "out.txt");
+
+    if (!output_filename)
+    {
+	fprintf(stderr, "Master: Error: DC_getResultOutput returned with NULL for 'out.txt'\n");
 	fflush(stderr);
-	exit(1);
+        exit(1);
     }
+    fprintf(stdout, "outputfile: %s\n", output_filename);
 
     for (i = 0; i < max_wus; i++){
-	if (result->wu == wus[i]){
-	    snprintf(syscmd, 256, "cp %s/%s master_output_%d.txt", result->outfiles_dir, result->outfiles[0], i);
+	if (wu == wus[i]){
+	    snprintf(syscmd, 256, "cp %s master_output_%d.txt", output_filename, i);
 	    system(syscmd);
 	    assimilatedWUs++;
 	}
     }
 
-    DC_destroyWU(result->wu);
+    DC_destroyWU(wu);
 }
+
+static void cb_assimilate_subresult(DC_Workunit *wu, const char *logicalFileName, const char *path)
+{
+    /* This example application doesn't create subresult */
+    return;
+}
+
+static void cb_assimilate_message(DC_Workunit *wu, const char *message)
+{
+    /* This example application doesn't send message */
+    return;
+}
+
 
 /* Waiting for the results */
 static void WaitForResults(void)
 {
     while(assimilatedWUs < max_wus){
-	DC_checkForResult(0, cb_assimilate_result);
+	DC_processMasterEvents(0);
     }
 }
 
@@ -157,21 +172,40 @@ static void CreateInputFiles(void)
 
 static void CreateWork(void)
 {
-    int i;
+    int retval, i;
     char minor_filename[256];
 
     CreateInputFiles();
     for (i = 0; i < max_wus; i++){
-	wus[i] = DC_createWU("uppercase", "");
-	if (wus[i] == -1)
+	wus[i] = DC_createWU("uppercase-example", NULL, 0, NULL);
+	if (wus[i] == NULL)
 	{
 	    fprintf(stderr, "Cannot create more workunit!\n");
 	    fflush(stderr);
 	    exit(1);
 	}
+
 	snprintf(minor_filename, sizeof(minor_filename), "master_input_%d.txt", i);
-	DC_setInput(wus[i], minor_filename, "in.txt");
-	DC_submitWU(wus[i]);
+	retval = DC_addWUInput(wus[i], "in.txt", minor_filename, DC_FILE_VOLATILE);
+	if (retval)
+	{
+	    fprintf(stderr, "Master: Error: Cannot add WU input %s -> in.txt\n", minor_filename);
+	    exit(1);
+	}
+
+	retval = DC_addWUOutput(wus[i], "out.txt");
+	if (retval)
+	{
+	    fprintf(stderr, "Master: Error: Cannot add WU output out.txt\n");
+	    exit(1);
+	}
+
+	retval = DC_submitWU(wus[i]);
+	if (retval)
+	{
+	    fprintf(stderr, "Master: Error: DC_submitWU returned with error\n");
+	    exit(1);
+	}
     }
 
 }
@@ -179,10 +213,13 @@ static void CreateWork(void)
 int main(int argc, char *argv[])
 {
     /* Initializing DC-API */
-    if (DC_init(NULL, "uppercase", "uppercase-master.conf") != DC_OK) {
-        fprintf(stderr, "Master: DC_init failed, exiting.\n");
+    if (DC_initMaster("master.conf") != DC_OK) {
+        fprintf(stderr, "Master: DC_initMaster failed, exiting.\n");
 	exit(1);
     }
+
+    /* Set callback functions */
+    DC_setMasterCb(cb_assimilate_result, cb_assimilate_subresult, cb_assimilate_message);
 
     /* Creating Workunits : splitting up the input file */
     fprintf(stdout, "Master: Creating %d WorkUnit.\n", MAX_N_OF_WUS);

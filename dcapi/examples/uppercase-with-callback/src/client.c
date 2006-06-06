@@ -7,10 +7,10 @@
 /* The logical file names, used at sequencial application */
 static char infile_logical[]   = "in.txt";
 static char outfile_logical[]  = "out.txt";
-static char ckptfile_logical[] = "ckpt.txt";
 static FILE *infile;
 static FILE *outfile;
 static FILE *ckptfile;
+static char *ckptfile_name;
 
 /* Needed to report the percentage of the work already done */
 static int frac_input_size;
@@ -25,14 +25,13 @@ static void frac_init(void){
 
 /* Save the value of frac_current_pos to the ckpt file, and flush the output file! */
 static int do_checkpoint(void){
-    char ckptfile_physical[256];
     int retval;
 
-    DC_resolveFileName(DC_FILE_CKPT, ckptfile_logical, ckptfile_physical, sizeof(ckptfile_physical));
-    ckptfile = fopen(ckptfile_physical, "w");
+    ckptfile_name = DC_resolveFileName(DC_FILE_OUT, DC_CHECKPOINT_FILE);
+    ckptfile = fopen(ckptfile_name, "w");
     if (ckptfile == NULL){
 	fprintf(stderr, "APP: cannot open checkpoint file for write!!\n");
-	DC_finish(3);
+	DC_finishClient(3);
     }
     fprintf(ckptfile, "%d", frac_current_pos);
     fclose(ckptfile);
@@ -40,7 +39,7 @@ static int do_checkpoint(void){
     retval = fflush(outfile);
     if (retval) {
         fprintf(stderr, "APP: uppercase flush failed %d\n", retval);
-        DC_finish(4);
+        DC_finishClient(4);
     }
     
     return 0;
@@ -49,24 +48,23 @@ static int do_checkpoint(void){
 /* Open input and output files, and check is there any checkpoint file */
 static void init_files(void){
     int ckpt_position;
-    char infile_physical[256];
-    char outfile_physical[256];
-    char ckptfile_physical[256];
+    char *infile_physical;
+    char *outfile_physical;
     const char *outfile_openmode = "w";
 
     /* Open input file */
-    DC_resolveFileName(DC_FILE_IN, infile_logical, infile_physical, sizeof(infile_physical));
+    infile_physical = DC_resolveFileName(DC_FILE_IN, infile_logical);
     infile = fopen(infile_physical, "rb");
     if (infile == NULL){
 	fprintf(stderr, "APP: Cannot open input file! Logical name: %s, physical name: %s.\n",
 			 infile_logical, infile_physical);
-	DC_finish(1);
+	DC_finishClient(1);
     }
     frac_init();
 
     /* check ckpt file */
-    DC_resolveFileName(DC_FILE_CKPT, ckptfile_logical, ckptfile_physical, sizeof(ckptfile_physical));
-    ckptfile = fopen(ckptfile_physical, "r");
+    ckptfile_name = DC_resolveFileName(DC_FILE_IN, DC_CHECKPOINT_FILE);
+    ckptfile = fopen(ckptfile_name, "r");
     if (ckptfile != NULL){
 	/* ckpt file exists: read and set everything according to it */
 	fscanf(ckptfile, "%d", &ckpt_position);
@@ -78,12 +76,12 @@ static void init_files(void){
     }
 
     /* open output file */
-    DC_resolveFileName(DC_FILE_OUT, outfile_logical, outfile_physical, sizeof(outfile_physical));
+    outfile_physical = DC_resolveFileName(DC_FILE_OUT, outfile_logical);
     outfile = fopen(outfile_physical, outfile_openmode);
     if (outfile == NULL){
 	fprintf(stderr, "APP: Cannot open output file! Logical name: %s, physical name: %s.\n",
 			 outfile_logical, outfile_physical);
-	DC_finish(2);
+	DC_finishClient(2);
     }
     fseek(outfile, frac_current_pos, SEEK_SET);
 }
@@ -92,6 +90,7 @@ static void init_files(void){
 static void do_work(void){
     int c;
     int retval;
+    DC_ClientEvent *event;
 
     while (1) {
         c = fgetc(infile);
@@ -101,17 +100,23 @@ static void do_work(void){
 	fputc(c, outfile);
         frac_current_pos++;
 
-        if (DC_timeToCheckpoint())	/* if it is time to do a checkpoint and */
-            if(!do_checkpoint())	/* checkpointing succeeds then */
-                DC_checkpointMade();	/* restart timer */
+	event = DC_checkClientEvent();
+	if (!event)
+	    continue;
 
-        DC_fractionDone(frac_current_pos/frac_input_size);
+	/* if it is time to do a checkpoint */
+	if (event->type == DC_CLIENT_CHECKPOINT)
+	{
+	    if(!do_checkpoint())
+		DC_checkpointMade(ckptfile_name);
+	    DC_fractionDone(frac_current_pos/frac_input_size);
+	}
     }
 
     retval = fflush(outfile);
     if (retval) {
         fprintf(stderr, "APP: uppercase flush failed %d\n", retval);
-        DC_finish(5);
+        DC_finishClient(5);
     }
     fclose(outfile);
 }
@@ -119,10 +124,10 @@ static void do_work(void){
 int main(int argc, char **argv) {
     int retval = 0;
 
-    retval = DC_init();
+    retval = DC_initClient();
     if (retval) {
 	fprintf(stderr, "APP: Error in the initialize. Return value = %d.\n", retval);
-	DC_finish(retval);
+	DC_finishClient(retval);
     }
     fprintf(stderr, "APP: Init successful.\n");
 
@@ -132,7 +137,7 @@ int main(int argc, char **argv) {
     do_work();
     fprintf(stderr, "APP: Work finished.\n");
 
-    DC_finish(0);
+    DC_finishClient(0);
     return(0);	// Tho' we never reach this line
 }
 
