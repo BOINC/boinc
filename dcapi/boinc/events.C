@@ -23,6 +23,21 @@
 /* Be nice to the database and sleep for a long time */
 #define SLEEP_UNIT		15
 
+static void mark_wu_complete(DB_WORKUNIT &dbwu)
+{
+	DC_Workunit *wu;
+
+	/* Invoke the callback with an empty result so the application knows
+	 * that the WU has failed */
+	wu = _DC_getWUByName(dbwu.name);
+	if (wu)
+		_dc_resultcb(wu, NULL);
+
+	dbwu.assimilate_state = ASSIMILATE_DONE;
+	dbwu.transition_time = time(NULL);
+	dbwu.update();
+}
+
 static int process_results(void)
 {
 	DC_Result *result;
@@ -45,6 +60,7 @@ static int process_results(void)
 			/* This should never happen */
 			DC_log(LOG_ERR, "No canonical result for work "
 				"unit %d - bug in validator?", wu.id);
+			mark_wu_complete(wu);
 			continue;
 		}
 
@@ -52,13 +68,17 @@ static int process_results(void)
 		{
 			DC_log(LOG_ERR, "Result #%d is not in the database",
 				wu.canonical_resultid);
+			mark_wu_complete(wu);
 			continue;
 		}
 
 		/* Call the callback function */
 		result = _DC_createResult(wu.name, wu.id, canonical_result.xml_doc_in);
 		if (!result)
+		{
+			mark_wu_complete(wu);
 			continue;
+		}
 		_dc_resultcb(result->wu, result);
 		_DC_destroyResult(result);
 		done++;
