@@ -1,0 +1,40 @@
+<?xml version="1.0" standalone="no"?>
+<!--
+	Configuration template for the numsys search master
+-->
+<master>
+	<!-- Application name -->
+	<name>uppercase-demo</name>
+
+	<!-- Application version. There are no restrictions for the format of
+	     master version numbers -->
+	<version>@PACKAGE_VERSION@</version>
+
+	<!-- Data files used by the master -->
+	<files>
+	</files>
+
+	<!-- Master daemon definition -->
+	<daemon>
+		<binary>uppercase-demo-master</binary>
+		<arguments>
+			<arg>--config</arg>
+			<arg>${workdir}/uppercase-demo-master.conf</arg>
+		</arguments>
+	</daemon>
+
+	<!-- The application manager script will substitute the correct
+	     values for us -->
+	<dcapi-conf>uppercase-demo-master.conf</dcapi-conf>
+
+	<!-- Validator daemon definition -->
+	<daemon>
+		<name>validator_for_textfiles</name>
+		<arguments>
+			<arg>-d</arg>
+			<arg>3</arg>
+			<arg>-app</arg>
+			<arg>uppercase-demo</arg>
+		</arguments>
+	</daemon>
+</master>
