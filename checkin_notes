@@ -5454,3 +5454,17 @@ David  4 June 2006
         Makefile.am
         app.C
         switcher.C (new)
+
+
+Charlie 6 June 2006
+    - Mac: New helper command-line application SetUpSecurity creates boinc_master 
+        and boinc_project users and groups if needed.  When complete, this 
+        application will also set users, groups and permissions of Manager, Client, 
+        etc. to aid debugging during build / debug cycles.
+
+    clientgui/
+        mac/
+            SetupSecurity.cpp (new)
+    mac_build/
+        boinc.xcodeproj/
+            project.pbxproj

@@ -171,6 +171,8 @@
 		DD73E3B708A0809800656EB1 /* gui_rpc_client_ops.C in Sources */ = {isa = PBXBuildFile; fileRef = DD73E34E08A0694000656EB1 /* gui_rpc_client_ops.C */; };
 		DD73E3B808A0809800656EB1 /* gui_rpc_client_print.C in Sources */ = {isa = PBXBuildFile; fileRef = DD73E34F08A0694100656EB1 /* gui_rpc_client_print.C */; };
 		DD73E3BF08A0837800656EB1 /* hostinfo.C in Sources */ = {isa = PBXBuildFile; fileRef = DD344BB607C5AEEE0043025C /* hostinfo.C */; };
+		DD7748B50A356D6C0025D05E /* SetupSecurity.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DD7748B40A356D6C0025D05E /* SetupSecurity.cpp */; };
+		DD7749680A3596380025D05E /* Security.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DD1929D80918A2F100C31BCF /* Security.framework */; };
 		DD7E49CD080F9B09002716F9 /* network.C in Sources */ = {isa = PBXBuildFile; fileRef = DD6D0A8507E9A61B007F882B /* network.C */; };
 		DD8DD4A709D9432F0043019E /* BOINCDialupManager.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DD8DD4A509D9432F0043019E /* BOINCDialupManager.cpp */; };
 		DD9B6AAF0890DD71003A8E83 /* IOKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DDE2552B07C62F3E008E7D6E /* IOKit.framework */; };
@@ -514,6 +516,30 @@
 			outputFiles = (
 			);
 		};
+		DD7748AC0A356CE50025D05E /* PBXBuildRule */ = {
+			isa = PBXBuildRule;
+			compilerSpec = com.apple.compilers.gcc.3_3;
+			fileType = sourcecode.asm.asm;
+			isEditable = 1;
+			outputFiles = (
+			);
+		};
+		DD7748AD0A356CF60025D05E /* PBXBuildRule */ = {
+			isa = PBXBuildRule;
+			compilerSpec = com.apple.compilers.gcc.3_3;
+			fileType = sourcecode.cpp;
+			isEditable = 1;
+			outputFiles = (
+			);
+		};
+		DD7748AE0A356CFD0025D05E /* PBXBuildRule */ = {
+			isa = PBXBuildRule;
+			compilerSpec = com.apple.compilers.gcc.3_3;
+			fileType = sourcecode.c;
+			isEditable = 1;
+			outputFiles = (
+			);
+		};
 /* End PBXBuildRule section */
 
 /* Begin PBXBuildStyle section */
@@ -848,6 +874,8 @@
 		DD73E36208A06ED400656EB1 /* gui_rpc_server_ops.C */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.cpp.cpp; name = gui_rpc_server_ops.C; path = ../client/gui_rpc_server_ops.C; sourceTree = SOURCE_ROOT; };
 		DD73E3A308A078AF00656EB1 /* Localization.cpp */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.cpp.cpp; name = Localization.cpp; path = ../clientgui/Localization.cpp; sourceTree = SOURCE_ROOT; };
 		DD73E3A408A078AF00656EB1 /* Localization.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = Localization.h; path = ../clientgui/Localization.h; sourceTree = SOURCE_ROOT; };
+		DD7748980A356C880025D05E /* Security */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = Security; sourceTree = BUILT_PRODUCTS_DIR; };
+		DD7748B40A356D6C0025D05E /* SetupSecurity.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = SetupSecurity.cpp; path = ../clientgui/mac/SetupSecurity.cpp; sourceTree = SOURCE_ROOT; };
 		DD7C5E7508110AE3002FCE1E /* ScreenSaver.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = ScreenSaver.framework; path = /System/Library/Frameworks/ScreenSaver.framework; sourceTree = "<absolute>"; };
 		DD81C3D507C5CEB50098A04D /* cpp.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = cpp.h; path = ../client/cpp.h; sourceTree = SOURCE_ROOT; };
 		DD81C3F007C5CFE10098A04D /* result_state.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = result_state.h; path = ../lib/result_state.h; sourceTree = SOURCE_ROOT; };
@@ -1025,6 +1053,14 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		DD7748960A356C880025D05E /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				DD7749680A3596380025D05E /* Security.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		DD96AFF70811075000A06F22 /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
@@ -1066,6 +1102,7 @@
 				DD1277B3081F3D67007B5DE1 /* Postinstall.app */,
 				DD69FEE808416C1300C01361 /* boinc_cmd */,
 				DD6381EA0870DC9D007A2F8E /* MakeAppIcon_h */,
+				DD7748980A356C880025D05E /* Security */,
 			);
 			name = Products;
 			sourceTree = SOURCE_ROOT;
@@ -1432,6 +1469,7 @@
 		F5C5403402BFC5C701BEDAB8 /* mac */ = {
 			isa = PBXGroup;
 			children = (
+				DD7748B40A356D6C0025D05E /* SetupSecurity.cpp */,
 				DD30446A0864332D00D73756 /* config.h */,
 				DD1F0ACD0822069E00AFC5FA /* MacGUI.pch */,
 				DD2F32F707F2A88B00645DDC /* MacSysMenu.cpp */,
@@ -1900,6 +1938,39 @@
 			productReference = DD69FEE808416C1300C01361 /* boinc_cmd */;
 			productType = "com.apple.product-type.tool";
 		};
+		DD7748970A356C880025D05E /* SetUpSecurity */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = DD7748A50A356CAE0025D05E /* Build configuration list for PBXNativeTarget "SetUpSecurity" */;
+			buildPhases = (
+				DD7748950A356C880025D05E /* Sources */,
+				DD7748960A356C880025D05E /* Frameworks */,
+			);
+			buildRules = (
+				DD7748AE0A356CFD0025D05E /* PBXBuildRule */,
+				DD7748AD0A356CF60025D05E /* PBXBuildRule */,
+				DD7748AC0A356CE50025D05E /* PBXBuildRule */,
+			);
+			buildSettings = {
+				GCC_ENABLE_FIX_AND_CONTINUE = YES;
+				GCC_MODEL_TUNING = G5;
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "$(SYSTEM_LIBRARY_DIR)/Frameworks/Carbon.framework/Headers/Carbon.h";
+				INSTALL_PATH = "$(HOME)/bin";
+				OTHER_LDFLAGS = (
+					"-framework",
+					Carbon,
+				);
+				PREBINDING = NO;
+				PRODUCT_NAME = Security;
+				ZERO_LINK = YES;
+			};
+			dependencies = (
+			);
+			name = SetUpSecurity;
+			productName = Security;
+			productReference = DD7748980A356C880025D05E /* Security */;
+			productType = "com.apple.product-type.tool";
+		};
 		DD96AFF80811075000A06F22 /* ScreenSaver */ = {
 			isa = PBXNativeTarget;
 			buildConfigurationList = DD9E2361091CBDAE0048316E /* Build configuration list for PBXNativeTarget "ScreenSaver" */;
@@ -2103,6 +2174,7 @@
 				DD96AFF80811075000A06F22 /* ScreenSaver */,
 				DD1277B2081F3D67007B5DE1 /* Installer */,
 				DD6381E90870DC9D007A2F8E /* MakeAppIcon_h */,
+				DD7748970A356C880025D05E /* SetUpSecurity */,
 			);
 		};
 /* End PBXProject section */
@@ -2440,6 +2512,14 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		DD7748950A356C880025D05E /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				DD7748B50A356D6C0025D05E /* SetupSecurity.cpp in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		DD96AFF60811075000A06F22 /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
@@ -2628,6 +2708,84 @@
 /* End PBXVariantGroup section */
 
 /* Begin XCBuildConfiguration section */
+		DD7748A60A356CAE0025D05E /* Development */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				COPY_PHASE_STRIP = NO;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_ENABLE_FIX_AND_CONTINUE = YES;
+				GCC_GENERATE_DEBUGGING_SYMBOLS = YES;
+				GCC_MODEL_TUNING = G5;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PRECOMPILE_PREFIX_HEADER = NO;
+				GCC_PREFIX_HEADER = "$(SYSTEM_LIBRARY_DIR)/Frameworks/Carbon.framework/Headers/Carbon.h";
+				INSTALL_PATH = "$(HOME)/bin";
+				OTHER_LDFLAGS = (
+					"-framework",
+					Carbon,
+				);
+				PREBINDING = NO;
+				PRODUCT_NAME = Security;
+				ZERO_LINK = NO;
+			};
+			name = Development;
+		};
+		DD7748A70A356CAE0025D05E /* ppc_Deployment */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				GCC_ENABLE_FIX_AND_CONTINUE = YES;
+				GCC_MODEL_TUNING = G5;
+				GCC_PRECOMPILE_PREFIX_HEADER = NO;
+				GCC_PREFIX_HEADER = "$(SYSTEM_LIBRARY_DIR)/Frameworks/Carbon.framework/Headers/Carbon.h";
+				INSTALL_PATH = "$(HOME)/bin";
+				OTHER_LDFLAGS = (
+					"-framework",
+					Carbon,
+				);
+				PREBINDING = NO;
+				PRODUCT_NAME = Security;
+				ZERO_LINK = NO;
+			};
+			name = ppc_Deployment;
+		};
+		DD7748A80A356CAE0025D05E /* i386_Deployment */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				GCC_ENABLE_FIX_AND_CONTINUE = YES;
+				GCC_MODEL_TUNING = G5;
+				GCC_PRECOMPILE_PREFIX_HEADER = NO;
+				GCC_PREFIX_HEADER = "$(SYSTEM_LIBRARY_DIR)/Frameworks/Carbon.framework/Headers/Carbon.h";
+				INSTALL_PATH = "$(HOME)/bin";
+				OTHER_LDFLAGS = (
+					"-framework",
+					Carbon,
+				);
+				PREBINDING = NO;
+				PRODUCT_NAME = Security;
+				ZERO_LINK = NO;
+			};
+			name = i386_Deployment;
+		};
+		DD7748A90A356CAE0025D05E /* Deployment */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				COPY_PHASE_STRIP = YES;
+				GCC_ENABLE_FIX_AND_CONTINUE = NO;
+				GCC_GENERATE_DEBUGGING_SYMBOLS = NO;
+				GCC_MODEL_TUNING = G5;
+				GCC_PRECOMPILE_PREFIX_HEADER = NO;
+				GCC_PREFIX_HEADER = "$(SYSTEM_LIBRARY_DIR)/Frameworks/Carbon.framework/Headers/Carbon.h";
+				INSTALL_PATH = "$(HOME)/bin";
+				OTHER_LDFLAGS = (
+					"-framework",
+					Carbon,
+				);
+				PREBINDING = NO;
+				PRODUCT_NAME = Security;
+				ZERO_LINK = NO;
+			};
+			name = Deployment;
+		};
 		DD9843D909920F220090855B /* Deployment */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
@@ -4311,6 +4469,17 @@
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
+		DD7748A50A356CAE0025D05E /* Build configuration list for PBXNativeTarget "SetUpSecurity" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				DD7748A60A356CAE0025D05E /* Development */,
+				DD7748A70A356CAE0025D05E /* ppc_Deployment */,
+				DD7748A80A356CAE0025D05E /* i386_Deployment */,
+				DD7748A90A356CAE0025D05E /* Deployment */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = ppc_Deployment;
+		};
 		DD9E2351091CBDAE0048316E /* Build configuration list for PBXNativeTarget "libboinc" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
