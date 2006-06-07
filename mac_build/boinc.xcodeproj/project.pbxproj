@@ -33,6 +33,7 @@
 				DD127877081F44E5007B5DE1 /* PBXTargetDependency */,
 				DD664F19084321A2009BFB11 /* PBXTargetDependency */,
 				DD6D35F40871509300BBCDEE /* PBXTargetDependency */,
+				DDA12AD10A369DEC00FBDD12 /* PBXTargetDependency */,
 			);
 			name = Build_All;
 			productName = Build_All;
@@ -176,6 +177,9 @@
 		DD7E49CD080F9B09002716F9 /* network.C in Sources */ = {isa = PBXBuildFile; fileRef = DD6D0A8507E9A61B007F882B /* network.C */; };
 		DD8DD4A709D9432F0043019E /* BOINCDialupManager.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DD8DD4A509D9432F0043019E /* BOINCDialupManager.cpp */; };
 		DD9B6AAF0890DD71003A8E83 /* IOKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DDE2552B07C62F3E008E7D6E /* IOKit.framework */; };
+		DDA12A6D0A36974600FBDD12 /* Security.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DD1929D80918A2F100C31BCF /* Security.framework */; };
+		DDA12AA20A369B5500FBDD12 /* SetupSecurity.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DD7748B40A356D6C0025D05E /* SetupSecurity.cpp */; };
+		DDA12AAE0A369C5800FBDD12 /* SecurityUtility.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DDA12AAD0A369C5800FBDD12 /* SecurityUtility.cpp */; };
 		DDA9D3BC09189A8C0060E7A7 /* Mac_GUI.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DDA9D3BB09189A8C0060E7A7 /* Mac_GUI.cpp */; };
 		DDADA51508BAC96200053BFB /* Carbon.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 20286C33FDCF999611CA2CEA /* Carbon.framework */; };
 		DDAEC9FF07FA5A5C00A7BC36 /* SetVersion.C in Sources */ = {isa = PBXBuildFile; fileRef = DDAEC9E707FA58A000A7BC36 /* SetVersion.C */; };
@@ -619,6 +623,13 @@
 			remoteGlobalIDString = DD96AFF80811075000A06F22;
 			remoteInfo = ScreenSaver;
 		};
+		DDA12AD00A369DEC00FBDD12 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 20286C28FDCF999611CA2CEA /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = DD7748970A356C880025D05E /* SetUpSecurity */;
+			remoteInfo = SetUpSecurity;
+		};
 		DDAD19CC09090824004E7DD0 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = 20286C28FDCF999611CA2CEA /* Project object */;
@@ -874,7 +885,7 @@
 		DD73E36208A06ED400656EB1 /* gui_rpc_server_ops.C */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.cpp.cpp; name = gui_rpc_server_ops.C; path = ../client/gui_rpc_server_ops.C; sourceTree = SOURCE_ROOT; };
 		DD73E3A308A078AF00656EB1 /* Localization.cpp */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.cpp.cpp; name = Localization.cpp; path = ../clientgui/Localization.cpp; sourceTree = SOURCE_ROOT; };
 		DD73E3A408A078AF00656EB1 /* Localization.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = Localization.h; path = ../clientgui/Localization.h; sourceTree = SOURCE_ROOT; };
-		DD7748980A356C880025D05E /* SetUpSecurity */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = SetUpSecurity; sourceTree = BUILT_PRODUCTS_DIR; };
+		DD7748980A356C880025D05E /* SetUpSecurity */ = {isa = PBXFileReference; includeInIndex = 0; lastKnownFileType = "compiled.mach-o.executable"; path = SetUpSecurity; sourceTree = BUILT_PRODUCTS_DIR; };
 		DD7748B40A356D6C0025D05E /* SetupSecurity.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = SetupSecurity.cpp; path = ../clientgui/mac/SetupSecurity.cpp; sourceTree = SOURCE_ROOT; };
 		DD7C5E7508110AE3002FCE1E /* ScreenSaver.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = ScreenSaver.framework; path = /System/Library/Frameworks/ScreenSaver.framework; sourceTree = "<absolute>"; };
 		DD81C3D507C5CEB50098A04D /* cpp.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = cpp.h; path = ../client/cpp.h; sourceTree = SOURCE_ROOT; };
@@ -924,6 +935,8 @@
 		DD8DD4A609D9432F0043019E /* BOINCDialupManager.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = BOINCDialupManager.h; path = ../clientgui/BOINCDialupManager.h; sourceTree = SOURCE_ROOT; };
 		DD96AFF90811075000A06F22 /* BOINCSaver.saver */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = BOINCSaver.saver; sourceTree = BUILT_PRODUCTS_DIR; };
 		DD96AFFA0811075100A06F22 /* ScreenSaver-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.xml; path = "ScreenSaver-Info.plist"; sourceTree = SOURCE_ROOT; };
+		DDA12A910A369AB500FBDD12 /* SetupSecurity.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = SetupSecurity.h; path = ../clientgui/mac/SetupSecurity.h; sourceTree = SOURCE_ROOT; };
+		DDA12AAD0A369C5800FBDD12 /* SecurityUtility.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = SecurityUtility.cpp; path = ../clientgui/mac/SecurityUtility.cpp; sourceTree = SOURCE_ROOT; };
 		DDA9D3BB09189A8C0060E7A7 /* Mac_GUI.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = Mac_GUI.cpp; path = ../clientgui/mac/Mac_GUI.cpp; sourceTree = SOURCE_ROOT; };
 		DDAEC9E107FA583B00A7BC36 /* SetVersion */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = SetVersion; sourceTree = BUILT_PRODUCTS_DIR; };
 		DDAEC9E707FA58A000A7BC36 /* SetVersion.C */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.cpp.cpp; name = SetVersion.C; path = ../clientgui/mac/SetVersion.C; sourceTree = SOURCE_ROOT; };
@@ -1007,6 +1020,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				DD1277E6081F44C1007B5DE1 /* Carbon.framework in Frameworks */,
+				DDA12A6D0A36974600FBDD12 /* Security.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1478,7 +1492,9 @@
 				DD0C59580816573E00CEC5D7 /* mac_saver_module.cpp */,
 				DD0C59590816573E00CEC5D7 /* Mac_Saver_ModuleView.h */,
 				DD0C595A0816573E00CEC5D7 /* Mac_Saver_ModuleView.m */,
+				DDA12AAD0A369C5800FBDD12 /* SecurityUtility.cpp */,
 				DD7748B40A356D6C0025D05E /* SetupSecurity.cpp */,
+				DDA12A910A369AB500FBDD12 /* SetupSecurity.h */,
 				DDAEC9E707FA58A000A7BC36 /* SetVersion.C */,
 			);
 			name = mac;
@@ -2422,6 +2438,7 @@
 			files = (
 				DD1277C2081F3E73007B5DE1 /* LoginItemAPI.c in Sources */,
 				DD1277C4081F3E73007B5DE1 /* PostInstall.cpp in Sources */,
+				DDA12AA20A369B5500FBDD12 /* SetupSecurity.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -2517,6 +2534,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				DD7748B50A356D6C0025D05E /* SetupSecurity.cpp in Sources */,
+				DDA12AAE0A369C5800FBDD12 /* SecurityUtility.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -2653,6 +2671,11 @@
 			isa = PBXTargetDependency;
 			target = DD96AFF80811075000A06F22 /* ScreenSaver */;
 			targetProxy = DD791FF00819063C00BE2906 /* PBXContainerItemProxy */;
+		};
+		DDA12AD10A369DEC00FBDD12 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = DD7748970A356C880025D05E /* SetUpSecurity */;
+			targetProxy = DDA12AD00A369DEC00FBDD12 /* PBXContainerItemProxy */;
 		};
 		DDAD19CD09090824004E7DD0 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;

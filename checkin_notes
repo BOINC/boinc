@@ -5527,3 +5527,23 @@ David  6 June 2006
         file_upload_handler.C
         main.C
         sched_config.C,h
+
+Charlie 6 June 2006
+    - Mac: Separate out main() from SetUpSecurity so it can be called either 
+        standalone from XCode as well as from Installer, Manager or Core Client.
+        CreateBOINCUsersAndGroups() sets default shell of users boinc_master 
+        and boinc_project to /etc/nologin to prevent a security hole by not 
+        allowing these users to log in.  Make CreateBOINCUsersAndGroups() more 
+        robust by retrying each step up to 5 times.
+        Add code to call CreateBOINCUsersAndGroups() from installer.
+
+    clientgui/
+        mac/
+            SecurityUtility.cpp (new
+            SetupSecurity.h (new)
+            SetupSecurity.cpp
+    mac_build/
+        boinc.xcodeproj/
+            project.pbxproj
+    mac_installer/
+        postinstall.cpp

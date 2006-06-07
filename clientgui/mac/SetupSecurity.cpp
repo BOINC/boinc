@@ -1,6 +1,6 @@
 // Berkeley Open Infrastructure for Network Computing
 // http://boinc.berkeley.edu
-// Copyright (C) 2005 University of California
+// Copyright (C) 2006 University of California
 //
 // This is free software; you can redistribute it and/or
 // modify it under the terms of the GNU Lesser General Public
@@ -28,6 +28,8 @@
 
 #include <Carbon/Carbon.h>
 
+#include "SetupSecurity.h"
+
 static OSStatus CreateUserAndGroup(char * name, Boolean * createdNew);
 static OSStatus GetAuthorization(void);
 static void ShowSecurityError(const char *format, ...);
@@ -52,7 +54,7 @@ static char                    memberdPath[] = "/usr/sbin/memberd";
 
 #define MIN_ID 25   /* Minimum user ID / Group ID to create */
 
-int main(int argc, char *argv[]) {
+OSStatus CreateBOINCUsersAndGroups() {
     unsigned long           endSleep;
     Boolean                 createdNew;
     OSStatus                err = noErr;
@@ -71,6 +73,7 @@ int main(int argc, char *argv[]) {
     err = CreateUserAndGroup(boinc_project_name, &createdNew);
     return err;
 }
+
 
 
 static OSStatus CreateUserAndGroup(char * name, Boolean * createdNew) {
@@ -359,6 +362,9 @@ static OSStatus GetAuthorization (void) {
     
     ourAuthFlags = kAuthorizationFlagInteractionAllowed | kAuthorizationFlagExtendRights;
     
+    // When this is called from the installer, the installer has already authenticated.  
+    // In that case we are already running with full root privileges so AuthorizationCopyRights() 
+    // does not request a password from the user again.
     err = AuthorizationCopyRights (gOurAuthRef, &ourAuthRights, kAuthorizationEmptyEnvironment, ourAuthFlags, NULL);
     
     if (err == noErr)

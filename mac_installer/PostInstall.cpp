@@ -1,6 +1,6 @@
 // Berkeley Open Infrastructure for Network Computing
 // http://boinc.berkeley.edu
-// Copyright (C) 2005 University of California
+// Copyright (C) 2006 University of California
 //
 // This is free software; you can redistribute it and/or
 // modify it under the terms of the GNU Lesser General Public
@@ -29,7 +29,9 @@
 #include <pwd.h>	// getpwname, getpwuid, getuid
 #include <sys/wait.h>	// waitpid
 
-#include "LoginItemAPI.h"  //please take a look at LoginItemAPI.h for a explanation of the routines available to you.
+#include "LoginItemAPI.h"  //please take a look at LoginItemAPI.h for an explanation of the routines available to you.
+
+#include "SetupSecurity.h"
 
 void Initialize(void);	/* function prototypes */
 void SetUIDBackToUser (void);
@@ -45,18 +47,18 @@ Boolean			gQuitFlag = false;	/* global */
 
 int main(int argc, char *argv[])
 {
-    char *p, *q;
-    Boolean Success;
-    long response;
-    ProcessSerialNumber	ourProcess, installerPSN;
-    short itemHit;
-    long brandID = 0;
-    group *grp;
-    char s[256];
-    int NumberOfLoginItems, Counter, i;
-    pid_t installerPID = 0, coreClientPID = 0;
-    FSRef fileRef;
-    OSStatus err, err_fsref;
+    char                    *p, *q;
+    Boolean                 Success;
+    long                    response;
+    ProcessSerialNumber     ourProcess, installerPSN;
+    short                   itemHit;
+    long                    brandID = 0;
+    group                   *grp;
+    char                    s[256];
+    int                     NumberOfLoginItems, Counter, i;
+    pid_t                   installerPID = 0, coreClientPID = 0;
+    FSRef                   fileRef;
+    OSStatus                err, err_fsref;
 
     Initialize();
 
@@ -64,6 +66,9 @@ int main(int argc, char *argv[])
 
     QuitBOINCManager('BNC!'); // Quit any old instance of BOINC manager
     sleep(2);
+
+    err = CreateBOINCUsersAndGroups();
+    
     // Core Client may still be running if it was started without Manager
     coreClientPID = FindProcessPID("boinc", 0);
     if (coreClientPID)
