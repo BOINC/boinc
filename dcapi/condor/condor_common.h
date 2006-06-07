@@ -10,9 +10,6 @@ extern "C" {
 #endif
 
 
-extern int copy_file(const char *src, const char *dst);
-
-
 #ifdef __cplusplus
 }
 #endif
