@@ -36,6 +36,8 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "wrapper", "wrapper.vcproj",
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "sleeper", "sleeper.vcproj", "{8281D898-0E64-44EB-8356-4F0336F19A35}"
 	ProjectSection(ProjectDependencies) = postProject
+		{0BC1DB36-030A-4321-B387-1CEE2611E329} = {0BC1DB36-030A-4321-B387-1CEE2611E329}
+		{E8F6BD7E-461A-4733-B7D8-37B09A099ED8} = {E8F6BD7E-461A-4733-B7D8-37B09A099ED8}
 	EndProjectSection
 EndProject
 Global
