@@ -21,4 +21,6 @@
 
 
 OSStatus CreateBOINCUsersAndGroups(void);
+OSStatus SetBOINCAppOwnersGroupsAndPermissions(char *path, char *managerName, Boolean development);
+void ShowSecurityError(const char *format, ...);
 

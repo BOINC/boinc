@@ -25,6 +25,8 @@
 #include <grp.h>	// getgrname, getgrgid
 #include <pwd.h>	// getpwname, getpwuid, getuid
 #include <unistd.h>
+#include <sys/param.h>  // for MAXPATHLEN
+#include <sys/stat.h>   // for umask()
 
 #include <Carbon/Carbon.h>
 
@@ -32,7 +34,6 @@
 
 static OSStatus CreateUserAndGroup(char * name, Boolean * createdNew);
 static OSStatus GetAuthorization(void);
-static void ShowSecurityError(const char *format, ...);
 static pascal Boolean ErrorDlgFilterProc(DialogPtr theDialog, EventRecord *theEvent, short *theItemHit);
 static AuthorizationRef        gOurAuthRef = NULL;
 
@@ -74,6 +75,177 @@ OSStatus CreateBOINCUsersAndGroups() {
     return err;
 }
 
+
+OSStatus SetBOINCAppOwnersGroupsAndPermissions(char *path, char *managerName, Boolean development) {
+    char            fullpath[MAXPATHLEN];
+    char            buf1[80];
+    char            *args[8];
+    short           i;
+    mode_t          old_mask;
+    unsigned long   endSleep;
+    OSStatus        err = noErr;
+    
+    strlcpy(fullpath, path, MAXPATHLEN);
+    strlcat(fullpath, "/", MAXPATHLEN);
+    strlcat(fullpath, managerName, MAXPATHLEN);
+    strlcat(fullpath, ".app", MAXPATHLEN);
+    if (strlen(fullpath) >= (MAXPATHLEN-1)) {
+        ShowSecurityError("SetBOINCAppOwnersGroupsAndPermissions: path to Manager is too long");
+        return -1;
+    }
+
+    err = GetAuthorization();
+    if (err != noErr) {
+        ShowSecurityError("SetBOINCAppOwnersGroupsAndPermissions: GetAuthorization returned error %d", err);
+        return err;
+    }
+
+    sprintf(buf1, "%s:%s", boinc_master_name, boinc_master_name);
+    for (i=0; i<5; i++) {       // Retry 5 times if error
+        // chown boinc_master:boinc_master path/BOINCManager.app
+        args[0] = "-R";
+        args[1] = buf1;
+        args[2] = fullpath;
+        args[3] = NULL;
+        err = AuthorizationExecuteWithPrivileges (gOurAuthRef, chownPath, 0, args, NULL);
+        if (err == noErr)
+            break;
+    }
+    if (err != noErr) {
+        ShowSecurityError("\"chown %s %s\" returned error %d", buf1, fullpath, err);
+        return err;
+    }
+
+    if (development) {
+        old_mask = umask(0);
+        
+        for (i=0; i<5; i++) {       // Retry 5 times if error
+            // chmod -R u=rwsx,g=rwsx,o=rx path/BOINCManager.app'''
+            // 0775 = S_IRUSR | S_IWUSR | S_IXUSR | S_IRGRP | S_IWGRP | S_IXGRP | S_IROTH | S_IXOTH
+            //  read, write and execute permission for user, group & others
+            args[0] = "-R";
+            args[1] = "u=rwx,g=rwx,o=rx";
+            args[2] = fullpath;
+            args[3] = NULL;
+            err = AuthorizationExecuteWithPrivileges (gOurAuthRef, chmodPath, 0, args, NULL);
+            if (err == noErr)
+                break;
+        }
+            
+        umask(old_mask);
+
+        if (err != noErr) {
+            ShowSecurityError("\"chmod -R %s %s\" returned error %d", args[1], fullpath, err);
+            return err;
+        }
+
+        endSleep = TickCount() + (1*60);
+        while (TickCount() < endSleep) {
+            sleep (1);
+        }
+    }       // End if (development)
+
+    strlcat(fullpath, "/Contents/MacOS/", MAXPATHLEN);
+    strlcat(fullpath, managerName, MAXPATHLEN);
+    if (strlen(fullpath) >= (MAXPATHLEN-1)) {
+        ShowSecurityError("SetBOINCAppOwnersGroupsAndPermissions: path to Manager is too long");
+        return -1;
+    }
+
+    old_mask = umask(0);
+
+    for (i=0; i<5; i++) {       // Retry 5 times if error
+        if (development) {
+            // chmod u=rwx,g=rwsx,o=rx path/BOINCManager.app/Contents/MacOS/BOINCManager
+            // 02775 = S_ISGID | S_IRUSR | S_IWUSR | S_IXUSR | S_IRGRP | S_IWGRP | S_IXGRP | S_IROTH | S_IXOTH
+            //  setgid-on-execution plus read, write and execute permission for user, group & others
+            args[0] = "u=rwx,g=rwsx,o=rx";
+        } else {
+            // chmod u=rx,g=rsx,o=rx path/BOINCManager.app/Contents/MacOS/BOINCManager
+            // 02555 = S_ISGID | S_IRUSR | S_IXUSR | S_IRGRP | S_IXGRP | S_IROTH | S_IXOTH
+            //  setgid-on-execution plus read and execute permission for user, group & others
+            args[0] = "u=rx,g=rsx,o=rx";
+        }
+        args[1] = fullpath;
+        args[2] = NULL;
+        err = AuthorizationExecuteWithPrivileges (gOurAuthRef, chmodPath, 0, args, NULL);
+        if (err == noErr)
+            break;
+    }
+        
+    umask(old_mask);
+
+    if (err != noErr) {
+        ShowSecurityError("\"chmod %s %s\" returned error %d", args[0], fullpath, err);
+        return err;
+    }
+
+    endSleep = TickCount() + (1*60);
+    while (TickCount() < endSleep) {
+        sleep (1);
+    }
+
+    strlcpy(fullpath, path, MAXPATHLEN);
+    strlcat(fullpath, "/", MAXPATHLEN);
+    strlcat(fullpath, managerName, MAXPATHLEN);
+    strlcat(fullpath, ".app/Contents/Resources/boinc", MAXPATHLEN);
+    if (strlen(fullpath) >= (MAXPATHLEN-1)) {
+        ShowSecurityError("SetBOINCAppOwnersGroupsAndPermissions: path to client is too long");
+        return -1;
+    }
+    
+    old_mask = umask(0);
+
+    for (i=0; i<5; i++) {       // Retry 5 times if error
+        if (development) {
+            // chmod u=rwsx,g=rwsx,o=rx path/BOINCManager.app/Contents/Resources/boinc
+            // 06775 = S_ISUID | S_ISGID | S_IRUSR | S_IWUSR | S_IXUSR | S_IRGRP | S_IWGRP | S_IXGRP | S_IROTH | S_IXOTH
+            //  setuid-on-execution, setgid-on-execution plus read, write and execute permission for user, group & others
+            args[0] = "u=rwsx,g=rwsx,o=rx";
+        } else {
+            // chmod u=rsx,g=rsx,o=rx path/BOINCManager.app/Contents/Resources/boinc
+            // 06555 = S_ISUID | S_ISGID | S_IRUSR | S_IXUSR | S_IRGRP | S_IXGRP | S_IROTH | S_IXOTH
+            //  setuid-on-execution, setgid-on-execution plus read and execute permission for user, group & others
+            args[0] = "u=rsx,g=rsx,o=rx";
+        }
+        args[1] = fullpath;
+        args[2] = NULL;
+        err = AuthorizationExecuteWithPrivileges (gOurAuthRef, chmodPath, 0, args, NULL);
+        if (err == noErr)
+            break;
+    }
+        
+    umask(old_mask);
+
+    if (err != noErr) {
+        ShowSecurityError("\"chmod %s %s\" returned error %d", args[0], fullpath, err);
+        return err;
+    }
+
+    if (development) {
+        sprintf(buf1, "/groups/%s", boinc_master_name);
+
+        // Something like "dscl . -merge /groups/boinc_master users login_name"
+        for (i=0; i<5; i++) {       // Retry 5 times if error
+            args[0] = ".";
+            args[1] = "-merge";    // "-append";
+            args[2] = buf1;
+            args[3] = "users";
+            args[4] = getlogin();
+            args[5] = NULL;
+            err = AuthorizationExecuteWithPrivileges (gOurAuthRef, dsclPath, 0, args, NULL);
+            if (err == noErr)
+                break;
+        }
+        
+        if (err != noErr) {
+            ShowSecurityError("\"dscl . -create -merge %s users %s\" returned error %d", buf1, getlogin(), err);
+            return err;
+        }
+    }       // End if (development)
+
+    return err;
+}
 
 
 static OSStatus CreateUserAndGroup(char * name, Boolean * createdNew) {
@@ -161,7 +333,7 @@ static OSStatus CreateUserAndGroup(char * name, Boolean * createdNew) {
 
     err = GetAuthorization();
     if (err != noErr) {
-        ShowSecurityError("GetAuthorization returned error %d", err);
+        ShowSecurityError("CreateUserAndGroup: GetAuthorization returned error %d", err);
         return err;
     }
 
@@ -374,7 +546,7 @@ static OSStatus GetAuthorization (void) {
 }
 
 
-static void ShowSecurityError(const char *format, ...) {
+void ShowSecurityError(const char *format, ...) {
     va_list                 args;
     char                    s[1024];
     short                   itemHit;

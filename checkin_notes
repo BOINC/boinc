@@ -5539,7 +5539,7 @@ Charlie 6 June 2006
 
     clientgui/
         mac/
-            SecurityUtility.cpp (new
+            SecurityUtility.cpp (new)
             SetupSecurity.h (new)
             SetupSecurity.cpp
     mac_build/
@@ -5565,3 +5565,16 @@ Rom    7 June 2006
         boinc_win.h
         diagnostics.C
         diagnostics_win.C
+
+Charlie 7 June 2006
+    - Mac: SetUpSecurity sets owner=boinc_master, group=boinc_master and 
+        permissions of BOINC Manager bundle and its contents.  
+        When run standalone (from XCode), it assists the development / debug 
+        cycle by making everything group writeable and adds logged in user 
+        to group boinc_master.  When run from Installer, Manager or Client, 
+        makes everything non-writeable by owner, group and other for security.
+
+    clientgui/
+        mac/
+            SecurityUtility.cpp
+            SetupSecurity.cpp
