@@ -15,6 +15,8 @@
 #include "condor_common.h"
 #include "condor_defs.h"
 #include "condor_wu.h"
+#include "condor_log.h"
+#include "condor_utils.h"
 
 
 /********************************************************************* INIT */
@@ -117,7 +119,7 @@ DC_createWU(const char *clientName,
 	g_string_append_c(str, G_DIR_SEPARATOR);
 	g_string_append(str, uuid_str);
 
-	ret= g_mkdir_with_parents(str->str, 0700);
+	ret= _DC_mkdir_with_parents(str->str, 0700);
 	if (ret)
 	{
 		DC_log(LOG_ERR,
@@ -134,7 +136,10 @@ DC_createWU(const char *clientName,
 		DC_initMaster(NULL);
 	g_hash_table_insert(wu_table, wu->name, wu);
 
-	wu_make_client_executables(wu);
+	wu->condor_events= g_array_new(FALSE, FALSE,
+				       sizeof(struct _DC_condor_event));
+	_DC_wu_make_client_executables(wu);
+	wu->state= DC_WU_READY;
 
 	return(wu);
 }
@@ -193,7 +198,7 @@ DC_destroyWU(DC_Workunit * wu)
 	g_strfreev(wu->argv);
 	g_free(wu->tag);
 	g_free(wu->name);
-
+	g_array_free(wu->condor_events, TRUE);
 	g_free(wu);
 }
 
@@ -209,10 +214,10 @@ DC_addWUInput(DC_Workunit * wu,
 	int ret;
 
 	/* Sanity checks */
-	ret= wu_check_logical_name(wu, logicalFileName);
+	ret= _DC_wu_check_logical_name(wu, logicalFileName);
 	if (ret)
 		return(ret);
-	workpath= wu_get_workdir_path(wu, logicalFileName, FILE_IN);
+	workpath= _DC_wu_get_workdir_path(wu, logicalFileName, FILE_IN);
 	file= _DC_createPhysicalFile(logicalFileName, workpath);
 	g_free(workpath);
 	if (!file)
@@ -272,7 +277,7 @@ DC_addWUOutput(DC_Workunit *wu, const char *logicalFileName)
 	int ret;
 
 	/* Sanity checks */
-	ret= wu_check_logical_name(wu, logicalFileName);
+	ret= _DC_wu_check_logical_name(wu, logicalFileName);
 	if (ret)
 		return ret;
 	DC_log(LOG_DEBUG, "Adding out file %s",
@@ -344,12 +349,12 @@ DC_deserializeWU(const char *buf)
 
 
 /* iterator for DC_getWUNumber() */
-static DC_WUState dd_look_for_state;
-static void dd_check_state(void *key, void *value, void *ptr)
+static DC_WUState _DC_dd_look_for_state;
+static void _DC_dd_check_state(void *key, void *value, void *ptr)
 {
 	DC_Workunit *wu=(DC_Workunit *)value;
 	int *count= (int *)ptr;
-	if (wu->state == dd_look_for_state)
+	if (wu->state == _DC_dd_look_for_state)
 		++(*count);
 }
 
@@ -359,8 +364,8 @@ DC_getWUNumber(DC_WUState state)
 {
 	int val;
 
-	dd_look_for_state= state;
-	g_hash_table_foreach(wu_table, (GHFunc)dd_check_state, &val);
+	_DC_dd_look_for_state= state;
+	g_hash_table_foreach(wu_table, (GHFunc)_DC_dd_check_state, &val);
 	return(val);
 }
 
@@ -387,6 +392,30 @@ DC_waitMasterEvent(const char *wuFilter, int timeout)
 DC_MasterEvent *
 DC_waitWUEvent(DC_Workunit *wu, int timeout)
 {
+	time_t start, now;
+	int events;
+
+	if (!wu)
+		return(0);
+
+	events= wu->condor_events->len;
+	start= time(NULL);
+	now= start;
+	while (now-start <= timeout)
+	{
+		int e;
+
+		_DC_wu_update_condor_events(wu);
+		e= wu->condor_events->len;
+		if (e != events)
+		{
+			DC_log(LOG_DEBUG, "%d condor events occured during "
+			       "waitWUEvent",
+			       e-events);
+			return(0);
+		}
+		sleep(1);
+	}
 	return(0);
 }
 
@@ -442,4 +471,4 @@ DC_getResultOutput(const DC_Result *result, const char *logicalFileName)
 }
 
 
-/* End of condor/condor_master.cc */
+/* End of condor/condor_master.c */
