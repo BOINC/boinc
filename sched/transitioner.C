@@ -483,7 +483,7 @@ int handle_wu(
         // the BOINC back-end more robust.
         //
         const int ten_days = 10*86400;
-        int long_delay = 1.5*wu_item.delay_bound;
+        int long_delay = (int)(1.5*wu_item.delay_bound);
         wu_item.transition_time = (long_delay > ten_days) ? long_delay : ten_days;
         wu_item.transition_time += time(0);
     }  
