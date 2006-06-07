@@ -34,7 +34,6 @@
 #include "app.h"
 #include "util.h"
 
-//#define SS_DEBUG 1
 
 void ACTIVE_TASK::request_graphics_mode(GRAPHICS_MSG& m) {
     char buf[MSG_CHANNEL_SIZE], buf2[256];

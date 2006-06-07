@@ -34,6 +34,7 @@ echo "
             <li><a href=\"#Common0x80000003\">Breakpoint Encountered (0x80000003)</a>
             <li><a href=\"#Common0xe06d7363\">Out of Memory Exception (0xe06d7363)</a>
             <li><a href=\"#Common0xc0000096\">Privileged Instruction (0xc0000096)</a>
+            <li><a href=\"#Common0xc00000fd\">Stack Overflow (0xc00000fd)</a>
         </ul>
 </ul>
 
@@ -502,6 +503,10 @@ a CPU overheating.  'ffffffff' begs the question is the stack being overwritten 
 error result from another function?
 <p>
 Investigation of this issue is still ongoing.
+<h4><a name=\"Common0xc00000fd\">Stack Overflow (0xc00000fd)</a></h4>
+<p>
+An application will throw this exception when one of it's threads exceed the 1MB stack
+size allotment.
 ";
 
 page_tail();

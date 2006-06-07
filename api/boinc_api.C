@@ -349,6 +349,7 @@ int boinc_get_status(BOINC_STATUS *s) {
 //
 static void send_trickle_up_msg() {
     char buf[MSG_CHANNEL_SIZE];
+    BOINCINFO("Sending Trickle Up Message");
     strcpy(buf, "");
     if (have_new_trickle_up) {
         strcat(buf, "<have_new_trickle_up/>\n");
@@ -432,6 +433,7 @@ void boinc_exit(int status) {
     // executing or triggering endless exit()/atexit() loops. Use
     // alternate methods to shutdown the application on those
     // platforms.
+    BOINCINFO("Exit Status: %d", status);
 #if   defined(_WIN32)
     // Halts all the threads and then cleans up.
     TerminateProcess(GetCurrentProcess(), status);
@@ -528,6 +530,7 @@ int boinc_wu_cpu_time(double& cpu_t) {
 // this can be called from the graphics thread
 //
 int suspend_activities() {
+    BOINCINFO("Received Suspend Message");
 #ifdef _WIN32
     if (options.direct_process_action) {
         // in Windows this is called from a separate "timer thread",
@@ -542,6 +545,7 @@ int suspend_activities() {
 // this can be called from the graphics thread
 //
 int resume_activities() {
+    BOINCINFO("Received Resume Message");
 #ifdef _WIN32
     if (options.direct_process_action) {
         // in Windows this is called from a separate "timer thread",
@@ -572,9 +576,11 @@ static void handle_heartbeat_msg() {
             heartbeat_giveup_time = interrupt_count + HEARTBEAT_GIVEUP_PERIOD;
         }
         if (match_tag(buf, "<enable_heartbeat/>")) {
+            BOINCINFO("Enabling Heartbeat");
             heartbeat_active = true;
         }
         if (match_tag(buf, "<disable_heartbeat/>")) {
+            BOINCINFO("Disabling Heartbeat");
             heartbeat_active = false;
         }
     }
@@ -614,6 +620,7 @@ static void handle_upload_file_status() {
 static void handle_trickle_down_msg() {
     char buf[MSG_CHANNEL_SIZE];
     if (app_client_shm->shm->trickle_down.get_msg(buf)) {
+        BOINCINFO("Received Trickle Down Message");
         if (match_tag(buf, "<have_trickle_down/>")) {
             have_trickle_down = true;
         }
@@ -637,12 +644,14 @@ static void handle_process_control_msg() {
         }
 
         if (match_tag(buf, "<quit/>")) {
+            BOINCINFO("Received Quit Message");
             boinc_status.quit_request = true;
             if (options.direct_process_action) {
                 boinc_exit(0);
             }
         }
         if (match_tag(buf, "<abort/>")) {
+            BOINCINFO("Received Abort Message");
             boinc_status.abort_request = true;
             if (options.direct_process_action) {
                 diagnostics_set_aborted_via_gui();

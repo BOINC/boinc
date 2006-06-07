@@ -526,28 +526,6 @@ void boinc_info_debug(const char *pszFormat, ...){
 }
 
 
-#else // _DEBUG
-
-
-// Converts the BOINCINFO macro into a single string and report it
-//   to stderr so it can be reported via the normal means.
-//
-void boinc_info_release(const char *pszFormat, ...){
-    static char szBuffer[4096];
-
-    memset(szBuffer, 0, sizeof(szBuffer));
-
-    va_list ptr;
-    va_start(ptr, pszFormat);
-
-    vsnprintf(szBuffer, sizeof(szBuffer), pszFormat, ptr);
-
-    va_end(ptr);
-
-    fprintf(stderr, "%s", szBuffer);
-    fflush(stderr);
-}
-
 #endif // _DEBUG
 
 
@@ -594,29 +572,6 @@ void boinc_trace(const char *pszFormat, ...) {
 //   to stderr so it can be reported via the normal means.
 //
 void boinc_info_debug(const char *pszFormat, ...){
-    static char szBuffer[4096];
-
-    memset(szBuffer, 0, sizeof(szBuffer));
-
-    va_list ptr;
-    va_start(ptr, pszFormat);
-
-    vsnprintf(szBuffer, sizeof(szBuffer), pszFormat, ptr);
-
-    va_end(ptr);
-
-    fprintf(stderr, "%s", szBuffer);
-    fflush(stderr);
-}
-
-
-#else // _DEBUG
-
-
-// Converts the BOINCINFO macro into a single string and report it
-//   to stderr so it can be reported via the normal means.
-//
-void boinc_info_release(const char *pszFormat, ...){
     static char szBuffer[4096];
 
     memset(szBuffer, 0, sizeof(szBuffer));
@@ -715,5 +670,35 @@ void boinc_catch_signal(int signal) {
 
 
 #endif
+
+//
+// Diagnostics Routines common to all Platforms
+//
+
+// Converts the BOINCINFO macro into a single string and report it
+//   to stderr so it can be reported via the normal means.
+//
+void boinc_info_release(const char *pszFormat, ...){
+#ifdef BOINC_INFOMSGS
+    static char szBuffer[4096];
+    static char szDate[64];
+    static char szTime[64];
+
+    memset(szBuffer, 0, sizeof(szBuffer));
+
+    strdate(szDate);
+    strtime(szTime);
+
+    va_list ptr;
+    va_start(ptr, pszFormat);
+
+    vsnprintf(szBuffer, sizeof(szBuffer), pszFormat, ptr);
+
+    va_end(ptr);
+
+    fprintf(stderr, "[%s %s] BOINCMSG: %s\n", szDate, szTime, szBuffer);
+#endif
+}
+
 
 const char *BOINC_RCSID_4967ad204c = "$Id$";

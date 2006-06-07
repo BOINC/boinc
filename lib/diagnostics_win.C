@@ -1433,20 +1433,18 @@ int diagnostics_finish_unhandled_exception_monitor() {
 // Dump crash header information
 //
 int diagnostics_unhandled_exception_dump_banner() {
-    char pszTemp[11];
-    char pszTemp2[11];
+    char szDate[64];
+    char szTime[64];
 
-    _strdate(pszTemp);
-    _strtime(pszTemp2);
+    strdate(szDate);
+    strtime(szTime);
 
     fprintf( stderr, "\n\n");
     fprintf( stderr, "********************\n");
     fprintf( stderr, "\n\n");
     fprintf( stderr, "BOINC Windows Runtime Debugger Version %s\n", BOINC_VERSION_STRING);
     fprintf( stderr, "\n\n");
-    fprintf( stderr, "Dump Timestamp    : ");
-    fprintf( stderr, "%s %s", pszTemp, pszTemp2 );
-    fprintf( stderr, "\n");
+    fprintf( stderr, "Dump Timestamp    : %s %s\n", szDate, szTime );
 
     return 0;
 }

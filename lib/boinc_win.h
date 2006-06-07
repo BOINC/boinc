@@ -215,6 +215,8 @@ typedef LPCSTR PCTSTR, LPCTSTR, PCUTSTR, LPCUTSTR;
 #define stat					_stat
 #define chdir					_chdir
 #define finite					_finite
+#define strdate                 _strdate
+#define strtime                 _strtime
 
 #endif
 

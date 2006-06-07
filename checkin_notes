@@ -5547,3 +5547,21 @@ Charlie 6 June 2006
             project.pbxproj
     mac_installer/
         postinstall.cpp
+
+Rom    7 June 2006
+    - Finish implementing the BOINCINFO macro which will display trace type
+        statements even in release builds when BOINC_INFOMSGS is defined as
+        a preprocessor define.
+    - Tag each of the control messages and graphics messages with the
+        BOINCINFO macro so we can see what was going on when an application
+        executes.
+        
+    api/
+        boinc_api.C
+        windows_opengl.C
+    client/
+        app_graphics.C
+    lib/
+        boinc_win.h
+        diagnostics.C
+        diagnostics_win.C

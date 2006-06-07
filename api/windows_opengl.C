@@ -242,33 +242,33 @@ static void set_mode(int mode) {
         if (NULL == hOriginalWindowStation) {
             hOriginalWindowStation = GetProcessWindowStation();
             if (NULL == hOriginalWindowStation) {
-                BOINCTRACE(_T("Failed to retrieve the orginal window station\n"));
+                BOINCINFO("Failed to retrieve the orginal window station\n");
             }
         }
 
         if (NULL == hOriginalDesktop) {
             hOriginalDesktop = GetThreadDesktop(GetCurrentThreadId());
             if (NULL == hOriginalDesktop) {
-                BOINCTRACE(_T("Failed to retrieve the orginal desktop\n"));
+                BOINCINFO("Failed to retrieve the orginal desktop\n");
             }
         }
 
         hInteractiveWindowStation = OpenWindowStation( graphics_msg.window_station, FALSE, GENERIC_READ );
         if (NULL == hInteractiveWindowStation) {
-            BOINCTRACE(_T("Failed to retrieve the required window station\n"));
+            BOINCINFO("Failed to retrieve the required window station\n");
             new_mode = MODE_UNSUPPORTED;
         } else {
-            BOINCTRACE(_T("Retrieved the required window station\n"));
+            BOINCTRACE("Retrieved the required window station\n");
             SetProcessWindowStation(hInteractiveWindowStation);
             hInteractiveDesktop = OpenDesktop(
                 graphics_msg.desktop, NULL, FALSE,
                 GENERIC_READ | DESKTOP_CREATEWINDOW | DESKTOP_CREATEMENU
             );
             if (NULL == hInteractiveDesktop) {
-                BOINCTRACE(_T("Failed to retrieve the required desktop\n"));
+                BOINCINFO("Failed to retrieve the required desktop\n");
                 new_mode = MODE_UNSUPPORTED;
             } else {
-                BOINCTRACE(_T("Retrieved the required desktop\n"));
+                BOINCTRACE("Retrieved the required desktop\n");
                 SetThreadDesktop(hInteractiveDesktop);
             }
         }
@@ -394,9 +394,6 @@ LRESULT CALLBACK WndProc(
         FillRect(pdc, &winRect, (HBRUSH)GetStockObject(BLACK_BRUSH));
         EndPaint(hWnd, &ps);
         return 0;
-    //case WM_CREATE:
-    //app_graphics_init();
-    //return 0;
     case WM_SIZE:
         if ( SIZE_MINIMIZED == wParam ) {
             visible = FALSE;
@@ -462,7 +459,7 @@ static VOID CALLBACK timer_handler(HWND, UINT, UINT, DWORD) {
     //
     if (app_client_shm) {
         if (app_client_shm->shm->graphics_request.get_msg(buf)) {
-            //fprintf(stderr, "%d got graphics request: %s\n", time(0), buf); fflush(stderr);
+            BOINCINFO("Received Graphics Message: %s", buf);
             app_client_shm->decode_graphics_msg(buf, graphics_msg);
             switch (graphics_msg.mode) {
             case MODE_REREAD_PREFS:
