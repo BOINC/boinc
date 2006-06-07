@@ -298,6 +298,8 @@ int main(int argc, char** argv) {
         exit(0);
     }
 
+    log_messages.set_debug_level(config.sched_debug_level);
+
     gui_urls.init();
 
     sprintf(path, "%s/code_sign_public", config.key_dir);

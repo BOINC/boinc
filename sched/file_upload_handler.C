@@ -52,8 +52,6 @@ SCHED_CONFIG config;
 #define ERR_TRANSIENT   true
 #define ERR_PERMANENT   false
 
-#define DEBUG_LEVEL     SCHED_MSG_LOG::MSG_DEBUG
-
 char this_filename[256];
 
 struct FILE_INFO {
@@ -580,16 +578,16 @@ int main() {
     }
 #endif
 
-    log_messages.pid = getpid();
-    log_messages.set_debug_level(DEBUG_LEVEL);
-
-    if (boinc_file_exists("../stop_upload")) {
-        return_error(ERR_TRANSIENT, "Maintenance underway: file uploads are temporarily disabled.");
+    retval = config.parse_file("..");
+    if (retval) {
         exit(1);
     }
 
-    retval = config.parse_file("..");
-    if (retval) {
+    log_messages.pid = getpid();
+    log_messages.set_debug_level(config.fuh_debug_level);
+
+    if (boinc_file_exists("../stop_upload")) {
+        return_error(ERR_TRANSIENT, "Maintenance underway: file uploads are temporarily disabled.");
         exit(1);
     }
 

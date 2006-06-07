@@ -5481,6 +5481,7 @@ David  6 June 2006
         not misleading "Project is temporarily shut down for maintenance"
     - shmem-related functions: call perror() on error
     - make_project: <show_results>, not <show_result>
+    - my email address was hardwired in watchdog.php - ouch!
 
     db/
         boinc_db.h
@@ -5513,4 +5514,16 @@ David  6 June 2006
         filesys.C
     sched/
         file_deleter.C
+        sched_config.C,h
+
+David  6 June 2006
+    - Scheduler/file upload handler: added optional config.xml items
+        <sched_debug_level> and <fuh_debug_level>
+        for specifying log verbosity level for
+        scheduler and file upload handler respectively
+        (from Dr. M.F. Somers)
+
+    sched/
+        file_upload_handler.C
+        main.C
         sched_config.C,h

@@ -290,8 +290,7 @@ The CPU scheduler decides what results should run,
 but it doesn't enforce this decision.
 This enforcement is done by a separate
 <b>scheduler enforcement function</b>,
-which is called by the CPU scheduler at its conclusion
-and which also runs periodically (every few seconds).
+which is called by the CPU scheduler at its conclusion.
 Let X be the set of scheduled results that are not currently running,
 let Y be the set of running results that are not scheduled,
 and let T be the time the scheduler last ran.

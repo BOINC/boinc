@@ -26,6 +26,7 @@
 #include "parse.h"
 #include "error_numbers.h"
 
+#include "sched_msgs.h"
 #include "sched_config.h"
 
 #ifdef _USING_FCGI_
@@ -42,6 +43,8 @@ int SCHED_CONFIG::parse(FILE* f) {
     default_disk_max_used_gb = 100.;
     default_disk_max_used_pct = 50.;
     default_disk_min_free_gb = .001;
+    sched_debug_level = SCHED_MSG_LOG::MSG_NORMAL;
+    fuh_debug_level = SCHED_MSG_LOG::MSG_NORMAL;
 
     get_tag(f, tag);
     if (strstr(tag, "?xml")) get_tag(f, tag);
@@ -103,6 +106,8 @@ int SCHED_CONFIG::parse(FILE* f) {
         else if (!strcmp(tag, "symstore")) strcpy(symstore, contents);
         else if (!strcmp(tag, "next_rpc_delay")) next_rpc_delay = get_double(contents);
         else if (!strcmp(tag, "dont_delete_batches")) dont_delete_batches = get_bool(contents);
+        else if (!strcmp(tag, "sched_debug_level")) sched_debug_level = get_int(contents);
+        else if (!strcmp(tag, "fuh_debug_level")) fuh_debug_level = get_int(contents);
 
         // some tags that scheduler doesn't care about
         //

@@ -68,6 +68,8 @@ htmlspecialchars("
     [ <grant_claimed_credit/> ]
     [ <symstore>URL</symstore> ]
     [ <dont_delete_batches/> ]
+    [ <sched_debug_level> N </sched_debug_level> ]
+    [ <fuh_debug_level> N </fuh_debug_level> ]
 
 
     <!-- optional; defaults as indicated: -->
@@ -361,6 +363,14 @@ list_item("dont_delete_batches",
     (you can do this with a SQL query).
     If you use this option, replace the indices on
     file_delete_state with indices on (file_delete_state, batch)."
+);
+list_item("sched_debug_level"
+    "Verbosity level for scheduler log output.
+    1=minimal, 2=normal (default), 3=verbose."
+);
+list_item("fuh_debug_level"
+    "Verbosity level for file upload handler log output.
+    1=minimal, 2=normal (default), 3=verbose."
 );
 
 list_end();
