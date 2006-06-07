@@ -15,7 +15,9 @@
 /*****************************************************************************/
 
 /* Check if the logical name is not already registered */
-int wu_check_logical_name(DC_Workunit *wu, const char *logicalFileName)
+int
+_DC_wu_check_logical_name(DC_Workunit *wu,
+			  const char *logicalFileName)
 {
 	GList *l;
 
@@ -51,15 +53,17 @@ int wu_check_logical_name(DC_Workunit *wu, const char *logicalFileName)
 }
 
 
-char *wu_get_workdir_path(DC_Workunit *wu,
-			  const char *label,
-			  WorkdirFile type)
+char *
+_DC_wu_get_workdir_path(DC_Workunit *wu,
+			const char *label,
+			WorkdirFile type)
 {
 	return g_strdup_printf("%s%c%s", wu->workdir, G_DIR_SEPARATOR, label);
 }
 
 
-int wu_gen_condor_submit(DC_Workunit *wu)
+int
+_DC_wu_gen_condor_submit(DC_Workunit *wu)
 {
 	FILE *f= NULL;
 	GString *fn;
@@ -85,6 +89,10 @@ int wu_gen_condor_submit(DC_Workunit *wu)
 	fprintf(f, "output = internal_output.txt\n");
 	fprintf(f, "error = internal_error.txt\n");
 	fprintf(f, "log = internal_log.txt\n");
+	/*
+	  fprintf(f, "ENABLE_USERLOG_LOCKING = FALSE\n");
+	  fprintf(f, "IGNORE_NFS_LOCK_ERRORS = TRUE\n");
+	*/
 	fprintf(f, "\n");
 	fprintf(f, "Queue\n");
 
@@ -94,7 +102,8 @@ int wu_gen_condor_submit(DC_Workunit *wu)
 }
 
 
-int wu_make_client_executables(DC_Workunit *wu)
+int
+_DC_wu_make_client_executables(DC_Workunit *wu)
 {
 	char *archs;
 	int ret;
