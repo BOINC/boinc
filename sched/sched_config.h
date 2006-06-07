@@ -72,6 +72,7 @@ public:
     double default_disk_min_free_gb;
     char symstore[256];
     double next_rpc_delay;
+    bool dont_delete_batches;
 
     int parse(FILE*);
     int parse_file(const char* dir=".");

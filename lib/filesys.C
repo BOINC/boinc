@@ -457,7 +457,10 @@ int boinc_mkdir(const char* path) {
 #ifdef _WIN32
     return !CreateDirectory(path, NULL);
 #else
-    return mkdir(path, 0770);
+    mode_t old_mask = umask(0);
+    int retval = mkdir(path, 0770);
+    umask(old_mask);
+    return retval;
 #endif
 }
 

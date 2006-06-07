@@ -5493,3 +5493,24 @@ David  6 June 2006
     sched/
         handle_request.C
         main.C
+
+David  6 June 2006
+    - boinc_mkdir(): temporarily zero umask so that
+        directories will always be group RW
+        (from Dr. M.F. Somers)
+    - Back end: add optional <dont_delete_batches> flag to config.xml.
+        If set, the file deleter won't delete files for workunits
+        or results with positive batch.
+        Use this to preserve files until you're done looking at them
+        (then do a SQL query that zeros or negates the batch
+        numbers for that particular batch).
+        See http://boinc.berkeley.edu/configuration.php
+
+    client/
+        client_state.C,h
+        client_types.C
+    lib/
+        filesys.C
+    sched/
+        file_deleter.C
+        sched_config.C,h

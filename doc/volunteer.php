@@ -96,11 +96,18 @@ by suing them or refusing to share resources with them.
 </ul>
 
 <p>
-This is much different from volunteer computing.
+This is different from volunteer computing.
+'Desktop grid' computing - which uses desktop PCs within an organization -
+is superficially similar to volunteer computing,
+but because it has accountability and lacks anonymity,
+it is different at a deeper level.
 <p>
 If your definition of 'Grid computing' encompasses all distributed computing
 (which is silly - there's already a perfectly good term for that)
 then volunteer computing is a type of Grid computing.
+<p>
+For more information about Grid computing,
+visit CERN's <a href=http://gridcafe.web.cern.ch/gridcafe/>Grid Caf&#233;</a>.
 
 <h2>Is it the same as 'peer-to-peer computing'?</h2>
 <p>

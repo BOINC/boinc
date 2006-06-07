@@ -300,6 +300,11 @@ int CLIENT_STATE::init() {
         }
     }
 
+#ifdef SANDBOX
+    retval = lookup_group(BOINC_PROJECT_GROUP_NAME, boinc_project_gid);
+    if (retval) return retval;
+#endif
+
     return 0;
 }
 

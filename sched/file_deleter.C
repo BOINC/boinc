@@ -204,24 +204,30 @@ bool do_pass(bool retry_error) {
     DB_RESULT result;
     bool did_something = false;
     char buf[256];
-    char mod_clause[256];
+    char clause[256];
     int retval;
     int result_loop_count;
 
     check_stop_daemons();
 
+    strcpy(clause, "");
     if (id_modulus) {
-        sprintf(mod_clause, " and id %% %d = %d ",
-                id_modulus, id_remainder
-        );
-    } else {
-        strcpy(mod_clause, "");
+        sprintf(clause, " and id %% %d = %d ", id_modulus, id_remainder);
+    }
+    if (config.dont_delete_batches) {
+        strcat(clause, " and batch <= 0 ");
     }
 
     if (retry_error) {
-        sprintf(buf, "where file_delete_state=%d or file_delete_state=%d %s limit 1000", FILE_DELETE_READY, FILE_DELETE_ERROR, mod_clause);
+        sprintf(buf,
+            "where file_delete_state=%d or file_delete_state=%d %s limit 1000",
+            FILE_DELETE_READY, FILE_DELETE_ERROR, clause
+        );
     } else {
-        sprintf(buf, "where file_delete_state=%d %s limit 1000", FILE_DELETE_READY, mod_clause);
+        sprintf(buf,
+            "where file_delete_state=%d %s limit 1000",
+            FILE_DELETE_READY, clause
+        );
     }
     while (!wu.enumerate(buf)) {
         did_something = true;
@@ -244,11 +250,15 @@ bool do_pass(bool retry_error) {
 
     for (result_loop_count=0; result_loop_count < RESULTS_PER_WU; result_loop_count++) {
 
-        if ( retry_error ) {
-            sprintf(buf, "where file_delete_state=%d or file_delete_state=%d %s limit 1000", 
-                FILE_DELETE_READY, FILE_DELETE_ERROR, mod_clause);
+        if (retry_error) {
+            sprintf(buf,
+                "where file_delete_state=%d or file_delete_state=%d %s limit 1000", 
+                FILE_DELETE_READY, FILE_DELETE_ERROR, clause);
         } else {
-            sprintf(buf, "where file_delete_state=%d %s limit 1000", FILE_DELETE_READY, mod_clause);
+            sprintf(buf,
+                "where file_delete_state=%d %s limit 1000",
+                FILE_DELETE_READY, clause
+            );
         }
 
         while (!result.enumerate(buf)) {

@@ -102,6 +102,8 @@ int SCHED_CONFIG::parse(FILE* f) {
         else if (!strcmp(tag, "default_disk_min_free_gb")) default_disk_min_free_gb = get_double(contents);
         else if (!strcmp(tag, "symstore")) strcpy(symstore, contents);
         else if (!strcmp(tag, "next_rpc_delay")) next_rpc_delay = get_double(contents);
+        else if (!strcmp(tag, "dont_delete_batches")) dont_delete_batches = get_bool(contents);
+
         // some tags that scheduler doesn't care about
         //
         else if (!strcmp(tag, "cgi_url")) continue;
@@ -117,72 +119,6 @@ int SCHED_CONFIG::parse(FILE* f) {
     }   
     return ERR_XML_PARSE;
 }
-
-#if 0
-int SCHED_CONFIG::parse(char* buf) {
-    // fill in defaults
-    //
-    memset(this, 0, sizeof(SCHED_CONFIG));
-    max_wus_to_send = 10;
-    default_disk_max_used_gb = 100.;
-    default_disk_max_used_pct = 50.;
-    default_disk_min_free_gb = .001;
-
-    parse_str(buf, "<master_url>", master_url, sizeof(master_url));
-    parse_str(buf, "<long_name>", long_name, sizeof(long_name));
-    parse_str(buf, "<db_name>", db_name, sizeof(db_name));
-    parse_str(buf, "<db_user>", db_user, sizeof(db_user));
-    parse_str(buf, "<db_passwd>", db_passwd, sizeof(db_passwd));
-    parse_str(buf, "<db_host>", db_host, sizeof(db_host));
-    parse_int(buf, "<shmem_key>", shmem_key);
-    parse_str(buf, "<key_dir>", key_dir, sizeof(key_dir));
-    parse_str(buf, "<download_url>", download_url, sizeof(download_url));
-    parse_str(buf, "<download_dir>", download_dir, sizeof(download_dir));
-    parse_str(buf, "<download_dir_alt>", download_dir_alt, sizeof(download_dir_alt));
-    parse_str(buf, "<upload_url>", upload_url, sizeof(upload_url));
-    parse_str(buf, "<upload_dir>", upload_dir, sizeof(upload_dir));
-    parse_str(buf, "<sched_lockfile_dir>", sched_lockfile_dir, sizeof(sched_lockfile_dir));
-    parse_bool(buf, "one_result_per_user_per_wu", one_result_per_user_per_wu);
-    parse_bool(buf, "non_cpu_intensive", non_cpu_intensive);
-    parse_bool(buf, "homogeneous_redundancy", homogeneous_redundancy);
-    parse_bool(buf, "locality_scheduling", locality_scheduling);
-    parse_bool(buf, "msg_to_host", msg_to_host);
-    parse_bool(buf, "ignore_upload_certificates", ignore_upload_certificates);
-    parse_bool(buf, "dont_generate_upload_certificates", dont_generate_upload_certificates);
-    parse_bool(buf, "ignore_delay_bound", ignore_delay_bound);
-    parse_bool(buf, "use_transactions", use_transactions);
-    parse_int(buf, "<min_sendwork_interval>", min_sendwork_interval);
-    parse_int(buf, "<max_wus_to_send>", max_wus_to_send);
-    parse_int(buf, "<daily_result_quota>", daily_result_quota);
-    parse_int(buf, "<uldl_dir_fanout>", uldl_dir_fanout);
-    parse_int(buf, "<locality_scheduling_wait_period>", locality_scheduling_wait_period);
-    parse_int(buf, "<locality_scheduling_send_timeout>", locality_scheduling_send_timeout);
-    parse_int(buf, "<min_core_client_version>", min_core_client_version);
-    parse_int(buf, "<min_core_client_version_announced>", min_core_client_version_announced);
-    parse_int(buf, "<min_core_client_upgrade_deadline>", min_core_client_upgrade_deadline);
-    parse_int(buf, "<max_claimed_credit>", max_claimed_credit);
-    parse_bool(buf, "choose_download_url_by_timezone", choose_download_url_by_timezone);
-    parse_bool(buf, "cache_md5_info", cache_md5_info);
-    parse_bool(buf, "nowork_skip", nowork_skip);
-    parse_bool(buf, "resend_lost_results", resend_lost_results);
-    parse_bool(buf, "grant_claimed_credit", grant_claimed_credit);
-    if (parse_double(buf, "<fp_benchmark_weight>", fp_benchmark_weight)) {
-        use_benchmark_weights = true;
-    }
-    parse_double(buf, "<default_disk_max_used_gb>", default_disk_max_used_gb);
-    parse_double(buf, "<default_disk_max_used_pct>", default_disk_max_used_pct);
-    parse_double(buf, "<default_disk_min_free_gb>", default_disk_min_free_gb);
-    parse_str(buf, "<symstore>", symstore, sizeof(symstore));
-
-    if (match_tag(buf, "</config>")) {
-        char hostname[256];
-        gethostname(hostname, 256);
-        if (!strcmp(hostname, db_host)) strcpy(db_host, "localhost");
-        return 0;
-    }
-    return ERR_XML_PARSE;
-}
-#endif
 
 int SCHED_CONFIG::parse_file(const char* dir) {
     char path[256];

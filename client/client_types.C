@@ -555,6 +555,21 @@ int FILE_INFO::set_permissions() {
     // give read/exec permissions for user, group and others
     // in case someone runs BOINC from different user
 
+#ifdef SANDBOX
+    retval = chown(pathname, -1, boinc_project_gid);
+    if (retval) return retval;
+    if (executable) {
+        retval = chmod(pathname,
+            S_IRUSR|S_IWUSR|S_IXUSR
+            |S_IRGRP|S_IWGRP|S_IXGRP
+        );
+    } else {
+        retval = chmod(pathname,
+            S_IRUSR|S_IWUSR
+            |S_IRGRP|S_IWGRP
+        );
+    }
+#else
     if (executable) {
         retval = chmod(pathname,
             S_IRUSR|S_IWUSR|S_IXUSR
@@ -568,6 +583,7 @@ int FILE_INFO::set_permissions() {
             |S_IROTH
         );
     }
+#endif
     return retval;
 #endif
 }
