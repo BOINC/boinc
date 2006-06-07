@@ -18,11 +18,12 @@ AM_CXXFLAGS	= -O0 -g
 
 noinst_HEADERS	= condor_common.h condor_defs.h condor_master.h condor_wu.h
 
-libdc_condor_la_SOURCES = condor_master.cc \
+libdc_condor_la_SOURCES = condor_master.c \
 			  condor_common.c \
 			  condor_file.c \
 			  condor_wu.c \
-			  condor_managewu.c
+			  condor_managewu.c \
+			  condor_log.cc \
 			  condor_file.c
 
 libdc_condor_la_LIBADD = ../common/libdc-common-master.la \
@@ -44,3 +45,9 @@ tm_LDADD	= ../common/libdc-common-master.la \
 		  libdc-condor.la \
 		  -luuid -lstdc++
 
+
+dd: all
+	ssh root@emma 'make -C /home/local2/drdani/prj/szdg/dcapi/trunk/condor install'
+	$(MAKE) -C /home/local2/drdani/prj/szdg/apps/uppercase-demo/trunk clean all
+	cp /home/local2/drdani/prj/szdg/apps/uppercase-demo/trunk/src/uppercase-demo-client uppercase-demo
+	cp /home/local2/drdani/prj/szdg/apps/uppercase-demo/trunk/src/uppercase-demo-master .
