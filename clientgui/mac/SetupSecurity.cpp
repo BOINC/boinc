@@ -65,7 +65,7 @@ OSStatus CreateBOINCUsersAndGroups() {
         return err;
     
     if (createdNew) {
-        endSleep = TickCount() + (2*60);
+        endSleep = TickCount() + (1*60);
         while (TickCount() < endSleep) {
             sleep (1);
         }
@@ -96,7 +96,8 @@ OSStatus SetBOINCAppOwnersGroupsAndPermissions(char *path, char *managerName, Bo
 
     err = GetAuthorization();
     if (err != noErr) {
-        ShowSecurityError("SetBOINCAppOwnersGroupsAndPermissions: GetAuthorization returned error %d", err);
+        if (err != errAuthorizationCanceled)
+            ShowSecurityError("SetBOINCAppOwnersGroupsAndPermissions: GetAuthorization returned error %d", err);
         return err;
     }
 
@@ -139,7 +140,7 @@ OSStatus SetBOINCAppOwnersGroupsAndPermissions(char *path, char *managerName, Bo
             return err;
         }
 
-        endSleep = TickCount() + (1*60);
+        endSleep = TickCount() + (30);
         while (TickCount() < endSleep) {
             sleep (1);
         }
@@ -180,7 +181,7 @@ OSStatus SetBOINCAppOwnersGroupsAndPermissions(char *path, char *managerName, Bo
         return err;
     }
 
-    endSleep = TickCount() + (1*60);
+    endSleep = TickCount() + (30);
     while (TickCount() < endSleep) {
         sleep (1);
     }
@@ -236,12 +237,21 @@ OSStatus SetBOINCAppOwnersGroupsAndPermissions(char *path, char *managerName, Bo
             err = AuthorizationExecuteWithPrivileges (gOurAuthRef, dsclPath, 0, args, NULL);
             if (err == noErr)
                 break;
+
+                endSleep = TickCount() + (30);
+                while (TickCount() < endSleep) {
+                    sleep (1);
+            }
+
         }
         
         if (err != noErr) {
             ShowSecurityError("\"dscl . -create -merge %s users %s\" returned error %d", buf1, getlogin(), err);
             return err;
         }
+
+        system("lookupd -flushcache");
+        system("memberd -r");
     }       // End if (development)
 
     return err;
@@ -325,15 +335,14 @@ static OSStatus CreateUserAndGroup(char * name, Boolean * createdNew) {
             if (! groupExists)
                 groupid = (gid_t)i;
                 
-                
-                
             break;                          // Success!
         }
     }
 
     err = GetAuthorization();
     if (err != noErr) {
-        ShowSecurityError("CreateUserAndGroup: GetAuthorization returned error %d", err);
+        if (err != errAuthorizationCanceled)
+            ShowSecurityError("CreateUserAndGroup: GetAuthorization returned error %d", err);
         return err;
     }
 
@@ -488,7 +497,7 @@ static OSStatus GetAuthorization (void) {
     AuthorizationRights     ourAuthRights;
     AuthorizationFlags      ourAuthFlags;
     AuthorizationItem       ourAuthItem[RIGHTS_COUNT];
-    OSErr                   err = noErr;
+    OSStatus                err = noErr;
 
     if (sIsAuthorized)
         return noErr;
