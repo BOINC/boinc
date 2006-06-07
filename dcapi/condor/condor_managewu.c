@@ -16,7 +16,7 @@
 
 /* Submits a work unit. */
 int
-DC_submitWU (DC_Workunit * wu)
+DC_submitWU(DC_Workunit *wu)
 {
 	int ret;
 	//GString *fn;
@@ -52,25 +52,25 @@ DC_submitWU (DC_Workunit * wu)
 
 /* Cancels all computations for a given work unit. */
 int
-DC_cancelWU (DC_Workunit * wu)
+DC_cancelWU(DC_Workunit *wu)
 {
-	return (0);
+	return(0);
 }
 
 
 /* Temporarily suspends the execution of a work unit. */
 int
-DC_suspendWU (DC_Workunit * wu)
+DC_suspendWU(DC_Workunit *wu)
 {
-	return (0);
+	return(0);
 }
 
 
 /* Resumes computation of a previously suspended work unit. */
 int
-DC_resumeWU (DC_Workunit * wu)
+DC_resumeWU(DC_Workunit *wu)
 {
-	return (0);
+	return(0);
 }
 
 
