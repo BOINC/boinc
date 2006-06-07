@@ -9,12 +9,23 @@
 extern "C" {
 #endif
 
+#include <time.h>
+#include <sys/time.h>
 #include <uuid/uuid.h>
 
 #include "dc.h"
 #include "dc_internal.h"
 
 extern char project_uuid_str[37];
+
+struct _DC_condor_event
+{
+	int event;
+	int cluster;
+	int proc;
+	int subproc;
+	struct tm time;
+};
 
 struct _DC_Workunit
 {
@@ -29,7 +40,8 @@ struct _DC_Workunit
 	char *uuid_str;
 	DC_WUState state;
     
-	char *condor_id;
+	/*char *condor_id;*/
+	GArray *condor_events;
 	char *workdir;
      
 	GList *input_files;
