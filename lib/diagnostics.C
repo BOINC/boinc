@@ -685,6 +685,8 @@ void boinc_info_release(const char *pszFormat, ...){
     static char szTime[64];
 
     memset(szBuffer, 0, sizeof(szBuffer));
+    memset(szDate, 0, sizeof(szDate));
+    memset(szTime, 0, sizeof(szTime));
 
     strdate(szDate);
     strtime(szTime);
