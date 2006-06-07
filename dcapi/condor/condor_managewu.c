@@ -2,6 +2,7 @@
 /* c-file-style: "linux" */
 /* End: */
 
+#include <stdio.h>
 #include <stdlib.h>
 #include <unistd.h>
 
@@ -9,6 +10,7 @@
 
 #include "dc.h"
 
+#include "condor_log.h"
 #include "condor_wu.h"
 
 
@@ -23,7 +25,7 @@ DC_submitWU(DC_Workunit *wu)
 	GString *cmd;
 	gchar *act, *act2;
 
-	ret= wu_gen_condor_submit(wu);
+	ret= _DC_wu_gen_condor_submit(wu);
 	if (ret)
 	{
 		DC_log(LOG_ERR, "Submit file generation failed");
@@ -45,8 +47,9 @@ DC_submitWU(DC_Workunit *wu)
 	g_free(act);
 	g_free(act2);
 	g_string_free(cmd, TRUE);
-
-	return (DC_OK);
+	if (ret == 0)
+		wu->state= DC_WU_RUNNING;
+	return(DC_OK);
 }
 
 
