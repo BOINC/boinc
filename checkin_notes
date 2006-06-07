@@ -5577,4 +5577,8 @@ Charlie 7 June 2006
     clientgui/
         mac/
             SecurityUtility.cpp
+            SetupSecurity.h
             SetupSecurity.cpp
+    mac_build/
+        boinc.xcodeproj/
+            project.pbxproj
