@@ -12,13 +12,13 @@ extern "C" {
 #include "condor_defs.h"
 
 
-extern int wu_check_logical_name(DC_Workunit *wu,
-				 const char *logicalFileName);
-extern char *wu_get_workdir_path(DC_Workunit *wu,
-				 const char *label,
-				 WorkdirFile type);
-extern int wu_gen_condor_submit(DC_Workunit *wu);
-extern int wu_make_client_executables(DC_Workunit *wu);
+extern int _DC_wu_check_logical_name(DC_Workunit *wu,
+				     const char *logicalFileName);
+extern char *_DC_wu_get_workdir_path(DC_Workunit *wu,
+				     const char *label,
+				     WorkdirFile type);
+extern int _DC_wu_gen_condor_submit(DC_Workunit *wu);
+extern int _DC_wu_make_client_executables(DC_Workunit *wu);
 
 
 #ifdef __cplusplus
