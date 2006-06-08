@@ -30,6 +30,7 @@ struct _DC_condor_event
 struct _DC_wu_data
 {
 	char *client_name;
+	int argc;
 };
 
 struct _DC_Workunit
@@ -38,7 +39,6 @@ struct _DC_Workunit
 	int chk;
 	struct _DC_wu_data data;
 	char **argv;
-	int argc;
 	char *tag;
 	int subresults;
     

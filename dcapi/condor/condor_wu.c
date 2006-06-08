@@ -39,6 +39,7 @@ _DC_wu_check(const DC_Workunit *wu)
 	return(TRUE);
 }
 
+
 int
 _DC_wu_set_client_name(DC_Workunit *wu,
 		       const char *new_name)
@@ -47,6 +48,17 @@ _DC_wu_set_client_name(DC_Workunit *wu,
 		return(DC_ERR_UNKNOWN_WU);
 	g_free(wu->data.client_name);
 	wu->data.client_name= g_strdup(new_name);
+	_DC_wu_changed(wu);
+	return(DC_OK);
+}
+
+int
+_DC_wu_set_argc(DC_Workunit *wu,
+		int new_argc)
+{
+	if (!_DC_wu_check(wu))
+		return(DC_ERR_UNKNOWN_WU);
+	wu->data.argc= new_argc;
 	_DC_wu_changed(wu);
 	return(DC_OK);
 }
