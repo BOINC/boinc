@@ -12,6 +12,7 @@ extern "C" {
 #include <time.h>
 #include <sys/time.h>
 #include <uuid/uuid.h>
+#include "glib.h"
 
 #include "dc.h"
 #include "dc_internal.h"
