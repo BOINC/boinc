@@ -16,6 +16,8 @@ extern void _DC_wu_changed(DC_Workunit *wu);
 extern int _DC_wu_check(const DC_Workunit *wu);
 extern int _DC_wu_set_client_name(DC_Workunit *wu,
 				  const char *new_name);
+extern int _DC_wu_set_argc(DC_Workunit *wu,
+			   int new_argc);
 extern int _DC_wu_check_logical_name(DC_Workunit *wu,
 				     const char *logicalFileName);
 extern char *_DC_wu_get_workdir_path(DC_Workunit *wu,

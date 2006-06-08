@@ -73,7 +73,7 @@ DC_initMaster(const char *configFile)
 	/* Enforce a canonical string representation of the UUID */
 	uuid_unparse_lower(_DC_project_uuid, _DC_project_uuid_str);
 
-	return(0);
+	return(DC_OK);
 }
 
 
@@ -96,7 +96,9 @@ DC_createWU(const char *clientName,
 	_DC_wu_set_client_name(wu, clientName);
 
 	wu->argv= g_strdupv((char **) arguments);
-	for (wu->argc= 0; arguments && arguments[wu->argc]; wu->argc++)
+	for (_DC_wu_set_argc(wu, 0);
+	     arguments && arguments[wu->data.argc];
+	     _DC_wu_set_argc(wu, wu->data.argc+1))
 		;
 	wu->subresults= subresults;
 	wu->tag= g_strdup(tag);
@@ -135,7 +137,7 @@ DC_createWU(const char *clientName,
 		       "Failed to create WU working directory %s: %s",
 		       str->str, strerror(errno));
 		DC_destroyWU(wu);
-		return NULL;
+		return(NULL);
 	}
 
 	wu->workdir= str->str;
