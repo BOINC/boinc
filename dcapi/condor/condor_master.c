@@ -17,6 +17,7 @@
 #include "condor_wu.h"
 #include "condor_log.h"
 #include "condor_utils.h"
+#include "condor_file.h"
 
 
 /********************************************************************* INIT */
@@ -93,6 +94,9 @@ DC_createWU(const char *clientName,
 	wu= g_new0(DC_Workunit, 1);
 	_DC_wu_changed(wu);
 
+	DC_log(LOG_DEBUG, "DC_createWU(%s, %p, %d, %s)=%p",
+	       clientName, arguments, subresults, tag, wu);
+
 	_DC_wu_set_client_name(wu, clientName);
 
 	wu->argv= g_strdupv((char **) arguments);
@@ -113,6 +117,7 @@ DC_createWU(const char *clientName,
 	else
 		wu->name= g_strdup_printf("%s_%s", _DC_project_uuid_str,
 					  uuid_str);
+	DC_log(LOG_DEBUG, "wu name=\"%s\"", wu->name);
 
 	/* Calculate & create the working directory. The working directory
 	 * has the form:
@@ -158,10 +163,11 @@ DC_createWU(const char *clientName,
 
 /* Releases internal resources allocated to a work unit. */
 void
-DC_destroyWU(DC_Workunit * wu)
+DC_destroyWU(DC_Workunit *wu)
 {
 	if (!_DC_wu_check(wu))
 		return;
+	DC_log(LOG_DEBUG, "DC_destroyWU(%p-\"%s\")", wu, wu->name);
 
 	if (_DC_wu_table)
 		g_hash_table_remove(_DC_wu_table, wu->name);
@@ -216,9 +222,10 @@ DC_destroyWU(DC_Workunit * wu)
 
 /* Sets an input file for the work unit. */
 int
-DC_addWUInput(DC_Workunit * wu,
+DC_addWUInput(DC_Workunit *wu,
 	      const char *logicalFileName,
-	      const char *URL, DC_FileMode fileMode)
+	      const char *URL,
+	      DC_FileMode fileMode)
 {
 	DC_PhysicalFile *file;
 	char *workpath;
@@ -226,13 +233,15 @@ DC_addWUInput(DC_Workunit * wu,
 
 	if (!_DC_wu_check(wu))
 		return(DC_ERR_UNKNOWN_WU);
+	DC_log(LOG_DEBUG, "DC_addWUInput(%p-\"%s\", %s, %s, %d)",
+	       wu, wu->name, logicalFileName, URL, fileMode);
 
 	/* Sanity checks */
 	ret= _DC_wu_check_logical_name(wu, logicalFileName);
 	if (ret)
 		return(ret);
 	workpath= _DC_wu_get_workdir_path(wu, logicalFileName, FILE_IN);
-	file= _DC_createPhysicalFile(logicalFileName, workpath);
+	file= _DC_create_physical_file(logicalFileName, workpath);
 	g_free(workpath);
 	if (!file)
 		return(DC_ERR_INTERNAL);
@@ -245,7 +254,7 @@ DC_addWUInput(DC_Workunit * wu,
 		ret= _DC_copyFile(URL, file->path);
 		if (ret)
 		{
-			_DC_destroyPhysicalFile(file);
+			_DC_destroy_physical_file(file);
 			return(ret/*DC_ERR_BADPARAM*/);	/* XXX */
 		}
 		break;
@@ -257,7 +266,7 @@ DC_addWUInput(DC_Workunit * wu,
 		{
 			DC_log(LOG_ERR, "Failed to link %s to %s: %s",
 			       URL, file->path, strerror(errno));
-			_DC_destroyPhysicalFile(file);
+			_DC_destroy_physical_file(file);
 			return(DC_ERR_BADPARAM);	/* XXX */
 		}
 		/* Remember the file mode */
@@ -271,7 +280,7 @@ DC_addWUInput(DC_Workunit * wu,
 		{
 			DC_log(LOG_ERR, "Failed to rename %s to %s: %s",
 			       URL, file->path, strerror(errno));
-			_DC_destroyPhysicalFile(file);
+			_DC_destroy_physical_file(file);
 			return(DC_ERR_BADPARAM);
 		}
 		break;
@@ -292,6 +301,8 @@ DC_addWUOutput(DC_Workunit *wu, const char *logicalFileName)
 
 	if (!_DC_wu_check(wu))
 		return(DC_ERR_UNKNOWN_WU);
+	DC_log(LOG_DEBUG, "DC_addWUOutput(%p-\"%s\", %s)",
+	       wu, wu->name, logicalFileName);
 
 	/* Sanity checks */
 	ret= _DC_wu_check_logical_name(wu, logicalFileName);
@@ -312,6 +323,9 @@ DC_setWUPriority(DC_Workunit *wu, int priority)
 {
 	if (!_DC_wu_check(wu))
 		return(DC_ERR_UNKNOWN_WU);
+	DC_log(LOG_DEBUG, "DC_setWUPriority(%p-\"%s\", %d)",
+	       wu, wu->name, priority);
+
 	return(0);
 }
 
@@ -322,6 +336,9 @@ DC_setMasterCb(DC_ResultCallback resultcb,
 	       DC_SubresultCallback subresultcb,
 	       DC_MessageCallback msgcb)
 {
+	DC_log(LOG_DEBUG, "DC_setMasterCb(%p, %p, %p)",
+	       resultcb, subresultcb, msgcb);
+
 	_DC_result_callback= resultcb;
 	_DC_subresult_callback= subresultcb;
 	_DC_message_callback= msgcb;
@@ -400,10 +417,68 @@ DC_getWUNumber(DC_WUState state)
 
 /************************************************************** Main cycles */
 
+static void _DC_check_all_wus_for_event(void *key, void *value, void *ptr)
+{
+	DC_Workunit *wu= (DC_Workunit *)value;
+	DC_MasterEvent *event;
+	int *processed= (int *)ptr;
+	event= DC_waitWUEvent(wu, 0);
+	if (event)
+	{
+		switch (event->type)
+		{
+		case DC_MASTER_RESULT:
+		{
+			if (_DC_result_callback)
+				(*_DC_result_callback)(wu, event->result);
+			break;
+		}
+		case DC_MASTER_SUBRESULT:
+		{
+			break;
+		}
+		case DC_MASTER_MESSAGE:
+		{
+			break;
+		}
+		}
+		DC_destroyMasterEvent(event);
+		(*processed)++;
+	}
+}
+
 /* Waits for events and processes them. */
 int
 DC_processMasterEvents(int timeout)
 {
+	/* call callback and destry event */
+	int processed;
+	time_t start, now;
+
+	DC_log(LOG_DEBUG, "DC_processMasterEvents(%d)",
+	       timeout);
+	processed= 0;
+	g_hash_table_foreach(_DC_wu_table,
+			     (GHFunc)_DC_check_all_wus_for_event,
+			     &processed);
+	if ((!processed &&
+	     timeout == 0) ||
+	    g_hash_table_size(_DC_wu_table) == 0)
+		return(0);
+	start= time(NULL);
+	now= time(NULL);
+	while (now-start <= timeout &&
+	       g_hash_table_size(_DC_wu_table) > 0)
+	{
+		/*printf("%ds wus=%d\n", (int)(now-start),
+		  g_hash_table_size(_DC_wu_table));*/
+		sleep(1);
+		processed= 0;
+		g_hash_table_foreach(_DC_wu_table,
+				     (GHFunc)_DC_check_all_wus_for_event,
+				     &processed);
+		now= time(NULL);
+	}
 	return(0);
 }
 
@@ -412,6 +487,7 @@ DC_processMasterEvents(int timeout)
 DC_MasterEvent *
 DC_waitMasterEvent(const char *wuFilter, int timeout)
 {
+	/* no callback called! */
 	return(0);
 }
 
@@ -420,19 +496,34 @@ DC_waitMasterEvent(const char *wuFilter, int timeout)
 DC_MasterEvent *
 DC_waitWUEvent(DC_Workunit *wu, int timeout)
 {
+	/* no callback called! */
 	time_t start, now;
-	int events;
+	int events, e;
+	DC_MasterEvent *me= NULL;
 
 	if (!_DC_wu_check(wu))
 		return(NULL);
+	DC_log(LOG_DEBUG, "DC_waitWUEvent(%p-\"%s\", %d)",
+	       wu, wu->name, timeout);
 
 	events= wu->condor_events->len;
+	_DC_wu_update_condor_events(wu);
+	e= wu->condor_events->len;
+	if (e != events)
+	{
+		DC_log(LOG_DEBUG, "%d condor events occured during "
+		       "waitWUEvent",
+		       e-events);
+		me= _DC_wu_condor2api_event(wu);
+	}
+	if (me ||
+	    timeout == 0)
+		return(me);
 	start= time(NULL);
 	now= start;
 	while (now-start <= timeout)
 	{
-		int e;
-
+		sleep(1);
 		_DC_wu_update_condor_events(wu);
 		e= wu->condor_events->len;
 		if (e != events)
@@ -440,9 +531,9 @@ DC_waitWUEvent(DC_Workunit *wu, int timeout)
 			DC_log(LOG_DEBUG, "%d condor events occured during "
 			       "waitWUEvent",
 			       e-events);
-			return(0);
+			return(_DC_wu_condor2api_event(wu));
 		}
-		sleep(1);
+		now= time(NULL);
 	}
 	return(0);
 }
@@ -452,6 +543,21 @@ DC_waitWUEvent(DC_Workunit *wu, int timeout)
 void
 DC_destroyMasterEvent(DC_MasterEvent *event)
 {
+	DC_log(LOG_DEBUG, "DC_destroyMasterEvent(%p)", event);
+	if (!event)
+		return;
+	switch (event->type)
+	{
+	case DC_MASTER_RESULT:
+		g_free(event->result);
+		break;
+	case DC_MASTER_SUBRESULT:
+		_DC_destroy_physical_file(event->subresult);
+		break;
+	case DC_MASTER_MESSAGE:
+		g_free(event->message);
+		break;
+	}
 }
 
 
@@ -481,7 +587,9 @@ DC_getResultCapabilities(const DC_Result *result)
 DC_Workunit *
 DC_getResultWU(DC_Result *result)
 {
-	return(NULL);
+	if (!result)
+		return(NULL);
+	return(result->wu);
 }
 
 
@@ -497,7 +605,16 @@ DC_getResultExit(const DC_Result *result)
 char *
 DC_getResultOutput(const DC_Result *result, const char *logicalFileName)
 {
-	return(NULL);
+	GString *fn;
+
+	if (!result)
+		return(NULL);
+	if (!_DC_wu_check(result->wu))
+		return(NULL);
+	fn= g_string_new(result->wu->workdir);
+	fn= g_string_append(fn, "/");
+	fn= g_string_append(fn, logicalFileName);
+	return(g_string_free(fn, FALSE));
 }
 
 
