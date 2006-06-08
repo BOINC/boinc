@@ -5599,3 +5599,13 @@ Charlie 8 June 2006
             SecurityUtility.cpp
             SetupSecurity.h
             SetupSecurity.cpp
+
+Rom    8 June 2006
+    - Bug Fix: When the debugger fails to initialize do not attempt to use
+        the other debugger functions.
+    - Bug Fix: Display which functions are not found in dbghelp.dll when one
+        or more are missing.
+        
+    lib/
+        diagnostics_win.C
+        stackwalker_win.cpp

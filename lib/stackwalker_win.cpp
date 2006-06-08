@@ -482,7 +482,23 @@ int DebuggerInitialize( LPCSTR pszBOINCLocation, LPCSTR pszSymbolStore, BOOL bPr
          pSI == NULL || pSRC == NULL || pSSO == NULL || pSW == NULL ||
          pUDSN == NULL || pSLM == NULL )
     {
-        _ftprintf( stderr, "GetProcAddress(): some required function not found.\n" );
+        if (!pIAV)   fprintf( stderr, "GetProcAddress(): ImagehlpApiVersion missing.\n" );
+        if (!pSC)    fprintf( stderr, "GetProcAddress(): SymCleanup missing.\n" );
+        if (!pSEM)   fprintf( stderr, "GetProcAddress(): SymEnumerateModules64 missing.\n" );
+        if (!pSFTA)  fprintf( stderr, "GetProcAddress(): SymFunctionTableAccess64 missing.\n" );
+        if (!pSGLFA) fprintf( stderr, "GetProcAddress(): SymGetLineFromAddr64 missing.\n" );
+        if (!pSGMB)  fprintf( stderr, "GetProcAddress(): SymGetModuleBase64 missing.\n" );
+        if (!pSGMI)  fprintf( stderr, "GetProcAddress(): SymGetModuleInfo64 missing.\n" );
+        if (!pSGO)   fprintf( stderr, "GetProcAddress(): SymGetOptions missing.\n" );
+        if (!pSGSP)  fprintf( stderr, "GetProcAddress(): SymGetSearchPath missing.\n" );
+        if (!pSFA)   fprintf( stderr, "GetProcAddress(): SymFromAddr missing.\n" );
+        if (!pSI)    fprintf( stderr, "GetProcAddress(): SymInitialize missing.\n" );
+        if (!pSRC)   fprintf( stderr, "GetProcAddress(): SymRegisterCallback64 missing.\n" );
+        if (!pSSO)   fprintf( stderr, "GetProcAddress(): SymSetOptions missing.\n" );
+        if (!pSW)    fprintf( stderr, "GetProcAddress(): StackWalk64 missing.\n" );
+        if (!pUDSN)  fprintf( stderr, "GetProcAddress(): UnDecorateSymbolName missing.\n" );
+        if (!pSLM)   fprintf( stderr, "GetProcAddress(): SymLoadModuleEx missing.\n" );
+
         FreeLibrary( g_hDbgHelpDll );
         g_bInitialized = FALSE;
         return 1;

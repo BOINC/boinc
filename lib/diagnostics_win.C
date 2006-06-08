@@ -1795,6 +1795,7 @@ UINT diagnostics_determine_exit_code() {
 UINT WINAPI diagnostics_unhandled_exception_monitor(LPVOID lpParameter) {
     DWORD        dwEvent = NULL;
     BOOL         bContinue = TRUE;
+    BOOL         bDebuggerInitialized = FALSE;
     HANDLE       hEvents[2];
     unsigned int i;
     CONTEXT      c;
@@ -1871,7 +1872,7 @@ UINT WINAPI diagnostics_unhandled_exception_monitor(LPVOID lpParameter) {
 
 #ifndef __CYGWIN__
                 // Kickstart the debugger extensions
- 	            DebuggerInitialize(
+ 	            bDebuggerInitialized = !DebuggerInitialize(
                     diagnostics_get_boinc_dir(),
                     diagnostics_get_symstore(),
                     diagnostics_is_proxy_enabled(),
@@ -1879,7 +1880,7 @@ UINT WINAPI diagnostics_unhandled_exception_monitor(LPVOID lpParameter) {
                 );
 
                 // Dump any useful information
-                DebuggerDisplayDiagnostics();
+                if (bDebuggerInitialized) DebuggerDisplayDiagnostics();
 #endif
                 // Dump the process statistics
                 diagnostics_dump_process_information();
@@ -1900,21 +1901,23 @@ UINT WINAPI diagnostics_unhandled_exception_monitor(LPVOID lpParameter) {
 
                         if (diagnostics_is_flag_set(BOINC_DIAG_DUMPCALLSTACKENABLED)) {
 #ifndef __CYGWIN__
-                            if (pThreadEntry->crash_exception_record) {
-                                StackwalkFilter(
-                                    pThreadEntry->crash_exception_record,
-                                    EXCEPTION_EXECUTE_HANDLER
-                                );
-                            } else {
-                                // Get the thread context
-                                memset(&c, 0, sizeof(CONTEXT));
-                                c.ContextFlags = CONTEXT_FULL;
-				                GetThreadContext(pThreadEntry->thread_handle, &c);
+                            if (bDebuggerInitialized) {
+                                if (pThreadEntry->crash_exception_record ) {
+                                    StackwalkFilter(
+                                        pThreadEntry->crash_exception_record,
+                                        EXCEPTION_EXECUTE_HANDLER
+                                    );
+                                } else {
+                                    // Get the thread context
+                                    memset(&c, 0, sizeof(CONTEXT));
+                                    c.ContextFlags = CONTEXT_FULL;
+				                    GetThreadContext(pThreadEntry->thread_handle, &c);
 
-                                StackwalkThread(
-                                    pThreadEntry->thread_handle,
-                                    &c
-                                );
+                                    StackwalkThread(
+                                        pThreadEntry->thread_handle,
+                                        &c
+                                    );
+                                }
                             }
 #else
                             fprintf(stderr, "Warning: Callstack dumps are not supported on CYGWIN\n");
