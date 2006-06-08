@@ -39,9 +39,9 @@ config.status: configure
 	./configure $(confflags) \
 		--prefix=/usr \
 		--disable-maintainer-mode \
-		--disable-backend-clgr \
 		--enable-gtk-doc \
-		--disable-backend-condor \
+		--enable-backend-boinc \
+		--enable-backend-condor \
 		--disable-backend-local \
 		--with-html-dir=/usr/share/doc/libdcapi-doc/html \
 		CFLAGS="$(CFLAGS)" \
