@@ -13,6 +13,7 @@ extern "C" {
 
 
 extern char *_DC_wu_update_condor_events(DC_Workunit *wu);
+extern DC_MasterEvent *_DC_wu_condor2api_event(DC_Workunit *wu);
 
 
 #ifdef __cplusplus
