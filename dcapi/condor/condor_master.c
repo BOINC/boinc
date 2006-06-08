@@ -25,6 +25,11 @@ static GHashTable *wu_table= NULL;
 uuid_t project_uuid;
 char project_uuid_str[37]= "";
 
+DC_ResultCallback	_DC_result_callback= NULL;
+DC_SubresultCallback	_DC_subresult_callback= NULL;
+DC_MessageCallback	_DC_message_callback= NULL;
+
+
 /* Initializes the DC-API. */
 int
 DC_initMaster(const char *configFile)
@@ -303,6 +308,9 @@ DC_setMasterCb(DC_ResultCallback resultcb,
 	       DC_SubresultCallback subresultcb,
 	       DC_MessageCallback msgcb)
 {
+	_DC_result_callback= resultcb;
+	_DC_subresult_callback= subresultcb;
+	_DC_message_callback= msgcb;
 }
 
 
@@ -328,7 +336,7 @@ DC_getWUId(const DC_Workunit *wu)
 char *
 DC_getWUTag(const DC_Workunit *wu)
 {
-	return(strdup(wu->tag));
+	return(wu->tag);
 }
 
 
