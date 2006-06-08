@@ -16,6 +16,8 @@
 #include "dc_common.h"
 
 #include "condor_defs.h"
+#include "condor_result.h"
+#include "condor_wu.h"
 #include "condor_log.h"
 
 
@@ -52,8 +54,8 @@ _DC_wu_update_condor_events(DC_Workunit *wu)
 	ULogEvent *event;
 	while (log.readEvent(event) == ULOG_OK)
 	{
-		printf("%d %s\n", event->eventNumber,
-		       ULogEventNumberNames[event->eventNumber]);
+		/*printf("%d %s\n", event->eventNumber,
+		  ULogEventNumberNames[event->eventNumber]);*/
 		if (wu->condor_events->len < i)
 		{
 			struct _DC_condor_event e;
@@ -75,6 +77,37 @@ _DC_wu_update_condor_events(DC_Workunit *wu)
 	g_string_free(fn_org, TRUE);
 	g_string_free(fn_tmp, TRUE);
 	return(0);
+}
+
+
+DC_MasterEvent *
+_DC_wu_condor2api_event(DC_Workunit *wu)
+{
+	unsigned int i;
+
+	if (!_DC_wu_check(wu))
+		return(NULL);
+	for (i= 0; i < wu->condor_events->len; i++)
+	{
+		struct _DC_condor_event *ce;
+		ce= &g_array_index(wu->condor_events,
+				   struct _DC_condor_event,
+				   i);
+		if (ce->event == ULOG_JOB_TERMINATED)
+		{
+			DC_MasterEvent *e;
+			e= g_new0(DC_MasterEvent, 1);
+			DC_log(LOG_DEBUG, "API event created: %p", e);	       
+			e->type= DC_MASTER_RESULT;
+			e->wu= wu;
+			e->result= _DC_create_result(wu);
+			DC_log(LOG_DEBUG, "Result of the event: %p",
+			       e->result);
+			wu->state= DC_WU_FINISHED;
+			return(e);
+		}
+	}
+	return(NULL);
 }
 
 
