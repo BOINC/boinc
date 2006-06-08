@@ -33,10 +33,10 @@ int
 _DC_wu_check(const DC_Workunit *wu)
 {
 	if (!wu)
-		return(DC_ERR_UNKNOWN_WU);
+		return(FALSE);
 	if ((wu->magic + wu->chk) != 0)
-		return(DC_ERR_UNKNOWN_WU);
-	return(DC_OK);
+		return(FALSE);
+	return(TRUE);
 }
 
 int
