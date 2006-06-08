@@ -10,7 +10,7 @@
 
 
 DC_PhysicalFile *
-_DC_createPhysicalFile(const char *label, const char *path)
+_DC_create_physical_file(const char *label, const char *path)
 {
 	DC_PhysicalFile *file;
 
@@ -18,7 +18,7 @@ _DC_createPhysicalFile(const char *label, const char *path)
 	file->label= g_strdup(label);
 	file->path= g_strdup(path);
 	file->mode= DC_FILE_REGULAR;
-	DC_log(LOG_DEBUG, "Phisical file %s created for %s",
+	DC_log(LOG_DEBUG, "Physical file %s created for %s",
 	       path, label);
 
 	return(file);
@@ -26,12 +26,12 @@ _DC_createPhysicalFile(const char *label, const char *path)
 
 
 void
-_DC_destroyPhysicalFile(DC_PhysicalFile *file)
+_DC_destroy_physical_file(DC_PhysicalFile *file)
 {
 	if (!file)
 		return;
 
-	DC_log(LOG_DEBUG, "Phisical file %s destroying",
+	DC_log(LOG_DEBUG, "Physical file %s destroying",
 	       file->label);
 	g_free(file->label);
 	g_free(file->path);

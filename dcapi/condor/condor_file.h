@@ -12,9 +12,9 @@ extern "C" {
 #include "dc.h"
 
 
-extern DC_PhysicalFile *_DC_createPhysicalFile(const char *label,
-					       const char *path);
-extern void _DC_destroyPhysicalFile(DC_PhysicalFile * file);
+extern DC_PhysicalFile *_DC_create_physical_file(const char *label,
+						 const char *path);
+extern void _DC_destroy_physical_file(DC_PhysicalFile * file);
 
 
 #ifdef __cplusplus
