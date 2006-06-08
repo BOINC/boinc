@@ -5590,3 +5590,12 @@ David  7 June 2006
     sched/
         feeder.C
         make_work.C
+
+Charlie 8 June 2006
+    - Mac: SetUpSecurity sets owner, group and permissions of BOINC Data 
+        directory.  Put short delays after each step to make it more robust.
+    clientgui/
+        mac/
+            SecurityUtility.cpp
+            SetupSecurity.h
+            SetupSecurity.cpp

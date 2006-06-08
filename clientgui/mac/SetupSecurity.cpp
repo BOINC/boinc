@@ -32,12 +32,16 @@
 
 #include "SetupSecurity.h"
 
-static OSStatus CreateUserAndGroup(char * name, Boolean * createdNew);
+static OSStatus CreateUserAndGroup(char * name);
 static OSStatus GetAuthorization(void);
 static pascal Boolean ErrorDlgFilterProc(DialogPtr theDialog, EventRecord *theEvent, short *theItemHit);
+static void SleepTicks(UInt32 ticksToSleep);
+
+
 static AuthorizationRef        gOurAuthRef = NULL;
 
 #define AUTHORIZE_LOOKUPD_MEMBERD false
+#define DELAY_TICKS 2
 
 static char                    dsclPath[] = "/usr/bin/dscl";
 static char                    chmodPath[] = "/bin/chmod";
@@ -56,22 +60,13 @@ static char                    memberdPath[] = "/usr/sbin/memberd";
 #define MIN_ID 25   /* Minimum user ID / Group ID to create */
 
 OSStatus CreateBOINCUsersAndGroups() {
-    unsigned long           endSleep;
-    Boolean                 createdNew;
     OSStatus                err = noErr;
 
-    err = CreateUserAndGroup(boinc_master_name, &createdNew);
+    err = CreateUserAndGroup(boinc_master_name);
     if (err != noErr)
         return err;
     
-    if (createdNew) {
-        endSleep = TickCount() + (1*60);
-        while (TickCount() < endSleep) {
-            sleep (1);
-        }
-    }
-    
-    err = CreateUserAndGroup(boinc_project_name, &createdNew);
+    err = CreateUserAndGroup(boinc_project_name);
     return err;
 }
 
@@ -82,7 +77,6 @@ OSStatus SetBOINCAppOwnersGroupsAndPermissions(char *path, char *managerName, Bo
     char            *args[8];
     short           i;
     mode_t          old_mask;
-    unsigned long   endSleep;
     OSStatus        err = noErr;
     
     strlcpy(fullpath, path, MAXPATHLEN);
@@ -109,6 +103,8 @@ OSStatus SetBOINCAppOwnersGroupsAndPermissions(char *path, char *managerName, Bo
         args[2] = fullpath;
         args[3] = NULL;
         err = AuthorizationExecuteWithPrivileges (gOurAuthRef, chownPath, 0, args, NULL);
+
+        SleepTicks(DELAY_TICKS);
         if (err == noErr)
             break;
     }
@@ -121,7 +117,7 @@ OSStatus SetBOINCAppOwnersGroupsAndPermissions(char *path, char *managerName, Bo
         old_mask = umask(0);
         
         for (i=0; i<5; i++) {       // Retry 5 times if error
-            // chmod -R u=rwsx,g=rwsx,o=rx path/BOINCManager.app'''
+            // chmod -R u=rwsx,g=rwsx,o=rx path/BOINCManager.app
             // 0775 = S_IRUSR | S_IWUSR | S_IXUSR | S_IRGRP | S_IWGRP | S_IXGRP | S_IROTH | S_IXOTH
             //  read, write and execute permission for user, group & others
             args[0] = "-R";
@@ -129,6 +125,8 @@ OSStatus SetBOINCAppOwnersGroupsAndPermissions(char *path, char *managerName, Bo
             args[2] = fullpath;
             args[3] = NULL;
             err = AuthorizationExecuteWithPrivileges (gOurAuthRef, chmodPath, 0, args, NULL);
+
+            SleepTicks(DELAY_TICKS);
             if (err == noErr)
                 break;
         }
@@ -138,11 +136,6 @@ OSStatus SetBOINCAppOwnersGroupsAndPermissions(char *path, char *managerName, Bo
         if (err != noErr) {
             ShowSecurityError("\"chmod -R %s %s\" returned error %d", args[1], fullpath, err);
             return err;
-        }
-
-        endSleep = TickCount() + (30);
-        while (TickCount() < endSleep) {
-            sleep (1);
         }
     }       // End if (development)
 
@@ -170,6 +163,8 @@ OSStatus SetBOINCAppOwnersGroupsAndPermissions(char *path, char *managerName, Bo
         args[1] = fullpath;
         args[2] = NULL;
         err = AuthorizationExecuteWithPrivileges (gOurAuthRef, chmodPath, 0, args, NULL);
+
+        SleepTicks(DELAY_TICKS);
         if (err == noErr)
             break;
     }
@@ -179,11 +174,6 @@ OSStatus SetBOINCAppOwnersGroupsAndPermissions(char *path, char *managerName, Bo
     if (err != noErr) {
         ShowSecurityError("\"chmod %s %s\" returned error %d", args[0], fullpath, err);
         return err;
-    }
-
-    endSleep = TickCount() + (30);
-    while (TickCount() < endSleep) {
-        sleep (1);
     }
 
     strlcpy(fullpath, path, MAXPATHLEN);
@@ -212,6 +202,8 @@ OSStatus SetBOINCAppOwnersGroupsAndPermissions(char *path, char *managerName, Bo
         args[1] = fullpath;
         args[2] = NULL;
         err = AuthorizationExecuteWithPrivileges (gOurAuthRef, chmodPath, 0, args, NULL);
+
+        SleepTicks(DELAY_TICKS);
         if (err == noErr)
             break;
     }
@@ -222,7 +214,7 @@ OSStatus SetBOINCAppOwnersGroupsAndPermissions(char *path, char *managerName, Bo
         ShowSecurityError("\"chmod %s %s\" returned error %d", args[0], fullpath, err);
         return err;
     }
-
+        
     if (development) {
         sprintf(buf1, "/groups/%s", boinc_master_name);
 
@@ -235,14 +227,10 @@ OSStatus SetBOINCAppOwnersGroupsAndPermissions(char *path, char *managerName, Bo
             args[4] = getlogin();
             args[5] = NULL;
             err = AuthorizationExecuteWithPrivileges (gOurAuthRef, dsclPath, 0, args, NULL);
+
+            SleepTicks(DELAY_TICKS);
             if (err == noErr)
                 break;
-
-                endSleep = TickCount() + (30);
-                while (TickCount() < endSleep) {
-                    sleep (1);
-            }
-
         }
         
         if (err != noErr) {
@@ -254,11 +242,171 @@ OSStatus SetBOINCAppOwnersGroupsAndPermissions(char *path, char *managerName, Bo
         system("memberd -r");
     }       // End if (development)
 
-    return err;
+    return noErr;
 }
 
 
-static OSStatus CreateUserAndGroup(char * name, Boolean * createdNew) {
+OSStatus SetBOINCDataOwnersGroupsAndPermissions() {
+    FSRef           ref;
+    Boolean         isDirectory;
+    char            fullpath[MAXPATHLEN];
+    char            buf1[80];
+    char            *args[8];
+    short           i;
+    mode_t          old_mask;
+    OSStatus        err = noErr;
+    OSStatus        result;
+    char            *BOINCDataDirPath = "/Library/Application Support/BOINC Data";
+    
+    strlcpy(fullpath, BOINCDataDirPath, MAXPATHLEN);
+
+    // Does BOINC Data directory exist?
+    result = FSPathMakeRef((StringPtr)fullpath, &ref, &isDirectory);
+    if ((result != noErr) || (! isDirectory))
+        return noErr;                       // BOINC Data Directory does not exist
+
+    err = GetAuthorization();
+    if (err != noErr) {
+        if (err != errAuthorizationCanceled)
+            ShowSecurityError("SetBOINCDataOwnersGroupsAndPermissions: GetAuthorization returned error %d", err);
+        return err;
+    }
+
+    // Set owner and group of BOINC Data directory and all its contents
+    sprintf(buf1, "%s:%s", boinc_master_name, boinc_master_name);
+    for (i=0; i<5; i++) {       // Retry 5 times if error
+        // chown boinc_master:boinc_master "/Library/Applications/BOINC Data"
+// SHOULD THIS BE boinc_master:boinc_project or perhaps boinc_project:boinc_master ???
+        args[0] = "-R";
+        args[1] = buf1;
+        args[2] = fullpath;
+        args[3] = NULL;
+        err = AuthorizationExecuteWithPrivileges (gOurAuthRef, chownPath, 0, args, NULL);
+
+        SleepTicks(DELAY_TICKS);
+        if (err == noErr)
+            break;
+    }
+    if (err != noErr) {
+        ShowSecurityError("\"chown %s %s\" returned error %d", buf1, fullpath, err);
+        return err;
+    }
+
+    // Set permissions of BOINC Data directory and all its contents
+    old_mask = umask(0);
+    
+    for (i=0; i<5; i++) {       // Retry 5 times if error
+        // chmod -R u+rw,g+rw,o+r "/Library/Applications/BOINC Data"
+        // 0664 = S_IRUSR | S_IWUSR | S_IRGRP | S_IWGRP | S_IROTH
+        // set read and write permission for user and group, read-only for others (leaves execute bits unchanged)
+        args[0] = "-R";
+        args[1] = "u+rw,g+rw,o+r";
+        args[2] = fullpath;
+        args[3] = NULL;
+        err = AuthorizationExecuteWithPrivileges (gOurAuthRef, chmodPath, 0, args, NULL);
+
+        SleepTicks(DELAY_TICKS);
+        if (err == noErr)
+            break;
+    }
+        
+    umask(old_mask);
+
+    if (err != noErr) {
+        ShowSecurityError("\"chmod -R %s %s\" returned error %d", args[1], fullpath, err);
+        return err;
+    }
+
+    // Does gui_rpc_auth.cfg file exist?
+    strlcpy(fullpath, BOINCDataDirPath, MAXPATHLEN);
+    strlcat(fullpath, "/gui_rpc_auth.cfg", MAXPATHLEN);
+
+    result = FSPathMakeRef((StringPtr)fullpath, &ref, &isDirectory);
+    if ((result == noErr) && (! isDirectory)) {
+        // Make gui_rpc_auth.cfg file readable and writable only by user boinc_master and group boinc_master
+        old_mask = umask(0);
+        
+        for (i=0; i<5; i++) {       // Retry 5 times if error
+            // chmod u=rw,g=rw,o= "/Library/Applications/BOINC Data/gui_rpc_auth.cfg"
+            // 0660 = S_IRUSR | S_IWUSR | S_IRGRP | S_IWGRP
+            //  read, write and execute permission for user, group & others
+            args[0] = "u=rw,g=rw,o=";
+            args[1] = fullpath;
+            args[2] = NULL;
+            err = AuthorizationExecuteWithPrivileges (gOurAuthRef, chmodPath, 0, args, NULL);
+
+            SleepTicks(DELAY_TICKS);
+            if (err == noErr)
+                break;
+        }
+            
+        umask(old_mask);
+
+        if (err != noErr) {
+            ShowSecurityError("\"chmod -R %s %s\" returned error %d", args[1], fullpath, err);
+            return err;
+        }
+    }           // gui_rpc_auth.cfg
+
+
+    // Does slots directory exist?
+    strlcpy(fullpath, BOINCDataDirPath, MAXPATHLEN);
+    strlcat(fullpath, "/slots", MAXPATHLEN);
+
+    result = FSPathMakeRef((StringPtr)fullpath, &ref, &isDirectory);
+    if ((result == noErr) && (isDirectory)) {
+        // Set owner and group of slots directory and all its contents
+        sprintf(buf1, "%s:%s", boinc_master_name, boinc_project_name);
+        for (i=0; i<5; i++) {       // Retry 5 times if error
+            // chown boinc_master:boinc_project "/Library/Applications/BOINC Data/slots"
+            args[0] = "-R";
+            args[1] = buf1;
+            args[2] = fullpath;
+            args[3] = NULL;
+            err = AuthorizationExecuteWithPrivileges (gOurAuthRef, chownPath, 0, args, NULL);
+
+            SleepTicks(DELAY_TICKS);
+            if (err == noErr)
+                break;
+        }
+        if (err != noErr) {
+            ShowSecurityError("\"chown %s %s\" returned error %d", buf1, fullpath, err);
+            return err;
+        }
+    }       // slots directory
+
+
+    // Does projects directory exist?
+    strlcpy(fullpath, BOINCDataDirPath, MAXPATHLEN);
+    strlcat(fullpath, "/projects", MAXPATHLEN);
+
+    result = FSPathMakeRef((StringPtr)fullpath, &ref, &isDirectory);
+    if ((result == noErr) && (isDirectory)) {
+        // Set owner and group of projects directory and all its contents
+        sprintf(buf1, "%s:%s", boinc_master_name, boinc_project_name);
+        for (i=0; i<5; i++) {       // Retry 5 times if error
+            // chown boinc_master:boinc_project "/Library/Applications/BOINC Data/projects"
+            args[0] = "-R";
+            args[1] = buf1;
+            args[2] = fullpath;
+            args[3] = NULL;
+            err = AuthorizationExecuteWithPrivileges (gOurAuthRef, chownPath, 0, args, NULL);
+
+            SleepTicks(DELAY_TICKS);
+            if (err == noErr)
+                break;
+        }
+        if (err != noErr) {
+            ShowSecurityError("\"chown %s %s\" returned error %d", buf1, fullpath, err);
+            return err;
+        }
+    }       // projects directory
+    
+    return noErr;
+}
+
+
+static OSStatus CreateUserAndGroup(char * name) {
     OSStatus    err = noErr;
     passwd      *pw = NULL;
     group       *grp = NULL;
@@ -273,8 +421,6 @@ static OSStatus CreateUserAndGroup(char * name, Boolean * createdNew) {
     char        buf2[80];
     char        buf3[80];
     
-    *createdNew = false;
-
     pw = getpwnam(name);
     if (pw) {
         userid = pw->pw_uid;
@@ -290,8 +436,6 @@ static OSStatus CreateUserAndGroup(char * name, Boolean * createdNew) {
     if ( userExists && groupExists )
         return noErr;       // User and group already exist
 
-    *createdNew = true;
-    
     // If only user or only group exists, try to use the same ID for the one we create
     if (userExists) {      // User exists but group does not
         usergid = pw->pw_gid;
@@ -357,6 +501,8 @@ static OSStatus CreateUserAndGroup(char * name, Boolean * createdNew) {
             args[2] = buf1;
             args[3] = NULL;
             err = AuthorizationExecuteWithPrivileges (gOurAuthRef, dsclPath, 0, args, NULL);
+
+            SleepTicks(DELAY_TICKS);
             if (err == noErr)
                 break;
         }
@@ -374,6 +520,8 @@ static OSStatus CreateUserAndGroup(char * name, Boolean * createdNew) {
             args[4] = buf2;
             args[5] = NULL;
             err = AuthorizationExecuteWithPrivileges (gOurAuthRef, dsclPath, 0, args, NULL);
+
+            SleepTicks(DELAY_TICKS);
             if (err == noErr)
                 break;
         }
@@ -395,6 +543,8 @@ static OSStatus CreateUserAndGroup(char * name, Boolean * createdNew) {
             args[2] = buf1;
             args[3] = NULL;
             err = AuthorizationExecuteWithPrivileges (gOurAuthRef, dsclPath, 0, args, NULL);
+
+            SleepTicks(DELAY_TICKS);
             if (err == noErr)
                 break;
         }
@@ -412,6 +562,8 @@ static OSStatus CreateUserAndGroup(char * name, Boolean * createdNew) {
             args[4] = buf3;
             args[5] = NULL;
             err = AuthorizationExecuteWithPrivileges (gOurAuthRef, dsclPath, 0, args, NULL);
+
+            SleepTicks(DELAY_TICKS);
             if (err == noErr)
                 break;
         }
@@ -430,6 +582,8 @@ static OSStatus CreateUserAndGroup(char * name, Boolean * createdNew) {
             args[4] = "/sbin/nologin";
             args[5] = NULL;
             err = AuthorizationExecuteWithPrivileges (gOurAuthRef, dsclPath, 0, args, NULL);
+
+            SleepTicks(DELAY_TICKS);
             if (err == noErr)
                 break;
         }
@@ -449,6 +603,8 @@ static OSStatus CreateUserAndGroup(char * name, Boolean * createdNew) {
         args[4] = buf2;
         args[5] = NULL;
         err = AuthorizationExecuteWithPrivileges (gOurAuthRef, dsclPath, 0, args, NULL);
+
+        SleepTicks(DELAY_TICKS);
         if (err == noErr)
             break;
     }
@@ -463,6 +619,8 @@ static OSStatus CreateUserAndGroup(char * name, Boolean * createdNew) {
         args[0] = "-flushcache";
         args[1] = NULL;
         err = AuthorizationExecuteWithPrivileges (gOurAuthRef, lookupdPath, 0, args, NULL);
+
+        SleepTicks(DELAY_TICKS);
         if (err == noErr)
             break;
     }
@@ -476,6 +634,8 @@ static OSStatus CreateUserAndGroup(char * name, Boolean * createdNew) {
         args[0] = "-r";
         args[1] = NULL;
         err = AuthorizationExecuteWithPrivileges (gOurAuthRef, memberdPath, 0, args, NULL);
+
+        SleepTicks(DELAY_TICKS);
         if (err == noErr)
             break;
     }
@@ -599,3 +759,17 @@ static pascal Boolean ErrorDlgFilterProc(DialogPtr theDialog, EventRecord *theEv
     return StdFilterProc(theDialog, theEvent, theItemHit);
 }
 
+
+// Uses usleep to sleep for full duration even if a signal is received
+static void SleepTicks(UInt32 ticksToSleep) {
+    UInt32 endSleep, timeNow, ticksRemaining;
+
+    timeNow = TickCount();
+    ticksRemaining = ticksToSleep;
+    endSleep = timeNow + ticksToSleep;
+    while ( (timeNow < endSleep) && (ticksRemaining <= ticksToSleep) ) {
+        usleep(16667 * ticksRemaining);
+        timeNow = TickCount();
+        ticksRemaining = endSleep - timeNow;
+    } 
+}
