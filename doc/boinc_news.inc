@@ -1,6 +1,12 @@
 <?
 
 $project_news = array(
+array("June 7, 2006",
+    "Windows users: if BOINC applications are repeatedly
+    crashing on your computer,
+    it's possibly that you need to
+    <a href=directx.php>upgrade to the latest version of DirectX</a>."
+),
 array("May 31, 2006",
     "Recent newspaper articles on BOINC and Rosetta@home:
     <a href=http://seattletimes.nwsource.com/html/localnews/2003027071_computersider30m.html>Worldwide, 690,000 help computer effort</a> and

@@ -57,6 +57,11 @@ The Windows BOINC client can be
 <a href=win_deploy.php>deployed across a Windows network
 using Active Directory</a>.
 
+<p>
+if BOINC applications are repeatedly crashing on your computer,
+it's possibly that you need to
+<a href=directx.php>upgrade to the latest version of DirectX</a>.
+
 <hr>
 <h2>Technical details</h2>
 <p>

@@ -6,9 +6,9 @@ echo "
 <p>
 The daemon program
 <pre>
-make_work -wu_name name -cushion N
+make_work -wu_name name [-wu_name name2 ... ] -cushion N
 </pre>
-creates copies of the given 'master workunit'
+creates copies of the given workunits (cyclically)
 as needed to maintain a supply of at least N unsent results.
 This is useful for testing purposes.
 <p>
@@ -20,8 +20,7 @@ To avoid this, give the master workunit a name that contains
 This causes the file_deleter and db_purge to skip over it.
 
 <p>
-It may be convenient to have a script that recreates
-the master workunit.
+It may be convenient to have a script that recreates the master workunit.
 For example:
 
 <pre>

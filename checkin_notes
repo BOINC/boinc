@@ -5582,3 +5582,11 @@ Charlie 7 June 2006
     mac_build/
         boinc.xcodeproj/
             project.pbxproj
+
+David  7 June 2006
+    - make_work: allow multiple -wu_name arguments.
+        Make_work will create copies of these WUs, cyclically
+
+    sched/
+        feeder.C
+        make_work.C

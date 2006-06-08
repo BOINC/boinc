@@ -219,27 +219,31 @@ static int remove_infeasible(int i) {
 }
 #endif
 
-// loop through until a valid work item is found
-// A valid work item is one is not already on the shared memory segment
+// Scan work items for a given appp until one found
+// that is not already on the shared memory segment.
 // Errors that can occur:
-//     * No valid work item found even after restarting the enumeration - ACTION: return false
-//     * The work item can be for a app that doesn't exist in the database - ACTION: exit application
-// Existing code was moved into this new method in order to improve the readability of the code
-
- 
-static bool find_work_item(DB_WORK_ITEM *wi, bool *restarted_enum, int& ncollisions, int work_item_index, int enum_size, char mod_select_clause[]) {
+// 1) No valid work item found even after restarting the enumeration
+//   ACTION: return false
+// 2) The work item can be for a app that doesn't exist in the database
+//   ACTION: exit application
+// 
+static bool find_work_item(
+    DB_WORK_ITEM *wi, bool& restarted_enum, int& ncollisions,
+    int work_item_index, int enum_size, char* mod_select_clause
+) {
 	bool in_second_pass = false;
 	bool found = false;
 	int retval, j;
 	
-	if ( !wi->cursor.active && *restarted_enum) {
+	if (!wi->cursor.active && restarted_enum) {
 		return false;
-	} else if ( !wi->cursor.active ) {
+	} else if (!wi->cursor.active) {
 		in_second_pass = true;
 	}
 	do {
         // if we have restarted the enum then we are in the second pass
-        if ( !in_second_pass && *restarted_enum ) {
+        //
+        if (!in_second_pass && restarted_enum ) {
         	in_second_pass = true;
         	ncollisions = 0;
         }
@@ -248,12 +252,14 @@ static bool find_work_item(DB_WORK_ITEM *wi, bool *restarted_enum, int& ncollisi
         // then we have reached the end of the result
         // and we need to requery the database
         //
-    	if ( retval ) {
-    		*restarted_enum = true;
+    	if (retval) {
+    		restarted_enum = true;
 			log_messages.printf(SCHED_MSG_LOG::MSG_NORMAL,
-            	"restarted enumeration for appid %d\n", ssp->apps[work_item_index].id);
+            	"restarted enumeration for appid %d\n",
+                ssp->apps[work_item_index].id);
         } else {
         	// Check for a work item with an invalid application id
+            //
             if (!ssp->have_app(wi->wu.appid)) {
                 log_messages.printf(
                     SCHED_MSG_LOG::MSG_CRITICAL,
@@ -265,7 +271,8 @@ static bool find_work_item(DB_WORK_ITEM *wi, bool *restarted_enum, int& ncollisi
             
             // Check for collision
             // If collision, then advance to the next workitem
-            found = true; // be hopeful!
+            //
+            found = true;
             for (j=0; j<ssp->nwu_results; j++) {
                 if (ssp->wu_results[j].state != WR_STATE_EMPTY && ssp->wu_results[j].resultid == wi->res_id) {
                     ncollisions++;
@@ -274,11 +281,13 @@ static bool find_work_item(DB_WORK_ITEM *wi, bool *restarted_enum, int& ncollisi
                 }
             }    		
     	}
-    // exit conditions
-    // (in_second_pass && retval) means if we have looped a second time and reached the 
-    //       end of the result set without find a workitem.  This is an error.
-    // found means that we identified a valid work item
-	} while ( (!in_second_pass || !retval) && !found);
+        // exit conditions
+        // (in_second_pass && retval) means if we have looped a second time
+        // and reached the end of the result set without finding a workitem.
+        // This is an error.
+        // found means that we identified a valid work item
+        //
+	} while ((!in_second_pass || !retval) && !found);
 	return found;
 }
 
@@ -294,7 +303,7 @@ static void scan_work_array(
     int work_item_index;
     int enum_size;
     
-  	for(i=0; i < ssp->napps; i++) {
+  	for (i=0; i<ssp->napps; i++) {
     	restarted_enum[i] = false;
     }
 
@@ -305,13 +314,13 @@ static void scan_work_array(
     	if (all_apps) {
     		work_item_index = i % ssp->napps;
     		enum_size = ENUM_LIMIT/ssp->napps;
-    		sprintf(mod_select_clause,"%s and result.appid=%d",
+    		sprintf(mod_select_clause, "%s and result.appid=%d",
                 select_clause, ssp->apps[work_item_index].id
             );
     	} else {
     		work_item_index = 0;
     		enum_size = ENUM_LIMIT;
-    		sprintf(mod_select_clause,"%s",select_clause);
+    		strcpy(mod_select_clause, select_clause);
     	}
     	wi = &((*work_items).at(work_item_index));
     	
@@ -337,7 +346,7 @@ static void scan_work_array(
 
         case WR_STATE_EMPTY:
             found = find_work_item(
-                wi, &restarted_enum[work_item_index], ncollisions,
+                wi, restarted_enum[work_item_index], ncollisions,
                 work_item_index, enum_size, mod_select_clause
             );
             if (found) {
