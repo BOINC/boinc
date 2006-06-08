@@ -88,8 +88,9 @@ DC_createWU(const char *clientName,
 	int ret;
 
 	wu= g_new0(DC_Workunit, 1);
+	_DC_wu_changed(wu);
 
-	wu->client_name= g_strdup(clientName);
+	_DC_wu_set_client_name(wu, clientName);
 
 	wu->argv= g_strdupv((char **) arguments);
 	for (wu->argc= 0; arguments && arguments[wu->argc]; wu->argc++)
@@ -154,7 +155,7 @@ DC_createWU(const char *clientName,
 void
 DC_destroyWU(DC_Workunit * wu)
 {
-	if (!wu)
+	if (!_DC_wu_check(wu))
 		return;
 
 	if (wu_table)
@@ -198,7 +199,7 @@ DC_destroyWU(DC_Workunit * wu)
 		g_free(wu->workdir);
 	}
 
-	g_free(wu->client_name);
+	_DC_wu_set_client_name(wu, NULL);
 	g_free(wu->uuid_str);
 	g_strfreev(wu->argv);
 	g_free(wu->tag);
@@ -217,6 +218,9 @@ DC_addWUInput(DC_Workunit * wu,
 	DC_PhysicalFile *file;
 	char *workpath;
 	int ret;
+
+	if (!_DC_wu_check(wu))
+		return(DC_ERR_UNKNOWN_WU);
 
 	/* Sanity checks */
 	ret= _DC_wu_check_logical_name(wu, logicalFileName);
@@ -281,6 +285,9 @@ DC_addWUOutput(DC_Workunit *wu, const char *logicalFileName)
 {
 	int ret;
 
+	if (!_DC_wu_check(wu))
+		return(DC_ERR_UNKNOWN_WU);
+
 	/* Sanity checks */
 	ret= _DC_wu_check_logical_name(wu, logicalFileName);
 	if (ret)
@@ -298,6 +305,8 @@ DC_addWUOutput(DC_Workunit *wu, const char *logicalFileName)
 int
 DC_setWUPriority(DC_Workunit *wu, int priority)
 {
+	if (!_DC_wu_check(wu))
+		return(DC_ERR_UNKNOWN_WU);
 	return(0);
 }
 
@@ -318,7 +327,7 @@ DC_setMasterCb(DC_ResultCallback resultcb,
 DC_WUState
 DC_getWUState(DC_Workunit *wu)
 {
-	if (!wu)
+	if (!_DC_wu_check(wu))
 		return(DC_WU_UNKNOWN);
 	return(wu->state);
 }
@@ -328,7 +337,9 @@ DC_getWUState(DC_Workunit *wu)
 char *
 DC_getWUId(const DC_Workunit *wu)
 {
-	return(0);
+	if (!_DC_wu_check(wu))
+		return(NULL);
+	return(NULL);
 }
 
 
@@ -336,6 +347,8 @@ DC_getWUId(const DC_Workunit *wu)
 char *
 DC_getWUTag(const DC_Workunit *wu)
 {
+	if (!_DC_wu_check(wu))
+		return(NULL);
 	return(wu->tag);
 }
 
@@ -344,6 +357,8 @@ DC_getWUTag(const DC_Workunit *wu)
 char *
 DC_serializeWU(DC_Workunit *wu)
 {
+	if (!_DC_wu_check(wu))
+		return(NULL);
 	return(0);
 }
 
@@ -403,8 +418,8 @@ DC_waitWUEvent(DC_Workunit *wu, int timeout)
 	time_t start, now;
 	int events;
 
-	if (!wu)
-		return(0);
+	if (!_DC_wu_check(wu))
+		return(NULL);
 
 	events= wu->condor_events->len;
 	start= time(NULL);
@@ -441,7 +456,9 @@ DC_destroyMasterEvent(DC_MasterEvent *event)
 int
 DC_sendWUMessage(DC_Workunit *wu, const char *message)
 {
-	return(0);
+	if (!_DC_wu_check(wu))
+		return(DC_ERR_UNKNOWN_WU);
+	return(DC_ERR_NOTIMPL);
 }
 
 
@@ -451,7 +468,7 @@ DC_sendWUMessage(DC_Workunit *wu, const char *message)
 unsigned
 DC_getResultCapabilities(const DC_Result *result)
 {
-	return(0);
+	return(DC_ERR_NOTIMPL);
 }
 
 
@@ -459,7 +476,7 @@ DC_getResultCapabilities(const DC_Result *result)
 DC_Workunit *
 DC_getResultWU(DC_Result *result)
 {
-	return(0);
+	return(NULL);
 }
 
 
@@ -467,7 +484,7 @@ DC_getResultWU(DC_Result *result)
 int
 DC_getResultExit(const DC_Result *result)
 {
-	return(0);
+	return(DC_ERR_NOTIMPL);
 }
 
 
@@ -475,7 +492,7 @@ DC_getResultExit(const DC_Result *result)
 char *
 DC_getResultOutput(const DC_Result *result, const char *logicalFileName)
 {
-	return(0);
+	return(NULL);
 }
 
 

@@ -27,9 +27,16 @@ struct _DC_condor_event
 	time_t time;
 };
 
-struct _DC_Workunit
+struct _DC_wu_data
 {
 	char *client_name;
+};
+
+struct _DC_Workunit
+{
+	int magic;
+	int chk;
+	struct _DC_wu_data data;
 	char **argv;
 	int argc;
 	char *tag;

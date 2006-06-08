@@ -14,12 +14,53 @@
 
 /*****************************************************************************/
 
+void
+_DC_wu_changed(DC_Workunit *wu)
+{
+	unsigned char *p;
+	int i, sum= 0;
+
+	if (!wu)
+		return;
+	p= (unsigned char*)(&(wu->data));
+	for (i= 0; i < (signed)sizeof(struct _DC_wu_data); i++)
+		sum+= p[i];
+	wu->magic= sum;
+	wu->chk= 0-sum;
+}
+
+int
+_DC_wu_check(const DC_Workunit *wu)
+{
+	if (!wu)
+		return(DC_ERR_UNKNOWN_WU);
+	if ((wu->magic + wu->chk) != 0)
+		return(DC_ERR_UNKNOWN_WU);
+	return(DC_OK);
+}
+
+int
+_DC_wu_set_client_name(DC_Workunit *wu,
+		       const char *new_name)
+{
+	if (!_DC_wu_check(wu))
+		return(DC_ERR_UNKNOWN_WU);
+	g_free(wu->data.client_name);
+	wu->data.client_name= g_strdup(new_name);
+	_DC_wu_changed(wu);
+	return(DC_OK);
+}
+
+
 /* Check if the logical name is not already registered */
 int
 _DC_wu_check_logical_name(DC_Workunit *wu,
 			  const char *logicalFileName)
 {
 	GList *l;
+
+	if (!_DC_wu_check(wu))
+		return(DC_ERR_UNKNOWN_WU);
 
 	if (strchr(logicalFileName, '/') || strchr(logicalFileName, '\\'))
 	{
@@ -58,6 +99,8 @@ _DC_wu_get_workdir_path(DC_Workunit *wu,
 			const char *label,
 			WorkdirFile type)
 {
+	if (!_DC_wu_check(wu))
+		return(NULL);
 	return g_strdup_printf("%s%c%s", wu->workdir, G_DIR_SEPARATOR, label);
 }
 
@@ -69,8 +112,8 @@ _DC_wu_gen_condor_submit(DC_Workunit *wu)
 	GString *fn;
 	char *cfgval;
 
-	if (!wu)
-		return(DC_ERR_BADPARAM);
+	if (!_DC_wu_check(wu))
+		return(DC_ERR_UNKNOWN_WU);
 
 	fn= g_string_new(wu->workdir);
 	fn= g_string_append(fn, "/condor_submit.txt");
@@ -84,7 +127,7 @@ _DC_wu_gen_condor_submit(DC_Workunit *wu)
 	g_string_free(fn, TRUE);
 
 	cfgval= DC_getCfgStr(CFG_ARCHITECTURES);
-	fprintf(f, "Executable = %s\n", wu->client_name);
+	fprintf(f, "Executable = %s\n", wu->data.client_name);
 	fprintf(f, "Universe = vanilla\n");
 	fprintf(f, "output = internal_output.txt\n");
 	fprintf(f, "error = internal_error.txt\n");
@@ -109,15 +152,15 @@ _DC_wu_make_client_executables(DC_Workunit *wu)
 	int ret;
 	GString *src, *dst;
 
-	if (!wu)
-		return(DC_ERR_BADPARAM);
+	if (!_DC_wu_check(wu))
+		return(DC_ERR_UNKNOWN_WU);
 
 	archs= DC_getCfgStr(CFG_ARCHITECTURES);
 
-	src= g_string_new(wu->client_name);
+	src= g_string_new(wu->data.client_name);
 	dst= g_string_new(wu->workdir);
 	g_string_append(dst, "/");
-	g_string_append(dst, wu->client_name);
+	g_string_append(dst, wu->data.client_name);
 	DC_log(LOG_DEBUG, "Copying client executable %s to %s",
 	       src->str, dst->str);
 	ret= _DC_copyFile(src->str, dst->str);

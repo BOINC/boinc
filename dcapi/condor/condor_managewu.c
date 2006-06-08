@@ -25,6 +25,9 @@ DC_submitWU(DC_Workunit *wu)
 	GString *cmd;
 	gchar *act, *act2;
 
+	if (!_DC_wu_check(wu))
+		return(DC_ERR_UNKNOWN_WU);
+
 	ret= _DC_wu_gen_condor_submit(wu);
 	if (ret)
 	{
@@ -57,7 +60,9 @@ DC_submitWU(DC_Workunit *wu)
 int
 DC_cancelWU(DC_Workunit *wu)
 {
-	return(0);
+	if (!_DC_wu_check(wu))
+		return(DC_ERR_UNKNOWN_WU);
+	return(DC_ERR_NOTIMPL);
 }
 
 
@@ -65,7 +70,9 @@ DC_cancelWU(DC_Workunit *wu)
 int
 DC_suspendWU(DC_Workunit *wu)
 {
-	return(0);
+	if (!_DC_wu_check(wu))
+		return(DC_ERR_UNKNOWN_WU);
+	return(DC_ERR_NOTIMPL);
 }
 
 
@@ -73,7 +80,9 @@ DC_suspendWU(DC_Workunit *wu)
 int
 DC_resumeWU(DC_Workunit *wu)
 {
-	return(0);
+	if (!_DC_wu_check(wu))
+		return(DC_ERR_UNKNOWN_WU);
+	return(DC_ERR_NOTIMPL);
 }
 
 
