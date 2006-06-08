@@ -61,7 +61,7 @@ _DC_wu_update_condor_events(DC_Workunit *wu)
 			e.cluster= event->cluster;
 			e.proc= event->proc;
 			e.subproc= event->subproc;
-			e.time= event->eventTime;
+			e.time= mktime(&(event->eventTime));
 			g_array_append_val(wu->condor_events, e);
 			DC_log(LOG_DEBUG, "Condor event %d %s",
 			       event->eventNumber,

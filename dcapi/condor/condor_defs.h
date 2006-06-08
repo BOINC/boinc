@@ -24,7 +24,7 @@ struct _DC_condor_event
 	int cluster;
 	int proc;
 	int subproc;
-	struct tm time;
+	time_t time;
 };
 
 struct _DC_Workunit
