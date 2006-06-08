@@ -21,9 +21,9 @@
 
 /********************************************************************* INIT */
 
-static GHashTable *wu_table= NULL;
-uuid_t project_uuid;
-char project_uuid_str[37]= "";
+static GHashTable *_DC_wu_table= NULL;
+uuid_t _DC_project_uuid;
+char _DC_project_uuid_str[37]= "";
 
 DC_ResultCallback	_DC_result_callback= NULL;
 DC_SubresultCallback	_DC_subresult_callback= NULL;
@@ -44,21 +44,24 @@ DC_initMaster(const char *configFile)
 	{
 		DC_log(LOG_ERR, "DC-API config file (%s) parse error",
 		       configFile);
-		return ret;
+		return(ret);
 	}
-	
-	if (!wu_table)
-		wu_table= g_hash_table_new_full(g_str_hash, g_str_equal, NULL,
-						NULL);
+	DC_log(LOG_DEBUG, "DC_initMaster(%s)", configFile);
+
+	if (!_DC_wu_table)
+		_DC_wu_table= g_hash_table_new_full(g_str_hash,
+						    g_str_equal,
+						    NULL,
+						    NULL);
 
 	cfgval= DC_getCfgStr(CFG_INSTANCEUUID);
 	if (!cfgval)
 	{
 		DC_log(LOG_ERR, "Setting of %s is missing from config file %s",
 		       CFG_INSTANCEUUID, configFile);
-		return DC_ERR_CONFIG;
+		return(DC_ERR_CONFIG);
 	}
-	ret= uuid_parse((char *)cfgval, project_uuid);
+	ret= uuid_parse((char *)cfgval, _DC_project_uuid);
 	if (ret)
 	{
 		DC_log(LOG_ERR, "Invalid project UUID");
@@ -68,7 +71,7 @@ DC_initMaster(const char *configFile)
 	g_free(cfgval);
 
 	/* Enforce a canonical string representation of the UUID */
-	uuid_unparse_lower(project_uuid, project_uuid_str);
+	uuid_unparse_lower(_DC_project_uuid, _DC_project_uuid_str);
 
 	return(0);
 }
@@ -103,10 +106,10 @@ DC_createWU(const char *clientName,
 	wu->uuid_str= g_strdup(uuid_str);
 
 	if (tag)
-		wu->name= g_strdup_printf("%s_%s_%s", project_uuid_str,
+		wu->name= g_strdup_printf("%s_%s_%s", _DC_project_uuid_str,
 					  uuid_str, tag);
 	else
-		wu->name= g_strdup_printf("%s_%s", project_uuid_str,
+		wu->name= g_strdup_printf("%s_%s", _DC_project_uuid_str,
 					  uuid_str);
 
 	/* Calculate & create the working directory. The working directory
@@ -119,7 +122,7 @@ DC_createWU(const char *clientName,
 	free(cfgval);
 	g_string_append_c(str, G_DIR_SEPARATOR);
 	g_string_append(str, ".dcapi-");
-	g_string_append(str, project_uuid_str);
+	g_string_append(str, _DC_project_uuid_str);
 	g_string_append_c(str, G_DIR_SEPARATOR);
 	g_string_append_printf(str, "%02x", wu->uuid[0]);
 	g_string_append_c(str, G_DIR_SEPARATOR);
@@ -138,9 +141,9 @@ DC_createWU(const char *clientName,
 	wu->workdir= str->str;
 	g_string_free(str, FALSE);
 
-	if (!wu_table)
+	if (!_DC_wu_table)
 		DC_initMaster(NULL);
-	g_hash_table_insert(wu_table, wu->name, wu);
+	g_hash_table_insert(_DC_wu_table, wu->name, wu);
 
 	wu->condor_events= g_array_new(FALSE, FALSE,
 				       sizeof(struct _DC_condor_event));
@@ -158,8 +161,8 @@ DC_destroyWU(DC_Workunit * wu)
 	if (!_DC_wu_check(wu))
 		return;
 
-	if (wu_table)
-		g_hash_table_remove(wu_table, wu->name);
+	if (_DC_wu_table)
+		g_hash_table_remove(_DC_wu_table, wu->name);
 
 	if (wu->workdir)
 	{
@@ -388,7 +391,7 @@ DC_getWUNumber(DC_WUState state)
 	int val;
 
 	_DC_dd_look_for_state= state;
-	g_hash_table_foreach(wu_table, (GHFunc)_DC_dd_check_state, &val);
+	g_hash_table_foreach(_DC_wu_table, (GHFunc)_DC_dd_check_state, &val);
 	return(val);
 }
 
