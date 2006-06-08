@@ -141,8 +141,8 @@ _DC_wu_gen_condor_submit(DC_Workunit *wu)
 	cfgval= DC_getCfgStr(CFG_ARCHITECTURES);
 	fprintf(f, "Executable = %s\n", wu->data.client_name);
 	fprintf(f, "Universe = vanilla\n");
-	fprintf(f, "output = internal_output.txt\n");
-	fprintf(f, "error = internal_error.txt\n");
+	fprintf(f, "output = %s\n", DC_LABEL_STDOUT);
+	fprintf(f, "error = %s\n", DC_LABEL_STDERR);
 	fprintf(f, "log = internal_log.txt\n");
 	/*
 	  fprintf(f, "ENABLE_USERLOG_LOCKING = FALSE\n");
