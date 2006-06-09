@@ -133,7 +133,6 @@ extern int restore_activities(void);
 extern int boinc_init_options_general(BOINC_OPTIONS& opt);
 extern void boinc_exit(int status);
 extern int set_worker_timer(void);
-extern void (*stop_graphics_thread_ptr)();
 
 inline void boinc_options_defaults(BOINC_OPTIONS& b) {
     b.main_program = true;

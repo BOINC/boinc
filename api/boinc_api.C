@@ -80,7 +80,6 @@ using namespace std;
 // Unless otherwise noted, "CPU time" refers to the sum over all episodes
 // (not counting the part after the last checkpoint in an episode).
 
-void (*stop_graphics_thread_ptr)() = 0;
 static APP_INIT_DATA aid;
 static FILE_LOCK file_lock;
 APP_CLIENT_SHM* app_client_shm = 0;
@@ -408,13 +407,6 @@ int boinc_finish(int status) {
 // This is called from the worker, timer, and graphics threads.
 //
 void boinc_exit(int status) {
-
-    // Shutdown graphics thread if it is running
-    //
-    if (stop_graphics_thread_ptr) {
-        (*stop_graphics_thread_ptr)();
-    }
-
     // Unlock the lock file
     //
     file_lock.unlock(LOCKFILE);

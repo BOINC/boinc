@@ -5655,3 +5655,25 @@ Charlie 9 June 2006
         boinc_api.h
     clientgui/
         hyperlink.cpp
+
+Rom    9 June 2006
+    - Bug Fix: After many many many weeks of hunting the 0xc000000d bug I
+        finally hit it.  It appears that the timer thread was attempting
+        to shutdown graphics while the graphics thread was still trying to
+        render a frame.  The next call to an OpenGL function throws an
+        exception.
+        
+        I had to use WinDBG because Visual Studio wouldn't attach to the
+        process.
+        
+        Another interesting note, for some reason the Unhandled Exception
+        Filter was triggered.  Maybe OpenGL installs its own filter?
+        
+        In anycase the solution is remove the graphics thread shutdown
+        code.  It was only being used on Windows, and now that we are
+        using TerminateProcess() all the threads will be halted and
+        resources cleaned up which should include OpenGL.
+        
+    api/
+        boinc_api.C, .h
+        windows_opengl.C
