@@ -178,6 +178,10 @@ int ACTIVE_TASK::write_app_init_file() {
     aid.user_expavg_credit = wup->project->user_expavg_credit;
     aid.host_total_credit = wup->project->host_total_credit;
     aid.host_expavg_credit = wup->project->host_expavg_credit;
+    aid.rsc_fpops_est = wup->rsc_fpops_est;
+    aid.rsc_fpops_bound = wup->rsc_fpops_bound;
+    aid.rsc_memory_bound = wup->rsc_memory_bound;
+    aid.rsc_disk_bound = wup->rsc_disk_bound;
     aid.checkpoint_period = gstate.global_prefs.disk_interval;
     aid.fraction_done_update_period = DEFAULT_FRACTION_DONE_UPDATE_PERIOD;
     aid.fraction_done_start = 0;

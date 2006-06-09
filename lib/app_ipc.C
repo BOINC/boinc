@@ -139,7 +139,11 @@ int write_init_data_file(FILE* f, APP_INIT_DATA& ai) {
         "<checkpoint_period>%f</checkpoint_period>\n"
         "<fraction_done_update_period>%f</fraction_done_update_period>\n"
         "<fraction_done_start>%f</fraction_done_start>\n"
-        "<fraction_done_end>%f</fraction_done_end>\n",
+        "<fraction_done_end>%f</fraction_done_end>\n"
+        "<rsc_fpops_est>%f</rsc_fpops_est>\n"
+        "<rsc_fpops_bound>%f</rsc_fpops_bound>\n"
+        "<rsc_memory_bound>%f</rsc_memory_bound>\n"
+        "<rsc_disk_bound>%f</rsc_disk_bound>\n",
         ai.slot,
         ai.wu_cpu_time,
         ai.user_total_credit,
@@ -149,7 +153,11 @@ int write_init_data_file(FILE* f, APP_INIT_DATA& ai) {
         ai.checkpoint_period,
         ai.fraction_done_update_period,
         ai.fraction_done_start,
-        ai.fraction_done_end
+        ai.fraction_done_end,
+        ai.rsc_fpops_est,
+        ai.rsc_fpops_bound,
+        ai.rsc_memory_bound,
+        ai.rsc_disk_bound
     );
     MIOFILE mf;
     mf.init_file(f);
@@ -210,6 +218,10 @@ int parse_init_data_file(FILE* f, APP_INIT_DATA& ai) {
         else if (parse_double(buf, "<user_expavg_credit>", ai.user_expavg_credit)) continue;
         else if (parse_double(buf, "<host_total_credit>", ai.host_total_credit)) continue;
         else if (parse_double(buf, "<host_expavg_credit>", ai.host_expavg_credit)) continue;
+        else if (parse_double(buf, "<rsc_fpops_est>", ai.rsc_fpops_est)) continue;
+        else if (parse_double(buf, "<rsc_fpops_bound>", ai.rsc_fpops_bound)) continue;
+        else if (parse_double(buf, "<rsc_memory_bound>", ai.rsc_memory_bound)) continue;
+        else if (parse_double(buf, "<rsc_disk_bound>", ai.rsc_disk_bound)) continue;
         else if (parse_double(buf, "<wu_cpu_time>", ai.wu_cpu_time)) continue;
         else if (parse_double(buf, "<checkpoint_period>", ai.checkpoint_period)) continue;
         else if (parse_double(buf, "<fraction_done_update_period>", ai.fraction_done_update_period)) continue;

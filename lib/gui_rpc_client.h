@@ -61,6 +61,8 @@
 #define RESULT_FILES_UPLOADED                       5
 #define RESULT_ABORTED                              6
 
+// values for RESULT::scheduler_state
+//
 #define CPU_SCHED_UNINITIALIZED                     0
 #define CPU_SCHED_PREEMPTED                         1
 #define CPU_SCHED_SCHEDULED                         2

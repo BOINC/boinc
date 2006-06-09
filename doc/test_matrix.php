@@ -192,11 +192,13 @@ Use authentication if possible.
 </ul>
 <h3>Screensaver tests (Windows, Mac)</h3>
 <ul>
-<li> Test normal case
-<li> Test change apps (set scheduling period to 1 min)
+<li> Test normal case (enter/leave screensaver mode).
+<li> Open graphics windows from Manager before enter/leave screensaver;
+    make sure they reappear.
+<li> Graphics change on CPU reschedule (set scheduling period to 1 min)
 <li> Test 'no graphics capable apps'
-<li> Test blank time
-<li> Test power save modes
+<li> Test 'blank screen after X minutes'
+<li> Test power-saver modes, e.g. 'turn off monitor after N minutes'
 <li> Test password-after-resume options
 <li> Test screensaver properties Preview function
 <li> (Windows only?) Test multi-user - switch to different user and 

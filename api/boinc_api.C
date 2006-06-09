@@ -514,6 +514,11 @@ int boinc_report_app_status(
     return 0;
 }
 
+int boinc_get_init_data_p(APP_INIT_DATA* app_init_data) {
+    *app_init_data = aid;
+    return 0;
+}
+
 int boinc_get_init_data(APP_INIT_DATA& app_init_data) {
     app_init_data = aid;
     return 0;

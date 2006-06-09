@@ -62,9 +62,12 @@ typedef struct BOINC_STATUS {
     int abort_request;
 } BOINC_STATUS;
 
+struct APP_INIT_DATA;
+
 extern int boinc_init(void);
 extern int boinc_finish(int status);
 extern int boinc_resolve_filename(const char*, char*, int len);
+extern int boinc_get_init_data_p(APP_INIT_DATA*);
 extern int boinc_parse_init_data_file(void);
 extern int boinc_write_init_data_file(void);
 extern int boinc_send_trickle_up(char* variety, char* text);

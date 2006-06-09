@@ -18,7 +18,10 @@
 // 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 
 // A sample validator that grants credit if the majority of results are
-// bit-wise identical.
+// bitwise identical.
+// This is useful only if either
+// 1) your application does no floating-point math, or
+// 2) you use homogeneous redundancy
 
 #include "config.h"
 #include "util.h"
@@ -30,13 +33,12 @@
 using std::string;
 using std::vector;
 
-
-class FileCache {
+class FILE_CACHE {
     mutable string _md5sum;
 public:
     const string filedata;
 
-    FileCache(string const& filedata0) : filedata(filedata0) {}
+    FILE_CACHE(string const& filedata0) : filedata(filedata0) {}
 
     string const md5sum() const {
         if (_md5sum.empty()) {
@@ -46,16 +48,13 @@ public:
     }
 };
 
-bool operator ==(FileCache const& f1, FileCache const& f2)
-{
-    return (f1.md5sum() == f2.md5sum() &&
-            f1.filedata == f2.filedata);
+bool operator ==(FILE_CACHE const& f1, FILE_CACHE const& f2) {
+    return (f1.md5sum() == f2.md5sum() && f1.filedata == f2.filedata);
 }
 
 // read file into memory
 //
-int init_result_read_file(RESULT const & result, void*& data)
-{
+int init_result_read_file(RESULT const & result, void*& data) {
     int retval;
     string path;
 
@@ -79,26 +78,24 @@ int init_result_read_file(RESULT const & result, void*& data)
         );
         return retval;
     }
-    FileCache *f = new FileCache(filedata);
-    data = (void*) f;
-
+    data = (void*) new FILE_CACHE(filedata);
     return 0;
 }
 
 int check_pair_initialized_identical(
     RESULT & /*r1*/, void* data1,
     RESULT const& /*r2*/, void* data2,
-    bool& match)
-{
-    FileCache const* f1 = (FileCache*) data1;
-    FileCache const* f2 = (FileCache*) data2;
+    bool& match
+) {
+    FILE_CACHE const* f1 = (FILE_CACHE*) data1;
+    FILE_CACHE const* f2 = (FILE_CACHE*) data2;
 
     match = (*f1 == *f2);
     return 0;
 }
 
 int cleanup_result_string(RESULT const& /*result*/, void* data) {
-    delete (FileCache*) data;
+    delete (FILE_CACHE*) data;
     return 0;
 }
 
@@ -118,9 +115,7 @@ int check_set(
     );
 }
 
-int check_pair(
-    RESULT & r1, RESULT const& r2, bool& retry
-) {
+int check_pair(RESULT & r1, RESULT const& r2, bool& retry) {
     retry = false;
     int retval = generic_check_pair(
         r1, r2,
@@ -130,6 +125,5 @@ int check_pair(
     );
     return retval;
 }
-
 
 const char *BOINC_RCSID_7ab2b7189c = "$Id$";

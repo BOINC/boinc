@@ -5609,3 +5609,22 @@ Rom    8 June 2006
     lib/
         diagnostics_win.C
         stackwalker_win.cpp
+
+David  8 June 2006
+    - Add WU items (rsc_fpops_est, rsc_fpops_bound, rsc_memory_bound,
+        rsc_disk_bound) to APP_INIT_DATA structure,
+        so app can knows its own limitations
+    - Added boinc_get_init_data_p(APP_INIT_DATA*),
+        so that plain C apps can get this info
+
+    api/
+        boinc_api.C,h
+    client/
+        app_start.C
+    html/inc/
+        stats_sites.inc
+    lib/
+        app_ipc.C,h
+        gui_rpc_client.h
+    sched/
+        sample_bitwise_validator.C

@@ -179,8 +179,14 @@ struct APP_INIT_DATA {
     double host_total_credit;
     double host_expavg_credit;
     HOST_INFO host_info;
-    PROXY_INFO proxy_info;
+    PROXY_INFO proxy_info;  // in case app wants to use network
     GLOBAL_PREFS global_prefs;
+
+    // info about the WU
+    double rsc_fpops_est;
+    double rsc_fpops_bound;
+    double rsc_memory_bound;
+    double rsc_disk_bound;
 
     // Items below here are for implementation only
     // (not used by app developers)
