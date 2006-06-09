@@ -168,7 +168,7 @@
 #define ERR_WRONG_URL       -219
 #define ERR_DUP_NAME        -220
 #define ERR_ABORTED_BY_PROJECT  -221
-
+#define ERR_GETGRNAM        -222
 
 // PLEASE: add a text description of your error to 
 // the text description function boincerror() in util.C.

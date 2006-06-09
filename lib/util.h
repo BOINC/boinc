@@ -130,4 +130,8 @@ extern void mysql_timestamp(double, char*);
 //
 extern const char* boincerror(int which_error);
 
+#ifndef _WIN32
+extern int lookup_group(char*, gid_t& gid);
+#endif
+
 #endif

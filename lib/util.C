@@ -40,6 +40,7 @@
 #include <sys/types.h>
 #include <sys/stat.h>
 #include <fcntl.h>
+#include <grp.h>
 #ifdef HAVE_SYS_TIME_H
 #include <sys/time.h>
 #endif
@@ -1023,6 +1024,7 @@ const char* boincerror(int which_error) {
         case ERR_FSYNC: return "Couldn't sync file";
         case ERR_TRUNCATE: return "Couldn't truncate file";
         case ERR_ABORTED_BY_PROJECT: return "Aborted by project";
+        case ERR_GETGRNAM: return "Group not found";
         case 404: return "HTTP file not found";
         case 407: return "HTTP proxy authentication failure";
         case 416: return "HTTP range request error";
@@ -1037,4 +1039,13 @@ const char* boincerror(int which_error) {
     return buf;
 }
  
+#ifndef _WIN32
+int lookup_group(char* name, gid_t& gid) {
+    struct group* gp = getgrnam(name);
+    if (!gp) return ERR_GETGRNAM;
+    gid = gp->gr_gid;
+    return 0;
+}
+#endif
+
 const char *BOINC_RCSID_ab65c90e1e = "$Id$";
