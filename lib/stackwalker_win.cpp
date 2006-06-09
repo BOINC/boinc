@@ -82,7 +82,6 @@ static void ShowStackRM(HANDLE hThread, CONTEXT& c);
 // Global data:
 static BOOL g_bInitialized = FALSE;
 static HANDLE g_hProcess = NULL;
-static DWORD g_dwShowCount = 0;  // increase at every ShowStack-Call
 static HMODULE g_hDbgHelpDll = NULL;
 static HMODULE g_hSymSrvDll = NULL;
 static HMODULE g_hSrcSrvDll = NULL;
@@ -615,10 +614,16 @@ int DebuggerInitialize( LPCSTR pszBOINCLocation, LPCSTR pszSymbolStore, BOOL bPr
 
 int DebuggerDisplayDiagnostics()
 {
-    EnterCriticalSection(&g_csFileOpenClose);
-
     LPAPI_VERSION lpDV = NULL;
     TCHAR buf[TTBUFLEN];
+
+    if (g_bInitialized == FALSE)
+    {
+        _ftprintf(stderr, _T("Stackwalker not initialized (or was not able to initialize)!\n"));
+        return 1;
+    }
+
+    EnterCriticalSection(&g_csFileOpenClose);
 
     lpDV = pIAV();
     pSGSP(g_hProcess, buf, TTBUFLEN);
@@ -684,11 +689,15 @@ static void ShowStackRM(HANDLE hThread, CONTEXT& Context)
 {
     BOOL bRetVal = FALSE;
 
-    int frameNum; // counts walked frames
-    DWORD64 offsetFromSymbol; // tells us how far from the symbol we were
-    DWORD offsetFromLine; // tells us how far from the line we were
+    int frameNum;
+    DWORD64 offsetFromSymbol;
+    DWORD offsetFromLine;
+    char undName[MAX_SYM_NAME];
 
-    char undName[MAX_SYM_NAME]; // undecorated name
+    char szMsgSymFromAddr[256];
+    char szMsgSymGetLineFromAddr[256];
+    char szMsgSymGetModuleInfo[256];
+
     IMAGEHLP_MODULE64 Module;
     IMAGEHLP_LINE64 Line;
     STACKFRAME64 StackFrame;
@@ -711,7 +720,6 @@ static void ShowStackRM(HANDLE hThread, CONTEXT& Context)
 
     // Critical section begin...
     EnterCriticalSection(&g_csFileOpenClose);
-    InterlockedIncrement((long*) &g_dwShowCount);  // erhöhe counter
 
     _ftprintf(stderr, _T("- Registers -\n"));
 
@@ -755,6 +763,11 @@ static void ShowStackRM(HANDLE hThread, CONTEXT& Context)
     memset( &Module, '\0', sizeof(IMAGEHLP_MODULE64) );
     Module.SizeOfStruct = sizeof(IMAGEHLP_MODULE64);
   
+    strcpy(szMsgSymFromAddr, "");
+    strcpy(szMsgSymGetLineFromAddr, "");
+    strcpy(szMsgSymGetModuleInfo, "");
+
+
     for ( frameNum = 0; ; ++frameNum )
     {
         // get next stack frame (StackWalk(), SymFunctionTableAccess(), SymGetModuleBase())
@@ -779,7 +792,7 @@ static void ShowStackRM(HANDLE hThread, CONTEXT& Context)
         if ( StackFrame.AddrPC.Offset == 0 )
         {
             // Special case: If we are here, we have no valid callstack entry!
-            _ftprintf(stderr, _T("(-nosymbols- PC == 0)\n"), g_dwShowCount);
+            _ftprintf(stderr, "(-nosymbols- PC == 0)\n");
         }
         else
         {
@@ -790,7 +803,12 @@ static void ShowStackRM(HANDLE hThread, CONTEXT& Context)
             {
                 if ( gle != 487 )
                 {
-                    _ftprintf(stderr, _T("SymFromAddr(): GetLastError = '%lu' Address = '%.8x'\n"), gle, StackFrame.AddrPC.Offset);
+                    snprintf(
+                        szMsgSymFromAddr,
+                        sizeof(szMsgSymFromAddr),
+                        "SymFromAddr(): GetLastError = '%lu'",
+                        gle
+                    );
                 }
             }
             else
@@ -803,16 +821,26 @@ static void ShowStackRM(HANDLE hThread, CONTEXT& Context)
             offsetFromLine = 0;
             if ( !pSGLFA( g_hProcess, StackFrame.AddrPC.Offset, &offsetFromLine, &Line ) )
             {
-                if ( (gle != 487) && (frameNum > 0) )  // ignore error for first frame
+                if ( (gle != 487) && (frameNum > 0) )
                 {
-                    _ftprintf(stderr, _T("SymGetLineFromAddr(): GetLastError = '%lu' Address = '%.8x'\n"), gle, StackFrame.AddrPC.Offset);
+                    snprintf(
+                        szMsgSymGetLineFromAddr,
+                        sizeof(szMsgSymGetLineFromAddr),
+                        "SymGetLineFromAddr(): GetLastError = '%lu'",
+                        gle
+                    );
                 }
             }
 
             // show module info (SymGetModuleInfo())
             if ( !pSGMI( g_hProcess, StackFrame.AddrPC.Offset, &Module ) )
             {
-                _ftprintf(stderr, _T("SymGetModuleInfo(): GetLastError = '%lu' Address = '%.8x'\n"), gle, StackFrame.AddrPC.Offset);
+                snprintf(
+                    szMsgSymGetModuleInfo,
+                    sizeof(szMsgSymGetModuleInfo),
+                    "SymGetModuleInfo(): GetLastError = '%lu'",
+                    gle                    
+                );
             }
         } // we seem to have a valid PC
 
@@ -844,6 +872,17 @@ static void ShowStackRM(HANDLE hThread, CONTEXT& Context)
                     _ftprintf(stderr, "FPO: TaskGate Segment: 0 ");
                     break;
             }
+        }
+
+        if (strlen(szMsgSymFromAddr) || strlen(szMsgSymGetLineFromAddr) || strlen(szMsgSymGetModuleInfo)) {
+            _ftprintf(
+                stderr,
+                "%s %s %s Address = '%.8x'",
+                szMsgSymFromAddr,
+                szMsgSymGetLineFromAddr,
+                szMsgSymGetModuleInfo,
+                StackFrame.AddrPC.Offset
+            );
         }
 
         _ftprintf(stderr, "\n");
