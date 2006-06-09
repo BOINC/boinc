@@ -472,7 +472,7 @@ extern CLIENT_STATE gstate;
 
 #ifdef SANDBOX
 #define BOINC_PROJECT_GROUP_NAME "boinc_project"
-extern gid_t boinc_project_gid;
+extern gid_t g_boinc_project_gid;
 #endif
 
 // return a random double in the range [MIN,min(e^n,MAX))

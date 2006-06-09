@@ -47,7 +47,7 @@ int detach_shmem(HANDLE hSharedMem, void* p);
 
 // create a shared-memory segment of the given size.
 //
-extern int create_shmem(key_t, int size, void**);
+extern int create_shmem(key_t, int size, gid_t gid, void**);
 
 // Destroy a shared-memory segment.
 // If there are attachments to it,

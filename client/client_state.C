@@ -52,6 +52,8 @@ using std::max;
 
 CLIENT_STATE gstate;
 
+gid_t g_boinc_project_gid;
+
 CLIENT_STATE::CLIENT_STATE() {
     net_xfers = new NET_XFER_SET;
     http_ops = new HTTP_OP_SET(net_xfers);
@@ -301,7 +303,7 @@ int CLIENT_STATE::init() {
     }
 
 #ifdef SANDBOX
-    retval = lookup_group(BOINC_PROJECT_GROUP_NAME, boinc_project_gid);
+    retval = lookup_group(BOINC_PROJECT_GROUP_NAME, g_boinc_project_gid);
     if (retval) return retval;
 #endif
 

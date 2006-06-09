@@ -5749,3 +5749,15 @@ David  9 June 2006
         validate_util.C,h
         validate_util2.C,h (new)
         validator_placeholder.C
+
+Charlie 9 June 2006
+    - Changes for sandbox:
+        Renamed global variable boinc_project_gid to g_boinc_project_gid.
+        Change shared memory segment group to g_boinc_project_gid.
+        
+    client/
+        app_start.C
+        client_state.C,h
+        client_types.C
+    lib/
+        shmem.C,h

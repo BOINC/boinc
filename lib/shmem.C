@@ -159,10 +159,29 @@ int detach_shmem(void* p) {
 
 #else
 
-int create_shmem(key_t key, int size, void** pp) {
+int create_shmem(key_t key, int size, gid_t gid, void** pp) {
     int id;
+#ifdef SANDBOX
+    int retval;
+    struct shmid_ds buf;
+#endif
+    
     id = shmget(key, size, IPC_CREAT|0660);
     if (id < 0) {
+#ifdef SANDBOX
+        // Set the shmem segment's group ID
+        retval = shmctl(id, IPC_STAT, &buf);
+        if (retval) {
+            perror("shmget: shmctl STAT");
+            return ERR_SHMGET;
+        }
+        buf.shm_perm.gid = gid;
+        retval = shmctl(id, IPC_SET, &buf);
+        if (retval) {
+            perror("shmget: shmctl IPC_SET");
+            return ERR_SHMGET;
+        }
+#endif
         id = shmget(key, size, IPC_CREAT|SHM_R|SHM_W);
     }
     if (id < 0) {
@@ -170,7 +189,6 @@ int create_shmem(key_t key, int size, void** pp) {
         return ERR_SHMGET;
     }
     return attach_shmem(key, pp);
-
 }
 
 int destroy_shmem(key_t key){
