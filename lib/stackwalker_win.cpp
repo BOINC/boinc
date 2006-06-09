@@ -568,7 +568,7 @@ int DebuggerInitialize( LPCSTR pszBOINCLocation, LPCSTR pszSymbolStore, BOOL bPr
     if ((npos == strSymbolSearchPath.find(pszSymbolStore)) && (0 < strlen(pszSymbolStore))) {
         strSymbolSearchPath += 
             std::string( "srv*" ) + strLocalSymbolStore + std::string( "*" ) +
-            std::string( pszSymbolStore );
+            std::string( pszSymbolStore ) + std::string( ";" );
     }
 
     // boinc symbol server
