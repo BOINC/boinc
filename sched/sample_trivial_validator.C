@@ -27,11 +27,11 @@ using std::vector;
 
 static const double MIN_CPU_TIME = 0;
 
-int init_result_trivial(RESULT const& /*result*/, void*& /*data*/) {
+int init_result(RESULT const& /*result*/, void*& /*data*/) {
     return 0;
 }
 
-int check_pair_initialized_trivial(
+int compare_results(
     RESULT & r1, void* /*data1*/,
     RESULT const& r2, void* /*data2*/,
     bool& match
@@ -40,35 +40,8 @@ int check_pair_initialized_trivial(
     return 0;
 }
 
-int cleanup_result_trivial(RESULT const&, void*) {
+int cleanup_result(RESULT const&, void*) {
     return 0;
 }
-
-int check_set(
-    vector<RESULT>& results, WORKUNIT&, int& canonicalid, double& credit,
-    bool& retry
-) {
-    retry = false;
-    return generic_check_set(
-        results, canonicalid, credit,
-        init_result_trivial,
-        check_pair_initialized_trivial,
-        cleanup_result_trivial,
-        1
-    );
-}
-
-int check_pair(RESULT & r1, RESULT const& r2, bool& retry) {
-    bool match;
-    retry = false;
-    int retval = check_pair_initialized_trivial(
-        r1, NULL,
-        r2, NULL,
-        match
-    );
-    r1.validate_state = match?VALIDATE_STATE_VALID:VALIDATE_STATE_INVALID;
-    return retval;
-}
-
 
 const char *BOINC_RCSID_f3a7a34795 = "$Id$";

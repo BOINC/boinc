@@ -23,7 +23,6 @@
 // or that requires strict or fuzzy equality.
 
 #include "config.h"
-#include <cassert>
 
 #include "error_numbers.h"
 #include "parse.h"
@@ -33,12 +32,11 @@
 #include "sched_util.h"
 #include "sched_config.h"
 #include "sched_msgs.h"
+#include "validator.h"
 #include "validate_util.h"
 
 using std::vector;
 using std::string;
-
-extern SCHED_CONFIG config;
 
 // get the name of a result's (first) output file
 //
@@ -107,142 +105,6 @@ double median_mean_credit(vector<RESULT>& results) {
         }
         return sum/(nvalid-2);
     }
-}
-
-// Generic validation function that compares each result to each other one and
-// sees if MIN_VALID results match.
-// The comparison function is similar to check_pair
-// but takes an additional data parameter.
-//
-// This function takes 3 call-back functions, each of which accept a void*
-// and should return !=0 on error:
-//
-//    1. init_result - initialize all results - for example, call
-//       read_file_string and compute an MD5. Return a void*
-//    2. check_pair_with_data - same as check_pair but with extra data from
-//       init_result
-//    3. cleanup_result - deallocate anything created by init_result.
-//       Should do nothing with NULL data
-//
-// see validate_test.C example usage.
-//
-int generic_check_set(
-    vector<RESULT>& results, int& canonicalid, double& credit,
-    init_result_f init_result_f,
-    check_pair_with_data_f check_pair_with_data_f,
-    cleanup_result_f cleanup_result_f,
-    int min_valid
-) {
-    vector<void*> data;
-    int i, j, neq = 0, n;
-
-    n = results.size();
-    data.resize(n);
-
-    // 1. INITIALIZE DATA
-
-    for (i=0; i!=n; i++) {
-        if (init_result_f(results[i], data[i])) {
-            log_messages.printf(
-                SCHED_MSG_LOG::MSG_CRITICAL,
-                "generic_check_set: init_result([RESULT#%d %s]) failed\n",
-                results[i].id, results[i].name
-            );
-            goto cleanup;
-        }
-    }
-
-    // 2. COMPARE
-
-    for (i=0; i!=n; i++) {
-        vector<bool> matches;
-        matches.resize(n);
-        neq = 0;
-        for (j=0; j!=n; j++) {
-            bool match = false;
-            if (i == j) {
-                ++neq;
-                matches[j] = true;
-            } else if (check_pair_with_data_f(results[i], data[i], results[j], data[j], match)) {
-                log_messages.printf(
-                    SCHED_MSG_LOG::MSG_CRITICAL,
-                    "generic_check_set: check_pair_with_data([RESULT#%d %s], [RESULT#%d %s]) failed\n",
-                    results[i].id, results[i].name, results[j].id, results[j].name
-                );
-            } else if (match) {
-                ++neq;
-                matches[j] = true;
-            }
-        }
-        if (neq >= min_valid) {
-
-            // set validate state for each result
-            //
-            for (j=0; j!=n; j++) {
-                if (config.max_claimed_credit && results[j].claimed_credit > config.max_claimed_credit) {
-                    results[j].validate_state = VALIDATE_STATE_INVALID;
-                } else {
-                    results[j].validate_state = matches[j] ? VALIDATE_STATE_VALID : VALIDATE_STATE_INVALID;
-                }
-            }
-            canonicalid = results[i].id;
-            credit = median_mean_credit(results);
-            break;
-        }
-    }
-
-cleanup:
-
-    // 3. CLEANUP
-
-    for (i=0; i!=n; i++) {
-        cleanup_result_f(results[i], data[i]);
-    }
-    return 0;
-}
-
-int generic_check_pair(
-    RESULT & r1, RESULT const& r2,
-    init_result_f init_result_f,
-    check_pair_with_data_f check_pair_with_data_f,
-    cleanup_result_f cleanup_result_f
-) {
-    void* data1;
-    void* data2;
-    int retval;
-    bool match;
-
-    retval = init_result_f(r1, data1);
-    if (retval) {
-        log_messages.printf(
-            SCHED_MSG_LOG::MSG_CRITICAL,
-            "[RESULT#%d %s] [RESULT#%d %s] Couldn't initialize result 1\n",
-            r1.id, r1.name, r2.id, r2.name
-        );
-        return retval;
-    }
-
-    retval = init_result_f(r2, data2);
-    if (retval) {
-        log_messages.printf(
-            SCHED_MSG_LOG::MSG_CRITICAL,
-            "[RESULT#%d %s] [RESULT#%d %s] Couldn't initialize result 2\n",
-            r1.id, r1.name, r2.id, r2.name
-        );
-        cleanup_result_f(r1, data1);
-        return retval;
-    }
-
-    retval = check_pair_with_data_f(r1, data1, r2, data2, match);
-    if (config.max_claimed_credit && r1.claimed_credit > config.max_claimed_credit) {
-        r1.validate_state = VALIDATE_STATE_INVALID;
-    } else {
-        r1.validate_state = match?VALIDATE_STATE_VALID:VALIDATE_STATE_INVALID;
-    }
-    cleanup_result_f(r1, data1);
-    cleanup_result_f(r2, data2);
-
-    return retval;
 }
 
 const char *BOINC_RCSID_07049e8a0e = "$Id$";

@@ -39,6 +39,7 @@ public:
     const string filedata;
 
     FILE_CACHE(string const& filedata0) : filedata(filedata0) {}
+    ~FILE_CACHE(){}
 
     string const md5sum() const {
         if (_md5sum.empty()) {
@@ -48,13 +49,13 @@ public:
     }
 };
 
-bool operator ==(FILE_CACHE const& f1, FILE_CACHE const& f2) {
+bool files_match(FILE_CACHE const& f1, FILE_CACHE const& f2) {
     return (f1.md5sum() == f2.md5sum() && f1.filedata == f2.filedata);
 }
 
 // read file into memory
 //
-int init_result_read_file(RESULT const & result, void*& data) {
+int init_result(RESULT const & result, void*& data) {
     int retval;
     string path;
 
@@ -82,7 +83,7 @@ int init_result_read_file(RESULT const & result, void*& data) {
     return 0;
 }
 
-int check_pair_initialized_identical(
+int compare_results(
     RESULT & /*r1*/, void* data1,
     RESULT const& /*r2*/, void* data2,
     bool& match
@@ -90,40 +91,13 @@ int check_pair_initialized_identical(
     FILE_CACHE const* f1 = (FILE_CACHE*) data1;
     FILE_CACHE const* f2 = (FILE_CACHE*) data2;
 
-    match = (*f1 == *f2);
+    match = files_match(*f1, *f2);
     return 0;
 }
 
-int cleanup_result_string(RESULT const& /*result*/, void* data) {
+int cleanup_result(RESULT const& /*result*/, void* data) {
     delete (FILE_CACHE*) data;
     return 0;
-}
-
-// See if there's a strict majority under equality.
-//
-int check_set(
-    vector<RESULT>& results, WORKUNIT& wu, int& canonicalid, double& credit,
-    bool& retry
-) {
-    retry = false;
-    return generic_check_set(
-        results, canonicalid, credit,
-        init_result_read_file,
-        check_pair_initialized_identical,
-        cleanup_result_string,
-        wu.min_quorum/2+1
-    );
-}
-
-int check_pair(RESULT & r1, RESULT const& r2, bool& retry) {
-    retry = false;
-    int retval = generic_check_pair(
-        r1, r2,
-        init_result_read_file,
-        check_pair_initialized_identical,
-        cleanup_result_string
-    );
-    return retval;
 }
 
 const char *BOINC_RCSID_7ab2b7189c = "$Id$";

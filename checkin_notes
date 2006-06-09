@@ -5714,3 +5714,38 @@ David  9 June 2006
 
     client/
         hostinfo_unix.C
+
+David  9 June 2006
+    - First pass on reforming the validator framework.
+        OLD: the documents made the task of creating a custom validator
+            seem impossibly daunting.
+        NEW: Defined two frameworks.
+            - A "simple framework" lets you create a custom validator
+            by supplying three simple functions:
+                1) parse a result
+                2) compare two parsed results
+                3) free a parsed results
+            This is based on the "generic_check_set()" code that
+            Karl Chen wrote for the sample bitwise validator;
+            I simplified this, got rid of the function pointers,
+            and moved it to a separate file (validate_util2.C,h)
+            - An "advanced framework" requires you to supply
+                check_set() and check_pair() functions.
+                This sounds simple, but actually is not; see
+                http://boinc.berkeley.edu/validate_logic.txt
+            Note: the check_set() function defined by the simple framework
+            doesn't do everything the above spec says it should;
+            I'll get back to that later.
+    - added lookup_group() and associated error codes (for sandbox)
+
+    lib/
+        error_numbers.h
+        util.C,h
+    sched/
+        Makefile.am
+        handle_request.C
+        sample_bitwise_validator.C
+        sample_trivial_validator.C
+        validate_util.C,h
+        validate_util2.C,h (new)
+        validator_placeholder.C

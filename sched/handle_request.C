@@ -619,7 +619,7 @@ int handle_results(SCHEDULER_REQUEST& sreq, SCHEDULER_REPLY& reply) {
         //   else ignore it
         //
         if (srip->server_state == RESULT_SERVER_STATE_OVER) {
-            char *dont_replace_result = NULL;
+            const char *dont_replace_result = NULL;
             switch (srip->outcome) {
                 case RESULT_OUTCOME_INIT:
                     // should never happen!

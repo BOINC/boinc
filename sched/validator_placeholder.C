@@ -17,58 +17,87 @@
 // or write to the Free Software Foundation, Inc.,
 // 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 
-// A sample validator that grants credit to any result whose CPU time is above
-// a certain minimum
+// A sample validator that grants credit if the majority of results are
+// bitwise identical.
+// This is useful only if either
+// 1) your application does no floating-point math, or
+// 2) you use homogeneous redundancy
 
 #include "config.h"
+#include "util.h"
+#include "sched_util.h"
+#include "sched_msgs.h"
 #include "validate_util.h"
+#include "md5_file.h"
 
+using std::string;
 using std::vector;
 
-static const double MIN_CPU_TIME = 0;
+class FILE_CACHE {
+    mutable string _md5sum;
+public:
+    const string filedata;
 
-int init_result_trivial(RESULT const& /*result*/, void*& /*data*/) {
+    FILE_CACHE(string const& filedata0) : filedata(filedata0) {}
+    ~FILE_CACHE(){}
+
+    string const md5sum() const {
+        if (_md5sum.empty()) {
+            _md5sum = md5_string(filedata);
+        }
+        return _md5sum;
+    }
+};
+
+bool files_match(FILE_CACHE const& f1, FILE_CACHE const& f2) {
+    return (f1.md5sum() == f2.md5sum() && f1.filedata == f2.filedata);
+}
+
+// read file into memory
+//
+int init_result(RESULT const & result, void*& data) {
+    int retval;
+    string path;
+
+    retval = get_output_file_path(result, path);
+    if (retval) {
+        log_messages.printf(
+            SCHED_MSG_LOG::MSG_CRITICAL,
+            "[RESULT#%d %s] check_set: can't get output filename\n",
+            result.id, result.name
+        );
+        return retval;
+    }
+
+    string filedata;
+    retval = read_file_string(path.c_str(), filedata);
+    if (retval) {
+        log_messages.printf(
+            SCHED_MSG_LOG::MSG_CRITICAL,
+            "[RESULT#%d %s] Couldn't open %s\n",
+            result.id, result.name, path.c_str()
+        );
+        return retval;
+    }
+    data = (void*) new FILE_CACHE(filedata);
     return 0;
 }
 
-int check_pair_initialized_trivial(
-    RESULT & r1, void* /*data1*/,
-    RESULT const& r2, void* /*data2*/,
+int compare_results(
+    RESULT & /*r1*/, void* data1,
+    RESULT const& /*r2*/, void* data2,
     bool& match
 ) {
-    match = (r1.cpu_time >= MIN_CPU_TIME && r2.cpu_time >= MIN_CPU_TIME);
+    FILE_CACHE const* f1 = (FILE_CACHE*) data1;
+    FILE_CACHE const* f2 = (FILE_CACHE*) data2;
+
+    match = files_match(*f1, *f2);
     return 0;
 }
 
-int cleanup_result_trivial(RESULT const&, void*) {
+int cleanup_result(RESULT const& /*result*/, void* data) {
+    delete (FILE_CACHE*) data;
     return 0;
 }
 
-int check_set(
-    vector<RESULT>& results, WORKUNIT&, int& canonicalid, double& credit,
-    bool& retry
-) {
-    retry = false;
-    return generic_check_set(
-        results, canonicalid, credit,
-        init_result_trivial,
-        check_pair_initialized_trivial,
-        cleanup_result_trivial,
-        1
-    );
-}
-
-int check_pair(RESULT & r1, RESULT const& r2, bool& retry) {
-    bool match;
-    retry = false;
-    int retval = check_pair_initialized_trivial(
-        r1, NULL,
-        r2, NULL,
-        match
-    );
-    r1.validate_state = match?VALIDATE_STATE_VALID:VALIDATE_STATE_INVALID;
-    return retval;
-}
-
-
-const char *BOINC_RCSID_01a414c729 = "$Id$";
+const char *BOINC_RCSID_7ab2b7189c = "$Id$";
