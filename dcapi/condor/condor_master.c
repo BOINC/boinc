@@ -406,7 +406,7 @@ DC_getWUTag(const DC_Workunit *wu)
 {
 	if (!_DC_wu_check(wu))
 		return(NULL);
-	return(wu->tag);
+	return(g_strdup(wu->tag));
 }
 
 
