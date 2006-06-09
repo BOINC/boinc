@@ -28,6 +28,14 @@ DC_submitWU(DC_Workunit *wu)
 	if (!_DC_wu_check(wu))
 		return(DC_ERR_UNKNOWN_WU);
 
+	DC_log(LOG_DEBUG, "DC_submitWU(%p-\"%s\")", wu, wu->name);
+
+	if (wu->state != DC_WU_READY)
+	{
+		DC_log(LOG_INFO, "Re-submission of %s", wu->name);
+		return(DC_ERR_BADPARAM);
+	}
+
 	ret= _DC_wu_gen_condor_submit(wu);
 	if (ret)
 	{
@@ -51,7 +59,15 @@ DC_submitWU(DC_Workunit *wu)
 	g_free(act2);
 	g_string_free(cmd, TRUE);
 	if (ret == 0)
-		wu->state= DC_WU_RUNNING;
+		{
+			_DC_wu_update_condor_events(wu);
+			while (wu->condor_events->len == 0)
+			{
+				sleep(1);
+				_DC_wu_update_condor_events(wu);
+			}
+			wu->state= DC_WU_RUNNING;
+		}
 	return(DC_OK);
 }
 
@@ -60,9 +76,27 @@ DC_submitWU(DC_Workunit *wu)
 int
 DC_cancelWU(DC_Workunit *wu)
 {
+	char *id;
+	GString *cmd;
+	int ret;
+
 	if (!_DC_wu_check(wu))
 		return(DC_ERR_UNKNOWN_WU);
-	return(DC_ERR_NOTIMPL);
+
+	DC_log(LOG_DEBUG, "DC_cancelWU(%p-\"%s\")", wu, wu->name);
+
+	id= DC_getWUId(wu);
+	if (!id)
+		return(DC_ERR_UNKNOWN_WU);
+	cmd= g_string_new("condor_rm ");
+	cmd= g_string_append(cmd, id);
+	DC_log(LOG_DEBUG, "Calling \"%s\"...", cmd->str);
+	ret= system(cmd->str);
+	DC_log(LOG_DEBUG, "Returned %d", ret);
+	g_string_free(cmd, TRUE);
+	g_free(id);
+	wu->state= DC_WU_ABORTED;
+	return((ret==0)?DC_OK:DC_ERR_BADPARAM);
 }
 
 
