@@ -244,152 +244,40 @@ bool HOST_INFO::host_is_running_on_batteries() {
 
 #ifdef linux
 
-#ifdef __mips__
-
-void parse_cpuinfo(HOST_INFO& host) {
-    char buf[256];
-    char buf2[256];
-    int system_found=0,model_found=0,flags_found=0;
-
-    strcpy(host.p_model, "MIPS ");
-
-    FILE* f = fopen("/proc/cpuinfo", "r");
-    if (!f) return;
-
-    while (fgets(buf, 256, f)) {
-        if ( (strstr(buf, "system type\t\t: ") == buf) &&
-             (system_found == 0) ) {
-            system_found = 1;
-            strncpy(host.p_vendor, strchr(buf, ':') + 2, sizeof(host.p_vendor)-1);
-            char * p = strchr(host.p_vendor, '\n');
-            if (p) {
-                *p = '\0';
-            }
-        }
-        if ( (strstr(buf, "cpu model\t\t: ") == buf) &&
-             (model_found == 0) ) {
-            model_found = 1;
-            strncpy(buf2, strchr(buf, ':') + 2, sizeof(host.p_model) - strlen(host.p_model) - 1);
-            strcat(host.p_model, buf2);
-            char * p = strchr(host.p_model, '\n');
-            if (p) {
-                *p = '\0';
-            }
-        }
-        // Some versions of the linux kernel call them flags others call them features,
-        //   so lets go ahead and look for both.
-        if ( (strstr(buf, "flags\t\t: ") == buf) &&
-             (flags_found == 0) ) {
-            flags_found = 1;
-            strncpy(buf2, strchr(buf, ':') + 2, sizeof(host.p_capabilities) - strlen(host.p_capabilities) - 1);
-            strcat(host.p_capabilities, buf2);
-            char * p = strchr(host.p_capabilities, '\n');
-            if (p) {
-                *p = '\0';
-            }
-        }
-        if ( (strstr(buf, "features\t\t: ") == buf) &&
-             (flags_found == 0) ) {
-            flags_found = 1;
-            strncpy(buf2, strchr(buf, ':') + 2, sizeof(host.p_capabilities) - strlen(host.p_capabilities) - 1);
-            strcat(host.p_capabilities, buf2);
-            char * p = strchr(host.p_capabilities, '\n');
-            if (p) {
-                *p = '\0';
-            }
-        }
-    }
-
-    fclose(f);
-}
-
-#elif __alpha__
-
-void parse_cpuinfo(HOST_INFO& host) {
-    char buf[256];
-    char buf2[256];
-    int system_found=0,model_found=0,flags_found=0;
-
-    strcpy(host.p_vendor, "HP (DEC) ");
-
-    FILE* f = fopen("/proc/cpuinfo", "r");
-    if (!f) return;
-
-    while (fgets(buf, 256, f)) {
-        if ((strstr(buf, "cpu\t\t\t: ") == buf) &&
-             (system_found == 0)
-        ) {
-            system_found = 1;
-            strncpy(buf2, strchr(buf, ':') + 2, sizeof(host.p_vendor) - strlen(host.p_vendor) - 1);
-
-            strcat(host.p_vendor, buf2);
-            char * p = strchr(host.p_vendor, '\n');
-            if (p) {
-                *p = '\0';
-            }
-        }
-        if ( (strstr(buf, "cpu model\t\t: ") == buf) &&
-             (model_found == 0) ) {
-            model_found = 1;
-            strncpy(host.p_model, strchr(buf, ':') + 2, sizeof(host.p_model)-1);
-            char * p = strchr(host.p_model, '\n');
-            if (p) {
-                *p = '\0';
-            }
-        }
-        // Some versions of the linux kernel call them flags others call them features,
-        //   so lets go ahead and look for both.
-        if ( (strstr(buf, "flags\t\t: ") == buf) &&
-             (flags_found == 0) ) {
-            flags_found = 1;
-            strncpy(buf2, strchr(buf, ':') + 2, sizeof(host.p_capabilities) - strlen(host.p_capabilities) - 1);
-            strcat(host.p_capabilities, buf2);
-            char * p = strchr(host.p_capabilities, '\n');
-            if (p) {
-                *p = '\0';
-            }
-        }
-        if ( (strstr(buf, "features\t\t: ") == buf) &&
-             (flags_found == 0) ) {
-            flags_found = 1;
-            strncpy(buf2, strchr(buf, ':') + 2, sizeof(host.p_capabilities) - strlen(host.p_capabilities) - 1);
-            strcat(host.p_capabilities, buf2);
-            char * p = strchr(host.p_capabilities, '\n');
-            if (p) {
-                *p = '\0';
-            }
-        }
-    }
-
-    fclose(f);
-}
-
-#else   // not mips or alpha
-
 // Unfortunately the format of /proc/cpuinfo is not standardized.
 // See http://people.nl.linux.org/~hch/cpuinfo/ for some examples.
-// The following is for Redhat Linux 2.2.14.
-// TODO: get this to work on all platforms
 //
 void parse_cpuinfo(HOST_INFO& host) {
     char buf[256];
     char buf2[256];
-    bool system_found=false, model_found=false;
+    bool vendor_found=false, model_found=false;
     bool cache_found=false, flags_found=false;
     int n;
 
     FILE* f = fopen("/proc/cpuinfo", "r");
     if (!f) return;
 
+#ifdef __mips__
+    strcpy(host.p_model, "MIPS ");
+    model_found = true;
+#elif __alpha__
+    strcpy(host.p_vendor, "HP (DEC) ");
+    vendor_found = true;
+#endif
+
     while (fgets(buf, 256, f)) {
         strip_whitespace(buf);
-        if ((strstr(buf, "vendor_id\t: ") == buf) && !system_found) {
-            system_found = true;
-            strlcpy(host.p_vendor, strchr(buf, ':') + 2, sizeof(host.p_vendor));
+        if (strstr(buf, "vendor_id\t: ") || strstr(buf, "system type\t\t: ")) {
+            if (!vendor_found) {
+                vendor_found = true;
+                strlcpy(host.p_vendor, strchr(buf, ':') + 2, sizeof(host.p_vendor));
+            }
         }
-        if ((strstr(buf, "model name\t: ") == buf) && !model_found) {
-            model_found = true;
-            strlcpy(host.p_model, strchr(buf, ':') + 2, sizeof(host.p_model));
+        if (strstr(buf, "model name\t: ") || strstr(buf, "cpu model\t\t: ")) {
+            if (!model_found) {
+                model_found = true;
+                strlcpy(host.p_model, strchr(buf, ':') + 2, sizeof(host.p_model));
+            }
         }
         if ((strstr(buf, "cache size\t: ") == buf) && !cache_found) {
             cache_found = 1;
@@ -412,8 +300,6 @@ void parse_cpuinfo(HOST_INFO& host) {
 
     fclose(f);
 }
-
-#endif // MIPS
 
 #endif  // linux
 

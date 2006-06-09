@@ -111,7 +111,7 @@ Once a file is created (on a data server or a participant host) it
 is <b>immutable</b>.
 This means that all replicas of that file are assumed to be identical.
 
-<a name=file_ref>
+<a name=file_ref></a>
 <h3>File references</h3> 
 <p>
 Files may be associated with <a href=work.php>workunits</a>,
@@ -171,7 +171,7 @@ This can be suppressed using the 'no_delete' flag,
 or using command-line options to the file deleter.
 </ul>
 
-<a name=compression></a>
+<a name=compression></a></a>
 <h3>File compression</h3>
 
 <p>

@@ -94,6 +94,10 @@ It compares redundant results and selects a <b>canonical result</b>
 representing the correct output,
 and a <b>canonical credit</b> granted to users and hosts
 that return the correct output.
+Depending on your application,
+you may be able to use a BOINC-supplied validator,
+or you may have to develop a customized validator;
+<a href=validate.php>details are here</a>.
 
 <h3>Assimilator</h3>
 There is one assimilator per application.

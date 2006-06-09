@@ -52,7 +52,8 @@ The command-line syntax is as follows:
 make_project [options] project_name [ 'Project Long Name ' ]
 </pre>
 
-Options are:
+Options are as follows
+(normally you don't need to include any of them):
 ";
 list_start();
 list_bar("directory options");

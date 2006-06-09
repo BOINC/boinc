@@ -5707,3 +5707,10 @@ Bruce 9 June 2006
         sched_util.[hC]
         sched_locality.C
 
+David  9 June 2006
+    - Extended checkin-before-last to work for MIPS and Alpha also.
+        Eliminated separate versions of parse_cpuinfo() (see 2nd Note above).
+        MIPS/Alpha people: please verify that it still works
+
+    client/
+        hostinfo_unix.C

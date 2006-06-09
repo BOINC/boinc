@@ -364,11 +364,11 @@ list_item("dont_delete_batches",
     If you use this option, replace the indices on
     file_delete_state with indices on (file_delete_state, batch)."
 );
-list_item("sched_debug_level"
+list_item("sched_debug_level",
     "Verbosity level for scheduler log output.
     1=minimal, 2=normal (default), 3=verbose."
 );
-list_item("fuh_debug_level"
+list_item("fuh_debug_level",
     "Verbosity level for file upload handler log output.
     1=minimal, 2=normal (default), 3=verbose."
 );

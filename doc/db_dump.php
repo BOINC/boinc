@@ -126,7 +126,7 @@ htmlspecialchars("
   <host_cpid>e129b5fa44ed8ba58e41c472822f2807</host_cpid>
 </host>
 "),"</pre>
-<a name=task>
+<a name=task></a>
 <h2>Exporting statistics data</h2>
 <p>
 Projects: to export statistics data, include an entry like

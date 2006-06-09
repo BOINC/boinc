@@ -18,7 +18,7 @@ On Windows:
     <li>Right-click on the icon to access its menu (shown below).
     </ul>
 <br>
-<a name=icon/>
+<a name=icon/></a>
 <img src=mgrsystraymenu.png>
 <br>
 On Mac OS X:
@@ -273,7 +273,7 @@ The BOINC manager has the following menus:
     </ul>
 
 <br>
-<a name=activity/>
+<a name=activity/></a>
 <li> <b>Activity</b>
     <ul>
     <li> <b>Run always</b>: do work, regardless of preferences.

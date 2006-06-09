@@ -2,7 +2,7 @@
 require_once("docutil.php");
 page_head("Installing BOINC on Mac OS/X");
 echo "
-<a name=mac>
+<a name=mac></a>
 <h3>Installing BOINC on Mac OS/X</h3>
 <p>
 The Mac OS X client will unpack correctly with gunzip on Mac OS X
