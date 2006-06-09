@@ -332,7 +332,8 @@ Returns the user-specified tag of a work unit.
 </para>
 
 @wu: a #DC_Workunit.
-@Returns: the tag that was given to DC_createWU().
+@Returns: the tag that was given to DC_createWU(). The returned value should be
+	deallocated using free() when it is no longer needed.
 
 
 <!-- ##### FUNCTION DC_cancelWU ##### -->
