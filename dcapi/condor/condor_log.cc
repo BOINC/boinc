@@ -21,7 +21,7 @@
 #include "condor_log.h"
 
 
-char *
+void
 _DC_wu_update_condor_events(DC_Workunit *wu)
 {
 	ReadUserLog log;
@@ -31,7 +31,7 @@ _DC_wu_update_condor_events(DC_Workunit *wu)
 	unsigned int i;
 
 	if (!wu)
-		return(0);
+		return;
 
 	fn_org= g_string_new(wu->workdir);
 	fn_org= g_string_append(fn_org, "/internal_log.txt");
@@ -47,7 +47,7 @@ _DC_wu_update_condor_events(DC_Workunit *wu)
 		       "initialization failed for %s", fn_tmp->str);
 		g_string_free(fn_org, TRUE);
 		g_string_free(fn_tmp, TRUE);
-		return(0);
+		return;
 	}
 
 	i= 1;
@@ -76,7 +76,7 @@ _DC_wu_update_condor_events(DC_Workunit *wu)
 	unlink(fn_tmp->str);
 	g_string_free(fn_org, TRUE);
 	g_string_free(fn_tmp, TRUE);
-	return(0);
+	return;
 }
 
 
