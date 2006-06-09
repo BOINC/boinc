@@ -30,6 +30,10 @@
 #define SECONDS_IN_DAY (3600*24)
 #define CREDIT_HALF_LIFE  (SECONDS_IN_DAY*7)
 
+// Historical note: named after Jeff Cobb
+//
+#define COBBLESTONE_FACTOR 100.0
+
 extern void write_pid_file(const char* filename);
 extern void set_debug_level(int);
 extern void check_stop_daemons();
@@ -66,6 +70,11 @@ extern double elapsed_wallclock_time();
 // returns PID > 0 if another process has lock
 //
 extern int mylockf(int fd);
+
+// Returns credit that should be granted for a given number of
+// floating-point and integer ops
+//
+extern double fpops_to_credit(double fpops, double intops); 
 
 
 #endif

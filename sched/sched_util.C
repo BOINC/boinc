@@ -234,4 +234,10 @@ int mylockf(int fd) {
     return -1;
 }
 
+double fpops_to_credit(double fpops, double intops) {
+    double fpc = (fpops/1e9)*COBBLESTONE_FACTOR/SECONDS_PER_DAY;
+    double intc = (intops/1e9)*COBBLESTONE_FACTOR/SECONDS_PER_DAY;
+    return std::max(fpc, intc);
+}
+
 const char *BOINC_RCSID_affa6ef1e4 = "$Id$";

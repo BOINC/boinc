@@ -933,7 +933,7 @@ void send_work_locality(
         // sticky, but are not 'data' files for locality scheduling purposes, eg they
         // do not have associated WU with names FILENAME__*
         //
-        bool data_files = strncmp("skygrid_", fname, 8) && strncmp("Config_", fname, 7);
+        bool data_files = strncmp("grid_", fname, 5) && strncmp("skygrid_", fname, 8) && strncmp("Config_", fname, 7);
 
         if (!useful) {
             sreq.files_not_needed.push_back(eah_copy[i]);

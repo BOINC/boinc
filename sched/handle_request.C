@@ -381,8 +381,6 @@ got_host:
     return 0;
 }
 
-#define COBBLESTONE_FACTOR 100.0
-
 // somewhat arbitrary formula for credit as a function of CPU time.
 // Could also include terms for RAM size, network speed etc.
 //
@@ -409,12 +407,6 @@ static void compute_credit_rating(HOST& host) {
     x /= SECONDS_PER_DAY;
     x *= scale;
     host.credit_per_cpu_sec  = x;
-}
-
-static double fpops_to_credit(double fpops, double intops) {
-    double fpc = (fpops/1e9)*COBBLESTONE_FACTOR/SECONDS_PER_DAY;
-    double intc = (intops/1e9)*COBBLESTONE_FACTOR/SECONDS_PER_DAY;
-    return std::max(fpc, intc);
 }
 
 // modify host struct based on request.

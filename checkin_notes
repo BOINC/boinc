@@ -5696,3 +5696,14 @@ David  9 June 2006
         hostinfo_unix.C
     lib/
         shmem.C
+
+Bruce 9 June 2006
+    - Sched code: move function into sched_util; useful for project
+      validation.
+    - Minor E@H specific change
+
+    sched/
+        handle_request.C
+        sched_util.[hC]
+        sched_locality.C
+
