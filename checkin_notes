@@ -5640,7 +5640,11 @@ Rom    8 June 2006
 Charlie 9 June 2006
     - Mac: Reorganize SetUpSecurity for better efficiency.  When run 
         standalone (from XCode), SetUpSecurity adds logged in user to 
-        group boinc_project in adition to group boinc_master. 
+        group boinc_project in addition to group boinc_master. Change 
+        default shell of users boinc_master and boinc_project to 
+        /usr/bin/false and set their home directory to /vars/empty; 
+        these changes prevent these users from appearing in the Mac's 
+        GUI login window.
     - Fix opening URLs in default browser with wxMac-2.6.3.
     - Fix compile error in macglutfix.m due to boinc_api.h declaration of 
         boinc_get_init_data_p().
