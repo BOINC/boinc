@@ -183,8 +183,10 @@ void wxHyperLink::ExecuteLink (const wxString &strLink) {
     if (ft) {
         if (ft->GetOpenCommand(&cmd, wxFileType::MessageParameters(strLink))) {
 #ifdef __WXMAC__
+#if wxABI_VERSION < 20603   // These are needed for wxMac-2.6.2 but don't work with wxMac-2.6.3
             cmd.Replace(wxT(" <"), "\'");
-            cmd.Prepend(wxT("open \'")); 
+            cmd.Prepend(wxT("open \'"));
+#endif
 #else
             cmd.Replace(wxT("file://"), wxEmptyString);
 #endif

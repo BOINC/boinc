@@ -5641,7 +5641,13 @@ Charlie 9 June 2006
     - Mac: Reorganize SetUpSecurity for better efficiency.  When run 
         standalone (from XCode), SetUpSecurity adds logged in user to 
         group boinc_project in adition to group boinc_master. 
+    - Fix opening URLs in default browser with wxMac-2.6.3.
+    - Fix compile error in macglutfix.m due to boinc_api.h declaration of 
+        boinc_get_init_data_p().
     clientgui/
         mac/
             SetupSecurity.cpp
-
+    api/
+        boinc_api.h
+    clientgui/
+        hyperlink.cpp
