@@ -5636,3 +5636,12 @@ Rom    8 June 2006
         
     lib/
         stackwalker_win.cpp
+
+Charlie 9 June 2006
+    - Mac: Reorganize SetUpSecurity for better efficiency.  When run 
+        standalone (from XCode), SetUpSecurity adds logged in user to 
+        group boinc_project in adition to group boinc_master. 
+    clientgui/
+        mac/
+            SetupSecurity.cpp
+
