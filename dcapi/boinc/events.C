@@ -23,19 +23,63 @@
 /* Be nice to the database and sleep for a long time */
 #define SLEEP_UNIT		15
 
-static void mark_wu_complete(DB_WORKUNIT &dbwu)
+static void mark_wu_complete(DB_WORKUNIT &dbwu, int do_callback)
 {
 	DC_Workunit *wu;
 
 	/* Invoke the callback with an empty result so the application knows
 	 * that the WU has failed */
 	wu = _DC_getWUByName(dbwu.name);
-	if (wu)
+	if (wu && _dc_resultcb && do_callback)
 		_dc_resultcb(wu, NULL);
 
 	dbwu.assimilate_state = ASSIMILATE_DONE;
 	dbwu.transition_time = time(NULL);
 	dbwu.update();
+}
+
+static int wu_has_failed(DB_WORKUNIT &wu)
+{
+	if (wu.error_mask & WU_ERROR_CANCELLED)
+	{
+		DC_log(LOG_INFO, "Acknowledging cancelled WU %s", wu.name);
+		return TRUE;
+	}
+
+	if (wu.error_mask & WU_ERROR_TOO_MANY_ERROR_RESULTS)
+	{
+		DC_log(LOG_WARNING, "There are too many errors for WU %s",
+			wu.name);
+		return TRUE;
+	}
+
+	if (wu.error_mask & WU_ERROR_TOO_MANY_TOTAL_RESULTS)
+	{
+		DC_log(LOG_WARNING, "There are too many results for WU %s",
+			wu.name);
+		return TRUE;
+	}
+
+	if (wu.error_mask & WU_ERROR_COULDNT_SEND_RESULT)
+	{
+		if (wu.canonical_resultid)
+			return FALSE;
+
+		/* XXX We could count the results that still have a chance to
+		 * complete and error out only if there are fewer than
+		 * min_quorum, but that's complex */
+		DC_log(LOG_WARNING, "One or more results for WU %s coudln't "
+			"be sent", wu.name);
+		return TRUE;
+	}
+
+	if (!wu.canonical_resultid)
+	{
+		DC_log(LOG_WARNING, "No canonical result for WU %s", wu.name);
+		return TRUE;
+	}
+
+	return FALSE;
 }
 
 static int process_results(void)
@@ -54,13 +98,9 @@ static int process_results(void)
 	{
 		DB_RESULT canonical_result;
 
-		/* We are only interested in the canonical result */
-		if (!wu.canonical_resultid)
+		if (wu_has_failed(wu))
 		{
-			/* This should never happen */
-			DC_log(LOG_ERR, "No canonical result for work "
-				"unit %d - bug in validator?", wu.id);
-			mark_wu_complete(wu);
+			mark_wu_complete(wu, TRUE);
 			continue;
 		}
 
@@ -68,7 +108,7 @@ static int process_results(void)
 		{
 			DC_log(LOG_ERR, "Result #%d is not in the database",
 				wu.canonical_resultid);
-			mark_wu_complete(wu);
+			mark_wu_complete(wu, TRUE);
 			continue;
 		}
 
@@ -76,7 +116,7 @@ static int process_results(void)
 		result = _DC_createResult(wu.name, wu.id, canonical_result.xml_doc_in);
 		if (!result)
 		{
-			mark_wu_complete(wu);
+			mark_wu_complete(wu, TRUE);
 			continue;
 		}
 		_dc_resultcb(result->wu, result);
@@ -226,10 +266,17 @@ static DC_MasterEvent *look_for_results(const char *wuFilter, const char *wuName
 	}
 	g_free(query);
 
+	if (wu_has_failed(wu))
+	{
+		mark_wu_complete(wu, FALSE);
+		return NULL;
+	}
+
 	if (result.lookup_id(wu.canonical_resultid))
 	{
 		DC_log(LOG_ERR, "Result #%d is not in the database",
 			wu.canonical_resultid);
+		mark_wu_complete(wu, FALSE);
 		return NULL;
 	}
 
@@ -238,6 +285,7 @@ static DC_MasterEvent *look_for_results(const char *wuFilter, const char *wuName
 	event->result = _DC_createResult(wu.name, wu.id, result.xml_doc_in);
 	if (!event->result)
 	{
+		mark_wu_complete(wu, FALSE);
 		g_free(event);
 		return NULL;
 	}
@@ -257,7 +305,7 @@ DC_MasterEvent *DC_waitMasterEvent(const char *wuFilter, int timeout)
 		event = look_for_results(wuFilter, NULL);
 		if (event)
 			break;
-/*
+/* XXX
 		event = look_for_notifications(...);
 		if (event)
 			break;
@@ -284,7 +332,7 @@ DC_MasterEvent *DC_waitWUEvent(DC_Workunit *wu, int timeout)
 		event = look_for_results(NULL, uuid_str);
 		if (event)
 			break;
-/*
+/* XXX
 		event = look_for_notifications(...);
 		if (event)
 			break;
