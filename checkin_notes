@@ -5677,3 +5677,22 @@ Rom    9 June 2006
     api/
         boinc_api.C, .h
         windows_opengl.C
+
+David  9 June 2006
+    - Core client: Linux bug fix.  New code to get CPU capabilities
+        was appending rather than replacing.
+        No check for buffer length.
+        Eventually overflowed and crashed client.
+
+        Notes:
+            - Never use strncpy().
+            - Never have the same block of code repeated several times
+                (the \n stuff).
+            - Remember these notes
+    - Create all shared mem segs with 0660 protection
+        (affects both server and client)
+
+    client/
+        hostinfo_unix.C
+    lib/
+        shmem.C

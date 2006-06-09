@@ -161,7 +161,7 @@ int detach_shmem(void* p) {
 
 int create_shmem(key_t key, int size, void** pp) {
     int id;
-    id = shmget(key, size, IPC_CREAT|0666);
+    id = shmget(key, size, IPC_CREAT|0660);
     if (id < 0) {
         id = shmget(key, size, IPC_CREAT|SHM_R|SHM_W);
     }

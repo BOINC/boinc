@@ -374,58 +374,39 @@ void parse_cpuinfo(HOST_INFO& host) {
 void parse_cpuinfo(HOST_INFO& host) {
     char buf[256];
     char buf2[256];
-    int system_found=0,model_found=0,cache_found=0,flags_found=0;
+    bool system_found=false, model_found=false;
+    bool cache_found=false, flags_found=false;
     int n;
 
     FILE* f = fopen("/proc/cpuinfo", "r");
     if (!f) return;
 
     while (fgets(buf, 256, f)) {
-        if ( (strstr(buf, "vendor_id\t: ") == buf) &&
-             (system_found == 0) ) {
-            system_found = 1;
-            strncpy(host.p_vendor, strchr(buf, ':') + 2, sizeof(host.p_vendor) - 1);
-            char * p = strchr(host.p_vendor, '\n');
-            if (p) {
-                *p = '\0';
-            }
+        strip_whitespace(buf);
+        if ((strstr(buf, "vendor_id\t: ") == buf) && !system_found) {
+            system_found = true;
+            strlcpy(host.p_vendor, strchr(buf, ':') + 2, sizeof(host.p_vendor));
         }
-        if ( (strstr(buf, "model name\t: ") == buf) &&
-             (model_found == 0) ) {
-            model_found = 1;
-            strncpy(host.p_model, strchr(buf, ':') + 2, sizeof(host.p_model) - 1);
-            char * p = strchr(host.p_model, '\n');
-            if (p) {
-                *p = '\0';
-            }
+        if ((strstr(buf, "model name\t: ") == buf) && !model_found) {
+            model_found = true;
+            strlcpy(host.p_model, strchr(buf, ':') + 2, sizeof(host.p_model));
         }
-        if ( (strstr(buf, "cache size\t: ") == buf) &&
-             (cache_found == 0) ) {
+        if ((strstr(buf, "cache size\t: ") == buf) && !cache_found) {
             cache_found = 1;
             sscanf(buf, "cache size\t: %d", &n);
             host.m_cache = n*1024;
         }
-        // Some versions of the linux kernel call them flags others call them features,
-        //   so lets go ahead and look for both.
-        if ( (strstr(buf, "flags\t\t: ") == buf) &&
-             (flags_found == 0) ) {
+
+        // Some versions of the linux kernel call them flags,
+        // others call them features, so look for both.
+        //
+        if ((strstr(buf, "flags\t\t: ") == buf) && !flags_found) {
             flags_found = 1;
-            strncpy(buf2, strchr(buf, ':') + 2, sizeof(host.p_capabilities) - strlen(host.p_capabilities) - 1);
-            strcat(host.p_capabilities, buf2);
-            char * p = strchr(host.p_capabilities, '\n');
-            if (p) {
-                *p = '\0';
-            }
+            strlcpy(host.p_capabilities, strchr(buf, ':') + 2, sizeof(host.p_capabilities));
         }
-        if ( (strstr(buf, "features\t\t: ") == buf) &&
-             (flags_found == 0) ) {
+        if ((strstr(buf, "features\t\t: ") == buf) && !flags_found) {
             flags_found = 1;
-            strncpy(buf2, strchr(buf, ':') + 2, sizeof(host.p_capabilities) - strlen(host.p_capabilities) - 1);
-            strcat(host.p_capabilities, buf2);
-            char * p = strchr(host.p_capabilities, '\n');
-            if (p) {
-                *p = '\0';
-            }
+            strlcpy(host.p_capabilities, strchr(buf, ':') + 2, sizeof(host.p_capabilities));
         }
     }
 
