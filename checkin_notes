@@ -5809,3 +5809,10 @@ Bruce 10 June 2006
         validate_util2.C
         file_deleter.C
 
+David
+    - tweaks
+
+    sched/
+        make_work.C
+        validate_util.C,h
+        validate_util2.C

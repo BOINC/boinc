@@ -30,12 +30,11 @@
 #include "sched_config.h"
 #include "sched_msgs.h"
 
+#include "validator.h"
 #include "validate_util.h"
 #include "validate_util2.h"
 
 using std::vector;
-
-extern SCHED_CONFIG config;
 
 int check_set(
     vector<RESULT>& results, WORKUNIT& wu, int& canonicalid, double& credit,

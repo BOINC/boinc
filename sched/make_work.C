@@ -295,7 +295,6 @@ int main(int argc, char** argv) {
         } else if (!strcmp(argv[i], "-d")) {
             log_messages.set_debug_level(atoi(argv[++i]));
         } else if (!strcmp(argv[i], "-wu_name")) {
-            char wu_name[256];
             wu_names.push_back(string(argv[++i]));
         } else if (!strcmp(argv[i], "-max_wus")) {
             max_wus = atoi(argv[++i]);

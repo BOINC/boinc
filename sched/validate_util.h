@@ -20,9 +20,10 @@
 #ifndef H_VALIDATE_UTIL
 #define H_VALIDATE_UTIL
 
-#include "boinc_db.h"
 #include <vector>
 #include <string>
+
+#include "boinc_db.h"
 
 extern int get_output_file_path(RESULT const& result, std::string& path);
 extern double median_mean_credit(std::vector<RESULT>& results);
