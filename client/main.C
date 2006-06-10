@@ -345,10 +345,8 @@ static void init_core_client(int argc, char** argv) {
 
 #endif
 
-#ifdef __APPLE__
-
-// We have postponed implementing the umask change due to security concerns.
-//    umask(0);   // Set file creation mask to make all files world-writable
+#ifdef sandbox
+    umask (2);  // Set file creation mask to be writable by both user and group
                 // Our umask will be inherited by all our child processes
 #endif
 

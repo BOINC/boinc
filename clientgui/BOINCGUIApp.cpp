@@ -241,6 +241,11 @@ bool CBrandingScheme::OnInit( wxConfigBase *pConfig ) {
 
 bool CBOINCGUIApp::OnInit() {
 
+#ifdef sandbox
+    umask (2);  // Set file creation mask to be writable by both user and group
+                // Our umask will be inherited by all our child processes
+#endif
+
     // Setup variables with default values
     m_bBOINCStartedByManager = false;
     m_bFrameVisible = true;
@@ -249,7 +254,7 @@ bool CBOINCGUIApp::OnInit() {
     m_hBOINCCoreProcess = NULL;
     m_hClientLibraryDll = NULL;
 #endif
-	m_strDefaultWindowStation = wxT("");
+    m_strDefaultWindowStation = wxT("");
     m_strDefaultDesktop = wxT("");
     m_strDefaultDisplay = wxT("");
 

@@ -5754,10 +5754,15 @@ Charlie 9 June 2006
     - Changes for sandbox:
         Renamed global variable boinc_project_gid to g_boinc_project_gid.
         Change shared memory segment group to g_boinc_project_gid.
+        Set umask to 002 in both client and manager so files are writable 
+            by both user and group.
         
     client/
         app_start.C
         client_state.C,h
         client_types.C
+        main.C
+    clientgui/
+        BOINCGUIApp.cpp
     lib/
         shmem.C,h
