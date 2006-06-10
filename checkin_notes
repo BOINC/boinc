@@ -5795,10 +5795,12 @@ Bruce 10 June 2006
       intended.
 
       DAVID: config was not defined in validate_util.C ; I made
-      it extern.
+      it extern. Likewise for validate_util2.C.  Also messed up
+      includes in latter file.
 
     sched/
         boinc_db.C
         feeder.C
         validate_util.C
+        validate_util2.C
 
