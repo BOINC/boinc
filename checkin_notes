@@ -5794,7 +5794,11 @@ Bruce 10 June 2006
       Check my 'fix' to feeder.C to see if this is what you had
       intended.
 
+      DAVID: config was not defined in validate_util.C ; I made
+      it extern.
+
     sched/
         boinc_db.C
         feeder.C
+        validate_util.C
 
