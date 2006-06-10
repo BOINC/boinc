@@ -103,7 +103,12 @@ int GUI_RPC_CONN_SET::get_password() {
             // they can cause code to execute as this user.
             // So better protect it.
             //
+#ifdef sandbox
+            // Allow group access so authorized administrator can modify it
+            chmod(GUI_RPC_PASSWD_FILE, S_IRUSR|S_IWUSR | S_IRGRP | S_IWGRP);
+#else
             chmod(GUI_RPC_PASSWD_FILE, S_IRUSR|S_IWUSR);
+#endif
 #endif
         }
     }
