@@ -5780,3 +5780,16 @@ David  9 June 2006
         client_state.C,h
     lib/
         shmem.C
+
+Bruce 10 June 2006
+    - When calling project-provided validator functions, populate the
+      WU.rsc_fpops_est field. This can be useful in
+      determining how much credit to assign, and preventing cheating.
+
+      DAVID: I was going to be a good guy and document this, but you
+      forgot to check validate_simple.php and validate_advanced.php
+      into CVS (:-).
+
+    sched/
+        boinc_db.C
+

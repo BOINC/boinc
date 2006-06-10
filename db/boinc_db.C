@@ -1054,6 +1054,7 @@ void VALIDATOR_ITEM::parse(MYSQL_ROW& r) {
     wu.target_nresults = atoi(r[i++]);
     wu.max_success_results = atoi(r[i++]);
     wu.error_mask = atoi(r[i++]);
+    wu.rsc_fpops_est = atof(r[i++]);
 
     res.id = atoi(r[i++]);
     strcpy2(res.name, r[i++]);
@@ -1109,8 +1110,9 @@ int DB_VALIDATOR_ITEM_SET::enumerate(
             "   wu.opaque, "
             "   wu.batch, "
             "   wu.target_nresults, "
-            "   wu.max_success_results,"
-            "   wu.error_mask,"
+            "   wu.max_success_results, "
+            "   wu.error_mask, "
+            "   wu.rsc_fpops_est, "
             "   res.id, "
             "   res.name, "
             "   res.validate_state, "
