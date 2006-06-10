@@ -161,14 +161,25 @@ int detach_shmem(void* p) {
 
 int create_shmem(key_t key, int size, gid_t gid, void** pp) {
     int id;
-#ifdef SANDBOX
-    int retval;
-    struct shmid_ds buf;
-#endif
     
+    // try 0660, then SHM_R|SHM_W
+    // seems like some platforms require one or the other
+    // (this may be superstition)
+    //
     id = shmget(key, size, IPC_CREAT|0660);
     if (id < 0) {
-#ifdef SANDBOX
+        id = shmget(key, size, IPC_CREAT|SHM_R|SHM_W);
+    }
+    if (id < 0) {
+        perror("shmget");
+        return ERR_SHMGET;
+    }
+
+    // set group ownership if requested
+    //
+    if (gid) {
+        int retval;
+        struct shmid_ds buf;
         // Set the shmem segment's group ID
         retval = shmctl(id, IPC_STAT, &buf);
         if (retval) {
@@ -181,12 +192,6 @@ int create_shmem(key_t key, int size, gid_t gid, void** pp) {
             perror("shmget: shmctl IPC_SET");
             return ERR_SHMGET;
         }
-#endif
-        id = shmget(key, size, IPC_CREAT|SHM_R|SHM_W);
-    }
-    if (id < 0) {
-        perror("shmget");
-        return ERR_SHMGET;
     }
     return attach_shmem(key, pp);
 }

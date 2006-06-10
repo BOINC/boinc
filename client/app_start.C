@@ -489,7 +489,8 @@ int ACTIVE_TASK::start(bool first_time) {
     //
     if (!app_client_shm.shm) {
         retval = create_shmem(
-            shmem_seg_name, sizeof(SHARED_MEM), g_boinc_project_gid, (void**)&app_client_shm.shm
+            shmem_seg_name, sizeof(SHARED_MEM), gstate.boinc_project_gid,
+            (void**)&app_client_shm.shm
         );
         if (retval) {
             msg_printf(

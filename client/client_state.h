@@ -129,6 +129,7 @@ public:
     char attach_project_auth[256];
     bool exit_before_upload;
         // exit when about to upload a file
+    gid_t boinc_project_gid;
 
     // backoff-related variables
     //
@@ -472,7 +473,6 @@ extern CLIENT_STATE gstate;
 
 #ifdef SANDBOX
 #define BOINC_PROJECT_GROUP_NAME "boinc_project"
-extern gid_t g_boinc_project_gid;
 #endif
 
 // return a random double in the range [MIN,min(e^n,MAX))

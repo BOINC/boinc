@@ -5769,3 +5769,14 @@ Charlie 9 June 2006
         BOINCGUIApp.cpp
     lib/
         shmem.C,h
+
+David  9 June 2006
+    - Make boinc_project_id a field of CLIENT_STATE
+    - Fix compile failuer when SANDBOX is not defined
+    - Fix logic error in create_shmem()
+
+    client/
+        app_start.C
+        client_state.C,h
+    lib/
+        shmem.C
