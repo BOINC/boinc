@@ -511,7 +511,7 @@ int main(int argc, char** argv) {
         log_messages.printf(SCHED_MSG_LOG::MSG_CRITICAL, "can't destroy shmem\n");
         exit(1);
     }
-    retval = create_shmem(config.shmem_key, sizeof(SCHED_SHMEM), &p);
+    retval = create_shmem(config.shmem_key, sizeof(SCHED_SHMEM), 0 /* don't set GID */, &p);
     if (retval) {
         log_messages.printf(SCHED_MSG_LOG::MSG_CRITICAL, "can't create shmem\n");
         exit(1);

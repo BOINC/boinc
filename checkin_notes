@@ -5790,6 +5790,11 @@ Bruce 10 June 2006
       forgot to check validate_simple.php and validate_advanced.php
       into CVS (:-).
 
+      DAVID: your change to create_shmem() broke the sched build.
+      Check my 'fix' to feeder.C to see if this is what you had
+      intended.
+
     sched/
         boinc_db.C
+        feeder.C
 
