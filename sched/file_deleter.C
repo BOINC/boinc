@@ -386,7 +386,7 @@ int add_antiques_to_list(int days) {
         return -1;
     }
 
-    sprintf(command,  "find %s -type f -mtime +%d", config.upload_dir, days);
+    sprintf(command,  "find %s -type f -mtime +%d -follow", config.upload_dir, days);
     
     // Now execute the command, read output on a stream.  We could use
     // find to also exec a 'delete' command.  But we want to log all

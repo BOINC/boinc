@@ -5786,6 +5786,10 @@ Bruce 10 June 2006
       WU.rsc_fpops_est field. This can be useful in
       determining how much credit to assign, and preventing cheating.
 
+    - file_deleter: if deleting antique files, follow links when
+      finding the files.  This allows NFS mounting of the upload
+      directory, pointed to by a symbolic link.
+
       DAVID: I was going to be a good guy and document this, but you
       forgot to check validate_simple.php and validate_advanced.php
       into CVS (:-).
@@ -5803,4 +5807,5 @@ Bruce 10 June 2006
         feeder.C
         validate_util.C
         validate_util2.C
+        file_deleter.C
 
