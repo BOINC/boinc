@@ -129,7 +129,9 @@ public:
     char attach_project_auth[256];
     bool exit_before_upload;
         // exit when about to upload a file
+#ifndef _WIN32
     gid_t boinc_project_gid;
+#endif
 
     // backoff-related variables
     //
