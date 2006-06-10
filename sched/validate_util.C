@@ -32,7 +32,6 @@
 #include "sched_util.h"
 #include "sched_config.h"
 #include "sched_msgs.h"
-// #include "validator.h"
 #include "validate_util.h"
 
 using std::vector;
