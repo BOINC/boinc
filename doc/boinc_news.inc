@@ -1,6 +1,10 @@
 <?
 
 $project_news = array(
+array("June 10, 2006",
+    "The <a href=http://www.boincuk.com/newsletter_reg.php>BOINC UK Newsletter Circuler</a> (bunc) has released its June 2006 edition,
+    featuring an interview with David Anderson."
+),
 array("June 7, 2006",
     "Windows users: if BOINC applications are repeatedly
     crashing on your computer,
@@ -31,7 +35,7 @@ array("May 25, 2006",
     <a href=contact.php>contact us</a>."
 ),
 array("May 17, 2006",
-    "The costs of electricity, both monetary and environmental, are increasing.
+    "The costs of electricity, both monetary and environmental, are high.
     Be aware of the <a href=energy.php>energy considerations</a>
     associated with BOINC and volunteer computing."
 ),
