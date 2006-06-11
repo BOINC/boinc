@@ -556,7 +556,7 @@ int FILE_INFO::set_permissions() {
     // in case someone runs BOINC from different user
 
 #ifdef SANDBOX
-    retval = chown(pathname, (uid_t)-1, g_boinc_project_gid);
+    retval = chown(pathname, (uid_t)-1, gstate.boinc_project_gid);
     if (retval) return retval;
     if (executable) {
         retval = chmod(pathname,

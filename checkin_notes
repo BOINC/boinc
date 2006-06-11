@@ -5816,3 +5816,10 @@ David
         make_work.C
         validate_util.C,h
         validate_util2.C
+
+Charlie 11 June 2006
+    - Change g_boinc_project_gid to gstate.boinc_project_gid in 
+      FILE_INFO::set_permissions().
+
+    client/
+       client_state.C
