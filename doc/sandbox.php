@@ -14,8 +14,8 @@ $pp = prot('boinc_project', 'boinc_project', '0770');
 $mp = prot('boinc_master', 'boinc_project', '0770');
 $mm = prot('boinc_master', 'boinc_master', '0770');
 $mm2 = prot('boinc_master', 'boinc_master', '0700');
-$mm3 = prot('boinc_master', 'boinc_master', '0770+setuid+setgid');
-$mm4 = prot('boinc_master', 'boinc_master', '0770+setgid');
+$mm3 = prot('boinc_master', 'boinc_master', '0555+setuid+setgid');
+$mm4 = prot('boinc_master', 'boinc_master', '0775+setgid');
 $pp3 = prot('boinc_project', 'boinc_project', '0770+setuid+setgid');
 
 function show_dir($name, $prot, $contents) {
