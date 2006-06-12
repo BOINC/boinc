@@ -11,8 +11,12 @@ function prot($user, $group, $perm) {
 }
 
 $pp = prot('boinc_project', 'boinc_project', '0770');
-$pp2 = prot('boinc_master', 'boinc_master', '0700');
-$pp3 = prot('boinc_project', 'boinc_project', '0770+setuid');
+$mp = prot('boinc_master', 'boinc_project', '0770');
+$mm = prot('boinc_master', 'boinc_master', '0770');
+$mm2 = prot('boinc_master', 'boinc_master', '0700');
+$mm3 = prot('boinc_master', 'boinc_master', '0770+setuid+setgid');
+$mm4 = prot('boinc_master', 'boinc_master', '0770+setgid');
+$pp3 = prot('boinc_project', 'boinc_project', '0770+setuid+setgid');
 
 function show_dir($name, $prot, $contents) {
     $x = "
@@ -37,31 +41,41 @@ function show_file($name, $prot) {
 }
 
 echo 
-    show_dir('BOINC data', $pp, array(
-        show_dir('projects', $pp, array(
-            show_dir('setiathome.berkeley.edu', $pp, array(
-                show_file('*', $pp)
+    show_dir('BOINC data', $mm, array(
+        show_dir('projects', $mp, array(
+            show_dir('setiathome.berkeley.edu', $mp, array(
+                show_file('CC-created files', $mp),
+                show_file('app-created files', $pp)
             ))
         )),
-        show_dir('slots', $pp, array(
-            show_dir('0', $pp, array(
-                show_file('*', $pp)
+        show_dir('slots', $mp, array(
+            show_dir('0', $mp, array(
+                show_file('CC-created files', $mp),
+                show_file('app-created files', $pp)
             ))
         )),
-        show_dir('switcher', $pp2, array(
+        show_dir('locale', $mm, array(
+            show_dir('en_US', $mm, array(
+                show_file('BOINC Manager.mo', $mm),
+                show_file('wxstd.mo', $mm)
+            ))
+        )),
+        show_dir('switcher', $mm2, array(
             show_file('switcher', $pp3)
         )),
-        show_file('account_*.xml', $pp),
-        show_file('acct_mgr_login.xml', $pp),
-        show_file('client_state.xml', $pp),
-        show_file('gui_rpc_auth.cfg', $pp),
-        show_file('sched_reply*', $pp),
-        show_file('sched_request*', $pp),
+        show_file('account_*.xml', $mm),
+        show_file('acct_mgr_login.xml', $mm),
+        show_file('client_state.xml', $mm),
+        show_file('gui_rpc_auth.cfg', $mm),
+        show_file('sched_reply*', $mm),
+        show_file('sched_request*', $mm),
     ));
 
+echo "<br><br>";
+
 echo
-    show_dir('BOINC executables', $pp, array(
-        show_file('BOINC Manager', $pp),
-        show_file('Core client', $pp),
+    show_dir('BOINC executables', $mm, array(
+        show_file('BOINC Manager', $mm4),
+        show_file('Core client', $mm3),
     ));
 ?>
