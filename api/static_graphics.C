@@ -64,9 +64,9 @@ void boinc_app_key_press(int, int) {
 
 void boinc_app_key_release(int, int) {
 }
-void boinc_app_mouse_button(int x, int y, int which, bool is_down) {
+void boinc_app_mouse_button(int x, int y, int which, int is_down) {
 }
-void boinc_app_mouse_move(int x, int y, bool left, bool middle, bool right) {
+void boinc_app_mouse_move(int x, int y, int left, int middle, int right) {
 }
 void app_graphics_resize(int w, int h) {
     glViewport(0, 0, w, h);

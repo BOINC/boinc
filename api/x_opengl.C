@@ -118,7 +118,7 @@ void mouse_click_move(int x, int y){
     }
 }
 
-void mouse_move(int x, int y) {
+void mouse_move(int, int) {
     if (current_graphics_mode == MODE_FULLSCREEN){
         set_mode(MODE_HIDE_GRAPHICS);
     }

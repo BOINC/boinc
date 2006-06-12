@@ -38,8 +38,8 @@ extern void app_graphics_reread_prefs(void);
     // called when get REREAD_PREFS message from core client.
     // called in the graphics thread
 extern void app_graphics_resize(int width, int height);
-extern void boinc_app_mouse_button(int x, int y, int which, bool is_down);
-extern void boinc_app_mouse_move(int x, int y, bool left, bool middle, bool right);
+extern void boinc_app_mouse_button(int x, int y, int which, int is_down);
+extern void boinc_app_mouse_move(int x, int y, bool left, int middle, int right);
 extern void boinc_app_key_press(int, int);
 extern void boinc_app_key_release(int, int);
 

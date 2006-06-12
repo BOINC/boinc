@@ -5838,3 +5838,12 @@ David  11 June 2006
         error_numberse.h
         filesys.C,h
         util.C
+
+David  12 June 2006
+    - Graphics API: change params of boinc_app_mouse_button()
+        and boinc_app_mouse_move() from bool to int (for ANSI C compatibility)
+
+    api/
+        graphics_api.h
+        static_graphics.C
+        x_opengl.C
