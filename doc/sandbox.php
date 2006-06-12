@@ -20,11 +20,13 @@ $pp3 = prot('boinc_project', 'boinc_project', '0770+setuid+setgid');
 
 function show_dir($name, $prot, $contents) {
     $x = "
-        <table cellpadding=6 border=2>
+        <table cellpadding=6 cellspacing=0 border=1 width=100%>
         <tr>
-            <td valign=top>$name <font size=-2>$prot</font></td><td valign=top>
+            <td valign=top><b>$name</b> <font size=-2>$prot</font></td><td valign=top>
     ";
-    foreach ($contents as $c) {
+    for ($i=0; $i<sizeof($contents); $i++) {
+        if ($i) $x .= '<br>';
+        $c = $contents[$i];
         $x .= $c;
     }
     $x .= "

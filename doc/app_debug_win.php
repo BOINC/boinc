@@ -32,9 +32,10 @@ echo "
         <ul>
             <li><a href=\"#CommonIntroduction\">Introduction</a>
             <li><a href=\"#Common0x80000003\">Breakpoint Encountered (0x80000003)</a>
-            <li><a href=\"#Common0xe06d7363\">Out of Memory Exception (0xe06d7363)</a>
+            <li><a href=\"#Common0xc000000d\">Invalid Parameter (0xc000000d)</a>
             <li><a href=\"#Common0xc0000096\">Privileged Instruction (0xc0000096)</a>
             <li><a href=\"#Common0xc00000fd\">Stack Overflow (0xc00000fd)</a>
+            <li><a href=\"#Common0xe06d7363\">Out of Memory Exception (0xe06d7363)</a>
         </ul>
 </ul>
 
@@ -417,6 +418,105 @@ To add manual breakpoints to your code for diagnostics purposes you can call the
 void DebugBreak( void );
 "; block_end(); echo "
 <p>
+<h4><a name=\"Common0xc000000d\">Invalid Parameter (0xc000000d)</a></h4>
+<p>
+Starting with Visual Studio 2005, Microsoft re-vamped the whole C Runtime Library.  Part
+of the re-vamp process was to do parameter checking on each function.  Places that would
+normally return a NULL value now cause a structured exception to be thrown.
+<p>
+The nature of this structed exception is different than most as they specifically coded
+it so that it will not engage the BOINC Runtime Debugger and it'll display a dialog box
+asking the user if they wish to debug the error.  If the user cancels the error code
+0xc000000d is returned without any more information.
+<p>
+To get more information with this error you'll need to create a function like this:
+"; block_start(); echo "
+#ifdef _WIN32
+void AppInvalidParameterHandler(const wchar_t* expression, const wchar_t* function, const wchar_t* file, unsigned int line,	uintptr_t pReserved ) {
+	fprintf(
+		stderr,
+		\"Invalid parameter detected in function %s. File: %s Line: %d\\n\",
+		function,
+		file,
+		line
+	);
+	fprintf(
+		stderr,
+		\"Expression: %s\\n\",
+		expression
+	);
+	// Cause a Debug Breakpoint.
+	DebugBreak();
+}
+#endif
+"; block_end(); echo "
+<p>
+The following code block should be added after the call to boinc_diagnostics_init():
+"; block_start(); echo "
+#ifdef _WIN32
+	// Every once and awhile something looks at a std::vector or some other
+	// CRT/STL construct that throws an exception when an invalid parameter
+	// is detected.  In this case we should dump whatever information we 
+	// can and then bail.  When we bail we should dump as much data as 
+	// possible.
+	_set_invalid_parameter_handler(AppInvalidParameterHandler);
+#endif
+"; block_end(); echo "
+<p>
+When this issues happens in the future it'll describe which CRT function call was passed
+an invalid parameter and it should dump out the callstack for all threads.
+<p>
+The function blocks above overwrite the default behavior of the CRT when an invalid 
+parameter is detected.
+<p>
+<h4><a name=\"Common0xc0000096\">Privileged Instruction (0xc0000096)</a></h4>
+"; block_start(); echo "
+- Unhandled Exception Record -
+Reason: Privileged Instruction (0xc0000096) at address 0x008E9808
+
+- Registers -
+eax=00000400 ebx=00000000 ecx=00002922 edx=00b0c650 esi=01e1f7ec edi=027e2abc
+eip=008e9808 esp=01e1f778 ebp=ffffffff
+cs=001b  ss=0023  ds=0023  es=0023  fs=003b  gs=0000             efl=00010202
+
+- Callstack -
+ChildEBP RetAddr  Args to Child
+01e1f7b4 008ea16b 3f4bcaf9 3f827d51 01e1f7ec 01e1f7fc rosetta_beta_5.19_windows_intel!spherical+0x1 (rosetta++\structure.cc:1436) 
+01e1f83c 008ec11f 00b38180 00000003 00000009 01e1f974 rosetta_beta_5.19_windows_intel!HSpair_score+0x0 (rosetta++\structure.cc:367) 
+01e1f854 008b6d18 00b38058 00b3805c 00b38180 00b381b0 rosetta_beta_5.19_windows_intel!evaluate_ss+0x6 (rosetta++\structure.cc:102) 
+01e1f974 00937bf6 a8af5c9d 0001c3f9 00001473 00000100 rosetta_beta_5.19_windows_intel!scorefxn+0x25 (rosetta++\score.cc:190) 
+01e1f9b0 005e435f 00000009 008b7960 0001c3f9 a8af5cd5 rosetta_beta_5.19_windows_intel!main_frag_trial+0x4 (rosetta++\torsion_bbmove_trials.cc:446) 
+01e1fb74 006f1c01 a8af5e9d 3030302e 3c303030 00000000 rosetta_beta_5.19_windows_intel!fold_abinitio+0xc (rosetta++\fold_abinitio.cc:270) 
+01e1ffb0 006363c0 7c80b50b 00000000 3030302e 3c303030 rosetta_beta_5.19_windows_intel!main_rosetta+0x5 (rosetta++\main.cc:343) 
+01e1ffb4 7c80b50b 00000000 3030302e 3c303030 00000000 rosetta_beta_5.19_windows_intel!foobar+0x0 (boinc\api\graphics_impl.c:75) 
+01e1ffec 00000000 006363b0 00000000 00000000 00000000 kernel32!_BaseThreadStart@8+0x0 (boinc\api\graphics_impl.c:75) 
+"; block_end(); echo "
+<p>
+In this example it appears the processor took exception to the fact that a user mode
+process attempted to push a kernel mode address onto the stack without first switching
+to kernel mode.
+<p>
+Look at the EBP register, 'ffffffff' when converted into a signed int is equal to '-1' 
+and when converted to an unsigned int it is equal to 4GB.  On Windows anything above 2GB 
+is considered a kernel mode address.  If the Windows machine supports PAE and the /3GB
+boot option is specified in BOOT.INI then kernel addresses will start at 3GB instead.
+<p>
+What has probably happened here is that a function is about to be called and a 'push EBP'
+instruction was called to push a new address onto the stack, the CPU threw the exception 
+since the address was outside user mode land. EBP should have had a similar progression 
+as all the other stack frames ChildEBP values.
+<p>
+If EBP had some random kernel mode address it would be pretty easy to dismiss this as
+a CPU overheating.  'ffffffff' begs the question is the stack being overwritten by an
+error result from another function?
+<p>
+Investigation of this issue is still ongoing.
+<p>
+<h4><a name=\"Common0xc00000fd\">Stack Overflow (0xc00000fd)</a></h4>
+<p>
+An application will throw this exception when one of it's threads exceed the 1MB stack
+size allotment.
+<p>
 <h4><a name=\"Common0xe06d7363\">Out of Memory Exception (0xe06d7363)</a></h4>
 "; block_start(); echo "
 *** Dump of the  thread (d08): ***
@@ -461,52 +561,6 @@ ChildEBP RetAddr  Args to Child
 In the above example the new opterator was being requested to allocate 4GB of memory.  An out of 
 memory exception was thrown.
 <p>
-<h4><a name=\"Common0xc0000096\">Privileged Instruction (0xc0000096)</a></h4>
-"; block_start(); echo "
-- Unhandled Exception Record -
-Reason: Privileged Instruction (0xc0000096) at address 0x008E9808
-
-- Registers -
-eax=00000400 ebx=00000000 ecx=00002922 edx=00b0c650 esi=01e1f7ec edi=027e2abc
-eip=008e9808 esp=01e1f778 ebp=ffffffff
-cs=001b  ss=0023  ds=0023  es=0023  fs=003b  gs=0000             efl=00010202
-
-- Callstack -
-ChildEBP RetAddr  Args to Child
-01e1f7b4 008ea16b 3f4bcaf9 3f827d51 01e1f7ec 01e1f7fc rosetta_beta_5.19_windows_intel!spherical+0x1 (rosetta++\structure.cc:1436) 
-01e1f83c 008ec11f 00b38180 00000003 00000009 01e1f974 rosetta_beta_5.19_windows_intel!HSpair_score+0x0 (rosetta++\structure.cc:367) 
-01e1f854 008b6d18 00b38058 00b3805c 00b38180 00b381b0 rosetta_beta_5.19_windows_intel!evaluate_ss+0x6 (rosetta++\structure.cc:102) 
-01e1f974 00937bf6 a8af5c9d 0001c3f9 00001473 00000100 rosetta_beta_5.19_windows_intel!scorefxn+0x25 (rosetta++\score.cc:190) 
-01e1f9b0 005e435f 00000009 008b7960 0001c3f9 a8af5cd5 rosetta_beta_5.19_windows_intel!main_frag_trial+0x4 (rosetta++\torsion_bbmove_trials.cc:446) 
-01e1fb74 006f1c01 a8af5e9d 3030302e 3c303030 00000000 rosetta_beta_5.19_windows_intel!fold_abinitio+0xc (rosetta++\fold_abinitio.cc:270) 
-01e1ffb0 006363c0 7c80b50b 00000000 3030302e 3c303030 rosetta_beta_5.19_windows_intel!main_rosetta+0x5 (rosetta++\main.cc:343) 
-01e1ffb4 7c80b50b 00000000 3030302e 3c303030 00000000 rosetta_beta_5.19_windows_intel!foobar+0x0 (boinc\api\graphics_impl.c:75) 
-01e1ffec 00000000 006363b0 00000000 00000000 00000000 kernel32!_BaseThreadStart@8+0x0 (boinc\api\graphics_impl.c:75) 
-"; block_end(); echo "
-<p>
-In this example it appears the processor took exception to the fact that a user mode
-process attempted to push a kernel mode address onto the stack without first switching
-to kernel mode.
-<p>
-Look at the EBP register, 'ffffffff' when converted into a signed int is equal to '-1' 
-and when converted to an unsigned int it is equal to 4GB.  On Windows anything above 2GB 
-is considered a kernel mode address.  If the Windows machine supports PAE and the /3GB
-boot option is specified in BOOT.INI then kernel addresses will start at 3GB instead.
-<p>
-What has probably happened here is that a function is about to be called and a 'push EBP'
-instruction was called to push a new address onto the stack, the CPU threw the exception 
-since the address was outside user mode land. EBP should have had a similar progression 
-as all the other stack frames ChildEBP values.
-<p>
-If EBP had some random kernel mode address it would be pretty easy to dismiss this as
-a CPU overheating.  'ffffffff' begs the question is the stack being overwritten by an
-error result from another function?
-<p>
-Investigation of this issue is still ongoing.
-<h4><a name=\"Common0xc00000fd\">Stack Overflow (0xc00000fd)</a></h4>
-<p>
-An application will throw this exception when one of it's threads exceed the 1MB stack
-size allotment.
 ";
 
 page_tail();
