@@ -537,10 +537,22 @@ function show_forum_summary($forum) {
 }
 
 function post_warning() {
-    return "<br><br><font size=-2>
-        Don't use obscene language or images,
-        and don't threaten other participants;
-        otherwise we may delete your messages.</font>
+    return "<br><br>
+        <table><tr><td>
+        <font size=-2>
+        Rules:
+        <ul>
+        <li> No commercial advertisements.
+        <li> No messages whose only intention is to annoy or antagonize other people.
+        <li> No messages whose only intention is to hijack a thread.
+        <li> No messages that are deliberately hostile or insulting.
+        <li> No abusive comments involving race, religion,
+        nationality, gender, class or sexuality.
+        <li> No obscene language.
+        </ul>
+        <a href=moderation.php>More info</a>
+        </font>
+        </td></tr></table>
     ";
 }
 

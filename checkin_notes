@@ -5847,3 +5847,19 @@ David  12 June 2006
         graphics_api.h
         static_graphics.C
         x_opengl.C
+
+David  12 June 2006
+    - User web: expand the list of message-board rules a bit
+        (no ads, no trolling etc.)
+        Link to a page that describes the moderation policy in more detail.
+    - Add a page (not linked to anywhere) containing instructions for moderators.
+
+    NOTE: the latter 2 pages are included as samples;
+    you'll want to rename sample_X to X unless you need to customize it.
+
+    html/
+        inc/
+            forum.inc
+        user/
+            sample_moderation.inc (new)
+            sample_moderator_instructions.inc (new)
