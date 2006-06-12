@@ -474,7 +474,7 @@ int boinc_rmdir(const char* name) {
 
 #ifndef _WIN32
 int boinc_chown(const char* path, gid_t gid) {
-    if (chown(path, gid)) {
+    if (chown(path, (uid_t)-1, gid)) {
         return ERR_CHOWN;
     }
     return 0;
