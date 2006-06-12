@@ -5863,3 +5863,10 @@ David  12 June 2006
         user/
             sample_moderation.inc (new)
             sample_moderator_instructions.inc (new)
+
+David  12 June 2006
+    - API: get rid of boinc_timer_thread_active(), boinc_worker_timer():
+        either we can create a timer thread, or the app doesn't run.
+
+    api/
+        boinc_api.C,h

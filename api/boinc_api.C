@@ -87,9 +87,6 @@ static volatile int time_until_checkpoint;
     // time until enable checkpoint
 static volatile int time_until_fraction_done_update;
     // time until report fraction done to core client
-static int timer_thread_created;
-    // applications may decide to use a different method
-    // of handling cpu accounting if thread creation fails.
 static double fraction_done;
 static double last_checkpoint_cpu_time;
 static bool ready_to_checkpoint = false;
@@ -725,23 +722,6 @@ static void worker_timer(int /*a*/) {
     }
 }
 
-
-void boinc_worker_timer() {
-  static time_t last_call=time(0);
-  // timer of last resort if timer thread initialization fails.
-  if (timer_thread_created) {
-    return;
-  } else {
-    time_t diff=time(0)-last_call;
-    while (diff>=TIMER_PERIOD) {
-      diff-=TIMER_PERIOD;
-      last_call+=TIMER_PERIOD;
-      worker_timer(0);
-    }
-  }  
-}      
-
-
 #ifdef _WIN32
 
 static HANDLE timer_quit_event;
@@ -749,12 +729,10 @@ UINT WINAPI timer_thread(void *) {
     DWORD        dwEvent = NULL;
     BOOL         bContinue = TRUE;
 
-    // Initialize the timer thread info for diagnostic
-    //   purposes.
     diagnostics_set_thread_name("Timer");
 
-    // Create the event that can be used to shutdown the timer
-    //   thread.
+    // Create the event that can be used to shutdown the timer thread.
+    //
     timer_quit_event = CreateEvent(NULL, FALSE, FALSE, NULL);
     if (!timer_quit_event) {
         fprintf(stderr, "timer_thread(): CreateEvent() failed, GLE %d.\n", GetLastError());
@@ -814,21 +792,16 @@ void worker_signal_handler(int) {
 #endif
 
 
-
-// Allow apps to check the status of the timer thread and do something
-// about it if the thread creation failed (i.e. WIN9X)
-int boinc_timer_thread_active() {
-    return timer_thread_created;
-}
-
-// set up timer actitivies.
-// This is called only and always by the worker thread
+// Called from the worker thread;
+// create a thread to do timer-related things.
 //
 int set_worker_timer() {
     int retval=0;
 
 #ifdef _WIN32
 
+    // as long as we're here, get the worker thread handle
+    //
     DuplicateHandle(
         GetCurrentProcess(),
         GetCurrentThread(),
@@ -840,13 +813,13 @@ int set_worker_timer() {
     );
 
 
-    // Initialize the worker thread info for diagnostic
-    //   purposes.
+    // Initialize the worker thread info for diagnostic purposes.
+    //
     diagnostics_set_thread_name("Worker");
     diagnostics_set_thread_worker();
 
-    // Create the timer thread to deal with shared memory control
-    // messages.
+    // Create the timer thread to deal with shared memory control messages.
+    //
     uintptr_t thread;
     thread = _beginthreadex(
         NULL,
@@ -860,9 +833,7 @@ int set_worker_timer() {
     if (!thread) {
         fprintf(stderr, "set_worker_timer(): _beginthreadex() failed, errno %d\n", errno);
         retval = errno;
-        timer_thread_created=0;
-    } else {
-        timer_thread_created=1;
+        return retval;
     }
     
     // lower our priority here
@@ -874,9 +845,7 @@ int set_worker_timer() {
     retval = pthread_create(&timer_thread_handle, NULL, timer_thread, NULL);
     if (retval) {
         fprintf(stderr, "set_worker_timer(): pthread_create(): %d", retval);
-        timer_thread_created=0;
-    } else {
-        timer_thread_created=1;
+        return retval;
     }
 
     struct sigaction sa;
