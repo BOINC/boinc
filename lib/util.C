@@ -1025,6 +1025,7 @@ const char* boincerror(int which_error) {
         case ERR_TRUNCATE: return "Couldn't truncate file";
         case ERR_ABORTED_BY_PROJECT: return "Aborted by project";
         case ERR_GETGRNAM: return "Group not found";
+        case ERR_CHOWN: return "can't change owner";
         case 404: return "HTTP file not found";
         case 407: return "HTTP proxy authentication failure";
         case 416: return "HTTP range request error";

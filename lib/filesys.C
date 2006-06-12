@@ -472,6 +472,15 @@ int boinc_rmdir(const char* name) {
 #endif
 }
 
+#ifndef _WIN32
+int boinc_chown(const char* path, gid_t gid) {
+    if (chown(path, gid)) {
+        return ERR_CHOWN;
+    }
+    return 0;
+}
+#endif
+
 // if "filepath" is of the form a/b/c,
 // create directories dirpath/a, dirpath/a/b etc.
 //

@@ -5823,3 +5823,18 @@ Charlie 11 June 2006
 
     client/
        client_state.C
+
+David  11 June 2006
+    - more sandbox stuff, with #ifdef SANDBOX:
+        - make projects/ and slots/ owned by boinc_projects
+        - make link files owned by boinc_projects
+    - add boinc_chown() function
+
+    client/
+        app_start.C
+        file_names.C
+    lib/
+        app_ipc.C
+        error_numberse.h
+        filesys.C,h
+        util.C

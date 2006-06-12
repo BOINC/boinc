@@ -279,20 +279,6 @@ void APP_CLIENT_SHM::reset_msgs() {
     memset(shm, 0, sizeof(SHARED_MEM));
 }
 
-// create a file (new_link) which contains an XML
-// reference to existing file.
-//
-int boinc_link(const char *existing, const char *new_link) {
-    FILE *fp;
-
-    fp = fopen(new_link, "w");
-    if (!fp) return ERR_FOPEN;
-    fprintf(fp, "<soft_link>%s</soft_link>\n", existing);
-    fclose(fp);
-
-    return 0;
-}
-
 // resolve XML soft link
 //
 int boinc_resolve_filename(const char *virtual_name, char *physical_name, int len) {

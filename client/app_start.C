@@ -86,6 +86,22 @@ static int debug_print_argv(char** argv) {
     return 0;
 }
 
+// create a file (new_link) which contains an XML
+// reference to existing file.
+//
+static int make_link(const char *existing, const char *new_link) {
+    FILE *fp;
+
+    fp = fopen(new_link, "w");
+    if (!fp) return ERR_FOPEN;
+    fprintf(fp, "<soft_link>%s</soft_link>\n", existing);
+    fclose(fp);
+#ifdef SANDBOX
+    boinc_chown(new_link, gstate.boinc_project_gid);
+#endif
+    return 0;
+}
+
 int ACTIVE_TASK::link_user_files() {
     PROJECT* project = wup->project;
     unsigned int i;
@@ -101,7 +117,7 @@ int ACTIVE_TASK::link_user_files() {
         get_pathname(fip, file_path);
         sprintf(link_path, "%s/%s", slot_dir, strlen(fref.open_name)?fref.open_name:fip->name);
         sprintf(buf, "../../%s", file_path);
-        retval = boinc_link(buf, link_path);
+        retval = make_link(buf, link_path);
         if (retval) return retval;
     }
     return 0;
@@ -244,7 +260,7 @@ static int setup_file(
         if (wup->project->anonymous_platform && boinc_file_exists(link_path)) {
             return 0;
         }
-        retval = boinc_link(buf, link_path);
+        retval = make_link(buf, link_path);
         if (retval) {
             msg_printf(wup->project, MSG_ERROR,
                 "Can't link %s to %s", file_path, link_path

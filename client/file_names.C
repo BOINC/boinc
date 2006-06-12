@@ -104,8 +104,14 @@ int make_project_dir(PROJECT& p) {
     int retval;
 
     boinc_mkdir(PROJECTS_DIR);
+#ifdef SANDBOX
+    boinc_chown(PROJECTS_DIR, gstate.boinc_projects_gid);
+#endif
     get_project_dir(&p, buf);
     retval = boinc_mkdir(buf);
+#ifdef SANDBOX
+    boinc_chown(buf, gstate.boinc_projects_gid);
+#endif
     return retval;
 }
 
@@ -131,8 +137,15 @@ int make_slot_dir(int slot) {
         return ERR_NEG;
     }
     boinc_mkdir(SLOTS_DIR);
+#ifdef SANDBOX
+    boinc_chown(SLOTS_DIR, gstate.boinc_projects_gid);
+#endif
     get_slot_dir(slot, buf);
-    return boinc_mkdir(buf);
+    int retval = boinc_mkdir(buf);
+#ifdef SANDBOX
+    boinc_chown(buf, gstate.boinc_projects_gid);
+#endif
+    return retval;
 }
 
 // A slot dir can't be cleaned out
