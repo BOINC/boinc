@@ -189,7 +189,7 @@ void app_graphics_reread_prefs(){
     parse_project_prefs(uc_aid.project_preferences);
 }
 
-void boinc_app_mouse_move(int x, int y, bool left, bool middle, bool right) {
+void boinc_app_mouse_move(int x, int y, int left, int middle, int right) {
     if (left) {
         pitch_angle += (y-mouse_y)*.1;
         roll_angle += (x-mouse_x)*.1;
@@ -205,7 +205,7 @@ void boinc_app_mouse_move(int x, int y, bool left, bool middle, bool right) {
     }
 }
 
-void boinc_app_mouse_button(int x, int y, int which, bool is_down) {
+void boinc_app_mouse_button(int x, int y, int which, int is_down) {
     if (is_down) {
         mouse_down = true;
         mouse_x = x;
