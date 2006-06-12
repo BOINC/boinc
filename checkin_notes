@@ -5870,3 +5870,9 @@ David  12 June 2006
 
     api/
         boinc_api.C,h
+
+David  12 June 2006
+    - shuffle #ifdefs for ANSI C compile
+
+    lib/
+        filesys.h

@@ -21,15 +21,6 @@
 #define _FILESYS_
 
 #if defined(_WIN32) && !defined(__CYGWIN32__)
-
-typedef struct _DIR_DESC {
-    char path[256];
-    bool first;
-    void* handle;
-} DIR_DESC;
-
-typedef DIR_DESC *DIRREF;
-
 #else
 #include <stdio.h>
 #include <dirent.h>
@@ -37,8 +28,6 @@ typedef DIR_DESC *DIRREF;
 #ifdef __cplusplus
 #include <string>
 #endif
-
-typedef DIR *DIRREF;
 
 #endif /* !WIN32 */
 
@@ -70,15 +59,26 @@ extern "C" {
 
 /* C++ specific prototypes/defines follow here */
 #ifdef __cplusplus
+
 extern int file_size(const char*, double&);
 extern int dir_size(const char* dirpath, double&);
 extern int get_filesystem_info(double& total, double& free);
-
 
 // TODO TODO TODO
 // remove this code - the DirScanner class does the same thing.
 // But need to rewrite a couple of places that use it
 //
+#if defined(_WIN32) && !defined(__CYGWIN32__)
+typedef struct _DIR_DESC {
+    char path[256];
+    bool first;
+    void* handle;
+} DIR_DESC;
+typedef DIR_DESC *DIRREF;
+#else
+typedef DIR *DIRREF;
+#endif
+
 extern DIRREF dir_open(const char*);
 extern int dir_scan(char*, DIRREF, int);
 int dir_scan(std::string&, DIRREF);
