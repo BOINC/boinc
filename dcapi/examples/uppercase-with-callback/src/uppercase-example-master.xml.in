@@ -12,6 +12,7 @@
 
 	<!-- Data files used by the master -->
 	<files>
+		<file>input.txt</file>
 	</files>
 
 	<!-- Master daemon definition -->
@@ -19,13 +20,13 @@
 		<binary>uppercase-example-master</binary>
 		<arguments>
 			<arg>--config</arg>
-			<arg>${workdir}/master.conf</arg>
+			<arg>${workdir}/dc-api.conf</arg>
 		</arguments>
 	</daemon>
 
 	<!-- The application manager script will substitute the correct
 	     values for us -->
-	<dcapi-conf>master.conf</dcapi-conf>
+	<dcapi-conf>dc-api.conf</dcapi-conf>
 
 	<!-- Validator daemon definition -->
 	<daemon>
