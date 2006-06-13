@@ -494,11 +494,14 @@ OSStatus AddAdminUserToGroups(char *user_name) {
 
 
 static OSStatus GetAuthorization (void) {
-    static Boolean          sIsAuthorized = false;
-    AuthorizationRights     ourAuthRights;
-    AuthorizationFlags      ourAuthFlags;
-    AuthorizationItem       ourAuthItem[RIGHTS_COUNT];
-    OSStatus                err = noErr;
+    static Boolean              sIsAuthorized = false;
+    AuthorizationRights         ourAuthRights;
+    AuthorizationFlags          ourAuthFlags;
+    AuthorizationItem           ourAuthRightsItem[RIGHTS_COUNT];
+    AuthorizationEnvironment    ourAuthEnvironment;
+    AuthorizationItem           ourAuthEnvItem[1];
+    char                        prompt[] = "BOINC needs to have certain permissions set up.\n\n";
+    OSStatus                    err = noErr;
 
     if (sIsAuthorized)
         return noErr;
@@ -512,42 +515,51 @@ static OSStatus GetAuthorization (void) {
         return err;
     }
      
-    ourAuthItem[0].name = kAuthorizationRightExecute;
-    ourAuthItem[0].value = dsclPath;
-    ourAuthItem[0].valueLength = strlen (dsclPath);
-    ourAuthItem[0].flags = 0;
+    ourAuthRightsItem[0].name = kAuthorizationRightExecute;
+    ourAuthRightsItem[0].value = dsclPath;
+    ourAuthRightsItem[0].valueLength = strlen (dsclPath);
+    ourAuthRightsItem[0].flags = 0;
 
-    ourAuthItem[1].name = kAuthorizationRightExecute;
-    ourAuthItem[1].value = chmodPath;
-    ourAuthItem[1].valueLength = strlen (chmodPath);
-    ourAuthItem[1].flags = 0;
+    ourAuthRightsItem[1].name = kAuthorizationRightExecute;
+    ourAuthRightsItem[1].value = chmodPath;
+    ourAuthRightsItem[1].valueLength = strlen (chmodPath);
+    ourAuthRightsItem[1].flags = 0;
 
-    ourAuthItem[2].name = kAuthorizationRightExecute;
-    ourAuthItem[2].value = chownPath;
-    ourAuthItem[2].valueLength = strlen (chownPath);
-    ourAuthItem[2].flags = 0;
+    ourAuthRightsItem[2].name = kAuthorizationRightExecute;
+    ourAuthRightsItem[2].value = chownPath;
+    ourAuthRightsItem[2].valueLength = strlen (chownPath);
+    ourAuthRightsItem[2].flags = 0;
 
 #if AUTHORIZE_LOOKUPD_MEMBERD
-    ourAuthItem[3].name = kAuthorizationRightExecute;
-    ourAuthItem[3].value = lookupdPath;
-    ourAuthItem[3].valueLength = strlen (lookupdPath);
-    ourAuthItem[3].flags = 0;
+    ourAuthRightsItem[3].name = kAuthorizationRightExecute;
+    ourAuthRightsItem[3].value = lookupdPath;
+    ourAuthRightsItem[3].valueLength = strlen (lookupdPath);
+    ourAuthRightsItem[3].flags = 0;
 
-    ourAuthItem[4].name = kAuthorizationRightExecute;
-    ourAuthItem[4].value = memberdPath;
-    ourAuthItem[4].valueLength = strlen (memberdPath);
-    ourAuthItem[4].flags = 0;
+    ourAuthRightsItem[4].name = kAuthorizationRightExecute;
+    ourAuthRightsItem[4].value = memberdPath;
+    ourAuthRightsItem[4].valueLength = strlen (memberdPath);
+    ourAuthRightsItem[4].flags = 0;
 #endif
 
     ourAuthRights.count = RIGHTS_COUNT;
-    ourAuthRights.items = ourAuthItem;
+    ourAuthRights.items = ourAuthRightsItem;
+
+    ourAuthEnvItem[0].name = kAuthorizationEnvironmentPrompt;
+    ourAuthEnvItem[0].value = prompt;
+    ourAuthEnvItem[0].valueLength = strlen (prompt);
+    ourAuthEnvItem[0].flags = 0;
+
+    ourAuthEnvironment.count = 1;
+    ourAuthEnvironment.items = ourAuthEnvItem;
+
     
     ourAuthFlags = kAuthorizationFlagInteractionAllowed | kAuthorizationFlagExtendRights;
     
     // When this is called from the installer, the installer has already authenticated.  
     // In that case we are already running with full root privileges so AuthorizationCopyRights() 
     // does not request a password from the user again.
-    err = AuthorizationCopyRights (gOurAuthRef, &ourAuthRights, kAuthorizationEmptyEnvironment, ourAuthFlags, NULL);
+    err = AuthorizationCopyRights (gOurAuthRef, &ourAuthRights, &ourAuthEnvironment, ourAuthFlags, NULL);
     
     if (err == noErr)
         sIsAuthorized = true;
