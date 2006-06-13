@@ -49,6 +49,9 @@ DC_Result *_DC_createResult(const char *wu_name, int db_id,
 		_DC_destroyResult(result);
 		return NULL;
 	}
+	/* XXX Link/copy the output files from the BOINC upload directory to
+	 * the WU's working directory; this is needed for resume and ensures
+	 * that BOINC's file deletion does not trick the application */
 	return result;
 }
 
@@ -70,6 +73,12 @@ DC_GridCapabilities DC_getResultCapabilities(const DC_Result *result)
 {
 	unsigned caps;
 	char *path;
+
+	if (!result)
+	{
+		DC_log(LOG_ERR, "%s: Missing result", __func__);
+		return 0;
+	}
 
 	caps = DC_GC_EXITCODE;
 	path = DC_getResultOutput(result, DC_LABEL_STDOUT);
@@ -96,11 +105,23 @@ DC_GridCapabilities DC_getResultCapabilities(const DC_Result *result)
 
 DC_Workunit *DC_getResultWU(DC_Result *result)
 {
+	if (!result)
+	{
+		DC_log(LOG_ERR, "%s: Missing result", __func__);
+		return NULL;
+	}
+
 	return result->wu;
 }
 
 int DC_getResultExit(const DC_Result *result)
 {
+	if (!result)
+	{
+		DC_log(LOG_ERR, "%s: Missing result", __func__);
+		return -1;
+	}
+
 	return result->exit_code;
 }
 
@@ -110,6 +131,17 @@ char *DC_getResultOutput(const DC_Result *result, const char *logicalFileName)
 	char *path;
 	GList *l;
 	int ret;
+
+	if (!result)
+	{
+		DC_log(LOG_ERR, "%s: Missing result", __func__);
+		return NULL;
+	}
+	if (!logicalFileName)
+	{
+		DC_log(LOG_ERR, "%s: Missing logical file name", __func__);
+		return NULL;
+	}
 
 	for (l = result->output_files; l; l = l->next)
 	{

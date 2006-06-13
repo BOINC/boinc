@@ -87,6 +87,12 @@ void _DC_updateWUState(DC_Workunit *wu)
 	DB_WORKUNIT dbwu;
 	int ret;
 
+	if (!wu->submitted)
+	{
+		wu->state = DC_WU_READY;
+		return;
+	}
+
 	if (wu->db_id)
 		ret = dbwu.lookup_id(wu->db_id);
 	else
@@ -119,6 +125,12 @@ int DC_cancelWU(DC_Workunit *wu)
 {
 	char *query, *name;
 	int ret;
+
+	if (!wu)
+	{
+		DC_log(LOG_ERR, "%s: Missing WU", __func__);
+		return DC_ERR_BADPARAM;
+	}
 
 	ret = lookup_db_id(wu);
 	if (ret)
@@ -154,6 +166,12 @@ int DC_sendWUMessage(DC_Workunit *wu, const char *message)
 	char *query, *name;
 	DB_RESULT result;
 	int ret;
+
+	if (!wu)
+	{
+		DC_log(LOG_ERR, "%s: Missing WU", __func__);
+		return DC_ERR_BADPARAM;
+	}
 
 	ret = lookup_db_id(wu);
 	if (ret)
