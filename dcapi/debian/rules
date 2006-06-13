@@ -41,7 +41,7 @@ config.status: configure
 		--disable-maintainer-mode \
 		--enable-gtk-doc \
 		--enable-backend-boinc \
-		--enable-backend-condor \
+		--disable-backend-condor \
 		--disable-backend-local \
 		--with-html-dir=/usr/share/doc/libdcapi-doc/html \
 		CFLAGS="$(CFLAGS)" \
