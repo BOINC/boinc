@@ -18,6 +18,8 @@
 extern "C" {
 #endif
 
+#include <dc.h>
+
 /********************************************************************
  * Constants
  */
@@ -44,6 +46,15 @@ int _DC_copyFile(const char *src, const char *dst);
 
 /* Processes a unit suffix and adjust the value accordingly */
 long long _DC_processSuffix(const char *suffix);
+
+/* Parses a boolean value */
+int _DC_parseBoolean(const char *value);
+
+/* Allocates a physical file descriptor */
+DC_PhysicalFile *_DC_createPhysicalFile(const char *label, const char *path);
+
+/* De-allocates a physical file descriptor */
+void _DC_destroyPhysicalFile(DC_PhysicalFile *file);
 
 #ifdef __cplusplus
 }
