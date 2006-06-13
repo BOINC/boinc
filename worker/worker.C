@@ -17,28 +17,28 @@
 // or write to the Free Software Foundation, Inc.,
 // 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 
-// Application for testing non-CPU-intensive features of BOINC.
-// TODO: make it exit after a certain amount of time
+// worker - application without BOINC runtime system;
+// used for testing wrapper
 
-#include "util.h"
-#include "boinc_api.h"
+#include <stdio.h>
+#include <time.h>
 
-int main(int, char**) {
-    boinc_init();
-    while (1) {
-        boinc_sleep(1);
+int main() {
+    FILE* in = fopen("in", "r");
+    FILE* out = fopen("out", "w");
+    char buf[256];
+
+    fgets(buf, 256, in);
+    fputs(buf, out);
+    fclose(in);
+    int start = time(0);
+    while (time(0) < start+10) {
+        double x=5;
+        for (int i=0; i<1000000000; i++) {
+            x /= 2.1;
+            x += 1.5;
+        }
     }
+    fputs("done!\n", out);
+    fclose(out);
 }
-
-#ifdef _WIN32
-
-int WINAPI WinMain(HINSTANCE hInst, HINSTANCE hPrevInst, LPSTR Args, int WinMode) {
-    LPSTR command_line;
-    char* argv[100];
-    int argc;
-
-    command_line = GetCommandLine();
-    argc = parse_command_line( command_line, argv );
-    return main(argc, argv);
-}
-#endif

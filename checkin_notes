@@ -97,3 +97,10 @@ Rom    31 May 2006
     
 	uppercase/
         uc_graphics.C
+
+David  13 June 2006
+    - Added "worker" (for testing wrapper)
+
+    worker/
+        Makefile
+        worker.C
