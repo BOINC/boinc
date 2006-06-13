@@ -210,6 +210,12 @@ char *DC_resolveFileName(DC_FileType type, const char *logicalFileName)
 	char buf[PATH_MAX];
 	int ret;
 
+	if (!logicalFileName)
+	{
+		DC_log(LOG_ERR, "%s: Missing logical file name", __func__);
+		return NULL;
+	}
+
 	if (!strcmp(logicalFileName, DC_CHECKPOINT_FILE))
 	{
 		if (type == DC_FILE_IN)
@@ -255,6 +261,17 @@ int DC_sendResult(const char *logicalFileName, const char *path,
 	char label[32], new_path[PATH_MAX], msg[PATH_MAX], *p;
 	int ret;
 
+	if (!logicalFileName)
+	{
+		DC_log(LOG_ERR, "%s: Missing logical file name", __func__);
+		return DC_ERR_BADPARAM;
+	}
+	if (!path)
+	{
+		DC_log(LOG_ERR, "%s: Missing path", __func__);
+		return DC_ERR_BADPARAM;
+	}
+
 	if (!DC_getMaxSubresults())
 	{
 		DC_log(LOG_ERR, "No more subresults are allowed to be sent");
@@ -285,9 +302,11 @@ int DC_sendResult(const char *logicalFileName, const char *path,
 				return DC_ERR_SYSTEM;
 			break;
 		case DC_FILE_PERSISTENT:
+#ifndef WIN32
 			ret = link(path, new_path);
 			if (!ret)
 				break;
+#endif
 			/* The client system may not support hard links so
 			 * fall back to copying silently */
 			ret = _DC_copyFile(path, new_path);
@@ -334,6 +353,12 @@ int DC_sendMessage(const char *message)
 {
 	std::string xml, msg;
 	int ret;
+
+	if (!message)
+	{
+		DC_log(LOG_ERR, "%s: Missing message", __func__);
+		return DC_ERR_BADPARAM;
+	}
 
 	if (!wu_name[0])
 	{
@@ -472,6 +497,12 @@ void DC_destroyClientEvent(DC_ClientEvent *event)
 void DC_checkpointMade(const char *filename)
 {
 	FILE *f;
+
+	if (!filename)
+	{
+		DC_log(LOG_ERR, "%s: Missing file name", __func__);
+		return;
+	}
 
 	if (strcmp(filename, active_ckpt))
 	{
