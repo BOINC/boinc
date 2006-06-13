@@ -8,8 +8,7 @@
     $teamid = $_POST["id"];
     $team = lookup_team($teamid);
     if ($user->teamid == $team->id) {
-        mysql_query("update user set teamid=0 where id=$user->id");
-        team_update_nusers($team);
+        user_quit_team($user);
         page_head("Quit $team->name");
         echo "You have been removed from <a href=team_display.php?teamid=$team->id>$team->name</a>";
     } else {

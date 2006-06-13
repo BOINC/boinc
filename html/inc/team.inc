@@ -181,6 +181,14 @@ function user_join_team($team, $user) {
     return false;
 }
 
+function user_quit_team($user) {
+    $team = lookup_team($user->teamid);
+    if (!$team) return;
+    mysql_query("update user set teamid=0 where id=$user->id");
+    team_update_nusers($team);
+
+}
+
 function team_edit_form($team, $label, $url) {
     global $team_types;
     echo "<form method=post action=$url>\n";

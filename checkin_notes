@@ -5909,3 +5909,14 @@ David  13 June 2006
         parse.C
     sched/
         sched_config.C
+
+David  13 June 2006
+    - Web RPC: fix bug where am_set_info.php wasn't correctly
+        removing user from team when teamid=0
+
+    html/
+        inc/
+            team.inc
+        user/
+            am_set_info.php
+            team_quit_action.php

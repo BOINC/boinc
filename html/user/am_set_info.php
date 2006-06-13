@@ -107,6 +107,8 @@ if ($teamid) {
     if ($team) {
         user_join_team($team, $user);
     }
+} else if ($teamid==null) {
+    user_quit_team($user);
 }
 
 if ($venue) {
