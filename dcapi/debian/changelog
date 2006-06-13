@@ -1,3 +1,12 @@
+dcapi (0.9-6) unstable; urgency=low
+
+  * Bugzilla bugs fixed:
+     #822: Illegal WU name syntax
+     #823: cancel WU hiba
+  * Add an example application source to the package
+
+ -- Gábor Gombás <gombasg@sztaki.hu>  Tue, 13 Jun 2006 17:40:42 +0200
+
 dcapi (0.9-5) unstable; urgency=low
 
   * Bugzilla bugs fixed:
