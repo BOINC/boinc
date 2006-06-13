@@ -34,6 +34,7 @@
 				DD664F19084321A2009BFB11 /* PBXTargetDependency */,
 				DD6D35F40871509300BBCDEE /* PBXTargetDependency */,
 				DDA12AD10A369DEC00FBDD12 /* PBXTargetDependency */,
+				DDD095510A3EE09900C95BA4 /* PBXTargetDependency */,
 			);
 			name = Build_All;
 			productName = Build_All;
@@ -187,6 +188,7 @@
 		DDB506FA0958446900181B75 /* ProxyInfoPage.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DDB506F80958446900181B75 /* ProxyInfoPage.cpp */; };
 		DDBDF4AD0987093100464F83 /* ValidateEmailAddress.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DDBDF4A90987091800464F83 /* ValidateEmailAddress.cpp */; };
 		DDC63EF10985B89600383FD2 /* DlgGenericMessage.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DDC63EEF0985B89600383FD2 /* DlgGenericMessage.cpp */; };
+		DDD095490A3EDF2D00C95BA4 /* switcher.C in Sources */ = {isa = PBXBuildFile; fileRef = DDD095480A3EDF2D00C95BA4 /* switcher.C */; };
 		DDD74D8907CF48E50065AC9D /* acct_mgr.C in Sources */ = {isa = PBXBuildFile; fileRef = DD344B3D07C5ABF40043025C /* acct_mgr.C */; };
 		DDD74D8A07CF48E70065AC9D /* app.C in Sources */ = {isa = PBXBuildFile; fileRef = F54B8FC102AC0A0C01FB7237 /* app.C */; };
 		DDD74D8B07CF48E80065AC9D /* app_control.C in Sources */ = {isa = PBXBuildFile; fileRef = DD344B4807C5AC4C0043025C /* app_control.C */; };
@@ -686,6 +688,13 @@
 			remoteGlobalIDString = DD095EF007D87AE900362260;
 			remoteInfo = mgr_boinc;
 		};
+		DDD095500A3EE09900C95BA4 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 20286C28FDCF999611CA2CEA /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = DDD0953E0A3EDD2500C95BA4 /* switcher */;
+			remoteInfo = switcher;
+		};
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -948,6 +957,8 @@
 		DDBDF4AA0987091800464F83 /* ValidateEmailAddress.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = ValidateEmailAddress.h; path = ../clientgui/ValidateEmailAddress.h; sourceTree = SOURCE_ROOT; };
 		DDC63EEF0985B89600383FD2 /* DlgGenericMessage.cpp */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.cpp.cpp; name = DlgGenericMessage.cpp; path = ../clientgui/DlgGenericMessage.cpp; sourceTree = SOURCE_ROOT; };
 		DDC63EF00985B89600383FD2 /* DlgGenericMessage.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = DlgGenericMessage.h; path = ../clientgui/DlgGenericMessage.h; sourceTree = SOURCE_ROOT; };
+		DDD0953F0A3EDD2500C95BA4 /* switcher */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = switcher; sourceTree = BUILT_PRODUCTS_DIR; };
+		DDD095480A3EDF2D00C95BA4 /* switcher.C */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.cpp.cpp; path = switcher.C; sourceTree = "<group>"; };
 		DDD74D8707CF482E0065AC9D /* boinc */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = boinc; sourceTree = BUILT_PRODUCTS_DIR; };
 		DDE2552B07C62F3E008E7D6E /* IOKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = IOKit.framework; path = /System/Library/Frameworks/IOKit.framework; sourceTree = "<absolute>"; };
 		DDEB3CA80981084A0087E200 /* GridRepublic.icns */ = {isa = PBXFileReference; lastKnownFileType = image.icns; name = GridRepublic.icns; path = ../client/mac/GridRepublic.icns; sourceTree = SOURCE_ROOT; };
@@ -1090,6 +1101,13 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		DDD0953D0A3EDD2500C95BA4 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		DDD74D8507CF482E0065AC9D /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
@@ -1117,6 +1135,7 @@
 				DD69FEE808416C1300C01361 /* boinc_cmd */,
 				DD6381EA0870DC9D007A2F8E /* MakeAppIcon_h */,
 				DD7748980A356C880025D05E /* SetUpSecurity */,
+				DDD0953F0A3EDD2500C95BA4 /* switcher */,
 			);
 			name = Products;
 			sourceTree = SOURCE_ROOT;
@@ -1441,6 +1460,7 @@
 				F54B8FE502AC0A0C01FB7237 /* time_stats.h */,
 				DD5EF08807C5B7C7007CCE8D /* version.h */,
 				DD5EF07007C5B329007CCE8D /* whetstone.C */,
+				DDD095480A3EDF2D00C95BA4 /* switcher.C */,
 			);
 			name = client;
 			path = ../client;
@@ -2097,6 +2117,30 @@
 			productReference = DDAEC9E107FA583B00A7BC36 /* SetVersion */;
 			productType = "com.apple.product-type.tool";
 		};
+		DDD0953E0A3EDD2500C95BA4 /* switcher */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = DDD095410A3EDD4300C95BA4 /* Build configuration list for PBXNativeTarget "switcher" */;
+			buildPhases = (
+				DDD0953C0A3EDD2500C95BA4 /* Sources */,
+				DDD0953D0A3EDD2500C95BA4 /* Frameworks */,
+			);
+			buildRules = (
+			);
+			buildSettings = {
+				GCC_ENABLE_FIX_AND_CONTINUE = YES;
+				GCC_MODEL_TUNING = G5;
+				INSTALL_PATH = "$(HOME)/bin";
+				PREBINDING = NO;
+				PRODUCT_NAME = switcher;
+				ZERO_LINK = YES;
+			};
+			dependencies = (
+			);
+			name = switcher;
+			productName = switcher;
+			productReference = DDD0953F0A3EDD2500C95BA4 /* switcher */;
+			productType = "com.apple.product-type.tool";
+		};
 		DDD74D8607CF482E0065AC9D /* BOINC_Client */ = {
 			isa = PBXNativeTarget;
 			buildConfigurationList = DD9E2365091CBDAE0048316E /* Build configuration list for PBXNativeTarget "BOINC_Client" */;
@@ -2191,6 +2235,7 @@
 				DD1277B2081F3D67007B5DE1 /* Installer */,
 				DD6381E90870DC9D007A2F8E /* MakeAppIcon_h */,
 				DD7748970A356C880025D05E /* SetUpSecurity */,
+				DDD0953E0A3EDD2500C95BA4 /* switcher */,
 			);
 		};
 /* End PBXProject section */
@@ -2567,6 +2612,14 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		DDD0953C0A3EDD2500C95BA4 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				DDD095490A3EDF2D00C95BA4 /* switcher.C in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		DDD74D8407CF482E0065AC9D /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
@@ -2716,6 +2769,11 @@
 			isa = PBXTargetDependency;
 			target = DD095EF007D87AE900362260 /* mgr_boinc */;
 			targetProxy = DDBD681607FA830E0082C20D /* PBXContainerItemProxy */;
+		};
+		DDD095510A3EE09900C95BA4 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = DDD0953E0A3EDD2500C95BA4 /* switcher */;
+			targetProxy = DDD095500A3EE09900C95BA4 /* PBXContainerItemProxy */;
 		};
 /* End PBXTargetDependency section */
 
@@ -4489,6 +4547,69 @@
 			};
 			name = i386_Deployment;
 		};
+		DDD095420A3EDD4300C95BA4 /* Development */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				COPY_PHASE_STRIP = NO;
+				DEAD_CODE_STRIPPING = NO;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_ENABLE_FIX_AND_CONTINUE = NO;
+				GCC_GENERATE_DEBUGGING_SYMBOLS = YES;
+				GCC_MODEL_TUNING = G5;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PRECOMPILE_PREFIX_HEADER = NO;
+				INSTALL_PATH = "$(HOME)/bin";
+				PREBINDING = NO;
+				PRODUCT_NAME = switcher;
+				ZERO_LINK = NO;
+			};
+			name = Development;
+		};
+		DDD095430A3EDD4300C95BA4 /* ppc_Deployment */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				DEAD_CODE_STRIPPING = YES;
+				GCC_ENABLE_FIX_AND_CONTINUE = NO;
+				GCC_MODEL_TUNING = G5;
+				GCC_PRECOMPILE_PREFIX_HEADER = NO;
+				GCC_WARN_ABOUT_DEPRECATED_FUNCTIONS = NO;
+				INSTALL_PATH = "$(HOME)/bin";
+				PREBINDING = NO;
+				PRODUCT_NAME = switcher;
+				ZERO_LINK = NO;
+			};
+			name = ppc_Deployment;
+		};
+		DDD095440A3EDD4300C95BA4 /* i386_Deployment */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				DEAD_CODE_STRIPPING = YES;
+				GCC_ENABLE_FIX_AND_CONTINUE = NO;
+				GCC_MODEL_TUNING = G5;
+				GCC_PRECOMPILE_PREFIX_HEADER = NO;
+				INSTALL_PATH = "$(HOME)/bin";
+				PREBINDING = NO;
+				PRODUCT_NAME = switcher;
+				ZERO_LINK = NO;
+			};
+			name = i386_Deployment;
+		};
+		DDD095450A3EDD4300C95BA4 /* Deployment */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				COPY_PHASE_STRIP = YES;
+				DEAD_CODE_STRIPPING = YES;
+				GCC_ENABLE_FIX_AND_CONTINUE = NO;
+				GCC_GENERATE_DEBUGGING_SYMBOLS = NO;
+				GCC_MODEL_TUNING = G5;
+				GCC_PRECOMPILE_PREFIX_HEADER = NO;
+				INSTALL_PATH = "$(HOME)/bin";
+				PREBINDING = NO;
+				PRODUCT_NAME = switcher;
+				ZERO_LINK = NO;
+			};
+			name = Deployment;
+		};
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
@@ -4642,6 +4763,17 @@
 				DD9E2383091CBDAE0048316E /* ppc_Deployment */,
 				DDA2D1630952A93E00D0B538 /* i386_Deployment */,
 				DD9843E509920F220090855B /* Deployment */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = ppc_Deployment;
+		};
+		DDD095410A3EDD4300C95BA4 /* Build configuration list for PBXNativeTarget "switcher" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				DDD095420A3EDD4300C95BA4 /* Development */,
+				DDD095430A3EDD4300C95BA4 /* ppc_Deployment */,
+				DDD095440A3EDD4300C95BA4 /* i386_Deployment */,
+				DDD095450A3EDD4300C95BA4 /* Deployment */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = ppc_Deployment;

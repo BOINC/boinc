@@ -20,7 +20,7 @@
 //  SecurityUtility.cpp
 
 #include <sys/param.h>  // for MAXPATHLEN
-#include <unistd.h>     // for getwd
+#include <unistd.h>     // for getwd, getlogin
 
 #include "SetupSecurity.h"
 
@@ -34,6 +34,10 @@ int main(int argc, char *argv[]) {
     if (err != noErr)
         return err;
 
+    err = AddAdminUserToGroups(getlogin());
+    if (err != noErr)
+        return err;
+    
     boincPath[0] = 0;
     getwd(boincPath);
     //ShowSecurityError("Current Working Directory is %s", wd);
