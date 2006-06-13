@@ -5,151 +5,220 @@
 #include <unistd.h>
 
 /* The logical file names, used at sequencial application */
-static char infile_logical[]   = "in.txt";
-static char outfile_logical[]  = "out.txt";
+#define INPUT_NAME		"in.txt"
+#define OUTPUT_NAME		"out.txt"
+
 static FILE *infile;
 static FILE *outfile;
-static FILE *ckptfile;
-static char *ckptfile_name;
 
 /* Needed to report the percentage of the work already done */
-static int frac_input_size;
-static int frac_current_pos = 0;
+static int frac_total_size;
+static int frac_current_pos;
 
-static void frac_init(void){
-    frac_current_pos = ftell(infile);
-    fseek(infile, 0, SEEK_END);
-    frac_input_size = ftell(infile);
-    fseek(infile, 0, SEEK_SET);
+/* Save the value of frac_current_pos to the ckpt file */
+static void do_checkpoint(void)
+{
+	char *ckptfile_name;
+	FILE *ckptfile;
+	int retval;
+
+	/* Ensure that the output file is really on the disk before we create
+	 * the checkpoint file */
+	retval = fflush(outfile);
+	if (retval)
+	{
+		perrror("APP: flushing the output file has failed");
+		DC_finishClient(1);
+	}
+
+	ckptfile_name = DC_resolveFileName(DC_FILE_OUT, DC_CHECKPOINT_FILE);
+	if (!ckptfile_name)
+	{
+		fprintf(stderr, "APP: Could not resolve the checkpoint file "
+			"name\n");
+		DC_finishClient(1);
+	}
+
+	ckptfile = fopen(ckptfile_name, "w");
+	if (!ckptfile)
+	{
+		perror("APP: Could not create the checkpoint file");
+		DC_finishClient(1);
+	}
+
+	fprintf(ckptfile, "%d", frac_current_pos);
+	retval = fclose(ckptfile);
+	if (retval)
+	{
+		perror("APP: Closing the checkpoint file has failed");
+		DC_finishClient(1);
+	}
+
+	/* Tell the DC-API that the checkpoint is ready */
+	DC_checkpointMade(ckptfile_name);
+
+	/* Update the estimation about the work done */
+	DC_fractionDone(frac_current_pos/frac_total_size);
 }
 
-/* Save the value of frac_current_pos to the ckpt file, and flush the output file! */
-static int do_checkpoint(void){
-    int retval;
+/* Open input and output files, and check is there is a checkpoint file */
+static void init_files(void)
+{
+	const char *outfile_openmode = "w";
+	char *file_name;
 
-    ckptfile_name = DC_resolveFileName(DC_FILE_OUT, DC_CHECKPOINT_FILE);
-    ckptfile = fopen(ckptfile_name, "w");
-    if (ckptfile == NULL){
-	fprintf(stderr, "APP: cannot open checkpoint file for write!!\n");
-	DC_finishClient(3);
-    }
-    fprintf(ckptfile, "%d", frac_current_pos);
-    fclose(ckptfile);
+	/* Open the input file */
+	file_name = DC_resolveFileName(DC_FILE_IN, INPUT_FILE);
+	if (!file_name)
+	{
+		fprintf(stderr, "APP: Could not resolve the input file name\n");
+		DC_finishClient(1);
+	}
 
-    retval = fflush(outfile);
-    if (retval) {
-        fprintf(stderr, "APP: uppercase flush failed %d\n", retval);
-        DC_finishClient(4);
-    }
-    
-    return 0;
-}
+	infile = fopen(file_name, "rb");
+	if (!infile)
+	{
+		perror("APP: Could not open the input file");
+		DC_finishClient(1);
+	}
+	free(file_name);
 
-/* Open input and output files, and check is there any checkpoint file */
-static void init_files(void){
-    int ckpt_position;
-    char *infile_physical;
-    char *outfile_physical;
-    const char *outfile_openmode = "w";
+	/* Determine the size of the input file */
+	fseek(infile, 0, SEEK_END);
+	frac_total_size = ftell(infile);
+	fseek(infile, 0, SEEK_SET);
 
-    /* Open input file */
-    infile_physical = DC_resolveFileName(DC_FILE_IN, infile_logical);
-    infile = fopen(infile_physical, "rb");
-    if (infile == NULL){
-	fprintf(stderr, "APP: Cannot open input file! Logical name: %s, physical name: %s.\n",
-			 infile_logical, infile_physical);
-	DC_finishClient(1);
-    }
-    frac_init();
+	/* Check the checkpoint file */
+	file_name = DC_resolveFileName(DC_FILE_IN, DC_CHECKPOINT_FILE);
+	if (file_name)
+	{
+		FILE *ckptfile;
+		int ret;
 
-    /* check ckpt file */
-    ckptfile_name = DC_resolveFileName(DC_FILE_IN, DC_CHECKPOINT_FILE);
-    ckptfile = fopen(ckptfile_name, "r");
-    if (ckptfile != NULL){
-	/* ckpt file exists: read and set everything according to it */
-	fscanf(ckptfile, "%d", &ckpt_position);
-	fclose(ckptfile);
-	fprintf(stderr, "APP: Found checkpoint file. Checkpoint position: %d.\n", ckpt_position);
-	fseek(infile, ckpt_position, SEEK_SET);
-	frac_current_pos = ckpt_position;
-	outfile_openmode = "r+";
-    }
+		ckptfile = fopen(file_name, "r");
+		if (!ckptfile)
+		{
+			perror("APP: Could not open the initial checkpoint file");
+			DC_finishClient(1);
+		}
+		free(file_name);
 
-    /* open output file */
-    outfile_physical = DC_resolveFileName(DC_FILE_OUT, outfile_logical);
-    outfile = fopen(outfile_physical, outfile_openmode);
-    if (outfile == NULL){
-	fprintf(stderr, "APP: Cannot open output file! Logical name: %s, physical name: %s.\n",
-			 outfile_logical, outfile_physical);
-	DC_finishClient(2);
-    }
-    fseek(outfile, frac_current_pos, SEEK_SET);
+		/* ckpt file exists: read and set everything according to it */
+		ret = fscanf(ckptfile, "%d", &frac_current_pos);
+		if (ret != 1 || frac_current_pos < 0 ||
+				frac_current_pos > frac_total_size)
+		{
+			fprintf(stderr, "APP: Failed to parse the contents of "
+				"the checkpoint file, starting from the "
+				"beginning\n");
+			frac_current_pos = 0;
+		}
+		else
+		{
+			fprintf(stderr, "APP: Found checkpoint file, starting "
+				"from position %d.\n", frac_current_pos);
+			outfile_openmode = "r+";
+		}
+		fclose(ckptfile);
+
+		fseek(infile, frac_current_pos, SEEK_SET);
+	}
+
+	/* Open the output file */
+	file_name = DC_resolveFileName(DC_FILE_OUT, OUTPUT_FILE);
+	if (!file_name)
+	{
+		fprintf(stderr, "APP: Could not resolve the output file name\n");
+		DC_finishClient(1);
+	}
+
+	outfile = fopen(file_name, outfile_openmode);
+	if (!outfile)
+	{
+		perror("APP: Could not open/create the output file");
+		DC_finishClient(1);
+	}
+	free(file_name);
+
+	/* If we are starting from a checkpoint file, restore the state of
+	 * the output file as well */
+	ftruncate(fileno(outfile), frac_current_pos);
+	fseek(outfile, 0, SEEK_END);
 }
 
 /* The real work */
-static void do_work(void){
-    int c;
-    int retval;
-    DC_ClientEvent *event;
+static void do_work(void)
+{
+	int c;
 
-    while (1) {
-        c = fgetc(infile);
-
-        if (c == EOF) break;
-        c = toupper(c);
-	fputc(c, outfile);
-        frac_current_pos++;
-
-	event = DC_checkClientEvent();
-	if (!event)
-	    continue;
-
-	/* if it is time to do a checkpoint */
-	if (event->type == DC_CLIENT_CHECKPOINT)
+	while ((c = fgectc(infile)) != EOF)
 	{
-	    if(!do_checkpoint())
-		DC_checkpointMade(ckptfile_name);
-	    DC_fractionDone(frac_current_pos/frac_input_size);
-	}
-    }
+		DC_ClientEvent *event;
 
-    retval = fflush(outfile);
-    if (retval) {
-        fprintf(stderr, "APP: uppercase flush failed %d\n", retval);
-        DC_finishClient(5);
-    }
-    fclose(outfile);
+		c = toupper(c);
+		if (fputc(c, outfile) == EOF)
+		{
+			perror("APP: fputc");
+			DC_finishClient(1);
+		}
+		frac_current_pos++;
+
+		/* Real applications do real computation that takes time. Here
+		 * we just emulate it */
+		sleep(5);
+
+		/* Check if either the master or the BOINC core client asked
+		 * us to do something */
+		event = DC_checkClientEvent();
+		if (!event)
+			continue;
+
+		/* If it is time, do a checkpoint */
+		if (event->type == DC_CLIENT_CHECKPOINT)
+			do_checkpoint();
+
+		/* Make sure we do not leak memory */
+		DC_destroyClientEvent(event);
+	}
+
+	if (fclose(outfile))
+	{
+		perror("APP: Closing the output file has failed");
+		DC_finishClient(1);
+	}
 }
 
-int main(int argc, char **argv) {
-    int retval = 0;
+int main(int argc, char *argv[])
+{
+	int retval;
 
-    retval = DC_initClient();
-    if (retval) {
-	fprintf(stderr, "APP: Error in the initialize. Return value = %d.\n", retval);
-	DC_finishClient(retval);
-    }
-    fprintf(stderr, "APP: Init successful.\n");
+	retval = DC_initClient();
+	if (retval)
+	{
+		fprintf(stderr, "APP: Failed to initialize the DC-API. Return "
+			"value was %d\n", retval);
+		DC_finishClient(1);
+	}
+	fprintf(stderr, "APP: DC-API initialization was successful.\n");
 
-    init_files();
-    fprintf(stderr, "APP: Starting from line %d.\n", frac_current_pos+1);
+	init_files();
+	do_work();
+	fprintf(stderr, "APP: Work finished.\n");
 
-    do_work();
-    fprintf(stderr, "APP: Work finished.\n");
-
-    DC_finishClient(0);
-    return(0);	// Tho' we never reach this line
+	DC_finishClient(0);
+	return(0); // Tho' we never reach this line
 }
 
 #ifdef _WIN32
-int WINAPI WinMain(HINSTANCE hInst, HINSTANCE hPrevInst, LPSTR Args, int WinMode) {
-    LPSTR command_line;
-    char* argv[100];
-    int argc;
+int WINAPI WinMain(HINSTANCE hInst, HINSTANCE hPrevInst, LPSTR Args, int WinMode)
+{
+	LPSTR command_line;
+	char* argv[100];
+	int argc;
 
-    command_line = GetCommandLine();
-    argc = parse_command_line( command_line, argv );
-    return main(argc, argv);
+	command_line = GetCommandLine();
+	argc = parse_command_line( command_line, argv );
+	return main(argc, argv);
 }
 #endif
 
