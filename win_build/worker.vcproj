@@ -2,7 +2,7 @@
 <VisualStudioProject
 	ProjectType="Visual C++"
 	Version="7.10"
-	Name="wrapper"
+	Name="worker"
 	ProjectGUID="{8281D898-0E64-44EB-8356-4F0336F19A35}"
 	SccProjectName=""
 	SccLocalPath="">
@@ -45,13 +45,13 @@
 			<Tool
 				Name="VCLinkerTool"
 				AdditionalDependencies="libcmt.lib libcpmt.lib"
-				OutputFile="Release/wrapper_5.10_windows_intelx86.exe"
+				OutputFile="Release/worker_5.10_windows_intelx86.exe"
 				LinkIncremental="0"
 				SuppressStartupBanner="TRUE"
 				IgnoreAllDefaultLibraries="TRUE"
 				DelayLoadDLLs=""
 				GenerateDebugInformation="TRUE"
-				ProgramDatabaseFile="Release/wrapper_5.10_windows_intelx86.pdb"
+				ProgramDatabaseFile="Release/worker_5.10_windows_intelx86.pdb"
 				SubSystem="2"
 				TargetMachine="1"/>
 			<Tool
@@ -112,13 +112,13 @@
 			<Tool
 				Name="VCLinkerTool"
 				AdditionalDependencies="libcmtd.lib libcpmtd.lib kernel32.lib user32.lib gdi32.lib opengl32.lib glu32.lib glaux.lib ole32.lib"
-				OutputFile="Debug/wrapper_5.10_windows_intelx86.exe"
+				OutputFile="Debug/worker_5.10_windows_intelx86.exe"
 				LinkIncremental="0"
 				SuppressStartupBanner="TRUE"
 				IgnoreAllDefaultLibraries="TRUE"
 				DelayLoadDLLs="GDI32.DLL;OPENGL32.DLL;GLU32.DLL"
 				GenerateDebugInformation="TRUE"
-				ProgramDatabaseFile="Debug/wrapper_5.10_windows_intelx86.pdb"
+				ProgramDatabaseFile="Debug/worker_5.10_windows_intelx86.pdb"
 				SubSystem="2"
 				TargetMachine="1"/>
 			<Tool
@@ -158,7 +158,7 @@
 			Name="Source Files"
 			Filter="cpp;c;cxx;rc;def;r;odl;idl;hpj;bat">
 			<File
-				RelativePath="..\wrapper\wrapper.C">
+				RelativePath="..\worker\worker.C">
 			</File>
 		</Filter>
 		<Filter

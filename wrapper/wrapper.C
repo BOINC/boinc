@@ -45,6 +45,7 @@
 #include <vector>
 #include <string>
 #ifdef _WIN32
+#include "boinc_win.h"
 #else
 #include <unistd.h>
 #include <sys/wait.h>

@@ -51,7 +51,7 @@
 				IgnoreAllDefaultLibraries="TRUE"
 				DelayLoadDLLs=""
 				GenerateDebugInformation="TRUE"
-				ProgramDatabaseFile="Release/uppercase_5.10_windows_intelx86.pdb"
+				ProgramDatabaseFile="Release/sleeper_5.10_windows_intelx86.pdb"
 				SubSystem="2"
 				TargetMachine="1"/>
 			<Tool
@@ -112,13 +112,13 @@
 			<Tool
 				Name="VCLinkerTool"
 				AdditionalDependencies="libcmtd.lib libcpmtd.lib kernel32.lib user32.lib gdi32.lib opengl32.lib glu32.lib glaux.lib ole32.lib"
-				OutputFile="Debug/uppercase_5.10_windows_intelx86.exe"
+				OutputFile="Debug/sleeper_5.10_windows_intelx86.exe"
 				LinkIncremental="0"
 				SuppressStartupBanner="TRUE"
 				IgnoreAllDefaultLibraries="TRUE"
 				DelayLoadDLLs="GDI32.DLL;OPENGL32.DLL;GLU32.DLL"
 				GenerateDebugInformation="TRUE"
-				ProgramDatabaseFile="Debug/uppercase_5.10_windows_intelx86.pdb"
+				ProgramDatabaseFile="Debug/sleeper_5.10_windows_intelx86.pdb"
 				SubSystem="2"
 				TargetMachine="1"/>
 			<Tool

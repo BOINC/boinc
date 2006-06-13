@@ -94,21 +94,6 @@ static void use_some_cpu() {
     }
 }
 
-#ifdef _WIN32
-
-extern int main(int argc, char** argv);
-
-int WINAPI WinMain(HINSTANCE hInst, HINSTANCE hPrevInst, LPSTR Args, int WinMode) {
-    LPSTR command_line;
-    char* argv[100];
-    int argc;
-
-    command_line = GetCommandLine();
-    argc = parse_command_line( command_line, argv );
-    return main(argc, argv);
-}
-#endif
-
 void worker() {
     int c, nchars = 0, retval;
     double fsize;
@@ -270,5 +255,17 @@ int main(int argc, char **argv) {
     worker();
 #endif
 }
+
+#ifdef _WIN32
+int WINAPI WinMain(HINSTANCE hInst, HINSTANCE hPrevInst, LPSTR Args, int WinMode) {
+    LPSTR command_line;
+    char* argv[100];
+    int argc;
+
+    command_line = GetCommandLine();
+    argc = parse_command_line( command_line, argv );
+    return main(argc, argv);
+}
+#endif
 
 const char *BOINC_RCSID_33ac47a071 = "$Id$";
