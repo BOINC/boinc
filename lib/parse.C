@@ -409,7 +409,13 @@ int skip_unrecognized(char* buf, FILE* in) {
 
 // Get next XML element or tag.
 // If it's a close tag, or the contents pointer is NULL, just return the tag.
-// Otherwise return the contents.
+// Otherwise return the contents also.
+//
+// Skips comments, single- or multi-line (<!-- ... -->)
+//
+// Returns false if text was found that wasn't a tag.
+// (can just call again in this case).
+//
 // Note: this is not a general XML parser, but it can parse both
 // <foo>X</foo>
 // and
@@ -422,7 +428,14 @@ bool get_tag(FILE* f, char* tag, char* contents) {
 
     if (contents) *contents = 0;
     while (1) {
-        fgets(buf, 1024, f);
+        if (!fgets(buf, 1024, f)) return false;
+        if (strstr(buf, "<!--")) {
+            while (1) {
+                if (strstr(buf, "-->")) break;
+                if (!fgets(buf, 1024, f)) return false;
+            }
+            continue;
+        }
         p = strchr(buf, '<');
         if (p) break;
     }
@@ -465,7 +478,7 @@ bool get_tag(FILE* f, char* tag, char* contents) {
     // Copy contents until find close tag
     //
     while (1) {
-        fgets(buf, 1024, f);
+        if (!fgets(buf, 1024, f)) return false;
         if (strchr(buf, '<')) return true;
         strip_whitespace(buf);
         strcat(contents, buf);

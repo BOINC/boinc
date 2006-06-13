@@ -520,11 +520,12 @@ bool ACTIVE_TASK_SET::check_rsc_limits_exceeded() {
     bool do_disk_check = false;
     bool did_anything = false;
 
-    // disk_interval is typically 60 sec,
-    // and some slot dirs have lots of files.
-    // So only check every 5*disk_interval
+    // Some slot dirs have lots of files,
+    // so only check every min(disk_interval, 300) secs
     //
-    if (gstate.now > last_disk_check_time + 5*gstate.global_prefs.disk_interval) {
+    double min_interval = gstate.global_prefs.disk_interval;
+    if (min_interval < 300) min_interval = 300;
+    if (gstate.now > last_disk_check_time + min_interval) {
         do_disk_check = true;
     }
     for (j=0;j<active_tasks.size();j++) {

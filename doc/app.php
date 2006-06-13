@@ -3,8 +3,8 @@ require_once("docutil.php");
 page_head("Applications and versions");
 echo "
 <p>
-An <b>application</b> represents a collection of related computation.
-It consists of a program (perhaps with versions for different platforms)
+An <b>application</b> 
+consists of a program (perhaps with versions for different platforms)
 and a set of <a href=work.php>workunits</a> and <a href=result.php>results</a>.
 A project can operate many applications. 
 Applications are maintained in the <b>application</b> table in the BOINC DB,
@@ -31,28 +31,10 @@ it is also sent the latest application version for its platform.
 It is sent work only if this version is the minimum or greater. 
 
 <p>
-Application versions are maintained in the <b>app_version</b> table
-in the BOINC DB.
-Each entry includes an XML document describing the
-files that make up the application version: 
-".html_text("
-<file_info>
-   ... 
-</file_info>
-[ ... ]
-<app_version>
-    <app_name>foobar</app_name>
-    <version_num>4</version_num>
-    <file_ref>
-        <file_name>program_1</file_name>
-        <main_program/>
-    </file_ref>
-    <file_ref>
-        <file_name>library_12</file_name>
-    </file_ref>
-</app_version>")."
 Application versions can be created using
 <a href=tool_update_versions.php>update_versions</a>.
+Descriptions of application versions are stored in the <b>app_version</b>
+table in the BOINC DB.
 ";
 page_tail();
 ?>

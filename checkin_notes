@@ -5896,3 +5896,16 @@ Charlie 13 June 2006
     mac_build/
         boinc.xcodeproj/
             project.pbxproj
+
+David  13 June 2006
+    - core client: don't check app disk usage more often than
+        every 5 min (used to be 5*disk interval)
+    - scheduler XML parsing code: handle XML comments
+        (you can now have comments in config.xml)
+
+    client/
+        app_control.C
+    lib/
+        parse.C
+    sched/
+        sched_config.C

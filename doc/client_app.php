@@ -39,15 +39,6 @@ as well as the minimum checkpoint period.
 <p>
 <b>Files created by the API implementation, read by the core client:</b>
 <ul>
-<li>
-<b>fraction_done.xml</b>:
-contains the WU fraction done and the current CPU time from start of WU.
-Written by the timer routine as needed.
-
-<li>
-<b>checkpoint_cpu.xml</b>
-CPU time (from start of WU) at last checkpoint.
-Written by checkpoint_completed.
 
 </ul>
 <p>

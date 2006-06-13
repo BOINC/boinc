@@ -130,14 +130,6 @@ int SCHED_CONFIG::parse_file(const char* dir) {
     int retval;
 
     sprintf(path, "%s/%s", dir, CONFIG_FILE);
-#if 0
-    char* p;
-    retval = read_file_malloc(path, p);
-    if (retval) return retval;
-    retval =  parse(p);
-    free(p);
-    return retval;
-#endif
     FILE* f = fopen(path, "r");
     if (!f) return ERR_FOPEN;
     retval = parse(f);
