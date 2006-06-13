@@ -33,5 +33,5 @@ if test "$enable_master" = yes; then
 	AC_MSG_NOTICE([will build master])
 fi
 
-AC_CONFIG_FILES([Makefile src/Makefile])
+AC_CONFIG_FILES([Makefile])
 AC_OUTPUT
