@@ -26,7 +26,6 @@
 #include <pwd.h>	// getpwname, getpwuid, getuid
 #include <unistd.h>     // usleep
 #include <sys/param.h>  // for MAXPATHLEN
-#include <sys/stat.h>   // for umask()
 
 #include <Carbon/Carbon.h>
 
@@ -95,12 +94,10 @@ OSStatus SetBOINCAppOwnersGroupsAndPermissions(char *path, char *managerName, Bo
         return -1;
     }
 
-//    old_mask = umask(0);
      // chmod -R u=rwsx,g=rwsx,o=rx path/BOINCManager.app
     // 0775 = S_IRUSR | S_IWUSR | S_IXUSR | S_IRGRP | S_IWGRP | S_IXGRP | S_IROTH | S_IXOTH
     //  read, write and execute permission for user, group & others
     err = DoPrivilegedExec(chmodPath, "-R", "u=rwx,g=rwx,o=rx", fullpath, NULL, NULL);
-//    umask(old_mask);
     if (err)
         return err;
 
@@ -117,7 +114,6 @@ OSStatus SetBOINCAppOwnersGroupsAndPermissions(char *path, char *managerName, Bo
     if (err)
         return err;
 
-//    old_mask = umask(0);
     if (development) {
         // chmod u=rwx,g=rwsx,o=rx path/BOINCManager.app/Contents/MacOS/BOINCManager
         // 02775 = S_ISGID | S_IRUSR | S_IWUSR | S_IXUSR | S_IRGRP | S_IWGRP | S_IXGRP | S_IROTH | S_IXOTH
@@ -129,7 +125,6 @@ OSStatus SetBOINCAppOwnersGroupsAndPermissions(char *path, char *managerName, Bo
         //  setgid-on-execution plus read and execute permission for user, group & others
         err = DoPrivilegedExec(chmodPath, "u=rx,g=rsx,o=rx", fullpath, NULL, NULL, NULL);
     }
-//    umask(old_mask);
     if (err)
         return err;
 
@@ -149,7 +144,6 @@ OSStatus SetBOINCAppOwnersGroupsAndPermissions(char *path, char *managerName, Bo
     if (err)
         return err;
 
-//    old_mask = umask(0);
     if (development) {
         // chmod u=rwsx,g=rwsx,o=rx path/BOINCManager.app/Contents/Resources/boinc
         // 06775 = S_ISUID | S_ISGID | S_IRUSR | S_IWUSR | S_IXUSR | S_IRGRP | S_IWGRP | S_IXGRP | S_IROTH | S_IXOTH
@@ -161,7 +155,6 @@ OSStatus SetBOINCAppOwnersGroupsAndPermissions(char *path, char *managerName, Bo
         //  setuid-on-execution, setgid-on-execution plus read and execute permission for user, group & others
         err = DoPrivilegedExec(chmodPath, "u=rsx,g=rsx,o=rx", fullpath, NULL, NULL, NULL);
     }
-//    umask(old_mask);
     if (err)
         return err;
 
@@ -194,12 +187,10 @@ OSStatus SetBOINCDataOwnersGroupsAndPermissions() {
         return err;
 
     // Set permissions of BOINC Data directory's contents
-//    old_mask = umask(0);
     // chmod -R u+rw,g+rw,o= "/Library/Applications/BOINC Data"
     // 0660 = S_IRUSR | S_IWUSR | S_IRGRP | S_IWGRP
     // set read and write permission for user and group, no access for others (leaves execute bits unchanged)
     err = DoPrivilegedExec(chmodPath, "-R", "u+rw,g+rw,o=", fullpath, NULL, NULL);
-//    umask(old_mask);
     if (err)
         return err;
 
@@ -211,12 +202,10 @@ OSStatus SetBOINCDataOwnersGroupsAndPermissions() {
         return err;
 
     // Set permissions of BOINC Data directory itself
-//    old_mask = umask(0);
     // chmod -R u+rwx,g=rx,o-rwx "/Library/Applications/BOINC Data"
     // 0750 = S_IRUSR | S_IWUSR | S_IXUSR | S_IRGRP| S_IXGRP
     // set read, write, execute permission for user and group, no access for others
     err = DoPrivilegedExec(chmodPath, "u+rwx,g=rx,o-rwx", fullpath, NULL, NULL, NULL);
-//    umask(old_mask);
     if (err)
         return err;
 
@@ -236,12 +225,10 @@ OSStatus SetBOINCDataOwnersGroupsAndPermissions() {
         if (err)
             return err;
 
-//        old_mask = umask(0);
         // chmod u=rw,g=rw,o= "/Library/Applications/BOINC Data/gui_rpc_auth.cfg"
         // 0660 = S_IRUSR | S_IWUSR | S_IRGRP | S_IWGRP
         //  read, write and execute permission for user, group & others
         err = DoPrivilegedExec(chmodPath, "u=rw,g=rw,o=", fullpath, NULL, NULL, NULL);
-//        umask(old_mask);
         if (err)
             return err;
     }           // gui_rpc_auth.cfg
@@ -261,12 +248,10 @@ OSStatus SetBOINCDataOwnersGroupsAndPermissions() {
             return err;
 
         // Set permissions for projects directory itself (not its contents)
-//        old_mask = umask(0);
         // chmod u=rwx,g=rx,o= "/Library/Applications/BOINC Data/projects"
         // 0750 = S_IRUSR | S_IWUSR | S_IXUSR | S_IRGRP| S_IXGRP
         // set read, write, execute permission for user, read and execute for group, no access for others
         err = DoPrivilegedExec(chmodPath, "u=rwx,g=rx,o=", fullpath, NULL, NULL, NULL);
-//        umask(old_mask);
         if (err)
             return err;
     }       // projects directory
@@ -285,12 +270,10 @@ OSStatus SetBOINCDataOwnersGroupsAndPermissions() {
             return err;
 
         // Set permissions for slots directory itself (not its contents)
-//        old_mask = umask(0);
         // chmod u=rwx,g=rx,o= "/Library/Applications/BOINC Data/slots"
         // 0750 = S_IRUSR | S_IWUSR | S_IXUSR | S_IRGRP| S_IXGRP
         // set read, write, execute permission for user, read and execute for group, no access for others
         err = DoPrivilegedExec(chmodPath, "u=rwx,g=rx,o=", fullpath, NULL, NULL, NULL);
-//        umask(old_mask);
         if (err)
             return err;
     }       // slots directory
@@ -309,12 +292,10 @@ OSStatus SetBOINCDataOwnersGroupsAndPermissions() {
         if (err)
             return err;
 
-//        old_mask = umask(0);
         // chmod -R u+rw,g+rw,o= "/Library/Applications/BOINC Data/locale"
         // 0660 = S_IRUSR | S_IWUSR | S_IRGRP | S_IWGRP
         // set read and write permission for user and group, no access for others (leaves execute bits unchanged)
         err = DoPrivilegedExec(chmodPath, "-R", "u+rw,g+rw,o=", fullpath, NULL, NULL);
-//        umask(old_mask);
         if (err)
             return err;
     }       // locale directory
@@ -334,12 +315,10 @@ OSStatus SetBOINCDataOwnersGroupsAndPermissions() {
         if (err)
             return err;
 
-//        old_mask = umask(0);
         // chmod -R u+rw,g+rw,o= "/Library/Applications/BOINC Data/switcher"
         // 0660 = S_IRUSR | S_IWUSR | S_IRGRP | S_IWGRP
         // set read and write permission for user and group, no access for others (leaves execute bits unchanged)
         err = DoPrivilegedExec(chmodPath, "-R", "u+rw,g+rw,o=", fullpath, NULL, NULL);
-//        umask(old_mask);
         if (err)
             return err;
     }       // switcher directory
@@ -349,12 +328,10 @@ OSStatus SetBOINCDataOwnersGroupsAndPermissions() {
     result = FSPathMakeRef((StringPtr)fullpath, &ref, &isDirectory);
     if ((result == noErr) && (! isDirectory)) {
         // Set permissions of switcher application
-//        old_mask = umask(0);
         // chmod -R u=rsx,g=rsx,o= "/Library/Applications/BOINC Data/switcher"
         // 06550 = S_ISUID | S_ISGID | S_IRUSR | S_IXUSR | S_IRGRP | S_IXGRP
         //  setuid-on-execution, setgid-on-execution plus read and execute permission for user and group, no access for others
         err = DoPrivilegedExec(chmodPath, "-R", "u=rsx,g=rsx,o=", fullpath, NULL, NULL);
-//        umask(old_mask);
         if (err)
             return err;
     }       // switcher application
