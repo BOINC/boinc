@@ -174,7 +174,8 @@ static int process_messages(void)
 	DC_Workunit *wu;
 	int done, ret;
 
-	query = g_strdup_printf("WHERE variety LIKE '%s\\_'", project_uuid_str);
+	query = g_strdup_printf("WHERE variety LIKE '%s\\_' AND handled = 0",
+		project_uuid_str);
 	buf = (char *)g_malloc(MAX_MESSAGE_SIZE);
 	done = 0;
 	while (!msg.enumerate(query))
@@ -201,7 +202,7 @@ static int process_messages(void)
 			_dc_messagecb(wu, buf);
 		done++;
 handled:
-		msg.handled = true;
+		msg.handled = 1;
 		msg.update();
 	}
 	g_free(query);
@@ -216,7 +217,7 @@ int DC_processMasterEvents(int timeout)
 
 	if (!_dc_resultcb || !_dc_subresultcb || !_dc_messagecb)
 	{
-		DC_log(LOG_ERR, "DC_processMasterEvents: callbacks are not set up");
+		DC_log(LOG_ERR, "%s: callbacks are not initialized", __func__);
 		return DC_ERR_CONFIG;
 	}
 
@@ -241,8 +242,8 @@ int DC_processMasterEvents(int timeout)
 /* Look for a single result that matches the filter */
 static DC_MasterEvent *look_for_results(const char *wuFilter, const char *wuName)
 {
-	DB_RESULT result;
 	DC_MasterEvent *event;
+	DB_RESULT result;
 	DB_WORKUNIT wu;
 	char *query;
 
@@ -294,6 +295,69 @@ static DC_MasterEvent *look_for_results(const char *wuFilter, const char *wuName
 	return event;
 }
 
+static DC_MasterEvent *look_for_messages(const char *wuFilter, const char *wuName)
+{
+	DC_MasterEvent *event;
+	DB_MSG_FROM_HOST msg;
+	char *query, *buf;
+	DC_Workunit *wu;
+	int ret;
+
+restart:
+	if (wuFilter)
+		query = g_strdup_printf("WHERE variety LIKE '%s\\_%%\\_%s' "
+			"AND handled = 0", project_uuid_str, wuFilter);
+	else if (wuName)
+		query = g_strdup_printf("WHERE variety LIKE '%s\\_%s%%' "
+			"AND handled = 0", project_uuid_str, wuName);
+	else
+		query = g_strdup_printf("WHERE variety LIKE '%s\\_%%' "
+			"AND handled = 0", project_uuid_str);
+
+	if (msg.enumerate(query))
+	{
+		g_free(query);
+		return NULL;
+	}
+	g_free(query);
+
+	wu = _DC_getWUByName(msg.variety);
+	if (!wu)
+	{
+		DC_log(LOG_WARNING, "Received message for unknown WU %s",
+			msg.variety);
+		msg.handled = 1;
+		msg.update();
+		return NULL;
+	}
+
+	buf = (char *)g_malloc(MAX_MESSAGE_SIZE);
+	ret = parse_str(msg.xml, "<message>", buf, MAX_MESSAGE_SIZE);
+	if (!ret)
+	{
+		DC_log(LOG_WARNING, "Failed to parse message %s", msg.xml);
+		g_free(buf);
+		msg.handled = 1;
+		msg.update();
+		return NULL;
+	}
+
+	if (!strncmp(buf, DCAPI_MSG_PFX, strlen(DCAPI_MSG_PFX)))
+	{
+		handle_special_msg(wu, buf + strlen(DCAPI_MSG_PFX) + 1);
+		g_free(buf);
+		msg.handled = 1;
+		msg.update();
+		goto restart;
+	}
+
+	event = g_new(DC_MasterEvent, 1);
+	event->wu = wu;
+	event->type = DC_MASTER_MESSAGE;
+	event->message = buf;
+	return event;
+}
+
 DC_MasterEvent *DC_waitMasterEvent(const char *wuFilter, int timeout)
 {
 	time_t end, now;
@@ -305,11 +369,9 @@ DC_MasterEvent *DC_waitMasterEvent(const char *wuFilter, int timeout)
 		event = look_for_results(wuFilter, NULL);
 		if (event)
 			break;
-/* XXX
-		event = look_for_notifications(...);
+		event = look_for_messages(wuFilter, NULL);
 		if (event)
 			break;
-*/
 		now = time(NULL);
 		if (now >= end)
 			break;
@@ -324,6 +386,12 @@ DC_MasterEvent *DC_waitWUEvent(DC_Workunit *wu, int timeout)
 	DC_MasterEvent *event;
 	time_t end, now;
 
+	if (!wu)
+	{
+		DC_log(LOG_ERR, "%s: Missing WU", __func__);
+		return NULL;
+	}
+
 	uuid_unparse_lower(wu->uuid, uuid_str);
 
 	end = time(NULL) + timeout;
@@ -332,11 +400,9 @@ DC_MasterEvent *DC_waitWUEvent(DC_Workunit *wu, int timeout)
 		event = look_for_results(NULL, uuid_str);
 		if (event)
 			break;
-/* XXX
-		event = look_for_notifications(...);
+		event = look_for_messages(NULL, uuid_str);
 		if (event)
 			break;
-*/
 		now = time(NULL);
 		if (now >= end)
 			break;
@@ -362,7 +428,8 @@ void DC_destroyMasterEvent(DC_MasterEvent *event)
 			g_free(event->message);
 			break;
 		default:
-			DC_log(LOG_ERR, "Unknown event type %d", event->type);
+			DC_log(LOG_ERR, "%s: Unknown event type %d",
+				__func__, event->type);
 			break;
 	}
 }
