@@ -12,7 +12,7 @@ one or more of these rules.
 If in doubt, discuss it with other moderators on the email list.
 Please respect the following guidelines:
 <ul>
-<li> Don't let your personal feelings
+<li> Don't let your personal feelings and opinions
 affect your moderation decisions.
 You may not delete a post simply because
 you disagree with it or dislike its author.
@@ -23,7 +23,7 @@ Use the email list that has been set up for this purpose.
 Except for obscene language or pictures,
 avoid deleting a post until someone complains about it
 (and, of course, don't delete it simply because someone
- has complained).
+has complained).
 </ul>
 ";
 page_tail();
