@@ -121,6 +121,10 @@ int DC_getClientCfgInt(const char *clientName, const char *key,
 double DC_getClientCfgDouble(const char *clientName, const char *key,
 	double defaultValue, int fallbackGlobal);
 
+/* Queries per-client configuration variables */
+int DC_getClientCfgBool(const char *clientName, const char *key,
+	int defaultValue, int fallbackGlobal);
+
 /********************************************************************
  * Function prototypes: Event processing
  */

@@ -193,6 +193,9 @@ int DC_initMaster(const char *config_file)
 	ret = _DC_initDB();
 	if (ret)
 		return ret;
+	ret = _DC_initWUs();
+	if (ret)
+		return ret;
 
 	return 0;
 }
@@ -219,29 +222,6 @@ void DC_setMasterCb(DC_ResultCallback resultcb,
 	_dc_resultcb = resultcb;
 	_dc_subresultcb = subresultcb;
 	_dc_messagecb = msgcb;
-}
-
-DC_PhysicalFile *_DC_createPhysicalFile(const char *label,
-	const char *path)
-{
-	DC_PhysicalFile *file;
-
-	file = g_new(DC_PhysicalFile, 1);
-	file->label = g_strdup(label);
-	file->path = g_strdup(path);
-	file->mode = DC_FILE_REGULAR;
-
-	return file;
-}
-
-void _DC_destroyPhysicalFile(DC_PhysicalFile *file)
-{
-	if (!file)
-		return;
-
-	g_free(file->label);
-	g_free(file->path);
-	g_free(file);
 }
 
 /********************************************************************

@@ -2,13 +2,13 @@
 #include <config.h>
 #endif
 
-#include <strings.h>
+#include <sys/types.h>
+#include <sys/stat.h>
+#include <string.h>
 #include <unistd.h>
 #include <stdlib.h>
 #include <errno.h>
 #include <fcntl.h>
-#include <sys/types.h>
-#include <sys/stat.h>
 
 #include <dc_internal.h>
 #include <dc_common.h>
@@ -122,4 +122,50 @@ long long _DC_processSuffix(const char *suffix)
 	else if (!strcasecmp(suffix, "day"))
 		return 24ll * 60 * 60;
 	return -1;
+}
+
+int _DC_parseBoolean(const char *value)
+{
+	static const char *truevals[] = {"true", "yes", "on"};
+	static const char *falsevals[] = {"false", "no", "off"};
+	unsigned i;
+
+	for (i = 0; i < sizeof(truevals) / sizeof(truevals[0]); i++)
+		if (!strcasecmp(value, truevals[i]))
+			return 1;
+	for (i = 0; i < sizeof(falsevals) / sizeof(falsevals[0]); i++)
+		if (!strcasecmp(value, falsevals[i]))
+			return 1;
+	return -1;
+}
+
+DC_PhysicalFile *_DC_createPhysicalFile(const char *label,
+	const char *path)
+{
+	DC_PhysicalFile *file;
+
+	file = malloc(sizeof(*file));
+	if (!file)
+		return NULL;
+
+	file->label = strdup(label);
+	file->path = strdup(path);
+	if (!file->label || !file->path)
+	{
+		_DC_destroyPhysicalFile(file);
+		return NULL;
+	}
+	file->mode = DC_FILE_REGULAR;
+
+	return file;
+}
+
+void _DC_destroyPhysicalFile(DC_PhysicalFile *file)
+{
+	if (!file)
+		return;
+
+	free(file->label);
+	free(file->path);
+	free(file);
 }
