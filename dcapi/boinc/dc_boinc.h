@@ -67,6 +67,11 @@ struct _DC_Workunit
 	char			*tag;
 	int			subresults;
 
+	int			serialized : 1;
+	int			submitted : 1;
+	int			suspended : 1;
+	int			nosuspend : 1;
+
 	/* The WU's UUID */
 	uuid_t			uuid;
 	/* State of the WU */
@@ -143,12 +148,8 @@ char *_DC_getDBPasswd(void) G_GNUC_INTERNAL;
 /* Initializes the database connection */
 int _DC_initDB(void) G_GNUC_INTERNAL;
 
-/* Allocates a physical file descriptor */
-DC_PhysicalFile *_DC_createPhysicalFile(const char *label,
-	const char *path) G_GNUC_INTERNAL;
-
-/* De-allocates a physical file descriptor */
-void _DC_destroyPhysicalFile(DC_PhysicalFile *file) G_GNUC_INTERNAL;
+/* Initializes the WU manager */
+int _DC_initWUs(void) G_GNUC_INTERNAL;
 
 /* Creates a new DC_Result */
 DC_Result *_DC_createResult(const char *wu_name, int db_id,

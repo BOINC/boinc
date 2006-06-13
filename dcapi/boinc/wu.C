@@ -32,13 +32,20 @@
 
 typedef enum
 {
+	WU_WUDESC,
 	WU_INPUT_LABEL,
 	WU_OUTPUT_LABEL,
 	WU_TAG,
 	WU_CLIENT_NAME,
 	WU_CLIENT_ARG,
 	WU_SUBRESULTS,
+	WU_SUBMITTED,
+	WU_SERIALIZED,
+	WU_SUSPENDED,
+	WU_NOSUSPEND
 } wu_tag;
+
+#define WU_DESC_FILE		"wu_desc.xml"
 
 
 /********************************************************************
@@ -99,12 +106,17 @@ static int num_wus;
 
 static const struct tag_desc tags[] =
 {
+	{ WU_WUDESC,		"wudesc" },
 	{ WU_INPUT_LABEL,	"input_label" },
 	{ WU_OUTPUT_LABEL,	"output_label" },
 	{ WU_TAG,		"tag" },
 	{ WU_CLIENT_NAME,	"client_name" },
 	{ WU_CLIENT_ARG,	"client_arg" },
-	{ WU_SUBRESULTS,	"subresults" }
+	{ WU_SUBRESULTS,	"subresults" },
+	{ WU_SUBMITTED,		"submitted" },
+	{ WU_SUSPENDED,		"suspended" },
+	{ WU_SERIALIZED,	"serialized" },
+	{ WU_NOSUSPEND,		"nosuspend" },
 };
 
 static const GMarkupParser wudesc_parser =
@@ -186,7 +198,7 @@ error:
 }
 
 /* Get the full path of a file in the WU's working directory */
-static char *get_workdir_path(DC_Workunit *wu, const char *label,
+static char *get_workdir_path(const DC_Workunit *wu, const char *label,
 	WorkdirFile type)
 {
 	static const char *const pfx[] = { "in_", "out_", "checkpoint", "dc_" };
@@ -200,7 +212,7 @@ static char *get_workdir_path(DC_Workunit *wu, const char *label,
 }
 
 /* Open a file in the WU's working directory */
-static FILE *open_workdir_file(DC_Workunit *wu, const char *label,
+static FILE *open_workdir_file(const DC_Workunit *wu, const char *label,
 	WorkdirFile type, const char *mode)
 {
 	char *name;
@@ -286,6 +298,24 @@ static void wudesc_start(GMarkupParseContext *ctx, const char *element_name,
 		return;
 	}
 
+	switch (tags[i].id)
+	{
+		case WU_SERIALIZED:
+			pctx->wu->serialized = TRUE;
+			break;
+		case WU_SUBMITTED:
+			pctx->wu->submitted = TRUE;
+			break;
+		case WU_SUSPENDED:
+			pctx->wu->suspended = TRUE;
+			break;
+		case WU_NOSUSPEND:
+			pctx->wu->nosuspend = TRUE;
+			break;
+		default:
+			break;
+	}
+
 	pctx->curr_tag = tags[i].id;
 }
 
@@ -332,7 +362,58 @@ static void wudesc_text(GMarkupParseContext *ctx, const char *text,
 			pctx->wu->subresults = atoi(tmp);
 			g_free(tmp);
 			break;
+		case WU_WUDESC:
+			break;
+		case WU_SUSPENDED:
+		case WU_SUBMITTED:
+		case WU_SERIALIZED:
+		case WU_NOSUSPEND:
+			/* XXX Emit error? */
+			break;
 	}
+}
+
+static int write_wudesc(const DC_Workunit *wu)
+{
+	DC_PhysicalFile *file;
+	GList *l;
+	FILE *f;
+	int i;
+
+	f = open_workdir_file(wu, WU_DESC_FILE, FILE_DCAPI, "w");
+	if (!f)
+		return DC_ERR_SYSTEM;
+
+	fprintf(f, "<dcwu>\n");
+	if (wu->serialized)
+		fprintf(f, "\t<serialized/>\n");
+	if (wu->submitted)
+		fprintf(f, "\t<submitted/>\n");
+	if (wu->suspended)
+		fprintf(f, "\t<suspended/>\n");
+	if (wu->nosuspend)
+		fprintf(f, "\t<nosuspend/>\n");
+	fprintf(f, "\t<tag>%s</tag>\n", wu->tag);
+
+	fprintf(f, "\t<client_name>%s</client_name>\n", wu->client_name);
+	for (i = 0; i < wu->argc; i++)
+		fprintf(f, "\t<client_arg>%s</client_arg>\n", wu->argv[i]);
+
+	for (l = wu->input_files; l; l = l->next)
+	{
+		file = (DC_PhysicalFile *)l->data;
+		fprintf(f, "\t<input_label type=%d>%s</input_label>\n",
+			file->mode, file->label);
+	}
+
+	for (l = wu->output_files; l; l = l->next)
+		fprintf(f, "\t<output_label%s</output_label>\n", (char *)l->data);
+
+	fprintf(f, "\t<subresults>%d</subresults>\n", wu->subresults);
+
+	fprintf(f, "</dcwu>\n");
+	fclose(f);
+	return 0;
 }
 
 /********************************************************************
@@ -382,9 +463,14 @@ DC_Workunit *DC_createWU(const char *clientName, const char *arguments[],
 	DC_Workunit *wu;
 	int ret;
 
+	if (!wu_table)
+	{
+		DC_log(LOG_ERR, "%s: Library is not initialized", __func__);
+		return NULL;
+	}
 	if (!clientName)
 	{
-		DC_log(LOG_ERR, "DC_createWU: clientName is not supplied");
+		DC_log(LOG_ERR, "%s: Missing client name", __func__);
 		return NULL;
 	}
 
@@ -419,10 +505,11 @@ DC_Workunit *DC_createWU(const char *clientName, const char *arguments[],
 	DC_addWUOutput(wu, DC_LABEL_STDOUT);
 	DC_addWUOutput(wu, DC_LABEL_STDERR);
 	DC_addWUOutput(wu, DC_LABEL_CLIENTLOG);
+	if (DC_getClientCfgBool(clientName, "EnableResume", TRUE, TRUE))
+		DC_addWUOutput(wu, CKPT_LABEL_OUT);
+	else
+		wu->nosuspend = TRUE;
 
-	if (!wu_table)
-		wu_table = g_hash_table_new_full(wu_uuid_hash, wu_uuid_equal,
-			NULL, NULL);
 	g_hash_table_insert(wu_table, wu->uuid, wu);
 	++num_wus;
 
@@ -434,8 +521,7 @@ void DC_destroyWU(DC_Workunit *wu)
 	if (!wu)
 		return;
 
-	if (wu_table)
-		g_hash_table_remove(wu_table, wu->uuid);
+	g_hash_table_remove(wu_table, wu->uuid);
 	--num_wus;
 
 	switch (wu->state)
@@ -551,6 +637,11 @@ int DC_addWUInput(DC_Workunit *wu, const char *logicalFileName, const char *URL,
 	int ret;
 
 	/* Sanity checks */
+	if (!wu || !logicalFileName)
+	{
+		DC_log(LOG_ERR, "%s: Missing arguments", __func__);
+		return DC_ERR_BADPARAM;
+	}
 	ret = check_logical_name(wu, logicalFileName);
 	if (ret)
 		return ret;
@@ -608,6 +699,10 @@ int DC_addWUInput(DC_Workunit *wu, const char *logicalFileName, const char *URL,
 	file->mode = fileMode;
 	wu->input_files = g_list_append(wu->input_files, file);
 	wu->num_inputs++;
+
+	if (wu->serialized)
+		write_wudesc(wu);
+
 	return 0;
 }
 
@@ -616,6 +711,11 @@ int DC_addWUOutput(DC_Workunit *wu, const char *logicalFileName)
 	int ret;
 
 	/* Sanity checks */
+	if (!wu || !logicalFileName)
+	{
+		DC_log(LOG_ERR, "%s: Missing arguments", __func__);
+		return DC_ERR_BADPARAM;
+	}
 	ret = check_logical_name(wu, logicalFileName);
 	if (ret)
 		return ret;
@@ -626,6 +726,10 @@ int DC_addWUOutput(DC_Workunit *wu, const char *logicalFileName)
 	wu->output_files = g_list_append(wu->output_files,
 		g_strdup(logicalFileName));
 	wu->num_outputs++;
+
+	if (wu->serialized)
+		write_wudesc(wu);
+
 	return 0;
 }
 
@@ -775,21 +879,9 @@ static char *generate_wu_template(DC_Workunit *wu)
 	cmd = g_string_new("");
 	for (i = 0; i < wu->argc; i++)
 	{
-		char *quoted;
-
 		if (i)
 			g_string_append_c(cmd, ' ');
-		quoted = g_shell_quote(wu->argv[i]);
-		g_string_append(cmd, quoted);
-		g_free(quoted);
-	}
-	/* Now do the escaping for MySQL */
-	for (i = 0; cmd->str[i]; i++)
-	{
-		if (cmd->str[i] != '\'' && cmd->str[i] != '\\')
-			continue;
-		g_string_insert_c(cmd, i, '\\');
-		i++;
+		g_string_append(cmd, wu->argv[i]);
 	}
 	g_string_append_printf(tmpl,
 		"\t<command_line>%s</command_line>\n", cmd->str);
@@ -896,8 +988,6 @@ static char *generate_result_template(DC_Workunit *wu)
 	/* Slots for subresults - no automatic uploading */
 	for (i = 0; i < wu->subresults; i++)
 		emit_result_file_info(tmpl, file_cnt++, FALSE, max_output_size);
-	/* Slot for the checkpoint file */
-	emit_result_file_info(tmpl, file_cnt++, TRUE, max_output_size);
 
 	fprintf(tmpl, "<result>\n");
 	file_cnt = 0;
@@ -908,9 +998,6 @@ static char *generate_result_template(DC_Workunit *wu)
 	/* The subresult templates */
 	for (i = 0; i < wu->subresults; i++)
 		emit_result_file_ref(tmpl, file_cnt++, "%s%d", SUBRESULT_PFX, i);
-
-	/* The checkpoint template */
-	emit_result_file_ref(tmpl, file_cnt++, "%s", CKPT_LABEL_OUT);
 
 	fprintf(tmpl, "</result>\n");
 	fclose(tmpl);
@@ -956,6 +1043,12 @@ int DC_submitWU(DC_Workunit *wu)
 	int i, ret, ninputs;
 	DB_WORKUNIT dbwu;
 	GList *l;
+
+	if (!wu)
+	{
+		DC_log(LOG_ERR, "%s: Missing WU", __func__);
+		return DC_ERR_BADPARAM;
+	}
 
 	ret = install_input_files(wu);
 	if (ret)
@@ -1023,36 +1116,26 @@ int DC_submitWU(DC_Workunit *wu)
 
 	wu->state = DC_WU_RUNNING;
 
+	wu->submitted = TRUE;
+	write_wudesc(wu);
+
 	return 0;
 }
 
 char *DC_serializeWU(DC_Workunit *wu)
 {
-	DC_PhysicalFile *file;
 	char id[2 * 36 + 2];
-	GList *l;
-	FILE *f;
-	int i;
 
 	if (!wu)
+	{
+		DC_log(LOG_ERR, "%s: Missing WU", __func__);
+		return NULL;
+	}
+
+	if (write_wudesc(wu))
 		return NULL;
 
-	f = open_workdir_file(wu, "wu_desc.xml", FILE_DCAPI, "w");
-	if (!f)
-		return NULL;
-	for (l = wu->input_files; l; l = l->next)
-	{
-		file = (DC_PhysicalFile *)l->data;
-		fprintf(f, "<input_label type=%d>%s</input_label>\n", file->mode, file->label);
-	}
-	for (l = wu->output_files; l; l = l->next)
-		fprintf(f, "<output_label%s</output_label>\n", (char *)l->data);
-	fprintf(f, "<tag>%s</tag>\n", wu->tag);
-	fprintf(f, "<client_name>%s</client_name>\n", wu->client_name);
-	for (i = 0; i < wu->argc; i++)
-		fprintf(f, "<client_arg>%s</client_arg>\n", wu->argv[i]);
-	fprintf(f, "<subresults>%d</subresults>\n", wu->subresults);
-	fclose(f);
+	wu->serialized = TRUE;
 
 	strncpy(id, project_uuid_str, sizeof(id));
 	id[36] = '_';
@@ -1062,27 +1145,69 @@ char *DC_serializeWU(DC_Workunit *wu)
 
 DC_Workunit *DC_deserializeWU(const char *buf)
 {
+	if (!wu_table)
+	{
+		DC_log(LOG_ERR, "%s: Library is not initialized", __func__);
+		return NULL;
+	}
+	if (!buf)
+	{
+		DC_log(LOG_ERR, "%s: No serialized data", __func__);
+		return NULL;
+	}
+
 	return _DC_getWUByName(buf);
 }
 
-#if 0
-static DC_Workunit *load_from_boinc_db(const char *name)
+static DC_Workunit *load_from_boinc_db(const uuid_t uuid)
 {
+	char uuid_str[37], *query;
 	DB_WORKUNIT db_wu;
 	DC_Workunit *wu;
-	char *query;
 	DB_APP app;
 	int ret;
 
-	query = g_strdup_printf("WHERE name = '%s'", name);
+	uuid_unparse_lower(uuid, uuid_str);
+	query = g_strdup_printf("WHERE name LIKE '%s\\_%s%%'", project_uuid_str,
+		uuid_str);
 	ret = db_wu.lookup(query);
 	g_free(query);
-	if (!ret)
+	if (ret)
 		return NULL;
 
-	app.lookup_id(db_wu.appid);
+	ret = app.lookup_id(db_wu.appid);
+	if (ret)
+		return NULL;
+
+	wu = g_new0(DC_Workunit, 1);
+	wu->client_name = g_strdup(app.name);
+	memcpy(wu->uuid, uuid, sizeof(uuid));
+
+	/* If the WU is in the database then it was submitted... */
+	wu->submitted = TRUE;
+
+	if (strlen(db_wu.name) > 74)
+		wu->tag = g_strdup(db_wu.name + 74);
+
+	wu->workdir = get_workdir(wu->uuid, TRUE);
+	if (!wu->workdir)
+	{
+		DC_destroyWU(wu);
+		return NULL;
+	}
+
+	/* Since there is no API to retrieve the names of the input/output
+	 * files, we do not have to worry about them. On the other hand, since
+	 * we no longer have the input files, this WU can not be suspended */
+	wu->nosuspend = TRUE;
+
+	g_hash_table_insert(wu_table, wu->uuid, wu);
+	++num_wus;
+
+	_DC_updateWUState(wu);
+
+	return wu;
 }
-#endif
 
 static DC_Workunit *load_from_disk(const uuid_t uuid)
 {
@@ -1104,7 +1229,7 @@ static DC_Workunit *load_from_disk(const uuid_t uuid)
 	wu->workdir = workdir;
 	memcpy(wu->uuid, uuid, sizeof(wu->uuid));
 
-	f = open_workdir_file(wu, "wu_desc", FILE_DCAPI, "r");
+	f = open_workdir_file(wu, WU_DESC_FILE, FILE_DCAPI, "r");
 	if (!f)
 	{
 		DC_destroyWU(wu);
@@ -1127,9 +1252,6 @@ static DC_Workunit *load_from_disk(const uuid_t uuid)
 	g_markup_parse_context_free(ctx);
 	fclose(f);
 
-	if (!wu_table)
-		wu_table = g_hash_table_new_full(wu_uuid_hash, wu_uuid_equal,
-			NULL, NULL);
 	g_hash_table_insert(wu_table, wu->uuid, wu);
 	++num_wus;
 
@@ -1160,20 +1282,21 @@ DC_Workunit *_DC_getWUByName(const char *name)
 	g_free(uuid_str);
 	if (ret)
 	{
-		DC_log(LOG_ERR, "WU name contains illegal UUID");
+		DC_log(LOG_ERR, "WU name '%s' contains illegal UUID", name);
 		return NULL;
 	}
 
 	if (uuid_compare(uuid, project_uuid))
 	{
-		DC_log(LOG_WARNING, "WU does not belong to this application");
+		DC_log(LOG_WARNING, "WU '%s' does not belong to this "
+			"application", name);
 		return NULL;
 	}
 
 	/* WU name syntax: <uuid> '_' <uuid> [ '_' <tag> ] */
 	if (name[36] != '_' || (strlen(name) > 73 && name[73] != '_'))
 	{
-		DC_log(LOG_ERR, "Illegal WU name syntax");
+		DC_log(LOG_ERR, "Illegal WU name syntax in '%s'", name);
 		return NULL;
 	}
 
@@ -1183,24 +1306,17 @@ DC_Workunit *_DC_getWUByName(const char *name)
 	g_free(uuid_str);
 	if (ret)
 	{
-		DC_log(LOG_ERR, "WU name contains illegal UUID");
+		DC_log(LOG_ERR, "WU name '%s' contains illegal UUID", name);
 		return NULL;
 	}
 
-	if (wu_table)
-	{
-		wu = (DC_Workunit *)g_hash_table_lookup(wu_table, uuid);
-		if (wu)
-			return wu;
-	}
-
-#if 0
-	wu = load_from_boinc_db(name);
+	wu = (DC_Workunit *)g_hash_table_lookup(wu_table, uuid);
 	if (wu)
 		return wu;
-#endif
-
-	return load_from_disk(uuid);
+	wu = load_from_disk(uuid);
+	if (wu)
+		return wu;
+	return load_from_boinc_db(uuid);
 }
 
 static void count_ready(void *key, void *value, void *ptr)
@@ -1222,9 +1338,7 @@ int DC_getWUNumber(DC_WUState state)
 	{
 		case DC_WU_READY:
 			val = 0;
-			if (wu_table)
-				g_hash_table_foreach(wu_table, count_ready,
-					&val);
+			g_hash_table_foreach(wu_table, count_ready, &val);
 			return val;
 		case DC_WU_RUNNING:
 			query = g_strdup_printf("SELECT COUNT(*) "
@@ -1271,12 +1385,24 @@ int DC_getWUNumber(DC_WUState state)
 
 char *DC_getWUTag(const DC_Workunit *wu)
 {
+	if (!wu)
+	{
+		DC_log(LOG_ERR, "%s: Missing WU", __func__);
+		return NULL;
+	}
+
 	return strdup(wu->tag);
 }
 
 char *DC_getWUId(const DC_Workunit *wu)
 {
 	char *name, *tmp;
+
+	if (!wu)
+	{
+		DC_log(LOG_ERR, "%s: Missing WU", __func__);
+		return NULL;
+	}
 
 	name = _DC_getWUName(wu);
 	if (g_mem_is_system_malloc())
@@ -1288,20 +1414,57 @@ char *DC_getWUId(const DC_Workunit *wu)
 
 int DC_setWUPriority(DC_Workunit *wu, int priority)
 {
+	if (!wu)
+	{
+		DC_log(LOG_ERR, "%s: Missing WU", __func__);
+		return DC_ERR_BADPARAM;
+	}
 	return DC_ERR_NOTIMPL;
 }
 
 DC_WUState DC_getWUState(DC_Workunit *wu)
 {
+	if (!wu)
+	{
+		DC_log(LOG_ERR, "%s: Missing WU", __func__);
+		return DC_WU_UNKNOWN;
+	}
+
 	return wu->state;
 }
 
 int DC_suspendWU(DC_Workunit *wu)
 {
+	if (!wu)
+	{
+		DC_log(LOG_ERR, "%s: Missing WU", __func__);
+		return DC_ERR_BADPARAM;
+	}
+
+	if (wu->nosuspend)
+	{
+		char *name = _DC_getWUName(wu);
+		DC_log(LOG_ERR, "Work unit %s can not be suspended", name);
+		g_free(name);
+		return DC_ERR_BADPARAM;
+	}
+
 	return DC_ERR_NOTIMPL;
 }
 
 int DC_resumeWU(DC_Workunit *wu)
 {
+	if (!wu)
+	{
+		DC_log(LOG_ERR, "%s: Missing WU", __func__);
+		return DC_ERR_BADPARAM;
+	}
+
 	return DC_ERR_NOTIMPL;
+}
+
+int _DC_initWUs(void)
+{
+	wu_table = g_hash_table_new_full(wu_uuid_hash, wu_uuid_equal, NULL, NULL);
+	return 0;
 }
