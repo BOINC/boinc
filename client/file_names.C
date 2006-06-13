@@ -105,12 +105,16 @@ int make_project_dir(PROJECT& p) {
 
     boinc_mkdir(PROJECTS_DIR);
 #ifdef SANDBOX
-    boinc_chown(PROJECTS_DIR, gstate.boinc_projects_gid);
+    boinc_chown(PROJECTS_DIR, gstate.boinc_project_gid);
+    chmod(PROJECTS_DIR,
+            S_IRUSR|S_IWUSR|S_IXUSR
+            |S_IRGRP|S_IXGRP
+        );
 #endif
     get_project_dir(&p, buf);
     retval = boinc_mkdir(buf);
 #ifdef SANDBOX
-    boinc_chown(buf, gstate.boinc_projects_gid);
+    boinc_chown(buf, gstate.boinc_project_gid);
 #endif
     return retval;
 }
@@ -138,12 +142,16 @@ int make_slot_dir(int slot) {
     }
     boinc_mkdir(SLOTS_DIR);
 #ifdef SANDBOX
-    boinc_chown(SLOTS_DIR, gstate.boinc_projects_gid);
+    boinc_chown(SLOTS_DIR, gstate.boinc_project_gid);
+    chmod(SLOTS_DIR,
+            S_IRUSR|S_IWUSR|S_IXUSR
+            |S_IRGRP|S_IXGRP
+        );
 #endif
     get_slot_dir(slot, buf);
     int retval = boinc_mkdir(buf);
 #ifdef SANDBOX
-    boinc_chown(buf, gstate.boinc_projects_gid);
+    boinc_chown(buf, gstate.boinc_project_gid);
 #endif
     return retval;
 }

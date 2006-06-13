@@ -5876,3 +5876,15 @@ David  12 June 2006
 
     lib/
         filesys.h
+
+Charlie 13 June 2006
+    - more sandbox stuff, with #ifdef SANDBOX.
+
+    client/
+        app_start.C
+        client_types.C
+        file_names.C
+        gui_rpc_server.C
+        main.C
+    clientgui/
+        BOINCGUIApp.cpp

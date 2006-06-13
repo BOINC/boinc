@@ -345,7 +345,7 @@ static void init_core_client(int argc, char** argv) {
 
 #endif
 
-#ifdef sandbox
+#ifdef SANDBOX
     umask (2);  // Set file creation mask to be writable by both user and group
                 // Our umask will be inherited by all our child processes
 #endif

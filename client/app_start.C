@@ -97,9 +97,10 @@ static int make_link(const char *existing, const char *new_link) {
     fprintf(fp, "<soft_link>%s</soft_link>\n", existing);
     fclose(fp);
 #ifdef SANDBOX
-    boinc_chown(new_link, gstate.boinc_project_gid);
-#endif
+    return boinc_chown(new_link, gstate.boinc_project_gid);
+#else
     return 0;
+#endif
 }
 
 int ACTIVE_TASK::link_user_files() {

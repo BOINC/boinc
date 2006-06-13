@@ -23,6 +23,8 @@
 
 #ifdef __WXMAC__
 #include <Carbon/Carbon.h>
+#include "filesys.h"
+#include "util.h"
 #endif
 
 #include "stdwx.h"
@@ -241,7 +243,7 @@ bool CBrandingScheme::OnInit( wxConfigBase *pConfig ) {
 
 bool CBOINCGUIApp::OnInit() {
 
-#ifdef sandbox
+#ifdef SANDBOX
     umask (2);  // Set file creation mask to be writable by both user and group
                 // Our umask will be inherited by all our child processes
 #endif
@@ -316,8 +318,16 @@ bool CBOINCGUIApp::OnInit() {
     if (success) {
         // If SetWD failed, don't create a directory in wrong place
         strDirectory += wxT("BOINC Data");  // We don't customize BOINC Data directory name for branding
-        if (! wxDirExists(strDirectory))
+        if (! wxDirExists(strDirectory)) {
+#ifdef SANDBOX
+            gid_t gid;
+            success = wxMkdir(strDirectory, 0750);    // Does nothing if dir exists
+            lookup_group("boinc_project", gid);
+            boinc_chown("BOINC Data", gid);
+#else
             success = wxMkdir(strDirectory, 0777);    // Does nothing if dir exists
+#endif
+        }
         success = ::wxSetWorkingDirectory(strDirectory);
 //    wxChar *wd = wxGetWorkingDirectory(buf, 1000);  // For debugging
     }
