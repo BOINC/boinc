@@ -1,8 +1,6 @@
 AC_INIT([Uppercase Example Application], [5.01], [desktopgrid@lpds.sztaki.hu], [uppercase-example])
-AC_CONFIG_MACRO_DIR([cf])
 AC_CONFIG_HEADERS([config.h])
 AC_CONFIG_SRCDIR([src/client.c])
-AC_CONFIG_AUX_DIR([scripts])
 
 dnl The platform code uses the target triplet
 AC_CANONICAL_TARGET
