@@ -22,18 +22,15 @@ noinst_HEADERS	= condor_common.h \
 		  condor_defs.h \
 		  condor_master.h \
 		  condor_wu.h \
-		  condor_file.h \
 		  condor_log.h \
 		  condor_utils.h \
 		  condor_result.h
 
 libdc_condor_la_SOURCES = condor_master.c \
 			  condor_common.c \
-			  condor_file.c \
 			  condor_wu.c \
 			  condor_managewu.c \
 			  condor_log.cc \
-			  condor_file.c \
 			  condor_utils.c \
 			  condor_result.c
 

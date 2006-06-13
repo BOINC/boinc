@@ -17,7 +17,6 @@
 #include "condor_wu.h"
 #include "condor_log.h"
 #include "condor_utils.h"
-#include "condor_file.h"
 
 
 /********************************************************************* INIT */
@@ -253,7 +252,7 @@ DC_addWUInput(DC_Workunit *wu,
 	if (ret)
 		return(ret);
 	workpath= _DC_wu_get_workdir_path(wu, logicalFileName, FILE_IN);
-	file= _DC_create_physical_file(logicalFileName, workpath);
+	file= _DC_createPhysicalFile(logicalFileName, workpath);
 	g_free(workpath);
 	if (!file)
 		return(DC_ERR_INTERNAL);
@@ -266,7 +265,7 @@ DC_addWUInput(DC_Workunit *wu,
 		ret= _DC_copyFile(URL, file->path);
 		if (ret)
 		{
-			_DC_destroy_physical_file(file);
+			_DC_destroyPhysicalFile(file);
 			return(ret/*DC_ERR_BADPARAM*/);	/* XXX */
 		}
 		break;
@@ -278,7 +277,7 @@ DC_addWUInput(DC_Workunit *wu,
 		{
 			DC_log(LOG_ERR, "Failed to link %s to %s: %s",
 			       URL, file->path, strerror(errno));
-			_DC_destroy_physical_file(file);
+			_DC_destroyPhysicalFile(file);
 			return(DC_ERR_BADPARAM);	/* XXX */
 		}
 		/* Remember the file mode */
@@ -292,7 +291,7 @@ DC_addWUInput(DC_Workunit *wu,
 		{
 			DC_log(LOG_ERR, "Failed to rename %s to %s: %s",
 			       URL, file->path, strerror(errno));
-			_DC_destroy_physical_file(file);
+			_DC_destroyPhysicalFile(file);
 			return(DC_ERR_BADPARAM);
 		}
 		break;
@@ -634,7 +633,7 @@ DC_destroyMasterEvent(DC_MasterEvent *event)
 		g_free(event->result);
 		break;
 	case DC_MASTER_SUBRESULT:
-		_DC_destroy_physical_file(event->subresult);
+		_DC_destroyPhysicalFile(event->subresult);
 		break;
 	case DC_MASTER_MESSAGE:
 		g_free(event->message);

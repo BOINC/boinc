@@ -15,7 +15,12 @@
 extern "C" {
 #endif
 
+#ifdef WIN32
+#include <dc_win32.h>
+#else
 #include <sys/syslog.h>
+#endif
+
 #include <stdarg.h>
 
 /********************************************************************
@@ -95,6 +100,10 @@ char *DC_getCfgStr(const char *name);
 /* Returns the integer value associated with the specified key in the config.
  * file */
 int DC_getCfgInt(const char *name, int defaultValue);
+
+/* Returns the boolean value associated with the specified key in the config.
+ * file */
+int DC_getCfgBool(const char *name, int defaultValue);
 
 #ifdef __cplusplus
 }

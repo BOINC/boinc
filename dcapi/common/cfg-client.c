@@ -167,3 +167,23 @@ int DC_getCfgInt(const char *key, int defaultValue)
 	}
 	return val;
 }
+
+int DC_getCfgBool(const char *key, int defaultValue)
+{
+	int i, retval;
+
+	if (!key)
+		return !!defaultValue;
+
+	for (i = 0; i < n_pairs; i++)
+	{
+		if (pairs[i].key && !strcmp(pairs[i].key, key))
+		{
+			retval = _DC_parseBoolean(pairs[i].value);
+			if (retval == -1)
+				retval = defaultValue;
+			return !!retval;
+		}
+	}
+	return !!defaultValue;
+}

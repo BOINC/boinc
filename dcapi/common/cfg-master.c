@@ -145,6 +145,33 @@ static double getCfgDouble(const char *group, const char *key,
 	return retval;
 }
 
+static int getCfgBool(const char *group, const char *key, int defaultValue,
+	int *err)
+{
+	char *value;
+	int retval;
+
+	if (!config || !key)
+		return !!defaultValue;
+
+	value = g_key_file_get_value(config, group, key, NULL);
+	if (!value)
+	{
+		*err = 1;
+		return !!defaultValue;
+	}
+
+	retval = _DC_parseBoolean(value);
+	g_free(value);
+	if (retval == -1)
+	{
+		*err = 1;
+		return !!defaultValue;
+	}
+	*err = 0;
+	return retval;
+}
+
 char *DC_getCfgStr(const char *key)
 {
 	return getCfgStr(MASTER_GROUP, key);
@@ -155,6 +182,13 @@ int DC_getCfgInt(const char *key, int defaultValue)
 	int err;
 
 	return getCfgInt(MASTER_GROUP, key, defaultValue, &err);
+}
+
+int DC_getCfgBool(const char *key, int defaultValue)
+{
+	int err;
+
+	return getCfgBool(MASTER_GROUP, key, defaultValue, &err);
 }
 
 char *DC_getClientCfgStr(const char *clientName, const char *key,
@@ -185,7 +219,7 @@ int DC_getClientCfgInt(const char *clientName, const char *key,
 	group = g_strdup_printf("Client-%s", clientName);
 	val = getCfgInt(group, key, defaultValue, &err);
 	g_free(group);
-	if (err)
+	if (err && fallbackGlobal)
 		val = getCfgInt(MASTER_GROUP, key, defaultValue, &err);
 	return val;
 }
@@ -203,7 +237,24 @@ double DC_getClientCfgDouble(const char *clientName, const char *key,
 	group = g_strdup_printf("Client-%s", clientName);
 	val = getCfgDouble(group, key, defaultValue, &err);
 	g_free(group);
-	if (err)
+	if (err && fallbackGlobal)
 		val = getCfgDouble(MASTER_GROUP, key, defaultValue, &err);
+	return val;
+}
+
+int DC_getClientCfgBool(const char *clientName, const char *key,
+	int defaultValue, int fallbackGlobal)
+{
+	int val, err;
+	char *group;
+
+	if (!clientName)
+		return !!defaultValue;
+
+	group = g_strdup_printf("Client-%s", clientName);
+	val = getCfgBool(group, key, defaultValue, &err);
+	g_free(group);
+	if (err && fallbackGlobal)
+		val = getCfgBool(MASTER_GROUP, key, defaultValue, &err);
 	return val;
 }
