@@ -1,8 +1,9 @@
 #include <dc_client.h>
 
+#include <unistd.h>
+#include <stdlib.h>
 #include <stdio.h>
 #include <ctype.h>
-#include <unistd.h>
 
 /* The logical file names, used at sequencial application */
 #define INPUT_NAME		"in.txt"
@@ -27,7 +28,7 @@ static void do_checkpoint(void)
 	retval = fflush(outfile);
 	if (retval)
 	{
-		perrror("APP: flushing the output file has failed");
+		perror("APP: flushing the output file has failed");
 		DC_finishClient(1);
 	}
 
@@ -68,7 +69,7 @@ static void init_files(void)
 	char *file_name;
 
 	/* Open the input file */
-	file_name = DC_resolveFileName(DC_FILE_IN, INPUT_FILE);
+	file_name = DC_resolveFileName(DC_FILE_IN, INPUT_NAME);
 	if (!file_name)
 	{
 		fprintf(stderr, "APP: Could not resolve the input file name\n");
@@ -125,7 +126,7 @@ static void init_files(void)
 	}
 
 	/* Open the output file */
-	file_name = DC_resolveFileName(DC_FILE_OUT, OUTPUT_FILE);
+	file_name = DC_resolveFileName(DC_FILE_OUT, OUTPUT_NAME);
 	if (!file_name)
 	{
 		fprintf(stderr, "APP: Could not resolve the output file name\n");
@@ -151,7 +152,7 @@ static void do_work(void)
 {
 	int c;
 
-	while ((c = fgectc(infile)) != EOF)
+	while ((c = fgetc(infile)) != EOF)
 	{
 		DC_ClientEvent *event;
 
