@@ -13,6 +13,7 @@ DC_LABEL_CLIENTLOG
 DC_PhysicalFile
 DC_getCfgStr
 DC_getCfgInt
+DC_getCfgBool
 DC_log
 DC_vlog
 
@@ -90,6 +91,7 @@ DC_sendWUMessage
 DC_getClientCfgStr
 DC_getClientCfgInt
 DC_getClientCfgDouble
+DC_getClientCfgBool
 
 <SUBSECTION>
 DC_getResultCapabilities

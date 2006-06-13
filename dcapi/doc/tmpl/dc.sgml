@@ -463,6 +463,22 @@ file. Unit suffixes like 'KB', 'GB' or 'hour' are also allowed.
 	config file.
 
 
+<!-- ##### FUNCTION DC_getClientCfgBool ##### -->
+<para>
+Returns the boolean value belonging to the specified key @key for the specific
+client application @clientName in the configuration file.
+</para>
+
+@clientName: the name of the client application.
+@key: the key to look up.
+@defaultValue: the default value to return if the key is not defined or its value
+	cannot be interpreted as a boolean value.
+@fallbackGlobal: if %TRUE and the key is not defined in the client configuration,
+	it will be looked up in the master configuration as well.
+@Returns: the value belonging to the key or @defaultValue if it is not defined in the
+	config file.
+
+
 <!-- ##### FUNCTION DC_getResultCapabilities ##### -->
 <para>
 Determines what kind of information is present in the received result.

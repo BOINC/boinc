@@ -121,6 +121,19 @@ file. Unit suffixes like 'KB', 'GB' or 'hour' are also allowed.
 	config file.
 
 
+<!-- ##### FUNCTION DC_getCfgBool ##### -->
+<para>
+Returns the boolean value belonging to the specified key @name in the configuration
+file.
+</para>
+
+@name: the key to look up.
+@defaultValue: the default value to return if the key is not defined or its value
+	cannot be interpreted as a boolean value.
+@Returns: the value belonging to the key or @defaultValue if it is not defined in the
+	config file.
+
+
 <!-- ##### FUNCTION DC_log ##### -->
 <para>
 Emits a message to the master's log file.
