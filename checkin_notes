@@ -4261,3 +4261,11 @@ Rom    14 June 2006
 
     clientgui/
         MainFrame.cpp
+
+Rom    14 June 2006
+    - Bug Fix: Fix crashing condition with Unicode BOINC Manager.
+        (From Frank S. Thomas)
+
+    clientgui/
+        ViewTransfers.cpp
+
