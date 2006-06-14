@@ -15,7 +15,7 @@
 extern "C" {
 #endif
 
-#ifdef WIN32
+#ifdef _WIN32
 #include <dc_win32.h>
 #else
 #include <sys/syslog.h>

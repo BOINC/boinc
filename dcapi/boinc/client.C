@@ -15,6 +15,7 @@
 #include <unistd.h>
 #include <stdlib.h>
 #include <string.h>
+#include <limits.h>
 #include <stdio.h>
 
 /* BOINC includes */
@@ -22,6 +23,7 @@
 #include <boinc_win.h>
 #include <util.h>
 #endif
+
 #include <boinc_api.h>
 #include <filesys.h>
 #include <diagnostics.h>
@@ -44,6 +46,12 @@ typedef enum {
 } client_event_state;
 
 #define LAST_CKPT_FILE		"dc_lastckpt"
+
+#ifdef _WIN32
+#define PATHSEP			'\\'
+#else
+#define PATHSEP			'/'
+#endif
 
 
 /********************************************************************
@@ -285,7 +293,7 @@ int DC_sendResult(const char *logicalFileName, const char *path,
 		return DC_ERR_INTERNAL;
 
 	/* We need the file name that will appear on the server */
-	p = strrchr(new_path, PATH_SEPARATOR[0]);
+	p = strrchr(new_path, PATHSEP);
 	if (!p)
 	{
 		DC_log(LOG_ERR, "Failed to determine the on-server file name "
