@@ -5988,3 +5988,14 @@ Rom    14 June 2006
     clientgui/
         ViewTransfers.cpp
 
+David  14 June 2006
+    - tools: dir_hier_path didn't work when the directory already existed.
+        It would create a new directory with a garbage name.
+    - tools: process_wu_template(): this wasn't passing through <copy_file/>.
+        Changed it so that it copies any elements it doesn't recognize.
+
+    sched/
+        sched_util.C
+    tools/
+        backend_lib.C
+        dir_hier_path.C

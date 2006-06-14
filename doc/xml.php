@@ -119,6 +119,7 @@ Each such association is represented by an XML element of the form
     <file_name>foobar</file_name>
     [ <open_name>input</open_name> ]
     [ <main_program/> ]
+    [ <copy_file/> ]
 </file_ref>
 ")."
 The elements are as follows: 
@@ -142,6 +143,17 @@ list_item("main_program",
     "Relevant only for files associated with application versions.
     It indicates that this file is the application's main program.
 ");
+list_item("copy_file"
+    "
+    Use this when an application doesn't use
+    boinc_resolve_filename() to make logical to physical filenames
+    (for example, executables without source code).
+    If present on an input file,
+    copy the file to the slot directory before starting application.
+    If present on an output file,
+    move the file from the slot directory to the project directory
+    after the application."
+);
 list_end();
 
 echo "

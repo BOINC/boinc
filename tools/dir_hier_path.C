@@ -41,8 +41,14 @@ int main(int /*argc*/, char** argv) {
         exit(1);
     }
 
-    dir_hier_path(argv[1], "", config.uldl_dir_fanout, path, true);
-    printf("%s%s\n", config.download_dir, path);
+    retval = dir_hier_path(
+        argv[1], config.download_dir, config.uldl_dir_fanout, path, true
+    );
+    if (retval) {
+        fprintf(stderr, "dir_hier_path(): %d\n", retval);
+        exit(1);
+    }
+    printf("%s\n", path);
 }
 
 const char *BOINC_RCSID_c683969ea8 = "$Id$";

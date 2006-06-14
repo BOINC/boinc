@@ -271,29 +271,37 @@ static int process_wu_template(
         } else if (match_tag(p, "</workunit>")) {
             out += "</workunit>\n";
         } else if (match_tag(p, "<file_ref>")) {
-            file_number = -1;
+            out += "<file_ref>\n";
+            bool found_file_number = false, found_open_name = false;
             while (1) {
                 p = strtok(0, "\n");
                 if (!p) break;
                 if (parse_int(p, "<file_number>", file_number)) {
+                    sprintf(buf, "    <file_name>%s</file_name>\n",
+                        infiles[file_number]
+                    );
+                    out += buf;
+                    found_file_number = true;
                     continue;
                 } else if (parse_str(p, "<open_name>", open_name, sizeof(open_name))) {
+                    sprintf(buf, "    <open_name>%s</open_name>\n", open_name);
+                    out += buf;
+                    found_open_name = true;
                     continue;
                 } else if (match_tag(p, "</file_ref>")) {
-                    if (file_number < 0) {
+                    if (!found_file_number) {
                         fprintf(stderr, "No file number found\n");
                         return ERR_XML_PARSE;
                     }
-                    sprintf(buf,
-                        "<file_ref>\n"
-                        "    <file_name>%s</file_name>\n"
-                        "    <open_name>%s</open_name>\n"
-                        "</file_ref>\n",
-                        infiles[file_number],
-                        open_name
-                    );
-                    out += buf;
+                    if (!found_open_name) {
+                        fprintf(stderr, "No open name found\n");
+                        return ERR_XML_PARSE;
+                    }
+                    out += "</file_ref>\n";
                     break;
+                } else {
+                    sprintf(buf, "%s\n", p);
+                    out += buf;
                 }
             }
         } else if (parse_str(p, "<command_line>", cmdline)) {
