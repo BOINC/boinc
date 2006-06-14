@@ -592,11 +592,19 @@ void boinc_trace(const char *pszFormat, ...) {
         _CrtDbgReport(_CRT_WARN, NULL, NULL, NULL, "[%s %s] TRACE [%d]: %s", szDate, szTime, GetCurrentThreadId(), szBuffer);
 #else
         if (flags & BOINC_DIAG_TRACETOSTDERR) {
+#ifdef _WIN32
             fprintf(stderr, "[%s %s] TRACE [%d]: %s\n", szDate, szTime, GetCurrentThreadId(), szBuffer);
+#else
+            fprintf(stderr, "[%s %s] TRACE: %s\n", szDate, szTime, szBuffer);
+#endif
         }
 
         if (flags & BOINC_DIAG_TRACETOSTDOUT) {
+#ifdef _WIN32
             fprintf(stdout, "[%s %s] TRACE [%d]: %s\n", szDate, szTime, GetCurrentThreadId(), szBuffer);
+#else
+            fprintf(stdout, "[%s %s] TRACE: %s\n", szDate, szTime, szBuffer);
+#endif
         }
 #endif
     }
