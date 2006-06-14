@@ -25,6 +25,11 @@ enum {
 	LOG_CRIT
 };
 
+/* The access() macros are missing on Windows */
+#define X_OK		1
+#define W_OK		2
+#define R_OK		4
+
 #ifdef __cplusplus
 }
 #endif
