@@ -272,6 +272,25 @@ static int setup_file(
     return 0;
 }
 
+int ACTIVE_TASK::copy_output_files() {
+    char slotfile[256], projfile[256];
+    unsigned int i;
+    for (i=0; i<result->output_files.size(); i++) {
+        FILE_REF& fref = result->output_files[i];
+        if (!fref.copy_file) continue;
+        FILE_INFO* fip = fref.file_info;
+        sprintf(slotfile, "%s/%s", slot_dir, fref.open_name);
+        get_pathname(fip, projfile);
+        int retval = boinc_rename(slotfile, projfile);
+        if (retval) {
+            msg_printf(wup->project, MSG_ERROR,
+                "Can't rename output file %s", fip->name
+            );
+        }
+    }
+    return 0;
+}
+
 // Start a task in a slot directory.
 // This includes setting up soft links,
 // passing preferences, and starting the process
@@ -363,6 +382,7 @@ int ACTIVE_TASK::start(bool first_time) {
         }
         for (i=0; i<result->output_files.size(); i++) {
             fref = result->output_files[i];
+            if (fref.copy_file) continue;
             fip = fref.file_info;
             get_pathname(fref.file_info, file_path);
             retval = setup_file(wup, fip, fref, file_path, slot_dir);

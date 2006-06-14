@@ -178,12 +178,17 @@ static void limbo_message(ACTIVE_TASK& at) {
 //
 #ifdef _WIN32
 void ACTIVE_TASK::handle_exited_app(unsigned long exit_code) {
+#else
+void ACTIVE_TASK::handle_exited_app(int stat) {
+#endif
+    SCOPE_MSG_LOG scope_messages(log_messages, CLIENT_MSG_LOG::DEBUG_TASK);
     get_app_status_msg();
     get_trickle_up_msg();
     result->final_cpu_time = current_cpu_time;
     if (task_state == PROCESS_ABORT_PENDING) {
         task_state = PROCESS_ABORTED;
     } else {
+#ifdef _WIN32
         task_state = PROCESS_EXITED;
 
         if (exit_code) {
@@ -210,28 +215,7 @@ void ACTIVE_TASK::handle_exited_app(unsigned long exit_code) {
             }
         }
         result->exit_status = exit_code;
-    }
-
-    if (app_client_shm.shm) {
-        detach_shmem(shm_handle, app_client_shm.shm);
-        app_client_shm.shm = NULL;
-    }
-
-    read_stderr_file();
-    clean_out_dir(slot_dir);
-done:
-    gstate.request_schedule_cpus("application exited");
-}
 #else
-void ACTIVE_TASK::handle_exited_app(int stat) {
-    SCOPE_MSG_LOG scope_messages(log_messages, CLIENT_MSG_LOG::DEBUG_TASK);
-
-    get_app_status_msg();
-    get_trickle_up_msg();
-    result->final_cpu_time = current_cpu_time;
-    if (task_state == PROCESS_ABORT_PENDING) {
-        task_state = PROCESS_ABORTED;
-    } else {
         if (WIFEXITED(stat)) {
             task_state = PROCESS_EXITED;
             result->exit_status = WEXITSTATUS(stat);
@@ -304,14 +288,24 @@ void ACTIVE_TASK::handle_exited_app(int stat) {
             task_state = PROCESS_EXIT_UNKNOWN;
             result->state = PROCESS_EXIT_UNKNOWN;
         }
+#endif
     }
 
+#ifdef _WIN32
+    if (app_client_shm.shm) {
+        detach_shmem(shm_handle, app_client_shm.shm);
+        app_client_shm.shm = NULL;
+    }
+#endif
+
+    // here when task is finished for good
+    //
+    copy_output_files();
     read_stderr_file();
     clean_out_dir(slot_dir);
 done:
     gstate.request_schedule_cpus("application exited");
 }
-#endif
 
 bool ACTIVE_TASK::finish_file_present() {
     char path[256];

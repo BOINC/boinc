@@ -199,6 +199,7 @@ public:
     int move_trickle_file();
     int handle_upload_files();
     void upload_notify_app(const FILE_INFO*, const FILE_REF*);
+    int copy_output_files();
 
     int write(MIOFILE&);
     int parse(MIOFILE&);
