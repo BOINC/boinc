@@ -123,8 +123,7 @@ extern void boinc_set_signal_handler_force(int sig, void(*handler)(int));
 // These functions are used to log the various messages that are
 //   defined in the BOINC Diagnostics Library
 extern void boinc_trace(const char *pszFormat, ...);
-extern void boinc_info_debug(const char *pszFormat, ...);
-extern void boinc_info_release(const char *pszFormat, ...);
+extern void boinc_info(const char *pszFormat, ...);
 
 
 #ifdef __cplusplus
@@ -149,7 +148,6 @@ extern void boinc_info_release(const char *pszFormat, ...);
 
 #define BOINCASSERT(expr)   wxASSERT(expr)
 #define BOINCTRACE          wxLogDebug
-#define BOINCINFO           boinc_info_release
 
 #elif defined(_CONSOLE)
 
@@ -158,7 +156,6 @@ extern void boinc_info_release(const char *pszFormat, ...);
 
 #define BOINCASSERT(expr)   _ASSERTE(expr)
 #define BOINCTRACE          boinc_trace
-#define BOINCINFO           boinc_info_debug
 
 #endif // _CONSOLE
 
@@ -167,11 +164,9 @@ extern void boinc_info_release(const char *pszFormat, ...);
 #if defined(__MINGW32__) || defined(__CYGWIN32__)
 #define BOINCASSERT(expr)   
 #define BOINCTRACE(...)
-#define BOINCINFO           boinc_info_release
 #else  // __MINGW32__
 #define BOINCASSERT(expr)   __noop
 #define BOINCTRACE          __noop
-#define BOINCINFO           boinc_info_release
 #endif // __MINGW32__
 
 #endif // _DEBUG
@@ -185,13 +180,11 @@ extern void boinc_info_release(const char *pszFormat, ...);
 
 #define BOINCASSERT         assert
 #define BOINCTRACE          boinc_trace
-#define BOINCINFO           boinc_info_debug
 
 #else  // _DEBUG
 
 #define BOINCASSERT(expr)         
 #define BOINCTRACE(...)          
-#define BOINCINFO           boinc_info_release
 
 #endif // _DEBUG
 
@@ -212,7 +205,7 @@ extern void boinc_info_release(const char *pszFormat, ...);
 #endif
 
 #ifndef BOINCINFO
-#define BOINCINFO			
+#define BOINCINFO			boinc_info
 #endif
 
 #endif

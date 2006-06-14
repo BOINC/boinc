@@ -366,11 +366,11 @@ bool CMainFrame::CreateMenu() {
     } else {
         strMenuName.Printf(
             _("&Synchronize with %s"), 
-            ami.acct_mgr_name.c_str()
+            wxString(ami.acct_mgr_name.c_str(), wxConvUTF8).c_str()
         );
         strMenuDescription.Printf(
             _("Get current settings from %s"), 
-            ami.acct_mgr_name.c_str()
+            wxString(ami.acct_mgr_name.c_str(), wxConvUTF8).c_str()
         );
         menuTools->Append(
             ID_TOOLSAMUPDATENOW, 
@@ -448,7 +448,7 @@ bool CMainFrame::CreateMenu() {
     if (is_acct_mgr_detected) {
         strMenuName.Printf(
             _("&Defect from %s"), 
-            ami.acct_mgr_name.c_str()
+            wxString(ami.acct_mgr_name.c_str(), wxConvUTF8).c_str()
         );
         menuAdvanced->Append(
             ID_ADVANCEDAMDEFECT, 
@@ -1220,7 +1220,7 @@ void CMainFrame::OnAccountManagerDetach(wxCommandEvent& WXUNUSED(event)) {
 
         strTitle.Printf(
             _("BOINC Manager - Detach from %s"), 
-            ami.acct_mgr_name.c_str()
+            wxString(ami.acct_mgr_name.c_str(), wxConvUTF8).c_str()
         );
         strMessage.Printf(
             _("If you defect from %s,\n"
@@ -1228,8 +1228,8 @@ void CMainFrame::OnAccountManagerDetach(wxCommandEvent& WXUNUSED(event)) {
               "but you'll have to manage projects manually.\n"
               "\n"
               "Do you want to defect from %s?"), 
-            ami.acct_mgr_name.c_str(),
-            ami.acct_mgr_name.c_str()
+            wxString(ami.acct_mgr_name.c_str(), wxConvUTF8).c_str(),
+            wxString(ami.acct_mgr_name.c_str(), wxConvUTF8).c_str()
         );
 
         iAnswer = ::wxMessageBox(

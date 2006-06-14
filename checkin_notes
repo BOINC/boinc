@@ -5920,3 +5920,16 @@ David  13 June 2006
         user/
             am_set_info.php
             team_quit_action.php
+
+Rom    14 June 2006
+    - Bug Fix: Fix crashing condition with Unicode BOINC Manager.
+        (From Frank S. Thomas)
+    - Reduce duplicate code in diagnostics.C.
+    - Change screensaver logging mechinisms.
+
+    client/win/
+        win_screensaver.cpp
+    clientgui/
+        MainFrame.cpp
+    lib/
+        diagnostics.C, .h

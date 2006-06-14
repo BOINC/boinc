@@ -32,8 +32,8 @@
 #include <multimon.h>
 #include <strsafe.h>
 
-#include "diagnostics.h"
 #include "boinc_ss.h"
+#include "diagnostics.h"
 #include "win_screensaver.h"
 #include "util.h"
 
@@ -69,23 +69,22 @@ INT WINAPI WinMain(
     HKEY         hKey;
 
 
-#ifdef _DEBUG
-    // Initialize Diagnostics when compiled for debug
+    // Initialize Diagnostics
     retval = diagnostics_init (
         BOINC_DIAG_DUMPCALLSTACKENABLED | 
         BOINC_DIAG_HEAPCHECKENABLED |
         BOINC_DIAG_MEMORYLEAKCHECKENABLED |
-        BOINC_DIAG_ARCHIVESTDERR |
-        BOINC_DIAG_REDIRECTSTDERR |
-        BOINC_DIAG_TRACETOSTDERR,
+        BOINC_DIAG_ARCHIVESTDOUT |
+        BOINC_DIAG_REDIRECTSTDOUTOVERWRITE |
+        BOINC_DIAG_REDIRECTSTDERROVERWRITE |
+        BOINC_DIAG_TRACETOSTDOUT,
         "stdoutscr",
         "stderrscr"
-   );
+    );
     if (retval) {
         BOINCTRACE("WinMain - BOINC Screensaver Diagnostic Error '%d'\n", retval);
         MessageBox(NULL, NULL, "BOINC Screensaver Diagnostic Error", MB_OK);
     }
-#endif
 
     // Figure out if we're on Win9x
     OSVERSIONINFO osvi; 
