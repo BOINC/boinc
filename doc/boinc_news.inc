@@ -1,6 +1,15 @@
 <?
 
 $project_news = array(
+array("June 14, 2006",
+    "We have added preliminary support for
+    <a href=wrapper.php>legacy applications</a>
+    that do not use the BOINC API
+    (e.g. because their source code is not available).
+    This feature will work with the next version
+    (5.5) of the BOINC client software.
+    "
+),
 array("June 10, 2006",
     "The <a href=http://www.boincuk.com/newsletter_reg.php>BOINC UK Newsletter Circuler</a> (bunc) has released its June 2006 edition,
     featuring an interview with David Anderson."

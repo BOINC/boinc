@@ -4,19 +4,10 @@ page_head("Creating BOINC projects");
 
 echo "
 <font size=+1><b>
-Summary documents
-</b></font>
-<ul>
-<li> <a href=intro.php>Overview of BOINC</a>
-<li> <a href=https://uimon.cern.ch/twiki/pub/LHCAtHome/LinksAndDocs/boincciemat06.pdf>A BOINC seminar by Juan Antonio Lopez Perez of CERN</a>,
-presented at CIEMAT in Madrid, November 2005.
-Also available in a
-<a href=https://uimon.cern.ch/twiki/pub/LHCAtHome/LinksAndDocs/boincciematprint06.pdf>print version</a>.
-</ul>
-<font size=+1><b>
 Designing distributed computations with BOINC
 </b></font>
 <ul>
+<li> <a href=intro.php>Overview of BOINC</a>
 <li><a href=parallelize.php>What applications are suitable for BOINC?</a>
 <li> Basic concepts
 <ul>
@@ -63,6 +54,7 @@ Developing a BOINC application
 <li> <a href=app_debug.php>Application debugging</a>
 </ul>
 <li><a href=fortran.php>FORTRAN applications</a>
+<li><a href=wrapper.php>Legacy applications</a>
 <li><a href=compound_app.php>Compound applications</a>
 </ul>
 

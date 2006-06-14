@@ -5999,3 +5999,12 @@ David  14 June 2006
     tools/
         backend_lib.C
         dir_hier_path.C
+
+David  14 June 2006
+    - core client: mark aborted results as ready to report
+        (from John McLeod)
+
+    client/
+        client_state.C
+        client_types.C
+        hostinfo_unix.C

@@ -1581,6 +1581,8 @@ FILE_INFO* RESULT::lookup_file_logical(const char* lname) {
     return 0;
 }
 
+// abort a result that's not currently running
+//
 void RESULT::abort_inactive(int status) {
     if (state >= RESULT_COMPUTE_ERROR) return;
     state = RESULT_ABORTED;

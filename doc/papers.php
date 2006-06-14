@@ -15,13 +15,19 @@ Carl Christensen, Tolu Aina and David Stainforth.
 <br> First IEEE International Conference on e-Science and Grid Technologies
 <br>5-8 December 2005, Melbourne
 
-<hr>
 
+<hr>
 <a href=server_perf.pdf>High-Performance Task Distribution for Volunteer Computing</a>
 <br>
 David P. Anderson, Eric Korpela, Rom Walton
 <br> First IEEE International Conference on e-Science and Grid Technologies
 <br>5-8 December 2005, Melbourne
+
+<hr>
+<a href=https://uimon.cern.ch/twiki/pub/LHCAtHome/LinksAndDocs/boincciemat06.pdf>A BOINC seminar by Juan Antonio Lopez Perez of CERN</a>,
+presented at CIEMAT in Madrid, November 2005.
+Also available in a
+<a href=https://uimon.cern.ch/twiki/pub/LHCAtHome/LinksAndDocs/boincciematprint06.pdf>print version</a>.
 <hr>
 <a href=http://csdl2.computer.org/persagen/DLAbsToc.jsp?resourcePath=/dl/proceedings/ipdps/&toc=comp/proceedings/ipdps/2005/2312/02/2312toc.xml&DOI=10.1109/IPDPS.2005.247>Homogeneous Redundancy: a Technique to Ensure Integrity of Molecular Simulation Results Using Public Computing</a>
 <br>

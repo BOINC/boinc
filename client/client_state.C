@@ -1010,7 +1010,10 @@ bool CLIENT_STATE::garbage_collect_always() {
     return action;
 }
 
-// update the state of results
+// For results that are waiting for file transfer,
+// check if the transfer is done,
+// and if so switch to new state and take other actions.
+// Also set some fields for newly-aborted results.
 //
 bool CLIENT_STATE::update_results() {
     RESULT* rp;
@@ -1024,11 +1027,6 @@ bool CLIENT_STATE::update_results() {
     result_iter = results.begin();
     while (result_iter != results.end()) {
         rp = *result_iter;
-        // The result has been acked by the scheduling server.
-        // It will be deleted on the next garbage collection,
-        if (rp->got_server_ack) {
-            action = true;
-        }
 
         switch (rp->state) {
         case RESULT_NEW:
@@ -1051,6 +1049,13 @@ bool CLIENT_STATE::update_results() {
             }
             break;
         case RESULT_FILES_UPLOADED:
+            break;
+        case RESULT_ABORTED:
+            if (!rp->ready_to_report) {
+                rp->ready_to_report = true;
+                rp->completed_time = now;
+                action = true;
+            }
             break;
         }
         result_iter++;
@@ -1156,8 +1161,6 @@ int CLIENT_STATE::report_result_error(RESULT& res, const char* format, ...) {
         if (!res.exit_status) {
             res.exit_status = ERR_RESULT_UPLOAD;
         }
-        break;
-    case RESULT_COMPUTE_ERROR:
         break;
     case RESULT_FILES_UPLOADED:
         msg_printf(res.project, MSG_ERROR,

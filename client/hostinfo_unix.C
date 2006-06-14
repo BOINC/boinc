@@ -249,7 +249,6 @@ bool HOST_INFO::host_is_running_on_batteries() {
 //
 void parse_cpuinfo(HOST_INFO& host) {
     char buf[256];
-    char buf2[256];
     bool vendor_found=false, model_found=false;
     bool cache_found=false, flags_found=false;
     int n;

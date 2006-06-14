@@ -26,39 +26,13 @@ scans these directories for new application versions.
 
 File names must be of the form <code>NAME_VERSION_PLATFORM[.ext]</code>, e.g.:
 <pre>
-boinc_3.17_i686-pc-linux-gnu.gz
+boinc_3.17_i686-pc-linux-gnu
 astropulse_7.17_windows_intelx86.exe
 </pre>
 <p>
-Notes:
-<ul>
-<li>
 <b>Platform strings must match the names of platforms in the database.</b>
 If needed, <a href=tool_xadd.php>add the platform to the DB</a>.
-<li>
-<b>Applications must have the same major version number
-as your BOINC server software</b>.
-</ul>
 
-<p>
-If a file of the form
-<pre>
-FILENAME.sig
-</pre>
-is found, its contents will be used as a digital signature
-for the corresponding file.
-Recommended code-signing practices are described
-<a href=code_signing.php>here</a>.
-
-
-<p>
-If a file of the form
-<pre>
-FILENAME.file_ref_info
-</pre>
-is found, its contents will be added to the &lt;file_ref>
-element describing the file
-(you can use this for attributes like &lt;copy_file>).
 
 <h3>Multiple-file application versions</h3>
 
@@ -72,6 +46,35 @@ and put the files in that directory.
 If your application includes executable files other than
 the main file, make sure that their protection flags
 include the user execute (u+x) bit.
+
+<h3>Passing extra information about files</h3>
+<p>
+If a file of the form
+<pre>
+FILENAME.sig
+</pre>
+is found, its contents will be used as a digital signature
+for the corresponding file.
+Recommended code-signing practices are described
+<a href=code_signing.php>here</a>.
+
+<p>
+If a file of the form
+<pre>
+FILENAME.file_ref_info
+</pre>
+is found, its contents will be added to the &lt;file_ref>
+element describing the file
+(you can use this for attributes like &lt;copy_file>).
+
+<p>
+If a file of the form
+<pre>
+LOGICAL_NAME=PHYSICAL_NAME
+</pre>
+is found, the given logical and physical names will be used
+(i.e., the application will be able to access the file
+by passing the logical name to boinc_resolve_filename()).
 
 
 ";
