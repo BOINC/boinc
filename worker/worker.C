@@ -29,19 +29,31 @@ int main(int, char**) {
     FILE* out = fopen("out", "w");
     char buf[256];
 
+    fprintf(stderr, "worker starting\n");
+    fflush(stderr);
+    if (!in) {
+        fprintf(stderr, "no input file\n");
+        exit(1);
+    }
+    if (!out) {
+        fprintf(stderr, "no output file\n");
+        exit(1);
+    }
     fgets(buf, 256, in);
     fputs(buf, out);
+    fflush(out);
     fclose(in);
     int start = time(0);
     while (time(0) < start+10) {
         double x=5;
-        for (int i=0; i<1000000000; i++) {
+        for (int i=0; i<10000000; i++) {
             x /= 2.1;
             x += 1.5;
         }
     }
     fputs("done!\n", out);
     fclose(out);
+    return 0;
 }
 
 #ifdef _WIN32

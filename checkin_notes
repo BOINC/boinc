@@ -119,3 +119,17 @@ David  13 June 2006
 		worker.C
 	wrapper/
 		wrapper.C
+
+David  14 June 2006
+	- debugged and updated "wrapper" program.
+		It works now, more or less, on Windows.
+		- wrapper no longer copies input/output files.
+			You must use the <copy_file/> attribute
+			in the file reference instead.
+		- attempted to have wrapper pass stderr handle to worker
+			(Windows).  Doesn't work yet.
+
+	worker/
+		worker.C
+	wrapper/
+		wrapper.C

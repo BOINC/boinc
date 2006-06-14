@@ -22,7 +22,6 @@
 //
 // Handles:
 // - suspend/resume/quit/abort
-// - copying input/output files
 // - reporting CPU time
 // - loss of heartbeat from core client
 //
@@ -35,10 +34,7 @@
 // Takes an input file "job.xml" of the form
 // <job_desc>
 //    <application>NAME</application>
-//    <input_file>NAME0</input_file>
-//    ...
-//    <output_file>NAME0</output_file>
-//    ...
+//    [ ... multiple applications not supported yet ]
 // </job_desc>
 
 #include <stdio.h>
@@ -52,6 +48,7 @@
 #endif
 
 #include "boinc_api.h"
+#include "diagnostics.h"
 #include "filesys.h"
 #include "parse.h"
 #include "util.h"
@@ -60,8 +57,6 @@
 using std::vector;
 using std::string;
 
-vector<string> input_files;
-vector<string> output_files;
 string application;
 bool first = true;
 #ifdef _WIN32
@@ -71,28 +66,6 @@ HANDLE thread_handle;
 int pid;
 #endif
 bool app_suspended = false;
-
-int copy_input_files() {
-    int retval;
-    for (unsigned int i=0; i<input_files.size(); i++) {
-        string filename;
-        boinc_resolve_filename_s(input_files[i].c_str(), filename);
-        retval = boinc_copy(filename.c_str(), input_files[i].c_str());
-        if (retval) return retval;
-    }
-    return 0;
-}
-
-int copy_output_files() {
-    int retval;
-    for (unsigned int i=0; i<output_files.size(); i++) {
-        string filename;
-        boinc_resolve_filename_s(output_files[i].c_str(), filename);
-        retval = boinc_copy(input_files[i].c_str(), filename.c_str());
-        if (retval) return retval;
-    }
-    return 0;
-}
 
 int parse_job_file() {
     char tag[256], contents[1024], buf[256];
@@ -110,16 +83,6 @@ int parse_job_file() {
             application = contents;
             continue;
         }
-        if (!strcmp(tag, "input_file")) {
-            string temp = contents;
-            input_files.push_back(temp);
-            continue;
-        }
-        if (!strcmp(tag, "output_file")) {
-            string temp = contents;
-            output_files.push_back(temp);
-            continue;
-        }
     }
     return ERR_XML_PARSE;
 }
@@ -131,11 +94,17 @@ void parse_state_file() {
 }
 
 int run_application(char** argv) {
+    boinc_resolve_filename_s(application.c_str(), application);
 #ifdef _WIN32
     PROCESS_INFORMATION process_info;
     STARTUPINFO startup_info;
     memset(&process_info, 0, sizeof(process_info));
     memset(&startup_info, 0, sizeof(startup_info));
+
+    // pass stderr handle to app
+    //
+    startup_info.dwFlags = STARTF_USESTDHANDLES;
+    startup_info.hStdError = GetStdHandle(STD_ERROR_HANDLE);
              
     if (!CreateProcess(application.c_str(),
         (LPSTR)application.c_str(),
@@ -176,8 +145,8 @@ bool poll_application(int& status) {
     unsigned long exit_code;
     if (GetExitCodeProcess(pid_handle, &exit_code)) {
         if (exit_code != STILL_ACTIVE) {
-            return true;
             status = exit_code;
+            return true;
         }
     }
 #else
@@ -282,11 +251,20 @@ int main(int argc, char** argv) {
     BOINC_OPTIONS options;
     int retval;
 
+    boinc_init_diagnostics(
+        BOINC_DIAG_DUMPCALLSTACKENABLED |
+        BOINC_DIAG_HEAPCHECKENABLED |
+        BOINC_DIAG_MEMORYLEAKCHECKENABLED |
+        BOINC_DIAG_TRACETOSTDERR |
+        BOINC_DIAG_REDIRECTSTDERR
+    );
+
     memset(&options, 0, sizeof(options));
     options.main_program = true;
     options.check_heartbeat = true;
     options.handle_process_control = true;
 
+    fprintf(stderr, "wrapper: starting\n");
     boinc_init_options(&options);
     retval = parse_job_file();
     if (retval) {
@@ -296,10 +274,6 @@ int main(int argc, char** argv) {
 
     parse_state_file();
 
-    if (first) {
-        retval = copy_input_files();
-    }
-
     retval = run_application(argv);
     if (retval) {
         fprintf(stderr, "can't run app: %d\n", retval);
@@ -308,7 +282,6 @@ int main(int argc, char** argv) {
     while(1) {
         int status;
         if (poll_application(status)) {
-            copy_output_files();
             boinc_finish(status);
         }
         poll_boinc_messages();
