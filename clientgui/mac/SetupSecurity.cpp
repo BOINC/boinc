@@ -95,7 +95,7 @@ OSStatus SetBOINCAppOwnersGroupsAndPermissions(char *path, char *managerName, Bo
 
      // chmod -R u=rwsx,g=rwsx,o=rx path/BOINCManager.app
     // 0775 = S_IRUSR | S_IWUSR | S_IXUSR | S_IRGRP | S_IWGRP | S_IXGRP | S_IROTH | S_IXOTH
-    //  read, write and execute permission for user, group & others
+    //  read, write and execute permission for user & group;  read and execute permission for others
     err = DoPrivilegedExec(chmodPath, "-R", "u=rwx,g=rwx,o=rx", fullpath, NULL, NULL);
     if (err)
         return err;
@@ -192,18 +192,20 @@ OSStatus SetBOINCDataOwnersGroupsAndPermissions() {
     if (err)
         return err;
 
+#if 0   // Redundant if we already set BOINC Data directory to boinc_master:boinc_master
     // Set owner and group of BOINC Data directory itself
-    sprintf(buf1, "%s:%s", boinc_master_name, boinc_project_name);
-    // chown boinc_master:boinc_project "/Library/Applications/BOINC Data"
+    sprintf(buf1, "%s:%s", boinc_master_name, boinc_master_name);
+    // chown boinc_master:boinc_master "/Library/Applications/BOINC Data"
     err = DoPrivilegedExec(chownPath, buf1, fullpath, NULL, NULL, NULL);
     if (err)
         return err;
+#endif
 
     // Set permissions of BOINC Data directory itself
-    // chmod -R u+rwx,g=rx,o-rwx "/Library/Applications/BOINC Data"
-    // 0750 = S_IRUSR | S_IWUSR | S_IXUSR | S_IRGRP| S_IXGRP
-    // set read, write, execute permission for user and group, no access for others
-    err = DoPrivilegedExec(chmodPath, "u+rwx,g=rx,o-rwx", fullpath, NULL, NULL, NULL);
+     // chmod -R u=rwsx,g=rwsx,o=rx "/Library/Applications/BOINC Data"
+    // 0775 = S_IRUSR | S_IWUSR | S_IXUSR | S_IRGRP | S_IWGRP | S_IXGRP | S_IROTH | S_IXOTH
+    //  read, write and execute permission for user & group;  read and execute permission for others
+    err = DoPrivilegedExec(chmodPath, "u=rwx,g=rwx,o=rx", fullpath, NULL, NULL, NULL);
     if (err)
         return err;
 
@@ -238,18 +240,25 @@ OSStatus SetBOINCDataOwnersGroupsAndPermissions() {
 
     result = FSPathMakeRef((StringPtr)fullpath, &ref, &isDirectory);
     if ((result == noErr) && (isDirectory)) {
-        // Set owner and group of projects directory and all its contents
+        // Set owner and group of projects directory's contents
         sprintf(buf1, "%s:%s", boinc_master_name, boinc_project_name);
         // chown boinc_master:boinc_project "/Library/Applications/BOINC Data/projects"
         err = DoPrivilegedExec(chownPath, "-R", buf1, fullpath, NULL, NULL);
         if (err)
             return err;
 
+        // Set owner and group of projects directory itself
+        sprintf(buf1, "%s:%s", boinc_master_name, boinc_master_name);
+        // chown boinc_master:boinc_master "/Library/Applications/BOINC Data/projects"
+        err = DoPrivilegedExec(chownPath, buf1, fullpath, NULL, NULL, NULL);
+        if (err)
+            return err;
+
         // Set permissions for projects directory itself (not its contents)
-        // chmod u=rwx,g=rx,o= "/Library/Applications/BOINC Data/projects"
-        // 0750 = S_IRUSR | S_IWUSR | S_IXUSR | S_IRGRP| S_IXGRP
-        // set read, write, execute permission for user, read and execute for group, no access for others
-        err = DoPrivilegedExec(chmodPath, "u=rwx,g=rx,o=", fullpath, NULL, NULL, NULL);
+        // chmod -R u=rwsx,g=rwsx,o=rx "/Library/Applications/BOINC Data/projects"
+        // 0775 = S_IRUSR | S_IWUSR | S_IXUSR | S_IRGRP | S_IWGRP | S_IXGRP | S_IROTH | S_IXOTH
+        //  read, write and execute permission for user & group;  read and execute permission for others
+        err = DoPrivilegedExec(chmodPath, "u=rwx,g=rwx,o=rx", fullpath, NULL, NULL, NULL);
         if (err)
             return err;
     }       // projects directory
@@ -260,18 +269,25 @@ OSStatus SetBOINCDataOwnersGroupsAndPermissions() {
 
     result = FSPathMakeRef((StringPtr)fullpath, &ref, &isDirectory);
     if ((result == noErr) && (isDirectory)) {
-        // Set owner and group of slots directory and all its contents
+        // Set owner and group of slots directory's contents
         sprintf(buf1, "%s:%s", boinc_master_name, boinc_project_name);
         // chown boinc_master:boinc_project "/Library/Applications/BOINC Data/slots"
         err = DoPrivilegedExec(chownPath, "-R", buf1, fullpath, NULL, NULL);
         if (err)
             return err;
 
+        // Set owner and group of slots directory itself
+        sprintf(buf1, "%s:%s", boinc_master_name, boinc_master_name);
+        // chown boinc_master:boinc_master "/Library/Applications/BOINC Data/slots"
+        err = DoPrivilegedExec(chownPath, buf1, fullpath, NULL, NULL, NULL);
+        if (err)
+            return err;
+
         // Set permissions for slots directory itself (not its contents)
-        // chmod u=rwx,g=rx,o= "/Library/Applications/BOINC Data/slots"
-        // 0750 = S_IRUSR | S_IWUSR | S_IXUSR | S_IRGRP| S_IXGRP
-        // set read, write, execute permission for user, read and execute for group, no access for others
-        err = DoPrivilegedExec(chmodPath, "u=rwx,g=rx,o=", fullpath, NULL, NULL, NULL);
+        // chmod -R u=rwsx,g=rwsx,o=rx "/Library/Applications/BOINC Data/slots"
+        // 0775 = S_IRUSR | S_IWUSR | S_IXUSR | S_IRGRP | S_IWGRP | S_IXGRP | S_IROTH | S_IXOTH
+        //  read, write and execute permission for user & group;  read and execute permission for others
+        err = DoPrivilegedExec(chmodPath, "u=rwx,g=rwx,o=rx", fullpath, NULL, NULL, NULL);
         if (err)
             return err;
     }       // slots directory
@@ -306,17 +322,17 @@ OSStatus SetBOINCDataOwnersGroupsAndPermissions() {
 #if 0   // Redundant if we already set contents of BOINC Data directory to boinc_master:boinc_master 0660
     result = FSPathMakeRef((StringPtr)fullpath, &ref, &isDirectory);
     if ((result == noErr) && (isDirectory)) {
-        // Set owner and group of switcher directory and its contents
+        // Set owner and group of switcher directory
         sprintf(buf1, "%s:%s", boinc_master_name, boinc_master_name);
         // chown boinc_master:boinc_master "/Library/Applications/BOINC Data/switcher"
-        err = DoPrivilegedExec(chownPath, "-R", buf1, fullpath, NULL, NULL);
+        err = DoPrivilegedExec(chownPath, buf1, fullpath, NULL, NULL, NULL);
         if (err)
             return err;
 
-        // chmod -R u+rw,g+rw,o= "/Library/Applications/BOINC Data/switcher"
+        // chmod u+rw,g+rw,o= "/Library/Applications/BOINC Data/switcher"
         // 0660 = S_IRUSR | S_IWUSR | S_IRGRP | S_IWGRP
         // set read and write permission for user and group, no access for others (leaves execute bits unchanged)
-        err = DoPrivilegedExec(chmodPath, "-R", "u+rw,g+rw,o=", fullpath, NULL, NULL);
+        err = DoPrivilegedExec(chmodPath, "u+rw,g+rw,o=", fullpath, NULL, NULL, NULL);
         if (err)
             return err;
     }       // switcher directory
@@ -325,11 +341,18 @@ OSStatus SetBOINCDataOwnersGroupsAndPermissions() {
     strlcat(fullpath, "/switcher", MAXPATHLEN);
     result = FSPathMakeRef((StringPtr)fullpath, &ref, &isDirectory);
     if ((result == noErr) && (! isDirectory)) {
+        // Set owner and group of switcher application
+        sprintf(buf1, "%s:%s", boinc_project_name, boinc_project_name);
+        // chown boinc_project:boinc_project "/Library/Applications/BOINC Data/switcher/switcher"
+        err = DoPrivilegedExec(chownPath, buf1, fullpath, NULL, NULL, NULL);
+        if (err)
+            return err;
+
         // Set permissions of switcher application
-        // chmod -R u=rsx,g=rsx,o= "/Library/Applications/BOINC Data/switcher"
+        // chmod u=rsx,g=rsx,o= "/Library/Applications/BOINC Data/switcher/switcher"
         // 06550 = S_ISUID | S_ISGID | S_IRUSR | S_IXUSR | S_IRGRP | S_IXGRP
         //  setuid-on-execution, setgid-on-execution plus read and execute permission for user and group, no access for others
-        err = DoPrivilegedExec(chmodPath, "-R", "u=rsx,g=rsx,o=", fullpath, NULL, NULL);
+        err = DoPrivilegedExec(chmodPath, "u=rsx,g=rsx,o=", fullpath, NULL, NULL, NULL);
         if (err)
             return err;
     }       // switcher application

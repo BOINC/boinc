@@ -26,3 +26,4 @@ OSStatus SetBOINCDataOwnersGroupsAndPermissions(void);
 OSStatus AddAdminUserToGroups(char *user_name);
 void ShowSecurityError(const char *format, ...);
 
+int CheckSecurity(int isManager);

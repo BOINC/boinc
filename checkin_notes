@@ -5934,18 +5934,6 @@ Rom    14 June 2006
     lib/
         diagnostics.C, .h
 
-Charlie 14 June 2006
-    - more sandbox stuff, with #ifdef SANDBOX:
-        Change projects, slots directories to boinc_master:boinc_master 0775.
-        Mac: I Manager creates BOINC Data directory set its permissions to 0575.
-    
-    client/
-        file_names.C
-    clientgui/
-        BOINCGUIApp.cpp
-        mac/
-            SetupSecurity.cpp,h
-
 Rom    14 June 2006
     - Reduce duplicate code in diagnostics.C.
     - Display the detected CPU capabilities for those who want to
@@ -5955,4 +5943,24 @@ Rom    14 June 2006
         client_state.C
     lib/
         diagnostics.C, .h
+
+Charlie 14 June 2006
+    - more sandbox stuff, with #ifdef SANDBOX:
+        Change projects, slots directories to boinc_master:boinc_master 0775.
+        Mac: I Manager creates BOINC Data directory set its permissions to 0575.
+        Manager checks ownership and permissions; if incorrect it alerts user 
+          and quits.
+    
+    client/
+        check_security.C (new)
+        file_names.C
+    clientgui/
+        BOINCGUIApp.cpp
+        mac/
+            SetupSecurity.cpp,h
+    lib/
+        util.h
+    mac_build/
+        boinc.xcodeproj/
+            project.pbxproj
 

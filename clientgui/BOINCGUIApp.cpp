@@ -335,6 +335,16 @@ bool CBOINCGUIApp::OnInit() {
 
 #endif  // __WXMAC__
 
+#ifdef SANDBOX
+    if (check_security(true)) {
+        wxMessageDialog* pDlg = 
+        new wxMessageDialog(m_pFrame, wxT("BOINC ownership or permissions are not set properly; please reinstall BOINC"),wxT(""), wxOK);
+        pDlg->ShowModal();
+        if (pDlg)
+            pDlg->Destroy();
+        return false;
+    }
+#endif
 
     // Initialize the BOINC Diagnostics Framework
     int dwDiagnosticsFlags =
