@@ -105,10 +105,10 @@ int make_project_dir(PROJECT& p) {
 
     boinc_mkdir(PROJECTS_DIR);
 #ifdef SANDBOX
-    boinc_chown(PROJECTS_DIR, gstate.boinc_project_gid);
     chmod(PROJECTS_DIR,
             S_IRUSR|S_IWUSR|S_IXUSR
-            |S_IRGRP|S_IXGRP
+            |S_IRGRP||S_IWGRP|S_IXGRP
+            |S_IROTH|S_IXOTH
         );
 #endif
     get_project_dir(&p, buf);
@@ -142,10 +142,10 @@ int make_slot_dir(int slot) {
     }
     boinc_mkdir(SLOTS_DIR);
 #ifdef SANDBOX
-    boinc_chown(SLOTS_DIR, gstate.boinc_project_gid);
     chmod(SLOTS_DIR,
             S_IRUSR|S_IWUSR|S_IXUSR
-            |S_IRGRP|S_IXGRP
+            |S_IRGRP||S_IWGRP|S_IXGRP
+            |S_IROTH|S_IXOTH
         );
 #endif
     get_slot_dir(slot, buf);

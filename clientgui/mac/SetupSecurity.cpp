@@ -82,7 +82,6 @@ OSStatus CreateBOINCUsersAndGroups() {
 OSStatus SetBOINCAppOwnersGroupsAndPermissions(char *path, char *managerName, Boolean development) {
     char            fullpath[MAXPATHLEN];
     char            buf1[80];
-    mode_t          old_mask;
     OSStatus        err = noErr;
     
     strlcpy(fullpath, path, MAXPATHLEN);
@@ -167,7 +166,6 @@ OSStatus SetBOINCDataOwnersGroupsAndPermissions() {
     Boolean         isDirectory;
     char            fullpath[MAXPATHLEN];
     char            buf1[80];
-    mode_t          old_mask;
     OSStatus        err = noErr;
     OSStatus        result;
     char            *BOINCDataDirPath = "/Library/Application Support/BOINC Data";

@@ -5933,3 +5933,15 @@ Rom    14 June 2006
         MainFrame.cpp
     lib/
         diagnostics.C, .h
+
+Charlie 14 June 2006
+    - more sandbox stuff, with #ifdef SANDBOX:
+        Change projects, slots directories to boinc_master:boinc_master 0775.
+        Mac: I Manager creates BOINC Data directory set its permissions to 0575.
+    
+    client/
+        file_names.C
+    clientgui/
+        BOINCGUIApp.cpp
+        mac/
+            SetupSecurity.cpp,h

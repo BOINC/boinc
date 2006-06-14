@@ -321,8 +321,9 @@ bool CBOINCGUIApp::OnInit() {
         if (! wxDirExists(strDirectory)) {
 #ifdef SANDBOX
             gid_t gid;
-            success = wxMkdir(strDirectory, 0750);    // Does nothing if dir exists
-            lookup_group("boinc_project", gid);
+            // Create BOINC Data directory writable by group boinc_master only
+            success = wxMkdir(strDirectory, 0575);
+            lookup_group("boinc_master", gid);
             boinc_chown("BOINC Data", gid);
 #else
             success = wxMkdir(strDirectory, 0777);    // Does nothing if dir exists
