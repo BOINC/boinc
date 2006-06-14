@@ -338,7 +338,7 @@ bool CBOINCGUIApp::OnInit() {
 #ifdef SANDBOX
     if (check_security(true)) {
         wxMessageDialog* pDlg = 
-        new wxMessageDialog(m_pFrame, wxT("BOINC ownership or permissions are not set properly; please reinstall BOINC"),wxT(""), wxOK);
+        new wxMessageDialog(m_pFrame, _("BOINC ownership or permissions are not set properly; please reinstall BOINC"),wxT(""), wxOK);
         pDlg->ShowModal();
         if (pDlg)
             pDlg->Destroy();
