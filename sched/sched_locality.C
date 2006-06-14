@@ -927,7 +927,15 @@ void send_work_locality(
         // here, put a list of patterns of ALL files that are not needed anymore
         // and should simply be deleted as soon as possible.
         //
-        bool useful = strncmp("H1_", fname, 3) && strncmp("l1_", fname, 3) && strncmp("w1_", fname, 3);
+        bool useful = strlen(fname) > 10 ||
+                      (
+                        strncmp("H1_", fname, 3) &&
+                        strncmp("h1_", fname, 3) && 
+                        strncmp("w1_", fname, 3) &&
+                        strncmp("W1_", fname, 3) &&
+                        strncmp("l1_", fname, 3) &&
+                        strncmp("L1_", fname, 3)
+                       );
 
         // here, put a list of patterns of ALL files that are still needed to be
         // sticky, but are not 'data' files for locality scheduling purposes, eg they
