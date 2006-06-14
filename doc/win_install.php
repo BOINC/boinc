@@ -12,7 +12,6 @@ BOINC can be installed in any of several modes:
 <h3>Single-user installation</h3>
 <p>
 This is the recommended mode.
-If you check the 'run on startup' box,
 BOINC will run while you (the installing user) are logged in.
 <p>
 BOINC is listed in the Start menu of the installing user,
@@ -27,7 +26,6 @@ graphics only for the installing user
 <li>
 <h3>Shared installation</h3>
 <p>
-If you check the 'run on startup' box,
 BOINC runs whenever any user is logged in.
 <p>
 BOINC is listed in the Start menu of all users.
@@ -42,7 +40,6 @@ The BOINC screensaver shows application graphics only for this user
 <li>
 <h3>Service installation</h3>
 <p>
-If you check the 'run on startup' box,
 BOINC runs all the time (even when no one is logged in).
 <p>
 BOINC is listed in the Start menu of the installing user,

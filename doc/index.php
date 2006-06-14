@@ -16,7 +16,7 @@ $projects = array(
         "http://bbc.cpdn.org/",
         "Oxford University",
         "Earth sciences",
-        "The experiment adds the processing power of your home or office computer to thousands of others to predict climate change. The same model that the Met Office uses to make daily weather forecasts has been adapted by climateprediction.net to run on home PCs.<p> The model incorporates many variable parameters, allowing thousands of sets of conditions. Your computer will run one individual set of conditions . in effect your individual version of how the world\'s climate works . and then report back to the climateprediction.net team what it calculates.",
+        "The experiment adds the processing power of your home or office computer to thousands of others to predict climate change. The same model that the Met Office uses to make daily weather forecasts has been adapted by climateprediction.net to run on home PCs.<p> The model incorporates many variable parameters, allowing thousands of sets of conditions. Your computer will run one individual set of conditions -  in effect your individual version of how the world\'s climate works - and then report back to the climateprediction.net team what it calculates.",
 
         "cpn_logo_world_1.jpg"
     ),

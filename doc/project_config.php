@@ -66,7 +66,7 @@ list_item("system_requirements",
     If a computer doesn't meet these requirements it may not
     get sent any work by the project.
     All requirements are 'net'; e.g. the CPU requirements
-    are after factors like on-fraction, active-fraction,
+    are after factors like <a href=sched.php>on-fraction, active-fraction</a>,
     and resource share have been taken into consideration."
 );
 list_item("platforms",

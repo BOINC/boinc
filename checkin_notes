@@ -6008,3 +6008,10 @@ David  14 June 2006
         client_state.C
         client_types.C
         hostinfo_unix.C
+
+David  14 June 2006
+    - Windows graphics API: if in screensaver mode,
+        close on any input, even if control key is down
+
+    api/
+        windows_opengl.C

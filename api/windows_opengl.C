@@ -52,8 +52,6 @@ static bool window_ready=false;
 static UINT_PTR gfx_timer_id = 0;
 
 #define GLUT_CTRL_KEY 17
-static bool ctrl_key_pressed = false;   // remember if Ctrl key is pressed
-
 
 void KillWindow() {
     window_ready=false;
@@ -305,10 +303,7 @@ LRESULT CALLBACK WndProc(
             return 0;
     case WM_KEYDOWN:
         if(!window_ready) return 0;    
-        if(((int)wParam) == GLUT_CTRL_KEY) {
-            ctrl_key_pressed=true;
-        }
-        if (current_graphics_mode == MODE_FULLSCREEN && !ctrl_key_pressed) {
+        if (current_graphics_mode == MODE_FULLSCREEN) {
                set_mode(MODE_HIDE_GRAPHICS);
         } else {           
             boinc_app_key_press((int)wParam, (int)lParam);
@@ -316,13 +311,10 @@ LRESULT CALLBACK WndProc(
         return 0;
     case WM_KEYUP:
         if(!window_ready) return 0;    
-        if (current_graphics_mode == MODE_FULLSCREEN && !ctrl_key_pressed) {
+        if (current_graphics_mode == MODE_FULLSCREEN) {
             set_mode(MODE_HIDE_GRAPHICS);
         } else {
             boinc_app_key_release((int)wParam, (int)lParam);           
-        }
-        if (((int)wParam) == GLUT_CTRL_KEY) {
-            ctrl_key_pressed=false;
         }
         return 0;
     case WM_LBUTTONDOWN:
@@ -333,7 +325,7 @@ LRESULT CALLBACK WndProc(
     case WM_RBUTTONUP:
         if(!window_ready) return 0;    
 
-        if (current_graphics_mode == MODE_FULLSCREEN && !ctrl_key_pressed) {
+        if (current_graphics_mode == MODE_FULLSCREEN) {
             set_mode(MODE_HIDE_GRAPHICS);
         } else  {
             int which;
@@ -348,7 +340,7 @@ LRESULT CALLBACK WndProc(
         if(!window_ready) return 0;    
         POINT cPos;
         GetCursorPos(&cPos);
-        if (current_graphics_mode == MODE_FULLSCREEN && !ctrl_key_pressed ) { 
+        if (current_graphics_mode == MODE_FULLSCREEN) { 
             if(cPos.x != mousePos.x || cPos.y != mousePos.y) {
                 set_mode(MODE_HIDE_GRAPHICS);
             }

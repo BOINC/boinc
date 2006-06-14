@@ -283,7 +283,7 @@ list_item("action",
         Included only if the &lt;send_gui_rpc_info&gt; element
         is included in the AM URL file (see above).
     <dt> global_preferences
-    </dd> The current global preferences.
+    <dd> The current global preferences.
     </dl>
     In addition, a list of projects and their suspended flags is included.
     <p>
