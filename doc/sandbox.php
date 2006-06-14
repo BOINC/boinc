@@ -29,11 +29,11 @@ $pp0770 = prot('boinc_project', 'boinc_project', '0770');
 $pp6550 = prot('boinc_project', 'boinc_project', '0550+setuid+setgid');
 $mm0770 = prot('boinc_master', 'boinc_master', '0770');
 $mp0770 = prot('boinc_master', 'boinc_project', '0770');
-$mp0750 = prot('boinc_master', 'boinc_project', '0750');
+$mm0775 = prot('boinc_master', 'boinc_master', '0775');
 $mm2555 = prot('boinc_master', 'boinc_master', '0555+setgid');
 $mm6555 = prot('boinc_master', 'boinc_master', '0555+setuid+setgid');
 $mm6770 = prot('boinc_master', 'boinc_master', '0770+setuid+setgid');
-$mm0775 = prot('(installing user)', 'admin', '0775');
+$ua0775 = prot('(installing user)', 'admin', '0775');
 
 $colors = array('ddddff', 'ccccff', 'bbbbff');
 
@@ -94,14 +94,14 @@ for the BOINC file and directory tree:
 ";
 
 echo
-    show_dir(0, 'BOINC data', $mp0750, array(
-        show_dir(1, 'projects', $mp0750, array(
+    show_dir(0, 'BOINC data', $mm0775, array(
+        show_dir(1, 'projects', $mm0775, array(
             show_dir(2, 'setiathome.berkeley.edu', $mp0770, array(
                 show_file('files created by BOINC Client', $mp0770),
                 show_file('files created by project apps', $pp0770)
             ))
         )),
-        show_dir(1, 'slots', $mp0750, array(
+        show_dir(1, 'slots', $mm0775, array(
             show_dir(2, '0', $mp0770, array(
                 show_file('files created by BOINC Client', $mp0770),
                 show_file('files created by project apps', $pp0770)
@@ -127,7 +127,7 @@ echo
 echo "<br><br>";
 
 echo
-    show_dir(0, 'BOINC executables', $mm0775, array(
+    show_dir(0, 'BOINC executables', $ua0775, array(
         show_file('BOINC Manager', $mm2555),
         show_file('BOINC Client', $mm6555),
     ));
