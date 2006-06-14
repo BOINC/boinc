@@ -5926,7 +5926,11 @@ Rom    14 June 2006
         (From Frank S. Thomas)
     - Reduce duplicate code in diagnostics.C.
     - Change screensaver logging mechinisms.
+    - Display the detected CPU capabilities for those who want to
+        manually use an optimized application via app_info.xml
 
+    client/
+        client_state.C
     client/win/
         win_screensaver.cpp
     clientgui/
@@ -5945,3 +5949,14 @@ Charlie 14 June 2006
         BOINCGUIApp.cpp
         mac/
             SetupSecurity.cpp,h
+
+Rom    14 June 2006
+    - Reduce duplicate code in diagnostics.C.
+    - Display the detected CPU capabilities for those who want to
+        manually use an optimized application via app_info.xml
+
+    client/
+        client_state.C
+    lib/
+        diagnostics.C, .h
+

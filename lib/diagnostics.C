@@ -58,7 +58,6 @@
 
 
 #ifdef _WIN32
-int __cdecl  boinc_message_reporting(int reportType, char *szMsg, int *retVal);
 
 static _CrtMemState start_snapshot; 
 static _CrtMemState finish_snapshot; 
@@ -80,6 +79,42 @@ static int         boinc_proxy_enabled;
 static char        boinc_proxy[256];
 static char        symstore[256];
 static int         aborted_via_gui;
+
+
+#if defined(_WIN32) && defined(_DEBUG)
+
+// Trap ASSERTs and TRACEs from the CRT and spew them to stderr.
+//
+int __cdecl boinc_message_reporting(int reportType, char *szMsg, int *retVal){
+    (*retVal) = 0;
+
+    switch(reportType){
+
+        case _CRT_WARN:
+        case _CRT_ERROR:
+
+            if (flags & BOINC_DIAG_TRACETOSTDERR) {
+                fprintf(stderr, szMsg);
+            }
+
+            if (flags & BOINC_DIAG_TRACETOSTDOUT) {
+                fprintf(stdout, szMsg);
+            }
+
+            break;
+        case _CRT_ASSERT:
+
+            fprintf(stderr, "ASSERT: %s\n", szMsg);
+
+            (*retVal) = 1;
+            break;
+
+    }
+
+    return(TRUE);
+}
+
+#endif // _WIN32 && _DEBUG
 
 
 // stub function for initializing the diagnostics environment.
@@ -444,132 +479,6 @@ int diagnostics_cycle_logs() {
 }
 
 
-#ifdef _WIN32
-
-#ifdef _DEBUG
-
-
-// Trap ASSERTs and TRACEs from the CRT and spew them to stderr.
-//
-int __cdecl boinc_message_reporting(int reportType, char *szMsg, int *retVal){
-    (*retVal) = 0;
-
-    switch(reportType){
-
-        case _CRT_WARN:
-        case _CRT_ERROR:
-
-            if (flags & BOINC_DIAG_TRACETOSTDERR) {
-                fprintf(stderr, szMsg);
-                fflush(stderr);
-            }
-
-            if (flags & BOINC_DIAG_TRACETOSTDOUT) {
-                fprintf(stdout, szMsg);
-                fflush(stdout);
-            }
-
-            break;
-        case _CRT_ASSERT:
-
-            fprintf(stderr, "ASSERT: %s\n", szMsg);
-            fflush(stderr);
-
-            (*retVal) = 1;
-            break;
-
-    }
-
-    return(TRUE);
-}
-
-
-// Converts the BOINCTRACE macro into a single string and report it
-//   to the CRT so it can be reported via the normal means.
-//
-void boinc_trace(const char *pszFormat, ...) {
-    static char szBuffer[4096];
-    static char szDate[64];
-    static char szTime[64];
-
-    // Trace messages should only be reported if running as a standalone
-    //   application or told too.
-    if ((flags & BOINC_DIAG_TRACETOSTDERR) ||
-        (flags & BOINC_DIAG_TRACETOSTDOUT)) {
-
-        memset(szBuffer, 0, sizeof(szBuffer));
-        memset(szDate, 0, sizeof(szDate));
-        memset(szTime, 0, sizeof(szTime));
-
-        strdate(szDate);
-        strtime(szTime);
-
-        va_list ptr;
-        va_start(ptr, pszFormat);
-
-        vsnprintf(szBuffer, sizeof(szBuffer), pszFormat, ptr);
-
-        va_end(ptr);
-
-        _CrtDbgReport(_CRT_WARN, NULL, NULL, NULL, "[%s %s] TRACE [%d]: %s", szDate, szTime, GetCurrentThreadId(), szBuffer);
-    }
-}
-
-
-#endif // _DEBUG
-
-
-#else // _WIN32
-
-
-#ifdef _DEBUG
-
-
-// Converts the BOINCTRACE macro into a single string and report it
-//   to the CRT so it can be reported via the normal means.
-//
-void boinc_trace(const char *pszFormat, ...) {
-    static char szBuffer[4096];
-    static char szDate[64];
-    static char szTime[64];
-
-    // Trace messages should only be reported if running as a standalone
-    //   application or told too.
-    if ((flags & BOINC_DIAG_TRACETOSTDERR) ||
-         (flags & BOINC_DIAG_TRACETOSTDOUT)) {
-
-        memset(szBuffer, 0, sizeof(szBuffer));
-        memset(szDate, 0, sizeof(szDate));
-        memset(szTime, 0, sizeof(szTime));
-
-        strdate(szDate);
-        strtime(szTime);
-
-        va_list ptr;
-        va_start(ptr, pszFormat);
-
-        vsnprintf(szBuffer, sizeof(szBuffer), pszFormat, ptr);
-
-        va_end(ptr);
-
-        if (flags & BOINC_DIAG_TRACETOSTDERR) {
-            fprintf(stderr, "[%s %s] TRACE: %s", szDate, szTime, szBuffer);
-            fflush(stderr);
-        }
-
-        if (flags & BOINC_DIAG_TRACETOSTDOUT) {
-            fprintf(stdout, "[%s %s] TRACE: %s", szDate, szTime, szBuffer);
-            fflush(stdout);
-        }
-    }
-}
-
-#endif // _DEBUG
-
-
-#endif // _WIN32
-
-
 // Diagnostics for POSIX Compatible systems.
 //
 
@@ -651,6 +560,48 @@ void boinc_catch_signal(int signal) {
 //
 // Diagnostics Routines common to all Platforms
 //
+
+// Converts the BOINCTRACE macro into a single string and report it
+//   to the CRT so it can be reported via the normal means.
+//
+void boinc_trace(const char *pszFormat, ...) {
+    static char szBuffer[4096];
+    static char szDate[64];
+    static char szTime[64];
+
+    // Trace messages should only be reported if running as a standalone
+    //   application or told too.
+    if ((flags & BOINC_DIAG_TRACETOSTDERR) ||
+        (flags & BOINC_DIAG_TRACETOSTDOUT)) {
+
+        memset(szBuffer, 0, sizeof(szBuffer));
+        memset(szDate, 0, sizeof(szDate));
+        memset(szTime, 0, sizeof(szTime));
+
+        strdate(szDate);
+        strtime(szTime);
+
+        va_list ptr;
+        va_start(ptr, pszFormat);
+
+        vsnprintf(szBuffer, sizeof(szBuffer), pszFormat, ptr);
+
+        va_end(ptr);
+
+#if defined(_WIN32) && defined(_DEBUG)
+        _CrtDbgReport(_CRT_WARN, NULL, NULL, NULL, "[%s %s] TRACE [%d]: %s", szDate, szTime, GetCurrentThreadId(), szBuffer);
+#else
+        if (flags & BOINC_DIAG_TRACETOSTDERR) {
+            fprintf(stderr, "[%s %s] TRACE [%d]: %s\n", szDate, szTime, GetCurrentThreadId(), szBuffer);
+        }
+
+        if (flags & BOINC_DIAG_TRACETOSTDOUT) {
+            fprintf(stdout, "[%s %s] TRACE [%d]: %s\n", szDate, szTime, GetCurrentThreadId(), szBuffer);
+        }
+#endif
+    }
+}
+
 
 // Converts the BOINCINFO macro into a single string and report it
 //   to stderr so it can be reported via the normal means.

@@ -163,10 +163,10 @@ extern void boinc_info(const char *pszFormat, ...);
 
 #if defined(__MINGW32__) || defined(__CYGWIN32__)
 #define BOINCASSERT(expr)   
-#define BOINCTRACE(...)
+#define BOINCTRACE(...)     boinc_trace
 #else  // __MINGW32__
 #define BOINCASSERT(expr)   __noop
-#define BOINCTRACE          __noop
+#define BOINCTRACE          boinc_trace
 #endif // __MINGW32__
 
 #endif // _DEBUG
