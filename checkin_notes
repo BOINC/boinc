@@ -4254,3 +4254,10 @@ David  23 May 2006
 
 	client/
 		client_state.C
+
+Rom    14 June 2006
+    - Bug Fix: Fix crashing condition with Unicode BOINC Manager.
+        (From Frank S. Thomas)
+
+    clientgui/
+        MainFrame.cpp
