@@ -67,7 +67,7 @@ if ($action=="hide"){
 if ($result) {
     echo mysql_error();
     if (post_str('reason', true)){
-        send_thread_moderation_email(lookup_user_id($post->user),$thread, post_str("reason"));
+        send_thread_moderation_email($user, lookup_user_id($post->user),$thread, post_str("reason"));
     }
     header('Location: forum_thread.php?id='.$thread->id);
 } else {

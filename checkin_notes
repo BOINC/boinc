@@ -6022,3 +6022,17 @@ David  14 June 2006
 
     client/
         app.C,h
+
+Rom    15 June 2006
+    - Remove the code block that mixes the forum rating restrictions with
+        reporting abuse.
+    - Add the moderators name to all outgoing moderation email
+    - Add the email address that should be used for disputes with
+        moderation.
+        
+    html/inc/
+        email.inc
+    html/user/
+        forum_moderate_post_action.php
+        forum_moderate_thread_action.php
+        forum_report_post.php

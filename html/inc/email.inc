@@ -128,7 +128,7 @@ function is_valid_email_addr($addr) {
 
 //////////////////////////////////////////////
 
-function send_moderation_email($user, $thread,  $post, $message) {
+function send_moderation_email($moderator, $user, $thread,  $post, $message) {
     global $master_url;
     $body = "";
 
@@ -136,6 +136,7 @@ function send_moderation_email($user, $thread,  $post, $message) {
     $body = PROJECT." notification:
 
 This email is sent to inform you that one of your posts in the forum has been affected by moderation in ".PROJECT.":
+    Moderator:      ".$moderator->name."
     Thread:         ".$thread->title."
     Link:           $master_url/forum_thread.php?id=".$thread->id."
     
@@ -146,12 +147,18 @@ $body .= "
 This was the contents of your post:
 ".$post->content."
 
-For further information and assistance with ".PROJECT." go to $master_url";
+For further information and assistance with ".PROJECT." go to $master_url
+
+If you wish to dispute the reason for this moderation forward this email to:
+".$forum_post_reporting_admin->email_addr."
+
+Please state why you think it was improperly moderated.
+";
     return send_email($user, $subject, $body);
 
 }
 
-function send_thread_moderation_email($user, $thread, $message) {
+function send_thread_moderation_email($moderator, $user, $thread, $message) {
     global $master_url;
     $body = "";
 
@@ -159,6 +166,7 @@ function send_thread_moderation_email($user, $thread, $message) {
     $body = PROJECT." notification:
 
 This email is sent to inform you that one of your threads in the forum has been affected by moderation in ".PROJECT.":
+    Moderator:      ".$moderator->name."
     Thread:         ".$thread->title."
     Link:           $master_url/forum_thread.php?id=".$thread->id."
     
@@ -166,7 +174,13 @@ The moderator gave this explanation to why your thread was moderated:
 ".$message;
 $body .= "
 
-For further information and assistance with ".PROJECT." go to $master_url";
+For further information and assistance with ".PROJECT." go to $master_url
+
+If you wish to dispute the reason for this moderation forward this email to:
+".$forum_post_reporting_admin->email_addr."
+
+Please state why you think it was improperly moderated.
+";
     return send_email($user, $subject, $body);
 
 }
