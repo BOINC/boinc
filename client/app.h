@@ -236,6 +236,7 @@ public:
     bool want_network();    // does any task want network?
     void network_available();   // notify tasks that network is available
     void free_mem();
+    bool slot_taken(int);
 
     // screensaver-related functions
     ACTIVE_TASK* get_ss_app();

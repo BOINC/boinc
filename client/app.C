@@ -327,6 +327,14 @@ int ACTIVE_TASK_SET::get_free_slot() {
     return ERR_NOT_FOUND;   // probably never get here
 }
 
+bool ACTIVE_TASK_SET::slot_taken(int slot) {
+    unsigned int i;
+    for (i=0; i<active_tasks.size(); i++) {
+        if (active_tasks[i]->slot == slot) return true;
+    }
+    return false;
+}
+
 int ACTIVE_TASK::write(MIOFILE& fout) {
     fout.printf(
         "<active_task>\n"
@@ -485,6 +493,15 @@ int ACTIVE_TASK_SET::parse(MIOFILE& fin) {
         else if (match_tag(buf, "<active_task>")) {
             atp = new ACTIVE_TASK;
             retval = atp->parse(fin);
+            if (!retval) {
+                if (slot_taken(atp->slot)) {
+                    msg_printf(atp->result->project, MSG_ERROR,
+                        "slot %d in use; discarding result %s",
+                        atp->slot, atp->result->name
+                    );
+                    retval = ERR_XML_PARSE;
+                }
+            }
             if (!retval) active_tasks.push_back(atp);
             else delete atp;
         } else scope_messages.printf("ACTIVE_TASK_SET::parse(): unrecognized %s\n", buf);

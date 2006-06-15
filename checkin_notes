@@ -6015,3 +6015,10 @@ David  14 June 2006
 
     api/
         windows_opengl.C
+
+David  14 June 2006
+    - core client: sanity check on read statefile:
+        make sure two active tasks don't have the same slot
+
+    client/
+        app.C,h
