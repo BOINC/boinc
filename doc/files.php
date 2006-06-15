@@ -7,8 +7,10 @@ echo "
 The BOINC storage model is based on <b>files</b>.
 Examples of files:
 <ul>
-<li> The inputs and outputs of applications;
-<li> Application executables, libraries, etc.
+<li> The inputs and/or outputs of computation;
+<li> Components of application: executables, libraries, etc.
+<li> Data for its own sake,
+e.g. to implement a distributed storage system.
 </ul>
 <p>
 The BOINC core client transfers files to and from project-operated
@@ -16,12 +18,27 @@ The BOINC core client transfers files to and from project-operated
 <p>
 Once a file is created (on a data server or a participant host) it
 is <b>immutable</b>.
-This means that all replicas of that file are assumed to be identical.
+This means that all replicas of that file are assumed (and required) to be identical.
+
+<h3>File properties</h3>
+Files have various <b>properties</b>, including:
+<ul>
+<li> <b>Sticky</b>: don't delete file on client (see below).
+<li> <b>Report on RPC</b>: include a description of this file
+in scheduler requests.
+<li> <b>Maximum size</b>: if an output file exceeds its maximum size,
+the computation is aborted.
+</ul>
+File properties are specified in XML.
+For example, the properties of input files are described in
+the <a href=tools_work.php>workunit template</a>,
+and XML document describing the task.
+The XML format is described <a href=xml.php>here</a>.
 
 <a name=file_ref></a>
 <h3>File management</h3>
 <p>
-BOINC's default behavior is to delete files around
+BOINC's default behavior is to delete files
 when they aren't needed any more.
 Specifically:
 <ul>
