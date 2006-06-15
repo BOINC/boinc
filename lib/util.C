@@ -813,13 +813,20 @@ int boinc_calling_thread_cpu_time(double& cpu) {
 
 #else
 
+pthread_mutex_t getrusage_mutex=PTHREAD_MUTEX_INITIALIZER;
+
 // Unix: pthreads doesn't seem to provide an API for getting
 // per-thread CPU time.  So just get the process's CPU time
 //
 int boinc_calling_thread_cpu_time(double &cpu_t) {
-    int retval;
+    int retval=1;
     struct rusage ru;
-    retval = getrusage(RUSAGE_SELF, &ru);
+// getrusage can return an error, so try a few times if it returns an error.
+    if (!pthread_mutex_trylock(&getrusage_mutex)) {
+        int i=0;
+        while (retval=getrusage(RUSAGE_SELF, &ru) && i<10) i++;
+        pthread_mutex_unlock(&getrusage_mutex);
+    }
     if (retval) {
         return ERR_GETRUSAGE;
     }

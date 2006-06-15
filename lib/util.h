@@ -28,6 +28,12 @@
 #include <algorithm>
 #include <string>
 
+#ifdef HAVE_PTHREAD
+
+#include <pthread.h>
+
+#endif
+
 #if !defined(HAVE_STRLCPY)
 extern size_t strlcpy(char*, const char*, size_t);
 #endif
@@ -129,6 +135,10 @@ extern void mysql_timestamp(double, char*);
 // int errornumber from error_numbers.h
 //
 extern const char* boincerror(int which_error);
+
+#ifdef HAVE_PTHREAD
+extern pthread_mutex_t getrusage_mutex;
+#endif
 
 #ifndef _WIN32
 extern int lookup_group(char*, gid_t& gid);
