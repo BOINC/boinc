@@ -31,19 +31,32 @@
 
 #include "SetupSecurity.h"
 
-static OSStatus CreateUserAndGroup(char * name);
 static OSStatus GetAuthorization(void);
 OSStatus DoPrivilegedExec(const char *pathToTool, char *arg1, char *arg2, char *arg3, char *arg4, char *arg5);
 static pascal Boolean ErrorDlgFilterProc(DialogPtr theDialog, EventRecord *theEvent, short *theItemHit);
 static void SleepTicks(UInt32 ticksToSleep);
-
+#ifdef _DEBUG
+static OSStatus SetFakeMasterNames(void);
+#else
+static OSStatus CreateUserAndGroup(char * user_name, char * group_name);
+#endif
 
 static AuthorizationRef        gOurAuthRef = NULL;
 
 #define DELAY_TICKS 3
 #define DELAY_TICKS_R 10
 
-#define boinc_master_name "boinc_master"
+#ifdef _DEBUG
+// GDB can't attach to applications which are running as a diferent user or group so 
+//  it ignores the S_ISUID and S_ISGID permisison bits when launching an application.
+// To work around this, the _DEBUG version uses the current user and group.
+static char boinc_master_user_name[64];
+static char boinc_master_group_name[64];
+#else
+#define boinc_master_user_name "boinc_master"
+#define boinc_master_group_name "boinc_master"
+#endif
+
 #define boinc_project_name "boinc_project"
 
 #define MIN_ID 25   /* Minimum user ID / Group ID to create */
@@ -53,41 +66,47 @@ static char                    chmodPath[] = "/bin/chmod";
 static char                    chownPath[] = "/usr/sbin/chown";
 #define RIGHTS_COUNT 3          /* Count of the 3 above items */
 
-OSStatus CreateBOINCUsersAndGroups() {
+int CreateBOINCUsersAndGroups() {
+#ifndef _DEBUG
     char            buf1[80];
     OSStatus        err = noErr;
 
-    err = CreateUserAndGroup(boinc_master_name);
+    err = CreateUserAndGroup(boinc_master_user_name, boinc_master_group_name);
     if (err != noErr)
         return err;
     
-    err = CreateUserAndGroup(boinc_project_name);
+    err = CreateUserAndGroup(boinc_project_name, boinc_project_name);
     if (err != noErr)
         return err;
     
     // Add user boinc_master to group boinc_project
     sprintf(buf1, "/groups/%s", boinc_project_name);
     // "dscl . -merge /groups/boinc_project users boinc_master"
-    err = DoPrivilegedExec(dsclPath, ".", "-merge", buf1, "users", boinc_master_name);
+    err = DoPrivilegedExec(dsclPath, ".", "-merge", buf1, "users", boinc_master_user_name);
     if (err != noErr)
         return err;
 
     system("lookupd -flushcache");
     system("memberd -r");
-
+    
+#endif          // ! _DEBUG
     return noErr;
 }
 
 
-OSStatus SetBOINCAppOwnersGroupsAndPermissions(char *path, char *managerName, Boolean development) {
+int SetBOINCAppOwnersGroupsAndPermissions(char *path) {
     char            fullpath[MAXPATHLEN];
     char            buf1[80];
+    char            *p;
     OSStatus        err = noErr;
     
+#ifdef _DEBUG
+    err = SetFakeMasterNames();
+    if (err)
+        return err;
+#endif
+    
     strlcpy(fullpath, path, MAXPATHLEN);
-    strlcat(fullpath, "/", MAXPATHLEN);
-    strlcat(fullpath, managerName, MAXPATHLEN);
-    strlcat(fullpath, ".app", MAXPATHLEN);
     if (strlen(fullpath) >= (MAXPATHLEN-1)) {
         ShowSecurityError("SetBOINCAppOwnersGroupsAndPermissions: path to Manager is too long");
         return -1;
@@ -101,59 +120,64 @@ OSStatus SetBOINCAppOwnersGroupsAndPermissions(char *path, char *managerName, Bo
         return err;
 
     strlcat(fullpath, "/Contents/MacOS/", MAXPATHLEN);
-    strlcat(fullpath, managerName, MAXPATHLEN);
+    // To allow for branding, assume name of executable inside bundle is same as name of bundle
+    p = strrchr(path, '/');         // Assume name of executable inside bundle is same as name of bundle
+    if (p == NULL)
+        p = path - 1;
+    strlcat(fullpath, p, MAXPATHLEN);
+    p = strrchr(fullpath, '.');         // Strip off  bundle extension (".app")
+    if (p)
+        *p = '\0'; 
     if (strlen(fullpath) >= (MAXPATHLEN-1)) {
         ShowSecurityError("SetBOINCAppOwnersGroupsAndPermissions: path to Manager is too long");
         return -1;
     }
 
-    sprintf(buf1, "%s:%s", boinc_master_name, boinc_master_name);
+    sprintf(buf1, "%s:%s", boinc_master_user_name, boinc_master_group_name);
     // chown boinc_master:boinc_master path/BOINCManager.app/Contents/MacOS/BOINCManager
     err = DoPrivilegedExec(chownPath, buf1, fullpath, NULL, NULL, NULL);
     if (err)
         return err;
 
-    if (development) {
+#ifdef _DEBUG
         // chmod u=rwx,g=rwsx,o=rx path/BOINCManager.app/Contents/MacOS/BOINCManager
         // 02775 = S_ISGID | S_IRUSR | S_IWUSR | S_IXUSR | S_IRGRP | S_IWGRP | S_IXGRP | S_IROTH | S_IXOTH
         //  setgid-on-execution plus read, write and execute permission for user, group & others
         err = DoPrivilegedExec(chmodPath, "u=rwx,g=rwsx,o=rx", fullpath, NULL, NULL, NULL);
-    } else {
+#else
         // chmod u=rx,g=rsx,o=rx path/BOINCManager.app/Contents/MacOS/BOINCManager
         // 02555 = S_ISGID | S_IRUSR | S_IXUSR | S_IRGRP | S_IXGRP | S_IROTH | S_IXOTH
         //  setgid-on-execution plus read and execute permission for user, group & others
         err = DoPrivilegedExec(chmodPath, "u=rx,g=rsx,o=rx", fullpath, NULL, NULL, NULL);
-    }
+#endif
     if (err)
         return err;
 
 
     strlcpy(fullpath, path, MAXPATHLEN);
-    strlcat(fullpath, "/", MAXPATHLEN);
-    strlcat(fullpath, managerName, MAXPATHLEN);
-    strlcat(fullpath, ".app/Contents/Resources/boinc", MAXPATHLEN);
+    strlcat(fullpath, "/Contents/Resources/boinc", MAXPATHLEN);
     if (strlen(fullpath) >= (MAXPATHLEN-1)) {
         ShowSecurityError("SetBOINCAppOwnersGroupsAndPermissions: path to client is too long");
         return -1;
     }
     
-    sprintf(buf1, "%s:%s", boinc_master_name, boinc_master_name);
+    sprintf(buf1, "%s:%s", boinc_master_user_name, boinc_master_group_name);
     // chown boinc_master:boinc_master path/BOINCManager.app/Contents/Resources/boinc
     err = DoPrivilegedExec(chownPath, buf1, fullpath, NULL, NULL, NULL);
     if (err)
         return err;
 
-    if (development) {
+#ifdef _DEBUG
         // chmod u=rwsx,g=rwsx,o=rx path/BOINCManager.app/Contents/Resources/boinc
         // 06775 = S_ISUID | S_ISGID | S_IRUSR | S_IWUSR | S_IXUSR | S_IRGRP | S_IWGRP | S_IXGRP | S_IROTH | S_IXOTH
         //  setuid-on-execution, setgid-on-execution plus read, write and execute permission for user, group & others
         err = DoPrivilegedExec(chmodPath, "u=rwsx,g=rwsx,o=rx", fullpath, NULL, NULL, NULL);
-    } else {
+#else
         // chmod u=rsx,g=rsx,o=rx path/BOINCManager.app/Contents/Resources/boinc
         // 06555 = S_ISUID | S_ISGID | S_IRUSR | S_IXUSR | S_IRGRP | S_IXGRP | S_IROTH | S_IXOTH
         //  setuid-on-execution, setgid-on-execution plus read and execute permission for user, group & others
         err = DoPrivilegedExec(chmodPath, "u=rsx,g=rsx,o=rx", fullpath, NULL, NULL, NULL);
-    }
+#endif
     if (err)
         return err;
 
@@ -161,7 +185,7 @@ OSStatus SetBOINCAppOwnersGroupsAndPermissions(char *path, char *managerName, Bo
 }
 
 
-OSStatus SetBOINCDataOwnersGroupsAndPermissions() {
+int SetBOINCDataOwnersGroupsAndPermissions() {
     FSRef           ref;
     Boolean         isDirectory;
     char            fullpath[MAXPATHLEN];
@@ -169,6 +193,12 @@ OSStatus SetBOINCDataOwnersGroupsAndPermissions() {
     OSStatus        err = noErr;
     OSStatus        result;
     char            *BOINCDataDirPath = "/Library/Application Support/BOINC Data";
+
+#ifdef _DEBUG
+    err = SetFakeMasterNames();
+    if (err)
+        return err;
+#endif
     
     strlcpy(fullpath, BOINCDataDirPath, MAXPATHLEN);
 
@@ -178,7 +208,7 @@ OSStatus SetBOINCDataOwnersGroupsAndPermissions() {
         return noErr;                       // BOINC Data Directory does not exist
 
     // Set owner and group of BOINC Data directory's contents
-    sprintf(buf1, "%s:%s", boinc_master_name, boinc_master_name);
+    sprintf(buf1, "%s:%s", boinc_master_user_name, boinc_master_group_name);
     // chown boinc_master:boinc_master "/Library/Applications/BOINC Data"
     err = DoPrivilegedExec(chownPath, "-R", buf1, fullpath, NULL, NULL);
     if (err)
@@ -194,7 +224,7 @@ OSStatus SetBOINCDataOwnersGroupsAndPermissions() {
 
 #if 0   // Redundant if we already set BOINC Data directory to boinc_master:boinc_master
     // Set owner and group of BOINC Data directory itself
-    sprintf(buf1, "%s:%s", boinc_master_name, boinc_master_name);
+    sprintf(buf1, "%s:%s", boinc_master_user_name, boinc_master_group_name);
     // chown boinc_master:boinc_master "/Library/Applications/BOINC Data"
     err = DoPrivilegedExec(chownPath, buf1, fullpath, NULL, NULL, NULL);
     if (err)
@@ -219,7 +249,7 @@ OSStatus SetBOINCDataOwnersGroupsAndPermissions() {
         // Make gui_rpc_auth.cfg file readable and writable only by user boinc_master and group boinc_master
 
         // Set owner and group of gui_rpc_auth.cfg file
-        sprintf(buf1, "%s:%s", boinc_master_name, boinc_master_name);
+        sprintf(buf1, "%s:%s", boinc_master_user_name, boinc_master_group_name);
         // chown boinc_master:boinc_master "/Library/Applications/BOINC Data/gui_rpc_auth.cfg"
         err = DoPrivilegedExec(chownPath, buf1, fullpath, NULL, NULL, NULL);
         if (err)
@@ -241,14 +271,14 @@ OSStatus SetBOINCDataOwnersGroupsAndPermissions() {
     result = FSPathMakeRef((StringPtr)fullpath, &ref, &isDirectory);
     if ((result == noErr) && (isDirectory)) {
         // Set owner and group of projects directory's contents
-        sprintf(buf1, "%s:%s", boinc_master_name, boinc_project_name);
+        sprintf(buf1, "%s:%s", boinc_master_user_name, boinc_master_group_name);
         // chown boinc_master:boinc_project "/Library/Applications/BOINC Data/projects"
         err = DoPrivilegedExec(chownPath, "-R", buf1, fullpath, NULL, NULL);
         if (err)
             return err;
 
         // Set owner and group of projects directory itself
-        sprintf(buf1, "%s:%s", boinc_master_name, boinc_master_name);
+        sprintf(buf1, "%s:%s", boinc_master_user_name, boinc_master_group_name);
         // chown boinc_master:boinc_master "/Library/Applications/BOINC Data/projects"
         err = DoPrivilegedExec(chownPath, buf1, fullpath, NULL, NULL, NULL);
         if (err)
@@ -270,14 +300,14 @@ OSStatus SetBOINCDataOwnersGroupsAndPermissions() {
     result = FSPathMakeRef((StringPtr)fullpath, &ref, &isDirectory);
     if ((result == noErr) && (isDirectory)) {
         // Set owner and group of slots directory's contents
-        sprintf(buf1, "%s:%s", boinc_master_name, boinc_project_name);
+        sprintf(buf1, "%s:%s", boinc_master_user_name, boinc_master_group_name);
         // chown boinc_master:boinc_project "/Library/Applications/BOINC Data/slots"
         err = DoPrivilegedExec(chownPath, "-R", buf1, fullpath, NULL, NULL);
         if (err)
             return err;
 
         // Set owner and group of slots directory itself
-        sprintf(buf1, "%s:%s", boinc_master_name, boinc_master_name);
+        sprintf(buf1, "%s:%s", boinc_master_user_name, boinc_master_group_name);
         // chown boinc_master:boinc_master "/Library/Applications/BOINC Data/slots"
         err = DoPrivilegedExec(chownPath, buf1, fullpath, NULL, NULL, NULL);
         if (err)
@@ -300,7 +330,7 @@ OSStatus SetBOINCDataOwnersGroupsAndPermissions() {
     result = FSPathMakeRef((StringPtr)fullpath, &ref, &isDirectory);
     if ((result == noErr) && (isDirectory)) {
         // Set owner and group of locale directory and all its contents
-        sprintf(buf1, "%s:%s", boinc_master_name, boinc_master_name);
+        sprintf(buf1, "%s:%s", boinc_master_user_name, boinc_master_group_name);
         // chown boinc_master:boinc_master "/Library/Applications/BOINC Data/locale"
         err = DoPrivilegedExec(chownPath, "-R", buf1, fullpath, NULL, NULL);
         if (err)
@@ -323,7 +353,7 @@ OSStatus SetBOINCDataOwnersGroupsAndPermissions() {
     result = FSPathMakeRef((StringPtr)fullpath, &ref, &isDirectory);
     if ((result == noErr) && (isDirectory)) {
         // Set owner and group of switcher directory
-        sprintf(buf1, "%s:%s", boinc_master_name, boinc_master_name);
+        sprintf(buf1, "%s:%s", boinc_master_user_name, boinc_master_group_name);
         // chown boinc_master:boinc_master "/Library/Applications/BOINC Data/switcher"
         err = DoPrivilegedExec(chownPath, buf1, fullpath, NULL, NULL, NULL);
         if (err)
@@ -361,7 +391,8 @@ OSStatus SetBOINCDataOwnersGroupsAndPermissions() {
 }
 
 
-static OSStatus CreateUserAndGroup(char * name) {
+#ifndef _DEBUG
+static OSStatus CreateUserAndGroup(char * user_name, char * group_name) {
     OSStatus    err = noErr;
     passwd      *pw = NULL;
     group       *grp = NULL;
@@ -375,13 +406,13 @@ static OSStatus CreateUserAndGroup(char * name) {
     char        buf2[80];
     char        buf3[80];
     
-    pw = getpwnam(name);
+    pw = getpwnam(user_name);
     if (pw) {
         userid = pw->pw_uid;
         userExists = true;
     }
 
-    grp = getgrnam(name);
+    grp = getgrnam(group_name);
     if (grp) {
         groupid = grp->gr_gid;
         groupExists = true;
@@ -437,7 +468,7 @@ static OSStatus CreateUserAndGroup(char * name) {
         }
     }
 
-    sprintf(buf1, "/groups/%s", name);
+    sprintf(buf1, "/groups/%s", group_name);
     sprintf(buf2, "%d", groupid);
 
     if (! groupExists) {             // If we need to create group
@@ -452,7 +483,7 @@ static OSStatus CreateUserAndGroup(char * name) {
             return err;
     }           // if (! groupExists)
 
-    sprintf(buf1, "/users/%s", name);
+    sprintf(buf1, "/users/%s", user_name);
     sprintf(buf2, "%d", groupid);
     sprintf(buf3, "%d", userid);
         
@@ -484,16 +515,18 @@ static OSStatus CreateUserAndGroup(char * name) {
     err = DoPrivilegedExec(dsclPath, ".", "-create", buf1, "gid", buf2);
     if (err)
         return err;
-    
+
     return noErr;
 }
+#endif          // ! _DEBUG    
 
 
-OSStatus AddAdminUserToGroups(char *user_name) {        
+int AddAdminUserToGroups(char *user_name) {        
+#ifndef _DEBUG
     char            buf1[80];
     OSStatus        err = noErr;
 
-    sprintf(buf1, "/groups/%s", boinc_master_name);
+    sprintf(buf1, "/groups/%s", boinc_master_group_name);
 
     // "dscl . -merge /groups/boinc_master users user_name"
     err = DoPrivilegedExec(dsclPath, ".", "-merge", buf1, "users", user_name);
@@ -510,8 +543,36 @@ OSStatus AddAdminUserToGroups(char *user_name) {
     system("lookupd -flushcache");
     system("memberd -r");
 
+#endif          // ! _DEBUG    
     return noErr;
 }
+
+
+#ifdef _DEBUG
+// GDB can't attach to applications which are running as a diferent user or group so 
+//  it ignores the S_ISUID and S_ISGID permisison bits when launching an application.
+// To work around this, the _DEBUG version uses the current user and group.
+static OSStatus SetFakeMasterNames() {
+    passwd              *pw;
+    group               *grp;
+    gid_t               boinc_master_gid;
+    uid_t               boinc_master_uid;
+
+    boinc_master_uid = geteuid();
+    pw = getpwuid(boinc_master_uid);
+    if (pw == NULL)
+        return -1;      // Should never happen
+    strlcpy(boinc_master_user_name, pw->pw_name, sizeof(boinc_master_user_name));
+
+    boinc_master_gid = getegid();
+    grp = getgrgid(boinc_master_gid);
+    if (grp == NULL)
+        return -1;
+    strlcpy(boinc_master_group_name, grp->gr_name, sizeof(boinc_master_group_name));
+    
+    return noErr;
+}
+#endif
 
 
 static OSStatus GetAuthorization (void) {

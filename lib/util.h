@@ -132,7 +132,7 @@ extern const char* boincerror(int which_error);
 
 #ifndef _WIN32
 extern int lookup_group(char*, gid_t& gid);
-extern int check_security(int isManager);
+extern int check_security(void);
 #endif
 
 #endif

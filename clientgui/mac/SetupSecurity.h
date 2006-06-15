@@ -19,11 +19,10 @@
 
 // SetupSecurity.h
 
-
-OSStatus CreateBOINCUsersAndGroups(void);
-OSStatus SetBOINCAppOwnersGroupsAndPermissions(char *path, char *managerName, Boolean development);
-OSStatus SetBOINCDataOwnersGroupsAndPermissions(void);
-OSStatus AddAdminUserToGroups(char *user_name);
+int CreateBOINCUsersAndGroups(void);
+int SetBOINCAppOwnersGroupsAndPermissions(char *path);
+int SetBOINCDataOwnersGroupsAndPermissions(void);
+int AddAdminUserToGroups(char *user_name);
 void ShowSecurityError(const char *format, ...);
 
 int CheckSecurity(int isManager);

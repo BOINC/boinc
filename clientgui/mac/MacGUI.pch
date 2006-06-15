@@ -32,29 +32,23 @@
 
 #define HAVE_SSIZE_T
 
+#ifdef _DEBUG
+
+#undef _DEBUG       // so we don't have to link wih debug Wx libs
+#undef __WXDEBUG__
+
 #include "stdwx.h"
 
-#include "config.h"
-
-// We want to define __WXDEBUG__ to enable certain test code within our project, 
-// but only for Development builds.  Unfortunately, XCode allows us to modify 
-// compiler or linker flags by build style only on a project-wide basis.  If we 
-// do that, then the compiler & linker flags override these settings for all 
-// targets in the project.  But our different targets need different settings.
-// XCode  does not provide any way to do this on a per-target basis. 
-// This means that we can neither add -D__WXDEBUG to the compiler flags for only 
-// Development Builds of the BOINC Manager, but we also cannot link in the debug 
-// build of wxWidgets for only Development Builds of the BOINC Manager.
-// So we use a couple of ugly hacks here:
-// (1) We take advantage that __OPTIMIZE__ is defined only for Deployment builds.
-// (2) We define __WXDEBUG__ AFTER including stdwx.h, so as not to require the 
-//     debug build of the wxWidgets  library.
-
-// __OPTIMIZE__ is defined in Deployment builds, not in Development builds
-#ifndef __OPTIMIZE__
-// Define this AFTER including stdwx.h so we don't have to link wih debug Wx libs
+#define  _DEBUG     // Redefine _DEBUG for the rest of the code
 #define __WXDEBUG__
-#endif
+
+#else   // _DEBUG
+
+#include "stdwx.h"
+
+#endif  // ! _DEBUG
+
+#include "config.h"
 
 // Prototypes for Mac_GUI.cpp
 Boolean Mac_Authorize(void);

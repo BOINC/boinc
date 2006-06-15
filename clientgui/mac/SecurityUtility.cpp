@@ -42,7 +42,8 @@ int main(int argc, char *argv[]) {
     getwd(boincPath);
     //ShowSecurityError("Current Working Directory is %s", wd);
 
-    err = SetBOINCAppOwnersGroupsAndPermissions(boincPath, "BOINCManager", true);
+    strlcat(boincPath, "/BOINCManager.app", sizeof(boincPath));
+    err = SetBOINCAppOwnersGroupsAndPermissions(boincPath);
     if (err != noErr)
         return err;
 

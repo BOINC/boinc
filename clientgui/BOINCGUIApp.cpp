@@ -25,6 +25,9 @@
 #include <Carbon/Carbon.h>
 #include "filesys.h"
 #include "util.h"
+#if (defined(SANDBOX) && defined(_DEBUG))
+#include "SetupSecurity.h"
+#endif
 #endif
 
 #include "stdwx.h"
@@ -243,7 +246,7 @@ bool CBrandingScheme::OnInit( wxConfigBase *pConfig ) {
 
 bool CBOINCGUIApp::OnInit() {
 
-#ifdef SANDBOX
+#if (defined(SANDBOX) && !defined(_WIN32))
     umask (2);  // Set file creation mask to be writable by both user and group
                 // Our umask will be inherited by all our child processes
 #endif
@@ -320,23 +323,30 @@ bool CBOINCGUIApp::OnInit() {
         strDirectory += wxT("BOINC Data");  // We don't customize BOINC Data directory name for branding
         if (! wxDirExists(strDirectory)) {
 #ifdef SANDBOX
-            gid_t gid;
             // Create BOINC Data directory writable by group boinc_master only
             success = wxMkdir(strDirectory, 0575);
+#ifndef _DEBUG
+            gid_t gid;
             lookup_group("boinc_master", gid);
             boinc_chown("BOINC Data", gid);
-#else
+#endif      // ! _DEBUG
+#else       // SANDBOX
             success = wxMkdir(strDirectory, 0777);    // Does nothing if dir exists
-#endif
+#endif      // ! SANDBOX
         }
         success = ::wxSetWorkingDirectory(strDirectory);
 //    wxChar *wd = wxGetWorkingDirectory(buf, 1000);  // For debugging
     }
 
-#endif  // __WXMAC__
-
 #ifdef SANDBOX
-    if (check_security(true)) {
+#ifdef _DEBUG
+            // GDB can't attach to applications which are running as a diferent user   
+            //  or group, so fix up data with current user and group during debugging
+            if (check_security())
+                SetBOINCDataOwnersGroupsAndPermissions();
+#endif  // _DEBUG
+
+    if (check_security()) {
         wxMessageDialog* pDlg = 
         new wxMessageDialog(m_pFrame, _("BOINC ownership or permissions are not set properly; please reinstall BOINC"),wxT(""), wxOK);
         pDlg->ShowModal();
@@ -344,7 +354,8 @@ bool CBOINCGUIApp::OnInit() {
             pDlg->Destroy();
         return false;
     }
-#endif
+#endif      // SANDBOX
+#endif      // __WXMAC__
 
     // Initialize the BOINC Diagnostics Framework
     int dwDiagnosticsFlags =

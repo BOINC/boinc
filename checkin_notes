@@ -6036,3 +6036,29 @@ Rom    15 June 2006
         forum_moderate_post_action.php
         forum_moderate_thread_action.php
         forum_report_post.php
+
+Charlie 15 June 2006
+    - Mac sandbox:
+        - GDB can't attach to applications which are running as a diferent user 
+            or group so it ignores the S_ISUID and S_ISGID permisison bits when 
+            launching an application.  To work around this, the _DEBUG version 
+            of both the Manager and Client use the current user and group, and 
+            temporarily change the ownership of the BOINC Data hierarchy if 
+            necessary.
+        - Manager and Client call check_security(); deployment versions notify 
+            the user and quit if they find a problem with ownership or permissions 
+            of either the application or the BOINC Data.
+        - Better setting of _DEBUG and __WXDEBUG__ in Manager and Client builds.
+            
+    client/
+        check_security.C
+        main.C
+    clientgui/
+        BOINCGUIApp.cpp
+        mac/
+            MacGUI.pch
+            SecurityUtility.cpp
+            SetupSecurity.cpp,h
+    mac_build/
+        boinc.xcodeproj/
+            project.pbxproj

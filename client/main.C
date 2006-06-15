@@ -45,13 +45,14 @@ typedef void (CALLBACK* ClientLibraryShutdown)();
 #include <sys/types.h>
 #include <sys/socket.h>
 #endif
+#include <sys/stat.h>
 #include <syslog.h>
 #include <unistd.h>
 #include <csignal>
 #endif
 
-#ifdef __APPLE__
-#include <sys/stat.h>   // for umask()
+#if (defined (__APPLE__) && defined(SANDBOX) && defined(_DEBUG))
+#include "SetupSecurity.h"
 #endif
 
 #ifdef __EMX__
@@ -343,11 +344,11 @@ static void init_core_client(int argc, char** argv) {
         SetCurrentDirectory(szPath);
     }
 
-#endif
-
+#else
 #ifdef SANDBOX
     umask (2);  // Set file creation mask to be writable by both user and group
                 // Our umask will be inherited by all our child processes
+#endif
 #endif
 
     read_config_file();
@@ -743,6 +744,19 @@ int main(int argc, char** argv) {
 #else
 
 #ifdef __APPLE__
+#ifdef SANDBOX
+    if (check_security()) {
+#ifdef _DEBUG
+        // GDB can't attach to applications which are running as a diferent user   
+        //  or group, so fix up data with current user and group during debugging
+        SetBOINCDataOwnersGroupsAndPermissions();
+#else
+        printf( "\nBOINC ownership or permissions are not set properly; please reinstall BOINC\n" );
+        return ERR_USER_PERMISSION;
+#endif  // _DEBUG
+    }
+#endif  // SANDBOX
+
         // Initialize Mac OS X idle time measurement / idle detection
         gEventHandle = NXOpenEventStatus();
 #endif  // __APPLE__
