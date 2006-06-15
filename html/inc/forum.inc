@@ -82,6 +82,10 @@ $post_ratings['0'] = "Neutral";
 $post_ratings['-1'] = "Not helpful (-1)";
 $post_ratings['-2'] = "Off topic (-2)";
 
+$config_xml = get_config();
+$allow_ratings = true;
+if (parse_element($config_xml,"<no_forum_rating/>") != null) { $allow_ratings = false; }
+
 // process a user-supplied title to remove HTML stuff
 //
 function cleanup_title($title) {
@@ -211,6 +215,7 @@ function show_posts($thread, $sort_style, $filter, $show_controls=true, $do_colo
 }
 
 function show_post($post, $thread, $logged_in_user, $n, $controls=FORUM_CONTROLS, $separate=false, $filter=true) {
+    global $allow_ratings;
     $user = lookup_user_id($post->user);
     $user = getForumPreferences($user);
     $user->has_avatar = ($user->avatar != "");
@@ -352,8 +357,12 @@ function show_post($post, $thread, $logged_in_user, $n, $controls=FORUM_CONTROLS
         } else if ($controls == HELPDESK_CONTROLS && !$separate) {
             echo " / Score: ", round(($post->score * $post->votes),0), "</i></font></td>";
         } else {
-            $rating = floor($post->score*$post->votes + 0.01);
-            echo " | Rating: ", $rating, "</i> | rate: <a href=\"forum_rate.php?post=".$post->id."&amp;choice=p\"><img src=\"".RATE_POSITIVE_IMAGE."\" alt=\"+\" height=\"".RATE_POSITIVE_IMAGE_HEIGHT."\" border=0></a> / <a href=\"forum_rate.php?post=".$post->id."&amp;choice=n\"><img src=\"".RATE_NEGATIVE_IMAGE."\" alt=\"-\" height=\"".RATE_NEGATIVE_IMAGE_HEIGHT."\" border=0></a> - <a href=\"forum_report_post.php?post=".$post->id."\"><img src=\"".REPORT_POST_IMAGE."\" alt=\"Report this post as offensive\" height=\"".REPORT_POST_IMAGE_HEIGHT."\" border=0></a></font></td>";
+            if ($allow_ratings == true) {
+                $rating = floor($post->score*$post->votes + 0.01);
+                echo " | Rating: ", $rating, "</i> | rate: <a href=\"forum_rate.php?post=".$post->id."&amp;choice=p\"><img src=\"".RATE_POSITIVE_IMAGE."\" alt=\"+\" height=\"".RATE_POSITIVE_IMAGE_HEIGHT."\" border=0></a> / <a href=\"forum_rate.php?post=".$post->id."&amp;choice=n\"><img src=\"".RATE_NEGATIVE_IMAGE."\" alt=\"-\" height=\"".RATE_NEGATIVE_IMAGE_HEIGHT."\" border=0></a> - <a href=\"forum_report_post.php?post=".$post->id."\"><img src=\"".REPORT_POST_IMAGE."\" alt=\"Report this post as offensive\" height=\"".REPORT_POST_IMAGE_HEIGHT."\" border=0></a></font></td>";
+            } else {
+                echo " | <a href=\"forum_report_post.php?post=".$post->id."\"><img src=\"".REPORT_POST_IMAGE."\" alt=\"Report this post as offensive\" height=\"".REPORT_POST_IMAGE_HEIGHT."\" border=0></a></font></td>";
+            }
         }
 
         if ($controls == FORUM_CONTROLS) {

@@ -4,6 +4,10 @@ require_once('../inc/forum.inc');
 require_once('../inc/util.inc');
 require_once('../inc/credit.inc');
 
+$config_xml = get_config();
+if (parse_element($config_xml,"<no_forum_rating/>") != null) {
+    error_page("This function is turned off.");
+}
 
 db_init();
 
