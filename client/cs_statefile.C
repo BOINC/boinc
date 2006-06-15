@@ -321,8 +321,6 @@ int CLIENT_STATE::parse_state_file() {
             run_cpu_benchmarks = true;
         } else if (match_tag(buf, "<work_fetch_no_new_work/>")) {
             work_fetch_no_new_work = true;
-        } else if (match_tag(buf, "cpu_earliest_deadline_first/>")) {
-            cpu_earliest_deadline_first = true;
         } else if (match_tag(buf, "<proxy_info>")) {
             retval = proxy_info.parse(mf);
             if (retval) {
@@ -589,8 +587,7 @@ int CLIENT_STATE::write_state_gui(MIOFILE& f) {
         core_client_major_version,
         core_client_minor_version,
         core_client_release,
-        work_fetch_no_new_work?"<work_fetch_no_new_work/>\n":"",
-        cpu_earliest_deadline_first?"<cpu_earliest_deadline_first/>\n":""
+        work_fetch_no_new_work?"<work_fetch_no_new_work/>\n":""
     );
 
     global_prefs.write(f);

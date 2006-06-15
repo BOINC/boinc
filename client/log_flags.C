@@ -47,6 +47,7 @@ LOG_FLAGS::LOG_FLAGS() {
     task = false;
     file_xfer = true;
     sched_ops = true;
+    cpu_sched_detail = false;
 
     // debugging output is off by default
     //
@@ -73,6 +74,7 @@ int LOG_FLAGS::parse(FILE* in) {
         if (strlen(buf) < 2) continue;
         if (match_tag(buf, "</log_flags>")) return 0;
         else if (parse_bool(buf, "task", task)) continue;
+        else if (parse_bool(buf, "cpu_sched_detail", cpu_sched_detail)) continue;
         else if (parse_bool(buf, "file_xfer", file_xfer)) continue;
         else if (parse_bool(buf, "sched_ops", sched_ops)) continue;
         else if (parse_bool(buf, "state_debug", state_debug)) continue;

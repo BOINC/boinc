@@ -427,6 +427,16 @@ bool PROJECT::potentially_runnable() {
     return false;
 }
 
+bool PROJECT::nearly_runnable() {
+    if (runnable()) return true;
+    if (downloading()) return true;
+    return false;
+}
+
+bool PROJECT::overworked() {
+    return long_term_debt < -gstate.global_prefs.cpu_scheduling_period_minutes * 60;
+}
+
 double PROJECT::next_file_xfer_time(const bool is_upload) {
     return (is_upload ? next_file_xfer_up : next_file_xfer_down);
 }
@@ -1241,6 +1251,8 @@ void RESULT::clear() {
     exit_status = 0;
     stderr_out = "";
     suspended_via_gui = false;
+    rr_sim_misses_deadline = false;
+    last_rr_sim_missed_deadline = false;
     fpops_per_cpu_sec = 0;
     fpops_cumulative = 0;
     intops_per_cpu_sec = 0;

@@ -90,8 +90,10 @@ ACTIVE_TASK::ACTIVE_TASK() {
     exit_requested = false;
     fraction_done = 0;
     episode_start_cpu_time = 0;
+    episode_start_wall_time = gstate.now;
     cpu_time_at_last_sched = 0;
     checkpoint_cpu_time = 0;
+    checkpoint_wall_time = 0;
     current_cpu_time = 0;
     vm_bytes = 0;
     rss_bytes = 0;

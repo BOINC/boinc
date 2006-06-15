@@ -105,8 +105,12 @@ public:
         // CPU time when CPU scheduler last ran
     double episode_start_cpu_time;
         // CPU time at the start of current episode
+    double episode_start_wall_time;
+        // Wall time at the start of the current episode
     double checkpoint_cpu_time;
         // CPU at the last checkpoint
+    double checkpoint_wall_time;
+        // wall time at the last checkpoint
     double current_cpu_time;
         // most recent CPU time reported by app
     double vm_bytes;

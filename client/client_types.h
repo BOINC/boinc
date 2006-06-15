@@ -252,6 +252,10 @@ public:
         // has a result in downloading state
     bool potentially_runnable();
         // runnable or contactable or downloading
+    bool nearly_runnable();
+        // runnable or downloading
+    bool overworked();
+        // the project has used too much CPU time recently
 
     // temps used in CLIENT_STATE::rr_misses_deadline();
     std::vector<RESULT*>active;
@@ -259,6 +263,11 @@ public:
     double rrsim_proc_rate;
         // fraction of each CPU this project will get in RR simulation
     void set_rrsim_proc_rate(double per_cpu_proc_rate, double rrs);
+    // set in CLIENT_STATE::rr_misses_deadline();
+    double cpu_shortfall;
+    int rr_sim_deadlines_missed;
+    int cpu_scheduler_deadlines_missed_scratch;
+    int enforcement_deadlines_missed_scratch;
 
     // "debt" is how much CPU time we owe this project relative to others
 
@@ -462,6 +471,13 @@ struct RESULT {
         // used to keep cpu scheduler from scheduling a result twice
         // transient; used only within schedule_cpus()
     double computation_deadline();
+        // used by the CPU scheduler to determine if there is a cause for
+        // a pre-emption of running results.
+    bool rr_sim_misses_deadline;
+    bool last_rr_sim_missed_deadline;
+    double cpu_shortfall;
+    int deadlines_missed;
+    bool deadline_problem;
 };
 
 #endif

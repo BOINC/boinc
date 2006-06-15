@@ -282,6 +282,19 @@ double CLIENT_STATE::potentially_runnable_resource_share() {
     return x;
 }
 
+// same, but nearly runnable (could be downloading work right now)
+//
+double CLIENT_STATE::nearly_runnable_resource_share() {
+    double x = 0;
+    for (unsigned int i=0; i<projects.size(); i++) {
+        PROJECT* p = projects[i];
+        if (p->nearly_runnable()) {
+            x += p->resource_share;
+        }
+    }
+    return x;
+}
+
 
 // This is called when the client is initialized.
 // Try to restart any tasks that were running when we last shut down.
@@ -307,6 +320,7 @@ void CLIENT_STATE::set_ncpus() {
             "Number of usable CPUs has changed.  Running benchmarks."
         );
         run_cpu_benchmarks = true;
+        request_schedule_cpus("Number of usable CPUs has changed");
     }
 }
 
@@ -367,11 +381,28 @@ void CLIENT_STATE::handle_file_xfer_apps() {
     }
 }
 
-void CLIENT_STATE::request_schedule_cpus(const char* where) {
-    must_schedule_cpus = true;
-    if (log_flags.task) {
-        msg_printf(0, MSG_INFO, "Rescheduling CPU: %s", where);
+void CLIENT_STATE::request_enforce_schedule(const char* where) {
+    // The CPU scheduler runs when a result is completed, 
+    // when the end of the user-specified scheduling period is reached, 
+    // when new results become runnable, 
+    // or when the user performs a UI interaction (e.g. suspending or resuming a project or result).
+    //
+    if (log_flags.cpu_sched_detail && where && strlen(where)) {
+        msg_printf(0, MSG_INFO, "Request enforce CPU schedule: %s", where);
     }
+    must_enforce_cpu_schedule = true;
+}
+
+void CLIENT_STATE::request_schedule_cpus(const char* where) {
+    // The CPU scheduler runs when a result is completed, 
+    // when the end of the user-specified scheduling period is reached, 
+    // when new results become runnable, 
+    // or when the user performs a UI interaction (e.g. suspending or resuming a project or result).
+    //
+    if (log_flags.cpu_sched_detail && where && strlen(where)) {
+        msg_printf(0, MSG_INFO, "Request CPU reschedule: %s", where);
+    }
+    must_schedule_cpus = true;
 }
 
 const char *BOINC_RCSID_7bf63ad771 = "$Id$";

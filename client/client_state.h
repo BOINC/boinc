@@ -193,11 +193,12 @@ private:
     // CPU sched state
     //
     double cpu_sched_last_time;
+    double cpu_sched_last_check;
     double total_wall_cpu_time_this_period;
         // "wall CPU time" accumulated since last schedule_cpus()
     double total_cpu_time_this_period;
+    double cpu_shortfall;
 	bool work_fetch_no_new_work;
-	bool cpu_earliest_deadline_first;
 
 // --------------- acct_mgr.C:
 public:
@@ -269,16 +270,18 @@ private:
 
 // --------------- cpu_sched.C:
 private:
+    bool must_enforce_cpu_schedule;
     bool must_schedule_cpus;
+    std::vector <RESULT*> ordered_scheduled_results;
     void assign_results_to_projects();
     bool schedule_largest_debt_project(double expected_pay_off);
-    bool schedule_earliest_deadline_result();
+    bool schedule_earliest_deadline_result(double expected_pay_off);
     void adjust_debts();
     bool schedule_cpus();
-    void enforce_schedule();
+    bool enforce_schedule();
     bool no_work_for_a_cpu();
-    bool rr_misses_deadline(double, double);
-    void set_scheduler_mode();
+    bool rr_misses_deadline(double, double, bool, bool);
+    static bool running_task_sort_pred(ACTIVE_TASK * rhs, ACTIVE_TASK * lhs);  // used for sorting a heap.
 public:
 
 // --------------- cs_account.C:
@@ -298,10 +301,12 @@ private:
 private:
     double total_resource_share();
     double potentially_runnable_resource_share();
+    double nearly_runnable_resource_share();
 public:
     double runnable_resource_share();
+    void request_enforce_schedule(const char*);
     void request_schedule_cpus(const char*);
-        // Reschedule CPUs ASAP.  Called when:
+        // Check for reschedule CPUs ASAP.  Called when:
         // - core client starts (CS::init())
         // - an app exits (ATS::check_app_exited())
         // - Tasks are killed (ATS::exit_tasks())

@@ -459,7 +459,11 @@ PROJECT* CLIENT_STATE::find_project_with_overdue_results() {
         if (gstate.now > r->completed_time + global_prefs.work_buf_min_days*SECONDS_PER_DAY) {
             return p;
         }
-}
+        if (gstate.now > r->report_deadline - global_prefs.work_buf_min_days * SECONDS_PER_DAY) {
+            return p;   // Handles the case where the report is due before the next reconnect is 
+                        // likely.
+        }
+    }
 
     return 0;
 }
@@ -589,7 +593,7 @@ int CLIENT_STATE::compute_work_requests() {
         // Also, if there is only one potentially runnable project,
         // we can get work from it no matter what.
         //
-        if ((p->long_term_debt < -global_prefs.cpu_scheduling_period_minutes*60)
+        if ((p->overworked())
             && (overall_work_fetch_urgency != WORK_FETCH_NEED_IMMEDIATELY)
             && (prrs != p->resource_share)
         ) {
@@ -1146,9 +1150,12 @@ void CLIENT_STATE::set_work_fetch_mode() {
     bool should_not_fetch_work = false;
     double total_proc_rate = avg_proc_rate();
     double per_cpu_proc_rate = total_proc_rate/ncpus;
-    double rrs = runnable_resource_share();
+    double rrs = nearly_runnable_resource_share();
 
-    if (rr_misses_deadline(per_cpu_proc_rate, rrs)) {
+    SCOPE_MSG_LOG scope_messages(log_messages, CLIENT_MSG_LOG::DEBUG_SCHED_CPU);
+
+    scope_messages.printf("rr_sim: calling from work_fetch");
+    if (rr_misses_deadline(per_cpu_proc_rate, rrs, true, false)) {
         if (!no_work_for_a_cpu()) {
             should_not_fetch_work = true;
         }
@@ -1156,10 +1163,11 @@ void CLIENT_STATE::set_work_fetch_mode() {
         // if fetching more work would cause round-robin to
         // miss a deadline, don't fetch more work
         //
+        scope_messages.printf("rr_sim: calling from work_fetch with extended rrs");
         PROJECT* p = next_project_need_work();
         if (p && !p->runnable()) {
             rrs += p->resource_share;
-            if (rr_misses_deadline(per_cpu_proc_rate, rrs)) {
+            if (rr_misses_deadline(per_cpu_proc_rate, rrs, false, false)) {
                 should_not_fetch_work = true;
             }
         }

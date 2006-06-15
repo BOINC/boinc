@@ -34,6 +34,7 @@ struct LOG_FLAGS {
     // the following write user-readable summaries
     //
     bool task;              // task executions
+    bool cpu_sched_detail;  // CPU scheduling detail
     bool file_xfer;         // file transfers
     bool sched_ops;         // interactions with schedulers
 

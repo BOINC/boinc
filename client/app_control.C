@@ -929,6 +929,8 @@ bool ACTIVE_TASK_SET::get_msgs() {
         old_time = atp->checkpoint_cpu_time;
         if (atp->get_app_status_msg()) {
             if (old_time != atp->checkpoint_cpu_time) {
+                gstate.request_enforce_schedule("Checkpoint reached");
+                atp->checkpoint_wall_time = gstate.now;
                 action = true;
             }
         }

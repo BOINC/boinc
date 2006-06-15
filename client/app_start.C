@@ -311,7 +311,9 @@ int ACTIVE_TASK::start(bool first_time) {
 
     if (first_time) {
         checkpoint_cpu_time = 0;
+        checkpoint_wall_time = gstate.now;
     }
+    episode_start_wall_time = gstate.now;
     current_cpu_time = checkpoint_cpu_time;
     episode_start_cpu_time = checkpoint_cpu_time;
     cpu_time_at_last_sched = checkpoint_cpu_time;

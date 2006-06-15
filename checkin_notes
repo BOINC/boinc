@@ -6064,3 +6064,33 @@ Charlie 15 June 2006
     mac_build/
         boinc.xcodeproj/
             project.pbxproj
+
+David  15 June 2006
+	- New CPU scheduler: the highlights are:
+		1) The implementation is better organized,
+			and more or less conforms to the design document
+			(http:/boinc.berkeley.edu/sched.php)
+		    In particular, the CPU scheduling policy (what should run)
+			is separated from the enforcement policy (when to preempt).
+		2) The enforcement policy delays preemption of tasks that haven't
+			checkpointed recently, thus reducing wasted CPU time
+			when apps are removed from memory on preemption.
+		2) Instead of being either round-robin or EDF,
+			the scheduling policy is now a hybrid:
+			EDF for the projects that currently need it,
+			weighted round-robin among the others if
+			there additional CPUs available.
+		(designed by John McLeod and me; implemented by John)
+	- new log flag "cpu_sched_detail" for details on CPU scheduling
+
+	client/
+		app.C,h
+		app_control.C
+		app_start.C
+		client_state.C,h
+		client_types.C,h
+		cpu_sched.C
+		cs_apps.C
+		cs_scheduler.C
+		cs_statefile.C
+		log_flags.C,h

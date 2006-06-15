@@ -99,11 +99,12 @@ CLIENT_STATE::CLIENT_STATE() {
     redirect_io = false;
     disable_graphics = false;
     work_fetch_no_new_work = false;
-    cpu_earliest_deadline_first = false;
 
     cpu_sched_last_time = 0;
+    cpu_sched_last_check = 0;
     total_wall_cpu_time_this_period = 0;
     must_schedule_cpus = true;
+    must_enforce_cpu_schedule = true;
     need_physical_connection = false;
     have_sporadic_connection = false;
     no_gui_rpc = false;
@@ -260,7 +261,9 @@ int CLIENT_STATE::init() {
     // set period start time and reschedule
     //
     must_schedule_cpus = true;
+    must_enforce_cpu_schedule = true;
     cpu_sched_last_time = now;
+    cpu_sched_last_check = now;
 
     // set up the project and slot directories
     //
@@ -477,6 +480,7 @@ bool CLIENT_STATE::poll_slow_events() {
     //  active_tasks_poll
     //  handle_finished_apps
     //  schedule_cpus
+    //  enforce_schedule
     // in that order (active_tasks_poll() sets must_schedule_cpus,
     // and handle_finished_apps() must be done before schedule_cpus()
 
@@ -498,6 +502,7 @@ bool CLIENT_STATE::poll_slow_events() {
 #else
     if (!tasks_suspended) {
         POLL_ACTION(schedule_cpus          , schedule_cpus          );
+        POLL_ACTION(enforce_schedule    , enforce_schedule  );
     }
 #endif
     if (!network_suspended) {
