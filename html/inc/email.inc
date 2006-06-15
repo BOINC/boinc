@@ -130,6 +130,7 @@ function is_valid_email_addr($addr) {
 
 function send_moderation_email($moderator, $user, $thread,  $post, $message) {
     global $master_url;
+    global $forum_post_reporting_admin;
     $body = "";
 
     $subject = PROJECT." forum moderation notice for $user->name";
@@ -160,6 +161,7 @@ Please state why you think it was improperly moderated.
 
 function send_thread_moderation_email($moderator, $user, $thread, $message) {
     global $master_url;
+    global $forum_post_reporting_admin;
     $body = "";
 
     $subject = PROJECT." forum moderation notice for $user->name";
