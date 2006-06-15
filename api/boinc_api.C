@@ -134,7 +134,6 @@ HANDLE worker_thread_handle;
     // used to suspend worker thread, and to measure its CPU time
 #else
 static pthread_t timer_thread_handle;
-static pthread_mutex_t timer_mutex=PTHREAD_MUTEX_INITIALIZER;
 static struct rusage worker_thread_ru;
 #endif
 
@@ -178,6 +177,10 @@ static int setup_shared_mem() {
 // This may be called from other threads
 //
 static int boinc_worker_thread_cpu_time(double& cpu) {
+    static double last_cpu=0;
+    static time_t last_time=0;
+    double now=time(0);
+    double time_diff=now-last_time;
 #ifdef _WIN32
     int retval;
     if (options.all_threads_cpu_time) {
@@ -189,14 +192,23 @@ static int boinc_worker_thread_cpu_time(double& cpu) {
         cpu = nrunning_ticks * TIMER_PERIOD;   // for Win9x
     }
 #else
-    if (!pthread_mutex_lock(&timer_mutex)) {
+    if (!pthread_mutex_lock(&getrusage_mutex)) {
       cpu = (double)worker_thread_ru.ru_utime.tv_sec
         + (((double)worker_thread_ru.ru_utime.tv_usec)/1000000.0);
       cpu += (double)worker_thread_ru.ru_stime.tv_sec
         + (((double)worker_thread_ru.ru_stime.tv_usec)/1000000.0);
-      pthread_mutex_unlock(&timer_mutex);
+      pthread_mutex_unlock(&getrusage_mutex);
     }
 #endif
+    double cpu_diff=cpu-last_cpu;
+    if (cpu_diff>(time_diff+1)) {
+//      fprintf(stderr,"CPU time incrementing faster than real time.  Correcting.\n");
+      cpu=last_cpu+time_diff;
+    }
+    if (time_diff != 0) {
+      last_cpu=cpu;
+      last_time=now;
+    }
     return 0;
 }
 
@@ -725,6 +737,7 @@ static void worker_timer(int /*a*/) {
 #ifdef _WIN32
 
 static HANDLE timer_quit_event;
+
 UINT WINAPI timer_thread(void *) {
     DWORD        dwEvent = NULL;
     BOOL         bContinue = TRUE;
@@ -777,10 +790,11 @@ void* timer_thread(void*) {
 
 void worker_signal_handler(int) {
 // getrusage can return an error, so try a few times if it returns an error.
-    if (!pthread_mutex_trylock(&timer_mutex)) {
+// but don't hang around if you can't get the mutex
+    if (!pthread_mutex_trylock(&getrusage_mutex)) {
       int i=0;
       while (getrusage(RUSAGE_SELF, &worker_thread_ru) && i<10) i++;
-      pthread_mutex_unlock(&timer_mutex);
+      pthread_mutex_unlock(&getrusage_mutex);
     }
     if (options.direct_process_action) {
         while (boinc_status.suspended) {
@@ -867,6 +881,13 @@ int set_worker_timer() {
     }
 
 #endif
+
+    boinc_sleep(3.1);
+    if (!interrupt_count) {
+        fprintf(stderr, "set_worker_timer(): timer thread not working\n");
+        return -1;
+    }
+
 
     return retval;
 }
