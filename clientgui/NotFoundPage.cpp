@@ -173,7 +173,7 @@ void CErrNotFoundPage::OnPageChanged( wxWizardExEvent& event ) {
     wxASSERT(m_pDirectionsStaticCtrl);
 
     m_pTitleStaticCtrl->SetLabel(
-        _("Account not found")
+        _("Login Failed.")
     );
     if (((CBOINCBaseWizard*)GetParent())->project_config.uses_username) {
         m_pDirectionsStaticCtrl->SetLabel(

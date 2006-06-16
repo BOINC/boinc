@@ -182,8 +182,6 @@ int CLIENT_STATE::init() {
     now = dtime();
     scheduler_op->url_random = drand();
 
-    language.read_language_file(LANGUAGE_FILE_NAME);
-
     const char* debug_str="";
 #ifdef _DEBUG
     debug_str = " (DEBUG)";
@@ -362,6 +360,7 @@ void CLIENT_STATE::do_io_or_sleep(double x) {
     struct timeval tv;
     now = dtime();
     double end_time = now + x;
+    int loops = 0;
 
     while (1) {
         curl_fds.zero();
@@ -386,6 +385,15 @@ void CLIENT_STATE::do_io_or_sleep(double x) {
         gui_rpcs.got_select(all_fds);
 
         if (n==0) break;
+
+        // Limit number of times thru this loop.  Can get
+        // stuck in while loop, if network isn't available,
+        // DNS lookups tend to eat CPU cycles.
+        //
+        if (loops++ > 99) {
+            boinc_sleep(.01);
+            break;
+        }
 
         now = dtime();
         if (now > end_time) break;
@@ -467,8 +475,8 @@ bool CLIENT_STATE::poll_slow_events() {
     // if we've had a GUI RPC in last few minutes, relax the normal rules
     //
     if (gui_rpcs.got_recent_rpc(300)) {
-        suspend_reason &= !SUSPEND_REASON_USER_ACTIVE;
-        suspend_reason &= !SUSPEND_REASON_BATTERIES;
+        network_suspend_reason &= ~SUSPEND_REASON_USER_ACTIVE;
+        network_suspend_reason &= ~SUSPEND_REASON_BATTERIES;
     }
     if (suspend_reason) {
         if (!network_suspended) {
@@ -1125,7 +1133,7 @@ int CLIENT_STATE::report_result_error(RESULT& res, const char* format, ...) {
     sprintf(buf, "Unrecoverable error for result %s (%s)", res.name, err_msg);
     scheduler_op->backoff(res.project, buf);
 
-    sprintf( buf, "<message>%s\n</message>\n", err_msg);
+    sprintf( buf, "<message>\n%s\n</message>\n", err_msg);
     res.stderr_out.append(buf);
 
     switch(res.state) {

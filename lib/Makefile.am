@@ -55,7 +55,6 @@ libboinc_a_SOURCES = \
     gui_rpc_client_ops.C \
     gui_rpc_client_print.C \
     hostinfo.C \
-    language.C \
     md5.c \
     md5_file.C \
     mem_usage.C \

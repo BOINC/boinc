@@ -53,13 +53,202 @@
 
 
 #define gle (GetLastError())
-#define lenof(a) (sizeof(a) / sizeof((a)[0]))
-#define IMGSYMLEN ( sizeof IMAGEHLP_SYMBOL )
 #define TTBUFLEN 8096 // for a temp buffer (2^13)
 
 
+#if defined(__MINGW32__) || defined(__CYGWIN32__)
+
+typedef PCSTR PCTSTR;
+#define MAX_SYM_NAME            2000
+
+#define SYMOPT_LOAD_ANYTHING            0x00000040
+#define SYMOPT_IGNORE_CVREC             0x00000080
+#define SYMOPT_NO_UNQUALIFIED_LOADS     0x00000100
+#define SYMOPT_FAIL_CRITICAL_ERRORS     0x00000200
+#define SYMOPT_EXACT_SYMBOLS            0x00000400
+#define SYMOPT_ALLOW_ABSOLUTE_SYMBOLS   0x00000800
+#define SYMOPT_IGNORE_NT_SYMPATH        0x00001000
+#define SYMOPT_INCLUDE_32BIT_MODULES    0x00002000
+#define SYMOPT_PUBLICS_ONLY             0x00004000
+#define SYMOPT_NO_PUBLICS               0x00008000
+#define SYMOPT_AUTO_PUBLICS             0x00010000
+#define SYMOPT_NO_IMAGE_SEARCH          0x00020000
+#define SYMOPT_SECURE                   0x00040000
+#define SYMOPT_NO_PROMPTS               0x00080000
+#define SYMOPT_DEBUG                    0x80000000
+
+
+#define SSRVOPT_CALLBACK            0x0001
+#define SSRVOPT_DWORD               0x0002
+#define SSRVOPT_DWORDPTR            0x0004
+#define SSRVOPT_GUIDPTR             0x0008
+#define SSRVOPT_OLDGUIDPTR          0x0010
+#define SSRVOPT_UNATTENDED          0x0020
+#define SSRVOPT_NOCOPY              0x0040
+#define SSRVOPT_PARENTWIN           0x0080
+#define SSRVOPT_PARAMTYPE           0x0100
+#define SSRVOPT_SECURE              0x0200
+#define SSRVOPT_TRACE               0x0400
+#define SSRVOPT_SETCONTEXT          0x0800
+#define SSRVOPT_PROXY               0x1000
+#define SSRVOPT_DOWNSTREAM_STORE    0x2000
+#define SSRVOPT_RESET               ((ULONG_PTR)-1)
+
+#define SSRVACTION_TRACE        1
+#define SSRVACTION_QUERYCANCEL  2
+#define SSRVACTION_EVENT        3
+
+#define CBA_READ_MEMORY                         0x00000006
+#define CBA_DEFERRED_SYMBOL_LOAD_CANCEL         0x00000007
+#define CBA_SET_OPTIONS                         0x00000008
+#define CBA_EVENT                               0x00000010
+#define CBA_DEFERRED_SYMBOL_LOAD_PARTIAL        0x00000020
+#define CBA_DEBUG_INFO                          0x10000000
+
+enum {
+    sevInfo = 0,
+    sevProblem,
+    sevAttn,
+    sevFatal,
+    sevMax
+};
+
+typedef struct _IMAGEHLP_CBA_EVENT {
+    DWORD severity;                                     
+    DWORD code;                                         
+    PCHAR desc;                                         
+    PVOID object;                                  
+} IMAGEHLP_CBA_EVENT, *PIMAGEHLP_CBA_EVENT;
+
+typedef enum {
+    SymDia = 7,
+    SymVirtual,
+    NumSymTypes
+} SYM_TYPE_EX;
+
+typedef struct _ADDRESS64 {
+    DWORD64       Offset;
+    WORD          Segment;
+    ADDRESS_MODE  Mode;
+} ADDRESS64, *LPADDRESS64;
+
+typedef struct _KDHELP64 {
+    DWORD64 Thread;
+    DWORD   ThCallbackStack;
+    DWORD   ThCallbackBStore;
+    DWORD   NextCallback;
+    DWORD   FramePointer;
+    DWORD64 KiCallUserMode;
+    DWORD64 KeUserCallbackDispatcher;
+    DWORD64 SystemRangeStart;
+    DWORD64 Reserved[8];
+} KDHELP64, *PKDHELP64;
+
+typedef struct _IMAGEHLP_LINE64 {
+    DWORD                       SizeOfStruct;           // set to sizeof(IMAGEHLP_LINE64)
+    PVOID                       Key;                    // internal
+    DWORD                       LineNumber;             // line number in file
+    PCHAR                       FileName;               // full filename
+    DWORD64                     Address;                // first instruction of line
+} IMAGEHLP_LINE64, *PIMAGEHLP_LINE64;
+
+typedef struct _IMAGEHLP_MODULE64 {
+    DWORD                       SizeOfStruct;           // set to sizeof(IMAGEHLP_MODULE64)
+    DWORD64                     BaseOfImage;            // base load address of module
+    DWORD                       ImageSize;              // virtual size of the loaded module
+    DWORD                       TimeDateStamp;          // date/time stamp from pe header
+    DWORD                       CheckSum;               // checksum from the pe header
+    DWORD                       NumSyms;                // number of symbols in the symbol table
+    SYM_TYPE                    SymType;                // type of symbols loaded
+    CHAR                        ModuleName[32];         // module name
+    CHAR                        ImageName[256];         // image name
+    CHAR                        LoadedImageName[256];   // symbol file name
+} IMAGEHLP_MODULE64, *PIMAGEHLP_MODULE64;
+
+typedef struct _SYMBOL_INFO {
+    ULONG       SizeOfStruct;
+    ULONG       TypeIndex;        // Type Index of symbol
+    ULONG64     Reserved[2];
+    ULONG       info;
+    ULONG       Size;
+    ULONG64     ModBase;          // Base Address of module comtaining this symbol
+    ULONG       Flags;
+    ULONG64     Value;            // Value of symbol, ValuePresent should be 1
+    ULONG64     Address;          // Address of symbol including base address of module
+    ULONG       Register;         // register holding value or pointer to value
+    ULONG       Scope;            // scope of the symbol
+    ULONG       Tag;              // pdb classification
+    ULONG       NameLen;          // Actual length of name
+    ULONG       MaxNameLen;
+    CHAR        Name[1];          // Name of symbol
+} SYMBOL_INFO, *PSYMBOL_INFO;
+
+typedef struct _STACKFRAME64 {
+    ADDRESS64   AddrPC;               // program counter
+    ADDRESS64   AddrReturn;           // return address
+    ADDRESS64   AddrFrame;            // frame pointer
+    ADDRESS64   AddrStack;            // stack pointer
+    ADDRESS64   AddrBStore;           // backing store pointer
+    PVOID       FuncTableEntry;       // pointer to pdata/fpo or NULL
+    DWORD64     Params[4];            // possible arguments to the function
+    BOOL        Far;                  // WOW far call
+    BOOL        Virtual;              // is this a virtual frame?
+    DWORD64     Reserved[3];
+    KDHELP64    KdHelp;
+} STACKFRAME64, *LPSTACKFRAME64;
+
+typedef BOOL
+(CALLBACK *PSYM_ENUMMODULES_CALLBACK64)(
+    PSTR ModuleName,
+    DWORD64 BaseOfDll,
+    PVOID UserContext
+    );
+
+typedef BOOL
+(CALLBACK *PSYMBOL_REGISTERED_CALLBACK64)(
+    HANDLE  hProcess,
+    ULONG   ActionCode,
+    ULONG64 CallbackData,
+    ULONG64 UserContext
+    );
+
+typedef
+BOOL
+(__stdcall *PREAD_PROCESS_MEMORY_ROUTINE64)(
+    HANDLE      hProcess,
+    DWORD64     qwBaseAddress,
+    PVOID       lpBuffer,
+    DWORD       nSize,
+    LPDWORD     lpNumberOfBytesRead
+    );
+
+typedef
+PVOID
+(__stdcall *PFUNCTION_TABLE_ACCESS_ROUTINE64)(
+    HANDLE  hProcess,
+    DWORD64 AddrBase
+    );
+
+typedef
+DWORD64
+(__stdcall *PGET_MODULE_BASE_ROUTINE64)(
+    HANDLE  hProcess,
+    DWORD64 Address
+    );
+
+typedef
+DWORD64
+(__stdcall *PTRANSLATE_ADDRESS_ROUTINE64)(
+    HANDLE    hProcess,
+    HANDLE    hThread,
+    LPADDRESS64 lpaddr
+    );
+
+#endif
+
+
 // ImagehlpApiVersion()
-typedef LPAPI_VERSION (__stdcall WINAPI *tIAV)(
+typedef LPAPI_VERSION (__stdcall *tIAV)(
     VOID
 );
 tIAV pIAV = NULL;
@@ -71,7 +260,7 @@ typedef BOOL (__stdcall *tSC)(
 tSC pSC = NULL;
 
 // SymEnumerateModules64()
-typedef BOOL (__stdcall WINAPI *tSEM)(
+typedef BOOL (__stdcall *tSEM)(
     IN HANDLE hProcess,
     IN PSYM_ENUMMODULES_CALLBACK64 EnumModulesCallback,
     IN PVOID UserContext
@@ -179,7 +368,7 @@ typedef BOOL (__stdcall *tSW)(
 tSW pSW = NULL;
 
 // UnDecorateSymbolName()
-typedef DWORD (__stdcall WINAPI *tUDSN)(
+typedef DWORD (__stdcall *tUDSN)(
     PCSTR DecoratedName,
     PSTR UnDecoratedName,
     DWORD UndecoratedLength,
@@ -187,19 +376,70 @@ typedef DWORD (__stdcall WINAPI *tUDSN)(
 );
 tUDSN pUDSN = NULL;
 
+// SymbolServerSetOptions
+typedef BOOL (__stdcall *tSSSO)(
+    UINT_PTR options,
+    ULONG64 data
+);
+tSSSO pSSSO = NULL;
+
+// SetDllDirectory
+typedef BOOL (__stdcall *tSDD)(
+    LPCTSTR lpPathName
+);
+tSDD pSDD = NULL;
+
+
+// GetFileVersionInfoSize 
+typedef BOOL (__stdcall *tGFVIS)(
+    LPCSTR lptstrFilename,
+    LPDWORD lpdwHandle
+);
+tGFVIS pGFVIS = NULL;
+
+// GetFileVersionInfo 
+typedef BOOL (__stdcall *tGFVI)(
+    LPCSTR lptstrFilename,
+    DWORD dwHandle,
+    DWORD dwLen,
+    LPVOID lpData
+);
+tGFVI pGFVI = NULL;
+
+// VerQueryValue 
+typedef BOOL (__stdcall *tVQV)(
+    const LPVOID pBlock,
+    LPTSTR lpSubBlock,
+    LPVOID *lplpBuffer,
+    PUINT puLen
+);
+tVQV pVQV = NULL;
+
+
 #ifndef SYMOPT_NO_PROMPTS
 #define SYMOPT_NO_PROMPTS               0x00080000
 #endif
 
+#ifndef SSRVACTION_EVENT
+#define SSRVACTION_EVENT                3
+#endif
+
+#ifndef SSRVOPT_PROXY
+#define SSRVOPT_PROXY                   0x00001000
+#endif
+
+
 // Forward definitions of functions:
-static void ShowStackRM( HANDLE hThread, CONTEXT& c, HANDLE hProcess);
+static void ShowStackRM(HANDLE hThread, CONTEXT& c);
 
 // Global data:
 static BOOL g_bInitialized = FALSE;
+static HANDLE g_hProcess = NULL;
 static DWORD g_dwShowCount = 0;  // increase at every ShowStack-Call
-static HINSTANCE g_hDbgHelpDll = NULL;
-static HINSTANCE g_hSymSrvDll = NULL;
-static HINSTANCE g_hSrcSrvDll = NULL;
+static HMODULE g_hDbgHelpDll = NULL;
+static HMODULE g_hSymSrvDll = NULL;
+static HMODULE g_hSrcSrvDll = NULL;
+static HMODULE g_hVersionDll = NULL;
 static CRITICAL_SECTION g_csFileOpenClose = {0};
 
 
@@ -246,43 +486,113 @@ bool DebuggerLoadLibrary(
     return true;
 }
 
-
-BOOL CALLBACK SymRegisterCallbackProc(HANDLE hProcess, ULONG ActionCode, ULONG64 CallbackData, ULONG64 UserContext)
+BOOL CALLBACK SymbolServerCallbackProc(UINT_PTR ActionCode, ULONG64 CallbackData, ULONG64 UserContext)
 {
     BOOL bRetVal = FALSE;
-    PIMAGEHLP_DEFERRED_SYMBOL_LOAD64 pModule;
+    PIMAGEHLP_CBA_EVENT pEvent = NULL;
 
     switch(ActionCode) {
-        case CBA_DEBUG_INFO:
-            _ftprintf(stderr, _T("DEBUG: %s\n"), (PCTSTR)CallbackData);
+        case SSRVACTION_EVENT:
+            pEvent = (PIMAGEHLP_CBA_EVENT)CallbackData;
+            switch(pEvent->severity) {
+                case sevInfo:
+                    _ftprintf(stderr, _T("SSRVINFO: %s\n"), pEvent->desc);
+                    break;
+                case sevProblem:
+                    _ftprintf(stderr, _T("SSRVPROB: %s\n"), pEvent->desc);
+                    break;
+                case sevAttn:
+                    _ftprintf(stderr, _T("SSRVATTN: %s\n"), pEvent->desc);
+                    break;
+                case sevFatal:
+                    _ftprintf(stderr, _T("SSRVFATAL: %s\n"), pEvent->desc);
+                    break;
+            }
+            fflush(stderr);
             bRetVal = TRUE;
             break;
-        case CBA_DEFERRED_SYMBOL_LOAD_COMPLETE:
-            pModule = (PIMAGEHLP_DEFERRED_SYMBOL_LOAD64)CallbackData;
-            _ftprintf(stderr, _T("ModLoad: "));
-            _ftprintf(stderr, _T("%.8x "), pModule->BaseOfImage);
-            _ftprintf(stderr, _T("%s "), pModule->FileName);
-            _ftprintf(stderr, _T("\n"));
+        case SSRVACTION_TRACE:
+            _ftprintf(stderr, _T("SSRVDEBUG: %s\n"), (PCTSTR)CallbackData);
+            fflush(stderr);
             bRetVal = TRUE;
             break;
     }
 
-    fflush(stderr);
     return bRetVal;
 }
 
+BOOL CALLBACK SymRegisterCallbackProc(HANDLE hProcess, ULONG ActionCode, ULONG64 CallbackData, ULONG64 UserContext)
+{
+    BOOL bRetVal = FALSE;
+    PIMAGEHLP_CBA_EVENT pEvent = NULL;
+
+    switch(ActionCode) {
+        case CBA_EVENT:
+            pEvent = (PIMAGEHLP_CBA_EVENT)CallbackData;
+            switch(pEvent->severity) {
+                case sevInfo:
+                    _ftprintf(stderr, _T("INFO: %s\n"), pEvent->desc);
+                    break;
+                case sevProblem:
+                    _ftprintf(stderr, _T("PROB: %s\n"), pEvent->desc);
+                    break;
+                case sevAttn:
+                    _ftprintf(stderr, _T("ATTN: %s\n"), pEvent->desc);
+                    break;
+                case sevFatal:
+                    _ftprintf(stderr, _T("FATAL: %s\n"), pEvent->desc);
+                    break;
+            }
+            fflush(stderr);
+            bRetVal = TRUE;
+            break;
+        case CBA_DEBUG_INFO:
+            _ftprintf(stderr, _T("DEBUG: %s\n"), (PCTSTR)CallbackData);
+            fflush(stderr);
+            bRetVal = TRUE;
+            break;
+    }
+
+    return bRetVal;
+}
 
 BOOL CALLBACK SymEnumerateModulesProc(LPSTR ModuleName, DWORD64 BaseOfDll, PVOID UserContext)
 {
-    IMAGEHLP_MODULE64 Module;
-    char type[MAX_SYM_NAME];
+    IMAGEHLP_MODULE64   Module;
+    char                szSymbolType[32];
+    DWORD               dwHandle;
+    LPVOID              lpData;
+    DWORD               dwSize;
+    char                szQuery[256];
+    LPVOID              lpVar;
+    UINT                uiVarSize;
+    VS_FIXEDFILEINFO*   pFileInfo;
+    char                szVersionInfo[24];
+    char                szCompanyName[256];
+    char                szProductName[256];
+    char                szFileVersion[256];
+    char                szProductVersion[256];
+    bool                bFileVersionSupported = false;
+    bool                bFileVersionRetrieved = false;
+
+    struct LANGANDCODEPAGE {
+        WORD wLanguage;
+        WORD wCodePage;
+    } *lpTranslate;
+
 
     memset( &Module, '\0', sizeof(IMAGEHLP_MODULE64) );
     Module.SizeOfStruct = sizeof(IMAGEHLP_MODULE64);
 
-    memset( &type, '\0', sizeof type );
+    memset( &szSymbolType, '\0', sizeof(szSymbolType) );
+    memset( &szQuery, '\0', sizeof(szQuery) );
+    memset( &szVersionInfo, '\0', sizeof(szVersionInfo) );
+    memset( &szCompanyName, '\0', sizeof(szCompanyName) );
+    memset( &szProductName, '\0', sizeof(szProductName) );
+    memset( &szFileVersion, '\0', sizeof(szFileVersion) );
+    memset( &szProductVersion, '\0', sizeof(szProductVersion) );
 
-    if ( !pSGMI( GetCurrentProcess(), BaseOfDll, &Module ) )
+    if ( !pSGMI( g_hProcess, BaseOfDll, &Module ) )
     {
         _ftprintf(stderr, _T("SymGetModuleInfo(): GetLastError = %lu\n"), gle );
     }
@@ -291,38 +601,130 @@ BOOL CALLBACK SymEnumerateModulesProc(LPSTR ModuleName, DWORD64 BaseOfDll, PVOID
         switch ( Module.SymType )
         {
             case SymNone:
-                strcpy( type, "-nosymbols-" );
+                strcpy( szSymbolType, "-nosymbols-" );
                 break;
             case SymCoff:
-                strcpy( type, "COFF" );
+                strcpy( szSymbolType, "COFF" );
                 break;
             case SymCv:
-                strcpy( type, "CV" );
+                strcpy( szSymbolType, "CV" );
                 break;
             case SymPdb:
-                strcpy( type, "PDB" );
+                strcpy( szSymbolType, "PDB" );
                 break;
             case SymExport:
-                strcpy( type, "-exported-" );
+                strcpy( szSymbolType, "-exported-" );
                 break;
             case SymDeferred:
-                strcpy( type, "-deferred-" );
+                strcpy( szSymbolType, "-deferred-" );
                 break;
             case SymSym:
-                strcpy( type, "SYM" );
+                strcpy( szSymbolType, "SYM" );
                 break;
             default:
-                _snprintf( type, sizeof type, "symtype=%ld", (long) Module.SymType );
+                _snprintf( szSymbolType, sizeof(szSymbolType), "symtype=%ld", (long) Module.SymType );
                 break;
         }
     }
 
+    // Get File Version Information
+    //
+    bFileVersionSupported = (NULL != pGFVIS) && (NULL != pGFVI) && (NULL != pVQV);
+    if (bFileVersionSupported) {
+
+        dwSize = pGFVIS(Module.LoadedImageName, &dwHandle);
+        if (dwSize) {
+            lpData = (LPVOID)malloc(dwSize);
+            if(pGFVI(Module.LoadedImageName, dwHandle, dwSize, lpData)) {
+                bFileVersionRetrieved = true;
+
+                // Which language should be used to lookup the structure?
+                strcpy(szQuery, "\\VarFileInfo\\Translation");
+                pVQV(lpData, szQuery, (LPVOID*)&lpTranslate, &uiVarSize);
+
+
+                // Version specified as part of the root record.
+                if (pVQV(lpData, "\\", (LPVOID*)&pFileInfo, &uiVarSize)) {
+                    snprintf(szVersionInfo, sizeof(szVersionInfo), "%d.%d.%d.%d", 
+                        HIWORD(pFileInfo->dwFileVersionMS),
+                        LOWORD(pFileInfo->dwFileVersionMS),
+                        HIWORD(pFileInfo->dwFileVersionLS),
+                        LOWORD(pFileInfo->dwFileVersionLS)
+                    );                }
+
+                // Company Name.
+                sprintf(szQuery, "\\StringFileInfo\\%04x%04x\\CompanyName",
+                    lpTranslate[0].wLanguage,
+                    lpTranslate[0].wCodePage
+                );
+                if (pVQV(lpData, szQuery, &lpVar, &uiVarSize)) {
+                    uiVarSize = snprintf(szCompanyName, sizeof(szCompanyName), "%s", lpVar);
+                    if ((sizeof(szCompanyName) == uiVarSize) || (-1 == uiVarSize)) {
+                        szCompanyName[255] = '\0';
+                    }
+                } else {
+                    _ftprintf(stderr, _T("Get Company Name Failed.\n"));
+                }
+
+                // Product Name.
+                sprintf(szQuery, "\\StringFileInfo\\%04x%04x\\ProductName",
+                    lpTranslate[0].wLanguage,
+                    lpTranslate[0].wCodePage
+                );
+                if (pVQV(lpData, szQuery, &lpVar, &uiVarSize)) {
+                    uiVarSize = snprintf(szProductName, sizeof(szProductName), "%s", lpVar);
+                    if ((sizeof(szProductName) == uiVarSize) || (-1 == uiVarSize)) {
+                        szProductName[255] = '\0';
+                    }
+                } else {
+                    _ftprintf(stderr, _T("Get Product Name Failed.\n"));
+                }
+
+                // File Version.
+                sprintf(szQuery, "\\StringFileInfo\\%04x%04x\\FileVersion",
+                    lpTranslate[0].wLanguage,
+                    lpTranslate[0].wCodePage
+                );
+                if (pVQV(lpData, szQuery, &lpVar, &uiVarSize)) {
+                    uiVarSize = snprintf(szFileVersion, sizeof(szFileVersion), "%s", lpVar);
+                    if ((sizeof(szFileVersion) == uiVarSize) || (-1 == uiVarSize)) {
+                        szFileVersion[255] = '\0';
+                    }
+                }
+
+                // Product Version.
+                sprintf(szQuery, "\\StringFileInfo\\%04x%04x\\ProductVersion",
+                    lpTranslate[0].wLanguage,
+                    lpTranslate[0].wCodePage
+                );
+                if (pVQV(lpData, szQuery, &lpVar, &uiVarSize)) {
+                    uiVarSize = snprintf(szProductVersion, sizeof(szProductVersion), "%s", lpVar);
+                    if ((sizeof(szProductVersion) == uiVarSize) || (-1 == uiVarSize)) {
+                        szProductVersion[255] = '\0';
+                    }
+                }
+
+                free(lpData);
+            }
+        }
+    }
+
     _ftprintf(stderr, _T("ModLoad: "));
-    _ftprintf(stderr, _T("%.8x ")              , Module.BaseOfImage);
-    _ftprintf(stderr, _T("%.8x ")              , Module.ImageSize);
-    _ftprintf(stderr, _T("%s ")                , Module.LoadedImageName);
-    _ftprintf(stderr, _T("(%s Symbols Loaded)"), type);
+    _ftprintf(stderr, _T("%.8x ")                          , Module.BaseOfImage);
+    _ftprintf(stderr, _T("%.8x ")                          , Module.ImageSize);
+    _ftprintf(stderr, _T("%s ")                            , Module.LoadedImageName);
+    if (bFileVersionSupported && bFileVersionRetrieved) {
+        _ftprintf(stderr, _T("(%s) ")                      , szVersionInfo);
+    }
+    _ftprintf(stderr, _T("(%s Symbols Loaded)")            , szSymbolType);
     _ftprintf(stderr, _T("\n"));
+    if (bFileVersionSupported && bFileVersionRetrieved) {
+        _ftprintf(stderr, _T("    File Version   : %s\n")  , szFileVersion);
+        _ftprintf(stderr, _T("    Company Name   : %s\n")  , szCompanyName);
+        _ftprintf(stderr, _T("    Product Name   : %s\n")  , szProductName);
+        _ftprintf(stderr, _T("    Product Version: %s\n")  , szProductVersion);
+        _ftprintf(stderr, _T("\n"));
+    }
     fflush(stderr);
 
     return TRUE;
@@ -330,36 +732,101 @@ BOOL CALLBACK SymEnumerateModulesProc(LPSTR ModuleName, DWORD64 BaseOfDll, PVOID
 
 
 
-int DebuggerInitialize( LPCSTR pszBOINCLocation, LPCSTR pszSymbolStore )
+int DebuggerInitialize( LPCSTR pszBOINCLocation, LPCSTR pszSymbolStore, BOOL bProxyEnabled, LPCSTR pszProxyServer )
 {
-    using namespace std;
-
     if (g_bInitialized != FALSE)
         return 0;
 
+    // Detect which version of Windows we are running on.
     OSVERSIONINFO osvi;
     ZeroMemory(&osvi, sizeof(OSVERSIONINFO));
     osvi.dwOSVersionInfoSize = sizeof(OSVERSIONINFO);
     GetVersionEx((OSVERSIONINFO*)&osvi);
 
-    // If Win9x use the old dbghelp.dll (5.0.2195.1)
-    if (VER_PLATFORM_WIN32_WINDOWS == osvi.dwPlatformId)
+    // Get a real handle to the current process and store it for future use.
+    DuplicateHandle(
+        GetCurrentProcess(),
+        GetCurrentProcess(),
+        GetCurrentProcess(), 
+        &g_hProcess, 
+        0,
+        false,
+        DUPLICATE_SAME_ACCESS
+    );
+
+    // For the most part the dbghelp.dll does the right stuff, but there are
+    // conditions where things go off into never never land.  Most of the
+    // time the error comes back ERROR_MOD_NOT_FOUND.  Most of the info
+    // out on the net describes conditions in which dbghelp.dll is trying
+    // to dynamically load another module such as symsrv.dll and fails to
+    // find it.  Preloading the module only seems to work on some machines.
+    // On Windows XP or better a new API has been introduced called
+    // SetDllDirectory which will inject a path into the search order
+    // that is before the System and Windows directories which is what we
+    // want.
+    if ((VER_PLATFORM_WIN32_NT == osvi.dwPlatformId) &&
+        (5 == osvi.dwMajorVersion) && (1 == osvi.dwMinorVersion))
     {
+        HMODULE hKernel32 = LoadLibraryA("kernel32.dll");
+        if (hKernel32) {
+            pSDD = (tSDD)GetProcAddress( hKernel32, "SetDllDirectoryA" );
+            if (!pSDD(pszBOINCLocation)) {
+                _ftprintf(stderr, _T("SetDllDirectory(): GetLastError = %lu\n"), gle );
+            }
+            FreeLibrary(hKernel32);
+            hKernel32 = NULL;
+            pSDD = NULL;
+        }
+    }
+
+
+    // If Win9x use the old dbghelp.dll (5.0.2195.1)
+    if (VER_PLATFORM_WIN32_WINDOWS == osvi.dwPlatformId) {
         if (!DebuggerLoadLibrary(&g_hDbgHelpDll, pszBOINCLocation, "dbghelp95.dll")) {
             if (!DebuggerLoadLibrary(&g_hDbgHelpDll, pszBOINCLocation, "dbghelp.dll")) {
                 g_bInitialized = FALSE;
                 return 1;
             }
         }
-    }
-    else
-    {
+    } else {
         if (!DebuggerLoadLibrary(&g_hDbgHelpDll, pszBOINCLocation, "dbghelp.dll")) {
             g_bInitialized = FALSE;
             return 1;
         }
+
         DebuggerLoadLibrary(&g_hSymSrvDll, pszBOINCLocation, "symsrv.dll");
+        if (g_hSymSrvDll) {
+            pSSSO = (tSSSO)GetProcAddress(g_hSymSrvDll, "SymbolServerSetOptions");
+            if (pSSSO) {
+                if (!pSSSO(SSRVOPT_TRACE, (ULONG64)TRUE)) {
+                    _ftprintf(stderr, _T("SymbolServerSetOptions(): Register Trace Failed, GetLastError = %lu\n"), gle);
+                }
+                if (!pSSSO(SSRVOPT_CALLBACK, (ULONG64)SymbolServerCallbackProc)) {
+                    _ftprintf(stderr, _T("SymbolServerSetOptions(): Register Callback Failed, GetLastError = %lu\n"), gle);
+                }
+                if (!pSSSO(SSRVOPT_UNATTENDED, (ULONG64)TRUE)) {
+                    _ftprintf(stderr, _T("SymbolServerSetOptions(): Register Unattended Failed, GetLastError = %lu\n"), gle);
+                }
+                if (bProxyEnabled) {
+                    if (!pSSSO(SSRVOPT_PROXY, (ULONG64)pszProxyServer)) {
+                        _ftprintf(stderr, _T("SymbolServerSetOptions(): Register Proxy Failed, GetLastError = %lu\n"), gle);
+                    }
+                } else {
+                    if (!pSSSO(SSRVOPT_PROXY, (ULONG64)NULL)) {
+                        _ftprintf(stderr, _T("SymbolServerSetOptions(): Register Proxy Failed, GetLastError = %lu\n"), gle);
+                    }
+                }
+            }
+        }
+
         DebuggerLoadLibrary(&g_hSrcSrvDll, pszBOINCLocation, "srcsrv.dll");
+
+        DebuggerLoadLibrary(&g_hVersionDll, pszBOINCLocation, "version.dll");
+        if (g_hVersionDll) {
+            pGFVIS = (tGFVIS)GetProcAddress(g_hVersionDll, "GetFileVersionInfoSizeA");
+            pGFVI = (tGFVI)GetProcAddress(g_hVersionDll, "GetFileVersionInfoA");
+            pVQV = (tVQV)GetProcAddress(g_hVersionDll, "VerQueryValueA");
+        }
     }
 
     pIAV = (tIAV) GetProcAddress( g_hDbgHelpDll, "ImagehlpApiVersion" );
@@ -398,15 +865,10 @@ int DebuggerInitialize( LPCSTR pszBOINCLocation, LPCSTR pszSymbolStore )
     CHAR* tt;
     CHAR* p;
     DWORD symOptions; // symbol handler settings
-    string strLocalSymbolStore;
-    string strSymbolSearchPath;
+    std::string strLocalSymbolStore;
+    std::string strSymbolSearchPath;
 
-    static const basic_string<char>::size_type npos = -1;
-
-
-    // NOTE: normally, the exe directory and the current directory should be taken
-    // from the target process. The current dir would be gotten through injection
-    // of a remote thread; the exe fir through either ToolHelp32 or PSAPI.
+    static const std::basic_string<char>::size_type npos = -1;
 
     tt = (CHAR*) malloc(sizeof(CHAR) * TTBUFLEN); // Get the temporary buffer
     if (!tt) return 1;  // not enough memory...
@@ -417,7 +879,7 @@ int DebuggerInitialize( LPCSTR pszBOINCLocation, LPCSTR pszSymbolStore )
 
     // current directory
     if ( GetCurrentDirectoryA( TTBUFLEN, tt ) )
-        strSymbolSearchPath += tt + string( ";" );
+        strSymbolSearchPath += tt + std::string( ";" );
 
     // dir with executable
     if ( GetModuleFileNameA( 0, tt, TTBUFLEN ) )
@@ -435,62 +897,71 @@ int DebuggerInitialize( LPCSTR pszBOINCLocation, LPCSTR pszSymbolStore )
             if ( *p == ':' ) // we leave colons in place
                 ++p;
             *p = '\0'; // eliminate the exe name and last path sep
-            strSymbolSearchPath += tt + string( ";" );
+            strSymbolSearchPath += tt + std::string( ";" );
         }
     }
 
     // environment variable _NT_SYMBOL_PATH
     if ( GetEnvironmentVariableA( "_NT_SYMBOL_PATH", tt, TTBUFLEN ) )
-        strSymbolSearchPath += tt + string( ";" );
+        strSymbolSearchPath += tt + std::string( ";" );
     // environment variable _NT_ALTERNATE_SYMBOL_PATH
-    if ( GetEnvironmentVariableA( "_NT_ALTERNATE_SYMBOL_PATH", tt, TTBUFLEN ) )
-        strSymbolSearchPath += tt + string( ";" );
+    if ( GetEnvironmentVariableA( "_NT_ALT_SYMBOL_PATH", tt, TTBUFLEN ) )
+        strSymbolSearchPath += tt + std::string( ";" );
 
     if ( GetTempPathA( TTBUFLEN, tt ) )
-        strLocalSymbolStore += tt + string("symbols");
+        strLocalSymbolStore += tt + std::string("symbols");
 
     // microsoft public symbol server
     if (npos == strSymbolSearchPath.find("http://msdl.microsoft.com/download/symbols")) {
         strSymbolSearchPath += 
-            string( "srv*" ) + strLocalSymbolStore + 
-            string( "*http://msdl.microsoft.com/download/symbols;" );
+            std::string( "srv*" ) + strLocalSymbolStore + 
+            std::string( "*http://msdl.microsoft.com/download/symbols;" );
     }
 
     // project symbol server
     if ((npos == strSymbolSearchPath.find(pszSymbolStore)) && (0 < strlen(pszSymbolStore))) {
         strSymbolSearchPath += 
-            string( "srv*" ) + strLocalSymbolStore + string( "*" ) +
-            string( pszSymbolStore );
+            std::string( "srv*" ) + strLocalSymbolStore + std::string( "*" ) +
+            std::string( pszSymbolStore );
     }
 
     // boinc symbol server
     if (npos == strSymbolSearchPath.find("http://boinc.berkeley.edu/symstore")) {
         strSymbolSearchPath += 
-            string( "srv*" ) + strLocalSymbolStore + 
-            string( "*http://boinc.berkeley.edu/symstore;" );
+            std::string( "srv*" ) + strLocalSymbolStore + 
+            std::string( "*http://boinc.berkeley.edu/symstore;" );
     }
 
     if ( strSymbolSearchPath.size() > 0 ) // if we added anything, we have a trailing semicolon
         strSymbolSearchPath = strSymbolSearchPath.substr( 0, strSymbolSearchPath.size() - 1 );
 
+    if (tt) 
+        free( tt );
+
+    // Setting symbol options to the WinDbg defaults.
+    symOptions = NULL;
+    symOptions |= SYMOPT_CASE_INSENSITIVE;
+    symOptions |= SYMOPT_LOAD_LINES;
+    symOptions |= SYMOPT_OMAP_FIND_NEAREST;
+    symOptions |= SYMOPT_FAIL_CRITICAL_ERRORS;
+    symOptions |= SYMOPT_AUTO_PUBLICS;
+    symOptions |= SYMOPT_NO_IMAGE_SEARCH;
+    symOptions |= SYMOPT_DEBUG;
+    symOptions |= SYMOPT_NO_PROMPTS;
+    pSSO( symOptions ); // SymSetOptions()
+
     // init symbol handler stuff (SymInitialize())
-    if ( ! pSI(GetCurrentProcess(), strSymbolSearchPath.c_str(), TRUE ) )
+    if (!pSI(g_hProcess, strSymbolSearchPath.c_str(), TRUE))
     {
-        _ftprintf(stderr, _T("SymInitialize(): GetLastError = %lu\n"), gle );
-        if (tt) free( tt );
+        _ftprintf(stderr, _T("SymInitialize(): GetLastError = %lu\n"), gle);
         return 1;
     }
 
-    // SymGetOptions()
-    symOptions = pSGO();
-    symOptions |= SYMOPT_DEBUG;
-    symOptions |= SYMOPT_LOAD_LINES;
-    symOptions |= SYMOPT_NO_PROMPTS;
-    symOptions &= ~SYMOPT_UNDNAME;
-    pSSO( symOptions ); // SymSetOptions()
+    if (!pSRC(g_hProcess, SymRegisterCallbackProc, (ULONG64)g_hProcess))
+    {
+        _ftprintf(stderr, _T("SymRegisterCallback64(): GetLastError = %lu\n"), gle);
+    }
 
-    if (tt) 
-        free( tt );
 
     LeaveCriticalSection(&g_csFileOpenClose);
     return 0;
@@ -504,10 +975,10 @@ int DebuggerDisplayDiagnostics()
     TCHAR buf[TTBUFLEN];
 
     lpDV = pIAV();
-    pSGSP(GetCurrentProcess(), buf, TTBUFLEN);
+    pSGSP(g_hProcess, buf, TTBUFLEN);
 
     _ftprintf( stderr, _T("\n\n"));
-    _ftprintf( stderr, _T("BOINC Windows Debugger  Version %s\n"), BOINC_VERSION_STRING);
+    _ftprintf( stderr, _T("BOINC Windows Runtime Debugger Version %s\n"), BOINC_VERSION_STRING);
     _ftprintf( stderr, _T("\n"));
     _ftprintf( stderr, _T("Dump Timestamp    : "));
     DebuggerWriteDateTime();
@@ -516,12 +987,7 @@ int DebuggerDisplayDiagnostics()
     _ftprintf( stderr, _T("Symbol Search Path: %s\n"), buf);
     _ftprintf( stderr, _T("\n\n"));
 
-    if (!pSRC(GetCurrentProcess(), SymRegisterCallbackProc, NULL))
-    {
-        _ftprintf(stderr, _T("SymRegisterCallback64(): GetLastError = %lu\n"), gle );
-    }
-
-    if (!pSEM(GetCurrentProcess(), SymEnumerateModulesProc, NULL))
+    if (!pSEM(g_hProcess, SymEnumerateModulesProc, NULL))
     {
         _ftprintf(stderr, _T("SymEnumerateModules64(): GetLastError = %lu\n"), gle );
     }
@@ -562,7 +1028,7 @@ DWORD StackwalkFilter(EXCEPTION_POINTERS *ep, DWORD status)
   DuplicateHandle( GetCurrentProcess(), GetCurrentThread(),
     GetCurrentProcess(), &hThread, 0, false, DUPLICATE_SAME_ACCESS );
 
-  StackwalkThread( hThread, ep->ContextRecord);
+  StackwalkThread( hThread, ep->ContextRecord );
 
   CloseHandle( hThread );
 
@@ -571,10 +1037,10 @@ DWORD StackwalkFilter(EXCEPTION_POINTERS *ep, DWORD status)
 
 void StackwalkThread(HANDLE hThread, CONTEXT* c)
 {
-  ShowStackRM( hThread, *c, GetCurrentProcess() );
+  ShowStackRM(hThread, *c);
 }
 
-static void ShowStackRM(HANDLE hThread, CONTEXT& Context, HANDLE hSWProcess)
+static void ShowStackRM(HANDLE hThread, CONTEXT& Context)
 {
     BOOL bRetVal = FALSE;
 
@@ -655,7 +1121,7 @@ static void ShowStackRM(HANDLE hThread, CONTEXT& Context, HANDLE hSWProcess)
         // deeper frame could not be found.
         bRetVal = pSW(
             IMAGE_FILE_MACHINE_I386,
-            hSWProcess,
+            g_hProcess,
             hThread,
             &StackFrame,
             &Context,
@@ -678,7 +1144,7 @@ static void ShowStackRM(HANDLE hThread, CONTEXT& Context, HANDLE hSWProcess)
             // show procedure info (SymFromAddr())
             undName[0] = 0;
             offsetFromSymbol = 0;
-            if ( !pSFA( hSWProcess, StackFrame.AddrPC.Offset, &offsetFromSymbol, pSymbol ) )
+            if ( !pSFA( g_hProcess, StackFrame.AddrPC.Offset, &offsetFromSymbol, pSymbol ) )
             {
                 if ( gle != 487 )
                 {
@@ -693,7 +1159,7 @@ static void ShowStackRM(HANDLE hThread, CONTEXT& Context, HANDLE hSWProcess)
 
             // show line number info (SymGetLineFromAddr())
             offsetFromLine = 0;
-            if ( !pSGLFA( hSWProcess, StackFrame.AddrPC.Offset, &offsetFromLine, &Line ) )
+            if ( !pSGLFA( g_hProcess, StackFrame.AddrPC.Offset, &offsetFromLine, &Line ) )
             {
                 if ( (gle != 487) && (frameNum > 0) )  // ignore error for first frame
                 {
@@ -702,7 +1168,7 @@ static void ShowStackRM(HANDLE hThread, CONTEXT& Context, HANDLE hSWProcess)
             }
 
             // show module info (SymGetModuleInfo())
-            if ( !pSGMI( hSWProcess, StackFrame.AddrPC.Offset, &Module ) )
+            if ( !pSGMI( g_hProcess, StackFrame.AddrPC.Offset, &Module ) )
             {
                 _ftprintf(stderr, _T("SymGetModuleInfo(): GetLastError = '%lu' Address = '%.8x'\n"), gle, StackFrame.AddrPC.Offset);
             }
@@ -714,6 +1180,7 @@ static void ShowStackRM(HANDLE hThread, CONTEXT& Context, HANDLE hSWProcess)
         _ftprintf(stderr, "%.8x ", StackFrame.Params[0]);
         _ftprintf(stderr, "%.8x ", StackFrame.Params[1]);
         _ftprintf(stderr, "%.8x ", StackFrame.Params[2]);
+        _ftprintf(stderr, "%.8x ", StackFrame.Params[3]);
         _ftprintf(stderr, "%s",    Module.ModuleName);
         _ftprintf(stderr, "!%s+",  undName);
         _ftprintf(stderr, "0x%x ", offsetFromLine);
@@ -725,9 +1192,6 @@ static void ShowStackRM(HANDLE hThread, CONTEXT& Context, HANDLE hSWProcess)
             // FPO Data
             PFPO_DATA pFPO = (PFPO_DATA)StackFrame.FuncTableEntry;
             switch(pFPO->cbFrame) {
-                case FRAME_NONFPO:
-                    _ftprintf(stderr, "FPO: [non-Fpo] ");
-                    break;
                 case FRAME_FPO:
                     _ftprintf(stderr, "FPO: [%d,%d,%d] ", pFPO->cdwParams, pFPO->cdwLocals, pFPO->cbRegs);
                     break;

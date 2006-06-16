@@ -248,12 +248,8 @@ BOOL NetworkTrackerStartup()
 			    ATLTRACE(TEXT("gpIEventSystem->Store (0x%x)"), hr);
 			    return FALSE;
 		    }
-            else
-            {
-                ATLTRACE(TEXT("Subscription Sucess: %s\n"), COLE2T(pSubscription->strMethodName));
-            }
 
-		    pIEventSubscription->Release();
+            pIEventSubscription->Release();
 		    pIEventSubscription = NULL;
         }
     }

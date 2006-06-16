@@ -3624,7 +3624,7 @@ Rom    6 Apr 2006 (From Darrel Holz)
         DlgAbout.cpp
 
 Charlie 7 Apr 2006
-    - Mac: Fix bug in shell script to sets up Mac to run BOINC Client as 
+    - Mac: Fix bug in shell script to set up Mac to run BOINC Client as 
         a daemon / service.
         
     mac_build/
@@ -3688,6 +3688,588 @@ Rom    10 Apr 2006
     clientgui/
         ViewWork.cpp
 
-Rom    30 Mar 2006 (boinc_core_release_5_4)
+Rom    10 Apr 2006 (boinc_core_release_5_4)
     - Tag for 5.4.0 release, all platforms
       boinc_core_release_5_4
+
+Charlie 10 Apr 2006
+    - Extend Mac screensaver safety timer of 21 Feb 2006 to all platforms.
+      (checked this in to both HEAD and boinc_core_release_5_4 branches.)
+    
+    client/
+        app_graphics.C
+        ss_logic.C
+        app.C
+        app.h
+
+Rom    11 Apr 2006
+    - Bug Fix: Account creation controls should be disabled for all
+        account manager code paths, not just update.
+    - Bug Fix: Extend the timeout for the graphics mode ack to 30
+        seconds in the screensaver poll function to give LHC and
+        CPDN more time to create and display their graphics window
+        when going into screensaver mode.
+    - Bug Fix: Add some extra logic to the screensaver to handle
+        detection of idle user input without needing to be the
+        active window.  If the science application window hasn't
+        processed a window message for 5 seconds do an additional
+        check to determine if any mouse or keyboard activity has
+        been detected.  If activity has been detected, shutdown the
+        screensaver system.
+    - Bug Fix: Add a please wait message to the screensaver for
+        applications that take a long time before they display
+        their own graphics.
+        
+    client/
+        ss_logic.C
+    client/win/
+        boinc_ss.h
+        boinc_ss.rc
+        win_screensaver.cpp, .h
+    clientgui/
+        AccountInfoPage.cpp
+
+Rom    11 Apr 2006 (boinc_core_release_5_4)
+    - Tag for 5.4.1 release, all platforms
+      boinc_core_release_5_4_1
+
+Rom    12 Apr 2006
+    - Bug Fix: Fix a crash on Win9x when leaving the screensaver and
+        password protection is enabled.
+    - Bug Fix: Do not allow the Win9x password dialog to get stuck behind
+        the main screensaver windows, otherwise the only thing you can do
+        is reboot the machine.
+    - Include the thread id with trace statements.
+        
+    client/win/
+        win_screensaver.cpp, .h
+    lib/
+        diagnostics.C
+
+David  13 Apr 2006
+	- graphics API: in txf_load_fonts(),
+		use boinc_resolve_filename() so that font files
+		can be in the project dir
+
+	api/
+		txf_util.C
+
+Rom    12 Apr 2006 (boinc_core_release_5_4)
+    - Tag for 5.4.2 release, all platforms
+      boinc_core_release_5_4_2
+
+Rom    13 Apr 2006
+    - Bug Fix: Adjust the startup sequence on Windows a bit so that the
+        window doesn't flicker.  Another perk is that on startup the
+        window won't display itself until it can fully deal with user
+        input.
+        
+    clientgui/
+        BOINCGUIApp.cpp
+        MainFrame.cpp, .h
+
+Rom    13 Apr 2006
+    - Bug Fix: Fix a shutdown bug that was causing the manager to wait
+        the full 10 seconds before closing itself.
+        
+    clientgui/
+        BOINCGUIApp.cpp
+
+Rom    13 Apr 2006 (boinc_core_release_5_4)
+    - Tag for 5.4.3 release, all platforms
+      boinc_core_release_5_4_3
+
+Charlie 14 Apr 2006
+    - Mac: OnShow() is not implemented in wxMac-2.6.2, so move code from 
+      CMainFrame::OnShow() into new method CMainFrame::SetWindowDimensions(). 
+      Call SetWindowDimensions() from CMainFrame::OnShow() and also from 
+      Mac-only method CMainFrame::Show().
+      
+    clientgui/
+        MainFrame.cpp, .h
+
+Rom    14 Apr 2006
+    - Bug Fix: Apparently Windows and Mac message boxes by default have an OK
+        button and Linux does not.  So add wxOK to all the alerts sent.
+        
+    clientgui/
+        BOINCDialupManager.cpp
+        MainFrame.cpp
+
+
+Rom    15 Apr 2006
+    - Enable proxy support to retrieve symbols from a web based symbol store.
+    - Enable trace debugging for various components that the Windows debugging
+        environment uses.  This only works with tools that can trap
+        OutputDebugString based messages.  It is something we may support in
+        a future release.  If dbghelp.dll or symsrv.dll ever use their
+        callbacks, that output will be logged to stderr.txt
+        
+    lib/
+        diagnostics.C
+        stackwalker_win.cpp, .h
+
+Rom    16 Apr 2006
+    - Bug Fix: Add cache timestamps for project, task, transfers, statistics,
+        and resources.
+        
+    clientgui/
+        MainDocument.cpp, .h
+
+Rom    16 Apr 2006
+    - Bug Fix: Include file version informaton in the debugger module list
+    
+    lib/
+        stackwalker_win.cpp
+
+Charlie 17 Apr 2006
+    - Mac bug fix: If window was never opened, window dimensions were never 
+        read from preferences, so SaveState wrote bad values in preferences.
+    - Mac: Don't customize name of BOINC Data directory for branding; change 
+        "GridRepublic Manager" to "GridRepublic Desktop; make branding script 
+        more robust if there is a space in any file or directory name or path.
+    - Mac: Release scripts automatically update ReadMe version numbers.
+    - Mac: clarify that upgrade warning from older versions applies only to 
+        Intel Macs.
+      
+    clientgui/
+        BOINCGUIApp.cpp
+        MainFrame.cpp
+    mac_installer/
+        GR-ReadMe.rtf
+        ReadMe.rtf
+        PostInstall.cpp
+        preinstall
+        release_boinc.sh
+        release_GridRepublic.sh
+
+Rom    17 Apr 2006
+    - Clean up the caching scheme used in the manager
+    - Remove the message cache update for all tabs except
+        the messages tab.
+    - Remove the project update from the work tab.  Use a new flag being
+        introduced to show if the project has been suspended via GUI.
+
+    clientgui/
+        MainDocument.cpp
+        MainFrame.cpp
+        ViewMessages.cpp
+        ViewProjects.cpp
+        ViewResources.cpp
+        ViewStatistics.cpp
+        ViewTransfers.cpp
+        ViewWork.cpp
+
+David  17 Apr 2006
+	- get rid of the versions of xml_escape() and xml_unescape()
+		that take std::string args.
+		These are too inefficient.
+	- boolean constant is "true", not "TRUE"
+
+	client/
+		client_types.C
+	lib/
+		app_ipc.C
+		diagnostics.C
+		parse.C,h
+		proxy_info.C
+	sched/
+		db_dump.C
+		db_purge.C
+		server_types.C
+
+David  17 Apr 2006
+    - GUI RPC: add an optional <project_suspended_via_gui/>
+        tag to <result> elements.
+        This tells the Manager that the project is suspended
+        without having to do a separate get_projects GUI RPC
+
+    client/
+        client_types.C
+    lib/
+        gui_rpc_client.h
+        gui_rpc_client_ops.C
+
+Rom    17 Apr 2006
+    - Use the boolean flag now defined in the result instead of
+        looking it up in the project structure.
+        
+    clientgui/
+        ViewWork.cpp
+
+Rom    17 Apr 2006 (boinc_core_release_5_4)
+    - Tag for 5.4.4 release, all platforms
+      boinc_core_release_5_4_4
+
+David  18 Apr 2006
+	- make match_tag(), parse_int(), parse_double() into inlines
+	- remove setlocale() calls from parse_int(), parse_double().
+		Numbers in XML (including GUI RPCs) are always in standard format.
+		Whoever writes XML (e.g. the Manager) must ensure this.
+
+	lib/
+		parse.C,h
+
+David  18 Apr 2006
+    - core client: better messages on network check
+    - unix compile fix
+
+    client/
+        acct_setup.C
+    lib/
+        parse.h
+
+Charlie 18 Apr 2006
+    - Mac: Add texfont.C,h and txf_util.C,h to XCode project for building 
+        graphics library; fix compiler warning.
+
+    api/
+        texfont.c,h
+    clientgui/
+        MainFrame.cpp
+    mac_build/
+        boinc.xcodeproj/
+            project.pbxproj
+
+David  18 Apr 2006
+    - if no physical network connection (gstate.need_physical_connection is set)
+        then don't increment failure count for file transfers
+        and scheduler RPCs.
+        (avoid ending up with 2-week backoff when network is down for a while.)
+
+    client/
+        pers_file_xfer.C
+        scheduler_op.C
+
+David  18 Apr 2006
+	- improve network-related messages
+		Add error_msg field to NET_XFER.
+		Put Curl error messages here; print them at a higher level,
+		where we can give the context
+
+	client/
+		acct_setup.C
+		net_xfer_curl.C,h
+		scheduler_op.C
+
+Rom    18 Apr 2006
+    - Bug Fix: setlocale is needed in environments where the C runtime library
+        will attempt to use the current locales' numerical formating rules to
+        extract integer or floating point numbers.  The core client doesn't
+        observe local formating rules and defaults to the "C" locale.  When
+        parsing data from the CC be sure to flip the locale to "C" and return
+        it when your done.
+        
+    lib/
+        gui_rpc_client_ops.C
+
+David  19 Apr 2006
+    - scheduler: put \n after global and project prefs in reply message;
+        otherwise, if those fields don't have \n,
+        we end up with 2 elements on 1 line and it doesn't parse right.
+
+    sched/
+        server_types.C
+
+Walt   19 Apr 2006
+    - Code cleanup: remove duplicate calls to xml_unescape.
+    - Bug Fix: Change HTTP redirect limit to 50
+    - Bug Fix: Fix problems with socks5 proxys:
+        - Auth negotiation is handled by libcurl, remove that from BOINC
+        - Set connection timeouts to 20 seconds
+          *NOTE* Using socks5 proxies will cause BOINC to block until a
+          connection is made to the end server.  BOINC will 'lock up'
+          until the connection attempt completes or times out.
+
+    client/
+        http_curl.C
+    lib/
+        proxy_info.C
+
+Rom    19 Apr 2006
+    - If an application hasn't initialized the diagnostics system, provide
+        reasonable defaults and initialize it for them.  This only handles
+        the boinc_init() and boinc_init_graphics() cases.
+        
+    api/
+        boinc_api.C
+        graphics_api.C
+    lib/
+        diagnostics.C, .h
+
+Rom    19 Apr 2006
+    - Update dependancies.
+    
+    curl/
+        <various files>
+    openssl/
+        <various files>
+    zlib/
+        <various files>
+
+Walt   20 Apr 2006
+    - Enable network tracing when <net_xfer_debug> log_flag is set.
+        Dumps libcurl info messages and http header information.
+    
+    client/
+        http_curl.C,h
+
+Rom    20 Apr 2006 (boinc_core_release_5_4)
+    - Tag for 5.4.5 release, all platforms
+      boinc_core_release_5_4_5
+
+Rom    21 Apr 2006
+    - Bug Fix: Fix the account lookup and get project config rpcs which
+        I broke fixing the setlocale stuff.
+        
+    lib/
+        gui_rpc_client_ops.C
+
+Walt   22 Apr 2006
+    - Bug fix: When tracing network activity, increment trace_id when request
+        is created.  All the trace records for that network operation will have
+        the same request number.
+    - Bug fix: Don't use NTLM authorization for proxys.
+
+    client/
+        http_curl.C
+
+David  23 Apr 2006
+    - core client: add missing \n to error string for failed results
+
+    client/
+        client_state.C
+
+Rom    24 Apr 2006
+    - Bug Fix: Fix a connection to a remote machine bug.
+    
+    clientgui/
+        MainDocument.h
+
+Rom    24 Apr 2006 (boinc_core_release_5_4)
+    - Tag for 5.4.6 release, all platforms
+      boinc_core_release_5_4_6
+
+Rom    25 Apr 2006
+    - Bug Fix: Fix for missing includes.
+    
+    client/
+        cpu_sched.C
+
+Rom    25 Apr 2006
+    - Bug Fix: PPM files need to be closed when we are finished using them
+        or we'll experience a handle leak
+    - Bug Fix: After drawing the PPM bitmap on an OpenGL surface, free the
+        memory.
+
+    api/
+        gutil.C
+
+Walt   27 Apr 2006
+    - Bug Fix: Restore the same locale category that was saved
+
+    lib/
+        gui_rpc_client_ops.C
+
+Charlie 27 Apr 06
+    -Mac: Change XCode project. build instructions and build scripts to use 
+      curl-7.15.3 and to apply Walt's patch to curl-7.15.3/lib/url.c file.
+      
+    doc/
+        mac_build.html
+    mac_build/
+        buildcurl.sh
+        buildjpeg.sh
+        setupForBOINC.sh
+        HowToBuildBOINC_XCode.rtf
+        boinc.xcodeproj/
+            project.pbxproj
+
+Rom    27 Apr 2006
+    - Bug Fix: Create a BOINC Service shutdown custom action for the installer
+        since the installer technology wants to wait until after it has found
+        out which files are in use to shutdown the service.
+        
+    win_build/installerv2/redist/Windows/src/boinccas/
+        CAShutdownBOINC.cpp, .h (Added)
+    win_build/installerv2/redist/Windows/x86/
+        boinccas95.dll
+        boinccas.dll
+        
+Charlie 28 Apr 2006
+    - Mac: Fix bug of 17 April creating BOINC Data directory.
+    - Change shell script which sets up Mac to run BOINC Client as a
+        daemon / service to launch BOINC only if BOINC Data directory
+        exists.
+    - Flush output of SetVersion and add Run Script phases to XCode project to 
+        insure that updated info.plist file with correct version number is put 
+        into the BOINC Manager, ScreenSaver, SystemMenu and PostInstall bundles.
+        
+    clientgui/
+        BOINCGUIApp.cpp
+        Mac/
+            SetVersion.C
+    mac_build/
+        Make_BOINC_Service.sh
+        boinc.xcodeproj/
+            project.pbxproj
+
+David  28 Apr 2006
+    - core client: if an input file has <generated_locally/> set,
+        don't try to download it.
+        This allows apps to use "initialization" files
+        that are large and/or computationally expensive to generate.
+        The app generates the file once,
+        and it will be available (assuming <sticky/> is set)
+        for subsequent workunits.
+
+    client/
+        app_start.C
+        cs_apps.C
+        cs_files.C
+
+Rom    28 Apr 2006 (by Frank S. Thomas)
+    - Bug Fix: The shutdown procedure should be passing ANSI strings to
+        the GUI RPC's instead of Unicode strings.
+    - Bug Fix: Remove the --no-unicode flags from configure.ac when trying
+        to determine which wxWidget libraries to use.
+    
+    /
+        configure.ac
+    clientgui/
+        BOINCGUIApp.cpp
+
+Rom    28 Apr 2006 (boinc_core_release_5_4)
+    - Tag for 5.4.7 release, all platforms
+      boinc_core_release_5_4_7
+
+Rom    1 May 2006
+    - Add a commandline option to the screensaver to do a simple RPC
+        so that we can trick the firewall packages into displaying
+        a dialog asking for user approval before the real screensaver
+        ever launches.
+    - Remove some extra verbose messages from stdout and stderr in
+        the client library.
+        
+    client/win/
+        win_screensaver.cpp
+    clientlib/win/
+        NetworkTracker.cpp
+
+Rom    2 May 2006
+    - Have the BOINC Manager perform the screensaver test everytime
+        is successfully makes a connection to the localhost core
+        client.  It executes so fast it doesn't even show up in the
+        process list and if the user ever switches firewall packages
+        it'll at least prevent the machine from going into limbo
+        when the screensaver is spposed to shutdown.
+        
+    clientgui/
+        BOINCGUIApp.cpp, .h
+        MainFrame.cpp
+
+Rom    2 May 2006
+    - Bug Fix: Calculate the page size after the OnChangedEvent is fired
+        and then set the dialog size.  Should keep the wizard pages from
+        clipping the text.
+    - Bug Fix: Change the process execution code to use wxExecute since
+        it is async.  If for some reason the old screensaver doesn't
+        get replaced by setup, we don't want to block the main UI thread.
+        
+    clientgui/
+        BOINCGUIApp.cpp
+        wizardex.cpp
+
+Walt   2 May 2006
+    - Display HTTP status message or code when its not 1xx or 2xx.
+    - Add a few more HTTP status messges to boincerror().
+
+    client/
+        net_xfer_curl.C
+    lib/
+        util.C
+
+Rom    3 May 2006
+    - Bug Fix: To keep the Mac from clipping text in the wizard
+        increase the default width of a wizard page.  The width
+        of each character is wider with the Mac fonts.
+        
+    clientgui/
+        wizardex.cpp
+
+Rom    3 May 2006 (boinc_core_release_5_4)
+    - Tag for 5.4.8 release, all platforms
+      boinc_core_release_5_4_8
+
+David  30 Apr 2006
+    - Less insistent messages when client has worng URL for project
+
+    client/
+        cs_scheduler.C
+
+Rom    4 May 2006
+    - Bug Fix: Increase the WaitHint from 10 seconds to 30 seconds so
+        the service mode install isn't so jumpy when it takes awhile
+        to shutdown.
+        
+    client/win/
+        win_service.cpp
+
+Rom    5 May 2006 (boinc_core_release_5_4)
+    - Tag for 5.4.9 release, all platforms
+      boinc_core_release_5_4_9
+
+Walt  8 May 2006
+    - Bug fix:  DNS lookup when network was unavailable consumed all
+         available CPU.  Fix limits times thru loop and adds a short
+         sleep before breaking out of it.
+        
+    client/
+        client_state.C
+
+Rom    15 May 2006
+    - Bug Fix: Change the account not found window title to login failed.
+    - Bug Fix: If a login call fails for an account manager turn off using
+        cached credentials for the next login request.
+    - Remove what is now dead code in the manager.
+    
+    clientgui/
+        AccountManagerProcessingPage.cpp
+        AccountManagerPropertiesPage.cpp, .h
+        NotFoundPage.cpp
+        ProjectPropertiesPage.cpp, .h
+
+David 21 May 2006
+    - Bug Fix: Properly deal with network suspension
+	- Manager: fix garbled message about needing network connection
+
+	client/
+		client_state.C
+	clientgui/
+		BOINCDialupManager.cpp
+
+David  23 May 2006
+	- core client: fix logic error involving the
+		"5 minutes of network after GUI RPC" thing.
+
+	client/
+		client_state.C
+
+Rom    14 June 2006
+    - Bug Fix: Fix crashing condition with Unicode BOINC Manager.
+        (From Frank S. Thomas)
+
+    clientgui/
+        MainFrame.cpp
+
+Rom    14 June 2006
+    - Bug Fix: Fix crashing condition with Unicode BOINC Manager.
+        (From Frank S. Thomas)
+
+    clientgui/
+        ViewTransfers.cpp
+
+Rom    16 June 2006 (boinc_core_release_5_4)
+    - Tag for 5.4.10 release, all platforms
+      boinc_core_release_5_4_10
+

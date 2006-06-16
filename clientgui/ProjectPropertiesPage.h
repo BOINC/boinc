@@ -55,14 +55,10 @@ END_DECLARE_EVENT_TYPES()
 #define PROJPROP_INIT                                   0
 #define PROJPROP_RETRPROJECTPROPERTIES_BEGIN            1
 #define PROJPROP_RETRPROJECTPROPERTIES_EXECUTE          2
-#define PROJPROP_COMMUNICATEYAHOO_BEGIN                 3
-#define PROJPROP_COMMUNICATEYAHOO_EXECUTE               4
-#define PROJPROP_COMMUNICATEGOOGLE_BEGIN                5
-#define PROJPROP_COMMUNICATEGOOGLE_EXECUTE              6
-#define PROJPROP_DETERMINENETWORKSTATUS_BEGIN           7
-#define PROJPROP_DETERMINENETWORKSTATUS_EXECUTE         8
-#define PROJPROP_CLEANUP                                9
-#define PROJPROP_END                                    10
+#define PROJPROP_DETERMINENETWORKSTATUS_BEGIN           3
+#define PROJPROP_DETERMINENETWORKSTATUS_EXECUTE         4
+#define PROJPROP_CLEANUP                                5
+#define PROJPROP_END                                    6
 
 /*!
  * CProjectPropertiesPage class declaration

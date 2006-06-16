@@ -36,7 +36,6 @@ using std::vector;
 #include "gui_rpc_server.h"
 #include "gui_http.h"
 #include "hostinfo.h"
-#include "language.h"
 #include "miofile.h"
 #include "net_stats.h"
 #include "pers_file_xfer.h"
@@ -95,7 +94,6 @@ public:
     NET_STATS net_stats;
     SS_LOGIC ss_logic;
     GUI_RPC_CONN_SET gui_rpcs;
-    LANGUAGE language;
     TIME_STATS time_stats;
     PROXY_INFO proxy_info;
     GUI_HTTP gui_http;

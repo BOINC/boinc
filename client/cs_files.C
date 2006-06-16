@@ -91,7 +91,7 @@ int CLIENT_STATE::make_project_dirs() {
 // 2) if a needed file is already on disk (PERS_FILE_XFER::start_xfer())
 // 3) in checking whether a result's input files are available
 //    (CLIENT_STATE::input_files_available()).
-//    In this case "strictI is false,
+//    In this case "strict" is false,
 //    and we just check existence and size (no checksum)
 //
 // If a failure occurs, set the file's "status" field.

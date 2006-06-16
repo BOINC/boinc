@@ -107,6 +107,7 @@
 				SubSystem="2"
 				OptimizeReferences="2"
 				EnableCOMDATFolding="2"
+				SetChecksum="TRUE"
 				ImportLibrary="$(OutDir)/boinc_dll.lib"
 				TargetMachine="1"/>
 			<Tool
@@ -166,6 +167,9 @@
 			</File>
 			<File
 				RelativePath="..\clientlib\win\NetworkTracker.cpp">
+			</File>
+			<File
+				RelativePath="..\clientlib\win\Service.cpp">
 			</File>
 			<File
 				RelativePath="..\clientlib\win\stdafx.cpp">
