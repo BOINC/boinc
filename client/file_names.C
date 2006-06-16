@@ -107,7 +107,7 @@ int make_project_dir(PROJECT& p) {
 #ifdef SANDBOX
     chmod(PROJECTS_DIR,
             S_IRUSR|S_IWUSR|S_IXUSR
-            |S_IRGRP||S_IWGRP|S_IXGRP
+            |S_IRGRP|S_IWGRP|S_IXGRP
             |S_IROTH|S_IXOTH
         );
 #endif

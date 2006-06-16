@@ -745,15 +745,16 @@ int main(int argc, char** argv) {
 
 #ifdef __APPLE__
 #ifdef SANDBOX
-    if (check_security()) {
 #ifdef _DEBUG
         // GDB can't attach to applications which are running as a diferent user   
         //  or group, so fix up data with current user and group during debugging
+    if (check_security())
         SetBOINCDataOwnersGroupsAndPermissions();
-#else
+#endif  // _DEBUG
+
+    if (check_security()) {
         printf( "\nBOINC ownership or permissions are not set properly; please reinstall BOINC\n" );
         return ERR_USER_PERMISSION;
-#endif  // _DEBUG
     }
 #endif  // SANDBOX
 

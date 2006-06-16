@@ -313,8 +313,12 @@ int CLIENT_STATE::init() {
 
 #ifndef _WIN32
 #ifdef SANDBOX
+#ifdef _DEBUG
+    boinc_project_gid = getegid();
+#else
     retval = lookup_group(BOINC_PROJECT_GROUP_NAME, boinc_project_gid);
     if (retval) return retval;
+#endif  // _DEBUG
 #else
     boinc_project_gid = 0;
 #endif

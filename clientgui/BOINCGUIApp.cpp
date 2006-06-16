@@ -342,8 +342,10 @@ bool CBOINCGUIApp::OnInit() {
 #ifdef _DEBUG
             // GDB can't attach to applications which are running as a diferent user   
             //  or group, so fix up data with current user and group during debugging
-            if (check_security())
+            if (check_security()) {
                 SetBOINCDataOwnersGroupsAndPermissions();
+                SetBOINCAppOwnersGroupsAndPermissions(NULL);
+            }
 #endif  // _DEBUG
 
     if (check_security()) {

@@ -36,27 +36,35 @@
 // To work around this, the _DEBUG version uses the current user and group.
 static char boinc_master_user_name[64];
 static char boinc_master_group_name[64];
+static char boinc_project_user_name[64];
+static char boinc_project_group_name[64];
 #else
 #define boinc_master_user_name "boinc_master"
 #define boinc_master_group_name "boinc_master"
+#define boinc_project_user_name "boinc_project"
+#define boinc_project_group_name "boinc_project"
 #endif
-
-#define boinc_project_name "boinc_project"
 
 // Returns FALSE (0) if owners and permissions are OK, else TRUE (1)
 int check_security() {
     passwd              *pw;
-    gid_t               egid, boinc_master_gid, boinc_project_gid;
-    uid_t               euid, boinc_master_uid, boinc_project_uid;
-    char                *p;
     group               *grp;
+    gid_t               egid, boinc_master_gid;
+    uid_t               euid, boinc_master_uid;
+#ifndef _DEBUG
+    gid_t               boinc_project_gid;
+    uid_t               boinc_project_uid;
     int                 i;
+#endif
     char                dir_path[MAXPATHLEN], full_path[MAXPATHLEN];
     struct stat         sbuf;
     int                 retval;
 #ifdef __WXMAC__                            // If Mac BOINC Manager
     ProcessSerialNumber ourPSN;
     FSRef               ourFSRef;
+#endif
+#if (defined(__WXMAC__) || (! defined(_DEBUG)))
+    char                *p;
 #endif
 
 #ifdef _DEBUG
@@ -68,12 +76,14 @@ int check_security() {
     if (pw == NULL)
         return ERR_USER_REJECTED;      // Should never happen
     strlcpy(boinc_master_user_name, pw->pw_name, sizeof(boinc_master_user_name));
+    strlcpy(boinc_project_user_name, pw->pw_name, sizeof(boinc_project_user_name));
 
     boinc_master_gid = getegid();
     grp = getgrgid(boinc_master_gid);
     if (grp == NULL)
         return ERR_GETGRNAM;
     strlcpy(boinc_master_group_name, grp->gr_name, sizeof(boinc_master_group_name));
+    strlcpy(boinc_project_group_name, grp->gr_name, sizeof(boinc_project_group_name));
 #else
     pw = getpwnam(boinc_master_user_name);
     if (pw == NULL)
@@ -84,14 +94,13 @@ int check_security() {
     if (grp == NULL)
         return ERR_GETGRNAM;                // Group boinc_master does not exist
     boinc_master_gid = grp->gr_gid;
-#endif
 
-    pw = getpwnam(boinc_project_name);
+    pw = getpwnam(boinc_project_user_name);
     if (pw == NULL)
         return ERR_USER_REJECTED;      // User boinc_project does not exist
     boinc_project_uid = pw->pw_uid;
 
-    grp = getgrnam(boinc_project_name);
+    grp = getgrnam(boinc_project_group_name);
     if (grp == NULL)
         return ERR_GETGRNAM;                // Group boinc_project does not exist
     boinc_project_gid = grp->gr_gid;
@@ -103,6 +112,7 @@ int check_security() {
         if (strcmp(p, boinc_master_user_name) == 0)
             break;
     }
+#endif
 
 #ifdef __WXMAC__                            // If Mac BOINC Manager
     // Get the full path to BOINC Manager application's bundle
@@ -118,19 +128,19 @@ int check_security() {
     if (retval)
         return retval;          // Should never happen
 
-    // Get the full path to BOINC Manager inside this application's bundle
+    // Get the full path to BOINC Manager executable inside this application's bundle
     strlcpy(full_path, dir_path, sizeof(full_path));
     strlcat(full_path, "/Contents/MacOS/", sizeof(full_path));
     // To allow for branding, assume name of executable inside bundle is same as name of bundle
     p = strrchr(dir_path, '/');         // Assume name of executable inside bundle is same as name of bundle
     if (p == NULL)
         p = dir_path - 1;
-    strlcat(full_path, p, sizeof(full_path));
+    strlcat(full_path, p+1, sizeof(full_path));
     p = strrchr(full_path, '.');         // Strip off  bundle extension (".app")
     if (p)
         *p = '\0'; 
 
-    retval = stat(dir_path, &sbuf);
+    retval = stat(full_path, &sbuf);
     if (retval)
         return retval;          // Should never happen
     
@@ -144,7 +154,7 @@ int check_security() {
     strlcpy(full_path, dir_path, sizeof(full_path));
     strlcat(full_path, "/Contents/Resources/boinc", sizeof(full_path));
 
-    retval = stat(dir_path, &sbuf);
+    retval = stat(full_path, &sbuf);
     if (retval)
         return retval;          // Should never happen
     
@@ -154,7 +164,7 @@ int check_security() {
     if (sbuf.st_uid != boinc_master_uid)
         return ERR_USER_PERMISSION;
 
-    if ((sbuf.st_mode & S_ISUID | S_ISGID) != S_ISUID | S_ISGID)
+    if ((sbuf.st_mode & (S_ISUID | S_ISGID)) != (S_ISUID | S_ISGID))
         return ERR_USER_PERMISSION;
 #endif                                      // Mac BOINC Manager
 
@@ -183,7 +193,7 @@ int check_security() {
         return ERR_USER_PERMISSION;
     
     // The top-level BOINC Data directory should have permission 775 or 575
-    if ((sbuf.st_mode & 0575) != 0575)
+    if ((sbuf.st_mode & 0577) != 0575)
         return ERR_USER_PERMISSION;
 
     strlcpy(full_path, dir_path, sizeof(full_path));
@@ -197,7 +207,7 @@ int check_security() {
         if (sbuf.st_uid != boinc_master_uid)
             return ERR_USER_PERMISSION;
 
-        if (sbuf.st_mode != 0775)
+        if ((sbuf.st_mode & 0777) != 0775)
             return ERR_USER_PERMISSION;
     }
 
@@ -212,7 +222,7 @@ int check_security() {
         if (sbuf.st_uid != boinc_master_uid)
             return ERR_USER_PERMISSION;
 
-        if (sbuf.st_mode != 0775)
+        if ((sbuf.st_mode & 0777) != 0775)
             return ERR_USER_PERMISSION;
     }
 
@@ -227,7 +237,7 @@ int check_security() {
         if (sbuf.st_uid != boinc_master_uid)
             return ERR_USER_PERMISSION;
 
-        if (sbuf.st_mode != 0770)
+        if ((sbuf.st_mode & 0777) != 0660)
             return ERR_USER_PERMISSION;
     }
 
