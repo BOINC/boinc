@@ -6138,3 +6138,9 @@ David  16 June 2006
 
     api/
         boinc_api.C
+
+David  16 June 2006
+    - initial code for parsing /proc (linux)
+
+    client/
+        procinfo_unix.C
