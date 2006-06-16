@@ -1,12 +1,14 @@
 <?php
+/**
+ * This file displays the contents of a thread.
+ **/
 
 require_once('../inc/forum.inc');
-require_once('../inc/util.inc');
-
+require_once('../inc/forum_std.inc');
 db_init();
 
 $threadid = get_int('id');
-$sort_style = get_str('sort', true);
+$sort_style = get_int('sort', true);
 $filter = get_str('filter', true);
 
 if ($filter != "false"){
@@ -15,141 +17,125 @@ if ($filter != "false"){
     $filter = false;
 }
 
-$thread = getThread($threadid);
-if (!$thread) {
-    error_page("No such thread found");
-}
-incThreadViews($thread->id);
+// Fetch the thread and increment the number of views
+$thread = new Thread($threadid);
 
-$forum = getForum($thread->forum);
-$category = getCategory($forum->category);
+$forum = $thread->getForum();
+$category = $forum->getCategory();
+$logged_in_user = re_get_logged_in_user(false);
 
-$logged_in_user = get_logged_in_user(false);
-$logged_in_user = getForumPreferences($logged_in_user);
-
-
-if (($thread->hidden) && (!isSpecialUser($logged_in_user,0))) {
-    // Hide anything and everything about a thread if it has been closed.
-    //   People are posting identity information in the thread subject
-    error_page("This thread has been hidden for administrative purposes");
-} 
-
-
-$title = cleanup_title($thread->title);
-if ($category->is_helpdesk) {
-    if (!$sort_style) {
-        $sort_style = getSortStyle($logged_in_user,"answer");
+$title = cleanup_title($thread->getTitle());
+if (!$sort_style) {
+    // get the sorting style from the user or a cookie
+    if ($logged_in_user){
+	$sort_style = $logged_in_user->getThreadSortStyle();
     } else {
-        setSortStyle($logged_in_user,"answer", $sort_style);
+        list($forum_style, $sort_style)=explode("|",$_COOKIE['sorting']);
     }
+} else {
+    if ($logged_in_user){
+	$logged_in_user->setThreadSortStyle($sort_style);
+    } else {
+        list($forum_style,$old_style)=explode("|",$_COOKIE['sorting']);
+        setcookie('sorting', implode("|",array($forum_style,$sort_style)), time()+3600*24*365);
+    }	
+}
+
+
+
+if ($logged_in_user && $logged_in_user->hasJumpToUnread()){
+    page_head($title, 'jumpToUnread();');
+    echo "<link href=\"forum_forum.php?id=".$forum->id."\" rel=\"up\" title=\"".$forum->getTitle()."\">";
+} else {
     page_head($title);
-} else {
-    if (!$sort_style) {
-        $sort_style = getSortStyle($logged_in_user,"thread");
+    echo "<link href=\"forum_forum.php?id=".$forum->id."\" rel=\"up\" title=\"".$forum->getTitle()."\">";
+}
+
+$is_subscribed = $logged_in_user && $thread->isSubscribed($logged_in_user);
+
+show_forum_title($forum, $thread);
+if (($thread->isHidden()) && $logged_in_user && (!$logged_in_user->isSpecialUser(S_MODERATOR))) {
+    /* If the user logged in is a moderator, show him the
+    * thread if he goes so far as to name it by ID like this.
+    * Otherwise, hide the thread.
+    */
+    error_page(tr(FORUM_THREAD_HIDDEN));
+} else {    
+
+    if ($thread->getType()!=0 && $thread->getStatus()==0){
+        $thread_owner = $thread->getOwner();
+	if ($logged_in_user){
+	    if ($thread_owner->getID() == $logged_in_user->getID()){
+	        if ($thread->getPostCount()==0){} else {
+		    // Show a "this question has been answered" to the author
+		    echo "<div class=\"helpdesk_note\">
+		    <form action=\"forum_thread_status.php\"><input type=\"hidden\" name=\"id\" value=\"".$thread->getID()."\">
+		    <input type=\"submit\" value=\"My question was answered\">
+		    </form>
+		    If your question has been adequately answered please click here to close it!
+		    </div>";
+	        }
+	    } else {
+	        // and a "I also got this question" to everyone else if they havent already told so
+	        echo "<div class=\"helpdesk_note\">
+	        <form action=\"forum_thread_vote.php\"><input type=\"hidden\" name=\"id\" value=\"".$thread->getID()."\">
+	        <input type=\"submit\" value=\"I've also got this question\">
+	        </form>
+	        </div>";
+	    }
+	}
+    }
+
+    echo "
+        <form action=\"forum_thread.php\">
+        <input type=\"hidden\" name=\"id\" value=\"", $thread->getID(), "\">
+        <table width=\"100%\" cellspacing=0 cellpadding=0>
+        <tr>
+        <td align=\"left\">";
+    echo $reply_text = "<a href=\"forum_reply.php?thread=".$thread->getID()."#input\">".tr(FORUM_THREAD_REPLY)."</a><br>";
+
+    if ($is_subscribed) {
+        echo tr(FORUM_THREAD_SUBSCRIBED)." ";
+        echo "<a href=\"forum_subscribe.php?action=unsubscribe&amp;thread=".$thread->getID()."\">".tr(FORUM_THREAD_UNSUBSCRIBE)."</a>.";
     } else {
-        setSortStyle($logged_in_user,"thread", $sort_style);
+        echo "<a href=\"forum_subscribe.php?action=subscribe&amp;thread=".$thread->getID()."\">".tr(FORUM_THREAD_SUBSCRIBE)."</a>";
     }
-    if ($logged_in_user->jump_to_unread){
-        page_head($title, 'jumpToUnread();');
-	echo "<link href=\"forum_forum.php?id=".$forum->id."\" rel=\"up\" title=\"".$forum->title."\">";
-    } else {
-        page_head($title);
-	echo "<link href=\"forum_forum.php?id=".$forum->id."\" rel=\"up\" title=\"".$forum->title."\">";
+
+    //If the logged in user is moderator enable some extra features
+    if ($logged_in_user && $logged_in_user->isSpecialUser(S_MODERATOR)){
+	if ($thread->isHidden()){
+	    echo "<br /><a href=\"forum_moderate_thread_action.php?action=unhide&amp;thread=".$thread->getID()."\">Un-Delete this thread</a>";
+	} else {
+	    echo "<br /><a href=\"forum_moderate_thread.php?action=hide&amp;thread=".$thread->getID()."\">Delete this thread</a>";
+	}
+	if($thread->isSticky()){
+	    echo "<br /><a href=\"forum_moderate_thread_action.php?action=desticky&amp;thread=".$thread->getID()."\">De-sticky this thread</a>"; 
+	} else {
+	    echo "<br /><a href=\"forum_moderate_thread_action.php?action=sticky&amp;thread=".$thread->getID()."\">Make this thread sticky</a>";
+	}	
+        echo "<br /><a href=\"forum_moderate_thread.php?action=move&amp;thread=".$thread->getID()."\">Move this thread</a>";
+        echo "<br /><a href=\"forum_moderate_thread.php?action=title&amp;thread=".$thread->getID()."\">Edit thread title</a>";
     }
-}
 
-// TODO: Constant for default sort style and filter values.
-if ($sort_style == NULL) {
-    $sort_style = "timestamp";
-}
-
-$is_subscribed = false;
-
-if ($logged_in_user) {
-    $result = mysql_query("SELECT * FROM subscriptions WHERE userid = " . $logged_in_user->id . " AND threadid = " . $thread->id);
-    if ($result) {
-        $is_subscribed = (mysql_num_rows($result) > 0);
-    }
-}
-
-show_forum_title($forum, $thread, $category->is_helpdesk);
-
-echo "
-    <form action=\"forum_thread.php\">
-    <input type=\"hidden\" name=\"id\" value=\"", $thread->id, "\">
-    <table width=\"100%\" cellspacing=0 cellpadding=0>
-    <tr>
-    <td align=\"left\">
-";
-
-$link = "<a href=\"forum_reply.php?thread=" . $thread->id;
-if ($category->is_helpdesk) {
-    $link = $link . "&helpdesk=1#input\">Answer this question";
-} else {
-    $link = $link . "#input\">Reply to this thread";
-}
-
-echo $link, "</a><br>";
-
-if ($is_subscribed) {
-    if ($category->is_helpdesk) {
-        echo "You are subscribed to this question.  ";
-    } else {
-        echo "You are subscribed to this thread.  ";
-    }
-    echo "<a href=\"forum_subscribe.php?action=unsubscribe&amp;thread=$thread->id\">Click here to unsubscribe</a>.";
-} else {
-    if ($category->is_helpdesk) {
-        echo "<a href=\"forum_subscribe.php?action=subscribe&amp;thread=$thread->id\">Subscribe to this question</a>";
-    } else {
-        echo "<a href=\"forum_subscribe.php?action=subscribe&amp;thread=$thread->id\">Subscribe to this thread</a>";
-    }
-}
-
-if (isSpecialUser($logged_in_user,0)){    //If logged in users is moderator
-    echo "<br /><a href=\"forum_moderate_thread.php?action=hide&amp;thread=$thread->id\">Delete this thread</a>";
-if($thread->sticky)
-{ echo "<br /><a href=\"forum_moderate_thread_action.php?action=desticky&amp;thread=$thread->id\">De-sticky this thread</a>"; }
-else
-{ echo "<br /><a href=\"forum_moderate_thread_action.php?action=sticky&amp;thread=$thread->id\">Make this thread sticky</a>"; }
-}
-
-echo "</td>";
-
-echo "<td align=right style=\"border:0px\">";
-if ($category->is_helpdesk) {
-    show_select_from_array("sort", $answer_sort_styles, $sort_style);
-} else {
+    // Display a box that allows the user to select sorting of the posts
+    echo "</td><td align=right style=\"border:0px\">";
     echo "Sort ";
     show_select_from_array("sort", $thread_sort_styles, $sort_style);
-    //show_select_from_array("filter", $thread_filter_styles, $filter_min);
+    echo "<input type=submit value=OK>\n</td>";
+    echo "</tr>\n</table>\n</form>\n";
+
+    // Here is where the actual thread begins.
+    $headings = array(array(tr(FORUM_AUTHOR),"authorcol"), array(tr(FORUM_MESSAGE),"",2));
+
+    start_forum_table($headings, "id=\"thread\" width=100%");
+    show_posts($thread, $sort_style, $filter, $logged_in_user, true);
+    end_forum_table();
+
+    echo "<p>".$reply_text;
+    show_forum_title($forum, $thread);
+    $thread->incViews();
+
 }
-echo "<input type=submit value=OK>\n</td>";
-
-echo "</tr>\n</table>\n</form>\n";
-
-// Here is where the actual thread begins.
-if ($category->is_helpdesk) {
-    $headings = array(array("Author","authorcol"), "Question","");
-} else {
-    $headings = array(array("Author","authorcol"), "Message","");
-}
-
-start_forum_table($headings, "id=\"thread\" width=100%");
-show_posts($thread, $sort_style, $filter, true, true, $category->is_helpdesk);
-end_forum_table();
-
-echo "<p>";
-
-$link = "<a href=\"forum_reply.php?thread=" . $thread->id;
-if ($category->is_helpdesk) {
-    $link = $link . "&helpdesk=1#input\">Answer this question";
-} else {
-    $link = $link . "#input\">Reply to this thread";
-}
-
-echo $link, "</a><br>\n</p>";
-show_forum_title($forum, $thread, $category->is_helpdesk);
 
 page_tail();
 ?>

@@ -1,21 +1,26 @@
 <?php
+/**
+ * Using this file you can post a reply to a thread.  Both input (form) and
+ * action take place here.
+ **/
 
+require_once('../inc/email.inc');
 require_once('../inc/forum.inc');
-require_once('../inc/util.inc');
-require_once('../inc/subscribe.inc');
+require_once('../inc/forum_std.inc');
 
 db_init();
 
-$logged_in_user = get_logged_in_user(true);
-$logged_in_user = getForumPreferences($logged_in_user);
+$logged_in_user = re_get_logged_in_user(true);
 
-$thread = getThread(get_int('thread'));
-$forum = getForum($thread->forum);
-$category = getCategory($forum->category);
-$helpdesk = $category->is_helpdesk;
+$thread = new Thread (get_int('thread'));
+$forum = $thread->getForum();
+$category = $forum->getCategory();
 
 $sort_style = get_str('sort', true);
 $filter = get_str('filter', true);
+$content = post_str('content', true);
+$parent_post_id = get_int('post', true);
+if ($parent_post_id) $parent_post = new Post($parent_post_id);
 
 if ($filter != "false"){
     $filter = true;
@@ -23,18 +28,14 @@ if ($filter != "false"){
     $filter = false;
 }
 
-if (!$thread){
-    error_page("No such thread found");
-}
-
-if ($thread->hidden) {
+if ($thread->isHidden()) {
     //If the thread has been hidden, do not display it, or allow people to continue to post
     //to it.
     error_page(
         "This thread has been hidden for administrative purposes.");
 }
 
-if ($logged_in_user->total_credit<$forum->post_min_total_credit || $logged_in_user->expavg_credit<$forum->post_min_expavg_credit){
+if ($logged_in_user->getTotalCredit()<$forum->getPostMinTotalCredit() || $logged_in_user->getExpavgCredit()<$forum->getPostMinExpavgCredit()){
     //If user haven't got enough credit (according to forum regulations)
     //We do not tell the (ab)user how much this is - no need to make it easy for them to break the system.
     error_page(
@@ -42,7 +43,7 @@ if ($logged_in_user->total_credit<$forum->post_min_total_credit || $logged_in_us
         This is to prevent and protect against abuse of the system.");
 }
 
-if (time()-$logged_in_user->last_post<$forum->post_min_interval){
+if (time()-$logged_in_user->getLastPostTimestamp()<$forum->getPostMinInterval()){
     //If the user is posting faster than forum regulations allow
     //Tell the user to wait a while before creating any more posts
     error_page(
@@ -50,96 +51,51 @@ if (time()-$logged_in_user->last_post<$forum->post_min_interval){
         This delay has been enforced to protect against abuse of the system.");
 }
 
-if (substr($logged_in_user->authenticator, 0, 1) == 'x'){
-    //User has been bad so we are going to take away ability to post for awhile.
-    error_page("This account has been administratively disabled.");
-}
-
-if ($category->is_helpdesk) {
-    if (!$sort_style) {
-        $sort_style = getSortStyle($logged_in_user,"answer");
-    } else {
-        setSortStyle($logged_in_user,"answer", $sort_style);
-    }
+if (!$sort_style) {
+    $sort_style = $logged_in_user->getThreadSortStyle("thread");
 } else {
-    if (!$sort_style) {
-        $sort_style = getSortStyle($logged_in_user,"thread");
-    } else {
-        setSortStyle($logged_in_user,"thread", $sort_style);
-    }
+    $logged_in_user->setThreadSortStyle($sort_style);
 }
 
-if ($sort_style == NULL) {
-    $sort_style = "timestamp";
-}
-
-if (!empty($_POST['content'])) {
-    $thread_id = get_int('thread');
-
-    if (!empty($_GET['post'])) {
-        $parent_post = $_GET['post'];
-    } else {
-        $parent_post = NULL;
-    }
-
-    if ($_POST['add_signature']=="add_it"){
+if ($content){
+    if (post_str('add_signature',true)=="add_it"){
         $add_signature=true;    // set a flag and concatenate later
     }  else {
         $add_signature=false;
     }
-
-    replyToThread($thread_id, $logged_in_user->id, $_POST['content'], $parent_post, $add_signature);
-    notify_subscribers($thread_id, $logged_in_user); //Notify all subscribers except the user who posted (if the user has also subscribed)
-    header('Location: forum_thread.php?id='.$thread_id);
+    $thread->createReply($content, $parent_post, $logged_in_user, $add_signature);
+    header('Location: forum_thread.php?id='.$thread->getID());
 }
 
+page_head(tr(FORUM_TITLE_SHORT));
 
-if (get_int('post', true)) {
-    $post = getPost(get_int('post'));
-}
+show_forum_title($forum, $thread);
+start_forum_table(array(tr(FORUM_AUTHOR), tr(FORUM_MESSAGE)));
 
-
-// TODO: Write a function for this.
-if ($helpdesk) {
-    page_head('Questions and answers');
-} else {
-    page_head('Message boards');
-}
-
-show_forum_title($forum, $thread, $helpdesk);
-
-start_forum_table(array("Author", "Message"));
-
-show_message_row($thread, $category, $post);
-show_posts($thread, $sort_style,-2, false, false, $helpdesk);
-
+show_message_row($thread, $parent_post);
+show_posts($thread, $sort_style, $filter, $logged_in_user, true);
 end_forum_table();
 
 page_tail();
 
-function show_message_row($thread, $category, $post=NULL) {
+function show_message_row($thread, $parent_post) {
     global $logged_in_user;
 
     $x1 = "Message:".html_info().post_warning();
     $x2 = "";
-    if ($post) {
-        $x2 .=" reply to <a href=#$post->id>Message ID $post->id</a>:";
+    if ($parent_post) {
+        $x2 .=" reply to <a href=#".$parent_post->getID().">Message ID ".$parent_post->getID()."</a>:";
     }
-    if ($category->is_helpdesk) {
-        $x2 .= "<br><b>
-            Please use this form ONLY to answer or
-            discuss this particular question or problem.
-        ";
-    }
-    $x2 .= "<form action=forum_reply.php?thread=$thread->id";
+    $x2 .= "<form action=forum_reply.php?thread=".$thread->getID();
 
-    if ($post) {
-        $x2 .= "&post=$post->id";
+    if ($parent_post) {
+        $x2 .= "&post=".$parent_post->getID();
     }
 
     $x2 .= " method=post><textarea name=content rows=18 cols=80>";
-    if ($post) $x2 .= cleanTextBox(quote_text(stripslashes($post->content), 80));
-    if ($logged_in_user->no_signature_by_default==0){
+
+    if ($parent_post) $x2 .= cleanTextBox(quote_text(stripslashes($parent_post->getContent()), 80));
+    if ($logged_in_user->hasSignatureByDefault()){
         $enable_signature="checked=\"true\"";
     } else {
         $enable_signature="";
@@ -151,7 +107,6 @@ function show_message_row($thread, $category, $post=NULL) {
 
         </form>
     ";
-
     row2($x1, $x2);
 }
 

@@ -1,49 +1,35 @@
 <?php
+/**
+ * The form where a moderator decides what he is going to do to a post.
+ * Submits informaiton to forum_moderate_post_action.php for actual action
+ * to be done.
+ **/
 
 require_once('../inc/forum.inc');
-require_once('../inc/util.inc');
+require_once('../inc/forum_std.inc');
 
 db_init();
 
-$logged_in_user = get_logged_in_user();
-$logged_in_user = getForumPreferences($logged_in_user);
+$logged_in_user = re_get_logged_in_user();
 
 
-if (!$_GET['action']) {
-    echo "You must specify an action...";
-    exit();
-} else {
-        
-    $post = getPost(get_int('id'));
-    if (!$post) {
-        // TODO: Standard error page
-        echo "Invalid post ID.<br>";
-        exit();
-    }
-
-    $thread = getThread($post->thread);
-
-    if (!isSpecialUser($logged_in_user,0)) {
-        // Can't moderate without being moderator
-        echo "You are not authorized to moderate this post.";
-        exit();
-    }
-    
-    
-/*    updatePost($post->id, $_POST['content']);
-    if ($post->parent_post==0 and $thread->owner==$logged_in_user->id){
-        updateThread($thread->id, $_POST['title']);
-    }
-
-    header('Location: forum_thread.php?id='.$thread->id);*/
+if (!get_str('action')) {
+    error_page("You must specify an action...");
 }
+if (!$logged_in_user->isSpecialUser(S_MODERATOR)) {
+    // Can't moderate without being moderator
+    error_page("You are not authorized to moderate this post.");
+}    
+
+$post = new Post(get_int('id'));
+$thread = $post->getThread();
+
 
 
 page_head('Forum');
-//show_forum_title($forum, $thread, $category->is_helpdesk);
 
 //start form
-echo "<form action=forum_moderate_post_action.php?id=$post->id method=POST>\n";
+echo "<form action=forum_moderate_post_action.php?id=".$post->getID()." method=POST>\n";
 start_table();
 row1("Moderate post");
 
@@ -58,18 +44,13 @@ if (get_str('action')=="hide") {
     <option value=\"2\">Flame/Hate mail</option>
     <option value=\"3\">Commercial spam</option>
     <option value=\"4\">Doublepost</option>
-    <option value=\"5\">Off Topic</option>
-    <option value=\"6\">Flamebait</option>
 </select>");
 } elseif (get_str('action')=="move") {
-
     echo "<input type=hidden name=action value=move>";
     row2("Destination thread ID:", "<input name=\"threadid\">");
-    //todo display where to move the post as a dropdown instead of having to get ID
-    
+    //todo display where to move the post as a dropdown instead of having to get ID    
 } else {
-    echo "Unknown action";
-    exit();
+    error_page( "Unknown action");
 }
 
 row2("Reason<br>Mailed if nonempty",

@@ -1,29 +1,29 @@
 a:link {
-	color: blue;
+    color: blue;
 }
 
 a:visited {
-	color: blue;
+    color: blue;
 }
 
 a:active {
-	color: blue;
+    color: blue;
 }
 
 body , table , input , select {
-	background-color: white;
-	font-family: Verdana, Arial, Sans-Serif;
-	font-size: 12px;
+    background-color: white;
+    font-family: Verdana, Arial, Sans-Serif;
+    font-size: 12px;
 }
 
 body {
-	background-color: white;
+    background-color: white;
     color: black;
 }
 
 th{
-	background-color: #c8c8c8;
-	font-weight: bold;
+    background-color: #c8c8c8;
+    font-weight: bold;
 }
 
 td {
@@ -53,13 +53,14 @@ td.fieldname {
     text-align: right;
     vertical-align: top;
 }
+
 td.fieldvalue {
     vertical-align: top;
     font-weight: bold;
 }
 
 td.category {
-	background-color: #dddddd;
+    background-color: #dddddd;
 }
 
 td.navbar {
@@ -71,10 +72,12 @@ a.navbar:link {
     color: #ff9711;
     text-decoration: none;
 }
+
 a.navbar:visited {
     color: #ff9711;
     text-decoration: none;
 }
+
 a.navbar:hover {
     color: #ffc060;
     text-decoration: underline;
@@ -82,15 +85,17 @@ a.navbar:hover {
 
 tr.row0 {
     background-color: rgb(217,217,217);
+    text-align: left;
 }
 
 tr.row1 {
     background-color: rgb(237,237,237);
+    text-align: left;
 }
 
 tr.subtitle {
-	background-color: #eeeeee;
-	font-weight: bold;
+    background-color: #eeeeee;
+    font-weight: bold;
 }
 
 tr.message {
@@ -98,20 +103,20 @@ tr.message {
 }
 
 input , select {
-	vertical-align: middle;
+    vertical-align: middle;
 }
 
 h1 , h2 {
-	color: black;
-	font-size: x-large;
-	font-weight: normal;
-	margin-top: 10px;
+    color: black;
+    font-size: x-large;
+    font-weight: normal;
+    margin-top: 10px;
 }
 
 h3 , h4 {
-	color: black;
-	font-size: small;
-	font-weight: bold;
+    color: black;
+    font-size: small;
+    font-weight: bold;
 }
 
 img {
@@ -119,69 +124,89 @@ img {
 }
 
 .title {
-	font-size: small;
-	font-weight: bold;
+    font-size: small;
+    font-weight: bold;
 }
 
 .description {
-	font-size: 80%;
-	font-weight: normal;
+    font-size: 80%;
+    font-weight: normal;
 }
 
 .authorcol {
-	width: 115px;
-	overflow: hidden;
+    width: 115px;
+    overflow: hidden;
 }
 
 .cellwrap{
-	width: 100%;
-	overflow: auto;
+    width: 100%;
+    overflow: auto;
 }
 
 blockquote {
-	border-left: 2px solid blue;
-	background: #DDDDDD;
-	padding-left: 5px;
-	padding-bottom: 0px;
-	margin-bottom: 0px;
-	margin-left: 10px;
-	font-style: italic;
+    border-left: 2px solid blue;
+    background: #DDDDDD;
+    padding-left: 5px;
+    padding-bottom: 0px;
+    margin-bottom: 0px;
+    margin-left: 10px;
+    font-style: italic;
 }
 
 #thread table {
-	width: 100%;
-	table-layout: fixed;
+    width: 100%;
+    table-layout: fixed;
 }
 
 .sigdelim {
-	width: 60%;
-	height: 1px;
-	background-color: black;
-	color: black;
-	border: 0;
-	margin-right: 100%;
+    width: 60%;
+    height: 1px;
+    background-color: black;
+    color: black;
+    border: 0;
+    margin-right: 100%;
 }
+
 td.postheader{
-        background-color: rgb(220,210,210);
-        border-bottom: 1px solid rgb(190,190,200);
-        height:1px;
+    background-color: rgb(220,210,210);
+    border-bottom: 1px solid rgb(190,190,200);
+    border-left: none;
+    border-right: none;
+    height:1px;
+}
+
+td.postbody {
+    font-size: 0.9em;
+    height: 95px;
 }
 td.postfooter{
-        background-color: rgb(220,210,210);
-        border-top: 1px solid rgb(190,190,200);
-        height:1px;
+    background-color: rgb(220,210,210);
+    border-top: 1px solid rgb(190,190,200);
+    border-left: none;
+    border-right: none;
+    height:1px;
 }
+
 tr.helpdeskseperator{
-        height:15px;
+    height:15px;
 }
+
 tr.postseperator{
-        background-color: rgb(200,200,200);
-        height:4px;
+    background-color: rgb(200,200,200);
+    height:4px;
 }
-tr.postseperator td {
-        border-top: 1px solid rgb(170,170,170);
-        border-bottom: 1px      solid rgb(170,170,170);
+
+tr.postseperator td{
+    border-top: 1px solid rgb(170,170,170);
+    border-bottom: 1px      solid rgb(170,170,170);
 }
-.invalid_result td {
-    background-color: #ffcccc;
+
+td.threadline {
+    font-size:10pt; 
+    text-align:left;
+}
+
+.code {
+    font-family: System, Fixed, sans-serif;
+    color: #000000;
 }

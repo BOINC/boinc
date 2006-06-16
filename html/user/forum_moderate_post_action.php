@@ -1,23 +1,23 @@
 <?php
+/**
+ * When a moderator does something to a post, this page actually
+ * commits those changes to the database.
+ **/
 
-require_once("../inc/db.inc");
-require_once("../inc/user.inc");
-require_once("../inc/profile.inc");
-require_once("../inc/util.inc");
-require_once("../inc/image.inc");
 require_once("../inc/forum.inc");
-
+require_once("../inc/email.inc");
+require_once("../inc/forum_std.inc");
 
 db_init();
-$user = get_logged_in_user();
-$user = getForumPreferences($user);
-if (!isSpecialUser($user,0)) {
+
+$user = re_get_logged_in_user();
+
+if (!$user->isSpecialUser(S_MODERATOR)) {
     // Can't moderate without being moderator
-    echo "You are not authorized to moderate this post.";
-    exit();
+    error_page("You are not authorized to moderate this post.");
 }
 
-// TODO:  Write a request_str function to prevent stuff like this
+// See if "action" is provided - either through post or get
 if (!post_str('action', true)) {
     if (!get_str('action', true)){
 	    error_page("You must specify an action...");
@@ -28,48 +28,31 @@ if (!post_str('action', true)) {
     $action = post_str('action');
 }
 
-$post = getPost(get_int('id'));
-if (!$post) {
-    // TODO: Standard error page
-    echo "Invalid post ID.<br>";
-    exit();
-}
-
-$thread = getThread($post->thread);
+$post = new Post(get_int('id'));
+$thread = $post->getThread();
 
 if ($action=="hide"){
-    $result=mysql_query("update post set hidden = ".post_int("category")." where id=".$post->id);
-    echo mysql_error();
-} elseif ($action=="unhide"){
-    $result=mysql_query("update post set hidden = 0 where id=".$post->id);
-    echo mysql_error();
-} elseif ($action=="move"){
-    if (getThread(post_int('threadid'))){
-        $result=mysql_query("update post set thread = ".post_int('threadid')." where id=".$post->id);
-        echo mysql_error();
-        //TODO: correct the number of posts in this thread
-        //TODO: correct the number of posts in destination thread
-    } else {
-        echo "Destination not found, please check and try again.";
-        exit();
+    $result = $post->hide();
+    if ($thread->getPostCount() == 0) {
+	$result = $thread->hide();
     }
+} elseif ($action=="unhide"){
+    $result = $post->unhide();
+} elseif ($action=="move"){
+    $destination_thread = new Thread(post_int('threadid'));
+    $result = $post->move($destination_thread);
 } else {
-    echo "Unknown action ";
-    exit();
+    error_page("Unknown action ");
 }
 
 
 if ($result) {
-    echo mysql_error();
     if (post_str('reason', true)){
-        send_moderation_email($user, lookup_user_id($post->user),$thread, $post, post_str("reason"));
+        send_moderation_email($post, post_str("reason"));
     }
-    header('Location: forum_thread.php?id='.$thread->id);
+    header('Location: forum_thread.php?id='.$thread->getID());
 } else {
-    page_head("Moderation update");
-    echo "Couldn't moderate the post.<br>\n";
-    echo mysql_error();
-    page_tail();
+    error_page("Moderation failed");
 }
 
 ?>

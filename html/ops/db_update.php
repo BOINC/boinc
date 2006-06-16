@@ -299,6 +299,31 @@ function update_11_24_2005(){
 ADD `display_wrap_postcount` INT DEFAULT '75' NOT NULL AFTER `minimum_wrap_postcount`");
 }
 
-//update_11_24_2005();
+function update_6_16_2006() {
+    do_query("ALTER TABLE `thread` ADD `score` DOUBLE NOT NULL AFTER `sufferers` , ADD `votes` INT NOT NULL AFTER `score`");
+    do_query("ALTER TABLE `forum_preferences` ADD `forum_sorting` INT NOT NULL AFTER `sorting`");
+    do_query("ALTER TABLE `forum_preferences` ADD `thread_sorting` INT NOT NULL AFTER `forum_sorting`");
+
+    do_query("CREATE TABLE `post_ratings` (
+    `post` INT UNSIGNED NOT NULL ,
+    `user` INT UNSIGNED NOT NULL ,
+    `rating` TINYINT NOT NULL ,
+    PRIMARY KEY ( `post` , `user`))");
+
+    do_query("ALTER TABLE `forum_preferences` DROP `avatar_type`");
+    do_query("ALTER TABLE `forum_preferences` CHANGE `low_rating_threshold` `low_rating_threshold` INT( 11 ) DEFAULT '-25' NOT NULL");
+    do_query("ALTER TABLE `forum_preferences` CHANGE `high_rating_threshold` `high_rating_threshold` INT( 11 ) DEFAULT '5' NOT NULL");
+    do_query("ALTER TABLE `forum_preferences` CHANGE `jump_to_unread` `jump_to_unread` TINYINT( 1 ) UNSIGNED DEFAULT '1' NOT NULL");
+
+    do_query("ALTER TABLE `forum_preferences` DROP `sorting`");
+
+    do_query("ALTER TABLE `forum_preferences` CHANGE `no_signature_by_default` `no_signature_by_default` TINYINT( 1 ) UNSIGNED DEFAULT '1' NOT NULL ");
+    do_query("ALTER TABLE `thread` ADD `status` SMALLINT UNSIGNED NOT NULL AFTER `owner`");
+
+    do_query("ALTER TABLE `subscriptions` ADD `notified` TINYINT( 1 ) UNSIGNED DEFAULT '0' NOT NULL");
+    do_query("ALTER TABLE `subscriptions` CHANGE `notified` `notified_time` INT( 14 ) UNSIGNED DEFAULT '0' NOT NULL");
+}
+
+//update_6_16_2006();
 
 ?>

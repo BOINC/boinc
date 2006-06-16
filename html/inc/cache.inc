@@ -179,9 +179,12 @@ function start_cache($max_age, $params=""){
             Header("Expires: " . gmdate("D, d M Y H:i:s",$lastmodified+$max_age) . " GMT");
             Header("Cache-Control: public, max-age=" . $max_age );
             if (!@readfile($path)) {
-                echo "can't read $path; lastmod $lastmodified\n";
-            }
-            exit;
+                //echo "can't read $path; lastmod $lastmodified\n";
+		@unlink($path);
+		//Proceed to regenerate content
+            } else {
+        	exit;	    
+	    }
         }
     }
 }

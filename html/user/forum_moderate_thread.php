@@ -1,37 +1,32 @@
 <?php
+/**
+ * Where the moderator decides what action to take on a thread.  Sends
+ * its data to forum_moderate_thread_action.php for the actual action to
+ * take place.
+ **/
 
 require_once('../inc/forum.inc');
-require_once('../inc/util.inc');
+require_once('../inc/forum_std.inc');
 
 db_init();
 
-$logged_in_user = get_logged_in_user();
-$logged_in_user = getForumPreferences($logged_in_user);
-
+$logged_in_user = re_get_logged_in_user();
 
 if (!get_str('action')) {
-    echo "You must specify an action...";
-    exit();
+    error_page("You must specify an action...");
 }
-$thread = getThread(get_int('thread'));
-if (!$thread) {
-    // TODO: Standard error page
-    echo "Invalid thread ID.<br>";
-    exit();
-}
+$thread = new Thread(get_int('thread'));
         
-if (!isSpecialUser($logged_in_user,0)) {
+if (!$logged_in_user->isSpecialUser(S_MODERATOR)) {
     // Can't moderate without being moderator
-    echo "You are not authorized to moderate this post.";
-    exit();
+    error("You are not authorized to moderate this post.");
 }
 
 
 page_head('Forum');
-//show_forum_title($forum, $thread, $category->is_helpdesk);
 
 //start form
-echo "<form action=forum_moderate_thread_action.php?thread=$thread->id method=POST>\n";
+echo "<form action=forum_moderate_thread_action.php?thread=".$thread->getID()." method=POST>\n";
 start_table();
 row1("Moderate thread");
 
@@ -45,18 +40,18 @@ if (get_str('action')=="hide") {
     <option value=\"1\">Obscene</option>
     <option value=\"2\">Flame/Hate mail</option>
     <option value=\"3\">Commercial spam</option>
-    <option value=\"4\">Off Topic</option>
-    <option value=\"5\">Flamebait</option>
 </select>");
-/*} elseif ($_GET['action']=="move") {
+} elseif (get_str('action')=="move") {
 
     echo "<input type=hidden name=action value=move>";
-    row2("Destination thread ID:", "<input name=\"threadid\">");
-    //todo display where to move the post as a dropdown instead of having to get ID
-*/    
+    row2("Destination forum ID:", "<input name=\"forumid\">");
+    //todo display where to move the thread as a dropdown instead of having to get ID
+} elseif (get_str('action')=="title") {
+
+    echo "<input type=hidden name=action value=title>";
+    row2("New title:", "<input name=\"newtitle\" value=\"".$thread->getTitle()."\">");
 } else {
-    echo "Unknown action";
-    exit();
+    error_page("Unknown action");
 }
 
 row2("Reason<br>Mailed if nonempty",

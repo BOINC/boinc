@@ -6156,3 +6156,51 @@ David  16 June 2006
 
     client/
         procinfo_unix.C
+
+
+David  16 June 2006
+    - Major revision to forum code
+        (from Janus Kristensen)
+
+        NOTE: this requires running the DB update in ops/db_update.php
+
+    html/
+        inc/
+            cache.inc
+            email.inc
+            forum.inc
+            forum_category.inc (new)
+            forum_dbh.inc (new)
+            forum_forum.inc (new)
+            forum_mainfactory.inc (new)
+            forum_moderators.inc
+            forum_mysql_dbh.inc
+            forum_post.inc (new)
+            forum_std.inc (new)
+            forum_thread.inc (new)
+            forum_user.inc (new)
+            text_transform.inc
+        languages/translations/
+            en.po
+        ops/
+            db_update.php
+        user/
+            edit_forum_preferences_action.php
+            forum_edit.php
+            forum_forum.php
+            forum_index.php (new)
+            forum_moderate_post.php
+            forum_moderate_post_action.php
+            forum_moderate_thread.php
+            forum_moderate_thread_action.php
+            forum_post.php
+            forum_rate.php
+            forum_reply.php
+            forum_report_post.php
+            forum_search.php (new)
+            forum_search_action.php (new)
+            forum_subscribe.php
+            forum_thread.php
+            forum_thread_status.php (new)
+            forum_thread_vote.php (new)
+            white.css

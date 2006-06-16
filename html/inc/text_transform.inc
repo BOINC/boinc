@@ -1,6 +1,11 @@
 <?
 require_once('../inc/sanitize_html.inc');
 
+/**
+ * This file holds options and functions relating to outputted text.
+ * It does things like clean out HTML, convert newlines to <br> tags,
+ * and other such niceties.
+ **/
 class output_options {
 	var $bb2html;			// BBCode as HTML? (on)
 	var $boincdoc;			// Transform [[Wikiwords]] in to BoincDoc links (on)
@@ -11,24 +16,45 @@ class output_options {
 	var $htmlitems;			// Convert special chars to HTML entities? (on)
 	var $htmlscrub;			// Scrub "bad" HTML tags? (off)
 	var $stripslashes;		// Strip slashes (depends)
-	
+	var $highlight_terms;// Array of terms to be highlighted (off)	
+
+        /**
+         * Constructor - set the defaults.
+         **/ 
 	function output_options() {
-		// Set defaults - should we DEFINE these somewhere else?
-		$this->bb2html = 1;
-		$this->boincdoc = 1;
-		$this->images_as_links = 0;
-		$this->link_popup = 0;
-		$this->closeTags = 1;
-		$this->nl2br = 1;
-		$this->htmlitems = 1;
-		$this->htmlscrub = 0;
+	    $this->bb2html = 1;
+	    $this->boincdoc = 1;
+	    $this->images_as_links = 0;
+	    $this->link_popup = 0;
+	    $this->closeTags = 1;
+	    $this->nl2br = 1;
+	    $this->htmlitems = 1;
+	    $this->htmlscrub = 0;
 	    if (get_magic_quotes_gpc()) {
-     	   $this->stripslashes = 1;
-    	}
-		return true;
+		$this->stripslashes = 1;
+	    }
+	    $this->highlight_terms = 0;
+	    return true;
+	}
+
+        /**
+         * Define the terms to be highlighted (for use with searches
+         * and such)
+         */
+	function setHighlightTerms($terms) {
+	    if (is_array($terms)) {
+                $this->highlight_terms = $terms;
+	    } else {
+                return false;
+	    }
+	    return true;
 	}
 }
 
+/**
+ * Do the actual transformation of the text.
+ * TODO: Make this part of the above class.
+ **/
 function output_transform($text, $options = NULL) {
 	// Options is a output_options object, defined above
 	if (!$options) {
@@ -60,10 +86,16 @@ function output_transform($text, $options = NULL) {
 	if ($options->link_popup) {
 		$text = externalize_links($text);
 	}
-	
+	if (is_array($options->highlight_terms)) {
+	    $text = highlight_terms($text, $options->highlight_terms);
+	}	
 	return $text;
 }
 
+/**
+ * Take a user object and get their settings to create an output_options
+ * object from them.
+ **/
 function get_transform_settings_from_user($user, $options = '') {
 	// $user - a user object
 	// $options - a output_options object (optional)
@@ -79,9 +111,10 @@ function get_transform_settings_from_user($user, $options = '') {
 	return $options;
 }
 
+/**
+ * Converts bbcode to proper HTML
+ **/
 function bb2html($text) {
-	// Function converts bbcode to HTML
-	
 	$urlregex = "(?:\"?)(?:(http\:\/\/)?)([^\[\"<\ ]+)(?:\"?)";
 	// List of allowable tags
 	$bbtags = array (
@@ -129,7 +162,7 @@ function bb2html($text) {
 		"<font color=\"\\1\">\\2</font>",
 		"\\1<li>\\2</li>\n\\3",
 		"<span style=\"font-size: \\1px;\">\\2</span>",
-		"<div class=\"code\">\\1</div>",
+		"<font class=\"code\"><pre>\\1</pre></font>",
 		"<a href=\"mailto:\\1\">\\1</a>",
 		"<a href=\"mailto:\\1\">\\1</a>"
 		);
@@ -138,7 +171,7 @@ function bb2html($text) {
 	$lasttext = "";
 	$i = 0;
 	// $i<10 to prevent DoS
-	while ($text != $lasttext && $i<10) {
+	while ($text != $lasttext && $i<20) {
 		$lasttext = $text;
 		$text = preg_replace($bbtags,$htmltags,$text);
 		$i = $i + 1;
@@ -146,6 +179,9 @@ function bb2html($text) {
 	return $text;
 }
 
+/**
+ * Converts wiki words [[Like This]] in to links to the Boinc Wiki
+ **/
 function boincdoc ($text) {
 	$wikimatch = "@\[\[(.[a-zA-Z\@\ \_\-]+)\]\]@ise";
 	$wikititlematch = "@\[\[(.[a-zA-Z\@\ \_\-]+)([|])([a-zA-Z\_\-\ ]+)\]\]@ise";
@@ -156,6 +192,9 @@ function boincdoc ($text) {
 	return $text;
 }
 
+/**
+ * Callback function for the above.
+ **/
 function boincdoc_linkcreate ($wikitext,$title = '') {
 	/* This function is only called from boincdoc() */
 	$hyperlink = str_replace(' ', '_', $wikitext); // Spaces to underscores
@@ -169,8 +208,11 @@ function boincdoc_linkcreate ($wikitext,$title = '') {
 	return $hyperlink;
 }
 
+/**
+ * Make links open in new windows.
+ **/
 function externalize_links($text) {
-	// TODO:  Convert this to PCRE
+    // TODO:  Convert this to PCRE
     $i=0;$linkpos=true;
     while (true){                                //Find a link
         $linkpos=strpos($text,"<a ",$i);
@@ -182,6 +224,9 @@ function externalize_links($text) {
     return $out;
 }
 
+/**
+ * Converts image tags to links to the images.
+ **/
 function image_as_link($text){
 	/* This function depends on sanitized HTML */
     // Build some regex (should be a *lot* faster)
@@ -191,6 +236,9 @@ function image_as_link($text){
     return $text;
 }
 
+/**
+ * Coses open HTML tags.  Not quite perfect...
+ **/
 function closeTags($str = null) {
 	// Function from http://episteme.arstechnica.com/eve/ubb.x/a/tpc/f/6330927813/m/139006252731/r/287008552731#287008552731
 	// (thanks Ageless for finding it)
@@ -238,10 +286,31 @@ function closeTags($str = null) {
 	}
 }
 
+
+/**
+ * Deprecated function used to clean up post content for display inside
+ * a text box.  Use htmlentities() now.
+ **/
 function cleanTextBox($content) {
-	/* Cleans current text boxes for display.  Will be replaced with just an
-	 * htmlentities() call after we stop allowing HTML posting.
-	 */
 	$answer = preg_replace('/&lt;/','&amp;lt;',preg_replace('/&gt;/','&amp;gt;',$content));
 	return $answer;
 }
+
+/**
+ * Highlight terms in text (most likely used with searches)
+ **/
+function highlight_terms($text, $terms) {
+    $search = $terms;
+    $replace = array();
+
+    foreach ($search as $key => $value) {
+	$replace[$key] = "<span class=\"highlight\">".$value."</span>";
+    }
+    if (substr(phpversion(), 0, 1) > 4) {   // PHP 4.x doesn't support str_ireplace
+        return str_ireplace($search, $replace, $text);
+    } else {
+        return str_replace($search, $replace, $text);
+    }
+}
+
+?>

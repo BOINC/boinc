@@ -1,87 +1,74 @@
 <?php
+/**
+ * Using this page you can edit a post.
+ * First it displays a box to edit in, and when you submit the changes
+ * it will call the methods on the post to make the changes.
+ **/
 
 require_once('../inc/forum.inc');
-require_once('../inc/util.inc');
-require_once('../inc/translation.inc');
+require_once('../inc/forum_std.inc');
 
 db_init();
 
-$logged_in_user = get_logged_in_user();
+$logged_in_user = re_get_logged_in_user();
 
-// decorate object with forum preference info (uses DB)
-// needed to see if user is 'special'.
-$logged_in_user = getForumPreferences($logged_in_user);
-
-// if user is a project admin or project developer or forum admin,
+// if user is a project admin or project developer or forum moderator,
 // allow them to edit their own posts indefinitely.
-$is_spec = isSpecialUser($logged_in_user,0) ||
-           isSpecialUser($logged_in_user,1) ||
-           isSpecialUser($logged_in_user,2);
+$is_spec = $logged_in_user->isSpecialUser(S_MODERATOR) ||
+	   $logged_in_user->isSpecialUser(S_ADMIN) ||
+	   $logged_in_user->isSpecialUser(S_DEV);
 
 $postid = get_int("id");
-$post = getPost($postid);
-if (!$post) {
-    error_page("No such post");
+$post = new Post($postid);
+$thread = $post->getThread();
+
+// Check some prerequisits for editting the post
+if (!$is_spec && (time() > $post->getTimestamp() + MAXIMUM_EDIT_TIME)){
+    error_page ("You can no longer edit this post.<br />Posts can only be edited at most ".(MAXIMUM_EDIT_TIME/60)." minutes after they have been created.");
+}
+$post_owner = $post->getOwner();
+if ($logged_in_user->getID() != $post_owner->getID()) {
+    error_page ("You are not authorized to edit this post.");
 }
 
-if ($_POST['submit']) {    
-    $thread = getThread($post->thread);
+$thread_owner = $thread->getOwner();
+$can_edit_title = ($post->getParentPostID()==0 and $thread_owner->getID()==$logged_in_user->getID());
 
-    if (!$is_spec && (time() > $post->timestamp + MAXIMUM_EDIT_TIME)){
-	echo "You can no longer edit this post.<br />Posts can only be edited at most ".(MAXIMUM_EDIT_TIME/60)." minutes after they have been created.";
-	exit();
-    }
-    if ($logged_in_user->id != $post->user) {
-	//if (!(isSpecialUser($logged_in_user,0)) && ($logged_in_user->id != $post->user)) {
-        // Can't edit other's posts unless you're a moderator
-        echo "You are not authorized to edit this post.";
-        exit();
-    }
+if (post_str('submit',true)) {    
     
-    
-    updatePost($post->id, $_POST['content']);
-    if ($post->parent_post==0 and $thread->owner==$logged_in_user->id){
-        updateThread($thread->id, $_POST['title']);
+    $post->setContent(post_str('content'));
+    // If this post belongs to the creator of the thread and is at top-level 
+    // (ie. not a response to another post) allow the user to modify the thread title
+    if ($can_edit_title){
+        $thread->setTitle(post_str('title'));
     }
 
-    header('Location: forum_thread.php?id='.$thread->id);
+    header('Location: forum_thread.php?id='.$thread->getID());
 }
 
 
 page_head('Forum');
 
-$thread = getThread($post->thread);
-$forum = getForum($thread->forum);
-$category = getCategory($forum->category);
-if (!$is_spec && (time() > $post->timestamp + MAXIMUM_EDIT_TIME)){
-	echo "You can no longer edit this post.<br />Posts can only be edited at most ".(MAXIMUM_EDIT_TIME/60)." minutes after they have been created.";
-	exit();
-}
+$forum = $thread->getForum();
+$category = $forum->getCategory();
 
-if ($logged_in_user->id != $post->user) {
-    //if (!(isSpecialUser($logged_in_user,0)) && ($logged_in_user->id != $post->user)) {
-    // Can't edit other's posts 
-    echo "You are not authorized to edit this post.";
-    exit();
-}
+show_forum_title($forum, $thread);
 
-show_forum_title($forum, $thread, $category->is_helpdesk);
-
-echo "<form action=forum_edit.php?id=$post->id method=POST>\n";
+echo "<form action=\"forum_edit.php?id=".$post->getID()."\" method=\"POST\">\n";
 
 start_table();
 row1("Edit your post");
-if ($post->parent_post==0 and $thread->owner==$logged_in_user->id) {
-	//If this is the first post enable the user to change title
+if ($can_edit_title) {
+    //If this is the user can edit the thread title display a way of doing so
     row2(
 	    tr(FORUM_SUBMIT_NEW_TITLE).html_info(),
-	    "<input type=text name=title value=\"".stripslashes($thread->title)."\">"
+	    "<input type=text name=title value=\"".stripslashes($thread->getTitle())."\">"
     );
 };
 
 row2(
     tr(FORUM_MESSAGE).html_info().post_warning(),
-    "<textarea name=\"content\" rows=12 cols=80>".cleanTextBox(stripslashes($post->content))."</textarea>"
+    "<textarea name=\"content\" rows=12 cols=80>".cleanTextBox(stripslashes($post->getContent()))."</textarea>"
 );
 row2(
     "",

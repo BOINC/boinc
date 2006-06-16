@@ -221,6 +221,9 @@ msgstr "The invitation code you gave is not valid."
 msgid "FORUM_TITLE"
 msgstr "$PROJECT Message boards"
 
+msgid "FORUM_TITLE_SHORT"
+msgstr "Message boards"
+
 
 #########################################
 # General stuff (create_account_form.php and others)
@@ -263,6 +266,19 @@ msgstr "Members"
 #########################################
 # Forum
 #########################################
+msgid "FORUM_POSTS"
+msgstr "Posts"
+msgid "FORUM_TOPIC"
+msgstr "Topic"
+msgid "FORUM_THREADS"
+msgstr "Threads"
+msgid "FORUM_LAST_POST"
+msgstr "Last post"
+msgid "FORUM_AUTHOR"
+msgstr "Author"
+msgid "FORUM_VIEWS"
+msgstr "Views"
+
 msgid "FORUM_ERR_NOT_FOUND"
 msgstr "No such forum"
 
@@ -320,10 +336,32 @@ msgid "FORUM_HTML_INFO"
 msgstr "Use BBCode tags to format your text"
 
 
+#########################################
+# Forum thread
+#########################################
+
+msgid "FORUM_THREAD_HIDDEN"
+msgstr "This thread has been hidden for administrative purposes"
+
+msgid "FORUM_THREAD_REPLY"
+msgstr "Reply to this thread"
+
+msgid "FORUM_THREAD_SUBSCRIBED"
+msgstr "You are subscribed to this thread."
+
+msgid "FORUM_THREAD_UNSUBSCRIBE"
+msgstr "Click here to unsubscribe"
+
+msgid "FORUM_THREAD_SUBSCRIBE"
+msgstr "Subscribe to this thread"
+
 
 #########################################
 # Forum search features
 #########################################
+msgid "FORUM SEARCH"
+msgstr "Forum search"
+
 msgid "FORUM_SEARCH_TITLES"
 msgstr "Titles containing '%s'"
 
