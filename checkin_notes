@@ -6099,3 +6099,9 @@ Rom    16 June 2006 (HEAD)
     - Tag for 5.5.1 release, all platforms
       boinc_core_release_5_5_1
 
+Charlie 15 June 2006
+    - Mac sandbox: fix errors in SetupSecurity()
+
+    clientgui/
+        mac/
+            SetupSecurity.cpp

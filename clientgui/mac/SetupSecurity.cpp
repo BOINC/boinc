@@ -271,7 +271,7 @@ int SetBOINCDataOwnersGroupsAndPermissions() {
     result = FSPathMakeRef((StringPtr)fullpath, &ref, &isDirectory);
     if ((result == noErr) && (isDirectory)) {
         // Set owner and group of projects directory's contents
-        sprintf(buf1, "%s:%s", boinc_master_user_name, boinc_master_group_name);
+        sprintf(buf1, "%s:%s", boinc_master_user_name, boinc_project_name);
         // chown boinc_master:boinc_project "/Library/Applications/BOINC Data/projects"
         err = DoPrivilegedExec(chownPath, "-R", buf1, fullpath, NULL, NULL);
         if (err)
@@ -300,7 +300,7 @@ int SetBOINCDataOwnersGroupsAndPermissions() {
     result = FSPathMakeRef((StringPtr)fullpath, &ref, &isDirectory);
     if ((result == noErr) && (isDirectory)) {
         // Set owner and group of slots directory's contents
-        sprintf(buf1, "%s:%s", boinc_master_user_name, boinc_master_group_name);
+        sprintf(buf1, "%s:%s", boinc_master_user_name, boinc_project_name);
         // chown boinc_master:boinc_project "/Library/Applications/BOINC Data/slots"
         err = DoPrivilegedExec(chownPath, "-R", buf1, fullpath, NULL, NULL);
         if (err)
