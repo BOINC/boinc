@@ -6065,6 +6065,18 @@ Charlie 15 June 2006
         boinc.xcodeproj/
             project.pbxproj
 
+Eric K 15 June 2006
+    - The getrusage calls in util.C and boinc_api.C are now protected with the
+      same pthread mutex.
+    - Changed CPU time monitor to prevent CPU time from incrementing faster than
+      real time.
+
+    lib/
+        util.[Ch]
+    api/
+        boinc_api.C
+
+
 David  15 June 2006
 	- New CPU scheduler: the highlights are:
 		1) The implementation is better organized,
