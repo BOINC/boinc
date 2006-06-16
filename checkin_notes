@@ -6121,6 +6121,7 @@ David  16 June 2006
     - removed set_X arguments from rr_simulation()
     - removed RESULT::deadlines_missed, deadline_problem
     - running_task_sort_pred() not member function
+    - fixed calculation of CPU shortfall
 
     client/
         client_state.C,h
