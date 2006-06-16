@@ -636,7 +636,7 @@ size_t libcurl_read( void *ptr, size_t size, size_t nmemb, HTTP_OP* phop) {
     return stRead;
 }
 
-curlioerr libcurl_ioctl(CURL *handle, curliocmd cmd, HTTP_OP* phop) {
+curlioerr libcurl_ioctl(CURL*, curliocmd cmd, HTTP_OP* phop) {
     // reset input stream to beginning - resends header
     // and restarts data back to starting point
 
@@ -652,17 +652,16 @@ curlioerr libcurl_ioctl(CURL *handle, curliocmd cmd, HTTP_OP* phop) {
     return CURLIOE_OK;
 }
 
-int libcurl_debugfunction(CURL *handle, curl_infotype type,
-            unsigned char *data, size_t size, HTTP_OP* phop)
-{
+int libcurl_debugfunction(
+    CURL*, curl_infotype type,
+    unsigned char *data, size_t size, HTTP_OP* phop
+) {
     const char *text;
     char hdr[100];
     char buf[1024];
     size_t mysize;
     
     SCOPE_MSG_LOG scope_messages(log_messages, CLIENT_MSG_LOG::DEBUG_NET_XFER);
-
-    (void)handle; /* prevent compiler warning */
 
     switch (type) {
     case CURLINFO_TEXT:

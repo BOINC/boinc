@@ -35,6 +35,29 @@ using std::vector;
     // assume actual CPU utilization will be this multiple
     // of what we've actually measured recently
 
+static bool running_task_sort_pred(ACTIVE_TASK* rhs, ACTIVE_TASK* lhs) {
+    // returning true means "less than",
+    // the "largest" result is at the front of a heap, 
+    // and we want the best replacement at the front,
+    // so this is going to look backwards
+    //
+    if (rhs == NULL) return false;  // null is always the best replacement
+    if (lhs == NULL) return true;
+    if (rhs->result->project->enforcement_deadlines_missed_scratch && !lhs->result->project->enforcement_deadlines_missed_scratch) return false;
+    if (!rhs->result->project->enforcement_deadlines_missed_scratch && lhs->result->project->enforcement_deadlines_missed_scratch) return true;
+    if (rhs->result->project->enforcement_deadlines_missed_scratch && lhs->result->project->enforcement_deadlines_missed_scratch) {
+        if (rhs->result->report_deadline > lhs->result->report_deadline) return true;
+        return false;
+    } else {
+        double rhs_episode_time = gstate.now - rhs->episode_start_wall_time;
+        double lhs_episode_time = gstate.now - lhs->episode_start_wall_time;
+        if (rhs_episode_time < lhs_episode_time) return false;
+        if (rhs_episode_time > lhs_episode_time) return true;
+        if (rhs->result->report_deadline > lhs->result->report_deadline) return true;
+        return false;
+    }
+}
+
 // Choose a "best" runnable result for each project
 //
 // Values are returned in project->next_runnable_result
@@ -93,7 +116,10 @@ void CLIENT_STATE::assign_results_to_projects() {
         project = rp->project;
         if (project->next_runnable_result) continue;
 
-        // don't start results if > 2 uploads in progress
+        // don't start results if project has > 2 uploads in progress.
+        // This avoids creating an unbounded number of completed
+        // results for a project that can download and compute
+        // faster than it can upload.
         //
         if (project->nactive_uploads > 2) continue;
 
@@ -306,16 +332,11 @@ void CLIENT_STATE::adjust_debts() {
 }
 
 
-// Schedule active tasks to be run and preempted.
-// This is called in the do_something() loop
+// Decide whether to run the CPU scheduler.
+// This is called periodically.
 //
-bool CLIENT_STATE::schedule_cpus() {
-    double expected_pay_off;
-    PROJECT *p;
+bool CLIENT_STATE::possibly_schedule_cpus() {
     double elapsed_time;
-    unsigned int i;
-
-    SCOPE_MSG_LOG scope_messages(log_messages, CLIENT_MSG_LOG::DEBUG_SCHED_CPU);
 
     if (projects.size() == 0) return false;
     if (results.size() == 0) return false;
@@ -326,13 +347,11 @@ bool CLIENT_STATE::schedule_cpus() {
     //
     elapsed_time = gstate.now - cpu_sched_last_check;
     if (elapsed_time >= gstate.global_prefs.cpu_scheduling_period_minutes * 60) {
-        // The CPU scheduler runs ...,
-        // when the end of the user-specified scheduling period is reached...
-        // check at least once every scheduler period.
-        //
         request_schedule_cpus("Process swap time reached.");
         cpu_sched_last_check = now;
     }
+
+#if 0   // THE FOLLOWING SHOULD NOT BE NECESSARY
 
     // if the count of running tasks is not either ncpus
     // or the count of runnable results a re-schedule is mandatory.
@@ -357,23 +376,30 @@ bool CLIENT_STATE::schedule_cpus() {
             }
         }
     }
+#endif
 
-    // it has not been requested, and there is no immediate apparent need, so...
-    //
     if (!must_schedule_cpus) return false;
-
     must_schedule_cpus = false;
+    schedule_cpus();
+    return true;
+}
+
+// CPU scheduler - decide which results to run.
+//
+void CLIENT_STATE::schedule_cpus() {
+    RESULT* rp;
+    PROJECT* p;
+    double expected_pay_off;
+    unsigned int i;
+    SCOPE_MSG_LOG scope_messages(log_messages, CLIENT_MSG_LOG::DEBUG_SCHED_CPU);
 
     // call the rr simulator to calculate what results miss deadline,
-    // and which projects need extra CPU attention.
     //
     scope_messages.printf("rr_sim: calling from cpu_scheduler");
-    rr_misses_deadline(
-        avg_proc_rate()/ncpus, runnable_resource_share(), false, true
-    );
+    rr_simulation(avg_proc_rate()/ncpus, runnable_resource_share());
     if (log_flags.cpu_sched_detail) {
         for (i=0; i<results.size(); i++){
-            RESULT * rp = results[i];
+            rp = results[i];
             if (rp->rr_sim_misses_deadline && !rp->last_rr_sim_missed_deadline) {
                     msg_printf(rp->project, MSG_INFO,
                         "Result %s now misses deadline.", rp->name
@@ -404,13 +430,15 @@ bool CLIENT_STATE::schedule_cpus() {
     // set temporary variables
     //
     for (i=0; i<results.size(); i++) {
-        results[i]->already_selected = false;
+        rp = results[i];
+        rp->already_selected = false;
     }
     for (i=0; i<projects.size(); i++) {
-        projects[i]->next_runnable_result = NULL;
-        projects[i]->nactive_uploads = 0;
-        projects[i]->anticipated_debt = projects[i]->short_term_debt;
-        projects[i]->cpu_scheduler_deadlines_missed_scratch = projects[i]->rr_sim_deadlines_missed;
+        p = projects[i];
+        p->next_runnable_result = NULL;
+        p->nactive_uploads = 0;
+        p->anticipated_debt = p->short_term_debt;
+        p->cpu_scheduler_deadlines_missed_scratch = p->rr_sim_deadlines_missed;
     }
     for (i=0; i<file_xfers->file_xfers.size(); i++) {
         FILE_XFER* fxp = file_xfers->file_xfers[i];
@@ -426,12 +454,6 @@ bool CLIENT_STATE::schedule_cpus() {
 
     cpu_sched_last_time = gstate.now;
 
-    // this is set by set_scheduler_mode, and we don't want to do it twice.
-    // note that since this is the anticipated debt,
-    // we should be basing this on the anticipated time to crunch,
-    // not the time in the last period.
-    // The expectation is that each period will be full.
-    //
     expected_pay_off = gstate.global_prefs.cpu_scheduling_period_minutes * 60;
 
     ordered_scheduled_results.clear();
@@ -466,24 +488,23 @@ bool CLIENT_STATE::schedule_cpus() {
 
     request_enforce_schedule("");
     set_client_state_dirty("schedule_cpus");
-    return true;
 }
 
 // preempt, start, and resume tasks
 //
 bool CLIENT_STATE::enforce_schedule() {
-    if (!must_enforce_cpu_schedule)
-        return false;
+    unsigned int i;
+    if (!must_enforce_cpu_schedule) return false;
 
     must_enforce_cpu_schedule = false;
-    bool rslt = false;
+    bool action = false;
 
     if (log_flags.task) {
         msg_printf(0, MSG_INFO, "Enforcing schedule");
     }
 
     // set temporary variables
-    unsigned int i;
+    //
     for (i=0; i<projects.size(); i++){
         projects[i]->enforcement_deadlines_missed_scratch = projects[i]->rr_sim_deadlines_missed;
     }
@@ -535,7 +556,11 @@ bool CLIENT_STATE::enforce_schedule() {
             if (atp1 && atp1->result == rp) {
                 atp = atp1;
                 running_task_heap.erase(it);
-                std::make_heap(running_task_heap.begin(), running_task_heap.end(), running_task_sort_pred);
+                std::make_heap(
+                    running_task_heap.begin(),
+                    running_task_heap.end(),
+                    running_task_sort_pred
+                );
                 break;
             }
         }
@@ -545,7 +570,7 @@ bool CLIENT_STATE::enforce_schedule() {
             || (gstate.now - running_task_heap[0]->episode_start_wall_time > gstate.global_prefs.cpu_scheduling_period_minutes && gstate.now - running_task_heap[0]->checkpoint_wall_time < 10 )
         ) {
             if (rp->project->enforcement_deadlines_missed_scratch) {
-                --rp->project->enforcement_deadlines_missed_scratch;
+                rp->project->enforcement_deadlines_missed_scratch++;
             }
             // we now have some enforcement to do.
             //
@@ -581,7 +606,7 @@ bool CLIENT_STATE::enforce_schedule() {
         if (atp->scheduler_state == CPU_SCHED_SCHEDULED
             && atp->next_scheduler_state == CPU_SCHED_PREEMPTED
         ) {
-            rslt = true;
+            action = true;
             bool preempt_by_quit = !global_prefs.leave_apps_in_memory;
             preempt_by_quit |= active_tasks.vm_limit_exceeded(vm_limit);
 
@@ -589,7 +614,7 @@ bool CLIENT_STATE::enforce_schedule() {
         } else if (atp->scheduler_state != CPU_SCHED_SCHEDULED
             && atp->next_scheduler_state == CPU_SCHED_SCHEDULED
         ) {
-            rslt = true;
+            action = true;
             int retval = atp->resume_or_start();
             if (retval) {
                 report_result_error(
@@ -606,7 +631,7 @@ bool CLIENT_STATE::enforce_schedule() {
         atp->cpu_time_at_last_sched = atp->current_cpu_time;
     }
     set_client_state_dirty("must_enforce_cpu_schedule");
-    return rslt;
+    return action;
 }
 
 // return true if we don't have enough runnable tasks to keep all CPUs busy
@@ -654,14 +679,26 @@ void PROJECT::set_rrsim_proc_rate(double per_cpu_proc_rate, double rrs) {
     rrsim_proc_rate = x*per_cpu_proc_rate*CPU_PESSIMISM_FACTOR;
 }
 
-// return true if round-robin scheduling will miss a deadline.
-// per_cpu_proc_rate is the expected number of CPU seconds per wall second
-// on each CPU; rrs is the resource share of runnable projects
+// Do a simulation of weighted round-robin scheduling.
 //
-bool CLIENT_STATE::rr_misses_deadline(
-    double per_cpu_proc_rate, double rrs, bool set_shortfall,
-    bool set_deadline_misses
-) {
+// Inputs:
+// per_cpu_proc_rate:
+//   the expected number of CPU seconds per wall second on each CPU
+// rrs:
+//   the total resource share of runnable projects
+//
+// Outputs (changes to global state):
+// For each project p:
+//   p->rr_sim_deadlines_missed
+//   p->cpu_shortfall
+// For each result r:
+//   r->rr_sim_misses_deadline
+//   r->last_rr_sim_missed_deadline
+// gstate.cpu_shortfall
+//
+// Returns true if some result misses its deadline
+//
+bool CLIENT_STATE::rr_simulation(double per_cpu_proc_rate, double rrs) {
     double saved_rrs = rrs;
     PROJECT* p, *pbest;
     RESULT* rp, *rpbest;
@@ -673,17 +710,15 @@ bool CLIENT_STATE::rr_misses_deadline(
 
     SCOPE_MSG_LOG scope_messages(log_messages, CLIENT_MSG_LOG::DEBUG_SCHED_CPU);
 
-    if (set_shortfall) cpu_shortfall = 0;
-
-    // Initilize the "active" and "pending" lists for each project.
+    // Initialize the "active" and "pending" lists for each project.
     // These keep track of that project's results
     //
     for (i=0; i<projects.size(); i++) {
         p = projects[i];
         p->active.clear();
         p->pending.clear();
-        if (set_deadline_misses) p->rr_sim_deadlines_missed = 0;
-        if (set_shortfall) p->cpu_shortfall = 0;
+        p->rr_sim_deadlines_missed = 0;
+        p->cpu_shortfall = 0;
     }
 
     for (i=0; i<results.size(); i++) {
@@ -698,10 +733,8 @@ bool CLIENT_STATE::rr_misses_deadline(
         } else {
             p->pending.push_back(rp);
         }
-        if (set_deadline_misses) {
-            rp->last_rr_sim_missed_deadline = rp->rr_sim_misses_deadline;
-            rp->rr_sim_misses_deadline = false;
-        }
+        rp->last_rr_sim_missed_deadline = rp->rr_sim_misses_deadline;
+        rp->rr_sim_misses_deadline = false;
     }
 
     for (i=0; i<projects.size(); i++) {
@@ -726,6 +759,8 @@ bool CLIENT_STATE::rr_misses_deadline(
             }
         }
 
+        pbest = rpbest->project;
+
         // "rpbest" is first result to finish.  Does it miss its deadline?
         //
         double diff = sim_now + rpbest->rrsim_finish_delay - rpbest->computation_deadline();
@@ -733,12 +768,13 @@ bool CLIENT_STATE::rr_misses_deadline(
             scope_messages.printf(
                 "rr_sim: result %s misses deadline by %f\n", rpbest->name, diff
             );
-            if (set_deadline_misses) {
-                rpbest->rr_sim_misses_deadline = true;
-                ++rpbest->project->rr_sim_deadlines_missed;
-            }
+            rpbest->rr_sim_misses_deadline = true;
+            pbest->rr_sim_deadlines_missed++;
             rval = true;
         }
+
+        int last_active_size = active.size();
+        int last_proj_active_size = pbest->active.size();
 
         // remove *rpbest from active set,
         // and adjust CPU time left for other results
@@ -755,8 +791,6 @@ bool CLIENT_STATE::rr_misses_deadline(
             }
         }
 
-        pbest = rpbest->project;
-
         // remove *rpbest from its project's active set
         //
         it = pbest->active.begin();
@@ -769,8 +803,6 @@ bool CLIENT_STATE::rr_misses_deadline(
             }
         }
 
-        int last_active_size = active.size();
-        int last_proj_active_size = pbest->active.size();
         // If project has more results, add one to active set.
         //
         if (pbest->pending.size()) {
@@ -791,51 +823,29 @@ bool CLIENT_STATE::rr_misses_deadline(
             }
         }
 
-        sim_now += rpbest->rrsim_finish_delay;
 
-        if (set_shortfall){
-            if ((int)active.size() < last_active_size && 
-                (int)active.size() < ncpus && 
-                sim_now < now + global_prefs.work_buf_min_days * SECONDS_PER_DAY){
+        // increment CPU shortfalls if necessary
+        //
+        double buf_end = now + global_prefs.work_buf_min_days * SECONDS_PER_DAY;
+        if (sim_now < buf_end) {
+            double end_time = sim_now + rpbest->rrsim_finish_delay;
+            if (end_time > buf_end) end_time = buf_end;
+            double dtime = (end_time - sim_now);
+            int idle_cpus = ncpus - last_active_size;
+            cpu_shortfall += dtime*idle_cpus;
 
-                cpu_shortfall += (now + global_prefs.work_buf_min_days * SECONDS_PER_DAY) - sim_now;
-            }
-
-            if ((int)p->active.size() < last_proj_active_size &&
-                (int)p->active.size() < proj_min_results(pbest, saved_rrs) &&
-                sim_now < now + global_prefs.work_buf_min_days * SECONDS_PER_DAY * p->resource_share / saved_rrs) {
-
-                p->cpu_shortfall += now + global_prefs.work_buf_min_days * SECONDS_PER_DAY * p->resource_share / saved_rrs - sim_now;
+            double proj_cpu_share = ncpus*p->resource_share/saved_rrs;
+            if (last_proj_active_size < proj_cpu_share) {
+                p->cpu_shortfall += dtime*(proj_cpu_share - last_proj_active_size);
             }
         }
 
+        sim_now += rpbest->rrsim_finish_delay;
     }
-    if (!rval)
+    if (!rval) {
         scope_messages.printf( "rr_sim: deadlines met\n");
+    }
     return rval;
 }
 
-bool CLIENT_STATE::running_task_sort_pred(
-    ACTIVE_TASK * rhs, ACTIVE_TASK * lhs
-) {
-    // returning true means "less than",
-    // the "largest" result is at the front of a heap, 
-    // and we want the best replacement at the front,
-    // so this is going to look backwards
-    //
-    if (rhs == NULL) return false;  // null is always the best replacement
-    if (lhs == NULL) return true;
-    if (rhs->result->project->enforcement_deadlines_missed_scratch && !lhs->result->project->enforcement_deadlines_missed_scratch) return false;
-    if (!rhs->result->project->enforcement_deadlines_missed_scratch && lhs->result->project->enforcement_deadlines_missed_scratch) return true;
-    if (rhs->result->project->enforcement_deadlines_missed_scratch && lhs->result->project->enforcement_deadlines_missed_scratch) {
-        if (rhs->result->report_deadline > lhs->result->report_deadline) return true;
-        return false;
-    } else {
-        double rhs_episode_time = gstate.now - rhs->episode_start_wall_time;
-        double lhs_episode_time = gstate.now - lhs->episode_start_wall_time;
-        if (rhs_episode_time < lhs_episode_time) return false;
-        if (rhs_episode_time > lhs_episode_time) return true;
-        if (rhs->result->report_deadline > lhs->result->report_deadline) return true;
-        return false;
-    }
-}
+const char *BOINC_RCSID_e830ee1 = "$Id$";

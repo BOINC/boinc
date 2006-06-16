@@ -475,9 +475,6 @@ struct RESULT {
         // a pre-emption of running results.
     bool rr_sim_misses_deadline;
     bool last_rr_sim_missed_deadline;
-    double cpu_shortfall;
-    int deadlines_missed;
-    bool deadline_problem;
 };
 
 #endif

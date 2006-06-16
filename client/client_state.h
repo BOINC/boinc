@@ -277,11 +277,11 @@ private:
     bool schedule_largest_debt_project(double expected_pay_off);
     bool schedule_earliest_deadline_result(double expected_pay_off);
     void adjust_debts();
-    bool schedule_cpus();
+    bool possibly_schedule_cpus();
+    void schedule_cpus();
     bool enforce_schedule();
     bool no_work_for_a_cpu();
-    bool rr_misses_deadline(double, double, bool, bool);
-    static bool running_task_sort_pred(ACTIVE_TASK * rhs, ACTIVE_TASK * lhs);  // used for sorting a heap.
+    bool rr_simulation(double, double);
 public:
 
 // --------------- cs_account.C:

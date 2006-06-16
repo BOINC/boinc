@@ -50,6 +50,9 @@ list_item_func("<sched_ops>",
 list_item_func("<state_debug>",
     " Log changes to the 'client state' data structures. "
 );
+list_item_func("<cpu_sched_detail>",
+    " Log debugging information about CPU scheduling. "
+);
 list_item_func("<task_debug>",
     " Log debugging information about task execution. "
 );

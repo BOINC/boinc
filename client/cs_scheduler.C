@@ -1155,7 +1155,7 @@ void CLIENT_STATE::set_work_fetch_mode() {
     SCOPE_MSG_LOG scope_messages(log_messages, CLIENT_MSG_LOG::DEBUG_SCHED_CPU);
 
     scope_messages.printf("rr_sim: calling from work_fetch");
-    if (rr_misses_deadline(per_cpu_proc_rate, rrs, true, false)) {
+    if (rr_simulation(per_cpu_proc_rate, rrs)) {
         if (!no_work_for_a_cpu()) {
             should_not_fetch_work = true;
         }
@@ -1167,7 +1167,7 @@ void CLIENT_STATE::set_work_fetch_mode() {
         PROJECT* p = next_project_need_work();
         if (p && !p->runnable()) {
             rrs += p->resource_share;
-            if (rr_misses_deadline(per_cpu_proc_rate, rrs, false, false)) {
+            if (rr_simulation(per_cpu_proc_rate, rrs)) {
                 should_not_fetch_work = true;
             }
         }

@@ -1,13 +1,24 @@
 <?
 
 $project_news = array(
+array("June 15, 2006",
+    "BOINC's CPU scheduler has become smarter:
+    it now waits until an application has checkpointed
+    to preempt it and remove it from memory.
+    This can save significant CPU time, especially on multiprocessors.
+    Technical details are <a href=sched.php>here</a>.
+    The new scheduler is in the development version of BOINC,
+    and will appear in the 5.6 release.
+    Volunteer developer John McLeod VII was the driving
+    force behind the new scheduler."
+),
 array("June 14, 2006",
     "We have added preliminary support for
     <a href=wrapper.php>legacy applications</a>
     that do not use the BOINC API
     (e.g. because their source code is not available).
     This feature will work with the next version
-    (5.5) of the BOINC client software.
+    (5.6) of the BOINC client software.
     "
 ),
 array("June 10, 2006",

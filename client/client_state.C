@@ -483,10 +483,10 @@ bool CLIENT_STATE::poll_slow_events() {
     // must have:
     //  active_tasks_poll
     //  handle_finished_apps
-    //  schedule_cpus
+    //  possibly_schedule_cpus
     //  enforce_schedule
     // in that order (active_tasks_poll() sets must_schedule_cpus,
-    // and handle_finished_apps() must be done before schedule_cpus()
+    // and handle_finished_apps() must be done before possibly_schedule_cpus()
 
     ss_logic.poll();
     POLL_ACTION(active_tasks           , active_tasks.poll      );
@@ -505,7 +505,7 @@ bool CLIENT_STATE::poll_slow_events() {
     cpu_scheduler.enforce();
 #else
     if (!tasks_suspended) {
-        POLL_ACTION(schedule_cpus          , schedule_cpus          );
+        POLL_ACTION(possibly_schedule_cpus, possibly_schedule_cpus          );
         POLL_ACTION(enforce_schedule    , enforce_schedule  );
     }
 #endif
