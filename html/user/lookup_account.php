@@ -19,11 +19,17 @@ db_init();
 xml_header();
 
 $email_addr = get_str("email_addr");
-$passwd_hash = process_user_text(get_str("passwd_hash"));
+$passwd_hash = process_user_text(get_str("passwd_hash", true));
 
 $user = lookup_user_email_addr($email_addr);
 if (!$user) {
     error();
+}
+
+if (!$passwd_hash) {
+    echo "<account_out>\n";
+    echo "</account_out>\n";
+    exit();
 }
 
 $auth_hash = md5($user->authenticator.$user->email_addr);

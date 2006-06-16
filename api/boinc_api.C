@@ -179,8 +179,8 @@ static int setup_shared_mem() {
 static int boinc_worker_thread_cpu_time(double& cpu) {
     static double last_cpu=0;
     static time_t last_time=0;
-    double now=time(0);
-    double time_diff=now-last_time;
+    time_t now = time(0);
+    double time_diff = now-last_time;
 #ifdef _WIN32
     int retval;
     if (options.all_threads_cpu_time) {
@@ -200,14 +200,14 @@ static int boinc_worker_thread_cpu_time(double& cpu) {
       pthread_mutex_unlock(&getrusage_mutex);
     }
 #endif
-    double cpu_diff=cpu-last_cpu;
+    double cpu_diff = cpu - last_cpu;
     if (cpu_diff>(time_diff+1)) {
 //      fprintf(stderr,"CPU time incrementing faster than real time.  Correcting.\n");
-      cpu=last_cpu+time_diff;
+        cpu = last_cpu+time_diff;
     }
     if (time_diff != 0) {
-      last_cpu=cpu;
-      last_time=now;
+        last_cpu=cpu;
+        last_time=now;
     }
     return 0;
 }
@@ -503,6 +503,8 @@ int boinc_report_app_status(
     double _fraction_done
 ) {
     char msg_buf[MSG_CHANNEL_SIZE];
+    if (standalone) return 0;
+
     sprintf(msg_buf,
         "<current_cpu_time>%10.4f</current_cpu_time>\n"
         "<checkpoint_cpu_time>%.15e</checkpoint_cpu_time>\n"

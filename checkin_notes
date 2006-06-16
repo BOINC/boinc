@@ -6129,3 +6129,12 @@ David  16 June 2006
         cpu_sched.C
         cs_scheduler.C
         http_curl.C
+
+David  16 June 2006
+    - API: boinc_report_app_status(): don't access shmem if
+        we're in standalone mode
+    - Web RPC: lookup_account.php can be used to see if an account
+        with given email exists (don't supply passwd_hash)
+
+    api/
+        boinc_api.C

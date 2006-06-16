@@ -73,7 +73,8 @@ list_item("URL", "project_url/lookup_account.php");
 list_item(
     "input",
         "email_addr: email address
-        <br>passwd_hash: the MD5 hash of the concatenation
+        <br>
+        [ passwd_hash ]: the MD5 hash of the concatenation
         of the user's password and the email address.
 ");
 list_item(
@@ -86,8 +87,10 @@ list_item(
 );
 list_item(
     "action",
-    "If an account with the given email address and password hash exists,
-    return its account key."
+    "If an account with the given email address doesn't exist,
+    return an error.
+    If passwd_hash is given and is correct,
+    return the account key."
 );
 
 list_end();
