@@ -579,13 +579,23 @@ int ACTIVE_TASK::start(bool first_time) {
             perror("setpriority");
         }
 #endif
-        argv[0] = exec_name;
         char cmdline[8192];
         strcpy(cmdline, wup->command_line.c_str());
-        parse_command_line(cmdline, argv+1);
         debug_print_argv(argv);
         sprintf(buf, "../../%s", exec_path );
+#ifdef SANDBOX
+        char switcher_path[100];
+        sprintf(switcher_path, "../../%s/%s", SWITCHER_DIR, SWITCHER_FILE_NAME);
+        argv[0] = SWITCHER_FILE_NAME;
+        argv[1] = buf;
+        argv[2] = exec_name;
+        parse_command_line(cmdline, argv+3);
+        retval = execv(switcher_path, argv);
+#else
+        argv[0] = exec_name;
+        parse_command_line(cmdline, argv+1);
         retval = execv(buf, argv);
+#endif
         msg_printf(wup->project, MSG_ERROR,
             "Process creation (%s) failed: %s\n", buf, boincerror(retval)
         );

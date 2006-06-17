@@ -6216,3 +6216,20 @@ Charlie 16 June 2006
     clientgui/
         mac/
             SetupSecurity.cpp,h
+
+Charlie 17 June 2006
+    - Mac sandbox:
+        - Fix bugs
+        - ACTIVE_TASK::start launches project app via new switcher app
+        - Client runs projects under different user and group boinc_project.
+          
+    client/
+        app_start.C
+        check_security.C
+        switcher.C
+    clientgui/
+        mac/
+            SetupSecurity.cpp
+    mac_build/
+        boinc.xcodeproj/
+            project.pbxproj

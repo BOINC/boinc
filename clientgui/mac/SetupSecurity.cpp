@@ -38,9 +38,8 @@ static pascal Boolean ErrorDlgFilterProc(DialogPtr theDialog, EventRecord *theEv
 static void SleepTicks(UInt32 ticksToSleep);
 #ifdef _DEBUG
 static OSStatus SetFakeMasterNames(void);
-#else
-static OSStatus CreateUserAndGroup(char * user_name, char * group_name);
 #endif
+static OSStatus CreateUserAndGroup(char * user_name, char * group_name);
 
 static AuthorizationRef        gOurAuthRef = NULL;
 
@@ -48,7 +47,7 @@ static AuthorizationRef        gOurAuthRef = NULL;
 #define DELAY_TICKS_R 10
 
 
-#define real_boinc_master_name "boinc_project"
+#define real_boinc_master_name "boinc_master"
 #define real_boinc_project_name "boinc_project"
 
 #ifdef _DEBUG
@@ -66,9 +65,6 @@ static char boinc_project_group_name[64];
 #define boinc_project_group_name real_boinc_project_name
 #endif
 
-#define real_boinc_master_name "boinc_project"
-#define real_boinc_project_name "boinc_project"
-
 #define MIN_ID 25   /* Minimum user ID / Group ID to create */
 
 static char                    dsclPath[] = "/usr/bin/dscl";
@@ -77,15 +73,14 @@ static char                    chownPath[] = "/usr/sbin/chown";
 #define RIGHTS_COUNT 3          /* Count of the 3 above items */
 
 int CreateBOINCUsersAndGroups() {
-#ifndef _DEBUG
     char            buf1[80];
     OSStatus        err = noErr;
 
-    err = CreateUserAndGroup(boinc_master_user_name, boinc_master_group_name);
+    err = CreateUserAndGroup(real_boinc_master_name, real_boinc_master_name);
     if (err != noErr)
         return err;
     
-    err = CreateUserAndGroup(boinc_project_user_name, boinc_project_group_name);
+    err = CreateUserAndGroup(real_boinc_project_name, real_boinc_project_name);
     if (err != noErr)
         return err;
     
@@ -99,7 +94,6 @@ int CreateBOINCUsersAndGroups() {
     system("lookupd -flushcache");
     system("memberd -r");
     
-#endif          // ! _DEBUG
     return noErr;
 }
 
@@ -423,7 +417,6 @@ int SetBOINCDataOwnersGroupsAndPermissions() {
 }
 
 
-#ifndef _DEBUG
 static OSStatus CreateUserAndGroup(char * user_name, char * group_name) {
     OSStatus    err = noErr;
     passwd      *pw = NULL;
@@ -550,7 +543,6 @@ static OSStatus CreateUserAndGroup(char * user_name, char * group_name) {
 
     return noErr;
 }
-#endif          // ! _DEBUG    
 
 
 int AddAdminUserToGroups(char *user_name) {        

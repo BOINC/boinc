@@ -48,14 +48,14 @@ int check_security() {
     uid_t               euid, boinc_master_uid;
     gid_t               boinc_project_gid;
     uid_t               boinc_project_uid;
-    int                 i;
     char                dir_path[MAXPATHLEN], full_path[MAXPATHLEN];
     struct stat         sbuf;
     int                 retval;
-    char                *p;
 #ifdef __WXMAC__                            // If Mac BOINC Manager
-    ProcessSerialNumber ourPSN;
+    ProcessSerialNumber ourPSN, parentPSN;
+    ProcessInfoRec      pInfo;
     FSRef               ourFSRef;
+    char                *p;
 #endif
 
 #ifdef _DEBUG
@@ -106,15 +106,15 @@ int check_security() {
     if (grp == NULL)
         return ERR_GETGRNAM;                // Group boinc_project does not exist
     boinc_project_gid = grp->gr_gid;
-#endif
 
-    for (i=0; ; i++) {                      // Step through all users in group boinc_project
-        p = grp->gr_mem[i];
+    for (int i=0; ; i++) {                      // Step through all users in group boinc_project
+        char *p = grp->gr_mem[i];
         if (p == NULL)
             return ERR_GETGRNAM;            // User boinc_master is not a member of group boinc_project
         if (strcmp(p, boinc_master_user_name) == 0)
             break;
     }
+#endif
 
 #ifdef __WXMAC__                            // If Mac BOINC Manager
     // Get the full path to BOINC Manager application's bundle
@@ -122,6 +122,12 @@ int check_security() {
     if (retval)
         return retval;          // Should never happen
 
+    memset(&pInfo, 0, sizeof(pInfo));
+    pInfo.processInfoLength = sizeof( ProcessInfoRec );
+    retval = GetProcessInformation(&ourPSN, &pInfo);
+    if (retval)
+        return retval;          // Should never happen
+    
     retval = GetProcessBundleLocation(&ourPSN, &ourFSRef);
     if (retval)
         return retval;          // Should never happen
@@ -130,44 +136,55 @@ int check_security() {
     if (retval)
         return retval;          // Should never happen
 
-    // Get the full path to BOINC Manager executable inside this application's bundle
-    strlcpy(full_path, dir_path, sizeof(full_path));
-    strlcat(full_path, "/Contents/MacOS/", sizeof(full_path));
-    // To allow for branding, assume name of executable inside bundle is same as name of bundle
-    p = strrchr(dir_path, '/');         // Assume name of executable inside bundle is same as name of bundle
-    if (p == NULL)
-        p = dir_path - 1;
-    strlcat(full_path, p+1, sizeof(full_path));
-    p = strrchr(full_path, '.');         // Strip off  bundle extension (".app")
-    if (p)
-        *p = '\0'; 
-
-    retval = stat(full_path, &sbuf);
+    parentPSN = pInfo.processLauncher;
+    memset(&pInfo, 0, sizeof(pInfo));
+    pInfo.processInfoLength = sizeof( ProcessInfoRec );
+    retval = GetProcessInformation(&parentPSN, &pInfo);
     if (retval)
         return retval;          // Should never happen
-    
-    if (sbuf.st_gid != boinc_master_gid)
-        return ERR_USER_PERMISSION;
 
-    if ((sbuf.st_mode & S_ISGID) != S_ISGID)
-        return ERR_USER_PERMISSION;
+    // If we are running under the GDB debugger, ignore owner, 
+    //  group and permissions of BOINC Manager and BOINC Client
+    if (pInfo.processSignature != 'xcde') {  // Login Window app
+        // Get the full path to BOINC Manager executable inside this application's bundle
+        strlcpy(full_path, dir_path, sizeof(full_path));
+        strlcat(full_path, "/Contents/MacOS/", sizeof(full_path));
+        // To allow for branding, assume name of executable inside bundle is same as name of bundle
+        p = strrchr(dir_path, '/');         // Assume name of executable inside bundle is same as name of bundle
+        if (p == NULL)
+            p = dir_path - 1;
+        strlcat(full_path, p+1, sizeof(full_path));
+        p = strrchr(full_path, '.');         // Strip off  bundle extension (".app")
+        if (p)
+            *p = '\0'; 
 
-    // Get the full path to BOINC Clients inside this application's bundle
-    strlcpy(full_path, dir_path, sizeof(full_path));
-    strlcat(full_path, "/Contents/Resources/boinc", sizeof(full_path));
+        retval = stat(full_path, &sbuf);
+        if (retval)
+            return retval;          // Should never happen
+        
+        if (sbuf.st_gid != boinc_master_gid)
+            return ERR_USER_PERMISSION;
 
-    retval = stat(full_path, &sbuf);
-    if (retval)
-        return retval;          // Should never happen
-    
-    if (sbuf.st_gid != boinc_master_gid)
-        return ERR_USER_PERMISSION;
+        if ((sbuf.st_mode & S_ISGID) != S_ISGID)
+            return ERR_USER_PERMISSION;
 
-    if (sbuf.st_uid != boinc_master_uid)
-        return ERR_USER_PERMISSION;
+        // Get the full path to BOINC Clients inside this application's bundle
+        strlcpy(full_path, dir_path, sizeof(full_path));
+        strlcat(full_path, "/Contents/Resources/boinc", sizeof(full_path));
 
-    if ((sbuf.st_mode & (S_ISUID | S_ISGID)) != (S_ISUID | S_ISGID))
-        return ERR_USER_PERMISSION;
+        retval = stat(full_path, &sbuf);
+        if (retval)
+            return retval;          // Should never happen
+        
+        if (sbuf.st_gid != boinc_master_gid)
+            return ERR_USER_PERMISSION;
+
+        if (sbuf.st_uid != boinc_master_uid)
+            return ERR_USER_PERMISSION;
+
+        if ((sbuf.st_mode & (S_ISUID | S_ISGID)) != (S_ISUID | S_ISGID))
+            return ERR_USER_PERMISSION;
+    }                               // If not running under GDB debugger
 #endif                                      // Mac BOINC Manager
 
 //    rgid = getgid();
@@ -258,7 +275,6 @@ int check_security() {
     if ((sbuf.st_mode & 0777) != 0770)
         return ERR_USER_PERMISSION;
 
-    strlcpy(full_path, dir_path, sizeof(full_path));
     strlcat(full_path, "/", sizeof(full_path));
     strlcat(full_path, SWITCHER_FILE_NAME, sizeof(full_path));
     retval = stat(full_path, &sbuf);
@@ -271,7 +287,7 @@ int check_security() {
     if (sbuf.st_uid != boinc_project_uid)
         return ERR_USER_PERMISSION;
 
-    if ((sbuf.st_mode & 7777) != 6550)
+    if ((sbuf.st_mode & 07777) != 06550)
         return ERR_USER_PERMISSION;
 
     return 0;
