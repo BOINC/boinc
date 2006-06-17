@@ -38,6 +38,7 @@
 #include "client_msgs.h"
 #include "client_state.h"
 #include "network.h"
+#include "log_flags.h"
 
 #include "time_stats.h"
 
@@ -113,6 +114,7 @@ void TIME_STATS::update(bool is_active) {
 }
 
 void TIME_STATS::update_cpu_efficiency(double cpu_wall_time, double cpu_time) {
+    double old_cpu_efficiency = cpu_efficiency;
     if (cpu_wall_time < .01) return;
     double w = exp(-cpu_wall_time/SECONDS_PER_DAY);
     double e = cpu_time/cpu_wall_time;
@@ -120,6 +122,13 @@ void TIME_STATS::update_cpu_efficiency(double cpu_wall_time, double cpu_time) {
     	return;
     }
     cpu_efficiency = w*cpu_efficiency + (1-w)*e;
+    if (log_flags.cpu_sched_detail){
+        msg_printf(0, MSG_INFO,
+            "CPU efficiency old %f new %f wall %f CPU %f w %f e %f",
+            old_cpu_efficiency, cpu_efficiency, cpu_wall_time,
+            cpu_time, w, e
+        );
+    }
 }
 
 // Write XML based time statistics
