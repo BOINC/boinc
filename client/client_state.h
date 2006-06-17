@@ -274,8 +274,8 @@ private:
     bool must_schedule_cpus;
     std::vector <RESULT*> ordered_scheduled_results;
     void assign_results_to_projects();
-    bool schedule_largest_debt_project(double expected_pay_off);
-    bool schedule_earliest_deadline_result(double expected_pay_off);
+    RESULT* find_largest_debt_project_best_result(double expected_pay_off);
+    RESULT* find_earliest_deadline_result(double expected_pay_off);
     void adjust_debts();
     bool possibly_schedule_cpus();
     void schedule_cpus();

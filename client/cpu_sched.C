@@ -141,12 +141,16 @@ void CLIENT_STATE::assign_results_to_projects() {
 // among those that have a runnable result.
 // Return true iff a task was scheduled.
 //
-bool CLIENT_STATE::schedule_largest_debt_project(double expected_pay_off) {
+RESULT* CLIENT_STATE::find_largest_debt_project_best_result(double expected_pay_off) {
     PROJECT *best_project = NULL;
     double best_debt = -MAX_DEBT;
     bool first = true;
     unsigned int i;
 
+    // Find the project P with the greatest anticipated debt,
+    // select one of P's runnable results
+    // (picking one that is already running, if possible,
+    // else the result with earliest deadline) and schedule that result. 
     for (i=0; i<projects.size(); i++) {
         PROJECT* p = projects[i];
         if (!p->next_runnable_result) continue;
@@ -157,7 +161,7 @@ bool CLIENT_STATE::schedule_largest_debt_project(double expected_pay_off) {
             best_debt = p->anticipated_debt;
         }
     }
-    if (!best_project) return false;
+    if (!best_project) return NULL;
 
     if (log_flags.cpu_sched_detail) {
         msg_printf(best_project, MSG_INFO,
@@ -166,18 +170,22 @@ bool CLIENT_STATE::schedule_largest_debt_project(double expected_pay_off) {
             best_project->next_runnable_result->name
         );
     }
-    ordered_scheduled_results.push_back(best_project->next_runnable_result);
-    best_project->anticipated_debt -= (1 - best_project->resource_share / gstate.runnable_resource_share()) * expected_pay_off;
+    RESULT* rp = best_project->next_runnable_result;
     best_project->next_runnable_result = 0;
-    return true;
+    return rp;
 }
 
 // Schedule the active task with the earliest deadline
 // Return true iff a task was scheduled.
 //
-bool CLIENT_STATE::schedule_earliest_deadline_result(double expected_pay_off) {
+RESULT* CLIENT_STATE::find_earliest_deadline_result(double expected_pay_off) {
     RESULT *best_result = NULL;
     unsigned int i;
+
+    // Let P be the project with the earliest-deadline runnable result
+    // among projects with deadlines_missed(P)>0.
+    // Let R be P's earliest-deadline runnable result not scheduled yet.
+    // Tiebreaker: least index in result array.
 
     for (i=0; i < results.size(); i++) {
         RESULT *rp = results[i];
@@ -189,7 +197,7 @@ bool CLIENT_STATE::schedule_earliest_deadline_result(double expected_pay_off) {
             best_result = rp;
         }
     }
-    if (!best_result) return false;
+    if (!best_result) return NULL;
 
     if (log_flags.cpu_sched_detail) {
         msg_printf(best_result->project, MSG_INFO,
@@ -197,12 +205,8 @@ bool CLIENT_STATE::schedule_earliest_deadline_result(double expected_pay_off) {
             best_result->report_deadline, best_result->name
         );
     }
-    ordered_scheduled_results.push_back(best_result);
-    best_result->already_selected = true;
-    best_result->project->anticipated_debt -= (1 - best_result->project->resource_share / gstate.runnable_resource_share()) * expected_pay_off;
-    best_result->project->cpu_scheduler_deadlines_missed_scratch--;
 
-    return true;
+    return best_result;
 }
 
 // adjust project debts (short, long-term)
@@ -327,6 +331,10 @@ void CLIENT_STATE::adjust_debts() {
         p = projects[i];
         p->wall_cpu_time_this_period = 0.0;
     }
+    for (i = 0; i < active_tasks.active_tasks.size(); ++i) {
+        ACTIVE_TASK* atp = active_tasks.active_tasks[i];
+        atp->cpu_time_at_last_sched = atp->current_cpu_time;
+    }
     total_wall_cpu_time_this_period = 0.0;
     total_cpu_time_this_period = 0.0;
 }
@@ -334,6 +342,7 @@ void CLIENT_STATE::adjust_debts() {
 
 // Decide whether to run the CPU scheduler.
 // This is called periodically.
+// Scheduled tasks are placed in order of urgency for scheduling in the ordered_scheduled_results vector
 //
 bool CLIENT_STATE::possibly_schedule_cpus() {
     double elapsed_time;
@@ -425,6 +434,9 @@ void CLIENT_STATE::schedule_cpus() {
     // mark file xfer results as completed;
     // TODO: why do this here??
     //
+    // Dr. A.  This has been here quite a while.
+    // Either we should remove the comment or we should move the code.  jm7
+    //
     handle_file_xfer_apps();
 
     // set temporary variables
@@ -449,53 +461,66 @@ void CLIENT_STATE::schedule_cpus() {
 
     // calculate the current long and short term debts
     // based on the work done during the last period
+    // this function call also sets the CPU efficiency.
     //
     adjust_debts();
 
     cpu_sched_last_time = gstate.now;
 
+    // note that since this is the anticipated debt,
+    // we should be basing this on the anticipated time to crunch,
+    // not the time in the last period.
+    // The expectation is that each period will be full.
+    //
     expected_pay_off = gstate.global_prefs.cpu_scheduling_period_minutes * 60;
 
     ordered_scheduled_results.clear();
-    // Let P be the project with the earliest-deadline runnable result
-    // among projects with deadlines_missed(P)>0.
-    // Let R be P's earliest-deadline runnable result not scheduled yet.
-    // Tiebreaker: least index in result array.
-    // If such an R exists, schedule R, decrement P's anticipated debt,
-    // and decrement deadlines_missed(P). 
-    // If there are more CPUs, and projects with deadlines_missed(P)>0, go to 1. 
-    //
+
     while ((int)ordered_scheduled_results.size() < ncpus) {
-        if (!schedule_earliest_deadline_result(expected_pay_off)) break;
+        RESULT * rp = find_earliest_deadline_result(expected_pay_off);
+        if (!rp) break;
+        rp->already_selected = true;  // the result is "used" for this scheduling period.
+
+        // If such an R exists, schedule R, decrement P's anticipated debt,
+        // and decrement deadlines_missed(P). 
+        rp->project->anticipated_debt -= (1 - rp->project->resource_share / gstate.runnable_resource_share()) * expected_pay_off;
+        rp->project->cpu_scheduler_deadlines_missed_scratch--;
+        ordered_scheduled_results.push_back(rp);
+        // If there are more CPUs, and projects with deadlines_missed(P)>0, go to 1. 
+        //
     };
 
-    // If all CPUs are scheduled, stop. 
-    // If there is a result R that is currently running,
-    // and has been running for less than the CPU scheduling period,
-    // schedule R and go to 5. 
-    // Find the project P with the greatest anticipated debt,
-    // select one of P's runnable results
-    // (picking one that is already running, if possible,
-    // else the result with earliest deadline) and schedule that result. 
-    // Decrement P's anticipated debt by the 'expected payoff'
-    // (the scheduling period divided by NCPUS). 
-    // Go to 5.
-    //
+    // If all CPUs are scheduled, or there are no more results to schedule, stop.
     while ((int)ordered_scheduled_results.size() < ncpus) {
         assign_results_to_projects();
-        if (!schedule_largest_debt_project(expected_pay_off)) break;
+        RESULT * rp = find_largest_debt_project_best_result(expected_pay_off);
+        if (!rp) break;
+
+        // Decrement P's anticipated debt by the 'expected payoff'
+        // (the scheduling period divided by NCPUS). 
+        rp->project->anticipated_debt -= (1 - rp->project->resource_share / gstate.runnable_resource_share()) * expected_pay_off;
+        ordered_scheduled_results.push_back(rp);
     };
 
+    // enforce the schedule.
     request_enforce_schedule("");
     set_client_state_dirty("schedule_cpus");
 }
 
 // preempt, start, and resume tasks
-//
+// This is called in the do_something() loop
+// tasks that are to be started or continued are in the ordered_scheduled_results vector
+// as set in schedule_cpus.
+// This function first builds a heap of running tasks ordered by pre-emptability.
+// It sets a field to indicate the next state so that a task is not unscheduled and re-scheduled in the
+// same call to enforce_schedule.  This could happen if it was top of the pre-emption list and second in
+// scheduled list.
+// 
 bool CLIENT_STATE::enforce_schedule() {
     unsigned int i;
     if (!must_enforce_cpu_schedule) return false;
 
+    // Don't do this once per second.
     must_enforce_cpu_schedule = false;
     bool action = false;
 
@@ -513,6 +538,8 @@ bool CLIENT_STATE::enforce_schedule() {
         active_tasks.active_tasks[i]->next_scheduler_state = active_tasks.active_tasks[i]->scheduler_state;
     }
 
+    // first create a heap of the currently running results ordered by their pre-emptability
+    // the first step in this is to add all of the currently running tasks to an array
     std::vector<ACTIVE_TASK *> running_task_heap;
         // this needs to be searchable so it is NOT a priority_queue.
     for (i=0; i<active_tasks.active_tasks.size(); i++) {
@@ -525,14 +552,20 @@ bool CLIENT_STATE::enforce_schedule() {
             running_task_heap.push_back(atp);
         }
     }
+    // add enough NULLs to make the heap size match ncpus.
+    // NULL indicates an idle CPU.
     for (i=running_task_heap.size(); (int)i<ncpus; i++) {
         running_task_heap.push_back(NULL);
     }
+    // Sort the heap.
+    // The policy of which task is most pre-emptable is in running_task_sort_pred.
     std::make_heap(
         running_task_heap.begin(),
         running_task_heap.end(),
         running_task_sort_pred
     );
+    // if there are more running tasks than ncpus, then mark enough of them for pre-emption 
+    // so that there are only ncpus tasks in the heap.
     while (running_task_heap.size() > (unsigned int)ncpus) {
         if (running_task_heap[0] != NULL) {
             running_task_heap[0]->next_scheduler_state = CPU_SCHED_PREEMPTED;
@@ -545,15 +578,18 @@ bool CLIENT_STATE::enforce_schedule() {
         running_task_heap.pop_back();  // get rid of the tail that is not needed.
     }
 
-    // now that things are set up,
-    // compare the heap to the prepared vector from the cpu_scheduler.
-    //
+    // Now the heap is set up in order such that the most pre-emptable result is first.
+    // Loop through the scheduled results checking the most urgent ones to see if they should 
+    // pre-empt something else now.
     for (i=0; i<ordered_scheduled_results.size(); i++) {
         RESULT * rp = ordered_scheduled_results[i];
         ACTIVE_TASK *atp = NULL;
+        // See if the task that may pre-empt something is already running.
         for (std::vector<ACTIVE_TASK*>::iterator it = running_task_heap.begin(); it != running_task_heap.end(); it++) {
             ACTIVE_TASK *atp1 = *it;
             if (atp1 && atp1->result == rp) {
+                // there is a match.  The task that needs to preempt something now is already running.
+                // remove it from the heap
                 atp = atp1;
                 running_task_heap.erase(it);
                 std::make_heap(
@@ -565,10 +601,13 @@ bool CLIENT_STATE::enforce_schedule() {
             }
         }
         if (atp) continue;  // the next one to be scheduled is already running.
+        // The next task to schedule is not already running.  
+        // Check to see if it should pre-empt the head of the running tasks heap.
         if (rp->project->enforcement_deadlines_missed_scratch
             || !running_task_heap[0]
             || (gstate.now - running_task_heap[0]->episode_start_wall_time > gstate.global_prefs.cpu_scheduling_period_minutes && gstate.now - running_task_heap[0]->checkpoint_wall_time < 10 )
         ) {
+            // only deadlines_missed results from a project will qualify for immediate enforcement.
             if (rp->project->enforcement_deadlines_missed_scratch) {
                 rp->project->enforcement_deadlines_missed_scratch++;
             }
@@ -576,9 +615,12 @@ bool CLIENT_STATE::enforce_schedule() {
             //
             if (running_task_heap[0]) {
                 // we have a task to unschedule.
+                // NULL means that there is an idle CPU.
                 running_task_heap[0]->next_scheduler_state = CPU_SCHED_PREEMPTED;
             }
+            // set up the result with a slot
             schedule_result(rp);
+            // remove the task from the heap (it only gets unscheduled once).
             std::pop_heap(
                 running_task_heap.begin(),
                 running_task_heap.end(),
@@ -601,6 +643,7 @@ bool CLIENT_STATE::enforce_schedule() {
 
     ACTIVE_TASK *atp;
 
+    // execute the decisions made earlier in the function.
     for (i=0; i<active_tasks.active_tasks.size(); i++) {
         atp = active_tasks.active_tasks[i];
         if (atp->scheduler_state == CPU_SCHED_SCHEDULED
@@ -628,9 +671,10 @@ bool CLIENT_STATE::enforce_schedule() {
             atp->episode_start_wall_time = now;
             app_started = gstate.now;
         }
-        atp->cpu_time_at_last_sched = atp->current_cpu_time;
     }
-    set_client_state_dirty("must_enforce_cpu_schedule");
+    if (action) {
+        set_client_state_dirty("enforce_cpu_schedule");
+    }
     return action;
 }
 
