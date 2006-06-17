@@ -6111,7 +6111,7 @@ Rom    16 June 2006 (HEAD)
     - Tag for 5.5.1 release, all platforms
       boinc_core_release_5_5_1
 
-Charlie 15 June 2006
+Charlie 16 June 2006
     - Mac sandbox: bug fixes
 
     client/
@@ -6204,3 +6204,15 @@ David  16 June 2006
             forum_thread_status.php (new)
             forum_thread_vote.php (new)
             white.css
+
+Charlie 16 June 2006
+    - Mac sandbox: 
+        - more debugging aids
+        - add SWITCHER_DIR, SWITCHER_FILE_NAME
+
+    client/
+        check_security.C
+        file_names.h
+    clientgui/
+        mac/
+            SetupSecurity.cpp,h

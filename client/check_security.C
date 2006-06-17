@@ -29,21 +29,16 @@
 #include "util.h"
 #include "error_numbers.h"
 #include "file_names.h"
+#include "SetupSecurity.h"
 
-#ifdef _DEBUG
-// GDB can't attach to applications which are running as a diferent user or group so 
-//  it ignores the S_ISUID and S_ISGID permisison bits when launching an application.
-// To work around this, the _DEBUG version uses the current user and group.
+
+#define real_boinc_master_name "boinc_master"
+#define real_boinc_project_name "boinc_project"
+
 static char boinc_master_user_name[64];
 static char boinc_master_group_name[64];
 static char boinc_project_user_name[64];
 static char boinc_project_group_name[64];
-#else
-#define boinc_master_user_name "boinc_master"
-#define boinc_master_group_name "boinc_master"
-#define boinc_project_user_name "boinc_project"
-#define boinc_project_group_name "boinc_project"
-#endif
 
 // Returns FALSE (0) if owners and permissions are OK, else TRUE (1)
 int check_security() {
@@ -51,20 +46,16 @@ int check_security() {
     group               *grp;
     gid_t               egid, boinc_master_gid;
     uid_t               euid, boinc_master_uid;
-#ifndef _DEBUG
     gid_t               boinc_project_gid;
     uid_t               boinc_project_uid;
     int                 i;
-#endif
     char                dir_path[MAXPATHLEN], full_path[MAXPATHLEN];
     struct stat         sbuf;
     int                 retval;
+    char                *p;
 #ifdef __WXMAC__                            // If Mac BOINC Manager
     ProcessSerialNumber ourPSN;
     FSRef               ourFSRef;
-#endif
-#if (defined(__WXMAC__) || (! defined(_DEBUG)))
-    char                *p;
 #endif
 
 #ifdef _DEBUG
@@ -76,34 +67,46 @@ int check_security() {
     if (pw == NULL)
         return ERR_USER_REJECTED;      // Should never happen
     strlcpy(boinc_master_user_name, pw->pw_name, sizeof(boinc_master_user_name));
-    strlcpy(boinc_project_user_name, pw->pw_name, sizeof(boinc_project_user_name));
 
     boinc_master_gid = getegid();
     grp = getgrgid(boinc_master_gid);
     if (grp == NULL)
         return ERR_GETGRNAM;
     strlcpy(boinc_master_group_name, grp->gr_name, sizeof(boinc_master_group_name));
-    strlcpy(boinc_project_group_name, grp->gr_name, sizeof(boinc_project_group_name));
-#else
+    
+#else   // if (! _DEBUG)
+    strlcpy(boinc_master_user_name, real_boinc_master_name, sizeof(boinc_master_user_name));
     pw = getpwnam(boinc_master_user_name);
     if (pw == NULL)
         return ERR_USER_REJECTED;      // User boinc_master does not exist
     boinc_master_uid = pw->pw_uid;
 
+    strlcpy(boinc_master_group_name, real_boinc_master_name, sizeof(boinc_master_group_name));
     grp = getgrnam(boinc_master_group_name);
     if (grp == NULL)
         return ERR_GETGRNAM;                // Group boinc_master does not exist
     boinc_master_gid = grp->gr_gid;
+#endif  // ! _DEBUG
 
+#if (defined(_DEBUG) && defined(DEBUG_WITH_FAKE_PROJECT_USER_AND_GROUP))
+    // For easier debugging of project applications
+    strlcpy(boinc_project_user_name, boinc_master_user_name, sizeof(boinc_project_user_name));
+    strlcpy(boinc_project_group_name, boinc_master_group_name, sizeof(boinc_project_group_name));
+    boinc_project_uid = boinc_master_uid;
+    boinc_project_gid = boinc_master_gid;
+#else
+    strlcpy(boinc_project_user_name, real_boinc_project_name, sizeof(boinc_project_user_name));
     pw = getpwnam(boinc_project_user_name);
     if (pw == NULL)
         return ERR_USER_REJECTED;      // User boinc_project does not exist
     boinc_project_uid = pw->pw_uid;
 
+    strlcpy(boinc_project_group_name, real_boinc_project_name, sizeof(boinc_project_group_name));
     grp = getgrnam(boinc_project_group_name);
     if (grp == NULL)
         return ERR_GETGRNAM;                // Group boinc_project does not exist
     boinc_project_gid = grp->gr_gid;
+#endif
 
     for (i=0; ; i++) {                      // Step through all users in group boinc_project
         p = grp->gr_mem[i];
@@ -112,7 +115,6 @@ int check_security() {
         if (strcmp(p, boinc_master_user_name) == 0)
             break;
     }
-#endif
 
 #ifdef __WXMAC__                            // If Mac BOINC Manager
     // Get the full path to BOINC Manager application's bundle
@@ -172,14 +174,13 @@ int check_security() {
 //    ruid = getuid();
     egid = getegid();
     euid = geteuid();
-#ifndef _DEBUG
+
     if (egid != boinc_master_gid)
         return ERR_USER_PERMISSION;         // We should be running setgid boinc_master
 
 #ifndef __WXMAC__                          // If NOT Mac BOINC Manager
     if (euid != boinc_master_uid)
         return ERR_USER_PERMISSION;     // BOINC Client should be running setuid boinc_master
-#endif
 #endif
 
     getcwd(dir_path, sizeof(dir_path));
@@ -240,6 +241,38 @@ int check_security() {
         if ((sbuf.st_mode & 0777) != 0660)
             return ERR_USER_PERMISSION;
     }
+
+    strlcpy(full_path, dir_path, sizeof(dir_path));
+    strlcat(full_path, "/", sizeof(full_path));
+    strlcat(full_path, SWITCHER_DIR, sizeof(full_path));
+    retval = stat(full_path, &sbuf);
+    if (retval)
+        return ERR_FILE_MISSING;
+      
+    if (sbuf.st_gid != boinc_master_gid)
+        return ERR_USER_PERMISSION;
+
+    if (sbuf.st_uid != boinc_master_uid)
+        return ERR_USER_PERMISSION;
+
+    if ((sbuf.st_mode & 0777) != 0770)
+        return ERR_USER_PERMISSION;
+
+    strlcpy(full_path, dir_path, sizeof(full_path));
+    strlcat(full_path, "/", sizeof(full_path));
+    strlcat(full_path, SWITCHER_FILE_NAME, sizeof(full_path));
+    retval = stat(full_path, &sbuf);
+    if (retval)
+        return ERR_FILE_MISSING;
+    
+    if (sbuf.st_gid != boinc_project_gid)
+        return ERR_USER_PERMISSION;
+
+    if (sbuf.st_uid != boinc_project_uid)
+        return ERR_USER_PERMISSION;
+
+    if ((sbuf.st_mode & 7777) != 6550)
+        return ERR_USER_PERMISSION;
 
     return 0;
 }

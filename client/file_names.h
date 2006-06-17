@@ -51,6 +51,7 @@ extern void get_master_filename(PROJECT&, char*);
 
 #define PROJECTS_DIR                "projects"
 #define SLOTS_DIR                   "slots"
+#define SWITCHER_DIR                "switcher"
 #define STATE_FILE_NEXT             "client_state_next.xml"
 #define STATE_FILE_NAME             "client_state.xml"
 #define STATE_FILE_PREV             "client_state_prev.xml"
@@ -78,5 +79,6 @@ extern void get_master_filename(PROJECT&, char*);
 #define CREATE_ACCOUNT_FILENAME     "create_account.xml"
 #define LOOKUP_WEBSITE_FILENAME     "lookup_website.html"
 #define GET_CURRENT_VERSION_FILENAME    "get_current_version.xml"
+#define SWITCHER_FILE_NAME          "switcher"
 
 #endif

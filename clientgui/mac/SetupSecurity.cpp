@@ -29,6 +29,7 @@
 
 #include <Carbon/Carbon.h>
 
+#include "file_names.h"
 #include "SetupSecurity.h"
 
 static OSStatus GetAuthorization(void);
@@ -46,6 +47,10 @@ static AuthorizationRef        gOurAuthRef = NULL;
 #define DELAY_TICKS 3
 #define DELAY_TICKS_R 10
 
+
+#define real_boinc_master_name "boinc_project"
+#define real_boinc_project_name "boinc_project"
+
 #ifdef _DEBUG
 // GDB can't attach to applications which are running as a diferent user or group so 
 //  it ignores the S_ISUID and S_ISGID permisison bits when launching an application.
@@ -55,11 +60,14 @@ static char boinc_master_group_name[64];
 static char boinc_project_user_name[64];
 static char boinc_project_group_name[64];
 #else
-#define boinc_master_user_name "boinc_master"
-#define boinc_master_group_name "boinc_master"
-#define boinc_project_user_name "boinc_project"
-#define boinc_project_group_name "boinc_project"
+#define boinc_master_user_name real_boinc_master_name
+#define boinc_master_group_name real_boinc_master_name
+#define boinc_project_user_name real_boinc_project_name
+#define boinc_project_group_name real_boinc_project_name
 #endif
+
+#define real_boinc_master_name "boinc_project"
+#define real_boinc_project_name "boinc_project"
 
 #define MIN_ID 25   /* Minimum user ID / Group ID to create */
 
@@ -286,7 +294,8 @@ int SetBOINCDataOwnersGroupsAndPermissions() {
 
     // Does projects directory exist?
     strlcpy(fullpath, BOINCDataDirPath, MAXPATHLEN);
-    strlcat(fullpath, "/projects", MAXPATHLEN);
+    strlcat(fullpath, "/", MAXPATHLEN);
+    strlcat(fullpath, PROJECTS_DIR, MAXPATHLEN);
 
     result = FSPathMakeRef((StringPtr)fullpath, &ref, &isDirectory);
     if ((result == noErr) && (isDirectory)) {
@@ -315,7 +324,8 @@ int SetBOINCDataOwnersGroupsAndPermissions() {
     
     // Does slots directory exist?
     strlcpy(fullpath, BOINCDataDirPath, MAXPATHLEN);
-    strlcat(fullpath, "/slots", MAXPATHLEN);
+    strlcat(fullpath, "/", MAXPATHLEN);
+    strlcat(fullpath, SLOTS_DIR, MAXPATHLEN);
 
     result = FSPathMakeRef((StringPtr)fullpath, &ref, &isDirectory);
     if ((result == noErr) && (isDirectory)) {
@@ -367,7 +377,8 @@ int SetBOINCDataOwnersGroupsAndPermissions() {
     
     // Does switcher directory exist?
     strlcpy(fullpath, BOINCDataDirPath, MAXPATHLEN);
-    strlcat(fullpath, "/switcher", MAXPATHLEN);
+    strlcat(fullpath, "/", MAXPATHLEN);
+    strlcat(fullpath, SWITCHER_DIR, MAXPATHLEN);
 
 #if 0   // Redundant if we already set contents of BOINC Data directory to boinc_master:boinc_master 0660
     result = FSPathMakeRef((StringPtr)fullpath, &ref, &isDirectory);
@@ -388,8 +399,9 @@ int SetBOINCDataOwnersGroupsAndPermissions() {
     }       // switcher directory
 #endif
 
-    strlcat(fullpath, "/switcher", MAXPATHLEN);
-    result = FSPathMakeRef((StringPtr)fullpath, &ref, &isDirectory);
+    strlcat(fullpath, "/", MAXPATHLEN);
+    strlcat(fullpath, SWITCHER_FILE_NAME, MAXPATHLEN);
+        result = FSPathMakeRef((StringPtr)fullpath, &ref, &isDirectory);
     if ((result == noErr) && (! isDirectory)) {
         // Set owner and group of switcher application
         sprintf(buf1, "%s:%s", boinc_project_user_name, boinc_project_group_name);
@@ -583,14 +595,22 @@ static OSStatus SetFakeMasterNames() {
     if (pw == NULL)
         return -1;      // Should never happen
     strlcpy(boinc_master_user_name, pw->pw_name, sizeof(boinc_master_user_name));
-    strlcpy(boinc_project_user_name, pw->pw_name, sizeof(boinc_project_user_name));
 
     boinc_master_gid = getegid();
     grp = getgrgid(boinc_master_gid);
     if (grp == NULL)
         return -1;
     strlcpy(boinc_master_group_name, grp->gr_name, sizeof(boinc_master_group_name));
+    
+#ifdef DEBUG_WITH_FAKE_PROJECT_USER_AND_GROUP
+    // For easier debugging of project applications
+    strlcpy(boinc_project_user_name, pw->pw_name, sizeof(boinc_project_user_name));
     strlcpy(boinc_project_group_name, grp->gr_name, sizeof(boinc_project_group_name));
+#else
+    // For better debugging of SANDBOX permissions logic
+    strlcpy(boinc_project_user_name, real_boinc_project_name, sizeof(boinc_project_user_name));
+    strlcpy(boinc_project_group_name, real_boinc_project_name, sizeof(boinc_project_group_name));
+#endif
     
     return noErr;
 }

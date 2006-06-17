@@ -19,6 +19,13 @@
 
 // SetupSecurity.h
 
+#ifdef _DEBUG
+// Comment out this #define for easier debugging of project applications.
+// Leave it active for better debugging of SANDBOX permissions logic.
+#define DEBUG_WITH_FAKE_PROJECT_USER_AND_GROUP
+#endif
+
+
 int CreateBOINCUsersAndGroups(void);
 int SetBOINCAppOwnersGroupsAndPermissions(char *path);
 int SetBOINCDataOwnersGroupsAndPermissions(void);
