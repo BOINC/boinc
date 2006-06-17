@@ -364,11 +364,15 @@ int make_more_work_for_file(char* filename) {
 
 // Get a randomly-chosen filename in the working set.
 //
-static int get_working_set_filename(char *filename) {
+static int get_working_set_filename(char *filename, bool slowhost) {
     glob_t globbuf;
     int retglob, random_file;
     char *last_slash;
     const char *pattern = "../locality_scheduling/work_available/*";
+
+#ifdef EINSTEIN_AT_HOME
+    if (slowhost) pattern = "../locality_scheduling/work_available/*_0[0-3]*";
+#endif
 
     retglob=glob(pattern, GLOB_ERR|GLOB_NOSORT|GLOB_NOCHECK, NULL, &globbuf);
     
@@ -396,7 +400,7 @@ static int get_working_set_filename(char *filename) {
     globfree(&globbuf);
     
     log_messages.printf(SCHED_MSG_LOG::MSG_DEBUG,
-        "get_working_set_filename(): returning %s\n", filename
+        "get_working_set_filename(%s): returning %s\n", slowhost?"slowhost":"fasthost", filename
     );
 
     return 0;
@@ -700,6 +704,15 @@ static int send_new_file_work_deterministic_seeded(
 }
 
 
+static bool is_host_slow(SCHEDULER_REQUEST& sreq) {
+    // 0.0013 defines about the slowest 20% of E@H hosts.
+    // should make this a config parameter in the future,
+    // if this idea works.
+    //
+    if (sreq.host.credit_per_cpu_sec < 0.0013) return true;
+    return false;
+}
+
 // Returns 0 if this has sent additional new work.  Returns non-zero
 // if it has not sent any new work.
 //
@@ -711,7 +724,7 @@ static int send_new_file_work_deterministic(
     int getfile_retval, nsent=0;
 
     // get random filename as starting point for deterministic search
-    if ((getfile_retval = get_working_set_filename(start_filename))) {
+    if ((getfile_retval = get_working_set_filename(start_filename, is_host_slow(sreq)))) {
         strcpy(start_filename, "");
     }
   
@@ -744,7 +757,7 @@ static int send_new_file_work_working_set(
     char filename[256];
     int retval, nsent;
 
-    retval = get_working_set_filename(filename);
+    retval = get_working_set_filename(filename, is_host_slow(sreq));
     if (retval) return retval;
 
     log_messages.printf(SCHED_MSG_LOG::MSG_DEBUG,
