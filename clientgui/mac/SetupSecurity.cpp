@@ -47,8 +47,8 @@ static AuthorizationRef        gOurAuthRef = NULL;
 #define DELAY_TICKS_R 10
 
 
-#define real_boinc_master_name "boinc_master"
-#define real_boinc_project_name "boinc_project"
+#define REAL_BOINC_MASTER_NAME "boinc_master"
+#define REAL_BOINC_PROJECT_NAME "boinc_project"
 
 #ifdef _DEBUG
 // GDB can't attach to applications which are running as a diferent user or group so 
@@ -59,10 +59,10 @@ static char boinc_master_group_name[64];
 static char boinc_project_user_name[64];
 static char boinc_project_group_name[64];
 #else
-#define boinc_master_user_name real_boinc_master_name
-#define boinc_master_group_name real_boinc_master_name
-#define boinc_project_user_name real_boinc_project_name
-#define boinc_project_group_name real_boinc_project_name
+#define boinc_master_user_name REAL_BOINC_MASTER_NAME
+#define boinc_master_group_name REAL_BOINC_MASTER_NAME
+#define boinc_project_user_name REAL_BOINC_PROJECT_NAME
+#define boinc_project_group_name REAL_BOINC_PROJECT_NAME
 #endif
 
 #define MIN_ID 25   /* Minimum user ID / Group ID to create */
@@ -76,11 +76,11 @@ int CreateBOINCUsersAndGroups() {
     char            buf1[80];
     OSStatus        err = noErr;
 
-    err = CreateUserAndGroup(real_boinc_master_name, real_boinc_master_name);
+    err = CreateUserAndGroup(REAL_BOINC_MASTER_NAME, REAL_BOINC_MASTER_NAME);
     if (err != noErr)
         return err;
     
-    err = CreateUserAndGroup(real_boinc_project_name, real_boinc_project_name);
+    err = CreateUserAndGroup(REAL_BOINC_PROJECT_NAME, REAL_BOINC_PROJECT_NAME);
     if (err != noErr)
         return err;
     
@@ -227,7 +227,7 @@ int SetBOINCDataOwnersGroupsAndPermissions() {
     // Does BOINC Data directory exist?
     result = FSPathMakeRef((StringPtr)fullpath, &ref, &isDirectory);
     if ((result != noErr) || (! isDirectory))
-        return noErr;                       // BOINC Data Directory does not exist
+        return err;                         // BOINC Data Directory does not exist
 
     // Set owner and group of BOINC Data directory's contents
     sprintf(buf1, "%s:%s", boinc_master_user_name, boinc_master_group_name);
@@ -600,8 +600,8 @@ static OSStatus SetFakeMasterNames() {
     strlcpy(boinc_project_group_name, grp->gr_name, sizeof(boinc_project_group_name));
 #else
     // For better debugging of SANDBOX permissions logic
-    strlcpy(boinc_project_user_name, real_boinc_project_name, sizeof(boinc_project_user_name));
-    strlcpy(boinc_project_group_name, real_boinc_project_name, sizeof(boinc_project_group_name));
+    strlcpy(boinc_project_user_name, REAL_BOINC_PROJECT_NAME, sizeof(boinc_project_user_name));
+    strlcpy(boinc_project_group_name, REAL_BOINC_PROJECT_NAME, sizeof(boinc_project_group_name));
 #endif
     
     return noErr;

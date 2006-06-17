@@ -32,8 +32,8 @@
 #include "SetupSecurity.h"
 
 
-#define real_boinc_master_name "boinc_master"
-#define real_boinc_project_name "boinc_project"
+#define REAL_BOINC_MASTER_NAME "boinc_master"
+#define REAL_BOINC_PROJECT_NAME "boinc_project"
 
 static char boinc_master_user_name[64];
 static char boinc_master_group_name[64];
@@ -75,13 +75,13 @@ int check_security() {
     strlcpy(boinc_master_group_name, grp->gr_name, sizeof(boinc_master_group_name));
     
 #else   // if (! _DEBUG)
-    strlcpy(boinc_master_user_name, real_boinc_master_name, sizeof(boinc_master_user_name));
+    strlcpy(boinc_master_user_name, REAL_BOINC_MASTER_NAME, sizeof(boinc_master_user_name));
     pw = getpwnam(boinc_master_user_name);
     if (pw == NULL)
         return ERR_USER_REJECTED;      // User boinc_master does not exist
     boinc_master_uid = pw->pw_uid;
 
-    strlcpy(boinc_master_group_name, real_boinc_master_name, sizeof(boinc_master_group_name));
+    strlcpy(boinc_master_group_name, REAL_BOINC_MASTER_NAME, sizeof(boinc_master_group_name));
     grp = getgrnam(boinc_master_group_name);
     if (grp == NULL)
         return ERR_GETGRNAM;                // Group boinc_master does not exist
@@ -95,13 +95,13 @@ int check_security() {
     boinc_project_uid = boinc_master_uid;
     boinc_project_gid = boinc_master_gid;
 #else
-    strlcpy(boinc_project_user_name, real_boinc_project_name, sizeof(boinc_project_user_name));
+    strlcpy(boinc_project_user_name, REAL_BOINC_PROJECT_NAME, sizeof(boinc_project_user_name));
     pw = getpwnam(boinc_project_user_name);
     if (pw == NULL)
         return ERR_USER_REJECTED;      // User boinc_project does not exist
     boinc_project_uid = pw->pw_uid;
 
-    strlcpy(boinc_project_group_name, real_boinc_project_name, sizeof(boinc_project_group_name));
+    strlcpy(boinc_project_group_name, REAL_BOINC_PROJECT_NAME, sizeof(boinc_project_group_name));
     grp = getgrnam(boinc_project_group_name);
     if (grp == NULL)
         return ERR_GETGRNAM;                // Group boinc_project does not exist
