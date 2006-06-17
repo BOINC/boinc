@@ -450,6 +450,7 @@ static int modify_host_struct(SCHEDULER_REQUEST& sreq, HOST& host) {
     host.fix_nans();
 
     compute_credit_rating(host);
+    sreq.host.credit_per_cpu_sec=host.credit_per_cpu_sec;
     return 0;
 }
 

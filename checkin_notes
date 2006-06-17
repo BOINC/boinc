@@ -6247,3 +6247,15 @@ David  17 June 2006
 	client/
 		client_state.h
 		cpu_sched.C
+
+Bruce 17 June 2006
+    - Scheduler: populate sreq.host.credit_per_cpu_sec in case project wants
+      to send different work to slow and fast hosts.  I'm experimenting with
+      the use of this in the locality scheduler.
+
+      (David: please check that the one-line change in handle_request.C is
+      globally harmless.)
+
+    sched/
+        handle_request.C
+
