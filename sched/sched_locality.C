@@ -302,13 +302,13 @@ static int possibly_send_result(
         wu, app, avp, sreq, reply, platform, ss
     );
 
-#ifdef EINSTEIN_AT_HOME
     if (retval==ERR_NO_APP_VERSION && !strcmp("anonymous", platform.name)) {
-        USER_MESSAGE um("Remove the app_info.xml file, then restart BOINC to get more Einstein@Home work.", "high");
+        char help_msg_buf[512];
+        sprintf(help_msg_buf, "To get more %s work, stop BOINC, remove app_info.xml file, and restart.", config.long_name);
+        USER_MESSAGE um(help_msg_buf, "high");
         reply.insert_message(um);
         reply.set_delay(4*3600);
     }
-#endif
 
     if (retval) return ERR_NO_APP_VERSION;
 

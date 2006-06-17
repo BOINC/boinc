@@ -6233,3 +6233,11 @@ Charlie 17 June 2006
     mac_build/
         boinc.xcodeproj/
             project.pbxproj
+
+Bruce 17 June 2006
+    - Scheduler: improve message to user if user running anonymous platform
+      and project+app does not support it.
+
+    sched/
+        sched_locality.C
+
