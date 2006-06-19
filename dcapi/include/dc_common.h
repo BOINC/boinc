@@ -79,6 +79,10 @@ typedef enum {
  * Function prototypes
  */
 
+#ifndef __GNUC__
+#define __attribute__(x)
+#endif
+
 /* Determines the maximum allowed message length. */
 int DC_getMaxMessageSize(void);
 
