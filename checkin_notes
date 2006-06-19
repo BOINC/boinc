@@ -6290,3 +6290,14 @@ David  18 June 2006
 		app_start.C
 		client_state.C,h
 		cs_apps.C
+
+David  19 June 2006
+    - core client: make cpu_sched_last_check into a static variable
+        of possibly_schedule_cpus();
+        restart CPU scheduling period on any reschedule
+        (from JM7)
+    - remove unused args, etc.
+
+    client/
+        client_state.C,h
+        cpu_sched.C

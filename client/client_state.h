@@ -190,16 +190,6 @@ private:
     double app_started;
         // when the most recent app was started
 
-    // CPU sched state
-    //
-    double cpu_sched_last_time;
-    double cpu_sched_last_check;
-    double total_wall_cpu_time_this_period;
-        // "wall CPU time" accumulated since last schedule_cpus()
-    double total_cpu_time_this_period;
-    double cpu_shortfall;
-	bool work_fetch_no_new_work;
-
 // --------------- acct_mgr.C:
 public:
     ACCT_MGR_OP acct_mgr_op;
@@ -270,12 +260,18 @@ private:
 
 // --------------- cpu_sched.C:
 private:
+    double cpu_sched_last_time;
+    double total_wall_cpu_time_this_period;
+        // "wall CPU time" accumulated since last schedule_cpus()
+    double total_cpu_time_this_period;
+    double cpu_shortfall;
+	bool work_fetch_no_new_work;
     bool must_enforce_cpu_schedule;
     bool must_schedule_cpus;
     std::vector <RESULT*> ordered_scheduled_results;
     void assign_results_to_projects();
-    RESULT* find_largest_debt_project_best_result(double expected_pay_off);
-    RESULT* find_earliest_deadline_result(double expected_pay_off);
+    RESULT* find_largest_debt_project_best_result();
+    RESULT* find_earliest_deadline_result();
     void adjust_debts();
     bool possibly_schedule_cpus();
     void schedule_cpus();

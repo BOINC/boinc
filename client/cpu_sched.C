@@ -137,11 +137,10 @@ void CLIENT_STATE::assign_results_to_projects() {
     }
 }
 
-// Schedule an active task for the project with the largest anticipated debt
+// return a result for the project with the largest anticipated debt
 // among those that have a runnable result.
-// Return true iff a task was scheduled.
 //
-RESULT* CLIENT_STATE::find_largest_debt_project_best_result(double expected_pay_off) {
+RESULT* CLIENT_STATE::find_largest_debt_project_best_result() {
     PROJECT *best_project = NULL;
     double best_debt = -MAX_DEBT;
     bool first = true;
@@ -178,7 +177,7 @@ RESULT* CLIENT_STATE::find_largest_debt_project_best_result(double expected_pay_
 // Schedule the active task with the earliest deadline
 // Return true iff a task was scheduled.
 //
-RESULT* CLIENT_STATE::find_earliest_deadline_result(double expected_pay_off) {
+RESULT* CLIENT_STATE::find_earliest_deadline_result() {
     RESULT *best_result = NULL;
     unsigned int i;
 
@@ -346,6 +345,7 @@ void CLIENT_STATE::adjust_debts() {
 //
 bool CLIENT_STATE::possibly_schedule_cpus() {
     double elapsed_time;
+    static double last_reschedule=0;
 
     if (projects.size() == 0) return false;
     if (results.size() == 0) return false;
@@ -354,13 +354,13 @@ bool CLIENT_STATE::possibly_schedule_cpus() {
     // or if must_schedule_cpus is set
     // (meaning a new result is available, or a CPU has been freed).
     //
-    elapsed_time = gstate.now - cpu_sched_last_check;
+    elapsed_time = gstate.now - last_reschedule;
     if (elapsed_time >= gstate.global_prefs.cpu_scheduling_period_minutes * 60) {
-        request_schedule_cpus("Process swap time reached.");
-        cpu_sched_last_check = now;
+        request_schedule_cpus("Scheduling period elapsed.");
     }
 
     if (!must_schedule_cpus) return false;
+    last_reschedule = now;
     must_schedule_cpus = false;
     schedule_cpus();
     return true;
@@ -450,43 +450,44 @@ void CLIENT_STATE::schedule_cpus() {
     ordered_scheduled_results.clear();
 
     while ((int)ordered_scheduled_results.size() < ncpus) {
-        RESULT * rp = find_earliest_deadline_result(expected_pay_off);
+        rp = find_earliest_deadline_result();
         if (!rp) break;
         rp->already_selected = true;  // the result is "used" for this scheduling period.
 
         // If such an R exists, schedule R, decrement P's anticipated debt,
         // and decrement deadlines_missed(P). 
+        //
         rp->project->anticipated_debt -= (1 - rp->project->resource_share / gstate.runnable_resource_share()) * expected_pay_off;
         rp->project->cpu_scheduler_deadlines_missed_scratch--;
         ordered_scheduled_results.push_back(rp);
-        // If there are more CPUs, and projects with deadlines_missed(P)>0, go to 1. 
-        //
-    };
+    }
 
     // If all CPUs are scheduled, or there are no more results to schedule, stop.
     while ((int)ordered_scheduled_results.size() < ncpus) {
         assign_results_to_projects();
-        RESULT * rp = find_largest_debt_project_best_result(expected_pay_off);
+        rp = find_largest_debt_project_best_result();
         if (!rp) break;
 
         // Decrement P's anticipated debt by the 'expected payoff'
         // (the scheduling period divided by NCPUS). 
+        //
         rp->project->anticipated_debt -= (1 - rp->project->resource_share / gstate.runnable_resource_share()) * expected_pay_off;
         ordered_scheduled_results.push_back(rp);
-    };
+    }
 
-    // enforce the schedule.
     request_enforce_schedule("");
     set_client_state_dirty("schedule_cpus");
 }
 
 // preempt, start, and resume tasks
 // This is called in the do_something() loop
-// tasks that are to be started or continued are in the ordered_scheduled_results vector
-// as set in schedule_cpus.
-// This function first builds a heap of running tasks ordered by pre-emptability.
-// It sets a field to indicate the next state so that a task is not unscheduled and re-scheduled in the
-// same call to enforce_schedule.  This could happen if it was top of the pre-emption list and second in
+// tasks that are to be started or continued are in the
+// ordered_scheduled_results vector as set in schedule_cpus.
+// This function first builds a heap of running tasks
+// ordered by pre-emptability.
+// It sets a field to indicate the next state so that a task
+// is not unscheduled and re-scheduled in the same call to enforce_schedule.
+// This could happen if it was top of the pre-emption list and second in
 // scheduled list.
 // 
 bool CLIENT_STATE::enforce_schedule() {
