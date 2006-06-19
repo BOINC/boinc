@@ -228,8 +228,8 @@ dnl installed everywhere should be linked statically when building portable
 dnl binaries.  Put libraries that should be linked statically on every platform
 dnl in the STATIC_LIB_LIST variable before calling SAH_CHECK_LIB.  (Note: Only 
 dnl the '*' wildcard is supported).
-STATIC_LIB_LIST="stdc++ gcc gcc_eh gtk* gdk* gmodule gthread glib wx* tiff jpeg
-png Xi glut socket z"
+STATIC_LIB_LIST="stdc++ gcc gcc_eh atk* gtk* gdk* gmodule* gthread* gobject* 
+glib* pango* pangocairo* wx* tiff* jpeg* png* Xi glut socket z expat*"
 
 dnl We'll store these libs in a separate variable BOINC_EXTRA_LIBS for later 
 dnl post-processing instead of the default-action, which would append 
