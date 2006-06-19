@@ -1,10 +1,17 @@
-#include <sys/syslog.h>
+#ifdef HAVE_CONFIG_H
+#include <config.h>
+#endif
+
 #include <string.h>
 #include <stdlib.h>
 #include <stdarg.h>
 #include <stdio.h>
 #include <errno.h>
 #include <time.h>
+
+#ifndef _WIN32
+#include <sys/syslog.h>
+#endif
 
 #include <dc_common.h>
 #include <dc_internal.h>
@@ -17,13 +24,21 @@
 static int loglevel = -1;
 static FILE *logfile;
 
+/* Stupid Visual C compiler */
+#ifdef _MSC_VER
+#define INIT(x, y)		y
+#else
+#define INIT(x, y)		[x] = y
+#endif
+
 static const char *levels[] =
 {
-	[LOG_DEBUG] = "Debug",
-	[LOG_INFO] = "Info",
-	[LOG_NOTICE] = "Notice",
-	[LOG_WARNING] = "Warning",
-	[LOG_ERR] = "Error"
+	INIT(LOG_DEBUG, "Debug"),
+	INIT(LOG_INFO, "Info"),
+	INIT(LOG_NOTICE, "Notice"),
+	INIT(LOG_WARNING, "Warning"),
+	INIT(LOG_ERR, "Error"),
+	INIT(LOG_CRIT, "Critical")
 };
 
 static void init_log(void)
