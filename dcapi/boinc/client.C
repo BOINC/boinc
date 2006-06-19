@@ -150,10 +150,10 @@ int DC_initClient(void)
 
 	/* Parse the config file if the master sent one */
 	buf = DC_resolveFileName(DC_FILE_IN, DC_CONFIG_FILE);
-	if (buf && !access(buf, R_OK))
+	if (buf)
 	{
 		ret = _DC_parseCfg(buf);
-		if (ret)
+		if (ret && ret != DC_ERR_SYSTEM)
 			return ret;
 	}
 	free(buf);
