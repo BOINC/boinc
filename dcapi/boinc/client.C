@@ -49,6 +49,7 @@ typedef enum {
 
 #ifdef _WIN32
 #define PATHSEP			'\\'
+#define __func__		"DC-API"
 #else
 #define PATHSEP			'/'
 #endif
@@ -310,7 +311,7 @@ int DC_sendResult(const char *logicalFileName, const char *path,
 				return DC_ERR_SYSTEM;
 			break;
 		case DC_FILE_PERSISTENT:
-#ifndef WIN32
+#ifndef _WIN32
 			ret = link(path, new_path);
 			if (!ret)
 				break;
