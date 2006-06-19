@@ -42,16 +42,6 @@ typedef enum {
 
 
 /********************************************************************
- * Macro definitions
- */
-
-/* Support non-gcc compatible compilers */
-#ifndef __GNUC__
-#define __attribute__(x)
-#endif
-
-
-/********************************************************************
  * Data types
  */
 
