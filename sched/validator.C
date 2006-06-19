@@ -101,12 +101,10 @@ int grant_credit(RESULT& result, double credit) {
         return retval;
     }
 
-    user.total_credit += credit;
     update_average(result.sent_time, credit, CREDIT_HALF_LIFE, user.expavg_credit, user.expavg_time);
     sprintf(
-        buf, "total_credit=%f, expavg_credit=%f, expavg_time=%f",
-        user.total_credit,  user.expavg_credit,
-        user.expavg_time
+        buf, "total_credit=total_credit+%f, expavg_credit=%f, expavg_time=%f",
+        credit,  user.expavg_credit, user.expavg_time
     ); 
     retval = user.update_field(buf);
     if (retval) {
@@ -117,7 +115,6 @@ int grant_credit(RESULT& result, double credit) {
         );
     }
 
-    host.total_credit += credit;
     update_average(result.sent_time, credit, CREDIT_HALF_LIFE, host.expavg_credit, host.expavg_time);
 
     double turnaround = result.received_time - result.sent_time;
@@ -125,9 +122,8 @@ int grant_credit(RESULT& result, double credit) {
 
     sprintf(
         buf,
-        "total_credit=%f, expavg_credit=%f, expavg_time=%f, avg_turnaround=%f",
-        host.total_credit,  host.expavg_credit, host.expavg_time,
-        host.avg_turnaround
+        "total_credit=total_credit+%f, expavg_credit=%f, expavg_time=%f, avg_turnaround=%f",
+        credit,  host.expavg_credit, host.expavg_time, host.avg_turnaround
     );
     retval = host.update_field(buf);
     if (retval) {
@@ -148,12 +144,10 @@ int grant_credit(RESULT& result, double credit) {
             );
             return retval;
         }
-        team.total_credit += credit;
         update_average(result.sent_time, credit, CREDIT_HALF_LIFE, team.expavg_credit, team.expavg_time);
         sprintf(
-            buf, "total_credit=%f, expavg_credit=%f, expavg_time=%f",
-            team.total_credit,  team.expavg_credit,
-            team.expavg_time
+            buf, "total_credit=total_credit+%f, expavg_credit=%f, expavg_time=%f",
+            credit,  team.expavg_credit, team.expavg_time
         );
         retval = team.update_field(buf);
         if (retval) {

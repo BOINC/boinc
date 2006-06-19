@@ -35,25 +35,22 @@ using std::vector;
     // assume actual CPU utilization will be this multiple
     // of what we've actually measured recently
 
-static bool running_task_sort_pred(ACTIVE_TASK* rhs, ACTIVE_TASK* lhs) {
-    // returning true means "less than",
+static bool more_preemptable(ACTIVE_TASK* t0, ACTIVE_TASK* t1) {
+    // returning true means t1 is more preemptable than t0,
     // the "largest" result is at the front of a heap, 
     // and we want the best replacement at the front,
-    // so this is going to look backwards
     //
-    if (rhs == NULL) return false;  // null is always the best replacement
-    if (lhs == NULL) return true;
-    if (rhs->result->project->enforcement_deadlines_missed_scratch && !lhs->result->project->enforcement_deadlines_missed_scratch) return false;
-    if (!rhs->result->project->enforcement_deadlines_missed_scratch && lhs->result->project->enforcement_deadlines_missed_scratch) return true;
-    if (rhs->result->project->enforcement_deadlines_missed_scratch && lhs->result->project->enforcement_deadlines_missed_scratch) {
-        if (rhs->result->report_deadline > lhs->result->report_deadline) return true;
+    if (t0->result->project->deadlines_missed && !t1->result->project->deadlines_missed) return false;
+    if (!t0->result->project->deadlines_missed && t1->result->project->deadlines_missed) return true;
+    if (t0->result->project->deadlines_missed && t1->result->project->deadlines_missed) {
+        if (t0->result->report_deadline > t1->result->report_deadline) return true;
         return false;
     } else {
-        double rhs_episode_time = gstate.now - rhs->episode_start_wall_time;
-        double lhs_episode_time = gstate.now - lhs->episode_start_wall_time;
-        if (rhs_episode_time < lhs_episode_time) return false;
-        if (rhs_episode_time > lhs_episode_time) return true;
-        if (rhs->result->report_deadline > lhs->result->report_deadline) return true;
+        double t0_episode_time = gstate.now - t0->episode_start_wall_time;
+        double t1_episode_time = gstate.now - t1->episode_start_wall_time;
+        if (t0_episode_time < t1_episode_time) return false;
+        if (t0_episode_time > t1_episode_time) return true;
+        if (t0->result->report_deadline > t1->result->report_deadline) return true;
         return false;
     }
 }
@@ -186,12 +183,12 @@ RESULT* CLIENT_STATE::find_earliest_deadline_result() {
     // Let R be P's earliest-deadline runnable result not scheduled yet.
     // Tiebreaker: least index in result array.
 
-    for (i=0; i < results.size(); i++) {
-        RESULT *rp = results[i];
+    for (i=0; i<results.size(); i++) {
+        RESULT* rp = results[i];
         if (!rp->runnable()) continue;
         if (rp->project->non_cpu_intensive) continue;
         if (rp->already_selected) continue;
-        if (!rp->project->cpu_scheduler_deadlines_missed_scratch ) continue;
+        if (!rp->project->deadlines_missed) continue;
         if (!best_result || rp->report_deadline < best_result->report_deadline) {
             best_result = rp;
         }
@@ -415,7 +412,7 @@ void CLIENT_STATE::schedule_cpus() {
         p->next_runnable_result = NULL;
         p->nactive_uploads = 0;
         p->anticipated_debt = p->short_term_debt;
-        p->cpu_scheduler_deadlines_missed_scratch = p->rr_sim_deadlines_missed;
+        p->deadlines_missed = p->rr_sim_deadlines_missed;
     }
     for (i=0; i<file_xfers->file_xfers.size(); i++) {
         FILE_XFER* fxp = file_xfers->file_xfers[i];
@@ -444,17 +441,19 @@ void CLIENT_STATE::schedule_cpus() {
     while ((int)ordered_scheduled_results.size() < ncpus) {
         rp = find_earliest_deadline_result();
         if (!rp) break;
-        rp->already_selected = true;  // the result is "used" for this scheduling period.
+        rp->already_selected = true;
+            // the result is "used" for this scheduling period.
 
         // If such an R exists, schedule R, decrement P's anticipated debt,
         // and decrement deadlines_missed(P). 
         //
         rp->project->anticipated_debt -= (1 - rp->project->resource_share / gstate.runnable_resource_share()) * expected_pay_off;
-        rp->project->cpu_scheduler_deadlines_missed_scratch--;
+        rp->project->deadlines_missed--;
         ordered_scheduled_results.push_back(rp);
     }
 
-    // If all CPUs are scheduled, or there are no more results to schedule, stop.
+    // If all CPUs are scheduled, or there are no more results to schedule, stop
+    //
     while ((int)ordered_scheduled_results.size() < ncpus) {
         assign_results_to_projects();
         rp = find_largest_debt_project_best_result();
@@ -471,22 +470,54 @@ void CLIENT_STATE::schedule_cpus() {
     set_client_state_dirty("schedule_cpus");
 }
 
-// preempt, start, and resume tasks
-// This is called in the do_something() loop
-// tasks that are to be started or continued are in the
-// ordered_scheduled_results vector as set in schedule_cpus.
+// create a heap of the currently running results
+// ordered by their preemptability.
+// Also mark tasks with non-runnable results as preempted
+//
+void CLIENT_STATE::make_running_task_heap(
+    vector<ACTIVE_TASK*> &running_task_heap
+) {
+    unsigned int i;
+    ACTIVE_TASK* atp;
+
+    for (i=0; i<active_tasks.active_tasks.size(); i++) {
+        atp = active_tasks.active_tasks[i];
+        if (atp->result->project->non_cpu_intensive) continue;
+        if (!atp->result->runnable()) {
+            atp->next_scheduler_state = CPU_SCHED_PREEMPTED;
+        } else if (atp->scheduler_state == CPU_SCHED_SCHEDULED) {
+            running_task_heap.push_back(atp);
+        }
+    }
+
+    // Sort the heap according to preemptability
+    //
+    std::make_heap(
+        running_task_heap.begin(),
+        running_task_heap.end(),
+        more_preemptable
+    );
+}
+
+// Enforce the CPU schedule.
+// This is called in the do_something() loop.
+// Tasks that are to be run are in ordered_scheduled_results vector,
+// as set in schedule_cpus.
 // This function first builds a heap of running tasks
-// ordered by pre-emptability.
+// ordered by preemptability.
 // It sets a field to indicate the next state so that a task
 // is not unscheduled and re-scheduled in the same call to enforce_schedule.
-// This could happen if it was top of the pre-emption list and second in
+// This could happen if it was top of the preemption list and second in
 // scheduled list.
 // 
 bool CLIENT_STATE::enforce_schedule() {
     unsigned int i;
-    if (!must_enforce_cpu_schedule) return false;
+    ACTIVE_TASK* atp;
+    vector<ACTIVE_TASK*> running_task_heap;
 
     // Don't do this once per second.
+    //
+    if (!must_enforce_cpu_schedule) return false;
     must_enforce_cpu_schedule = false;
     bool action = false;
 
@@ -497,102 +528,90 @@ bool CLIENT_STATE::enforce_schedule() {
     // set temporary variables
     //
     for (i=0; i<projects.size(); i++){
-        projects[i]->enforcement_deadlines_missed_scratch = projects[i]->rr_sim_deadlines_missed;
+        projects[i]->deadlines_missed = projects[i]->rr_sim_deadlines_missed;
     }
     for (i=0; i< active_tasks.active_tasks.size(); i++) {
-        // assume most things don't change.
-        active_tasks.active_tasks[i]->next_scheduler_state = active_tasks.active_tasks[i]->scheduler_state;
+        atp = active_tasks.active_tasks[i];
+        atp->next_scheduler_state = atp->scheduler_state;
     }
 
-    // first create a heap of the currently running results ordered by their pre-emptability
-    // the first step in this is to add all of the currently running tasks to an array
-    std::vector<ACTIVE_TASK *> running_task_heap;
-        // this needs to be searchable so it is NOT a priority_queue.
-    for (i=0; i<active_tasks.active_tasks.size(); i++) {
-        ACTIVE_TASK *atp = active_tasks.active_tasks[i];
-        if (atp->result->project->non_cpu_intensive) continue;
-        if (!atp->result->runnable()) {
-            atp->next_scheduler_state = CPU_SCHED_PREEMPTED;
-        }
-        else if (CPU_SCHED_SCHEDULED == atp->scheduler_state) {
-            running_task_heap.push_back(atp);
-        }
-    }
-    // add enough NULLs to make the heap size match ncpus.
-    // NULL indicates an idle CPU.
-    for (i=running_task_heap.size(); (int)i<ncpus; i++) {
-        running_task_heap.push_back(NULL);
-    }
-    // Sort the heap.
-    // The policy of which task is most pre-emptable is in running_task_sort_pred.
-    std::make_heap(
-        running_task_heap.begin(),
-        running_task_heap.end(),
-        running_task_sort_pred
-    );
-    // if there are more running tasks than ncpus, then mark enough of them for pre-emption 
-    // so that there are only ncpus tasks in the heap.
+    make_running_task_heap(running_task_heap);
+
+    // if there are more running tasks than ncpus,
+    // then mark the extras for preemption 
+    //
     while (running_task_heap.size() > (unsigned int)ncpus) {
-        if (running_task_heap[0] != NULL) {
-            running_task_heap[0]->next_scheduler_state = CPU_SCHED_PREEMPTED;
-        }
+        running_task_heap[0]->next_scheduler_state = CPU_SCHED_PREEMPTED;
         std::pop_heap(
             running_task_heap.begin(),
             running_task_heap.end(),
-            running_task_sort_pred
+            more_preemptable
         );
-        running_task_heap.pop_back();  // get rid of the tail that is not needed.
+        running_task_heap.pop_back();
     }
 
-    // Now the heap is set up in order such that the most pre-emptable result is first.
-    // Loop through the scheduled results checking the most urgent ones to see if they should 
-    // pre-empt something else now.
+    // Loop through the scheduled results
+    // to see if they should preempt something
+    //
     for (i=0; i<ordered_scheduled_results.size(); i++) {
-        RESULT * rp = ordered_scheduled_results[i];
-        ACTIVE_TASK *atp = NULL;
-        // See if the task that may pre-empt something is already running.
-        for (std::vector<ACTIVE_TASK*>::iterator it = running_task_heap.begin(); it != running_task_heap.end(); it++) {
+        RESULT* rp = ordered_scheduled_results[i];
+
+        // See if the result is already running.
+        //
+        atp = NULL;
+        for (vector<ACTIVE_TASK*>::iterator it = running_task_heap.begin(); it != running_task_heap.end(); it++) {
             ACTIVE_TASK *atp1 = *it;
             if (atp1 && atp1->result == rp) {
-                // there is a match.  The task that needs to preempt something now is already running.
-                // remove it from the heap
+                // The task is already running; remove it from the heap
+                //
                 atp = atp1;
                 running_task_heap.erase(it);
                 std::make_heap(
                     running_task_heap.begin(),
                     running_task_heap.end(),
-                    running_task_sort_pred
+                    more_preemptable
                 );
                 break;
             }
         }
-        if (atp) continue;  // the next one to be scheduled is already running.
-        // The next task to schedule is not already running.  
-        // Check to see if it should pre-empt the head of the running tasks heap.
-        if (rp->project->enforcement_deadlines_missed_scratch
-            || !running_task_heap[0]
-            || (gstate.now - running_task_heap[0]->episode_start_wall_time > gstate.global_prefs.cpu_scheduling_period_minutes && gstate.now - running_task_heap[0]->checkpoint_wall_time < 10 )
-        ) {
-            // only deadlines_missed results from a project will qualify for immediate enforcement.
-            if (rp->project->enforcement_deadlines_missed_scratch) {
-                rp->project->enforcement_deadlines_missed_scratch++;
-            }
-            // we now have some enforcement to do.
+        if (atp) continue;  // the scheduled result is already running.
+
+        // The scheduled result is not already running.  
+        // Preempt something if needed and possible.
+        //
+        bool run_task = false;
+        if (running_task_heap.size()) {
+            // See if it should preempt the head of the running tasks heap.
             //
-            if (running_task_heap[0]) {
-                // we have a task to unschedule.
-                // NULL means that there is an idle CPU.
-                running_task_heap[0]->next_scheduler_state = CPU_SCHED_PREEMPTED;
+            atp = running_task_heap[0];
+            bool running_beyond_sched_period =
+                gstate.now - atp->episode_start_wall_time
+                > gstate.global_prefs.cpu_scheduling_period_minutes;
+            bool checkpointed_recently =
+                atp->checkpoint_wall_time > atp->episode_start_wall_time;
+            if (rp->project->deadlines_missed
+                || (running_beyond_sched_period && checkpointed_recently)
+            ) {
+                // only deadlines_missed results from a project
+                // will qualify for immediate enforcement.
+                //
+                if (rp->project->deadlines_missed) {
+                    rp->project->deadlines_missed--;
+                }
+                atp->next_scheduler_state = CPU_SCHED_PREEMPTED;
+                std::pop_heap(
+                    running_task_heap.begin(),
+                    running_task_heap.end(),
+                    more_preemptable
+                );
+                running_task_heap.pop_back();
+                run_task = true;
             }
-            // set up the result with a slot
+        } else {
+            run_task = true;
+        }
+        if (run_task) {
             schedule_result(rp);
-            // remove the task from the heap (it only gets unscheduled once).
-            std::pop_heap(
-                running_task_heap.begin(),
-                running_task_heap.end(),
-                running_task_sort_pred
-            );
-            running_task_heap.pop_back();
         }
     }
 
@@ -607,9 +626,9 @@ bool CLIENT_STATE::enforce_schedule() {
 
     double vm_limit = (global_prefs.vm_max_used_pct/100.0)*host_info.m_swap;
 
-    ACTIVE_TASK *atp;
 
-    // execute the decisions made earlier in the function.
+    // preempt and start tasks as needed
+    //
     for (i=0; i<active_tasks.active_tasks.size(); i++) {
         atp = active_tasks.active_tasks[i];
         if (atp->scheduler_state == CPU_SCHED_SCHEDULED

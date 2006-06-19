@@ -266,8 +266,7 @@ public:
     // set in CLIENT_STATE::rr_misses_deadline();
     double cpu_shortfall;
     int rr_sim_deadlines_missed;
-    int cpu_scheduler_deadlines_missed_scratch;
-    int enforcement_deadlines_missed_scratch;
+    int deadlines_missed;   // used as scratch by scheduler, enforcer
 
     // "debt" is how much CPU time we owe this project relative to others
 

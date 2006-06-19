@@ -278,6 +278,7 @@ private:
     bool enforce_schedule();
     bool no_work_for_a_cpu();
     bool rr_simulation(double, double);
+    void make_running_task_heap(vector<ACTIVE_TASK*>&);
 public:
 
 // --------------- cs_account.C:

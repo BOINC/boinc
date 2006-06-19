@@ -6314,3 +6314,19 @@ David  19 June 2006
         cs_apps.C
     sched/
         update_stats.C
+
+David  19 June 2006
+    - core client: cleanup in CPU scheduling
+        - move make_running_task_heap() into a function.
+        - no NULLs in running_task_heap
+        - renamed long vars to "deadlines_missed"
+        - renamed running_task_sort_pred() to more_preemptable()
+            Renamed args, to avoid calling left argument "rhs"
+        - rewrote unreadably long if() clauses
+        - changed deadlines_missed++ to --
+
+        There's still considerable deviation between code and spec.
+        This needs to be eliminated.
+
+    client/
+        client_state.h
