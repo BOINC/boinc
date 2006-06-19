@@ -216,11 +216,11 @@ public:
     int remove(ACTIVE_TASK*);
     ACTIVE_TASK* lookup_pid(int);
     ACTIVE_TASK* lookup_result(RESULT*);
+    void init();
     bool poll();
     void suspend_all(bool leave_apps_in_memory=true);
     void unsuspend_all();
     bool is_task_executing();
-    int restart_tasks(int max_tasks);
     void request_tasks_exit(PROJECT* p=0);
     int wait_for_exit(double, PROJECT* p=0);
     int exit_tasks(PROJECT* p=0);

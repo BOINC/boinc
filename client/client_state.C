@@ -260,8 +260,7 @@ int CLIENT_STATE::init() {
 
     // set period start time and reschedule
     //
-    must_schedule_cpus = true;
-    must_enforce_cpu_schedule = true;
+    request_schedule_cpus("Startup");
     cpu_sched_last_time = now;
     cpu_sched_last_check = now;
 
@@ -271,6 +270,7 @@ int CLIENT_STATE::init() {
     retval = make_project_dirs();
     if (retval) return retval;
 
+    active_tasks.init();
     active_tasks.report_overdue();
     active_tasks.handle_upload_files();
 
@@ -410,22 +410,6 @@ bool CLIENT_STATE::poll_slow_events() {
 
     check_suspend_activities(suspend_reason);
 
-#ifdef NEW_CPU_SCHED
-    cpu_scheduler.make_schedule();
-#else
-    // Restart tasks on startup.
-    // Do this here (rather than CLIENT_STATE::init())
-    // so that if we do benchmark on startup,
-    // we don't immediately suspend apps
-    // (this fixes a CPDN problem where quitting the app
-    // right after start kills it)
-    //
-    if (!suspend_reason && !tasks_restarted) {
-        restart_tasks();
-        tasks_restarted = true;
-    }
-#endif
-
     // suspend or resume activities (but only if already did startup)
     //
     if (tasks_restarted) {
@@ -507,6 +491,7 @@ bool CLIENT_STATE::poll_slow_events() {
     if (!tasks_suspended) {
         POLL_ACTION(possibly_schedule_cpus, possibly_schedule_cpus          );
         POLL_ACTION(enforce_schedule    , enforce_schedule  );
+        tasks_restarted = true;
     }
 #endif
     if (!network_suspended) {

@@ -227,7 +227,15 @@ bool PERS_FILE_XFER::poll() {
                     is_upload?"upload":"download", fip->name
                 );
             }
-            check_giveup("server rejected file");
+            try_next_url("server rejected file");
+        } else if (fxp->file_xfer_retval == ERR_NOT_FOUND) {
+            if (log_flags.file_xfer) {
+                msg_printf(
+                    fip->project, MSG_INFO, "Permanently failed %s of %s",
+                    is_upload?"upload":"download", fip->name
+                );
+            }
+            try_next_url("File not found on client");
         } else {
             if (log_flags.file_xfer) {
                 msg_printf(
@@ -239,7 +247,7 @@ bool PERS_FILE_XFER::poll() {
             handle_xfer_failure();
         }
 
-        // fxp could have already been freed and zeroed by check_giveup
+        // fxp could have already been freed and zeroed by try_next_url
         // so check before trying to remove
         //
         if (fxp) {
@@ -250,6 +258,23 @@ bool PERS_FILE_XFER::poll() {
         return true;
     }
     return false;
+}
+
+void PERS_FILE_XFER::xfer_failed(const char* why) {
+    gstate.file_xfers->remove(fxp);
+    delete fxp;
+    fxp = NULL;
+    if (is_upload) {
+        fip->status = ERR_GIVEUP_UPLOAD;
+    } else {
+        fip->status = ERR_GIVEUP_DOWNLOAD;
+    }
+    pers_xfer_done = true;
+    msg_printf(
+        fip->project, MSG_ERROR, "Giving up on %s of %s: %s",
+        is_upload?"upload":"download", fip->name, why
+    );
+    fip->error_msg = why;
 }
 
 // A file transfer (to a particular server)
@@ -266,22 +291,9 @@ bool PERS_FILE_XFER::poll() {
 // If there are more URLs to try, the file_xfer is restarted with these new
 // urls until a good transfer is made or it completely gives up.
 //
-void PERS_FILE_XFER::check_giveup(const char* why) {
+void PERS_FILE_XFER::try_next_url(const char* why) {
     if (fip->get_next_url(fip->upload_when_present) == NULL) {
-        gstate.file_xfers->remove(fxp);
-        delete fxp;
-        fxp = NULL;
-        if (is_upload) {
-            fip->status = ERR_GIVEUP_UPLOAD;
-        } else {
-            fip->status = ERR_GIVEUP_DOWNLOAD;
-        }
-        pers_xfer_done = true;
-        msg_printf(
-            fip->project, MSG_ERROR, "Giving up on %s of %s: %s",
-            is_upload?"upload":"download", fip->name, why
-        );
-        fip->error_msg = why;
+        xfer_failed(why);
         fip->delete_file();
     } else {
         if (is_upload) {
@@ -315,7 +327,7 @@ void PERS_FILE_XFER::handle_xfer_failure() {
             retry_or_backoff();
             return;
         } else {
-            check_giveup("file was not found on server");
+            try_next_url("file was not found on server");
             return;
         }
     }
@@ -323,7 +335,7 @@ void PERS_FILE_XFER::handle_xfer_failure() {
     // See if it's time to give up on the persistent file xfer
     //
     if ((gstate.now - first_request_time) > gstate.file_xfer_giveup_period) {
-        check_giveup("too much elapsed time");
+        try_next_url("too much elapsed time");
     } else {
         retry_or_backoff();
     }

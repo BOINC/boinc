@@ -177,10 +177,9 @@ int ACTIVE_TASK::init(RESULT* rp) {
     max_disk_usage = rp->wup->rsc_disk_bound;
     max_mem_usage = rp->wup->rsc_memory_bound;
     non_cpu_intensive = rp->project->non_cpu_intensive;
-
     strcpy(process_control_queue.name, rp->name);
     strcpy(graphics_request_queue.name, rp->name);
-
+    get_slot_dir(slot, slot_dir);
     return 0;
 }
 
@@ -385,7 +384,6 @@ int ACTIVE_TASK::parse(MIOFILE& fin) {
 
     strcpy(result_name, "");
     strcpy(project_master_url, "");
-    scheduler_state = CPU_SCHED_SCHEDULED;
 
     while (fin.fgets(buf, 256)) {
         if (match_tag(buf, "</active_task>")) {
@@ -452,7 +450,6 @@ int ACTIVE_TASK::parse(MIOFILE& fin) {
         else if (parse_str(buf, "<project_master_url>", project_master_url, sizeof(project_master_url))) continue;
         else if (parse_int(buf, "<app_version_num>", app_version_num)) continue;
         else if (parse_int(buf, "<slot>", slot)) continue;
-        else if (parse_int(buf, "<scheduler_state>", scheduler_state)) continue;
         else if (parse_double(buf, "<checkpoint_cpu_time>", checkpoint_cpu_time)) continue;
         else if (parse_double(buf, "<fraction_done>", fraction_done)) continue;
         else if (parse_double(buf, "<current_cpu_time>", current_cpu_time)) continue;
@@ -624,6 +621,14 @@ void ACTIVE_TASK_SET::upload_notify_app(FILE_INFO* fip) {
         if (frp) {
             atp->upload_notify_app(fip, frp);
         }
+    }
+}
+
+void ACTIVE_TASK_SET::init() {
+    for (unsigned int i=0; i<active_tasks.size(); i++) {
+        ACTIVE_TASK* atp = active_tasks[i];
+        atp->init(atp->result);
+        atp->scheduler_state = CPU_SCHED_PREEMPTED;
     }
 }
 

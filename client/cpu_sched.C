@@ -360,33 +360,6 @@ bool CLIENT_STATE::possibly_schedule_cpus() {
         cpu_sched_last_check = now;
     }
 
-#if 0   // THE FOLLOWING SHOULD NOT BE NECESSARY
-
-    // if the count of running tasks is not either ncpus
-    // or the count of runnable results a re-schedule is mandatory.
-    //
-    if (!must_schedule_cpus) {
-        int count_running_tasks = 0;
-        for (i=0; i<active_tasks.active_tasks.size(); i++) {
-            if (!active_tasks.active_tasks[i] || !active_tasks.active_tasks[i]->result) continue;
-            if (CPU_SCHED_SCHEDULED != active_tasks.active_tasks[i]->scheduler_state) continue;
-            if (active_tasks.active_tasks[i]->result->project->non_cpu_intensive) continue;
-            count_running_tasks++;
-        }
-        if (count_running_tasks != ncpus){
-            int count_runnable_results = 0;
-            for (i=0; i<results.size(); i++) {
-                if (!results[i]->runnable()) continue;
-                if (results[i]->project->non_cpu_intensive) continue;
-                count_runnable_results++;
-            }
-            if (count_running_tasks != count_runnable_results) {
-                must_schedule_cpus = true;
-            }
-        }
-    }
-#endif
-
     if (!must_schedule_cpus) return false;
     must_schedule_cpus = false;
     schedule_cpus();

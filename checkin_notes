@@ -6276,3 +6276,17 @@ Matt 17 June 2006
     html/inc
        forum.inc
        email.inc
+
+David  18 June 2006
+	- Don't parse ACTIVE_TASK::scheduler_state from the state file.
+		This isn't carried across runs of BOINC.
+	- Remove ACTIVE_TASK_SET::restart_tasks() and CLIENT_STATE::restart_tasks():
+		just let the CPU scheduler take care of starting tasks.
+	- If file upload fails because file is missing, don't retry,
+		and show appropriate error message
+
+	client/
+		app.C,h
+		app_start.C
+		client_state.C,h
+		cs_apps.C

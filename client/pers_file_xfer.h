@@ -111,7 +111,8 @@ public:
     bool poll();
     void handle_xfer_failure();
     void retry_or_backoff();
-    void check_giveup(const char*);
+    void xfer_failed(const char*);
+    void try_next_url(const char*);
     void abort();
     int write(MIOFILE& fout);
     int parse(MIOFILE& fin);

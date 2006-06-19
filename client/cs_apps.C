@@ -234,9 +234,8 @@ int CLIENT_STATE::schedule_result(RESULT* rp) {
     ACTIVE_TASK *atp = lookup_active_task_by_result(rp);
     if (!atp) {
         atp = new ACTIVE_TASK;
-        atp->init(rp);
         atp->slot = active_tasks.get_free_slot();
-        get_slot_dir(atp->slot, atp->slot_dir);
+        atp->init(rp);
         active_tasks.active_tasks.push_back(atp);
     }
     atp->next_scheduler_state = CPU_SCHED_SCHEDULED;
@@ -293,14 +292,6 @@ double CLIENT_STATE::nearly_runnable_resource_share() {
         }
     }
     return x;
-}
-
-
-// This is called when the client is initialized.
-// Try to restart any tasks that were running when we last shut down.
-//
-int CLIENT_STATE::restart_tasks() {
-    return active_tasks.restart_tasks(ncpus);
 }
 
 void CLIENT_STATE::set_ncpus() {
