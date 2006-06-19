@@ -557,8 +557,10 @@ void DC_finishClient(int exitcode)
 	if (last_complete_ckpt &&
 		!boinc_resolve_filename(CKPT_LABEL_OUT, path, sizeof(path)))
 	{
+#ifndef _WIN32
 		ret = link(last_complete_ckpt, path);
 		if (ret)
+#endif
 			_DC_copyFile(last_complete_ckpt, path);
 
 		DC_log(LOG_DEBUG, "Uploading last complete checkpoint %s",
@@ -594,7 +596,7 @@ void DC_finishClient(int exitcode)
 	boinc_finish(exitcode);
 	/* We should never get here, but boinc_finish() is not marked
 	 * with "noreturn" so this avoids a GCC warning */
-	_exit(exitcode);
+	_Exit(exitcode);
 }
 
 /********************************************************************
