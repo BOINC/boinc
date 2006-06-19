@@ -405,7 +405,6 @@ to determine by how much each result misses its deadline.
 For each result R being considered for sending,
 the scheduler does an EDF simulation.
 If R meets its deadline
-(optional if the project does not need strict adherence),
 and no result misses its deadline by more than it did previously, R is sent.
 
 <li>

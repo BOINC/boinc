@@ -6262,13 +6262,14 @@ Bruce 17 June 2006
         sched_locality.C (experimental code)
 
 Matt 17 June 2006
-
-Forum related stuff. I updated forum.inc so that if the flag
-<no_forum_rating/> is in the config.xml file, the rating +/- links don't
-show up under posts. As well, I have a check in forum_rate.php to do the
-same check (and make sure people are trying to sneakily downrate posts
-without using the +/- links). As well, fixed a bug in email.inc where
-the moderator e-mail address wasn't showing up in "deleted post" e-mails.
+    - User web:
+        - If the flag <no_forum_rating/> is in config.xml,
+            the rating +/- links don't show up under posts.
+        - check in forum_rate.php to do the same check
+            (and make sure people are trying to sneakily downrate posts
+            without using the +/- links).
+        - fixed a bug in email.inc where the moderator e-mail address
+            wasn't showing up in "deleted post" e-mails.
 
     html/user
        forum_rate.php
