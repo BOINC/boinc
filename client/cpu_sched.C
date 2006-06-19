@@ -404,14 +404,6 @@ void CLIENT_STATE::schedule_cpus() {
         }
     }
 
-    // mark file xfer results as completed;
-    // TODO: why do this here??
-    //
-    // Dr. A.  This has been here quite a while.
-    // Either we should remove the comment or we should move the code.  jm7
-    //
-    handle_file_xfer_apps();
-
     // set temporary variables
     //
     for (i=0; i<results.size(); i++) {

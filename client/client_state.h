@@ -324,7 +324,6 @@ private:
     int app_finished(ACTIVE_TASK&);
     bool start_apps();
     bool handle_finished_apps();
-    void handle_file_xfer_apps();
 public:
     int schedule_result(RESULT*);
 

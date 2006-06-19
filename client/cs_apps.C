@@ -359,19 +359,6 @@ int CLIENT_STATE::choose_version_num(char* app_name, SCHEDULER_REPLY& sr) {
     return best;
 }
 
-// handle file-transfer applications
-//
-void CLIENT_STATE::handle_file_xfer_apps() {
-    unsigned int i;
-    for (i=0; i<results.size(); i++) {
-        RESULT* rp = results[i];
-        if (rp->wup->avp->app_files.size() == 0 && rp->state == RESULT_FILES_DOWNLOADED) {
-            rp->state = RESULT_FILES_UPLOADING;
-            rp->reset_files();
-        }
-    }
-}
-
 void CLIENT_STATE::request_enforce_schedule(const char* where) {
     // The CPU scheduler runs when a result is completed, 
     // when the end of the user-specified scheduling period is reached, 

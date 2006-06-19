@@ -1028,7 +1028,16 @@ bool CLIENT_STATE::update_results() {
         case RESULT_FILES_DOWNLOADING:
             if (input_files_available(rp)) {
                 rp->state = RESULT_FILES_DOWNLOADED;
-                request_schedule_cpus("files downloaded");
+                if (rp->wup->avp->app_files.size()==0) {
+                    // if this is a file-transfer app, start the upload phase
+                    //
+                    rp->state = RESULT_FILES_UPLOADING;
+                    rp->clear_uploaded_flags();
+                } else {
+                    // else try to start the computation
+                    //
+                    request_schedule_cpus("files downloaded");
+                }
                 action = true;
             }
             break;

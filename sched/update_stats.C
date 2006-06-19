@@ -221,6 +221,7 @@ int main(int argc, char** argv) {
         }
     }
 
+    log_messages.printf(SCHED_MSG_LOG::MSG_NORMAL, "Finished\n");
     return 0;
 }
 

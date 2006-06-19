@@ -6301,3 +6301,16 @@ David  19 June 2006
     client/
         client_state.C,h
         cpu_sched.C
+
+David  19 June 2006
+    - core client: remove CLIENT_STATE::handle_file_xfer_apps().
+        Instead, handle this in CLIENT_STATE::update_results().
+    - core client: rename RESULT::reset_files() to clear_uploaded_flags()
+
+    client/
+        client_state.C,h
+        client_types.C,h
+        cpu_sched.C
+        cs_apps.C
+    sched/
+        update_stats.C

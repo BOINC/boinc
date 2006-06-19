@@ -445,7 +445,7 @@ struct RESULT {
     int write(MIOFILE&, bool to_server);
     int write_gui(MIOFILE&);
     bool is_upload_done();    // files uploaded?
-    void reset_files();
+    void clear_uploaded_flags();
     FILE_REF* lookup_file(FILE_INFO*);
     FILE_INFO* lookup_file_logical(const char*);
     void abort_inactive(int);

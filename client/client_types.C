@@ -1489,9 +1489,8 @@ bool RESULT::is_upload_done() {
 
 // resets all FILE_INFO's in result to uploaded = false 
 // if upload_when_present is true.
-// Also updates the last time the input files were used
-
-void RESULT::reset_files() {
+//
+void RESULT::clear_uploaded_flags() {
     unsigned int i;
     FILE_INFO* fip;
 
@@ -1500,15 +1499,6 @@ void RESULT::reset_files() {
         if (fip->upload_when_present) {
             fip->uploaded = false;
         }
-#if 0
-        fip->update_time();
-#endif
-    }
-    for (i=0; i < wup->input_files.size(); i++) {
-        fip = wup->input_files[i].file_info;
-#if 0
-        fip->update_time();
-#endif
     }
 }
 
