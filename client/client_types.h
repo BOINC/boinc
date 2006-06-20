@@ -72,6 +72,8 @@ public:
         // don't report to server even if report_on_rpc is true
     bool signature_required;    // true iff associated with app version
     bool is_user_file;
+    bool gzip_when_done;
+        // for output files: gzip file when done, and append .gz to its name
     class PERS_FILE_XFER* pers_file_xfer;   // nonzero if in the process of being up/downloaded
     struct RESULT* result;         // for upload files (to authenticate)
     class PROJECT* project;
@@ -108,7 +110,7 @@ public:
     void failure_message(std::string&);
     int merge_info(FILE_INFO&);
     int verify_file(bool);
-    int update_time();       // updates time last used to the current time
+    int gzip();     // gzip file and add .gz to name
 };
 
 // Describes a connection between a file and a workunit, result, or application.

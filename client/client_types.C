@@ -21,12 +21,11 @@
 
 #ifdef _WIN32
 #include "boinc_win.h"
-#endif
-
-#ifndef _WIN32
+#else
 #include "config.h"
 #include <sys/stat.h>
 #include <sys/types.h>
+#include <zlib.h>
 #endif
 
 #include "error_numbers.h"
@@ -475,6 +474,7 @@ FILE_INFO::FILE_INFO() {
     sticky = false;
     marked_for_delete = false;
     report_on_rpc = false;
+    gzip_when_done = false;
     signature_required = false;
     is_user_file = false;
     pers_file_xfer = NULL;
@@ -607,6 +607,7 @@ int FILE_INFO::parse(MIOFILE& in, bool from_server) {
         else if (match_tag(buf, "<sticky/>")) sticky = true;
         else if (match_tag(buf, "<marked_for_delete/>")) marked_for_delete = true;
         else if (match_tag(buf, "<report_on_rpc/>")) report_on_rpc = true;
+        else if (parse_bool(buf, "gzip_when_done", gzip_when_done)) continue;
         else if (match_tag(buf, "<signature_required/>")) signature_required = true;
         else if (match_tag(buf, "<persistent_file_xfer>")) {
             pfxp = new PERS_FILE_XFER;
@@ -667,6 +668,7 @@ int FILE_INFO::write(MIOFILE& out, bool to_server) {
         if (sticky) out.printf("    <sticky/>\n");
         if (marked_for_delete) out.printf("    <marked_for_delete/>\n");
         if (report_on_rpc) out.printf("    <report_on_rpc/>\n");
+        if (gzip_when_done) out.printf("    <gzip_when_done/>\n");
         if (signature_required) out.printf("    <signature_required/>\n");
         if (strlen(file_signature)) out.printf("    <file_signature>\n%s</file_signature>\n", file_signature);
     }
@@ -872,6 +874,33 @@ void FILE_INFO::failure_message(string& s) {
         s = s + buf;
     }
     s = s + "</file_xfer_error>\n";
+}
+
+#define BUFSIZE 16384
+int FILE_INFO::gzip() {
+    char buf[BUFSIZE];
+    char inpath[256], outpath[256];
+    int retval = 0;
+
+    get_pathname(this, inpath);
+    strcpy(outpath, inpath);
+    strcat(outpath, ".gz");
+    FILE* in = boinc_fopen(inpath, "rb");
+    if (!in) return ERR_FOPEN;
+    gzFile out = gzopen(outpath, "wb");
+    while (1) {
+        int n = fread(buf, 1, BUFSIZE, in);
+        if (n <= 0) break;
+        int m = gzwrite(out, buf, n);
+        if (m != n) {
+            retval = ERR_WRITE;
+            goto done;
+        }
+    }
+done:
+    fclose(in);
+    gzclose(out);
+    return retval;
 }
 
 // Parse XML based app_version information, usually from client_state.xml

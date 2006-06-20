@@ -6435,3 +6435,11 @@ David  20 June 2006
     client/
         client_types.C,h
         cpu_sched.C
+
+David  20 June 2006
+    - core client: it FILE_INFO for output file file has
+        <gzip_when_done/> property, gzip it and append .gz to name
+
+    client/
+        client_types.C,h
+        cs_apps.C

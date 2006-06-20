@@ -126,6 +126,13 @@ int CLIENT_STATE::app_finished(ACTIVE_TASK& at) {
                     } else {
                         fip->status = FILE_PRESENT;
                     }
+                    if (fip->gzip_when_done) {
+                        retval = fip->gzip();
+                        if (retval) {
+                            fip->status = retval;
+                            had_error = true;
+                        }
+                    }
                 }
             }
         }
