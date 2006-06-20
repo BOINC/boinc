@@ -101,7 +101,7 @@ static void count_subresults(void)
 		if (!strncmp(fdata.cFileName, SUBRESULT_PFX,
 				strlen(SUBRESULT_PFX)))
 			max_subresults++;
-	} while FindNextFile(hfind, &fdata);
+	} while (FindNextFile(hfind, &fdata));
 	FindClose(hfind);
 }
 #else
