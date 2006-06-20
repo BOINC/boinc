@@ -116,7 +116,7 @@ int check_security() {
         return ERR_GETGRNAM;
     strlcpy(boinc_master_group_name, grp->gr_name, sizeof(boinc_master_group_name));
     
-#else   // Require absolute owner and group by boinc_master:boinc_master
+#else   // Require absolute owner and group boinc_master:boinc_master
     strlcpy(boinc_master_user_name, REAL_BOINC_MASTER_NAME, sizeof(boinc_master_user_name));
     pw = getpwnam(boinc_master_user_name);
     if (pw == NULL)
@@ -182,6 +182,7 @@ int check_security() {
             return ERR_USER_PERMISSION;
 
 #if 0
+        // Require absolute owner and group boinc_master:boinc_master
         // Get the full path to BOINC Clients inside this application's bundle
         strlcpy(full_path, dir_path, sizeof(full_path));
         strlcat(full_path, "/Contents/Resources/boinc", sizeof(full_path));

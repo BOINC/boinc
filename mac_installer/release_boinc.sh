@@ -68,6 +68,9 @@ mkdir -p ../BOINC_Installer/Pkg_Root/Library/Screen\ Savers
 mkdir -p ../BOINC_Installer/Pkg_Root/Library/Application\ Support
 mkdir -p ../BOINC_Installer/Pkg_Root/Library/Application\ Support/BOINC\ Data
 mkdir -p ../BOINC_Installer/Pkg_Root/Library/Application\ Support/BOINC\ Data/locale
+mkdir -p ../BOINC_Installer/Pkg_Root/Library/Application\ Support/BOINC\ Data/switcher
+
+cp -fpR $BUILDPATH/switcher ../BOINC_Installer/Pkg_Root/Library/Application\ Support/BOINC\ Data/switcher/
 
 cp -fpR $BUILDPATH/BOINCManager.app ../BOINC_Installer/Pkg_Root/Applications/
 
@@ -83,14 +86,14 @@ find locale/client -name '*.mo' | cut -d '/' -f 3,4 | awk '{print "cp \"locale/c
 
 ## Fix up ownership and permissions
 sudo chown -R root:admin ../BOINC_Installer/Pkg_Root/*
-sudo chmod -R 775 ../BOINC_Installer/Pkg_Root/*
+sudo chmod -R u+rw,g+rw,o+r-w ../BOINC_Installer/Pkg_Root/*
 sudo chmod 1775 ../BOINC_Installer/Pkg_Root/Library
 
 sudo chown -R 501:admin ../BOINC_Installer/Pkg_Root/Library/Application\ Support/*
-sudo chmod -R 755 ../BOINC_Installer/Pkg_Root/Library/Application\ Support/*
+sudo chmod -R u+rw,g+r-w,o+r-w ../BOINC_Installer/Pkg_Root/Library/Application\ Support/*
 
 sudo chown -R root:admin ../BOINC_Installer/Installer\ Resources/*
-sudo chmod -R 755 ../BOINC_Installer/Installer\ Resources/*
+sudo chmod -R u+rw,g+r-w,o+r-w ../BOINC_Installer/Installer\ Resources/*
 
 sudo rm -dfR ../BOINC_Installer/New_Release_$1_$2_$3/
 
@@ -101,12 +104,12 @@ mkdir -p ../BOINC_Installer/New_Release_$1_$2_$3/boinc_$1.$2.$3_macOSX_SymbolTab
 
 cp -fp ../BOINC_Installer/Installer\ Resources/ReadMe.rtf ../BOINC_Installer/New_Release_$1_$2_$3/boinc_$1.$2.$3_macOSX_universal
 sudo chown -R 501:admin ../BOINC_Installer/New_Release_$1_$2_$3/boinc_$1.$2.$3_macOSX_universal/ReadMe.rtf
-sudo chmod -R 755 ../BOINC_Installer/New_Release_$1_$2_$3/boinc_$1.$2.$3_macOSX_universal/ReadMe.rtf
+sudo chmod -R 644 ../BOINC_Installer/New_Release_$1_$2_$3/boinc_$1.$2.$3_macOSX_universal/ReadMe.rtf
 
 cp -fpR $BUILDPATH/boinc ../BOINC_Installer/New_Release_$1_$2_$3/boinc_$1.$2.$3_universal-apple-darwin/
 cp -fpR $BUILDPATH/boinc_cmd ../BOINC_Installer/New_Release_$1_$2_$3/boinc_$1.$2.$3_universal-apple-darwin/
 sudo chown -R root:admin ../BOINC_Installer/New_Release_$1_$2_$3/boinc_$1.$2.$3_universal-apple-darwin/*
-sudo chmod -R 755 ../BOINC_Installer/New_Release_$1_$2_$3/boinc_$1.$2.$3_universal-apple-darwin/*
+sudo chmod -R u+rw,g+r-w,o+r-w ../BOINC_Installer/New_Release_$1_$2_$3/boinc_$1.$2.$3_universal-apple-darwin/*
 
 cp -fpR $BUILDPATH/SymbolTables ../BOINC_Installer/New_Release_$1_$2_$3/boinc_$1.$2.$3_macOSX_SymbolTables/
 

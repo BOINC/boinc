@@ -91,6 +91,9 @@ mkdir -p "${PR_PATH}/Library/Application Support"
 #### mkdir -p "${PR_PATH}/Library/Application Support/${BRAND_NAME} Data/locale"
 mkdir -p "${PR_PATH}/Library/Application Support/BOINC Data"
 mkdir -p "${PR_PATH}/Library/Application Support/ BOINC Data/locale"
+mkdir -p "${PR_PATH}/Library/Application Support/BOINC Data/switcher"
+
+cp -fpR $BUILDPATH/switcher "${PR_PATH}/Library/Application Support/BOINC Data/switcher/"
 
 cp -fpR $BUILDPATH/BOINCManager.app "${PR_PATH}/Applications/"
 
@@ -140,14 +143,14 @@ cp -fp "${SAVER_SYSPREF_ICON_PATH}" "${PR_PATH}/Library/Screen Savers/${BRAND_NA
 
 ## Fix up ownership and permissions
 sudo chown -R root:admin "${PR_PATH}"/*
-sudo chmod -R 775 "${PR_PATH}"/*
+sudo chmod -R u+rw,g+rw,o+r-w "${PR_PATH}"/*
 sudo chmod 1775 "${PR_PATH}/Library"
 
 sudo chown -R 501:admin "${PR_PATH}/Library/Application Support"/*
-sudo chmod -R 755 "${PR_PATH}/Library/Application Support"/*
+sudo chmod -R u+rw,g+r-w,o+r-w "${PR_PATH}/Library/Application Support"/*
 
 sudo chown -R root:admin "${IR_PATH}"/*
-sudo chmod -R 755 "${IR_PATH}"/*
+sudo chmod -R u+rw,g+r-w,o+r-w "${IR_PATH}"/*
 
 sudo rm -dfR "${NEW_DIR_PATH}/"
 
@@ -156,14 +159,14 @@ mkdir -p "${NEW_DIR_PATH}/${LC_BRAND_NAME}_$1.$2.$3_macOSX_universal"
 
 cp -fp "${IR_PATH}/ReadMe.rtf" "${NEW_DIR_PATH}/${LC_BRAND_NAME}_$1.$2.$3_macOSX_universal/ReadMe.rtf"
 sudo chown -R 501:admin "${NEW_DIR_PATH}/${LC_BRAND_NAME}_$1.$2.$3_macOSX_universal/ReadMe.rtf"
-sudo chmod -R 755 "${NEW_DIR_PATH}/${LC_BRAND_NAME}_$1.$2.$3_macOSX_universal/ReadMe.rtf"
+sudo chmod -R 644 "${NEW_DIR_PATH}/${LC_BRAND_NAME}_$1.$2.$3_macOSX_universal/ReadMe.rtf"
 
 ##### We've decided not to create branded command-line executables; they are identical to standard ones
 #### mkdir -p "${NEW_DIR_PATH}/${LC_BRAND_NAME}_$1.$2.$3_universal-apple-darwin"
 #### cp -fpR $BUILDPATH/boinc "${NEW_DIR_PATH}/${LC_BRAND_NAME}_$1.$2.$3_universal-apple-darwin/"
 #### cp -fpR $BUILDPATH/boinc_cmd "${NEW_DIR_PATH}/${LC_BRAND_NAME}_$1.$2.$3_universal-apple-darwin/"
 #### sudo chown -R root:admin "${NEW_DIR_PATH}/${LC_BRAND_NAME}_$1.$2.$3_universal-apple-darwin"/*
-#### sudo chmod -R 755 "${NEW_DIR_PATH}/${LC_BRAND_NAME}_$1.$2.$3_universal-apple-darwin"/*
+#### sudo chmod -R u+rw,g+r-w,o+r-w "${NEW_DIR_PATH}/${LC_BRAND_NAME}_$1.$2.$3_universal-apple-darwin"/*
 
 ##### We've decided not to create branded symbol table file; it is identical to standard one
 #### mkdir -p "${NEW_DIR_PATH}/${LC_BRAND_NAME}_$1.$2.$3_macOSX_SymbolTables"

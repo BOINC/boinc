@@ -28,13 +28,16 @@
 #include <sys/types.h>	// getpwname, getpwuid, getuid
 #include <pwd.h>	// getpwname, getpwuid, getuid
 #include <sys/wait.h>	// waitpid
+#include <dirent.h>
 
 #include "LoginItemAPI.h"  //please take a look at LoginItemAPI.h for an explanation of the routines available to you.
 
 #include "SetupSecurity.h"
 
 void Initialize(void);	/* function prototypes */
+void SetLoginItem(long brandID);
 void SetUIDBackToUser (void);
+OSErr UpdateAllVisibleUsers(long brandID);
 long GetBrandID(void);
 OSErr FindProcess (OSType typeToFind, OSType creatorToFind, ProcessSerialNumberPtr processSN);
 pid_t FindProcessPID(char* name, pid_t thePID);
@@ -47,19 +50,21 @@ Boolean			gQuitFlag = false;	/* global */
 
 int main(int argc, char *argv[])
 {
-    char                    *p, *q;
     Boolean                 Success;
     long                    response;
     ProcessSerialNumber     ourProcess, installerPSN;
     short                   itemHit;
     long                    brandID = 0;
-    group                   *grp;
-    char                    s[256];
-    int                     NumberOfLoginItems, Counter, i;
+    int                     i;
     pid_t                   installerPID = 0, coreClientPID = 0;
     FSRef                   fileRef;
     OSStatus                err, err_fsref;
-
+#ifndef SANDBOX
+    char                    *p, *q;
+    group                   *grp;
+    char                    s[256];
+#endif
+    
     Initialize();
 
     ::GetCurrentProcess (&ourProcess);
@@ -67,8 +72,6 @@ int main(int argc, char *argv[])
     QuitBOINCManager('BNC!'); // Quit any old instance of BOINC manager
     sleep(2);
 
-    err = CreateBOINCUsersAndGroups();
-    
     // Core Client may still be running if it was started without Manager
     coreClientPID = FindProcessPID("boinc", 0);
     if (coreClientPID)
@@ -114,6 +117,26 @@ int main(int argc, char *argv[])
     
     Success = false;
     
+#ifdef SANDBOX
+
+    err = CreateBOINCUsersAndGroups();
+    if (err != noErr)
+        return err;
+
+   if (brandID == 1)
+        err = SetBOINCAppOwnersGroupsAndPermissions("/Applications/GridRepublic Desktop.app");
+    else
+        err = SetBOINCAppOwnersGroupsAndPermissions("/Applications/BOINCManager.app");
+    
+    if (err != noErr)
+        return err;
+
+    err = SetBOINCDataOwnersGroupsAndPermissions();
+    if (err != noErr)
+        return err;
+        
+#else   // ! defined(SANDBOX)
+
     // The BOINC Manager and Core Client have the set-user-ID-on-execution 
     // flag set, so their ownership is important and must match the 
     // ownership of the BOINC Data directory.
@@ -154,45 +177,79 @@ int main(int argc, char *argv[])
 //      We don't customize BOINC Data directory name for branding
         // Set owner of GridRepublic Data
 //        sprintf(s, "chown -Rf %s /Library/Application\\ Support/GridRepublic\\ Data", p);
-//        system (s);
+        sprintf(s, "chown -Rf %s /Library/Application\\ Support/BOINC\\ Data", p);
+        system (s);
 
- 	system ("rm -rf /Applications/BOINCManager.app");
-	system ("rm -rf /Library/Screen\\ Savers/BOINCSaver.saver");        // Installing GridRepublic over BOINC
 	system ("chmod -R a+s /Applications/GridRepublic\\ Desktop.app");   // Installing GridRepublic over BOINC
-
-        err_fsref = FSPathMakeRef((StringPtr)"/Applications/GridRepublic Desktop.app", &fileRef, NULL);
     } else {
         sprintf(s, "chown -Rf %s /Applications/BOINCManager.app", p);
         system (s);
 
-// We don't customize BOINC Data directory name for branding
         // Set owner of BOINC Screen Saver
-//        sprintf(s, "chown -Rf %s /Library/Screen\\ Savers/BOINCSaver.saver", p);
-//        system (s);
+        sprintf(s, "chown -Rf %s /Library/Screen\\ Savers/BOINCSaver.saver", p);
+        system (s);
 
+// We don't customize BOINC Data directory name for branding
         // Set owner of BOINC Data
         sprintf(s, "chown -Rf %s /Library/Application\\ Support/BOINC\\ Data", p);
         system (s);
+	system ("chmod -R a+s /Applications/BOINCManager.app");
+    }
 
+#endif   // ! defined(SANDBOX)
+
+   if (brandID == 1) {
+ 	system ("rm -rf /Applications/BOINCManager.app");                   // Installing GridRepublic over BOINC
+	system ("rm -rf /Library/Screen\\ Savers/BOINCSaver.saver");        // Installing GridRepublic over BOINC
+
+        err_fsref = FSPathMakeRef((StringPtr)"/Applications/GridRepublic Desktop.app", &fileRef, NULL);
+    } else {
 	system ("rm -rf /Applications/GridRepublic\\ Desktop.app");     // Installing BOINC over GridRepublic
 	system ("rm -rf /Library/Screen\\ Savers/GridRepublic.saver");  // Installing BOINC over GridRepublic
-	system ("chmod -R a+s /Applications/BOINCManager.app");
 
         err_fsref = FSPathMakeRef((StringPtr)"/Applications/BOINCManager.app", &fileRef, NULL);
     }
     
-// We don't customize BOINC Data directory name for branding
-    // Set owner of BOINC Data
-    sprintf(s, "chown -Rf %s /Library/Application\\ Support/BOINC\\ Data", p);
-    system (s);
-
     if (err_fsref == noErr)
         err = LSRegisterFSRef(&fileRef, true);
     
+#ifdef SANDBOX
+    err = UpdateAllVisibleUsers(brandID);
+    if (err != noErr)
+        return err;
+#else
     // Installer is running as root.  We must setuid back to the logged in user 
     //  in order to add a startup item to the user's login preferences
-
     SetUIDBackToUser ();
+    SetLoginItem(brandID);
+#endif
+
+    // Launch BOINC Manager when user closes installer or after 15 seconds
+
+    for (i=0; i<15; i++) { // Wait 15 seconds max for installer to quit
+        sleep (1);
+        if (FindProcessPID(NULL, installerPID) == 0)
+            break;
+    }
+
+    if (err_fsref == noErr)
+        err = LSOpenFSRef(&fileRef, NULL);
+
+    // Remove installer package receipt so we can run installer again if needed to fix permissions
+   if (brandID == 1)
+        system ("rm -rf /Library/Receipts/GridRepublic.pkg");
+    else
+        system ("rm -rf /Library/Receipts/BOINC.pkg");
+
+    return 0;
+}
+
+
+void SetLoginItem(long brandID)
+{
+    Boolean                 Success;
+    int                     NumberOfLoginItems, Counter;
+    char                    *p, *q;
 
     Success = false;
 
@@ -222,21 +279,7 @@ int main(int argc, char *argv[])
     else
         Success = AddLoginItemWithPropertiesToUser(kCurrentUser,
                             "/Applications/BOINCManager.app", kDoNotHideOnLaunch);
-
-    // Launch BOINC Manager when user closes installer or after 15 seconds
-
-    for (i=0; i<15; i++) { // Wait 15 seconds max for installer to quit
-        sleep (1);
-        if (FindProcessPID(NULL, installerPID) == 0)
-            break;
-    }
-
-    if (err_fsref == noErr)
-        err = LSOpenFSRef(&fileRef, NULL);
-
-    return 0;
 }
-
 
 void SetUIDBackToUser (void)
 {
@@ -249,6 +292,64 @@ void SetUIDBackToUser (void)
     login_uid = pw->pw_uid;
 
     setuid(login_uid);
+}
+
+// Find all visible users and set their login item to launch BOIN CManager.
+// If user is a member of group admin, add user to groups boinc_master and boinc_project.
+OSErr UpdateAllVisibleUsers(long brandID)
+{
+    DIR                 *dirp;
+    dirent              *dp;
+    char                *p;
+    group               *grp;
+    passwd              *pw;
+    uid_t               saved_uid;
+    short               i;
+    OSErr 		err = noErr;
+
+    grp = getgrnam("admin");
+    if (grp == NULL) {      // Should never happen
+        puts("getgrnam(\"admin\") failed\n");
+        return -1;
+    }
+    dirp = opendir("/Users");
+    if (dirp == NULL) {      // Should never happen
+        puts("opendir(\"/Users\") failed\n");
+        return -1;
+    }
+    
+    while (true) {
+        dp = readdir(dirp);
+        if (dp == NULL)
+            break;                  // End of list
+            
+        if (dp->d_name[0] == '.')
+            continue;               // Ignore names beginning with '.'
+    
+        pw = getpwnam(dp->d_name);
+        if (pw == NULL)             // "Deleted Users", "Shared", etc.
+            continue;
+
+        i = 0;
+        while ((p = grp->gr_mem[i]) != NULL) {  // Step through all users in group admin
+            if (strcmp(p, dp->d_name) == 0) {
+                // User is a member of group admin, so add user to groups boinc_master and boinc_project
+                err = AddAdminUserToGroups(p);
+                if (err != noErr)
+                    return err;
+                break;
+            }
+            ++i;
+        }
+
+        saved_uid = geteuid();
+        seteuid(pw->pw_uid);                // Temporarily set effective uid to this user
+        SetLoginItem(brandID);                     // Set login item for this user
+        seteuid(saved_uid);                 // Set effective uid back to privileged user
+    }
+    
+    closedir(dirp);
+    return noErr;
 }
 
 
