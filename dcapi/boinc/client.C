@@ -84,19 +84,32 @@ int DC_getMaxMessageSize(void)
 	return MAX_MESSAGE_SIZE;
 }
 
-/* Determine the number of allowed subresults by counting all output files
- * that have a name starting with SUBRESULT_PFX */
-int DC_getMaxSubresults(void)
+#ifdef _WIN32
+static void count_subresults(void)
+{
+	WIN32_FIND_DATA fdata;
+	HANDLE hfind;
+
+	hfind = FindFirstFile("*", &fdata);
+	if (hfind == INVALID_HANDLE_VALUE)
+		return;
+	do {
+		DC_log(LOG_DEBUG, "\t%s", fdata.cFileName);
+		if (!strncmp(fdata.cFileName, SUBRESULT_PFX,
+				strlen(SUBRESULT_PFX)))
+			max_subresults++;
+	} while FindNextFile(hfind, &fdata);
+	FindClose(hfind);
+}
+#else
+static void count_subresults(void)
 {
 	struct dirent *d;
 	DIR *dir;
 
-	if (max_subresults)
-		return max_subresults - subresult_cnt;
-
 	dir = opendir(".");
 	if (!dir)
-		return 0;
+		return;
 
 	DC_log(LOG_DEBUG, "Workdir contents:");
 	while ((d = readdir(dir)))
@@ -106,6 +119,17 @@ int DC_getMaxSubresults(void)
 			max_subresults++;
 	}
 	closedir(dir);
+}
+#endif
+
+/* Determine the number of allowed subresults by counting all output files
+ * that have a name starting with SUBRESULT_PFX */
+int DC_getMaxSubresults(void)
+{
+	if (max_subresults)
+		return max_subresults - subresult_cnt;
+
+	count_subresults();
 	return max_subresults;
 }
 
