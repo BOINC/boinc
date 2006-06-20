@@ -700,7 +700,7 @@ OSStatus DoPrivilegedExec(const char *pathToTool, char *arg1, char *arg2, char *
     char                *args[8];
     OSStatus            err;
     FILE                *ioPipe;
-    char                *p, junk[16];
+    char                *p, junk[256];
 
     err = GetAuthorization();
     if (err != noErr) {
@@ -718,7 +718,10 @@ OSStatus DoPrivilegedExec(const char *pathToTool, char *arg1, char *arg2, char *
 
             err = AuthorizationExecuteWithPrivileges (gOurAuthRef, pathToTool, 0, args, &ioPipe);
             // We use the pipe to signal us when the command has completed
-            p = fgets(junk, sizeof(junk), ioPipe);
+            do {
+                p = fgets(junk, sizeof(junk), ioPipe);
+            } while (p);
+            
             fclose (ioPipe);
 #if 0
             if (strcmp(arg2, "-R") == 0)
