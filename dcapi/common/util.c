@@ -27,10 +27,10 @@
 
 int _DC_copyFile(const char *src, const char *dst)
 {
+	struct stat s;
 	int sfd, dfd;
 	ssize_t ret;
 	char *buf;
-	struct stat s;
 
 	buf = (char *)malloc(COPY_BUFSIZE);
 	if (!buf)
@@ -39,23 +39,21 @@ int _DC_copyFile(const char *src, const char *dst)
 	sfd = open(src, O_RDONLY);
 	if (sfd == -1)
 	{
-#if 0
-		DC_log(LOG_ERR, "Failed to open %s for copying: %s", src,
-			strerror(errno));
-#endif
+		ret = errno;
 		free(buf);
-		return -1;
+		errno = ret;
+		return DC_ERR_SYSTEM;
 	}
+
 	fstat(sfd, &s);
 	dfd = open(dst, O_WRONLY | O_CREAT | O_TRUNC, s.st_mode);
 	if (dfd == -1)
 	{
-#if 0
-		DC_log(LOG_ERR, "Failed to create %s: %s", dst, strerror(errno));
-#endif
+		ret = errno;
 		free(buf);
 		close(sfd);
-		return -1;
+		errno = ret;
+		return DC_ERR_SYSTEM;
 	}
 
 	while ((ret = read(sfd, buf, COPY_BUFSIZE)) > 0)
@@ -66,10 +64,7 @@ int _DC_copyFile(const char *src, const char *dst)
 			ssize_t ret2 = write(dfd, ptr, ret);
 			if (ret2 < 0)
 			{
-#if 0
-				DC_log(LOG_ERR, "Error writing to %s: %s", dst,
-					strerror(errno));
-#endif
+				ret = errno;
 				goto error;
 			}
 			ret -= ret2;
@@ -78,31 +73,27 @@ int _DC_copyFile(const char *src, const char *dst)
 	}
 
 	if (ret < 0)
-	{
-#if 0
-		DC_log(LOG_ERR, "Error reading from %s: %s", src, strerror(errno));
-#endif
 		goto error;
-	}
 
 	free(buf);
 	close(sfd);
 	if (close(dfd))
 	{
-#if 0
-		DC_log(LOG_ERR, "Error writing to %s: %s", dst, strerror(errno));
-#endif
+		ret = errno;
 		unlink(dst);
-		return -1;
+		errno = ret;
+		return DC_ERR_SYSTEM;
 	}
 	return 0;
 
 error:
+	ret = errno;
+	free(buf);
 	close(sfd);
 	close(dfd);
-	free(buf);
 	unlink(dst);
-	return -1;
+	errno = ret;
+	return DC_ERR_SYSTEM;
 }
 
 long long _DC_processSuffix(const char *suffix)
