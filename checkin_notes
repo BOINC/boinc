@@ -6330,3 +6330,21 @@ David  19 June 2006
 
     client/
         client_state.h
+
+Charlie 19 June 2006
+    - Mac sandbox:
+        - Better support for development
+        - XCode sets BOINC Manager bundle to current user & group, sets 
+          S_ISUID | S_ISGID bits for Client, S_ISGID bit for Manager.
+        - ACTIVE_TASK::start launches project app via new switcher app
+        - Client runs projects under different user and group boinc_project.
+          
+    client/
+        check_security.C
+    clientgui/
+        mac/
+            SetupSecurity.cpp,h
+    mac_build/
+        boinc.xcodeproj/
+            project.pbxproj
+

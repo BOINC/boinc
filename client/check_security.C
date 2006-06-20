@@ -52,29 +52,71 @@ int check_security() {
     struct stat         sbuf;
     int                 retval;
 #ifdef __WXMAC__                            // If Mac BOINC Manager
-    ProcessSerialNumber ourPSN, parentPSN;
+    ProcessSerialNumber ourPSN;
     ProcessInfoRec      pInfo;
     FSRef               ourFSRef;
     char                *p;
 #endif
 
-#ifdef _DEBUG
 // GDB can't attach to applications which are running as a diferent user or group so 
 //  it ignores the S_ISUID and S_ISGID permisison bits when launching an application.
-// To work around this, the _DEBUG version uses the current user and group.
+// To work around this, and to allow testing the uninstalled Deployment version, we 
+//  assume that the BOINC Client has the correct user and group.  
+// We must get the BOINC Client's user and group differently depending on whether we 
+//  were called from the Manager or from the Client
+        
+#ifdef __WXMAC__                            // If Mac BOINC Manager
+    // Get the full path to BOINC Manager application's bundle
+    retval = GetCurrentProcess (&ourPSN);
+    if (retval)
+        return retval;          // Should never happen
+
+    memset(&pInfo, 0, sizeof(pInfo));
+    pInfo.processInfoLength = sizeof( ProcessInfoRec );
+    retval = GetProcessInformation(&ourPSN, &pInfo);
+    if (retval)
+        return retval;          // Should never happen
+    
+    retval = GetProcessBundleLocation(&ourPSN, &ourFSRef);
+    if (retval)
+        return retval;          // Should never happen
+    
+    retval = FSRefMakePath (&ourFSRef, (UInt8*)dir_path, sizeof(dir_path));
+    if (retval)
+        return retval;          // Should never happen
+
+    // Get the full path to BOINC Clients inside this application's bundle
+    strlcpy(full_path, dir_path, sizeof(full_path));
+    strlcat(full_path, "/Contents/Resources/boinc", sizeof(full_path));
+
+    retval = stat(full_path, &sbuf);
+    if (retval)
+        return retval;          // Should never happen
+
+    if ((sbuf.st_mode & (S_ISUID | S_ISGID)) != (S_ISUID | S_ISGID))
+        return ERR_USER_PERMISSION;
+
+    boinc_master_uid = sbuf.st_gid;
+    boinc_master_gid = sbuf.st_uid;
+#else
     boinc_master_uid = geteuid();
+    boinc_master_gid = getegid();
+
+#endif
+
+#if 1   // (was: #if _DEBUG)  See comment above
+
     pw = getpwuid(boinc_master_uid);
     if (pw == NULL)
         return ERR_USER_REJECTED;      // Should never happen
     strlcpy(boinc_master_user_name, pw->pw_name, sizeof(boinc_master_user_name));
 
-    boinc_master_gid = getegid();
     grp = getgrgid(boinc_master_gid);
     if (grp == NULL)
         return ERR_GETGRNAM;
     strlcpy(boinc_master_group_name, grp->gr_name, sizeof(boinc_master_group_name));
     
-#else   // if (! _DEBUG)
+#else   // Require absolute owner and group by boinc_master:boinc_master
     strlcpy(boinc_master_user_name, REAL_BOINC_MASTER_NAME, sizeof(boinc_master_user_name));
     pw = getpwnam(boinc_master_user_name);
     if (pw == NULL)
@@ -86,7 +128,7 @@ int check_security() {
     if (grp == NULL)
         return ERR_GETGRNAM;                // Group boinc_master does not exist
     boinc_master_gid = grp->gr_gid;
-#endif  // ! _DEBUG
+#endif
 
 #if (defined(_DEBUG) && defined(DEBUG_WITH_FAKE_PROJECT_USER_AND_GROUP))
     // For easier debugging of project applications
@@ -117,35 +159,6 @@ int check_security() {
 #endif
 
 #ifdef __WXMAC__                            // If Mac BOINC Manager
-    // Get the full path to BOINC Manager application's bundle
-    retval = GetCurrentProcess (&ourPSN);
-    if (retval)
-        return retval;          // Should never happen
-
-    memset(&pInfo, 0, sizeof(pInfo));
-    pInfo.processInfoLength = sizeof( ProcessInfoRec );
-    retval = GetProcessInformation(&ourPSN, &pInfo);
-    if (retval)
-        return retval;          // Should never happen
-    
-    retval = GetProcessBundleLocation(&ourPSN, &ourFSRef);
-    if (retval)
-        return retval;          // Should never happen
-    
-    retval = FSRefMakePath (&ourFSRef, (UInt8*)dir_path, sizeof(dir_path));
-    if (retval)
-        return retval;          // Should never happen
-
-    parentPSN = pInfo.processLauncher;
-    memset(&pInfo, 0, sizeof(pInfo));
-    pInfo.processInfoLength = sizeof( ProcessInfoRec );
-    retval = GetProcessInformation(&parentPSN, &pInfo);
-    if (retval)
-        return retval;          // Should never happen
-
-    // If we are running under the GDB debugger, ignore owner, 
-    //  group and permissions of BOINC Manager and BOINC Client
-    if (pInfo.processSignature != 'xcde') {  // Login Window app
         // Get the full path to BOINC Manager executable inside this application's bundle
         strlcpy(full_path, dir_path, sizeof(full_path));
         strlcat(full_path, "/Contents/MacOS/", sizeof(full_path));
@@ -168,6 +181,7 @@ int check_security() {
         if ((sbuf.st_mode & S_ISGID) != S_ISGID)
             return ERR_USER_PERMISSION;
 
+#if 0
         // Get the full path to BOINC Clients inside this application's bundle
         strlcpy(full_path, dir_path, sizeof(full_path));
         strlcat(full_path, "/Contents/Resources/boinc", sizeof(full_path));
@@ -181,10 +195,7 @@ int check_security() {
 
         if (sbuf.st_uid != boinc_master_uid)
             return ERR_USER_PERMISSION;
-
-        if ((sbuf.st_mode & (S_ISUID | S_ISGID)) != (S_ISUID | S_ISGID))
-            return ERR_USER_PERMISSION;
-    }                               // If not running under GDB debugger
+#endif
 #endif                                      // Mac BOINC Manager
 
 //    rgid = getgid();

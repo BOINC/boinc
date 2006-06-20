@@ -1539,6 +1539,7 @@
 				DDD7F08807F0692D00BA3B90 /* CopyFiles */,
 				DD8F75CB088D159D001AFCCA /* ShellScript */,
 				DD5FD5B20A02351A0093C19F /* ShellScript */,
+				DDF10D960A476D37001F76D6 /* ShellScript */,
 			);
 			buildRules = (
 				DD6826EE08641BE00070CDB8 /* PBXBuildRule */,
@@ -2404,6 +2405,19 @@
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
 			shellScript = "if [ ! \"$BUILD_DIR/../../clientgui/mac/BOINCSaver.nib\" -nt \"$BUILD_DIR/../../clientgui/mac/BOINCSaver.nib.sit\" ]; then\nrm -dfR \"$BUILD_DIR/../../clientgui/mac/BOINCSaver.nib\"\nopen \"$BUILD_DIR/../../clientgui/mac/BOINCSaver.nib.sit\"\nsleep 6\ntouch \"$BUILD_DIR/../../clientgui/mac/BOINCSaver.nib\"\nfi\n";
+		};
+		DDF10D960A476D37001F76D6 /* ShellScript */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "chown -R ${USER}:${GROUP} \"${BUILT_PRODUCTS_DIR}/BOINCManager.app\"\nchmod g+s \"${BUILT_PRODUCTS_DIR}/BOINCManager.app/Contents/MacOS/BOINCManager\"\nchmod u+s,g+s \"${BUILT_PRODUCTS_DIR}/BOINCManager.app/Contents/Resources/boinc\"\n";
 		};
 /* End PBXShellScriptBuildPhase section */
 

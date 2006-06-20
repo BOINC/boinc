@@ -54,6 +54,10 @@ static AuthorizationRef        gOurAuthRef = NULL;
 // GDB can't attach to applications which are running as a diferent user or group so 
 //  it ignores the S_ISUID and S_ISGID permisison bits when launching an application.
 // To work around this, the _DEBUG version uses the current user and group.
+//
+// NOTE: The Manager and Client call these routines only "#ifdef _DEBUG" (i.e., 
+// only from the DEVELOPMENT BUILD), never from the Deployment build.
+//
 static char boinc_master_user_name[64];
 static char boinc_master_group_name[64];
 static char boinc_project_user_name[64];

@@ -21,8 +21,8 @@
 
 #ifdef _DEBUG
 // Comment out this #define for easier debugging of project applications.
-// Leave it active for better debugging of SANDBOX permissions logic.
-#define DEBUG_WITH_FAKE_PROJECT_USER_AND_GROUP
+// Make it active for better debugging of SANDBOX permissions logic.
+// #define DEBUG_WITH_FAKE_PROJECT_USER_AND_GROUP
 #endif
 
 
