@@ -83,7 +83,9 @@ int CreateBOINCUsersAndGroups() {
     err = CreateUserAndGroup(REAL_BOINC_MASTER_NAME, REAL_BOINC_MASTER_NAME);
     if (err != noErr)
         return err;
-    
+        
+    SleepTicks(120);
+
     err = CreateUserAndGroup(REAL_BOINC_PROJECT_NAME, REAL_BOINC_PROJECT_NAME);
     if (err != noErr)
         return err;
@@ -422,18 +424,19 @@ int SetBOINCDataOwnersGroupsAndPermissions() {
 
 
 static OSStatus CreateUserAndGroup(char * user_name, char * group_name) {
-    OSStatus    err = noErr;
-    passwd      *pw = NULL;
-    group       *grp = NULL;
-    uid_t       userid = 0;
-    gid_t       groupid = 0;
-    gid_t       usergid = 0;
-    Boolean     userExists = false;
-    Boolean     groupExists = false;
-    short       i;
-    char        buf1[80];
-    char        buf2[80];
-    char        buf3[80];
+    OSStatus        err = noErr;
+    passwd          *pw = NULL;
+    group           *grp = NULL;
+    uid_t           userid = 0;
+    gid_t           groupid = 0;
+    gid_t           usergid = 0;
+    Boolean         userExists = false;
+    Boolean         groupExists = false;
+    short           i;
+    static short    start_id = MIN_ID;
+    char            buf1[80];
+    char            buf2[80];
+    char            buf3[80];
     
     pw = getpwnam(user_name);
     if (pw) {
@@ -475,7 +478,7 @@ static OSStatus CreateUserAndGroup(char * user_name, char * group_name) {
     // neither a user ID or a group ID.
     // If we need both a new user ID and a new group ID, finds a value that can be used for both.
     if ( (userid == 0) || (groupid == 0) ) {
-        for(i=MIN_ID; ; i++) {
+        for(i=start_id; ; i++) {
            if ((uid_t)i != userid) {
                 pw = getpwuid((uid_t)i);
                 if (pw)
@@ -492,11 +495,13 @@ static OSStatus CreateUserAndGroup(char * user_name, char * group_name) {
                 userid = (uid_t)i;
             if (! groupExists)
                 groupid = (gid_t)i;
+
+            start_id = i + 1;               // Start with next higher value next time
                 
             break;                          // Success!
         }
     }
-
+    
     sprintf(buf1, "/groups/%s", group_name);
     sprintf(buf2, "%d", groupid);
 
@@ -544,6 +549,9 @@ static OSStatus CreateUserAndGroup(char * user_name, char * group_name) {
     err = DoPrivilegedExec(dsclPath, ".", "-create", buf1, "gid", buf2);
     if (err)
         return err;
+
+    system("lookupd -flushcache");
+    system("memberd -r");
 
     return noErr;
 }
@@ -691,6 +699,8 @@ OSStatus DoPrivilegedExec(const char *pathToTool, char *arg1, char *arg2, char *
     short               i;
     char                *args[8];
     OSStatus            err;
+    FILE                *ioPipe;
+    char                *p, junk[16];
 
     err = GetAuthorization();
     if (err != noErr) {
@@ -706,12 +716,16 @@ OSStatus DoPrivilegedExec(const char *pathToTool, char *arg1, char *arg2, char *
             args[4] = arg5;
             args[5] = NULL;
 
-            err = AuthorizationExecuteWithPrivileges (gOurAuthRef, pathToTool, 0, args, NULL);
-
+            err = AuthorizationExecuteWithPrivileges (gOurAuthRef, pathToTool, 0, args, &ioPipe);
+            // We use the pipe to signal us when the command has completed
+            p = fgets(junk, sizeof(junk), ioPipe);
+            fclose (ioPipe);
+#if 0
             if (strcmp(arg2, "-R") == 0)
                 SleepTicks(DELAY_TICKS_R);
             else
                 SleepTicks(DELAY_TICKS);
+#endif
             if (err == noErr)
                 break;
         }
@@ -769,7 +783,6 @@ static pascal Boolean ErrorDlgFilterProc(DialogPtr theDialog, EventRecord *theEv
     
     return StdFilterProc(theDialog, theEvent, theItemHit);
 }
-
 
 // Uses usleep to sleep for full duration even if a signal is received
 static void SleepTicks(UInt32 ticksToSleep) {

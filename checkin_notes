@@ -6357,13 +6357,20 @@ Charlie 20 June 2006
     - Mac sandbox:
         - Add switcher directory and file to build scripts
         - Postinstall application changes for SANDBOX
-        - Postinstall application adds BOINC Manager to login startup items for all visible users, not just user currently logged in at install time.
-        - Postinstall application deletes installer's package receipt to permit running installer again.
+        - Postinstall application adds BOINC Manager to login startup items for 
+            all visible users, not just user currently logged in at install time.
+        - Postinstall application deletes installer's package receipt to permit 
+            running installer again.
+        - DoPrivilegedExec uses pipe to determine when command completes.
 
     client/
         check_security.C
+   clientgui/
+        mac/
+            SetupSecurity.cpp
     mac_build/
         boinc.xcodeproj/
+            project.pbxproj
     mac_installer/
         release_boinc.sh
 	release_GridRepublic.sh
