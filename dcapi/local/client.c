@@ -37,9 +37,9 @@ char *DC_resolveFileName(DC_FileType type, const char *logicalFileName)
 {
         if (!strcmp(logicalFileName, DC_CHECKPOINT_FILE))
         {
-		return CKPT_LABEL;
+		return strdup(CKPT_LABEL);
         }
-	return (char *)logicalFileName;
+	return strdup(logicalFileName);
 }
 
 int DC_sendResult(const char *logicalFileName, const char *path, DC_FileMode fileMode)
