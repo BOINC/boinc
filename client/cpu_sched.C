@@ -670,7 +670,7 @@ bool CLIENT_STATE::no_work_for_a_cpu() {
 
     for (i=0; i< results.size(); i++){
         RESULT* rp = results[i];
-        if (!rp->runnable_soon()) continue;
+        if (!rp->nearly_runnable()) continue;
         if (rp->project->non_cpu_intensive) continue;
         count++;
     }
@@ -751,7 +751,7 @@ bool CLIENT_STATE::rr_simulation(double per_cpu_proc_rate, double rrs) {
 
     for (i=0; i<results.size(); i++) {
         rp = results[i];
-        if (!rp->runnable()) continue;
+        if (!rp->nearly_runnable()) continue;
         if (rp->project->non_cpu_intensive) continue;
         rp->rrsim_cpu_left = rp->estimated_cpu_time_remaining();
         p = rp->project;
@@ -862,9 +862,9 @@ bool CLIENT_STATE::rr_simulation(double per_cpu_proc_rate, double rrs) {
             int idle_cpus = ncpus - last_active_size;
             cpu_shortfall += dtime*idle_cpus;
 
-            double proj_cpu_share = ncpus*p->resource_share/saved_rrs;
+            double proj_cpu_share = ncpus*pbest->resource_share/saved_rrs;
             if (last_proj_active_size < proj_cpu_share) {
-                p->cpu_shortfall += dtime*(proj_cpu_share - last_proj_active_size);
+                pbest->cpu_shortfall += dtime*(proj_cpu_share - last_proj_active_size);
             }
         }
 

@@ -1478,7 +1478,7 @@ bool RESULT::runnable() {
     return true;
 }
 
-bool RESULT::runnable_soon() {
+bool RESULT::nearly_runnable() {
     if (suspended_via_gui) return false;
     if (project->suspended_via_gui) return false;
     if (computing_done()) return false;

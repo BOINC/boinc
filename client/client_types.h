@@ -456,7 +456,7 @@ struct RESULT {
     bool computing_done();
     bool runnable();
         // downloaded, not finished, not suspended, project not suspended
-    bool runnable_soon();
+    bool nearly_runnable();
         // downloading or downloaded,
         // not finished, suspended, project not suspended
     // temporaries used in CLIENT_STATE::rr_misses_deadline():

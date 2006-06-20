@@ -6427,3 +6427,11 @@ David  20 June 2006
         client_state.C
     clientgui/
         MainFrame.cpp
+
+David  20 June 2006
+    - core client: rename RESULT::runnable_soon() to nearly_runnable()
+    - core client: small bug fix in CPU shortfall calculation
+
+    client/
+        client_types.C,h
+        cpu_sched.C
