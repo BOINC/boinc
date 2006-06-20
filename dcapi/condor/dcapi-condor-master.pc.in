@@ -7,5 +7,5 @@ Name: DC-API Condor Master
 Description: Condor master implementation for DC-API
 Version: @PACKAGE_VERSION@
 Requires.private: glib-2.0
-Libs: -L${libdir} -ldc-condor -lstdc++ -luuid -ldl
+Libs: -L${libdir} -ldc-condor -lstdc++ -luuid -ldl @CONDOR_LDFLAGS@ -lcondorapi
 Cflags: -I${includedir}

@@ -1,3 +1,21 @@
+dcapi (0.9-7) unstable; urgency=low
+
+  * Bugzilla bugs fixed:
+     #824: Database error (actually, it was fixed in 0.9-6)
+     #846: DC-API kliens oldal windows SYSLOG
+     #847: DC-API kliens oldal windows - Nem tamogatott tombdef
+     #851: Visual C++ szintaxis
+     #852: dirent struktura windowban nincs
+     #854: __func__ windowson
+     #855: windows unknown identifiers
+     #864: unistd.h windows alatt
+     #866: client.C - nincs _Exit windows-on
+     #868: util.c 2 - windows
+     #869: util.c 3 - windows
+     #871: util.c 5 - windows
+
+ -- Gábor Gombás <gombasg@sztaki.hu>  Mon, 19 Jun 2006 12:21:02 +0200
+
 dcapi (0.9-6) unstable; urgency=low
 
   * Bugzilla bugs fixed:

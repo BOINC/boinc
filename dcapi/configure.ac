@@ -68,7 +68,33 @@ AC_ARG_ENABLE([backend-condor],
 		[enable the Condor backend @<:@default=no@:>@]),,
 	[enable_backend_condor=yes])
 
+AC_ARG_WITH([condor-headers],
+	AS_HELP_STRING([--with-condor-headers=DIR],
+		[Use condor headers in DIR]), [CONDOR_CPPFLAGS="-I$withval"])
+AC_ARG_WITH([condor-libs],
+	AS_HELP_STRING([--with-condor-libs=DIR],
+		[Use condor libraries in DIR]), [CONDOR_LDFLAGS="-L$withval"])
+AC_SUBST([CONDOR_CPPFLAGS])
+AC_SUBST([CONDOR_LDFLAGS])
+
 if test "$enable_backend_condor" = yes; then
+	AC_LANG_PUSH([C++])
+	save_CPPFLAGS="$CPPFLAGS"
+	CPPFLAGS="$CPPFLAGS $CONDOR_CPPFLAGS"
+	save_LDFLAGS="$LDFLAGS"
+	LDFLAGS="$LDFLAGS $CONDOR_LDFLAGS"
+	AC_CHECK_HEADERS([user_log.c++.h],,
+		[AC_MSG_ERROR([Condor headers are missing])],
+		[AC_INCLUDES_DEFAULT
+#include <time.h>
+])
+	AC_CHECK_LIB([condorapi], [InitUserLog], [true],
+		[AC_MSG_ERROR([Condor API library is missing])],
+		[-ldl])
+	LDFLAGS="$save_LDFLAGS"
+	CPPFLAGS="$save_CPPFLAGS"
+	AC_LANG_POP([C++])
+
 	BACKENDS="$BACKENDS condor"
 fi
 

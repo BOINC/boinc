@@ -1,0 +1,9 @@
+examples/uppercase-with-callback/client.c
+examples/uppercase-with-callback/configure.ac
+examples/uppercase-with-callback/dc-api.conf
+examples/uppercase-with-callback/dcapi.m4
+examples/uppercase-with-callback/input.txt
+examples/uppercase-with-callback/Makefile.am
+examples/uppercase-with-callback/master.c
+examples/uppercase-with-callback/uppercase-example-client.xml.in
+examples/uppercase-with-callback/uppercase-example-master.xml.in
