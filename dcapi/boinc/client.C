@@ -623,7 +623,7 @@ void DC_finishClient(int exitcode)
 	boinc_finish(exitcode);
 	/* We should never get here, but boinc_finish() is not marked
 	 * with "noreturn" so this avoids a GCC warning */
-	_Exit(exitcode);
+	exit(exitcode);
 }
 
 /********************************************************************
