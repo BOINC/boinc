@@ -119,19 +119,18 @@ int CLIENT_STATE::app_finished(ACTIVE_TASK& at) {
                 if (!fip->upload_when_present && !fip->sticky) {
                     fip->delete_file();     // sets status to NOT_PRESENT
                 } else {
-                    retval = md5_file(path, fip->md5_cksum, fip->nbytes);
+                    retval = 0;
+                    if (fip->gzip_when_done) {
+                        retval = fip->gzip();
+                    }
+                    if (!retval) {
+                        retval = md5_file(path, fip->md5_cksum, fip->nbytes);
+                    }
                     if (retval) {
                         fip->status = retval;
                         had_error = true;
                     } else {
                         fip->status = FILE_PRESENT;
-                    }
-                    if (fip->gzip_when_done) {
-                        retval = fip->gzip();
-                        if (retval) {
-                            fip->status = retval;
-                            had_error = true;
-                        }
                     }
                 }
             }

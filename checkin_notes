@@ -6443,3 +6443,15 @@ David  20 June 2006
     client/
         client_types.C,h
         cs_apps.C
+
+David  20 June 2006
+	- debugged upload compression feature.
+		I had to change semantics:
+		the filename stays the same after it's compressed.
+		Also: the MD5 and file size are those of the compressed file.
+
+	client/
+		client_types.C
+		cs_apps.C
+	win_build/
+		boinc_cli_curl.vcproj

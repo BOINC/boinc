@@ -23,7 +23,7 @@
 			<Tool
 				Name="VCCLCompilerTool"
 				Optimization="0"
-				AdditionalIncludeDirectories="../lib;../api;../client/win;../client;..;../openssl/include;../curl/include"
+				AdditionalIncludeDirectories="&quot;C:\Documents and Settings\davea\My Documents\BOINC\boinc\zlib\include&quot;;../lib;../api;../client/win;../client;..;../openssl/include;../curl/include"
 				PreprocessorDefinitions="WIN32;_WIN32;_DEBUG;_MT;_DLL;_WINDOWS;_CONSOLE;_USE_CURL;USE_SSL;USE_SSLEAY;USE_OPENSSL"
 				MinimalRebuild="FALSE"
 				BasicRuntimeChecks="3"
@@ -45,11 +45,11 @@
 				Name="VCCustomBuildTool"/>
 			<Tool
 				Name="VCLinkerTool"
-				AdditionalDependencies="ssleay32.lib libeay32.lib libcurl.lib MSVCRTD.LIB MSVCPRTD.LIB wsock32.lib wininet.lib winmm.lib libboincd.lib"
+				AdditionalDependencies="zlib1.lib ssleay32.lib libeay32.lib libcurl.lib MSVCRTD.LIB MSVCPRTD.LIB wsock32.lib wininet.lib winmm.lib libboincd.lib"
 				OutputFile=".\Build\Debug/boinc.exe"
 				LinkIncremental="2"
 				SuppressStartupBanner="TRUE"
-				AdditionalLibraryDirectories="&quot;../openssl/mswin/$(PROCESSOR_ARCHITECTURE)/lib&quot;;&quot;../curl/mswin/$(PROCESSOR_ARCHITECTURE)/lib&quot;;../../;Build/Debug"
+				AdditionalLibraryDirectories="&quot;../zlib/mswin/$(PROCESSOR_ARCHITECTURE)/lib&quot;;&quot;../openssl/mswin/$(PROCESSOR_ARCHITECTURE)/lib&quot;;&quot;../curl/mswin/$(PROCESSOR_ARCHITECTURE)/lib&quot;;../../;Build/Debug"
 				IgnoreAllDefaultLibraries="TRUE"
 				IgnoreDefaultLibraryNames=""
 				GenerateDebugInformation="TRUE"

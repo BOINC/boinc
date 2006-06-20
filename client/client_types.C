@@ -21,6 +21,7 @@
 
 #ifdef _WIN32
 #include "boinc_win.h"
+#include "zlib.h"
 #else
 #include "config.h"
 #include <sys/stat.h>
@@ -893,14 +894,16 @@ int FILE_INFO::gzip() {
         if (n <= 0) break;
         int m = gzwrite(out, buf, n);
         if (m != n) {
-            retval = ERR_WRITE;
-            goto done;
+            fclose(in);
+            gzclose(out);
+            return ERR_WRITE;
         }
     }
-done:
     fclose(in);
     gzclose(out);
-    return retval;
+    boinc_delete_file(inpath);
+    boinc_rename(outpath, inpath);
+    return 0;
 }
 
 // Parse XML based app_version information, usually from client_state.xml
