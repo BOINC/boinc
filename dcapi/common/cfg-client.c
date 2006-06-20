@@ -156,7 +156,7 @@ int DC_getCfgInt(const char *key, int defaultValue)
 	/* Check for unit suffixes */
 	if (p && *p)
 	{
-		long mult = _DC_processSuffix(p);
+		long mult = (long) _DC_processSuffix(p);
 		if (mult == -1)
 		{
 			DC_log(LOG_WARNING, "Configuration value for key %s "
