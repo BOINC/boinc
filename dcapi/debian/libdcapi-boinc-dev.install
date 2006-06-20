@@ -1,0 +1,2 @@
+debian/tmp/usr/lib/libdc*-boinc.a
+debian/tmp/usr/lib/pkgconfig/dcapi-boinc*.pc

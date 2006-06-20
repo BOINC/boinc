@@ -11,12 +11,8 @@ endif
 pkgconfigdir = ${libdir}/pkgconfig
 pkgconfig_DATA = dcapi-condor-client.pc dcapi-condor-master.pc
 
-CONDOR_HOME	= /home/other/condor
-AM_CPPFLAGS	= -I$(top_srcdir)/common $(GLIB_CFLAGS) \
-		  -I$(CONDOR_HOME)/include
-AM_LDFLAGS	= $(BOINC_LDFLAGS) $(GLIB_LIBS)
-AM_CFLAGS	= -O0 -g
-AM_CXXFLAGS	= -O0 -g
+AM_CPPFLAGS	= -I$(top_srcdir)/common $(GLIB_CFLAGS) $(CONDOR_CPPFLAGS)
+AM_LDFLAGS	= $(GLIB_LIBS) $(CONDOR_LDFLAGS)
 
 noinst_HEADERS	= condor_common.h \
 		  condor_defs.h \
@@ -36,7 +32,7 @@ libdc_condor_la_SOURCES = condor_master.c \
 
 libdc_condor_la_LIBADD = ../common/libdc-common-master.la \
 			 $(GLIB_LIBS) \
-			 -l$(CONDOR_HOME)/lib/libcondorapi.a
+			 -lcondorapi
 
 libdc_client_condor_la_SOURCES = condor_slave.c \
 				 condor_common.c \

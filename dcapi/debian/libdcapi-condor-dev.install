@@ -1,0 +1,2 @@
+debian/tmp/usr/lib/libdc-*condor.a
+debian/tmp/usr/lib/pkgconfig/dcapi-condor*.pc
