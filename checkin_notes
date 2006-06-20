@@ -6417,3 +6417,13 @@ David  20 June 2006
 		app_start.C
 		client_state.C,h
 		cs_apps.C
+
+David  20 June 2006
+    - Manager: change menu item to "Attach to account manager"
+        I think it's OK to use "attach" in connection
+        with account managers as well as projects
+
+    client/
+        client_state.C
+    clientgui/
+        MainFrame.cpp

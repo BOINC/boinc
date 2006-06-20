@@ -70,6 +70,7 @@ htmlspecialchars("
     [ <dont_delete_batches/> ]
     [ <sched_debug_level> N </sched_debug_level> ]
     [ <fuh_debug_level> N </fuh_debug_level> ]
+    [ <verify_files_on_app_start/> ]
 
 
     <!-- optional; defaults as indicated: -->
@@ -371,6 +372,15 @@ list_item("sched_debug_level",
 list_item("fuh_debug_level",
     "Verbosity level for file upload handler log output.
     1=minimal, 2=normal (default), 3=verbose."
+);
+list_item("verify_files_on_app_start",
+    "Before starting or restarting an app,
+    check contents of input files and app version files
+    by either MD5 or digital signature check.
+    Detects user tampering with file
+    (but doesn't really increase security,
+    since user could also change MD5s or signatures in
+    client state file)."
 );
 
 list_end();

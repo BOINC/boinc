@@ -360,7 +360,7 @@ bool CMainFrame::CreateMenu() {
         );
         menuTools->Append(
             ID_PROJECTSATTACHACCOUNTMANAGER, 
-            _("&Account manager"),
+            _("Attach to &account manager"),
             _("Attach to an account manager")
         );
     } else {
