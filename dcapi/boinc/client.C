@@ -588,7 +588,7 @@ void DC_finishClient(int exitcode)
 		ret = link(last_complete_ckpt, path);
 		if (ret)
 #endif
-			_DC_copyFile(last_complete_ckpt, path);
+		ret = _DC_copyFile(last_complete_ckpt, path);
 
 		DC_log(LOG_DEBUG, "Uploading last complete checkpoint %s",
 			last_complete_ckpt);
