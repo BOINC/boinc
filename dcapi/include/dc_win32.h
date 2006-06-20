@@ -8,6 +8,9 @@
  *
  * Copyright MTA SZTAKI, 2006
  */
+
+/* <private_header> */
+
 #ifndef _DC_WIN32_H_
 #define _DC_WIN32_H_
 
