@@ -25,6 +25,9 @@ enum {
 	LOG_CRIT
 };
 
+/* No ssize_t */
+typedef long ssize_t;
+
 #ifdef __cplusplus
 }
 #endif
