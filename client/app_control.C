@@ -553,6 +553,7 @@ int ACTIVE_TASK::abort_task(int exit_status, const char* msg) {
     }
     result->exit_status = exit_status;
     gstate.report_result_error(*result, msg);
+    result->state = RESULT_ABORTED;
     return 0;
 }
 

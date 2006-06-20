@@ -201,34 +201,37 @@ bool CLIENT_STATE::handle_finished_apps() {
 // Called from ACTIVE_TASK::start() (with verify=true)
 // when project has verify_files_on_app_start set.
 //
-bool CLIENT_STATE::input_files_available(RESULT* rp, bool verify) {
+int CLIENT_STATE::input_files_available(RESULT* rp, bool verify) {
     WORKUNIT* wup = rp->wup;
     FILE_INFO* fip;
     unsigned int i;
     APP_VERSION* avp;
     FILE_REF fr;
     PROJECT* project = rp->project;
+    int retval;
 
     avp = wup->avp;
     for (i=0; i<avp->app_files.size(); i++) {
         fr = avp->app_files[i];
         fip = fr.file_info;
-        if (fip->status != FILE_PRESENT) return false;
+        if (fip->status != FILE_PRESENT) return ERR_FILE_MISSING;
 
         // don't verify app files if using anonymous platform
         //
         if (!project->anonymous_platform) {
-            if (fip->verify_file(verify)) return false;
+            retval = fip->verify_file(verify);
+            if (retval) return retval;
         }
     }
 
     for (i=0; i<wup->input_files.size(); i++) {
         fip = wup->input_files[i].file_info;
         if (fip->generated_locally) continue;
-        if (fip->status != FILE_PRESENT) return false;
-        if (fip->verify_file(verify)) return false;
+        if (fip->status != FILE_PRESENT) return ERR_FILE_MISSING;
+        retval = fip->verify_file(verify);
+        if (retval) return retval;
     }
-    return true;
+    return 0;
 }
 
 

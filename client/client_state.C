@@ -1012,6 +1012,7 @@ bool CLIENT_STATE::update_results() {
     vector<RESULT*>::iterator result_iter;
     bool action = false;
     static double last_time=0;
+    int retval;
 
     if (gstate.now - last_time < 1.0) return false;
     last_time = gstate.now;
@@ -1026,7 +1027,8 @@ bool CLIENT_STATE::update_results() {
             action = true;
             break;
         case RESULT_FILES_DOWNLOADING:
-            if (input_files_available(rp, false)) {
+            retval = input_files_available(rp, false);
+            if (!retval) {
                 rp->state = RESULT_FILES_DOWNLOADED;
                 if (rp->wup->avp->app_files.size()==0) {
                     // if this is a file-transfer app, start the upload phase
@@ -1089,6 +1091,8 @@ bool CLIENT_STATE::time_to_exit() {
 // - back off on contacting the project's scheduler
 //   (so don't crash over and over)
 // - Append a description of the error to result.stderr_out
+// - If result state is FILES_DOWNLOADED, change it to COMPUTE_ERROR
+//   so that we don't try to run it again.
 //
 int CLIENT_STATE::report_result_error(RESULT& res, const char* format, ...) {
     char buf[4096],  err_msg[4096];
@@ -1138,6 +1142,7 @@ int CLIENT_STATE::report_result_error(RESULT& res, const char* format, ...) {
         // ACTIVE_TASK::abort_task (if exceeded resource limit)
         // CLIENT_STATE::schedule_cpus (catch-all for resume/start errors)
         //
+        res.state = RESULT_COMPUTE_ERROR;
         if (!res.exit_status) {
             res.exit_status = ERR_RESULT_START;
         }

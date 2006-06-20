@@ -6404,3 +6404,16 @@ David  20 June 2006
         sched_config.C,h
         server_types.h
         validate_util2.C
+
+David  20 June 2006
+	- Debug "verify files on app start" feature
+		- ACTIVE_TASK::start(): call report_result_error()
+			on any error condition; this puts the result in
+			the correct state so that it won't get started again.
+		- CLIENT_STATE::verify_input_files() returns int, not bool
+
+	client/
+		app_control.C
+		app_start.C
+		client_state.C,h
+		cs_apps.C

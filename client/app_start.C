@@ -297,7 +297,12 @@ int ACTIVE_TASK::copy_output_files() {
 //
 // Current dir is top-level BOINC dir
 //
-// postcondition: ACTIVE_TASK::task_state is set correctly
+// postcondition:
+// If any error occurs
+//   ACTIVE_TASK::task_state is PROCESS_COULDNT_START
+//   report_result_error() is called
+//  else
+//   ACTIVE_TASK::task_state is PROCESS_EXECUTING
 //
 int ACTIVE_TASK::start(bool first_time) {
     char exec_name[256], file_path[256], buf[256], exec_path[256];
@@ -305,13 +310,19 @@ int ACTIVE_TASK::start(bool first_time) {
     FILE_REF fref;
     FILE_INFO* fip;
     int retval;
+#ifdef _WIN32
+    std::string cmd_line;
+#endif
 
     SCOPE_MSG_LOG scope_messages(log_messages, CLIENT_MSG_LOG::DEBUG_TASK);
     scope_messages.printf("ACTIVE_TASK::start(first_time=%d)\n", first_time);
 
     if (wup->project->verify_files_on_app_start) {
         retval = gstate.input_files_available(result, true);
-        if (retval) return retval;
+        if (retval) {
+            strcpy(buf, "Input file missing or invalid");
+            goto error;
+        }
     }
 
     if (first_time) {
@@ -326,10 +337,11 @@ int ACTIVE_TASK::start(bool first_time) {
     if (!app_client_shm.shm) {
         retval = get_shmem_seg_name();
         if (retval) {
-            msg_printf(wup->project, MSG_ERROR,
-                "Can't get shared memory segment name: %s", boincerror(retval)
+            sprintf(buf,
+                "Can't get shared memory segment name: %s",
+                boincerror(retval)
             );
-            return retval;
+            goto error;
         }
     }
 
@@ -337,7 +349,10 @@ int ACTIVE_TASK::start(bool first_time) {
     // since the shmem name is part of the file
     //
     retval = write_app_init_file();
-    if (retval) return retval;
+    if (retval) {
+        strcpy(buf, "Can't write init file");
+        goto error;
+    }
 
     // set up applications files
     //
@@ -348,16 +363,14 @@ int ACTIVE_TASK::start(bool first_time) {
         get_pathname(fip, file_path);
         if (fref.main_program) {
             if (is_image_file(fip->name)) {
-                msg_printf(wup->project, MSG_ERROR,
-                    "Main program %s is an image file", fip->name
-                );
-                return ERR_NO_SIGNATURE;
+                sprintf(buf, "Main program %s is an image file", fip->name);
+                retval = ERR_NO_SIGNATURE;
+                goto error;
             }
             if (!fip->executable && !wup->project->anonymous_platform) {
-                msg_printf(wup->project, MSG_ERROR,
-                    "Main program %s is not executable", fip->name
-                );
-                return ERR_NO_SIGNATURE;
+                sprintf(buf, "Main program %s is not executable", fip->name);
+                retval = ERR_NO_SIGNATURE;
+                goto error;
             }
             safe_strcpy(exec_name, fip->name);
             safe_strcpy(exec_path, file_path);
@@ -367,14 +380,16 @@ int ACTIVE_TASK::start(bool first_time) {
         //
         if (first_time || wup->project->anonymous_platform) {
             retval = setup_file(wup, fip, fref, file_path, slot_dir);
-            if (retval) return retval;
+            if (retval) {
+                strcpy(buf, "Can't link input file");
+                goto error;
+            }
         }
     }
     if (!strlen(exec_name)) {
-        msg_printf(wup->project, MSG_ERROR,
-            "No main program specified"
-        );
-        return ERR_NOT_FOUND;
+        strcpy(buf, "No main program specified");
+        retval = ERR_NOT_FOUND;
+        goto error;
     }
 
     // set up input, output files
@@ -385,7 +400,10 @@ int ACTIVE_TASK::start(bool first_time) {
             fip = fref.file_info;
             get_pathname(fref.file_info, file_path);
             retval = setup_file(wup, fip, fref, file_path, slot_dir);
-            if (retval) return retval;
+            if (retval) {
+                strcpy(buf, "Can't link input file");
+                goto error;
+            }
         }
         for (i=0; i<result->output_files.size(); i++) {
             fref = result->output_files[i];
@@ -393,7 +411,10 @@ int ACTIVE_TASK::start(bool first_time) {
             fip = fref.file_info;
             get_pathname(fref.file_info, file_path);
             retval = setup_file(wup, fip, fref, file_path, slot_dir);
-            if (retval) return retval;
+            if (retval) {
+                strcpy(buf, "Can't link output file");
+                goto error;
+            }
         }
     }
 
@@ -403,7 +424,6 @@ int ACTIVE_TASK::start(bool first_time) {
     PROCESS_INFORMATION process_info;
     STARTUPINFO startup_info;
     char slotdirpath[256];
-    std::string cmd_line;
     char error_msg[1024];
 
     memset(&process_info, 0, sizeof(process_info));
@@ -415,7 +435,11 @@ int ACTIVE_TASK::start(bool first_time) {
     if (!quitRequestEvent) {
         sprintf(buf, "%s%s", QUIT_PREFIX, shmem_seg_name);
         quitRequestEvent = CreateEvent(0, FALSE, FALSE, buf);
-        if (quitRequestEvent == NULL) return ERR_INVALID_EVENT;
+        if (quitRequestEvent == NULL) {
+            strcpy(buf, "Can't create event");
+            retval = ERR_INVALID_EVENT;
+            goto error;
+        }
     }
 
     // create core/app share mem segment if needed
@@ -425,7 +449,11 @@ int ACTIVE_TASK::start(bool first_time) {
         shm_handle = create_shmem(buf, sizeof(SHARED_MEM),
             (void **)&app_client_shm.shm, false
         );
-        if (shm_handle == NULL) return ERR_SHMGET;
+        if (shm_handle == NULL) {
+            strcpy(buf, "Can't create shared memory");
+            retval = ERR_SHMGET;
+            goto error;
+        }
     }
     app_client_shm.reset_msgs();
 
@@ -456,9 +484,9 @@ int ACTIVE_TASK::start(bool first_time) {
         boinc_sleep(drand());
     }
     if (!success) {
-        task_state = PROCESS_COULDNT_START;
-        gstate.report_result_error(*result, "CreateProcess() failed - %s", error_msg);
-        return ERR_EXEC;
+        sprintf(buf, "CreateProcess() failed - %s", error_msg);
+        retval = ERR_EXEC;
+        goto error;
     }
     pid = process_info.dwProcessId;
     pid_handle = process_info.hProcess;
@@ -476,11 +504,8 @@ int ACTIVE_TASK::start(bool first_time) {
             shmem_seg_name, sizeof(SHARED_MEM), (void**)&app_client_shm.shm
         );
         if (retval) {
-            msg_printf(
-                wup->project, MSG_ERROR,
-                "Can't create shared memory: %s", boincerror(retval)
-            );
-            return retval;
+            sprintf(buf, "Can't create shared memory: %s", boincerror(retval));
+            goto error;
         }
     }
     app_client_shm.reset_msgs();
@@ -492,10 +517,8 @@ int ACTIVE_TASK::start(bool first_time) {
 	//
 	retval = chdir(slot_dir);
 	if (retval) {
-		msg_printf(wup->project, MSG_ERROR,
-			"Can't change directory: %s", slot_dir, boincerror(retval)
-        );
-		return retval;
+		sprintf(buf, "Can't change directory: %s", slot_dir, boincerror(retval));
+		goto error;
 	}
 
 	// hook up stderr to a specially-named file
@@ -510,11 +533,10 @@ int ACTIVE_TASK::start(bool first_time) {
 	sprintf(buf, "../../%s", exec_path );
 	pid = spawnv(P_NOWAIT, buf, argv);
 	if (pid == -1) {
-		msg_printf(wup->project, MSG_ERROR,
-			"Process creation failed: %s\n", buf, boincerror(retval)
-        );
+		sprintf(buf, "Process creation failed: %s\n", buf, boincerror(retval));
 		chdir(current_dir);
-        return ERR_EXEC;
+        retval = ERR_EXEC;
+        goto error;
 	}
 
 	// restore current dir
@@ -537,11 +559,8 @@ int ACTIVE_TASK::start(bool first_time) {
             (void**)&app_client_shm.shm
         );
         if (retval) {
-            msg_printf(
-                wup->project, MSG_ERROR,
-                "Can't create shared memory: %s", boincerror(retval)
-            );
-            return retval;
+            sprintf(buf, "Can't create shared memory: %s", boincerror(retval));
+            goto error;
         }
     }
     app_client_shm.reset_msgs();
@@ -553,12 +572,9 @@ int ACTIVE_TASK::start(bool first_time) {
 
     pid = fork();
     if (pid == -1) {
-        task_state = PROCESS_COULDNT_START;
-        gstate.report_result_error(*result, "fork() failed: %s", strerror(errno));
-        msg_printf(wup->project, MSG_ERROR,
-            "Process creation failed: %s", strerror(errno)
-        );
-        return ERR_FORK;
+        sprintf(buf, "fork() failed: %s", strerror(errno));
+        retval = ERR_FORK;
+        goto error;
     }
     if (pid == 0) {
         // from here on we're running in a new process.
@@ -614,6 +630,13 @@ int ACTIVE_TASK::start(bool first_time) {
 #endif
     task_state = PROCESS_EXECUTING;
     return 0;
+
+    // go here on error; "buf" contains error message, "retval" is nonzero
+    //
+error:
+    gstate.report_result_error(*result, buf);
+    task_state = PROCESS_COULDNT_START;
+    return retval;
 }
 
 // Resume the task if it was previously running; otherwise start it
