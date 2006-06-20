@@ -12,11 +12,14 @@
 
 #include <sys/types.h>
 #include <sys/stat.h>
-#include <unistd.h>
 #include <stdlib.h>
 #include <string.h>
 #include <limits.h>
 #include <stdio.h>
+
+#ifndef _WIN32
+#include <dirent.h>
+#endif
 
 /* BOINC includes */
 #ifdef _WIN32
