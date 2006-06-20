@@ -6348,3 +6348,7 @@ Charlie 19 June 2006
         boinc.xcodeproj/
             project.pbxproj
 
+Rom    19 June 2006 (HEAD)
+    - Tag for 5.5.2 release, all platforms
+      boinc_core_release_5_5_2
+
