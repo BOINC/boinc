@@ -7,5 +7,6 @@ LIBRARY    boinccas95
 EXPORTS
 	DllMain
 	DetectOldInstaller
+	ShutdownBOINC
 	ShutdownBOINCManager
 	ValidateSetupType
