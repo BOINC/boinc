@@ -196,8 +196,12 @@ bool CLIENT_STATE::handle_finished_apps() {
 
 // Returns true iff all the input files for a result are present
 // (both WU and app version)
+// Called from CLIENT_STATE::update_results (with verify=false)
+// to transition result from DOWNLOADING to DOWNLOADED.
+// Called from ACTIVE_TASK::start() (with verify=true)
+// when project has verify_files_on_app_start set.
 //
-bool CLIENT_STATE::input_files_available(RESULT* rp) {
+bool CLIENT_STATE::input_files_available(RESULT* rp, bool verify) {
     WORKUNIT* wup = rp->wup;
     FILE_INFO* fip;
     unsigned int i;
@@ -211,10 +215,10 @@ bool CLIENT_STATE::input_files_available(RESULT* rp) {
         fip = fr.file_info;
         if (fip->status != FILE_PRESENT) return false;
 
-        // don't check file size for anonymous platform
+        // don't verify app files if using anonymous platform
         //
         if (!project->anonymous_platform) {
-            if (fip->verify_file(false)) return false;
+            if (fip->verify_file(verify)) return false;
         }
     }
 
@@ -222,7 +226,7 @@ bool CLIENT_STATE::input_files_available(RESULT* rp) {
         fip = wup->input_files[i].file_info;
         if (fip->generated_locally) continue;
         if (fip->status != FILE_PRESENT) return false;
-        if (fip->verify_file(false)) return false;
+        if (fip->verify_file(verify)) return false;
     }
     return true;
 }

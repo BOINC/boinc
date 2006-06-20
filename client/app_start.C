@@ -309,6 +309,11 @@ int ACTIVE_TASK::start(bool first_time) {
     SCOPE_MSG_LOG scope_messages(log_messages, CLIENT_MSG_LOG::DEBUG_TASK);
     scope_messages.printf("ACTIVE_TASK::start(first_time=%d)\n", first_time);
 
+    if (wup->project->verify_files_on_app_start) {
+        retval = gstate.input_files_available(result, true);
+        if (retval) return retval;
+    }
+
     if (first_time) {
         checkpoint_cpu_time = 0;
         checkpoint_wall_time = gstate.now;

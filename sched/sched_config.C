@@ -74,6 +74,7 @@ int SCHED_CONFIG::parse(FILE* f) {
         else if (!strcmp(tag, "sched_lockfile_dir")) strcpy(sched_lockfile_dir, contents);
         else if (!strcmp(tag, "one_result_per_user_per_wu")) one_result_per_user_per_wu = get_bool(contents);
         else if (!strcmp(tag, "non_cpu_intensive")) non_cpu_intensive = get_bool(contents);
+        else if (!strcmp(tag, "verify_files_on_app_start")) verify_files_on_app_start = get_bool(contents);
         else if (!strcmp(tag, "homogeneous_redundancy")) homogeneous_redundancy = get_bool(contents);
         else if (!strcmp(tag, "locality_scheduling")) locality_scheduling = get_bool(contents);
         else if (!strcmp(tag, "msg_to_host")) msg_to_host = get_bool(contents);

@@ -89,11 +89,6 @@ public:
     char file_signature[MAX_SIGNATURE_LEN];
         // if the file itself is signed (for executable files)
         // this is the signature
-#if 0
-    int priority;
-    double time_last_used;         // time of last use of FILE_INFO, update during parsing, writing, or application usage
-    double exp_date;
-#endif
     std::string error_msg;       // if permanent error occurs during file xfer,
                             // it's recorded here
 
@@ -219,6 +214,7 @@ public:
     bool anonymous_platform;    // app_versions.xml file found in project dir;
                             // use those apps rather then getting from server
     bool non_cpu_intensive;
+    bool verify_files_on_app_start;
     bool send_file_list;
         // send the list of permanent files associated/with the project
         // in the next scheduler reply

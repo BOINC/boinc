@@ -380,14 +380,14 @@ void CLIENT_STATE::schedule_cpus() {
         for (i=0; i<results.size(); i++){
             rp = results[i];
             if (rp->rr_sim_misses_deadline && !rp->last_rr_sim_missed_deadline) {
-                    msg_printf(rp->project, MSG_INFO,
-                        "Result %s now misses deadline.", rp->name
-                    );
+                msg_printf(rp->project, MSG_INFO,
+                    "Result %s now misses deadline.", rp->name
+                );
             }
             else if (!rp->rr_sim_misses_deadline && rp->last_rr_sim_missed_deadline) {
-                    msg_printf(rp->project, MSG_INFO,
-                        "Result %s now meets deadline.", rp->name
-                    );
+                msg_printf(rp->project, MSG_INFO,
+                    "Result %s now meets deadline.", rp->name
+                );
             }
         }
         for (i=0; i<projects.size(); i++) {
@@ -648,7 +648,6 @@ bool CLIENT_STATE::enforce_schedule() {
                 report_result_error(
                     *(atp->result), "Couldn't start or resume: %d", retval
                 );
-
                 request_schedule_cpus("start failed");
                 continue;
             }

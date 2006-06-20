@@ -45,6 +45,7 @@ public:
     int min_sendwork_interval;
     int max_wus_to_send;
     bool non_cpu_intensive;
+    bool verify_files_on_app_start;
     bool homogeneous_redundancy;
     bool locality_scheduling;
     bool ignore_upload_certificates;

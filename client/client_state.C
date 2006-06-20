@@ -1026,7 +1026,7 @@ bool CLIENT_STATE::update_results() {
             action = true;
             break;
         case RESULT_FILES_DOWNLOADING:
-            if (input_files_available(rp)) {
+            if (input_files_available(rp, false)) {
                 rp->state = RESULT_FILES_DOWNLOADED;
                 if (rp->wup->avp->app_files.size()==0) {
                     // if this is a file-transfer app, start the upload phase

@@ -51,12 +51,6 @@ PROJECT::PROJECT() {
 void PROJECT::init() {
     strcpy(master_url, "");
     strcpy(authenticator, "");
-#if 0
-    deletion_policy_priority = false;
-    deletion_policy_expire = false;
-    share_size = 0;
-    size = 0;
-#endif
     project_specific_prefs = "";
     gui_urls = "";
     resource_share = 100;
@@ -86,6 +80,7 @@ void PROJECT::init() {
     tentative = false;
     anonymous_platform = false;
     non_cpu_intensive = false;
+    verify_files_on_app_start = false;
     short_term_debt = 0;
     long_term_debt = 0;
     send_file_list = false;
@@ -123,10 +118,6 @@ int PROJECT::parse_state(MIOFILE& in) {
         else if (parse_str(buf, "<master_url>", master_url, sizeof(master_url))) continue;
         else if (parse_str(buf, "<project_name>", project_name, sizeof(project_name))) continue;
         else if (parse_str(buf, "<symstore>", symstore, sizeof(symstore))) continue;
-#if 0
-        else if (parse_double(buf, "<share_size>", share_size)) continue;
-        else if (parse_double(buf, "<size>", size)) continue;
-#endif
         else if (parse_str(buf, "<user_name>", user_name, sizeof(user_name))) continue;
         else if (parse_str(buf, "<team_name>", team_name, sizeof(team_name))) continue;
         else if (parse_str(buf, "<host_venue>", host_venue, sizeof(host_venue))) continue;
@@ -167,12 +158,9 @@ int PROJECT::parse_state(MIOFILE& in) {
         else if (match_tag(buf, "<trickle_up_pending/>")) trickle_up_pending = true;
         else if (match_tag(buf, "<send_file_list/>")) send_file_list = true;
         else if (match_tag(buf, "<non_cpu_intensive/>")) non_cpu_intensive = true;
+        else if (parse_bool(buf, "verify_files_on_app_start", verify_files_on_app_start)) continue;
         else if (match_tag(buf, "<suspended_via_gui/>")) suspended_via_gui = true;
         else if (match_tag(buf, "<dont_request_more_work/>")) dont_request_more_work = true;
-#if 0
-        else if (match_tag(buf, "<deletion_policy_priority/>")) deletion_policy_priority = true;
-        else if (match_tag(buf, "<deletion_policy_expire/>")) deletion_policy_expire = true;
-#endif
         else if (parse_double(buf, "<short_term_debt>", short_term_debt)) continue;
         else if (parse_double(buf, "<long_term_debt>", long_term_debt)) continue;
         else if (parse_double(buf, "<resource_share>", x)) continue;    // not authoritative
@@ -219,7 +207,7 @@ int PROJECT::write_state(MIOFILE& out, bool gui_rpc) {
         "    <long_term_debt>%f</long_term_debt>\n"
         "    <resource_share>%f</resource_share>\n"
         "    <duration_correction_factor>%f</duration_correction_factor>\n"
-        "%s%s%s%s%s%s%s%s%s",
+        "%s%s%s%s%s%s%s%s%s%s",
         master_url,
         project_name,
         symstore,
@@ -248,6 +236,7 @@ int PROJECT::write_state(MIOFILE& out, bool gui_rpc) {
         trickle_up_pending?"    <trickle_up_pending/>\n":"",
         send_file_list?"    <send_file_list/>\n":"",
         non_cpu_intensive?"    <non_cpu_intensive/>\n":"",
+        verify_files_on_app_start?"    <verify_files_on_app_start/>\n":"",
         suspended_via_gui?"    <suspended_via_gui/>\n":"",
         dont_request_more_work?"    <dont_request_more_work/>\n":"",
         attached_via_acct_mgr?"    <attached_via_acct_mgr/>\n":"",
@@ -280,10 +269,6 @@ int PROJECT::write_state(MIOFILE& out, bool gui_rpc) {
 void PROJECT::copy_state_fields(PROJECT& p) {
     scheduler_urls = p.scheduler_urls;
     safe_strcpy(project_name, p.project_name);
-#if 0
-    share_size = p.share_size;
-    size = p.size;
-#endif
     safe_strcpy(user_name, p.user_name);
     safe_strcpy(team_name, p.team_name);
     safe_strcpy(email_hash, p.email_hash);
@@ -308,13 +293,10 @@ void PROJECT::copy_state_fields(PROJECT& p) {
     long_term_debt = p.long_term_debt;
     send_file_list = p.send_file_list;
     non_cpu_intensive = p.non_cpu_intensive;
+    verify_files_on_app_start = p.verify_files_on_app_start;
     suspended_via_gui = p.suspended_via_gui;
     dont_request_more_work = p.dont_request_more_work;
     attached_via_acct_mgr = p.attached_via_acct_mgr;
-#if 0
-    deletion_policy_priority = p.deletion_policy_priority;
-    deletion_policy_expire = p.deletion_policy_expire;
-#endif
     duration_correction_factor = p.duration_correction_factor;
 }
 
@@ -365,29 +347,6 @@ const char* PROJECT::get_scheduler_url(int index, double r) {
     int i = (index + ir)%n;
     return scheduler_urls[i].c_str();
 }
-
-#if 0
-// comment?  what does this do?
-// Does it do a lot of disk access to do it??
-//
-bool PROJECT::associate_file(FILE_INFO* fip) {
-    return 0;
-    double space_made = 0;
-    if (gstate.get_more_disk_space(this, fip->nbytes)) {
-        size += fip->nbytes;
-        return true;
-    }
-    gstate.calc_proj_size(this);
-    gstate.anything_free(space_made);
-    space_made += gstate.select_delete(this, fip->nbytes - space_made, P_HIGH);
-    if (space_made > fip->nbytes) {
-        size += fip->nbytes;
-        return true;
-    } else {
-        return false;
-    }
-}
-#endif
 
 bool PROJECT::runnable() {
     if (non_cpu_intensive) return false;
@@ -527,11 +486,6 @@ FILE_INFO::FILE_INFO() {
     strcpy(signed_xml, "");
     strcpy(xml_signature, "");
     strcpy(file_signature, "");
-#if 0
-    priority = P_LOW;
-    time_last_used = gstate.now;
-    exp_date = gstate.now + 60*SECONDS_PER_DAY;
-#endif
 }
 
 FILE_INFO::~FILE_INFO() {
@@ -654,14 +608,6 @@ int FILE_INFO::parse(MIOFILE& in, bool from_server) {
         else if (match_tag(buf, "<marked_for_delete/>")) marked_for_delete = true;
         else if (match_tag(buf, "<report_on_rpc/>")) report_on_rpc = true;
         else if (match_tag(buf, "<signature_required/>")) signature_required = true;
-#if 0
-        else if (parse_int(buf, "<time_last_used>", (int&)time_last_used)) continue;
-        else if (parse_int(buf, "<priority>", priority)) continue;
-        else if (parse_double(buf, "<exp_date>", exp_date)) continue;
-        else if (parse_double(buf, "<exp_days>", exp_days)) {
-            exp_date = gstate.now + exp_days*SECONDS_PER_DAY;
-        }
-#endif
         else if (match_tag(buf, "<persistent_file_xfer>")) {
             pfxp = new PERS_FILE_XFER;
             retval = pfxp->parse(in);
@@ -723,11 +669,6 @@ int FILE_INFO::write(MIOFILE& out, bool to_server) {
         if (report_on_rpc) out.printf("    <report_on_rpc/>\n");
         if (signature_required) out.printf("    <signature_required/>\n");
         if (strlen(file_signature)) out.printf("    <file_signature>\n%s</file_signature>\n", file_signature);
-#if 0
-        if (time_last_used) out.printf("    <time_last_used>%d</time_last_used>\n", time_last_used);
-        if (priority) out.printf("    <priority>%d</priority>\n", priority);
-        if (exp_date) out.printf("    <exp_date>%ld</exp_date>\n", exp_date);
-#endif
     }
     for (i=0; i<urls.size(); i++) {
         out.printf("    <url>%s</url>\n", urls[i].c_str());
@@ -750,10 +691,6 @@ int FILE_INFO::write(MIOFILE& out, bool to_server) {
         out.printf("    <error_msg>\n%s\n</error_msg>\n", error_msg.c_str());
     }
     out.printf("</file_info>\n");
-#if 0
-    if (to_server)
-        update_time();      // huh??
-#endif
     return 0;
 }
 
@@ -886,15 +823,6 @@ int FILE_INFO::merge_info(FILE_INFO& new_info) {
 
     upload_when_present = new_info.upload_when_present;
 
-#if 0
-    if (new_info.priority > priority) {
-        priority = new_info.priority;
-    }
-
-    if (new_info.exp_date > exp_date) {
-        exp_date = new_info.exp_date;
-    }
-#endif
     if (max_nbytes <= 0 && new_info.max_nbytes) {
         max_nbytes = new_info.max_nbytes;
         sprintf(buf, "    <max_nbytes>%.0f</max_nbytes>\n", new_info.max_nbytes);
@@ -945,14 +873,6 @@ void FILE_INFO::failure_message(string& s) {
     }
     s = s + "</file_xfer_error>\n";
 }
-
-#if 0
-// Sets the time_last_used to be equal to the current time
-int FILE_INFO::update_time() {
-    time_last_used = gstate.now;
-    return 0;
-}
-#endif
 
 // Parse XML based app_version information, usually from client_state.xml
 //

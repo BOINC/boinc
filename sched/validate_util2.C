@@ -26,6 +26,7 @@
 #include <vector>
 
 #include "boinc_db.h"
+#include "error_numbers.h"
 
 #include "sched_config.h"
 #include "sched_msgs.h"
@@ -36,38 +37,65 @@
 
 using std::vector;
 
+// invariants:
+// results.size() >= wu.min_quorum
+// for each result:
+//   result.outcome == SUCCESS
+//   result.validate_state == INIT
+
 int check_set(
-    vector<RESULT>& results, WORKUNIT& wu, int& canonicalid, double& credit,
-    bool& retry
+    vector<RESULT>& results, WORKUNIT& wu,
+    int& canonicalid, double& credit, bool& retry
 ) {
     vector<void*> data;
-    int i, j, neq = 0, n;
+    vector<bool> had_error;
+    int i, j, neq = 0, n, retval;
     int min_valid = wu.min_quorum/2+1;
 
     retry = false;
     n = results.size();
     data.resize(n);
+    had_error.resize(n);
 
-    // 1. INITIALIZE DATA
+    // Initialize results
 
-    for (i=0; i!=n; i++) {
-        if (init_result(results[i], data[i])) {
+    for (i=0; i<n; i++) {
+        data[i] = NULL;
+        had_error[i] = false;
+    }
+    int good_results = 0;
+    for (i=0; i<n; i++) {
+        retval = init_result(results[i], data[i]);
+        if (retval == ERR_OPENDIR) {
             log_messages.printf(
                 SCHED_MSG_LOG::MSG_CRITICAL,
-                "generic_check_set: init_result([RESULT#%d %s]) failed\n",
+                "check_set: init_result([RESULT#%d %s]) transient failure\n",
                 results[i].id, results[i].name
             );
-            goto cleanup;
+            had_error[i] = true;
+        } else if (retval) {
+            log_messages.printf(
+                SCHED_MSG_LOG::MSG_CRITICAL,
+                "check_set: init_result([RESULT#%d %s]) failed: %d\n",
+                results[i].id, results[i].name, retval
+            );
+            results[i].outcome = RESULT_OUTCOME_VALIDATE_ERROR;
+            results[i].validate_state = VALIDATE_STATE_INVALID;
+        } else  {
+            good_results++;
         }
     }
+    if (good_results < wu.min_quorum) goto cleanup;
 
-    // 2. COMPARE
+    // Compare results
 
-    for (i=0; i!=n; i++) {
+    for (i=0; i<n; i++) {
+        if (had_error[i]) continue;
         vector<bool> matches;
         matches.resize(n);
         neq = 0;
         for (j=0; j!=n; j++) {
+            if (had_error[j]) continue;
             bool match = false;
             if (i == j) {
                 ++neq;
@@ -88,6 +116,7 @@ int check_set(
             // set validate state for each result
             //
             for (j=0; j!=n; j++) {
+                if (had_error[j]) continue;
                 if (config.max_claimed_credit && results[j].claimed_credit > config.max_claimed_credit) {
                     results[j].validate_state = VALIDATE_STATE_INVALID;
                 } else {
@@ -102,9 +131,7 @@ int check_set(
 
 cleanup:
 
-    // 3. CLEANUP
-
-    for (i=0; i!=n; i++) {
+    for (i=0; i<n; i++) {
         cleanup_result(results[i], data[i]);
     }
     return 0;

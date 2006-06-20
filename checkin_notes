@@ -6375,3 +6375,32 @@ Charlie 20 June 2006
         release_boinc.sh
 	release_GridRepublic.sh
         Postinstall.cpp
+
+David  20 June 2006
+    - Add "verify files on app start" option for projects that
+        want to check MD5 and digital signatures of all relevant files
+        each time an app is started
+        (whether this provides any additional security is open to debate)
+        1) on scheduler, config.xml file has optional
+            <verify_files_on_app_start/> element
+        2) this element is passed in scheduler reply messages
+            and stored in client's client_state.xml file
+        3) if flag is set, MD5s and/or digital signatures are checked
+            on app startup (both initial and on resumption)
+    - Core client: don't accept self-signed SSL certificates
+    - Validator: changes to "simple framework" to handle
+        transient errors correctly
+
+    client/
+        app_start.C
+        client_state.C,h
+        client_types.C,h
+        cpu_sched.C
+        cs_apps.C
+        cs_files.C
+        http_curl.C
+        scheduler_op.C
+    sched/
+        sched_config.C,h
+        server_types.h
+        validate_util2.C

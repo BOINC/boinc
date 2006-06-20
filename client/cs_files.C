@@ -84,8 +84,11 @@ int CLIENT_STATE::make_project_dirs() {
     return 0;
 }
 
-// Verify the validity of a file,
-// based on its size, its MD5 checksum or an RSA signature
+// Check the existence and/or validity of a file
+// If "strict" is true, check either the digital signature of the file
+// (if signature_required is set) or its MD5 checksum.
+// Otherwise check its size.
+//
 // This is called
 // 1) right after download is finished (CLIENT_STATE::handle_pers_file_xfers())
 // 2) if a needed file is already on disk (PERS_FILE_XFER::start_xfer())
