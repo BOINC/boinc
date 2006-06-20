@@ -28,6 +28,8 @@ enum {
 /* No ssize_t */
 typedef long ssize_t;
 
+#define strcasecmp(a, b)	stricmp(a, b)
+
 #ifdef __cplusplus
 }
 #endif
