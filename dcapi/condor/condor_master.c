@@ -8,6 +8,8 @@
 #include <unistd.h>
 #include <string.h>
 #include <errno.h>
+#include <dirent.h>
+#include <sys/stat.h>
 
 #include "dc.h"
 
@@ -24,6 +26,7 @@
 static GHashTable *_DC_wu_table= NULL;
 uuid_t _DC_project_uuid;
 char _DC_project_uuid_str[37]= "";
+char *_DC_config_file= NULL;
 
 DC_ResultCallback	_DC_result_callback= NULL;
 DC_SubresultCallback	_DC_subresult_callback= NULL;
@@ -36,9 +39,21 @@ DC_initMaster(const char *configFile)
 {
 	int ret;
 	char *cfgval= NULL;
+	GString *gs;
 
 	if (!configFile)
 		configFile= DC_CONFIG_FILE;
+	if (configFile[0] != '/')
+	{
+		gs= g_string_new(g_get_current_dir());
+		g_string_append(gs, "/");
+		g_string_append(gs, configFile);
+	}
+	else
+		gs= g_string_new(configFile);
+	_DC_config_file= gs->str;
+	g_string_free(gs, FALSE);
+
 	ret= _DC_parseCfg(configFile);
 	if (ret)
 	{
@@ -98,7 +113,7 @@ DC_createWU(const char *clientName,
 
 	_DC_wu_set_client_name(wu, clientName);
 
-	wu->argv= g_strdupv((char **) arguments);
+	wu->argv= g_strdupv((char **)arguments);
 	for (_DC_wu_set_argc(wu, 0);
 	     arguments && arguments[wu->data.argc];
 	     _DC_wu_set_argc(wu, wu->data.argc+1))
@@ -133,26 +148,27 @@ DC_createWU(const char *clientName,
 	g_string_append_printf(str, "%02x", wu->uuid[0]);
 	g_string_append_c(str, G_DIR_SEPARATOR);
 	g_string_append(str, uuid_str);
-
-	ret= _DC_mkdir_with_parents(str->str, 0700);
-	if (ret)
-	{
-		DC_log(LOG_ERR,
-		       "Failed to create WU working directory %s: %s",
-		       str->str, strerror(errno));
-		DC_destroyWU(wu);
-		return(NULL);
-	}
-
 	wu->workdir= str->str;
 	g_string_free(str, FALSE);
+
+	wu->condor_events= g_array_new(FALSE, FALSE,
+				       sizeof(struct _DC_condor_event));
 
 	if (!_DC_wu_table)
 		DC_initMaster(NULL);
 	g_hash_table_insert(_DC_wu_table, wu->name, wu);
 
-	wu->condor_events= g_array_new(FALSE, FALSE,
-				       sizeof(struct _DC_condor_event));
+	ret= _DC_mkdir_with_parents(wu->workdir, 0700);
+	if (ret)
+	{
+		DC_log(LOG_ERR,
+		       "Failed to create WU working directory %s: %s",
+		       wu->workdir, strerror(errno));
+		DC_destroyWU(wu);
+		return(NULL);
+	}
+
+	_DC_wu_make_client_config(wu);
 	_DC_wu_make_client_executables(wu);
 	wu->state= DC_WU_READY;
 
@@ -181,15 +197,36 @@ DC_destroyWU(DC_Workunit *wu)
 	{
 		const char *name;
 		GDir *dir;
-		int ret;
+		int ret, i;
 		GString *fn;
 
 		/* Removing generated files */
 		fn= g_string_new(wu->workdir);
 		fn= g_string_append(fn, "/condor_submit.txt");
 		unlink(fn->str);
+		g_string_printf(fn, "%s/%s", wu->workdir, CLIENT_CONFIG_NAME);
+		unlink(fn->str);
+		g_string_printf(fn, "%s/%s", wu->workdir,
+				wu->data.client_name);
+		unlink(fn->str);
+		g_string_printf(fn, "%s/%s", wu->workdir, DC_LABEL_INTLOG);
+		unlink(fn->str);
+		g_string_printf(fn, "%s/%s", wu->workdir, DC_LABEL_STDOUT);
+		unlink(fn->str);
+		g_string_printf(fn, "%s/%s", wu->workdir, DC_LABEL_STDERR);
+		unlink(fn->str);
+		g_string_printf(fn, "%s/client_messages", wu->workdir);
+		i= _DC_rm(fn->str);
+		if (i > 0)
+			DC_log(LOG_NOTICE, "%d unhandled client messages "
+			       "remained", i);
+		g_string_printf(fn, "%s/master_messages", wu->workdir);
+		i= _DC_rm(fn->str);
+		if (i > 0)
+			DC_log(LOG_NOTICE, "%d unhandled master messages "
+			       "remained", i);
 		g_string_free(fn, TRUE);
-
+		
 		dir= g_dir_open(wu->workdir, 0, NULL);
 		/* The work directory should not contain any extra files, but
 		 * just in case */
@@ -472,6 +509,9 @@ _DC_process_event(DC_MasterEvent *event)
 	}
 	case DC_MASTER_MESSAGE:
 	{
+		if (_DC_message_callback)
+			(*_DC_message_callback)(event->wu,
+						event->message);
 		break;
 	}
 	}
@@ -531,8 +571,9 @@ DC_waitMasterEvent(const char *wuFilter, int timeout)
 	DC_Workunit *wu;
 	time_t start, now;
 
-	DC_log(LOG_DEBUG, "DC_waitMasterEvent(%s, %d)",
-	       wuFilter, timeout);
+	if (timeout)
+		DC_log(LOG_DEBUG, "DC_waitMasterEvent(%s, %d)",
+		       wuFilter, timeout);
 
 	_DC_filtered_event= NULL;
 	wu= (DC_Workunit *)g_hash_table_find(_DC_wu_table,
@@ -564,16 +605,18 @@ DC_waitWUEvent(DC_Workunit *wu, int timeout)
 {
 	/* no callback called! */
 	time_t start, now;
-	int events, e;
 	DC_MasterEvent *me= NULL;
 
 	if (!_DC_wu_check(wu))
 		return(NULL);
-	DC_log(LOG_DEBUG, "DC_waitWUEvent(%p-\"%s\", %d)",
-	       wu, wu->name, timeout);
+	if (timeout)
+		DC_log(LOG_DEBUG, "DC_waitWUEvent(%p-\"%s\", %d)",
+		       wu, wu->name, timeout);
 
 	_DC_wu_update_condor_events(wu);
-	me= _DC_wu_condor2api_event(wu);
+	me= _DC_wu_check_client_messages(wu);
+	if (!me)
+		me= _DC_wu_condor2api_event(wu);
 	if (me || timeout==0)
 		return(me);
 	start= time(NULL);
@@ -582,41 +625,14 @@ DC_waitWUEvent(DC_Workunit *wu, int timeout)
 	{
 		sleep(1);
 		_DC_wu_update_condor_events(wu);
-		me= _DC_wu_condor2api_event(wu);
+		me= _DC_wu_check_client_messages(wu);
+		if (!me)
+			me= _DC_wu_condor2api_event(wu);
 		if (me)
 			return(me);
 		now= time(NULL);
 	}
-	return(0);
-
-	e= wu->condor_events->len;
-	if (e != events)
-	{
-		DC_log(LOG_DEBUG, "%d condor events occured during "
-		       "waitWUEvent",
-		       e-events);
-		me= _DC_wu_condor2api_event(wu);
-	}
-	if (me ||
-	    timeout == 0)
-		return(me);
-	start= time(NULL);
-	now= start;
-	while (now-start <= timeout)
-	{
-		sleep(1);
-		_DC_wu_update_condor_events(wu);
-		e= wu->condor_events->len;
-		if (e != events)
-		{
-			DC_log(LOG_DEBUG, "%d condor events occured during "
-			       "waitWUEvent",
-			       e-events);
-			return(_DC_wu_condor2api_event(wu));
-		}
-		now= time(NULL);
-	}
-	return(0);
+	return(NULL);
 }
 
 
@@ -644,13 +660,40 @@ DC_destroyMasterEvent(DC_MasterEvent *event)
 
 /**************************************************************** Messaging */
 
+static int _DC_message_id= 0;
+
 /* Sends a message to a running work unit. */
 int
 DC_sendWUMessage(DC_Workunit *wu, const char *message)
 {
+	GString *dn;
+	FILE *f;
+
 	if (!_DC_wu_check(wu))
 		return(DC_ERR_UNKNOWN_WU);
-	return(DC_ERR_NOTIMPL);
+	DC_log(LOG_DEBUG, "DC_sendWUMessage(%p-\"%s\", %s)",
+	       wu, wu->name, message);
+	dn= g_string_new(wu->workdir);
+	g_string_append(dn, "/master_messages");
+	mkdir(dn->str, S_IRWXU|S_IRGRP|S_IXGRP|S_IROTH|S_IXOTH);
+	_DC_message_id++;
+	g_string_append_printf(dn, "/message.%d", _DC_message_id);
+	if ((f= fopen(dn->str, "w")) != NULL)
+	{
+		fprintf(f, "%s", message);
+		fclose(f);
+		DC_log(LOG_DEBUG, "Message %s created", dn->str);
+	}
+	else
+	{
+		DC_log(LOG_ERR, "Error creating message file (%s)",
+		       dn->str);
+		g_string_free(dn, TRUE);
+		return(DC_ERR_SYSTEM);
+	}
+
+	g_string_free(dn, TRUE);
+	return(DC_OK);
 }
 
 
@@ -662,7 +705,7 @@ DC_getResultCapabilities(const DC_Result *result)
 {
 	int cap;
 
-	cap= DC_GC_STDOUT | DC_GC_STDERR;
+	cap= DC_GC_STDOUT | DC_GC_STDERR | DC_GC_MESSAGING | DC_GC_LOG;
 
 	return(cap);
 }
