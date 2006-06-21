@@ -17,6 +17,7 @@ extern "C" {
 #include "dc.h"
 #include "dc_internal.h"
 
+
 extern char project_uuid_str[37];
 
 struct _DC_condor_event
@@ -37,7 +38,6 @@ struct _DC_wu_data
 struct _DC_Workunit
 {
 	int magic;
-	int chk;
 	struct _DC_wu_data data;
 	char **argv;
 	char *tag;
@@ -54,6 +54,7 @@ struct _DC_Workunit
      
 	GList *input_files;
 	GList *output_files;
+	int chk;
 };
 
 struct _DC_Result
@@ -75,6 +76,9 @@ typedef enum
 #define CFG_CLIENT_ARCH_NAME	"Client_%s_%s"	/* client_name, architecture */
 /*#define CFG_WORKDIR		"WorkingDirectory"*/
 /*#define CFG_INSTANCEUUID	"InstanceUUID"*/
+
+#define DC_LABEL_INTLOG		"internal_log.txt"
+
 
 #ifdef __cplusplus
 }
