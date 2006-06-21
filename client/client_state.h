@@ -270,8 +270,8 @@ private:
     bool must_schedule_cpus;
     std::vector <RESULT*> ordered_scheduled_results;
     void assign_results_to_projects();
-    RESULT* find_largest_debt_project_best_result();
-    RESULT* find_earliest_deadline_result();
+    RESULT* largest_debt_project_best_result();
+    RESULT* earliest_deadline_result();
     void adjust_debts();
     bool possibly_schedule_cpus();
     void schedule_cpus();
@@ -279,6 +279,7 @@ private:
     bool no_work_for_a_cpu();
     bool rr_simulation(double, double);
     void make_running_task_heap(vector<ACTIVE_TASK*>&);
+    void print_deadline_misses();
 public:
 
 // --------------- cs_account.C:

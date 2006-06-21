@@ -86,6 +86,7 @@ int FILE_INFO::parse(FILE* in) {
         if (match_tag(buf, "<generated_locally/>")) continue;
         if (match_tag(buf, "<upload_when_present/>")) continue;
         if (match_tag(buf, "<url>")) continue;
+        if (match_tag(buf, "<gzip_when_done")) continue;
         log_messages.printf(SCHED_MSG_LOG::MSG_NORMAL, "FILE_INFO::parse: unrecognized: %s \n", buf);
     }
     return ERR_XML_PARSE;

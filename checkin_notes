@@ -6492,3 +6492,18 @@ Charlie 21 June 2006
         postinstall
         postupgrade
         Postinstall.cpp
+
+David  21 June 2006
+    - core client: fix case where CPU scheduler preempts
+        tasks it doesn't need to.
+    - core client: code cleanup
+        - move deadline messages to a separate function
+        - reduce side-effects of make_running_task_heap()
+        - improve names
+    - file upload handler: don't complain about <gzip_when_done/> tag
+
+    client/
+        client_state.h
+        cpu_sched.C
+    sched/
+        file_upload_handler.C
