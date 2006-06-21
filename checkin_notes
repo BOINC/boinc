@@ -6459,6 +6459,8 @@ David  20 June 2006
 Charlie 20 June 2006
     - Fix a crash bug in the client (f.printf had fewer arguments than 
         called for in the format, so attempted access through a bad pointer.)
+    - Fix another permissions typo
         
     client/
         cs_statefile.C
+        file_names.C

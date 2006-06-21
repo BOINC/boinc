@@ -144,7 +144,7 @@ int make_slot_dir(int slot) {
 #ifdef SANDBOX
     chmod(SLOTS_DIR,
             S_IRUSR|S_IWUSR|S_IXUSR
-            |S_IRGRP||S_IWGRP|S_IXGRP
+            |S_IRGRP|S_IWGRP|S_IXGRP
             |S_IROTH|S_IXOTH
         );
 #endif
