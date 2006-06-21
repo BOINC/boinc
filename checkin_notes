@@ -6551,3 +6551,8 @@ David  21 June 2006
     client/
         cpu_sched.C
         cs_scheduler.C
+
+Rom    21 June 2006 (HEAD)
+    - Tag for 5.5.4 release, all platforms
+      boinc_core_release_5_5_4
+
