@@ -6464,3 +6464,8 @@ Charlie 20 June 2006
     client/
         cs_statefile.C
         file_names.C
+
+Rom    20 June 2006 (HEAD)
+    - Tag for 5.5.3 release, all platforms
+      boinc_core_release_5_5_3
+
