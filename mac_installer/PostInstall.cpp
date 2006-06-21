@@ -46,6 +46,9 @@ static OSErr QuitAppleEventHandler(const AppleEvent *appleEvt, AppleEvent* reply
 void print_to_log_file(const char *format, ...);
 void strip_cr(char *buf);
 
+extern int check_security(char *bundlePath, char *dataPath);
+
+
 Boolean			gQuitFlag = false;	/* global */
 
 int main(int argc, char *argv[])
@@ -59,8 +62,9 @@ int main(int argc, char *argv[])
     pid_t                   installerPID = 0, coreClientPID = 0;
     FSRef                   fileRef;
     OSStatus                err, err_fsref;
+    char                    *p;
 #ifndef SANDBOX
-    char                    *p, *q;
+    char                    *q;
     group                   *grp;
     char                    s[256];
 #endif
@@ -119,22 +123,37 @@ int main(int argc, char *argv[])
     
 #ifdef SANDBOX
 
-    err = CreateBOINCUsersAndGroups();
-    if (err != noErr)
-        return err;
-
    if (brandID == 1)
-        err = SetBOINCAppOwnersGroupsAndPermissions("/Applications/GridRepublic Desktop.app");
+        p = "/Applications/GridRepublic Desktop.app";
     else
-        err = SetBOINCAppOwnersGroupsAndPermissions("/Applications/BOINCManager.app");
-    
-    if (err != noErr)
-        return err;
+        p = "/Applications/BOINCManager.app";
 
-    err = SetBOINCDataOwnersGroupsAndPermissions();
-    if (err != noErr)
-        return err;
+    for (i=0; i<5; ++i) {
+        err = CreateBOINCUsersAndGroups();
+print_to_log_file("CreateBOINCUsersAndGroups returned %d (=%d)", err, i);
+        if (err != noErr)
+            continue;
         
+       if (brandID == 1)
+            err = SetBOINCAppOwnersGroupsAndPermissions(p);
+        else
+            err = SetBOINCAppOwnersGroupsAndPermissions(p);
+        
+print_to_log_file("SetBOINCAppOwnersGroupsAndPermissions returned %d (=%d)", err, i);
+        if (err != noErr)
+            continue;
+
+        err = SetBOINCDataOwnersGroupsAndPermissions();
+print_to_log_file("SetBOINCDataOwnersGroupsAndPermissions returned %d (=%d)", err, i);
+        if (err != noErr)
+            continue;
+        
+        err = check_security(p, "/Library/Application Support/BOINC Data");
+print_to_log_file("check_security returned %d (=%d)", err, i);
+        if (err == noErr)
+            break;
+    }
+    
 #else   // ! defined(SANDBOX)
 
     // The BOINC Manager and Core Client have the set-user-ID-on-execution 

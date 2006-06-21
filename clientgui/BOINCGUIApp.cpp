@@ -349,9 +349,13 @@ bool CBOINCGUIApp::OnInit() {
             }
 #endif  // _DEBUG
 
-    if (check_security()) {
+    int i = check_security();
+    if (i) {
+        wxString            strDialogMessage = wxEmptyString;
+        strDialogMessage.Printf(
+            _("BOINC ownership or permissions are not set properly; please reinstall BOINC.\n(Error code %d)"), i);
         wxMessageDialog* pDlg = 
-        new wxMessageDialog(m_pFrame, _("BOINC ownership or permissions are not set properly; please reinstall BOINC"),wxT(""), wxOK);
+        new wxMessageDialog(m_pFrame, strDialogMessage, wxT(""), wxOK);
         pDlg->ShowModal();
         if (pDlg)
             pDlg->Destroy();

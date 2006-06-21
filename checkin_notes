@@ -6469,3 +6469,22 @@ Rom    20 June 2006 (HEAD)
     - Tag for 5.5.3 release, all platforms
       boinc_core_release_5_5_3
 
+Charlie 21 June 2006
+    - Mac sandbox:
+        - Installer calls check_security() after creating users and groups  
+            and setting owners and permissions for Manager, Client and data; 
+            retries up to 5 times if error.
+        - Manager and Client report unique error codes from check_security().
+
+    client/
+        check_security.C
+        main.C
+    clientgui/
+        BOINCGUIApp.cpp
+        mac/
+            SetupSecurity.cpp,h
+    mac_build/
+        boinc.xcodeproj/
+            project.pbxproj
+    mac_installer/
+        Postinstall.cpp

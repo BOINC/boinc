@@ -751,9 +751,9 @@ int main(int argc, char** argv) {
     if (check_security())
         SetBOINCDataOwnersGroupsAndPermissions();
 #endif  // _DEBUG
-
-    if (check_security()) {
-        printf( "\nBOINC ownership or permissions are not set properly; please reinstall BOINC\n" );
+    int i = check_security();
+    if (i) {
+        printf( "\nBOINC ownership or permissions are not set properly; please reinstall BOINC. (Error code %d)\n", i);
         return ERR_USER_PERMISSION;
     }
 #endif  // SANDBOX

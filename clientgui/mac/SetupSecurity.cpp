@@ -97,6 +97,8 @@ int CreateBOINCUsersAndGroups() {
     if (err != noErr)
         return err;
 
+    SleepTicks(120);
+
     system("lookupd -flushcache");
     system("memberd -r");
     

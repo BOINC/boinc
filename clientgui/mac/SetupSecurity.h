@@ -31,5 +31,3 @@ int SetBOINCAppOwnersGroupsAndPermissions(char *path);
 int SetBOINCDataOwnersGroupsAndPermissions(void);
 int AddAdminUserToGroups(char *user_name);
 void ShowSecurityError(const char *format, ...);
-
-int CheckSecurity(int isManager);
