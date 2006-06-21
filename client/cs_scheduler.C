@@ -534,7 +534,7 @@ int CLIENT_STATE::compute_work_requests() {
     double global_work_need = work_needed_secs();
     double prrs;
 
-    SCOPE_MSG_LOG scope_messages(log_messages, CLIENT_MSG_LOG::DEBUG_SCHED_CPU);
+    SCOPE_MSG_LOG scope_messages(log_messages, CLIENT_MSG_LOG::DEBUG_CPU_SCHED);
 
     overall_work_fetch_urgency = WORK_FETCH_DONT_NEED;
     for (i=0; i< projects.size(); i++) {
@@ -1152,7 +1152,7 @@ void CLIENT_STATE::set_work_fetch_mode() {
     double per_cpu_proc_rate = total_proc_rate/ncpus;
     double rrs = nearly_runnable_resource_share();
 
-    SCOPE_MSG_LOG scope_messages(log_messages, CLIENT_MSG_LOG::DEBUG_SCHED_CPU);
+    SCOPE_MSG_LOG scope_messages(log_messages, CLIENT_MSG_LOG::DEBUG_CPU_SCHED);
 
     scope_messages.printf("rr_sim: calling from work_fetch");
     if (rr_simulation(per_cpu_proc_rate, rrs)) {

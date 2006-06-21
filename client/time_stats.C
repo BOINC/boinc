@@ -122,7 +122,7 @@ void TIME_STATS::update_cpu_efficiency(double cpu_wall_time, double cpu_time) {
     	return;
     }
     cpu_efficiency = w*cpu_efficiency + (1-w)*e;
-    if (log_flags.cpu_sched_detail){
+    if (log_flags.cpu_sched_debug){
         msg_printf(0, MSG_INFO,
             "CPU efficiency old %f new %f wall %f CPU %f w %f e %f",
             old_cpu_efficiency, cpu_efficiency, cpu_wall_time,

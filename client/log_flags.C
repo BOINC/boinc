@@ -47,7 +47,6 @@ LOG_FLAGS::LOG_FLAGS() {
     task = false;
     file_xfer = true;
     sched_ops = true;
-    cpu_sched_detail = false;
 
     // debugging output is off by default
     //
@@ -61,38 +60,38 @@ LOG_FLAGS::LOG_FLAGS() {
     net_xfer_debug = false;
     measurement_debug = false;
     guirpc_debug = false;
-    sched_cpu_debug = false;
+    cpu_sched_debug = false;
     scrsave_debug = false;
 }
 
 // Parse log flag preferences
 //
-int LOG_FLAGS::parse(FILE* in) {
-    char buf[256];
+int LOG_FLAGS::parse(FILE* f) {
+    char tag[256], contents[1024];
 
-    while (fgets(buf, 256, in)) {
-        if (strlen(buf) < 2) continue;
-        if (match_tag(buf, "</log_flags>")) return 0;
-        else if (parse_bool(buf, "task", task)) continue;
-        else if (parse_bool(buf, "cpu_sched_detail", cpu_sched_detail)) continue;
-        else if (parse_bool(buf, "file_xfer", file_xfer)) continue;
-        else if (parse_bool(buf, "sched_ops", sched_ops)) continue;
-        else if (parse_bool(buf, "state_debug", state_debug)) continue;
-        else if (parse_bool(buf, "task_debug", task_debug)) continue;
-        else if (parse_bool(buf, "file_xfer_debug", file_xfer_debug)) continue;
-        else if (parse_bool(buf, "sched_op_debug", sched_op_debug)) continue;
-        else if (parse_bool(buf, "http_debug", http_debug)) continue;
-        else if (parse_bool(buf, "proxy_debug", proxy_debug)) continue;
-        else if (parse_bool(buf, "time_debug", time_debug)) continue;
-        else if (parse_bool(buf, "net_xfer_debug", net_xfer_debug)) continue;
-        else if (parse_bool(buf, "measurement_debug", measurement_debug)) continue;
-        else if (parse_bool(buf, "poll_debug", poll_debug)) continue;
-        else if (parse_bool(buf, "guirpc_debug", guirpc_debug)) continue;
-        else if (parse_bool(buf, "sched_cpu_debug", sched_cpu_debug)) continue;
-        else if (parse_bool(buf, "scrsave_debug", scrsave_debug)) continue;
-        msg_printf(NULL, MSG_ERROR, "Unparsed line in %s: %s\n",
-            CONFIG_FILE, buf
-        );
+    while (get_tag(f, tag, contents)) {
+        if (!strcmp(tag, "/log_flags")) return 0;
+        else if (!strcmp(tag, "task")) task = get_bool(contents);
+        else if (!strcmp(tag, "file_xfer")) file_xfer = get_bool(contents);
+        else if (!strcmp(tag, "sched_ops")) sched_ops = get_bool(contents);
+        else if (!strcmp(tag, "state_debug")) state_debug = get_bool(contents);
+        else if (!strcmp(tag, "task_debug")) task_debug = get_bool(contents);
+        else if (!strcmp(tag, "file_xfer_debug")) file_xfer_debug = get_bool(contents);
+        else if (!strcmp(tag, "sched_op_debug")) sched_op_debug = get_bool(contents);
+        else if (!strcmp(tag, "http_debug")) http_debug = get_bool(contents);
+        else if (!strcmp(tag, "proxy_debug")) proxy_debug = get_bool(contents);
+        else if (!strcmp(tag, "time_debug")) time_debug = get_bool(contents);
+        else if (!strcmp(tag, "net_xfer_debug")) net_xfer_debug = get_bool(contents);
+        else if (!strcmp(tag, "measurement_debug")) measurement_debug = get_bool(contents);
+        else if (!strcmp(tag, "poll_debug")) poll_debug = get_bool(contents);
+        else if (!strcmp(tag, "guirpc_debug")) guirpc_debug = get_bool(contents);
+        else if (!strcmp(tag, "cpu_sched_debug")) cpu_sched_debug = get_bool(contents);
+        else if (!strcmp(tag, "scrsave_debug")) scrsave_debug = get_bool(contents);
+        else {
+            msg_printf(NULL, MSG_ERROR, "Unrecognized tag in %s: %s\n",
+                CONFIG_FILE, tag
+            );
+        }
     }
     return ERR_XML_PARSE;
 }
@@ -102,21 +101,31 @@ CONFIG::CONFIG() {
     save_stats_days = 30;
 }
 
-int CONFIG::parse(FILE* in) {
-    char buf[256];
+int CONFIG::parse(FILE* f) {
+    char tag[256], contents[1024];
 
-    while (fgets(buf, 256, in)) {
-        if (strlen(buf) < 2) continue;
-        if (match_tag(buf, "</cc_config>")) return 0;
-        if (match_tag(buf, "<log_flags>")) {
-            log_flags.parse(in);
+    memset(this, 0, sizeof(CONFIG));
+
+    get_tag(f, tag);
+    if (strstr(tag, "?xml")) get_tag(f, tag);
+    if (strcmp(tag, "cc_config")) return ERR_XML_PARSE;
+
+    while (get_tag(f, tag, contents)) {
+        if (!strcmp(tag, "/cc_config")) return 0;
+        if (!strcmp(tag, "log_flags")) {
+            log_flags.parse(f);
             continue;
+        } else if (!strcmp(tag, "save_stats_days")) {
+            save_stats_days = get_int(contents);
+        } else if (!strcmp(tag, "dont_check_file_sizes")) {
+            dont_check_file_sizes = get_bool(contents);
+        } else if (!strcmp(tag, "ncpus")) {
+            ncpus = get_int(contents);
+        } else {
+            msg_printf(NULL, MSG_ERROR, "Unparsed tag in %s: %s\n",
+                CONFIG_FILE, tag
+            );
         }
-        if (parse_int(buf, "<save_stats_days>", save_stats_days)) continue;
-        if (parse_bool(buf, "dont_check_file_sizes", dont_check_file_sizes)) continue;
-        msg_printf(NULL, MSG_ERROR, "Unparsed line in %s: %s\n",
-            CONFIG_FILE, buf
-        );
     }
     return ERR_XML_PARSE;
 }
@@ -124,12 +133,10 @@ int CONFIG::parse(FILE* in) {
 void read_config_file() {
     FILE* f;
 
-    if (boinc_file_exists(CONFIG_FILE)) {
-        f = boinc_fopen(CONFIG_FILE, "r");
-        config.parse(f);
-        fclose(f);
-    }
-
+    f = boinc_fopen(CONFIG_FILE, "r");
+    if (!f) return;
+    config.parse(f);
+    fclose(f);
 }
 
 const char *BOINC_RCSID_5f23de6652 = "$Id$";

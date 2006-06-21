@@ -34,7 +34,6 @@ struct LOG_FLAGS {
     // the following write user-readable summaries
     //
     bool task;              // task executions
-    bool cpu_sched_detail;  // CPU scheduling detail
     bool file_xfer;         // file transfers
     bool sched_ops;         // interactions with schedulers
 
@@ -51,7 +50,7 @@ struct LOG_FLAGS {
     bool measurement_debug; // host measurement notices
     bool poll_debug;        // show what polls are responding
     bool guirpc_debug;
-    bool sched_cpu_debug;
+    bool cpu_sched_debug;
     bool scrsave_debug;
 
     LOG_FLAGS();
@@ -61,6 +60,7 @@ struct LOG_FLAGS {
 struct CONFIG {
     bool dont_check_file_sizes;
     int save_stats_days;
+    int ncpus;
     CONFIG();
     int parse(FILE*);
 };

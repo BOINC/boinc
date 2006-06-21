@@ -156,7 +156,7 @@ RESULT* CLIENT_STATE::largest_debt_project_best_result() {
     }
     if (!best_project) return NULL;
 
-    if (log_flags.cpu_sched_detail) {
+    if (log_flags.cpu_sched_debug) {
         msg_printf(best_project, MSG_INFO,
             "highest debt: %f %s",
             best_project->anticipated_debt,
@@ -186,7 +186,7 @@ RESULT* CLIENT_STATE::earliest_deadline_result() {
     }
     if (!best_result) return NULL;
 
-    if (log_flags.cpu_sched_detail) {
+    if (log_flags.cpu_sched_debug) {
         msg_printf(best_result->project, MSG_INFO,
             "earliest deadline: %f %s",
             best_result->report_deadline, best_result->name
@@ -390,14 +390,14 @@ void CLIENT_STATE::schedule_cpus() {
     PROJECT* p;
     double expected_pay_off;
     unsigned int i;
-    SCOPE_MSG_LOG scope_messages(log_messages, CLIENT_MSG_LOG::DEBUG_SCHED_CPU);
+    SCOPE_MSG_LOG scope_messages(log_messages, CLIENT_MSG_LOG::DEBUG_CPU_SCHED);
     double rrs = runnable_resource_share();
 
     // do round-robin simulation to find what results miss deadline,
     //
     scope_messages.printf("rr_sim: calling from cpu_scheduler");
     rr_simulation(avg_proc_rate()/ncpus, runnable_resource_share());
-    if (log_flags.cpu_sched_detail) {
+    if (log_flags.cpu_sched_debug) {
         print_deadline_misses();
     }
 
@@ -733,7 +733,7 @@ bool CLIENT_STATE::rr_simulation(double per_cpu_proc_rate, double rrs) {
     vector<RESULT*>::iterator it;
     bool rval = false;
 
-    SCOPE_MSG_LOG scope_messages(log_messages, CLIENT_MSG_LOG::DEBUG_SCHED_CPU);
+    SCOPE_MSG_LOG scope_messages(log_messages, CLIENT_MSG_LOG::DEBUG_CPU_SCHED);
 
     // Initialize the "active" and "pending" lists for each project.
     // These keep track of that project's results

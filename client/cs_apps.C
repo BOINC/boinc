@@ -308,18 +308,18 @@ double CLIENT_STATE::nearly_runnable_resource_share() {
 }
 
 void CLIENT_STATE::set_ncpus() {
-    if (ncpus == 0) ncpus = host_info.p_ncpus;
-
     int ncpus_old = ncpus;
 
-    if (host_info.p_ncpus > 0) {
+    if (config.ncpus>0) {
+        ncpus = config.ncpus;
+    } else if (host_info.p_ncpus>0) {
         ncpus = host_info.p_ncpus;
     } else {
         ncpus = 1;
     }
     if (ncpus > global_prefs.max_cpus) ncpus = global_prefs.max_cpus;
 
-    if (ncpus != ncpus_old) {
+    if (ncpus_old && ncpus != ncpus_old) {
         msg_printf(0, MSG_INFO,
             "Number of usable CPUs has changed.  Running benchmarks."
         );
@@ -378,7 +378,7 @@ void CLIENT_STATE::request_enforce_schedule(const char* where) {
     // when new results become runnable, 
     // or when the user performs a UI interaction (e.g. suspending or resuming a project or result).
     //
-    if (log_flags.cpu_sched_detail && where && strlen(where)) {
+    if (log_flags.cpu_sched_debug && where && strlen(where)) {
         msg_printf(0, MSG_INFO, "Request enforce CPU schedule: %s", where);
     }
     must_enforce_cpu_schedule = true;
@@ -390,7 +390,7 @@ void CLIENT_STATE::request_schedule_cpus(const char* where) {
     // when new results become runnable, 
     // or when the user performs a UI interaction (e.g. suspending or resuming a project or result).
     //
-    if (log_flags.cpu_sched_detail && where && strlen(where)) {
+    if (log_flags.cpu_sched_debug && where && strlen(where)) {
         msg_printf(0, MSG_INFO, "Request CPU reschedule: %s", where);
     }
     must_schedule_cpus = true;

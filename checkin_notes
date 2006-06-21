@@ -6527,3 +6527,20 @@ David  21 June 2006
 
     sched/
         update_stats.C
+
+David  21 June 2006
+	- core client: added "cpu_sched_debug" log flag;
+		got rid of "cpu_sched_detail" and "sched_cpu_debug"
+	- core client: added "ncpus" config option;
+		if present, the core client will act as if there were N cpus
+		(handy for debugging scheduler stuff)
+	- core client: parse cc_config.xml with the new-style
+		XML parsing functions (reduce restrictions on XML format)
+
+	client/
+		client_msgs.C,h
+		cpu_sched.C
+		cs_apps.C
+		cs_scheduler.C
+		log_flags.C,h
+		time_stats.C
