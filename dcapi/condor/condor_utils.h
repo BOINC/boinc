@@ -13,6 +13,7 @@ extern "C" {
 
 
 extern int _DC_mkdir_with_parents(char *dn, mode_t mode);
+extern int _DC_rm(char *name);
 
 
 #ifdef __cplusplus
