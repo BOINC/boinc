@@ -20,14 +20,14 @@
 /* Determines the maximum allowed message length. */
 int DC_getMaxMessageSize(void)
 {
-	return(0);
+	return(16384);
 }
 
 
 /* Determines the maximum number of sub-results. */
 int DC_getMaxSubresults(void)
 {
-	return(0);
+	return(100);
 }
 
 
@@ -36,7 +36,7 @@ unsigned DC_getGridCapabilities(void)
 {
 	int cap;
 
-	cap= DC_GC_STDOUT | DC_GC_STDERR;
+	cap= DC_GC_STDOUT | DC_GC_STDERR | DC_GC_MESSAGING | DC_GC_LOG;
 
 	return(cap);
 }
