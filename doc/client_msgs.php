@@ -50,9 +50,6 @@ list_item_func("<sched_ops>",
 list_item_func("<state_debug>",
     " Log changes to the 'client state' data structures. "
 );
-list_item_func("<cpu_sched_detail>",
-    " Log debugging information about CPU scheduling. "
-);
 list_item_func("<task_debug>",
     " Log debugging information about task execution. "
 );
@@ -83,7 +80,7 @@ list_item_func("<poll_debug>",
 list_item_func("<guirpc_debug>",
     " Log debugging information about the GUI RPC interface. "
 );
-list_item_func("<sched_cpu_debug>",
+list_item_func("<cpu_sched_debug>",
     " Log debugging information about the CPU scheduler. "
 );
 list_item_func("<scrsave_debug>",
