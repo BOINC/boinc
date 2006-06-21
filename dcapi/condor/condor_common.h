@@ -10,6 +10,9 @@ extern "C" {
 #endif
 
 
+#define CLIENT_CONFIG_NAME	"dcapi_configfile.txt"
+
+
 #ifdef __cplusplus
 }
 #endif
