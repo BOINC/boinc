@@ -6,6 +6,8 @@
 
 cd "$1"
 # Run the Postinstall Application
-Contents/Resources/PostInstall.app/Contents/MacOS/PostInstall &
+Contents/Resources/PostInstall.app/Contents/MacOS/PostInstall -part1
+
+Contents/Resources/PostInstall.app/Contents/MacOS/PostInstall -part2 &
 
 exit 0

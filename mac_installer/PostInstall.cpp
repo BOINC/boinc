@@ -35,6 +35,7 @@
 #include "SetupSecurity.h"
 
 void Initialize(void);	/* function prototypes */
+int LaunchBoinc(void);
 void SetLoginItem(long brandID);
 void SetUIDBackToUser (void);
 OSErr UpdateAllVisibleUsers(long brandID);
@@ -69,6 +70,11 @@ int main(int argc, char *argv[])
     char                    s[256];
 #endif
     
+    for (i=0; i<argc; i++) {
+        if (strcmp(argv[i], "-part2") == 0) {
+            return LaunchBoinc();
+        }
+    }
     Initialize();
 
     ::GetCurrentProcess (&ourProcess);
@@ -130,28 +136,32 @@ int main(int argc, char *argv[])
 
     for (i=0; i<5; ++i) {
         err = CreateBOINCUsersAndGroups();
+        if (err != noErr) {
 print_to_log_file("CreateBOINCUsersAndGroups returned %d (=%d)", err, i);
-        if (err != noErr)
             continue;
+        }
         
        if (brandID == 1)
             err = SetBOINCAppOwnersGroupsAndPermissions(p);
         else
             err = SetBOINCAppOwnersGroupsAndPermissions(p);
         
+        if (err != noErr) {
 print_to_log_file("SetBOINCAppOwnersGroupsAndPermissions returned %d (=%d)", err, i);
-        if (err != noErr)
             continue;
+        }
 
         err = SetBOINCDataOwnersGroupsAndPermissions();
+        if (err != noErr) {
 print_to_log_file("SetBOINCDataOwnersGroupsAndPermissions returned %d (=%d)", err, i);
-        if (err != noErr)
             continue;
+        }
         
         err = check_security(p, "/Library/Application Support/BOINC Data");
+        if (err != noErr) {
 print_to_log_file("check_security returned %d (=%d)", err, i);
-        if (err == noErr)
-            break;
+            continue;
+        }
     }
     
 #else   // ! defined(SANDBOX)
@@ -242,23 +252,49 @@ print_to_log_file("check_security returned %d (=%d)", err, i);
     SetUIDBackToUser ();
     SetLoginItem(brandID);
 #endif
+ 
+    return 0;
+}
 
-    // Launch BOINC Manager when user closes installer or after 15 seconds
+
+int LaunchBoinc()
+{
+    ProcessSerialNumber     installerPSN;
+    long                    brandID = 0;
+    int                     i;
+    pid_t                   installerPID = 0;
+    FSRef                   fileRef;
+    OSStatus                err, err_fsref;
+
+    Initialize();
+
+    err = FindProcess ('APPL', 'xins', &installerPSN);
+    if (err == noErr)
+        err = GetProcessPID(&installerPSN , &installerPID);
+
+
+   // Launch BOINC Manager when user closes installer or after 15 seconds
 
     for (i=0; i<15; i++) { // Wait 15 seconds max for installer to quit
         sleep (1);
-        if (FindProcessPID(NULL, installerPID) == 0)
-            break;
+        if (err == noErr)
+            if (FindProcessPID(NULL, installerPID) == 0)
+                break;
     }
 
-    if (err_fsref == noErr)
-        err = LSOpenFSRef(&fileRef, NULL);
+    brandID = GetBrandID();
 
     // Remove installer package receipt so we can run installer again if needed to fix permissions
-   if (brandID == 1)
+   if (brandID == 1) {
         system ("rm -rf /Library/Receipts/GridRepublic.pkg");
-    else
+        err_fsref = FSPathMakeRef((StringPtr)"/Applications/GridRepublic Desktop.app", &fileRef, NULL);
+    } else {
         system ("rm -rf /Library/Receipts/BOINC.pkg");
+        err_fsref = FSPathMakeRef((StringPtr)"/Applications/BOINCManager.app", &fileRef, NULL);
+    }
+    
+    if (err_fsref == noErr)
+        err = LSOpenFSRef(&fileRef, NULL);
 
     return 0;
 }

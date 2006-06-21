@@ -6474,6 +6474,8 @@ Charlie 21 June 2006
         - Installer calls check_security() after creating users and groups  
             and setting owners and permissions for Manager, Client and data; 
             retries up to 5 times if error.
+        - Installer script calls postinstall application twice with different 
+            arguments, waits for first call to complete.
         - Manager and Client report unique error codes from check_security().
 
     client/
@@ -6487,4 +6489,6 @@ Charlie 21 June 2006
         boinc.xcodeproj/
             project.pbxproj
     mac_installer/
+        postinstall
+        postupgrade
         Postinstall.cpp
