@@ -12,6 +12,8 @@ extern "C" {
 #include "dc.h"
 
 
+extern char *_DC_config_file;
+
 extern DC_PhysicalFile *_DC_createPhysicalFile(const char *label,
 					       const char *path);
 extern void _DC_destroyPhysicalFile(DC_PhysicalFile *file);
