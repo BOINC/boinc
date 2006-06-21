@@ -25,6 +25,8 @@ extern char *_DC_wu_get_workdir_path(DC_Workunit *wu,
 				     WorkdirFile type);
 extern int _DC_wu_gen_condor_submit(DC_Workunit *wu);
 extern int _DC_wu_make_client_executables(DC_Workunit *wu);
+extern int _DC_wu_make_client_config(DC_Workunit *wu);
+extern DC_MasterEvent *_DC_wu_check_client_messages(DC_Workunit *wu);
 
 
 #ifdef __cplusplus
