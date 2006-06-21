@@ -582,7 +582,7 @@ int CLIENT_STATE::write_state_gui(MIOFILE& f) {
         "<core_client_major_version>%d</core_client_major_version>\n"
         "<core_client_minor_version>%d</core_client_minor_version>\n"
         "<core_client_release>%d</core_client_release>\n"
-        "%s%s",
+        "%s",
         platform_name,
         core_client_major_version,
         core_client_minor_version,

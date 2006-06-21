@@ -6455,3 +6455,10 @@ David  20 June 2006
 		cs_apps.C
 	win_build/
 		boinc_cli_curl.vcproj
+
+Charlie 20 June 2006
+    - Fix a crash bug in the client (f.printf had fewer arguments than 
+        called for in the format, so attempted access through a bad pointer.)
+        
+    client/
+        cs_statefile.C
