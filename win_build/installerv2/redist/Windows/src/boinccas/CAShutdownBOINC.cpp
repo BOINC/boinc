@@ -80,6 +80,12 @@ typedef SC_HANDLE (WINAPI *tCS)(
     LPSERVICE_STATUS    lpServiceStatus
 );
 
+// QueryServiceStatus()
+typedef BOOL (WINAPI *tQSS)(
+    SC_HANDLE           hService,
+    LPSERVICE_STATUS    lpServiceStatus
+);
+
 UINT CAShutdownBOINC::OnExecution()
 {
     SC_HANDLE schSCManager = NULL;
@@ -89,6 +95,7 @@ UINT CAShutdownBOINC::OnExecution()
     tOSCM pOSCM = NULL;
     tOS pOS = NULL;
     tCS pCS = NULL;
+    tQSS pQSS = NULL;
 
 
     HMODULE hAdvapi32 = LoadLibrary(_T("advapi32.dll"));
@@ -96,16 +103,18 @@ UINT CAShutdownBOINC::OnExecution()
         pOSCM = (tOSCM)GetProcAddress(hAdvapi32, _T("OpenSCManagerA"));
         pOS = (tOS)GetProcAddress(hAdvapi32, _T("OpenServiceA"));
         pCS = (tCS)GetProcAddress(hAdvapi32, _T("ControlService"));
-        if (!pOSCM && !pOS && !pCS) {
+        pQSS = (tQSS)GetProcAddress(hAdvapi32, _T("QueryServiceStatus"));
+        if (!pOSCM && !pOS && !pCS && !pQSS) {
             FreeLibrary(hAdvapi32);
             hAdvapi32 = NULL;
             pOSCM = NULL;
             pOS = NULL;
             pCS = NULL;
+            pQSS = NULL;
         }
     }
 
-    if (pOSCM && pOS && pCS) {
+    if (pOSCM && pOS && pCS && pQSS) {
         schSCManager = pOSCM( 
             NULL,                    // local machine 
             NULL,                    // ServicesActive database 
@@ -120,9 +129,16 @@ UINT CAShutdownBOINC::OnExecution()
          
             if (schService) 
             {
-                if (!pCS(schService, SERVICE_CONTROL_STOP, &ssStatus))
+                if (pQSS(schService, &ssStatus))
                 {
-                    uiReturn = ERROR_INSTALL_FAILURE;
+                    if (!((SERVICE_STOPPED == ssStatus.dwCurrentState) && 
+                          (SERVICE_STOP_PENDING == ssStatus.dwCurrentState)))
+                    {
+                        if (!pCS(schService, SERVICE_CONTROL_STOP, &ssStatus))
+                        {
+                            uiReturn = ERROR_INSTALL_FAILURE;
+                        }
+                    }
                 }
             }
         }

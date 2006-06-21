@@ -6507,3 +6507,14 @@ David  21 June 2006
         cpu_sched.C
     sched/
         file_upload_handler.C
+
+Rom    21 June 2006
+    - Bug Fix: Two setup failure logs that were sent to me indicate that 
+        the uninstall process didn’t clean up the BOINC entry in the 
+        service control manager.  Check, before attempting to shutdown, 
+        BOINC to make sure it is executing or is capable of responding 
+        to a ControlService event.    
+
+    win_build/installerv2/redist/Windows/src/boinccas
+        CAShutdownBOINC.cpp
+        boinccas.rc

@@ -45,7 +45,7 @@
 				Name="VCCustomBuildTool"/>
 			<Tool
 				Name="VCLinkerTool"
-				AdditionalDependencies="zlib1.lib ssleay32.lib libeay32.lib libcurl.lib MSVCRTD.LIB MSVCPRTD.LIB wsock32.lib wininet.lib winmm.lib libboincd.lib"
+				AdditionalDependencies="zlib1.lib ssleay32.lib libeay32.lib libcurl_imp.lib MSVCRTD.LIB MSVCPRTD.LIB wsock32.lib wininet.lib winmm.lib libboincd.lib"
 				OutputFile=".\Build\Debug/boinc.exe"
 				LinkIncremental="2"
 				SuppressStartupBanner="TRUE"
@@ -101,7 +101,7 @@
 				Name="VCCLCompilerTool"
 				Optimization="2"
 				InlineFunctionExpansion="1"
-				AdditionalIncludeDirectories="../lib;../api;../client/win;../client;..;../openssl/include;../curl/include"
+				AdditionalIncludeDirectories="../lib;../api;../client/win;../client;..;../openssl/include;../curl/include;../zlib/include"
 				PreprocessorDefinitions="WIN32;_WIN32;NDEBUG;_MT;_DLL;_WINDOWS;_CONSOLE;_USE_CURL;USE_SSL;USE_SSLEAY;USE_OPENSSL"
 				StringPooling="FALSE"
 				RuntimeLibrary="2"
@@ -120,12 +120,12 @@
 				Name="VCCustomBuildTool"/>
 			<Tool
 				Name="VCLinkerTool"
-				AdditionalDependencies="ssleay32.lib libeay32.lib libcurl.lib ssleay32.lib libeay32.lib libcurl.lib MSVCRT.LIB MSVCPRT.LIB wsock32.lib wininet.lib winmm.lib libboinc.lib"
+				AdditionalDependencies="zlib1.lib ssleay32.lib libeay32.lib libcurl_imp.lib MSVCRT.LIB MSVCPRT.LIB wsock32.lib wininet.lib winmm.lib libboinc.lib"
 				ShowProgress="0"
 				OutputFile=".\Build\Release/boinc.exe"
 				LinkIncremental="1"
 				SuppressStartupBanner="TRUE"
-				AdditionalLibraryDirectories="&quot;../openssl/mswin/$(PROCESSOR_ARCHITECTURE)/lib&quot;;&quot;../curl/mswin/$(PROCESSOR_ARCHITECTURE)/lib&quot;;../../;Build/Release"
+				AdditionalLibraryDirectories="&quot;../openssl/mswin/$(PROCESSOR_ARCHITECTURE)/lib&quot;;&quot;../curl/mswin/$(PROCESSOR_ARCHITECTURE)/lib&quot;;../../;Build/Release;&quot;../zlib/mswin/$(PROCESSOR_ARCHITECTURE)/lib&quot;"
 				IgnoreAllDefaultLibraries="TRUE"
 				IgnoreDefaultLibraryNames=""
 				GenerateDebugInformation="TRUE"
