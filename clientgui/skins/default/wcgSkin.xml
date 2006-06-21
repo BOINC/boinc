@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<clientskin>
+	<images>
+		<background imgsrc="skins/default/graphic/wcg_simplegui_bg.bmp" bgcol="195:230:250"/>
+		<dlgpreferences imgsrc="skins/default/graphic/dlgPreferences.bmp"/>
+		<gauge fgcol="153:204:255" bgcol="204:255:204"/>
+		<buttons>
+			<preferences imgsrc="skins/default/graphic/btnPreferences.bmp" />
+			<attchproj imgsrc="skins/default/graphic/btnAttachProject.bmp" />
+			<advancedview imgsrc="skins/default/graphic/btnAdvancedView.bmp" />
+			<play imgsrc="skins/default/graphic/play.bmp" />
+			<pause imgsrc="skins/default/graphic/pause.bmp" />
+			<messages imgsrc="skins/default/graphic/messages.bmp" />
+			<open imgsrc="skins/default/graphic/btnOpen.bmp" />
+			<save imgsrc="skins/default/graphic/btnSave.bmp" />
+			<cancel imgsrc="skins/default/graphic/btnCancel.bmp" />
+			<leftArr imgsrc="skins/default/graphic/arwLeft.png"  imgsrcclick="skins/default/graphic/arwLeftClick.png"/>
+			<rightArr imgsrc="skins/default/graphic/arwRight.png"  imgsrcclick="skins/default/graphic/arwRightClick.png"/>
+			<expand imgsrc="skins/default/graphic/btnExpand.png"  imgsrcclick="skins/default/graphic/btnExpandClick.png"/>
+			<collapse imgsrc="skins/default/graphic/btnCollapse.png"  imgsrcclick="skins/default/graphic/btnCollapseClick.png"/>
+		</buttons>
+		<icons>
+			<working imgsrc="skins/default/graphic/working.bmp" />
+			<sleeping imgsrc="skins/default/graphic/sleeping.bmp" />
+			<workingWkUnit imgsrc="skins/default/graphic/ico_workWU.png" frcol="255:255:255" tocol="96:206:234" brdcol="73:193:223"/>
+			<sleepingWkUnit imgsrc="skins/default/graphic/ico_sleepWU.png" frcol="255:255:255" tocol="155:229:248" brdcol="216:234:245"/>
+			<prjWCGicon imgsrc="skins/default/graphic/22_20_wcg.png" />
+			<prjPREDicon imgsrc="skins/default/graphic/19_16_prdct.png" />
+		</icons>
+		<animation background="skins/default/graphic/project_image.bmp" animation="skins/default/graphic/molecule.gif"/>
+	</images>
+</clientskin>

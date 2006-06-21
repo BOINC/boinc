@@ -1,0 +1,32 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<clientskin>
+	<images>
+		<background imgsrc="skins/BoincVanilla/graphic/BOINC_SimpleGUI_bg.bmp" bgcol="253:254:229" />
+		<dlgpreferences imgsrc="skins/BoincVanilla/graphic/dlgPreferences.bmp"/>
+		<gauge fgcol="220:220:172" bgcol="248:251:184"/>
+		<buttons>
+			<preferences imgsrc="skins/BoincVanilla/graphic/btnPreferences.bmp" />
+			<attchproj imgsrc="skins/BoincVanilla/graphic/btnAttachProject.bmp" />
+			<advancedview imgsrc="skins/BoincVanilla/graphic/btnAdvancedView.bmp" />
+			<play imgsrc="skins/BoincVanilla/graphic/play.bmp" />
+			<pause imgsrc="skins/BoincVanilla/graphic/pause.bmp" />
+			<messages imgsrc="skins/BoincVanilla/graphic/messages.bmp" />
+			<open imgsrc="skins/BoincVanilla/graphic/btnOpen.bmp" />
+			<save imgsrc="skins/BoincVanilla/graphic/btnSave.bmp" />
+			<cancel imgsrc="skins/BoincVanilla/graphic/btnCancel.bmp" />
+			<leftArr imgsrc="skins/BoincVanilla/graphic/arwLeft.png"  imgsrcclick="skins/BoincVanilla/graphic/arwLeftClick.png"/>
+			<rightArr imgsrc="skins/BoincVanilla/graphic/arwRight.png"  imgsrcclick="skins/BoincVanilla/graphic/arwRightClick.png"/>
+			<expand imgsrc="skins/BoincVanilla/graphic/btnExpand.png"  imgsrcclick="skins/BoincVanilla/graphic/btnExpandClick.png"/>
+			<collapse imgsrc="skins/BoincVanilla/graphic/btnCollapse.png"  imgsrcclick="skins/BoincVanilla/graphic/btnCollapseClick.png"/>
+		</buttons>
+		<icons>
+			<working imgsrc="skins/BoincVanilla/graphic/working.bmp" />
+			<sleeping imgsrc="skins/BoincVanilla/graphic/sleeping.bmp" />
+			<workingWkUnit imgsrc="skins/BoincVanilla/graphic/ico_workWU.png" frcol="255:255:255" tocol="248:248:152" brdcol="234:234:183"/>
+			<sleepingWkUnit imgsrc="skins/BoincVanilla/graphic/ico_sleepWU.png" frcol="255:255:255" tocol="248:248:185" brdcol="245:245:199"/>
+			<prjWCGicon imgsrc="skins/BoincVanilla/graphic/22_20_wcg.png" />
+			<prjPREDicon imgsrc="skins/BoincVanilla/graphic/19_16_prdct.png" />
+		</icons>
+		<animation background="skins/BoincVanilla/graphic/project_image.bmp" animation="skins/BoincVanilla/graphic/molecule.gif"/>
+	</images>
+</clientskin>
