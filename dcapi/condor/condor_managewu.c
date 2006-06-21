@@ -24,6 +24,7 @@ DC_submitWU(DC_Workunit *wu)
 	//GString *fn;
 	GString *cmd;
 	gchar *act, *act2;
+	char *id;
 
 	if (!_DC_wu_check(wu))
 		return(DC_ERR_UNKNOWN_WU);
@@ -59,15 +60,18 @@ DC_submitWU(DC_Workunit *wu)
 	g_free(act2);
 	g_string_free(cmd, TRUE);
 	if (ret == 0)
+	{
+		_DC_wu_update_condor_events(wu);
+		while (wu->condor_events->len == 0)
 		{
+			sleep(1);
 			_DC_wu_update_condor_events(wu);
-			while (wu->condor_events->len == 0)
-			{
-				sleep(1);
-				_DC_wu_update_condor_events(wu);
-			}
-			wu->state= DC_WU_RUNNING;
 		}
+		wu->state= DC_WU_RUNNING;
+		id= DC_getWUId(wu);
+		DC_log(LOG_INFO, "Condor id of wu's job: %s", id);
+		g_free(id);
+	}
 	return(DC_OK);
 }
 
