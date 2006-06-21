@@ -9,6 +9,7 @@ This file has the following format:
 <cc_config>
     [ <save_stats_days>N</save_stats_days> ]
     [ <dont_check_file_size>0|1</dont_check_file_size> ]
+    [ <ncpus>N</ncpus> ]
     <log_flags>
         [ flags ]
     </log_flags>
@@ -22,7 +23,10 @@ list_item_func("<save_stats_days>",
     Default is 30."
 );
 list_item_func("<dont_check_file_sizes>",
-    " If nonzero, don't check file sizes"
+    "If nonzero, don't check file sizes"
+);
+list_item_func("<ncpus>",
+    "Act as if there were N CPUs (for debugging)."
 );
 list_end();
 echo "

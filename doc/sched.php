@@ -270,7 +270,7 @@ Tiebreaker: least index in result array.
 <li> Find the project P with the greatest anticipated debt,
 select one of P's runnable results
 (picking one that is already running, if possible,
-else the result with earliest deadline)
+else the one received first from the project)
 and schedule that result.
 <li> Decrement P's anticipated debt by the 'expected payoff'
 (the scheduling period divided by NCPUS).

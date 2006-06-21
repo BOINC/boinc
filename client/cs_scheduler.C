@@ -612,13 +612,13 @@ int CLIENT_STATE::compute_work_requests() {
         if (estimated_time_to_starvation < work_min_period) {
             if (estimated_time_to_starvation == 0) {
                 scope_messages.printf(
-                    "CLIENT_STATE::compute_work_requests(): project '%s' is starved\n",
+                    "compute_work_requests(): project '%s' is starved\n",
                     p->project_name
                 );
                 p->work_request_urgency = WORK_FETCH_NEED_IMMEDIATELY;
             } else {
                 scope_messages.printf(
-                    "CLIENT_STATE::compute_work_requests(): project '%s' will starve in %.2f sec\n",
+                    "compute_work_requests(): project '%s' will starve in %.2f sec\n",
                     p->project_name, estimated_time_to_starvation
                 );
                 p->work_request_urgency = WORK_FETCH_NEED;
@@ -640,13 +640,13 @@ int CLIENT_STATE::compute_work_requests() {
         }
 
         scope_messages.printf(
-            "CLIENT_STATE::compute_work_requests(): project %s work req: %f sec  urgency: %d\n",
+            "compute_work_requests(): project %s work req: %f sec  urgency: %d\n",
             p->project_name, p->work_request, p->work_request_urgency
         );
     }
 
     scope_messages.printf(
-        "CLIENT_STATE::compute_work_requests(): client work need: %f sec, urgency %d\n",
+        "compute_work_requests(): client work need: %f sec, urgency %d\n",
         global_work_need, overall_work_fetch_urgency
     );
 
@@ -1034,7 +1034,7 @@ int CLIENT_STATE::handle_scheduler_reply(
     for (i=0; i<sr.result_acks.size(); i++) {
         RESULT* rp = lookup_result(project, sr.result_acks[i].name);
         scope_messages.printf(
-            "CLIENT_STATE::handle_scheduler_reply(): got ack for result %s\n",
+            "handle_scheduler_reply(): got ack for result %s\n",
             sr.result_acks[i].name
         );
         if (rp) {
@@ -1116,7 +1116,7 @@ int CLIENT_STATE::handle_scheduler_reply(
     }
 
     set_client_state_dirty("handle_scheduler_reply");
-    scope_messages.printf("CLIENT_STATE::handle_scheduler_reply(): State after handle_scheduler_reply():\n");
+    scope_messages.printf("handle_scheduler_reply(): State after handle_scheduler_reply():\n");
     print_summary();
     return 0;
 }
@@ -1154,7 +1154,7 @@ void CLIENT_STATE::set_work_fetch_mode() {
 
     SCOPE_MSG_LOG scope_messages(log_messages, CLIENT_MSG_LOG::DEBUG_CPU_SCHED);
 
-    scope_messages.printf("rr_sim: calling from work_fetch");
+    scope_messages.printf("rr_simulation: calling from work_fetch\n");
     if (rr_simulation(per_cpu_proc_rate, rrs)) {
         if (!no_work_for_a_cpu()) {
             should_not_fetch_work = true;
@@ -1163,7 +1163,7 @@ void CLIENT_STATE::set_work_fetch_mode() {
         // if fetching more work would cause round-robin to
         // miss a deadline, don't fetch more work
         //
-        scope_messages.printf("rr_sim: calling from work_fetch with extended rrs");
+        scope_messages.printf("rr_simulation: calling from work_fetch with extended rrs\n");
         PROJECT* p = next_project_need_work();
         if (p && !p->runnable()) {
             rrs += p->resource_share;

@@ -278,7 +278,7 @@ void CLIENT_STATE::adjust_debts() {
             p->anticipated_debt = 0;
         }
         scope_messages.printf(
-            "CLIENT_STATE::adjust_debts(): project %s: short-term debt %f\n",
+            "adjust_debts(): project %s: short-term debt %f\n",
             p->project_name, p->short_term_debt
         );
     }
@@ -395,7 +395,7 @@ void CLIENT_STATE::schedule_cpus() {
 
     // do round-robin simulation to find what results miss deadline,
     //
-    scope_messages.printf("rr_sim: calling from cpu_scheduler");
+    scope_messages.printf("rr_simulation: calling from cpu_scheduler\n");
     rr_simulation(avg_proc_rate()/ncpus, runnable_resource_share());
     if (log_flags.cpu_sched_debug) {
         print_deadline_misses();
@@ -735,6 +735,8 @@ bool CLIENT_STATE::rr_simulation(double per_cpu_proc_rate, double rrs) {
 
     SCOPE_MSG_LOG scope_messages(log_messages, CLIENT_MSG_LOG::DEBUG_CPU_SCHED);
 
+    scope_messages.printf( "rr_simulation: start\n");
+
     // Initialize the "active" and "pending" lists for each project.
     // These keep track of that project's results
     //
@@ -791,7 +793,8 @@ bool CLIENT_STATE::rr_simulation(double per_cpu_proc_rate, double rrs) {
         double diff = sim_now + rpbest->rrsim_finish_delay - rpbest->computation_deadline();
         if (diff > 0) {
             scope_messages.printf(
-                "rr_sim: result %s misses deadline by %f\n", rpbest->name, diff
+                "rr_simulation: result %s misses deadline by %f\n",
+                rpbest->name, diff
             );
             rpbest->rr_sim_misses_deadline = true;
             pbest->rr_sim_deadlines_missed++;
@@ -867,8 +870,19 @@ bool CLIENT_STATE::rr_simulation(double per_cpu_proc_rate, double rrs) {
 
         sim_now += rpbest->rrsim_finish_delay;
     }
-    if (!rval) {
-        scope_messages.printf( "rr_sim: deadlines met\n");
+    if (log_flags.cpu_sched_debug) {
+        for (i=0; i<projects.size(); i++) {
+            p = projects[i];
+            msg_printf(NULL, MSG_INFO,
+                "rr_simulation: shortfall for %s is %f\n",
+                p->project_name, p->cpu_shortfall
+            );
+        }
+        msg_printf(NULL, MSG_INFO,
+            "rr_simulation: end; returning %s; cpu_shortfall %f\n",
+            rval?"true":"false",
+            cpu_shortfall
+        );
     }
     return rval;
 }

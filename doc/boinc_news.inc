@@ -1,6 +1,10 @@
 <?
 
 $project_news = array(
+array("June 21, 2006",
+    "BOINCstats and the BAM! account manager
+    are now available <a href=http://jp.boincstats.com>in Japanese</a>."
+),
 array("June 15, 2006",
     "BOINC's CPU scheduler has become smarter:
     it now waits until an application has checkpointed
