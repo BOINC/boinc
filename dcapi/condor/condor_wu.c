@@ -281,7 +281,7 @@ _DC_wu_check_client_messages(DC_Workunit *wu)
 	       (de= readdir(d)) != NULL)
 	{
 		char *found= strstr(de->d_name, "message.");
-		if (found)
+		if (found == de->d_name)
 		{
 			char *pos= strrchr(de->d_name, '.');
 			if (pos)
@@ -319,7 +319,8 @@ _DC_wu_check_client_messages(DC_Workunit *wu)
 						&err))
 			{
 				e= g_new0(DC_MasterEvent, 1);
-				DC_log(LOG_DEBUG, "API event created: %p", e);
+				DC_log(LOG_DEBUG, "Message event created: %p "
+				       "for wu (%p-\"%s\")", e, wu, wu->name);
 				e->type= DC_MASTER_MESSAGE;
 				e->wu= wu;
 				e->message= cont;
