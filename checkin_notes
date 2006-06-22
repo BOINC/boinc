@@ -6582,8 +6582,7 @@ Charlie 21 June 2006
     client/
         client_types.C
     clientgui/
-        MainDocument.cpp
-        MainDocument.h
+        MainDocument.cpp,h
         MainFrame.cpp
         ViewProjects.cpp
         ViewTransfers.cpp
@@ -6595,4 +6594,4 @@ Charlie 21 June 2006
         PostInstall.cpp
     mac_build/
         boinc.xcodeproj/
-        project.pbxproj
+            sproject.pbxproj
