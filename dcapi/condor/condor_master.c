@@ -24,8 +24,7 @@
 /********************************************************************* INIT */
 
 static GHashTable *_DC_wu_table= NULL;
-uuid_t _DC_project_uuid;
-char _DC_project_uuid_str[37]= "";
+char *_DC_project_uuid_str= NULL;
 char *_DC_config_file= NULL;
 
 DC_ResultCallback	_DC_result_callback= NULL;
@@ -76,6 +75,7 @@ DC_initMaster(const char *configFile)
 		       CFG_INSTANCEUUID, configFile);
 		return(DC_ERR_CONFIG);
 	}
+	/*
 	ret= uuid_parse((char *)cfgval, _DC_project_uuid);
 	if (ret)
 	{
@@ -83,10 +83,14 @@ DC_initMaster(const char *configFile)
 		g_free(cfgval);
 		return(DC_ERR_CONFIG);
 	}
+	*/
+	if (_DC_project_uuid_str)
+		g_free(_DC_project_uuid_str);
+	_DC_project_uuid_str= g_strdup(cfgval);
 	g_free(cfgval);
 
 	/* Enforce a canonical string representation of the UUID */
-	uuid_unparse_lower(_DC_project_uuid, _DC_project_uuid_str);
+	/*uuid_unparse_lower(_DC_project_uuid, _DC_project_uuid_str);*/
 
 	return(DC_OK);
 }
@@ -180,6 +184,9 @@ DC_createWU(const char *clientName,
 void
 DC_destroyWU(DC_Workunit *wu)
 {
+	int i;
+	GString *s;
+
 	if (!_DC_wu_check(wu))
 		return;
 	DC_log(LOG_DEBUG, "DC_destroyWU(%p-\"%s\")", wu, wu->name);
@@ -187,9 +194,25 @@ DC_destroyWU(DC_Workunit *wu)
 	if (_DC_wu_table)
 		g_hash_table_remove(_DC_wu_table, wu->name);
 
+	s= g_string_new("");
+	g_string_printf(s, "%s/%s", wu->workdir, "master_messages");
+	if ((i= _DC_nuof_messages(s->str, "message")) > 0)
+		DC_log(LOG_NOTICE, "%d master messages unhandled by "
+		       "destroying wu: %s", i, wu->name);
+	g_string_printf(s, "%s/%s", wu->workdir, "client_messages");
+	if ((i= _DC_nuof_messages(s->str, "message")) > 0)
+		DC_log(LOG_NOTICE, "%d client messages unhandled of wu: %s",
+		       i, wu->name);
+	g_string_free(s, TRUE);
+
+	if (wu->state == DC_WU_READY ||
+	    wu->state == DC_WU_UNKNOWN)
+		DC_log(LOG_NOTICE, "Destroying an unstarted wu: %s", wu->name);
 	if (wu->state == DC_WU_RUNNING ||
 	    wu->state == DC_WU_SUSPENDED)
 	{
+		DC_log(LOG_NOTICE, "Destroying a started but not yet "
+		       "finished wu: %s", wu->name);
 		DC_log(LOG_INFO, "WU has been started but not finished "
 		       "do not remove its workdir %s", wu->workdir);
 	}
@@ -668,6 +691,7 @@ DC_sendWUMessage(DC_Workunit *wu, const char *message)
 {
 	GString *dn;
 	FILE *f;
+	int ret;
 
 	if (!_DC_wu_check(wu))
 		return(DC_ERR_UNKNOWN_WU);
@@ -675,25 +699,9 @@ DC_sendWUMessage(DC_Workunit *wu, const char *message)
 	       wu, wu->name, message);
 	dn= g_string_new(wu->workdir);
 	g_string_append(dn, "/master_messages");
-	mkdir(dn->str, S_IRWXU|S_IRGRP|S_IXGRP|S_IROTH|S_IXOTH);
-	_DC_message_id++;
-	g_string_append_printf(dn, "/message.%d", _DC_message_id);
-	if ((f= fopen(dn->str, "w")) != NULL)
-	{
-		fprintf(f, "%s", message);
-		fclose(f);
-		DC_log(LOG_DEBUG, "Message %s created", dn->str);
-	}
-	else
-	{
-		DC_log(LOG_ERR, "Error creating message file (%s)",
-		       dn->str);
-		g_string_free(dn, TRUE);
-		return(DC_ERR_SYSTEM);
-	}
-
+	ret= _DC_create_message(dn->str, "message", message, NULL);
 	g_string_free(dn, TRUE);
-	return(DC_OK);
+	return(ret);
 }
 
 
