@@ -10,10 +10,13 @@
 ///////////////////////////////////////////////////////////////////////////////
 
 
-#include <wx/wxFlatNotebook/wxFlatNotebook.h>
-#include <algorithm>
-#include <wx/tooltip.h>
-#include <wx/tipwin.h>
+#if defined(__GNUG__) && !defined(__APPLE__)
+#pragma implementation "common/wxFlatNotebook.h"
+#endif
+
+#include "stdwx.h"
+#include "common/wxFlatNotebook.h"
+
 
 IMPLEMENT_DYNAMIC_CLASS(wxFlatNotebookEvent, wxNotifyEvent)
 DEFINE_EVENT_TYPE(wxEVT_COMMAND_FLATNOTEBOOK_PAGE_CHANGED)

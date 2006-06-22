@@ -6508,6 +6508,19 @@ David  21 June 2006
     sched/
         file_upload_handler.C
 
+Milos  21 June 2006
+    - Initial checkin on the simple GUI
+    
+    clientgui/
+        sg_BoincSimpleGUI.cpp, .h (Added)
+        sg_DlgPreferences.cpp, .h (Added)
+        sg_ImageLoader.cpp, .h (Added)
+        sg_SkinClass.cpp, .h (Added)
+        sg_StatImageLoader.cpp, .h (Added)
+    clientgui/common/
+        wxFlatNotebook.cpp, .h (Added)
+        wxFNBDropTarget.h (Added)
+        wxAnimate.cpp (Added)
 
 Rom    21 June 2006
     - Bug Fix: Two setup failure logs that were sent to me indicate that 

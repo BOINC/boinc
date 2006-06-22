@@ -12,31 +12,18 @@
 #ifndef WXFLATNOTEBOOK_H
 #define WXFLATNOTEBOOK_H
 
-#include <wx/wx.h>
-
-#ifdef __VISUALC__
-#pragma warning( push )
-#pragma warning(disable: 4702)
+#if defined(__GNUG__) && !defined(__APPLE__)
+#pragma interface "common/wxFlatNotebook.cpp"
 #endif
 
-#include <vector>
 
-#ifdef __VISUALC__
-#pragma warning(pop)
-#endif
-
-#include <wx/dcbuffer.h>
-#include <wx/dataobj.h>
-#include <wx/dnd.h>
-
-#include <wx/wxFlatNotebook/wxFNBDropTarget.h>
+#include "common/wxFNBDropTarget.h"
 
 class wxPageContainerBase;
 
 #ifndef M_PI
 #define M_PI 3.14159265358979
 #endif
-
 
 typedef std::vector<wxBitmap> wxFlatNotebookImageList;
 
