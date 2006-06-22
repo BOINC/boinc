@@ -36,7 +36,6 @@
 Boolean Mac_Authorize()
 {
     static Boolean      sIsAuthorized = false;
-    uid_t               effectiveUserID, realUserID;
     AuthorizationRef	ourAuthRef = NULL;
     AuthorizationRights	ourAuthRights;
     AuthorizationFlags	ourAuthFlags;
@@ -46,6 +45,9 @@ Boolean Mac_Authorize()
     if (sIsAuthorized)
         return true;
         
+#ifndef SANDBOX
+    uid_t               effectiveUserID, realUserID;
+    
     effectiveUserID = geteuid();
     realUserID = getuid();
     if (effectiveUserID == realUserID)
@@ -54,6 +56,7 @@ Boolean Mac_Authorize()
         sIsAuthorized = true;
         return true;
     }
+#endif
     
     // User is not the owner, so require admin authorization
     ourAuthItem[0].name = kAuthorizationRightExecute;

@@ -83,8 +83,6 @@ int CreateBOINCUsersAndGroups() {
     err = CreateUserAndGroup(REAL_BOINC_MASTER_NAME, REAL_BOINC_MASTER_NAME);
     if (err != noErr)
         return err;
-        
-    SleepTicks(120);
 
     err = CreateUserAndGroup(REAL_BOINC_PROJECT_NAME, REAL_BOINC_PROJECT_NAME);
     if (err != noErr)
@@ -96,8 +94,6 @@ int CreateBOINCUsersAndGroups() {
     err = DoPrivilegedExec(dsclPath, ".", "-merge", buf1, "users", boinc_master_user_name);
     if (err != noErr)
         return err;
-
-    SleepTicks(120);
 
     system("lookupd -flushcache");
     system("memberd -r");
@@ -470,7 +466,7 @@ static OSStatus CreateUserAndGroup(char * user_name, char * group_name) {
         }
     } else {
         if (groupExists) {      // Group exists but user does not
-            pw = getpwuid(groupid);
+           pw = getpwuid(groupid);
             if (pw == NULL)    // Set the user ID = group ID if this user ID is available
                 userid = groupid;
         }
@@ -554,6 +550,8 @@ static OSStatus CreateUserAndGroup(char * user_name, char * group_name) {
 
     system("lookupd -flushcache");
     system("memberd -r");
+
+    SleepTicks(120);
 
     return noErr;
 }

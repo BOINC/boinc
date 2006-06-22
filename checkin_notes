@@ -6568,3 +6568,31 @@ Rom    21 June 2006
         boinccas95.dll
         boinccas.dll
 
+Charlie 21 June 2006
+    - Mac sandbox:
+        - Fix installer problems creating user and groups on older Mac OS.
+        - The following functions require an administrator password unless 
+            the user is a member of group boinc_master: Attach to Project, 
+             Detach from Project, Reset Project, Attach to Account Manager, 
+             Detach from Account Manager, Update Account Manager, Abort 
+             Task, Abort Transfer.
+        - Fix compiler warning in client_types.C.
+        - Define SANDBOX in XCode projects: Client, Manager, Installer.
+        
+    client/
+        client_types.C
+    clientgui/
+        MainDocument.cpp
+        MainDocument.h
+        MainFrame.cpp
+        ViewProjects.cpp
+        ViewTransfers.cpp
+        ViewWork.cpp
+        mac/
+            Mac_GUI.cpp
+            SetupSecurity.cpp
+    mac_installer/
+        PostInstall.cpp
+    mac_build/
+        boinc.xcodeproj/
+        project.pbxproj

@@ -131,6 +131,8 @@ public:
     int                         ForceCacheUpdate();
     int                         RunBenchmarks();
 
+    bool                        IsUserAuthorized();
+
     RPC_CLIENT                  rpc;
     CC_STATE                    state;
     HOST_INFO                   host;
@@ -263,3 +265,6 @@ public:
 
 #endif
 
+#ifdef SANDBOX
+#define BOINC_MASTER_GROUP_NAME "boinc_master"
+#endif

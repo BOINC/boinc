@@ -182,6 +182,9 @@ void CViewTransfers::OnTransfersAbort( wxCommandEvent& WXUNUSED(event) ) {
     wxASSERT(m_pTaskPane);
     wxASSERT(m_pListPane);
 
+    if (!pDoc->IsUserAuthorized())
+        return;
+
     pFrame->UpdateStatusText(_("Aborting transfer..."));
 
     strMessage.Printf(

@@ -3074,6 +3074,7 @@
 				MACOSX_DEPLOYMENT_TARGET = 10.4;
 				OTHER_CFLAGS = (
 					"-D_THREAD_SAFE",
+					"-DSANDBOX",
 					"-include",
 					../clientgui/mac/config.h,
 				);
@@ -3167,6 +3168,7 @@
 					"-DNOCLIPBOARD",
 					"-D_THREAD_SAFE",
 					"-D__WXMAC__",
+					"-DSANDBOX",
 					"-DHAVE_STRCASECMP_IN_STRING_H",
 				);
 				OTHER_CFLAGS_i386 = "-DMAC_OS_X_VERSION_MAX_ALLOWED=1040 -DHAVE_CONFIG_H -D_FILE_OFFSET_BITS=64 -D_LARGE_FILES -DNO_GCC_PRAGMA -DNOCLIPBOARD -D_THREAD_SAFE -D__WXMAC__ -DHAVE_STRCASECMP_IN_STRING_H";
@@ -3665,6 +3667,7 @@
 				OTHER_CFLAGS = (
 					"-DMAC_OS_X_VERSION_MAX_ALLOWED=1040",
 					"-D_THREAD_SAFE",
+					"-DSANDBOX",
 					"-D_DEBUG",
 					"-include",
 					../clientgui/mac/config.h,
@@ -3711,6 +3714,7 @@
 				OTHER_CFLAGS = (
 					"-DMAC_OS_X_VERSION_MAX_ALLOWED=1030",
 					"-D_THREAD_SAFE",
+					"-DSANDBOX",
 					"fasm-blocks",
 					"-include",
 					../clientgui/mac/config.h,
@@ -3838,6 +3842,7 @@
 					"-DNOCLIPBOARD",
 					"-D_THREAD_SAFE",
 					"-D__WXMAC__",
+					"-DSANDBOX",
 					"-D_DEBUG",
 					"-DHAVE_STRCASECMP_IN_STRING_H",
 				);
@@ -3895,6 +3900,7 @@
 					"-DNOCLIPBOARD",
 					"-D_THREAD_SAFE",
 					"-D__WXMAC__",
+					"-DSANDBOX",
 					"-DHAVE_STRCASECMP_IN_STRING_H",
 				);
 				OTHER_CPLUSPLUSFLAGS = "$(OTHER_CFLAGS)";
@@ -4347,6 +4353,7 @@
 				MACOSX_DEPLOYMENT_TARGET = 10.4;
 				OTHER_CFLAGS = (
 					"-D_THREAD_SAFE",
+					"-DSANDBOX",
 					"-include",
 					../clientgui/mac/config.h,
 				);
@@ -4436,6 +4443,7 @@
 					"-DNOCLIPBOARD",
 					"-D_THREAD_SAFE",
 					"-D__WXMAC__",
+					"-DSANDBOX",
 					"-DHAVE_STRCASECMP_IN_STRING_H",
 				);
 				OTHER_CPLUSPLUSFLAGS = "$(OTHER_CFLAGS)";

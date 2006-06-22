@@ -274,6 +274,9 @@ void CViewWork::OnWorkAbort( wxCommandEvent& WXUNUSED(event) ) {
     wxASSERT(m_pTaskPane);
     wxASSERT(m_pListPane);
 
+    if (!pDoc->IsUserAuthorized())
+        return;
+
     pFrame->UpdateStatusText(_("Aborting result..."));
 
     iResult = m_pListPane->GetFirstSelected();

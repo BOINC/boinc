@@ -137,7 +137,7 @@ int main(int argc, char *argv[])
     for (i=0; i<5; ++i) {
         err = CreateBOINCUsersAndGroups();
         if (err != noErr) {
-print_to_log_file("CreateBOINCUsersAndGroups returned %d (=%d)", err, i);
+//          print_to_log_file("CreateBOINCUsersAndGroups returned %d (repetition=%d)", err, i);
             continue;
         }
         
@@ -147,21 +147,20 @@ print_to_log_file("CreateBOINCUsersAndGroups returned %d (=%d)", err, i);
             err = SetBOINCAppOwnersGroupsAndPermissions(p);
         
         if (err != noErr) {
-print_to_log_file("SetBOINCAppOwnersGroupsAndPermissions returned %d (=%d)", err, i);
+//          print_to_log_file("SetBOINCAppOwnersGroupsAndPermissions returned %d (repetition=%d)", err, i);
             continue;
         }
 
         err = SetBOINCDataOwnersGroupsAndPermissions();
         if (err != noErr) {
-print_to_log_file("SetBOINCDataOwnersGroupsAndPermissions returned %d (=%d)", err, i);
+//          print_to_log_file("SetBOINCDataOwnersGroupsAndPermissions returned %d (repetition=%d)", err, i);
             continue;
         }
         
         err = check_security(p, "/Library/Application Support/BOINC Data");
-        if (err != noErr) {
-print_to_log_file("check_security returned %d (=%d)", err, i);
-            continue;
-        }
+        if (err == noErr)
+            break;
+//          print_to_log_file("check_security returned %d (repetition=%d)", err, i);
     }
     
 #else   // ! defined(SANDBOX)

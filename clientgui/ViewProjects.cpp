@@ -284,6 +284,9 @@ void CViewProjects::OnProjectReset( wxCommandEvent& WXUNUSED(event) ) {
     wxASSERT(m_pTaskPane);
     wxASSERT(m_pListPane);
 
+    if (!pDoc->IsUserAuthorized())
+        return;
+
     pFrame->UpdateStatusText(_("Resetting project..."));
 
     PROJECT* project = pDoc->project(m_pListPane->GetFirstSelected());
@@ -330,6 +333,9 @@ void CViewProjects::OnProjectDetach( wxCommandEvent& WXUNUSED(event) ) {
     wxASSERT(wxDynamicCast(pFrame, CMainFrame));
     wxASSERT(m_pTaskPane);
     wxASSERT(m_pListPane);
+
+    if (!pDoc->IsUserAuthorized())
+        return;
 
     pFrame->UpdateStatusText(_("Detaching from project..."));
 

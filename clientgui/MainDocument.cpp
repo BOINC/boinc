@@ -21,6 +21,10 @@
 #pragma implementation "MainDocument.h"
 #endif
 
+#ifdef SANDBOX
+#include <grp.h>
+#endif
+
 #include "stdwx.h"
 #include "BOINCGUIApp.h"
 #include "MainDocument.h"
@@ -584,6 +588,67 @@ int CMainDocument::RunBenchmarks() {
 
 int CMainDocument::CoreClientQuit() {
     return rpc.quit();
+}
+
+
+bool CMainDocument::IsUserAuthorized() {
+#ifdef SANDBOX
+#ifdef _WIN32
+    return true;
+#else       // !  _WIN32
+    group               *grp;
+    gid_t               rgid, boinc_master_gid;
+    char                *userName, *groupMember;
+    int                 i;
+    static bool         sIsAuthorized = false;
+
+    if (sIsAuthorized)
+        return true;            // We already checked and OK'd current user
+
+    grp = getgrnam(BOINC_MASTER_GROUP_NAME);
+    if (grp) {
+        boinc_master_gid = grp->gr_gid;
+
+        rgid = getgid();
+        if (rgid == boinc_master_gid) {
+            sIsAuthorized = true;           // User's primary group is boinc_master
+            return true;
+        }
+
+        userName = getlogin();
+        if (userName) {
+            for (i=0; ; i++) {              // Step through all users in group boinc_master
+                groupMember = grp->gr_mem[i];
+                if (groupMember == NULL)
+                    break;                  // User is not a member of group boinc_master
+                if (strcmp(userName, groupMember) == 0) {
+                    sIsAuthorized = true;   // User is a member of group boinc_master
+                    return true;
+                }
+            }       // for (i)
+        }           // if (userName)
+    }               // if grp
+
+#endif      // !  _WIN32
+
+#ifdef __WXMAC__
+    if (Mac_Authorize()) {          // Run Mac Authentication dialog
+        sIsAuthorized = true;       // Authenticated by password
+        return true;
+    }
+#endif      // __WXMAC__
+    
+    return false;
+
+#else       // ! SANDBOX
+
+#ifdef __WXMAC__
+    return Mac_Authorize();         // Run Mac Authentication dialog
+#else      // ! __WXMAC__
+    return true;
+#endif      // ! __WXMAC__
+
+#endif      // ! SANDBOX
 }
 
 

@@ -881,7 +881,6 @@ void FILE_INFO::failure_message(string& s) {
 int FILE_INFO::gzip() {
     char buf[BUFSIZE];
     char inpath[256], outpath[256];
-    int retval = 0;
 
     get_pathname(this, inpath);
     strcpy(outpath, inpath);

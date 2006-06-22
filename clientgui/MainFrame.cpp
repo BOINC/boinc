@@ -1120,10 +1120,8 @@ void CMainFrame::OnProjectsAttachToAccountManager(wxCommandEvent& WXUNUSED(event
     wxASSERT(pDoc);
     wxASSERT(wxDynamicCast(pDoc, CMainDocument));
 
-#ifdef __WXMAC__
-    if (!Mac_Authorize())
+    if (!pDoc->IsUserAuthorized())
         return;
-#endif
 
     if (pDoc->IsConnected()) {
         m_pRefreshStateTimer->Stop();
@@ -1162,10 +1160,8 @@ void CMainFrame::OnAccountManagerUpdate(wxCommandEvent& WXUNUSED(event)) {
     wxASSERT(pDoc);
     wxASSERT(wxDynamicCast(pDoc, CMainDocument));
 
-#ifdef __WXMAC__
-    if (!Mac_Authorize())
+    if (!pDoc->IsUserAuthorized())
         return;
-#endif
 
     if (pDoc->IsConnected()) {
         m_pRefreshStateTimer->Stop();
@@ -1209,10 +1205,8 @@ void CMainFrame::OnAccountManagerDetach(wxCommandEvent& WXUNUSED(event)) {
     wxASSERT(pDoc);
     wxASSERT(wxDynamicCast(pDoc, CMainDocument));
 
-#ifdef __WXMAC__
-    if (!Mac_Authorize())
+    if (!pDoc->IsUserAuthorized())
         return;
-#endif
 
     if (pDoc->IsConnected()) {
 
@@ -1269,10 +1263,8 @@ void CMainFrame::OnProjectsAttachToProject( wxCommandEvent& WXUNUSED(event) ) {
     wxASSERT(pDoc);
     wxASSERT(wxDynamicCast(pDoc, CMainDocument));
 
-#ifdef __WXMAC__
-    if (!Mac_Authorize())
+    if (!pDoc->IsUserAuthorized())
         return;
-#endif
 
     if (pDoc->IsConnected()) {
         UpdateStatusText(_("Attaching to project..."));
