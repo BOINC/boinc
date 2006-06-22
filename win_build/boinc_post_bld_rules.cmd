@@ -27,6 +27,11 @@ if not exist %OUTPUTDIR%\libcurl.dll (
     copy "%PROJECTROOTDIR%\curl\mswin\%PROCESSOR_ARCHITECTURE%\bin\libcurl.dll" "%OUTPUTDIR%"
 )
 
+if not exist %OUTPUTDIR%\ca-bundle.crt (
+    echo Coping ca-bundle.crt to the output directory...
+    copy "%PROJECTROOTDIR%\curl\ca-bundle.crt" "%OUTPUTDIR%"
+)
+
 if not exist %OUTPUTDIR%\libeay32.dll (
     echo Coping libeay32 to the output directory...
     copy "%PROJECTROOTDIR%\openssl\mswin\%PROCESSOR_ARCHITECTURE%\bin\libeay32.dll" "%OUTPUTDIR%"
