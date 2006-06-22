@@ -80,7 +80,7 @@ UINT CAShutdownBOINCManager::OnExecution()
             if ( 0 != lrReturnValue )
             {
                 LogMessage(
-                    INSTALLMESSAGE_ERROR,
+                    INSTALLMESSAGE_INFO,
                     NULL, 
                     NULL,
                     NULL,
@@ -98,7 +98,7 @@ UINT CAShutdownBOINCManager::OnExecution()
     if ( NULL != hWndBOINCManagerSystray )
     {
         LogMessage(
-            INSTALLMESSAGE_ERROR,
+            INSTALLMESSAGE_INFO,
             NULL, 
             NULL,
             NULL,

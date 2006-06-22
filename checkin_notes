@@ -6556,3 +6556,15 @@ Rom    21 June 2006 (HEAD)
     - Tag for 5.5.4 release, all platforms
       boinc_core_release_5_5_4
 
+Rom    21 June 2006
+    - Bug Fix: Go one step further by ignoring the return value from
+        ControlService.
+
+    win_build/installerv2/redist/Windows/src/boinccas
+        CAShutdownBOINC.cpp
+        CAShutdownBOINCManager.cpp
+        boinccas.rc
+    win_build/installerv2/redist/Windows/x86
+        boinccas95.dll
+        boinccas.dll
+

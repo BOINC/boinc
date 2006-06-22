@@ -91,7 +91,6 @@ UINT CAShutdownBOINC::OnExecution()
     SC_HANDLE schSCManager = NULL;
     SC_HANDLE schService = NULL;
     SERVICE_STATUS ssStatus;
-    UINT uiReturn = ERROR_SUCCESS;
     tOSCM pOSCM = NULL;
     tOS pOS = NULL;
     tCS pCS = NULL;
@@ -136,7 +135,14 @@ UINT CAShutdownBOINC::OnExecution()
                     {
                         if (!pCS(schService, SERVICE_CONTROL_STOP, &ssStatus))
                         {
-                            uiReturn = ERROR_INSTALL_FAILURE;
+                            LogMessage(
+                                INSTALLMESSAGE_INFO,
+                                NULL, 
+                                NULL,
+                                NULL,
+                                (int)GetLastError(),
+                                _T("Setup was unable to shutdown the BOINC Service.")
+                            );
                         }
                     }
                 }
@@ -150,7 +156,7 @@ UINT CAShutdownBOINC::OnExecution()
             CloseServiceHandle(schService);
     }
 
-    return uiReturn;
+    return ERROR_SUCCESS;
 }
 
 
