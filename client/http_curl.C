@@ -291,6 +291,9 @@ The checking this option controls is of the identity that the server claims. The
     //
     curlErr = curl_easy_setopt(curlEasy, CURLOPT_SSL_VERIFYPEER, 1L);
 
+    // if the above is nonzero, you need the following:
+    curlErr = curl_easy_setopt(curlEasy, CURLOPT_CAINFO, "ca-bundle.crt");
+
     // set the user agent as this boinc client & version
     curlErr = curl_easy_setopt(curlEasy, CURLOPT_USERAGENT, g_user_agent_string);
 

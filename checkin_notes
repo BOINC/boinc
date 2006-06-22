@@ -3631,13 +3631,13 @@ Charlie 7 Apr 2006
         Make_BOINC_Service.sh
 
 David  7 Apr 2006
-	- add graphics to sample app
+    - add graphics to sample app
 
-	api/
-		gutil.C
-		txt_util.C
-	apps/
-		upper_case.C
+    api/
+        gutil.C
+        txt_util.C
+    apps/
+        upper_case.C
 
 Charlie 7 Apr 2006
     - Mac: If launching client as a daemon / service at system startup, retry 
@@ -3796,12 +3796,12 @@ David  13 Apr 2006
         diagnostics.C
 
 David  13 Apr 2006
-	- graphics API: in txf_load_fonts(),
-		use boinc_resolve_filename() so that font files
-		can be in the project dir
+    - graphics API: in txf_load_fonts(),
+        use boinc_resolve_filename() so that font files
+        can be in the project dir
 
-	api/
-		txf_util.C
+    api/
+        txf_util.C
 
 Rom    13 Apr 2006
     - Bug Fix: Adjust the startup sequence on Windows a bit so that the
@@ -3880,11 +3880,11 @@ Rom    15 Apr 2006
         stackwalker_win.cpp, .h
 
 David  16 Apr 2006
-	- core client: get rid of min_report_rpc_time
+    - core client: get rid of min_report_rpc_time
 
-	client/
-		client_types.C,h
-		cs_scheduler.C
+    client/
+        client_types.C,h
+        cs_scheduler.C
 
 Rom    16 Apr 2006
     - Bug Fix: Add cache timestamps for project, task, transfers, statistics,
@@ -3940,22 +3940,22 @@ Rom    17 Apr 2006
         ViewWork.cpp
 
 David  17 Apr 2006
-	- get rid of the versions of xml_escape() and xml_unescape()
-		that take std::string args.
-		These are too inefficient.
-	- boolean constant is "true", not "TRUE"
+    - get rid of the versions of xml_escape() and xml_unescape()
+        that take std::string args.
+        These are too inefficient.
+    - boolean constant is "true", not "TRUE"
 
-	client/
-		client_types.C
-	lib/
-		app_ipc.C
-		diagnostics.C
-		parse.C,h
-		proxy_info.C
-	sched/
-		db_dump.C
-		db_purge.C
-		server_types.C
+    client/
+        client_types.C
+    lib/
+        app_ipc.C
+        diagnostics.C
+        parse.C,h
+        proxy_info.C
+    sched/
+        db_dump.C
+        db_purge.C
+        server_types.C
 
 David  17 Apr 2006
     - GUI RPC: add an optional <project_suspended_via_gui/>
@@ -3991,13 +3991,13 @@ Rom    18 Apr 2006
         client_types.C
 
 David  18 Apr 2006
-	- make match_tag(), parse_int(), parse_double() into inlines
-	- remove setlocale() calls from parse_int(), parse_double().
-		Numbers in XML (including GUI RPCs) are always in standard format.
-		Whoever writes XML (e.g. the Manager) must ensure this.
+    - make match_tag(), parse_int(), parse_double() into inlines
+    - remove setlocale() calls from parse_int(), parse_double().
+        Numbers in XML (including GUI RPCs) are always in standard format.
+        Whoever writes XML (e.g. the Manager) must ensure this.
 
-	lib/
-		parse.C,h
+    lib/
+        parse.C,h
 
 David  18 Apr 2006
     - core client: better messages on network check
@@ -4031,15 +4031,15 @@ David  18 Apr 2006
         scheduler_op.C
 
 David  18 Apr 2006
-	- improve network-related messages
-		Add error_msg field to NET_XFER.
-		Put Curl error messages here; print them at a higher level,
-		where we can give the context
+    - improve network-related messages
+        Add error_msg field to NET_XFER.
+        Put Curl error messages here; print them at a higher level,
+        where we can give the context
 
-	client/
-		acct_setup.C
-		net_xfer_curl.C,h
-		scheduler_op.C
+    client/
+        acct_setup.C
+        net_xfer_curl.C,h
+        scheduler_op.C
 
 Rom    18 Apr 2006
     - Bug Fix: setlocale is needed in environments where the C runtime library
@@ -4148,17 +4148,17 @@ Walt   21 Apr 2006
         http_curl.C
 
 David  21 Apr 2006
-	- Kludge to make things work even when a project left out
-		a </gui_url> tag in its GUI URL list.
-	- comment out google/yahoo code in the BOINC Manager.
-		Rom: please finish this job
+    - Kludge to make things work even when a project left out
+        a </gui_url> tag in its GUI URL list.
+    - comment out google/yahoo code in the BOINC Manager.
+        Rom: please finish this job
 
-	clientgui/
-		AccountManagerPropertiesPage.cpp
-		BOINCDialupManager.cpp
-		ProjectPropertiesPage.cpp
-	lib/
-		gui_rpc_client_ops.C
+    clientgui/
+        AccountManagerPropertiesPage.cpp
+        BOINCDialupManager.cpp
+        ProjectPropertiesPage.cpp
+    lib/
+        gui_rpc_client_ops.C
 
 Walt   22 Apr 2006
     - Bug fix: Don't use NTLM authorization for proxys.
@@ -4252,11 +4252,11 @@ Charlie 28 Apr 2006
 
 David  28 Apr 2006
     - create_work (both program and function):
-		handle <command_line> element in WU template file
-	- remove assert()
+        handle <command_line> element in WU template file
+    - remove assert()
 
-	client/
-		cpu_sched.C
+    client/
+        cpu_sched.C
     html/inc/
         stats_sites.inc
     tools/
@@ -4318,10 +4318,10 @@ David  1 May 2006
         am_get_info.php
 
 David  1 May 2006
-	- API: win compile fix
+    - API: win compile fix
 
-	api/
-		boinc_api.C
+    api/
+        boinc_api.C
 
 Rom    1 May 2006
     - Windows Runtime Debugger Update:
@@ -4403,29 +4403,29 @@ Rom    2 May 2006
         wizardex.cpp
 
 David  2 May 2006
-	- feeder: change the way -allapps work, so that results
-		from different apps alternate in shared memory.
-		This ensures that when an RPC returns >1 result,
-		they'll be for different apps.
-		TODO: make the ratio configurable.
-	- feeder: add -priority_order_create_time:
-		enumerate results by increasing workunit create time
-	- feeder: add -purge_stale X option: removes items that have been
-		in shared memory more than X minutes.
-	- scheduler: parse user project preference for elements
-		of the form <app_id>N</app_id>.
-		If any are found, only send the user work for those applications.
+    - feeder: change the way -allapps work, so that results
+        from different apps alternate in shared memory.
+        This ensures that when an RPC returns >1 result,
+        they'll be for different apps.
+        TODO: make the ratio configurable.
+    - feeder: add -priority_order_create_time:
+        enumerate results by increasing workunit create time
+    - feeder: add -purge_stale X option: removes items that have been
+        in shared memory more than X minutes.
+    - scheduler: parse user project preference for elements
+        of the form <app_id>N</app_id>.
+        If any are found, only send the user work for those applications.
 
-	TODO: document the above
+    TODO: document the above
 
-	All the above from Kevin Reed of World Community Grid
+    All the above from Kevin Reed of World Community Grid
 
-	sched/
-		feeder.C
-		sched_send.C,h
-		sched_shmem.h
-		server_types.h
-		show_shmem.C
+    sched/
+        feeder.C
+        sched_send.C,h
+        sched_shmem.h
+        server_types.h
+        show_shmem.C
 
 David  2 May 2006
     - got the above checkin compiling on linux
@@ -4599,7 +4599,7 @@ Rom    10 May 2006
     lib/
         diagnostics_win.C
 
-Eric K	11 May 2006
+Eric K    11 May 2006
     - (pthreads) Put a mutex around the cpu time calculation in
       boinc_worker_thread_cpu_time().  If called from multiple
       threads, this would occasionally report the wrong CPU time,
@@ -4660,7 +4660,7 @@ David  15 May 2006
     tools/
         create_work_example
 
-Eric K	15 May 2006
+Eric K    15 May 2006
     - Added check check for alloca.h and memory.h to configure.ac
     - Added check for alloca and _alloca to configure.ac
     - Structural change to boinc_worker_timer() to get rid of essentially
@@ -4762,17 +4762,17 @@ Rom    15 May 2006
         optimize.hpp (Removed)
 
 David  16 May 2006
-	- remove references to exception.C,h
-	- save stat data for 30 days, not 30 records
+    - remove references to exception.C,h
+    - save stat data for 30 days, not 30 records
 
-	client/
-		app_graphics.C
-		scheduler_op.C
-		win/
-			win_screensaver.cpp
-	win_build/
-		boinc_ss.vcproj
-		libboinc.vcproj
+    client/
+        app_graphics.C
+        scheduler_op.C
+        win/
+            win_screensaver.cpp
+    win_build/
+        boinc_ss.vcproj
+        libboinc.vcproj
 
 Rom    16 May 2006
     - Manually perform memory leak detection since we now terminate the
@@ -4885,26 +4885,26 @@ David  21 May 2006
         stats_sites.inc
 
 David 21 May 2006
-	- core client: implement "CPU usage limit" preference
-	- core client: print CPU scheduling messages only if
-		"tasks" log flag is set
-	- core client: mechanisms for suspending activities
-		(idle, time-of-day, explicit control)
-		affect only CPU, not network usage
-	- Manager: fix garbled message about needing network connection
+    - core client: implement "CPU usage limit" preference
+    - core client: print CPU scheduling messages only if
+        "tasks" log flag is set
+    - core client: mechanisms for suspending activities
+        (idle, time-of-day, explicit control)
+        affect only CPU, not network usage
+    - Manager: fix garbled message about needing network connection
 
-	client/
-		app_control.C
-		app_start.C
-		client_state.C,h
-		cs_apps.C
-		cs_prefs.C
-		log_flags.C
-		main.C
-	clientgui/
-		BOINCDialupManager.cpp
-	lib/
-		prefs.C,h
+    client/
+        app_control.C
+        app_start.C
+        client_state.C,h
+        cs_apps.C
+        cs_prefs.C
+        log_flags.C
+        main.C
+    clientgui/
+        BOINCDialupManager.cpp
+    lib/
+        prefs.C,h
 
 Rom    21 May 2006
     - Translate the process and thread priorities into text.
@@ -4956,11 +4956,11 @@ Rom    22 May 2006
         diagnostics_win.C
 
 David  22 May 2006
-	- core client: fix logic error involving the
-		"5 minutes of network after GUI RPC" thing.
+    - core client: fix logic error involving the
+        "5 minutes of network after GUI RPC" thing.
 
-	client/
-		client_state.C
+    client/
+        client_state.C
 
 Bruce 23 May 2006
     - Make backend more robust, to prevent 'stuck' workunits. Now
@@ -5139,19 +5139,19 @@ David  25 May 2006
         util.C
 
 David  25 May 2006
-	- compile fixes
+    - compile fixes
 
-	lib/
-		gui_rpc_client.h
-		gui_rpc_client_print.C
+    lib/
+        gui_rpc_client.h
+        gui_rpc_client_print.C
 
 David  25 May 2006
-	- fixes for result abort logic
+    - fixes for result abort logic
 
-	client/
-		cs_apps.C
-	clientgui/
-		ViewWork.cpp
+    client/
+        cs_apps.C
+    clientgui/
+        ViewWork.cpp
 
 David  25 May 2006
     - scheduler: if client reports a result, and it currently has
@@ -6078,34 +6078,34 @@ Eric K 15 June 2006
 
 
 David  15 June 2006
-	- New CPU scheduler: the highlights are:
-		1) The implementation is better organized,
-			and more or less conforms to the design document
-			(http:/boinc.berkeley.edu/sched.php)
-		    In particular, the CPU scheduling policy (what should run)
-			is separated from the enforcement policy (when to preempt).
-		2) The enforcement policy delays preemption of tasks that haven't
-			checkpointed recently, thus reducing wasted CPU time
-			when apps are removed from memory on preemption.
-		2) Instead of being either round-robin or EDF,
-			the scheduling policy is now a hybrid:
-			EDF for the projects that currently need it,
-			weighted round-robin among the others if
-			there additional CPUs available.
-		(designed by John McLeod and me; implemented by John)
-	- new log flag "cpu_sched_detail" for details on CPU scheduling
+    - New CPU scheduler: the highlights are:
+        1) The implementation is better organized,
+            and more or less conforms to the design document
+            (http:/boinc.berkeley.edu/sched.php)
+            In particular, the CPU scheduling policy (what should run)
+            is separated from the enforcement policy (when to preempt).
+        2) The enforcement policy delays preemption of tasks that haven't
+            checkpointed recently, thus reducing wasted CPU time
+            when apps are removed from memory on preemption.
+        2) Instead of being either round-robin or EDF,
+            the scheduling policy is now a hybrid:
+            EDF for the projects that currently need it,
+            weighted round-robin among the others if
+            there additional CPUs available.
+        (designed by John McLeod and me; implemented by John)
+    - new log flag "cpu_sched_detail" for details on CPU scheduling
 
-	client/
-		app.C,h
-		app_control.C
-		app_start.C
-		client_state.C,h
-		client_types.C,h
-		cpu_sched.C
-		cs_apps.C
-		cs_scheduler.C
-		cs_statefile.C
-		log_flags.C,h
+    client/
+        app.C,h
+        app_control.C
+        app_start.C
+        client_state.C,h
+        client_types.C,h
+        cpu_sched.C
+        cs_apps.C
+        cs_scheduler.C
+        cs_statefile.C
+        log_flags.C,h
 
 Rom    16 June 2006 (HEAD)
     - Tag for 5.5.1 release, all platforms
@@ -6243,11 +6243,11 @@ Bruce 17 June 2006
         sched_locality.C
 
 David  17 June 2006
-	- core client: code cleanup (from John McLeod)
+    - core client: code cleanup (from John McLeod)
 
-	client/
-		client_state.h
-		cpu_sched.C
+    client/
+        client_state.h
+        cpu_sched.C
 
 Bruce 17 June 2006
     - Scheduler: populate sreq.host.credit_per_cpu_sec in case project wants
@@ -6278,18 +6278,18 @@ Matt 17 June 2006
        email.inc
 
 David  18 June 2006
-	- Don't parse ACTIVE_TASK::scheduler_state from the state file.
-		This isn't carried across runs of BOINC.
-	- Remove ACTIVE_TASK_SET::restart_tasks() and CLIENT_STATE::restart_tasks():
-		just let the CPU scheduler take care of starting tasks.
-	- If file upload fails because file is missing, don't retry,
-		and show appropriate error message
+    - Don't parse ACTIVE_TASK::scheduler_state from the state file.
+        This isn't carried across runs of BOINC.
+    - Remove ACTIVE_TASK_SET::restart_tasks() and CLIENT_STATE::restart_tasks():
+        just let the CPU scheduler take care of starting tasks.
+    - If file upload fails because file is missing, don't retry,
+        and show appropriate error message
 
-	client/
-		app.C,h
-		app_start.C
-		client_state.C,h
-		cs_apps.C
+    client/
+        app.C,h
+        app_start.C
+        client_state.C,h
+        cs_apps.C
 
 David  19 June 2006
     - core client: make cpu_sched_last_check into a static variable
@@ -6373,7 +6373,7 @@ Charlie 20 June 2006
             project.pbxproj
     mac_installer/
         release_boinc.sh
-	release_GridRepublic.sh
+    release_GridRepublic.sh
         Postinstall.cpp
 
 David  20 June 2006
@@ -6406,17 +6406,17 @@ David  20 June 2006
         validate_util2.C
 
 David  20 June 2006
-	- Debug "verify files on app start" feature
-		- ACTIVE_TASK::start(): call report_result_error()
-			on any error condition; this puts the result in
-			the correct state so that it won't get started again.
-		- CLIENT_STATE::verify_input_files() returns int, not bool
+    - Debug "verify files on app start" feature
+        - ACTIVE_TASK::start(): call report_result_error()
+            on any error condition; this puts the result in
+            the correct state so that it won't get started again.
+        - CLIENT_STATE::verify_input_files() returns int, not bool
 
-	client/
-		app_control.C
-		app_start.C
-		client_state.C,h
-		cs_apps.C
+    client/
+        app_control.C
+        app_start.C
+        client_state.C,h
+        cs_apps.C
 
 David  20 June 2006
     - Manager: change menu item to "Attach to account manager"
@@ -6445,16 +6445,16 @@ David  20 June 2006
         cs_apps.C
 
 David  20 June 2006
-	- debugged upload compression feature.
-		I had to change semantics:
-		the filename stays the same after it's compressed.
-		Also: the MD5 and file size are those of the compressed file.
+    - debugged upload compression feature.
+        I had to change semantics:
+        the filename stays the same after it's compressed.
+        Also: the MD5 and file size are those of the compressed file.
 
-	client/
-		client_types.C
-		cs_apps.C
-	win_build/
-		boinc_cli_curl.vcproj
+    client/
+        client_types.C
+        cs_apps.C
+    win_build/
+        boinc_cli_curl.vcproj
 
 Charlie 20 June 2006
     - Fix a crash bug in the client (f.printf had fewer arguments than 
@@ -6542,21 +6542,21 @@ David  21 June 2006
         update_stats.C
 
 David  21 June 2006
-	- core client: added "cpu_sched_debug" log flag;
-		got rid of "cpu_sched_detail" and "sched_cpu_debug"
-	- core client: added "ncpus" config option;
-		if present, the core client will act as if there were N cpus
-		(handy for debugging scheduler stuff)
-	- core client: parse cc_config.xml with the new-style
-		XML parsing functions (reduce restrictions on XML format)
+    - core client: added "cpu_sched_debug" log flag;
+        got rid of "cpu_sched_detail" and "sched_cpu_debug"
+    - core client: added "ncpus" config option;
+        if present, the core client will act as if there were N cpus
+        (handy for debugging scheduler stuff)
+    - core client: parse cc_config.xml with the new-style
+        XML parsing functions (reduce restrictions on XML format)
 
-	client/
-		client_msgs.C,h
-		cpu_sched.C
-		cs_apps.C
-		cs_scheduler.C
-		log_flags.C,h
-		time_stats.C
+    client/
+        client_msgs.C,h
+        cpu_sched.C
+        cs_apps.C
+        cs_scheduler.C
+        log_flags.C,h
+        time_stats.C
 
 David  21 June 2006
     - core client: add some logging messages to rr_simulation()
@@ -6646,12 +6646,12 @@ David  22 June 2006
         server_types.C
 
 David  22 June 2006
-	- Fix Win bug where accelerators kept concatenating
+    - Fix Win bug where accelerators kept concatenating
 
-	client/
-		client_msgs.h
-		win/
-			hostinfo_win.cpp
+    client/
+        client_msgs.h
+        win/
+            hostinfo_win.cpp
 
 Rom    22 June 2006
     - Check in the default certificate CA's so curl can use them.
@@ -6663,4 +6663,10 @@ Rom    22 June 2006
     win_build/installerv2/
         BOINC.ism
 
-    
+David  22 June 2006
+    - added curl_easy_setopt(curlEasy, CURLOPT_CAINFO, "ca-bundle.crt"),
+        which tells Curl where to find CA bundle.
+        SSL to WCG now works.
+
+    client/
+        http_curl.C
