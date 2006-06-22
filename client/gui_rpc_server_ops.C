@@ -758,8 +758,6 @@ int GUI_RPC_CONN::handle_rpc() {
     int release;
     mf.init_mfile(&m);
 
-    SCOPE_MSG_LOG scope_messages(log_messages, CLIENT_MSG_LOG::DEBUG_GUIRPC);
-
     // read the request message in one read()
     // so that the core client won't hang because
     // of malformed request msgs
@@ -772,7 +770,11 @@ int GUI_RPC_CONN::handle_rpc() {
     if (n <= 0) return ERR_READ;
     request_msg[n] = 0;
 
-    scope_messages.printf("GUI RPC Command = '%s'\n", request_msg);
+    if (log_flags.guirpc_debug) {
+        msg_printf(0, MSG_INFO,
+            "GUI RPC Command = '%s'\n", request_msg
+        );
+    }
 
     // get client version.  not used for now
     //
@@ -926,7 +928,11 @@ int GUI_RPC_CONN::handle_rpc() {
     mf.printf("</boinc_gui_rpc_reply>\n\003");
     m.get_buf(p, n);
     if (p) {
-        scope_messages.printf("GUI RPC reply: '%s'\n", p);
+        if (log_flags.guirpc_debug) {
+            msg_printf(0, MSG_INFO,
+                "GUI RPC reply: '%s'\n", p
+            );
+        }
         send(sock, p, n, 0);
         free(p);
     }

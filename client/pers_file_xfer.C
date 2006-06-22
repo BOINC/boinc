@@ -78,8 +78,6 @@ int PERS_FILE_XFER::start_xfer() {
     FILE_XFER *file_xfer;
     int retval;
 
-    SCOPE_MSG_LOG scope_messages(log_messages, CLIENT_MSG_LOG::DEBUG_FILE_XFER);
-
     // Decide whether to start a new file transfer
     //
     if (!gstate.start_new_file_xfer(*this)) {
@@ -148,7 +146,12 @@ int PERS_FILE_XFER::start_xfer() {
             (is_upload ? "upload" : "download"), fip->name
         );
     }
-    scope_messages.printf("PERS_FILE_XFER::start_xfer(): URL: %s\n",fip->get_current_url(is_upload));
+    if (log_flags.file_xfer_debug) {
+        msg_printf(0, MSG_INFO,
+            "PERS_FILE_XFER::start_xfer(): URL: %s\n",
+            fip->get_current_url(is_upload)
+        );
+    }
     return 0;
 }
 
@@ -158,8 +161,6 @@ int PERS_FILE_XFER::start_xfer() {
 //
 bool PERS_FILE_XFER::poll() {
     int retval;
-
-    SCOPE_MSG_LOG scope_messages(log_messages, CLIENT_MSG_LOG::DEBUG_FILE_XFER);
 
     if (pers_xfer_done) {
         return false;
@@ -198,10 +199,12 @@ bool PERS_FILE_XFER::poll() {
     last_time = gstate.now;
 
     if (fxp->file_xfer_done) {
-        scope_messages.printf(
-            "PERS_FILE_XFER::poll(): file transfer status %d",
-            fxp->file_xfer_retval
-        );
+        if (log_flags.file_xfer_debug) {
+            msg_printf(0, MSG_INFO,
+                "PERS_FILE_XFER::poll(): file transfer status %d",
+                fxp->file_xfer_retval
+            );
+        }
         if (fxp->file_xfer_retval == 0) {
             // The transfer finished with no errors.
             fip->project->file_xfer_succeeded(is_upload);
@@ -345,9 +348,6 @@ void PERS_FILE_XFER::handle_xfer_failure() {
 // backoff and try again later
 //
 void PERS_FILE_XFER::retry_or_backoff() {
-
-    SCOPE_MSG_LOG scope_messages(log_messages, CLIENT_MSG_LOG::DEBUG_FILE_XFER);
-
     // Cycle to the next URL to try
     // If we reach the URL that we started at, then we have tried all
     // servers without success

@@ -44,7 +44,6 @@
 #include "hostinfo_network.h"
 #include "network.h"
 #include "http_curl.h"
-#include "log_flags.h"
 #include "client_msgs.h"
 #include "client_state.h"
 
@@ -385,7 +384,9 @@ void CLIENT_STATE::do_io_or_sleep(double x) {
 #define POLL_ACTION(name, func) \
     do { if (func()) { \
             ++actions; \
-            scope_messages.printf("CLIENT_STATE::poll_slow_events(): " #name "\n"); \
+            if (log_flags.poll_debug) { \
+                msg_printf(0, MSG_INFO, "CLIENT_STATE::poll_slow_events(): " #name "\n"); \
+            } \
         } } while(0)
 
 // Poll the client's finite-state machines
@@ -396,7 +397,6 @@ void CLIENT_STATE::do_io_or_sleep(double x) {
 bool CLIENT_STATE::poll_slow_events() {
     int actions = 0, suspend_reason, network_suspend_reason, retval;
     static int last_suspend_reason=0;
-    SCOPE_MSG_LOG scope_messages(log_messages, CLIENT_MSG_LOG::DEBUG_POLL);
     static bool tasks_restarted = false;
 
     now = dtime();
@@ -456,9 +456,6 @@ bool CLIENT_STATE::poll_slow_events() {
         }
     }
 
-    scope_messages.printf("CLIENT_STATE::poll_slow_events(): Begin poll:\n");
-    ++scope_messages;
-
     // NOTE:
     // The order of calls in the following lists generally doesn't matter,
     // except for the following:
@@ -509,10 +506,11 @@ bool CLIENT_STATE::poll_slow_events() {
             exit(retval);
         }
     }
-    --log_messages;
-    scope_messages.printf(
-        "CLIENT_STATE::do_something(): End poll: %d tasks active\n", actions
-    );
+    if (log_flags.poll_debug) {
+        msg_printf(0, MSG_INFO,
+            "CLIENT_STATE::do_something(): End poll: %d tasks active\n", actions
+        );
+    }
     if (actions > 0) {
         return true;
     } else {
@@ -744,43 +742,40 @@ void CLIENT_STATE::print_summary() {
     double t;
     if (!log_flags.state_debug) return;
 
-    SCOPE_MSG_LOG scope_messages(log_messages, CLIENT_MSG_LOG::DEBUG_STATE);
-    scope_messages.printf("CLIENT_STATE::print_summary(): Client state summary:\n");
-    ++log_messages;
-    scope_messages.printf("%d projects:\n", (int)projects.size());
+    msg_printf(0, MSG_INFO, "CLIENT_STATE::print_summary(): Client state summary:\n");
+    msg_printf(0, MSG_INFO, "%d projects:\n", (int)projects.size());
     for (i=0; i<projects.size(); i++) {
         t = projects[i]->min_rpc_time;
         if (t) {
-            scope_messages.printf("    %s min RPC %f.0 seconds from now\n", projects[i]->master_url, t-now);
+            msg_printf(0, MSG_INFO, "    %s min RPC %f.0 seconds from now\n", projects[i]->master_url, t-now);
         } else {
-            scope_messages.printf("    %s\n", projects[i]->master_url);
+            msg_printf(0, MSG_INFO, "    %s\n", projects[i]->master_url);
         }
     }
-    scope_messages.printf("%d file_infos:\n", (int)file_infos.size());
+    msg_printf(0, MSG_INFO, "%d file_infos:\n", (int)file_infos.size());
     for (i=0; i<file_infos.size(); i++) {
-        scope_messages.printf("    %s status:%d %s\n", file_infos[i]->name, file_infos[i]->status, file_infos[i]->pers_file_xfer?"active":"inactive");
+        msg_printf(0, MSG_INFO, "    %s status:%d %s\n", file_infos[i]->name, file_infos[i]->status, file_infos[i]->pers_file_xfer?"active":"inactive");
     }
-    scope_messages.printf("%d app_versions\n", (int)app_versions.size());
+    msg_printf(0, MSG_INFO, "%d app_versions\n", (int)app_versions.size());
     for (i=0; i<app_versions.size(); i++) {
-        scope_messages.printf("    %s %d\n", app_versions[i]->app_name, app_versions[i]->version_num);
+        msg_printf(0, MSG_INFO, "    %s %d\n", app_versions[i]->app_name, app_versions[i]->version_num);
     }
-    scope_messages.printf("%d workunits\n", (int)workunits.size());
+    msg_printf(0, MSG_INFO, "%d workunits\n", (int)workunits.size());
     for (i=0; i<workunits.size(); i++) {
-        scope_messages.printf("    %s\n", workunits[i]->name);
+        msg_printf(0, MSG_INFO, "    %s\n", workunits[i]->name);
     }
-    scope_messages.printf("%d results\n", (int)results.size());
+    msg_printf(0, MSG_INFO, "%d results\n", (int)results.size());
     for (i=0; i<results.size(); i++) {
-        scope_messages.printf("    %s state:%d\n", results[i]->name, results[i]->state);
+        msg_printf(0, MSG_INFO, "    %s state:%d\n", results[i]->name, results[i]->state);
     }
-    scope_messages.printf("%d persistent file xfers\n", (int)pers_file_xfers->pers_file_xfers.size());
+    msg_printf(0, MSG_INFO, "%d persistent file xfers\n", (int)pers_file_xfers->pers_file_xfers.size());
     for (i=0; i<pers_file_xfers->pers_file_xfers.size(); i++) {
-        scope_messages.printf("    %s http op state: %d\n", pers_file_xfers->pers_file_xfers[i]->fip->name, (pers_file_xfers->pers_file_xfers[i]->fxp?pers_file_xfers->pers_file_xfers[i]->fxp->http_op_state:-1));
+        msg_printf(0, MSG_INFO, "    %s http op state: %d\n", pers_file_xfers->pers_file_xfers[i]->fip->name, (pers_file_xfers->pers_file_xfers[i]->fxp?pers_file_xfers->pers_file_xfers[i]->fxp->http_op_state:-1));
     }
-    scope_messages.printf("%d active tasks\n", (int)active_tasks.active_tasks.size());
+    msg_printf(0, MSG_INFO, "%d active tasks\n", (int)active_tasks.active_tasks.size());
     for (i=0; i<active_tasks.active_tasks.size(); i++) {
-        scope_messages.printf("    %s\n", active_tasks.active_tasks[i]->result->name);
+        msg_printf(0, MSG_INFO, "    %s\n", active_tasks.active_tasks[i]->result->name);
     }
-    --log_messages;
 }
 
 bool CLIENT_STATE::garbage_collect() {
@@ -807,8 +802,6 @@ bool CLIENT_STATE::garbage_collect_always() {
     bool action = false, found;
     string error_msgs;
     PROJECT* project;
-
-    SCOPE_MSG_LOG scope_messages(log_messages, CLIENT_MSG_LOG::DEBUG_STATE);
 
     // zero references counts on WUs, FILE_INFOs and APP_VERSIONs
 
@@ -845,7 +838,12 @@ bool CLIENT_STATE::garbage_collect_always() {
     while (result_iter != results.end()) {
         rp = *result_iter;
         if (rp->got_server_ack) {
-            scope_messages.printf("CLIENT_STATE::garbage_collect(): deleting result %s\n", rp->name);
+            if (log_flags.state_debug) {
+                msg_printf(0, MSG_INFO,
+                    "CLIENT_STATE::garbage_collect(): deleting result %s\n",
+                    rp->name
+                );
+            }
             delete rp;
             result_iter = results.erase(result_iter);
             action = true;
@@ -902,7 +900,12 @@ bool CLIENT_STATE::garbage_collect_always() {
     while (wu_iter != workunits.end()) {
         wup = *wu_iter;
         if (wup->ref_cnt == 0) {
-            scope_messages.printf("CLIENT_STATE::garbage_collect(): deleting workunit %s\n", wup->name);
+            if (log_flags.state_debug) {
+                msg_printf(0, MSG_INFO,
+                    "CLIENT_STATE::garbage_collect(): deleting workunit %s\n",
+                    wup->name
+                );
+            }
             delete wup;
             wu_iter = workunits.erase(wu_iter);
             action = true;
@@ -979,10 +982,12 @@ bool CLIENT_STATE::garbage_collect_always() {
                 fip->pers_file_xfer = 0;
             }
             fip->delete_file();
-            scope_messages.printf(
-                "CLIENT_STATE::garbage_collect(): deleting file %s\n",
-                fip->name
-            );
+            if (log_flags.state_debug) {
+                msg_printf(0, MSG_INFO,
+                    "CLIENT_STATE::garbage_collect(): deleting file %s\n",
+                    fip->name
+                );
+            }
             delete fip;
             fi_iter = file_infos.erase(fi_iter);
             action = true;

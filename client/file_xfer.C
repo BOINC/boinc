@@ -209,18 +209,18 @@ bool FILE_XFER_SET::poll() {
     if (gstate.now - last_time < 1.0) return false;
     last_time = gstate.now;
 
-    SCOPE_MSG_LOG scope_messages(log_messages, CLIENT_MSG_LOG::DEBUG_FILE_XFER);
-
     for (i=0; i<file_xfers.size(); i++) {
         fxp = file_xfers[i];
         if (!fxp->http_op_done()) continue;
 
         action = true;
         fxp->file_xfer_done = true;
-        scope_messages.printf(
-            "FILE_XFER_SET::poll(): http op done; retval %d\n",
-            fxp->http_op_retval
-        );
+        if (log_flags.file_xfer_debug) {
+            msg_printf(0, MSG_INFO,
+                "FILE_XFER_SET::poll(): http op done; retval %d\n",
+                fxp->http_op_retval
+            );
+        }
         fxp->file_xfer_retval = fxp->http_op_retval;
         if (fxp->file_xfer_retval == 0) {
             if (fxp->is_upload) {

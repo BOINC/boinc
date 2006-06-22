@@ -35,6 +35,7 @@
 #include "util.h"
 #include "client_state.h"
 #include "client_msgs.h"
+#include "log_flags.h"
 #include "error_numbers.h"
 #include "file_names.h"
 
@@ -92,8 +93,6 @@ int PROJECT::parse_account(FILE* in) {
     char buf[256], venue[256];
     int retval;
     bool got_venue_prefs = false;
-
-    SCOPE_MSG_LOG scope_messages(log_messages, CLIENT_MSG_LOG::DEBUG_STATE);
 
     strcpy(master_url, "");
     strcpy(host_venue, "");
@@ -162,7 +161,13 @@ int PROJECT::parse_account(FILE* in) {
             if (retval) return retval;
             continue;
         }
-        else scope_messages.printf("PROJECT::parse_account(): unrecognized: %s\n", buf);
+        else {
+            if (log_flags.unparsed_xml) {
+                msg_printf(0, MSG_ERROR,
+                    "PROJECT::parse_account(): unrecognized: %s\n", buf
+                );
+            }
+        }
     }
     return ERR_XML_PARSE;
 }
@@ -245,8 +250,6 @@ int PROJECT::parse_statistics(FILE* in) {
     int retval;
     char buf[256];
 
-    SCOPE_MSG_LOG scope_messages(log_messages, CLIENT_MSG_LOG::DEBUG_STATE);
-
     while (fgets(buf, 256, in)) {
         if (match_tag(buf, "</project_statistics>")) return 0;
         else if (match_tag(buf, "<project_statistics>")) continue;
@@ -261,7 +264,13 @@ int PROJECT::parse_statistics(FILE* in) {
             canonicalize_master_url(master_url);
             continue;
         }
-        else scope_messages.printf("PROJECT::parse_statistics(): unrecognized: %s\n", buf);
+        else {
+            if (log_flags.unparsed_xml) {
+                msg_printf(0, MSG_ERROR,
+                    "PROJECT::parse_statistics(): unrecognized: %s\n", buf
+                );
+            }
+        }
     }
     return ERR_XML_PARSE;
 }

@@ -61,7 +61,6 @@ using std::vector;
 #include "client_msgs.h"
 #include "client_state.h"
 #include "file_names.h"
-#include "log_flags.h"
 
 #include "app.h"
 
@@ -70,20 +69,15 @@ static const int PROCESS_IDLE_PRIORITY = 19;
 
 // Goes through an array of strings, and prints each string
 //
-static int debug_print_argv(char** argv) {
+static void debug_print_argv(char** argv) {
     int i;
 
-    log_messages.printf(CLIENT_MSG_LOG::DEBUG_TASK, "Arguments:");
-    ++log_messages;
+    msg_printf(0, MSG_INFO, "Arguments:");
     for (i=0; argv[i]; i++) {
-        log_messages.printf(
-            CLIENT_MSG_LOG::DEBUG_TASK,
-            "argv[%d]: %s\n", i, argv[i]
+        msg_printf(0, MSG_INFO,
+            "   argv[%d]: %s\n", i, argv[i]
         );
     }
-    --log_messages;
-
-    return 0;
 }
 
 // create a file (new_link) which contains an XML
@@ -314,8 +308,11 @@ int ACTIVE_TASK::start(bool first_time) {
     std::string cmd_line;
 #endif
 
-    SCOPE_MSG_LOG scope_messages(log_messages, CLIENT_MSG_LOG::DEBUG_TASK);
-    scope_messages.printf("ACTIVE_TASK::start(first_time=%d)\n", first_time);
+    if (log_flags.task_debug) {
+        msg_printf(0, MSG_INFO,
+            "ACTIVE_TASK::start(first_time=%d)\n", first_time
+        );
+    }
 
     if (wup->project->verify_files_on_app_start) {
         retval = gstate.input_files_available(result, true);
@@ -529,7 +526,9 @@ int ACTIVE_TASK::start(bool first_time) {
 	char cmdline[8192];
 	strcpy(cmdline, wup->command_line.c_str());
 	parse_command_line(cmdline, argv+1);
-	debug_print_argv(argv);
+    if (log_flags.task_debug) {
+        debug_print_argv(argv);
+    }
 	sprintf(buf, "../../%s", exec_path );
 	pid = spawnv(P_NOWAIT, buf, argv);
 	if (pid == -1) {
@@ -541,7 +540,12 @@ int ACTIVE_TASK::start(bool first_time) {
 
 	// restore current dir
 	chdir(current_dir);
-    scope_messages.printf("ACTIVE_TASK::start(): forked process: pid %d\n", pid);
+
+    if (log_flags.task_debug) {
+        msg_printf(0, MSG_INFO,
+            "ACTIVE_TASK::start(): forked process: pid %d\n", pid
+        );
+    }
 
     // set idle process priority
     if (setpriority(PRIO_PROCESS, pid, PROCESS_IDLE_PRIORITY)) {
@@ -602,7 +606,9 @@ int ACTIVE_TASK::start(bool first_time) {
 #endif
         char cmdline[8192];
         strcpy(cmdline, wup->command_line.c_str());
-        debug_print_argv(argv);
+        if (log_flags.task_debug) {
+            debug_print_argv(argv);
+        }
         sprintf(buf, "../../%s", exec_path );
 #ifdef SANDBOX
         char switcher_path[100];
@@ -625,7 +631,11 @@ int ACTIVE_TASK::start(bool first_time) {
         _exit(errno);
     }
 
-    scope_messages.printf("ACTIVE_TASK::start(): forked process: pid %d\n", pid);
+    if (log_flags.task_debug) {
+        msg_printf(0, MSG_INFO,
+            "ACTIVE_TASK::start(): forked process: pid %d\n", pid
+        );
+    }
 
 #endif
     task_state = PROCESS_EXECUTING;

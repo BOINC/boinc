@@ -63,6 +63,7 @@
 #include "util.h"
 #include "cpu_benchmark.h"
 #include "client_msgs.h"
+#include "log_flags.h"
 #include "client_state.h"
 
 // defaults in case benchmarks fail or time out.
@@ -171,10 +172,12 @@ DWORD WINAPI win_cpu_benchmarks(LPVOID p) {
 void CLIENT_STATE::start_cpu_benchmarks() {
     int i;
 
-    SCOPE_MSG_LOG scope_messages(log_messages, CLIENT_MSG_LOG::DEBUG_MEASUREMENT);
-
     if (skip_cpu_benchmarks) {
-        scope_messages.printf("CLIENT_STATE::cpu_benchmarks(): Skipping CPU benchmarks.\n");
+        if (log_flags.measurement_debug) {
+            msg_printf(0, MSG_INFO,
+                "CLIENT_STATE::cpu_benchmarks(): Skipping CPU benchmarks"
+            );
+        }
         host_info.p_fpops = DEFAULT_FPOPS;
         host_info.p_iops = DEFAULT_IOPS;
         host_info.p_membw = DEFAULT_MEMBW;

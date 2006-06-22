@@ -111,7 +111,7 @@ are listed in the export table in the callstack.
 <p>
 No symbols means that the runtime debugger could not determine a way to give you any 
 symbolic information.
-You’ll only receive function pointers in the callstack.
+You'll only receive function pointers in the callstack.
 <p>
 <h4><a name=\"Process Information\">Process Information</a></h4>
 "; block_start(); echo "

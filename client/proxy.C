@@ -327,23 +327,38 @@ bool PROXY::proxy_poll() {
     bool action = false;
     char buf[256], msg[256];
 
-    SCOPE_MSG_LOG scope_messages(log_messages, CLIENT_MSG_LOG::DEBUG_PROXY);
-
     switch(proxy_state) {
         case PROXY_STATE_CONNECTING:
             if (pi.use_socks_proxy) {
                 if (pi.socks_version == SOCKS_VERSION_4) {
-                    scope_messages.printf("PROXY::proxy_poll(): attempting SOCKS4 connect\n");
+                    if (log_flags.proxy_debug) {
+                        msg_printf(0, MSG_INFO,
+                            "PROXY::proxy_poll(): attempting SOCKS4 connect"
+                        );
+                    }
                     proxy_state = PROXY_STATE_SOCKS_SEND_CONNECT_REQ;
                 } else if (pi.socks_version == SOCKS_VERSION_5) {
-                    scope_messages.printf("PROXY::proxy_poll(): attempting SOCKS5 connect\n");
+                    if (log_flags.proxy_debug) {
+                        msg_printf(0, MSG_INFO,
+                            "PROXY::proxy_poll(): attempting SOCKS5 connect"
+                        );
+                    }
                     proxy_state = PROXY_STATE_SOCKS_SEND_METHOD_REQ;
                 } else {
-                    scope_messages.printf("PROXY::proxy_poll(): SOCKS proxy ignored - unknown version: %d\n", pi.socks_version);
+                    if (log_flags.proxy_debug) {
+                        msg_printf(0, MSG_INFO,
+                            "PROXY::proxy_poll(): SOCKS proxy ignored - unknown version: %d",
+                            pi.socks_version
+                        );
+                    }
                     proxy_state = PROXY_STATE_DONE;
                 }
             } else {
-                scope_messages.printf("PROXY::proxy_poll(): SOCKS proxy ignored - user pref\n");
+                if (log_flags.proxy_debug) {
+                    msg_printf(0, MSG_INFO,
+                        "PROXY::proxy_poll(): SOCKS proxy ignored - user pref"
+                    );
+                }
                 proxy_state = PROXY_STATE_DONE;
             }
             
@@ -351,7 +366,11 @@ bool PROXY::proxy_poll() {
             break;
         case PROXY_STATE_SOCKS_SEND_METHOD_REQ:
             nbytes = socks_prepare_method_req(proxy_data);
-            scope_messages.printf("PROXY::proxy_poll(): sending method request\n");
+            if (log_flags.proxy_debug) {
+                msg_printf(0, MSG_INFO,
+                    "PROXY::proxy_poll(): sending method request"
+                );
+            }
             if (nbytes <= 0) {
                 proxy_failed(ERR_SOCKS_UNKNOWN_FAILURE);
             } else {
@@ -366,14 +385,22 @@ bool PROXY::proxy_poll() {
             if (io_ready) {
                 nbytes = proxy_read_reply(socket, buf, 256);
                 if (nbytes == 0) break;
-                scope_messages.printf("PROXY::proxy_poll(): parsing method request ack\n");
+                if (log_flags.proxy_debug) {
+                    msg_printf(0, MSG_INFO,
+                        "PROXY::proxy_poll(): parsing method request ack"
+                    );
+                }
                 retval = socks_parse_method_ack(buf);
                 if (retval) proxy_failed (retval);
                 action = true;
             }
             break;
         case PROXY_STATE_SOCKS_SEND_USER_PASS:
-            scope_messages.printf("PROXY::proxy_poll(): sending user/pass\n");
+            if (log_flags.proxy_debug) {
+                msg_printf(0, MSG_INFO,
+                    "PROXY::proxy_poll(): sending user/pass"
+                );
+            }
             nbytes = socks_prepare_user_pass(proxy_data);
             if (nbytes <= 0) {
                 proxy_failed(ERR_SOCKS_UNKNOWN_FAILURE);
@@ -389,7 +416,11 @@ bool PROXY::proxy_poll() {
                 action = true;
                 nbytes = proxy_read_reply(socket, buf, 256);
                 if (nbytes == 0) break;
-                scope_messages.printf("PROXY::proxy_poll(): parsing user/pass ack\n");
+                if (log_flags.proxy_debug) {
+                    msg_printf(0, MSG_INFO,
+                        "PROXY::proxy_poll(): parsing user/pass ack"
+                    );
+                }
                 retval = socks_parse_user_pass_ack(buf);
                 if (retval) proxy_failed(retval);
             }
@@ -400,7 +431,11 @@ bool PROXY::proxy_poll() {
                 proxy_failed(retval);
                 break;
             }
-            scope_messages.printf("PROXY::proxy_poll(): sending connect request\n");
+            if (log_flags.proxy_debug) {
+                msg_printf(0, MSG_INFO,
+                    "PROXY::proxy_poll(): sending connect request"
+                );
+            }
             nbytes = socks_prepare_connect_req(proxy_data, htons(dest_serv_port), ip_addr, dest_serv_name);
             if (nbytes <= 0) {
                 proxy_failed(ERR_SOCKS_UNKNOWN_FAILURE);
@@ -416,7 +451,11 @@ bool PROXY::proxy_poll() {
                 action = true;
                 nbytes = proxy_read_reply(socket, buf, 256);
                 if (nbytes == 0) break;
-                scope_messages.printf("PROXY::proxy_poll(): parsing connect ack\n");
+                if (log_flags.proxy_debug) {
+                    msg_printf(0, MSG_INFO,
+                        "PROXY::proxy_poll(): parsing connect ack"
+                    );
+                }
                 retval = socks_parse_connect_ack(buf);
                 if (retval) {
                     proxy_failed(retval);

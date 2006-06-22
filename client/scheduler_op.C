@@ -102,13 +102,13 @@ int SCHEDULER_OP::init_op_project(PROJECT* p, SCHEDULER_OP_REASON r) {
     int retval;
     char err_msg[256];
 
-    SCOPE_MSG_LOG scope_messages(log_messages, CLIENT_MSG_LOG::DEBUG_SCHED_OP);
-
     reason = r;
-    scope_messages.printf(
-        "SCHEDULER_OP::init_op_project(): starting op for %s\n",
-        p->master_url
-    );
+    if (log_flags.sched_op_debug) {
+        msg_printf(0, MSG_INFO,
+            "SCHEDULER_OP::init_op_project(): starting op for %s\n",
+            p->master_url
+        );
+    }
 
     // if project has no schedulers,
     // skip everything else and just get its master file.
@@ -204,8 +204,6 @@ int SCHEDULER_OP::start_rpc(PROJECT* p) {
     int retval;
     char request_file[1024], reply_file[1024];
 
-    SCOPE_MSG_LOG scope_messages(log_messages, CLIENT_MSG_LOG::DEBUG_SCHED_OP);
-
     safe_strcpy(scheduler_url, p->get_scheduler_url(url_index, url_random));
     if (log_flags.sched_ops) {
         msg_printf(
@@ -254,8 +252,6 @@ int SCHEDULER_OP::start_rpc(PROJECT* p) {
     get_sched_request_filename(*p, request_file);
     get_sched_reply_filename(*p, reply_file);
 
-    scope_messages.printf_file(request_file, "req:");
-
     http_op.set_proxy(&gstate.proxy_info);
     retval = http_op.init_post(scheduler_url, request_file, reply_file);
     if (retval) {
@@ -285,12 +281,12 @@ int SCHEDULER_OP::init_master_fetch(PROJECT* p) {
 
     get_master_filename(*p, master_filename);
 
-    SCOPE_MSG_LOG scope_messages(log_messages, CLIENT_MSG_LOG::DEBUG_SCHED_OP);
-
-    scope_messages.printf(
-        "SCHEDULER_OP::init_master_fetch(): Fetching master file for %s\n",
-        p->master_url
-    );
+    if (log_flags.sched_op_debug) {
+        msg_printf(0, MSG_INFO,
+            "SCHEDULER_OP::init_master_fetch(): Fetching master file for %s\n",
+            p->master_url
+        );
+    }
     http_op.set_proxy(&gstate.proxy_info);
     retval = http_op.init_get(p->master_url, master_filename, true);
     if (retval) return retval;
@@ -308,8 +304,6 @@ int SCHEDULER_OP::parse_master_file(PROJECT* p, vector<std::string> &urls) {
     char master_filename[256];
     std::string str;
     FILE* f;
-
-    SCOPE_MSG_LOG scope_messages(log_messages, CLIENT_MSG_LOG::DEBUG_SCHED_OP);
 
     get_master_filename(*p, master_filename);
     f = boinc_fopen(master_filename, "r");
@@ -332,7 +326,12 @@ int SCHEDULER_OP::parse_master_file(PROJECT* p, vector<std::string> &urls) {
         }
     }
     fclose(f);
-    scope_messages.printf("SCHEDULER_OP::parse_master_file(): got %d scheduler URLs\n", (int)urls.size());
+    if (log_flags.sched_op_debug) {
+        msg_printf(0, MSG_INFO,
+            "SCHEDULER_OP::parse_master_file(): got %d scheduler URLs\n",
+            (int)urls.size()
+        );
+    }
 
     // couldn't find any scheduler URLs in the master file?
     //
@@ -379,8 +378,6 @@ bool SCHEDULER_OP::poll() {
     bool changed, scheduler_op_done;
     bool err = false;
 
-    SCOPE_MSG_LOG scope_messages(log_messages, CLIENT_MSG_LOG::DEBUG_SCHED_OP);
-
     switch(state) {
     case SCHEDULER_OP_STATE_GET_MASTER:
         // here we're fetching the master file for a project
@@ -391,10 +388,12 @@ bool SCHEDULER_OP::poll() {
             http_ops->remove(&http_op);
             gstate.set_client_state_dirty("master URL fetch done");
             if (http_op.http_op_retval == 0) {
-                scope_messages.printf(
-                    "SCHEDULER_OP::poll(): Got master file from %s; parsing\n",
-                     cur_proj->master_url
-                );
+                if (log_flags.sched_op_debug) {
+                    msg_printf(0, MSG_INFO,
+                        "SCHEDULER_OP::poll(): Got master file from %s; parsing",
+                         cur_proj->master_url
+                    );
+                }
                 retval = parse_master_file(cur_proj, urls);
                 if (retval || (urls.size()==0)) {
                     // master file parse failed.
@@ -562,8 +561,6 @@ int SCHEDULER_REPLY::parse(FILE* in, PROJECT* project) {
     std::string delete_file_name;
     mf.init_file(in);
     bool found_start_tag = false;
-
-    SCOPE_MSG_LOG scope_messages(log_messages, CLIENT_MSG_LOG::DEBUG_SCHED_OP);
 
     hostid = 0;
     request_delay = 0;
@@ -833,7 +830,11 @@ int SCHEDULER_REPLY::parse(FILE* in, PROJECT* project) {
         } else if (match_tag(buf, "<request_file_list/>")) {
             send_file_list = true;
         } else if (strlen(buf)>1){
-            scope_messages.printf("SCHEDULER_REPLY::parse(): unrecognized %s\n", buf);
+            if (log_flags.unparsed_xml) {
+                msg_printf(0, MSG_ERROR,
+                    "SCHEDULER_REPLY::parse(): unrecognized %s\n", buf
+                );
+            }
         }
     }
     if (found_start_tag) {

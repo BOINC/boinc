@@ -59,7 +59,6 @@ using std::vector;
 #include "client_msgs.h"
 #include "client_state.h"
 #include "file_names.h"
-#include "log_flags.h"
 
 #include "app.h"
 
@@ -181,7 +180,6 @@ void ACTIVE_TASK::handle_exited_app(unsigned long exit_code) {
 #else
 void ACTIVE_TASK::handle_exited_app(int stat) {
 #endif
-    SCOPE_MSG_LOG scope_messages(log_messages, CLIENT_MSG_LOG::DEBUG_TASK);
     get_app_status_msg();
     get_trickle_up_msg();
     result->final_cpu_time = current_cpu_time;
@@ -253,10 +251,12 @@ void ACTIVE_TASK::handle_exited_app(int stat) {
                     goto done;
                 }
             }
-            scope_messages.printf(
-                "ACTIVE_TASK::handle_exited_app(): process exited: status %d\n",
-                result->exit_status
-            );
+            if (log_flags.task_debug) {
+                msg_printf(0, MSG_INFO,
+                    "ACTIVE_TASK::handle_exited_app(): process exited: status %d\n",
+                    result->exit_status
+                );
+            }
         } else if (WIFSIGNALED(stat)) {
             int got_signal = WTERMSIG(stat);
 
@@ -280,10 +280,12 @@ void ACTIVE_TASK::handle_exited_app(int stat) {
             gstate.report_result_error(
                 *result, "process got signal %d", signal
             );
-            scope_messages.printf(
-                "ACTIVE_TASK::handle_exited_app(): process got signal %d\n",
-                signal
-            );
+            if (log_flags.task_debug) {
+                msg_printf(0, MSG_INFO,
+                    "ACTIVE_TASK::handle_exited_app(): process got signal %d\n",
+                    signal
+                );
+            }
         } else {
             task_state = PROCESS_EXIT_UNKNOWN;
             result->state = PROCESS_EXIT_UNKNOWN;
@@ -365,8 +367,6 @@ bool ACTIVE_TASK_SET::check_app_exited() {
     ACTIVE_TASK* atp;
     bool found = false;
 
-    SCOPE_MSG_LOG scope_messages(log_messages, CLIENT_MSG_LOG::DEBUG_TASK);
-
 #ifdef _WIN32
     unsigned long exit_code;
     unsigned int i;
@@ -380,19 +380,26 @@ bool ACTIVE_TASK_SET::check_app_exited() {
                 atp->handle_exited_app(exit_code);
             }
         } else {
-            char errmsg[1024];
-            scope_messages.printf(
-                "ACTIVE_TASK_SET::check_app_exited(): task %s GetExitCodeProcess Failed - GLE %d (0x%x)",
-                windows_format_error_string(GetLastError(), errmsg, sizeof(errmsg)),
-                GetLastError(), GetLastError()
-            );
+            if (log_flags.task_debug) {
+                char errmsg[1024];
+                msg_printf(0, MSG_INFO,
+                    "ACTIVE_TASK_SET::check_app_exited(): task %s GetExitCodeProcess Failed - GLE %d (0x%x)",
+                    windows_format_error_string(GetLastError(), errmsg, sizeof(errmsg)),
+                    GetLastError(), GetLastError()
+                );
+            }
         }
     }
 #else
     int pid, stat;
 
     if ((pid = waitpid(0, &stat, WNOHANG)) > 0) {
-        scope_messages.printf("ACTIVE_TASK_SET::check_app_exited(): process %d is done\n", pid);
+        if (log_flags.task_debug) {
+            msg_printf(0, MSG_INFO,
+                "ACTIVE_TASK_SET::check_app_exited(): process %d is done\n",
+                pid
+            );
+        }
         atp = lookup_pid(pid);
         if (!atp) {
             // if we're running benchmarks, exited process

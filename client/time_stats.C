@@ -160,8 +160,6 @@ int TIME_STATS::write(MIOFILE& out, bool to_server) {
 int TIME_STATS::parse(MIOFILE& in) {
     char buf[256];
 
-    SCOPE_MSG_LOG scope_messages(log_messages, CLIENT_MSG_LOG::DEBUG_STATE);
-
     while (in.fgets(buf, 256)) {
         if (match_tag(buf, "</time_stats>")) return 0;
         else if (parse_double(buf, "<last_update>", last_update)) continue;
@@ -173,7 +171,13 @@ int TIME_STATS::parse(MIOFILE& in) {
             if (cpu_efficiency > 1) cpu_efficiency = 1;
             continue;
         }
-        else scope_messages.printf("TIME_STATS::parse(): unrecognized: %s\n", buf);
+        else {
+            if (log_flags.unparsed_xml) {
+                msg_printf(0, MSG_ERROR,
+                    "TIME_STATS::parse(): unrecognized: %s\n", buf
+                );
+            }
+        }
     }
     return ERR_XML_PARSE;
 }

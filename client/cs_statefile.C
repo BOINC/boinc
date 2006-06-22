@@ -32,7 +32,9 @@
 #include "client_state.h"
 
 void CLIENT_STATE::set_client_state_dirty(const char* source) {
-    log_messages.printf(CLIENT_MSG_LOG::DEBUG_STATE, "set dirty: %s\n", source);
+    if (log_flags.state_debug) {
+        msg_printf(0, MSG_INFO, "set dirty: %s\n", source);
+    }
     client_state_dirty = true;
 }
 
@@ -64,8 +66,6 @@ int CLIENT_STATE::parse_state_file() {
     int failnum;
     const char *fname;
 
-    SCOPE_MSG_LOG scope_messages(log_messages, CLIENT_MSG_LOG::DEBUG_STATE);
-
     // Look for a valid state file:
     // First the regular one, then the "next" one.
     //
@@ -76,7 +76,11 @@ int CLIENT_STATE::parse_state_file() {
     } else if (valid_state_file(STATE_FILE_PREV)) {
         fname = STATE_FILE_PREV;
     } else {
-        scope_messages.printf("CLIENT_STATE::parse_state_file(): No state file; will create one\n");
+        if (log_flags.state_debug) {
+            msg_printf(0, MSG_INFO,
+                "CLIENT_STATE::parse_state_file(): No state file; will create one"
+            );
+        }
 
         // avoid warning messages about version
         //
@@ -332,7 +336,13 @@ int CLIENT_STATE::parse_state_file() {
         } else if (parse_str(buf, "<host_venue>", main_host_venue, sizeof(main_host_venue))) {
         } else if (parse_double(buf, "<new_version_check_time>", new_version_check_time)) {
         } else if (parse_str(buf, "<newer_version>", newer_version)) {
-        } else scope_messages.printf("CLIENT_STATE::parse_state_file: unrecognized: %s\n", buf);
+        } else {
+            if (log_flags.unparsed_xml) {
+                msg_printf(0, MSG_ERROR,
+                    "CLIENT_STATE::parse_state_file: unrecognized: %s", buf
+                );
+            }
+        }
     }
     fclose(f);
     return 0;
@@ -345,8 +355,11 @@ int CLIENT_STATE::write_state_file() {
     MFILE mf;
     int retval, ret1, ret2;
 
-    SCOPE_MSG_LOG scope_messages(log_messages, CLIENT_MSG_LOG::DEBUG_STATE);
-    scope_messages.printf("CLIENT_STATE::write_state_file(): Writing state file\n");
+    if (log_flags.state_debug) {
+        msg_printf(0, MSG_INFO,
+            "CLIENT_STATE::write_state_file(): Writing state file"
+        );
+    }
 #ifdef _WIN32
     retval = mf.open(STATE_FILE_NEXT, "wc");
 #else
@@ -371,7 +384,11 @@ int CLIENT_STATE::write_state_file() {
     retval = boinc_rename(STATE_FILE_NAME, STATE_FILE_PREV);
 
     retval = boinc_rename(STATE_FILE_NEXT, STATE_FILE_NAME);
-    scope_messages.printf("CLIENT_STATE::write_state_file(): Done writing state file\n");
+    if (log_flags.state_debug) {
+        msg_printf(0, MSG_INFO,
+            "CLIENT_STATE::write_state_file(): Done writing state file"
+        );
+    }
     if (retval) {
         msg_printf(0, MSG_ERROR,
             "Can't rename state file: %s", boincerror(retval)

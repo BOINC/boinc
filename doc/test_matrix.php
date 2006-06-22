@@ -241,4 +241,5 @@ a trickly-up request and an intermediate file upload.
 Make sure that these succeed.
 </ul>
 ";
+page_tail();
 ?>

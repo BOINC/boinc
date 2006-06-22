@@ -37,7 +37,6 @@
 
 void ACTIVE_TASK::request_graphics_mode(GRAPHICS_MSG& m) {
     char buf[MSG_CHANNEL_SIZE], buf2[256];
-    SCOPE_MSG_LOG scope_messages(log_messages, CLIENT_MSG_LOG::DEBUG_SCRSAVE);
 
     if (!app_client_shm.shm) return;
 
@@ -57,10 +56,12 @@ void ACTIVE_TASK::request_graphics_mode(GRAPHICS_MSG& m) {
         strcat(buf, buf2);
     }
 
-    scope_messages.printf(
-        "ACTIVE_TASK::request_graphics_mode(): requesting graphics mode %s for %s\n",
-        xml_graphics_modes[m.mode], result->name
-    );
+    if (log_flags.scrsave_debug) {
+        msg_printf(0, MSG_INFO,
+            "ACTIVE_TASK::request_graphics_mode(): requesting graphics mode %s for %s",
+            xml_graphics_modes[m.mode], result->name
+        );
+    }
     graphics_request_queue.msg_queue_send(
         buf,
         app_client_shm.shm->graphics_request
@@ -71,7 +72,6 @@ void ACTIVE_TASK::request_graphics_mode(GRAPHICS_MSG& m) {
 void ACTIVE_TASK::check_graphics_mode_ack() {
     GRAPHICS_MSG gm;
     char buf[MSG_CHANNEL_SIZE];
-    SCOPE_MSG_LOG scope_messages(log_messages, CLIENT_MSG_LOG::DEBUG_SCRSAVE);
 #if (defined(__APPLE__) && defined(__i386__))
     // PowerPC apps emulated on i386 Macs crash if running graphics
     if (powerpc_emulated_on_i386) {
@@ -83,10 +83,13 @@ void ACTIVE_TASK::check_graphics_mode_ack() {
     if (!app_client_shm.shm) return;
     if (app_client_shm.shm->graphics_reply.get_msg(buf)) {
         app_client_shm.decode_graphics_msg(buf, gm);
-        scope_messages.printf(
-            "ACTIVE_TASK::check_graphics_mode_ack(): got graphics ack %s for %s, previous mode %s\n",
-            buf, result->name, xml_graphics_modes[graphics_mode_acked]
-        );
+        if (log_flags.scrsave_debug) {
+            msg_printf(0, MSG_INFO,
+                "ACTIVE_TASK::check_graphics_mode_ack(): got graphics ack %s for %s, previous mode %s",
+                buf, result->name, xml_graphics_modes[graphics_mode_acked]
+            );
+        }
+
         // if we receive MODE_HIDE_GRAPHICS from an application acting as the
         // screensaver it can be for one of two reasons:
         //   1) application shut down because it was done processing.
@@ -99,9 +102,11 @@ void ACTIVE_TASK::check_graphics_mode_ack() {
             (gm.mode != MODE_FULLSCREEN) && (gm.mode != MODE_REREAD_PREFS) &&
             !gstate.host_info.users_idle(true, 0.5)) {
             gstate.ss_logic.stop_ss();
-            scope_messages.printf(
-                "ACTIVE_TASK::check_graphics_mode_ack(): shutting down the screensaver\n"
-            );
+            if (log_flags.scrsave_debug) {
+                msg_printf(0, MSG_INFO,
+                    "ACTIVE_TASK::check_graphics_mode_ack(): shutting down the screensaver"
+                );
+            }
         }
         if (gm.mode != MODE_REREAD_PREFS) {
             graphics_mode_acked = gm.mode;
@@ -130,7 +135,6 @@ ACTIVE_TASK* ACTIVE_TASK_SET::get_ss_app() {
 void ACTIVE_TASK_SET::save_app_modes() {
     unsigned int i;
     ACTIVE_TASK* atp;
-    SCOPE_MSG_LOG scope_messages(log_messages, CLIENT_MSG_LOG::DEBUG_SCRSAVE);
 
     for (i=0; i<active_tasks.size(); i++) {
         atp = active_tasks[i];
@@ -141,9 +145,12 @@ void ACTIVE_TASK_SET::save_app_modes() {
             atp->graphics_mode_acked = MODE_HIDE_GRAPHICS;
         }
         atp->graphics_mode_before_ss = atp->graphics_mode_acked;
-        scope_messages.printf(
-            "ACTIVE_TASK_SET::save_app_modes(): saved mode %d\n", atp->graphics_mode_acked
-        );
+        if (log_flags.scrsave_debug) {
+            msg_printf(0, MSG_INFO,
+                "ACTIVE_TASK_SET::save_app_modes(): saved mode %d",
+                atp->graphics_mode_acked
+            );
+        }
     }
 }
 
@@ -185,9 +192,12 @@ void ACTIVE_TASK_SET::graphics_poll() {
         );
         atp->check_graphics_mode_ack();
 
-        // If screensaver application has not responded to our request to exit MODE_FULLSCREEN after 
-        // 2 seconds, then assume it has hung and kill it, so it doesn't block access to the computer.
-        // First try an exit request.  If it has not exit after 2 more seconds, kill it.
+        // If screensaver application has not responded to our request to exit
+        // MODE_FULLSCREEN after 2 seconds,
+        // then assume it has hung and kill it,
+        // so it doesn't block access to the computer.
+        // First try an exit request.
+        // If it has not exit after 2 more seconds, kill it.
         if (atp->graphics_mode_ack_timeout)     // If we are waiting for app to stop screensaver mode 
             if ( atp->is_ss_app  || (atp->graphics_mode_acked != MODE_FULLSCREEN) ) {
                 atp->exit_requested = false;
@@ -204,7 +214,10 @@ void ACTIVE_TASK_SET::graphics_poll() {
                         atp->exit_requested = true;
                         atp->request_exit();                            // Request exit after 2 seconds
                         atp->graphics_mode_ack_timeout = gstate.now;    // Wait 2 more seconds for app to exit
-                        msg_printf(atp->wup->project, MSG_ERROR, "%s not responding to screensaver, exiting", atp->app_version->app_name);
+                        msg_printf(atp->wup->project, MSG_ERROR,
+                            "%s not responding to screensaver, exiting",
+                            atp->app_version->app_name
+                        );
                     } else {
                         atp->exit_requested = false;
                         atp->graphics_mode_ack_timeout = 0.0;           // Reset safety timer
@@ -235,7 +248,6 @@ ACTIVE_TASK* CLIENT_STATE::get_next_graphics_capable_app() {
     unsigned int i, j;
     ACTIVE_TASK *atp, *best_atp;
     PROJECT *p;
-    SCOPE_MSG_LOG scope_messages(log_messages, CLIENT_MSG_LOG::DEBUG_SCRSAVE);
 
     // check to see if the applications have changed the graphics mode;
     // this can happen if they fail to find the target desktop
@@ -272,16 +284,21 @@ ACTIVE_TASK* CLIENT_STATE::get_next_graphics_capable_app() {
                 best_atp = atp;
             }
             if (best_atp) {
-                scope_messages.printf(
-                    "CLIENT_STATE::get_next_graphics_capable_app(): get_next_app: %s\n", best_atp->result->name
-                );
+                if (log_flags.scrsave_debug) {
+                    msg_printf(0, MSG_INFO,
+                        "CLIENT_STATE::get_next_graphics_capable_app(): get_next_app: %s",
+                        best_atp->result->name
+                    );
+                }
                 return atp;
             }
         }
     }
-    scope_messages.printf(
-        "CLIENT_STATE::get_next_graphics_capable_app(): get_next_app: none\n"
-    );
+    if (log_flags.scrsave_debug) {
+        msg_printf(0, MSG_INFO,
+            "CLIENT_STATE::get_next_graphics_capable_app(): get_next_app: none"
+        );
+    }
     return NULL;
 }
 

@@ -6615,3 +6615,32 @@ Walt   22 June 2006
 
     win_build/
         boinc_cli_curl.vcproj
+
+David  22 June 2006
+    - core client: get rid of the SCOPE_MSG_LOG thing.  Too fancy.
+        All messages are now generated using
+
+        if (log_flags.X) {
+            msg_printf(...);
+        }
+
+        All messages now appear in the BOINC Manager (if used) and in stdout.
+        Changed things so messages are written only to stdout
+        (not to both stderr and stdout)
+    - core client: broke out scheduling-related messages into new flags:
+        task
+        cpu_sched
+        cpu_sched_debug
+        rr_simulation
+        debt_debug
+        work_fetch_debug
+
+        also added new "unparsed_xml" flag
+    - scheduler: 
+        parse (but ignore) p_capabilities and accelerators in <host_info>
+
+    client/
+        *.C
+        log_flags.h
+    sched/
+        server_types.C

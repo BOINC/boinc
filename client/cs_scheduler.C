@@ -534,8 +534,6 @@ int CLIENT_STATE::compute_work_requests() {
     double global_work_need = work_needed_secs();
     double prrs;
 
-    SCOPE_MSG_LOG scope_messages(log_messages, CLIENT_MSG_LOG::DEBUG_CPU_SCHED);
-
     overall_work_fetch_urgency = WORK_FETCH_DONT_NEED;
     for (i=0; i< projects.size(); i++) {
         projects[i]->work_request_urgency = WORK_FETCH_DONT_NEED;
@@ -544,14 +542,26 @@ int CLIENT_STATE::compute_work_requests() {
 
 
     if (!should_get_work()) {
-        scope_messages.printf("compute_work_requests(): we don't need any work\n");
+        if (log_flags.work_fetch_debug) {
+            msg_printf(0, MSG_INFO,
+                "compute_work_requests(): we don't need any work"
+            );
+        }
         overall_work_fetch_urgency = WORK_FETCH_DONT_NEED;
         return 0;
     } else if (no_work_for_a_cpu()) {
-        scope_messages.printf("compute_work_requests(): CPU is idle\n");
+        if (log_flags.work_fetch_debug) {
+            msg_printf(0, MSG_INFO,
+                "compute_work_requests(): CPU is idle"
+            );
+        }
         overall_work_fetch_urgency = WORK_FETCH_NEED_IMMEDIATELY;
     } else if (global_work_need > 0) {
-        scope_messages.printf("compute_work_requests(): global work needed is greater than zero\n");
+        if (log_flags.work_fetch_debug) {
+            msg_printf(0, MSG_INFO,
+                "compute_work_requests(): global work needed is greater than zero\n"
+            );
+        }
         overall_work_fetch_urgency = WORK_FETCH_NEED;
     } else {
         overall_work_fetch_urgency = WORK_FETCH_OK;
@@ -611,16 +621,20 @@ int CLIENT_STATE::compute_work_requests() {
         //
         if (estimated_time_to_starvation < work_min_period) {
             if (estimated_time_to_starvation == 0) {
-                scope_messages.printf(
-                    "compute_work_requests(): project '%s' is starved\n",
-                    p->project_name
-                );
+                if (log_flags.work_fetch_debug) {
+                    msg_printf(0, MSG_INFO,
+                        "compute_work_requests(): project '%s' is starved\n",
+                        p->project_name
+                    );
+                }
                 p->work_request_urgency = WORK_FETCH_NEED_IMMEDIATELY;
             } else {
-                scope_messages.printf(
-                    "compute_work_requests(): project '%s' will starve in %.2f sec\n",
-                    p->project_name, estimated_time_to_starvation
-                );
+                if (log_flags.work_fetch_debug) {
+                    msg_printf(0, MSG_INFO,
+                        "compute_work_requests(): project '%s' will starve in %.2f sec\n",
+                        p->project_name, estimated_time_to_starvation
+                    );
+                }
                 p->work_request_urgency = WORK_FETCH_NEED;
             }
             // determine work requests for each project
@@ -639,16 +653,20 @@ int CLIENT_STATE::compute_work_requests() {
                 //In the case of an idle CPU, we need at least one second.
         }
 
-        scope_messages.printf(
-            "compute_work_requests(): project %s work req: %f sec  urgency: %d\n",
-            p->project_name, p->work_request, p->work_request_urgency
-        );
+        if (log_flags.work_fetch_debug) {
+            msg_printf(0, MSG_INFO,
+                "compute_work_requests(): project %s work req: %f sec  urgency: %d\n",
+                p->project_name, p->work_request, p->work_request_urgency
+            );
+        }
     }
 
-    scope_messages.printf(
-        "compute_work_requests(): client work need: %f sec, urgency %d\n",
-        global_work_need, overall_work_fetch_urgency
-    );
+    if (log_flags.work_fetch_debug) {
+        msg_printf(0, MSG_INFO,
+            "compute_work_requests(): client work need: %f sec, urgency %d\n",
+            global_work_need, overall_work_fetch_urgency
+        );
+    }
 
     return 0;
 }
@@ -731,10 +749,8 @@ int CLIENT_STATE::handle_scheduler_reply(
 
     nresults = 0;
     contacted_sched_server = true;
-    SCOPE_MSG_LOG scope_messages(log_messages, CLIENT_MSG_LOG::DEBUG_SCHED_OP);
 
     get_sched_reply_filename(*project, filename);
-    scope_messages.printf_file(filename, "reply: ");
 
     f = fopen(filename, "r");
     if (!f) return ERR_FOPEN;
@@ -1033,10 +1049,12 @@ int CLIENT_STATE::handle_scheduler_reply(
     //
     for (i=0; i<sr.result_acks.size(); i++) {
         RESULT* rp = lookup_result(project, sr.result_acks[i].name);
-        scope_messages.printf(
-            "handle_scheduler_reply(): got ack for result %s\n",
-            sr.result_acks[i].name
-        );
+        if (log_flags.sched_op_debug) {
+            msg_printf(0, MSG_INFO,
+                "handle_scheduler_reply(): got ack for result %s\n",
+                sr.result_acks[i].name
+            );
+        }
         if (rp) {
             rp->got_server_ack = true;
         } else {
@@ -1116,8 +1134,12 @@ int CLIENT_STATE::handle_scheduler_reply(
     }
 
     set_client_state_dirty("handle_scheduler_reply");
-    scope_messages.printf("handle_scheduler_reply(): State after handle_scheduler_reply():\n");
-    print_summary();
+    if (log_flags.state_debug) {
+        msg_printf(0, MSG_INFO,
+            "handle_scheduler_reply(): State after handle_scheduler_reply():"
+        );
+        print_summary();
+    }
     return 0;
 }
 
@@ -1152,9 +1174,11 @@ void CLIENT_STATE::set_work_fetch_mode() {
     double per_cpu_proc_rate = total_proc_rate/ncpus;
     double rrs = nearly_runnable_resource_share();
 
-    SCOPE_MSG_LOG scope_messages(log_messages, CLIENT_MSG_LOG::DEBUG_CPU_SCHED);
-
-    scope_messages.printf("rr_simulation: calling from work_fetch\n");
+    if (log_flags.work_fetch_debug) {
+        msg_printf(0, MSG_INFO,
+            "rr_simulation: calling from work_fetch"
+        );
+    }
     if (rr_simulation(per_cpu_proc_rate, rrs)) {
         if (!no_work_for_a_cpu()) {
             should_not_fetch_work = true;
@@ -1163,7 +1187,11 @@ void CLIENT_STATE::set_work_fetch_mode() {
         // if fetching more work would cause round-robin to
         // miss a deadline, don't fetch more work
         //
-        scope_messages.printf("rr_simulation: calling from work_fetch with extended rrs\n");
+        if (log_flags.work_fetch_debug) {
+            msg_printf(0, MSG_INFO,
+                "rr_simulation: calling from work_fetch with extended rrs\n"
+            );
+        }
         PROJECT* p = next_project_need_work();
         if (p && !p->runnable()) {
             rrs += p->resource_share;

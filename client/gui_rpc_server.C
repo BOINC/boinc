@@ -119,16 +119,16 @@ int GUI_RPC_CONN_SET::get_allowed_hosts() {
     int ipaddr, retval;
     char buf[256], msg[256];
 
-    SCOPE_MSG_LOG scope_messages(log_messages, CLIENT_MSG_LOG::DEBUG_STATE);
- 
     // open file remote_hosts.cfg and read in the
     // allowed host list and resolve them to an ip address
     //
     FILE* f = fopen(REMOTEHOST_FILE_NAME, "r");
     if (f != NULL) {    
-         scope_messages.printf(
-            "GUI_RPC_CONN_SET::get_allowed_hosts(): found allowed hosts list\n"
-        );
+        if (log_flags.guirpc_debug) {
+            msg_printf(0, MSG_INFO,
+                "GUI_RPC_CONN_SET::get_allowed_hosts(): found allowed hosts list\n"
+            );
+        }
  
         // read in each line, if it is not a comment
         // then resolve the address and add to our allowed list

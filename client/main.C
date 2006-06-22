@@ -110,30 +110,16 @@ void show_message(PROJECT *p, char* msg, int priority) {
     record_message(p, priority, (int)now, message);
 
     switch (priority) {
+    case MSG_INFO:
     case MSG_ERROR:
-    case MSG_ALERT_ERROR:
-        fprintf(stderr, "%s [%s] %s\n", time_string, x, message);
+    default:
+        // all messages handled the same now
+        //
         printf("%s [%s] %s\n", time_string, x, message);
         if (gstate.executing_as_daemon) {
 #if defined(WIN32) && defined(_CONSOLE)
             stprintf(event_message, TEXT("%s [%s] %s\n"), time_string,  x, message);
             ::OutputDebugString(event_message);
-            // TODO: Refactor messages so that we do not overload the event log
-            // RTW 08/24/2004
-            //LogEventErrorMessage(event_message);
-#endif
-        }
-        break;
-    case MSG_INFO:
-    case MSG_ALERT_INFO:
-        printf("%s [%s] %s\n", time_string,  x, message);
-        if (gstate.executing_as_daemon) {
-#if defined(WIN32) && defined(_CONSOLE)
-            stprintf(event_message, TEXT("%s [%s] %s\n"), time_string,  x, message);
-            ::OutputDebugString(event_message);
-            // TODO: Refactor messages so that we do not overload the event log
-            // RTW 08/24/2004
-            //LogEventInfoMessage(event_message);
 #endif
         }
         break;

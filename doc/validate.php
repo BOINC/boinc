@@ -24,7 +24,7 @@ or you may have to develop a custom validator.
 If your application generates exactly matching results
 (either because it does no floating-point arithmetic, or because you use
 <a href=homogeneous_redundancy.php>homogeneous redundancy</a>)
-then you can the 'sample bitwise validator' (see below).
+then you can use the 'sample bitwise validator' (see below).
 <li>
 If you are using BOINC for 'desktop grid' computing
 (i.e. you trust all the participating hosts)

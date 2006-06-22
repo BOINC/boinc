@@ -201,8 +201,6 @@ void NET_XFER_SET::got_select(FDSET_GROUP&, double timeout) {
     bool time_passed = false;
     CURLMsg *pcurlMsg = NULL;
 
-    SCOPE_MSG_LOG scope_messages(log_messages, CLIENT_MSG_LOG::DEBUG_NET_XFER);
-
     // if a second has gone by, do rate-limit accounting
     //
     time_t t = time(0);
@@ -372,9 +370,9 @@ void NET_XFER::got_error() {
     // TODO: which socket??
     error = ERR_IO;
     io_done = true;
-    log_messages.printf(
-        CLIENT_MSG_LOG::DEBUG_NET_XFER, "IO error on socket\n"
-    );
+    if (log_flags.net_xfer_debug) {
+        msg_printf(0, MSG_INFO, "IO error on socket");
+    }
 }
 
 

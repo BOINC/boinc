@@ -208,8 +208,6 @@ void CLIENT_STATE::adjust_debts() {
     double share_frac;
     double wall_cpu_time = gstate.now - cpu_sched_last_time;
 
-    SCOPE_MSG_LOG scope_messages(log_messages, CLIENT_MSG_LOG::DEBUG_TASK);
-
     // Total up total and per-project "wall CPU" since last CPU reschedule.
     // "Wall CPU" is the wall time during which a task was
     // runnable (at the OS level).
@@ -277,10 +275,12 @@ void CLIENT_STATE::adjust_debts() {
             p->short_term_debt = 0;
             p->anticipated_debt = 0;
         }
-        scope_messages.printf(
-            "adjust_debts(): project %s: short-term debt %f\n",
-            p->project_name, p->short_term_debt
-        );
+        if (log_flags.debt_debug) {
+            msg_printf(0, MSG_INFO,
+                "adjust_debts(): project %s: short-term debt %f",
+                p->project_name, p->short_term_debt
+            );
+        }
     }
 
     if (nprojects==0) return;
@@ -390,12 +390,15 @@ void CLIENT_STATE::schedule_cpus() {
     PROJECT* p;
     double expected_pay_off;
     unsigned int i;
-    SCOPE_MSG_LOG scope_messages(log_messages, CLIENT_MSG_LOG::DEBUG_CPU_SCHED);
     double rrs = runnable_resource_share();
 
     // do round-robin simulation to find what results miss deadline,
     //
-    scope_messages.printf("rr_simulation: calling from cpu_scheduler\n");
+    if (log_flags.cpu_sched_debug) {
+        msg_printf(0, MSG_INFO,
+            "rr_simulation: calling from cpu_scheduler"
+        );
+    }
     rr_simulation(avg_proc_rate()/ncpus, runnable_resource_share());
     if (log_flags.cpu_sched_debug) {
         print_deadline_misses();
@@ -733,9 +736,11 @@ bool CLIENT_STATE::rr_simulation(double per_cpu_proc_rate, double rrs) {
     vector<RESULT*>::iterator it;
     bool rval = false;
 
-    SCOPE_MSG_LOG scope_messages(log_messages, CLIENT_MSG_LOG::DEBUG_CPU_SCHED);
-
-    scope_messages.printf( "rr_simulation: start\n");
+    if (log_flags.rr_simulation) {
+        msg_printf(0, MSG_INFO,
+            "rr_simulation: start"
+        );
+    }
 
     // Initialize the "active" and "pending" lists for each project.
     // These keep track of that project's results
@@ -792,10 +797,12 @@ bool CLIENT_STATE::rr_simulation(double per_cpu_proc_rate, double rrs) {
         //
         double diff = sim_now + rpbest->rrsim_finish_delay - rpbest->computation_deadline();
         if (diff > 0) {
-            scope_messages.printf(
-                "rr_simulation: result %s misses deadline by %f\n",
-                rpbest->name, diff
-            );
+            if (log_flags.rr_simulation) {
+                msg_printf(0, MSG_INFO,
+                    "rr_simulation: result %s misses deadline by %f\n",
+                    rpbest->name, diff
+                );
+            }
             rpbest->rr_sim_misses_deadline = true;
             pbest->rr_sim_deadlines_missed++;
             rval = true;
@@ -870,7 +877,7 @@ bool CLIENT_STATE::rr_simulation(double per_cpu_proc_rate, double rrs) {
 
         sim_now += rpbest->rrsim_finish_delay;
     }
-    if (log_flags.cpu_sched_debug) {
+    if (log_flags.rr_simulation) {
         for (i=0; i<projects.size(); i++) {
             p = projects[i];
             msg_printf(NULL, MSG_INFO,

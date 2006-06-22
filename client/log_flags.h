@@ -31,17 +31,27 @@
 #endif
 
 struct LOG_FLAGS {
-    // the following write user-readable summaries
+    // on by default, user-readable
     //
-    bool task;              // task executions
-    bool file_xfer;         // file transfers
+    bool task;              // task start and finish
+    bool file_xfer;         // file transfer start and finish
     bool sched_ops;         // interactions with schedulers
 
-    // the following generate debugging info
+    // off by default; intended for developers and testers
     //
-    bool state_debug;       // changes to CLIENT_STATE structure
-    bool task_debug;
-    bool file_xfer_debug;
+    bool cpu_sched;         // preemption and resumption
+    bool cpu_sched_debug;   // explain scheduler decisions
+    bool rr_simulation;     // results of rr simulator
+    bool debt_debug;        // changes to debt
+    bool task_debug;        // task start and control details
+    bool work_fetch_debug;  // work fetch policy 
+
+    bool unparsed_xml;      // show unparsed XML lines
+    bool state_debug;       // print textual summary of CLIENT_STATE initially
+                            // and after each scheduler RPC and garbage collect
+                            // also show actions of garbage collector
+                            // also show when state file is read or written
+    bool file_xfer_debug;   // show completion of FILE_XFER
     bool sched_op_debug;
     bool http_debug;
     bool proxy_debug;
@@ -50,7 +60,6 @@ struct LOG_FLAGS {
     bool measurement_debug; // host measurement notices
     bool poll_debug;        // show what polls are responding
     bool guirpc_debug;
-    bool cpu_sched_debug;
     bool scrsave_debug;
 
     LOG_FLAGS();

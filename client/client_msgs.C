@@ -33,46 +33,6 @@ using std::deque;
 
 #define MAX_SAVED_MESSAGES 1000
 
-CLIENT_MSG_LOG log_messages;
-
-const char* CLIENT_MSG_LOG::v_format_kind(int kind) const {
-    switch(kind) {
-    case DEBUG_STATE:       return "DEBUG_STATE      ";
-    case DEBUG_TASK:        return "DEBUG_TASK       ";
-    case DEBUG_FILE_XFER:   return "DEBUG_FILE_XFER  ";
-    case DEBUG_SCHED_OP:    return "DEBUG_SCHED_OP   ";
-    case DEBUG_HTTP:        return "DEBUG_HTTP       ";
-    case DEBUG_PROXY:       return "DEBUG_PROXY      ";
-    case DEBUG_TIME:        return "DEBUG_TIME       ";
-    case DEBUG_NET_XFER:    return "DEBUG_NET_XFER   ";
-    case DEBUG_MEASUREMENT: return "DEBUG_MEASUREMENT";
-    case DEBUG_POLL:        return "DEBUG_POLL       ";
-    case DEBUG_GUIRPC:      return "DEBUG_GUIRPC     ";
-    case DEBUG_CPU_SCHED:   return "DEBUG_CPU_SCHED  ";
-    case DEBUG_SCRSAVE:     return "DEBUG_SCRSAVE    ";
-    default:                return "*** internal error: invalid MessageKind ***";
-    }
-}
-
-bool CLIENT_MSG_LOG::v_message_wanted(int kind) const {
-    switch (kind) {
-    case DEBUG_STATE:       return log_flags.state_debug;
-    case DEBUG_TASK:        return log_flags.task_debug;
-    case DEBUG_FILE_XFER:   return log_flags.file_xfer_debug;
-    case DEBUG_SCHED_OP:    return log_flags.sched_op_debug;
-    case DEBUG_HTTP:        return log_flags.http_debug;
-    case DEBUG_PROXY:       return log_flags.proxy_debug;
-    case DEBUG_TIME:        return log_flags.time_debug;
-    case DEBUG_NET_XFER:    return log_flags.net_xfer_debug;
-    case DEBUG_MEASUREMENT: return log_flags.measurement_debug;
-    case DEBUG_POLL:        return log_flags.poll_debug;
-    case DEBUG_GUIRPC:      return log_flags.guirpc_debug;
-    case DEBUG_CPU_SCHED:   return log_flags.cpu_sched_debug;
-    case DEBUG_SCRSAVE:     return log_flags.scrsave_debug;
-    default: return false;
-    }
-}
-
 // a dequeue of up to MAX_SAVED_MESSAGES most recent messages,
 // stored in newest-first order
 //

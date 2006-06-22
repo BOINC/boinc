@@ -181,7 +181,6 @@ int HTTP_OP::init_post(
     int retval;
     double size;
 
-    SCOPE_MSG_LOG scope_messages(log_messages, CLIENT_MSG_LOG::DEBUG_HTTP);
     req1 = NULL;  // not using req1, but init_post2 uses it
 
     if (in) {
@@ -194,7 +193,11 @@ int HTTP_OP::init_post(
     NET_XFER::init();
     http_op_type = HTTP_OP_POST;
     http_op_state = HTTP_STATE_CONNECTING;
-    scope_messages.printf("HTTP_OP::init_post(): %p io_done %d\n", this, io_done);
+    if (log_flags.http_debug) {
+        msg_printf(0, MSG_INFO,
+            "HTTP_OP::init_post(): %p io_done %d\n", this, io_done
+        );
+    }
     return HTTP_OP::libcurl_exec(url, in, out, 0.0, true);  // note that no offset for this, for resumable uploads use post2!
 }
 
@@ -242,7 +245,6 @@ int HTTP_OP::libcurl_exec(
     }
 
     // setup libcurl handle
-    SCOPE_MSG_LOG scope_messages(log_messages, CLIENT_MSG_LOG::DEBUG_NET_XFER);
 
     // CMC -- init the curlEasy handle and setup options
     //   the polling will do the actual start of the HTTP/S transaction
@@ -661,11 +663,13 @@ int libcurl_debugfunction(
     char buf[1024];
     size_t mysize;
     
-    SCOPE_MSG_LOG scope_messages(log_messages, CLIENT_MSG_LOG::DEBUG_NET_XFER);
-
     switch (type) {
     case CURLINFO_TEXT:
-        scope_messages.printf("[ID#%i] info: %s\n", phop->trace_id, data );
+        if (log_flags.http_debug) {
+            msg_printf(0, MSG_INFO,
+                "[ID#%i] info: %s\n", phop->trace_id, data
+            );
+        }
         return 0;
     case CURLINFO_HEADER_OUT:
         text = "Sent header to server:";
@@ -681,7 +685,11 @@ int libcurl_debugfunction(
     mysize = min(size, sizeof(buf)-1);
     strncpy(buf, (char *)data, mysize);
     buf[mysize]='\0';
-    scope_messages.printf("%s %s\n", hdr, buf);
+    if (log_flags.http_debug) {
+        msg_printf(0, MSG_INFO,
+            "%s %s\n", hdr, buf
+        );
+    }
     return 0;
 }
 

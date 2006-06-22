@@ -34,7 +34,6 @@
 #include "client_msgs.h"
 #include "parse.h"
 
-#include "log_flags.h"
 #include "filesys.h"
 
 LOG_FLAGS log_flags;
@@ -42,26 +41,14 @@ CONFIG config;
 
 LOG_FLAGS::LOG_FLAGS() {
 
-    // informational output is on by default
+    memset(this, 0, sizeof(LOG_FLAGS));
+
+    // on by default
+    // (others are off by default)
     //
-    task = false;
+    task = true;
     file_xfer = true;
     sched_ops = true;
-
-    // debugging output is off by default
-    //
-    state_debug = false;
-    task_debug = false;
-    file_xfer_debug = false;
-    sched_op_debug = false;
-    http_debug = false;
-    proxy_debug = false;
-    time_debug = false;
-    net_xfer_debug = false;
-    measurement_debug = false;
-    guirpc_debug = false;
-    cpu_sched_debug = false;
-    scrsave_debug = false;
 }
 
 // Parse log flag preferences

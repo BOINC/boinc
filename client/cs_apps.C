@@ -173,8 +173,6 @@ bool CLIENT_STATE::handle_finished_apps() {
     if (gstate.now - last_time < 1.0) return false;
     last_time = gstate.now;
 
-    SCOPE_MSG_LOG scope_messages(log_messages, CLIENT_MSG_LOG::DEBUG_TASK);
-
     for (i=0; i<active_tasks.active_tasks.size(); i++) {
         atp = active_tasks.active_tasks[i];
         switch (atp->task_state) {
@@ -183,13 +181,17 @@ bool CLIENT_STATE::handle_finished_apps() {
         case PROCESS_EXIT_UNKNOWN:
         case PROCESS_COULDNT_START:
         case PROCESS_ABORTED:
-            msg_printf(atp->wup->project, MSG_INFO,
-                "Computation for task %s finished", atp->result->name
-            );
-            scope_messages.printf(
-                "CLIENT_STATE::handle_finished_apps(): task finished; pid %d, status %d\n",
-                atp->pid, atp->result->exit_status
-            );
+            if (log_flags.task) {
+                msg_printf(atp->wup->project, MSG_INFO,
+                    "Computation for task %s finished", atp->result->name
+                );
+            }
+            if (log_flags.task_debug) {
+                msg_printf(0, MSG_INFO,
+                    "CLIENT_STATE::handle_finished_apps(): task finished; pid %d, status %d\n",
+                    atp->pid, atp->result->exit_status
+                );
+            }
             app_finished(*atp);
             active_tasks.remove(atp);
             delete atp;
