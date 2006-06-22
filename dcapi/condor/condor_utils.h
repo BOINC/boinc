@@ -14,6 +14,11 @@ extern "C" {
 
 extern int _DC_mkdir_with_parents(char *dn, mode_t mode);
 extern int _DC_rm(char *name);
+extern int _DC_create_message(char *box,
+			      char *name,
+			      const char *message,
+			      char *msgfile);
+extern int _DC_nuof_messages(char *box, char *name);
 
 
 #ifdef __cplusplus
