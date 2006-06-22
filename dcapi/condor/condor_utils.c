@@ -8,7 +8,9 @@
 #include <string.h>
 #include <errno.h>
 #include <unistd.h>
+#include <stdlib.h>
 
+#include "dc_internal.h"
 #include "dc_common.h"
 #include "condor_utils.h"
 
@@ -89,5 +91,77 @@ _DC_rm(char *name)
 		}
 	return(1);
 }
+
+
+static int _DC_message_id= 0;
+
+int
+_DC_create_message(char *box,
+		   char *name,
+		   const char *message,
+		   char *msgfile)
+{
+	char *fn, *fn2;
+	FILE *f;
+	int ret= DC_OK;
+
+	/*DC_log(LOG_DEBUG, "DC_sendMessage(%s)", message);*/
+	if (!box ||
+	    !name)
+		return(DC_ERR_BADPARAM);
+	mkdir(box, S_IRWXU|S_IRGRP|S_IXGRP|S_IROTH|S_IXOTH);
+	_DC_message_id++;
+	fn= malloc(strlen(box)+strlen(name)+100);
+	sprintf(fn, "%s/%s_creating.%d", box, name, _DC_message_id);
+	if ((f= fopen(fn, "w")) != NULL)
+	{
+		if (message)
+			fprintf(f, "%s", message);
+		else if (msgfile)
+			ret= _DC_copyFile(msgfile, fn);
+		fclose(f);
+		/*DC_log(LOG_DEBUG, "Message %d created", _DC_message_id);*/
+	}
+	else
+	{
+		DC_log(LOG_ERR, "Error creating message file (%s)",
+		       fn);
+		ret= DC_ERR_SYSTEM;
+	}
+	fn2= malloc(strlen(box)+strlen(name)+100);
+	sprintf(fn2, "%s/%s.%d", box, name, _DC_message_id);
+	rename(fn, fn2);
+	free(fn2);
+	free(fn);
+	return(ret);
+}
+
+
+int
+_DC_nuof_messages(char *box, char *name)
+{
+	DIR *d;
+	struct dirent *de;
+	int nuof= 0;
+	char *s;
+
+	if (!box)
+		return(0);
+	if ((d= opendir(box)) == NULL)
+		return(0);
+	s= malloc(name?strlen(name):20+10);
+	name?strcpy(s, name):strcpy(s, "message");
+	strcat(s, ".");
+	while ((de= readdir(d)) != NULL)
+	{
+		char *found= strstr(de->d_name, s);
+		if (found == de->d_name)
+			nuof++;
+	}
+	free(s);
+	closedir(d);
+	return(nuof);
+}
+
 
 /* End of condor_utils.c */
