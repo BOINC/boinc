@@ -97,7 +97,8 @@ _DC_wu_condor2api_event(DC_Workunit *wu)
 		{
 			DC_MasterEvent *e;
 			e= g_new0(DC_MasterEvent, 1);
-			DC_log(LOG_DEBUG, "API event created: %p", e);	       
+			DC_log(LOG_DEBUG, "Result event created: %p for "
+			       "wu (%p-\"%s\")", e, wu, wu->name);
 			e->type= DC_MASTER_RESULT;
 			e->wu= wu;
 			e->result= _DC_create_result(wu);
