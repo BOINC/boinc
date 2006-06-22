@@ -6644,3 +6644,11 @@ David  22 June 2006
         log_flags.h
     sched/
         server_types.C
+
+David  22 June 2006
+	- Fix Win bug where accelerators kept concatenating
+
+	client/
+		client_msgs.h
+		win/
+			hostinfo_win.cpp

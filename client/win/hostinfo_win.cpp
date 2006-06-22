@@ -559,6 +559,7 @@ int get_accelerators(
     DWORD iDevice = 0;
     INTERNALMONITORINFO dispdev;
     dispdev.cb = sizeof(dispdev);
+    strcpy(accelerators, "");
     while(EnumDisplayDevices(NULL, iDevice, (PDISPLAY_DEVICE)&dispdev, 0)) {
         // Ignore NetMeeting's mirrored displays
         if ((dispdev.StateFlags & DISPLAY_DEVICE_MIRRORING_DRIVER) == 0) {

@@ -55,6 +55,14 @@ struct MESSAGE_DESC {
 extern std::deque<MESSAGE_DESC*> message_descs;
 extern void record_message(class PROJECT *p, int priority, int now, char* msg);
 extern void show_message(class PROJECT *p, char* message, int priority);
+
+// the __attribute((format...)) tags are GCC extensions that let the compiler
+// do like-checking on printf-like arguments
+//
+#if !defined(__GNUC__) && !defined(__attribute__)
+#define __attribute__(x) /*nothing*/
+#endif
+
 extern void msg_printf(PROJECT *p, int priority, const char *fmt, ...) __attribute__ ((format (printf, 3, 4)));
 
 #endif
