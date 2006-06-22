@@ -246,6 +246,14 @@ public:
 	\param border - page border colour
 	*/
 	void SetGradientColors(const wxColour& from, const wxColour& to, const wxColour& border);
+	/// Sets gradient colors for inactive tabs (only applicable when using the wxFNB_FANCY_TABS)
+	/** 	
+	\param from - first gradient colour
+	\param to - second gradient colour
+	\param border - page border colour
+	*/
+	void SetGradientColorsInactive(const wxColour& from, const wxColour& to, const wxColour& border);
+	
 	/// Sets first gradient colour
 	/**	
 	\param from - new value of first gradient colour
@@ -630,6 +638,9 @@ protected:
 
 	/// File a tab with gradient color
 	virtual void FillGradientColor(wxBufferedDC& dc, const wxRect& rect);
+    
+	/// File a tab with gradient color
+	virtual void FillGradientColorInactive(wxBufferedDC& dc, const wxRect& rect);
 
 	/// Return true if page is visible
 	virtual bool IsTabVisible(size_t page);
@@ -729,7 +740,7 @@ protected:
 	wxMenu* m_pRightClickMenu;
 
 	/// Gradient colors
-	wxColour m_colorFrom, m_colorTo, m_colorBorder, m_activeTextColor, m_nonActiveTextColor, m_tabAreaColor, m_activeTabColor;
+	wxColour m_colorFrom, m_colorTo, m_colorBorder, m_colorFromInactive, m_colorToInactive, m_colorBorderInactive, m_activeTextColor, m_nonActiveTextColor, m_tabAreaColor, m_activeTabColor;
 
 	/// X,>,< buttons status, can be one of 
 	/// - Pressed
