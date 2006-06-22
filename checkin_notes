@@ -6652,3 +6652,15 @@ David  22 June 2006
 		client_msgs.h
 		win/
 			hostinfo_win.cpp
+
+Rom    22 June 2006
+    - Check in the default certificate CA's so curl can use them.
+    
+    curl/
+        ca-bundle.crt
+    win_build/
+        boinc_post_bld_rules.cmd
+    win_build/installerv2/
+        BOINC.ism
+
+    
