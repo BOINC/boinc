@@ -23,7 +23,7 @@
 			<Tool
 				Name="VCCLCompilerTool"
 				Optimization="0"
-				AdditionalIncludeDirectories="&quot;C:\Documents and Settings\davea\My Documents\BOINC\boinc\zlib\include&quot;;../lib;../api;../client/win;../client;..;../openssl/include;../curl/include"
+				AdditionalIncludeDirectories="../lib;../api;../client/win;../client;..;../openssl/include;../curl/include;../zlib/include"
 				PreprocessorDefinitions="WIN32;_WIN32;_DEBUG;_MT;_DLL;_WINDOWS;_CONSOLE;_USE_CURL;USE_SSL;USE_SSLEAY;USE_OPENSSL"
 				MinimalRebuild="FALSE"
 				BasicRuntimeChecks="3"

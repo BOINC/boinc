@@ -6595,3 +6595,9 @@ Charlie 21 June 2006
     mac_build/
         boinc.xcodeproj/
             sproject.pbxproj
+Walt   22 June 2006
+    - Change additional includes for xlib.h directory from absolute
+        to relative.
+
+    win_build/
+        boinc_cli_curl.vcproj
