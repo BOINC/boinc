@@ -65,23 +65,7 @@ int DC_sendMessage(const char *message)
 	FILE *f;
 
 	DC_log(LOG_DEBUG, "DC_sendMessage(%s)", message);
-	mkdir("client_messages", S_IRWXU|S_IRGRP|S_IXGRP|S_IROTH|S_IXOTH);
-	_DC_message_id++;
-	sprintf(fn, "client_messages/message.%d", _DC_message_id);
-	if ((f= fopen(fn, "w")) != NULL)
-	{
-		fprintf(f, "%s", message);
-		fclose(f);
-		DC_log(LOG_DEBUG, "Message %d created", _DC_message_id);
-	}
-	else
-	{
-		DC_log(LOG_ERR, "Error creating message file (%d)",
-		       _DC_message_id);
-		return(DC_ERR_SYSTEM);
-	}
-
-	return(DC_OK);
+	return _DC_create_message("client_messages", "message", message, NULL);
 }
 
 
@@ -101,7 +85,7 @@ DC_ClientEvent *DC_checkClientEvent(void)
 	       (de= readdir(d)) != NULL)
 	{
 		char *found= strstr(de->d_name, "message.");
-		if (found)
+		if (found == de->d_name)
 		{
 			char *pos= strrchr(de->d_name, '.');
 			if (pos)
