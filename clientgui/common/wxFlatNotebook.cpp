@@ -482,6 +482,13 @@ void wxFlatNotebookBase::SetGradientColors(const wxColour& from, const wxColour&
 	m_pages->m_colorBorder = border;
 }
 
+void wxFlatNotebookBase::SetGradientColorsInactive(const wxColour& from, const wxColour& to, const wxColour& border)
+{
+	m_pages->m_colorFromInactive = from;
+	m_pages->m_colorToInactive   = to;
+	m_pages->m_colorBorderInactive = border;
+}
+
 void wxFlatNotebookBase::SetGradientColorFrom(const wxColour& from)
 {
 	m_pages->m_colorFrom = from;
@@ -609,6 +616,8 @@ wxPageContainerBase::wxPageContainerBase(wxWindow* parent, wxWindowID id, const 
 
 	m_colorTo = wxColour(wxSystemSettings::GetColour(wxSYS_COLOUR_ACTIVECAPTION));
 	m_colorFrom   = wxColor(*wxWHITE);
+	m_colorToInactive = wxColour(wxSystemSettings::GetColour(wxSYS_COLOUR_ACTIVECAPTION));
+	m_colorFromInactive   = wxColor(*wxWHITE);
 	m_activeTabColor = wxColor(*wxWHITE);
 	m_activeTextColor = wxColour(wxSystemSettings::GetColour(wxSYS_COLOUR_BTNTEXT));
 	m_tabAreaColor = wxSystemSettings::GetColour(wxSYS_COLOUR_BTNFACE);
@@ -895,7 +904,7 @@ void wxPageContainerBase::DrawFancyTab(wxBufferedPaintDC& dc,
 	// Fancy tabs - like with VC71 but with the following differences:
 	// - The Selected tab is colored with gradient color
 	wxPen borderPen = wxPen(wxSystemSettings::GetColour(wxSYS_COLOUR_BTNSHADOW));
-	wxPen pen = (tabIdx==GetSelection()) ? wxPen(m_colorBorder) : wxPen(wxSystemSettings::GetColour(wxSYS_COLOUR_3DFACE));
+	wxPen pen = (tabIdx==GetSelection()) ? wxPen(m_colorBorder) : wxPen(m_colorBorderInactive);
 	long style = GetParent()->GetWindowStyleFlag();
 	dc.SetPen(pen);
 	dc.SetBrush((tabIdx==GetSelection()) ? wxBrush(wxSystemSettings::GetColour(wxSYS_COLOUR_3DFACE)) : wxBrush(wxColour(247, 243, 233)));
@@ -917,8 +926,19 @@ void wxPageContainerBase::DrawFancyTab(wxBufferedPaintDC& dc,
 	{
 		// We dont draw a rectangle for non selected tabs, but only 
 		// vertical line on the left
-		dc.SetPen(borderPen);
-		dc.DrawLine(posx + tabWidth, VERTICAL_BORDER_PADDING + 3, posx + tabWidth, tabHeight - 4);
+		//dc.SetPen(borderPen);
+		//dc.DrawLine(posx + tabWidth, VERTICAL_BORDER_PADDING + 3, posx + tabWidth, tabHeight - 4);
+		int posy = (style & wxFNB_BOTTOM) ? 0 : VERTICAL_BORDER_PADDING;
+
+		wxRect rect(posx, posy, tabWidth, tabHeight);
+		FillGradientColorInactive(dc, rect);
+		dc.SetBrush(*wxTRANSPARENT_BRUSH);
+		pen.SetWidth(1);
+		dc.SetPen(pen);
+
+		dc.DrawRectangle(rect);
+		pen.SetWidth(1);
+		dc.SetPen(pen);
 	}
 }
 
@@ -1914,6 +1934,39 @@ void wxPageContainerBase::FillGradientColor(wxBufferedDC& dc, const wxRect& rect
 	}
 }
 
+void wxPageContainerBase::FillGradientColorInactive(wxBufferedDC& dc, const wxRect& rect)
+{    
+	// gradient fill from colour 1 to colour 2 with top to bottom
+
+	if(rect.height < 1 || rect.width < 1)
+		return;
+
+	int size = rect.height;
+
+	// calculate gradient coefficients
+	long style = GetParent()->GetWindowStyleFlag();
+	wxColour col2 = (style & wxFNB_BOTTOM) ? m_colorToInactive : m_colorFromInactive;
+	wxColour col1 = (style & wxFNB_BOTTOM) ? m_colorFromInactive : m_colorToInactive;
+
+	double rstep = double((col2.Red() -   col1.Red())) / double(size), rf = 0,
+		gstep = double((col2.Green() - col1.Green())) / double(size), gf = 0,
+		bstep = double((col2.Blue() -  col1.Blue())) / double(size), bf = 0;
+
+	wxColour currCol;
+	for(int y = rect.y; y < rect.y + size; y++)
+	{
+		currCol.Set(
+			(unsigned char)(col1.Red() + rf),
+			(unsigned char)(col1.Green() + gf),
+			(unsigned char)(col1.Blue() + bf)
+			);
+		dc.SetBrush( wxBrush( currCol, wxSOLID ) );
+		dc.SetPen(wxPen(currCol));
+		dc.DrawLine(rect.x, y, rect.x + rect.width, y);
+		rf += rstep; gf += gstep; bf += bstep;
+	}
+}
+
 void wxPageContainerBase::SetPageImageIndex(size_t page, int imgindex)
 {
 	if(page < m_pagesInfoVec.size())
@@ -2171,7 +2224,8 @@ void wxPageContainerBase::DrawTabsLine(wxDC& dc, const wxRect& rect)
 	wxRect clientRect = rect;
 	long style = GetParent()->GetWindowStyleFlag();
 
-	dc.SetPen(wxPen(wxSystemSettings::GetColour(wxSYS_COLOUR_BTNSHADOW)));
+	//dc.SetPen(wxPen(wxSystemSettings::GetColour(wxSYS_COLOUR_BTNSHADOW)));
+	dc.SetPen(wxPen(m_tabAreaColor)); // eliminates line
 	dc.SetBrush(*wxTRANSPARENT_BRUSH);
 	dc.DrawRectangle(clientRect);
 
