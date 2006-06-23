@@ -44,6 +44,7 @@ struct LOG_FLAGS {
     bool rr_simulation;     // results of rr simulator
     bool debt_debug;        // changes to debt
     bool task_debug;        // task start and control details
+                            // also prints when apps checkpoint
     bool work_fetch_debug;  // work fetch policy 
 
     bool unparsed_xml;      // show unparsed XML lines

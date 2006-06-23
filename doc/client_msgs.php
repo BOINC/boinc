@@ -79,7 +79,8 @@ list_item_func("<debt_debug>",
     "Changes to project debt"
 );
 list_item_func("<task_debug>",
-    "Task start and control details"
+    "Task start and control details.
+    Also prints messages when applications checkpoint."
 );
 list_item_func("<work_fetch_debug>",
     "Work fetch policy decisions"
