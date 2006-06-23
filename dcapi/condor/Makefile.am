@@ -21,7 +21,8 @@ noinst_HEADERS	= condor_common.h \
 		  condor_log.h \
 		  condor_utils.h \
 		  condor_result.h \
-		  condor_slave.h
+		  condor_slave.h \
+		  condor_event.h
 
 libdc_condor_la_SOURCES = condor_master.c \
 			  condor_common.c \
@@ -29,7 +30,8 @@ libdc_condor_la_SOURCES = condor_master.c \
 			  condor_managewu.c \
 			  condor_log.cc \
 			  condor_utils.c \
-			  condor_result.c
+			  condor_result.c \
+			  condor_event.c
 
 libdc_condor_la_LIBADD = ../common/libdc-common-master.la \
 			 $(GLIB_LIBS) \
