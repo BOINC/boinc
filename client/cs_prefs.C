@@ -207,6 +207,11 @@ static string reason_string(int reason) {
 
 int CLIENT_STATE::suspend_tasks(int reason) {
     if (reason == SUSPEND_REASON_CPU_USAGE_LIMIT) {
+        if (log_flags.cpu_sched) {
+            string s_reason;
+            s_reason = "Suspending computation" + reason_string(reason);
+            msg_printf(NULL, MSG_INFO, s_reason.c_str());
+        }
         active_tasks.suspend_all(true);
     } else {
         string s_reason;

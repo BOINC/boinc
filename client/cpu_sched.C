@@ -362,12 +362,12 @@ void CLIENT_STATE::print_deadline_misses() {
         rp = results[i];
         if (rp->rr_sim_misses_deadline && !rp->last_rr_sim_missed_deadline) {
             msg_printf(rp->project, MSG_INFO,
-                "Result %s now misses deadline.", rp->name
+                "Result %s projected to miss deadline.", rp->name
             );
         }
         else if (!rp->rr_sim_misses_deadline && rp->last_rr_sim_missed_deadline) {
             msg_printf(rp->project, MSG_INFO,
-                "Result %s now meets deadline.", rp->name
+                "Result %s projected to meet deadline.", rp->name
             );
         }
     }
@@ -375,7 +375,7 @@ void CLIENT_STATE::print_deadline_misses() {
         p = projects[i];
         if (p->rr_sim_deadlines_missed) {
             msg_printf(p, MSG_INFO,
-                "Project has %d deadline misses",
+                "Project has %d projected deadline misses",
                 p->rr_sim_deadlines_missed
             );
         }
@@ -457,7 +457,7 @@ void CLIENT_STATE::schedule_cpus() {
         ordered_scheduled_results.push_back(rp);
     }
 
-    request_enforce_schedule("");
+    request_enforce_schedule("schedule_cpus");
     set_client_state_dirty("schedule_cpus");
 }
 

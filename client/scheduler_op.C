@@ -829,6 +829,8 @@ int SCHEDULER_REPLY::parse(FILE* in, PROJECT* project) {
             continue;
         } else if (match_tag(buf, "<request_file_list/>")) {
             send_file_list = true;
+        } else if (parse_int(buf, "<scheduler_version>", scheduler_version)) {
+            continue;
         } else if (strlen(buf)>1){
             if (log_flags.unparsed_xml) {
                 msg_printf(0, MSG_ERROR,

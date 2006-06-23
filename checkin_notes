@@ -6725,3 +6725,21 @@ David  23 June 2006
     client/
         app-control.C
         log_flags.h
+
+David  23 June 2006
+    - core client:
+        - fix bug in printing argv on task startup (Unix)
+        - changed message: "misses deadline" -> "projected to miss deadline"
+        - parse version in scheduler reply, and show it if log_flags.sched_ops
+        - cpu_usage_limit must be in (0..1]
+
+    client/
+        app_start.C
+        cpu_sched.C
+        cs_apps.C
+        cs_prefs.C
+        cs_scheduler.C
+        scheduler_op.C,h
+    lib/
+        prefs.C
+        util.C

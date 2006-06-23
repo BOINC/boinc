@@ -758,6 +758,12 @@ int CLIENT_STATE::handle_scheduler_reply(
     fclose(f);
     if (retval) return retval;
 
+    if (log_flags.sched_ops) {
+        msg_printf(project, MSG_INFO,
+            "Scheduler version: %d", sr.scheduler_version
+        );
+    }
+
     // check that master URL is correct
     //
     if (strlen(sr.master_url)) {

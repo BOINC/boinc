@@ -606,9 +606,6 @@ int ACTIVE_TASK::start(bool first_time) {
 #endif
         char cmdline[8192];
         strcpy(cmdline, wup->command_line.c_str());
-        if (log_flags.task_debug) {
-            debug_print_argv(argv);
-        }
         sprintf(buf, "../../%s", exec_path );
 #ifdef SANDBOX
         char switcher_path[100];
@@ -617,6 +614,9 @@ int ACTIVE_TASK::start(bool first_time) {
         argv[1] = buf;
         argv[2] = exec_name;
         parse_command_line(cmdline, argv+3);
+        if (log_flags.task_debug) {
+            debug_print_argv(argv);
+        }
         retval = execv(switcher_path, argv);
 #else
         argv[0] = exec_name;
