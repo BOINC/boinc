@@ -204,6 +204,10 @@ DC_destroyWU(DC_Workunit *wu)
 	if ((i= _DC_nuof_messages(s->str, "message")) > 0)
 		DC_log(LOG_NOTICE, "%d client messages unhandled of wu: %s",
 		       i, wu->name);
+	g_string_printf(s, "%s/%s", wu->workdir, "client_subresults");
+	if ((i= _DC_nuof_messages(s->str, "logcal_name")) > 0)
+		DC_log(LOG_NOTICE, "%d client subresults unhandled of wu: %s",
+		       i, wu->name);
 	g_string_free(s, TRUE);
 
 	if (wu->state == DC_WU_READY ||
