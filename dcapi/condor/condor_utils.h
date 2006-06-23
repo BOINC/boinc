@@ -19,6 +19,8 @@ extern int _DC_create_message(char *box,
 			      const char *message,
 			      char *msgfile);
 extern int _DC_nuof_messages(char *box, char *name);
+extern char *_DC_message_name(char *box, char *name);
+extern char *_DC_read_message(char *box, char *name, int del_msg);
 
 
 #ifdef __cplusplus
