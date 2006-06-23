@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<popupmenu>
+	<menuitem lbl="Tell a Friend" imgsrc="menuxml/micnTellFriend.png"/>
+    <menuitem lbl="Home"/>
+    <menuitem lbl="About Us"/>
+    <menuitem lbl="Research"/>
+    <menuitem lbl="Forums"/>
+    <menuitem lbl="Statistics"/>
+	<menuitem lbl="My Grid" imgsrc="menuxml/micnMyGrid.png"/>
+</popupmenu>
