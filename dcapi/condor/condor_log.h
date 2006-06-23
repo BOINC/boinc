@@ -14,6 +14,7 @@ extern "C" {
 
 extern void _DC_wu_update_condor_events(DC_Workunit *wu);
 extern DC_MasterEvent *_DC_wu_condor2api_event(DC_Workunit *wu);
+extern int _DC_wu_exit_code(DC_Workunit *wu, int *res);
 
 
 #ifdef __cplusplus

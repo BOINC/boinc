@@ -702,7 +702,9 @@ DC_getResultCapabilities(const DC_Result *result)
 {
 	int cap;
 
-	cap= DC_GC_STDOUT | DC_GC_STDERR | DC_GC_MESSAGING | DC_GC_LOG;
+	cap= DC_GC_STDOUT | DC_GC_STDERR;
+	cap|= DC_GC_MESSAGING | DC_GC_LOG | DC_GC_SUBRESULT;
+	cap|= DC_GC_EXITCODE;
 
 	return(cap);
 }
@@ -722,7 +724,15 @@ DC_getResultWU(DC_Result *result)
 int
 DC_getResultExit(const DC_Result *result)
 {
-	return(DC_ERR_NOTIMPL);
+	int i;
+
+	if (!result)
+		return(0);
+	if (!_DC_wu_check(result->wu))
+		return(0);
+	if (_DC_wu_exit_code(result->wu, &i) != DC_OK)
+		return(0);
+	return(i);
 }
 
 

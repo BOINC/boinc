@@ -27,6 +27,18 @@ struct _DC_condor_event
 	int proc;
 	int subproc;
 	time_t time;
+	union
+	{
+		struct
+		{
+			gboolean normal;
+			int exit_code;
+		} exit_info;
+		struct
+		{
+			char *reason;
+		} abort_info;
+	};
 };
 
 struct _DC_wu_data
