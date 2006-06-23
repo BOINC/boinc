@@ -12,6 +12,7 @@
 
 #include "dc_internal.h"
 #include "dc_common.h"
+
 #include "condor_utils.h"
 
 
@@ -39,7 +40,9 @@ _DC_mkdir_with_parents(char *dn, mode_t mode)
 		}
 	}
 	res= mkdir(dn, mode);
-	return(res);
+	if (res == EEXIST)
+		return(DC_OK);
+	return(res?DC_ERR_SYSTEM:DC_OK);
 }
 
 
