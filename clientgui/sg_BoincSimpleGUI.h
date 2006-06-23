@@ -44,7 +44,7 @@ public:
 
    ~CSimpleFrame();
 
-   
+    void OnConnect( CFrameEvent& event );
 
 
 	// Images

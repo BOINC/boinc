@@ -6788,3 +6788,9 @@ Rom    23 June 2006
         BOINCBaseFrame.cpp, .h
         MainFrame.cpp, .h
 
+Rom    23 June 2006
+    - Enable the wizards for initial startups.
+        
+    clientgui/
+        sg_BoincSimpleGUI.cpp.cpp, .h
+

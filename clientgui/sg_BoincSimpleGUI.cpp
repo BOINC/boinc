@@ -33,6 +33,11 @@
 #include "sg_DlgPreferences.h"
 #include "sg_SkinClass.h"
 #include "sg_BoincSimpleGUI.h"
+#include "wizardex.h"
+#include "BOINCWizards.h"
+#include "BOINCBaseWizard.h"
+#include "WizardAttachProject.h"
+#include "WizardAccountManager.h"
 
 #include "res/boinc.xpm"
 
@@ -42,6 +47,7 @@ BEGIN_EVENT_TABLE(CSimpleFrame, CBOINCBaseFrame)
     EVT_BUTTON(-1,CSimpleFrame::OnBtnClick)
     EVT_SIZE(CSimpleFrame::OnSize)
 	EVT_ERASE_BACKGROUND(CSimpleFrame::OnEraseBackground)
+    EVT_FRAME_CONNECT(CSimpleFrame::OnConnect)
 END_EVENT_TABLE()
 
 
@@ -75,6 +81,68 @@ CSimpleFrame::~CSimpleFrame()
 {
 //    m_player.Stop();
 }
+
+
+void CSimpleFrame::OnConnect(CFrameEvent& WXUNUSED(event)) {
+    wxLogTrace(wxT("Function Start/End"), wxT("CSimpleFrame::OnConnect - Function Begin"));
+    
+    CMainDocument*     pDoc = wxGetApp().GetDocument();
+    CWizardAccountManager* pAMWizard = NULL;
+    CWizardAttachProject* pAPWizard = NULL;
+    wxString strComputer = wxEmptyString;
+    wxString strName = wxEmptyString;
+    wxString strURL = wxEmptyString;
+    bool bCachedCredentials = false;
+    ACCT_MGR_INFO ami;
+    PROJECT_INIT_STATUS pis;
+
+    wxASSERT(pDoc);
+    wxASSERT(wxDynamicCast(pDoc, CMainDocument));
+
+
+    // If we are connected to the localhost, run a really quick screensaver
+    //   test to trigger a firewall popup.
+    pDoc->GetConnectedComputerName(strComputer);
+    if (pDoc->IsComputerNameLocal(strComputer)) {
+        wxGetApp().StartBOINCScreensaverTest();
+    }
+
+
+    pDoc->rpc.acct_mgr_info(ami);
+    if (ami.acct_mgr_url.size() && !ami.have_credentials) {
+        pAMWizard = new CWizardAccountManager(this);
+
+        if (!IsShown()) {
+            Show();
+        }
+
+        if (pAMWizard->Run()) {
+            // If successful, hide the main window
+            Hide();
+        }
+    } else if (0 >= pDoc->GetProjectCount()) {
+        pAPWizard = new CWizardAttachProject(this);
+
+        if (!IsShown()) {
+            Show();
+        }
+
+        pDoc->rpc.get_project_init_status(pis);
+        strName = wxString(pis.name.c_str(), wxConvUTF8);
+        strURL = wxString(pis.url.c_str(), wxConvUTF8);
+        bCachedCredentials = pis.url.length() && pis.has_account_key;
+
+        pAPWizard->Run(strName, strURL, bCachedCredentials);
+    }
+
+    if (pAMWizard)
+        pAMWizard->Destroy();
+    if (pAPWizard)
+        pAPWizard->Destroy();
+
+    wxLogTrace(wxT("Function Start/End"), wxT("CSimpleFrame::OnConnect - Function End"));
+}
+
 
 wxPoint& CSimpleFrame::SetwxPoint(long x,long y){
   m_tmppoint.x=x;
