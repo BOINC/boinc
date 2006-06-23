@@ -105,9 +105,9 @@ DC_createWU(const char *clientName,
 	    const char *arguments[], int subresults, const char *tag)
 {
 	DC_Workunit *wu;
-	char uuid_str[37];
-	char *cfgval;
-	GString *str;
+	/*char uuid_str[37];*/
+	/*char *cfgval;*/
+	/*GString *str;*/
 	int ret;
 
 	wu= g_new0(DC_Workunit, 1);
@@ -125,17 +125,49 @@ DC_createWU(const char *clientName,
 		;
 	wu->subresults= subresults;
 	wu->tag= g_strdup(tag);
-
+	/*
 	uuid_generate(wu->uuid);
 	uuid_unparse_lower(wu->uuid, uuid_str);
 	wu->uuid_str= g_strdup(uuid_str);
+	*/
+	{
+		char *wd= DC_getCfgStr(CFG_WORKDIR);
+		GString *s= g_string_new("");
+		/*GString *hd= g_string_new("");*/
+		GString *d= g_string_new("");
+		gpointer *t= ((gpointer)wu)-1;
+		char *h;
+		gboolean ok;
+		do
+		{
+			t++;
+			g_string_printf(s, "%p", t);
+			if (strlen(s->str) > 2)
+				h= (s->str)+strlen(s->str)-2;
+			else
+				h= s->str;
+			/*g_string_printf(hd, "%s/.dcapi-%s/%s", wd,
+			  _DC_project_uuid_str, h);*/
+			g_string_printf(d, "%s/.dcapi-%s/%s/%s", wd,
+					_DC_project_uuid_str, h, s->str);
+			ok= /*!g_file_test(hd->str, G_FILE_TEST_IS_DIR) &&*/
+				!g_file_test(d->str, G_FILE_TEST_IS_DIR);
+		}
+		while (!ok);
+		wu->uuid_str= s->str;
+		g_string_free(s, FALSE);
+		/*g_string_free(hd, TRUE);*/
+		wu->workdir= d->str;
+		g_string_free(d, FALSE);
+		free(wd);
+	}
 
 	if (tag)
 		wu->name= g_strdup_printf("%s_%s_%s", _DC_project_uuid_str,
-					  uuid_str, tag);
+					  wu->uuid_str, tag);
 	else
 		wu->name= g_strdup_printf("%s_%s", _DC_project_uuid_str,
-					  uuid_str);
+					  wu->uuid_str);
 	DC_log(LOG_DEBUG, "wu name=\"%s\"", wu->name);
 
 	/* Calculate & create the working directory. The working directory
@@ -143,6 +175,7 @@ DC_createWU(const char *clientName,
 	 * <project work dir>/.dcapi-<project uuid>/<hash>/<wu uuid>
 	 * Where <hash> is the first 2 hex digits of the uuid
 	 */
+	/*
 	cfgval= DC_getCfgStr(CFG_WORKDIR);
 	str= g_string_new(cfgval);
 	free(cfgval);
@@ -155,7 +188,7 @@ DC_createWU(const char *clientName,
 	g_string_append(str, uuid_str);
 	wu->workdir= str->str;
 	g_string_free(str, FALSE);
-
+	*/
 	wu->condor_events= g_array_new(FALSE, FALSE,
 				       sizeof(struct _DC_condor_event));
 
@@ -252,6 +285,11 @@ DC_destroyWU(DC_Workunit *wu)
 		i= _DC_rm(fn->str);
 		if (i > 0)
 			DC_log(LOG_NOTICE, "%d unhandled master messages "
+			       "remained", i);
+		g_string_printf(fn, "%s/client_subresults", wu->workdir);
+		i= _DC_rm(fn->str);
+		if (i > 0)
+			DC_log(LOG_NOTICE, "%d unhandled client subresults "
 			       "remained", i);
 		g_string_free(fn, TRUE);
 		
