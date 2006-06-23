@@ -57,32 +57,20 @@
 
 // get domain name and IP address of this host
 //
-int get_local_network_info(
-    char* domain_name, int domlen, char* ip_addr, int iplen
-) {
+int HOST_INFO::get_local_network_info() {
     char buf[256];
     struct in_addr addr;
     struct hostent* he;
-    if (gethostname(buf, 256)) return ERR_GETHOSTBYNAME;
     
-#ifdef __APPLE__
-    short retryCount = 20;    // Used when launching BOINC as a daemon / service at system startup
-retry:    
-#endif
+    if (gethostname(buf, 256)) return ERR_GETHOSTBYNAME;
     he = gethostbyname(buf);
     if (!he || !he->h_addr_list[0]) {
-#ifdef __APPLE__
-    if ((TickCount() < (120*60)) && (--retryCount > 0)) {   // If system has been up for less than 2 minutes
-        boinc_sleep(0.5);                                   // allow time for gethostbyname to be initialized
-        goto retry;                                         // Max delay is 20 * 0.5 = 10 seconds
-    }
-#endif
-        msg_printf(NULL, MSG_ERROR, "gethostbyname failed");
+        msg_printf(NULL, MSG_ERROR, "gethostbyname (%s) failed", buf);
         return ERR_GETHOSTBYNAME;
     }
-    strlcpy(domain_name, he->h_name, domlen);
+    strlcpy(domain_name, he->h_name, sizeof(domain_name));
     memcpy(&addr, he->h_addr_list[0], sizeof(addr));
-    strlcpy(ip_addr, inet_ntoa(addr), iplen);
+    strlcpy(ip_addr, inet_ntoa(addr), sizeof(ip_addr));
     return 0;
 }
 

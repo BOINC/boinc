@@ -6743,3 +6743,20 @@ David  23 June 2006
     lib/
         prefs.C
         util.C
+
+David  23 June 2006
+    - core client: 
+        - removed Apple-specific retry logic in get_local_network_info()
+        - made get_local_network_info() a member of HOST_INFO
+        - in 1-sec poll loop, if don't have a domain name,
+            call get_local_network_info() again
+            (on some systems, gethostbyname() takes a few minutes to work)
+
+    client/
+        client_state.C
+        hostinfo_network.C
+        hostinfo_unix.C
+        win/
+            hostinfo_win.cpp
+    lib/
+        hostinfo.h

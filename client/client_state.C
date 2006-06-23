@@ -515,6 +515,14 @@ bool CLIENT_STATE::poll_slow_events() {
         return true;
     } else {
         time_stats.update(!tasks_suspended);
+
+        // on some systems, gethostbyname() only starts working
+        // a few minutes after system boot.
+        // If it didn't work before, try it again.
+        //
+        if (!strlen(host_info.domain_name)) {
+            host_info.get_local_network_info();
+        }
         return false;
     }
 }
