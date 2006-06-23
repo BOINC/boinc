@@ -65,6 +65,28 @@ _DC_wu_update_condor_events(DC_Workunit *wu)
 			e.proc= event->proc;
 			e.subproc= event->subproc;
 			e.time= mktime(&(event->eventTime));
+			if (e.event == ULOG_JOB_TERMINATED)
+			{
+				class TerminatedEvent *te=
+					dynamic_cast<class TerminatedEvent *>
+					(event);
+				if (te)
+				{
+					e.exit_info.normal= te->normal;
+					e.exit_info.exit_code= te->returnValue;
+				}
+			}
+			if (e.event == ULOG_JOB_ABORTED)
+			{
+				class JobAbortedEvent *ae=
+					dynamic_cast<class JobAbortedEvent *>
+					(event);
+				if (ae)
+				{
+					e.abort_info.reason=
+						g_strdup(ae->getReason());
+				}
+			}
 			g_array_append_val(wu->condor_events, e);
 			DC_log(LOG_DEBUG, "Condor event %d %s",
 			       event->eventNumber,
@@ -112,6 +134,30 @@ _DC_wu_condor2api_event(DC_Workunit *wu)
 		}
 	}
 	return(NULL);
+}
+
+
+int
+_DC_wu_exit_code(DC_Workunit *wu, int *res)
+{
+	unsigned int i;
+
+	if (!_DC_wu_check(wu))
+		return(DC_ERR_UNKNOWN_WU);
+	if (!res)
+		return(DC_OK);
+	for (i= 0; i < wu->condor_events->len; i++)
+	{
+		struct _DC_condor_event *ce;
+		ce= &g_array_index(wu->condor_events,
+				   struct _DC_condor_event,
+				   i);
+		if (ce->event == ULOG_JOB_TERMINATED)
+		{
+			*res= ce->exit_info.exit_code;
+		}
+	}
+	return(DC_OK);
 }
 
 

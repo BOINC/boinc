@@ -36,7 +36,9 @@ unsigned DC_getGridCapabilities(void)
 {
 	int cap;
 
-	cap= DC_GC_STDOUT | DC_GC_STDERR | DC_GC_MESSAGING | DC_GC_LOG;
+	cap= DC_GC_STDOUT | DC_GC_STDERR;
+	cap|= DC_GC_MESSAGING | DC_GC_LOG | DC_GC_SUBRESULT;
+	cap|= DC_GC_EXITCODE;
 
 	return(cap);
 }
