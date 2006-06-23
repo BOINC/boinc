@@ -25,6 +25,7 @@
 #include "hyperlink.h"
 #include "BOINCGUIApp.h"
 #include "BOINCBaseFrame.h"
+#include "BOINCDialupManager.h"
 #include "Events.h"
 
 
@@ -39,6 +40,7 @@ IMPLEMENT_DYNAMIC_CLASS(CBOINCBaseFrame, wxFrame)
 
 BEGIN_EVENT_TABLE (CBOINCBaseFrame, wxFrame)
     EVT_TIMER(ID_DOCUMENTPOLLTIMER, CBOINCBaseFrame::OnDocumentPoll)
+    EVT_TIMER(ID_ALERTPOLLTIMER, CBOINCBaseFrame::OnAlertPoll)
     EVT_FRAME_INITIALIZED(CBOINCBaseFrame::OnInitialized)
     EVT_FRAME_ALERT(CBOINCBaseFrame::OnAlert)
     EVT_CLOSE(CBOINCBaseFrame::OnClose)
@@ -67,10 +69,20 @@ CBOINCBaseFrame::CBOINCBaseFrame(wxWindow* parent, const wxWindowID id, const wx
     m_aSelectedComputerMRU.Clear();
 
 
+    m_pDialupManager = new CBOINCDialUpManager();
+    wxASSERT(m_pDialupManager->IsOk());
+
+
     m_pDocumentPollTimer = new wxTimer(this, ID_DOCUMENTPOLLTIMER);
     wxASSERT(m_pDocumentPollTimer);
 
     m_pDocumentPollTimer->Start(250);                // Send event every 250 milliseconds
+
+    m_pAlertPollTimer = new wxTimer(this, ID_ALERTPOLLTIMER);
+    wxASSERT(m_pAlertPollTimer);
+
+    m_pAlertPollTimer->Start(1000);                  // Send event every 1000 milliseconds
+
 
     // Limit the number of times the UI can update itself to two times a second
     //   NOTE: Linux and Mac were updating several times a second and eating
@@ -91,18 +103,27 @@ CBOINCBaseFrame::CBOINCBaseFrame(wxWindow* parent, const wxWindowID id, const wx
 CBOINCBaseFrame::~CBOINCBaseFrame() {
     wxLogTrace(wxT("Function Start/End"), wxT("CBOINCBaseFrame::~CBOINCBaseFrame - Function Begin"));
 
+    wxASSERT(m_pAlertPollTimer);
     wxASSERT(m_pDocumentPollTimer);
+
+    if (m_pAlertPollTimer) {
+        m_pAlertPollTimer->Stop();
+        delete m_pAlertPollTimer;
+    }
 
     if (m_pDocumentPollTimer) {
         m_pDocumentPollTimer->Stop();
         delete m_pDocumentPollTimer;
     }
 
+    if (m_pDialupManager)
+        delete m_pDialupManager;
+
     wxLogTrace(wxT("Function Start/End"), wxT("CBOINCBaseFrame::~CBOINCBaseFrame - Function End"));
 }
 
 
-void CBOINCBaseFrame::OnDocumentPoll(wxTimerEvent& /*event*/) {
+void CBOINCBaseFrame::OnDocumentPoll(wxTimerEvent& WXUNUSED(event)) {
     static bool        bAlreadyRunOnce = false;
     CMainDocument*     pDoc = wxGetApp().GetDocument();
 
@@ -117,6 +138,29 @@ void CBOINCBaseFrame::OnDocumentPoll(wxTimerEvent& /*event*/) {
     }
 
     pDoc->OnPoll();
+}
+
+
+void CBOINCBaseFrame::OnAlertPoll(wxTimerEvent& WXUNUSED(event)) {
+    static bool       bAlreadyRunningLoop = false;
+    CMainDocument*    pDoc = wxGetApp().GetDocument();
+
+    if (!bAlreadyRunningLoop) {
+        bAlreadyRunningLoop = true;
+
+        // Update idle detection if needed.
+        wxGetApp().UpdateSystemIdleDetection();
+
+        // Check to see if there is anything that we need to do from the
+        //   dial up user perspective.
+        if (pDoc && m_pDialupManager) {
+            if (pDoc->IsConnected()) {
+                m_pDialupManager->poll();
+            }
+        }
+
+        bAlreadyRunningLoop = false;
+    }
 }
 
 

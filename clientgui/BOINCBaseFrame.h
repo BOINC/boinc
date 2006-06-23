@@ -26,6 +26,7 @@
 
 class CFrameEvent;
 class CFrameAlertEvent;
+class CBOINCDialUpManager;
 
 enum FrameAlertEventType {
     AlertNormal = 0,
@@ -52,6 +53,8 @@ public:
     ~CBOINCBaseFrame();
 
     void                OnDocumentPoll( wxTimerEvent& event );
+    void                OnAlertPoll( wxTimerEvent& event );
+
     void                OnInitialized( CFrameEvent& event );
 
     virtual void        OnAlert( CFrameAlertEvent& event );
@@ -80,18 +83,21 @@ public:
 
 protected:
 
-    wxTimer*        m_pDocumentPollTimer;
+    CBOINCDialUpManager* m_pDialupManager;
 
-    int             m_iSelectedLanguage;
-    int             m_iReminderFrequency;
-    int             m_iDisplayExitWarning;
+    wxTimer*            m_pDocumentPollTimer;
+    wxTimer*            m_pAlertPollTimer;
 
-    wxString        m_strNetworkDialupConnectionName;
+    int                 m_iSelectedLanguage;
+    int                 m_iReminderFrequency;
+    int                 m_iDisplayExitWarning;
 
-    wxArrayString   m_aSelectedComputerMRU;
+    wxString            m_strNetworkDialupConnectionName;
 
-    virtual bool    SaveState();
-    virtual bool    RestoreState();
+    wxArrayString       m_aSelectedComputerMRU;
+
+    virtual bool        SaveState();
+    virtual bool        RestoreState();
 
     DECLARE_EVENT_TABLE()
 };

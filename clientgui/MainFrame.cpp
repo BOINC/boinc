@@ -215,9 +215,6 @@ CMainFrame::CMainFrame(wxString title, wxIcon* icon) :
     SetStatusBarPane(0);
 
 
-    m_pDialupManager = new CBOINCDialUpManager();
-    wxASSERT(m_pDialupManager->IsOk());
-
     m_pRefreshStateTimer = new wxTimer(this, ID_REFRESHSTATETIMER);
     wxASSERT(m_pRefreshStateTimer);
 
@@ -275,11 +272,6 @@ CMainFrame::~CMainFrame() {
 
     if (m_pMenubar)
         wxCHECK_RET(DeleteMenu(), _T("Failed to delete menu bar."));
-
-#ifdef __WXMSW__
-    if (m_pDialupManager)
-        delete m_pDialupManager;
-#endif
 
     wxLogTrace(wxT("Function Start/End"), wxT("CMainFrame::~CMainFrame - Function End"));
 }
@@ -1654,16 +1646,6 @@ void CMainFrame::OnFrameRender(wxTimerEvent &event) {
 
     if (!bAlreadyRunningLoop) {
         bAlreadyRunningLoop = true;
-
-        wxGetApp().UpdateSystemIdleDetection();
-
-        // Check to see if there is anything that we need to do from the
-        //   dial up user perspective.
-        if (pDoc->IsConnected()) {
-            if (m_pDialupManager) {
-                m_pDialupManager->poll();
-            }
-        }
 
         if (IsShown()) {
             if (pDoc) {

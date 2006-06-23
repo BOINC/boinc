@@ -46,9 +46,6 @@ private:
 };
 
 
-class CBOINCDialUpManager;
-
-
 class CMainFrame : public CBOINCBaseFrame
 {
     DECLARE_DYNAMIC_CLASS(CMainFrame)
@@ -113,7 +110,6 @@ private:
     wxMenuBar*      m_pMenubar;
     wxNotebook*     m_pNotebook;
     CStatusBar*     m_pStatusbar;
-    CBOINCDialUpManager* m_pDialupManager;
 
     wxString        m_strBaseTitle;
 
