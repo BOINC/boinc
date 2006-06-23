@@ -19,6 +19,7 @@
 #include "condor_wu.h"
 #include "condor_log.h"
 #include "condor_utils.h"
+#include "condor_event.h"
 
 
 /********************************************************************* INIT */
@@ -664,33 +665,17 @@ void
 DC_destroyMasterEvent(DC_MasterEvent *event)
 {
 	DC_log(LOG_DEBUG, "DC_destroyMasterEvent(%p)", event);
-	if (!event)
-		return;
-	switch (event->type)
-	{
-	case DC_MASTER_RESULT:
-		g_free(event->result);
-		break;
-	case DC_MASTER_SUBRESULT:
-		_DC_destroyPhysicalFile(event->subresult);
-		break;
-	case DC_MASTER_MESSAGE:
-		g_free(event->message);
-		break;
-	}
+	_DC_event_destroy(event);
 }
 
 
 /**************************************************************** Messaging */
-
-static int _DC_message_id= 0;
 
 /* Sends a message to a running work unit. */
 int
 DC_sendWUMessage(DC_Workunit *wu, const char *message)
 {
 	GString *dn;
-	FILE *f;
 	int ret;
 
 	if (!_DC_wu_check(wu))
