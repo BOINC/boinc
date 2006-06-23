@@ -167,4 +167,100 @@ _DC_nuof_messages(char *box, char *name)
 }
 
 
+char *
+_DC_message_name(char *box, char *name)
+{
+	char *dn, *n;
+	DIR *d;
+	struct dirent *de;
+	int min_id;
+
+	if (!box ||
+	    !name)
+		return(NULL);
+	dn= strdup(box);
+	n= malloc(strlen(name)+10);
+	strcpy(n, name);
+	strcat(n, ".");
+	d= opendir(dn);
+	min_id= -1;
+	while (d &&
+	       (de= readdir(d)) != NULL)
+	{
+		char *found= strstr(de->d_name, n);
+		if (found == de->d_name)
+		{
+			char *pos= strrchr(de->d_name, '.');
+			if (pos)
+			{
+				int id= 0;
+				pos++;
+				id= strtol(pos, NULL, 10);
+				if (id > 0)
+				{
+					if (min_id < 0)
+						min_id= id;
+					else
+						if (id < min_id)
+							min_id= id;
+				}
+			}
+		}
+	}
+	if (d)
+		closedir(d);
+	if (min_id >= 0)
+	{
+		dn= realloc(dn, 100);
+		sprintf(dn, "%s/%s.%d", box, name, min_id);
+		free(n);
+		return(dn);
+	}
+	if (dn)
+		free(dn);
+	if (n)
+		free(n);
+	return(NULL);
+}
+
+
+char *
+_DC_read_message(char *box, char *name, int del_msg)
+{
+	FILE *f;
+	char *fn= _DC_message_name(box, name);
+	char *buf= NULL;
+
+	if (!fn)
+		return(NULL);
+	DC_log(LOG_DEBUG, "Reading message from %s", fn);
+	if ((f= fopen(fn, "r")) != NULL)
+	{
+		int bs= 100, i;
+		char c;
+
+		buf= malloc(bs);
+		i= 0;
+		buf[i]= '\0';
+		while ((c= fgetc(f)) != EOF)
+		{
+			if (i > bs-2)
+			{
+				bs+= 100;
+				buf= realloc(buf, bs);
+			}
+			buf[i]= c;
+			i++;
+			buf[i]= '\0';
+		}
+		fclose(f);
+		if (del_msg)
+			unlink(fn);
+	}
+	if (fn)
+		free(fn);
+	return(buf);
+}
+
+
 /* End of condor_utils.c */
