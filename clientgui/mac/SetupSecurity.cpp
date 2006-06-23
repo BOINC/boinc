@@ -40,6 +40,7 @@ static void SleepTicks(UInt32 ticksToSleep);
 static OSStatus SetFakeMasterNames(void);
 #endif
 static OSStatus CreateUserAndGroup(char * user_name, char * group_name);
+static OSStatus ResynchSystem(void);
 
 static AuthorizationRef        gOurAuthRef = NULL;
 
@@ -95,8 +96,9 @@ int CreateBOINCUsersAndGroups() {
     if (err != noErr)
         return err;
 
-    system("lookupd -flushcache");
-    system("memberd -r");
+    err = ResynchSystem();
+    if (err != noErr)
+        return err;
     
     return noErr;
 }
@@ -548,8 +550,9 @@ static OSStatus CreateUserAndGroup(char * user_name, char * group_name) {
     if (err)
         return err;
 
-    system("lookupd -flushcache");
-    system("memberd -r");
+    err = ResynchSystem();
+    if (err != noErr)
+        return err;
 
     SleepTicks(120);
 
@@ -576,10 +579,25 @@ int AddAdminUserToGroups(char *user_name) {
     if (err)
         return err;
 
-    system("lookupd -flushcache");
-    system("memberd -r");
+    err = ResynchSystem();
+    if (err != noErr)
+        return err;
 
 #endif          // ! _DEBUG    
+    return noErr;
+}
+
+
+static OSStatus ResynchSystem() {
+    long            response;
+    OSStatus        err = noErr;
+   
+    err = system("lookupd -flushcache");
+
+    err = Gestalt(gestaltSystemVersion, &response);
+    if ((err == noErr) && (response >= 0x1040))
+        err = system("memberd -r");           // Available only in OS 10.4 and later
+
     return noErr;
 }
 

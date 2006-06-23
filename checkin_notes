@@ -6679,3 +6679,16 @@ David  22 June 2006
     client/
         cpu_sched.C
         log_flags.C
+
+Charlie 22 June 2006
+    - Mac sandbox:
+        - Because memberd is available only on OS 10.4, do not call it 
+            under OS 10.3.x and require logout after installation to 
+            resynchronize group membership tables.
+    
+    clientgui/
+        mac/
+            SetupSecurity.cpp
+            SetVersion.C
+    mac_installer/
+        PostInstall.cpp

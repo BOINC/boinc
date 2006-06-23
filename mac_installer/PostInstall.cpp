@@ -35,7 +35,7 @@
 #include "SetupSecurity.h"
 
 void Initialize(void);	/* function prototypes */
-int LaunchBoinc(void);
+int DeleteReceipt(void);
 void SetLoginItem(long brandID);
 void SetUIDBackToUser (void);
 OSErr UpdateAllVisibleUsers(long brandID);
@@ -72,7 +72,7 @@ int main(int argc, char *argv[])
     
     for (i=0; i<argc; i++) {
         if (strcmp(argv[i], "-part2") == 0) {
-            return LaunchBoinc();
+            return DeleteReceipt();
         }
     }
     Initialize();
@@ -256,14 +256,15 @@ int main(int argc, char *argv[])
 }
 
 
-int LaunchBoinc()
+int DeleteReceipt()
 {
     ProcessSerialNumber     installerPSN;
     long                    brandID = 0;
     int                     i;
     pid_t                   installerPID = 0;
-    FSRef                   fileRef;
-    OSStatus                err, err_fsref;
+    OSStatus                err;
+//    FSRef                   fileRef;
+//    OSStatus                err_fsref;
 
     Initialize();
 
@@ -286,14 +287,14 @@ int LaunchBoinc()
     // Remove installer package receipt so we can run installer again if needed to fix permissions
    if (brandID == 1) {
         system ("rm -rf /Library/Receipts/GridRepublic.pkg");
-        err_fsref = FSPathMakeRef((StringPtr)"/Applications/GridRepublic Desktop.app", &fileRef, NULL);
+//        err_fsref = FSPathMakeRef((StringPtr)"/Applications/GridRepublic Desktop.app", &fileRef, NULL);
     } else {
         system ("rm -rf /Library/Receipts/BOINC.pkg");
-        err_fsref = FSPathMakeRef((StringPtr)"/Applications/BOINCManager.app", &fileRef, NULL);
+//        err_fsref = FSPathMakeRef((StringPtr)"/Applications/BOINCManager.app", &fileRef, NULL);
     }
     
-    if (err_fsref == noErr)
-        err = LSOpenFSRef(&fileRef, NULL);
+//    if (err_fsref == noErr)
+//        err = LSOpenFSRef(&fileRef, NULL);
 
     return 0;
 }
