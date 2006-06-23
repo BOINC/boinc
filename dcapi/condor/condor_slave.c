@@ -8,6 +8,7 @@
 #include <sys/stat.h>
 #include <dirent.h>
 #include <unistd.h>
+#include <errno.h>
 
 #include "dc_common.h"
 #include "dc_client.h"
@@ -15,6 +16,7 @@
 
 #include "condor_common.h"
 #include "condor_slave.h"
+#include "condor_utils.h"
 
 
 /* Initializes the client API. */
@@ -48,22 +50,44 @@ int DC_sendResult(const char *logicalFileName,
 		  const char *path,
 		  DC_FileMode fileMode)
 {
+	char *fn;
+	int ret;
+
 	DC_log(LOG_DEBUG, "DC_sendResult(%s,%s,%d)",
 	       logicalFileName,
 	       path,
 	       fileMode);
-	return(DC_ERR_NOTIMPL);
+	fn= malloc(strlen(logicalFileName)+100);
+	strcpy(fn, "client_subresults");
+	strcat(fn, "/real_files");
+	if ((ret= _DC_mkdir_with_parents(fn, S_IRWXU|
+					 S_IRGRP|S_IXGRP|
+					 S_IROTH|S_IXOTH)) != DC_OK)
+	{
+		DC_log(LOG_ERR, "Failed to create dir for subresult (%s): %s",
+		       fn, strerror(errno));
+		free(fn);
+		return(ret);
+	}
+	strcat(fn, "/");
+	strcat(fn, logicalFileName);
+	if ((ret= _DC_copyFile(path, fn)) != DC_OK)
+	{
+		DC_log(LOG_ERR, "Failed to copy subresult file %s to "
+		       "%s: %s", path, fn, strerror(errno));
+		free(fn);
+		return(ret);
+	}
+	ret= _DC_create_message("client_subresults", "logical_name",
+				logicalFileName, NULL);
+	free(fn);
+	return(ret);
 }
 
-
-static int _DC_message_id= 0;
 
 /* Sends a message to the master. */
 int DC_sendMessage(const char *message)
 {
-	char fn[254];
-	FILE *f;
-
 	DC_log(LOG_DEBUG, "DC_sendMessage(%s)", message);
 	return _DC_create_message("client_messages", "message", message, NULL);
 }
