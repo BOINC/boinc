@@ -158,7 +158,7 @@ int CLIENT_STATE::init() {
         core_client_release, platform_name, debug_str
     );
 
-    msg_printf(NULL, MSG_INFO, curl_version());
+    msg_printf(NULL, MSG_INFO, "Libraries: %s", curl_version());
 
     if (executing_as_daemon) {
         msg_printf(NULL, MSG_INFO, "Executing as a daemon");

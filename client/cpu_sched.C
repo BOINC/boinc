@@ -510,7 +510,7 @@ bool CLIENT_STATE::enforce_schedule() {
     must_enforce_cpu_schedule = false;
     bool action = false;
 
-    if (log_flags.task) {
+    if (log_flags.cpu_sched) {
         msg_printf(0, MSG_INFO, "Enforcing schedule");
     }
 

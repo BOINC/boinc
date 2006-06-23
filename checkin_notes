@@ -6773,4 +6773,11 @@ Rom    23 June 2006
         sg_BoincSimpleGUI.cpp, .h
 
 
+David  23 June 2006
+	- core client: fiddle with messages
 
+	client/
+		client_state.C
+		cpu_sched.C
+		cs_scheduler.C
+		gui_rpc_server.C

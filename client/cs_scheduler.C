@@ -1207,13 +1207,17 @@ void CLIENT_STATE::set_work_fetch_mode() {
         }
     }
     if (work_fetch_no_new_work && !should_not_fetch_work) {
-        msg_printf(NULL, MSG_INFO, "Allowing work fetch again.");
+        if (log_flags.work_fetch_debug) {
+            msg_printf(NULL, MSG_INFO, "Allowing work fetch again.");
+        }
     }
 
     if (!work_fetch_no_new_work && should_not_fetch_work) {
-        msg_printf(NULL, MSG_INFO,
-            "Suspending work fetch because computer is overcommitted."
-        );
+        if (log_flags.work_fetch_debug) {
+            msg_printf(NULL, MSG_INFO,
+                "Suspending work fetch because computer is overcommitted."
+            );
+        }
     }
     work_fetch_no_new_work = should_not_fetch_work;
 }
