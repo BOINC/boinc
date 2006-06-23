@@ -16,6 +16,8 @@
 #include "condor_common.h"
 #include "condor_master.h"
 #include "condor_wu.h"
+#include "condor_event.h"
+#include "condor_utils.h"
 
 
 /*****************************************************************************/
@@ -264,86 +266,35 @@ _DC_wu_make_client_config(DC_Workunit *wu)
 DC_MasterEvent *
 _DC_wu_check_client_messages(DC_Workunit *wu)
 {
-	GString *dn;
-	DIR *d;
-	struct dirent *de;
-	int min_id;
+	GString *s;
+	char *message;
 	DC_MasterEvent *e= NULL;
 
 	if (!_DC_wu_check(wu))
 		return(NULL);
 
-	dn= g_string_new(wu->workdir);
-	g_string_append(dn, "/client_messages");
-	d= opendir(dn->str);
-	min_id= -1;
-	while (d &&
-	       (de= readdir(d)) != NULL)
+	s= g_string_new(wu->workdir);
+	g_string_append_printf(s, "/%s", "client_messages");
+	if ((message= _DC_read_message(s->str, "message", 1)))
 	{
-		char *found= strstr(de->d_name, "message.");
-		if (found == de->d_name)
+		e= _DC_event_create(wu, NULL, NULL, message);
+		DC_log(LOG_DEBUG, "Message event created: %p "
+		       "for wu (%p-\"%s\")", e, wu, wu->name);
+		DC_log(LOG_DEBUG, "Message of the event: %s", e->message);
+	}
+	else
+	{
+		g_string_printf(s, "%s/%s", wu->workdir, "client_subresults");
+		if ((message= _DC_read_message(s->str, "logical_name", 1)))
 		{
-			char *pos= strrchr(de->d_name, '.');
-			if (pos)
-			{
-				int id= 0;
-				pos++;
-				id= strtol(pos, NULL, 10);
-				if (id > 0)
-				{
-					if (min_id < 0)
-						min_id= id;
-					else
-						if (id < min_id)
-							min_id= id;
-				}
-			}
+			DC_PhysicalFile *f;
+			g_string_append_printf(s, "/%s", message);
+			f= _DC_createPhysicalFile(message, s->str);
+			e= _DC_event_create(wu, NULL, f, NULL);
 		}
 	}
-	if (d)
-		closedir(d);
-	/*else
-	  DC_log(LOG_DEBUG, "No client message box: %s", dn->str);*/
-	if (min_id >= 0)
-	{
-		FILE *f;
-		g_string_append(dn, "/message.");
-		g_string_append_printf(dn, "%d", min_id);
-		if ((f= fopen(dn->str, "r")) != NULL)
-		{
-			gchar *cont;
-			GError *err;
-			if (g_file_get_contents(dn->str,
-						&cont,
-						NULL,
-						&err))
-			{
-				/*e= g_new0(DC_MasterEvent, 1);*/
-				e= _DC_event_create(wu, NULL, NULL,
-						    cont);
-				DC_log(LOG_DEBUG, "Message event created: %p "
-				       "for wu (%p-\"%s\")", e, wu, wu->name);
-				/*e->type= DC_MASTER_MESSAGE;
-				e->wu= wu;
-				e->message= cont;*/
-				DC_log(LOG_DEBUG, "Message of the event: %s",
-				       e->message);
-			}
-			else
-				DC_log(LOG_ERR, "Failed to read client "
-				       "message from %s",
-				       dn->str);
-			fclose(f);
-			if (e)
-				unlink(dn->str);
-		}
-		else
-			DC_log(LOG_ERR, "Failed to open client message %s",
-			       dn->str);
-	}
-	/*else
-	  DC_log(LOG_DEBUG, "No message found in box %s", dn->str);*/
-	g_string_free(dn, TRUE);
+
+	g_string_free(s, TRUE);
 	return(e);
 }
 
