@@ -12,7 +12,8 @@ extern "C" {
 #include "condor_defs.h"
 
 
-extern DC_Result *_DC_create_result(DC_Workunit *wu);
+extern DC_Result *_DC_result_create(DC_Workunit *wu);
+extern void _DC_result_destroy(DC_Result *result);
 
 
 #ifdef __cplusplus
