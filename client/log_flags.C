@@ -61,8 +61,15 @@ int LOG_FLAGS::parse(FILE* f) {
         else if (!strcmp(tag, "task")) task = get_bool(contents);
         else if (!strcmp(tag, "file_xfer")) file_xfer = get_bool(contents);
         else if (!strcmp(tag, "sched_ops")) sched_ops = get_bool(contents);
-        else if (!strcmp(tag, "state_debug")) state_debug = get_bool(contents);
+
+        else if (!strcmp(tag, "cpu_sched")) cpu_sched = get_bool(contents);
+        else if (!strcmp(tag, "cpu_sched_debug")) cpu_sched_debug = get_bool(contents);
+        else if (!strcmp(tag, "rr_simulation")) rr_simulation = get_bool(contents);
+        else if (!strcmp(tag, "debt_debug")) debt_debug = get_bool(contents);
         else if (!strcmp(tag, "task_debug")) task_debug = get_bool(contents);
+        else if (!strcmp(tag, "work_fetch_debug")) work_fetch_debug = get_bool(contents);
+        else if (!strcmp(tag, "unparsed_xml")) unparsed_xml = get_bool(contents);
+        else if (!strcmp(tag, "state_debug")) state_debug = get_bool(contents);
         else if (!strcmp(tag, "file_xfer_debug")) file_xfer_debug = get_bool(contents);
         else if (!strcmp(tag, "sched_op_debug")) sched_op_debug = get_bool(contents);
         else if (!strcmp(tag, "http_debug")) http_debug = get_bool(contents);
@@ -72,7 +79,6 @@ int LOG_FLAGS::parse(FILE* f) {
         else if (!strcmp(tag, "measurement_debug")) measurement_debug = get_bool(contents);
         else if (!strcmp(tag, "poll_debug")) poll_debug = get_bool(contents);
         else if (!strcmp(tag, "guirpc_debug")) guirpc_debug = get_bool(contents);
-        else if (!strcmp(tag, "cpu_sched_debug")) cpu_sched_debug = get_bool(contents);
         else if (!strcmp(tag, "scrsave_debug")) scrsave_debug = get_bool(contents);
         else {
             msg_printf(NULL, MSG_ERROR, "Unrecognized tag in %s: %s\n",

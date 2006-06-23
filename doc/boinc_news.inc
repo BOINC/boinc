@@ -1,6 +1,12 @@
 <?
 
 $project_news = array(
+array("June 22, 2006",
+    "Pav Lucistnik has developed
+    <a href=http://www.oook.cz/bsd/boinc_curses/>boinc_curses</a>,
+    a Unix console-based program (like 'top')
+    to monitor and control BOINC."
+),
 array("June 21, 2006",
     "BOINCstats and the BAM! account manager
     are now available <a href=http://jp.boincstats.com>in Japanese</a>."

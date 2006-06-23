@@ -880,10 +880,12 @@ bool CLIENT_STATE::rr_simulation(double per_cpu_proc_rate, double rrs) {
     if (log_flags.rr_simulation) {
         for (i=0; i<projects.size(); i++) {
             p = projects[i];
-            msg_printf(NULL, MSG_INFO,
-                "rr_simulation: shortfall for %s is %f\n",
-                p->project_name, p->cpu_shortfall
-            );
+            if (p->cpu_shortfall) {
+                msg_printf(NULL, MSG_INFO,
+                    "rr_simulation: shortfall for %s is %f\n",
+                    p->project_name, p->cpu_shortfall
+                );
+            }
         }
         msg_printf(NULL, MSG_INFO,
             "rr_simulation: end; returning %s; cpu_shortfall %f\n",

@@ -51,12 +51,12 @@ htmlspecialchars("
     [ <locality_scheduling_wait_period> N </locality_scheduling_wait_period> ]
     [ <min_core_client_version> N </min_core_client_version ]
     [ <choose_download_url_by_timezone/> ]
-    [ <cache_md5_info/> ]
     [ <min_core_client_version_announced> N </min_core_client_version_announced> ]
     [ <min_core_client_upgrade_deadline> N </min_core_client_upgrade_deadline> ]
     [ <choose_download_url_by_timezone> N </choose_download_url_by_timezone> ]
-    [ <cache_md5_info> N </cache_md5_info> ]
-    [ <nowork_skip> N </nowork_skip> ]
+    [ <cache_md5_info> 0|1 </cache_md5_info> ]
+    [ <nowork_skip> 0|1 </nowork_skip> ]
+    [ <resend_lost_results> 0|1 </resend_lost_results> ]
     [ <sched_lockfile_dir> path </sched_lockfile_dir> ]
     [ <min_passwd_length> N </min_passwd_length> ]
     [ <fp_benchmark_weight> X </fp_benchmark_weight> ]
@@ -283,6 +283,13 @@ list_item("nowork_skip",
     This reduces DB load, but it fails to update
     preferences when users click on Update.
     Use it if your server DB is overloaded."
+);
+list_item("resend_lost_results",
+    "If set, and a &lt;other_results> list is present
+    in scheduler request,
+    resend any in-progress results not in the list.
+    This is recommended;
+    it should increase the efficiency of your project"
 );
 list_item("min_passwd_length",
     "Minimum length of user passwords.  Default is 6."

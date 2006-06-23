@@ -6670,3 +6670,12 @@ David  22 June 2006
 
     client/
         http_curl.C
+
+David  22 June 2006
+    - core client: parse all log flags (I forgot);
+        print rr_simulation messages only if shortfall is nonzero
+        (from John McLeod)
+        
+    client/
+        cpu_sched.C
+        log_flags.C
