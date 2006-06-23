@@ -87,11 +87,9 @@ public:
     void OnRefreshState( wxTimerEvent& event );
     void OnFrameRender( wxTimerEvent& event );
     void OnListPanelRender( wxTimerEvent& event );
-    void OnDocumentPoll( wxTimerEvent& event );
 
     void OnNotebookSelectionChanged( wxNotebookEvent& event );
 
-    void OnInitialized( CFrameEvent& event );
     void OnRefreshView( CFrameEvent& event );
     void OnConnect( CFrameEvent& event );
     void OnUpdateStatus( CFrameEvent& event );
@@ -109,7 +107,6 @@ public:
     wxTimer*        m_pRefreshStateTimer;
     wxTimer*        m_pFrameRenderTimer;
     wxTimer*        m_pFrameListPanelRenderTimer;
-    wxTimer*        m_pDocumentPollTimer;
 
 private:
 

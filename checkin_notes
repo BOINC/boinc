@@ -6760,3 +6760,17 @@ David  23 June 2006
             hostinfo_win.cpp
     lib/
         hostinfo.h
+
+Rom    23 June 2006
+    - Move document initialization code to the base class so both GUI's can
+        initialize the CC connection at startup.
+    - Enable the inter-component alert system.  Displays dialogs if the GUI
+        is open, otherwise display a ballon in the taskbar.
+        
+    clientgui/
+        BOINCBaseFrame.cpp, .h
+        MainFrame.cpp, .h
+        sg_BoincSimpleGUI.cpp, .h
+
+
+

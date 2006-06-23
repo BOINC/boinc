@@ -51,8 +51,11 @@ public:
 
     ~CBOINCBaseFrame();
 
-    void                OnAlert( CFrameAlertEvent& event );
-    void                OnClose( wxCloseEvent& event );
+    void                OnDocumentPoll( wxTimerEvent& event );
+    void                OnInitialized( CFrameEvent& event );
+
+    virtual void        OnAlert( CFrameAlertEvent& event );
+    virtual void        OnClose( wxCloseEvent& event );
 
     int                 GetReminderFrequency() { return m_iReminderFrequency; }
     wxString            GetDialupConnectionName() { return m_strNetworkDialupConnectionName; }
@@ -77,6 +80,8 @@ public:
 
 protected:
 
+    wxTimer*        m_pDocumentPollTimer;
+
     int             m_iSelectedLanguage;
     int             m_iReminderFrequency;
     int             m_iDisplayExitWarning;
@@ -85,8 +90,8 @@ protected:
 
     wxArrayString   m_aSelectedComputerMRU;
 
-    bool            SaveState();
-    bool            RestoreState();
+    virtual bool    SaveState();
+    virtual bool    RestoreState();
 
     DECLARE_EVENT_TABLE()
 };

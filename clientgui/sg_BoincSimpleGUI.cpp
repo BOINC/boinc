@@ -55,7 +55,10 @@ CSimpleFrame::CSimpleFrame(wxString title, wxIcon* icon) :
     CBOINCBaseFrame((wxFrame *)NULL, ID_SIMPLEFRAME, title, wxDefaultPosition, wxSize(416, 581),
                     wxDEFAULT_FRAME_STYLE | wxNO_FULL_REPAINT_ON_RESIZE)
 {
-	skinPath = _T("skins/default/wcgSkin.xml");
+    // Initialize Application
+    SetIcon(*icon);
+    
+    skinPath = _T("skins/default/wcgSkin.xml");
 	midAppCollapsed = false;
 	btmAppCollapsed = false;
 	// load skin xml and parse it

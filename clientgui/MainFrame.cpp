@@ -166,14 +166,12 @@ BEGIN_EVENT_TABLE (CMainFrame, CBOINCBaseFrame)
     EVT_MENU(ID_HELPBOINC, CMainFrame::OnHelpBOINCWebsite)
     EVT_MENU(wxID_ABOUT, CMainFrame::OnHelpAbout)
     EVT_SHOW(CMainFrame::OnShow)
-    EVT_FRAME_INITIALIZED(CMainFrame::OnInitialized)
     EVT_FRAME_REFRESH(CMainFrame::OnRefreshView)
     EVT_FRAME_CONNECT(CMainFrame::OnConnect)
     EVT_FRAME_UPDATESTATUS(CMainFrame::OnUpdateStatus)
     EVT_TIMER(ID_REFRESHSTATETIMER, CMainFrame::OnRefreshState)
     EVT_TIMER(ID_FRAMERENDERTIMER, CMainFrame::OnFrameRender)
     EVT_TIMER(ID_FRAMELISTRENDERTIMER, CMainFrame::OnListPanelRender)
-    EVT_TIMER(ID_DOCUMENTPOLLTIMER, CMainFrame::OnDocumentPoll)
     EVT_NOTEBOOK_PAGE_CHANGED(ID_FRAMENOTEBOOK, CMainFrame::OnNotebookSelectionChanged)
 END_EVENT_TABLE ()
 
@@ -195,22 +193,14 @@ CMainFrame::CMainFrame(wxString title, wxIcon* icon) :
     m_pStatusbar = NULL;
 
     // Configuration Settings
-    m_iSelectedLanguage = 0;
-    m_iReminderFrequency = 0;
-    m_iDisplayExitWarning = 1;
-
     m_Top = 30;
     m_Left = 30;
     m_Width = 800;
     m_Height = 600;
 
-    m_strNetworkDialupConnectionName = wxEmptyString;
-
 
     // Working Variables
     m_strBaseTitle = title;
-
-    m_aSelectedComputerMRU.Clear();
 
 
     // Initialize Application
@@ -237,25 +227,14 @@ CMainFrame::CMainFrame(wxString title, wxIcon* icon) :
     m_pFrameListPanelRenderTimer = new wxTimer(this, ID_FRAMELISTRENDERTIMER);
     wxASSERT(m_pFrameListPanelRenderTimer);
 
-    m_pDocumentPollTimer = new wxTimer(this, ID_DOCUMENTPOLLTIMER);
-    wxASSERT(m_pDocumentPollTimer);
-
     m_pRefreshStateTimer->Start(300000);             // Send event every 5 minutes
     m_pFrameRenderTimer->Start(1000);                // Send event every 1 second
     m_pFrameListPanelRenderTimer->Start(1000);       // Send event every 1 second
-    m_pDocumentPollTimer->Start(250);                // Send event every 250 milliseconds
 
     // Limit the number of times the UI can update itself to two times a second
     //   NOTE: Linux and Mac were updating several times a second and eating
     //         CPU time
     wxUpdateUIEvent::SetUpdateInterval(500);
-
-    // The second half of the initialization process picks up in the OnFrameRender()
-    //   routine since the menus' and status bars' are drawn in the frameworks
-    //   on idle routines, on idle events are sent in between the end of the
-    //   constructor and the first call to OnFrameRender
-    //
-    // Look for the 'if (!bAlreadyRunOnce) {' statement
 
     wxLogTrace(wxT("Function Start/End"), wxT("CMainFrame::CMainFrame - Function End"));
 }
@@ -267,7 +246,6 @@ CMainFrame::~CMainFrame() {
     wxASSERT(m_pRefreshStateTimer);
     wxASSERT(m_pFrameRenderTimer);
     wxASSERT(m_pFrameListPanelRenderTimer);
-    wxASSERT(m_pDocumentPollTimer);
     wxASSERT(m_pMenubar);
     wxASSERT(m_pNotebook);
     wxASSERT(m_pStatusbar);
@@ -287,11 +265,6 @@ CMainFrame::~CMainFrame() {
     if (m_pFrameListPanelRenderTimer) {
         m_pFrameListPanelRenderTimer->Stop();
         delete m_pFrameListPanelRenderTimer;
-    }
-
-    if (m_pDocumentPollTimer) {
-        m_pDocumentPollTimer->Stop();
-        delete m_pDocumentPollTimer;
     }
 
     if (m_pStatusbar)
@@ -1531,22 +1504,6 @@ void CMainFrame::SetWindowDimensions() {
 }
 
 
-void CMainFrame::OnInitialized(CFrameEvent& WXUNUSED(event)) {
-    wxLogTrace(wxT("Function Start/End"), wxT("CMainFrame::OnInitialized - Function Begin"));
-
-    CMainDocument*     pDoc = wxGetApp().GetDocument();
-
-    wxASSERT(pDoc);
-    wxASSERT(wxDynamicCast(pDoc, CMainDocument));
-
-    if (!pDoc->IsConnected()) {
-        pDoc->Connect(wxT("localhost"), wxEmptyString, TRUE, TRUE);
-    }
-
-    wxLogTrace(wxT("Function Start/End"), wxT("CMainFrame::OnInitialized - Function End"));
-}
-
-
 void CMainFrame::OnRefreshView(CFrameEvent& WXUNUSED(event)) {
     static bool bAlreadyRunningLoop = false;
 
@@ -1600,7 +1557,6 @@ void CMainFrame::OnConnect(CFrameEvent& WXUNUSED(event)) {
     m_pRefreshStateTimer->Stop();
     m_pFrameRenderTimer->Stop();
     m_pFrameListPanelRenderTimer->Stop();
-    m_pDocumentPollTimer->Stop();
 
 
     // If we are connected to the localhost, run a really quick screensaver
@@ -1650,7 +1606,6 @@ void CMainFrame::OnConnect(CFrameEvent& WXUNUSED(event)) {
     m_pRefreshStateTimer->Start();
     m_pFrameRenderTimer->Start();
     m_pFrameListPanelRenderTimer->Start();
-    m_pDocumentPollTimer->Start();
 
     if (pAMWizard)
         pAMWizard->Destroy();
@@ -1693,7 +1648,6 @@ void CMainFrame::OnRefreshState(wxTimerEvent &event) {
 
 void CMainFrame::OnFrameRender(wxTimerEvent &event) {
     static bool       bAlreadyRunningLoop = false;
-    static bool       bAlreadyRunOnce = false;
     static wxString   strCachedStatusText = wxEmptyString;
 
     CMainDocument*    pDoc = wxGetApp().GetDocument();
@@ -1702,13 +1656,6 @@ void CMainFrame::OnFrameRender(wxTimerEvent &event) {
         bAlreadyRunningLoop = true;
 
         wxGetApp().UpdateSystemIdleDetection();
-
-        if (!bAlreadyRunOnce) {
-            // Complete any remaining initialization that has to happen after we are up
-            //   and running
-            FireInitialize();
-            bAlreadyRunOnce = true;
-        }
 
         // Check to see if there is anything that we need to do from the
         //   dial up user perspective.
@@ -1818,16 +1765,6 @@ void CMainFrame::OnFrameRender(wxTimerEvent &event) {
 void CMainFrame::OnListPanelRender(wxTimerEvent&) {
     FireRefreshView();
     SetFrameListPanelRenderTimerRate();   // Set to refresh every 5 or 60 seconds
-}
-
-
-void CMainFrame::OnDocumentPoll(wxTimerEvent& /*event*/) {
-    CMainDocument*     pDoc = wxGetApp().GetDocument();
-
-    wxASSERT(pDoc);
-    wxASSERT(wxDynamicCast(pDoc, CMainDocument));
-
-    pDoc->OnPoll();
 }
 
 

@@ -38,6 +38,8 @@ DEFINE_EVENT_TYPE(wxEVT_FRAME_UPDATESTATUS)
 IMPLEMENT_DYNAMIC_CLASS(CBOINCBaseFrame, wxFrame)
 
 BEGIN_EVENT_TABLE (CBOINCBaseFrame, wxFrame)
+    EVT_TIMER(ID_DOCUMENTPOLLTIMER, CBOINCBaseFrame::OnDocumentPoll)
+    EVT_FRAME_INITIALIZED(CBOINCBaseFrame::OnInitialized)
     EVT_FRAME_ALERT(CBOINCBaseFrame::OnAlert)
     EVT_CLOSE(CBOINCBaseFrame::OnClose)
 END_EVENT_TABLE ()
@@ -54,141 +56,83 @@ CBOINCBaseFrame::CBOINCBaseFrame(wxWindow* parent, const wxWindowID id, const wx
     wxFrame(parent, id, title, pos, size, style) 
 {
     wxLogTrace(wxT("Function Start/End"), wxT("CBOINCBaseFrame::CBOINCBaseFrame - Function Begin"));
+
+    // Configuration Settings
+    m_iSelectedLanguage = 0;
+    m_iReminderFrequency = 0;
+    m_iDisplayExitWarning = 1;
+
+    m_strNetworkDialupConnectionName = wxEmptyString;
+
+    m_aSelectedComputerMRU.Clear();
+
+
+    m_pDocumentPollTimer = new wxTimer(this, ID_DOCUMENTPOLLTIMER);
+    wxASSERT(m_pDocumentPollTimer);
+
+    m_pDocumentPollTimer->Start(250);                // Send event every 250 milliseconds
+
+    // Limit the number of times the UI can update itself to two times a second
+    //   NOTE: Linux and Mac were updating several times a second and eating
+    //         CPU time
+    wxUpdateUIEvent::SetUpdateInterval(500);
+
+    // The second half of the initialization process picks up in the OnFrameRender()
+    //   routine since the menus' and status bars' are drawn in the frameworks
+    //   on idle routines, on idle events are sent in between the end of the
+    //   constructor and the first call to OnFrameRender
+    //
+    // Look for the 'if (!bAlreadyRunOnce) {' statement
+
     wxLogTrace(wxT("Function Start/End"), wxT("CBOINCBaseFrame::CBOINCBaseFrame - Function End"));
 }
 
 
 CBOINCBaseFrame::~CBOINCBaseFrame() {
     wxLogTrace(wxT("Function Start/End"), wxT("CBOINCBaseFrame::~CBOINCBaseFrame - Function Begin"));
+
+    wxASSERT(m_pDocumentPollTimer);
+
+    if (m_pDocumentPollTimer) {
+        m_pDocumentPollTimer->Stop();
+        delete m_pDocumentPollTimer;
+    }
+
     wxLogTrace(wxT("Function Start/End"), wxT("CBOINCBaseFrame::~CBOINCBaseFrame - Function End"));
 }
 
 
-bool CBOINCBaseFrame::SaveState() {
-    wxLogTrace(wxT("Function Start/End"), wxT("CBOINCBaseFrame::SaveState - Function Begin"));
+void CBOINCBaseFrame::OnDocumentPoll(wxTimerEvent& /*event*/) {
+    static bool        bAlreadyRunOnce = false;
+    CMainDocument*     pDoc = wxGetApp().GetDocument();
 
-    wxString        strBaseConfigLocation = wxString(wxT("/"));
-    wxConfigBase*   pConfig = wxConfigBase::Get(FALSE);
-    wxString        strConfigLocation;
-    wxString        strPreviousLocation;
-    wxString        strBuffer;
-    int             iIndex;
-    int             iItemCount;
+    wxASSERT(pDoc);
+    wxASSERT(wxDynamicCast(pDoc, CMainDocument));
 
-
-    wxASSERT(pConfig);
-
-    // An odd case happens every once and awhile where wxWidgets looses
-    //   the pointer to the config object, or it is cleaned up before
-    //   the window has finished it's cleanup duty.  If we detect a NULL
-    //   pointer, return false.
-    if (!pConfig) return false;
-
-    //
-    // Save Frame State
-    //
-    pConfig->SetPath(strBaseConfigLocation);
-
-    pConfig->Write(wxT("Language"), m_iSelectedLanguage);
-    pConfig->Write(wxT("ReminderFrequency"), m_iReminderFrequency);
-    pConfig->Write(wxT("DisplayExitWarning"), m_iDisplayExitWarning);
-
-    pConfig->Write(wxT("NetworkDialupConnectionName"), m_strNetworkDialupConnectionName);
-
-
-    //
-    // Save Computer MRU list
-    //
-    strPreviousLocation = pConfig->GetPath();
-    strConfigLocation = strPreviousLocation + wxT("ComputerMRU");
-
-    pConfig->SetPath(strConfigLocation);
-
-    iItemCount = m_aSelectedComputerMRU.GetCount() - 1;
-    for (iIndex = 0; iIndex <= iItemCount; iIndex++) {
-        strBuffer.Printf(wxT("%d"), iIndex);
-        pConfig->Write(
-            strBuffer,
-            m_aSelectedComputerMRU.Item(iIndex)
-        );
+    if (!bAlreadyRunOnce) {
+        // Complete any remaining initialization that has to happen after we are up
+        //   and running
+        FireInitialize();
+        bAlreadyRunOnce = true;
     }
 
-    pConfig->SetPath(strPreviousLocation);
-
-
-    wxLogTrace(wxT("Function Start/End"), wxT("CBOINCBaseFrame::SaveState - Function End"));
-    return true;
+    pDoc->OnPoll();
 }
 
 
-bool CBOINCBaseFrame::RestoreState() {
-    wxLogTrace(wxT("Function Start/End"), wxT("CBOINCBaseFrame::RestoreState - Function Begin"));
+void CBOINCBaseFrame::OnInitialized(CFrameEvent& WXUNUSED(event)) {
+    wxLogTrace(wxT("Function Start/End"), wxT("CBOINCBaseFrame::OnInitialized - Function Begin"));
 
-    wxString        strBaseConfigLocation = wxString(wxT("/"));
-    wxConfigBase*   pConfig = wxConfigBase::Get(FALSE);
-    wxString        strConfigLocation;
-    wxString        strPreviousLocation;
-    wxString        strBuffer;
-    wxString        strValue;
-    long            iIndex;
-    bool            bKeepEnumerating = false;
+    CMainDocument*     pDoc = wxGetApp().GetDocument();
 
+    wxASSERT(pDoc);
+    wxASSERT(wxDynamicCast(pDoc, CMainDocument));
 
-    wxASSERT(pConfig);
-
-    // An odd case happens every once and awhile where wxWidgets looses
-    //   the pointer to the config object, or it is cleaned up before
-    //   the window has finished it's cleanup duty.  If we detect a NULL
-    //   pointer, return false.
-    if (!pConfig) return false;
-
-    //
-    // Restore Frame State
-    //
-    pConfig->SetPath(strBaseConfigLocation);
-
-    pConfig->Read(wxT("Language"), &m_iSelectedLanguage, 0L);
-    pConfig->Read(wxT("ReminderFrequency"), &m_iReminderFrequency, 60L);
-    pConfig->Read(wxT("DisplayExitWarning"), &m_iDisplayExitWarning, 1L);
-
-    pConfig->Read(wxT("NetworkDialupConnectionName"), &m_strNetworkDialupConnectionName, wxEmptyString);
-
-
-    //
-    // Restore Computer MRU list
-    //
-    strPreviousLocation = pConfig->GetPath();
-    strConfigLocation = strPreviousLocation + wxT("ComputerMRU");
-
-    pConfig->SetPath(strConfigLocation);
-
-    m_aSelectedComputerMRU.Clear();
-    bKeepEnumerating = pConfig->GetFirstEntry(strBuffer, iIndex);
-    while (bKeepEnumerating) {
-        pConfig->Read(strBuffer, &strValue);
-
-        m_aSelectedComputerMRU.Add(strValue);
-        bKeepEnumerating = pConfig->GetNextEntry(strBuffer, iIndex);
+    if (!pDoc->IsConnected()) {
+        pDoc->Connect(wxT("localhost"), wxEmptyString, TRUE, TRUE);
     }
 
-    pConfig->SetPath(strPreviousLocation);
-
-
-    wxLogTrace(wxT("Function Start/End"), wxT("CBOINCBaseFrame::RestoreState - Function End"));
-    return true;
-}
-
-
-void CBOINCBaseFrame::OnClose(wxCloseEvent& event) {
-    wxLogTrace(wxT("Function Start/End"), wxT("CBOINCBaseFrame::OnClose - Function Begin"));
-
-    if (!event.CanVeto()) {
-        Destroy();
-    } else {
-        Hide();
-    }
-
-    wxLogTrace(wxT("Function Start/End"), wxT("CBOINCBaseFrame::OnClose - Function End"));
+    wxLogTrace(wxT("Function Start/End"), wxT("CBOINCBaseFrame::OnInitialized - Function End"));
 }
 
 
@@ -260,6 +204,19 @@ void CBOINCBaseFrame::OnAlert(CFrameAlertEvent& event) {
 #endif
 
     wxLogTrace(wxT("Function Start/End"), wxT("CBOINCBaseFrame::OnAlert - Function End"));
+}
+
+
+void CBOINCBaseFrame::OnClose(wxCloseEvent& event) {
+    wxLogTrace(wxT("Function Start/End"), wxT("CBOINCBaseFrame::OnClose - Function Begin"));
+
+    if (!event.CanVeto()) {
+        Destroy();
+    } else {
+        Hide();
+    }
+
+    wxLogTrace(wxT("Function Start/End"), wxT("CBOINCBaseFrame::OnClose - Function End"));
 }
 
 
@@ -390,6 +347,121 @@ void CBOINCBaseFrame::ShowAlert( const wxString title, const wxString message, c
 
 void CBOINCBaseFrame::ExecuteBrowserLink(const wxString &strLink) {
     wxHyperLink::ExecuteLink(strLink);
+}
+
+
+bool CBOINCBaseFrame::SaveState() {
+    wxLogTrace(wxT("Function Start/End"), wxT("CBOINCBaseFrame::SaveState - Function Begin"));
+
+    wxString        strBaseConfigLocation = wxString(wxT("/"));
+    wxConfigBase*   pConfig = wxConfigBase::Get(FALSE);
+    wxString        strConfigLocation;
+    wxString        strPreviousLocation;
+    wxString        strBuffer;
+    int             iIndex;
+    int             iItemCount;
+
+
+    wxASSERT(pConfig);
+
+    // An odd case happens every once and awhile where wxWidgets looses
+    //   the pointer to the config object, or it is cleaned up before
+    //   the window has finished it's cleanup duty.  If we detect a NULL
+    //   pointer, return false.
+    if (!pConfig) return false;
+
+    //
+    // Save Frame State
+    //
+    pConfig->SetPath(strBaseConfigLocation);
+
+    pConfig->Write(wxT("Language"), m_iSelectedLanguage);
+    pConfig->Write(wxT("ReminderFrequency"), m_iReminderFrequency);
+    pConfig->Write(wxT("DisplayExitWarning"), m_iDisplayExitWarning);
+
+    pConfig->Write(wxT("NetworkDialupConnectionName"), m_strNetworkDialupConnectionName);
+
+
+    //
+    // Save Computer MRU list
+    //
+    strPreviousLocation = pConfig->GetPath();
+    strConfigLocation = strPreviousLocation + wxT("ComputerMRU");
+
+    pConfig->SetPath(strConfigLocation);
+
+    iItemCount = m_aSelectedComputerMRU.GetCount() - 1;
+    for (iIndex = 0; iIndex <= iItemCount; iIndex++) {
+        strBuffer.Printf(wxT("%d"), iIndex);
+        pConfig->Write(
+            strBuffer,
+            m_aSelectedComputerMRU.Item(iIndex)
+        );
+    }
+
+    pConfig->SetPath(strPreviousLocation);
+
+
+    wxLogTrace(wxT("Function Start/End"), wxT("CBOINCBaseFrame::SaveState - Function End"));
+    return true;
+}
+
+
+bool CBOINCBaseFrame::RestoreState() {
+    wxLogTrace(wxT("Function Start/End"), wxT("CBOINCBaseFrame::RestoreState - Function Begin"));
+
+    wxString        strBaseConfigLocation = wxString(wxT("/"));
+    wxConfigBase*   pConfig = wxConfigBase::Get(FALSE);
+    wxString        strConfigLocation;
+    wxString        strPreviousLocation;
+    wxString        strBuffer;
+    wxString        strValue;
+    long            iIndex;
+    bool            bKeepEnumerating = false;
+
+
+    wxASSERT(pConfig);
+
+    // An odd case happens every once and awhile where wxWidgets looses
+    //   the pointer to the config object, or it is cleaned up before
+    //   the window has finished it's cleanup duty.  If we detect a NULL
+    //   pointer, return false.
+    if (!pConfig) return false;
+
+    //
+    // Restore Frame State
+    //
+    pConfig->SetPath(strBaseConfigLocation);
+
+    pConfig->Read(wxT("Language"), &m_iSelectedLanguage, 0L);
+    pConfig->Read(wxT("ReminderFrequency"), &m_iReminderFrequency, 60L);
+    pConfig->Read(wxT("DisplayExitWarning"), &m_iDisplayExitWarning, 1L);
+
+    pConfig->Read(wxT("NetworkDialupConnectionName"), &m_strNetworkDialupConnectionName, wxEmptyString);
+
+
+    //
+    // Restore Computer MRU list
+    //
+    strPreviousLocation = pConfig->GetPath();
+    strConfigLocation = strPreviousLocation + wxT("ComputerMRU");
+
+    pConfig->SetPath(strConfigLocation);
+
+    m_aSelectedComputerMRU.Clear();
+    bKeepEnumerating = pConfig->GetFirstEntry(strBuffer, iIndex);
+    while (bKeepEnumerating) {
+        pConfig->Read(strBuffer, &strValue);
+
+        m_aSelectedComputerMRU.Add(strValue);
+        bKeepEnumerating = pConfig->GetNextEntry(strBuffer, iIndex);
+    }
+
+    pConfig->SetPath(strPreviousLocation);
+
+
+    wxLogTrace(wxT("Function Start/End"), wxT("CBOINCBaseFrame::RestoreState - Function End"));
+    return true;
 }
 
 

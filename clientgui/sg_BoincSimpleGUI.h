@@ -44,6 +44,9 @@ public:
 
    ~CSimpleFrame();
 
+   
+
+
 	// Images
 	wxImage *g_prjIcnWCG;
 	wxImage *g_prjIcnPDRC;
