@@ -96,90 +96,28 @@ int DC_sendMessage(const char *message)
 /* Checks for application control events. */
 DC_ClientEvent *DC_checkClientEvent(void)
 {
-	char *dn;
-	DIR *d;
-	struct dirent *de;
-	int min_id;
+	char *message;
 	DC_ClientEvent *e= NULL;
 
-	dn= strdup("master_messages");
-	d= opendir(dn);
-	min_id= -1;
-	while (d &&
-	       (de= readdir(d)) != NULL)
+	message= _DC_read_message("master_messages", "message.", 1);
+	if (message)
 	{
-		char *found= strstr(de->d_name, "message.");
-		if (found == de->d_name)
+		if ((e= calloc(1, sizeof(DC_ClientEvent))))
 		{
-			char *pos= strrchr(de->d_name, '.');
-			if (pos)
-			{
-				int id= 0;
-				pos++;
-				id= strtol(pos, NULL, 10);
-				if (id > 0)
-				{
-					if (min_id < 0)
-						min_id= id;
-					else
-						if (id < min_id)
-							min_id= id;
-				}
-			}
+			DC_log(LOG_DEBUG, "API event created: %p", e);
+			e->type= DC_CLIENT_MESSAGE;
+			e->message= message;
+			DC_log(LOG_DEBUG, "Message of the event: %s",
+			       e->message);
+		}
+		else
+		{
+			free(message);
+			DC_log(LOG_ERR, "Failed to create "
+			       "API event, memory allocation "
+			       "error");
 		}
 	}
-	if (d)
-		closedir(d);
-	if (min_id >= 0)
-	{
-		FILE *f;
-		dn= realloc(dn, 100);
-		sprintf(dn, "master_messages/message.%d", min_id);
-		DC_log(LOG_DEBUG, "Reading message from %s", dn);
-		if ((f= fopen(dn, "r")) != NULL)
-		{
-			char *cont;
-			int bs= 100, i;
-			char c;
-
-			cont= malloc(bs);
-			i= 0;
-			cont[i]= '\0';
-			while ((c= fgetc(f)) != EOF)
-			{
-				if (i > bs-2)
-				{
-					bs+= 100;
-					cont= realloc(cont, bs);
-				}
-				cont[i]= c;
-				i++;
-				cont[i]= '\0';
-			}
-			if (i > 0)
-			{
-				if ((e= calloc(1, sizeof(DC_ClientEvent))))
-				{
-					DC_log(LOG_DEBUG, "API event created: "
-					       "%p", e);
-					e->type= DC_CLIENT_MESSAGE;
-					e->message= cont;
-					DC_log(LOG_DEBUG, "Message of the "
-					       "event: %s",
-					       e->message);
-				}
-				else
-					DC_log(LOG_ERR, "Failed to create "
-					       "API event, memory allocation "
-					       "error");
-			}
-			fclose(f);
-			if (e)
-				unlink(dn);
-		}
-	}
-	if (dn)
-		free(dn);
 	return(e);
 }
 
