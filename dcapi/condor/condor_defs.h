@@ -56,7 +56,7 @@ struct _DC_Workunit
 	int subresults;
     
 	char *name;
-	uuid_t uuid;
+	/*uuid_t uuid;*/
 	char *uuid_str;
 	DC_WUState state;
     
