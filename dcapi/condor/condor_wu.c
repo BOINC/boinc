@@ -318,12 +318,14 @@ _DC_wu_check_client_messages(DC_Workunit *wu)
 						NULL,
 						&err))
 			{
-				e= g_new0(DC_MasterEvent, 1);
+				/*e= g_new0(DC_MasterEvent, 1);*/
+				e= _DC_event_create(wu, NULL, NULL,
+						    cont);
 				DC_log(LOG_DEBUG, "Message event created: %p "
 				       "for wu (%p-\"%s\")", e, wu, wu->name);
-				e->type= DC_MASTER_MESSAGE;
+				/*e->type= DC_MASTER_MESSAGE;
 				e->wu= wu;
-				e->message= cont;
+				e->message= cont;*/
 				DC_log(LOG_DEBUG, "Message of the event: %s",
 				       e->message);
 			}
@@ -332,7 +334,8 @@ _DC_wu_check_client_messages(DC_Workunit *wu)
 				       "message from %s",
 				       dn->str);
 			fclose(f);
-			unlink(dn->str);
+			if (e)
+				unlink(dn->str);
 		}
 		else
 			DC_log(LOG_ERR, "Failed to open client message %s",

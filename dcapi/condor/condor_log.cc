@@ -16,6 +16,7 @@
 #include "dc_common.h"
 
 #include "condor_defs.h"
+#include "condor_event.h"
 #include "condor_result.h"
 #include "condor_wu.h"
 #include "condor_log.h"
@@ -96,12 +97,14 @@ _DC_wu_condor2api_event(DC_Workunit *wu)
 		if (ce->event == ULOG_JOB_TERMINATED)
 		{
 			DC_MasterEvent *e;
-			e= g_new0(DC_MasterEvent, 1);
+			/*e= g_new0(DC_MasterEvent, 1);*/
+			e= _DC_event_create(wu, _DC_result_create(wu),
+					    NULL, NULL);
 			DC_log(LOG_DEBUG, "Result event created: %p for "
 			       "wu (%p-\"%s\")", e, wu, wu->name);
-			e->type= DC_MASTER_RESULT;
+			/*e->type= DC_MASTER_RESULT;
 			e->wu= wu;
-			e->result= _DC_create_result(wu);
+			e->result= _DC_result_create(wu);*/
 			DC_log(LOG_DEBUG, "Result of the event: %p",
 			       e->result);
 			wu->state= DC_WU_FINISHED;
