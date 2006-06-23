@@ -24,15 +24,17 @@
 #pragma interface "BOINCGUIApp.cpp"
 #endif
 
-#include "LogBOINC.h"
-#include "MainFrame.h"
-
-#include "BOINCTaskBar.h"   // Must be included before MainDocument.h
 #ifdef __WXMAC__
 #include "mac/MacSysMenu.h"     // Must be included before MainDocument.h
 #endif
 
+#include "LogBOINC.h"
+#include "BOINCTaskBar.h"   // Must be included before MainDocument.h
+#include "BOINCBaseFrame.h"
 #include "MainDocument.h"
+
+#define BOINC_ADVANCEDGUI                   1
+#define BOINC_SIMPLEGUI                     2
 
 
 class CBrandingScheme : public wxObject {
@@ -88,78 +90,78 @@ class CBOINCGUIApp : public wxApp {
     DECLARE_DYNAMIC_CLASS(CBOINCGUIApp)
 
 protected:
-    int             OnExit();
+    int                 OnExit();
 
-    void            OnInitCmdLine(wxCmdLineParser &parser);
-    bool            OnCmdLineParsed(wxCmdLineParser &parser);
+    void                OnInitCmdLine(wxCmdLineParser &parser);
+    bool                OnCmdLineParsed(wxCmdLineParser &parser);
 
-    void            DetectDisplayInfo();
+    void                DetectDisplayInfo();
 
-    void            InitSupportedLanguages();
+    void                InitSupportedLanguages();
 
-    bool            IsBOINCCoreRunning();
-    void            StartupBOINCCore();
-    void            ShutdownBOINCCore();
+    bool                IsBOINCCoreRunning();
+    void                StartupBOINCCore();
+    void                ShutdownBOINCCore();
 #ifdef __WXMAC__
-    bool            ProcessExists(pid_t thePID);
+    bool                ProcessExists(pid_t thePID);
 #endif
 
-    int             ClientLibraryStartup();
-    int             ClientLibraryShutdown();
+    int                 ClientLibraryStartup();
+    int                 ClientLibraryShutdown();
 
-    wxConfig*        m_pConfig;
-    wxLocale*        m_pLocale;
-    wxLogBOINC*      m_pLog;
+    wxConfig*           m_pConfig;
+    wxLocale*           m_pLocale;
+    wxLogBOINC*         m_pLog;
 
-    CBrandingScheme* m_pBranding;
-    CMainFrame*      m_pFrame;
-    CMainDocument*   m_pDocument;
-#if defined(__WXMSW__) || defined(__WXMAC__)
-    CTaskBarIcon*    m_pTaskBarIcon;
-#endif
+    CBrandingScheme*    m_pBranding;
+    CBOINCBaseFrame*    m_pFrame;
+    CMainDocument*      m_pDocument;
+    CTaskBarIcon*       m_pTaskBarIcon;
 #ifdef __WXMAC__
-    CMacSystemMenu*  m_pMacSystemMenu;
+    CMacSystemMenu*     m_pMacSystemMenu;
 #endif
 
-    bool             m_bBOINCStartedByManager;
-    bool             m_bFrameVisible;
+    bool                m_bBOINCStartedByManager;
 
-    int              m_lBOINCCoreProcessId;
+    bool                m_bGUIVisible;
+    int                 m_iGUISelected;
+
+    int                 m_lBOINCCoreProcessId;
 
 #ifdef __WXMSW__
-    HANDLE           m_hBOINCCoreProcess;
-    HINSTANCE        m_hClientLibraryDll;
+    HANDLE              m_hBOINCCoreProcess;
+    HINSTANCE           m_hClientLibraryDll;
 #endif
 
     // The last value defined in the wxLanguage enum is wxLANGUAGE_USER_DEFINED.
     // defined in: wx/intl.h
-    wxArrayString   m_astrLanguages;
+    wxArrayString       m_astrLanguages;
 
 public:
 
-    wxString        m_strDefaultWindowStation;
-    wxString        m_strDefaultDesktop;
-    wxString        m_strDefaultDisplay;
+    wxString            m_strDefaultWindowStation;
+    wxString            m_strDefaultDesktop;
+    wxString            m_strDefaultDisplay;
 
-    bool            OnInit();
+    bool                OnInit();
 
-    int             IsNetworkAlive(long* lpdwFlags);
-    int             IsNetworkAlwaysOnline();
-    int             UpdateSystemIdleDetection();
+    int                 IsNetworkAlive(long* lpdwFlags);
+    int                 IsNetworkAlwaysOnline();
+    int                 UpdateSystemIdleDetection();
 
-    int             StartBOINCScreensaverTest();
+    int                 StartBOINCScreensaverTest();
 
-    CBrandingScheme* GetBrand()                  { return m_pBranding; }
-    CMainFrame*     GetFrame()                   { return m_pFrame; }
-    CMainDocument*  GetDocument()                { return m_pDocument; }
-#if defined(__WXMSW__) || defined(__WXMAC__)
-    CTaskBarIcon*   GetTaskBarIcon()             { return m_pTaskBarIcon; }
-#endif
+    CBrandingScheme*    GetBrand()                  { return m_pBranding; }
+    CBOINCBaseFrame*    GetFrame()                  { return m_pFrame; }
+    CMainDocument*      GetDocument()               { return m_pDocument; }
+    CTaskBarIcon*       GetTaskBarIcon()            { return m_pTaskBarIcon; }
 #ifdef __WXMAC__
-    CMacSystemMenu* GetMacSystemMenu()           { return m_pMacSystemMenu; }
+    CMacSystemMenu*     GetMacSystemMenu()          { return m_pMacSystemMenu; }
 #endif
 
-    wxArrayString&  GetSupportedLanguages()      { return m_astrLanguages; }
+    wxArrayString&      GetSupportedLanguages()     { return m_astrLanguages; }
+
+    bool                SetActiveGUI(int iGUISelection, bool bShowWindow = true);
 };
 
 

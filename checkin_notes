@@ -6692,3 +6692,29 @@ Charlie 22 June 2006
             SetVersion.C
     mac_installer/
         PostInstall.cpp
+
+Rom    23 June 2006
+    - Hooked up the simple GUI into the overall manager infrastructure.
+    
+        NOTE: The manager now has dependancies on libpng and zlib to handle
+          skin graphics.
+        
+        NOTE: This hasn't been tested on any platform other than Windows.
+      
+    clientgui/
+        BOINCBaseFrame.cpp, .h (Added)
+        BOINCDialupManager.cpp
+        BOINCGUIApp.cpp, .h
+        BOINCTaskBar.cpp
+        Events.h
+        MainDocument.cpp
+        MainFrame.cpp, .h
+        sg_BoincSimpleGUI.cpp, .h
+        sg_DlgPreferences.cpp, .h
+        sg_ImageLoader.cpp
+        sg_SkinClass.cpp, .h
+        sg_StatImageLoader.cpp, .h
+        stdwx.h
+    win_build/
+        boincmgr_curl.vcproj
+

@@ -95,7 +95,21 @@
 #include <wx/cshelp.h>
 #include <wx/sizer.h>
 #include <wx/wizard.h>
-
+#include <wx/tooltip.h>
+#include <wx/tipwin.h>
+#include <wx/dc.h>
+#include <wx/dcmemory.h>
+#include <wx/dcclient.h>
+#include <wx/dcbuffer.h>
+#include <wx/string.h>
+#include <wx/gdicmn.h>
+#include <wx/list.h>
+#include <wx/timer.h>
+#include <wx/colour.h>
+#include <wx/control.h>
+#include <wx/wfstream.h>
+#include <wx/gifdecod.h>
+#include <wx/xml/xml.h>
 
 #ifdef _WIN32
 

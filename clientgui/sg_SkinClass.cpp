@@ -1,3 +1,5 @@
+#include "stdwx.h"
+
 #include "sg_SkinClass.h" 
 
 

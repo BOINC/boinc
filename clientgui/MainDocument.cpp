@@ -27,6 +27,7 @@
 
 #include "stdwx.h"
 #include "BOINCGUIApp.h"
+#include "BOINCBaseFrame.h"
 #include "MainDocument.h"
 #include "error_numbers.h"
 
@@ -191,9 +192,9 @@ int CNetworkConnection::SetComputer(const wxChar* szComputer, const wxChar* szPa
 
 
 void CNetworkConnection::SetStateErrorAuthentication() {
-    CMainFrame* pFrame = wxGetApp().GetFrame();
+    CBOINCBaseFrame* pFrame = wxGetApp().GetFrame();
     if (pFrame && !m_bFrameShutdownDetected) {
-        wxASSERT(wxDynamicCast(pFrame, CMainFrame));
+        wxASSERT(wxDynamicCast(pFrame, CBOINCBaseFrame));
         m_bConnected = false;
         m_bReconnecting = false;
         m_bReconnectOnError = false;
@@ -206,9 +207,9 @@ void CNetworkConnection::SetStateErrorAuthentication() {
 
 
 void CNetworkConnection::SetStateError() {
-    CMainFrame* pFrame = wxGetApp().GetFrame();
+    CBOINCBaseFrame* pFrame = wxGetApp().GetFrame();
     if (pFrame && !m_bFrameShutdownDetected) {
-        wxASSERT(wxDynamicCast(pFrame, CMainFrame));
+        wxASSERT(wxDynamicCast(pFrame, CBOINCBaseFrame));
         m_bConnected = false;
         m_bReconnecting = false;
         m_bReconnectOnError = false;
@@ -221,9 +222,9 @@ void CNetworkConnection::SetStateError() {
 
 
 void CNetworkConnection::SetStateReconnecting() {
-    CMainFrame* pFrame = wxGetApp().GetFrame();
+    CBOINCBaseFrame* pFrame = wxGetApp().GetFrame();
     if (pFrame && !m_bFrameShutdownDetected) {
-        wxASSERT(wxDynamicCast(pFrame, CMainFrame));
+        wxASSERT(wxDynamicCast(pFrame, CBOINCBaseFrame));
         m_bConnected = false;
         m_bReconnectOnError = false;
         m_bForceReconnect = false;
@@ -233,9 +234,9 @@ void CNetworkConnection::SetStateReconnecting() {
 
 
 void CNetworkConnection::SetStateSuccess(wxString& strComputer, wxString& strComputerPassword) {
-    CMainFrame* pFrame = wxGetApp().GetFrame();
+    CBOINCBaseFrame* pFrame = wxGetApp().GetFrame();
     if (pFrame && !m_bFrameShutdownDetected) {
-        wxASSERT(wxDynamicCast(pFrame, CMainFrame));
+        wxASSERT(wxDynamicCast(pFrame, CBOINCBaseFrame));
         m_bConnected = true;
         m_bReconnecting = false;
         m_bReconnectOnError = true;
@@ -252,9 +253,9 @@ void CNetworkConnection::SetStateSuccess(wxString& strComputer, wxString& strCom
 
 
 void CNetworkConnection::SetStateDisconnected() {
-    CMainFrame* pFrame = wxGetApp().GetFrame();
+    CBOINCBaseFrame* pFrame = wxGetApp().GetFrame();
     if (pFrame && !m_bFrameShutdownDetected) {
-        wxASSERT(wxDynamicCast(pFrame, CMainFrame));
+        wxASSERT(wxDynamicCast(pFrame, CBOINCBaseFrame));
         m_bConnected = false;
         m_bReconnecting = false;
     }
@@ -323,12 +324,12 @@ CMainDocument::~CMainDocument() {
 
 
 int CMainDocument::CachedStateUpdate() {
-    CMainFrame* pFrame = wxGetApp().GetFrame();
+    CBOINCBaseFrame* pFrame = wxGetApp().GetFrame();
     int     retval = 0;
 
     wxTimeSpan ts(m_dtCachedStateLockTimestamp - m_dtCachedStateTimestamp);
     if (!m_bCachedStateLocked && IsConnected() && (ts.GetSeconds() > 3600)) {
-        wxASSERT(wxDynamicCast(pFrame, CMainFrame));
+        wxASSERT(wxDynamicCast(pFrame, CBOINCBaseFrame));
         pFrame->UpdateStatusText(_("Retrieving system state; please wait..."));
 
         m_dtCachedStateTimestamp = m_dtCachedStateLockTimestamp;

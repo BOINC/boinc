@@ -1,7 +1,6 @@
 #ifndef _STATIMAGELOADER_H_
 #define _STATIMAGELOADER_H_ 
 
-#include "wx/menu.h"
 #include "sg_SkinClass.h"
 
 class StatImageLoader : public wxWindow 

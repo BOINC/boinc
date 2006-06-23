@@ -21,7 +21,7 @@
 #ifndef _EVENTS_H_
 #define _EVENTS_H_
 
-#define ID_FRAME                                6000
+#define ID_ADVANCEDFRAME                        6000
 #define ID_STATUSBAR                            6001
 #define ID_FRAMENOTEBOOK                        6002
 #define ID_REFRESHSTATETIMER                    6003
@@ -46,6 +46,8 @@
 #define ID_TOOLSAMUPDATENOW                     6029
 #define ID_ADVANCEDAMDEFECT                     6030
 #define ID_OPENWEBSITE                          6031
+#define ID_FILESWITCHGUI                        6032
+#define ID_SIMPLEFRAME                          6100
 #define ID_TB_TIMER                             6800
 #define ID_TB_SUSPEND                           6801
 #define ID_LIST_BASE                            7000

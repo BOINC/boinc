@@ -23,9 +23,10 @@
 
 #include "stdwx.h"
 #include "network.h"
-#include "BOINCGUIApp.h"
 #include "diagnostics.h"
 #include "error_numbers.h"
+#include "BOINCGUIApp.h"
+#include "BOINCBaseFrame.h"
 #include "BOINCDialupManager.h"
 #include "DlgOptions.h"
 #include "DlgDialupCredentials.h"
@@ -87,7 +88,7 @@ size_t CBOINCDialUpManager::GetISPNames(wxArrayString& names) {
 
 void CBOINCDialUpManager::poll() {
     CMainDocument*      pDoc = wxGetApp().GetDocument();
-    CMainFrame*         pFrame = wxGetApp().GetFrame();
+    CBOINCBaseFrame*    pFrame = wxGetApp().GetFrame();
 
     bool                bIsOnline = false;
     bool                bWantConnection = false;
@@ -99,7 +100,7 @@ void CBOINCDialUpManager::poll() {
     // We are ready to rock and roll.
     if (pDoc) {
         wxASSERT(wxDynamicCast(pDoc, CMainDocument));
-        wxASSERT(wxDynamicCast(pFrame, CMainFrame));
+        wxASSERT(wxDynamicCast(pFrame, CBOINCBaseFrame));
 
 
         // cache the various states
@@ -278,12 +279,12 @@ void CBOINCDialUpManager::poll() {
 
 
 int CBOINCDialUpManager::NotifyUserNeedConnection() {
-    CMainFrame*         pFrame = wxGetApp().GetFrame();
+    CBOINCBaseFrame*    pFrame = wxGetApp().GetFrame();
     wxTimeSpan          tsLastDialupAlertSent;
     wxString            strDialogMessage = wxEmptyString;
 
     wxASSERT(pFrame);
-    wxASSERT(wxDynamicCast(pFrame, CMainFrame));
+    wxASSERT(wxDynamicCast(pFrame, CBOINCBaseFrame));
 
     tsLastDialupAlertSent = wxDateTime::Now() - m_dtLastDialupAlertSent;
     if (tsLastDialupAlertSent.GetSeconds() >= (pFrame->GetReminderFrequency() * 60)) {
@@ -315,7 +316,7 @@ int CBOINCDialUpManager::NotifyUserNeedConnection() {
 
 int CBOINCDialUpManager::Connect() {
     CMainDocument*      pDoc = wxGetApp().GetDocument();
-    CMainFrame*         pFrame = wxGetApp().GetFrame();
+    CBOINCBaseFrame*    pFrame = wxGetApp().GetFrame();
     wxTimeSpan          tsLastDialupRequest;
     int                 iAnswer;
     wxString            strDialogMessage = wxEmptyString;
@@ -323,7 +324,7 @@ int CBOINCDialUpManager::Connect() {
     wxASSERT(pDoc);
     wxASSERT(pFrame);
     wxASSERT(wxDynamicCast(pDoc, CMainDocument));
-    wxASSERT(wxDynamicCast(pFrame, CMainFrame));
+    wxASSERT(wxDynamicCast(pFrame, CBOINCBaseFrame));
 
     tsLastDialupRequest = wxDateTime::Now() - m_dtLastDialupRequest;
     if (tsLastDialupRequest.GetSeconds() >= (pFrame->GetReminderFrequency() * 60)) {
@@ -401,11 +402,11 @@ int CBOINCDialUpManager::Connect() {
 
 
 int CBOINCDialUpManager::ConnectionSucceeded() {
-    CMainFrame*         pFrame = wxGetApp().GetFrame();
+    CBOINCBaseFrame*    pFrame = wxGetApp().GetFrame();
     wxString            strDialogMessage = wxEmptyString;
 
     wxASSERT(pFrame);
-    wxASSERT(wxDynamicCast(pFrame, CMainFrame));
+    wxASSERT(wxDynamicCast(pFrame, CBOINCBaseFrame));
 
     // %s is the project name
     //    i.e. 'BOINC', 'GridRepublic'
@@ -426,11 +427,11 @@ int CBOINCDialUpManager::ConnectionSucceeded() {
 
 
 int CBOINCDialUpManager::ConnectionFailed() {
-    CMainFrame*         pFrame = wxGetApp().GetFrame();
+    CBOINCBaseFrame*    pFrame = wxGetApp().GetFrame();
     wxString            strDialogMessage = wxEmptyString;
 
     wxASSERT(pFrame);
-    wxASSERT(wxDynamicCast(pFrame, CMainFrame));
+    wxASSERT(wxDynamicCast(pFrame, CBOINCBaseFrame));
 
     // %s is the project name
     //    i.e. 'BOINC', 'GridRepublic'
@@ -452,13 +453,13 @@ int CBOINCDialUpManager::ConnectionFailed() {
 
 int CBOINCDialUpManager::NetworkAvailable() {
     CMainDocument*      pDoc = wxGetApp().GetDocument();
-    CMainFrame*         pFrame = wxGetApp().GetFrame();
+    CBOINCBaseFrame*    pFrame = wxGetApp().GetFrame();
     wxString            strDialogMessage = wxEmptyString;
 
     wxASSERT(pDoc);
     wxASSERT(wxDynamicCast(pDoc, CMainDocument));
     wxASSERT(pFrame);
-    wxASSERT(wxDynamicCast(pFrame, CMainFrame));
+    wxASSERT(wxDynamicCast(pFrame, CBOINCBaseFrame));
 
     wxLogTrace(wxT("Function Status"), wxT("CBOINCDialUpManager::NetworkAvailable - Connection Detected, notifing user of update to all projects"));
 
@@ -492,13 +493,13 @@ int CBOINCDialUpManager::NetworkAvailable() {
 
 int CBOINCDialUpManager::Disconnect() {
     CMainDocument*      pDoc = wxGetApp().GetDocument();
-    CMainFrame*         pFrame = wxGetApp().GetFrame();
+    CBOINCBaseFrame*    pFrame = wxGetApp().GetFrame();
     wxString            strDialogMessage = wxEmptyString;
 
     wxASSERT(pDoc);
     wxASSERT(wxDynamicCast(pDoc, CMainDocument));
     wxASSERT(pFrame);
-    wxASSERT(wxDynamicCast(pFrame, CMainFrame));
+    wxASSERT(wxDynamicCast(pFrame, CBOINCBaseFrame));
 
 
     wxLogTrace(wxT("Function Status"), wxT("CBOINCDialUpManager::Disconnect - Connection Detected, disconnect requested via the CC."));

@@ -24,6 +24,7 @@
 #include "stdwx.h"
 #include "BOINCGUIApp.h"
 #include "MainDocument.h"
+#include "MainFrame.h"
 #include "BOINCTaskCtrl.h"
 #include "BOINCListCtrl.h"
 #include "ViewStatistics.h"
@@ -728,7 +729,7 @@ const char** CViewStatistics::GetViewIcon() {
 void CViewStatistics::OnStatisticsUserTotal( wxCommandEvent& WXUNUSED(event) ) {
     wxLogTrace(wxT("Function Start/End"), wxT("CViewStatistics::OnStatisticsUserTotal - Function Begin"));
 
-    CMainFrame* pFrame      = wxGetApp().GetFrame();
+    CMainFrame* pFrame      = wxDynamicCast(GetParent()->GetParent()->GetParent(), CMainFrame);
 
     wxASSERT(pFrame);
     wxASSERT(wxDynamicCast(pFrame, CMainFrame));
@@ -747,7 +748,7 @@ void CViewStatistics::OnStatisticsUserTotal( wxCommandEvent& WXUNUSED(event) ) {
 void CViewStatistics::OnStatisticsUserAverage( wxCommandEvent& WXUNUSED(event) ) {
     wxLogTrace(wxT("Function Start/End"), wxT("CViewStatistics::OnStatisticsUserAverage - Function Begin"));
 
-    CMainFrame* pFrame      = wxGetApp().GetFrame();
+    CMainFrame* pFrame      = wxDynamicCast(GetParent()->GetParent()->GetParent(), CMainFrame);
 
     wxASSERT(pFrame);
     wxASSERT(wxDynamicCast(pFrame, CMainFrame));
@@ -766,7 +767,7 @@ void CViewStatistics::OnStatisticsUserAverage( wxCommandEvent& WXUNUSED(event) )
 void CViewStatistics::OnStatisticsHostTotal( wxCommandEvent& WXUNUSED(event) ) {
     wxLogTrace(wxT("Function Start/End"), wxT("CViewStatistics::OnStatisticsHostTotal - Function Begin"));
 
-    CMainFrame* pFrame      = wxGetApp().GetFrame();
+    CMainFrame* pFrame      = wxDynamicCast(GetParent()->GetParent()->GetParent(), CMainFrame);
 
     wxASSERT(pFrame);
     wxASSERT(wxDynamicCast(pFrame, CMainFrame));
@@ -786,7 +787,7 @@ void CViewStatistics::OnStatisticsHostTotal( wxCommandEvent& WXUNUSED(event) ) {
 void CViewStatistics::OnStatisticsHostAverage( wxCommandEvent& WXUNUSED(event) ) {
     wxLogTrace(wxT("Function Start/End"), wxT("CViewStatistics::OnStatisticsHostAverage - Function Begin"));
 
-    CMainFrame* pFrame      = wxGetApp().GetFrame();
+    CMainFrame* pFrame      = wxDynamicCast(GetParent()->GetParent()->GetParent(), CMainFrame);
 
     wxASSERT(pFrame);
     wxASSERT(wxDynamicCast(pFrame, CMainFrame));
@@ -805,7 +806,7 @@ void CViewStatistics::OnStatisticsHostAverage( wxCommandEvent& WXUNUSED(event) )
 void CViewStatistics::OnStatisticsModeView0( wxCommandEvent& WXUNUSED(event) ) {
     wxLogTrace(wxT("Function Start/End"), wxT("CViewStatistics::OnStatisticsModeView - Function Begin"));
 
-    CMainFrame* pFrame      = wxGetApp().GetFrame();
+    CMainFrame* pFrame      = wxDynamicCast(GetParent()->GetParent()->GetParent(), CMainFrame);
 
     wxASSERT(pFrame);
     wxASSERT(wxDynamicCast(pFrame, CMainFrame));
@@ -825,7 +826,7 @@ void CViewStatistics::OnStatisticsModeView0( wxCommandEvent& WXUNUSED(event) ) {
 void CViewStatistics::OnStatisticsModeView1( wxCommandEvent& WXUNUSED(event) ) {
     wxLogTrace(wxT("Function Start/End"), wxT("CViewStatistics::OnStatisticsModeView - Function Begin"));
 
-    CMainFrame* pFrame      = wxGetApp().GetFrame();
+    CMainFrame* pFrame      = wxDynamicCast(GetParent()->GetParent()->GetParent(), CMainFrame);
 
     wxASSERT(pFrame);
     wxASSERT(wxDynamicCast(pFrame, CMainFrame));
@@ -845,7 +846,7 @@ void CViewStatistics::OnStatisticsModeView1( wxCommandEvent& WXUNUSED(event) ) {
 void CViewStatistics::OnStatisticsModeView2( wxCommandEvent& WXUNUSED(event) ) {
     wxLogTrace(wxT("Function Start/End"), wxT("CViewStatistics::OnStatisticsModeView - Function Begin"));
 
-    CMainFrame* pFrame      = wxGetApp().GetFrame();
+    CMainFrame* pFrame      = wxDynamicCast(GetParent()->GetParent()->GetParent(), CMainFrame);
 
     wxASSERT(pFrame);
     wxASSERT(wxDynamicCast(pFrame, CMainFrame));
@@ -865,7 +866,7 @@ void CViewStatistics::OnStatisticsModeView2( wxCommandEvent& WXUNUSED(event) ) {
 void CViewStatistics::OnStatisticsNextProject( wxCommandEvent& WXUNUSED(event) ) {
     wxLogTrace(wxT("Function Start/End"), wxT("CViewStatistics::OnStatisticsNextProject - Function Begin"));
 
-    CMainFrame* pFrame      = wxGetApp().GetFrame();
+    CMainFrame* pFrame      = wxDynamicCast(GetParent()->GetParent()->GetParent(), CMainFrame);
 
     wxASSERT(pFrame);
     wxASSERT(wxDynamicCast(pFrame, CMainFrame));
@@ -883,7 +884,7 @@ void CViewStatistics::OnStatisticsNextProject( wxCommandEvent& WXUNUSED(event) )
 void CViewStatistics::OnStatisticsPrevProject( wxCommandEvent& WXUNUSED(event) ) {
     wxLogTrace(wxT("Function Start/End"), wxT("CViewStatistics::OnStatisticsPrevProject - Function Begin"));
 
-    CMainFrame* pFrame      = wxGetApp().GetFrame();
+    CMainFrame* pFrame      = wxDynamicCast(GetParent()->GetParent()->GetParent(), CMainFrame);
 
     wxASSERT(pFrame);
     wxASSERT(wxDynamicCast(pFrame, CMainFrame));

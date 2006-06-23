@@ -31,12 +31,17 @@
 #endif
 
 #include "stdwx.h"
-#include "BOINCGUIApp.h"
 #include "diagnostics.h"
 #include "network.h"
-#include "MainFrame.h"
 #include "Events.h"
-#include "MainDocument.h"
+#include "BOINCGUIApp.h"
+#include "MainFrame.h"
+
+#include "common/wxAnimate.h"
+#include "common/wxFlatNotebook.h"
+#include "sg_ImageLoader.h"
+#include "sg_StatImageLoader.h"
+#include "sg_BoincSimpleGUI.h"
 
 
 ////@begin XPM images
@@ -253,7 +258,9 @@ bool CBOINCGUIApp::OnInit() {
 
     // Setup variables with default values
     m_bBOINCStartedByManager = false;
-    m_bFrameVisible = true;
+    m_pFrame = NULL;
+    m_bGUIVisible = true;
+    m_iGUISelected = BOINC_SIMPLEGUI;
     m_lBOINCCoreProcessId = 0;
 #ifdef __WXMSW__
     m_hBOINCCoreProcess = NULL;
@@ -390,6 +397,7 @@ bool CBOINCGUIApp::OnInit() {
 
     // Enable known image types
     wxImage::AddHandler(new wxXPMHandler);
+	wxImage::AddHandler(new wxPNGHandler);
 
     // Initialize the internationalization module
     m_pLocale = new wxLocale();
@@ -419,21 +427,15 @@ bool CBOINCGUIApp::OnInit() {
 
     m_pDocument->OnInit();
 
-    // Initialize the main gui window
-    m_pFrame = new CMainFrame(
-        m_pBranding->GetApplicationName(), 
-        m_pBranding->GetApplicationIcon()
-    );
-    wxASSERT(m_pFrame);
+    // Which GUI should be displayed?
+    m_iGUISelected = m_pConfig->Read(wxT("GUISelection"), BOINC_SIMPLEGUI);
 
     // Initialize the task bar icon
-#if defined(__WXMSW__) || defined(__WXMAC__)
     m_pTaskBarIcon = new CTaskBarIcon(
         m_pBranding->GetApplicationName(), 
         m_pBranding->GetApplicationIcon()
     );
     wxASSERT(m_pTaskBarIcon);
-#endif
 #ifdef __WXMAC__
     m_pMacSystemMenu = new CMacSystemMenu(
         m_pBranding->GetApplicationName(), 
@@ -477,9 +479,9 @@ bool CBOINCGUIApp::OnInit() {
 #endif
 
     // Show the UI
-    SetTopWindow(m_pFrame);
-    if (m_bFrameVisible) {
-        m_pFrame->Show();
+    SetActiveGUI(m_iGUISelected, false);
+    if (m_bGUIVisible) {
+        SetActiveGUI(m_iGUISelected);
     } else {
 #ifdef __WXMAC__
         GetCurrentProcess(&psn);
@@ -498,11 +500,9 @@ int CBOINCGUIApp::OnExit() {
     // Shutdown the System Idle Detection code
     ClientLibraryShutdown();
 
-#if defined(__WXMSW__) || defined(__WXMAC__)
     if (m_pTaskBarIcon) {
         delete m_pTaskBarIcon;
     }
-#endif
 #ifdef __WXMAC__
     if (m_pMacSystemMenu) {
         delete m_pMacSystemMenu;
@@ -540,7 +540,7 @@ bool CBOINCGUIApp::OnCmdLineParsed(wxCmdLineParser &parser) {
     // Give default processing (-?, --help and --verbose) the chance to do something.
     wxApp::OnCmdLineParsed(parser);
     if (parser.Found(wxT("systray"))) {
-        m_bFrameVisible = false;
+        m_bGUIVisible = false;
     }
     return true;
 }
@@ -1012,6 +1012,51 @@ int CBOINCGUIApp::StartBOINCScreensaverTest() {
     ::wxExecute(strExecute);
 #endif
     return 0;
+}
+
+
+bool CBOINCGUIApp::SetActiveGUI(int iGUISelection, bool bShowWindow) {
+    CBOINCBaseFrame* pNewFrame = NULL;
+
+    // Create the new window
+    if ((iGUISelection != m_iGUISelected) || !pNewFrame) {
+        switch(iGUISelection) {
+            case BOINC_SIMPLEGUI:
+                // Initialize the simple gui window
+                pNewFrame = new CSimpleFrame(
+                    m_pBranding->GetApplicationName(), 
+                    m_pBranding->GetApplicationIcon()
+                );
+                wxASSERT(pNewFrame);
+                break;
+            case BOINC_ADVANCEDGUI:
+            default:
+                // Initialize the advanced gui window
+                pNewFrame = new CMainFrame(
+                    m_pBranding->GetApplicationName(), 
+                    m_pBranding->GetApplicationIcon()
+                );
+                wxASSERT(pNewFrame);
+                break;
+        }
+        if (pNewFrame) {
+            SetTopWindow(pNewFrame);
+
+            // Delete the old one if it exists
+            if (m_pFrame) m_pFrame->Destroy();
+
+            // Store the new frame for future use
+            m_pFrame = pNewFrame;
+        }
+    }
+
+    // Show the new frame if needed 
+    if (m_pFrame && bShowWindow) m_pFrame->Show();
+
+    m_iGUISelected = iGUISelection;
+    m_pConfig->Write(wxT("GUISelection"), iGUISelection);
+
+    return true;
 }
 
 

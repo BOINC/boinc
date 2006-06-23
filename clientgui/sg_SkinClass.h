@@ -1,17 +1,6 @@
 #ifndef _SKIN_CLASS
 #define _SKIN_CLASS
 
-
-#include <wx/wxprec.h>
-#ifdef __BORLANDC__
-    #pragma hdrstop
-#endif
-
-#ifndef WX_PRECOMP
-    #include <wx/wx.h>
-#endif
- 
-
 class SkinClass
 { 
 public: 

@@ -24,6 +24,7 @@
 #include "stdwx.h"
 #include "BOINCGUIApp.h"
 #include "BOINCTaskBar.h"
+#include "BOINCBaseFrame.h"
 #include "DlgAbout.h"
 #include "Events.h"
 
@@ -99,9 +100,9 @@ void CTaskBarIcon::OnClose(wxCloseEvent& event) {
 
     ResetTaskBar();
 
-    CMainFrame* pFrame = wxGetApp().GetFrame();
+    CBOINCBaseFrame* pFrame = wxGetApp().GetFrame();
     if (pFrame) {
-        wxASSERT(wxDynamicCast(pFrame, CMainFrame));
+        wxASSERT(wxDynamicCast(pFrame, CBOINCBaseFrame));
         pFrame->Close(true);
     }
 
@@ -141,9 +142,9 @@ void CTaskBarIcon::OnLButtonDClick(wxTaskBarIconEvent& event) {
 void CTaskBarIcon::OnOpen(wxCommandEvent& WXUNUSED(event)) {
     ResetTaskBar();
 
-    CMainFrame* pFrame = wxGetApp().GetFrame();
+    CBOINCBaseFrame* pFrame = wxGetApp().GetFrame();
     wxASSERT(pFrame);
-    wxASSERT(wxDynamicCast(pFrame, CMainFrame));
+    wxASSERT(wxDynamicCast(pFrame, CBOINCBaseFrame));
 
     if (pFrame) {
         pFrame->Show();
@@ -167,14 +168,14 @@ void CTaskBarIcon::OnOpenWebsite(wxCommandEvent& WXUNUSED(event)) {
     ResetTaskBar();
 
     CMainDocument*     pDoc = wxGetApp().GetDocument();
-    CMainFrame*        pFrame = wxGetApp().GetFrame();
+    CBOINCBaseFrame*   pFrame = wxGetApp().GetFrame();
     ACCT_MGR_INFO      ami;
     wxString           url;
 
     wxASSERT(pDoc);
     wxASSERT(wxDynamicCast(pDoc, CMainDocument));
     wxASSERT(pFrame);
-    wxASSERT(wxDynamicCast(pFrame, CMainFrame));
+    wxASSERT(wxDynamicCast(pFrame, CBOINCBaseFrame));
 
     pDoc->rpc.acct_mgr_info(ami);
 

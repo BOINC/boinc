@@ -48,15 +48,8 @@ private:
 
 class CBOINCDialUpManager;
 
-class CMainFrameEvent;
-class CMainFrameAlertEvent;
 
-enum MainFrameAlertEventType {
-    AlertNormal = 0,
-    AlertProcessResponse
-};
-
-class CMainFrame : public wxFrame
+class CMainFrame : public CBOINCBaseFrame
 {
     DECLARE_DYNAMIC_CLASS(CMainFrame)
 
@@ -70,6 +63,7 @@ public:
     void OnNetworkSelection( wxCommandEvent& event );
     void OnRunBenchmarks( wxCommandEvent& event );
     void OnSelectComputer( wxCommandEvent& event );
+    void OnSwitchGUI( wxCommandEvent& event );
     void OnExit( wxCommandEvent& event );
 
     void OnCommandsRetryCommunications( wxCommandEvent& event );
@@ -86,7 +80,6 @@ public:
     void OnHelpBOINCWebsite( wxCommandEvent& event );
     void OnHelpAbout( wxCommandEvent& event );
 
-    void OnClose( wxCloseEvent& event );
     void OnShow( wxShowEvent& event );
     void SetWindowDimensions();
     void GetWindowDimensions();
@@ -98,38 +91,16 @@ public:
 
     void OnNotebookSelectionChanged( wxNotebookEvent& event );
 
-    void OnAlert( CMainFrameAlertEvent& event );
-    void OnInitialized( CMainFrameEvent& event );
-    void OnRefreshView( CMainFrameEvent& event );
-    void OnConnect( CMainFrameEvent& event );
-
-    void ExecuteBrowserLink( const wxString& strLink );
-
-    void FireInitialize();
-    void FireRefreshView();
-    void FireConnect();
-
-    int       GetReminderFrequency() { return m_iReminderFrequency; }
-    wxString  GetDialupConnectionName() { return m_strNetworkDialupConnectionName; }
+    void OnInitialized( CFrameEvent& event );
+    void OnRefreshView( CFrameEvent& event );
+    void OnConnect( CFrameEvent& event );
+    void OnUpdateStatus( CFrameEvent& event );
 
     void ResetReminderTimers();
 
     void SetFrameListPanelRenderTimerRate();  // TODO: refactor out of the frame and put the
                                               //   relevent code in OnPageChanged function
                                               //   and the base/statistics view.
-
-    void ShowConnectionBadPasswordAlert();
-    void ShowConnectionFailedAlert();
-    void ShowNotCurrentlyConnectedAlert();
-    void ShowAlert( 
-        const wxString title,
-        const wxString message,
-        const int style,
-        const bool notification_only = false,
-        const MainFrameAlertEventType alert_event_type = AlertNormal
-    );
-
-    void UpdateStatusText( const wxChar* szStatus );
 
 #ifdef __WXMAC__
     bool Show( bool show = true );
@@ -148,16 +119,6 @@ private:
     CBOINCDialUpManager* m_pDialupManager;
 
     wxString        m_strBaseTitle;
-
-    int             m_iSelectedLanguage;
-    int             m_iReminderFrequency;
-    int             m_iDisplayExitWarning;
-
-    int             m_iNetworkConnectionType;
-    wxString        m_strNetworkDialupConnectionName;
-    bool            m_bNetworkDialupPromptCredentials;
-
-    wxArrayString   m_aSelectedComputerMRU;
 
     long            m_Top;
     long            m_Left;
@@ -180,69 +141,6 @@ private:
 
     DECLARE_EVENT_TABLE()
 };
-
-
-class CMainFrameEvent : public wxEvent
-{
-public:
-    CMainFrameEvent(wxEventType evtType, CMainFrame *frame)
-        : wxEvent(-1, evtType)
-        {
-            SetEventObject(frame);
-        }
-
-    virtual wxEvent *Clone() const { return new CMainFrameEvent(*this); }
-};
-
-
-class CMainFrameAlertEvent : public wxEvent
-{
-public:
-    CMainFrameAlertEvent(wxEventType evtType, CMainFrame *frame, wxString title, wxString message, int style, bool notification_only, MainFrameAlertEventType alert_event_type)
-        : wxEvent(-1, evtType), m_title(title), m_message(message), m_style(style), m_notification_only(notification_only), m_alert_event_type(alert_event_type)
-        {
-            SetEventObject(frame);
-        }
-
-    CMainFrameAlertEvent(wxEventType evtType, CMainFrame *frame, wxString title, wxString message, int style, bool notification_only)
-        : wxEvent(-1, evtType), m_title(title), m_message(message), m_style(style), m_notification_only(notification_only)
-        {
-            SetEventObject(frame);
-            m_alert_event_type = AlertNormal;
-        }
-
-    CMainFrameAlertEvent(const CMainFrameAlertEvent& event)
-        : wxEvent(event)
-        {
-            m_title = event.m_title;
-            m_message = event.m_message;
-            m_style = event.m_style;
-            m_notification_only = event.m_notification_only;
-            m_alert_event_type = event.m_alert_event_type;
-        }
-
-    virtual wxEvent *Clone() const { return new CMainFrameAlertEvent(*this); }
-    virtual void     ProcessResponse(const int response) const;
-
-    wxString                m_title;
-    wxString                m_message;
-    int                     m_style;
-    bool                    m_notification_only;
-    MainFrameAlertEventType m_alert_event_type;
-};
-
-
-BEGIN_DECLARE_EVENT_TYPES()
-DECLARE_EVENT_TYPE( wxEVT_MAINFRAME_ALERT, 10000 )
-DECLARE_EVENT_TYPE( wxEVT_MAINFRAME_CONNECT, 10001 )
-DECLARE_EVENT_TYPE( wxEVT_MAINFRAME_INITIALIZED, 10004 )
-DECLARE_EVENT_TYPE( wxEVT_MAINFRAME_REFRESHVIEW, 10005 )
-END_DECLARE_EVENT_TYPES()
-
-#define EVT_MAINFRAME_ALERT(fn)              DECLARE_EVENT_TABLE_ENTRY(wxEVT_MAINFRAME_ALERT, -1, -1, (wxObjectEventFunction) (wxEventFunction) &fn, NULL),
-#define EVT_MAINFRAME_CONNECT(fn)            DECLARE_EVENT_TABLE_ENTRY(wxEVT_MAINFRAME_CONNECT, -1, -1, (wxObjectEventFunction) (wxEventFunction) &fn, NULL),
-#define EVT_MAINFRAME_INITIALIZED(fn)        DECLARE_EVENT_TABLE_ENTRY(wxEVT_MAINFRAME_INITIALIZED, -1, -1, (wxObjectEventFunction) (wxEventFunction) &fn, NULL),
-#define EVT_MAINFRAME_REFRESH(fn)            DECLARE_EVENT_TABLE_ENTRY(wxEVT_MAINFRAME_REFRESHVIEW, -1, -1, (wxObjectEventFunction) (wxEventFunction) &fn, NULL),
 
 
 #endif

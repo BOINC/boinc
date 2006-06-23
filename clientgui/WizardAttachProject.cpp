@@ -25,6 +25,7 @@
 #include "wizardex.h"
 #include "error_numbers.h"
 #include "BOINCGUIApp.h"
+#include "BOINCBaseFrame.h"
 #include "BOINCWizards.h"
 #include "BOINCBaseWizard.h"
 #include "WizardAttachProject.h"
@@ -503,7 +504,7 @@ void CWizardAttachProject::_ProcessCancelEvent( wxWizardExEvent& event ) {
  */
 
 void CWizardAttachProject::OnFinished( wxWizardExEvent& event ) {
-    CMainFrame* pFrame      = wxGetApp().GetFrame();
+    CBOINCBaseFrame* pFrame = wxGetApp().GetFrame();
 
     if (GetAccountCreatedSuccessfully() && GetAttachedToProjectSuccessfully()) {
         pFrame->ExecuteBrowserLink(GetProjectURL() + wxT("account_finish.php?auth=") + GetProjectAuthenticator());

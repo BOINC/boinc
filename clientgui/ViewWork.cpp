@@ -24,6 +24,7 @@
 #include "stdwx.h"
 #include "BOINCGUIApp.h"
 #include "MainDocument.h"
+#include "MainFrame.h"
 #include "BOINCTaskCtrl.h"
 #include "BOINCListCtrl.h"
 #include "ViewWork.h"
@@ -161,7 +162,7 @@ void CViewWork::OnWorkSuspend( wxCommandEvent& WXUNUSED(event) ) {
     wxLogTrace(wxT("Function Start/End"), wxT("CViewWork::OnWorkSuspend - Function Begin"));
 
     CMainDocument* pDoc     = wxGetApp().GetDocument();
-    CMainFrame* pFrame      = wxGetApp().GetFrame();
+    CMainFrame* pFrame      = wxDynamicCast(GetParent()->GetParent()->GetParent(), CMainFrame);
 
     wxASSERT(pDoc);
     wxASSERT(wxDynamicCast(pDoc, CMainDocument));
@@ -193,7 +194,7 @@ void CViewWork::OnWorkShowGraphics( wxCommandEvent& WXUNUSED(event) ) {
     wxInt32  iAnswer        = 0; 
     wxString strMachineName = wxEmptyString;
     CMainDocument* pDoc     = wxGetApp().GetDocument();
-    CMainFrame* pFrame      = wxGetApp().GetFrame();
+    CMainFrame* pFrame      = wxDynamicCast(GetParent()->GetParent()->GetParent(), CMainFrame);
 
     wxASSERT(pDoc);
     wxASSERT(wxDynamicCast(pDoc, CMainDocument));
@@ -222,18 +223,6 @@ void CViewWork::OnWorkShowGraphics( wxCommandEvent& WXUNUSED(event) ) {
 #endif
 
     if (wxYES == iAnswer) {
-/*
-        RESULT* result = pDoc->result(m_pListPane->GetFirstSelected());
-        if ((MODE_WINDOW == result->graphics_mode_acked) || (MODE_FULLSCREEN == result->graphics_mode_acked)) {
-            pDoc->WorkShowGraphics(
-                m_pListPane->GetFirstSelected(),
-                MODE_HIDE_GRAPHICS,
-                wxGetApp().m_strDefaultWindowStation,
-                wxGetApp().m_strDefaultDesktop,
-                wxGetApp().m_strDefaultDisplay
-            );
-        } else {
-*/
             pDoc->WorkShowGraphics(
                 m_pListPane->GetFirstSelected(),
                 MODE_WINDOW,
@@ -241,9 +230,6 @@ void CViewWork::OnWorkShowGraphics( wxCommandEvent& WXUNUSED(event) ) {
                 wxGetApp().m_strDefaultDesktop,
                 wxGetApp().m_strDefaultDisplay
             );
-/*
-        }
-*/
     }
 
     pFrame->UpdateStatusText(wxT(""));
@@ -265,7 +251,7 @@ void CViewWork::OnWorkAbort( wxCommandEvent& WXUNUSED(event) ) {
     wxString strProgress    = wxEmptyString;
     wxString strStatus      = wxEmptyString;
     CMainDocument* pDoc     = wxGetApp().GetDocument();
-    CMainFrame* pFrame      = wxGetApp().GetFrame();
+    CMainFrame* pFrame      = wxDynamicCast(GetParent()->GetParent()->GetParent(), CMainFrame);
 
     wxASSERT(pDoc);
     wxASSERT(pFrame);
@@ -315,7 +301,7 @@ void CViewWork::OnWorkAbort( wxCommandEvent& WXUNUSED(event) ) {
 void CViewWork::OnProjectWebsiteClicked( wxEvent& event ) {
     wxLogTrace(wxT("Function Start/End"), wxT("CViewWork::OnProjectWebsiteClicked - Function Begin"));
 
-    CMainFrame*         pFrame = wxGetApp().GetFrame();
+    CMainFrame* pFrame      = wxDynamicCast(GetParent()->GetParent()->GetParent(), CMainFrame);
 
     wxASSERT(pFrame);
     wxASSERT(wxDynamicCast(pFrame, CMainFrame));

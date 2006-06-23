@@ -1,32 +1,26 @@
-/////////////////////////////////////////////////////////////////////////////
-// Name:        BOincSimpleGUI.cpp
-// Purpose:     SimpleGUI sample
-// Author:      Milos Travar
-// Modified by:
-// Created:     05/20/2006
-/////////////////////////////////////////////////////////////////////////////
-#include <string>
-#include <wx/tooltip.h>
-#include "wx/animate/animate.h"
-#include "wx/dc.h"
-#include "wx/notebook.h"
-#include "wx/statline.h"
-#include "wx/image.h"
-#include "wx/menu.h"
-#include "sg_ImageLoader.h"
-#include "sg_StatImageLoader.h"
-#include "wx/icon.h"
-#include "wx/wxFlatNotebook/wxFlatNotebook.h"
-#include "wx/xml/xml.h"
-#include "sg_DlgPreferences.h"
-#include "sg_SkinClass.h"
-//#include "string"
-// Define a new application
-class MyApp : public wxApp
-{
-public:
-    bool OnInit();
-};
+// Berkeley Open Infrastructure for Network Computing
+// http://boinc.berkeley.edu
+// Copyright (C) 2005 University of California
+//
+// This is free software; you can redistribute it and/or
+// modify it under the terms of the GNU Lesser General Public
+// License as published by the Free Software Foundation;
+// either version 2.1 of the License, or (at your option) any later version.
+//
+// This software is distributed in the hope that it will be useful,
+// but WITHOUT ANY WARRANTY; without even the implied warranty of
+// MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
+// See the GNU Lesser General Public License for more details.
+//
+// To view the GNU Lesser General Public License visit
+// http://www.gnu.org/copyleft/lesser.html
+// or write to the Free Software Foundation, Inc.,
+// 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
+
+
+#ifndef _SIMPLEFRAME_H_
+#define _SIMPLEFRAME_H_
+
 
 class MyCanvas : public wxScrolledWindow
 {
@@ -40,13 +34,16 @@ private:
 };
 
 // Define a new frame
-class MyFrame : public wxFrame
+class CSimpleFrame : public CBOINCBaseFrame
 {
-public:
+    DECLARE_DYNAMIC_CLASS(CSimpleFrame)
 
-    MyFrame(wxWindow *parent, const wxWindowID id, const wxString& title,
-            const wxPoint& pos, const wxSize& size, const long style);
-   // ~MyFrame();
+public:
+    CSimpleFrame();
+    CSimpleFrame(wxString title, wxIcon* icon);
+
+   ~CSimpleFrame();
+
 	// Images
 	wxImage *g_prjIcnWCG;
 	wxImage *g_prjIcnPDRC;
@@ -145,8 +142,8 @@ public:
 	wxBitmapButton *btnAdvancedView;
 	wxStaticBitmap *imgBgAnim;
 	wxStaticLine *lnMyProjBtm;
-	virtual ~MyFrame();
-	void InitSimpleClient();
+
+    void InitSimpleClient();
 	void LoadSkinXML();
 	void LoadSkinImages();
 	void ReskinAppGUI();
@@ -158,7 +155,7 @@ public:
 	wxSize wxNotebookSize;
 	wxWindow* CreateNotebookPage();
 	//////////
-	wxBitmap *MyFrameImg0;
+	wxBitmap *CSimpleFrameImg0;
 	wxBitmap *bm13cImg0;
 	wxBitmap *btmpBtnPrefL;
 	wxBitmap *btmpBtnAttProjL;
@@ -199,3 +196,6 @@ protected:
     wxGIFAnimation      m_animation;
 #endif
 };
+
+#endif
+

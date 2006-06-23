@@ -1,12 +1,5 @@
-#include <wx/wxprec.h>
+#include "stdwx.h"
 
-#ifdef __BORLANDC__
-    #pragma hdrstop
-#endif
-
-#ifndef WX_PRECOMP
-    #include <wx/wx.h>
-#endif
 // Don't modify comment 
 #include "sg_DlgPreferences.h"
 #include "sg_SkinClass.h"

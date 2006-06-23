@@ -1,6 +1,4 @@
 
-#include <wx/filedlg.h>
-#include <wx/dc.h>
 #include "sg_SkinClass.h"
 
 class CDlgPreferences:public wxDialog

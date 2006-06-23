@@ -1,5 +1,4 @@
-#include <wx/wx.h> 
-#include <wx/image.h> 
+#include "stdwx.h"
 
 #include "sg_ImageLoader.h" 
 

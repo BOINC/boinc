@@ -1,99 +1,59 @@
-/////////////////////////////////////////////////////////////////////////////
-// Name:        anitest.cpp
-// Purpose:     Animation sample
-// Author:      Julian Smart
-// Modified by:
-// Created:     02/07/2001
-// RCS-ID:      $Id$
-// Copyright:   (c) Julian Smart
-// Licence:     wxWindows licence
-/////////////////////////////////////////////////////////////////////////////
+// Berkeley Open Infrastructure for Network Computing
+// http://boinc.berkeley.edu
+// Copyright (C) 2005 University of California
+//
+// This is free software; you can redistribute it and/or
+// modify it under the terms of the GNU Lesser General Public
+// License as published by the Free Software Foundation;
+// either version 2.1 of the License, or (at your option) any later version.
+//
+// This software is distributed in the hope that it will be useful,
+// but WITHOUT ANY WARRANTY; without even the implied warranty of
+// MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
+// See the GNU Lesser General Public License for more details.
+//
+// To view the GNU Lesser General Public License visit
+// http://www.gnu.org/copyleft/lesser.html
+// or write to the Free Software Foundation, Inc.,
+// 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 
-// ===========================================================================
-// declarations
-// ===========================================================================
 
-// ---------------------------------------------------------------------------
-// headers
-// ---------------------------------------------------------------------------
-
-// For compilers that support precompilation, includes "wx/wx.h".
-#include "wx/wxprec.h"
-
-#ifdef __BORLANDC__
-    #pragma hdrstop
+#if defined(__GNUG__) && !defined(__APPLE__)
+#pragma implementation "sg_BoincSimpleGUI.h"
 #endif
 
-#ifndef WX_PRECOMP
-    #include "wx/wx.h"
-#endif
-
-#include "resource/boinc.xpm"
+#include "stdwx.h"
+#include "BOINCGUIApp.h"
+#include "BOINCBaseFrame.h"
+#include "Events.h"
+#include "common/wxAnimate.h"
+#include "common/wxFlatNotebook.h"
+#include "sg_ImageLoader.h"
+#include "sg_StatImageLoader.h"
+#include "sg_DlgPreferences.h"
+#include "sg_SkinClass.h"
 #include "sg_BoincSimpleGUI.h"
 
-IMPLEMENT_APP(MyApp)
+#include "res/boinc.xpm"
 
-// ---------------------------------------------------------------------------
-// global variables
-// ---------------------------------------------------------------------------
+IMPLEMENT_DYNAMIC_CLASS(CSimpleFrame, CBOINCBaseFrame)
 
-// ---------------------------------------------------------------------------
-// event tables
-// ---------------------------------------------------------------------------
-
-BEGIN_EVENT_TABLE(MyFrame, wxFrame)
-    EVT_BUTTON(-1,MyFrame::OnBtnClick)
-    EVT_SIZE(MyFrame::OnSize)
-	EVT_ERASE_BACKGROUND(MyFrame::OnEraseBackground)
+BEGIN_EVENT_TABLE(CSimpleFrame, CBOINCBaseFrame)
+    EVT_BUTTON(-1,CSimpleFrame::OnBtnClick)
+    EVT_SIZE(CSimpleFrame::OnSize)
+	EVT_ERASE_BACKGROUND(CSimpleFrame::OnEraseBackground)
 END_EVENT_TABLE()
 
-// ===========================================================================
-// implementation
-// ===========================================================================
 
-// ---------------------------------------------------------------------------
-// MyApp
-// ---------------------------------------------------------------------------
-
-// Initialise this in OnInit, not statically
-bool MyApp::OnInit()
-{
-    
-	// Enable known image types
-	wxImage::AddHandler(new wxPNGHandler);
-    // Create the main frame window
-    MyFrame* frame = new MyFrame((wxFrame *)NULL, -1, _T("Boinc Manager Simple GUI"),
-                        wxPoint(-1, -1), wxSize(416, 581),
-                        wxDEFAULT_FRAME_STYLE);
-
-	// Give it an icon
-	#ifdef __WXMSW__
-		//frame->SetIcon(wxIcon(_T("IDI_ICON1")));
-	    frame->SetIcon(wxIcon(boinc_xpm));
-	#else
-		frame->SetIcon(wxIcon( boinc.xpm ));
-	#endif
-
-    frame->Show(true);
-
-    SetTopWindow(frame);
-
-    return true;
+CSimpleFrame::CSimpleFrame() {
+    wxLogTrace(wxT("Function Start/End"), wxT("CSimpleFrame::CSimpleFrame - Default Constructor Function Begin"));
+    wxLogTrace(wxT("Function Start/End"), wxT("CSimpleFrame::CSimpleFrame - Default Constructor Function End"));
 }
 
-// ---------------------------------------------------------------------------
-// MyFrame
-// ---------------------------------------------------------------------------
 
-// Define my frame constructor
-MyFrame::MyFrame(wxWindow *parent,
-                 const wxWindowID id,
-                 const wxString& title,
-                 const wxPoint& pos,
-                 const wxSize& size,
-                 const long style)
-       : wxFrame(parent, id, title, pos, size,
-                          style | wxNO_FULL_REPAINT_ON_RESIZE)
+CSimpleFrame::CSimpleFrame(wxString title, wxIcon* icon) : 
+    CBOINCBaseFrame((wxFrame *)NULL, ID_SIMPLEFRAME, title, wxDefaultPosition, wxSize(416, 581),
+                    wxDEFAULT_FRAME_STYLE | wxNO_FULL_REPAINT_ON_RESIZE)
 {
 	skinPath = _T("skins/default/wcgSkin.xml");
 	midAppCollapsed = false;
@@ -108,30 +68,30 @@ MyFrame::MyFrame(wxWindow *parent,
 	initAfter();
 }
 
-MyFrame::~MyFrame()
+CSimpleFrame::~CSimpleFrame()
 {
 //    m_player.Stop();
 }
 
-wxPoint& MyFrame::SetwxPoint(long x,long y){
+wxPoint& CSimpleFrame::SetwxPoint(long x,long y){
   m_tmppoint.x=x;
   m_tmppoint.y=y;
   return m_tmppoint;
 }
 
-wxSize& MyFrame::SetwxSize(long w,long h){
+wxSize& CSimpleFrame::SetwxSize(long w,long h){
   m_tmpsize.SetWidth(w);
   m_tmpsize.SetHeight(h);
   return m_tmpsize;
 }
-wxWindow* MyFrame::CreateNotebookPage()
+wxWindow* CSimpleFrame::CreateNotebookPage()
 {
 	static int newPageCounter = 0;
 	wxString caption;
 	caption.Printf(_("Work Unit"));
 	return new wxWindow(this,-1,wxDefaultPosition,SetwxSize(370,330),wxNO_BORDER);
 }
-void MyFrame::InitSimpleClient()
+void CSimpleFrame::InitSimpleClient()
 {
  Show(false);
  SetBackgroundColour(appSkin->GetAppBgCol());
@@ -282,13 +242,13 @@ void MyFrame::InitSimpleClient()
 
  Refresh();
 }
-void MyFrame::initAfter(){
+void CSimpleFrame::initAfter(){
  //add your code here
     Centre();
     Show(true);
 }
 //
-void MyFrame::LoadSkinImages(){
+void CSimpleFrame::LoadSkinImages(){
 
     fileImgBuf[0].LoadFile(appSkin->GetAppBg(),wxBITMAP_TYPE_BMP);
 	//// add alpha pngg_statSeti = new wxImage(_T("skins/default/graphic/statSeti.png"), wxBITMAP_TYPE_PNG);
@@ -331,7 +291,7 @@ void MyFrame::LoadSkinImages(){
 	fileImgBuf[8].LoadFile(appSkin->GetBtnAdvView(),wxBITMAP_TYPE_BMP);
 	fileImgBuf[9].LoadFile(appSkin->GetAnimationBG(),wxBITMAP_TYPE_BMP);
 	fileImgBuf[10].LoadFile(appSkin->GetIcnSleeping(),wxBITMAP_TYPE_BMP);
-	MyFrameImg0=&fileImgBuf[0];
+	CSimpleFrameImg0=&fileImgBuf[0];
 	btmpBtnPrefL=&fileImgBuf[2];
 	btmpBtnAttProjL=&fileImgBuf[3];
 	btmpIcnWorking=&fileImgBuf[4];
@@ -349,7 +309,7 @@ void MyFrame::LoadSkinImages(){
 	m_ImageList.push_back(sleepWUico);
 }
 ///
-void MyFrame::LoadSkinXML(){
+void CSimpleFrame::LoadSkinXML(){
     //app skin class
 	appSkin = SkinClass::Instance();
 
@@ -449,7 +409,7 @@ void MyFrame::LoadSkinXML(){
 	}
 }
 ///
-void MyFrame::ReskinAppGUI(){
+void CSimpleFrame::ReskinAppGUI(){
 	LoadSkinXML();
 	LoadSkinImages();
 	// reskin GUI
@@ -488,7 +448,7 @@ void MyFrame::ReskinAppGUI(){
 	Refresh();
 }
 
-void MyFrame::OnBtnClick(wxCommandEvent& event){ //init function
+void CSimpleFrame::OnBtnClick(wxCommandEvent& event){ //init function
 	wxObject *m_wxBtnObj = event.GetEventObject();
 	if(m_wxBtnObj==btnPreferences){
 		CDlgPreferences* pDlg = new CDlgPreferences(NULL);
@@ -562,12 +522,14 @@ void MyFrame::OnBtnClick(wxCommandEvent& event){ //init function
 			btmAppCollapsed = false;
 		}
 		Refresh();
-	}else{
+    }else if(m_wxBtnObj==btnAdvancedView) {
+        wxGetApp().SetActiveGUI(BOINC_ADVANCEDGUI, true);
+    }else{
 		//wxMessageBox("OnBtnClick - else");
 	}
 }
 //end function
-void MyFrame::MoveControlsUp(){
+void CSimpleFrame::MoveControlsUp(){
 	stMyProj->Move(20,252);//(20,434)
 	btnAttProj->Move(250,249);//(250,431)
 	btnExpandMid->Move(366,247);//(366,429)
@@ -582,7 +544,7 @@ void MyFrame::MoveControlsUp(){
 	btnPause->Move(55,340);//(55,522)
 }
 
-void MyFrame::MoveControlsDown(){
+void CSimpleFrame::MoveControlsDown(){
 	stMyProj->Move(20,434);
 	btnAttProj->Move(250,431);
 	btnExpandMid->Move(366,429);
@@ -596,12 +558,12 @@ void MyFrame::MoveControlsDown(){
 	btnMessages->Move(28,522);
 	btnPause->Move(55,522);
 }
-void MyFrame::OnEraseBackground(wxEraseEvent& event){
+void CSimpleFrame::OnEraseBackground(wxEraseEvent& event){
   wxObject *m_wxWin = event.GetEventObject();
-  if(m_wxWin==this){event.Skip(true);DrawBackImg(event,this,*MyFrameImg0,0);return;}
+  if(m_wxWin==this){event.Skip(true);DrawBackImg(event,this,*CSimpleFrameImg0,0);return;}
   event.Skip(true);
 }
-void MyFrame::DrawBackImg(wxEraseEvent& event,wxWindow *win,wxBitmap & bitMap,int opz){
+void CSimpleFrame::DrawBackImg(wxEraseEvent& event,wxWindow *win,wxBitmap & bitMap,int opz){
 	if(midAppCollapsed){
         wrkUnitNB->SetSize(-1, -1, wxNotebookSize.x, wxNotebookSize.y); // fix
 	}
@@ -651,7 +613,7 @@ void MyCanvas::OnPaint(wxPaintEvent& WXUNUSED(event))
 {
     wxPaintDC dc(this);
 #if 0
-    MyFrame* frame = (MyFrame*) GetParent();
+    CSimpleFrame* frame = (CSimpleFrame*) GetParent();
     if (frame->GetPlayer().IsPlaying())
     {
         frame->GetPlayer().Draw(dc);

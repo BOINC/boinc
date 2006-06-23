@@ -41,7 +41,7 @@
 				Name="VCCustomBuildTool"/>
 			<Tool
 				Name="VCLinkerTool"
-				AdditionalDependencies="MSVCRT.LIB MSVCPRT.LIB kernel32.lib user32.lib gdi32.lib ole32.lib oleacc.lib shell32.lib comdlg32.lib advapi32.lib oldnames.lib uuid.lib rpcrt4.lib comctl32.lib wsock32.lib wxmsw26_adv.lib wxbase26.lib wxbase26_net.lib wxmsw26_core.lib wxmsw26_html.lib wxregex.lib boinc_dll.lib"
+				AdditionalDependencies="MSVCRT.LIB MSVCPRT.LIB kernel32.lib user32.lib gdi32.lib ole32.lib oleacc.lib shell32.lib comdlg32.lib advapi32.lib oldnames.lib uuid.lib rpcrt4.lib comctl32.lib wsock32.lib wxbase26.lib wxbase26_net.lib wxbase26_xml.lib wxmsw26_adv.lib wxmsw26_core.lib wxmsw26_html.lib wxregex.lib wxexpat.lib wxpng.lib wxzlib.lib boinc_dll.lib"
 				OutputFile="$(OutDir)/boincmgr.exe"
 				LinkIncremental="1"
 				AdditionalLibraryDirectories="&quot;$(OutDir)&quot;;&quot;$(WXWIN)\lib\vc_lib&quot;;&quot;$(WXWIN)\contrib\lib&quot;"
@@ -109,7 +109,7 @@
 				Name="VCCustomBuildTool"/>
 			<Tool
 				Name="VCLinkerTool"
-				AdditionalDependencies="MSVCRTD.LIB MSVCPRTD.LIB kernel32.lib user32.lib gdi32.lib ole32.lib oleacc.lib shell32.lib comdlg32.lib advapi32.lib oldnames.lib uuid.lib rpcrt4.lib comctl32.lib wsock32.lib wxmsw26d_adv.lib wxbase26d.lib wxbase26d_net.lib wxmsw26d_core.lib wxmsw26d_html.lib wxregexd.lib boinc_dll.lib"
+				AdditionalDependencies="MSVCRTD.LIB MSVCPRTD.LIB kernel32.lib user32.lib gdi32.lib ole32.lib oleacc.lib shell32.lib comdlg32.lib advapi32.lib oldnames.lib uuid.lib rpcrt4.lib comctl32.lib wsock32.lib wxbase26d.lib wxbase26d_net.lib wxbase26d_xml.lib wxmsw26d_adv.lib wxmsw26d_core.lib wxmsw26d_html.lib wxregexd.lib wxexpatd.lib wxpngd.lib wxzlibd.lib boinc_dll.lib"
 				OutputFile="$(OutDir)/boincmgr.exe"
 				LinkIncremental="0"
 				AdditionalLibraryDirectories="&quot;$(OutDir)&quot;;&quot;$(WXWIN)\lib\vc_lib&quot;;&quot;$(WXWIN)\contrib\lib&quot;"
@@ -145,132 +145,6 @@
 	<References>
 	</References>
 	<Files>
-		<Filter
-			Name="Source Files"
-			Filter="cpp;c;cxx;def;odl;idl;hpj;bat;asm;asmx"
-			UniqueIdentifier="{4FC737F1-C7A5-4376-A066-2A32D752A2FF}">
-			<File
-				RelativePath="..\clientgui\BOINCDialupManager.cpp">
-			</File>
-			<File
-				RelativePath="..\clientgui\BOINCGUIApp.cpp">
-			</File>
-			<File
-				RelativePath="..\clientgui\BOINCTaskBar.cpp">
-			</File>
-			<File
-				RelativePath="..\lib\gui_rpc_client.C">
-				<FileConfiguration
-					Name="Release|Win32">
-					<Tool
-						Name="VCCLCompilerTool"
-						Optimization="2"
-						AdditionalIncludeDirectories=""
-						PreprocessorDefinitions=""
-						CompileAs="2"/>
-				</FileConfiguration>
-				<FileConfiguration
-					Name="Debug|Win32">
-					<Tool
-						Name="VCCLCompilerTool"
-						Optimization="0"
-						AdditionalIncludeDirectories=""
-						PreprocessorDefinitions=""
-						BasicRuntimeChecks="3"
-						BrowseInformation="1"
-						CompileAs="2"/>
-				</FileConfiguration>
-			</File>
-			<File
-				RelativePath="..\lib\gui_rpc_client_ops.C">
-				<FileConfiguration
-					Name="Release|Win32">
-					<Tool
-						Name="VCCLCompilerTool"
-						CompileAs="2"/>
-				</FileConfiguration>
-			</File>
-			<File
-				RelativePath="..\clientgui\hyperlink.cpp">
-			</File>
-			<File
-				RelativePath="..\clientgui\Localization.cpp">
-			</File>
-			<File
-				RelativePath="..\clientgui\LogBOINC.cpp">
-			</File>
-			<File
-				RelativePath="..\clientgui\MainDocument.cpp">
-			</File>
-			<File
-				RelativePath="..\clientgui\MainFrame.cpp">
-			</File>
-			<File
-				RelativePath="..\clientgui\stdwx.cpp">
-				<FileConfiguration
-					Name="Release|Win32">
-					<Tool
-						Name="VCCLCompilerTool"
-						UsePrecompiledHeader="1"/>
-				</FileConfiguration>
-				<FileConfiguration
-					Name="Debug|Win32">
-					<Tool
-						Name="VCCLCompilerTool"
-						UsePrecompiledHeader="1"/>
-				</FileConfiguration>
-			</File>
-			<File
-				RelativePath="..\clientgui\msw\taskbarex.cpp">
-			</File>
-		</Filter>
-		<Filter
-			Name="Header Files"
-			Filter="h;hpp;hxx;hm;inl;inc;xsd"
-			UniqueIdentifier="{93995380-89BD-4b04-88EB-625FBE52EBFB}">
-			<File
-				RelativePath="..\clientgui\_wx_intellisense.h">
-			</File>
-			<File
-				RelativePath="..\clientgui\BOINCDialupManager.h">
-			</File>
-			<File
-				RelativePath="..\clientgui\BOINCGUIApp.h">
-			</File>
-			<File
-				RelativePath="..\clientgui\BOINCTaskBar.h">
-			</File>
-			<File
-				RelativePath="..\clientgui\Events.h">
-			</File>
-			<File
-				RelativePath="..\lib\gui_rpc_client.h">
-			</File>
-			<File
-				RelativePath="..\clientgui\hyperlink.h">
-			</File>
-			<File
-				RelativePath="..\clientgui\Localization.h">
-			</File>
-			<File
-				RelativePath="..\clientgui\LogBOINC.h">
-			</File>
-			<File
-				RelativePath="..\clientgui\MainDocument.h">
-			</File>
-			<File
-				RelativePath="..\clientgui\MainFrame.h">
-			</File>
-			<File
-				RelativePath="..\clientgui\resource.h">
-			</File>
-			<File
-				RelativePath="..\clientgui\stdwx.h">
-			</File>
-			<File
-				RelativePath="..\clientgui\msw\taskbarex.h">
-			</File>
-		</Filter>
 		<Filter
 			Name="Resource Files"
 			Filter="rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;xrc"
@@ -410,95 +284,37 @@
 			</File>
 		</Filter>
 		<Filter
-			Name="Views"
+			Name="Simple"
 			Filter="">
 			<File
-				RelativePath="..\clientgui\BOINCBaseView.cpp">
+				RelativePath="..\clientgui\sg_BoincSimpleGUI.cpp">
 			</File>
 			<File
-				RelativePath="..\clientgui\BOINCBaseView.h">
+				RelativePath="..\clientgui\sg_BoincSimpleGUI.h">
 			</File>
 			<File
-				RelativePath="..\clientgui\BOINCListCtrl.cpp">
+				RelativePath="..\clientgui\sg_DlgPreferences.cpp">
 			</File>
 			<File
-				RelativePath="..\clientgui\BOINCListCtrl.h">
+				RelativePath="..\clientgui\sg_DlgPreferences.h">
 			</File>
 			<File
-				RelativePath="..\clientgui\BOINCTaskCtrl.cpp">
+				RelativePath="..\clientgui\sg_ImageLoader.cpp">
 			</File>
 			<File
-				RelativePath="..\clientgui\BOINCTaskCtrl.h">
+				RelativePath="..\clientgui\sg_ImageLoader.h">
 			</File>
 			<File
-				RelativePath="..\clientgui\ViewMessages.cpp">
+				RelativePath="..\clientgui\sg_SkinClass.cpp">
 			</File>
 			<File
-				RelativePath="..\clientgui\ViewMessages.h">
+				RelativePath="..\clientgui\sg_SkinClass.h">
 			</File>
 			<File
-				RelativePath="..\clientgui\ViewProjects.cpp">
+				RelativePath="..\clientgui\sg_StatImageLoader.cpp">
 			</File>
 			<File
-				RelativePath="..\clientgui\ViewProjects.h">
-			</File>
-			<File
-				RelativePath="..\clientgui\ViewResources.cpp">
-			</File>
-			<File
-				RelativePath="..\clientgui\ViewResources.h">
-			</File>
-			<File
-				RelativePath="..\clientgui\ViewStatistics.cpp">
-			</File>
-			<File
-				RelativePath="..\clientgui\ViewStatistics.h">
-			</File>
-			<File
-				RelativePath="..\clientgui\ViewTransfers.cpp">
-			</File>
-			<File
-				RelativePath="..\clientgui\ViewTransfers.h">
-			</File>
-			<File
-				RelativePath="..\clientgui\ViewWork.cpp">
-			</File>
-			<File
-				RelativePath="..\clientgui\ViewWork.h">
-			</File>
-		</Filter>
-		<Filter
-			Name="Dialogs"
-			Filter="">
-			<File
-				RelativePath="..\clientgui\DlgAbout.cpp">
-			</File>
-			<File
-				RelativePath="..\clientgui\DlgAbout.h">
-			</File>
-			<File
-				RelativePath="..\clientgui\DlgDialupCredentials.cpp">
-			</File>
-			<File
-				RelativePath="..\clientgui\DlgDialupCredentials.h">
-			</File>
-			<File
-				RelativePath="..\clientgui\DlgGenericMessage.cpp">
-			</File>
-			<File
-				RelativePath="..\clientgui\DlgGenericMessage.h">
-			</File>
-			<File
-				RelativePath="..\clientgui\DlgOptions.cpp">
-			</File>
-			<File
-				RelativePath="..\clientgui\DlgOptions.h">
-			</File>
-			<File
-				RelativePath="..\clientgui\DlgSelectComputer.cpp">
-			</File>
-			<File
-				RelativePath="..\clientgui\DlgSelectComputer.h">
+				RelativePath="..\clientgui\sg_StatImageLoader.h">
 			</File>
 		</Filter>
 		<Filter
@@ -707,12 +523,6 @@
 				RelativePath="..\clientgui\AlreadyExistsPage.h">
 			</File>
 			<File
-				RelativePath="..\clientgui\BOINCBaseWizard.cpp">
-			</File>
-			<File
-				RelativePath="..\clientgui\BOINCBaseWizard.h">
-			</File>
-			<File
 				RelativePath="..\clientgui\BOINCWizards.h">
 			</File>
 			<File
@@ -806,6 +616,261 @@
 				RelativePath="..\clientgui\wizardex.h">
 			</File>
 		</Filter>
+		<Filter
+			Name="Infrastructure"
+			Filter="">
+			<File
+				RelativePath="..\clientgui\BOINCDialupManager.cpp">
+			</File>
+			<File
+				RelativePath="..\clientgui\BOINCDialupManager.h">
+			</File>
+			<File
+				RelativePath="..\lib\gui_rpc_client.C">
+				<FileConfiguration
+					Name="Release|Win32">
+					<Tool
+						Name="VCCLCompilerTool"
+						Optimization="2"
+						AdditionalIncludeDirectories=""
+						PreprocessorDefinitions=""
+						CompileAs="2"/>
+				</FileConfiguration>
+				<FileConfiguration
+					Name="Debug|Win32">
+					<Tool
+						Name="VCCLCompilerTool"
+						Optimization="0"
+						AdditionalIncludeDirectories=""
+						PreprocessorDefinitions=""
+						BasicRuntimeChecks="3"
+						BrowseInformation="1"
+						CompileAs="2"/>
+				</FileConfiguration>
+			</File>
+			<File
+				RelativePath="..\lib\gui_rpc_client.h">
+			</File>
+			<File
+				RelativePath="..\lib\gui_rpc_client_ops.C">
+				<FileConfiguration
+					Name="Release|Win32">
+					<Tool
+						Name="VCCLCompilerTool"
+						CompileAs="2"/>
+				</FileConfiguration>
+			</File>
+			<File
+				RelativePath="..\clientgui\hyperlink.cpp">
+			</File>
+			<File
+				RelativePath="..\clientgui\hyperlink.h">
+			</File>
+			<File
+				RelativePath="..\clientgui\Localization.cpp">
+			</File>
+			<File
+				RelativePath="..\clientgui\Localization.h">
+			</File>
+			<File
+				RelativePath="..\clientgui\LogBOINC.cpp">
+			</File>
+			<File
+				RelativePath="..\clientgui\LogBOINC.h">
+			</File>
+			<File
+				RelativePath="..\clientgui\MainDocument.cpp">
+			</File>
+			<File
+				RelativePath="..\clientgui\MainDocument.h">
+			</File>
+			<File
+				RelativePath="..\clientgui\resource.h">
+			</File>
+			<File
+				RelativePath="..\clientgui\stdwx.cpp">
+				<FileConfiguration
+					Name="Release|Win32">
+					<Tool
+						Name="VCCLCompilerTool"
+						UsePrecompiledHeader="1"/>
+				</FileConfiguration>
+				<FileConfiguration
+					Name="Debug|Win32">
+					<Tool
+						Name="VCCLCompilerTool"
+						UsePrecompiledHeader="1"/>
+				</FileConfiguration>
+			</File>
+			<File
+				RelativePath="..\clientgui\stdwx.h">
+			</File>
+			<Filter
+				Name="FlatNotebook"
+				Filter="">
+				<File
+					RelativePath="..\clientgui\common\wxFlatNotebook.cpp">
+				</File>
+				<File
+					RelativePath="..\clientgui\common\wxFlatNotebook.h">
+				</File>
+				<File
+					RelativePath="..\clientgui\common\wxFNBDropTarget.h">
+				</File>
+			</Filter>
+			<Filter
+				Name="Animate"
+				Filter="">
+				<File
+					RelativePath="..\clientgui\common\wxAnimate.cpp">
+				</File>
+				<File
+					RelativePath="..\clientgui\common\wxAnimate.h">
+				</File>
+			</Filter>
+		</Filter>
+		<Filter
+			Name="Taskbar"
+			Filter="">
+			<File
+				RelativePath="..\clientgui\BOINCTaskBar.cpp">
+			</File>
+			<File
+				RelativePath="..\clientgui\BOINCTaskBar.h">
+			</File>
+			<File
+				RelativePath="..\clientgui\msw\taskbarex.cpp">
+			</File>
+			<File
+				RelativePath="..\clientgui\msw\taskbarex.h">
+			</File>
+		</Filter>
+		<Filter
+			Name="Advanced"
+			Filter="">
+			<File
+				RelativePath="..\clientgui\MainFrame.cpp">
+			</File>
+			<File
+				RelativePath="..\clientgui\MainFrame.h">
+			</File>
+			<Filter
+				Name="Views"
+				Filter="">
+				<File
+					RelativePath="..\clientgui\BOINCListCtrl.cpp">
+				</File>
+				<File
+					RelativePath="..\clientgui\BOINCListCtrl.h">
+				</File>
+				<File
+					RelativePath="..\clientgui\BOINCTaskCtrl.cpp">
+				</File>
+				<File
+					RelativePath="..\clientgui\BOINCTaskCtrl.h">
+				</File>
+				<File
+					RelativePath="..\clientgui\ViewMessages.cpp">
+				</File>
+				<File
+					RelativePath="..\clientgui\ViewMessages.h">
+				</File>
+				<File
+					RelativePath="..\clientgui\ViewProjects.cpp">
+				</File>
+				<File
+					RelativePath="..\clientgui\ViewProjects.h">
+				</File>
+				<File
+					RelativePath="..\clientgui\ViewResources.cpp">
+				</File>
+				<File
+					RelativePath="..\clientgui\ViewResources.h">
+				</File>
+				<File
+					RelativePath="..\clientgui\ViewStatistics.cpp">
+				</File>
+				<File
+					RelativePath="..\clientgui\ViewStatistics.h">
+				</File>
+				<File
+					RelativePath="..\clientgui\ViewTransfers.cpp">
+				</File>
+				<File
+					RelativePath="..\clientgui\ViewTransfers.h">
+				</File>
+				<File
+					RelativePath="..\clientgui\ViewWork.cpp">
+				</File>
+				<File
+					RelativePath="..\clientgui\ViewWork.h">
+				</File>
+			</Filter>
+		</Filter>
+		<Filter
+			Name="Dialogs"
+			Filter="">
+			<File
+				RelativePath="..\clientgui\DlgAbout.cpp">
+			</File>
+			<File
+				RelativePath="..\clientgui\DlgAbout.h">
+			</File>
+			<File
+				RelativePath="..\clientgui\DlgDialupCredentials.cpp">
+			</File>
+			<File
+				RelativePath="..\clientgui\DlgDialupCredentials.h">
+			</File>
+			<File
+				RelativePath="..\clientgui\DlgGenericMessage.cpp">
+			</File>
+			<File
+				RelativePath="..\clientgui\DlgGenericMessage.h">
+			</File>
+			<File
+				RelativePath="..\clientgui\DlgOptions.cpp">
+			</File>
+			<File
+				RelativePath="..\clientgui\DlgOptions.h">
+			</File>
+			<File
+				RelativePath="..\clientgui\DlgSelectComputer.cpp">
+			</File>
+			<File
+				RelativePath="..\clientgui\DlgSelectComputer.h">
+			</File>
+		</Filter>
+		<File
+			RelativePath="..\clientgui\_wx_intellisense.h">
+		</File>
+		<File
+			RelativePath="..\clientgui\BOINCBaseFrame.cpp">
+		</File>
+		<File
+			RelativePath="..\clientgui\BOINCBaseFrame.h">
+		</File>
+		<File
+			RelativePath="..\clientgui\BOINCBaseView.cpp">
+		</File>
+		<File
+			RelativePath="..\clientgui\BOINCBaseView.h">
+		</File>
+		<File
+			RelativePath="..\clientgui\BOINCBaseWizard.cpp">
+		</File>
+		<File
+			RelativePath="..\clientgui\BOINCBaseWizard.h">
+		</File>
+		<File
+			RelativePath="..\clientgui\BOINCGUIApp.cpp">
+		</File>
+		<File
+			RelativePath="..\clientgui\BOINCGUIApp.h">
+		</File>
+		<File
+			RelativePath="..\clientgui\Events.h">
+		</File>
 	</Files>
 	<Globals>
 		<Global

@@ -26,10 +26,10 @@
 #endif
 
 #include "stdwx.h"
-#include "hyperlink.h"
 #include "BOINCGUIApp.h"
-#include "MainFrame.h"
 #include "Events.h"
+#include "BOINCBaseFrame.h"
+#include "MainFrame.h"
 #include "BOINCBaseView.h"
 #include "BOINCDialupManager.h"
 #include "ViewProjects.h"
@@ -146,17 +146,12 @@ void CStatusBar::OnSize(wxSizeEvent& event) {
 }
 
 
-DEFINE_EVENT_TYPE(wxEVT_MAINFRAME_ALERT)
-DEFINE_EVENT_TYPE(wxEVT_MAINFRAME_CONNECT)
-DEFINE_EVENT_TYPE(wxEVT_MAINFRAME_INITIALIZED)
-DEFINE_EVENT_TYPE(wxEVT_MAINFRAME_REFRESHVIEW)
+IMPLEMENT_DYNAMIC_CLASS(CMainFrame, CBOINCBaseFrame)
 
-
-IMPLEMENT_DYNAMIC_CLASS(CMainFrame, wxFrame)
-
-BEGIN_EVENT_TABLE (CMainFrame, wxFrame)
+BEGIN_EVENT_TABLE (CMainFrame, CBOINCBaseFrame)
     EVT_MENU(ID_FILERUNBENCHMARKS, CMainFrame::OnRunBenchmarks)
     EVT_MENU(ID_FILESELECTCOMPUTER, CMainFrame::OnSelectComputer)
+    EVT_MENU(ID_FILESWITCHGUI, CMainFrame::OnSwitchGUI)
     EVT_MENU(wxID_EXIT, CMainFrame::OnExit)
     EVT_MENU_RANGE(ID_FILEACTIVITYRUNALWAYS, ID_FILEACTIVITYSUSPEND, CMainFrame::OnActivitySelection)
     EVT_MENU_RANGE(ID_FILENETWORKRUNALWAYS, ID_FILENETWORKSUSPEND, CMainFrame::OnNetworkSelection)
@@ -166,16 +161,15 @@ BEGIN_EVENT_TABLE (CMainFrame, wxFrame)
     EVT_MENU(ID_PROJECTSATTACHPROJECT, CMainFrame::OnProjectsAttachToProject)
     EVT_MENU(ID_COMMANDSRETRYCOMMUNICATIONS, CMainFrame::OnCommandsRetryCommunications)
     EVT_MENU(ID_OPTIONSOPTIONS, CMainFrame::OnOptionsOptions)
-    EVT_HELP(ID_FRAME, CMainFrame::OnHelp)
+    EVT_HELP(ID_ADVANCEDFRAME, CMainFrame::OnHelp)
     EVT_MENU(ID_HELPBOINCMANAGER, CMainFrame::OnHelpBOINCManager)
     EVT_MENU(ID_HELPBOINC, CMainFrame::OnHelpBOINCWebsite)
     EVT_MENU(wxID_ABOUT, CMainFrame::OnHelpAbout)
-    EVT_CLOSE(CMainFrame::OnClose)
     EVT_SHOW(CMainFrame::OnShow)
-    EVT_MAINFRAME_ALERT(CMainFrame::OnAlert)
-    EVT_MAINFRAME_CONNECT(CMainFrame::OnConnect)
-    EVT_MAINFRAME_INITIALIZED(CMainFrame::OnInitialized)
-    EVT_MAINFRAME_REFRESH(CMainFrame::OnRefreshView)
+    EVT_FRAME_INITIALIZED(CMainFrame::OnInitialized)
+    EVT_FRAME_REFRESH(CMainFrame::OnRefreshView)
+    EVT_FRAME_CONNECT(CMainFrame::OnConnect)
+    EVT_FRAME_UPDATESTATUS(CMainFrame::OnUpdateStatus)
     EVT_TIMER(ID_REFRESHSTATETIMER, CMainFrame::OnRefreshState)
     EVT_TIMER(ID_FRAMERENDERTIMER, CMainFrame::OnFrameRender)
     EVT_TIMER(ID_FRAMELISTRENDERTIMER, CMainFrame::OnListPanelRender)
@@ -191,8 +185,8 @@ CMainFrame::CMainFrame() {
 
 
 CMainFrame::CMainFrame(wxString title, wxIcon* icon) : 
-    wxFrame ((wxFrame *)NULL, ID_FRAME, title, wxDefaultPosition, wxDefaultSize,
-             wxDEFAULT_FRAME_STYLE | wxNO_FULL_REPAINT_ON_RESIZE)
+    CBOINCBaseFrame((wxFrame *)NULL, ID_ADVANCEDFRAME, title, wxDefaultPosition, wxDefaultSize,
+                    wxDEFAULT_FRAME_STYLE | wxNO_FULL_REPAINT_ON_RESIZE)
 {
     wxLogTrace(wxT("Function Start/End"), wxT("CMainFrame::CMainFrame - Function Begin"));
     
@@ -336,6 +330,12 @@ bool CMainFrame::CreateMenu() {
 
     // File menu
     wxMenu *menuFile = new wxMenu;
+
+    menuFile->Append(
+        ID_FILESWITCHGUI,
+        _("&Switch to Simple GUI"),
+        _("Display the simple BOINC graphical interface.")
+    );
 
     // %s is the application name
     //    i.e. 'BOINC Manager', 'GridRepublic Manager'
@@ -698,15 +698,19 @@ bool CMainFrame::SaveState() {
     wxConfigBase*   pConfig = wxConfigBase::Get(FALSE);
     wxWindow*       pwndNotebookPage = NULL;
     CBOINCBaseView* pView = NULL;
-    wxString        strConfigLocation = wxEmptyString;
-    wxString        strPreviousLocation = wxEmptyString;
-    wxString        strBuffer = wxEmptyString;
-    int            iIndex = 0;
-    int            iItemCount = 0;
+    wxString        strConfigLocation;
+    wxString        strPreviousLocation;
+    wxString        strBuffer;
+    int             iIndex = 0;
+    int             iItemCount = 0;
 
 
     wxASSERT(pConfig);
     wxASSERT(m_pNotebook);
+
+
+    CBOINCBaseFrame::SaveState();
+
 
     // An odd case happens every once and awhile where wxWidgets looses
     //   the pointer to the config object, or it is cleaned up before
@@ -718,12 +722,6 @@ bool CMainFrame::SaveState() {
     // Save Frame State
     //
     pConfig->SetPath(strBaseConfigLocation);
-
-    pConfig->Write(wxT("Language"), m_iSelectedLanguage);
-    pConfig->Write(wxT("ReminderFrequency"), m_iReminderFrequency);
-    pConfig->Write(wxT("DisplayExitWarning"), m_iDisplayExitWarning);
-
-    pConfig->Write(wxT("NetworkDialupConnectionName"), m_strNetworkDialupConnectionName);
 
     pConfig->Write(wxT("CurrentPage"), m_pNotebook->GetSelection());
 
@@ -766,24 +764,6 @@ bool CMainFrame::SaveState() {
         pConfig->SetPath(strPreviousLocation);
     }
 
-
-    //
-    // Save Computer MRU list
-    //
-    strPreviousLocation = pConfig->GetPath();
-    strConfigLocation = strPreviousLocation + wxT("ComputerMRU");
-
-    pConfig->SetPath(strConfigLocation);
-
-    iItemCount = m_aSelectedComputerMRU.GetCount() - 1;
-    for (iIndex = 0; iIndex <= iItemCount; iIndex++) {
-        strBuffer.Printf(wxT("%d"), iIndex);
-        pConfig->Write(
-            strBuffer,
-            m_aSelectedComputerMRU.Item(iIndex)
-        );
-    }
-
     pConfig->SetPath(strPreviousLocation);
 
 
@@ -799,18 +779,22 @@ bool CMainFrame::RestoreState() {
     wxConfigBase*   pConfig = wxConfigBase::Get(FALSE);
     wxWindow*       pwndNotebookPage = NULL;
     CBOINCBaseView* pView = NULL;
-    wxString        strConfigLocation = wxEmptyString;
-    wxString        strPreviousLocation = wxEmptyString;
-    wxString        strBuffer = wxEmptyString;
-    wxString        strValue = wxEmptyString;
-    long            iIndex = 0;
-    long            iPageCount = 0;
+    wxString        strConfigLocation;
+    wxString        strPreviousLocation;
+    wxString        strBuffer;
+    wxString        strValue;
+    long            iIndex;
+    long            iPageCount;
     long            iCurrentPage;
     bool            bKeepEnumerating = false;
 
 
     wxASSERT(pConfig);
     wxASSERT(m_pNotebook);
+
+
+    CBOINCBaseFrame::RestoreState();
+
 
     // An odd case happens every once and awhile where wxWidgets looses
     //   the pointer to the config object, or it is cleaned up before
@@ -822,12 +806,6 @@ bool CMainFrame::RestoreState() {
     // Restore Frame State
     //
     pConfig->SetPath(strBaseConfigLocation);
-
-    pConfig->Read(wxT("Language"), &m_iSelectedLanguage, 0L);
-    pConfig->Read(wxT("ReminderFrequency"), &m_iReminderFrequency, 60L);
-    pConfig->Read(wxT("DisplayExitWarning"), &m_iDisplayExitWarning, 1L);
-
-    pConfig->Read(wxT("NetworkDialupConnectionName"), &m_strNetworkDialupConnectionName, wxEmptyString);
 
     if (wxGetApp().GetBrand()->IsBranded() && 
         wxGetApp().GetBrand()->IsDefaultTabSpecified()) {
@@ -888,26 +866,7 @@ bool CMainFrame::RestoreState() {
 
     }
 
-
-    //
-    // Restore Computer MRU list
-    //
-    strPreviousLocation = pConfig->GetPath();
-    strConfigLocation = strPreviousLocation + wxT("ComputerMRU");
-
-    pConfig->SetPath(strConfigLocation);
-
-    m_aSelectedComputerMRU.Clear();
-    bKeepEnumerating = pConfig->GetFirstEntry(strBuffer, iIndex);
-    while (bKeepEnumerating) {
-        pConfig->Read(strBuffer, &strValue);
-
-        m_aSelectedComputerMRU.Add(strValue);
-        bKeepEnumerating = pConfig->GetNextEntry(strBuffer, iIndex);
-    }
-
     pConfig->SetPath(strPreviousLocation);
-
 
     wxLogTrace(wxT("Function Start/End"), wxT("CMainFrame::RestoreState - Function End"));
     return true;
@@ -922,14 +881,12 @@ void CMainFrame::OnActivitySelection(wxCommandEvent& event) {
     wxASSERT(pDoc);
     wxASSERT(wxDynamicCast(pDoc, CMainDocument));
 
-#if defined(__WXMSW__) || defined(__WXMAC__)
     CTaskBarIcon*  pTaskbar  = wxGetApp().GetTaskBarIcon();
 
     wxASSERT(pTaskbar);
     wxASSERT(wxDynamicCast(pTaskbar, CTaskBarIcon));
 
     pTaskbar->ResetSuspendState();
-#endif
 
     switch(event.GetId()) {
     case ID_FILEACTIVITYRUNALWAYS:
@@ -955,14 +912,12 @@ void CMainFrame::OnNetworkSelection(wxCommandEvent& event) {
     wxASSERT(pDoc);
     wxASSERT(wxDynamicCast(pDoc, CMainDocument));
 
-#if defined(__WXMSW__) || defined(__WXMAC__)
     CTaskBarIcon*  pTaskbar  = wxGetApp().GetTaskBarIcon();
 
     wxASSERT(pTaskbar);
     wxASSERT(wxDynamicCast(pTaskbar, CTaskBarIcon));
 
     pTaskbar->ResetSuspendState();
-#endif
 
     switch(event.GetId()) {
     case ID_FILENETWORKRUNALWAYS:
@@ -1064,6 +1019,15 @@ void CMainFrame::OnSelectComputer(wxCommandEvent& WXUNUSED(event)) {
         pDlg->Destroy();
 
     wxLogTrace(wxT("Function Start/End"), wxT("CMainFrame::OnSelectComputer - Function End"));
+}
+
+
+void CMainFrame::OnSwitchGUI(wxCommandEvent& WXUNUSED(event)) {
+    wxLogTrace(wxT("Function Start/End"), wxT("CMainFrame::OnSwitchGUI - Function Begin"));
+
+    wxGetApp().SetActiveGUI(BOINC_SIMPLEGUI, true);
+
+    wxLogTrace(wxT("Function Start/End"), wxT("CMainFrame::OnSwitchGUI - Function End"));
 }
 
 
@@ -1455,7 +1419,7 @@ void CMainFrame::OnHelp(wxHelpEvent& event) {
     wxLogTrace(wxT("Function Start/End"), wxT("CMainFrame::OnHelpBOINCManager - Function Begin"));
 
     if (IsShown()) {
-        if (ID_FRAME == event.GetId()) {
+        if (ID_ADVANCEDFRAME == event.GetId()) {
             wxString url = wxGetApp().GetBrand()->GetCompanyWebsite().c_str();
             url += wxT("manager.php");
             ExecuteBrowserLink(url);
@@ -1505,23 +1469,6 @@ void CMainFrame::OnHelpAbout(wxCommandEvent& WXUNUSED(event)) {
         pDlg->Destroy();
 
     wxLogTrace(wxT("Function Start/End"), wxT("CMainFrame::OnHelpAbout - Function End"));
-}
-
-
-void CMainFrame::OnClose(wxCloseEvent& event) {
-    wxLogTrace(wxT("Function Start/End"), wxT("CMainFrame::OnClose - Function Begin"));
-
-#if defined(__WXMSW__) || defined(__WXMAC__)
-    if (!event.CanVeto()) {
-        Destroy();
-    } else {
-        Hide();
-    }
-#else
-	event.Skip();
-#endif
-
-    wxLogTrace(wxT("Function Start/End"), wxT("CMainFrame::OnClose - Function End"));
 }
 
 
@@ -1584,78 +1531,50 @@ void CMainFrame::SetWindowDimensions() {
 }
 
 
-void CMainFrame::OnAlert(CMainFrameAlertEvent& event) {
-    wxLogTrace(wxT("Function Start/End"), wxT("CMainFrame::OnAlert - Function Begin"));
+void CMainFrame::OnInitialized(CFrameEvent& WXUNUSED(event)) {
+    wxLogTrace(wxT("Function Start/End"), wxT("CMainFrame::OnInitialized - Function Begin"));
 
-#ifdef __WXMSW__
-    CTaskBarIcon* pTaskbar = wxGetApp().GetTaskBarIcon();
-    wxASSERT(pTaskbar);
+    CMainDocument*     pDoc = wxGetApp().GetDocument();
 
-    if ((IsShown() && !event.m_notification_only) || (IsShown() && !pTaskbar->IsBalloonsSupported())) {
-        if (!event.m_notification_only) {
-            int retval = 0;
+    wxASSERT(pDoc);
+    wxASSERT(wxDynamicCast(pDoc, CMainDocument));
 
-            if (!IsShown()) {
-                Show();
-            }
-
-            retval = ::wxMessageBox(event.m_message, event.m_title, event.m_style, this);
-            if (event.m_alert_event_type == AlertProcessResponse) {
-                event.ProcessResponse(retval);
-            }
-        }
-    } else {
-        // If the main window is hidden or minimzed use the system tray ballon
-        //   to notify the user instead.  This keeps dialogs from interfering
-        //   with people typing email messages or any other activity where they
-        //   do not want keyboard focus changed to another window while typing.
-        unsigned int  icon_type;
-
-        if (wxICON_ERROR & event.m_style) {
-            icon_type = NIIF_ERROR;
-        } else if (wxICON_WARNING & event.m_style) {
-            icon_type = NIIF_WARNING;
-        } else if (wxICON_INFORMATION & event.m_style) {
-            icon_type = NIIF_INFO;
-        } else {
-            icon_type = NIIF_NONE;
-        }
-
-        pTaskbar->SetBalloon(
-            pTaskbar->m_iconTaskBarIcon,
-            event.m_title,
-            event.m_message,
-            5000,
-            icon_type
-        );
+    if (!pDoc->IsConnected()) {
+        pDoc->Connect(wxT("localhost"), wxEmptyString, TRUE, TRUE);
     }
-#else
-    // Notification only events on platforms other than Windows are currently
-    //   discarded.  On the Mac a model dialog box for a hidden window causes
-    //   the menus to be locked and the application to become unresponsive. On
-    //   Linux the application is restored and input focus is set on the
-    //   notification which interrupts whatever the user was up to.
-    if (IsShown() && !event.m_notification_only) {
-        if (!event.m_notification_only) {
-            int retval = 0;
 
-            if (!IsShown()) {
-                Show();
-            }
-
-            retval = ::wxMessageBox(event.m_message, event.m_title, event.m_style, this);
-            if (event.m_alert_event_type == AlertProcessResponse) {
-                event.ProcessResponse(retval);
-            }
-        }
-    }
-#endif
-
-    wxLogTrace(wxT("Function Start/End"), wxT("CMainFrame::OnAlert - Function End"));
+    wxLogTrace(wxT("Function Start/End"), wxT("CMainFrame::OnInitialized - Function End"));
 }
 
 
-void CMainFrame::OnConnect(CMainFrameEvent&) {
+void CMainFrame::OnRefreshView(CFrameEvent& WXUNUSED(event)) {
+    static bool bAlreadyRunningLoop = false;
+
+    if (!bAlreadyRunningLoop) {
+        bAlreadyRunningLoop = true;
+
+        if (IsShown()) {
+            wxWindow*       pwndNotebookPage = NULL;
+            CBOINCBaseView* pView = NULL;
+            wxTimerEvent    timerEvent;
+
+            wxASSERT(m_pNotebook);
+
+            pwndNotebookPage = m_pNotebook->GetPage(m_pNotebook->GetSelection());
+            wxASSERT(pwndNotebookPage);
+
+            pView = wxDynamicCast(pwndNotebookPage, CBOINCBaseView);
+            wxASSERT(pView);
+
+            pView->FireOnListRender(timerEvent);
+        }
+
+        bAlreadyRunningLoop = false;
+    }
+}
+
+
+void CMainFrame::OnConnect(CFrameEvent& WXUNUSED(event)) {
     wxLogTrace(wxT("Function Start/End"), wxT("CMainFrame::OnConnect - Function Begin"));
     
     CMainDocument*     pDoc = wxGetApp().GetDocument();
@@ -1742,46 +1661,13 @@ void CMainFrame::OnConnect(CMainFrameEvent&) {
 }
 
 
-void CMainFrame::OnInitialized(CMainFrameEvent&) {
-    wxLogTrace(wxT("Function Start/End"), wxT("CMainFrame::OnInitialized - Function Begin"));
+void CMainFrame::OnUpdateStatus(CFrameEvent& event) {
+    wxLogTrace(wxT("Function Start/End"), wxT("CMainFrame::OnUpdateStatus - Function Begin"));
 
-    CMainDocument*     pDoc = wxGetApp().GetDocument();
+    m_pStatusbar->SetStatusText(event.m_message);
+    ::wxSleep(0);
 
-    wxASSERT(pDoc);
-    wxASSERT(wxDynamicCast(pDoc, CMainDocument));
-
-    if (!pDoc->IsConnected()) {
-        pDoc->Connect(wxT("localhost"), wxEmptyString, TRUE, TRUE);
-    }
-
-    wxLogTrace(wxT("Function Start/End"), wxT("CMainFrame::OnInitialized - Function End"));
-}
-
-
-void CMainFrame::OnRefreshView(CMainFrameEvent&) {
-    static bool bAlreadyRunningLoop = false;
-
-    if (!bAlreadyRunningLoop) {
-        bAlreadyRunningLoop = true;
-
-        if (IsShown()) {
-            wxWindow*       pwndNotebookPage = NULL;
-            CBOINCBaseView* pView = NULL;
-            wxTimerEvent    timerEvent;
-
-            wxASSERT(m_pNotebook);
-
-            pwndNotebookPage = m_pNotebook->GetPage(m_pNotebook->GetSelection());
-            wxASSERT(pwndNotebookPage);
-
-            pView = wxDynamicCast(pwndNotebookPage, CBOINCBaseView);
-            wxASSERT(pView);
-
-            pView->FireOnListRender(timerEvent);
-        }
-
-        bAlreadyRunningLoop = false;
-    }
+    wxLogTrace(wxT("Function Start/End"), wxT("CMainFrame::OnUpdateStatus - Function End"));
 }
 
 
@@ -1972,29 +1858,6 @@ void CMainFrame::OnNotebookSelectionChanged(wxNotebookEvent& event) {
 }
 
 
-void CMainFrame::ExecuteBrowserLink(const wxString &strLink) {
-    wxHyperLink::ExecuteLink(strLink);
-}
-
-
-void CMainFrame::FireInitialize() {
-    CMainFrameEvent event(wxEVT_MAINFRAME_INITIALIZED, this);
-    AddPendingEvent(event);
-}
-
-
-void CMainFrame::FireRefreshView() {
-    CMainFrameEvent event(wxEVT_MAINFRAME_REFRESHVIEW, this);
-    AddPendingEvent(event);
-}
-
-
-void CMainFrame::FireConnect() {
-    CMainFrameEvent event(wxEVT_MAINFRAME_CONNECT, this);
-    AddPendingEvent(event);
-}
-
-
 void CMainFrame::ResetReminderTimers() {
 #ifdef __WXMSW__
     wxASSERT(m_pDialupManager);
@@ -2050,114 +1913,6 @@ void CMainFrame::SetFrameListPanelRenderTimerRate() {
 }
 
 
-void CMainFrame::ShowConnectionBadPasswordAlert() {
-    wxString            strDialogTitle = wxEmptyString;
-
-    wxLogTrace(wxT("Function Start/End"), wxT("CMainFrame::ShowConnectionBadPasswordAlert - Function Begin"));
-
-    // %s is the application name
-    //    i.e. 'BOINC Manager', 'GridRepublic Manager'
-    strDialogTitle.Printf(
-        _("%s - Connection Error"),
-        wxGetApp().GetBrand()->GetApplicationName().c_str()
-    );
-
-    ShowAlert(
-        strDialogTitle,
-        _("The password you have provided is incorrect, please try again."),
-        wxOK | wxICON_ERROR
-    );
-
-    wxLogTrace(wxT("Function Start/End"), wxT("CMainFrame::ShowConnectionBadPasswordAlert - Function End"));
-}
-
-
-void CMainFrame::ShowConnectionFailedAlert() {
-    wxString            strDialogTitle = wxEmptyString;
-    wxString            strDialogMessage = wxEmptyString;
-
-    wxLogTrace(wxT("Function Start/End"), wxT("CMainFrame::ShowConnectionFailedAlert - Function Begin"));
-
-    // %s is the application name
-    //    i.e. 'BOINC Manager', 'GridRepublic Manager'
-    strDialogTitle.Printf(
-        _("%s - Connection Failed"),
-        wxGetApp().GetBrand()->GetApplicationName().c_str()
-    );
-
-    // 1st %s is the application name
-    //    i.e. 'BOINC Manager', 'GridRepublic Manager'
-    // 2st %s is the project name
-    //    i.e. 'BOINC', 'GridRepublic'
-    strDialogMessage.Printf(
-        _("%s is not able to connect to a %s client.\n"
-          "Would you like to try to connect again?"),
-        wxGetApp().GetBrand()->GetApplicationName().c_str(),
-        wxGetApp().GetBrand()->GetProjectName().c_str()
-    );
-
-    ShowAlert(
-        strDialogTitle,
-        strDialogMessage,
-        wxYES_NO | wxICON_QUESTION,
-        false,
-        AlertProcessResponse
-    );
-
-    wxLogTrace(wxT("Function Start/End"), wxT("CMainFrame::ShowConnectionFailedAlert - Function End"));
-}
-
-
-void CMainFrame::ShowNotCurrentlyConnectedAlert() {
-    wxString            strDialogTitle = wxEmptyString;
-    wxString            strDialogMessage = wxEmptyString;
-
-    wxLogTrace(wxT("Function Start/End"), wxT("CMainFrame::ShowNotCurrentlyConnectedAlert - Function Begin"));
-
-    // %s is the application name
-    //    i.e. 'BOINC Manager', 'GridRepublic Manager'
-    strDialogTitle.Printf(
-        _("%s - Connection Status"),
-        wxGetApp().GetBrand()->GetApplicationName().c_str()
-    );
-
-    // 1st %s is the application name
-    //    i.e. 'BOINC Manager', 'GridRepublic Manager'
-    // 2nd %s is the project name
-    //    i.e. 'BOINC', 'GridRepublic'
-    // 3nd %s is the project name
-    //    i.e. 'BOINC', 'GridRepublic'
-    strDialogMessage.Printf(
-        _("%s is not currently connected to a %s client.\n"
-          "Please use the 'File\\Select Computer...' menu option to connect up to a %s client.\n"
-          "To connect up to your local computer please use 'localhost' as the host name."),
-        wxGetApp().GetBrand()->GetApplicationName().c_str(),
-        wxGetApp().GetBrand()->GetProjectName().c_str(),
-        wxGetApp().GetBrand()->GetProjectName().c_str()
-    );
-    ShowAlert(
-        strDialogTitle,
-        strDialogMessage,
-        wxOK | wxICON_ERROR
-    );
-
-    wxLogTrace(wxT("Function Start/End"), wxT("CMainFrame::ShowNotCurrentlyConnectedAlert - Function End"));
-}
-
-
-void CMainFrame::ShowAlert( const wxString title, const wxString message, const int style, const bool notification_only, const MainFrameAlertEventType alert_event_type ) {
-    CMainFrameAlertEvent event(wxEVT_MAINFRAME_ALERT, this, title, message, style, notification_only, alert_event_type);
-    AddPendingEvent(event);
-}
-
-
-void CMainFrame::UpdateStatusText(const wxChar* szStatus) {
-    wxString strStatus = szStatus;
-    m_pStatusbar->SetStatusText(strStatus);
-    ::wxSleep(0);
-}
-
-
 #ifdef __WXMAC__
 
 bool CMainFrame::Show(bool show) {
@@ -2176,18 +1931,6 @@ bool CMainFrame::Show(bool show) {
 }
 
 #endif // __WXMAC__
-
-
-void CMainFrameAlertEvent::ProcessResponse(const int response) const {
-    CMainDocument*      pDoc = wxGetApp().GetDocument();
-   
-    wxASSERT(pDoc);
-    wxASSERT(wxDynamicCast(pDoc, CMainDocument));
-
-    if ((AlertProcessResponse == m_alert_event_type) && (wxYES == response)) {
-        pDoc->Reconnect();
-    }
-}
 
 
 const char *BOINC_RCSID_d881a56dc5 = "$Id$";
