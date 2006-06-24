@@ -6809,3 +6809,10 @@ Rom    23 June 2006
         ViewWork.cpp
     win_build/
         boincmgr_curl.vcproj
+
+Rom    23 June 2006
+    - Remove deprecated files
+    
+    clientgui/
+        DlgDialupCredentials.cpp, .h (Removed)
+
