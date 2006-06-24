@@ -35,7 +35,7 @@
 #include "network.h"
 #include "Events.h"
 #include "BOINCGUIApp.h"
-#include "MainFrame.h"
+#include "AdvancedFrame.h"
 
 #include "common/wxAnimate.h"
 #include "common/wxFlatNotebook.h"
@@ -1032,7 +1032,7 @@ bool CBOINCGUIApp::SetActiveGUI(int iGUISelection, bool bShowWindow) {
             case BOINC_ADVANCEDGUI:
             default:
                 // Initialize the advanced gui window
-                pNewFrame = new CMainFrame(
+                pNewFrame = new CAdvancedFrame(
                     m_pBranding->GetApplicationName(), 
                     m_pBranding->GetApplicationIcon()
                 );

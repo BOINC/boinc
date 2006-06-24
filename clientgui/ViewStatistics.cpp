@@ -24,7 +24,7 @@
 #include "stdwx.h"
 #include "BOINCGUIApp.h"
 #include "MainDocument.h"
-#include "MainFrame.h"
+#include "AdvancedFrame.h"
 #include "BOINCTaskCtrl.h"
 #include "BOINCListCtrl.h"
 #include "ViewStatistics.h"
@@ -729,10 +729,10 @@ const char** CViewStatistics::GetViewIcon() {
 void CViewStatistics::OnStatisticsUserTotal( wxCommandEvent& WXUNUSED(event) ) {
     wxLogTrace(wxT("Function Start/End"), wxT("CViewStatistics::OnStatisticsUserTotal - Function Begin"));
 
-    CMainFrame* pFrame      = wxDynamicCast(GetParent()->GetParent()->GetParent(), CMainFrame);
+    CAdvancedFrame* pFrame      = wxDynamicCast(GetParent()->GetParent()->GetParent(), CAdvancedFrame);
 
     wxASSERT(pFrame);
-    wxASSERT(wxDynamicCast(pFrame, CMainFrame));
+    wxASSERT(wxDynamicCast(pFrame, CAdvancedFrame));
 
     pFrame->UpdateStatusText(_("Updating charts..."));
 	m_PaintStatistics->heading=_("User Total");
@@ -748,10 +748,10 @@ void CViewStatistics::OnStatisticsUserTotal( wxCommandEvent& WXUNUSED(event) ) {
 void CViewStatistics::OnStatisticsUserAverage( wxCommandEvent& WXUNUSED(event) ) {
     wxLogTrace(wxT("Function Start/End"), wxT("CViewStatistics::OnStatisticsUserAverage - Function Begin"));
 
-    CMainFrame* pFrame      = wxDynamicCast(GetParent()->GetParent()->GetParent(), CMainFrame);
+    CAdvancedFrame* pFrame      = wxDynamicCast(GetParent()->GetParent()->GetParent(), CAdvancedFrame);
 
     wxASSERT(pFrame);
-    wxASSERT(wxDynamicCast(pFrame, CMainFrame));
+    wxASSERT(wxDynamicCast(pFrame, CAdvancedFrame));
 
     pFrame->UpdateStatusText(_("Updating charts..."));
 	m_PaintStatistics->heading=_("User Average");
@@ -767,10 +767,10 @@ void CViewStatistics::OnStatisticsUserAverage( wxCommandEvent& WXUNUSED(event) )
 void CViewStatistics::OnStatisticsHostTotal( wxCommandEvent& WXUNUSED(event) ) {
     wxLogTrace(wxT("Function Start/End"), wxT("CViewStatistics::OnStatisticsHostTotal - Function Begin"));
 
-    CMainFrame* pFrame      = wxDynamicCast(GetParent()->GetParent()->GetParent(), CMainFrame);
+    CAdvancedFrame* pFrame      = wxDynamicCast(GetParent()->GetParent()->GetParent(), CAdvancedFrame);
 
     wxASSERT(pFrame);
-    wxASSERT(wxDynamicCast(pFrame, CMainFrame));
+    wxASSERT(wxDynamicCast(pFrame, CAdvancedFrame));
 
     pFrame->UpdateStatusText(_("Updating charts..."));
 	m_PaintStatistics->heading=_("Host Total");
@@ -787,10 +787,10 @@ void CViewStatistics::OnStatisticsHostTotal( wxCommandEvent& WXUNUSED(event) ) {
 void CViewStatistics::OnStatisticsHostAverage( wxCommandEvent& WXUNUSED(event) ) {
     wxLogTrace(wxT("Function Start/End"), wxT("CViewStatistics::OnStatisticsHostAverage - Function Begin"));
 
-    CMainFrame* pFrame      = wxDynamicCast(GetParent()->GetParent()->GetParent(), CMainFrame);
+    CAdvancedFrame* pFrame      = wxDynamicCast(GetParent()->GetParent()->GetParent(), CAdvancedFrame);
 
     wxASSERT(pFrame);
-    wxASSERT(wxDynamicCast(pFrame, CMainFrame));
+    wxASSERT(wxDynamicCast(pFrame, CAdvancedFrame));
 
     pFrame->UpdateStatusText(_("Updating charts..."));
 	m_PaintStatistics->heading=_("Host Average");
@@ -806,10 +806,10 @@ void CViewStatistics::OnStatisticsHostAverage( wxCommandEvent& WXUNUSED(event) )
 void CViewStatistics::OnStatisticsModeView0( wxCommandEvent& WXUNUSED(event) ) {
     wxLogTrace(wxT("Function Start/End"), wxT("CViewStatistics::OnStatisticsModeView - Function Begin"));
 
-    CMainFrame* pFrame      = wxDynamicCast(GetParent()->GetParent()->GetParent(), CMainFrame);
+    CAdvancedFrame* pFrame      = wxDynamicCast(GetParent()->GetParent()->GetParent(), CAdvancedFrame);
 
     wxASSERT(pFrame);
-    wxASSERT(wxDynamicCast(pFrame, CMainFrame));
+    wxASSERT(wxDynamicCast(pFrame, CAdvancedFrame));
 
     pFrame->UpdateStatusText(_("Updating charts..."));
 	m_PaintStatistics->m_ModeViewStatistic=0;
@@ -826,10 +826,10 @@ void CViewStatistics::OnStatisticsModeView0( wxCommandEvent& WXUNUSED(event) ) {
 void CViewStatistics::OnStatisticsModeView1( wxCommandEvent& WXUNUSED(event) ) {
     wxLogTrace(wxT("Function Start/End"), wxT("CViewStatistics::OnStatisticsModeView - Function Begin"));
 
-    CMainFrame* pFrame      = wxDynamicCast(GetParent()->GetParent()->GetParent(), CMainFrame);
+    CAdvancedFrame* pFrame      = wxDynamicCast(GetParent()->GetParent()->GetParent(), CAdvancedFrame);
 
     wxASSERT(pFrame);
-    wxASSERT(wxDynamicCast(pFrame, CMainFrame));
+    wxASSERT(wxDynamicCast(pFrame, CAdvancedFrame));
 
     pFrame->UpdateStatusText(_("Updating charts..."));
 	m_PaintStatistics->m_ModeViewStatistic=1;
@@ -846,10 +846,10 @@ void CViewStatistics::OnStatisticsModeView1( wxCommandEvent& WXUNUSED(event) ) {
 void CViewStatistics::OnStatisticsModeView2( wxCommandEvent& WXUNUSED(event) ) {
     wxLogTrace(wxT("Function Start/End"), wxT("CViewStatistics::OnStatisticsModeView - Function Begin"));
 
-    CMainFrame* pFrame      = wxDynamicCast(GetParent()->GetParent()->GetParent(), CMainFrame);
+    CAdvancedFrame* pFrame      = wxDynamicCast(GetParent()->GetParent()->GetParent(), CAdvancedFrame);
 
     wxASSERT(pFrame);
-    wxASSERT(wxDynamicCast(pFrame, CMainFrame));
+    wxASSERT(wxDynamicCast(pFrame, CAdvancedFrame));
 
     pFrame->UpdateStatusText(_("Updating charts..."));
 	m_PaintStatistics->m_ModeViewStatistic=2;
@@ -866,10 +866,10 @@ void CViewStatistics::OnStatisticsModeView2( wxCommandEvent& WXUNUSED(event) ) {
 void CViewStatistics::OnStatisticsNextProject( wxCommandEvent& WXUNUSED(event) ) {
     wxLogTrace(wxT("Function Start/End"), wxT("CViewStatistics::OnStatisticsNextProject - Function Begin"));
 
-    CMainFrame* pFrame      = wxDynamicCast(GetParent()->GetParent()->GetParent(), CMainFrame);
+    CAdvancedFrame* pFrame      = wxDynamicCast(GetParent()->GetParent()->GetParent(), CAdvancedFrame);
 
     wxASSERT(pFrame);
-    wxASSERT(wxDynamicCast(pFrame, CMainFrame));
+    wxASSERT(wxDynamicCast(pFrame, CAdvancedFrame));
 
     pFrame->UpdateStatusText(_("Updating charts..."));
 	m_PaintStatistics->m_NextProjectStatistic++;
@@ -884,10 +884,10 @@ void CViewStatistics::OnStatisticsNextProject( wxCommandEvent& WXUNUSED(event) )
 void CViewStatistics::OnStatisticsPrevProject( wxCommandEvent& WXUNUSED(event) ) {
     wxLogTrace(wxT("Function Start/End"), wxT("CViewStatistics::OnStatisticsPrevProject - Function Begin"));
 
-    CMainFrame* pFrame      = wxDynamicCast(GetParent()->GetParent()->GetParent(), CMainFrame);
+    CAdvancedFrame* pFrame      = wxDynamicCast(GetParent()->GetParent()->GetParent(), CAdvancedFrame);
 
     wxASSERT(pFrame);
-    wxASSERT(wxDynamicCast(pFrame, CMainFrame));
+    wxASSERT(wxDynamicCast(pFrame, CAdvancedFrame));
 
     pFrame->UpdateStatusText(_("Updating charts..."));
 	m_PaintStatistics->m_NextProjectStatistic--;

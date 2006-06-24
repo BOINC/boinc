@@ -24,7 +24,7 @@
 #include "stdwx.h"
 #include "BOINCGUIApp.h"
 #include "MainDocument.h"
-#include "MainFrame.h"
+#include "AdvancedFrame.h"
 #include "BOINCTaskCtrl.h"
 #include "BOINCListCtrl.h"
 #include "ViewMessages.h"
@@ -139,10 +139,10 @@ const char** CViewMessages::GetViewIcon() {
 void CViewMessages::OnMessagesCopyAll( wxCommandEvent& WXUNUSED(event) ) {
     wxLogTrace(wxT("Function Start/End"), wxT("CViewMessages::OnMessagesCopyAll - Function Begin"));
 
-    CMainFrame* pFrame      = wxDynamicCast(GetParent()->GetParent()->GetParent(), CMainFrame);
+    CAdvancedFrame* pFrame      = wxDynamicCast(GetParent()->GetParent()->GetParent(), CAdvancedFrame);
 
     wxASSERT(pFrame);
-    wxASSERT(wxDynamicCast(pFrame, CMainFrame));
+    wxASSERT(wxDynamicCast(pFrame, CAdvancedFrame));
 
 #ifdef wxUSE_CLIPBOARD
 
@@ -171,10 +171,10 @@ void CViewMessages::OnMessagesCopyAll( wxCommandEvent& WXUNUSED(event) ) {
 void CViewMessages::OnMessagesCopySelected( wxCommandEvent& WXUNUSED(event) ) {
     wxLogTrace(wxT("Function Start/End"), wxT("CViewMessages::OnMessagesCopySelected - Function Begin"));
 
-    CMainFrame* pFrame      = wxDynamicCast(GetParent()->GetParent()->GetParent(), CMainFrame);
+    CAdvancedFrame* pFrame      = wxDynamicCast(GetParent()->GetParent()->GetParent(), CAdvancedFrame);
 
     wxASSERT(pFrame);
-    wxASSERT(wxDynamicCast(pFrame, CMainFrame));
+    wxASSERT(wxDynamicCast(pFrame, CAdvancedFrame));
 
 #ifdef wxUSE_CLIPBOARD
 

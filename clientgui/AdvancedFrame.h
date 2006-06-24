@@ -18,11 +18,11 @@
 // 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 
 
-#ifndef _MAINFRAME_H_
-#define _MAINFRAME_H_
+#ifndef _ADVANCEDFRAME_H_
+#define _ADVANCEDFRAME_H_
 
 #if defined(__GNUG__) && !defined(__APPLE__)
-#pragma interface "MainFrame.cpp"
+#pragma interface "AdvancedFrame.cpp"
 #endif
 
 class CStatusBar : public wxStatusBar
@@ -46,15 +46,15 @@ private:
 };
 
 
-class CMainFrame : public CBOINCBaseFrame
+class CAdvancedFrame : public CBOINCBaseFrame
 {
-    DECLARE_DYNAMIC_CLASS(CMainFrame)
+    DECLARE_DYNAMIC_CLASS(CAdvancedFrame)
 
 public:
-    CMainFrame();
-    CMainFrame(wxString title, wxIcon* icon);
+    CAdvancedFrame();
+    CAdvancedFrame(wxString title, wxIcon* icon);
 
-    ~CMainFrame(void);
+    ~CAdvancedFrame(void);
 
     void OnActivitySelection( wxCommandEvent& event );
     void OnNetworkSelection( wxCommandEvent& event );

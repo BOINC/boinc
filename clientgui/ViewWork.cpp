@@ -24,7 +24,7 @@
 #include "stdwx.h"
 #include "BOINCGUIApp.h"
 #include "MainDocument.h"
-#include "MainFrame.h"
+#include "AdvancedFrame.h"
 #include "BOINCTaskCtrl.h"
 #include "BOINCListCtrl.h"
 #include "ViewWork.h"
@@ -162,12 +162,12 @@ void CViewWork::OnWorkSuspend( wxCommandEvent& WXUNUSED(event) ) {
     wxLogTrace(wxT("Function Start/End"), wxT("CViewWork::OnWorkSuspend - Function Begin"));
 
     CMainDocument* pDoc     = wxGetApp().GetDocument();
-    CMainFrame* pFrame      = wxDynamicCast(GetParent()->GetParent()->GetParent(), CMainFrame);
+    CAdvancedFrame* pFrame      = wxDynamicCast(GetParent()->GetParent()->GetParent(), CAdvancedFrame);
 
     wxASSERT(pDoc);
     wxASSERT(wxDynamicCast(pDoc, CMainDocument));
     wxASSERT(pFrame);
-    wxASSERT(wxDynamicCast(pFrame, CMainFrame));
+    wxASSERT(wxDynamicCast(pFrame, CAdvancedFrame));
     wxASSERT(m_pTaskPane);
     wxASSERT(m_pListPane);
 
@@ -194,12 +194,12 @@ void CViewWork::OnWorkShowGraphics( wxCommandEvent& WXUNUSED(event) ) {
     wxInt32  iAnswer        = 0; 
     wxString strMachineName = wxEmptyString;
     CMainDocument* pDoc     = wxGetApp().GetDocument();
-    CMainFrame* pFrame      = wxDynamicCast(GetParent()->GetParent()->GetParent(), CMainFrame);
+    CAdvancedFrame* pFrame      = wxDynamicCast(GetParent()->GetParent()->GetParent(), CAdvancedFrame);
 
     wxASSERT(pDoc);
     wxASSERT(wxDynamicCast(pDoc, CMainDocument));
     wxASSERT(pFrame);
-    wxASSERT(wxDynamicCast(pFrame, CMainFrame));
+    wxASSERT(wxDynamicCast(pFrame, CAdvancedFrame));
     wxASSERT(m_pTaskPane);
     wxASSERT(m_pListPane);
 
@@ -251,12 +251,12 @@ void CViewWork::OnWorkAbort( wxCommandEvent& WXUNUSED(event) ) {
     wxString strProgress    = wxEmptyString;
     wxString strStatus      = wxEmptyString;
     CMainDocument* pDoc     = wxGetApp().GetDocument();
-    CMainFrame* pFrame      = wxDynamicCast(GetParent()->GetParent()->GetParent(), CMainFrame);
+    CAdvancedFrame* pFrame      = wxDynamicCast(GetParent()->GetParent()->GetParent(), CAdvancedFrame);
 
     wxASSERT(pDoc);
     wxASSERT(pFrame);
     wxASSERT(wxDynamicCast(pDoc, CMainDocument));
-    wxASSERT(wxDynamicCast(pFrame, CMainFrame));
+    wxASSERT(wxDynamicCast(pFrame, CAdvancedFrame));
     wxASSERT(m_pTaskPane);
     wxASSERT(m_pListPane);
 
@@ -301,10 +301,10 @@ void CViewWork::OnWorkAbort( wxCommandEvent& WXUNUSED(event) ) {
 void CViewWork::OnProjectWebsiteClicked( wxEvent& event ) {
     wxLogTrace(wxT("Function Start/End"), wxT("CViewWork::OnProjectWebsiteClicked - Function Begin"));
 
-    CMainFrame* pFrame      = wxDynamicCast(GetParent()->GetParent()->GetParent(), CMainFrame);
+    CAdvancedFrame* pFrame      = wxDynamicCast(GetParent()->GetParent()->GetParent(), CAdvancedFrame);
 
     wxASSERT(pFrame);
-    wxASSERT(wxDynamicCast(pFrame, CMainFrame));
+    wxASSERT(wxDynamicCast(pFrame, CAdvancedFrame));
     wxASSERT(m_pTaskPane);
     wxASSERT(m_pListPane);
 

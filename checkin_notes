@@ -6794,3 +6794,18 @@ Rom    23 June 2006
     clientgui/
         sg_BoincSimpleGUI.cpp.cpp, .h
 
+Rom    23 June 2006
+    - Rename MainFrame.cpp, .h to AdvancedFRrame.cpp, .h
+    - Rename CMainFrame to CAdvancedFrame
+    
+    clientgui/
+        AdvancedFrame.cpp, .h (Added)
+        BOINCGUIApp.cpp
+        MainFrame.cpp, .h (Removed)
+        ViewMessages.cpp
+        ViewProjects.cpp
+        ViewStatistics.cpp
+        ViewTransfers.cpp
+        ViewWork.cpp
+    win_build/
+        boincmgr_curl.vcproj

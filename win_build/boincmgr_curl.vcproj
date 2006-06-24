@@ -749,10 +749,10 @@
 			Name="Advanced"
 			Filter="">
 			<File
-				RelativePath="..\clientgui\MainFrame.cpp">
+				RelativePath="..\clientgui\AdvancedFrame.cpp">
 			</File>
 			<File
-				RelativePath="..\clientgui\MainFrame.h">
+				RelativePath="..\clientgui\AdvancedFrame.h">
 			</File>
 			<Filter
 				Name="Views"
