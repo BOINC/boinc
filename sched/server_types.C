@@ -624,6 +624,9 @@ int SCHEDULER_REPLY::write(FILE* fout) {
 
     gui_urls.get_gui_urls(user, host, team, buf);
     fputs(buf, fout);
+    if (project_files.text) {
+        fputs(project_files.text, fout);
+    }
 
 end:
     fprintf(fout,
@@ -904,6 +907,11 @@ void GUI_URLS::get_gui_urls(USER& user, HOST& host, TEAM& team, char* buf) {
         found |= str_replace(buf, "<authenticator/>", user.authenticator);
         if (!found) break;
     }
+}
+
+void PROJECT_FILES::init() {
+    text = 0;
+    read_file_malloc("../project_files.xml", text);
 }
 
 const char *BOINC_RCSID_ea659117b3 = "$Id$";

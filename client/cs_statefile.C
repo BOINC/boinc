@@ -284,6 +284,9 @@ int CLIENT_STATE::parse_state_file() {
                     delete rp;
                 }
             }
+        } else if (match_tag(buf, "<project_files>")) {
+            project->parse_project_files(f);
+            continue;
         } else if (match_tag(buf, "<host_info>")) {
             retval = host_info.parse(mf);
             if (retval) {

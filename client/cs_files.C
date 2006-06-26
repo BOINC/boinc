@@ -273,6 +273,13 @@ bool CLIENT_STATE::handle_pers_file_xfers() {
                 if (fip->is_user_file) {
                     active_tasks.request_reread_prefs(fip->project);
                 }
+
+                // if it's a project file, make a link in project dir
+                //
+                if (fip->is_project_file) {
+                    PROJECT* p = fip->project;
+                    p->link_project_file(fip);
+                }
             }
             iter = pers_file_xfers->pers_file_xfers.erase(iter);
             delete pfx;

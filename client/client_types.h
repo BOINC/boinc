@@ -72,6 +72,7 @@ public:
         // don't report to server even if report_on_rpc is true
     bool signature_required;    // true iff associated with app version
     bool is_user_file;
+    bool is_project_file;
     bool gzip_when_done;
         // for output files: gzip file when done, and append .gz to its name
     class PERS_FILE_XFER* pers_file_xfer;   // nonzero if in the process of being up/downloaded
@@ -228,7 +229,13 @@ public:
     bool attached_via_acct_mgr;
     char code_sign_key[MAX_KEY_LEN];
     std::vector<FILE_REF> user_files;
+    std::vector<FILE_REF> project_files;
+        // files not specific to apps or work - e.g. icons
     int parse_preferences_for_user_files();
+    int parse_project_files(FILE*);
+    int parse_project_file(FILE*);
+    void write_project_files(MIOFILE&);
+    int link_project_file(FILE_INFO*);
 
     // Multiply by this when estimating the CPU time of a result
     // (based on FLOPs estimated and benchmarks).

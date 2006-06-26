@@ -86,7 +86,7 @@ static void debug_print_argv(char** argv) {
 static int make_link(const char *existing, const char *new_link) {
     FILE *fp;
 
-    fp = fopen(new_link, "w");
+    fp = boinc_fopen(new_link, "w");
     if (!fp) return ERR_FOPEN;
     fprintf(fp, "<soft_link>%s</soft_link>\n", existing);
     fclose(fp);

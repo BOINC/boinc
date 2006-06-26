@@ -677,14 +677,6 @@ int SCHEDULER_REPLY::parse(FILE* in, PROJECT* project) {
             }
             project->gui_urls = "<gui_urls>\n"+foo+"</gui_urls>\n";
             continue;
-#if 0
-        } else if (match_tag(buf, "<deletion_policy_priority/>")) {
-            project->deletion_policy_priority = true;
-            continue;
-        } else if (match_tag(buf, "<deletion_policy_expire>")) {
-            project->deletion_policy_expire = true;
-            continue;
-#endif
         } else if (match_tag(buf, "<code_sign_key>")) {
             retval = dup_element_contents(
                 in,
@@ -831,6 +823,8 @@ int SCHEDULER_REPLY::parse(FILE* in, PROJECT* project) {
             send_file_list = true;
         } else if (parse_int(buf, "<scheduler_version>", scheduler_version)) {
             continue;
+        } else if (match_tag(buf, "<project_files>")) {
+            retval = project->parse_project_files(in);
         } else if (strlen(buf)>1){
             if (log_flags.unparsed_xml) {
                 msg_printf(0, MSG_ERROR,

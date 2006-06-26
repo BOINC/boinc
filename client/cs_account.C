@@ -135,21 +135,15 @@ int PROJECT::parse_account(FILE* in) {
             tentative = true;
             continue;
         }
-#if 0
-        else if (match_tag(buf, "<deletion_policy_priority/>")) {
-            deletion_policy_priority = true;
-            continue;
-        }
-        else if (match_tag(buf, "<deletion_policy_expire>")) {
-            deletion_policy_expire = true;
-            continue;
-        }
-#endif
         else if (match_tag(buf, "<gui_urls>")) {
             string foo;
             retval = copy_element_contents(in, "</gui_urls>", foo);
             if (retval) return retval;
             gui_urls = "<gui_urls>\n"+foo+"</gui_urls>\n";
+            continue;
+        }
+        else if (match_tag(buf, "<project_files>")) {
+            parse_project_files(in);
             continue;
         }
         else if (match_tag(buf, "<project_specific>")) {

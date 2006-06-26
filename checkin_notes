@@ -6859,3 +6859,28 @@ David  26 June 2006
         gui_rpc_client_ops.C
     sched/
         server_types.C
+
+David  26 June 2006
+    - Add support for "project files".
+        These are files that are downloaded to all clients
+        attached to that project,
+        but are not associated with an app version, WU or result.
+        Example: graphics files for use by the BOINC Manager.
+    - Scheduling server: look for "project_files.xml" in project dir.
+        If found, include it verbatim in scheduler replies.
+        Intended to describe "project files"
+    - core client: parse list of project files in scheduler reply
+        or client state file.
+        Create corresponding FILE_INFO and FILE_REF.
+        Write list to client state file.
+        When a project file finishes downloading,
+        create link file(s) for it.
+
+    client/
+        client_types.C,h
+        cs_account.C
+        cs_statefile.C
+        scheduler_op.C
+    sched/
+        main.C,h
+        server_types.C,h

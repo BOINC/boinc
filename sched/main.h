@@ -24,6 +24,7 @@
 
 extern SCHED_CONFIG config;
 extern GUI_URLS gui_urls;
+extern PROJECT_FILES project_files;
 extern key_t sema_key;
 extern int g_pid;
 
