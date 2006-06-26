@@ -268,7 +268,7 @@ bool CLIENT_STATE::handle_pers_file_xfers() {
                     fip->status = FILE_PRESENT;
                 }
 
-                // if it's a user file, reread prefs for running apps
+                // if it's a user file, tell running apps to reread prefs
                 //
                 if (fip->is_user_file) {
                     active_tasks.request_reread_prefs(fip->project);

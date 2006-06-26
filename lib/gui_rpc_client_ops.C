@@ -237,6 +237,7 @@ int APP::parse(MIOFILE& in) {
     while (in.fgets(buf, 256)) {
         if (match_tag(buf, "</app>")) return 0;
         else if (parse_str(buf, "<name>", name)) continue;
+        else if (parse_str(buf, "<user_friendly_name>", user_friendly_name)) continue;
     }
     return ERR_XML_PARSE;
 }

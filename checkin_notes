@@ -6844,3 +6844,18 @@ Walt   26 June 2006
         Makefile.am
     win_build
         boincmgr_curl.vcproj
+
+David  26 June 2006
+    - Propagate application "user friendly name"
+        through scheduler RPC,
+        into client state,
+        and through GUI RPC to Manager
+
+    client/
+        client_types.C,h
+        cs_files.C
+    lib/
+        gui_rpc_client.h
+        gui_rpc_client_ops.C
+    sched/
+        server_types.C

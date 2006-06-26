@@ -698,8 +698,9 @@ int APP::write(FILE* fout) {
     fprintf(fout,
         "<app>\n"
         "    <name>%s</name>\n"
+        "    <user_friendly_name>%s</user_friendly_name>\n"
         "</app>\n",
-        name
+        name, user_friendly_name
     );
     return 0;
 }

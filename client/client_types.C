@@ -448,6 +448,7 @@ int APP::parse(MIOFILE& in) {
     while (in.fgets(buf, 256)) {
         if (match_tag(buf, "</app>")) return 0;
         else if (parse_str(buf, "<name>", name, sizeof(name))) continue;
+        else if (parse_str(buf, "<user_friendly_name>", user_friendly_name, sizeof(user_friendly_name))) continue;
         else {
             if (log_flags.unparsed_xml) {
                 msg_printf(0, MSG_ERROR,
@@ -463,8 +464,9 @@ int APP::write(MIOFILE& out) {
     out.printf(
         "<app>\n"
         "    <name>%s</name>\n"
+        "    <user_friendly_name>%s</user_friendly_name>\n"
         "</app>\n",
-        name
+        name, user_friendly_name
     );
     return 0;
 }

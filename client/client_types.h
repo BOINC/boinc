@@ -347,6 +347,7 @@ public:
 
 struct APP {
     char name[256];
+    char user_friendly_name[256];
     PROJECT* project;
 
     int parse(MIOFILE&);

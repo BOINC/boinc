@@ -169,6 +169,7 @@ public:
 class APP {
 public:
     std::string name;
+    std::string user_friendly_name;
     PROJECT* project;
 
     APP();
