@@ -29,7 +29,6 @@
 #include "BOINCBaseFrame.h"
 #include "BOINCDialupManager.h"
 #include "DlgOptions.h"
-#include "DlgDialupCredentials.h"
 
 
 CBOINCDialUpManager::CBOINCDialUpManager() {

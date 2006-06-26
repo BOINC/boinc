@@ -6835,3 +6835,12 @@ David  26 June 2006
         cpu_sched.C
     lib/
         app_ipc.C,h
+
+Walt   26 June 2006
+    - Remove references to deprecated files DlgDialupCredentials.cpp, h.
+    
+    clientgui/
+        BOINCDialupManager.cpp
+        Makefile.am
+    win_build
+        boincmgr_curl.vcproj

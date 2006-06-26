@@ -817,12 +817,6 @@
 				RelativePath="..\clientgui\DlgAbout.h">
 			</File>
 			<File
-				RelativePath="..\clientgui\DlgDialupCredentials.cpp">
-			</File>
-			<File
-				RelativePath="..\clientgui\DlgDialupCredentials.h">
-			</File>
-			<File
 				RelativePath="..\clientgui\DlgGenericMessage.cpp">
 			</File>
 			<File

@@ -30,7 +30,6 @@ boinc_gui_SOURCES = \
     BOINCTaskBar.cpp \
     BOINCTaskCtrl.cpp \
     DlgAbout.cpp \
-    DlgDialupCredentials.cpp \
     DlgGenericMessage.cpp \
     DlgOptions.cpp \
     DlgSelectComputer.cpp \
