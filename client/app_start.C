@@ -189,6 +189,12 @@ int ACTIVE_TASK::write_app_init_file() {
     aid.user_expavg_credit = wup->project->user_expavg_credit;
     aid.host_total_credit = wup->project->host_total_credit;
     aid.host_expavg_credit = wup->project->host_expavg_credit;
+    double rrs = gstate.runnable_resource_share();
+    if (rrs) {
+        aid.resource_share_fraction = wup->project->resource_share/rrs;
+    } else {
+        aid.resource_share_fraction = 1;
+    }
     aid.rsc_fpops_est = wup->rsc_fpops_est;
     aid.rsc_fpops_bound = wup->rsc_fpops_bound;
     aid.rsc_memory_bound = wup->rsc_memory_bound;

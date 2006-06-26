@@ -58,7 +58,7 @@ This can be suppressed using the 'no_delete' flag,
 or using command-line options to the file deleter.
 </ul>
 
-<a name=compression></a></a>
+<a name=compression></a>
 <h3>File compression</h3>
 
 <p>

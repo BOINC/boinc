@@ -250,17 +250,6 @@ An application may call
 (from the beginning of the work unit, not just since the last restart).
 This excludes CPU time used to render graphics.
 
-<h3>Non-CPU-intensive periods</h3>
-<p>
-Some applications may have periods when they don't use much CPU time
-(e.g. because they're doing network communication).
-Call the following functions at the start and end of these periods.
-",html_text("
-void boinc_not_using_cpu();
-void boinc_using_cpu();
-"), "
-This allows the BOINC client to schedule other applications
-during these periods.
 <h3>Requesting network connection</h3>
 <p>
 If it appears that there is no physical network connection

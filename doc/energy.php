@@ -67,6 +67,7 @@ is available from Lawrence Berkeley Laboratories.
 <li> If your electricity costs vary according to time of day,
 set your <a href=prefs.php>general preferences</a>
 so that BOINC computes only during periods of low electricity costs.
+</ul>
 ";
 page_tail();
 ?>

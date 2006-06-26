@@ -149,9 +149,8 @@ list_item("main_program",
     "Relevant only for files associated with application versions.
     It indicates that this file is the application's main program.
 ");
-list_item("copy_file"
-    "
-    Use this when an application doesn't use
+list_item("copy_file",
+    "Use this when an application doesn't use
     boinc_resolve_filename() to make logical to physical filenames
     (for example, executables without source code).
     If present on an input file,

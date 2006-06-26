@@ -223,7 +223,7 @@ void CLIENT_STATE::adjust_debts() {
     for (i=0; i<active_tasks.active_tasks.size(); i++) {
         ACTIVE_TASK* atp = active_tasks.active_tasks[i];
         if (atp->scheduler_state != CPU_SCHED_SCHEDULED) continue;
-        if (atp->non_cpu_intensive) continue;
+        if (atp->wup->project->non_cpu_intensive) continue;
 
         atp->result->project->wall_cpu_time_this_period += wall_cpu_time;
         total_wall_cpu_time_this_period += wall_cpu_time;

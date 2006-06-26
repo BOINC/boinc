@@ -6816,3 +6816,22 @@ Rom    23 June 2006
     clientgui/
         DlgDialupCredentials.cpp, .h (Removed)
 
+David  26 June 2006
+    - API: removed boinc_using_cpu() and boinc_not_using_cpu().
+        The client's CPU scheduler doesn't support apps
+        switching back and forth, and is unlikely to in the near future.
+        So it's misleading to have it in the API.
+    - API/core client: added APP_INIT_DATA::resource_share_fraction.
+        This tells an application its resource share relative
+        to runnable projects (0..1).
+    - core client: removed ACTIVE_TASK::non_cpu_intensive.
+
+    api/
+        boinc_api.C,h
+    client/
+        app.C,h
+        app_control.C
+        app_start.C
+        cpu_sched.C
+    lib/
+        app_ipc.C,h

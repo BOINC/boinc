@@ -136,6 +136,7 @@ int write_init_data_file(FILE* f, APP_INIT_DATA& ai) {
         "<user_expavg_credit>%f</user_expavg_credit>\n"
         "<host_total_credit>%f</host_total_credit>\n"
         "<host_expavg_credit>%f</host_expavg_credit>\n"
+        "<resource_share_fraction>%f</resource_share_fraction>\n"
         "<checkpoint_period>%f</checkpoint_period>\n"
         "<fraction_done_update_period>%f</fraction_done_update_period>\n"
         "<fraction_done_start>%f</fraction_done_start>\n"
@@ -150,6 +151,7 @@ int write_init_data_file(FILE* f, APP_INIT_DATA& ai) {
         ai.user_expavg_credit,
         ai.host_total_credit,
         ai.host_expavg_credit,
+        ai.resource_share_fraction,
         ai.checkpoint_period,
         ai.fraction_done_update_period,
         ai.fraction_done_start,
@@ -218,6 +220,7 @@ int parse_init_data_file(FILE* f, APP_INIT_DATA& ai) {
         else if (parse_double(buf, "<user_expavg_credit>", ai.user_expavg_credit)) continue;
         else if (parse_double(buf, "<host_total_credit>", ai.host_total_credit)) continue;
         else if (parse_double(buf, "<host_expavg_credit>", ai.host_expavg_credit)) continue;
+        else if (parse_double(buf, "<resource_share_fraction>", ai.resource_share_fraction)) continue;
         else if (parse_double(buf, "<rsc_fpops_est>", ai.rsc_fpops_est)) continue;
         else if (parse_double(buf, "<rsc_fpops_bound>", ai.rsc_fpops_bound)) continue;
         else if (parse_double(buf, "<rsc_memory_bound>", ai.rsc_memory_bound)) continue;

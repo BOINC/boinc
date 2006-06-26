@@ -43,6 +43,7 @@ htmlspecialchars("
     [ <show_results/> ]
     [ <one_result_per_user_per_wu/> ]
     [ <max_wus_to_send> N </max_wus_to_send> ]
+    [ <non_cpu_intensive> 0|1 </non_cpu_intensive> ]
     [ <min_sendwork_interval> N </min_sendwork_interval> ]
     [ <daily_result_quota> N </daily_result_quota> ]
     [ <ignore_delay_bound/> ]
@@ -191,6 +192,18 @@ list_item("max_wus_to_send",
     should set this large enough so that a host which is only connected to
     the net at intervals has enough work to keep it occupied in between
     connections."
+);
+list_item("non_cpu_intensive",
+    "If this flag is present,
+    project will be treated specially by the client:
+    <ul>
+    <li> The client will download one result at a time.
+    <li> This result will be executed whenever computation is enabled
+        (bypassing the normal scheduling mechanism).
+    </ul>
+    This is intended for
+    <a href=non_cpu_intensive.php>applications that use little CPU time</a>,
+    e.g. that do network or host measurements."
 );
 list_item("min_sendwork_interval",
     "Minimum number of seconds to wait after sending results to a given
