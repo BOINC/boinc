@@ -33,6 +33,9 @@
 #include "sg_DlgPreferences.h"
 #include "sg_SkinClass.h"
 #include "sg_BoincSimpleGUI.h"
+#include "error_numbers.h"
+#include "parse.h"
+#include <string>
 #include "wizardex.h"
 #include "BOINCWizards.h"
 #include "BOINCBaseWizard.h"
@@ -63,8 +66,10 @@ CSimpleFrame::CSimpleFrame(wxString title, wxIcon* icon) :
 {
     // Initialize Application
     SetIcon(*icon);
-    
-    skinPath = _T("skins/default/wcgSkin.xml");
+
+    skinName = _T("default");
+	skinsFolder = _T("skins");
+    skinPath = skinsFolder+_T("/")+skinName+_T("/")+_T("skin.xml");
 	midAppCollapsed = false;
 	btmAppCollapsed = false;
 	// load skin xml and parse it
@@ -173,7 +178,7 @@ void CSimpleFrame::InitSimpleClient()
  // FlatNotebook
  wrkUnitNB = new wxFlatNotebook(this, -1, wxDefaultPosition, SetwxSize(370,330), wxFNB_TABS_BORDER_SIMPLE | wxFNB_NO_X_BUTTON | wxFNB_NO_NAV_BUTTONS | wxFNB_FANCY_TABS);
  wrkUnitNB->SetBackgroundColour(wxColour(255,255,255));
- wrkUnitNB->SetTabAreaColour(wxColour(204,236,255));
+ wrkUnitNB->SetTabAreaColour(appSkin->GetAppBgCol());
  wrkUnitNB->SetGradientColors(appSkin->GetTabFromColAc(),appSkin->GetTabToColAc(),appSkin->GetTabBrdColAc());
  wrkUnitNB->SetActiveTabTextColour(wxColour(157,165,171));
  wrkUnitNB->SetGradientColorsInactive(appSkin->GetTabFromColIn(),appSkin->GetTabToColIn(),appSkin->GetTabBrdColIn());
@@ -321,47 +326,48 @@ void CSimpleFrame::initAfter(){
 //
 void CSimpleFrame::LoadSkinImages(){
 
-    fileImgBuf[0].LoadFile(appSkin->GetAppBg(),wxBITMAP_TYPE_BMP);
-	//// add alpha pngg_statSeti = new wxImage(_T("skins/default/graphic/statSeti.png"), wxBITMAP_TYPE_PNG);
+	wxString dirPref = skinsFolder+_T("/")+skinName+_T("/");
 	
-	g_prjIcnWCG = new wxImage(appSkin->GetIcnPrjWCG(), wxBITMAP_TYPE_PNG);
-	g_prjIcnPDRC = new wxImage(appSkin->GetIcnPrjPRED(), wxBITMAP_TYPE_PNG);
+    fileImgBuf[0].LoadFile(dirPref + appSkin->GetAppBg(),wxBITMAP_TYPE_BMP);
+	// prj icons will be removed
+	g_prjIcnWCG = new wxImage(dirPref + appSkin->GetIcnPrjWCG(), wxBITMAP_TYPE_PNG);
+	g_prjIcnPDRC = new wxImage(dirPref + appSkin->GetIcnPrjPRED(), wxBITMAP_TYPE_PNG);
 	// work unit icons
-	g_icoSleepWU = new wxImage(appSkin->GetIcnSleepingWkUnit(), wxBITMAP_TYPE_PNG);
-	g_icoWorkWU = new wxImage(appSkin->GetIcnWorkingWkUnit(), wxBITMAP_TYPE_PNG);
+	g_icoSleepWU = new wxImage(dirPref + appSkin->GetIcnSleepingWkUnit(), wxBITMAP_TYPE_PNG);
+	g_icoWorkWU = new wxImage(dirPref + appSkin->GetIcnWorkingWkUnit(), wxBITMAP_TYPE_PNG);
 	// stat icons
 	g_statWCG = new wxImage(_T("skins/default/graphic/statWCG.png"), wxBITMAP_TYPE_PNG);
 	g_statSeti = new wxImage(_T("skins/default/graphic/statSeti.png"), wxBITMAP_TYPE_PNG);
 	g_statPred = new wxImage(_T("skins/default/graphic/statPred.png"), wxBITMAP_TYPE_PNG);
 	// arrows
-	g_arwLeft = new wxImage(appSkin->GetBtnLeftArr(), wxBITMAP_TYPE_PNG);
-	g_arwRight = new wxImage(appSkin->GetBtnRightArr(), wxBITMAP_TYPE_PNG);
-	g_arwLeftClick = new wxImage(appSkin->GetBtnLeftArrClick(), wxBITMAP_TYPE_PNG);
-	g_arwRightClick = new wxImage(appSkin->GetBtnRightArrClick(), wxBITMAP_TYPE_PNG);
+	g_arwLeft = new wxImage(dirPref + appSkin->GetBtnLeftArr(), wxBITMAP_TYPE_PNG);
+	g_arwRight = new wxImage(dirPref + appSkin->GetBtnRightArr(), wxBITMAP_TYPE_PNG);
+	g_arwLeftClick = new wxImage(dirPref + appSkin->GetBtnLeftArrClick(), wxBITMAP_TYPE_PNG);
+	g_arwRightClick = new wxImage(dirPref + appSkin->GetBtnRightArrClick(), wxBITMAP_TYPE_PNG);
 	btmpArwL= wxBitmap(g_arwLeft); 
     btmpArwR= wxBitmap(g_arwRight); 
     btmpArwLC= wxBitmap(g_arwLeftClick); 
     btmpArwRC= wxBitmap(g_arwRightClick); 
 	// collapse
-    g_collapse = new wxImage(appSkin->GetBtnCollapse(), wxBITMAP_TYPE_PNG);
-	g_collapseClick = new wxImage(appSkin->GetBtnCollapseClick(), wxBITMAP_TYPE_PNG);
+    g_collapse = new wxImage(dirPref + appSkin->GetBtnCollapse(), wxBITMAP_TYPE_PNG);
+	g_collapseClick = new wxImage(dirPref + appSkin->GetBtnCollapseClick(), wxBITMAP_TYPE_PNG);
 	btmpCol= wxBitmap(g_collapse); 
     btmpColClick= wxBitmap(g_collapseClick); 
 	// expand
-    g_expand = new wxImage(appSkin->GetBtnExpand(), wxBITMAP_TYPE_PNG);
-	g_expandClick = new wxImage(appSkin->GetBtnExpandClick(), wxBITMAP_TYPE_PNG);
+    g_expand = new wxImage(dirPref + appSkin->GetBtnExpand(), wxBITMAP_TYPE_PNG);
+	g_expandClick = new wxImage(dirPref + appSkin->GetBtnExpandClick(), wxBITMAP_TYPE_PNG);
 	btmpExp= wxBitmap(g_expand); 
     btmpExpClick= wxBitmap(g_expandClick); 
 	//////////////////////////////
-	fileImgBuf[2].LoadFile(appSkin->GetBtnPrefer(),wxBITMAP_TYPE_BMP);
-	fileImgBuf[3].LoadFile(appSkin->GetBtnAttProj(),wxBITMAP_TYPE_BMP);
-	fileImgBuf[4].LoadFile(appSkin->GetIcnWorking(),wxBITMAP_TYPE_BMP);
-	fileImgBuf[5].LoadFile(appSkin->GetBtnMessages(),wxBITMAP_TYPE_BMP);
-	fileImgBuf[6].LoadFile(appSkin->GetBtnPause(),wxBITMAP_TYPE_BMP);
-	fileImgBuf[7].LoadFile(appSkin->GetBtnPlay(),wxBITMAP_TYPE_BMP);
-	fileImgBuf[8].LoadFile(appSkin->GetBtnAdvView(),wxBITMAP_TYPE_BMP);
-	fileImgBuf[9].LoadFile(appSkin->GetAnimationBG(),wxBITMAP_TYPE_BMP);
-	fileImgBuf[10].LoadFile(appSkin->GetIcnSleeping(),wxBITMAP_TYPE_BMP);
+	fileImgBuf[2].LoadFile(dirPref + appSkin->GetBtnPrefer(),wxBITMAP_TYPE_BMP);
+	fileImgBuf[3].LoadFile(dirPref + appSkin->GetBtnAttProj(),wxBITMAP_TYPE_BMP);
+	fileImgBuf[4].LoadFile(dirPref + appSkin->GetIcnWorking(),wxBITMAP_TYPE_BMP);
+	fileImgBuf[5].LoadFile(dirPref + appSkin->GetBtnMessages(),wxBITMAP_TYPE_BMP);
+	fileImgBuf[6].LoadFile(dirPref + appSkin->GetBtnPause(),wxBITMAP_TYPE_BMP);
+	fileImgBuf[7].LoadFile(dirPref + appSkin->GetBtnPlay(),wxBITMAP_TYPE_BMP);
+	fileImgBuf[8].LoadFile(dirPref + appSkin->GetBtnAdvView(),wxBITMAP_TYPE_BMP);
+	fileImgBuf[9].LoadFile(dirPref + appSkin->GetAnimationBG(),wxBITMAP_TYPE_BMP);
+	fileImgBuf[10].LoadFile(dirPref + appSkin->GetIcnSleeping(),wxBITMAP_TYPE_BMP);
 	CSimpleFrameImg0=&fileImgBuf[0];
 	btmpBtnPrefL=&fileImgBuf[2];
 	btmpBtnAttProjL=&fileImgBuf[3];
@@ -380,106 +386,217 @@ void CSimpleFrame::LoadSkinImages(){
 	m_ImageList.push_back(sleepWUico);
 }
 ///
-void CSimpleFrame::LoadSkinXML(){
+int CSimpleFrame::LoadSkinXML(){
     //app skin class
 	appSkin = SkinClass::Instance();
+	// parse xml file
+	FILE* f;
+    f = fopen(skinPath, "r");
+	if (!f) return ERR_FOPEN;
+    MIOFILE mf;
+    mf.init_file(f);
+    // parse
+	char buf[256];
+    std::string val;
 
-	//import xml
-	skinXML = new wxXmlDocument();
-    skinXML->Load(skinPath);
-	//////
-	if(skinXML->IsOk()) 
-    {
-		 wxXmlNode * RootNode = skinXML->GetRoot();
-		 wxXmlNode * ImagesNode = RootNode->GetChildren();
-		 wxXmlNode * ImagesNodes = ImagesNode->GetChildren();
-		 while(ImagesNodes)
-         { 
-             wxString NodeName = ImagesNodes->GetName(); 
-             //Get attribute values and add to Temp widget 
-			 if(NodeName.CmpNoCase("background")==0) 
-			 { 
-				 appSkin->SetAppBg(ImagesNodes->GetPropVal(_T("imgsrc"),_T(""))); 
-				 appSkin->SetAppBgCol(ImagesNodes->GetPropVal(_T("bgcol"),_T("")));
-			 }else if(NodeName.CmpNoCase("dlgpreferences")==0){
-				 appSkin->SetDlgPrefBg(ImagesNodes->GetPropVal(_T("imgsrc"),_T(""))); 
-			 }else if(NodeName.CmpNoCase("gauge")==0){
-				 appSkin->SetGaugeFgCol(ImagesNodes->GetPropVal(_T("fgcol"),_T(""))); 
-				 appSkin->SetGaugeBgCol(ImagesNodes->GetPropVal(_T("bgcol"),_T("")));
-			 }else if(NodeName.CmpNoCase("buttons")==0){
-				 wxXmlNode * ButtonsNodes = ImagesNodes->GetChildren();
-				 while(ButtonsNodes){
-					 wxString btnName = ButtonsNodes->GetName();
-					 if(btnName.CmpNoCase("preferences")==0){
-						appSkin->SetBtnPrefer(ButtonsNodes->GetPropVal(_T("imgsrc"),_T("")));
-					 }else if(btnName.CmpNoCase("attchproj")==0){
-                        appSkin->SetBtnAttProj(ButtonsNodes->GetPropVal(_T("imgsrc"),_T("")));
-					 }else if(btnName.CmpNoCase("advancedview")==0){
-                        appSkin->SetBtnAdvView(ButtonsNodes->GetPropVal(_T("imgsrc"),_T("")));
-					 }else if(btnName.CmpNoCase("play")==0){
-                        appSkin->SetBtnPlay(ButtonsNodes->GetPropVal(_T("imgsrc"),_T("")));
-					 }else if(btnName.CmpNoCase("pause")==0){
-                        appSkin->SetBtnPause(ButtonsNodes->GetPropVal(_T("imgsrc"),_T("")));
-					 }else if(btnName.CmpNoCase("messages")==0){
-                        appSkin->SetBtnMessages(ButtonsNodes->GetPropVal(_T("imgsrc"),_T("")));
-					 }else if(btnName.CmpNoCase("open")==0){
-                        appSkin->SetBtnOpen(ButtonsNodes->GetPropVal(_T("imgsrc"),_T("")));
-					 }else if(btnName.CmpNoCase("save")==0){
-                        appSkin->SetBtnSave(ButtonsNodes->GetPropVal(_T("imgsrc"),_T("")));
-					 }else if(btnName.CmpNoCase("cancel")==0){
-                        appSkin->SetBtnCancel(ButtonsNodes->GetPropVal(_T("imgsrc"),_T("")));
-					 }else if(btnName.CmpNoCase("leftArr")==0){
-                        appSkin->SetBtnLeftArr(ButtonsNodes->GetPropVal(_T("imgsrc"),_T("")));
-						appSkin->SetBtnLeftArrClick(ButtonsNodes->GetPropVal(_T("imgsrcclick"),_T("")));
-					 }else if(btnName.CmpNoCase("rightArr")==0){
-                        appSkin->SetBtnRightArr(ButtonsNodes->GetPropVal(_T("imgsrc"),_T("")));
-						appSkin->SetBtnRightArrClick(ButtonsNodes->GetPropVal(_T("imgsrcclick"),_T("")));
-					 }else if(btnName.CmpNoCase("expand")==0){
-                        appSkin->SetBtnExpand(ButtonsNodes->GetPropVal(_T("imgsrc"),_T("")));
-						appSkin->SetBtnExpandClick(ButtonsNodes->GetPropVal(_T("imgsrcclick"),_T("")));
-					 }else if(btnName.CmpNoCase("collapse")==0){
-                        appSkin->SetBtnCollapse(ButtonsNodes->GetPropVal(_T("imgsrc"),_T("")));
-						appSkin->SetBtnCollapseClick(ButtonsNodes->GetPropVal(_T("imgsrcclick"),_T("")));
-					 }
-					 // move to next child
-					 ButtonsNodes = ButtonsNodes->GetNext();
-				 }
-			 }else if(NodeName.CmpNoCase("icons")==0){
-				 wxXmlNode * IconsNodes = ImagesNodes->GetChildren();
-				 while(IconsNodes){
-					 wxString icnName = IconsNodes->GetName();
-					 if(icnName.CmpNoCase("working")==0){
-						appSkin->SetIcnWorking(IconsNodes->GetPropVal(_T("imgsrc"),_T("")));
-					 }else if(icnName.CmpNoCase("sleeping")==0){
-						appSkin->SetIcnSleeping(IconsNodes->GetPropVal(_T("imgsrc"),_T("")));
-					 }else if(icnName.CmpNoCase("workingWkUnit")==0){
-						appSkin->SetIcnWorkingWkUnit(IconsNodes->GetPropVal(_T("imgsrc"),_T("")));
-						appSkin->SetTabFromColAc(IconsNodes->GetPropVal(_T("frcol"),_T("")));
-						appSkin->SetTabToColAc(IconsNodes->GetPropVal(_T("tocol"),_T("")));
-						appSkin->SetTabBrdColAc(IconsNodes->GetPropVal(_T("brdcol"),_T("")));
-					 }else if(icnName.CmpNoCase("sleepingWkUnit")==0){
-						appSkin->SetIcnSleepingWkUnit(IconsNodes->GetPropVal(_T("imgsrc"),_T("")));
-						appSkin->SetTabFromColIn(IconsNodes->GetPropVal(_T("frcol"),_T("")));
-						appSkin->SetTabToColIn(IconsNodes->GetPropVal(_T("tocol"),_T("")));
-						appSkin->SetTabBrdColIn(IconsNodes->GetPropVal(_T("brdcol"),_T("")));
-					 }else if(icnName.CmpNoCase("prjWCGicon")==0){
-						appSkin->SetIcnPrjWCG(IconsNodes->GetPropVal(_T("imgsrc"),_T("")));
-					 }else if(icnName.CmpNoCase("prjPREDicon")==0){
-						appSkin->SetIcnPrjPRED(IconsNodes->GetPropVal(_T("imgsrc"),_T("")));
-					 }
-					 // move to next node
-					 IconsNodes = IconsNodes->GetNext();
-				 }
-			 }else if(NodeName.CmpNoCase("animation")==0){
-				 appSkin->SetAnimationBg(ImagesNodes->GetPropVal(_T("background"),_T(""))); 
-                 appSkin->SetAnimationFile(ImagesNodes->GetPropVal(_T("animation"),_T(""))); 
-			 }
-
-             ImagesNodes = ImagesNodes->GetNext(); 
-         }
+    while (mf.fgets(buf, 256)) {
+        if (match_tag(buf, "<clientskin")) {
+            continue;
+		}else if (match_tag(buf, "<background")) {
+			mf.fgets(buf, 256);
+			
+			if (parse_str(buf, "<imgsrc>", val)) {
+				appSkin->SetAppBg(wxString( val.c_str(), wxConvUTF8 ));
+			}
+			mf.fgets(buf, 256);
+            if (parse_str(buf, "<bgcol>", val)) {
+				appSkin->SetAppBgCol(wxString( val.c_str(), wxConvUTF8 ));
+			}
+        }else if (match_tag(buf, "<dlgpreferences")) {
+			mf.fgets(buf, 256);
+			if (parse_str(buf, "<imgsrc>", val)) {
+				appSkin->SetDlgPrefBg(wxString( val.c_str(), wxConvUTF8 ));
+			}
+        }else if (match_tag(buf, "<gauge")) {
+			mf.fgets(buf, 256);
+			if (parse_str(buf, "<fgcol>", val)) {
+				appSkin->SetGaugeFgCol(wxString( val.c_str(), wxConvUTF8 ));
+			}
+			mf.fgets(buf, 256);
+            if (parse_str(buf, "<bgcol>", val)) {
+				appSkin->SetGaugeBgCol(wxString( val.c_str(), wxConvUTF8 ));
+			}
+        }else if (match_tag(buf, "<buttons")) {
+			while (mf.fgets(buf, 256)) {
+				std::string val;
+				if(match_tag(buf, "</buttons>")){
+					//end of the buttons elements break out of while loop
+					break;
+				}
+				if(match_tag(buf, "<preferences>")){
+					mf.fgets(buf, 256);
+					if (parse_str(buf, "<imgsrc>", val)) {
+						appSkin->SetBtnPrefer(wxString( val.c_str(), wxConvUTF8 ));
+					}
+				}else if(match_tag(buf, "<attchproj>")){
+					mf.fgets(buf, 256);
+					if (parse_str(buf, "<imgsrc>", val)) {
+						appSkin->SetBtnAttProj(wxString( val.c_str(), wxConvUTF8 ));
+					}
+				}else if(match_tag(buf, "<advancedview>")){
+					mf.fgets(buf, 256);
+					if (parse_str(buf, "<imgsrc>", val)) {
+						appSkin->SetBtnAdvView(wxString( val.c_str(), wxConvUTF8 ));
+					}
+				}else if(match_tag(buf, "<play>")){
+					mf.fgets(buf, 256);
+					if (parse_str(buf, "<imgsrc>", val)) {
+						appSkin->SetBtnPlay(wxString( val.c_str(), wxConvUTF8 ));
+					}
+				}else if(match_tag(buf, "<pause>")){
+					mf.fgets(buf, 256);
+					if (parse_str(buf, "<imgsrc>", val)) {
+						appSkin->SetBtnPause(wxString( val.c_str(), wxConvUTF8 ));
+					}
+				}else if(match_tag(buf, "<messages>")){
+					mf.fgets(buf, 256);
+					if (parse_str(buf, "<imgsrc>", val)) {
+						appSkin->SetBtnMessages(wxString( val.c_str(), wxConvUTF8 ));
+					}
+				}else if(match_tag(buf, "<open>")){
+					mf.fgets(buf, 256);
+					if (parse_str(buf, "<imgsrc>", val)) {
+						appSkin->SetBtnOpen(wxString( val.c_str(), wxConvUTF8 ));
+					}
+				}else if(match_tag(buf, "<save>")){
+					mf.fgets(buf, 256);
+					if (parse_str(buf, "<imgsrc>", val)) {
+						appSkin->SetBtnSave(wxString( val.c_str(), wxConvUTF8 ));
+					}
+				}else if(match_tag(buf, "<cancel>")){
+					mf.fgets(buf, 256);
+					if (parse_str(buf, "<imgsrc>", val)) {
+						appSkin->SetBtnCancel(wxString( val.c_str(), wxConvUTF8 ));
+					}
+				}else if(match_tag(buf, "<leftArr>")){
+					mf.fgets(buf, 256);
+					if (parse_str(buf, "<imgsrc>", val)) {
+						appSkin->SetBtnLeftArr(wxString( val.c_str(), wxConvUTF8 ));
+					}
+					mf.fgets(buf, 256);
+					if (parse_str(buf, "<imgsrcclick>", val)) {
+						appSkin->SetBtnLeftArrClick(wxString( val.c_str(), wxConvUTF8 ));
+					}
+				}else if(match_tag(buf, "<rightArr>")){
+					mf.fgets(buf, 256);
+					if (parse_str(buf, "<imgsrc>", val)) {
+						appSkin->SetBtnRightArr(wxString( val.c_str(), wxConvUTF8 ));
+					}
+					mf.fgets(buf, 256);
+					if (parse_str(buf, "<imgsrcclick>", val)) {
+						appSkin->SetBtnRightArrClick(wxString( val.c_str(), wxConvUTF8 ));
+					}
+				}else if(match_tag(buf, "<expand>")){
+					mf.fgets(buf, 256);
+					if (parse_str(buf, "<imgsrc>", val)) {
+						appSkin->SetBtnExpand(wxString( val.c_str(), wxConvUTF8 ));
+					}
+					mf.fgets(buf, 256);
+					if (parse_str(buf, "<imgsrcclick>", val)) {
+						appSkin->SetBtnExpandClick(wxString( val.c_str(), wxConvUTF8 ));
+					}
+				}else if(match_tag(buf, "<collapse>")){
+					mf.fgets(buf, 256);
+					if (parse_str(buf, "<imgsrc>", val)) {
+						appSkin->SetBtnCollapse(wxString( val.c_str(), wxConvUTF8 ));
+					}
+					mf.fgets(buf, 256);
+					if (parse_str(buf, "<imgsrcclick>", val)) {
+						appSkin->SetBtnCollapseClick(wxString( val.c_str(), wxConvUTF8 ));
+					}
+				}
+			}//end of while
+		}else if (match_tag(buf, "<icons")) {
+			while (mf.fgets(buf, 256)) {
+				std::string val;
+				if(match_tag(buf, "</icons>")){
+					//end of the buttons elements break out of while loop
+					break;
+				}
+				if(match_tag(buf, "<working>")){
+					mf.fgets(buf, 256);
+					if (parse_str(buf, "<imgsrc>", val)) {
+						appSkin->SetIcnWorking(wxString( val.c_str(), wxConvUTF8 ));
+					}
+				}else if(match_tag(buf, "<sleeping>")){
+					mf.fgets(buf, 256);
+					if (parse_str(buf, "<imgsrc>", val)) {
+						appSkin->SetIcnSleeping(wxString( val.c_str(), wxConvUTF8 ));
+					}
+				}else if(match_tag(buf, "<workingWkUnit>")){
+					mf.fgets(buf, 256);
+					if (parse_str(buf, "<imgsrc>", val)) {
+						appSkin->SetIcnWorkingWkUnit(wxString( val.c_str(), wxConvUTF8 ));
+					}
+					mf.fgets(buf, 256);
+					if (parse_str(buf, "<frcol>", val)) {
+						appSkin->SetTabFromColAc(wxString( val.c_str(), wxConvUTF8 ));
+					}
+					mf.fgets(buf, 256);
+					if (parse_str(buf, "<tocol>", val)) {
+						appSkin->SetTabToColAc(wxString( val.c_str(), wxConvUTF8 ));
+					}
+					mf.fgets(buf, 256);
+					if (parse_str(buf, "<brdcol>", val)) {
+						appSkin->SetTabBrdColAc(wxString( val.c_str(), wxConvUTF8 ));
+					}
+				}else if(match_tag(buf, "<sleepingWkUnit>")){
+					mf.fgets(buf, 256);
+					if (parse_str(buf, "<imgsrc>", val)) {
+						appSkin->SetIcnSleepingWkUnit(wxString( val.c_str(), wxConvUTF8 ));
+					}
+					mf.fgets(buf, 256);
+					if (parse_str(buf, "<frcol>", val)) {
+						appSkin->SetTabFromColIn(wxString( val.c_str(), wxConvUTF8 ));
+					}
+					mf.fgets(buf, 256);
+					if (parse_str(buf, "<tocol>", val)) {
+						appSkin->SetTabToColIn(wxString( val.c_str(), wxConvUTF8 ));
+					}
+					mf.fgets(buf, 256);
+					if (parse_str(buf, "<brdcol>", val)) {
+						appSkin->SetTabBrdColIn(wxString( val.c_str(), wxConvUTF8 ));
+					}
+				}else if(match_tag(buf, "<prjWCGicon>")){
+					mf.fgets(buf, 256);
+					if (parse_str(buf, "<imgsrc>", val)) {
+						appSkin->SetIcnPrjWCG(wxString( val.c_str(), wxConvUTF8 ));
+					}
+				}else if(match_tag(buf, "<prjPREDicon>")){
+					mf.fgets(buf, 256);
+					if (parse_str(buf, "<imgsrc>", val)) {
+						appSkin->SetIcnPrjPRED(wxString( val.c_str(), wxConvUTF8 ));
+					}
+				}
+			}// end of while loop
+		}else if (match_tag(buf, "<animation")) {
+			mf.fgets(buf, 256);
+			std::string val;
+			if (parse_str(buf, "<background>", val)) {
+				appSkin->SetAnimationBg(wxString( val.c_str(), wxConvUTF8 ));
+			}
+			mf.fgets(buf, 256);
+            if (parse_str(buf, "<animation>", val)) {
+				appSkin->SetAnimationFile(wxString( val.c_str(), wxConvUTF8 ));
+			}
+        }
 	}
+	//
+    fclose(f);
+	return 0;
 }
 ///
+
 void CSimpleFrame::ReskinAppGUI(){
 	LoadSkinXML();
 	LoadSkinImages();
@@ -522,11 +639,12 @@ void CSimpleFrame::ReskinAppGUI(){
 void CSimpleFrame::OnBtnClick(wxCommandEvent& event){ //init function
 	wxObject *m_wxBtnObj = event.GetEventObject();
 	if(m_wxBtnObj==btnPreferences){
-		CDlgPreferences* pDlg = new CDlgPreferences(NULL);
+		CDlgPreferences* pDlg = new CDlgPreferences(NULL,skinsFolder+_T("/")+skinName+_T("/"));
 		wxASSERT(pDlg);
         pDlg->ShowModal();
 		if (pDlg) {
-		   skinPath = pDlg->GetSkinPath();
+		   skinName = pDlg->GetSkinName();
+		   skinPath = skinsFolder+_T("/")+skinName+_T("/")+_T("skin.xml");
 		   if(skinPath.Length() > 0){
 			   ReskinAppGUI();
 		   }

@@ -1,5 +1,6 @@
 #include "stdwx.h"
 
+#include "BOINCGUIApp.h"
 #include "sg_StatImageLoader.h" 
 
 
@@ -22,6 +23,14 @@ void StatImageLoader::PopUpMenu(wxMouseEvent& event)
 
 void StatImageLoader::CreateMenu() 
 { 
+	CMainDocument* pDoc      = wxGetApp().GetDocument();
+ 
+    wxASSERT(pDoc);
+    wxASSERT(wxDynamicCast(pDoc, CMainDocument));
+    // i = project id
+    // j = vector of menu items
+    //pDoc->state.projects[0]->gui_urls[0];
+
 	// create pop up menu
 	statPopUpMenu = new wxMenu(wxSIMPLE_BORDER);
 	//

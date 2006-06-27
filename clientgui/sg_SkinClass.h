@@ -1,6 +1,8 @@
 #ifndef _SKIN_CLASS
 #define _SKIN_CLASS
 
+#include <string>
+
 class SkinClass
 { 
 public: 
@@ -50,7 +52,7 @@ public:
         wxString GetAnimationFile() const { return m_animFile; }
         
         // Setters
-		void SetAppBg(const wxString& imgsrc) { m_appBg = imgsrc; }
+		void SetAppBg(const wxString imgsrc) { m_appBg = imgsrc; }
 		void SetAppBgCol(const wxString& clr) { m_appBgCol = clr; }
 		void SetBtnPrefer(const wxString& imgsrc) { m_btnPrefer = imgsrc; }
 		void SetBtnAttProj(const wxString& imgsrc) { m_btnAttProj = imgsrc; }

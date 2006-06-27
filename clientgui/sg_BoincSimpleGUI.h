@@ -74,6 +74,8 @@ public:
 	//Skin Class
     SkinClass *appSkin;
 	wxString skinPath;
+	wxString skinName;
+	wxString skinsFolder;
 	// My projects area
 	wxImage *g_statWCG;
 	StatImageLoader *i_statWCG;
@@ -147,7 +149,7 @@ public:
 	wxStaticLine *lnMyProjBtm;
 
     void InitSimpleClient();
-	void LoadSkinXML();
+	int LoadSkinXML();
 	void LoadSkinImages();
 	void ReskinAppGUI();
 	void initAfter();

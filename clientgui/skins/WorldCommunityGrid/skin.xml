@@ -2,15 +2,15 @@
 <clientskin>
 	<images>
 		<background>
-			<imgsrc>graphic/BOINC_SimpleGUI_bg.bmp</imgsrc>
-			<bgcol>253:254:229</bgcol>
+			<imgsrc>graphic/wcg_simplegui_bg.bmp</imgsrc>
+			<bgcol>195:230:250</bgcol>
 		</background>
 		<dlgpreferences>
 			<imgsrc>graphic/dlgPreferences.bmp</imgsrc>
 		</dlgpreferences>
 		<gauge>
-			<fgcol>220:220:172</fgcol>
-			<bgcol>248:251:184</bgcool>
+			<fgcol>153:204:255</fgcol>
+			<bgcol>204:255:204</bgcool>
 		</gauge>
 		<buttons>
 			<preferences>
@@ -67,14 +67,14 @@
 			<workingWkUnit>
 				<imgsrc>graphic/ico_workWU.png</imgsrc>
 				<frcol>255:255:255</frcol>
-				<tocol>248:248:152</tocol>
-				<brdcol>234:234:183</brdcol>
+				<tocol>96:206:234</tocol>
+				<brdcol>73:193:223</brdcol>
 			</workingWkUnit>
 			<sleepingWkUnit>
 				<imgsrc>graphic/ico_sleepWU.png</imgsrc>
 				<frcol>255:255:255</frcol>
-				<tocol>248:248:185</tocol>
-				<brdcol>245:245:199</brdcol>
+				<tocol>155:229:248</tocol>
+				<brdcol>216:234:245</brdcol>
 			</sleepingWkUnit>
 			<prjWCGicon>
 				<imgsrc>graphic/22_20_wcg.png</imgsrc>
