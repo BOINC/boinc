@@ -826,12 +826,15 @@ bool CLIENT_STATE::garbage_collect_always() {
         avp->ref_cnt = 0;
     }
 
-    // reference-count project files
+    // reference-count user and project files
     //
     for (i=0; i<projects.size(); i++) {
         project = projects[i];
         for (j=0; j<project->user_files.size(); j++) {
             project->user_files[j].file_info->ref_cnt++;
+        }
+        for (j=0; j<project->project_files.size(); j++) {
+            project->project_files[j].file_info->ref_cnt++;
         }
     }
 

@@ -437,6 +437,7 @@ int CLIENT_STATE::write_state(MIOFILE& f) {
         for (i=0; i<results.size(); i++) {
             if (results[i]->project == p) results[i]->write(f, false);
         }
+        p->write_project_files(f);
     }
     active_tasks.write(f);
     f.printf(

@@ -269,20 +269,33 @@ bool FILE_XFER_SET::poll() {
             fxp->fip->error_msg = "Local copy is at least as large as server copy";
         }
 
-        // for downloads, see if we read less than 5 KB and file is incomplete.
-        // If so truncate the amount read,
-        // since it may be a proxy error message
+        // deal with various error cases for downloads
         //
-        if (!fxp->is_upload && fxp->fip->nbytes) {
-            get_pathname(fxp->fip, pathname);
-            if (file_size(pathname, size)) continue;
-            if (size == fxp->fip->nbytes) continue;
-            double diff = size - fxp->starting_size;
-            if (diff>0 && diff<MIN_DOWNLOAD_INCREMENT) {
-                msg_printf(fxp->fip->project, MSG_INFO,
-                    "Incomplete read of less than 5KB for %s - truncating",
-                    fxp->fip->name
-                );
+        if (!fxp->is_upload) {
+            if (fxp->response == HTTP_STATUS_OK) {
+                // If no HTTP error,
+                // see if we read less than 5 KB and file is incomplete.
+                // If so truncate the amount read,
+                // since it may be a proxy error message
+                //
+                if (fxp->fip->nbytes) {
+                    get_pathname(fxp->fip, pathname);
+                    if (file_size(pathname, size)) continue;
+                    if (size == fxp->fip->nbytes) continue;
+                    double diff = size - fxp->starting_size;
+                    if (diff>0 && diff<MIN_DOWNLOAD_INCREMENT) {
+                        msg_printf(fxp->fip->project, MSG_INFO,
+                            "Incomplete read of %f < 5KB for %s - truncating",
+                            diff, fxp->fip->name
+                        );
+                        boinc_truncate(pathname, fxp->starting_size);
+                    }
+                }
+            } else {
+                // got HTTP error; truncate file, since some
+                // error-reporting HTML may have been appended
+                //
+                get_pathname(fxp->fip, pathname);
                 boinc_truncate(pathname, fxp->starting_size);
             }
         }

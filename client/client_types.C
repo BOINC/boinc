@@ -261,7 +261,6 @@ int PROJECT::write_state(MIOFILE& out, bool gui_rpc) {
                 "    <code_sign_key>\n%s</code_sign_key>\n", code_sign_key
             );
         }
-        write_project_files(out);
     }
     out.printf(
         "</project>\n"
@@ -454,7 +453,7 @@ int PROJECT::parse_project_files(FILE* in) {
         } else {
             if (log_flags.unparsed_xml) {
                 msg_printf(0, MSG_ERROR,
-                    "APP::parse(): unrecognized: %s\n", buf
+                    "parse_project_files(): unrecognized: %s\n", buf
                 );
             }
         }
@@ -467,6 +466,7 @@ int PROJECT::parse_project_file(FILE* in) {
     FILE_REF fref;
     FILE_INFO finfo, *fip;
 
+    memset(&fref, 0, sizeof(FILE_REF));
     while (fgets(buf, 256, in)) {
         if (match_tag(buf, "</file>")) {
             if (!strlen(fref.open_name)) {
@@ -482,6 +482,7 @@ int PROJECT::parse_project_file(FILE* in) {
             } else {
                 fip = new FILE_INFO;
                 *fip = finfo;
+                fip->project = this;
                 fip->is_project_file = true;
                 gstate.file_infos.push_back(fip);
                 fref.file_info = fip;
@@ -538,9 +539,13 @@ int APP::parse(MIOFILE& in) {
     char buf[256];
 
     strcpy(name, "");
+    strcpy(user_friendly_name, "");
     project = NULL;
     while (in.fgets(buf, 256)) {
-        if (match_tag(buf, "</app>")) return 0;
+        if (match_tag(buf, "</app>")) {
+            if (!strlen(user_friendly_name)) strcpy(user_friendly_name, name);
+            return 0;
+        }
         else if (parse_str(buf, "<name>", name, sizeof(name))) continue;
         else if (parse_str(buf, "<user_friendly_name>", user_friendly_name, sizeof(user_friendly_name))) continue;
         else {
@@ -912,6 +917,12 @@ const char* FILE_INFO::get_current_url(bool is_upload) {
     if (current_url < 0) {
         return get_init_url(is_upload);
     }
+    if (current_url >= (int)urls.size()) {
+        msg_printf(project, MSG_ERROR,
+            "File %s has no URL", name
+        );
+        return NULL;
+    }
     return urls[current_url].c_str();
 }
 
@@ -1104,7 +1115,6 @@ void APP_VERSION::clear_errors() {
         }
     }
 }
-
 
 int FILE_REF::parse(MIOFILE& in) {
     char buf[256];

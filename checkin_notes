@@ -6906,3 +6906,13 @@ Charlie 27 June 2006
         boinc.xcodeproj/
             project.pbxproj
 
+
+David  27 June 2006
+	- core client: debug 'project files" feature
+	- core client: bad message on HTTP file-not-found
+
+	client/
+		client_state.C
+		client_types.C
+		cs_statefile.C
+		file_xfer.C
