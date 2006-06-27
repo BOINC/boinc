@@ -38,7 +38,7 @@ To use automatic connection:
        <li>Click the 'Advanced' menu and click 'Options'.
        <li>Select the 'Connections' tab
        <li>Select the connection to be used by BOINC
-       <li>Click the 'Set default' checkbox
+       <li>Click the 'Set default' button
        <li>Click the 'OK' button
      </ul>
    <li>Set network preferences on project web site

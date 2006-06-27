@@ -6916,3 +6916,12 @@ David  27 June 2006
 		client_types.C
 		cs_statefile.C
 		file_xfer.C
+
+David  27 June 2006
+    - core client: put stderr output in a CDATA block,
+        so it doesn't break XML parsers if it has <
+
+    client/
+        client_state.C
+        client_types.C
+        proxy.C,h (removed)

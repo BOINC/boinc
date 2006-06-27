@@ -1433,6 +1433,8 @@ int RESULT::parse_state(MIOFILE& in) {
         else if (match_tag(buf, "<stderr_out>")) {
             while (in.fgets(buf, 256)) {
                 if (match_tag(buf, "</stderr_out>")) break;
+                if (strstr(buf, "<![CDATA[")) continue;
+                if (strstr(buf, "]]>")) continue;
                 stderr_out.append(buf);
             }
             continue;
@@ -1487,8 +1489,12 @@ int RESULT::write(MIOFILE& out, bool to_server) {
         );
     }
     n = stderr_out.length();
-    if (n) {
+    if (n || to_server) {
         out.printf("<stderr_out>\n");
+
+        // the following is here so that it gets recorded on server
+        // (there's no core_client_version field of result table)
+        //
         if (to_server) {
             out.printf(
                 "<core_client_version>%d.%d.%d</core_client_version>\n",
@@ -1497,9 +1503,13 @@ int RESULT::write(MIOFILE& out, bool to_server) {
                 gstate.core_client_release
             );
         }
-        out.printf(stderr_out.c_str());
-        if (stderr_out[n-1] != '\n') {
-            out.printf("\n");
+        if (n) {
+            out.printf("<![CDATA[\n");
+            out.printf(stderr_out.c_str());
+            if (stderr_out[n-1] != '\n') {
+                out.printf("\n");
+            }
+            out.printf("]]>\n");
         }
         out.printf("</stderr_out>\n");
     }

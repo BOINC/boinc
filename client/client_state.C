@@ -616,17 +616,6 @@ int CLIENT_STATE::link_app(PROJECT* p, APP* app) {
 int CLIENT_STATE::link_file_info(PROJECT* p, FILE_INFO* fip) {
     if (lookup_file_info(p, fip->name)) return ERR_NOT_UNIQUE;
     fip->project = p;
-#if 0
-    // I got rid of the from_server arg
-    if (from_server) {
-        if (p->associate_file(fip)) {
-            return 0;
-        } else {
-            return 1;
-        }
-    }
-#endif
-
     return 0;
 }
 

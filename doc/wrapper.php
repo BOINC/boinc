@@ -10,7 +10,7 @@ Such applications can be run using BOINC, as follows:
 <ul>
 <li>
 Compile the program 'wrapper' from the
-<a href=examples.php>boinc_samples</a> tree,
+<a href=example.php>boinc_samples</a> tree,
 producing (say) 'wrapper_5.10_windows_intelx86.exe'.
 
 <li> Create a file 'job.xml=job_0.xml' (0 is a version number) containing
