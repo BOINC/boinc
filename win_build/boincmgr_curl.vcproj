@@ -164,7 +164,7 @@
 					Name="Debug|Win32">
 					<Tool
 						Name="VCResourceCompilerTool"
-						AdditionalIncludeDirectories="../../wxWidgets-2.6.1/include;../../wxWidgets-2.6.1/contrib/include;.."/>
+						AdditionalIncludeDirectories="$(WXWIN)\include;$(WXWIN)\contrib\include;.."/>
 				</FileConfiguration>
 			</File>
 			<File
@@ -259,28 +259,6 @@
 			</File>
 			<File
 				RelativePath="..\clientgui\res\xfer.xpm">
-			</File>
-		</Filter>
-		<Filter
-			Name="Validators"
-			Filter="">
-			<File
-				RelativePath="..\clientgui\ValidateAccountKey.cpp">
-			</File>
-			<File
-				RelativePath="..\clientgui\ValidateAccountKey.h">
-			</File>
-			<File
-				RelativePath="..\clientgui\ValidateEmailAddress.cpp">
-			</File>
-			<File
-				RelativePath="..\clientgui\ValidateEmailAddress.h">
-			</File>
-			<File
-				RelativePath="..\clientgui\ValidateURL.cpp">
-			</File>
-			<File
-				RelativePath="..\clientgui\ValidateURL.h">
 			</File>
 		</Filter>
 		<Filter
@@ -523,9 +501,6 @@
 				RelativePath="..\clientgui\AlreadyExistsPage.h">
 			</File>
 			<File
-				RelativePath="..\clientgui\BOINCWizards.h">
-			</File>
-			<File
 				RelativePath="..\clientgui\CompletionErrorPage.cpp">
 			</File>
 			<File
@@ -609,16 +584,39 @@
 			<File
 				RelativePath="..\clientgui\WizardAttachProject.h">
 			</File>
-			<File
-				RelativePath="..\clientgui\wizardex.cpp">
-			</File>
-			<File
-				RelativePath="..\clientgui\wizardex.h">
-			</File>
+			<Filter
+				Name="Support"
+				Filter="">
+				<File
+					RelativePath="..\clientgui\BOINCBaseWizard.cpp">
+				</File>
+				<File
+					RelativePath="..\clientgui\BOINCBaseWizard.h">
+				</File>
+				<File
+					RelativePath="..\clientgui\BOINCWizards.h">
+				</File>
+			</Filter>
+			<Filter
+				Name="Infrastructure"
+				Filter="">
+				<File
+					RelativePath="..\clientgui\wizardex.cpp">
+				</File>
+				<File
+					RelativePath="..\clientgui\wizardex.h">
+				</File>
+			</Filter>
 		</Filter>
 		<Filter
 			Name="Infrastructure"
 			Filter="">
+			<File
+				RelativePath="..\clientgui\BOINCBaseFrame.cpp">
+			</File>
+			<File
+				RelativePath="..\clientgui\BOINCBaseFrame.h">
+			</File>
 			<File
 				RelativePath="..\clientgui\BOINCDialupManager.cpp">
 			</File>
@@ -728,22 +726,54 @@
 					RelativePath="..\clientgui\common\wxAnimate.h">
 				</File>
 			</Filter>
-		</Filter>
-		<Filter
-			Name="Taskbar"
-			Filter="">
-			<File
-				RelativePath="..\clientgui\BOINCTaskBar.cpp">
-			</File>
-			<File
-				RelativePath="..\clientgui\BOINCTaskBar.h">
-			</File>
-			<File
-				RelativePath="..\clientgui\msw\taskbarex.cpp">
-			</File>
-			<File
-				RelativePath="..\clientgui\msw\taskbarex.h">
-			</File>
+			<Filter
+				Name="Taskbar"
+				Filter="">
+				<File
+					RelativePath="..\clientgui\BOINCTaskBar.cpp">
+				</File>
+				<File
+					RelativePath="..\clientgui\BOINCTaskBar.h">
+				</File>
+				<File
+					RelativePath="..\clientgui\msw\taskbarex.cpp">
+				</File>
+				<File
+					RelativePath="..\clientgui\msw\taskbarex.h">
+				</File>
+			</Filter>
+			<Filter
+				Name="Validators"
+				Filter="">
+				<File
+					RelativePath="..\clientgui\ValidateAccountKey.cpp">
+				</File>
+				<File
+					RelativePath="..\clientgui\ValidateAccountKey.h">
+				</File>
+				<File
+					RelativePath="..\clientgui\ValidateEmailAddress.cpp">
+				</File>
+				<File
+					RelativePath="..\clientgui\ValidateEmailAddress.h">
+				</File>
+				<File
+					RelativePath="..\clientgui\ValidateURL.cpp">
+				</File>
+				<File
+					RelativePath="..\clientgui\ValidateURL.h">
+				</File>
+			</Filter>
+			<Filter
+				Name="Dialogs"
+				Filter="">
+				<File
+					RelativePath="..\clientgui\DlgGenericMessage.cpp">
+				</File>
+				<File
+					RelativePath="..\clientgui\DlgGenericMessage.h">
+				</File>
+			</Filter>
 		</Filter>
 		<Filter
 			Name="Advanced"
@@ -806,55 +836,37 @@
 					RelativePath="..\clientgui\ViewWork.h">
 				</File>
 			</Filter>
-		</Filter>
-		<Filter
-			Name="Dialogs"
-			Filter="">
-			<File
-				RelativePath="..\clientgui\DlgAbout.cpp">
-			</File>
-			<File
-				RelativePath="..\clientgui\DlgAbout.h">
-			</File>
-			<File
-				RelativePath="..\clientgui\DlgGenericMessage.cpp">
-			</File>
-			<File
-				RelativePath="..\clientgui\DlgGenericMessage.h">
-			</File>
-			<File
-				RelativePath="..\clientgui\DlgOptions.cpp">
-			</File>
-			<File
-				RelativePath="..\clientgui\DlgOptions.h">
-			</File>
-			<File
-				RelativePath="..\clientgui\DlgSelectComputer.cpp">
-			</File>
-			<File
-				RelativePath="..\clientgui\DlgSelectComputer.h">
-			</File>
+			<Filter
+				Name="Support"
+				Filter="">
+				<File
+					RelativePath="..\clientgui\BOINCBaseView.cpp">
+				</File>
+				<File
+					RelativePath="..\clientgui\BOINCBaseView.h">
+				</File>
+				<File
+					RelativePath="..\clientgui\DlgAbout.cpp">
+				</File>
+				<File
+					RelativePath="..\clientgui\DlgAbout.h">
+				</File>
+				<File
+					RelativePath="..\clientgui\DlgOptions.cpp">
+				</File>
+				<File
+					RelativePath="..\clientgui\DlgOptions.h">
+				</File>
+				<File
+					RelativePath="..\clientgui\DlgSelectComputer.cpp">
+				</File>
+				<File
+					RelativePath="..\clientgui\DlgSelectComputer.h">
+				</File>
+			</Filter>
 		</Filter>
 		<File
 			RelativePath="..\clientgui\_wx_intellisense.h">
-		</File>
-		<File
-			RelativePath="..\clientgui\BOINCBaseFrame.cpp">
-		</File>
-		<File
-			RelativePath="..\clientgui\BOINCBaseFrame.h">
-		</File>
-		<File
-			RelativePath="..\clientgui\BOINCBaseView.cpp">
-		</File>
-		<File
-			RelativePath="..\clientgui\BOINCBaseView.h">
-		</File>
-		<File
-			RelativePath="..\clientgui\BOINCBaseWizard.cpp">
-		</File>
-		<File
-			RelativePath="..\clientgui\BOINCBaseWizard.h">
 		</File>
 		<File
 			RelativePath="..\clientgui\BOINCGUIApp.cpp">
