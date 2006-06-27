@@ -78,7 +78,7 @@ sed -i "" s/"<VER_NUM>"/"$1.$2.$3"/g "${IR_PATH}/ReadMe.rtf"
 cp -fp mac_installer/postinstall "${IR_PATH}/"
 cp -fp mac_installer/postupgrade "${IR_PATH}/"
 
-cp -fpR $BUILDPATH/Postinstall.app "${IR_PATH}/"
+cp -fpR "$BUILDPATH/Postinstall.app" "${IR_PATH}/"
 
 mkdir -p "${PR_PATH}"
 mkdir -p "${PR_PATH}/Applications"
@@ -93,11 +93,11 @@ mkdir -p "${PR_PATH}/Library/Application Support/BOINC Data"
 mkdir -p "${PR_PATH}/Library/Application Support/ BOINC Data/locale"
 mkdir -p "${PR_PATH}/Library/Application Support/BOINC Data/switcher"
 
-cp -fpR $BUILDPATH/switcher "${PR_PATH}/Library/Application Support/BOINC Data/switcher/"
+cp -fpR "$BUILDPATH/switcher" "${PR_PATH}/Library/Application Support/BOINC Data/switcher/"
 
-cp -fpR $BUILDPATH/BOINCManager.app "${PR_PATH}/Applications/"
+cp -fpR "$BUILDPATH/BOINCManager.app" "${PR_PATH}/Applications/"
 
-cp -fpR $BUILDPATH/BOINCSaver.saver "${PR_PATH}/Library/Screen Savers/"
+cp -fpR "$BUILDPATH/BOINCSaver.saver" "${PR_PATH}/Library/Screen Savers/"
 
 ## Copy the localization files into the installer tree
 
@@ -178,8 +178,12 @@ cp -fp mac_Installer/Description.plist "${NEW_DIR_PATH}"
 sed -i "" s/BOINC/"${BRAND_NAME}"/g "${NEW_DIR_PATH}/Pkg-Info.plist"
 sed -i "" s/BOINC/"${BRAND_NAME}"/g "${NEW_DIR_PATH}/Description.plist"
 
-# Build the installer package
-/Developer/Tools/packagemaker -build -p "${NEW_DIR_PATH}/${LC_BRAND_NAME}_$1.$2.$3_macOSX_universal/${BRAND_NAME}.pkg" -f "${PR_PATH}" -r "${IR_PATH}" -i "${NEW_DIR_PATH}/Pkg-Info.plist" -d "${NEW_DIR_PATH}/Description.plist" -ds 
+# Copy the installer wrapper application "${BRAND_NAME} Installer.app"
+cp -fpR "$BUILDPATH/BOINC\ Installer.app" "${NEW_DIR_PATH}/${LC_BRAND_NAME}_$1.$2.$3_macOSX_universal/${BRAND_NAME}\ Installer.app"
+# Build the installer package inside the wrapper application's bundle
+/Developer/Tools/packagemaker -build -p "${NEW_DIR_PATH}/${LC_BRAND_NAME}_$1.$2.$3_macOSX_universal/${BRAND_NAME} Installer.app/Contents/Resources/${BRAND_NAME}.pkg" -f "${PR_PATH}" -r "${IR_PATH}" -i "${NEW_DIR_PATH}/Pkg-Info.plist" -d "${NEW_DIR_PATH}/Description.plist" -ds 
+# Allow the installer wrapper application to modify the package's Info.plist file
+sudo chmod u+w,g+w,o+w "${NEW_DIR_PATH}/${LC_BRAND_NAME}_$1.$2.$3_macOSX_universal/${BRAND_NAME} Installer.app/Contents/Resources/${BRAND_NAME}.pkg/Contents/Info.plist"
 
 # Remove temporary copies of Pkg-Info.plist and Description.plist
 rm ${NEW_DIR_PATH}/Pkg-Info.plist

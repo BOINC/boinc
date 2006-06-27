@@ -5,9 +5,9 @@
 	<key>CFBundleDevelopmentRegion</key>
 	<string>English</string>
 	<key>CFBundleExecutable</key>
-	<string>BOINC Installer</string>
+	<string>PostInstall</string>
 	<key>CFBundleIdentifier</key>
-	<string>edu.berkeley.boinc.Installer</string>
+	<string>edu.berkeley.boinc.PostInstall</string>
 	<key>CFBundleInfoDictionaryVersion</key>
 	<string>6.0</string>
 	<key>CFBundlePackageType</key>

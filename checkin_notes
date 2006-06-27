@@ -6884,3 +6884,25 @@ David  26 June 2006
     sched/
         main.C,h
         server_types.C,h
+
+Charlie 27 June 2006
+    - Mac sandbox:
+        - Create wrapper "BOINC Installer" application, with installer 
+          package inside its bundle.  Wrapper determines whether a logout 
+          will be needed, sets installer package Info.plist file accordingly,
+          and opens the package to launch the standard Mac installer.
+          
+    clientgui/
+        mac/
+            SetVersion.C
+    mac_installer/
+        Installer.cpp (new)
+        PostInstall.cpp
+        release_boinc.sh
+        release_GridRepublic.sh
+    mac_build/
+        Installer-Info.plist
+        PostInstall-Info.plist (new)
+        boinc.xcodeproj/
+            project.pbxproj
+

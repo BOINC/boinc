@@ -57,6 +57,8 @@ int main(int argc, char** argv) {
     if (err) retval = err;
     err = FixInfoPlistFile("./Installer-Info.plist");
     if (err) retval = err;
+    err = FixInfoPlistFile("./PostInstall-Info.plist");
+    if (err) retval = err;
     err = FixInfoPlistFile("./ScreenSaver-Info.plist");
     if (err) retval = err;
     err = FixInfoPlistFile("./SystemMenu-Info.plist");

@@ -17,7 +17,7 @@
 // or write to the Free Software Foundation, Inc.,
 // 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 
-/* PostInstall.c */
+/* PostInstall.cpp */
 
 #define CREATE_LOG 1    /* for debugging */
 
@@ -29,6 +29,7 @@
 #include <pwd.h>	// getpwname, getpwuid, getuid
 #include <sys/wait.h>	// waitpid
 #include <dirent.h>
+#include <sys/param.h>  // for MAXPATHLEN
 
 #include "LoginItemAPI.h"  //please take a look at LoginItemAPI.h for an explanation of the routines available to you.
 
@@ -36,6 +37,7 @@
 
 void Initialize(void);	/* function prototypes */
 int DeleteReceipt(void);
+OSStatus CheckLogoutRequirement(Boolean *logoutRequired);
 void SetLoginItem(long brandID);
 void SetUIDBackToUser (void);
 OSErr UpdateAllVisibleUsers(long brandID);
@@ -71,10 +73,10 @@ int main(int argc, char *argv[])
 #endif
     
     for (i=0; i<argc; i++) {
-        if (strcmp(argv[i], "-part2") == 0) {
+        if (strcmp(argv[i], "-part2") == 0)
             return DeleteReceipt();
-        }
     }
+    
     Initialize();
 
     ::GetCurrentProcess (&ourProcess);
@@ -256,6 +258,8 @@ int main(int argc, char *argv[])
 }
 
 
+// After installation has completed, delete the installer receipt.  
+// If we don't need to logout the user, also launch BOINC Manager.
 int DeleteReceipt()
 {
     ProcessSerialNumber     installerPSN;
@@ -263,8 +267,9 @@ int DeleteReceipt()
     int                     i;
     pid_t                   installerPID = 0;
     OSStatus                err;
-//    FSRef                   fileRef;
-//    OSStatus                err_fsref;
+    FSRef                   fileRef;
+    Boolean                 needLogOut;
+    OSStatus                err_fsref;
 
     Initialize();
 
@@ -287,16 +292,80 @@ int DeleteReceipt()
     // Remove installer package receipt so we can run installer again if needed to fix permissions
    if (brandID == 1) {
         system ("rm -rf /Library/Receipts/GridRepublic.pkg");
-//        err_fsref = FSPathMakeRef((StringPtr)"/Applications/GridRepublic Desktop.app", &fileRef, NULL);
+        err_fsref = FSPathMakeRef((StringPtr)"/Applications/GridRepublic Desktop.app", &fileRef, NULL);
     } else {
         system ("rm -rf /Library/Receipts/BOINC.pkg");
-//        err_fsref = FSPathMakeRef((StringPtr)"/Applications/BOINCManager.app", &fileRef, NULL);
+        err_fsref = FSPathMakeRef((StringPtr)"/Applications/BOINCManager.app", &fileRef, NULL);
     }
-    
-//    if (err_fsref == noErr)
-//        err = LSOpenFSRef(&fileRef, NULL);
+
+    err = CheckLogoutRequirement(&needLogOut);
+
+    if (! needLogOut)
+        if (err_fsref == noErr)
+            err = LSOpenFSRef(&fileRef, NULL);
 
     return 0;
+}
+
+
+OSStatus CheckLogoutRequirement(Boolean *logoutRequired)
+{
+    char                    path[MAXPATHLEN];
+    FSRef                   infoPlistFileRef;
+    Boolean                 isDirectory, result;
+    CFURLRef                xmlURL = NULL;
+    CFDataRef               xmlDataIn = NULL;
+    CFPropertyListRef       propertyListRef = NULL;
+    CFStringRef             restartKey = CFSTR("IFPkgFlagRestartAction");
+    CFStringRef             currentValue = NULL;
+//    CFStringRef             valueLogoutRequired = CFSTR("RequiredLogout");
+    CFStringRef             valueNoRestart = CFSTR("NoRestart");
+    CFStringRef             errorString = NULL;
+    OSStatus                err = noErr;
+    
+    *logoutRequired = true;
+    
+    getcwd(path, sizeof(path));
+    strlcat(path, "/Contents/Info.plist", sizeof(path));
+
+    err = FSPathMakeRef((UInt8*)path, &infoPlistFileRef, &isDirectory);
+    if (err)
+        return err;
+        
+    xmlURL = CFURLCreateFromFSRef(NULL, &infoPlistFileRef);
+    if (xmlURL == NULL)
+        return -1;
+
+    // Read XML Data from file
+    result = CFURLCreateDataAndPropertiesFromResource(NULL, xmlURL, &xmlDataIn, NULL, NULL, &err);
+    if (err == noErr)
+        if (!result)
+            err = coreFoundationUnknownErr;
+	
+    if (err == noErr) { // Convert XML Data to internal CFPropertyListRef / CFDictionaryRef format
+        propertyListRef = CFPropertyListCreateFromXMLData(NULL, xmlDataIn, kCFPropertyListMutableContainersAndLeaves, &errorString);
+        if (propertyListRef == NULL)
+            err = coreFoundationUnknownErr;
+    }
+    
+    if (err == noErr) { // Get current value for our key
+        currentValue = (CFStringRef)CFDictionaryGetValue((CFDictionaryRef)propertyListRef, restartKey);
+        if (currentValue == NULL)
+            err = coreFoundationUnknownErr;
+    }    
+    
+    if (err == noErr)
+        if (CFStringCompare(currentValue, valueNoRestart, 0) == kCFCompareEqualTo)
+            *logoutRequired = false;
+   
+    if (xmlURL)
+        CFRelease(xmlURL);
+    if (xmlDataIn)
+        CFRelease(xmlDataIn);
+    if (propertyListRef)
+        CFRelease(propertyListRef);
+
+    return err;
 }
 
 
@@ -349,7 +418,7 @@ void SetUIDBackToUser (void)
     setuid(login_uid);
 }
 
-// Find all visible users and set their login item to launch BOIN CManager.
+// Find all visible users and set their login item to launch BOINC Manager.
 // If user is a member of group admin, add user to groups boinc_master and boinc_project.
 OSErr UpdateAllVisibleUsers(long brandID)
 {
