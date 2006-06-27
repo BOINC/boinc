@@ -6925,3 +6925,17 @@ David  27 June 2006
         client_state.C
         client_types.C
         proxy.C,h (removed)
+
+David  27 June 2006
+    - Add new GUI RPC get_simple_gui_info(): returns list
+        of projects and active results.
+
+    client/
+        client_state.h
+        cs_statefile.C
+        gui_rpc_server_ops.C
+    lib/
+        boinc_cmd.C
+        gui_rpc_client.h
+        gui_rpc_client_ops.C
+        gui_rpc_client_print.C

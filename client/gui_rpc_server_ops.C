@@ -78,6 +78,17 @@ void GUI_RPC_CONN::handle_auth2(char* buf, MIOFILE& fout) {
     auth_needed = false;
 }
 
+static void handle_get_simple_gui_info(MIOFILE& fout) {
+    unsigned int i;
+    fout.printf("<simple_gui_info>\n");
+    for (i=0; i<gstate.projects.size(); i++) {
+        PROJECT* p = gstate.projects[i];
+        p->write_state(fout, true);
+    }
+    gstate.write_tasks_gui(fout, true);
+    fout.printf("</simple_gui_info>\n");
+}
+
 static void handle_get_project_status(MIOFILE& fout) {
     unsigned int i;
     fout.printf("<projects>\n");
@@ -804,7 +815,9 @@ int GUI_RPC_CONN::handle_rpc() {
     } else if (match_tag(request_msg, "<get_state")) {
         gstate.write_state_gui(mf);
     } else if (match_tag(request_msg, "<get_results")) {
-        gstate.write_tasks_gui(mf);
+        mf.printf("<results>\n");
+        gstate.write_tasks_gui(mf, false);
+        mf.printf("</results>\n");
     } else if (match_tag(request_msg, "<get_screensaver_mode")) {
         handle_get_screensaver_mode(request_msg, mf);
     } else if (match_tag(request_msg, "<set_screensaver_mode")) {
@@ -818,6 +831,8 @@ int GUI_RPC_CONN::handle_rpc() {
         gstate.write_file_transfers_gui(mf);
     } else if (match_tag(request_msg, "<get_project_status")) {
         handle_get_project_status(mf);
+    } else if (match_tag(request_msg, "<get_simple_gui_info")) {
+        handle_get_simple_gui_info(mf);
     } else if (match_tag(request_msg, "<get_disk_usage")) {
         handle_get_disk_usage(mf);
     } else if (match_tag(request_msg, "<project_nomorework")) {

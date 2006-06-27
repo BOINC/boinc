@@ -64,6 +64,7 @@ Commands:\n\
  --get_results                 show results\n\
  --get_file_transfers            show file transfers\n\
  --get_project_status            show status of all projects\n\
+ --get_simple_gui_info           show status of projects and active results\n\
  --get_disk_usage\n\
  --result url result_name {suspend | resume | abort | graphics_window | graphics_fullscreen}\n\
  --project url {reset | detach | update | suspend | resume | nomorework | allowmorework}\n\
@@ -228,6 +229,10 @@ int main(int argc, char** argv) {
         PROJECTS ps;
         retval = rpc.get_project_status(ps);
         if (!retval) ps.print();
+    } else if (!strcmp(cmd, "--get_simple_gui_info")) {
+        SIMPLE_GUI_INFO sgi;
+        retval = rpc.get_simple_gui_info(sgi);
+        if (!retval) sgi.print();
     } else if (!strcmp(cmd, "--get_disk_usage")) {
         PROJECTS ps;
         retval = rpc.get_disk_usage(ps);

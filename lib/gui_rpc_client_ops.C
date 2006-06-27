@@ -1045,6 +1045,37 @@ int RPC_CLIENT::get_file_transfers(FILE_TRANSFERS& t) {
     return retval;
 }
 
+int RPC_CLIENT::get_simple_gui_info(SIMPLE_GUI_INFO& sgi) {
+    int retval;
+    SET_LOCALE sl;
+    char buf[256];
+    RPC rpc(this);
+
+    sgi.projects.clear();
+    sgi.results.clear();
+    retval = rpc.do_rpc("<get_simple_gui_info>\n");
+    if (!retval) {
+        while (rpc.fin.fgets(buf, 256)) {
+            if (match_tag(buf, "</simple_gui_info>")) break;
+            else if (match_tag(buf, "<project>")) {
+                PROJECT* project = new PROJECT();
+                project->parse(rpc.fin);
+                sgi.projects.push_back(project);
+                continue;
+            }
+            else if (match_tag(buf, "<result>")) {
+                RESULT* result = new RESULT();
+                result->parse(rpc.fin);
+                sgi.results.push_back(result);
+                continue;
+            }
+        }
+    }
+    return retval;
+}
+
+// creates new array of PROJECTs
+//
 int RPC_CLIENT::get_project_status(PROJECTS& p) {
     int retval;
     SET_LOCALE sl;
@@ -1068,6 +1099,10 @@ int RPC_CLIENT::get_project_status(PROJECTS& p) {
     return retval;
 }
 
+// Updates the PROJECT array in the CC_STATE in place;
+// flags any projects that don't exist anymore.
+// KLUDGE - doesn't belong here
+//
 int RPC_CLIENT::get_project_status(CC_STATE& state) {
     int retval;
     SET_LOCALE sl;

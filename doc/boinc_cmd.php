@@ -24,6 +24,7 @@ list_item("--password", "The password for RPC authentication
 );
 list_item("--get_state", "show client state");
 list_item("--get_results", "show results");
+list_item("--get_simple_gui_info", "show projects and active results");
 list_item("--get_file_transfers", "show file transfers");
 list_item("--get_project_status", "show status of all projects");
 list_item("--get_disk_usage", "Show disk usage by project");

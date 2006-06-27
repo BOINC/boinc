@@ -52,6 +52,10 @@ list_item_func(
     if it's not there, call get_state() again."
 );
 list_item_func(
+    "get_simple_gui_info(SIMPLE_GUI_INFO&)",
+    "Return the list of projects and of active results."
+);
+list_item_func(
     "get_project_status(vector<PROJECT>&)",
     "Get a list of projects, with only basic fields filled in."
 );

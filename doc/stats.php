@@ -2,12 +2,11 @@
 
 require_once("docutil.php");
 
-page_head("Statistics data");
+page_head("Credit statistics web sites and services");
 echo "
 <b>Statistics data</b> is the number of
 <a href=credit.php>Cobblestones</a> (credit units)
-granted to hosts, participants and teams by the
-various BOINC projects.
+granted to hosts, participants and teams by the various BOINC projects.
 This can be used for various purposes, such as:
 <ul>
 <li> 
@@ -20,11 +19,16 @@ Examples are listed at <a href=stats_sites.php>here</a>.
 that show user and/or team credit, possible across projects.
 Examples are listed at <a href=stats_sites.php>here</a>.
 
-<li> Displays of current credit on cell phones and PDAs.  </ul>
+<li> Displays of current credit on cell phones and PDAs.
+</ul>
+
+Displays that use colors to distinguish BOINC projects should use
+<a href=http://boinc.netsoft-online.com/project_colors.html>these colors</a>.
+
 
 <p>
-BOINC provides a flexible architecture for distributing
-statistics data, with the goal of enabling new display applications.
+BOINC provides a flexible architecture for distributing statistics data,
+with the goal of enabling new display applications.
 <hr>
 <center>
 <img src=stats.png>

@@ -406,7 +406,7 @@ public:
 	int parse_app_info(PROJECT*, FILE*);
     int write_state_gui(MIOFILE&);
     int write_file_transfers_gui(MIOFILE&);
-    int write_tasks_gui(MIOFILE&);
+    int write_tasks_gui(MIOFILE&, bool);
 
 // --------------- cs_trickle.C:
 private:

@@ -167,6 +167,20 @@ void HOST_INFO::print() {
     printf("  disk free: %f\n", d_free);
 }
 
+void SIMPLE_GUI_INFO::print() {
+    unsigned int i;
+    printf("======== Projects ========\n");
+    for (i=0; i<projects.size(); i++) {
+        printf("%d) -----------\n", i+1);
+        projects[i]->print();
+    }
+    printf("\n======== Results ========\n");
+    for (i=0; i<results.size(); i++) {
+        printf("%d) -----------\n", i+1);
+        results[i]->print();
+    }
+}
+
 void CC_STATE::print() {
     unsigned int i;
     printf("======== Projects ========\n");
