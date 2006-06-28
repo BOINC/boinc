@@ -1028,7 +1028,7 @@ bool CBOINCGUIApp::SetActiveGUI(int iGUISelection, bool bShowWindow) {
     CBOINCBaseFrame* pNewFrame = NULL;
 
     // Create the new window
-    if ((iGUISelection != m_iGUISelected) || !pNewFrame) {
+    if ((iGUISelection != m_iGUISelected) || !m_pFrame) {
         switch(iGUISelection) {
             case BOINC_SIMPLEGUI:
                 // Initialize the simple gui window
