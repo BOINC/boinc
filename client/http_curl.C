@@ -209,9 +209,7 @@ int HTTP_OP::init_post(
     http_op_type = HTTP_OP_POST;
     http_op_state = HTTP_STATE_CONNECTING;
     if (log_flags.http_debug) {
-        msg_printf(0, MSG_INFO,
-            "HTTP_OP::init_post(): %p io_done %d\n", this, io_done
-        );
+        msg_printf(0, MSG_INFO, "HTTP_OP::init_post(): %p\n", this);
     }
     return HTTP_OP::libcurl_exec(url, in, out, 0.0, true);  // note that no offset for this, for resumable uploads use post2!
 }
@@ -241,7 +239,7 @@ int HTTP_OP::libcurl_exec(
     } else {
         //CMC -- I always want an outfile for the server response, delete when op done
         bTempOutfile = true;
-        memset(outfile, 0x00, _MAX_PATH);
+        strcpy(outfile, "");
 #if defined(_WIN32) && !defined(__CYGWIN32__)
         char* ptrName;
         ptrName = _tempnam("./", "blc");
@@ -361,7 +359,6 @@ The checking this option controls is of the identity that the server claims. The
             msg_printf(NULL, MSG_ERROR, 
                 "Can't create HTTP response output file %s", outfile
             );
-            io_done = true;
             http_op_retval = ERR_FOPEN;
             http_op_state = HTTP_STATE_DONE;
             return ERR_FOPEN;
@@ -380,7 +377,6 @@ The checking this option controls is of the identity that the server claims. The
             fileIn = boinc_fopen(infile, "rb");
             if (!fileIn) {
                 msg_printf(NULL, MSG_ERROR, "No HTTP input file %s", infile);
-                io_done = true;
                 http_op_retval = ERR_FOPEN;
                 http_op_state = HTTP_STATE_DONE;
                 return ERR_FOPEN;
@@ -816,14 +812,10 @@ void HTTP_OP::reset() {
     strcpy(error_msg, "");
     CurlResult = CURLE_OK;
     bTempOutfile = true;
-    is_connected = false;
     want_download = false;
     want_upload = false;
-    do_file_io = true;
-    io_done = false;
     fileIn = NULL;
     fileOut = NULL;
-    io_ready = true;
     error = 0;
     bytes_xferred = 0;
     xfer_speed = 0;
@@ -935,9 +927,6 @@ void HTTP_OP_SET::got_select(FDSET_GROUP&, double timeout) {
         curlErr = curl_easy_getinfo(hop->curlEasy, 
             (CURLINFO)(CURLINFO_LONG+25) /*CURLINFO_OS_ERRNO*/, &hop->error
         );
-
-        hop->io_done = true;
-        hop->io_ready = false;
 
         // update byte counts and transfer speed
         //
@@ -1054,7 +1043,6 @@ void HTTP_OP::update_speed() {
 void HTTP_OP::got_error() {
     // TODO: which socket??
     error = ERR_IO;
-    io_done = true;
     if (log_flags.net_xfer_debug) {
         msg_printf(0, MSG_INFO, "IO error on socket");
     }

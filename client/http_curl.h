@@ -21,8 +21,7 @@
 // There are variants for GET and POST,
 // and for the data source/sink (see below).
 
-// CMC Note: This was redone to use libcurl ref: http://curl.haxx.se/libcurl
-//   to allow ease of use for SSL/HTTPS etc
+// We use libcurl: http://curl.haxx.se/libcurl
 
 #ifndef _HTTP_
 #define _HTTP_
@@ -31,7 +30,6 @@
 #define SOCKS_VERSION_4             0x04
 #define SOCKS_VERSION_5             0x05
 
-// now include the curl library: originally from http://curl.haxx.se/libcurl
 #include <curl/curl.h>
 
 #include "network.h"
@@ -68,14 +66,7 @@ extern int curl_cleanup();
 
 #define HTTP_STATE_IDLE             0
 #define HTTP_STATE_CONNECTING       1
-#define HTTP_STATE_SOCKS_CONNECT    2
-#define HTTP_STATE_REQUEST_HEADER   3
-#define HTTP_STATE_REQUEST_BODY1    4
-    // sending the string part of a POST2 operation
-#define HTTP_STATE_REQUEST_BODY     5
-#define HTTP_STATE_REPLY_HEADER     6
-#define HTTP_STATE_REPLY_BODY       7
-#define HTTP_STATE_DONE             8
+#define HTTP_STATE_DONE             2
 
 class HTTP_OP {
 public:
@@ -101,40 +92,23 @@ public:
 	unsigned char* pByte;  // pointer to bytes for reading via libcurl_read function
 
 	long lSeek;  // this is a pointer within the file we're reading
-    char infile[_MAX_PATH];
-    char outfile[_MAX_PATH];
+    char infile[PATH_MAX];
+    char outfile[PATH_MAX];
     char error_msg[256];    // put Curl error message here
 	bool bTempOutfile; // CMC -- flag that outfile is really a tempfile we should delete
     char* req1;
 	bool bSentHeader;  // CMC -- a flag that I already sent the header
 	CURLcode CurlResult;   // CMC -- send up curl result code
 
-    bool is_connected;
     bool want_download;     // at most one should be true
     bool want_upload;
-    bool do_file_io;
-        // If true: poll() should transfer data to/from file
-        // (in which case "file" and blocksize are relevant)
-        // If false: set io_ready (higher layers will do I/O)
-    bool io_done;
-        // set to true when the current transfer is over:
-        // - the transfer timed out (not activity for a long time)
-        // - network connect failed
-        // - got EOF on socket read (0 bytes, select indicated I/O ready)
-        // - error on disk write (e.g. volume full)
-        // - reached end of disk file on upload
-        // - got file read error on upload
-        // - write to socket failed on upload
-    bool io_ready;
-        // Signals higher layers that they can read or write socket now
-        // (used if !do_file_io)
     int error;
 	int response;
     double start_time;
     double xfer_speed;
     double bytes_xferred;   // bytes transferred in this session
 
-	int http_op_state;     // values below
+	int http_op_state;     // values above
     int http_op_type;
     int http_op_retval;
 

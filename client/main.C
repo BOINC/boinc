@@ -19,8 +19,7 @@
 
 // command-line version of the BOINC core client
 
-// This file contains no GUI-related code,
-// and is not included in the source code for Mac or Win GUI clients
+// This file contains no GUI-related code.
 
 #ifdef WIN32
 #define _CONSOLE 1
@@ -71,10 +70,9 @@ typedef void (CALLBACK* ClientLibraryShutdown)();
 #include "file_names.h"
 #include "log_flags.h"
 #include "client_msgs.h"
-#include "main.h"
+#include "http_curl.h"
 
-extern int curl_init(void);
-extern int curl_cleanup(void);
+#include "main.h"
 
 static bool boinc_cleanup_completed = false;
     // Used on Windows 95/98/ME to determine when it is safe to leave

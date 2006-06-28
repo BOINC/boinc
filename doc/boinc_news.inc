@@ -1,6 +1,13 @@
 <?
 
 $project_news = array(
+array("June 28, 2006",
+    "A new <a href=sandbox_user.php>Secure BOINC Client</a>
+    for the Macintosh is available for testing.
+    This version limits BOINC applications' access to your system and data,
+    thus protecting your computer from accidental or malicious damage
+    or data theft."
+),
 array("June 22, 2006",
     "Pav Lucistnik has developed
     <a href=http://www.oook.cz/bsd/boinc_curses/>boinc_curses</a>,

@@ -7030,3 +7030,15 @@ David  28 June 2006
         net_xfer_curl.C,h (removed)
     win_build/
         boinc_cli_curl.vcproj
+
+David  28 June 2006
+    - core client: fix Unix build, and mild code cleanup:
+        - removed HTTP_OP::do_file_io, io_done, and io_ready
+            (not used anymore)
+        - removed unused values of HTTP_STATE_*
+        - removed extern decls from main.C (include .h file instead!)
+
+    client/
+        Makefile.am
+        http_curl.C,h
+        main.C
