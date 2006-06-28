@@ -284,7 +284,7 @@ $changes_52 = "
 $mac_changes_55= "
     <li>Macintosh only:
       <ul>
-        <li> Version 5.5.4BOINC Manager for the Mac introduces new, stricter 
+        <li> Version 5.5.4 BOINC Manager for the Mac introduces new, stricter 
             security measures.  If you experience problems with this software, 
             you can re-install a version of BOINC prior to 5.5.4; this will 
             automatically revert ownership and permissions to the earlier 
