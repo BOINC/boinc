@@ -261,6 +261,15 @@ public:
     int                         GetProxyConfiguration();
     int                         SetProxyConfiguration();
 
+
+    //
+    // Simple GUI Updates
+    //
+public:
+    int                         CachedSimpleGUIUpdate();
+private:
+    wxDateTime                  m_dtCachedSimpleGUITimestamp;
+
 };
 
 #endif

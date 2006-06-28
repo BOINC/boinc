@@ -6992,3 +6992,24 @@ Charlie 28 June 2006
         GR-ReadMe.rtf
         ReadMe.rtf
         release_GridRepublic.sh
+
+Rom    28 June 2006
+    - Hook up the simple gui info rpc to the document and populate
+        existing data structures.
+    - Create build configurations for building the simple GUI since
+        it is now turned off by default.
+        
+    clientgui/
+        MainDocument.cpp, .h
+    lib/
+        gui_rpc_client.h
+        gui_rpc_client_ops.C
+    win_build/
+        boinc.sln
+        boinc_cli_curl.vcproj
+        boinc_dll.vcproj
+        boinc_ss.vcproj
+        boinccmd.vcproj
+        boincmgr_curl.vcproj
+        libboinc.vcproj
+

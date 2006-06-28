@@ -1243,4 +1243,34 @@ int CMainDocument::SetProxyConfiguration() {
 }
 
 
+int CMainDocument::CachedSimpleGUIUpdate() {
+    int     iRetVal = 0;
+    int     i = 0;
+
+    if (IsConnected()) {
+        wxTimeSpan ts(wxDateTime::Now() - m_dtCachedSimpleGUITimestamp);
+        if (ts.GetSeconds() > 0) {
+            m_dtCachedSimpleGUITimestamp = wxDateTime::Now();
+
+            iRetVal = rpc.get_simple_gui_info(state, results);
+            if (iRetVal) {
+                wxLogTrace(wxT("Function Status"), wxT("CMainDocument::CachedSimpleGUIUpdate - Get Simple GUI Failed '%d'"), iRetVal);
+                ForceCacheUpdate();
+            }
+
+            m_fProjectTotalResourceShare = 0.0;
+            for (i=0; i < (long)state.projects.size(); i++) {
+                m_fProjectTotalResourceShare += state.projects.at(i)->resource_share;
+            }
+        }
+    } else {
+        iRetVal = -1;
+    }
+
+    return iRetVal;
+}
+
+
+
+
 const char *BOINC_RCSID_aa03a835ba = "$Id$";
