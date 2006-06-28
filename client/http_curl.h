@@ -92,8 +92,8 @@ public:
 	unsigned char* pByte;  // pointer to bytes for reading via libcurl_read function
 
 	long lSeek;  // this is a pointer within the file we're reading
-    char infile[PATH_MAX];
-    char outfile[PATH_MAX];
+    char infile[256];
+    char outfile[256];
     char error_msg[256];    // put Curl error message here
 	bool bTempOutfile; // CMC -- flag that outfile is really a tempfile we should delete
     char* req1;
