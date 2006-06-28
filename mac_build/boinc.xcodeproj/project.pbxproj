@@ -52,7 +52,6 @@
 		DD095F2407D882F200362260 /* DlgOptions.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DD81C3FF07C5D1020098A04D /* DlgOptions.cpp */; };
 		DD095F2707D882F400362260 /* LogBOINC.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DD81C41407C5D13E0098A04D /* LogBOINC.cpp */; };
 		DD095F2907D882F600362260 /* MainDocument.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DD81C41607C5D13E0098A04D /* MainDocument.cpp */; };
-		DD095F2B07D882FB00362260 /* MainFrame.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DD81C41507C5D13E0098A04D /* MainFrame.cpp */; };
 		DD095F2D07D882FC00362260 /* stdwx.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DD81C41707C5D13E0098A04D /* stdwx.cpp */; };
 		DD095F2F07D882FF00362260 /* ValidateAccountKey.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DD81C42707C5D1D70098A04D /* ValidateAccountKey.cpp */; };
 		DD095F3107D8830100362260 /* ValidateURL.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DD81C42607C5D1D70098A04D /* ValidateURL.cpp */; };
@@ -84,6 +83,13 @@
 		DD130F340820C4C4001A0291 /* Carbon.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 20286C33FDCF999611CA2CEA /* Carbon.framework */; };
 		DD16BF7C099D6C90003E4B69 /* cpu_sched.C in Sources */ = {isa = PBXBuildFile; fileRef = DD16BF7B099D6C90003E4B69 /* cpu_sched.C */; };
 		DD1929D90918A2F100C31BCF /* Security.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DD1929D80918A2F100C31BCF /* Security.framework */; };
+		DD1A00670A51689000EE5B82 /* AdvancedFrame.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DD1A00590A51689000EE5B82 /* AdvancedFrame.cpp */; };
+		DD1A00690A51689000EE5B82 /* BOINCBaseFrame.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DD1A005B0A51689000EE5B82 /* BOINCBaseFrame.cpp */; };
+		DD1A006B0A51689000EE5B82 /* sg_BoincSimpleGUI.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DD1A005D0A51689000EE5B82 /* sg_BoincSimpleGUI.cpp */; };
+		DD1A006D0A51689000EE5B82 /* sg_DlgPreferences.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DD1A005F0A51689000EE5B82 /* sg_DlgPreferences.cpp */; };
+		DD1A006F0A51689000EE5B82 /* sg_ImageLoader.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DD1A00610A51689000EE5B82 /* sg_ImageLoader.cpp */; };
+		DD1A00710A51689000EE5B82 /* sg_SkinClass.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DD1A00630A51689000EE5B82 /* sg_SkinClass.cpp */; };
+		DD1A00730A51689000EE5B82 /* sg_StatImageLoader.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DD1A00650A51689000EE5B82 /* sg_StatImageLoader.cpp */; };
 		DD1AFEA80A512D8700EE5B82 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = F51BDF4903086C46012012A7 /* InfoPlist.strings */; };
 		DD1AFEAC0A512D8700EE5B82 /* SetupSecurity.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DD7748B40A356D6C0025D05E /* SetupSecurity.cpp */; };
 		DD1AFEAD0A512D8700EE5B82 /* check_security.C in Sources */ = {isa = PBXBuildFile; fileRef = DD6617870A3FFD8C00FFEBEB /* check_security.C */; };
@@ -151,7 +157,6 @@
 		DD58C43D08F3347D00C1DF66 /* BOINCBaseWizard.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DD58C43408F3347D00C1DF66 /* BOINCBaseWizard.cpp */; };
 		DD58C44008F3347D00C1DF66 /* CompletionErrorPage.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DD58C43708F3347D00C1DF66 /* CompletionErrorPage.cpp */; };
 		DD58C44208F3347D00C1DF66 /* CompletionPage.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DD58C43908F3347D00C1DF66 /* CompletionPage.cpp */; };
-		DD58C44408F3347D00C1DF66 /* DlgDialupCredentials.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DD58C43B08F3347D00C1DF66 /* DlgDialupCredentials.cpp */; };
 		DD58C45208F334B500C1DF66 /* NoInternetConnectionPage.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DD58C44608F334B500C1DF66 /* NoInternetConnectionPage.cpp */; };
 		DD58C45408F334B500C1DF66 /* NotDetectedPage.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DD58C44808F334B500C1DF66 /* NotDetectedPage.cpp */; };
 		DD58C45608F334B500C1DF66 /* NotFoundPage.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DD58C44A08F334B500C1DF66 /* NotFoundPage.cpp */; };
@@ -637,7 +642,7 @@
 			isa = PBXContainerItemProxy;
 			containerPortal = 20286C28FDCF999611CA2CEA /* Project object */;
 			proxyType = 1;
-			remoteGlobalIDString = DD1AFEA40A512D8700EE5B82 /* Install_BOINC */;
+			remoteGlobalIDString = DD1AFEA40A512D8700EE5B82;
 			remoteInfo = Install_BOINC;
 		};
 		DD40D36007F03B600096C645 /* PBXContainerItemProxy */ = {
@@ -784,6 +789,20 @@
 		DD16BF7B099D6C90003E4B69 /* cpu_sched.C */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.cpp.cpp; name = cpu_sched.C; path = ../client/cpu_sched.C; sourceTree = SOURCE_ROOT; };
 		DD16BF8F099D6CE5003E4B69 /* cpu_benchmark.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = cpu_benchmark.h; path = ../client/cpu_benchmark.h; sourceTree = SOURCE_ROOT; };
 		DD1929D80918A2F100C31BCF /* Security.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Security.framework; path = /System/Library/Frameworks/Security.framework; sourceTree = "<absolute>"; };
+		DD1A00590A51689000EE5B82 /* AdvancedFrame.cpp */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.cpp.cpp; name = AdvancedFrame.cpp; path = ../clientgui/AdvancedFrame.cpp; sourceTree = SOURCE_ROOT; };
+		DD1A005A0A51689000EE5B82 /* AdvancedFrame.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = AdvancedFrame.h; path = ../clientgui/AdvancedFrame.h; sourceTree = SOURCE_ROOT; };
+		DD1A005B0A51689000EE5B82 /* BOINCBaseFrame.cpp */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.cpp.cpp; name = BOINCBaseFrame.cpp; path = ../clientgui/BOINCBaseFrame.cpp; sourceTree = SOURCE_ROOT; };
+		DD1A005C0A51689000EE5B82 /* BOINCBaseFrame.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = BOINCBaseFrame.h; path = ../clientgui/BOINCBaseFrame.h; sourceTree = SOURCE_ROOT; };
+		DD1A005D0A51689000EE5B82 /* sg_BoincSimpleGUI.cpp */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.cpp.cpp; name = sg_BoincSimpleGUI.cpp; path = ../clientgui/sg_BoincSimpleGUI.cpp; sourceTree = SOURCE_ROOT; };
+		DD1A005E0A51689000EE5B82 /* sg_BoincSimpleGUI.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = sg_BoincSimpleGUI.h; path = ../clientgui/sg_BoincSimpleGUI.h; sourceTree = SOURCE_ROOT; };
+		DD1A005F0A51689000EE5B82 /* sg_DlgPreferences.cpp */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.cpp.cpp; name = sg_DlgPreferences.cpp; path = ../clientgui/sg_DlgPreferences.cpp; sourceTree = SOURCE_ROOT; };
+		DD1A00600A51689000EE5B82 /* sg_DlgPreferences.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = sg_DlgPreferences.h; path = ../clientgui/sg_DlgPreferences.h; sourceTree = SOURCE_ROOT; };
+		DD1A00610A51689000EE5B82 /* sg_ImageLoader.cpp */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.cpp.cpp; name = sg_ImageLoader.cpp; path = ../clientgui/sg_ImageLoader.cpp; sourceTree = SOURCE_ROOT; };
+		DD1A00620A51689000EE5B82 /* sg_ImageLoader.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = sg_ImageLoader.h; path = ../clientgui/sg_ImageLoader.h; sourceTree = SOURCE_ROOT; };
+		DD1A00630A51689000EE5B82 /* sg_SkinClass.cpp */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.cpp.cpp; name = sg_SkinClass.cpp; path = ../clientgui/sg_SkinClass.cpp; sourceTree = SOURCE_ROOT; };
+		DD1A00640A51689000EE5B82 /* sg_SkinClass.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = sg_SkinClass.h; path = ../clientgui/sg_SkinClass.h; sourceTree = SOURCE_ROOT; };
+		DD1A00650A51689000EE5B82 /* sg_StatImageLoader.cpp */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.cpp.cpp; name = sg_StatImageLoader.cpp; path = ../clientgui/sg_StatImageLoader.cpp; sourceTree = SOURCE_ROOT; };
+		DD1A00660A51689000EE5B82 /* sg_StatImageLoader.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = sg_StatImageLoader.h; path = ../clientgui/sg_StatImageLoader.h; sourceTree = SOURCE_ROOT; };
 		DD1AFE8F0A512D2600EE5B82 /* Installer-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.xml; path = "Installer-Info.plist"; sourceTree = "<group>"; };
 		DD1AFEBA0A512D8700EE5B82 /* BOINC Installer.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "BOINC Installer.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		DD1AFEE70A51301C00EE5B82 /* Installer.cpp */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.cpp.cpp; name = Installer.cpp; path = ../mac_installer/Installer.cpp; sourceTree = SOURCE_ROOT; };
@@ -848,8 +867,6 @@
 		DD344BE507C5B1670043025C /* prefs.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = prefs.h; path = ../lib/prefs.h; sourceTree = SOURCE_ROOT; };
 		DD344BEE07C5B1770043025C /* proxy_info.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = proxy_info.h; path = ../lib/proxy_info.h; sourceTree = SOURCE_ROOT; };
 		DD344BEF07C5B1770043025C /* proxy_info.C */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.cpp.cpp; name = proxy_info.C; path = ../lib/proxy_info.C; sourceTree = SOURCE_ROOT; };
-		DD344BFA07C5B1A80043025C /* proxy.C */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.cpp.cpp; name = proxy.C; path = ../client/proxy.C; sourceTree = SOURCE_ROOT; };
-		DD344BFB07C5B1A80043025C /* proxy.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = proxy.h; path = ../client/proxy.h; sourceTree = SOURCE_ROOT; };
 		DD35353107E1E05C00C4718D /* libboinc_api.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libboinc_api.a; sourceTree = BUILT_PRODUCTS_DIR; };
 		DD407A4A07D2FB1200163EF5 /* libboinc.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libboinc.a; sourceTree = BUILT_PRODUCTS_DIR; };
 		DD407AB707D2FC7D00163EF5 /* mem_usage.C */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.cpp.cpp; name = mem_usage.C; path = ../lib/mem_usage.C; sourceTree = SOURCE_ROOT; };
@@ -897,8 +914,6 @@
 		DD58C43808F3347D00C1DF66 /* CompletionErrorPage.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = CompletionErrorPage.h; path = ../clientgui/CompletionErrorPage.h; sourceTree = SOURCE_ROOT; };
 		DD58C43908F3347D00C1DF66 /* CompletionPage.cpp */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.cpp.cpp; name = CompletionPage.cpp; path = ../clientgui/CompletionPage.cpp; sourceTree = SOURCE_ROOT; };
 		DD58C43A08F3347D00C1DF66 /* CompletionPage.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = CompletionPage.h; path = ../clientgui/CompletionPage.h; sourceTree = SOURCE_ROOT; };
-		DD58C43B08F3347D00C1DF66 /* DlgDialupCredentials.cpp */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.cpp.cpp; name = DlgDialupCredentials.cpp; path = ../clientgui/DlgDialupCredentials.cpp; sourceTree = SOURCE_ROOT; };
-		DD58C43C08F3347D00C1DF66 /* DlgDialupCredentials.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = DlgDialupCredentials.h; path = ../clientgui/DlgDialupCredentials.h; sourceTree = SOURCE_ROOT; };
 		DD58C44608F334B500C1DF66 /* NoInternetConnectionPage.cpp */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.cpp.cpp; name = NoInternetConnectionPage.cpp; path = ../clientgui/NoInternetConnectionPage.cpp; sourceTree = SOURCE_ROOT; };
 		DD58C44708F334B500C1DF66 /* NoInternetConnectionPage.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = NoInternetConnectionPage.h; path = ../clientgui/NoInternetConnectionPage.h; sourceTree = SOURCE_ROOT; };
 		DD58C44808F334B500C1DF66 /* NotDetectedPage.cpp */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.cpp.cpp; name = NotDetectedPage.cpp; path = ../clientgui/NotDetectedPage.cpp; sourceTree = SOURCE_ROOT; };
@@ -961,7 +976,6 @@
 		DD81C40507C5D1020098A04D /* BOINCGUIApp.cpp */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.cpp.cpp; name = BOINCGUIApp.cpp; path = ../clientgui/BOINCGUIApp.cpp; sourceTree = SOURCE_ROOT; };
 		DD81C40607C5D1020098A04D /* BOINCTaskCtrl.cpp */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.cpp.cpp; name = BOINCTaskCtrl.cpp; path = ../clientgui/BOINCTaskCtrl.cpp; sourceTree = SOURCE_ROOT; };
 		DD81C41407C5D13E0098A04D /* LogBOINC.cpp */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.cpp.cpp; name = LogBOINC.cpp; path = ../clientgui/LogBOINC.cpp; sourceTree = SOURCE_ROOT; };
-		DD81C41507C5D13E0098A04D /* MainFrame.cpp */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.cpp.cpp; name = MainFrame.cpp; path = ../clientgui/MainFrame.cpp; sourceTree = SOURCE_ROOT; };
 		DD81C41607C5D13E0098A04D /* MainDocument.cpp */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.cpp.cpp; name = MainDocument.cpp; path = ../clientgui/MainDocument.cpp; sourceTree = SOURCE_ROOT; };
 		DD81C41707C5D13E0098A04D /* stdwx.cpp */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.cpp.cpp; name = stdwx.cpp; path = ../clientgui/stdwx.cpp; sourceTree = SOURCE_ROOT; };
 		DD81C42107C5D1D70098A04D /* ViewWork.cpp */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.cpp.cpp; name = ViewWork.cpp; path = ../clientgui/ViewWork.cpp; sourceTree = SOURCE_ROOT; };
@@ -980,7 +994,6 @@
 		DD81C43C07C5D2240098A04D /* _wx_intellisense.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = _wx_intellisense.h; path = ../clientgui/_wx_intellisense.h; sourceTree = SOURCE_ROOT; };
 		DD81C43D07C5D2240098A04D /* BOINCTaskBar.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = BOINCTaskBar.h; path = ../clientgui/BOINCTaskBar.h; sourceTree = SOURCE_ROOT; };
 		DD81C44D07C5D2470098A04D /* Events.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = Events.h; path = ../clientgui/Events.h; sourceTree = SOURCE_ROOT; };
-		DD81C44E07C5D2470098A04D /* MainFrame.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = MainFrame.h; path = ../clientgui/MainFrame.h; sourceTree = SOURCE_ROOT; };
 		DD81C44F07C5D2470098A04D /* MainDocument.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = MainDocument.h; path = ../clientgui/MainDocument.h; sourceTree = SOURCE_ROOT; };
 		DD81C45007C5D2470098A04D /* LogBOINC.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = LogBOINC.h; path = ../clientgui/LogBOINC.h; sourceTree = SOURCE_ROOT; };
 		DD81C45B07C5D2880098A04D /* stdwx.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = stdwx.h; path = ../clientgui/stdwx.h; sourceTree = SOURCE_ROOT; };
@@ -1288,11 +1301,15 @@
 				DD58C41F08F3343F00C1DF66 /* AccountManagerProcessingPage.h */,
 				DD58C42008F3343F00C1DF66 /* AccountManagerPropertiesPage.cpp */,
 				DD58C42108F3343F00C1DF66 /* AccountManagerPropertiesPage.h */,
+				DD1A00590A51689000EE5B82 /* AdvancedFrame.cpp */,
+				DD1A005A0A51689000EE5B82 /* AdvancedFrame.h */,
 				DD58C42208F3343F00C1DF66 /* AlreadyAttachedPage.cpp */,
 				DD58C42308F3343F00C1DF66 /* AlreadyAttachedPage.h */,
 				DD58C42408F3343F00C1DF66 /* AlreadyExistsPage.cpp */,
 				DD58C42508F3343F00C1DF66 /* AlreadyExistsPage.h */,
 				DD81C3FE07C5D1020098A04D /* BOINCBaseView.cpp */,
+				DD1A005B0A51689000EE5B82 /* BOINCBaseFrame.cpp */,
+				DD1A005C0A51689000EE5B82 /* BOINCBaseFrame.h */,
 				DD81C43407C5D2240098A04D /* BOINCBaseView.h */,
 				DD58C43408F3347D00C1DF66 /* BOINCBaseWizard.cpp */,
 				DD58C43508F3347D00C1DF66 /* BOINCBaseWizard.h */,
@@ -1313,8 +1330,6 @@
 				DD58C43A08F3347D00C1DF66 /* CompletionPage.h */,
 				DD81C40207C5D1020098A04D /* DlgAbout.cpp */,
 				DD81C43707C5D2240098A04D /* DlgAbout.h */,
-				DD58C43B08F3347D00C1DF66 /* DlgDialupCredentials.cpp */,
-				DD58C43C08F3347D00C1DF66 /* DlgDialupCredentials.h */,
 				DDC63EEF0985B89600383FD2 /* DlgGenericMessage.cpp */,
 				DDC63EF00985B89600383FD2 /* DlgGenericMessage.h */,
 				DD81C3FF07C5D1020098A04D /* DlgOptions.cpp */,
@@ -1331,8 +1346,6 @@
 				F5C5403402BFC5C701BEDAB8 /* mac */,
 				DD81C41607C5D13E0098A04D /* MainDocument.cpp */,
 				DD81C44F07C5D2470098A04D /* MainDocument.h */,
-				DD81C41507C5D13E0098A04D /* MainFrame.cpp */,
-				DD81C44E07C5D2470098A04D /* MainFrame.h */,
 				DD58C44608F334B500C1DF66 /* NoInternetConnectionPage.cpp */,
 				DD58C44708F334B500C1DF66 /* NoInternetConnectionPage.h */,
 				DD58C44808F334B500C1DF66 /* NotDetectedPage.cpp */,
@@ -1350,6 +1363,16 @@
 				DD58C45E08F334EA00C1DF66 /* ProxyPage.cpp */,
 				DD58C45F08F334EA00C1DF66 /* ProxyPage.h */,
 				DD58C46008F334EA00C1DF66 /* resource.h */,
+				DD1A005D0A51689000EE5B82 /* sg_BoincSimpleGUI.cpp */,
+				DD1A005E0A51689000EE5B82 /* sg_BoincSimpleGUI.h */,
+				DD1A005F0A51689000EE5B82 /* sg_DlgPreferences.cpp */,
+				DD1A00600A51689000EE5B82 /* sg_DlgPreferences.h */,
+				DD1A00610A51689000EE5B82 /* sg_ImageLoader.cpp */,
+				DD1A00620A51689000EE5B82 /* sg_ImageLoader.h */,
+				DD1A00630A51689000EE5B82 /* sg_SkinClass.cpp */,
+				DD1A00640A51689000EE5B82 /* sg_SkinClass.h */,
+				DD1A00650A51689000EE5B82 /* sg_StatImageLoader.cpp */,
+				DD1A00660A51689000EE5B82 /* sg_StatImageLoader.h */,
 				DD81C41707C5D13E0098A04D /* stdwx.cpp */,
 				DD81C45B07C5D2880098A04D /* stdwx.h */,
 				DD58C46108F334EA00C1DF66 /* UnavailablePage.cpp */,
@@ -1517,8 +1540,6 @@
 				DD33C6FC08B5BC2600768630 /* net_xfer_curl.C */,
 				F51CCF1F02EFD37D018DB99A /* pers_file_xfer.C */,
 				F51CCF1E02EFD37D018DB99A /* pers_file_xfer.h */,
-				DD344BFA07C5B1A80043025C /* proxy.C */,
-				DD344BFB07C5B1A80043025C /* proxy.h */,
 				F519F98D02C44A7501BDB3CA /* scheduler_op.C */,
 				F519F98E02C44A7501BDB3CA /* scheduler_op.h */,
 				AA8B6B23046C366200A80164 /* ss_logic.C */,
@@ -2593,7 +2614,6 @@
 				DD58C44208F3347D00C1DF66 /* CompletionPage.cpp in Sources */,
 				DD095F4507D8838F00362260 /* diagnostics.C in Sources */,
 				DD095F1E07D882EE00362260 /* DlgAbout.cpp in Sources */,
-				DD58C44408F3347D00C1DF66 /* DlgDialupCredentials.cpp in Sources */,
 				DDC63EF10985B89600383FD2 /* DlgGenericMessage.cpp in Sources */,
 				DD095F2407D882F200362260 /* DlgOptions.cpp in Sources */,
 				DD2D25CD07FAB41700151141 /* DlgSelectComputer.cpp in Sources */,
@@ -2609,7 +2629,6 @@
 				DDF166C808DF8D0F00C8C4A5 /* mac_backtrace.C in Sources */,
 				DDA9D3BC09189A8C0060E7A7 /* Mac_GUI.cpp in Sources */,
 				DD095F2907D882F600362260 /* MainDocument.cpp in Sources */,
-				DD095F2B07D882FB00362260 /* MainFrame.cpp in Sources */,
 				DD095F4C07D883A800362260 /* md5.c in Sources */,
 				DD095F4E07D883A900362260 /* md5_file.C in Sources */,
 				DD095F5007D883AB00362260 /* mfile.C in Sources */,
@@ -2646,6 +2665,13 @@
 				DD8DD4A709D9432F0043019E /* BOINCDialupManager.cpp in Sources */,
 				DD6617890A3FFD8C00FFEBEB /* check_security.C in Sources */,
 				DD431F230A415EDF0060585A /* SetupSecurity.cpp in Sources */,
+				DD1A00670A51689000EE5B82 /* AdvancedFrame.cpp in Sources */,
+				DD1A00690A51689000EE5B82 /* BOINCBaseFrame.cpp in Sources */,
+				DD1A006B0A51689000EE5B82 /* sg_BoincSimpleGUI.cpp in Sources */,
+				DD1A006D0A51689000EE5B82 /* sg_DlgPreferences.cpp in Sources */,
+				DD1A006F0A51689000EE5B82 /* sg_ImageLoader.cpp in Sources */,
+				DD1A00710A51689000EE5B82 /* sg_SkinClass.cpp in Sources */,
+				DD1A00730A51689000EE5B82 /* sg_StatImageLoader.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

@@ -6939,3 +6939,10 @@ David  27 June 2006
         gui_rpc_client.h
         gui_rpc_client_ops.C
         gui_rpc_client_print.C
+
+Charlie 27 June 2006
+    - Mac: update XCode project for changed files.
+    
+        mac_build/
+            boinc.xcodeproj/
+                project.pbxproj
