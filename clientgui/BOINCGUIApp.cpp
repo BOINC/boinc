@@ -478,7 +478,7 @@ bool CBOINCGUIApp::OnInit() {
     }
     // Don't open main window if we were started automatically at login
     if (pInfo.processSignature == 'lgnw') {  // Login Window app
-        m_bFrameVisible = false;
+        m_bGUIVisible = false;
 
         // If the system was just started, we usually get a "Connection 
         // failed" error if we try to connect too soon, so delay a bit.

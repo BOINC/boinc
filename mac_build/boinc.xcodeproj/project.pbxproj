@@ -96,6 +96,8 @@
 		DD1AFEAF0A512D8700EE5B82 /* Carbon.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 20286C33FDCF999611CA2CEA /* Carbon.framework */; };
 		DD1AFEB00A512D8700EE5B82 /* Security.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DD1929D80918A2F100C31BCF /* Security.framework */; };
 		DD1AFEE80A51301C00EE5B82 /* Installer.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DD1AFEE70A51301C00EE5B82 /* Installer.cpp */; };
+		DD235EA70A52197200BCE2CC /* wxAnimate.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DD235EA30A52197200BCE2CC /* wxAnimate.cpp */; };
+		DD235EC20A521A6500BCE2CC /* wxFlatNotebook.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DD235EC10A521A6500BCE2CC /* wxFlatNotebook.cpp */; };
 		DD2B9B40099C78D700136663 /* MoreAddrToSym.c in Sources */ = {isa = PBXBuildFile; fileRef = DD2B9B3C099C78D700136663 /* MoreAddrToSym.c */; };
 		DD2B9B41099C78D700136663 /* MoreBacktrace.c in Sources */ = {isa = PBXBuildFile; fileRef = DD2B9B3E099C78D700136663 /* MoreBacktrace.c */; };
 		DD2B9CB0099C9BA000136663 /* MoreBacktrace.c in Sources */ = {isa = PBXBuildFile; fileRef = DD2B9B3E099C78D700136663 /* MoreBacktrace.c */; };
@@ -807,6 +809,11 @@
 		DD1AFEBA0A512D8700EE5B82 /* BOINC Installer.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "BOINC Installer.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		DD1AFEE70A51301C00EE5B82 /* Installer.cpp */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.cpp.cpp; name = Installer.cpp; path = ../mac_installer/Installer.cpp; sourceTree = SOURCE_ROOT; };
 		DD1F0ACD0822069E00AFC5FA /* MacGUI.pch */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = MacGUI.pch; path = ../clientgui/mac/MacGUI.pch; sourceTree = SOURCE_ROOT; };
+		DD235EA30A52197200BCE2CC /* wxAnimate.cpp */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.cpp.cpp; name = wxAnimate.cpp; path = ../clientgui/common/wxAnimate.cpp; sourceTree = SOURCE_ROOT; };
+		DD235EA40A52197200BCE2CC /* wxAnimate.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = wxAnimate.h; path = ../clientgui/common/wxAnimate.h; sourceTree = SOURCE_ROOT; };
+		DD235EA60A52197200BCE2CC /* wxFNBDropTarget.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = wxFNBDropTarget.h; path = ../clientgui/common/wxFNBDropTarget.h; sourceTree = SOURCE_ROOT; };
+		DD235EC10A521A6500BCE2CC /* wxFlatNotebook.cpp */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.cpp.cpp; name = wxFlatNotebook.cpp; path = ../clientgui/common/wxFlatNotebook.cpp; sourceTree = SOURCE_ROOT; };
+		DD235EC40A521AC200BCE2CC /* wxFlatNotebook.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = wxFlatNotebook.h; path = ../clientgui/common/wxFlatNotebook.h; sourceTree = SOURCE_ROOT; };
 		DD252F3009E3E014006454D7 /* boinc_glut.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = boinc_glut.h; path = ../api/boinc_glut.h; sourceTree = SOURCE_ROOT; };
 		DD2B9B3C099C78D700136663 /* MoreAddrToSym.c */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.c; path = MoreAddrToSym.c; sourceTree = "<group>"; };
 		DD2B9B3D099C78D700136663 /* MoreAddrToSym.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = MoreAddrToSym.h; sourceTree = "<group>"; };
@@ -1279,6 +1286,18 @@
 			name = mac_installer;
 			sourceTree = SOURCE_ROOT;
 		};
+		DD235E960A52192C00BCE2CC /* common */ = {
+			isa = PBXGroup;
+			children = (
+				DD235EA30A52197200BCE2CC /* wxAnimate.cpp */,
+				DD235EA40A52197200BCE2CC /* wxAnimate.h */,
+				DD235EC10A521A6500BCE2CC /* wxFlatNotebook.cpp */,
+				DD235EC40A521AC200BCE2CC /* wxFlatNotebook.h */,
+				DD235EA60A52197200BCE2CC /* wxFNBDropTarget.h */,
+			);
+			name = common;
+			sourceTree = "<group>";
+		};
 		DD33C72A08B5C70700768630 /* curl */ = {
 			isa = PBXGroup;
 			children = (
@@ -1325,6 +1344,7 @@
 				DD81C43807C5D2240098A04D /* BOINCTaskCtrl.h */,
 				DD58C43608F3347D00C1DF66 /* BOINCWizards.h */,
 				DD58C43708F3347D00C1DF66 /* CompletionErrorPage.cpp */,
+				DD235E960A52192C00BCE2CC /* common */,
 				DD58C43808F3347D00C1DF66 /* CompletionErrorPage.h */,
 				DD58C43908F3347D00C1DF66 /* CompletionPage.cpp */,
 				DD58C43A08F3347D00C1DF66 /* CompletionPage.h */,
@@ -2672,6 +2692,8 @@
 				DD1A006F0A51689000EE5B82 /* sg_ImageLoader.cpp in Sources */,
 				DD1A00710A51689000EE5B82 /* sg_SkinClass.cpp in Sources */,
 				DD1A00730A51689000EE5B82 /* sg_StatImageLoader.cpp in Sources */,
+				DD235EA70A52197200BCE2CC /* wxAnimate.cpp in Sources */,
+				DD235EC20A521A6500BCE2CC /* wxFlatNotebook.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -3490,6 +3512,7 @@
 				HEADER_SEARCH_PATHS = (
 					"../../wxMac-2.6.3/src/build/include/wx/",
 					"../../wxMac-2.6.3/include",
+					../clientgui,
 				);
 				INFOPLIST_FILE = Info.plist;
 				INSTALL_PATH = "$(USER_APPS_DIR)";
@@ -3508,6 +3531,7 @@
 					"-D__WXMAC__",
 					"-DSANDBOX",
 					"-DHAVE_STRCASECMP_IN_STRING_H",
+					"-DSIMPLEGUI",
 				);
 				OTHER_CFLAGS_i386 = "-DMAC_OS_X_VERSION_MAX_ALLOWED=1040 -DHAVE_CONFIG_H -D_FILE_OFFSET_BITS=64 -D_LARGE_FILES -DNO_GCC_PRAGMA -DNOCLIPBOARD -D_THREAD_SAFE -D__WXMAC__ -DHAVE_STRCASECMP_IN_STRING_H";
 				OTHER_CFLAGS_ppc = "-DMAC_OS_X_VERSION_MAX_ALLOWED=1030 -DHAVE_CONFIG_H -D_FILE_OFFSET_BITS=64 -D_LARGE_FILES -DNO_GCC_PRAGMA -DNOCLIPBOARD -D_THREAD_SAFE -D__WXMAC__ -DHAVE_STRCASECMP_IN_STRING_H";
@@ -4162,6 +4186,7 @@
 				HEADER_SEARCH_PATHS = (
 					"../../wxMac-2.6.3/src/build/include/wx/",
 					"../../wxMac-2.6.3/include",
+					../clientgui,
 				);
 				INFOPLIST_FILE = Info.plist;
 				INSTALL_PATH = "$(USER_APPS_DIR)";
@@ -4183,6 +4208,7 @@
 					"-DSANDBOX",
 					"-D_DEBUG",
 					"-DHAVE_STRCASECMP_IN_STRING_H",
+					"-DSIMPLEGUI",
 				);
 				OTHER_CPLUSPLUSFLAGS = "$(OTHER_CFLAGS)";
 				OTHER_LDFLAGS = (
@@ -4221,6 +4247,7 @@
 				HEADER_SEARCH_PATHS = (
 					"../../wxMac-2.6.3/src/build/include/wx/",
 					"../../wxMac-2.6.3/include",
+					../clientgui,
 				);
 				INFOPLIST_FILE = Info.plist;
 				INSTALL_PATH = "$(USER_APPS_DIR)";
@@ -4240,6 +4267,7 @@
 					"-D__WXMAC__",
 					"-DSANDBOX",
 					"-DHAVE_STRCASECMP_IN_STRING_H",
+					"-DSIMPLEGUI",
 				);
 				OTHER_CPLUSPLUSFLAGS = "$(OTHER_CFLAGS)";
 				OTHER_LDFLAGS = (
@@ -4764,6 +4792,7 @@
 				HEADER_SEARCH_PATHS = (
 					"../../wxMac-2.6.3/src/build/include/wx/",
 					"../../wxMac-2.6.3/include",
+					../clientgui,
 				);
 				INFOPLIST_FILE = Info.plist;
 				INSTALL_PATH = "$(USER_APPS_DIR)";
@@ -4783,6 +4812,7 @@
 					"-D__WXMAC__",
 					"-DSANDBOX",
 					"-DHAVE_STRCASECMP_IN_STRING_H",
+					"-DSIMPLEGUI",
 				);
 				OTHER_CPLUSPLUSFLAGS = "$(OTHER_CFLAGS)";
 				OTHER_LDFLAGS = (

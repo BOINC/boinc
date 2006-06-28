@@ -6943,9 +6943,9 @@ David  27 June 2006
 Charlie 27 June 2006
     - Mac: update XCode project for changed files.
     
-        mac_build/
-            boinc.xcodeproj/
-                project.pbxproj
+    mac_build/
+        boinc.xcodeproj/
+            project.pbxproj
                 
 Rom    27 June 2006
     - Enable the Simple GUI only if the define SIMPLEGUI exists.
@@ -6954,3 +6954,15 @@ Rom    27 June 2006
         AdvancedFrame.cpp
         BOINCGUIApp.cpp, .h
         
+Charlie 27 June 2006
+    - Mac: Changes to compile Simple GUI.  (Mac and Linux 
+        do not support colored backgrounds in menu items.)
+    
+    clientgui/
+        BOINCGUIApp.cpp
+        sg_StatImageLoader.cpp
+        mac/
+            MacSysMenu.cpp
+    mac_build/
+        boinc.xcodeproj/
+            project.pbxproj

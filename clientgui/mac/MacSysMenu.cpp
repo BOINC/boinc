@@ -254,7 +254,7 @@ pascal OSStatus SysMenuEventHandler( EventHandlerCallRef inHandlerCallRef,
         // or MainFrame.cpp, but it is more eficient to put it here since 
         // we already have this Mac Event Handler installed.
         case kEventClassApplication:
-            CMainFrame* pFrame = wxGetApp().GetFrame();
+            CBOINCBaseFrame* pFrame = wxGetApp().GetFrame();
             pMSM = wxGetApp().GetMacSystemMenu();
             switch (eventKind) {
                 case kEventAppHidden:

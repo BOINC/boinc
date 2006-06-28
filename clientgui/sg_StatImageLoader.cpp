@@ -35,28 +35,42 @@ void StatImageLoader::CreateMenu()
 	statPopUpMenu = new wxMenu(wxSIMPLE_BORDER);
 	//
 	wxMenuItem *itmTellFriend = new wxMenuItem(statPopUpMenu, -1,_T("Tell a Friend"));
+#ifdef __WXMSW__
 	itmTellFriend->SetBackgroundColour(appSkin->GetAppBgCol());
+#endif
 	wxBitmap  *btmTellFriend = new wxBitmap();
 	btmTellFriend->LoadFile("skins/default/graphic/micnTellFriend.png",wxBITMAP_TYPE_PNG);
     itmTellFriend->SetBitmap(*btmTellFriend);
 	//
 	wxMenuItem *itmHome = new wxMenuItem(statPopUpMenu, -1,_T("Home"));
+#ifdef __WXMSW__
 	itmHome->SetBackgroundColour(appSkin->GetAppBgCol());
+#endif
 	//
 	wxMenuItem *itmAbout = new wxMenuItem(statPopUpMenu, -1,_T("About Us"));
+#ifdef __WXMSW__
 	itmAbout->SetBackgroundColour(appSkin->GetAppBgCol());
+#endif
 	//
 	wxMenuItem *itmResearch = new wxMenuItem(statPopUpMenu, -1,_T("Research"));
+#ifdef __WXMSW__
 	itmResearch->SetBackgroundColour(appSkin->GetAppBgCol());
+#endif
 	//
 	wxMenuItem *itmForums = new wxMenuItem(statPopUpMenu, -1,_T("Forums"));
+#ifdef __WXMSW__
 	itmForums->SetBackgroundColour(appSkin->GetAppBgCol());
+#endif
 	//
 	wxMenuItem *itmStatistics = new wxMenuItem(statPopUpMenu, -1,_T("Statistics"));
+#ifdef __WXMSW__
 	itmStatistics->SetBackgroundColour(appSkin->GetAppBgCol());
+#endif
 	//
 	wxMenuItem *itmMyGrid = new wxMenuItem(statPopUpMenu, -1,_T("My Grid"));
+#ifdef __WXMSW__
 	itmMyGrid->SetBackgroundColour(appSkin->GetAppBgCol());
+#endif
 	wxBitmap  *btmMyGrid = new wxBitmap();
 	btmMyGrid->LoadFile("skins/default/graphic/micnMyGrid.png",wxBITMAP_TYPE_PNG);
 	itmMyGrid->SetBitmap(*btmMyGrid);
