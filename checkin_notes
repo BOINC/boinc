@@ -6998,6 +6998,8 @@ Rom    28 June 2006
         existing data structures.
     - Create build configurations for building the simple GUI since
         it is now turned off by default.
+    - When clearing out a gui rpc result structure, make sure the
+        pointers are nulled out.
         
     clientgui/
         MainDocument.cpp, .h

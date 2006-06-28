@@ -392,6 +392,9 @@ void RESULT::clear() {
     suspended_via_gui = false;
     project_suspended_via_gui = false;
     supports_graphics = false;
+    app = NULL;
+    wup = NULL;
+    project = NULL;
 }
 
 FILE_TRANSFER::FILE_TRANSFER() {
