@@ -731,6 +731,8 @@ void CSimpleFrame::MoveControlsUp(){
 	lnMyProjBtm->Move(20,334);//(20,516)
 	btnMessages->Move(28,340);//(28,522)
 	btnPause->Move(55,340);//(55,522)
+	btnPreferences->Move(183,340);//(183,522)
+    btnAdvancedView->Move(273,340);//(273,522)
 }
 
 void CSimpleFrame::MoveControlsDown(){
@@ -746,6 +748,8 @@ void CSimpleFrame::MoveControlsDown(){
 	lnMyProjBtm->Move(20,516);
 	btnMessages->Move(28,522);
 	btnPause->Move(55,522);
+	btnPreferences->Move(183,522);
+    btnAdvancedView->Move(273,522);
 }
 void CSimpleFrame::OnEraseBackground(wxEraseEvent& event){
   wxObject *m_wxWin = event.GetEventObject();
