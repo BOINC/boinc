@@ -34,7 +34,9 @@
 #include "MainDocument.h"
 
 #define BOINC_ADVANCEDGUI                   1
+#ifdef SIMPLEGUI
 #define BOINC_SIMPLEGUI                     2
+#endif
 
 
 class CBrandingScheme : public wxObject {

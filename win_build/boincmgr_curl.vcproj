@@ -264,36 +264,40 @@
 		<Filter
 			Name="Simple"
 			Filter="">
-			<File
-				RelativePath="..\clientgui\sg_BoincSimpleGUI.cpp">
-			</File>
-			<File
-				RelativePath="..\clientgui\sg_BoincSimpleGUI.h">
-			</File>
-			<File
-				RelativePath="..\clientgui\sg_DlgPreferences.cpp">
-			</File>
-			<File
-				RelativePath="..\clientgui\sg_DlgPreferences.h">
-			</File>
-			<File
-				RelativePath="..\clientgui\sg_ImageLoader.cpp">
-			</File>
-			<File
-				RelativePath="..\clientgui\sg_ImageLoader.h">
-			</File>
-			<File
-				RelativePath="..\clientgui\sg_SkinClass.cpp">
-			</File>
-			<File
-				RelativePath="..\clientgui\sg_SkinClass.h">
-			</File>
-			<File
-				RelativePath="..\clientgui\sg_StatImageLoader.cpp">
-			</File>
-			<File
-				RelativePath="..\clientgui\sg_StatImageLoader.h">
-			</File>
+			<Filter
+				Name="Prototype"
+				Filter="">
+				<File
+					RelativePath="..\clientgui\sg_BoincSimpleGUI.cpp">
+				</File>
+				<File
+					RelativePath="..\clientgui\sg_BoincSimpleGUI.h">
+				</File>
+				<File
+					RelativePath="..\clientgui\sg_DlgPreferences.cpp">
+				</File>
+				<File
+					RelativePath="..\clientgui\sg_DlgPreferences.h">
+				</File>
+				<File
+					RelativePath="..\clientgui\sg_ImageLoader.cpp">
+				</File>
+				<File
+					RelativePath="..\clientgui\sg_ImageLoader.h">
+				</File>
+				<File
+					RelativePath="..\clientgui\sg_SkinClass.cpp">
+				</File>
+				<File
+					RelativePath="..\clientgui\sg_SkinClass.h">
+				</File>
+				<File
+					RelativePath="..\clientgui\sg_StatImageLoader.cpp">
+				</File>
+				<File
+					RelativePath="..\clientgui\sg_StatImageLoader.h">
+				</File>
+			</Filter>
 		</Filter>
 		<Filter
 			Name="libboinc"
@@ -624,41 +628,6 @@
 				RelativePath="..\clientgui\BOINCDialupManager.h">
 			</File>
 			<File
-				RelativePath="..\lib\gui_rpc_client.C">
-				<FileConfiguration
-					Name="Release|Win32">
-					<Tool
-						Name="VCCLCompilerTool"
-						Optimization="2"
-						AdditionalIncludeDirectories=""
-						PreprocessorDefinitions=""
-						CompileAs="2"/>
-				</FileConfiguration>
-				<FileConfiguration
-					Name="Debug|Win32">
-					<Tool
-						Name="VCCLCompilerTool"
-						Optimization="0"
-						AdditionalIncludeDirectories=""
-						PreprocessorDefinitions=""
-						BasicRuntimeChecks="3"
-						BrowseInformation="1"
-						CompileAs="2"/>
-				</FileConfiguration>
-			</File>
-			<File
-				RelativePath="..\lib\gui_rpc_client.h">
-			</File>
-			<File
-				RelativePath="..\lib\gui_rpc_client_ops.C">
-				<FileConfiguration
-					Name="Release|Win32">
-					<Tool
-						Name="VCCLCompilerTool"
-						CompileAs="2"/>
-				</FileConfiguration>
-			</File>
-			<File
 				RelativePath="..\clientgui\hyperlink.cpp">
 			</File>
 			<File
@@ -675,33 +644,6 @@
 			</File>
 			<File
 				RelativePath="..\clientgui\LogBOINC.h">
-			</File>
-			<File
-				RelativePath="..\clientgui\MainDocument.cpp">
-			</File>
-			<File
-				RelativePath="..\clientgui\MainDocument.h">
-			</File>
-			<File
-				RelativePath="..\clientgui\resource.h">
-			</File>
-			<File
-				RelativePath="..\clientgui\stdwx.cpp">
-				<FileConfiguration
-					Name="Release|Win32">
-					<Tool
-						Name="VCCLCompilerTool"
-						UsePrecompiledHeader="1"/>
-				</FileConfiguration>
-				<FileConfiguration
-					Name="Debug|Win32">
-					<Tool
-						Name="VCCLCompilerTool"
-						UsePrecompiledHeader="1"/>
-				</FileConfiguration>
-			</File>
-			<File
-				RelativePath="..\clientgui\stdwx.h">
 			</File>
 			<Filter
 				Name="FlatNotebook"
@@ -724,22 +666,6 @@
 				</File>
 				<File
 					RelativePath="..\clientgui\common\wxAnimate.h">
-				</File>
-			</Filter>
-			<Filter
-				Name="Taskbar"
-				Filter="">
-				<File
-					RelativePath="..\clientgui\BOINCTaskBar.cpp">
-				</File>
-				<File
-					RelativePath="..\clientgui\BOINCTaskBar.h">
-				</File>
-				<File
-					RelativePath="..\clientgui\msw\taskbarex.cpp">
-				</File>
-				<File
-					RelativePath="..\clientgui\msw\taskbarex.h">
 				</File>
 			</Filter>
 			<Filter
@@ -865,6 +791,75 @@
 				</File>
 			</Filter>
 		</Filter>
+		<Filter
+			Name="Taskbar"
+			Filter="">
+			<File
+				RelativePath="..\clientgui\BOINCTaskBar.cpp">
+			</File>
+			<File
+				RelativePath="..\clientgui\BOINCTaskBar.h">
+			</File>
+			<Filter
+				Name="Infrastructure"
+				Filter="">
+				<File
+					RelativePath="..\clientgui\msw\taskbarex.cpp">
+				</File>
+				<File
+					RelativePath="..\clientgui\msw\taskbarex.h">
+				</File>
+			</Filter>
+		</Filter>
+		<Filter
+			Name="Document"
+			Filter="">
+			<File
+				RelativePath="..\clientgui\MainDocument.cpp">
+			</File>
+			<File
+				RelativePath="..\clientgui\MainDocument.h">
+			</File>
+			<Filter
+				Name="Support"
+				Filter="">
+				<File
+					RelativePath="..\lib\gui_rpc_client.C">
+					<FileConfiguration
+						Name="Release|Win32">
+						<Tool
+							Name="VCCLCompilerTool"
+							Optimization="2"
+							AdditionalIncludeDirectories=""
+							PreprocessorDefinitions=""
+							CompileAs="2"/>
+					</FileConfiguration>
+					<FileConfiguration
+						Name="Debug|Win32">
+						<Tool
+							Name="VCCLCompilerTool"
+							Optimization="0"
+							AdditionalIncludeDirectories=""
+							PreprocessorDefinitions=""
+							BasicRuntimeChecks="3"
+							BrowseInformation="1"
+							CompileAs="2"/>
+					</FileConfiguration>
+				</File>
+				<File
+					RelativePath="..\lib\gui_rpc_client.h">
+				</File>
+				<File
+					RelativePath="..\lib\gui_rpc_client_ops.C">
+					<FileConfiguration
+						Name="Release|Win32">
+						<Tool
+							Name="VCCLCompilerTool"
+							CompileAs="2"/>
+					</FileConfiguration>
+				</File>
+			</Filter>
+		</Filter>
 		<File
 			RelativePath="..\clientgui\_wx_intellisense.h">
 		</File>
@@ -876,6 +871,27 @@
 		</File>
 		<File
 			RelativePath="..\clientgui\Events.h">
+		</File>
+		<File
+			RelativePath="..\clientgui\resource.h">
+		</File>
+		<File
+			RelativePath="..\clientgui\stdwx.cpp">
+			<FileConfiguration
+				Name="Release|Win32">
+				<Tool
+					Name="VCCLCompilerTool"
+					UsePrecompiledHeader="1"/>
+			</FileConfiguration>
+			<FileConfiguration
+				Name="Debug|Win32">
+				<Tool
+					Name="VCCLCompilerTool"
+					UsePrecompiledHeader="1"/>
+			</FileConfiguration>
+		</File>
+		<File
+			RelativePath="..\clientgui\stdwx.h">
 		</File>
 	</Files>
 	<Globals>

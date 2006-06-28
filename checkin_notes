@@ -6946,3 +6946,11 @@ Charlie 27 June 2006
         mac_build/
             boinc.xcodeproj/
                 project.pbxproj
+                
+Rom    27 June 2006
+    - Enable the Simple GUI only if the define SIMPLEGUI exists.
+    
+    clientgui/
+        AdvancedFrame.cpp
+        BOINCGUIApp.cpp, .h
+        

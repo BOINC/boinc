@@ -37,11 +37,13 @@
 #include "BOINCGUIApp.h"
 #include "AdvancedFrame.h"
 
+#ifdef SIMPLEGUI
 #include "common/wxAnimate.h"
 #include "common/wxFlatNotebook.h"
 #include "sg_ImageLoader.h"
 #include "sg_StatImageLoader.h"
 #include "sg_BoincSimpleGUI.h"
+#endif
 
 
 ////@begin XPM images
@@ -260,7 +262,11 @@ bool CBOINCGUIApp::OnInit() {
     m_bBOINCStartedByManager = false;
     m_pFrame = NULL;
     m_bGUIVisible = true;
+#ifdef SIMPLEGUI
     m_iGUISelected = BOINC_SIMPLEGUI;
+#else
+    m_iGUISelected = BOINC_ADVANCEDGUI;
+#endif
     m_lBOINCCoreProcessId = 0;
 #ifdef __WXMSW__
     m_hBOINCCoreProcess = NULL;
@@ -427,8 +433,10 @@ bool CBOINCGUIApp::OnInit() {
 
     m_pDocument->OnInit();
 
+#ifdef SIMPLEGUI
     // Which GUI should be displayed?
     m_iGUISelected = m_pConfig->Read(wxT("GUISelection"), BOINC_SIMPLEGUI);
+#endif
 
     // Initialize the task bar icon
     m_pTaskBarIcon = new CTaskBarIcon(
@@ -1016,6 +1024,7 @@ int CBOINCGUIApp::StartBOINCScreensaverTest() {
 
 
 bool CBOINCGUIApp::SetActiveGUI(int iGUISelection, bool bShowWindow) {
+#ifdef SIMPLEGUI
     CBOINCBaseFrame* pNewFrame = NULL;
 
     // Create the new window
@@ -1027,7 +1036,6 @@ bool CBOINCGUIApp::SetActiveGUI(int iGUISelection, bool bShowWindow) {
                     m_pBranding->GetApplicationName(), 
                     m_pBranding->GetApplicationIcon()
                 );
-                wxASSERT(pNewFrame);
                 break;
             case BOINC_ADVANCEDGUI:
             default:
@@ -1036,9 +1044,9 @@ bool CBOINCGUIApp::SetActiveGUI(int iGUISelection, bool bShowWindow) {
                     m_pBranding->GetApplicationName(), 
                     m_pBranding->GetApplicationIcon()
                 );
-                wxASSERT(pNewFrame);
                 break;
         }
+        wxASSERT(pNewFrame);
         if (pNewFrame) {
             SetTopWindow(pNewFrame);
 
@@ -1049,6 +1057,18 @@ bool CBOINCGUIApp::SetActiveGUI(int iGUISelection, bool bShowWindow) {
             m_pFrame = pNewFrame;
         }
     }
+#else
+    if (!m_pFrame) {
+        // Initialize the advanced gui window
+        iGUISelection = BOINC_ADVANCEDGUI;
+        m_pFrame = new CAdvancedFrame(
+            m_pBranding->GetApplicationName(), 
+            m_pBranding->GetApplicationIcon()
+        );
+        wxASSERT(m_pFrame);
+        SetTopWindow(m_pFrame);
+    }
+#endif
 
     // Show the new frame if needed 
     if (m_pFrame && bShowWindow) m_pFrame->Show();
