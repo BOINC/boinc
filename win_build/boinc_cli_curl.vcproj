@@ -1199,9 +1199,6 @@
 				</FileConfiguration>
 			</File>
 			<File
-				RelativePath="..\client\net_xfer_curl.C">
-			</File>
-			<File
 				RelativePath="..\Client\pers_file_xfer.C">
 				<FileConfiguration
 					Name="Debug|Win32">
@@ -1448,9 +1445,6 @@
 			</File>
 			<File
 				RelativePath="..\client\net_stats.h">
-			</File>
-			<File
-				RelativePath="..\client\net_xfer_curl.h">
 			</File>
 			<File
 				RelativePath="..\Client\pers_file_xfer.h">

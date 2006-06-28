@@ -28,7 +28,6 @@
 #include <cstdio>
 #endif
 
-#include "net_xfer_curl.h"
 #include "miofile.h"
 
 // there's one of these each for upload and download
@@ -51,7 +50,7 @@ public:
     NET_INFO down;
 
     NET_STATS();
-    void poll(FILE_XFER_SET&, NET_XFER_SET&);
+    void poll(FILE_XFER_SET&, HTTP_OP_SET&);
 
     int write(MIOFILE&);
     int parse(MIOFILE&);

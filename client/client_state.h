@@ -44,7 +44,6 @@ using std::vector;
 #include "ss_logic.h"
 #include "time_stats.h"
 #include "http_curl.h"
-#include "net_xfer_curl.h"
 
 #define USER_RUN_REQUEST_ALWAYS     1
 #define USER_RUN_REQUEST_AUTO       2
@@ -85,7 +84,6 @@ public:
     vector<WORKUNIT*> workunits;
     vector<RESULT*> results;
 
-    NET_XFER_SET* net_xfers;
     PERS_FILE_XFER_SET* pers_file_xfers;
     HTTP_OP_SET* http_ops;
     FILE_XFER_SET* file_xfers;

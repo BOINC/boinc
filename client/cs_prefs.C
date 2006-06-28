@@ -378,10 +378,10 @@ void CLIENT_STATE::read_global_prefs() {
 
     // put new prefs into effect
     //
-    net_xfers->max_bytes_sec_up = global_prefs.max_bytes_sec_up;
-    net_xfers->max_bytes_sec_down = global_prefs.max_bytes_sec_down;
-    net_xfers->bytes_left_up = global_prefs.max_bytes_sec_up;
-    net_xfers->bytes_left_down = global_prefs.max_bytes_sec_down;
+    http_ops->max_bytes_sec_up = global_prefs.max_bytes_sec_up;
+    http_ops->max_bytes_sec_down = global_prefs.max_bytes_sec_down;
+    http_ops->bytes_left_up = global_prefs.max_bytes_sec_up;
+    http_ops->bytes_left_down = global_prefs.max_bytes_sec_down;
 
     // max_cpus may have changed, so update ncpus
     //

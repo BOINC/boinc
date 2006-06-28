@@ -52,8 +52,7 @@ using std::max;
 CLIENT_STATE gstate;
 
 CLIENT_STATE::CLIENT_STATE() {
-    net_xfers = new NET_XFER_SET;
-    http_ops = new HTTP_OP_SET(net_xfers);
+    http_ops = new HTTP_OP_SET();
     file_xfers = new FILE_XFER_SET(http_ops);
     pers_file_xfers = new PERS_FILE_XFER_SET(file_xfers);
     scheduler_op = new SCHEDULER_OP(http_ops);
@@ -345,7 +344,7 @@ void CLIENT_STATE::do_io_or_sleep(double x) {
     while (1) {
         curl_fds.zero();
         gui_rpc_fds.zero();
-        net_xfers->get_fdset(curl_fds);
+		http_ops->get_fdset(curl_fds);
         all_fds = curl_fds;
         gui_rpcs.get_fdset(gui_rpc_fds, all_fds);
         double_to_timeval(x, tv);
@@ -361,7 +360,7 @@ void CLIENT_STATE::do_io_or_sleep(double x) {
         // called pretty often, even if no descriptors are enabled.
         // So do the "if (n==0) break" AFTER the got_selects().
 
-        net_xfers->got_select(all_fds, x);
+        http_ops->got_select(all_fds, x);
         gui_rpcs.got_select(all_fds);
 
         if (n==0) break;
@@ -473,7 +472,7 @@ bool CLIENT_STATE::poll_slow_events() {
     POLL_ACTION(update_results         , update_results         );
     POLL_ACTION(gui_http               , gui_http.poll          );
     if (!network_suspended) {
-        net_stats.poll(*file_xfers, *net_xfers);
+        net_stats.poll(*file_xfers, *http_ops);
         POLL_ACTION(acct_mgr               , acct_mgr_info.poll     );
         POLL_ACTION(file_xfers             , file_xfers->poll       );
         POLL_ACTION(pers_file_xfers        , pers_file_xfers->poll  );

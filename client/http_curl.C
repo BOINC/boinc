@@ -37,10 +37,11 @@
 #include "log_flags.h"
 #include "util.h"
 
-//#include "network.h"
+#include "network.h"
 #include "client_msgs.h"
 #include "base64.h"
 #include "http_curl.h"
+#include "client_state.h"
 
 #define CONNECTED_STATE_NOT_CONNECTED   0
 #define CONNECTED_STATE_CONNECTED       1
@@ -51,7 +52,10 @@
 using std::min;
 using std::vector;
 
-extern CURLM* g_curlMulti;  // global curl multi handle for http/s
+#define NET_XFER_TIMEOUT    600
+
+static CURLM* g_curlMulti = NULL;
+
 static char g_user_agent_string[256] = {""};
 //static const char g_content_type[] = {"Content-Type: application/octet-stream"};
 // CMC Note: old BOINC used the above, but libcurl seems to like the following:
@@ -146,9 +150,20 @@ HTTP_OP::HTTP_OP() {
     http_op_type = HTTP_OP_NONE;
     http_op_retval = 0;
     trace_id = 0;
+    pcurlList = NULL; // these have to be NULL, just in constructor
+    curlEasy = NULL;
+    pcurlFormStart = NULL;
+    pcurlFormEnd = NULL;
+    pByte = NULL;
+    lSeek = 0;
+    auth_flag = false;
+    auth_type = 0;
+    reset();
 }
 
 HTTP_OP::~HTTP_OP() {
+    close_socket();
+    close_file();
 }
 
 // Initialize HTTP GET operation
@@ -163,7 +178,7 @@ int HTTP_OP::init_get(
     }
     req1 = NULL;  // not using req1, but init_post2 uses it
     file_offset = off;
-    NET_XFER::init();
+    HTTP_OP::init();
     // usually have an outfile on a get
     if (off != 0) {
         bytes_xferred = off;
@@ -190,7 +205,7 @@ int HTTP_OP::init_post(
         if (retval) return retval;  // this will return 0 or ERR_NOT_FOUND
         content_length = (int)size;
     }
-    NET_XFER::init();
+    HTTP_OP::init();
     http_op_type = HTTP_OP_POST;
     http_op_state = HTTP_STATE_CONNECTING;
     if (log_flags.http_debug) {
@@ -473,7 +488,7 @@ int HTTP_OP::init_post2(
     double size;
     //char proxy_buf[256];
 
-    NET_XFER::init();
+    init();
     req1 = r1;
     if (in) {
         safe_strcpy(infile, in);
@@ -497,16 +512,18 @@ bool HTTP_OP::http_op_done() {
     return (http_op_state == HTTP_STATE_DONE);
 }
 
-HTTP_OP_SET::HTTP_OP_SET(NET_XFER_SET* p) {
-    net_xfers = p;
+HTTP_OP_SET::HTTP_OP_SET() {
+    max_bytes_sec_up = 0;
+    max_bytes_sec_down = 0;
+    bytes_left_up = 0;
+    bytes_left_down = 0;
+    bytes_up = 0;
+    bytes_down = 0;
 }
 
 // Adds an HTTP_OP to the set
 //
 int HTTP_OP_SET::insert(HTTP_OP* ho) {
-    int retval;
-    retval = net_xfers->insert(ho);
-    if (retval) return retval;  // this will return 0 or a BOINC ERR_* message
     http_ops.push_back(ho);
     return 0;
 }
@@ -515,8 +532,6 @@ int HTTP_OP_SET::insert(HTTP_OP* ho) {
 //
 int HTTP_OP_SET::remove(HTTP_OP* p) {
     vector<HTTP_OP*>::iterator iter;
-
-    net_xfers->remove(p);
 
     iter = http_ops.begin();
     while (iter != http_ops.end()) {
@@ -774,5 +789,276 @@ void HTTP_OP::setupProxyCurl() {
         }
     }
 }
+
+// the file descriptor sets need to be global so libcurl has access always
+//
+fd_set read_fds, write_fds, error_fds;
+
+// call these once at the start of the program and once at the end
+//
+int curl_init() {
+    curl_global_init(CURL_GLOBAL_ALL);
+    g_curlMulti = curl_multi_init();
+    return (int)(g_curlMulti == NULL);
+}
+
+int curl_cleanup() {
+    if (g_curlMulti) {
+        curl_multi_cleanup(g_curlMulti);
+    }
+    return 0;
+}
+
+void HTTP_OP::reset() {
+    req1 = NULL;
+    strcpy(infile, "");
+    strcpy(outfile, "");
+    strcpy(error_msg, "");
+    CurlResult = CURLE_OK;
+    bTempOutfile = true;
+    is_connected = false;
+    want_download = false;
+    want_upload = false;
+    do_file_io = true;
+    io_done = false;
+    fileIn = NULL;
+    fileOut = NULL;
+    io_ready = true;
+    error = 0;
+    bytes_xferred = 0;
+    xfer_speed = 0;
+    bSentHeader = false;
+    close_socket();
+}
+
+
+void HTTP_OP::close_socket() {
+    // this cleans up the curlEasy, and "spoofs" the old close_socket
+    //
+    if (pcurlList) {
+        curl_slist_free_all(pcurlList);
+        pcurlList = NULL;
+    }
+    if (curlEasy && pcurlFormStart) {
+        curl_formfree(pcurlFormStart);
+        curl_formfree(pcurlFormEnd);
+        pcurlFormStart = pcurlFormEnd = NULL;
+    }
+    if (curlEasy && g_curlMulti) {  // release this handle
+        curl_multi_remove_handle(g_curlMulti, curlEasy);
+        curl_easy_cleanup(curlEasy);
+        curlEasy = NULL;
+    }
+}
+
+void HTTP_OP::close_file() {
+    if (fileIn) {
+        fclose(fileIn);
+        fileIn = NULL;
+    }
+    if (fileOut) {
+        fclose(fileOut);
+        fileOut = NULL;
+    }
+    if (pByte) { //free any read memory used
+        delete [] pByte;
+        pByte = NULL;
+    }
+}
+
+void HTTP_OP::init() {
+    reset();
+    start_time = gstate.now;
+}
+
+
+void HTTP_OP_SET::get_fdset(FDSET_GROUP& fg) {
+    CURLMcode curlMErr;
+    curlMErr = curl_multi_fdset(
+        g_curlMulti, &fg.read_fds, &fg.write_fds, &fg.exc_fds, &fg.max_fd
+    );
+    //printf("curl msfd %d %d\n", curlMErr, fg.max_fd);
+}
+
+void HTTP_OP_SET::got_select(FDSET_GROUP&, double timeout) {
+    int iNumMsg;
+    HTTP_OP* hop = NULL;
+    bool time_passed = false;
+    CURLMsg *pcurlMsg = NULL;
+
+    // if a second has gone by, do rate-limit accounting
+    //
+    time_t t = time(0);
+    if (t != last_time) {
+        time_passed = true;
+        last_time = (int)t;
+        if (bytes_left_up < max_bytes_sec_up) {
+            bytes_left_up += max_bytes_sec_up;
+        }
+        if (bytes_left_down < max_bytes_sec_down) {
+            bytes_left_down += max_bytes_sec_down;
+        }
+    }
+
+    int iRunning = 0;  // curl flags for max # of fds & # running queries
+    CURLMcode curlMErr;
+    CURLcode curlErr;
+
+    // get the data waiting for transfer in or out
+    // use timeout value so that we don't hog CPU in this loop
+    //
+    while (1) {
+        curlMErr = curl_multi_perform(g_curlMulti, &iRunning);
+        if (curlMErr != CURLM_CALL_MULTI_PERFORM) break;
+        if (dtime() - gstate.now > timeout) break;
+    }
+
+    // read messages from curl that may have come in from the above loop
+    //
+    while ((pcurlMsg = curl_multi_info_read(g_curlMulti, &iNumMsg))) {
+        // if we have a msg, then somebody finished
+        // can check also with pcurlMsg->msg == CURLMSG_DONE
+        //
+        hop = lookup_curl(pcurlMsg->easy_handle);
+        if (!hop) continue;
+
+         // we have a message from one of our http_ops
+         // get the response code for this request
+        //
+        curlErr = curl_easy_getinfo(hop->curlEasy, 
+            CURLINFO_RESPONSE_CODE, &hop->response
+        );
+
+        // CURLINFO_LONG+25 is a workaround for a bug in the gcc version
+        // included with Mac OS X 10.3.9
+        //
+        curlErr = curl_easy_getinfo(hop->curlEasy, 
+            (CURLINFO)(CURLINFO_LONG+25) /*CURLINFO_OS_ERRNO*/, &hop->error
+        );
+
+        hop->io_done = true;
+        hop->io_ready = false;
+
+        // update byte counts and transfer speed
+        //
+        if (hop->want_download) {
+            bytes_down += hop->bytes_xferred;
+            curlErr = curl_easy_getinfo(hop->curlEasy, 
+                CURLINFO_SPEED_DOWNLOAD, &hop->xfer_speed
+            );
+        }
+        if (hop->want_upload) {
+            bytes_up += hop->bytes_xferred;  
+            curlErr = curl_easy_getinfo(hop->curlEasy, 
+                CURLINFO_SPEED_UPLOAD, &hop->xfer_speed
+            );
+        }
+
+        // if proxy/socks server uses authentication and its not set yet,
+        // get what last transfer used
+        if (hop->auth_flag && !hop->auth_type) {
+            curlErr = curl_easy_getinfo(hop->curlEasy, 
+                CURLINFO_PROXYAUTH_AVAIL, &hop->auth_type);
+        }
+
+        // the op is done if curl_multi_msg_read gave us a msg for this http_op
+        //
+        hop->http_op_state = HTTP_STATE_DONE;        
+        hop->CurlResult = pcurlMsg->data.result;
+
+        if (hop->CurlResult == CURLE_OK) {
+            if ((hop->response/100)*100 == HTTP_STATUS_OK) {
+                hop->http_op_retval = 0;  
+            } else if ((hop->response/100)*100 == HTTP_STATUS_CONTINUE) {
+                continue;
+            } else {
+                // Got a response from server but its not OK or CONTINUE,
+                // so save response with error message to display later.
+                hop->http_op_retval = hop->response;
+                if (hop->response >= 400) {
+                    strcpy(hop->error_msg, boincerror(hop->response));
+                } else {
+                    sprintf(hop->error_msg, "HTTP error %d", hop->response);
+                }
+            }
+            gstate.need_physical_connection = false;
+        } else {
+            strcpy(hop->error_msg, curl_easy_strerror(hop->CurlResult));
+            // If operation failed,
+            // it could be because there's no physical network connection.
+            // Find out for sure by trying to contact google
+            //
+            if ((gstate.lookup_website_op.error_num != ERR_IN_PROGRESS)
+                && !gstate.need_physical_connection
+            ) {
+                std::string url = "http://www.google.com";
+                //msg_printf(0, MSG_ERROR, "need_phys_conn %d trying google", gstate.need_physical_connection);
+                gstate.lookup_website_op.do_rpc(url);
+            }
+            hop->http_op_retval = ERR_HTTP_ERROR;
+        }
+
+        if (!hop->http_op_retval && hop->http_op_type == HTTP_OP_POST2) {
+            // for a successfully completed request on a "post2" --
+            // read in the temp file into req1 memory
+            //
+            fclose(hop->fileOut);
+            double dSize = 0.0f;
+            file_size(hop->outfile, dSize);
+            hop->fileOut = boinc_fopen(hop->outfile, "rb");
+            if (!hop->fileOut) { // ack, can't open back up!
+                hop->response = 1;
+                    // flag as a bad response for a possible retry later
+            } else {
+                fseek(hop->fileOut, 0, SEEK_SET);
+                // CMC Note: req1 is a pointer to "header" which is 4096
+                memset(hop->req1, 0, 4096);
+                fread(hop->req1, 1, (size_t) dSize, hop->fileOut); 
+            }
+        }
+
+        // close files and "sockets" (i.e. libcurl handles)
+        //
+        hop->close_file();
+        hop->close_socket();
+
+        // finally remove the tmpfile if not explicitly set
+        //
+        if (hop->bTempOutfile) {
+            boinc_delete_file(hop->outfile);
+        }
+    }
+}
+
+// Return the HTTP_OP object with given Curl object
+//
+HTTP_OP* HTTP_OP_SET::lookup_curl(CURL* pcurl)  {
+	for (unsigned int i=0; i<http_ops.size(); i++) {
+		if (http_ops[i]->curlEasy == pcurl) {
+            return http_ops[i];
+        }
+    }
+    return 0;
+}
+
+// Update the transfer speed for this HTTP_OP
+// called on every I/O
+//
+void HTTP_OP::update_speed() {
+    double delta_t = dtime() - start_time;
+    if (delta_t > 0) {
+        xfer_speed = bytes_xferred / delta_t;
+    }
+}
+
+void HTTP_OP::got_error() {
+    // TODO: which socket??
+    error = ERR_IO;
+    io_done = true;
+    if (log_flags.net_xfer_debug) {
+        msg_printf(0, MSG_INFO, "IO error on socket");
+    }
+}
+
 
 const char *BOINC_RCSID_57f273bb60 = "$Id$";
