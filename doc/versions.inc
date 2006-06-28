@@ -281,6 +281,17 @@ $changes_52 = "
       </ul>
 ";
 
+$mac_changes_55= "
+    <li>Macintosh only:
+      <ul>
+        <li> Verion 5.5.4BOINC Manager for the Mac introduces new, stricter 
+            security measures.  If you experience problems with this software, 
+            you can re-install a version of BOINC prior to 5.5.4; this will 
+            automatically revert ownership and permissions to the earlier 
+            implementation.  For details, please see the ReadMe file.
+      </ul>
+";
+
 $mac_changes_54= "
     <li>Macintosh only:
       <ul>
@@ -435,6 +446,25 @@ $w419 = array(
     If BOINC runs at the same time as Windows XP 3-D screensavers,
     the system becomes sluggish.
     </ul>
+    "
+);
+
+$m554 = array(
+    "num"=>"5.5.4",
+    "status"=>"Development version (standard GUI)",
+    "file"=>"boinc_5.5.4_macOSX_universal.zip",
+    "date"=>"28 June 2006",
+    "type"=>"mac_advanced",
+     "features"=>"<ul>
+".$mac_changes_55."
+".$features_54."
+".$mac_changes_54."
+".$features_53."
+".$mac_changes_53."
+".$changes_53."
+     </ul>
+    ",
+    "bugs"=>"
     "
 );
 
@@ -625,6 +655,7 @@ $mac = array(
     "name"=>"Macintosh OS X (10.3 or higher)",
     "dbname" => "powerpc-apple-darwin",
     "versions"=>array(
+        $m554,
         $m549,
         $m549c,
         $m5213,
