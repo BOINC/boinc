@@ -65,7 +65,7 @@ int HOST_INFO::get_local_network_info() {
     if (gethostname(buf, 256)) return ERR_GETHOSTBYNAME;
     he = gethostbyname(buf);
     if (!he || !he->h_addr_list[0]) {
-        msg_printf(NULL, MSG_ERROR, "gethostbyname (%s) failed", buf);
+        //msg_printf(NULL, MSG_ERROR, "gethostbyname (%s) failed", buf);
         return ERR_GETHOSTBYNAME;
     }
     strlcpy(domain_name, he->h_name, sizeof(domain_name));
