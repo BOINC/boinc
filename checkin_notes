@@ -6966,3 +6966,10 @@ Charlie 27 June 2006
     mac_build/
         boinc.xcodeproj/
             project.pbxproj
+
+David  27 June 2006
+    - CPU sched fix (minutes*60)
+        From John McLeod
+
+    client/
+        cpu_sched.C

@@ -585,7 +585,7 @@ bool CLIENT_STATE::enforce_schedule() {
             atp = running_tasks[0];
             bool running_beyond_sched_period =
                 gstate.now - atp->episode_start_wall_time
-                > gstate.global_prefs.cpu_scheduling_period_minutes;
+                > gstate.global_prefs.cpu_scheduling_period_minutes*60;
             bool checkpointed_recently =
                 atp->checkpoint_wall_time > atp->episode_start_wall_time;
             if (rp->project->deadlines_missed
