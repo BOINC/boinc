@@ -655,7 +655,6 @@ $mac = array(
     "name"=>"Macintosh OS X (10.3 or higher)",
     "dbname" => "powerpc-apple-darwin",
     "versions"=>array(
-        $m554,
         $m549,
         $m549c,
         $m5213,
