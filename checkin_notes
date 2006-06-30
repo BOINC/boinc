@@ -7056,3 +7056,27 @@ David  30 June 2006
     lib/
         crypt_prog.C
         filesys.C
+
+David  30 June 2006
+	- core client: ACTIVE_TASK::supports_graphics():
+		return false if process isn't executing.
+		(prevent GUI from showing "show graphics" button
+		for results with no process, or suspended process)
+	- core client: on Windows command-line, when you close the window,
+		quit_client() gets called,
+		but control never returns to boinc_main_loop(),
+		so gstate.quit_activities() (and other cleanup stuff) isn't called,
+		so apps don't exit.
+		If you then start the core client again in the next 30 sec,
+		and exit quickly, another copy of apps gets started,
+		which waits to acquire slot lock, then decides it's in
+		standalone mode and opens a graphics window!  Very confusing.
+
+		I fixed this by moving all the cleanup code to a separate functions
+		(finalize()) and calling this directly from quit_client().
+
+		By the way, why is main.C such a toxic waste dump?
+
+	client/
+		app_graphics.C
+		main.C
