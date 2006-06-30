@@ -2,7 +2,14 @@
 require_once("docutil.php");
 page_head("Deploying BOINC on a Windows network");
 echo "
-<h2>Customizing the installer</h2>
+<h2>Read this first</h2>
+<p>
+For instructions on how to deploy BOINC on a Windows network, read
+<a href=http://www.thelazyslug.com/boinc.htm>The Lazy Slug's Guide
+     to easy deployment and maintenance of BOINC on your network</a>.
+
+<hr>
+<h2>Technical details</h2>
 <p>
 The BOINC installer is an MSI package.
 

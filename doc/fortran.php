@@ -2,7 +2,13 @@
 require_once("docutil.php");
 page_head("FORTRAN applications");?>
 
-<h2>How to use BOINC with FORTRAN and Visual Developer Studio</h2>
+<h2>Windows: cygwin</h2>
+<p>
+Include the file 'boinc_api_fortran.C' in the api/Makefile.am,
+but comment out the 'zip' calls, to avoid the linking with 'libboinc_zip.a' 
+<p>
+To link is necessary to add the 'winmm.dll' (-lwinmm).
+<h2>Windows: Visual Developer Studio</h2>
 
 <p><font color=red>2004-06-16 note: this page is outdated; will update
     (functions are now declared <code>extern"C"</code> so

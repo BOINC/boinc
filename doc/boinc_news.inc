@@ -1,6 +1,16 @@
 <?
 
 $project_news = array(
+array("June 30, 2006",
+    "Want to deploy BOINC quickly and easily on a Windows network?
+    Read <a href=http://www.thelazyslug.com/boinc.htm>The Lazy Slug's Guide
+    to easy deployment and maintenance of BOINC on your network</a>."
+),
+array("June 29, 2006",
+    "<a href=http://boinc.berkeley.edu/boinc_papers/api/text.pdf>A
+    paper about BOINC's API and runtime system</a>
+    will appear in the <a href=http://sc06.supercomp.org>SC06 conference</a>."
+),
 array("June 28, 2006",
     "A new <a href=sandbox_user.php>Secure BOINC Client</a>
     for the Macintosh is available for testing.

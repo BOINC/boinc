@@ -7048,3 +7048,11 @@ Rom    28 June 2006
     
     clientgui/
         BOINCGUIApp.cpp
+
+David  30 June 2006
+    - fixes for Windows/cygwin compile
+        (from Carlos Orellana)
+
+    lib/
+        crypt_prog.C
+        filesys.C

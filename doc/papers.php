@@ -3,6 +3,12 @@ require_once("docutil.php");
 page_head("Papers related to BOINC");
 echo"
 
+<a href=http://boinc.berkeley.edu/boinc_papers/api/text.pdf>Designing a Runtime System for Volunteer Computing</a>
+<br>
+David P. Anderson, Carl Christensen and Bruce Allen.
+<br> To appear in SC06 (the International Conference for
+High Performance Computing, Networking, Storage and Analysis), November 2006.
+<hr>
 <a href=http://boinc.berkeley.edu/boinc_papers/internet/paper.pdf>The Computational and Storage Potential of Volunteer Computing</a>
 <br> David P. Anderson and Gilles Fedak
 <br> IEEE/ACM International Symposium on Cluster Computing and the Grid,

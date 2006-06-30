@@ -8,17 +8,28 @@ echo "
 <h2>The BOINC logo</h2>
 <ul>
 <li>
-Hi-res versions of the logo:
-<a href=logo/logo.png>PNG</a>, <a href=logo/logo.jpg>JPEG</a>.
-<li>
+The logo in its native form as <a href=logo/logo.doc>a Word document</a>.
 The BOINC logo uses the Planet Benson font from
 <a href=http://www.larabiefonts.com>Larabie Fonts</a>.
+<li>
+Hi-res versions of the logo:
+<a href=logo/logo.png>PNG</a>, <a href=logo/logo.jpg>JPEG</a>.
 <li>
 An icon for BOINC-related Podcasts, from Christian Beer:
 <img align=top src=images/Logo_blau.jpg>
 
 </ul>
 We welcome alternative ideas.
+Our criteria:
+<ul>
+<li> It should look good on a white background,
+and should have a transparent-background variant that
+works with any light-colored background.
+<li> It should allow recognizable and visually consistent versions
+ranging from a 16x16 icon up to a 200x300 rectangle.
+<li> It should refer in some way either to 'BOINC' as a sound effect,
+    or to global distributed computing, or both.
+</ul>
 Here are some submissions:
 <p>
 <table cellpadding=8 border=1>
@@ -53,6 +64,14 @@ and for specific countries.
 <td>
 <a href=images/boincb6.png><img src=images/boincb6_120.png>
 <a href=images/boincb7.png><img src=images/boincb7_120.png>
+</td>
+</tr>
+<tr>
+<td>Tony Hern</td>
+<td>
+<a href=logos/Knightrider_TV_1.gif><img height=90 src=logos/Knightrider_TV_1.gif></a>
+<a href=logos/Knightrider_TV_1n.gif><img height=90 src=logos/Knightrider_TV_1n.gif></a>
+<a href=logos/Knightrider_TV_1tp.gif><img height=90 src=logos/Knightrider_TV_1tp.gif></a>
 </td>
 </tr>
 </table>
