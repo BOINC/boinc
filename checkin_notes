@@ -6679,3 +6679,105 @@ David  22 June 2006
     client/
         cpu_sched.C
         log_flags.C
+
+Charlie 22 June 2006
+    - Mac sandbox:
+        - Because memberd is available only on OS 10.4, do not call it 
+            under OS 10.3.x and require logout after installation to 
+            resynchronize group membership tables.
+    
+    clientgui/
+        mac/
+            SetupSecurity.cpp
+            SetVersion.C
+    mac_installer/
+        PostInstall.cpp
+
+Charlie 27 June 2006
+    - Mac sandbox:
+        - Create wrapper "BOINC Installer" application, with installer 
+          package inside its bundle.  Wrapper determines whether a logout 
+          will be needed, sets installer package Info.plist file accordingly,
+          and opens the package to launch the standard Mac installer.
+          
+    clientgui/
+        mac/
+            SetVersion.C
+    mac_installer/
+        Installer.cpp (new)
+        PostInstall.cpp
+        release_boinc.sh
+        release_GridRepublic.sh
+    mac_build/
+        Installer-Info.plist
+        PostInstall-Info.plist (new)
+        boinc.xcodeproj/
+            project.pbxproj
+
+Charlie 27 June 2006
+    - Create branch boinc_core_release_5_6
+
+Charlie 28 June 2006
+    - Mac: Documentation changes for Mac sandbox.
+        - Fix bug in GR release script.
+    
+    doc/
+        mac_build.html
+    mac_build/
+        HowToBuildBOINC_XCode.rtf
+    mac_installer/
+        GR-ReadMe.rtf
+        ReadMe.rtf
+        release_GridRepublic.sh
+
+Charlie 29 June 2006
+    - Mac: Mac sandbox fixes to run as non-admin user.
+        - Set S_IXOTH permission for switcher application, 
+            slot subdirectories, project subdirectories.
+        - Add setprojectgrp helper application; use it instead 
+            of chown to set files and directories to group 
+            boinc_project.
+    client/
+        app_start.C
+        check_security.C
+        client_types.C
+        file_names.C,h
+        setprojectgrp.C (added)
+        switcher.C
+    mac_installer/
+        release_boinc.sh
+        release_GridRepublic.sh
+    clientgui/
+        mac/
+            SetupSecurity.cpp
+    mac_build/
+        boinc.xcodeproj/
+            project.pbxproj
+
+Charlie 30 June 2006
+    - Mac: Mac sandbox fixes:
+        - Set, check nested slot and project directory permissions 
+            recursively.
+        - Make Switcher directory non-writable.
+        - Update security documentation.
+        - better handling of locale directories.
+        - boinc_mkdir makes directories world-executable.
+    - Bump version to 5.5.5 for release to alpha test.
+    
+    version.h
+    client/
+        check_security.C
+        client_types.C
+        file_names.C
+     clientgui/
+        mac/
+            SetupSecurity.cpp
+    doc/
+        sandbox.php
+    lib/
+        filesys.C
+
+Charlie 1 July 2006 (branch boinc_core_release_5_6)
+    - Tag for 5.5.5 release, Macinitosh with sandbox only
+      boinc_core_release_5_5_5
+

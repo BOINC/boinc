@@ -458,7 +458,7 @@ int boinc_mkdir(const char* path) {
     return !CreateDirectory(path, NULL);
 #else
     mode_t old_mask = umask(0);
-    int retval = mkdir(path, 0770);
+    int retval = mkdir(path, 0771);
     umask(old_mask);
     return retval;
 #endif

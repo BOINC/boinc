@@ -5,7 +5,7 @@
 	<key>CFBundleDevelopmentRegion</key>
 	<string>English</string>
 	<key>CFBundleExecutable</key>
-	<string>PostInstall</string>
+	<string>BOINC Installer</string>
 	<key>CFBundleIdentifier</key>
 	<string>edu.berkeley.boinc.Installer</string>
 	<key>CFBundleInfoDictionaryVersion</key>
@@ -15,6 +15,6 @@
 	<key>CFBundleSignature</key>
 	<string>????</string>
 	<key>CFBundleVersion</key>
-	<string>5.5.4</string>
+	<string>5.5.5</string>
 </dict>
 </plist>

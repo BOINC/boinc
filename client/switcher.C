@@ -6,6 +6,7 @@
 
 #include <unistd.h>
 #include <stdio.h>
+#include <cerrno>
 
 int main(int argc, char** argv) {
 
@@ -17,4 +18,8 @@ int main(int argc, char** argv) {
 #endif
 
     execv(argv[1], argv+2);
+    
+    // If we got here execv failed
+    fprintf(stderr, "Process creation (%s) failed: errno=%d\n", argv[1], errno);
+
 }
