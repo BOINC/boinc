@@ -113,16 +113,8 @@ CLIENT_STATE::CLIENT_STATE() {
 void CLIENT_STATE::show_host_info() {
     char buf[256], buf2[256];
     msg_printf(NULL, MSG_INFO,
-        "Processor: %s %s",
-        host_info.p_vendor, host_info.p_model
-    );
-    msg_printf(NULL, MSG_INFO,
-        "Processor count: %d",
-        host_info.p_ncpus
-    );
-    msg_printf(NULL, MSG_INFO,
-        "Processor capabilities: %s",
-        host_info.p_capabilities
+        "Processor: %d %s %s",
+        host_info.p_ncpus, host_info.p_vendor, host_info.p_model
     );
 
     nbytes_to_string(host_info.m_nbytes, 0, buf, sizeof(buf));
@@ -248,7 +240,7 @@ int CLIENT_STATE::init() {
         msg_printf(p, MSG_INFO,
             "URL: %s; Computer ID: %s; location: %s; project prefs: %s",
             p->master_url,
-            buf, p->host_venue,
+            buf, strlen(p->host_venue)?p->host_venue:"(none)",
             p->using_venue_specific_prefs?p->host_venue:"default"
         );
     }

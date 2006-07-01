@@ -36,7 +36,7 @@ typedef int PROCESS_ID;
     // before sending to server,
     // to protect against apps that write unbounded amounts.
 
-// process states of an ACTIVE_TASK
+// values of ACTIVE_TASK::task_state
 //
 #define PROCESS_UNINITIALIZED   0
 
@@ -58,7 +58,7 @@ typedef int PROCESS_ID;
 #define PROCESS_IN_LIMBO        8
     // process exited zero, but no finish file; leave the task there.
 
-// CPU scheduler states of an ACTIVE_TASK
+// values of ACTIVE_TASK::scheduler_state and ACTIVE_TASK::next_scheduler_state
 #define CPU_SCHED_UNINITIALIZED   0
 #define CPU_SCHED_PREEMPTED       1
 #define CPU_SCHED_SCHEDULED       2

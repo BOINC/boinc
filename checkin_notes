@@ -7080,3 +7080,11 @@ David  30 June 2006
 	client/
 		app_graphics.C
 		main.C
+
+David  30 June 2006
+    - message tweaks
+
+    client/
+        app.h
+        client_state.C
+        scheduler_op.C

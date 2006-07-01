@@ -206,10 +206,6 @@ int SCHEDULER_OP::start_rpc(PROJECT* p) {
 
     safe_strcpy(scheduler_url, p->get_scheduler_url(url_index, url_random));
     if (log_flags.sched_ops) {
-        msg_printf(
-            p, MSG_INFO,
-            "Sending scheduler request to %s", scheduler_url
-        );
         const char* why;
         switch (reason) {
         case REASON_USER_REQ: why = "Requested by user"; break;
@@ -218,7 +214,7 @@ int SCHEDULER_OP::start_rpc(PROJECT* p) {
         case REASON_TRICKLE_UP: why = "To send trickle-up message"; break;
         default: why = "Unknown";
         }
-        msg_printf(p, MSG_INFO,  "Reason: %s", why);
+        msg_printf(p, MSG_INFO,  "Sending scheduler request: %s", why);
         if (p->work_request != 0.0 && p->nresults_returned != 0) {
             msg_printf(
                 p, MSG_INFO,
@@ -649,9 +645,6 @@ int SCHEDULER_REPLY::parse(FILE* in, PROJECT* project) {
                 );
                 return retval;
             }
-            msg_printf(project, MSG_INFO,
-                "General preferences have been updated"
-            );
         } else if (match_tag(buf, "<project_preferences>")) {
             retval = dup_element_contents(
                 in,
