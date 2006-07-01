@@ -34,7 +34,7 @@ $mm0775 = prot('boinc_master', 'boinc_master', '0775');
 $mp0775 = prot('boinc_master', 'boinc_project', '0775');
 $mm2555 = prot('boinc_master', 'boinc_master', '0555+setgid');
 $mm6555 = prot('boinc_master', 'boinc_master', '0555+setuid+setgid');
-$ua0775 = prot('(installing user)', 'admin', '0775');
+$ua0555 = prot('(installing user)', 'admin', '0555');
 
 $colors = array('ddddff', 'ccccff', 'bbbbff');
 
@@ -129,7 +129,7 @@ echo
 echo "<br><br>";
 
 echo
-    show_dir(0, 'BOINC executables', $ua0775, array(
+    show_dir(0, 'BOINC executables', $ua0555, array(
         show_file('BOINC Manager', $mm2555),
         show_file('BOINC Client', $mm6555)
     ));
