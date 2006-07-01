@@ -7151,3 +7151,8 @@ Charlie 30 June 2006
         sandbox.php
     lib/
         filesys.C
+
+Charlie 1 July 2006 (branch boinc_core_release_5_6)
+    - Tag for 5.5.5 release, Macinitosh with sandbox only
+      boinc_core_release_5_5_5
+
