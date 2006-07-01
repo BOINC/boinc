@@ -6980,6 +6980,9 @@ David  27 June 2006
     client/
         hostinfo_network.C
 
+Charlie 27 June 2006
+    - Create branch boinc_core_release_5_6
+
 Charlie 28 June 2006
     - Mac: Documentation changes for Mac sandbox.
         - Fix bug in GR release script.
@@ -7049,6 +7052,43 @@ Rom    28 June 2006
     clientgui/
         BOINCGUIApp.cpp
 
+Charlie 28 June 2006
+    - Mac: Documentation changes for Mac sandbox.
+        - Fix bug in GR release script.
+    
+    doc/
+        mac_build.html
+    mac_build/
+        HowToBuildBOINC_XCode.rtf
+    mac_installer/
+        GR-ReadMe.rtf
+        ReadMe.rtf
+        release_GridRepublic.sh
+
+Charlie 29 June 2006
+    - Mac: Mac sandbox fixes to run as non-admin user.
+        - Set S_IXOTH permission for switcher application, 
+            slot subdirectories, project subdirectories.
+        - Add setprojectgrp helper application; use it instead 
+            of chown to set files and directories to group 
+            boinc_project.
+    client/
+        app_start.C
+        check_security.C
+        client_types.C
+        file_names.C,h
+        setprojectgrp.C (added)
+        switcher.C
+    mac_installer/
+        release_boinc.sh
+        release_GridRepublic.sh
+    clientgui/
+        mac/
+            SetupSecurity.cpp
+    mac_build/
+        boinc.xcodeproj/
+            project.pbxproj
+
 David  30 June 2006
     - fixes for Windows/cygwin compile
         (from Carlos Orellana)
@@ -7088,3 +7128,26 @@ David  30 June 2006
         app.h
         client_state.C
         scheduler_op.C
+
+Charlie 30 June 2006
+    - Mac: Mac sandbox fixes:
+        - Set, check nested slot and project directory permissions 
+            recursively.
+        - Make Switcher directory non-writable.
+        - Update security documentation.
+        - better handling of locale directories.
+        - boinc_mkdir makes directories world-executable.
+    - Bump version to 5.5.5 for release to alpha test.
+    
+    version.h
+    client/
+        check_security.C
+        client_types.C
+        file_names.C
+     clientgui/
+        mac/
+            SetupSecurity.cpp
+    doc/
+        sandbox.php
+    lib/
+        filesys.C
