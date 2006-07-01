@@ -15,9 +15,8 @@ if (isset($USE_PHPMAILER)) {
     $USE_PHPMAILER = false;
 }
 
-/**
- * Function sends an email, either using PHPMailer or not.
- **/
+// Function sends an email, either using PHPMailer or not.
+//
 function send_email($user, $subject, $body) {
     global $USE_PHPMAILER;
     global $PHPMAILER_HOST;
@@ -43,35 +42,6 @@ function send_email($user, $subject, $body) {
     }
 }
 
-/**
- * Send mail using the new User object style
- **/
-function re_send_email($user, $subject, $body) {
-    global $USE_PHPMAILER;
-    global $PHPMAILER_HOST;
-    global $PHPMAILER_MAILER;
-
-    if ($USE_PHPMAILER) {
-        $mail = new PHPMailer();
-        $mail->AddAddress($user->getEmail(), $user->getName());
-        $mail->Subject = $subject;
-        $mail->Body = $body;
-        $mail->From = EMAIL_FROM;
-        $mail->FromName = EMAIL_FROM;
-        $mail->Host = $PHPMAILER_HOST;
-        $mail->Mailer = $PHPMAILER_MAILER;
-        return $mail->Send();
-    } else {
-        if (defined('EMAIL_FROM')) {
-            $headers = "From: ". EMAIL_FROM;
-        } else {
-            $headers ="";
-        }
-        return mail($user->getEmail(), $subject, $body, $headers);
-    }
-}
-
-
 function send_verify_email($old, $new, $user) {
     $x = md5($new.$user->authenticator);
     mail(
@@ -84,35 +54,16 @@ To validate the new address, visit the URL:
     );
 }
 
-/**
- * Send a link to a user that makes it possible for the user to validate the email address
- * This function uses the new User object style
- **/
-function send_verifier($user) {
-    $x = md5($user->getEmail().$user->getAuthenticator());
-    re_send_email(
-        $user,
-        PROJECT." email verification",
-"You have requested to validate the email address you have registered with " . PROJECT . 
-".
-To validate the address, please visit the URL:
-".URL_BASE."validate_email.php?u=".$user->getID()."&x=$x
-"
-    );
-}
-
-
-/**
- * Send an email describing an account to the user.
- * There are a few scenarios:
- *
- * 1) the account was created by user via web.
- *    In this case they're currently looking at the "validate account" page
- *    (account_created.php), although they might have strayed
- *    so we need to give them a link.
- * 2) the account was created administratively
- * 3) the user requested account key for existing account
- **/
+// Send an email describing an account to the user.
+// There are a few scenarios:
+//
+// 1) the account was created by user via web.
+//    In this case they're currently looking at the "validate account" page
+//    (account_created.php), although they might have strayed
+//    so we need to give them a link.
+// 2) the account was created administratively
+// 3) the user requested account key for existing account
+//
 function send_auth_email($user, $is_new) {
     global $master_url;
     $body = "";
@@ -146,10 +97,9 @@ For further information and assistance with ".PROJECT." go to $master_url
     return send_email($user, $subject, $body);
 }
 
-/**
- * Function simply outputs some text letting the user know
- * their authenticator was emailed to them.
- **/
+// Function simply outputs some text letting the user know
+// their authenticator was emailed to them.
+//
 function email_sent_message($email_addr) {
     if (defined('EMAIL_FROM')) {
         $email_from = EMAIL_FROM;
@@ -167,12 +117,12 @@ function email_sent_message($email_addr) {
     ";
 }
 
-/** a valid email address is of the form A@B.C
- * where A, B, C are nonempty,
- * A and B don't contain @ or .,
- * and C doesn't contain @ (but can contain .)
- **/
- // TODO: Replace this with some regex.  Please.
+// a valid email address is of the form A@B.C
+// where A, B, C are nonempty,
+// A and B don't contain @ or .,
+// and C doesn't contain @ (but can contain .)
+// TODO: Replace this with some regex.  Please.
+//
 function is_valid_email_addr($addr) {
     $x = strstr($addr, "@");
     if (!$x) return false;
@@ -187,74 +137,9 @@ function is_valid_email_addr($addr) {
 }
 
 
-/**
- * If a post is hidden, this function emails the author
- * to let them know what happened.
- **/
-function send_moderation_email($post, $message) {
-    global $master_url;
-    $body = "";
-    $thread = $post->getThread();
-    $subject = PROJECT." forum moderation notice for $user->name";
-    $body = PROJECT." notification:
-
-This email is sent to inform you that one of your posts in the forum has been affected by moderation in ".PROJECT.":
-    Thread:         ".$thread->getTitle()."
-    Link:           ".$master_url."/forum_thread.php?id=".$thread->getID()."
-
-The moderator gave this explanation to why your post was moderated:
-".$message;
-$body .= "
-
-This was the contents of your post:
-".$post->getContent()."
-
-For further information and assistance with ".PROJECT." go to ".$master_url;
-    return send_email($post->getOwner(), $subject, $body);
-
-}
-
-/**
- * If an entire thread is hidden, this function emails the owner
- * to let them know what happened.
- */
-function send_thread_moderation_email($thread, $message) {
-    global $master_url;
-    $user = $thread->getOwner();
-    $body = "";
-
-    $subject = PROJECT." forum moderation notice for $user->name";
-    $body = PROJECT." notification:
-
-This email is sent to inform you that one of your threads in the forum has been affected by moderation in ".PROJECT.":
-    Thread:         ".$thread->getTitle()."
-    Link:           ".$master_url."/forum_thread.php?id=".$thread->getID()."
-
-The moderator gave this explanation to why your thread was moderated:
-".$message;
-$body .= "
-
-For further information and assistance with ".PROJECT." go to ".$master_url;
-    return send_email($user, $subject, $body);
-
-}
-
-/**
- * If a user is subscribed to a thread that is replied to, this
- * function sends them an email notifying them of the reply.
- **/
-function send_reply_notification_email($thread, $user){
-    $title = PROJECT . ": A user has posted to '". stripslashes($thread->getTitle()) ."'";
-    $link = URL_BASE . "forum_thread.php?id=" . $thread->getID();
-    $body = "Another " . PROJECT . " user has posted to the thread \"" . stripslashes($thread->getTitle()) . "\".\n"
-           ."To view the updated thread, visit the following URL:\n\n$link";
-    return re_send_email($user, $title, $body);
-}
-
-/**
- * If a user's host is identified as causing problems, this email is sent
- * to the owner to let them know.
- **/
+// If a user's host is identified as causing problems, this email is sent
+// to the owner to let them know.
+//
 function send_problem_email($user, $host) {
     global $master_url;
     $body = "";
@@ -329,37 +214,5 @@ For further information and assistance with ".PROJECT." go to $master_url";
     return send_email($user, $subject, $body);
 
 }
-
-/**
- * When a user clicks the red "x" to notify moderators about a post,
- * this function generates the email to let the moderators know about
- * it.
- **/
-function send_report_post_email($user, $thread,  $post, $message) {
-    global $master_url;
-    global $forum_post_reporting_admin;
-    
-    $body = "";
-
-    $subject = PROJECT." post in '".$thread->getTitle()."' reported as offensive";
-    $body = PROJECT." notification:
-
-This email is sent to inform you that one of the posts in the forum was reported as offensive in ".PROJECT.":
-    Thread:         ".$thread->getTitle()."
-    Post:           ".$post->getID()."
-    Link:           $master_url/forum_thread.php?id=".$thread->getID()."#".$post->getID()."
-    
-The reporting user gave this explanation to why the post was reported:
-".$message."
-
-This was the contents of the post:
-".$post->getContent()."
-
-For further information and assistance with ".PROJECT." go to $master_url";
-    //Security check, do we have an admin?
-    if (!$forum_post_reporting_admin) error_page("This project has not yet defined an administrator to handle this kind of forum reports. Please contact the project and tell them to add this information in their html/project/project.inc file");
-    return send_email($forum_post_reporting_admin, $subject, $body);
-}
-
 
 ?>

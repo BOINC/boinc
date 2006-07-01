@@ -7156,3 +7156,25 @@ Charlie 1 July 2006 (branch boinc_core_release_5_6)
     - Tag for 5.5.5 release, Macinitosh with sandbox only
       boinc_core_release_5_5_5
 
+David  1 July 2006
+    - user web: moved forum-related email functions to a new file;
+        small bug fixes in forum moderation code
+    - changed db/schema.sql to match new forum code
+    - user web: html/project/project.inc must now have
+        define("FORUM_MODERATION_EMAIL_USER_ID", "N")
+        to specify who reports get sent to
+        (the ID of an existing account)
+
+    db/
+        schema.sql
+    html/
+        inc/
+            email.inc
+            forum_email.inc (new)
+        user/
+            edit_forum_preferences_form.php
+            forum_moderate_post_action.php
+            forum_moderate_thread_action.php
+            forum_post.php
+            forum_reply.php
+            forum_report_post.php

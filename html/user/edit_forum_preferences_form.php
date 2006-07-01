@@ -2,6 +2,7 @@
 
 require_once("../inc/db.inc");
 require_once("../inc/forum.inc");
+require_once("../inc/forum_std.inc");
 require_once("../inc/util.inc");
 
 db_init();

@@ -349,6 +349,7 @@ create table thread (
     id                  integer     not null auto_increment,
     forum               integer     not null,
     owner               integer     not null,
+    status              integer     not null,
     title               varchar(254) not null,
     timestamp           integer     not null,
         -- time of last new or modified post
@@ -361,6 +362,8 @@ create table thread (
         -- (set periodically by update_forum_activity.php)
     sufferers           integer     not null,
         -- in help desk: # people who indicated they had same problem
+    score               double      not null,
+    votes               integer     not null,
     create_time         integer     not null,
         -- when this record was created
     hidden              integer     not null,
@@ -395,7 +398,8 @@ create table post (
 --
 create table subscriptions (
     userid              integer     not null,
-    threadid            integer     not null
+    threadid            integer     not null,
+    notified_time       integer     not null default 0
 ) type=InnoDB;
 
 create table forum_preferences (
@@ -404,19 +408,21 @@ create table forum_preferences (
     posts               integer     not null default 0,
     last_post           integer not null,
     avatar              varchar(254) not null default '',
-    avatar_type         tinyint(4)  not null default 0,
     hide_avatars        tinyint(1) unsigned not null default 0,
-    sorting             varchar(100) not null default '',
-    no_signature_by_default tinyint(1) unsigned not null default 0,
+    forum_sorting       integer not null,
+    thread_sorting      integer not null,
+    no_signature_by_default tinyint(1) unsigned not null default 1,
     images_as_links     tinyint(1) unsigned not null default 0,
     link_popup          tinyint(1) unsigned not null default 0,
     mark_as_read_timestamp integer not null default 0,
     special_user        integer not null default 0,
-    jump_to_unread      tinyint(1) unsigned not null default 0,
+    jump_to_unread      tinyint(1) unsigned not null default 1,
     hide_signatures     tinyint(1) unsigned not null default 0,
     rated_posts         varchar(254) not null,
-    low_rating_threshold integer not null,
-    high_rating_threshold integer not null,
+    low_rating_threshold integer not null default -25,
+    high_rating_threshold integer not null default 5,
+    minimum_wrap_postcount INT DEFAULT 100 NOT NULL,
+    display_wrap_postcount INT DEFAULT 75 NOT NULL,
     ignorelist          varchar(254) not null,
     ignore_sticky_posts tinyint(1) unsigned not null,
     primary key (userid)
@@ -427,4 +433,11 @@ create table forum_logging (
     threadid            integer     not null default 0,
     timestamp           integer     not null default 0,
     primary key (userid,threadid)
+) TYPE=MyISAM;
+
+create table post_ratings (
+    post                integer     not null,
+    user                integer     not null,
+    rating              tinyint     not null,
+    primary key(post, user)
 ) TYPE=MyISAM;

@@ -5,7 +5,7 @@
  **/
  
 require_once("../inc/forum.inc");
-require_once("../inc/email.inc");
+require_once("../inc/forum_email.inc");
 require_once("../inc/forum_std.inc");
 
 
