@@ -26,19 +26,24 @@
 #include <pwd.h>	// getpwnam
 #include <grp.h>
 #include <sys/param.h>  // for MAXPATHLEN
+#include <dirent.h>
 #include "util.h"
 #include "error_numbers.h"
 #include "file_names.h"
 #include "SetupSecurity.h"
 
+static int CheckNestedDirectories(char * basepath, int depth);
 
 #define REAL_BOINC_MASTER_NAME "boinc_master"
 #define REAL_BOINC_PROJECT_NAME "boinc_project"
 
-static char boinc_master_user_name[64];
-static char boinc_master_group_name[64];
-static char boinc_project_user_name[64];
-static char boinc_project_group_name[64];
+static char         boinc_master_user_name[64];
+static char         boinc_master_group_name[64];
+static char         boinc_project_user_name[64];
+static char         boinc_project_group_name[64];
+
+static gid_t        boinc_master_gid, boinc_project_gid;
+static uid_t        boinc_master_uid, boinc_project_uid;
 
 // Called from BOINC Manager, BOINC Client and Installer.  
 // The arguments are use only when called from the Installer
@@ -51,10 +56,8 @@ char *bundlePath, char *dataPath
 ) {
     passwd              *pw;
     group               *grp;
-    gid_t               egid, boinc_master_gid;
-    uid_t               euid, boinc_master_uid;
-    gid_t               boinc_project_gid;
-    uid_t               boinc_project_uid;
+    gid_t               egid;
+    uid_t               euid;
     char                dir_path[MAXPATHLEN], full_path[MAXPATHLEN];
     struct stat         sbuf;
     int                 retval;
@@ -263,6 +266,11 @@ char *bundlePath, char *dataPath
 
         if ((sbuf.st_mode & 0777) != 0775)
             return -1026;
+
+        // Step through project directories
+        retval = CheckNestedDirectories(full_path, 1);
+        if (retval)
+            return retval;
     }
 
     strlcpy(full_path, dir_path, sizeof(dir_path));
@@ -278,6 +286,11 @@ char *bundlePath, char *dataPath
 
         if ((sbuf.st_mode & 0777) != 0775)
             return -1029;
+
+        // Step through slot directories
+        retval = CheckNestedDirectories(full_path, 1);
+        if (retval)
+            return retval;
     }
 
     strlcpy(full_path, dir_path, sizeof(full_path));
@@ -308,7 +321,7 @@ char *bundlePath, char *dataPath
     if (sbuf.st_uid != boinc_master_uid)
         return -1035;
 
-    if ((sbuf.st_mode & 0777) != 0770)
+    if ((sbuf.st_mode & 0777) != 0550)
         return -1036;
 
     strlcat(full_path, "/", sizeof(full_path));
@@ -323,8 +336,117 @@ char *bundlePath, char *dataPath
     if (sbuf.st_uid != boinc_project_uid)
         return -1039;
 
-    if ((sbuf.st_mode & 07777) != 06550)
+    if ((sbuf.st_mode & 07777) != 06551)
         return -1040;
 
+    strlcpy(full_path, dir_path, sizeof(dir_path));
+    strlcat(full_path, "/", sizeof(full_path));
+    strlcat(full_path, SWITCHER_DIR, sizeof(full_path));
+
+    strlcat(full_path, "/", sizeof(full_path));
+    strlcat(full_path, SETPROJECTGRP_FILE_NAME, sizeof(full_path));
+    retval = stat(full_path, &sbuf);
+    if (retval)
+        return -1041;
+    
+    if (sbuf.st_gid != boinc_project_gid)
+        return -1042;
+
+    if (sbuf.st_uid != boinc_master_uid)
+        return -1043;
+
+    if ((sbuf.st_mode & 07777) != 06500)
+        return -1044;
+
     return 0;
+}
+
+
+static int CheckNestedDirectories(char * basepath, int depth) {
+    int             isDirectory;
+    char            full_path[MAXPATHLEN];
+    struct stat     sbuf;
+    int             retval = 0;
+    DIR             *dirp;
+    dirent          *dp;
+
+    dirp = opendir(basepath);
+    if (dirp == NULL)           // Should never happen
+        return -1200;
+    
+    while (true) {
+        dp = readdir(dirp);
+        if (dp == NULL)
+            break;                  // End of list
+            
+        if (dp->d_name[0] == '.')
+            continue;               // Ignore names beginning with '.'
+
+        strlcpy(full_path, basepath, sizeof(full_path));
+        strlcat(full_path, "/", sizeof(full_path));
+        strlcat(full_path, dp->d_name, sizeof(full_path));
+
+        retval = stat(full_path, &sbuf);
+        if (retval)
+            break;              // Should never happen
+
+        isDirectory = S_ISDIR(sbuf.st_mode);
+
+        if (sbuf.st_gid != boinc_project_gid) {
+            retval = -1201;
+            break;
+        }
+
+        if (depth > 1) {
+            // files and subdirectories created by projects may have owner boinc_master or boinc_project
+            if ( (sbuf.st_uid != boinc_master_uid) && (sbuf.st_uid != boinc_project_uid) ) {
+                retval = -1202;
+                break;
+            }
+        } else {
+            // project & slot directories (projets/setiathome.berkeley.edu, slots/0 etc.) 
+            // must have owner boinc_master
+            if (sbuf.st_uid != boinc_master_uid) {
+                retval = -1202;
+                break;
+            }
+        }
+        
+        if (isDirectory) {
+            if (depth == 1) {
+            // project & slot directories (projets/setiathome.berkeley.edu, slots/0 etc.) 
+            // must be readable & executable by other
+                if ((sbuf.st_mode & 0777) != 0775) {
+                    retval = -1203;
+                    break;
+                }
+#if 0    // We may enforce permissions later for subdirectories written by project applications
+            } else {
+                // subdirectories created by projects may be executable by other or not
+                if ((sbuf.st_mode & 0770) != 0770) {
+                    retval = -1203;
+                    break;
+                }
+#endif
+            }
+#if 0    // We may enforce permissions later for files written by project applications
+        } else {    // ! isDirectory
+            if ((sbuf.st_mode & 0666) != 0660) {
+                retval = -1204;
+                break;
+            }
+#endif
+        }
+
+        if (isDirectory) {
+            retval = CheckNestedDirectories(full_path, depth + 1);
+            if (retval)
+                break;
+        }
+
+    }       // End while (true)
+
+    closedir(dirp);
+    
+    return retval;
 }

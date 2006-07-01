@@ -48,6 +48,7 @@ extern void escape_project_url(char *in, char* out);
 extern void get_sched_request_filename(PROJECT&, char*);
 extern void get_sched_reply_filename(PROJECT&, char*);
 extern void get_master_filename(PROJECT&, char*);
+extern int set_to_project_group(const char* path);
 
 #define PROJECTS_DIR                "projects"
 #define SLOTS_DIR                   "slots"
@@ -80,5 +81,6 @@ extern void get_master_filename(PROJECT&, char*);
 #define LOOKUP_WEBSITE_FILENAME     "lookup_website.html"
 #define GET_CURRENT_VERSION_FILENAME    "get_current_version.xml"
 #define SWITCHER_FILE_NAME          "switcher"
+#define SETPROJECTGRP_FILE_NAME     "setprojectgrp"
 
 #endif

@@ -631,17 +631,19 @@ int FILE_INFO::set_permissions() {
     // in case someone runs BOINC from different user
 
 #ifdef SANDBOX
-    retval = boinc_chown(pathname, gstate.boinc_project_gid);
+    retval = set_to_project_group(pathname);
     if (retval) return retval;
     if (executable) {
         retval = chmod(pathname,
             S_IRUSR|S_IWUSR|S_IXUSR
             |S_IRGRP|S_IWGRP|S_IXGRP
+            |S_IROTH|S_IXOTH
         );
     } else {
         retval = chmod(pathname,
             S_IRUSR|S_IWUSR
             |S_IRGRP|S_IWGRP
+            |S_IROTH
         );
     }
 #else

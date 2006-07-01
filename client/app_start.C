@@ -91,7 +91,7 @@ static int make_link(const char *existing, const char *new_link) {
     fprintf(fp, "<soft_link>%s</soft_link>\n", existing);
     fclose(fp);
 #ifdef SANDBOX
-    return boinc_chown(new_link, gstate.boinc_project_gid);
+    return set_to_project_group(new_link);
 #else
     return 0;
 #endif
@@ -630,7 +630,7 @@ int ACTIVE_TASK::start(bool first_time) {
         retval = execv(buf, argv);
 #endif
         msg_printf(wup->project, MSG_ERROR,
-            "Process creation (%s) failed: %s\n", buf, boincerror(retval)
+            "Process creation (%s) failed: %s, errno=%d\n", buf, boincerror(retval), errno
         );
         perror("execv");
         fflush(NULL);

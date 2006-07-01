@@ -25,14 +25,15 @@ function prot($user, $group, $perm) {
     &nbsp;&nbsp; protection: $perm";
 }
 
-$pp0770 = prot('boinc_project', 'boinc_project', '0770');
-$pp6550 = prot('boinc_project', 'boinc_project', '0550+setuid+setgid');
+$pp0775 = prot('boinc_project', 'boinc_project', '0775');
+$mp6500 = prot('boinc_master', 'boinc_project', '0500+setuid+setgid');
+$pp6551 = prot('boinc_project', 'boinc_project', '0551+setuid+setgid');
+$mm0550 = prot('boinc_master', 'boinc_master', '0550');
 $mm0770 = prot('boinc_master', 'boinc_master', '0770');
-$mp0770 = prot('boinc_master', 'boinc_project', '0770');
 $mm0775 = prot('boinc_master', 'boinc_master', '0775');
+$mp0775 = prot('boinc_master', 'boinc_project', '0775');
 $mm2555 = prot('boinc_master', 'boinc_master', '0555+setgid');
 $mm6555 = prot('boinc_master', 'boinc_master', '0555+setuid+setgid');
-$mm6770 = prot('boinc_master', 'boinc_master', '0770+setuid+setgid');
 $ua0775 = prot('(installing user)', 'admin', '0775');
 
 $colors = array('ddddff', 'ccccff', 'bbbbff');
@@ -96,32 +97,33 @@ for the BOINC file and directory tree:
 echo
     show_dir(0, 'BOINC data', $mm0775, array(
         show_dir(1, 'projects', $mm0775, array(
-            show_dir(2, 'setiathome.berkeley.edu', $mp0770, array(
-                show_file('files created by BOINC Client', $mp0770),
-                show_file('files created by project apps', $pp0770)
+            show_dir(2, 'setiathome.berkeley.edu', $mp0775, array(
+                show_file('files created by BOINC Client', $mp0775),
+                show_file('files created by project apps', $pp0775)
             ))
         )),
         show_dir(1, 'slots', $mm0775, array(
-            show_dir(2, '0', $mp0770, array(
-                show_file('files created by BOINC Client', $mp0770),
-                show_file('files created by project apps', $pp0770)
+            show_dir(2, '0', $mp0775, array(
+                show_file('files created by BOINC Client', $mp0775),
+                show_file('files created by project apps', $pp0775)
             ))
         )),
-        show_dir(1, 'switcher (directory)', $mm0770, array(
-            show_file('switcher (executable)', $pp6550)
+        show_dir(1, 'switcher (directory)', $mm0550, array(
+            show_file('switcher (executable)', $pp6551),
+            show_file('setprojectgrp (executable)', $mp6500)
         )),
-        show_dir(1, 'locale', $mm0770, array(
-            show_dir(2, 'de', $mm0770, array(
-                show_file('BOINC Manager.mo', $mm0770),
-                show_file('wxstd.mo', $mm0770)
+        show_dir(1, 'locale', $mm0550, array(
+            show_dir(2, 'de', $mm0550, array(
+                show_file('BOINC Manager.mo', $mm0550),
+                show_file('wxstd.mo', $mm0550)
             ))
         )),
-        show_file('account_*.xml', $mm0770),
-        show_file('acct_mgr_login.xml', $mm0770),
-        show_file('client_state.xml', $mm0770),
+        show_file('account_*.xml', $mm0775),
+        show_file('acct_mgr_login.xml', $mm0775),
+        show_file('client_state.xml', $mm0775),
         show_file('gui_rpc_auth.cfg', $mm0770),
-        show_file('sched_reply*', $mm0770),
-        show_file('sched_request*', $mm0770),
+        show_file('sched_reply*', $mm0775),
+        show_file('sched_request*', $mm0775)
     ));
 
 echo "<br><br>";
@@ -129,7 +131,7 @@ echo "<br><br>";
 echo
     show_dir(0, 'BOINC executables', $ua0775, array(
         show_file('BOINC Manager', $mm2555),
-        show_file('BOINC Client', $mm6555),
+        show_file('BOINC Client', $mm6555)
     ));
     
 echo "
@@ -138,10 +140,8 @@ echo "
 
 <ul>
 <li>BOINC Client runs setuid and setgid to <b>boinc_master:boinc_master</b>.  
-<li>Because user <b>boinc_master</b> is a member of both groups
-<b>boinc_master</b> and <b>boinc_project</b>, 
-BOINC Client can set files and directories it creates to either group
-and has full access to files and directories in both groups.
+<li>BOINC Client uses the helper application <i>setprojectgrp</i> to 
+set project and slot files and directories to group <b>boinc_project</b>.  
 <li>BOINC Client does not directly execute project applications.
 It runs the helper application <i>switcher</i>, 
 passing the request in the argument list.
@@ -153,14 +153,16 @@ This blocks project applications from accessing unauthorized files.
 It can access all files in group <b>boinc_master</b>.  
 It runs as the user who launched it,
 which is necessary for a number of GUI features to work correctly.  
-Although this means that BOINC Manager cannot directly access files
+Although this means that BOINC Manager cannot modify files
 created by project applications, there is no need for it to do so.  
-<li>BOINC Manager and BOINC Client set their umasks to 007,
+<li>BOINC Manager and BOINC Client set their umasks to 002,
 which is inherited by all child applications.
 The default permissions for all files and directories they create prevent
-access outside the user and group.
-<li>Non-admin users have no direct access to BOINC or project files.
-They can access these files only by running the BOINC Manager and Client.  
+modification outside the user and group.
+Because files are world-readable, BOINC Client can read files written by projects.
+Third-party add-ons can also read BOINC data files.
+<li>Non-admin users cannot directly modify BOINC or project files.
+They can modify these files only by running the BOINC Manager and Client.  
 <li>The <i>switcher</i> application is inside the <i>switcher</i> directory.
 This directory is accessible only by user and group <b>boinc_master</b>,
 so that project applications cannot modify the <i>switcher</i> 
@@ -175,7 +177,8 @@ In other words, only BOINC Manager, BOINC Client and
 authorized administrative users can read or modify it,
 limiting access to most BOINC RPC functions.
 <li>BOINC Manager restricts certain functions to authorized users:
-Attach to Project, Detach from Project, Reset Project.  
+Attach to Project, Detach from Project, Reset Project, Abort Task,
+Abort Transfer, Update Account Manager.  
 If an unauthorized user requests these functions,
 the Manager requires password authentication.
 <li>On Macintosh computers, the actual directory structure
