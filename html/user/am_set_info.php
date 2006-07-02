@@ -102,13 +102,15 @@ if ($show_hosts != null) {
     $query .= " show_hosts='$show_hosts', ";
 }
 
-if ($teamid) {
-    $team = lookup_team($teamid);
-    if ($team) {
-        user_join_team($team, $user);
+if (!is_null($teamid)) {
+    if ($teamid==0) {
+        user_quit_team($user);
+    } else {
+        $team = lookup_team($teamid);
+        if ($team) {
+            user_join_team($team, $user);
+        }
     }
-} else if ($teamid==null) {
-    user_quit_team($user);
 }
 
 if ($venue) {

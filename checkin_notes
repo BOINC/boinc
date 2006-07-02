@@ -7178,3 +7178,10 @@ David  1 July 2006
             forum_post.php
             forum_reply.php
             forum_report_post.php
+
+David  2 July 2006
+    - AMS RPC: fix bug that incorrectly removed people from their team
+        (found by Willy de Zutter)
+
+    html/user/
+        am_set_info.php
