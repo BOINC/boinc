@@ -7185,3 +7185,15 @@ David  2 July 2006
 
     html/user/
         am_set_info.php
+
+Charlie 3 July 2006
+    - Mac: Mac sandbox: don't set S_ISUID bit for setprojectgrp helper 
+        application.
+        
+    client/
+        check_security.C
+     clientgui/
+        mac/
+            SetupSecurity.cpp
+    doc/
+        sandbox.php

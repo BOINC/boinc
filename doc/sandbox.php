@@ -26,7 +26,7 @@ function prot($user, $group, $perm) {
 }
 
 $pp0775 = prot('boinc_project', 'boinc_project', '0775');
-$mp6500 = prot('boinc_master', 'boinc_project', '0500+setuid+setgid');
+$mp2500 = prot('boinc_master', 'boinc_project', '0500+setgid');
 $pp6551 = prot('boinc_project', 'boinc_project', '0551+setuid+setgid');
 $mm0550 = prot('boinc_master', 'boinc_master', '0550');
 $mm0770 = prot('boinc_master', 'boinc_master', '0770');
@@ -110,7 +110,7 @@ echo
         )),
         show_dir(1, 'switcher (directory)', $mm0550, array(
             show_file('switcher (executable)', $pp6551),
-            show_file('setprojectgrp (executable)', $mp6500)
+            show_file('setprojectgrp (executable)', $mp2500)
         )),
         show_dir(1, 'locale', $mm0550, array(
             show_dir(2, 'de', $mm0550, array(

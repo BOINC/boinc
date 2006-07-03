@@ -355,7 +355,7 @@ char *bundlePath, char *dataPath
     if (sbuf.st_uid != boinc_master_uid)
         return -1043;
 
-    if ((sbuf.st_mode & 07777) != 06500)
+    if ((sbuf.st_mode & 07777) != 02500)
         return -1044;
 
     return 0;

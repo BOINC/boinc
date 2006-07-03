@@ -456,10 +456,10 @@ int SetBOINCDataOwnersGroupsAndPermissions() {
             return err;
 
         // Set permissions of setprojectgrp application
-        // chmod u=rsx,g=rsx,o= "/Library/Applications/BOINC Data/switcher/setprojectgrp"
-        // 06550 = S_ISUID | S_ISGID | S_IRUSR | S_IXUSR | S_IRGRP | S_IXGRP
-        //  setuid-on-execution, setgid-on-execution plus read and execute permission for user only
-        err = DoPrivilegedExec(chmodPath, "u=rsx,g=s,o=", fullpath, NULL, NULL, NULL);
+        // chmod u=rx,g=rsx,o= "/Library/Applications/BOINC Data/switcher/setprojectgrp"
+        // 02500 = S_ISGID | S_IRUSR | S_IXUSR
+        //  setgid-on-execution plus read and execute permission for user only
+        err = DoPrivilegedExec(chmodPath, "u=rx,g=s,o=", fullpath, NULL, NULL, NULL);
         if (err)
             return err;
     }       // setprojectgrp application
