@@ -1,0 +1,32 @@
+<?xml version="1.0" standalone="no"?>
+<client>
+	<!-- Application name -->
+	<name>uppercase-example</name>
+
+	<!-- User-friendly name for Boinc -->
+	<user_friendly_name>Uppercase Example Application with callback functions</user_friendly_name>
+
+	<!-- Application version. Boinc requirements:
+	     - The version number must contain two components (major.minor)
+	     - Both component may be 1 or 2 digits long
+	     - The major version must be the same as the Boinc server major
+	       version -->
+	<version>@PACKAGE_VERSION@</version>
+
+	<platform>
+		<!-- The name of the platform -->
+		<name>@target@</name>
+
+		<!-- The name of the main client binary. It will be
+		     automatically renamed to the name expected by Boinc -->
+		<binary>uppercase-example-client</binary>
+
+		<!-- Signature of the main binary, if the code signing key
+		     is not present at the machine running the project -->
+		<!-- <signarute>@appdir@/search.sig</signature> -->
+
+		<!-- Additional files can also be installed -->
+		<!-- <lib>winlib.dll</lib> -->
+		<!-- <lib>winlib.dll.sig</lib> -->
+	</platform>
+</client>
