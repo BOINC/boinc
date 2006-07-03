@@ -290,7 +290,7 @@ static void wudesc_start(GMarkupParseContext *ctx, const char *element_name,
 		else
 			pctx->curr_mode = DC_FILE_REGULAR;
 	}
-	else if (attr_names)
+	else if (attr_names && attr_names[0])
 	{
 		*error = g_error_new(G_MARKUP_ERROR,
 			G_MARKUP_ERROR_UNKNOWN_ATTRIBUTE,
