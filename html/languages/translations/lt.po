@@ -2,8 +2,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "POT-Creation-Date: \n"
-"PO-Revision-Date: 2005-06-17 16:19-0800\n"
-"Last-Translator: miksiukas <miksiukas@gmail.com>\n"
+"PO-Revision-Date: 2006-06-24 22:40+0200\n"
+"Last-Translator: \n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=utf-8\n"
@@ -43,22 +43,22 @@ msgid "APPS_PLATFORM"
 msgstr "Platforma"
 
 msgid "APPS_VERSION"
-msgstr "Aktuali versija"
+msgstr "Naudojama versija"
 
 msgid "APPS_INSTALLTIME"
-msgstr "Data"
+msgstr "Įdiegta"
 
 #########################################
 # Rules and Policies page (info.php)
 #########################################
 msgid "RULES_TITLE"
-msgstr "Taisyklės ir politika"
+msgstr "Perskaitykite mūsų taisykles ir politiką"
 
 msgid "RULES_ONLY_AUTH"
 msgstr "Apie kompiuterius, kuriuose galite vykdyti $PROJECT projektą"
 
 msgid "RULES_ONLY_AUTH_TEXT"
-msgstr "Projektą $PROJECT vykdykite tik su tais kompiuteriais, kurių savininkas esate pats arba esate gavęs savininko leidimą. Kai kurios kompanijos ar mokyklos laikosi politikos, kuri draudžia naudoti kompiuterius projektams kaip $PROJECT ."
+msgstr "Projektą $PROJECT vykdykite tik su tais kompiuteriais, kurių savininkas esate pats arba esate gavęs savininko leidimą. Kai kurios kompanijos ar mokyklos laikosi politikos, kuri draudžia naudoti kompiuterius projektams kaip $PROJECT."
 
 msgid "RULES_COMPUTER_USE"
 msgstr "Kaip $PROJECT projektas naudos Jūsų kompiuterį"
@@ -106,10 +106,10 @@ msgid "RULES_OTHER"
 msgstr "Kiti BOINC projektai"
 
 msgid "RULES_OTHER_TEXT_A"
-msgstr "Kiti projektai, kaip ir $PROJECT, naudoja BOINC. Jūs galite nuspręsti prisijungti prie vieno ar kelių projektų. Tokiu atveju, Jūsų kompiuteris darys naudingą darbą kai $PROJECT projektas jo neturės.."
+msgstr "Kiti projektai, kaip ir $PROJECT, naudoja BOINC. Jūs galite nuspręsti prisijungti prie vieno ar kelių projektų. Tokiu atveju, Jūsų kompiuteris darys naudingą darbą kai $PROJECT projektas jo neturės."
 
 msgid "RULES_OTHER_TEXT_B"
-msgstr "Išvardinti projektai nėra susijį su $PROJECT, ir dėl to mes negalime garantuoti už jų projekto saugumą ar tyrimo tikslus. Jūs sprendžiate ar prisijungti prie kitų projektų."
+msgstr "Išvardinti projektai nėra susiję su $PROJECT, ir dėl to mes negalime garantuoti už jų projekto saugumą ar tyrimo tikslus. Jūs sprendžiate ar prisijungti prie kitų projektų."
 
 #########################################
 # Create account form (create_account_form.php)
@@ -156,112 +156,23 @@ msgstr "$PROJECT projekto vartotojų abonementų kūrimas šiuo metu yra išjung
 msgid "CREATE_AC_TEAM"
 msgstr "Šis vartotojo abonementas priklausys %s komandai ir bus naudojami komandos įkūrėjo nustatymai."
 
-#########################################
-# Account created page (account_created.php)
-#########################################
-msgid "AC_READY_TITLE"
-msgstr "Sukurtas vartotojo abonementas"
+msgid "CREATE_AC_USE_CLIENT"
+msgstr "PASTABA: Jei naudojate BOINC 5.2 versiją ar aukštesnę kartu su BOINC valdikliu, tuomet nenaudokite šios formos. Tiesiog paleiskite BOINC, pasirinkite Prisijungti prie projekto, įveskite elektroninio pašto adresą ir slaptažodį."
 
-msgid "AC_READY_WELCOME"
-msgstr "Sveikiname - Jums sukurtas $PROJECT projekto vartotojo abonementas."
+msgid "CREATE_AC_PASSWORD"
+msgstr "Slaptažodis"
 
-msgid "AC_READY_PASTE"
-msgstr "Čia reikia įvesti vartotojo abonemento slaptažodį:"
+msgid "CREATE_AC_PASSWORD_DESC"
+msgstr "Turi būti bent %s simboliai"
 
-msgid "AC_READY_CLICK"
-msgstr "ir paspauskite"
+msgid "CREATE_AC_CONFIRM_PASSWORD"
+msgstr "Patvirtinkite slaptažodį"
 
-#########################################
-# Account setup page (account_setuo.php)
-#########################################
-#also used in account_setup_nonfirst.php:
-msgid "AC_SETUP_TITLE"
-msgstr "Vartotojo abonento diegimas"
+msgid "AC_INVITE_REQUIRED"
+msgstr "Norint sukurti vartotojo abonementą jums reikia įvesti kvietimo kodą."
 
-msgid "AC_SETUP_USES_BOINC"
-msgstr "$PROJECT projektas naudoja BOINC programą."
-
-msgid "AC_SETUP_DIVISION"
-msgstr "BOINC leidžia jūsų kompiuterio darbo laiką padalinti keliems projektams."
-
-msgid "AC_SETUP_ISFIRST"
-msgstr "Ar tai pirmas Jūsų BOINC projektas?"
-
-msgid "AC_SETUP_FIRST"
-msgstr "Taip - tai pirmas mano BOINC projektas."
-
-msgid "AC_SETUP_NONFIRST"
-msgstr "Ne - aš jau dalyvauju bent viename BOINC projekte."
-
-#########################################
-# First Account setup page (account_setup_first.php)
-#########################################
-msgid "AC_FIRST_TITLE"
-msgstr "Abonemento nustatymai"
-
-msgid "AC_FIRST_CONTROL"
-msgstr "Jūs galite kontroliuoti, kaip ir kada $PROJECT projektas naudos Jūsų kompiuterį."
-
-msgid "AC_FIRST_DEFAULT"
-msgstr "Jei naudosite numatytus nustatymus, eikite į puslapio pabaigą ir paspauskite OK."
-
-#########################################
-# First Account setup done page (account_setup_first_done.php)
-# and (account_setup_nonfirst_done.php
-#########################################
-msgid "AC_DONE_TITLE"
-msgstr "Abonemento diegimas: baigta"
-
-msgid "AC_DONE_COMPLETE"
-msgstr "Jūsų vartotojo abonemento diegimas yra baigtas."
-
-msgid "AC_DONE_BOINC"
-msgstr "Toliau Jūs turite parsisiųsti ir instaliuoti BOINC programą ir nurodyti kompiuteriui (-iams) nauditi šį abonementą."
-
-msgid "AC_DONE_URL"
-msgstr "Pirmą kartą paleidus BOINC programą, Jūs būsite paprašytas įvesti <b>projekto internetinį adresą (URL)</b> ir <b>abonemento slaptažodį</b>."
-
-msgid "AC_DONE_COPYPASTE"
-msgstr "Nukopijuokite ir įklijuokite juos iš čia:"
-
-msgid "AC_DONE_GETDOWNLOAD"
-msgstr "Dabar Jūs galite %s ir baigti $PROJECT projekto diegimą."
-
-msgid "AC_DONE_DL_BOINC"
-msgstr "parsisiųsti BOINC programą"
-
-msgid "AC_DONE_THANKS"
-msgstr "Dėkojame, kad dalyvaujate $PROJECT projekte."
-
-#########################################
-# Non-first Account setup page (account_setup_nonfirst.php)
-#########################################
-msgid "AC_NONFIRST_TITLE"
-msgstr "Abonemento nustatymai: resursų padalinimas"
-
-#########################################
-# Non-first Account setup done page (account_setup_nonfirst_done.php)
-#########################################
-msgid "AC_DONE_MUST_USE"
-msgstr "Toliau nurodykite kompiuteriui(-iams) naudoti šį abonementą."
-
-msgid "AC_DONE_WIN"
-msgstr "Windows naudotojai:"
-
-msgid "AC_DONE_WIN_TEXT"
-msgstr "Dvigubu pelės paspaudimu sistemos dėkle paleiskite BOINC programą. Pasirinkite Nustatymų meniu ir 'Prisijungti prie projekto'. Jūs turėsite įvesti projekto internetinį adresq (URL) ir vartotojo abonemento slaptažodį."
-
-msgid "AC_DONE_UNIX"
-msgstr "Mac, Unix ir Linux naudotojai:"
-
-msgid "AC_DONE_UNIX_TEXT"
-msgstr "Uždarykite BOINC klientą. tada paleiskite BOINC klientą su -attach_project funkcija. Jūs turėsite įvesti projekto internetinį adresą (URL) ir abonemento slaptažodį."
-
-msgid "AC_DONE_ANYCASE"
-msgstr "Kiekvienu atveju nukopijuokite ir įiklijuokite tai:"
-
-msgid "AC_DONE_INSTALLED"
-msgstr "$PROJECT projekto diegimas baigtas."
+msgid "AC_INVITE_INVALID"
+msgstr "Jūsų įvestas kvietimo kodas neteisingas."
 
 #########################################
 # Forum sample index page
@@ -269,16 +180,156 @@ msgstr "$PROJECT projekto diegimas baigtas."
 msgid "FORUM_TITLE"
 msgstr "$PROJECT Pranešimų lentos"
 
-#########################################
-# Different strange places:
-#########################################
-# account_created.php
-msgid "AC_CREATED_TITLE"
-msgstr "Abonemento nustatymai"
+msgid "FORUM_TITLE_SHORT"
+msgstr "Pranešimų lentos"
 
 #########################################
 # General stuff (create_account_form.php and others)
 #########################################
 msgid "OPTIONAL"
 msgstr "Papildomas pasirinkimas"
+
+#########################################
+# Various top table pages (top users, computers, teams)
+#########################################
+msgid "TOP_PARTICIPANT_TITLE"
+msgstr "Geriausi dalyviai"
+
+msgid "USER_TABLE_RANK"
+msgstr "Eilės numeris"
+
+msgid "USER_TABLE_NAME"
+msgstr "Vardas"
+
+msgid "TOTAL_CREDIT"
+msgstr "Viso kreditų"
+
+msgid "EXPAVG_CREDIT"
+msgstr "Vidutinis kreditas"
+
+msgid "USER_TABLE_COUNTRY"
+msgstr "Šalis"
+
+msgid "USER_TABLE_PTIME"
+msgstr "Dalyvis nuo"
+
+msgid "TOP_TEAMS_TITLE"
+msgstr "Geriausios %s komandos"
+
+msgid "TEAM_TABLE_MEMBERS"
+msgstr "Nariai"
+
+#########################################
+# Forum
+#########################################
+msgid "FORUM_POSTS"
+msgstr "Pranešimai"
+
+msgid "FORUM_TOPIC"
+msgstr "Tema"
+
+msgid "FORUM_THREADS"
+msgstr "Skiltys"
+
+msgid "FORUM_LAST_POST"
+msgstr "Paskutinis pranešimas"
+
+msgid "FORUM_AUTHOR"
+msgstr "Autorius"
+
+msgid "FORUM_VIEWS"
+msgstr "Peržiūrėta"
+
+msgid "FORUM_ERR_NOT_FOUND"
+msgstr "Nėra tokios pranešimų lentos"
+
+msgid "FORUM_ERR_EXPAVG"
+msgstr "Norint sukurti naują skiltį %s temoje, jums reikia turėti tam tikrą kiekį kreditų. Tai yra naudojama tam, kad būtų apsaugota sistema nuo neteisingo jos panaudojimo."
+
+msgid "FORUM_ERR_INTERVAL"
+msgstr "Jus negalite šiuo metu sukurti daugiau skilčių. Prašome palaukti prieš bandant tai daryti vėl. Laukimo periodas įvestas norint apsaugoti sistemą nuo neteisingo jos naudojimo."
+
+msgid "FORUM_QA_POST_MESSAGE"
+msgstr "%s vieta leidžia jums gauti pagalbą iš kitų vartotojų. Jei turite klausimų ar problemų:"
+
+msgid "FORUM_QA_POST_MESSAGE2"
+msgstr "Perskaitykite jau esančių klausimų sąrašą. Jei jūsų klausimas jau yra, tuomet spauskite ant %s mygtuko. Jei į klausimą yra pateikti atsakymai, perskaitykite juos. Jei vienas iš jų atsako į jūsų klausimą, tuomet spauskite %s mygtyką."
+
+msgid "FORUM_QA_POST_MESSAGE3"
+msgstr "Jei jūsų klausimo niekas neuždavė, tuomet užpildykite ir išsiųskite šią formą."
+
+msgid "FORUM_QA_POST_MESSAGE4"
+msgstr "Tai neleidžia tų pačių klausimų užduoti pakartotinai."
+
+msgid "FORUM_QA_SUBMIT_NEW"
+msgstr "Užduoti naują klausimą/problemą"
+
+msgid "FORUM_SUBMIT_NEW"
+msgstr "Sukurti naują skiltį"
+
+msgid "FORUM_SUBMIT_NEW_TITLE"
+msgstr "Pavadinimas"
+
+msgid "FORUM_QA_SUBMIT_NEW_HELP"
+msgstr "Apibūdinkite savo klausimą keliais žodžiais. Tai trumpas, aiškus apibendrinimas, kuris kitiems vartotojams su tuo pačiu klausimu ar atsakymu padės jį surasti."
+
+msgid "FORUM_QA_SUBMIT_NEW_BODY_HELP"
+msgstr "Jei susiduriate su programinės įrangos problemomis, paminėkite programos versijos numerį, savo kompiuterio ir operacinės sistemos tipą."
+
+msgid "FORUM_ADD_MY_SIG"
+msgstr "Pridėti mano parašą prie šio pranešimo"
+
+msgid "FORUM_MESSAGE"
+msgstr "Pranešimas"
+
+msgid "FORUM_QA_GOT_PROBLEM_TOO"
+msgstr "Aš taip pat turiu šią problemą"
+
+msgid "FORUM_QA_QUESTION_ANSWERED"
+msgstr "Tai atsakė į mano klausimą"
+
+msgid "FORUM_HTML_INFO"
+msgstr "Naudokite BBCode žymes savo teksto formatavimui"
+
+#########################################
+# Forum thread
+#########################################
+msgid "FORUM_THREAD_HIDDEN"
+msgstr "Šį skiltis buvo paslėpta administravimo tikslais"
+
+msgid "FORUM_THREAD_REPLY"
+msgstr "Atsakyti į šią skiltį"
+
+msgid "FORUM_THREAD_SUBSCRIBED"
+msgstr "Jūs esate registravęsis šioje skiltyje."
+
+msgid "FORUM_THREAD_UNSUBSCRIBE"
+msgstr "Norėdami išsiregistruoti spauskite čia"
+
+msgid "FORUM_THREAD_SUBSCRIBE"
+msgstr "Registruotis šioje skiltyje"
+
+#########################################
+# Forum search features
+#########################################
+msgid "FORUM SEARCH"
+msgstr "Paieška pranešimų lentose"
+
+msgid "FORUM_SEARCH_TITLES"
+msgstr "Pavadinimai turintys '%s'"
+
+msgid "FORUM_SEARCH_BODIES"
+msgstr "Pranešimai turintys '%s'"
+
+msgid "FORUM_SEARCH_TITLES_NO"
+msgstr "Nerasta pavadinimų su '%s'."
+
+msgid "FORUM_SEARCH_BODIES_NO"
+msgstr "Nerasta pranešimų su '%s'."
+
+#########################################
+# Links from the main page
+#########################################
+msgid "LINKS_QA"
+msgstr "Klausimai ir Atsakymai"
 
