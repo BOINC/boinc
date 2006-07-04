@@ -243,7 +243,7 @@ int SetBOINCDataOwnersGroupsAndPermissions() {
     // Does BOINC Data directory exist?
     result = FSPathMakeRef((StringPtr)fullpath, &ref, &isDirectory);
     if ((result != noErr) || (! isDirectory))
-        return err;                         // BOINC Data Directory does not exist
+        return dirNFErr;                    // BOINC Data Directory does not exist
 
     // Set owner and group of BOINC Data directory's contents
     sprintf(buf1, "%s:%s", boinc_master_user_name, boinc_master_group_name);

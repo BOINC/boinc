@@ -7210,3 +7210,12 @@ Charlie 3 July 2006
     mac_build/
         boinc.xcodeproj/
             project.pbxproj
+
+Charlie 4 July 2006
+    - Mac sandbox: Manager doesn't create BOINC Data directory if 
+        it doesn't exist when using SANDBOX security.
+        
+    clientgui/
+        BOINCGUIApp.cpp
+        mac/
+            SetupSecurity.cpp

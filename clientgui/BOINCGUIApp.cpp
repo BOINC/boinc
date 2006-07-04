@@ -316,6 +316,7 @@ bool CBOINCGUIApp::OnInit() {
 
     wxString strDirectory = wxEmptyString;
     bool success;
+    int errCode;
 
     // Set the current directory ahead of the application launch so the core
     //   client can find its files
@@ -334,24 +335,16 @@ bool CBOINCGUIApp::OnInit() {
     if (success) {
         // If SetWD failed, don't create a directory in wrong place
         strDirectory += wxT("BOINC Data");  // We don't customize BOINC Data directory name for branding
-        if (! wxDirExists(strDirectory)) {
-#ifdef SANDBOX
-            // Create BOINC Data directory writable by group boinc_master only
-            success = wxMkdir(strDirectory, 0575);
-#ifndef _DEBUG
-            gid_t gid;
-            lookup_group("boinc_master", gid);
-            boinc_chown("BOINC Data", gid);
-#endif      // ! _DEBUG
-#else       // SANDBOX
+#ifndef SANDBOX
+        if (! wxDirExists(strDirectory))
             success = wxMkdir(strDirectory, 0777);    // Does nothing if dir exists
 #endif      // ! SANDBOX
-        }
         success = ::wxSetWorkingDirectory(strDirectory);
 //    wxChar *wd = wxGetWorkingDirectory(buf, 1000);  // For debugging
     }
 
 #ifdef SANDBOX
+    if (success) {  // wxSetWorkingDirectory("/Library/Application Support/BOINC Data") SUCCEEDED
 #ifdef _DEBUG
             // GDB can't attach to applications which are running as a diferent user   
             //  or group, so fix up data with current user and group during debugging
@@ -362,11 +355,14 @@ bool CBOINCGUIApp::OnInit() {
             }
 #endif  // _DEBUG
 
-    int i = check_security();
-    if (i) {
+        errCode = check_security();
+    } else      // wxSetWorkingDirectory("/Library/Application Support/BOINC Data") FAILED
+        errCode = -1016;
+        
+    if (errCode) {
         wxString            strDialogMessage = wxEmptyString;
         strDialogMessage.Printf(
-            _("BOINC ownership or permissions are not set properly; please reinstall BOINC.\n(Error code %d)"), i);
+            _("BOINC ownership or permissions are not set properly; please reinstall BOINC.\n(Error code %d)"), errCode);
         wxMessageDialog* pDlg = 
         new wxMessageDialog(m_pFrame, strDialogMessage, wxT(""), wxOK);
         pDlg->ShowModal();

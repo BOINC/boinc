@@ -12,18 +12,6 @@
 			buildConfigurationList = DD9E237D091CBDAE0048316E /* Build configuration list for PBXAggregateTarget "Build_All" */;
 			buildPhases = (
 			);
-			buildSettings = {
-				OTHER_CFLAGS = "";
-				OTHER_LDFLAGS = "";
-				OTHER_REZFLAGS = "";
-				PRODUCT_NAME = Build_All;
-				SECTORDER_FLAGS = "";
-				WARNING_CFLAGS = (
-					"-Wmost",
-					"-Wno-four-char-constants",
-					"-Wno-unknown-pragmas",
-				);
-			};
 			dependencies = (
 				DDBD681107FA830E0082C20D /* PBXTargetDependency */,
 				DDBD681307FA830E0082C20D /* PBXTargetDependency */,
@@ -584,33 +572,6 @@
 			);
 		};
 /* End PBXBuildRule section */
-
-/* Begin PBXBuildStyle section */
-		05952DFCFFF02D1B11CA0E50 /* Development */ = {
-			isa = PBXBuildStyle;
-			buildSettings = {
-				COPY_PHASE_STRIP = NO;
-				GCC_DYNAMIC_NO_PIC = NO;
-				GCC_ENABLE_FIX_AND_CONTINUE = NO;
-				GCC_GENERATE_DEBUGGING_SYMBOLS = YES;
-				GCC_OPTIMIZATION_LEVEL = 0;
-				OPTIMIZATION_CFLAGS = "-O0";
-				ZERO_LINK = NO;
-			};
-			name = Development;
-		};
-		05952DFDFFF02D1B11CA0E50 /* Deployment */ = {
-			isa = PBXBuildStyle;
-			buildSettings = {
-				COPY_PHASE_STRIP = YES;
-				DEAD_CODE_STRIPPING = YES;
-				DEPLOYMENT_POSTPROCESSING = YES;
-				GCC_ENABLE_FIX_AND_CONTINUE = NO;
-				ZERO_LINK = NO;
-			};
-			name = Deployment;
-		};
-/* End PBXBuildStyle section */
 
 /* Begin PBXContainerItemProxy section */
 		DD095EF507D87B1E00362260 /* PBXContainerItemProxy */ = {
@@ -1618,65 +1579,6 @@
 				DD6826ED08641BDF0070CDB8 /* PBXBuildRule */,
 				DD6826EC08641BDF0070CDB8 /* PBXBuildRule */,
 			);
-			buildSettings = {
-				DEPLOYMENT_POSTPROCESSING = NO;
-				GCC_CW_ASM_SYNTAX = NO;
-				GCC_PFE_FILE_C_DIALECTS = "c++";
-				GCC_PRECOMPILE_PREFIX_HEADER = YES;
-				GCC_PREFIX_HEADER = ../clientgui/mac/MacGUI.pch;
-				HEADER_SEARCH_PATHS = (
-					"../../wxMac-2.6.1/osx-build/lib/wx/include/mac-ansi-release-static-2.6",
-					"../../wxMac-2.6.1/include",
-				);
-				INFOPLIST_FILE = Info.plist;
-				INSTALL_PATH = "$(USER_APPS_DIR)";
-				LIBRARY_SEARCH_PATHS = (
-					"../../wxMac-2.6.1/osx-build/lib",
-					../lib,
-					/usr/lib/gcc/darwin/3.3,
-				);
-				MACOSX_DEPLOYMENT_TARGET = 10.3;
-				OTHER_CFLAGS = (
-					"-DMAC_OS_X_VERSION_MAX_ALLOWED=1030",
-					"-DHAVE_CONFIG_H",
-					"-D_FILE_OFFSET_BITS=64",
-					"-D_LARGE_FILES",
-					"-DNO_GCC_PRAGMA",
-					"-DNOCLIPBOARD",
-					"-D_THREAD_SAFE",
-					"-D__WXMAC__",
-					"-DHAVE_STRCASECMP_IN_STRING_H",
-				);
-				OTHER_CPLUSPLUSFLAGS = (
-					"-DMAC_OS_X_VERSION_MAX_ALLOWED=1030",
-					"-DHAVE_CONFIG_H",
-					"-D_FILE_OFFSET_BITS=64",
-					"-D_LARGE_FILES",
-					"-DNO_GCC_PRAGMA",
-					"-DNOCLIPBOARD",
-					"-D_THREAD_SAFE",
-					"-D__WXMAC__",
-					"-DHAVE_STRCASECMP_IN_STRING_H",
-				);
-				OTHER_LDFLAGS = (
-					"-D_THREAD_SAFE",
-					"-lz",
-					"-lpthread",
-					"-liconv",
-					"-lz",
-					"-lm",
-				);
-				OTHER_REZFLAGS = "";
-				PRODUCT_NAME = BOINCManager;
-				SECTORDER_FLAGS = "";
-				SKIP_INSTALL = NO;
-				UNSTRIPPED_PRODUCT = YES;
-				WARNING_CFLAGS = (
-					"-Wmost",
-					"-Wno-four-char-constants",
-					"-Wno-unknown-pragmas",
-				);
-			};
 			dependencies = (
 				DDAECA2807FA5EE500A7BC36 /* PBXTargetDependency */,
 				DD095EF607D87B1E00362260 /* PBXTargetDependency */,
@@ -1685,27 +1587,6 @@
 			name = mgr_boinc;
 			productName = mgr_boinc;
 			productReference = DD095EF107D87AE900362260 /* BOINCManager.app */;
-			productSettingsXML = "<?xml version=\"1.0\" encoding=\"UTF-8\"?>
-<!DOCTYPE plist PUBLIC \"-//Apple Computer//DTD PLIST 1.0//EN\" \"http://www.apple.com/DTDs/PropertyList-1.0.dtd\">
-<plist version=\"1.0\">
-<dict>
-	<key>CFBundleDevelopmentRegion</key>
-	<string>English</string>
-	<key>CFBundleExecutable</key>
-	<string>mgr_boinc</string>
-	<key>CFBundleIdentifier</key>
-	<string>com.yourcompany.mgr_boinc</string>
-	<key>CFBundleInfoDictionaryVersion</key>
-	<string>6.0</string>
-	<key>CFBundlePackageType</key>
-	<string>APPL</string>
-	<key>CFBundleSignature</key>
-	<string>????</string>
-	<key>CFBundleVersion</key>
-	<string>1.0</string>
-</dict>
-</plist>
-";
 			productType = "com.apple.product-type.application";
 		};
 		DD1277B2081F3D67007B5DE1 /* PostInstall */ = {
@@ -1722,55 +1603,12 @@
 				DD6826F908641C5A0070CDB8 /* PBXBuildRule */,
 				DD6826F808641C5A0070CDB8 /* PBXBuildRule */,
 			);
-			buildSettings = {
-				GCC_PRECOMPILE_PREFIX_HEADER = NO;
-				GCC_PREFIX_HEADER = "";
-				INFOPLIST_FILE = "Installer-Info.plist";
-				INSTALL_PATH = "$(USER_APPS_DIR)";
-				LIBRARY_SEARCH_PATHS = "";
-				MACOSX_DEPLOYMENT_TARGET = 10.3;
-				OTHER_CFLAGS = "-DMAC_OS_X_VERSION_MAX_ALLOWED=1030";
-				OTHER_CPLUSPLUSFLAGS = "-DMAC_OS_X_VERSION_MAX_ALLOWED=1030";
-				OTHER_LDFLAGS = (
-					"-framework",
-					Carbon,
-				);
-				OTHER_REZFLAGS = "";
-				PRODUCT_NAME = Postinstall;
-				SECTORDER_FLAGS = "";
-				WARNING_CFLAGS = (
-					"-Wmost",
-					"-Wno-four-char-constants",
-					"-Wno-unknown-pragmas",
-				);
-			};
 			dependencies = (
 				DDAD19DF09090914004E7DD0 /* PBXTargetDependency */,
 			);
 			name = PostInstall;
 			productName = Installer;
 			productReference = DD1277B3081F3D67007B5DE1 /* Postinstall.app */;
-			productSettingsXML = "<?xml version=\"1.0\" encoding=\"UTF-8\"?>
-<!DOCTYPE plist PUBLIC \"-//Apple Computer//DTD PLIST 1.0//EN\" \"http://www.apple.com/DTDs/PropertyList-1.0.dtd\">
-<plist version=\"1.0\">
-<dict>
-	<key>CFBundleDevelopmentRegion</key>
-	<string>English</string>
-	<key>CFBundleExecutable</key>
-	<string>Installer</string>
-	<key>CFBundleIdentifier</key>
-	<string>com.yourcompany.Installer</string>
-	<key>CFBundleInfoDictionaryVersion</key>
-	<string>6.0</string>
-	<key>CFBundlePackageType</key>
-	<string>APPL</string>
-	<key>CFBundleSignature</key>
-	<string>????</string>
-	<key>CFBundleVersion</key>
-	<string>1.0</string>
-</dict>
-</plist>
-";
 			productType = "com.apple.product-type.application";
 		};
 		DD1AFEA40A512D8700EE5B82 /* Install_BOINC */ = {
@@ -1787,55 +1625,12 @@
 				DD1AFEB30A512D8700EE5B82 /* PBXBuildRule */,
 				DD1AFEB40A512D8700EE5B82 /* PBXBuildRule */,
 			);
-			buildSettings = {
-				GCC_PRECOMPILE_PREFIX_HEADER = NO;
-				GCC_PREFIX_HEADER = "";
-				INFOPLIST_FILE = "Installer-Info.plist";
-				INSTALL_PATH = "$(USER_APPS_DIR)";
-				LIBRARY_SEARCH_PATHS = "";
-				MACOSX_DEPLOYMENT_TARGET = 10.3;
-				OTHER_CFLAGS = "-DMAC_OS_X_VERSION_MAX_ALLOWED=1030";
-				OTHER_CPLUSPLUSFLAGS = "-DMAC_OS_X_VERSION_MAX_ALLOWED=1030";
-				OTHER_LDFLAGS = (
-					"-framework",
-					Carbon,
-				);
-				OTHER_REZFLAGS = "";
-				PRODUCT_NAME = Postinstall;
-				SECTORDER_FLAGS = "";
-				WARNING_CFLAGS = (
-					"-Wmost",
-					"-Wno-four-char-constants",
-					"-Wno-unknown-pragmas",
-				);
-			};
 			dependencies = (
 				DD1AFEA50A512D8700EE5B82 /* PBXTargetDependency */,
 			);
 			name = Install_BOINC;
 			productName = Installer;
 			productReference = DD1AFEBA0A512D8700EE5B82 /* BOINC Installer.app */;
-			productSettingsXML = "<?xml version=\"1.0\" encoding=\"UTF-8\"?>
-<!DOCTYPE plist PUBLIC \"-//Apple Computer//DTD PLIST 1.0//EN\" \"http://www.apple.com/DTDs/PropertyList-1.0.dtd\">
-<plist version=\"1.0\">
-<dict>
-	<key>CFBundleDevelopmentRegion</key>
-	<string>English</string>
-	<key>CFBundleExecutable</key>
-	<string>Installer</string>
-	<key>CFBundleIdentifier</key>
-	<string>com.yourcompany.Installer</string>
-	<key>CFBundleInfoDictionaryVersion</key>
-	<string>6.0</string>
-	<key>CFBundlePackageType</key>
-	<string>APPL</string>
-	<key>CFBundleSignature</key>
-	<string>????</string>
-	<key>CFBundleVersion</key>
-	<string>1.0</string>
-</dict>
-</plist>
-";
 			productType = "com.apple.product-type.application";
 		};
 		DD35353007E1E05C00C4718D /* api_libboinc */ = {
@@ -1850,32 +1645,6 @@
 				DD6826EA08641BC20070CDB8 /* PBXBuildRule */,
 				DD6826E908641BC20070CDB8 /* PBXBuildRule */,
 			);
-			buildSettings = {
-				INSTALL_PATH = /usr/local/lib;
-				LIBRARY_STYLE = STATIC;
-				MACOSX_DEPLOYMENT_TARGET = 10.3;
-				OTHER_CFLAGS = (
-					"-DMAC_OS_X_VERSION_MAX_ALLOWED=1030",
-					"-D_THREAD_SAFE",
-					"-include",
-					../clientgui/mac/config.h,
-				);
-				OTHER_CPLUSPLUSFLAGS = (
-					"-DMAC_OS_X_VERSION_MAX_ALLOWED=1030",
-					"-D_THREAD_SAFE",
-					"-include",
-					../clientgui/mac/config.h,
-				);
-				OTHER_LDFLAGS = "";
-				OTHER_REZFLAGS = "";
-				PRODUCT_NAME = boinc_api;
-				SECTORDER_FLAGS = "";
-				WARNING_CFLAGS = (
-					"-Wmost",
-					"-Wno-four-char-constants",
-					"-Wno-unknown-pragmas",
-				);
-			};
 			dependencies = (
 			);
 			name = api_libboinc;
@@ -1895,36 +1664,6 @@
 				DD6826E408641B8A0070CDB8 /* PBXBuildRule */,
 				DD6826E308641B8A0070CDB8 /* PBXBuildRule */,
 			);
-			buildSettings = {
-				GCC_GENERATE_DEBUGGING_SYMBOLS = NO;
-				GCC_PRECOMPILE_PREFIX_HEADER = NO;
-				GCC_PREFIX_HEADER = "";
-				INSTALL_PATH = /usr/local/lib;
-				LIBRARY_STYLE = STATIC;
-				MACOSX_DEPLOYMENT_TARGET = 10.3;
-				OTHER_CFLAGS = (
-					"-DMAC_OS_X_VERSION_MAX_ALLOWED=1030",
-					"-D_THREAD_SAFE",
-					"-include",
-					../clientgui/mac/config.h,
-				);
-				OTHER_CPLUSPLUSFLAGS = (
-					"-DMAC_OS_X_VERSION_MAX_ALLOWED=1030",
-					"-D_THREAD_SAFE",
-					"-include",
-					../clientgui/mac/config.h,
-				);
-				OTHER_LDFLAGS = "";
-				OTHER_REZFLAGS = "";
-				PRODUCT_NAME = boinc;
-				SECTORDER_FLAGS = "";
-				SKIP_INSTALL = YES;
-				WARNING_CFLAGS = (
-					"-Wmost",
-					"-Wno-four-char-constants",
-					"-Wno-unknown-pragmas",
-				);
-			};
 			dependencies = (
 			);
 			name = libboinc;
@@ -1944,34 +1683,6 @@
 				DD6826E708641BAA0070CDB8 /* PBXBuildRule */,
 				DD6826E608641BAA0070CDB8 /* PBXBuildRule */,
 			);
-			buildSettings = {
-				HEADER_SEARCH_PATHS = "../../jpeg-6b";
-				INSTALL_PATH = /usr/local/lib;
-				LIBRARY_STYLE = STATIC;
-				MACOSX_DEPLOYMENT_TARGET = 10.3;
-				OTHER_CFLAGS = (
-					"-DMAC_OS_X_VERSION_MAX_ALLOWED=1030",
-					"-D_THREAD_SAFE",
-					"-include",
-					../clientgui/mac/config.h,
-				);
-				OTHER_CPLUSPLUSFLAGS = (
-					"-DMAC_OS_X_VERSION_MAX_ALLOWED=1030",
-					"-D_THREAD_SAFE",
-					"-include",
-					../clientgui/mac/config.h,
-				);
-				OTHER_LDFLAGS = "";
-				OTHER_REZFLAGS = "";
-				PRODUCT_NAME = boinc_graphics_api;
-				SECTORDER_FLAGS = "";
-				SKIP_INSTALL = YES;
-				WARNING_CFLAGS = (
-					"-Wmost",
-					"-Wno-four-char-constants",
-					"-Wno-unknown-pragmas",
-				);
-			};
 			dependencies = (
 			);
 			name = gfxlibboinc;
@@ -1993,57 +1704,12 @@
 				DD6826F008641BFC0070CDB8 /* PBXBuildRule */,
 				DD6826EF08641BFB0070CDB8 /* PBXBuildRule */,
 			);
-			buildSettings = {
-				GCC_PRECOMPILE_PREFIX_HEADER = NO;
-				GCC_PREFIX_HEADER = "";
-				INFOPLIST_FILE = "SystemMenu-Info.plist";
-				INSTALL_PATH = "$(USER_LIBRARY_DIR)/Bundles";
-				LIBRARY_SEARCH_PATHS = /usr/lib/gcc/darwin/3.3;
-				MACOSX_DEPLOYMENT_TARGET = 10.3;
-				OTHER_CFLAGS = "-DMAC_OS_X_VERSION_MAX_ALLOWED=1030";
-				OTHER_CPLUSPLUSFLAGS = "-DMAC_OS_X_VERSION_MAX_ALLOWED=1030";
-				OTHER_LDFLAGS = (
-					"-framework",
-					Foundation,
-					"-framework",
-					AppKit,
-				);
-				OTHER_REZFLAGS = "";
-				PRODUCT_NAME = SystemMenu;
-				SECTORDER_FLAGS = "";
-				WARNING_CFLAGS = (
-					"-Wmost",
-					"-Wno-four-char-constants",
-					"-Wno-unknown-pragmas",
-				);
-			};
 			dependencies = (
 				DDAD19CD09090824004E7DD0 /* PBXTargetDependency */,
 			);
 			name = SystemMenu;
 			productName = SystemMenu;
 			productReference = DD40CDF907F0386A0096C645 /* SystemMenu.bundle */;
-			productSettingsXML = "<?xml version=\"1.0\" encoding=\"UTF-8\"?>
-<!DOCTYPE plist PUBLIC \"-//Apple Computer//DTD PLIST 1.0//EN\" \"http://www.apple.com/DTDs/PropertyList-1.0.dtd\">
-<plist version=\"1.0\">
-<dict>
-	<key>CFBundleDevelopmentRegion</key>
-	<string>English</string>
-	<key>CFBundleExecutable</key>
-	<string>SystemMenu</string>
-	<key>CFBundleIdentifier</key>
-	<string>com.yourcompany.SystemMenu</string>
-	<key>CFBundleInfoDictionaryVersion</key>
-	<string>6.0</string>
-	<key>CFBundlePackageType</key>
-	<string>APPL</string>
-	<key>CFBundleSignature</key>
-	<string>????</string>
-	<key>CFBundleVersion</key>
-	<string>1.0</string>
-</dict>
-</plist>
-";
 			productType = "com.apple.product-type.bundle";
 		};
 		DD6381E90870DC9D007A2F8E /* MakeAppIcon_h */ = {
@@ -2058,22 +1724,6 @@
 				DD2616EF09A74CF200907D1A /* PBXBuildRule */,
 				DD2616EE09A74CF200907D1A /* PBXBuildRule */,
 			);
-			buildSettings = {
-				GCC_GENERATE_DEBUGGING_SYMBOLS = NO;
-				GCC_MODEL_TUNING = G5;
-				INSTALL_PATH = "$(HOME)/bin";
-				OTHER_CFLAGS = "";
-				OTHER_LDFLAGS = "";
-				OTHER_REZFLAGS = "";
-				PREBINDING = NO;
-				PRODUCT_NAME = MakeAppIcon_h;
-				SECTORDER_FLAGS = "";
-				WARNING_CFLAGS = (
-					"-Wmost",
-					"-Wno-four-char-constants",
-					"-Wno-unknown-pragmas",
-				);
-			};
 			dependencies = (
 			);
 			name = MakeAppIcon_h;
@@ -2093,23 +1743,6 @@
 				DD6826E108641B690070CDB8 /* PBXBuildRule */,
 				DD6826E008641B5E0070CDB8 /* PBXBuildRule */,
 			);
-			buildSettings = {
-				GCC_GENERATE_DEBUGGING_SYMBOLS = NO;
-				GCC_MODEL_TUNING = G5;
-				INSTALL_PATH = "$(HOME)/bin";
-				LIBRARY_SEARCH_PATHS = /usr/lib/gcc/darwin/3.3;
-				MACOSX_DEPLOYMENT_TARGET = 10.3;
-				OTHER_LDFLAGS = "-lboinc";
-				OTHER_REZFLAGS = "";
-				PREBINDING = NO;
-				PRODUCT_NAME = boinc_cmd;
-				SECTORDER_FLAGS = "";
-				WARNING_CFLAGS = (
-					"-Wmost",
-					"-Wno-four-char-constants",
-					"-Wno-unknown-pragmas",
-				);
-			};
 			dependencies = (
 				DD69FEFF08416D1000C01361 /* PBXTargetDependency */,
 			);
@@ -2130,20 +1763,6 @@
 				DD7748AD0A356CF60025D05E /* PBXBuildRule */,
 				DD7748AC0A356CE50025D05E /* PBXBuildRule */,
 			);
-			buildSettings = {
-				GCC_ENABLE_FIX_AND_CONTINUE = YES;
-				GCC_MODEL_TUNING = G5;
-				GCC_PRECOMPILE_PREFIX_HEADER = YES;
-				GCC_PREFIX_HEADER = "$(SYSTEM_LIBRARY_DIR)/Frameworks/Carbon.framework/Headers/Carbon.h";
-				INSTALL_PATH = "$(HOME)/bin";
-				OTHER_LDFLAGS = (
-					"-framework",
-					Carbon,
-				);
-				PREBINDING = NO;
-				PRODUCT_NAME = Security;
-				ZERO_LINK = YES;
-			};
 			dependencies = (
 			);
 			name = SetUpSecurity;
@@ -2166,66 +1785,12 @@
 				DD6826F608641C420070CDB8 /* PBXBuildRule */,
 				DD6826F508641C410070CDB8 /* PBXBuildRule */,
 			);
-			buildSettings = {
-				GCC_PRECOMPILE_PREFIX_HEADER = NO;
-				GCC_PREFIX_HEADER = "";
-				INFOPLIST_FILE = "ScreenSaver-Info.plist";
-				INSTALL_PATH = "$(USER_LIBRARY_DIR)/Bundles";
-				LIBRARY_SEARCH_PATHS = "";
-				MACOSX_DEPLOYMENT_TARGET = 10.3;
-				OTHER_CFLAGS = (
-					"-DMAC_OS_X_VERSION_MAX_ALLOWED=1030",
-					"-include",
-					../clientgui/mac/config.h,
-				);
-				OTHER_CPLUSPLUSFLAGS = (
-					"-DMAC_OS_X_VERSION_MAX_ALLOWED=1030",
-					"-include",
-					../clientgui/mac/config.h,
-				);
-				OTHER_LDFLAGS = (
-					"-framework",
-					Foundation,
-					"-framework",
-					AppKit,
-				);
-				OTHER_REZFLAGS = "";
-				PRODUCT_NAME = BOINCSaver;
-				SECTORDER_FLAGS = "";
-				WARNING_CFLAGS = (
-					"-Wmost",
-					"-Wno-four-char-constants",
-					"-Wno-unknown-pragmas",
-				);
-				WRAPPER_EXTENSION = saver;
-			};
 			dependencies = (
 				DDAD19CF09090833004E7DD0 /* PBXTargetDependency */,
 			);
 			name = ScreenSaver;
 			productName = ScreenSaver;
 			productReference = DD96AFF90811075000A06F22 /* BOINCSaver.saver */;
-			productSettingsXML = "<?xml version=\"1.0\" encoding=\"UTF-8\"?>
-<!DOCTYPE plist PUBLIC \"-//Apple Computer//DTD PLIST 1.0//EN\" \"http://www.apple.com/DTDs/PropertyList-1.0.dtd\">
-<plist version=\"1.0\">
-<dict>
-	<key>CFBundleDevelopmentRegion</key>
-	<string>English</string>
-	<key>CFBundleExecutable</key>
-	<string>ScreenSaver</string>
-	<key>CFBundleIdentifier</key>
-	<string>com.yourcompany.ScreenSaver</string>
-	<key>CFBundleInfoDictionaryVersion</key>
-	<string>6.0</string>
-	<key>CFBundlePackageType</key>
-	<string>APPL</string>
-	<key>CFBundleSignature</key>
-	<string>????</string>
-	<key>CFBundleVersion</key>
-	<string>1.0</string>
-</dict>
-</plist>
-";
 			productType = "com.apple.product-type.bundle";
 		};
 		DDAEC9E007FA583B00A7BC36 /* SetVersion */ = {
@@ -2241,19 +1806,6 @@
 				DD6826F308641C260070CDB8 /* PBXBuildRule */,
 				DD6826F208641C250070CDB8 /* PBXBuildRule */,
 			);
-			buildSettings = {
-				INSTALL_PATH = /usr/local/bin;
-				OTHER_CFLAGS = "";
-				OTHER_LDFLAGS = "";
-				OTHER_REZFLAGS = "";
-				PRODUCT_NAME = SetVersion;
-				SECTORDER_FLAGS = "";
-				WARNING_CFLAGS = (
-					"-Wmost",
-					"-Wno-four-char-constants",
-					"-Wno-unknown-pragmas",
-				);
-			};
 			dependencies = (
 			);
 			name = SetVersion;
@@ -2270,14 +1822,6 @@
 			);
 			buildRules = (
 			);
-			buildSettings = {
-				GCC_ENABLE_FIX_AND_CONTINUE = YES;
-				GCC_MODEL_TUNING = G5;
-				INSTALL_PATH = "$(HOME)/bin";
-				PREBINDING = NO;
-				PRODUCT_NAME = switcher;
-				ZERO_LINK = YES;
-			};
 			dependencies = (
 			);
 			name = switcher;
@@ -2298,49 +1842,6 @@
 				DD6826DE08641B110070CDB8 /* PBXBuildRule */,
 				DD6826DD08641B010070CDB8 /* PBXBuildRule */,
 			);
-			buildSettings = {
-				GCC_PRECOMPILE_PREFIX_HEADER = NO;
-				GCC_PREFIX_HEADER = "";
-				HEADER_SEARCH_PATHS = ../curl/include/;
-				INSTALL_PATH = "";
-				LIBRARY_SEARCH_PATHS = (
-					/usr/lib/gcc/darwin/3.3,
-					"/Volumes/Moon/BOINC_Mac/wxMac-2.6.1/osx-build/lib",
-				);
-				MACOSX_DEPLOYMENT_TARGET = 10.3;
-				OTHER_CFLAGS = (
-					"-DMAC_OS_X_VERSION_MAX_ALLOWED=1030",
-					"-D_THREAD_SAFE",
-					"-D__WXMAC",
-					"-include",
-					../clientgui/mac/config.h,
-				);
-				OTHER_CPLUSPLUSFLAGS = (
-					"-DMAC_OS_X_VERSION_MAX_ALLOWED=1030",
-					"-D_THREAD_SAFE",
-					"-D__WXMAC",
-					"-include",
-					../clientgui/mac/config.h,
-				);
-				OTHER_LDFLAGS = (
-					"../../curl-7.14.0/lib/.libs/libcurl.a",
-					"-framework Carbon",
-					"-lcrypto",
-					"-lssl",
-					"-lz",
-				);
-				OTHER_REZFLAGS = "";
-				PRODUCT_NAME = boinc;
-				SECTORDER_FLAGS = "";
-				SKIP_INSTALL = YES;
-				UNSTRIPPED_PRODUCT = YES;
-				WARNING_CFLAGS = (
-					"-Wmost",
-					"-Wno-four-char-constants",
-					"-Wno-unknown-pragmas",
-				);
-				ZERO_LINK = NO;
-			};
 			dependencies = (
 			);
 			name = BOINC_Client;
@@ -2357,14 +1858,6 @@
 			);
 			buildRules = (
 			);
-			buildSettings = {
-				GCC_ENABLE_FIX_AND_CONTINUE = YES;
-				GCC_MODEL_TUNING = G5;
-				INSTALL_PATH = "$(HOME)/bin";
-				PREBINDING = NO;
-				PRODUCT_NAME = switcher;
-				ZERO_LINK = YES;
-			};
 			dependencies = (
 			);
 			name = setprojectgrp;
@@ -2378,14 +1871,6 @@
 		20286C28FDCF999611CA2CEA /* Project object */ = {
 			isa = PBXProject;
 			buildConfigurationList = DD9E2381091CBDAE0048316E /* Build configuration list for PBXProject "boinc" */;
-			buildSettings = {
-				MACOSX_DEPLOYMENT_TARGET = 10.3;
-				SDKROOT = /Developer/SDKs/MacOSX10.3.9.sdk;
-			};
-			buildStyles = (
-				05952DFCFFF02D1B11CA0E50 /* Development */,
-				05952DFDFFF02D1B11CA0E50 /* Deployment */,
-			);
 			hasScannedForEncodings = 1;
 			mainGroup = 20286C29FDCF999611CA2CEA /* ¬´PROJECTNAME¬ª */;
 			projectDirPath = "";
