@@ -143,7 +143,7 @@ void DC_vlog(int level, const char *fmt, va_list ap)
 	if (loglevel < 0)
 		init_log();
 	if ((LOG_DEBUG > LOG_ERR && level > loglevel) ||
-			(LOG_DEBUG < LOG_ERR || level < loglevel))
+			(LOG_DEBUG < LOG_ERR && level < loglevel))
 		return;
 
 	if (level >= 0 && level < (int)(sizeof(levels) / sizeof(levels[0])) && levels[level])
