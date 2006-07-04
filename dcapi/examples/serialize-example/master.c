@@ -9,7 +9,7 @@
  * a client-side part.
  *
  * This is the server-side part of the program. It creates a WorkUnit (WU) for
- * a Boinc project using the DC Application Programming Interface.  The program
+ * a Boinc project using the DC Application Programming Interface. The program
  * takes a text file (input.txt) and submits it into the PRC-infrastructure,
  * where it get processed by a client. After the submittion, the master makes a
  * checkpoint with the DC_serializeWU function, than exits.
@@ -47,7 +47,6 @@ static const struct option longopts[] =
 
 static void create_ckpt(void)
 {
-	char buf[512];
 	FILE *f;
 	char *ckpt;
 
@@ -63,7 +62,7 @@ static void create_ckpt(void)
 	fprintf(f, "%s", ckpt);
 	fclose(f);
 
-	DC_log(LOG_NOTICE, "Master: serialized: %s   length: %d", ckpt, strlen(ckpt));
+	DC_log(LOG_NOTICE, "Master: serialized: %s", ckpt);
 }
 
 static void create_work(void)
@@ -144,8 +143,8 @@ int main(int argc, char *argv[])
 	 * run as a BOINC daemon */
 	if (!config_file)
 	{
-		config_file = strdup("dc-api.conf");
-		fprintf(stdout, "You didn't specified the config file, use 'dc-api.conf'\n");
+		fprintf(stderr, "Error: the config file is not specified\n");
+		exit(1);
 	}
 
 	/* Initialize the DC-API */
@@ -168,13 +167,14 @@ int main(int argc, char *argv[])
 			exit(1);
 		}
 		fclose(f);
-		DC_log(LOG_NOTICE, "Master: deserialized: %s   length: %d", buf, strlen(buf));
+		DC_log(LOG_NOTICE, "Master: deserialized: %s", buf);
 	}
 	else
 	{
 		DC_log(LOG_NOTICE, "Master: Creating work unit");
 		create_work();
-		DC_log(LOG_NOTICE, "Master: Work unit has been created and submitted.\nCreating checkpoint.\n");
+		DC_log(LOG_NOTICE, "Master: Work unit has been created and submitted.");
+		DC_log(LOG_NOTICE, "Creating checkpoint.");
 		create_ckpt();
 		DC_log(LOG_NOTICE, "Master: Exit application. Please restart it!");
 		exit(0);
