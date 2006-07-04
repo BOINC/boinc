@@ -32,6 +32,7 @@
 
 typedef enum
 {
+	WU_NOTAG = -1,
 	WU_WUDESC,
 	WU_INPUT_LABEL,
 	WU_OUTPUT_LABEL,
@@ -91,6 +92,8 @@ struct wu_params
 static void wudesc_start(GMarkupParseContext *ctx, const char *element_name,
 	const char **attr_names, const char **attr_values, void *ptr,
 	GError **error);
+static void wudesc_end(GMarkupParseContext *ctx, const char *element_name,
+	void *ptr, GError **error);
 static void wudesc_text(GMarkupParseContext *ctx, const char *text,
 	gsize text_len, void *ptr, GError **error);
 
@@ -122,7 +125,7 @@ static const struct tag_desc tags[] =
 static const GMarkupParser wudesc_parser =
 {
 	wudesc_start,
-	NULL,
+	wudesc_end,
 	wudesc_text,
 	NULL,
 	NULL
@@ -275,7 +278,7 @@ static void wudesc_start(GMarkupParseContext *ctx, const char *element_name,
 	for (i = 0; i < (int)(sizeof(tags) / sizeof(tags[0])); i++)
 		if (!strcmp(tags[i].name, element_name))
 			break;
-	if (i > (int)(sizeof(tags) / sizeof(tags[0])))
+	if (i >= (int)(sizeof(tags) / sizeof(tags[0])))
 	{
 		*error = g_error_new(G_MARKUP_ERROR,
 			G_MARKUP_ERROR_UNKNOWN_ELEMENT,
@@ -317,6 +320,14 @@ static void wudesc_start(GMarkupParseContext *ctx, const char *element_name,
 	}
 
 	pctx->curr_tag = tags[i].id;
+}
+
+static void wudesc_end(GMarkupParseContext *ctx, const char *element_name,
+	void *ptr, GError **error)
+{
+	struct parser_state *pctx = (struct parser_state *)ptr;
+
+	pctx->curr_tag = WU_NOTAG;
 }
 
 static void wudesc_text(GMarkupParseContext *ctx, const char *text,
@@ -370,6 +381,8 @@ static void wudesc_text(GMarkupParseContext *ctx, const char *text,
 		case WU_NOSUSPEND:
 			/* XXX Emit error? */
 			break;
+		default:
+			break;
 	}
 }
 
@@ -384,7 +397,7 @@ static int write_wudesc(const DC_Workunit *wu)
 	if (!f)
 		return DC_ERR_SYSTEM;
 
-	fprintf(f, "<dcwu>\n");
+	fprintf(f, "<wudesc>\n");
 	if (wu->serialized)
 		fprintf(f, "\t<serialized/>\n");
 	if (wu->submitted)
@@ -402,16 +415,16 @@ static int write_wudesc(const DC_Workunit *wu)
 	for (l = wu->input_files; l; l = l->next)
 	{
 		file = (DC_PhysicalFile *)l->data;
-		fprintf(f, "\t<input_label type=%d>%s</input_label>\n",
+		fprintf(f, "\t<input_label type=\"%d\">%s</input_label>\n",
 			file->mode, file->label);
 	}
 
 	for (l = wu->output_files; l; l = l->next)
-		fprintf(f, "\t<output_label%s</output_label>\n", (char *)l->data);
+		fprintf(f, "\t<output_label>%s</output_label>\n", (char *)l->data);
 
 	fprintf(f, "\t<subresults>%d</subresults>\n", wu->subresults);
 
-	fprintf(f, "</dcwu>\n");
+	fprintf(f, "</wudesc>\n");
 	fclose(f);
 	return 0;
 }
@@ -1181,7 +1194,7 @@ static DC_Workunit *load_from_boinc_db(const uuid_t uuid)
 
 	wu = g_new0(DC_Workunit, 1);
 	wu->client_name = g_strdup(app.name);
-	memcpy(wu->uuid, uuid, sizeof(uuid));
+	memcpy(wu->uuid, uuid, sizeof(wu->uuid));
 
 	/* If the WU is in the database then it was submitted... */
 	wu->submitted = TRUE;
