@@ -751,7 +751,6 @@ bool CAdvancedFrame::RestoreState() {
     long            iIndex;
     long            iPageCount;
     long            iCurrentPage;
-    bool            bKeepEnumerating = false;
 
 
     wxASSERT(pConfig);

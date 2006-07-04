@@ -29,6 +29,9 @@
 #include <sys/stat.h>
 #include <cerrno>
 #include <unistd.h>
+#ifdef HAVE_SYS_SOCKET_H
+#include <sys/socket.h>
+#endif
 #endif
 
 #include "error_numbers.h"

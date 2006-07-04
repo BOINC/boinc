@@ -53,7 +53,6 @@
 		DD095F2407D882F200362260 /* DlgOptions.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DD81C3FF07C5D1020098A04D /* DlgOptions.cpp */; };
 		DD095F2707D882F400362260 /* LogBOINC.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DD81C41407C5D13E0098A04D /* LogBOINC.cpp */; };
 		DD095F2907D882F600362260 /* MainDocument.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DD81C41607C5D13E0098A04D /* MainDocument.cpp */; };
-		DD095F2B07D882FB00362260 /* MainFrame.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DD81C41507C5D13E0098A04D /* MainFrame.cpp */; };
 		DD095F2D07D882FC00362260 /* stdwx.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DD81C41707C5D13E0098A04D /* stdwx.cpp */; };
 		DD095F2F07D882FF00362260 /* ValidateAccountKey.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DD81C42707C5D1D70098A04D /* ValidateAccountKey.cpp */; };
 		DD095F3107D8830100362260 /* ValidateURL.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DD81C42607C5D1D70098A04D /* ValidateURL.cpp */; };
@@ -101,7 +100,6 @@
 		DD2F32F807F2A88B00645DDC /* MacSysMenu.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DD2F32F707F2A88B00645DDC /* MacSysMenu.cpp */; };
 		DD33C6F308B5BAF500768630 /* gui_http.C in Sources */ = {isa = PBXBuildFile; fileRef = DD33C6F108B5BAF500768630 /* gui_http.C */; };
 		DD33C6F808B5BB4500768630 /* acct_setup.C in Sources */ = {isa = PBXBuildFile; fileRef = DD33C6F708B5BB4500768630 /* acct_setup.C */; };
-		DD33C6FD08B5BC2600768630 /* net_xfer_curl.C in Sources */ = {isa = PBXBuildFile; fileRef = DD33C6FC08B5BC2600768630 /* net_xfer_curl.C */; };
 		DD33C70408B5BEDE00768630 /* http_curl.C in Sources */ = {isa = PBXBuildFile; fileRef = DD33C70208B5BEDE00768630 /* http_curl.C */; };
 		DD35353607E1E13F00C4718D /* boinc_api.C in Sources */ = {isa = PBXBuildFile; fileRef = F5755AD302FE063A012012A7 /* boinc_api.C */; };
 		DD407A4D07D2FB6500163EF5 /* app_ipc.C in Sources */ = {isa = PBXBuildFile; fileRef = AA8B6B1B046C364400A80164 /* app_ipc.C */; };
@@ -152,7 +150,6 @@
 		DD58C43D08F3347D00C1DF66 /* BOINCBaseWizard.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DD58C43408F3347D00C1DF66 /* BOINCBaseWizard.cpp */; };
 		DD58C44008F3347D00C1DF66 /* CompletionErrorPage.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DD58C43708F3347D00C1DF66 /* CompletionErrorPage.cpp */; };
 		DD58C44208F3347D00C1DF66 /* CompletionPage.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DD58C43908F3347D00C1DF66 /* CompletionPage.cpp */; };
-		DD58C44408F3347D00C1DF66 /* DlgDialupCredentials.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DD58C43B08F3347D00C1DF66 /* DlgDialupCredentials.cpp */; };
 		DD58C45208F334B500C1DF66 /* NoInternetConnectionPage.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DD58C44608F334B500C1DF66 /* NoInternetConnectionPage.cpp */; };
 		DD58C45408F334B500C1DF66 /* NotDetectedPage.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DD58C44808F334B500C1DF66 /* NotDetectedPage.cpp */; };
 		DD58C45608F334B500C1DF66 /* NotFoundPage.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DD58C44A08F334B500C1DF66 /* NotFoundPage.cpp */; };
@@ -192,6 +189,8 @@
 		DD7E49CD080F9B09002716F9 /* network.C in Sources */ = {isa = PBXBuildFile; fileRef = DD6D0A8507E9A61B007F882B /* network.C */; };
 		DD8DD4A709D9432F0043019E /* BOINCDialupManager.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DD8DD4A509D9432F0043019E /* BOINCDialupManager.cpp */; };
 		DD9B6AAF0890DD71003A8E83 /* IOKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DDE2552B07C62F3E008E7D6E /* IOKit.framework */; };
+		DD9C94A40A5A3A4100AB0D10 /* AdvancedFrame.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DD9C94A00A5A3A4100AB0D10 /* AdvancedFrame.cpp */; };
+		DD9C94A60A5A3A4100AB0D10 /* BOINCBaseFrame.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DD9C94A20A5A3A4100AB0D10 /* BOINCBaseFrame.cpp */; };
 		DDA12A6D0A36974600FBDD12 /* Security.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DD1929D80918A2F100C31BCF /* Security.framework */; };
 		DDA12AA20A369B5500FBDD12 /* SetupSecurity.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DD7748B40A356D6C0025D05E /* SetupSecurity.cpp */; };
 		DDA12AAE0A369C5800FBDD12 /* SecurityUtility.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DDA12AAD0A369C5800FBDD12 /* SecurityUtility.cpp */; };
@@ -811,8 +810,6 @@
 		DD33C6F208B5BAF500768630 /* gui_http.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = gui_http.h; path = ../client/gui_http.h; sourceTree = SOURCE_ROOT; };
 		DD33C6F608B5BB4500768630 /* acct_setup.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = acct_setup.h; path = ../client/acct_setup.h; sourceTree = SOURCE_ROOT; };
 		DD33C6F708B5BB4500768630 /* acct_setup.C */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.cpp.cpp; name = acct_setup.C; path = ../client/acct_setup.C; sourceTree = SOURCE_ROOT; };
-		DD33C6FB08B5BC2600768630 /* net_xfer_curl.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = net_xfer_curl.h; path = ../client/net_xfer_curl.h; sourceTree = SOURCE_ROOT; };
-		DD33C6FC08B5BC2600768630 /* net_xfer_curl.C */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.cpp.cpp; name = net_xfer_curl.C; path = ../client/net_xfer_curl.C; sourceTree = SOURCE_ROOT; };
 		DD33C70208B5BEDE00768630 /* http_curl.C */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.cpp.cpp; name = http_curl.C; path = ../client/http_curl.C; sourceTree = SOURCE_ROOT; };
 		DD33C70308B5BEDE00768630 /* http_curl.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = http_curl.h; path = ../client/http_curl.h; sourceTree = SOURCE_ROOT; };
 		DD33C74208B5C72F00768630 /* curl.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = curl.h; path = ../curl/include/curl/curl.h; sourceTree = SOURCE_ROOT; };
@@ -857,8 +854,6 @@
 		DD344BE507C5B1670043025C /* prefs.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = prefs.h; path = ../lib/prefs.h; sourceTree = SOURCE_ROOT; };
 		DD344BEE07C5B1770043025C /* proxy_info.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = proxy_info.h; path = ../lib/proxy_info.h; sourceTree = SOURCE_ROOT; };
 		DD344BEF07C5B1770043025C /* proxy_info.C */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.cpp.cpp; name = proxy_info.C; path = ../lib/proxy_info.C; sourceTree = SOURCE_ROOT; };
-		DD344BFA07C5B1A80043025C /* proxy.C */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.cpp.cpp; name = proxy.C; path = ../client/proxy.C; sourceTree = SOURCE_ROOT; };
-		DD344BFB07C5B1A80043025C /* proxy.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = proxy.h; path = ../client/proxy.h; sourceTree = SOURCE_ROOT; };
 		DD35353107E1E05C00C4718D /* libboinc_api.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libboinc_api.a; sourceTree = BUILT_PRODUCTS_DIR; };
 		DD407A4A07D2FB1200163EF5 /* libboinc.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libboinc.a; sourceTree = BUILT_PRODUCTS_DIR; };
 		DD407AB707D2FC7D00163EF5 /* mem_usage.C */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.cpp.cpp; name = mem_usage.C; path = ../lib/mem_usage.C; sourceTree = SOURCE_ROOT; };
@@ -906,8 +901,6 @@
 		DD58C43808F3347D00C1DF66 /* CompletionErrorPage.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = CompletionErrorPage.h; path = ../clientgui/CompletionErrorPage.h; sourceTree = SOURCE_ROOT; };
 		DD58C43908F3347D00C1DF66 /* CompletionPage.cpp */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.cpp.cpp; name = CompletionPage.cpp; path = ../clientgui/CompletionPage.cpp; sourceTree = SOURCE_ROOT; };
 		DD58C43A08F3347D00C1DF66 /* CompletionPage.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = CompletionPage.h; path = ../clientgui/CompletionPage.h; sourceTree = SOURCE_ROOT; };
-		DD58C43B08F3347D00C1DF66 /* DlgDialupCredentials.cpp */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.cpp.cpp; name = DlgDialupCredentials.cpp; path = ../clientgui/DlgDialupCredentials.cpp; sourceTree = SOURCE_ROOT; };
-		DD58C43C08F3347D00C1DF66 /* DlgDialupCredentials.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = DlgDialupCredentials.h; path = ../clientgui/DlgDialupCredentials.h; sourceTree = SOURCE_ROOT; };
 		DD58C44608F334B500C1DF66 /* NoInternetConnectionPage.cpp */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.cpp.cpp; name = NoInternetConnectionPage.cpp; path = ../clientgui/NoInternetConnectionPage.cpp; sourceTree = SOURCE_ROOT; };
 		DD58C44708F334B500C1DF66 /* NoInternetConnectionPage.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = NoInternetConnectionPage.h; path = ../clientgui/NoInternetConnectionPage.h; sourceTree = SOURCE_ROOT; };
 		DD58C44808F334B500C1DF66 /* NotDetectedPage.cpp */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.cpp.cpp; name = NotDetectedPage.cpp; path = ../clientgui/NotDetectedPage.cpp; sourceTree = SOURCE_ROOT; };
@@ -970,7 +963,6 @@
 		DD81C40507C5D1020098A04D /* BOINCGUIApp.cpp */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.cpp.cpp; name = BOINCGUIApp.cpp; path = ../clientgui/BOINCGUIApp.cpp; sourceTree = SOURCE_ROOT; };
 		DD81C40607C5D1020098A04D /* BOINCTaskCtrl.cpp */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.cpp.cpp; name = BOINCTaskCtrl.cpp; path = ../clientgui/BOINCTaskCtrl.cpp; sourceTree = SOURCE_ROOT; };
 		DD81C41407C5D13E0098A04D /* LogBOINC.cpp */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.cpp.cpp; name = LogBOINC.cpp; path = ../clientgui/LogBOINC.cpp; sourceTree = SOURCE_ROOT; };
-		DD81C41507C5D13E0098A04D /* MainFrame.cpp */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.cpp.cpp; name = MainFrame.cpp; path = ../clientgui/MainFrame.cpp; sourceTree = SOURCE_ROOT; };
 		DD81C41607C5D13E0098A04D /* MainDocument.cpp */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.cpp.cpp; name = MainDocument.cpp; path = ../clientgui/MainDocument.cpp; sourceTree = SOURCE_ROOT; };
 		DD81C41707C5D13E0098A04D /* stdwx.cpp */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.cpp.cpp; name = stdwx.cpp; path = ../clientgui/stdwx.cpp; sourceTree = SOURCE_ROOT; };
 		DD81C42107C5D1D70098A04D /* ViewWork.cpp */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.cpp.cpp; name = ViewWork.cpp; path = ../clientgui/ViewWork.cpp; sourceTree = SOURCE_ROOT; };
@@ -989,7 +981,6 @@
 		DD81C43C07C5D2240098A04D /* _wx_intellisense.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = _wx_intellisense.h; path = ../clientgui/_wx_intellisense.h; sourceTree = SOURCE_ROOT; };
 		DD81C43D07C5D2240098A04D /* BOINCTaskBar.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = BOINCTaskBar.h; path = ../clientgui/BOINCTaskBar.h; sourceTree = SOURCE_ROOT; };
 		DD81C44D07C5D2470098A04D /* Events.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = Events.h; path = ../clientgui/Events.h; sourceTree = SOURCE_ROOT; };
-		DD81C44E07C5D2470098A04D /* MainFrame.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = MainFrame.h; path = ../clientgui/MainFrame.h; sourceTree = SOURCE_ROOT; };
 		DD81C44F07C5D2470098A04D /* MainDocument.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = MainDocument.h; path = ../clientgui/MainDocument.h; sourceTree = SOURCE_ROOT; };
 		DD81C45007C5D2470098A04D /* LogBOINC.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = LogBOINC.h; path = ../clientgui/LogBOINC.h; sourceTree = SOURCE_ROOT; };
 		DD81C45B07C5D2880098A04D /* stdwx.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = stdwx.h; path = ../clientgui/stdwx.h; sourceTree = SOURCE_ROOT; };
@@ -1007,6 +998,10 @@
 		DD8DD4A609D9432F0043019E /* BOINCDialupManager.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = BOINCDialupManager.h; path = ../clientgui/BOINCDialupManager.h; sourceTree = SOURCE_ROOT; };
 		DD96AFF90811075000A06F22 /* BOINCSaver.saver */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = BOINCSaver.saver; sourceTree = BUILT_PRODUCTS_DIR; };
 		DD96AFFA0811075100A06F22 /* ScreenSaver-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.xml; path = "ScreenSaver-Info.plist"; sourceTree = SOURCE_ROOT; };
+		DD9C94A00A5A3A4100AB0D10 /* AdvancedFrame.cpp */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.cpp.cpp; name = AdvancedFrame.cpp; path = ../clientgui/AdvancedFrame.cpp; sourceTree = SOURCE_ROOT; };
+		DD9C94A10A5A3A4100AB0D10 /* AdvancedFrame.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = AdvancedFrame.h; path = ../clientgui/AdvancedFrame.h; sourceTree = SOURCE_ROOT; };
+		DD9C94A20A5A3A4100AB0D10 /* BOINCBaseFrame.cpp */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.cpp.cpp; name = BOINCBaseFrame.cpp; path = ../clientgui/BOINCBaseFrame.cpp; sourceTree = SOURCE_ROOT; };
+		DD9C94A30A5A3A4100AB0D10 /* BOINCBaseFrame.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = BOINCBaseFrame.h; path = ../clientgui/BOINCBaseFrame.h; sourceTree = SOURCE_ROOT; };
 		DDA12A910A369AB500FBDD12 /* SetupSecurity.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = SetupSecurity.h; path = ../clientgui/mac/SetupSecurity.h; sourceTree = SOURCE_ROOT; };
 		DDA12AAD0A369C5800FBDD12 /* SecurityUtility.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = SecurityUtility.cpp; path = ../clientgui/mac/SecurityUtility.cpp; sourceTree = SOURCE_ROOT; };
 		DDA9D3BB09189A8C0060E7A7 /* Mac_GUI.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = Mac_GUI.cpp; path = ../clientgui/mac/Mac_GUI.cpp; sourceTree = SOURCE_ROOT; };
@@ -1307,10 +1302,14 @@
 				DD58C41F08F3343F00C1DF66 /* AccountManagerProcessingPage.h */,
 				DD58C42008F3343F00C1DF66 /* AccountManagerPropertiesPage.cpp */,
 				DD58C42108F3343F00C1DF66 /* AccountManagerPropertiesPage.h */,
+				DD9C94A00A5A3A4100AB0D10 /* AdvancedFrame.cpp */,
+				DD9C94A10A5A3A4100AB0D10 /* AdvancedFrame.h */,
 				DD58C42208F3343F00C1DF66 /* AlreadyAttachedPage.cpp */,
 				DD58C42308F3343F00C1DF66 /* AlreadyAttachedPage.h */,
 				DD58C42408F3343F00C1DF66 /* AlreadyExistsPage.cpp */,
 				DD58C42508F3343F00C1DF66 /* AlreadyExistsPage.h */,
+				DD9C94A20A5A3A4100AB0D10 /* BOINCBaseFrame.cpp */,
+				DD9C94A30A5A3A4100AB0D10 /* BOINCBaseFrame.h */,
 				DD81C3FE07C5D1020098A04D /* BOINCBaseView.cpp */,
 				DD81C43407C5D2240098A04D /* BOINCBaseView.h */,
 				DD58C43408F3347D00C1DF66 /* BOINCBaseWizard.cpp */,
@@ -1332,8 +1331,6 @@
 				DD58C43A08F3347D00C1DF66 /* CompletionPage.h */,
 				DD81C40207C5D1020098A04D /* DlgAbout.cpp */,
 				DD81C43707C5D2240098A04D /* DlgAbout.h */,
-				DD58C43B08F3347D00C1DF66 /* DlgDialupCredentials.cpp */,
-				DD58C43C08F3347D00C1DF66 /* DlgDialupCredentials.h */,
 				DDC63EEF0985B89600383FD2 /* DlgGenericMessage.cpp */,
 				DDC63EF00985B89600383FD2 /* DlgGenericMessage.h */,
 				DD81C3FF07C5D1020098A04D /* DlgOptions.cpp */,
@@ -1350,8 +1347,6 @@
 				F5C5403402BFC5C701BEDAB8 /* mac */,
 				DD81C41607C5D13E0098A04D /* MainDocument.cpp */,
 				DD81C44F07C5D2470098A04D /* MainDocument.h */,
-				DD81C41507C5D13E0098A04D /* MainFrame.cpp */,
-				DD81C44E07C5D2470098A04D /* MainFrame.h */,
 				DD58C44608F334B500C1DF66 /* NoInternetConnectionPage.cpp */,
 				DD58C44708F334B500C1DF66 /* NoInternetConnectionPage.h */,
 				DD58C44808F334B500C1DF66 /* NotDetectedPage.cpp */,
@@ -1532,12 +1527,8 @@
 				DD344BCF07C5B0B80043025C /* main.h */,
 				F54B8FDA02AC0A0C01FB7237 /* net_stats.C */,
 				F54B8FDB02AC0A0C01FB7237 /* net_stats.h */,
-				DD33C6FB08B5BC2600768630 /* net_xfer_curl.h */,
-				DD33C6FC08B5BC2600768630 /* net_xfer_curl.C */,
 				F51CCF1F02EFD37D018DB99A /* pers_file_xfer.C */,
 				F51CCF1E02EFD37D018DB99A /* pers_file_xfer.h */,
-				DD344BFA07C5B1A80043025C /* proxy.C */,
-				DD344BFB07C5B1A80043025C /* proxy.h */,
 				F519F98D02C44A7501BDB3CA /* scheduler_op.C */,
 				F519F98E02C44A7501BDB3CA /* scheduler_op.h */,
 				AA8B6B23046C366200A80164 /* ss_logic.C */,
@@ -2638,7 +2629,6 @@
 				DD58C44208F3347D00C1DF66 /* CompletionPage.cpp in Sources */,
 				DD095F4507D8838F00362260 /* diagnostics.C in Sources */,
 				DD095F1E07D882EE00362260 /* DlgAbout.cpp in Sources */,
-				DD58C44408F3347D00C1DF66 /* DlgDialupCredentials.cpp in Sources */,
 				DDC63EF10985B89600383FD2 /* DlgGenericMessage.cpp in Sources */,
 				DD095F2407D882F200362260 /* DlgOptions.cpp in Sources */,
 				DD2D25CD07FAB41700151141 /* DlgSelectComputer.cpp in Sources */,
@@ -2654,7 +2644,6 @@
 				DDF166C808DF8D0F00C8C4A5 /* mac_backtrace.C in Sources */,
 				DDA9D3BC09189A8C0060E7A7 /* Mac_GUI.cpp in Sources */,
 				DD095F2907D882F600362260 /* MainDocument.cpp in Sources */,
-				DD095F2B07D882FB00362260 /* MainFrame.cpp in Sources */,
 				DD095F4C07D883A800362260 /* md5.c in Sources */,
 				DD095F4E07D883A900362260 /* md5_file.C in Sources */,
 				DD095F5007D883AB00362260 /* mfile.C in Sources */,
@@ -2691,6 +2680,8 @@
 				DD8DD4A709D9432F0043019E /* BOINCDialupManager.cpp in Sources */,
 				DD6617890A3FFD8C00FFEBEB /* check_security.C in Sources */,
 				DD431F230A415EDF0060585A /* SetupSecurity.cpp in Sources */,
+				DD9C94A40A5A3A4100AB0D10 /* AdvancedFrame.cpp in Sources */,
+				DD9C94A60A5A3A4100AB0D10 /* BOINCBaseFrame.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -2906,7 +2897,6 @@
 				DDD74DCE07CF49390065AC9D /* miofile.C in Sources */,
 				DDD74DCF07CF493A0065AC9D /* msg_log.C in Sources */,
 				DD6D0A8707E9A61E007F882B /* network.C in Sources */,
-				DD33C6FD08B5BC2600768630 /* net_xfer_curl.C in Sources */,
 				DDD74DD007CF493B0065AC9D /* parse.C in Sources */,
 				DDD74DD107CF493C0065AC9D /* prefs.C in Sources */,
 				DDD74DD207CF493C0065AC9D /* proxy_info.C in Sources */,

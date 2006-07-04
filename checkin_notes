@@ -7197,3 +7197,16 @@ Charlie 3 July 2006
             SetupSecurity.cpp
     doc/
         sandbox.php
+
+Charlie 3 July 2006
+    - Mac: Fix compile error (add #include <sys/socket.h>" to http_curl.C).
+    - Fix compiler warning
+    - Merge XCode project changes for suimple gui and for sandbox.
+    
+    client/
+        http_curl.C
+    clientgui/
+        AdvancedFrame.cpp
+    mac_build/
+        boinc.xcodeproj/
+            project.pbxproj
