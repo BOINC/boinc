@@ -1087,9 +1087,16 @@ int DC_submitWU(DC_Workunit *wu)
 
 	wu_template = generate_wu_template(wu);
 	result_template_file = generate_result_template(wu);
+	if (!result_template_file)
+	{
+		g_free(wu_template);
+		return DC_ERR_INTERNAL;
+	}
 	cfgval = DC_getCfgStr(CFG_PROJECTROOT);
 	if (!cfgval)
 	{
+		g_free(wu_template);
+		g_free(result_template_file);
 		errno = ENOMEM;
 		return DC_ERR_SYSTEM;
 	}
