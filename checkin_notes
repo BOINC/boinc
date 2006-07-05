@@ -7219,3 +7219,22 @@ Charlie 4 July 2006
         BOINCGUIApp.cpp
         mac/
             SetupSecurity.cpp
+
+Rom    5 July 2006
+    - Add Suspend a Disconnect icons to the taskbar for when the client is
+        snoozing and disconnected.
+    - Refreshed Simple GUI
+        
+    clientgui/
+        AdvancedFrame.cpp
+        BOINCBaseFrame.cpp
+        BOINCGUIApp.cpp, .h
+        BOINCTaskBar.cpp, .h
+        sg_BoincSimpleGUI.cpp, .h
+        sg_StatImageLoader.cpp, .h
+    clientgui/res/
+        boincdisconnect.xpm (Added)
+        boincsnooze.xpm (Added)
+    clientgui/res/templates/
+        icondisconnect.ico (Added)
+        iconsnooze.ico (Added)

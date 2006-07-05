@@ -37,7 +37,7 @@
 
 class CTaskBarIcon : public wxTaskBarIconEx {
 public:
-    CTaskBarIcon(wxString title, wxIcon* icon);
+    CTaskBarIcon(wxString title, wxIcon* icon, wxIcon* iconDisconnected, wxIcon* iconSnooze);
     ~CTaskBarIcon();
 
     void OnOpenWebsite(wxCommandEvent& event);
@@ -52,7 +52,7 @@ public:
 
     void OnIdle(wxIdleEvent& event);
     void OnClose(wxCloseEvent& event);
-    void OnTimer(wxTimerEvent& event);
+    void OnRefresh(wxTimerEvent& event);
 
 #ifdef __WXMSW__
     void OnMouseMove(wxTaskBarIconEvent& event);
@@ -70,6 +70,7 @@ public:
 
     wxMenu *BuildContextMenu();
     void AdjustMenuItems(wxMenu* menu);
+    void ResetSnoozeState();
 
 #ifdef __APPLE__
     wxMenu *CreatePopupMenu();
@@ -81,16 +82,20 @@ public:
     }
 #endif
 
-    wxIcon     m_iconTaskBarIcon;
-    void       ResetSuspendState();
+    wxIcon     m_iconTaskBarNormal;
+    wxIcon     m_iconTaskBarDisconnected;
+    wxIcon     m_iconTaskBarSnooze;
+    wxString   m_strDefaultTitle;
 
 private:
     wxDateTime m_dtLastHoverDetected;
     wxDateTime m_dtLastBalloonDisplayed;
+    wxDateTime m_dtSnoozeStartTime;
 
-    wxTimer*   m_pTimer;
+    wxTimer*   m_pRefreshTimer;
 
-    bool       m_bButtonPressed;
+    bool       m_bMouseButtonPressed;
+    bool       m_bResetSnooze;
 
     int        m_iPreviousActivityMode;
     int        m_iPreviousNetworkMode;

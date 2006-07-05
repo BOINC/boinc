@@ -284,6 +284,9 @@
 				RelativePath="..\clientgui\res\boinc.xpm">
 			</File>
 			<File
+				RelativePath="..\clientgui\res\boincdisconnect.xpm">
+			</File>
+			<File
 				RelativePath="..\clientgui\res\BOINCGUIApp.ico">
 			</File>
 			<File
@@ -306,6 +309,9 @@
 			</File>
 			<File
 				RelativePath="..\clientgui\res\boincsm.xpm">
+			</File>
+			<File
+				RelativePath="..\clientgui\res\boincsnooze.xpm">
 			</File>
 			<File
 				RelativePath="..\clientgui\res\cpdnbbc16.xpm">

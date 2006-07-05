@@ -32,7 +32,7 @@
 BEGIN_EVENT_TABLE (CTaskBarIcon, wxTaskBarIconEx)
     EVT_IDLE(CTaskBarIcon::OnIdle)
     EVT_CLOSE(CTaskBarIcon::OnClose)
-    EVT_TIMER(ID_TB_TIMER, CTaskBarIcon::OnTimer)
+    EVT_TIMER(ID_TB_TIMER, CTaskBarIcon::OnRefresh)
     EVT_TASKBAR_LEFT_DCLICK(CTaskBarIcon::OnLButtonDClick)
     EVT_MENU(wxID_OPEN, CTaskBarIcon::OnOpen)
     EVT_MENU(ID_OPENWEBSITE, CTaskBarIcon::OnOpenWebsite)
@@ -55,7 +55,7 @@ BEGIN_EVENT_TABLE (CTaskBarIcon, wxTaskBarIconEx)
 END_EVENT_TABLE ()
 
 
-CTaskBarIcon::CTaskBarIcon(wxString title, wxIcon* icon) : 
+CTaskBarIcon::CTaskBarIcon(wxString title, wxIcon* icon, wxIcon* iconDisconnected, wxIcon* iconSnooze) : 
 #if   defined(__WXMAC__)
     wxTaskBarIcon(DOCK)
 #elif defined(__WXMSW__)
@@ -64,17 +64,26 @@ CTaskBarIcon::CTaskBarIcon(wxString title, wxIcon* icon) :
     wxTaskBarIcon()
 #endif
 {
-    m_iconTaskBarIcon = *icon;
+    m_iconTaskBarNormal = *icon;
+    m_iconTaskBarDisconnected = *iconDisconnected;
+    m_iconTaskBarSnooze = *iconSnooze;
+    m_strDefaultTitle = title;
+
     m_dtLastHoverDetected = wxDateTime((time_t)0);
     m_dtLastBalloonDisplayed = wxDateTime((time_t)0);
+    m_dtSnoozeStartTime = wxDateTime((time_t)0);
+
+    m_bMouseButtonPressed = false;
+    m_bResetSnooze = false;
 
     m_iPreviousActivityMode = RUN_MODE_AUTO;
     m_iPreviousNetworkMode = RUN_MODE_AUTO;
 
-    m_pTimer = new wxTimer(this, ID_TB_TIMER);
+    m_pRefreshTimer = new wxTimer(this, ID_TB_TIMER);
+    m_pRefreshTimer->Start(1000);  // Send event every second
 
 #ifndef __WXMAC__
-    SetIcon(m_iconTaskBarIcon, title);
+    SetIcon(m_iconTaskBarNormal, m_strDefaultTitle);
 #endif
 }
 
@@ -82,9 +91,9 @@ CTaskBarIcon::CTaskBarIcon(wxString title, wxIcon* icon) :
 CTaskBarIcon::~CTaskBarIcon() {
     RemoveIcon();
 
-    if (m_pTimer) {
-        m_pTimer->Stop();
-        delete m_pTimer;
+    if (m_pRefreshTimer) {
+        m_pRefreshTimer->Stop();
+        delete m_pRefreshTimer;
     }
 }
 
@@ -112,19 +121,54 @@ void CTaskBarIcon::OnClose(wxCloseEvent& event) {
 }
 
 
-void CTaskBarIcon::OnTimer(wxTimerEvent& event) {
-    wxLogTrace(wxT("Function Start/End"), wxT("CTaskBarIcon::OnTimer - Function Begin"));
+void CTaskBarIcon::OnRefresh(wxTimerEvent& event) {
+    wxLogTrace(wxT("Function Start/End"), wxT("CTaskBarIcon::OnRefresh - Function Begin"));
 
-    CMainDocument* pDoc      = wxGetApp().GetDocument();
+    CMainDocument* pDoc = wxGetApp().GetDocument();
+    bool           bResetSnooze = false;
+    wxInt32        iActivityMode = -1;
+    wxInt32        iNetworkMode  = -1;
 
     wxASSERT(pDoc);
     wxASSERT(wxDynamicCast(pDoc, CMainDocument));
 
-    m_pTimer->Stop();
-    pDoc->SetActivityRunMode(m_iPreviousActivityMode);
-    pDoc->SetNetworkRunMode(m_iPreviousNetworkMode);
 
-    wxLogTrace(wxT("Function Start/End"), wxT("CTaskBarIcon::OnTimer - Function End"));
+    // If we are done snoozing, change our settings back to their original settings
+    if (m_bResetSnooze) {
+        bResetSnooze = true;
+    }
+    if (wxDateTime((time_t)0) != m_dtSnoozeStartTime) {
+        wxTimeSpan ts(wxDateTime::Now() - m_dtSnoozeStartTime);
+        if (ts.GetMinutes() >= 60) {
+            bResetSnooze = true;
+        }
+    }
+    if (bResetSnooze) {
+        pDoc->SetActivityRunMode(m_iPreviousActivityMode);
+        pDoc->SetNetworkRunMode(m_iPreviousNetworkMode);
+
+        m_dtSnoozeStartTime = wxDateTime((time_t)0);
+    }
+
+
+    // What is the current status of the client?
+    pDoc->GetActivityRunMode(iActivityMode);
+    pDoc->GetNetworkRunMode(iNetworkMode);
+
+
+    // Which icon should be displayed?
+    if (!pDoc->IsConnected()) {
+        SetIcon(m_iconTaskBarDisconnected, m_strDefaultTitle);
+    } else {
+        if (RUN_MODE_NEVER == iActivityMode) {
+            SetIcon(m_iconTaskBarSnooze, m_strDefaultTitle);
+        } else {
+            SetIcon(m_iconTaskBarNormal, m_strDefaultTitle);
+        }
+    }
+
+
+    wxLogTrace(wxT("Function Start/End"), wxT("CTaskBarIcon::OnRefresh - Function End"));
 }
 
 
@@ -203,24 +247,24 @@ void CTaskBarIcon::OnSuspend(wxCommandEvent& event) {
     if ((RUN_MODE_NEVER == iActivityMode) && (RUN_MODE_NEVER == iNetworkMode) &&
         (RUN_MODE_NEVER == m_iPreviousActivityMode) && (RUN_MODE_NEVER == m_iPreviousActivityMode)) {
 
-        m_pTimer->Stop();
+        ResetSnoozeState();
 
         pDoc->SetActivityRunMode(RUN_MODE_AUTO);
         pDoc->SetNetworkRunMode(RUN_MODE_AUTO);
 
     } else if ((RUN_MODE_NEVER == iActivityMode) && (RUN_MODE_NEVER == iNetworkMode)) {
 
-        m_pTimer->Stop();
+        ResetSnoozeState();
 
         pDoc->SetActivityRunMode(m_iPreviousActivityMode);
         pDoc->SetNetworkRunMode(m_iPreviousNetworkMode);
 
     } else {
 
-        m_pTimer->Start(60*60*1000);  // Send event every 60 minutes
-
         m_iPreviousActivityMode = iActivityMode;
         m_iPreviousNetworkMode = iNetworkMode;
+
+        m_dtSnoozeStartTime = wxDateTime::Now();
 
         pDoc->SetActivityRunMode(RUN_MODE_NEVER);
         pDoc->SetNetworkRunMode(RUN_MODE_NEVER);
@@ -285,8 +329,9 @@ void CTaskBarIcon::OnShutdown(wxTaskBarIconExEvent& event) {
 
 void CTaskBarIcon::OnMouseMove(wxTaskBarIconEvent& WXUNUSED(event)) {
     wxTimeSpan ts(wxDateTime::Now() - m_dtLastHoverDetected);
-    if (ts.GetSeconds() >= 10)
+    if (ts.GetSeconds() >= 10) {
         m_dtLastHoverDetected = wxDateTime::Now();
+    }
 
     wxTimeSpan tsLastHover(wxDateTime::Now() - m_dtLastHoverDetected);
     wxTimeSpan tsLastBalloon(wxDateTime::Now() - m_dtLastBalloonDisplayed);
@@ -306,6 +351,7 @@ void CTaskBarIcon::OnMouseMove(wxTaskBarIconEvent& WXUNUSED(event)) {
         wxInt32  iIndex               = 0;
         bool     bActivitiesSuspended = false;
         bool     bNetworkSuspended    = false;
+        wxIcon   iconIcon             = wxNullIcon;
         CMainDocument* pDoc           = wxGetApp().GetDocument();
 
         wxASSERT(pDoc);
@@ -324,6 +370,7 @@ void CTaskBarIcon::OnMouseMove(wxTaskBarIconEvent& WXUNUSED(event)) {
                     _("%s is currently suspended...\n"),
                     wxGetApp().GetBrand()->GetProjectName().c_str()
                 );
+                iconIcon = m_iconTaskBarSnooze;
                 strMessage += strBuffer;
             }
 
@@ -388,10 +435,11 @@ void CTaskBarIcon::OnMouseMove(wxTaskBarIconEvent& WXUNUSED(event)) {
                 wxGetApp().GetBrand()->GetApplicationName().c_str(),
                 wxGetApp().GetBrand()->GetProjectName().c_str()
             );
+            iconIcon = m_iconTaskBarDisconnected;
             strMessage += strBuffer;
         }
 
-        SetBalloon(m_iconTaskBarIcon, strTitle, strMessage);
+        SetBalloon(iconIcon, strTitle, strMessage);
     }
 }
 
@@ -413,16 +461,16 @@ void CTaskBarIcon::OnContextMenu(wxTaskBarIconEvent& WXUNUSED(event)) {
 #ifdef __WXMSW__
 void CTaskBarIcon::OnRButtonDown(wxTaskBarIconEvent& WXUNUSED(event)) {
     if (!IsBalloonsSupported()) {
-        m_bButtonPressed = true;
+        m_bMouseButtonPressed = true;
     }
 }
 
 
 void CTaskBarIcon::OnRButtonUp(wxTaskBarIconEvent& WXUNUSED(event)) {
     if (!IsBalloonsSupported()) {
-        if (m_bButtonPressed) {
+        if (m_bMouseButtonPressed) {
             CreateContextMenu();
-            m_bButtonPressed = false;
+            m_bMouseButtonPressed = false;
         }
     }
 }
@@ -430,17 +478,17 @@ void CTaskBarIcon::OnRButtonUp(wxTaskBarIconEvent& WXUNUSED(event)) {
 #endif  // !__WXMAC__
 
 
-void CTaskBarIcon::ResetSuspendState() {
-    m_pTimer->Stop();
+void CTaskBarIcon::ResetSnoozeState() {
+   m_bResetSnooze = true;
 }
 
 
 void CTaskBarIcon::ResetTaskBar() {
 #ifdef __WXMSW___
-    SetBalloon(m_iconTaskBarIcon, wxT(""), wxT(""));
+    SetBalloon(m_iconTaskBarNormal, wxT(""), wxT(""));
 #else
 #ifndef __WXMAC__
-    SetIcon(m_iconTaskBarIcon, wxT(""));
+    SetIcon(m_iconTaskBarNormal, wxT(""));
 #endif
 #endif
 

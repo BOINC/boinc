@@ -33,10 +33,9 @@
 #include "BOINCBaseFrame.h"
 #include "MainDocument.h"
 
+
 #define BOINC_ADVANCEDGUI                   1
-#ifdef SIMPLEGUI
 #define BOINC_SIMPLEGUI                     2
-#endif
 
 
 class CBrandingScheme : public wxObject {
@@ -44,6 +43,8 @@ private:
     bool        m_bIsBranded;
     wxString    m_strApplicationName;
     wxIcon      m_iconApplicationIcon;
+    wxIcon      m_iconApplicationDisconnectedIcon;
+    wxIcon      m_iconApplicationSnoozeIcon;
     wxBitmap    m_bitmapApplicationLogo;
     wxString    m_strCompanyName;
     wxString    m_strCompanyWebsite;
@@ -66,6 +67,8 @@ public:
     bool        IsBranded() { return m_bIsBranded; }
     wxString    GetApplicationName() { return m_strApplicationName; }
     wxIcon*     GetApplicationIcon() { return &m_iconApplicationIcon; }
+    wxIcon*     GetApplicationDisconnectedIcon() { return &m_iconApplicationDisconnectedIcon; }
+    wxIcon*     GetApplicationSnoozeIcon() { return &m_iconApplicationSnoozeIcon; }
     wxBitmap*   GetApplicationLogo() { return &m_bitmapApplicationLogo; }
     wxString    GetCompanyName() { return m_strCompanyName; }
     wxString    GetCompanyWebsite() { return m_strCompanyWebsite; }

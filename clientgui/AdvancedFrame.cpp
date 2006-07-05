@@ -850,7 +850,7 @@ void CAdvancedFrame::OnActivitySelection(wxCommandEvent& event) {
     wxASSERT(pTaskbar);
     wxASSERT(wxDynamicCast(pTaskbar, CTaskBarIcon));
 
-    pTaskbar->ResetSuspendState();
+    pTaskbar->ResetSnoozeState();
 
     switch(event.GetId()) {
     case ID_FILEACTIVITYRUNALWAYS:
@@ -881,7 +881,7 @@ void CAdvancedFrame::OnNetworkSelection(wxCommandEvent& event) {
     wxASSERT(pTaskbar);
     wxASSERT(wxDynamicCast(pTaskbar, CTaskBarIcon));
 
-    pTaskbar->ResetSuspendState();
+    pTaskbar->ResetSnoozeState();
 
     switch(event.GetId()) {
     case ID_FILENETWORKRUNALWAYS:

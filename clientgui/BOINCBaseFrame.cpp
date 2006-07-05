@@ -218,7 +218,7 @@ void CBOINCBaseFrame::OnAlert(CFrameAlertEvent& event) {
         }
 
         pTaskbar->SetBalloon(
-            pTaskbar->m_iconTaskBarIcon,
+            pTaskbar->m_iconTaskBarNormal,
             event.m_title,
             event.m_message,
             5000,

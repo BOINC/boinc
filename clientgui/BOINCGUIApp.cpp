@@ -52,6 +52,8 @@
 #include "res/gridrepublic_mac.xpm"
 #else
 #include "res/boinc.xpm"
+#include "res/boincdisconnect.xpm"
+#include "res/boincsnooze.xpm"
 #include "res/gridrepublic16.xpm"
 #include "res/gridrepublic32.xpm"
 #include "res/cpdnbbc16.xpm"
@@ -227,6 +229,8 @@ bool CBrandingScheme::OnInit( wxConfigBase *pConfig ) {
             // Running in native mode without any branding
             m_strApplicationName = wxT("BOINC Manager");
             m_iconApplicationIcon = wxIcon(boinc_xpm);
+            m_iconApplicationDisconnectedIcon = wxIcon(boincdisconnect_xpm);
+            m_iconApplicationSnoozeIcon = wxIcon(boincsnooze_xpm);
             m_bitmapApplicationLogo = wxBitmap(boincsm_xpm);
             m_strCompanyName = wxT("Space Sciences Laboratory, U.C. Berkeley");
             m_strCompanyWebsite = wxT("http://boinc.berkeley.edu/");
@@ -437,7 +441,9 @@ bool CBOINCGUIApp::OnInit() {
     // Initialize the task bar icon
     m_pTaskBarIcon = new CTaskBarIcon(
         m_pBranding->GetApplicationName(), 
-        m_pBranding->GetApplicationIcon()
+        m_pBranding->GetApplicationIcon(),
+        m_pBranding->GetApplicationDisconnectedIcon(),
+        m_pBranding->GetApplicationSnoozeIcon()
     );
     wxASSERT(m_pTaskBarIcon);
 #ifdef __WXMAC__
