@@ -294,6 +294,7 @@ CMainDocument::CMainDocument() {
     m_dtFileTransfersTimestamp = wxDateTime((time_t)0);
     m_dtResourceStatusTimestamp = wxDateTime((time_t)0);
     m_dtStatisticsStatusTimestamp = wxDateTime((time_t)0);
+	m_dtCachedSimpleGUITimestamp = wxDateTime((time_t)0);//Added By MILOS
 }
 
 
