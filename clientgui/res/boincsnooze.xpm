@@ -1,0 +1,69 @@
+// Berkeley Open Infrastructure for Network Computing
+// http://boinc.berkeley.edu
+// Copyright (C) 2005 University of California
+//
+// This is free software; you can redistribute it and/or
+// modify it under the terms of the GNU Lesser General Public
+// License as published by the Free Software Foundation;
+// either version 2.1 of the License, or (at your option) any later version.
+//
+// This software is distributed in the hope that it will be useful,
+// but WITHOUT ANY WARRANTY; without even the implied warranty of
+// MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
+// See the GNU Lesser General Public License for more details.
+//
+// To view the GNU Lesser General Public License visit
+// http://www.gnu.org/copyleft/lesser.html
+// or write to the Free Software Foundation, Inc.,
+// 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
+
+/* XPM */
+static char *boincsnooze_xpm[] = {
+/* columns rows colors chars-per-pixel */
+"16 16 28 1",
+"5 c Black",
+"2 c #333399",
+"4 c #FFFFFF",
+"; c #808080",
+"= c #FFCC66",
+"X c #000033",
+"- c #999933",
+"* c #FFCC99",
+". c #000066",
+"@ c #4D4D4D",
+"  c None",
+"> c #CC9933",
+"+ c #000080",
+"O c #555555",
+"% c #000099",
+": c #CC9966",
+"1 c #292929",
+"6 c #666633",
+"$ c #393939",
+"7 c #996633",
+"3 c #666666",
+"9 c #5F5F5F",
+"# c #996666",
+"o c #333333",
+"& c #424242",
+", c #CCCC33",
+"8 c #777777",
+"< c #333366",
+/* pixels */
+"       .XoO     ",
+"    +.XXXXXXO   ",
+"   +.XX@###$XO  ",
+"  %+X&***===-X; ",
+" %++X:*=>.,,-<$ ",
+" ++.X1=;;;;;;O< ",
+"2++.X3;;4444455@",
+"++.XX;;444444451",
+"...X1;4455455445",
+"<.XX6;4455455445",
+" XXX-;4455455445",
+" XXX7;4455455445",
+" 8XXX;4455455445",
+"  9XX6;44444445 ",
+"   8o<3;4444455 ",
+"      8355555   "
+};
