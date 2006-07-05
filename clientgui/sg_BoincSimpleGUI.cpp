@@ -51,6 +51,7 @@ BEGIN_EVENT_TABLE(CSimpleFrame, CBOINCBaseFrame)
     EVT_SIZE(CSimpleFrame::OnSize)
 	EVT_ERASE_BACKGROUND(CSimpleFrame::OnEraseBackground)
     EVT_FRAME_CONNECT(CSimpleFrame::OnConnect)
+	EVT_TIMER(ID_SIMPLEFRAMERENDERTIMER, CSimpleFrame::OnFrameRender)
 END_EVENT_TABLE()
 
 
@@ -66,25 +67,36 @@ CSimpleFrame::CSimpleFrame(wxString title, wxIcon* icon) :
 {
     // Initialize Application
     SetIcon(*icon);
-
+    
     skinName = _T("default");
 	skinsFolder = _T("skins");
     skinPath = skinsFolder+_T("/")+skinName+_T("/")+_T("skin.xml");
 	midAppCollapsed = false;
 	btmAppCollapsed = false;
+	clientGUIInitialized = false;
 	// load skin xml and parse it
 	LoadSkinXML();
 	// load images from skin file
 	LoadSkinImages();
+	//set polling timer for interface
+	m_pFrameRenderTimer = new wxTimer(this, ID_SIMPLEFRAMERENDERTIMER);
+    wxASSERT(m_pFrameRenderTimer);
+    m_pFrameRenderTimer->Start(1000);                // Send event every 1 second
     //Create client
-	InitSimpleClient();
+	InitEmptyState();
+	//InitSimpleClient(); moved to timer function
 	// center application
-	initAfter();
+	//initAfter();
 }
 
 CSimpleFrame::~CSimpleFrame()
 {
-//    m_player.Stop();
+	 wxASSERT(m_pFrameRenderTimer);
+
+	 if (m_pFrameRenderTimer) {
+        m_pFrameRenderTimer->Stop();
+        delete m_pFrameRenderTimer;
+    }
 }
 
 
@@ -104,8 +116,7 @@ void CSimpleFrame::OnConnect(CFrameEvent& WXUNUSED(event)) {
     wxASSERT(pDoc);
     wxASSERT(wxDynamicCast(pDoc, CMainDocument));
 
-
-    // If we are connected to the localhost, run a really quick screensaver
+	// If we are connected to the localhost, run a really quick screensaver
     //   test to trigger a firewall popup.
     pDoc->GetConnectedComputerName(strComputer);
     if (pDoc->IsComputerNameLocal(strComputer)) {
@@ -148,6 +159,28 @@ void CSimpleFrame::OnConnect(CFrameEvent& WXUNUSED(event)) {
     wxLogTrace(wxT("Function Start/End"), wxT("CSimpleFrame::OnConnect - Function End"));
 }
 
+void CSimpleFrame::OnFrameRender(wxTimerEvent &event) {
+
+	CMainDocument* pDoc     = wxGetApp().GetDocument();
+	int retValue;
+	//Update data
+	if(pDoc->IsConnected()){
+       retValue = pDoc->CachedSimpleGUIUpdate();
+	   if(retValue==0){
+		   if(!clientGUIInitialized){
+			   //Freeze();
+               InitSimpleClient();
+               initAfter();
+			   // Thaw();
+			   //Update();
+			   clientGUIInitialized = true;
+			   Show(true);
+		   }//else check for changes in the interface
+           
+	   }
+	}
+}
+
 
 wxPoint& CSimpleFrame::SetwxPoint(long x,long y){
   m_tmppoint.x=x;
@@ -167,160 +200,198 @@ wxWindow* CSimpleFrame::CreateNotebookPage()
 	caption.Printf(_("Work Unit"));
 	return new wxWindow(this,-1,wxDefaultPosition,SetwxSize(370,330),wxNO_BORDER);
 }
+void CSimpleFrame::InitEmptyState()
+{
+	Show(false);
+	Centre();
+}
 void CSimpleFrame::InitSimpleClient()
 {
- Show(false);
- SetBackgroundColour(appSkin->GetAppBgCol());
- // Flex Grid Sizer
- mainSizer = new wxFlexGridSizer(3,2);
- //mainSizer->SetFlexibleDirection(wxHORIZONTAL);
- SetSizer(mainSizer);
- // FlatNotebook
- wrkUnitNB = new wxFlatNotebook(this, -1, wxDefaultPosition, SetwxSize(370,330), wxFNB_TABS_BORDER_SIMPLE | wxFNB_NO_X_BUTTON | wxFNB_NO_NAV_BUTTONS | wxFNB_FANCY_TABS);
- wrkUnitNB->SetBackgroundColour(wxColour(255,255,255));
- wrkUnitNB->SetTabAreaColour(appSkin->GetAppBgCol());
- wrkUnitNB->SetGradientColors(appSkin->GetTabFromColAc(),appSkin->GetTabToColAc(),appSkin->GetTabBrdColAc());
- wrkUnitNB->SetActiveTabTextColour(wxColour(157,165,171));
- wrkUnitNB->SetGradientColorsInactive(appSkin->GetTabFromColIn(),appSkin->GetTabToColIn(),appSkin->GetTabBrdColIn());
- wrkUnitNB->SetNonActiveTabTextColour(wxColour(186,184,200));
- wrkUnitNB->SetImageList(&m_ImageList);
- // Create Page
- wTab1 = this->CreateNotebookPage();
- wTab2 = this->CreateNotebookPage();
- wrkUnitNB->AddPage(wTab1,  wxT("WCG 1"), true);	
- wrkUnitNB->AddPage(wTab2,  wxT("Prd@H 1"), true);
- wrkUnitNB->SetSelection(0);	
- wrkUnitNB->SetPageImageIndex(0, 0); // this is working process
- wrkUnitNB->SetPageImageIndex(1, 1); // this is sleeping process
- // Put Grid in the sizer
- mainSizer->Add(20, 70,0);
- mainSizer->Add(362, 70,0);
- mainSizer->Add(20, 70,0);
- mainSizer->Add(0, 0,1);
- mainSizer->Add(wrkUnitNB);
- // Build Page /////////////////////////////
- w_iconPT1=new wxWindow(wTab1,-1,SetwxPoint(2,2),SetwxSize(22,22));
- i_prjIcnPT1 = new ImageLoader(w_iconPT1);
- i_prjIcnPT1->LoadImage(g_prjIcnWCG);
- ////
- st12c=new wxStaticText(wTab1,-1,wxT(""),SetwxPoint(25,2),SetwxSize(189,18),wxST_NO_AUTORESIZE);
-   st12c->SetForegroundColour(wxSystemSettings::GetColour(wxSYS_COLOUR_WINDOWTEXT));
-   st12c->SetLabel(wxT("World Community Grid"));
-   st12c->SetFont(wxFont(12,74,90,90,0,wxT("Tahoma")));
- lno14c=new wxStaticLine(wTab1,-1,SetwxPoint(9,25),SetwxSize(353,2));
- st15c=new wxStaticText(wTab1,-1,wxT(""),SetwxPoint(15,32),SetwxSize(89,18),wxST_NO_AUTORESIZE);
-   st15c->SetForegroundColour(wxSystemSettings::GetColour(wxSYS_COLOUR_WINDOWTEXT));
-   st15c->SetLabel(wxT("My Progress:"));
-   st15c->SetFont(wxFont(10,74,90,92,0,wxT("Tahoma")));
- st16c=new wxStaticText(wTab1,-1,wxT(""),SetwxPoint(110,34),SetwxSize(79,13),wxST_NO_AUTORESIZE);
-   st16c->SetForegroundColour(wxSystemSettings::GetColour(wxSYS_COLOUR_WINDOWTEXT));
-   st16c->SetLabel(wxT("Work Unit Name"));
- /////// Main Gauge
- gaugeWuP1=new wxGauge(wTab1,-1,100,SetwxPoint(15,60),SetwxSize(340,30),wxGA_SMOOTH);
- gaugeWuP1->SetForegroundColour(appSkin->GetGaugeFgCol());
- gaugeWuP1->SetBackgroundColour(appSkin->GetGaugeBgCol());
- gaugeWuP1->SetValue(48);
- //
- st18c=new wxStaticText(wTab1,-1,wxT(""),SetwxPoint(15,97),SetwxSize(84,18),wxST_NO_AUTORESIZE);
-   st18c->SetForegroundColour(wxSystemSettings::GetColour(wxSYS_COLOUR_WINDOWTEXT));
-   st18c->SetLabel(wxT("Elapsed Time:"));
-   st18c->SetFont(wxFont(10,74,90,90,0,wxT("Tahoma")));
- st19c=new wxStaticText(wTab1,-1,wxT(""),SetwxPoint(102,97),SetwxSize(364,18),wxST_NO_AUTORESIZE);
-   st19c->SetForegroundColour(wxSystemSettings::GetColour(wxSYS_COLOUR_WINDOWTEXT));
-   st19c->SetLabel(wxT("16 hours 12 minutes 43 seconds"));
-   st19c->SetFont(wxFont(10,74,90,90,0,wxT("Tahoma")));
- st20c=new wxStaticText(wTab1,-1,wxT(""),SetwxPoint(15,119),SetwxSize(154,18),wxST_NO_AUTORESIZE);
-   st20c->SetForegroundColour(wxSystemSettings::GetColour(wxSYS_COLOUR_WINDOWTEXT));
-   st20c->SetLabel(wxT("Time remaining:"));
-   st20c->SetFont(wxFont(10,74,90,90,0,wxT("Tahoma")));
- st21c=new wxStaticText(wTab1,-1,wxT(""),SetwxPoint(115,119),SetwxSize(294,18),wxST_NO_AUTORESIZE);
-   st21c->SetForegroundColour(wxSystemSettings::GetColour(wxSYS_COLOUR_WINDOWTEXT));
-   st21c->SetLabel(wxT("12 days 13 hours 23 minutes 11 seconds"));
-   st21c->SetFont(wxFont(10,74,90,90,0,wxT("Tahoma")));
+	//Set Background color
+	SetBackgroundColour(appSkin->GetAppBgCol());
+	CMainDocument* pDoc     = wxGetApp().GetDocument();
+	// Flex Grid Sizer
+	mainSizer = new wxFlexGridSizer(3,2);
+	//mainSizer->SetFlexibleDirection(wxHORIZONTAL);
+	SetSizer(mainSizer);
+	// FlatNotebook
+	wrkUnitNB = new wxFlatNotebook(this, -1, wxDefaultPosition, SetwxSize(370,330), wxFNB_TABS_BORDER_SIMPLE | wxFNB_NO_X_BUTTON | wxFNB_NO_NAV_BUTTONS | wxFNB_FANCY_TABS);
+	wrkUnitNB->SetBackgroundColour(wxColour(255,255,255));
+	wrkUnitNB->SetTabAreaColour(appSkin->GetAppBgCol());
+	wrkUnitNB->SetGradientColors(appSkin->GetTabFromColAc(),appSkin->GetTabToColAc(),appSkin->GetTabBrdColAc());
+	wrkUnitNB->SetActiveTabTextColour(wxColour(157,165,171));
+	wrkUnitNB->SetGradientColorsInactive(appSkin->GetTabFromColIn(),appSkin->GetTabToColIn(),appSkin->GetTabBrdColIn());
+	wrkUnitNB->SetNonActiveTabTextColour(wxColour(186,184,200));
+	wrkUnitNB->SetImageList(&m_ImageList);
+	//create work unit tabs
+	int resultCnt = pDoc->results.results.size();
+	
+	for(int i = 0; i < resultCnt; i++){
+		RESULT* result = pDoc->results.results[i];
+		RESULT* resState = pDoc->state.lookup_result(result->project_url, result->name);
+		wxString friendlyName;
 
- // project image behind graphic <><><>
- imgBgAnim=new wxStaticBitmap(wTab1,-1,*btmpBgAnim,SetwxPoint(0,146),SetwxSize(370,182));
- //// Animation Window
- wAnimWk1=new wxWindow(wTab1,-1,SetwxPoint(85,146),SetwxSize(184,182),wxNO_BORDER);
- // media control
- /////////////
- m_canvas = new MyCanvas(wAnimWk1, SetwxPoint(0,0), SetwxSize(184,182));
- #if 0
-    m_player.SetDestroyAnimation(false);
-    m_player.SetWindow(m_canvas);
-    m_player.SetPosition(SetwxPoint(0, 0));
-#endif
-    m_animationCtrl = new wxGIFAnimationCtrl(m_canvas, -1, wxEmptyString,
-        SetwxPoint(0, 0), wxSize(184, 184));
+		if(resState!=0){
+			friendlyName = wxString(resState->app->name.c_str(), wxConvUTF8 );
+		}else{
+			friendlyName = wxString(resState->app->name.c_str(), wxConvUTF8 );
+		}
+		std::string index = " ";
+		//index += i;
+		friendlyName += wxString(index.c_str(), wxConvUTF8 );
+        wxWindow *wTab = this->CreateNotebookPage();
+		wrkUnitNB->AddPage(wTab,  wxT(friendlyName, true));	
+		if(result->active_task){
+			 wrkUnitNB->SetPageImageIndex(i, 0); // this is working process
+		}else{
+			 wrkUnitNB->SetPageImageIndex(i, 1); // this is sleeping process
+		}
+		///////////////////////Build Tab Page///////////////////////////////
+		//Prj Icon
+		w_iconPT1=new wxWindow(wTab,-1,SetwxPoint(2,2),SetwxSize(22,22));
+        i_prjIcnPT1 = new ImageLoader(w_iconPT1);
+        i_prjIcnPT1->LoadImage(g_prjIcnWCG);
+		//Project Name
+		lblProjectName=new wxStaticText(wTab,-1,wxT(""),SetwxPoint(25,2),SetwxSize(289,18),wxST_NO_AUTORESIZE);
+		lblProjectName->SetForegroundColour(wxSystemSettings::GetColour(wxSYS_COLOUR_WINDOWTEXT));
+		wxString projName;
+		projName = wxString(resState->project->project_name.c_str(), wxConvUTF8 ) + wxT(" - ") + wxString(resState->app->user_friendly_name.c_str(), wxConvUTF8);
+		lblProjectName->SetLabel(projName);
+		lblProjectName->SetFont(wxFont(11,74,90,90,0,wxT("Tahoma")));
+		//Line Proj Name
+		lnProjName=new wxStaticLine(wTab,-1,SetwxPoint(9,25),SetwxSize(353,2));
+		//My Progress
+		lblMyProgress=new wxStaticText(wTab,-1,wxT(""),SetwxPoint(15,32),SetwxSize(89,18),wxST_NO_AUTORESIZE);
+		lblMyProgress->SetForegroundColour(wxSystemSettings::GetColour(wxSYS_COLOUR_WINDOWTEXT));
+		lblMyProgress->SetLabel(wxT("My Progress:"));
+		lblMyProgress->SetFont(wxFont(10,74,90,92,0,wxT("Tahoma")));
+		//Main Gauge
+		gaugeWuP1=new wxGauge(wTab,-1,100,SetwxPoint(15,60),SetwxSize(340,30),wxGA_SMOOTH);
+		gaugeWuP1->SetForegroundColour(appSkin->GetGaugeFgCol());
+		gaugeWuP1->SetBackgroundColour(appSkin->GetGaugeBgCol());
+		gaugeWuP1->SetValue(floor(result->fraction_done * 100000)/1000);
+		//Work Unit Name
+		lblWrkUnitName=new wxStaticText(wTab,-1,wxT(""),SetwxPoint(110,34),SetwxSize(79,13),wxST_NO_AUTORESIZE);
+		lblWrkUnitName->SetForegroundColour(wxSystemSettings::GetColour(wxSYS_COLOUR_WINDOWTEXT));
+		lblWrkUnitName->SetLabel(wxString(result->name.c_str(),wxConvUTF8));
+		//Elapsed Time
+		lblElapsedTime=new wxStaticText(wTab,-1,wxT(""),SetwxPoint(15,97),SetwxSize(84,18),wxST_NO_AUTORESIZE);
+		lblElapsedTime->SetForegroundColour(wxSystemSettings::GetColour(wxSYS_COLOUR_WINDOWTEXT));
+		lblElapsedTime->SetLabel(wxT("Elapsed Time:"));
+		lblElapsedTime->SetFont(wxFont(10,74,90,90,0,wxT("Tahoma")));
+		//Elapsed time Value
+		wxString strBuffer = wxEmptyString;
+		lblElapsedTimeValue=new wxStaticText(wTab,-1,wxT(""),SetwxPoint(102,97),SetwxSize(364,18),wxST_NO_AUTORESIZE);
+		lblElapsedTimeValue->SetForegroundColour(wxSystemSettings::GetColour(wxSYS_COLOUR_WINDOWTEXT));
+		FormatCPUTime(result, strBuffer);
+		lblElapsedTimeValue->SetLabel(strBuffer);
+		lblElapsedTimeValue->SetFont(wxFont(10,74,90,90,0,wxT("Tahoma")));
+		//Time Remaining
+		lblTimeRemaining=new wxStaticText(wTab,-1,wxT(""),SetwxPoint(15,119),SetwxSize(154,18),wxST_NO_AUTORESIZE);
+		lblTimeRemaining->SetForegroundColour(wxSystemSettings::GetColour(wxSYS_COLOUR_WINDOWTEXT));
+		lblTimeRemaining->SetLabel(wxT("Time remaining:"));
+		lblTimeRemaining->SetFont(wxFont(10,74,90,90,0,wxT("Tahoma")));
+		//Time Remaining Value
+		lblTimeRemainingValue=new wxStaticText(wTab,-1,wxT(""),SetwxPoint(115,119),SetwxSize(294,18),wxST_NO_AUTORESIZE);
+		lblTimeRemainingValue->SetForegroundColour(wxSystemSettings::GetColour(wxSYS_COLOUR_WINDOWTEXT));
+		FormatTimeToCompletion(result, strBuffer);
+		lblTimeRemainingValue->SetLabel(strBuffer);
+		lblTimeRemainingValue->SetFont(wxFont(10,74,90,90,0,wxT("Tahoma")));
+		// project image behind graphic <><><>
+		imgBgAnim=new wxStaticBitmap(wTab,-1,*btmpBgAnim,SetwxPoint(0,146),SetwxSize(370,182));
+		//// Animation Window
+		wAnimWk1=new wxWindow(wTab,-1,SetwxPoint(85,146),SetwxSize(184,182),wxNO_BORDER);
+		// media control
+		/////////////
+		m_canvas = new MyCanvas(wAnimWk1, SetwxPoint(0,0), SetwxSize(184,182));
+		#if 0
+			m_player.SetDestroyAnimation(false);
+			m_player.SetWindow(m_canvas);
+			m_player.SetPosition(SetwxPoint(0, 0));
+		#endif
+		m_animationCtrl = new wxGIFAnimationCtrl(m_canvas, -1, wxEmptyString,
+			SetwxPoint(0, 0), wxSize(184, 184));
+		m_animationCtrl->Stop();
+		if (m_animationCtrl->LoadFile(wxT("skins/default/graphic/molecule.gif")))
+		{
+			m_animationCtrl->Play();
+		}
+		else
+		{
+			wxMessageBox(_T("Sorry, this animation was not a valid animated GIF."));
+		}
 
-	m_animationCtrl->Stop();
-    if (m_animationCtrl->LoadFile(wxT("skins/default/graphic/molecule.gif")))
-    {
-       m_animationCtrl->Play();
-    }
-    else
-    {
-	   wxMessageBox(_T("Sorry, this animation was not a valid animated GIF."));
-    }
- /////////////
- //////////////////////////////////////
+	}
 
- // My Projects
- stMyProj=new wxStaticText(this,-1,wxT(""),SetwxPoint(20,434),SetwxSize(84,18),wxST_NO_AUTORESIZE);
-   stMyProj->SetLabel(wxT("My Projects:"));
-   stMyProj->SetFont(wxFont(10,74,90,92,0,wxT("Tahoma")));
- // Attach Project <><><>
- btnAttProj=new wxBitmapButton(this,-1,*btmpBtnAttProjL,SetwxPoint(250,431),SetwxSize(109,20));
- // Collapse button mid
- btnCollapseMid=new wxBitmapButton(this,-1,btmpCol,SetwxPoint(366,429),SetwxSize(24,24),wxSIMPLE_BORDER);
- btnCollapseMid->SetBitmapSelected(btmpColClick);
- //expand buttons
- btnExpandMid=new wxBitmapButton(this,-1,btmpExp,SetwxPoint(336,429),SetwxSize(24,24),wxSIMPLE_BORDER);
- btnExpandMid->SetBitmapSelected(btmpExpClick);
- btnExpandMid->Show(false); // at initial build there is no need to show
-  /// Line
- lnMyProjTop=new wxStaticLine(this,-1,SetwxPoint(20,454),SetwxSize(370,2));
- ///////
- w_statWCG = new wxWindow(this,-1,SetwxPoint(60,460),SetwxSize(52,52));
- wxToolTip *statWCGtip = new wxToolTip(_T("World Community Grid. UserIBM has 123432 points."));
- i_statWCG = new StatImageLoader(w_statWCG);
- i_statWCG->LoadImage(g_statWCG);
- i_statWCG->SetToolTip(statWCGtip);
- //
- w_statSeti = new wxWindow(this,-1,SetwxPoint(112,460),SetwxSize(52,52));
- wxToolTip *statSetitip = new wxToolTip(_T("Seti@Home. UserSETI has 123432 points."));
- i_statSeti = new StatImageLoader(w_statSeti);
- i_statSeti->LoadImage(g_statSeti);
- i_statSeti->SetToolTip(statSetitip);
- //
- w_statPred = new wxWindow(this,-1,SetwxPoint(164,460),SetwxSize(52,52));
- wxToolTip *statPredtip = new wxToolTip(_T("Predictor@Home. UserPRED1 has 123432 points."));
- i_statPred = new StatImageLoader(w_statPred);
- i_statPred->LoadImage(g_statPred);
- i_statPred->SetToolTip(statPredtip);
- //
- //// Arrow Btns
- btnArwLeft=new wxBitmapButton(this,-1,btmpArwL,SetwxPoint(25,473),SetwxSize(24,24),wxSIMPLE_BORDER);
- btnArwLeft->SetBitmapSelected(btmpArwLC);
- btnArwRight=new wxBitmapButton(this,-1,btmpArwR,SetwxPoint(360,473),SetwxSize(24,24),wxNO_BORDER);
- btnArwRight->SetBitmapSelected(btmpArwRC);
- ///////////
- lnMyProjBtm=new wxStaticLine(this,-1,SetwxPoint(20,516),SetwxSize(370,2));
- //// Messages Play Pause Btns
- btnMessages=new wxBitmapButton(this,-1,*btmpMessagesBtnL,SetwxPoint(28,522),SetwxSize(20,20));
- // play pause btn
- btnPause=new wxBitmapButton(this,-1,*btmpBtnPauseL,SetwxPoint(55,522),SetwxSize(20,20));
- btnPlay=new wxBitmapButton(this,-1,*btmpBtnPlayL,SetwxPoint(55,522),SetwxSize(20,20));
- btnPlay->Show(false);
- // Class View ,Pref Btns
- btnPreferences=new wxBitmapButton(this,-1,*btmpBtnPrefL,SetwxPoint(183,522),SetwxSize(86,20));
- btnAdvancedView=new wxBitmapButton(this,-1,*btmpBtnAdvViewL,SetwxPoint(273,522),SetwxSize(116,20));
+	wrkUnitNB->SetSelection(0);	
+	// Put Grid in the sizer
+	mainSizer->Add(20, 70,0);
+	mainSizer->Add(362, 70,0);
+	mainSizer->Add(20, 70,0);
+	mainSizer->Add(0, 0,1);
+	mainSizer->Add(wrkUnitNB);
+	 
+	//Static content in my Projects section
+	// My Projects
+	stMyProj=new wxStaticText(this,-1,wxT(""),SetwxPoint(20,434),SetwxSize(84,18),wxST_NO_AUTORESIZE);
+	stMyProj->SetLabel(wxT("My Projects:"));
+	stMyProj->SetFont(wxFont(10,74,90,92,0,wxT("Tahoma")));
+	// Attach Project <><><>
+	btnAttProj=new wxBitmapButton(this,-1,*btmpBtnAttProjL,SetwxPoint(250,431),SetwxSize(109,20));
+	// Collapse button mid
+	btnCollapseMid=new wxBitmapButton(this,-1,btmpCol,SetwxPoint(366,429),SetwxSize(24,24),wxSIMPLE_BORDER);
+	btnCollapseMid->SetBitmapSelected(btmpColClick);
+	//expand buttons
+	btnExpandMid=new wxBitmapButton(this,-1,btmpExp,SetwxPoint(336,429),SetwxSize(24,24),wxSIMPLE_BORDER);
+	btnExpandMid->SetBitmapSelected(btmpExpClick);
+	btnExpandMid->Show(false); // at initial build there is no need to show
+	/// Line
+	lnMyProjTop=new wxStaticLine(this,-1,SetwxPoint(20,454),SetwxSize(370,2));
+	///////
+    int projCnt = pDoc->state.projects.size();
+	
+	for(int j = 0; j < projCnt; j++){
+		PROJECT* project = pDoc->state.projects[j];
+		wxString toolTipTxt;
+		wxString userCredit;
+		userCredit.Printf(wxT("%0.2f"), project->user_total_credit);
+		toolTipTxt = wxString(project->project_name.c_str(), wxConvUTF8 ) +wxT(". User ") + wxString(project->user_name.c_str(), wxConvUTF8) + wxT(" has ") + userCredit + wxT(" points."); 
+		// Project button
+		wxWindow *w_statW = new wxWindow(this,-1,SetwxPoint(60 + 52*j,460),SetwxSize(52,52));
+		wxToolTip *statWCGtip = new wxToolTip(toolTipTxt);
+		StatImageLoader *i_statW = new StatImageLoader(w_statW,project->master_url);
+		if(project->project_name == "World Community Grid"){
+			i_statW->LoadImage(g_statWCG);
+		}else if(project->project_name == "Predictor @ Home"){
+			i_statW->LoadImage(g_statPred);
+		}else{
+			i_statW->LoadImage(g_statWCG);
+		}
+		i_statW->SetToolTip(statWCGtip);
+	}
 
- Refresh();
+	//// Arrow Btns
+	btnArwLeft=new wxBitmapButton(this,-1,btmpArwL,SetwxPoint(25,473),SetwxSize(24,24),wxSIMPLE_BORDER);
+	btnArwLeft->SetBitmapSelected(btmpArwLC);
+	btnArwRight=new wxBitmapButton(this,-1,btmpArwR,SetwxPoint(360,473),SetwxSize(24,24),wxNO_BORDER);
+	btnArwRight->SetBitmapSelected(btmpArwRC);
+	///////////
+	lnMyProjBtm=new wxStaticLine(this,-1,SetwxPoint(20,516),SetwxSize(370,2));
+	//// Messages Play Pause Btns
+	btnMessages=new wxBitmapButton(this,-1,*btmpMessagesBtnL,SetwxPoint(28,522),SetwxSize(20,20));
+	// play pause btn
+	btnPause=new wxBitmapButton(this,-1,*btmpBtnPauseL,SetwxPoint(55,522),SetwxSize(20,20));
+	btnPlay=new wxBitmapButton(this,-1,*btmpBtnPlayL,SetwxPoint(55,522),SetwxSize(20,20));
+	btnPlay->Show(false);
+	// Class View ,Pref Btns
+	btnPreferences=new wxBitmapButton(this,-1,*btmpBtnPrefL,SetwxPoint(183,522),SetwxSize(86,20));
+	btnAdvancedView=new wxBitmapButton(this,-1,*btmpBtnAdvViewL,SetwxPoint(273,522),SetwxSize(116,20));
+
+	Refresh();
 }
 void CSimpleFrame::initAfter(){
- //add your code here
-    Centre();
+    //add your code here
+    //Centre();
     Show(true);
 }
 //
@@ -596,7 +667,6 @@ int CSimpleFrame::LoadSkinXML(){
 	return 0;
 }
 ///
-
 void CSimpleFrame::ReskinAppGUI(){
 	LoadSkinXML();
 	LoadSkinImages();
@@ -636,6 +706,83 @@ void CSimpleFrame::ReskinAppGUI(){
 	Refresh();
 }
 
+wxInt32 CSimpleFrame::FormatCPUTime(RESULT* rslt, wxString& strBuffer) const {
+    float          fBuffer = 0;
+    RESULT*        result = rslt;
+
+    if (result) {
+        if (result->active_task) {
+            fBuffer = result->current_cpu_time;
+        } else {
+            if(result->state < RESULT_COMPUTE_ERROR) {
+                fBuffer = 0;
+            } else {
+                fBuffer = result->final_cpu_time;
+            }
+        }
+    }
+
+    if (0 == fBuffer) {
+        strBuffer = wxT("---");
+    } else {
+		SGUITimeFormat(fBuffer,strBuffer);
+    }
+
+    return 0;
+}
+
+wxInt32 CSimpleFrame::FormatTimeToCompletion(RESULT* rslt, wxString& strBuffer) const {
+    float          fBuffer = 0;
+    wxInt32        iHour = 0;
+    wxInt32        iMin = 0;
+    wxInt32        iSec = 0;
+    wxTimeSpan     ts;
+    RESULT*        result = rslt;
+
+    if (result) {
+        fBuffer = result->estimated_cpu_time_remaining;
+    }
+
+    if (0 >= fBuffer) {
+        strBuffer = wxT("---");
+    } else {
+        SGUITimeFormat(fBuffer,strBuffer);
+    }
+
+    return 0;
+}
+
+
+void CSimpleFrame::SGUITimeFormat(float fBuff, wxString& strBuffer) const{
+	float          fBuffer = fBuff;
+	wxInt32        iDay = 0;
+    wxInt32        iHour = 0;
+    wxInt32        iMin = 0;
+    wxInt32        iSec = 0;
+	std::string    timeFormat;
+    std::string formatedUnit; // string to recive the number when doing conversion
+    char b[50]; // buffer of chars
+	int radix=10; // 2:bin, 8:octal, 10:dec, 16:hex
+	
+	iDay = (wxInt32)(fBuffer / (60 * 60 * 60));
+	iHour = (wxInt32)(fBuffer / (60 * 60));
+	iMin  = (wxInt32)(fBuffer / 60) % 60;
+	iSec  = (wxInt32)(fBuffer) % 60;
+	
+	if(iDay !=0){
+		formatedUnit = itoa(iDay,b,radix);
+		timeFormat = formatedUnit + " days ";
+	}//else if(iHour !=0){
+		formatedUnit = itoa(iHour,b,radix);
+		timeFormat += formatedUnit + " hours ";
+	//}else if(iMin !=0){
+		formatedUnit = itoa(iMin,b,radix);
+		timeFormat += formatedUnit + " minutes ";
+	//}
+	formatedUnit = itoa(iSec,b,radix);
+	timeFormat += formatedUnit + " seconds";
+	strBuffer = wxString(timeFormat.c_str(), wxConvUTF8);
+}
 void CSimpleFrame::OnBtnClick(wxCommandEvent& event){ //init function
 	wxObject *m_wxBtnObj = event.GetEventObject();
 	if(m_wxBtnObj==btnPreferences){
@@ -761,7 +908,8 @@ void CSimpleFrame::DrawBackImg(wxEraseEvent& event,wxWindow *win,wxBitmap & bitM
         wrkUnitNB->SetSize(-1, -1, wxNotebookSize.x, wxNotebookSize.y); // fix
 	}
 
- event.Skip(false);wxDC *dc;
+ event.Skip(false);
+ wxDC *dc;
  dc=event.GetDC();
  dc->SetBackground(wxBrush(win->GetBackgroundColour(),wxSOLID));
  dc->Clear();
