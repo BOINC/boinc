@@ -7238,3 +7238,22 @@ Rom    5 July 2006
     clientgui/res/templates/
         icondisconnect.ico (Added)
         iconsnooze.ico (Added)
+
+David  5 July 2006
+    - server: added a PHP script for doing customized mass emails
+        See http://boinc.berkeley.edu/mass_email.php
+    - user web: project preferences: show privacy and venue items
+        before project-specific preferences
+
+    db/
+        boinc_db.h
+    html/
+        inc/
+            email.inc
+            prefs.inc
+        ops/
+            mass_email_script.php (new)
+        user/
+            opt_out.php (new)
+            prefs.php
+            prefs_edit_form.php

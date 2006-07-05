@@ -1,8 +1,29 @@
 <?php
 require_once("docutil.php");
-page_head("Managing the project web site");
+page_head("Message boards");
 echo "
-<h2>Forums</h2>
+BOINC provides its own software for web based message-boards
+(also called 'forums').
+Messages, and descriptions of the message boards,
+are stored in the BOINC database.
+Two types of message boards are supported:
+<ul>
+<li> <b>Questions and answers</b>:
+These provide a 'self-organizing FAQ' that shows questions
+(sorted so that current and frequently-asked questions are listed first)
+and answers (sorted so that 'good' answers are listed first).
+<li> <b>Forums</b>:
+These are conventional message boards,
+typically sorted so that most recent messages are first.
+</ul>
+To create message boards for your project,
+edit the file <code>html/ops/create_forums.php</code>
+to create a set of message boards appropriate for your project,
+and then run that script, i.e. type
+<pre>
+php create_forums.php
+</pre>
+<h2>User attributes</h2>
 <p>
 The Special user feature allows certain users,
 like project administrators, developers etc.,
@@ -29,7 +50,7 @@ run this query to make him a moderator and project administrator:
 UPDATE forum_preferences SET special_user=1100000 where userid=42;
 </pre>
 
-<h2>Forum moderation</h2>
+<h2>Moderation</h2>
 
 <h3>Post-level moderation abilities</h3>
 <ul>
@@ -77,9 +98,6 @@ None, all words are allowed.
 <h3>Sub-post-level moderation abilities</h3>
 None, moderators are not allowed to edit people's posts.
 
-
-<h2>Caching</h2>
-<h2>News</h2>
 ";
 page_tail();
 ?>

@@ -140,6 +140,8 @@ struct USER {
     bool send_email;
     bool show_hosts;
     int posts;                      // number of messages posted (redundant)
+        // deprecated as of 9/2004 - forum_preferences.posts is used instead
+        // may be used as a temp var (e.g. for mass email)
 
     // The following are specific to SETI@home;
     // they record info about the user's involvement in a prior project
@@ -148,6 +150,7 @@ struct USER {
     int seti_last_result_time;      // time of last result (UNIX)
     double seti_total_cpu;          // number of CPU seconds
     char signature[256];
+        // deprecated as of 9/2004 - may be used as temp
     bool has_profile;
     char cross_project_id[256];
     char passwd_hash[256];

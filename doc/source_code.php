@@ -71,6 +71,11 @@ This is useful for getting individual files, or seeing the revision history.
 
 </ul>
 
+The source code for the Mac Menubar,
+a simple GUI for Mac OS X that we no longer support,
+is <a href=menubar>here</a>.
+If anyone wants to maintain this, let us know and we'll put it under CVS.
+
 ";
 
 page_tail();

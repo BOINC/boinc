@@ -45,11 +45,11 @@ if ($subset == "global") {
     prefs_form_global($user, $prefs);
 } else {
     prefs_form_resource($prefs);
-    prefs_form_project($prefs->project_specific);
     if (!$venue) {
         prefs_form_privacy($user);
         venue_form($user);
     }
+    prefs_form_project($prefs->project_specific);
 }
 
 row2("<br>", "<input type=submit value=\"Update preferences\">");

@@ -125,15 +125,16 @@ Managing distributed data
 Web site
 </b></font>
 <ul>
-<li> <a href=web.php>Managing the project web site</a>
+<li> <a href=web_config.php>Web site overview</a>
+<li> <a href=forum.php>Creating and managing message boards</a>
 <li> <a href=translation.php>Web site translation</a>
 <li> <a href=sstatus.php>Server status page</a>
-<li> <a href=gui_urls.php>Project-specific items in the client GUI</a>
 </ul>
 <font size=+1><b>
 Miscellaneous
 </b></font>
 <ul>
+<li> <a href=gui_urls.php>Project-specific items in the client GUI</a>
 <li> <a href=db_dump.php#task>Export credit data as XML</a>
 <li> <a href=grid.php>Integrating BOINC projects with Grids</a>
 <li> <a href=boinc_version.php>Versions of BOINC</a>

@@ -103,7 +103,6 @@ define("DONT_VERIFY_IMAGES_DESC",
 define("BYTE_CONVERSION", 1000.0);
 define("BYTE_UNITS", "Kbytes/sec");
 define("BYTE_ABBR", "KB/s");
-define("MISC_DESC", "Miscellaneous");
 
 global $text;
 global $parse_result;
@@ -512,7 +511,6 @@ function prefs_show_resource($prefs) {
 }
 
 function prefs_show_privacy($user) {
-    row1(MISC_DESC);
     row2("Should ".PROJECT." send you email newsletters?", $user->send_email?"yes":"no");
     row2("Should ".PROJECT." show your computers on its web site?", $user->show_hosts?"yes":"no");
 }
@@ -558,9 +556,9 @@ function print_prefs_display_project($user) {
     echo "<tr><td colspan=2>";
     start_table("width=100% border=4");
     prefs_show_resource($project_prefs);
-    prefs_show_project($project_prefs);
     prefs_show_privacy($user);
     venue_show($user);
+    prefs_show_project($project_prefs);
     row2("", "<a href=prefs_edit_form.php?subset=project>Edit ".PROJECT." preferences</a>");
     end_table();
     echo "</td></tr>\n";
@@ -731,7 +729,6 @@ function prefs_form_global($user, $prefs) {
 }
 
 function prefs_form_privacy($user) {
-    row1(MISC_DESC);
     $y = "yes <input type=radio name=send_email value=yes "
         .($user->send_email?"checked":"")
         ."> no <input type=radio name=send_email value=no "

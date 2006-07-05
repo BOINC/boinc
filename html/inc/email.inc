@@ -17,7 +17,7 @@ if (isset($USE_PHPMAILER)) {
 
 // Function sends an email, either using PHPMailer or not.
 //
-function send_email($user, $subject, $body) {
+function send_email($user, $subject, $body, $body_html=null) {
     global $USE_PHPMAILER;
     global $PHPMAILER_HOST;
     global $PHPMAILER_MAILER;
@@ -26,9 +26,14 @@ function send_email($user, $subject, $body) {
         $mail = new PHPMailer();
         $mail->AddAddress($user->email_addr, $user->name);
         $mail->Subject = $subject;
-        $mail->Body = $body;
+        if ($body_html) {
+            $mail->AltBody = $body;
+            $mail->Body = $body_html;
+        } else {
+            $mail->Body = $body;
+        }
         $mail->From = EMAIL_FROM;
-        $mail->FromName = EMAIL_FROM;
+        $mail->FromName = EMAIL_FROM_NAME;
         $mail->Host = $PHPMAILER_HOST;
         $mail->Mailer = $PHPMAILER_MAILER;
         return $mail->Send();
@@ -213,6 +218,10 @@ For further information and assistance with ".PROJECT." go to $master_url";
     echo nl2br($body) . "<br><br>"; 
     return send_email($user, $subject, $body);
 
+}
+
+function salted_key($key) {
+    return md5($key.'oogabooga');
 }
 
 ?>

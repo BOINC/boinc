@@ -16,7 +16,8 @@ if (isset($_GET["cols"])) {
 	if (isset($_GET['updated'])) {
 	    echo "<p style='color: red'>
             Your preferences have been updated.
-            They will take effect when your computer communicates
+            Client-related preferences
+            will take effect when your computer communicates
             with ".PROJECT." or
             you issue the \"Update\" command from the BOINC client.
             </p>
