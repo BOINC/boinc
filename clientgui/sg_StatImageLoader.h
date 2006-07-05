@@ -1,6 +1,7 @@
 #ifndef _STATIMAGELOADER_H_
 #define _STATIMAGELOADER_H_ 
 
+
 #include "sg_SkinClass.h"
 
 class StatImageLoader : public wxWindow 
@@ -10,8 +11,9 @@ public:
         wxMenu *statPopUpMenu;
         //Skin Class
         SkinClass *appSkin;
+		std::string prjUrl;
 	    /// Constructors
-	    StatImageLoader(wxWindow* parent); 
+		StatImageLoader(wxWindow* parent, std::string url); 
         void LoadImage(const wxImage& image); 
 		void CreateMenu(); 
 		void PopUpMenu(wxMouseEvent& event); 
