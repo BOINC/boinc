@@ -4273,3 +4273,9 @@ Rom    16 June 2006 (boinc_core_release_5_4)
     - Tag for 5.4.10 release, all platforms
       boinc_core_release_5_4_10
 
+Rom    5 July 2006
+    - Remove needless return when init_data.xml is not present from the
+        BOINC API.  This was fixed in HEAD a long time ago.
+        
+    lib/
+        diagnostics.C

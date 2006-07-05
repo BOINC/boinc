@@ -261,7 +261,6 @@ int diagnostics_init(
         proxy_port = 0;
 
         p = fopen(INIT_DATA_FILE, "r");
-        if (!p) return ERR_FOPEN;
         mf.init_file(p);
         while(mf.fgets(buf, sizeof(buf))) {
             if (match_tag(buf, "</app_init_data>")) break;
