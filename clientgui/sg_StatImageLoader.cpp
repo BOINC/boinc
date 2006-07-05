@@ -1,5 +1,5 @@
 #include "stdwx.h"
-
+#include <vector>
 #include "BOINCGUIApp.h"
 #include "sg_StatImageLoader.h" 
 
@@ -9,9 +9,10 @@ BEGIN_EVENT_TABLE(StatImageLoader, wxWindow)
 		EVT_LEFT_DOWN(StatImageLoader::PopUpMenu)
 END_EVENT_TABLE() 
 
-StatImageLoader::StatImageLoader(wxWindow* parent) : wxWindow(parent, wxID_ANY, wxDefaultPosition, wxDefaultSize, wxNO_BORDER) 
+StatImageLoader::StatImageLoader(wxWindow* parent, std::string url) : wxWindow(parent, wxID_ANY, wxDefaultPosition, wxDefaultSize, wxNO_BORDER) 
 { 
    appSkin = SkinClass::Instance();
+   prjUrl = url;
    CreateMenu();
 }
 
@@ -24,68 +25,31 @@ void StatImageLoader::PopUpMenu(wxMouseEvent& event)
 void StatImageLoader::CreateMenu() 
 { 
 	CMainDocument* pDoc      = wxGetApp().GetDocument();
- 
     wxASSERT(pDoc);
-    wxASSERT(wxDynamicCast(pDoc, CMainDocument));
-    // i = project id
-    // j = vector of menu items
-    //pDoc->state.projects[0]->gui_urls[0];
 
+	PROJECT* project = pDoc->state.lookup_project(prjUrl);
+	int urlCount = project->gui_urls.size();
+	
 	// create pop up menu
 	statPopUpMenu = new wxMenu(wxSIMPLE_BORDER);
+
+	for(int i = 0; i < urlCount; i++){
+		wxMenuItem *urlItem = new wxMenuItem(statPopUpMenu, -1,wxString(project->gui_urls[i].name.c_str(), wxConvUTF8));
+		#ifdef __WXMSW__
+			urlItem->SetBackgroundColour(appSkin->GetAppBgCol());
+		#endif
+		statPopUpMenu->Append(urlItem);
+	}
 	//
-	wxMenuItem *itmTellFriend = new wxMenuItem(statPopUpMenu, -1,_T("Tell a Friend"));
-#ifdef __WXMSW__
-	itmTellFriend->SetBackgroundColour(appSkin->GetAppBgCol());
-#endif
+	/*
 	wxBitmap  *btmTellFriend = new wxBitmap();
 	btmTellFriend->LoadFile("skins/default/graphic/micnTellFriend.png",wxBITMAP_TYPE_PNG);
     itmTellFriend->SetBitmap(*btmTellFriend);
-	//
-	wxMenuItem *itmHome = new wxMenuItem(statPopUpMenu, -1,_T("Home"));
-#ifdef __WXMSW__
-	itmHome->SetBackgroundColour(appSkin->GetAppBgCol());
-#endif
-	//
-	wxMenuItem *itmAbout = new wxMenuItem(statPopUpMenu, -1,_T("About Us"));
-#ifdef __WXMSW__
-	itmAbout->SetBackgroundColour(appSkin->GetAppBgCol());
-#endif
-	//
-	wxMenuItem *itmResearch = new wxMenuItem(statPopUpMenu, -1,_T("Research"));
-#ifdef __WXMSW__
-	itmResearch->SetBackgroundColour(appSkin->GetAppBgCol());
-#endif
-	//
-	wxMenuItem *itmForums = new wxMenuItem(statPopUpMenu, -1,_T("Forums"));
-#ifdef __WXMSW__
-	itmForums->SetBackgroundColour(appSkin->GetAppBgCol());
-#endif
-	//
-	wxMenuItem *itmStatistics = new wxMenuItem(statPopUpMenu, -1,_T("Statistics"));
-#ifdef __WXMSW__
-	itmStatistics->SetBackgroundColour(appSkin->GetAppBgCol());
-#endif
-	//
-	wxMenuItem *itmMyGrid = new wxMenuItem(statPopUpMenu, -1,_T("My Grid"));
-#ifdef __WXMSW__
-	itmMyGrid->SetBackgroundColour(appSkin->GetAppBgCol());
-#endif
-	wxBitmap  *btmMyGrid = new wxBitmap();
-	btmMyGrid->LoadFile("skins/default/graphic/micnMyGrid.png",wxBITMAP_TYPE_PNG);
-	itmMyGrid->SetBitmap(*btmMyGrid);
-	//
-	statPopUpMenu->Append(itmTellFriend);
-	statPopUpMenu->Append(itmHome);
-	statPopUpMenu->Append(itmAbout);
-	statPopUpMenu->Append(itmResearch);
-	statPopUpMenu->Append(itmForums);
-	statPopUpMenu->Append(itmStatistics);
-	statPopUpMenu->Append(itmMyGrid);
+	*/
 }
 void StatImageLoader::LoadImage(const wxImage& image) 
 { 
-	Bitmap = wxBitmap();//delete existing bitmap since we are loading newone
+	Bitmap = wxBitmap();//delete existing bitmap since we are loading new one
 	int width = image.GetWidth(); 
 	int height = image.GetHeight(); 
 	Bitmap = wxBitmap(image); 

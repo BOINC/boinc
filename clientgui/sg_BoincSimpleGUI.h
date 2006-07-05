@@ -44,8 +44,7 @@ public:
 
    ~CSimpleFrame();
 
-    void OnConnect( CFrameEvent& event );
-
+   
 
 	// Images
 	wxImage *g_prjIcnWCG;
@@ -118,15 +117,15 @@ public:
 	////////////////////////////
 	wxStaticText *st9c;
 	wxWindow *w11c;
-	wxStaticText *st12c;
-	wxStaticLine *lno14c;
-	wxStaticText *st15c;
-	wxStaticText *st16c;
+	wxStaticText *lblProjectName;
+	wxStaticLine *lnProjName;
+	wxStaticText *lblMyProgress;
+	wxStaticText *lblWrkUnitName;
 	wxGauge *gaugeWuP1;
-	wxStaticText *st18c;
-	wxStaticText *st19c;
-	wxStaticText *st20c;
-	wxStaticText *st21c;
+	wxStaticText *lblElapsedTime;
+	wxStaticText *lblElapsedTimeValue;
+	wxStaticText *lblTimeRemaining;
+	wxStaticText *lblTimeRemainingValue;
 	wxStaticText *st22c;
 	wxStaticText *st23c;
 	wxStaticText *stMyProj;
@@ -147,7 +146,9 @@ public:
 	wxBitmapButton *btnAdvancedView;
 	wxStaticBitmap *imgBgAnim;
 	wxStaticLine *lnMyProjBtm;
+	bool clientGUIInitialized;
 
+	void InitEmptyState();
     void InitSimpleClient();
 	int LoadSkinXML();
 	void LoadSkinImages();
@@ -183,11 +184,18 @@ public:
     wxAnimationBase& GetAnimation() { return m_animation; }
 #endif
 
+    wxTimer*        m_pFrameRenderTimer;
+
     DECLARE_EVENT_TABLE()
 
 protected:
 	void OnEraseBackground(wxEraseEvent& event);
 	void OnBtnClick(wxCommandEvent& event);
+	void OnConnect( CFrameEvent& event );
+    void OnFrameRender( wxTimerEvent& event );
+    wxInt32 FormatCPUTime( RESULT* rslt, wxString& strBuffer ) const;
+    wxInt32 FormatTimeToCompletion( RESULT* rslt, wxString& strBuffer ) const;
+    void SGUITimeFormat( float fBuffer, wxString& strBuffer) const;
 	void DrawBackImg(wxEraseEvent& event,wxWindow *win,wxBitmap & bitMap,int opz);
     wxPoint m_tmppoint;
     wxSize  m_tmpsize;
