@@ -7296,6 +7296,6 @@ Charlie 6 July 2006
     
     clientgui/
         BOINCGUIApp.cpp
-        BOINCTaskBar.cpp
+        BOINCTaskBar.cpp,h
         mac/
             MacSysMenu.cpp,h

@@ -74,6 +74,7 @@ public:
 
 #ifdef __APPLE__
     wxMenu *CreatePopupMenu();
+    bool SetIcon(const wxIcon& icon, const wxString& tooltip);
 #endif
 
 #ifndef __WXMSW__
