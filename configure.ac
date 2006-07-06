@@ -423,7 +423,7 @@ AC_LANG_POP
 dnl Checks for library functions.
 AC_PROG_GCC_TRADITIONAL
 AC_FUNC_VPRINTF
-AC_CHECK_FUNCS(lockf flock alloca _alloca setpriority strlcpy strlcat sigaction getutent setutent)
+AC_CHECK_FUNCS(alloca _alloca setpriority strlcpy strlcat sigaction getutent setutent)
 
 dnl Checks for typedefs, structures, and compiler characteristics.
 AC_C_CONST

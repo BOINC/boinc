@@ -547,29 +547,32 @@ int boinc_make_dirs(const char* dirpath, const char* filepath) {
 
 
 int FILE_LOCK::lock(const char* filename) {
-    int retval=0;
 #if defined(_WIN32) && !defined(__CYGWIN32__)
     handle = CreateFile(
         filename, GENERIC_WRITE,
         0, 0, OPEN_ALWAYS, FILE_ATTRIBUTE_NORMAL, 0
     );
     if (handle == INVALID_HANDLE_VALUE) {
-        retval = 1;
+        return -1;
+    }
+    return 0;
+
+#else
+    fd = open(
+        filename, O_WRONLY|O_CREAT, S_IRUSR|S_IWUSR|S_IRGRP|S_IROTH
+    );
+    if (fd<0) {
+        return -1;
     }
 
-    // some systems have both!
-#elif defined(HAVE_LOCKF) && !defined(__APPLE__)
-    fd = open(filename, O_WRONLY|O_CREAT, 0644);
-    retval = lockf(fd, F_TLOCK, 0);
-#elif HAVE_FLOCK
-    fd = open(filename, O_WRONLY|O_CREAT, 0644);
-    retval = flock(fd, LOCK_EX|LOCK_NB);
-    // must leave file-handle open
-#else
-    no file lock mechanism;
+    struct flock fl;
+    fl.l_type=F_WRLCK;
+    fl.l_whence=SEEK_SET;
+    fl.l_start=0;
+    fl.l_len=0;
+    if (-1 != fcntl(fd, F_SETLK, &fl)) return 0;
+    return -1;
 #endif
-
-    return retval;
 }
 
 int FILE_LOCK::unlock(const char* filename) {

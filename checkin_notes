@@ -7317,3 +7317,12 @@ David  6 July 2006
     sched/
         handle_request.C
         transitioner.C
+
+David  6 July 2006
+    - core client: use fcntl() instead of lockf() or flock() to lock files.
+        It's POSIX, hence more portable.
+        (from Bruce Allen)
+
+    configure.ac
+    lib/
+        filesys.C
