@@ -511,7 +511,13 @@ function prefs_show_resource($prefs) {
 }
 
 function prefs_show_privacy($user) {
-    row2("Should ".PROJECT." send you email newsletters?", $user->send_email?"yes":"no");
+    if (defined('EMAIL_FROM')) {
+        $x = "<br><font size=-2>Emails will be sent from ".EMAIL_FROM.";
+            make sure your spam filter accepts this address.</font>";
+    }
+    row2("Should ".PROJECT." send you email newsletters? $x",
+        $user->send_email?"yes":"no"
+    );
     row2("Should ".PROJECT." show your computers on its web site?", $user->show_hosts?"yes":"no");
 }
 

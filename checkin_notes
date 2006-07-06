@@ -7326,3 +7326,10 @@ David  6 July 2006
     configure.ac
     lib/
         filesys.C
+
+David  6 July 2006
+    - user web: in "allow email" form, show source address of emails
+        so users can let them through spam filter
+
+    html/inc/
+        prefs.inc
