@@ -7257,3 +7257,10 @@ David  5 July 2006
             opt_out.php (new)
             prefs.php
             prefs_edit_form.php
+            
+Rom    5 July 2006
+    - Bug fixes to previous check-in and code cleanup.
+
+    clientgui/
+        AdvancedFrame.cpp
+        BOINCTaskBar.cpp, .h

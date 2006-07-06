@@ -125,42 +125,34 @@ void CTaskBarIcon::OnRefresh(wxTimerEvent& event) {
     wxLogTrace(wxT("Function Start/End"), wxT("CTaskBarIcon::OnRefresh - Function Begin"));
 
     CMainDocument* pDoc = wxGetApp().GetDocument();
-    bool           bResetSnooze = false;
-    wxInt32        iActivityMode = -1;
-    wxInt32        iNetworkMode  = -1;
+    bool           bActivitiesSuspended = false;
+    bool           bNetworkSuspended    = false;
 
     wxASSERT(pDoc);
     wxASSERT(wxDynamicCast(pDoc, CMainDocument));
 
 
     // If we are done snoozing, change our settings back to their original settings
-    if (m_bResetSnooze) {
-        bResetSnooze = true;
-    }
     if (wxDateTime((time_t)0) != m_dtSnoozeStartTime) {
         wxTimeSpan ts(wxDateTime::Now() - m_dtSnoozeStartTime);
         if (ts.GetMinutes() >= 60) {
-            bResetSnooze = true;
-        }
-    }
-    if (bResetSnooze) {
-        pDoc->SetActivityRunMode(m_iPreviousActivityMode);
-        pDoc->SetNetworkRunMode(m_iPreviousNetworkMode);
+            pDoc->SetActivityRunMode(m_iPreviousActivityMode);
+            pDoc->SetNetworkRunMode(m_iPreviousNetworkMode);
 
-        m_dtSnoozeStartTime = wxDateTime((time_t)0);
+            ResetSnoozeState();
+        }
     }
 
 
     // What is the current status of the client?
-    pDoc->GetActivityRunMode(iActivityMode);
-    pDoc->GetNetworkRunMode(iNetworkMode);
+    pDoc->GetActivityState(bActivitiesSuspended, bNetworkSuspended);
 
 
     // Which icon should be displayed?
     if (!pDoc->IsConnected()) {
         SetIcon(m_iconTaskBarDisconnected, m_strDefaultTitle);
     } else {
-        if (RUN_MODE_NEVER == iActivityMode) {
+        if (bActivitiesSuspended) {
             SetIcon(m_iconTaskBarSnooze, m_strDefaultTitle);
         } else {
             SetIcon(m_iconTaskBarNormal, m_strDefaultTitle);
@@ -479,7 +471,7 @@ void CTaskBarIcon::OnRButtonUp(wxTaskBarIconEvent& WXUNUSED(event)) {
 
 
 void CTaskBarIcon::ResetSnoozeState() {
-   m_bResetSnooze = true;
+    m_dtSnoozeStartTime = wxDateTime((time_t)0);
 }
 
 

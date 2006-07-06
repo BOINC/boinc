@@ -841,12 +841,10 @@ void CAdvancedFrame::OnActivitySelection(wxCommandEvent& event) {
     wxLogTrace(wxT("Function Start/End"), wxT("CAdvancedFrame::OnActivitySelection - Function Begin"));
 
     CMainDocument* pDoc      = wxGetApp().GetDocument();
+    CTaskBarIcon*  pTaskbar  = wxGetApp().GetTaskBarIcon();
 
     wxASSERT(pDoc);
     wxASSERT(wxDynamicCast(pDoc, CMainDocument));
-
-    CTaskBarIcon*  pTaskbar  = wxGetApp().GetTaskBarIcon();
-
     wxASSERT(pTaskbar);
     wxASSERT(wxDynamicCast(pTaskbar, CTaskBarIcon));
 
@@ -872,12 +870,10 @@ void CAdvancedFrame::OnNetworkSelection(wxCommandEvent& event) {
     wxLogTrace(wxT("Function Start/End"), wxT("CAdvancedFrame::OnNetworkSelection - Function Begin"));
 
     CMainDocument* pDoc      = wxGetApp().GetDocument();
+    CTaskBarIcon*  pTaskbar  = wxGetApp().GetTaskBarIcon();
 
     wxASSERT(pDoc);
     wxASSERT(wxDynamicCast(pDoc, CMainDocument));
-
-    CTaskBarIcon*  pTaskbar  = wxGetApp().GetTaskBarIcon();
-
     wxASSERT(pTaskbar);
     wxASSERT(wxDynamicCast(pTaskbar, CTaskBarIcon));
 

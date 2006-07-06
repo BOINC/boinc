@@ -95,7 +95,6 @@ private:
     wxTimer*   m_pRefreshTimer;
 
     bool       m_bMouseButtonPressed;
-    bool       m_bResetSnooze;
 
     int        m_iPreviousActivityMode;
     int        m_iPreviousNetworkMode;
