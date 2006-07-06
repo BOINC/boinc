@@ -7264,3 +7264,11 @@ Rom    5 July 2006
     clientgui/
         AdvancedFrame.cpp
         BOINCTaskBar.cpp, .h
+
+David  5 July 2006
+    - core client: fix bug where we write past the end of
+        benchmark_desc array if ncpus increases
+        (from Don Mullis)
+
+    client/
+        cs_benchmark.C

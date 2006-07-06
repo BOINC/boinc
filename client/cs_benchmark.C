@@ -192,11 +192,12 @@ void CLIENT_STATE::start_cpu_benchmarks() {
     remove_benchmark_file(BM_TYPE_INT);
     cpu_benchmarks_start = dtime();
 
-    if (!benchmark_descs) {
-        benchmark_descs = (BENCHMARK_DESC*)calloc(
-            ncpus, sizeof(BENCHMARK_DESC)
-        );
+    if (benchmark_descs) {
+        free(benchmark_descs);
     }
+    benchmark_descs = (BENCHMARK_DESC*)calloc(
+        ncpus, sizeof(BENCHMARK_DESC)
+    );
     benchmarks_running = true;
 
     for (i=0; i<ncpus; i++) {

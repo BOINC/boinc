@@ -52,7 +52,7 @@ list_item("SYS_ADMIN_EMAIL", "Users are directed here if they
 ");
 list_item("FORUM_MODERATION_EMAIL_USER_ID",
     "Moderation-related emails (such as user complaints) are sent here.
-")
+");
 list_item("INVITE_CODES", "regular expression used for
     <a href=account_control.php>controlling account creation</a>.
 ");
