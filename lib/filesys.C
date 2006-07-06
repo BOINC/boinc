@@ -499,6 +499,17 @@ int boinc_rmdir(const char* name) {
 #endif
 }
 
+int remove_project_owned_file_or_dir(const char* path) {
+#ifdef SANDBOX
+    char cmd[1024];
+
+    sprintf(cmd, "%s/%s /bin/rm rm -fR \"%s\"", SWITCHER_DIR, SWITCHER_FILE_NAME, path);
+    return system(cmd);
+#else
+    return ERR_UNLINK;
+#endif
+}
+
 #ifndef _WIN32
 int boinc_chown(const char* path, gid_t gid) {
     if (gid)

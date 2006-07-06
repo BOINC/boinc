@@ -82,9 +82,7 @@ CTaskBarIcon::CTaskBarIcon(wxString title, wxIcon* icon, wxIcon* iconDisconnecte
     m_pRefreshTimer = new wxTimer(this, ID_TB_TIMER);
     m_pRefreshTimer->Start(1000);  // Send event every second
 
-#ifndef __WXMAC__
     SetIcon(m_iconTaskBarNormal, m_strDefaultTitle);
-#endif
 }
 
 
@@ -479,9 +477,7 @@ void CTaskBarIcon::ResetTaskBar() {
 #ifdef __WXMSW___
     SetBalloon(m_iconTaskBarNormal, wxT(""), wxT(""));
 #else
-#ifndef __WXMAC__
     SetIcon(m_iconTaskBarNormal, wxT(""));
-#endif
 #endif
 
     m_dtLastBalloonDisplayed = wxDateTime::Now();

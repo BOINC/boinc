@@ -7286,7 +7286,7 @@ Charlie 6 July 2006
         setprojectgrp.C
         switcher.C
     lib/
-        filesys.C
+        filesys.C,h
     mac_installer/
         release_boinc.sh
         release_GridRepublic.sh

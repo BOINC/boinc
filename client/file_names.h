@@ -49,7 +49,6 @@ extern void get_sched_request_filename(PROJECT&, char*);
 extern void get_sched_reply_filename(PROJECT&, char*);
 extern void get_master_filename(PROJECT&, char*);
 extern int set_to_project_group(const char* path);
-extern int remove_project_owned_file_or_dir(const char* path);
 
 
 #define PROJECTS_DIR                "projects"
