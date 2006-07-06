@@ -52,8 +52,6 @@
 #include "res/gridrepublic_mac.xpm"
 #else
 #include "res/boinc.xpm"
-#include "res/boincdisconnect.xpm"
-#include "res/boincsnooze.xpm"
 #include "res/gridrepublic16.xpm"
 #include "res/gridrepublic32.xpm"
 #include "res/cpdnbbc16.xpm"
@@ -66,6 +64,8 @@
 #endif
 #include "res/boincsm.xpm"
 #include "res/gridrepublicamwizard.xpm"
+#include "res/boincdisconnect.xpm"
+#include "res/boincsnooze.xpm"
 ////@end XPM images
 
 
@@ -449,7 +449,9 @@ bool CBOINCGUIApp::OnInit() {
 #ifdef __WXMAC__
     m_pMacSystemMenu = new CMacSystemMenu(
         m_pBranding->GetApplicationName(), 
-        m_pBranding->GetApplicationIcon()
+        m_pBranding->GetApplicationIcon(),
+        m_pBranding->GetApplicationDisconnectedIcon(),
+        m_pBranding->GetApplicationSnoozeIcon()
     );
     wxASSERT(m_pMacSystemMenu);
 #endif

@@ -36,7 +36,8 @@ pascal OSStatus SysMenuEventHandler( EventHandlerCallRef inHandlerCallRef,
                                     { kEventClassApplication, kEventAppShown},
                                     {kEventClassMenu, kEventMenuOpening} };
 
-CMacSystemMenu::CMacSystemMenu(wxString title, wxIcon* icon) : CTaskBarIcon(title, icon) {
+CMacSystemMenu::CMacSystemMenu(wxString title, wxIcon* icon, wxIcon* iconDisconnected, wxIcon* iconSnooze)
+                                : CTaskBarIcon(title, icon, iconDisconnected, iconSnooze) {
     CFBundleRef	SysMenuBundle	= NULL;
     wxBitmapRefData * theBitsRefData;
     PicHandle thePICT;

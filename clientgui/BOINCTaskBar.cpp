@@ -74,7 +74,7 @@ CTaskBarIcon::CTaskBarIcon(wxString title, wxIcon* icon, wxIcon* iconDisconnecte
     m_dtSnoozeStartTime = wxDateTime((time_t)0);
 
     m_bMouseButtonPressed = false;
-    m_bResetSnooze = false;
+//    m_bResetSnooze = false;
 
     m_iPreviousActivityMode = RUN_MODE_AUTO;
     m_iPreviousNetworkMode = RUN_MODE_AUTO;

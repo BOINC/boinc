@@ -31,7 +31,7 @@
 class CMacSystemMenu : public CTaskBarIcon
 {
 public:
-    CMacSystemMenu(wxString title, wxIcon* icon);
+    CMacSystemMenu(wxString title, wxIcon* icon, wxIcon* iconDisconnected, wxIcon* iconSnooze);
     ~CMacSystemMenu();
 
     bool SetIcon(const wxIcon& icon, const wxString& tooltip = wxEmptyString);
