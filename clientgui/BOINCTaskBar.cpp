@@ -82,7 +82,9 @@ CTaskBarIcon::CTaskBarIcon(wxString title, wxIcon* icon, wxIcon* iconDisconnecte
     m_pRefreshTimer = new wxTimer(this, ID_TB_TIMER);
     m_pRefreshTimer->Start(1000);  // Send event every second
 
+#ifndef __WXMAC__
     SetIcon(m_iconTaskBarNormal, m_strDefaultTitle);
+#endif
 }
 
 
@@ -147,6 +149,7 @@ void CTaskBarIcon::OnRefresh(wxTimerEvent& event) {
 
 
     // Which icon should be displayed?
+#ifndef __WXMAC__
     if (!pDoc->IsConnected()) {
         SetIcon(m_iconTaskBarDisconnected, m_strDefaultTitle);
     } else {
@@ -156,7 +159,17 @@ void CTaskBarIcon::OnRefresh(wxTimerEvent& event) {
             SetIcon(m_iconTaskBarNormal, m_strDefaultTitle);
         }
     }
-
+#else
+    if (!pDoc->IsConnected()) {
+        wxGetApp().GetMacSystemMenu()->SetIcon(m_iconTaskBarDisconnected, m_strDefaultTitle);
+    } else {
+        if (bActivitiesSuspended) {
+            wxGetApp().GetMacSystemMenu()->SetIcon(m_iconTaskBarSnooze, m_strDefaultTitle);
+        } else {
+            wxGetApp().GetMacSystemMenu()->SetIcon(m_iconTaskBarNormal, m_strDefaultTitle);
+        }
+    }
+#endif
 
     wxLogTrace(wxT("Function Start/End"), wxT("CTaskBarIcon::OnRefresh - Function End"));
 }
@@ -477,7 +490,9 @@ void CTaskBarIcon::ResetTaskBar() {
 #ifdef __WXMSW___
     SetBalloon(m_iconTaskBarNormal, wxT(""), wxT(""));
 #else
+#ifndef __WXMAC__
     SetIcon(m_iconTaskBarNormal, wxT(""));
+#endif
 #endif
 
     m_dtLastBalloonDisplayed = wxDateTime::Now();
