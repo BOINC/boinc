@@ -439,6 +439,10 @@ static int CheckNestedDirectories(char * basepath, int depth) {
         }
 
         if (isDirectory) {
+            if (depth > 1)
+                if ((sbuf.st_uid != boinc_master_uid) && (sbuf.st_gid != boinc_master_gid))
+                    continue;       // We can't check subdirectories owned by boinc_project
+            
             retval = CheckNestedDirectories(full_path, depth + 1);
             if (retval)
                 break;

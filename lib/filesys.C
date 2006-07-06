@@ -63,6 +63,9 @@ typedef BOOL (CALLBACK* FreeFn)(LPCTSTR, PULARGE_INTEGER, PULARGE_INTEGER, PULAR
 #include "util.h"
 #include "error_numbers.h"
 #include "filesys.h"
+#ifdef SANDBOX
+#include "file_names.h"
+#endif
 
 #ifdef _USING_FCGI_
 #include "fcgi_stdio.h"
@@ -255,6 +258,14 @@ int boinc_delete_file(const char* path) {
     }
 #else
     retval = unlink(path);
+#ifdef SANDBOX
+    if (retval)
+    // We may not have permission to read subdirectories created by projects
+        if (errno == EACCES) {
+            return remove_project_owned_file_or_dir(path);
+        }
+#endif
+    return retval;
 #endif
     if (retval) {
         safe_strcpy(boinc_failed_file, path);
@@ -302,7 +313,14 @@ int clean_out_dir(const char* dirpath) {
     DIRREF dirp;
 
     dirp = dir_open(dirpath);
-    if (!dirp) return 0;    // if dir doesn't exist, it's empty
+    if (!dirp)
+#ifdef SANDBOX
+    // We may not have permission to read subdirectories created by projects
+    if (errno == EACCES) {
+        return remove_project_owned_file_or_dir(dirpath);
+    } else
+#endif
+        return 0;    // if dir doesn't exist, it's empty
     while (1) {
         strcpy(filename, "");
         retval = dir_scan(filename, dirp, sizeof(filename));
@@ -468,7 +486,16 @@ int boinc_rmdir(const char* name) {
 #ifdef _WIN32
     return !RemoveDirectory(name);
 #else
-    return rmdir(name);
+    int retval;
+    retval = rmdir(name);
+#ifdef SANDBOX
+    if (retval)
+    // We may not have permission to read subdirectories created by projects
+        if (errno == EACCES) {
+            return remove_project_owned_file_or_dir(name);
+        }
+#endif
+    return retval;
 #endif
 }
 

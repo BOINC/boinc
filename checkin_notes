@@ -7272,3 +7272,30 @@ David  5 July 2006
 
     client/
         cs_benchmark.C
+
+Charlie 6 July 2006
+    - Mac sandbox: boinc_delete_file(), clean_out_dir(),  boinc_rmdir () 
+        all call remove_project_owned_file_or_dir() which uses switcher
+        helper application to remove subdirectories created & owned by 
+        projects.
+    - Add License (GPL) to source files where missing.
+
+    client/
+        check_security.C
+        file_names.C,h
+        setprojectgrp.C
+        switcher.C
+    lib/
+        filesys.C
+    mac_installer/
+        release_boinc.sh
+        release_GridRepublic.sh
+
+Charlie 6 July 2006
+    Mac: integrate task tray icon changes, fix compile errors.
+    
+    clientgui/
+        BOINCGUIApp.cpp
+        BOINCTaskBar.cpp
+        mac/
+            MacSysMenu.cpp,h
