@@ -127,7 +127,7 @@ static bool find_host_by_cpid(DB_USER& user, char* host_cpid, DB_HOST& host) {
 
 // Called when there's evidence that the host has detached.
 // Mark in-progress results for the given host
-// as server state OVER, outcome NO_REPLY.
+// as server state OVER, outcome CLIENT_DETACHED.
 // This serves two purposes:
 // 1) make sure we don't resend these results to the host
 //    (they may be the reason the user detached)
@@ -144,7 +144,7 @@ static void mark_results_over(DB_HOST& host) {
         sprintf(buf2,
             "server_state=%d, outcome=%d",
             RESULT_SERVER_STATE_OVER,
-            RESULT_OUTCOME_NO_REPLY
+            RESULT_OUTCOME_CLIENT_DETACHED
         );
         result.update_field(buf2);
 
@@ -301,7 +301,7 @@ lookup_user_and_make_new_host:
         // looking for one with the same host CPID.
         // If we find one, it means the user detached and reattached.
         // Use the existing host record,
-        // and mark in-progress results as aborted.
+        // and mark in-progress results as over.
         //
         if (strlen(sreq.host.host_cpid)) {
             if (find_host_by_cpid(user, sreq.host.host_cpid, host)) {
@@ -624,31 +624,32 @@ int handle_results(SCHEDULER_REQUEST& sreq, SCHEDULER_REPLY& reply) {
             switch (srip->outcome) {
                 case RESULT_OUTCOME_INIT:
                     // should never happen!
-                    dont_replace_result = "this work was NEVER sent";
+                    dont_replace_result = "this result was never sent";
                     break;
                 case RESULT_OUTCOME_SUCCESS:
                     // don't replace a successful result!
-                    dont_replace_result = "successful result ALREADY reported for this work";
+                    dont_replace_result = "result already reported as success";
                     break;
                 case RESULT_OUTCOME_COULDNT_SEND:
                     // should never happen!
-                    dont_replace_result = "this work could NOT be sent";
+                    dont_replace_result = "this result couldn't be sent";
                     break;
                 case RESULT_OUTCOME_CLIENT_ERROR:
                     // should never happen!
-                    dont_replace_result = "result ALREADY reported as error";
+                    dont_replace_result = "result already reported as error";
                     break;
+                case RESULT_OUTCOME_CLIENT_DETACHED:
                 case RESULT_OUTCOME_NO_REPLY:
                     // result is late in arriving, but keep it anyhow
                     break;
                 case RESULT_OUTCOME_DIDNT_NEED:
                     // should never happen
-                    dont_replace_result = "this work was NEVER sent (not needed)";
+                    dont_replace_result = "this result wasn't sent (not needed)";
                     break;
                 case RESULT_OUTCOME_VALIDATE_ERROR:
                     // we already passed through the validator, so
                     // don't keep the new result
-                    dont_replace_result = "an invalid result was ALREADY returned";
+                    dont_replace_result = "result already reported, validate error";
                     break;
                 default:
                     dont_replace_result = "server logic bug; please alert BOINC developers";

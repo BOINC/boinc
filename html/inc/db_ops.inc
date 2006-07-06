@@ -1031,6 +1031,7 @@ function outcome_string($s) {
     case 4: return "No reply";
     case 5: return "Didn't need";
     case 6: return "Validate error";
+    case 7: return "Client detached";
     }
     echo "<b>THIS IS AN INTERNAL BUG IN BOINC: PLEASE CONTACT BOINC DEVELOPERS</b><br/>";
     return "Unknown";

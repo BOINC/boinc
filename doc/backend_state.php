@@ -147,7 +147,7 @@ list_item("server_state",
 );
 list_item("outcome",
     "Values: SUCCESS, COULDNT_SEND, CLIENT_ERROR, NO_REPLY, DIDNT_NEED,
-    VALIDATE_ERROR.
+    VALIDATE_ERROR, CLIENT_DETACHED.
     <br>Defined iff result.server_state=OVER
     <ul>
     <li> Set by scheduler to SUCCESS if get reply and no client error
@@ -163,6 +163,8 @@ list_item("outcome",
         SUCCESS, but the validator had a permanent error reading a result file,
         or a file had a syntax error.
         Prevents the validator from trying again.
+    <li> Set by scheduler to CLIENT_DETACHED if it gets a request
+        indicating that the client detached, then reattached
     </ul>
     "
 );

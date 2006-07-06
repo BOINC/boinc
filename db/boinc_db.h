@@ -380,11 +380,13 @@ struct WORKUNIT {
 #define RESULT_OUTCOME_NO_REPLY         4
 #define RESULT_OUTCOME_DIDNT_NEED       5
     // we created the result but didn't need to send it because we already
-    // got a quorum
+    // got a canonical result for the WU
 #define RESULT_OUTCOME_VALIDATE_ERROR   6
-    // The outcome was initially SUCCESS, but the validator
-    // had a permanent error reading a result file,
+    // The outcome was initially SUCCESS,
+    // but the validator had a permanent error reading a result file,
     // or the result file had a syntax error
+#define RESULT_OUTCOME_CLIENT_DETACHED  7
+    // we believe that the client detached
 
 #define VALIDATE_STATE_INIT         0
 #define VALIDATE_STATE_VALID        1

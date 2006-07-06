@@ -7299,3 +7299,21 @@ Charlie 6 July 2006
         BOINCTaskBar.cpp,h
         mac/
             MacSysMenu.cpp,h
+
+David  6 July 2006
+    - server: added new result outcome CLIENT_DETACHED.
+        When we get an RPC suggesting that the client
+        has detached and reattached,
+        we set its results to OVER and CLIENT_DETACHED.
+        Results in this state are generally treated the same as NO_REPLY.
+    - updated PHP functions to include the above;
+        got rid of redundant functions
+
+    db/
+        boinc_db.h
+    html/inc/
+        db_ops.inc
+        result.inc
+    sched/
+        handle_request.C
+        transitioner.C

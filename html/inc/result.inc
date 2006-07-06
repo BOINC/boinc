@@ -9,6 +9,7 @@ function result_claimed_credit_string($result, $string_to_show) {
     case 4: return "---"; //No reply
     case 5: return "---"; //Didn't need
     case 6: return "---"; // Validate error
+    case 7: return "---"; // client detached
     default: return $string_to_show;
     }
 }
@@ -28,6 +29,7 @@ function result_granted_credit_string($result, $string_to_show) {
     case 4: return "---"; //No reply
     case 5: return "---"; //Didn't need
     case 6: return "---"; //Validate error
+    case 7: return "---"; // client detached
     default: return $string_to_show;
     }
 } 
@@ -36,7 +38,6 @@ function result_server_state_string($s) {
     switch($s) {
     case 1: return "Inactive";
     case 2: return "Unsent";
-    case 3: return "Unsent";
     case 4: return "In Progress";
     case 5: return "Over";
     }
@@ -51,6 +52,7 @@ function result_outcome_string($s) {
     case 4: return "No reply";
     case 5: return "Didn't need";
     case 6: return "Validate error";
+    case 7: return "Client detached";
     }
     return "Unknown";
 }
@@ -231,40 +233,6 @@ function exit_status_string($result) {
     return sprintf("%d (0x%x)", $x, $x);
 }
 
-function server_state_string($s) {
-    switch($s) {
-    case 1: return "Inactive";
-    case 2: return "Unsent";
-    case 4: return "In Progress";
-    case 5: return "Over";
-    }
-    return "Unknown";
-}
-
-function outcome_string($s) {
-    switch($s) {
-    case 1: return "Success";
-    case 2: return "Couldn't send";
-    case 3: return "Client error";
-    case 4: return "No reply";
-    case 5: return "Didn't need";
-    case 6: return "Validate error";
-    }
-    return "Unknown";
-}
-
-function client_state_string($s) {
-    switch($s) {
-    case 0: return "New";
-    case 1: return "Downloading";
-    case 2: return "Downloaded";
-    case 3: return "Computing";
-    case 4: return "Uploading";
-    case 5: return "Done";
-    }
-    return "Unknown";
-}
-
 function show_result($result) {
     start_table();
     row2("Result ID", $result->id);
@@ -273,9 +241,9 @@ function show_result($result) {
     row2("Created", time_str($result->create_time));
     row2("Sent", time_str($result->sent_time));
     row2("Received", time_str($result->received_time));
-    row2("Server state", server_state_string($result->server_state));
-    row2("Outcome", outcome_string($result->outcome));
-    row2("Client state", client_state_string($result->client_state));
+    row2("Server state", result_server_state_string($result->server_state));
+    row2("Outcome", result_outcome_string($result->outcome));
+    row2("Client state", result_client_state_string($result->client_state));
     row2("Exit status", exit_status_string($result));
     row2("Computer ID", host_link($result->hostid));
     row2("Report deadline", time_str($result->report_deadline));

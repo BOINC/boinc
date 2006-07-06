@@ -228,10 +228,11 @@ int handle_wu(
             case RESULT_OUTCOME_VALIDATE_ERROR:
                 nerrors++;
                 break;
-	    case RESULT_OUTCOME_NO_REPLY:
+            case RESULT_OUTCOME_CLIENT_DETACHED:
+            case RESULT_OUTCOME_NO_REPLY:
                 nno_reply++;
                 break;
-	    case RESULT_OUTCOME_DIDNT_NEED:
+            case RESULT_OUTCOME_DIDNT_NEED:
                 ndidnt_need++;
                 break;
             }
