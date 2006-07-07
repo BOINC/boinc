@@ -20,6 +20,10 @@
  *
  *****************************************************/
 
+#ifdef HAVE_CONFIG_H
+#include <config.h>
+#endif
+
 #include <dc.h>
 
 #include <stdlib.h>
@@ -29,8 +33,8 @@
 #include <stdio.h>
 #include <errno.h>
 
-#define INPUT_LABEL		"in.txt"
-#define OUTPUT_LABEL		"out.txt"
+#include "common.h"
+
 #define LINES_PER_WU		20
 
 /* Number of WUs we have created */
@@ -265,7 +269,7 @@ int main(int argc, char *argv[])
 	DC_log(LOG_NOTICE, "Master: Creating work units");
 	create_work();
 	DC_log(LOG_NOTICE, "Master: %d work units have been created. Waiting "
-		"for results...\n", created_wus);
+		"for results...", created_wus);
 
 	/* Wait for the work units to finish */
 	while (processed_wus < created_wus)
