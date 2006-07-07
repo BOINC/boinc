@@ -536,7 +536,19 @@ void DC_checkpointMade(const char *filename)
 
 	if (!filename)
 	{
-		DC_log(LOG_ERR, "%s: Missing file name", __func__);
+		/* No file name - reset the checkpoint logic */
+		if (active_ckpt[0])
+			unlink(active_ckpt);
+		active_ckpt[0] = '\0';
+
+		if (last_complete_ckpt)
+		{
+			unlink(last_complete_ckpt);
+			free(last_complete_ckpt);
+			last_complete_ckpt = NULL;
+		}
+
+		boinc_checkpoint_completed();
 		return;
 	}
 
@@ -544,6 +556,7 @@ void DC_checkpointMade(const char *filename)
 	{
 		DC_log(LOG_ERR, "DC_checkpointMade: bad checkpoint file %s "
 			"(expected %s)", filename, active_ckpt);
+		boinc_checkpoint_completed();
 		return;
 	}
 
@@ -557,10 +570,14 @@ void DC_checkpointMade(const char *filename)
 		fclose(f);
 	}
 
-	unlink(last_complete_ckpt);
-	free(last_complete_ckpt);
+	if (last_complete_ckpt)
+	{
+		unlink(last_complete_ckpt);
+		free(last_complete_ckpt);
+	}
 	last_complete_ckpt = strdup(filename);
-	/* Prevent it to be deleted by DC_resolveFileName() */
+
+	/* Reset the active checkpoint */
 	active_ckpt[0] = '\0';
 
 	boinc_checkpoint_completed();
