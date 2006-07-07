@@ -18,11 +18,11 @@ endif
 
 CLEANFILES = serialize-example-client.xml serialize-example-master.xml
 
-serialize_example_client_SOURCES = client.c
+serialize_example_client_SOURCES = client.c common.h
 serialize_example_client_CPPFLAGS = $(DCAPI_CLIENT_CFLAGS)
 serialize_example_client_LDADD = $(DCAPI_CLIENT_LIBS)
 
-serialize_example_master_SOURCES = master.c
+serialize_example_master_SOURCES = master.c common.h
 serialize_example_master_CPPFLAGS = $(DCAPI_MASTER_CFLAGS)
 serialize_example_master_LDADD = $(DCAPI_MASTER_LIBS)
 
