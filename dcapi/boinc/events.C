@@ -130,7 +130,8 @@ static int process_results(void)
 
 static void handle_special_msg(DC_Workunit *wu, const char *msg)
 {
-	if (!strncmp(msg, DC_MSG_UPLOAD, strlen(DC_MSG_UPLOAD)))
+	if (!strncmp(msg, DC_MSG_UPLOAD, strlen(DC_MSG_UPLOAD)) &&
+			_dc_subresultcb)
 	{
 		char *p, *q, *subresult_name, *client_label, *path;
 
@@ -198,7 +199,7 @@ static int process_messages(void)
 
 		if (!strncmp(buf, DCAPI_MSG_PFX, strlen(DCAPI_MSG_PFX)))
 			handle_special_msg(wu, buf + strlen(DCAPI_MSG_PFX) + 1);
-		else
+		else if (_dc_messagecb)
 			_dc_messagecb(wu, buf);
 		done++;
 handled:
@@ -213,20 +214,38 @@ handled:
 int DC_processMasterEvents(int timeout)
 {
 	time_t end, now;
+	static int once;
 	int done;
 
-	if (!_dc_resultcb || !_dc_subresultcb || !_dc_messagecb)
+	if (!_dc_resultcb && !_dc_subresultcb && !_dc_messagecb)
 	{
 		DC_log(LOG_ERR, "%s: callbacks are not initialized", __func__);
 		return DC_ERR_CONFIG;
+	}
+
+	/* Warn the user whether she knows what she is doing */
+	if (!once)
+	{
+		if (!_dc_resultcb)
+			DC_log(LOG_NOTICE, "The result callback is not set, "
+				"completed WUs will not be reported");
+		if (!_dc_subresultcb)
+			DC_log(LOG_NOTICE, "The subresult callback is not "
+				"set, subresults will not be reported");
+		if (!_dc_messagecb)
+			DC_log(LOG_NOTICE, "The message callback is not set, "
+				"messages will not be reported");
+		once = 1;
 	}
 
 	end = time(NULL) + timeout;
 	done = 0;
 	while (1)
 	{
-		done += process_results();
-		done += process_messages();
+		if (_dc_resultcb)
+			done += process_results();
+		if (_dc_subresultcb || _dc_messagecb)
+			done += process_messages();
 		if (done)
 			break;
 
