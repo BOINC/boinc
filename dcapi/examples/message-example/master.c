@@ -20,6 +20,10 @@
  *
  *****************************************************/
 
+#ifdef HAVE_CONFIG_H
+#include <config.h>
+#endif
+
 #include <dc.h>
 
 #include <stdlib.h>
@@ -29,13 +33,7 @@
 #include <stdio.h>
 #include <errno.h>
 
-#define INPUT_LABEL		"in.txt"
-#define OUTPUT_LABEL		"out.txt"
-
-/* Number of WUs we have created */
-static int created_wus;
-/* Number of results we have received so far */
-static int processed_wus;
+#include "common.h"
 
 /* Command line options */
 static const struct option longopts[] =
@@ -45,27 +43,22 @@ static const struct option longopts[] =
 	{ NULL }
 };
 
+static int do_exit;
+
 static void process_result(DC_Workunit *wu, DC_Result *result)
 {
 	char *tag;
 
-	/* Internal housekeeping of the number of results we have seen */
-	processed_wus++;
-
 	/* Extract our own private identifier */
 	tag = DC_getWUTag(wu);
-
 	DC_log(LOG_NOTICE, "Work unit %s has completed", tag);
 
 	/* We no longer need the work unit */
 	DC_destroyWU(wu);
-
 	free(tag);
-}
 
-static void process_subresult(DC_Workunit *wu, const char *logicalFileName, const char *path)
-{
-	/* There is no subresult in this example */
+	/* This will cause the main loop to quit */
+	do_exit = 1;
 }
 
 static void process_message(DC_Workunit *wu, const char *message)
@@ -78,9 +71,8 @@ static void process_message(DC_Workunit *wu, const char *message)
 	free(tag);
 }
 
-static void create_work(void)
+static DC_Workunit *create_work(void)
 {
-	char ch;
 	DC_Workunit *wu;
 
 	wu = DC_createWU("message-example", NULL, 0, "message-test");
@@ -108,12 +100,7 @@ static void create_work(void)
 		exit(1);
 	}
 
-	created_wus++;
-
-	printf("Press ENTER, after this WU is downloaded by a BOINC client");
-	ch = getchar();
-
-	DC_sendWUMessage(wu, "This is a test message");
+	return wu;
 }
 
 static void print_help(const char *prog) __attribute__((noreturn));
@@ -136,6 +123,7 @@ static void print_help(const char *prog)
 int main(int argc, char *argv[])
 {
 	char *config_file = NULL;
+	DC_Workunit *wu;
 	int c;
 
 	while ((c = getopt_long(argc, argv, "ch", longopts, NULL)) != -1)
@@ -174,17 +162,23 @@ int main(int argc, char *argv[])
 		exit(1);
 	}
 
-	/* We need the result callback function only */
-	DC_setMasterCb(process_result, process_subresult, process_message);
+	/* Set the callbacks for receiving messages & the result */
+	DC_setMasterCb(process_result, NULL, process_message);
 
-	DC_log(LOG_NOTICE, "Master: Creating work unit");
-	create_work();
+	wu = create_work();
 	DC_log(LOG_NOTICE, "Master: Work unit has been created. Waiting "
-		"for result/message ...\n");
+		"for result/message");
 
 	/* Wait for the work units to finish */
-	while (processed_wus < created_wus)
-		DC_processMasterEvents(600);
+	while (!do_exit)
+	{
+		DC_processMasterEvents(60);
+
+		/* The result processing destroys the WU, so make sure we
+		 * only try to send a message if the WU is still alive */
+		if (!do_exit)
+			DC_sendWUMessage(wu, "What's up?");
+	}
 
 	return 0;
 }

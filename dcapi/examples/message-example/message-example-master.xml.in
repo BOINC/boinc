@@ -1,10 +1,10 @@
 <?xml version="1.0" standalone="no"?>
 <!--
-	Configuration template for the uppercase example application
+	Configuration template for the message example application
 -->
 <master>
 	<!-- Application name -->
-	<name>uppercase-example</name>
+	<name>message-example</name>
 
 	<!-- Application version. There are no restrictions for the format of
 	     master version numbers -->
@@ -17,7 +17,7 @@
 
 	<!-- Master daemon definition -->
 	<daemon>
-		<binary>uppercase-example-master</binary>
+		<binary>message-example-master</binary>
 		<arguments>
 			<arg>--config</arg>
 			<arg>${workdir}/dc-api.conf</arg>
@@ -35,7 +35,7 @@
 			<arg>-d</arg>
 			<arg>3</arg>
 			<arg>-app</arg>
-			<arg>uppercase-example</arg>
+			<arg>message-example</arg>
 		</arguments>
 	</daemon>
 </master>
