@@ -43,7 +43,10 @@ for details about checkpoint file usage.
 ClientEvent types that can be received.
 </para>
 
-@DC_CLIENT_CHECKPOINT: a checkpoint should be made.
+@DC_CLIENT_CHECKPOINT: a checkpoint should be made. The application must call
+	DC_checkpointMade() to acknowledge the request even if it does not
+	support checkpointing (it should pass a %NULL pointer as the file name
+	in this case).
 @DC_CLIENT_FINISH: the computation should be aborted.
 @DC_CLIENT_MESSAGE: a message has arrived.
 
@@ -190,7 +193,9 @@ See the DC_resolveFileName() for a description of checkpoint file handling.
 @fileName: the name of the checkpoint file. This should be a value
 	returned by DC_resolveFileName(%DC_FILE_OUT, %DC_CHECKPOINT_FILE).
 	The checkpoint file must not be modified after this
-	function has beel called.
+	function has been called. @fileName can also be %NULL meaning that
+	the application does not in fact support checkpointing, but just
+	acknowledges a %DC_CLIENT_CHECKPOINT event.
 
 
 <!-- ##### FUNCTION DC_fractionDone ##### -->

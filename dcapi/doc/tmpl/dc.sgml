@@ -116,7 +116,9 @@ before calling any other DC-API functions.
 
 <!-- ##### FUNCTION DC_setMasterCb ##### -->
 <para>
-Sets the callback functions to be used for event reporting.
+Sets the callback functions to be used for event reporting. One or more of the
+callbacks may be %NULL if the master does not wish to receive the specific
+event.
 </para>
 
 @resultcb: the callback to be used to report results.
