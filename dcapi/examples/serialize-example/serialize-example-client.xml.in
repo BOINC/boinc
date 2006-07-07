@@ -4,7 +4,7 @@
 	<name>serialize-example</name>
 
 	<!-- User-friendly name for Boinc -->
-	<user_friendly_name>Serialization Example</user_friendly_name>
+	<user_friendly_name>Serialization example</user_friendly_name>
 
 	<!-- Application version. Boinc requirements:
 	     - The version number must contain two components (major.minor)
@@ -21,12 +21,7 @@
 		     automatically renamed to the name expected by Boinc -->
 		<binary>serialize-example-client</binary>
 
-		<!-- Signature of the main binary, if the code signing key
-		     is not present at the machine running the project -->
-		<!-- <signarute>serialize-example-client.sig</signature> -->
-
 		<!-- Additional files can also be installed -->
 		<!-- <lib>winlib.dll</lib> -->
-		<!-- <lib>winlib.dll.sig</lib> -->
 	</platform>
 </client>
