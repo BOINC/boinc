@@ -57,6 +57,8 @@
 #endif
 #include "res/boincsm.xpm"
 #include "res/gridrepublicamwizard.xpm"
+#include "res/boincdisconnect.xpm"
+#include "res/boincsnooze.xpm"
 ////@end XPM images
 
 
@@ -220,6 +222,8 @@ bool CBrandingScheme::OnInit( wxConfigBase *pConfig ) {
             // Running in native mode without any branding
             m_strApplicationName = wxT("BOINC Manager");
             m_iconApplicationIcon = wxIcon(boinc_xpm);
+            m_iconApplicationDisconnectedIcon = wxIcon(boincdisconnect_xpm);
+            m_iconApplicationSnoozeIcon = wxIcon(boincsnooze_xpm);
             m_bitmapApplicationLogo = wxBitmap(boincsm_xpm);
             m_strCompanyName = wxT("Space Sciences Laboratory, U.C. Berkeley");
             m_strCompanyWebsite = wxT("http://boinc.berkeley.edu/");
@@ -303,6 +307,7 @@ bool CBOINCGUIApp::OnInit() {
 
     wxString strDirectory = wxEmptyString;
     bool success;
+    int errCode;
 
     // Set the current directory ahead of the application launch so the core
     //   client can find its files
@@ -321,39 +326,34 @@ bool CBOINCGUIApp::OnInit() {
     if (success) {
         // If SetWD failed, don't create a directory in wrong place
         strDirectory += wxT("BOINC Data");  // We don't customize BOINC Data directory name for branding
-        if (! wxDirExists(strDirectory)) {
-#ifdef SANDBOX
-            // Create BOINC Data directory writable by group boinc_master only
-            success = wxMkdir(strDirectory, 0575);
-#ifndef _DEBUG
-            gid_t gid;
-            lookup_group("boinc_master", gid);
-            boinc_chown("BOINC Data", gid);
-#endif      // ! _DEBUG
-#else       // SANDBOX
+#ifndef SANDBOX
+        if (! wxDirExists(strDirectory))
             success = wxMkdir(strDirectory, 0777);    // Does nothing if dir exists
 #endif      // ! SANDBOX
-        }
         success = ::wxSetWorkingDirectory(strDirectory);
 //    wxChar *wd = wxGetWorkingDirectory(buf, 1000);  // For debugging
     }
 
 #ifdef SANDBOX
+    if (success) {  // wxSetWorkingDirectory("/Library/Application Support/BOINC Data") SUCCEEDED
 #ifdef _DEBUG
-            // GDB can't attach to applications which are running as a diferent user   
-            //  or group, so fix up data with current user and group during debugging
-            if (check_security()) {
-                CreateBOINCUsersAndGroups();
-                SetBOINCDataOwnersGroupsAndPermissions();
-                SetBOINCAppOwnersGroupsAndPermissions(NULL);
-            }
+        // GDB can't attach to applications which are running as a diferent user   
+        //  or group, so fix up data with current user and group during debugging
+        if (check_security()) {
+            CreateBOINCUsersAndGroups();
+            SetBOINCDataOwnersGroupsAndPermissions();
+            SetBOINCAppOwnersGroupsAndPermissions(NULL);
+        }
 #endif  // _DEBUG
 
-    int i = check_security();
-    if (i) {
+        errCode = check_security();
+    } else      // wxSetWorkingDirectory("/Library/Application Support/BOINC Data") FAILED
+        errCode = -1016;
+        
+    if (errCode) {
         wxString            strDialogMessage = wxEmptyString;
         strDialogMessage.Printf(
-            _("BOINC ownership or permissions are not set properly; please reinstall BOINC.\n(Error code %d)"), i);
+            _("BOINC ownership or permissions are not set properly; please reinstall BOINC.\n(Error code %d)"), errCode);
         wxMessageDialog* pDlg = 
         new wxMessageDialog(m_pFrame, strDialogMessage, wxT(""), wxOK);
         pDlg->ShowModal();
@@ -430,14 +430,18 @@ bool CBOINCGUIApp::OnInit() {
 #if defined(__WXMSW__) || defined(__WXMAC__)
     m_pTaskBarIcon = new CTaskBarIcon(
         m_pBranding->GetApplicationName(), 
-        m_pBranding->GetApplicationIcon()
+        m_pBranding->GetApplicationIcon(),
+        m_pBranding->GetApplicationDisconnectedIcon(),
+        m_pBranding->GetApplicationSnoozeIcon()
     );
     wxASSERT(m_pTaskBarIcon);
 #endif
 #ifdef __WXMAC__
     m_pMacSystemMenu = new CMacSystemMenu(
         m_pBranding->GetApplicationName(), 
-        m_pBranding->GetApplicationIcon()
+        m_pBranding->GetApplicationIcon(),
+        m_pBranding->GetApplicationDisconnectedIcon(),
+        m_pBranding->GetApplicationSnoozeIcon()
     );
     wxASSERT(m_pMacSystemMenu);
 #endif

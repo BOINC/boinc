@@ -928,7 +928,7 @@ void CMainFrame::OnActivitySelection(wxCommandEvent& event) {
     wxASSERT(pTaskbar);
     wxASSERT(wxDynamicCast(pTaskbar, CTaskBarIcon));
 
-    pTaskbar->ResetSuspendState();
+    pTaskbar->ResetSnoozeState();
 #endif
 
     switch(event.GetId()) {
@@ -961,7 +961,7 @@ void CMainFrame::OnNetworkSelection(wxCommandEvent& event) {
     wxASSERT(pTaskbar);
     wxASSERT(wxDynamicCast(pTaskbar, CTaskBarIcon));
 
-    pTaskbar->ResetSuspendState();
+    pTaskbar->ResetSnoozeState();
 #endif
 
     switch(event.GetId()) {
@@ -1622,7 +1622,7 @@ void CMainFrame::OnAlert(CMainFrameAlertEvent& event) {
         }
 
         pTaskbar->SetBalloon(
-            pTaskbar->m_iconTaskBarIcon,
+            pTaskbar->m_iconTaskBarNormal,
             event.m_title,
             event.m_message,
             5000,

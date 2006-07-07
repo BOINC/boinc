@@ -87,7 +87,7 @@ double NET_INFO::throughput() {
     return new_tp;
 }
 
-void NET_STATS::poll(FILE_XFER_SET& fxs, NET_XFER_SET& nxs) {
+void NET_STATS::poll(FILE_XFER_SET& fxs, HTTP_OP_SET& hops) {
     double dt;
     bool upload_active, download_active;
 
@@ -99,8 +99,8 @@ void NET_STATS::poll(FILE_XFER_SET& fxs, NET_XFER_SET& nxs) {
     last_time = gstate.now;
 
     fxs.check_active(upload_active, download_active);
-    up.update(dt, nxs.bytes_up, upload_active);
-    down.update(dt, nxs.bytes_down, download_active);
+    up.update(dt, hops.bytes_up, upload_active);
+    down.update(dt, hops.bytes_down, download_active);
 }
 
 // Write XML based network statistics

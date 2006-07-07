@@ -223,7 +223,7 @@ void CLIENT_STATE::adjust_debts() {
     for (i=0; i<active_tasks.active_tasks.size(); i++) {
         ACTIVE_TASK* atp = active_tasks.active_tasks[i];
         if (atp->scheduler_state != CPU_SCHED_SCHEDULED) continue;
-        if (atp->non_cpu_intensive) continue;
+        if (atp->wup->project->non_cpu_intensive) continue;
 
         atp->result->project->wall_cpu_time_this_period += wall_cpu_time;
         total_wall_cpu_time_this_period += wall_cpu_time;
@@ -362,12 +362,12 @@ void CLIENT_STATE::print_deadline_misses() {
         rp = results[i];
         if (rp->rr_sim_misses_deadline && !rp->last_rr_sim_missed_deadline) {
             msg_printf(rp->project, MSG_INFO,
-                "Result %s now misses deadline.", rp->name
+                "Result %s projected to miss deadline.", rp->name
             );
         }
         else if (!rp->rr_sim_misses_deadline && rp->last_rr_sim_missed_deadline) {
             msg_printf(rp->project, MSG_INFO,
-                "Result %s now meets deadline.", rp->name
+                "Result %s projected to meet deadline.", rp->name
             );
         }
     }
@@ -375,7 +375,7 @@ void CLIENT_STATE::print_deadline_misses() {
         p = projects[i];
         if (p->rr_sim_deadlines_missed) {
             msg_printf(p, MSG_INFO,
-                "Project has %d deadline misses",
+                "Project has %d projected deadline misses",
                 p->rr_sim_deadlines_missed
             );
         }
@@ -457,7 +457,7 @@ void CLIENT_STATE::schedule_cpus() {
         ordered_scheduled_results.push_back(rp);
     }
 
-    request_enforce_schedule("");
+    request_enforce_schedule("schedule_cpus");
     set_client_state_dirty("schedule_cpus");
 }
 
@@ -510,7 +510,7 @@ bool CLIENT_STATE::enforce_schedule() {
     must_enforce_cpu_schedule = false;
     bool action = false;
 
-    if (log_flags.task) {
+    if (log_flags.cpu_sched) {
         msg_printf(0, MSG_INFO, "Enforcing schedule");
     }
 
@@ -585,7 +585,7 @@ bool CLIENT_STATE::enforce_schedule() {
             atp = running_tasks[0];
             bool running_beyond_sched_period =
                 gstate.now - atp->episode_start_wall_time
-                > gstate.global_prefs.cpu_scheduling_period_minutes;
+                > gstate.global_prefs.cpu_scheduling_period_minutes*60;
             bool checkpointed_recently =
                 atp->checkpoint_wall_time > atp->episode_start_wall_time;
             if (rp->project->deadlines_missed

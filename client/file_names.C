@@ -114,7 +114,12 @@ int make_project_dir(PROJECT& p) {
     get_project_dir(&p, buf);
     retval = boinc_mkdir(buf);
 #ifdef SANDBOX
-    boinc_chown(buf, gstate.boinc_project_gid);
+    chmod(buf,
+            S_IRUSR|S_IWUSR|S_IXUSR
+            |S_IRGRP|S_IWGRP|S_IXGRP
+            |S_IROTH|S_IXOTH
+        );
+    set_to_project_group(buf);
 #endif
     return retval;
 }
@@ -151,7 +156,12 @@ int make_slot_dir(int slot) {
     get_slot_dir(slot, buf);
     int retval = boinc_mkdir(buf);
 #ifdef SANDBOX
-    boinc_chown(buf, gstate.boinc_project_gid);
+    chmod(buf,
+            S_IRUSR|S_IWUSR|S_IXUSR
+            |S_IRGRP|S_IWGRP|S_IXGRP
+            |S_IROTH|S_IXOTH
+        );
+    set_to_project_group(buf);
 #endif
     return retval;
 }
@@ -257,6 +267,20 @@ bool is_image_file(const char* filename) {
     if (ends_with(fn, std::string(".jpeg"))) return true;
     if (ends_with(fn, std::string(".png"))) return true;
     return false;
+}
+
+int set_to_project_group(const char* path) {
+#ifdef SANDBOX
+    char buf[1024];
+    
+    sprintf(buf, "%s/%s %s", SWITCHER_DIR, SETPROJECTGRP_FILE_NAME, path);
+    if (system(buf))
+        return ERR_CHOWN;
+    
+    return 0;
+#else
+    return ERR_CHOWN;
+#endif
 }
 
 const char *BOINC_RCSID_7d362a6a52 = "$Id$";

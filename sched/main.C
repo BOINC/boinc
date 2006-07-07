@@ -73,6 +73,7 @@ bool use_files = false;     // use disk files for req/reply msgs (for debugging)
 
 SCHED_CONFIG config;
 GUI_URLS gui_urls;
+PROJECT_FILES project_files;
 key_t sema_key;
 int g_pid;
 static bool db_opened=false;
@@ -301,6 +302,7 @@ int main(int argc, char** argv) {
     log_messages.set_debug_level(config.sched_debug_level);
 
     gui_urls.init();
+    project_files.init();
 
     sprintf(path, "%s/code_sign_public", config.key_dir);
     retval = read_file_malloc(path, code_sign_key);

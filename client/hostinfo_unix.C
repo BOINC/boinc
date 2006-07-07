@@ -492,9 +492,7 @@ int HOST_INFO::get_host_info() {
 #endif
 #endif
 
-    get_local_network_info(
-        domain_name, sizeof(domain_name), ip_addr, sizeof(ip_addr)
-    );
+    get_local_network_info();
 
     timezone = get_timezone();
 #ifdef HAVE_SYS_UTSNAME_H

@@ -36,7 +36,8 @@ pascal OSStatus SysMenuEventHandler( EventHandlerCallRef inHandlerCallRef,
                                     { kEventClassApplication, kEventAppShown},
                                     {kEventClassMenu, kEventMenuOpening} };
 
-CMacSystemMenu::CMacSystemMenu(wxString title, wxIcon* icon) : CTaskBarIcon(title, icon) {
+CMacSystemMenu::CMacSystemMenu(wxString title, wxIcon* icon, wxIcon* iconDisconnected, wxIcon* iconSnooze)
+                                : CTaskBarIcon(title, icon, iconDisconnected, iconSnooze) {
     CFBundleRef	SysMenuBundle	= NULL;
     wxBitmapRefData * theBitsRefData;
     PicHandle thePICT;
@@ -94,7 +95,13 @@ bool CMacSystemMenu::SetIcon(const wxIcon& icon, const wxString&) {
     wxBitmapRefData * theBitsRefData;
     PicHandle thePICT;
     wxBitmap theBits;
+    static const wxIcon* currentIcon = NULL;
 
+    if (&icon == currentIcon)
+        return true;
+    
+    currentIcon = &icon;
+    
     theBits.CopyFromIcon(icon);
     theBitsRefData = theBits.GetBitmapData();
     thePICT = theBitsRefData->GetPictHandle();

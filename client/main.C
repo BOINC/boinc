@@ -19,8 +19,7 @@
 
 // command-line version of the BOINC core client
 
-// This file contains no GUI-related code,
-// and is not included in the source code for Mac or Win GUI clients
+// This file contains no GUI-related code.
 
 #ifdef WIN32
 #define _CONSOLE 1
@@ -71,10 +70,11 @@ typedef void (CALLBACK* ClientLibraryShutdown)();
 #include "file_names.h"
 #include "log_flags.h"
 #include "client_msgs.h"
+#include "http_curl.h"
+
 #include "main.h"
 
-extern int curl_init(void);
-extern int curl_cleanup(void);
+int finalize();
 
 static bool boinc_cleanup_completed = false;
     // Used on Windows 95/98/ME to determine when it is safe to leave
@@ -129,6 +129,7 @@ void show_message(PROJECT *p, char* msg, int priority) {
 #ifdef WIN32
 void quit_client() {
     gstate.requested_exit = true;
+    finalize();
 }
 
 void suspend_client() {
@@ -396,12 +397,12 @@ static void init_core_client(int argc, char** argv) {
 #endif
 }
 
-int boinc_main_loop() {
-    int retval;
 #ifdef _WIN32
     char event_message[2048];
 #endif
 
+int initialize() {
+    int retval;
 
 #ifdef _WIN32
     g_hClientLibraryDll = LoadLibrary("boinc.dll");
@@ -418,7 +419,6 @@ int boinc_main_loop() {
         }
     }
 #endif
-
 
     retval = check_unique_instance();
     if (retval) {
@@ -456,12 +456,9 @@ int boinc_main_loop() {
     }
 #endif
 
-
 	curl_init();
 
-
 #ifdef _WIN32
-
     if(g_hClientLibraryDll) {
         ClientLibraryStartup fnClientLibraryStartup;
         fnClientLibraryStartup = (ClientLibraryStartup)GetProcAddress(g_hClientLibraryDll, _T("ClientLibraryStartup"));
@@ -481,8 +478,15 @@ int boinc_main_loop() {
             }
         }
     }
-
 #endif
+    return 0;
+}
+
+int boinc_main_loop() {
+    int retval;
+    
+    retval = initialize();
+    if (retval) return retval;
 
     retval = gstate.init();
     if (retval) {
@@ -496,7 +500,6 @@ int boinc_main_loop() {
         return retval;
     }
 
-
 #ifdef _WIN32
     if (gstate.executing_as_daemon) {
         LogEventInfoMessage(
@@ -504,7 +507,6 @@ int boinc_main_loop() {
         );
     }
 #endif
-
 
     // must parse env vars after gstate.init();
     // otherwise items will get overwritten with state file info
@@ -540,8 +542,14 @@ int boinc_main_loop() {
         DosSleep(0);
 #endif
     }
-    gstate.quit_activities();
+    return finalize();
+}
 
+int finalize() {
+    static bool finalized = false;
+    if (finalized) return 0;
+    finalized = true;
+    gstate.quit_activities();
 
 #ifdef _WIN32
     if(g_hClientLibraryDll) {
@@ -587,9 +595,7 @@ int boinc_main_loop() {
 #endif
 
 	curl_cleanup();
-
     boinc_cleanup_completed = true;
-
     return 0;
 }
 

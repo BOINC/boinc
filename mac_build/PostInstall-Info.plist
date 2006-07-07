@@ -5,16 +5,16 @@
 	<key>CFBundleDevelopmentRegion</key>
 	<string>English</string>
 	<key>CFBundleExecutable</key>
-	<string>SystemMenu</string>
+	<string>PostInstall</string>
 	<key>CFBundleIdentifier</key>
-	<string>edu.berkeley.boinc</string>
+	<string>edu.berkeley.boinc.PostInstall</string>
 	<key>CFBundleInfoDictionaryVersion</key>
 	<string>6.0</string>
 	<key>CFBundlePackageType</key>
-	<string>BNDL</string>
+	<string>APPL</string>
 	<key>CFBundleSignature</key>
 	<string>????</string>
 	<key>CFBundleVersion</key>
-	<string>5.5.5</string>
+	<string>5.5.4</string>
 </dict>
 </plist>

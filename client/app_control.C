@@ -752,7 +752,6 @@ void ACTIVE_TASK_SET::suspend_all(bool leave_apps_in_memory) {
     for (i=0; i<active_tasks.size(); i++) {
         atp = active_tasks[i];
         if (atp->task_state != PROCESS_EXECUTING) continue;
-        if (atp->non_cpu_intensive) continue;
         atp->preempt(!leave_apps_in_memory);
     }
 }
@@ -764,7 +763,6 @@ void ACTIVE_TASK_SET::unsuspend_all() {
     ACTIVE_TASK* atp;
     for (i=0; i<active_tasks.size(); i++) {
         atp = active_tasks[i];
-        if (atp->non_cpu_intensive) continue;
         if (atp->scheduler_state != CPU_SCHED_SCHEDULED) continue;
         if (atp->task_state == PROCESS_UNINITIALIZED) {
             if (atp->start(false)) {
@@ -861,7 +859,6 @@ void ACTIVE_TASK::send_network_available() {
 //
 bool ACTIVE_TASK::get_app_status_msg() {
     char msg_buf[MSG_CHANNEL_SIZE];
-    int new_non_cpu_intensive;
     double fd;
 
     if (!app_client_shm.shm) {
@@ -891,12 +888,6 @@ bool ACTIVE_TASK::get_app_status_msg() {
     parse_double(msg_buf, "<intops_per_cpu_sec>", result->intops_per_cpu_sec);
     parse_double(msg_buf, "<intops_cumulative>", result->intops_cumulative);
     parse_int(msg_buf, "<want_network>", want_network);
-    if (parse_int(msg_buf, "<non_cpu_intensive>", new_non_cpu_intensive)) {
-        if (new_non_cpu_intensive != non_cpu_intensive) {
-            non_cpu_intensive = new_non_cpu_intensive;
-            gstate.request_schedule_cpus("Change in app CPU-intensive status");
-        }
-    }
     return true;
 }
 
@@ -940,6 +931,12 @@ bool ACTIVE_TASK_SET::get_msgs() {
                 gstate.request_enforce_schedule("Checkpoint reached");
                 atp->checkpoint_wall_time = gstate.now;
                 action = true;
+                if (log_flags.task_debug) {
+                    msg_printf(atp->wup->project, MSG_INFO,
+                        "result %s checkpointed",
+                        atp->result->name
+                    );
+                }
             }
         }
         atp->get_trickle_up_msg();

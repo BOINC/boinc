@@ -823,8 +823,10 @@ int boinc_calling_thread_cpu_time(double &cpu_t) {
     struct rusage ru;
 // getrusage can return an error, so try a few times if it returns an error.
     if (!pthread_mutex_trylock(&getrusage_mutex)) {
-        int i=0;
-        while (retval=getrusage(RUSAGE_SELF, &ru) && i<10) i++;
+        for (int i=0; i<10; i++) {
+            retval=getrusage(RUSAGE_SELF, &ru);
+            if (!retval) break;
+        }
         pthread_mutex_unlock(&getrusage_mutex);
     }
     if (retval) {

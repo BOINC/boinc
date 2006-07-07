@@ -52,8 +52,7 @@ using std::max;
 CLIENT_STATE gstate;
 
 CLIENT_STATE::CLIENT_STATE() {
-    net_xfers = new NET_XFER_SET;
-    http_ops = new HTTP_OP_SET(net_xfers);
+    http_ops = new HTTP_OP_SET();
     file_xfers = new FILE_XFER_SET(http_ops);
     pers_file_xfers = new PERS_FILE_XFER_SET(file_xfers);
     scheduler_op = new SCHEDULER_OP(http_ops);
@@ -114,16 +113,8 @@ CLIENT_STATE::CLIENT_STATE() {
 void CLIENT_STATE::show_host_info() {
     char buf[256], buf2[256];
     msg_printf(NULL, MSG_INFO,
-        "Processor: %s %s",
-        host_info.p_vendor, host_info.p_model
-    );
-    msg_printf(NULL, MSG_INFO,
-        "Processor count: %d",
-        host_info.p_ncpus
-    );
-    msg_printf(NULL, MSG_INFO,
-        "Processor capabilities: %s",
-        host_info.p_capabilities
+        "Processor: %d %s %s",
+        host_info.p_ncpus, host_info.p_vendor, host_info.p_model
     );
 
     nbytes_to_string(host_info.m_nbytes, 0, buf, sizeof(buf));
@@ -158,7 +149,7 @@ int CLIENT_STATE::init() {
         core_client_release, platform_name, debug_str
     );
 
-    msg_printf(NULL, MSG_INFO, curl_version());
+    msg_printf(NULL, MSG_INFO, "Libraries: %s", curl_version());
 
     if (executing_as_daemon) {
         msg_printf(NULL, MSG_INFO, "Executing as a daemon");
@@ -249,7 +240,7 @@ int CLIENT_STATE::init() {
         msg_printf(p, MSG_INFO,
             "URL: %s; Computer ID: %s; location: %s; project prefs: %s",
             p->master_url,
-            buf, p->host_venue,
+            buf, strlen(p->host_venue)?p->host_venue:"(none)",
             p->using_venue_specific_prefs?p->host_venue:"default"
         );
     }
@@ -345,7 +336,7 @@ void CLIENT_STATE::do_io_or_sleep(double x) {
     while (1) {
         curl_fds.zero();
         gui_rpc_fds.zero();
-        net_xfers->get_fdset(curl_fds);
+		http_ops->get_fdset(curl_fds);
         all_fds = curl_fds;
         gui_rpcs.get_fdset(gui_rpc_fds, all_fds);
         double_to_timeval(x, tv);
@@ -361,7 +352,7 @@ void CLIENT_STATE::do_io_or_sleep(double x) {
         // called pretty often, even if no descriptors are enabled.
         // So do the "if (n==0) break" AFTER the got_selects().
 
-        net_xfers->got_select(all_fds, x);
+        http_ops->got_select(all_fds, x);
         gui_rpcs.got_select(all_fds);
 
         if (n==0) break;
@@ -473,7 +464,7 @@ bool CLIENT_STATE::poll_slow_events() {
     POLL_ACTION(update_results         , update_results         );
     POLL_ACTION(gui_http               , gui_http.poll          );
     if (!network_suspended) {
-        net_stats.poll(*file_xfers, *net_xfers);
+        net_stats.poll(*file_xfers, *http_ops);
         POLL_ACTION(acct_mgr               , acct_mgr_info.poll     );
         POLL_ACTION(file_xfers             , file_xfers->poll       );
         POLL_ACTION(pers_file_xfers        , pers_file_xfers->poll  );
@@ -515,6 +506,14 @@ bool CLIENT_STATE::poll_slow_events() {
         return true;
     } else {
         time_stats.update(!tasks_suspended);
+
+        // on some systems, gethostbyname() only starts working
+        // a few minutes after system boot.
+        // If it didn't work before, try it again.
+        //
+        if (!strlen(host_info.domain_name)) {
+            host_info.get_local_network_info();
+        }
         return false;
     }
 }
@@ -608,17 +607,6 @@ int CLIENT_STATE::link_app(PROJECT* p, APP* app) {
 int CLIENT_STATE::link_file_info(PROJECT* p, FILE_INFO* fip) {
     if (lookup_file_info(p, fip->name)) return ERR_NOT_UNIQUE;
     fip->project = p;
-#if 0
-    // I got rid of the from_server arg
-    if (from_server) {
-        if (p->associate_file(fip)) {
-            return 0;
-        } else {
-            return 1;
-        }
-    }
-#endif
-
     return 0;
 }
 
@@ -818,12 +806,15 @@ bool CLIENT_STATE::garbage_collect_always() {
         avp->ref_cnt = 0;
     }
 
-    // reference-count project files
+    // reference-count user and project files
     //
     for (i=0; i<projects.size(); i++) {
         project = projects[i];
         for (j=0; j<project->user_files.size(); j++) {
             project->user_files[j].file_info->ref_cnt++;
+        }
+        for (j=0; j<project->project_files.size(); j++) {
+            project->project_files[j].file_info->ref_cnt++;
         }
     }
 
