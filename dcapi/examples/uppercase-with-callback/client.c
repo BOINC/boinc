@@ -1,3 +1,7 @@
+#ifdef HAVE_CONFIG_H
+#include <config.h>
+#endif
+
 #include <dc_client.h>
 
 #include <unistd.h>
@@ -5,9 +9,7 @@
 #include <stdio.h>
 #include <ctype.h>
 
-/* The logical file names, used at sequencial application */
-#define INPUT_NAME		"in.txt"
-#define OUTPUT_NAME		"out.txt"
+#include "common.h"
 
 static FILE *infile;
 static FILE *outfile;
@@ -69,7 +71,7 @@ static void init_files(void)
 	char *file_name;
 
 	/* Open the input file */
-	file_name = DC_resolveFileName(DC_FILE_IN, INPUT_NAME);
+	file_name = DC_resolveFileName(DC_FILE_IN, INPUT_LABEL);
 	if (!file_name)
 	{
 		fprintf(stderr, "APP: Could not resolve the input file name\n");
@@ -126,7 +128,7 @@ static void init_files(void)
 	}
 
 	/* Open the output file */
-	file_name = DC_resolveFileName(DC_FILE_OUT, OUTPUT_NAME);
+	file_name = DC_resolveFileName(DC_FILE_OUT, OUTPUT_LABEL);
 	if (!file_name)
 	{
 		fprintf(stderr, "APP: Could not resolve the output file name\n");
