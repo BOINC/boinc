@@ -125,8 +125,7 @@ void CTaskBarIcon::OnRefresh(wxTimerEvent& event) {
     wxLogTrace(wxT("Function Start/End"), wxT("CTaskBarIcon::OnRefresh - Function Begin"));
 
     CMainDocument* pDoc = wxGetApp().GetDocument();
-    bool           bActivitiesSuspended = false;
-    bool           bNetworkSuspended    = false;
+    wxInt32        iActivityMode = -1;
 
     wxASSERT(pDoc);
     wxASSERT(wxDynamicCast(pDoc, CMainDocument));
@@ -145,14 +144,14 @@ void CTaskBarIcon::OnRefresh(wxTimerEvent& event) {
 
 
     // What is the current status of the client?
-    pDoc->GetActivityState(bActivitiesSuspended, bNetworkSuspended);
+    pDoc->GetActivityRunMode(iActivityMode);
 
 
     // Which icon should be displayed?
     if (!pDoc->IsConnected()) {
         SetIcon(m_iconTaskBarDisconnected, m_strDefaultTitle);
     } else {
-        if (bActivitiesSuspended) {
+        if (RUN_MODE_NEVER == iActivityMode) {
             SetIcon(m_iconTaskBarSnooze, m_strDefaultTitle);
         } else {
             SetIcon(m_iconTaskBarNormal, m_strDefaultTitle);

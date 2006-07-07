@@ -7333,3 +7333,10 @@ David  6 July 2006
 
     html/inc/
         prefs.inc
+
+Rom    7 July 2006
+    - Only display the suspended icon in the taskbar if the activity runmode
+        is set to never.
+        
+    clientgui/
+        BOINCTaskBar.cpp

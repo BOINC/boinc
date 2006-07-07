@@ -482,7 +482,7 @@ int CMainDocument::GetActivityRunMode(int& iMode) {
 
     if (IsConnected()) {
         wxTimeSpan ts(wxDateTime::Now() - m_dtCachedActivityRunModeTimestamp);
-        if (ts.GetSeconds() > 10) {
+        if (ts.GetSeconds() > 2) {
             m_dtCachedActivityRunModeTimestamp = wxDateTime::Now();
 
             iRetVal = rpc.get_run_mode(iMode);
@@ -520,7 +520,7 @@ int CMainDocument::GetNetworkRunMode(int& iMode) {
 
     if (IsConnected()) {
         wxTimeSpan ts(wxDateTime::Now() - m_dtCachedNetworkRunModeTimestamp);
-        if (ts.GetSeconds() > 10) {
+        if (ts.GetSeconds() > 2) {
             m_dtCachedNetworkRunModeTimestamp = wxDateTime::Now();
 
             iRetVal = rpc.get_network_mode(iMode);
@@ -557,7 +557,7 @@ int CMainDocument::GetActivityState(bool& bActivitiesSuspended, bool& bNetworkSu
     int     iRetVal = 0;
 
     wxTimeSpan ts(wxDateTime::Now() - m_dtCachedActivityStateTimestamp);
-    if (ts.GetSeconds() > 10) {
+    if (ts.GetSeconds() > 2) {
         m_dtCachedActivityStateTimestamp = wxDateTime::Now();
 
         if (IsConnected()) {
