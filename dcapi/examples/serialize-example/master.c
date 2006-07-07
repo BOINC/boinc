@@ -19,6 +19,10 @@
  *
  *****************************************************/
 
+#ifdef HAVE_CONFIG_H
+#include <config.h>
+#endif
+
 #include <dc.h>
 
 #include <stdlib.h>
@@ -29,11 +33,11 @@
 #include <errno.h>
 #include <unistd.h>
 
-#define CHECKPOINT_LABEL	"ckpt.txt"
-#define INPUT_LABEL		"in.txt"
-#define OUTPUT_LABEL		"out.txt"
+#include "common.h"
 
-static int finished_wus = 0;
+#define CHECKPOINT_LABEL	"ckpt.txt"
+
+static int finished_wus;
 
 static DC_Workunit *workunit;
 
@@ -51,7 +55,7 @@ static void create_ckpt(void)
 	char *ckpt;
 
 	f = fopen(CHECKPOINT_LABEL, "w");
-	if(!f)
+	if (!f)
 	{
 		DC_log(LOG_ERR, "Failed to open ckpt file (%s) for writing.", CHECKPOINT_LABEL);
 		exit(1);
