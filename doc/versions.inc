@@ -31,6 +31,15 @@ function type_text($type) {
     }
 }
 
+$features_55 = "
+    <li> New CPU Scheduler.
+    <li> CPU Capability detection.
+    <li> Revamped logging solution.
+    <li> Improved security for posix compliant systems. (Right now only 
+         implemented for the Mac)
+    <li> Add support for file compression on upload.
+";
+
 $features_54 = "
     <li>
     BOINC now lets you use 'Account managers' - special web sites
@@ -74,6 +83,9 @@ $features_52 = "
     you must delete gui_rpc_auth.cfg from your BOINC directory.
     <li> Alert boxes now provide feedback when certain errors occur.
     <li> BOINC supports 'Account Management Systems' (to be announced).
+";
+
+$changes_55 = "
 ";
 
 $changes_54 = "
@@ -323,6 +335,25 @@ $mac_changes_54= "
             in the path to BOINCManager.
       </ul>
 ";
+
+$w556= array(
+    "num"=>"5.5.6",
+    "status"=>"Development version",
+    "file"=>"boinc_5.5.6_windows_intelx86.exe",
+    "date"=>"7 July 2006",
+    "type"=>"win_new",
+    "features"=>"<ul>
+".$features_55."
+".$changes_55."
+    </ul>
+    ",
+    "bugs"=>"<ul>
+    <li>
+    If you use a proxy server, please hold off upgrading for now.  We have
+    a fix in the works for proxies that use NTLM authentication.
+    </ul>
+    "
+);
 
 $w549= array(
     "num"=>"5.4.9",
@@ -646,6 +677,7 @@ $windows = array(
     "name"=>"Windows",
     "dbname" => "windows_intelx86",
     "versions"=>array(
+        $w556,
         $w549,
         $w5213,
         $w445,
