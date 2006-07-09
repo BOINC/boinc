@@ -40,8 +40,8 @@
 #endif
 
 // Make a pass through the wu/results array, sending work.
-// If "infeasible_only" is true, send only results that were
-// previously infeasible for some host
+// If reply.wreq.infeasible_only is true,
+// send only results that were previously infeasible for some host
 //
 void scan_work_array(
     SCHEDULER_REQUEST& sreq, SCHEDULER_REPLY& reply, PLATFORM& platform,

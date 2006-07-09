@@ -167,7 +167,6 @@ public:
         // bytes left to transfer in the current second
     double bytes_up, bytes_down;
         // total bytes transferred
-    int last_time;
 
 	void get_fdset(FDSET_GROUP&);
     void got_select(FDSET_GROUP&, double);

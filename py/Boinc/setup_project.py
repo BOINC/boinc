@@ -290,7 +290,8 @@ def create_project_dirs(dest_dir):
             'html/user_profile/images'
         ])
 
-    # Make directories group-writeable and setGID
+    # For all directories that apache will put files in,
+    # make them group-writeable and setGID.
     # Assuming that the "apache" user belongs to our primary group,
     # any files or dirs created by apache will be owned by
     # our primary group (not Apache's).

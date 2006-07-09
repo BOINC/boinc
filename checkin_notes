@@ -7340,3 +7340,18 @@ Rom    7 July 2006
         
     clientgui/
         BOINCTaskBar.cpp
+
+David  7 July 2006
+    - tweaks and typos
+
+    client/
+        http_curl.C,h
+        scheduler_op.C
+    lib/
+        gui_rpc_client.C
+    py/Boinc/
+        setup_project.py
+    sched/
+        sched_array.C
+    sea/
+        make-sea.sh

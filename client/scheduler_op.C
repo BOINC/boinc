@@ -45,6 +45,7 @@
 using std::vector;
 
 SCHEDULER_OP::SCHEDULER_OP(HTTP_OP_SET* h) {
+    cur_proj = NULL;
     state = SCHEDULER_OP_STATE_IDLE;
     http_op.http_op_state = HTTP_STATE_IDLE;
     http_ops = h;

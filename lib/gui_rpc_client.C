@@ -56,12 +56,10 @@ RPC_CLIENT::RPC_CLIENT() {
     client_major_version = 0;
     client_minor_version = 0;
     client_release = 0;
+    sock = -1;
 }
 
 RPC_CLIENT::~RPC_CLIENT() {
-    client_major_version = 0;
-    client_minor_version = 0;
-    client_release = 0;
     close();
 }
 
@@ -70,9 +68,9 @@ RPC_CLIENT::~RPC_CLIENT() {
 //
 void RPC_CLIENT::close() {
     //fprintf(stderr, "RPC_CLIENT::close called\n");
-	if (sock) {
+	if (sock>=0) {
 		boinc_close_socket(sock);
-		sock = 0;
+		sock = -1;
 	}
 }
 
@@ -287,7 +285,7 @@ int RPC::do_rpc(const char* req) {
     int retval;
 
     //fprintf(stderr, "RPC::do_rpc rpc_client->sock = '%d'", rpc_client->sock);
-    if (rpc_client->sock == 0) return ERR_CONNECT;
+    if (rpc_client->sock == -1) return ERR_CONNECT;
 #ifdef DEBUG
     puts(req);
 #endif

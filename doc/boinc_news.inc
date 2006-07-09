@@ -1,6 +1,14 @@
 <?
 
 $project_news = array(
+array("July 7, 2006",
+    "The <a href=http://issofty17.is.noda.tus.ac.jp/>TANPAKU</a>
+    project, based at the Tokyo University of Science,
+    is open for participation.
+    TANPAKU (from the Japanese word <i>tanpaku-shitsu</i>,
+    meaning 'protein') studies protein structure and function
+    using a novel method called Brownian Dynamics."
+),
 array("June 30, 2006",
     "Want to deploy BOINC quickly and easily on a Windows network?
     Read <a href=http://www.thelazyslug.com/boinc.htm>The Lazy Slug's Guide

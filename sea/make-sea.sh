@@ -16,11 +16,11 @@ else
   install="$3"
 fi
 
-# peek into archive for the install skript
+# peek into archive for the install script
 if tar tf "$1" | grep "$install" >/dev/null; then
   :
 else
-  echo "the archive \"$1\" doesn't contain the specified install skript \"$install\""
+  echo "the archive \"$1\" doesn't contain the specified install script \"$install\""
   exit
 fi
 

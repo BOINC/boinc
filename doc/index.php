@@ -4,6 +4,14 @@ require_once("boinc_news.inc");
 require_once("../html/inc/news.inc");
 
 $projects = array(
+    array(
+        "Tanpaku",
+        "http://issofty17.is.noda.tus.ac.jp/",
+        "Tokyo University of Science",
+        "Biology",
+        "To predict protein structure and function from genetic sequences, using the \'Brownian Dynamics\' (BD) method.  This method enables us to simulate more efficiently than conventional methods.",
+        "tanpaku.jpg"
+    ),
     array("Climateprediction.net",
         "http://climateprediction.net",
         "Oxford University",

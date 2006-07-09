@@ -880,6 +880,7 @@ void HTTP_OP_SET::got_select(FDSET_GROUP&, double timeout) {
     HTTP_OP* hop = NULL;
     bool time_passed = false;
     CURLMsg *pcurlMsg = NULL;
+    static int last_time=0;
 
     // if a second has gone by, do rate-limit accounting
     //
