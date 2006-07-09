@@ -611,7 +611,7 @@ $l556 = array(
     "num"=>"5.5.6",
     "status"=>"Development version",
     "file"=>"boinc_5.5.6_i686-pc-linux-gnu.sh",
-    "date"=>"7 JULY 2006",
+    "date"=>"8 JULY 2006",
     "type"=>"sea",
     "features"=>"<ul>
 ".$features_55."
