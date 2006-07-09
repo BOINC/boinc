@@ -7355,3 +7355,9 @@ David  7 July 2006
         sched_array.C
     sea/
         make-sea.sh
+
+David  9 July 2006
+    - core client: improved log message for debts
+
+    client/
+        cpu_sched.C

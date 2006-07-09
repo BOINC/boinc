@@ -275,12 +275,6 @@ void CLIENT_STATE::adjust_debts() {
             p->short_term_debt = 0;
             p->anticipated_debt = 0;
         }
-        if (log_flags.debt_debug) {
-            msg_printf(0, MSG_INFO,
-                "adjust_debts(): project %s: short-term debt %f",
-                p->project_name, p->short_term_debt
-            );
-        }
     }
 
     if (nprojects==0) return;
@@ -306,10 +300,15 @@ void CLIENT_STATE::adjust_debts() {
             if (p->short_term_debt < -MAX_DEBT) {
                 p->short_term_debt = -MAX_DEBT;
             }
-            //msg_printf(p, MSG_INFO, "debt %f", p->short_term_debt);
         }
 
         p->long_term_debt -= avg_long_term_debt;
+        if (log_flags.debt_debug) {
+            msg_printf(0, MSG_INFO,
+                "adjust_debts(): project %s: STD %f, LTD %f",
+                p->project_name, p->short_term_debt, p->long_term_debt
+            );
+        }
     }
 
     // reset work accounting
