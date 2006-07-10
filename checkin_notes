@@ -7383,3 +7383,12 @@ David  9 July 2006
         cs_scheduler.C
         gui_rpc_server_ops.C
         scheduler_op.C
+
+David  9 July 2006
+    - core client: keep track of the "outages"
+        (periods when BOINC hasn't run) in the last 60 days.
+        This will be used in the work fetch policy.
+        (from John McLeod)
+
+    client
+        time_stats.C,h

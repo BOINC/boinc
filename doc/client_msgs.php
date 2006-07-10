@@ -3,7 +3,8 @@ require_once("docutil.php");
 page_head("Core client configuration");
 echo "
 The core client reads configuration options from a file
-<b>cc_config.xml</b>.
+<b>cc_config.xml</b>
+(create this file yourself, with a text editor).
 This file has the following format: 
 ".html_text("
 <cc_config>

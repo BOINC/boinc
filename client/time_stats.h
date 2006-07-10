@@ -21,6 +21,15 @@
 #define _TIME_STATS_
 
 #include "miofile.h"
+#include <vector>
+
+class BOINC_OUTAGE {
+public:
+    BOINC_OUTAGE() : start(0), end(0) {};
+    double start;
+    double end;
+    bool is_recent() const;
+};
 
 class TIME_STATS {
     double last_update;
@@ -44,12 +53,18 @@ public:
         // 1) apps page or do I/O
         // 2) other CPU-intensive apps run
 
+    double inactive_start;
+    std::vector<BOINC_OUTAGE> outages;
+        // a list of the outages within last 60 days
+
     void update(bool is_active);
     void update_cpu_efficiency(double cpu_wall_time, double cpu_time);
 
     TIME_STATS();
     int write(MIOFILE&, bool to_server);
     int parse(MIOFILE&);
+
+    double get_longest_boinc_outage() const;
 };
 
 #endif
