@@ -74,10 +74,18 @@ CSimpleFrame::CSimpleFrame(wxString title, wxIcon* icon) :
     CBOINCBaseFrame((wxFrame *)NULL, ID_SIMPLEFRAME, title, wxDefaultPosition, wxSize(416, 581),
                     wxDEFAULT_FRAME_STYLE | wxNO_FULL_REPAINT_ON_RESIZE)
 {
+    wxString        strBaseConfigLocation = wxString(wxT("/"));
+    wxConfigBase*   pConfig = wxConfigBase::Get(FALSE);
+
     // Initialize Application
     SetIcon(*icon);
-    
-    skinName = _T("default");
+
+    //
+    // Restore Frame State
+    //
+    pConfig->SetPath(strBaseConfigLocation);
+    pConfig->Read(wxT("Skin"), &skinName, wxT("default"));
+
 	skinsFolder = _T("skins");
     skinPath = skinsFolder+_T("/")+skinName+_T("/")+_T("skin.xml");
 	midAppCollapsed = false;
@@ -100,9 +108,18 @@ CSimpleFrame::CSimpleFrame(wxString title, wxIcon* icon) :
 
 CSimpleFrame::~CSimpleFrame()
 {
-	 wxASSERT(m_pFrameRenderTimer);
+    wxString        strBaseConfigLocation = wxString(wxT("/"));
+    wxConfigBase*   pConfig = wxConfigBase::Get(FALSE);
 
-	 if (m_pFrameRenderTimer) {
+    wxASSERT(m_pFrameRenderTimer);
+
+    //
+    // Save Frame State
+    //
+    pConfig->SetPath(strBaseConfigLocation);
+    pConfig->Write(wxT("Skin"), skinName);
+
+	if (m_pFrameRenderTimer) {
         m_pFrameRenderTimer->Stop();
         delete m_pFrameRenderTimer;
     }
@@ -250,7 +267,7 @@ void CSimpleFrame::InitSimpleClient()
 		//index += i;
 		friendlyName += wxString(index.c_str(), wxConvUTF8 );
         wxWindow *wTab = this->CreateNotebookPage();
-		wrkUnitNB->AddPage(wTab,  wxT(friendlyName, true));	
+		wrkUnitNB->AddPage(wTab, friendlyName, true);	
 		if(result->active_task_state == 1){
 			 wrkUnitNB->SetPageImageIndex(i, 0); // this is working process
 		}else{
@@ -442,6 +459,7 @@ void CSimpleFrame::UpdateClientGUI(){
 		RESULT* result = pDoc->results.results[i];
 		//Elapsed time Value
 	    FormatCPUTime(result, strBuffer);
+        wxLogTrace(wxT("Function Status"), wxT("CSimpleFrame::UpdateClientGUI - [%d] Elapsed Time '%s'"), i, strBuffer.c_str());
 		wxWindow *currTab = m_windows[i];
 		wxStaticText *stET = wxDynamicCast(currTab->FindWindowById(LBL_ELAPSED_TIME), wxStaticText);
        // currTab->FindWindowById(LBL_ELAPSED_TIME)->SetLabel(strBuffer);
