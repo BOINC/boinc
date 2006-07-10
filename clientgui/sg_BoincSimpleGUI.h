@@ -81,7 +81,7 @@ public:
 	wxWindow *w_statWCG;
 
 	//
-	wxImage *g_statSeti;
+	wxImage *g_statGeneric;
 	StatImageLoader *i_statSeti;
 	wxWindow *w_statSeti;
 	//
@@ -99,21 +99,26 @@ public:
     wxBitmap btmpArwRC; 
     wxBitmapButton *btnArwLeft;
 	wxBitmapButton *btnArwRight;
-	//Collapse buttons
+	//Collapse button
 	bool midAppCollapsed;
 	bool btmAppCollapsed;
 	wxImage *g_collapse;
 	wxImage *g_collapseClick;
 	wxBitmap btmpCol; 
     wxBitmap btmpColClick; 
-	wxBitmapButton *btnCollapseMid;
-	//wxBitmapButton *btnCollapseBtm;
-	//Expand buttons
+	wxBitmapButton *btnCollapse;
+	//Expand button
     wxImage *g_expand;
 	wxImage *g_expandClick;
 	wxBitmap btmpExp; 
     wxBitmap btmpExpClick; 
-	wxBitmapButton *btnExpandMid;
+	wxBitmapButton *btnExpand;
+	//ShowGraphic button
+    wxImage *g_showGraphic;
+	wxImage *g_showGraphicClick;
+	wxBitmap btmpShwGrph; 
+    wxBitmap btmpShwGrphClick; 
+	wxBitmapButton *btnShowGraphic;
 	////////////////////////////
 	wxStaticText *st9c;
 	wxWindow *w11c;
@@ -134,7 +139,7 @@ public:
 	wxStaticBitmap *bm29c;
 	wxGauge *gaugeProjP1;
 	wxBitmapButton *btnPreferences;
-	wxBitmapButton *btnAttProj;
+	wxBitmapButton *btnAddProj;
 	wxStaticBitmap *icnProjWork;
 	wxStaticBitmap *bm39c;
 	wxGauge *gaugeProjP2;
@@ -191,8 +196,9 @@ public:
 protected:
 	void OnEraseBackground(wxEraseEvent& event);
 	void OnBtnClick(wxCommandEvent& event);
-	void OnConnect( CFrameEvent& event );
-    void OnFrameRender( wxTimerEvent& event );
+	void OnConnect(CFrameEvent& event );
+    void OnFrameRender(wxTimerEvent& event );
+	void OnPageChanged(wxFlatNotebookEvent& event);
     wxInt32 FormatCPUTime( RESULT* rslt, wxString& strBuffer ) const;
     wxInt32 FormatTimeToCompletion( RESULT* rslt, wxString& strBuffer ) const;
     void SGUITimeFormat( float fBuffer, wxString& strBuffer) const;

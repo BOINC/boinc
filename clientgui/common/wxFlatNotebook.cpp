@@ -889,6 +889,14 @@ void wxPageContainerBase::OnPaint(wxPaintEvent &event)
 		m_pagesInfoVec[i].GetRegion().Clear();
 	}
 
+	if(GetNumOfVisibleTabs() < (int)m_pagesInfoVec.size()){
+		long style = GetParent()->GetWindowStyleFlag();
+		if(style & wxFNB_NO_NAV_BUTTONS){
+			style ^= wxFNB_NO_NAV_BUTTONS;
+			GetParent()->SetWindowStyleFlag(style);
+		}
+	}
+	
 	// Draw the left/right/close buttons 
 	// Left arrow
 	DrawLeftArrow(dc);

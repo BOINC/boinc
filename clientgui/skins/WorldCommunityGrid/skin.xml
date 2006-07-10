@@ -16,20 +16,20 @@
 			<preferences>
 				<imgsrc>graphic/btnPreferences.bmp</imgsrc>
 			</preferences>
-			<attchproj>
-				<imgsrc>graphic/btnAttachProject.bmp</imgsrc>
-			</attchproj>
+			<addproj>
+				<imgsrc>graphic/btnAddProject.bmp</imgsrc>
+			</addproj>
 			<advancedview>
 				<imgsrc>graphic/btnAdvancedView.bmp</imgsrc>
 			</advancedview>
 			<play>
-				<imgsrc>graphic/play.bmp</imgsrc>
+				<imgsrc>graphic/btnResume.bmp</imgsrc>
 			</play>
 			<pause>
-				<imgsrc>graphic/pause.bmp</imgsrc>
+				<imgsrc>graphic/btnPause.bmp</imgsrc>
 			</pause>
 			<messages>
-				<imgsrc>graphic/messages.bmp</imgsrc>
+				<imgsrc>graphic/btnMessages.bmp</imgsrc>
 			</messages>
 			<open>
 				<imgsrc>graphic/btnOpen.bmp</imgsrc>
@@ -56,6 +56,10 @@
 				<imgsrc>graphic/btnCollapse.png</imgsrc>
 				<imgsrcclick>graphic/btnCollapseClick.png</imgsrcclick>
 			</collapse>
+			<showgraphics>
+				<imgsrc>graphic/btnShowGraphic.png</imgsrc>
+				<imgsrcclick>graphic/btnShowGraphicClick.png</imgsrcclick>
+			</showgraphics>
 		</buttons>
 		<icons>
 			<working>
@@ -82,6 +86,9 @@
 			<prjPREDicon>
 				<imgsrc>graphic/19_16_prdct.png</imgsrc>
 			</prjPREDicon>
+			<prjIconGeneric>
+				<imgsrc>graphic/statBoinc.png</imgsrc>
+			</prjIconGeneric>
 		</icons>
 		<animation>
 			<background>graphic/project_image.bmp</background>

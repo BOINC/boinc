@@ -29,10 +29,8 @@
 #include "common/wxAnimate.h"
 #include "common/wxFlatNotebook.h"
 #include "sg_ImageLoader.h"
-#include "sg_StatImageLoader.h"
 #include "sg_DlgPreferences.h"
 #include "sg_SkinClass.h"
-#include "sg_BoincSimpleGUI.h"
 #include "error_numbers.h"
 #include "parse.h"
 #include <string>
@@ -41,10 +39,17 @@
 #include "BOINCBaseWizard.h"
 #include "WizardAttachProject.h"
 #include "WizardAccountManager.h"
+#include "sg_StatImageLoader.h"
+#include "sg_BoincSimpleGUI.h"
 
 #include "res/boinc.xpm"
 
 IMPLEMENT_DYNAMIC_CLASS(CSimpleFrame, CBOINCBaseFrame)
+
+enum{
+	BTN_SHOW_GRAPHICS = 24000,
+	BTN_COLLAPSE = 24100,
+};
 
 BEGIN_EVENT_TABLE(CSimpleFrame, CBOINCBaseFrame)
     EVT_BUTTON(-1,CSimpleFrame::OnBtnClick)
@@ -52,6 +57,7 @@ BEGIN_EVENT_TABLE(CSimpleFrame, CBOINCBaseFrame)
 	EVT_ERASE_BACKGROUND(CSimpleFrame::OnEraseBackground)
     EVT_FRAME_CONNECT(CSimpleFrame::OnConnect)
 	EVT_TIMER(ID_SIMPLEFRAMERENDERTIMER, CSimpleFrame::OnFrameRender)
+	EVT_FLATNOTEBOOK_PAGE_CHANGED(-1, CSimpleFrame::OnPageChanged)
 END_EVENT_TABLE()
 
 
@@ -241,7 +247,7 @@ void CSimpleFrame::InitSimpleClient()
 		friendlyName += wxString(index.c_str(), wxConvUTF8 );
         wxWindow *wTab = this->CreateNotebookPage();
 		wrkUnitNB->AddPage(wTab,  wxT(friendlyName, true));	
-		if(result->active_task){
+		if(result->active_task_state == 1){
 			 wrkUnitNB->SetPageImageIndex(i, 0); // this is working process
 		}else{
 			 wrkUnitNB->SetPageImageIndex(i, 1); // this is sleeping process
@@ -271,7 +277,7 @@ void CSimpleFrame::InitSimpleClient()
 		gaugeWuP1->SetBackgroundColour(appSkin->GetGaugeBgCol());
 		gaugeWuP1->SetValue(floor(result->fraction_done * 100000)/1000);
 		//Work Unit Name
-		lblWrkUnitName=new wxStaticText(wTab,-1,wxT(""),SetwxPoint(110,34),SetwxSize(79,13),wxST_NO_AUTORESIZE);
+		lblWrkUnitName=new wxStaticText(wTab,-1,wxT(""),SetwxPoint(110,34),SetwxSize(250,13),wxST_NO_AUTORESIZE);
 		lblWrkUnitName->SetForegroundColour(wxSystemSettings::GetColour(wxSYS_COLOUR_WINDOWTEXT));
 		lblWrkUnitName->SetLabel(wxString(result->name.c_str(),wxConvUTF8));
 		//Elapsed Time
@@ -292,11 +298,23 @@ void CSimpleFrame::InitSimpleClient()
 		lblTimeRemaining->SetLabel(wxT("Time remaining:"));
 		lblTimeRemaining->SetFont(wxFont(10,74,90,90,0,wxT("Tahoma")));
 		//Time Remaining Value
-		lblTimeRemainingValue=new wxStaticText(wTab,-1,wxT(""),SetwxPoint(115,119),SetwxSize(294,18),wxST_NO_AUTORESIZE);
+		lblTimeRemainingValue=new wxStaticText(wTab,-1,wxT(""),SetwxPoint(115,119),SetwxSize(200,18),wxST_NO_AUTORESIZE);
 		lblTimeRemainingValue->SetForegroundColour(wxSystemSettings::GetColour(wxSYS_COLOUR_WINDOWTEXT));
 		FormatTimeToCompletion(result, strBuffer);
 		lblTimeRemainingValue->SetLabel(strBuffer);
 		lblTimeRemainingValue->SetFont(wxFont(10,74,90,90,0,wxT("Tahoma")));
+		// show graphic button 
+		wxToolTip *ttShowGraphic = new wxToolTip(wxT("Launch Real-Time Graphics"));
+		btnShowGraphic=new wxBitmapButton(wTab,BTN_SHOW_GRAPHICS,btmpShwGrph,SetwxPoint(315,117),SetwxSize(24,24),wxSIMPLE_BORDER);
+		btnShowGraphic->SetBitmapSelected(btmpShwGrphClick);
+		btnShowGraphic->SetBackgroundColour(wxColour(255,255,255));
+		btnShowGraphic->SetToolTip(ttShowGraphic);
+		// Collapse button
+		wxToolTip *ttCollapse = new wxToolTip(wxT("Hide Graphic"));
+		btnCollapse=new wxBitmapButton(wTab,BTN_COLLAPSE,btmpCol,SetwxPoint(341,117),SetwxSize(24,24),wxSIMPLE_BORDER);
+		btnCollapse->SetBitmapSelected(btmpColClick);
+		btnCollapse->SetBackgroundColour(wxColour(255,255,255));
+		btnCollapse->SetToolTip(ttCollapse);
 		// project image behind graphic <><><>
 		imgBgAnim=new wxStaticBitmap(wTab,-1,*btmpBgAnim,SetwxPoint(0,146),SetwxSize(370,182));
 		//// Animation Window
@@ -336,15 +354,21 @@ void CSimpleFrame::InitSimpleClient()
 	stMyProj=new wxStaticText(this,-1,wxT(""),SetwxPoint(20,434),SetwxSize(84,18),wxST_NO_AUTORESIZE);
 	stMyProj->SetLabel(wxT("My Projects:"));
 	stMyProj->SetFont(wxFont(10,74,90,92,0,wxT("Tahoma")));
-	// Attach Project <><><>
-	btnAttProj=new wxBitmapButton(this,-1,*btmpBtnAttProjL,SetwxPoint(250,431),SetwxSize(109,20));
-	// Collapse button mid
-	btnCollapseMid=new wxBitmapButton(this,-1,btmpCol,SetwxPoint(366,429),SetwxSize(24,24),wxSIMPLE_BORDER);
-	btnCollapseMid->SetBitmapSelected(btmpColClick);
+	// Add Project <><><>
+	wxToolTip *ttAddProject = new wxToolTip(wxT("Add Project"));
+	btnAddProj=new wxBitmapButton(this,-1,*btmpBtnAttProjL,SetwxPoint(237,431),SetwxSize(96,20));
+	btnAddProj->SetToolTip(ttAddProject);
+	// Collapse button
+	//wxToolTip *ttCollapse = new wxToolTip(wxT("Hide Graphic"));
+	//btnCollapse=new wxBitmapButton(this,-1,btmpCol,SetwxPoint(366,410),SetwxSize(24,24),wxSIMPLE_BORDER);
+	//btnCollapse->SetBitmapSelected(btmpColClick);
+	//btnCollapse->SetToolTip(ttCollapse);
 	//expand buttons
-	btnExpandMid=new wxBitmapButton(this,-1,btmpExp,SetwxPoint(336,429),SetwxSize(24,24),wxSIMPLE_BORDER);
-	btnExpandMid->SetBitmapSelected(btmpExpClick);
-	btnExpandMid->Show(false); // at initial build there is no need to show
+	wxToolTip *ttExpand = new wxToolTip(wxT("Show Graphic"));
+	btnExpand=new wxBitmapButton(this,-1,btmpExp,SetwxPoint(336,429),SetwxSize(24,24),wxSIMPLE_BORDER);
+	btnExpand->SetBitmapSelected(btmpExpClick);
+	btnExpand->SetToolTip(ttExpand);
+	btnExpand->Show(false); // at initial build there is no need to show
 	/// Line
 	lnMyProjTop=new wxStaticLine(this,-1,SetwxPoint(20,454),SetwxSize(370,2));
 	///////
@@ -365,7 +389,7 @@ void CSimpleFrame::InitSimpleClient()
 		}else if(project->project_name == "Predictor @ Home"){
 			i_statW->LoadImage(g_statPred);
 		}else{
-			i_statW->LoadImage(g_statWCG);
+			i_statW->LoadImage(g_statGeneric);
 		}
 		i_statW->SetToolTip(statWCGtip);
 	}
@@ -378,14 +402,26 @@ void CSimpleFrame::InitSimpleClient()
 	///////////
 	lnMyProjBtm=new wxStaticLine(this,-1,SetwxPoint(20,516),SetwxSize(370,2));
 	//// Messages Play Pause Btns
-	btnMessages=new wxBitmapButton(this,-1,*btmpMessagesBtnL,SetwxPoint(28,522),SetwxSize(20,20));
-	// play pause btn
-	btnPause=new wxBitmapButton(this,-1,*btmpBtnPauseL,SetwxPoint(55,522),SetwxSize(20,20));
-	btnPlay=new wxBitmapButton(this,-1,*btmpBtnPlayL,SetwxPoint(55,522),SetwxSize(20,20));
+	wxToolTip *ttMessages = new wxToolTip(wxT("Messages"));
+	btnMessages=new wxBitmapButton(this,-1,*btmpMessagesBtnL,SetwxPoint(20,522),SetwxSize(76,20));
+	btnMessages->SetToolTip(ttMessages);
+	// pause btn
+	wxToolTip *ttPause = new wxToolTip(wxT("Pause all processing"));
+	btnPause=new wxBitmapButton(this,-1,*btmpBtnPauseL,SetwxPoint(97,522),SetwxSize(59,20));
+	btnPause->SetToolTip(ttPause);
+    // play btn   
+	wxToolTip *ttPlay = new wxToolTip(wxT("Resume all Processing"));
+	btnPlay=new wxBitmapButton(this,-1,*btmpBtnPlayL,SetwxPoint(97,522),SetwxSize(62,20));
+	btnPlay->SetToolTip(ttPlay);
 	btnPlay->Show(false);
-	// Class View ,Pref Btns
+	// Pref Btn
+	wxToolTip *ttPreferences = new wxToolTip(wxT("Preferences"));
 	btnPreferences=new wxBitmapButton(this,-1,*btmpBtnPrefL,SetwxPoint(183,522),SetwxSize(86,20));
+	btnPreferences->SetToolTip(ttPreferences);
+	// Advanced View
+	wxToolTip *ttAdvView = new wxToolTip(wxT("Advanced View"));
 	btnAdvancedView=new wxBitmapButton(this,-1,*btmpBtnAdvViewL,SetwxPoint(273,522),SetwxSize(116,20));
+    btnAdvancedView->SetToolTip(ttAdvView);
 
 	Refresh();
 }
@@ -408,8 +444,9 @@ void CSimpleFrame::LoadSkinImages(){
 	g_icoWorkWU = new wxImage(dirPref + appSkin->GetIcnWorkingWkUnit(), wxBITMAP_TYPE_PNG);
 	// stat icons
 	g_statWCG = new wxImage(_T("skins/default/graphic/statWCG.png"), wxBITMAP_TYPE_PNG);
-	g_statSeti = new wxImage(_T("skins/default/graphic/statSeti.png"), wxBITMAP_TYPE_PNG);
 	g_statPred = new wxImage(_T("skins/default/graphic/statPred.png"), wxBITMAP_TYPE_PNG);
+	// generic project icon
+	g_statGeneric = new wxImage(dirPref + appSkin->GetIcnPrjGeneric(), wxBITMAP_TYPE_PNG);
 	// arrows
 	g_arwLeft = new wxImage(dirPref + appSkin->GetBtnLeftArr(), wxBITMAP_TYPE_PNG);
 	g_arwRight = new wxImage(dirPref + appSkin->GetBtnRightArr(), wxBITMAP_TYPE_PNG);
@@ -429,9 +466,14 @@ void CSimpleFrame::LoadSkinImages(){
 	g_expandClick = new wxImage(dirPref + appSkin->GetBtnExpandClick(), wxBITMAP_TYPE_PNG);
 	btmpExp= wxBitmap(g_expand); 
     btmpExpClick= wxBitmap(g_expandClick); 
+	// show graphic
+    g_showGraphic = new wxImage(dirPref + appSkin->GetBtnShowGraphic(), wxBITMAP_TYPE_PNG);
+	g_showGraphicClick = new wxImage(dirPref + appSkin->GetBtnShowGraphicClick(), wxBITMAP_TYPE_PNG);
+	btmpShwGrph= wxBitmap(g_showGraphic); 
+    btmpShwGrphClick= wxBitmap(g_showGraphicClick); 
 	//////////////////////////////
 	fileImgBuf[2].LoadFile(dirPref + appSkin->GetBtnPrefer(),wxBITMAP_TYPE_BMP);
-	fileImgBuf[3].LoadFile(dirPref + appSkin->GetBtnAttProj(),wxBITMAP_TYPE_BMP);
+	fileImgBuf[3].LoadFile(dirPref + appSkin->GetBtnAddProj(),wxBITMAP_TYPE_BMP);
 	fileImgBuf[4].LoadFile(dirPref + appSkin->GetIcnWorking(),wxBITMAP_TYPE_BMP);
 	fileImgBuf[5].LoadFile(dirPref + appSkin->GetBtnMessages(),wxBITMAP_TYPE_BMP);
 	fileImgBuf[6].LoadFile(dirPref + appSkin->GetBtnPause(),wxBITMAP_TYPE_BMP);
@@ -509,10 +551,10 @@ int CSimpleFrame::LoadSkinXML(){
 					if (parse_str(buf, "<imgsrc>", val)) {
 						appSkin->SetBtnPrefer(wxString( val.c_str(), wxConvUTF8 ));
 					}
-				}else if(match_tag(buf, "<attchproj>")){
+				}else if(match_tag(buf, "<addproj>")){
 					mf.fgets(buf, 256);
 					if (parse_str(buf, "<imgsrc>", val)) {
-						appSkin->SetBtnAttProj(wxString( val.c_str(), wxConvUTF8 ));
+						appSkin->SetBtnAddProj(wxString( val.c_str(), wxConvUTF8 ));
 					}
 				}else if(match_tag(buf, "<advancedview>")){
 					mf.fgets(buf, 256);
@@ -585,6 +627,15 @@ int CSimpleFrame::LoadSkinXML(){
 					if (parse_str(buf, "<imgsrcclick>", val)) {
 						appSkin->SetBtnCollapseClick(wxString( val.c_str(), wxConvUTF8 ));
 					}
+				}else if(match_tag(buf, "<showgraphics>")){
+					mf.fgets(buf, 256);
+					if (parse_str(buf, "<imgsrc>", val)) {
+						appSkin->SetBtnShowGraphic(wxString( val.c_str(), wxConvUTF8 ));
+					}
+					mf.fgets(buf, 256);
+					if (parse_str(buf, "<imgsrcclick>", val)) {
+						appSkin->SetBtnShowGraphicClick(wxString( val.c_str(), wxConvUTF8 ));
+					}
 				}
 			}//end of while
 		}else if (match_tag(buf, "<icons")) {
@@ -648,6 +699,11 @@ int CSimpleFrame::LoadSkinXML(){
 					if (parse_str(buf, "<imgsrc>", val)) {
 						appSkin->SetIcnPrjPRED(wxString( val.c_str(), wxConvUTF8 ));
 					}
+				}else if(match_tag(buf, "<prjIconGeneric>")){
+					mf.fgets(buf, 256);
+					if (parse_str(buf, "<imgsrc>", val)) {
+						appSkin->SetIcnPrjGeneric(wxString( val.c_str(), wxConvUTF8 ));
+					}
 				}
 			}// end of while loop
 		}else if (match_tag(buf, "<animation")) {
@@ -681,7 +737,7 @@ void CSimpleFrame::ReskinAppGUI(){
 	btnMessages->SetBitmapLabel(*btmpMessagesBtnL);
     btnPlay->SetBitmapLabel(*btmpBtnPlayL);
 	btnPause->SetBitmapLabel(*btmpBtnPauseL);
-    btnAttProj->SetBitmapLabel(*btmpBtnAttProjL);
+    btnAddProj->SetBitmapLabel(*btmpBtnAttProjL);
 	btnPreferences->SetBitmapLabel(*btmpBtnPrefL);
 	btnAdvancedView->SetBitmapLabel(*btmpBtnAdvViewL);
 	//arrows
@@ -690,16 +746,16 @@ void CSimpleFrame::ReskinAppGUI(){
     btnArwRight->SetBitmapLabel(btmpArwR);
     btnArwRight->SetBitmapSelected(btmpArwRC);
 	//collapse
-	btnCollapseMid->SetBitmapLabel(btmpCol);
-    btnCollapseMid->SetBitmapSelected(btmpColClick);
+	btnCollapse->SetBitmapLabel(btmpCol);
+    btnCollapse->SetBitmapSelected(btmpColClick);
     //expand buttons
-    btnExpandMid->SetBitmapLabel(btmpExp);
-    btnExpandMid->SetBitmapSelected(btmpExpClick);
+    btnExpand->SetBitmapLabel(btmpExp);
+    btnExpand->SetBitmapSelected(btmpExpClick);
 	//gauges
 	gaugeWuP1->SetForegroundColour(appSkin->GetGaugeFgCol());
     gaugeWuP1->SetBackgroundColour(appSkin->GetGaugeBgCol());
-	btnExpandMid->SetBackgroundColour(appSkin->GetAppBgCol());
-    btnCollapseMid->SetBackgroundColour(appSkin->GetAppBgCol());
+	btnExpand->SetBackgroundColour(appSkin->GetAppBgCol());
+    btnCollapse->SetBackgroundColour(appSkin->GetAppBgCol());
 	btnArwLeft->SetBackgroundColour(appSkin->GetAppBgCol());
     btnArwRight->SetBackgroundColour(appSkin->GetAppBgCol());
 
@@ -803,36 +859,39 @@ void CSimpleFrame::OnBtnClick(wxCommandEvent& event){ //init function
 	}else if(m_wxBtnObj==btnArwRight){
 		//refresh btn
 		btnArwRight->Refresh();
-	}else if(m_wxBtnObj==btnCollapseMid){
+	}else if(event.GetId()==BTN_SHOW_GRAPHICS){
+		//refresh btn
+		btnShowGraphic->Refresh();
+	}else if(event.GetId()==BTN_COLLAPSE){
 		//refresh btn
 		wxNotebookSize = SetwxSize(370, 170); //fix
 		if((!midAppCollapsed) && (!btmAppCollapsed)){
             m_canvas->Show(false);
 			imgBgAnim->Show(false);
-			btnCollapseMid->Show(false);
-			btnExpandMid->Show(true);
+			btnCollapse->Show(false);
+			btnExpand->Show(true);
 			this->SetSize(-1, -1, 416, 398);
-			wTab1->SetSize(-1, -1, 370, 170);
-			wTab2->SetSize(-1, -1, 370, 170);
+			//wTab1->SetSize(-1, -1, 370, 170);
+			//wTab2->SetSize(-1, -1, 370, 170);
 			wrkUnitNB->SetSize(-1, -1, 370, 170);
 			//move controls up
             MoveControlsUp();
 			midAppCollapsed = true;
 		}else{
 			this->SetSize(-1, -1, 416, 305);
-			wTab1->SetSize(-1, -1, 370, 170);
-			wTab2->SetSize(-1, -1, 370, 170);
+			//wTab1->SetSize(-1, -1, 370, 170);
+			//wTab2->SetSize(-1, -1, 370, 170);
 			wrkUnitNB->SetSize(-1, -1, 370, 170);
-			btnExpandMid->Move(366,247);
+			btnExpand->Move(366,247);
 			midAppCollapsed = true;
 		}
 		Refresh();
-	}else if(m_wxBtnObj==btnExpandMid){
+	}else if(m_wxBtnObj==btnExpand){
 		if((btmAppCollapsed) && (midAppCollapsed)){ // in this case open up bottom first
 			this->SetSize(-1, -1, 416, 398);
 			wrkUnitNB->SetSize(-1, -1, 370, 170);
 			stMyProj->Show(true);
-			btnAttProj->Show(true);
+			btnAddProj->Show(true);
 			stMyProj->Move(20,252);//(20,434)
 			//move controls up
             MoveControlsUp();
@@ -843,17 +902,17 @@ void CSimpleFrame::OnBtnClick(wxCommandEvent& event){ //init function
 			MoveControlsDown();
 			m_canvas->Show(true);
 			imgBgAnim->Show(true);
-			btnExpandMid->Show(false);
-			btnCollapseMid->Show(true);
-			btnAttProj->Show(true);
+			btnExpand->Show(false);
+			btnCollapse->Show(true);
+			btnAddProj->Show(true);
 			midAppCollapsed = false;
 			wrkUnitNB->SetSize(-1, -1, 370, 353); // fix
 		}else if((!midAppCollapsed) && (btmAppCollapsed)){
             this->SetSize(-1, -1, 416, 581);
 			stMyProj->Show(true);
-			btnExpandMid->Show(false);
-			btnCollapseMid->Move(366,429);
-			btnAttProj->Move(250,431);
+			btnExpand->Show(false);
+			btnCollapse->Move(366,429);
+			btnAddProj->Move(237,431);
 			//midAppCollapsed = false;
 			btmAppCollapsed = false;
 		}
@@ -867,36 +926,40 @@ void CSimpleFrame::OnBtnClick(wxCommandEvent& event){ //init function
 //end function
 void CSimpleFrame::MoveControlsUp(){
 	stMyProj->Move(20,252);//(20,434)
-	btnAttProj->Move(250,249);//(250,431)
-	btnExpandMid->Move(366,247);//(366,429)
+	btnAddProj->Move(237,249);//(237,431)
+	btnExpand->Move(366,247);//(366,429)
 	lnMyProjTop->Move(20,272);//(20,454)
-	w_statWCG->Move(60,278);//(60,460)
-	w_statSeti->Move(112,278);//(112,460)
-	w_statPred->Move(164,278);//(164,460)
+	//w_statWCG->Move(60,278);//(60,460)
+	//w_statSeti->Move(112,278);//(112,460)
+	//w_statPred->Move(164,278);//(164,460)
 	btnArwLeft->Move(25,291);//(25,483)
 	btnArwRight->Move(360,291);//(360,483)
 	lnMyProjBtm->Move(20,334);//(20,516)
-	btnMessages->Move(28,340);//(28,522)
-	btnPause->Move(55,340);//(55,522)
+	btnMessages->Move(20,340);//(28,522)
+	btnPause->Move(97,340);//(106,522)
 	btnPreferences->Move(183,340);//(183,522)
     btnAdvancedView->Move(273,340);//(273,522)
 }
 
 void CSimpleFrame::MoveControlsDown(){
 	stMyProj->Move(20,434);
-	btnAttProj->Move(250,431);
-	btnExpandMid->Move(366,429);
+	btnAddProj->Move(237,431);
+	btnExpand->Move(366,429);
 	lnMyProjTop->Move(20,454);
-	w_statWCG->Move(60,460);
-	w_statSeti->Move(112,460);
-	w_statPred->Move(164,460);
+	//w_statWCG->Move(60,460);
+	//w_statSeti->Move(112,460);
+	//w_statPred->Move(164,460);
 	btnArwLeft->Move(25,473);
 	btnArwRight->Move(360,473);
 	lnMyProjBtm->Move(20,516);
-	btnMessages->Move(28,522);
-	btnPause->Move(55,522);
+	btnMessages->Move(20,522);
+	btnPause->Move(97,522);
 	btnPreferences->Move(183,522);
     btnAdvancedView->Move(273,522);
+}
+void CSimpleFrame::OnPageChanged(wxFlatNotebookEvent& event)
+{
+	btnCollapse->Refresh();
 }
 void CSimpleFrame::OnEraseBackground(wxEraseEvent& event){
   wxObject *m_wxWin = event.GetEventObject();

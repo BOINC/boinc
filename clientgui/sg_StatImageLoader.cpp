@@ -2,18 +2,25 @@
 #include <vector>
 #include "BOINCGUIApp.h"
 #include "sg_StatImageLoader.h" 
+#include "BOINCBaseFrame.h"
+
+enum{
+	WEBSITE_URL_MENU_ID = 34500,
+};
 
 
 BEGIN_EVENT_TABLE(StatImageLoader, wxWindow) 
         EVT_PAINT(StatImageLoader::OnPaint) 
 		EVT_LEFT_DOWN(StatImageLoader::PopUpMenu)
+		EVT_MENU(WEBSITE_URL_MENU_ID,StatImageLoader::OnMenuLinkClicked)
 END_EVENT_TABLE() 
 
 StatImageLoader::StatImageLoader(wxWindow* parent, std::string url) : wxWindow(parent, wxID_ANY, wxDefaultPosition, wxDefaultSize, wxNO_BORDER) 
-{ 
-   appSkin = SkinClass::Instance();
-   prjUrl = url;
-   CreateMenu();
+{
+	m_parent = parent;
+    appSkin = SkinClass::Instance();
+    prjUrl = url;
+    CreateMenu();
 }
 
 void StatImageLoader::PopUpMenu(wxMouseEvent& event) 
@@ -24,7 +31,7 @@ void StatImageLoader::PopUpMenu(wxMouseEvent& event)
 
 void StatImageLoader::CreateMenu() 
 { 
-	CMainDocument* pDoc      = wxGetApp().GetDocument();
+	CMainDocument* pDoc = wxGetApp().GetDocument();
     wxASSERT(pDoc);
 
 	PROJECT* project = pDoc->state.lookup_project(prjUrl);
@@ -34,10 +41,12 @@ void StatImageLoader::CreateMenu()
 	statPopUpMenu = new wxMenu(wxSIMPLE_BORDER);
 
 	for(int i = 0; i < urlCount; i++){
-		wxMenuItem *urlItem = new wxMenuItem(statPopUpMenu, -1,wxString(project->gui_urls[i].name.c_str(), wxConvUTF8));
+		wxMenuItem *urlItem = new wxMenuItem(statPopUpMenu, WEBSITE_URL_MENU_ID + i,wxString(project->gui_urls[i].name.c_str(), wxConvUTF8));
 		#ifdef __WXMSW__
 			urlItem->SetBackgroundColour(appSkin->GetAppBgCol());
 		#endif
+	    Connect( WEBSITE_URL_MENU_ID + i,  wxEVT_COMMAND_MENU_SELECTED, wxCommandEventHandler(StatImageLoader::OnMenuLinkClicked) );
+ 
 		statPopUpMenu->Append(urlItem);
 	}
 	//
@@ -47,6 +56,26 @@ void StatImageLoader::CreateMenu()
     itmTellFriend->SetBitmap(*btmTellFriend);
 	*/
 }
+void StatImageLoader::OnMenuLinkClicked(wxCommandEvent& event) 
+{ 
+     wxObject *m_wxBtnObj = event.GetEventObject();
+	 int menuIDevt =  event.GetId();
+	 int menuId = menuIDevt - WEBSITE_URL_MENU_ID;
+     
+	 CMainDocument* pDoc = wxGetApp().GetDocument();
+     wxASSERT(pDoc);
+
+	 PROJECT* project = pDoc->state.lookup_project(prjUrl);
+	 project->gui_urls[menuId].name.c_str();
+     
+	 CBOINCBaseFrame* pFrame = wxDynamicCast(m_parent->GetParent(),CBOINCBaseFrame);
+     wxASSERT(pFrame);
+     wxASSERT(wxDynamicCast(pFrame, CBOINCBaseFrame));
+	 pFrame->ExecuteBrowserLink(project->gui_urls[menuId].url.c_str());
+	 int re = 4;
+  
+} 
+
 void StatImageLoader::LoadImage(const wxImage& image) 
 { 
 	Bitmap = wxBitmap();//delete existing bitmap since we are loading new one

@@ -12,7 +12,7 @@ public:
 		wxString GetAppBg() { return m_appBg; }
 		wxColour GetAppBgCol() { return GetColorFromStr(m_appBgCol); }
 		wxString GetBtnPrefer() const { return m_btnPrefer; }
-		wxString GetBtnAttProj() const { return m_btnAttProj; }
+		wxString GetBtnAddProj() const { return m_btnAddProj; }
 		wxString GetBtnAdvView() const { return m_btnAdvView; }
         wxString GetBtnPlay() const { return m_btnPlay; }
         wxString GetBtnPause() const { return m_btnPause; }
@@ -26,8 +26,10 @@ public:
 		wxString GetBtnRightArrClick() const { return m_btnRightArrClick; }
         wxString GetBtnExpand() const { return m_btnExpand; }
 		wxString GetBtnCollapse() const { return m_btnCollapse; }
+		wxString GetBtnShowGraphic() const { return m_btnShowGraphic; }
 		wxString GetBtnExpandClick() const { return m_btnExpandClick; }
 		wxString GetBtnCollapseClick() const { return m_btnCollapseClick; }
+        wxString GetBtnShowGraphicClick() const { return m_btnShowGraphicClick; }
         
 		wxString GetDlgPrefBg() { return m_dlgPrefBg; }
 
@@ -48,6 +50,7 @@ public:
         wxString GetIcnSleepingWkUnit() const { return m_icnSleepingWkUnit; }
         wxString GetIcnPrjWCG() const { return m_icnPrjWCG; }
         wxString GetIcnPrjPRED() const { return m_icnPrjPRED; }
+        wxString GetIcnPrjGeneric() const { return m_icnPrjGeneric; }
         wxString GetAnimationBG() const { return m_animBg; }
         wxString GetAnimationFile() const { return m_animFile; }
         
@@ -55,7 +58,7 @@ public:
 		void SetAppBg(const wxString imgsrc) { m_appBg = imgsrc; }
 		void SetAppBgCol(const wxString& clr) { m_appBgCol = clr; }
 		void SetBtnPrefer(const wxString& imgsrc) { m_btnPrefer = imgsrc; }
-		void SetBtnAttProj(const wxString& imgsrc) { m_btnAttProj = imgsrc; }
+		void SetBtnAddProj(const wxString& imgsrc) { m_btnAddProj = imgsrc; }
 		void SetBtnAdvView(const wxString& imgsrc) { m_btnAdvView = imgsrc; }
 		void SetBtnPlay(const wxString& imgsrc) { m_btnPlay = imgsrc; }
 		void SetBtnPause(const wxString& imgsrc) { m_btnPause = imgsrc; }
@@ -69,9 +72,11 @@ public:
 		void SetBtnRightArrClick(const wxString& imgsrc) { m_btnRightArrClick = imgsrc; }
 		void SetBtnExpand(const wxString& imgsrc) { m_btnExpand = imgsrc; }
 		void SetBtnCollapse(const wxString& imgsrc)  { m_btnCollapse = imgsrc; }
+		void SetBtnShowGraphic(const wxString& imgsrc)  { m_btnShowGraphic = imgsrc; }
 		void SetBtnExpandClick(const wxString& imgsrc)  { m_btnExpandClick = imgsrc; }
 		void SetBtnCollapseClick(const wxString& imgsrc)  { m_btnCollapseClick = imgsrc; }
-        
+        void SetBtnShowGraphicClick(const wxString& imgsrc)  { m_btnShowGraphicClick = imgsrc; }
+		
 		void SetDlgPrefBg(const wxString& imgsrc) { m_dlgPrefBg = imgsrc; }
 
 		void SetGaugeFgCol(const wxString& clr) { m_gaugeFgCol = clr; }
@@ -90,6 +95,7 @@ public:
 		void SetIcnSleepingWkUnit(const wxString& imgsrc) { m_icnSleepingWkUnit = imgsrc; }
 		void SetIcnPrjWCG(const wxString& imgsrc) { m_icnPrjWCG = imgsrc; }
 		void SetIcnPrjPRED(const wxString& imgsrc) { m_icnPrjPRED = imgsrc; }
+		void SetIcnPrjGeneric(const wxString& imgsrc) { m_icnPrjGeneric = imgsrc; }
 		void SetAnimationBg(const wxString& imgsrc) { m_animBg = imgsrc; }
 		void SetAnimationFile(const wxString& imgsrc) { m_animFile = imgsrc; }
 
@@ -116,7 +122,7 @@ private:
 		wxString m_tabBrdColIn; 
 		// Btns
 		wxString m_btnPrefer;
-		wxString m_btnAttProj;
+		wxString m_btnAddProj;
 		wxString m_btnAdvView;
 		wxString m_btnPlay;
         wxString m_btnPause;
@@ -132,13 +138,16 @@ private:
 		wxString m_btnCollapse;
 		wxString m_btnExpandClick;
 		wxString m_btnCollapseClick;
+		wxString m_btnShowGraphic;
+		wxString m_btnShowGraphicClick;
 		// Icons
 		wxString m_icnWorking;
 		wxString m_icnSleeping;	
 		wxString m_icnWorkingWkUnit;
 		wxString m_icnSleepingWkUnit;
-		wxString m_icnPrjWCG;	
-		wxString m_icnPrjPRED;
+		wxString m_icnPrjWCG;// will be deleted when project icons are supplied
+		wxString m_icnPrjPRED;// will be deleted when project icons are supplied
+        wxString m_icnPrjGeneric;
 		// animation
 		wxString m_animBg;
 		wxString m_animFile;
