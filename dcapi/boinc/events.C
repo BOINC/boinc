@@ -175,7 +175,7 @@ static int process_messages(void)
 	DC_Workunit *wu;
 	int done, ret;
 
-	query = g_strdup_printf("WHERE variety LIKE '%s\\_' AND handled = 0",
+	query = g_strdup_printf("WHERE variety LIKE '%s\\_%%' AND handled = 0",
 		project_uuid_str);
 	buf = (char *)g_malloc(MAX_MESSAGE_SIZE);
 	done = 0;
