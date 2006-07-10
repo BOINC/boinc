@@ -474,11 +474,6 @@ bool SCHEDULER_OP::poll() {
                     }
                 }
             } else {
-                if (log_flags.sched_ops) {
-                    msg_printf(
-                        cur_proj, MSG_INFO, "Scheduler request succeeded"
-                    );
-                }
                 retval = gstate.handle_scheduler_reply(cur_proj, scheduler_url, nresults);
                 if (cur_proj->tentative) {
                     if (retval || strlen(cur_proj->user_name)==0) {

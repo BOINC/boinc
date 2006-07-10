@@ -7363,6 +7363,13 @@ David  9 July 2006
         cpu_sched.C
 
 David  9 July 2006
+	- core client: improve "RPC succeeded" message
+
+	client/
+		cs_scheduler.C
+		scheduler_op.C
+
+David  9 July 2006
     - core client: instead of calling compute_work_requests()
         every 5 seconds (in scheduler_rpc_poll()),
         call it at startup, and thereafter every 10 minutes or

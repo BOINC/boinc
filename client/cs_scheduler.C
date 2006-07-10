@@ -766,7 +766,8 @@ int CLIENT_STATE::handle_scheduler_reply(
 
     if (log_flags.sched_ops) {
         msg_printf(project, MSG_INFO,
-            "Scheduler version: %d", sr.scheduler_version
+            "Scheduler RPC succeeded [server version %d]",
+            sr.scheduler_version
         );
     }
 
