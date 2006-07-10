@@ -48,7 +48,10 @@ IMPLEMENT_DYNAMIC_CLASS(CSimpleFrame, CBOINCBaseFrame)
 
 enum{
 	BTN_SHOW_GRAPHICS = 24000,
-	BTN_COLLAPSE = 24100,
+	BTN_COLLAPSE = 24050,
+	GAUGE_MAIN_PROGRESS = 24100,
+	LBL_ELAPSED_TIME = 24101,
+	LBL_REMAINING_TIME = 24102,
 };
 
 BEGIN_EVENT_TABLE(CSimpleFrame, CBOINCBaseFrame)
@@ -181,8 +184,9 @@ void CSimpleFrame::OnFrameRender(wxTimerEvent &event) {
 			   //Update();
 			   clientGUIInitialized = true;
 			   Show(true);
-		   }//else check for changes in the interface
-           
+		   }else{ //check for changes in the interface
+			   UpdateClientGUI();
+		   }           
 	   }
 	}
 }
@@ -254,9 +258,9 @@ void CSimpleFrame::InitSimpleClient()
 		}
 		///////////////////////Build Tab Page///////////////////////////////
 		//Prj Icon
-		w_iconPT1=new wxWindow(wTab,-1,SetwxPoint(2,2),SetwxSize(22,22));
-        i_prjIcnPT1 = new ImageLoader(w_iconPT1);
-        i_prjIcnPT1->LoadImage(g_prjIcnWCG);
+		w_iconPI=new wxWindow(wTab,-1,SetwxPoint(2,2),SetwxSize(22,22));
+        i_prjIcnPI = new ImageLoader(w_iconPI);
+        i_prjIcnPI->LoadImage(g_prjIcn);
 		//Project Name
 		lblProjectName=new wxStaticText(wTab,-1,wxT(""),SetwxPoint(25,2),SetwxSize(289,18),wxST_NO_AUTORESIZE);
 		lblProjectName->SetForegroundColour(wxSystemSettings::GetColour(wxSYS_COLOUR_WINDOWTEXT));
@@ -272,11 +276,11 @@ void CSimpleFrame::InitSimpleClient()
 		lblMyProgress->SetLabel(wxT("My Progress:"));
 		lblMyProgress->SetFont(wxFont(10,74,90,92,0,wxT("Tahoma")));
 		//Main Gauge
-		gaugeWuP1=new wxGauge(wTab,-1,100,SetwxPoint(15,60),SetwxSize(340,30),wxGA_SMOOTH);
-		gaugeWuP1->SetForegroundColour(appSkin->GetGaugeFgCol());
-		gaugeWuP1->SetBackgroundColour(appSkin->GetGaugeBgCol());
-		gaugeWuP1->SetValue(floor(result->fraction_done * 100000)/1000);
-		//Work Unit Name
+		gaugeWUMain=new wxGauge(wTab,GAUGE_MAIN_PROGRESS,100,SetwxPoint(15,60),SetwxSize(340,30),wxGA_SMOOTH);
+		gaugeWUMain->SetForegroundColour(appSkin->GetGaugeFgCol());
+		gaugeWUMain->SetBackgroundColour(appSkin->GetGaugeBgCol());
+		gaugeWUMain->SetValue(floor(result->fraction_done * 100000)/1000);
+        //Work Unit Name
 		lblWrkUnitName=new wxStaticText(wTab,-1,wxT(""),SetwxPoint(110,34),SetwxSize(250,13),wxST_NO_AUTORESIZE);
 		lblWrkUnitName->SetForegroundColour(wxSystemSettings::GetColour(wxSYS_COLOUR_WINDOWTEXT));
 		lblWrkUnitName->SetLabel(wxString(result->name.c_str(),wxConvUTF8));
@@ -287,7 +291,7 @@ void CSimpleFrame::InitSimpleClient()
 		lblElapsedTime->SetFont(wxFont(10,74,90,90,0,wxT("Tahoma")));
 		//Elapsed time Value
 		wxString strBuffer = wxEmptyString;
-		lblElapsedTimeValue=new wxStaticText(wTab,-1,wxT(""),SetwxPoint(102,97),SetwxSize(364,18),wxST_NO_AUTORESIZE);
+		lblElapsedTimeValue=new wxStaticText(wTab,LBL_ELAPSED_TIME,wxT(""),SetwxPoint(102,97),SetwxSize(364,18),wxST_NO_AUTORESIZE);
 		lblElapsedTimeValue->SetForegroundColour(wxSystemSettings::GetColour(wxSYS_COLOUR_WINDOWTEXT));
 		FormatCPUTime(result, strBuffer);
 		lblElapsedTimeValue->SetLabel(strBuffer);
@@ -298,7 +302,7 @@ void CSimpleFrame::InitSimpleClient()
 		lblTimeRemaining->SetLabel(wxT("Time remaining:"));
 		lblTimeRemaining->SetFont(wxFont(10,74,90,90,0,wxT("Tahoma")));
 		//Time Remaining Value
-		lblTimeRemainingValue=new wxStaticText(wTab,-1,wxT(""),SetwxPoint(115,119),SetwxSize(200,18),wxST_NO_AUTORESIZE);
+		lblTimeRemainingValue=new wxStaticText(wTab,LBL_REMAINING_TIME,wxT(""),SetwxPoint(115,119),SetwxSize(200,18),wxST_NO_AUTORESIZE);
 		lblTimeRemainingValue->SetForegroundColour(wxSystemSettings::GetColour(wxSYS_COLOUR_WINDOWTEXT));
 		FormatTimeToCompletion(result, strBuffer);
 		lblTimeRemainingValue->SetLabel(strBuffer);
@@ -339,6 +343,8 @@ void CSimpleFrame::InitSimpleClient()
 			wxMessageBox(_T("Sorry, this animation was not a valid animated GIF."));
 		}
 
+		// push page into the vector
+		m_windows.push_back(wTab);
 	}
 
 	wrkUnitNB->SetSelection(0);	
@@ -425,6 +431,28 @@ void CSimpleFrame::InitSimpleClient()
 
 	Refresh();
 }
+void CSimpleFrame::UpdateClientGUI(){
+	
+	CMainDocument* pDoc     = wxGetApp().GetDocument();
+	//update GUI
+	int resultCnt = pDoc->results.results.size();
+    wxString strBuffer = wxEmptyString;
+
+	for(int i = 0; i < resultCnt; i++){
+		RESULT* result = pDoc->results.results[i];
+		//Elapsed time Value
+	    FormatCPUTime(result, strBuffer);
+		wxWindow *currTab = m_windows[i];
+		wxStaticText *stET = wxDynamicCast(currTab->FindWindowById(LBL_ELAPSED_TIME), wxStaticText);
+       // currTab->FindWindowById(LBL_ELAPSED_TIME)->SetLabel(strBuffer);
+		stET->SetLabel(strBuffer);
+		stET->Update();
+		//currTab->Refresh();
+	}
+	//gaugeWUMain->SetValue(floor(result->fraction_done * 100000)/1000);
+	//Refresh();
+}
+
 void CSimpleFrame::initAfter(){
     //add your code here
     //Centre();
@@ -437,7 +465,7 @@ void CSimpleFrame::LoadSkinImages(){
 	
     fileImgBuf[0].LoadFile(dirPref + appSkin->GetAppBg(),wxBITMAP_TYPE_BMP);
 	// prj icons will be removed
-	g_prjIcnWCG = new wxImage(dirPref + appSkin->GetIcnPrjWCG(), wxBITMAP_TYPE_PNG);
+	g_prjIcn = new wxImage(dirPref + appSkin->GetIcnPrjWCG(), wxBITMAP_TYPE_PNG);
 	g_prjIcnPDRC = new wxImage(dirPref + appSkin->GetIcnPrjPRED(), wxBITMAP_TYPE_PNG);
 	// work unit icons
 	g_icoSleepWU = new wxImage(dirPref + appSkin->GetIcnSleepingWkUnit(), wxBITMAP_TYPE_PNG);
@@ -752,8 +780,8 @@ void CSimpleFrame::ReskinAppGUI(){
     btnExpand->SetBitmapLabel(btmpExp);
     btnExpand->SetBitmapSelected(btmpExpClick);
 	//gauges
-	gaugeWuP1->SetForegroundColour(appSkin->GetGaugeFgCol());
-    gaugeWuP1->SetBackgroundColour(appSkin->GetGaugeBgCol());
+	gaugeWUMain->SetForegroundColour(appSkin->GetGaugeFgCol());
+    gaugeWUMain->SetBackgroundColour(appSkin->GetGaugeBgCol());
 	btnExpand->SetBackgroundColour(appSkin->GetAppBgCol());
     btnCollapse->SetBackgroundColour(appSkin->GetAppBgCol());
 	btnArwLeft->SetBackgroundColour(appSkin->GetAppBgCol());

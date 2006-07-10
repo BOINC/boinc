@@ -6,6 +6,7 @@
 
 enum{
 	WEBSITE_URL_MENU_ID = 34500,
+	WEBSITE_URL_MENU_ID_REMOVE_PROJECT = 34550,
 };
 
 
@@ -13,6 +14,7 @@ BEGIN_EVENT_TABLE(StatImageLoader, wxWindow)
         EVT_PAINT(StatImageLoader::OnPaint) 
 		EVT_LEFT_DOWN(StatImageLoader::PopUpMenu)
 		EVT_MENU(WEBSITE_URL_MENU_ID,StatImageLoader::OnMenuLinkClicked)
+		EVT_MENU(WEBSITE_URL_MENU_ID_REMOVE_PROJECT,StatImageLoader::OnMenuLinkClicked)
 END_EVENT_TABLE() 
 
 StatImageLoader::StatImageLoader(wxWindow* parent, std::string url) : wxWindow(parent, wxID_ANY, wxDefaultPosition, wxDefaultSize, wxNO_BORDER) 
@@ -49,6 +51,20 @@ void StatImageLoader::CreateMenu()
  
 		statPopUpMenu->Append(urlItem);
 	}
+    
+	statPopUpMenu->AppendSeparator();
+	wxMenuItemList menuList = statPopUpMenu->GetMenuItems();
+	//wxMenuItem* separ = statPopUpMenu->FindItemByPosition(i);
+	#ifdef __WXMSW__
+		menuList[statPopUpMenu->GetMenuItemCount()-1]->SetBackgroundColour(wxColour("RED"));
+	#endif
+
+	wxMenuItem *urlItem = new wxMenuItem(statPopUpMenu, WEBSITE_URL_MENU_ID_REMOVE_PROJECT,wxT("Remove Project"));
+	#ifdef __WXMSW__
+		urlItem->SetBackgroundColour(appSkin->GetAppBgCol());
+	#endif
+	Connect( WEBSITE_URL_MENU_ID_REMOVE_PROJECT,  wxEVT_COMMAND_MENU_SELECTED, wxCommandEventHandler(StatImageLoader::OnMenuLinkClicked) );
+	statPopUpMenu->Append(urlItem);
 	//
 	/*
 	wxBitmap  *btmTellFriend = new wxBitmap();
@@ -58,21 +74,24 @@ void StatImageLoader::CreateMenu()
 }
 void StatImageLoader::OnMenuLinkClicked(wxCommandEvent& event) 
 { 
-     wxObject *m_wxBtnObj = event.GetEventObject();
-	 int menuIDevt =  event.GetId();
-	 int menuId = menuIDevt - WEBSITE_URL_MENU_ID;
-     
 	 CMainDocument* pDoc = wxGetApp().GetDocument();
      wxASSERT(pDoc);
+     wxObject *m_wxBtnObj = event.GetEventObject();
+	 int menuIDevt =  event.GetId();
 
-	 PROJECT* project = pDoc->state.lookup_project(prjUrl);
-	 project->gui_urls[menuId].name.c_str();
+	 if(menuIDevt == WEBSITE_URL_MENU_ID_REMOVE_PROJECT){
+		 //call detach project function		
+	 }else{
+         int menuId = menuIDevt - WEBSITE_URL_MENU_ID;
+	     PROJECT* project = pDoc->state.lookup_project(prjUrl);
+		 project->gui_urls[menuId].name.c_str();
      
-	 CBOINCBaseFrame* pFrame = wxDynamicCast(m_parent->GetParent(),CBOINCBaseFrame);
-     wxASSERT(pFrame);
-     wxASSERT(wxDynamicCast(pFrame, CBOINCBaseFrame));
-	 pFrame->ExecuteBrowserLink(project->gui_urls[menuId].url.c_str());
-	 int re = 4;
+	     CBOINCBaseFrame* pFrame = wxDynamicCast(m_parent->GetParent(),CBOINCBaseFrame);
+         wxASSERT(pFrame);
+         wxASSERT(wxDynamicCast(pFrame, CBOINCBaseFrame));
+	     pFrame->ExecuteBrowserLink(project->gui_urls[menuId].url.c_str());
+	     int re = 4;
+	 }
   
 } 
 

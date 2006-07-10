@@ -47,13 +47,13 @@ public:
    
 
 	// Images
-	wxImage *g_prjIcnWCG;
+	wxImage *g_prjIcn;
 	wxImage *g_prjIcnPDRC;
 	wxImage *g_icoSleepWU;
 	wxImage *g_icoWorkWU;
 	//
-	ImageLoader *i_prjIcnPT1;
-	wxWindow *w_iconPT1;
+	ImageLoader *i_prjIcnPI;
+	wxWindow *w_iconPI;
 	//
 	ImageLoader *i_prjIcnP1;
 	wxWindow *w_iconP1;
@@ -61,8 +61,7 @@ public:
 	ImageLoader *i_prjIcnP2;
 	wxWindow *w_iconP2;
 	// Flat Neotebook
-	wxWindow *wTab1;
-    wxWindow *wTab2;
+	std::vector<wxWindow*> m_windows; // vector of all window tabs created for notebook
 	wxFlatNotebookImageList m_ImageList;
 	wxFlatNotebook *wrkUnitNB;
 	//wxBitmap const sleepWUico;
@@ -126,7 +125,7 @@ public:
 	wxStaticLine *lnProjName;
 	wxStaticText *lblMyProgress;
 	wxStaticText *lblWrkUnitName;
-	wxGauge *gaugeWuP1;
+	wxGauge *gaugeWUMain;
 	wxStaticText *lblElapsedTime;
 	wxStaticText *lblElapsedTimeValue;
 	wxStaticText *lblTimeRemaining;
@@ -155,6 +154,7 @@ public:
 
 	void InitEmptyState();
     void InitSimpleClient();
+	void UpdateClientGUI();
 	int LoadSkinXML();
 	void LoadSkinImages();
 	void ReskinAppGUI();
