@@ -7,12 +7,14 @@ require_once('../inc/forum_std.inc');
 require_once('../inc/util.inc');
 
 $config = get_config();
-if (parse_element($config,"<no_forum_rating>")) {
+if (parse_element($config,"<no_forum_rating/>")) {
         page_head("Rating offline");
         echo "This function is turned off by the project";
         page_tail();
         exit(0);
         }
+
+exit(0);
 
 db_init();
 

@@ -7392,3 +7392,18 @@ David  9 July 2006
 
     client
         time_stats.C,h
+
+Matt 10 July 2006
+
+    I did this already once, but for some reason the code got lost, so..
+    - User web:
+        - If the flag <no_forum_rating/> is in config.xml,
+            the rating +/- links don't show up under posts.
+        - check in forum_rate.php to do the same check
+            (and make sure people are trying to sneakily downrate posts
+            without using the +/- links).
+
+    html/user
+       forum_rate.php
+    html/inc
+       forum.inc

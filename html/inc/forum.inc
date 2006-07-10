@@ -6,6 +6,7 @@ require_once('../inc/db_forum.inc');
 require_once('../inc/time.inc');
 require_once('../inc/forum_moderators.inc');
 require_once('../inc/text_transform.inc');
+require_once('../inc/util.inc');
 
 define('AVATAR_WIDTH', 100);
 define('AVATAR_HEIGHT',100);
@@ -75,6 +76,9 @@ $post_ratings['1'] = "Helpful (+1)";
 $post_ratings['0'] = "Neutral";
 $post_ratings['-1'] = "Not helpful (-1)";
 $post_ratings['-2'] = "Off topic (-2)";
+
+$config = get_config();
+$no_forum_rating = parse_element($config,"<no_forum_rating/>"); 
 
 /**
  *  Process a user-supplied title to remove HTML stuff
@@ -204,6 +208,7 @@ function show_posts($thread, $sort_style, $filter, $logged_in_user, $show_contro
  **/
 function show_post($post, $thread, $logged_in_user, $n, $controls=FORUM_CONTROLS, $filter=true) {
     $user = $post->getOwner();
+    global $no_forum_rating;
 
     //If the user that made this post is on the list of people to ignore, change thresholds to be much more strict
     if ($logged_in_user){
@@ -307,8 +312,12 @@ function show_post($post, $thread, $logged_in_user, $n, $controls=FORUM_CONTROLS
         
         echo "<p>", $posttext, "</p>";
         echo "</td></tr><tr><td class=\"postfooter\">ID: <i>", $post->id;
+        if ($no_forum_rating != NULL) { 
+            echo " | <a href=\"forum_report_post.php?post=".$post->getID()."\"><img src=\"".REPORT_POST_IMAGE."\" alt=\"Report this post as offensive\" height=\"".REPORT_POST_IMAGE_HEIGHT."\" border=0></a></td>";
+        } else {
         $rating = $post->getRating();
         echo " | Rating: ", $rating, "</i> | rate: <a href=\"forum_rate.php?post=".$post->getID()."&amp;choice=p\"><img src=\"".RATE_POSITIVE_IMAGE."\" alt=\"+\" height=\"".RATE_POSITIVE_IMAGE_HEIGHT."\" border=0></a> / <a href=\"forum_rate.php?post=".$post->getID()."&amp;choice=n\"><img src=\"".RATE_NEGATIVE_IMAGE."\" alt=\"-\" height=\"".RATE_NEGATIVE_IMAGE_HEIGHT."\" border=0></a> - <a href=\"forum_report_post.php?post=".$post->getID()."\"><img src=\"".REPORT_POST_IMAGE."\" alt=\"Report this post as offensive\" height=\"".REPORT_POST_IMAGE_HEIGHT."\" border=0></a></td>";
+        }
         if ($controls == FORUM_CONTROLS) {
             echo "<td align=right class=\"postfooter\">[<a href=\"forum_reply.php?thread=" . $thread->getID() . "&amp;post=" . $post->getID() . "#input\">Reply to this post</a>]</td>";
         } else {
