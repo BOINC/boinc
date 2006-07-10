@@ -7361,3 +7361,18 @@ David  9 July 2006
 
     client/
         cpu_sched.C
+
+David  9 July 2006
+    - core client: instead of calling compute_work_requests()
+        every 5 seconds (in scheduler_rpc_poll()),
+        call it at startup, and thereafter every 10 minutes or
+        whenever something happens that could change work requests.
+        (from John McLeod)
+
+    client/
+        client_state.C,h
+        cpu_sched.C
+        cs_apps.C
+        cs_scheduler.C
+        gui_rpc_server_ops.C
+        scheduler_op.C

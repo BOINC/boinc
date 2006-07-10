@@ -266,6 +266,7 @@ private:
 	bool work_fetch_no_new_work;
     bool must_enforce_cpu_schedule;
     bool must_schedule_cpus;
+    bool must_check_work_fetch;
     std::vector <RESULT*> ordered_scheduled_results;
     void assign_results_to_projects();
     RESULT* largest_debt_project_best_result();
@@ -310,6 +311,14 @@ public:
         // - an app fails to start (CS::schedule_cpus())
         // - any project op is done via RPC (suspend/resume)
         // - any result op is done via RPC (suspend/resume)
+    void request_work_fetch(const char*);
+        // Check if work fetch needed.  Called when:
+        // - core client starts (CS::init())
+        // - task is completed or fails
+        // - tasks are killed
+        // - an RPC completes
+        // - project suspend/detch/attach/reset GUI RPC
+        // - result suspend/abort GUI RPC
     int quit_activities();
     void set_ncpus();
     double estimate_cpu_time(WORKUNIT&);

@@ -519,6 +519,7 @@ bool SCHEDULER_OP::poll() {
                 }
             }
             cur_proj = NULL;
+            gstate.request_work_fetch("RPC complete");
             return true;
         }
     }

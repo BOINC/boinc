@@ -776,6 +776,7 @@ bool CLIENT_STATE::rr_simulation(double per_cpu_proc_rate, double rrs) {
     // Simulation loop.  Keep going until work done
     //
     double sim_now = now;
+    cpu_shortfall = 0;
     while (active.size()) {
 
         // compute finish times and see which result finishes first
@@ -865,8 +866,8 @@ bool CLIENT_STATE::rr_simulation(double per_cpu_proc_rate, double rrs) {
             double end_time = sim_now + rpbest->rrsim_finish_delay;
             if (end_time > buf_end) end_time = buf_end;
             double dtime = (end_time - sim_now);
-            int idle_cpus = ncpus - last_active_size;
-            cpu_shortfall += dtime*idle_cpus;
+            int nidle_cpus = ncpus - last_active_size;
+            if (nidle_cpus) cpu_shortfall += dtime*nidle_cpus;
 
             double proj_cpu_share = ncpus*pbest->resource_share/saved_rrs;
             if (last_proj_active_size < proj_cpu_share) {

@@ -533,6 +533,14 @@ int CLIENT_STATE::compute_work_requests() {
     double work_min_period = global_prefs.work_buf_min_days * SECONDS_PER_DAY;
     double global_work_need = work_needed_secs();
     double prrs;
+    static double last_work_request_calc = 0;
+    if (gstate.now - last_work_request_calc >= 600) {
+        gstate.request_work_fetch("timer");
+    }
+
+    if (!must_check_work_fetch) return 0;
+    last_work_request_calc = gstate.now;
+    must_check_work_fetch = false;
 
     overall_work_fetch_urgency = WORK_FETCH_DONT_NEED;
     for (i=0; i< projects.size(); i++) {
@@ -668,7 +676,7 @@ int CLIENT_STATE::compute_work_requests() {
         );
     }
 
-    return 0;
+    return 1;
 }
 
 // called from the client's polling loop.
@@ -689,8 +697,6 @@ bool CLIENT_STATE::scheduler_rpc_poll() {
             action = true;
             break;
         }
-
-        compute_work_requests(); 
 
         // contact project requested by user
         //

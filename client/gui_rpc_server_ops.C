@@ -187,6 +187,7 @@ static void handle_project_op(char* buf, MIOFILE& fout, const char* op) {
     }
     if (!strcmp(op, "reset")) {
         gstate.request_schedule_cpus("project reset by user");
+        gstate.request_work_fetch("project reset by user");
         gstate.reset_project(p);    // writes state file
     } else if (!strcmp(op, "suspend")) {
         if (p->non_cpu_intensive) {
@@ -194,11 +195,13 @@ static void handle_project_op(char* buf, MIOFILE& fout, const char* op) {
         } else {
             p->suspended_via_gui = true;
             gstate.request_schedule_cpus("project suspended by user");
+            gstate.request_work_fetch("project suspended by user");
             gstate.set_client_state_dirty("Project suspended by user");
         }
     } else if (!strcmp(op, "resume")) {
         p->suspended_via_gui = false;
         gstate.request_schedule_cpus("project resumed by user");
+        gstate.request_work_fetch("project resumed by user");
         gstate.set_client_state_dirty("Project resumed by user");
     } else if (!strcmp(op, "detach")) {
         if (p->attached_via_acct_mgr) {
@@ -455,12 +458,14 @@ static void handle_result_op(char* buf, MIOFILE& fout, const char* op) {
         } else {
             rp->abort_inactive(ERR_ABORTED_VIA_GUI);
         }
+        gstate.request_work_fetch("result aborted by user");
     } else if (!strcmp(op, "suspend")) {
         if (p->non_cpu_intensive) {
             msg_printf(p, MSG_ERROR, "Can't suspend non-CPU-intensive result");
         } else {
             rp->suspended_via_gui = true;
         }
+        gstate.request_work_fetch("result suspended by user");
     } else if (!strcmp(op, "resume")) {
         rp->suspended_via_gui = false;
     }
@@ -890,6 +895,7 @@ int GUI_RPC_CONN::handle_rpc() {
     } else if (match_tag(request_msg, "<read_global_prefs_override/>")) {
         gstate.read_global_prefs();
         gstate.request_schedule_cpus("Preferences override");
+        gstate.request_work_fetch("Preferences override");
     } else {
 
         // RPCs after this point enable network communication

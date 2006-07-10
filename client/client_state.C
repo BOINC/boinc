@@ -247,9 +247,10 @@ int CLIENT_STATE::init() {
 
     read_global_prefs();
 
-    // set period start time and reschedule
+    // do CPU scheduler and work fetch
     //
     request_schedule_cpus("Startup");
+    request_work_fetch("Startup");
     cpu_sched_last_time = now;
 
     // set up the project and slot directories
@@ -472,6 +473,7 @@ bool CLIENT_STATE::poll_slow_events() {
     }
     POLL_ACTION(handle_finished_apps   , handle_finished_apps   );
     if (!tasks_suspended) {
+        POLL_ACTION(compute_work_requests, compute_work_requests          );
         POLL_ACTION(possibly_schedule_cpus, possibly_schedule_cpus          );
         POLL_ACTION(enforce_schedule    , enforce_schedule  );
         tasks_restarted = true;
