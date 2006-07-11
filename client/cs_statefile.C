@@ -96,6 +96,8 @@ int CLIENT_STATE::parse_state_file() {
     while (fgets(buf, 256, f)) {
         if (match_tag(buf, "</client_state>")) {
             break;
+        } else if (match_tag(buf, "<client_state>")) {
+            continue;
         } else if (match_tag(buf, "<project>")) {
             PROJECT temp_project;
             retval = temp_project.parse_state(mf);

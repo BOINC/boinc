@@ -452,6 +452,7 @@ int ACTIVE_TASK::parse(MIOFILE& fin) {
         else if (parse_double(buf, "<rss_bytes>", x)) continue;
         else if (match_tag(buf, "<supports_graphics/>")) continue;
         else if (parse_int(buf, "<graphics_mode_acked>", n)) continue;
+        else if (parse_int(buf, "<scheduler_state>", n)) continue;
         else {
             if (log_flags.unparsed_xml) {
                 msg_printf(0, MSG_ERROR,

@@ -73,6 +73,7 @@ struct CONFIG {
     int ncpus;
     CONFIG();
     int parse(FILE*);
+    int parse_options(FILE*);
 };
 
 extern LOG_FLAGS log_flags;

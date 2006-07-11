@@ -94,6 +94,26 @@ CONFIG::CONFIG() {
     save_stats_days = 30;
 }
 
+int CONFIG::parse_options(FILE* f) {
+    char tag[256], contents[1024];
+    while (get_tag(f, tag, contents)) {
+        if (!strcmp(tag, "/options")) {
+            return 0;
+        } else if (!strcmp(tag, "save_stats_days")) {
+            save_stats_days = get_int(contents);
+        } else if (!strcmp(tag, "dont_check_file_sizes")) {
+            dont_check_file_sizes = get_bool(contents);
+        } else if (!strcmp(tag, "ncpus")) {
+            ncpus = get_int(contents);
+        } else {
+            msg_printf(NULL, MSG_ERROR, "Unparsed tag in %s: %s\n",
+                CONFIG_FILE, tag
+            );
+        }
+    }
+    return ERR_XML_PARSE;
+}
+
 int CONFIG::parse(FILE* f) {
     char tag[256], contents[1024];
 
@@ -103,17 +123,13 @@ int CONFIG::parse(FILE* f) {
     if (strstr(tag, "?xml")) get_tag(f, tag);
     if (strcmp(tag, "cc_config")) return ERR_XML_PARSE;
 
-    while (get_tag(f, tag, contents)) {
+    while (get_tag(f, tag)) {
         if (!strcmp(tag, "/cc_config")) return 0;
         if (!strcmp(tag, "log_flags")) {
             log_flags.parse(f);
             continue;
-        } else if (!strcmp(tag, "save_stats_days")) {
-            save_stats_days = get_int(contents);
-        } else if (!strcmp(tag, "dont_check_file_sizes")) {
-            dont_check_file_sizes = get_bool(contents);
-        } else if (!strcmp(tag, "ncpus")) {
-            ncpus = get_int(contents);
+        } else if (!strcmp(tag, "options")) {
+            parse_options(f);
         } else {
             msg_printf(NULL, MSG_ERROR, "Unparsed tag in %s: %s\n",
                 CONFIG_FILE, tag

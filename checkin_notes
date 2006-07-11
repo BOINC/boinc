@@ -7448,3 +7448,18 @@ David  11 July 2006
 		server_types.h
 		show_shmem.C
 		validator.C
+
+David  11 July 2006
+	- core client: fix bug where the first log flag in the
+		list was getting skipped over.
+		This was due to a design flaw in the new XML parsing code.
+		To work around this, I changed the format of
+		the cc_config.xml file so that options are
+		enclosed in <options> ... </options>
+
+	client/
+		app.C
+		cs_statefile.C
+		log_flags.C,h
+	lib/
+		parse.C
