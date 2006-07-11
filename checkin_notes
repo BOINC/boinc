@@ -7463,3 +7463,14 @@ David  11 July 2006
 		log_flags.C,h
 	lib/
 		parse.C
+
+David  11 July 2006
+    - core client, Windows: don't call finalize() in quit_client();
+        quit_client() is run in a different thread, apparently,
+        and we can't safely do anything in that thread.
+        Instead, have it set a flag telling the main thread to exit,
+        then do a sleep loop until the main thread has exited.
+        (Windows... you gotta love it).
+
+    client/
+        main.C

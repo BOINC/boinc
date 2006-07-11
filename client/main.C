@@ -30,6 +30,7 @@ extern HINSTANCE g_hClientLibraryDll;
 static HANDLE g_hWin9xMonitorSystemThread = NULL;
 static DWORD g_Win9xMonitorSystemThreadID = NULL;
 static BOOL g_bIsWin9x = FALSE;
+static bool main_thread_exited = false;
 
 typedef BOOL (*pfnIsWindows2000Compatible)();
 typedef BOOL (CALLBACK* ClientLibraryStartup)();
@@ -129,7 +130,10 @@ void show_message(PROJECT *p, char* msg, int priority) {
 #ifdef WIN32
 void quit_client() {
     gstate.requested_exit = true;
-    finalize();
+    while (1) {
+        boinc_sleep(1.0);
+        if (main_thread_exited) break;
+    }
 }
 
 void suspend_client() {
@@ -542,7 +546,10 @@ int boinc_main_loop() {
         DosSleep(0);
 #endif
     }
-    return finalize();
+    finalize();
+#ifdef _WIN32
+    main_thread_exited = true;
+#endif
 }
 
 int finalize() {

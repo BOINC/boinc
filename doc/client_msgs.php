@@ -8,9 +8,11 @@ The core client reads configuration options from a file
 This file has the following format: 
 ".html_text("
 <cc_config>
-    [ <save_stats_days>N</save_stats_days> ]
-    [ <dont_check_file_size>0|1</dont_check_file_size> ]
-    [ <ncpus>N</ncpus> ]
+    <options>
+        [ <save_stats_days>N</save_stats_days> ]
+        [ <dont_check_file_size>0|1</dont_check_file_size> ]
+        [ <ncpus>N</ncpus> ]
+    </options>
     <log_flags>
         [ flags ]
     </log_flags>
