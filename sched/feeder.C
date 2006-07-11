@@ -306,7 +306,7 @@ static bool find_work_item(
 
 static int find_work_item_index(int slot_pos) {
 	if (ssp->app_weights == 0) return 0;
-	int mod = slot_pos % ssp->app_weights;
+	int mod = slot_pos % (int)(ssp->app_weights);
 	int work_item_index = -1;
 	for (int i=0; i<ssp->napps; i++) {
 		if (ssp->apps[i].weight < 1) continue;
@@ -314,7 +314,7 @@ static int find_work_item_index(int slot_pos) {
 			work_item_index = i;
 			break;
 		} else {
-			mod = mod - ssp->apps[i].weight;
+			mod = mod - (int)ssp->apps[i].weight;
 		}
 	}
 	// The condition below will occur if all projects have a weight of 0
@@ -345,11 +345,11 @@ static void scan_work_array(
     	if (all_apps) {
     		if (ssp->app_weights > 0) {
     			work_item_index = find_work_item_index(i);
-    			enum_size = floor(0.5 + ENUM_LIMIT*(ssp->apps[work_item_index].weight)/(ssp->app_weights));
+    			enum_size = (int) floor(0.5 + ENUM_LIMIT*(ssp->apps[work_item_index].weight)/(ssp->app_weights));
     		} else {
     			// If all apps have a weight of zero then evenly distribute the slots
     			work_item_index = i % ssp->napps;
-    			enum_size = floor(0.5 + ((double)ENUM_LIMIT)/ssp->napps);
+    			enum_size = (int) floor(0.5 + ((double)ENUM_LIMIT)/ssp->napps);
     		}
     		sprintf(mod_select_clause, "%s and result.appid=%d",
     		    select_clause, ssp->apps[work_item_index].id

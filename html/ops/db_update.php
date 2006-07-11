@@ -324,6 +324,9 @@ function update_6_16_2006() {
     do_query("ALTER TABLE `subscriptions` CHANGE `notified` `notified_time` INT( 14 ) UNSIGNED DEFAULT '0' NOT NULL");
 }
 
-//update_6_16_2006();
+function update_7_11_2006() {
+    do_query("alter table app add weight double not null");
+}
+//update_7_11_2006();
 
 ?>

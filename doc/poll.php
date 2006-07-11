@@ -48,7 +48,7 @@ list_bar("Comments");
 list_item2(
     "Please suggest ways that BOINC,
     and the projects that use it, could be improved:",
-    "<textarea name=$improved lines=4 cols=60></textarea>"
+    "<textarea name=$improved rows=4 cols=60></textarea>"
 );
 
 list_item("<br>", "When done click: <input type=submit value=OK>");

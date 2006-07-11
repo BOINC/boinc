@@ -15,6 +15,7 @@ function error() {
 mysql_pconnect("localhost", "boincadm", null);
 mysql_select_db("poll");
 
+session_set_cookie_params(86400*365);
 session_start();
 $uid = session_id();
 

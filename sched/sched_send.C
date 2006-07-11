@@ -33,6 +33,7 @@ using namespace std;
 
 #include "error_numbers.h"
 #include "parse.h"
+#include "util.h"
 
 #include "server_types.h"
 #include "sched_shmem.h"

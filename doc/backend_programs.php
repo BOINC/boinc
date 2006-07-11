@@ -25,6 +25,9 @@ list_item("-mod n i",
 	This lets you run the daemon on arbitrarily many machines.
 	(available for feeder, transitioner, validator)."
 );
+list_item("-sleep_interval N",
+    "How long to sleep when there's nothing to do."
+);
 list_end();
 
 echo "
@@ -66,7 +69,10 @@ list_item("-sleep_interval N",
     "Sleep N seconds if nothing to do"
 );
 list_item("-allapps",
-    "Interleave work items from all applications uniformly"
+    "Interleave work items from all applications.
+    Weight applications according to the value of their 'weight' field;
+    if all weights are zero,
+    results are interleaved uniformly."
 );
 list_item("-purge_stale X",
     " remove work items from the shared memory segment
