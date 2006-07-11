@@ -25,54 +25,31 @@ echo "<form name=blah action=poll_action.php>\n";
 list_start();
 list_bar("Do you run BOINC?");
 
-$choices = array($choice0, $choice1, $choice2, $choice3);
-generate_functions($choices);
-show_overall_choices($choices);
+generate_functions($overall_choices);
+show_choices($overall_choices, $run_boinc);
 
-list_item2(
-    "How could BOINC be improved?",
-    "<textarea name=improved lines=4 cols=60></textarea>"
-);
 list_bar("Choosing projects");
-echo "
-    <tr>
-        <td bgcolor=$light_blue valign=top>
-        Which are the most important factors when you decide
-        whether to participate in a BOINC project?
-        </td>
-        <td>
-        <font size=-2>[check all that apply]</font><br>
-";
-foreach ($factors as $factor) {
-    $name = $factor["name"];
-    $text = $factor["text"];
-    echo "
-        <input type=checkbox name=$name> $text <br>\n
-    ";
-}
+show_choice($factors, "");
 
-echo "
-    Other: <input size=50>
-        </td></tr>
-";
-
-mult_choice($where_item["name"], $where_item["text"], $where_item["choices"]);
+show_choice($where_item, "");
 list_bar("Your computers");
-foreach($comp_items as $item) {
-    mult_choice($item["name"], $item["text"], $item["choices"]);
-}
+show_choices($comp_items, "");
 list_bar("You");
-foreach($you_items as $item) {
-    mult_choice($item["name"], $item["text"], $item["choices"]);
-}
+show_choices($you_items, "");
 
 echo "
     <tr>
-        <td width=50% bgcolor=$light_blue valign=top>Nationality</td>
-        <td><select name=country>
+        <td bgcolor=$light_blue valign=top>Nationality</td>
+        <td><select name=$country>
 ";
 print_country_select();
 echo "</select></td></tr>";
+list_bar("Comments");
+list_item2(
+    "Please suggest ways that BOINC,
+    and the projects that use it, could be improved:",
+    "<textarea name=$improved lines=4 cols=60></textarea>"
+);
 
 list_item("<br>", "When done click: <input type=submit value=OK>");
 list_end();
