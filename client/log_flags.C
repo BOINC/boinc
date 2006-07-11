@@ -115,7 +115,7 @@ int CONFIG::parse_options(FILE* f) {
 }
 
 int CONFIG::parse(FILE* f) {
-    char tag[256], contents[1024];
+    char tag[256];
 
     memset(this, 0, sizeof(CONFIG));
 

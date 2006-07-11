@@ -546,10 +546,11 @@ int boinc_main_loop() {
         DosSleep(0);
 #endif
     }
-    finalize();
+    retval = finalize();
 #ifdef _WIN32
     main_thread_exited = true;
 #endif
+    return retval;
 }
 
 int finalize() {
