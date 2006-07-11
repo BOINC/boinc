@@ -21,17 +21,7 @@
 #ifndef _SIMPLEFRAME_H_
 #define _SIMPLEFRAME_H_
 
-
-class MyCanvas : public wxScrolledWindow
-{
-public:
-    MyCanvas(wxWindow *parent, const wxPoint& pos, const wxSize& size);
-    void OnPaint(wxPaintEvent& event);
-
-private:
-
-    DECLARE_EVENT_TABLE()
-};
+class CViewTabPage;
 
 // Define a new frame
 class CSimpleFrame : public CBOINCBaseFrame
@@ -47,13 +37,8 @@ public:
    
 
 	// Images
-	wxImage *g_prjIcn;
-	wxImage *g_prjIcnPDRC;
 	wxImage *g_icoSleepWU;
 	wxImage *g_icoWorkWU;
-	//
-	ImageLoader *i_prjIcnPI;
-	wxWindow *w_iconPI;
 	//
 	ImageLoader *i_prjIcnP1;
 	wxWindow *w_iconP1;
@@ -61,10 +46,10 @@ public:
 	ImageLoader *i_prjIcnP2;
 	wxWindow *w_iconP2;
 	// Flat Neotebook
-	std::vector<wxWindow*> m_windows; // vector of all window tabs created for notebook
+	std::vector<CViewTabPage*> m_windows; // vector of all window tabs created for notebook
 	wxFlatNotebookImageList m_ImageList;
 	wxFlatNotebook *wrkUnitNB;
-	//wxBitmap const sleepWUico;
+	wxBitmap const sleepWUico;
     wxBitmap const workWUico;
     ////// Skin variables //////
 	//XML doc
@@ -72,9 +57,9 @@ public:
 	//Skin Class
     SkinClass *appSkin;
 	wxString skinPath;
-	wxString skinName;
-	wxString skinsFolder;
 	// My projects area
+	std::vector<StatImageLoader*> m_statProjects; // vector of all project icons created for GUI
+	
 	wxImage *g_statWCG;
 	StatImageLoader *i_statWCG;
 	wxWindow *w_statWCG;
@@ -101,35 +86,15 @@ public:
 	//Collapse button
 	bool midAppCollapsed;
 	bool btmAppCollapsed;
-	wxImage *g_collapse;
-	wxImage *g_collapseClick;
-	wxBitmap btmpCol; 
-    wxBitmap btmpColClick; 
-	wxBitmapButton *btnCollapse;
 	//Expand button
     wxImage *g_expand;
 	wxImage *g_expandClick;
 	wxBitmap btmpExp; 
     wxBitmap btmpExpClick; 
 	wxBitmapButton *btnExpand;
-	//ShowGraphic button
-    wxImage *g_showGraphic;
-	wxImage *g_showGraphicClick;
-	wxBitmap btmpShwGrph; 
-    wxBitmap btmpShwGrphClick; 
-	wxBitmapButton *btnShowGraphic;
 	////////////////////////////
 	wxStaticText *st9c;
 	wxWindow *w11c;
-	wxStaticText *lblProjectName;
-	wxStaticLine *lnProjName;
-	wxStaticText *lblMyProgress;
-	wxStaticText *lblWrkUnitName;
-	wxGauge *gaugeWUMain;
-	wxStaticText *lblElapsedTime;
-	wxStaticText *lblElapsedTimeValue;
-	wxStaticText *lblTimeRemaining;
-	wxStaticText *lblTimeRemainingValue;
 	wxStaticText *st22c;
 	wxStaticText *st23c;
 	wxStaticText *stMyProj;
@@ -148,7 +113,6 @@ public:
 	wxBitmapButton *btnPlay;
 	wxBitmapButton *btnMessages;
 	wxBitmapButton *btnAdvancedView;
-	wxStaticBitmap *imgBgAnim;
 	wxStaticLine *lnMyProjBtm;
 	bool clientGUIInitialized;
 
@@ -176,14 +140,9 @@ public:
 	wxBitmap *btmpBtnPlayL;
 	wxBitmap *btmpMessagesBtnL;
 	wxBitmap *btmpBtnAdvViewL;
-	wxBitmap *btmpBgAnim;
 	wxBitmap *btmpIcnSleeping;
 	wxBitmap fileImgBuf[11];
-	wxWindow *wAnimWk1;
-    // Animation
-    MyCanvas* GetCanvas() const { return m_canvas; }
-    wxGIFAnimationCtrl* GetAnimationCtrl() const { return m_animationCtrl; }
-
+	
 #if 0
     wxAnimationPlayer& GetPlayer() { return m_player; }
     wxAnimationBase& GetAnimation() { return m_animation; }
@@ -199,21 +158,7 @@ protected:
 	void OnConnect(CFrameEvent& event );
     void OnFrameRender(wxTimerEvent& event );
 	void OnPageChanged(wxFlatNotebookEvent& event);
-    wxInt32 FormatCPUTime( RESULT* rslt, wxString& strBuffer ) const;
-    wxInt32 FormatTimeToCompletion( RESULT* rslt, wxString& strBuffer ) const;
-    void SGUITimeFormat( float fBuffer, wxString& strBuffer) const;
-	void DrawBackImg(wxEraseEvent& event,wxWindow *win,wxBitmap & bitMap,int opz);
-    wxPoint m_tmppoint;
-    wxSize  m_tmpsize;
-    wxPoint& SetwxPoint(long x,long y);
-    wxSize& SetwxSize(long w,long h);
-    /////////////////////////////////////////////////////
-    MyCanvas*           m_canvas;
-    wxGIFAnimationCtrl* m_animationCtrl;
-#if 0
-    wxAnimationPlayer   m_player;
-    wxGIFAnimation      m_animation;
-#endif
+    void DrawBackImg(wxEraseEvent& event,wxWindow *win,wxBitmap & bitMap,int opz);
 };
 
 #endif

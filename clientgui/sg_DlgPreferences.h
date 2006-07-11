@@ -52,12 +52,8 @@ public:
  DECLARE_EVENT_TABLE()
 
 protected:
-  wxPoint m_tmppoint;
-  wxSize  m_tmpsize;
   wxString m_SkinName;
   wxString m_SkinDirPrefix;
-  wxPoint& SetwxPoint(long x,long y);
-  wxSize& SetwxSize(long w,long h);
  void OnEraseBackground(wxEraseEvent& event);
  void OnBtnClick(wxCommandEvent& event);
  void OnCmbSelected(wxCommandEvent& event);

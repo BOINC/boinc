@@ -54,6 +54,9 @@ public:
         wxString GetAnimationBG() const { return m_animBg; }
         wxString GetAnimationFile() const { return m_animFile; }
         
+		wxString GetSkinName() const { return m_skinName; }
+		wxString GetSkinsFolder() const { return m_skinsFolder; }
+
         // Setters
 		void SetAppBg(const wxString imgsrc) { m_appBg = imgsrc; }
 		void SetAppBgCol(const wxString& clr) { m_appBgCol = clr; }
@@ -98,6 +101,9 @@ public:
 		void SetIcnPrjGeneric(const wxString& imgsrc) { m_icnPrjGeneric = imgsrc; }
 		void SetAnimationBg(const wxString& imgsrc) { m_animBg = imgsrc; }
 		void SetAnimationFile(const wxString& imgsrc) { m_animFile = imgsrc; }
+		
+		void SetSkinName(const wxString& name) { m_skinName = name; }
+		void SetSkinsFolder(const wxString& fldr) { m_skinsFolder = fldr; }
 
 private: 
 	    /// Constructors
@@ -151,5 +157,8 @@ private:
 		// animation
 		wxString m_animBg;
 		wxString m_animFile;
+		//skin info
+		wxString m_skinName;
+		wxString m_skinsFolder;
 };
 #endif  /* _SKIN_CLASS */

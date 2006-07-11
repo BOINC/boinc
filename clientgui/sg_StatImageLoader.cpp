@@ -21,7 +21,7 @@ StatImageLoader::StatImageLoader(wxWindow* parent, std::string url) : wxWindow(p
 {
 	m_parent = parent;
     appSkin = SkinClass::Instance();
-    prjUrl = url;
+    m_prjUrl = url;
     CreateMenu();
 }
 
@@ -36,7 +36,7 @@ void StatImageLoader::CreateMenu()
 	CMainDocument* pDoc = wxGetApp().GetDocument();
     wxASSERT(pDoc);
 
-	PROJECT* project = pDoc->state.lookup_project(prjUrl);
+	PROJECT* project = pDoc->state.lookup_project(m_prjUrl);
 	int urlCount = project->gui_urls.size();
 	
 	// create pop up menu
@@ -83,7 +83,7 @@ void StatImageLoader::OnMenuLinkClicked(wxCommandEvent& event)
 		 //call detach project function		
 	 }else{
          int menuId = menuIDevt - WEBSITE_URL_MENU_ID;
-	     PROJECT* project = pDoc->state.lookup_project(prjUrl);
+	     PROJECT* project = pDoc->state.lookup_project(m_prjUrl);
 		 project->gui_urls[menuId].name.c_str();
      
 	     CBOINCBaseFrame* pFrame = wxDynamicCast(m_parent->GetParent(),CBOINCBaseFrame);

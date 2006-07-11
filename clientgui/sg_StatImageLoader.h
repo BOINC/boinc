@@ -16,7 +16,7 @@ public:
         wxMenu *statPopUpMenu;
         //Skin Class
         SkinClass *appSkin;
-		std::string prjUrl;
+		std::string m_prjUrl;
 	    /// Constructors
 		StatImageLoader(wxWindow* parent, std::string url); 
         void LoadImage(const wxImage& image); 
