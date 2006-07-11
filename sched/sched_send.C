@@ -512,7 +512,7 @@ int update_wu_transition_time(WORKUNIT wu, time_t x) {
     char buf[256];
 
     dbwu.id = wu.id;
-
+    
     // SQL note: can't use min() here
     //
     sprintf(buf,
@@ -764,7 +764,20 @@ int send_work(
         reply.wreq.infeasible_only = false;
         send_work_locality(sreq, reply, platform, ss);
     } else {
-        // give priority to results that were infeasible for some other host
+    	// give top priority to results that require a 'reliable host'
+        //
+        double expavg_credit = reply.host.expavg_credit;
+        double expavg_time = reply.host.expavg_time;
+        update_average(0, 0, CREDIT_HALF_LIFE, expavg_credit, expavg_time);
+        if ((expavg_credit/reply.host.p_ncpus) > 70) {
+        	reply.wreq.reliable_only = true;
+        	reply.wreq.infeasible_only = false;
+            log_messages.printf(SCHED_MSG_LOG::MSG_DEBUG, "[HOST#%d] is reliable\n", reply.host.id);
+        	scan_work_array(sreq, reply, platform, ss);
+        }
+    	reply.wreq.reliable_only = false;
+    	
+        // give next priority to results that were infeasible for some other host
         //
         reply.wreq.infeasible_only = true;
         scan_work_array(sreq, reply, platform, ss);

@@ -56,6 +56,7 @@ create table app (
     deprecated          smallint    not null,
     user_friendly_name  varchar(254) not null,
     homogeneous_redundancy smallint not null,
+    weight              double      not null,
     primary key (id)
 ) type=InnoDB;
 

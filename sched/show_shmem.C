@@ -52,8 +52,8 @@ int main() {
         WU_RESULT& wu_result = ssp->wu_results[i];
         switch(wu_result.state) {
         case WR_STATE_PRESENT:
-            printf("%d: present; app id %d; infeasible_count %d; result %d\n",
-                i, wu_result.workunit.appid, wu_result.infeasible_count, wu_result.resultid
+            printf("%d: present; app id %d; infeasible_count %d; result %d, need_reliable %d\n",
+                i, wu_result.workunit.appid, wu_result.infeasible_count, wu_result.resultid, wu_result.need_reliable
             );
             break;
         case WR_STATE_EMPTY:

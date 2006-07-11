@@ -67,6 +67,8 @@ struct APP {
     bool deprecated;
     char user_friendly_name[256];
     bool homogeneous_redundancy;
+    double weight;          // tells the feeder what fraction of results
+                            // should come from this app
 
     int write(FILE*);
     void clear();
@@ -495,6 +497,7 @@ struct TRANSITIONER_ITEM {
     int res_file_delete_state;
     int res_sent_time;
     int res_hostid;
+    int res_received_time;
 
     void clear();
     void parse(MYSQL_ROW&);

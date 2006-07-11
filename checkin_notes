@@ -7407,3 +7407,44 @@ Matt 10 July 2006
        forum_rate.php
     html/inc
        forum.inc
+
+David  11 July 2006
+	- Feeder: an option so that apps have a "weight" (floating-pt)
+		that determines the proportions of work items inserted by the feeder.
+		I.e. if app 1 has weight .5 and app 2 has weight 1.5,
+		then we'll send 3 times as many results for app 2 as app 1
+	- Feeder/scheduler: add an option "-reliable N":
+		This tags work items whose workunits are older than N days
+		as "need_reliable",
+		so that the scheduler can try to send them to "reliable" hosts
+		(those with expavg_credit > 70)
+		In no case send a "need_reliable" result to a host
+		with zero total credit.
+	- Feeder, with homogeneous redundancy:
+		when add a result with a sibling that's already sent
+		(or on a collision, if we learn that this is the case)
+		increment its infeasible_count.
+		This causes it to be sent quicker.
+		It's better to have the array full of results
+		that are not already committed to a platform.
+	- validator: add -sleep_interval cmdline arg
+	- Add TRANSITIONER_ITEM::res_received_time
+		(Nothing currently uses this - should we remove??)
+
+	NOTE: this update requires a database change: see html/ops/db_update.php
+
+	(from Kevin Reed)
+
+	db/
+		boinc_db.C,h
+		schema.sql
+	html/ops/
+		db_update.php
+	sched/
+		feeder.C
+		sched_array.C
+		sched_send.C
+		sched_shmem.C,h
+		server_types.h
+		show_shmem.C
+		validator.C

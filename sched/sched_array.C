@@ -78,16 +78,30 @@ void scan_work_array(
         if (wu_result.state != WR_STATE_PRESENT && wu_result.state != g_pid) {
             continue;
         }
-
+        
+        // If this is a reliable host and we are checking for results that
+        // need a reliable host, then continue if the result is a normal result
+        //
+        if (reply.wreq.reliable_only && (!wu_result.need_reliable)) {
+        	continue;
+        }
+        
         if (reply.wreq.infeasible_only && (wu_result.infeasible_count==0)) {
             continue;
+        }
+        
+        // Never send a result that needs a reliable host to one that 
+        // has not earned credit
+        //
+        if (wu_result.need_reliable && reply.host.total_credit == 0) {
+        	continue;
         }
 
         // don't send if we're already sending a result for same WU
         //
         if (config.one_result_per_user_per_wu) {
             if (wu_already_in_reply(wu_result.workunit, reply)) {
-                continue;
+        		continue;
             }
         }
 
@@ -95,10 +109,10 @@ void scan_work_array(
         //
         wu = wu_result.workunit;
         if (wu_is_infeasible(wu, sreq, reply)) {
-            log_messages.printf(
-                SCHED_MSG_LOG::MSG_DEBUG, "[HOST#%d] [WU#%d %s] WU is infeasible\n",
-                reply.host.id, wu.id, wu.name
-            );
+           	log_messages.printf(
+               	SCHED_MSG_LOG::MSG_DEBUG, "[HOST#%d] [WU#%d %s] WU is infeasible\n",
+               	reply.host.id, wu.id, wu.name
+           	);
             wu_result.infeasible_count++;
             continue;
         }
@@ -177,7 +191,7 @@ void scan_work_array(
                 // is processed first.
                 //
  				wu_result.infeasible_count++;
- 				goto dont_send;
+				goto dont_send;
             }
         }
 

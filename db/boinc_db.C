@@ -129,9 +129,9 @@ void DB_PLATFORM::db_parse(MYSQL_ROW &r) {
 void DB_APP::db_print(char* buf){
     sprintf(buf,
         "create_time=%d, name='%s', min_version=%d, "
-        "deprecated=%d, user_friendly_name='%s', homogeneous_redundancy=%d",
+        "deprecated=%d, user_friendly_name='%s', homogeneous_redundancy=%d, weight=%f",
         create_time, name, min_version,
-        deprecated?1:0, user_friendly_name, homogeneous_redundancy?1:0
+        deprecated?1:0, user_friendly_name, homogeneous_redundancy?1:0, weight
     );
 }
 
@@ -145,6 +145,7 @@ void DB_APP::db_parse(MYSQL_ROW &r) {
     deprecated = atoi(r[i++]);
     strcpy2(user_friendly_name, r[i++]);
     homogeneous_redundancy = atoi(r[i++]);
+    weight = atof(r[i++]);
 }
 
 void DB_APP_VERSION::db_print(char* buf){
@@ -871,6 +872,7 @@ void TRANSITIONER_ITEM::parse(MYSQL_ROW& r) {
     res_file_delete_state = safe_atoi(r[i++]);
     res_sent_time = safe_atoi(r[i++]);
     res_hostid = safe_atoi(r[i++]);
+    res_received_time = safe_atoi(r[i++]);
 }
 
 int DB_TRANSITIONER_ITEM_SET::enumerate(
@@ -925,7 +927,8 @@ int DB_TRANSITIONER_ITEM_SET::enumerate(
             "   res.validate_state, "
             "   res.file_delete_state, "
             "   res.sent_time, "
-            "   res.hostid "
+            "   res.hostid, "
+            "   res.received_time "
             "FROM "
             "   workunit AS wu "
             "       LEFT JOIN result AS res ON wu.id = res.workunitid "
@@ -1049,7 +1052,7 @@ void VALIDATOR_ITEM::parse(MYSQL_ROW& r) {
     wu.min_quorum = atoi(r[i++]);
     wu.assimilate_state = atoi(r[i++]);
     wu.transition_time = atoi(r[i++]);
-    wu.opaque = atof(r[i++]);  
+    wu.opaque = atof(r[i++]);
     wu.batch = atoi(r[i++]);
     wu.target_nresults = atoi(r[i++]);
     wu.max_success_results = atoi(r[i++]);
@@ -1061,11 +1064,11 @@ void VALIDATOR_ITEM::parse(MYSQL_ROW& r) {
     res.validate_state = atoi(r[i++]);
     res.server_state = atoi(r[i++]);
     res.outcome = atoi(r[i++]);
-    res.claimed_credit = atof(r[i++]);          
+    res.claimed_credit = atof(r[i++]);
     res.granted_credit = atof(r[i++]);
-    strcpy2(res.xml_doc_out, r[i++]);  
-    strcpy2(res.stderr_out, r[i++]);  
-    res.cpu_time = atof(r[i++]);                
+    strcpy2(res.xml_doc_out, r[i++]);
+    strcpy2(res.stderr_out, r[i++]);
+    res.cpu_time = atof(r[i++]);
     res.batch = atoi(r[i++]);
     res.opaque = atof(r[i++]);
     res.exit_status = atoi(r[i++]);
@@ -1100,7 +1103,7 @@ int DB_VALIDATOR_ITEM_SET::enumerate(
 
         sprintf(query,
             "SELECT %s "
-            "   wu.id, "     
+            "   wu.id, "
             "   wu.name, "
             "   wu.canonical_resultid, "
             "   wu.canonical_credit, "
@@ -1212,12 +1215,12 @@ int DB_VALIDATOR_ITEM_SET::update_workunit(WORKUNIT& wu) {
         "target_nresults=%d, "
         "canonical_resultid=%d, canonical_credit=%.15e "
         "where id=%d",
-        wu.error_mask, 
+        wu.error_mask,
         wu.assimilate_state,
         wu.transition_time,
         wu.target_nresults,
-        wu.canonical_resultid, 
-        wu.canonical_credit, 
+        wu.canonical_resultid,
+        wu.canonical_credit,
         wu.id
     );
     return db->do_query(query);

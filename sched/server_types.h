@@ -31,6 +31,7 @@
 //
 struct WORK_REQ {
     bool infeasible_only;
+    bool reliable_only;
     double seconds_to_fill;
 		// in "normalized CPU seconds" (see doc/work_req.php)
     double disk_available;

@@ -49,6 +49,8 @@ using namespace std;
 #define SELECT_LIMIT    1000
 #define SLEEP_PERIOD    5
 
+int sleep_interval = SLEEP_PERIOD;
+
 typedef enum {
     NEVER,
     DELAYED,
@@ -119,7 +121,7 @@ int grant_credit(RESULT& result, double credit) {
 
     double turnaround = result.received_time - result.sent_time;
     compute_avg_turnaround(host, turnaround);
-
+    
     sprintf(
         buf,
         "total_credit=total_credit+%f, expavg_credit=%f, expavg_time=%f, avg_turnaround=%f",
@@ -531,7 +533,7 @@ int main_loop() {
         did_something = do_validate_scan(app);
         if (!did_something) {
             if (one_pass) break;
-            sleep(SLEEP_PERIOD);
+            sleep(sleep_interval);
         }
     }
     return 0;
@@ -561,6 +563,8 @@ int main(int argc, char** argv) {
         } else if (!strcmp(argv[i], "-one_pass_N_WU")) {
             one_pass_N_WU = atoi(argv[++i]);
             one_pass = true;
+        } else if (!strcmp(argv[i], "-sleep_interval")) {
+            sleep_interval = atoi(argv[++i]);
         } else if (!strcmp(argv[i], "-one_pass")) {
             one_pass = true;
         } else if (!strcmp(argv[i], "-app")) {

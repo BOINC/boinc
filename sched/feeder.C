@@ -32,6 +32,7 @@
 //  [ -purge_stale x ]    remove work items from the shared memory segment
 //                        that have been there for longer then x minutes
 //                        but haven't been assigned
+//  [ -reliable x ]       flag results for workunits older then x days as "need_reliable"
 //
 // Creates a shared memory segment containing DB info,
 // including the work array (results/workunits to send).
@@ -142,6 +143,7 @@ char select_clause[256];
 double sleep_interval = DEFAULT_SLEEP_INTERVAL;
 bool all_apps = false;
 int purge_stale_time = 0;
+int reliable_time = 0;
 
 void cleanup_shmem() {
     ssp->ready = false;
@@ -270,11 +272,22 @@ static bool find_work_item(
             }
             
             // Check for collision
+            // (i.e. this result already is in the array)
             // If collision, then advance to the next workitem
             //
             found = true;
             for (j=0; j<ssp->nwu_results; j++) {
                 if (ssp->wu_results[j].state != WR_STATE_EMPTY && ssp->wu_results[j].resultid == wi->res_id) {
+                	// If the result is already in shared mem,
+                	// and another instance of the WU has been sent,
+                	// bump the infeasible count to encourage
+                	// it to get sent more quickly
+                	//
+                	if (ssp->wu_results[j].infeasible_count == 0) {
+                		if (wi->wu.hr_class > 0) {
+                			ssp->wu_results[j].infeasible_count++;
+                		}
+                	}
                     ncollisions++;
                     found = false;  // not found if it is a collision
                     break;
@@ -291,6 +304,24 @@ static bool find_work_item(
 	return found;
 }
 
+static int find_work_item_index(int slot_pos) {
+	if (ssp->app_weights == 0) return 0;
+	int mod = slot_pos % ssp->app_weights;
+	int work_item_index = -1;
+	for (int i=0; i<ssp->napps; i++) {
+		if (ssp->apps[i].weight < 1) continue;
+		if (mod < ssp->apps[i].weight) {
+			work_item_index = i;
+			break;
+		} else {
+			mod = mod - ssp->apps[i].weight;
+		}
+	}
+	// The condition below will occur if all projects have a weight of 0
+	if ( work_item_index == -1 ) work_item_index = 0;
+	return work_item_index;
+}
+
 static void scan_work_array(
     vector<DB_WORK_ITEM>* work_items,
     int& nadditions, int& ncollisions, int& /*ninfeasible*/
@@ -303,20 +334,26 @@ static void scan_work_array(
     int work_item_index;
     int enum_size;
     
-  	for (i=0; i<ssp->napps; i++) {
+  	for (i=0; i < ssp->napps; i++) {
     	restarted_enum[i] = false;
     }
 
     for (i=0; i<ssp->nwu_results; i++) {
-    	// If all_apps is set then every nth item in the shared memory segment
+   	    // If all_apps is set then every nth item in the shared memory segment
         // will be assigned to the application stored in that index in ssp->apps
         //
     	if (all_apps) {
-    		work_item_index = i % ssp->napps;
-    		enum_size = ENUM_LIMIT/ssp->napps;
+    		if (ssp->app_weights > 0) {
+    			work_item_index = find_work_item_index(i);
+    			enum_size = floor(0.5 + ENUM_LIMIT*(ssp->apps[work_item_index].weight)/(ssp->app_weights));
+    		} else {
+    			// If all apps have a weight of zero then evenly distribute the slots
+    			work_item_index = i % ssp->napps;
+    			enum_size = floor(0.5 + ((double)ENUM_LIMIT)/ssp->napps);
+    		}
     		sprintf(mod_select_clause, "%s and result.appid=%d",
-                select_clause, ssp->apps[work_item_index].id
-            );
+    		    select_clause, ssp->apps[work_item_index].id
+    		);
     	} else {
     		work_item_index = 0;
     		enum_size = ENUM_LIMIT;
@@ -343,7 +380,6 @@ static void scan_work_array(
             }
             break;
 #endif
-
         case WR_STATE_EMPTY:
             found = find_work_item(
                 wi, restarted_enum[work_item_index], ncollisions,
@@ -358,7 +394,23 @@ static void scan_work_array(
                 wu_result.resultid = wi->res_id;
                 wu_result.workunit = wi->wu;
                 wu_result.state = WR_STATE_PRESENT;
-                wu_result.infeasible_count = 0;
+                // If the workunit has already been allocated to a certain
+                // OS then it should be assigned quickly,
+                // so we set its infeasible_count to 1
+                if (wi->wu.hr_class > 0) {
+                	wu_result.infeasible_count = 1;
+                } else {
+                	wu_result.infeasible_count = 0;
+                }
+                // If using the reliable mechanism, then set the results for
+                // workunits older then the specificed time as needing a reliable
+                // host
+                wu_result.need_reliable = 0;
+                if (reliable_time) {
+                	if ((wu_result.workunit.create_time + reliable_time*86400) <= time(0)) {
+                		wu_result.need_reliable = true;
+                	}
+                }
                 wu_result.time_added_to_shared_memory = time(NULL);
                 nadditions++;
             }
@@ -479,6 +531,8 @@ int main(int argc, char** argv) {
             order_clause = "order by priority desc, workunit.create_time ";
         } else if (!strcmp(argv[i], "-purge_stale")) {
             purge_stale_time = atoi(argv[++i])*60;
+        } else if (!strcmp(argv[i], "-reliable")) {
+            reliable_time = atoi(argv[++i]);
         } else if (!strcmp(argv[i], "-mod")) {
             int n = atoi(argv[++i]);
             int j = atoi(argv[++i]);

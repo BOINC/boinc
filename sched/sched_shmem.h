@@ -49,6 +49,7 @@
 struct WU_RESULT {
     int state;
     int infeasible_count;
+    bool need_reliable;		// try to send to a reliable host
     WORKUNIT workunit;
     int resultid;
     int time_added_to_shared_memory;
@@ -65,6 +66,7 @@ struct SCHED_SHMEM {
     int wu_result_size;     // sizeof(WU_RESULT)
     int nplatforms;
     int napps;
+    double app_weights;
     int napp_versions;
     int ncore_versions;
     int nwu_results;
