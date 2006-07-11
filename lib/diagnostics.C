@@ -57,7 +57,7 @@
 #define MAX_STDOUT_FILE_SIZE        2048*1024
 
 
-#ifdef _WIN32
+#if defined(_WIN32) && defined(_MSC_VER)
 
 static _CrtMemState start_snapshot; 
 static _CrtMemState finish_snapshot; 
