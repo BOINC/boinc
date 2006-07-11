@@ -87,6 +87,7 @@ language("Dutch", array(
     site("http://www.boinc.be", "www.boinc.be"),
 ));
 language("English", array(
+    site("http://www.unitedmacs.com/", "United Macs"),
     site("http://sirans-boincnews.com/", "Siran's BOINC Projects News Site"),
     site("http://www.ukboincteam.org.uk/", "UK BOINC Team"),
     site("http://symbion.madnezz.com/", "Symbion"),
@@ -121,6 +122,7 @@ language("French", array(
     site("http://boinc-quebec.org", "boinc-quebec.org")
 ));
 language("German", array(
+    site("http://www.unitedmacs.com/", "United Macs"),
     site("http://www.rechenkraft.net/", "Rechenkraft"),
     site("http://www.seti-leipzig.de/", "SETI-Leipzig"),
     site("http://www.dc-gemeinschaft.de/", "DC - Gemeinschaft"),
