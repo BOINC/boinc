@@ -30,7 +30,8 @@ extern HINSTANCE g_hClientLibraryDll;
 static HANDLE g_hWin9xMonitorSystemThread = NULL;
 static DWORD g_Win9xMonitorSystemThreadID = NULL;
 static BOOL g_bIsWin9x = FALSE;
-static bool main_thread_exited = false;
+static bool requested_suspend = false;
+static bool requested_resume = false;
 
 typedef BOOL (*pfnIsWindows2000Compatible)();
 typedef BOOL (CALLBACK* ClientLibraryStartup)();
@@ -128,22 +129,24 @@ void show_message(PROJECT *p, char* msg, int priority) {
 }
 
 #ifdef WIN32
+// The following 3 functions are called in a separate thread,
+// so we can't do anything directly.
+// Set flags telling the main thread what to do.
+//
 void quit_client() {
     gstate.requested_exit = true;
     while (1) {
         boinc_sleep(1.0);
-        if (main_thread_exited) break;
+        if (boinc_cleanup_completed) break;
     }
 }
 
 void suspend_client() {
-    gstate.suspend_tasks(SUSPEND_REASON_USER_REQ);
-    gstate.suspend_network(SUSPEND_REASON_USER_REQ);
+    requested_suspend = true;
 }
 
 void resume_client() {
-    gstate.resume_tasks();
-    gstate.resume_network();
+    requested_resume = true;
 }
 
 // Trap logoff and shutdown events on Win9x so we can clean ourselves up.
@@ -540,17 +543,25 @@ int boinc_main_loop() {
             msg_printf(NULL, MSG_INFO, "Exit requested by user");
             break;
         }
+#ifdef _WIN32
+        if (requested_suspend) {
+            gstate.suspend_tasks(SUSPEND_REASON_USER_REQ);
+            gstate.suspend_network(SUSPEND_REASON_USER_REQ);
+            requested_suspend = false;
+        }
+        if (requested_resume) {
+            gstate.resume_tasks();
+            gstate.resume_network();
+            requested_resume = false;
+        }
+#endif
 #ifdef __EMX__
         // give timeslice also to other processes,
         // otherwise we will get 100% cpu
         DosSleep(0);
 #endif
     }
-    retval = finalize();
-#ifdef _WIN32
-    main_thread_exited = true;
-#endif
-    return retval;
+    return finalize();
 }
 
 int finalize() {
@@ -689,8 +700,6 @@ int main(int argc, char** argv) {
         }
     }
 #endif
-
-    boinc_cleanup_completed = false;
 
     init_core_client(argc, argv);
 
