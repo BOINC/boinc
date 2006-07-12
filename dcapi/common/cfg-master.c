@@ -258,3 +258,55 @@ int DC_getClientCfgBool(const char *clientName, const char *key,
 		val = getCfgBool(MASTER_GROUP, key, defaultValue, &err);
 	return val;
 }
+
+int _DC_initClientConfig(const char *clientName, FILE *f)
+{
+	char **keys, *group, *val;
+	gsize i, cnt;
+
+	if (!clientName)
+		return DC_ERR_BADPARAM;
+
+	group = g_strdup_printf("Client-%s", clientName);
+	keys = g_key_file_get_string_list(config, group, CFG_SENDKEYS, &cnt,
+		NULL);
+
+	/* Always set LogLevel */
+	val = g_key_file_get_value(config, group, CFG_LOGLEVEL, NULL);
+	if (!val)
+		val = g_key_file_get_value(config, MASTER_GROUP, CFG_LOGLEVEL,
+			NULL);
+	if (val)
+	{
+		fprintf(f, "%s = %s\n", CFG_LOGLEVEL, val);
+		g_free(val);
+	}
+
+	/* Copy the values of the requested keys */
+	for (i = 0; keys && i < cnt; i++)
+	{
+		char *p;
+
+		/* Strip white space from the key name */
+		p = keys[i] + strlen(keys[i]) - 1;
+		while (*p == ' ' || *p == '\t')
+			*p-- = '\0';
+		p = keys[i];
+		while (*p == ' ' || *p == '\t')
+			p++;
+
+		val = g_key_file_get_value(config, group, p, NULL);
+		if (!val)
+			val = g_key_file_get_value(config, MASTER_GROUP, p,
+				NULL);
+		if (val)
+		{
+			fprintf(f, "%s = %s\n", p, val);
+			g_free(val);
+		}
+	}
+
+	g_strfreev(keys);
+	g_free(group);
+	return 0;
+}
