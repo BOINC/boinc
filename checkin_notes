@@ -7464,6 +7464,17 @@ David  11 July 2006
 	lib/
 		parse.C
 
+Milos  11 July 2006
+    - Simple GUI Refresh
+    
+    clientgui/
+        sg_BoincSimpleGUI.cpp, .h
+        sg_DlgPreferences.cpp, .h
+        sg_ImageLoader.cpp, .h
+        sg_SkinClass.cpp, .h
+        sg_StatImageLoader.cpp, .h
+        sg_ViewTabPage.cpp, .h (Added)
+
 David  11 July 2006
     - core client, Windows: don't call finalize() in quit_client();
         quit_client() is run in a different thread, apparently,
