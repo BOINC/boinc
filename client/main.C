@@ -545,13 +545,13 @@ int boinc_main_loop() {
         }
 #ifdef _WIN32
         if (requested_suspend) {
-            gstate.suspend_tasks(SUSPEND_REASON_USER_REQ);
-            gstate.suspend_network(SUSPEND_REASON_USER_REQ);
+            gstate.user_run_request = USER_RUN_REQUEST_NEVER;
+            gstate.user_network_request = USER_RUN_REQUEST_NEVER;
             requested_suspend = false;
         }
         if (requested_resume) {
-            gstate.resume_tasks();
-            gstate.resume_network();
+            gstate.user_run_request = USER_RUN_REQUEST_AUTO;
+            gstate.user_network_request = USER_RUN_REQUEST_AUTO;
             requested_resume = false;
         }
 #endif
