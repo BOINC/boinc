@@ -40,24 +40,27 @@ dnl
 AC_ARG_ENABLE([backend-boinc],
 	AS_HELP_STRING([--enable-backend-boinc],
 		[enable the BOINC backend @<:@default=yes@:>@]),,
-	[enable_backend_boinc=yes])
+	[enable_backend_boinc=auto])
 
-if test "$enable_backend_boinc" = yes; then
-	if test "$enable_client" = yes; then
-		SZDG_BOINC_CLIENT
-		AC_CHECK_HEADERS([uuid/uuid.h],, [AC_MSG_ERROR([libuuid headers are missing])])
-		AC_CHECK_LIB([uuid], [uuid_generate], [true], [AC_MSG_ERROR([libuuid is missing])])
-	fi
+if test "$enable_backend_boinc" != no; then
 	if test "$enable_master" = yes; then
 		SZDG_BOINC_SERVER
 	fi
-	if test "$no_boinc" = yes; then
-		AC_MSG_ERROR([BOINC development environment was not found])
+	if test "$enable_client" = yes; then
+		SZDG_BOINC_CLIENT
+		AC_CHECK_HEADERS([uuid/uuid.h],, [no_boinc=yes])
+		AC_CHECK_LIB([uuid], [uuid_unparse_lower], [true], [no_boinc=yes])
 	fi
-	BACKENDS="$BACKENDS boinc"
+	if test "$no_boinc" = yes; then
+		if test "$enable_backend_boinc" = yes; then
+			AC_MSG_ERROR([BOINC development environment was not found])
+		fi
+	else
+		BACKENDS="$BACKENDS boinc"
+	fi
 fi
 
-AM_CONDITIONAL([WITH_BOINC], [test "$enable_backend_boinc" = yes])
+AM_CONDITIONAL([WITH_BOINC], [echo $BACKENDS | grep -q boinc])
 
 dnl ===================================================================
 dnl Condor backend
@@ -66,7 +69,7 @@ dnl
 AC_ARG_ENABLE([backend-condor],
 	AS_HELP_STRING([--enable-backend-condor],
 		[enable the Condor backend @<:@default=no@:>@]),,
-	[enable_backend_condor=yes])
+	[enable_backend_condor=auto])
 
 AC_ARG_WITH([condor-headers],
 	AS_HELP_STRING([--with-condor-headers=DIR],
@@ -77,28 +80,32 @@ AC_ARG_WITH([condor-libs],
 AC_SUBST([CONDOR_CPPFLAGS])
 AC_SUBST([CONDOR_LDFLAGS])
 
-if test "$enable_backend_condor" = yes; then
+no_condor=
+if test "$enable_backend_condor" != no; then
 	AC_LANG_PUSH([C++])
 	save_CPPFLAGS="$CPPFLAGS"
 	CPPFLAGS="$CPPFLAGS $CONDOR_CPPFLAGS"
 	save_LDFLAGS="$LDFLAGS"
 	LDFLAGS="$LDFLAGS $CONDOR_LDFLAGS"
-	AC_CHECK_HEADERS([user_log.c++.h],,
-		[AC_MSG_ERROR([Condor headers are missing])],
+	AC_CHECK_HEADERS([user_log.c++.h],, [no_condor=yes],
 		[AC_INCLUDES_DEFAULT
 #include <time.h>
 ])
-	AC_CHECK_LIB([condorapi], [InitUserLog], [true],
-		[AC_MSG_ERROR([Condor API library is missing])],
-		[-ldl])
+	AC_CHECK_LIB([condorapi], [InitUserLog], [true], [no_condor=yes], [-ldl])
 	LDFLAGS="$save_LDFLAGS"
 	CPPFLAGS="$save_CPPFLAGS"
 	AC_LANG_POP([C++])
 
-	BACKENDS="$BACKENDS condor"
+	if test "$no_condor" = yes; then
+		if test "$enable_backend_condor" = yes; then
+			AC_MSG_ERROR([Condor development environment is missing])
+		fi
+	else
+		BACKENDS="$BACKENDS condor"
+	fi
 fi
 
-AM_CONDITIONAL([WITH_CONDOR], [test "$enable_backend_condor" = yes])
+AM_CONDITIONAL([WITH_CONDOR], [echo $BACKENDS | grep -q condor])
 
 dnl ===================================================================
 dnl Local backend
