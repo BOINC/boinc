@@ -93,6 +93,11 @@ struct GUI_URLS {
     void get_gui_urls(USER& user, HOST& host, TEAM& team, char*);
 };
 
+struct PROJECT_FILES {
+    char* text;
+    void init();
+};
+
 struct IP_RESULT {
     double report_deadline;
     double cpu_time_remaining;

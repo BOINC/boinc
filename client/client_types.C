@@ -89,6 +89,7 @@ void PROJECT::init() {
     attached_via_acct_mgr = false;
     strcpy(code_sign_key, "");
     user_files.clear();
+    project_files.clear();
     anticipated_debt = 0;
     wall_cpu_time_this_period = 0;
     next_runnable_result = NULL;
@@ -440,14 +441,118 @@ void PROJECT::file_xfer_succeeded(const bool is_upload) {
     }
 }
 
+int PROJECT::parse_project_files(FILE* in) {
+    char buf[256];
+
+    project_files.clear();
+
+    while (fgets(buf, 256, in)) {
+        if (match_tag(buf, "</project_files>")) return 0;
+        if (match_tag(buf, "<file>")) {
+            parse_project_file(in);
+        } else {
+            if (log_flags.unparsed_xml) {
+                msg_printf(0, MSG_ERROR,
+                    "parse_project_files(): unrecognized: %s\n", buf
+                );
+            }
+        }
+    }
+    return ERR_XML_PARSE;
+}
+
+int PROJECT::parse_project_file(FILE* in) {
+    char buf[1024], url[1024];
+    FILE_REF fref;
+    FILE_INFO finfo, *fip;
+
+    memset(&fref, 0, sizeof(FILE_REF));
+    while (fgets(buf, 256, in)) {
+        if (match_tag(buf, "</file>")) {
+            if (!strlen(fref.open_name)) {
+                return ERR_XML_PARSE;
+            }
+            if (!strlen(finfo.name)) {
+                return ERR_XML_PARSE;
+            }
+            fip = gstate.lookup_file_info(this, finfo.name);
+            if (fip) {
+                fip->merge_info(finfo);
+                fref.file_info = fip;
+            } else {
+                fip = new FILE_INFO;
+                *fip = finfo;
+                fip->project = this;
+                fip->is_project_file = true;
+                gstate.file_infos.push_back(fip);
+                fref.file_info = fip;
+            }
+            project_files.push_back(fref);
+            return 0;
+        }
+        if (parse_str(buf, "<open_name>", fref.open_name, sizeof(fref.open_name))) continue;
+        if (parse_str(buf, "<name>", finfo.name, sizeof(finfo.name))) continue;
+        if (parse_str(buf, "<url>", url, sizeof(url))) {
+            finfo.urls.push_back(url);
+        }
+    }
+    return ERR_XML_PARSE;
+}
+
+void PROJECT::write_project_files(MIOFILE& f) {
+    unsigned int i;
+
+    if (!project_files.size()) return;
+    f.printf("<project_files>\n");
+    for (i=0; i<project_files.size(); i++) {
+        FILE_REF& fref = project_files[i];
+        FILE_INFO* fip = fref.file_info;
+        f.printf(
+            "   <file>\n"
+            "      <name>%s</name>\n"
+            "      <open_name>%s</open_name>\n"
+            "   </file>\n",
+            fip->name,
+            fref.open_name
+        );
+    }
+    f.printf("</project_files>\n");
+}
+
+// write symlinks for project files.
+// Note: it's conceivable that one physical file
+// has several logical names, so try them all
+//
+int PROJECT::link_project_file(FILE_INFO* fip) {
+    char project_dir[256], path[256];
+    unsigned int i;
+
+    get_project_dir(this, project_dir);
+    for (i=0; i<project_files.size(); i++) {
+        FILE_REF& fref = project_files[i];
+        if (fref.file_info != fip) continue;
+        sprintf(path, "%s/%s", project_dir, fref.open_name);
+        FILE* f = boinc_fopen(path, "w");
+        if (!f) continue;
+        fprintf(f, "<soft_link>%s/%s</soft_link>\n", project_dir, fip->name);
+        fclose(f);
+    }
+    return 0;
+}
+
 int APP::parse(MIOFILE& in) {
     char buf[256];
 
     strcpy(name, "");
+    strcpy(user_friendly_name, "");
     project = NULL;
     while (in.fgets(buf, 256)) {
-        if (match_tag(buf, "</app>")) return 0;
+        if (match_tag(buf, "</app>")) {
+            if (!strlen(user_friendly_name)) strcpy(user_friendly_name, name);
+            return 0;
+        }
         else if (parse_str(buf, "<name>", name, sizeof(name))) continue;
+        else if (parse_str(buf, "<user_friendly_name>", user_friendly_name, sizeof(user_friendly_name))) continue;
         else {
             if (log_flags.unparsed_xml) {
                 msg_printf(0, MSG_ERROR,
@@ -463,8 +568,9 @@ int APP::write(MIOFILE& out) {
     out.printf(
         "<app>\n"
         "    <name>%s</name>\n"
+        "    <user_friendly_name>%s</user_friendly_name>\n"
         "</app>\n",
-        name
+        name, user_friendly_name
     );
     return 0;
 }
@@ -486,6 +592,7 @@ FILE_INFO::FILE_INFO() {
     gzip_when_done = false;
     signature_required = false;
     is_user_file = false;
+    is_project_file = false;
     pers_file_xfer = NULL;
     result = NULL;
     project = NULL;
@@ -529,17 +636,19 @@ int FILE_INFO::set_permissions() {
     // in case someone runs BOINC from different user
 
 #ifdef SANDBOX
-    retval = boinc_chown(pathname, gstate.boinc_project_gid);
+    retval = set_to_project_group(pathname);
     if (retval) return retval;
     if (executable) {
         retval = chmod(pathname,
             S_IRUSR|S_IWUSR|S_IXUSR
             |S_IRGRP|S_IWGRP|S_IXGRP
+            |S_IROTH|S_IXOTH
         );
     } else {
         retval = chmod(pathname,
             S_IRUSR|S_IWUSR
             |S_IRGRP|S_IWGRP
+            |S_IROTH
         );
     }
 #else
@@ -616,6 +725,7 @@ int FILE_INFO::parse(MIOFILE& in, bool from_server) {
         else if (match_tag(buf, "<report_on_rpc/>")) report_on_rpc = true;
         else if (parse_bool(buf, "gzip_when_done", gzip_when_done)) continue;
         else if (match_tag(buf, "<signature_required/>")) signature_required = true;
+        else if (match_tag(buf, "<is_project_file/>")) is_project_file = true;
         else if (match_tag(buf, "<persistent_file_xfer>")) {
             pfxp = new PERS_FILE_XFER;
             retval = pfxp->parse(in);
@@ -683,6 +793,7 @@ int FILE_INFO::write(MIOFILE& out, bool to_server) {
         if (report_on_rpc) out.printf("    <report_on_rpc/>\n");
         if (gzip_when_done) out.printf("    <gzip_when_done/>\n");
         if (signature_required) out.printf("    <signature_required/>\n");
+        if (is_user_file) out.printf("    <is_user_file/>\n");
         if (strlen(file_signature)) out.printf("    <file_signature>\n%s</file_signature>\n", file_signature);
     }
     for (i=0; i<urls.size(); i++) {
@@ -812,6 +923,12 @@ const char* FILE_INFO::get_next_url(bool is_upload) {
 const char* FILE_INFO::get_current_url(bool is_upload) {
     if (current_url < 0) {
         return get_init_url(is_upload);
+    }
+    if (current_url >= (int)urls.size()) {
+        msg_printf(project, MSG_ERROR,
+            "File %s has no URL", name
+        );
+        return NULL;
     }
     return urls[current_url].c_str();
 }
@@ -1005,7 +1122,6 @@ void APP_VERSION::clear_errors() {
         }
     }
 }
-
 
 int FILE_REF::parse(MIOFILE& in) {
     char buf[256];
@@ -1324,6 +1440,8 @@ int RESULT::parse_state(MIOFILE& in) {
         else if (match_tag(buf, "<stderr_out>")) {
             while (in.fgets(buf, 256)) {
                 if (match_tag(buf, "</stderr_out>")) break;
+                if (strstr(buf, "<![CDATA[")) continue;
+                if (strstr(buf, "]]>")) continue;
                 stderr_out.append(buf);
             }
             continue;
@@ -1378,8 +1496,12 @@ int RESULT::write(MIOFILE& out, bool to_server) {
         );
     }
     n = stderr_out.length();
-    if (n) {
+    if (n || to_server) {
         out.printf("<stderr_out>\n");
+
+        // the following is here so that it gets recorded on server
+        // (there's no core_client_version field of result table)
+        //
         if (to_server) {
             out.printf(
                 "<core_client_version>%d.%d.%d</core_client_version>\n",
@@ -1388,9 +1510,13 @@ int RESULT::write(MIOFILE& out, bool to_server) {
                 gstate.core_client_release
             );
         }
-        out.printf(stderr_out.c_str());
-        if (stderr_out[n-1] != '\n') {
-            out.printf("\n");
+        if (n) {
+            out.printf("<![CDATA[\n");
+            out.printf(stderr_out.c_str());
+            if (stderr_out[n-1] != '\n') {
+                out.printf("\n");
+            }
+            out.printf("]]>\n");
         }
         out.printf("</stderr_out>\n");
     }

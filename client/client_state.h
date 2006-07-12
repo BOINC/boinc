@@ -44,7 +44,6 @@ using std::vector;
 #include "ss_logic.h"
 #include "time_stats.h"
 #include "http_curl.h"
-#include "net_xfer_curl.h"
 
 #define USER_RUN_REQUEST_ALWAYS     1
 #define USER_RUN_REQUEST_AUTO       2
@@ -85,7 +84,6 @@ public:
     vector<WORKUNIT*> workunits;
     vector<RESULT*> results;
 
-    NET_XFER_SET* net_xfers;
     PERS_FILE_XFER_SET* pers_file_xfers;
     HTTP_OP_SET* http_ops;
     FILE_XFER_SET* file_xfers;
@@ -268,6 +266,7 @@ private:
 	bool work_fetch_no_new_work;
     bool must_enforce_cpu_schedule;
     bool must_schedule_cpus;
+    bool must_check_work_fetch;
     std::vector <RESULT*> ordered_scheduled_results;
     void assign_results_to_projects();
     RESULT* largest_debt_project_best_result();
@@ -312,6 +311,14 @@ public:
         // - an app fails to start (CS::schedule_cpus())
         // - any project op is done via RPC (suspend/resume)
         // - any result op is done via RPC (suspend/resume)
+    void request_work_fetch(const char*);
+        // Check if work fetch needed.  Called when:
+        // - core client starts (CS::init())
+        // - task is completed or fails
+        // - tasks are killed
+        // - an RPC completes
+        // - project suspend/detch/attach/reset GUI RPC
+        // - result suspend/abort GUI RPC
     int quit_activities();
     void set_ncpus();
     double estimate_cpu_time(WORKUNIT&);
@@ -406,7 +413,7 @@ public:
 	int parse_app_info(PROJECT*, FILE*);
     int write_state_gui(MIOFILE&);
     int write_file_transfers_gui(MIOFILE&);
-    int write_tasks_gui(MIOFILE&);
+    int write_tasks_gui(MIOFILE&, bool);
 
 // --------------- cs_trickle.C:
 private:

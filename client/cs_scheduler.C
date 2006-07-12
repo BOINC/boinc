@@ -533,6 +533,14 @@ int CLIENT_STATE::compute_work_requests() {
     double work_min_period = global_prefs.work_buf_min_days * SECONDS_PER_DAY;
     double global_work_need = work_needed_secs();
     double prrs;
+    static double last_work_request_calc = 0;
+    if (gstate.now - last_work_request_calc >= 600) {
+        gstate.request_work_fetch("timer");
+    }
+
+    if (!must_check_work_fetch) return 0;
+    last_work_request_calc = gstate.now;
+    must_check_work_fetch = false;
 
     overall_work_fetch_urgency = WORK_FETCH_DONT_NEED;
     for (i=0; i< projects.size(); i++) {
@@ -668,7 +676,7 @@ int CLIENT_STATE::compute_work_requests() {
         );
     }
 
-    return 0;
+    return 1;
 }
 
 // called from the client's polling loop.
@@ -689,8 +697,6 @@ bool CLIENT_STATE::scheduler_rpc_poll() {
             action = true;
             break;
         }
-
-        compute_work_requests(); 
 
         // contact project requested by user
         //
@@ -757,6 +763,13 @@ int CLIENT_STATE::handle_scheduler_reply(
     retval = sr.parse(f, project);
     fclose(f);
     if (retval) return retval;
+
+    if (log_flags.sched_ops) {
+        msg_printf(project, MSG_INFO,
+            "Scheduler RPC succeeded [server version %d]",
+            sr.scheduler_version
+        );
+    }
 
     // check that master URL is correct
     //
@@ -1201,13 +1214,17 @@ void CLIENT_STATE::set_work_fetch_mode() {
         }
     }
     if (work_fetch_no_new_work && !should_not_fetch_work) {
-        msg_printf(NULL, MSG_INFO, "Allowing work fetch again.");
+        if (log_flags.work_fetch_debug) {
+            msg_printf(NULL, MSG_INFO, "Allowing work fetch again.");
+        }
     }
 
     if (!work_fetch_no_new_work && should_not_fetch_work) {
-        msg_printf(NULL, MSG_INFO,
-            "Suspending work fetch because computer is overcommitted."
-        );
+        if (log_flags.work_fetch_debug) {
+            msg_printf(NULL, MSG_INFO,
+                "Suspending work fetch because computer is overcommitted."
+            );
+        }
     }
     work_fetch_no_new_work = should_not_fetch_work;
 }

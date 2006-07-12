@@ -45,6 +45,7 @@
 using std::vector;
 
 SCHEDULER_OP::SCHEDULER_OP(HTTP_OP_SET* h) {
+    cur_proj = NULL;
     state = SCHEDULER_OP_STATE_IDLE;
     http_op.http_op_state = HTTP_STATE_IDLE;
     http_ops = h;
@@ -206,10 +207,6 @@ int SCHEDULER_OP::start_rpc(PROJECT* p) {
 
     safe_strcpy(scheduler_url, p->get_scheduler_url(url_index, url_random));
     if (log_flags.sched_ops) {
-        msg_printf(
-            p, MSG_INFO,
-            "Sending scheduler request to %s", scheduler_url
-        );
         const char* why;
         switch (reason) {
         case REASON_USER_REQ: why = "Requested by user"; break;
@@ -218,7 +215,7 @@ int SCHEDULER_OP::start_rpc(PROJECT* p) {
         case REASON_TRICKLE_UP: why = "To send trickle-up message"; break;
         default: why = "Unknown";
         }
-        msg_printf(p, MSG_INFO,  "Reason: %s", why);
+        msg_printf(p, MSG_INFO,  "Sending scheduler request: %s", why);
         if (p->work_request != 0.0 && p->nresults_returned != 0) {
             msg_printf(
                 p, MSG_INFO,
@@ -477,11 +474,6 @@ bool SCHEDULER_OP::poll() {
                     }
                 }
             } else {
-                if (log_flags.sched_ops) {
-                    msg_printf(
-                        cur_proj, MSG_INFO, "Scheduler request succeeded"
-                    );
-                }
                 retval = gstate.handle_scheduler_reply(cur_proj, scheduler_url, nresults);
                 if (cur_proj->tentative) {
                     if (retval || strlen(cur_proj->user_name)==0) {
@@ -522,6 +514,7 @@ bool SCHEDULER_OP::poll() {
                 }
             }
             cur_proj = NULL;
+            gstate.request_work_fetch("RPC complete");
             return true;
         }
     }
@@ -649,9 +642,6 @@ int SCHEDULER_REPLY::parse(FILE* in, PROJECT* project) {
                 );
                 return retval;
             }
-            msg_printf(project, MSG_INFO,
-                "General preferences have been updated"
-            );
         } else if (match_tag(buf, "<project_preferences>")) {
             retval = dup_element_contents(
                 in,
@@ -677,14 +667,6 @@ int SCHEDULER_REPLY::parse(FILE* in, PROJECT* project) {
             }
             project->gui_urls = "<gui_urls>\n"+foo+"</gui_urls>\n";
             continue;
-#if 0
-        } else if (match_tag(buf, "<deletion_policy_priority/>")) {
-            project->deletion_policy_priority = true;
-            continue;
-        } else if (match_tag(buf, "<deletion_policy_expire>")) {
-            project->deletion_policy_expire = true;
-            continue;
-#endif
         } else if (match_tag(buf, "<code_sign_key>")) {
             retval = dup_element_contents(
                 in,
@@ -829,6 +811,10 @@ int SCHEDULER_REPLY::parse(FILE* in, PROJECT* project) {
             continue;
         } else if (match_tag(buf, "<request_file_list/>")) {
             send_file_list = true;
+        } else if (parse_int(buf, "<scheduler_version>", scheduler_version)) {
+            continue;
+        } else if (match_tag(buf, "<project_files>")) {
+            retval = project->parse_project_files(in);
         } else if (strlen(buf)>1){
             if (log_flags.unparsed_xml) {
                 msg_printf(0, MSG_ERROR,

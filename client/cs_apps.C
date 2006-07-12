@@ -327,6 +327,7 @@ void CLIENT_STATE::set_ncpus() {
         );
         run_cpu_benchmarks = true;
         request_schedule_cpus("Number of usable CPUs has changed");
+        request_work_fetch("Number of usable CPUs has changed");
     }
 }
 
@@ -374,28 +375,37 @@ int CLIENT_STATE::choose_version_num(char* app_name, SCHEDULER_REPLY& sr) {
     return best;
 }
 
+// trigger CPU schedule enforcement.
+// Called when a new schedule is computed,
+// and when an app checkpoints.
+//
 void CLIENT_STATE::request_enforce_schedule(const char* where) {
-    // The CPU scheduler runs when a result is completed, 
-    // when the end of the user-specified scheduling period is reached, 
-    // when new results become runnable, 
-    // or when the user performs a UI interaction (e.g. suspending or resuming a project or result).
-    //
-    if (log_flags.cpu_sched_debug && where && strlen(where)) {
+    if (log_flags.cpu_sched_debug) {
         msg_printf(0, MSG_INFO, "Request enforce CPU schedule: %s", where);
     }
     must_enforce_cpu_schedule = true;
 }
 
+// trigger CPU scheduling.
+// Called when a result is completed, 
+// when new results become runnable, 
+// or when the user performs a UI interaction
+// (e.g. suspending or resuming a project or result).
+//
 void CLIENT_STATE::request_schedule_cpus(const char* where) {
-    // The CPU scheduler runs when a result is completed, 
-    // when the end of the user-specified scheduling period is reached, 
-    // when new results become runnable, 
-    // or when the user performs a UI interaction (e.g. suspending or resuming a project or result).
-    //
-    if (log_flags.cpu_sched_debug && where && strlen(where)) {
+    if (log_flags.cpu_sched_debug) {
         msg_printf(0, MSG_INFO, "Request CPU reschedule: %s", where);
     }
     must_schedule_cpus = true;
+}
+
+// trigger work fetch
+// 
+void CLIENT_STATE::request_work_fetch(const char* where) {
+    if (log_flags.work_fetch_debug) {
+        msg_printf(0, MSG_INFO, "Request work fetch: %s", where);
+    }
+    must_check_work_fetch = true;
 }
 
 const char *BOINC_RCSID_7bf63ad771 = "$Id$";

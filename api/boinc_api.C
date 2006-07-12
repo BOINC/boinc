@@ -113,7 +113,6 @@ static double fpops_per_cpu_sec = 0;
 static double fpops_cumulative = 0;
 static double intops_per_cpu_sec = 0;
 static double intops_cumulative = 0;
-static int non_cpu_intensive = 0;
 static int want_network = 0;
 static int have_network = 1;
 
@@ -224,9 +223,8 @@ static bool update_app_progress(
 
     sprintf(msg_buf,
         "<current_cpu_time>%.15e</current_cpu_time>\n"
-        "<checkpoint_cpu_time>%.15e</checkpoint_cpu_time>\n"
-        "<non_cpu_intensive>%d</non_cpu_intensive>\n",
-        cpu_t, cp_cpu_t, non_cpu_intensive
+        "<checkpoint_cpu_time>%.15e</checkpoint_cpu_time>\n",
+        cpu_t, cp_cpu_t
     );
     if (want_network) {
         strcat(msg_buf, "<want_network>1</want_network>\n");
@@ -1005,14 +1003,6 @@ void boinc_ops_per_cpu_sec(double fp, double i) {
 void boinc_ops_cumulative(double fp, double i) {
     fpops_cumulative = fp;
     intops_cumulative = i;
-}
-
-void boinc_not_using_cpu() {
-    non_cpu_intensive = 1;
-}
-
-void boinc_using_cpu() {
-    non_cpu_intensive = 0;
 }
 
 void boinc_need_network() {

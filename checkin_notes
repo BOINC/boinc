@@ -6679,3 +6679,482 @@ David  22 June 2006
     client/
         cpu_sched.C
         log_flags.C
+
+Charlie 22 June 2006
+    - Mac sandbox:
+        - Because memberd is available only on OS 10.4, do not call it 
+            under OS 10.3.x and require logout after installation to 
+            resynchronize group membership tables.
+    
+    clientgui/
+        mac/
+            SetupSecurity.cpp
+            SetVersion.C
+    mac_installer/
+        PostInstall.cpp
+
+David  23 June 2006
+    - core client: write messages on app checkpoint
+        if task_debug log flag is set
+
+    client/
+        app-control.C
+        log_flags.h
+
+David  23 June 2006
+    - core client:
+        - fix bug in printing argv on task startup (Unix)
+        - changed message: "misses deadline" -> "projected to miss deadline"
+        - parse version in scheduler reply, and show it if log_flags.sched_ops
+        - cpu_usage_limit must be in (0..1]
+
+    client/
+        app_start.C
+        cpu_sched.C
+        cs_apps.C
+        cs_prefs.C
+        cs_scheduler.C
+        scheduler_op.C,h
+    lib/
+        prefs.C
+        util.C
+
+David  23 June 2006
+    - core client: 
+        - removed Apple-specific retry logic in get_local_network_info()
+        - made get_local_network_info() a member of HOST_INFO
+        - in 1-sec poll loop, if don't have a domain name,
+            call get_local_network_info() again
+            (on some systems, gethostbyname() takes a few minutes to work)
+
+    client/
+        client_state.C
+        hostinfo_network.C
+        hostinfo_unix.C
+        win/
+            hostinfo_win.cpp
+    lib/
+        hostinfo.h
+
+David  23 June 2006
+    - core client: fiddle with messages
+
+    client/
+        client_state.C
+        cpu_sched.C
+        cs_scheduler.C
+        gui_rpc_server.C
+
+David  26 June 2006
+    - API: removed boinc_using_cpu() and boinc_not_using_cpu().
+        The client's CPU scheduler doesn't support apps
+        switching back and forth, and is unlikely to in the near future.
+        So it's misleading to have it in the API.
+    - API/core client: added APP_INIT_DATA::resource_share_fraction.
+        This tells an application its resource share relative
+        to runnable projects (0..1).
+    - core client: removed ACTIVE_TASK::non_cpu_intensive.
+
+    api/
+        boinc_api.C,h
+    client/
+        app.C,h
+        app_control.C
+        app_start.C
+        cpu_sched.C
+    lib/
+        app_ipc.C,h
+
+David  26 June 2006
+    - Propagate application "user friendly name"
+        through scheduler RPC,
+        into client state,
+        and through GUI RPC to Manager
+
+    client/
+        client_types.C,h
+        cs_files.C
+    lib/
+        gui_rpc_client.h
+        gui_rpc_client_ops.C
+    sched/
+        server_types.C
+
+David  26 June 2006
+    - Add support for "project files".
+        These are files that are downloaded to all clients
+        attached to that project,
+        but are not associated with an app version, WU or result.
+        Example: graphics files for use by the BOINC Manager.
+    - Scheduling server: look for "project_files.xml" in project dir.
+        If found, include it verbatim in scheduler replies.
+        Intended to describe "project files"
+    - core client: parse list of project files in scheduler reply
+        or client state file.
+        Create corresponding FILE_INFO and FILE_REF.
+        Write list to client state file.
+        When a project file finishes downloading,
+        create link file(s) for it.
+
+    client/
+        client_types.C,h
+        cs_account.C
+        cs_statefile.C
+        scheduler_op.C
+    sched/
+        main.C,h
+        server_types.C,h
+
+David  27 June 2006
+    - core client: debug 'project files" feature
+    - core client: bad message on HTTP file-not-found
+
+    client/
+        client_state.C
+        client_types.C
+        cs_statefile.C
+        file_xfer.C
+
+David  27 June 2006
+    - core client: put stderr output in a CDATA block,
+        so it doesn't break XML parsers if it has <
+
+    client/
+        client_state.C
+        client_types.C
+        proxy.C,h (removed)
+
+David  27 June 2006
+    - CPU sched fix (minutes*60)
+        From John McLeod
+
+    client/
+        cpu_sched.C
+
+David  27 June 2006
+    - don't print errors for gethostbyname() failure
+
+    client/
+        hostinfo_network.C
+
+Charlie 27 June 2006
+    - Mac sandbox:
+        - Create wrapper "BOINC Installer" application, with installer 
+          package inside its bundle.  Wrapper determines whether a logout 
+          will be needed, sets installer package Info.plist file accordingly,
+          and opens the package to launch the standard Mac installer.
+          
+    clientgui/
+        mac/
+            SetVersion.C
+    mac_installer/
+        Installer.cpp (new)
+        PostInstall.cpp
+        release_boinc.sh
+        release_GridRepublic.sh
+    mac_build/
+        Installer-Info.plist
+        PostInstall-Info.plist (new)
+        boinc.xcodeproj/
+            project.pbxproj
+
+Charlie 27 June 2006
+    - Create branch boinc_core_release_5_6
+
+Charlie 28 June 2006
+    - Mac: Documentation changes for Mac sandbox.
+        - Fix bug in GR release script.
+    
+    doc/
+        mac_build.html
+    mac_build/
+        HowToBuildBOINC_XCode.rtf
+    mac_installer/
+        GR-ReadMe.rtf
+        ReadMe.rtf
+        release_GridRepublic.sh
+
+David  28 June 2006
+    - core client: remove the NET_XFER class.
+        This represented a layer (asynch transfers to/from sockets)
+        that doesn't exist anymore; Curl subsumes it.
+        Anything still used in NET_XFER was moved to HTTP_OP.
+        (from Carl Christensen)
+
+    client/
+        client_state.C,h
+        cs_prefs.C
+        http_curl.C,h
+        net_stats.C,h
+        net_xfer_curl.C,h (removed)
+    win_build/
+        boinc_cli_curl.vcproj
+
+Charlie 29 June 2006
+    - Mac: Mac sandbox fixes to run as non-admin user.
+        - Set S_IXOTH permission for switcher application, 
+            slot subdirectories, project subdirectories.
+        - Add setprojectgrp helper application; use it instead 
+            of chown to set files and directories to group 
+            boinc_project.
+    client/
+        app_start.C
+        check_security.C
+        client_types.C
+        file_names.C,h
+        setprojectgrp.C (added)
+        switcher.C
+    mac_installer/
+        release_boinc.sh
+        release_GridRepublic.sh
+    clientgui/
+        mac/
+            SetupSecurity.cpp
+    mac_build/
+        boinc.xcodeproj/
+            project.pbxproj
+
+David  30 June 2006
+    - fixes for Windows/cygwin compile
+        (from Carlos Orellana)
+
+    lib/
+        crypt_prog.C
+        filesys.C
+
+David  30 June 2006
+	- core client: ACTIVE_TASK::supports_graphics():
+		return false if process isn't executing.
+		(prevent GUI from showing "show graphics" button
+		for results with no process, or suspended process)
+	- core client: on Windows command-line, when you close the window,
+		quit_client() gets called,
+		but control never returns to boinc_main_loop(),
+		so gstate.quit_activities() (and other cleanup stuff) isn't called,
+		so apps don't exit.
+		If you then start the core client again in the next 30 sec,
+		and exit quickly, another copy of apps gets started,
+		which waits to acquire slot lock, then decides it's in
+		standalone mode and opens a graphics window!  Very confusing.
+
+		I fixed this by moving all the cleanup code to a separate functions
+		(finalize()) and calling this directly from quit_client().
+
+		By the way, why is main.C such a toxic waste dump?
+
+	client/
+		app_graphics.C
+		main.C
+
+David  30 June 2006
+    - message tweaks
+
+    client/
+        app.h
+        client_state.C
+        scheduler_op.C
+
+Charlie 30 June 2006
+    - Mac: Mac sandbox fixes:
+        - Set, check nested slot and project directory permissions 
+            recursively.
+        - Make Switcher directory non-writable.
+        - Update security documentation.
+        - better handling of locale directories.
+        - boinc_mkdir makes directories world-executable.
+    - Bump version to 5.5.5 for release to alpha test.
+    
+    version.h
+    client/
+        check_security.C
+        client_types.C
+        file_names.C
+     clientgui/
+        mac/
+            SetupSecurity.cpp
+    doc/
+        sandbox.php
+    lib/
+        filesys.C
+
+Charlie 1 July 2006
+    - Tag for 5.5.5 release, all platforms
+      boinc_core_release_5_5_5
+
+Charlie 3 July 2006
+    - Mac: Mac sandbox: don't set S_ISUID bit for setprojectgrp helper 
+        application.
+        
+    client/
+        check_security.C
+     clientgui/
+        mac/
+            SetupSecurity.cpp
+    doc/
+        sandbox.php
+
+Charlie 4 July 2006
+    - Mac sandbox: Manager doesn't create BOINC Data directory if 
+        it doesn't exist when using SANDBOX security.
+        
+    clientgui/
+        BOINCGUIApp.cpp
+        mac/
+            SetupSecurity.cpp
+
+Rom    5 July 2006
+    - Change a log message in the CC
+    
+    client/
+        cpu_sched.C
+
+Rom    5 July 2006
+    - Add Suspend a Disconnect icons to the taskbar for when the client is
+        snoozing and disconnected.
+        
+    clientgui/
+        BOINCGUIApp.cpp, .h
+        BOINCTaskBar.cpp, .h
+        MainFrame.cpp
+    clientgui/res/
+        boincdisconnect.xpm (Added)
+        boincsnooze.xpm (Added)
+
+Charlie 6 July 2006
+    - Mac sandbox: boinc_delete_file(), clean_out_dir(),  boinc_rmdir () 
+        all call remove_project_owned_file_or_dir() which uses switcher
+        helper application to remove subdirectories created & owned by 
+        projects.
+    - Add License (GPL) to source files where missing.
+
+    client/
+        check_security.C
+        file_names.C,h
+        setprojectgrp.C
+        switcher.C
+    lib/
+        filesys.C,h
+    mac_installer/
+        release_boinc.sh
+        release_GridRepublic.sh
+
+Charlie 6 July 2006
+    Mac: integrate task tray icon changes, fix compile errors.
+    
+    clientgui/
+        BOINCGUIApp.cpp
+        BOINCTaskBar.cpp,h
+        mac/
+            MacSysMenu.cpp,h
+
+Rom    7 July 2006
+    - Only display the suspended icon in the taskbar if the activity runmode
+        is set to never.
+        
+    clientgui/
+        BOINCTaskBar.cpp
+
+Rom    7 July 2006
+    - Tag for 5.5.6 release, all platforms
+      boinc_core_release_5_5_6
+
+David  7 July 2006
+    - tweaks and typos
+
+    client/
+        http_curl.C,h
+        scheduler_op.C
+    lib/
+        gui_rpc_client.C
+    py/Boinc/
+        setup_project.py
+    sched/
+        sched_array.C
+    sea/
+        make-sea.sh
+
+David  9 July 2006
+    - core client: improved log message for debts
+
+    client/
+        cpu_sched.C
+
+David  9 July 2006
+	- core client: improve "RPC succeeded" message
+
+	client/
+		cs_scheduler.C
+		scheduler_op.C
+
+David  9 July 2006
+    - core client: instead of calling compute_work_requests()
+        every 5 seconds (in scheduler_rpc_poll()),
+        call it at startup, and thereafter every 10 minutes or
+        whenever something happens that could change work requests.
+        (from John McLeod)
+
+    client/
+        client_state.C,h
+        cpu_sched.C
+        cs_apps.C
+        cs_scheduler.C
+        gui_rpc_server_ops.C
+        scheduler_op.C
+
+David  9 July 2006
+    - core client: keep track of the "outages"
+        (periods when BOINC hasn't run) in the last 60 days.
+        This will be used in the work fetch policy.
+        (from John McLeod)
+
+    client
+        time_stats.C,h
+
+David  11 July 2006
+	- core client: fix bug where the first log flag in the
+		list was getting skipped over.
+		This was due to a design flaw in the new XML parsing code.
+		To work around this, I changed the format of
+		the cc_config.xml file so that options are
+		enclosed in <options> ... </options>
+
+	client/
+		app.C
+		cs_statefile.C
+		log_flags.C,h
+	lib/
+		parse.C
+
+David  11 July 2006
+    - core client, Windows: don't call finalize() in quit_client();
+        quit_client() is run in a different thread, apparently,
+        and we can't safely do anything in that thread.
+        Instead, have it set a flag telling the main thread to exit,
+        then do a sleep loop until the main thread has exited.
+        (Windows... you gotta love it).
+
+    client/
+        main.C
+
+Rom    12 July 2006
+    - Bug Fix: Remove extra waiting loop for Win9x based platforms
+        when shutting down a console window now that quit_client()
+        does the waiting.
+        
+    client/
+        main.C
+
+David  12 July 2006
+    - core client: fix bug where sym links for project files
+        weren't getting written (missing fclose())
+    - core client: fix crash on project detach
+        (PROJECT object was being referenced after it was deleted)
+
+    client/
+        client_types.C
+        gui_rpc_server_ops.C
+
+Rom    12 July 2006
+    - Tag for 5.5.7 release, all platforms
+      boinc_core_release_5_5_7
+

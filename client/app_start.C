@@ -86,12 +86,12 @@ static void debug_print_argv(char** argv) {
 static int make_link(const char *existing, const char *new_link) {
     FILE *fp;
 
-    fp = fopen(new_link, "w");
+    fp = boinc_fopen(new_link, "w");
     if (!fp) return ERR_FOPEN;
     fprintf(fp, "<soft_link>%s</soft_link>\n", existing);
     fclose(fp);
 #ifdef SANDBOX
-    return boinc_chown(new_link, gstate.boinc_project_gid);
+    return set_to_project_group(new_link);
 #else
     return 0;
 #endif
@@ -189,6 +189,12 @@ int ACTIVE_TASK::write_app_init_file() {
     aid.user_expavg_credit = wup->project->user_expavg_credit;
     aid.host_total_credit = wup->project->host_total_credit;
     aid.host_expavg_credit = wup->project->host_expavg_credit;
+    double rrs = gstate.runnable_resource_share();
+    if (rrs) {
+        aid.resource_share_fraction = wup->project->resource_share/rrs;
+    } else {
+        aid.resource_share_fraction = 1;
+    }
     aid.rsc_fpops_est = wup->rsc_fpops_est;
     aid.rsc_fpops_bound = wup->rsc_fpops_bound;
     aid.rsc_memory_bound = wup->rsc_memory_bound;
@@ -606,9 +612,6 @@ int ACTIVE_TASK::start(bool first_time) {
 #endif
         char cmdline[8192];
         strcpy(cmdline, wup->command_line.c_str());
-        if (log_flags.task_debug) {
-            debug_print_argv(argv);
-        }
         sprintf(buf, "../../%s", exec_path );
 #ifdef SANDBOX
         char switcher_path[100];
@@ -617,6 +620,9 @@ int ACTIVE_TASK::start(bool first_time) {
         argv[1] = buf;
         argv[2] = exec_name;
         parse_command_line(cmdline, argv+3);
+        if (log_flags.task_debug) {
+            debug_print_argv(argv);
+        }
         retval = execv(switcher_path, argv);
 #else
         argv[0] = exec_name;
@@ -624,7 +630,7 @@ int ACTIVE_TASK::start(bool first_time) {
         retval = execv(buf, argv);
 #endif
         msg_printf(wup->project, MSG_ERROR,
-            "Process creation (%s) failed: %s\n", buf, boincerror(retval)
+            "Process creation (%s) failed: %s, errno=%d\n", buf, boincerror(retval), errno
         );
         perror("execv");
         fflush(NULL);

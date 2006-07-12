@@ -169,6 +169,7 @@ public:
 class APP {
 public:
     std::string name;
+    std::string user_friendly_name;
     PROJECT* project;
 
     APP();
@@ -507,6 +508,12 @@ struct CC_STATUS {
     bool ams_password_error;
 };
 
+struct SIMPLE_GUI_INFO {
+    std::vector<PROJECT*> projects;
+    std::vector<RESULT*> results;
+    void print();
+};
+
 class RPC_CLIENT {
 public:
     int sock;
@@ -540,6 +547,8 @@ public:
     int get_state(CC_STATE&);
     int get_results(RESULTS&);
     int get_file_transfers(FILE_TRANSFERS&);
+    int get_simple_gui_info(SIMPLE_GUI_INFO&);
+    int get_simple_gui_info(CC_STATE&, RESULTS&);
     int get_project_status(CC_STATE&);
     int get_project_status(PROJECTS&);
     int get_disk_usage(PROJECTS&);

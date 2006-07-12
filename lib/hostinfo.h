@@ -73,6 +73,7 @@ public:
     bool host_is_running_on_batteries();
     bool users_idle(bool check_all_logins, double idle_time_to_run);
     int get_host_info();
+    int get_local_network_info();
     void clear_host_info();
     void make_random_string(const char* salt, char* out);
     void generate_host_cpid();

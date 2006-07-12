@@ -408,6 +408,14 @@ int skip_unrecognized(char* buf, FILE* in) {
 }
 
 // Get next XML element or tag.
+//
+// NOTE: this can't be used for XML docs that have
+// nested elements and data elements at the same level, i.e.
+// <foo>
+//   <bar>1</bar>
+// </foo>
+// <blah>asdf</blah>
+//
 // If it's a close tag, or the contents pointer is NULL, just return the tag.
 // Otherwise return the contents also.
 //

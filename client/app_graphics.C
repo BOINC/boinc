@@ -235,7 +235,9 @@ bool ACTIVE_TASK::supports_graphics() {
     if (powerpc_emulated_on_i386)
         return false;
 #endif
-    return (graphics_mode_acked != MODE_UNSUPPORTED);
+    if (graphics_mode_acked == MODE_UNSUPPORTED) return false;
+    if (task_state != PROCESS_EXECUTING) return false;
+    return true;
 }
 
 // Return the next graphics-capable running app.

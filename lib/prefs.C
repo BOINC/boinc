@@ -114,6 +114,7 @@ int GLOBAL_PREFS::parse_override(
 ) {
     char buf[256], buf2[256];
     bool in_venue = false, in_correct_venue=false;
+    double dtemp;
 
     found_venue = false;
     while (in.fgets(buf, 256)) {
@@ -210,7 +211,10 @@ int GLOBAL_PREFS::parse_override(
 #endif
         } else if (parse_int(buf, "<cpu_affinity>", cpu_affinity)) {
             continue;
-        } else if (parse_double(buf, "<cpu_usage_limit>", cpu_usage_limit)) {
+        } else if (parse_double(buf, "<cpu_usage_limit>", dtemp)) {
+            if (dtemp > 0 && dtemp <= 1) {
+                cpu_usage_limit = dtemp;
+            }
             continue;
         }
     }

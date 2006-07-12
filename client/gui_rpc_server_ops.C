@@ -78,6 +78,17 @@ void GUI_RPC_CONN::handle_auth2(char* buf, MIOFILE& fout) {
     auth_needed = false;
 }
 
+static void handle_get_simple_gui_info(MIOFILE& fout) {
+    unsigned int i;
+    fout.printf("<simple_gui_info>\n");
+    for (i=0; i<gstate.projects.size(); i++) {
+        PROJECT* p = gstate.projects[i];
+        p->write_state(fout, true);
+    }
+    gstate.write_tasks_gui(fout, true);
+    fout.printf("</simple_gui_info>\n");
+}
+
 static void handle_get_project_status(MIOFILE& fout) {
     unsigned int i;
     fout.printf("<projects>\n");
@@ -176,6 +187,7 @@ static void handle_project_op(char* buf, MIOFILE& fout, const char* op) {
     }
     if (!strcmp(op, "reset")) {
         gstate.request_schedule_cpus("project reset by user");
+        gstate.request_work_fetch("project reset by user");
         gstate.reset_project(p);    // writes state file
     } else if (!strcmp(op, "suspend")) {
         if (p->non_cpu_intensive) {
@@ -183,11 +195,13 @@ static void handle_project_op(char* buf, MIOFILE& fout, const char* op) {
         } else {
             p->suspended_via_gui = true;
             gstate.request_schedule_cpus("project suspended by user");
+            gstate.request_work_fetch("project suspended by user");
             gstate.set_client_state_dirty("Project suspended by user");
         }
     } else if (!strcmp(op, "resume")) {
         p->suspended_via_gui = false;
         gstate.request_schedule_cpus("project resumed by user");
+        gstate.request_work_fetch("project resumed by user");
         gstate.set_client_state_dirty("Project resumed by user");
     } else if (!strcmp(op, "detach")) {
         if (p->attached_via_acct_mgr) {
@@ -197,7 +211,6 @@ static void handle_project_op(char* buf, MIOFILE& fout, const char* op) {
             fout.printf("<error>must detach using account manager</error>");
             return;
         }
-        gstate.detach_project(p);       // writes state file
 
         // if project_init.xml refers to this project,
         // delete the file, otherwise we'll just
@@ -211,6 +224,8 @@ static void handle_project_op(char* buf, MIOFILE& fout, const char* op) {
                 );
             }
         }
+
+        gstate.detach_project(p);       // writes state file; deletes p
         gstate.request_schedule_cpus("project detached by user");
     } else if (!strcmp(op, "update")) {
         p->sched_rpc_pending = true;
@@ -444,12 +459,14 @@ static void handle_result_op(char* buf, MIOFILE& fout, const char* op) {
         } else {
             rp->abort_inactive(ERR_ABORTED_VIA_GUI);
         }
+        gstate.request_work_fetch("result aborted by user");
     } else if (!strcmp(op, "suspend")) {
         if (p->non_cpu_intensive) {
             msg_printf(p, MSG_ERROR, "Can't suspend non-CPU-intensive result");
         } else {
             rp->suspended_via_gui = true;
         }
+        gstate.request_work_fetch("result suspended by user");
     } else if (!strcmp(op, "resume")) {
         rp->suspended_via_gui = false;
     }
@@ -804,7 +821,9 @@ int GUI_RPC_CONN::handle_rpc() {
     } else if (match_tag(request_msg, "<get_state")) {
         gstate.write_state_gui(mf);
     } else if (match_tag(request_msg, "<get_results")) {
-        gstate.write_tasks_gui(mf);
+        mf.printf("<results>\n");
+        gstate.write_tasks_gui(mf, false);
+        mf.printf("</results>\n");
     } else if (match_tag(request_msg, "<get_screensaver_mode")) {
         handle_get_screensaver_mode(request_msg, mf);
     } else if (match_tag(request_msg, "<set_screensaver_mode")) {
@@ -818,6 +837,8 @@ int GUI_RPC_CONN::handle_rpc() {
         gstate.write_file_transfers_gui(mf);
     } else if (match_tag(request_msg, "<get_project_status")) {
         handle_get_project_status(mf);
+    } else if (match_tag(request_msg, "<get_simple_gui_info")) {
+        handle_get_simple_gui_info(mf);
     } else if (match_tag(request_msg, "<get_disk_usage")) {
         handle_get_disk_usage(mf);
     } else if (match_tag(request_msg, "<project_nomorework")) {
@@ -875,6 +896,7 @@ int GUI_RPC_CONN::handle_rpc() {
     } else if (match_tag(request_msg, "<read_global_prefs_override/>")) {
         gstate.read_global_prefs();
         gstate.request_schedule_cpus("Preferences override");
+        gstate.request_work_fetch("Preferences override");
     } else {
 
         // RPCs after this point enable network communication

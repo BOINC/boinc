@@ -19,8 +19,7 @@
 
 // command-line version of the BOINC core client
 
-// This file contains no GUI-related code,
-// and is not included in the source code for Mac or Win GUI clients
+// This file contains no GUI-related code.
 
 #ifdef WIN32
 #define _CONSOLE 1
@@ -31,6 +30,8 @@ extern HINSTANCE g_hClientLibraryDll;
 static HANDLE g_hWin9xMonitorSystemThread = NULL;
 static DWORD g_Win9xMonitorSystemThreadID = NULL;
 static BOOL g_bIsWin9x = FALSE;
+static bool requested_suspend = false;
+static bool requested_resume = false;
 
 typedef BOOL (*pfnIsWindows2000Compatible)();
 typedef BOOL (CALLBACK* ClientLibraryStartup)();
@@ -71,10 +72,11 @@ typedef void (CALLBACK* ClientLibraryShutdown)();
 #include "file_names.h"
 #include "log_flags.h"
 #include "client_msgs.h"
+#include "http_curl.h"
+
 #include "main.h"
 
-extern int curl_init(void);
-extern int curl_cleanup(void);
+int finalize();
 
 static bool boinc_cleanup_completed = false;
     // Used on Windows 95/98/ME to determine when it is safe to leave
@@ -127,36 +129,38 @@ void show_message(PROJECT *p, char* msg, int priority) {
 }
 
 #ifdef WIN32
+// The following 3 functions are called in a separate thread,
+// so we can't do anything directly.
+// Set flags telling the main thread what to do.
+//
 void quit_client() {
     gstate.requested_exit = true;
+    while (1) {
+        boinc_sleep(1.0);
+        if (boinc_cleanup_completed) break;
+    }
 }
 
 void suspend_client() {
-    gstate.suspend_tasks(SUSPEND_REASON_USER_REQ);
-    gstate.suspend_network(SUSPEND_REASON_USER_REQ);
+    requested_suspend = true;
 }
 
 void resume_client() {
-    gstate.resume_tasks();
-    gstate.resume_network();
+    requested_resume = true;
 }
 
 // Trap logoff and shutdown events on Win9x so we can clean ourselves up.
 LRESULT CALLBACK Win9xMonitorSystemWndProc(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lParam)
 {
-    if (uMsg == WM_QUERYENDSESSION)
-    {
+    if (uMsg == WM_QUERYENDSESSION) {
         BOINCTRACE("***** Win9x Monitor System Shutdown/Logoff Event Detected *****\n");
+        // Win95 is stupid, we really only need to wait until we have
+        //   successfully shutdown the active tasks and cleaned everything
+        //   up.  Luckly WM_QUERYENDSESSION is sent before Win9x checks for any
+        //   existing console and that gives us a chance to clean-up and
+        //   then clear the console window.  Win9x will not close down
+        //   a console window if anything is displayed on it.
         quit_client();
-        while (!boinc_cleanup_completed) {
-            Sleep(1000);    // Win95 is stupid, we really only need to wait until we have
-                            //   successfully shutdown the active tasks and cleaned everything
-                            //   up.  Luckly WM_QUERYENDSESSION is sent before Win9x checks for any
-                            //   existing console and that gives us a chance to clean-up and
-                            //   then clear the console window.  Win9x will not close down
-                            //   a console window if anything is displayed on it.
-        }
-        Sleep(2000);        // For good measure.
         system("cls");
         return TRUE;
     }
@@ -396,12 +400,12 @@ static void init_core_client(int argc, char** argv) {
 #endif
 }
 
-int boinc_main_loop() {
-    int retval;
 #ifdef _WIN32
     char event_message[2048];
 #endif
 
+int initialize() {
+    int retval;
 
 #ifdef _WIN32
     g_hClientLibraryDll = LoadLibrary("boinc.dll");
@@ -418,7 +422,6 @@ int boinc_main_loop() {
         }
     }
 #endif
-
 
     retval = check_unique_instance();
     if (retval) {
@@ -456,12 +459,9 @@ int boinc_main_loop() {
     }
 #endif
 
-
 	curl_init();
 
-
 #ifdef _WIN32
-
     if(g_hClientLibraryDll) {
         ClientLibraryStartup fnClientLibraryStartup;
         fnClientLibraryStartup = (ClientLibraryStartup)GetProcAddress(g_hClientLibraryDll, _T("ClientLibraryStartup"));
@@ -481,8 +481,15 @@ int boinc_main_loop() {
             }
         }
     }
-
 #endif
+    return 0;
+}
+
+int boinc_main_loop() {
+    int retval;
+    
+    retval = initialize();
+    if (retval) return retval;
 
     retval = gstate.init();
     if (retval) {
@@ -496,7 +503,6 @@ int boinc_main_loop() {
         return retval;
     }
 
-
 #ifdef _WIN32
     if (gstate.executing_as_daemon) {
         LogEventInfoMessage(
@@ -504,7 +510,6 @@ int boinc_main_loop() {
         );
     }
 #endif
-
 
     // must parse env vars after gstate.init();
     // otherwise items will get overwritten with state file info
@@ -534,14 +539,32 @@ int boinc_main_loop() {
             msg_printf(NULL, MSG_INFO, "Exit requested by user");
             break;
         }
+#ifdef _WIN32
+        if (requested_suspend) {
+            gstate.user_run_request = USER_RUN_REQUEST_NEVER;
+            gstate.user_network_request = USER_RUN_REQUEST_NEVER;
+            requested_suspend = false;
+        }
+        if (requested_resume) {
+            gstate.user_run_request = USER_RUN_REQUEST_AUTO;
+            gstate.user_network_request = USER_RUN_REQUEST_AUTO;
+            requested_resume = false;
+        }
+#endif
 #ifdef __EMX__
         // give timeslice also to other processes,
         // otherwise we will get 100% cpu
         DosSleep(0);
 #endif
     }
-    gstate.quit_activities();
+    return finalize();
+}
 
+int finalize() {
+    static bool finalized = false;
+    if (finalized) return 0;
+    finalized = true;
+    gstate.quit_activities();
 
 #ifdef _WIN32
     if(g_hClientLibraryDll) {
@@ -587,9 +610,7 @@ int boinc_main_loop() {
 #endif
 
 	curl_cleanup();
-
     boinc_cleanup_completed = true;
-
     return 0;
 }
 
@@ -675,8 +696,6 @@ int main(int argc, char** argv) {
         }
     }
 #endif
-
-    boinc_cleanup_completed = false;
 
     init_core_client(argc, argv);
 

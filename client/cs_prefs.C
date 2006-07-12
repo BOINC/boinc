@@ -207,6 +207,11 @@ static string reason_string(int reason) {
 
 int CLIENT_STATE::suspend_tasks(int reason) {
     if (reason == SUSPEND_REASON_CPU_USAGE_LIMIT) {
+        if (log_flags.cpu_sched) {
+            string s_reason;
+            s_reason = "Suspending computation" + reason_string(reason);
+            msg_printf(NULL, MSG_INFO, s_reason.c_str());
+        }
         active_tasks.suspend_all(true);
     } else {
         string s_reason;
@@ -373,10 +378,10 @@ void CLIENT_STATE::read_global_prefs() {
 
     // put new prefs into effect
     //
-    net_xfers->max_bytes_sec_up = global_prefs.max_bytes_sec_up;
-    net_xfers->max_bytes_sec_down = global_prefs.max_bytes_sec_down;
-    net_xfers->bytes_left_up = global_prefs.max_bytes_sec_up;
-    net_xfers->bytes_left_down = global_prefs.max_bytes_sec_down;
+    http_ops->max_bytes_sec_up = global_prefs.max_bytes_sec_up;
+    http_ops->max_bytes_sec_down = global_prefs.max_bytes_sec_down;
+    http_ops->bytes_left_up = global_prefs.max_bytes_sec_up;
+    http_ops->bytes_left_down = global_prefs.max_bytes_sec_down;
 
     // max_cpus may have changed, so update ncpus
     //

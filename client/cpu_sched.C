@@ -223,7 +223,7 @@ void CLIENT_STATE::adjust_debts() {
     for (i=0; i<active_tasks.active_tasks.size(); i++) {
         ACTIVE_TASK* atp = active_tasks.active_tasks[i];
         if (atp->scheduler_state != CPU_SCHED_SCHEDULED) continue;
-        if (atp->non_cpu_intensive) continue;
+        if (atp->wup->project->non_cpu_intensive) continue;
 
         atp->result->project->wall_cpu_time_this_period += wall_cpu_time;
         total_wall_cpu_time_this_period += wall_cpu_time;
@@ -275,12 +275,6 @@ void CLIENT_STATE::adjust_debts() {
             p->short_term_debt = 0;
             p->anticipated_debt = 0;
         }
-        if (log_flags.debt_debug) {
-            msg_printf(0, MSG_INFO,
-                "adjust_debts(): project %s: short-term debt %f",
-                p->project_name, p->short_term_debt
-            );
-        }
     }
 
     if (nprojects==0) return;
@@ -306,10 +300,15 @@ void CLIENT_STATE::adjust_debts() {
             if (p->short_term_debt < -MAX_DEBT) {
                 p->short_term_debt = -MAX_DEBT;
             }
-            //msg_printf(p, MSG_INFO, "debt %f", p->short_term_debt);
         }
 
         p->long_term_debt -= avg_long_term_debt;
+        if (log_flags.debt_debug) {
+            msg_printf(0, MSG_INFO,
+                "adjust_debts(): project %s: STD %f, LTD %f",
+                p->project_name, p->short_term_debt, p->long_term_debt
+            );
+        }
     }
 
     // reset work accounting
@@ -362,12 +361,12 @@ void CLIENT_STATE::print_deadline_misses() {
         rp = results[i];
         if (rp->rr_sim_misses_deadline && !rp->last_rr_sim_missed_deadline) {
             msg_printf(rp->project, MSG_INFO,
-                "Result %s now misses deadline.", rp->name
+                "Result %s projected to miss deadline.", rp->name
             );
         }
         else if (!rp->rr_sim_misses_deadline && rp->last_rr_sim_missed_deadline) {
             msg_printf(rp->project, MSG_INFO,
-                "Result %s now meets deadline.", rp->name
+                "Result %s projected to meet deadline.", rp->name
             );
         }
     }
@@ -375,7 +374,7 @@ void CLIENT_STATE::print_deadline_misses() {
         p = projects[i];
         if (p->rr_sim_deadlines_missed) {
             msg_printf(p, MSG_INFO,
-                "Project has %d deadline misses",
+                "Project has %d projected deadline misses",
                 p->rr_sim_deadlines_missed
             );
         }
@@ -457,7 +456,7 @@ void CLIENT_STATE::schedule_cpus() {
         ordered_scheduled_results.push_back(rp);
     }
 
-    request_enforce_schedule("");
+    request_enforce_schedule("schedule_cpus");
     set_client_state_dirty("schedule_cpus");
 }
 
@@ -510,7 +509,7 @@ bool CLIENT_STATE::enforce_schedule() {
     must_enforce_cpu_schedule = false;
     bool action = false;
 
-    if (log_flags.task) {
+    if (log_flags.cpu_sched) {
         msg_printf(0, MSG_INFO, "Enforcing schedule");
     }
 
@@ -585,7 +584,7 @@ bool CLIENT_STATE::enforce_schedule() {
             atp = running_tasks[0];
             bool running_beyond_sched_period =
                 gstate.now - atp->episode_start_wall_time
-                > gstate.global_prefs.cpu_scheduling_period_minutes;
+                > gstate.global_prefs.cpu_scheduling_period_minutes*60;
             bool checkpointed_recently =
                 atp->checkpoint_wall_time > atp->episode_start_wall_time;
             if (rp->project->deadlines_missed
@@ -777,6 +776,7 @@ bool CLIENT_STATE::rr_simulation(double per_cpu_proc_rate, double rrs) {
     // Simulation loop.  Keep going until work done
     //
     double sim_now = now;
+    cpu_shortfall = 0;
     while (active.size()) {
 
         // compute finish times and see which result finishes first
@@ -866,8 +866,8 @@ bool CLIENT_STATE::rr_simulation(double per_cpu_proc_rate, double rrs) {
             double end_time = sim_now + rpbest->rrsim_finish_delay;
             if (end_time > buf_end) end_time = buf_end;
             double dtime = (end_time - sim_now);
-            int idle_cpus = ncpus - last_active_size;
-            cpu_shortfall += dtime*idle_cpus;
+            int nidle_cpus = ncpus - last_active_size;
+            if (nidle_cpus) cpu_shortfall += dtime*nidle_cpus;
 
             double proj_cpu_share = ncpus*pbest->resource_share/saved_rrs;
             if (last_proj_active_size < proj_cpu_share) {
