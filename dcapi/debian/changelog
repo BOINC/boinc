@@ -1,3 +1,12 @@
+dcapi (0.9-8) unstable; urgency=low
+
+  * Bugzilla bugs fixed:
+     #795: Nem mukodik a DC_sendWUMessage
+     #895: DC_deserializeWU nem mukodik
+     #889: Ismeretlen fajl
+
+ -- Gábor Gombás <gombasg@sztaki.hu>  Wed, 12 Jul 2006 14:37:48 +0200
+
 dcapi (0.9-7) unstable; urgency=low
 
   * Bugzilla bugs fixed:
