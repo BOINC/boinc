@@ -872,7 +872,6 @@ void TRANSITIONER_ITEM::parse(MYSQL_ROW& r) {
     res_file_delete_state = safe_atoi(r[i++]);
     res_sent_time = safe_atoi(r[i++]);
     res_hostid = safe_atoi(r[i++]);
-    res_received_time = safe_atoi(r[i++]);
 }
 
 int DB_TRANSITIONER_ITEM_SET::enumerate(
@@ -927,8 +926,7 @@ int DB_TRANSITIONER_ITEM_SET::enumerate(
             "   res.validate_state, "
             "   res.file_delete_state, "
             "   res.sent_time, "
-            "   res.hostid, "
-            "   res.received_time "
+            "   res.hostid "
             "FROM "
             "   workunit AS wu "
             "       LEFT JOIN result AS res ON wu.id = res.workunitid "

@@ -153,16 +153,16 @@ function gen_xml_choice($x, $choice) {
     $xml = "";
     $radio_name= $choice["radio_name"];
     if ($radio_name) {
-        $val = $x[$radio_name];
+        $val = urlencode($x[$radio_name]);
         $xml .= "<$radio_name>$val</$radio_name>\n";
     } else {
         $options = $choice["options"];
         foreach ($options as $name=>$text) {
-            $val = $x[$name];
+            $val = urlencode($x[$name]);
             $xml .= "<$name>$val</$name>\n";
         }
         $other_name = $choice['other_name'];
-        $text = $x[$other_name];
+        $text = urlencode($x[$other_name]);
         $xml .= "<$other_name>$text</$other_name>\n";
     }
     return $xml;

@@ -7503,3 +7503,9 @@ David  12 July 2006
     client/
         client_types.C
         gui_rpc_server_ops.C
+
+David  12 July 2006
+    - added a linux makefile for core client
+
+    client/
+        Makefile.linux (new)

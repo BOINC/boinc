@@ -30,7 +30,9 @@
 #include "util.h"
 #include "error_numbers.h"
 #include "file_names.h"
+#ifdef SANDBOX
 #include "SetupSecurity.h"
+#endif
 
 static int CheckNestedDirectories(char * basepath, int depth);
 

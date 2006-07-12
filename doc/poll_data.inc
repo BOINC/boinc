@@ -11,7 +11,9 @@ $lother_text = "lother_text";
 $fother_text = "fother_text";
 $wother_text = "wother_text";
 $nother_text = "nother_text";
-$improved = "improved";
+$cother_text = "cother_text";
+$vother_text = "vother_text";
+$improved = "improved_text";
 
 $choice0 = array(
     "text" => "Yes - I've been running BOINC on my computer for...",
@@ -87,23 +89,24 @@ $factors = array(
 
 $comp_items = array(
     array(
-        "radio_name"=>"kind",
-        "text"=>"What kind of computer do you have?",
+        "text"=>"What kind of computers do you have?",
         "options" => array(
             "windows"=>"Windows",
             "mac"=>"Macintosh",
             "linux"=>"Linux",
-            "other_unix"=>"Other Unix",
         ),
+        "radio_name"=>false,
+        "other_name"=>"cother_text",
     ),
     array(
-        "radio_name"=>"venue",
-        "text"=>"Where is your computer?",
+        "text"=>"Where are your computers?",
         "options" => array(
             "home"=>"Home",
             "work"=>"Work",
             "school"=>"School",
         ),
+        "radio_name"=>false,
+        "other_name"=>"vother_text",
     ),
     array(
         "radio_name"=>"ncomputers",
@@ -117,7 +120,7 @@ $comp_items = array(
     ),
     array(
         "radio_name"=>"turned_on",
-        "text"=>"On average, how many hours per day is your computer turned on?",
+        "text"=>"On average, how many hours per day are your computers turned on?",
         "options" => array(
             "t08"=>"0-8",
             "t823"=>"8-23",
@@ -205,8 +208,8 @@ function generate_xml($x) {
     $xml .= gen_xml_choice($x, $where_item);
     $xml .= gen_xml_choices($x, $comp_items);
     $xml .= gen_xml_choices($x, $you_items);
-    $xml .= "<$country>".$x[$country]."</$country>\n";
-    $xml .= "<$improved>".$x[$improved]."</$improved>\n";
+    $xml .= "<$country>".urlencode($x[$country])."</$country>\n";
+    $xml .= "<$improved>".urlencode($x[$improved])."</$improved>\n";
     return $xml;
 }
 

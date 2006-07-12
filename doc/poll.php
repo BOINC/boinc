@@ -19,6 +19,12 @@ participation and achieve greater scientific results.
 <p>
 Please answer as many questions as you want,
 then go to the bottom and click OK.
+If you previously completed the survey but your answers have changed,
+please complete it again -
+your new answers will replace the old ones.
+<p>
+The current results of the survey are
+<a href=poll_results.php>here</a>.
 ";
 
 echo "<form name=blah action=poll_action.php>\n";
