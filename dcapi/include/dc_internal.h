@@ -18,6 +18,7 @@
 extern "C" {
 #endif
 
+#include <stdio.h>
 #include <dc.h>
 
 /********************************************************************
@@ -32,6 +33,8 @@ extern "C" {
 #define CFG_LOGLEVEL		"LogLevel"
 /* Log file location */
 #define CFG_LOGFILE		"LogFile"
+/* Configuration items to send to clients */
+#define CFG_SENDKEYS		"SendCfgKeys"
 
 
 /********************************************************************
@@ -55,6 +58,9 @@ DC_PhysicalFile *_DC_createPhysicalFile(const char *label, const char *path);
 
 /* De-allocates a physical file descriptor */
 void _DC_destroyPhysicalFile(DC_PhysicalFile *file);
+
+/* Initializa a config file for a client */
+int _DC_initClientConfig(const char *clientName, FILE *f);
 
 #ifdef __cplusplus
 }
