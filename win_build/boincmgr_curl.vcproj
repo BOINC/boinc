@@ -437,6 +437,12 @@
 				<File
 					RelativePath="..\clientgui\sg_StatImageLoader.h">
 				</File>
+				<File
+					RelativePath="..\clientgui\sg_ViewTabPage.cpp">
+				</File>
+				<File
+					RelativePath="..\clientgui\sg_ViewTabPage.h">
+				</File>
 			</Filter>
 		</Filter>
 		<Filter

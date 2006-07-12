@@ -56,6 +56,7 @@ public:
 	wxXmlDocument *skinXML;
 	//Skin Class
     SkinClass *appSkin;
+	wxString skinName;
 	wxString skinPath;
 	// My projects area
 	std::vector<StatImageLoader*> m_statProjects; // vector of all project icons created for GUI

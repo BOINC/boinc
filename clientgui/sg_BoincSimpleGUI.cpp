@@ -79,13 +79,13 @@ CSimpleFrame::CSimpleFrame(wxString title, wxIcon* icon) :
     //
     pConfig->SetPath(strBaseConfigLocation);
     pConfig->Read(wxT("Skin"), &skinName, wxT("default"));
-
+    pConfig->Read(wxT("SkinPath"), &skinPath, wxT("skins"));
 
     //init app skin class
 	appSkin = SkinClass::Instance();
     
-    appSkin->SetSkinName(wxT("default"));
-	appSkin->SetSkinsFolder(wxT("skins"));
+    appSkin->SetSkinName(skinName);
+	appSkin->SetSkinsFolder(skinPath);
 	skinPath = appSkin->GetSkinsFolder()+_T("/")+appSkin->GetSkinName()+_T("/")+_T("skin.xml");
 	midAppCollapsed = false;
 	btmAppCollapsed = false;
@@ -117,6 +117,7 @@ CSimpleFrame::~CSimpleFrame()
     //
     pConfig->SetPath(strBaseConfigLocation);
     pConfig->Write(wxT("Skin"), skinName);
+    pConfig->Write(wxT("SkinPath"), skinPath);
 
 	if (m_pFrameRenderTimer) {
         m_pFrameRenderTimer->Stop();
@@ -255,7 +256,7 @@ void CSimpleFrame::InitSimpleClient()
 		//index += i;
 		friendlyName += wxString(index.c_str(), wxConvUTF8 );
 		CViewTabPage *wTab = new CViewTabPage(wrkUnitNB,i,resState->name);
-		wrkUnitNB->AddPage(wTab,  wxT(friendlyName, true));	
+		wrkUnitNB->AddPage(wTab, friendlyName, true);	
 		if(result->active_task_state == 1){
 			 wrkUnitNB->SetPageImageIndex(i, 0); // this is working process
 		}else{
@@ -387,7 +388,8 @@ void CSimpleFrame::UpdateClientGUI(){
 	//Update Projects
 	int projCnt = pDoc->state.projects.size();
 	//std::vector<StatImageLoader*> tempProjects;
-	for(int j = 0; j < pDoc->state.projects.size(); j++){
+    unsigned int j;
+	for(j = 0; j < pDoc->state.projects.size(); j++){
 		PROJECT* project = pDoc->state.projects[j];
 		
 		//only go into if we have enough project icons
