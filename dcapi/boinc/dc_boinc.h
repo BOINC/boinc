@@ -40,6 +40,10 @@ extern "C" {
 #define CFG_FPOPS_EST		"EstimatedFPOps"
 /* Max. number of floating point operations */
 #define CFG_MAXFPOPS		"MaxFPOps"
+/* WU deadline */
+#define CFG_DELAYBOUND		"DelayBound"
+/* Suspending enabled or not */
+#define CFG_ENABLESUSPEND	"EnableSuspend"
 
 /* File types in the working directory */
 typedef enum
@@ -66,6 +70,7 @@ struct _DC_Workunit
 	int			argc;
 	char			*tag;
 	int			subresults;
+	int			priority;
 
 	int			serialized : 1;
 	int			submitted : 1;
