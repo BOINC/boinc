@@ -11,7 +11,9 @@ endif
 pkgconfigdir = ${libdir}/pkgconfig
 pkgconfig_DATA = dcapi-local-client.pc dcapi-local-master.pc
 
-AM_CPPFLAGS = -I$(top_srcdir)/common $(GLIB_CFLAGS)
+AM_CPPFLAGS = -I$(top_srcdir)/include $(GLIB_CFLAGS)
+
+noinst_HEADERS = common_defs.h dc_local.h
 
 libdc_local_la_SOURCES = \
 		dc.c \
