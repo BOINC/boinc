@@ -140,7 +140,7 @@ int _DC_parseBoolean(const char *value)
 			return 1;
 	for (i = 0; i < sizeof(falsevals) / sizeof(falsevals[0]); i++)
 		if (!strcasecmp(value, falsevals[i]))
-			return 1;
+			return 0;
 	return -1;
 }
 
