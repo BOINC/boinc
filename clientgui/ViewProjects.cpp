@@ -295,7 +295,7 @@ void CViewProjects::OnProjectReset( wxCommandEvent& WXUNUSED(event) ) {
 
     strMessage.Printf(
         _("Are you sure you want to reset project '%s'?"), 
-        strProjectName.c_str()
+        wxString(strProjectName.c_str(), wxConvUTF8).c_str()
     );
 
     iAnswer = ::wxMessageBox(
