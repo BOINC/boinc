@@ -389,18 +389,21 @@ function show_select_from_array($name, $array, $selection) {
  **/
 function show_forum_title($forum=NULL, $thread=NULL) {
     echo "<p>\n";
+    $category = getCategory($forum->category);
+    $where = $category->is_helpdesk?tr(LINKS_QA):tr(FORUM_TITLE_SHORT);
+    $top_url = $category->is_helpdesk?"forum_help_desk.php":"forum_index.php";
     if (!$forum && !$thread) {
         echo "<p class=\"title\">";
-        echo tr(FORUM_TITLE_SHORT);
+        echo $where;
 
     } else if ($forum && !$thread) {
         echo "<span class=title>";
-        echo "<a href=\"forum_index.php\">".tr(FORUM_TITLE_SHORT)."</a> : ";
+        echo "<a href=\"$top_url\">$where</a> : ";
         echo $forum->getTitle();
         echo "</span><br>";
     } else if ($forum && $thread) {
         echo "<span class=title>";
-        echo "<a href=\"forum_index.php\">".tr(FORUM_TITLE_SHORT)."</a> : ";
+        echo "<a href=\"$top_url\">$where</a> : ";
 
         echo "<a href=\"forum_forum.php?id=".$forum->getID()."\">", $forum->getTitle(), "</a> : ";
         echo cleanup_title($thread->getTitle());
