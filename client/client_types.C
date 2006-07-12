@@ -519,6 +519,10 @@ void PROJECT::write_project_files(MIOFILE& f) {
     f.printf("</project_files>\n");
 }
 
+// write symlinks for project files.
+// Note: it's conceivable that one physical file
+// has several logical names, so try them all
+//
 int PROJECT::link_project_file(FILE_INFO* fip) {
     char project_dir[256], path[256];
     unsigned int i;
@@ -531,6 +535,7 @@ int PROJECT::link_project_file(FILE_INFO* fip) {
         FILE* f = boinc_fopen(path, "w");
         if (!f) continue;
         fprintf(f, "<soft_link>%s/%s</soft_link>\n", project_dir, fip->name);
+        fclose(f);
     }
     return 0;
 }

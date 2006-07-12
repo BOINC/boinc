@@ -211,7 +211,6 @@ static void handle_project_op(char* buf, MIOFILE& fout, const char* op) {
             fout.printf("<error>must detach using account manager</error>");
             return;
         }
-        gstate.detach_project(p);       // writes state file
 
         // if project_init.xml refers to this project,
         // delete the file, otherwise we'll just
@@ -225,6 +224,8 @@ static void handle_project_op(char* buf, MIOFILE& fout, const char* op) {
                 );
             }
         }
+
+        gstate.detach_project(p);       // writes state file; deletes p
         gstate.request_schedule_cpus("project detached by user");
     } else if (!strcmp(op, "update")) {
         p->sched_rpc_pending = true;

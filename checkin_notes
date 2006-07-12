@@ -7098,28 +7098,28 @@ David  30 June 2006
         filesys.C
 
 David  30 June 2006
-	- core client: ACTIVE_TASK::supports_graphics():
-		return false if process isn't executing.
-		(prevent GUI from showing "show graphics" button
-		for results with no process, or suspended process)
-	- core client: on Windows command-line, when you close the window,
-		quit_client() gets called,
-		but control never returns to boinc_main_loop(),
-		so gstate.quit_activities() (and other cleanup stuff) isn't called,
-		so apps don't exit.
-		If you then start the core client again in the next 30 sec,
-		and exit quickly, another copy of apps gets started,
-		which waits to acquire slot lock, then decides it's in
-		standalone mode and opens a graphics window!  Very confusing.
+    - core client: ACTIVE_TASK::supports_graphics():
+        return false if process isn't executing.
+        (prevent GUI from showing "show graphics" button
+        for results with no process, or suspended process)
+    - core client: on Windows command-line, when you close the window,
+        quit_client() gets called,
+        but control never returns to boinc_main_loop(),
+        so gstate.quit_activities() (and other cleanup stuff) isn't called,
+        so apps don't exit.
+        If you then start the core client again in the next 30 sec,
+        and exit quickly, another copy of apps gets started,
+        which waits to acquire slot lock, then decides it's in
+        standalone mode and opens a graphics window!  Very confusing.
 
-		I fixed this by moving all the cleanup code to a separate functions
-		(finalize()) and calling this directly from quit_client().
+        I fixed this by moving all the cleanup code to a separate functions
+        (finalize()) and calling this directly from quit_client().
 
-		By the way, why is main.C such a toxic waste dump?
+        By the way, why is main.C such a toxic waste dump?
 
-	client/
-		app_graphics.C
-		main.C
+    client/
+        app_graphics.C
+        main.C
 
 David  30 June 2006
     - message tweaks
@@ -7363,11 +7363,11 @@ David  9 July 2006
         cpu_sched.C
 
 David  9 July 2006
-	- core client: improve "RPC succeeded" message
+    - core client: improve "RPC succeeded" message
 
-	client/
-		cs_scheduler.C
-		scheduler_op.C
+    client/
+        cs_scheduler.C
+        scheduler_op.C
 
 David  9 July 2006
     - core client: instead of calling compute_work_requests()
@@ -7409,60 +7409,60 @@ Matt 10 July 2006
        forum.inc
 
 David  11 July 2006
-	- Feeder: an option so that apps have a "weight" (floating-pt)
-		that determines the proportions of work items inserted by the feeder.
-		I.e. if app 1 has weight .5 and app 2 has weight 1.5,
-		then we'll send 3 times as many results for app 2 as app 1
-	- Feeder/scheduler: add an option "-reliable N":
-		This tags work items whose workunits are older than N days
-		as "need_reliable",
-		so that the scheduler can try to send them to "reliable" hosts
-		(those with expavg_credit > 70)
-		In no case send a "need_reliable" result to a host
-		with zero total credit.
-	- Feeder, with homogeneous redundancy:
-		when add a result with a sibling that's already sent
-		(or on a collision, if we learn that this is the case)
-		increment its infeasible_count.
-		This causes it to be sent quicker.
-		It's better to have the array full of results
-		that are not already committed to a platform.
-	- validator: add -sleep_interval cmdline arg
-	- Add TRANSITIONER_ITEM::res_received_time
-		(Nothing currently uses this - should we remove??)
+    - Feeder: an option so that apps have a "weight" (floating-pt)
+        that determines the proportions of work items inserted by the feeder.
+        I.e. if app 1 has weight .5 and app 2 has weight 1.5,
+        then we'll send 3 times as many results for app 2 as app 1
+    - Feeder/scheduler: add an option "-reliable N":
+        This tags work items whose workunits are older than N days
+        as "need_reliable",
+        so that the scheduler can try to send them to "reliable" hosts
+        (those with expavg_credit > 70)
+        In no case send a "need_reliable" result to a host
+        with zero total credit.
+    - Feeder, with homogeneous redundancy:
+        when add a result with a sibling that's already sent
+        (or on a collision, if we learn that this is the case)
+        increment its infeasible_count.
+        This causes it to be sent quicker.
+        It's better to have the array full of results
+        that are not already committed to a platform.
+    - validator: add -sleep_interval cmdline arg
+    - Add TRANSITIONER_ITEM::res_received_time
+        (Nothing currently uses this - should we remove??)
 
-	NOTE: this update requires a database change: see html/ops/db_update.php
+    NOTE: this update requires a database change: see html/ops/db_update.php
 
-	(from Kevin Reed)
+    (from Kevin Reed)
 
-	db/
-		boinc_db.C,h
-		schema.sql
-	html/ops/
-		db_update.php
-	sched/
-		feeder.C
-		sched_array.C
-		sched_send.C
-		sched_shmem.C,h
-		server_types.h
-		show_shmem.C
-		validator.C
+    db/
+        boinc_db.C,h
+        schema.sql
+    html/ops/
+        db_update.php
+    sched/
+        feeder.C
+        sched_array.C
+        sched_send.C
+        sched_shmem.C,h
+        server_types.h
+        show_shmem.C
+        validator.C
 
 David  11 July 2006
-	- core client: fix bug where the first log flag in the
-		list was getting skipped over.
-		This was due to a design flaw in the new XML parsing code.
-		To work around this, I changed the format of
-		the cc_config.xml file so that options are
-		enclosed in <options> ... </options>
+    - core client: fix bug where the first log flag in the
+        list was getting skipped over.
+        This was due to a design flaw in the new XML parsing code.
+        To work around this, I changed the format of
+        the cc_config.xml file so that options are
+        enclosed in <options> ... </options>
 
-	client/
-		app.C
-		cs_statefile.C
-		log_flags.C,h
-	lib/
-		parse.C
+    client/
+        app.C
+        cs_statefile.C
+        log_flags.C,h
+    lib/
+        parse.C
 
 Milos  11 July 2006
     - Simple GUI Refresh
@@ -7493,3 +7493,13 @@ Rom    12 July 2006
         
     client/
         main.C
+
+David  12 July 2006
+    - core client: fix bug where sym links for project files
+        weren't getting written (missing fclose())
+    - core client: fix crash on project detach
+        (PROJECT object was being referenced after it was deleted)
+
+    client/
+        client_types.C
+        gui_rpc_server_ops.C
