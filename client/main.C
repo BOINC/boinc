@@ -152,19 +152,15 @@ void resume_client() {
 // Trap logoff and shutdown events on Win9x so we can clean ourselves up.
 LRESULT CALLBACK Win9xMonitorSystemWndProc(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lParam)
 {
-    if (uMsg == WM_QUERYENDSESSION)
-    {
+    if (uMsg == WM_QUERYENDSESSION) {
         BOINCTRACE("***** Win9x Monitor System Shutdown/Logoff Event Detected *****\n");
+        // Win95 is stupid, we really only need to wait until we have
+        //   successfully shutdown the active tasks and cleaned everything
+        //   up.  Luckly WM_QUERYENDSESSION is sent before Win9x checks for any
+        //   existing console and that gives us a chance to clean-up and
+        //   then clear the console window.  Win9x will not close down
+        //   a console window if anything is displayed on it.
         quit_client();
-        while (!boinc_cleanup_completed) {
-            Sleep(1000);    // Win95 is stupid, we really only need to wait until we have
-                            //   successfully shutdown the active tasks and cleaned everything
-                            //   up.  Luckly WM_QUERYENDSESSION is sent before Win9x checks for any
-                            //   existing console and that gives us a chance to clean-up and
-                            //   then clear the console window.  Win9x will not close down
-                            //   a console window if anything is displayed on it.
-        }
-        Sleep(2000);        // For good measure.
         system("cls");
         return TRUE;
     }

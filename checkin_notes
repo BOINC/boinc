@@ -7474,3 +7474,11 @@ David  11 July 2006
 
     client/
         main.C
+
+Rom    12 July 2006
+    - Bug Fix: Remove extra waiting loop for Win9x based platforms
+        when shutting down a console window now that quit_client()
+        does the waiting.
+        
+    client/
+        main.C
