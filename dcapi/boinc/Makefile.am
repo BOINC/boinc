@@ -1,5 +1,6 @@
 lib_LTLIBRARIES =
-AM_CPPFLAGS = -I$(top_srcdir)/common $(GLIB_CFLAGS)
+
+AM_CPPFLAGS = -I$(top_srcdir)/include $(GLIB_CFLAGS)
 
 if BUILD_MASTER
 lib_LTLIBRARIES += libdc-boinc.la

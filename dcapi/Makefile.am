@@ -3,6 +3,8 @@ AUTOMAKE_OPTIONS = foreign 1.7
 
 SUBDIRS = include common doc
 
+EXTRA_DIST = _autosetup.sh
+
 if WITH_BOINC
 SUBDIRS += boinc
 endif

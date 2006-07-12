@@ -11,7 +11,7 @@ endif
 pkgconfigdir = ${libdir}/pkgconfig
 pkgconfig_DATA = dcapi-condor-client.pc dcapi-condor-master.pc
 
-AM_CPPFLAGS	= -I$(top_srcdir)/common $(GLIB_CFLAGS) $(CONDOR_CPPFLAGS)
+AM_CPPFLAGS	= -I$(top_srcdir)/include $(GLIB_CFLAGS) $(CONDOR_CPPFLAGS)
 AM_LDFLAGS	= $(GLIB_LIBS) $(CONDOR_LDFLAGS)
 
 noinst_HEADERS	= condor_common.h \
