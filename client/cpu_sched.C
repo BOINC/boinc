@@ -208,6 +208,8 @@ void CLIENT_STATE::adjust_debts() {
     double share_frac;
     double wall_cpu_time = gstate.now - adjust_debts_last_time;
 
+    if (wall_cpu_time < 1) return;
+
     // Total up total and per-project "wall CPU" since last CPU reschedule.
     // "Wall CPU" is the wall time during which a task was
     // runnable (at the OS level).

@@ -7527,3 +7527,9 @@ David  12 July 2006
         cpu_sched.C
         cs_apps.C
         cs_scheduler.C
+
+David  13 July 2006
+    - core client: adjust_debts() returns if elapsed time < 1
+
+    client/
+        cpu_sched.C
