@@ -134,7 +134,7 @@ Web site
 Miscellaneous
 </b></font>
 <ul>
-<li> <a href=mass_email.php>Sending mass emails</a>
+<li> <a href=mass_email.php>Email newsletters and reminders</a>
 <li> <a href=gui_urls.php>Project-specific items in the client GUI</a>
 <li> <a href=db_dump.php#task>Export credit data as XML</a>
 <li> <a href=grid.php>Integrating BOINC projects with Grids</a>

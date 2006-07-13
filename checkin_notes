@@ -7543,3 +7543,19 @@ David  13 July 2006
         mass_email_script.php
     lib/
         filesys.h
+
+David  13 July 2006
+    - server: add script for doing "email reminders"
+        to failed and lapsed user.
+    - core client: fix bug where, if cc_config.xml is present
+        but doesn't specify save_stats_days,
+        it's zero (rather than the correct default of 30).
+    - user web: remove SETI@home-specific text from translate.php
+
+    client/
+        log_flags.C
+    html/
+        ops/
+            remind.php
+        user/
+            translate.php

@@ -13,13 +13,8 @@ If you are interested in doing this:
 <li> Learn how BOINC's
 <a href=http://boinc.berkeley.edu/translation.php>web site translation mechanism</a> works.
 <li>
-Obtain the project-specific translation files.
-For SETI@home these are
-<a href=http://setiathome2.ssl.berkeley.edu/cgi-bin/cvsweb.cgi/seti_boinc_html/project_specific_translations/>here</a>.
-The PHP files for the web site are
-<a href=http://setiathome2.ssl.berkeley.edu/cgi-bin/cvsweb.cgi/seti_boinc_html/>here</a>.
-<li> Contact Jens Seidler (jens at planet-seidler.de),
-tell him what language you want to do, and get instructions from him.
+Contact project staff to obtain project-specific translation files,
+and to get instructions for submitting translations into your language.
 </ul>
 
 <p>
