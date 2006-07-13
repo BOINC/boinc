@@ -336,6 +336,172 @@ $mac_changes_54= "
       </ul>
 ";
 
+$linux_libs_fedora_558= "
+    <li>Boinbcmgr no longer use statically linked libraries.
+        The following shared libraries are needed for boincmgr to run:
+      <ul>
+        <li>/lib/ld-linux.so.2
+        <li>libatk-1.0.so.0
+        <li>libc.so.6
+        <li>libcairo.so.2
+        <li>libcom_err.so.2
+        <li>libcrypto.so.6
+        <li>libcurl.so.3
+        <li>libdl.so.2
+        <li>libexpat.so.0
+        <li>libfontconfig.so.1
+        <li>libfreetype.so.6
+        <li>libgcc_s.so.1
+        <li>libgdk-x11-2.0.so.0
+        <li>libgdk_pixbuf-2.0.so.0
+        <li>libglib-2.0.so.0
+        <li>libgmodule-2.0.so.0
+        <li>libgobject-2.0.so.0
+        <li>libgssapi_krb5.so.2
+        <li>libgthread-2.0.so.0
+        <li>libgtk-x11-2.0.so.0
+        <li>libidn.so.11
+        <li>libjpeg.so.62
+        <li>libk5crypto.so.3
+        <li>libkrb5.so.3
+        <li>libkrb5support.so.0
+        <li>libm.so.6
+        <li>libnsl.so.1
+        <li>libpango-1.0.so.0
+        <li>libpangocairo-1.0.so.0
+        <li>libpangoft2-1.0.so.0
+        <li>libpng12.so.0
+        <li>libpthread.so.0
+        <li>libresolv.so.2
+        <li>libSDL-1.2.so.0
+        <li>libssl.so.6
+        <li>libstdc++.so.6
+        <li>libtiff.so.3
+        <li>libwx_baseu-2.6.so.0
+        <li>libwx_baseu_net-2.6.so.0
+        <li>libwx_baseu_xml-2.6.so.0
+        <li>libwx_gtk2u_adv-2.6.so.0
+        <li>libwx_gtk2u_core-2.6.so.0
+        <li>libwx_gtk2u_html-2.6.so.0
+        <li>libwx_gtk2u_qa-2.6.so.0
+        <li>libwx_gtk2u_xrc-2.6.so.0
+        <li>libX11.so.6
+        <li>libXau.so.6
+        <li>libXcursor.so.1
+        <li>libXdmcp.so.6
+        <li>libXext.so.6
+        <li>libXfixes.so.3
+        <li>libXi.so.6
+        <li>libXinerama.so.1
+        <li>libXrandr.so.2
+        <li>libXrender.so.1
+        <li>libz.so.1
+        <li>linux-gate.so.1
+      </ul>
+";
+
+$linux_libs_suse_558= "
+    <li>Boinbcmgr no longer use statically linked libraries.
+        The following shared libraries are needed for boincmgr to run:
+      <ul>
+        <li>/lib/ld-linux.so.2
+        <li>libatk-1.0.so.0
+        <li>libc.so.6
+        <li>libcairo.so.2
+        <li>libcrypto.so.0.9.8
+        <li>libcurl.so.3
+        <li>libdl.so.2
+        <li>libexpat.so.1
+        <li>libfontconfig.so.1
+        <li>libfreetype.so.6
+        <li>libgcc_s.so.1
+        <li>libgdk-x11-2.0.so.0
+        <li>libgdk_pixbuf-2.0.so.0
+        <li>libglib-2.0.so.0
+        <li>libglitz.so.1
+        <li>libgmodule-2.0.so.0
+        <li>libgobject-2.0.so.0
+        <li>libgthread-2.0.so.0
+        <li>libgtk-x11-2.0.so.0
+        <li>libidn.so.11
+        <li>libjpeg.so.62
+        <li>libm.so.6
+        <li>libnsl.so.1
+        <li>libpango-1.0.so.0
+        <li>libpangocairo-1.0.so.0
+        <li>libpangoft2-1.0.so.0
+        <li>libpng.so.3
+        <li>libpng12.so.0
+        <li>libpthread.so.0
+        <li>libssl.so.0.9.8
+        <li>libstdc++.so.6
+        <li>libX11.so.6
+        <li>libXcursor.so.1
+        <li>libXext.so.6
+        <li>libXfixes.so.3
+        <li>libXi.so.6
+        <li>libXinerama.so.1
+        <li>libXrandr.so.2
+        <li>libXrender.so.1
+        <li>libXxf86vm.so.1
+        <li>libz.so.1
+        <li>linux-gate.so.1
+      </ul>
+";
+
+$linux_libs_ubuntu_558= "
+    <li>Boinbcmgr no longer use statically linked libraries.
+        The following shared libraries are needed for boincmgr to run:
+      <ul>
+        <li>/lib/ld-linux.so.2
+        <li>libatk-1.0.so.0
+        <li>libc.so.6
+        <li>libcairo.so.2
+        <li>libcom_err.so.2
+        <li>libcrypto.so.0.9.8
+        <li>libcurl.so.3
+        <li>libdl.so.2
+        <li>libexpat.so.1
+        <li>libfontconfig.so.1
+        <li>libfreetype.so.6
+        <li>libgcc_s.so.1
+        <li>libgdk-x11-2.0.so.0
+        <li>libgdk_pixbuf-2.0.so.0
+        <li>libglib-2.0.so.0
+        <li>libgmodule-2.0.so.0
+        <li>libgobject-2.0.so.0
+        <li>libgssapi_krb5.so.2
+        <li>libgthread-2.0.so.0
+        <li>libgtk-x11-2.0.so.0
+        <li>libidn.so.11
+        <li>libjpeg.so.62
+        <li>libk5crypto.so.3
+        <li>libkrb5.so.3
+        <li>libkrb5support.so.0
+        <li>libm.so.6
+        <li>libnsl.so.1
+        <li>libpango-1.0.so.0
+        <li>libpangocairo-1.0.so.0
+        <li>libpangoft2-1.0.so.0
+        <li>libpng12.so.0
+        <li>libpthread.so.0
+        <li>libresolv.so.2
+        <li>libssl.so.0.9.8
+        <li>libstdc++.so.6
+        <li>libX11.so.6
+        <li>libXau.so.6
+        <li>libXcursor.so.1
+        <li>libXext.so.6
+        <li>libXfixes.so.3
+        <li>libXi.so.6
+        <li>libXinerama.so.1
+        <li>libXrandr.so.2
+        <li>libXrender.so.1
+        <li>libz.so.1
+        <li>linux-gate.so.1
+      </ul>
+";
+
 $w556= array(
     "num"=>"5.5.6",
     "status"=>"Development version",
@@ -607,14 +773,43 @@ $m443c = array(
     "
 );
 
-$l556 = array(
-    "num"=>"5.5.6",
-    "status"=>"Development version",
-    "file"=>"boinc_5.5.6_i686-pc-linux-gnu.sh",
-    "date"=>"8 JULY 2006",
+$l558f = array(
+    "num"=>"5.5.8",
+    "status"=>"Development version (standard GUI - Fedora Core 5)",
+    "file"=>"boinc_5.5.8_i686-fc5.sh",
+    "date"=>"13 JULY 2006",
     "type"=>"sea",
     "features"=>"<ul>
 ".$features_55."
+".$linux_libs_fedora_558."
+".$changes_55."
+    </ul>
+    "
+);
+
+$l558s = array(
+    "num"=>"5.5.8",
+    "status"=>"Development version (standard GUI - SUSE 10.1)",
+    "file"=>"boinc_5.5.8_i686-suse.sh",
+    "date"=>"13 JULY 2006",
+    "type"=>"sea",
+    "features"=>"<ul>
+".$features_55."
+".$linux_libs_suse_558."
+".$changes_55."
+    </ul>
+    "
+);
+
+$l558u = array(
+    "num"=>"5.5.8",
+    "status"=>"Development version (standard GUI - Ubuntu 6.06)",
+    "file"=>"boinc_5.5.8_i686-ubuntu.sh",
+    "date"=>"13 JULY 2006",
+    "type"=>"sea",
+    "features"=>"<ul>
+".$features_55."
+".$linux_libs_ubuntu_558."
 ".$changes_55."
     </ul>
     "
@@ -716,7 +911,9 @@ $linux = array(
     "dbname" => "i686-pc-linux-gnu",
     "url"=>"linux.php",
     "versions"=>array(
-        $l556,
+        $l558f,
+        $l558s,
+        $l558u,
         $l549,
         $l5213,
         $l443,
