@@ -21,8 +21,8 @@ $choice0 = array(
     "options" => array(
         "tweek" => "less than a week",
         "tmonth" => "less than a month",
-        "t6months" => "less than six months",
-        "tmore" => "more than six months"
+        "tyear" => "less than a year",
+        "tmoreyear" => "more than a year"
     ),
     "radio_name" => "duration",
     "other_name" => null,
@@ -58,9 +58,10 @@ $choice3 = array(
     "text" => "No - I never tried running BOINC, because...",
     "rname" => "never",
     "options" => array(
-        "nsecurity" => "I was concerned about securty",
+        "nsecurity" => "I was concerned about security",
         "nproject" => "I wasn't interested in any of the projects",
         "npermission" => "I don't have permission to run it on my computer",
+        "nversion" => "No version was available for my computer",
     ),
     "radio_name" => false,
     "other_name" => "nother_text",
@@ -68,28 +69,10 @@ $choice3 = array(
 
 $overall_choices = array($choice0, $choice1, $choice2, $choice3);
 
-$factors = array(
-    "text" => "Which are the most important factors when you decide whether to participate in a BOINC project?",
-    "options" => array(
-        "factor_graphics"=>"Nice-looking screensaver graphics",
-        "factor_credit_fair"=>"Fair and quick granting of credit for work done",
-        "factor_credit_more"=>"Getting more credit from this project than from others",
-        "factor_mb_friendly"=>"Helpful and friendly message boards",
-        "factor_mb_staff"=>"Participation by project staff on the message boards",
-        "factor_web_site"=>"Informative project web site",
-        "factor_science_important"=>"The science is important and beneficial",
-        "factor_science_public"=>"Scientific results are public",
-        "factor_recognize"=>"Personal recognition if my computer finds something",
-        "factor_publish"=>"Publication by the project in scientific journals",
-        "factor_email"=>"Periodic email newsletters from the project",
-    ),
-    "radio_name" => false,
-    "other_name" => "factor_other_text",
-);
 
 $comp_items = array(
     array(
-        "text"=>"What kind of computers do you have?",
+        "text"=>"What kind of computers do you have running BOINC?",
         "options" => array(
             "windows"=>"Windows",
             "mac"=>"Macintosh",
@@ -99,7 +82,7 @@ $comp_items = array(
         "other_name"=>"cother_text",
     ),
     array(
-        "text"=>"Where are your computers?",
+        "text"=>"Where are they?",
         "options" => array(
             "home"=>"Home",
             "work"=>"Work",
@@ -110,17 +93,18 @@ $comp_items = array(
     ),
     array(
         "radio_name"=>"ncomputers",
-        "text"=>"How many computers do you have?",
+        "text"=>"How many computers?",
         "options" => array(
             "n1"=>"1",
             "n2"=>"2-4",
             "n59"=>"5-9",
-            "n10"=>"10+",
+            "n10"=>"10-99",
+            "n100"=>"100+",
         ),
     ),
     array(
         "radio_name"=>"turned_on",
-        "text"=>"On average, how many hours per day are your computers turned on?",
+        "text"=>"On average, how many hours per day are they powered on?",
         "options" => array(
             "t08"=>"0-8",
             "t823"=>"8-23",
@@ -159,32 +143,60 @@ $you_items = array(
     ),
 );
 
-$where_item = array(
-    "name"=>"where",
-    "text"=>"Where did you learn about your current project?",
-    "options"=>array(
-        "wtv"=>"TV/radio/newspaper",
-        "wweb"=>"The web",
-        "wpers"=>"Someone told me about it",
+$project_items = array(
+    array(
+        "text" => "Which are the most important factors when you decide whether to participate in a BOINC project?",
+        "options" => array(
+            "factor_graphics"=>"Nice-looking screensaver graphics",
+            "factor_credit_fair"=>"Fair and quick granting of credit for work done",
+            "factor_credit_more"=>"Getting more credit from this project than from others",
+            "factor_mb_friendly"=>"Helpful and friendly message boards",
+            "factor_mb_staff"=>"Participation by project staff on the message boards",
+            "factor_web_site"=>"Informative project web site",
+            "factor_science_important"=>"The science is important and beneficial",
+            "factor_science_public"=>"Non-profit, and results are public",
+            "factor_recognize"=>"Personal recognition if my computer finds something",
+            "factor_publish"=>"Publication by the project in scientific journals",
+            "factor_email"=>"Periodic email newsletters from the project",
+        ),
+        "radio_name" => false,
+        "other_name" => "factor_other_text",
     ),
-    "radio_name" => false,
-    "other_name" => "wother_text",
+    array(
+        "name"=>"where",
+        "text"=>"Where did you learn about BOINC projects?",
+        "options"=>array(
+            "wtv"=>"TV/radio/newspaper",
+            "wweb"=>"The web",
+            "wpers"=>"From other people",
+        ),
+        "radio_name" => false,
+        "other_name" => "wother_text",
+    ),
+    array(
+        "radio_name"=>"nprojects",
+        "text"=>"How many BOINC projects do you participate in?",
+        "options"=>array(
+            "p1"=>"1",
+            "p25"=>"2-5",
+            "p510"=>"5-10",
+            "pmore10"=>"more than 10",
+        ),
+    ),
 );
 
 function parse_form() {
     global $run_boinc;
     global $overall_choices;
-    global $factors;
+    global $project_items;
     global $comp_items;
     global $you_items;
-    global $where_item;
     global $country;
     global $improved;
     $x = array();
     $x[$run_boinc] = get_str($run_boinc);
     $x = parse_form_choices($x, $overall_choices);
-    $x = parse_form_choice($x, $factors);
-    $x = parse_form_choice($x, $where_item);
+    $x = parse_form_choices($x, $project_items);
     $x = parse_form_choices($x, $comp_items);
     $x = parse_form_choices($x, $you_items);
     $x[$country] = get_str($country);
@@ -195,17 +207,15 @@ function parse_form() {
 function generate_xml($x) {
     global $run_boinc;
     global $overall_choices;
-    global $factors;
+    global $project_items;
     global $comp_items;
     global $you_items;
-    global $where_item;
     global $country;
     global $improved;
     $xml = "";
     $xml .= "<$run_boinc>".$x[$run_boinc]."</$run_boinc>\n";
     $xml .= gen_xml_choices($x, $overall_choices);
-    $xml .= gen_xml_choice($x, $factors);
-    $xml .= gen_xml_choice($x, $where_item);
+    $xml .= gen_xml_choices($x, $project_items);
     $xml .= gen_xml_choices($x, $comp_items);
     $xml .= gen_xml_choices($x, $you_items);
     $xml .= "<$country>".urlencode($x[$country])."</$country>\n";

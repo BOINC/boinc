@@ -35,9 +35,7 @@ generate_functions($overall_choices);
 show_choices($overall_choices, $run_boinc);
 
 list_bar("Choosing projects");
-show_choice($factors, "");
-
-show_choice($where_item, "");
+show_choices($project_items, "");
 list_bar("Your computers");
 show_choices($comp_items, "");
 list_bar("You");

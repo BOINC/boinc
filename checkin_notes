@@ -7509,3 +7509,11 @@ David  12 July 2006
 
     client/
         Makefile.linux (new)
+
+
+David  12 July 2006
+    - core client: fix bug that disabled work fetch
+        (from John McLeod)
+
+    client/
+        cs_scheduler.C

@@ -683,7 +683,6 @@ int CLIENT_STATE::compute_work_requests() {
 // initiate scheduler RPC activity if needed and possible
 //
 bool CLIENT_STATE::scheduler_rpc_poll() {
-    overall_work_fetch_urgency = WORK_FETCH_DONT_NEED;
     PROJECT *p;
     bool action=false;
     static double last_time=0;
