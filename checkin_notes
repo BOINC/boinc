@@ -7533,3 +7533,13 @@ David  13 July 2006
 
     client/
         cpu_sched.C
+
+David  13 July 2006
+    - Change mass email script so that files are in html/ops/mass_email/,
+        and HTML files are optional
+    - compile fix
+
+    html/ops/
+        mass_email_script.php
+    lib/
+        filesys.h

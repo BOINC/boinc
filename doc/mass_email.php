@@ -29,11 +29,13 @@ These people did work in the past, but none recently.
 These are your active user.
 </ul>
 
-To use mass_email_script.php, create the following
-files in your html/ops directory:
+To use mass_email_script.php,
+create the following files in html/ops/mass_email:
+NOTE: the HTML files are optional;
+if you leave them out, text-only emails will be sent.
 ";
 list_start();
-list_item("email_failed_html",
+list_item("failed_html",
     "HTML message sent to failed users.  Example: ".html_text(
 "<html>
 <body bgcolor=ffffcc>
@@ -41,13 +43,11 @@ Dear <name/>:
 <p>
 Test Project continues to do pioneering computational research
 in the field of Submandibular Morphology.
-In recent months we have discovered over 17 new varieties
-of Frombats.
+In recent months we have discovered over 17 new varieties of Frombats.
 <p>
 Our records show that you created a Test Project account
 on <create_time/> but that your computer hasn't completed any work.
-Quite possibly you encountered problems installing or using
-the software.
+Quite possibly you encountered problems installing or using the software.
 Many of these problems have now been fixed,
 and we encourage you to visit
 <a href=http://a.b.c>our web site</a>,
@@ -62,7 +62,7 @@ To avoid receiving future emails from Test Project,
 </html>"
 )."
 ");
-list_item("email_failed_text", "Text message sent to failed users.
+list_item("failed_text", "Text message sent to failed users.
     Example: ".html_text("
 Dear <name/>:
 
@@ -84,12 +84,12 @@ To avoid receiving future emails from Test Project, visit
 list_item("email_failed_subject", "Subject line sent to failed users.
     Example: 'Test Project News'.
 ");
-list_item("email_lapsed_html", "HTML message sent to lapsed users");
-list_item("email_lapsed_text", "Text message sent to lapsed users");
-list_item("email_lapsed_subject", "Subject line sent to lapsed users");
-list_item("email_current_html", "HTML message sent to current users");
-list_item("email_current_text", "Text message sent to current users");
-list_item("email_current_subject", "Subject line sent to current users");
+list_item("lapsed_html", "HTML message sent to lapsed users");
+list_item("lapsed_text", "Text message sent to lapsed users");
+list_item("lapsed_subject", "Subject line sent to lapsed users");
+list_item("current_html", "HTML message sent to current users");
+list_item("current_text", "Text message sent to current users");
+list_item("current_subject", "Subject line sent to current users");
 list_end();
 echo "
 BOINC will replace the following macros in your HTML and text:
@@ -139,7 +139,7 @@ Then set \$testing = false and run the script again.
 You'll get three emails; check them.
 <p>
 Then set \$testing = false and \$userid = 0,
-create an empty file called <b>mass_email.log</b> (see below),
+create an empty file called <b>mass_email/log</b> (see below),
 and run the script.
 You'll get voluminous output to stdout, but no emails will be sent.
 Control-C it quickly if you want.
@@ -147,7 +147,7 @@ Make sure that each user is being sent the right type of email.
 <p>
 When you're sure that everything is correct,
 set \$testing = false,
-set <b>mass_email.log</b> to empty,
+set <b>mass_email/log</b> to empty,
 and run the script.
 It will now send mass emails.
 Depending on the size of your user table,
@@ -158,15 +158,15 @@ it automatically picks up where it left off (see below).
 <h2>Checkpoint/restart</h2>
 <p>
 Mails are sent in order of increasing user ID.
-The file <b>mass_email.log</b> has a list of IDs that have been processed.
+The file <b>mass_email/log</b> has a list of IDs that have been processed.
 On startup, the script reads this file, finds the last entry,
 and starts from there.
 
 <p>
 If you are starting a mass email from the beginning,
-empty the file <b>mass_email.log</b>; i.e.
+empty the file <b>mass_email/log</b>; i.e.
 <pre>
-truncate mass_email.log
+truncate mass_email/log
 </pre>
 
 <h2>Avoiding spam filtering</h2>

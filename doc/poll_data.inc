@@ -149,8 +149,10 @@ $project_items = array(
         "text"=>"Where did you learn about BOINC projects?",
         "options"=>array(
             "wtv"=>"TV/radio/newspaper",
-            "wweb"=>"The web",
-            "wpers"=>"From other people",
+            "wpers"=>"From friends, relatives, or coworkers",
+            "wteam"=>"Team message boards or web sites",
+            "wboinc"=>"The BOINC web site",
+            "wweb"=>"Other web sites",
         ),
         "radio_name" => false,
         "other_name" => "wother_text",
@@ -184,7 +186,7 @@ $project_items = array(
         ),
     ),
 );
-shuffle($project_items[0]['options']);
+shuffle($project_items[1]['options']);
 
 function parse_form() {
     global $run_boinc;

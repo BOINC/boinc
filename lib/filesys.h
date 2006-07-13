@@ -24,6 +24,7 @@
 #else
 #include <stdio.h>
 #include <dirent.h>
+#include <grp.h>
 
 #ifdef __cplusplus
 #include <string>

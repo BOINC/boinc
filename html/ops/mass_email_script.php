@@ -22,24 +22,25 @@ $testing = true;
 $userid = 1;
 
 // File names for the various mail types.
-// Change these here if you like.
+// Change these here if needed.
 
-$email_failed_html = 'email_failed_html';
-$email_failed_text = 'email_failed_text';
-$email_failed_subject = 'email_failed_subject';
-$email_lapsed_html = 'email_lapsed_html';
-$email_lapsed_text = 'email_lapsed_text';
-$email_lapsed_subject = 'email_lapsed_subject';
-$email_current_html = 'email_current_html';
-$email_current_text = 'email_current_text';
-$email_current_subject = 'email_current_subject';
+$email_failed_html = 'mass_email/failed_html';
+$email_failed_text = 'mass_email/failed_text';
+$email_failed_subject = 'mass_email/failed_subject';
+$email_lapsed_html = 'mass_email/lapsed_html';
+$email_lapsed_text = 'mass_email/lapsed_text';
+$email_lapsed_subject = 'mass_email/lapsed_subject';
+$email_current_html = 'mass_email/current_html';
+$email_current_text = 'mass_email/current_text';
+$email_current_subject = 'mass_email/current_subject';
+$logfile = 'mass_email/log';
 
 function read_files(&$item) {
     $item['html'] = file_get_contents($item['html_file']);
     if (!$item['html']) {
-        $x = $item['html_file'];
-        echo "file missing: $x\n";
-        exit();
+        //$x = $item['html_file'];
+        //echo "file missing: $x\n";
+        //exit();
     }
     $item['text'] = file_get_contents($item['text_file']);
     if (!$item['text']) {
@@ -102,7 +103,11 @@ function replace($user, $template) {
 
 function mail_type($user, $email_file) {
     global $testing;
-    $html = replace($user, $email_file['html']);
+    if ($email_file['html']) {
+        $html = replace($user, $email_file['html']);
+    } else {
+        $html = null;
+    }
     $text = replace($user, $email_file['text']);
     if ($testing) {
         echo "\nSending to $user->email_addr:\n";
@@ -147,9 +152,9 @@ function do_batch($email_files, $startid, $n, $log) {
 }
 
 function read_log() {
-    $f = fopen('mass_email.log', 'r');
+    $f = fopen($logfile, 'r');
     if (!$f) {
-        echo 'mass_email.log not found - create empty file and run again\n';
+        echo '$logfile not found - create empty file and run again\n';
         exit();
     }
     $startid = 0;
@@ -161,7 +166,7 @@ function read_log() {
 
 function main($email_files) {
     $startid = read_log();
-    $f = fopen('mass_email.log', 'w');
+    $f = fopen($logfile, 'w');
     $n = 1000;
     while (1) {
         $new_startid = do_batch($email_files, $startid, $n, $f);
