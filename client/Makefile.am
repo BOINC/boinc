@@ -53,7 +53,6 @@ boinc_client_SOURCES = \
     log_flags.C \
     main.C \
     net_stats.C \
-    net_xfer_curl.C \
     pers_file_xfer.C \
     scheduler_op.C \
     ss_logic.C \

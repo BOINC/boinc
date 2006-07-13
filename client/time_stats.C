@@ -49,6 +49,10 @@
 const float ALPHA = (SECONDS_PER_DAY*30);
 //const float ALPHA = 60;   // for testing
 
+bool BOINC_OUTAGE::is_recent() const {
+    return gstate.now - 60 * SECONDS_PER_DAY < end;
+}
+
 TIME_STATS::TIME_STATS() {
     last_update = 0;
     first = true;
@@ -87,6 +91,11 @@ void TIME_STATS::update(bool is_active) {
             //
             on_frac *= w2;
             first = false;
+            BOINC_OUTAGE outage;
+            outage.start = last_update;
+            outage.end = gstate.now;
+            outages.push_back(outage);
+            gstate.set_client_state_dirty("Outage");
         } else {
             on_frac = w1 + w2*on_frac;
             if (connected_frac < 0) connected_frac = 0;
@@ -102,7 +111,19 @@ void TIME_STATS::update(bool is_active) {
                 connected_frac = -1;
             }
             active_frac *= w2;
-            if (is_active) active_frac += w1;
+            if (is_active) {
+                active_frac += w1;
+                if (inactive_start) {
+                    BOINC_OUTAGE outage;
+                    outage.start = inactive_start;
+                    outage.end = gstate.now;
+                    outages.push_back(outage);
+                    gstate.set_client_state_dirty("Outage");
+                    inactive_start = 0;
+                }
+            } else if (inactive_start == 0){
+                inactive_start = gstate.now;
+            }
         }
         last_update = gstate.now;
     }
@@ -151,6 +172,23 @@ int TIME_STATS::write(MIOFILE& out, bool to_server) {
             last_update
         );
     }
+    if (outages.size()) {
+        out.printf("    <outages>\n");
+        unsigned int i;
+        for (i=0; i<outages.size(); i++) {
+            if (outages[i].is_recent()) {
+                out.printf(
+                    "        <outage>\n"
+                    "            <start>%f</start>\n"
+                    "            <end>%f</end>\n"
+                    "        </outage>\n",
+                    outages[i].start,
+                    outages[i].end
+                );
+            }
+        }
+        out.printf("    </outages>\n");
+    }
     out.printf("</time_stats>\n");
     return 0;
 }
@@ -170,8 +208,22 @@ int TIME_STATS::parse(MIOFILE& in) {
             if (cpu_efficiency < 0) cpu_efficiency = 1;
             if (cpu_efficiency > 1) cpu_efficiency = 1;
             continue;
-        }
-        else {
+        } else if (match_tag(buf, "<outages>")){
+            while(in.fgets(buf, 256)) {
+                if (match_tag(buf, "</outages>")) break;
+                else if (match_tag(buf, "<outage>")) {
+                    BOINC_OUTAGE outage;
+                    while (in.fgets(buf, 256)) {
+                        if (match_tag(buf, "</outage>")) {
+                            outages.push_back(outage);
+                            break;
+                        }
+                        else if (parse_double(buf, "<start>", outage.start)) continue;
+                        else if (parse_double(buf, "<end>", outage.end)) continue;
+                    }
+                }
+            }
+        } else {
             if (log_flags.unparsed_xml) {
                 msg_printf(0, MSG_ERROR,
                     "TIME_STATS::parse(): unrecognized: %s\n", buf
@@ -180,6 +232,18 @@ int TIME_STATS::parse(MIOFILE& in) {
         }
     }
     return ERR_XML_PARSE;
+}
+
+double TIME_STATS::get_longest_boinc_outage() const {
+    unsigned int i;
+    double longest_outage = 0;
+    for (i=0; i<outages.size(); i++) {
+        if (outages[i].is_recent()) {
+            double outage_length = outages[i].end - outages[i].start;
+            if (outage_length > longest_outage) longest_outage = outage_length;
+        }
+    }
+    return longest_outage;
 }
 
 const char *BOINC_RCSID_472504d8c2 = "$Id$";

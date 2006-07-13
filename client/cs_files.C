@@ -268,10 +268,17 @@ bool CLIENT_STATE::handle_pers_file_xfers() {
                     fip->status = FILE_PRESENT;
                 }
 
-                // if it's a user file, reread prefs for running apps
+                // if it's a user file, tell running apps to reread prefs
                 //
                 if (fip->is_user_file) {
                     active_tasks.request_reread_prefs(fip->project);
+                }
+
+                // if it's a project file, make a link in project dir
+                //
+                if (fip->is_project_file) {
+                    PROJECT* p = fip->project;
+                    p->link_project_file(fip);
                 }
             }
             iter = pers_file_xfers->pers_file_xfers.erase(iter);

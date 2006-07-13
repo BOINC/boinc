@@ -96,6 +96,8 @@ int CLIENT_STATE::parse_state_file() {
     while (fgets(buf, 256, f)) {
         if (match_tag(buf, "</client_state>")) {
             break;
+        } else if (match_tag(buf, "<client_state>")) {
+            continue;
         } else if (match_tag(buf, "<project>")) {
             PROJECT temp_project;
             retval = temp_project.parse_state(mf);
@@ -284,6 +286,9 @@ int CLIENT_STATE::parse_state_file() {
                     delete rp;
                 }
             }
+        } else if (match_tag(buf, "<project_files>")) {
+            project->parse_project_files(f);
+            continue;
         } else if (match_tag(buf, "<host_info>")) {
             retval = host_info.parse(mf);
             if (retval) {
@@ -434,6 +439,7 @@ int CLIENT_STATE::write_state(MIOFILE& f) {
         for (i=0; i<results.size(); i++) {
             if (results[i]->project == p) results[i]->write(f, false);
         }
+        p->write_project_files(f);
     }
     active_tasks.write(f);
     f.printf(
@@ -617,16 +623,16 @@ int CLIENT_STATE::write_state_gui(MIOFILE& f) {
     return 0;
 }
 
-int CLIENT_STATE::write_tasks_gui(MIOFILE& f) {
+int CLIENT_STATE::write_tasks_gui(MIOFILE& f, bool active_only) {
     unsigned int i;
     
-    f.printf("<results>\n");
-    for(i=0; i<results.size(); i++) {
+    for (i=0; i<results.size(); i++) {
         RESULT* rp = results[i];
+        if (active_only) {
+            if (!gstate.active_tasks.lookup_result(rp)) continue;
+        }
         rp->write_gui(f);
     }
-    f.printf("</results>\n");
-
     return 0;
 }
 

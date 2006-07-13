@@ -21,8 +21,7 @@
 // There are variants for GET and POST,
 // and for the data source/sink (see below).
 
-// CMC Note: This was redone to use libcurl ref: http://curl.haxx.se/libcurl
-//   to allow ease of use for SSL/HTTPS etc
+// We use libcurl: http://curl.haxx.se/libcurl
 
 #ifndef _HTTP_
 #define _HTTP_
@@ -31,11 +30,13 @@
 #define SOCKS_VERSION_4             0x04
 #define SOCKS_VERSION_5             0x05
 
-// now include the curl library: originally from http://curl.haxx.se/libcurl
 #include <curl/curl.h>
 
+#include "network.h"
 #include "proxy_info.h"
-#include "net_xfer_curl.h"
+
+extern int curl_init();
+extern int curl_cleanup();
 
 // official HTTP status codes
 
@@ -63,8 +64,11 @@
     // and the reply goes into a memory buffer.
     // Used for file upload
 
-class HTTP_OP  : public NET_XFER
-{
+#define HTTP_STATE_IDLE             0
+#define HTTP_STATE_CONNECTING       1
+#define HTTP_STATE_DONE             2
+
+class HTTP_OP {
 public:
     HTTP_OP();
     ~HTTP_OP();
@@ -79,7 +83,48 @@ public:
     int trace_id;
     char request_header[4096];
 
-    //int init_head(const char* url);
+    FILE* fileIn;
+	FILE* fileOut;  // CMC need an output file for POST responses
+	CURL* curlEasy; // the "easy curl" handle for this net_xfer request
+	struct curl_slist *pcurlList; // curl slist for http headers
+	struct curl_httppost *pcurlFormStart; // a pointer to a form item for POST
+	struct curl_httppost *pcurlFormEnd; // a pointer to a form item for POST
+	unsigned char* pByte;  // pointer to bytes for reading via libcurl_read function
+
+	long lSeek;  // this is a pointer within the file we're reading
+    char infile[256];
+    char outfile[256];
+    char error_msg[256];    // put Curl error message here
+	bool bTempOutfile; // CMC -- flag that outfile is really a tempfile we should delete
+    char* req1;
+	bool bSentHeader;  // CMC -- a flag that I already sent the header
+	CURLcode CurlResult;   // CMC -- send up curl result code
+
+    bool want_download;     // at most one should be true
+    bool want_upload;
+    int error;
+	int response;
+    double start_time;
+    double xfer_speed;
+    double bytes_xferred;   // bytes transferred in this session
+
+	int http_op_state;     // values above
+    int http_op_type;
+    int http_op_retval;
+
+    // save authorization types supported by proxy/socks server
+    bool auth_flag;       // TRUE = server uses authorization
+    long auth_type;       // 0 = haven't contacted server yet.
+
+    void reset();
+    void init();
+    int get_ip_addr(int &ip_addr);
+    void close_socket();
+    void close_file();
+    void update_speed();
+    void got_error();
+
+	//int init_head(const char* url);
     int init_get(const char* url, const char* outfile, bool del_old_file, double offset=0);
     int init_post(const char* url, const char* infile, const char* outfile);
     int init_post2(
@@ -110,26 +155,25 @@ int libcurl_debugfunction(CURL *handle, curl_infotype type,
 //
 class HTTP_OP_SET {
     std::vector<HTTP_OP*> http_ops;
-    NET_XFER_SET* net_xfers;
 public:
-    HTTP_OP_SET(NET_XFER_SET*);
+    HTTP_OP_SET();
     int insert(HTTP_OP*);
     int remove(HTTP_OP*);
     int nops();
+
+    double max_bytes_sec_up, max_bytes_sec_down;
+        // user-specified limits on throughput
+    double bytes_left_up, bytes_left_down;
+        // bytes left to transfer in the current second
+    double bytes_up, bytes_down;
+        // total bytes transferred
+
+	void get_fdset(FDSET_GROUP&);
+    void got_select(FDSET_GROUP&, double);
+    HTTP_OP* lookup_curl(CURL* pcurl);   // lookup by easycurl handle
+
 };
 
-#define HTTP_STATE_IDLE             0
-#define HTTP_STATE_CONNECTING       1
-#define HTTP_STATE_SOCKS_CONNECT    2
-#define HTTP_STATE_REQUEST_HEADER   3
-#define HTTP_STATE_REQUEST_BODY1    4
-    // sending the string part of a POST2 operation
-#define HTTP_STATE_REQUEST_BODY     5
-#define HTTP_STATE_REPLY_HEADER     6
-#define HTTP_STATE_REPLY_BODY       7
-#define HTTP_STATE_DONE             8
-
-// default bSSL is false for compatibility with the uploader stuff, which will remain non-SSL
 extern void parse_url(const char* url, char* host, int &port, char* file);
 
 #endif //__HTTP_H

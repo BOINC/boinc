@@ -79,8 +79,6 @@ extern int boinc_report_app_status(double, double, double);
 extern int boinc_time_to_checkpoint();
 extern void boinc_begin_critical_section();
 extern void boinc_end_critical_section();
-extern void boinc_not_using_cpu();
-extern void boinc_using_cpu();
 extern void boinc_need_network();
 extern int boinc_network_poll();
 extern void boinc_network_done();

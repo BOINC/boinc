@@ -17,16 +17,33 @@
 // or write to the Free Software Foundation, Inc.,
 // 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 
-#include "boinc_db.h"
-#include "sched_config.h"
-#include "synch.h"
-#include "server_types.h"
+// setprojectgrp.C
+//
+// When run as
+// setprojectgrp Path
+// sets group of file at Path to boinc_project
+//
+// setprojectgrp runs setuid boinc_master and setgid boinc_project
 
-extern SCHED_CONFIG config;
-extern GUI_URLS gui_urls;
-extern PROJECT_FILES project_files;
-extern key_t sema_key;
-extern int g_pid;
+#include <unistd.h>
+#include <grp.h>
+#include <stdio.h>
+#include <cerrno>
 
-extern void send_message(const char*, int delay, bool send_header);
-extern int open_database();
+int main(int argc, char** argv) {
+    gid_t       project_gid;
+    int         retval;
+    
+    project_gid = getegid();
+
+#if 0           // For debugging
+    fprintf(stderr, "setprojectgrp argc=%d, arg[1]= %s, boinc_project gid = %d\n", argc, argv[1], project_gid);
+    fflush(stderr);
+#endif
+
+    retval = chown(argv[1], (uid_t)-1, project_gid);
+    if (retval)
+        fprintf(stderr, "chown(%s, -1, %d) failed: errno=%d\n", argv[1], project_gid, errno);
+
+    return retval;
+}

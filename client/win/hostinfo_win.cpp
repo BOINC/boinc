@@ -618,9 +618,7 @@ int HOST_INFO::get_host_info() {
     );
 
     // Detect host name/ip info
-    get_local_network_info(
-        domain_name, sizeof(domain_name), ip_addr, sizeof(ip_addr)
-    );
+    get_local_network_info();
 
     // Detect which accelerators are installed on the system
     get_accelerators(

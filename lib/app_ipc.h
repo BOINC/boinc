@@ -178,6 +178,7 @@ struct APP_INIT_DATA {
     double user_expavg_credit;
     double host_total_credit;
     double host_expavg_credit;
+    double resource_share_fraction;
     HOST_INFO host_info;
     PROXY_INFO proxy_info;  // in case app wants to use network
     GLOBAL_PREFS global_prefs;
