@@ -4,9 +4,6 @@ PROGS = boinc_client
 
 all: $(PROGS)
 
-clean:
-	rm $(PROGS)
-
 OBJ = \
     acct_mgr.o \
     acct_setup.o \
@@ -47,6 +44,9 @@ OBJ = \
     ss_logic.o \
     time_stats.o  \
     whetstone.o
+
+clean:
+	rm $(PROGS) $(OBJ)
 
 LIBS = -L ../lib \
     -lboinc \

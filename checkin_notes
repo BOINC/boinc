@@ -7516,3 +7516,14 @@ David  12 July 2006
 
     client/
         cs_scheduler.C
+
+David  12 July 2006
+    - core client: work-fetch bug fixes
+        (from John McLeod)
+
+    client/
+        Makefile.linux
+        client_state.C,h
+        cpu_sched.C
+        cs_apps.C
+        cs_scheduler.C

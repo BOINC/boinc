@@ -16,7 +16,7 @@ $vother_text = "vother_text";
 $improved = "improved_text";
 
 $choice0 = array(
-    "text" => "Yes - I've been running BOINC on my computer for...",
+    "text" => "Yes - I have been running BOINC on my computer for...",
     "rname" => "current",
     "options" => array(
         "tweek" => "less than a week",
@@ -145,6 +145,17 @@ $you_items = array(
 
 $project_items = array(
     array(
+        "name"=>"where",
+        "text"=>"Where did you learn about BOINC projects?",
+        "options"=>array(
+            "wtv"=>"TV/radio/newspaper",
+            "wweb"=>"The web",
+            "wpers"=>"From other people",
+        ),
+        "radio_name" => false,
+        "other_name" => "wother_text",
+    ),
+    array(
         "text" => "Which are the most important factors when you decide whether to participate in a BOINC project?",
         "options" => array(
             "factor_graphics"=>"Nice-looking screensaver graphics",
@@ -163,17 +174,6 @@ $project_items = array(
         "other_name" => "factor_other_text",
     ),
     array(
-        "name"=>"where",
-        "text"=>"Where did you learn about BOINC projects?",
-        "options"=>array(
-            "wtv"=>"TV/radio/newspaper",
-            "wweb"=>"The web",
-            "wpers"=>"From other people",
-        ),
-        "radio_name" => false,
-        "other_name" => "wother_text",
-    ),
-    array(
         "radio_name"=>"nprojects",
         "text"=>"How many BOINC projects do you participate in?",
         "options"=>array(
@@ -184,6 +184,7 @@ $project_items = array(
         ),
     ),
 );
+shuffle($project_items[0]['options']);
 
 function parse_form() {
     global $run_boinc;

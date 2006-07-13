@@ -206,7 +206,7 @@ void CLIENT_STATE::adjust_debts() {
     int nprojects=0, nrprojects=0;
     PROJECT *p;
     double share_frac;
-    double wall_cpu_time = gstate.now - cpu_sched_last_time;
+    double wall_cpu_time = gstate.now - adjust_debts_last_time;
 
     // Total up total and per-project "wall CPU" since last CPU reschedule.
     // "Wall CPU" is the wall time during which a task was
@@ -323,6 +323,7 @@ void CLIENT_STATE::adjust_debts() {
     }
     total_wall_cpu_time_this_period = 0.0;
     total_cpu_time_this_period = 0.0;
+    adjust_debts_last_time = gstate.now;
 }
 
 
@@ -423,12 +424,8 @@ void CLIENT_STATE::schedule_cpus() {
         }
     }
 
-    // adjust long and short term debts
-    // based on the work done during the last period
-    //
     adjust_debts();
 
-    cpu_sched_last_time = gstate.now;
     expected_pay_off = gstate.global_prefs.cpu_scheduling_period_minutes * 60;
     ordered_scheduled_results.clear();
 

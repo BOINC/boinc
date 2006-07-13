@@ -98,7 +98,7 @@ CLIENT_STATE::CLIENT_STATE() {
     disable_graphics = false;
     work_fetch_no_new_work = false;
 
-    cpu_sched_last_time = 0;
+    adjust_debts_last_time = 0;
     total_wall_cpu_time_this_period = 0;
     must_schedule_cpus = true;
     must_enforce_cpu_schedule = true;
@@ -251,7 +251,7 @@ int CLIENT_STATE::init() {
     //
     request_schedule_cpus("Startup");
     request_work_fetch("Startup");
-    cpu_sched_last_time = now;
+    adjust_debts_last_time = now;
 
     // set up the project and slot directories
     //

@@ -258,7 +258,7 @@ private:
 
 // --------------- cpu_sched.C:
 private:
-    double cpu_sched_last_time;
+    double adjust_debts_last_time;
     double total_wall_cpu_time_this_period;
         // "wall CPU time" accumulated since last schedule_cpus()
     double total_cpu_time_this_period;
