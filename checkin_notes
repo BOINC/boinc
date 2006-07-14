@@ -7559,3 +7559,26 @@ David  13 July 2006
             remind.php
         user/
             translate.php
+
+David  14 July 2006
+	- core client: clean up related to host venue and project preferences.
+		Old: store host venue in account file,
+			and use it when parsing account file
+			to get the right venue-specific prefs.
+			This is bad because the account file is not
+			supposed to containt host-specific info,
+			and the venue is host-specific.
+		New: venue is stored in client state file, as part of project.
+			On initial parse of account file, <venue> elements are skipped.
+			Later, after client state file has been read,
+			account files projects with non-empty host_venue
+			are read again, this time looking for the selected
+			<venue> element and ignoring the rest.
+		Has this fixed any bugs?  Maybe yes, maybe no.
+		But the logic is simpler now.
+
+	client/
+		client_state.C,h
+		client_types.C,h
+		cs_account.C
+		cs_scheduler.C

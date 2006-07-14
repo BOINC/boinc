@@ -55,6 +55,7 @@ void PROJECT::init() {
     gui_urls = "";
     resource_share = 100;
     strcpy(host_venue, "");
+    using_venue_specific_prefs = false;
     scheduler_urls.clear();
     strcpy(project_name, "");
     strcpy(symstore, "");
@@ -194,6 +195,7 @@ int PROJECT::write_state(MIOFILE& out, bool gui_rpc) {
         "    <symstore>%s</symstore>\n"
         "    <user_name>%s</user_name>\n"
         "    <team_name>%s</team_name>\n"
+        "    <host_venue>%s</host_venue>\n"
         "    <email_hash>%s</email_hash>\n"
         "    <cross_project_id>%s</cross_project_id>\n"
         "    <user_total_credit>%f</user_total_credit>\n"
@@ -218,6 +220,7 @@ int PROJECT::write_state(MIOFILE& out, bool gui_rpc) {
         symstore,
         un,
         tn,
+        host_venue,
         email_hash,
         cross_project_id,
         user_total_credit,
@@ -276,6 +279,7 @@ void PROJECT::copy_state_fields(PROJECT& p) {
     safe_strcpy(project_name, p.project_name);
     safe_strcpy(user_name, p.user_name);
     safe_strcpy(team_name, p.team_name);
+    safe_strcpy(host_venue, p.host_venue);
     safe_strcpy(email_hash, p.email_hash);
     safe_strcpy(cross_project_id, p.cross_project_id);
     user_total_credit = p.user_total_credit;

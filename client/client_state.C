@@ -192,6 +192,7 @@ int CLIENT_STATE::init() {
     //
     host_info.clear_host_info();
     parse_state_file();
+    parse_account_files_venue();
 
     host_info.get_host_info();
     set_ncpus();

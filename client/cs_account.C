@@ -73,9 +73,6 @@ int PROJECT::write_account_file() {
     if (tentative) {
         fprintf(f, "    <tentative/>\n");
     }
-    if (strlen(host_venue)) {
-        fprintf(f, "    <host_venue>%s</host_venue>\n", host_venue);
-    }
     fprintf(f, "<project_preferences>\n%s</project_preferences>\n",
         project_prefs.c_str()
     );
@@ -87,66 +84,46 @@ int PROJECT::write_account_file() {
     return 0;
 }
 
-// parse an account_*.xml file
+// parse an account_*.xml file, ignoring <venue> elements
+// (since we don't know the host venue yet)
 //
 int PROJECT::parse_account(FILE* in) {
-    char buf[256], venue[256];
+    char buf[256];
     int retval;
     bool got_venue_prefs = false;
 
     strcpy(master_url, "");
-    strcpy(host_venue, "");
     strcpy(authenticator, "");
-    using_venue_specific_prefs = false;
     while (fgets(buf, 256, in)) {
         if (match_tag(buf, "<account>")) continue;
         if (match_tag(buf, "<project_preferences>")) continue;
         if (match_tag(buf, "</project_preferences>")) continue;
-        if (parse_str(buf, "<host_venue>", host_venue, sizeof(host_venue))) continue;
         if (match_tag(buf, "</account>")) {
-            if (strlen(host_venue)) {
-                if (got_venue_prefs) {
-                    using_venue_specific_prefs = true;
-                }
-            }
             return 0;
-        }
-        else if (match_tag(buf, "<venue")) {
-            parse_attr(buf, "name", venue, sizeof(venue));
-            if (!strcmp(venue, host_venue)) {
-                got_venue_prefs = true;
-            } else {
-                std::string devnull;
-                retval = copy_element_contents(in, "</venue>", devnull);
-                if (retval) return retval;
-            }
+        } else if (match_tag(buf, "<venue")) {
+            std::string devnull;
+            retval = copy_element_contents(in, "</venue>", devnull);
+            if (retval) return retval;
             continue;
-        }
-        else if (match_tag(buf, "</venue>")) continue;
-
-        else if (parse_str(buf, "<master_url>", master_url, sizeof(master_url))) {
+        } else if (parse_str(buf, "<master_url>", master_url, sizeof(master_url))) {
             canonicalize_master_url(master_url);
             continue;
-        }
-        else if (parse_str(buf, "<authenticator>", authenticator, sizeof(authenticator))) continue;
+        } else if (parse_str(buf, "<authenticator>", authenticator, sizeof(authenticator))) continue;
         else if (parse_double(buf, "<resource_share>", resource_share)) continue;
         else if (parse_str(buf, "<project_name>", project_name, sizeof(project_name))) continue;
         else if (match_tag(buf, "<tentative/>")) {
             tentative = true;
             continue;
-        }
-        else if (match_tag(buf, "<gui_urls>")) {
+        } else if (match_tag(buf, "<gui_urls>")) {
             string foo;
             retval = copy_element_contents(in, "</gui_urls>", foo);
             if (retval) return retval;
             gui_urls = "<gui_urls>\n"+foo+"</gui_urls>\n";
             continue;
-        }
-        else if (match_tag(buf, "<project_files>")) {
+        } else if (match_tag(buf, "<project_files>")) {
             parse_project_files(in);
             continue;
-        }
-        else if (match_tag(buf, "<project_specific>")) {
+        } else if (match_tag(buf, "<project_specific>")) {
             retval = copy_element_contents(
                 in,
                 "</project_specific>",
@@ -154,8 +131,7 @@ int PROJECT::parse_account(FILE* in) {
             );
             if (retval) return retval;
             continue;
-        }
-        else {
+        } else {
             if (log_flags.unparsed_xml) {
                 msg_printf(0, MSG_ERROR,
                     "PROJECT::parse_account(): unrecognized: %s\n", buf
@@ -163,6 +139,63 @@ int PROJECT::parse_account(FILE* in) {
             }
         }
     }
+    return ERR_XML_PARSE;
+}
+
+// scan an account_*.xml file, looking for a <venue> element
+// that matches this host's venue,
+// and parsing that for resource share and prefs.
+// Call this only after client_state.xml has been read
+// (so that we know the host venue)
+//
+int PROJECT::parse_account_file_venue() {
+    char buf[256], venue[256], path[256];
+    int retval;
+    bool in_right_venue = false;
+
+    get_account_filename(master_url, path);
+    FILE* in = boinc_fopen(path, "r");
+    if (!in) return ERR_FOPEN;
+
+    while (fgets(buf, 256, in)) {
+        if (match_tag(buf, "</account>")) {
+            fclose(in);
+            return 0;
+        } else if (match_tag(buf, "<venue")) {
+            parse_attr(buf, "name", venue, sizeof(venue));
+            if (!strcmp(venue, host_venue)) {
+                using_venue_specific_prefs = true;
+                in_right_venue = true;
+            } else {
+                std::string devnull;
+                retval = copy_element_contents(in, "</venue>", devnull);
+                if (retval) return retval;
+            }
+            continue;
+        }
+        if (!in_right_venue) continue;
+        if (match_tag(buf, "</venue>")) {
+            in_right_venue = false;
+            continue;
+        } else if (match_tag(buf, "<project_specific>")) {
+            retval = copy_element_contents(
+                in,
+                "</project_specific>",
+                project_specific_prefs
+            );
+            if (retval) return retval;
+            continue;
+        } else if (parse_double(buf, "<resource_share>", resource_share)) {
+            continue;
+        } else {
+            if (log_flags.unparsed_xml) {
+                msg_printf(0, MSG_ERROR,
+                    "parse_account_file_venue(): unrecognized: %s\n", buf
+                );
+            }
+        }
+    }
+    fclose(in);
     return ERR_XML_PARSE;
 }
 
@@ -177,6 +210,18 @@ int PROJECT::parse_account_file() {
     retval = parse_account(f);
     fclose(f);
     return retval;
+}
+
+int CLIENT_STATE::parse_account_files_venue() {
+    unsigned int i;
+
+    for (i=0; i<projects.size(); i++) {
+        PROJECT* p = projects[i];
+        if (strlen(p->host_venue)) {
+            p->parse_account_file_venue();
+        }
+    }
+    return 0;
 }
 
 int CLIENT_STATE::parse_account_files() {

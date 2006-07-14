@@ -339,6 +339,7 @@ public:
     char *get_project_name();
     int write_account_file();
     int parse_account(FILE*);
+    int parse_account_file_venue();
     int parse_account_file();
     int parse_state(MIOFILE&);
     int write_state(MIOFILE&, bool gui_rpc=false);
