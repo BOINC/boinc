@@ -29,6 +29,12 @@ AC_ARG_ENABLE(client,
     [],
     [enable_client=yes])
 
+AC_ARG_ENABLE(unicode, 
+    AS_HELP_STRING([--disable-unicode],
+                   [disable building the manager with unicode support]),
+    [],
+    [enable_unicode=yes])
+
 m4_divert_once([HELP_ENABLE],
   AS_HELP_STRING([], [Default: --enable-server --enable-client: 
                       builds both server and client]))
@@ -46,13 +52,6 @@ else
         configured_to_build='libraries only'
     fi
 fi
-
-AC_ARG_ENABLE(unicode, 
-    AS_HELP_STRING([--disable-unicode],
-                   [disable building the manager with unicode support]),
-    [enable_unicode=no],
-    [enable_unicode=yes])
-
 
 dnl ======================================================================
 dnl some vodoo required for building portable client-binary (client, clientgui)
@@ -474,31 +473,38 @@ AM_OPTIONS_WXCONFIG
 dnl check for wxWidgets
 
 if test "${enable_client_release}" = yes ; then
-   echo 'Portable client-build: checking for  *static* wx-libs ...'
     if test "${enable_debug}" = yes ; then
         if test "${enable_unicode}" = yes ; then
+            echo 'Portable client-build: checking for debug unicode wx-libs ...'
             AM_PATH_WXCONFIG([2.6.0], [wxWin=1], [wxWin=0], --static=yes --unicode=yes --debug=yes)
         else
+            echo 'Portable client-build: checking for debug wx-libs ...'
             AM_PATH_WXCONFIG([2.6.0], [wxWin=1], [wxWin=0], --static=yes --unicode=no --debug=yes)
         fi
     else
         if test "${enable_unicode}" = yes ; then
+            echo 'Portable client-build: checking for unicode wx-libs ...'
             AM_PATH_WXCONFIG([2.6.0], [wxWin=1], [wxWin=0], --static=yes --unicode=yes --debug=no)
         else
+            echo 'Portable client-build: checking for wx-libs ...'
             AM_PATH_WXCONFIG([2.6.0], [wxWin=1], [wxWin=0], --static=yes --unicode=no --debug=no)
         fi
     fi
 else
     if test "${enable_debug}" = yes ; then
         if test "${enable_unicode}" = yes ; then
+            echo 'checking for debug unicode wx-libs ...'
             AM_PATH_WXCONFIG([2.6.0], [wxWin=1], [wxWin=0], --unicode=yes --debug=yes)
         else
+            echo 'checking for debug wx-libs ...'
             AM_PATH_WXCONFIG([2.6.0], [wxWin=1], [wxWin=0], --unicode=no --debug=yes)
         fi
     else
         if test "${enable_unicode}" = yes ; then
+            echo 'checking for unicode wx-libs ...'
             AM_PATH_WXCONFIG([2.6.0], [wxWin=1], [wxWin=0], --unicode=yes --debug=no)
         else
+            echo 'checking for wx-libs ...'
             AM_PATH_WXCONFIG([2.6.0], [wxWin=1], [wxWin=0], --unicode=no --debug=no)
         fi
     fi
