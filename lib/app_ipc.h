@@ -236,5 +236,7 @@ int parse_graphics_file(FILE* f, GRAPHICS_INFO* gi);
 extern const char* xml_graphics_modes[NGRAPHICS_MSGS];
 extern int boinc_link(const char* phys_name, const char* logical_name);
 extern int boinc_resolve_filename(const char*, char*, int len);
+extern int boinc_resolve_filename_s(const char*, std::string&);
 
 #endif
+
