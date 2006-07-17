@@ -99,7 +99,7 @@ the BOINC software:
 <p>
 ";
 $i = 0;
-$n = 3;
+$n = 4;
 function show_name($x) {
     global $i;
     global $n;

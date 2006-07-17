@@ -55,7 +55,7 @@ define("IDLE_TIME_TO_RUN_DESC2", "<br><font size=-2>(applies only if above is 'n
 define("START_END_DESC", "Do work only between the hours of");
 define("START_END_DESC2", "<br><font size=-2>(no restriction if equal)</font>");
 define("LEAVE_APPS_IN_MEMORY_DESC",
-    "Leave applications in memory while preempted?
+    "Leave applications in memory while suspended?
     <br><font size=-2>(suspended applications will consume swap space if 'yes')</font>");
 define("CPU_SCHEDULING_DESC", "Switch between applications every
     <br><font size=-2>(recommended: 60 minutes)</font>");

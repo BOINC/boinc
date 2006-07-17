@@ -185,6 +185,37 @@ $project_items = array(
             "pmore10"=>"more than 10",
         ),
     ),
+    array(
+        "radio_name"=>"ssaver",
+        "text"=>"Do you run BOINC as a screensaver?",
+        "options"=>array(
+            "ss_yes"=>"yes",
+            "ss_no"=>"no",
+        ),
+    ),
+    array(
+        "radio_name"=>"mboards",
+        "text"=>"Your usage of project messages boards:",
+        "options"=>array(
+            "mboard_r"=>"to read information",
+            "mboard_rw"=>"to read and post information",
+            "mboard_none"=>"none",
+        ),
+    ),
+    array(
+        "text"=>"Where do you get information to help resolve problems with BOINC and/or BOINC projects?",
+        "options"=>array(
+            "help_pmb"=>"The project message boards",
+            "help_bmb"=>"The BOINC message boards",
+            "help_bdoc"=>"The BOINC web site",
+            "help_bmlist"=>"BOINC mailing lists",
+            "help_wiki"=>"The Unofficial BOINC Wiki",
+            "help_team"=>"Team web sites",
+            "help_google"=>"Google or other search engines",
+        ),
+        "radio_name"=>false,
+        "other_name"=>help_other_text,
+    ),
 );
 shuffle($project_items[1]['options']);
 

@@ -71,7 +71,7 @@ function page_tail() {
 }
 
 function html_text($x) {
-    return "<pre>".htmlspecialchars($x)."</pre>
+    return "<div bgcolor=$light_blue><pre>".htmlspecialchars($x)."</pre></div>
     ";
 }
 
@@ -145,16 +145,14 @@ function error_page($x) {
 function block_start() {
     global $light_blue;
     echo "
-<table width=100% cellpadding=4>
-  <tr>
-    <td bgcolor=$light_blue width=100%>
-      <pre>";
+        <table width=100% cellpadding=4>
+        <tr>
+        <td bgcolor=$light_blue width=100%><pre>";
 }
 
 function block_end() {
-      echo "</pre> </td> </tr>      </table>
-          ";
-
+    echo "</pre></td></tr></table>
+    ";
 }
 
 ?>

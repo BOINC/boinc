@@ -1,14 +1,15 @@
 <?php
 require_once("docutil.php");
-page_head("Daemon programs");
+page_head("Work-handling daemons");
 echo "
 
 <p>
 A BOINC project includes of a set of daemons
-(programs that run all the time).
-Each program should be listed as a daemon in the
+for generating and handling work.
+Each program should be listed as a
+<a href=project_daemon.php>daemon</a> in the
 <a href=configuration.php>config.xml</a> file.
-They all have the command-line options:
+Most daemons have the command-line options:
 ";
 list_start();
 list_item("-d N",

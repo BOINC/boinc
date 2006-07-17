@@ -30,13 +30,13 @@ Initialization for graphical and compound applications
 are described elsewhere (see links above).
 Other applications must call
 <pre>
-    int boinc_init();
+int boinc_init();
 </pre>
 before calling other BOINC functions or doing I/O.
 <p>
 When the application has completed it must call
 <pre>
-    int boinc_finish(int status);
+int boinc_finish(int status);
 </pre>
 <code>status</code> is nonzero if an error was encountered.
 This call does not return.
@@ -49,7 +49,7 @@ in the two cases.  For example you might want to output debugging information if
 the application is running standalone.  To determine if the application is
 running in standalone mode or under the control of the BOINC client, call
 <pre>
-    int boinc_is_standalone(void);
+int boinc_is_standalone(void);
 </pre>
 This returns non-zero (True) if the application is running standalone, and zero (False) if the application
 is running under the control of the BOINC client.
@@ -59,24 +59,24 @@ is running under the control of the BOINC client.
 <h3>Resolving file names</h3>
 Applications that use named input or output files must call
 <pre>
-    int boinc_resolve_filename(char *logical_name, char *physical_name, int len);
+int boinc_resolve_filename(char *logical_name, char *physical_name, int len);
 </pre>
 or
 ", html_text("
-    int boinc_resolve_filename_s(char *logical_name, std::string& physical_name);
+int boinc_resolve_filename_s(char *logical_name, std::string& physical_name);
 "), "
 to convert logical file names to physical names.
 For example, instead of
 <pre>
-    f = fopen(\"my_file\", \"r\");
+f = fopen(\"my_file\", \"r\");
 </pre>
 </p>
 the application might use
 ", html_text("
-    string resolved_name;
-    retval = boinc_resolve_filename(\"my_file\", resolved_name);
-    if (retval) fail(\"can't resolve filename\");
-    f = fopen(resolved_name.c_str(), \"r\");
+string resolved_name;
+retval = boinc_resolve_filename(\"my_file\", resolved_name);
+if (retval) fail(\"can't resolve filename\");
+f = fopen(resolved_name.c_str(), \"r\");
 "), "
 <code>boinc_resolve_filename()</code> doesn't need to be used for temporary files.
 
@@ -110,7 +110,7 @@ Frequency of checkpointing is a user preference
 (e.g. laptop users might want to checkpoint infrequently).
 An application must call
 <pre>
-    int boinc_time_to_checkpoint();
+int boinc_time_to_checkpoint();
 </pre>
 whenever it reaches a point where it is able to checkpoint.
 If this returns nonzero (True) then
@@ -118,7 +118,7 @@ the application should checkpoint immediately
 (i.e., write the state file and flush all output files),
 then call
 <pre>
-    void boinc_checkpoint_completed();
+void boinc_checkpoint_completed();
 </pre>
 <code>boinc_time_to_checkpoint()</code> is fast,
 so it can be called frequently (hundreds or thousands of times a second).
@@ -182,7 +182,7 @@ and optionally at intermediate points.
 The core client GUI displays the percent done of workunits in progress.
 To keep this display current, an application should periodically call
 <pre>
-   boinc_fraction_done(double fraction_done);
+boinc_fraction_done(double fraction_done);
 </pre>
 The <code>fraction_done</code> argument is an estimate of the
 workunit fraction complete (0 to 1).
@@ -191,7 +191,7 @@ The sequence of arguments in successive calls should be non-decreasing.
 An application should never 'reset' and start over
 if an error occurs; it should exit with an error code.
 <pre>
-   double boinc_get_fraction_done();
+double boinc_get_fraction_done();
 </pre>
 returns the last value set, or -1 if none has been set
 (this would typically be called from graphics code).
@@ -201,25 +201,25 @@ The following functions get information from the core client;
 this information may be useful for graphics.
 ",
 html_text("
-    int boinc_get_init_data(APP_INIT_DATA&);
+int boinc_get_init_data(APP_INIT_DATA&);
 
-    struct APP_INIT_DATA {
-        int core_version;
-        char app_name[256];
-        char project_preferences[65536];
-        char user_name[256];
-        char team_name[256];
-        char project_dir[256];
-        char boinc_dir[256];
-        char wu_name[256];
-        char authenticator[256];
-        int slot;
-        double user_total_credit;
-        double user_expavg_credit;
-        double team_total_credit;
-        double team_expavg_credit;
-        HOST_INFO host_info;
-    };
+struct APP_INIT_DATA {
+    int core_version;
+    char app_name[256];
+    char project_preferences[65536];
+    char user_name[256];
+    char team_name[256];
+    char project_dir[256];
+    char boinc_dir[256];
+    char wu_name[256];
+    char authenticator[256];
+    int slot;
+    double user_total_credit;
+    double user_expavg_credit;
+    double team_total_credit;
+    double team_expavg_credit;
+    HOST_INFO host_info;
+};
 "), "
 to get the following information:
 ";
@@ -245,7 +245,7 @@ echo "
 <p>
 An application may call
 ", html_text("
-    int boinc_wu_cpu_time(double &cpu_time);
+int boinc_wu_cpu_time(double &cpu_time);
 "), "to get its total CPU time
 (from the beginning of the work unit, not just since the last restart).
 This excludes CPU time used to render graphics.

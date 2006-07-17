@@ -18,15 +18,15 @@
 // 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 
 //
-// trickle_handler - check and validate new trickle messages
-//  -app appname
+// trickle_handler - process trickle-up messages
+//  -variety variety
 //  [-d debug_level]
 //  [-one_pass]     // make one pass through table, then exit
 //  [-asynch]       // fork, run in separate process
 //
 // This program must be linked with an app-specific function:
 //
-// int handle_trickle(TRICKLE_UP&)
+// int handle_trickle(MSG_FROM_HOST&)
 //    handle a trickle message
 //
 // return nonzero on error
@@ -46,6 +46,9 @@ char variety[256];
 
 extern int handle_trickle(MSG_FROM_HOST&);
 
+// The following is an example;
+// replace it with your own function
+//
 int handle_trickle(MSG_FROM_HOST& mfh) {
     int retval;
 

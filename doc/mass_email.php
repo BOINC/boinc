@@ -67,7 +67,7 @@ The general procedure for using each scripts is:
 The scripts use the recent-average credit (expavg_credit) field
 in the user table.
 To make sure this value is accurate,
-run <a href=update_stats.php>update_stats</a> manually
+run <a href=project_tasks.php>update_stats</a> manually
 if you're not running it as a periodic task.
 
 <h3>Personalizing emails</h3>

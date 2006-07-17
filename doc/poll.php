@@ -8,6 +8,7 @@ require_once("poll.inc");
 page_head("BOINC user survey");
 
 echo "
+<body onload=\"disable_all();\">
 <p>
 Several volunteer computing projects,
 including Climateprediction.net, Einstein@home,
@@ -34,7 +35,7 @@ list_bar("Do you run BOINC?");
 generate_functions($overall_choices);
 show_choices($overall_choices, $run_boinc);
 
-list_bar("Choosing projects");
+list_bar("Your participation");
 show_choices($project_items, "");
 list_bar("Your computers");
 show_choices($comp_items, "");

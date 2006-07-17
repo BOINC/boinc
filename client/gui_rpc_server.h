@@ -56,6 +56,7 @@ public:
     void get_fdset(FDSET_GROUP&, FDSET_GROUP&);
     void got_select(FDSET_GROUP&);
     int init();
+    void close();
     bool got_recent_rpc(double interval);
 };
 

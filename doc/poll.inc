@@ -12,18 +12,18 @@ function list_item2($x, $y) {
     ";
 }
 
-function boxes($options, $disabled) {
+function boxes($options) {
     $x = "<font size=-2>[check all that apply]</font><br>\n";
     foreach ($options as $name => $text) {
-        $x .= "<input type=checkbox $disabled name=$name> $text<br>\n";
+        $x .= "<input type=checkbox name=$name> $text<br>\n";
     }
     return $x;
 }
 
-function radio($radio_name, $options, $disabled) {
+function radio($radio_name, $options) {
     $x = "";
     foreach ($options as $name => $text) {
-        $x .= "<input type=radio $disabled name=$radio_name value=$name> $text<br>\n";
+        $x .= "<input type=radio name=$radio_name value=$name> $text<br>\n";
     }
     return $x;
 }
@@ -34,16 +34,15 @@ function show_choice($choice, $outer_radio) {
     $radio_name = $choice["radio_name"];
     $x = "";
     if ($rname) {
-        $disabled = "disabled";
         $x .= "<input onclick=\"$rname()\" type=radio name=$outer_radio value=$rname >";
     }
     $x .= $text;
     if ($radio_name) {
-        $y = radio($radio_name, $choice["options"], $disabled);
+        $y = radio($radio_name, $choice["options"]);
     } else {
-        $y = boxes($choice["options"], $disabled);
+        $y = boxes($choice["options"]);
         $other_name = $choice['other_name'];
-        $y .= "Other: <input $disabled size=30 name=$other_name>";
+        $y .= "Other: <input size=30 name=$other_name>";
     }
     list_item2($x, $y);
 }

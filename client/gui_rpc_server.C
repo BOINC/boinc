@@ -364,4 +364,14 @@ void GUI_RPC_CONN_SET::got_select(FDSET_GROUP& fg) {
     }
 }
 
+void GUI_RPC_CONN_SET::close() {
+    if (log_flags.guirpc_debug) {
+        msg_printf(NULL, MSG_INFO, "closing GUI RPC socket %d\n", lsock);
+    }
+    if (lsock >= 0) {
+        boinc_close_socket(lsock);
+        lsock = -1;
+    }
+}
+
 const char *BOINC_RCSID_88dd75dd85 = "$Id$";

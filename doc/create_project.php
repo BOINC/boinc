@@ -67,6 +67,11 @@ Creating a BOINC project
 <li> <a href=database.php>The BOINC database</a>
 <li> <a href=server_dirs.php>Directory structure</a>
 <li> <a href=configuration.php>The project configuration file</a>
+    <ul
+        <li> <a href=project_options.php>Project options</a>
+        <li> <a href=project_daemons.php>Daemons</a>
+        <li> <a href=project_tasks.php>Periodic tasks</a>
+    </ul>
 </ul>
 <li> <a href=compile.php>Compile BOINC software</a>
 <li> <a href=groups.php>Groups and permissions</a>
@@ -92,7 +97,7 @@ Creating a BOINC project
 Getting work done
 </b></font>
 <ul>
-<li> <a href=backend_programs.php>Overview of daemons</a>
+<li> <a href=backend_programs.php>Work-handling daemons</a>
 <li> <a href=tools_work.php>Generating work</a>
 <li> <a href=validate.php>Result validation</a>
 <li> <a href=assimilate.php>Result assimilation</a>

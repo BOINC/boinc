@@ -44,10 +44,18 @@ list_item_array(array(
     "SETI@home app"
 ));
 list_item_array(array(
+    "<a href=http://www.nekochan.net/nekoware/index.php?path=current/>nekochan.net</a>",
+    "SGI Irix 6.5.22 and above",
+    "<a href=http://www.nekochan.net/nekoware/current/neko_boinc_client-5.4.9.tardist>BOINC client 5.4.9</a>
+    and <a href=http://www.nekochan.net/nekoware/current/neko_setiathome_enhanced-5.12.tardist>SETI@home enhanced 5.12</a>."
+));
+if (0) {
+list_item_array(array(
     "<a href=http://rcswww.urz.tu-dresden.de/~s3240790>Erik Trauschke</a>",
     "Irix",
     "BOINC core client and SETI@home app"
 ));
+}
 list_item_array(array(
     "SETI@BOINC (<a href=http://www.marisan.nl/seti/>English</a>,
     <a href=http://www.marisan.nl/seti/index_nl.htm>Dutch</a>)",

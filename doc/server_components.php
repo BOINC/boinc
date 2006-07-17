@@ -8,8 +8,11 @@ A BOINC project consists of the following components:
 <ul>
 <li> A <a href=database.php>database</a>
 <li> A <a href=server_dirs.php>directory structure</a>
-<li> A <a href=backend_programs.php>set of daemon processes</a>
-<li> A <a href=configuration.php>configuration file</a>
+<li> A <a href=configuration.php>configuration file</a>,
+    which specifies
+    <a href=project_options.php>options</a>,
+    <a href=backend_programs.php>daemons</a>, and
+    <a href=tasks.php>periodic tasks</a>.
 </ul>
 
 <p>

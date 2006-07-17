@@ -7582,3 +7582,13 @@ David  14 July 2006
 		client_types.C,h
 		cs_account.C
 		cs_scheduler.C
+
+David  17 July 2006
+    - core client: close GUI RPC listening socket on exit
+
+    client/
+        client_state.C
+        cs_apps.C
+        gui_rpc_server.C,h
+    sched/
+        trickle_handler.C

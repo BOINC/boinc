@@ -45,29 +45,6 @@
 
 using std::vector;
 
-// Quit running applications, quit benchmarks,
-// write the client_state.xml file
-// (in principle we could also terminate net_xfers here,
-// e.g. flush buffers, but why bother)
-//
-int CLIENT_STATE::quit_activities() {
-    int retval;
-
-    // calculate long-term debts (for state file)
-    //
-    adjust_debts();
-
-    retval = active_tasks.exit_tasks();
-    if (retval) {
-        msg_printf(NULL, MSG_ERROR,
-            "Couldn't exit tasks: %s", boincerror(retval)
-        );
-    }
-    write_state_file();
-    abort_cpu_benchmarks();
-    return 0;
-}
-
 // Handle a task that has finished.
 // Mark its output files as present, and delete scratch files.
 // Don't delete input files because they might be shared with other WUs.

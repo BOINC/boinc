@@ -43,6 +43,10 @@ body {
     color: black;
 }
 
+pre {
+	background-color: #d8e8ff;
+}
+
 th {
 	background-color: #c8c8ff;
 	color: black;

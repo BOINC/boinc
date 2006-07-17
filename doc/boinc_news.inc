@@ -2,9 +2,15 @@
 
 $project_news = array(
 array("July 13, 2006",
-    "<a href=http://www.economist.com/science/displayStory.cfm?story_id=7159442>Coming down to Earth</a>,
-    an article in the The Economist,
-    describes Africa@home, a recently-announced BOINC project
+    "We are conducting an <a href=poll.php>online survey</a>
+    of BOINC participants.
+    Please fill out the survey form -
+    your responses will help us improve BOINC and the projects that use it. "
+),
+array("July 13, 2006",
+    "Articles in <a href=http://www.economist.com/science/displayStory.cfm?story_id=7159442>The Economist</a>
+    and <a href=http://www.webwire.com/ViewPressRel.asp?aId=16636>WebWire</a>
+    describe Africa@home, a recently-announced BOINC project
     that studies malaria epidemiology.
     Africa@home is a collaboration of the Swiss Tropical Institute,
     CERN, and a group of universities (three of them from Africa).

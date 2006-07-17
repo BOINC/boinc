@@ -1,9 +1,48 @@
 <?php
 require_once("docutil.php");
-page_head("The BOINC software development process");
+page_head("BOINC software development ");
 
 echo "
+<h2>Writing add-on software</h2>
+<p>
+BOINC's architecture is 'open';
+documented interfaces making it possible to
+develop various types of applications and web sites that
+interact with BOINC's core components.
+Examples include:
+";
+list_start();
+list_item("<a href=gui_rpc.php>Client GUIs</a>",
+    "These allow an application to control a local
+    or remove core client."
+);
+list_item("<a href=stats.php>Credit statistics web sites</a>",
+    "Daily feeds of statistics data from BOINC projects
+    let you create web sites showing leaderboards."
+);
+list_item("<a href=acct_mgt.php>Account managers</a>",
+    "These interfaces support web sites that
+    let BOINC users manage their accounts."
+);
+list_item("<a href=server_status.php>Server status web sites</a>",
+    "These interfaces support web sites showing the
+    server status of BOINC projects."
+);
+list_item("<a href=web_rpc.php>Web RPCs</a>",
+    "These interfaces let a program or web site
+    obtain information about users and hosts from projects."
+);
+list_item("<a href=prefs_override.php>Local editing of preferences</a>",
+    "This mechanism lets you write a program local editing of preferences."
+);
+list_end();
+echo "
+<p>
+An <a href=download_network.php>index of add-on software</a>
+is maintained by Janus Kristensen.
+If you write something useful, publicize it by adding it to the index.
 
+<h2>Developing BOINC itself</h2>
 <p>
 <ul>
 <li> <a href=contact.php>Personnel and contributors</a>
@@ -14,8 +53,8 @@ an email list for BOINC developers.
 <li> <a href=compile.php>Get and compile BOINC software</a>
 <li> <a href=impl_notes.php>Implementation notes</a>
 <li> <a href=coding.php>BOINC coding style</a>
+      <li> <a href=translation.php>Translation</a> of web and GUI text
 </ul>
-<h2>Getting involved</h2>
 <p>
 BOINC is free software, distributed under the Lesser GNU Public License (LGPL).
 We are in constant need of volunteers to
@@ -70,7 +109,7 @@ with lines of different colors or styles for different projects.
 
 
 </ul>
-Please check with davea at ssl.berkeley.edu
+Please check with <a href=contact.php>David Anderson</a>
 before undertaking any of these.
 ";
 
