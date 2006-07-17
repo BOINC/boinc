@@ -201,8 +201,7 @@ error:
 }
 
 /* Get the full path of a file in the WU's working directory */
-static char *get_workdir_path(const DC_Workunit *wu, const char *label,
-	WorkdirFile type)
+char *_DC_workDirPath(const DC_Workunit *wu, const char *label, WorkdirFile type)
 {
 	static const char *const pfx[] = { "in_", "out_", "checkpoint", "dc_" };
 
@@ -221,7 +220,7 @@ static FILE *open_workdir_file(const DC_Workunit *wu, const char *label,
 	char *name;
 	FILE *f;
 
-	name = get_workdir_path(wu, label, type);
+	name = _DC_workDirPath(wu, label, type);
 	f = fopen(name, mode);
 	if (!f)
 		DC_log(LOG_ERR, "Failed to open %s (mode %s): %s",
@@ -341,7 +340,7 @@ static void wudesc_text(GMarkupParseContext *ctx, const char *text,
 	{
 		case WU_INPUT_LABEL:
 			label = g_strndup(text, text_len);
-			tmp = get_workdir_path(pctx->wu, label, FILE_IN);
+			tmp = _DC_workDirPath(pctx->wu, label, FILE_IN);
 			file = _DC_createPhysicalFile(label, tmp);
 			g_free(tmp);
 			g_free(label);
@@ -439,7 +438,7 @@ static int generate_client_config(DC_Workunit *wu)
 	char *workpath;
 	FILE *f;
 
-	workpath = get_workdir_path(wu, DC_CONFIG_FILE, FILE_IN);
+	workpath = _DC_workDirPath(wu, DC_CONFIG_FILE, FILE_IN);
 	file = _DC_createPhysicalFile(DC_CONFIG_FILE, workpath);
 	g_free(workpath);
 	if (!file)
@@ -559,7 +558,7 @@ void DC_destroyWU(DC_Workunit *wu)
 
 	if (wu->ckpt_name)
 	{
-		char *path = get_workdir_path(wu, wu->ckpt_name, FILE_CKPT);
+		char *path = _DC_workDirPath(wu, wu->ckpt_name, FILE_CKPT);
 		unlink(path);
 		g_free(path);
 		g_free(wu->ckpt_name);
@@ -568,8 +567,18 @@ void DC_destroyWU(DC_Workunit *wu)
 	if (wu->workdir)
 	{
 		const char *name;
+		char *file;
 		GDir *dir;
 		int ret;
+
+		/* Remove known files explicitely to avoid the 'unknown file'
+		 * warning below */
+		file = _DC_workDirPath(wu, WU_DESC_FILE, FILE_DCAPI);
+		if (file)
+		{
+			unlink(file);
+			g_free(file);
+		}
 
 		dir = g_dir_open(wu->workdir, 0, NULL);
 		/* The work directory should not contain any extra files, but
@@ -656,7 +665,7 @@ int DC_addWUInput(DC_Workunit *wu, const char *logicalFileName, const char *URL,
 	/* XXX Check if the wu->num_inputs + wu->num_outputs + wu->subresults
 	 * does not exceed the max. number of file slots */
 
-	workpath = get_workdir_path(wu, logicalFileName, FILE_IN);
+	workpath = _DC_workDirPath(wu, logicalFileName, FILE_IN);
 	file = _DC_createPhysicalFile(logicalFileName, workpath);
 	g_free(workpath);
 	if (!file)
@@ -772,7 +781,7 @@ static int install_input_files(DC_Workunit *wu)
 	{
 		char *src;
 
-		src = get_workdir_path(wu, wu->ckpt_name, FILE_CKPT);
+		src = _DC_workDirPath(wu, wu->ckpt_name, FILE_CKPT);
 		dest = get_input_download_path(wu, wu->ckpt_name);
 		ret = link(src, dest);
 		if (ret)
@@ -959,30 +968,41 @@ static void emit_result_file_ref(FILE *tmpl, int idx, char *fmt, ...)
 
 static char *generate_result_template(DC_Workunit *wu)
 {
-	char *file, *abspath, uuid_str[37], *cfgval;
+	char *file, uuid_str[37], *cfgval;
 	int i, file_cnt, max_output_size;
+	GString *path;
 	FILE *tmpl;
 	GList *l;
 
-	uuid_unparse_lower(wu->uuid, uuid_str);
-	file = g_strdup_printf("templates%cresult_%s.xml", G_DIR_SEPARATOR,
-		uuid_str);
 	cfgval = DC_getCfgStr(CFG_PROJECTROOT);
 	if (!cfgval)
 	{
-		g_free(file);
+		/* Should never happen here */
+		DC_log(LOG_ERR, "Internal error: project root is not set");
 		return NULL;
 	}
-	abspath = g_strdup_printf("%s%c%s", cfgval, G_DIR_SEPARATOR, file);
-	free(cfgval);
 
-	tmpl = fopen(abspath, "w");
+	uuid_unparse_lower(wu->uuid, uuid_str);
+
+	/* Hash out template files */
+	path = g_string_new(cfgval);
+	g_string_append_c(path, G_DIR_SEPARATOR);
+	g_string_append(path, "templates");
+	g_string_append_c(path, G_DIR_SEPARATOR);
+	g_string_append_printf(path, "%02x", wu->uuid[0]);
+
+	mkdir(path->str, 0755);
+
+	g_string_append_c(path, G_DIR_SEPARATOR);
+	g_string_append_printf(path, "dcapi_%s.xml", uuid_str);
+
+	tmpl = fopen(path->str, "w");
 	if (!tmpl)
 	{
 		DC_log(LOG_ERR, "Failed to create result template %s: %s",
-			abspath, strerror(errno));
-		g_free(file);
-		g_free(abspath);
+			path->str, strerror(errno));
+		g_string_free(path, TRUE);
+		free(cfgval);
 		return NULL;
 	}
 
@@ -1009,7 +1029,9 @@ static char *generate_result_template(DC_Workunit *wu)
 	fprintf(tmpl, "</result>\n");
 	fclose(tmpl);
 
-	g_free(abspath);
+	file = g_strdup(path->str + strlen(cfgval) + 1);
+	free(cfgval);
+	g_string_free(path, TRUE);
 	return file;
 }
 
@@ -1177,7 +1199,8 @@ DC_Workunit *DC_deserializeWU(const char *buf)
 
 static DC_Workunit *load_from_boinc_db(const uuid_t uuid)
 {
-	char uuid_str[37], *query;
+	char uuid_str[37], *query, *result_template, *cfgval, *filename;
+	GList *output_files;
 	DB_WORKUNIT db_wu;
 	DC_Workunit *wu;
 	DB_APP app;
@@ -1189,11 +1212,39 @@ static DC_Workunit *load_from_boinc_db(const uuid_t uuid)
 	ret = db_wu.lookup(query);
 	g_free(query);
 	if (ret)
+	{
+		DC_log(LOG_WARNING, "Could not load WU %s_%s from the BOINC "
+			"database", project_uuid_str, uuid_str);
 		return NULL;
+	}
 
 	ret = app.lookup_id(db_wu.appid);
 	if (ret)
+	{
+		DC_log(LOG_WARNING, "Could not find application ID %d",
+			db_wu.appid);
 		return NULL;
+	}
+
+	cfgval = DC_getCfgStr(CFG_PROJECTROOT);
+	if (!cfgval)
+	{
+		/* Should never happen here */
+		DC_log(LOG_ERR, "Internal error: project root is not set");
+		return NULL;
+	}
+
+	filename = g_strdup_printf("%s%c%s", cfgval, G_DIR_SEPARATOR,
+		db_wu.result_template_file);
+	free(cfgval);
+	ret = g_file_get_contents(filename, &result_template, NULL, NULL);
+	if (!ret)
+	{
+		DC_log(LOG_ERR, "Result template file %s is missing", filename);
+		g_free(filename);
+		return NULL;
+	}
+	g_free(filename);
 
 	wu = g_new0(DC_Workunit, 1);
 	wu->client_name = g_strdup(app.name);
@@ -1205,16 +1256,35 @@ static DC_Workunit *load_from_boinc_db(const uuid_t uuid)
 	if (strlen(db_wu.name) > 74)
 		wu->tag = g_strdup(db_wu.name + 74);
 
+	/* Always create the WU's work dir */
 	wu->workdir = get_workdir(wu->uuid, TRUE);
 	if (!wu->workdir)
 	{
 		DC_destroyWU(wu);
+		g_free(result_template);
 		return NULL;
 	}
 
-	/* Since there is no API to retrieve the names of the input/output
-	 * files, we do not have to worry about them. On the other hand, since
-	 * we no longer have the input files, this WU can not be suspended */
+	output_files = _DC_parseFileRefs(result_template, NULL);
+	g_free(result_template);
+	if (!output_files)
+	{
+		DC_log(LOG_ERR, "Failed to parse the output files for WU %s_%s",
+			project_uuid_str, uuid_str);
+		DC_destroyWU(wu);
+		return NULL;
+	}
+
+	while (output_files)
+	{
+		DC_PhysicalFile *file = (DC_PhysicalFile *)output_files->data;
+
+		DC_addWUOutput(wu, file->label);
+		_DC_destroyPhysicalFile(file);
+		output_files = g_list_delete_link(output_files, output_files);
+	}
+
+	/* We may no longer have the input files, this WU can not be suspended */
 	wu->nosuspend = TRUE;
 
 	g_hash_table_insert(wu_table, wu->uuid, wu);
@@ -1357,9 +1427,9 @@ int DC_getWUNumber(DC_WUState state)
 			g_hash_table_foreach(wu_table, count_ready, &val);
 			return val;
 		case DC_WU_RUNNING:
-			query = g_strdup_printf("SELECT COUNT(*) "
-				"FROM workunit wu, result res WHERE "
-				"wu.name LIKE '%s\\_%%' AND "
+			query = g_strdup_printf("SELECT COUNT(DISTINCT wu.id) "
+				"FROM workunit wu JOIN result res ON res.workunitid = wu.id "
+				"WHERE wu.name LIKE '%s\\_%%' AND "
 				"res.workunitid = wu.id AND "
 				"(res.server_state = %d OR res.server_state = %d)",
 				project_uuid_str, RESULT_SERVER_STATE_UNSENT,
