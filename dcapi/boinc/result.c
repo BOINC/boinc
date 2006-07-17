@@ -16,6 +16,7 @@
 #include <string.h>
 #include <unistd.h>
 #include <stdio.h>
+#include <errno.h>
 
 #include "dc_boinc.h"
 
@@ -27,6 +28,7 @@ DC_Result *_DC_createResult(const char *wu_name, int db_id,
 	const char *xml_doc_in)
 {
 	DC_Result *result;
+	GList *l;
 
 	result = g_new0(DC_Result, 1);
 	result->wu = _DC_getWUByName(wu_name);
@@ -49,9 +51,28 @@ DC_Result *_DC_createResult(const char *wu_name, int db_id,
 		_DC_destroyResult(result);
 		return NULL;
 	}
-	/* XXX Link/copy the output files from the BOINC upload directory to
-	 * the WU's working directory; this is needed for resume and ensures
-	 * that BOINC's file deletion does not trick the application */
+
+	for (l = result->output_files; l; l = l->next)
+	{
+		char *upload_path, *workdir_path;
+		DC_PhysicalFile *file;
+		int ret;
+
+		file = l->data;
+		workdir_path = _DC_workDirPath(result->wu, file->label,
+			FILE_OUT);
+		upload_path = _DC_hierPath(file->path, TRUE);
+
+		ret = link(upload_path, workdir_path);
+		if (ret && errno != ENOENT)
+		{
+			ret = _DC_copyFile(upload_path, workdir_path);
+			if (ret)
+				DC_log(LOG_ERR, "Failed to copy the output "
+					"file %s to %s", upload_path,
+					workdir_path);
+		}
+	}
 	return result;
 }
 
@@ -127,8 +148,8 @@ int DC_getResultExit(const DC_Result *result)
 
 char *DC_getResultOutput(const DC_Result *result, const char *logicalFileName)
 {
+	char *path, *wuname;
 	struct stat st;
-	char *path;
 	GList *l;
 	int ret;
 
@@ -150,7 +171,7 @@ char *DC_getResultOutput(const DC_Result *result, const char *logicalFileName)
 		if (strcmp(file->label, logicalFileName))
 			continue;
 
-		path = _DC_hierPath(file->path, TRUE);
+		path = _DC_workDirPath(result->wu, file->label, FILE_OUT);
 
 		/* Treat empty files as non-existent */
 		ret = stat(path, &st);
@@ -171,5 +192,9 @@ char *DC_getResultOutput(const DC_Result *result, const char *logicalFileName)
 		return path;
 	}
 
+	wuname = _DC_getWUName(result->wu);
+	DC_log(LOG_WARNING, "WU %s does not have an output file named %s",
+		wuname, logicalFileName);
+	g_free(wuname);
 	return NULL;
 }

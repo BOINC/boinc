@@ -181,6 +181,10 @@ void _DC_updateWUState(DC_Workunit *wu) G_GNUC_INTERNAL;
 /* C wrapper around dir_hier_path() */
 char *_DC_hierPath(const char *src, int upload) G_GNUC_INTERNAL;
 
+/* Get the full path of a file in the WU's working directory */
+char *_DC_workDirPath(const DC_Workunit *wu, const char *label, WorkdirFile type)
+	G_GNUC_INTERNAL;
+
 #ifdef __cplusplus
 }
 #endif
