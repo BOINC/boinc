@@ -48,6 +48,8 @@
 
 #define EXP_DECAY_RATE (1./3600)
 
+NET_STATUS net_status;
+
 NET_STATS::NET_STATS() {
     last_time = 0;
     memset(&up, 0, sizeof(up));
@@ -139,6 +141,77 @@ int NET_STATS::parse(MIOFILE& in) {
         );
     }
     return ERR_XML_PARSE;
+}
+
+// Return:
+// 0 if we have network connections open
+// 1 if we need a physical connection
+// 2 if we don't have any connections, and don't need any
+// 3 if a website lookup is pending (try again later)
+//
+// There's a 10-second slop factor;
+// if we've done network comm in the last 10 seconds,
+// we act as if we're doing it now.
+// (so that polling mechanisms have a change to trigger)
+//
+int NET_STATUS::network_status() {
+    static double last_comm_time=0;
+
+    if (gstate.http_ops->nops()) {
+        last_comm_time = gstate.now;
+    }
+    if (gstate.now - last_comm_time < 10) {
+        //msg_printf(0, MSG_INFO, "nops %d; return 0", http_ops->nops());
+        return 0;
+    }
+    if (gstate.lookup_website_op.error_num == ERR_IN_PROGRESS) {
+        return 3;
+    }
+    if (need_physical_connection) {
+        //msg_printf(0, MSG_INFO, "need phys conn; return 1");
+        return 1;
+    }
+    if (gstate.active_tasks.want_network()) {
+        return 1;
+    }
+    have_sporadic_connection = false;
+    //msg_printf(0, MSG_INFO, "returning 2");
+    return 2;
+}
+
+// There's now a network connection, after some period of disconnection.
+// Do all communication that we can.
+//
+void NET_STATUS::network_available() {
+    unsigned int i;
+
+    have_sporadic_connection = true;
+    for (i=0; i<gstate.pers_file_xfers->pers_file_xfers.size(); i++) {
+        PERS_FILE_XFER* pfx = gstate.pers_file_xfers->pers_file_xfers[i];
+        pfx->next_request_time = 0;
+    }
+    for (i=0; i<gstate.projects.size(); i++) {
+        PROJECT* p = gstate.projects[i];
+        p->min_rpc_time = 0;
+    }
+
+    // tell active tasks that network is available (for Folding@home)
+    //
+    gstate.active_tasks.network_available();
+}
+
+// An HTTP operation failed;
+// it could be because there's no physical network connection.
+// Find out for sure by trying to contact google
+//
+void NET_STATUS::got_http_error() {
+    if ((gstate.lookup_website_op.error_num != ERR_IN_PROGRESS)
+        && !need_physical_connection
+    ) {
+        std::string url = "http://www.google.com";
+        //msg_printf(0, MSG_ERROR, "need_phys_conn %d trying google", gstate.need_physical_connection);
+        gstate.lookup_website_op.do_rpc(url);
+    }
 }
 
 const char *BOINC_RCSID_733b4006f5 = "$Id$";

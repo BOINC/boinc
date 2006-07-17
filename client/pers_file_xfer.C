@@ -366,7 +366,7 @@ void PERS_FILE_XFER::do_backoff() {
 
     // don't count it as a server failure if network is down
     //
-    if (!gstate.need_physical_connection) {
+    if (!net_status.need_physical_connection) {
         nretry++;
     }
 

@@ -227,22 +227,6 @@ public:
     int detach_project(PROJECT*);
     int report_result_error(RESULT&, const char *format, ...);
     int reset_project(PROJECT*);
-    bool need_physical_connection;
-        // client wants to do network comm and no physical connection exists.
-        // Initially false; set whenever a Curl operation
-        // returns CURLE_COULDNT_RESOLVE_HOST,
-        // and a subsequent request to a highly-available site
-        // also returns CURLE_COULDNT_RESOLVE_HOST.
-        // cleared whenever we transfer data, or an operation
-        // returns some other value
-        //
-    bool have_sporadic_connection;
-        // we have a network connection, but it's likely to go away soon,
-        // so do as much network comm as possible
-        // (e.g. report completed results)
-        //
-    int network_status();
-    void network_available();
     bool no_gui_rpc;
 private:
     int link_app(PROJECT*, APP*);

@@ -534,7 +534,7 @@ static void handle_get_statistics(char*, MIOFILE& fout) {
 }
 
 static void handle_network_status(char*, MIOFILE& fout) {
-    fout.printf("<status>%d</status>\n", gstate.network_status());
+    fout.printf("<status>%d</status>\n", net_status.network_status());
 }
 
 static void handle_get_cc_status(MIOFILE& fout) {
@@ -543,13 +543,13 @@ static void handle_get_cc_status(MIOFILE& fout) {
         "   <network_status>%d</network_status>\n"
         "   <ams_password_error>%d</ams_password_error>\n"
         "</cc_status>\n",
-        gstate.network_status(),
+        net_status.network_status(),
         gstate.acct_mgr_info.password_error?1:0
     );
 }
 
 static void handle_network_available(char*, MIOFILE&) {
-    gstate.network_available();
+    net_status.network_available();
 }
 
 static void handle_get_project_init_status(char*, MIOFILE& fout) {

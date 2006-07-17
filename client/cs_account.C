@@ -90,7 +90,6 @@ int PROJECT::write_account_file() {
 int PROJECT::parse_account(FILE* in) {
     char buf[256];
     int retval;
-    bool got_venue_prefs = false;
 
     strcpy(master_url, "");
     strcpy(authenticator, "");

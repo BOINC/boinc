@@ -56,4 +56,31 @@ public:
     int parse(MIOFILE&);
 };
 
+class NET_STATUS {
+public:
+    bool need_physical_connection;
+        // client wants to do network comm and no physical connection exists.
+        // Initially false; set whenever a Curl operation
+        // returns CURLE_COULDNT_RESOLVE_HOST,
+        // and a subsequent request to a highly-available site
+        // also returns CURLE_COULDNT_RESOLVE_HOST.
+        // cleared whenever we transfer data,
+        // or an operation returns some other value
+        //
+    bool have_sporadic_connection;
+        // we have a network connection, but it's likely to go away soon,
+        // so do as much network comm as possible
+        // (e.g. report completed results)
+        //
+    int network_status();
+    void network_available();
+    void got_http_error();
+    NET_STATUS() {
+        need_physical_connection = false;
+        have_sporadic_connection = false;
+    }
+};
+
+extern NET_STATUS net_status;
+
 #endif

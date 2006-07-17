@@ -102,8 +102,6 @@ CLIENT_STATE::CLIENT_STATE() {
     total_wall_cpu_time_this_period = 0;
     must_schedule_cpus = true;
     must_enforce_cpu_schedule = true;
-    need_physical_connection = false;
-    have_sporadic_connection = false;
     no_gui_rpc = false;
     have_tentative_project = false;
     new_version_check_time = 0;
@@ -1342,63 +1340,6 @@ int CLIENT_STATE::detach_project(PROJECT* project) {
     write_state_file();
 
     return 0;
-}
-
-// Return:
-// 0 if we have network connections open
-// 1 if we need a physical connection
-// 2 if we don't have any connections, and don't need any
-// 3 if a website lookup is pending (try again later)
-//
-// There's a 10-second slop factor;
-// if we've done network comm in the last 10 seconds,
-// we act as if we're doing it now.
-// (so that polling mechanisms have a change to trigger)
-//
-int CLIENT_STATE::network_status() {
-    static double last_comm_time=0;
-
-    if (http_ops->nops()) {
-        last_comm_time = now;
-    }
-    if (now - last_comm_time < 10) {
-        //msg_printf(0, MSG_INFO, "nops %d; return 0", http_ops->nops());
-        return 0;
-    }
-    if (lookup_website_op.error_num == ERR_IN_PROGRESS) {
-        return 3;
-    }
-    if (need_physical_connection) {
-        //msg_printf(0, MSG_INFO, "need phys conn; return 1");
-        return 1;
-    }
-    if (active_tasks.want_network()) {
-        return 1;
-    }
-    have_sporadic_connection = false;
-    //msg_printf(0, MSG_INFO, "returning 2");
-    return 2;
-}
-
-// There's now a network connection, after some period of disconnection.
-// Do all communication that we can.
-//
-void CLIENT_STATE::network_available() {
-    unsigned int i;
-
-    have_sporadic_connection = true;
-    for (i=0; i<pers_file_xfers->pers_file_xfers.size(); i++) {
-        PERS_FILE_XFER* pfx = pers_file_xfers->pers_file_xfers[i];
-        pfx->next_request_time = 0;
-    }
-    for (i=0; i<projects.size(); i++) {
-        PROJECT* p = projects[i];
-        p->min_rpc_time = 0;
-    }
-
-    // tell active tasks that network is available (for Folding@home)
-    //
-    active_tasks.network_available();
 }
 
 // Quit running applications, quit benchmarks,

@@ -7592,3 +7592,20 @@ David  17 July 2006
         gui_rpc_server.C,h
     sched/
         trickle_handler.C
+
+David  17 July 2006
+    - moved stuff related to network status out of CLIENT_STATE
+        and into a new class, NET_STATUS.
+        
+    client/
+        acct_setup.C
+        client_state.C,h
+        cs_account.C
+        cs_scheduler.C
+        gui_rpc_server_ops.C
+        http_curl.C
+        net_stats.C,h
+        pers_file_xfer.C
+        scheduler_ops.C
+    lib/
+        app_ipc.C

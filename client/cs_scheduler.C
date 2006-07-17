@@ -446,7 +446,7 @@ PROJECT* CLIENT_STATE::find_project_with_overdue_results() {
         if (p->suspended_via_gui) continue;
 
         if (!r->ready_to_report) continue;
-        if (have_sporadic_connection) {
+        if (net_status.have_sporadic_connection) {
             return p;
         }
         double cushion = std::max(

@@ -219,7 +219,7 @@ int LOOKUP_WEBSITE_OP::do_rpc(string& url) {
     retval = gstate.gui_http.do_rpc(this, url, LOOKUP_WEBSITE_FILENAME);
     if (retval) {
         error_num = retval;
-        gstate.need_physical_connection = true;
+        net_status.need_physical_connection = true;
         msg_printf(0, MSG_ERROR,
             "Access to reference web site failed - check network connection or proxy configuration."
         );
@@ -238,7 +238,7 @@ void LOOKUP_WEBSITE_OP::handle_reply(int http_op_retval) {
     // Set a flag that will signal the Manager to that effect
     //
     if (http_op_retval) {
-        gstate.need_physical_connection = true;
+        net_status.need_physical_connection = true;
         msg_printf(0, MSG_ERROR,
             "Access to reference site failed - check network connection or proxy configuration."
         );

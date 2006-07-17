@@ -183,7 +183,7 @@ void SCHEDULER_OP::backoff(PROJECT* p, const char *error_msg ) {
 
     // if network is down, don't count it as RPC failure
     //
-    if (!gstate.need_physical_connection) {
+    if (!net_status.need_physical_connection) {
         p->nrpc_failures++;
     }
     //msg_printf(p, MSG_INFO, "nrpc_failures %d need_conn %d", p->nrpc_failures, gstate.need_physical_connection);
