@@ -26,14 +26,13 @@
 #include <cstring>
 #endif
 
-#include "boinc_api.h"
+#include "app_ipc.h"
 #include "parse.h"
 #include "error_numbers.h"
 #include "util.h"
 #include "filesys.h"
 #include "miofile.h"
 
-#include "app_ipc.h"
 
 using std::string;
 
