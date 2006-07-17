@@ -239,7 +239,9 @@ extern int boinc_link(const char* phys_name, const char* logical_name);
 #ifdef __cplusplus
 extern "C" {
 #endif
+
 extern int boinc_resolve_filename(const char*, char*, int len);
+
 #ifdef __cplusplus
 } // extern "C" {
 #endif
