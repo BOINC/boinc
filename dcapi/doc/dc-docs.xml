@@ -7,6 +7,19 @@
     <title>DC-API Manual</title>
   </bookinfo>
 
+  <chapter id="general">
+    <title>General information</title>
+    <xi:include href="intro.xml"/>
+    <xi:include href="config.xml"/>
+  </chapter>
+
+  <chapter id="backends">
+    <title>Backend-specific information</title>
+    <xi:include href="boinc.xml"/>
+    <!-- <xi:include href="condor.xml"/> -->
+    <!-- <xi:include href="local.xml"/> -->
+  </chapter>
+
   <chapter id="reference">
     <title>Reference</title>
     <xi:include href="xml/dc_common.xml"/>
@@ -14,4 +27,4 @@
     <xi:include href="xml/dc.xml"/>
   </chapter>
 </book>
-<!-- vim: set ai sw=2: -->
+<!-- vim: set ai sw=2 tw=80: -->
