@@ -133,3 +133,12 @@ David  14 June 2006
 		worker.C
 	wrapper/
 		wrapper.C
+
+David  16 June 2006
+    - generalized wrapper.C so task descriptions are kept in structs;
+        changed format of job file
+        (suggested by Janus)
+
+    wrapper/
+        Makefile
+        wrapper.C

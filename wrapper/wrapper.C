@@ -18,7 +18,7 @@
 // 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 
 // wrapper.C
-// wrapper program - lets you use a non-BOINC app with BOINC
+// wrapper program - lets you use non-BOINC apps with BOINC
 //
 // Handles:
 // - suspend/resume/quit/abort
@@ -31,11 +31,7 @@
 // and there's some way to figure out when it's done it,
 // this program could be modified to report to the core client.
 //
-// Takes an input file "job.xml" of the form
-// <job_desc>
-//    <application>NAME</application>
-//    [ ... multiple applications not supported yet ]
-// </job_desc>
+// See http://boinc.berkeley.edu/wrapper.php for details
 
 #include <stdio.h>
 #include <vector>
@@ -57,15 +53,54 @@
 using std::vector;
 using std::string;
 
-string application;
-bool first = true;
+struct TASK {
+    string application;
+    string stdin_filename;
+    string stdout_filename;
+    string command_line;
 #ifdef _WIN32
-HANDLE pid_handle;
-HANDLE thread_handle;
+    HANDLE pid_handle;
+    HANDLE thread_handle;
 #else
-int pid;
+    int pid;
 #endif
+    int parse(FILE*);
+    bool poll(int& status);
+    int run();
+    void kill();
+    void stop();
+    void resume();
+};
+
+vector<TASK> tasks;
+
 bool app_suspended = false;
+
+int TASK::parse(FILE* f) {
+    char tag[256], contents[1024], buf[256];
+    while(get_tag(f, tag, contents)) {
+        if (!strcmp(tag, "/task")) {
+            return 0;
+        }
+        if (!strcmp(tag, "application")) {
+            application = contents;
+            continue;
+        }
+        if (!strcmp(tag, "stdin_filename")) {
+            stdin_filename = contents;
+            continue;
+        }
+        if (!strcmp(tag, "stdout_filename")) {
+            stdout_filename = contents;
+            continue;
+        }
+        if (!strcmp(tag, "command_line")) {
+            command_line = contents;
+            continue;
+        }
+    }
+    return ERR_XML_PARSE;
+}
 
 int parse_job_file() {
     char tag[256], contents[1024], buf[256];
@@ -79,9 +114,12 @@ int parse_job_file() {
         if (!strcmp(tag, "/job_desc")) {
             return 0;
         }
-        if (!strcmp(tag, "application")) {
-            application = contents;
-            continue;
+        if (!strcmp(tag, "task")) {
+            TASK task;
+            int retval = task.parse(f);
+            if (!retval) {
+                tasks.push_back(task);
+            }
         }
     }
     return ERR_XML_PARSE;
@@ -93,9 +131,18 @@ int parse_job_file() {
 void parse_state_file() {
 }
 
-int run_application(char** argv) {
+int TASK::run() {
     boinc_resolve_filename_s(application.c_str(), application);
 #ifdef _WIN32
+#if 0 possibly useful code
+    HANDLE pipeout_r, pipeout_w, pipein_r, pipein_w;
+
+    //create child's stdout pipes
+    if(!CreatePipe(&ps->pipeout_r, &ps->pipeout_w, &ps->sats, 0)) fprintf(stderr,"pipe out err\n");
+    //and its stdin pipes
+    if(!CreatePipe(&ps->pipein_r, &ps->pipein_w, &ps->sats, 0)) fprintf(stderr,"pipe in err\n");
+#endif
+
     PROCESS_INFORMATION process_info;
     STARTUPINFO startup_info;
     memset(&process_info, 0, sizeof(process_info));
@@ -122,8 +169,14 @@ int run_application(char** argv) {
     pid_handle = process_info.hProcess;
     thread_handle = process_info.hThread;
 #else
+#if 0
+    dup2(ps->pipe[1],1);
+#endif
+
+
     int retval;
     char progname[256], buf[256];
+    char* argv[2];
     pid = fork();
     if (pid == -1) {
         boinc_finish(ERR_FORK);
@@ -133,6 +186,7 @@ int run_application(char** argv) {
         boinc_resolve_filename(progname, buf, sizeof(buf));
         printf("running %s\n", buf);
         argv[0] = buf;
+        argv[1] = 0;
         retval = execv(buf, argv);
         exit(ERR_EXEC);
     }
@@ -140,7 +194,7 @@ int run_application(char** argv) {
     return 0;
 }
 
-bool poll_application(int& status) {
+bool TASK::poll(int& status) {
 #ifdef _WIN32
     unsigned long exit_code;
     if (GetExitCodeProcess(pid_handle, &exit_code)) {
@@ -160,53 +214,53 @@ bool poll_application(int& status) {
     return false;
 }
 
-void kill_app() {
+void TASK::kill() {
 #ifdef _WIN32
     TerminateProcess(pid_handle, -1);
 #else
-    kill(pid, SIGKILL);
+    ::kill(pid, SIGKILL);
 #endif
 }
 
-void stop_app() {
+void TASK::stop() {
 #ifdef _WIN32
     SuspendThread(thread_handle);
 #else
-    kill(pid, SIGSTOP);
+    ::kill(pid, SIGSTOP);
 #endif
 }
 
-void resume_app() {
+void TASK::resume() {
 #ifdef _WIN32
     ResumeThread(thread_handle);
 #else
-    kill(pid, SIGCONT);
+    ::kill(pid, SIGCONT);
 #endif
 }
 
-void poll_boinc_messages() {
+void poll_boinc_messages(TASK& task) {
     BOINC_STATUS status;
     boinc_get_status(&status);
     if (status.no_heartbeat) {
-        kill_app();
+        task.kill();
         exit(0);
     }
     if (status.quit_request) {
-        kill_app();
+        task.kill();
         exit(0);
     }
     if (status.abort_request) {
-        kill_app();
+        task.kill();
         exit(0);
     }
     if (status.suspended) {
         if (!app_suspended) {
-            stop_app();
+            task.stop();
             app_suspended = true;
         }
     } else {
         if (app_suspended) {
-            resume_app();
+            task.resume();
             app_suspended = false;
         }
     }
@@ -271,20 +325,25 @@ int main(int argc, char** argv) {
         fprintf(stderr, "can't parse job file: %d\n", retval);
         boinc_finish(retval);
     }
+    if (tasks.size() != 1) {
+        fprintf(stderr, "multiple tasks not supported\n");
+        boinc_finish(1);
+    }
 
     parse_state_file();
 
-    retval = run_application(argv);
+    TASK& task = tasks[0];
+    retval = task.run();
     if (retval) {
         fprintf(stderr, "can't run app: %d\n", retval);
         boinc_finish(retval);
     }
     while(1) {
         int status;
-        if (poll_application(status)) {
+        if (task.poll(status)) {
             boinc_finish(status);
         }
-        poll_boinc_messages();
+        poll_boinc_messages(task);
         send_status_message();
         boinc_sleep(1.);
     }

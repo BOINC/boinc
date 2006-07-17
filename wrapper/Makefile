@@ -6,11 +6,11 @@
 # which is linked statically
 
 CXXFLAGS = -g \
-    -I ../../boinc \
-    -I ../../boinc/lib \
-    -I ../../boinc/api \
-    -L ../../boinc/api \
-    -L ../../boinc/lib \
+    -I../../boinc \
+    -I../../boinc/lib \
+    -I../../boinc/api \
+    -L../../boinc/api \
+    -L../../boinc/lib \
     -L.
 
 PROGS = wrapper
