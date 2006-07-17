@@ -449,6 +449,12 @@
 			Name="libboinc"
 			Filter="">
 			<File
+				RelativePath="..\lib\app_ipc.C">
+			</File>
+			<File
+				RelativePath="..\lib\app_ipc.h">
+			</File>
+			<File
 				RelativePath="..\lib\diagnostics.C">
 				<FileConfiguration
 					Name="Release|Win32">
@@ -645,6 +651,12 @@
 			</File>
 			<File
 				RelativePath="..\lib\prefs.h">
+			</File>
+			<File
+				RelativePath="..\lib\proxy_info.C">
+			</File>
+			<File
+				RelativePath="..\lib\proxy_info.h">
 			</File>
 			<File
 				RelativePath="..\lib\stackwalker_imports.h">
