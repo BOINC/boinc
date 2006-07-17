@@ -315,7 +315,7 @@ void CSimpleFrame::InitSimpleClient()
 		}else if(project->project_name == "Predictor @ Home"){
 			i_statW->LoadImage(g_statPred);
 		}else{
-			i_statW->LoadImage(g_statGeneric);
+			i_statW->LoadImage(g_statIcnDefault);
 		}
 		i_statW->SetToolTip(statToolTip);
 		// push icon in the vector
@@ -431,8 +431,8 @@ void CSimpleFrame::LoadSkinImages(){
 	// stat icons
 	g_statWCG = new wxImage(_T("skins/default/graphic/statWCG.png"), wxBITMAP_TYPE_PNG);
 	g_statPred = new wxImage(_T("skins/default/graphic/statPred.png"), wxBITMAP_TYPE_PNG);
-	// generic project icon
-	g_statGeneric = new wxImage(dirPref + appSkin->GetIcnPrjGeneric(), wxBITMAP_TYPE_PNG);
+	// default stat icon
+	g_statIcnDefault = new wxImage(dirPref + appSkin->GetDefaultStatIcn(), wxBITMAP_TYPE_PNG);
 	// arrows
 	g_arwLeft = new wxImage(dirPref + appSkin->GetBtnLeftArr(), wxBITMAP_TYPE_PNG);
 	g_arwRight = new wxImage(dirPref + appSkin->GetBtnRightArr(), wxBITMAP_TYPE_PNG);
@@ -488,6 +488,8 @@ int CSimpleFrame::LoadSkinXML(){
 
     while (mf.fgets(buf, 256)) {
         if (match_tag(buf, "<clientskin")) {
+            continue;
+		}else if (match_tag(buf, "<simple")) {
             continue;
 		}else if (match_tag(buf, "<background")) {
 			mf.fgets(buf, 256);
@@ -663,20 +665,15 @@ int CSimpleFrame::LoadSkinXML(){
 					if (parse_str(buf, "<brdcol>", val)) {
 						appSkin->SetTabBrdColIn(wxString( val.c_str(), wxConvUTF8 ));
 					}
-				}else if(match_tag(buf, "<prjWCGicon>")){
+				}else if(match_tag(buf, "<defaultProjIcon>")){
 					mf.fgets(buf, 256);
 					if (parse_str(buf, "<imgsrc>", val)) {
-						appSkin->SetIcnPrjWCG(wxString( val.c_str(), wxConvUTF8 ));
+						appSkin->SetDefaultPrjIcn(wxString( val.c_str(), wxConvUTF8 ));
 					}
-				}else if(match_tag(buf, "<prjPREDicon>")){
+				}else if(match_tag(buf, "<defaultStatIcon>")){
 					mf.fgets(buf, 256);
 					if (parse_str(buf, "<imgsrc>", val)) {
-						appSkin->SetIcnPrjPRED(wxString( val.c_str(), wxConvUTF8 ));
-					}
-				}else if(match_tag(buf, "<prjIconGeneric>")){
-					mf.fgets(buf, 256);
-					if (parse_str(buf, "<imgsrc>", val)) {
-						appSkin->SetIcnPrjGeneric(wxString( val.c_str(), wxConvUTF8 ));
+						appSkin->SetDefaultStatIcn(wxString( val.c_str(), wxConvUTF8 ));
 					}
 				}
 			}// end of while loop
@@ -826,9 +823,6 @@ void CSimpleFrame::MoveControlsUp(){
 	btnAddProj->Move(237,249);//(237,431)
 	btnExpand->Move(366,247);//(366,429)
 	lnMyProjTop->Move(20,272);//(20,454)
-	//w_statWCG->Move(60,278);//(60,460)
-	//w_statSeti->Move(112,278);//(112,460)
-	//w_statPred->Move(164,278);//(164,460)
 	btnArwLeft->Move(25,291);//(25,483)
 	btnArwRight->Move(360,291);//(360,483)
 	lnMyProjBtm->Move(20,334);//(20,516)
@@ -843,9 +837,6 @@ void CSimpleFrame::MoveControlsDown(){
 	btnAddProj->Move(237,431);
 	btnExpand->Move(366,429);
 	lnMyProjTop->Move(20,454);
-	//w_statWCG->Move(60,460);
-	//w_statSeti->Move(112,460);
-	//w_statPred->Move(164,460);
 	btnArwLeft->Move(25,473);
 	btnArwRight->Move(360,473);
 	lnMyProjBtm->Move(20,516);

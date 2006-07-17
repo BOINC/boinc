@@ -61,18 +61,12 @@ public:
 	// My projects area
 	std::vector<StatImageLoader*> m_statProjects; // vector of all project icons created for GUI
 	
-	wxImage *g_statWCG;
-	StatImageLoader *i_statWCG;
-	wxWindow *w_statWCG;
+	wxImage *g_statWCG; // will be deleted when project graphic is supplied
+	wxImage *g_statPred; // will be deleted when project graphic is supplied
+	//
+	wxImage *g_statIcnDefault;
+	//
 
-	//
-	wxImage *g_statGeneric;
-	StatImageLoader *i_statSeti;
-	wxWindow *w_statSeti;
-	//
-	wxImage *g_statPred;
-	StatImageLoader *i_statPred;
-	wxWindow *w_statPred;
 	// arrows
     wxImage *g_arwLeft;
 	wxImage *g_arwRight;

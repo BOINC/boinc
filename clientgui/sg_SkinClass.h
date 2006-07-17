@@ -48,9 +48,8 @@ public:
         wxString GetIcnSleeping() const { return m_icnSleeping; }
         wxString GetIcnWorkingWkUnit() const { return m_icnWorkingWkUnit; }
         wxString GetIcnSleepingWkUnit() const { return m_icnSleepingWkUnit; }
-        wxString GetIcnPrjWCG() const { return m_icnPrjWCG; }
-        wxString GetIcnPrjPRED() const { return m_icnPrjPRED; }
-        wxString GetIcnPrjGeneric() const { return m_icnPrjGeneric; }
+        wxString GetDefaultPrjIcn() const { return m_defaultPrjIcn; }
+        wxString GetDefaultStatIcn() const { return m_defaultStatIcn; }
         wxString GetAnimationBG() const { return m_animBg; }
         wxString GetAnimationFile() const { return m_animFile; }
         
@@ -96,9 +95,8 @@ public:
 		void SetIcnSleeping(const wxString& imgsrc) { m_icnSleeping = imgsrc; }
 		void SetIcnWorkingWkUnit(const wxString& imgsrc) { m_icnWorkingWkUnit = imgsrc; }
 		void SetIcnSleepingWkUnit(const wxString& imgsrc) { m_icnSleepingWkUnit = imgsrc; }
-		void SetIcnPrjWCG(const wxString& imgsrc) { m_icnPrjWCG = imgsrc; }
-		void SetIcnPrjPRED(const wxString& imgsrc) { m_icnPrjPRED = imgsrc; }
-		void SetIcnPrjGeneric(const wxString& imgsrc) { m_icnPrjGeneric = imgsrc; }
+		void SetDefaultPrjIcn(const wxString& imgsrc) { m_defaultPrjIcn = imgsrc; }
+		void SetDefaultStatIcn(const wxString& imgsrc) { m_defaultStatIcn = imgsrc; }
 		void SetAnimationBg(const wxString& imgsrc) { m_animBg = imgsrc; }
 		void SetAnimationFile(const wxString& imgsrc) { m_animFile = imgsrc; }
 		
@@ -151,9 +149,8 @@ private:
 		wxString m_icnSleeping;	
 		wxString m_icnWorkingWkUnit;
 		wxString m_icnSleepingWkUnit;
-		wxString m_icnPrjWCG;// will be deleted when project icons are supplied
-		wxString m_icnPrjPRED;// will be deleted when project icons are supplied
-        wxString m_icnPrjGeneric;
+		wxString m_defaultPrjIcn;// default proj icon
+		wxString m_defaultStatIcn;// default stat icon
 		// animation
 		wxString m_animBg;
 		wxString m_animFile;

@@ -24,12 +24,14 @@
 #include "stdwx.h"
 #include "BOINCGUIApp.h"
 #include "MainDocument.h"
+#include "app_ipc.h"
 #include "common/wxAnimate.h"
 #include "common/wxFlatNotebook.h"
 #include "sg_SkinClass.h"
 #include "sg_ImageLoader.h"
 #include "sg_ViewTabPage.h"
 
+#define FILENAME "projects/member.chicago.ibm.com/proj_icon.png"
 
 IMPLEMENT_DYNAMIC_CLASS(CViewTabPage, wxPanel)
 
@@ -37,6 +39,7 @@ enum{
 	BTN_SHOW_GRAPHICS,
 	BTN_COLLAPSE,
 };
+
 
 BEGIN_EVENT_TABLE(CViewTabPage, wxPanel)
     EVT_BUTTON(-1,CViewTabPage::OnBtnClick)
@@ -59,12 +62,34 @@ CViewTabPage::CViewTabPage(wxFlatNotebook* parent,int index,std::string name) :
 CViewTabPage::~CViewTabPage() {}
 void CViewTabPage::LoadSkinImages(){
 
+	// prj icon
+	CMainDocument* pDoc  = wxGetApp().GetDocument();
+	RESULT* result = pDoc->results.results[m_tabIndex];
+	std::string resolved_name;
+	//wxString projectsPref = wxString("projects");
+	std::string projectsPref = "projects";
+	//wxString projectIconName = wxString("proj_icon.png");
+	std::string projectIconName = "proj_icon.png";
+	wxString masterURL = wxString(result->project_url.c_str(), wxConvUTF8);
+	//wxString dirProjectGraphic = projectsPref + _T("/") + masterURL + _T("/") + projectIconName;
+	std::string dirProjectGraphic = projectsPref + "/" + result->project_url + "/" + projectIconName;
+	//int retval;
+	//retval = boinc_resolve_filename_s(dirProjectGraphic.c_str(), resolved_name);
+
+	const char *file = dirProjectGraphic.c_str();
+	//char ch[] = "aba daba do";
+    //char *cp = ch;
+
+	char filename[256];
+    int retval;
+	retval = boinc_resolve_filename(FILENAME, filename, sizeof(filename));
+
 	//app skin class
 	appSkin = SkinClass::Instance();
 	wxString dirPref = appSkin->GetSkinsFolder()+_T("/")+appSkin->GetSkinName()+_T("/");
 	
-    // prj icons will be removed
-	g_prjIcn = new wxImage(dirPref + appSkin->GetIcnPrjWCG(), wxBITMAP_TYPE_PNG);
+    // prj icon
+	g_prjIcn = new wxImage(dirPref + appSkin->GetDefaultPrjIcn(), wxBITMAP_TYPE_PNG);
 	// collapse
     g_collapse = new wxImage(dirPref + appSkin->GetBtnCollapse(), wxBITMAP_TYPE_PNG);
 	g_collapseClick = new wxImage(dirPref + appSkin->GetBtnCollapseClick(), wxBITMAP_TYPE_PNG);
@@ -100,18 +125,18 @@ void CViewTabPage::CreatePage()
 		
 	//////////////////////Build Tab Page///////////////////////////////
 	//Prj Icon
-	w_iconPI=new wxWindow(this,-1,wxPoint(2,2),wxSize(22,22));
+	w_iconPI=new wxWindow(this,-1,wxPoint(2,1),wxSize(20,20));
     i_prjIcnPI = new ImageLoader(w_iconPI);
     i_prjIcnPI->LoadImage(g_prjIcn);
 	//Project Name
-	lblProjectName=new wxStaticText(this,-1,wxT(""),wxPoint(25,2),wxSize(289,18),wxST_NO_AUTORESIZE);
+	lblProjectName=new wxStaticText(this,-1,wxT(""),wxPoint(24,2),wxSize(335,18),wxST_NO_AUTORESIZE);
 	lblProjectName->SetForegroundColour(wxSystemSettings::GetColour(wxSYS_COLOUR_WINDOWTEXT));
 	wxString projName;
 	projName = wxString(resState->project->project_name.c_str(), wxConvUTF8 ) + wxT(" - ") + wxString(resState->app->user_friendly_name.c_str(), wxConvUTF8);
 	lblProjectName->SetLabel(projName);
 	lblProjectName->SetFont(wxFont(11,74,90,90,0,wxT("Tahoma")));
 	//Line Proj Name
-	lnProjName=new wxStaticLine(this,-1,wxPoint(9,25),wxSize(353,2));
+	lnProjName=new wxStaticLine(this,-1,wxPoint(9,25),wxSize(352,2));
 	//My Progress
 	lblMyProgress=new wxStaticText(this,-1,wxT(""),wxPoint(15,32),wxSize(89,18),wxST_NO_AUTORESIZE);
 	lblMyProgress->SetForegroundColour(wxSystemSettings::GetColour(wxSYS_COLOUR_WINDOWTEXT));
