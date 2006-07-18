@@ -7629,8 +7629,8 @@ David  17 July 2006
 
 Charlie 17 July 2006
     - Mac: Disable "Show Graphics" button and screensaver graphics when 
-        client running as a daemon; show warning dialog if user presses 
-        "Show Graphics" button during remote RPC.
+        client running as a daemon (bug 119); show warning dialog if user 
+        presses "Show Graphics" button during remote RPC (bug 517).
     - Mac: client sets gstate.executing_as_daemon if real user ID == 0 
         (i.e., if launched by root).  (Effective uid is boinc_master.)
     - Added SS_STATUS_DAEMONALLOWSNOGRAPHICS for daemon case; Mac 
