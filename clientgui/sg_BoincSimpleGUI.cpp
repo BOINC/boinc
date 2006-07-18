@@ -42,6 +42,7 @@
 #include "WizardAccountManager.h"
 #include "sg_StatImageLoader.h"
 #include "sg_BoincSimpleGUI.h"
+#include "app_ipc.h"
 
 #include "res/boinc.xpm"
 
@@ -79,13 +80,13 @@ CSimpleFrame::CSimpleFrame(wxString title, wxIcon* icon) :
     //
     pConfig->SetPath(strBaseConfigLocation);
     pConfig->Read(wxT("Skin"), &skinName, wxT("default"));
-    pConfig->Read(wxT("SkinPath"), &skinPath, wxT("skins"));
+    pConfig->Read(wxT("SkinFolderPath"), &skinFoldPath, wxT("skins"));
 
     //init app skin class
 	appSkin = SkinClass::Instance();
     
     appSkin->SetSkinName(skinName);
-	appSkin->SetSkinsFolder(skinPath);
+	appSkin->SetSkinsFolder(skinFoldPath);
 	skinPath = appSkin->GetSkinsFolder()+_T("/")+appSkin->GetSkinName()+_T("/")+_T("skin.xml");
 	midAppCollapsed = false;
 	btmAppCollapsed = false;
@@ -117,7 +118,7 @@ CSimpleFrame::~CSimpleFrame()
     //
     pConfig->SetPath(strBaseConfigLocation);
     pConfig->Write(wxT("Skin"), skinName);
-    pConfig->Write(wxT("SkinPath"), skinPath);
+    pConfig->Write(wxT("SkinPath"), skinFoldPath);
 
 	if (m_pFrameRenderTimer) {
         m_pFrameRenderTimer->Stop();
@@ -183,6 +184,39 @@ void CSimpleFrame::OnConnect(CFrameEvent& WXUNUSED(event)) {
         pAPWizard->Destroy();
 
     wxLogTrace(wxT("Function Start/End"), wxT("CSimpleFrame::OnConnect - Function End"));
+}
+
+void CSimpleFrame::OnProjectsAttachToProject() {
+    wxLogTrace(wxT("Function Start/End"), wxT("CSimpleFrame::OnProjectsAttachToProject - Function Begin"));
+
+    CMainDocument* pDoc     = wxGetApp().GetDocument();
+
+    wxASSERT(pDoc);
+    wxASSERT(wxDynamicCast(pDoc, CMainDocument));
+
+    if (!pDoc->IsUserAuthorized())
+        return;
+
+    if (pDoc->IsConnected()) {
+        
+        m_pFrameRenderTimer->Stop();
+
+        CWizardAttachProject* pWizard = new CWizardAttachProject(this);
+
+        wxString strName = wxEmptyString;
+        wxString strURL = wxEmptyString;
+        pWizard->Run( strName, strURL, false );
+
+        if (pWizard)
+            pWizard->Destroy();
+
+        m_pFrameRenderTimer->Start();
+        //FireRefreshView();
+    } else {
+        ShowNotCurrentlyConnectedAlert();
+    }
+
+    wxLogTrace(wxT("Function Start/End"), wxT("CAdvancedFrame::OnProjectsAttachToProject - Function End"));
 }
 
 void CSimpleFrame::OnFrameRender(wxTimerEvent &event) {
@@ -297,9 +331,14 @@ void CSimpleFrame::InitSimpleClient()
 	btnExpand->Show(false); // at initial build there is no need to show
 	/// Line
 	lnMyProjTop=new wxStaticLine(this,-1,wxPoint(20,454),wxSize(370,2));
-	///////
+	/////////////// MY PROJECTS ICONS /////////////////////
     int projCnt = pDoc->state.projects.size();
-	
+	std::string projectIconName = "stat_icon";
+	char filePath[256];
+	// url of project directory
+	char urlDirectory[256];
+	std::string dirProjectGraphic;
+
 	for(int j = 0; j < projCnt; j++){
 		PROJECT* project = pDoc->state.projects[j];
 		wxString toolTipTxt;
@@ -310,13 +349,17 @@ void CSimpleFrame::InitSimpleClient()
 		wxWindow *w_statW = new wxWindow(this,-1,wxPoint(60 + 52*j,460),wxSize(52,52));
 		wxToolTip *statToolTip = new wxToolTip(toolTipTxt);
 		StatImageLoader *i_statW = new StatImageLoader(w_statW,project->master_url);
-		if(project->project_name == "World Community Grid"){
-			i_statW->LoadImage(g_statWCG);
-		}else if(project->project_name == "Predictor @ Home"){
-			i_statW->LoadImage(g_statPred);
+		// resolve the proj image 
+		url_to_project_dir((char*)project->master_url.c_str() ,urlDirectory);
+        dirProjectGraphic = (std::string)urlDirectory + "/" + projectIconName;
+		//load stat icon
+		if(boinc_resolve_filename(dirProjectGraphic.c_str(), filePath, sizeof(filePath)) == 0){
+			g_statIcn = new wxImage(filePath, wxBITMAP_TYPE_PNG);
+			i_statW->LoadImage(g_statIcn);
 		}else{
 			i_statW->LoadImage(g_statIcnDefault);
 		}
+
 		i_statW->SetToolTip(statToolTip);
 		// push icon in the vector
 		m_statProjects.push_back(i_statW);
@@ -338,10 +381,10 @@ void CSimpleFrame::InitSimpleClient()
 	btnPause=new wxBitmapButton(this,-1,*btmpBtnPauseL,wxPoint(97,522),wxSize(59,20));
 	btnPause->SetToolTip(ttPause);
     // play btn   
-	wxToolTip *ttPlay = new wxToolTip(wxT("Resume all Processing"));
-	btnPlay=new wxBitmapButton(this,-1,*btmpBtnPlayL,wxPoint(97,522),wxSize(62,20));
-	btnPlay->SetToolTip(ttPlay);
-	btnPlay->Show(false);
+	wxToolTip *ttResume = new wxToolTip(wxT("Resume all Processing"));
+	btnResume=new wxBitmapButton(this,-1,*btmpBtnResumeL,wxPoint(97,522),wxSize(62,20));
+	btnResume->SetToolTip(ttResume);
+	btnResume->Show(false);
 	// Pref Btn
 	wxToolTip *ttPreferences = new wxToolTip(wxT("Preferences"));
 	btnPreferences=new wxBitmapButton(this,-1,*btmpBtnPrefL,wxPoint(183,522),wxSize(86,20));
@@ -428,9 +471,6 @@ void CSimpleFrame::LoadSkinImages(){
 	// work unit icons
 	g_icoSleepWU = new wxImage(dirPref + appSkin->GetIcnSleepingWkUnit(), wxBITMAP_TYPE_PNG);
 	g_icoWorkWU = new wxImage(dirPref + appSkin->GetIcnWorkingWkUnit(), wxBITMAP_TYPE_PNG);
-	// stat icons
-	g_statWCG = new wxImage(_T("skins/default/graphic/statWCG.png"), wxBITMAP_TYPE_PNG);
-	g_statPred = new wxImage(_T("skins/default/graphic/statPred.png"), wxBITMAP_TYPE_PNG);
 	// default stat icon
 	g_statIcnDefault = new wxImage(dirPref + appSkin->GetDefaultStatIcn(), wxBITMAP_TYPE_PNG);
 	// arrows
@@ -462,7 +502,7 @@ void CSimpleFrame::LoadSkinImages(){
 	btmpBtnAttProjL=&fileImgBuf[3];
 	btmpIcnWorking=&fileImgBuf[4];
 	btmpBtnPauseL=&fileImgBuf[6];
-	btmpBtnPlayL=&fileImgBuf[7];
+	btmpBtnResumeL=&fileImgBuf[7];
 	btmpMessagesBtnL=&fileImgBuf[5];
 	btmpBtnAdvViewL=&fileImgBuf[8];
 	btmpIcnSleeping=&fileImgBuf[10];
@@ -706,7 +746,7 @@ void CSimpleFrame::ReskinAppGUI(){
     wrkUnitNB->SetGradientColorsInactive(appSkin->GetTabFromColIn(),appSkin->GetTabToColIn(),appSkin->GetTabBrdColIn());
 	// btns
 	btnMessages->SetBitmapLabel(*btmpMessagesBtnL);
-    btnPlay->SetBitmapLabel(*btmpBtnPlayL);
+    btnResume->SetBitmapLabel(*btmpBtnResumeL);
 	btnPause->SetBitmapLabel(*btmpBtnPauseL);
     btnAddProj->SetBitmapLabel(*btmpBtnAttProjL);
 	btnPreferences->SetBitmapLabel(*btmpBtnPrefL);
@@ -813,6 +853,22 @@ void CSimpleFrame::OnBtnClick(wxCommandEvent& event){ //init function
 		Refresh();
     }else if(m_wxBtnObj==btnAdvancedView) {
         wxGetApp().SetActiveGUI(BOINC_ADVANCEDGUI, true);
+    }else if(m_wxBtnObj==btnMessages) {
+		btnMessages->Refresh();
+	}else if(m_wxBtnObj==btnAddProj) {
+		OnProjectsAttachToProject();
+		btnAddProj->Refresh();
+    }else if(m_wxBtnObj==btnPause) {
+		CMainDocument* pDoc     = wxGetApp().GetDocument();
+		pDoc->GetActivityRunMode(clientRunMode);
+		pDoc->SetActivityRunMode(RUN_MODE_NEVER);
+		btnPause->Show(false);
+		btnResume->Show(true);
+    }else if(m_wxBtnObj==btnResume) {
+		CMainDocument* pDoc     = wxGetApp().GetDocument();
+		pDoc->SetActivityRunMode(clientRunMode);
+		btnResume->Show(false);
+		btnPause->Show(true);
     }else{
 		//wxMessageBox("OnBtnClick - else");
 	}

@@ -63,22 +63,24 @@ void CViewTabPage::LoadSkinImages(){
 	// prj icon
 	CMainDocument* pDoc  = wxGetApp().GetDocument();
 	RESULT* result = pDoc->results.results[m_tabIndex];
-	std::string resolved_name;
-	std::string projectsPref = "projects";
-	std::string projectIconName = "proj_icon.png";
-	wxString masterURL = wxString(result->project_url.c_str(), wxConvUTF8);
-	std::string dirProjectGraphic = projectsPref + "/" + result->project_url + "/" + projectIconName;
-	
-	char filename[256];
-    int retval;
-	retval = boinc_resolve_filename(FILENAME, filename, sizeof(filename));
 
+	std::string projectIconName = "proj_icon";
+	char filePath[256];
+	// url of project directory
+	char urlDirectory[256];
+	url_to_project_dir((char*)result->project_url.c_str() ,urlDirectory);
+	std::string dirProjectGraphic = (std::string)urlDirectory + "/" + projectIconName;
+	
 	//app skin class
 	appSkin = SkinClass::Instance();
 	wxString dirPref = appSkin->GetSkinsFolder()+_T("/")+appSkin->GetSkinName()+_T("/");
 	
-    // prj icon
-	g_prjIcn = new wxImage(dirPref + appSkin->GetDefaultPrjIcn(), wxBITMAP_TYPE_PNG);
+	// prj icon
+	if(boinc_resolve_filename(dirProjectGraphic.c_str(), filePath, sizeof(filePath)) == 0){
+		g_prjIcn = new wxImage(filePath, wxBITMAP_TYPE_PNG);
+	}else{
+		g_prjIcn = new wxImage(dirPref + appSkin->GetDefaultPrjIcn(), wxBITMAP_TYPE_PNG);
+	}
 	// collapse
     g_collapse = new wxImage(dirPref + appSkin->GetBtnCollapse(), wxBITMAP_TYPE_PNG);
 	g_collapseClick = new wxImage(dirPref + appSkin->GetBtnCollapseClick(), wxBITMAP_TYPE_PNG);

@@ -35,7 +35,7 @@ public:
    ~CSimpleFrame();
 
    
-
+	int clientRunMode;
 	// Images
 	wxImage *g_icoSleepWU;
 	wxImage *g_icoWorkWU;
@@ -58,11 +58,11 @@ public:
     SkinClass *appSkin;
 	wxString skinName;
 	wxString skinPath;
+	wxString skinFoldPath;
 	// My projects area
 	std::vector<StatImageLoader*> m_statProjects; // vector of all project icons created for GUI
 	
-	wxImage *g_statWCG; // will be deleted when project graphic is supplied
-	wxImage *g_statPred; // will be deleted when project graphic is supplied
+	wxImage *g_statIcn;
 	//
 	wxImage *g_statIcnDefault;
 	//
@@ -105,7 +105,7 @@ public:
 	wxStaticText *st41c;
 	wxStaticBitmap *icnProjSleep;
 	wxBitmapButton *btnPause;
-	wxBitmapButton *btnPlay;
+	wxBitmapButton *btnResume;
 	wxBitmapButton *btnMessages;
 	wxBitmapButton *btnAdvancedView;
 	wxStaticLine *lnMyProjBtm;
@@ -132,7 +132,7 @@ public:
 	wxBitmap *btmpIcnWorking;
 	wxBitmap *bm39cImg0;
 	wxBitmap *btmpBtnPauseL;
-	wxBitmap *btmpBtnPlayL;
+	wxBitmap *btmpBtnResumeL;
 	wxBitmap *btmpMessagesBtnL;
 	wxBitmap *btmpBtnAdvViewL;
 	wxBitmap *btmpIcnSleeping;
@@ -151,6 +151,7 @@ protected:
 	void OnEraseBackground(wxEraseEvent& event);
 	void OnBtnClick(wxCommandEvent& event);
 	void OnConnect(CFrameEvent& event );
+	void OnProjectsAttachToProject();
     void OnFrameRender(wxTimerEvent& event );
 	void OnPageChanged(wxFlatNotebookEvent& event);
     void DrawBackImg(wxEraseEvent& event,wxWindow *win,wxBitmap & bitMap,int opz);
