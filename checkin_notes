@@ -7676,3 +7676,10 @@ David  18 July 2006
     sea/
         insecure.sh
         secure.sh
+
+Charlie 18 July 2006
+    - If bind fails, display errno on non_Win32 systems instead of -1.
+    
+    client/
+        gui_rpc_server.C
+    

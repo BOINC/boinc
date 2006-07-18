@@ -27,6 +27,7 @@
 #include <stdio.h>
 #ifdef HAVE_UNISTD_H
 #include <unistd.h>
+#include <cerrno>
 #endif
 #ifdef HAVE_SYS_SOCKET_H
 #include <sys/socket.h>
@@ -198,6 +199,9 @@ int GUI_RPC_CONN_SET::init() {
 
     retval = bind(lsock, (const sockaddr*)(&addr), (boinc_socklen_t)sizeof(addr));
     if (retval) {
+#ifndef _WIN32
+        retval = errno;     // Display the real error code
+#endif
         msg_printf(NULL, MSG_ERROR, "GUI RPC bind failed: %d", retval);
         boinc_close_socket(lsock);
         lsock = -1;
