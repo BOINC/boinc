@@ -695,6 +695,9 @@ int main(int argc, char** argv) {
             break;
         }
     }
+#elif defined(__APPLE__)
+    if (getuid() == (uid_t)0)       // If the real user ID is root, we are executing as a daemon
+        gstate.executing_as_daemon = true;
 #endif
 
     init_core_client(argc, argv);
