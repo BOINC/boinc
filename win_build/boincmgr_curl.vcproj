@@ -450,6 +450,12 @@
 			Filter="">
 			<File
 				RelativePath="..\lib\app_ipc.C">
+				<FileConfiguration
+					Name="Release (SimpleGUI)|Win32">
+					<Tool
+						Name="VCCLCompilerTool"
+						CompileAs="2"/>
+				</FileConfiguration>
 			</File>
 			<File
 				RelativePath="..\lib\app_ipc.h">
@@ -654,6 +660,12 @@
 			</File>
 			<File
 				RelativePath="..\lib\proxy_info.C">
+				<FileConfiguration
+					Name="Release (SimpleGUI)|Win32">
+					<Tool
+						Name="VCCLCompilerTool"
+						CompileAs="2"/>
+				</FileConfiguration>
 			</File>
 			<File
 				RelativePath="..\lib\proxy_info.h">
