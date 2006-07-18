@@ -21,10 +21,6 @@
 #pragma implementation "sg_ViewTabPage.h"
 #endif
 
-#ifdef __APPLE__
-#include <unistd.h>  // For itoa()
-#endif
-
 #include "stdwx.h"
 #include "BOINCGUIApp.h"
 #include "MainDocument.h"
