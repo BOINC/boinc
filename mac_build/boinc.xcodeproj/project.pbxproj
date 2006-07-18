@@ -188,6 +188,12 @@
 		DDB506FA0958446900181B75 /* ProxyInfoPage.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DDB506F80958446900181B75 /* ProxyInfoPage.cpp */; };
 		DDBDF4AD0987093100464F83 /* ValidateEmailAddress.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DDBDF4A90987091800464F83 /* ValidateEmailAddress.cpp */; };
 		DDC63EF10985B89600383FD2 /* DlgGenericMessage.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DDC63EEF0985B89600383FD2 /* DlgGenericMessage.cpp */; };
+		DDCAD7DD0A6C603A0086C7EE /* sg_BoincSimpleGUI.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DDCAD7D10A6C603A0086C7EE /* sg_BoincSimpleGUI.cpp */; };
+		DDCAD7DF0A6C603A0086C7EE /* sg_DlgPreferences.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DDCAD7D30A6C603A0086C7EE /* sg_DlgPreferences.cpp */; };
+		DDCAD7E10A6C603A0086C7EE /* sg_ImageLoader.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DDCAD7D50A6C603A0086C7EE /* sg_ImageLoader.cpp */; };
+		DDCAD7E30A6C603A0086C7EE /* sg_SkinClass.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DDCAD7D70A6C603A0086C7EE /* sg_SkinClass.cpp */; };
+		DDCAD7E50A6C603A0086C7EE /* sg_StatImageLoader.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DDCAD7D90A6C603A0086C7EE /* sg_StatImageLoader.cpp */; };
+		DDCAD7E70A6C603A0086C7EE /* sg_ViewTabPage.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DDCAD7DB0A6C603A0086C7EE /* sg_ViewTabPage.cpp */; };
 		DDD095490A3EDF2D00C95BA4 /* switcher.C in Sources */ = {isa = PBXBuildFile; fileRef = DDD095480A3EDF2D00C95BA4 /* switcher.C */; };
 		DDD74D8907CF48E50065AC9D /* acct_mgr.C in Sources */ = {isa = PBXBuildFile; fileRef = DD344B3D07C5ABF40043025C /* acct_mgr.C */; };
 		DDD74D8A07CF48E70065AC9D /* app.C in Sources */ = {isa = PBXBuildFile; fileRef = F54B8FC102AC0A0C01FB7237 /* app.C */; };
@@ -976,6 +982,18 @@
 		DDBDF4AA0987091800464F83 /* ValidateEmailAddress.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = ValidateEmailAddress.h; path = ../clientgui/ValidateEmailAddress.h; sourceTree = SOURCE_ROOT; };
 		DDC63EEF0985B89600383FD2 /* DlgGenericMessage.cpp */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.cpp.cpp; name = DlgGenericMessage.cpp; path = ../clientgui/DlgGenericMessage.cpp; sourceTree = SOURCE_ROOT; };
 		DDC63EF00985B89600383FD2 /* DlgGenericMessage.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = DlgGenericMessage.h; path = ../clientgui/DlgGenericMessage.h; sourceTree = SOURCE_ROOT; };
+		DDCAD7D10A6C603A0086C7EE /* sg_BoincSimpleGUI.cpp */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.cpp.cpp; name = sg_BoincSimpleGUI.cpp; path = ../clientgui/sg_BoincSimpleGUI.cpp; sourceTree = SOURCE_ROOT; };
+		DDCAD7D20A6C603A0086C7EE /* sg_BoincSimpleGUI.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = sg_BoincSimpleGUI.h; path = ../clientgui/sg_BoincSimpleGUI.h; sourceTree = SOURCE_ROOT; };
+		DDCAD7D30A6C603A0086C7EE /* sg_DlgPreferences.cpp */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.cpp.cpp; name = sg_DlgPreferences.cpp; path = ../clientgui/sg_DlgPreferences.cpp; sourceTree = SOURCE_ROOT; };
+		DDCAD7D40A6C603A0086C7EE /* sg_DlgPreferences.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = sg_DlgPreferences.h; path = ../clientgui/sg_DlgPreferences.h; sourceTree = SOURCE_ROOT; };
+		DDCAD7D50A6C603A0086C7EE /* sg_ImageLoader.cpp */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.cpp.cpp; name = sg_ImageLoader.cpp; path = ../clientgui/sg_ImageLoader.cpp; sourceTree = SOURCE_ROOT; };
+		DDCAD7D60A6C603A0086C7EE /* sg_ImageLoader.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = sg_ImageLoader.h; path = ../clientgui/sg_ImageLoader.h; sourceTree = SOURCE_ROOT; };
+		DDCAD7D70A6C603A0086C7EE /* sg_SkinClass.cpp */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.cpp.cpp; name = sg_SkinClass.cpp; path = ../clientgui/sg_SkinClass.cpp; sourceTree = SOURCE_ROOT; };
+		DDCAD7D80A6C603A0086C7EE /* sg_SkinClass.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = sg_SkinClass.h; path = ../clientgui/sg_SkinClass.h; sourceTree = SOURCE_ROOT; };
+		DDCAD7D90A6C603A0086C7EE /* sg_StatImageLoader.cpp */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.cpp.cpp; name = sg_StatImageLoader.cpp; path = ../clientgui/sg_StatImageLoader.cpp; sourceTree = SOURCE_ROOT; };
+		DDCAD7DA0A6C603A0086C7EE /* sg_StatImageLoader.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = sg_StatImageLoader.h; path = ../clientgui/sg_StatImageLoader.h; sourceTree = SOURCE_ROOT; };
+		DDCAD7DB0A6C603A0086C7EE /* sg_ViewTabPage.cpp */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.cpp.cpp; name = sg_ViewTabPage.cpp; path = ../clientgui/sg_ViewTabPage.cpp; sourceTree = SOURCE_ROOT; };
+		DDCAD7DC0A6C603A0086C7EE /* sg_ViewTabPage.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = sg_ViewTabPage.h; path = ../clientgui/sg_ViewTabPage.h; sourceTree = SOURCE_ROOT; };
 		DDD0953F0A3EDD2500C95BA4 /* switcher */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = switcher; sourceTree = BUILT_PRODUCTS_DIR; };
 		DDD095480A3EDF2D00C95BA4 /* switcher.C */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.cpp.cpp; path = switcher.C; sourceTree = "<group>"; };
 		DDD74D8707CF482E0065AC9D /* boinc */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = boinc; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -1326,6 +1344,18 @@
 				DD58C45F08F334EA00C1DF66 /* ProxyPage.h */,
 				DD58C46008F334EA00C1DF66 /* resource.h */,
 				DD81C41707C5D13E0098A04D /* stdwx.cpp */,
+				DDCAD7D10A6C603A0086C7EE /* sg_BoincSimpleGUI.cpp */,
+				DDCAD7D20A6C603A0086C7EE /* sg_BoincSimpleGUI.h */,
+				DDCAD7D30A6C603A0086C7EE /* sg_DlgPreferences.cpp */,
+				DDCAD7D40A6C603A0086C7EE /* sg_DlgPreferences.h */,
+				DDCAD7D50A6C603A0086C7EE /* sg_ImageLoader.cpp */,
+				DDCAD7D60A6C603A0086C7EE /* sg_ImageLoader.h */,
+				DDCAD7D70A6C603A0086C7EE /* sg_SkinClass.cpp */,
+				DDCAD7D80A6C603A0086C7EE /* sg_SkinClass.h */,
+				DDCAD7D90A6C603A0086C7EE /* sg_StatImageLoader.cpp */,
+				DDCAD7DA0A6C603A0086C7EE /* sg_StatImageLoader.h */,
+				DDCAD7DB0A6C603A0086C7EE /* sg_ViewTabPage.cpp */,
+				DDCAD7DC0A6C603A0086C7EE /* sg_ViewTabPage.h */,
 				DD81C45B07C5D2880098A04D /* stdwx.h */,
 				DD58C46108F334EA00C1DF66 /* UnavailablePage.cpp */,
 				DD58C46208F334EA00C1DF66 /* UnavailablePage.h */,
@@ -2167,6 +2197,12 @@
 				DD431F230A415EDF0060585A /* SetupSecurity.cpp in Sources */,
 				DD9C94A40A5A3A4100AB0D10 /* AdvancedFrame.cpp in Sources */,
 				DD9C94A60A5A3A4100AB0D10 /* BOINCBaseFrame.cpp in Sources */,
+				DDCAD7DD0A6C603A0086C7EE /* sg_BoincSimpleGUI.cpp in Sources */,
+				DDCAD7DF0A6C603A0086C7EE /* sg_DlgPreferences.cpp in Sources */,
+				DDCAD7E10A6C603A0086C7EE /* sg_ImageLoader.cpp in Sources */,
+				DDCAD7E30A6C603A0086C7EE /* sg_SkinClass.cpp in Sources */,
+				DDCAD7E50A6C603A0086C7EE /* sg_StatImageLoader.cpp in Sources */,
+				DDCAD7E70A6C603A0086C7EE /* sg_ViewTabPage.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -2997,6 +3033,7 @@
 				HEADER_SEARCH_PATHS = (
 					"../../wxMac-2.6.3/src/build/include/wx/",
 					"../../wxMac-2.6.3/include",
+					../clientgui,
 				);
 				INFOPLIST_FILE = Info.plist;
 				INSTALL_PATH = "$(USER_APPS_DIR)";
@@ -3015,6 +3052,7 @@
 					"-D__WXMAC__",
 					"-DSANDBOX",
 					"-DHAVE_STRCASECMP_IN_STRING_H",
+					"-DSIMPLEGUI",
 				);
 				OTHER_CFLAGS_i386 = "-DMAC_OS_X_VERSION_MAX_ALLOWED=1040 -DHAVE_CONFIG_H -D_FILE_OFFSET_BITS=64 -D_LARGE_FILES -DNO_GCC_PRAGMA -DNOCLIPBOARD -D_THREAD_SAFE -D__WXMAC__ -DHAVE_STRCASECMP_IN_STRING_H";
 				OTHER_CFLAGS_ppc = "-DMAC_OS_X_VERSION_MAX_ALLOWED=1030 -DHAVE_CONFIG_H -D_FILE_OFFSET_BITS=64 -D_LARGE_FILES -DNO_GCC_PRAGMA -DNOCLIPBOARD -D_THREAD_SAFE -D__WXMAC__ -DHAVE_STRCASECMP_IN_STRING_H";
@@ -3669,6 +3707,7 @@
 				HEADER_SEARCH_PATHS = (
 					"../../wxMac-2.6.3/src/build/include/wx/",
 					"../../wxMac-2.6.3/include",
+					../clientgui,
 				);
 				INFOPLIST_FILE = Info.plist;
 				INSTALL_PATH = "$(USER_APPS_DIR)";
@@ -3690,6 +3729,7 @@
 					"-DSANDBOX",
 					"-D_DEBUG",
 					"-DHAVE_STRCASECMP_IN_STRING_H",
+					"-DSIMPLEGUI",
 				);
 				OTHER_CPLUSPLUSFLAGS = "$(OTHER_CFLAGS)";
 				OTHER_LDFLAGS = (
@@ -3728,6 +3768,7 @@
 				HEADER_SEARCH_PATHS = (
 					"../../wxMac-2.6.3/src/build/include/wx/",
 					"../../wxMac-2.6.3/include",
+					../clientgui,
 				);
 				INFOPLIST_FILE = Info.plist;
 				INSTALL_PATH = "$(USER_APPS_DIR)";
@@ -3747,6 +3788,7 @@
 					"-D__WXMAC__",
 					"-DSANDBOX",
 					"-DHAVE_STRCASECMP_IN_STRING_H",
+					"-DSIMPLEGUI",
 				);
 				OTHER_CPLUSPLUSFLAGS = "$(OTHER_CFLAGS)";
 				OTHER_LDFLAGS = (
@@ -4271,6 +4313,7 @@
 				HEADER_SEARCH_PATHS = (
 					"../../wxMac-2.6.3/src/build/include/wx/",
 					"../../wxMac-2.6.3/include",
+					../clientgui,
 				);
 				INFOPLIST_FILE = Info.plist;
 				INSTALL_PATH = "$(USER_APPS_DIR)";
@@ -4290,6 +4333,7 @@
 					"-D__WXMAC__",
 					"-DSANDBOX",
 					"-DHAVE_STRCASECMP_IN_STRING_H",
+					"-DSIMPLEGUI",
 				);
 				OTHER_CPLUSPLUSFLAGS = "$(OTHER_CFLAGS)";
 				OTHER_LDFLAGS = (

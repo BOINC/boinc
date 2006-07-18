@@ -22,7 +22,7 @@
 #
 ##
 # Script to set up Macintosh to run BOINC client as a daemon / service
-# by Charlie Fenton 4/7/06
+# by Charlie Fenton 7/18/06
 ##
 
 ## Usage:
@@ -107,14 +107,26 @@ cat >> ~/boincStartupTemp/boinc << ENDOFFILE
 
 StartService ()
 {
-        if [ -d "/Library/Application Support/BOINC Data" ]; then 
-            echo "Starting BOINC"
+    if [ -x /Applications/BOINCManager.app/Contents/Resources/boinc ]; then
+       if [ -d "/Library/Application Support/BOINC Data" ]; then 
+            ConsoleMessage "Starting BOINC client"
             /Applications/BOINCManager.app/Contents/Resources/boinc -redirectio -dir "/Library/Application Support/BOINC Data/" &
+            echo \$! > /var/run/boinc.pid
         fi
+    fi
 }
 
 StopService ()
 {
+    if pid=\$(GetPID boinc); then
+	echo  PID = "\${pid}"
+        ConsoleMessage "Stopping BOINC client"
+	kill -TERM "\${pid}"
+    fi
+
+    if [ -e /var/run/boinc.pid ]; then
+	rm /var/run/boinc.pid
+    fi
     return 0
 }
 
