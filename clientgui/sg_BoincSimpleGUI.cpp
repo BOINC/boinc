@@ -118,7 +118,7 @@ CSimpleFrame::~CSimpleFrame()
     //
     pConfig->SetPath(strBaseConfigLocation);
     pConfig->Write(wxT("Skin"), skinName);
-    pConfig->Write(wxT("SkinPath"), skinFoldPath);
+    pConfig->Write(wxT("SkinFolderPath"), skinFoldPath);
 
 	if (m_pFrameRenderTimer) {
         m_pFrameRenderTimer->Stop();
