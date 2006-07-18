@@ -31,8 +31,6 @@
 #include "sg_ImageLoader.h"
 #include "sg_ViewTabPage.h"
 
-#define FILENAME "projects/member.chicago.ibm.com/proj_icon.png"
-
 IMPLEMENT_DYNAMIC_CLASS(CViewTabPage, wxPanel)
 
 enum{
@@ -66,20 +64,11 @@ void CViewTabPage::LoadSkinImages(){
 	CMainDocument* pDoc  = wxGetApp().GetDocument();
 	RESULT* result = pDoc->results.results[m_tabIndex];
 	std::string resolved_name;
-	//wxString projectsPref = wxString("projects");
 	std::string projectsPref = "projects";
-	//wxString projectIconName = wxString("proj_icon.png");
 	std::string projectIconName = "proj_icon.png";
 	wxString masterURL = wxString(result->project_url.c_str(), wxConvUTF8);
-	//wxString dirProjectGraphic = projectsPref + _T("/") + masterURL + _T("/") + projectIconName;
 	std::string dirProjectGraphic = projectsPref + "/" + result->project_url + "/" + projectIconName;
-	//int retval;
-	//retval = boinc_resolve_filename_s(dirProjectGraphic.c_str(), resolved_name);
-
-	const char *file = dirProjectGraphic.c_str();
-	//char ch[] = "aba daba do";
-    //char *cp = ch;
-
+	
 	char filename[256];
     int retval;
 	retval = boinc_resolve_filename(FILENAME, filename, sizeof(filename));
