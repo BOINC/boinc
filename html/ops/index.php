@@ -30,17 +30,20 @@ echo "
     Maintain and Modify database:
     <ul>
     <li><a href=\"profile_screen_form.php\">Screen user profiles for User of the Day</a>
-    <li><a href=\"forum_repair.php\">Forum repair</a>
-    <li><a href=\"team_repair.php\">Team repair</a>
-    <li><a href=\"repair_validator_problem.php\">Repair a validator problem</a>
-    <li><a href=\"update_forum_activities.php\">Update forum activities</a>
-    <li><a href=\"update_profile_pages.php\">Update profile pages</a> (Should run as cron-job)
-    <li><a href=\"update_uotd.php\">Update user of the day</a> (Should run as cron-job)
     <li><a href=\"create_account_form.php\">Create account</a>
     <li><a href=\"cancel_wu_form.php\">Cancel workunits</a>
     <li><a href=\"manage_special_users.php\">Manage special users</a>
     <li><a href=\"problem_host.php\">Email user with misconfigured host</a>
     <li><a href=\"mass_email.php\">Send mass email to a selected set of users</a>
+    <li> The following scripts should be run as periodic tasks,
+    not via this web page
+    (see http://boinc.berkeley.edu/project_tasks.php):
+    update_forum_activities.php,
+    update_profile_pages.php, update_uotd.php.
+    <li> The following scripts can be run manually on the command line
+    as needed (i.e. php script.php):
+    forum_repair.php, team_repair.php, repair_validator_problem.php.
+
 
     </ul>
     </table>

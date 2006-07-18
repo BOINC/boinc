@@ -7657,3 +7657,14 @@ Charlie 18 July 2006
         BOINCGUIApp.cpp
     mac_build/
         Make_BOINC_Service.sh
+
+David  18 July 2006
+    - admin web: removed links to update_*.php scripts.
+        These should be run as periodic tasks.
+        Also, they are intended to run as the admin user, not as Apache.
+
+    html/
+        inc/
+            stats_sites.inc
+        ops/
+            index.php

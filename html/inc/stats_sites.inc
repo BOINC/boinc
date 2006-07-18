@@ -19,6 +19,11 @@ $cpid_stats_sites = array(
 
 $stats_sites = array(
     array(
+        "http://stats.free-dc.org",
+        "Free-DC",
+        "Includes non-BOINC projects and completed projects."
+    ),
+    array(
         "http://boinc.mundayweb.com/",
         "boinc.mundayweb.com",
         "Developed by Neil Munday"

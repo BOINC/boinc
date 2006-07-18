@@ -337,7 +337,7 @@ $mac_changes_54= "
 ";
 
 $linux_libs_fedora_558= "
-    <li>Boinbcmgr no longer use statically linked libraries.
+    <li>Boincmgr no longer use statically linked libraries.
         The following shared libraries are needed for boincmgr to run:
       <ul>
         <li>/lib/ld-linux.so.2
@@ -401,7 +401,7 @@ $linux_libs_fedora_558= "
 ";
 
 $linux_libs_suse_558= "
-    <li>Boinbcmgr no longer use statically linked libraries.
+    <li>Boincmgr no longer use statically linked libraries.
         The following shared libraries are needed for boincmgr to run:
       <ul>
         <li>/lib/ld-linux.so.2
@@ -450,7 +450,7 @@ $linux_libs_suse_558= "
 ";
 
 $linux_libs_ubuntu_558= "
-    <li>Boinbcmgr no longer use statically linked libraries.
+    <li>Boincmgr no longer use statically linked libraries.
         The following shared libraries are needed for boincmgr to run:
       <ul>
         <li>/lib/ld-linux.so.2

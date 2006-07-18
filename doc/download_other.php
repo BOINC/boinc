@@ -75,8 +75,9 @@ list_item_array(array(
     <a href=http://wiki.debian.org/BOINC#Installation>wiki.debian.org</a>",
     "Debian Linux on alpha, amd64, arm, hppa, 
     i386, ia64, kfreebsd-i386, m68k, mips, mipsel, powerpc, s390 and sparc",
-    "<a href=http://packages.debian.org/boinc-client>BOINC core client</a>
-    and <a href=http://packages.debian.org/boinc-manager>BOINC manager</a>"
+     "<a href=http://packages.debian.org/boinc-client>BOINC core client</a>,
+     <a href=http://packages.debian.org/boinc-manager>BOINC manager</a>
+     and <a href=http://packages.debian.org/boinc-app-seti>SETI@home</a>"
 ));
 list_item_array(array(
     "<a href=http://calbe.dw70.de>Matthias Pilch</a>",
