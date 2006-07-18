@@ -44,7 +44,6 @@ extern bool is_statistics_file(const char*);
 extern void get_statistics_filename(char* master_url, char* path);
 extern bool is_image_file(const char*);
 
-extern void escape_project_url(char *in, char* out);
 extern void get_sched_request_filename(PROJECT&, char*);
 extern void get_sched_reply_filename(PROJECT&, char*);
 extern void get_master_filename(PROJECT&, char*);

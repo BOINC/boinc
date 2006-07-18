@@ -32,20 +32,11 @@
 
 #include "filesys.h"
 #include "error_numbers.h"
+#include "util.h"
 #include "client_msgs.h"
 #include "client_state.h"
-#include "util.h"
 
 #include "file_names.h"
-
-void escape_project_url(char *in, char* out) {
-    escape_url_readable(in, out);
-    char& last = out[strlen(out)-1];
-    // remove trailing _
-    if (last == '_') {
-        last = '\0';
-    }
-}
 
 void get_project_dir(PROJECT* p, char* path) {
     char buf[256];

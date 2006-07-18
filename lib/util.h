@@ -66,6 +66,7 @@ extern char* time_to_string(double);
 extern char* precision_time_to_string(double);
 extern std::string timediff_format(double);
 extern int read_file_string(const char* pathname, std::string& result);
+extern void escape_project_url(char *in, char* out);
 
 inline bool ends_with(std::string const& s, std::string const& suffix) {
     return

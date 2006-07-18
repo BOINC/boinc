@@ -904,6 +904,15 @@ void update_average(
     avg_time = now;
 }
 
+void escape_project_url(char *in, char* out) {
+    escape_url_readable(in, out);
+    char& last = out[strlen(out)-1];
+    // remove trailing _
+    if (last == '_') {
+        last = '\0';
+    }
+}
+
 void mysql_timestamp(double dt, char* p) {
     struct tm* tmp;
     time_t t = (time_t)dt;

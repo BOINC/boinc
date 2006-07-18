@@ -328,5 +328,10 @@ int boinc_resolve_filename_s(const char *virtual_name, string& physical_name) {
     return 0;
 }
 
+void url_to_project_dir(char* url, char* dir) {
+    char buf[256];
+    escape_project_url(url, buf);
+    sprintf(dir, "%s/%s", PROJECT_DIR, buf);
+}
 
 const char *BOINC_RCSID_3add42d20e = "$Id$";

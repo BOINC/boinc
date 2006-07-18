@@ -233,6 +233,9 @@ int parse_graphics_file(FILE* f, GRAPHICS_INFO* gi);
 #define UPLOAD_FILE_REQ_PREFIX      "boinc_ufr_"
 #define UPLOAD_FILE_STATUS_PREFIX   "boinc_ufs_"
 
+// other filenames
+#define PROJECT_DIR "projects"
+
 extern const char* xml_graphics_modes[NGRAPHICS_MSGS];
 extern int boinc_link(const char* phys_name, const char* logical_name);
 
@@ -246,7 +249,7 @@ extern int boinc_resolve_filename(const char*, char*, int len);
 } // extern "C" {
 #endif
 
-extern int boinc_resolve_filename_s(const char*, std::string&);
+extern void url_to_project_dir(char* url, char* dir);
 
 #endif
 

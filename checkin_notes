@@ -7616,3 +7616,13 @@ Charlie 17 July 2006
     mac_build/
         boinc.xcodeproj/
             project.pbxproj
+
+David  17 July 2006
+    - added function url_to_project_dir() in lib/ (for manager)
+    - moved escape_project_url() from client/ to lib/
+
+    client/
+        file_names.C,h
+    lib/
+        app_ipc.h
+        util.C,h
