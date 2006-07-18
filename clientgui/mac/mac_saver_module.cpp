@@ -142,6 +142,7 @@ const char *  BOINCSuspendedMsg = "BOINC is currently suspended.";
 const char *  BOINCNoAppsExecutingMsg = "BOINC is currently idle.";
 const char *  BOINCNoProjectsDetectedMsg = "BOINC is not attached to any projects. Please attach to projects using the BOINC Manager.";
 const char *  BOINCNoGraphicAppsExecutingMsg = "Project does not support screensaver graphics: ";
+const char *  BOINCNoGraphicsSupportedMsg = "This BOINC installation does not support screensaver graphics: ";
 const char *  BOINCUnrecoverableErrorMsg = "Sorry, an unrecoverable error occurred";
 const char *  BOINCTestmodeMg = "This BOINC screensaver does not support Test mode";
 //const char *  BOINCExitedSaverMode = "BOINC is no longer in screensaver mode.";
@@ -352,8 +353,10 @@ int drawGraphics(GrafPtr aPort) {
             break;
 #endif
         case SS_STATUS_NOGRAPHICSAPPSEXECUTING:
+        case SS_STATUS_DAEMONALLOWSNOGRAPHICS:
             if (msgBuf[0] == 0) {
-                strcpy(msgBuf, BOINCNoGraphicAppsExecutingMsg);
+                strcpy(msgBuf, (SaverState_CoreClientSetToSaverMode == SS_STATUS_NOGRAPHICSAPPSEXECUTING) ? 
+                                BOINCNoGraphicAppsExecutingMsg : BOINCNoGraphicsSupportedMsg);
                 setBannerText(msgBuf, aPort);
             }
             if (gStatusMessageUpdated) {

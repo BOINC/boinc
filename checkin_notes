@@ -7626,3 +7626,21 @@ David  17 July 2006
     lib/
         app_ipc.h
         util.C,h
+
+
+Charlie 17 July 2006
+    - Mac: Disable "Show Graphics" button and screensaver graphics when 
+        client running as a daemon; show warning dialog if user presses 
+        "Show Graphics" button during remote RPC.
+    - Added SS_STATUS_DAEMONALLOWSNOGRAPHICS for daemon case; Mac 
+        screensaver shows different message for daemon case.
+    
+    client/
+        client_state.C
+        ss_logic.C,h
+    clientgui/
+        ViewWork.cpp
+        /mac/
+            mac_saver_module.cpp
+    lib/
+        gui_rpc_client.h

@@ -132,7 +132,7 @@ void SS_LOGIC::poll() {
 
     if (gstate.disable_graphics) {
         reset();
-        ss_status = SS_STATUS_NOGRAPHICSAPPSEXECUTING;
+        ss_status = SS_STATUS_DAEMONALLOWSNOGRAPHICS;
         return;
     }
 

@@ -40,6 +40,8 @@
 #define SS_STATUS_QUIT                              8
     // not requested to provide SSG
 #define SS_STATUS_NOPROJECTSDETECTED                9
+    // SSG unsupported; client running as daemon
+#define SS_STATUS_DAEMONALLOWSNOGRAPHICS            10
 
 class SS_LOGIC {
 public:

@@ -77,6 +77,7 @@
 #define SS_STATUS_NOGRAPHICSAPPSEXECUTING           7
 #define SS_STATUS_QUIT                              8
 #define SS_STATUS_NOPROJECTSDETECTED                9
+#define SS_STATUS_DAEMONALLOWSNOGRAPHICS            10
 
 // see lib/app_ipc.h for explanation
 //

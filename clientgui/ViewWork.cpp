@@ -206,7 +206,7 @@ void CViewWork::OnWorkShowGraphics( wxCommandEvent& WXUNUSED(event) ) {
     pFrame->UpdateStatusText(_("Showing graphics for task..."));
 
     // TODO: implement hide as well as show
-#ifdef _WIN32
+#if (defined(_WIN32) || defined(__WXMAC__))
     pDoc->GetConnectedComputerName(strMachineName);
     if (!pDoc->IsComputerNameLocal(strMachineName)) {
         iAnswer = ::wxMessageBox(
