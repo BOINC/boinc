@@ -7609,3 +7609,10 @@ David  17 July 2006
         scheduler_ops.C
     lib/
         app_ipc.C
+
+Charlie 17 July 2006
+    - Fix lost changes from July 3 merge of simple gui and sandbox XCode projects.
+    
+    mac_build/
+        boinc.xcodeproj/
+            project.pbxproj
