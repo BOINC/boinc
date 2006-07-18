@@ -7668,3 +7668,11 @@ David  18 July 2006
             stats_sites.inc
         ops/
             index.php
+
+David  18 July 2006
+    - added scripts to convert to and from the ownership/protection
+        used by the new sandboxing system (Unix)
+
+    sea/
+        insecure.sh
+        secure.sh

@@ -77,6 +77,7 @@ $stats_sites = array(
 );
 
 $team_stats_sites = array(
+    array("http://www.spacepage.be/component/option,com_boinc/", "Spacepage"),
     array("http://boinc.radax.net/de_boinc.htm", "BOINC@Austria"),
     array("http://jmb.boinc.fr/", "L'Alliance Francophone"),
     array("http://boincdenmark.dk/", "BOINC@Denmark", "(Danish)"),
