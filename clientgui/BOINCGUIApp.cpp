@@ -446,15 +446,6 @@ bool CBOINCGUIApp::OnInit() {
         m_pBranding->GetApplicationSnoozeIcon()
     );
     wxASSERT(m_pTaskBarIcon);
-#ifdef __WXMAC__
-    m_pMacSystemMenu = new CMacSystemMenu(
-        m_pBranding->GetApplicationName(), 
-        m_pBranding->GetApplicationIcon(),
-        m_pBranding->GetApplicationDisconnectedIcon(),
-        m_pBranding->GetApplicationSnoozeIcon()
-    );
-    wxASSERT(m_pMacSystemMenu);
-#endif
 
     // Detect the display info and store for later use.
     DetectDisplayInfo();
@@ -466,6 +457,14 @@ bool CBOINCGUIApp::OnInit() {
     StartupBOINCCore();
 
 #ifdef __WXMAC__
+    m_pMacSystemMenu = new CMacSystemMenu(
+        m_pBranding->GetApplicationName(), 
+        m_pBranding->GetApplicationIcon(),
+        m_pBranding->GetApplicationDisconnectedIcon(),
+        m_pBranding->GetApplicationSnoozeIcon()
+    );
+    wxASSERT(m_pMacSystemMenu);
+
     ProcessSerialNumber psn;
     ProcessInfoRec pInfo;
     OSStatus err;
@@ -618,7 +617,7 @@ bool CBOINCGUIApp::IsBOINCCoreRunning() {
     wxLogTrace(wxT("Function Start/End"), wxT("CBOINCGUIApp::IsBOINCCoreRunning - Function Begin"));
 
     int retval;
-    bool running;
+    bool running = false;
     RPC_CLIENT rpc;
 
 #ifdef __WXMSW__
@@ -631,6 +630,18 @@ bool CBOINCGUIApp::IsBOINCCoreRunning() {
         rpc.close();
     }
     
+#elif defined __WXMAC__
+    // If set up to run as a daemon, allow time for daemon to start up
+    bool waitfordaemon = boinc_file_exists("/Library/StartupItems/boinc/boinc") && 
+                        (TickCount() < (120*60));     // If system has been up for less than 2 minutes
+    for (int i=0; i<10; i++) {
+        retval = rpc.init("localhost");  // synchronous is OK since local
+        running = (retval == 0);
+        rpc.close();
+        if (running) break;
+        if (! waitfordaemon) break;
+        sleep(1);
+    }
 #else
     retval = rpc.init("localhost");  // synchronous is OK since local
     running = (retval == 0);

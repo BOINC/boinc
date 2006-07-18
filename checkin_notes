@@ -7646,3 +7646,14 @@ Charlie 17 July 2006
             mac_saver_module.cpp
     lib/
         gui_rpc_client.h
+
+Charlie 18 July 2006
+    - Mac: If /Library/StartupItems/boinc/boinc is present to run Client 
+        as a daemon, Manager waits up to 10 seconds for daemon to launch.
+        - Improve shell script for setting up Mac to run BOINC Client as 
+            a daemon: add support for stop function.
+    
+    clientgui/
+        BOINCGUIApp.cpp
+    mac_build/
+        Make_BOINC_Service.sh
