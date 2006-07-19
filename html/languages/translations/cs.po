@@ -43,7 +43,7 @@ msgstr "Nainstalovaná"
 # Rules and Policies page (info.php)
 #########################################
 msgid "RULES_TITLE"
-msgstr "Pravidla a zásady"
+msgstr "Přečtěte si naše pravidla a zásady"
 
 msgid "RULES_ONLY_AUTH"
 msgstr "Používejte $PROJECT jen na autorizovaných počítačích"
@@ -194,16 +194,31 @@ msgid "CREATE_AC_PASSWORD"
 msgstr "Heslo"
 
 msgid "CREATE_AC_PASSWORD_DESC"
-msgstr "Musí mí délku aspoň %s znaků"
+msgstr "Musí mít délku aspoň %s znaků"
 
 msgid "CREATE_AC_CONFIRM_PASSWORD"
 msgstr "Heslo pro kontrolu"
+
+msgid  "AC_INVITE_CODE"
+msgstr "Pozvánkový kód"
+
+msgid  "AC_INVITE_CODE_DESC"
+msgstr "Pro vytvoření účtu je zapotřebí platný povánkový kód."
+
+msgid "AC_INVITE_REQUIRED"
+msgstr "Pro vytvoření účtu je třeba vložit pozvánkový kód."
+
+msgid "AC_INVITE_INVALID"
+msgstr "Vámi vložený pozvánkový kód je neplatný."
 
 #########################################
 # Forum sample index page
 #########################################
 msgid "FORUM_TITLE"
 msgstr "$PROJECT Diskuzní fórum"
+
+msgid "FORUM_TITLE_SHORT"
+msgstr "Diskuzní fórum"
 
 #########################################
 # General stuff (create_account_form.php and others)
@@ -228,7 +243,7 @@ msgid "TOTAL_CREDIT"
 msgstr "Celkový kredit"
 
 msgid "EXPAVG_CREDIT"
-msgstr "Průměrný nový kredit"
+msgstr "Současný průměrný kredit (RAC)"
 
 msgid "USER_TABLE_COUNTRY"
 msgstr "Země"
@@ -245,6 +260,24 @@ msgstr "Členů"
 #########################################
 # Forum
 #########################################
+msgid "FORUM_POSTS"
+msgstr "Příspěvků"
+
+msgid "FORUM_TOPIC"
+msgstr "Téma"
+
+msgid "FORUM_THREADS"
+msgstr "Vlákna"
+
+msgid "FORUM_LAST_POST"
+msgstr "Nejnovější příspěvek"
+
+msgid "FORUM_AUTHOR"
+msgstr "Autor"
+
+msgid "FORUM_VIEWS"
+msgstr "Shlédnuto"
+
 msgid "FORUM_ERR_NOT_FOUND"
 msgstr "Nenalezeno takové fórum"
 
@@ -300,8 +333,30 @@ msgid "FORUM_HTML_INFO"
 msgstr "Používejte BBCode tagy pro formátování Vašeho textu"
 
 #########################################
+# Forum thread
+#########################################
+
+msgid "FORUM_THREAD_HIDDEN"
+msgstr "Toto vlákno bylo schováno z administrativních důvodů"
+
+msgid "FORUM_THREAD_REPLY"
+msgstr "Reagovat na toto vlákno"
+
+msgid "FORUM_THREAD_SUBSCRIBED"
+msgstr "Jste zapsán u tohoto vlákna."
+
+msgid "FORUM_THREAD_UNSUBSCRIBE"
+msgstr "Klikněte zde pro zrušení zápisu"
+
+msgid "FORUM_THREAD_SUBSCRIBE"
+msgstr "Zapsat se k tomuto vláknu"
+
+#########################################
 # Forum search features
 #########################################
+msgid "FORUM SEARCH"
+msgstr "Hledat na fóru"
+
 msgid "FORUM_SEARCH_TITLES"
 msgstr "Nadpisy obsahující '%s'"
 
