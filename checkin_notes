@@ -7682,4 +7682,15 @@ Charlie 18 July 2006
     
     client/
         gui_rpc_server.C
-    
+
+Charlie 19 July 2006
+    -Mac: PostInstall.app repeatedly attempts to bind to BOINC RPC socket 
+        address as user boinc_master until the address becomes available, 
+        so BOINC Client will run properly when launched after installation.
+        - Fix XCode project script phases which were copying wrong info.plist 
+            files into PostInstall.app.
+    mac_installer/
+        PostInstall.cpp
+    mac_build/
+        boinc.xcodeproj/
+            project.pbxproj

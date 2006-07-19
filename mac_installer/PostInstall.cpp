@@ -30,6 +30,11 @@
 #include <sys/wait.h>	// waitpid
 #include <dirent.h>
 #include <sys/param.h>  // for MAXPATHLEN
+#include <sys/stat.h>   // for chmod
+#include <sys/socket.h>
+#include <netinet/in.h>
+#include <cerrno>
+
 
 #include "LoginItemAPI.h"  //please take a look at LoginItemAPI.h for an explanation of the routines available to you.
 
@@ -42,6 +47,7 @@ void SetLoginItem(long brandID);
 void SetUIDBackToUser (void);
 OSErr UpdateAllVisibleUsers(long brandID);
 long GetBrandID(void);
+int TestRPCBind(void);
 OSErr FindProcess (OSType typeToFind, OSType creatorToFind, ProcessSerialNumberPtr processSN);
 pid_t FindProcessPID(char* name, pid_t thePID);
 static OSErr QuitBOINCManager(OSType signature);
@@ -66,6 +72,8 @@ int main(int argc, char *argv[])
     FSRef                   fileRef;
     OSStatus                err, err_fsref;
     char                    *p;
+    uid_t                   savedeuid, b_m_uid;
+    passwd                  *pw;
 #ifndef SANDBOX
     char                    *q;
     group                   *grp;
@@ -98,7 +106,7 @@ int main(int argc, char *argv[])
     err = Gestalt(gestaltSystemVersion, &response);
     if (err != noErr)
         return err;
-    
+
     if (response < 0x1030) {
         ::SetFrontProcess(&ourProcess);
         // Remove everything we've installed
@@ -126,6 +134,8 @@ int main(int argc, char *argv[])
 
 	ExitToShell();
     }
+    
+    sleep (2);
     
     Success = false;
     
@@ -165,6 +175,24 @@ int main(int argc, char *argv[])
 //          print_to_log_file("check_security returned %d (repetition=%d)", err, i);
     }
     
+    // Wait for BOINC's RPC socket address to become available to user boinc_master, in
+    // case we are upgrading from a version which did not run as user boinc_master.
+    savedeuid = geteuid();
+
+    pw = getpwnam("boinc_master");
+    b_m_uid = pw->pw_uid;
+    seteuid(b_m_uid);
+
+    for (i=0; i<120; i++) {
+        err = TestRPCBind();
+        if (err == noErr)
+            break;
+
+        sleep(1);
+    }
+        
+    seteuid(savedeuid);
+
 #else   // ! defined(SANDBOX)
 
     // The BOINC Manager and Core Client have the set-user-ID-on-execution 
@@ -276,7 +304,6 @@ int DeleteReceipt()
     err = FindProcess ('APPL', 'xins', &installerPSN);
     if (err == noErr)
         err = GetProcessPID(&installerPSN , &installerPID);
-
 
    // Launch BOINC Manager when user closes installer or after 15 seconds
 
@@ -505,6 +532,36 @@ long GetBrandID()
 }
 
 
+int TestRPCBind()
+{
+    sockaddr_in addr;
+    int lsock;
+    int retval;
+    
+    lsock = (int)socket(AF_INET, SOCK_STREAM, 0);
+    if (lsock < 0)
+        return -153;
+
+    memset(&addr, 0, sizeof(addr));
+    addr.sin_family = AF_INET;
+    addr.sin_port = htons(31416);
+    addr.sin_addr.s_addr = htonl(INADDR_ANY);
+
+    int one = 1;
+    retval = setsockopt(lsock, SOL_SOCKET, SO_REUSEADDR, (char*)&one, 4);
+
+    if (! retval)
+        retval = bind(lsock, (const sockaddr*)(&addr), (socklen_t)sizeof(addr));
+
+    if (! retval)
+        retval = listen(lsock, 999);
+    
+    close(lsock);
+    
+    return retval;
+}
+
+
 // ---------------------------------------------------------------------------
 /* This runs through the process list looking for the indicated application */
 /*  Searches for process by file type and signature (creator code)          */
@@ -668,11 +725,13 @@ void print_to_log_file(const char *format, ...) {
 #if CREATE_LOG
     FILE *f;
     va_list args;
-    char buf[256];
+    char path[256], buf[256];
     time_t t;
-    strcpy(buf, getenv("HOME"));
-    strcat(buf, "/Documents/test_log.txt");
-    f = fopen(buf, "a");
+    strcpy(path, "/Users/Shared/test_log.txt");
+//    strcpy(path, "/Users/");
+//    strcat(path, getlogin());
+//    strcat(path, "/Documents/test_log.txt");
+    f = fopen(path, "a");
     if (!f) return;
 
 //  freopen(buf, "a", stdout);
@@ -692,6 +751,8 @@ void print_to_log_file(const char *format, ...) {
     fputs("\n", f);
     fflush(f);
     fclose(f);
+    chmod(path, S_IRUSR|S_IWUSR|S_IRGRP|S_IWGRP|S_IROTH|S_IWOTH);
+
 #endif
 }
 

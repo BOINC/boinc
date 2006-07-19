@@ -1978,14 +1978,14 @@
 			files = (
 			);
 			inputPaths = (
-				"${SRCROOT}/Info.plist",
+				"${SRCROOT}/Installer-Info.plist",
 			);
 			outputPaths = (
-				"${BUILT_PRODUCTS_DIR}/Postinstall.app/Contents/Info.plist",
+				"${BUILT_PRODUCTS_DIR}/BOINC Installer.app/Contents/Info.plist",
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "cp -fpv \"${SRCROOT}/Info.plist\" \"${BUILT_PRODUCTS_DIR}/Postinstall.app/Contents/Info.plist\"";
+			shellScript = "cp -fpv \"${SRCROOT}/Installer-Info.plist\" \"${BUILT_PRODUCTS_DIR}/BOINC Installer.app/Contents/Info.plist\"";
 		};
 		DD46A43A088D1BEE00052C57 /* ShellScript */ = {
 			isa = PBXShellScriptBuildPhase;
@@ -2038,14 +2038,14 @@
 			files = (
 			);
 			inputPaths = (
-				"${SRCROOT}/Info.plist",
+				"${SRCROOT}/PostInstall-Info.plist",
 			);
 			outputPaths = (
 				"${BUILT_PRODUCTS_DIR}/Postinstall.app/Contents/Info.plist",
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "cp -fpv \"${SRCROOT}/Info.plist\" \"${BUILT_PRODUCTS_DIR}/Postinstall.app/Contents/Info.plist\"";
+			shellScript = "cp -fpv \"${SRCROOT}/PostInstall-Info.plist\" \"${BUILT_PRODUCTS_DIR}/Postinstall.app/Contents/Info.plist\"";
 		};
 		DD5FD5B20A02351A0093C19F /* ShellScript */ = {
 			isa = PBXShellScriptBuildPhase;
