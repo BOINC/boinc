@@ -434,6 +434,7 @@ bool SCHEDULER_OP::poll() {
                     backoff(cur_proj, buf);
                 }
             }
+            gstate.request_work_fetch("Master fetch complete");
             cur_proj = NULL;
             return true;
         }

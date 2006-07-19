@@ -507,7 +507,7 @@ class Host:
         self.users = []
         self.projects = []
         self.global_prefs = None
-        self.log_flags = 'log_flags.xml'
+        self.cc_config = 'cc_config.xml'
         self.host_dir = os.path.join(options.hosts_dir, self.name)
         self.defargs = "-exit_when_idle -skip_cpu_benchmarks -return_results_immediately"
         # self.defargs = "-exit_when_idle -skip_cpu_benchmarks -sched_retry_delay_bin 1"
@@ -538,8 +538,8 @@ class Host:
             f.close()
 
         # copy log flags and global prefs, if any
-        if self.log_flags:
-            shutil.copy(self.log_flags, self.dir('log_flags.xml'))
+        if self.cc_config:
+            shutil.copy(self.cc_config, self.dir('cc_config.xml'))
         # if self.global_prefs:
         #     shell_call("cp %s %s" % (self.global_prefs, self.dir('global_prefs.xml')))
         #     # shutil.copy(self.global_prefs, self.dir('global_prefs.xml'))

@@ -378,15 +378,16 @@ class Project:
         config.db_passwd = options.db_passwd
         config.db_host = options.db_host
         config.shmem_key = generate_shmem_key()
-        config.output_level = 3
         config.uldl_dir_fanout = 1024
         local_host = socket.gethostname()
         config.host = local_host.split('.')[0]
-        config.min_sendwork_interval = 6
+        config.min_sendwork_interval = 0
         config.max_wus_to_send = 50
         config.daily_result_quota = 500
         config.disable_account_creation = 1
         config.show_results = 1
+        config.sched_debug_level = 3
+        config.fuh_debug_level = 3
 
         config.master_url    = master_url or os.path.join(options.html_url , self.short_name , '')
         config.download_url  = os.path.join(config.master_url, 'download')
@@ -398,6 +399,7 @@ class Project:
         config.app_dir       = os.path.join(self.project_dir, 'apps')
         if production:
             config.one_result_per_user_per_wu = '1'
+            config.min_sendwork_interval = 6
         self.scheduler_url = os.path.join(config.cgi_url     , 'cgi')
 
 

@@ -1,0 +1,13 @@
+<cc_config>
+    <log_flags>
+        <task/>
+        <file_xfer/>
+        <sched_ops/>
+        <cpu_sched/>
+        <cpu_sched_debug/>
+        <task_debug/>
+        <work_fetch_debug/>
+        <unparsed_xml/>
+        <sched_op_debug/>
+    </log_flags>
+</cc_config>

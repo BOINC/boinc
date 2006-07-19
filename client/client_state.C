@@ -297,7 +297,7 @@ int CLIENT_STATE::init() {
     // Has platform name changed?  If so reset all.
     // This could happen e.g. if user copies files from PPC to Intel Mac
     //
-    if (strcmp(platform_name, statefile_platform_name.c_str())) {
+    if (statefile_platform_name.size() && strcmp(platform_name, statefile_platform_name.c_str())) {
         msg_printf(NULL, MSG_INFO,
             "Platform changed from %s to %s - resetting projects",
             statefile_platform_name.c_str(), platform_name

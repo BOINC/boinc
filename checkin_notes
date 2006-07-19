@@ -7694,3 +7694,24 @@ Charlie 19 July 2006
     mac_build/
         boinc.xcodeproj/
             project.pbxproj
+
+David  19 July 2006
+    - make test_uc.py work again:
+        - request work fetch when master URL fetch completed
+        - set CGI and file upload handler debugging mode in test
+        - use cc_config.xml instead of log_flags.xml
+        - use min_sendwork_interval = 0 if test
+    - added some work fetch messages
+    - core client: only do "platform change" logic
+        if there was an original platform
+
+    client/
+        client_state.C
+        cs_scheduler.C
+        scheduler_op.C
+    py/Boinc/
+        setup_project.py
+    test/
+        cc_config.xml (new)
+        log_flags.xml (removed)
+        testbase.py

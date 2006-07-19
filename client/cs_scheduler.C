@@ -601,7 +601,15 @@ int CLIENT_STATE::compute_work_requests() {
 
         p->work_request = 0;
         p->work_request_urgency = WORK_FETCH_DONT_NEED;
-        if (!p->contactable()) continue;
+        if (!p->contactable()) {
+            if (log_flags.work_fetch_debug) {
+                msg_printf(0, MSG_INFO,
+                    "compute_work_requests(): project '%s' is not contactable",
+                    p->project_name
+                );
+            }
+            continue;
+        }
 
         // if system has been running in round robin,
         // then all projects will have a LT debt greater than 
@@ -617,6 +625,12 @@ int CLIENT_STATE::compute_work_requests() {
             && (overall_work_fetch_urgency != WORK_FETCH_NEED_IMMEDIATELY)
             && (prrs != p->resource_share)
         ) {
+            if (log_flags.work_fetch_debug) {
+                msg_printf(0, MSG_INFO,
+                    "compute_work_requests(): project '%s' is overworked",
+                    p->project_name
+                );
+            }
             continue;
         }
 
