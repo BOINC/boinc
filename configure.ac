@@ -17,6 +17,12 @@ AC_ARG_ENABLE(debug,
     [enable_debug=yes],
     [])
 
+AC_ARG_ENABLE(unicode, 
+    AS_HELP_STRING([--enable-unicode],
+                   [enable building the manager with unicode support]),
+    [enable_unicode=yes],
+    [])
+
 AC_ARG_ENABLE(server, 
     AS_HELP_STRING([--disable-server],
                    [disable building the scheduling server]),
@@ -28,12 +34,6 @@ AC_ARG_ENABLE(client,
                    [disable building the client]),
     [],
     [enable_client=yes])
-
-AC_ARG_ENABLE(unicode, 
-    AS_HELP_STRING([--disable-unicode],
-                   [disable building the manager with unicode support]),
-    [],
-    [enable_unicode=yes])
 
 m4_divert_once([HELP_ENABLE],
   AS_HELP_STRING([], [Default: --enable-server --enable-client: 
