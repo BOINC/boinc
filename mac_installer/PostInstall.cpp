@@ -42,7 +42,7 @@
 
 void Initialize(void);	/* function prototypes */
 int DeleteReceipt(void);
-OSStatus CheckLogoutRequirement(Boolean *logoutRequired);
+OSStatus CheckLogoutRequirement(int *finalAction);
 void SetLoginItem(long brandID);
 void SetUIDBackToUser (void);
 OSErr UpdateAllVisibleUsers(long brandID);
@@ -58,7 +58,12 @@ void strip_cr(char *buf);
 extern int check_security(char *bundlePath, char *dataPath);
 
 
-Boolean			gQuitFlag = false;	/* global */
+static Boolean                  gQuitFlag = false;	/* global */
+
+enum { launchWhenDone,
+        logoutRequired,
+        restartRequired
+    };
 
 int main(int argc, char *argv[])
 {
@@ -74,6 +79,7 @@ int main(int argc, char *argv[])
     char                    *p;
     uid_t                   savedeuid, b_m_uid;
     passwd                  *pw;
+    int                     finalInstallAction;
 #ifndef SANDBOX
     char                    *q;
     group                   *grp;
@@ -175,6 +181,9 @@ int main(int argc, char *argv[])
 //          print_to_log_file("check_security returned %d (repetition=%d)", err, i);
     }
     
+    err = CheckLogoutRequirement(&finalInstallAction);
+    
+    if (finalInstallAction != restartRequired) {
     // Wait for BOINC's RPC socket address to become available to user boinc_master, in
     // case we are upgrading from a version which did not run as user boinc_master.
     savedeuid = geteuid();
@@ -192,6 +201,7 @@ int main(int argc, char *argv[])
     }
         
     seteuid(savedeuid);
+    }
 
 #else   // ! defined(SANDBOX)
 
@@ -295,18 +305,19 @@ int DeleteReceipt()
     int                     i;
     pid_t                   installerPID = 0;
     OSStatus                err;
+    int                     finalInstallAction;
     FSRef                   fileRef;
-    Boolean                 needLogOut;
     OSStatus                err_fsref;
 
     Initialize();
+
+    err = CheckLogoutRequirement(&finalInstallAction);
 
     err = FindProcess ('APPL', 'xins', &installerPSN);
     if (err == noErr)
         err = GetProcessPID(&installerPSN , &installerPID);
 
    // Launch BOINC Manager when user closes installer or after 15 seconds
-
     for (i=0; i<15; i++) { // Wait 15 seconds max for installer to quit
         sleep (1);
         if (err == noErr)
@@ -325,9 +336,7 @@ int DeleteReceipt()
         err_fsref = FSPathMakeRef((StringPtr)"/Applications/BOINCManager.app", &fileRef, NULL);
     }
 
-    err = CheckLogoutRequirement(&needLogOut);
-
-    if (! needLogOut)
+    if (finalInstallAction == launchWhenDone)
         if (err_fsref == noErr)
             err = LSOpenFSRef(&fileRef, NULL);
 
@@ -335,7 +344,7 @@ int DeleteReceipt()
 }
 
 
-OSStatus CheckLogoutRequirement(Boolean *logoutRequired)
+OSStatus CheckLogoutRequirement(int *finalAction)
 {
     char                    path[MAXPATHLEN];
     FSRef                   infoPlistFileRef;
@@ -345,12 +354,14 @@ OSStatus CheckLogoutRequirement(Boolean *logoutRequired)
     CFPropertyListRef       propertyListRef = NULL;
     CFStringRef             restartKey = CFSTR("IFPkgFlagRestartAction");
     CFStringRef             currentValue = NULL;
-//    CFStringRef             valueLogoutRequired = CFSTR("RequiredLogout");
+//    CFStringRef             valueRestartRequired = CFSTR("RequiredRestart");
+    CFStringRef             valueLogoutRequired = CFSTR("RequiredLogout");
     CFStringRef             valueNoRestart = CFSTR("NoRestart");
     CFStringRef             errorString = NULL;
     OSStatus                err = noErr;
     
-    *logoutRequired = true;
+    
+    *finalAction = restartRequired;
     
     getcwd(path, sizeof(path));
     strlcat(path, "/Contents/Info.plist", sizeof(path));
@@ -381,9 +392,12 @@ OSStatus CheckLogoutRequirement(Boolean *logoutRequired)
             err = coreFoundationUnknownErr;
     }    
     
-    if (err == noErr)
-        if (CFStringCompare(currentValue, valueNoRestart, 0) == kCFCompareEqualTo)
-            *logoutRequired = false;
+    if (err == noErr) {
+        if (CFStringCompare(currentValue, valueLogoutRequired, 0) == kCFCompareEqualTo)
+            *finalAction = logoutRequired;
+        else if (CFStringCompare(currentValue, valueNoRestart, 0) == kCFCompareEqualTo)
+            *finalAction = launchWhenDone;
+    }
    
     if (xmlURL)
         CFRelease(xmlURL);

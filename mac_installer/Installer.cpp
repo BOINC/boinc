@@ -61,9 +61,11 @@ int main(int argc, char *argv[])
     CFPropertyListRef       propertyListRef = NULL;
     CFStringRef             restartKey = CFSTR("IFPkgFlagRestartAction");
     CFStringRef             currentValue = NULL, desiredValue = NULL;
+    CFStringRef             valueRestartRequired = CFSTR("RequiredRestart");
     CFStringRef             valueLogoutRequired = CFSTR("RequiredLogout");
     CFStringRef             valueNoRestart = CFSTR("NoRestart");
     CFStringRef             errorString = NULL;
+    long                    response;
     Boolean                 needLogout;
     OSStatus                err = noErr;
     
@@ -92,8 +94,22 @@ int main(int argc, char *argv[])
 
     strlcat(pkgPath, ".pkg", sizeof(pkgPath));
     
+    needLogout = false;
+    desiredValue = valueNoRestart;
+    
+    err = Gestalt(gestaltSystemVersion, &response);
+    if (err != noErr)
+        return err;
+    
+    if (response < 0x1040) {   // Logout is never needed on OS 10.4 and later    
     err = IsLogoutNeeded(&needLogout);
-    desiredValue = needLogout ? valueLogoutRequired : valueNoRestart;
+        if (needLogout) {
+            if (response < 0x1039)
+                desiredValue = valueRestartRequired;    // Restart is required before OS 10.3.9
+            else
+                desiredValue = valueLogoutRequired;    // Logout is requires and sufficient on OS 10.3.9
+        }
+    }
     
     strlcpy(infoPlistPath, pkgPath, sizeof(infoPlistPath));
     strlcat(infoPlistPath, "/Contents/Info.plist", sizeof(infoPlistPath));
@@ -163,8 +179,6 @@ int main(int argc, char *argv[])
 
 OSStatus IsLogoutNeeded(Boolean *result)
 {
-    long            response;
-    OSStatus        err = noErr;
     passwd          *pw = NULL;
     group           *grp = NULL;
     gid_t           boinc_master_gid = 0, boinc_project_gid = 0;
@@ -176,15 +190,6 @@ OSStatus IsLogoutNeeded(Boolean *result)
     
     *result = true;
 
-    err = Gestalt(gestaltSystemVersion, &response);
-    if (err != noErr)
-        return err;
-    
-    if (response >= 0x1040) {   // Logout is never needed on OS 10.4 and later
-        *result = false;
-        return noErr;
-    }
-    
     grp = getgrnam(boinc_master_group_name);
     if (grp == NULL)
         return noErr;       // Group boinc_master does not exist
@@ -283,10 +288,6 @@ OSStatus IsLogoutNeeded(Boolean *result)
     }               // End stepping through /Users directory
     
     closedir(dirp);
-
-
-
-
 
     *result = false;
 

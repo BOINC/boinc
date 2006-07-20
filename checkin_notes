@@ -7689,7 +7689,11 @@ Charlie 19 July 2006
         so BOINC Client will run properly when launched after installation.
         - Fix XCode project script phases which were copying wrong info.plist 
             files into PostInstall.app.
+        - If creating users and/or groups on OS < 10.3.9, installer requires 
+            a system restart.
+
     mac_installer/
+        Installer.cpp
         PostInstall.cpp
     mac_build/
         boinc.xcodeproj/
