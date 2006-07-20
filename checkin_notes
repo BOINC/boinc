@@ -7770,9 +7770,16 @@ David  20 July 2006
         log_flags.C,h
 
 David  20 July 2006
-	- core client: fix crashing if client state file has
+	- core client: fix crash if client state file has
 		<project_files> for a project with no account file.
 		Also shuffled logic of state file parsing to reduce indentation
 
 	client/
 		cs_statefile.C
+
+David  20 July 2006
+	- core client: fix crash if use <guirpc_debug/> flag,
+		and some GUI RPC reply is long (> 8K chars)
+
+	client/
+		gui_rpc_server_ops.C

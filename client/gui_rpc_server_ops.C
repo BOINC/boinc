@@ -950,12 +950,13 @@ int GUI_RPC_CONN::handle_rpc() {
     mf.printf("</boinc_gui_rpc_reply>\n\003");
     m.get_buf(p, n);
     if (p) {
+        send(sock, p, n, 0);
         if (log_flags.guirpc_debug) {
+            if (n > 1000) p[1000] = 0;
             msg_printf(0, MSG_INFO,
                 "GUI RPC reply: '%s'\n", p
             );
         }
-        send(sock, p, n, 0);
         free(p);
     }
 
