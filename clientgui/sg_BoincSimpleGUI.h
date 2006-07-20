@@ -29,6 +29,8 @@ class CViewTabPage;
 class StatImageLoader;
 class SkinClass;
 class ImageLoader;
+class CProjectsComponent;
+
 #include "common/wxAnimate.h"
 #include "common/wxFlatNotebook.h"
 
@@ -68,7 +70,7 @@ public:
 	wxString skinName;
 	wxString skinPath;
 	wxString skinFoldPath;
-	// My projects area
+	/* My projects area
 	std::vector<StatImageLoader*> m_statProjects; // vector of all project icons created for GUI
 	
 	wxImage *g_statIcn;
@@ -87,15 +89,11 @@ public:
     wxBitmap btmpArwRC; 
     wxBitmapButton *btnArwLeft;
 	wxBitmapButton *btnArwRight;
+	*/
+	CProjectsComponent *projComponent;
 	//Collapse button
 	bool midAppCollapsed;
 	bool btmAppCollapsed;
-	//Expand button
-    wxImage *g_expand;
-	wxImage *g_expandClick;
-	wxBitmap btmpExp; 
-    wxBitmap btmpExpClick; 
-	wxBitmapButton *btnExpand;
 	////////////////////////////
 	wxStaticText *st9c;
 	wxWindow *w11c;
@@ -127,8 +125,6 @@ public:
 	void LoadSkinImages();
 	void ReskinAppGUI();
 	void initAfter();
-	void MoveControlsUp();
-	void MoveControlsDown();
 	//////////
 	wxFlexGridSizer *mainSizer;
 	wxSize wxNotebookSize;

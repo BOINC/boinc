@@ -426,6 +426,12 @@
 					RelativePath="..\clientgui\sg_ImageLoader.h">
 				</File>
 				<File
+					RelativePath="..\clientgui\sg_ProjectsComponent.cpp">
+				</File>
+				<File
+					RelativePath="..\clientgui\sg_ProjectsComponent.h">
+				</File>
+				<File
 					RelativePath="..\clientgui\sg_SkinClass.cpp">
 				</File>
 				<File

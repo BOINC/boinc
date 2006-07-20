@@ -80,16 +80,6 @@ void CViewTabPage::LoadSkinImages(){
 	}else{
 		g_prjIcn = new wxImage(dirPref + appSkin->GetDefaultPrjIcn(), wxBITMAP_TYPE_PNG);
 	}
-	// collapse
-    //g_collapse = new wxImage(dirPref + appSkin->GetBtnCollapse(), wxBITMAP_TYPE_PNG);
-	//g_collapseClick = new wxImage(dirPref + appSkin->GetBtnCollapseClick(), wxBITMAP_TYPE_PNG);
-	//btmpCol= wxBitmap(g_collapse); 
-   // btmpColClick= wxBitmap(g_collapseClick); 
-	// expand
-   // g_expand = new wxImage(dirPref + appSkin->GetBtnExpand(), wxBITMAP_TYPE_PNG);
-	//g_expandClick = new wxImage(dirPref + appSkin->GetBtnExpandClick(), wxBITMAP_TYPE_PNG);
-	//btmpExp= wxBitmap(g_expand); 
-   // btmpExpClick= wxBitmap(g_expandClick); 
     //show graphic
     g_showGraphic = new wxImage(dirPref + appSkin->GetBtnShowGraphic(), wxBITMAP_TYPE_PNG);
 	g_showGraphicClick = new wxImage(dirPref + appSkin->GetBtnShowGraphicClick(), wxBITMAP_TYPE_PNG);
