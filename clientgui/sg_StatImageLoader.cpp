@@ -3,6 +3,8 @@
 #include "BOINCGUIApp.h"
 #include "sg_StatImageLoader.h" 
 #include "BOINCBaseFrame.h"
+//#include "sg_BoincSimpleGUI.h"
+
 
 enum{
 	WEBSITE_URL_MENU_ID = 34500,
@@ -17,11 +19,11 @@ BEGIN_EVENT_TABLE(StatImageLoader, wxWindow)
 		EVT_MENU(WEBSITE_URL_MENU_ID_REMOVE_PROJECT,StatImageLoader::OnMenuLinkClicked)
 END_EVENT_TABLE() 
 
-StatImageLoader::StatImageLoader(wxWindow* parent, std::string url) : wxWindow(parent, wxID_ANY, wxDefaultPosition, wxDefaultSize, wxNO_BORDER) 
+StatImageLoader::StatImageLoader(wxWindow* parent, std::string url,int index) : wxWindow(parent, wxID_ANY, wxDefaultPosition, wxDefaultSize, wxNO_BORDER) 
 {
 	m_parent = parent;
-    appSkin = SkinClass::Instance();
     m_prjUrl = url;
+	m_ProjIconIndex = index;
     CreateMenu();
 }
 
@@ -35,6 +37,8 @@ void StatImageLoader::CreateMenu()
 { 
 	CMainDocument* pDoc = wxGetApp().GetDocument();
     wxASSERT(pDoc);
+
+	appSkin = SkinClass::Instance();
 
 	PROJECT* project = pDoc->state.lookup_project(m_prjUrl);
 	int urlCount = project->gui_urls.size();
@@ -80,7 +84,8 @@ void StatImageLoader::OnMenuLinkClicked(wxCommandEvent& event)
 	 int menuIDevt =  event.GetId();
 
 	 if(menuIDevt == WEBSITE_URL_MENU_ID_REMOVE_PROJECT){
-		 //call detach project function		
+		 //call detach project function	
+         OnProjectDetach();
 	 }else{
          int menuId = menuIDevt - WEBSITE_URL_MENU_ID;
 	     PROJECT* project = pDoc->state.lookup_project(m_prjUrl);
@@ -94,6 +99,46 @@ void StatImageLoader::OnMenuLinkClicked(wxCommandEvent& event)
 	 }
   
 } 
+void StatImageLoader::OnProjectDetach() {
+    wxLogTrace(wxT("Function Start/End"), wxT("StatImageLoader::OnProjectDetach - Function Begin"));
+
+    wxInt32  iAnswer        = 0; 
+    std::string strProjectName;
+    wxString strMessage     = wxEmptyString;
+    CMainDocument* pDoc     = wxGetApp().GetDocument();
+
+    //CSimpleFrame* pFrame      = wxDynamicCast(GetParent()->GetParent(), CSimpleFrame);
+
+    wxASSERT(pDoc);
+    wxASSERT(wxDynamicCast(pDoc, CMainDocument));
+   // wxASSERT(pFrame);
+
+    if (!pDoc->IsUserAuthorized())
+        return;
+
+    PROJECT* project = pDoc->project(m_ProjIconIndex);
+    project->get_name(strProjectName);
+
+    strMessage.Printf(
+        _("Are you sure you want to detach from project '%s'?"), 
+        strProjectName.c_str()
+    );
+
+    iAnswer = ::wxMessageBox(
+        strMessage,
+        _("Detach from Project"),
+        wxYES_NO | wxICON_QUESTION,
+        this
+    );
+
+    if (wxYES == iAnswer) {
+        pDoc->ProjectDetach(m_ProjIconIndex);
+    }
+    //pFrame->FireRefreshView();
+
+    wxLogTrace(wxT("Function Start/End"), wxT("StatImageLoader::OnProjectDetach - Function End"));
+}
+
 
 void StatImageLoader::LoadImage(const wxImage& image) 
 { 

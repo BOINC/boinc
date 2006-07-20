@@ -342,13 +342,13 @@ void CViewTabPage::OnWorkShowGraphics() {
 
     if (wxYES == iAnswer) {
 		int x = 3;
-            /*pDoc->WorkShowGraphics(
-				m_pListPane->GetFirstSelected(),
+            pDoc->WorkShowGraphics(
+				m_tabIndex,
                 MODE_WINDOW,
                 wxGetApp().m_strDefaultWindowStation,
                 wxGetApp().m_strDefaultDesktop,
                 wxGetApp().m_strDefaultDisplay
-            );*/
+            );
     }
 
     //pFrame->FireRefreshView();

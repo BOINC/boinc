@@ -22,6 +22,8 @@
 #define _SIMPLEFRAME_H_
 
 class CViewTabPage;
+class ImageLoader;
+
 
 // Define a new frame
 class CSimpleFrame : public CBOINCBaseFrame

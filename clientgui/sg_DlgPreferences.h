@@ -1,3 +1,5 @@
+#ifndef _DLG_PREFERENCES_H_ 
+#define _DLG_PREFERENCES_H_ 
 
 #include "sg_SkinClass.h"
 
@@ -62,6 +64,5 @@ protected:
 
 //[win]end your code 
 };
-// end CDlgPreferences
 
-//#endif
+#endif  // end CDlgPreferences

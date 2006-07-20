@@ -341,7 +341,7 @@ void CSimpleFrame::InitSimpleClient()
 		// Project button
 		wxWindow *w_statW = new wxWindow(this,-1,wxPoint(60 + 52*j,460),wxSize(52,52));
 		wxToolTip *statToolTip = new wxToolTip(toolTipTxt);
-		StatImageLoader *i_statW = new StatImageLoader(w_statW,project->master_url);
+		StatImageLoader *i_statW = new StatImageLoader(w_statW,project->master_url,j);
 		// resolve the proj image 
 		url_to_project_dir((char*)project->master_url.c_str() ,urlDirectory);
         dirProjectGraphic = (std::string)urlDirectory + "/" + projectIconName;
