@@ -226,17 +226,18 @@ bool wxAnimationPlayer::PlayFrame(int frame, wxWindow& window, const wxPoint& WX
         // Draw background we saved
         dc.DrawBitmap(m_savedBackground, 0, 0);
     }
-
+	// CAUSING CPU TO GO UP TO 60 WHEN WE REACH LAST FEW FRAMES
     // Draw all intermediate frames that haven't been removed from the
     // animation
-    int i;
+    /*int i;
     for (i = 0; i < frame; i++)
     {
         if ((GetDisposalMethod(i) == wxANIM_DONOTREMOVE) || (GetDisposalMethod(i) == wxANIM_UNSPECIFIED))
         {
             DrawFrame(i, dc, wxPoint(0, 0));
         }
-    }
+    }*/
+	//DRAW THE FRAME 
     DrawFrame(frame, dc, wxPoint(0, 0));
 
     dc.SelectObject(wxNullBitmap);
