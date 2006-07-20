@@ -7719,3 +7719,12 @@ David  19 July 2006
         cc_config.xml (new)
         log_flags.xml (removed)
         testbase.py
+
+Charlie 20 July 2006
+    - Mac: Reverse change of 8 May 2006: remove mouse_move() routine and callback 
+        glutPassiveMotionFunc(mouse_move).  This did not help screensaver on OS 
+        10.3.x Macs respond to mouse moves, but did cause a confilct with Wacom 
+        tablet drivers (screensaver graphics quit immediately on starting.)
+        
+    api/
+        x_opengl.C
