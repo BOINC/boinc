@@ -21,9 +21,16 @@
 #ifndef _SIMPLEFRAME_H_
 #define _SIMPLEFRAME_H_
 
-class CViewTabPage;
-class ImageLoader;
+#if defined(__GNUG__) && !defined(__APPLE__)
+#pragma interface "sg_BoincSimpleGUI.cpp"
+#endif
 
+class CViewTabPage;
+class StatImageLoader;
+class SkinClass;
+class ImageLoader;
+#include "common/wxAnimate.h"
+#include "common/wxFlatNotebook.h"
 
 // Define a new frame
 class CSimpleFrame : public CBOINCBaseFrame

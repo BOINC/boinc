@@ -23,7 +23,6 @@
 
 #include "stdwx.h"
 #include "BOINCGUIApp.h"
-#include "MainDocument.h"
 #include "app_ipc.h"
 #include "common/wxAnimate.h"
 #include "common/wxFlatNotebook.h"

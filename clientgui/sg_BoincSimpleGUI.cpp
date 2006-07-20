@@ -24,25 +24,26 @@
 
 #include "stdwx.h"
 #include "BOINCGUIApp.h"
-#include "BOINCBaseFrame.h"
 #include "Events.h"
-#include "common/wxAnimate.h"
-#include "common/wxFlatNotebook.h"
-#include "sg_ImageLoader.h"
-#include "sg_DlgPreferences.h"
+#include "BOINCBaseFrame.h"
+
+#include "sg_BoincSimpleGUI.h"
 #include "sg_SkinClass.h"
+#include "sg_ImageLoader.h"
+#include "sg_StatImageLoader.h"
+#include "sg_ProjectsComponent.h"
 #include "sg_ViewTabPage.h"
-#include "error_numbers.h"
-#include "parse.h"
-#include <string>
+#include "sg_DlgPreferences.h"
+
 #include "wizardex.h"
 #include "BOINCWizards.h"
 #include "BOINCBaseWizard.h"
 #include "WizardAttachProject.h"
 #include "WizardAccountManager.h"
-#include "sg_StatImageLoader.h"
-#include "sg_BoincSimpleGUI.h"
 #include "app_ipc.h"
+#include "error_numbers.h"
+#include "parse.h"
+#include <string>
 
 #include "res/boinc.xpm"
 
