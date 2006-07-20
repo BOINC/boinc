@@ -7760,3 +7760,11 @@ David  20 July 2006
             sample_lapsed_html
             sample_lapsed_subject
             sample_lapsed_text
+
+David  20 July 2006
+    - core client: added "app_msg_debug" log flag.
+        Shows you shared-memory messages from apps
+
+    client/
+        app_control.C
+        log_flags.C,h

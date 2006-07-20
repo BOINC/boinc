@@ -125,6 +125,9 @@ list_item_func("<guirpc_debug>",
 list_item_func("<scrsave_debug>",
     "Debugging information about the screen saver."
 );
+list_item_func("<app_msg_debug>",
+    "Shared-memory messages from applications."
+);
 list_end();
 
 page_tail();

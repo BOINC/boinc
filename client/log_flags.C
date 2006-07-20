@@ -80,6 +80,7 @@ int LOG_FLAGS::parse(FILE* f) {
         else if (!strcmp(tag, "poll_debug")) poll_debug = get_bool(contents);
         else if (!strcmp(tag, "guirpc_debug")) guirpc_debug = get_bool(contents);
         else if (!strcmp(tag, "scrsave_debug")) scrsave_debug = get_bool(contents);
+        else if (!strcmp(tag, "app_msg_debug")) app_msg_debug = get_bool(contents);
         else {
             msg_printf(NULL, MSG_ERROR, "Unrecognized tag in %s: %s\n",
                 CONFIG_FILE, tag

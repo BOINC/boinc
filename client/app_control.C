@@ -870,6 +870,9 @@ bool ACTIVE_TASK::get_app_status_msg() {
     if (!app_client_shm.shm->app_status.get_msg(msg_buf)) {
         return false;
     }
+    if (log_flags.app_msg_debug) {
+        msg_printf(NULL, MSG_INFO, "slot %d msg: %s", slot, msg_buf);
+    }
     want_network = 0;
     current_cpu_time = checkpoint_cpu_time = 0.0;
     if (parse_double(msg_buf, "<fraction_done>", fd)) {

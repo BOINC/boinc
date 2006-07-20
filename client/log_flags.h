@@ -62,6 +62,7 @@ struct LOG_FLAGS {
     bool poll_debug;        // show what polls are responding
     bool guirpc_debug;
     bool scrsave_debug;
+    bool app_msg_debug;     // show shared-mem message from apps
 
     LOG_FLAGS();
     int parse(FILE*);
