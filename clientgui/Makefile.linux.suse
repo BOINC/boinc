@@ -33,8 +33,6 @@ stdwx.h.gch: stdwx.h
 .cpp.o:
 	$(CXX) $(CXXINCLUDES) $(CXXFLAGS) -c -o $*.o $<
 
-PROGS = boincmgr_strip
-
 OBJ = \
     stdwx.o \
     BOINCBaseView.o \
@@ -98,5 +96,7 @@ boincmgr: stdwx.h.gch $(OBJ)
 boincmgr_strip: boincmgr
 	cp boincmgr boincmgr.unmodified
 	strip boincmgr
+
+PROGS = boincmgr_strip
 
 all: $(PROGS)
