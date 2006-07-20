@@ -48,11 +48,11 @@ public:
 	wxWindow *w_iconPI;
 	// btns ////////////
 	// Collapse button
-	wxImage *g_collapse;
-	wxImage *g_collapseClick;
-	wxBitmap btmpCol; 
-    wxBitmap btmpColClick; 
-	wxBitmapButton *btnCollapse;
+	//wxImage *g_collapse;
+	//wxImage *g_collapseClick;
+	//wxBitmap btmpCol; 
+    //wxBitmap btmpColClick; 
+	//wxBitmapButton *btnCollapse;
 	//ShowGraphic button
     wxImage *g_showGraphic;
 	wxImage *g_showGraphicClick;
@@ -86,6 +86,7 @@ public:
     void CreatePage();
 	void UpdateInterface();
     void OnBtnClick(wxCommandEvent& event);
+	void OnWorkShowGraphics();
     
 	// Setters
 	void SetTabName(const std::string nme) { m_name = nme; }

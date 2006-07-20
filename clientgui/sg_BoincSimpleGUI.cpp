@@ -243,13 +243,6 @@ void CSimpleFrame::OnFrameRender(wxTimerEvent &event) {
 }
 
 
-wxWindow* CSimpleFrame::CreateNotebookPage()
-{
-	static int newPageCounter = 0;
-	wxString caption;
-	caption.Printf(_("Work Unit"));
-	return new wxWindow(this,-1,wxDefaultPosition,wxSize(370,330),wxNO_BORDER);
-}
 void CSimpleFrame::InitEmptyState()
 {
 	Show(false);
@@ -316,7 +309,7 @@ void CSimpleFrame::InitSimpleClient()
 	stMyProj->SetFont(wxFont(10,74,90,92,0,wxT("Tahoma")));
 	// Add Project <><><>
 	wxToolTip *ttAddProject = new wxToolTip(wxT("Add Project"));
-	btnAddProj=new wxBitmapButton(this,-1,*btmpBtnAttProjL,wxPoint(237,431),wxSize(96,20));
+	btnAddProj=new wxBitmapButton(this,-1,*btmpBtnAttProjL,wxPoint(293,431),wxSize(96,20));
 	btnAddProj->SetToolTip(ttAddProject);
 	// Collapse button
 	//wxToolTip *ttCollapse = new wxToolTip(wxT("Hide Graphic"));

@@ -123,7 +123,6 @@ public:
 	//////////
 	wxFlexGridSizer *mainSizer;
 	wxSize wxNotebookSize;
-	wxWindow* CreateNotebookPage();
 	//////////
 	wxBitmap *CSimpleFrameImg0;
 	wxBitmap *bm13cImg0;

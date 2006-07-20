@@ -82,10 +82,10 @@ void CViewTabPage::LoadSkinImages(){
 		g_prjIcn = new wxImage(dirPref + appSkin->GetDefaultPrjIcn(), wxBITMAP_TYPE_PNG);
 	}
 	// collapse
-    g_collapse = new wxImage(dirPref + appSkin->GetBtnCollapse(), wxBITMAP_TYPE_PNG);
-	g_collapseClick = new wxImage(dirPref + appSkin->GetBtnCollapseClick(), wxBITMAP_TYPE_PNG);
-	btmpCol= wxBitmap(g_collapse); 
-    btmpColClick= wxBitmap(g_collapseClick); 
+    //g_collapse = new wxImage(dirPref + appSkin->GetBtnCollapse(), wxBITMAP_TYPE_PNG);
+	//g_collapseClick = new wxImage(dirPref + appSkin->GetBtnCollapseClick(), wxBITMAP_TYPE_PNG);
+	//btmpCol= wxBitmap(g_collapse); 
+   // btmpColClick= wxBitmap(g_collapseClick); 
 	// expand
    // g_expand = new wxImage(dirPref + appSkin->GetBtnExpand(), wxBITMAP_TYPE_PNG);
 	//g_expandClick = new wxImage(dirPref + appSkin->GetBtnExpandClick(), wxBITMAP_TYPE_PNG);
@@ -166,17 +166,19 @@ void CViewTabPage::CreatePage()
 	lblTimeRemainingValue->SetLabel(strBuffer);
 	lblTimeRemainingValue->SetFont(wxFont(10,74,90,90,0,wxT("Tahoma")));
 	// show graphic button 
-	wxToolTip *ttShowGraphic = new wxToolTip(wxT("Launch Real-Time Graphics"));
-	btnShowGraphic=new wxBitmapButton(this,BTN_SHOW_GRAPHICS,btmpShwGrph,wxPoint(315,117),wxSize(24,24),wxSIMPLE_BORDER);
-	btnShowGraphic->SetBitmapSelected(btmpShwGrphClick);
-	btnShowGraphic->SetBackgroundColour(wxColour(255,255,255));
-	btnShowGraphic->SetToolTip(ttShowGraphic);
+	if (result->supports_graphics) {
+		wxToolTip *ttShowGraphic = new wxToolTip(wxT("Launch Real-Time Graphics"));
+		btnShowGraphic=new wxBitmapButton(this,BTN_SHOW_GRAPHICS,btmpShwGrph,wxPoint(333,116),wxSize(24,24),wxSIMPLE_BORDER);
+		btnShowGraphic->SetBitmapSelected(btmpShwGrphClick);
+		btnShowGraphic->SetBackgroundColour(wxColour(255,255,255));
+		btnShowGraphic->SetToolTip(ttShowGraphic);
+	}
 	// Collapse button
-	wxToolTip *ttCollapse = new wxToolTip(wxT("Hide Graphic"));
-	btnCollapse=new wxBitmapButton(this,BTN_COLLAPSE,btmpCol,wxPoint(338,117),wxSize(24,24),wxSIMPLE_BORDER);
-	btnCollapse->SetBitmapSelected(btmpColClick);
-	btnCollapse->SetBackgroundColour(wxColour(255,255,255));
-	btnCollapse->SetToolTip(ttCollapse);
+	//wxToolTip *ttCollapse = new wxToolTip(wxT("Hide Graphic"));
+	//btnCollapse=new wxBitmapButton(this,BTN_COLLAPSE,btmpCol,wxPoint(338,117),wxSize(24,24),wxSIMPLE_BORDER);
+	//btnCollapse->SetBitmapSelected(btmpColClick);
+	//btnCollapse->SetBackgroundColour(wxColour(255,255,255));
+	//btnCollapse->SetToolTip(ttCollapse);
 	// project image behind graphic <><><>
 	imgBgAnim=new wxStaticBitmap(this,-1,*btmpBgAnim,wxPoint(5,146),wxSize(358,176));
 	//// Animation Window
@@ -191,6 +193,7 @@ void CViewTabPage::CreatePage()
 	#endif
 	m_animationCtrl = new wxGIFAnimationCtrl(m_canvas, -1, wxEmptyString,
 		wxPoint(0, 0), wxSize(184, 184));
+	m_animationCtrl->GetPlayer().UseBackgroundColour(true);
 	m_animationCtrl->Stop();
 	if (m_animationCtrl->LoadFile(wxT("skins/default/graphic/molecule.gif")))
 	{
@@ -227,6 +230,7 @@ void CViewTabPage::OnBtnClick(wxCommandEvent& event){ //init function
 
 	if(event.GetId()==BTN_SHOW_GRAPHICS){
 		//refresh btn
+		OnWorkShowGraphics();
         btnShowGraphic->Refresh();
 	}else if(event.GetId()==BTN_COLLAPSE){
 	}
@@ -308,6 +312,49 @@ void CViewTabPage::SGUITimeFormat(float fBuff, wxString& strBuffer) const{
 	strBuffer = wxString(timeFormat.c_str(), wxConvUTF8);
 }
 
+void CViewTabPage::OnWorkShowGraphics() {
+    wxLogTrace(wxT("Function Start/End"), wxT("CViewWork::OnWorkShowGraphics - Function Begin"));
+
+    wxInt32  iAnswer        = 0; 
+    wxString strMachineName = wxEmptyString;
+    CMainDocument* pDoc     = wxGetApp().GetDocument();
+   // CAdvancedFrame* pFrame      = wxDynamicCast(GetParent()->GetParent()->GetParent(), CAdvancedFrame);
+
+    wxASSERT(pDoc);
+    wxASSERT(wxDynamicCast(pDoc, CMainDocument));
+
+    // TODO: implement hide as well as show
+#if (defined(_WIN32) || defined(__WXMAC__))
+    pDoc->GetConnectedComputerName(strMachineName);
+    if (!pDoc->IsComputerNameLocal(strMachineName)) {
+        iAnswer = ::wxMessageBox(
+            _("Are you sure you want to display graphics on a remote machine?"),
+            _("Show graphics"),
+            wxYES_NO | wxICON_QUESTION,
+            this
+        );
+    } else {
+        iAnswer = wxYES;
+    }
+#else
+    iAnswer = wxYES;
+#endif
+
+    if (wxYES == iAnswer) {
+		int x = 3;
+            /*pDoc->WorkShowGraphics(
+				m_pListPane->GetFirstSelected(),
+                MODE_WINDOW,
+                wxGetApp().m_strDefaultWindowStation,
+                wxGetApp().m_strDefaultDesktop,
+                wxGetApp().m_strDefaultDisplay
+            );*/
+    }
+
+    //pFrame->FireRefreshView();
+
+    wxLogTrace(wxT("Function Start/End"), wxT("CViewWork::OnWorkShowGraphics - Function End"));
+}
 // ---------------------------------------------------------------------------
 // MyCanvas
 // ---------------------------------------------------------------------------
