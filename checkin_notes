@@ -7728,3 +7728,12 @@ Charlie 20 July 2006
         
     api/
         x_opengl.C
+
+Bruce 20 July 2006
+    - On-line scheduler logs (readable by project participants): increase the
+      efficiency of the script that produces these log files by eliminating
+      un-necessary grepping of cgi.log.0
+
+    tools/
+        makelog.sh
+

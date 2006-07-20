@@ -44,9 +44,22 @@ while [ true ] ; do
     echo " "                                                                                      >> $filepath
     echo " "                                                                                      >> $filepath
 
+# determine which files to search.  Normally we just search cgi.log, but if the timestamp of cgi.log
+# and cgi.log.0 are within 300 seconds of each other, then we search both. The 10,000,000 case will
+# handle what happens if either $cgilogtime or $cgilog0time is not properly defined.
+
+    export cgilog0time=`ls --time-style=+%s -l ../log_*/cgi.log.0 | awk '{print $6}'`
+    export cgilogtime=$cgilog0time
+    export cgilogtime=`ls --time-style=+%s -l ../log_*/cgi.log | awk '{print $6}'`
+    export deltatime=$(($cgilogtime-$cgilog0time))
+    export filelist="../log_*/cgi.log"
+    if [ $deltatime -lt 300 ] || [ $deltatime -gt 10000000 ] ; then
+        export filelist="../log_*/cgi.log ../log_*/cgi.log.0"
+    fi
+
 # now grep for all log entries from 3 minutes ago.  Use sed to hide any sensitive info
 # such as authenticator and IP address.  Must
-    grep --no-filename "${currmin}" ../log_*/cgi.log ../log_*/cgi.log.0 | \
+    grep --no-filename "${currmin}" $filelist | \
     sed 's/authenticator .*//g; s/\[auth [^]]*\]//g; s/from [0-9.]*//g; s/auth [0-9a-f]*\,//g; s/\[IP [0-9.]*\]//g; s/\[USER#[0-9]*\]//g; s/IP [0-9.]*\,//g' >> $filepath 
     export lastmin=$currmin
   else
