@@ -117,7 +117,15 @@ int CLIENT_STATE::parse_state_file() {
         } else if (match_tag(buf, "<app>")) {
             APP* app = new APP;
             retval = app->parse(mf);
-            if (project && project->anonymous_platform) {
+            if (!project) {
+                msg_printf(NULL, MSG_ERROR,
+                    "Application %s outside project in state file",
+                    app->name
+                );
+                delete app;
+                continue;
+            }
+            if (project->anonymous_platform) {
                 delete app;
                 continue;
             }
@@ -126,86 +134,85 @@ int CLIENT_STATE::parse_state_file() {
                     "Can't parse application in state file"
                 );
                 delete app;
-            } else {
-                if (project) {
-                    retval = link_app(project, app);
-                    if (retval) {
-                        msg_printf(project, MSG_ERROR,
-                            "Can't handle application %s in state file",
-                            app->name
-                        );
-                        delete app;
-                    } else {
-                        apps.push_back(app);
-                    }
-                } else {
-                    msg_printf(NULL, MSG_ERROR,
-                        "Application %s outside project in state file",
-                        app->name
-                    );
-                    delete app;
-                }
+                continue;
             }
+            retval = link_app(project, app);
+            if (retval) {
+                msg_printf(project, MSG_ERROR,
+                    "Can't handle application %s in state file",
+                    app->name
+                );
+                delete app;
+                continue;
+		    }
+            apps.push_back(app);
         } else if (match_tag(buf, "<file_info>")) {
             FILE_INFO* fip = new FILE_INFO;
             retval = fip->parse(mf, false);
+            if (!project) {
+                msg_printf(NULL, MSG_ERROR,
+                    "File info outside project in state file"
+                );
+                delete fip;
+                continue;
+            }
             if (retval) {
                 msg_printf(NULL, MSG_ERROR,
                     "Can't handle file info in state file"
                 );
                 delete fip;
-            } else {
-                if (project) {
-                    retval = link_file_info(project, fip);
-                    if (project->anonymous_platform && retval == ERR_NOT_UNIQUE) {
-                        continue;
-                    }
-                    if (retval) {
-                        msg_printf(project, MSG_ERROR,
-                            "Can't handle file info %s in state file",
-                            fip->name
-                        );
-                        delete fip;
-                    } else {
-                        file_infos.push_back(fip);
-                        // If the file had a failure before,
-                        // don't start another file transfer
-                        //
-                        if (fip->had_failure(failnum)) {
-                            if (fip->pers_file_xfer) {
-                                delete fip->pers_file_xfer;
-                                fip->pers_file_xfer = NULL;
-                            }
-                        }
-
-                        if (fip->pers_file_xfer) {
-                            retval = fip->pers_file_xfer->init(fip, fip->upload_when_present);
-                            if (retval) {
-                                msg_printf(project, MSG_ERROR,
-                                    "Can't initialize file transfer for %s",
-                                    fip->name
-                                );
-                            }
-                            retval = pers_file_xfers->insert(fip->pers_file_xfer);
-                            if (retval) {
-                                msg_printf(project, MSG_ERROR,
-                                    "Can't start persistent file transfer for %s",
-                                    fip->name
-                                );
-                            }
-                        }
-                    }
-                } else {
-                    msg_printf(NULL, MSG_ERROR,
-                        "File info outside project in state file"
+                continue;
+            }
+            retval = link_file_info(project, fip);
+            if (project->anonymous_platform && retval == ERR_NOT_UNIQUE) {
+                delete fip;
+                continue;
+            }
+            if (retval) {
+                msg_printf(project, MSG_ERROR,
+                    "Can't handle file info %s in state file",
+                    fip->name
+                );
+                delete fip;
+                continue;
+            }
+            file_infos.push_back(fip);
+            // If the file had a failure before,
+            // don't start another file transfer
+            //
+            if (fip->had_failure(failnum)) {
+                if (fip->pers_file_xfer) {
+                    delete fip->pers_file_xfer;
+                    fip->pers_file_xfer = NULL;
+                }
+            }
+            if (fip->pers_file_xfer) {
+                retval = fip->pers_file_xfer->init(fip, fip->upload_when_present);
+                if (retval) {
+                    msg_printf(project, MSG_ERROR,
+                        "Can't initialize file transfer for %s",
+                        fip->name
                     );
-                    delete fip;
+                }
+                retval = pers_file_xfers->insert(fip->pers_file_xfer);
+                if (retval) {
+                    msg_printf(project, MSG_ERROR,
+                        "Can't start persistent file transfer for %s",
+                        fip->name
+                    );
                 }
             }
         } else if (match_tag(buf, "<app_version>")) {
             APP_VERSION* avp = new APP_VERSION;
             retval = avp->parse(mf);
-            if (project && project->anonymous_platform) {
+            if (!project) {
+                msg_printf(NULL, MSG_ERROR,
+                    "Application version outside project in state file"
+                );
+                delete avp;
+                continue;
+            }
+            if (project->anonymous_platform) {
                 delete avp;
                 continue;
             }
@@ -214,81 +221,80 @@ int CLIENT_STATE::parse_state_file() {
                     "Can't parse appliation version in state file"
                 );
                 delete avp;
-            } else {
-                if (project) {
-                    retval = link_app_version(project, avp);
-                    if (retval) {
-                        msg_printf(project, MSG_ERROR,
-                            "Can't handle application version in state file"
-                        );
-                        delete avp;
-                    } else {
-                        app_versions.push_back(avp);
-                    }
-                } else {
-                    msg_printf(NULL, MSG_ERROR,
-                        "Application version outside project in state file"
-                    );
-                    delete avp;
-                }
+                continue;
+            } 
+            retval = link_app_version(project, avp);
+            if (retval) {
+                msg_printf(project, MSG_ERROR,
+                    "Can't handle application version in state file"
+                );
+                delete avp;
+                continue;
             }
+            app_versions.push_back(avp);
         } else if (match_tag(buf, "<workunit>")) {
             WORKUNIT* wup = new WORKUNIT;
             retval = wup->parse(mf);
+            if (!project) {
+                msg_printf(NULL, MSG_ERROR,
+                    "Workunit outside project in state file"
+                );
+                delete wup;
+                continue;
+            }
             if (retval) {
                 msg_printf(NULL, MSG_ERROR,
                     "Can't parse workunit in state file"
                 );
                 delete wup;
-            } else {
-                if (project) {
-                    retval = link_workunit(project, wup);
-                    if (retval) {
-                        msg_printf(project, MSG_ERROR,
-                            "Can't handle workunit in state file"
-                        );
-                        delete wup;
-                    } else {
-                        workunits.push_back(wup);
-                    }
-                } else {
-                    msg_printf(NULL, MSG_ERROR,
-                        "Workunit outside project in state file"
-                    );
-                    delete wup;
-                }
+                continue;
             }
+            retval = link_workunit(project, wup);
+            if (retval) {
+                msg_printf(project, MSG_ERROR,
+                    "Can't handle workunit in state file"
+                );
+                delete wup;
+                continue;
+            }
+            workunits.push_back(wup);
         } else if (match_tag(buf, "<result>")) {
             RESULT* rp = new RESULT;
             retval = rp->parse_state(mf);
+            if (!project) {
+                msg_printf(NULL, MSG_ERROR,
+                    "Task %s outside project in state file",
+                    rp->name
+                );
+                delete rp;
+                continue;
+            }
             if (retval) {
                 msg_printf(NULL, MSG_ERROR,
                     "Can't parse task in state file"
                 );
                 delete rp;
-            } else {
-                if (project) {
-                    retval = link_result(project, rp);
-                    if (retval) {
-                        msg_printf(project, MSG_ERROR,
-                            "Can't link task %s in state file",
-                            rp->name
-                        );
-                        delete rp;
-                    } else {
-                        results.push_back(rp);
-                    }
-                } else {
-                    msg_printf(NULL, MSG_ERROR,
-                        "Task %s outside project in state file",
-                        rp->name
-                    );
-                    delete rp;
-                }
+                continue;
             }
+            retval = link_result(project, rp);
+            if (retval) {
+                msg_printf(project, MSG_ERROR,
+                    "Can't link task %s in state file",
+                    rp->name
+                );
+                delete rp;
+                continue;
+            }
+            results.push_back(rp);
         } else if (match_tag(buf, "<project_files>")) {
+            if (!project) {
+                msg_printf(NULL, MSG_ERROR,
+                    "Project files outside project in state file"
+                );
+                skip_unrecognized(buf, f);
+                continue;
+            }
             project->parse_project_files(f);
-            continue;
         } else if (match_tag(buf, "<host_info>")) {
             retval = host_info.parse(mf);
             if (retval) {

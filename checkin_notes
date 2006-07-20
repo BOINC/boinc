@@ -7768,3 +7768,11 @@ David  20 July 2006
     client/
         app_control.C
         log_flags.C,h
+
+David  20 July 2006
+	- core client: fix crashing if client state file has
+		<project_files> for a project with no account file.
+		Also shuffled logic of state file parsing to reduce indentation
+
+	client/
+		cs_statefile.C
