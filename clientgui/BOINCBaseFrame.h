@@ -41,7 +41,7 @@ class CBOINCBaseFrame : public wxFrame {
 public:
 
     CBOINCBaseFrame();
-    CBOINCBaseFrame::CBOINCBaseFrame(
+    CBOINCBaseFrame(
         wxWindow *parent,
         const wxWindowID id,
         const wxString& title,
