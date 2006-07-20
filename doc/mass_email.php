@@ -83,6 +83,13 @@ list_item("&lt;opt_out_url/&gt;",
     "URL for opting out (this URL includes a salted version
 of the participant's account key, and so is different for every participant).
 ");
+list_item("&lt;lapsed_interval/&gt;",
+    "The number of days since user's client contacted server
+    (defined only for lapsed users, see below)."
+);
+list_item("&lt;user_id/&gt;",
+    "The user ID (use this to form URLs)"
+);
 list_end();
 
 echo "

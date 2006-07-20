@@ -7737,3 +7737,26 @@ Bruce 20 July 2006
     tools/
         makelog.sh
 
+David  20 July 2006
+    - Added sample files for mass emails and reminder emails
+
+    html/ops/
+        mass_email_script.php
+        remind.php
+        mass_email/
+            sample_current_html
+            sample_current_subject
+            sample_current_text
+            sample_failed_html
+            sample_failed_subject
+            sample_failed_text
+            sample_lapsed_html
+            sample_lapsed_subject
+            sample_lapsed_text
+        remind_email/
+            sample_failed_html
+            sample_failed_subject
+            sample_failed_text
+            sample_lapsed_html
+            sample_lapsed_subject
+            sample_lapsed_text

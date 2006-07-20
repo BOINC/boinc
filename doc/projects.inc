@@ -2,6 +2,14 @@
 
 $projects = array(
     array(
+        "Malariacontrol.net",
+        "http://www.malariacontrol.net",
+        "The Swiss Tropical Institute",
+        "Epidemiology",
+        "Simulation models of the transmission dynamics and health effects of malaria are an important tool for malaria control. They can be used to determine optimal strategies for delivering mosquito nets, chemotherapy, or new vaccines which are currently under development and testing.  Such modeling is extremely computer intensive, requiring simulations of large human populations with a diverse set of parameters related to biological and social factors that influence the distribution of the disease. ",
+        "africaathome.gif"
+    ),
+    array(
         "Tanpaku",
         "http://issofty17.is.noda.tus.ac.jp/",
         "Tokyo University of Science",

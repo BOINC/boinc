@@ -115,12 +115,16 @@ function replace($user, $template) {
         '/<create_time\/>/',
         '/<total_credit\/>/',
         '/<opt_out_url\/>/',
+        '/<user_id\/>/',
+        '/<lapsed_interval\/>/',
     );
     $rep = array(
         $user->name,
         gmdate('d F Y', $user->create_time),
         number_format($user->total_credit, 0),
         URL_BASE."opt_out.php?code=".salted_key($user->authenticator)."&userid=$user->id",
+        $user->id,
+        $user->lapsed_interval,
     );
     return preg_replace($pat, $rep, $template);
 }
@@ -173,9 +177,9 @@ function handle_user($user, $email_files) {
     } else {
         $t = last_rpc_time($user);
         if ($t < time() - $lapsed_interval) {
+            $user->lapsed_interval = (time()-$t)/86400;
             if ($testing) {
-                $x = (time()-$t)/86400;
-                echo "nonzero credit, last RPC $x days ago, sending lapsed email\n";
+                echo "nonzero credit, last RPC $user->lapsed_interval days ago, sending lapsed email\n";
             }
             mail_type($user, $email_files['lapsed']);
         }

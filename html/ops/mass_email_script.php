@@ -35,6 +35,18 @@ $email_current_text = 'mass_email/current_text';
 $email_current_subject = 'mass_email/current_subject';
 $logfile = 'mass_email/log';
 
+// return time of last scheduler RPC from this user,
+// or zero if they're never done one
+//
+function last_rpc_time($user) {
+    $x = 0;
+    $result = mysql_query("select * from host where userid=$user->id");
+    while ($host = mysql_fetch_object($result)) {
+        if ($host->rpc_time > $x) $x = $host->rpc_time;
+    }
+    return $x;
+}
+
 function read_files(&$item) {
     $item['html'] = file_get_contents($item['html_file']);
     if (!$item['html']) {
@@ -91,12 +103,18 @@ function replace($user, $template) {
         '/<create_time\/>/',
         '/<total_credit\/>/',
         '/<opt_out_url\/>/',
+        '/<user_id\/>/',
+        '/<lapsed_interval\/>/',
+
     );
     $rep = array(
         $user->name,
         gmdate('d F Y', $user->create_time),
         number_format($user->total_credit, 0),
         URL_BASE."opt_out.php?code=".salted_key($user->authenticator)."&userid=$user->id",
+        $user->id,
+        $user->lapsed_interval,
+
     );
     return preg_replace($pat, $rep, $template);
 }
@@ -131,6 +149,8 @@ function handle_user($user, $email_files) {
     if ($user->total_credit == 0) {
         mail_type($user, $email_files['failed']);
     } else if ($user->expavg_credit < 1) {
+        $t = last_rpc_time($user);
+        $user->lapsed_interval = (time()-$t)/86400;
         mail_type($user, $email_files['lapsed']);
     } else {
         mail_type($user, $email_files['current']);

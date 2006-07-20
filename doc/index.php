@@ -49,7 +49,7 @@ function show_participate() {
     global $light_blue;
     echo "
         <tr><td bgcolor=$light_blue>
-            <font size=4>&nbsp;Participate</font>
+            <font size=4>&nbsp;Volunteer</font>
         </td></tr>
         <tr><td>
         <p>

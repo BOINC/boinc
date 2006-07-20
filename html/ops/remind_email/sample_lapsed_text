@@ -1,0 +1,22 @@
+Dear <name/>:
+
+We notice that you registered with Test Project on <create_time/>,
+and that we haven't yet credited you with any completed work
+in the last <lapsed_interval/> days.
+Your computing power is important to Test Project,
+and we hope that you resume computing with us soon.
+If you had problems running the software,
+please visit the Questions and Answers area of our web site at
+http://a.b.c/forum_help_desk.php
+You may find the solution to your problem there;
+if not, you can ask for help from project volunteers and staff.
+
+We also encourage you to fill out the BOINC user survey at
+http://boinc.berkeley.edu/poll.php
+to give us feedback on how to make Test Project more easy and fun to use.
+
+Thanks --
+The staff of Test Project
+
+To not get any more email from us, please visit
+<opt_out_url/>

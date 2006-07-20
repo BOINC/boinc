@@ -1,0 +1,34 @@
+<html>
+<body bgcolor=ffffff>
+<img align=right src=http://sample.project/logo.png>
+Dear <name/>:
+
+<p>
+We notice that you've contributed computing power to Test Project,
+but that we haven't yet credited you with any completed work
+in the last <lapsed_interval/> days.
+Your computing power is important to Test Project,
+and we hope that you resume computing with us soon.
+If you had problems running the software,
+please visit the
+<a href=http://a.b.c/forum_help_desk.php>Questions and Answers</a>
+area of our web site.
+You may find the solution to your problem there;
+if not, you can ask for help from project volunteers and staff.
+
+<p>
+We also encourage you to fill out the
+<a href=http://boinc.berkeley.edu/poll.php>BOINC user survey</a>
+to give us feedback on how to make Test Project more easy and fun to use.
+
+<p>
+Thanks --
+<p>
+The staff of Test Project
+
+<hr>
+<p>
+To not get any more email from us, please
+<a href=<opt_out_url/>>click here</a>.
+</body>
+</html>

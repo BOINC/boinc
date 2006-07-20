@@ -10,8 +10,11 @@ array("July 13, 2006",
 array("July 13, 2006",
     "Articles in <a href=http://www.economist.com/science/displayStory.cfm?story_id=7159442>The Economist</a>
     and <a href=http://www.webwire.com/ViewPressRel.asp?aId=16636>WebWire</a>
-    describe Africa@home, a recently-announced BOINC project
-    that studies malaria epidemiology.
+    describe <a href=http://africa-at-home.web.cern.ch/>Africa@home</a>,
+    an initiative that supports African humanitarian causes.
+    Their first BOINC-based project,
+    <a href=http://www.malariacontrol.net/>malariacontrol.net</a>,
+    studies malaria epidemiology.
     Africa@home is a collaboration of the Swiss Tropical Institute,
     CERN, and a group of universities (three of them from Africa).
     "
