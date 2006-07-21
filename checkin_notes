@@ -7854,4 +7854,5 @@ Rom    21 July 2006
         WelcomePage.cpp
         WizardAccountManager.cpp
         WizardAttachProject.cpp
-
+    lib/
+        gui_rpc_client.C
