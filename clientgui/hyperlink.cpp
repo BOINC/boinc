@@ -213,11 +213,11 @@ void wxHyperLink::ExecuteLink (const wxString &strLink) {
 
         cmd = ::wxGetenv(wxT("BROWSER"));
         if(cmd.IsEmpty()) {
-            if (    wxFile.Exists(wxT("/usr/bin/firefox"))) {
+            if (    wxFile::Exists(wxT("/usr/bin/firefox"))) {
                 cmd = wxT("/usr/bin/firefox");
-            } else (wxFile.Exists(wxT("/usr/bin/konqueror"))) {
+            } else (wxFile::Exists(wxT("/usr/bin/konqueror"))) {
                 cmd = wxT("/usr/bin/konqueror");
-            } else (wxFile.Exists(wxT("/usr/bin/mozilla"))) {
+            } else (wxFile::Exists(wxT("/usr/bin/mozilla"))) {
                 cmd = wxT("/usr/bin/mozilla");
             }
         }
