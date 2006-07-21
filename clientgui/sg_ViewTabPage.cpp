@@ -270,39 +270,31 @@ wxInt32 CViewTabPage::FormatTimeToCompletion(RESULT* rslt, wxString& strBuffer) 
 
     return 0;
 }
-void CViewTabPage::SGUITimeFormat(float fBuff, wxString& strBuffer) const{
-	float          fBuffer = fBuff;
+
+void CViewTabPage::SGUITimeFormat(float fBuffer, wxString& strBuffer) const {
 	wxInt32        iDay = 0;
     wxInt32        iHour = 0;
     wxInt32        iMin = 0;
     wxInt32        iSec = 0;
-	std::string    timeFormat;
-    std::string formatedUnit; // string to recive the number when doing conversion
-    char b[50]; // buffer of chars
-	int radix=10; // 2:bin, 8:octal, 10:dec, 16:hex
-	
+    wxString       strTemp;
+
+    strBuffer.clear();
+    strTemp.clear();
+
 	iDay = (wxInt32)(fBuffer / (60 * 60 * 60));
 	iHour = (wxInt32)(fBuffer / (60 * 60));
 	iMin  = (wxInt32)(fBuffer / 60) % 60;
 	iSec  = (wxInt32)(fBuffer) % 60;
 	
-	if(iDay !=0){
-		formatedUnit = itoa(iDay,b,radix);
-		timeFormat = formatedUnit + " days ";
-	}//else if(iHour !=0){
-		formatedUnit = itoa(iHour,b,radix);
-		timeFormat += formatedUnit + " hours ";
-	//}else if(iMin !=0){
-		formatedUnit = itoa(iMin,b,radix);
-		timeFormat += formatedUnit + " minutes ";
-	//}
-	formatedUnit = itoa(iSec,b,radix);
-	timeFormat += formatedUnit + " seconds";
-	strBuffer = wxString(timeFormat.c_str(), wxConvUTF8);
+	if (iDay) {
+        strTemp.Printf(_("%d days "), iDay);
+	}
+
+    strBuffer.Printf(_("%s%d hours %d minutes %d seconds"), strTemp.c_str(), iHour, iMin, iSec);
 }
 
 void CViewTabPage::OnWorkShowGraphics() {
-    wxLogTrace(wxT("Function Start/End"), wxT("CViewWork::OnWorkShowGraphics - Function Begin"));
+    wxLogTrace(wxT("Function Start/End"), wxT("CViewTabPage::OnWorkShowGraphics - Function Begin"));
 
     wxInt32  iAnswer        = 0; 
     wxString strMachineName = wxEmptyString;
@@ -342,7 +334,7 @@ void CViewTabPage::OnWorkShowGraphics() {
 
     //pFrame->FireRefreshView();
 
-    wxLogTrace(wxT("Function Start/End"), wxT("CViewWork::OnWorkShowGraphics - Function End"));
+    wxLogTrace(wxT("Function Start/End"), wxT("CViewTabPage::OnWorkShowGraphics - Function End"));
 }
 // ---------------------------------------------------------------------------
 // MyCanvas

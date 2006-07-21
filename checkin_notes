@@ -7783,3 +7783,10 @@ David  20 July 2006
 
 	client/
 		gui_rpc_server_ops.C
+
+Rom    20 July 2006
+    - Fix build break in the simple GUI when building for the Mac.  Using itoa
+        is overkill anyway.
+        
+    clientgui/
+        sg_ViewTabPage.cpp
