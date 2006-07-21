@@ -194,6 +194,11 @@
 		DDCAD7E30A6C603A0086C7EE /* sg_SkinClass.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DDCAD7D70A6C603A0086C7EE /* sg_SkinClass.cpp */; };
 		DDCAD7E50A6C603A0086C7EE /* sg_StatImageLoader.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DDCAD7D90A6C603A0086C7EE /* sg_StatImageLoader.cpp */; };
 		DDCAD7E70A6C603A0086C7EE /* sg_ViewTabPage.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DDCAD7DB0A6C603A0086C7EE /* sg_ViewTabPage.cpp */; };
+		DDCE78330A70BD55008218B6 /* wxAnimate.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DDCE782E0A70BD55008218B6 /* wxAnimate.cpp */; };
+		DDCE78350A70BD55008218B6 /* wxFlatNotebook.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DDCE78300A70BD55008218B6 /* wxFlatNotebook.cpp */; };
+		DDCE78390A70BDC6008218B6 /* app_ipc.C in Sources */ = {isa = PBXBuildFile; fileRef = AA8B6B1B046C364400A80164 /* app_ipc.C */; };
+		DDCE783B0A70BDFD008218B6 /* proxy_info.C in Sources */ = {isa = PBXBuildFile; fileRef = DD344BEF07C5B1770043025C /* proxy_info.C */; };
+		DDCE78400A70BF72008218B6 /* sg_ProjectsComponent.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DDCE783E0A70BF72008218B6 /* sg_ProjectsComponent.cpp */; };
 		DDD095490A3EDF2D00C95BA4 /* switcher.C in Sources */ = {isa = PBXBuildFile; fileRef = DDD095480A3EDF2D00C95BA4 /* switcher.C */; };
 		DDD74D8907CF48E50065AC9D /* acct_mgr.C in Sources */ = {isa = PBXBuildFile; fileRef = DD344B3D07C5ABF40043025C /* acct_mgr.C */; };
 		DDD74D8A07CF48E70065AC9D /* app.C in Sources */ = {isa = PBXBuildFile; fileRef = F54B8FC102AC0A0C01FB7237 /* app.C */; };
@@ -994,6 +999,13 @@
 		DDCAD7DA0A6C603A0086C7EE /* sg_StatImageLoader.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = sg_StatImageLoader.h; path = ../clientgui/sg_StatImageLoader.h; sourceTree = SOURCE_ROOT; };
 		DDCAD7DB0A6C603A0086C7EE /* sg_ViewTabPage.cpp */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.cpp.cpp; name = sg_ViewTabPage.cpp; path = ../clientgui/sg_ViewTabPage.cpp; sourceTree = SOURCE_ROOT; };
 		DDCAD7DC0A6C603A0086C7EE /* sg_ViewTabPage.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = sg_ViewTabPage.h; path = ../clientgui/sg_ViewTabPage.h; sourceTree = SOURCE_ROOT; };
+		DDCE782E0A70BD55008218B6 /* wxAnimate.cpp */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.cpp.cpp; name = wxAnimate.cpp; path = ../clientgui/common/wxAnimate.cpp; sourceTree = SOURCE_ROOT; };
+		DDCE782F0A70BD55008218B6 /* wxAnimate.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = wxAnimate.h; path = ../clientgui/common/wxAnimate.h; sourceTree = SOURCE_ROOT; };
+		DDCE78300A70BD55008218B6 /* wxFlatNotebook.cpp */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.cpp.cpp; name = wxFlatNotebook.cpp; path = ../clientgui/common/wxFlatNotebook.cpp; sourceTree = SOURCE_ROOT; };
+		DDCE78310A70BD55008218B6 /* wxFlatNotebook.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = wxFlatNotebook.h; path = ../clientgui/common/wxFlatNotebook.h; sourceTree = SOURCE_ROOT; };
+		DDCE78320A70BD55008218B6 /* wxFNBDropTarget.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = wxFNBDropTarget.h; path = ../clientgui/common/wxFNBDropTarget.h; sourceTree = SOURCE_ROOT; };
+		DDCE783E0A70BF72008218B6 /* sg_ProjectsComponent.cpp */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.cpp.cpp; name = sg_ProjectsComponent.cpp; path = ../clientgui/sg_ProjectsComponent.cpp; sourceTree = SOURCE_ROOT; };
+		DDCE783F0A70BF72008218B6 /* sg_ProjectsComponent.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = sg_ProjectsComponent.h; path = ../clientgui/sg_ProjectsComponent.h; sourceTree = SOURCE_ROOT; };
 		DDD0953F0A3EDD2500C95BA4 /* switcher */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = switcher; sourceTree = BUILT_PRODUCTS_DIR; };
 		DDD095480A3EDF2D00C95BA4 /* switcher.C */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.cpp.cpp; path = switcher.C; sourceTree = "<group>"; };
 		DDD74D8707CF482E0065AC9D /* boinc */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = boinc; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -1304,6 +1316,7 @@
 				DD81C40607C5D1020098A04D /* BOINCTaskCtrl.cpp */,
 				DD81C43807C5D2240098A04D /* BOINCTaskCtrl.h */,
 				DD58C43608F3347D00C1DF66 /* BOINCWizards.h */,
+				DDCE78220A70BD29008218B6 /* common */,
 				DD58C43708F3347D00C1DF66 /* CompletionErrorPage.cpp */,
 				DD58C43808F3347D00C1DF66 /* CompletionErrorPage.h */,
 				DD58C43908F3347D00C1DF66 /* CompletionPage.cpp */,
@@ -1350,6 +1363,8 @@
 				DDCAD7D40A6C603A0086C7EE /* sg_DlgPreferences.h */,
 				DDCAD7D50A6C603A0086C7EE /* sg_ImageLoader.cpp */,
 				DDCAD7D60A6C603A0086C7EE /* sg_ImageLoader.h */,
+				DDCE783E0A70BF72008218B6 /* sg_ProjectsComponent.cpp */,
+				DDCE783F0A70BF72008218B6 /* sg_ProjectsComponent.h */,
 				DDCAD7D70A6C603A0086C7EE /* sg_SkinClass.cpp */,
 				DDCAD7D80A6C603A0086C7EE /* sg_SkinClass.h */,
 				DDCAD7D90A6C603A0086C7EE /* sg_StatImageLoader.cpp */,
@@ -1390,6 +1405,18 @@
 			name = clientgui;
 			path = ../clientgui;
 			sourceTree = SOURCE_ROOT;
+		};
+		DDCE78220A70BD29008218B6 /* common */ = {
+			isa = PBXGroup;
+			children = (
+				DDCE782E0A70BD55008218B6 /* wxAnimate.cpp */,
+				DDCE782F0A70BD55008218B6 /* wxAnimate.h */,
+				DDCE78300A70BD55008218B6 /* wxFlatNotebook.cpp */,
+				DDCE78310A70BD55008218B6 /* wxFlatNotebook.h */,
+				DDCE78320A70BD55008218B6 /* wxFNBDropTarget.h */,
+			);
+			name = common;
+			sourceTree = "<group>";
 		};
 		DDF9385307E288F0004DC076 /* Documentation */ = {
 			isa = PBXGroup;
@@ -2203,6 +2230,11 @@
 				DDCAD7E30A6C603A0086C7EE /* sg_SkinClass.cpp in Sources */,
 				DDCAD7E50A6C603A0086C7EE /* sg_StatImageLoader.cpp in Sources */,
 				DDCAD7E70A6C603A0086C7EE /* sg_ViewTabPage.cpp in Sources */,
+				DDCE78330A70BD55008218B6 /* wxAnimate.cpp in Sources */,
+				DDCE78350A70BD55008218B6 /* wxFlatNotebook.cpp in Sources */,
+				DDCE78390A70BDC6008218B6 /* app_ipc.C in Sources */,
+				DDCE783B0A70BDFD008218B6 /* proxy_info.C in Sources */,
+				DDCE78400A70BF72008218B6 /* sg_ProjectsComponent.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

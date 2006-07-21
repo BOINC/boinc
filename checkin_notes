@@ -7803,3 +7803,10 @@ Rom    20 July 2006
         boincmgr_curl.vcproj
         libboinc.vcproj
 
+Charlie 21 July 2006
+    -Mac: Update HEAD branch XCode Project to include seven new files for Simple 
+        GUI.
+
+    mac_build/
+        boinc.xcodeproj/
+            project.pbxproj
