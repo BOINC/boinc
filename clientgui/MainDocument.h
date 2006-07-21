@@ -176,16 +176,26 @@ public:
 
     int                         GetWorkCount();
 
-    int                         WorkSuspend(int iIndex);
-    int                         WorkResume(int iIndex);
-    int                         WorkShowGraphics(
-                                    int iIndex,
-                                    int iGraphicsMode,
-                                    const wxString& strWindowStation,
-                                    const wxString& strDesktop,
-                                    const wxString& strDisplay
+    int                         WorkSuspend(
+                                    std::string& strProjectURL,
+                                    std::string& strName
                                 );
-    int                         WorkAbort(int iIndex);
+    int                         WorkResume(
+                                    std::string& strProjectURL,
+                                    std::string& strName
+                                );
+    int                         WorkShowGraphics(
+                                    std::string& strProjectURL,
+                                    std::string& strName,
+                                    int iGraphicsMode,
+                                    std::string& strWindowStation,
+                                    std::string& strDesktop,
+                                    std::string& strDisplay
+                                );
+    int                         WorkAbort(
+                                    std::string& strProjectURL,
+                                    std::string& strName
+                                );
 
 
     //

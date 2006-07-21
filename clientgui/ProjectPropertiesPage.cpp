@@ -305,7 +305,7 @@ wxBitmap CProjectPropertiesPage::GetBitmapResource( const wxString& name )
  * Get icon resources
  */
  
-wxIcon CProjectPropertiesPage::GetIconResource( const wxString& name )
+wxIcon CProjectPropertiesPage::GetIconResource( const wxString& WXUNUSED(name) )
 {
     // Icon retrieval
 ////@begin CProjectPropertiesPage icon retrieval
@@ -354,7 +354,7 @@ void CProjectPropertiesPage::OnCancel( wxWizardExEvent& event ) {
  * wxEVT_PROJECTPROPERTIES_STATECHANGE event handler for ID_PROJECTPROPERTIESPAGE
  */
  
-void CProjectPropertiesPage::OnStateChange( CProjectPropertiesPageEvent& event )
+void CProjectPropertiesPage::OnStateChange( CProjectPropertiesPageEvent& WXUNUSED(event) )
 {
     CMainDocument* pDoc        = wxGetApp().GetDocument();
     CWizardAttachProject* pWAP = ((CWizardAttachProject*)GetParent());

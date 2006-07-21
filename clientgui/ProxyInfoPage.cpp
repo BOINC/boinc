@@ -154,7 +154,7 @@ bool CErrProxyInfoPage::ShowToolTips()
  * Get bitmap resources
  */
  
-wxBitmap CErrProxyInfoPage::GetBitmapResource( const wxString& name )
+wxBitmap CErrProxyInfoPage::GetBitmapResource( const wxString& WXUNUSED(name) )
 {
     // Bitmap retrieval
 ////@begin CErrProxyInfoPage bitmap retrieval
@@ -166,7 +166,7 @@ wxBitmap CErrProxyInfoPage::GetBitmapResource( const wxString& name )
  * Get icon resources
  */
  
-wxIcon CErrProxyInfoPage::GetIconResource( const wxString& name )
+wxIcon CErrProxyInfoPage::GetIconResource( const wxString& WXUNUSED(name) )
 {
     // Icon retrieval
  

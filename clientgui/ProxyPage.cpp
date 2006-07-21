@@ -270,7 +270,7 @@ bool CErrProxyPage::ShowToolTips()
  * Get bitmap resources
  */
  
-wxBitmap CErrProxyPage::GetBitmapResource( const wxString& name )
+wxBitmap CErrProxyPage::GetBitmapResource( const wxString& WXUNUSED(name) )
 {
     // Bitmap retrieval
 ////@begin CErrProxyPage bitmap retrieval
@@ -282,7 +282,7 @@ wxBitmap CErrProxyPage::GetBitmapResource( const wxString& name )
  * Get icon resources
  */
  
-wxIcon CErrProxyPage::GetIconResource( const wxString& name )
+wxIcon CErrProxyPage::GetIconResource( const wxString& WXUNUSED(name) )
 {
     // Icon retrieval
 ////@begin CErrProxyPage icon retrieval
@@ -294,7 +294,7 @@ wxIcon CErrProxyPage::GetIconResource( const wxString& name )
  * wxEVT_WIZARD_PAGE_CHANGED event handler for ID_ERRPROXYCOMPLETIONPAGE
  */
  
-void CErrProxyPage::OnPageChanged( wxWizardExEvent& event ) {
+void CErrProxyPage::OnPageChanged( wxWizardExEvent& WXUNUSED(event) ) {
     CMainDocument* pDoc = wxGetApp().GetDocument();
     wxString       strBuffer = wxEmptyString;
 

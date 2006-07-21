@@ -260,7 +260,7 @@ void CWizardAttachProject::CreateControls()
  * Runs the wizard.
  */
  
-bool CWizardAttachProject::Run( wxString& strName, wxString& strURL, bool bCredentialsCached ) {
+bool CWizardAttachProject::Run( wxString& WXUNUSED(strName), wxString& strURL, bool bCredentialsCached ) {
     if (strURL.Length()) {
         m_ProjectInfoPage->SetProjectURL( strURL );
         m_bCredentialsCached = bCredentialsCached;
@@ -307,7 +307,7 @@ wxBitmap CWizardAttachProject::GetBitmapResource( const wxString& name )
  * Get icon resources
  */
  
-wxIcon CWizardAttachProject::GetIconResource( const wxString& name )
+wxIcon CWizardAttachProject::GetIconResource( const wxString& WXUNUSED(name) )
 {
     // Icon retrieval
 ////@begin CWizardAttachProject icon retrieval

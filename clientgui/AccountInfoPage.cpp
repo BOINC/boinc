@@ -225,7 +225,7 @@ bool CAccountInfoPage::ShowToolTips()
  * Get bitmap resources
  */
  
-wxBitmap CAccountInfoPage::GetBitmapResource( const wxString& name )
+wxBitmap CAccountInfoPage::GetBitmapResource( const wxString& WXUNUSED(name) )
 {
     // Bitmap retrieval
 ////@begin CAccountInfoPage bitmap retrieval
@@ -237,7 +237,7 @@ wxBitmap CAccountInfoPage::GetBitmapResource( const wxString& name )
  * Get icon resources
  */
  
-wxIcon CAccountInfoPage::GetIconResource( const wxString& name )
+wxIcon CAccountInfoPage::GetIconResource( const wxString& WXUNUSED(name) )
 {
     // Icon retrieval
 ////@begin CAccountInfoPage icon retrieval
@@ -489,7 +489,7 @@ void CAccountInfoPage::OnCancel( wxWizardExEvent& event ) {
  * wxEVT_COMMAND_RADIOBUTTON_SELECTED event handler for ID_ACCOUNTUSEXISTINGBUTTON
  */
  
-void CAccountInfoPage::OnAccountUseExistingCtrlSelected( wxCommandEvent& event ) {
+void CAccountInfoPage::OnAccountUseExistingCtrlSelected( wxCommandEvent& WXUNUSED(event) ) {
     m_pAccountPasswordStaticCtrl->SetLabel(
         _("&Password:")
     );
@@ -504,7 +504,7 @@ void CAccountInfoPage::OnAccountUseExistingCtrlSelected( wxCommandEvent& event )
  * wxEVT_COMMAND_RADIOBUTTON_SELECTED event handler for ID_ACCOUNTCREATEBUTTON
  */
  
-void CAccountInfoPage::OnAccountCreateCtrlSelected( wxCommandEvent& event ) {
+void CAccountInfoPage::OnAccountCreateCtrlSelected( wxCommandEvent& WXUNUSED(event) ) {
     m_pAccountPasswordStaticCtrl->SetLabel(
         _("Choose a &password:")
     );

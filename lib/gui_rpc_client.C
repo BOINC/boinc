@@ -219,7 +219,7 @@ int RPC_CLIENT::authorize(const char* passwd) {
     }
 
     sprintf(buf, "%s%s", nonce, passwd);
-    md5_block((const unsigned char*)buf, strlen(buf), nonce_hash);
+    md5_block((const unsigned char*)buf, (int)strlen(buf), nonce_hash);
     sprintf(buf, "<auth2/>\n<nonce_hash>%s</nonce_hash>\n", nonce_hash);
     retval = rpc.do_rpc(buf);
     if (retval) return retval;
@@ -245,7 +245,7 @@ int RPC_CLIENT::send_request(const char* p) {
         BOINC_RELEASE,
         p
     );
-    int n = send(sock, buf, strlen(buf), 0);
+    int n = send(sock, buf, (int)strlen(buf), 0);
     if (n < 0) {
         printf("send: %d\n", n);
         perror("send");

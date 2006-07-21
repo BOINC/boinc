@@ -7810,3 +7810,48 @@ Charlie 21 July 2006
     mac_build/
         boinc.xcodeproj/
             project.pbxproj
+
+Rom    21 July 2006
+    - Change document work function prototypes to be view agnostic.
+    - Fix numerious warnings in the manager. Down to 50 from 120.
+    
+    clientgui/
+        AccountInfoPage.cpp
+        AccountKeyPage.cpp
+        AccountManagerInfoPage.cpp
+        AccountManagerProcessingPage.cpp
+        AccountManagerPropertiesPage.cpp
+        AdvancedFrame.cpp
+        AlreadyAttachedPage.cpp
+        AlreadyExistsPage.cpp
+        BOINCBaseFrame.cpp
+        BOINCBaseWizard.cpp
+        BOINCGUIApp.cpp
+        BOINCTaskBar.cpp
+        CompletionErrorPage.cpp
+        CompletionPage.cpp
+        DlgSelectComputer.cpp
+        MainDocument.cpp, .h
+        NoInternetConnectionPage.cpp
+        NotDetectedPage.cpp
+        NotFoundPage.cpp
+        ProjectInfoPage.cpp
+        ProjectProcessingPage.cpp
+        ProjectPropertiesPage.cpp
+        ProxyInfoPage.cpp
+        ProxyPage.cpp
+        sg_BoincSimpleGUI.cpp
+        sg_DlgPreferences.cpp
+        sg_ImageLoader.cpp
+        sg_StatImageLoader.cpp
+        sg_ViewTabPage.cpp, .h
+        UnavailablePage.cpp
+        ValidateURL.cpp
+        ViewProjects.cpp
+        ViewResources.cpp
+        ViewTransfers.cpp
+        ViewWork.cpp, .h
+        WelcomePage.cpp
+        WizardAccountManager.cpp
+        WizardAttachProject.cpp
+

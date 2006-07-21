@@ -154,7 +154,7 @@ bool CCompletionPage::ShowToolTips()
  * Get bitmap resources
  */
  
-wxBitmap CCompletionPage::GetBitmapResource( const wxString& name )
+wxBitmap CCompletionPage::GetBitmapResource( const wxString& WXUNUSED(name) )
 {
     // Bitmap retrieval
 ////@begin CCompletionPage bitmap retrieval
@@ -166,7 +166,7 @@ wxBitmap CCompletionPage::GetBitmapResource( const wxString& name )
  * Get icon resources
  */
  
-wxIcon CCompletionPage::GetIconResource( const wxString& name )
+wxIcon CCompletionPage::GetIconResource( const wxString& WXUNUSED(name) )
 {
     // Icon retrieval
  

@@ -140,7 +140,7 @@ bool CErrAlreadyAttachedPage::ShowToolTips()
  * Get bitmap resources
  */
 
-wxBitmap CErrAlreadyAttachedPage::GetBitmapResource( const wxString& name )
+wxBitmap CErrAlreadyAttachedPage::GetBitmapResource( const wxString& WXUNUSED(name) )
 {
     // Bitmap retrieval
 ////@begin CErrAlreadyAttachedPage bitmap retrieval
@@ -152,7 +152,7 @@ wxBitmap CErrAlreadyAttachedPage::GetBitmapResource( const wxString& name )
  * Get icon resources
  */
 
-wxIcon CErrAlreadyAttachedPage::GetIconResource( const wxString& name )
+wxIcon CErrAlreadyAttachedPage::GetIconResource( const wxString& WXUNUSED(name) )
 {
     // Icon retrieval
 ////@begin CErrAlreadyAttachedPage icon retrieval

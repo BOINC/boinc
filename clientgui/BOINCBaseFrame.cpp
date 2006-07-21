@@ -434,7 +434,7 @@ bool CBOINCBaseFrame::SaveState() {
 
     pConfig->SetPath(strConfigLocation);
 
-    iItemCount = m_aSelectedComputerMRU.GetCount() - 1;
+    iItemCount = (int)m_aSelectedComputerMRU.GetCount() - 1;
     for (iIndex = 0; iIndex <= iItemCount; iIndex++) {
         strBuffer.Printf(wxT("%d"), iIndex);
         pConfig->Write(

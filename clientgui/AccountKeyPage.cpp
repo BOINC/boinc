@@ -179,7 +179,7 @@ bool CAccountKeyPage::ShowToolTips()
  * Get bitmap resources
  */
  
-wxBitmap CAccountKeyPage::GetBitmapResource( const wxString& name )
+wxBitmap CAccountKeyPage::GetBitmapResource( const wxString& WXUNUSED(name) )
 {
     // Bitmap retrieval
 ////@begin CAccountKeyPage bitmap retrieval
@@ -191,7 +191,7 @@ wxBitmap CAccountKeyPage::GetBitmapResource( const wxString& name )
  * Get icon resources
  */
 
-wxIcon CAccountKeyPage::GetIconResource( const wxString& name )
+wxIcon CAccountKeyPage::GetIconResource( const wxString& WXUNUSED(name) )
 {
     // Icon retrieval
 ////@begin CAccountKeyPage icon retrieval

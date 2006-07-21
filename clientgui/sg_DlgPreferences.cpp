@@ -240,7 +240,7 @@ void CDlgPreferences::OnCmbSelected(wxCommandEvent& event){ //init function
 	}
 } //end function
 
-void CDlgPreferences::VwXEvOnEraseBackground(wxEraseEvent& event){ //init function
+void CDlgPreferences::VwXEvOnEraseBackground(wxEraseEvent& WXUNUSED(event)){ //init function
  //[29b]Code event VwX...Don't modify[29b]//
  //add your code here
 

@@ -248,7 +248,7 @@ bool CWelcomePage::ShowToolTips()
  * Get bitmap resources
  */
  
-wxBitmap CWelcomePage::GetBitmapResource( const wxString& name )
+wxBitmap CWelcomePage::GetBitmapResource( const wxString& WXUNUSED(name) )
 {
     // Bitmap retrieval
 ////@begin CWelcomePage bitmap retrieval
@@ -260,7 +260,7 @@ wxBitmap CWelcomePage::GetBitmapResource( const wxString& name )
  * Get icon resources
  */
  
-wxIcon CWelcomePage::GetIconResource( const wxString& name )
+wxIcon CWelcomePage::GetIconResource( const wxString& WXUNUSED(name) )
 {
     // Icon retrieval
 ////@begin CWelcomePage icon retrieval

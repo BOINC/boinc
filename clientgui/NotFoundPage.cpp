@@ -141,7 +141,7 @@ bool CErrNotFoundPage::ShowToolTips()
  * Get bitmap resources
  */
  
-wxBitmap CErrNotFoundPage::GetBitmapResource( const wxString& name )
+wxBitmap CErrNotFoundPage::GetBitmapResource( const wxString& WXUNUSED(name) )
 {
     // Bitmap retrieval
 ////@begin CErrNotFoundPage bitmap retrieval
@@ -153,7 +153,7 @@ wxBitmap CErrNotFoundPage::GetBitmapResource( const wxString& name )
  * Get icon resources
  */
 
-wxIcon CErrNotFoundPage::GetIconResource( const wxString& name )
+wxIcon CErrNotFoundPage::GetIconResource( const wxString& WXUNUSED(name) )
 {
     // Icon retrieval
 ////@begin CErrNotFoundPage icon retrieval

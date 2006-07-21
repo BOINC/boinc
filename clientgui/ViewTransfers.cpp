@@ -313,7 +313,7 @@ wxInt32 CViewTransfers::EmptyCache() {
 
 
 wxInt32 CViewTransfers::GetCacheCount() {
-    return m_TransferCache.size();
+    return (wxInt32)m_TransferCache.size();
 }
 
 

@@ -140,7 +140,7 @@ bool CErrNoInternetConnectionPage::ShowToolTips()
  * Get bitmap resources
  */
 
-wxBitmap CErrNoInternetConnectionPage::GetBitmapResource( const wxString& name )
+wxBitmap CErrNoInternetConnectionPage::GetBitmapResource( const wxString& WXUNUSED(name) )
 {
     // Bitmap retrieval
 ////@begin CErrNoInternetConnectionPage bitmap retrieval
@@ -152,7 +152,7 @@ wxBitmap CErrNoInternetConnectionPage::GetBitmapResource( const wxString& name )
  * Get icon resources
  */
 
-wxIcon CErrNoInternetConnectionPage::GetIconResource( const wxString& name )
+wxIcon CErrNoInternetConnectionPage::GetIconResource( const wxString& WXUNUSED(name) )
 {
     // Icon retrieval
 ////@begin CErrNoInternetConnectionPage icon retrieval

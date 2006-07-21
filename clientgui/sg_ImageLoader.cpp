@@ -47,7 +47,7 @@ void ImageLoader::LoadImage(const wxImage& image)
         SetSize(width, height); 
 } 
 
-void ImageLoader::OnPaint(wxPaintEvent& event) 
+void ImageLoader::OnPaint(wxPaintEvent& WXUNUSED(event)) 
 { 
         wxPaintDC dc(this); 
         if(Bitmap.Ok()) 

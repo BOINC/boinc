@@ -217,7 +217,7 @@ void CAccountManagerProcessingPage::OnCancel( wxWizardExEvent& event ) {
  * wxEVT_ACCOUNTCREATION_STATECHANGE event handler for ID_ACCOUNTCREATIONPAGE
  */
  
-void CAccountManagerProcessingPage::OnStateChange( CAccountManagerProcessingPageEvent& event )
+void CAccountManagerProcessingPage::OnStateChange( CAccountManagerProcessingPageEvent& WXUNUSED(event) )
 {
     CMainDocument* pDoc         = wxGetApp().GetDocument();
     CWizardAccountManager* pWAM = ((CWizardAccountManager*)GetParent());
@@ -468,7 +468,7 @@ wxBitmap CAccountManagerProcessingPage::GetBitmapResource( const wxString& name 
  * Get icon resources
  */
 
-wxIcon CAccountManagerProcessingPage::GetIconResource( const wxString& name )
+wxIcon CAccountManagerProcessingPage::GetIconResource( const wxString& WXUNUSED(name) )
 {
     // Icon retrieval
 ////@begin CAccountManagerProcessingPage icon retrieval

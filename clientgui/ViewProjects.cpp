@@ -493,7 +493,7 @@ wxInt32 CViewProjects::EmptyCache() {
 
 
 wxInt32 CViewProjects::GetCacheCount() {
-    return m_ProjectCache.size();
+    return (wxInt32)m_ProjectCache.size();
 }
 
 

@@ -62,7 +62,7 @@ void CNetworkConnection::GetLocalPassword(wxString& strPassword){
     strcpy(buf, "");
     fgets(buf, 256, f);
     fclose(f);
-    int n = strlen(buf);
+    int n = (int)strlen(buf);
     if (n) {
         n--;
         if (buf[n]=='\n') {
@@ -710,7 +710,7 @@ int CMainDocument::GetProjectCount() {
     CachedStateUpdate();
 
     if (!state.projects.empty())
-        iCount = state.projects.size();
+        iCount = (int)state.projects.size();
 
     return iCount;
 }
@@ -860,90 +860,70 @@ int CMainDocument::GetWorkCount() {
     CachedStateUpdate();
 
     if (!results.results.empty())
-        iCount = results.results.size();
+        iCount = (int)results.results.size();
 
     return iCount;
 }
 
 
-int CMainDocument::WorkSuspend(int iIndex) {
-    RESULT* pResult = NULL;
-    RESULT* pStateResult = NULL;
+int CMainDocument::WorkSuspend(std::string& strProjectURL, std::string& strName) {
     int iRetVal = 0;
 
-    pResult = result(iIndex);
-
-    if (pResult) {
-        pStateResult = state.lookup_result(pResult->project_url, pResult->name);
-        if (pStateResult) {
-            iRetVal = rpc.result_op((*pStateResult), "suspend");
-        } else {
-            ForceCacheUpdate();
-        }
+    RESULT* pStateResult = state.lookup_result(strProjectURL, strName);
+    if (pStateResult) {
+        iRetVal = rpc.result_op((*pStateResult), "suspend");
+    } else {
+        ForceCacheUpdate();
     }
 
     return iRetVal;
 }
 
 
-int CMainDocument::WorkResume(int iIndex) {
-    RESULT* pResult = NULL;
-    RESULT* pStateResult = NULL;
+int CMainDocument::WorkResume(std::string& strProjectURL, std::string& strName) {
     int iRetVal = 0;
 
-    pResult = result(iIndex);
-
-    if (pResult) {
-        pStateResult = state.lookup_result(pResult->project_url, pResult->name);
-        if (pStateResult) {
-            iRetVal = rpc.result_op((*pStateResult), "resume");
-        } else {
-            ForceCacheUpdate();
-        }
+    RESULT* pStateResult = state.lookup_result(strProjectURL, strName);
+    if (pStateResult) {
+        iRetVal = rpc.result_op((*pStateResult), "resume");
+    } else {
+        ForceCacheUpdate();
     }
 
     return iRetVal;
 }
 
 
-int CMainDocument::WorkShowGraphics(int iIndex, int iGraphicsMode,
-    const wxString& strWindowStation, const wxString& strDesktop, const wxString& strDisplay) {
-    RESULT* pResult = NULL;
+int CMainDocument::WorkShowGraphics(
+    std::string& strProjectURL, std::string& strName, int iGraphicsMode,
+    std::string& strWindowStation, std::string& strDesktop, std::string& strDisplay)
+{
     int iRetVal = 0;
+    DISPLAY_INFO di;
 
-    pResult = result(iIndex);
-    if (pResult) {
-        DISPLAY_INFO di;
-        strcpy(di.window_station, strWindowStation.mb_str());
-        strcpy(di.desktop, strDesktop.mb_str());
-        strcpy(di.display, strDisplay.mb_str());
+    strcpy(di.window_station, strWindowStation.c_str());
+    strcpy(di.desktop, strDesktop.c_str());
+    strcpy(di.display, strDisplay.c_str());
 
-        iRetVal = rpc.show_graphics(
-            pResult->project_url.c_str(),
-            pResult->name.c_str(),
-            iGraphicsMode,
-            di
-        );
-    }
+    iRetVal = rpc.show_graphics(
+        strProjectURL.c_str(),
+        strName.c_str(),
+        iGraphicsMode,
+        di
+    );
 
     return iRetVal;
 }
 
 
-int CMainDocument::WorkAbort(int iIndex) {
-    RESULT* pResult = NULL;
-    RESULT* pStateResult = NULL;
+int CMainDocument::WorkAbort(std::string& strProjectURL, std::string& strName) {
     int iRetVal = 0;
 
-    pResult = result(iIndex);
-
-    if (pResult) {
-        pStateResult = state.lookup_result(pResult->project_url, pResult->name);
-        if (pStateResult) {
-            iRetVal = rpc.result_op((*pStateResult), "abort");
-        } else {
-            ForceCacheUpdate();
-        }
+    RESULT* pStateResult = state.lookup_result(strProjectURL, strName);
+    if (pStateResult) {
+        iRetVal = rpc.result_op((*pStateResult), "abort");
+    } else {
+        ForceCacheUpdate();
     }
 
     return iRetVal;
@@ -1002,7 +982,7 @@ int CMainDocument::GetMessageCount() {
     CachedStateUpdate();
 
     if (!messages.messages.empty())
-        iCount = messages.messages.size();
+        iCount = (int)messages.messages.size();
 
     return iCount;
 }
@@ -1065,7 +1045,7 @@ int CMainDocument::GetTransferCount() {
     CachedStateUpdate();
 
     if (!ft.file_transfers.empty())
-        iCount = ft.file_transfers.size();
+        iCount = (int)ft.file_transfers.size();
 
     return iCount;
 }
@@ -1148,7 +1128,7 @@ int CMainDocument::GetResourceCount() {
     CachedStateUpdate();
 
     if (!resource_status.projects.empty())
-        iCount = resource_status.projects.size();
+        iCount = (int)resource_status.projects.size();
 
     return iCount;
 }
@@ -1206,7 +1186,7 @@ int CMainDocument::GetStatisticsCount() {
     CachedStateUpdate();
 
     if (!statistics_status.projects.empty())
-        iCount = statistics_status.projects.size();
+        iCount = (int)statistics_status.projects.size();
 
     return iCount;
 }

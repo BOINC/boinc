@@ -121,7 +121,7 @@ void CTaskBarIcon::OnClose(wxCloseEvent& event) {
 }
 
 
-void CTaskBarIcon::OnRefresh(wxTimerEvent& event) {
+void CTaskBarIcon::OnRefresh(wxTimerEvent& WXUNUSED(event)) {
     wxLogTrace(wxT("Function Start/End"), wxT("CTaskBarIcon::OnRefresh - Function Begin"));
 
     CMainDocument* pDoc = wxGetApp().GetDocument();
@@ -219,7 +219,7 @@ void CTaskBarIcon::OnOpenWebsite(wxCommandEvent& WXUNUSED(event)) {
 }
 
 
-void CTaskBarIcon::OnSuspend(wxCommandEvent& event) {
+void CTaskBarIcon::OnSuspend(wxCommandEvent& WXUNUSED(event)) {
     wxLogTrace(wxT("Function Start/End"), wxT("CTaskBarIcon::OnSuspend - Function Begin"));
     CMainDocument* pDoc      = wxGetApp().GetDocument();
     wxInt32        iActivityMode = -1;
@@ -379,7 +379,7 @@ void CTaskBarIcon::OnMouseMove(wxTaskBarIconEvent& WXUNUSED(event)) {
                 strMessage += wxT("\n");
             }
 
-            iResultCount = pDoc->results.results.size();
+            iResultCount = (wxInt32)pDoc->results.results.size();
             for (iIndex = 0; iIndex < iResultCount; iIndex++) {
                 RESULT* result = wxGetApp().GetDocument()->result(iIndex);
                 RESULT* state_result = NULL;
@@ -543,7 +543,6 @@ wxMenu *CTaskBarIcon::BuildContextMenu() {
     wxFont             font          = wxNullFont;
 #ifdef __WXMSW__
     wxMenuItem*        pMenuItem     = NULL;
-    wxMenuItem*        menuItem      = NULL;
     size_t             loc = 0;
 #endif
 

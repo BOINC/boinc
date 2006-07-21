@@ -99,7 +99,7 @@ wxWizardPageEx* CBOINCBaseWizard::PushPageTransition( wxWizardPageEx* pCurrentPa
     return _PushPageTransition( pCurrentPage, ulPageID );
 }
 
-wxWizardPageEx* CBOINCBaseWizard::_PushPageTransition( wxWizardPageEx* pCurrentPage, unsigned long ulPageID )
+wxWizardPageEx* CBOINCBaseWizard::_PushPageTransition( wxWizardPageEx* WXUNUSED(pCurrentPage), unsigned long WXUNUSED(ulPageID) )
 {
     return NULL;
 }
@@ -117,7 +117,7 @@ void CBOINCBaseWizard::ProcessCancelEvent( wxWizardExEvent& event )
     _ProcessCancelEvent( event );
 }
 
-void CBOINCBaseWizard::_ProcessCancelEvent( wxWizardExEvent& event )
+void CBOINCBaseWizard::_ProcessCancelEvent( wxWizardExEvent& WXUNUSED(event) )
 {
 }
 

@@ -162,7 +162,7 @@ void CViewWork::OnWorkSuspend( wxCommandEvent& WXUNUSED(event) ) {
     wxLogTrace(wxT("Function Start/End"), wxT("CViewWork::OnWorkSuspend - Function Begin"));
 
     CMainDocument* pDoc     = wxGetApp().GetDocument();
-    CAdvancedFrame* pFrame      = wxDynamicCast(GetParent()->GetParent()->GetParent(), CAdvancedFrame);
+    CAdvancedFrame* pFrame  = wxDynamicCast(GetParent()->GetParent()->GetParent(), CAdvancedFrame);
 
     wxASSERT(pDoc);
     wxASSERT(wxDynamicCast(pDoc, CMainDocument));
@@ -174,11 +174,11 @@ void CViewWork::OnWorkSuspend( wxCommandEvent& WXUNUSED(event) ) {
     RESULT* result = pDoc->result(m_pListPane->GetFirstSelected());
     if (result->suspended_via_gui) {
         pFrame->UpdateStatusText(_("Resuming task..."));
-        pDoc->WorkResume(m_pListPane->GetFirstSelected());
+        pDoc->WorkResume(result->project_url, result->name);
         pFrame->UpdateStatusText(wxT(""));
     } else {
         pFrame->UpdateStatusText(_("Suspending task..."));
-        pDoc->WorkSuspend(m_pListPane->GetFirstSelected());
+        pDoc->WorkSuspend(result->project_url, result->name);
         pFrame->UpdateStatusText(wxT(""));
     }
 
@@ -194,7 +194,7 @@ void CViewWork::OnWorkShowGraphics( wxCommandEvent& WXUNUSED(event) ) {
     wxInt32  iAnswer        = 0; 
     wxString strMachineName = wxEmptyString;
     CMainDocument* pDoc     = wxGetApp().GetDocument();
-    CAdvancedFrame* pFrame      = wxDynamicCast(GetParent()->GetParent()->GetParent(), CAdvancedFrame);
+    CAdvancedFrame* pFrame  = wxDynamicCast(GetParent()->GetParent()->GetParent(), CAdvancedFrame);
 
     wxASSERT(pDoc);
     wxASSERT(wxDynamicCast(pDoc, CMainDocument));
@@ -223,13 +223,15 @@ void CViewWork::OnWorkShowGraphics( wxCommandEvent& WXUNUSED(event) ) {
 #endif
 
     if (wxYES == iAnswer) {
-            pDoc->WorkShowGraphics(
-                m_pListPane->GetFirstSelected(),
-                MODE_WINDOW,
-                wxGetApp().m_strDefaultWindowStation,
-                wxGetApp().m_strDefaultDesktop,
-                wxGetApp().m_strDefaultDisplay
-            );
+        RESULT* result = pDoc->result(m_pListPane->GetFirstSelected());
+        pDoc->WorkShowGraphics(
+            result->project_url,
+            result->name,
+            MODE_WINDOW,
+            std::string((const char*)wxGetApp().m_strDefaultWindowStation.mb_str()),
+            std::string((const char*)wxGetApp().m_strDefaultDesktop.mb_str()),
+            std::string((const char*)wxGetApp().m_strDefaultDisplay.mb_str())
+        );
     }
 
     pFrame->UpdateStatusText(wxT(""));
@@ -251,7 +253,7 @@ void CViewWork::OnWorkAbort( wxCommandEvent& WXUNUSED(event) ) {
     wxString strProgress    = wxEmptyString;
     wxString strStatus      = wxEmptyString;
     CMainDocument* pDoc     = wxGetApp().GetDocument();
-    CAdvancedFrame* pFrame      = wxDynamicCast(GetParent()->GetParent()->GetParent(), CAdvancedFrame);
+    CAdvancedFrame* pFrame  = wxDynamicCast(GetParent()->GetParent()->GetParent(), CAdvancedFrame);
 
     wxASSERT(pDoc);
     wxASSERT(pFrame);
@@ -286,7 +288,8 @@ void CViewWork::OnWorkAbort( wxCommandEvent& WXUNUSED(event) ) {
     );
 
     if (wxYES == iAnswer) {
-        pDoc->WorkAbort(m_pListPane->GetFirstSelected());
+        RESULT* result = pDoc->result(m_pListPane->GetFirstSelected());
+        pDoc->WorkAbort(result->project_url, result->name);
     }
 
     pFrame->UpdateStatusText(wxT(""));
@@ -428,7 +431,7 @@ wxInt32 CViewWork::EmptyCache() {
 
 
 wxInt32 CViewWork::GetCacheCount() {
-    return m_WorkCache.size();
+    return (wxInt32)m_WorkCache.size();
 }
 
 

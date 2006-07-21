@@ -166,7 +166,7 @@ wxInt32 CViewResources::EmptyCache()
 
 
 wxInt32 CViewResources::GetCacheCount() {
-    return m_ResourceCache.size();
+    return (wxInt32)m_ResourceCache.size();
 }
 
 

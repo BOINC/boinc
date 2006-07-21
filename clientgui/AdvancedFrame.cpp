@@ -712,7 +712,7 @@ bool CAdvancedFrame::SaveState() {
     //
  
     // Convert to a zero based index
-    iItemCount = m_pNotebook->GetPageCount() - 1;
+    iItemCount = (int)m_pNotebook->GetPageCount() - 1;
 
     for (iIndex = 0; iIndex <= iItemCount; iIndex++) {   
         pwndNotebookPage = m_pNotebook->GetPage(iIndex);
@@ -811,7 +811,7 @@ bool CAdvancedFrame::RestoreState() {
     //
 
     // Convert to a zero based index
-    iPageCount = m_pNotebook->GetPageCount() - 1;
+    iPageCount = (long)m_pNotebook->GetPageCount() - 1;
 
     for (iIndex = 0; iIndex <= iPageCount; iIndex++) {   
 

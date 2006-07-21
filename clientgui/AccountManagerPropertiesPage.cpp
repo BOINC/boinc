@@ -224,7 +224,7 @@ void CAccountManagerPropertiesPage::OnCancel( wxWizardExEvent& event ) {
  * wxEVT_PROJECTPROPERTIES_STATECHANGE event handler for ID_PROJECTPROPERTIESPAGE
  */
  
-void CAccountManagerPropertiesPage::OnStateChange( CAccountManagerPropertiesPageEvent& event )
+void CAccountManagerPropertiesPage::OnStateChange( CAccountManagerPropertiesPageEvent& WXUNUSED(event) )
 {
     CMainDocument* pDoc         = wxGetApp().GetDocument();
     CWizardAccountManager* pWAM = ((CWizardAccountManager*)GetParent());
@@ -496,7 +496,7 @@ wxBitmap CAccountManagerPropertiesPage::GetBitmapResource( const wxString& name 
  * Get icon resources
  */
 
-wxIcon CAccountManagerPropertiesPage::GetIconResource( const wxString& name )
+wxIcon CAccountManagerPropertiesPage::GetIconResource( const wxString& WXUNUSED(name) )
 {
     // Icon retrieval
 ////@begin CAccountManagerPropertiesPage icon retrieval

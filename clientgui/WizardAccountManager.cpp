@@ -298,7 +298,7 @@ wxBitmap CWizardAccountManager::GetBitmapResource( const wxString& name )
  * Get icon resources
  */
 
-wxIcon CWizardAccountManager::GetIconResource( const wxString& name )
+wxIcon CWizardAccountManager::GetIconResource( const wxString& WXUNUSED(name) )
 {
     // Icon retrieval
 ////@begin CWizardAccountManager icon retrieval

@@ -141,7 +141,7 @@ bool CErrUnavailablePage::ShowToolTips()
  * Get bitmap resources
  */
  
-wxBitmap CErrUnavailablePage::GetBitmapResource( const wxString& name )
+wxBitmap CErrUnavailablePage::GetBitmapResource( const wxString& WXUNUSED(name) )
 {
     // Bitmap retrieval
  
@@ -154,7 +154,7 @@ wxBitmap CErrUnavailablePage::GetBitmapResource( const wxString& name )
  * Get icon resources
  */
 
-wxIcon CErrUnavailablePage::GetIconResource( const wxString& name )
+wxIcon CErrUnavailablePage::GetIconResource( const wxString& WXUNUSED(name) )
 {
     // Icon retrieval
 

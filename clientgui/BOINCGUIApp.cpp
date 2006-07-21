@@ -997,24 +997,27 @@ int CBOINCGUIApp::ClientLibraryShutdown() {
 int CBOINCGUIApp::IsNetworkAlive(long* lpdwFlags) {
 #ifdef __WXMSW__
     return BOINCIsNetworkAlive(lpdwFlags);
-#endif
+#else
     return TRUE;
+#endif
 }
 
 
 int CBOINCGUIApp::IsNetworkAlwaysOnline() {
 #ifdef __WXMSW__
     return BOINCIsNetworkAlwaysOnline();
-#endif
+#else
     return TRUE;
+#endif
 }
 
 
 int CBOINCGUIApp::UpdateSystemIdleDetection() {
 #ifdef __WXMSW__
     return BOINCGetIdleTickCount();
+#else
+    return TRUE;
 #endif
-    return 0;
 }
 
 

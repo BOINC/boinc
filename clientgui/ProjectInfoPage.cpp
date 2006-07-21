@@ -184,7 +184,7 @@ bool CProjectInfoPage::ShowToolTips()
  * Get bitmap resources
  */
  
-wxBitmap CProjectInfoPage::GetBitmapResource( const wxString& name )
+wxBitmap CProjectInfoPage::GetBitmapResource( const wxString& WXUNUSED(name) )
 {
     // Bitmap retrieval
 ////@begin CProjectInfoPage bitmap retrieval
@@ -196,7 +196,7 @@ wxBitmap CProjectInfoPage::GetBitmapResource( const wxString& name )
  * Get icon resources
  */
  
-wxIcon CProjectInfoPage::GetIconResource( const wxString& name )
+wxIcon CProjectInfoPage::GetIconResource( const wxString& WXUNUSED(name) )
 {
     // Icon retrieval
 ////@begin CProjectInfoPage icon retrieval

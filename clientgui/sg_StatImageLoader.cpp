@@ -27,7 +27,7 @@ StatImageLoader::StatImageLoader(wxWindow* parent, std::string url,int index) : 
     CreateMenu();
 }
 
-void StatImageLoader::PopUpMenu(wxMouseEvent& event) 
+void StatImageLoader::PopUpMenu(wxMouseEvent& WXUNUSED(event)) 
 { 
 	// pop up menu
 	bool menuPoped = PopupMenu(statPopUpMenu);
@@ -149,7 +149,7 @@ void StatImageLoader::LoadImage(const wxImage& image)
 	SetSize(width, height); 
 } 
 
-void StatImageLoader::OnPaint(wxPaintEvent& event) 
+void StatImageLoader::OnPaint(wxPaintEvent& WXUNUSED(event)) 
 { 
         wxPaintDC dc(this); 
         if(Bitmap.Ok()) 

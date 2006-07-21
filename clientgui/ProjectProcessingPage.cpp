@@ -296,7 +296,7 @@ wxBitmap CProjectProcessingPage::GetBitmapResource( const wxString& name )
  * Get icon resources
  */
  
-wxIcon CProjectProcessingPage::GetIconResource( const wxString& name )
+wxIcon CProjectProcessingPage::GetIconResource( const wxString& WXUNUSED(name) )
 {
     // Icon retrieval
 ////@begin CProjectProcessingPage icon retrieval
@@ -341,7 +341,7 @@ void CProjectProcessingPage::OnCancel( wxWizardExEvent& event ) {
  * wxEVT_ACCOUNTCREATION_STATECHANGE event handler for ID_ACCOUNTCREATIONPAGE
  */
  
-void CProjectProcessingPage::OnStateChange( CProjectProcessingPageEvent& event )
+void CProjectProcessingPage::OnStateChange( CProjectProcessingPageEvent& WXUNUSED(event) )
 {
     CMainDocument* pDoc        = wxGetApp().GetDocument();
     CWizardAttachProject* pWAP = ((CWizardAttachProject*)GetParent());

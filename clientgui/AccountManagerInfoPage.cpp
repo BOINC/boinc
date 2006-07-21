@@ -239,7 +239,7 @@ bool CAccountManagerInfoPage::ShowToolTips()
  * Get bitmap resources
  */
 
-wxBitmap CAccountManagerInfoPage::GetBitmapResource( const wxString& name )
+wxBitmap CAccountManagerInfoPage::GetBitmapResource( const wxString& WXUNUSED(name) )
 {
     // Bitmap retrieval
 ////@begin CAccountManagerInfoPage bitmap retrieval
@@ -251,7 +251,7 @@ wxBitmap CAccountManagerInfoPage::GetBitmapResource( const wxString& name )
  * Get icon resources
  */
 
-wxIcon CAccountManagerInfoPage::GetIconResource( const wxString& name )
+wxIcon CAccountManagerInfoPage::GetIconResource( const wxString& WXUNUSED(name) )
 {
     // Icon retrieval
 ////@begin CAccountManagerInfoPage icon retrieval

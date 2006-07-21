@@ -76,8 +76,8 @@ bool CValidateURL::Validate(wxWindow *parent) {
         wxString strURL(canonicalize_url.c_str(), wxConvUTF8);
         wxString strServer(uri.GetServer());
         int iServerDotLocation = strServer.Find(wxT("."));
-        int iFirstPart = strServer.Mid(0, iServerDotLocation).Length();
-        int iSecondPart = strServer.Mid(iServerDotLocation + 1, wxSTRING_MAXLEN).Length();
+        int iFirstPart = (int)strServer.Mid(0, iServerDotLocation).Length();
+        int iSecondPart = (int)strServer.Mid(iServerDotLocation + 1, wxSTRING_MAXLEN).Length();
 
         if (-1 == iServerDotLocation) {
             ok = FALSE;

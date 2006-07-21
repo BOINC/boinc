@@ -215,8 +215,6 @@ void CViewTabPage::UpdateInterface()
 }
 
 void CViewTabPage::OnBtnClick(wxCommandEvent& event){ //init function
-	wxObject *m_wxBtnObj = event.GetEventObject();
-
 	if(event.GetId()==BTN_SHOW_GRAPHICS){
 		//refresh btn
 		OnWorkShowGraphics();
@@ -252,14 +250,9 @@ wxInt32 CViewTabPage::FormatCPUTime(RESULT* rslt, wxString& strBuffer) const {
 
 wxInt32 CViewTabPage::FormatTimeToCompletion(RESULT* rslt, wxString& strBuffer) const {
     float          fBuffer = 0;
-    wxInt32        iHour = 0;
-    wxInt32        iMin = 0;
-    wxInt32        iSec = 0;
-    wxTimeSpan     ts;
-    RESULT*        result = rslt;
 
-    if (result) {
-        fBuffer = result->estimated_cpu_time_remaining;
+    if (rslt) {
+        fBuffer = rslt->estimated_cpu_time_remaining;
     }
 
     if (0 >= fBuffer) {
@@ -322,7 +315,8 @@ void CViewTabPage::OnWorkShowGraphics() {
 #endif
 
     if (wxYES == iAnswer) {
-		int x = 3;
+/*
+        int x = 3;
             pDoc->WorkShowGraphics(
 				m_tabIndex,
                 MODE_WINDOW,
@@ -330,6 +324,7 @@ void CViewTabPage::OnWorkShowGraphics() {
                 wxGetApp().m_strDefaultDesktop,
                 wxGetApp().m_strDefaultDisplay
             );
+*/
     }
 
     //pFrame->FireRefreshView();

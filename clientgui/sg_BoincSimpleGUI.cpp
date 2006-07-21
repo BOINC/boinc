@@ -220,7 +220,7 @@ void CSimpleFrame::OnProjectsAttachToProject() {
     wxLogTrace(wxT("Function Start/End"), wxT("CAdvancedFrame::OnProjectsAttachToProject - Function End"));
 }
 
-void CSimpleFrame::OnFrameRender(wxTimerEvent &event) {
+void CSimpleFrame::OnFrameRender(wxTimerEvent& WXUNUSED(event)) {
 
 	CMainDocument* pDoc     = wxGetApp().GetDocument();
 	int retValue;
@@ -268,7 +268,7 @@ void CSimpleFrame::InitSimpleClient()
 	wrkUnitNB->SetNonActiveTabTextColour(wxColour(186,184,200));
 	wrkUnitNB->SetImageList(&m_ImageList);
 	//create work unit tabs
-	int resultCnt = pDoc->results.results.size();
+	int resultCnt = (int)pDoc->results.results.size();
 	
 	for(int i = 0; i < resultCnt; i++){
 		RESULT* result = pDoc->results.results[i];
@@ -346,12 +346,12 @@ void CSimpleFrame::UpdateClientGUI(){
 	
 	CMainDocument* pDoc     = wxGetApp().GetDocument();
 	//update GUI
-	int resultCnt = pDoc->results.results.size();
+	int resultCnt = (int)pDoc->results.results.size();
     wxString strBuffer = wxEmptyString;
     // Update Tabs
 	for(int i = 0; i < resultCnt; i++){
 		RESULT* result = pDoc->results.results[i];
-		RESULT* resState = pDoc->state.lookup_result(result->project_url, result->name);
+		//RESULT* resState = pDoc->state.lookup_result(result->project_url, result->name);
 		
 		// get tab window
 		CViewTabPage *currTab = m_windows[i];
@@ -375,9 +375,9 @@ void CSimpleFrame::UpdateClientGUI(){
 		
 	}
 	//Update Projects
-	int projCnt = pDoc->state.projects.size();
+	//int projCnt = (int)pDoc->state.projects.size();
 	//std::vector<StatImageLoader*> tempProjects;
-    unsigned int j;
+    //unsigned int j;
 	/*for(j = 0; j < pDoc->state.projects.size(); j++){
 		PROJECT* project = pDoc->state.projects[j];
 		
@@ -729,7 +729,7 @@ void CSimpleFrame::OnBtnClick(wxCommandEvent& event){ //init function
 	}
 }
 //end function
-void CSimpleFrame::OnPageChanged(wxFlatNotebookEvent& event)
+void CSimpleFrame::OnPageChanged(wxFlatNotebookEvent& WXUNUSED(event))
 {
 //	btnCollapse->Refresh();
 }

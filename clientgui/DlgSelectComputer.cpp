@@ -180,7 +180,7 @@ wxIcon CDlgSelectComputer::GetIconResource( const wxString& WXUNUSED(name) )
  * wxEVT_COMMAND_TEXT_UPDATED event handler for ID_SELECTCOMPUTERNAME
  */
 
-void CDlgSelectComputer::OnComputerNameUpdated( wxCommandEvent& event )
+void CDlgSelectComputer::OnComputerNameUpdated( wxCommandEvent& WXUNUSED(event) )
 {
     wxString       strPassword = wxEmptyString;
     CMainDocument* pDoc        = wxGetApp().GetDocument();
