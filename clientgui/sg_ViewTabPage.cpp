@@ -44,12 +44,13 @@ END_EVENT_TABLE()
 
 CViewTabPage::CViewTabPage() {}
 
-CViewTabPage::CViewTabPage(wxFlatNotebook* parent,int index,std::string name) :
+CViewTabPage::CViewTabPage(wxFlatNotebook* parent,int index,std::string name,std::string url) :
     wxPanel(parent, -1, wxDefaultPosition, wxSize(370,330), wxNO_BORDER)
 {
     wxASSERT(parent);
 	m_tabIndex = index;
 	m_name = name;
+	m_prjUrl = url;
     LoadSkinImages();
 
 	CreatePage();
@@ -314,17 +315,15 @@ void CViewTabPage::OnWorkShowGraphics() {
     iAnswer = wxYES;
 #endif
 
-    if (wxYES == iAnswer) {
-/*
-        int x = 3;
-            pDoc->WorkShowGraphics(
-				m_tabIndex,
-                MODE_WINDOW,
-                wxGetApp().m_strDefaultWindowStation,
-                wxGetApp().m_strDefaultDesktop,
-                wxGetApp().m_strDefaultDisplay
-            );
-*/
+	if (wxYES == iAnswer) {
+       pDoc->WorkShowGraphics(
+            m_prjUrl,
+            m_name,
+            MODE_WINDOW,
+            std::string((const char*)wxGetApp().m_strDefaultWindowStation.mb_str()),
+            std::string((const char*)wxGetApp().m_strDefaultDesktop.mb_str()),
+            std::string((const char*)wxGetApp().m_strDefaultDisplay.mb_str())
+        );
     }
 
     //pFrame->FireRefreshView();

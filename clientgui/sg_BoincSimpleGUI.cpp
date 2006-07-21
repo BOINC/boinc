@@ -283,7 +283,7 @@ void CSimpleFrame::InitSimpleClient()
 		std::string index = " ";
 		//index += i;
 		friendlyName += wxString(index.c_str(), wxConvUTF8 );
-		CViewTabPage *wTab = new CViewTabPage(wrkUnitNB,i,resState->name);
+		CViewTabPage *wTab = new CViewTabPage(wrkUnitNB,i,resState->name,resState->project_url);
 		wrkUnitNB->AddPage(wTab, friendlyName, true);	
 		if(result->active_task_state == 1){
 			 wrkUnitNB->SetPageImageIndex(i, 0); // this is working process

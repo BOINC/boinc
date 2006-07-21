@@ -33,6 +33,10 @@ public:
 	
 	//Skin Class
     SkinClass *appSkin;
+	char defaultIcnPath[256];
+	char urlDirectory[256];
+	std::string dirProjectGraphic;
+	std::string projectIconName;
 	// projects vector
 	std::vector<StatImageLoader*> m_statProjects; // vector of all project icons created for GUI
 	wxImage *g_statIcn;
@@ -67,6 +71,8 @@ public:
 protected:
 	int m_maxNumOfIcons;
 	int m_projCnt;
+	int m_leftIndex;
+	int m_rightIndex;
 	
 };
 

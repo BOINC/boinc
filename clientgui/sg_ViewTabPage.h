@@ -78,7 +78,7 @@ public:
 
     CViewTabPage();
     CViewTabPage(
-        wxFlatNotebook* parent, int index, std::string name
+		wxFlatNotebook* parent, int index, std::string name,std::string url
     );
     ~CViewTabPage();
 
@@ -103,6 +103,7 @@ protected:
 	int m_tabIndex;
     //tab identifier
 	std::string m_name;
+	std::string m_prjUrl;
 
 	wxInt32 FormatCPUTime( RESULT* rslt, wxString& strBuffer ) const;
     wxInt32 FormatTimeToCompletion( RESULT* rslt, wxString& strBuffer ) const;

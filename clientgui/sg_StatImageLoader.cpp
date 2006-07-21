@@ -19,7 +19,7 @@ BEGIN_EVENT_TABLE(StatImageLoader, wxWindow)
 		EVT_MENU(WEBSITE_URL_MENU_ID_REMOVE_PROJECT,StatImageLoader::OnMenuLinkClicked)
 END_EVENT_TABLE() 
 
-StatImageLoader::StatImageLoader(wxWindow* parent, std::string url,int index) : wxWindow(parent, wxID_ANY, wxDefaultPosition, wxDefaultSize, wxNO_BORDER) 
+StatImageLoader::StatImageLoader(wxWindow* parent, std::string url,int index) : wxWindow(parent, wxID_ANY, wxDefaultPosition, wxSize(52,52), wxNO_BORDER) 
 {
 	m_parent = parent;
     m_prjUrl = url;

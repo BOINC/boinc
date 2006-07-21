@@ -49,6 +49,8 @@ CProjectsComponent::CProjectsComponent(CSimpleFrame* parent,wxPoint coord) :
 {
     wxASSERT(parent);
 	m_maxNumOfIcons = 6; // max number of icons in component
+	m_rightIndex = 0;
+	m_leftIndex = 0;
     LoadSkinImages();
 	CreateComponent();
 
@@ -86,12 +88,11 @@ void CProjectsComponent::CreateComponent()
 	SetBackgroundColour(appSkin->GetAppBgCol());
 	/////////////// ICONS /////////////////////
 	CMainDocument* pDoc     = wxGetApp().GetDocument();
-    m_projCnt = pDoc->state.projects.size();
-	std::string projectIconName = "stat_icon";
-	char filePath[256];
+    m_projCnt = (int)pDoc->state.projects.size();
+	projectIconName = "stat_icon";
+	defaultIcnPath[256];
 	// url of project directory
-	char urlDirectory[256];
-	std::string dirProjectGraphic;
+	urlDirectory[256];
 
 	for(int j = 0; j < m_projCnt; j++){
 		PROJECT* project = pDoc->state.projects[j];
@@ -100,15 +101,17 @@ void CProjectsComponent::CreateComponent()
 		toolTipTxt = wxString(project->project_name.c_str(), wxConvUTF8 ) +wxT(". User ") + wxString(project->user_name.c_str(), wxConvUTF8) + wxT(" has ") + userCredit + wxT(" points."); 
 		if(j < m_maxNumOfIcons){
 			// Project button
-			wxWindow *w_statW = new wxWindow(this,-1,wxPoint(29 + 52*j,3),wxSize(52,52));
+			//wxWindow *w_statW = new wxWindow(this,-1,wxPoint(29 + 52*j,3),wxSize(52,52));
 			wxToolTip *statToolTip = new wxToolTip(toolTipTxt);
-			StatImageLoader *i_statW = new StatImageLoader(w_statW,project->master_url,j);
+			StatImageLoader *i_statW = new StatImageLoader(this,project->master_url,j);
+			i_statW->Move(wxPoint(29 + 52*j,3));
+			
 			// resolve the proj image 
 			url_to_project_dir((char*)project->master_url.c_str() ,urlDirectory);
 			dirProjectGraphic = (std::string)urlDirectory + "/" + projectIconName;
 			//load stat icon
-			if(boinc_resolve_filename(dirProjectGraphic.c_str(), filePath, sizeof(filePath)) == 0){
-				g_statIcn = new wxImage(filePath, wxBITMAP_TYPE_PNG);
+			if(boinc_resolve_filename(dirProjectGraphic.c_str(), defaultIcnPath, sizeof(defaultIcnPath)) == 0){
+				g_statIcn = new wxImage(defaultIcnPath, wxBITMAP_TYPE_PNG);
 				i_statW->LoadImage(g_statIcn);
 			}else{
 				i_statW->LoadImage(g_statIcnDefault);
@@ -118,6 +121,8 @@ void CProjectsComponent::CreateComponent()
 			
 			// push icon in the vector
 			m_statProjects.push_back(i_statW);
+			//increment left index
+			m_leftIndex ++;
 		}
 		
 	}
@@ -158,40 +163,106 @@ void CProjectsComponent::OnBtnClick(wxCommandEvent& event){ //init function
 	wxObject *m_wxBtnObj = event.GetEventObject();
 
 	if(m_wxBtnObj==btnArwLeft){
-        btnArwLeft->Refresh();
-	}else if(m_wxBtnObj==btnArwRight){
-        delete m_statProjects.at(0);//delete proj icon at position 1(0)
-        CMainDocument* pDoc     = wxGetApp().GetDocument();
-        //PROJECT* project = pDoc->state.projects[m];
-        // shift icons to the left
-		for(int m = 0; m < m_statProjects.size(); m++){
+		//delete proj icon at position max number  - 1(5)
+		delete m_statProjects.at(m_maxNumOfIcons-1);
+        //remove last element from vector
+		m_statProjects.pop_back();
+		//shift icons right
+		for(int m = 0; m < (int)m_statProjects.size(); m++){
 			StatImageLoader *i_statWShifting = m_statProjects.at(m);
-			i_statWShifting->Move(wxPoint(29 + 52*m,3));
-		}
-		/*
-		//user credit text
-		userCredit.Printf(wxT("%0.2f"), project->user_total_credit);
-		toolTipTxt = wxString(project->project_name.c_str(), wxConvUTF8 ) +wxT(". User ") + wxString(project->user_name.c_str(), wxConvUTF8) + wxT(" has ") + userCredit + wxT(" points."); 
-		// Project button
-		wxWindow *w_statW = new wxWindow(this,-1,wxPoint(29 + 52*j,3),wxSize(52,52));
-		wxToolTip *statToolTip = new wxToolTip(toolTipTxt);
-		StatImageLoader *i_statW = new StatImageLoader(w_statW,project->master_url,j);
-		// resolve the proj image 
-		url_to_project_dir((char*)project->master_url.c_str() ,urlDirectory);
-		dirProjectGraphic = (std::string)urlDirectory + "/" + projectIconName;
-		//load stat icon
-		if(boinc_resolve_filename(dirProjectGraphic.c_str(), filePath, sizeof(filePath)) == 0){
-			g_statIcn = new wxImage(filePath, wxBITMAP_TYPE_PNG);
-			i_statW->LoadImage(g_statIcn);
-		}else{
-			i_statW->LoadImage(g_statIcnDefault);
+			wxPoint currPoint = i_statWShifting->GetPosition();
+			i_statWShifting->Move(wxPoint(29 + 52*(m+1),3));
 		}
 
-		i_statW->SetToolTip(statToolTip);
+		CMainDocument* pDoc     = wxGetApp().GetDocument();
 		
-		// push icon in the vector
-		m_statProjects.push_back(i_statW);
-	*/
+		if(m_rightIndex-1 >= 0){
+			PROJECT* project = pDoc->state.projects.at(m_rightIndex-1);
+			userCredit.Printf(wxT("%0.2f"), project->user_total_credit);
+			toolTipTxt = wxString(project->project_name.c_str(), wxConvUTF8 ) +wxT(". User ") + wxString(project->user_name.c_str(), wxConvUTF8) + wxT(" has ") + userCredit + wxT(" points."); 
+		    wxToolTip *statToolTip = new wxToolTip(toolTipTxt);
+			StatImageLoader *i_statW = new StatImageLoader(this,project->master_url,m_leftIndex+1);
+		    i_statW->Move(wxPoint(29,3));
+			// resolve the proj image 
+			url_to_project_dir((char*)project->master_url.c_str() ,urlDirectory);
+			dirProjectGraphic = (std::string)urlDirectory + "/" + projectIconName;
+			if(boinc_resolve_filename(dirProjectGraphic.c_str(), defaultIcnPath, sizeof(defaultIcnPath)) == 0){
+				g_statIcn = new wxImage(defaultIcnPath, wxBITMAP_TYPE_PNG);
+				i_statW->LoadImage(g_statIcn);
+			}else{
+				i_statW->LoadImage(g_statIcnDefault);
+			}
+
+			i_statW->SetToolTip(statToolTip);
+			
+		    // push icon in the vector
+		    m_statProjects.insert(m_statProjects.begin(),i_statW);
+			for(int m = 0; m < (int)m_statProjects.size(); m++){
+				StatImageLoader *i_statWShifting = m_statProjects.at(m);
+				wxPoint currPoint = i_statWShifting->GetPosition();
+			}
+			//increment left index
+			m_leftIndex --;
+			//increment right index
+			m_rightIndex --;
+			//now show left button
+			btnArwRight->Show(true);
+
+		}
+		//hide right arrow if we got to the end of the list
+		if(m_rightIndex <= 0){
+			btnArwLeft->Show(false);
+		}
+		btnArwLeft->Refresh();
+
+	}else if(m_wxBtnObj==btnArwRight){
+		//delete proj icon at position 1(0)
+		delete m_statProjects.at(0);
+		//shift the vector
+		m_statProjects.assign(m_statProjects.begin()+1,m_statProjects.end());
+		//shift icons left
+		for(int m = 0; m < (int)m_statProjects.size(); m++){
+			StatImageLoader *i_statWShifting = m_statProjects.at(m);
+			wxPoint currPoint = i_statWShifting->GetPosition();
+			i_statWShifting->Move(wxPoint(29 + 52*m,3));
+		}
+       
+        CMainDocument* pDoc     = wxGetApp().GetDocument();
+		//update project count
+		m_projCnt = (int)pDoc->state.projects.size();
+		if(m_leftIndex+1 <= m_projCnt){
+			PROJECT* project = pDoc->state.projects.at(m_leftIndex);
+			userCredit.Printf(wxT("%0.2f"), project->user_total_credit);
+			toolTipTxt = wxString(project->project_name.c_str(), wxConvUTF8 ) +wxT(". User ") + wxString(project->user_name.c_str(), wxConvUTF8) + wxT(" has ") + userCredit + wxT(" points."); 
+		    wxToolTip *statToolTip = new wxToolTip(toolTipTxt);
+			StatImageLoader *i_statW = new StatImageLoader(this,project->master_url,m_leftIndex+1);
+		    i_statW->Move(wxPoint(29 + 52*(m_maxNumOfIcons-1),3));
+			// resolve the proj image 
+			url_to_project_dir((char*)project->master_url.c_str() ,urlDirectory);
+			dirProjectGraphic = (std::string)urlDirectory + "/" + projectIconName;
+			if(boinc_resolve_filename(dirProjectGraphic.c_str(), defaultIcnPath, sizeof(defaultIcnPath)) == 0){
+				g_statIcn = new wxImage(defaultIcnPath, wxBITMAP_TYPE_PNG);
+				i_statW->LoadImage(g_statIcn);
+			}else{
+				i_statW->LoadImage(g_statIcnDefault);
+			}
+
+			i_statW->SetToolTip(statToolTip);
+			
+		    // push icon in the vector
+		    m_statProjects.push_back(i_statW);
+			//increment left index
+			m_leftIndex ++;
+			//increment right index
+			m_rightIndex ++;
+			//now show left button
+			btnArwLeft->Show(true);
+
+		}
+		//hide right arrow if we got to the end of the list
+		if(m_leftIndex >= m_projCnt){
+			btnArwRight->Show(false);
+		}
 		btnArwRight->Refresh();
 	}
 }
