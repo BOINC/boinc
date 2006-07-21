@@ -7790,3 +7790,16 @@ Rom    20 July 2006
         
     clientgui/
         sg_ViewTabPage.cpp
+
+Rom    20 July 2006
+    - Enabled all warnings for the Visual Studio compiler.  It currently displayes
+        200 warning across the BOINC client package.
+        
+    win_build/
+        boinc_cli_curl.vcproj
+        boinc_dll.vcproj
+        boinc_ss.vcproj
+        boinccmd.vcproj
+        boincmgr_curl.vcproj
+        libboinc.vcproj
+

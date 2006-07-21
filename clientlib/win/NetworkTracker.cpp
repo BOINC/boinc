@@ -273,7 +273,6 @@ void NetworkTrackerShutdown()
 	CComBSTR                    bstrQuery;
     PSENS_SUBSCRIPTION_GROUP    pSubscriptionGroup = NULL;
     PSENS_SUBSCRIPTION          pSubscription = NULL;
-    PNETWORK_CONNECTION         pNetworkConnection = NULL;
 
 	for (i = 0; i < giSubscriptionGroupCount; i++)
 	{

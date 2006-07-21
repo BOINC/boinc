@@ -34,8 +34,9 @@
 				ObjectFile=".\Build\Debug\boinc_ss\obj/"
 				ProgramDataBaseFileName=".\Build\Debug\boinc_ss\obj/"
 				BrowseInformation="1"
-				WarningLevel="3"
+				WarningLevel="4"
 				SuppressStartupBanner="TRUE"
+				Detect64BitPortabilityProblems="TRUE"
 				DebugInformationFormat="4"
 				CompileAs="2"
 				ForcedIncludeFiles="boinc_win.h"/>
@@ -114,8 +115,9 @@
 				AssemblerListingLocation=".\Build\Release\boinc_ss\obj/"
 				ObjectFile=".\Build\Release\boinc_ss\obj/"
 				ProgramDataBaseFileName=".\Build\Release\boinc_ss\obj/"
-				WarningLevel="3"
+				WarningLevel="4"
 				SuppressStartupBanner="TRUE"
+				Detect64BitPortabilityProblems="TRUE"
 				DebugInformationFormat="3"
 				CompileAs="2"
 				ForcedIncludeFiles="boinc_win.h"/>
@@ -188,8 +190,9 @@
 				ObjectFile=".\Build\Debug\boinc_ss\obj/"
 				ProgramDataBaseFileName=".\Build\Debug\boinc_ss\obj/"
 				BrowseInformation="1"
-				WarningLevel="3"
+				WarningLevel="4"
 				SuppressStartupBanner="TRUE"
+				Detect64BitPortabilityProblems="TRUE"
 				DebugInformationFormat="4"
 				CompileAs="2"
 				ForcedIncludeFiles="boinc_win.h"/>
@@ -268,8 +271,9 @@
 				AssemblerListingLocation=".\Build\Release\boinc_ss\obj/"
 				ObjectFile=".\Build\Release\boinc_ss\obj/"
 				ProgramDataBaseFileName=".\Build\Release\boinc_ss\obj/"
-				WarningLevel="3"
+				WarningLevel="4"
 				SuppressStartupBanner="TRUE"
+				Detect64BitPortabilityProblems="TRUE"
 				DebugInformationFormat="3"
 				CompileAs="2"
 				ForcedIncludeFiles="boinc_win.h"/>
