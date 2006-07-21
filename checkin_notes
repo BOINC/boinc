@@ -7856,3 +7856,19 @@ Rom    21 July 2006
         WizardAttachProject.cpp
     lib/
         gui_rpc_client.C
+
+Rom    21 July 2006
+    - Bug Fix for Linux: On some linux distro's a mime type database is detected and
+        has an entry to a browser that isn't even installed on the system.  When a
+        participant clicks on a link or button that would normally open a browser
+        nothing happens.  Our message box isn't even displayed since an entry existed
+        in the mime types database.
+        
+      Try to actually execute the browser commandline to determine if the mime type
+        database is correct.  If that throws an error check to see if BROWSER is
+        defined as an envitronment variable, since that is the next closest thing
+        to a standard Linux has, and if that fails try firefox, mozilla, konqueror.
+        
+    clientgui/
+        hyperlink.cpp
+      

@@ -190,16 +190,40 @@ void wxHyperLink::ExecuteLink (const wxString &strLink) {
 #else
             cmd.Replace(wxT("file://"), wxEmptyString);
 #endif
-            mime_type_found = true;
-            ::wxExecute(cmd);
+            if (::wxExecute(cmd, wxEXEC_ASYNC)) {
+                mime_type_found = true;
+            }
         }
         delete ft;
     }
 
 #if defined(__WXGTK__) || defined(__WXMOTIF__)
     if (!mime_type_found) {
+        // Linux still doesn't have a standard method for default browser detection.
+        //
+        // Worse yet, some Linux distro's have a mime types database which point to
+        // a non-existant browser executable in the basic distro.
+        //
+        // The worst case scenario is that no browser comes up when a hyperlink is
+        // executed, so lets check to see if we can find something to use.
+        //
+        // 1. Use whatever default the user has specified via an environment
+        //      variable.
+        // 2. Try to find something to use.
+
         cmd = ::wxGetenv(wxT("BROWSER"));
         if(cmd.IsEmpty()) {
+            if (    wxFile.Exists(wxT("/usr/bin/firefox"))) {
+                cmd = wxT("/usr/bin/firefox");
+            } else (wxFile.Exists(wxT("/usr/bin/konqueror"))) {
+                cmd = wxT("/usr/bin/konqueror");
+            } else (wxFile.Exists(wxT("/usr/bin/mozilla"))) {
+                cmd = wxT("/usr/bin/mozilla");
+            }
+        }
+
+        cmd += wxT(" ") + strLink;
+        if (!::wxExecute(cmd, wxEXEC_ASYNC)) {
             wxString strDialogTitle = wxEmptyString;
             wxString strDialogMessage = wxEmptyString;
 
@@ -233,9 +257,6 @@ void wxHyperLink::ExecuteLink (const wxString &strLink) {
                 strDialogTitle,
                 wxOK | wxICON_INFORMATION
             );
-        } else {
-            cmd += wxT(" ") + strLink;
-			::wxExecute(cmd,wxEXEC_ASYNC);
         }
     }
 #endif
