@@ -7878,10 +7878,15 @@ Charlie 21 July 2006
         of every 15 seconds.
         - MacGLUTFix calls [myWindow setDocumentEdited: NO] to clear "unsaved" 
             indicator in graphics window close button (from Tim Wilson_Brown.)
+        - Replace "exit" with "return" in shell scripts (from Tim Wilson_Brown.)
         
     api/
         macglutfix.m
     clientgui/
         /mac/
             mac_saver_module.cpp
-      
+    mac_build/
+        buildWxMac.sh
+        buildcurl.sh
+        buildjpeg.sh
+        setupForBOINC.sh

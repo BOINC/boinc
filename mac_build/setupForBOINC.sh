@@ -54,9 +54,9 @@ echo "url.c already patched"
 fi
 
 cd ../../curl-7.15.3/
-if [  $? -ne 0 ]; then exit 1; fi
+if [  $? -ne 0 ]; then return 1; fi
 source "${SCRIPT_DIR}/buildcurl.sh"
-if [  $? -ne 0 ]; then exit 1; fi
+if [  $? -ne 0 ]; then return 1; fi
 
 echo ""
 echo "----------------------------------"
@@ -67,9 +67,9 @@ echo ""
 cd "${SCRIPT_DIR}"
 
 cd ../../jpeg-6b/
-if [  $? -ne 0 ]; then exit 1; fi
+if [  $? -ne 0 ]; then return 1; fi
 source "${SCRIPT_DIR}/buildjpeg.sh"
-if [  $? -ne 0 ]; then exit 1; fi
+if [  $? -ne 0 ]; then return 1; fi
 
 echo ""
 echo "----------------------------------"
@@ -82,9 +82,9 @@ cd "${SCRIPT_DIR}"
 cp -fpR wxMac-BOINC.xcodeproj ../../wxMac-2.6.3/src/
 
 cd ../../wxMac-2.6.3/
-if [  $? -ne 0 ]; then exit 1; fi
+if [  $? -ne 0 ]; then return 1; fi
 source "${SCRIPT_DIR}/buildWxMac.sh"
-if [  $? -ne 0 ]; then exit 1; fi
+if [  $? -ne 0 ]; then return 1; fi
 
 cd "${SCRIPT_DIR}"
 return 0

@@ -49,7 +49,7 @@ export SDKROOT="/Developer/SDKs/MacOSX10.3.9.sdk"
 
 ## ./configure --enable-shared=NO --host=ppc
 ./configure --enable-shared=NO --host=ppc CPPFLAGS="-arch ppc -I/Developer/SDKs/MacOSX10.3.9.sdk/Developer/Headers/FlatCarbon -I/Developer/SDKs/MacOSX10.3.9.sdk/usr/include -isystem /Developer/SDKs/MacOSX10.3.9.sdk/usr/include/gcc/darwin/3.3 -I/Developer/SDKs/MacOSX10.3.9.sdk/usr/include/gcc/darwin/3.3/c++ -I/Developer/SDKs/MacOSX10.3.9.sdk/usr/include/gcc/darwin/3.3/c++/ppc-darwin -isystem /Developer/SDKs/MacOSX10.3.9.sdk/usr/include"
-if [  $? -ne 0 ]; then exit 1; fi
+if [  $? -ne 0 ]; then return 1; fi
 
 make clean
 
@@ -60,11 +60,11 @@ rm -f lib/.libs/libcurl_i386.a
 export LDFLAGS="-isysroot /Developer/SDKs/MacOSX10.3.9.sdk -Wl,-syslibroot,/Developer/SDKs/MacOSX10.3.9.sdk"
 
 make
-if [  $? -ne 0 ]; then exit 1; fi
+if [  $? -ne 0 ]; then return 1; fi
 mv -f lib/.libs/libcurl.a lib/libcurl_ppc.a
 
 make clean
-if [  $? -ne 0 ]; then exit 1; fi
+if [  $? -ne 0 ]; then return 1; fi
 
 export PATH=/usr/local/bin:$PATH
 export CC=/usr/bin/gcc-4.0;export CXX=/usr/bin/g++-4.0
@@ -74,17 +74,17 @@ export CFLAGS=""
 export SDKROOT="/Developer/SDKs/MacOSX10.4u.sdk"
 
 ./configure --enable-shared=NO --host=i386
-if [  $? -ne 0 ]; then exit 1; fi
+if [  $? -ne 0 ]; then return 1; fi
 
 export LDFLAGS="-isysroot /Developer/SDKs/MacOSX10.4u.sdk -arch i386"
 export CPPFLAGS="-isysroot /Developer/SDKs/MacOSX10.4u.sdk -arch i386"
 
 make -e
-if [  $? -ne 0 ]; then exit 1; fi
+if [  $? -ne 0 ]; then return 1; fi
 mv -f lib/.libs/libcurl.a lib/.libs/libcurl_i386.a
 mv -f lib/libcurl_ppc.a lib/.libs/
 lipo -create lib/.libs/libcurl_i386.a lib/.libs/libcurl_ppc.a -output lib/.libs/libcurl.a
-if [  $? -ne 0 ]; then exit 1; fi
+if [  $? -ne 0 ]; then return 1; fi
 
 export CC="";export CXX=""
 export LDFLAGS=""
