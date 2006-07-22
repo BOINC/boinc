@@ -7890,3 +7890,12 @@ Charlie 21 July 2006
         buildcurl.sh
         buildjpeg.sh
         setupForBOINC.sh
+
+Charlie 22 July 2006
+    -Mac: Installer checks for a file nologinitems.txt in BOINC Data directory.  If 
+        present, delete LoginItems for users listed in this file (one user name per 
+        line), so that BOINC Manager won't launch automatically when these users 
+        log in.  This is a tool for system administrators.
+        
+    mac_installer/
+        Postinstall.cpp

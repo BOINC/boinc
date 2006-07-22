@@ -43,7 +43,8 @@
 void Initialize(void);	/* function prototypes */
 int DeleteReceipt(void);
 OSStatus CheckLogoutRequirement(int *finalAction);
-void SetLoginItem(long brandID);
+void SetLoginItem(long brandID, Boolean deleteLogInItem);
+Boolean CheckDeleteFile(char *name);
 void SetUIDBackToUser (void);
 OSErr UpdateAllVisibleUsers(long brandID);
 long GetBrandID(void);
@@ -281,16 +282,9 @@ int main(int argc, char *argv[])
     if (err_fsref == noErr)
         err = LSRegisterFSRef(&fileRef, true);
     
-#ifdef SANDBOX
     err = UpdateAllVisibleUsers(brandID);
     if (err != noErr)
         return err;
-#else
-    // Installer is running as root.  We must setuid back to the logged in user 
-    //  in order to add a startup item to the user's login preferences
-    SetUIDBackToUser ();
-    SetLoginItem(brandID);
-#endif
  
     return 0;
 }
@@ -410,7 +404,7 @@ OSStatus CheckLogoutRequirement(int *finalAction)
 }
 
 
-void SetLoginItem(long brandID)
+void SetLoginItem(long brandID, Boolean deleteLogInItem)
 {
     Boolean                 Success;
     int                     NumberOfLoginItems, Counter;
@@ -438,12 +432,42 @@ void SetLoginItem(long brandID)
             Success = RemoveLoginItemAtIndex(kCurrentUser, Counter-1);
     }
 
+    if (deleteLogInItem)
+        return;
+        
     if (brandID == 1)
         Success = AddLoginItemWithPropertiesToUser(kCurrentUser,
                             "/Applications/GridRepublic Desktop.app", kDoNotHideOnLaunch);
     else
         Success = AddLoginItemWithPropertiesToUser(kCurrentUser,
                             "/Applications/BOINCManager.app", kDoNotHideOnLaunch);
+}
+
+// Returns true if the user name is in the nologinitems.txt, else false
+Boolean CheckDeleteFile(char *name)
+{
+    FILE        *f;
+    char        buf[64];
+    size_t      len;
+    
+    f = fopen("/Library/Application Support/BOINC Data/nologinitems.txt", "r");
+    if (!f)
+        return false;
+    
+    while (true) {
+        *buf = '\0';
+        len = sizeof(buf);
+        fgets(buf, len, f);
+        if (feof(f)) break;
+        strip_cr(buf);
+        if (strcmp(buf, name) == 0) {
+            fclose(f);
+            return true;
+        }
+    }
+    
+    fclose(f);
+    return false;
 }
 
 void SetUIDBackToUser (void)
@@ -470,13 +494,17 @@ OSErr UpdateAllVisibleUsers(long brandID)
     passwd              *pw;
     uid_t               saved_uid;
     short               i;
+    Boolean             deleteLoginItem;
     OSErr 		err = noErr;
 
+#ifdef SANDBOX
     grp = getgrnam("admin");
     if (grp == NULL) {      // Should never happen
         puts("getgrnam(\"admin\") failed\n");
         return -1;
     }
+#endif
+
     dirp = opendir("/Users");
     if (dirp == NULL) {      // Should never happen
         puts("opendir(\"/Users\") failed\n");
@@ -495,6 +523,7 @@ OSErr UpdateAllVisibleUsers(long brandID)
         if (pw == NULL)             // "Deleted Users", "Shared", etc.
             continue;
 
+#ifdef SANDBOX
         i = 0;
         while ((p = grp->gr_mem[i]) != NULL) {  // Step through all users in group admin
             if (strcmp(p, dp->d_name) == 0) {
@@ -506,11 +535,13 @@ OSErr UpdateAllVisibleUsers(long brandID)
             }
             ++i;
         }
+#endif
 
+        deleteLoginItem = CheckDeleteFile(dp->d_name);
         saved_uid = geteuid();
-        seteuid(pw->pw_uid);                // Temporarily set effective uid to this user
-        SetLoginItem(brandID);                     // Set login item for this user
-        seteuid(saved_uid);                 // Set effective uid back to privileged user
+        seteuid(pw->pw_uid);                        // Temporarily set effective uid to this user
+        SetLoginItem(brandID, deleteLoginItem);     // Set login item for this user
+        seteuid(saved_uid);                         // Set effective uid back to privileged user
     }
     
     closedir(dirp);
@@ -733,6 +764,17 @@ static OSErr QuitAppleEventHandler( const AppleEvent *appleEvt, AppleEvent* repl
     return noErr;
 }
 
+void strip_cr(char *buf)
+{
+    char *theCR;
+
+    theCR = strrchr(buf, '\n');
+    if (theCR)
+        *theCR = '\0';
+    theCR = strrchr(buf, '\r');
+    if (theCR)
+        *theCR = '\0';
+}
 
 // For debugging
 void print_to_log_file(const char *format, ...) {
@@ -769,18 +811,4 @@ void print_to_log_file(const char *format, ...) {
 
 #endif
 }
-
-#if CREATE_LOG
-void strip_cr(char *buf)
-{
-    char *theCR;
-
-    theCR = strrchr(buf, '\n');
-    if (theCR)
-        *theCR = '\0';
-    theCR = strrchr(buf, '\r');
-    if (theCR)
-        *theCR = '\0';
-}
-#endif	// CREATE_LOG
 const char *BOINC_RCSID_c7abe0490e="$Id$";
