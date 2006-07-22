@@ -103,7 +103,6 @@ ACTIVE_TASK::ACTIVE_TASK() {
 #ifdef _WIN32
     pid_handle = 0;
     thread_handle = 0;
-    quitRequestEvent = 0;
     shm_handle = 0;
 #endif
 }
@@ -131,10 +130,7 @@ void ACTIVE_TASK::close_process_handles() {
 void ACTIVE_TASK::cleanup_task() {
 #ifdef _WIN32
     close_process_handles();
-    if (quitRequestEvent) {
-        CloseHandle(quitRequestEvent);
-        quitRequestEvent = NULL;
-    }
+
     // detach from shared mem.
     // This will destroy shmem seg since we're the last attachment
     //

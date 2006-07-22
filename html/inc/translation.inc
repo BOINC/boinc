@@ -350,8 +350,8 @@ function getPOLineContent($line){
 function tr($tokennumber){
     global $language_lookup_array;
     if (strval(intval($tokennumber))!=$tokennumber){
-        echo "token $tokennumber missing from language interface.";
         language_log("token $tokennumber missing from language interface.");
+        //print_r($language_lookup_array);
     }
     
     if (array_key_exists($tokennumber,$language_lookup_array)){
@@ -359,7 +359,7 @@ function tr($tokennumber){
         //If found in client language, return that
         return stripslashes($language_lookup_array[$tokennumber]);        
     }
-    return "[MISSING TEXT]";                                                //If not found there display "MISSING TEXT"
+    return "[translation missing for $tokennumber]";
 }
 
 function language_log($message, $loglevel=0){

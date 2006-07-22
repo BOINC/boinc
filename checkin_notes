@@ -7857,6 +7857,7 @@ Rom    21 July 2006
     lib/
         gui_rpc_client.C
 
+
 Rom    21 July 2006
     - Bug Fix for Linux: On some linux distro's a mime type database is detected and
         has an entry to a browser that isn't even installed on the system.  When a
@@ -7899,3 +7900,26 @@ Charlie 22 July 2006
         
     mac_installer/
         Postinstall.cpp
+
+David  22 July 2006
+    - core client (Win): remove quitRequestEvent (not used)
+    - core client: ACTIVE_TASK::kill_task(): call cleanup_task()
+        (to free shared mem) after killing process
+
+    client/
+        app.C
+        app_control.C
+        app_start.C
+
+David  22 July 2006
+    - made the BOINC user survey (and potentially any
+        page on the BOINC site) translatable
+
+    doc/
+        docutil.php
+        poll.inc
+        poll.php
+        poll_data.inc
+    html/inc
+        translations.inc
+    languages/translations/en.po (new)

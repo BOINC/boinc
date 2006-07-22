@@ -13,7 +13,7 @@ function list_item2($x, $y) {
 }
 
 function boxes($options) {
-    $x = "<font size=-2>[check all that apply]</font><br>\n";
+    $x = "<font size=-2>".tr(POLL_CHECK_ALL)."</font><br>\n";
     foreach ($options as $name => $text) {
         $x .= "<input type=checkbox name=$name> $text<br>\n";
     }
@@ -42,7 +42,7 @@ function show_choice($choice, $outer_radio) {
     } else {
         $y = boxes($choice["options"]);
         $other_name = $choice['other_name'];
-        $y .= "Other: <input size=30 name=$other_name>";
+        $y .= tr(POLL_OTHER)." <input size=30 name=$other_name>";
     }
     list_item2($x, $y);
 }
@@ -115,15 +115,6 @@ function select_response($uid) {
     $response = mysql_fetch_object($result);
     mysql_free_result($result);
     return $response;
-}
-
-function get_str($name) {
-    if (isset($_GET[$name])) {
-        $x = $_GET[$name];
-        $x = trim($x);
-        return mysql_real_escape_string($x);
-    }
-    return null;
 }
 
 function parse_form_choice($x, $choice) {

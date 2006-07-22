@@ -1,6 +1,12 @@
 <?
 
 $project_news = array(
+array("July 21, 2006",
+    "The BOINC survey is now available in
+    <a href=http://boinc.oocp.org/poll.php>Japanese</a>.
+    If you'd like to translate it to another language,
+    please <a href=contact.php>contact us</a>."
+),
 array("July 13, 2006",
     "We are conducting an <a href=poll.php>online survey</a>
     of BOINC participants.
@@ -8,7 +14,9 @@ array("July 13, 2006",
     your responses will help us improve BOINC and the projects that use it. "
 ),
 array("July 13, 2006",
-    "Articles in <a href=http://www.economist.com/science/displayStory.cfm?story_id=7159442>The Economist</a>
+    "Articles in
+    <a href=http://www.nature.com/news/2006/060717/full/060717-15.html>Nature</a>,
+    <a href=http://www.economist.com/science/displayStory.cfm?story_id=7159442>The Economist</a>
     and <a href=http://www.webwire.com/ViewPressRel.asp?aId=16636>WebWire</a>
     describe <a href=http://africa-at-home.web.cern.ch/>Africa@home</a>,
     an initiative that supports African humanitarian causes.

@@ -155,4 +155,13 @@ function block_end() {
     ";
 }
 
+function get_str($name) {
+    if (isset($_GET[$name])) {
+        $x = $_GET[$name];
+        $x = trim($x);
+        return mysql_real_escape_string($x);
+    }
+    return null;
+}
+
 ?>

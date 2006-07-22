@@ -435,16 +435,6 @@ int ACTIVE_TASK::start(bool first_time) {
     //startup_info.dwFlags = STARTF_USESHOWWINDOW;
     //startup_info.wShowWindow = SW_HIDE;
 
-    if (!quitRequestEvent) {
-        sprintf(buf, "%s%s", QUIT_PREFIX, shmem_seg_name);
-        quitRequestEvent = CreateEvent(0, FALSE, FALSE, buf);
-        if (quitRequestEvent == NULL) {
-            strcpy(buf, "Can't create event");
-            retval = ERR_INVALID_EVENT;
-            goto error;
-        }
-    }
-
     // create core/app share mem segment if needed
     //
     if (!app_client_shm.shm) {

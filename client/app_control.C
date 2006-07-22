@@ -98,11 +98,12 @@ int ACTIVE_TASK::request_abort() {
 //
 int ACTIVE_TASK::kill_task() {
 #ifdef _WIN32
-    return !TerminateProcess(pid_handle, -1);
+    TerminateProcess(pid_handle, -1);
 #else
-    return kill(pid, SIGKILL);
+    kill(pid, SIGKILL);
 #endif
     cleanup_task();
+    return 0;
 }
 
 // We have sent a quit request to the process; see if it's exited.
