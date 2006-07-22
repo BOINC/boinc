@@ -190,9 +190,11 @@ void wxHyperLink::ExecuteLink (const wxString &strLink) {
 #else
             cmd.Replace(wxT("file://"), wxEmptyString);
 #endif
+#if defined(__WXMSW__) || defined(__WXMAC__)
             if (::wxExecute(cmd, wxEXEC_ASYNC)) {
                 mime_type_found = true;
             }
+#endif
         }
         delete ft;
     }
@@ -213,11 +215,15 @@ void wxHyperLink::ExecuteLink (const wxString &strLink) {
 
         cmd = ::wxGetenv(wxT("BROWSER"));
         if(cmd.IsEmpty()) {
+            fprintf(stderr, "User defined browser not found...\n");
             if (       wxFile::Exists(wxT("/usr/bin/firefox"))) {
+		fprintf(stderr, "Firefox found...\n");
                 cmd = wxT("/usr/bin/firefox");
             } else if (wxFile::Exists(wxT("/usr/bin/konqueror"))) {
+		fprintf(stderr, "Konqueror found...\n");
                 cmd = wxT("/usr/bin/konqueror");
             } else if (wxFile::Exists(wxT("/usr/bin/mozilla"))) {
+		fprintf(stderr, "Mozilla found...\n");
                 cmd = wxT("/usr/bin/mozilla");
             }
         }
