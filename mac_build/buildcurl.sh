@@ -23,7 +23,7 @@
 # Script to build Macintosh Universal Binary library of curl-7.15.3 for
 # use in building BOINC.
 #
-# by Charlie Fenton 5/5/06
+# by Charlie Fenton 7/21/06
 #
 ## In Terminal, CD to the curl-7.15.3 directory.
 ##     cd [path]/curl-7.15.3/

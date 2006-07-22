@@ -23,7 +23,7 @@
 # Master script to build Universal Binary libraries needed by BOINC:
 # curl-7.15.3, jpeg-6b and wxMac-2.6.3
 #
-# by Charlie Fenton 5/17/06
+# by Charlie Fenton 7/21/06
 #
 # Download these three packages and place them in a common parent 
 # directory with the BOINC source tree.

@@ -22,7 +22,7 @@
 #
 # Script to build the wxMac-2.6.3 library for BOINC as a Universal Binary
 #
-# by Charlie Fenton    5/17/06
+# by Charlie Fenton    7/21/06
 #
 ## Before running this script, you must first copy the special XCode 
 ## project

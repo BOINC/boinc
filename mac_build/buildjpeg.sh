@@ -23,7 +23,7 @@
 # Script to build Macintosh Universal Binary library of jpeg-6b for
 # use in building BOINC.
 #
-# by Charlie Fenton 4/27/06
+# by Charlie Fenton 7/21/06
 #
 ## In Terminal, CD to the jpeg-6b directory.
 ##     cd [path]/jpeg-6b/
