@@ -7871,4 +7871,17 @@ Rom    21 July 2006
         
     clientgui/
         hyperlink.cpp
+
+Charlie 21 July 2006
+    - Mac: Fix minor screensaver bugs from 17 July change.  If no graphics are 
+        available, screensaver updates progress display egery 5 seconds instead 
+        of every 15 seconds.
+        - MacGLUTFix calls [myWindow setDocumentEdited: NO] to clear "unsaved" 
+            indicator in graphics window close button (from Tim Wilson_Brown.)
+        
+    api/
+        macglutfix.m
+    clientgui/
+        /mac/
+            mac_saver_module.cpp
       

@@ -91,7 +91,7 @@ void strip_cr(char *buf);
 #define BANNERDELTA 2   /* Number of pixels to move banner each frame */
 #define BANNERFREQUENCY 90 /* Number of times per second to scroll banner */
 #define NOBANNERFREQUENCY 4 /* Times per second to call drawGraphics if no banner */
-#define STATUSUPDATEINTERVAL 15 /* seconds between status display updates */
+#define STATUSUPDATEINTERVAL 5 /* seconds between status display updates */
 
 enum SaverState {
     SaverState_Idle,
@@ -355,7 +355,7 @@ int drawGraphics(GrafPtr aPort) {
         case SS_STATUS_NOGRAPHICSAPPSEXECUTING:
         case SS_STATUS_DAEMONALLOWSNOGRAPHICS:
             if (msgBuf[0] == 0) {
-                strcpy(msgBuf, (SaverState_CoreClientSetToSaverMode == SS_STATUS_NOGRAPHICSAPPSEXECUTING) ? 
+                strcpy(msgBuf, (gClientSaverStatus == SS_STATUS_NOGRAPHICSAPPSEXECUTING) ? 
                                 BOINCNoGraphicAppsExecutingMsg : BOINCNoGraphicsSupportedMsg);
                 setBannerText(msgBuf, aPort);
             }
@@ -508,6 +508,7 @@ OSStatus RPCThread(void* param) {
         gClientSaverStatus = SS_STATUS_NOGRAPHICSAPPSEXECUTING;
 #endif
         if ((gClientSaverStatus == SS_STATUS_NOGRAPHICSAPPSEXECUTING)
+                || (gClientSaverStatus == SS_STATUS_DAEMONALLOWSNOGRAPHICS)
 #if ALWAYS_DISPLAY_PROGRESS_TEXT
                 || (gClientSaverStatus == SS_STATUS_ENABLED)
 #endif

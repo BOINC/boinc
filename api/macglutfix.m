@@ -51,9 +51,6 @@ void MacGLUTFix(bool isScreenSaver) {
         }
     }
 
-    if (!isScreenSaver)
-        return;
-    
     // In screensaver mode, set our window's level just above 
     // our BOINC screensaver's window level so it can appear 
     // over it.  This doesn't interfere with the screensaver 
@@ -66,6 +63,11 @@ void MacGLUTFix(bool isScreenSaver) {
         myWindow = [ myView window ];
     if (myWindow == nil)
         return;
+        
+    if (!isScreenSaver) {
+        [myWindow setDocumentEdited: NO];
+        return;
+    }
         
     if ([ myWindow level ] == GlutFullScreenWindowLevel)
         [ myWindow setLevel:RealSaverLevel+20 ];
