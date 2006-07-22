@@ -4,10 +4,8 @@ require_once("poll.inc");
 require_once("poll_data.inc");
 
 function error() {
-    page_head("Error - results not recorded");
-    echo "An internal error has prevented us from recording
-        your survey response.  Please try again later.
-    ";
+    page_head(tr(POLL_ERROR_TITLE));
+    echo tr(POLL_ERROR_TEXT);
     page_tail();
     exit();
 }
@@ -29,8 +27,8 @@ if ($response) {
     $result = new_response($uid, $xml);
 }
 if ($result) {
-    page_head("Survey response recorded");
-    echo "Thank you for completing the BOINC user survey.\n ";
+    page_head(tr(POLL_RECORDED));
+    echo tr(POLL_THANKS);
     page_tail();
 } else {
     error();

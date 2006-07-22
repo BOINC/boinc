@@ -287,11 +287,17 @@ msgstr "Team web sites"
 msgid "POLL_HELP_GOOGLE",
 msgstr "Google or other search engines"
 
-msgid "POLL_",
-msgstr 
+msgid "POLL_ERROR_TITLE",
+msgstr "Error - results not recorded"
 
-msgid "POLL_",
-msgstr 
+msgid "POLL_ERROR_TEXT",
+msgstr "An internal error has prevented us from recording your survey response.  Please try again later."
+
+msgid "POLL_RECORDED",
+msgstr "Survey response recorded"
+
+msgid "POLL_THANKS",
+msgstr "Thank you for completing the BOINC user survey."
 
 msgid "POLL_",
 msgstr 
