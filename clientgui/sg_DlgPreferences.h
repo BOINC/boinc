@@ -25,7 +25,21 @@
 #pragma interface "sg_DlgPreferences.cpp"
 #endif
 
+#include <wx/dir.h> 
+
 class SkinClass;
+
+class DirTraverserSkins : public wxDirTraverser
+{
+public:
+    DirTraverserSkins(wxArrayString& skins) : m_skins(skins) { }
+
+    virtual wxDirTraverseResult OnFile(const wxString& filename);
+    virtual wxDirTraverseResult OnDir(const wxString& WXUNUSED(dirname));
+
+private:
+    wxArrayString& m_skins;
+};
 
 class CDlgPreferences:public wxDialog
 {
@@ -65,12 +79,9 @@ public:
  wxBitmap fileImgBuf[4];
  virtual ~CDlgPreferences();
  void initBefore();
- void OnPreCreate();
- void InitDialog();
+ void CreateDialog();
  void LoadSkinImages();
- wxString GetSkinDirPrefix() const { return m_SkinDirPrefix; }
  wxString GetSkinName() const { return m_SkinName; }
- void SetSkinDirPrefix(const wxString& pref) { m_SkinDirPrefix = pref; }
  void SetSkinName(const wxString& skinName) { m_SkinName = skinName; }
  
  void initAfter();
@@ -79,6 +90,7 @@ public:
 
 protected:
   wxString m_SkinName;
+  wxArrayString m_skinNames;
   wxString m_SkinDirPrefix;
  void OnEraseBackground(wxEraseEvent& event);
  void OnBtnClick(wxCommandEvent& event);

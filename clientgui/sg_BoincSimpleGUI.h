@@ -70,26 +70,7 @@ public:
 	wxString skinName;
 	wxString skinPath;
 	wxString skinFoldPath;
-	/* My projects area
-	std::vector<StatImageLoader*> m_statProjects; // vector of all project icons created for GUI
-	
-	wxImage *g_statIcn;
-	//
-	wxImage *g_statIcnDefault;
-	//
-
-	// arrows
-    wxImage *g_arwLeft;
-	wxImage *g_arwRight;
-	wxImage *g_arwLeftClick;
-	wxImage *g_arwRightClick;
-	wxBitmap btmpArwL; 
-    wxBitmap btmpArwR; 
-    wxBitmap btmpArwLC; 
-    wxBitmap btmpArwRC; 
-    wxBitmapButton *btnArwLeft;
-	wxBitmapButton *btnArwRight;
-	*/
+	// My projects component
 	CProjectsComponent *projComponent;
 	//Collapse button
 	bool midAppCollapsed;

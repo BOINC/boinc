@@ -30,11 +30,10 @@
 #include "sg_BoincSimpleGUI.h"
 #include "sg_SkinClass.h"
 #include "sg_ImageLoader.h"
-#include "sg_StatImageLoader.h"
 #include "sg_ProjectsComponent.h"
+#include "sg_StatImageLoader.h"
 #include "sg_ViewTabPage.h"
 #include "sg_DlgPreferences.h"
-#include "sg_ProjectsComponent.h"
 
 #include "wizardex.h"
 #include "BOINCWizards.h"
@@ -446,7 +445,7 @@ void CSimpleFrame::LoadSkinImages(){
 ///
 int CSimpleFrame::LoadSkinXML(){
    
-	// parse xml file
+	// parse xml file		    
 	FILE* f;
     f = fopen(skinPath, "r");
 	if (!f) return ERR_FOPEN;
@@ -674,6 +673,11 @@ void CSimpleFrame::ReskinAppGUI(){
 	wrkUnitNB->SetTabAreaColour(appSkin->GetAppBgCol());
     wrkUnitNB->SetGradientColors(appSkin->GetTabFromColAc(),appSkin->GetTabToColAc(),appSkin->GetTabBrdColAc());
     wrkUnitNB->SetGradientColorsInactive(appSkin->GetTabFromColIn(),appSkin->GetTabToColIn(),appSkin->GetTabBrdColIn());
+	// notebook pages
+	for(int i = 0; i < (int)m_windows.size(); i++){
+		CViewTabPage *wTab = m_windows.at(i);
+		wTab->ReskinInterface();
+	}
 	// btns
 	btnMessages->SetBitmapLabel(*btmpMessagesBtnL);
     btnResume->SetBitmapLabel(*btmpBtnResumeL);
@@ -681,14 +685,8 @@ void CSimpleFrame::ReskinAppGUI(){
     btnAddProj->SetBitmapLabel(*btmpBtnAttProjL);
 	btnPreferences->SetBitmapLabel(*btmpBtnPrefL);
 	btnAdvancedView->SetBitmapLabel(*btmpBtnAdvViewL);
-
-	//gauges
-//	gaugeWUMain->SetForegroundColour(appSkin->GetGaugeFgCol());
-// gaugeWUMain->SetBackgroundColour(appSkin->GetGaugeBgCol());
-//    btnCollapse->SetBackgroundColour(appSkin->GetAppBgCol());
-//	btnArwLeft->SetBackgroundColour(appSkin->GetAppBgCol());
-  //  btnArwRight->SetBackgroundColour(appSkin->GetAppBgCol());
-
+	//reskin component 
+	projComponent->ReskinInterface();
 	Refresh();
 }
 
@@ -697,15 +695,15 @@ void CSimpleFrame::OnBtnClick(wxCommandEvent& event){ //init function
 	if(m_wxBtnObj==btnPreferences){
 		CDlgPreferences* pDlg = new CDlgPreferences(NULL,appSkin->GetSkinsFolder()+_T("/")+appSkin->GetSkinName()+_T("/"));
 		wxASSERT(pDlg);
-        pDlg->ShowModal();
-		if (pDlg) {
-		   appSkin->SetSkinName(pDlg->GetSkinName());
-		   skinPath = appSkin->GetSkinsFolder()+_T("/")+appSkin->GetSkinName()+_T("/")+_T("skin.xml");
-		   if(skinPath.Length() > 0){
-			   ReskinAppGUI();
+		if ( pDlg->ShowModal() == wxID_OK ){
+			if(pDlg->GetSkinName() != skinName){
+				appSkin->SetSkinName(pDlg->GetSkinName());
+				skinName = pDlg->GetSkinName();
+				skinPath = appSkin->GetSkinsFolder()+_T("/")+appSkin->GetSkinName()+_T("/")+_T("skin.xml");
+			    ReskinAppGUI();
 		   }
-           pDlg->Destroy();
 		}
+		pDlg->Destroy();
     }else if(m_wxBtnObj==btnAdvancedView) {
         wxGetApp().SetActiveGUI(BOINC_ADVANCEDGUI, true);
     }else if(m_wxBtnObj==btnMessages) {

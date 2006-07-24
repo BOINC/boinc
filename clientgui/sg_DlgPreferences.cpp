@@ -24,6 +24,7 @@
 #include "stdwx.h"
 #include "sg_DlgPreferences.h"
 #include "sg_SkinClass.h"
+//#include <wx/dir.h> 
 
 enum 
 { 
@@ -45,7 +46,7 @@ END_EVENT_TABLE()
 CDlgPreferences::CDlgPreferences(wxWindow* parent, wxString dirPref,wxWindowID id,const wxString& title,const wxPoint& pos,const wxSize& size,long style,const wxString& name)
 {
  m_SkinDirPrefix = dirPref;
- OnPreCreate();
+ m_skinNames.Add(wxT("default"));
  Create(parent,id,title,pos,size,style,name);
 
  if((pos==wxDefaultPosition)&&(size==wxDefaultSize)){
@@ -59,7 +60,7 @@ CDlgPreferences::CDlgPreferences(wxWindow* parent, wxString dirPref,wxWindowID i
  // load images from skin file
  LoadSkinImages();
  //Create dialog
- InitDialog();
+ CreateDialog();
  initAfter();
 }
 CDlgPreferences::~CDlgPreferences()
@@ -68,7 +69,7 @@ CDlgPreferences::~CDlgPreferences()
 }
 
 
-void CDlgPreferences::InitDialog()
+void CDlgPreferences::CreateDialog()
 {
 	SetBackgroundColour(appSkin->GetAppBgCol());
 	wxString itmsHourIntervals[]={wxT("Always"),wxT("12:00 AM"),wxT("1:00 AM"),wxT("2:00 AM"),wxT("3:00 AM"),wxT("4:00 AM"),wxT("5:00 AM"),wxT("6:00 AM"),wxT("7:00 AM"),wxT("8:00 AM"),wxT("9:00 AM"),wxT("10:00 AM"),wxT("11:00 AM"),wxT("12:00 PM"),
@@ -143,10 +144,8 @@ void CDlgPreferences::InitDialog()
 	lblSkinXML->SetForegroundColour(wxSystemSettings::GetColour(wxSYS_COLOUR_BACKGROUND));
 	lblSkinXML->SetLabel(wxT("Skin XML file:"));
 	//skin picker control
-    wxString itmsSkinPicker[]={wxT("Default"),wxT("WorldCommunityGrid")};
-	cmbSkinPicker=new wxComboBox(this,ID_SKINPICKERCMBBOX,wxT(""),wxPoint(180,265),wxSize(140,21),2,itmsSkinPicker,wxNO_BORDER | wxCB_READONLY);
-	cmbSkinPicker->SetValue(wxT("Default"));
-	//tx30c=new wxTextCtrl(this,-1,wxT(""),wxPoint(180,265),wxSize(148,21),wxSIMPLE_BORDER);
+	cmbSkinPicker=new wxComboBox(this,ID_SKINPICKERCMBBOX,wxT(""),wxPoint(180,265),wxSize(140,21),m_skinNames,wxNO_BORDER | wxCB_READONLY);
+	cmbSkinPicker->SetValue(appSkin->GetSkinName());
 	//btnOpen=new wxBitmapButton(this,ID_OPENBUTTON,*btmpBtnAttProjL,wxPoint(331,265),wxSize(59,20));
 	// Btn Save and Cancel
 	btnSave=new wxBitmapButton(this,ID_SAVEBUTTON,*bti26cImg1,wxPoint(115,325),wxSize(59,20));
@@ -155,8 +154,6 @@ void CDlgPreferences::InitDialog()
 	Refresh();
 }
 void CDlgPreferences::LoadSkinImages(){
-	//get skin class
-	appSkin = SkinClass::Instance();
     wxString str1 = m_SkinDirPrefix + appSkin->GetDlgPrefBg();
 	fileImgBuf[0].LoadFile(m_SkinDirPrefix + appSkin->GetDlgPrefBg(),wxBITMAP_TYPE_BMP);
 	fileImgBuf[1].LoadFile(m_SkinDirPrefix + appSkin->GetBtnSave(),wxBITMAP_TYPE_BMP);
@@ -203,7 +200,7 @@ void CDlgPreferences::OnBtnClick(wxCommandEvent& event){ //init function
 	int btnID =  event.GetId();
 	if(btnID==ID_SAVEBUTTON){
 		//wxMessageBox("OnBtnClick - btnSave");
-		EndModal(wxID_CANCEL);
+		EndModal(wxID_OK);
 	}
 	else if(btnID==ID_OPENBUTTON){
 		wxString fileName = wxFileSelector(_("Choose a file to open"), _(""), _(""), _("*.xml*"), _("*.xml*"), wxOPEN); 
@@ -246,13 +243,22 @@ void CDlgPreferences::VwXEvOnEraseBackground(wxEraseEvent& WXUNUSED(event)){ //i
 
 } //end function
 
-void CDlgPreferences::OnPreCreate(){
- //add your code here
-
-}
-
 void CDlgPreferences::initBefore(){
- //add your code here
+	//get skin class
+	appSkin = SkinClass::Instance();
+	#ifdef __WXMSW__ 
+        wxString separator = '\\';
+    #else 
+        wxString separator = '/'; 
+    #endif 
+	wxString currentDir = wxGetCwd();
+    wxString currentSkinsDir = currentDir + separator +appSkin->GetSkinsFolder();
+	if(wxDir::Exists(currentSkinsDir)) { 
+	  // get the names of all directories in skins dir
+      DirTraverserSkins skinTraverser(m_skinNames);
+	  wxDir skinsDir(currentSkinsDir);
+	  skinsDir.Traverse(skinTraverser);
+    }
 
 }
 
@@ -262,3 +268,24 @@ void CDlgPreferences::initAfter(){
 }
 
 //[evtFunc]end your code
+wxDirTraverseResult DirTraverserSkins::OnFile(const wxString& filename)
+{
+    return wxDIR_CONTINUE;
+}
+wxDirTraverseResult DirTraverserSkins::OnDir(const wxString& dirname)
+{
+	#ifdef __WXMSW__ 
+        char separator = '\\';
+    #else 
+        char separator = '/'; 
+    #endif 
+		
+	wxString skinName = dirname.AfterLast(separator);
+	if(skinName != wxT("default")){
+		m_skins.Add(skinName);
+	}
+	
+    return wxDIR_IGNORE;
+}
+
+

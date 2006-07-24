@@ -3,7 +3,7 @@
 #include "BOINCGUIApp.h"
 #include "sg_StatImageLoader.h" 
 #include "BOINCBaseFrame.h"
-//#include "sg_BoincSimpleGUI.h"
+#include "sg_ProjectsComponent.h" 
 
 
 enum{
@@ -21,7 +21,6 @@ END_EVENT_TABLE()
 
 StatImageLoader::StatImageLoader(wxWindow* parent, std::string url,int index) : wxWindow(parent, wxID_ANY, wxDefaultPosition, wxSize(52,52), wxNO_BORDER) 
 {
-	m_parent = parent;
     m_prjUrl = url;
 	m_ProjIconIndex = index;
     CreateMenu();
@@ -107,11 +106,11 @@ void StatImageLoader::OnProjectDetach() {
     wxString strMessage     = wxEmptyString;
     CMainDocument* pDoc     = wxGetApp().GetDocument();
 
-    //CSimpleFrame* pFrame      = wxDynamicCast(GetParent()->GetParent(), CSimpleFrame);
+    CProjectsComponent* pComp      = wxDynamicCast(GetParent(), CProjectsComponent);
 
     wxASSERT(pDoc);
     wxASSERT(wxDynamicCast(pDoc, CMainDocument));
-   // wxASSERT(pFrame);
+    wxASSERT(pComp);
 
     if (!pDoc->IsUserAuthorized())
         return;
@@ -132,10 +131,10 @@ void StatImageLoader::OnProjectDetach() {
     );
 
     if (wxYES == iAnswer) {
-        pDoc->ProjectDetach(m_ProjIconIndex);
+		pComp->RemoveProject(m_prjUrl);
+        //pDoc->ProjectDetach(m_ProjIconIndex);
     }
-    //pFrame->FireRefreshView();
-
+    
     wxLogTrace(wxT("Function Start/End"), wxT("StatImageLoader::OnProjectDetach - Function End"));
 }
 

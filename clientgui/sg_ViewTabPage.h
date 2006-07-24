@@ -69,8 +69,10 @@ public:
 	wxStaticText *lblProjectName;
 	wxStaticLine *lnProjName;
 	wxStaticText *lblMyProgress;
+	wxStaticText *lblProject;
 	wxGauge *gaugeWUMain;
 	wxStaticText *lblWrkUnitName;
+	wxStaticText *lblProjectFrName;
 	wxStaticText *lblElapsedTime;
 	wxStaticText *lblElapsedTimeValue;
 	wxStaticText *lblTimeRemaining;
@@ -85,6 +87,7 @@ public:
 	void LoadSkinImages();
     void CreatePage();
 	void UpdateInterface();
+	void ReskinInterface();
     void OnBtnClick(wxCommandEvent& event);
 	void OnWorkShowGraphics();
     
@@ -104,6 +107,7 @@ protected:
     //tab identifier
 	std::string m_name;
 	std::string m_prjUrl;
+	bool m_hasGraphic;
 
 	wxInt32 FormatCPUTime( RESULT* rslt, wxString& strBuffer ) const;
     wxInt32 FormatTimeToCompletion( RESULT* rslt, wxString& strBuffer ) const;

@@ -25,6 +25,9 @@
 #pragma interface "sg_ProjectsComponent.cpp"
 #endif
 
+class SkinClass;
+class StatImageLoader;
+class CSimpleFrame;
 
 class CProjectsComponent : public wxPanel {
     DECLARE_DYNAMIC_CLASS( CProjectsComponent )
@@ -63,7 +66,9 @@ public:
 
 	void LoadSkinImages();
     void CreateComponent();
+	void RemoveProject(std::string prjUrl);
 	void UpdateInterface();
+	void ReskinInterface();
     void OnBtnClick(wxCommandEvent& event);
    		
 	DECLARE_EVENT_TABLE()

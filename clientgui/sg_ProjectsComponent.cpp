@@ -23,10 +23,11 @@
 
 #include "stdwx.h"
 #include "BOINCGUIApp.h"
+#include "sg_ProjectsComponent.h"
 #include "sg_SkinClass.h"
 #include "sg_StatImageLoader.h" 
 #include "sg_BoincSimpleGUI.h"
-#include "sg_ProjectsComponent.h"
+
 #include "app_ipc.h"
 
 
@@ -75,12 +76,6 @@ void CProjectsComponent::LoadSkinImages(){
     btmpArwRC= wxBitmap(g_arwRightClick); 
 	
 }
-
-
-
-
-
-
 
 void CProjectsComponent::CreateComponent()
 {
@@ -140,6 +135,61 @@ void CProjectsComponent::CreateComponent()
 	///////////
 	
 }
+void CProjectsComponent::RemoveProject(std::string prjUrl)
+{	
+	CMainDocument* pDoc     = wxGetApp().GetDocument();
+	int indexOfIcon = -1;
+	
+	for(int m = 0; m < (int)m_statProjects.size(); m++){
+		StatImageLoader *i_statWShifting = m_statProjects.at(m);
+		if(i_statWShifting->m_prjUrl == prjUrl){
+			delete m_statProjects.at(m);
+			m_statProjects.erase(m_statProjects.begin()+m);
+			indexOfIcon = m;
+			break;
+		}
+	}
+	//shift icons to the left. Nothing will be shifted if last icon is removed
+	for(int k = indexOfIcon; k < (int)m_statProjects.size(); k++){
+		StatImageLoader *i_statWShifting = m_statProjects.at(k);
+		i_statWShifting->Move(wxPoint(29 + 52*k,3));
+		int hj = 9;
+	}
+	//update project count
+	m_projCnt = (int)pDoc->state.projects.size();
+	if(m_leftIndex+1 <= m_projCnt){
+		PROJECT* project = pDoc->state.projects.at(m_leftIndex);
+		userCredit.Printf(wxT("%0.2f"), project->user_total_credit);
+		toolTipTxt = wxString(project->project_name.c_str(), wxConvUTF8 ) +wxT(". User ") + wxString(project->user_name.c_str(), wxConvUTF8) + wxT(" has ") + userCredit + wxT(" points."); 
+		wxToolTip *statToolTip = new wxToolTip(toolTipTxt);
+		StatImageLoader *i_statW = new StatImageLoader(this,project->master_url,m_leftIndex+1);
+		i_statW->Move(wxPoint(29 + 52*(m_maxNumOfIcons-1),3));
+		// resolve the proj image 
+		url_to_project_dir((char*)project->master_url.c_str() ,urlDirectory);
+		dirProjectGraphic = (std::string)urlDirectory + "/" + projectIconName;
+		if(boinc_resolve_filename(dirProjectGraphic.c_str(), defaultIcnPath, sizeof(defaultIcnPath)) == 0){
+			g_statIcn = new wxImage(defaultIcnPath, wxBITMAP_TYPE_PNG);
+			i_statW->LoadImage(g_statIcn);
+		}else{
+			i_statW->LoadImage(g_statIcnDefault);
+		}
+
+		i_statW->SetToolTip(statToolTip);
+		
+		// push icon in the vector
+		m_statProjects.push_back(i_statW);
+		//increment left index
+		m_leftIndex ++;
+		//increment right index
+		m_rightIndex ++;
+	}
+	//hide right arrow if we are at the end of list now
+	if(m_leftIndex >= m_projCnt){
+		btnArwRight->Show(false);
+	}
+
+
+}
 void CProjectsComponent::UpdateInterface()
 {
 	/*CMainDocument* pDoc     = wxGetApp().GetDocument();
@@ -159,6 +209,22 @@ void CProjectsComponent::UpdateInterface()
 */
 }
 
+void CProjectsComponent::ReskinInterface()
+{
+	//Load new skin images
+	LoadSkinImages();
+	//Set Background color only
+	SetBackgroundColour(appSkin->GetAppBgCol());
+	//right button
+	btnArwRight->SetBackgroundColour(appSkin->GetAppBgCol());
+	btnArwRight->SetBitmapLabel(btmpArwR);
+	btnArwRight->SetBitmapSelected(btmpArwRC);
+	//left button
+	btnArwLeft->SetBackgroundColour(appSkin->GetAppBgCol());
+	btnArwLeft->SetBitmapLabel(btmpArwL);
+	btnArwLeft->SetBitmapSelected(btmpArwLC);
+}
+
 void CProjectsComponent::OnBtnClick(wxCommandEvent& event){ //init function
 	wxObject *m_wxBtnObj = event.GetEventObject();
 
@@ -170,7 +236,6 @@ void CProjectsComponent::OnBtnClick(wxCommandEvent& event){ //init function
 		//shift icons right
 		for(int m = 0; m < (int)m_statProjects.size(); m++){
 			StatImageLoader *i_statWShifting = m_statProjects.at(m);
-			wxPoint currPoint = i_statWShifting->GetPosition();
 			i_statWShifting->Move(wxPoint(29 + 52*(m+1),3));
 		}
 
@@ -197,10 +262,6 @@ void CProjectsComponent::OnBtnClick(wxCommandEvent& event){ //init function
 			
 		    // push icon in the vector
 		    m_statProjects.insert(m_statProjects.begin(),i_statW);
-			for(int m = 0; m < (int)m_statProjects.size(); m++){
-				StatImageLoader *i_statWShifting = m_statProjects.at(m);
-				wxPoint currPoint = i_statWShifting->GetPosition();
-			}
 			//increment left index
 			m_leftIndex --;
 			//increment right index

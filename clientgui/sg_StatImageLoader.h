@@ -5,8 +5,6 @@
 #pragma interface "sg_StatImageLoader.cpp"
 #endif
 
-
-#include "BOINCBaseView.h"
 #include "sg_SkinClass.h"
 
 class StatImageLoader : public wxWindow 
@@ -28,7 +26,6 @@ public:
 private: 
         //private memb 
 	    int m_ProjIconIndex;
-	    wxWindow *m_parent;
         wxBitmap Bitmap; 
         DECLARE_EVENT_TABLE() 
 }; 

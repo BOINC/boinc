@@ -51,6 +51,7 @@ CViewTabPage::CViewTabPage(wxFlatNotebook* parent,int index,std::string name,std
 	m_tabIndex = index;
 	m_name = name;
 	m_prjUrl = url;
+	m_hasGraphic = false;
     LoadSkinImages();
 
 	CreatePage();
@@ -113,44 +114,54 @@ void CViewTabPage::CreatePage()
 	lblProjectName=new wxStaticText(this,-1,wxT(""),wxPoint(24,2),wxSize(335,18),wxST_NO_AUTORESIZE);
 	lblProjectName->SetForegroundColour(wxSystemSettings::GetColour(wxSYS_COLOUR_WINDOWTEXT));
 	wxString projName;
-	projName = wxString(resState->project->project_name.c_str(), wxConvUTF8 ) + wxT(" - ") + wxString(resState->app->user_friendly_name.c_str(), wxConvUTF8);
+	projName = wxString(resState->project->project_name.c_str(), wxConvUTF8 );
 	lblProjectName->SetLabel(projName);
 	lblProjectName->SetFont(wxFont(11,74,90,90,0,wxT("Tahoma")));
 	//Line Proj Name
-	lnProjName=new wxStaticLine(this,-1,wxPoint(9,25),wxSize(352,2));
+	lnProjName=new wxStaticLine(this,-1,wxPoint(9,22),wxSize(352,2));
 	//My Progress
-	lblMyProgress=new wxStaticText(this,-1,wxT(""),wxPoint(15,32),wxSize(89,18),wxST_NO_AUTORESIZE);
+	lblMyProgress=new wxStaticText(this,-1,wxT(""),wxPoint(15,46),wxSize(89,18),wxST_NO_AUTORESIZE);
 	lblMyProgress->SetForegroundColour(wxSystemSettings::GetColour(wxSYS_COLOUR_WINDOWTEXT));
 	lblMyProgress->SetLabel(wxT("My Progress:"));
 	lblMyProgress->SetFont(wxFont(10,74,90,92,0,wxT("Tahoma")));
+	//Work Unit Name
+	lblWrkUnitName=new wxStaticText(this,-1,wxT(""),wxPoint(110,48),wxSize(250,13),wxST_NO_AUTORESIZE);
+	lblWrkUnitName->SetForegroundColour(wxSystemSettings::GetColour(wxSYS_COLOUR_WINDOWTEXT));
+	lblWrkUnitName->SetLabel(wxString(result->name.c_str(),wxConvUTF8));
+	//Project
+	lblProject=new wxStaticText(this,-1,wxT(""),wxPoint(15,28),wxSize(89,18),wxST_NO_AUTORESIZE);
+	lblProject->SetForegroundColour(wxSystemSettings::GetColour(wxSYS_COLOUR_WINDOWTEXT));
+	lblProject->SetLabel(wxT("Project:"));
+	lblProject->SetFont(wxFont(10,74,90,92,0,wxT("Tahoma")));
+	//Project Friendly Name
+	lblProjectFrName=new wxStaticText(this,-1,wxT(""),wxPoint(110,28),wxSize(250,18),wxST_NO_AUTORESIZE);
+	lblProjectFrName->SetForegroundColour(wxSystemSettings::GetColour(wxSYS_COLOUR_WINDOWTEXT));
+	lblProjectFrName->SetLabel(wxString(resState->app->user_friendly_name.c_str(), wxConvUTF8));
+	lblProjectFrName->SetFont(wxFont(10,74,90,90,0,wxT("Tahoma")));
 	//Main Gauge
-	gaugeWUMain=new wxGauge(this,-1,100,wxPoint(15,60),wxSize(340,30),wxGA_SMOOTH);
+	gaugeWUMain=new wxGauge(this,-1,100,wxPoint(15,70),wxSize(340,30),wxGA_SMOOTH);
 	gaugeWUMain->SetForegroundColour(appSkin->GetGaugeFgCol());
 	gaugeWUMain->SetBackgroundColour(appSkin->GetGaugeBgCol());
 	gaugeWUMain->SetValue(floor(result->fraction_done * 100000)/1000);
-    //Work Unit Name
-	lblWrkUnitName=new wxStaticText(this,-1,wxT(""),wxPoint(110,34),wxSize(250,13),wxST_NO_AUTORESIZE);
-	lblWrkUnitName->SetForegroundColour(wxSystemSettings::GetColour(wxSYS_COLOUR_WINDOWTEXT));
-	lblWrkUnitName->SetLabel(wxString(result->name.c_str(),wxConvUTF8));
-	//Elapsed Time
-	lblElapsedTime=new wxStaticText(this,-1,wxT(""),wxPoint(15,97),wxSize(84,18),wxST_NO_AUTORESIZE);
+    //Elapsed Time
+	lblElapsedTime=new wxStaticText(this,-1,wxT(""),wxPoint(15,107),wxSize(84,18),wxST_NO_AUTORESIZE);
 	lblElapsedTime->SetForegroundColour(wxSystemSettings::GetColour(wxSYS_COLOUR_WINDOWTEXT));
 	lblElapsedTime->SetLabel(wxT("Elapsed Time:"));
 	lblElapsedTime->SetFont(wxFont(10,74,90,90,0,wxT("Tahoma")));
 	//Elapsed time Value
 	wxString strBuffer = wxEmptyString;
-	lblElapsedTimeValue=new wxStaticText(this,-1,wxT(""),wxPoint(102,97),wxSize(250,18),wxST_NO_AUTORESIZE);
+	lblElapsedTimeValue=new wxStaticText(this,-1,wxT(""),wxPoint(102,107),wxSize(250,18),wxST_NO_AUTORESIZE);
 	lblElapsedTimeValue->SetForegroundColour(wxSystemSettings::GetColour(wxSYS_COLOUR_WINDOWTEXT));
 	FormatCPUTime(result, strBuffer);
 	lblElapsedTimeValue->SetLabel(strBuffer);
 	lblElapsedTimeValue->SetFont(wxFont(10,74,90,90,0,wxT("Tahoma")));
 	//Time Remaining
-	lblTimeRemaining=new wxStaticText(this,-1,wxT(""),wxPoint(15,119),wxSize(154,18),wxST_NO_AUTORESIZE);
+	lblTimeRemaining=new wxStaticText(this,-1,wxT(""),wxPoint(15,126),wxSize(154,18),wxST_NO_AUTORESIZE);
 	lblTimeRemaining->SetForegroundColour(wxSystemSettings::GetColour(wxSYS_COLOUR_WINDOWTEXT));
 	lblTimeRemaining->SetLabel(wxT("Time remaining:"));
 	lblTimeRemaining->SetFont(wxFont(10,74,90,90,0,wxT("Tahoma")));
 	//Time Remaining Value
-	lblTimeRemainingValue=new wxStaticText(this,-1,wxT(""),wxPoint(115,119),wxSize(200,18),wxST_NO_AUTORESIZE);
+	lblTimeRemainingValue=new wxStaticText(this,-1,wxT(""),wxPoint(115,126),wxSize(200,18),wxST_NO_AUTORESIZE);
 	lblTimeRemainingValue->SetForegroundColour(wxSystemSettings::GetColour(wxSYS_COLOUR_WINDOWTEXT));
 	FormatTimeToCompletion(result, strBuffer);
 	lblTimeRemainingValue->SetLabel(strBuffer);
@@ -162,13 +173,8 @@ void CViewTabPage::CreatePage()
 		btnShowGraphic->SetBitmapSelected(btmpShwGrphClick);
 		btnShowGraphic->SetBackgroundColour(wxColour(255,255,255));
 		btnShowGraphic->SetToolTip(ttShowGraphic);
+		m_hasGraphic = true;
 	}
-	// Collapse button
-	//wxToolTip *ttCollapse = new wxToolTip(wxT("Hide Graphic"));
-	//btnCollapse=new wxBitmapButton(this,BTN_COLLAPSE,btmpCol,wxPoint(338,117),wxSize(24,24),wxSIMPLE_BORDER);
-	//btnCollapse->SetBitmapSelected(btmpColClick);
-	//btnCollapse->SetBackgroundColour(wxColour(255,255,255));
-	//btnCollapse->SetToolTip(ttCollapse);
 	// project image behind graphic <><><>
 	imgBgAnim=new wxStaticBitmap(this,-1,*btmpBgAnim,wxPoint(5,146),wxSize(358,176));
 	//// Animation Window
@@ -214,6 +220,24 @@ void CViewTabPage::UpdateInterface()
 	lblTimeRemainingValue->Refresh();
 
 }
+void CViewTabPage::ReskinInterface()
+{
+	if(m_hasGraphic){
+		CMainDocument* pDoc  = wxGetApp().GetDocument();
+		
+		wxString dirPref = appSkin->GetSkinsFolder()+_T("/")+appSkin->GetSkinName()+_T("/");
+		////Load new skin images
+		g_showGraphic = new wxImage(dirPref + appSkin->GetBtnShowGraphic(), wxBITMAP_TYPE_PNG);
+		g_showGraphicClick = new wxImage(dirPref + appSkin->GetBtnShowGraphicClick(), wxBITMAP_TYPE_PNG);
+		btmpShwGrph= wxBitmap(g_showGraphic); 
+		btmpShwGrphClick= wxBitmap(g_showGraphicClick); 
+		//reskin button
+		btnShowGraphic->SetBitmapLabel(btmpShwGrph);
+		btnShowGraphic->SetBitmapSelected(btmpShwGrphClick);
+	}
+	
+}
+
 
 void CViewTabPage::OnBtnClick(wxCommandEvent& event){ //init function
 	if(event.GetId()==BTN_SHOW_GRAPHICS){
