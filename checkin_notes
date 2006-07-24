@@ -7923,3 +7923,11 @@ David  22 July 2006
     html/inc
         translations.inc
     languages/translations/en.po (new)
+
+David  24 July 2006
+    - poll translation fixes
+
+    doc/
+        poll_my_result.php (new)
+    languages/translations/
+        en.po

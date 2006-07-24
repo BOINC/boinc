@@ -1,6 +1,13 @@
 <?
 
 $project_news = array(
+array("July 22, 2006",
+    "BOINC user survey:
+    due to a bug in our software, answers to the question
+    'Which are the most important factors when you decide whether to participate in a BOINC project?' were not recorded correctly.
+    Please <a href=poll.php>fill out the survey form again</a>.
+    We apologize for the inconvenience."
+),
 array("July 21, 2006",
     "The BOINC survey is now available in
     <a href=http://boinc.oocp.org/poll.php>Japanese</a>.

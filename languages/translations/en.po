@@ -71,7 +71,7 @@ msgstr "[check all that apply]"
 msgid "POLL_DONE",
 msgstr "When done click:"
 
-msgid "POLL_YES",
+msgid "POLL_CURRENT",
 msgstr "Yes - I have been running BOINC on my computer for..."
 
 msgid "POLL_TWEEK",
@@ -185,7 +185,7 @@ msgstr "Intermediate"
 msgid "POLL_LEVA",
 msgstr "Advanced"
 
-msgid "POLL_WHERE",
+msgid "POLL_LEARN_WHERE",
 msgstr "Where did you learn about BOINC projects?"
 
 msgid "POLL_WTV",

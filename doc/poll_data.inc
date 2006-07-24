@@ -16,7 +16,7 @@ $vother_text = "vother_text";
 $improved = "improved_text";
 
 $choice0 = array(
-    "text" => tr(POLL_YES),
+    "text" => tr(POLL_CURRENT),
     "rname" => "current",
     "options" => array(
         "tweek" => tr(POLL_TWEEK),
@@ -146,7 +146,7 @@ $you_items = array(
 $project_items = array(
     array(
         "name"=>"where",
-        "text"=>tr(POLL_WHERE),
+        "text"=>tr(POLL_LEARN_WHERE),
         "options"=>array(
             "wtv"=>tr(POLL_WTV),
             "wpers"=>tr(POLL_WPERS),
@@ -217,7 +217,6 @@ $project_items = array(
         "other_name"=>help_other_text,
     ),
 );
-shuffle($project_items[1]['options']);
 
 function parse_form() {
     global $run_boinc;
