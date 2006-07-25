@@ -7964,3 +7964,12 @@ Rom    25 July 2006
     clientgui/
         sg_ViewTabPage.cpp
         ViewWork.cpp
+
+Rom    25 July 2006
+    - Bug Fix: Reduce screensaver flicker by only updating the display every ten
+        seconds.  I tried to use a double buffer, but for whatever reason it didn't
+        actually help.  It might have had something to do with having three displays
+        though.  In any case, once every ten seconds is fine.
+        
+    client/win/
+        win_screensaver.cpp, .h

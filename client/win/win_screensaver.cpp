@@ -1352,7 +1352,7 @@ HRESULT CScreensaver::CreateSaverWindow() {
 						m_hWnd = pMonitorInfo->hWnd;
                     }
 
-					SetTimer(pMonitorInfo->hWnd, 2, 2000, NULL);
+					SetTimer(pMonitorInfo->hWnd, 2, 250, NULL);
 				}
             }
     }
@@ -1439,18 +1439,19 @@ LRESULT CScreensaver::SaverProc(
                     break;
             }
             break;
-
         case WM_PAINT:
             {
-                // Show error message, if there is one
+				BOOL    bErrorMode;
+				HRESULT hrError;
+				TCHAR	szError[400];
+				GetError(bErrorMode, hrError, szError, sizeof(szError)/sizeof(TCHAR));
+
+				// Show error message, if there is one
                 PAINTSTRUCT ps;
                 BeginPaint(hWnd, &ps);
 
                 // In preview mode, just fill 
                 // the preview window with black, and the BOINC icon. 
-                BOOL    bErrorMode;
-                HRESULT hrError;
-                GetError(bErrorMode, hrError, NULL, 0);
                 if (!bErrorMode && m_SaverMode == sm_preview) {
                     RECT rc;
                     GetClientRect(hWnd,&rc);
@@ -1458,7 +1459,7 @@ LRESULT CScreensaver::SaverProc(
 				    DrawIcon(ps.hdc, (rc.right / 2) - 16, (rc.bottom / 2) - 16,
 					    LoadIcon(m_hInstance, MAKEINTRESOURCE(IDI_MAIN_ICON)));
                 } else {
-                    DoPaint(hWnd, ps.hdc);
+                    DoPaint(hWnd, hdcBuffer, &ps);
                 }
 
                 EndPaint(hWnd, &ps);
@@ -1710,7 +1711,7 @@ VOID CScreensaver::UpdateErrorBox() {
         dwTimeLast = timeGetTime();
     }
     dwTimeNow = timeGetTime();
-    fTimeDelta = (FLOAT)(dwTimeNow - dwTimeLast) / 1000.0f;
+    fTimeDelta = (FLOAT)(dwTimeNow - dwTimeLast) / 10000.0f;
     dwTimeLast = dwTimeNow;
 
     for(DWORD iMonitor = 0; iMonitor < m_dwNumMonitors; iMonitor++) {
@@ -1776,12 +1777,13 @@ VOID CScreensaver::UpdateErrorBox() {
                     (INT)(pMonitorInfo->xError + pMonitorInfo->widthError),
                     (INT)(pMonitorInfo->yError + pMonitorInfo->heightError));
 
-                if (rcOld.left != rcNew.left || rcOld.top != rcNew.top)
-                {
-                    InvalidateRect(hwnd, &rcOld, TRUE);
-                    InvalidateRect(hwnd, &rcNew, TRUE);
+				if ((dwTimeNow - pMonitorInfo->dwTimeLastUpdate) > 10000)
+				{
+					pMonitorInfo->dwTimeLastUpdate = dwTimeNow;
+
+                    InvalidateRect(hwnd, NULL, TRUE);
                     UpdateWindow(hwnd);
-                }
+				}
             }
         }
     }
@@ -1790,10 +1792,11 @@ VOID CScreensaver::UpdateErrorBox() {
 
 
 
-VOID CScreensaver::DoPaint(HWND hwnd, HDC hdc) {
-    HMONITOR hMonitor = MonitorFromWindow(hwnd, MONITOR_DEFAULTTONEAREST);
-    INTERNALMONITORINFO* pMonitorInfo = NULL;
+VOID CScreensaver::DoPaint(HWND hwnd, HDC hdc, LPPAINTSTRUCT lpps) {
     DWORD iMonitor = 0;
+    INTERNALMONITORINFO* pMonitorInfo = NULL;
+    HMONITOR hMonitor = MonitorFromWindow(hwnd, MONITOR_DEFAULTTONEAREST);
+
     for(iMonitor = 0; iMonitor < m_dwNumMonitors; iMonitor++) {
         pMonitorInfo = &m_Monitors[iMonitor];
         if (pMonitorInfo->hMonitor == hMonitor)
@@ -1804,10 +1807,14 @@ VOID CScreensaver::DoPaint(HWND hwnd, HDC hdc) {
         return;
     }
 
-    // Draw the error message box
+    // Retrieve the latest piece of error information 
     BOOL    bErrorMode;
     HRESULT hrError;
     TCHAR	szError[400];
+    GetError(bErrorMode, hrError, szError, sizeof(szError)/sizeof(TCHAR));
+
+
+    // Start drawing the goods
     RECT    rc;
     RECT    rc2;
     RECT    rcOrginal;
@@ -1818,18 +1825,13 @@ VOID CScreensaver::DoPaint(HWND hwnd, HDC hdc) {
 	static HBITMAP  hbmp = LoadBitmap(m_hInstance, MAKEINTRESOURCE(IDB_BOINCSPLAT));
 
 
-    // Retrieve the latest piece of error information 
-    GetError(bErrorMode, hrError, szError, sizeof(szError)/sizeof(TCHAR));
+	// Start off with a black screen and then draw on top of it.
+	FillRect(hdc, &lpps->rcPaint, hbrushBlack);
 
 
     // If the screensaver has switched to a blanked state or not in an error mode,
     // we should exit here so the screen has been erased to black.
     if ((SS_STATUS_BLANKED == m_iStatus) || !bErrorMode) {
-        BOINCTRACE(_T("CScreensaver::DoPaint - Blank Screen Detected\n"));
-        rc = pMonitorInfo->rcScreen;
-        ScreenToClient(hwnd, (POINT*)&rc.left);
-        ScreenToClient(hwnd, (POINT*)&rc.right);
-        FillRect(hdc, &rc, hbrushBlack);
         return;
     }
 
@@ -1838,19 +1840,8 @@ VOID CScreensaver::DoPaint(HWND hwnd, HDC hdc) {
         (INT)(pMonitorInfo->xError + pMonitorInfo->widthError),
         (INT)(pMonitorInfo->yError + pMonitorInfo->heightError)
     );
+	rcOrginal = rc;
 
-
-	SetRect(&rcOrginal, (INT)pMonitorInfo->xError, (INT)pMonitorInfo->yError,
-        (INT)(pMonitorInfo->xError + pMonitorInfo->widthError),
-        (INT)(pMonitorInfo->yError + pMonitorInfo->heightError)
-    );
-
-
-	// Draw the background as black.
-	FillRect(hdc, &rc, hbrushBlack);
-
-    // Draw a frame in red.
-	//FrameRect(hdc, &rc, hbrushRed);
 
     // Draw the bitmap rectangle and copy the bitmap into 
     // it. the bitmap is centered in the rectangle by adding 2
@@ -1868,37 +1859,6 @@ VOID CScreensaver::DoPaint(HWND hwnd, HDC hdc) {
 	rc = rc2;
     rc2.top = (rc.bottom + rc.top - iTextHeight) / 2;
     DrawText(hdc, szError, -1, &rc2, DT_CENTER);
-
-
-    // Erase everywhere except the error message box
-    ExcludeClipRect(hdc, rcOrginal.left, rcOrginal.top, rcOrginal.right, rcOrginal.bottom);
-    rc = pMonitorInfo->rcScreen;
-    ScreenToClient(hwnd, (POINT*)&rc.left);
-    ScreenToClient(hwnd, (POINT*)&rc.right);
-    FillRect(hdc, &rc, hbrushBlack);
-
-}
-
-
-
-
-VOID CScreensaver::ChangePassword() {
-    // Load the password change DLL
-    HINSTANCE mpr = LoadLibrary(_T("MPR.DLL"));
-
-    if (mpr != NULL) {
-        // Grab the password change function from it
-        typedef DWORD (PASCAL *PWCHGPROC)(LPCSTR, HWND, DWORD, LPVOID);
-        PWCHGPROC pwd = (PWCHGPROC)GetProcAddress(mpr, "PwdChangePasswordA");
-
-        // Do the password change
-        if (pwd != NULL) {
-            pwd("SCRSAVE", m_hWndParent, 0, NULL);
-        }
-
-        // Free the library
-        FreeLibrary(mpr);
-    }
 }
 
 
@@ -2004,6 +1964,30 @@ void CScreensaver::DrawTransparentBitmap(
     DeleteDC(hdcSave);
     DeleteDC(hdcTemp);
 }
+
+
+
+
+VOID CScreensaver::ChangePassword() {
+    // Load the password change DLL
+    HINSTANCE mpr = LoadLibrary(_T("MPR.DLL"));
+
+    if (mpr != NULL) {
+        // Grab the password change function from it
+        typedef DWORD (PASCAL *PWCHGPROC)(LPCSTR, HWND, DWORD, LPVOID);
+        PWCHGPROC pwd = (PWCHGPROC)GetProcAddress(mpr, "PwdChangePasswordA");
+
+        // Do the password change
+        if (pwd != NULL) {
+            pwd("SCRSAVE", m_hWndParent, 0, NULL);
+        }
+
+        // Free the library
+        FreeLibrary(mpr);
+    }
+}
+
+
 
 
 const char *BOINC_RCSID_116268c72f = "$Id$";

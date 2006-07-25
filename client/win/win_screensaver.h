@@ -65,6 +65,8 @@ struct INTERNALMONITORINFO
     RECT           rcScreen;
     HWND           hWnd;
 
+	DWORD          dwTimeLastUpdate;
+
     // Error message state
     FLOAT          xError;
     FLOAT          yError;
@@ -201,7 +203,7 @@ protected:
 
     VOID            DoConfig();
 	HRESULT         DoSaver();
-	VOID            DoPaint( HWND hwnd, HDC hdc );
+	VOID            DoPaint( HWND hwnd, HDC hdc, LPPAINTSTRUCT lpps );
 
 	void			DrawTransparentBitmap(HDC hdc, HBITMAP hBitmap, LONG xStart, LONG yStart, COLORREF cTransparentColor);
 
