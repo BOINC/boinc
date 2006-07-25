@@ -1,0 +1,515 @@
+msgid ""
+msgstr ""
+"Project-Id-Version: \n"
+"POT-Creation-Date: \n"
+"PO-Revision-Date: 2006-07-25 11:49+0900\n"
+"Last-Translator: JE2BWM <je2bwm@jarl.com>\n"
+"Language-Team: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+
+#########################################
+# Language: Japanese
+# FileID  : ja.po,v 1.0, based on en.po v1.3(cvs).   2006/07/25 11:59 JST je2bwm
+# Author  : Janus Kristensen ( Translator: Komori Hitoshi )
+# Email   : jbk@visualgroup.dk( je2bwm at jarl.com )
+##########################################
+# For more information please see:
+# http://boinc.berkeley.edu/web_translation.php
+#  (http://boinc.oocp.org/web_translation.html)
+##########################################
+# The charset used for the text in this file (please try to use UTF-8 if possible)
+# msgid "CHARSET"
+# msgstr "UTF-8"
+msgid "CHARSET"
+msgstr "UTF-8"
+
+# The name of this language in this language
+# msgid "LANG_NAME_NATIVE"
+# msgstr "English"
+msgid "LANG_NAME_NATIVE"
+msgstr "日本語"
+
+# The name of this language in an international language (English)
+# msgid "LANG_NAME_INTERNATIONAL"
+# msgstr "English"
+msgid "LANG_NAME_INTERNATIONAL"
+msgstr "Japanese"
+
+# for user survey
+# msgid "POLL_TITLE"
+# msgstr "BOINC user survey"
+msgid "POLL_TITLE"
+msgstr "BOINC 参加者サーベイ"
+
+#########################################
+# poll.php
+#########################################
+# msgid "POLL_INTRO"
+# msgstr "Several volunteer computing projects, "
+# "including Climateprediction.net, Einstein@home, "
+# "and SETI@home, use software called BOINC. "
+# "If you participate in projects like this, "
+# "we request that you answer the following questions. "
+# "This will help BOINC-based projects increase "
+# "participation and achieve greater scientific results. "
+# "<p> "
+# "Please answer as many questions as you want, "
+# "then go to the bottom and click OK. "
+# "If you previously completed the survey but your answers have changed, "
+# "please complete it again - "
+# "your new answers will replace the old ones. "
+# "<p> "
+# "The current results of the survey are "
+# "<a href=poll_results.php>here</a>. "
+# "<p> "
+# "The survey is also available in "
+# "<a href=http://boinc.oocp.org/poll.php>Japanese</a>. "
+msgid "POLL_INTRO"
+msgstr "BOINC ソフトウェアは、いくつものボランティア・コンピューティング・プロジェクトで使われています。たとえば、Climateprediction.net、 Einstein@home、そして SETI@home といったプロジェクトです。もしこれらのプロジェクトとのどれかに参加しているなら、以下の質問に答えていただきたい。答えることによって、 BOINC を使ったプロジェクトが参加者を増やし、科学的な成果を拡大することを助けることになるのです。<p> 答えたいだけ記入していただければ結構です。入力し終わったら、ページ末尾のOK ボタンを押して下さい。一旦、サーベイに協力していただいた後で、答えた内容を変更したいときは、もう一度全部入力しなおしてください。そうすれば、あなたの答えは古いものを置き換えます。<p> <a href='poll_results.php'>現在時点のサーベイの結果</a> はここにあります。"
+
+# msgid "POLL_RUN"
+# msgstr "Do you run BOINC?"
+msgid "POLL_RUN"
+msgstr "BOINC を走らせていますか?"
+
+# msgid "POLL_PARTICIPATION",
+# msgstr "Your participation"
+msgid "POLL_PARTICIPATION"
+msgstr "あなたの参加について"
+
+# msgid "POLL_COMPUTERS",
+# msgstr "Your computers"
+msgid "POLL_COMPUTERS"
+msgstr "あなたのコンピュータについて"
+
+# msgid "POLL_YOU",
+# msgstr "You"
+msgid "POLL_YOU"
+msgstr "あなた自身について"
+
+# msgid "POLL_NATIONALITY",
+# msgstr "Nationality"
+msgid "POLL_NATIONALITY"
+msgstr "国籍"
+
+# msgid "POLL_COMMENTS",
+# msgstr "Comments"
+msgid "POLL_Q_COMMENTS"
+msgstr "コメント"
+
+# msgid "POLL_COMMENTS_QUESTION",
+# msgstr "Please suggest ways that BOINC, and the projects that use it, could be improved:"
+msgid "POLL_COMMENTS_QUESTION"
+msgstr "BOINC とそれを使うプロジェクト群がより良くなる方法について示唆を書いていただきたい:"
+
+# msgid "POLL_OTHER",
+# msgstr "Other:"
+msgid "POLL_OTHER"
+msgstr "その他:"
+
+# msgid "POLL_CHECK_ALL",
+# msgstr "[check all that apply]"
+msgid "POLL_CHECK_ALL"
+msgstr "[当てはまるものすべてをチェック]"
+
+# msgid "POLL_DONE",
+# msgstr "When done click:"
+msgid "POLL_DONE"
+msgstr "記入が終わりましたら、右のOKボタンをクリックしてください:"
+
+#########################################
+# poll.inc
+#########################################
+#########################################
+# poll_data.inc
+#########################################
+# msgid "POLL_CURRENT",
+# msgstr "Yes - I have been running BOINC on my computer for..."
+msgid "POLL_CURRENT"
+msgstr "はい。今まで BOINC を自分のコンピュータで動かしていた期間は、 "
+
+# msgid "POLL_TWEEK",
+# msgstr "less than a week"
+msgid "POLL_TWEEK"
+msgstr "1週間未満"
+
+# msgid "POLL_TMONTH",
+# msgstr "less than a month"
+msgid "POLL_TMONTH"
+msgstr "1ヶ月未満"
+
+# msgid "POLL_TYEAR",
+# msgstr "less than a year"
+msgid "POLL_TYEAR"
+msgstr "1年未満"
+
+# msgid "POLL_TMOREYEAR",
+# msgstr "more than a year"
+msgid "POLL_TMOREYEAR"
+msgstr "1年以上"
+
+# msgid "POLL_LAPSED",
+# msgstr "No - I was running BOINC, but stopped because..."
+msgid "POLL_LAPSED"
+msgstr "いいえ。BOINC を動かしていたことがありましたが、停めました。その理由は、"
+
+# msgid "POLL_LINTEREST",
+# msgstr "I lost interest"
+msgid "POLL_LINTEREST"
+msgstr "興味をなくしたので"
+
+# msgid "POLL_LCOMPLICATED",
+# msgstr "it was too complicated"
+msgid "POLL_LCOMPLICATED"
+msgstr "複雑過ぎるため"
+
+# msgid "POLL_LSTOPPED",
+# msgstr "I stopped it and forgot to start again"
+msgid "POLL_LSTOPPED"
+msgstr "一度停めたあと、再開するのを忘れていた"
+
+# msgid "POLL_LPROBLEMS",
+# msgstr "it caused problems on my computer"
+msgid "POLL_LPROBLEMS"
+msgstr "BOINC は私のコンピュータでは問題を起こしたから"
+
+# msgid "POLL_LPOWER",
+# msgstr "it used too much electricity"
+msgid "POLL_LPOWER"
+msgstr "電気を使いすぎるので"
+
+# msgid "POLL_LNONBOINC",
+# msgstr "I switched to a non-BOINC computing project"
+msgid "POLL_LNONBOINC"
+msgstr "BOINC 以外のコンピューティング・プロジェクトに切り替えたので"
+
+# msgid "POLL_FAILED",
+# msgstr "No - I tried running BOINC, but..."
+msgid "POLL_FAILED"
+msgstr "いいえ。BOINC を使おうと試したのですが、..."
+
+# msgid "POLL_FINSTALL",
+# msgstr "the software didn't install correctly"
+msgid "POLL_FINSTALL"
+msgstr "BOINC ソフトウェアが正しくインストールされませんでした"
+
+# msgid "POLL_FFIGURE",
+# msgstr "I couldn't figure out how to use the software"
+msgid "POLL_FFIGURE"
+msgstr "このソフトをどう使うかわかりませんでした"
+
+# msgid "POLL_FNETWORK",
+# msgstr "I had network communication problems"
+msgid "POLL_FNETWORK"
+msgstr "ネットワーク通信に問題があってうまくいきませんでした"
+
+# msgid "POLL_FATTACH",
+# msgstr "I couldn't attach to a project"
+msgid "POLL_FATTACH"
+msgstr "プロジェクトに参加できませんでした"
+
+# msgid "POLL_FWORK",
+# msgstr "I attached to a project, but never got any work"
+msgid "POLL_FWORK"
+msgstr "あるプロジェクトに参加しましたが、仕事をまったく取り出せません"
+
+# msgid "POLL_NEVER",
+# msgstr "No - I never tried running BOINC, because..."
+msgid "POLL_NEVER"
+msgstr "いいえ。BOINC を試そうとしたことはありません。というのも、"
+
+# msgid "POLL_NSECURITY",
+# msgstr "I was concerned about security"
+msgid "POLL_NSECURITY"
+msgstr "セキュリティに心配があったからです"
+
+# msgid "POLL_NPROJECT",
+# msgstr "I wasn't interested in any of the projects"
+msgid "POLL_NPROJECT"
+msgstr "どのプロジェクトについても興味がわかなかったからです"
+
+# msgid "POLL_NPERMISSION",
+# msgstr "I don't have permission to run it on my computer"
+msgid "POLL_NPERMISSION"
+msgstr "どのプロジェクトについても興味がわかなかったからです"
+
+# msgid "POLL_NVERSION",
+# msgstr "No version was available for my computer"
+msgid "POLL_NVERSION"
+msgstr "私のコンピュータで使える BOINC の版がなかったからです"
+
+# msgid "POLL_KIND",
+# msgstr "What kind of computers do you have running BOINC?"
+msgid "POLL_KIND"
+msgstr "どんな種類のコンピュータで BOINC を走らせていますか"
+
+# msgid "POLL_WHERE",
+# msgstr "Where are they?"
+msgid "POLL_WHERE"
+msgstr "あなたのコンピュータはどこにありますか"
+
+# msgid "POLL_HOME",
+# msgstr "Home"
+msgid "POLL_HOME"
+msgstr "自宅(Home)"
+
+# msgid "POLL_WORK",
+# msgstr "Work"
+msgid "POLL_WORK"
+msgstr "仕事場(Work)"
+
+# msgid "POLL_SCHOOL",
+# msgstr "School"
+msgid "POLL_SCHOOL"
+msgstr "学校(School)"
+
+# msgid "POLL_HOW_MANY",
+# msgstr "How many computers?"
+msgid "POLL_HOW_MANY"
+msgstr "コンピュータは何台ですか"
+
+# msgid "POLL_TURNED_ON",
+# msgstr "On average, how many hours per day are they powered on?"
+msgid "POLL_TURNED_ON"
+msgstr "平均して、あなたのコンピュータは日に何時間電源が入っていますか"
+
+# msgid "POLL_AGE",
+# msgstr "Age"
+msgid "POLL_AGE"
+msgstr "あなたの年齢"
+
+# msgid "POLL_SEX",
+# msgstr "Sex"
+msgid "POLL_SEX"
+msgstr "性別"
+
+# msgid "POLL_MALE",
+# msgstr "Male"
+msgid "POLL_MALE"
+msgstr "男性"
+
+# msgid "POLL_FEMALE",
+# msgstr "Female"
+msgid "POLL_FEMALE"
+msgstr "女性"
+
+# msgid "POLL_EXPERTISE",
+# msgstr "Your level of computer expertise"
+msgid "POLL_EXPERTISE"
+msgstr "コンピュータに関する専門知識レベル"
+
+# msgid "POLL_LEVB",
+# msgstr "Beginner"
+msgid "POLL_LEVB"
+msgstr "初心者"
+
+# msgid "POLL_LEVI",
+# msgstr "Intermediate"
+msgid "POLL_LEVI"
+msgstr "中くらい"
+
+# msgid "POLL_LEVA",
+# msgstr "Advanced"
+msgid "POLL_LEVA"
+msgstr "高度"
+
+# msgid "POLL_LEARN_WHERE",
+# msgstr "Where did you learn about BOINC projects?"
+msgid "POLL_LEARN_WHERE"
+msgstr "BOINC のプロジェクトを、どこで知りましたか"
+
+# msgid "POLL_WTV",
+# msgstr "TV/radio/newspaper"
+msgid "POLL_WTV"
+msgstr "テレビ/ラジオ/新聞"
+
+# msgid "POLL_WPERS",
+# msgstr "From friends, relatives, or coworkers"
+msgid "POLL_WPERS"
+msgstr "友人、親戚、あるいは同僚から"
+
+# msgid "POLL_WTEAM",
+# msgstr "Team message boards or web sites"
+msgid "POLL_WTEAM"
+msgstr "チームの掲示板・ウェブサイトで"
+
+# msgid "POLL_WBOINC",
+# msgstr "The BOINC web site"
+msgid "POLL_WBOINC"
+msgstr "BOINC のウェブサイトで"
+
+# msgid "POLL_WWEB",
+# msgstr "Other web sites"
+msgid "POLL_WWEB"
+msgstr "その他のウェブサイトで"
+
+# msgid "POLL_FACTOR",
+# msgstr "Which are the most important factors when you decide whether to participate in a BOINC project?"
+msgid "POLL_FACTOR"
+msgstr "BOINC のプロジェクトに参加するかどうか判断するときに、以下のどの要因がもっとも重要ですか"
+
+# msgid "POLL_GRAPHICS",
+# msgstr "Nice-looking screensaver graphics"
+msgid "POLL_GRAPHICS"
+msgstr "見栄えのするスクリーンセイバーのグラフィクス"
+
+# msgid "POLL_CREDIT_FAIR",
+# msgstr "Fair and quick granting of credit for work done"
+msgid "POLL_CREDIT_FAIR"
+msgstr "やりおえた仕事に対して、公正にかつ迅速に功績(credit)が付与されること"
+
+# msgid "POLL_CREDIT_MORE",
+# msgstr "Getting more credit from this project than from others"
+msgid "POLL_CREDIT_MORE"
+msgstr "他のプロジェクトよりもこのプロジェクトの方がより多く功績(credit)が得られること"
+
+# msgid "POLL_MB_FRIENDLY",
+# msgstr "Helpful and friendly message boards"
+msgid "POLL_MB_FRIENDLY"
+msgstr "役に立ち、かつ、親しみやすい掲示板があること"
+
+# msgid "POLL_MB_STAFF",
+# msgstr "Participation by project staff on the message boards"
+msgid "POLL_MB_STAFF"
+msgstr "掲示板にそのプロジェクトのスタッフが参加してくれること"
+
+# msgid "POLL_WEB_SITE",
+# msgstr "Informative project web site"
+msgid "POLL_WEB_SITE"
+msgstr "プロジェクトのウェブサイトに参考になる情報が多く載っていること"
+
+# msgid "POLL_SCIENCE_IMPORTANT",
+# msgstr "The science is important and beneficial"
+msgid "POLL_SCIENCE_IMPORTANT"
+msgstr "対象としている科学の内容が重要でかつ有益であること"
+
+# msgid "POLL_SCIENCE_PUBLIC",
+# msgstr "Non-profit, and results are public"
+msgid "POLL_SCIENCE_PUBLIC"
+msgstr "非営利のプロジェクトであって、得られた科学的成果が公開されていること"
+
+# msgid "POLL_RECOGNIZE",
+# msgstr "Personal recognition if my computer finds something"
+msgid "POLL_RECOGNIZE"
+msgstr "自分のコンピュータが何か発見したら、個人として表彰してもらえること"
+
+# msgid "POLL_PUBLISH",
+# msgstr "Publication by the project in scientific journals"
+msgid "POLL_PUBLISH"
+msgstr "定期的な科学刊行物でこのプロジェクトによる公表がなされること"
+
+# msgid "POLL_EMAIL",
+# msgstr "Periodic email newsletters from the project"
+msgid "POLL_EMAIL"
+msgstr "プロジェクトから、メイルによる定期的なニュースレターが送られてくること"
+
+# msgid "POLL_NPROJECTS",
+# msgstr "How many BOINC projects do you participate in?"
+msgid "POLL_NPROJECTS"
+msgstr "BOINC プロジェクトにいくつ参加していますか"
+
+# msgid "POLL_SSAVER",
+# msgstr "Do you run BOINC as a screensaver?"
+msgid "POLL_SSAVER"
+msgstr "BOINC をスクリーンセイバーとして走らせていますか"
+
+# msgid "POLL_YES",
+# msgstr "Yes"
+msgid "POLL_YES"
+msgstr "はい"
+
+# msgid "POLL_NO",
+# msgstr "No"
+msgid "POLL_NO"
+msgstr "いいえ"
+
+# msgid "POLL_MBOARDS",
+# msgstr "Your usage of project messages boards:"
+msgid "POLL_MBOARDS"
+msgstr "掲示板をどのように使っていますか:"
+
+# msgid "POLL_MBR",
+# msgstr "to read information"
+msgid "POLL_MBR"
+msgstr "読んでいるだけです"
+
+# msgid "POLL_MBRW",
+# msgstr "to read and post information"
+msgid "POLL_MBRW"
+msgstr "読むだけでなく書き込みもします"
+
+# msgid "POLL_NONE",
+# msgstr "None"
+msgid "POLL_NONE"
+msgstr "使っていません"
+
+# msgid "POLL_HELP",
+# msgstr "Where do you get information to help resolve problems with BOINC and/or BOINC projects?"
+msgid "POLL_HELP"
+msgstr "BOINC あるいは BOINC プロジェクトで問題が生じたときにどこで解決のための情報を得ますか"
+
+# msgid "POLL_HELP_PMB",
+# msgstr "The project message boards"
+msgid "POLL_HELP_PMB"
+msgstr "そのプロジェクトの掲示板"
+
+# msgid "POLL_HELP_BMB",
+# msgstr "The BOINC message boards"
+msgid "POLL_HELP_BMB"
+msgstr "BOINC の掲示板"
+
+# msgid "POLL_HELP_BDOC",
+# msgstr "The BOINC web site"
+msgid "POLL_HELP_BDOC"
+msgstr "BOINC のウェブサイト"
+
+# msgid "POLL_HELP_BMLIST",
+# msgstr "BOINC mailing lists"
+msgid "POLL_HELP_BMLIST"
+msgstr "BOINC のメイリング・リスト"
+
+# msgid "POLL_HELP_WIKI",
+# msgstr "The Unofficial BOINC Wiki"
+msgid "POLL_HELP_WIKI"
+msgstr "非公式の BOINC Wiki"
+
+# msgid "POLL_HELP_TEAM",
+# msgstr "Team web sites"
+msgid "POLL_HELP_TEAM"
+msgstr "チームのウェブサイト"
+
+# msgid "POLL_HELP_GOOGLE",
+# msgstr "Google or other search engines"
+msgid "POLL_HELP_GOOGLE"
+msgstr "Google などのサーチ・エンジン"
+
+#########################################
+# poll_action.php
+#########################################
+# msgid "POLL_ERROR_TITLE",
+# msgstr "Error - results not recorded"
+msgid "POLL_ERROR_TITLE"
+msgstr "エラー発生 - 入力データは記録されませんでした"
+
+# msgid "POLL_ERROR_TEXT",
+# msgstr "An internal error has prevented us from recording your survey response.  Please try again later."
+msgid "POLL_ERROR_TEXT"
+msgstr "内部エラーのためにあなたが入力してくれた内容を記録できませんでした。申し訳ありませんが、少したってからもう一度試してみてください"
+
+# msgid "POLL_RECORDED",
+# msgstr "Survey response recorded"
+msgid "POLL_RECORDED"
+msgstr "入力していただいたデータを記録しました"
+
+# msgid "POLL_THANKS",
+# msgstr "Thank you for completing the BOINC user survey."
+msgid "POLL_THANKS"
+msgstr ""
+"BOINC 参加者サーベイにご協力ありがとうございました。\n"
+" "
+
+msgid "POLL_"
+msgstr ""
+
