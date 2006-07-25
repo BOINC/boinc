@@ -106,7 +106,7 @@ int FILE_INFO::verify_file(bool strict) {
     char cksum[64], pathname[256];
     bool verified;
     int retval;
-    double size;
+    double size, local_nbytes;
 
     get_pathname(this, pathname);
 
@@ -166,7 +166,7 @@ int FILE_INFO::verify_file(bool strict) {
             return ERR_RSA_FAILED;
         }
     } else if (strlen(md5_cksum)) {
-        retval = md5_file(pathname, cksum, nbytes);
+        retval = md5_file(pathname, cksum, local_nbytes);
         if (retval) {
             msg_printf(project, MSG_ERROR,
                 "MD5 computation error for %s: %s\n",

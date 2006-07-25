@@ -8039,3 +8039,10 @@ David  25 July 2006
         cs_scheduler.C
         cs_statefile.C
         scheduler_op.C
+
+David  25 July 2006
+	- core client: when md5'ing a file, put the size in local var
+		rather than into the FILE_INFO
+
+	client/
+		cs_files.C
