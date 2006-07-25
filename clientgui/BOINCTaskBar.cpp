@@ -28,6 +28,10 @@
 #include "DlgAbout.h"
 #include "Events.h"
 
+#ifdef __WXMAC__
+#include "res/macsnoozebadge.xpm"
+#include "res/macdisconnectbadge.xpm"
+#endif
 
 BEGIN_EVENT_TABLE (CTaskBarIcon, wxTaskBarIconEx)
     EVT_IDLE(CTaskBarIcon::OnIdle)
@@ -499,8 +503,49 @@ wxMenu *CTaskBarIcon::CreatePopupMenu() {
 
 // Override the standard wxTaskBarIcon::SetIcon() because we are only providing a 
 // 16x16 icon for the menubar, while the Dock needs a 128x128 icon.
+// Rather than using an entire separate icon, overlay the Dock icon with a badge 
+// so we don't need additional Snooze and Disconnected icons for branding.
 bool CTaskBarIcon::SetIcon(const wxIcon& icon, const wxString& tooltip) {
-    return wxGetApp().GetMacSystemMenu()->SetIcon(icon, tooltip);
+    wxIcon macIcon;
+    bool result;
+    OSStatus err = noErr ;
+    static const wxIcon* currentIcon = NULL;
+
+    if (&icon == currentIcon)
+        return true;
+    
+    currentIcon = &icon;
+    
+    result = wxGetApp().GetMacSystemMenu()->SetIcon(icon, tooltip);
+
+    RestoreApplicationDockTileImage();      // Remove any previous badge
+    
+    if (icon == m_iconTaskBarDisconnected)
+        macIcon = macdisconnectbadge;
+    else if (icon == m_iconTaskBarSnooze)
+        macIcon = macsnoozebadge;
+    else
+        return result;
+    
+    // Convert the wxIcon into a wxBitmap so we can perform some
+    // wxBitmap operations with it
+    wxBitmap bmp( macIcon ) ;
+
+    //Get the CGImageRef for the wxBitmap (OSX builds only, but then the dock
+    //only exists in OSX :))
+    CGImageRef pImage = 
+        (CGImageRef) bmp.CGImageCreate() ; 
+
+    // Actually set the dock image    
+    err = OverlayApplicationDockTileImage(pImage);
+    
+    wxASSERT(err == 0);
+    
+    // Free the CGImage
+    if (pImage != NULL)
+        CGImageRelease(pImage);
+
+    return result;
 }
 
 #else  // ! __WXMAC__

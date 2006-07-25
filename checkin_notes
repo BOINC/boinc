@@ -7946,3 +7946,14 @@ Charlie 24 July 2006
         sandbox.php
     mac_installer/
         Installer.cpp
+
+Charlie 24 July 2006
+    - Mac: Overlay the Dock icon with Suspend and Disconnected icon badges to match 
+        the system menu icon.  This method avoids the need to create separate 128X128 
+        Suspend and Disconnected icons for each brand.
+
+    clientgui/
+        BOINCTaskBar.cpp
+    clientgui/res/
+        macsnoozebadge.xpm (Added)
+        macdisconnectbadge.xpm (Added)
