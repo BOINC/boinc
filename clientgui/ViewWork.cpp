@@ -224,13 +224,16 @@ void CViewWork::OnWorkShowGraphics( wxCommandEvent& WXUNUSED(event) ) {
 
     if (wxYES == iAnswer) {
         RESULT* result = pDoc->result(m_pListPane->GetFirstSelected());
+		std::string strDefaultWindowStation = std::string((const char*)wxGetApp().m_strDefaultWindowStation.mb_str());
+		std::string strDefaultDesktop = std::string((const char*)wxGetApp().m_strDefaultDesktop.mb_str());
+		std::string strDefaultDisplay = std::string((const char*)wxGetApp().m_strDefaultDisplay.mb_str());
         pDoc->WorkShowGraphics(
             result->project_url,
             result->name,
             MODE_WINDOW,
-            std::string((const char*)wxGetApp().m_strDefaultWindowStation.mb_str()),
-            std::string((const char*)wxGetApp().m_strDefaultDesktop.mb_str()),
-            std::string((const char*)wxGetApp().m_strDefaultDisplay.mb_str())
+            strDefaultWindowStation,
+            strDefaultDesktop,
+            strDefaultDisplay
         );
     }
 

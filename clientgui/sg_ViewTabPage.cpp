@@ -340,13 +340,16 @@ void CViewTabPage::OnWorkShowGraphics() {
 #endif
 
 	if (wxYES == iAnswer) {
-       pDoc->WorkShowGraphics(
+		std::string strDefaultWindowStation = std::string((const char*)wxGetApp().m_strDefaultWindowStation.mb_str());
+		std::string strDefaultDesktop = std::string((const char*)wxGetApp().m_strDefaultDesktop.mb_str());
+		std::string strDefaultDisplay = std::string((const char*)wxGetApp().m_strDefaultDisplay.mb_str());
+        pDoc->WorkShowGraphics(
             m_prjUrl,
             m_name,
             MODE_WINDOW,
-            std::string((const char*)wxGetApp().m_strDefaultWindowStation.mb_str()),
-            std::string((const char*)wxGetApp().m_strDefaultDesktop.mb_str()),
-            std::string((const char*)wxGetApp().m_strDefaultDisplay.mb_str())
+            strDefaultWindowStation,
+            strDefaultDesktop,
+            strDefaultDisplay
         );
     }
 

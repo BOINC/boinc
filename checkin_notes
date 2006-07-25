@@ -7957,3 +7957,10 @@ Charlie 24 July 2006
     clientgui/res/
         macsnoozebadge.xpm (Added)
         macdisconnectbadge.xpm (Added)
+
+Rom    25 July 2006
+    - Bug Fix: Mac compiler handles std::string a little differently than Windows.
+    
+    clientgui/
+        sg_ViewTabPage.cpp
+        ViewWork.cpp
