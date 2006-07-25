@@ -8,10 +8,12 @@
 
 # The charset used for the text in this file (please try to use UTF-8 if possible)
 msgid "CHARSET"
-msgstr "UTF-8"
+msgstr "ISO-8859-2"
+
 # The name of this language in this language
 msgid "LANG_NAME_NATIVE"
 msgstr "Polski"
+
 # The name of this language in an international language (Polish)
 msgid "LANG_NAME_INTERNATIONAL"
 msgstr "Polish"

@@ -1,0 +1,312 @@
+﻿##########################################
+# Language : German (Deutsch)
+# FileID   : $Id$
+##########################################
+# For more information please see:
+# http://boinc.berkeley.edu/web_translation.php
+##########################################
+
+# The charset used for the text in this file (please try to use UTF-8 if possible)
+msgid "CHARSET"
+msgstr "UTF-8"
+
+# The name of this language in this language
+msgid "LANG_NAME_NATIVE"
+msgstr "Deutsch"
+
+# The name of this language in an international language (English)
+msgid "LANG_NAME_INTERNATIONAL"
+msgstr "German"
+
+# for user survey
+msgid "POLL_TITLE"
+msgstr "BOINC-Benutzerumfrage"
+
+msgid "POLL_INTRO"
+msgstr "Mehrere Distributed Computing-Projekte, darunter "
+"ClimatePrediction.net, Einstein@home und SETI@home, nutzen "
+"eine Software namens BOINC. Wenn Sie an einem solchen Projekt "
+"teilnehmen, bitten wir Sie, folgende Fragen zu beantworten. "
+"Sie werden so den BOINC-basierten Projekten zu mehr Teilnehmern "
+"verhelfen und dazu beitragen, bedeutendere wissenschaftliche "
+"Ergebnisse zu erzielen."
+"<p>Bitte beantworten Sie so viele Fragen wie Sie möchten und "
+"bestätigen dann unten an der Seite mit einem Klick auf 'OK'. "
+"Wenn Sie die Umfrage bereits einmal ausgefüllt haben, aber "
+"inzwischen auf manche Fragen anders antworten würden, "
+"füllen Sie die Umfrage doch einfach erneut aus - Ihre alten "
+"Antworten werden dabei automatisch durch die neuen ersetzt."
+"<p>Die aktuellen Umfrageresultate finden Sie "
+"<a href=poll_results.php>hier</a>."
+
+msgid "POLL_RUN"
+msgstr "Nutzen Sie BOINC?"
+
+msgid "POLL_PARTICIPATION"
+msgstr "Ihre Teilnahme"
+
+msgid "POLL_COMPUTERS"
+msgstr "Ihre Computer"
+
+msgid "POLL_YOU"
+msgstr "Sie"
+
+msgid "POLL_NATIONALITY"
+msgstr "Nationalität"
+
+msgid "POLL_COMMENTS"
+msgstr "Bemerkungen"
+
+msgid "POLL_COMMENTS_QUESTION"
+msgstr "Wie könnten Ihrer Meinung nach BOINC und die "
+"BOINC-Projekte verbessert werden:"
+
+msgid "POLL_OTHER"
+msgstr "Sonstiges:"
+
+msgid "POLL_CHECK_ALL"
+msgstr "[alles zutreffende ankreuzen]"
+
+msgid "POLL_DONE"
+msgstr "Wenn Sie fertig sind:"
+
+msgid "POLL_CURRENT"
+msgstr "Ja - BOINC läuft auf meinem Computer seit..."
+
+msgid "POLL_TWEEK"
+msgstr "weniger als einer Woche"
+
+msgid "POLL_TMONTH"
+msgstr "weniger als einem Monat"
+
+msgid "POLL_TYEAR"
+msgstr "weniger als einem Jahr"
+
+msgid "POLL_TMOREYEAR"
+msgstr "mehr als einem Jahr"
+
+msgid "POLL_LAPSED"
+msgstr "Nein - Ich habe BOINC genutzt, habe aber aufgehört, "
+"weil..."
+
+msgid "POLL_LINTEREST"
+msgstr "ich das Interesse verloren habe"
+
+msgid "POLL_LCOMPLICATED"
+msgstr "es zu kompliziert war"
+
+msgid "POLL_LSTOPPED"
+msgstr "ich es angehalten und dann nicht wieder gestartet habe"
+
+msgid "POLL_LPROBLEMS"
+msgstr "es auf meinem Computer zu Probleme geführt hat"
+
+msgid "POLL_LPOWER"
+msgstr "der Stromverbrauch zu hoch war"
+
+msgid "POLL_LNONBOINC"
+msgstr "ich zu einem Projekt ohne BOINC gewechselt bin"
+
+msgid "POLL_FAILED"
+msgstr "Nein - Ich habe versucht, BOINC zu nutzen, aber..."
+
+msgid "POLL_FINSTALL"
+msgstr "die Installation der Software wollte nicht klappen"
+
+msgid "POLL_FFIGURE"
+msgstr "ich fand nicht heraus, wie die Software zu bedienen war"
+
+msgid "POLL_FNETWORK"
+msgstr "ich hatte Netzwerkprobleme"
+
+msgid "POLL_FATTACH"
+msgstr "ich konnte mich bei keinem Projekt anmelden"
+
+msgid "POLL_FWORK"
+msgstr "ich habe keine Arbeit erhalten, nachdem ich mich bei "
+"einem Projekt angemeldet hatte"
+
+msgid "POLL_NEVER"
+msgstr "Nein - Ich habe BOINC nie ausprobiert, weil..."
+
+msgid "POLL_NSECURITY"
+msgstr "ich mir Sorgen bezüglich der Sicherheit machte"
+
+msgid "POLL_NPROJECT"
+msgstr "mich keines der Projekte interessiert hat"
+
+msgid "POLL_NPERMISSION"
+msgstr "ich nicht die Erlaubnis hatte, es auf meinem Computer "
+"zu installieren"
+
+msgid "POLL_NVERSION"
+msgstr "keine Version für meinen Computer erhältlich war"
+
+msgid "POLL_KIND"
+msgstr "Unter welchem/n Betriebssystem(en) läuft BOINC bei Ihnen?"
+
+msgid "POLL_WHERE"
+msgstr "Wo stehen diese?"
+
+msgid "POLL_HOME"
+msgstr "Zu Hause"
+
+msgid "POLL_WORK"
+msgstr "Am Arbeitsplatz"
+
+msgid "POLL_SCHOOL"
+msgstr "In der Schule"
+
+msgid "POLL_HOW_MANY"
+msgstr "Wie viele Computer?"
+
+msgid "POLL_TURNED_ON"
+msgstr "Wie viele Stunden pro Tag sind sie durchschnittlich "
+"eingeschaltet?"
+
+msgid "POLL_AGE"
+msgstr "Alter"
+
+msgid "POLL_SEX"
+msgstr "Geschlecht"
+
+msgid "POLL_MALE"
+msgstr "Männlich"
+
+msgid "POLL_FEMALE"
+msgstr "Weiblich"
+
+msgid "POLL_EXPERTISE"
+msgstr "Ihre Erfahrung mit Computern"
+
+msgid "POLL_LEVB"
+msgstr "Anfänger"
+
+msgid "POLL_LEVI"
+msgstr "Fortgeschritten"
+
+msgid "POLL_LEVA"
+msgstr "Profi"
+
+msgid "POLL_LEARN_WHERE"
+msgstr "Wie haben Sie von den BOINC-Projekten erfahren?"
+
+msgid "POLL_WTV"
+msgstr "TV / Radio / Zeitung"
+
+msgid "POLL_WPERS"
+msgstr "Freunde, Bekannte oder Arbeitskollegen"
+
+msgid "POLL_WTEAM"
+msgstr "Diskussionsforen oder Webseiten des Teams"
+
+msgid "POLL_WBOINC"
+msgstr "BOINC-Webseite"
+
+msgid "POLL_WWEB"
+msgstr "Andere Webseiten"
+
+msgid "POLL_FACTOR"
+msgstr "Was sind für Sie die wichtigsten Faktoren, wenn Sie sich "
+"zur Teilnahme an einem BOINC-Projekt entschliessen?"
+
+msgid "POLL_GRAPHICS"
+msgstr "Schöner Bildschirmschoner"
+
+msgid "POLL_CREDIT_FAIR"
+msgstr "Gerechte und schnelle Creditvergabe für abgeschlossene "
+"Arbeit"
+
+msgid "POLL_CREDIT_MORE"
+msgstr "Bei diesem Projekt mehr Credits als bei anderen "
+"gutgeschrieben bekommen"
+
+msgid "POLL_MB_FRIENDLY"
+msgstr "Hilfreiche und freundliche Diskussionsforen"
+
+msgid "POLL_MB_STAFF"
+msgstr "Teilnahme der Projektmitarbeiter in den Diskussionforen"
+
+msgid "POLL_WEB_SITE"
+msgstr "Informative Projektwebseite"
+
+msgid "POLL_SCIENCE_IMPORTANT"
+msgstr "Die Wissenschaft ist von Bedeutung und kommt der "
+"Allgemeinheit zu Gute"
+
+msgid "POLL_SCIENCE_PUBLIC"
+msgstr "Gemeinnützig, und die Resultate sind öffentlich einsehbar"
+
+msgid "POLL_RECOGNIZE"
+msgstr "Persönliche Anerkennung, wenn mein Computer etwas findet"
+
+msgid "POLL_PUBLISH"
+msgstr "Veröffentlichungen des Projekts in wissenschaftlichen "
+"Zeitschriften"
+
+msgid "POLL_EMAIL"
+msgstr "Periodischer E-Mail-Newsletter vom Projekt"
+
+msgid "POLL_NPROJECTS"
+msgstr "An wie vielen BOINC-Projekten nehmen Sie teil?"
+
+msgid "POLL_SSAVER"
+msgstr "Nutzen Sie den BOINC-Bildschirmschoner?"
+
+msgid "POLL_YES"
+msgstr "Ja"
+
+msgid "POLL_NO"
+msgstr "Nein"
+
+msgid "POLL_MBOARDS"
+msgstr "Wie nutzen Sie die Diskussionsforen der Projekte?"
+
+msgid "POLL_MBR"
+msgstr "Zum Lesen von Informationen"
+
+msgid "POLL_MBRW"
+msgstr "Zum Lesen und Eintragen von Informationen"
+
+msgid "POLL_NONE"
+msgstr "Gar nicht"
+
+msgid "POLL_HELP"
+msgstr "Wo suchen Sie bei Problemen mit BOINC und/oder "
+"BOINC-Projekten nach einer Lösung?"
+
+msgid "POLL_HELP_PMB"
+msgstr "Diskussionsforen des Projekts"
+
+msgid "POLL_HELP_BMB"
+msgstr "BOINC-Diskussionsforen"
+
+msgid "POLL_HELP_BDOC"
+msgstr "BOINC-Webseite"
+
+msgid "POLL_HELP_BMLIST"
+msgstr "BOINC-Mailingliste"
+
+msgid "POLL_HELP_WIKI"
+msgstr "Inoffizielles BOINC-Wiki"
+
+msgid "POLL_HELP_TEAM"
+msgstr "Team-Webseiten"
+
+msgid "POLL_HELP_GOOGLE"
+msgstr "Google oder andere Suchmaschinen"
+
+msgid "POLL_ERROR_TITLE"
+msgstr "Fehler - Antworten nicht aufgezeichnet"
+
+msgid "POLL_ERROR_TEXT"
+msgstr "Ein interner Fehler hat dazu geführt, dass Ihre "
+"Antworten nicht aufgezeichnet werden konnten. Bitte versuchen "
+"Sie es später wieder."
+
+msgid "POLL_RECORDED"
+msgstr "Antworten aufgezeichnet"
+
+msgid "POLL_THANKS"
+msgstr "Vielen Dank, dass Sie an der BOINC-Benutzerumfrage "
+"teilgenommen haben."
