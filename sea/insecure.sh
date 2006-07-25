@@ -41,6 +41,6 @@ then
 fi
 
 chown -R ${user}:${group} .
-chmod -R u+rw-s,g+r=w=s,o+r-w .
+chmod -R u+rw-s,g+r-w-s,o+r-w .
 chmod 600 gui_rpc_auth.cfg
 remove_boinc_users

@@ -64,16 +64,16 @@ make_boinc_users
 
 set_perm_recursive . boinc_master boinc_master u+rw,g+rw,o+r-w
 set_perm . boinc_master boinc_master 0775
-if [-f gui_rpc_auth.cfg] then
+if [ -f gui_rpc_auth.cfg ] ; then
     set_perm gui_rpc_auth.cfg boinc_master boinc_master 0660
 fi
 
-if [-d projects] then
+if [ -d projects ] ; then
     set_perm_recursive projects boinc_master boinc_project u+rw,g+rw,o+r-w
     set_perm projects boinc_master boinc_master 0775
 fi
 
-if [-d slots] then
+if [ -d slots ] ; then
     set_perm_recursive slots boinc_master boinc_project u+rw,g+rw,o+r-w
     set_perm slots boinc_master boinc_master 0775
 fi
