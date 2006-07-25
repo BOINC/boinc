@@ -7973,3 +7973,17 @@ Rom    25 July 2006
         
     client/win/
         win_screensaver.cpp, .h
+
+Charlie 25 July 2006
+    - Mac Sandbox: make most (but not all) files world-readable (needed for simple 
+        gui, third-party add-ons, etc.)
+    - Revise security diagram to clarify use of executable permission bits.
+    - Minor code cleanup in PostInstal.cpp.
+    
+    clientgui/
+        mac/
+            SetupSecurity.cpp
+    doc/
+        sandbox.php
+    mac_installer/
+        Postinstall.cpp

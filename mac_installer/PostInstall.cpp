@@ -148,11 +148,6 @@ int main(int argc, char *argv[])
     
 #ifdef SANDBOX
 
-   if (brandID == 1)
-        p = "/Applications/GridRepublic Desktop.app";
-    else
-        p = "/Applications/BOINCManager.app";
-
     for (i=0; i<5; ++i) {
         err = CreateBOINCUsersAndGroups();
         if (err != noErr) {
@@ -161,8 +156,10 @@ int main(int argc, char *argv[])
         }
         
        if (brandID == 1)
-            err = SetBOINCAppOwnersGroupsAndPermissions(p);
+            p = "/Applications/GridRepublic Desktop.app";
         else
+            p = "/Applications/BOINCManager.app";
+
             err = SetBOINCAppOwnersGroupsAndPermissions(p);
         
         if (err != noErr) {

@@ -25,13 +25,16 @@ function prot($user, $group, $perm) {
     &nbsp;&nbsp; protection: $perm";
 }
 
-$pp0775 = prot('boinc_project', 'boinc_project', '0775');
+$pp06640775 = prot('boinc_project', 'boinc_project', '0664 or 0775');
 $mp2500 = prot('boinc_master', 'boinc_project', '0500+setgid');
 $pp6551 = prot('boinc_project', 'boinc_project', '0551+setuid+setgid');
 $mm0550 = prot('boinc_master', 'boinc_master', '0550');
-$mm0770 = prot('boinc_master', 'boinc_master', '0770');
+$mm0440 = prot('boinc_master', 'boinc_master', '0440');
+$mm0660 = prot('boinc_master', 'boinc_master', '0660');
 $mm0775 = prot('boinc_master', 'boinc_master', '0775');
+$mm0664 = prot('boinc_master', 'boinc_master', '0664');
 $mp0775 = prot('boinc_master', 'boinc_project', '0775');
+$mp06640775 = prot('boinc_master', 'boinc_project', '0664 or 0775');
 $mm2555 = prot('boinc_master', 'boinc_master', '0555+setgid');
 $mm6555 = prot('boinc_master', 'boinc_master', '0555+setuid+setgid');
 $ua0555 = prot('(installing user)', 'admin', '0555');
@@ -98,14 +101,14 @@ echo
     show_dir(0, 'BOINC data', $mm0775, array(
         show_dir(1, 'projects', $mm0775, array(
             show_dir(2, 'setiathome.berkeley.edu', $mp0775, array(
-                show_file('files created by BOINC Client', $mp0775),
-                show_file('files created by project apps', $pp0775)
+                show_file('files created by BOINC Client', $mp06640775),
+                show_file('files created by project apps', $pp06640775)
             ))
         )),
         show_dir(1, 'slots', $mm0775, array(
             show_dir(2, '0', $mp0775, array(
-                show_file('files created by BOINC Client', $mp0775),
-                show_file('files created by project apps', $pp0775)
+                show_file('files created by BOINC Client', $mp06640775),
+                show_file('files created by project apps', $pp06640775)
             ))
         )),
         show_dir(1, 'switcher (directory)', $mm0550, array(
@@ -114,16 +117,16 @@ echo
         )),
         show_dir(1, 'locale', $mm0550, array(
             show_dir(2, 'de', $mm0550, array(
-                show_file('BOINC Manager.mo', $mm0550),
-                show_file('wxstd.mo', $mm0550)
+                show_file('BOINC Manager.mo', $mm0440),
+                show_file('wxstd.mo', $mm0440)
             ))
         )),
-        show_file('account_*.xml', $mm0775),
-        show_file('acct_mgr_login.xml', $mm0775),
-        show_file('client_state.xml', $mm0775),
-        show_file('gui_rpc_auth.cfg', $mm0770),
-        show_file('sched_reply*', $mm0775),
-        show_file('sched_request*', $mm0775)
+        show_file('account_*.xml', $mm0664),
+        show_file('acct_mgr_login.xml', $mm0664),
+        show_file('client_state.xml', $mm0664),
+        show_file('gui_rpc_auth.cfg', $mm0660),
+        show_file('sched_reply*', $mm0664),
+        show_file('sched_request*', $mm0664)
     ));
 
 echo "<br><br>";

@@ -90,7 +90,7 @@ int CreateBOINCUsersAndGroups() {
     err = CreateUserAndGroup(REAL_BOINC_PROJECT_NAME, REAL_BOINC_PROJECT_NAME);
     if (err != noErr)
         return err;
-
+    
     err = ResynchSystem();
     if (err != noErr)
         return err;
@@ -139,13 +139,13 @@ int SetBOINCAppOwnersGroupsAndPermissions(char *path) {
     strlcpy(fullpath, dir_path, sizeof(fullpath));
 
 #ifdef _DEBUG
-    // chmod -R u+rw,g+r-w,o+r-w path/BOINCManager.app
+    // chmod -R u+rw,g+rw,o+r-w path/BOINCManager.app
     // 0775 = S_IRUSR | S_IWUSR | S_IXUSR | S_IRGRP | S_IXGRP | S_IROTH | S_IXOTH
     //  read, write permission for user;  read and execute permission for group and others
-    err = DoPrivilegedExec(chmodPath, "-R", "u+rw,g+r-w,o+r-w", fullpath, NULL, NULL);
+    err = DoPrivilegedExec(chmodPath, "-R", "u+rw,g+rw,o+r-w", fullpath, NULL, NULL);
 #else
     // chmod -R u+r-w,g+r-w,o+r-w path/BOINCManager.app
-    // 0775 = S_IRUSR | S_IWUSR | S_IXUSR | S_IRGRP | S_IXGRP | S_IROTH | S_IXOTH
+    // 0555 = S_IRUSR | S_IWUSR | S_IXUSR | S_IRGRP | S_IXGRP | S_IROTH | S_IXOTH
     //  read, write permission for user;  read and execute permission for group and others
     err = DoPrivilegedExec(chmodPath, "-R", "u+r-w,g+r-w,o+r-w", fullpath, NULL, NULL);
 #endif
@@ -246,9 +246,9 @@ int SetBOINCDataOwnersGroupsAndPermissions() {
 
     // Set permissions of BOINC Data directory's contents
     // chmod -R u+rw,g+rw,o-rw "/Library/Applications/BOINC Data"
-    // 0660 = S_IRUSR | S_IWUSR | S_IRGRP | S_IWGRP
+    // 0664 = S_IRUSR | S_IWUSR | S_IRGRP | S_IWGRP | S_IROTH
     // set read and write permission for user and group, no access for others (leaves execute bits unchanged)
-    err = DoPrivilegedExec(chmodPath, "-R", "u+rw,g+rw,o-rw", fullpath, NULL, NULL);
+    err = DoPrivilegedExec(chmodPath, "-R", "u+rw,g+rw,o+r-w", fullpath, NULL, NULL);
     if (err)
         return err;
 
@@ -269,7 +269,6 @@ int SetBOINCDataOwnersGroupsAndPermissions() {
     if (err)
         return err;
 
-#if 0   // Redundant if we already set contents of BOINC Data directory to boinc_master:boinc_master 0660
     // Does gui_rpc_auth.cfg file exist?
     strlcpy(fullpath, BOINCDataDirPath, MAXPATHLEN);
     strlcat(fullpath, "/gui_rpc_auth.cfg", MAXPATHLEN);
@@ -292,7 +291,6 @@ int SetBOINCDataOwnersGroupsAndPermissions() {
         if (err)
             return err;
     }           // gui_rpc_auth.cfg
-#endif
 
     // Does projects directory exist?
     strlcpy(fullpath, BOINCDataDirPath, MAXPATHLEN);
@@ -323,8 +321,8 @@ int SetBOINCDataOwnersGroupsAndPermissions() {
         if (err)
             return err;
 
-        // Set permissions for project subdirectories
-        err = UpdateNestedDirectories(fullpath);
+        // Set execute permissions for project subdirectories
+        err = UpdateNestedDirectories(fullpath);    // Sets execute for user, group and others
         if (err)
             return err;
     }       // projects directory
@@ -358,8 +356,8 @@ int SetBOINCDataOwnersGroupsAndPermissions() {
         if (err)
             return err;
 
-        // Set permissions for slot subdirectories
-        err = UpdateNestedDirectories(fullpath);
+        // Set execute permissions for slot subdirectories
+        err = UpdateNestedDirectories(fullpath);    // Sets execute for user, group and others
         if (err)
             return err;
     }       // slots directory
@@ -370,7 +368,7 @@ int SetBOINCDataOwnersGroupsAndPermissions() {
 
     result = FSPathMakeRef((StringPtr)fullpath, &ref, &isDirectory);
     if ((result == noErr) && (isDirectory)) {
-#if 0   // Redundant if we already set contents of BOINC Data directory to boinc_master:boinc_master 0660
+#if 0   // Redundant if we already set contents of BOINC Data directory to boinc_master:boinc_master
         // Set owner and group of locale directory and all its contents
         sprintf(buf1, "%s:%s", boinc_master_user_name, boinc_master_group_name);
         // chown -R boinc_master:boinc_master "/Library/Applications/BOINC Data/locale"
@@ -382,7 +380,7 @@ int SetBOINCDataOwnersGroupsAndPermissions() {
         err = UpdateNestedDirectories(fullpath);    // Sets execute for user, group and others
 
         // chmod -R u+r-w,g+r-w,o= "/Library/Applications/BOINC Data/locale"
-        // 0555 = S_IRUSR | S_IXUSR | S_IRGRP | S_IXUSR | S_IROTH | S_IXOTH
+        // 0550 = S_IRUSR | S_IXUSR | S_IRGRP | S_IXUSR
         // set read and execute only permission for user, group, no access for others
         err = DoPrivilegedExec(chmodPath, "-R", "u+r-w,g+r-w,o=", fullpath, NULL, NULL);
         if (err)
@@ -396,7 +394,7 @@ int SetBOINCDataOwnersGroupsAndPermissions() {
 
     result = FSPathMakeRef((StringPtr)fullpath, &ref, &isDirectory);
     if ((result == noErr) && (isDirectory)) {
-#if 0   // Redundant if we already set contents of BOINC Data directory to boinc_master:boinc_master 0660
+#if 0   // Redundant if we already set contents of BOINC Data directory to boinc_master:boinc_master
         // Set owner and group of switcher directory
         sprintf(buf1, "%s:%s", boinc_master_user_name, boinc_master_group_name);
         // chown boinc_master:boinc_master "/Library/Applications/BOINC Data/switcher"
@@ -426,7 +424,7 @@ int SetBOINCDataOwnersGroupsAndPermissions() {
 
         // Set permissions of switcher application
         // chmod u=rsx,g=rsx,o= "/Library/Applications/BOINC Data/switcher/switcher"
-        // 06550 = S_ISUID | S_ISGID | S_IRUSR | S_IXUSR | S_IRGRP | S_IXGRP | S_IXOTH
+        // 06551 = S_ISUID | S_ISGID | S_IRUSR | S_IXUSR | S_IRGRP | S_IXGRP | S_IXOTH
         //  setuid-on-execution, setgid-on-execution plus read and execute permission for user and group, execute only for others
         err = DoPrivilegedExec(chmodPath, "u=rsx,g=rsx,o=x", fullpath, NULL, NULL, NULL);
         if (err)
@@ -493,7 +491,7 @@ static OSStatus UpdateNestedDirectories(char * basepath) {
 
         if (isDirectory) {
             // chmod u+x,g+x,o+x fullpath
-            // 0771 = S_IRUSR | S_IWUSR | S_IXUSR | S_IRGRP | S_IWGRP | S_IXGRP | S_IROTH | S_IXOTH
+            // 0775 = S_IRUSR | S_IWUSR | S_IXUSR | S_IRGRP | S_IWGRP | S_IXGRP | S_IROTH | S_IXOTH
             //  read, write and execute permission for user & group;  read and execute permission for others
             retval = DoPrivilegedExec(chmodPath, "u=rwx,g=rwx,o=rx", fullpath, NULL, NULL, NULL);
             if (retval)
