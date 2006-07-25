@@ -218,14 +218,6 @@ OSStatus IsLogoutNeeded(Boolean *result)
     if (pw->pw_gid != boinc_project_gid)
         return noErr;       // User boinc_project does not have group boinc_project as its primary group
         
-    for (i=0; ; i++) {              // Step through all users in group boinc_project
-        p = grp->gr_mem[i];
-        if (p == NULL)
-            return noErr;           // User boinc_master is not a member of group boinc_project
-        if (strcmp(p, boinc_master_user_name) == 0)
-            break;
-    }
-
     // Step through all visible users.  If user is a member of group admin, verify 
     // that user is also a member of both groups boinc_master and boinc_project.
     // NOTE: getgrnam and getgrgid use one static memory area to return their results, 

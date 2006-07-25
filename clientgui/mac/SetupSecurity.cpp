@@ -81,7 +81,6 @@ static char                    chownPath[] = "/usr/sbin/chown";
 #define RIGHTS_COUNT 3          /* Count of the 3 above items */
 
 int CreateBOINCUsersAndGroups() {
-    char            buf1[80];
     OSStatus        err = noErr;
 
     err = CreateUserAndGroup(REAL_BOINC_MASTER_NAME, REAL_BOINC_MASTER_NAME);
@@ -89,13 +88,6 @@ int CreateBOINCUsersAndGroups() {
         return err;
 
     err = CreateUserAndGroup(REAL_BOINC_PROJECT_NAME, REAL_BOINC_PROJECT_NAME);
-    if (err != noErr)
-        return err;
-    
-    // Add user boinc_master to group boinc_project
-    sprintf(buf1, "/groups/%s", boinc_project_group_name);
-    // "dscl . -merge /groups/boinc_project users boinc_master"
-    err = DoPrivilegedExec(dsclPath, ".", "-merge", buf1, "users", boinc_master_user_name);
     if (err != noErr)
         return err;
 

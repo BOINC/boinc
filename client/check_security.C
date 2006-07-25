@@ -172,14 +172,6 @@ char *bundlePath, char *dataPath
     if (grp == NULL)
         return -1011;                // Group boinc_project does not exist
     boinc_project_gid = grp->gr_gid;
-
-    for (int i=0; ; i++) {                      // Step through all users in group boinc_project
-        char *p = grp->gr_mem[i];
-        if (p == NULL)
-            return -1012;            // User boinc_master is not a member of group boinc_project
-        if (strcmp(p, boinc_master_user_name) == 0)
-            break;
-    }
 #endif
 
 #if (defined(__WXMAC__) || defined(_MAC_INSTALLER)) // If Mac BOINC Manager or installer

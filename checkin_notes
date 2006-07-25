@@ -7931,3 +7931,18 @@ David  24 July 2006
         poll_my_result.php (new)
     languages/translations/
         en.po
+
+Charlie 24 July 2006
+    - Mac sandbox: don't set or require user boinc_master to be a member of group 
+        boinc_project (i.e., do not add group boinc_project to user boinc_master's 
+        supplementary groups list.)
+
+    client/
+        check_security.C
+    clientgui/
+        mac/
+            SetupSecurity.cpp
+    doc/
+        sandbox.php
+    mac_installer/
+        Installer.cpp
