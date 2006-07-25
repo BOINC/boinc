@@ -8010,3 +8010,16 @@ David  25 July 2006
 		cs_files.C
 		file_xfer.C
 		http_curl.C
+
+David  25 July 2006
+    - fixes to Linux sandbox scripts (from Charlie)
+    - new translation files
+    - user web: restore alphabetic order in country list
+
+    html/inc/
+        countries.inc
+    languages/translations/
+        *.po
+    sea/
+        insecure.sh
+        secure.sh

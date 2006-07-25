@@ -1,0 +1,303 @@
+##########################################
+# Language: Polish (International)
+# FileID  : $Id$
+##########################################
+# For more information please see:
+# http://boinc.berkeley.edu/web_translation.php
+##########################################
+
+# The charset used for the text in this file (please try to use UTF-8 if possible)
+msgid "CHARSET"
+msgstr "UTF-8"
+# The name of this language in this language
+msgid "LANG_NAME_NATIVE"
+msgstr "Polski"
+# The name of this language in an international language (Polish)
+msgid "LANG_NAME_INTERNATIONAL"
+msgstr "Polish"
+
+# for user survey
+msgid "POLL_TITLE"
+msgstr "Ankieta u¿ytkowników BOINC"
+
+msgid "POLL_INTRO"
+msgstr "Kilka wolontariatowych projektów obliczeniowych, "
+"takich jak Climateprediction.net, Einstein@home, "
+"czy SETI@home, u¿ywa oprogramowania zwanego BOINC. "
+"Jeœli uczestniczysz w takich projektach, "
+"prosimy o odpowied¿ na nastêpuj¹ce pytania. "
+"To pomo¿e projektom bazuj¹cm na BOINC na zwiêkszenie "
+"iloœci uczestników oraz osi¹ganie wiêkszych rezultatów naukowych. "
+"<p> "
+"Proszê odpowiedz na tyle pytañ na ile chcesz, "
+"potem przejd¿ na dó³ i kliknij OK. "
+"Jeœli wczeœniej wype³ni³eœ ankietê ale Twoje odpowiedzi uleg³y zmianie, "
+"proszê wype³nij ankietê ponownie - "
+"Twoje nowe odpowiedzi zast¹pi¹ stare. "
+"<p> "
+"Obecne rezultaty ankiety dostêpne s¹ "
+"<a href=poll_results.php>tutaj</a>. "
+"<p> "
+"Ankieta jest tak¿e dostêpna po "
+"<a href=http://boinc.oocp.org/poll.php>Japoñsku</a>. "
+
+msgid "POLL_RUN"
+msgstr "Czy u¿ywasz BOINC?"
+
+msgid "POLL_PARTICIPATION",
+msgstr "Twoje wspó³uczestnictwo"
+
+msgid "POLL_COMPUTERS",
+msgstr "Twoje komputery"
+
+msgid "POLL_YOU",
+msgstr "O Tobie"
+
+msgid "POLL_NATIONALITY",
+msgstr "Narodowoœæ"
+
+msgid "POLL_COMMENTS",
+msgstr "Komentarze"
+
+msgid "POLL_COMMENTS_QUESTION",
+msgstr "Proszê zasugeruj drogi/sposoby dziêki którym BOINC i projekty które go u¿ywaj¹ mog¹ usprawniæ siê:"
+
+msgid "POLL_OTHER",
+msgstr "Inne:"
+
+msgid "POLL_CHECK_ALL",
+msgstr "[Mo¿na zaznaczyæ kilka]"
+
+msgid "POLL_DONE",
+msgstr "Kiedy gotowe kliknij:"
+
+msgid "POLL_CURRENT",
+msgstr "Tak - u¿ywam BOINC na moim komuterze przez..."
+
+msgid "POLL_TWEEK",
+msgstr "krócej ni¿ tydzieñ"
+
+msgid "POLL_TMONTH",
+msgstr "krócej ni¿ miesi¹c"
+
+msgid "POLL_TYEAR",
+msgstr "krócej ni¿ rok"
+
+msgid "POLL_TMOREYEAR",
+msgstr "d³u¿ej ni¿ rok"
+
+msgid "POLL_LAPSED",
+msgstr "Nie - U¿ywa³em(³am) BOINC, ale przesta³em(³am) poniewa¿..."
+
+msgid "POLL_LINTEREST",
+msgstr "straci³em(³am) zainteresowanie"
+
+msgid "POLL_LCOMPLICATED",
+msgstr "to by³o zbyt skomplikowane"
+
+msgid "POLL_LSTOPPED",
+msgstr "zatrzyma³em(³am) BOINC i zapomnia³em(³am) uruchomiæ go ponownie"
+
+msgid "POLL_LPROBLEMS",
+msgstr "BOINC stwarza³ problemy na moim komputerze"
+
+msgid "POLL_LPOWER",
+msgstr "BOINC zu¿ywa³ zbyt du¿o pr¹du"
+
+msgid "POLL_LNONBOINC",
+msgstr "przy³¹czy³em siê do nie-BOINCowych projektów obliczeniowych"
+
+msgid "POLL_FAILED",
+msgstr "Nie - Próbowa³em u¿ywaæ BOINC, ale..."
+
+msgid "POLL_FINSTALL",
+msgstr "oprogramowanie nie zainstalowa³o siê poprawnie"
+
+msgid "POLL_FFIGURE",
+msgstr "nie mog³em(³am) poj¹æ jak u¿ywaæ tego oprogramowania"
+
+msgid "POLL_FNETWORK",
+msgstr "mia³em(³am) problemy z komunikacj¹ z internetem"
+
+msgid "POLL_FATTACH",
+msgstr "nie mog³em(³am) siê przy³¹czyæ do projektu"
+
+msgid "POLL_FWORK",
+msgstr "przy³¹czy³em(³am) siê do projektu, ale nigdy nie dosta³em(³am) z niego ¿adnej pracy"
+
+msgid "POLL_NEVER",
+msgstr "Nie - Nigdy nie próbowa³em(³am) u¿ywaæ BOINC, poniewa¿..."
+
+msgid "POLL_NSECURITY",
+msgstr "przejmowa³em(³am) siê bezpieczeñstwem"
+
+msgid "POLL_NPROJECT",
+msgstr "nie by³em(³am) zainteresowany(na) ¿adnym projektem"
+
+msgid "POLL_NPERMISSION",
+msgstr "nie dosta³em(³am) pozwolenia na uruchomienie BOINCa na moim komputerze"
+
+msgid "POLL_NVERSION",
+msgstr "nie by³a dostêpna wersja dla mojego komputera"
+
+msgid "POLL_KIND",
+msgstr "Na jakim systemie komputerowym u¿ywasz BOINCa?"
+
+msgid "POLL_WHERE",
+msgstr "Gdzie one s¹?"
+
+msgid "POLL_HOME",
+msgstr "Dom"
+
+msgid "POLL_WORK",
+msgstr "Praca"
+
+msgid "POLL_SCHOOL",
+msgstr "Szko³a"
+
+msgid "POLL_HOW_MANY",
+msgstr "Jak du¿o komputerów?"
+
+msgid "POLL_TURNED_ON",
+msgstr "Œrednio przez ile godzin dziennie s¹ one w³¹czone?"
+
+msgid "POLL_AGE",
+msgstr "Wiek"
+
+msgid "POLL_SEX",
+msgstr "P³eæ"
+
+msgid "POLL_MALE",
+msgstr "Mê¿czyzna"
+
+msgid "POLL_FEMALE",
+msgstr "Kobieta"
+
+msgid "POLL_EXPERTISE",
+msgstr "Twój poziom znajomoœci obs³ugi komputera"
+
+msgid "POLL_LEVB",
+msgstr "pocz¹tkuj¹cy"
+
+msgid "POLL_LEVI",
+msgstr "œrednio zaawansowany"
+
+msgid "POLL_LEVA",
+msgstr "zaawansowany"
+
+msgid "POLL_LEARN_WHERE",
+msgstr "Gdzie dowiedzia³eœ(³aœ) siê o projektach BOINC?"
+
+msgid "POLL_WTV",
+msgstr "TV/radio/gazety"
+
+msgid "POLL_WPERS",
+msgstr "Od przyjació³, bliskich, albo wspó³pracowników"
+
+msgid "POLL_WTEAM",
+msgstr "Na forum zespo³u albo na jego stronie www"
+
+msgid "POLL_WBOINC",
+msgstr "Na stronie www BOINC"
+
+msgid "POLL_WWEB",
+msgstr "Na innych stronach www"
+
+msgid "POLL_FACTOR",
+msgstr "Który fakt by³ najwa¿niejszy, kiedy zdecydowa³eœ(³aœ) siê czy przy³¹czyæ siê do projektu(ów) BOINC?"
+
+msgid "POLL_GRAPHICS",
+msgstr "£adnie wygl¹daj¹cy graficzny wygaszacz"
+
+msgid "POLL_CREDIT_FAIR",
+msgstr "Sprawiedliwe i szybkie przyznawanie punktów kredytwych za wykonan¹ pracê"
+
+msgid "POLL_CREDIT_MORE",
+msgstr "Dostawanie wiêkszej iloœci punktów kredytowych z jednego projektu wzglêdem innych"
+
+msgid "POLL_MB_FRIENDLY",
+msgstr "Pomocne i przyjacielskie fora na stonach projektów"
+
+msgid "POLL_MB_STAFF",
+msgstr "Udzia³ kadry projektu na forum"
+
+msgid "POLL_WEB_SITE",
+msgstr "Informacyjna strona projektu"
+
+msgid "POLL_SCIENCE_IMPORTANT",
+msgstr "Nauka jest wa¿na i po¿yteczna"
+
+msgid "POLL_SCIENCE_PUBLIC",
+msgstr "BOINC jest niekomercyjny i skutki badañ s¹ publiczne"
+
+msgid "POLL_RECOGNIZE",
+msgstr "Osobiste rozpoznanie/wyró¿nienie, jeœli mój komputer coœ znajduje"
+
+msgid "POLL_PUBLISH",
+msgstr "Opublikowanie przez projekt wyników badañ w pismach naukowych "
+
+msgid "POLL_EMAIL",
+msgstr "Okresowe biuletyny od projektu"
+
+msgid "POLL_NPROJECTS",
+msgstr "W jak wielu projektach BOINC uczestniczysz?"
+
+msgid "POLL_SSAVER",
+msgstr "Czy u¿ywasz BOINC jako wygaszacza?"
+
+msgid "POLL_YES",
+msgstr "Tak"
+
+msgid "POLL_NO",
+msgstr "Nie"
+
+msgid "POLL_MBOARDS",
+msgstr "Twoje u¿ytkowanie forum projektów:"
+
+msgid "POLL_MBR",
+msgstr "do czytania wiadomoœci"
+
+msgid "POLL_MBRW",
+msgstr "do czytania i pisania wiadomoœci"
+
+msgid "POLL_NONE",
+msgstr "¿adne"
+
+msgid "POLL_HELP",
+msgstr "Gdzie uzyskujesz wiadomoœci potrzebne do rozwi¹zywania problemów zwi¹zanych z projektami BOINC i samym BOINC?"
+
+msgid "POLL_HELP_PMB",
+msgstr "Na forum projektu"
+
+msgid "POLL_HELP_BMB",
+msgstr "Na forum BOINC"
+
+msgid "POLL_HELP_BDOC",
+msgstr "Na stronie www BOINC"
+
+msgid "POLL_HELP_BMLIST",
+msgstr "Dziêki listom mailingowym BOINC"
+
+msgid "POLL_HELP_WIKI",
+msgstr "Dziêki nie oficjalnej BOINC Wiki"
+
+msgid "POLL_HELP_TEAM",
+msgstr "Na stronie www dru¿yny w której liczê"
+
+msgid "POLL_HELP_GOOGLE",
+msgstr "Dziêki Google lub innym wyszukiwarkom"
+
+msgid "POLL_ERROR_TITLE",
+msgstr "B³¹d - resultaty nie zapisane"
+
+msgid "POLL_ERROR_TEXT",
+msgstr "Wewnêtrzny b³¹d powstrzyma³ nas od zarejestrowania twoich odpowiedzi na ankietê.  Proszê spróbuj ponownie póŸniej."
+
+msgid "POLL_RECORDED",
+msgstr "Opowiedzi ankiety zapisane"
+
+msgid "POLL_THANKS",
+msgstr "Dziêkujemy za wype³nienie ankiety BOINC."
+
+msgid "POLL_",
+msgstr

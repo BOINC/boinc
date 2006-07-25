@@ -5,7 +5,6 @@
 $countries = array(
     "None",
     "International",
-    "United States",
     "Afghanistan",
     "Albania",
     "Algeria",
@@ -220,6 +219,7 @@ $countries = array(
     "Ukraine",
     "United Arab Emirates",
     "United Kingdom",
+    "United States",
     "Uruguay",
     "Uzbekistan",
     "Vanuatu",

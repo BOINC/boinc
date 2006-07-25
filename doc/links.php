@@ -1,4 +1,4 @@
-<?php
+<246c9db0b8bca0261f9070ae96818f2a?php
 require_once("docutil.php");
 
 include("../html/inc/stats_sites.inc");
@@ -183,7 +183,7 @@ language("Spanish", array(
     //site("http://boincspain.shyper.com/", "BOINC España</a>")
 ));
 language("Turkish", array(
-    site("http://www.turksetiteam.org/boinc/index.html",
+    site("http://www.turksetiteam.org/",
         "www.turksetiteam.org")
 ));
 echo "

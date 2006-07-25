@@ -2,7 +2,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "POT-Creation-Date: \n"
-"PO-Revision-Date: 2006-07-25 11:49+0900\n"
+"PO-Revision-Date: 2006-07-25 21:27+0900\n"
 "Last-Translator: JE2BWM <je2bwm@jarl.com>\n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
@@ -11,7 +11,7 @@ msgstr ""
 
 #########################################
 # Language: Japanese
-# FileID  : ja.po,v 1.0, based on en.po v1.3(cvs).   2006/07/25 11:59 JST je2bwm
+# FileID  : ja.po,v 1.1, based on en.po v1.3(cvs).   2006/07/25 20:20 JST je2bwm
 # Author  : Janus Kristensen ( Translator: Komori Hitoshi )
 # Email   : jbk@visualgroup.dk( je2bwm at jarl.com )
 ##########################################
@@ -67,7 +67,7 @@ msgstr "BOINC 参加者サーベイ"
 # "The survey is also available in "
 # "<a href=http://boinc.oocp.org/poll.php>Japanese</a>. "
 msgid "POLL_INTRO"
-msgstr "BOINC ソフトウェアは、いくつものボランティア・コンピューティング・プロジェクトで使われています。たとえば、Climateprediction.net、 Einstein@home、そして SETI@home といったプロジェクトです。もしこれらのプロジェクトとのどれかに参加しているなら、以下の質問に答えていただきたい。答えることによって、 BOINC を使ったプロジェクトが参加者を増やし、科学的な成果を拡大することを助けることになるのです。<p> 答えたいだけ記入していただければ結構です。入力し終わったら、ページ末尾のOK ボタンを押して下さい。一旦、サーベイに協力していただいた後で、答えた内容を変更したいときは、もう一度全部入力しなおしてください。そうすれば、あなたの答えは古いものを置き換えます。<p> <a href='poll_results.php'>現在時点のサーベイの結果</a> はここにあります。"
+msgstr "BOINC ソフトウェアは、いくつものボランティア・コンピューティング・プロジェクトで使われています。たとえば、Climateprediction.net、 Einstein@home、そして SETI@home といったプロジェクトです。もしこれらのプロジェクトとのどれかに参加しているなら、以下の質問に答えていただけませんか。答えることによって、あなたは BOINC を使ったプロジェクトが参加者を増やすことを助け、科学的な成果を拡大することにも助力することになるのです。<p> 答えたいところだけ記入していただければ結構です。入力し終わったら、ページ末尾のOK ボタンを押して下さい。一旦、サーベイに協力した後で、答えた内容を変更したいときには、お手数ですがもう一度全部入力し直してください。そうすれば、古い答えは上書きされます。<p> <a href='poll_results.php'>現在時点のサーベイの結果</a> はここにあります。"
 
 # msgid "POLL_RUN"
 # msgstr "Do you run BOINC?"
@@ -96,7 +96,7 @@ msgstr "国籍"
 
 # msgid "POLL_COMMENTS",
 # msgstr "Comments"
-msgid "POLL_Q_COMMENTS"
+msgid "POLL_COMMENTS"
 msgstr "コメント"
 
 # msgid "POLL_COMMENTS_QUESTION",
@@ -348,7 +348,7 @@ msgstr "その他のウェブサイトで"
 # msgid "POLL_FACTOR",
 # msgstr "Which are the most important factors when you decide whether to participate in a BOINC project?"
 msgid "POLL_FACTOR"
-msgstr "BOINC のプロジェクトに参加するかどうか判断するときに、以下のどの要因がもっとも重要ですか"
+msgstr "BOINC のプロジェクトに参加するかどうか判断するときに、以下のどの要因が特に重要ですか"
 
 # msgid "POLL_GRAPHICS",
 # msgstr "Nice-looking screensaver graphics"
@@ -483,7 +483,7 @@ msgstr "チームのウェブサイト"
 # msgid "POLL_HELP_GOOGLE",
 # msgstr "Google or other search engines"
 msgid "POLL_HELP_GOOGLE"
-msgstr "Google などのサーチ・エンジン"
+msgstr "Google などの検索エンジン"
 
 #########################################
 # poll_action.php
