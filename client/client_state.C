@@ -321,6 +321,8 @@ int CLIENT_STATE::init() {
 #endif
 #endif
 
+    check_file_existence();
+
     return 0;
 }
 
@@ -1231,6 +1233,9 @@ int CLIENT_STATE::reset_project(PROJECT* project) {
             rp->got_server_ack = true;
         }
     }
+
+    project->user_files.clear();
+    project->project_files.clear();
 
     garbage_collect_always();
 

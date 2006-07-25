@@ -499,12 +499,13 @@ int PROJECT::parse_project_file(FILE* in) {
         if (parse_str(buf, "<url>", url, sizeof(url))) {
             finfo.urls.push_back(url);
         }
+        if (parse_str(buf, "<md5_cksum>", finfo.md5_cksum, sizeof(finfo.md5_cksum))) continue;
     }
     return ERR_XML_PARSE;
 }
 
 void PROJECT::write_project_files(MIOFILE& f) {
-    unsigned int i;
+    unsigned int i, j;
 
     if (!project_files.size()) return;
     f.printf("<project_files>\n");
@@ -514,10 +515,24 @@ void PROJECT::write_project_files(MIOFILE& f) {
         f.printf(
             "   <file>\n"
             "      <name>%s</name>\n"
-            "      <open_name>%s</open_name>\n"
-            "   </file>\n",
+            "      <open_name>%s</open_name>\n",
             fip->name,
             fref.open_name
+        );
+        if (strlen(fip->md5_cksum)) {
+            f.printf(
+                "      <md5_cksum>%s</md5_cksum>\n",
+                fip->md5_cksum
+            );
+        }
+        for (j=0; j<fip->urls.size(); j++) {
+            f.printf(
+                "      <url>%s</url>\n",
+                fip->urls[j].c_str()
+            );
+        }
+        f.printf(
+            "   </file>\n"
         );
     }
     f.printf("</project_files>\n");
@@ -975,6 +990,8 @@ int FILE_INFO::merge_info(FILE_INFO& new_info) {
     // replace signature
     //
     strcpy(file_signature, new_info.file_signature);
+
+    strcpy(md5_cksum, new_info.md5_cksum);
 
     return 0;
 }

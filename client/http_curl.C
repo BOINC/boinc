@@ -571,10 +571,12 @@ size_t libcurl_write(void *ptr, size_t size, size_t nmemb, HTTP_OP* phop) {
     // take the stream param as a FILE* and write to disk
     //CMC TODO: maybe assert stRead == size*nmemb, add exception handling on phop members
     size_t stWrite = fwrite(ptr, size, nmemb, (FILE*) phop->fileOut);
+#if 0
+    if (log_flags.http_debug) {
+        msg_printf(NULL, MSG_INFO, "HTTP: wrote %d bytes", stWrite);
+    }
+#endif
     phop->bytes_xferred += (double)(stWrite);
-    //if (phop->bytes_xferred == (int) phop->content_length)
-    //{ // that's all we need!
-    //}
     phop->update_speed();  // this should update the transfer speed
     return stWrite;
 }

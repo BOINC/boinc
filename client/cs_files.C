@@ -294,5 +294,25 @@ bool CLIENT_STATE::handle_pers_file_xfers() {
     return action;
 }
 
+// called at startup to ensure that if the core client
+// thinks a file is there, it's actually there
+//
+void CLIENT_STATE::check_file_existence() {
+    unsigned int i;
+    char path[1024];
+
+    for (i=0; i<file_infos.size(); i++) {
+        FILE_INFO* fip = file_infos[i];
+        if (fip->status == FILE_PRESENT) {
+            get_pathname(fip, path);
+            if (!boinc_file_exists(path)) {
+                fip->status = FILE_NOT_PRESENT;
+                msg_printf(NULL, MSG_INFO,
+                    "file %s not found", path
+                );
+            }
+        }
+    }
+}
 
 const char *BOINC_RCSID_66410b3cab = "$Id$";

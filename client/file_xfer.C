@@ -272,7 +272,7 @@ bool FILE_XFER_SET::poll() {
         // deal with various error cases for downloads
         //
         if (!fxp->is_upload) {
-            if (fxp->response == HTTP_STATUS_OK) {
+            if (fxp->http_op_retval == 0) {
                 // If no HTTP error,
                 // see if we read less than 5 KB and file is incomplete.
                 // If so truncate the amount read,

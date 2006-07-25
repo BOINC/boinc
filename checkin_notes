@@ -7958,6 +7958,7 @@ Charlie 24 July 2006
         macsnoozebadge.xpm (Added)
         macdisconnectbadge.xpm (Added)
 
+
 Rom    25 July 2006
     - Bug Fix: Mac compiler handles std::string a little differently than Windows.
     
@@ -7987,3 +7988,25 @@ Charlie 25 July 2006
         sandbox.php
     mac_installer/
         Postinstall.cpp
+
+David  25 July 2006
+	core client fixes:
+	- fix bug where interrupted downloads failed with checksum error.
+		This was because we were comparing the HTTP status with 200.
+		But partial transfer success is 206.
+		(bug was introduced in June 28 checkin)
+	- on startup, make sure that all files that are
+		supposed to be present actually are.
+		Otherwise set status to NOT_PRESENT,
+		so that they'll be downloaded again.
+	- on reset, clear project_files and user_files vectors
+	- project files: parse and save md5 checksum.
+		Note: this is a placeholder;
+		I'll change it to full FILE_INFO later.
+
+	client/
+		client_state.C,h
+		client_types.C
+		cs_files.C
+		file_xfer.C
+		http_curl.C

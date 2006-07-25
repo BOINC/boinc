@@ -337,6 +337,7 @@ public:
 
 // --------------- cs_files.C:
 public:
+    void check_file_existence();
     bool start_new_file_xfer(PERS_FILE_XFER&);
 private:
     int make_project_dirs();
