@@ -294,7 +294,8 @@ int CLIENT_STATE::parse_state_file() {
                 skip_unrecognized(buf, f);
                 continue;
             }
-            project->parse_project_files(f);
+            project->parse_project_files(mf);
+            project->link_project_files();
         } else if (match_tag(buf, "<host_info>")) {
             retval = host_info.parse(mf);
             if (retval) {

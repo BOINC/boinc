@@ -445,15 +445,15 @@ void PROJECT::file_xfer_succeeded(const bool is_upload) {
     }
 }
 
-int PROJECT::parse_project_files(FILE* in) {
+int PROJECT::parse_project_files(MIOFILE& in) {
     char buf[256];
 
-    project_files.clear();
-
-    while (fgets(buf, 256, in)) {
+    while (in.fgets(buf, 256)) {
         if (match_tag(buf, "</project_files>")) return 0;
-        if (match_tag(buf, "<file>")) {
-            parse_project_file(in);
+        if (match_tag(buf, "<file_ref>")) {
+            FILE_REF file_ref;
+            file_ref.parse(in);
+            project_files.push_back(file_ref);
         } else {
             if (log_flags.unparsed_xml) {
                 msg_printf(0, MSG_ERROR,
@@ -465,75 +465,32 @@ int PROJECT::parse_project_files(FILE* in) {
     return ERR_XML_PARSE;
 }
 
-int PROJECT::parse_project_file(FILE* in) {
-    char buf[1024], url[1024];
-    FILE_REF fref;
-    FILE_INFO finfo, *fip;
-
-    memset(&fref, 0, sizeof(FILE_REF));
-    while (fgets(buf, 256, in)) {
-        if (match_tag(buf, "</file>")) {
-            if (!strlen(fref.open_name)) {
-                return ERR_XML_PARSE;
-            }
-            if (!strlen(finfo.name)) {
-                return ERR_XML_PARSE;
-            }
-            fip = gstate.lookup_file_info(this, finfo.name);
-            if (fip) {
-                fip->merge_info(finfo);
-                fref.file_info = fip;
-            } else {
-                fip = new FILE_INFO;
-                *fip = finfo;
-                fip->project = this;
-                fip->is_project_file = true;
-                gstate.file_infos.push_back(fip);
-                fref.file_info = fip;
-            }
-            project_files.push_back(fref);
-            return 0;
+void PROJECT::link_project_files() {
+    vector<FILE_REF>::iterator fref_iter;
+    fref_iter = project_files.begin();
+    while (fref_iter != project_files.end()) {
+        FILE_REF& fref = *fref_iter;
+        FILE_INFO* fip = gstate.lookup_file_info(this, fref.file_name);
+        if (!fip) {
+            msg_printf(this, MSG_ERROR,
+                "project file refers to non-existent %s", fref.file_name
+            );
+            fref_iter = project_files.erase(fref_iter);
+            continue;
         }
-        if (parse_str(buf, "<open_name>", fref.open_name, sizeof(fref.open_name))) continue;
-        if (parse_str(buf, "<name>", finfo.name, sizeof(finfo.name))) continue;
-        if (parse_str(buf, "<url>", url, sizeof(url))) {
-            finfo.urls.push_back(url);
-        }
-        if (parse_str(buf, "<md5_cksum>", finfo.md5_cksum, sizeof(finfo.md5_cksum))) continue;
+        fref.file_info = fip;
+        fref_iter++;
     }
-    return ERR_XML_PARSE;
 }
 
 void PROJECT::write_project_files(MIOFILE& f) {
-    unsigned int i, j;
+    unsigned int i;
 
     if (!project_files.size()) return;
     f.printf("<project_files>\n");
     for (i=0; i<project_files.size(); i++) {
         FILE_REF& fref = project_files[i];
-        FILE_INFO* fip = fref.file_info;
-        f.printf(
-            "   <file>\n"
-            "      <name>%s</name>\n"
-            "      <open_name>%s</open_name>\n",
-            fip->name,
-            fref.open_name
-        );
-        if (strlen(fip->md5_cksum)) {
-            f.printf(
-                "      <md5_cksum>%s</md5_cksum>\n",
-                fip->md5_cksum
-            );
-        }
-        for (j=0; j<fip->urls.size(); j++) {
-            f.printf(
-                "      <url>%s</url>\n",
-                fip->urls[j].c_str()
-            );
-        }
-        f.printf(
-            "   </file>\n"
-        );
+        fref.write(f);
     }
     f.printf("</project_files>\n");
 }
@@ -542,7 +499,7 @@ void PROJECT::write_project_files(MIOFILE& f) {
 // Note: it's conceivable that one physical file
 // has several logical names, so try them all
 //
-int PROJECT::link_project_file(FILE_INFO* fip) {
+int PROJECT::write_symlink_for_project_file(FILE_INFO* fip) {
     char project_dir[256], path[256];
     unsigned int i;
 
@@ -990,8 +947,6 @@ int FILE_INFO::merge_info(FILE_INFO& new_info) {
     // replace signature
     //
     strcpy(file_signature, new_info.file_signature);
-
-    strcpy(md5_cksum, new_info.md5_cksum);
 
     return 0;
 }

@@ -232,10 +232,10 @@ public:
     std::vector<FILE_REF> project_files;
         // files not specific to apps or work - e.g. icons
     int parse_preferences_for_user_files();
-    int parse_project_files(FILE*);
-    int parse_project_file(FILE*);
+    int parse_project_files(MIOFILE&);
     void write_project_files(MIOFILE&);
-    int link_project_file(FILE_INFO*);
+    void link_project_files();
+    int write_symlink_for_project_file(FILE_INFO*);
 
     // Multiply by this when estimating the CPU time of a result
     // (based on FLOPs estimated and benchmarks).

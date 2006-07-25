@@ -70,12 +70,16 @@ Typically they are graphics files used by the BOINC Manager.
 Project files are described by a file <b>project_files.xml</b>
 in the server project directory, with the following format:
 ".html_text("
+<file_info>
+  <name>icon32_54.png</name>
+  <url>http://a.b.c/icon_54.png</url>
+  <md5_cksum>1f122d39b0f7e3d264a7ed4becf33b77</md5_cksum>
+</file_info>
 <project_files>
-    <file>
+    <file_ref>
       <open_name>icon32.png</open_name>
-      <name>icon32_54.png</name>
-      <url>http://a.b.c/icon_54.png</url>
-    </file>
+      <file_name>icon32_54.png</file_name>
+    </file_ref>
     ...
 </project_files>
 ")."

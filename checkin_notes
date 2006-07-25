@@ -8023,3 +8023,19 @@ David  25 July 2006
     sea/
         insecure.sh
         secure.sh
+
+David  25 July 2006
+    - core client and scheduler RPC:
+        change the XML notation for project files.
+        Instead of using a new and poorly-designed notation,
+        just use the existing <file_info> and <file_ref> structures,
+        and their associated parsing/writing code.
+        See http://boinc.berkeley.edu/gui_urls.php
+
+    client/
+        client_types.C,h
+        cs_account.C
+        cs_files.C
+        cs_scheduler.C
+        cs_statefile.C
+        scheduler_op.C

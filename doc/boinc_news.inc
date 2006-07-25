@@ -1,6 +1,17 @@
 <?
 
 $project_news = array(
+array("July 25, 2006",
+    "Welcome to three new BOINC-based projects.
+    Two are mathematical:
+    <a href=http://boinc.rieselsieve.com/>Riesel Sieve</a>
+    looks for prime numbers of the form k2<sup>n</sup>-1,
+    and <a href=http://dist.ist.tugraz.at/cape5/>Rectilinear Crossing Number</a>
+    studies a problem in computational geometry.
+    The third, <a href=http://spin.fh-bielefeld.de/>Spinhenge@home</a>,
+    studies molecular magnets and controlled nanoscale magnetism,
+    which may have applications in medicine and biotechnology."
+),
 array("July 22, 2006",
     "BOINC user survey:
     due to a bug in our software, answers to the question

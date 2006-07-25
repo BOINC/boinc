@@ -119,9 +119,6 @@ int PROJECT::parse_account(FILE* in) {
             if (retval) return retval;
             gui_urls = "<gui_urls>\n"+foo+"</gui_urls>\n";
             continue;
-        } else if (match_tag(buf, "<project_files>")) {
-            parse_project_files(in);
-            continue;
         } else if (match_tag(buf, "<project_specific>")) {
             retval = copy_element_contents(
                 in,

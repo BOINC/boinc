@@ -7,10 +7,20 @@ echo "
 A partial list of current projects (mouse over for details):
     <ul>
 ";
-shuffle($projects);
-foreach ($projects as $p) {
-    echo "<li> <a href=$p[1] onmouseover=\"return escape('<img align=right vspace=4 hspace=4 src=images/$p[5]><b>Home:</b> $p[2]<hr><b>Area:</b> $p[3]<hr><b>Goal:</b> $p[4]')\">$p[0]</a>
-    ";
+shuffle($areas);
+foreach ($areas as $area) {
+    echo "<li> ".$area[0]."<ul>\n";
+    $projects = $area[1];
+    shuffle($projects);
+    foreach ($projects as $p) {
+        $img = "";
+        if ($p[5]) {
+            $img= "<img align=right vspace=4 hspace=4 src=images/$p[5]>";
+        }
+        echo "<li> <a href=$p[1] onmouseover=\"return escape('$img <b>Home:</b> $p[2]<hr><b>Area:</b> $p[3]<hr><b>Goal:</b> $p[4]')\">$p[0]</a>
+        ";
+    }
+    echo "</ul>\n";
 }
 echo "
 </ul>
@@ -25,11 +35,8 @@ and copy the URL from your browser's address field.
 
 <p>
 Projects are independent.
-The BOINC developers and the University of California
-have no control over the creation of BOINC-based projects,
+The BOINC project has no control over the creation of BOINC-based projects,
 and do not endorse them.
-
-<p>
 When you participate in a project,
 you entrust that project with the health of your
 computer and the privacy of your data.
