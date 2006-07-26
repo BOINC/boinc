@@ -296,11 +296,13 @@ bool CAdvancedFrame::CreateMenu() {
     // File menu
     wxMenu *menuFile = new wxMenu;
 
+#ifdef SIMPLEGUI
     menuFile->Append(
         ID_FILESWITCHGUI,
         _("&Switch to Simple GUI"),
         _("Display the simple BOINC graphical interface.")
     );
+#endif
 
     // %s is the application name
     //    i.e. 'BOINC Manager', 'GridRepublic Manager'

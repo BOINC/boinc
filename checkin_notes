@@ -8059,15 +8059,17 @@ Rom    25 July 2006 (HEAD)
     - Tag for 5.5.9 release, all platforms.
       boinc_core_release_5_5_9
 
-Charlie 26 July 2006
+Charlie 26 July 2006 (HEAD - all changes tagged for boinc_core_release_5_5_9)
+    - Don't add "Switch to Simple GUI" to File menu if SIMPLEGUI not defined.
     - In shell scripts, added quotation marks and braces around variables 
         holding file names or paths for safety in case names contain spaces.  
         Added GPL.
     - Mac: Created shell scripts for setting up security in ssytems with 
         stand-alone BOINC Client (i.e., no Manager.)
-        - Removed redundant line of code in SetupSecurity.cpp (tagged for 5.5.9).
+        - Removed redundant line of code in SetupSecurity.cpp.
         
     clientgui/
+        AdvancedFrame.cpp
         mac/
             SetupSecurity.cpp
         mac_build/
