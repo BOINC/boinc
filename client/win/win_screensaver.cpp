@@ -1459,7 +1459,7 @@ LRESULT CScreensaver::SaverProc(
 				    DrawIcon(ps.hdc, (rc.right / 2) - 16, (rc.bottom / 2) - 16,
 					    LoadIcon(m_hInstance, MAKEINTRESOURCE(IDI_MAIN_ICON)));
                 } else {
-                    DoPaint(hWnd, hdcBuffer, &ps);
+                    DoPaint(hWnd, ps.hdc, &ps);
                 }
 
                 EndPaint(hWnd, &ps);
