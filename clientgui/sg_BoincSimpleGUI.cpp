@@ -34,6 +34,7 @@
 #include "sg_StatImageLoader.h"
 #include "sg_ViewTabPage.h"
 #include "sg_DlgPreferences.h"
+#include "sg_DlgMessages.h"
 
 #include "wizardex.h"
 #include "BOINCWizards.h"
@@ -704,7 +705,13 @@ void CSimpleFrame::OnBtnClick(wxCommandEvent& event){ //init function
 		   }
 		}
 		pDlg->Destroy();
-    }else if(m_wxBtnObj==btnAdvancedView) {
+    }if(m_wxBtnObj==btnMessages){
+		CDlgMessages* pDlg = new CDlgMessages(NULL,appSkin->GetSkinsFolder()+_T("/")+appSkin->GetSkinName()+_T("/"));
+		wxASSERT(pDlg);
+		pDlg->ShowModal();
+		pDlg->Destroy();
+    }
+	else if(m_wxBtnObj==btnAdvancedView) {
         wxGetApp().SetActiveGUI(BOINC_ADVANCEDGUI, true);
     }else if(m_wxBtnObj==btnMessages) {
 		btnMessages->Refresh();

@@ -27,6 +27,7 @@
 
 #include "BOINCBaseView.h"
 
+class CBOINCBaseView;
 
 class CViewMessages : public CBOINCBaseView
 {
@@ -45,6 +46,7 @@ public:
     void                    OnMessagesCopySelected( wxCommandEvent& event );
 
 protected:
+
     wxInt32                 m_iPreviousDocCount;
 
     wxListItemAttr*         m_pMessageInfoAttr;
@@ -76,7 +78,6 @@ protected:
 
     DECLARE_EVENT_TABLE()
 };
-
 
 #endif
 

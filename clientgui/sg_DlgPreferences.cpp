@@ -145,7 +145,7 @@ void CDlgPreferences::CreateDialog()
 	lblSkinXML->SetLabel(wxT("Skin XML file:"));
 	//skin picker control
 	cmbSkinPicker=new wxComboBox(this,ID_SKINPICKERCMBBOX,wxT(""),wxPoint(180,265),wxSize(140,21),m_skinNames,wxNO_BORDER | wxCB_READONLY);
-	cmbSkinPicker->SetValue(appSkin->GetSkinName());
+	cmbSkinPicker->SetValue(m_SkinName);
 	//btnOpen=new wxBitmapButton(this,ID_OPENBUTTON,*btmpBtnAttProjL,wxPoint(331,265),wxSize(59,20));
 	// Btn Save and Cancel
 	btnSave=new wxBitmapButton(this,ID_SAVEBUTTON,*bti26cImg1,wxPoint(115,325),wxSize(59,20));
@@ -259,6 +259,8 @@ void CDlgPreferences::initBefore(){
 	  wxDir skinsDir(currentSkinsDir);
 	  skinsDir.Traverse(skinTraverser);
     }
+	//finally set the name of the current skin
+	m_SkinName = appSkin->GetSkinName();
 
 }
 

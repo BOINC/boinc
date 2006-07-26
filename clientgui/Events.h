@@ -49,6 +49,7 @@
 #define ID_OPENWEBSITE                          6031
 #define ID_FILESWITCHGUI                        6032
 #define ID_ALERTPOLLTIMER                       6033
+#define ID_REFRESHMESSAGESTIMER                 6034
 #define ID_SIMPLEFRAME                          6100
 #define ID_TB_TIMER                             6800
 #define ID_TB_SUSPEND                           6801
@@ -66,6 +67,7 @@
 #define ID_TASK_MESSAGESVIEW                    8003
 #define ID_TASK_STATISTICSVIEW                  8004
 #define ID_TASK_RESOURCEUTILIZATIONVIEW         8005
+#define ID_TASK_MESSAGESVIEW_SGUI               8006
 #define ID_TASK_PROJECT_UPDATE                  9000
 #define ID_TASK_PROJECT_SUSPEND                 9002
 #define ID_TASK_PROJECT_RESUME                  9003
