@@ -8047,7 +8047,14 @@ David  25 July 2006
 	client/
 		cs_files.C
 
+Charlie 25 July 2006 (HEAD)
+    Mac: Create separate targets for simple-gui and non-simple-gui Managers 
+        so that we can build release versions from the Head branch.
+
+    mac_build/
+        boinc.xcodeproj/
+            project.pbxproj
+
 Rom    25 July 2006 (HEAD)
     - Tag for 5.5.9 release, all platforms.
       boinc_core_release_5_5_9
-
