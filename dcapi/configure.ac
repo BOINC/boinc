@@ -27,7 +27,10 @@ AC_ARG_ENABLE([master],
 AM_CONDITIONAL([BUILD_CLIENT], [test "$enable_client" = yes])
 AM_CONDITIONAL([BUILD_MASTER], [test "$enable_master" = yes])
 
-AM_PATH_GLIB_2_0([2.6.0],,[AC_MSG_ERROR([glib2 is missing])])
+dnl glib is used only on the master side
+if test "$enable_master" = yes; then
+	AM_PATH_GLIB_2_0([2.6.0],,[AC_MSG_ERROR([glib2 is missing])])
+fi
 
 GTK_DOC_CHECK([1.3])
 
@@ -43,6 +46,7 @@ AC_ARG_ENABLE([backend-boinc],
 	[enable_backend_boinc=auto])
 
 if test "$enable_backend_boinc" != no; then
+	SZDG_BOINC_COMMON
 	if test "$enable_master" = yes; then
 		SZDG_BOINC_SERVER
 	fi
