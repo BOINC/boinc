@@ -19,8 +19,8 @@ rem or write to the Free Software Foundation, Inc.,
 rem 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 rem
 
-set PROJECTROOTDIR=%1\..
-set OUTPUTDIR=%2
+FOR /F "usebackq delims==" %%I IN ('%1') DO set PROJECTROOTDIR=%%~I\..
+FOR /F "usebackq delims==" %%J IN ('%2') DO set OUTPUTDIR=%%~J
 
 if not exist %OUTPUTDIR%\libcurl.dll (
     echo Coping libcurl to the output directory...
