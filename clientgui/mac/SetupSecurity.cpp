@@ -377,8 +377,6 @@ int SetBOINCDataOwnersGroupsAndPermissions() {
             return err;
 #endif
 
-        err = UpdateNestedDirectories(fullpath);    // Sets execute for user, group and others
-
         // chmod -R u+r-w,g+r-w,o= "/Library/Applications/BOINC Data/locale"
         // 0550 = S_IRUSR | S_IXUSR | S_IRGRP | S_IXUSR
         // set read and execute only permission for user, group, no access for others

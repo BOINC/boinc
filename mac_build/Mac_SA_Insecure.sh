@@ -21,17 +21,19 @@
 
 # insecure.sh user group
 #
-# Undo making a BOINC installation secure.
+# Undo making a Macintosh BOINC installation secure.  
+# This script is for Macintosh installations with stand-alone BOINC CLient (i.e., no BOINC Manager.)
 # - Set file/dir ownership to the specified user and group
 # - Remove BOINC groups and users
 #
 # Execute this as root in the BOINC directory
 
 function remove_boinc_users() {
-	userdel boinc_master
-	userdel boinc_projects
-	groupdel boinc_master
-	groupdel boinc_projects
+sudo dscl . -delete /users/boinc_master
+sudo dscl . -delete /groups/boinc_master
+
+sudo dscl . -delete /users/boinc_project
+sudo dscl . -delete /groups/boinc_project
 }
 
 function check_login() {

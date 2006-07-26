@@ -8048,7 +8048,7 @@ David  25 July 2006
 		cs_files.C
 
 Charlie 25 July 2006 (HEAD)
-    Mac: Create separate targets for simple-gui and non-simple-gui Managers 
+    - Mac: Create separate targets for simple-gui and non-simple-gui Managers 
         so that we can build release versions from the Head branch.
 
     mac_build/
@@ -8058,3 +8058,21 @@ Charlie 25 July 2006 (HEAD)
 Rom    25 July 2006 (HEAD)
     - Tag for 5.5.9 release, all platforms.
       boinc_core_release_5_5_9
+
+Charlie 26 July 2006
+    - In shell scripts, added quotation marks and braces around variables 
+        holding file names or paths for safety in case names contain spaces.  
+        Added GPL.
+    - Mac: Created shell scripts for setting up security in ssytems with 
+        stand-alone BOINC Client (i.e., no Manager.)
+        - Removed redundant line of code in SetupSecurity.cpp (tagged for 5.5.9).
+        
+    clientgui/
+        mac/
+            SetupSecurity.cpp
+        mac_build/
+            Mac_SA_Insecure.sh (new)
+            Mac_SA_Secure.sh (new)
+    sea/
+        insecure.sh
+        secure.sh

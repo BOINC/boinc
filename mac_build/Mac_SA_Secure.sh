@@ -19,7 +19,9 @@
 # or write to the Free Software Foundation, Inc.,
 # 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 
-# Make a BOINC installation "secure"
+# Make a BOINC installation "secure" on a Macintosh with stand-alone BOINC Client
+# The BOINC installer does this for a Macintosh installation with BOINC Manager; do not use this script.
+#
 # Create groups and users, set file/dir ownership and protection
 #
 # Execute this as root in the BOINC directory
@@ -28,14 +30,57 @@
 
 # In addition, you should add boinc_master and boinc_projects
 # to the supplementary group list of users who will administer BOINC.
-# e.g.:
-# usermod -G boinc_master,boinc_projects -a mary
+# e.g. for user mary:
+# sudo dscl . -merge /groups/boinc_master users mary
+# sudo dscl . -merge /groups/boinc_project users mary
+
+function make_boinc_user() {
+    # Check whether group already exists
+    name=$(dscl . search /groups RecordName $1 | cut -f1 -)
+    if [ "$name" != "$1" ] ; then
+        # Find an unused group ID
+        gid="25"
+        while true; do
+            name=$(dscl . search /groups PrimaryGroupID $gid | cut -f1 -)
+            if [ -z "$name" ] ; then
+                break
+            fi
+            gid=$[$gid +1]
+        done
+        dscl . -create /groups/$1
+        dscl . -create /groups/$1 gid $gid
+    fi
+
+    # Check whether user already exists
+    name=$(dscl . search /users RecordName $1 | cut -f1 -)
+    if [ "$name" != "$1" ] ; then
+
+        # Is uid=gid available?
+        uid=$gid
+        name=$(dscl . search /users UniqueID $uid | cut -f1 -)
+        if [ -n "$name" ] ; then
+            # uid=gid already in use, so find an unused user ID
+            uid="25"
+            while true; do
+                name=$(dscl . search /groups UniqueID $uid | cut -f1 -)
+                if [ -z "$name" ] ; then
+                    break
+                fi
+                uid=$[$uid +1]
+            done
+        fi
+
+        dscl . -create /users/$1
+        dscl . -create /users/$1 uid $uid
+        dscl . -create /users/$1 shell /usr/bin/false
+        dscl . -create /users/$1 home /var/empty
+        dscl . -create /users/$1 gid $gid
+    fi
+}
 
 function make_boinc_users() {
-    groupadd boinc_master
-    groupadd boinc_projects
-    useradd boinc_master -g boinc_master
-    useradd boinc_projects -g boinc_projects
+    make_boinc_user boinc_master
+    make_boinc_user boinc_project
 }
 
 function check_login() {
@@ -116,5 +161,4 @@ set_perm switcher boinc_master boinc_master 0550
 
 set_perm_recursive locale boinc_master boinc_master u+r-w,g+r-w,o-rwx
 
-set_perm boinc_client boinc_master boinc_master 6555
-set_perm boinc_manager boinc_master boinc_master 2555
+set_perm boinc boinc_master boinc_master 6555       # boinc client
