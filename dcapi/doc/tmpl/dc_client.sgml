@@ -73,6 +73,8 @@ Resolves the local name of input/output files. The real name (and path) of an
 input/output file may be different from what the client expects. This function
 performs the translation from the logical names used by the client to the real
 names used by the infrastructure.
+<note>The client must not assume that it can read/write/create any files other than
+the names returned by this function.</note>
 </para>
 
 <para>
@@ -143,8 +145,8 @@ When @logicalFileName is %DC_CHECKPOINT_FILE, @type is interpreted as follows:
 <!-- ##### FUNCTION DC_sendResult ##### -->
 <para>
 Sends a sub-result file back to the master. The sending of the file may happen
-asynchronously, in this case this function does not wait for the transfer to
-finish.
+asynchronously, in this case this function will not wait for the transfer to
+finish (or even to start).
 </para>
 
 @logicalFileName: the logical name of the file to send. This identifier will be
@@ -157,9 +159,9 @@ finish.
 <!-- ##### FUNCTION DC_sendMessage ##### -->
 <para>
 Sends a message to the master. The sending of the message may happen
-asynchronously, in this case this function does not wait for the transfer to
-finish. The maximum length of a message that may be sent using this function
-can be determined by calling DC_getMaxMessageSize().
+asynchronously, in this case this function will not wait for the transfer to
+finish (or even to start). The maximum length of a message that may be sent
+using this function can be determined by calling DC_getMaxMessageSize().
 </para>
 
 @message: the message to send.
@@ -168,12 +170,14 @@ can be determined by calling DC_getMaxMessageSize().
 
 <!-- ##### FUNCTION DC_checkClientEvent ##### -->
 <para>
-Checks for client control events.
+Checks for client control events. The returned event should be destroyed using
+DC_destroyClientEvent() when it is no longer needed. If the returned event is
+%DC_CLIENT_CHECKPOINT but the client does not support checkpointing, it should
+still call the DC_checkpointMade() function with a %NULL argument to inform the
+grid infrastructure that no checkpoint will be delivered.
 </para>
 
-@Returns: a #DC_ClientEvent or %NULL if there are no outstanding events. The returned
-	event should be destroyed using DC_destroyClientEvent() when it is no longer
-	needed.
+@Returns: a #DC_ClientEvent or %NULL if there are no outstanding events.
 
 
 <!-- ##### FUNCTION DC_destroyClientEvent ##### -->
@@ -211,10 +215,12 @@ time that will be needed for the computation.
 <!-- ##### FUNCTION DC_finishClient ##### -->
 <para>
 Finishes computation. Tells the DC-API to finish this work unit and start a
-new one.
+new one. All output files are transferred to the master and the master is
+notified about the completion of the work unit.
 </para>
 
 @exitcode: the return code of the process that will be reported back to the
-	master.
+	master. 0 means success; any other value tells the grid infrastructure
+	that the work unit has failed.
 
 

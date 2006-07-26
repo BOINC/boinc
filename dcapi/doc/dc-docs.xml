@@ -10,6 +10,7 @@
   <chapter id="general">
     <title>General information</title>
     <xi:include href="intro.xml"/>
+    <xi:include href="concepts.xml"/>
     <xi:include href="config.xml"/>
   </chapter>
 
