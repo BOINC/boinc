@@ -8046,3 +8046,8 @@ David  25 July 2006
 
 	client/
 		cs_files.C
+
+Rom    25 July 2006 (HEAD)
+    - Tag for 5.5.9 release, all platforms.
+      boinc_core_release_5_5_9
+

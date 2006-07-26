@@ -105,7 +105,7 @@
 
 #include <commctrl.h>
 #include <raserror.h>
-#include <mmsystem.h>
+//#include <mmsystem.h>
 #include <dbghelp.h>
 #include <tlhelp32.h>
 
