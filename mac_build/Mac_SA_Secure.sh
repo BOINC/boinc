@@ -37,7 +37,9 @@
 function make_boinc_user() {
     # Check whether group already exists
     name=$(dscl . search /groups RecordName $1 | cut -f1 -)
-    if [ "$name" != "$1" ] ; then
+    if [ "$name" = "$1" ] ; then
+        gid=$(dscl . read /groups/$1 PrimaryGroupID | cut -d" " -f2 -)
+    else
         # Find an unused group ID
         gid="25"
         while true; do
@@ -50,10 +52,10 @@ function make_boinc_user() {
         dscl . -create /groups/$1
         dscl . -create /groups/$1 gid $gid
     fi
-
+    
     # Check whether user already exists
     name=$(dscl . search /users RecordName $1 | cut -f1 -)
-    if [ "$name" != "$1" ] ; then
+    if [ -z "$name" ] ; then
 
         # Is uid=gid available?
         uid=$gid
