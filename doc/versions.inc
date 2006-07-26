@@ -86,6 +86,11 @@ $features_52 = "
 ";
 
 $changes_55 = "
+    <li>Changes since 5.5.6
+      <ul>
+        <li>BOINC Linux build system ovehaul.
+        <li>System tray icon changes for suspend/resume operations.
+      </ul>
 ";
 
 $changes_54 = "
@@ -499,11 +504,11 @@ $linux_libs_ubuntu_558= "
       </ul>
 ";
 
-$w556= array(
-    "num"=>"5.5.6",
+$w559= array(
+    "num"=>"5.5.9",
     "status"=>"Development version",
-    "file"=>"boinc_5.5.6_windows_intelx86.exe",
-    "date"=>"7 July 2006",
+    "file"=>"boinc_5.5.9_windows_intelx86.exe",
+    "date"=>"26 July 2006",
     "type"=>"win_new",
     "features"=>"<ul>
 ".$features_55."
