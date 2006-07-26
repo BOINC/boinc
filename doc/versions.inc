@@ -318,9 +318,6 @@ $mac_changes_54= "
             Mac clients automatically request applications from the old 
             powerpc-apple-darwin platform when running on a PowerPC Mac, and 
             from the new i686-apple-darwin platform when running on an Intel Mac.
-        <li>As of 14 March 2006, only the upper_case alpha test project, the 
-            production SETI@home project and Einstein@home have applications 
-            for this platform.  
         <li> Upgrade warning: You may lose unreported results if you are upgrading 
             from a version of BOINC earlier than 5.4.0 on an Intel Mac, or if you are 
             transferring BOINC Data from a PowerPC Mac to an Intel Mac, or from an 
