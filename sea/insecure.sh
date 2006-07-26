@@ -53,10 +53,19 @@ else
     exit
 fi
 
-echo "Changing file ownership to user $user and group $group - OK? (y/n)"
+# If the user forgets to cd to the boinc data directory, this script can do serious damage
+# so show the directory we are about to modify
+echo "Changing directory $(pwd) file ownership to user $user and group $group - OK? (y/n)"
 read line
 if [ "$line" != "y" ]
 then
+    exit
+fi
+
+# if the booinc client is not here, assume it is the wrong directory
+if [ ! -f "boinc_client" ]
+then
+    echo "Can't find boinc_client in directory $(pwd); exiting"
     exit
 fi
 

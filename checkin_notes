@@ -8061,9 +8061,14 @@ Rom    25 July 2006 (HEAD)
 
 Charlie 26 July 2006 (HEAD - all changes tagged for boinc_core_release_5_5_9)
     - Don't add "Switch to Simple GUI" to File menu if SIMPLEGUI not defined.
-    - In shell scripts, added quotation marks and braces around variables 
+    - In security shell scripts, added quotation marks and braces around variables 
         holding file names or paths for safety in case names contain spaces.  
-        Added GPL.
+    - Added GPL to security shell scripts.
+    - Added recursive function to set executable permissions for nested directories.
+    - In security shell scripts, display the directory when requesting confirmation.
+        If BOINC Client is not found, assume it is the wrong directory and exit.  
+        These safety features are needed because the script will do serious damage 
+        to the system if the user forgot to cd to the correct directory.
     - Mac: Created shell scripts for setting up security in ssytems with 
         stand-alone BOINC Client (i.e., no Manager.)
         - Removed redundant line of code in SetupSecurity.cpp.

@@ -55,10 +55,16 @@ else
     exit
 fi
 
-echo "Changing file ownership to user $user and group $group - OK? (y/n)"
+echo "Changing directory $(pwd) file ownership to user $user and group $group - OK? (y/n)"
 read line
 if [ "$line" != "y" ]
 then
+    exit
+fi
+
+if [ ! -f "boinc" ]
+then
+    echo "Can't find boinc Client in directory $(pwd); exiting"
     exit
 fi
 
