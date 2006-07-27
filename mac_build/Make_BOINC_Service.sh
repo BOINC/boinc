@@ -27,13 +27,13 @@
 
 ## Usage:
 ##
-## source Make_BOINC_Service.sh [path_to_client] [path_to_data]
+## source Make_BOINC_Service.sh [path_to_client_dir/] [path_to_data_dir/]
 ##
-## path_to_client is needed only for stand-alone client or if Manager is 
-##  at non-standard location
+## path_to_client_dir is needed only for stand-alone client or if Manager
+##  is at non-standard location.
 ##
-## path_to_data is needed only for stand-alone client when data is in a 
-##  different directory than the client
+## path_to_data_dir is needed only for stand-alone client when data is in 
+##  a different directory than the client.
 ##
 ## Directions for use:
 ##
@@ -45,10 +45,12 @@
 ## (4) In the Terminal window, type "source" and a space.
 ## (5) Drag this script file from the Finder into the Terminal window.
 ## (6) If using the stand-alone client, or if the Manager is in a non-
-##     standard location, enter the path to directory containing the 
-##     client (without the trailing slash).
-## (7) If using the stand-alone client, enter path to data directory 
-##     (without the trailing slash) if different than client directory.
+##     standard location, drag the folder containing the client  from 
+##     the Finder into the Terminal window (or type the path including 
+##     the trailing slash).
+## (7) If using the stand-alone client, but the client is not in the data 
+##     directory, drag the BOINC data folder from the Finder into the 
+##     Terminal window (or type the path including the trailing slash).
 ## (6) Press the return key.
 ## (8) When prompted, enter your administrator password.
 ## (9) Restart the computer.
@@ -88,10 +90,10 @@
 ##
 
 if [ $# -eq 0 ] ; then
-    PATH_TO_CLIENT="/Applications/BOINCManager.app/Contents/Resources"
+    PATH_TO_CLIENT="/Applications/BOINCManager.app/Contents/Resources/"
     PATH_TO_DATA="/Library/Application Support/BOINC Data/"
     # Check for BOINC Manager with embedded BOINC Client
-    if [ ! -f "${PATH_TO_CLIENT}/boinc" ]; then
+    if [ ! -f "${PATH_TO_CLIENT}boinc" ]; then
         echo "  ***************************** ERROR ***************************"
         echo "  *                                                             *"
         echo "  *   Could not find BOINC Manager with embedded BOINC client   *"
@@ -106,7 +108,7 @@ else
     PATH_TO_CLIENT="$1"
     PATH_TO_DATA="$1"
     # Check for stand-alone BOINC Client
-    if [ ! -f "${PATH_TO_CLIENT}/boinc" ]; then
+    if [ ! -f "${PATH_TO_CLIENT}boinc" ]; then
         echo "  ***************************** ERROR ***************************"
         echo "  *                                                             *"
         echo "  *   Could not find BOINC client at specified directory        *"
@@ -156,10 +158,10 @@ cat >> ~/boincStartupTemp/boinc << ENDOFFILE
 
 StartService ()
 {
-    if [ -x "${PATH_TO_CLIENT}/boinc" ]; then
+    if [ -x "${PATH_TO_CLIENT}boinc" ]; then
        if [ -d "/Library/Application Support/BOINC Data" ]; then 
             ConsoleMessage "Starting BOINC client"
-            "${PATH_TO_CLIENT}/boinc" -redirectio -dir "${PATH_TO_DATA}" &
+            "${PATH_TO_CLIENT}boinc" -redirectio -dir "${PATH_TO_DATA}" &
             echo \$! > /var/run/boinc.pid
         fi
     fi
