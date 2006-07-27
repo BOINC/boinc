@@ -652,7 +652,7 @@ $m559 = array(
     "num"=>"5.5.9",
     "status"=>"Development version (standard GUI)",
     "file"=>"boinc_5.5.9_macOSX_universal.zip",
-    "date"=>"26 JULY 2006",
+    "date"=>"26 July 2006",
     "type"=>"mac_advanced",
      "features"=>"<ul>
 ".$mac_changes_55."
@@ -716,6 +716,34 @@ $m5213 = array(
     "bugs"=>"
     "
 );
+
+$m559c = array(
+    "num"=>"5.5.9",
+    "status"=>"Development version (Unix command-line version)",
+    "file"=>"boinc_5.5.9_universal-apple-darwin.zip",
+    "date"=>"26 July 2006",
+    "type"=>"bare_core",
+    "features"=>"<ul>
+".$mac_changes_55."
+".$features_55."
+".$changes_55."
+".$features_54."
+".$mac_changes_54."
+".$features_53."
+".$mac_changes_53."
+".$changes_53."
+     <li>
+     BOINC now works with OS 10.3.0 or higher.
+    <li>
+    We are now including a tool with command line interface to control boinc within the 
+    default distribution
+    </ul>
+    ",
+    "bugs"=>"
+    "
+);
+
+
 
 $m549c = array(
     "num"=>"5.4.9",
@@ -900,6 +928,7 @@ $mac = array(
     "dbname" => "powerpc-apple-darwin",
     "versions"=>array(
         $m559,
+        $m559c,
         $m549,
         $m549c,
         $m5213,
