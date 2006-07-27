@@ -2,8 +2,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "POT-Creation-Date: \n"
-"PO-Revision-Date: 2005-12-14 23:22+0900\n"
-"Last-Translator: Komori Hitoshi <ucepod@070.jp>\n"
+"PO-Revision-Date: 2006-07-23 13:21+0900\n"
+"Last-Translator: JE2BWM <je2bwm@jarl.com>\n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -11,7 +11,7 @@ msgstr ""
 
 #########################################
 # Language: Japanese
-# FileID  : ja.po,v 1.7, based on en.po v1.20(cvs).   2005/12/14 23:20 JST je2bwm 
+# FileID  : ja.po,v 1.8, based on en.po v1.25(cvs).   2006/07/23 12:50 JST je2bwm
 # Author  : Janus Kristensen ( Translator: Komori Hitoshi, Reviewer: Takeda Nobuhiko )
 # Email   : jbk@visualgroup.dk( je2bwm at jarl.com )
 #########################################
@@ -73,9 +73,9 @@ msgstr "登録日付"
 # Rules and Policies page (info.php)
 #########################################
 # msgid "RULES_TITLE"
-# msgstr "Rules and Policies"
+# msgstr "Read our rules and policies"
 msgid "RULES_TITLE"
-msgstr "規則と方針"
+msgstr "このプロジェクトの「規則と方針」を読んで下さい"
 
 # msgid "RULES_ONLY_AUTH"
 # msgstr "Run $PROJECT only on authorized computers"
@@ -285,8 +285,10 @@ msgstr "作成するアカウントは、チーム %s に加わります。 さ�
 # msgid "CREATE_AC_USE_CLIENT"
 # msgstr "NOTE: If you use BOINC version 5.2+ with the BOINC Manager, "
 # "don't use this form. "
+# "Just run BOINC, select Attach Project, "
+# "and enter an email address and password. "
 msgid "CREATE_AC_USE_CLIENT"
-msgstr "ご注意： BOINC マネージャの 5.2版以降で開始する方は、この入力画面を使わないで下さい。 "
+msgstr "ご注意： BOINC マネージャの 5.2版以降で開始する方は、この入力画面を使わないで下さい。 代わりに、BOINC を起動して、[ツール]→[プロジェクトに参加] を選び、メイルアドレスとパスワードを入力するだけで結構です。"
 
 # msgid "CREATE_AC_PASSWORD"
 # msgstr "Password"
@@ -303,6 +305,26 @@ msgstr "少なくとも %s 文字なければなりません。"
 msgid "CREATE_AC_CONFIRM_PASSWORD"
 msgstr "確認のためパスワードをもう一度"
 
+# msgid "AC_INVITE_CODE"
+# msgstr "Invitation Code"
+msgid "AC_INVITE_CODE"
+msgstr "招待コード"
+
+# msgid "AC_INVITE_CODE_DESC"
+# msgstr "A valid invitation code is required to create an account"
+msgid "AC_INVITE_CODE_DESC"
+msgstr "アカウントを作るには、正しい招待コードが必要です"
+
+# msgid "AC_INVITE_REQUIRED"
+# msgstr "You must supply an invitation code to create an account."
+msgid "AC_INVITE_REQUIRED"
+msgstr "アカウントを作るには、招待コードを入力してください"
+
+# msgid "AC_INVITE_INVALID"
+# msgstr "The invitation code you gave is not valid."
+msgid "AC_INVITE_INVALID"
+msgstr "入力した招待コードの値は正しくありません"
+
 #########################################
 # Forum sample index page
 #########################################
@@ -310,6 +332,11 @@ msgstr "確認のためパスワードをもう一度"
 # msgstr "$PROJECT Message boards"
 msgid "FORUM_TITLE"
 msgstr "$PROJECT 掲示板"
+
+# msgid "FORUM_TITLE_SHORT"
+# msgstr "Message boards"
+msgid "FORUM_TITLE_SHORT"
+msgstr "掲示板"
 
 #########################################
 # General stuff (create_account_form.php and others)
@@ -370,6 +397,36 @@ msgstr "メンバー"
 #########################################
 # Forum
 #########################################
+# msgid "FORUM_POSTS"
+# msgstr "Posts"
+msgid "FORUM_POSTS"
+msgstr "投稿"
+
+# msgid "FORUM_TOPIC"
+# msgstr "Topic"
+msgid "FORUM_TOPIC"
+msgstr "トピック"
+
+# msgid "FORUM_THREADS"
+# msgstr "Threads"
+msgid "FORUM_THREADS"
+msgstr "スレッド"
+
+# msgid "FORUM_LAST_POST"
+# msgstr "Last post"
+msgid "FORUM_LAST_POST"
+msgstr "最新の投稿"
+
+# msgid "FORUM_AUTHOR"
+# msgstr "Author"
+msgid "FORUM_AUTHOR"
+msgstr "投稿者"
+
+# msgid "FORUM_VIEWS"
+# msgstr "Views"
+msgid "FORUM_VIEWS"
+msgstr "表示"
+
 # msgid "FORUM_ERR_NOT_FOUND"
 # msgstr "No such forum"
 msgid "FORUM_ERR_NOT_FOUND"
@@ -464,8 +521,41 @@ msgid "FORUM_HTML_INFO"
 msgstr "テキストに書式を付けたいときは BBCode タグを使ってください"
 
 #########################################
+# Forum thread
+#########################################
+# msgid "FORUM_THREAD_HIDDEN"
+# msgstr "This thread has been hidden for administrative purposes"
+msgid "FORUM_THREAD_HIDDEN"
+msgstr "管理目的でこのスレッドは隠されています。"
+
+# msgid "FORUM_THREAD_REPLY"
+# msgstr "Reply to this thread"
+msgid "FORUM_THREAD_REPLY"
+msgstr "このスレッドに返事を書く"
+
+# msgid "FORUM_THREAD_SUBSCRIBED"
+# msgstr "You are subscribed to this thread."
+msgid "FORUM_THREAD_SUBSCRIBED"
+msgstr "あなたはこのスレッドに参加しました。"
+
+# msgid "FORUM_THREAD_UNSUBSCRIBE"
+# msgstr "Click here to unsubscribe"
+msgid "FORUM_THREAD_UNSUBSCRIBE"
+msgstr "参加を取りやめるならここをクリック"
+
+# msgid "FORUM_THREAD_SUBSCRIBE"
+# msgstr "Subscribe to this thread"
+msgid "FORUM_THREAD_SUBSCRIBE"
+msgstr "このスレッドに参加する"
+
+#########################################
 # Forum search features
 #########################################
+# msgid "FORUM SEARCH"
+# msgstr "Forum search"
+msgid "FORUM SEARCH"
+msgstr "掲示板内の検索"
+
 # msgid "FORUM_SEARCH_TITLES"
 # msgstr "Titles containing '%s'"
 msgid "FORUM_SEARCH_TITLES"
