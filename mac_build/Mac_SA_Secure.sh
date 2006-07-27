@@ -20,19 +20,35 @@
 # 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 
 # Make a BOINC installation "secure" on a Macintosh with stand-alone BOINC Client
-# The BOINC installer does this for a Macintosh installation with BOINC Manager; do not use this script.
+# The BOINC installer does this for a Macintosh installation with BOINC Manager; 
+# do not use this script.
 #
 # Create groups and users, set file/dir ownership and protection
 #
-# Execute this as root in the BOINC directory
+# Execute this as root in the BOINC directory:
+# cd {path_to_boinc_directory}
+# sudo sh {path}/Mac_SA_Secure.sh
+#
+# Hint: you can enter the path to a directory or file by dragging its 
+# icon from the Finder onto the Terminal window.
+#
 # You must have already run the installer script
 # that creates the switcher/ and locale/ directories, and their contents
-
-# In addition, you should add boinc_master and boinc_projects
-# to the supplementary group list of users who will administer BOINC.
-# e.g. for user mary:
+#
+# This script also assumes that the user who runs it will be authorized 
+# to administer BOINC. For convenience in administering BOINC, this script 
+# adds the logged-in user to groups boinc_master and boinc_project 
+# (i.e., adds these groups to the user's supplementary groups list.)
+#
+# In addition, you should add any other users who will administer BOINC 
+# to groups boinc_master and boinc_project; e.g. for user mary:
+# 
 # sudo dscl . -merge /groups/boinc_master users mary
 # sudo dscl . -merge /groups/boinc_project users mary
+#
+# To remove user mary from group boinc_master:
+# sudo dscl . -delete /groups/boinc_master users mary
+# 
 
 function make_boinc_user() {
     # Check whether group already exists
@@ -144,6 +160,9 @@ then
 fi
 
 make_boinc_users
+
+dscl . -merge /groups/boinc_master users "$(LOGNAME)"
+dscl . -merge /groups/boinc_project users "$(LOGNAME)"
 
 set_perm_recursive . boinc_master boinc_master u+rw,g+rw,o+r-w
 set_perm . boinc_master boinc_master 0775

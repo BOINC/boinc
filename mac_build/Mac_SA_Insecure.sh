@@ -19,14 +19,17 @@
 # or write to the Free Software Foundation, Inc.,
 # 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 
-# insecure.sh user group
+# Mac_SA_Insecure.sh user group
 #
 # Undo making a Macintosh BOINC installation secure.  
 # This script is for Macintosh installations with stand-alone BOINC CLient (i.e., no BOINC Manager.)
 # - Set file/dir ownership to the specified user and group
 # - Remove BOINC groups and users
 #
-# Execute this as root in the BOINC directory
+# Execute this as root in the BOINC directory:
+# cd {path_to_boinc_directory}
+# sudo sh {path}/Mac_SA_Insecure.sh user group
+#
 
 function remove_boinc_users() {
 sudo dscl . -delete /users/boinc_master

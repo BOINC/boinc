@@ -8098,3 +8098,15 @@ Walt   26 July 2006
         Makefile.linux.fedora
         Makefile.linux.suse
         Makefile.linux.ubuntu
+
+Charlie 27 July 2006
+    - Mac: Mac_SA_Secure.sh script adds logged in user to groups boinc_master and 
+        boinc_project.
+    - New web page describing Macintosh system administrator tools.
+    
+    clientgui/
+        mac_build/
+            Mac_SA_Insecure.sh
+            Mac_SA_Secure.sh
+    doc/
+        mac_admin_tools.php
