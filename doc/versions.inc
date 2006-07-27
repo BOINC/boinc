@@ -841,47 +841,6 @@ $l559u = array(
     </ul>
     "
 );
-$l558f = array(
-    "num"=>"5.5.8",
-    "status"=>"Development version (standard GUI - Fedora Core 5)",
-    "file"=>"boinc_5.5.8_i686-fc5.sh",
-    "date"=>"13 JULY 2006",
-    "type"=>"sea",
-    "features"=>"<ul>
-".$features_55."
-".$linux_libs_fedora_558."
-".$changes_55."
-    </ul>
-    "
-);
-
-$l558s = array(
-    "num"=>"5.5.8",
-    "status"=>"Development version (standard GUI - SUSE 10.1)",
-    "file"=>"boinc_5.5.8_i686-suse.sh",
-    "date"=>"13 JULY 2006",
-    "type"=>"sea",
-    "features"=>"<ul>
-".$features_55."
-".$linux_libs_suse_558."
-".$changes_55."
-    </ul>
-    "
-);
-
-$l558u = array(
-    "num"=>"5.5.8",
-    "status"=>"Development version (standard GUI - Ubuntu 6.06)",
-    "file"=>"boinc_5.5.8_i686-ubuntu.sh",
-    "date"=>"13 JULY 2006",
-    "type"=>"sea",
-    "features"=>"<ul>
-".$features_55."
-".$linux_libs_ubuntu_558."
-".$changes_55."
-    </ul>
-    "
-);
 
 $l549 = array(
     "num"=>"5.4.9",
@@ -983,9 +942,6 @@ $linux = array(
         $l559f,
         $l559s,
         $l559u,
-        $l558f,
-        $l558s,
-        $l558u,
         $l549,
         $l5213,
         $l443,
