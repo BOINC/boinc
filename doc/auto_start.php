@@ -34,6 +34,7 @@ startup of BOINC on various versions of Unix:
 <h2> Automatic startup on Mac OS X</h2>
 <p>
 Note: the Mac Standard GUI installation arranges for BOINC to run on user login.
+<p>
 To automatically run BOINC as a daemon or system service at boot time, or to prevent BOINC from launching 
 automatically when selected users log in, see the <a href=mac_admin_tools.php>Mac administrator tools</a>.
 <p>
