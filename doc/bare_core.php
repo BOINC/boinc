@@ -38,6 +38,13 @@ at boot time.
 <p>
 To control a running BOINC client, use the
 <a href=boinc_cmd.php>BOINC command tool</a>.
+<p>
+Several <a href=mac_admin_tools.php>tools</a> for Macintosh system administrators are available to:
+<ul>
+<li> automatically start BOINC as a daemon or system service at boot time
+<li> implement improved security for stand-alone clients 
+<li> prevent BOINC Manager from launching automatically when selected users log in.
+</ul>
 
 <h2> Special cautions for Mac OS X</h2>
 <p>
@@ -61,15 +68,17 @@ but only if the core client was not already running.
 <p>
 If you must mix the stand-alone core client and the BOINC Manager on the same Mac OS X system, be careful of the following:
 <ul>
-<li>The BOINC Manager installer sets the set_user_id permission bit (S_ISUID) for the BOINC Manager and its embedded core client executable files.  
+<li>The BOINC Manager installer sets the set_user_id (S_ISUID) and set_group_id (S_ISGID) permission bits for the BOINC Manager and its 
+embedded core client executable files.  
 This causes BOINC to always run with the effective user ID set to the installing user.  This may cause permission problems if the 
-stand-alone core client tries to access the same data as a different user.
+stand-alone core client tries to access the same data as a different user.  See <a href=sandbox_user.php>The Secure BOINC Client</a> 
+for more information.
 <li>By default, the stand-alone core client expects the data to be in the same directory containing the executable.  But the BOINC Manager 
 sets the current directory to \"/Library/Application Support/BOINC Data/\" before launching the embedded core client.
 </ul>
 If you want BOINC to operate on a separate set of data for each user on a Mac OS X system, then the stand-alone core client may be appropriate.  
-But to avoid permission problems, make sure that users who have their own core client don't run the BOINC Manager.
-
+But to avoid permission problems, make sure that users who have their own core client don't run the BOINC Manager, unless you have set permissions 
+up properly with the special <a href=mac_admin_tools.php>administrator tools</a>.
 ";
 page_tail();
 ?>

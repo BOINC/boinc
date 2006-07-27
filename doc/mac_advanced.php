@@ -32,6 +32,13 @@ expand the zip archive by double-clicking on it in the Finder.
     <li> Open <b>System Preferences</b> from the Apple menu. Select <b>Desktop & Screen Saver</b> and select a different screen saver.
     </ul>
 </ul>
+<p>
+Several <a href=mac_admin_tools.php>tools</a> for Macintosh system administrators are available to:
+<ul>
+<li> automatically run BOINC as a daemon or system service at boot time
+<li> implement improved security for stand-alone clients 
+<li> prevent BOINC Manager from launching automatically when selected users log in.
+</ul>
 ";
 page_tail();
 ?>

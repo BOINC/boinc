@@ -8102,11 +8102,15 @@ Walt   26 July 2006
 Charlie 27 July 2006
     - Mac: Mac_SA_Secure.sh script adds logged in user to groups boinc_master and 
         boinc_project.
-    - New web page describing Macintosh system administrator tools.
+    - New web page describing Macintosh system administrator tools; update  
+        references from existing pages.
     
     clientgui/
         mac_build/
             Mac_SA_Insecure.sh
             Mac_SA_Secure.sh
     doc/
-        mac_admin_tools.php
+        mac_admin_tools.php (new)
+        mac_advanced.php
+        bare_core.php
+        auto_start.php
