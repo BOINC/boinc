@@ -33,20 +33,12 @@ startup of BOINC on various versions of Unix:
 
 <h2> Automatic startup on Mac OS X</h2>
 <p>
-Note: the Mac Standard GUI installation arranges
-for BOINC to run on system startup.
-The following is relevant if you install the command-line client.
-<ul>
-<li>
-Instructions from Paul Buck's
-<a href=http://boinc-doc.net/site-boinc/oman-app/inst-mac.php>BOINC Owner's Manual</a>.
-<li>
-<a href=mac_yenigun.php>Instructions from Berki Yenigun</a>,
-deadsmile at minitel.net
-<li>
-<a href=http://stegic.net/archives/2005/05/boinc_as_a_syst.html>Running
-BOINC as a system service on Mac OS X</a> by Ivan Stegic.
-</ul>
+Note: the Mac Standard GUI installation arranges for BOINC to run on user login.
+To automatically run BOINC as a daemon or system service at boot time, or to prevent BOINC from launching 
+automatically when selected users log in, see the <a href=mac_admin_tools.php>Mac administrator tools</a>.
+<p>
+If you install the command-line client and want it to start automatically when each user logs in, see the 
+<a href=mac_yenigun.php>Instructions from Berki Yenigun</a>, deadsmile at minitel.net
 ";
 
 page_tail();
