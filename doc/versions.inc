@@ -306,6 +306,7 @@ $mac_changes_55= "
             you can re-install a version of BOINC prior to 5.5.4; this will 
             automatically revert ownership and permissions to the earlier 
             implementation.  For details, please see the ReadMe file.
+        <li> New <a href=mac_admin_tools.php>tools</a> for Macintosh system administrators are available.  
       </ul>
 ";
 
