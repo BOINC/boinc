@@ -51,9 +51,9 @@
 ## (7) If using the stand-alone client, but the client is not in the data 
 ##     directory, drag the BOINC data folder from the Finder into the 
 ##     Terminal window (or type the path including the trailing slash).
-## (6) Press the return key.
-## (8) When prompted, enter your administrator password.
-## (9) Restart the computer.
+## (8) Press the return key.
+## (9) When prompted, enter your administrator password.
+## (10) Restart the computer.
 ##
 ## The system will now start BOINC client as a daemon / service at 
 ## system startup.  You will still be able to control and monitor BOINC 
