@@ -8089,3 +8089,12 @@ Charlie 26 July 2006
 
     mac_build/
         Make_BOINC_Service.sh
+
+Walt   26 July 2006
+    - Fix clientgui compile on Linux
+
+    clientgui/
+        Makefile.am
+        Makefile.linux.fedora
+        Makefile.linux.suse
+        Makefile.linux.ubuntu

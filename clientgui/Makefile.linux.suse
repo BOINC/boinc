@@ -35,6 +35,7 @@ stdwx.h.gch: stdwx.h
 
 OBJ = \
     stdwx.o \
+    BOINCBaseFrame.o \
     BOINCBaseView.o \
     BOINCDialupManager.o \
     BOINCGUIApp.o \
@@ -49,7 +50,7 @@ OBJ = \
     LogBOINC.o \
     hyperlink.o \
     MainDocument.o \
-    MainFrame.o \
+    AdvancedFrame.o \
     BOINCTaskCtrl.o \
     BOINCListCtrl.o \
     ViewMessages.o \

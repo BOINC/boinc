@@ -23,6 +23,7 @@ endif
 bin_PROGRAMS = boinc_gui
 
 boinc_gui_SOURCES = \
+    BOINCBaseFrame.cpp \
     BOINCBaseView.cpp \
     BOINCDialupManager.cpp \
     BOINCGUIApp.cpp \
@@ -35,7 +36,7 @@ boinc_gui_SOURCES = \
     DlgSelectComputer.cpp \
     LogBOINC.cpp \
     MainDocument.cpp \
-    MainFrame.cpp \
+    AdvancedFrame.cpp \
     stdwx.cpp \
     ValidateAccountKey.cpp \
     ValidateEmailAddress.cpp \
