@@ -2,7 +2,7 @@
 
 # Berkeley Open Infrastructure for Network Computing
 # http://boinc.berkeley.edu
-# Copyright (C) 2005 University of California
+# Copyright (C) 2006 University of California
 #
 # This is free software; you can redistribute it and/or
 # modify it under the terms of the GNU Lesser General Public
@@ -22,19 +22,36 @@
 #
 ##
 # Script to set up Macintosh to run BOINC client as a daemon / service
-# by Charlie Fenton 7/18/06
+# by Charlie Fenton 7/26/06
 ##
 
 ## Usage:
-## (1) Install BOINC Manager using the BOINC.pkg Installer Package. 
+##
+## source Make_BOINC_Service.sh [path_to_client] [path_to_data]
+##
+## path_to_client is needed only for stand-alone client or if Manager is 
+##  at non-standard location
+##
+## path_to_data is needed only for stand-alone client when data is in a 
+##  different directory than the client
+##
+## Directions for use:
+##
+## (1) Install BOINC Manager using the BOINC.pkg Installer Package, or 
+##     install stand-alone client. 
 ## (2) Make sure you are logged in as a user with administrator 
 ##     privileges.
 ## (3) Run the Terminal application.
 ## (4) In the Terminal window, type "source" and a space.
 ## (5) Drag this script file from the Finder into the Terminal window.
+## (6) If using the stand-alone client, or if the Manager is in a non-
+##     standard location, enter the path to directory containing the 
+##     client (without the trailing slash).
+## (7) If using the stand-alone client, enter path to data directory 
+##     (without the trailing slash) if different than client directory.
 ## (6) Press the return key.
-## (7) When prompted, enter your administrator password.
-## (8) Restart the computer.
+## (8) When prompted, enter your administrator password.
+## (9) Restart the computer.
 ##
 ## The system will now start BOINC client as a daemon / service at 
 ## system startup.  You will still be able to control and monitor BOINC 
@@ -70,17 +87,49 @@
 ## file supplied with the BOINC installer. 
 ##
 
-# Check for BOINC Manager with embedded BOINC Client
-if [ ! -f /Applications/BOINCManager.app/Contents/Resources/boinc ]; then
-echo "  ***************************** ERROR ***************************"
-echo "  *                                                             *"
-echo "  *   Could not find BOINC Manager with embedded BOINC client   *"
-echo "  *   in Applications Directory.                                *"
-echo "  *                                                             *"
-echo "  *   Please install BOINC Manager before running this script.  *"
-echo "  *                                                             *"
-echo "  ***************************************************************"
-return 1
+if [ $# -eq 0 ] ; then
+    PATH_TO_CLIENT="/Applications/BOINCManager.app/Contents/Resources"
+    PATH_TO_DATA="/Library/Application Support/BOINC Data/"
+    # Check for BOINC Manager with embedded BOINC Client
+    if [ ! -f "${PATH_TO_CLIENT}/boinc" ]; then
+        echo "  ***************************** ERROR ***************************"
+        echo "  *                                                             *"
+        echo "  *   Could not find BOINC Manager with embedded BOINC client   *"
+        echo "  *   in Applications Directory.                                *"
+        echo "  *                                                             *"
+        echo "  *   Please install BOINC Manager before running this script.  *"
+        echo "  *                                                             *"
+        echo "  ***************************************************************"
+        return 1
+    fi
+else
+    PATH_TO_CLIENT="$1"
+    PATH_TO_DATA="$1"
+    # Check for stand-alone BOINC Client
+    if [ ! -f "${PATH_TO_CLIENT}/boinc" ]; then
+        echo "  ***************************** ERROR ***************************"
+        echo "  *                                                             *"
+        echo "  *   Could not find BOINC client at specified directory        *"
+        echo "  *                                                             *"
+        echo "  *   Please install BOINC client before running this script.   *"
+        echo "  *                                                             *"
+        echo "  ***************************************************************"
+        return 1
+    fi
+fi
+
+if [ $# -gt 1 ] ; then
+    PATH_TO_DATA="$2"
+fi
+
+# Check for BOINC Data directory
+if [ ! -d "${PATH_TO_DATA}" ]; then
+    echo "  ****************** ERROR ******************"
+    echo "  *                                         *"
+    echo "  *   Could not find BOINC data directory   *"
+    echo "  *                                         *"
+    echo "  *******************************************"
+    return 1
 fi
 
 # Create /Library/StartupItems/boinc/ directory if necessary
@@ -107,10 +156,10 @@ cat >> ~/boincStartupTemp/boinc << ENDOFFILE
 
 StartService ()
 {
-    if [ -x /Applications/BOINCManager.app/Contents/Resources/boinc ]; then
+    if [ -x "${PATH_TO_CLIENT}/boinc" ]; then
        if [ -d "/Library/Application Support/BOINC Data" ]; then 
             ConsoleMessage "Starting BOINC client"
-            /Applications/BOINCManager.app/Contents/Resources/boinc -redirectio -dir "/Library/Application Support/BOINC Data/" &
+            "${PATH_TO_CLIENT}/boinc" -redirectio -dir "${PATH_TO_DATA}" &
             echo \$! > /var/run/boinc.pid
         fi
     fi

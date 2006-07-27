@@ -8083,3 +8083,9 @@ Charlie 26 July 2006 (HEAD - all changes tagged for boinc_core_release_5_5_9)
     sea/
         insecure.sh
         secure.sh
+
+Charlie 26 July 2006
+    - Mac: add options to daemon script for stand-alone client.
+
+    mac_build/
+        Make_BOINC_Service.sh
