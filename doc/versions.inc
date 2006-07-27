@@ -803,6 +803,44 @@ $m443c = array(
     "
 );
 
+$l559f = array(
+    "num"=>"5.5.8",
+    "status"=>"Development version (standard GUI - Fedora Core 5)",
+    "file"=>"boinc_5.5.8_i686-fc5.sh",
+    "date"=>"13 JULY 2006",
+    "type"=>"sea",
+    "features"=>"<ul>
+".$features_55."
+".$changes_55."
+    </ul>
+    "
+);
+
+$l559s = array(
+    "num"=>"5.5.8",
+    "status"=>"Development version (standard GUI - SUSE 10.1)",
+    "file"=>"boinc_5.5.8_i686-suse.sh",
+    "date"=>"13 JULY 2006",
+    "type"=>"sea",
+    "features"=>"<ul>
+".$features_55."
+".$changes_55."
+    </ul>
+    "
+);
+
+$l559u = array(
+    "num"=>"5.5.8",
+    "status"=>"Development version (standard GUI - Ubuntu 6.06)",
+    "file"=>"boinc_5.5.8_i686-ubuntu.sh",
+    "date"=>"13 JULY 2006",
+    "type"=>"sea",
+    "features"=>"<ul>
+".$features_55."
+".$changes_55."
+    </ul>
+    "
+);
 $l558f = array(
     "num"=>"5.5.8",
     "status"=>"Development version (standard GUI - Fedora Core 5)",
@@ -942,6 +980,9 @@ $linux = array(
     "dbname" => "i686-pc-linux-gnu",
     "url"=>"linux.php",
     "versions"=>array(
+        $l559f,
+        $l559s,
+        $l559u,
         $l558f,
         $l558s,
         $l558u,
