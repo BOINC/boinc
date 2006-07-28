@@ -129,7 +129,7 @@ $astro_phys_chem = array(
     ),
 );
 $math = array(
-    "Mathematics",
+    "Mathematics and strategy games",
     array(
         array(
             "SZTAKI Desktop Grid",
@@ -154,6 +154,14 @@ $math = array(
             "Mathematics",
             "What is the least number of crossings a straight-edge drawing of the complete graph on top of a set of n points in the plane obtains?  From very recent (not even published yet) mathematical considerations the rectilinear crossing numbers for n=19 and n=21 are also known. So the most tantalizing problem now is to determine the true value for n=18, which is the main focus of this project.",
             ""
+        ),
+        array(
+            "Chess960@home",
+            "http://www.chess960athome.org/",
+            "Chess-960.org",
+            "Game-playing",
+            "This project studies Chess 960, a variant of orthodox chess. In classical chess the starting position of the game never changes.  In Chess 960, just before the start of every game, the initial configuration of the chess pieces is determined randomly.",
+            "chess960athome.jpg"
         ),
     ),
 );

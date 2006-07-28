@@ -20,6 +20,10 @@ function last_mod($datefile) {
 }
 
 function page_head($title) {
+    if (defined("CHARSET")) {
+        header("Content-type: text/html; charset=".tr(CHARSET));
+    }
+
     echo "<html>
         <head>
         <link rel=\"stylesheet\" type=\"text/css\" href=\"white.css\"/>

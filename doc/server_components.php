@@ -12,7 +12,7 @@ A BOINC project consists of the following components:
     which specifies
     <a href=project_options.php>options</a>,
     <a href=backend_programs.php>daemons</a>, and
-    <a href=tasks.php>periodic tasks</a>.
+    <a href=project_tasks.php>periodic tasks</a>.
 </ul>
 
 <p>

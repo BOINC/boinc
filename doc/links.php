@@ -1,4 +1,5 @@
-<246c9db0b8bca0261f9070ae96818f2a?php
+<?php
+
 require_once("docutil.php");
 
 include("../html/inc/stats_sites.inc");

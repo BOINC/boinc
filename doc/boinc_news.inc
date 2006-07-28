@@ -1,6 +1,13 @@
 <?
 
 $project_news = array(
+array("July 26, 2006",
+    "<a href=http://www.chess960athome.org/>Chess960@home</a>
+    is open for testers.
+    This project studies a game that is like classical chess
+    except that the initial configuration of pieces
+    is chosen randomly from among 960 possibilities."
+),
 array("July 25, 2006",
     "Welcome to three new BOINC-based projects.
     Two are mathematical:

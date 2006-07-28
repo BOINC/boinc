@@ -1,6 +1,5 @@
 <?php
 require_once("docutil.php");
-require_once("projects.inc");
 
 function show_participant() {
     global $light_blue;
