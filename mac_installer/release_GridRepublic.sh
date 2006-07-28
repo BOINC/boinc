@@ -20,7 +20,7 @@
 ## 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 
 ##
-# Release Script for Macintosh GridRepublic Desktop 4/17/06 by Charlie Fenton
+# Release Script for Macintosh GridRepublic Desktop 4/28/06 by Charlie Fenton
 ##
 
 ## Usage:
@@ -143,7 +143,7 @@ sed -i "" s/BOINCMgr.icns/"${ICNS_FILE}"/g "${PR_PATH}/Applications/${MANAGER_NA
 sed -i "" s/BOINC/"${BRAND_NAME}"/g "${PR_PATH}/Applications/${MANAGER_NAME}.app/Contents/Resources/English.lproj/InfoPlist.strings"
 
 # Replace the Manager's BOINCMgr.icns file
-cp -fp "client/mac/${ICNS_FILE}" "${PR_PATH}/Applications/${MANAGER_NAME}.app/Contents/Resources/${ICNS_FILE}"
+cp -fp "clientgui/res/${ICNS_FILE}" "${PR_PATH}/Applications/${MANAGER_NAME}.app/Contents/Resources/${ICNS_FILE}"
 rm -f "${PR_PATH}/Applications/${MANAGER_NAME}.app/Contents/Resources/BOINCMgr.icns"
 
 # Copy Branding file into both Application Bundle and Installer Package
