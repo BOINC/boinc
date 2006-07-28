@@ -1,0 +1,47 @@
+<html>
+<body>
+<table width=600 cellpadding=10>
+<tr>
+<td width=60% align=middle>
+<a href=http://setiathome.berkeley.edu>
+<img middle src=http://setiathome.berkeley.edu/logo7.gif border=0>
+</a>
+<td align=right>
+<img align=right border=0 src=http://setiathome.berkeley.edu/images/uc_logo_120.png>
+</td>
+</tr>
+<tr><td colspan=2 bgcolor=ffffcc>
+<p>
+<toname/>:
+
+<p>
+<comment/>
+<p>
+<img align=right vspace=6 src=http://setiathome.berkeley.edu/images/arec.jpg>
+Did you know that you can use your computer
+to help University of California scientists
+find the first evidence of life outside Earth?
+It's called SETI@home.
+The program analyzes data from the world's largest radio telescope,
+looking for signals from other planets and stars.
+
+<p>
+I'm running SETI@home on my computer,
+and so are hundreds of thousands of other people
+in 240 countries around the world.
+The <a href=http://setiathome.berkeley.edu>SETI@home web site</a>
+lets you meet them and exchange messages.
+
+<p>
+Running SETI@home is easy.
+All you have to do is install a program on your computer;
+it takes about 5 minutes, and it's simple and safe.
+Just <a href=http://setiathome.berkeley.edu>visit the SETI@home web site</a>.
+
+Thanks, and I hope to see you on SETI@home -
+<p>
+<fromname/>
+
+</td></tr></table>
+</body>
+</html>

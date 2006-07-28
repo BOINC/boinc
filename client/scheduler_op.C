@@ -569,6 +569,7 @@ int SCHEDULER_REPLY::parse(FILE* in, PROJECT* project) {
     project_is_down = false;
     send_file_list = false;
     messages.clear();
+    scheduler_version = 0;
 
     // First line should either be tag (HTTP 1.0) or
     // hex length of response (HTTP 1.1)

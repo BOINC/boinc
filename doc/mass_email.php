@@ -1,9 +1,9 @@
 <?php
 require_once("docutil.php");
-page_head("Email newsletters and reminders");
+page_head("Email tools: newsletters, reminders, and friend-to-friend");
 echo "
-BOINC provides tools (PHP scripts)
-for sending two types of email to participants:
+BOINC provides PHP-based tools
+for sending three types of email to participants:
 <ul>
 <li> <b>Newsletters</b>.
     These are periodic (perhaps every few months) and are sent to all participants.
@@ -14,20 +14,24 @@ for sending two types of email to participants:
     computing to your project, or who signed up but never got any credit.
     Typically they would be short messages,
     encouraging the participant to take a specific action.
+<li> <b>Friend-to-friend</b>.
+    These are sent by participants to their friends and family,
+    to tell them about your project and urge them to join.
+    <b>You must write this email</b>.
+    The sender can add an optional message.
 </ul>
-Effective use of both types of email
+Effective use of all types of email
 is critical to maintaining and growing your participant base.
-In the absence of any email, participation typically decreases
-by a few percent every month.
+In the absence of any email,
+participation typically decreases by a few percent every month.
 <p>
-The scripts provide the following features:
+The newsletter and reminder scripts provide the following features:
 <ul>
 <li> They let you send different emails to different 'classes' of participants.
 For example, you can send a different newsletter
 to participants who haven't computed for your project in a while.
 <li> They let you personalize emails,
     e.g. by inserting the participant's name or their total credit.
-<li> You can send multipart HTML/text messages.
 <li> They provide a mechanism for inserting a
 secure 'opt-out' link.
 Note: You should ALWAYS include an 'opt-out' link
@@ -43,11 +47,17 @@ than the one built into PHP.
 Download it, put it in html/inc, and set the
 USE_PHPMAILER, PHPMAILER_HOST, and PHPMAILER_MAILER variables in
 <a href=http://boinc.berkeley.edu/web_config.php>your project.inc file</a>.
+<p>
+All of the tools let you send multipart HTML/text messages.
+We recommend that you use this feature -
+and HTML message can include your logo and/or institutional insignia,
+can include hyperlinks,
+and can look more attractive.
 
 <p>
 The general procedure for using each scripts is:
 <ul>
-<li> Create a directory (mass_email or reminder_email)
+<li> Create a directory (mass_email, reminder_email, or ffmail)
     in your html/ops/ directory.
     In that directory, create separate files for
     the text body template, HTML body template, and subject line
@@ -64,15 +74,16 @@ The general procedure for using each scripts is:
     <a href=tasks.php>periodic task</a>, every 24 hours or so.
 </ul>
 
-The scripts use the recent-average credit (expavg_credit) field
-in the user table.
+The newsletter and reminder scripts use the recent-average credit
+(expavg_credit) field in the user table.
 To make sure this value is accurate,
 run <a href=project_tasks.php>update_stats</a> manually
 if you're not running it as a periodic task.
 
 <h3>Personalizing emails</h3>
 <p>
-BOINC will replace the following macros in your email bodies
+The newsletter and reminder scripts
+replace the following macros in your email bodies
 (both HTML and text):
 ";
 list_start();

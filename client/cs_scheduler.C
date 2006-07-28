@@ -780,10 +780,14 @@ int CLIENT_STATE::handle_scheduler_reply(
     if (retval) return retval;
 
     if (log_flags.sched_ops) {
-        msg_printf(project, MSG_INFO,
-            "Scheduler RPC succeeded [server version %d]",
-            sr.scheduler_version
-        );
+        if (sr.scheduler_version) {
+            msg_printf(project, MSG_INFO,
+                "Scheduler RPC succeeded [server version %d]",
+                sr.scheduler_version
+            );
+        } else {
+            msg_printf(project, MSG_INFO, "Scheduler RPC succeeded");
+        }
     }
 
     // check that master URL is correct

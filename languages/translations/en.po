@@ -296,5 +296,9 @@ msgstr "Survey response recorded"
 msgid "POLL_THANKS",
 msgstr "Thank you for completing the BOINC user survey."
 
-msgid "POLL_",
-msgstr 
+msgid "POLL_RESULTS_TITLE"
+msgstr "Survey results"
+
+msgid "POLL_RESULTS_TEXT"
+msgstr "These are the current results of the <a href=poll.php>BOINC user survey</a>.  This page is updated every hour."
+

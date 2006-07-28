@@ -8130,3 +8130,19 @@ Charlie 28 July 2006
         BOINCGUIApp.cpp
     mac_installer/
         release_GridRepublic.sh
+
+David  28 July 2006
+    - core client: don't show scheduler version number if it wasn't returned.
+    - user web: add support for 'friend-to-friend' emails
+
+    client/
+        cs_scheduler.C
+        scheduler_op.C
+    html/
+        ops/ffmail/
+            sample_html
+            sample_subject
+            sample_text
+        user/
+            ffmail_action.php
+            ffmail_form.php
