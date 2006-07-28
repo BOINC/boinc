@@ -8146,3 +8146,12 @@ David  28 July 2006
         user/
             ffmail_action.php
             ffmail_form.php
+
+David  28 July 2006
+    - user web: tweak f2f email
+    - forums: help desk is separate
+
+    html/user/
+        ffmail_action.php
+        ffmail_form.php
+        forum_index.php

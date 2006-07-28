@@ -25,24 +25,34 @@ function forum_summary($forum) {
 }
 
 page_head(tr(FORUM_TITLE));
+
+echo "
+    <p>
+    If you have a question or problem, please use the
+    <a href=forum_help_desk.php>Questions & answers</a>
+    area instead of the Message boards.
+    <p>
+";
+
 show_forum_title(NULL, NULL, false);
 start_forum_table(array(tr(FORUM_TOPIC), tr(FORUM_THREADS), tr(FORUM_POSTS), tr(FORUM_LAST_POST)));
 
 $categories = $mainFactory->getCategories();
 $i=0;
-// For each category
 while ($categories[$i]){
-    echo '
-        <tr class="subtitle">
-            <td class="category" colspan="4">'.$categories[$i]->getName().'</td>
-        </tr>
-    ';
-    $forums = $categories[$i]->getForums();
-    $ii=0;
-    // Show a summary of each of the forums
-    while ($forums[$ii]){
-	echo forum_summary($forums[$ii]);
-	$ii++;
+    if (!$categories[$i]->getType()) {
+        echo '
+            <tr class="subtitle">
+                <td class="category" colspan="4">'.$categories[$i]->getName().'</td>
+            </tr>
+        ';
+        $forums = $categories[$i]->getForums();
+        $ii=0;
+        // Show a summary of each of the forums
+        while ($forums[$ii]){
+            echo forum_summary($forums[$ii]);
+            $ii++;
+        }
     }
     $i++;
 }

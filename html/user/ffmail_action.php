@@ -26,6 +26,7 @@ $subject = file_get_contents('../ops/ffmail/subject');
 $preview = get_str('preview', true);
 $uname = get_str('uname');
 $uemail = get_str('uemail');
+$comment = get_str('comment', true);
 
 $action = get_str('action');
 if ($action=='Preview') {
@@ -45,10 +46,13 @@ if ($action=='Preview') {
     ";
     page_tail();
 } else {
+    page_head("Sending emails");
+    $found = false;
     for ($i=0; $i<5; $i++) {
         $n = get_str("n$i", true);
         $e = get_str("e$i", true);
         if ($n && $e) {
+            $found = true;
             $mail = new PHPMailer();
             $mail->AddAddress($e, $n);
             $mail->Subject = $subject;
@@ -62,9 +66,26 @@ if ($action=='Preview') {
             $mail->FromName = $uname;
             $mail->Host = $PHPMAILER_HOST;
             $mail->Mailer = $PHPMAILER_MAILER;
-            $mail->Send();
+            if ($mail->Send()) {
+                echo "<br>email sent successfully to $e\n";
+            } else {
+                echo "<br>failed to send email to $e: $mail->ErrorInfo\n";
+            }
         }
     }
+    if ($found) {
+        echo "
+            <p>
+            Thanks for telling your friends about ".PROJECT.".
+        ";
+    } else {
+        echo "
+            You forgot to enter your friends' names and/or email addresses;
+            Please <a href=ffmail_form.php>return to the form</a>
+            and enter them.
+        ";
+    }
+    page_tail();
 }
 
 exit();
