@@ -282,6 +282,10 @@ def create_project_dirs(dest_dir):
             'html/languages/translations',
             'html/languages/project_specific_translations',
             'html/ops',
+            'html/ops/ffmail',
+            'html/ops/mass_email',
+            'html/ops/remind_email',
+            'html/ops',
             'html/project',
             'html/stats',
             'html/user',
@@ -320,6 +324,9 @@ def install_boinc_files(dest_dir):
     install_glob(srcdir('html/inc/*.dat'), dir('html/inc/'))
     install_glob(srcdir('html/ops/*.php'), dir('html/ops/'))
     install_glob(srcdir('html/ops/*.inc'), dir('html/ops/'))
+    install_glob(srcdir('html/ops/ffmail/sample*'), dir('html/ops/ffmail/'))
+    install_glob(srcdir('html/ops/mass_email/sample*'), dir('html/ops/mass_email/'))
+    install_glob(srcdir('html/ops/remind_email/sample*'), dir('html/ops/remind_email/'))
     install_glob(srcdir('html/user/*.php'), dir('html/user/'))
     install_glob(srcdir('html/user/*.inc'), dir('html/user/'))
     install_glob(srcdir('html/user/*.css'), dir('html/user/'))

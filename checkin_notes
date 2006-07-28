@@ -8164,3 +8164,12 @@ David  28 July 2006
 	client/
 		client_types.C
 		cs_trickle.C
+
+David  28 July 2006
+    - f2f email: don't show form if project hasn't created a mail template
+    - email tools: create email directories on project creation
+
+    html/user/
+        ffmail_form.php
+    py/Boinc/
+        setup_project.py

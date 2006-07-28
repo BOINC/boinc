@@ -17,13 +17,14 @@ for sending three types of email to participants:
 <li> <b>Friend-to-friend</b>.
     These are sent by participants to their friends and family,
     to tell them about your project and urge them to join.
-    <b>You must write this email</b>.
     The sender can add an optional message.
 </ul>
 Effective use of all types of email
 is critical to maintaining and growing your participant base.
 In the absence of any email,
 participation typically decreases by a few percent every month.
+<b>BOINC supplies the framework, but you must write the
+actual emails, or modify BOINC's samples as needed for your project.  </b>.
 <p>
 The newsletter and reminder scripts provide the following features:
 <ul>
@@ -276,7 +277,7 @@ The script categorizes users as follows.
 The numbers 14, 30, and 60 are all parameters in the script;
 edit it to change them.
 <p>
-To use the script, create the following files in <b>html/ops/reminder_email</b>:
+To use the script, create the following files in <b>html/ops/reminder_email/</b>:
 ";
 list_start();
 list_item("failed_html", "HTML message sent to failed users");
@@ -298,6 +299,25 @@ For this reason, it has no checkpoint/restart mechanism.
 The procedure for testing your reminder email is
 similar to that for email newsletters (see above).
 
+<h2>Friend-to-friend emails</h2>
+<p>
+The web page ffemail_form.php lets users send emails to their friends.
+To use this feature, you must create the following files in
+<b>html/ops/ffmail/</b>:
 ";
+list_start();
+list_item("subject", "The subject line used for friend-to-friend emails");
+list_item("html", "HTML template for friend-to-friend emails");
+list_item("text", "Text template for friend-to-friend emails");
+list_end();
+echo "
+Samples are supplied for each of these.
+The following macros are substituted in the message bodies:
+";
+list_start();
+list_item("&lt;fromname/&gt;", "The name of the sender");
+list_item("&lt;toname/&gt;", "The name of the recipient");
+list_item("&lt;comment/&gt;", "The comment supplied by the sender");
+list_end();
 page_tail();
 ?>

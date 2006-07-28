@@ -4,8 +4,15 @@ require_once("../inc/util.inc");
 
 db_init();
 $user = get_logged_in_user();
-page_head("Tell your friends about ".PROJECT);
 
+if (!@file_get_contents('../ops/ffmail/subject')) {
+    error_page(
+        'This project hasn\'t created an email message -
+        please notify its administrators'
+    );
+}
+
+page_head("Tell your friends about ".PROJECT);
 
 echo "
 <table width=600><tr><td>
