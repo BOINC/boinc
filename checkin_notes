@@ -8155,3 +8155,12 @@ David  28 July 2006
         ffmail_action.php
         ffmail_form.php
         forum_index.php
+
+David  28 July 2006
+	- core client: bug fixes for project file mechanism
+		- clear project_file list before parsing it
+		- set fip->is_project_file (otherwise link won't get created)
+
+	client/
+		client_types.C
+		cs_trickle.C

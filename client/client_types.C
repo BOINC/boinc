@@ -447,7 +447,8 @@ void PROJECT::file_xfer_succeeded(const bool is_upload) {
 
 int PROJECT::parse_project_files(MIOFILE& in) {
     char buf[256];
-
+    
+    project_files.clear();
     while (in.fgets(buf, 256)) {
         if (match_tag(buf, "</project_files>")) return 0;
         if (match_tag(buf, "<file_ref>")) {
@@ -479,6 +480,7 @@ void PROJECT::link_project_files() {
             continue;
         }
         fref.file_info = fip;
+        fip->is_project_file = true;
         fref_iter++;
     }
 }
