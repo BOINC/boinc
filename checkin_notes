@@ -8114,3 +8114,13 @@ Charlie 27 July 2006
         mac_advanced.php
         bare_core.php
         auto_start.php
+
+Charlie 28 July 2006
+    - Sandbox: change #ifdefs so Manager and Client call check_security() for 
+        all platforms if SANDBOX is enabled.  Check_security() should be 
+        compatible with Linux and all UNIX, but Win32 may need different code.
+
+    client/
+        main.C
+    clientgui/
+        BOINCGUIApp.cpp

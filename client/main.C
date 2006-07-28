@@ -751,14 +751,13 @@ int main(int argc, char** argv) {
     }
 #else
 
-#ifdef __APPLE__
 #ifdef SANDBOX
-#ifdef _DEBUG
+#if defined(_DEBUG) && defined(__APPLE__)
         // GDB can't attach to applications which are running as a diferent user   
         //  or group, so fix up data with current user and group during debugging
     if (check_security())
         SetBOINCDataOwnersGroupsAndPermissions();
-#endif  // _DEBUG
+#endif  // _DEBUG && __APPLE__
     int i = check_security();
     if (i) {
         printf( "\nBOINC ownership or permissions are not set properly; please reinstall BOINC. (Error code %d)\n", i);
@@ -766,6 +765,7 @@ int main(int argc, char** argv) {
     }
 #endif  // SANDBOX
 
+#ifdef __APPLE__
         // Initialize Mac OS X idle time measurement / idle detection
         gEventHandle = NXOpenEventStatus();
 #endif  // __APPLE__

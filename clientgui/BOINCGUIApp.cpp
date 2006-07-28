@@ -256,6 +256,9 @@ bool CBrandingScheme::OnInit( wxConfigBase *pConfig ) {
 
 
 bool CBOINCGUIApp::OnInit() {
+#if (defined(SANDBOX) || defined(__WXMAC__))
+    int errCode = 0;
+#endif
 
 #if (defined(SANDBOX) && !defined(_WIN32))
     umask (2);  // Set file creation mask to be writable by both user and group
@@ -320,7 +323,6 @@ bool CBOINCGUIApp::OnInit() {
 
     wxString strDirectory = wxEmptyString;
     bool success;
-    int errCode;
 
     // Set the current directory ahead of the application launch so the core
     //   client can find its files
@@ -347,35 +349,35 @@ bool CBOINCGUIApp::OnInit() {
 //    wxChar *wd = wxGetWorkingDirectory(buf, 1000);  // For debugging
     }
 
-#ifdef SANDBOX
-    if (success) {  // wxSetWorkingDirectory("/Library/Application Support/BOINC Data") SUCCEEDED
-#ifdef _DEBUG
-            // GDB can't attach to applications which are running as a diferent user   
-            //  or group, so fix up data with current user and group during debugging
-            if (check_security()) {
-                CreateBOINCUsersAndGroups();
-                SetBOINCDataOwnersGroupsAndPermissions();
-                SetBOINCAppOwnersGroupsAndPermissions(NULL);
-            }
-#endif  // _DEBUG
-
-        errCode = check_security();
-    } else      // wxSetWorkingDirectory("/Library/Application Support/BOINC Data") FAILED
+    if (!success)  // wxSetWorkingDirectory("/Library/Application Support/BOINC Data") FAILED
         errCode = -1016;
-        
+#endif      // __WXMAC__
+ 
+#ifdef SANDBOX
+    if (!errCode) {
+#if (defined(__WXMAC__) && defined(_DEBUG))     // TODO: implement this for other platforms
+        // GDB can't attach to applications which are running as a different user   
+        //  or group, so fix up data with current user and group during debugging
+        if (check_security()) {
+            CreateBOINCUsersAndGroups();
+            SetBOINCDataOwnersGroupsAndPermissions();
+            SetBOINCAppOwnersGroupsAndPermissions(NULL);
+        }
+#endif  // __WXMAC__ && _DEBUG
+        errCode = check_security();
+    }
+       
     if (errCode) {
         wxString            strDialogMessage = wxEmptyString;
         strDialogMessage.Printf(
             _("BOINC ownership or permissions are not set properly; please reinstall BOINC.\n(Error code %d)"), errCode);
-        wxMessageDialog* pDlg = 
-        new wxMessageDialog(m_pFrame, strDialogMessage, wxT(""), wxOK);
+        wxMessageDialog* pDlg = new wxMessageDialog(m_pFrame, strDialogMessage, wxT(""), wxOK);
         pDlg->ShowModal();
         if (pDlg)
             pDlg->Destroy();
         return false;
     }
 #endif      // SANDBOX
-#endif      // __WXMAC__
 
     // Initialize the BOINC Diagnostics Framework
     int dwDiagnosticsFlags =
