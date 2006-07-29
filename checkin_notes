@@ -8173,3 +8173,9 @@ David  28 July 2006
         ffmail_form.php
     py/Boinc/
         setup_project.py
+
+David  29 July 2006
+    - core client: limit backoff to 24 hours
+
+    client/
+        scheduler_op.h

@@ -56,7 +56,7 @@ typedef enum {
     // after this many master-fetch failures, 
     // move into a state in which we retry master fetch
     // at the frequency below
-#define MASTER_FETCH_INTERVAL (86400*7)    // 1 week
+#define MASTER_FETCH_INTERVAL (86400)    // 1 day
     // See above
 
 // constants used to bound RPC backoff
