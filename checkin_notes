@@ -8179,3 +8179,10 @@ David  29 July 2006
 
     client/
         scheduler_op.h
+
+David  30 July 2006
+    - core client: parse <no_delete/> in <file_info> elements
+        (not relevant to client, but don't want error message)
+
+    client/
+        client_types.C

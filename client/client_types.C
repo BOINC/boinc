@@ -693,17 +693,18 @@ int FILE_INFO::parse(MIOFILE& in, bool from_server) {
         else if (parse_str(buf, "<md5_cksum>", md5_cksum, sizeof(md5_cksum))) continue;
         else if (parse_double(buf, "<nbytes>", nbytes)) continue;
         else if (parse_double(buf, "<max_nbytes>", max_nbytes)) continue;
-        else if (match_tag(buf, "<generated_locally/>")) generated_locally = true;
+        else if (parse_bool(buf, "generated_locally", generated_locally)) continue;
         else if (parse_int(buf, "<status>", status)) continue;
-        else if (match_tag(buf, "<executable/>")) executable = true;
-        else if (match_tag(buf, "<uploaded/>")) uploaded = true;
-        else if (match_tag(buf, "<upload_when_present/>")) upload_when_present = true;
-        else if (match_tag(buf, "<sticky/>")) sticky = true;
-        else if (match_tag(buf, "<marked_for_delete/>")) marked_for_delete = true;
-        else if (match_tag(buf, "<report_on_rpc/>")) report_on_rpc = true;
+        else if (parse_bool(buf, "executable", executable)) continue;
+        else if (parse_bool(buf, "uploaded", uploaded)) continue;
+        else if (parse_bool(buf, "upload_when_present", upload_when_present)) continue;
+        else if (parse_bool(buf, "sticky", sticky)) continue;
+        else if (parse_bool(buf, "marked_for_delete", marked_for_delete)) continue;
+        else if (parse_bool(buf, "report_on_rpc", report_on_rpc)) continue;
         else if (parse_bool(buf, "gzip_when_done", gzip_when_done)) continue;
-        else if (match_tag(buf, "<signature_required/>")) signature_required = true;
-        else if (match_tag(buf, "<is_project_file/>")) is_project_file = true;
+        else if (parse_bool(buf, "signature_required", signature_required)) continue;
+        else if (parse_bool(buf, "is_project_file", is_project_file)) continue;
+        else if (match_tag(buf, "<no_delete")) continue;
         else if (match_tag(buf, "<persistent_file_xfer>")) {
             pfxp = new PERS_FILE_XFER;
             retval = pfxp->parse(in);
