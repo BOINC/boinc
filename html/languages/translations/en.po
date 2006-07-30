@@ -359,7 +359,7 @@ msgstr "Subscribe to this thread"
 #########################################
 # Forum search features
 #########################################
-msgid "FORUM SEARCH"
+msgid "FORUM_SEARCH"
 msgstr "Forum search"
 
 msgid "FORUM_SEARCH_TITLES"
