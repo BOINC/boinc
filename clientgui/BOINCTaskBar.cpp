@@ -532,6 +532,12 @@ bool CTaskBarIcon::SetIcon(const wxIcon& icon, const wxString& tooltip) {
     // Convert the wxIcon into a wxBitmap so we can perform some
     // wxBitmap operations with it
     wxBitmap bmp( macIcon ) ;
+    
+    // wxMac's XMP image format always uses 32-bit pixels but allows only 
+    // 1-bit masks, so we use a separate XMP file for the 8-bit mask to 
+    // allow us to do proper anti-aliasing of the badges.  This code assumes 
+    // that all badges are the same size circle and at the same position so 
+    // that they can share a single mask.
     wxBitmap mask_bmp( macbadgemask ) ;
     h = bmp.GetHeight();
     w = bmp.GetWidth();
