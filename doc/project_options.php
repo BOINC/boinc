@@ -258,7 +258,20 @@ list_item("resend_lost_results",
     in scheduler request,
     resend any in-progress results not in the list.
     This is recommended;
-    it should increase the efficiency of your project"
+    it should increase the efficiency of your project.  Note that
+    in an ideal world, it would never be necessary to resend results.
+    The first time that they were sent from the server, the client would
+    receive them and no resending would be needed.  However it is the
+    experience of several projects that, for reasons that are
+    not well understood, a BOINC client sometimes fails to receive the
+    scheduler reply.  This flag addresses that issue: it causes the SAME results to be RESENT
+    by the scheduler, if the client has failed to receive them.
+    It works as follows.  In its scheduler request, the BOINC
+    client includes a list of results that it has already received.  The scheduler
+    checks these against the database to be sure that the client has received
+    ALL results which should be present.  If there are missing results on
+    client, and this flag is set, then those results are RESENT by the
+    scheduler before any new work is sent.""
 );
 list_item("min_passwd_length",
     "Minimum length of user passwords.  Default is 6."

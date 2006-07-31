@@ -1,3 +1,4 @@
+
 Rom    4 Jan 2006
     - Branding update for GridRepublic
     
@@ -8195,3 +8196,10 @@ Charlie 31 July 2006
             macbadgemask.xpm (Added)
             macsnoozebadge.xpm
             macdisconnectbadge.xpm
+
+Bruce 31 July 2006
+    - Documentation on <resend_lost_results>
+
+    doc/
+        project_options.php
+
