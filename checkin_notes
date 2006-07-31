@@ -7954,10 +7954,9 @@ Charlie 24 July 2006
 
     clientgui/
         BOINCTaskBar.cpp
-    clientgui/res/
-        macsnoozebadge.xpm (Added)
-        macdisconnectbadge.xpm (Added)
-
+        res/
+            macsnoozebadge.xpm (Added)
+            macdisconnectbadge.xpm (Added)
 
 Rom    25 July 2006
     - Bug Fix: Mac compiler handles std::string a little differently than Windows.
@@ -8186,3 +8185,13 @@ David  30 July 2006
 
     client/
         client_types.C
+
+Charlie 31 July 2006
+    - Mac: use separate 8-bit mask for Dock badge anti-aliasing.
+    
+    clientgui/
+        BOINCTaskBar.cpp
+        res/
+            macbadgemask.xpm (Added)
+            macsnoozebadge.xpm
+            macdisconnectbadge.xpm

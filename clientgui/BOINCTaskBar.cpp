@@ -31,6 +31,7 @@
 #ifdef __WXMAC__
 #include "res/macsnoozebadge.xpm"
 #include "res/macdisconnectbadge.xpm"
+#include "res/macbadgemask.xpm"
 #endif
 
 BEGIN_EVENT_TABLE (CTaskBarIcon, wxTaskBarIconEx)
@@ -510,6 +511,7 @@ bool CTaskBarIcon::SetIcon(const wxIcon& icon, const wxString& tooltip) {
     bool result;
     OSStatus err = noErr ;
     static const wxIcon* currentIcon = NULL;
+    int w, h, x, y;
 
     if (&icon == currentIcon)
         return true;
@@ -530,12 +532,26 @@ bool CTaskBarIcon::SetIcon(const wxIcon& icon, const wxString& tooltip) {
     // Convert the wxIcon into a wxBitmap so we can perform some
     // wxBitmap operations with it
     wxBitmap bmp( macIcon ) ;
+    wxBitmap mask_bmp( macbadgemask ) ;
+    h = bmp.GetHeight();
+    w = bmp.GetWidth();
 
-    //Get the CGImageRef for the wxBitmap (OSX builds only, but then the dock
-    //only exists in OSX :))
-    CGImageRef pImage = 
-        (CGImageRef) bmp.CGImageCreate() ; 
+    wxASSERT(h == mask_bmp.GetHeight());
+    wxASSERT(w == mask_bmp.GetWidth());
 
+    unsigned char * iconBuffer = (unsigned char *)bmp.GetRawAccess();
+    unsigned char * maskBuffer = (unsigned char *)mask_bmp.GetRawAccess() + 1;
+
+    for (y=0; y<h; y++) {
+        for (x=0; x<w; x++) {
+            *iconBuffer = 255 - *maskBuffer;
+            iconBuffer += 4;
+            maskBuffer += 4;
+        }
+    }
+
+    CGImageRef pImage = (CGImageRef) bmp.CGImageCreate(); 
+    
     // Actually set the dock image    
     err = OverlayApplicationDockTileImage(pImage);
     
