@@ -83,7 +83,7 @@ void CProjectsComponent::CreateComponent()
 	SetBackgroundColour(appSkin->GetAppBgCol());
 	/////////////// ICONS /////////////////////
 	CMainDocument* pDoc     = wxGetApp().GetDocument();
-    m_projCnt = (int)pDoc->state.projects.size();
+    m_projCnt = pDoc->GetProjectCount();
 	projectIconName = "stat_icon";
 	defaultIcnPath[256];
 	// url of project directory
@@ -98,7 +98,7 @@ void CProjectsComponent::CreateComponent()
 			// Project button
 			//wxWindow *w_statW = new wxWindow(this,-1,wxPoint(29 + 52*j,3),wxSize(52,52));
 			wxToolTip *statToolTip = new wxToolTip(toolTipTxt);
-			StatImageLoader *i_statW = new StatImageLoader(this,project->master_url,j);
+			StatImageLoader *i_statW = new StatImageLoader(this,project->master_url);
 			i_statW->Move(wxPoint(29 + 52*j,3));
 			
 			// resolve the proj image 
@@ -117,7 +117,7 @@ void CProjectsComponent::CreateComponent()
 			// push icon in the vector
 			m_statProjects.push_back(i_statW);
 			//increment left index
-			m_leftIndex ++;
+			m_rightIndex ++;
 		}
 		
 	}
@@ -138,6 +138,9 @@ void CProjectsComponent::CreateComponent()
 void CProjectsComponent::RemoveProject(std::string prjUrl)
 {	
 	CMainDocument* pDoc     = wxGetApp().GetDocument();
+	//update project count
+	m_projCnt = pDoc->GetProjectCount();
+		
 	int indexOfIcon = -1;
 	
 	for(int m = 0; m < (int)m_statProjects.size(); m++){
@@ -149,21 +152,105 @@ void CProjectsComponent::RemoveProject(std::string prjUrl)
 			break;
 		}
 	}
-	//shift icons to the left. Nothing will be shifted if last icon is removed
-	for(int k = indexOfIcon; k < (int)m_statProjects.size(); k++){
-		StatImageLoader *i_statWShifting = m_statProjects.at(k);
-		i_statWShifting->Move(wxPoint(29 + 52*k,3));
-		int hj = 9;
+	// if last icon is removed but there is still hidden icons on left shifting to right
+	if((m_leftIndex > 0) && (m_rightIndex-1 == m_projCnt)){
+		//shift icons right
+		for(int m = 0; m < indexOfIcon; m++){
+			StatImageLoader *i_statWShifting = m_statProjects.at(m);
+			i_statWShifting->Move(wxPoint(29 + 52*(m+1),3));
+		}
+		// create the icon on left
+		if(m_leftIndex-1 >= 0){
+			PROJECT* project = pDoc->state.projects.at(m_leftIndex-1);
+			userCredit.Printf(wxT("%0.2f"), project->user_total_credit);
+			toolTipTxt = wxString(project->project_name.c_str(), wxConvUTF8 ) +wxT(". User ") + wxString(project->user_name.c_str(), wxConvUTF8) + wxT(" has ") + userCredit + wxT(" points."); 
+		    wxToolTip *statToolTip = new wxToolTip(toolTipTxt);
+			StatImageLoader *i_statW = new StatImageLoader(this,project->master_url);
+		    i_statW->Move(wxPoint(29,3));
+			// resolve the proj image 
+			url_to_project_dir((char*)project->master_url.c_str() ,urlDirectory);
+			dirProjectGraphic = (std::string)urlDirectory + "/" + projectIconName;
+			if(boinc_resolve_filename(dirProjectGraphic.c_str(), defaultIcnPath, sizeof(defaultIcnPath)) == 0){
+				g_statIcn = new wxImage(defaultIcnPath, wxBITMAP_TYPE_PNG);
+				i_statW->LoadImage(g_statIcn);
+			}else{
+				i_statW->LoadImage(g_statIcnDefault);
+			}
+
+			i_statW->SetToolTip(statToolTip);
+			
+		    // push icon in the vector
+		    m_statProjects.insert(m_statProjects.begin(),i_statW);
+			//decrement left index
+			m_leftIndex --;
+			//decrement right index since project was removed at last slot
+			m_rightIndex --;
+		}
+
+	}else{
+		//shift icons to the left. Nothing will be shifted if last icon is removed
+		for(int k = indexOfIcon; k < (int)m_statProjects.size(); k++){
+			StatImageLoader *i_statWShifting = m_statProjects.at(k);
+			i_statWShifting->Move(wxPoint(29 + 52*k,3));
+		}
+	    // create the icon on right
+		if(m_rightIndex <= m_projCnt){
+			PROJECT* project = pDoc->state.projects.at(m_rightIndex-1);
+			userCredit.Printf(wxT("%0.2f"), project->user_total_credit);
+			toolTipTxt = wxString(project->project_name.c_str(), wxConvUTF8 ) +wxT(". User ") + wxString(project->user_name.c_str(), wxConvUTF8) + wxT(" has ") + userCredit + wxT(" points."); 
+			wxToolTip *statToolTip = new wxToolTip(toolTipTxt);
+			StatImageLoader *i_statW = new StatImageLoader(this,project->master_url);
+			i_statW->Move(wxPoint(29 + 52*(m_maxNumOfIcons-1),3));
+			// resolve the proj image 
+			url_to_project_dir((char*)project->master_url.c_str() ,urlDirectory);
+			dirProjectGraphic = (std::string)urlDirectory + "/" + projectIconName;
+			if(boinc_resolve_filename(dirProjectGraphic.c_str(), defaultIcnPath, sizeof(defaultIcnPath)) == 0){
+				g_statIcn = new wxImage(defaultIcnPath, wxBITMAP_TYPE_PNG);
+				i_statW->LoadImage(g_statIcn);
+			}else{
+				i_statW->LoadImage(g_statIcnDefault);
+			}
+
+			i_statW->SetToolTip(statToolTip);
+			
+			// push icon in the vector
+			m_statProjects.push_back(i_statW);
+		}else{//if nothing can be shifted in place of last icon
+			//decrement right index
+			m_rightIndex --;
+		}
 	}
-	//update project count
-	m_projCnt = (int)pDoc->state.projects.size();
-	if(m_leftIndex+1 <= m_projCnt){
-		PROJECT* project = pDoc->state.projects.at(m_leftIndex);
+
+	////////////hide or show arrows///////////
+	if(m_leftIndex == 0){
+		btnArwLeft->Show(false);
+	}else{
+		btnArwLeft->Show(true);
+	}
+	//
+	if(m_rightIndex < m_projCnt){
+		btnArwRight->Show(true);
+	}else{
+		btnArwRight->Show(false);
+	}
+	///////////////////////////////////////////
+}
+void CProjectsComponent::UpdateInterface()
+{
+	CMainDocument* pDoc     = wxGetApp().GetDocument();
+	int oldProjCnt = m_projCnt;
+	m_projCnt = pDoc->GetProjectCount();
+	if(m_projCnt == oldProjCnt){
+		return;
+	}
+
+	if(m_projCnt <= m_maxNumOfIcons){
+		PROJECT* project = pDoc->state.projects.at(m_projCnt-1);
 		userCredit.Printf(wxT("%0.2f"), project->user_total_credit);
 		toolTipTxt = wxString(project->project_name.c_str(), wxConvUTF8 ) +wxT(". User ") + wxString(project->user_name.c_str(), wxConvUTF8) + wxT(" has ") + userCredit + wxT(" points."); 
 		wxToolTip *statToolTip = new wxToolTip(toolTipTxt);
-		StatImageLoader *i_statW = new StatImageLoader(this,project->master_url,m_leftIndex+1);
-		i_statW->Move(wxPoint(29 + 52*(m_maxNumOfIcons-1),3));
+		StatImageLoader *i_statW = new StatImageLoader(this,project->master_url);
+		i_statW->Move(wxPoint(29 + 52*(m_projCnt-1),3));
 		// resolve the proj image 
 		url_to_project_dir((char*)project->master_url.c_str() ,urlDirectory);
 		dirProjectGraphic = (std::string)urlDirectory + "/" + projectIconName;
@@ -179,34 +266,13 @@ void CProjectsComponent::RemoveProject(std::string prjUrl)
 		// push icon in the vector
 		m_statProjects.push_back(i_statW);
 		//increment left index
-		m_leftIndex ++;
-		//increment right index
 		m_rightIndex ++;
 	}
-	//hide right arrow if we are at the end of list now
-	if(m_leftIndex >= m_projCnt){
-		btnArwRight->Show(false);
+	//show arrow if we are at the over max number of projects
+	if(m_projCnt > m_maxNumOfIcons){
+		btnArwRight->Show(true);
 	}
-
-
-}
-void CProjectsComponent::UpdateInterface()
-{
-	/*CMainDocument* pDoc     = wxGetApp().GetDocument();
 	
-	RESULT* result = pDoc->results.results[m_tabIndex];
-	wxString strBuffer = wxEmptyString;
-	//Gauge
-	gaugeWUMain->SetValue(floor(result->fraction_done * 100000)/1000);
-	// Elapsed Time
-	FormatCPUTime(result, strBuffer);
-	lblElapsedTimeValue->SetLabel(strBuffer);
-	lblElapsedTimeValue->Refresh();
-    // Remaining time
-	FormatTimeToCompletion(result, strBuffer);
-	lblTimeRemainingValue->SetLabel(strBuffer);
-	lblTimeRemainingValue->Refresh();
-*/
 }
 
 void CProjectsComponent::ReskinInterface()
@@ -241,12 +307,12 @@ void CProjectsComponent::OnBtnClick(wxCommandEvent& event){ //init function
 
 		CMainDocument* pDoc     = wxGetApp().GetDocument();
 		
-		if(m_rightIndex-1 >= 0){
-			PROJECT* project = pDoc->state.projects.at(m_rightIndex-1);
+		if(m_leftIndex-1 >= 0){
+			PROJECT* project = pDoc->state.projects.at(m_leftIndex-1);
 			userCredit.Printf(wxT("%0.2f"), project->user_total_credit);
 			toolTipTxt = wxString(project->project_name.c_str(), wxConvUTF8 ) +wxT(". User ") + wxString(project->user_name.c_str(), wxConvUTF8) + wxT(" has ") + userCredit + wxT(" points."); 
 		    wxToolTip *statToolTip = new wxToolTip(toolTipTxt);
-			StatImageLoader *i_statW = new StatImageLoader(this,project->master_url,m_leftIndex+1);
+			StatImageLoader *i_statW = new StatImageLoader(this,project->master_url);
 		    i_statW->Move(wxPoint(29,3));
 			// resolve the proj image 
 			url_to_project_dir((char*)project->master_url.c_str() ,urlDirectory);
@@ -262,16 +328,16 @@ void CProjectsComponent::OnBtnClick(wxCommandEvent& event){ //init function
 			
 		    // push icon in the vector
 		    m_statProjects.insert(m_statProjects.begin(),i_statW);
-			//increment left index
+			//decrement left index
 			m_leftIndex --;
-			//increment right index
+			//decrement right index
 			m_rightIndex --;
 			//now show left button
 			btnArwRight->Show(true);
 
 		}
 		//hide right arrow if we got to the end of the list
-		if(m_rightIndex <= 0){
+		if(m_leftIndex <= 0){
 			btnArwLeft->Show(false);
 		}
 		btnArwLeft->Refresh();
@@ -291,12 +357,12 @@ void CProjectsComponent::OnBtnClick(wxCommandEvent& event){ //init function
         CMainDocument* pDoc     = wxGetApp().GetDocument();
 		//update project count
 		m_projCnt = (int)pDoc->state.projects.size();
-		if(m_leftIndex+1 <= m_projCnt){
-			PROJECT* project = pDoc->state.projects.at(m_leftIndex);
+		if(m_rightIndex+1 <= m_projCnt){
+			PROJECT* project = pDoc->state.projects.at(m_rightIndex);
 			userCredit.Printf(wxT("%0.2f"), project->user_total_credit);
 			toolTipTxt = wxString(project->project_name.c_str(), wxConvUTF8 ) +wxT(". User ") + wxString(project->user_name.c_str(), wxConvUTF8) + wxT(" has ") + userCredit + wxT(" points."); 
 		    wxToolTip *statToolTip = new wxToolTip(toolTipTxt);
-			StatImageLoader *i_statW = new StatImageLoader(this,project->master_url,m_leftIndex+1);
+			StatImageLoader *i_statW = new StatImageLoader(this,project->master_url);
 		    i_statW->Move(wxPoint(29 + 52*(m_maxNumOfIcons-1),3));
 			// resolve the proj image 
 			url_to_project_dir((char*)project->master_url.c_str() ,urlDirectory);
@@ -321,7 +387,7 @@ void CProjectsComponent::OnBtnClick(wxCommandEvent& event){ //init function
 
 		}
 		//hide right arrow if we got to the end of the list
-		if(m_leftIndex >= m_projCnt){
+		if(m_rightIndex >= m_projCnt){
 			btnArwRight->Show(false);
 		}
 		btnArwRight->Refresh();

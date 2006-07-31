@@ -50,6 +50,7 @@ CViewTabPage::CViewTabPage(wxFlatNotebook* parent,int index,std::string name,std
     wxASSERT(parent);
 	m_tabIndex = index;
 	m_name = name;
+	isAlive = true;
 	m_prjUrl = url;
 	m_hasGraphic = false;
     LoadSkinImages();

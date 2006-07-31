@@ -102,9 +102,6 @@ CSimpleFrame::CSimpleFrame(wxString title, wxIcon* icon) :
     m_pFrameRenderTimer->Start(1000);                // Send event every 1 second
     //Create client
 	InitEmptyState();
-	//InitSimpleClient(); moved to timer function
-	// center application
-	//initAfter();
 }
 
 CSimpleFrame::~CSimpleFrame()
@@ -212,7 +209,8 @@ void CSimpleFrame::OnProjectsAttachToProject() {
             pWizard->Destroy();
 
         m_pFrameRenderTimer->Start();
-        //FireRefreshView();
+		//update Project Component
+        projComponent->UpdateInterface();
     } else {
         ShowNotCurrentlyConnectedAlert();
     }
@@ -348,64 +346,76 @@ void CSimpleFrame::UpdateClientGUI(){
 	//update GUI
 	int resultCnt = (int)pDoc->results.results.size();
     wxString strBuffer = wxEmptyString;
-    // Update Tabs
-	for(int i = 0; i < resultCnt; i++){
-		RESULT* result = pDoc->results.results[i];
-		//RESULT* resState = pDoc->state.lookup_result(result->project_url, result->name);
-		
-		// get tab window
-		CViewTabPage *currTab = m_windows[i];
-		if(result->name == currTab->GetTabName()){
-			currTab->UpdateInterface();
-		}else{
-			//delete tab page
-			//wrkUnitNB->RemovePage(i);
-			//add replacement page
-			//wxString friendlyName;
-			//CViewTabPage *wTab = new CViewTabPage(wrkUnitNB,i,resState->name);
-			//wrkUnitNB->AddPage(wTab,  wxT(friendlyName, true));	
-			//(result->active_task_state == 1){
-			//	wrkUnitNB->SetPageImageIndex(i, 0); // this is working process
-			//}else{
-			//	 wrkUnitNB->SetPageImageIndex(i, 1); // this is sleeping process
-			//}
-			//push new page
-			//m_windows.push_back(wTab);
-		}		
-		
+	//assume they are all inactive
+	for(int x = 0; x < (int)m_windows.size(); x ++)
+	{
+		CViewTabPage *currTab = m_windows[x];
+		currTab->isAlive = false;
 	}
-	//Update Projects
-	//int projCnt = (int)pDoc->state.projects.size();
-	//std::vector<StatImageLoader*> tempProjects;
-    //unsigned int j;
-	/*for(j = 0; j < pDoc->state.projects.size(); j++){
-		PROJECT* project = pDoc->state.projects[j];
-		
-		//only go into if we have enough project icons
-		if(j<m_statProjects.size()){
-			// get tab window
-			StatImageLoader *currProjIcon = m_statProjects[j];
-			
-			if(project->master_url == currProjIcon->m_prjUrl){ // update credit tooltip
-				wxString toolTipTxt;
-				wxString userCredit;
-				userCredit.Printf(wxT("%0.2f"), project->user_total_credit);
-				toolTipTxt = wxString(project->project_name.c_str(), wxConvUTF8 ) +wxT(". User ") + wxString(project->user_name.c_str(), wxConvUTF8) + wxT(" has ") + userCredit + wxT(" points."); 
-				wxToolTip *statToolTip = new wxToolTip(toolTipTxt);
-				currProjIcon->SetToolTip(statToolTip);
-			}else{
-				//delete icon and make a new one
-				// push icon in the vector
-			    //tempProjects.push_back(i_statW);
-			}
+    // Update Tabs
+	RESULT* result;
+	for(int i = 0; i < resultCnt; i++){
+		result = pDoc->results.results[i];
+		// get tab window
+		bool found = false;
+		for(int j = 0; j < (int)m_windows.size(); j ++)
+		{
+			CViewTabPage *currTab = m_windows[j];
+			if(result->name == currTab->GetTabName()){
+				//currTab FOUND;
+				int jkh = 9;
+				currTab->isAlive = true;
+				found = true;
+				break;
+		    }
+
 		}
-	}*/
+		if(!found){
+			// create one and add it to notebook
+			int ssdff = 9;
+			std::string projUrl = result->project_url;
+			std::string nme = result->name;
+			RESULT* resState = pDoc->state.lookup_result(projUrl, nme);
+			wxString friendlyName;
+
+			if(resState!=0){
+				friendlyName = wxString(resState->app->name.c_str(), wxConvUTF8 );
+			}else{
+				friendlyName = wxString(resState->app->name.c_str(), wxConvUTF8 );
+			}
+			std::string index = " ";
+			//index += i;
+			friendlyName += wxString(index.c_str(), wxConvUTF8 );
+			CViewTabPage *wTab = new CViewTabPage(wrkUnitNB,i,resState->name,resState->project_url);
+			wrkUnitNB->AddPage(wTab, friendlyName, true);	
+			if(result->active_task_state == 1){
+				 wrkUnitNB->SetPageImageIndex(i, 0); // this is working process
+			}else{
+				 wrkUnitNB->SetPageImageIndex(i, 1); // this is sleeping process
+			}
+			m_windows.push_back(wTab);
+		}		
+	}
+	//delete the ones that are not alive
+	//assume they are all inactive
+	int deleteIndex = 0;
+	for(int x = 0; x < (int)m_windows.size(); x ++)
+	{
+		CViewTabPage *currTab = m_windows[x];
+		if(!currTab->isAlive){
+			//delete the notebook page
+			wrkUnitNB->DeletePage(deleteIndex);
+			//delete the page in vector
+			m_windows.erase(m_windows.begin()+x);
+		}else{
+			deleteIndex++;
+		}
+	}
 	//Refresh();
 }
 
 void CSimpleFrame::initAfter(){
     //add your code here
-    //Centre();
     Show(true);
 }
 //
@@ -475,6 +485,11 @@ int CSimpleFrame::LoadSkinXML(){
 			mf.fgets(buf, 256);
 			if (parse_str(buf, "<imgsrc>", val)) {
 				appSkin->SetDlgPrefBg(wxString( val.c_str(), wxConvUTF8 ));
+			}
+        }else if (match_tag(buf, "<dlgmessages")) {
+			mf.fgets(buf, 256);
+			if (parse_str(buf, "<imgsrc>", val)) {
+				appSkin->SetDlgMessBg(wxString( val.c_str(), wxConvUTF8 ));
 			}
         }else if (match_tag(buf, "<gauge")) {
 			mf.fgets(buf, 256);

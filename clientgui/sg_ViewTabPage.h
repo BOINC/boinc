@@ -40,6 +40,7 @@ class CViewTabPage : public wxPanel {
 
 public:
 	
+	bool isAlive;
 	//Skin Class
     SkinClass *appSkin;
 	// project icons
@@ -47,12 +48,6 @@ public:
 	ImageLoader *i_prjIcnPI;
 	wxWindow *w_iconPI;
 	// btns ////////////
-	// Collapse button
-	//wxImage *g_collapse;
-	//wxImage *g_collapseClick;
-	//wxBitmap btmpCol; 
-    //wxBitmap btmpColClick; 
-	//wxBitmapButton *btnCollapse;
 	//ShowGraphic button
     wxImage *g_showGraphic;
 	wxImage *g_showGraphicClick;

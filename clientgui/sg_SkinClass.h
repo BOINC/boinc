@@ -53,6 +53,7 @@ public:
         wxString GetBtnShowGraphicClick() const { return m_btnShowGraphicClick; }
         
 		wxString GetDlgPrefBg() { return m_dlgPrefBg; }
+		wxString GetDlgMessBg() { return m_dlgMessBg; }
 
 		wxColour GetGaugeFgCol() { return GetColorFromStr(m_gaugeFgCol); }
 		wxColour GetGaugeBgCol() { return GetColorFromStr(m_gaugeBgCol); }
@@ -101,6 +102,7 @@ public:
         void SetBtnShowGraphicClick(const wxString& imgsrc)  { m_btnShowGraphicClick = imgsrc; }
 		
 		void SetDlgPrefBg(const wxString& imgsrc) { m_dlgPrefBg = imgsrc; }
+		void SetDlgMessBg(const wxString& imgsrc) { m_dlgMessBg = imgsrc; }
 
 		void SetGaugeFgCol(const wxString& clr) { m_gaugeFgCol = clr; }
 		void SetGaugeBgCol(const wxString& clr) { m_gaugeBgCol = clr; }
@@ -133,6 +135,7 @@ private:
 		wxString m_appBgCol;
         //Dialogs
 		wxString m_dlgPrefBg;
+		wxString m_dlgMessBg;
 		//gauge colors
         wxString m_gaugeFgCol; 
 		wxString m_gaugeBgCol;

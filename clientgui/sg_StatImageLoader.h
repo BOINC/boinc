@@ -16,7 +16,7 @@ public:
         SkinClass *appSkin;
 		std::string m_prjUrl;
 	    /// Constructors
-		StatImageLoader(wxWindow* parent, std::string url,int index); 
+		StatImageLoader(wxWindow* parent, std::string url); 
         void LoadImage(const wxImage& image); 
 		void CreateMenu();
 		void OnMenuLinkClicked(wxCommandEvent& event);
@@ -25,7 +25,6 @@ public:
         void OnPaint(wxPaintEvent& event); 
 private: 
         //private memb 
-	    int m_ProjIconIndex;
         wxBitmap Bitmap; 
         DECLARE_EVENT_TABLE() 
 }; 

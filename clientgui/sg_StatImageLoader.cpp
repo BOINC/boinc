@@ -19,10 +19,9 @@ BEGIN_EVENT_TABLE(StatImageLoader, wxWindow)
 		EVT_MENU(WEBSITE_URL_MENU_ID_REMOVE_PROJECT,StatImageLoader::OnMenuLinkClicked)
 END_EVENT_TABLE() 
 
-StatImageLoader::StatImageLoader(wxWindow* parent, std::string url,int index) : wxWindow(parent, wxID_ANY, wxDefaultPosition, wxSize(52,52), wxNO_BORDER) 
+StatImageLoader::StatImageLoader(wxWindow* parent, std::string url) : wxWindow(parent, wxID_ANY, wxDefaultPosition, wxSize(52,52), wxNO_BORDER) 
 {
     m_prjUrl = url;
-	m_ProjIconIndex = index;
     CreateMenu();
 }
 
@@ -115,8 +114,18 @@ void StatImageLoader::OnProjectDetach() {
     if (!pDoc->IsUserAuthorized())
         return;
 
-    PROJECT* project = pDoc->project(m_ProjIconIndex);
-    project->get_name(strProjectName);
+	int indexOfProj = -1;
+	int prjCount = pDoc->GetProjectCount();
+	for(int m = 0; m < prjCount; m++){
+		PROJECT* project = pDoc->project(m);
+		project->get_name(strProjectName);
+		if(project->master_url == m_prjUrl){
+			indexOfProj = m;
+			break;
+		}
+	}
+    // PROJECT* project = pDoc->project(m_ProjIconIndex);
+    //project->get_name(strProjectName);
 
     strMessage.Printf(
         _("Are you sure you want to detach from project '%s'?"), 
@@ -131,8 +140,8 @@ void StatImageLoader::OnProjectDetach() {
     );
 
     if (wxYES == iAnswer) {
+        pDoc->ProjectDetach(indexOfProj);
 		pComp->RemoveProject(m_prjUrl);
-        //pDoc->ProjectDetach(m_ProjIconIndex);
     }
     
     wxLogTrace(wxT("Function Start/End"), wxT("StatImageLoader::OnProjectDetach - Function End"));

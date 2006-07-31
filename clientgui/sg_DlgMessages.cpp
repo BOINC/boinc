@@ -52,11 +52,11 @@ CDlgMessages::CDlgMessages(wxWindow* parent, wxString dirPref,wxWindowID id,cons
 	Create(parent,id,title,pos,size,style,name);
 
 	if((pos==wxDefaultPosition)&&(size==wxDefaultSize)){
-		SetSize(0,0,400,450);
+		SetSize(0,0,545,450);
 	}
 
 	if((pos!=wxDefaultPosition)&&(size==wxDefaultSize)){
-		SetSize(400,450);
+		SetSize(545,450);
 	}
 
     m_pList = new CSGUIListCtrl(this, ID_TASK_MESSAGESVIEW_SGUI, DEFAULT_LIST_MULTI_SEL_FLAGS);
@@ -64,8 +64,8 @@ CDlgMessages::CDlgMessages(wxWindow* parent, wxString dirPref,wxWindowID id,cons
 	//m_pList->OnGetItemText = this->OnListGetItemText(
 
 	// Create List Pane Items
-    m_pList->InsertColumn(COLUMN_PROJECT, _("Project"), wxLIST_FORMAT_LEFT, 105);
-    m_pList->InsertColumn(COLUMN_TIME, _("Time"), wxLIST_FORMAT_LEFT, 125);
+    m_pList->InsertColumn(COLUMN_PROJECT, _("Project"), wxLIST_FORMAT_LEFT, 109);
+    m_pList->InsertColumn(COLUMN_TIME, _("Time"), wxLIST_FORMAT_LEFT, 130);
     m_pList->InsertColumn(COLUMN_MESSAGE, _("Message"), wxLIST_FORMAT_LEFT, 250);
 
 	m_pMessageInfoAttr = new wxListItemAttr(*wxBLACK, *wxWHITE, wxNullFont);
@@ -101,7 +101,7 @@ void CDlgMessages::CreateDialog()
 {
 	SetBackgroundColour(appSkin->GetAppBgCol());
 	
-	btnCancel=new wxBitmapButton(this,ID_CANCELBUTTON,*bmpCancel,wxPoint(332,395),wxSize(59,20));
+	btnCancel=new wxBitmapButton(this,ID_CANCELBUTTON,*bmpCancel,wxPoint(475,392),wxSize(59,20));
 	
 	Refresh();
 }
@@ -109,7 +109,7 @@ void CDlgMessages::LoadSkinImages(){
 	//get skin class
 	appSkin = SkinClass::Instance();
 
-	fileImgBuf[0].LoadFile(m_SkinDirPrefix + appSkin->GetDlgPrefBg(),wxBITMAP_TYPE_BMP);
+	fileImgBuf[0].LoadFile(m_SkinDirPrefix + appSkin->GetDlgMessBg(),wxBITMAP_TYPE_BMP);
 	fileImgBuf[1].LoadFile(m_SkinDirPrefix + appSkin->GetBtnCancel(),wxBITMAP_TYPE_BMP);
 	windowBg=&fileImgBuf[0];
 	bmpCancel=&fileImgBuf[1];

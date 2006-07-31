@@ -9,6 +9,9 @@
 			<dlgpreferences>
 				<imgsrc>graphic/dlgPreferences.bmp</imgsrc>
 			</dlgpreferences>
+			<dlgmessages>
+				<imgsrc>graphic/dlgMessages.bmp</imgsrc>
+			</dlgmessages>
 			<gauge>
 				<fgcol>220:220:172</fgcol>
 				<bgcol>248:251:184</bgcool>
