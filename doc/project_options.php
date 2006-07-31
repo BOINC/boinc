@@ -271,7 +271,7 @@ list_item("resend_lost_results",
     checks these against the database to be sure that the client has received
     ALL results which should be present.  If there are missing results on
     client, and this flag is set, then those results are RESENT by the
-    scheduler before any new work is sent.""
+    scheduler before any new work is sent."
 );
 list_item("min_passwd_length",
     "Minimum length of user passwords.  Default is 6."
