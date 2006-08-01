@@ -562,9 +562,7 @@ void CBOINCGUIApp::OnInitCmdLine(wxCmdLineParser &parser) {
     wxApp::OnInitCmdLine(parser);
     static const wxCmdLineEntryDesc cmdLineDesc[] = {
         { wxCMD_LINE_SWITCH, wxT("s"), wxT("systray"), _("Startup BOINC so only the system tray icon is visible")},
-#if (defined(SANDBOX) && ! defined(_WIN32))
         { wxCMD_LINE_SWITCH, wxT("insecure"), wxT("insecure"), _("disable BOINC security users and permissions")},
-#endif
         { wxCMD_LINE_NONE}  //DON'T forget this line!!
     };
     parser.SetDesc(cmdLineDesc);
