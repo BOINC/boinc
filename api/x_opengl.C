@@ -46,6 +46,72 @@ static int xpos = 100, ypos = 100;
 static int clicked_button;
 static int win=0;
 static bool glut_is_initialized = false;
+
+// freeglut extensions, not in GL/glut.h.
+//
+
+// glutGet(GLUT_VERSION) returns the freeglut version.
+// returns (major*10000)+(minor*100)+maint level
+// NOTE - make sure freeglut is initialized before
+//        getting the version.
+// NOTE - this isn't valid in GLUT which makes it doubly
+//        useful, the -1 return code says its _not_
+//        running freeglut so makes for a useful way
+//        we can tell at runtime which library
+//        is in use.
+//
+#ifndef GLUT_VERSION
+#define GLUT_VERSION 0x01FC
+#endif
+
+// glutGet(GLUT_INIT_STATE) returns freegluts state.  Determines
+// when to call glutInit again to reinitialize it.
+// 
+#ifndef GLUT_INIT_STATE
+#define GLUT_INIT_STATE 0x007C
+#endif
+
+// Simple defines for checking freeglut states
+// 
+
+// Check whether freeglut is initialized.  Necessary
+// since it deinitializes itself when the window is
+// closed.  Only works with freeglut, although glut
+// will return -1 and write a warning message to stdout
+//
+#define FREEGLUT_IS_INITIALIZED ((bool)(glutGet(GLUT_INIT_STATE)==1))
+
+
+// Check whether a window exists. Necessary as glutDestroyWindow
+// causes SIGABRT, so we hide and reshow windows instead
+// of creating and deleting them.  (Talking freeglut here)
+// note - make sure glutInit is called before checking,
+// otherwise freeglut will SIGABRT. 
+//
+#define GLUT_HAVE_WINDOW ((bool)(glutGetWindow()!=0))
+
+
+// Runtime tag to tell we're using freeglut so can take precautions
+// and avoid SIGABRTs.  Initialize the flag to 'true' and the
+// init code in boinc_glut_init() will check whether we have
+// openglut or freeglut, resetting the variable as necessary.
+// 
+// Linux systems ship with freeglut, so default is 'true' and
+// its checked.
+//
+// If running freeglut, also get the version.
+//
+static bool glut_is_freeglut = true;
+static int glut_version = 0;
+
+
+// State variables for freeglut windows.  Since freeglut has
+// problems wiht glutDestroyWindow, keep it open and just
+// hide/show it as necessary.
+//
+static int fg_window_state;   // values same as mode
+static bool fg_window_is_fullscreen; 
+
 static jmp_buf jbuf;    // longjump/setjump for exit/signal handler
 static struct sigaction original_signal_handler; // store previous ABRT signal-handler
 static void set_mode(int mode);
@@ -150,6 +216,13 @@ static void make_new_window(int mode) {
         return;
     }
 
+    if (glut_is_initialized && glut_is_freeglut) {
+        if (!FREEGLUT_IS_INITIALIZED) {
+            glut_is_initialized = false;
+            fg_window_is_fullscreen = false;
+	        fg_window_state = 0;
+        }
+    }
     if (!glut_is_initialized)  {
         boinc_glut_init();
     }
@@ -157,22 +230,42 @@ static void make_new_window(int mode) {
     app_debug_msg("make_new_window(): now calling glutCreateWindow(%s)...\n", aid.app_name);
     char window_title[256];
     get_window_title(aid, window_title, 256);
-    win = glutCreateWindow(window_title); 
-    app_debug_msg("glutCreateWindow() succeeded. win = %d\n", win);
 
-    // installing callbacks for the current window
-    glutReshapeFunc(app_graphics_resize);
-    glutKeyboardFunc(keyboardD);
-    glutKeyboardUpFunc(keyboardU);
-    glutMouseFunc(mouse_click);
-    glutMotionFunc(mouse_click_move);
-    glutDisplayFunc(maybe_render); 
-    glEnable(GL_DEPTH_TEST);    
+    // just show the window if its hidden
+    // if it used to be fullscreen (before
+    // it was hidden, reset size and position
+    // to defaults
+    //
+    bool have_window = false;
+    if (glut_is_freeglut && GLUT_HAVE_WINDOW) {
+          have_window = true;
+          glutShowWindow();
+          if (fg_window_is_fullscreen) {
+             glutPositionWindow(xpos, ypos);
+             glutReshapeWindow(600, 400);
+             fg_window_is_fullscreen = false;
+          }
+	  fg_window_state = MODE_WINDOW;
+    }
+    
+    if (!have_window) {
+        win = glutCreateWindow(window_title); 
+        app_debug_msg("glutCreateWindow() succeeded. win = %d\n", win);
+
+        glutReshapeFunc(app_graphics_resize);
+        glutKeyboardFunc(keyboardD);
+        glutKeyboardUpFunc(keyboardU);
+        glutMouseFunc(mouse_click);
+        glutMotionFunc(mouse_click_move);
+        glutDisplayFunc(maybe_render); 
+        glEnable(GL_DEPTH_TEST);
+  
 #ifdef __APPLE__
     glutWMCloseFunc(CloseWindow);   // Enable the window's close box
-    BringAppToFront();
+        BringAppToFront();
 #endif
-    app_graphics_init();
+        app_graphics_init();
+    }
 
     if (mode == MODE_FULLSCREEN)  {
         glutFullScreen();
@@ -181,16 +274,50 @@ static void make_new_window(int mode) {
     return;
 }
 
-// initialized glut and screensaver-graphics
-// this should only called once, even if restarted by user-exit
+// Initialize glut and screensaver-graphics.  Using GLUT, 
+// this should only called once, even if restarted by user-exit.
+// Using freeGLUT, its called to reinit freeglut and
+// the graphics window as freeglut 'deinitialized' itself
+// when the window is destroyed
+//
+// note - this is called from make_new_window() when a new
+// window is to be created.
 //
 static void boinc_glut_init() {
     const char* args[2] = {"screensaver", NULL};
     int one=1;
+    int rc;
+    static bool first = true;
+    char buf[128];
+    
+    win = 0;
     app_debug_msg("Calling glutInit()... \n");
     glutInit (&one, (char**)args);
     app_debug_msg("...survived glutInit(). \n");
-     
+
+    // figure out whether we're running GLUT or freeglut.
+    // 
+    // note - glutGet(GLUT_VERSION) is supported in freeglut,
+    //        other GLUT  returns -1 and outputs a warning
+    //        message to stderr. 
+    //      - must be after glutInit or will get SIGABRT
+    //
+    if (first) {
+        first = false;
+        if (glut_is_freeglut) {
+            glut_version = glutGet(GLUT_VERSION);
+            if (glut_version == -1) {
+                glut_version = 0;
+                glut_is_freeglut = false;
+           } else {
+               int major = glut_version/10000;
+               int minor = (glut_version -(major*10000))/100;
+               int maint = glut_version - (major*10000) - (minor * 100);
+               app_debug_msg("Running freeGLUT %d.%d.%d.\n", major, minor, maint);
+           }
+       }
+    }
+
     glutInitDisplayMode(GLUT_DOUBLE | GLUT_RGB | GLUT_DEPTH); 
     glutInitWindowPosition(xpos, ypos);
     glutInitWindowSize(600, 400); 
@@ -200,6 +327,9 @@ static void boinc_glut_init() {
     }
 
     glut_is_initialized = true;
+    if (glut_is_freeglut) {
+       fg_window_state = 0;
+    }
 
     return;
 
@@ -207,21 +337,36 @@ static void boinc_glut_init() {
 
 // Destroy current window if any
 //
+// Note - glutDestroyWindow results in SIGABRT in freeglut, so
+//        instead of closing the window, just hide it.  And
+//        before hiding it, make sure there is a window,
+//        user could have closed it.
+//
 void KillWindow() {
-    if (win) {
-      int oldwin = win;
-      win = 0;	// set this to 0 FIRST to avoid recursion if the following call fails.
-      glutDestroyWindow(oldwin);
-    }
+   if (win) {
+      if (glut_is_freeglut && FREEGLUT_IS_INITIALIZED && GLUT_HAVE_WINDOW) {
+         glutHideWindow();
+      } else {
+         int oldwin = win;
+         win = 0;	// set this to 0 FIRST to avoid recursion if the following call fails.
+         glutDestroyWindow(oldwin);
+      }
+   } 
 }
 
 void set_mode(int mode) {
     if (mode == current_graphics_mode) {
-#ifdef __APPLE__
         // Bring graphics window to front whenever user presses "Show graphics"
-        if (mode == MODE_WINDOW)
+        if (mode == MODE_WINDOW) {
+#ifdef __APPLE__
             BringAppToFront();
-#endif
+#else
+            if (glut_is_freeglut && FREEGLUT_IS_INITIALIZED && (GLUT_HAVE_WINDOW > 0)) {
+//              glutPopWindow();
+       	        glutShowWindow();
+            }
+#endif 
+       }
         return;
     }
 
@@ -233,7 +378,7 @@ void set_mode(int mode) {
     }
     
     if (mode != MODE_HIDE_GRAPHICS) {
-        app_debug_msg("set_mode(): Calling make_new_window(%d)\n", mode);
+        app_debug_msg("set_mode(): Calling make_new_window(%d)\n", mode); 
         make_new_window(mode);
         app_debug_msg("...make_new_window() survived.\n");
     }
@@ -312,7 +457,7 @@ void restart() {
         app_debug_msg ("exit() was called from worker-thread\n");
         return;
     }
-    app_debug_msg ("exit() called from graphics-thread.\n");
+    app_debug_msg ("restart: exit() called from graphics-thread.\n");
 
     // if we are standalone and glut was initialized,
     // we assume user pressed 'close', and we exit the app
@@ -353,7 +498,7 @@ void restart() {
 
     // jump back to entry-point in xwin_graphics_event_loop();
     //
-    app_debug_msg( "Jumping back to event_loop.\n");
+    app_debug_msg( "restart: Jumping back to event_loop.\n");
     longjmp(jbuf, JUMP_EXIT);
 }
 
@@ -425,6 +570,19 @@ void xwin_graphics_event_loop() {
         while(1)  {
             sleep(1);
         }
+    }
+
+    // If using freeglut, check to see if we need to
+    // reinitialize glut and graphics.
+    // We're only resetting flags here, actual reinit function
+    // is called in make_new_window().
+    //
+    if (glut_is_initialized && glut_is_freeglut) {
+        if (1 == (glut_is_initialized = FREEGLUT_IS_INITIALIZED)) {
+	       if (!GLUT_HAVE_WINDOW) {
+	          win = 0; 
+	       }
+	    }
     }
 
     if (boinc_is_standalone()) {

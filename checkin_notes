@@ -8287,3 +8287,10 @@ David  1 Aug 2006
     html/
         inc/
             forum.inc
+
+Walt   1 Aug 2006
+    - API: add support for freeGLUT
+
+    api/
+        x_opengl.C
+
