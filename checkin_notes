@@ -8252,3 +8252,9 @@ Rom    1 Aug 2006
     lib/
         boinc_cmd.C
         util.C
+
+Rom    1 Aug 2006
+    - Bug Fix: Fix the code that recreates the taskbar icon if explorer dies.
+    
+    clientgui/msw/
+        taskbarex.cpp

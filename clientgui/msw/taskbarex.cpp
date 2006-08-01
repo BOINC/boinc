@@ -93,13 +93,8 @@ void wxTaskBarIconEx::OnClose(wxCloseEvent& WXUNUSED(event))
 
 void wxTaskBarIconEx::OnTaskBarCreated(wxTaskBarIconExEvent& WXUNUSED(event))
 {
-    if (m_iconAdded)
-        Shell_NotifyIcon(NIM_MODIFY, &notifyData);
-    else
-    {
-        m_iconAdded = (Shell_NotifyIcon(NIM_ADD, &notifyData) != 0);
-        Shell_NotifyIcon(NIM_SETVERSION, &notifyData);
-    }
+    m_iconAdded = (Shell_NotifyIcon(NIM_ADD, &notifyData) != 0);
+    Shell_NotifyIcon(NIM_SETVERSION, &notifyData);
 }
 
 // Operations
