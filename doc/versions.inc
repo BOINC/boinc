@@ -345,7 +345,7 @@ $linux_libs_559= "
         Linux distributions.  Its been tested on:
       <ul>
         <li>Fedora Core 5
-        <li>SuSE 10.1
+        <li>SUSE 10.1
         <li>Ubuntu 6.06
       </ul>
 ";
