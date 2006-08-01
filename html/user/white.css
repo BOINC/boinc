@@ -153,6 +153,18 @@ blockquote {
     font-style: italic;
 }
 
+blockquote.postbody {
+    border-style: inset;
+    border-color: blue;
+    background-color: rgb(240,240,255);
+    padding-left: 5px;
+    padding-bottom: 0px;
+    margin-bottom: 0px;
+    margin-left: 15px;
+    margin-right: 160px;
+    font-style: oblique
+} 
+
 #thread table {
     width: 100%;
     table-layout: fixed;

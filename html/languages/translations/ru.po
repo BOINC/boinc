@@ -391,7 +391,7 @@ msgstr "Подписаться на это обсуждение"
 # Особенности поиска на форуме
 #########################################
 
-msgid "FORUM SEARCH"
+msgid "FORUM_SEARCH"
 msgstr "Поиск в форуме"
 
 msgid "FORUM_SEARCH_TITLES"

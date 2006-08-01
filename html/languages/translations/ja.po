@@ -553,7 +553,7 @@ msgstr "このスレッドに参加する"
 #########################################
 # msgid "FORUM SEARCH"
 # msgstr "Forum search"
-msgid "FORUM SEARCH"
+msgid "FORUM_SEARCH"
 msgstr "掲示板内の検索"
 
 # msgid "FORUM_SEARCH_TITLES"

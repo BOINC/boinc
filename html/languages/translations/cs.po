@@ -354,7 +354,7 @@ msgstr "Zapsat se k tomuto vláknu"
 #########################################
 # Forum search features
 #########################################
-msgid "FORUM SEARCH"
+msgid "FORUM_SEARCH"
 msgstr "Hledat na fóru"
 
 msgid "FORUM_SEARCH_TITLES"

@@ -8264,3 +8264,19 @@ David  1 Aug 2006
 
     api/
         boinc_api.C
+
+David  1 Aug 2006
+    - forum fixes (from Eric Myers, Willy de Zutter)
+
+    html/
+        inc/
+            forum.inc
+            text_transform.inc
+        languages/
+            cs.po
+            de.po
+            ja.po
+            lt.po
+            ru.po
+        user/
+            white.css

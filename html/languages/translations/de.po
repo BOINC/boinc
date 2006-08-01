@@ -413,7 +413,7 @@ msgstr "Dieses Thema abonnieren"
 # Forum search features
 #########################################
 
-msgid "FORUM SEARCH"
+msgid "FORUM_SEARCH"
 msgstr "Foren-Suche"
 
 msgid "FORUM_SEARCH_TITLES"

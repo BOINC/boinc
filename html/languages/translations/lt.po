@@ -312,7 +312,7 @@ msgstr "Registruotis šioje skiltyje"
 #########################################
 # Forum search features
 #########################################
-msgid "FORUM SEARCH"
+msgid "FORUM_SEARCH"
 msgstr "Paieška pranešimų lentose"
 
 msgid "FORUM_SEARCH_TITLES"

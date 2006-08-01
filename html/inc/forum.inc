@@ -221,8 +221,11 @@ function show_post($post, $thread, $logged_in_user, $n, $controls=FORUM_CONTROLS
             $rated_above_threshold = ($logged_in_user->getHighRatingThreshold()<($post->getRating()));
         }
     }
-    // Only the creator can edit the post and only in a specified amount of time
-    $can_edit = ($logged_in_user && $user->getID() == $logged_in_user->getID() && (time()<($post->getTimestamp()+MAXIMUM_EDIT_TIME-60))); 
+    // The creator can edit the post, but only in a specified amount of time;
+    // moderator can edit all posts at any time
+    //
+    $can_edit = ($logged_in_user && ($logged_in_user->isSpecialUser(S_MODERATOR) || ($user->getID() == $logged_in_user->getID() && (time()<($post->getTimestamp()+MAXIMUM_EDIT_TIME-60)))));
+
     echo "
         <tr class=\"row$n\" valign=\"top\">
         <td rowspan=\"3\"><div class=\"authorcol\">
