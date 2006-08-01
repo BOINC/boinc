@@ -221,10 +221,20 @@ function show_post($post, $thread, $logged_in_user, $n, $controls=FORUM_CONTROLS
             $rated_above_threshold = ($logged_in_user->getHighRatingThreshold()<($post->getRating()));
         }
     }
-    // The creator can edit the post, but only in a specified amount of time;
-    // moderator can edit all posts at any time
+    // The creator can edit the post, but only in a specified amount of time
+    // (exception: a moderator can edit his/her posts at any time)
     //
-    $can_edit = ($logged_in_user && ($logged_in_user->isSpecialUser(S_MODERATOR) || ($user->getID() == $logged_in_user->getID() && (time()<($post->getTimestamp()+MAXIMUM_EDIT_TIME-60)))));
+    $can_edit = false;
+    if ($logged_in_user) {
+        if ($user->getID() == $logged_in_user->getID()) {
+            if ($logged_in_user->isSpecialUser(S_MODERATOR)) {
+                $can_edit = true;
+            } else {
+                $time_limit = $post->getTimestamp()+MAXIMUM_EDIT_TIME;
+                $can_edit = time()<$time_limit;
+            }
+        }
+    }
 
     echo "
         <tr class=\"row$n\" valign=\"top\">

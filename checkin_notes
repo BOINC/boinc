@@ -8280,3 +8280,10 @@ David  1 Aug 2006
             ru.po
         user/
             white.css
+
+David  1 Aug 2006
+    - forum fix: moderator can only edit their own posts
+
+    html/
+        inc/
+            forum.inc
