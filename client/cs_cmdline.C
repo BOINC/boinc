@@ -53,6 +53,7 @@ static void print_options(char* prog) {
         "    -dir <path>                    use given dir as BOINC home\n"
         "    -no_gui_rpc                    don't allow GUI RPC, don't make socket\n"
         "    -daemon                        run as daemon (Unix)\n"
+        "    -insecure                      disable BOINC security users and permissions (Unix, Linux)\n"
         ,
         prog
     );
@@ -174,6 +175,8 @@ void CLIENT_STATE::parse_cmdline(int argc, char** argv) {
             }
         } else if (ARG(no_gui_rpc)) {
             no_gui_rpc = true;
+        } else if (ARG(insecure)) {
+            g_use_sandbox = false;
         } else {
             printf("Unknown option: %s\n", argv[i]);
             show_options = true;

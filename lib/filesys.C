@@ -258,13 +258,10 @@ int boinc_delete_file(const char* path) {
     }
 #else
     retval = unlink(path);
-#ifdef SANDBOX
-    if (retval)
-    // We may not have permission to read subdirectories created by projects
-        if (errno == EACCES) {
-            return remove_project_owned_file_or_dir(path);
-        }
-#endif
+    if (retval && g_use_sandbox && (errno == EACCES)) {
+        // We may not have permission to read subdirectories created by projects
+        return remove_project_owned_file_or_dir(path);
+    }
     return retval;
 #endif
     if (retval) {
@@ -313,14 +310,14 @@ int clean_out_dir(const char* dirpath) {
     DIRREF dirp;
 
     dirp = dir_open(dirpath);
-    if (!dirp)
-#ifdef SANDBOX
-    // We may not have permission to read subdirectories created by projects
-    if (errno == EACCES) {
-        return remove_project_owned_file_or_dir(dirpath);
-    } else
-#endif
+    if (!dirp) {
+        if (g_use_sandbox && (errno == EACCES)) {
+            // We may not have permission to read subdirectories created by projects
+                return remove_project_owned_file_or_dir(dirpath);
+        }
         return 0;    // if dir doesn't exist, it's empty
+    }
+    
     while (1) {
         strcpy(filename, "");
         retval = dir_scan(filename, dirp, sizeof(filename));
@@ -488,13 +485,9 @@ int boinc_rmdir(const char* name) {
 #else
     int retval;
     retval = rmdir(name);
-#ifdef SANDBOX
-    if (retval)
     // We may not have permission to read subdirectories created by projects
-        if (errno == EACCES) {
-            return remove_project_owned_file_or_dir(name);
-        }
-#endif
+    if (retval && g_use_sandbox && (errno == EACCES))
+            retval = remove_project_owned_file_or_dir(name);
     return retval;
 #endif
 }
@@ -502,12 +495,13 @@ int boinc_rmdir(const char* name) {
 int remove_project_owned_file_or_dir(const char* path) {
 #ifdef SANDBOX
     char cmd[1024];
-
-    sprintf(cmd, "%s/%s /bin/rm rm -fR \"%s\"", SWITCHER_DIR, SWITCHER_FILE_NAME, path);
-    return system(cmd);
-#else
-    return ERR_UNLINK;
+    
+    if (g_use_sandbox) {
+        sprintf(cmd, "%s/%s /bin/rm rm -fR \"%s\"", SWITCHER_DIR, SWITCHER_FILE_NAME, path);
+        return system(cmd);
+    }
 #endif
+    return ERR_UNLINK;
 }
 
 #ifndef _WIN32

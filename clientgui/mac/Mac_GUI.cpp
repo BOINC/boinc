@@ -23,6 +23,7 @@
 #include <Security/AuthorizationTags.h>
 
 #include <unistd.h>
+#include "util.h"        // For g_use_sandbox
 
 
 // Determine if the currently logged-in user is auhorized to 
@@ -45,18 +46,18 @@ Boolean Mac_Authorize()
     if (sIsAuthorized)
         return true;
         
-#ifndef SANDBOX
     uid_t               effectiveUserID, realUserID;
     
-    effectiveUserID = geteuid();
-    realUserID = getuid();
-    if (effectiveUserID == realUserID)
-    {
-        // Logged in user is also the owner
-        sIsAuthorized = true;
-        return true;
+    if (g_use_sandbox) {
+        effectiveUserID = geteuid();
+        realUserID = getuid();
+        if (effectiveUserID == realUserID)
+        {
+            // Logged in user is also the owner
+            sIsAuthorized = true;
+            return true;
+        }
     }
-#endif
     
     // User is not the owner, so require admin authorization
     ourAuthItem[0].name = kAuthorizationRightExecute;

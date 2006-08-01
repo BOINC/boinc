@@ -37,7 +37,6 @@
 #define BOINC_ADVANCEDGUI                   1
 #define BOINC_SIMPLEGUI                     2
 
-
 class CBrandingScheme : public wxObject {
 private:
     bool        m_bIsBranded;

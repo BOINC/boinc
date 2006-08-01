@@ -189,3 +189,14 @@ set_perm switcher boinc_master boinc_master 0550
 set_perm_recursive locale boinc_master boinc_master u+r-w,g+r-w,o-rwx
 
 set_perm boinc boinc_master boinc_master 6555       # boinc client
+
+
+if [ -x /Applications/BOINCManager.app/Contents/MacOS/BOINCManager ] ; then 
+    set_perm  /Applications/BOINCManager.app/Contents/MacOS/BOINCManager boinc_master boinc_master 2555
+fi
+
+if [ -x /Applications/BOINCManager.app/Contents/Resources/boinc ] ; then 
+    set_perm /Applications/BOINCManager.app/Contents/Resources/boinc boinc_master boinc_master 6555
+fi
+
+

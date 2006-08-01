@@ -65,7 +65,7 @@ then
     exit
 fi
 
-if [ ! -f "boinc" ]
+if [ ! -x "boinc" ]
 then
     echo "Can't find boinc Client in directory $(pwd); exiting"
     exit
@@ -74,4 +74,15 @@ fi
 chown -R ${user}:${group} .
 chmod -R u+rw-s,g+r-w-s,o+r-w .
 chmod 600 gui_rpc_auth.cfg
+
+if [ -x /Applications/BOINCManager.app/Contents/MacOS/BOINCManager ] ; then 
+    chown ${user}:${group} /Applications/BOINCManager.app/Contents/MacOS/BOINCManager
+    chmod -R u+r-w+s,g+r-ws,o+r-ws /Applications/BOINCManager.app/Contents/MacOS/BOINCManager
+fi
+
+if [ -x /Applications/BOINCManager.app/Contents/Resources/boinc ] ; then 
+chown ${user}:${group} /Applications/BOINCManager.app/Contents/Resources/boinc
+    chmod -R u+r-ws,g+r-ws,o+r-ws /Applications/BOINCManager.app/Contents/Resources/boinc
+fi
+
 remove_boinc_users

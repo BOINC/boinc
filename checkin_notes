@@ -8203,3 +8203,40 @@ Bruce 31 July 2006
     doc/
         project_options.php
 
+Charlie 1 Aug 2006
+    - Sandbox: extend security to all UNIX and Linux platforms.  To 
+        enable this feature, add the compiler flag -DSANDBOX and add 
+        check_security.C to the source file list for both Manager and 
+        Client.
+    - Manager and Client both accept command-line argument -insecure 
+        which runs without special boinc users and groups.  Both 
+        Manager and Client check owners and permissions and refuse 
+        to run unless they are set correctly for the selected secure 
+        or insecure mode.  If Manager is called with -insecure, it 
+        runs the Client with -insecure.
+    - Added code to Mac_SA_Secure.sh and Mac_SA_Insecure.sh scripts.
+    
+    client/
+        app_start.C
+        check_security.C
+        client_state.C
+        client_types.C
+        cs_cmdline.C
+        file_names.C
+        gui_rpc_server.C
+        main.C
+    clientGUI/
+        BOINCGUIApp.cpp,h
+        MainDocument.cpp
+        mac/
+            Mac_GUI.cpp
+            mac_saver_module.cpp
+    lib/
+        boinc_cmd.C
+        filesys.C
+        util.h
+    mac_build/
+        Mac_SA_Insecure.sh
+        Mac_SA_Secure.sh
+    mac_installer/
+        PostInstall.cpp

@@ -87,6 +87,13 @@ EXTERN_C DWORD BOINCGetIdleTickCount();
 IMPLEMENT_APP(CBOINCGUIApp)
 IMPLEMENT_DYNAMIC_CLASS(CBOINCGUIApp, wxApp)
 
+// Ideally, we would access this using wxGetApp().m_use_sandbox in the Manager
+// and gstate.m_use_sandbox in the Client, but it is used by some source files
+// (filesys.C, check_security.C) that are linked with both Manager and Client 
+// so the most practical solution is to use a global.
+int      g_use_sandbox;
+
+
 
 bool CBrandingScheme::OnInit( wxConfigBase *pConfig ) {
     wxString    strBaseConfigLocation = wxEmptyString;
@@ -260,9 +267,19 @@ bool CBOINCGUIApp::OnInit() {
     int errCode = 0;
 #endif
 
-#if (defined(SANDBOX) && !defined(_WIN32))
-    umask (2);  // Set file creation mask to be writable by both user and group
-                // Our umask will be inherited by all our child processes
+#ifdef SANDBOX
+    g_use_sandbox = true;
+    // Commandline parsing is done in wxApp::OnInit()
+    if (!wxApp::OnInit()) {     // Command line arg -insecure sets g_use_sandbox to false
+        return false;
+    }
+#ifndef _WIN32
+    if (g_use_sandbox)
+        umask (2);  // Set file creation mask to be writable by both user and group
+                    // Our umask will be inherited by all our child processes
+#endif
+#else
+    g_use_sandbox = false;
 #endif
 
     // Setup variables with default values
@@ -341,10 +358,10 @@ bool CBOINCGUIApp::OnInit() {
     if (success) {
         // If SetWD failed, don't create a directory in wrong place
         strDirectory += wxT("BOINC Data");  // We don't customize BOINC Data directory name for branding
-#ifndef SANDBOX
-        if (! wxDirExists(strDirectory))
-            success = wxMkdir(strDirectory, 0777);    // Does nothing if dir exists
-#endif      // ! SANDBOX
+        if (! g_use_sandbox) {
+            if (! wxDirExists(strDirectory))
+                success = wxMkdir(strDirectory, 0777);    // Does nothing if dir exists
+        }
         success = ::wxSetWorkingDirectory(strDirectory);
 //    wxChar *wd = wxGetWorkingDirectory(buf, 1000);  // For debugging
     }
@@ -354,17 +371,18 @@ bool CBOINCGUIApp::OnInit() {
 #endif      // __WXMAC__
  
 #ifdef SANDBOX
+    // Make sure owners, groups and permissions are correct for the current setting of g_use_sandbox
     if (!errCode) {
 #if (defined(__WXMAC__) && defined(_DEBUG))     // TODO: implement this for other platforms
         // GDB can't attach to applications which are running as a different user   
         //  or group, so fix up data with current user and group during debugging
-        if (check_security()) {
+        if (check_security(g_use_sandbox, true)) {
             CreateBOINCUsersAndGroups();
             SetBOINCDataOwnersGroupsAndPermissions();
             SetBOINCAppOwnersGroupsAndPermissions(NULL);
         }
 #endif  // __WXMAC__ && _DEBUG
-        errCode = check_security();
+        errCode = check_security(g_use_sandbox, true);
     }
        
     if (errCode) {
@@ -424,10 +442,12 @@ bool CBOINCGUIApp::OnInit() {
     // help if you use this help provider:
     wxHelpProvider::Set(new wxHelpControllerHelpProvider());
 
+#ifndef SANDBOX
     // Commandline parsing is done in wxApp::OnInit()
     if (!wxApp::OnInit()) {
         return false;
     }
+#endif
 
     // Initialize the main document
     m_pDocument = new CMainDocument();
@@ -543,6 +563,9 @@ void CBOINCGUIApp::OnInitCmdLine(wxCmdLineParser &parser) {
     wxApp::OnInitCmdLine(parser);
     static const wxCmdLineEntryDesc cmdLineDesc[] = {
         { wxCMD_LINE_SWITCH, wxT("s"), wxT("systray"), _("Startup BOINC so only the system tray icon is visible")},
+#if (defined(SANDBOX) && ! defined(_WIN32))
+        { wxCMD_LINE_SWITCH, wxT("insecure"), wxT("insecure"), _("disable BOINC security users and permissions")},
+#endif
         { wxCMD_LINE_NONE}  //DON'T forget this line!!
     };
     parser.SetDesc(cmdLineDesc);
@@ -554,6 +577,9 @@ bool CBOINCGUIApp::OnCmdLineParsed(wxCmdLineParser &parser) {
     wxApp::OnCmdLineParsed(parser);
     if (parser.Found(wxT("systray"))) {
         m_bGUIVisible = false;
+    }
+    if (parser.Found(wxT("insecure"))) {
+        g_use_sandbox = false;
     }
     return true;
 }
@@ -686,7 +712,7 @@ void CBOINCGUIApp::StartupBOINCCore() {
 
         {
             wxChar buf[1024];
-            wxChar *argv[3];
+            wxChar *argv[4];
             ProcessSerialNumber ourPSN;
             FSRef ourFSRef;
             OSErr err;
@@ -710,6 +736,12 @@ void CBOINCGUIApp::StartupBOINCCore() {
                 argv[0] = buf;
                 argv[1] = "-redirectio";
                 argv[2] = NULL;
+#ifdef SANDBOX
+                if (! g_use_sandbox) {
+                    argv[2] = "-insecure";
+                    argv[3] = NULL;
+                }
+#endif  
                 m_lBOINCCoreProcessId = ::wxExecute(argv);
 #endif
             } else {
@@ -772,6 +804,8 @@ void CBOINCGUIApp::StartupBOINCCore() {
 
         // Append boinc.exe to the end of the strExecute string and get ready to rock
         strExecute = wxT("./boinc -redirectio");
+        if (! g_use_sandbox)
+            strExecute += wxT(" -insecure");
         m_lBOINCCoreProcessId = ::wxExecute(strExecute);
         
 #endif  // ! __WXMAC__

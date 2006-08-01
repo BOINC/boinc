@@ -613,37 +613,37 @@ int FILE_INFO::set_permissions() {
     // give read/exec permissions for user, group and others
     // in case someone runs BOINC from different user
 
-#ifdef SANDBOX
-    retval = set_to_project_group(pathname);
-    if (retval) return retval;
-    if (executable) {
-        retval = chmod(pathname,
-            S_IRUSR|S_IWUSR|S_IXUSR
-            |S_IRGRP|S_IWGRP|S_IXGRP
-            |S_IROTH|S_IXOTH
-        );
+    if (g_use_sandbox) {
+        retval = set_to_project_group(pathname);
+        if (retval) return retval;
+        if (executable) {
+            retval = chmod(pathname,
+                S_IRUSR|S_IWUSR|S_IXUSR
+                |S_IRGRP|S_IWGRP|S_IXGRP
+                |S_IROTH|S_IXOTH
+            );
+        } else {
+            retval = chmod(pathname,
+                S_IRUSR|S_IWUSR
+                |S_IRGRP|S_IWGRP
+                |S_IROTH
+            );
+        }
     } else {
-        retval = chmod(pathname,
-            S_IRUSR|S_IWUSR
-            |S_IRGRP|S_IWGRP
-            |S_IROTH
-        );
+        if (executable) {
+            retval = chmod(pathname,
+                S_IRUSR|S_IWUSR|S_IXUSR
+                |S_IRGRP|S_IXGRP
+                |S_IROTH|S_IXOTH
+            );
+        } else {
+            retval = chmod(pathname,
+                S_IRUSR|S_IWUSR
+                |S_IRGRP
+                |S_IROTH
+            );
+        }
     }
-#else
-    if (executable) {
-        retval = chmod(pathname,
-            S_IRUSR|S_IWUSR|S_IXUSR
-            |S_IRGRP|S_IXGRP
-            |S_IROTH|S_IXOTH
-        );
-    } else {
-        retval = chmod(pathname,
-            S_IRUSR|S_IWUSR
-            |S_IRGRP
-            |S_IROTH
-        );
-    }
-#endif
     return retval;
 #endif
 }

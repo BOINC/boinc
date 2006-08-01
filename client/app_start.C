@@ -90,11 +90,10 @@ static int make_link(const char *existing, const char *new_link) {
     if (!fp) return ERR_FOPEN;
     fprintf(fp, "<soft_link>%s</soft_link>\n", existing);
     fclose(fp);
-#ifdef SANDBOX
-    return set_to_project_group(new_link);
-#else
-    return 0;
-#endif
+    if (g_use_sandbox)
+        return set_to_project_group(new_link);
+    else
+        return 0;
 }
 
 int ACTIVE_TASK::link_user_files() {
@@ -603,22 +602,22 @@ int ACTIVE_TASK::start(bool first_time) {
         char cmdline[8192];
         strcpy(cmdline, wup->command_line.c_str());
         sprintf(buf, "../../%s", exec_path );
-#ifdef SANDBOX
-        char switcher_path[100];
-        sprintf(switcher_path, "../../%s/%s", SWITCHER_DIR, SWITCHER_FILE_NAME);
-        argv[0] = SWITCHER_FILE_NAME;
-        argv[1] = buf;
-        argv[2] = exec_name;
-        parse_command_line(cmdline, argv+3);
-        if (log_flags.task_debug) {
-            debug_print_argv(argv);
+        if (g_use_sandbox) {
+            char switcher_path[100];
+            sprintf(switcher_path, "../../%s/%s", SWITCHER_DIR, SWITCHER_FILE_NAME);
+            argv[0] = SWITCHER_FILE_NAME;
+            argv[1] = buf;
+            argv[2] = exec_name;
+            parse_command_line(cmdline, argv+3);
+            if (log_flags.task_debug) {
+                debug_print_argv(argv);
+            }
+            retval = execv(switcher_path, argv);
+        } else {
+            argv[0] = exec_name;
+            parse_command_line(cmdline, argv+1);
+            retval = execv(buf, argv);
         }
-        retval = execv(switcher_path, argv);
-#else
-        argv[0] = exec_name;
-        parse_command_line(cmdline, argv+1);
-        retval = execv(buf, argv);
-#endif
         msg_printf(wup->project, MSG_ERROR,
             "Process creation (%s) failed: %s, errno=%d\n", buf, boincerror(retval), errno
         );

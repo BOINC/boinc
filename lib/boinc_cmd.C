@@ -43,6 +43,9 @@ using std::string;
 #include "util.h"
 #include "version.h"
 
+int      g_use_sandbox = 0;
+
+
 void usage() {
     fprintf(stderr, "\
 Usage:  boinc_cmd [--host hostname] [--passwd passwd] command\n\

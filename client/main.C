@@ -78,6 +78,12 @@ typedef void (CALLBACK* ClientLibraryShutdown)();
 
 int finalize();
 
+// Ideally, we would access this using wxGetApp().m_use_sandbox in the Manager
+// and gstate.m_use_sandbox in the Client, but it is used by some source files
+// (filesys.C, check_security.C) that are linked with both Manager and Client 
+// so the most practical solution is to use a global.
+int      g_use_sandbox;
+
 static bool boinc_cleanup_completed = false;
     // Used on Windows 95/98/ME to determine when it is safe to leave
     //   the WM_ENDSESSION message handler and allow Windows to finish
@@ -335,14 +341,16 @@ static void init_core_client(int argc, char** argv) {
     }
 
 #else
-#ifdef SANDBOX
-    umask (2);  // Set file creation mask to be writable by both user and group
-                // Our umask will be inherited by all our child processes
-#endif
 #endif
 
     read_config_file();
     gstate.parse_cmdline(argc, argv);
+
+#ifndef _WIN32
+    if (g_use_sandbox)
+        umask (2);  // Set file creation mask to be writable by both user and group
+                    // Our umask will be inherited by all our child processes
+#endif
 
     // Initialize the BOINC Diagnostics Framework
     int dwDiagnosticsFlags =
@@ -752,13 +760,14 @@ int main(int argc, char** argv) {
 #else
 
 #ifdef SANDBOX
+    // Make sure owners, groups and permissions are correct for the current setting of g_use_sandbox
 #if defined(_DEBUG) && defined(__APPLE__)
-        // GDB can't attach to applications which are running as a diferent user   
-        //  or group, so fix up data with current user and group during debugging
-    if (check_security())
+    // GDB can't attach to applications which are running as a diferent user   
+    //  or group, so fix up data with current user and group during debugging
+    if (check_security(g_use_sandbox, false))
         SetBOINCDataOwnersGroupsAndPermissions();
 #endif  // _DEBUG && __APPLE__
-    int i = check_security();
+    int i = check_security(g_use_sandbox, false);
     if (i) {
         printf( "\nBOINC ownership or permissions are not set properly; please reinstall BOINC. (Error code %d)\n", i);
         return ERR_USER_PERMISSION;

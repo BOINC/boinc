@@ -147,6 +147,8 @@ const char *  BOINCUnrecoverableErrorMsg = "Sorry, an unrecoverable error occurr
 const char *  BOINCTestmodeMg = "This BOINC screensaver does not support Test mode";
 //const char *  BOINCExitedSaverMode = "BOINC is no longer in screensaver mode.";
 
+int      g_use_sandbox = 0;
+
 
 // Returns desired Animation Frequency (per second) or 0 for no change
 int initBOINCSaver(Boolean ispreview) {

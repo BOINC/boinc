@@ -95,23 +95,23 @@ int make_project_dir(PROJECT& p) {
     int retval;
 
     boinc_mkdir(PROJECTS_DIR);
-#ifdef SANDBOX
-    chmod(PROJECTS_DIR,
-            S_IRUSR|S_IWUSR|S_IXUSR
-            |S_IRGRP|S_IWGRP|S_IXGRP
-            |S_IROTH|S_IXOTH
-        );
-#endif
+    if (g_use_sandbox) {
+        chmod(PROJECTS_DIR,
+                S_IRUSR|S_IWUSR|S_IXUSR
+                |S_IRGRP|S_IWGRP|S_IXGRP
+                |S_IROTH|S_IXOTH
+            );
+    }
     get_project_dir(&p, buf);
     retval = boinc_mkdir(buf);
-#ifdef SANDBOX
-    chmod(buf,
-            S_IRUSR|S_IWUSR|S_IXUSR
-            |S_IRGRP|S_IWGRP|S_IXGRP
-            |S_IROTH|S_IXOTH
-        );
-    set_to_project_group(buf);
-#endif
+    if (g_use_sandbox) {
+        chmod(buf,
+                S_IRUSR|S_IWUSR|S_IXUSR
+                |S_IRGRP|S_IWGRP|S_IXGRP
+                |S_IROTH|S_IXOTH
+            );
+        set_to_project_group(buf);
+    }
     return retval;
 }
 
@@ -137,23 +137,23 @@ int make_slot_dir(int slot) {
         return ERR_NEG;
     }
     boinc_mkdir(SLOTS_DIR);
-#ifdef SANDBOX
-    chmod(SLOTS_DIR,
-            S_IRUSR|S_IWUSR|S_IXUSR
-            |S_IRGRP|S_IWGRP|S_IXGRP
-            |S_IROTH|S_IXOTH
-        );
-#endif
+    if (g_use_sandbox) {
+        chmod(SLOTS_DIR,
+                S_IRUSR|S_IWUSR|S_IXUSR
+                |S_IRGRP|S_IWGRP|S_IXGRP
+                |S_IROTH|S_IXOTH
+            );
+    }
     get_slot_dir(slot, buf);
     int retval = boinc_mkdir(buf);
-#ifdef SANDBOX
-    chmod(buf,
-            S_IRUSR|S_IWUSR|S_IXUSR
-            |S_IRGRP|S_IWGRP|S_IXGRP
-            |S_IROTH|S_IXOTH
-        );
-    set_to_project_group(buf);
-#endif
+    if (g_use_sandbox) {
+        chmod(buf,
+                S_IRUSR|S_IWUSR|S_IXUSR
+                |S_IRGRP|S_IWGRP|S_IXGRP
+                |S_IROTH|S_IXOTH
+            );
+        set_to_project_group(buf);
+    }
     return retval;
 }
 
@@ -261,17 +261,14 @@ bool is_image_file(const char* filename) {
 }
 
 int set_to_project_group(const char* path) {
-#ifdef SANDBOX
     char buf[1024];
     
-    sprintf(buf, "%s/%s %s", SWITCHER_DIR, SETPROJECTGRP_FILE_NAME, path);
-    if (system(buf))
-        return ERR_CHOWN;
-    
-    return 0;
-#else
-    return ERR_CHOWN;
-#endif
+    if (g_use_sandbox) {
+        sprintf(buf, "%s/%s %s", SWITCHER_DIR, SETPROJECTGRP_FILE_NAME, path);
+        if (system(buf))
+            return ERR_CHOWN;
+    }
+        return 0;
 }
 
 const char *BOINC_RCSID_7d362a6a52 = "$Id$";

@@ -34,6 +34,14 @@
 
 #endif
 
+// Ideally, we would access this using wxGetApp().m_use_sandbox in the Manager
+// and gstate.m_use_sandbox in the Client, but it is used by some source files
+// (filesys.C, check_security.C) that are linked with both Manager and Client 
+// so the most practical solution is to use a global.
+extern int      g_use_sandbox;
+
+
+
 #if !defined(HAVE_STRLCPY)
 extern size_t strlcpy(char*, const char*, size_t);
 #endif
@@ -143,7 +151,7 @@ extern pthread_mutex_t getrusage_mutex;
 
 #ifndef _WIN32
 extern int lookup_group(char*, gid_t& gid);
-extern int check_security(void);
+extern int check_security(int use_sandbox, int isManager);
 #endif
 
 #endif

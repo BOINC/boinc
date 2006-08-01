@@ -106,6 +106,11 @@ CLIENT_STATE::CLIENT_STATE() {
     have_tentative_project = false;
     new_version_check_time = 0;
     detach_console = false;
+#ifdef SANDBOX
+    g_use_sandbox = true; // User can override with -insecure command-line arg
+#else
+    g_use_sandbox = false;
+#endif
 }
 
 void CLIENT_STATE::show_host_info() {
@@ -309,16 +314,16 @@ int CLIENT_STATE::init() {
     }
 
 #ifndef _WIN32
-#ifdef SANDBOX
+    if (g_use_sandbox) {
 #ifdef _DEBUG
-    boinc_project_gid = getegid();
+        boinc_project_gid = getegid();
 #else
-    retval = lookup_group(BOINC_PROJECT_GROUP_NAME, boinc_project_gid);
-    if (retval) return retval;
+        retval = lookup_group(BOINC_PROJECT_GROUP_NAME, boinc_project_gid);
+        if (retval) return retval;
 #endif  // _DEBUG
-#else
-    boinc_project_gid = 0;
-#endif
+    } else {
+        boinc_project_gid = 0;
+    }
 #endif
 
     check_file_existence();
