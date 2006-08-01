@@ -1,0 +1,379 @@
+﻿##########################################
+# Language: Russian (Russian Federation)
+# FileID  : $Id$
+# ########################################
+# For more information please see:
+# http://boinc.berkeley.edu/web_translation.php
+# ########################################
+# The charset used for the text in this file (please try to use UTF-8 if possible)
+msgid "CHARSET"
+msgstr "UTF-8"
+
+# The name of this language in this language
+msgid "LANG_NAME_NATIVE"
+msgstr "Русский"
+
+# The name of this language in an international language (English)
+msgid "LANG_NAME_INTERNATIONAL"
+msgstr "Russian"
+
+# for user survey
+msgid "POLL_TITLE"
+msgstr "Опрос участников BOINC-проектов"
+
+# Several volunteer computing projects, including Climateprediction.net, Einstein@home, and SETI@home, use software called BOINC. If you participate in projects like this, we request that you answer the following questions. This will help BOINC-based projects increase participation and achieve greater scientific results. <p> Please answer as many questions as you want, then go to the bottom and click OK. If you previously completed the survey but your answers have changed, please complete it again - your new answers will replace the old ones. <p> The current results of the survey are <a href=poll_results.php>here</a>.
+msgid "POLL_INTRO"
+msgstr "Некоторые проекты добровольных распределённых вычислений такие как Climateprediction.net, Einstein@home, SETI@home, используют набор программ под общим названием - BOINC. Если вы участвуете в подобных проектах, мы хотели бы услышать ваши ответы на представленные ниже вопросы. Это поможет увеличить число участников проектов на базе BOINC и достижению лучших научных результатов. <p> Пожалуйста ответьте на те вопросы, какие сможете и нажмите кнопку OK. Если позже вы передумаете и ваши ответы изменятся, вы сможете зайти на данную страницу и ответить на эти вопросы заново - ваши старые ответы заменятся новыми. <p> С текущими результатами опроса можно ознакомиться <a href=poll_results.php>здесь</a>. "
+
+# Do you run BOINC?
+msgid "POLL_RUN"
+msgstr "Вы участвуете в проектах на базе BOINC?"
+
+# Your participation
+msgid "POLL_PARTICIPATION"
+msgstr "Ваше участие в проектах BOINC"
+
+# Your computers
+msgid "POLL_COMPUTERS"
+msgstr "Ваши компьютеры"
+
+# You
+msgid "POLL_YOU"
+msgstr "Ваши личные данные"
+
+# Nationality
+msgid "POLL_NATIONALITY"
+msgstr "Cтрана, к которой вы себя относите"
+
+# Comments
+msgid "POLL_COMMENTS"
+msgstr "Пожелания"
+
+# Please suggest ways that BOINC, and the projects that use it, could be improved:
+msgid "POLL_COMMENTS_QUESTION"
+msgstr "Ваши предложения по дальнейшему улучшению BOINC (по английски):"
+
+# Other:
+msgid "POLL_OTHER"
+msgstr "Другое:"
+
+# [check all that apply]
+msgid "POLL_CHECK_ALL"
+msgstr "[можно указывать несколько пунктов одновременно]"
+
+# When done click:
+msgid "POLL_DONE"
+msgstr "После завершения заполнения анкеты нажмите на эту кнопку:"
+
+# Yes - I have been running BOINC on my computer for...
+msgid "POLL_CURRENT"
+msgstr "Да - я участвую в проектах на базе BOINC уже..."
+
+# less than a week
+msgid "POLL_TWEEK"
+msgstr "менее недели"
+
+# less than a month
+msgid "POLL_TMONTH"
+msgstr "меньше месяца"
+
+# less than a year
+msgid "POLL_TYEAR"
+msgstr "менее года"
+
+# more than a year
+msgid "POLL_TMOREYEAR"
+msgstr "более года"
+
+# No - I was running BOINC, but stopped because...
+msgid "POLL_LAPSED"
+msgstr "Нет, я участвовал в проектах BOINC, но остановился потому что..."
+
+# I lost interest
+msgid "POLL_LINTEREST"
+msgstr "мне стало не интересно"
+
+# it was too complicated
+msgid "POLL_LCOMPLICATED"
+msgstr "это оказалось так сложно"
+
+# I stopped it and forgot to start again
+msgid "POLL_LSTOPPED"
+msgstr "я приостановил участие на время и забыл запустить снова"
+
+# it caused problems on my computer
+msgid "POLL_LPROBLEMS"
+msgstr "начались проблемы с компьютером"
+
+# it used too much electricity
+msgid "POLL_LPOWER"
+msgstr "я офонарел от счёта за электроэнергию"
+
+# I switched to a non-BOINC computing project
+msgid "POLL_LNONBOINC"
+msgstr "я ушёл в другие проекты не на базе BOINC"
+
+# No - I tried running BOINC, but...
+msgid "POLL_FAILED"
+msgstr "Нет, я попытался запустить BOINC, но..."
+
+# the software didn't install correctly
+msgid "POLL_FINSTALL"
+msgstr "мне не удалось установить BOINC"
+
+# I couldn't figure out how to use the software
+msgid "POLL_FFIGURE"
+msgstr "я не понял как пользоваться этой программой"
+
+# I had network communication problems
+msgid "POLL_FNETWORK"
+msgstr "возникли проблеммы с соединением через интернет"
+
+# I couldn't attach to a project
+msgid "POLL_FATTACH"
+msgstr "мне не удалось подключиться к проекту"
+
+# I attached to a project, but never got any work
+msgid "POLL_FWORK"
+msgstr "я подключился к проекту, но не смог получить заданий"
+
+# No - I never tried running BOINC, because...
+msgid "POLL_NEVER"
+msgstr "Нет, я даже не пытался устанавливать BOINC потому что..."
+
+# I was concerned about security
+msgid "POLL_NSECURITY"
+msgstr "я опасаюсь за безопасность"
+
+# I wasn't interested in any of the projects
+msgid "POLL_NPROJECT"
+msgstr "меня не заинтересовал ни один из проектов"
+
+# I don't have permission to run it on my computer
+msgid "POLL_NPERMISSION"
+msgstr "у меня не хватает прав для запуска данной программы на МОЁМ компьютере"
+
+# No version was available for my computer
+msgid "POLL_NVERSION"
+msgstr "не существует версии BOINC для моего компьютера"
+
+# What kind of computers do you have running BOINC?
+msgid "POLL_KIND"
+msgstr "На компьютерах с какой операционной системой вы запускаете BOINC?"
+
+# Where are they?
+msgid "POLL_WHERE"
+msgstr "Где расположены ваши компьютеры?"
+
+# Home
+msgid "POLL_HOME"
+msgstr "Дома"
+
+# Work
+msgid "POLL_WORK"
+msgstr "На работе"
+
+# School
+msgid "POLL_SCHOOL"
+msgstr "В школе"
+
+# How many computers?
+msgid "POLL_HOW_MANY"
+msgstr "Сколько компьютеров вы используете?"
+
+# On average, how many hours per day are they powered on?
+msgid "POLL_TURNED_ON"
+msgstr "Сколько часов в день включен ваш компьютер?"
+
+# Age
+msgid "POLL_AGE"
+msgstr "Возраст"
+
+# Sex
+msgid "POLL_SEX"
+msgstr "Пол"
+
+# Male
+msgid "POLL_MALE"
+msgstr "Муж."
+
+# Female
+msgid "POLL_FEMALE"
+msgstr "Жен."
+
+# Your level of computer expertise
+msgid "POLL_EXPERTISE"
+msgstr "Ваш уровень компьютерного образования"
+
+# Beginner
+msgid "POLL_LEVB"
+msgstr "Начинающий пользователь"
+
+# Intermediate
+msgid "POLL_LEVI"
+msgstr "Уверенный пользователь"
+
+# Advanced
+msgid "POLL_LEVA"
+msgstr "Продвинутый пользователь"
+
+# Where did you learn about BOINC projects?
+msgid "POLL_LEARN_WHERE"
+msgstr "Откуда вы узнали о проектах на базе BOINC?"
+
+# TV/radio/newspaper
+msgid "POLL_WTV"
+msgstr "СМИ (Телевидение, газеты)"
+
+# From friends, relatives, or coworkers
+msgid "POLL_WPERS"
+msgstr "От друзей, родственников, или коллег"
+
+# Team message boards or web sites
+msgid "POLL_WTEAM"
+msgstr "На сайте или форуме одной из команд"
+
+# The BOINC web site
+msgid "POLL_WBOINC"
+msgstr "На домашнем сайте BOINC"
+
+# Other web sites
+msgid "POLL_WWEB"
+msgstr "На других сайтах"
+
+# Which are the most important factors when you decide whether to participate in a BOINC project?
+msgid "POLL_FACTOR"
+msgstr "Что для вас является наиболее важным при принятии решения об участии в проекте на базе BOINC?"
+
+# Nice-looking screensaver graphics
+msgid "POLL_GRAPHICS"
+msgstr "Красивая экранная заставка (графическое окно приложения)"
+
+# Fair and quick granting of credit for work done
+msgid "POLL_CREDIT_FAIR"
+msgstr "Честное и быстрое начисление очков за обработанные задания"
+
+# Getting more credit from this project than from others
+msgid "POLL_CREDIT_MORE"
+msgstr "Получение большего количества очков чем в других проектах"
+
+# Helpful and friendly message boards
+msgid "POLL_MB_FRIENDLY"
+msgstr "Содержательный и доброжелательный форум проекта"
+
+# Participation by project staff on the message boards
+msgid "POLL_MB_STAFF"
+msgstr "Общение организаторов на форуме проекта с участниками"
+
+# Informative project web site
+msgid "POLL_WEB_SITE"
+msgstr "Информативный сайт проекта"
+
+# The science is important and beneficial
+msgid "POLL_SCIENCE_IMPORTANT"
+msgstr "Научная ценность проекта"
+
+# Non-profit, and results are public
+msgid "POLL_SCIENCE_PUBLIC"
+msgstr "Некомерческий проект с общедоступными результатами"
+
+# Personal recognition if my computer finds something
+msgid "POLL_RECOGNIZE"
+msgstr "Персональное уведомление (благодарность), если мой компьютер что-либо обнаружит"
+
+# Publication by the project in scientific journals
+msgid "POLL_PUBLISH"
+msgstr "Статьи о проекте в научных журналах"
+
+# Periodic email newsletters from the project
+msgid "POLL_EMAIL"
+msgstr "Периодические отчёты и новости через электронную почту"
+
+# How many BOINC projects do you participate in?
+msgid "POLL_NPROJECTS"
+msgstr "В скольких проектах на базе BOINC вы участвуете?"
+
+# Do you run BOINC as a screensaver?
+msgid "POLL_SSAVER"
+msgstr "Вы запускаете BOINC в режиме хранителя экрана (экранной заставки, скринсейвера)?"
+
+# Yes
+msgid "POLL_YES"
+msgstr "Да"
+
+# No
+msgid "POLL_NO"
+msgstr "Нет"
+
+# Your usage of project messages boards:
+msgid "POLL_MBOARDS"
+msgstr "Как вы используете форум BOINC-проектов:"
+
+# to read information
+msgid "POLL_MBR"
+msgstr "читаю"
+
+# to read and post information
+msgid "POLL_MBRW"
+msgstr "читаю и пишу сообщения"
+
+# None
+msgid "POLL_NONE"
+msgstr "не посещаю"
+
+# Where do you get information to help resolve problems with BOINC and/or BOINC projects?
+msgid "POLL_HELP"
+msgstr "Где вы находите информацию о BOINC и проектах и получаете ответы на возникшие вопросы?"
+
+# The project message boards
+msgid "POLL_HELP_PMB"
+msgstr "На форуме проекта"
+
+# The BOINC message boards
+msgid "POLL_HELP_BMB"
+msgstr "На форуме BOINC"
+
+# The BOINC web site
+msgid "POLL_HELP_BDOC"
+msgstr "На домашнем сайте BOINC"
+
+# BOINC mailing lists
+msgid "POLL_HELP_BMLIST"
+msgstr "В списсках рассылки BOINC"
+
+# The Unofficial BOINC Wiki
+msgid "POLL_HELP_WIKI"
+msgstr "В неофициальной документации BOINC wiki"
+
+# Team web sites
+msgid "POLL_HELP_TEAM"
+msgstr "На сайтах команд"
+
+# Google or other search engines
+msgid "POLL_HELP_GOOGLE"
+msgstr "Через поисковые системы типа Google"
+
+# Error - results not recorded
+msgid "POLL_ERROR_TITLE"
+msgstr "Ошибка - результаты опроса не зарегистрированы"
+
+# An internal error has prevented us from recording your survey response.  Please try again later.
+msgid "POLL_ERROR_TEXT"
+msgstr "Из-за внутренней ошибки результаты вашей анкеты не были учтены. Пожалуйста повторите заполнение данной анкеты позже."
+
+# Survey response recorded
+msgid "POLL_RECORDED"
+msgstr "Результаты опроса приняты"
+
+# Thank you for completing the BOINC user survey.
+msgid "POLL_THANKS"
+msgstr "Благодарим вас за заполнение анкеты BOINC"
+
+# Survey results
+msgid "POLL_RESULTS_TITLE"
+msgstr "Результаты опроса"
+
+# These are the current results of the <a href=poll.php>BOINC user survey</a>.  This page is updated every hour.
+msgid "POLL_RESULTS_TEXT"
+msgstr "Это текущие результаты <a href=poll.php>опроса участников BOINC</a>\". Данные обновляются каждый час."
+
