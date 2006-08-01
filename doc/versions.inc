@@ -340,126 +340,13 @@ $mac_changes_54= "
       </ul>
 ";
 
-$linux_libs_fedora_559= "
-    <li>Boincmgr no longer use statically linked libraries.
-        The following shared libraries are needed for boincmgr to run:
+$linux_libs_559= "
+    <li>Boincmgr requires GTK++2.0 or higher, which is included in most
+        Linux distributions.  Its been tested on:
       <ul>
-        <li>/lib/ld-linux.so.2
-        <li>libatk-1.0.so.0
-        <li>libc.so.6
-        <li>libcairo.so.2
-        <li>libdl.so.2
-        <li>libexpat.so.0
-        <li>libfontconfig.so.1
-        <li>libfreetype.so.6
-        <li>libgcc_s.so.1
-        <li>libgdk-x11-2.0.so.0
-        <li>libgdk_pixbuf-2.0.so.0
-        <li>libglib-2.0.so.0
-        <li>libgmodule-2.0.so.0
-        <li>libgobject-2.0.so.0
-        <li>libgthread-2.0.so.0
-        <li>libgtk-x11-2.0.so.0
-        <li>libm.so.6
-        <li>libpango-1.0.so.0
-        <li>libpangocairo-1.0.so.0
-        <li>libpangoft2-1.0.so.0
-        <li>libpng12.so.0
-        <li>libpthread.so.0
-        <li>libX11.so.6
-        <li>libXau.so.6
-        <li>libXcursor.so.1
-        <li>libXdmcp.so.6
-        <li>libXext.so.6
-        <li>libXfixes.so.3
-        <li>libXi.so.6
-        <li>libXinerama.so.1
-        <li>libXrandr.so.2
-        <li>libXrender.so.1
-        <li>libXxf86vm.so.1
-        <li>libz.so.1
-        <li>linux-gate.so.1
-      </ul>
-";
-
-$linux_libs_suse_559= "
-    <li>Boincmgr no longer use statically linked libraries.
-        The following shared libraries are needed for boincmgr to run:
-      <ul>
-        <li>/lib/ld-linux.so.2
-        <li>libatk-1.0.so.0
-        <li>libc.so.6
-        <li>libcairo.so.2
-        <li>libdl.so.2
-        <li>libexpat.so.1
-        <li>libfontconfig.so.1
-        <li>libfreetype.so.6
-        <li>libgcc_s.so.1
-        <li>libgdk-x11-2.0.so.0
-        <li>libgdk_pixbuf-2.0.so.0
-        <li>libglib-2.0.so.0
-        <li>libglitz.so.1
-        <li>libgmodule-2.0.so.0
-        <li>libgobject-2.0.so.0
-        <li>libgthread-2.0.so.0
-        <li>libgtk-x11-2.0.so.0
-        <li>libm.so.6
-        <li>libpango-1.0.so.0
-        <li>libpangocairo-1.0.so.0
-        <li>libpangoft2-1.0.so.0
-        <li>libpng12.so.0
-        <li>libpthread.so.0
-        <li>libX11.so.6
-        <li>libXcursor.so.1
-        <li>libXext.so.6
-        <li>libXfixes.so.3
-        <li>libXi.so.6
-        <li>libXinerama.so.1
-        <li>libXrandr.so.2
-        <li>libXrender.so.1
-        <li>libXxf86vm.so.1
-        <li>libz.so.1
-        <li>linux-gate.so.1
-      </ul>
-";
-
-$linux_libs_ubuntu_559= "
-    <li>Boincmgr no longer use statically linked libraries.
-        The following shared libraries are needed for boincmgr to run:
-      <ul>
-        <li>/lib/ld-linux.so.2
-        <li>libatk-1.0.so.0
-        <li>libc.so.6
-        <li>libcairo.so.2
-        <li>libdl.so.2
-        <li>libexpat.so.1
-        <li>libfontconfig.so.1
-        <li>libfreetype.so.6
-        <li>libgcc_s.so.1
-        <li>libgdk-x11-2.0.so.0
-        <li>libgdk_pixbuf-2.0.so.0
-        <li>libglib-2.0.so.0
-        <li>libgmodule-2.0.so.0
-        <li>libgobject-2.0.so.0
-        <li>libgthread-2.0.so.0
-        <li>libgtk-x11-2.0.so.0
-        <li>libm.so.6
-        <li>libpango-1.0.so.0
-        <li>libpangocairo-1.0.so.0
-        <li>libpangoft2-1.0.so.0
-        <li>libpng12.so.0
-        <li>libpthread.so.0
-        <li>libX11.so.6
-        <li>libXau.so.6
-        <li>libXcursor.so.1
-        <li>libXext.so.6
-        <li>libXfixes.so.3
-        <li>libXi.so.6
-        <li>libXinerama.so.1
-        <li>libXrandr.so.2
-        <li>libXrender.so.1
-        <li>libz.so.1
-        <li>linux-gate.so.1
+        <li>Fedora Core 5
+        <li>SuSE 10.1
+        <li>Ubuntu 6.06
       </ul>
 ";
 
@@ -762,43 +649,15 @@ $m443c = array(
     "
 );
 
-$l559f = array(
+$l559 = array(
     "num"=>"5.5.9",
-    "status"=>"Development version (standard GUI - Fedora Core 5)",
-    "file"=>"boinc_5.5.9_i686-fedora.sh",
-    "date"=>"26 JULY 2006",
+    "status"=>"Development version (standard GUI)",
+    "file"=>"boinc_5.5.9_i686-pc-linux-gnu.sh",
+    "date"=>"1 AUGUST 2006",
     "type"=>"sea",
     "features"=>"<ul>
 ".$features_55."
-".$linux_libs_fedora_559."
-".$changes_55."
-    </ul>
-    "
-);
-
-$l559s = array(
-    "num"=>"5.5.9",
-    "status"=>"Development version (standard GUI - SUSE 10.1)",
-    "file"=>"boinc_5.5.9_i686-suse.sh",
-    "date"=>"26 JULY 2006",
-    "type"=>"sea",
-    "features"=>"<ul>
-".$features_55."
-".$linux_libs_suse_559."
-".$changes_55."
-    </ul>
-    "
-);
-
-$l559u = array(
-    "num"=>"5.5.9",
-    "status"=>"Development version (standard GUI - Ubuntu 6.06)",
-    "file"=>"boinc_5.5.9_i686-ubuntu.sh",
-    "date"=>"26 JULY 2006",
-    "type"=>"sea",
-    "features"=>"<ul>
-".$features_55."
-".$linux_libs_ubuntu_559."
+".$linux_libs_559."
 ".$changes_55."
     </ul>
     "
@@ -901,9 +760,7 @@ $linux = array(
     "dbname" => "i686-pc-linux-gnu",
     "url"=>"linux.php",
     "versions"=>array(
-        $l559f,
-        $l559s,
-        $l559u,
+        $l559,
         $l549,
         $l5213,
         $l443,
