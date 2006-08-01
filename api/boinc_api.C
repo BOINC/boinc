@@ -192,11 +192,11 @@ static int boinc_worker_thread_cpu_time(double& cpu) {
     }
 #else
     if (!pthread_mutex_lock(&getrusage_mutex)) {
-      cpu = (double)worker_thread_ru.ru_utime.tv_sec
-        + (((double)worker_thread_ru.ru_utime.tv_usec)/1000000.0);
-      cpu += (double)worker_thread_ru.ru_stime.tv_sec
-        + (((double)worker_thread_ru.ru_stime.tv_usec)/1000000.0);
-      pthread_mutex_unlock(&getrusage_mutex);
+        cpu = (double)worker_thread_ru.ru_utime.tv_sec
+          + (((double)worker_thread_ru.ru_utime.tv_usec)/1000000.0);
+        cpu += (double)worker_thread_ru.ru_stime.tv_sec
+          + (((double)worker_thread_ru.ru_stime.tv_usec)/1000000.0);
+        pthread_mutex_unlock(&getrusage_mutex);
     }
 #endif
     double cpu_diff = cpu - last_cpu;
@@ -789,12 +789,9 @@ void* timer_thread(void*) {
 }
 
 void worker_signal_handler(int) {
-// getrusage can return an error, so try a few times if it returns an error.
-// but don't hang around if you can't get the mutex
     if (!pthread_mutex_trylock(&getrusage_mutex)) {
-      int i=0;
-      while (getrusage(RUSAGE_SELF, &worker_thread_ru) && i<10) i++;
-      pthread_mutex_unlock(&getrusage_mutex);
+        getrusage(RUSAGE_SELF, &worker_thread_ru);
+        pthread_mutex_unlock(&getrusage_mutex);
     }
     if (options.direct_process_action) {
         while (boinc_status.suspended) {

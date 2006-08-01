@@ -2,7 +2,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "POT-Creation-Date: \n"
-"PO-Revision-Date: 2006-07-25 21:27+0900\n"
+"PO-Revision-Date: 2006-08-02 02:00+0900\n"
 "Last-Translator: JE2BWM <je2bwm@jarl.com>\n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
@@ -11,7 +11,7 @@ msgstr ""
 
 #########################################
 # Language: Japanese
-# FileID  : ja.po,v 1.1, based on en.po v1.3(cvs).   2006/07/25 20:20 JST je2bwm
+# FileID  : ja.po,v 1.2, based on en.po v1.5(cvs).   2006/08/02 JST je2bwm
 # Author  : Janus Kristensen ( Translator: Komori Hitoshi )
 # Email   : jbk@visualgroup.dk( je2bwm at jarl.com )
 ##########################################
@@ -510,6 +510,13 @@ msgstr ""
 "BOINC 参加者サーベイにご協力ありがとうございました。\n"
 " "
 
-msgid "POLL_"
-msgstr ""
+# msgid "POLL_RESULTS_TITLE"
+# msgstr "Survey results"
+msgid "POLL_RESULTS_TITLE"
+msgstr "サーベイの結果"
+
+# msgid "POLL_RESULTS_TEXT"
+# msgstr "These are the current results of the <a href=poll.php>BOINC user survey</a>.  This page is updated every hour."
+msgid "POLL_RESULTS_TEXT"
+msgstr "以下は <a href=poll.php>BOINC 参加者サーベイ</a> の現時点での結果です。このページは1時間ごとに更新されます。"
 

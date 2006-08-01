@@ -104,6 +104,7 @@ language("English", array(
     site("http://www.setiusa.net/", "SETI.USA"),
     site("http://www.boincsynergy.com/", "BOINC Synergy"),
     site("http://www.esea.dk/esea/boinc.asp", "Earth Space Exploration Agency"),
+    site("http://www.tswb.org", "Team Starfire World BOINC"),
     //site("http://www.geocities.com/boinc_volunteers/", "BOINC Volunteers")
 ));
 language("Estonian", array(

@@ -8258,3 +8258,9 @@ Rom    1 Aug 2006
     
     clientgui/msw/
         taskbarex.cpp
+
+David  1 Aug 2006
+    - API: don't repeatedly call getrusage() in worker_signal_handler().
+
+    api/
+        boinc_api.C

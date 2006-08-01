@@ -35,7 +35,8 @@ $features_55 = "
     <li> New CPU Scheduler.
     <li> CPU Capability detection.
     <li> Revamped logging solution.
-    <li> Improved security for posix compliant systems. (Right now only 
+    <li> Improved security for POSIX compliant systems
+        (only 
          implemented for the Mac)
     <li> Add support for file compression on upload.
 ";
@@ -882,7 +883,7 @@ $windows = array(
     )
 );
 $mac = array(
-    "name"=>"Macintosh OS X (10.3 or higher)",
+    "name"=>"Mac OS X",
     "dbname" => "powerpc-apple-darwin",
     "versions"=>array(
         $m559,
@@ -924,5 +925,18 @@ $platforms = array(
     "linux"=>$linux,
     "solaris"=>$solaris
 );
+
+function is_dev($v) {
+    return (strstr($v["status"], "Development") != null);
+}
+
+switch(rand(0,4)) {
+    case 0: $url_base = "http://boinc.berkeley.edu/dl/"; break;
+    case 1: $url_base = "http://morel.mit.edu/download/boinc/dl/"; break;
+    case 2: $url_base = "http://einstein.aei.mpg.de/download/boinc/dl/"; break;
+    case 3: $url_base = "http://einstein.astro.gla.ac.uk/download/boinc/dl/"; break;
+    case 4: $url_base = "http://einstein.aset.psu.edu/download/boinc/dl/"; break;
+    //case 5: $url_base = "http://einstein.phys.uwm.edu/download/boinc/dl/"; break;
+}
 
 ?>
