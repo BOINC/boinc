@@ -269,17 +269,21 @@ bool CBOINCGUIApp::OnInit() {
 
 #ifdef SANDBOX
     g_use_sandbox = true;
+#else
+    g_use_sandbox = false;
+#endif
+
+#ifdef SANDBOX
     // Commandline parsing is done in wxApp::OnInit()
     if (!wxApp::OnInit()) {     // Command line arg -insecure sets g_use_sandbox to false
         return false;
     }
+#endif
+    
 #ifndef _WIN32
     if (g_use_sandbox)
         umask (2);  // Set file creation mask to be writable by both user and group
                     // Our umask will be inherited by all our child processes
-#endif
-#else
-    g_use_sandbox = false;
 #endif
 
     // Setup variables with default values
