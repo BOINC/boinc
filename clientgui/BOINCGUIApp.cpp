@@ -36,6 +36,8 @@
 #include "Events.h"
 #include "BOINCGUIApp.h"
 #include "AdvancedFrame.h"
+#include "util.h"
+
 
 #ifdef SIMPLEGUI
 #include "common/wxAnimate.h"
@@ -86,13 +88,6 @@ EXTERN_C DWORD BOINCGetIdleTickCount();
 
 IMPLEMENT_APP(CBOINCGUIApp)
 IMPLEMENT_DYNAMIC_CLASS(CBOINCGUIApp, wxApp)
-
-// Ideally, we would access this using wxGetApp().m_use_sandbox in the Manager
-// and gstate.m_use_sandbox in the Client, but it is used by some source files
-// (filesys.C, check_security.C) that are linked with both Manager and Client 
-// so the most practical solution is to use a global.
-int      g_use_sandbox;
-
 
 
 bool CBrandingScheme::OnInit( wxConfigBase *pConfig ) {

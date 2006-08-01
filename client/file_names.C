@@ -95,6 +95,7 @@ int make_project_dir(PROJECT& p) {
     int retval;
 
     boinc_mkdir(PROJECTS_DIR);
+#ifndef _WIN32
     if (g_use_sandbox) {
         chmod(PROJECTS_DIR,
                 S_IRUSR|S_IWUSR|S_IXUSR
@@ -102,8 +103,10 @@ int make_project_dir(PROJECT& p) {
                 |S_IROTH|S_IXOTH
             );
     }
+#endif
     get_project_dir(&p, buf);
     retval = boinc_mkdir(buf);
+#ifndef _WIN32
     if (g_use_sandbox) {
         chmod(buf,
                 S_IRUSR|S_IWUSR|S_IXUSR
@@ -112,6 +115,7 @@ int make_project_dir(PROJECT& p) {
             );
         set_to_project_group(buf);
     }
+#endif
     return retval;
 }
 
@@ -137,6 +141,7 @@ int make_slot_dir(int slot) {
         return ERR_NEG;
     }
     boinc_mkdir(SLOTS_DIR);
+#ifndef _WIN32
     if (g_use_sandbox) {
         chmod(SLOTS_DIR,
                 S_IRUSR|S_IWUSR|S_IXUSR
@@ -144,8 +149,10 @@ int make_slot_dir(int slot) {
                 |S_IROTH|S_IXOTH
             );
     }
+#endif
     get_slot_dir(slot, buf);
     int retval = boinc_mkdir(buf);
+#ifndef _WIN32
     if (g_use_sandbox) {
         chmod(buf,
                 S_IRUSR|S_IWUSR|S_IXUSR
@@ -154,6 +161,7 @@ int make_slot_dir(int slot) {
             );
         set_to_project_group(buf);
     }
+#endif
     return retval;
 }
 

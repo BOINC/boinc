@@ -8240,3 +8240,15 @@ Charlie 1 Aug 2006
         Mac_SA_Secure.sh
     mac_installer/
         PostInstall.cpp
+
+Rom    1 Aug 2006
+    - Fix build breaks on Windows
+    
+    client/
+        file_names.C
+        main.C
+    clientgui/
+        BOINCGUIApp.C
+    lib/
+        boinc_cmd.C
+        util.C

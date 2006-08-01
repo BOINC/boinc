@@ -43,8 +43,6 @@ using std::string;
 #include "util.h"
 #include "version.h"
 
-int      g_use_sandbox = 0;
-
 
 void usage() {
     fprintf(stderr, "\
@@ -147,6 +145,8 @@ int main(int argc, char** argv) {
     MESSAGES messages;
 	char passwd_buf[256], hostname_buf[256], *hostname=0;
     char* passwd = passwd_buf, *p;
+
+    g_use_sandbox = false;
 
 	strcpy(passwd_buf, "");
 	read_password_from_file(passwd_buf);
