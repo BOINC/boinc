@@ -536,6 +536,7 @@ bool CBOINCGUIApp::IsBOINCCoreRunning() {
     wxLogTrace(wxT("Function Start/End"), wxT("CBOINCGUIApp::IsBOINCCoreRunning - Function Begin"));
 
     int retval;
+    int scrsave_mode;
     bool running;
     RPC_CLIENT rpc;
 
@@ -545,12 +546,14 @@ bool CBOINCGUIApp::IsBOINCCoreRunning() {
         running = (FALSE != IsBOINCServiceStarting()) || (FALSE != IsBOINCServiceRunning());
     } else {
         retval = rpc.init("localhost");  // synchronous is OK since local
+        retval = rpc.get_screensaver_mode(scrsave_mode);
         running = (retval == 0);
         rpc.close();
     }
     
 #else
     retval = rpc.init("localhost");  // synchronous is OK since local
+    retval = rpc.get_screensaver_mode(scrsave_mode);
     running = (retval == 0);
     rpc.close();
 #endif
