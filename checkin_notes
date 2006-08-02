@@ -8302,6 +8302,7 @@ Charlie 1 Aug 2006
     - Fix compile errors in non-SANDBOX builds.
 
     client/
+        check_security.C
         client_state.C
     clientGUI/
         mac/
