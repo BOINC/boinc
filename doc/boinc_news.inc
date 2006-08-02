@@ -1,6 +1,11 @@
 <?
 
 $project_news = array(
+array("August 2, 2006",
+    "The <a href=workshop_06.php>2nd Pan-Galactic BOINC Workshop</a>
+    will be held 20-21 September at the University of Geneva, Switzerland.
+    Anyone actively involved with BOINC is encouraged to attend."
+),
 array("July 26, 2006",
     "<a href=http://www.chess960athome.org/>Chess960@home</a>
     is open for testers.

@@ -408,7 +408,7 @@ bool CLIENT_STATE::poll_slow_events() {
 
     now = dtime();
 
-    if (should_run_cpu_benchmarks() && !are_cpu_benchmarks_running()) {
+    if (should_run_cpu_benchmarks() && !are_cpu_benchmarks_running() && projects.size()>0) {
         run_cpu_benchmarks = false;
         start_cpu_benchmarks();
     }

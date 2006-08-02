@@ -8361,3 +8361,10 @@ Rom    2 Aug 2006
         
     clientgui/
         BOINCGUIApp.cpp
+
+David  2 Aug 2006
+    - core client: attempted fix for benchmarks running right away
+        and preventing contact to account manager for new users
+
+    client/
+        client_state.C
