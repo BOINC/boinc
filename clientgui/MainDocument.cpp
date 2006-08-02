@@ -117,10 +117,14 @@ void CNetworkConnection::Poll() {
 
         if (!IsConnected()) {
             // determine computer name and password to use.
+            // NOTE: Initial connection case.
             if (!m_strNewComputerName.empty()) {
                 strComputer = m_strNewComputerName;
                 strComputerPassword = m_strNewComputerPassword;
             } else {
+                // NOTE: Reconnect after a disconnect case.
+                //       Values are stored after the first successful connect to the host.
+                //       See: SetStateSuccess()
                 if (!m_strConnectedComputerName.empty()) {
                     strComputer = m_strConnectedComputerName;
                     strComputerPassword = m_strConnectedComputerPassword;
