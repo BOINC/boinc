@@ -235,6 +235,11 @@ you must tell the linker where to find the newer versions:
 ./configure LDFLAGS=-L/usr/local/lib
 </pre>
 
+<h3>GLUT notes</h3>
+<p>
+Freeglut 2.2, freeglut 2.4 and OpenGL Utility Toolkit (GLUT) libraries
+are supported.  
+
 <h3>X11 notes</h3>
 <p>
 To get the X11 support,
