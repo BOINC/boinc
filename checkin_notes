@@ -8300,7 +8300,10 @@ Charlie 1 Aug 2006
     - Mac sandbox: check_security() uses PersistentFGets() for better 
         reliability, deletes newline from path if present.
     - Fix compile errors in non-SANDBOX builds.
+    - Remove unused variables (compiler warning) in x_opengl.C.
 
+    api/
+        x_opengl.C
     client/
         check_security.C
         client_state.C

@@ -286,9 +286,7 @@ static void make_new_window(int mode) {
 static void boinc_glut_init() {
     const char* args[2] = {"screensaver", NULL};
     int one=1;
-    int rc;
     static bool first = true;
-    char buf[128];
     
     win = 0;
     app_debug_msg("Calling glutInit()... \n");
