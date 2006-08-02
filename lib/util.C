@@ -68,7 +68,7 @@ using std::string;
 // and gstate.m_use_sandbox in the Client, but it is used by some source files
 // (filesys.C, check_security.C) that are linked with both Manager and Client 
 // so the most practical solution is to use a global.
-int      g_use_sandbox;
+int      g_use_sandbox = 0;
 
 
 // Use this instead of strncpy().

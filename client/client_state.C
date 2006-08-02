@@ -313,7 +313,7 @@ int CLIENT_STATE::init() {
         }
     }
 
-#ifndef _WIN32
+#if (defined(SANDBOX) && ! defined(_WIN32))
     if (g_use_sandbox) {
 #ifdef _DEBUG
         boinc_project_gid = getegid();

@@ -8294,3 +8294,22 @@ Walt   1 Aug 2006
     api/
         x_opengl.C
 
+Charlie 1 Aug 2006
+    - Mac sandbox: added Dev_noSandbox and Deploy_noSandbox build styles 
+        to XCode project for testing ability to build without -DSANDBOX.
+    - Mac sandbox: check_security() uses PersistentFGets() for better 
+        reliability, deletes newline from path if present.
+    - Fix compile errors in non-SANDBOX builds.
+
+    client/
+        client_state.C
+    clientGUI/
+        mac/
+            mac_saver_module.cpp
+    lib/
+        util.C
+    mac_installer/
+        PostInstall.cpp
+    mac_build/
+        boinc.xcodeproj/
+            project.pbxproj

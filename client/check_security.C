@@ -27,6 +27,7 @@
 #include <grp.h>
 #include <sys/param.h>  // for MAXPATHLEN
 #include <dirent.h>
+#include <cerrno>
 #include "util.h"
 #include "error_numbers.h"
 #include "file_names.h"
@@ -34,6 +35,7 @@
 static int CheckNestedDirectories(char * basepath, int depth, int use_sandbox);
 
 #if (! defined(__WXMAC__) && ! defined(_MAC_INSTALLER))
+static char * PersistentFGets(char *buf, size_t buflen, FILE *f);
 static void GetPathToThisProcess(char* outbuf, size_t maxLen);
 #endif
 
@@ -488,6 +490,26 @@ static int CheckNestedDirectories(char * basepath, int depth, int use_sandbox) {
 
 
 #if (! defined(__WXMAC__) && ! defined(_MAC_INSTALLER))
+
+static char * PersistentFGets(char *buf, size_t buflen, FILE *f) {
+    char *p = buf;
+    size_t len = buflen;
+    size_t datalen = 0;
+
+    *buf = '\0';
+    while (datalen < (buflen - 1)) {
+        fgets(p, len, f);
+        if (feof(f)) break;
+        if (ferror(f) && (errno != EINTR)) break;
+        if (strchr(buf, '\n')) break;
+        datalen = strlen(buf);
+        p = buf + datalen;
+        len -= datalen;
+    }
+    return (buf[0] ? buf : NULL);
+}
+
+
 static void GetPathToThisProcess(char* outbuf, size_t maxLen) {
     FILE *f;
     char buf[256], *p, *q;
@@ -500,9 +522,14 @@ static void GetPathToThisProcess(char* outbuf, size_t maxLen) {
     if (f == NULL)
         return;
     
-    fgets (outbuf, maxLen, f);      // Discard header line
-    fgets (outbuf, maxLen, f);
+    PersistentFGets (outbuf, maxLen, f);      // Discard header line
+    PersistentFGets (outbuf, maxLen, f);
     pclose(f);
+
+    // Remove trailing newline if present
+    p = strchr(outbuf, '\n');
+    if (p)
+        *p = '\0';
     
     // Strip off any arguments
     p = strstr(outbuf, " -");

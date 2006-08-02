@@ -78,10 +78,11 @@ int main(int argc, char *argv[])
     FSRef                   fileRef;
     OSStatus                err, err_fsref;
     char                    *p;
+#ifdef SANDBOX
     uid_t                   savedeuid, b_m_uid;
     passwd                  *pw;
     int                     finalInstallAction;
-#ifndef SANDBOX
+#else
     char                    *q;
     group                   *grp;
     char                    s[256];
@@ -486,15 +487,15 @@ OSErr UpdateAllVisibleUsers(long brandID)
 {
     DIR                 *dirp;
     dirent              *dp;
-    char                *p;
-    group               *grp;
     passwd              *pw;
     uid_t               saved_uid;
-    short               i;
     Boolean             deleteLoginItem;
+#ifdef SANDBOX
+    char                *p;
+    group               *grp;
+    short               i;
     OSErr 		err = noErr;
 
-#ifdef SANDBOX
     grp = getgrnam("admin");
     if (grp == NULL) {      // Should never happen
         puts("getgrnam(\"admin\") failed\n");
