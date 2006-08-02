@@ -642,6 +642,7 @@ bool CBOINCGUIApp::IsBOINCCoreRunning() {
     wxLogTrace(wxT("Function Start/End"), wxT("CBOINCGUIApp::IsBOINCCoreRunning - Function Begin"));
 
     int retval;
+    int scrsave_mode;
     bool running = false;
     RPC_CLIENT rpc;
 
@@ -651,6 +652,9 @@ bool CBOINCGUIApp::IsBOINCCoreRunning() {
         running = (FALSE != IsBOINCServiceStarting()) || (FALSE != IsBOINCServiceRunning());
     } else {
         retval = rpc.init("localhost");  // synchronous is OK since local
+        wxLogTrace(wxT("Function Status"), wxT("CBOINCGUIApp::IsBOINCCoreRunning - Connecting to core client returned '%d'"), retval);
+        retval = rpc.get_screensaver_mode(scrsave_mode);
+        wxLogTrace(wxT("Function Status"), wxT("CBOINCGUIApp::IsBOINCCoreRunning - Requesting screen saver mode... retval '%d', scrsave_mode '%d'"), retval, scrsave_mode);
         running = (retval == 0);
         rpc.close();
     }
@@ -661,6 +665,7 @@ bool CBOINCGUIApp::IsBOINCCoreRunning() {
                         (TickCount() < (120*60));     // If system has been up for less than 2 minutes
     for (int i=0; i<10; i++) {
         retval = rpc.init("localhost");  // synchronous is OK since local
+        retval = rpc.get_screensaver_mode(scrsave_mode);
         running = (retval == 0);
         rpc.close();
         if (running) break;
@@ -669,6 +674,7 @@ bool CBOINCGUIApp::IsBOINCCoreRunning() {
     }
 #else
     retval = rpc.init("localhost");  // synchronous is OK since local
+    retval = rpc.get_screensaver_mode(scrsave_mode);
     running = (retval == 0);
     rpc.close();
 #endif

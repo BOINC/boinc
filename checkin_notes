@@ -8349,3 +8349,15 @@ David  2 Aug 2006
         app.h
     html/ops/
         remind_email/*
+
+Rom    2 Aug 2006
+    - Bug Fix: McAfee Internet Suite 8 now interjects McProxy.exe into the
+        boincmgr.exe <-> boinc.exe communication stream.  Normally it wouldn't
+        be a problem except that McProxy.exe automatically returns success for
+        a connect request even if the target isn't available.  This lead the
+        manager to believe that the CC had already been started.  We now do a
+        simple get screensaver mode request which is not password protected to
+        verify that boinc.exe is listening on the other end.
+        
+    clientgui/
+        BOINCGUIApp.cpp
