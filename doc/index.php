@@ -54,11 +54,12 @@ function show_participate() {
         <p>
         Use the idle time on your computer
         (Windows, Mac, or Linux)
-        to do all sorts of scientific research:
+        to do all sorts of scientific research.
+        It's easy:
         <ol>
-        <li> <a href=projects.php>Choose projects</a>
-        <li> <a href=download.php>Download</a> and run BOINC software
-        <li> Enter the projects' URLs, your email address, and password.
+        <li> <a href=projects.php><font size=+1>Choose</font></a> projects
+        <li> <a href=download.php><font size=+1>Download</font></a> and run BOINC software
+        <li> <font size=+1>Enter</font> the project URLs, your email address, and password.
         </ol>
         <center>
         <a href=participate.php><b><nobr>Details</nobr></b></a> 

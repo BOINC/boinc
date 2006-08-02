@@ -1,241 +1,112 @@
 <?php
 
-// show information about downloadable BOINC client software
-//
-// URL options:
-// xml=1            Show results as XML (other options are ignored)
-// dev=1            Show "development" versions
-// min_version=x    show no versions earlier than x
-// max_version=x    show no versions later than x
-// version=x        show version x
-// platform=x       show only versions for platform x (win/mac/linux/solaris)
-
 require_once("docutil.php");
-
-$xml = $_GET["xml"];
-$dev = $_GET["dev"];
-$pname = $_GET["platform"];
-$min_version = $_GET["min_version"];
-$max_version = $_GET["max_version"];
-$version = $_GET["version"];
-$type_name = $_GET["type"];
-
 require_once("versions.inc");
 
-if ($dev) {
-    $url_base = "dl/";
-}
+$client_info = $_SERVER['HTTP_USER_AGENT'];
 
-function dl_item($x, $y) {
-    global $light_blue;
-    echo "<tr><td valign=top  align=right width=30% bgcolor=$light_blue>$x</td>
-        <td>$y</td></tr>
-    ";
-}
-
-function show_detail($v) {
-    global $url_base;
-    $num = $v["num"];
-    $file = $v["file"];
-    $status = $v["status"];
-    $path = "dl/$file";
-    $url = $url_base.$file;
-    $dlink = "<a href=$url>$file</a>";
-    //$md = md5_file($path);
-    $s = number_format(filesize($path)/1000000, 2);
-    $date = $v["date"];
-    $type = type_text($v["type"]);
-    $features = $v["features"];
-    $bugs = $v["bugs"];
-
-    list_start();
-    dl_item("File (click to download)", "$dlink ($s MB)");
-    dl_item("Version number", $num);
-    dl_item("Release date", $date);
-    dl_item("Installer type", $type);
-    //dl_item("MD5 checksum of download file", $md);
-    if ($features) {
-        dl_item ("New features", $features);
-    }
-    if ($bugs) {
-        dl_item ("Known problems", $bugs);
-    }
-    list_end();
-}
-
-
-function show_version_xml($v, $p) {
-    global $url_base;
-    $name = $p["name"];
-    $dbname = $p["dbname"];
-    $num = $v["num"];
-    $file = $v["file"];
-    $status = $v["status"];
-    $path = "dl/$file";
-    $url = $url_base.$file;
-    $dlink = "<a href=$url>$file</a>";
-    //$md = md5_file($path);
-    $s = number_format(filesize($path)/1000000, 2);
-    $date = $v["date"];
-    $type = type_text($v["type"]);
-    $features = $v["features"];
-    $bugs = $v["bugs"];
-    $bugs = htmlspecialchars($bugs);
-    $features = htmlspecialchars($features);
-    echo "
-<version>
-    <platform>$name</platform>
-    <dbplatform>$dbname</dbplatform>
-    <description>$status</description>
-    <date>$date</date>
-    <version_num>$num</version_num>
-    <url>$url</url>
-    <filename>$file</filename>
-    <size_mb>$s</size_mb>
-    <installer>$type</installer>
-    <features>$features</features>
-    <issues>$bugs</issues>
-</version>
-";
-//    <md5>$md</md5>
-}
-
-function show_version($pname, $i, $v) {
-    global $url_base;
-    $num = $v["num"];
-    $file = $v["file"];
-    $status = $v["status"];
-    if (is_dev($v)) {
-        $status = $status."
-            <font color=dd0000><b>
-            (MAY BE UNSTABLE - USE ONLY FOR TESTING)
-            </b></font>
-        ";
-    }
-    $path = "dl/$file";
-    $s = number_format(filesize($path)/1000000, 2);
-    $type = $v["type"];
-    $type_text = type_text($type);
-    echo "<tr><td width=3%><nobr>
-        $num</td><td> $status
-        </nobr>
-        </td>
-        <td>
-        <a href=".$url_base.$file."><b>Download</b></a> ($s MB)
-        </td>
-        <td>
-        Instructions: $type_text
-        </td>
-        <td width=1%>
-        <a href=download.php?platform=$pname&version=$num&type=$type><nobr>version details</nobr></a>
-        </td>
-        </tr>
-    ";
-}
-
-function show_platform($short_name, $p, $dev) {
-    global $min_version;
-    global $max_version;
-    $long_name = $p["name"];
-    if ($p["url"]) {
-        $url = $p["url"];
-        $long_name .= " <a href=$url><font size=-2>details</a>";
-    }
-    list_bar($long_name);
-    foreach ($p["versions"] as $i=>$v) {
-        if ($min_version && strcmp($v['num'], $min_version)<0) continue;
-        if ($max_version && strcmp($v['num'], $max_version)>0) continue;
+function latest_version($p) {
+    foreach ($p['versions'] as $i=>$v) {
         if (!$dev && is_dev($v)) continue;
-        show_version($short_name, $i, $v);
+        return $v;
     }
 }
 
-function show_platform_xml($short_name, $p, $dev) {
-    foreach ($p["versions"] as $i=>$v) {
-        if (!$dev && is_dev($v)) continue;
-        show_version_xml($v, $p);
-    }
-}
-
-// show details on a version if URL indicates
-//
-if ($pname && $version) {
+function download_link($pname) {
+    global $platforms;
+    global $url_base;
     $p = $platforms[$pname];
-    if (!$p) {
-        error_page("platform not found");
-    }
-    $long_name = $p["name"];
-    $va = $p["versions"];
-    foreach ($va as $v) {
-        if ($v['num'] == $version && $type_name==$v['type']) {
-            page_head("BOINC version $version for $long_name");
-            show_detail($v);
-            page_tail();
-            exit();
-        }
-    }
-    error_page( "version not found\n");
+    $v = latest_version($p);
+    $file = $v['file'];
+    $long_name = $p['name'];
+    $num = $v['num'];
+    $path = "dl/$file";
+    $url = $url_base.$file;
+    $dlink = "<a href=$url>$file</a>";
+    $s = number_format(filesize($path)/1000000, 2);
+
+    return "
+        <table border=4 cellpadding=10><tr><td bgcolor=ccccff>
+        <a href=$url><font size=4><u>Download BOINC</u></font></a>
+        <br>
+        $num for $long_name ($s MB)
+        </td></tr> </table>
+    ";
 }
 
-if ($xml) {
-    header('Content-type: text/xml');
-    echo "<?xml version=\"1.0\" encoding=\"ISO-8859-1\" ?>
-<versions>
-";
-    foreach($platforms as $short_name=>$p) {
-        show_platform_xml($short_name, $p, $dev);
+function link_row($pname) {
+    echo "<tr><td>";
+    if ($pname=='win') {
+        echo "<img src=images/ico-win.png> <b>Windows</b>";
+    } else if ($pname=='mac') {
+        echo "<img src=images/ico-osx-uni.png> <b>Mac OS X</b>";
+    } else if ($pname=='linux') {
+        echo "<img src=images/ico-tux.png> <b>Linux</b>";
     }
-    echo "</versions>\n";
-} else {
+    echo "</td><td>";
+    echo download_link($pname);
+    echo "</td></tr>
+    ";
+}
+
+function show_download($pname) {
+    echo "
+        <table cellpadding=30><tr><td>
+        <img valign=top hspace=8 align=right src=images/boinc_screen.png>
+        BOINC is a program that lets you donate
+        your idle computer time to science projects like
+        SETI@home, Climateprediction.net, Rosetta@home,
+        World Community Grid, and many others.
+        <p>
+        After installing BOINC on your computer,
+        you can connect it to as many of these projects as you like.
+        <p>
+    ";
     if ($pname) {
-        $p = $platforms[$pname];
-        $name = $p['name'];
-        page_head("Download BOINC client software for $name");
-        echo "<table border=2 cellpadding=4 width=100%>";
-        show_platform($pname, $p, $dev);
-        list_end();
+        echo download_link($pname);
     } else {
-        page_head("Download BOINC client software");
-        echo "
-            We are now using mirrored download servers at partner institutions.
-            Your download will come from a randomly-chosen server.
-            Thanks to these partners for their help.
-            <p>
-            <b>If you have trouble downloading a file,
-            please reload this page in your browser and try again.
-            This will link to a different download mirror and may
-            fix the problem.</b>
-            <p>
-            <table border=2 cellpadding=4 width=100%>
+        echo "<table cellpadding=8>
         ";
-        foreach($platforms as $short_name=>$p) {
-            show_platform($short_name, $p, $dev);
-        }
-        list_end();
-        echo "
-            <p>
-            If your computer is not of one of these types, you can
-            <ul>
-            <li> <a href=anonymous_platform.php>make your own client software</a> or
-            <li> <a href=download_other.php>download executables from a third-party site</a>
-                (available for Solaris/Opteron, Linux/Opteron, Linux/PPC, HP-UX, and FreeBSD, and others).
-            </ul>
-            BOINC is not available for Mac OS 9 or earlier.
-            There are no plans to develop an OS 9 version.
-            <p>
-            The Windows BOINC client can be
-            <a href=win_deploy.php>deployed across a Windows network
-            using Active Directory</a>.
+        link_row('win');
+        link_row('mac');
+        link_row('linux');
+        echo "</table>
         ";
     }
     echo "
         <p>
-        Download information can be restricted by
-        platform and/or version number, 
-        and can be obtained in XML format.
-        <a href=download_info.php>Details</a>.
+        <a href=system_requirements.php>System requirements</a>
+        | <a href=release_notes.php>Release notes</a>
     ";
-    page_tail();
+    if ($pname) {
+        echo " | <a href=download2.php?all_platforms=1>Other systems</a>
+        ";
+    } else {
+        echo " | <a href=download.php>All versions</a>
+        ";
+    }
+    echo " </td></tr></table>
+    ";
 }
+
+if ($_GET['xml']) {
+    Header("Location: download_all.php?xml=1");
+    exit();
+}
+
+page_head("BOINC: compute for science");
+
+if ($_GET['all_platforms']) {
+    show_download(null);
+} else if (strstr($client_info, 'Windows')) {
+    show_download('win');
+} else if (strstr($client_info, 'Mac')) {
+    show_download('mac');
+} else if (strstr($client_info, 'Linux')) {
+    show_download('linux');
+} else {
+    show_download(null);
+}
+page_tail();
 
 ?>

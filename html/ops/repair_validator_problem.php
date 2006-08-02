@@ -1,5 +1,8 @@
 <?php
 
+// repairs a problem that was fixed in 2004.
+// You should never have to run this script
+
 set_time_limit(0);
 require_once("../inc/db.inc");
 

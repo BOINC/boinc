@@ -87,7 +87,10 @@ Verify that download resumes from the same point.
 <li> Test #processors preference.
 <li> Test 'use network between hours' preference.
 <li> Test 'do work between hours' preference.
-<li> Test venue mechanism
+<li> Test 'CPU usage limit' preference.
+<li> Test venue mechanism (e.g., create preferences for 'Home',
+    change your computer's location to 'Home',
+    make sure it gets the right preferences).
 <li> Update a second project with same account email address,
 and make sure preferences are propagated to the second project.
 </ul>

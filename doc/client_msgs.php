@@ -54,7 +54,8 @@ The following messages are enabled by default:
 ";
 list_start();
 list_item_func("<task>",
-    "The start and completion of computational tasks."
+    "The start and completion of compute jobs
+    (should get two messages per job)."
 );
 list_item_func("<file_xfer>",
     "The start and completion of file transfers."
@@ -82,8 +83,8 @@ list_item_func("<debt_debug>",
     "Changes to project debt"
 );
 list_item_func("<task_debug>",
-    "Task start and control details.
-    Also prints messages when applications checkpoint."
+    "Prints messages when tasks are preempted and resumed,
+    and when applications checkpoint."
 );
 list_item_func("<work_fetch_debug>",
     "Work fetch policy decisions"

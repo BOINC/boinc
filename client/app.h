@@ -65,8 +65,11 @@ typedef int PROCESS_ID;
 
 
 // Represents a task in progress.
-// The execution of a task may be divided into many "episodes"
-// (if the host is turned off/on, e.g.)
+// The execution of a task is divided into "episodes".
+// An episode starts then the application is executed,
+// and ends when it exits or dies
+// (e.g., because it's preempted and not left in memory,
+// or the user quits BOINC, or the host is turned off).
 // A task may checkpoint now and then.
 // Each episode begins with the state of the last checkpoint.
 //

@@ -8337,3 +8337,15 @@ David  2 Aug 2006
 		cs_prefs.C
 	lib/
 		prefs.C
+
+David  2 Aug 2006
+    - Reminder email: checked in SETI@home examples,
+        just to make things more concrete.
+        Other projects had better change these before use,
+        or they'll look fairly clueless.
+    - core client: clarified meaning of "episode" in comments
+
+    client/
+        app.h
+    html/ops/
+        remind_email/*
