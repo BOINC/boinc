@@ -442,6 +442,9 @@ void CLIENT_STATE::schedule_cpus() {
         rp->already_selected = true;
         rp->project->anticipated_debt -= (1 - rp->project->resource_share / rrs) * expected_pay_off;
         rp->project->deadlines_missed--;
+        if (log_flags.cpu_sched_debug) {
+            msg_printf(NULL, MSG_INFO, "scheduling (deadline) %s", rp->name);
+        }
         ordered_scheduled_results.push_back(rp);
     }
 
@@ -452,6 +455,9 @@ void CLIENT_STATE::schedule_cpus() {
         rp = largest_debt_project_best_result();
         if (!rp) break;
         rp->project->anticipated_debt -= (1 - rp->project->resource_share / rrs) * expected_pay_off;
+        if (log_flags.cpu_sched_debug) {
+            msg_printf(NULL, MSG_INFO, "scheduling (regular) %s", rp->name);
+        }
         ordered_scheduled_results.push_back(rp);
     }
 

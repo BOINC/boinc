@@ -313,9 +313,14 @@ int ACTIVE_TASK::start(bool first_time) {
     std::string cmd_line;
 #endif
 
+    if (first_time && log_flags.task) {
+        msg_printf(0, MSG_INFO,
+            "Starting %s", result->name
+        );
+    }
     if (log_flags.task_debug) {
         msg_printf(0, MSG_INFO,
-            "ACTIVE_TASK::start(first_time=%d)\n", first_time
+            "Starting %s%s", result->name, first_time?" (first time)":""
         );
     }
 

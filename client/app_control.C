@@ -152,9 +152,7 @@ int ACTIVE_TASK::preempt(bool quit_task) {
         retval = suspend();
     }
 
-    scheduler_state = CPU_SCHED_PREEMPTED;
-
-    if (log_flags.task) {
+    if (log_flags.task_debug) {
         msg_printf(result->project, MSG_INFO,
             "Pausing task %s (%s)",
             result->name, (quit_task ? "removed from memory" : "left in memory")
@@ -837,6 +835,9 @@ int ACTIVE_TASK::suspend() {
 //
 int ACTIVE_TASK::unsuspend() {
     if (!app_client_shm.shm) return 0;
+    if (log_flags.task_debug) {
+        msg_printf(0, MSG_INFO, "Resuming %s", result->name);
+    }
     process_control_queue.msg_queue_send(
         "<resume/>",
         app_client_shm.shm->process_control_request

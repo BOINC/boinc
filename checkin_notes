@@ -8317,3 +8317,23 @@ Charlie 1 Aug 2006
     mac_build/
         boinc.xcodeproj/
             project.pbxproj
+
+David  2 Aug 2006
+	- core client: fix CPU throttling mechanism.
+		- Range is 0..100, not 0..1
+		- ACTIVE_TASK::prempt(): don't set scheduler_state
+			(that's not the job of this layer)
+	- core client: fiddle with messages
+		"task" should show you when results start and end
+			(always 2 messages per result)
+		"task_debug" shows every suspend/resume/checkpoint
+		"cpu_sched_debug" shows the results selected by scheduler
+		(more fiddling still needed)
+
+	client/
+		app_control.C
+		app_start.C
+		cpu_sched.C
+		cs_prefs.C
+	lib/
+		prefs.C

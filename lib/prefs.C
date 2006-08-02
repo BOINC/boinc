@@ -212,7 +212,7 @@ int GLOBAL_PREFS::parse_override(
         } else if (parse_int(buf, "<cpu_affinity>", cpu_affinity)) {
             continue;
         } else if (parse_double(buf, "<cpu_usage_limit>", dtemp)) {
-            if (dtemp > 0 && dtemp <= 1) {
+            if (dtemp > 0 && dtemp <= 100) {
                 cpu_usage_limit = dtemp;
             }
             continue;
