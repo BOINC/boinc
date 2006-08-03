@@ -36,8 +36,7 @@ $features_55 = "
     <li> CPU Capability detection.
     <li> Revamped logging solution.
     <li> Improved security for POSIX compliant systems
-        (only 
-         implemented for the Mac)
+         (only implemented for the Mac)
     <li> Add support for file compression on upload.
 ";
 
@@ -350,11 +349,11 @@ $linux_libs_559= "
       </ul>
 ";
 
-$w559= array(
-    "num"=>"5.5.9",
+$w5510= array(
+    "num"=>"5.5.10",
     "status"=>"Development version",
-    "file"=>"boinc_5.5.9_windows_intelx86.exe",
-    "date"=>"26 July 2006",
+    "file"=>"boinc_5.5.10_windows_intelx86.exe",
+    "date"=>"3 Aug 2006",
     "type"=>"win_new",
     "features"=>"<ul>
 ".$features_55."
@@ -504,11 +503,6 @@ $m559 = array(
 ".$mac_changes_55."
 ".$features_55."
 ".$changes_55."
-".$features_54."
-".$mac_changes_54."
-".$features_53."
-".$mac_changes_53."
-".$changes_53."
      </ul>
     ",
     "bugs"=>"
