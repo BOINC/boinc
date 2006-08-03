@@ -878,14 +878,6 @@ int set_worker_timer() {
     }
 
 #endif
-
-    boinc_sleep(3.1);
-    if (!interrupt_count) {
-        fprintf(stderr, "set_worker_timer(): timer thread not working\n");
-        return -1;
-    }
-
-
     return retval;
 }
 

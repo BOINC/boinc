@@ -264,6 +264,16 @@ private:
     void make_running_task_heap(vector<ACTIVE_TASK*>&);
     void print_deadline_misses();
 public:
+    void request_enforce_schedule(const char*);
+    void request_schedule_cpus(const char*);
+        // Check for reschedule CPUs ASAP.  Called when:
+        // - core client starts (CS::init())
+        // - an app exits (ATS::check_app_exited())
+        // - Tasks are killed (ATS::exit_tasks())
+        // - a result's input files finish downloading (CS::update_results())
+        // - an app fails to start (CS::schedule_cpus())
+        // - any project op is done via RPC (suspend/resume)
+        // - any result op is done via RPC (suspend/resume)
 
 // --------------- cs_account.C:
 public:
@@ -286,16 +296,6 @@ private:
     double nearly_runnable_resource_share();
 public:
     double runnable_resource_share();
-    void request_enforce_schedule(const char*);
-    void request_schedule_cpus(const char*);
-        // Check for reschedule CPUs ASAP.  Called when:
-        // - core client starts (CS::init())
-        // - an app exits (ATS::check_app_exited())
-        // - Tasks are killed (ATS::exit_tasks())
-        // - a result's input files finish downloading (CS::update_results())
-        // - an app fails to start (CS::schedule_cpus())
-        // - any project op is done via RPC (suspend/resume)
-        // - any result op is done via RPC (suspend/resume)
     void request_work_fetch(const char*);
         // Check if work fetch needed.  Called when:
         // - core client starts (CS::init())

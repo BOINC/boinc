@@ -79,10 +79,17 @@ function show_download($pname) {
         | <a href=release_notes.php>Release notes</a>
     ";
     if ($pname) {
-        echo " | <a href=download2.php?all_platforms=1>Other systems</a>
+        echo " | <a href=download.php?all_platforms=1>Other systems</a>
         ";
     } else {
-        echo " | <a href=download.php>All versions</a>
+        echo " | <a href=download_all.php>All versions</a>
+        <p>
+        If your computer is not of one of the above types, you can
+        <ul>
+        <li> <a href=anonymous_platform.php>make your own client software</a> or
+        <li> <a href=download_other.php>download executables from a third-party site</a>
+        (available for Solaris/Opteron, Linux/Opteron, Linux/PPC, HP-UX, and FreeBSD, and others).
+        </ul>
         ";
     }
     echo " </td></tr></table>
@@ -90,7 +97,8 @@ function show_download($pname) {
 }
 
 if ($_GET['xml']) {
-    Header("Location: download_all.php?xml=1");
+    $args = strstr($_SERVER['REQUEST_URI'], '?');
+    Header("Location: download_all.php$args");
     exit();
 }
 

@@ -8368,3 +8368,16 @@ David  2 Aug 2006
 
     client/
         client_state.C
+
+David  2 Aug 2006
+    - API: removed 3.1 second sleep on startup.
+    - core client: fixed significant bug in CPU scheduler:
+        was preempting apps too soon in some cases
+        (from N. Hoffmann and J. McLeod)
+
+    api/
+        boinc_api.C
+    client/
+        client_state.h
+        cpu_sched.C
+        cs_apps.C

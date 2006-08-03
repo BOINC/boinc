@@ -591,7 +591,7 @@ bool CLIENT_STATE::enforce_schedule() {
                 gstate.now - atp->episode_start_wall_time
                 > gstate.global_prefs.cpu_scheduling_period_minutes*60;
             bool checkpointed_recently =
-                atp->checkpoint_wall_time > atp->episode_start_wall_time;
+                (now - atp->checkpoint_wall_time < 10);
             if (rp->project->deadlines_missed
                 || (running_beyond_sched_period && checkpointed_recently)
             ) {
@@ -899,6 +899,30 @@ bool CLIENT_STATE::rr_simulation(double per_cpu_proc_rate, double rrs) {
         );
     }
     return rval;
+}
+
+// trigger CPU schedule enforcement.
+// Called when a new schedule is computed,
+// and when an app checkpoints.
+//
+void CLIENT_STATE::request_enforce_schedule(const char* where) {
+    if (log_flags.cpu_sched_debug) {
+        msg_printf(0, MSG_INFO, "Request enforce CPU schedule: %s", where);
+    }
+    must_enforce_cpu_schedule = true;
+}
+
+// trigger CPU scheduling.
+// Called when a result is completed, 
+// when new results become runnable, 
+// or when the user performs a UI interaction
+// (e.g. suspending or resuming a project or result).
+//
+void CLIENT_STATE::request_schedule_cpus(const char* where) {
+    if (log_flags.cpu_sched_debug) {
+        msg_printf(0, MSG_INFO, "Request CPU reschedule: %s", where);
+    }
+    must_schedule_cpus = true;
 }
 
 const char *BOINC_RCSID_e830ee1 = "$Id$";
