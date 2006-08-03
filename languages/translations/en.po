@@ -302,3 +302,58 @@ msgstr "Survey results"
 msgid "POLL_RESULTS_TEXT"
 msgstr "These are the current results of the <a href=poll.php>BOINC user survey</a>.  This page is updated every hour."
 
+
+########################################
+# download.php 2006/08/03 by je2bwm
+########################################
+
+msgid "DL_DOWNLOAD"
+msgstr "Download BOINC"
+
+msgid "DL_VERSION_LNAME_SIZE"
+msgstr "%s for %s (%s MB)"
+
+
+msgid "DL_WHATS_BOINC"
+msgstr " BOINC is a program that lets you donate"
+"        your idle computer time to science projects like"
+"        SETI@home, Climateprediction.net, Rosetta@home,"
+"        World Community Grid, and many others."
+"        <p>"
+"        After installing BOINC on your computer,"
+"        you can connect it to as many of these projects as you like."
+"        <p>"
+
+msgid "DL_SYSTEMREQ"
+msgstr "System requirements"
+
+msgid "DL_RELNOTES"
+msgstr "Release notes"
+
+msgid "DL_OTHERSYS"
+msgstr "Other systems"
+
+msgid "DL_ALLVERSIONS"
+msgstr "All versions"
+
+msgid "DL_IF_OTHERTYPES"
+msgstr "If your computer is not of one of the above types, you can"
+
+msgid "DL_MAKEYOUROWN"
+msgstr "%s make your own client software %s or"
+
+msgid "DL_DL_FROM3RDP"
+msgstr "%s download executables from a third-party site %s"
+    " (available for Solaris/Opteron, Linux/Opteron, Linux/PPC, HP-UX, and FreeBSD, and others)."
+
+msgid "DL_DOWNLOAD_TITLE"
+msgstr "BOINC: compute for science"
+
+msgid "DL_MIRRORS"
+msgstr         "Note: files are downloaded from mirror servers "
+    "at boinc.berkeley.edu, morel.mit.edu, einstein.aei.mpg.de, "
+    "einstein.astro.gla.ac.uk, and einstein.aset.psu.edu "
+    "(thanks to these institutions). "
+    "The server is chosen randomly - "
+    "if a download fails, reload this page and try again. "
+

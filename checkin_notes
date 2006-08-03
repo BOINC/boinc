@@ -8396,3 +8396,11 @@ David  3 Aug 2006
     client/
         client_state.C,h
         cs_apps.C
+
+David  3 Aug 2006
+    - make download page translatable (from Komori)
+
+    doc/
+        download.php
+    languages/translation/
+        en.po

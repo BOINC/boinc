@@ -2,6 +2,7 @@
 
 require_once("docutil.php");
 require_once("versions.inc");
+require_once("../html/inc/translation.inc");
 
 $client_info = $_SERVER['HTTP_USER_AGENT'];
 
@@ -27,9 +28,9 @@ function download_link($pname) {
 
     return "
         <table border=4 cellpadding=10><tr><td bgcolor=ccccff>
-        <a href=$url><font size=4><u>Download BOINC</u></font></a>
-        <br>
-        $num for $long_name ($s MB)
+        <a href=$url><font size=4><u>".tr(DL_DOWNLOAD)."</u></font></a>
+        <br>".
+        sprintf(tr(DL_VERSION_LNAME_SIZE), $num, $long_name, $s )."
         </td></tr> </table>
     ";
 }
@@ -78,15 +79,8 @@ function show_pictures() {
 function show_download($pname) {
     echo "
         <table cellpadding=10><tr><td valign=top>
-        BOINC is a program that lets you donate
-        your idle computer time to science projects like
-        SETI@home, Climateprediction.net, Rosetta@home,
-        World Community Grid, and many others.
-        <p>
-        After installing BOINC on your computer,
-        you can connect it to as many of these projects as you like.
-        <p>
-    ";
+        ".tr(DL_WHATS_BOINC)
+    ;
     if ($pname) {
         echo download_link($pname);
     } else {
@@ -100,20 +94,19 @@ function show_download($pname) {
     }
     echo "
         <p>
-        <a href=system_requirements.php><nobr>System requirements</nobr></a>
-        | <a href=release_notes.php><nobr>Release notes</nobr></a>
+        <a href=system_requirements.php><nobr>".tr(DL_SYSTEMREQ)."</nobr></a>
+        | <a href=release_notes.php><nobr>".tr(DL_RELNOTES)."</nobr></a>
     ";
     if ($pname) {
-        echo " | <a href=download.php?all_platforms=1><nobr>Other systems</nobr></a>
+        echo " | <a href=download.php?all_platforms=1><nobr>".tr(DL_OTHERSYS)."</nobr></a>
         ";
     } else {
-        echo " | <a href=download_all.php></nobr>All versions</nobr></a>
-        <p>
-        If your computer is not of one of the above types, you can
+        echo " | <a href=download_all.php></nobr>".tr(DL_ALLVERSIONS)."</nobr></a>
+        <p>"
+        .tr(DL_IF_OTHERTYPES)."
         <ul>
-        <li> <a href=anonymous_platform.php>make your own client software</a> or
-        <li> <a href=download_other.php>download executables from a third-party site</a>
-        (available for Solaris/Opteron, Linux/Opteron, Linux/PPC, HP-UX, and FreeBSD, and others).
+        <li> ".sprintf(tr(DL_MAKEYOUROWN),"<a href=anonymous_platform.php>","</a>")."
+        <li> ".sprintf(tr(DL_DL_FROM3RDP),"<a href=download_other.php>","</a>")."
         </ul>
         ";
     }
@@ -127,12 +120,7 @@ function show_download($pname) {
         </tr></table>
         <hr>
         <font size=-2>
-        Note: files are downloaded from mirror servers
-        at boinc.berkeley.edu, morel.mit.edu, einstein.aei.mpg.de,
-        einstein.astro.gla.ac.uk, and einstein.aset.psu.edu
-        (thanks to these institutions).
-        The server is chosen randomly -
-        if a download fails, reload this page and try again.
+        ".tr(DL_MIRRORS)."
         </font>
     ";
 }
@@ -143,7 +131,7 @@ if ($_GET['xml']) {
     exit();
 }
 
-page_head("BOINC: compute for science");
+page_head(tr(DL_DOWNLOAD_TITLE));
 
 if ($_GET['all_platforms']) {
     show_download(null);
