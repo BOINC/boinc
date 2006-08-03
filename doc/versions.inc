@@ -369,11 +369,11 @@ $w559= array(
     "
 );
 
-$w549= array(
-    "num"=>"5.4.9",
+$w5411= array(
+    "num"=>"5.4.11",
     "status"=>"Recommended version",
-    "file"=>"boinc_5.4.9_windows_intelx86.exe",
-    "date"=>"5 May 2006",
+    "file"=>"boinc_5.4.11_windows_intelx86.exe",
+    "date"=>"2 Aug 2006",
     "type"=>"win_new",
     "features"=>"<ul>
 ".$features_54."
@@ -736,7 +736,7 @@ $windows = array(
     "dbname" => "windows_intelx86",
     "versions"=>array(
         $w559,
-        $w549,
+        $w5411,
         $w5213,
         $w445,
     )

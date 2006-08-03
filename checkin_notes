@@ -8381,3 +8381,10 @@ David  2 Aug 2006
         client_state.h
         cpu_sched.C
         cs_apps.C
+
+Rom    2 Aug 2006
+    - After successfully attaching to an account manager, display a balloon
+        to reassure the participant that everything is fine.
+
+    clientgui/
+        AdvancedFrame.cpp

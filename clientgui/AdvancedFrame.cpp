@@ -1531,6 +1531,8 @@ void CAdvancedFrame::OnConnect(CFrameEvent& WXUNUSED(event)) {
     wxString strComputer = wxEmptyString;
     wxString strName = wxEmptyString;
     wxString strURL = wxEmptyString;
+    wxString strDialogTitle = wxEmptyString;
+    wxString strDialogDescription = wxEmptyString;
     bool bCachedCredentials = false;
     ACCT_MGR_INFO ami;
     PROJECT_INIT_STATUS pis;
@@ -1569,6 +1571,30 @@ void CAdvancedFrame::OnConnect(CFrameEvent& WXUNUSED(event)) {
         if (pAMWizard->Run()) {
             // If successful, hide the main window
             Hide();
+
+            // %s is the application name
+            //    i.e. 'BOINC Manager', 'GridRepublic Manager'
+            strDialogTitle.Printf(
+                _("%s"),
+                wxGetApp().GetBrand()->GetApplicationName().c_str()
+            );
+
+            // %s is the application name
+            //    i.e. 'BOINC Manager', 'GridRepublic Manager'
+            // %s is the project name
+            //    i.e. 'BOINC', 'GridRepublic'
+            strDialogDescription.Printf(
+                _("%s has successfully attached to %s"),
+                wxGetApp().GetBrand()->GetApplicationName().c_str(),
+                wxGetApp().GetBrand()->GetProjectName().c_str()
+            );
+
+            ShowAlert(
+                strDialogTitle,
+                strDialogDescription,
+                wxOK | wxICON_INFORMATION,
+                true
+            );
         } else {
             // If failure, display the messages tab
             m_pNotebook->SetSelection(ID_LIST_MESSAGESVIEW - ID_LIST_BASE);
