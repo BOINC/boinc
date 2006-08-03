@@ -8404,3 +8404,7 @@ David  3 Aug 2006
         download.php
     languages/translation/
         en.po
+
+Rom    3 Aug 2006 (HEAD)
+    - Tag for 5.5.10 release, all platforms
+      boinc_core_release_5_5_10
