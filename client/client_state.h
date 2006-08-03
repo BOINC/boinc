@@ -169,6 +169,7 @@ public:
     bool detach_console;
     double now;
     const char* platform_name;
+    bool initialized;
 
 private:
     bool client_state_dirty;

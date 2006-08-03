@@ -111,6 +111,7 @@ CLIENT_STATE::CLIENT_STATE() {
 #else
     g_use_sandbox = false;
 #endif
+    initialized = false;
 }
 
 void CLIENT_STATE::show_host_info() {
@@ -328,6 +329,7 @@ int CLIENT_STATE::init() {
 
     check_file_existence();
 
+    initialized = true;
     return 0;
 }
 

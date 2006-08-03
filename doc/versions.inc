@@ -707,30 +707,6 @@ $l443 = array(
     "
 );
 
-$l419 = array(
-    "num"=>"4.19",
-    "status"=>"Older version",
-    "file"=>"boinc_4.19_i686-pc-linux-gnu.gz",
-    "date"=>"25 Jan 2005",
-    "type"=>"bare_core",
-);
-
-$s419 = array(
-    "num"=>"4.19",
-    "status"=>"Older version",
-    "file"=>"boinc_4.19_sparc-sun-solaris2.7.gz",
-    "date"=>"25 Jan 2005",
-    "type"=>"bare_core",
-);
-
-$s443 = array(
-    "num"=>"4.43",
-    "status"=>"Recommended version",
-    "file"=>"boinc_4.43_sparc-sun-solaris2.7.sh",
-    "date"=>"26 May 2005",
-    "type"=>"sea",
-);
-
 $windows = array(
     "name"=>"Windows",
     "dbname" => "windows_intelx86",
@@ -766,21 +742,11 @@ $linux = array(
         $l443,
     )
 );
-$solaris = array(
-    "name"=>"Solaris/SPARC",
-    "dbname" => "sparc-sun-solaris2.7",
-    "url"=>"solaris.php",
-    "versions"=>array(
-        $s443,
-        $s419,
-    )
-);
 
 $platforms = array(
     "win"=>$windows,
     "mac"=>$mac,
     "linux"=>$linux,
-    "solaris"=>$solaris
 );
 
 function is_dev($v) {

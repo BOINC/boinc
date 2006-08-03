@@ -35,9 +35,11 @@ list_item_func("<dont_check_file_sizes>",
     Use it if you need to modify files locally for some reason."
 ); 
 list_item_func("<ncpus>",
-    "Act as if there were N CPUs,
-    i.e. run N tasks at once (for debugging only;
-    may cause you to miss deadlines)."
+    "Act as if there were N CPUs: run N tasks at once.
+    This is for debugging, i.e. to simulate 2 CPUs
+    on a machine that has only 1.
+    Don't use it to limit the number of CPUs used by BOINC;
+    use general preferences instead.
 );
 list_end();
 echo "

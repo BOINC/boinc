@@ -8388,3 +8388,11 @@ Rom    2 Aug 2006
 
     clientgui/
         AdvancedFrame.cpp
+
+David  3 Aug 2006
+    - Don't run benchmarks at startup when user has <max_cpus>
+        in global prefs override
+
+    client/
+        client_state.C,h
+        cs_apps.C

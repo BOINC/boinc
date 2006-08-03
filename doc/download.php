@@ -41,7 +41,7 @@ function link_row($pname) {
     } else if ($pname=='mac') {
         echo "<img src=images/ico-osx-uni.png> <b>Mac OS X</b>";
     } else if ($pname=='linux') {
-        echo "<img src=images/ico-tux.png> <b>Linux</b>";
+        echo "<img src=images/ico-tux.png> <b>Linux/x86</b>";
     }
     echo "</td><td>";
     echo download_link($pname);
@@ -49,10 +49,35 @@ function link_row($pname) {
     ";
 }
 
+$apps = array(
+    array('classic.jpg', 180, 143),
+    array('cpdn_200.jpg', 200, 147),
+    array('eah_200.png', 200, 150),
+);
+
+function show_pictures() {
+    global $apps;
+    shuffle($apps);
+    $a0 = $apps[0];
+    $a1 = $apps[1];
+    $f0 = $a0[0];
+    $f1 = $a1[0];
+    echo "
+        <div style=\"max-height: 300px\">
+        <img src=images/mgrwork.png><br>
+        <div style=\"position:relative; top:-80px; left:30px\">
+            <img src=images/$f0><br>
+        </div>
+        <div style=\"position:relative; top:-160px; left:70px\">
+            <img src=images/$f1><br>
+        </div>
+        </div>
+    ";
+}
+
 function show_download($pname) {
     echo "
-        <table cellpadding=30><tr><td>
-        <img valign=top hspace=8 align=right src=images/boinc_screen.png>
+        <table cellpadding=10><tr><td valign=top>
         BOINC is a program that lets you donate
         your idle computer time to science projects like
         SETI@home, Climateprediction.net, Rosetta@home,
@@ -75,14 +100,14 @@ function show_download($pname) {
     }
     echo "
         <p>
-        <a href=system_requirements.php>System requirements</a>
-        | <a href=release_notes.php>Release notes</a>
+        <a href=system_requirements.php><nobr>System requirements</nobr></a>
+        | <a href=release_notes.php><nobr>Release notes</nobr></a>
     ";
     if ($pname) {
-        echo " | <a href=download.php?all_platforms=1>Other systems</a>
+        echo " | <a href=download.php?all_platforms=1><nobr>Other systems</nobr></a>
         ";
     } else {
-        echo " | <a href=download_all.php>All versions</a>
+        echo " | <a href=download_all.php></nobr>All versions</nobr></a>
         <p>
         If your computer is not of one of the above types, you can
         <ul>
@@ -92,7 +117,23 @@ function show_download($pname) {
         </ul>
         ";
     }
-    echo " </td></tr></table>
+    echo "
+        <p>
+        </td><td valign=top>
+    ";
+    show_pictures();
+    echo "
+        </td>
+        </tr></table>
+        <hr>
+        <font size=-2>
+        Note: files are downloaded from mirror servers
+        at boinc.berkeley.edu, morel.mit.edu, einstein.aei.mpg.de,
+        einstein.astro.gla.ac.uk, and einstein.aset.psu.edu
+        (thanks to these institutions).
+        The server is chosen randomly -
+        if a download fails, reload this page and try again.
+        </font>
     ";
 }
 

@@ -286,6 +286,9 @@ double CLIENT_STATE::nearly_runnable_resource_share() {
     return x;
 }
 
+// called at startup (after get_host_info())
+// and when general prefs have been parsed
+//
 void CLIENT_STATE::set_ncpus() {
     int ncpus_old = ncpus;
 
@@ -298,9 +301,10 @@ void CLIENT_STATE::set_ncpus() {
     }
     if (ncpus > global_prefs.max_cpus) ncpus = global_prefs.max_cpus;
 
-    if (ncpus_old && ncpus != ncpus_old) {
+    if (initialized && ncpus != ncpus_old) {
         msg_printf(0, MSG_INFO,
-            "Number of usable CPUs has changed.  Running benchmarks."
+            "Number of usable CPUs has changed from %d to %d.  Running benchmarks.",
+            ncpus_old, ncpus
         );
         run_cpu_benchmarks = true;
         request_schedule_cpus("Number of usable CPUs has changed");
