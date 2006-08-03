@@ -8408,3 +8408,16 @@ David  3 Aug 2006
 Rom    3 Aug 2006 (HEAD)
     - Tag for 5.5.10 release, all platforms
       boinc_core_release_5_5_10
+
+Rom    3 Aug 2006
+    - Roll back which version of libCurl we use on Windows to 7.15.3.
+    
+      NOTE: We believe this will resolve some of the newly discovered
+        crashing issues, we'll revisit using the newer libCurl after
+        the new simple GUI is released.
+        
+    curl/mswin/x86/bin/
+        libcurl.dll-7.15.4 (added)
+        libcurl.pdb-7.15.4 (added)
+        libcurl.dll
+        libcurl.pdb
