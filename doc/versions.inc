@@ -567,17 +567,7 @@ $m5510c = array(
 ".$mac_changes_55."
 ".$features_55."
 ".$changes_55."
-".$features_54."
-".$mac_changes_54."
-".$features_53."
-".$mac_changes_53."
-".$changes_53."
-     <li>
-     BOINC now works with OS 10.3.0 or higher.
-    <li>
-    We are now including a tool with command line interface to control boinc within the 
-    default distribution
-    </ul>
+     </ul>
     ",
     "bugs"=>"
     "
