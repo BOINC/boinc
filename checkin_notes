@@ -8421,3 +8421,9 @@ Rom    3 Aug 2006
         libcurl.pdb-7.15.4 (added)
         libcurl.dll
         libcurl.pdb
+
+David  4 Aug 2006
+    - User web: direct forum links to the right BOINC Wiki address
+
+    html/inc/
+        text_transform.inc

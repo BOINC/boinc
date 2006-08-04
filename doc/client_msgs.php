@@ -39,7 +39,7 @@ list_item_func("<ncpus>",
     This is for debugging, i.e. to simulate 2 CPUs
     on a machine that has only 1.
     Don't use it to limit the number of CPUs used by BOINC;
-    use general preferences instead.
+    use general preferences instead."
 );
 list_end();
 echo "

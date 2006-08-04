@@ -54,6 +54,8 @@ $apps = array(
     array('classic.jpg', 180, 143),
     array('cpdn_200.jpg', 200, 147),
     array('eah_200.png', 200, 150),
+    array('rosetta_at_home.jpg', 200, 150),
+    array('qah.200x150.png', 200, 150),
 );
 
 function show_pictures() {

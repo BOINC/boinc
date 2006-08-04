@@ -199,7 +199,7 @@ function boincdoc_linkcreate ($wikitext,$title = '') {
 	/* This function is only called from boincdoc() */
 	$hyperlink = str_replace(' ', '_', $wikitext); // Spaces to underscores
 	$hyperlink = urlencode($hyperlink);
-	$hyperlink = "<a href=\"http://boinc-doc.net/boinc-wiki/index.php?title=$hyperlink\">";
+	$hyperlink = "<a href=\"http://boinc-wiki.ath.cx/index.php?title=$hyperlink\">";
 	if ($title != '') {
 		$hyperlink .= "$title</a>";
 	} else {
