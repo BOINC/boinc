@@ -8427,3 +8427,10 @@ David  4 Aug 2006
 
     html/inc/
         text_transform.inc
+
+David  4 Aug 2006
+    - core client: more log messages, and possible fix to
+        CPU scheduling problem
+
+    client/
+        cpu_sched.C

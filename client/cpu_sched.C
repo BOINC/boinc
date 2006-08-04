@@ -476,8 +476,7 @@ void CLIENT_STATE::make_running_task_heap(
     for (i=0; i<active_tasks.active_tasks.size(); i++) {
         atp = active_tasks.active_tasks[i];
         if (atp->result->project->non_cpu_intensive) continue;
-        if (atp->next_scheduler_state == CPU_SCHED_PREEMPTED) continue;
-        if (atp->scheduler_state != CPU_SCHED_SCHEDULED) continue;
+        if (atp->task_state != PROCESS_EXECUTING) continue;
         running_tasks.push_back(atp);
     }
 
@@ -618,6 +617,17 @@ bool CLIENT_STATE::enforce_schedule() {
             schedule_result(rp);
             nrunning++;
         }
+    }
+
+    if (log_flags.cpu_sched && nrunning < ncpus) {
+        msg_printf(0, MSG_INFO, "Too few tasks started (%d<%d>",
+            nrunning, ncpus
+        );
+    }
+    if (log_flags.cpu_sched && nrunning > ncpus) {
+        msg_printf(0, MSG_INFO, "Too many tasks started (%d>%d)",
+            nrunning, ncpus
+        );
     }
 
     // schedule new non CPU intensive tasks

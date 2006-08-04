@@ -22,6 +22,7 @@ and end with ]
 	<li>[img]http://some.web.site/pic.jpg[/img] to display an image</li>
 	<li>[code]Code snippet here[/code] to display some code</li>
 	<li>[pre]Pre-formatted text here[/pre] to display some pre-formatted text</li>
+    <li>[[Term]] hyperlink to a term defined on the Unofficial BOINC Wiki
 </ul>
 <p>Lists are also possible:<br/>[list]<br/>*Item 1<br/>*Item 2<br/>[/list] to:</p>
 <ul>
