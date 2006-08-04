@@ -43,7 +43,7 @@ msgstr "Ваши личные данные"
 
 # Nationality
 msgid "POLL_NATIONALITY"
-msgstr "Cтрана, к которой вы себя относите"
+msgstr "Страна, к которой вы себя относите"
 
 # Comments
 msgid "POLL_COMMENTS"
@@ -127,7 +127,7 @@ msgstr "я не понял как пользоваться этой програ
 
 # I had network communication problems
 msgid "POLL_FNETWORK"
-msgstr "возникли проблеммы с соединением через интернет"
+msgstr "возникли проблемы с соединением через интернет"
 
 # I couldn't attach to a project
 msgid "POLL_FATTACH"
@@ -339,7 +339,7 @@ msgstr "На домашнем сайте BOINC"
 
 # BOINC mailing lists
 msgid "POLL_HELP_BMLIST"
-msgstr "В списсках рассылки BOINC"
+msgstr "В списках рассылки BOINC"
 
 # The Unofficial BOINC Wiki
 msgid "POLL_HELP_WIKI"
@@ -359,7 +359,7 @@ msgstr "Ошибка - результаты опроса не зарегистр
 
 # An internal error has prevented us from recording your survey response.  Please try again later.
 msgid "POLL_ERROR_TEXT"
-msgstr "Из-за внутренней ошибки результаты вашей анкеты не были учтены. Пожалуйста повторите заполнение данной анкеты позже."
+msgstr "Из-за внутренней ошибки результаты вашей анкеты не были учтены. Пожалуйста, повторите заполнение данной анкеты позже."
 
 # Survey response recorded
 msgid "POLL_RECORDED"
@@ -375,5 +375,54 @@ msgstr "Результаты опроса"
 
 # These are the current results of the <a href=poll.php>BOINC user survey</a>.  This page is updated every hour.
 msgid "POLL_RESULTS_TEXT"
-msgstr "Это текущие результаты <a href=poll.php>опроса участников BOINC</a>\". Данные обновляются каждый час."
+msgstr "Это текущие результаты <a href=poll.php>опроса участников BOINC</a>. Данные обновляются каждый час."
+
+# ######################################
+# download.php 2006/08/03 by je2bwm
+# ######################################
+# Download BOINC
+msgid "DL_DOWNLOAD"
+msgstr "Страница загрузки BOINC"
+
+# %s for %s (%s MB)
+msgid "DL_VERSION_LNAME_SIZE"
+msgstr "%s для %s (%s МБайт)"
+
+#  BOINC is a program that lets you donate        your idle computer time to science projects like        SETI@home, Climateprediction.net, Rosetta@home,        World Community Grid, and many others.        <p>        After installing BOINC on your computer,        you can connect it to as many of these projects as you like.        <p>
+msgid "DL_WHATS_BOINC"
+msgstr "BOINC - это программа, предоставляющая неиспользуемое время вашего компьютера для научных проектов, таких как: SETI@home, Climateprediction.net, Rosetta@home, World Community Grid и других. <p> После установки BOINC на ваш компьютер, вы сможете выбрать и участвовать одновременно в нескольких проектах, каких - решайте сами. <p>"
+
+# System requirements
+msgid "DL_SYSTEMREQ"
+msgstr "Требования к компьютеру"
+
+# Release notes
+# ???
+msgid "DL_RELNOTES"
+msgstr "Описание"
+
+# Other systems
+msgid "DL_OTHERSYS"
+msgstr "Другие операционные системы"
+
+# All versions
+msgid "DL_ALLVERSIONS"
+msgstr "Все версии"
+
+# If your computer is not of one of the above types, you can
+msgid "DL_IF_OTHERTYPES"
+msgstr "Если вашему компьютеру не подходит ни один из вариантов, вы можете"
+
+# %s make your own client software %s or
+# ???
+msgid "DL_MAKEYOUROWN"
+msgstr "%s создать программу клиента на базе исходных текстов %s или"
+
+# %s download executables from a third-party site %s (available for Solaris/Opteron, Linux/Opteron, Linux/PPC, HP-UX, and FreeBSD, and others).
+msgid "DL_DL_FROM3RDP"
+msgstr "%s загрузить готовые установочные файлы с неофициальных сайтов %s (доступны версии для Solaris/Opteron, Linux/Opteron, Linux/PPC, HP-UX, FreeBSD, а также других платформ)."
+
+# BOINC: compute for science
+msgid "DL_DOWNLOAD_TITLE"
+msgstr "BOINC: вычисления для науки"
 
