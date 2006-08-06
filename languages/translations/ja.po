@@ -2,7 +2,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "POT-Creation-Date: \n"
-"PO-Revision-Date: 2006-08-04 23:00+0900\n"
+"PO-Revision-Date: 2006-08-05 10:23+0900\n"
 "Last-Translator: JE2BWM <je2bwm@jarl.com>\n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
@@ -11,7 +11,7 @@ msgstr ""
 
 #########################################
 # Language: Japanese
-# FileID  : ja.po,v 1.4, based on en.po v1.6(cvs).   2006/08/04 JST je2bwm
+# FileID  : ja.po,v 1.5, based on en.po v1.6(cvs).   2006/08/05 JST je2bwm
 # Author  : Janus Kristensen ( Translator: Komori Hitoshi )
 # Email   : jbk@visualgroup.dk( je2bwm at jarl.com )
 ##########################################
@@ -521,7 +521,7 @@ msgid "POLL_RESULTS_TEXT"
 msgstr "以下は <a href=poll.php>BOINC 参加者サーベイ</a> の現時点での結果です。このページは1時間ごとに更新されます。"
 
 ########################################
-# download.php 2006/08/03 by je2bwm
+# download.php 2006/08/05 by je2bwm
 ########################################
 # msgid "DL_DOWNLOAD"
 # msgstr "Download BOINC"
@@ -531,7 +531,7 @@ msgstr "BOINC をダウンロードする"
 # msgid "DL_VERSION_LNAME_SIZE"
 # msgstr "%s for %s (%s MB)"
 msgid "DL_VERSION_LNAME_SIZE"
-msgstr "%2$s 用の %1$s 版 (%3$s MB)"
+msgstr "%s版 %s用 (%s MB)"
 
 # msgid "DL_WHATS_BOINC"
 # msgstr " BOINC is a program that lets you donate"
@@ -543,12 +543,12 @@ msgstr "%2$s 用の %1$s 版 (%3$s MB)"
 # "        you can connect it to as many of these projects as you like."
 # "        <p>"
 msgid "DL_WHATS_BOINC"
-msgstr " BOINC はあなたのコンピュータの空き時間を、色々な科学プロジェクトに寄付するために使えるプログラムです：それらの科学プロジェクトには、SETI@home、Climateprediction.net、Rosetta@home、World Community Grid、などたくさんのものがあります。"
+msgstr " BOINC はあなたのコンピュータの空き時間を、色々な科学プロジェクトに寄付するために使えるプログラムです。 それらの科学プロジェクトには、SETI@home、Climateprediction.net、Rosetta@home、World Community Grid など、すでにたくさんのものがあります。"
 
 # msgid "DL_SYSTEMREQ"
 # msgstr "System requirements"
 msgid "DL_SYSTEMREQ"
-msgstr "コンピュータが満たすべき条件"
+msgstr "コンピュータの条件"
 
 # msgid "DL_RELNOTES"
 # msgstr "Release notes"
@@ -558,7 +558,7 @@ msgstr "公開時の注意書"
 # msgid "DL_OTHERSYS"
 # msgstr "Other systems"
 msgid "DL_OTHERSYS"
-msgstr "他の種類のコンピュータ"
+msgstr "その他のシステム"
 
 # msgid "DL_ALLVERSIONS"
 # msgstr "All versions"
@@ -594,5 +594,5 @@ msgstr "BOINC: 科学のための計算をしよう"
 # "The server is chosen randomly - "
 # "if a download fails, reload this page and try again. "
 msgid "DL_MIRRORS"
-msgstr "ご注意: ファイルは次のミラーサーバ群のうちからダウンロードされます： boinc.berkeley.edu、morel.mit.edu、einstein.aei.mpg.de、einstein.astro.gla.ac.uk、そして einstein.aset.psu.edu 。(ミラーサーバを設置していただいたこれらの機関に感謝します)。 これらのどのサーバを選ぶかは無作為に決まります。ですから、もしダウンロードに失敗したら、このぺージを再読み込みしてからもう一度試してみてください。"
+msgstr "ご注意: ファイルは次のミラーサーバ群のうちからダウンロードされます： boinc.berkeley.edu、morel.mit.edu、einstein.aei.mpg.de、einstein.astro.gla.ac.uk、einstein.aset.psu.edu  　ミラーサーバを設置していただいたこれらの機関に感謝します。 これらのどのサーバを選ぶかは無作為に決まります。ですから、もしダウンロードに失敗したら、このぺージを再読み込みした後もう一度試してみてください。"
 

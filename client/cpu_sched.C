@@ -507,7 +507,7 @@ bool CLIENT_STATE::enforce_schedule() {
     ACTIVE_TASK* atp;
     vector<ACTIVE_TASK*> running_tasks;
 
-    // Don't do this once per second.
+    // Do this only when requested, not once per second.
     //
     if (!must_enforce_cpu_schedule) return false;
     must_enforce_cpu_schedule = false;
@@ -653,6 +653,7 @@ bool CLIENT_STATE::enforce_schedule() {
             preempt_by_quit |= active_tasks.vm_limit_exceeded(vm_limit);
 
             atp->preempt(preempt_by_quit);
+            atp->scheduler_state = CPU_SCHED_PREEMPTED;
         } else if (atp->scheduler_state != CPU_SCHED_SCHEDULED
             && atp->next_scheduler_state == CPU_SCHED_SCHEDULED
         ) {

@@ -8434,3 +8434,10 @@ David  4 Aug 2006
 
     client/
         cpu_sched.C
+
+David  6 Aug 2006
+    - core client: probable fix to CPU sched problems
+        (from John McLeod)
+
+    client/
+        cpu_sched.C
