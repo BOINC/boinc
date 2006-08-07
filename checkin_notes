@@ -8490,3 +8490,20 @@ David  6 Aug 2006
 		ViewWork.cpp
 	lib/
 		gui_rpc_client.h
+
+David  7 Aug 2006
+    - Add GUI RPCs for reading and writing the general prefs override file.
+        Note: these pass the raw XML, not a parsed structure;
+        that's because only some of the prefs may be overridden.
+        It's up to the GUI to decide what semantics to provide,
+        i.e. how to mix local and web-based preferences.
+        Probably the easiest approach is to make it "either/or",
+        i.e. write all prefs to the override file,
+        and provide a "user network prefs" checkbox in the GUI,
+        which clears the override file.
+
+    client/
+        gui_rpc_server_ops.C
+    lib/
+        gui_rpc_client.h
+        gui_rpc_client_ops.C

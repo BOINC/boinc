@@ -764,6 +764,46 @@ static void handle_get_newer_version(MIOFILE& fout) {
     );
 }
 
+static void handle_get_global_prefs_override(MIOFILE& fout) {
+    string s;
+    int retval = read_file_string(GLOBAL_PREFS_OVERRIDE_FILE, s);
+    if (!retval) {
+        strip_whitespace(s);
+        fout.printf("%s\n", s.c_str());
+    }
+}
+
+static void handle_set_global_prefs_override(char* buf, MIOFILE& fout) {
+    char *p, *q=0;
+    int retval = ERR_XML_PARSE;
+
+    // strip off outer tags
+    //
+    p = strstr(buf, "\n");
+    if (p) {
+        p++;
+        q = strstr(p, "</set_global_prefs_override");
+    }
+    if (q) {
+        *q = 0;
+        strip_whitespace(p);
+        FILE* f = boinc_fopen(GLOBAL_PREFS_OVERRIDE_FILE, "w");
+        if (f) {
+            fprintf(f, "%s\n", p);
+            fclose(f);
+            retval = 0;
+        } else {
+            retval = ERR_FOPEN;
+        }
+    }
+    fout.printf(
+        "<set_global_prefs_override_reply>\n"
+        "    <status>%d</status>\n"
+        "</set_global_prefs_override_reply>\n",
+        retval
+    );
+}
+
 int GUI_RPC_CONN::handle_rpc() {
     char request_msg[4096];
     int n;
@@ -926,12 +966,6 @@ int GUI_RPC_CONN::handle_rpc() {
             handle_create_account(request_msg, mf);
         } else if (match_tag(request_msg, "<create_account_poll")) {
             handle_create_account_poll(request_msg, mf);
-#if 0
-        } else if (match_tag(request_msg, "<lookup_website>")) {
-            handle_lookup_website(request_msg, mf);
-        } else if (match_tag(request_msg, "<lookup_website_poll")) {
-            handle_lookup_website_poll(request_msg, mf);
-#endif
         } else if (match_tag(request_msg, "<project_attach>")) {
             handle_project_attach(request_msg, mf);
         } else if (match_tag(request_msg, "<project_attach_poll")) {
@@ -942,6 +976,10 @@ int GUI_RPC_CONN::handle_rpc() {
             handle_acct_mgr_rpc_poll(request_msg, mf);
         } else if (match_tag(request_msg, "<get_cc_status")) {
             handle_get_cc_status(mf);
+        } else if (match_tag(request_msg, "<get_global_prefs_override")) {
+            handle_get_global_prefs_override(mf);
+        } else if (match_tag(request_msg, "<set_global_prefs_override")) {
+            handle_set_global_prefs_override(request_msg, mf);
         } else {
             mf.printf("<error>unrecognized op</error>\n");
         }

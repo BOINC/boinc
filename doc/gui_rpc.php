@@ -176,6 +176,16 @@ list_item_func(
     "Tells the core client to reread the 'global_prefs_override.xml' file,
     modifying the global preferences according to its contents."
 );
+list_item_func(
+    "get_global_prefs_override(std::string&)",
+    "Return the contents of the
+    <a href=prefs_override.php>global preferences override file</a>."
+);
+list_item_func(
+    "set_global_prefs_override(std::string&)",
+    "Write the given contents to the
+    <a href=prefs_override.php>global preferences override file</a>."
+);
 list_end();
 echo "
 <p>

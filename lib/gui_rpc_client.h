@@ -618,6 +618,8 @@ public:
     int get_newer_version(std::string&);
     int read_global_prefs_override();
     int get_cc_status(CC_STATUS&);
+    int get_global_prefs_override(std::string&);
+    int set_global_prefs_override(std::string&);
 };
 
 struct RPC {
