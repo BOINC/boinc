@@ -222,7 +222,7 @@ int CLIENT_STATE::input_files_available(RESULT* rp, bool verify) {
 
 // if there's not an active task for the result, make one
 //
-int CLIENT_STATE::schedule_result(RESULT* rp) {
+ACTIVE_TASK* CLIENT_STATE::get_task(RESULT* rp) {
     ACTIVE_TASK *atp = lookup_active_task_by_result(rp);
     if (!atp) {
         atp = new ACTIVE_TASK;
@@ -230,8 +230,7 @@ int CLIENT_STATE::schedule_result(RESULT* rp) {
         atp->init(rp);
         active_tasks.active_tasks.push_back(atp);
     }
-    atp->next_scheduler_state = CPU_SCHED_SCHEDULED;
-    return 0;
+    return atp;
 }
 
 

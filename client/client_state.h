@@ -320,7 +320,7 @@ private:
     bool start_apps();
     bool handle_finished_apps();
 public:
-    int schedule_result(RESULT*);
+    ACTIVE_TASK* get_task(RESULT*);
 
 // --------------- cs_benchmark.C:
 public:

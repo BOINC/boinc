@@ -8441,3 +8441,11 @@ David  6 Aug 2006
 
     client/
         cpu_sched.C
+
+David  6 Aug 2006
+    - renamed schedule_result() to get_task()
+
+    client/
+        client_state.h
+        cpu_sched.C
+        cs_apps.C

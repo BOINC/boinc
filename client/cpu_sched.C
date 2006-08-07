@@ -614,7 +614,8 @@ bool CLIENT_STATE::enforce_schedule() {
             run_task = true;
         }
         if (run_task) {
-            schedule_result(rp);
+            atp = get_task(rp);
+            atp->next_scheduler_state = CPU_SCHED_SCHEDULED;
             nrunning++;
         }
     }
@@ -635,7 +636,8 @@ bool CLIENT_STATE::enforce_schedule() {
     for (i=0; i<results.size(); i++) {
         RESULT* rp = results[i];
         if (rp->project->non_cpu_intensive && rp->runnable()) {
-            schedule_result(rp);
+            atp = get_task(rp);
+            atp->next_scheduler_state = CPU_SCHED_SCHEDULED;
         }
     }
 
