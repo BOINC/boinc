@@ -155,6 +155,8 @@ public:
         // Don't do CPU.  See check_suspend_activities for logic
     bool network_suspended;
         // Don't do network.  See check_suspend_network for logic
+    int suspend_reason;
+    int network_suspend_reason;
 	bool executing_as_daemon;
         // true if --daemon is on the commandline
         // this means we are running as a daemon on unix,

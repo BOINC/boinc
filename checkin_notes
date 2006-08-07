@@ -8467,3 +8467,16 @@ David  6 Aug 2006
 		boinccmd.vcproj
 		boincmgr_curl.vcproj
 		libboinc.vcproj
+
+David  6 Aug 2006
+    - GUI RPC: get_activity_state() returns the reasons for suspension,
+        not just flags (so that can show "throttle" messages)
+
+    client/
+        client_state.C,h
+        gui_rpc_server_ops.C
+    clientgui/
+        MainDocument.cpp,h
+    lib/
+        gui_rpc_client.h
+        gui_rpc_client_ops.C

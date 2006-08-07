@@ -86,8 +86,7 @@ private:
     wxDateTime                  m_dtCachedActivityStateTimestamp;
     int                         m_iCachedActivityRunMode;
     int                         m_iCachedNetworkRunMode;
-    bool                        m_iCachedActivitiesSuspended;
-    bool                        m_iCachedNetworkSuspended;
+    ACTIVITY_STATE m_cached_activity_state;
 
     int                         CachedStateUpdate();
 
@@ -126,7 +125,7 @@ public:
     int                         SetActivityRunMode(int iMode);
     int                         GetNetworkRunMode(int& iMode);
     int                         SetNetworkRunMode(int iMode);
-    int                         GetActivityState(bool& bActivitiesSuspended, bool& bNetworkSuspended);
+    int                         GetActivityState(ACTIVITY_STATE&);
 
     int                         ForceCacheUpdate();
     int                         RunBenchmarks();

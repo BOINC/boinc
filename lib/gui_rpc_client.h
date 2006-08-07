@@ -515,6 +515,11 @@ struct SIMPLE_GUI_INFO {
     void print();
 };
 
+struct ACTIVITY_STATE {
+    int task_suspend_reason;
+    int network_suspend_reason;
+};
+
 class RPC_CLIENT {
 public:
     int sock;
@@ -562,7 +567,7 @@ public:
     int get_run_mode(int& mode);
     int set_network_mode(int mode);
     int get_network_mode(int& mode);
-    int get_activity_state(bool& activities_suspended, bool& network_suspended);
+    int get_activity_state(ACTIVITY_STATE&);
     int get_screensaver_mode(int& status);
     int set_screensaver_mode(
         bool enabled, double blank_time, DISPLAY_INFO&

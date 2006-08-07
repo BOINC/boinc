@@ -1537,25 +1537,21 @@ int RPC_CLIENT::get_network_mode(int& mode) {
     return retval;
 }
 
-int RPC_CLIENT::get_activity_state(bool& activities_suspended, bool& network_suspended) {
+int RPC_CLIENT::get_activity_state(ACTIVITY_STATE& as) {
     int retval;
     SET_LOCALE sl;
     char buf[256];
     RPC rpc(this);
 
-    activities_suspended = false;
-    network_suspended = false;
+    memset(&as, 0, sizeof(as));
 
     retval = rpc.do_rpc("<get_activity_state/>\n");
     if (!retval) {
         while (rpc.fin.fgets(buf, 256)) {
             if (match_tag(buf, "</activity_state>")) break;
-            else if (match_tag(buf, "<activities_suspended/>")) {
-                activities_suspended = true;
+            else if (parse_int(buf, "<task_suspend_reason>", as.task_suspend_reason)) {
                 continue;
-            }
-            else if (match_tag(buf, "<network_suspended/>")) {
-                network_suspended = true;
+            } else if (parse_int(buf, "<network_suspend_reason>", as.network_suspend_reason)) {
                 continue;
             }
         }

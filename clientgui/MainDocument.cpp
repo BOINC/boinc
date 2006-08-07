@@ -558,7 +558,7 @@ int CMainDocument::SetNetworkRunMode(int iMode) {
 }
 
 
-int CMainDocument::GetActivityState(bool& bActivitiesSuspended, bool& bNetworkSuspended) {
+int CMainDocument::GetActivityState(ACTIVITY_STATE& as) {
     int     iRetVal = 0;
 
     wxTimeSpan ts(wxDateTime::Now() - m_dtCachedActivityStateTimestamp);
@@ -566,15 +566,13 @@ int CMainDocument::GetActivityState(bool& bActivitiesSuspended, bool& bNetworkSu
         m_dtCachedActivityStateTimestamp = wxDateTime::Now();
 
         if (IsConnected()) {
-            iRetVal = rpc.get_activity_state(bActivitiesSuspended, bNetworkSuspended);
+            iRetVal = rpc.get_activity_state(as);
             if (0 == iRetVal) {
-                m_iCachedActivitiesSuspended = bActivitiesSuspended;
-                m_iCachedNetworkSuspended = bNetworkSuspended;
+                m_cached_activity_state = as;
             }
         }
     } else {
-        bActivitiesSuspended = m_iCachedActivitiesSuspended;
-        bNetworkSuspended = m_iCachedNetworkSuspended;
+        as = m_cached_activity_state;
     }
 
     return iRetVal;

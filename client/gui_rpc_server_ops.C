@@ -329,14 +329,14 @@ static void handle_get_proxy_settings(char* , MIOFILE& fout) {
 }
 
 static void handle_get_activity_state(char* , MIOFILE& fout) {
-    fout.printf("<activity_state>\n");
-    if ( gstate.tasks_suspended ) {
-        fout.printf("    <activities_suspended/>\n");
-    }
-    if ( gstate.network_suspended ) {
-        fout.printf("    <network_suspended/>\n");
-    }
-    fout.printf("</activity_state>\n");
+    fout.printf(
+        "<activity_state>\n"
+        "   <task_suspend_reason>%d</task_suspend_reason>\n"
+        "   <network_suspend_reason>%d</network_suspend_reason>\n"
+        "</activity_state>\n",
+        gstate.suspend_reason,
+        gstate.network_suspend_reason
+    );
 }
 
 // params:

@@ -67,6 +67,8 @@ CLIENT_STATE::CLIENT_STATE() {
     contacted_sched_server = false;
     tasks_suspended = false;
     network_suspended = false;
+    suspend_reason = 0;
+    network_suspend_reason = 0;
     core_client_major_version = BOINC_MAJOR_VERSION;
     core_client_minor_version = BOINC_MINOR_VERSION;
     core_client_release = BOINC_RELEASE;
@@ -404,7 +406,7 @@ void CLIENT_STATE::do_io_or_sleep(double x) {
 // (in which case should call this again immediately)
 //
 bool CLIENT_STATE::poll_slow_events() {
-    int actions = 0, suspend_reason, network_suspend_reason, retval;
+    int actions = 0, retval;
     static int last_suspend_reason=0;
     static bool tasks_restarted = false;
 
