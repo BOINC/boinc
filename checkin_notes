@@ -1,4 +1,3 @@
-
 Rom    4 Jan 2006
     - Branding update for GridRepublic
     
@@ -8480,3 +8479,14 @@ David  6 Aug 2006
     lib/
         gui_rpc_client.h
         gui_rpc_client_ops.C
+
+David  6 Aug 2006
+	- 2nd part of the above
+
+	clientgui/
+		BOINCTaskBar.cpp
+		MainDocument.cpp
+		ViewTransfers.cpp
+		ViewWork.cpp
+	lib/
+		gui_rpc_client.h

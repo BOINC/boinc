@@ -562,7 +562,7 @@ int CMainDocument::GetActivityState(ACTIVITY_STATE& as) {
     int     iRetVal = 0;
 
     wxTimeSpan ts(wxDateTime::Now() - m_dtCachedActivityStateTimestamp);
-    if (ts.GetSeconds() > 2) {
+    if (ts.GetSeconds() > 0.5) {
         m_dtCachedActivityStateTimestamp = wxDateTime::Now();
 
         if (IsConnected()) {

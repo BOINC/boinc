@@ -100,6 +100,16 @@
 #define MSG_PRIORITY_ALERT_ERROR                    5
     // show error message in a modal dialog
 
+enum SUSPEND_REASON {
+    SUSPEND_REASON_BATTERIES = 1,
+    SUSPEND_REASON_USER_ACTIVE = 2,
+    SUSPEND_REASON_USER_REQ = 4,
+    SUSPEND_REASON_TIME_OF_DAY = 8,
+    SUSPEND_REASON_BENCHMARKS = 16,
+    SUSPEND_REASON_DISK_SIZE = 32,
+    SUSPEND_REASON_CPU_USAGE_LIMIT = 64,
+};
+
 struct GUI_URL {
     std::string name;
     std::string description;

@@ -719,15 +719,14 @@ wxInt32 CViewWork::FormatReportDeadline(wxInt32 item, wxString& strBuffer) const
 
 wxInt32 CViewWork::FormatStatus(wxInt32 item, wxString& strBuffer) const {
     wxInt32        iActivityMode = -1;
-    bool           bActivitiesSuspended = false;
-    bool           bNetworkSuspended = false;
+	ACTIVITY_STATE as;
     CMainDocument* doc = wxGetApp().GetDocument();
     RESULT*        result = wxGetApp().GetDocument()->result(item);
 
     wxASSERT(doc);
     wxASSERT(wxDynamicCast(doc, CMainDocument));
 
-    doc->GetActivityState(bActivitiesSuspended, bNetworkSuspended);
+    doc->GetActivityState(as);
     doc->GetActivityRunMode(iActivityMode);
 
     if (result) {
@@ -747,7 +746,9 @@ wxInt32 CViewWork::FormatStatus(wxInt32 item, wxString& strBuffer) const {
                     strBuffer = _("Project suspended by user");
                 } else if (result->suspended_via_gui) {
                     strBuffer = _("Suspended by user");
-                } else if (bActivitiesSuspended) {
+                } else if (as.task_suspend_reason & SUSPEND_REASON_CPU_USAGE_LIMIT) {
+					strBuffer = _("CPU throttled");
+                } else if (as.task_suspend_reason) {
                     strBuffer = _("Activities suspended");
                 } else if (result->active_task) {
                     if (result->scheduler_state == CPU_SCHED_SCHEDULED) {
@@ -795,7 +796,7 @@ wxInt32 CViewWork::FormatStatus(wxInt32 item, wxString& strBuffer) const {
         }
     }
 
-    if (!bActivitiesSuspended && iActivityMode == RUN_MODE_NEVER) {
+    if (!as.task_suspend_reason && iActivityMode == RUN_MODE_NEVER) {
         strBuffer = wxT(" (") + strBuffer + wxT(") ");
         strBuffer = _("Activities suspended by user") + strBuffer;
     }
