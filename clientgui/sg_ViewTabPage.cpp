@@ -30,8 +30,6 @@
 #include "sg_ImageLoader.h"
 #include "sg_StaticLine.h"
 #include "sg_ProgressBar.h"
-#include "sg_StaticText.h"
-#include "sg_StaticText.h"
 #include "sg_ViewTabPage.h"
 
 IMPLEMENT_DYNAMIC_CLASS(CViewTabPage, wxPanel)
