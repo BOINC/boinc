@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <clientskin>
-	<simple>
+        <simple>
 		<images>
 			<background>
-				<imgsrc>graphic/BOINC_SimpleGUI_bg.bmp</imgsrc>
-				<bgcol>253:254:229</bgcol>
+				<imgsrc>graphic/simplegui_bg.bmp</imgsrc>
+				<bgcol>133:181:178</bgcol>
 			</background>
 			<dlgpreferences>
 				<imgsrc>graphic/dlgPreferences.bmp</imgsrc>
@@ -13,27 +13,28 @@
 				<imgsrc>graphic/dlgMessages.bmp</imgsrc>
 			</dlgmessages>
 			<gauge>
-				<fgcol>220:220:172</fgcol>
-				<bgcol>248:251:184</bgcool>
+				<fgcol>153:204:255</fgcol>
+				<bgcol>204:255:204</bgcool>
 			</gauge>
 			<buttons>
 				<preferences>
-					<imgsrc>graphic/btnPreferences.bmp</imgsrc>
+					<imgsrc>graphic/btnPreferences.png</imgsrc>
 				</preferences>
 				<addproj>
-					<imgsrc>graphic/btnAddProject.bmp</imgsrc>
+					<imgsrc>graphic/btnAddProject.png</imgsrc>
+					<imgsrcclick>graphic/btnAddProjectClick.png</imgsrcclick>
 				</addproj>
 				<advancedview>
-					<imgsrc>graphic/btnAdvancedView.bmp</imgsrc>
+					<imgsrc>graphic/btnAdvancedView.png</imgsrc>
 				</advancedview>
-				<play>
-					<imgsrc>graphic/btnResume.bmp</imgsrc>
-				</play>
+				<resume>
+					<imgsrc>graphic/btnResume.png</imgsrc>
+				</resume>
 				<pause>
-					<imgsrc>graphic/btnPause.bmp</imgsrc>
+					<imgsrc>graphic/btnPause.png</imgsrc>
 				</pause>
 				<messages>
-					<imgsrc>graphic/btnMessages.bmp</imgsrc>
+					<imgsrc>graphic/btnMessages.png</imgsrc>
 				</messages>
 				<open>
 					<imgsrc>graphic/btnOpen.bmp</imgsrc>
@@ -74,15 +75,15 @@
 				</sleeping>
 				<workingWkUnit>
 					<imgsrc>graphic/ico_workWU.png</imgsrc>
-					<frcol>255:255:255</frcol>
-					<tocol>248:248:152</tocol>
-					<brdcol>234:234:183</brdcol>
+					<frcol>134:179:176</frcol>
+					<tocol>51:102:102</tocol>
+					<brdcol>20:82:82</brdcol>
 				</workingWkUnit>
 				<sleepingWkUnit>
 					<imgsrc>graphic/ico_sleepWU.png</imgsrc>
-					<frcol>255:255:255</frcol>
-					<tocol>248:248:185</tocol>
-					<brdcol>245:245:199</brdcol>
+					<frcol>134:179:176</frcol>
+					<tocol>84:175:175</tocol>
+					<brdcol>102:153:153</brdcol>
 				</sleepingWkUnit>
 				<defaultProjIcon>
 					<imgsrc>graphic/default_proj_icon.png</imgsrc>
