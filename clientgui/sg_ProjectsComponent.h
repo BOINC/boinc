@@ -114,6 +114,7 @@ public:
 	void UpdateInterface();
 	void ReskinInterface();
     void OnBtnClick(wxCommandEvent& event);
+	void OnPaint(wxPaintEvent& event); 
    		
 	DECLARE_EVENT_TABLE()
 

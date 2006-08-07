@@ -44,11 +44,13 @@ enum{
 
 
 BEGIN_EVENT_TABLE(CProjectsComponent, wxPanel)
+    EVT_PAINT(CProjectsComponent::OnPaint)
     EVT_BUTTON(-1,CProjectsComponent::OnBtnClick)
 	EVT_ERASE_BACKGROUND(CProjectsComponent::OnEraseBackground)
 END_EVENT_TABLE()
 
 CProjectsComponent::CProjectsComponent() {}
+
 
 CProjectsComponent::CProjectsComponent(CSimpleFrame* parent,wxPoint coord) :
     wxPanel(parent, -1, coord, wxSize(343,113), wxNO_BORDER)
@@ -126,12 +128,12 @@ void CProjectsComponent::CreateComponent()
 	SetBackgroundColour(appSkin->GetAppBgCol());
 	//Static content in my Projects section
 	// My Projects
-	stMyProj=new wxStaticText(this,-1,wxT(""),wxPoint(32,9),wxSize(84,18),wxST_NO_AUTORESIZE);
-	stMyProj->SetLabel(wxT("My Projects:"));
-	stMyProj->SetFont(wxFont(10,74,90,92,0,wxT("Tahoma")));
+	//stMyProj=new wxStaticText(this,-1,wxT(""),wxPoint(32,9),wxSize(84,18),wxST_NO_AUTORESIZE);
+	//stMyProj->SetLabel(wxT("My Projects:"));
+	//stMyProj->SetFont(wxFont(10,74,90,92,0,wxT("Arial")));
 	// add project button
 	wxToolTip *ttAddProject = new wxToolTip(wxT("Add Project"));
-	btnAddProj=new wxBitmapButton(this,-1,btmpAddProj,wxPoint(235,7),wxSize(82,18),wxNO_BORDER);
+	btnAddProj=new wxBitmapButton(this,-1,btmpAddProj,wxPoint(235,7),wxSize(81,18),wxNO_BORDER);
 	btnAddProj->SetBitmapSelected(btmpAddProjC);
 	btnAddProj->SetToolTip(ttAddProject);
 	/// Line
@@ -230,6 +232,13 @@ void CProjectsComponent::CreateComponent()
 	/// Line
 	lnMyProjBtm = new CStaticLine(this,wxPoint(29,83),wxSize(292,2));
 	lnMyProjBtm->SetLineColor(wxColour(204,102,51));
+}
+void CProjectsComponent::OnPaint(wxPaintEvent& WXUNUSED(event)) 
+{ 
+    wxPaintDC dc(this);
+    //My Projects
+	dc.SetFont(wxFont(10,74,90,92,0,wxT("Arial"))); 
+	dc.DrawText(wxT("My Projects:"), wxPoint(32,9)); 
 }
 void CProjectsComponent::RemoveProject(std::string prjUrl)
 {	
