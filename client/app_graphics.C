@@ -236,7 +236,7 @@ bool ACTIVE_TASK::supports_graphics() {
         return false;
 #endif
     if (graphics_mode_acked == MODE_UNSUPPORTED) return false;
-    if (task_state != PROCESS_EXECUTING) return false;
+    if (scheduler_state != CPU_SCHED_SCHEDULED) return false;
     return true;
 }
 

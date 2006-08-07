@@ -8449,3 +8449,21 @@ David  6 Aug 2006
         client_state.h
         cpu_sched.C
         cs_apps.C
+
+David  6 Aug 2006
+	- core client: enable graphics for an app if it's
+		scheduler state is "scheduled"
+		(rather than if it's actually running)
+	- change project files to Visual Studio 2005 format
+		(Rom: please check in 2003-format files with _2003.vcproj names)
+
+	client/
+		app_graphics.C
+	win_build/
+		boinc.sln
+		boinc_cli_curl.vcproj
+		boinc_dll.vcproj
+		boinc_ss.vcproj
+		boinccmd.vcproj
+		boincmgr_curl.vcproj
+		libboinc.vcproj
