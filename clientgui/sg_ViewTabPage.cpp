@@ -28,6 +28,10 @@
 #include "common/wxFlatNotebook.h"
 #include "sg_SkinClass.h"
 #include "sg_ImageLoader.h"
+#include "sg_StaticLine.h"
+#include "sg_ProgressBar.h"
+#include "sg_StaticText.h"
+#include "sg_StaticText.h"
 #include "sg_ViewTabPage.h"
 
 IMPLEMENT_DYNAMIC_CLASS(CViewTabPage, wxPanel)
@@ -39,7 +43,9 @@ enum{
 
 
 BEGIN_EVENT_TABLE(CViewTabPage, wxPanel)
+    EVT_PAINT(CViewTabPage::OnPaint)
     EVT_BUTTON(-1,CViewTabPage::OnBtnClick)
+	EVT_ERASE_BACKGROUND(CViewTabPage::OnEraseBackground)
 END_EVENT_TABLE()
 
 CViewTabPage::CViewTabPage() {}
@@ -52,9 +58,13 @@ CViewTabPage::CViewTabPage(wxFlatNotebook* parent,int index,std::string name,std
 	m_name = name;
 	isAlive = true;
 	m_prjUrl = url;
-	m_hasGraphic = false;
+    m_hasGraphic = false;
+	// init doc and results data
+	pDoc  = wxGetApp().GetDocument();
+	resultWU = pDoc->results.results[m_tabIndex];
+	//load skin images
     LoadSkinImages();
-
+    //create page
 	CreatePage();
 
 }
@@ -62,35 +72,20 @@ CViewTabPage::CViewTabPage(wxFlatNotebook* parent,int index,std::string name,std
 CViewTabPage::~CViewTabPage() {}
 void CViewTabPage::LoadSkinImages(){
 
-	// prj icon
-	CMainDocument* pDoc  = wxGetApp().GetDocument();
-	RESULT* result = pDoc->results.results[m_tabIndex];
-
-	std::string projectIconName = "proj_icon";
-	char filePath[256];
-	// url of project directory
-	char urlDirectory[256];
-	url_to_project_dir((char*)result->project_url.c_str() ,urlDirectory);
-	std::string dirProjectGraphic = (std::string)urlDirectory + "/" + projectIconName;
-	
 	//app skin class
 	appSkin = SkinClass::Instance();
 	wxString dirPref = appSkin->GetSkinsFolder()+_T("/")+appSkin->GetSkinName()+_T("/");
-	
-	// prj icon
-	if(boinc_resolve_filename(dirProjectGraphic.c_str(), filePath, sizeof(filePath)) == 0){
-		g_prjIcn = new wxImage(filePath, wxBITMAP_TYPE_PNG);
-	}else{
-		g_prjIcn = new wxImage(dirPref + appSkin->GetDefaultPrjIcn(), wxBITMAP_TYPE_PNG);
-	}
     //show graphic
     g_showGraphic = new wxImage(dirPref + appSkin->GetBtnShowGraphic(), wxBITMAP_TYPE_PNG);
 	g_showGraphicClick = new wxImage(dirPref + appSkin->GetBtnShowGraphicClick(), wxBITMAP_TYPE_PNG);
 	btmpShwGrph= wxBitmap(g_showGraphic); 
     btmpShwGrphClick= wxBitmap(g_showGraphicClick); 
 	//////////////////////////////
-	fileImgBuf[0].LoadFile(dirPref + appSkin->GetAnimationBG(),wxBITMAP_TYPE_BMP);
-	btmpBgAnim=&fileImgBuf[0];
+	//component bg
+	fileImgBuf[0].LoadFile(dirPref + wxT("graphic/wu_bg.bmp"),wxBITMAP_TYPE_BMP);
+	fileImgBuf[1].LoadFile(dirPref + appSkin->GetAnimationBG(),wxBITMAP_TYPE_BMP);
+	btmpComponentBg=&fileImgBuf[0];
+	btmpBgAnim=&fileImgBuf[1];
 }
 
 
@@ -101,72 +96,85 @@ void CViewTabPage::LoadSkinImages(){
 
 void CViewTabPage::CreatePage()
 {
-	CMainDocument* pDoc     = wxGetApp().GetDocument();
-	
-	RESULT* result = pDoc->results.results[m_tabIndex];
-	RESULT* resState = pDoc->state.lookup_result(result->project_url, result->name);
+	RESULT* resState = pDoc->state.lookup_result(resultWU->project_url, resultWU->name);
 		
 	//////////////////////Build Tab Page///////////////////////////////
-	//Prj Icon
-	w_iconPI=new wxWindow(this,-1,wxPoint(2,1),wxSize(20,20));
-    i_prjIcnPI = new ImageLoader(w_iconPI);
-    i_prjIcnPI->LoadImage(g_prjIcn);
 	//Project Name
-	lblProjectName=new wxStaticText(this,-1,wxT(""),wxPoint(24,2),wxSize(335,18),wxST_NO_AUTORESIZE);
-	lblProjectName->SetForegroundColour(wxSystemSettings::GetColour(wxSYS_COLOUR_WINDOWTEXT));
-	wxString projName;
+	//lblProjectName=new wxStaticText(this,-1,wxT(""),wxPoint(20,8),wxSize(316,25),wxST_NO_AUTORESIZE);
 	projName = wxString(resState->project->project_name.c_str(), wxConvUTF8 );
-	lblProjectName->SetLabel(projName);
-	lblProjectName->SetFont(wxFont(11,74,90,90,0,wxT("Tahoma")));
+	//lblProjectName->SetLabel(projName);
+	//lblProjectName->SetFont(wxFont(16,74,90,90,0,wxT("Arial")));
+	//CStaticText *lblProjNam = new CStaticText(this,wxPoint(20,8),wxSize(316,25));
+	//lblProjNam->SetLabel(projName);
+	//lblProjNam->SetFont(wxFont(16,74,90,90,0,wxT("Arial")));
+
 	//Line Proj Name
-	lnProjName=new wxStaticLine(this,-1,wxPoint(9,22),wxSize(352,2));
-	//My Progress
-	lblMyProgress=new wxStaticText(this,-1,wxT(""),wxPoint(15,46),wxSize(89,18),wxST_NO_AUTORESIZE);
-	lblMyProgress->SetForegroundColour(wxSystemSettings::GetColour(wxSYS_COLOUR_WINDOWTEXT));
-	lblMyProgress->SetLabel(wxT("My Progress:"));
-	lblMyProgress->SetFont(wxFont(10,74,90,92,0,wxT("Tahoma")));
-	//Work Unit Name
-	lblWrkUnitName=new wxStaticText(this,-1,wxT(""),wxPoint(110,48),wxSize(250,13),wxST_NO_AUTORESIZE);
-	lblWrkUnitName->SetForegroundColour(wxSystemSettings::GetColour(wxSYS_COLOUR_WINDOWTEXT));
-	lblWrkUnitName->SetLabel(wxString(result->name.c_str(),wxConvUTF8));
+	lnProjName = new CStaticLine(this,wxPoint(20,36),wxSize(316,2));
+	lnProjName->SetLineColor(wxColour(51,102,102));
+
+	//
+	wxStaticLine spacerLine = new wxStaticLine(this,-1,wxPoint(20,36),wxSize(305,2));
+	//
+
 	//Project
-	lblProject=new wxStaticText(this,-1,wxT(""),wxPoint(15,28),wxSize(89,18),wxST_NO_AUTORESIZE);
-	lblProject->SetForegroundColour(wxSystemSettings::GetColour(wxSYS_COLOUR_WINDOWTEXT));
-	lblProject->SetLabel(wxT("Project:"));
-	lblProject->SetFont(wxFont(10,74,90,92,0,wxT("Tahoma")));
+	//lblProject=new wxStaticText(this,-1,wxT(""),wxPoint(20,49),wxSize(90,18),wxST_NO_AUTORESIZE);
+	//lblProject->SetForegroundColour(wxSystemSettings::GetColour(wxSYS_COLOUR_WINDOWTEXT));
+	//lblProject->SetLabel(wxT("APPLICATION >"));
+	//lblProject->SetFont(wxFont(9,74,90,90,0,wxT("Arial")));
 	//Project Friendly Name
-	lblProjectFrName=new wxStaticText(this,-1,wxT(""),wxPoint(110,28),wxSize(250,18),wxST_NO_AUTORESIZE);
-	lblProjectFrName->SetForegroundColour(wxSystemSettings::GetColour(wxSYS_COLOUR_WINDOWTEXT));
-	lblProjectFrName->SetLabel(wxString(resState->app->user_friendly_name.c_str(), wxConvUTF8));
-	lblProjectFrName->SetFont(wxFont(10,74,90,90,0,wxT("Tahoma")));
+	//lblProjectFrName=new wxStaticText(this,-1,wxT(""),wxPoint(110,49),wxSize(226,18),wxST_NO_AUTORESIZE);
+	//lblProjectFrName->SetForegroundColour(wxSystemSettings::GetColour(wxSYS_COLOUR_WINDOWTEXT));
+	//lblProjectFrName->SetLabel(wxString(resState->app->user_friendly_name.c_str(), wxConvUTF8));
+	//lblProjectFrName->SetFont(wxFont(9,74,90,92,0,wxT("Arial")));
+	projectFrName = wxString(resState->app->user_friendly_name.c_str(), wxConvUTF8);
+	//My Progress
+	//lblMyProgress=new wxStaticText(this,-1,wxT(""),wxPoint(20,71),wxSize(100,18),wxST_NO_AUTORESIZE);
+	//lblMyProgress->SetForegroundColour(wxSystemSettings::GetColour(wxSYS_COLOUR_WINDOWTEXT));
+	//lblMyProgress->SetLabel(wxT("MY PROGRESS >"));
+	//lblMyProgress->SetFont(wxFont(9,74,90,90,0,wxT("Arial")));
+	//Work Unit Name
+	//wxToolTip *ttWUName = new wxToolTip(wxString(resultWU->name.c_str(),wxConvUTF8));
+	//lblWrkUnitName=new wxStaticText(this,-1,wxT(""),wxPoint(120,71),wxSize(216,18),wxST_NO_AUTORESIZE);
+	//lblWrkUnitName->SetForegroundColour(wxSystemSettings::GetColour(wxSYS_COLOUR_WINDOWTEXT));
+	//lblWrkUnitName->SetLabel(wxString(resultWU->name.c_str(),wxConvUTF8));
+	//lblWrkUnitName->SetToolTip(ttWUName);
+	//lblWrkUnitName->SetFont(wxFont(9,74,90,92,0,wxT("Arial")));
+	wrkUnitName = wxString(resultWU->name.c_str(),wxConvUTF8);
 	//Main Gauge
-	gaugeWUMain=new wxGauge(this,-1,100,wxPoint(15,70),wxSize(340,30),wxGA_SMOOTH);
-	gaugeWUMain->SetForegroundColour(appSkin->GetGaugeFgCol());
-	gaugeWUMain->SetBackgroundColour(appSkin->GetGaugeBgCol());
-	gaugeWUMain->SetValue(floor(result->fraction_done * 100000)/1000);
+    gaugeWUMain=new CProgressBar(this,wxPoint(20,89));
+	gaugeWUMain->SetValue(floor(resultWU->fraction_done * 100000)/1000);
+	//percent
+	//lblGaugePercent=new wxStaticText(this,-1,wxT(""),wxPoint(290,90),wxSize(28,18),wxST_NO_AUTORESIZE);
+	//lblGaugePercent->SetForegroundColour(wxSystemSettings::GetColour(wxSYS_COLOUR_WINDOWTEXT));
+	percNum = (wxInt32)(floor(resultWU->fraction_done * 100000)/1000);
+    percStr.Printf(_("%d"), percNum);
+	//lblGaugePercent->SetLabel(percStr + _T(" %"));
+	//lblGaugePercent->SetFont(wxFont(9,74,90,92,0,wxT("Arial")));
+	gaugePercent = percStr + _T(" %");
     //Elapsed Time
-	lblElapsedTime=new wxStaticText(this,-1,wxT(""),wxPoint(15,107),wxSize(84,18),wxST_NO_AUTORESIZE);
-	lblElapsedTime->SetForegroundColour(wxSystemSettings::GetColour(wxSYS_COLOUR_WINDOWTEXT));
-	lblElapsedTime->SetLabel(wxT("Elapsed Time:"));
-	lblElapsedTime->SetFont(wxFont(10,74,90,90,0,wxT("Tahoma")));
+	//lblElapsedTime=new wxStaticText(this,-1,wxT(""),wxPoint(20,115),wxSize(98,18),wxST_NO_AUTORESIZE);
+	//lblElapsedTime->SetForegroundColour(wxSystemSettings::GetColour(wxSYS_COLOUR_WINDOWTEXT));
+	//lblElapsedTime->SetLabel(wxT("ELAPSED TIME >"));
+	//lblElapsedTime->SetFont(wxFont(9,74,90,90,0,wxT("Arial")));
 	//Elapsed time Value
-	wxString strBuffer = wxEmptyString;
-	lblElapsedTimeValue=new wxStaticText(this,-1,wxT(""),wxPoint(102,107),wxSize(250,18),wxST_NO_AUTORESIZE);
-	lblElapsedTimeValue->SetForegroundColour(wxSystemSettings::GetColour(wxSYS_COLOUR_WINDOWTEXT));
-	FormatCPUTime(result, strBuffer);
-	lblElapsedTimeValue->SetLabel(strBuffer);
-	lblElapsedTimeValue->SetFont(wxFont(10,74,90,90,0,wxT("Tahoma")));
+	//wxString strBuffer = wxEmptyString;
+	//lblElapsedTimeValue=new wxStaticText(this,-1,wxT(""),wxPoint(118,115),wxSize(218,18),wxST_NO_AUTORESIZE);
+	//lblElapsedTimeValue->SetForegroundColour(wxSystemSettings::GetColour(wxSYS_COLOUR_WINDOWTEXT));
+	FormatCPUTime(resultWU, elapsedTimeValue);
+	//lblElapsedTimeValue->SetLabel(strBuffer);
+	//lblElapsedTimeValue->SetFont(wxFont(9,74,90,92,0,wxT("Arial")));
 	//Time Remaining
-	lblTimeRemaining=new wxStaticText(this,-1,wxT(""),wxPoint(15,126),wxSize(154,18),wxST_NO_AUTORESIZE);
-	lblTimeRemaining->SetForegroundColour(wxSystemSettings::GetColour(wxSYS_COLOUR_WINDOWTEXT));
-	lblTimeRemaining->SetLabel(wxT("Time remaining:"));
-	lblTimeRemaining->SetFont(wxFont(10,74,90,90,0,wxT("Tahoma")));
+	//lblTimeRemaining=new wxStaticText(this,-1,wxT(""),wxPoint(20,134),wxSize(110,18),wxST_NO_AUTORESIZE);
+	//lblTimeRemaining->SetForegroundColour(wxSystemSettings::GetColour(wxSYS_COLOUR_WINDOWTEXT));
+	//lblTimeRemaining->SetLabel(wxT("TIME REMAINING >"));
+	//lblTimeRemaining->SetFont(wxFont(9,74,90,90,0,wxT("Arial")));
 	//Time Remaining Value
-	lblTimeRemainingValue=new wxStaticText(this,-1,wxT(""),wxPoint(115,126),wxSize(200,18),wxST_NO_AUTORESIZE);
-	lblTimeRemainingValue->SetForegroundColour(wxSystemSettings::GetColour(wxSYS_COLOUR_WINDOWTEXT));
-	FormatTimeToCompletion(result, strBuffer);
-	lblTimeRemainingValue->SetLabel(strBuffer);
-	lblTimeRemainingValue->SetFont(wxFont(10,74,90,90,0,wxT("Tahoma")));
+	//lblTimeRemainingValue=new wxStaticText(this,-1,wxT(""),wxPoint(130,134),wxSize(206,18),wxST_NO_AUTORESIZE);
+	//lblTimeRemainingValue->SetForegroundColour(wxSystemSettings::GetColour(wxSYS_COLOUR_WINDOWTEXT));
+	FormatTimeToCompletion(resultWU, timeRemainingValue);
+	//lblTimeRemainingValue->SetLabel(strBuffer);
+	//lblTimeRemainingValue->SetFont(wxFont(9,74,90,92,0,wxT("Arial")));
+	/*
 	// show graphic button 
 	if (result->supports_graphics) {
 		wxToolTip *ttShowGraphic = new wxToolTip(wxT("Launch Real-Time Graphics"));
@@ -175,21 +183,21 @@ void CViewTabPage::CreatePage()
 		btnShowGraphic->SetBackgroundColour(wxColour(255,255,255));
 		btnShowGraphic->SetToolTip(ttShowGraphic);
 		m_hasGraphic = true;
-	}
+	}*/
 	// project image behind graphic <><><>
-	imgBgAnim=new wxStaticBitmap(this,-1,*btmpBgAnim,wxPoint(5,146),wxSize(358,176));
+	imgBgAnim=new wxStaticBitmap(this,-1,*btmpBgAnim,wxPoint(28,154),wxSize(294,146));
 	//// Animation Window
-	wAnimWk1=new wxWindow(this,-1,wxPoint(85,146),wxSize(184,176),wxNO_BORDER);
+	wAnimWk1=new wxWindow(this,-1,wxPoint(98,156),wxSize(148,142),wxNO_BORDER);
 	// media control
 	/////////////
-	m_canvas = new MyCanvas(wAnimWk1, wxPoint(0,0), wxSize(184,176));
+	m_canvas = new MyCanvas(wAnimWk1, wxPoint(0,0), wxSize(148,142));
 	#if 0
 		m_player.SetDestroyAnimation(false);
 		m_player.SetWindow(m_canvas);
 		m_player.SetPosition(wxPoint(0, 0));
 	#endif
 	m_animationCtrl = new wxGIFAnimationCtrl(m_canvas, -1, wxEmptyString,
-		wxPoint(0, 0), wxSize(184, 184));
+		wxPoint(0, 0), wxSize(148, 142));
 	m_animationCtrl->GetPlayer().UseBackgroundColour(true);
 	m_animationCtrl->Stop();
 	if (m_animationCtrl->LoadFile(wxT("skins/default/graphic/molecule.gif")))
@@ -200,31 +208,31 @@ void CViewTabPage::CreatePage()
 	{
 		wxMessageBox(_T("Sorry, this animation was not a valid animated GIF."));
 	}
-/**/
-	//SetSize(0,0,360,320,wxSIZE_FORCE);
 }
 void CViewTabPage::UpdateInterface()
 {
-	CMainDocument* pDoc     = wxGetApp().GetDocument();
-	
-	RESULT* result = pDoc->results.results[m_tabIndex];
+	resultWU = pDoc->results.results[m_tabIndex];
 	wxString strBuffer = wxEmptyString;
 	//Gauge
-	gaugeWUMain->SetValue(floor(result->fraction_done * 100000)/1000);
+	gaugeWUMain->UpdateValue(floor(resultWU->fraction_done * 100000)/1000);
+	//percent
+	percNum = (wxInt32)(floor(resultWU->fraction_done * 100000)/1000);
+    percStr.Printf(_("%d"), percNum);
+	gaugePercent = percStr + _T(" %");
 	// Elapsed Time
-	FormatCPUTime(result, strBuffer);
-	lblElapsedTimeValue->SetLabel(strBuffer);
-	lblElapsedTimeValue->Refresh();
+	FormatCPUTime(resultWU, elapsedTimeValue);
+	//lblElapsedTimeValue->SetLabel(strBuffer);
+	//lblElapsedTimeValue->Refresh();
     // Remaining time
-	FormatTimeToCompletion(result, strBuffer);
-	lblTimeRemainingValue->SetLabel(strBuffer);
-	lblTimeRemainingValue->Refresh();
+	FormatTimeToCompletion(resultWU, timeRemainingValue);
+	//lblTimeRemainingValue->SetLabel(strBuffer);
+	//lblTimeRemainingValue->Refresh();
+	DrawText();
 
 }
 void CViewTabPage::ReskinInterface()
 {
 	if(m_hasGraphic){
-		CMainDocument* pDoc  = wxGetApp().GetDocument();
 		
 		wxString dirPref = appSkin->GetSkinsFolder()+_T("/")+appSkin->GetSkinName()+_T("/");
 		////Load new skin images
@@ -317,9 +325,7 @@ void CViewTabPage::OnWorkShowGraphics() {
 
     wxInt32  iAnswer        = 0; 
     wxString strMachineName = wxEmptyString;
-    CMainDocument* pDoc     = wxGetApp().GetDocument();
-   // CAdvancedFrame* pFrame      = wxDynamicCast(GetParent()->GetParent()->GetParent(), CAdvancedFrame);
-
+    
     wxASSERT(pDoc);
     wxASSERT(wxDynamicCast(pDoc, CMainDocument));
 
@@ -354,9 +360,82 @@ void CViewTabPage::OnWorkShowGraphics() {
         );
     }
 
-    //pFrame->FireRefreshView();
-
     wxLogTrace(wxT("Function Start/End"), wxT("CViewTabPage::OnWorkShowGraphics - Function End"));
+}
+void CViewTabPage::OnPaint(wxPaintEvent& WXUNUSED(event)) 
+{ 
+    wxPaintDC dc(this);
+    //Project Name
+	dc.SetFont(wxFont(16,74,90,90,0,wxT("Arial"))); 
+	dc.DrawText(projName, wxPoint(20,8)); 
+	//static: APPLICATION,MY PROGRESS,ELAPSED TIME,TIME REMAINING
+	dc.SetFont(wxFont(9,74,90,90,0,wxT("Arial")));
+	dc.DrawText(wxT("APPLICATION >"), wxPoint(20,49)); 
+    dc.DrawText(wxT("MY PROGRESS >"), wxPoint(20,71)); 
+	dc.DrawText(wxT("ELAPSED TIME >"), wxPoint(20,115)); 
+    dc.DrawText(wxT("TIME REMAINING >"), wxPoint(20,134)); 
+    //static: projectFrName,wrkUnitName,gaugePercent,elapsedTimeValue,timeRemainingValue
+    dc.SetFont(wxFont(9,74,90,92,0,wxT("Arial")));
+	dc.DrawText(projectFrName, wxPoint(110,49)); 
+    dc.DrawText(wrkUnitName, wxPoint(120,71)); 
+    dc.DrawText(gaugePercent, wxPoint(290,90)); 
+    dc.DrawText(elapsedTimeValue, wxPoint(118,115)); 
+	dc.DrawText(timeRemainingValue, wxPoint(130,134)); 
+}
+void CViewTabPage::DrawText() 
+{ 
+    wxClientDC dcc(this);
+	wxBufferedDC dc(&dcc, wxSize(GetSize().GetWidth(), GetSize().GetHeight())); 
+
+    //Project Name
+	dc.DrawBitmap(*btmpComponentBg, 0, 0);
+	dc.SetFont(wxFont(16,74,90,90,0,wxT("Arial"))); 
+	dc.DrawText(projName, wxPoint(20,8)); 
+	//static: APPLICATION,MY PROGRESS,ELAPSED TIME,TIME REMAINING
+	dc.SetFont(wxFont(9,74,90,90,0,wxT("Arial")));
+	dc.DrawText(wxT("APPLICATION >"), wxPoint(20,49)); 
+    dc.DrawText(wxT("MY PROGRESS >"), wxPoint(20,71)); 
+	dc.DrawText(wxT("ELAPSED TIME >"), wxPoint(20,115)); 
+    dc.DrawText(wxT("TIME REMAINING >"), wxPoint(20,134)); 
+    //static: projectFrName,wrkUnitName,gaugePercent,elapsedTimeValue,timeRemainingValue
+    dc.SetFont(wxFont(9,74,90,92,0,wxT("Arial")));
+	dc.DrawText(projectFrName, wxPoint(110,49)); 
+    dc.DrawText(wrkUnitName, wxPoint(120,71)); 
+    dc.DrawText(gaugePercent, wxPoint(290,90)); 
+    dc.DrawText(elapsedTimeValue, wxPoint(118,115)); 
+	dc.DrawText(timeRemainingValue, wxPoint(130,134)); 
+}
+void CViewTabPage::OnEraseBackground(wxEraseEvent& event){
+  wxObject *m_wxWin = event.GetEventObject();
+  if(m_wxWin==this){event.Skip(true);DrawBackImg(event,this,*btmpComponentBg,0);return;}
+  event.Skip(true);
+}
+void CViewTabPage::DrawBackImg(wxEraseEvent& event,wxWindow *win,wxBitmap & bitMap,int opz){
+
+	event.Skip(false);
+	wxDC *dc;
+	dc=event.GetDC();
+	dc->SetBackground(wxBrush(win->GetBackgroundColour(),wxSOLID));
+	dc->Clear();
+	switch (opz) {
+	case 0:{
+			dc->DrawBitmap(bitMap, 0, 0);
+			break;}
+	case 1:{
+			wxRect rec=win->GetClientRect();
+			rec.SetLeft((rec.GetWidth()-bitMap.GetWidth())   / 2);
+			rec.SetTop ((rec.GetHeight()-bitMap.GetHeight()) / 2);
+			dc->DrawBitmap(bitMap,rec.GetLeft(),rec.GetTop(),0);
+			break;}
+	case 2:{
+			wxRect rec=win->GetClientRect();
+			for(int y=0;y < rec.GetHeight();y+=bitMap.GetHeight()){
+			for(int x=0;x < rec.GetWidth();x+=bitMap.GetWidth()){
+				dc->DrawBitmap(bitMap,x,y,0);
+			}
+			}
+			break;}
+	}
 }
 // ---------------------------------------------------------------------------
 // MyCanvas

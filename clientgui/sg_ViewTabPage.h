@@ -35,6 +35,9 @@ private:
     DECLARE_EVENT_TABLE()
 };
 
+class CProgressBar;
+class CStaticLine;
+
 class CViewTabPage : public wxPanel {
     DECLARE_DYNAMIC_CLASS( CViewTabPage )
 
@@ -43,10 +46,6 @@ public:
 	bool isAlive;
 	//Skin Class
     SkinClass *appSkin;
-	// project icons
-	wxImage *g_prjIcn;
-	ImageLoader *i_prjIcnPI;
-	wxWindow *w_iconPI;
 	// btns ////////////
 	//ShowGraphic button
     wxImage *g_showGraphic;
@@ -57,21 +56,34 @@ public:
 	////////////////////
 	// animation
 	wxBitmap *btmpBgAnim;
-	wxBitmap fileImgBuf[1];
+	wxBitmap fileImgBuf[2];
 	wxStaticBitmap *imgBgAnim;
 	wxWindow *wAnimWk1;
     //lbls
 	wxStaticText *lblProjectName;
-	wxStaticLine *lnProjName;
+	CStaticLine *lnProjName;
 	wxStaticText *lblMyProgress;
 	wxStaticText *lblProject;
-	wxGauge *gaugeWUMain;
+	//strings
+	wxString projName;
+	wxString projectFrName;
+	wxString wrkUnitName;
+	wxString gaugePercent;
+	wxString elapsedTimeValue;
+	wxString timeRemainingValue;
+	//wxGauge *gaugeWUMain;
+	CProgressBar *gaugeWUMain;
 	wxStaticText *lblWrkUnitName;
 	wxStaticText *lblProjectFrName;
+	wxString percStr;
+	wxInt32 percNum;;
+	wxStaticText *lblGaugePercent;
 	wxStaticText *lblElapsedTime;
 	wxStaticText *lblElapsedTimeValue;
 	wxStaticText *lblTimeRemaining;
 	wxStaticText *lblTimeRemainingValue;
+	// bg
+	wxBitmap *btmpComponentBg;
 
     CViewTabPage();
     CViewTabPage(
@@ -85,6 +97,8 @@ public:
 	void ReskinInterface();
     void OnBtnClick(wxCommandEvent& event);
 	void OnWorkShowGraphics();
+	void OnPaint(wxPaintEvent& event); 
+	void DrawText();
     
 	// Setters
 	void SetTabName(const std::string nme) { m_name = nme; }
@@ -98,6 +112,10 @@ public:
 	DECLARE_EVENT_TABLE()
 
 protected:
+
+	CMainDocument* pDoc;
+	RESULT* resultWU;
+
 	int m_tabIndex;
     //tab identifier
 	std::string m_name;
@@ -107,6 +125,9 @@ protected:
 	wxInt32 FormatCPUTime( RESULT* rslt, wxString& strBuffer ) const;
     wxInt32 FormatTimeToCompletion( RESULT* rslt, wxString& strBuffer ) const;
 	void SGUITimeFormat( float fBuffer, wxString& strBuffer) const;
+
+	void OnEraseBackground(wxEraseEvent& event);
+    void DrawBackImg(wxEraseEvent& event,wxWindow *win,wxBitmap & bitMap,int opz);
     
 	MyCanvas*           m_canvas;
     wxGIFAnimationCtrl* m_animationCtrl;

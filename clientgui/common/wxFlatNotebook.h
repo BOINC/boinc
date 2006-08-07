@@ -73,6 +73,7 @@ typedef std::vector<wxBitmap> wxFlatNotebookImageList;
 #define MASK_COLOR wxColor(0, 128, 128)
 
 class wxMenu;
+class SkinClass;
 /**
 * \brief Nice cross-platform flat notebook with X-button :)
 */
@@ -257,6 +258,10 @@ public:
 	\param border - new value of the colour of page border
 	*/
 	void SetGradientColorBorder(const wxColour& border);
+	/**	
+	\param useBg - true if you want to set bg for tab area
+	*/
+	void SetUseBackground(bool useBg);
 	/// Sets an image list associated with notebook pages
 	/**	
 	\param imglist - image list object. 
@@ -295,6 +300,11 @@ public:
 	\param textColour - the active tab text colour
 	*/
 	void SetActiveTabTextColour(const wxColour& textColour);
+    // Set the fancy tab border
+	/**	
+	\param brWidth - border width
+	*/
+	void SetTabBorderWidth(int brWidth);
 
 	/// Gets first gradient colour
 	const wxColour& GetGradientColorFrom();
@@ -502,6 +512,12 @@ protected:
 	friend class wxFlatNotebookBase;
 	wxFlatNotebookImageList * m_ImageList;
 
+	//Skin Class
+    SkinClass *appSkin;
+	//tabs background
+	wxImage *g_tabAreaBg;
+	wxBitmap m_tabAreaBG; 
+
 public:
 	/// Parametrized constructor
 	/**	
@@ -580,6 +596,12 @@ public:
 	\param imgindex - new image index
 	*/
 	virtual void SetPageImageIndex(size_t page, int imgindex);
+    /// sets if tabs are using background
+	/**	
+	\param useBg - bool
+	*/
+	virtual void SetUseBackground(bool useBg);
+
 	/// Returns an image index of specified page
 	/**	
 	\param page - page index
@@ -622,6 +644,8 @@ protected:
 
 	/// Return the button area space
 	virtual int GetButtonAreaWidth(void);
+
+	virtual void LoadBgImage();
 
 	/// File a tab with gradient color
 	virtual void FillGradientColor(wxBufferedDC& dc, const wxRect& rect);
@@ -728,7 +752,10 @@ protected:
 
 	/// Gradient colors
 	wxColour m_colorFrom, m_colorTo, m_colorBorder, m_colorFromInactive, m_colorToInactive, m_colorBorderInactive, m_activeTextColor, m_nonActiveTextColor, m_tabAreaColor, m_activeTabColor;
-
+    /// Use Background
+	bool m_useBg;
+	/// Tab Border width
+	int m_tabBorderWidth;
 	/// X,>,< buttons status, can be one of 
 	/// - Pressed
 	/// - Hover

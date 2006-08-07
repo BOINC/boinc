@@ -15,6 +15,7 @@
 #endif
 
 #include "stdwx.h"
+#include "sg_SkinClass.h"
 #include "common/wxFlatNotebook.h"
 
 
@@ -41,6 +42,7 @@ wxFlatNotebookBase::wxFlatNotebookBase(wxWindow* parent, wxWindowID id, const wx
 	wxPanel::Create(parent, id, pos, size, style, name);
 
 	m_pages = new wxPageContainerBase(this, wxID_ANY, wxDefaultPosition, wxDefaultSize, style);
+	
 }
 
 wxFlatNotebookBase::~wxFlatNotebookBase(void)
@@ -82,6 +84,10 @@ wxPageContainerBase* wxFlatNotebookBase::CreatePageContainer()
 void wxFlatNotebookBase::SetActiveTabTextColour(const wxColour& textColour)
 {
 	m_pages->m_activeTextColor = textColour;
+}
+void wxFlatNotebookBase::SetTabBorderWidth(int brWidth)
+{
+	m_pages->m_tabBorderWidth = brWidth;
 }
 
 wxDragResult wxFlatNotebookBase::OnDropTarget(wxCoord x, wxCoord y, int nTabPage, wxWindow * wnd_oldContainer)
@@ -506,6 +512,10 @@ void wxFlatNotebookBase::SetGradientColorBorder(const wxColour& border)
 {
 	m_pages->m_colorBorder = border;
 }
+void wxFlatNotebookBase::SetUseBackground(bool useBg)
+{
+	m_pages->SetUseBackground(useBg);
+}
 
 /// Gets first gradient colour
 const wxColour& wxFlatNotebookBase::GetGradientColorFrom()
@@ -630,6 +640,20 @@ wxPageContainerBase::wxPageContainerBase(wxWindow* parent, wxWindowID id, const 
 	m_nonActiveTextColor = wxT("GREY");
 	m_pDropTarget = new wxFNBDropTarget<wxPageContainerBase>(this, &wxPageContainerBase::OnDropTarget);
 	SetDropTarget(m_pDropTarget);
+
+	//bg
+	m_useBg = false;
+	m_tabBorderWidth = 1;
+}
+
+void wxPageContainerBase::LoadBgImage()
+{
+	//app skin class
+	appSkin = SkinClass::Instance();
+	wxString dirPref = appSkin->GetSkinsFolder()+_T("/")+appSkin->GetSkinName()+_T("/");
+	
+    g_tabAreaBg = new wxImage(dirPref + wxT("graphic/tabArea_bg.png"), wxBITMAP_TYPE_PNG);
+	m_tabAreaBG = wxBitmap(g_tabAreaBg); 
 }
 
 int wxPageContainerBase::GetButtonAreaWidth(void)
@@ -709,12 +733,24 @@ void wxPageContainerBase::OnPaint(wxPaintEvent &event)
 		dc.SetPen(borderPen);
 	else
 		dc.SetPen(*wxTRANSPARENT_PEN);
-	dc.DrawRectangle(0, 0, size.x, size.y);
+	///////////////////////////////////////////////////////////////////////////////
+	if(!m_useBg){
+        dc.DrawRectangle(0, 0, size.x, size.y); // draws background around the tabs
+	}else{
+		if(m_tabAreaBG.Ok()) 
+		{ 
+			dc.DrawBitmap(m_tabAreaBG, 0, 0); 
+		}
+	}
+    ///////////////////////////////////////////////////////////////////////////////
 
 	// We always draw the bottom/upper line of the tabs
 	// regradless the style
 	dc.SetPen(borderPen);
-	DrawTabsLine(dc, GetClientRect());
+	if(!m_useBg){
+        DrawTabsLine(dc, GetClientRect()); // draws line around the tabs only if not using background
+	}
+	
 
 	// Restore the pen
 	dc.SetPen(borderPen);
@@ -926,7 +962,7 @@ void wxPageContainerBase::DrawFancyTab(wxBufferedPaintDC& dc,
 		wxRect rect(posx, posy, tabWidth, tabHeight);
 		FillGradientColor(dc, rect);
 		dc.SetBrush(*wxTRANSPARENT_BRUSH);
-		pen.SetWidth(1);
+		pen.SetWidth(m_tabBorderWidth);
 		dc.SetPen(pen);
 
 		dc.DrawRectangle(rect);
@@ -944,7 +980,7 @@ void wxPageContainerBase::DrawFancyTab(wxBufferedPaintDC& dc,
 		wxRect rect(posx, posy, tabWidth, tabHeight);
 		FillGradientColorInactive(dc, rect);
 		dc.SetBrush(*wxTRANSPARENT_BRUSH);
-		pen.SetWidth(1);
+		pen.SetWidth(m_tabBorderWidth);
 		dc.SetPen(pen);
 
 		dc.DrawRectangle(rect);
@@ -1986,7 +2022,14 @@ void wxPageContainerBase::SetPageImageIndex(size_t page, int imgindex)
 		Refresh();
 	}
 }
-
+void wxPageContainerBase::SetUseBackground(bool useBg)
+{
+	m_useBg = useBg;
+	if(m_useBg){
+		LoadBgImage();	
+	}
+	
+}
 int wxPageContainerBase::GetPageImageIndex(size_t page)
 {
 	if(page < m_pagesInfoVec.size())

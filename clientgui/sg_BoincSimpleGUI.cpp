@@ -33,8 +33,7 @@
 #include "sg_ProjectsComponent.h"
 #include "sg_StatImageLoader.h"
 #include "sg_ViewTabPage.h"
-#include "sg_DlgPreferences.h"
-#include "sg_DlgMessages.h"
+
 
 #include "wizardex.h"
 #include "BOINCWizards.h"
@@ -67,7 +66,7 @@ CSimpleFrame::CSimpleFrame() {
 
 
 CSimpleFrame::CSimpleFrame(wxString title, wxIcon* icon) : 
-    CBOINCBaseFrame((wxFrame *)NULL, ID_SIMPLEFRAME, title, wxDefaultPosition, wxSize(416, 581),
+    CBOINCBaseFrame((wxFrame *)NULL, ID_SIMPLEFRAME, title, wxDefaultPosition, wxSize(416, 600),
                     wxDEFAULT_FRAME_STYLE | wxNO_FULL_REPAINT_ON_RESIZE)
 {
     wxString        strBaseConfigLocation = wxString(wxT("/"));
@@ -258,12 +257,13 @@ void CSimpleFrame::InitSimpleClient()
 	SetSizer(mainSizer);
 	// FlatNotebook
 	wrkUnitNB = new wxFlatNotebook(this, -1, wxDefaultPosition, wxSize(370,330), wxFNB_TABS_BORDER_SIMPLE | wxFNB_NO_X_BUTTON | wxFNB_NO_NAV_BUTTONS | wxFNB_FANCY_TABS);
-	wrkUnitNB->SetBackgroundColour(wxColour(255,255,255));
+	wrkUnitNB->SetUseBackground(true);
+	wrkUnitNB->SetBackgroundColour(appSkin->GetAppBgCol());
 	wrkUnitNB->SetTabAreaColour(appSkin->GetAppBgCol());
 	wrkUnitNB->SetGradientColors(appSkin->GetTabFromColAc(),appSkin->GetTabToColAc(),appSkin->GetTabBrdColAc());
-	wrkUnitNB->SetActiveTabTextColour(wxColour(157,165,171));
+	wrkUnitNB->SetActiveTabTextColour(wxColour(255,255,255));
 	wrkUnitNB->SetGradientColorsInactive(appSkin->GetTabFromColIn(),appSkin->GetTabToColIn(),appSkin->GetTabBrdColIn());
-	wrkUnitNB->SetNonActiveTabTextColour(wxColour(186,184,200));
+	wrkUnitNB->SetNonActiveTabTextColour(wxColour(255,255,255));
 	wrkUnitNB->SetImageList(&m_ImageList);
 	//create work unit tabs
 	int resultCnt = (int)pDoc->results.results.size();
@@ -285,8 +285,6 @@ void CSimpleFrame::InitSimpleClient()
 		wrkUnitNB->AddPage(wTab, friendlyName, true);	
 		if(result->active_task_state == 1){
 			 wrkUnitNB->SetPageImageIndex(i, 0); // this is working process
-		}else{
-			 wrkUnitNB->SetPageImageIndex(i, 1); // this is sleeping process
 		}
 	
 		m_windows.push_back(wTab);
@@ -294,50 +292,17 @@ void CSimpleFrame::InitSimpleClient()
 
 	wrkUnitNB->SetSelection(0);	
 	// Put Grid in the sizer
-	mainSizer->Add(20, 70,0);
-	mainSizer->Add(370, 70,0);
-	mainSizer->Add(20, 70,0);
+	mainSizer->Add(32, 97,0);
+	mainSizer->Add(343, 97,0);
+	mainSizer->Add(32, 97,0);
 	mainSizer->Add(0, 0,1);
 	mainSizer->Add(wrkUnitNB);
 	mainSizer->Add(0, 0,1);
 	 
-	//Static content in my Projects section
-	// My Projects
-	stMyProj=new wxStaticText(this,-1,wxT(""),wxPoint(20,434),wxSize(84,18),wxST_NO_AUTORESIZE);
-	stMyProj->SetLabel(wxT("My Projects:"));
-	stMyProj->SetFont(wxFont(10,74,90,92,0,wxT("Tahoma")));
-	// Add Project <><><>
-	wxToolTip *ttAddProject = new wxToolTip(wxT("Add Project"));
-	btnAddProj=new wxBitmapButton(this,-1,*btmpBtnAttProjL,wxPoint(293,431),wxSize(96,20));
-	btnAddProj->SetToolTip(ttAddProject);
-	/// Line
-	lnMyProjTop=new wxStaticLine(this,-1,wxPoint(20,454),wxSize(370,2));
 	/////////////// MY PROJECTS COMPONENT /////////////////////
-    projComponent = new CProjectsComponent(this,wxPoint(20,455));
-	/// Line
-	lnMyProjBtm=new wxStaticLine(this,-1,wxPoint(20,516),wxSize(370,2));
-	//// Messages Play Pause Btns
-	wxToolTip *ttMessages = new wxToolTip(wxT("Messages"));
-	btnMessages=new wxBitmapButton(this,-1,*btmpMessagesBtnL,wxPoint(20,522),wxSize(76,20));
-	btnMessages->SetToolTip(ttMessages);
-	// pause btn
-	wxToolTip *ttPause = new wxToolTip(wxT("Pause all processing"));
-	btnPause=new wxBitmapButton(this,-1,*btmpBtnPauseL,wxPoint(97,522),wxSize(59,20));
-	btnPause->SetToolTip(ttPause);
-    // play btn   
-	wxToolTip *ttResume = new wxToolTip(wxT("Resume all Processing"));
-	btnResume=new wxBitmapButton(this,-1,*btmpBtnResumeL,wxPoint(97,522),wxSize(62,20));
-	btnResume->SetToolTip(ttResume);
-	btnResume->Show(false);
-	// Pref Btn
-	wxToolTip *ttPreferences = new wxToolTip(wxT("Preferences"));
-	btnPreferences=new wxBitmapButton(this,-1,*btmpBtnPrefL,wxPoint(183,522),wxSize(86,20));
-	btnPreferences->SetToolTip(ttPreferences);
-	// Advanced View
-	wxToolTip *ttAdvView = new wxToolTip(wxT("Advanced View"));
-	btnAdvancedView=new wxBitmapButton(this,-1,*btmpBtnAdvViewL,wxPoint(273,522),wxSize(116,20));
-    btnAdvancedView->SetToolTip(ttAdvView);
-
+    projComponent = new CProjectsComponent(this,wxPoint(31,443));
+	///////////////////////////////////////////////////////////
+	
 	Refresh();
 }
 void CSimpleFrame::UpdateClientGUI(){
@@ -351,6 +316,8 @@ void CSimpleFrame::UpdateClientGUI(){
 	{
 		CViewTabPage *currTab = m_windows[x];
 		currTab->isAlive = false;
+		//update tab interface
+		currTab->UpdateInterface();
 	}
     // Update Tabs
 	RESULT* result;
@@ -363,7 +330,6 @@ void CSimpleFrame::UpdateClientGUI(){
 			CViewTabPage *currTab = m_windows[j];
 			if(result->name == currTab->GetTabName()){
 				//currTab FOUND;
-				int jkh = 9;
 				currTab->isAlive = true;
 				found = true;
 				break;
@@ -372,7 +338,6 @@ void CSimpleFrame::UpdateClientGUI(){
 		}
 		if(!found){
 			// create one and add it to notebook
-			int ssdff = 9;
 			std::string projUrl = result->project_url;
 			std::string nme = result->name;
 			RESULT* resState = pDoc->state.lookup_result(projUrl, nme);
@@ -428,23 +393,10 @@ void CSimpleFrame::LoadSkinImages(){
 	g_icoSleepWU = new wxImage(dirPref + appSkin->GetIcnSleepingWkUnit(), wxBITMAP_TYPE_PNG);
 	g_icoWorkWU = new wxImage(dirPref + appSkin->GetIcnWorkingWkUnit(), wxBITMAP_TYPE_PNG);
 	//////////////////////////////
-	fileImgBuf[2].LoadFile(dirPref + appSkin->GetBtnPrefer(),wxBITMAP_TYPE_BMP);
-	fileImgBuf[3].LoadFile(dirPref + appSkin->GetBtnAddProj(),wxBITMAP_TYPE_BMP);
 	fileImgBuf[4].LoadFile(dirPref + appSkin->GetIcnWorking(),wxBITMAP_TYPE_BMP);
-	fileImgBuf[5].LoadFile(dirPref + appSkin->GetBtnMessages(),wxBITMAP_TYPE_BMP);
-	fileImgBuf[6].LoadFile(dirPref + appSkin->GetBtnPause(),wxBITMAP_TYPE_BMP);
-	fileImgBuf[7].LoadFile(dirPref + appSkin->GetBtnPlay(),wxBITMAP_TYPE_BMP);
-	fileImgBuf[8].LoadFile(dirPref + appSkin->GetBtnAdvView(),wxBITMAP_TYPE_BMP);
-	fileImgBuf[9].LoadFile(dirPref + appSkin->GetAnimationBG(),wxBITMAP_TYPE_BMP);
 	fileImgBuf[10].LoadFile(dirPref + appSkin->GetIcnSleeping(),wxBITMAP_TYPE_BMP);
 	CSimpleFrameImg0=&fileImgBuf[0];
-	btmpBtnPrefL=&fileImgBuf[2];
-	btmpBtnAttProjL=&fileImgBuf[3];
 	btmpIcnWorking=&fileImgBuf[4];
-	btmpBtnPauseL=&fileImgBuf[6];
-	btmpBtnResumeL=&fileImgBuf[7];
-	btmpMessagesBtnL=&fileImgBuf[5];
-	btmpBtnAdvViewL=&fileImgBuf[8];
 	btmpIcnSleeping=&fileImgBuf[10];
 	/// work unit tabs icons
 	wxBitmap const workWUico = wxBitmap(g_icoWorkWU); 
@@ -517,15 +469,19 @@ int CSimpleFrame::LoadSkinXML(){
 					if (parse_str(buf, "<imgsrc>", val)) {
 						appSkin->SetBtnAddProj(wxString( val.c_str(), wxConvUTF8 ));
 					}
+					mf.fgets(buf, 256);
+					if (parse_str(buf, "<imgsrcclick>", val)) {
+						appSkin->SetBtnAddProjClick(wxString( val.c_str(), wxConvUTF8 ));
+					}
 				}else if(match_tag(buf, "<advancedview>")){
 					mf.fgets(buf, 256);
 					if (parse_str(buf, "<imgsrc>", val)) {
 						appSkin->SetBtnAdvView(wxString( val.c_str(), wxConvUTF8 ));
 					}
-				}else if(match_tag(buf, "<play>")){
+				}else if(match_tag(buf, "<resume>")){
 					mf.fgets(buf, 256);
 					if (parse_str(buf, "<imgsrc>", val)) {
-						appSkin->SetBtnPlay(wxString( val.c_str(), wxConvUTF8 ));
+						appSkin->SetBtnResume(wxString( val.c_str(), wxConvUTF8 ));
 					}
 				}else if(match_tag(buf, "<pause>")){
 					mf.fgets(buf, 256);
@@ -694,13 +650,6 @@ void CSimpleFrame::ReskinAppGUI(){
 		CViewTabPage *wTab = m_windows.at(i);
 		wTab->ReskinInterface();
 	}
-	// btns
-	btnMessages->SetBitmapLabel(*btmpMessagesBtnL);
-    btnResume->SetBitmapLabel(*btmpBtnResumeL);
-	btnPause->SetBitmapLabel(*btmpBtnPauseL);
-    btnAddProj->SetBitmapLabel(*btmpBtnAttProjL);
-	btnPreferences->SetBitmapLabel(*btmpBtnPrefL);
-	btnAdvancedView->SetBitmapLabel(*btmpBtnAdvViewL);
 	//reskin component 
 	projComponent->ReskinInterface();
 	Refresh();
@@ -708,45 +657,6 @@ void CSimpleFrame::ReskinAppGUI(){
 
 void CSimpleFrame::OnBtnClick(wxCommandEvent& event){ //init function
 	wxObject *m_wxBtnObj = event.GetEventObject();
-	if(m_wxBtnObj==btnPreferences){
-		CDlgPreferences* pDlg = new CDlgPreferences(NULL,appSkin->GetSkinsFolder()+_T("/")+appSkin->GetSkinName()+_T("/"));
-		wxASSERT(pDlg);
-		if ( pDlg->ShowModal() == wxID_OK ){
-			if(pDlg->GetSkinName() != skinName){
-				appSkin->SetSkinName(pDlg->GetSkinName());
-				skinName = pDlg->GetSkinName();
-				skinPath = appSkin->GetSkinsFolder()+_T("/")+appSkin->GetSkinName()+_T("/")+_T("skin.xml");
-			    ReskinAppGUI();
-		   }
-		}
-		pDlg->Destroy();
-    }if(m_wxBtnObj==btnMessages){
-		CDlgMessages* pDlg = new CDlgMessages(NULL,appSkin->GetSkinsFolder()+_T("/")+appSkin->GetSkinName()+_T("/"));
-		wxASSERT(pDlg);
-		pDlg->ShowModal();
-		pDlg->Destroy();
-    }
-	else if(m_wxBtnObj==btnAdvancedView) {
-        wxGetApp().SetActiveGUI(BOINC_ADVANCEDGUI, true);
-    }else if(m_wxBtnObj==btnMessages) {
-		btnMessages->Refresh();
-	}else if(m_wxBtnObj==btnAddProj) {
-		OnProjectsAttachToProject();
-		btnAddProj->Refresh();
-    }else if(m_wxBtnObj==btnPause) {
-		CMainDocument* pDoc     = wxGetApp().GetDocument();
-		pDoc->GetActivityRunMode(clientRunMode);
-		pDoc->SetActivityRunMode(RUN_MODE_NEVER);
-		btnPause->Show(false);
-		btnResume->Show(true);
-    }else if(m_wxBtnObj==btnResume) {
-		CMainDocument* pDoc     = wxGetApp().GetDocument();
-		pDoc->SetActivityRunMode(clientRunMode);
-		btnResume->Show(false);
-		btnPause->Show(true);
-    }else{
-		//wxMessageBox("OnBtnClick - else");
-	}
 }
 //end function
 void CSimpleFrame::OnPageChanged(wxFlatNotebookEvent& WXUNUSED(event))

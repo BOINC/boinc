@@ -45,8 +45,6 @@ public:
 
    ~CSimpleFrame();
 
-   
-	int clientRunMode;
 	// Images
 	wxImage *g_icoSleepWU;
 	wxImage *g_icoWorkWU;
@@ -80,23 +78,14 @@ public:
 	wxWindow *w11c;
 	wxStaticText *st22c;
 	wxStaticText *st23c;
-	wxStaticText *stMyProj;
 	wxStaticText *st27c;
-	wxStaticLine *lnMyProjTop;
 	wxStaticBitmap *bm29c;
 	wxGauge *gaugeProjP1;
-	wxBitmapButton *btnPreferences;
-	wxBitmapButton *btnAddProj;
 	wxStaticBitmap *icnProjWork;
 	wxStaticBitmap *bm39c;
 	wxGauge *gaugeProjP2;
 	wxStaticText *st41c;
 	wxStaticBitmap *icnProjSleep;
-	wxBitmapButton *btnPause;
-	wxBitmapButton *btnResume;
-	wxBitmapButton *btnMessages;
-	wxBitmapButton *btnAdvancedView;
-	wxStaticLine *lnMyProjBtm;
 	bool clientGUIInitialized;
 
 	void InitEmptyState();
@@ -106,20 +95,16 @@ public:
 	void LoadSkinImages();
 	void ReskinAppGUI();
 	void initAfter();
+	void OnProjectsAttachToProject();
 	//////////
 	wxFlexGridSizer *mainSizer;
 	wxSize wxNotebookSize;
 	//////////
 	wxBitmap *CSimpleFrameImg0;
 	wxBitmap *bm13cImg0;
-	wxBitmap *btmpBtnPrefL;
-	wxBitmap *btmpBtnAttProjL;
 	wxBitmap *btmpIcnWorking;
 	wxBitmap *bm39cImg0;
-	wxBitmap *btmpBtnPauseL;
-	wxBitmap *btmpBtnResumeL;
-	wxBitmap *btmpMessagesBtnL;
-	wxBitmap *btmpBtnAdvViewL;
+
 	wxBitmap *btmpIcnSleeping;
 	wxBitmap fileImgBuf[11];
 	
@@ -136,7 +121,6 @@ protected:
 	void OnEraseBackground(wxEraseEvent& event);
 	void OnBtnClick(wxCommandEvent& event);
 	void OnConnect(CFrameEvent& event );
-	void OnProjectsAttachToProject();
     void OnFrameRender(wxTimerEvent& event );
 	void OnPageChanged(wxFlatNotebookEvent& event);
     void DrawBackImg(wxEraseEvent& event,wxWindow *win,wxBitmap & bitMap,int opz);

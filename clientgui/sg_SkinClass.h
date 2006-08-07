@@ -34,8 +34,9 @@ public:
 		wxColour GetAppBgCol() { return GetColorFromStr(m_appBgCol); }
 		wxString GetBtnPrefer() const { return m_btnPrefer; }
 		wxString GetBtnAddProj() const { return m_btnAddProj; }
+		wxString GetBtnAddProjClick() const { return m_btnAddProjClick; }
 		wxString GetBtnAdvView() const { return m_btnAdvView; }
-        wxString GetBtnPlay() const { return m_btnPlay; }
+        wxString GetBtnResume() const { return m_btnResume; }
         wxString GetBtnPause() const { return m_btnPause; }
 		wxString GetBtnMessages() const { return m_btnMessages; }
 		wxString GetBtnOpen() const { return m_btnOpen; }
@@ -83,8 +84,9 @@ public:
 		void SetAppBgCol(const wxString& clr) { m_appBgCol = clr; }
 		void SetBtnPrefer(const wxString& imgsrc) { m_btnPrefer = imgsrc; }
 		void SetBtnAddProj(const wxString& imgsrc) { m_btnAddProj = imgsrc; }
+		void SetBtnAddProjClick(const wxString& imgsrc) { m_btnAddProjClick = imgsrc; }
 		void SetBtnAdvView(const wxString& imgsrc) { m_btnAdvView = imgsrc; }
-		void SetBtnPlay(const wxString& imgsrc) { m_btnPlay = imgsrc; }
+		void SetBtnResume(const wxString& imgsrc) { m_btnResume = imgsrc; }
 		void SetBtnPause(const wxString& imgsrc) { m_btnPause = imgsrc; }
 		void SetBtnMessages(const wxString& imgsrc) { m_btnMessages = imgsrc; }
 		void SetBtnOpen(const wxString& imgsrc) { m_btnOpen = imgsrc; }
@@ -151,8 +153,9 @@ private:
 		// Btns
 		wxString m_btnPrefer;
 		wxString m_btnAddProj;
+		wxString m_btnAddProjClick;
 		wxString m_btnAdvView;
-		wxString m_btnPlay;
+		wxString m_btnResume;
         wxString m_btnPause;
         wxString m_btnMessages;
 		wxString m_btnOpen;
