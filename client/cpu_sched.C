@@ -593,6 +593,7 @@ bool CLIENT_STATE::enforce_schedule() {
                 (now - atp->checkpoint_wall_time < 10);
             if (rp->project->deadlines_missed
                 || (running_beyond_sched_period && checkpointed_recently)
+				|| atp->result->suspended_via_gui
             ) {
                 // only deadlines_missed results from a project
                 // will qualify for immediate enforcement.

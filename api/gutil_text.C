@@ -331,7 +331,10 @@ void MOVING_TEXT_PANEL::draw() {
     }
 }
 
-void MOVING_TEXT_PANEL::set_text(int lineno, const char* p) {
+void MOVING_TEXT_PANEL::set_text(int lineno, const char* str) {
+	char buf[8192];
+	strcpy(buf, str);
+	char* p = buf;
     char* q = strchr(p, '\n');
     while (p) {
         if (q) *q = 0;

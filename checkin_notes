@@ -8565,3 +8565,13 @@ David  8 Aug 2006
 
     html/user/
         forum_moderate_post_action.php
+
+David  8 Aug 2006
+	- core client: fix CPU scheduling but that would cause idle CPU
+		after suspending a task
+	- compile fix for VS2005
+
+	api/
+		gutil_text.C
+	client/
+		cpu_sched.C
