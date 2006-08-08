@@ -43,7 +43,7 @@ if ($action=="hide"){
     $result = $post->move($destination_thread);
 } elseif ($action=="banish_user"){
     $userid = get_int('userid');
-    $user = lookup_user_id($userid);
+    $user = newUser($userid);
     if (!$user) {
         error_page("no user");
     }

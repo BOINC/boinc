@@ -8559,3 +8559,9 @@ David  8 Aug 2006
 
     client/
         time_stats.C
+
+David  8 Aug 2006
+    - bug fix
+
+    html/user/
+        forum_moderate_post_action.php
