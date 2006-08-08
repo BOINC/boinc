@@ -7,9 +7,10 @@ page_head("Web and GUI translations");
 echo "
 BOINC has a mechanism for non-English translations of
 <ul>
+<li> Parts of this site (the <a href=download.php>Download page</a>
+    and the <a href=poll.php>BOINC user survey</a>)
 <li> The BOINC Manager
-<li> The BOINC-supplied portion of project web sites
-  (e.g. the account-creation pages)
+<li> Parts of the BOINC-supplied portion of project web sites
 <li> The project-specific parts of project web sites
 </ul>
 <p>
@@ -60,6 +61,14 @@ msgstr \"\$PROJECT har i &oslash;jeblikket f&oslash;lgende applikationer. \"
 </td></tr></table>
 Each translation has a token CHARSET whose value should be
 the character set (e.g. iso-8859-1) used in the translation.
+
+<p>
+Here are links to the translation files for
+<ul>
+<li> <a href=http://setiathome.berkeley.edu/cgi-bin/cvsweb.cgi/boinc/languages/translations/>this web site</a>
+<li> <a href=http://setiathome.berkeley.edu/cgi-bin/cvsweb.cgi/boinc/html/languages/translations/>the BOINC-supplied part of project web sites.
+<li> <a href=http://setiathome.berkeley.edu/cgi-bin/cvsweb.cgi/boinc/locale/client/>the BOINC Manager</a>.
+</ul>
 
 
 <h2>Translatable web pages</h2>

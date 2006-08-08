@@ -53,7 +53,6 @@ an email list for BOINC developers.
 <li> <a href=compile.php>Get and compile BOINC software</a>
 <li> <a href=impl_notes.php>Implementation notes</a>
 <li> <a href=coding.php>BOINC coding style</a>
-      <li> <a href=translation.php>Translation</a> of web and GUI text
 </ul>
 <p>
 BOINC is free software, distributed under the Lesser GNU Public License (LGPL).

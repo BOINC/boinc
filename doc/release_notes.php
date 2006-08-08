@@ -1,149 +1,107 @@
 <?php
 require_once("docutil.php");
+require_once("../html/inc/translation.inc");
 
-page_head("Release notes");
+page_head(tr(RLN_PAGE_TITLE));
 
 echo "
 <ul>
-    <li> <a href=#new>What's new in 5.4</a>
-    <li> <a href=#install>Installing</a>
-    <li> <a href=#uninstall>Uninstalling</a>
-    <li> <a href=#bugs>Known issues</a>
-    <li> <a href=#troubleshoot>Troubleshooting</a>
+    <li> <a href=#new>".sprintf(tr(RLN_WHATS_NEW),"5.4")."</a>
+    <li> <a href=#install>".tr(RLN_INSTALLING)."</a>
+    <li> <a href=#uninstall>".tr(RLN_UNINSTALLING)."</a>
+    <li> <a href=#bugs>".tr(RLN_KNOWN_ISSUES)."</a>
+    <li> <a href=#troubleshoot>".tr(RLN_TROUBLESHOOT)."</a>
 </ul>
 
-<h2>What's new in 5.4</h2>
+<h2>".sprintf(tr(RLN_WHATS_NEW),"5.4")."</h2>
 <ul>
-<li> Support for 'Account managers' - web sites
-that let you browse BOINC projects, attach/detach,
-change resource share and settings,
-all with point-and-click simplicity.
-Account managers are also great if you have several computers -
-you just have to make changes once.
-<li>
-General preferences can be overridden by a local file;
-details are <a href=http://boinc.berkeley.edu/prefs_override.php>here</a>.
-<li>
-BOINC now alerts you whenever it needs you
-to create a network connection.
+<li> ".tr(RLN_NEWF_5_4_AM)."
+<li> ".sprintf(tr(RLN_NEWF_5_4_AM),
+          "<a href=http://boinc.berkeley.edu/prefs_override.php>","</a>")."
+<li> ".tr(RLN_NEWF_5_4_ALERTS_CONNECT)."
 </ul>
 
-We recommend that all BOINC users upgrade to 5.4.
+".sprintf(tr(RLN_RECOMMEND_LATEST_VERSION),"5.4")."
 
 <p>
-A detailed revision history is
-<a href=rev_history.php>here</a>.
+".sprintf(tr(RLN_LINK2_VERSION_HISTORY),"<a href=rev_history.php>","</a>")."
 
 <a name=install></a>
-<h2>Installing</h2>
+<h2>".tr(RLN_INSTALLING)."</h2>
 
-<h3>Windows</h3>
-BOINC can be installed in any of several modes:
+<h3>".tr(RLN_MSWIN)."</h3>
+".tr(RLN_MSWIN_INSTALL_MODES)."
 
 <ul>
 <li>
-<b>Single-user installation</b>
+<b>".tr(RLN_SINGLE_USER_INSTALL)."</b>
 <p>
-This is the recommended mode.
-BOINC will run while you (the installing user) are logged in.
-BOINC is listed in the Start menu of you,
-but not other users.
-The 'Show graphics' command in the BOINC manager
-works only for you.
-The BOINC screensaver shows application
-graphics only for you
-(other users can run the screensaver but will see textual information only).
+".tr(RLN_MSWIN_INSTALL_SINGLE_USER_DESC)."
 
 <li>
-<b>Shared installation</b>
+<b>".tr(RLN_SHARED_INSTALL)."</b>
 <p>
-BOINC runs whenever any user is logged in.
-BOINC is listed in the Start menu of all users.
-While BOINC is running, it runs as a particular user
-(either the first user to log in, or the first to run BOINC).
-The 'Show graphics' command in the BOINC manager works only for this user.
-The BOINC screensaver shows application graphics only for this user
-(other users can run the screensaver but will see textual information only).
+".tr(RLN_MSWIN_INSTALL_SHARED_DESC)."
 
 <li>
-<b>Service installation</b>
+<b>".tr(RLN_WIN_SERVICE_INSTALL)."</b>
 <p>
-BOINC runs all the time (even when no one is logged in).
-BOINC is listed in the Start menu of the installing user, but not other users.  
-The 'Show graphics' command in the BOINC manager will not work for any user.
-The BOINC screensaver will only show textual information.
+".tr(RLN_MSWIN_INSTALL_WINSERVICE_DESC)."
 </ul>
 
-<h3>Linux</h3>
-BOINC for Linux is distributed as a self-extracting archive.
-This type of installation requires that you be familiar with the
-UNIX command-line interface.
+<h3>".tr(RLN_LINUX)."</h3>
+".tr(RLN_LINUX_INSTALL_SEA_DESC)."
 <p>
-The download files have names like
-<code>boinc_5.2.13_i686-pc-linux-gnu.sh</code>.
-After downloading the file, type
-<pre>
-sh boinc_5.2.13_i686-pc-linux-gnu.sh
-</pre>
-This will create a directory BOINC/ with the following files:
+".tr(RLN_LINUX_DL_FILENAME)."
+".sprintf(tr(RLN_LINUX_RUN_SEA),"sh boinc_5.2.13_i686-pc-linux-gnu.sh")."
+
+".tr(RLN_LINUX_RESULTOF_SEA)."
 <dl>
 <dt> boinc
-<dd> The BOINC core client
+<dd> ".tr(RLN_BOINC_CORE_CL)."
 <dt> boincmgr
-<dd> The BOINC manager
+<dd> ".tr(RLN_BOINC_MANAGER)."
 <dt>
 run_client
-<dd> A script that cd's into the BOINC directory and runs the core client.
+<dd> ".tr(RLN_SCRIPT_RUN_CLIENT_DESC)."
 <dt>
 run_manager
-<dd> A script that cd's into the BOINC directory and runs the manager.
+<dd> ".tr(RLN_SCRIPT_RUN_MANAGER_DESC)."
 </dl>
 
 <p>
-You may want to
-<a href=auto_start.php>automatically start the core client</a>
-at boot time.
+".sprintf(tr(RLN_LINUX_AUTOSTART),"<a href=auto_start.php>","</a>")."
 
 <a name=uninstall></a>
-<h2>Uninstalling</h2>
-<h3>Windows</h3>
-In the Start menu, select Programs / BOINC / Uninstall.
-Or in the Start menu, select Settings / Add or remove programs.
+<h2>".tr(RLN_UNINSTALLING)."</h2>
+<h3>".tr(RLN_MSWIN)."</h3>
+".tr(RLN_MSWIN_UNINSTALL_DESC)."
 
 <a name=issues></a>
-<h2>Known issues</h2>
+<h2>".tr(RLN_KNOWN_ISSUES)."</h2>
 <ul>
-<li> If you use a proxy server, please hold off upgrading for now.
-We have a fix in the works for proxies that use NTLM authentication.
+<li> ".tr(RLN_ISSUE_PROXY_NTLMAUTH)."
 </ul>
-<h3>Windows</h3>
+<h3>".tr(RLN_MSWIN)."</h3>
 <ul>
 <li>
-if BOINC applications are repeatedly crashing on your computer,
-it's possibly that you need to
-<a href=directx.php>upgrade to the latest version of DirectX</a>.
-<li> If BOINC runs at the same time as Windows XP 3-D screensavers,
-the system becomes sluggish and unresponsive.
-<li> Applications that were built before October 2004
-do not display screensaver graphics with the Service or Shared install type,
-or the Single-user install type with
-the password protect screensaver option on NT based machines.
+".sprintf(tr(RLN_ISSUE_MSWIN_LATEST_DIRECTX),"<a href=directx.php>","</a>")."
+<li> 
+".tr(RLN_ISSUE_MSWIN_SCREENSAVER_XP3D)."
+<li> 
+".tr(RLN_ISSUE_MSWIN_NO_SCREENSAVER)."
 </ul>
 
 <a name=troubleshoot></a>
-<h2>Troubleshooting</h2>
-If you have problems with BOINC,
-here are some steps you can take:
+<h2>".tr(RLN_TROUBLESHOOT)."</h2>
+".tr(RLN_TROUBLESHOOT_INTRO)."
 <ul>
-<li> If the problem is with a particular project,
-go to the 'Questions and Answers' area of the project's web site.
-You may find that there's already a solution to your problem.
-If not, post it there, and you'll get help from other users.
-<li> If project-specific problems persist,
-use the BOINC Manager to 'reset' that project.
-This will erase any jobs in progress and start from scratch.
-<li> If you have problems with BOINC itself,
-get help from the <a href=dev/>BOINC message boards</a>.
+<li> 
+".tr(RLN_TROUBLESHOOT_PRJ_SPECIFIC)."
+<li> 
+".tr(RLN_TROUBLESHOOT_PROBLEM_PERSIST)."
+<li> 
+".sprintf(tr(RLN_TROUBLESHOOT_BOINC_ITSELF),"<a href=dev/>","</a>")."
 </ul>
 
 ";

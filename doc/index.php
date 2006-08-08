@@ -101,6 +101,7 @@ function show_other() {
         <tr><td>
             <ul>
             <li> <a href=boinc_dev.php>Software development</a>
+            <li> <a href=translation.php>Translation</a> of web and GUI text
             <li> <a href=intro.php>Overview</a>
             <li> <a href=contact.php>Personnel and contributors</a>
             <li> BOINC <a href=email_lists.php>email lists</a>

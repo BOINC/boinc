@@ -357,3 +357,233 @@ msgstr         "Note: files are downloaded from mirror servers "
     "The server is chosen randomly - "
     "if a download fails, reload this page and try again. "
 
+##############################################
+# system_requirements.php by je2bwm 2006/08/07
+##############################################
+msgid "SRQ_PAGE_TITLE"
+msgstr "System requirements"
+
+msgid "SRQ_INTRO"
+msgstr "Your computer must satisfy the following requirements to run BOINC. "
+    "BOINC-based projects may have additional requirements."
+
+msgid "SRQ_MSWIN"
+msgstr "Windows"
+
+msgid "SRQ_OS"
+msgstr "Operating systems"
+
+msgid "SRQ_MSWIN_REQ_OS"
+msgstr "Windows 98 or later"
+
+msgid "SRQ_MIN_HARDWARE"
+msgstr "Minimum hardware"
+
+msgid "SRQ_MSWIN_REQ_CPU"
+msgstr "Pentium 233 MHz (Recommended: Pentium 500 MHz or greater)"
+
+msgid "SRQ_MSWIN_REQ_RAM"
+msgstr "64 MB RAM (Recommended: 128 MB RAM or greater)"
+
+msgid "SRQ_MSWIN_REQ_DISK"
+msgstr "20 MB disk space"
+
+msgid "SRQ_APPLMAC"
+msgstr "Macintosh"
+
+msgid "SRQ_APPLMAC_REQ_OS"
+msgstr "Mac OS X 10.3 and later"
+
+msgid "SRQ_APPLMAC_REQ_CPU"
+msgstr "Macintosh computer with an Intel x86or PowerPC G3, G4, or G5 processor"
+
+msgid "SRQ_APPLMAC_REQ_RAM"
+msgstr "128 MB RAM (Recommended: 256 MB RAM or greater)"
+
+msgid "SRQ_APPLMAC_REQ_DISK"
+msgstr "200 MB disk space"
+
+msgid "SRQ_LINUX"
+msgstr "Linux"
+
+msgid "SRQ_LINUX_REQ_KERNEL"
+msgstr "Linux kernel 2.2.14 or higher"
+
+msgid "SRQ_LINUX_REQ_GLIBC"
+msgstr "glibc 2.3.2 or higher"
+
+msgid "SRQ_LINUX_REQ_XFREE86"
+msgstr "XFree86-3.3.6 or higher"
+
+msgid "SRQ_LINUX_REQ_GTKPLUS"
+msgstr "gtk+2.0 or higher"
+
+msgid "SRQ_LINUX_REQ_CPU"
+msgstr "Pentium 500 MHz or greater"
+
+msgid "SRQ_LINUX_REQ_RAM"
+msgstr "64 MB RAM"
+
+msgid "SRQ_LINUX_REQ_DISK"
+msgstr "50 MB disk space"
+
+##############################################
+# release notes by je2bwm 2006/08/09
+##############################################
+msgid "RLN_PAGE_TITLE"
+msgstr "Release notes"
+
+msgid "RLN_WHATS_NEW"
+msgstr "What's new in %s"
+
+msgid "RLN_INSTALLING"
+msgstr "Installing"
+
+msgid "RLN_UNINSTALLING"
+msgstr "Uninstalling"
+
+msgid "RLN_KNOWN_ISSUES"
+msgstr "Known issues"
+
+msgid "RLN_TROUBLESHOOT"
+msgstr "Troubleshooting"
+
+msgid "RLN_NEWF_5_4_AM"
+msgstr "Support for 'Account managers' - web sites that let you browse "
+    "BOINC projects, attach/detach, change resource share and settings, "
+    "all with point-and-click simplicity. "
+    "Account managers are also great if you have several computers - "
+    "you just have to make changes once."
+
+msgid "RLN_NEWF_5_4_PREF_OVERRIDE"
+msgstr "General preferences can be overridden by a local file; "
+    "details are %s here %s."
+
+msgid "RLN_NEWF_5_4_ALERTS_CONNECT"
+msgstr "BOINC now alerts you whenever it needs you "
+    "to create a network connection."
+
+msgid "RLN_RECOMMEND_LATEST_VERSION"
+msgstr "We recommend that all BOINC users upgrade to %s."
+
+msgid "RLN_LINK2_VERSION_HISTORY"
+msgstr "A detailed revision history is %s here %s."
+
+msgid "RLN_MSWIN"
+msgstr "Windows"
+
+msgid "RLN_APPLMAC"
+msgstr "Macintosh"
+
+msgid "RLN_LINUX"
+msgstr "Linux"
+
+msgid "RLN_MSWIN_INSTALL_MODES"
+msgstr "BOINC can be installed in any of several modes:"
+
+msgid "RLN_SINGLE_USER_INSTALL"
+msgstr "Single-user installation"
+
+msgid "RLN_MSWIN_INSTALL_SINGLE_USER_DESC"
+msgstr "This is the recommended mode. "
+    "BOINC will run while you (the installing user) are logged in. "
+    "BOINC is listed in the Start menu of you,but not other users. "
+    "The 'Show graphics' command in the BOINC managerworks only for you. "
+    "The BOINC screensaver shows applicationgraphics only for you "
+    "(other users can run the screensaver but will see  "
+    "textual information only)."
+
+msgid "RLN_SHARED_INSTALL"
+msgstr "Shared installation"
+
+msgid "RLN_MSWIN_INSTALL_SHARED_DESC"
+msgstr "BOINC runs whenever any user is logged in. "
+    "BOINC is listed in the Start menu of all users. "
+    "While BOINC is running, it runs as a particular user "
+    "(either the first user to log in, or the first to run BOINC). "
+    "The 'Show graphics' command in the BOINC manager works only for this user. "
+    "The BOINC screensaver shows application graphics only for this user "
+    "(other users can run the screensaver but will see  "
+    "textual information only)."
+
+msgid "RLN_WIN_SERVICE_INSTALL"
+msgstr "Shared installation"
+
+msgid "RLN_MSWIN_INSTALL_WINSERVICE_DESC"
+msgstr "BOINC runs all the time (even when no one is logged in). "
+    "BOINC is listed in the Start menu of the installing user, "
+    "but not other users.  "
+    "The 'Show graphics' command in the BOINC manager "
+    "will not work for any user. "
+    "The BOINC screensaver will only show textual information."
+
+msgid "RLN_LINUX_INSTALL_SEA_DESC"
+msgstr "BOINC for Linux is distributed as a self-extracting archive. "
+    "This type of installation requires that you be familiar with the "
+    "UNIX command-line interface."
+
+msgid "RLN_LINUX_DL_FILENAME"
+msgstr "The download files have names like<code> %s </code>."
+
+msgid "RLN_LINUX_RUN_SEA"
+msgstr "After downloading the file, type<pre>%s</pre>"
+
+msgid "RLN_LINUX_RESULTOF_SEA"
+msgstr "This will create a directory BOINC/ with the following files:"
+
+msgid "RLN_BOINC_CORE_CL"
+msgstr "The BOINC core client"
+
+msgid "RLN_BOINC_MANAGER"
+msgstr "The BOINC manager"
+
+msgid "RLN_SCRIPT_RUN_CLIENT_DESC"
+msgstr "A script that cd's into the BOINC directory and runs the core client."
+
+msgid "RLN_SCRIPT_RUN_MANAGER_DESC"
+msgstr "A script that cd's into the BOINC directory and runs the manager."
+
+msgid "RLN_LINUX_AUTOSTART"
+msgstr "You may want to%s automatically start the core client %sat boot time."
+
+msgid "RLN_MSWIN_UNINSTALL_DESC"
+msgstr "In the Start menu, select Programs / BOINC / Uninstall. "
+    "Or in the Start menu, select Settings / Add or remove programs."
+
+msgid "RLN_ISSUE_PROXY_NTLMAUTH"
+msgstr "If you use a proxy server, please hold off upgrading for now. "
+    "We have a fix in the works for proxies that use NTLM authentication."
+
+msgid "RLN_ISSUE_MSWIN_LATEST_DIRECTX"
+msgstr "if BOINC applications are repeatedly crashing on your computer, "
+    "it's possibly that you need to "
+    "%supgrade to the latest version of DirectX %s."
+
+msgid "RLN_ISSUE_MSWIN_SCREENSAVER_XP3D"
+msgstr "If BOINC runs at the same time as Windows XP 3-D screensavers, "
+    "the system becomes sluggish and unresponsive."
+
+msgid "RLN_ISSUE_MSWIN_NO_SCREENSAVER"
+msgstr "Applications that were built before October 2004 "
+    "do not display screensaver graphics with the Service or "
+    "Shared install type, "
+    "or the Single-user install type with "
+    "the password protect screensaver option on NT based machines."
+
+msgid "RLN_TROUBLESHOOT_INTRO"
+msgstr "If you have problems with BOINC, here are some steps you can take:"
+
+msgid "RLN_TROUBLESHOOT_PRJ_SPECIFIC"
+msgstr "If the problem is with a particular project, "
+    "go to the 'Questions and Answers' area of the project's web site. "
+    "You may find the solution to your problem. "
+    "If not, post it there, and you'll get help from other users."
+
+msgid "RLN_TROUBLESHOOT_PROBLEM_PERSIST"
+msgstr "If project-specific problems persist, "
+    "use the BOINC Manager to 'reset' that project. "
+    "This will erase any jobs in progress and start from scratch."
+
+msgid "RLN_TROUBLESHOOT_BOINC_ITSELF"
+msgstr "If you have problems with BOINC itself, "
+    "get help from the %s BOINC message boards %s."
