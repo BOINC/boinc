@@ -172,6 +172,9 @@ int TIME_STATS::write(MIOFILE& out, bool to_server) {
             last_update
         );
     }
+#if 0
+    // too much text.  Maybe just send the longest outage?
+    //
     if (outages.size()) {
         out.printf("    <outages>\n");
         unsigned int i;
@@ -189,6 +192,7 @@ int TIME_STATS::write(MIOFILE& out, bool to_server) {
         }
         out.printf("    </outages>\n");
     }
+#endif
     out.printf("</time_stats>\n");
     return 0;
 }

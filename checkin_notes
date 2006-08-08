@@ -8551,3 +8551,11 @@ David  8 Aug 2006
     html/
         inc/
             forum_email.inc
+
+David  8 Aug 2006
+    - don't send <outage> elements in scheduler request.
+        Too much text, and I don't think schedulers will ever
+        need this level of detail (longest outage probably sufficient)
+
+    client/
+        time_stats.C
