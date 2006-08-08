@@ -226,7 +226,8 @@ void CProjectInfoPage::OnPageChanged( wxWizardExEvent& event ) {
         _("Enter the URL of the project's web site.")
     );
     m_pDescription2StaticCtrl->SetLabel(
-        _("You can copy and paste the URL from your browser's address bar.")
+        _("You can copy and paste the URL from your browser's\n"
+		  "address bar.")
     );
     m_pProjectUrlStaticCtrl->SetLabel(
         _("Project &URL:")

@@ -304,7 +304,8 @@ void CWelcomePage::OnPageChanged( wxWizardExEvent& event ) {
             _("Attach to project")
         );
         m_pDescriptionStaticCtrl->SetLabel(
-            _("We'll now guide you through the process of attaching to a project.")
+            _("We'll now guide you through the process of attaching\n"
+			  "to a project.")
         );
     } else if (IS_ACCOUNTMANAGERREMOVEWIZARD()) {
         strBuffer.Printf(
@@ -328,8 +329,8 @@ void CWelcomePage::OnPageChanged( wxWizardExEvent& event ) {
             _("Account manager")
         );
         m_pDescriptionStaticCtrl->SetLabel(
-            _("We'll now guide you through the process of adding an account\n"
-              "manager.")
+            _("We'll now guide you through the process of adding\n
+			  "an account manager.")
         );
     } else {
         wxASSERT(FALSE);
