@@ -11,6 +11,7 @@ require_once('../inc/forum_std.inc');
 db_init();
 
 $logged_in_user = re_get_logged_in_user(true);
+check_banished($logged_in_user);
 
 $thread = new Thread (get_int('thread'));
 $forum = $thread->getForum();

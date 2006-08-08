@@ -327,6 +327,11 @@ function update_6_16_2006() {
 function update_7_11_2006() {
     do_query("alter table app add weight double not null");
 }
-//update_7_11_2006();
+
+function update_8_8_2006() {
+    do_query("alter table forum_preferences add banished_until integer not null default 0");
+}
+
+//update_8_8_2006();
 
 ?>

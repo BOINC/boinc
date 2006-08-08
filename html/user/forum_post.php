@@ -13,6 +13,8 @@ db_init();
 
 $logged_in_user = re_get_logged_in_user(true);
 
+check_banished($logged_in_user);
+
 $forumid = get_int("id");
 $forum = new Forum($forumid);
 

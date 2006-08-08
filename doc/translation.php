@@ -7,15 +7,46 @@ page_head("Web and GUI translations");
 echo "
 BOINC has a mechanism for non-English translations of
 <ul>
-<li> Parts of this site (the <a href=download.php>Download page</a>
-    and the <a href=poll.php>BOINC user survey</a>)
+<li> Parts of this site (the <a href=download.php>Download</a>
+    and <a href=poll.php>BOINC user survey</a> pages,
+    and related pages)
 <li> The BOINC Manager
 <li> Parts of the BOINC-supplied portion of project web sites
 <li> The project-specific parts of project web sites
 </ul>
+
+<h2>Instructions for volunteer translators</h2>
 <p>
-We encourage volunteers to do these translations.
-If you're interested, please see the instructions at the bottom of this page.
+Translations are done by volunteers.
+If you're interested in helping:
+
+<ul>
+<li> Email the translation manager.
+For BOINC this is <b>translate at boinc.berkeley.edu</b>.
+Use this address also for SETI@home translations.
+For other projects, contact the project.
+<li>
+Obtain (typically via CVS) the 'authoritative' translation file.
+Usually this is en.po (English).
+<li>
+Create a translation file for your language.
+You can do this using a text editor or a specialized tool such as
+<a href=http://www.poedit.org/>poedit</a>.
+<li>
+Send this to the translation manager,
+who will then install it on the project's web site.
+Check all relevant pages and fix as needed.
+<li>
+Subscribe to the
+<a href=http://ssl.berkeley.edu/mailman/listinfo/boinc_loc>boinc_loc at ssl.berkeley.edu</a>
+email list, which is for translation-related discussion and announcements.
+
+<li>
+Because web sites are dynamic,
+you will have to periodically update your translation.
+You can do this efficiently by looking at the CVS diffs
+of the authoritative translation file.
+</ul>
 
 <h2>Translation files</h2>
 
@@ -27,7 +58,7 @@ is described
 These have names like 'da.po' (Danish) and 'en.po' (English).
 It's very simple.
 For example:
-<table>
+<table width=100%>
 <tr><th>en.po (English)</th></tr>
 <tr><td>
 <pre>
@@ -97,10 +128,8 @@ replaces the token with the corresponding translated text.
 
 </ul>
 <p>
-In developing web pages, keep in mind that word
-order differs between languages,
-so you should avoid breaking a sentence up into
-multiple translation units.
+In developing web pages, keep in mind that word order differs between languages,
+so you should avoid breaking a sentence up into multiple translation units.
 For example, use constructs like
 <pre>
 msgid \"ACTIVATE_OR_CREATE\"
@@ -137,45 +166,7 @@ Project-specific translation files override BOINC translation files.
 <h2>BOINC Manager translations</h2>
 <p>
 Menu names and other text in the BOINC manager are stored in
-a file called <b>BOINC Manager.po</b>.
-The release uses American English.
-Many other languages are available.
-The BOINC distribution includes all current language files.
-
-<h2>Instructions for volunteer translators</h2>
-<p>
-If you are interested in doing translation for BOINC or
-for a specific project:
-
-<ul>
-<li> Email the translation manager.
-For BOINC this is <b>translate at boinc.berkeley.edu</b>.
-Use this address also for SETI@home translations.
-For other projects, contact the project.
-<li>
-Obtain (typically via CVS) the 'authoritative' translation file.
-Typically this is en.po.
-The translation files for project web sites are
-<a href=http://boinc.berkeley.edu/cgi-bin/cvsweb.cgi/boinc/html/languages/translations/>here</a>.
-<li>
-Create a translation file for your language.
-You can do this using a text editor or a specialized tool such as
-<a href=http://www.poedit.org/>poedit</a>.
-<li>
-Send this to the translation manager,
-who will then install it on the project's web site.
-Check all relevant pages and fix as needed.
-<li>
-Subscribe to the
-<a href=http://ssl.berkeley.edu/mailman/listinfo/boinc_loc>boinc_loc at ssl.berkeley.edu</a>
-email list, which is devoted to discussion of BOINC-related translation.
-
-<li>
-Because web sites are dynamic,
-you will have to periodically update your translation.
-You can do this efficiently by looking at the CVS diffs
-of the authoritative translation file.
-</ul>
+files in <b>boinc/locale/client/</b>.
 
 ";
 

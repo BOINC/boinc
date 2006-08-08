@@ -41,6 +41,24 @@ if ($action=="hide"){
 } elseif ($action=="move"){
     $destination_thread = new Thread(post_int('threadid'));
     $result = $post->move($destination_thread);
+} elseif ($action=="banish_user"){
+    $userid = get_int('userid');
+    $user = lookup_user_id($userid);
+    if (!$user) {
+        error_page("no user");
+    }
+    $t = time() + 14*86400;     // two weeks
+    $query = "update forum_preferences set banished_until=$t where userid=$userid";
+    $result = mysql_query($query);
+    if ($result) {
+        echo "User $user->name has been banished for 2 weeks.";
+        send_banish_email($user);
+    } else {
+        echo "DB failure for $query";
+        echo mysql_error();
+    }
+    page_tail();
+    exit();
 } else {
     error_page("Unknown action ");
 }

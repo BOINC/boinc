@@ -21,10 +21,9 @@ if (!$logged_in_user->isSpecialUser(S_MODERATOR)) {
     error_page("You are not authorized to moderate this post.");
 }    
 
-$post = new Post(get_int('id'));
+$postid = get_int('id');
+$post = new Post($postid);
 $thread = $post->getThread();
-
-
 
 page_head('Forum');
 
@@ -49,6 +48,26 @@ if (get_str('action')=="hide") {
     echo "<input type=hidden name=action value=move>";
     row2("Destination thread ID:", "<input name=\"threadid\">");
     //todo display where to move the post as a dropdown instead of having to get ID    
+} elseif (get_str('action')=="banish_user") {
+    $userid = get_int('userid');
+    $user = newUser($userid);
+    if (!$user) {
+        error_page("no user");
+    }
+    $x = $user->getBanishedUntil();
+    if ($x>time()) {
+        echo "User is already banished";
+        exit();
+    }
+    echo "Are you sure you want to banish $user->name?
+        This will prevent $user->name from posting for 2 weeks.
+        It should be done only if $user->name
+        has consistently exhibited trollish behavior.
+        <p>
+        <a href=forum_moderate_post_action.php?action=banish_user&id=$postid&userid=$userid&confirmed=yes>Yes, banish $user->name</a>
+    ";
+    page_tail();
+    exit();
 } else {
     error_page( "Unknown action");
 }

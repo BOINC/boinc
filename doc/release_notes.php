@@ -105,5 +105,5 @@ run_manager
 </ul>
 
 ";
-page_tail();
+page_tail(true);
 ?>

@@ -46,5 +46,6 @@ list_end();
 echo "
     </form>
 ";
+page_tail(true);
 
 ?>

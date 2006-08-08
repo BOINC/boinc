@@ -54,7 +54,7 @@ echo "
 <hr>
 ";
 
-page_tail();
+page_tail(true);
 
 ?>
 

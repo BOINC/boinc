@@ -138,4 +138,15 @@ For further information and assistance with ".PROJECT." go to $master_url";
     return re_send_email($forum_post_reporting_admin, $subject, $body);
 }
 
+function send_banish_email($user) {
+    $subject = PROJECT." posting privileges suspended";
+    $forum_post_reporting_admin = newUser(FORUM_MODERATION_EMAIL_USER_ID);
+    $body = "
+This email is to inform you that you will not be able to
+post to the ".PROJECT." message boards for two weeks,
+because your postings have not followed our guidelines.
+    ";
+    return re_send_email($forum_post_reporting_admin, $subject, $body);
+}
+
 ?>

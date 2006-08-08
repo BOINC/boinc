@@ -19,6 +19,7 @@ db_init();
     $forum = $thread->getForum();
 
     $user = re_get_logged_in_user(true);
+    check_banished($user);
     
     /* Make sure the user has the forum's minimum amount of RAC and total credit
      * before allowing them to report a post. Using the same rules as for rating (at least for now)

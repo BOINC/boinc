@@ -55,7 +55,7 @@ function copyright() {
     ";
 }
 
-function page_tail() {
+function page_tail($translatable=false) {
     $datefile = $_SERVER["SCRIPT_FILENAME"];
     $d = last_mod($datefile);
     echo "
@@ -64,7 +64,15 @@ function page_tail() {
         <a href=\"/\">Return to BOINC main page</a>
         </center><p>
             <br>
-            <font color=888888 size='2'>Last modified $d.<br>
+            <font color=888888 size='2'>
+    ";
+    if ($translatable) {
+        echo "
+            This page is <a href=translation.php>translatable</a>.<br>
+        ";
+    }
+    echo "
+            Last modified $d.<br>
     ";
     copyright();
     echo "

@@ -146,6 +146,6 @@ if ($_GET['all_platforms']) {
 } else {
     show_download(null);
 }
-page_tail();
+page_tail(true);
 
 ?>

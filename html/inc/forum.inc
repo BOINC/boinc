@@ -524,4 +524,13 @@ function post_warning() {
     ";
 }
 
+function check_banished($user) {
+    $x = $user->getBanishedUntil();
+    if ($x>time()) {
+        error_page(
+            "You may not post or rate messages until ".gmdate('M j, Y', $x)
+        );
+    }
+}
+
 ?>

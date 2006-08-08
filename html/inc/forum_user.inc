@@ -104,6 +104,10 @@ class User {
         $this->ensurePrefsLoaded();
         return $this->fprefObj->minimum_wrap_postcount;
     }
+    function getBanishedUntil() {
+        $this->ensurePrefsLoaded();
+        return $this->fprefObj->banished_until;
+    }
     function setMinimumWrapPostCount($value){
         $value = intval($value);
         if ($value<0) $value=0;

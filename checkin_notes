@@ -8520,3 +8520,26 @@ Walt   8 Aug 2006
         AccountManagerInfoPage.cpp
         ProjectInfoPage.cpp
         WelcomePage.cpp
+
+David  8 Aug 2006
+    - User web: add "banish" feature for message boards.
+        Moderators can banish users for 2 weeks,
+        during which time they can't post or rate.
+
+    NOTE: this requires a database update.  See html/ops/db_update.php
+
+    html/
+        inc/
+            forum.inc
+            forum_email.inc
+            forum_moderators.inc
+            forum_user.inc
+        ops/
+            db_update.inc
+        user/
+            forum_moderate_post.php
+            forum_moderate_post_action.php
+            forum_post.php
+            forum_reply.php
+            forum_report_post.php
+            white.css

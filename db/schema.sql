@@ -426,6 +426,7 @@ create table forum_preferences (
     display_wrap_postcount INT DEFAULT 75 NOT NULL,
     ignorelist          varchar(254) not null,
     ignore_sticky_posts tinyint(1) unsigned not null,
+    banished_until      integer     not null default 0,
     primary key (userid)
 ) type=MyISAM; 
 

@@ -172,7 +172,7 @@ list_item2(
 );
 
 list_end();
-page_tail();
+page_tail(true);
 
 $f = fopen($cachefile, "w");
 fwrite($f, ob_get_contents());
