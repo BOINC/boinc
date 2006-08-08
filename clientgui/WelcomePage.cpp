@@ -329,8 +329,8 @@ void CWelcomePage::OnPageChanged( wxWizardExEvent& event ) {
             _("Account manager")
         );
         m_pDescriptionStaticCtrl->SetLabel(
-            _("We'll now guide you through the process of adding\n
-			  "an account manager.")
+            _("We'll now guide you through the process of adding\n"
+              "an account manager.")
         );
     } else {
         wxASSERT(FALSE);
