@@ -8544,3 +8544,10 @@ David  8 Aug 2006
             forum_report_post.php
             moderation.php
             white.css
+
+David  8 Aug 2006
+    - send email to user, not moderator
+
+    html/
+        inc/
+            forum_email.inc
