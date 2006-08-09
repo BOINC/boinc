@@ -265,7 +265,7 @@ function print_login_form_aux($next_url, $user) {
     start_table();
     row1("Log in with email/password");
     row2("Email address:", "<input name=email_addr size=40>");
-    row2("Password:<br><font size=-2><a href=edit_passwd_form.php>Change password</a>",
+    row2("Password:<br><font size=-2><a href=edit_passwd_form.php>Forgot password?</a>",
         "<input type=password name=passwd size=40>"
     );
     row2("", "<input type=submit name=mode value='Log in with email/password'>");

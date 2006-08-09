@@ -8595,3 +8595,9 @@ David  9 Aug 2006
         user/
             forum_forum.php
             white.css
+
+David  9 Aug 2006
+    - user web: "Change password" -> "Forgot password?" in login form
+
+    html/inc/
+        util.inc
