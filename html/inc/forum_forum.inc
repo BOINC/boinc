@@ -111,8 +111,12 @@ class Forum {
     function getThreads($start, $count, $sort_style=MODIFIED_NEW, $show_hidden=false, $sticky_first=true){
         if (!$this->threads){
             $list = $this->dbhandler->getThreads($this, $start, $count, $sort_style, $show_hidden, $sticky_first);
-            foreach ($list as $key => $thread){
-                $this->threads[] = new Thread($thread->id, $thread);
+            if ($list) {
+                foreach ($list as $key => $thread){
+                    $this->threads[] = new Thread($thread->id, $thread);
+                }
+            } else {
+                $this->threads = array();
             }
         }
         return $this->threads;

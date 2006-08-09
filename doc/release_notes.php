@@ -51,12 +51,11 @@ echo "
 
 <h3>".tr(RLN_LINUX)."</h3>
 ".tr(RLN_LINUX_INSTALL_SEA_DESC)."
-<p>
-".tr(RLN_LINUX_DL_FILENAME)."
-".sprintf(tr(RLN_LINUX_RUN_SEA),"sh boinc_5.2.13_i686-pc-linux-gnu.sh")."
-
-".tr(RLN_LINUX_RESULTOF_SEA)."
-<dl>
+<p>"
+.sprintf(tr(RLN_LINUX_DL_FILENAME),"boinc_5.2.13_i686-pc-linux-gnu.sh")." "
+.sprintf(tr(RLN_LINUX_RUN_SEA),"sh boinc_5.2.13_i686-pc-linux-gnu.sh")
+.tr(RLN_LINUX_RESULTOF_SEA)
+."<dl>
 <dt> boinc
 <dd> ".tr(RLN_BOINC_CORE_CL)."
 <dt> boincmgr

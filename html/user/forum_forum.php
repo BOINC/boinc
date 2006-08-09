@@ -33,7 +33,13 @@ if (!$sort_style) {
     }
 }
 
-page_head(tr(FORUM_TITLE_SHORT).' : '.$forum->getTitle());
+$Category = $forum->getCategory(); 
+if ($Category->getType()!=0){
+    page_head(tr(LINKS_QA).' : '.$forum->getTitle());
+} else {
+    page_head(tr(FORUM_TITLE_SHORT).' : '.$forum->getTitle());
+}
+
 // Allow users with a linktab-browser to get some usefull links
 echo '<link href="forum_index.php" rel="up" title="Forum Index">';
 
@@ -44,7 +50,6 @@ echo '
 
 show_forum_title($forum, NULL);
 
-$Category = $forum->getCategory(); 
 if ($Category->getType()!=0){
     echo "
     <div class=\"helpdesk_note\">
@@ -54,13 +59,13 @@ if ($Category->getType()!=0){
 }
 
 
-echo '<p><a href="forum_post.php?id='.$id.'">';
-echo "[Create a new thread]</a></p></td>";
+echo '<a href="forum_post.php?id='.$id.'">';
+echo "[Create a new thread]</a><br><br></td>";
 echo '    <form action="forum_forum.php" method="get">
     <input type="hidden" name="id" value="'.$forum->getID().'">';
 echo '<td align="right">';
 show_select_from_array("sort", $forum_sort_styles, $sort_style);
-echo '<input type="submit" value="OK"></td>';
+echo '<input type="submit" value="OK"><br><br></td>';
 echo "</tr>\n</table>\n</form>";
 
 show_forum($forum, $start, $sort_style, $user);

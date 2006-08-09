@@ -146,14 +146,14 @@ img {
 blockquote {
     border-left: 2px solid blue;
     background: #DDDDDD;
-    padding-left: 5px;
+    padding-left: 3px;
     padding-bottom: 0px;
     margin-bottom: 0px;
     margin-left: 10px;
     font-style: italic;
 }
 
-blockquote.postbody {
+#blockquote.postbody {
     border-style: inset;
     border-color: blue;
     background-color: rgb(240,240,255);
@@ -188,9 +188,9 @@ td.postheader{
 }
 
 td.postbody {
-    font-size: 0.9em;
-    height: 95px;
+    font-size: 9pt;
 }
+
 td.postfooter{
     background-color: rgb(220,210,210);
     border-top: 1px solid rgb(190,190,200);
@@ -200,7 +200,7 @@ td.postfooter{
 }
 
 tr.helpdeskseperator{
-    height:15px;
+    height: 10pt;
 }
 
 tr.postseperator{
@@ -214,7 +214,7 @@ tr.postseperator td{
 }
 
 td.threadline {
-    font-size:9pt; 
+#font-size:10pt;
     text-align:left;
 }
 

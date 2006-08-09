@@ -245,7 +245,10 @@ function languagesNeedsRebuild($langdir,$transdir,$prjtransdir, $compdir){
                 if ($file==".." or $file==".") continue;
                 if (substr($file,-3)==".po"){
                     //only files ending in .po
-                    if (filemtime($langdir.$transdir.$file)>$last_compile) return true;
+                    if (filemtime($langdir.$transdir.$file)>$last_compile) {
+                        closedir($dh);
+                        return true;
+                    }
                 }
             }
             closedir($dh);

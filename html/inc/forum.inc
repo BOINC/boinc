@@ -402,9 +402,14 @@ function show_select_from_array($name, $array, $selection) {
  **/
 function show_forum_title($forum=NULL, $thread=NULL) {
     echo "<p>\n";
-    $category = getCategory($forum->category);
-    $where = $category->is_helpdesk?tr(LINKS_QA):tr(FORUM_TITLE_SHORT);
-    $top_url = $category->is_helpdesk?"forum_help_desk.php":"forum_index.php";
+    if ($forum) {
+        $category = $forum->getCategory();
+        $is_helpdesk = $category->getType();
+    } else {
+        $is_helpdesk = false;
+    }
+    $where = $is_helpdesk?tr(LINKS_QA):tr(FORUM_TITLE_SHORT);
+    $top_url = $is_helpdesk?"forum_help_desk.php":"forum_index.php";
     if (!$forum && !$thread) {
         echo "<p class=\"title\">";
         echo $where;
@@ -477,7 +482,8 @@ function show_post2($post, $n) {
         //Todo: factor this array out, it is also used elsewhere
         $deleted_text = array( "Obscene", "Flame/Hate", "Commercial spam", "Flamebait", "Doublepost", "Other");
         $deleted = "<br><font color=red>[Deleted " .
-                   "by a moderator as " . $deleted_text[$post->hidden-1] .
+                   "by a moderator " .
+                   //as " . $deleted_text[$post->hidden-1] .
                    "] </font>";
     } else {
         $deleted = "";

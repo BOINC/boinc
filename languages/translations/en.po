@@ -507,7 +507,7 @@ msgstr "BOINC runs whenever any user is logged in. "
     "textual information only)."
 
 msgid "RLN_WIN_SERVICE_INSTALL"
-msgstr "Shared installation"
+msgstr "Service installation"
 
 msgid "RLN_MSWIN_INSTALL_WINSERVICE_DESC"
 msgstr "BOINC runs all the time (even when no one is logged in). "
@@ -523,7 +523,7 @@ msgstr "BOINC for Linux is distributed as a self-extracting archive. "
     "UNIX command-line interface."
 
 msgid "RLN_LINUX_DL_FILENAME"
-msgstr "The download files have names like<code> %s </code>."
+msgstr "The download files have names like <code>%s</code>."
 
 msgid "RLN_LINUX_RUN_SEA"
 msgstr "After downloading the file, type<pre>%s</pre>"

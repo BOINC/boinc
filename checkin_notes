@@ -8582,3 +8582,16 @@ Walt   8 Aug 2006
 
     clientgui/
         ViewProjects.cpp
+
+David  9 Aug 2006
+    - bug fixes in forum code
+
+    html/
+        inc/
+            db_forum.inc
+            forum_email.inc
+            forum_forum.inc
+            translation.inc
+        user/
+            forum_forum.php
+            white.css

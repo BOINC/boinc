@@ -48,25 +48,25 @@ function re_send_email($user, $subject, $body) {
  * to let them know what happened.
  **/
 function send_moderation_email($post, $message) {
-    global $master_url;
     $body = "";
     $thread = $post->getThread();
-    $subject = PROJECT." forum moderation notice for $user->name";
+    $user = $post->getOwner();
+    $subject = PROJECT." forum moderation notice";
     $body = PROJECT." notification:
 
-This email is sent to inform you that one of your posts in the forum has been affected by moderation in ".PROJECT.":
+This email is to inform you that one of your posts in the forum has been affected by moderation in ".PROJECT.":
     Thread:         ".$thread->getTitle()."
-    Link:           ".$master_url."/forum_thread.php?id=".$thread->getID()."
+    Link:           ".URL_BASE."/forum_thread.php?id=".$thread->getID()."
 
 The moderator gave this explanation to why your post was moderated:
 ".$message;
 $body .= "
 
-This was the contents of your post:
+This was the content of your post:
 ".$post->getContent()."
 
-For further information and assistance with ".PROJECT." go to ".$master_url;
-    return re_send_email($post->getOwner(), $subject, $body);
+For further information and assistance with ".PROJECT." go to ".MASTER_URL;
+    return re_send_email($user, $subject, $body);
 
 }
 
@@ -75,22 +75,21 @@ For further information and assistance with ".PROJECT." go to ".$master_url;
  * to let them know what happened.
  */
 function send_thread_moderation_email($thread, $message) {
-    global $master_url;
     $user = $thread->getOwner();
     $body = "";
 
-    $subject = PROJECT." forum moderation notice for $user->name";
+    $subject = PROJECT." forum moderation notice";
     $body = PROJECT." notification:
 
 This email is sent to inform you that one of your threads in the forum has been affected by moderation in ".PROJECT.":
     Thread:         ".$thread->getTitle()."
-    Link:           ".$master_url."/forum_thread.php?id=".$thread->getID()."
+    Link:           ".MASTER_URL."/forum_thread.php?id=".$thread->getID()."
 
 The moderator gave this explanation to why your thread was moderated:
 ".$message;
 $body .= "
 
-For further information and assistance with ".PROJECT." go to ".$master_url;
+For further information and assistance with ".PROJECT." go to ".MASTER_URL;
     return re_send_email($user, $subject, $body);
 
 }
@@ -113,7 +112,6 @@ function send_reply_notification_email($thread, $user){
  * it.
  **/
 function send_report_post_email($user, $thread,  $post, $message) {
-    global $master_url;
     $forum_post_reporting_admin = newUser(FORUM_MODERATION_EMAIL_USER_ID);
     
     $body = "";
@@ -124,7 +122,7 @@ function send_report_post_email($user, $thread,  $post, $message) {
 This email is sent to inform you that one of the posts in the forum was reported as offensive in ".PROJECT.":
     Thread:         ".$thread->getTitle()."
     Post:           ".$post->getID()."
-    Link:           $master_url/forum_thread.php?id=".$thread->getID()."#".$post->getID()."
+    Link:           ".URL_BASE."/forum_thread.php?id=".$thread->getID()."#".$post->getID()."
     
 The reporting user gave this explanation to why the post was reported:
 ".$message."
@@ -132,7 +130,7 @@ The reporting user gave this explanation to why the post was reported:
 This was the contents of the post:
 ".$post->getContent()."
 
-For further information and assistance with ".PROJECT." go to $master_url";
+For further information and assistance with ".PROJECT." go to ".MASTER_URL;
     //Security check, do we have an admin?
     if (!$forum_post_reporting_admin) error_page("This project has not yet defined an administrator to handle this kind of forum reports. Please contact the project and tell them to add this information in their html/project/project.inc file");
     return re_send_email($forum_post_reporting_admin, $subject, $body);

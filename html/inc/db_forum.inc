@@ -95,6 +95,9 @@ function getThreads($forumID, $min=-1, $nRec=-1, $sort_style='modified-new', $sh
 
     $data = mysql_query($sql);
     echo mysql_error();
+    if (!$data) {
+        return array();
+    }
     return $data;
 }
 
