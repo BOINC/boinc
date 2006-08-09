@@ -8575,3 +8575,10 @@ David  8 Aug 2006
 		gutil_text.C
 	client/
 		cpu_sched.C
+
+Walt   8 Aug 2006
+    - Bugfix: On unicode builds on Linux,wasn't displaying project name
+        when detaching from project.
+
+    clientgui/
+        ViewProjects.cpp
