@@ -426,6 +426,12 @@
 					RelativePath="..\clientgui\sg_DlgPreferences.h">
 				</File>
 				<File
+					RelativePath="..\clientgui\sg_ImageButton.cpp">
+				</File>
+				<File
+					RelativePath="..\clientgui\sg_ImageButton.h">
+				</File>
+				<File
 					RelativePath="..\clientgui\sg_ImageLoader.cpp">
 				</File>
 				<File

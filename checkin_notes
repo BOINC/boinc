@@ -8619,3 +8619,7 @@ David  10 Aug 2006
         client_state.h
         cs_apps.C
         cs_scheduler.C
+Milos  10 Aug 2006
+    - Updated Simple GUI code to reflect new design
+    - Skins folder contains new images as well and also
+      new skin.xml files
