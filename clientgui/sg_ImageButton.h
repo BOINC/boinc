@@ -17,31 +17,30 @@
 // or write to the Free Software Foundation, Inc.,
 // 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 
+#ifndef _IMAGEBUTTON_H_
+#define _IMAGEBUTTON_H_ 
+
 #if defined(__GNUG__) && !defined(__APPLE__)
-#pragma implementation "sg_StaticLine.h"
+#pragma interface "sg_ImageButton.cpp"
 #endif
 
-#include "stdwx.h"
-#include "sg_StaticLine.h" 
 
-BEGIN_EVENT_TABLE(CStaticLine, wxWindow) 
-        EVT_PAINT(CStaticLine::OnPaint) 
-END_EVENT_TABLE() 
 
-CStaticLine::CStaticLine(wxPanel* parent,wxPoint coord,wxSize size) : wxPanel(parent, wxID_ANY, coord, size, wxNO_BORDER) 
+class CImageButton : public wxPanel 
 { 
-	m_lineCol = wxColour(255,255,255);
-}
+public: 
+	    /// Constructors
+	    CImageButton(wxWindow* parent,wxBitmap bg,wxPoint coord, wxSize size, bool drawText); 
+        void SetImage(wxBitmap bg);
+		void OnPaint(wxPaintEvent& event); 
+		void OnLeftUp(wxMouseEvent& event);
+		void OnEraseBackground(wxEraseEvent& event);
+private: 
+        //static const int MaxWidth = 320; 
+        //static const int MaxHeight = 240; 
+        wxBitmap btnBG; 
+		bool m_drawText;
+        DECLARE_EVENT_TABLE() 
+}; 
 
-void CStaticLine::SetLineColor(wxColour col)
-{
-	m_lineCol = col;
-}
-void CStaticLine::OnPaint(wxPaintEvent& WXUNUSED(event)) 
-{ 
-        wxPaintDC dc(this); 
-		wxPen whitePen = wxPen(m_lineCol);
-		whitePen.SetWidth(1);
-		dc.SetPen(whitePen);
-		dc.DrawLine(0, 0, GetSize().GetWidth(), 0); 
-} 
+#endif 

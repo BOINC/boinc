@@ -31,12 +31,14 @@ enum
     ID_OPENBUTTON = 10001, 
     ID_SAVEBUTTON = 10002, 
     ID_CANCELBUTTON = 10003,
+	ID_CLEARBUTTON = 10007,
 	ID_SKINPICKERCMBBOX = 10004, 
 	ID_DOWORKONLYBGNCMBBOX = 10005,
 	ID_DOCONNECTONLYBGNCMBBOX = 10006,
 }; 
 
 BEGIN_EVENT_TABLE( CDlgPreferences,wxDialog)
+  EVT_PAINT(CDlgPreferences::OnPaint)
   EVT_COMBOBOX(-1,CDlgPreferences::OnCmbSelected)
   EVT_BUTTON(-1,CDlgPreferences::OnBtnClick)
   EVT_ERASE_BACKGROUND(CDlgPreferences::OnEraseBackground)
@@ -45,23 +47,23 @@ END_EVENT_TABLE()
 
 CDlgPreferences::CDlgPreferences(wxWindow* parent, wxString dirPref,wxWindowID id,const wxString& title,const wxPoint& pos,const wxSize& size,long style,const wxString& name)
 {
- m_SkinDirPrefix = dirPref;
- m_skinNames.Add(wxT("default"));
- Create(parent,id,title,pos,size,style,name);
+	m_SkinDirPrefix = dirPref;
+	m_skinNames.Add(wxT("default"));
+	Create(parent,id,title,pos,size,style,name);
 
- if((pos==wxDefaultPosition)&&(size==wxDefaultSize)){
-     SetSize(0,0,400,450);
- }
+	if((pos==wxDefaultPosition)&&(size==wxDefaultSize)){
+		SetSize(0,0,400,400);
+	}
 
- if((pos!=wxDefaultPosition)&&(size==wxDefaultSize)){
-     SetSize(400,450);
- }
- initBefore();
- // load images from skin file
- LoadSkinImages();
- //Create dialog
- CreateDialog();
- initAfter();
+	if((pos!=wxDefaultPosition)&&(size==wxDefaultSize)){
+		SetSize(400,400);
+	}
+	initBefore();
+	// load images from skin file
+	LoadSkinImages();
+	//Create dialog
+	CreateDialog();
+	initAfter();
 }
 CDlgPreferences::~CDlgPreferences()
 {
@@ -78,91 +80,111 @@ void CDlgPreferences::CreateDialog()
 		wxT("13:00 PM"),wxT("14:00 PM"),wxT("15:00 PM"),wxT("16:00 PM"),wxT("17:00 PM"),wxT("18:00 PM"),wxT("19:00 PM"),wxT("20:00 PM"),wxT("21:00 PM"),wxT("22:00 PM"),wxT("23:00 PM")};
 	
 
-	lblPref=new wxStaticText(this,-1,wxT(""),wxPoint(10,10),wxSize(84,18),wxST_NO_AUTORESIZE);
-	lblPref->SetForegroundColour(wxSystemSettings::GetColour(wxSYS_COLOUR_BACKGROUND));
-	lblPref->SetLabel(wxT("Preferences"));
-	lblPref->SetFont(wxFont(12,74,90,90,0,wxT("Tahoma")));
+	//lblPref=new wxStaticText(this,-1,wxT(""),wxPoint(10,10),wxSize(84,18),wxST_NO_AUTORESIZE);
+	//lblPref->SetForegroundColour(wxSystemSettings::GetColour(wxSYS_COLOUR_BACKGROUND));
+	//lblPref->SetLabel(wxT("Preferences"));
+	//lblPref->SetFont(wxFont(12,74,90,90,0,wxT("Tahoma")));
 	// Modify settings for this computer
-	lblModifySett=new wxStaticText(this,-1,wxT(""),wxPoint(15,60),wxSize(164,13),wxST_NO_AUTORESIZE);
-	lblModifySett->SetForegroundColour(wxSystemSettings::GetColour(wxSYS_COLOUR_BACKGROUND));
-	lblModifySett->SetLabel(wxT("Modify settings for this computer:"));
+	//lblModifySett=new wxStaticText(this,-1,wxT(""),wxPoint(15,60),wxSize(164,13),wxST_NO_AUTORESIZE);
+	//lblModifySett->SetForegroundColour(wxSystemSettings::GetColour(wxSYS_COLOUR_BACKGROUND));
+	//lblModifySett->SetLabel(wxT("Modify settings for this computer:"));
 	// Do work only between
-	lblDoWorkBtwn=new wxStaticText(this,-1,wxT(""),wxPoint(65,95),wxSize(114,13),wxST_NO_AUTORESIZE);
-	lblDoWorkBtwn->SetForegroundColour(wxSystemSettings::GetColour(wxSYS_COLOUR_BACKGROUND));
-	lblDoWorkBtwn->SetLabel(wxT("Do work only between:"));
-    cmbDWBtwnBgn=new wxComboBox(this,ID_DOWORKONLYBGNCMBBOX,wxT(""),wxPoint(180,90),wxSize(85,21),24,itmsHourIntervals,wxNO_BORDER | wxCB_READONLY);
+	//lblDoWorkBtwn=new wxStaticText(this,-1,wxT(""),wxPoint(65,95),wxSize(114,13),wxST_NO_AUTORESIZE);
+	//lblDoWorkBtwn->SetForegroundColour(wxSystemSettings::GetColour(wxSYS_COLOUR_BACKGROUND));
+	//lblDoWorkBtwn->SetLabel(wxT("Do work only between:"));
+    cmbDWBtwnBgn=new wxComboBox(this,ID_DOWORKONLYBGNCMBBOX,wxT(""),wxPoint(185,90),wxSize(85,21),24,itmsHourIntervals,wxNO_BORDER | wxCB_READONLY);
 	cmbDWBtwnBgn->SetValue(wxT("Always"));
-	lblAnd1=new wxStaticText(this,-1,wxT(""),wxPoint(270,95),wxSize(19,13),wxST_NO_AUTORESIZE);
-	lblAnd1->SetForegroundColour(wxSystemSettings::GetColour(wxSYS_COLOUR_BACKGROUND));
-	lblAnd1->SetLabel(wxT("and"));
-	lblAnd1->Show(false);
-	cmbDWBtwnEnd=new wxComboBox(this,-1,wxT(""),wxPoint(295,90),wxSize(85,21),24,itmsHourIntervalsNoAlways,wxNO_BORDER | wxCB_READONLY);
+	//lblAnd1=new wxStaticText(this,-1,wxT(""),wxPoint(270,95),wxSize(19,13),wxST_NO_AUTORESIZE);
+	//lblAnd1->SetForegroundColour(wxSystemSettings::GetColour(wxSYS_COLOUR_BACKGROUND));
+	//lblAnd1->SetLabel(wxT("and"));
+	//lblAnd1->Show(false);
+	cmbDWBtwnEnd=new wxComboBox(this,-1,wxT(""),wxPoint(300,90),wxSize(90,21),24,itmsHourIntervalsNoAlways,wxNO_BORDER | wxCB_READONLY);
 	cmbDWBtwnEnd->SetValue(wxT("12:00 AM"));
-	cmbDWBtwnEnd->Show(false);
 	///Connect to internet only between
-	lblConnToIntBtwn=new wxStaticText(this,-1,wxT(""),wxPoint(10,130),wxSize(169,13),wxST_NO_AUTORESIZE);
-	lblConnToIntBtwn->SetForegroundColour(wxSystemSettings::GetColour(wxSYS_COLOUR_BACKGROUND));
-	lblConnToIntBtwn->SetLabel(wxT("Connect to internet only between:"));
-	cmbCTIBtwnBgn=new wxComboBox(this,ID_DOCONNECTONLYBGNCMBBOX,wxT(""),wxPoint(180,125),wxSize(85,21),24,itmsHourIntervals,wxNO_BORDER | wxCB_READONLY);
+	//lblConnToIntBtwn=new wxStaticText(this,-1,wxT(""),wxPoint(10,130),wxSize(169,13),wxST_NO_AUTORESIZE);
+	//lblConnToIntBtwn->SetForegroundColour(wxSystemSettings::GetColour(wxSYS_COLOUR_BACKGROUND));
+	//lblConnToIntBtwn->SetLabel(wxT("Connect to internet only between:"));
+	cmbCTIBtwnBgn=new wxComboBox(this,ID_DOCONNECTONLYBGNCMBBOX,wxT(""),wxPoint(185,125),wxSize(85,21),24,itmsHourIntervals,wxNO_BORDER | wxCB_READONLY);
 	cmbCTIBtwnBgn->SetValue(wxT("Always"));
-	lblAnd2=new wxStaticText(this,-1,wxT(""),wxPoint(270,130),wxSize(19,13),wxST_NO_AUTORESIZE);
-	lblAnd2->SetForegroundColour(wxSystemSettings::GetColour(wxSYS_COLOUR_BACKGROUND));
-	lblAnd2->SetLabel(wxT("and"));
-	lblAnd2->Show(false);
-	cmbCTIBtwnEnd=new wxComboBox(this,-1,wxT(""),wxPoint(295,125),wxSize(85,21),24,itmsHourIntervalsNoAlways,wxNO_BORDER | wxCB_READONLY);
+	//lblAnd2=new wxStaticText(this,-1,wxT(""),wxPoint(270,130),wxSize(19,13),wxST_NO_AUTORESIZE);
+	//lblAnd2->SetForegroundColour(wxSystemSettings::GetColour(wxSYS_COLOUR_BACKGROUND));
+	//lblAnd2->SetLabel(wxT("and"));
+	cmbCTIBtwnEnd=new wxComboBox(this,-1,wxT(""),wxPoint(300,125),wxSize(90,21),24,itmsHourIntervalsNoAlways,wxNO_BORDER | wxCB_READONLY);
 	cmbCTIBtwnEnd->SetValue(wxT("12:00 AM"));
-	cmbCTIBtwnEnd->Show(false);
 	///Use no more than
-	lblUseNoMoreGB=new wxStaticText(this,-1,wxT(""),wxPoint(85,165),wxSize(94,13),wxST_NO_AUTORESIZE);
-	lblUseNoMoreGB->SetForegroundColour(wxSystemSettings::GetColour(wxSYS_COLOUR_BACKGROUND));
-	lblUseNoMoreGB->SetLabel(wxT("Use no more than:"));
+	//lblUseNoMoreGB=new wxStaticText(this,-1,wxT(""),wxPoint(85,165),wxSize(94,13),wxST_NO_AUTORESIZE);
+	//lblUseNoMoreGB->SetForegroundColour(wxSystemSettings::GetColour(wxSYS_COLOUR_BACKGROUND));
+	//lblUseNoMoreGB->SetLabel(wxT("Use no more than:"));
 	wxString itmsUseNoMoreGB[]={wxT("100MB"),wxT("200MB"),wxT("500MB"),wxT("1GB"),wxT("2GB"),wxT("5GB")};
-	cmbUseNoMoreGB=new wxComboBox(this,-1,wxT(""),wxPoint(180,160),wxSize(85,21),5,itmsUseNoMoreGB,wxNO_BORDER | wxCB_READONLY);
+	cmbUseNoMoreGB=new wxComboBox(this,-1,wxT(""),wxPoint(185,160),wxSize(85,21),5,itmsUseNoMoreGB,wxNO_BORDER | wxCB_READONLY);
 	cmbUseNoMoreGB->SetValue(wxT("500MB"));
-	lblGB=new wxStaticText(this,-1,wxT(""),wxPoint(270,165),wxSize(14,13),wxST_NO_AUTORESIZE);
-	lblGB->SetForegroundColour(wxSystemSettings::GetColour(wxSYS_COLOUR_BACKGROUND));
-	lblGB->SetLabel(wxT("GB"));
+	//lblGB=new wxStaticText(this,-1,wxT(""),wxPoint(270,165),wxSize(14,13),wxST_NO_AUTORESIZE);
+	//lblGB->SetForegroundColour(wxSystemSettings::GetColour(wxSYS_COLOUR_BACKGROUND));
+	//lblGB->SetLabel(wxT("GB"));
 	/// Do work while computer is in use
-	lblDWWCInUse=new wxStaticText(this,-1,wxT(""),wxPoint(15,200),wxSize(164,13),wxST_NO_AUTORESIZE);
-	lblDWWCInUse->SetForegroundColour(wxSystemSettings::GetColour(wxSYS_COLOUR_BACKGROUND));
-	lblDWWCInUse->SetLabel(wxT("Do work while computer is in use?"));
+	//lblDWWCInUse=new wxStaticText(this,-1,wxT(""),wxPoint(15,200),wxSize(164,13),wxST_NO_AUTORESIZE);
+	//lblDWWCInUse->SetForegroundColour(wxSystemSettings::GetColour(wxSYS_COLOUR_BACKGROUND));
+	//lblDWWCInUse->SetLabel(wxT("Do work while computer is in use?"));
 	wxString itmsDWWCInUse[]={wxT("Yes"),wxT("No")};
-	cmbDWWCInUse=new wxComboBox(this,-1,wxT(""),wxPoint(180,195),wxSize(45,21),2,itmsDWWCInUse,wxNO_BORDER | wxCB_READONLY);
+	cmbDWWCInUse=new wxComboBox(this,-1,wxT(""),wxPoint(185,195),wxSize(45,21),2,itmsDWWCInUse,wxNO_BORDER | wxCB_READONLY);
 	cmbDWWCInUse->SetValue(wxT("Yes"));
 	///Do work after computer is idle for
-	lblDWACIdleFor=new wxStaticText(this,-1,wxT(""),wxPoint(15,235),wxSize(164,13),wxST_NO_AUTORESIZE);
-	lblDWACIdleFor->SetForegroundColour(wxSystemSettings::GetColour(wxSYS_COLOUR_BACKGROUND));
-	lblDWACIdleFor->SetLabel(wxT("Do work after computer is idle for:"));
+	//lblDWACIdleFor=new wxStaticText(this,-1,wxT(""),wxPoint(15,235),wxSize(164,13),wxST_NO_AUTORESIZE);
+	//lblDWACIdleFor->SetForegroundColour(wxSystemSettings::GetColour(wxSYS_COLOUR_BACKGROUND));
+	//lblDWACIdleFor->SetLabel(wxT("Do work after computer is idle for:"));
 	wxString itmsDWACIdleFor[]={wxT("1"),wxT("5"),wxT("10"),wxT("15"),wxT("30"),wxT("60")};
-	cmbDWACIdleFor=new wxComboBox(this,-1,wxT(""),wxPoint(180,230),wxSize(85,21),5,itmsDWACIdleFor,wxNO_BORDER | wxCB_READONLY);
+	cmbDWACIdleFor=new wxComboBox(this,-1,wxT(""),wxPoint(185,230),wxSize(85,21),5,itmsDWACIdleFor,wxNO_BORDER | wxCB_READONLY);
 	cmbDWACIdleFor->SetValue(wxT("5"));
-	lblMinutes=new wxStaticText(this,-1,wxT(""),wxPoint(270,235),wxSize(39,13),wxST_NO_AUTORESIZE);
-	lblMinutes->SetForegroundColour(wxSystemSettings::GetColour(wxSYS_COLOUR_BACKGROUND));
-	lblMinutes->SetLabel(wxT("minutes"));
+	//lblMinutes=new wxStaticText(this,-1,wxT(""),wxPoint(270,235),wxSize(39,13),wxST_NO_AUTORESIZE);
+	//lblMinutes->SetForegroundColour(wxSystemSettings::GetColour(wxSYS_COLOUR_BACKGROUND));
+	//lblMinutes->SetLabel(wxT("minutes"));
 	////Skin XML file
-	lblSkinXML=new wxStaticText(this,-1,wxT(""),wxPoint(115,270),wxSize(64,13),wxST_NO_AUTORESIZE);
-	lblSkinXML->SetForegroundColour(wxSystemSettings::GetColour(wxSYS_COLOUR_BACKGROUND));
-	lblSkinXML->SetLabel(wxT("Skin XML file:"));
+	//lblSkinXML=new wxStaticText(this,-1,wxT(""),wxPoint(115,270),wxSize(64,13),wxST_NO_AUTORESIZE);
+	//lblSkinXML->SetForegroundColour(wxSystemSettings::GetColour(wxSYS_COLOUR_BACKGROUND));
+	//lblSkinXML->SetLabel(wxT("Skin XML file:"));
 	//skin picker control
-	cmbSkinPicker=new wxComboBox(this,ID_SKINPICKERCMBBOX,wxT(""),wxPoint(180,265),wxSize(140,21),m_skinNames,wxNO_BORDER | wxCB_READONLY);
+	cmbSkinPicker=new wxComboBox(this,ID_SKINPICKERCMBBOX,wxT(""),wxPoint(185,265),wxSize(140,21),m_skinNames,wxNO_BORDER | wxCB_READONLY);
 	cmbSkinPicker->SetValue(m_SkinName);
-	//btnOpen=new wxBitmapButton(this,ID_OPENBUTTON,*btmpBtnAttProjL,wxPoint(331,265),wxSize(59,20));
 	// Btn Save and Cancel
-	btnSave=new wxBitmapButton(this,ID_SAVEBUTTON,*bti26cImg1,wxPoint(115,325),wxSize(59,20));
-	btnCancel=new wxBitmapButton(this,ID_CANCELBUTTON,*bti27cImg1,wxPoint(190,325),wxSize(59,20));
-	 
+	wxToolTip *ttSave = new wxToolTip(wxT("Save preferences"));
+	btnSave=new wxBitmapButton(this,ID_SAVEBUTTON,btmpSave,wxPoint(115,325),wxSize(57,16),wxNO_BORDER);
+	btnSave->SetBitmapSelected(btmpSaveClick);
+	btnSave->SetToolTip(ttSave);
+
+	wxToolTip *ttCancel = new wxToolTip(wxT("Cancel changes"));
+	btnCancel=new wxBitmapButton(this,ID_CANCELBUTTON,btmpCancel,wxPoint(182,325),wxSize(57,16),wxNO_BORDER);
+	btnCancel->SetBitmapSelected(btmpCancelClick);
+	btnCancel->SetToolTip(ttCancel);
+
+	wxToolTip *ttClear = new wxToolTip(wxT("Clear saved preferences"));
+	btnClear=new wxBitmapButton(this,ID_CLEARBUTTON,btmpClear,wxPoint(249,325),wxSize(57,16),wxNO_BORDER);
+	btnClear->SetBitmapSelected(btmpClearClick);
+	btnClear->SetToolTip(ttClear);
+	
 	Refresh();
 }
 void CDlgPreferences::LoadSkinImages(){
-    wxString str1 = m_SkinDirPrefix + appSkin->GetDlgPrefBg();
-	fileImgBuf[0].LoadFile(m_SkinDirPrefix + appSkin->GetDlgPrefBg(),wxBITMAP_TYPE_BMP);
-	fileImgBuf[1].LoadFile(m_SkinDirPrefix + appSkin->GetBtnSave(),wxBITMAP_TYPE_BMP);
-	fileImgBuf[2].LoadFile(m_SkinDirPrefix + appSkin->GetBtnCancel(),wxBITMAP_TYPE_BMP);
-	fileImgBuf[3].LoadFile(m_SkinDirPrefix + appSkin->GetBtnOpen(),wxBITMAP_TYPE_BMP);
-	dlg10484fImg0=&fileImgBuf[0];
-	bti26cImg1=&fileImgBuf[1];
-	bti27cImg1=&fileImgBuf[2];
-	btmpBtnAttProjL=&fileImgBuf[3];
+    
+	fileImgBuf[0].LoadFile(m_SkinDirPrefix + appSkin->GetDlgPrefBg(),wxBITMAP_TYPE_PNG);
+	
+	// save
+	g_save = new wxImage(m_SkinDirPrefix + appSkin->GetBtnSave(), wxBITMAP_TYPE_PNG);
+	g_saveClick = new wxImage(m_SkinDirPrefix + appSkin->GetBtnSaveClick(), wxBITMAP_TYPE_PNG);
+    // cancel
+	g_cancel = new wxImage(m_SkinDirPrefix + appSkin->GetBtnCancel(), wxBITMAP_TYPE_PNG);
+	g_cancelClick = new wxImage(m_SkinDirPrefix + appSkin->GetBtnCancelClick(), wxBITMAP_TYPE_PNG);
+    
+	// clear
+	g_clear = new wxImage(m_SkinDirPrefix + appSkin->GetBtnClear(), wxBITMAP_TYPE_PNG);
+	g_clearClick = new wxImage(m_SkinDirPrefix + appSkin->GetBtnClearClick(), wxBITMAP_TYPE_PNG);
+   
+	dlgBack=&fileImgBuf[0];
+	btmpSave= wxBitmap(g_save); 
+    btmpSaveClick= wxBitmap(g_saveClick); 
+	btmpCancel= wxBitmap(g_cancel); 
+	btmpClearClick= wxBitmap(g_saveClick); 
+	btmpClear= wxBitmap(g_clear); 
+    btmpClearClick= wxBitmap(g_clearClick); 
 }
 void CDlgPreferences::VwXDrawBackImg(wxEraseEvent& event,wxWindow *win,wxBitmap & bitMap,int opz){
  event.Skip(false);wxDC *dc;
@@ -191,7 +213,7 @@ void CDlgPreferences::VwXDrawBackImg(wxEraseEvent& event,wxWindow *win,wxBitmap 
 }
 void CDlgPreferences::OnEraseBackground(wxEraseEvent& event){
  wxObject *m_wxWin = event.GetEventObject();
- if(m_wxWin==this){event.Skip(true);VwXDrawBackImg(event,this,*dlg10484fImg0,0);VwXEvOnEraseBackground(event) ;return;}
+ if(m_wxWin==this){event.Skip(true);VwXDrawBackImg(event,this,*dlgBack,0);VwXEvOnEraseBackground(event) ;return;}
  event.Skip(true);
 }
 
@@ -202,15 +224,8 @@ void CDlgPreferences::OnBtnClick(wxCommandEvent& event){ //init function
 		//wxMessageBox("OnBtnClick - btnSave");
 		EndModal(wxID_OK);
 	}
-	else if(btnID==ID_OPENBUTTON){
-		wxString fileName = wxFileSelector(_("Choose a file to open"), _(""), _(""), _("*.xml*"), _("*.xml*"), wxOPEN); 
-		if(!fileName.IsEmpty()){
-			//tx30c->SetLabel(fileName);
-			//tx30c->Disable();
-			//tx30c->SetEditable(false);
-			//set the path value
-			//this->SetSkinPath(fileName);  REPLACED WITH DROPDOWN
-		}
+	else if(btnID==ID_CLEARBUTTON){
+		btnClear->Refresh();
 	}else{
 		//wxMessageBox("OnBtnClick - btnCancel");
 		EndModal(wxID_CANCEL);
@@ -269,6 +284,29 @@ void CDlgPreferences::initAfter(){
     Centre();
 }
 
+void CDlgPreferences::OnPaint(wxPaintEvent& WXUNUSED(event)) 
+{ 
+    wxPaintDC dc(this);
+    //Project Name
+	dc.SetFont(wxFont(16,74,90,90,0,wxT("Arial"))); 
+	dc.DrawText(wxT("Preferences"), wxPoint(10,10)); 
+	//static: APPLICATION,MY PROGRESS,ELAPSED TIME,TIME REMAINING
+	dc.SetFont(wxFont(9,74,90,90,0,wxT("Arial")));
+	dc.DrawText(wxT("Modify settings for this computer:"), wxPoint(10,60));
+	dc.DrawText(wxT("Do work only between:"), wxPoint(60,93));
+    dc.DrawText(wxT("and"), wxPoint(275,93));
+	dc.DrawText(wxT("Connect to internet only between:"), wxPoint(5,128));
+	dc.DrawText(wxT("and"), wxPoint(275,130));
+	dc.DrawText(wxT("Use no more than:"), wxPoint(85,163));
+    dc.DrawText(wxT("GB"), wxPoint(275,165));
+    dc.DrawText(wxT("Do work while computer is in use?"), wxPoint(5,198));
+    dc.DrawText(wxT("Do work after computer is idle for:"), wxPoint(5,233));
+    dc.DrawText(wxT("minutes"), wxPoint(275,233));
+	dc.DrawText(wxT("Skin XML file:"), wxPoint(115,268));
+	
+	
+
+}
 //[evtFunc]end your code
 wxDirTraverseResult DirTraverserSkins::OnFile(const wxString& filename)
 {

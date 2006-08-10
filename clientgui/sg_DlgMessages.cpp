@@ -30,7 +30,7 @@
 
 enum 
 { 
-    ID_CANCELBUTTON = 20001,
+    ID_CLOSEBUTTON = 20001,
 }; 
 
 #define COLUMN_PROJECT              0
@@ -101,7 +101,10 @@ void CDlgMessages::CreateDialog()
 {
 	SetBackgroundColour(appSkin->GetAppBgCol());
 	
-	btnCancel=new wxBitmapButton(this,ID_CANCELBUTTON,*bmpCancel,wxPoint(475,392),wxSize(59,20));
+	wxToolTip *ttClose = new wxToolTip(wxT("Close message window"));
+	btnClose=new wxBitmapButton(this,ID_CLOSEBUTTON,btmpClose,wxPoint(472,398),wxSize(57,16),wxNO_BORDER);
+	btnClose->SetBitmapSelected(btmpCloseClick);
+	btnClose->SetToolTip(ttClose);
 	
 	Refresh();
 }
@@ -109,10 +112,17 @@ void CDlgMessages::LoadSkinImages(){
 	//get skin class
 	appSkin = SkinClass::Instance();
 
-	fileImgBuf[0].LoadFile(m_SkinDirPrefix + appSkin->GetDlgMessBg(),wxBITMAP_TYPE_BMP);
-	fileImgBuf[1].LoadFile(m_SkinDirPrefix + appSkin->GetBtnCancel(),wxBITMAP_TYPE_BMP);
+	fileImgBuf[0].LoadFile(m_SkinDirPrefix + appSkin->GetDlgMessBg(),wxBITMAP_TYPE_PNG);
+	
+	// close
+	g_close = new wxImage(m_SkinDirPrefix + appSkin->GetBtnClose(), wxBITMAP_TYPE_PNG);
+	g_closeClick = new wxImage(m_SkinDirPrefix + appSkin->GetBtnCloseClick(), wxBITMAP_TYPE_PNG);
+   
 	windowBg=&fileImgBuf[0];
-	bmpCancel=&fileImgBuf[1];
+	
+	btmpClose= wxBitmap(g_close); 
+    btmpCloseClick= wxBitmap(g_closeClick); 
+
 }
 void CDlgMessages::VwXDrawBackImg(wxEraseEvent& event,wxWindow *win,wxBitmap & bitMap,int opz){
  event.Skip(false);wxDC *dc;
@@ -148,8 +158,8 @@ void CDlgMessages::OnEraseBackground(wxEraseEvent& event){
 void CDlgMessages::OnBtnClick(wxCommandEvent& event){ //init function
     wxObject *m_wxDlgBtnObj = event.GetEventObject();
 	int btnID =  event.GetId();
-	if(btnID==ID_CANCELBUTTON){
-		//wxMessageBox("OnBtnClick - btnCancel");
+	if(btnID==ID_CLOSEBUTTON){
+		//wxMessageBox("OnBtnClick - btnClose");
 		EndModal(wxID_CANCEL);
 	}
 } //end function

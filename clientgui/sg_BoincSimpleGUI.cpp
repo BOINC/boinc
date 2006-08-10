@@ -88,8 +88,6 @@ CSimpleFrame::CSimpleFrame(wxString title, wxIcon* icon) :
     appSkin->SetSkinName(skinName);
 	appSkin->SetSkinsFolder(skinFoldPath);
 	skinPath = appSkin->GetSkinsFolder()+_T("/")+appSkin->GetSkinName()+_T("/")+_T("skin.xml");
-	midAppCollapsed = false;
-	btmAppCollapsed = false;
 	clientGUIInitialized = false;
 	// load skin xml and parse it
 	LoadSkinXML();
@@ -278,9 +276,9 @@ void CSimpleFrame::InitSimpleClient()
 		}else{
 			friendlyName = wxString(resState->app->name.c_str(), wxConvUTF8 );
 		}
-		std::string index = " ";
+		//std::string index = " ";
 		//index += i;
-		friendlyName += wxString(index.c_str(), wxConvUTF8 );
+		//friendlyName += wxString(index.c_str(), wxConvUTF8 );
 		CViewTabPage *wTab = new CViewTabPage(wrkUnitNB,i,resState->name,resState->project_url);
 		wrkUnitNB->AddPage(wTab, friendlyName, true);	
 		if(result->active_task_state == 1){
@@ -292,9 +290,9 @@ void CSimpleFrame::InitSimpleClient()
 
 	wrkUnitNB->SetSelection(0);	
 	// Put Grid in the sizer
-	mainSizer->Add(32, 97,0);
-	mainSizer->Add(343, 97,0);
-	mainSizer->Add(32, 97,0);
+	mainSizer->Add(31, 98,0);
+	mainSizer->Add(343, 98,0);
+	mainSizer->Add(31, 98,0);
 	mainSizer->Add(0, 0,1);
 	mainSizer->Add(wrkUnitNB);
 	mainSizer->Add(0, 0,1);
@@ -354,10 +352,9 @@ void CSimpleFrame::UpdateClientGUI(){
 			CViewTabPage *wTab = new CViewTabPage(wrkUnitNB,i,resState->name,resState->project_url);
 			wrkUnitNB->AddPage(wTab, friendlyName, true);	
 			if(result->active_task_state == 1){
-				 wrkUnitNB->SetPageImageIndex(i, 0); // this is working process
-			}else{
-				 wrkUnitNB->SetPageImageIndex(i, 1); // this is sleeping process
+				wrkUnitNB->SetPageImageIndex(i, 0); // this is working process
 			}
+
 			m_windows.push_back(wTab);
 		}		
 	}
@@ -388,22 +385,15 @@ void CSimpleFrame::LoadSkinImages(){
 
 	wxString dirPref = appSkin->GetSkinsFolder()+_T("/")+appSkin->GetSkinName()+_T("/");
 	
-    fileImgBuf[0].LoadFile(dirPref + appSkin->GetAppBg(),wxBITMAP_TYPE_BMP);
+    fileImgBuf[0].LoadFile(dirPref + appSkin->GetAppBg(),wxBITMAP_TYPE_PNG);
 	// work unit icons
-	g_icoSleepWU = new wxImage(dirPref + appSkin->GetIcnSleepingWkUnit(), wxBITMAP_TYPE_PNG);
 	g_icoWorkWU = new wxImage(dirPref + appSkin->GetIcnWorkingWkUnit(), wxBITMAP_TYPE_PNG);
 	//////////////////////////////
-	fileImgBuf[4].LoadFile(dirPref + appSkin->GetIcnWorking(),wxBITMAP_TYPE_BMP);
-	fileImgBuf[10].LoadFile(dirPref + appSkin->GetIcnSleeping(),wxBITMAP_TYPE_BMP);
-	CSimpleFrameImg0=&fileImgBuf[0];
-	btmpIcnWorking=&fileImgBuf[4];
-	btmpIcnSleeping=&fileImgBuf[10];
+	frameBg=&fileImgBuf[0];
 	/// work unit tabs icons
 	wxBitmap const workWUico = wxBitmap(g_icoWorkWU); 
-	wxBitmap const sleepWUico = wxBitmap(g_icoSleepWU); 
 	// push them in image list
 	m_ImageList.push_back(workWUico);
-	m_ImageList.push_back(sleepWUico);
 }
 ///
 int CSimpleFrame::LoadSkinXML(){
@@ -417,6 +407,8 @@ int CSimpleFrame::LoadSkinXML(){
     // parse
 	char buf[256];
     std::string val;
+	// init skin image array
+	skinImageArray = new wxArrayString();
 
     while (mf.fgets(buf, 256)) {
         if (match_tag(buf, "<clientskin")) {
@@ -425,13 +417,23 @@ int CSimpleFrame::LoadSkinXML(){
             continue;
 		}else if (match_tag(buf, "<background")) {
 			mf.fgets(buf, 256);
-			
 			if (parse_str(buf, "<imgsrc>", val)) {
 				appSkin->SetAppBg(wxString( val.c_str(), wxConvUTF8 ));
+				skinImageArray.Add(wxString( val.c_str(), wxConvUTF8 ));
 			}
 			mf.fgets(buf, 256);
             if (parse_str(buf, "<bgcol>", val)) {
 				appSkin->SetAppBgCol(wxString( val.c_str(), wxConvUTF8 ));
+			}
+        }else if (match_tag(buf, "<prjcomponentbg")) {
+			mf.fgets(buf, 256);
+			if (parse_str(buf, "<imgsrc>", val)) {
+				appSkin->SetProjCompBg(wxString( val.c_str(), wxConvUTF8 ));
+			}
+        }else if (match_tag(buf, "<workunitbg")) {
+			mf.fgets(buf, 256);
+			if (parse_str(buf, "<imgsrc>", val)) {
+				appSkin->SetWorkunitBg(wxString( val.c_str(), wxConvUTF8 ));
 			}
         }else if (match_tag(buf, "<dlgpreferences")) {
 			mf.fgets(buf, 256);
@@ -443,14 +445,19 @@ int CSimpleFrame::LoadSkinXML(){
 			if (parse_str(buf, "<imgsrc>", val)) {
 				appSkin->SetDlgMessBg(wxString( val.c_str(), wxConvUTF8 ));
 			}
+        }else if (match_tag(buf, "<staticline")) {
+			mf.fgets(buf, 256);
+			if (parse_str(buf, "<col>", val)) {
+				appSkin->SetStaticLineCol(wxString( val.c_str(), wxConvUTF8 ));
+			}
         }else if (match_tag(buf, "<gauge")) {
 			mf.fgets(buf, 256);
-			if (parse_str(buf, "<fgcol>", val)) {
-				appSkin->SetGaugeFgCol(wxString( val.c_str(), wxConvUTF8 ));
+			if (parse_str(buf, "<gaugebg>", val)) {
+				appSkin->SetGaugeBg(wxString( val.c_str(), wxConvUTF8 ));
 			}
 			mf.fgets(buf, 256);
-            if (parse_str(buf, "<bgcol>", val)) {
-				appSkin->SetGaugeBgCol(wxString( val.c_str(), wxConvUTF8 ));
+            if (parse_str(buf, "<gaugeprogress>", val)) {
+				appSkin->SetGaugeProgressInd(wxString( val.c_str(), wxConvUTF8 ));
 			}
         }else if (match_tag(buf, "<buttons")) {
 			while (mf.fgets(buf, 256)) {
@@ -493,20 +500,41 @@ int CSimpleFrame::LoadSkinXML(){
 					if (parse_str(buf, "<imgsrc>", val)) {
 						appSkin->SetBtnMessages(wxString( val.c_str(), wxConvUTF8 ));
 					}
-				}else if(match_tag(buf, "<open>")){
-					mf.fgets(buf, 256);
-					if (parse_str(buf, "<imgsrc>", val)) {
-						appSkin->SetBtnOpen(wxString( val.c_str(), wxConvUTF8 ));
-					}
 				}else if(match_tag(buf, "<save>")){
 					mf.fgets(buf, 256);
 					if (parse_str(buf, "<imgsrc>", val)) {
 						appSkin->SetBtnSave(wxString( val.c_str(), wxConvUTF8 ));
 					}
+					mf.fgets(buf, 256);
+					if (parse_str(buf, "<imgsrcclick>", val)) {
+						appSkin->SetBtnSaveClick(wxString( val.c_str(), wxConvUTF8 ));
+					}
 				}else if(match_tag(buf, "<cancel>")){
 					mf.fgets(buf, 256);
 					if (parse_str(buf, "<imgsrc>", val)) {
 						appSkin->SetBtnCancel(wxString( val.c_str(), wxConvUTF8 ));
+					}
+					mf.fgets(buf, 256);
+					if (parse_str(buf, "<imgsrcclick>", val)) {
+						appSkin->SetBtnCancelClick(wxString( val.c_str(), wxConvUTF8 ));
+					}
+				}else if(match_tag(buf, "<close>")){
+					mf.fgets(buf, 256);
+					if (parse_str(buf, "<imgsrc>", val)) {
+						appSkin->SetBtnClose(wxString( val.c_str(), wxConvUTF8 ));
+					}
+					mf.fgets(buf, 256);
+					if (parse_str(buf, "<imgsrcclick>", val)) {
+						appSkin->SetBtnCloseClick(wxString( val.c_str(), wxConvUTF8 ));
+					}
+				}else if(match_tag(buf, "<clear>")){
+					mf.fgets(buf, 256);
+					if (parse_str(buf, "<imgsrc>", val)) {
+						appSkin->SetBtnClear(wxString( val.c_str(), wxConvUTF8 ));
+					}
+					mf.fgets(buf, 256);
+					if (parse_str(buf, "<imgsrcclick>", val)) {
+						appSkin->SetBtnClearClick(wxString( val.c_str(), wxConvUTF8 ));
 					}
 				}else if(match_tag(buf, "<leftArr>")){
 					mf.fgets(buf, 256);
@@ -526,33 +554,6 @@ int CSimpleFrame::LoadSkinXML(){
 					if (parse_str(buf, "<imgsrcclick>", val)) {
 						appSkin->SetBtnRightArrClick(wxString( val.c_str(), wxConvUTF8 ));
 					}
-				}else if(match_tag(buf, "<expand>")){
-					mf.fgets(buf, 256);
-					if (parse_str(buf, "<imgsrc>", val)) {
-						appSkin->SetBtnExpand(wxString( val.c_str(), wxConvUTF8 ));
-					}
-					mf.fgets(buf, 256);
-					if (parse_str(buf, "<imgsrcclick>", val)) {
-						appSkin->SetBtnExpandClick(wxString( val.c_str(), wxConvUTF8 ));
-					}
-				}else if(match_tag(buf, "<collapse>")){
-					mf.fgets(buf, 256);
-					if (parse_str(buf, "<imgsrc>", val)) {
-						appSkin->SetBtnCollapse(wxString( val.c_str(), wxConvUTF8 ));
-					}
-					mf.fgets(buf, 256);
-					if (parse_str(buf, "<imgsrcclick>", val)) {
-						appSkin->SetBtnCollapseClick(wxString( val.c_str(), wxConvUTF8 ));
-					}
-				}else if(match_tag(buf, "<showgraphics>")){
-					mf.fgets(buf, 256);
-					if (parse_str(buf, "<imgsrc>", val)) {
-						appSkin->SetBtnShowGraphic(wxString( val.c_str(), wxConvUTF8 ));
-					}
-					mf.fgets(buf, 256);
-					if (parse_str(buf, "<imgsrcclick>", val)) {
-						appSkin->SetBtnShowGraphicClick(wxString( val.c_str(), wxConvUTF8 ));
-					}
 				}
 			}//end of while
 		}else if (match_tag(buf, "<icons")) {
@@ -561,17 +562,6 @@ int CSimpleFrame::LoadSkinXML(){
 				if(match_tag(buf, "</icons>")){
 					//end of the buttons elements break out of while loop
 					break;
-				}
-				if(match_tag(buf, "<working>")){
-					mf.fgets(buf, 256);
-					if (parse_str(buf, "<imgsrc>", val)) {
-						appSkin->SetIcnWorking(wxString( val.c_str(), wxConvUTF8 ));
-					}
-				}else if(match_tag(buf, "<sleeping>")){
-					mf.fgets(buf, 256);
-					if (parse_str(buf, "<imgsrc>", val)) {
-						appSkin->SetIcnSleeping(wxString( val.c_str(), wxConvUTF8 ));
-					}
 				}else if(match_tag(buf, "<workingWkUnit>")){
 					mf.fgets(buf, 256);
 					if (parse_str(buf, "<imgsrc>", val)) {
@@ -591,10 +581,6 @@ int CSimpleFrame::LoadSkinXML(){
 					}
 				}else if(match_tag(buf, "<sleepingWkUnit>")){
 					mf.fgets(buf, 256);
-					if (parse_str(buf, "<imgsrc>", val)) {
-						appSkin->SetIcnSleepingWkUnit(wxString( val.c_str(), wxConvUTF8 ));
-					}
-					mf.fgets(buf, 256);
 					if (parse_str(buf, "<frcol>", val)) {
 						appSkin->SetTabFromColIn(wxString( val.c_str(), wxConvUTF8 ));
 					}
@@ -605,11 +591,6 @@ int CSimpleFrame::LoadSkinXML(){
 					mf.fgets(buf, 256);
 					if (parse_str(buf, "<brdcol>", val)) {
 						appSkin->SetTabBrdColIn(wxString( val.c_str(), wxConvUTF8 ));
-					}
-				}else if(match_tag(buf, "<defaultProjIcon>")){
-					mf.fgets(buf, 256);
-					if (parse_str(buf, "<imgsrc>", val)) {
-						appSkin->SetDefaultPrjIcn(wxString( val.c_str(), wxConvUTF8 ));
 					}
 				}else if(match_tag(buf, "<defaultStatIcon>")){
 					mf.fgets(buf, 256);
@@ -643,6 +624,7 @@ void CSimpleFrame::ReskinAppGUI(){
 	SetBackgroundColour(appSkin->GetAppBgCol());
     // notebook tab color
 	wrkUnitNB->SetTabAreaColour(appSkin->GetAppBgCol());
+	wrkUnitNB->SetUseBackground(true);
     wrkUnitNB->SetGradientColors(appSkin->GetTabFromColAc(),appSkin->GetTabToColAc(),appSkin->GetTabBrdColAc());
     wrkUnitNB->SetGradientColorsInactive(appSkin->GetTabFromColIn(),appSkin->GetTabToColIn(),appSkin->GetTabBrdColIn());
 	// notebook pages
@@ -665,37 +647,34 @@ void CSimpleFrame::OnPageChanged(wxFlatNotebookEvent& WXUNUSED(event))
 }
 void CSimpleFrame::OnEraseBackground(wxEraseEvent& event){
   wxObject *m_wxWin = event.GetEventObject();
-  if(m_wxWin==this){event.Skip(true);DrawBackImg(event,this,*CSimpleFrameImg0,0);return;}
+  if(m_wxWin==this){event.Skip(true);DrawBackImg(event,this,*frameBg,0);return;}
   event.Skip(true);
 }
 void CSimpleFrame::DrawBackImg(wxEraseEvent& event,wxWindow *win,wxBitmap & bitMap,int opz){
-	if(midAppCollapsed){
-        wrkUnitNB->SetSize(-1, -1, wxNotebookSize.x, wxNotebookSize.y); // fix
-	}
 
- event.Skip(false);
- wxDC *dc;
- dc=event.GetDC();
- dc->SetBackground(wxBrush(win->GetBackgroundColour(),wxSOLID));
- dc->Clear();
- switch (opz) {
-  case 0:{
-         dc->DrawBitmap(bitMap, 0, 0);
-         break;}
-  case 1:{
-         wxRect rec=win->GetClientRect();
-         rec.SetLeft((rec.GetWidth()-bitMap.GetWidth())   / 2);
-         rec.SetTop ((rec.GetHeight()-bitMap.GetHeight()) / 2);
-         dc->DrawBitmap(bitMap,rec.GetLeft(),rec.GetTop(),0);
-         break;}
-  case 2:{
-         wxRect rec=win->GetClientRect();
-         for(int y=0;y < rec.GetHeight();y+=bitMap.GetHeight()){
-           for(int x=0;x < rec.GetWidth();x+=bitMap.GetWidth()){
-             dc->DrawBitmap(bitMap,x,y,0);
-           }
-         }
-         break;}
- }
+	event.Skip(false);
+	wxDC *dc;
+	dc=event.GetDC();
+	dc->SetBackground(wxBrush(win->GetBackgroundColour(),wxSOLID));
+	dc->Clear();
+	switch (opz) {
+	case 0:{
+			dc->DrawBitmap(bitMap, 0, 0);
+			break;}
+	case 1:{
+			wxRect rec=win->GetClientRect();
+			rec.SetLeft((rec.GetWidth()-bitMap.GetWidth())   / 2);
+			rec.SetTop ((rec.GetHeight()-bitMap.GetHeight()) / 2);
+			dc->DrawBitmap(bitMap,rec.GetLeft(),rec.GetTop(),0);
+			break;}
+	case 2:{
+			wxRect rec=win->GetClientRect();
+			for(int y=0;y < rec.GetHeight();y+=bitMap.GetHeight()){
+			for(int x=0;x < rec.GetWidth();x+=bitMap.GetWidth()){
+				dc->DrawBitmap(bitMap,x,y,0);
+			}
+			}
+			break;}
+	}
 }
 

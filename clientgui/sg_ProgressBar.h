@@ -24,6 +24,8 @@
 #pragma interface "sg_ProgressBar.cpp"
 #endif
 
+class ImageLoader;
+
 class CProgressBar : public wxPanel
 { 
 public: 
@@ -31,19 +33,24 @@ public:
         SkinClass *appSkin;
 		int indicatorWidth;
 		int indicatorHeight;
-		int numOfIndic;
+		double numOfIndic;
 		int rightPosition;
 	    int topPosition;
 		int numOfProgressInd;
+		std::vector<ImageLoader*> m_progInd;
 	    /// Constructors
 	    CProgressBar(wxPanel* parent, wxPoint coord); 
 		void SetValue(double progress);
 		void UpdateValue(double progress);
+		void ReskinInterface();
+		void LoadSkinImages();
+		void ClearIndicators();
 private: 
         
 	    wxImage *g_gaugeBg;
 		wxImage *g_gaugeInd;
         wxBitmap m_gaugeBG; 
+		double m_progress;
 
 		void OnEraseBackground(wxEraseEvent& event);
 

@@ -45,58 +45,70 @@ class CDlgPreferences:public wxDialog
 {
 public:
  CDlgPreferences(wxWindow* parent, wxString dirPref,wxWindowID id = -1, const wxString& title = wxT(""), const wxPoint& pos = wxDefaultPosition, const wxSize& size = wxDefaultSize, long style = wxDEFAULT_DIALOG_STYLE, const wxString& name = wxT("dialogBox"));
- //Skin Class
- SkinClass *appSkin;
- // Pointer control
- wxStaticText *lblPref;
- wxStaticText *lblModifySett;
- wxStaticText *lblDoWorkBtwn;
- wxStaticText *lblAnd1;
- wxStaticText *lblConnToIntBtwn;
- wxComboBox *cmbDWBtwnBgn;
- wxComboBox *cmbDWBtwnEnd;
- wxComboBox *cmbCTIBtwnBgn;
- wxComboBox *cmbCTIBtwnEnd;
- wxStaticText *lblAnd2;
- wxStaticText *lblUseNoMoreGB;
- wxComboBox *cmbUseNoMoreGB;
- wxStaticText *lblGB;
- wxStaticText *lblDWWCInUse;
- wxStaticText *lblDWACIdleFor;
- wxComboBox *cmbDWACIdleFor;
- wxStaticText *lblMinutes;
- wxComboBox *cmbDWWCInUse;
- wxBitmapButton *btnSave;
- wxBitmapButton *btnCancel;
- wxStaticText *lblSkinXML;
- wxComboBox *cmbSkinPicker;
- //wxTextCtrl *tx30c;
- wxBitmapButton *btnOpen;
- wxBitmap *dlg10484fImg0;
- wxBitmap *bti26cImg1;
- wxBitmap *bti27cImg1;
- wxBitmap *btmpBtnAttProjL;
- wxBitmap fileImgBuf[4];
- virtual ~CDlgPreferences();
- void initBefore();
- void CreateDialog();
- void LoadSkinImages();
- wxString GetSkinName() const { return m_SkinName; }
- void SetSkinName(const wxString& skinName) { m_SkinName = skinName; }
- 
- void initAfter();
+	//Skin Class
+	SkinClass *appSkin;
+	//btns
+	wxImage *g_save;
+	wxImage *g_saveClick;
+	wxImage *g_cancel;
+	wxImage *g_cancelClick;
+	wxImage *g_clear;
+	wxImage *g_clearClick;
+	wxBitmap btmpSave; 
+	wxBitmap btmpSaveClick; 
+	wxBitmap btmpCancel; 
+	wxBitmap btmpCancelClick; 
+	wxBitmap btmpClear; 
+	wxBitmap btmpClearClick; 
+	wxBitmapButton *btnSave;
+	wxBitmapButton *btnCancel;
+	wxBitmapButton *btnClear;
+	// Pointer control
+	wxStaticText *lblPref;
+	wxStaticText *lblModifySett;
+	wxStaticText *lblDoWorkBtwn;
+	wxStaticText *lblAnd1;
+	wxStaticText *lblConnToIntBtwn;
+	wxComboBox *cmbDWBtwnBgn;
+	wxComboBox *cmbDWBtwnEnd;
+	wxComboBox *cmbCTIBtwnBgn;
+	wxComboBox *cmbCTIBtwnEnd;
+	wxStaticText *lblAnd2;
+	wxStaticText *lblUseNoMoreGB;
+	wxComboBox *cmbUseNoMoreGB;
+	wxStaticText *lblGB;
+	wxStaticText *lblDWWCInUse;
+	wxStaticText *lblDWACIdleFor;
+	wxComboBox *cmbDWACIdleFor;
+	wxStaticText *lblMinutes;
+	wxComboBox *cmbDWWCInUse;
+	
+	wxStaticText *lblSkinXML;
+	wxComboBox *cmbSkinPicker;
+	//wxTextCtrl *tx30c;
 
- DECLARE_EVENT_TABLE()
+	wxBitmap *dlgBack;
+	wxBitmap fileImgBuf[1];
+	virtual ~CDlgPreferences();
+	void initBefore();
+	void CreateDialog();
+	void LoadSkinImages();
+	wxString GetSkinName() const { return m_SkinName; }
+	void SetSkinName(const wxString& skinName) { m_SkinName = skinName; }
+	void OnPaint(wxPaintEvent& event); 
+	void initAfter();
+
+	DECLARE_EVENT_TABLE()
 
 protected:
-  wxString m_SkinName;
-  wxArrayString m_skinNames;
-  wxString m_SkinDirPrefix;
- void OnEraseBackground(wxEraseEvent& event);
- void OnBtnClick(wxCommandEvent& event);
- void OnCmbSelected(wxCommandEvent& event);
- void VwXEvOnEraseBackground(wxEraseEvent& event);
- void VwXDrawBackImg(wxEraseEvent& event,wxWindow *win,wxBitmap & bitMap,int opz);
+	wxString m_SkinName;
+	wxArrayString m_skinNames;
+	wxString m_SkinDirPrefix;
+	void OnEraseBackground(wxEraseEvent& event);
+	void OnBtnClick(wxCommandEvent& event);
+	void OnCmbSelected(wxCommandEvent& event);
+	void VwXEvOnEraseBackground(wxEraseEvent& event);
+	void VwXDrawBackImg(wxEraseEvent& event,wxWindow *win,wxBitmap & bitMap,int opz);
 
 //[win]end your code 
 };

@@ -35,7 +35,7 @@ CSGUIListCtrl::CSGUIListCtrl(
 	CDlgMessages* pView, wxWindowID iListWindowID, wxInt32 iListWindowFlags
 )
 : wxListView(
-    pView, iListWindowID,  wxPoint(15,15), wxSize(510, 370), iListWindowFlags
+    pView, iListWindowID,  wxPoint(15,15), wxSize(510, 378), iListWindowFlags
 ) 
 {
     m_pParentView = pView;

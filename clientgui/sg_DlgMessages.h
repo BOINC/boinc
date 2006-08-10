@@ -36,12 +36,16 @@ public:
 	CDlgMessages(wxWindow* parent, wxString dirPref,wxWindowID id = -1, const wxString& title = wxT(""), const wxPoint& pos = wxDefaultPosition, const wxSize& size = wxDefaultSize, long style = wxDEFAULT_DIALOG_STYLE, const wxString& name = wxT("dialogBox"));
 	//Skin Class
 	SkinClass *appSkin;
+	//btns
+	wxImage *g_close;
+	wxImage *g_closeClick;
+	wxBitmap btmpClose; 
+	wxBitmap btmpCloseClick; 
+	wxBitmapButton *btnClose;
 	//window bg
 	wxBitmap *windowBg;
-	wxBitmap *bmpCancel;
-	wxBitmap fileImgBuf[2];
+	wxBitmap fileImgBuf[1];
 	//
-	wxBitmapButton *btnCancel;
 	// Pointer control
 	virtual ~CDlgMessages();
 	void initBefore();

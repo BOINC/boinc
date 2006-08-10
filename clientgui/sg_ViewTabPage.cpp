@@ -22,15 +22,12 @@
 #endif
 
 #include "stdwx.h"
-#include "BOINCGUIApp.h"
 #include "app_ipc.h"
-#include "common/wxAnimate.h"
-#include "common/wxFlatNotebook.h"
+#include "sg_ViewTabPage.h"
 #include "sg_SkinClass.h"
-#include "sg_ImageLoader.h"
 #include "sg_StaticLine.h"
 #include "sg_ProgressBar.h"
-#include "sg_ViewTabPage.h"
+#include "sg_ImageButton.h"
 
 IMPLEMENT_DYNAMIC_CLASS(CViewTabPage, wxPanel)
 
@@ -42,7 +39,6 @@ enum{
 
 BEGIN_EVENT_TABLE(CViewTabPage, wxPanel)
     EVT_PAINT(CViewTabPage::OnPaint)
-    EVT_BUTTON(-1,CViewTabPage::OnBtnClick)
 	EVT_ERASE_BACKGROUND(CViewTabPage::OnEraseBackground)
 END_EVENT_TABLE()
 
@@ -72,25 +68,14 @@ void CViewTabPage::LoadSkinImages(){
 
 	//app skin class
 	appSkin = SkinClass::Instance();
-	wxString dirPref = appSkin->GetSkinsFolder()+_T("/")+appSkin->GetSkinName()+_T("/");
-    //show graphic
-    g_showGraphic = new wxImage(dirPref + appSkin->GetBtnShowGraphic(), wxBITMAP_TYPE_PNG);
-	g_showGraphicClick = new wxImage(dirPref + appSkin->GetBtnShowGraphicClick(), wxBITMAP_TYPE_PNG);
-	btmpShwGrph= wxBitmap(g_showGraphic); 
-    btmpShwGrphClick= wxBitmap(g_showGraphicClick); 
+	dirPref = appSkin->GetSkinsFolder()+_T("/")+appSkin->GetSkinName()+_T("/");
+	//anim bg
+	g_projBg = new wxImage(dirPref + appSkin->GetAnimationBg(), wxBITMAP_TYPE_PNG);
 	//////////////////////////////
 	//component bg
-	fileImgBuf[0].LoadFile(dirPref + wxT("graphic/wu_bg.bmp"),wxBITMAP_TYPE_BMP);
-	fileImgBuf[1].LoadFile(dirPref + appSkin->GetAnimationBG(),wxBITMAP_TYPE_BMP);
+	fileImgBuf[0].LoadFile(dirPref + appSkin->GetWorkunitBg(),wxBITMAP_TYPE_PNG);
 	btmpComponentBg=&fileImgBuf[0];
-	btmpBgAnim=&fileImgBuf[1];
 }
-
-
-
-
-
-
 
 void CViewTabPage::CreatePage()
 {
@@ -98,92 +83,36 @@ void CViewTabPage::CreatePage()
 		
 	//////////////////////Build Tab Page///////////////////////////////
 	//Project Name
-	//lblProjectName=new wxStaticText(this,-1,wxT(""),wxPoint(20,8),wxSize(316,25),wxST_NO_AUTORESIZE);
 	projName = wxString(resState->project->project_name.c_str(), wxConvUTF8 );
-	//lblProjectName->SetLabel(projName);
-	//lblProjectName->SetFont(wxFont(16,74,90,90,0,wxT("Arial")));
-	//CStaticText *lblProjNam = new CStaticText(this,wxPoint(20,8),wxSize(316,25));
-	//lblProjNam->SetLabel(projName);
-	//lblProjNam->SetFont(wxFont(16,74,90,90,0,wxT("Arial")));
-
 	//Line Proj Name
-	lnProjName = new CStaticLine(this,wxPoint(20,36),wxSize(316,2));
-	lnProjName->SetLineColor(wxColour(51,102,102));
-
+	lnProjName = new CStaticLine(this,wxPoint(20,36),wxSize(316,1));
+	lnProjName->SetLineColor(appSkin->GetStaticLineCol());
 	//
-	wxStaticLine spacerLine = new wxStaticLine(this,-1,wxPoint(20,36),wxSize(305,2));
+	wxStaticLine spacerLine = new wxStaticLine(this,-1,wxPoint(20,36),wxSize(305,1));
 	//
-
 	//Project
-	//lblProject=new wxStaticText(this,-1,wxT(""),wxPoint(20,49),wxSize(90,18),wxST_NO_AUTORESIZE);
-	//lblProject->SetForegroundColour(wxSystemSettings::GetColour(wxSYS_COLOUR_WINDOWTEXT));
-	//lblProject->SetLabel(wxT("APPLICATION >"));
-	//lblProject->SetFont(wxFont(9,74,90,90,0,wxT("Arial")));
-	//Project Friendly Name
-	//lblProjectFrName=new wxStaticText(this,-1,wxT(""),wxPoint(110,49),wxSize(226,18),wxST_NO_AUTORESIZE);
-	//lblProjectFrName->SetForegroundColour(wxSystemSettings::GetColour(wxSYS_COLOUR_WINDOWTEXT));
-	//lblProjectFrName->SetLabel(wxString(resState->app->user_friendly_name.c_str(), wxConvUTF8));
-	//lblProjectFrName->SetFont(wxFont(9,74,90,92,0,wxT("Arial")));
 	projectFrName = wxString(resState->app->user_friendly_name.c_str(), wxConvUTF8);
 	//My Progress
-	//lblMyProgress=new wxStaticText(this,-1,wxT(""),wxPoint(20,71),wxSize(100,18),wxST_NO_AUTORESIZE);
-	//lblMyProgress->SetForegroundColour(wxSystemSettings::GetColour(wxSYS_COLOUR_WINDOWTEXT));
-	//lblMyProgress->SetLabel(wxT("MY PROGRESS >"));
-	//lblMyProgress->SetFont(wxFont(9,74,90,90,0,wxT("Arial")));
-	//Work Unit Name
-	//wxToolTip *ttWUName = new wxToolTip(wxString(resultWU->name.c_str(),wxConvUTF8));
-	//lblWrkUnitName=new wxStaticText(this,-1,wxT(""),wxPoint(120,71),wxSize(216,18),wxST_NO_AUTORESIZE);
-	//lblWrkUnitName->SetForegroundColour(wxSystemSettings::GetColour(wxSYS_COLOUR_WINDOWTEXT));
-	//lblWrkUnitName->SetLabel(wxString(resultWU->name.c_str(),wxConvUTF8));
-	//lblWrkUnitName->SetToolTip(ttWUName);
-	//lblWrkUnitName->SetFont(wxFont(9,74,90,92,0,wxT("Arial")));
 	wrkUnitName = wxString(resultWU->name.c_str(),wxConvUTF8);
 	//Main Gauge
     gaugeWUMain=new CProgressBar(this,wxPoint(20,89));
 	gaugeWUMain->SetValue(floor(resultWU->fraction_done * 100000)/1000);
 	//percent
-	//lblGaugePercent=new wxStaticText(this,-1,wxT(""),wxPoint(290,90),wxSize(28,18),wxST_NO_AUTORESIZE);
-	//lblGaugePercent->SetForegroundColour(wxSystemSettings::GetColour(wxSYS_COLOUR_WINDOWTEXT));
 	percNum = (wxInt32)(floor(resultWU->fraction_done * 100000)/1000);
     percStr.Printf(_("%d"), percNum);
-	//lblGaugePercent->SetLabel(percStr + _T(" %"));
-	//lblGaugePercent->SetFont(wxFont(9,74,90,92,0,wxT("Arial")));
 	gaugePercent = percStr + _T(" %");
     //Elapsed Time
-	//lblElapsedTime=new wxStaticText(this,-1,wxT(""),wxPoint(20,115),wxSize(98,18),wxST_NO_AUTORESIZE);
-	//lblElapsedTime->SetForegroundColour(wxSystemSettings::GetColour(wxSYS_COLOUR_WINDOWTEXT));
-	//lblElapsedTime->SetLabel(wxT("ELAPSED TIME >"));
-	//lblElapsedTime->SetFont(wxFont(9,74,90,90,0,wxT("Arial")));
-	//Elapsed time Value
-	//wxString strBuffer = wxEmptyString;
-	//lblElapsedTimeValue=new wxStaticText(this,-1,wxT(""),wxPoint(118,115),wxSize(218,18),wxST_NO_AUTORESIZE);
-	//lblElapsedTimeValue->SetForegroundColour(wxSystemSettings::GetColour(wxSYS_COLOUR_WINDOWTEXT));
 	FormatCPUTime(resultWU, elapsedTimeValue);
-	//lblElapsedTimeValue->SetLabel(strBuffer);
-	//lblElapsedTimeValue->SetFont(wxFont(9,74,90,92,0,wxT("Arial")));
-	//Time Remaining
-	//lblTimeRemaining=new wxStaticText(this,-1,wxT(""),wxPoint(20,134),wxSize(110,18),wxST_NO_AUTORESIZE);
-	//lblTimeRemaining->SetForegroundColour(wxSystemSettings::GetColour(wxSYS_COLOUR_WINDOWTEXT));
-	//lblTimeRemaining->SetLabel(wxT("TIME REMAINING >"));
-	//lblTimeRemaining->SetFont(wxFont(9,74,90,90,0,wxT("Arial")));
-	//Time Remaining Value
-	//lblTimeRemainingValue=new wxStaticText(this,-1,wxT(""),wxPoint(130,134),wxSize(206,18),wxST_NO_AUTORESIZE);
-	//lblTimeRemainingValue->SetForegroundColour(wxSystemSettings::GetColour(wxSYS_COLOUR_WINDOWTEXT));
 	FormatTimeToCompletion(resultWU, timeRemainingValue);
-	//lblTimeRemainingValue->SetLabel(strBuffer);
-	//lblTimeRemainingValue->SetFont(wxFont(9,74,90,92,0,wxT("Arial")));
-	/*
 	// show graphic button 
-	if (result->supports_graphics) {
-		wxToolTip *ttShowGraphic = new wxToolTip(wxT("Launch Real-Time Graphics"));
-		btnShowGraphic=new wxBitmapButton(this,BTN_SHOW_GRAPHICS,btmpShwGrph,wxPoint(333,116),wxSize(24,24),wxSIMPLE_BORDER);
-		btnShowGraphic->SetBitmapSelected(btmpShwGrphClick);
-		btnShowGraphic->SetBackgroundColour(wxColour(255,255,255));
-		btnShowGraphic->SetToolTip(ttShowGraphic);
+	if (resultWU->supports_graphics) {
 		m_hasGraphic = true;
-	}*/
+	}
 	// project image behind graphic <><><>
-	imgBgAnim=new wxStaticBitmap(this,-1,*btmpBgAnim,wxPoint(28,154),wxSize(294,146));
+	wxString dirPref = appSkin->GetSkinsFolder()+_T("/")+appSkin->GetSkinName()+_T("/");
+	wxImage g_projBg = new wxImage(dirPref + appSkin->GetAnimationBg(), wxBITMAP_TYPE_PNG);
+	btnAminBg = new CImageButton(this,wxBitmap(g_projBg),wxPoint(28,154),wxSize(294,146),m_hasGraphic);
+
 	//// Animation Window
 	wAnimWk1=new wxWindow(this,-1,wxPoint(98,156),wxSize(148,142),wxNO_BORDER);
 	// media control
@@ -198,7 +127,7 @@ void CViewTabPage::CreatePage()
 		wxPoint(0, 0), wxSize(148, 142));
 	m_animationCtrl->GetPlayer().UseBackgroundColour(true);
 	m_animationCtrl->Stop();
-	if (m_animationCtrl->LoadFile(wxT("skins/default/graphic/molecule.gif")))
+	if (m_animationCtrl->LoadFile(dirPref + appSkin->GetAnimationFile()))
 	{
 		m_animationCtrl->Play();
 	}
@@ -229,32 +158,19 @@ void CViewTabPage::UpdateInterface()
 
 }
 void CViewTabPage::ReskinInterface()
-{
-	if(m_hasGraphic){
-		
-		wxString dirPref = appSkin->GetSkinsFolder()+_T("/")+appSkin->GetSkinName()+_T("/");
-		////Load new skin images
-		g_showGraphic = new wxImage(dirPref + appSkin->GetBtnShowGraphic(), wxBITMAP_TYPE_PNG);
-		g_showGraphicClick = new wxImage(dirPref + appSkin->GetBtnShowGraphicClick(), wxBITMAP_TYPE_PNG);
-		btmpShwGrph= wxBitmap(g_showGraphic); 
-		btmpShwGrphClick= wxBitmap(g_showGraphicClick); 
-		//reskin button
-		btnShowGraphic->SetBitmapLabel(btmpShwGrph);
-		btnShowGraphic->SetBitmapSelected(btmpShwGrphClick);
-	}
-	
+{	
+	//Load new skin images
+	LoadSkinImages();
+    //animation bg
+	btnAminBg->SetImage(wxBitmap(g_projBg));
+    //line
+	lnProjName->SetLineColor(appSkin->GetStaticLineCol());
+	// gauge
+	gaugeWUMain->ReskinInterface();
 }
 
 
-void CViewTabPage::OnBtnClick(wxCommandEvent& event){ //init function
-	if(event.GetId()==BTN_SHOW_GRAPHICS){
-		//refresh btn
-		OnWorkShowGraphics();
-        btnShowGraphic->Refresh();
-	}else if(event.GetId()==BTN_COLLAPSE){
-	}
 
-}
 wxInt32 CViewTabPage::FormatCPUTime(RESULT* rslt, wxString& strBuffer) const {
     float          fBuffer = 0;
     RESULT*        result = rslt;
@@ -306,16 +222,12 @@ void CViewTabPage::SGUITimeFormat(float fBuffer, wxString& strBuffer) const {
     strBuffer.clear();
     strTemp.clear();
 
-	iDay = (wxInt32)(fBuffer / (60 * 60 * 60));
 	iHour = (wxInt32)(fBuffer / (60 * 60));
 	iMin  = (wxInt32)(fBuffer / 60) % 60;
 	iSec  = (wxInt32)(fBuffer) % 60;
 	
-	if (iDay) {
-        strTemp.Printf(_("%d days "), iDay);
-	}
+	strBuffer.Printf(_("%d hours %d minutes %d seconds"), iHour, iMin, iSec);
 
-    strBuffer.Printf(_("%s%d hours %d minutes %d seconds"), strTemp.c_str(), iHour, iMin, iSec);
 }
 
 void CViewTabPage::OnWorkShowGraphics() {
@@ -378,7 +290,14 @@ void CViewTabPage::OnPaint(wxPaintEvent& WXUNUSED(event))
     dc.DrawText(wrkUnitName, wxPoint(120,71)); 
     dc.DrawText(gaugePercent, wxPoint(290,90)); 
     dc.DrawText(elapsedTimeValue, wxPoint(118,115)); 
-	dc.DrawText(timeRemainingValue, wxPoint(130,134)); 
+	dc.DrawText(timeRemainingValue, wxPoint(130,134)); 	
+}
+void CViewTabPage::OnImageButton() 
+{ 
+	if(m_hasGraphic){
+		OnWorkShowGraphics();
+	}
+
 }
 void CViewTabPage::DrawText() 
 { 

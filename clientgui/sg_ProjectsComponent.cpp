@@ -72,7 +72,7 @@ void CProjectsComponent::LoadSkinImages(){
 	wxString dirPref = appSkin->GetSkinsFolder()+_T("/")+appSkin->GetSkinName()+_T("/");
 	//
 	//component bg
-	fileImgBuf[0].LoadFile(dirPref + wxT("graphic/proj_bg.bmp"),wxBITMAP_TYPE_BMP);
+	fileImgBuf[0].LoadFile(dirPref + appSkin->GetProjCompBg(),wxBITMAP_TYPE_PNG);
 	// default stat icon
 	g_statIcnDefault = new wxImage(dirPref + appSkin->GetDefaultStatIcn(), wxBITMAP_TYPE_PNG);
 	// arrows
@@ -127,18 +127,14 @@ void CProjectsComponent::CreateComponent()
 	//Set Background color
 	SetBackgroundColour(appSkin->GetAppBgCol());
 	//Static content in my Projects section
-	// My Projects
-	//stMyProj=new wxStaticText(this,-1,wxT(""),wxPoint(32,9),wxSize(84,18),wxST_NO_AUTORESIZE);
-	//stMyProj->SetLabel(wxT("My Projects:"));
-	//stMyProj->SetFont(wxFont(10,74,90,92,0,wxT("Arial")));
 	// add project button
 	wxToolTip *ttAddProject = new wxToolTip(wxT("Add Project"));
 	btnAddProj=new wxBitmapButton(this,-1,btmpAddProj,wxPoint(235,7),wxSize(81,18),wxNO_BORDER);
 	btnAddProj->SetBitmapSelected(btmpAddProjC);
 	btnAddProj->SetToolTip(ttAddProject);
 	/// Line
-	lnMyProjTop = new CStaticLine(this,wxPoint(29,29),wxSize(292,2));
-	lnMyProjTop->SetLineColor(wxColour(204,102,51));
+	lnMyProjTop = new CStaticLine(this,wxPoint(29,29),wxSize(292,1));
+	lnMyProjTop->SetLineColor(appSkin->GetStaticLineCol());
 	/////////////// ICONS /////////////////////
 	CMainDocument* pDoc     = wxGetApp().GetDocument();
     m_projCnt = pDoc->GetProjectCount();
@@ -180,10 +176,10 @@ void CProjectsComponent::CreateComponent()
 		
 	}
 	//// Arrow Btns
-	btnArwLeft=new wxBitmapButton(this,-1,btmpArwL,wxPoint(2,18),wxSize(24,24),wxNO_BORDER);
+	btnArwLeft=new wxBitmapButton(this,-1,btmpArwL,wxPoint(29,47),wxSize(20,20),wxNO_BORDER);
 	btnArwLeft->SetBitmapSelected(btmpArwLC);
     btnArwLeft->Show(false);//on creation this one is always false
-	btnArwRight=new wxBitmapButton(this,-1,btmpArwR,wxPoint(344,18),wxSize(24,24),wxNO_BORDER);
+	btnArwRight=new wxBitmapButton(this,-1,btmpArwR,wxPoint(301,47),wxSize(20,20),wxNO_BORDER);
 	btnArwRight->SetBitmapSelected(btmpArwRC);
 	if(m_projCnt > m_maxNumOfIcons){//right shows up only if there is more than max num of icons
 		btnArwRight->Show(true);
@@ -230,8 +226,8 @@ void CProjectsComponent::CreateComponent()
     btnAdvancedView->SetBitmapSelected(btmpAdvViewC);
 	btnAdvancedView->SetToolTip(ttAdvView);
 	/// Line
-	lnMyProjBtm = new CStaticLine(this,wxPoint(29,83),wxSize(292,2));
-	lnMyProjBtm->SetLineColor(wxColour(204,102,51));
+	lnMyProjBtm = new CStaticLine(this,wxPoint(29,83),wxSize(292,1));
+	lnMyProjBtm->SetLineColor(appSkin->GetStaticLineCol());
 }
 void CProjectsComponent::OnPaint(wxPaintEvent& WXUNUSED(event)) 
 { 
@@ -262,7 +258,7 @@ void CProjectsComponent::RemoveProject(std::string prjUrl)
 		//shift icons right
 		for(int m = 0; m < indexOfIcon; m++){
 			StatImageLoader *i_statWShifting = m_statProjects.at(m);
-			i_statWShifting->Move(wxPoint(29 + 40*(m+1),37));
+			i_statWShifting->Move(wxPoint(55 + 40*(m+1),37));
 		}
 		// create the icon on left
 		if(m_leftIndex-1 >= 0){
@@ -271,7 +267,7 @@ void CProjectsComponent::RemoveProject(std::string prjUrl)
 			toolTipTxt = wxString(project->project_name.c_str(), wxConvUTF8 ) +wxT(". User ") + wxString(project->user_name.c_str(), wxConvUTF8) + wxT(" has ") + userCredit + wxT(" points."); 
 		    wxToolTip *statToolTip = new wxToolTip(toolTipTxt);
 			StatImageLoader *i_statW = new StatImageLoader(this,project->master_url);
-		    i_statW->Move(wxPoint(29,3));
+		    i_statW->Move(wxPoint(55,37));
 			// resolve the proj image 
 			url_to_project_dir((char*)project->master_url.c_str() ,urlDirectory);
 			dirProjectGraphic = (std::string)urlDirectory + "/" + projectIconName;
@@ -305,7 +301,7 @@ void CProjectsComponent::RemoveProject(std::string prjUrl)
 			toolTipTxt = wxString(project->project_name.c_str(), wxConvUTF8 ) +wxT(". User ") + wxString(project->user_name.c_str(), wxConvUTF8) + wxT(" has ") + userCredit + wxT(" points."); 
 			wxToolTip *statToolTip = new wxToolTip(toolTipTxt);
 			StatImageLoader *i_statW = new StatImageLoader(this,project->master_url);
-			i_statW->Move(wxPoint(29 + 40*(m_maxNumOfIcons-1),37));
+			i_statW->Move(wxPoint(55 + 40*(m_maxNumOfIcons-1),37));
 			// resolve the proj image 
 			url_to_project_dir((char*)project->master_url.c_str() ,urlDirectory);
 			dirProjectGraphic = (std::string)urlDirectory + "/" + projectIconName;
@@ -394,6 +390,34 @@ void CProjectsComponent::ReskinInterface()
 	btnArwLeft->SetBackgroundColour(appSkin->GetAppBgCol());
 	btnArwLeft->SetBitmapLabel(btmpArwL);
 	btnArwLeft->SetBitmapSelected(btmpArwLC);
+	// add project btn
+	btnAddProj->SetBackgroundColour(appSkin->GetAppBgCol());
+	btnAddProj->SetBitmapLabel(btmpAddProj);
+	btnAddProj->SetBitmapSelected(btmpAddProjC);
+	// messages btn
+	btnMessages->SetBackgroundColour(appSkin->GetAppBgCol());
+	btnMessages->SetBitmapLabel(btmpMessages);
+	btnMessages->SetBitmapSelected(btmpMessagesC);
+	// pause btn
+	btnPause->SetBackgroundColour(appSkin->GetAppBgCol());
+	btnPause->SetBitmapLabel(btmpPause);
+	btnPause->SetBitmapSelected(btmpPauseC);
+	// resume btn
+    btnResume->SetBackgroundColour(appSkin->GetAppBgCol());
+	btnResume->SetBitmapLabel(btmpResume);
+	btnResume->SetBitmapSelected(btmpResumeC);
+	// preferences btn
+    btnPreferences->SetBackgroundColour(appSkin->GetAppBgCol());
+	btnPreferences->SetBitmapLabel(btmpPref);
+	btnPreferences->SetBitmapSelected(btmpPrefC);
+	// advance view btn
+    btnAdvancedView->SetBackgroundColour(appSkin->GetAppBgCol());
+	btnAdvancedView->SetBitmapLabel(btmpAdvView);
+	btnAdvancedView->SetBitmapSelected(btmpAdvViewC);
+	//set line colors
+	lnMyProjTop->SetLineColor(appSkin->GetStaticLineCol());
+	lnMyProjBtm->SetLineColor(appSkin->GetStaticLineCol());
+
 }
 
 void CProjectsComponent::OnBtnClick(wxCommandEvent& event){ //init function
@@ -411,7 +435,7 @@ void CProjectsComponent::OnBtnClick(wxCommandEvent& event){ //init function
 		//shift icons right
 		for(int m = 0; m < (int)m_statProjects.size(); m++){
 			StatImageLoader *i_statWShifting = m_statProjects.at(m);
-			i_statWShifting->Move(wxPoint(29 + 40*(m+1),37));
+			i_statWShifting->Move(wxPoint(55 + 40*(m+1),37));
 		}
 
 		CMainDocument* pDoc     = wxGetApp().GetDocument();
@@ -422,7 +446,7 @@ void CProjectsComponent::OnBtnClick(wxCommandEvent& event){ //init function
 			toolTipTxt = wxString(project->project_name.c_str(), wxConvUTF8 ) +wxT(". User ") + wxString(project->user_name.c_str(), wxConvUTF8) + wxT(" has ") + userCredit + wxT(" points."); 
 		    wxToolTip *statToolTip = new wxToolTip(toolTipTxt);
 			StatImageLoader *i_statW = new StatImageLoader(this,project->master_url);
-		    i_statW->Move(wxPoint(29,37));
+		    i_statW->Move(wxPoint(55,37));
 			// resolve the proj image 
 			url_to_project_dir((char*)project->master_url.c_str() ,urlDirectory);
 			dirProjectGraphic = (std::string)urlDirectory + "/" + projectIconName;
@@ -449,7 +473,7 @@ void CProjectsComponent::OnBtnClick(wxCommandEvent& event){ //init function
 		if(m_leftIndex <= 0){
 			btnArwLeft->Show(false);
 		}
-		btnArwLeft->Refresh();
+		Refresh();
 
 	}else if(m_wxBtnObj==btnArwRight){
 		//delete proj icon at position 1(0)
@@ -460,7 +484,7 @@ void CProjectsComponent::OnBtnClick(wxCommandEvent& event){ //init function
 		for(int m = 0; m < (int)m_statProjects.size(); m++){
 			StatImageLoader *i_statWShifting = m_statProjects.at(m);
 			wxPoint currPoint = i_statWShifting->GetPosition();
-			i_statWShifting->Move(wxPoint(29 + 40*m,37));
+			i_statWShifting->Move(wxPoint(55 + 40*m,37));
 		}
        
         CMainDocument* pDoc     = wxGetApp().GetDocument();
@@ -472,7 +496,7 @@ void CProjectsComponent::OnBtnClick(wxCommandEvent& event){ //init function
 			toolTipTxt = wxString(project->project_name.c_str(), wxConvUTF8 ) +wxT(". User ") + wxString(project->user_name.c_str(), wxConvUTF8) + wxT(" has ") + userCredit + wxT(" points."); 
 		    wxToolTip *statToolTip = new wxToolTip(toolTipTxt);
 			StatImageLoader *i_statW = new StatImageLoader(this,project->master_url);
-		    i_statW->Move(wxPoint(29 + 40*(m_maxNumOfIcons-1),3));
+		    i_statW->Move(wxPoint(55 + 40*(m_maxNumOfIcons-1),37));
 			// resolve the proj image 
 			url_to_project_dir((char*)project->master_url.c_str() ,urlDirectory);
 			dirProjectGraphic = (std::string)urlDirectory + "/" + projectIconName;
@@ -499,7 +523,7 @@ void CProjectsComponent::OnBtnClick(wxCommandEvent& event){ //init function
 		if(m_rightIndex >= m_projCnt){
 			btnArwRight->Show(false);
 		}
-		btnArwRight->Refresh();
+		Refresh();
 	}else if(m_wxBtnObj==btnAddProj){
 		pFrame->OnProjectsAttachToProject();
 		btnAddProj->Refresh();

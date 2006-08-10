@@ -37,6 +37,12 @@ private:
 
 class CProgressBar;
 class CStaticLine;
+class CStaticLine;
+class CImageButton;
+
+#include "BOINCGUIApp.h"
+#include "common/wxAnimate.h"
+#include "common/wxFlatNotebook.h"
 
 class CViewTabPage : public wxPanel {
     DECLARE_DYNAMIC_CLASS( CViewTabPage )
@@ -46,24 +52,17 @@ public:
 	bool isAlive;
 	//Skin Class
     SkinClass *appSkin;
+	wxString dirPref;
 	// btns ////////////
-	//ShowGraphic button
-    wxImage *g_showGraphic;
-	wxImage *g_showGraphicClick;
-	wxBitmap btmpShwGrph; 
-    wxBitmap btmpShwGrphClick; 
-	wxBitmapButton *btnShowGraphic;
 	////////////////////
 	// animation
 	wxBitmap *btmpBgAnim;
-	wxBitmap fileImgBuf[2];
-	wxStaticBitmap *imgBgAnim;
+	wxBitmap fileImgBuf[1];
+	wxImage *g_projBg;
 	wxWindow *wAnimWk1;
-    //lbls
-	wxStaticText *lblProjectName;
+	CImageButton * btnAminBg;
+    //line
 	CStaticLine *lnProjName;
-	wxStaticText *lblMyProgress;
-	wxStaticText *lblProject;
 	//strings
 	wxString projName;
 	wxString projectFrName;
@@ -77,11 +76,6 @@ public:
 	wxStaticText *lblProjectFrName;
 	wxString percStr;
 	wxInt32 percNum;;
-	wxStaticText *lblGaugePercent;
-	wxStaticText *lblElapsedTime;
-	wxStaticText *lblElapsedTimeValue;
-	wxStaticText *lblTimeRemaining;
-	wxStaticText *lblTimeRemainingValue;
 	// bg
 	wxBitmap *btmpComponentBg;
 
@@ -95,10 +89,11 @@ public:
     void CreatePage();
 	void UpdateInterface();
 	void ReskinInterface();
-    void OnBtnClick(wxCommandEvent& event);
 	void OnWorkShowGraphics();
 	void OnPaint(wxPaintEvent& event); 
+	void OnLeftUp(wxMouseEvent& event);
 	void DrawText();
+	void OnImageButton();
     
 	// Setters
 	void SetTabName(const std::string nme) { m_name = nme; }

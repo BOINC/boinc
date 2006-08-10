@@ -46,19 +46,12 @@ public:
    ~CSimpleFrame();
 
 	// Images
-	wxImage *g_icoSleepWU;
 	wxImage *g_icoWorkWU;
 	//
-	ImageLoader *i_prjIcnP1;
-	wxWindow *w_iconP1;
-	///
-	ImageLoader *i_prjIcnP2;
-	wxWindow *w_iconP2;
 	// Flat Neotebook
 	std::vector<CViewTabPage*> m_windows; // vector of all window tabs created for notebook
 	wxFlatNotebookImageList m_ImageList;
 	wxFlatNotebook *wrkUnitNB;
-	wxBitmap const sleepWUico;
     wxBitmap const workWUico;
     ////// Skin variables //////
 	//XML doc
@@ -68,24 +61,13 @@ public:
 	wxString skinName;
 	wxString skinPath;
 	wxString skinFoldPath;
+	wxArrayString *skinImageArray;
 	// My projects component
 	CProjectsComponent *projComponent;
 	//Collapse button
 	bool midAppCollapsed;
 	bool btmAppCollapsed;
-	////////////////////////////
-	wxStaticText *st9c;
-	wxWindow *w11c;
-	wxStaticText *st22c;
-	wxStaticText *st23c;
-	wxStaticText *st27c;
-	wxStaticBitmap *bm29c;
-	wxGauge *gaugeProjP1;
-	wxStaticBitmap *icnProjWork;
-	wxStaticBitmap *bm39c;
-	wxGauge *gaugeProjP2;
-	wxStaticText *st41c;
-	wxStaticBitmap *icnProjSleep;
+	////////////////////////////;
 	bool clientGUIInitialized;
 
 	void InitEmptyState();
@@ -100,13 +82,13 @@ public:
 	wxFlexGridSizer *mainSizer;
 	wxSize wxNotebookSize;
 	//////////
-	wxBitmap *CSimpleFrameImg0;
+	wxBitmap *frameBg;
 	wxBitmap *bm13cImg0;
 	wxBitmap *btmpIcnWorking;
 	wxBitmap *bm39cImg0;
 
 	wxBitmap *btmpIcnSleeping;
-	wxBitmap fileImgBuf[11];
+	wxBitmap fileImgBuf[1];
 	
 #if 0
     wxAnimationPlayer& GetPlayer() { return m_player; }

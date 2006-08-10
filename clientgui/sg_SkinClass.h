@@ -32,6 +32,8 @@ public:
         // Getters
 		wxString GetAppBg() { return m_appBg; }
 		wxColour GetAppBgCol() { return GetColorFromStr(m_appBgCol); }
+		wxString GetProjCompBg() { return m_projCompBg; }
+		wxString GetWorkunitBg() { return m_workunitBg; }
 		wxString GetBtnPrefer() const { return m_btnPrefer; }
 		wxString GetBtnAddProj() const { return m_btnAddProj; }
 		wxString GetBtnAddProjClick() const { return m_btnAddProjClick; }
@@ -39,25 +41,26 @@ public:
         wxString GetBtnResume() const { return m_btnResume; }
         wxString GetBtnPause() const { return m_btnPause; }
 		wxString GetBtnMessages() const { return m_btnMessages; }
-		wxString GetBtnOpen() const { return m_btnOpen; }
-        wxString GetBtnSave() const { return m_btnSave; }
+		wxString GetBtnSave() const { return m_btnSave; }
+		wxString GetBtnSaveClick() const { return m_btnSaveClick; }
 		wxString GetBtnCancel() const { return m_btnCancel; }
+		wxString GetBtnCancelClick() const { return m_btnCancelClick; }
+		wxString GetBtnClear() const { return m_btnClear; }
+		wxString GetBtnClearClick() const { return m_btnClearClick; }
+		wxString GetBtnClose() const { return m_btnClose; }
+		wxString GetBtnCloseClick() const { return m_btnCloseClick; }
 		wxString GetBtnLeftArr() const { return m_btnLeftArr; }
 		wxString GetBtnRightArr() const { return m_btnRightArr; }
 		wxString GetBtnLeftArrClick() const { return m_btnLeftArrClick; }
 		wxString GetBtnRightArrClick() const { return m_btnRightArrClick; }
-        wxString GetBtnExpand() const { return m_btnExpand; }
-		wxString GetBtnCollapse() const { return m_btnCollapse; }
-		wxString GetBtnShowGraphic() const { return m_btnShowGraphic; }
-		wxString GetBtnExpandClick() const { return m_btnExpandClick; }
-		wxString GetBtnCollapseClick() const { return m_btnCollapseClick; }
-        wxString GetBtnShowGraphicClick() const { return m_btnShowGraphicClick; }
         
 		wxString GetDlgPrefBg() { return m_dlgPrefBg; }
 		wxString GetDlgMessBg() { return m_dlgMessBg; }
 
-		wxColour GetGaugeFgCol() { return GetColorFromStr(m_gaugeFgCol); }
-		wxColour GetGaugeBgCol() { return GetColorFromStr(m_gaugeBgCol); }
+		wxColour GetStaticLineCol() { return GetColorFromStr(m_staticLineCol); }
+
+		wxString GetGaugeBg() { return m_gaugeBg; }
+		wxString GetGaugeProgressInd() { return m_gaugeProgressInd; }
 	
 
 		wxColour GetTabFromColAc() { return GetColorFromStr(m_tabFromColAc); }
@@ -67,13 +70,9 @@ public:
 		wxColour GetTabToColIn() { return GetColorFromStr(m_tabToColIn); }
 		wxColour GetTabBrdColIn() { return GetColorFromStr(m_tabBrdColIn); }
         
-		wxString GetIcnWorking() const { return m_icnWorking; }
-        wxString GetIcnSleeping() const { return m_icnSleeping; }
-        wxString GetIcnWorkingWkUnit() const { return m_icnWorkingWkUnit; }
-        wxString GetIcnSleepingWkUnit() const { return m_icnSleepingWkUnit; }
-        wxString GetDefaultPrjIcn() const { return m_defaultPrjIcn; }
+		wxString GetIcnWorkingWkUnit() const { return m_icnWorkingWkUnit; }
         wxString GetDefaultStatIcn() const { return m_defaultStatIcn; }
-        wxString GetAnimationBG() const { return m_animBg; }
+        wxString GetAnimationBg() const { return m_animBg; }
         wxString GetAnimationFile() const { return m_animFile; }
         
 		wxString GetSkinName() const { return m_skinName; }
@@ -82,6 +81,8 @@ public:
         // Setters
 		void SetAppBg(const wxString imgsrc) { m_appBg = imgsrc; }
 		void SetAppBgCol(const wxString& clr) { m_appBgCol = clr; }
+		void SetProjCompBg(const wxString& imgsrc) { m_projCompBg = imgsrc; }
+		void SetWorkunitBg(const wxString& imgsrc) { m_workunitBg = imgsrc; }
 		void SetBtnPrefer(const wxString& imgsrc) { m_btnPrefer = imgsrc; }
 		void SetBtnAddProj(const wxString& imgsrc) { m_btnAddProj = imgsrc; }
 		void SetBtnAddProjClick(const wxString& imgsrc) { m_btnAddProjClick = imgsrc; }
@@ -91,23 +92,25 @@ public:
 		void SetBtnMessages(const wxString& imgsrc) { m_btnMessages = imgsrc; }
 		void SetBtnOpen(const wxString& imgsrc) { m_btnOpen = imgsrc; }
 		void SetBtnSave(const wxString& imgsrc) { m_btnSave = imgsrc; }
+		void SetBtnSaveClick(const wxString& imgsrc) { m_btnSaveClick = imgsrc; }
 		void SetBtnCancel(const wxString& imgsrc) { m_btnCancel = imgsrc; }
+		void SetBtnCancelClick(const wxString& imgsrc) { m_btnCancelClick = imgsrc; }
+		void SetBtnClear(const wxString& imgsrc) { m_btnClear = imgsrc; }
+		void SetBtnClearClick(const wxString& imgsrc) { m_btnClearClick = imgsrc; }
+		void SetBtnClose(const wxString& imgsrc) { m_btnClose = imgsrc; }
+		void SetBtnCloseClick(const wxString& imgsrc) { m_btnCloseClick = imgsrc; }
 		void SetBtnLeftArr(const wxString& imgsrc) { m_btnLeftArr = imgsrc; }
 		void SetBtnRightArr(const wxString& imgsrc) { m_btnRightArr = imgsrc; }
 		void SetBtnLeftArrClick(const wxString& imgsrc) { m_btnLeftArrClick = imgsrc; }
 		void SetBtnRightArrClick(const wxString& imgsrc) { m_btnRightArrClick = imgsrc; }
-		void SetBtnExpand(const wxString& imgsrc) { m_btnExpand = imgsrc; }
-		void SetBtnCollapse(const wxString& imgsrc)  { m_btnCollapse = imgsrc; }
-		void SetBtnShowGraphic(const wxString& imgsrc)  { m_btnShowGraphic = imgsrc; }
-		void SetBtnExpandClick(const wxString& imgsrc)  { m_btnExpandClick = imgsrc; }
-		void SetBtnCollapseClick(const wxString& imgsrc)  { m_btnCollapseClick = imgsrc; }
-        void SetBtnShowGraphicClick(const wxString& imgsrc)  { m_btnShowGraphicClick = imgsrc; }
 		
 		void SetDlgPrefBg(const wxString& imgsrc) { m_dlgPrefBg = imgsrc; }
 		void SetDlgMessBg(const wxString& imgsrc) { m_dlgMessBg = imgsrc; }
+    
+		void SetStaticLineCol(const wxString& clr) { m_staticLineCol = clr; }
 
-		void SetGaugeFgCol(const wxString& clr) { m_gaugeFgCol = clr; }
-		void SetGaugeBgCol(const wxString& clr) { m_gaugeBgCol = clr; }
+		void SetGaugeBg(const wxString& clr) { m_gaugeBg = clr; }
+		void SetGaugeProgressInd(const wxString& clr) { m_gaugeProgressInd = clr; }
 
 		void SetTabFromColAc(const wxString& clr) { m_tabFromColAc = clr; }
 		void SetTabToColAc(const wxString& clr) { m_tabToColAc = clr; }
@@ -116,11 +119,7 @@ public:
 		void SetTabToColIn(const wxString& clr) { m_tabToColIn = clr; }
 		void SetTabBrdColIn(const wxString& clr) { m_tabBrdColIn = clr; }
 
-		void SetIcnWorking(const wxString& imgsrc) { m_icnWorking = imgsrc; }
-		void SetIcnSleeping(const wxString& imgsrc) { m_icnSleeping = imgsrc; }
 		void SetIcnWorkingWkUnit(const wxString& imgsrc) { m_icnWorkingWkUnit = imgsrc; }
-		void SetIcnSleepingWkUnit(const wxString& imgsrc) { m_icnSleepingWkUnit = imgsrc; }
-		void SetDefaultPrjIcn(const wxString& imgsrc) { m_defaultPrjIcn = imgsrc; }
 		void SetDefaultStatIcn(const wxString& imgsrc) { m_defaultStatIcn = imgsrc; }
 		void SetAnimationBg(const wxString& imgsrc) { m_animBg = imgsrc; }
 		void SetAnimationFile(const wxString& imgsrc) { m_animFile = imgsrc; }
@@ -135,12 +134,16 @@ private:
 	    // Bg
 	    wxString m_appBg; 
 		wxString m_appBgCol;
+		wxString m_projCompBg;
+		wxString m_workunitBg;
         //Dialogs
 		wxString m_dlgPrefBg;
 		wxString m_dlgMessBg;
-		//gauge colors
-        wxString m_gaugeFgCol; 
-		wxString m_gaugeBgCol;
+		// Bg
+		wxString m_staticLineCol;
+		//gauge 
+        wxString m_gaugeBg; 
+		wxString m_gaugeProgressInd;
 		//notebook colors
 		//active tab
         wxString m_tabFromColAc; 
@@ -160,23 +163,22 @@ private:
         wxString m_btnMessages;
 		wxString m_btnOpen;
         wxString m_btnSave;
+		wxString m_btnSaveClick;
 		wxString m_btnCancel;
+		wxString m_btnCancelClick;
+		wxString m_btnClear;
+		wxString m_btnClearClick;
+		wxString m_btnClose;
+		wxString m_btnCloseClick;
 		wxString m_btnLeftArr;
 		wxString m_btnRightArr;
 		wxString m_btnLeftArrClick;
 		wxString m_btnRightArrClick;
 		wxString m_btnExpand;
-		wxString m_btnCollapse;
 		wxString m_btnExpandClick;
-		wxString m_btnCollapseClick;
-		wxString m_btnShowGraphic;
-		wxString m_btnShowGraphicClick;
 		// Icons
-		wxString m_icnWorking;
-		wxString m_icnSleeping;	
 		wxString m_icnWorkingWkUnit;
 		wxString m_icnSleepingWkUnit;
-		wxString m_defaultPrjIcn;// default proj icon
 		wxString m_defaultStatIcn;// default stat icon
 		// animation
 		wxString m_animBg;
