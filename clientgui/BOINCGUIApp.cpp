@@ -460,13 +460,15 @@ bool CBOINCGUIApp::OnInit() {
 #endif
 
     // Initialize the task bar icon
-    m_pTaskBarIcon = new CTaskBarIcon(
+#if defined(__WXMSW__) || defined(__WXMAC__)
+	m_pTaskBarIcon = new CTaskBarIcon(
         m_pBranding->GetApplicationName(), 
         m_pBranding->GetApplicationIcon(),
         m_pBranding->GetApplicationDisconnectedIcon(),
         m_pBranding->GetApplicationSnoozeIcon()
     );
     wxASSERT(m_pTaskBarIcon);
+#endif
 
     // Detect the display info and store for later use.
     DetectDisplayInfo();
@@ -532,9 +534,12 @@ int CBOINCGUIApp::OnExit() {
     // Shutdown the System Idle Detection code
     ClientLibraryShutdown();
 
+#if defined(__WXMSW__) || defined(__WXMAC__)
     if (m_pTaskBarIcon) {
         delete m_pTaskBarIcon;
     }
+#endif
+
 #ifdef __WXMAC__
     if (m_pMacSystemMenu) {
         delete m_pMacSystemMenu;
