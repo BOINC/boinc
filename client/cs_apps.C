@@ -325,7 +325,7 @@ double CLIENT_STATE::get_fraction_done(RESULT* result) {
 // Decide which app version to use for a WU.
 // Return -1 if can't find one
 //
-int CLIENT_STATE::choose_version_num(char* app_name, SCHEDULER_REPLY& sr) {
+int CLIENT_STATE::choose_version_num(WORKUNIT* wup, SCHEDULER_REPLY& sr) {
     unsigned int i;
     int best = -1;
     APP_VERSION* avp;
@@ -334,7 +334,7 @@ int CLIENT_STATE::choose_version_num(char* app_name, SCHEDULER_REPLY& sr) {
     //
     for (i=0; i<sr.app_versions.size(); i++) {
         avp = &sr.app_versions[i];
-        if (!strcmp(app_name, avp->app_name)) {
+        if (!strcmp(wup->app_name, avp->app_name)) {
             return avp->version_num;
         }
     }
@@ -343,14 +343,10 @@ int CLIENT_STATE::choose_version_num(char* app_name, SCHEDULER_REPLY& sr) {
     //
     for (i=0; i<app_versions.size(); i++) {
         avp = app_versions[i];
-        if (strcmp(avp->app_name, app_name)) continue;
+        if (avp->project != wup->project) continue;
+        if (strcmp(avp->app_name, wup->app_name)) continue;
         if (avp->version_num < best) continue;
         best = avp->version_num;
-    }
-    if (best < 0) {
-        msg_printf(0, MSG_ERROR,
-            "No version found for application %s", app_name
-        );
     }
     return best;
 }

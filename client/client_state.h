@@ -317,7 +317,7 @@ public:
 private:
     int nslots;
 
-    int choose_version_num(char*, SCHEDULER_REPLY&);
+    int choose_version_num(WORKUNIT*, SCHEDULER_REPLY&);
     int app_finished(ACTIVE_TASK&);
     bool start_apps();
     bool handle_finished_apps();

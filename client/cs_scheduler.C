@@ -1037,7 +1037,8 @@ int CLIENT_STATE::handle_scheduler_reply(
         if (lookup_workunit(project, sr.workunits[i].name)) continue;
         WORKUNIT* wup = new WORKUNIT;
         *wup = sr.workunits[i];
-        int vnum = choose_version_num(wup->app_name, sr);
+        wup->project = project;
+        int vnum = choose_version_num(wup, sr);
         if (vnum < 0) {
             msg_printf(project, MSG_ERROR,
                 "Can't find application version for task %s", wup->name
