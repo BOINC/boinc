@@ -419,7 +419,6 @@ int CSimpleFrame::LoadSkinXML(){
 			mf.fgets(buf, 256);
 			if (parse_str(buf, "<imgsrc>", val)) {
 				appSkin->SetAppBg(wxString( val.c_str(), wxConvUTF8 ));
-				skinImageArray.Add(wxString( val.c_str(), wxConvUTF8 ));
 			}
 			mf.fgets(buf, 256);
             if (parse_str(buf, "<bgcol>", val)) {
