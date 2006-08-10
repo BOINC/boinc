@@ -8601,3 +8601,11 @@ David  9 Aug 2006
 
     html/inc/
         util.inc
+
+David  9 Aug 2006
+    - add certificate authority bundle file to linux release
+
+    client/
+        cpu_sched.C
+    sea/
+        Makefile.am

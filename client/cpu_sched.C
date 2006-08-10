@@ -622,7 +622,7 @@ bool CLIENT_STATE::enforce_schedule() {
     }
 
     if (log_flags.cpu_sched && nrunning < ncpus) {
-        msg_printf(0, MSG_INFO, "Too few tasks started (%d<%d>",
+        msg_printf(0, MSG_INFO, "Too few tasks started (%d<%d)",
             nrunning, ncpus
         );
     }

@@ -4,13 +4,15 @@ vers = \
   @BOINC_MAJOR_VERSION@.@BOINC_MINOR_VERSION@.@BOINC_RELEASE@_@boinc_platform@
 sea = boinc_$(vers).sh
 tarfiles = BOINC/boinc BOINC/boincmgr BOINC/boinc_cmd BOINC/binstall.sh\
-	BOINC/boincmgr.8x8.png BOINC/boincmgr.16x16.png BOINC/boincmgr.32x32.png
+	BOINC/boincmgr.8x8.png BOINC/boincmgr.16x16.png BOINC/boincmgr.32x32.png \
+    BOINC/ca-bundle.crt
 
 sea_debug = boinc_$(vers)_debug.sh
 tarfiles_debug = BOINC_debug/boinc.unmodified BOINC_debug/boincmgr.unmodified\
         BOINC_debug/boinccmd.unmodified BOINC_debug/binstall.sh\
 	BOINC_debug/boincmgr.8x8.png BOINC_debug/boincmgr.16x16.png\
-	BOINC_debug/boincmgr.32x32.png
+	BOINC_debug/boincmgr.32x32.png \
+    BOINC_debug/ca-bundle.crt
 
 all: $(sea) $(sea_debug)
 
@@ -44,6 +46,8 @@ BOINC/boincmgr.32x32.png: boincmgr.32x32.png
 	cp boincmgr.32x32.png BOINC/boincmgr.32x32.png
 BOINC/boincmgr.8x8.png: boincmgr.8x8.png
 	cp boincmgr.8x8.png BOINC/boincmgr.8x8.png
+BOINC/ca-bundle.crt: ../curl/ca-bundle.crt
+	cp ../curl/ca-bundle.crt BOINC/ca-bundle.crt
 
 BOINC_debug/boinc.unmodified: ../client/boinc.unmodified BOINC_debug
 	cp ../client/boinc.unmodified BOINC_debug/boinc.unmodified
@@ -60,6 +64,8 @@ BOINC_debug/boincmgr.32x32.png: boincmgr.32x32.png
 	cp boincmgr.32x32.png BOINC_debug/boincmgr.32x32.png
 BOINC_debug/boincmgr.8x8.png: boincmgr.8x8.png
 	cp boincmgr.8x8.png BOINC_debug/boincmgr.8x8.png
+BOINC_debug/ca-bundle.crt: ../curl/ca-bundle.crt
+	cp ../curl/ca-bundle.crt BOINC_debug/ca-bundle.crt
 
 BOINC/binstall.sh: BOINC Makefile
 	echo 'cd BOINC &&\
