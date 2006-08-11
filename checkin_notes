@@ -8652,3 +8652,27 @@ David  10 Aug 2006
 		cs_apps.C
 		cs_scheduler.C
 		gui_rpc_server_ops.C
+
+David  11 Aug 2006
+	- GUI RPC: add task and network suspend reasons to the
+		structure returned by get_cc_status().
+		Future items should be put in this structure
+		rather than adding a new RPC.
+
+		Old RPCs (network_status() and get_activity_state())
+		have been left in to avoid breaking current add-ons.
+		They have been marked as deprecated and will be removed 12/06.
+	- Manager: if task is suspended, say why
+
+	client/
+		gui_rpc_server_ops.C
+		net_stats.C
+	clientgui/
+		BOINCTaskBar.cpp
+		MainDocument.cpp,h
+		ViewTransfers.cpp
+		ViewWork.cpp
+	lib/
+		error_numbers.h
+		gui_rpc_client.h
+		gui_rpc_client_ops.C

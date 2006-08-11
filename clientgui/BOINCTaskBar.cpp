@@ -344,7 +344,7 @@ void CTaskBarIcon::OnMouseMove(wxTaskBarIconEvent& WXUNUSED(event)) {
         bool     bIsDownloaded        = false;
         wxInt32  iResultCount         = 0;
         wxInt32  iIndex               = 0;
-		ACTIVITY_STATE as;
+		CC_STATUS ccs;
         wxIcon   iconIcon             = wxNullIcon;
         CMainDocument* pDoc           = wxGetApp().GetDocument();
 
@@ -355,8 +355,8 @@ void CTaskBarIcon::OnMouseMove(wxTaskBarIconEvent& WXUNUSED(event)) {
             pDoc->GetConnectedComputerName(strMachineName);
             strTitle = strTitle + wxT(" - (") + strMachineName + wxT(")");
 
-            pDoc->GetActivityState(as);
-            if (as.task_suspend_reason) {
+            pDoc->get_cc_status(ccs);
+            if (ccs.task_suspend_reason) {
                 // 1st %s is the previous instance of the message
                 // 2nd %s is the project name
                 //    i.e. 'BOINC', 'GridRepublic'
@@ -368,7 +368,7 @@ void CTaskBarIcon::OnMouseMove(wxTaskBarIconEvent& WXUNUSED(event)) {
                 strMessage += strBuffer;
             }
 
-            if (as.network_suspend_reason) {
+            if (ccs.network_suspend_reason) {
                 // 1st %s is the previous instance of the message
                 // 2nd %s is the project name
                 //    i.e. 'BOINC', 'GridRepublic'

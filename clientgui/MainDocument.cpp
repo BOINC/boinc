@@ -291,7 +291,7 @@ CMainDocument::CMainDocument() {
     m_bCachedStateLocked = false;
     m_dtCachedStateLockTimestamp = wxDateTime::Now();
     m_dtCachedStateTimestamp = wxDateTime((time_t)0);
-    m_dtCachedActivityStateTimestamp = wxDateTime((time_t)0);
+    cc_status_timestamp = wxDateTime((time_t)0);
     m_dtCachedActivityRunModeTimestamp = wxDateTime((time_t)0);
     m_dtCachedNetworkRunModeTimestamp = wxDateTime((time_t)0);
     m_dtCachedProjecStatusTimestamp = wxDateTime((time_t)0);
@@ -311,7 +311,7 @@ CMainDocument::~CMainDocument() {
     m_dtCachedProjecStatusTimestamp = wxDateTime::Now();
     m_dtCachedNetworkRunModeTimestamp = wxDateTime::Now();
     m_dtCachedActivityRunModeTimestamp = wxDateTime::Now();
-    m_dtCachedActivityStateTimestamp = wxDateTime::Now();
+    cc_status_timestamp = wxDateTime::Now();
     m_dtCachedStateTimestamp = wxDateTime::Now();
     m_dtCachedStateLockTimestamp = wxDateTime::Now();
     m_bCachedStateLocked = false;
@@ -558,21 +558,21 @@ int CMainDocument::SetNetworkRunMode(int iMode) {
 }
 
 
-int CMainDocument::GetActivityState(ACTIVITY_STATE& as) {
+int CMainDocument::get_cc_status(CC_STATUS& ccs) {
     int     iRetVal = 0;
 
-    wxTimeSpan ts(wxDateTime::Now() - m_dtCachedActivityStateTimestamp);
+    wxTimeSpan ts(wxDateTime::Now() - cc_status_timestamp);
     if (ts.GetSeconds() > 0.5) {
-        m_dtCachedActivityStateTimestamp = wxDateTime::Now();
+        cc_status_timestamp = wxDateTime::Now();
 
         if (IsConnected()) {
-            iRetVal = rpc.get_activity_state(as);
+            iRetVal = rpc.get_cc_status(ccs);
             if (0 == iRetVal) {
-                m_cached_activity_state = as;
+                cc_status = ccs;
             }
         }
     } else {
-        as = m_cached_activity_state;
+        ccs = cc_status;
     }
 
     return iRetVal;

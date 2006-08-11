@@ -331,6 +331,7 @@ static void handle_get_proxy_settings(char* , MIOFILE& fout) {
     gstate.proxy_info.write(fout);
 }
 
+// DEPRECATED - REMOVE 12/06
 static void handle_get_activity_state(char* , MIOFILE& fout) {
     fout.printf(
         "<activity_state>\n"
@@ -536,6 +537,7 @@ static void handle_get_statistics(char*, MIOFILE& fout) {
     fout.printf("</statistics>\n");
 }
 
+// DEPRECATED - REMOVE 12/06
 static void handle_network_status(char*, MIOFILE& fout) {
     fout.printf("<status>%d</status>\n", net_status.network_status());
 }
@@ -545,9 +547,13 @@ static void handle_get_cc_status(MIOFILE& fout) {
         "<cc_status>\n"
         "   <network_status>%d</network_status>\n"
         "   <ams_password_error>%d</ams_password_error>\n"
+        "   <task_suspend_reason>%d</task_suspend_reason>\n"
+        "   <network_suspend_reason>%d</network_suspend_reason>\n"
         "</cc_status>\n",
         net_status.network_status(),
-        gstate.acct_mgr_info.password_error?1:0
+        gstate.acct_mgr_info.password_error?1:0,
+        gstate.suspend_reason,
+        gstate.network_suspend_reason
     );
 }
 
@@ -900,7 +906,7 @@ int GUI_RPC_CONN::handle_rpc() {
         handle_set_proxy_settings(request_msg, mf);
     } else if (match_tag(request_msg, "<get_proxy_settings")) {
         handle_get_proxy_settings(request_msg, mf);
-    } else if (match_tag(request_msg, "<get_activity_state")) {
+    } else if (match_tag(request_msg, "<get_activity_state")) {	// DEPRECATED
         handle_get_activity_state(request_msg, mf);
     } else if (match_tag(request_msg, "<get_messages")) {
         handle_get_messages(request_msg, mf);
@@ -908,7 +914,7 @@ int GUI_RPC_CONN::handle_rpc() {
         handle_get_host_info(request_msg, mf);
     } else if (match_tag(request_msg, "<get_statistics")) {
         handle_get_statistics(request_msg, mf);
-    } else if (match_tag(request_msg, "<network_status")) {
+    } else if (match_tag(request_msg, "<network_status")) {	// DEPRECATED
         handle_network_status(request_msg, mf);
     } else if (match_tag(request_msg, "<network_available")) {
         handle_network_available(request_msg, mf);

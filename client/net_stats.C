@@ -162,21 +162,21 @@ int NET_STATUS::network_status() {
     }
     if (gstate.now - last_comm_time < 10) {
         //msg_printf(0, MSG_INFO, "nops %d; return 0", http_ops->nops());
-        return 0;
+        return NETWORK_STATUS_ONLINE;
     }
     if (gstate.lookup_website_op.error_num == ERR_IN_PROGRESS) {
-        return 3;
+        return NETWORK_STATUS_LOOKUP_PENDING;
     }
     if (need_physical_connection) {
         //msg_printf(0, MSG_INFO, "need phys conn; return 1");
-        return 1;
+        return NETWORK_STATUS_WANT_CONNECTION;
     }
     if (gstate.active_tasks.want_network()) {
-        return 1;
+        return NETWORK_STATUS_WANT_CONNECTION;
     }
     have_sporadic_connection = false;
     //msg_printf(0, MSG_INFO, "returning 2");
-    return 2;
+    return NETWORK_STATUS_WANT_DISCONNECT;
 }
 
 // There's now a network connection, after some period of disconnection.

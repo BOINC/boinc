@@ -504,14 +504,14 @@ wxInt32 CViewTransfers::FormatSpeed(wxInt32 item, wxString& strBuffer) const {
 
 wxInt32 CViewTransfers::FormatStatus(wxInt32 item, wxString& strBuffer) const {
     wxInt32        iActivityMode = -1;
-	ACTIVITY_STATE as;
+	CC_STATUS ccs;
     CMainDocument* doc = wxGetApp().GetDocument();
     FILE_TRANSFER* transfer = wxGetApp().GetDocument()->file_transfer(item);
 
     wxASSERT(doc);
     wxASSERT(wxDynamicCast(doc, CMainDocument));
 
-    doc->GetActivityState(as);
+    doc->get_cc_status(ccs);
     doc->GetActivityRunMode(iActivityMode);
 
     wxDateTime dtNextRequest((time_t)transfer->next_request_time);
@@ -526,7 +526,7 @@ wxInt32 CViewTransfers::FormatStatus(wxInt32 item, wxString& strBuffer) const {
         } else if (ERR_GIVEUP_UPLOAD == transfer->status) {
             strBuffer = _("Upload failed");
         } else {
-            if (as.network_suspend_reason) {
+            if (ccs.network_suspend_reason) {
                 strBuffer = _("Suspended");
             } else {
                 if (transfer->xfer_active) {

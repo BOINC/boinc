@@ -92,8 +92,8 @@ void CBOINCDialUpManager::poll() {
     bool                bIsOnline = false;
     bool                bWantConnection = false;
     bool                bWantDisconnect = false;
-    int                 iNetworkStatus = 0;
     wxString            strDialogMessage = wxEmptyString;
+    CC_STATUS cc_status;
 
 
     // We are ready to rock and roll.
@@ -108,11 +108,11 @@ void CBOINCDialUpManager::poll() {
         //   successfully connected.  IsNetworkAlive/IsOnline both report the
         //   success or failure of the dialup device to establish a connection
         //   to the outside world.
-        pDoc->rpc.network_status(iNetworkStatus);
+        pDoc->rpc.get_cc_status(cc_status);
 
-        bIsOnline = iNetworkStatus == 0 ? true : false;
-        bWantConnection = iNetworkStatus == 1 ? true : false;
-        bWantDisconnect = iNetworkStatus == 2 ? true : false;
+        bIsOnline = (cc_status.network_status == NETWORK_STATUS_ONLINE);
+        bWantConnection = (cc_status.network_status == NETWORK_STATUS_WANT_CONNECTION);
+        bWantDisconnect = (cc_status.network_status == NETWORK_STATUS_WANT_DISCONNECT);
 
         // The timers are used to keep from spamming the user with the same
         //   messages over each iteration of the poll loop.  we only need to

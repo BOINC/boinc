@@ -1286,18 +1286,23 @@ int RPC_CLIENT::get_cc_status(CC_STATUS& status) {
     char buf[256];
     RPC rpc(this);
 
-    int retval = rpc.do_rpc("<network_status/>\n");
+	memset(&status, 0, sizeof(status));
+    int retval = rpc.do_rpc("<get_cc_status/>\n");
     status.network_status = -1;
     status.ams_password_error = false;
     if (!retval) {
         while (rpc.fin.fgets(buf, 256)) {
             if (parse_int(buf, "<network_status>", status.network_status)) continue;
             if (parse_bool(buf, "ams_password_error", status.ams_password_error)) continue;
+            if (parse_int(buf, "<task_suspend_reason>", status.task_suspend_reason)) continue;
+            if (parse_int(buf, "<network_suspend_reason>", status.network_suspend_reason)) continue;
         }
     }
     return retval;
 }
 
+// DEPRECATED - REMOVE 12/06
+//
 int RPC_CLIENT::network_status(int& status) {
     int retval;
     SET_LOCALE sl;
@@ -1537,6 +1542,7 @@ int RPC_CLIENT::get_network_mode(int& mode) {
     return retval;
 }
 
+// DEPRECATED - REMOVE 12/06
 int RPC_CLIENT::get_activity_state(ACTIVITY_STATE& as) {
     int retval;
     SET_LOCALE sl;

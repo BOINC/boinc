@@ -719,14 +719,14 @@ wxInt32 CViewWork::FormatReportDeadline(wxInt32 item, wxString& strBuffer) const
 
 wxInt32 CViewWork::FormatStatus(wxInt32 item, wxString& strBuffer) const {
     wxInt32        iActivityMode = -1;
-	ACTIVITY_STATE as;
+	CC_STATUS ccs;
     CMainDocument* doc = wxGetApp().GetDocument();
     RESULT*        result = wxGetApp().GetDocument()->result(item);
 
     wxASSERT(doc);
     wxASSERT(wxDynamicCast(doc, CMainDocument));
 
-    doc->GetActivityState(as);
+    doc->get_cc_status(ccs);
     doc->GetActivityRunMode(iActivityMode);
 
     if (result) {
@@ -745,11 +745,30 @@ wxInt32 CViewWork::FormatStatus(wxInt32 item, wxString& strBuffer) const {
                 if (result->project_suspended_via_gui) {
                     strBuffer = _("Project suspended by user");
                 } else if (result->suspended_via_gui) {
-                    strBuffer = _("Suspended by user");
-                } else if (as.task_suspend_reason & SUSPEND_REASON_CPU_USAGE_LIMIT) {
-					strBuffer = _("CPU throttled");
-                } else if (as.task_suspend_reason) {
-                    strBuffer = _("Activities suspended");
+                    strBuffer = _("Task suspended by user");
+				} else if (ccs.task_suspend_reason) {
+					strBuffer = _("Suspended");
+					if (ccs.task_suspend_reason&SUSPEND_REASON_BATTERIES) {
+						strBuffer += _(" - on batteries");
+					}
+					if (ccs.task_suspend_reason&SUSPEND_REASON_USER_ACTIVE) {
+						strBuffer += _(" - user active");
+					}
+					if (ccs.task_suspend_reason&SUSPEND_REASON_USER_REQ) {
+						strBuffer += _(" - computation suspended");
+					}
+					if (ccs.task_suspend_reason&SUSPEND_REASON_TIME_OF_DAY) {
+						strBuffer += _(" - time of day");
+					}
+					if (ccs.task_suspend_reason&SUSPEND_REASON_BENCHMARKS) {
+						strBuffer += _(" - CPU benchmarks");
+					}
+					if (ccs.task_suspend_reason&SUSPEND_REASON_DISK_SIZE) {
+						strBuffer += _(" - need disk space");
+					}
+					if (ccs.task_suspend_reason&SUSPEND_REASON_CPU_USAGE_LIMIT) {
+						strBuffer += _(" - CPU throttled");
+					}
                 } else if (result->active_task) {
                     if (result->scheduler_state == CPU_SCHED_SCHEDULED) {
                         strBuffer = _("Running");
@@ -796,7 +815,7 @@ wxInt32 CViewWork::FormatStatus(wxInt32 item, wxString& strBuffer) const {
         }
     }
 
-    if (!as.task_suspend_reason && iActivityMode == RUN_MODE_NEVER) {
+    if (!ccs.task_suspend_reason && iActivityMode == RUN_MODE_NEVER) {
         strBuffer = wxT(" (") + strBuffer + wxT(") ");
         strBuffer = _("Activities suspended by user") + strBuffer;
     }

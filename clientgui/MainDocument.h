@@ -83,10 +83,10 @@ private:
 
 	wxDateTime                  m_dtCachedActivityRunModeTimestamp;
     wxDateTime                  m_dtCachedNetworkRunModeTimestamp;
-    wxDateTime                  m_dtCachedActivityStateTimestamp;
+    wxDateTime                  cc_status_timestamp;
     int                         m_iCachedActivityRunMode;
     int                         m_iCachedNetworkRunMode;
-    ACTIVITY_STATE m_cached_activity_state;
+    CC_STATUS cc_status;
 
     int                         CachedStateUpdate();
 
@@ -125,7 +125,7 @@ public:
     int                         SetActivityRunMode(int iMode);
     int                         GetNetworkRunMode(int& iMode);
     int                         SetNetworkRunMode(int iMode);
-    int                         GetActivityState(ACTIVITY_STATE&);
+    int                         get_cc_status(CC_STATUS&);
 
     int                         ForceCacheUpdate();
     int                         RunBenchmarks();

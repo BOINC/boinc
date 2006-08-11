@@ -95,10 +95,6 @@
     // show message in black
 #define MSG_PRIORITY_ERROR                          2
     // show message in red
-#define MSG_PRIORITY_ALERT_INFO                     4
-    // show message in a modal dialog
-#define MSG_PRIORITY_ALERT_ERROR                    5
-    // show error message in a modal dialog
 
 enum SUSPEND_REASON {
     SUSPEND_REASON_BATTERIES = 1,
@@ -517,6 +513,8 @@ struct ACCOUNT_OUT {
 struct CC_STATUS {
     int network_status;
     bool ams_password_error;
+    int task_suspend_reason;
+    int network_suspend_reason;
 };
 
 struct SIMPLE_GUI_INFO {
@@ -525,6 +523,7 @@ struct SIMPLE_GUI_INFO {
     void print();
 };
 
+// DEPRECATED - REMOVE 12/06
 struct ACTIVITY_STATE {
     int task_suspend_reason;
     int network_suspend_reason;
@@ -577,7 +576,7 @@ public:
     int get_run_mode(int& mode);
     int set_network_mode(int mode);
     int get_network_mode(int& mode);
-    int get_activity_state(ACTIVITY_STATE&);
+    int get_activity_state(ACTIVITY_STATE&);	// DEPRECATED
     int get_screensaver_mode(int& status);
     int set_screensaver_mode(
         bool enabled, double blank_time, DISPLAY_INFO&
@@ -593,7 +592,7 @@ public:
     int acct_mgr_info(ACCT_MGR_INFO&);
     const char* mode_name(int mode);
     int get_statistics(PROJECTS&);
-    int network_status(int&);
+    int network_status(int&);	// DEPRECATED
     int network_available();
     int get_project_init_status(PROJECT_INIT_STATUS& pis);
 
