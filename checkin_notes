@@ -8676,3 +8676,17 @@ David  11 Aug 2006
 		error_numbers.h
 		gui_rpc_client.h
 		gui_rpc_client_ops.C
+
+Milos  11 Aug 2006	
+	- Added suport for importing images from skin for Flat Notebook
+	  Added additional routine to check for Skin validity. Skin validity
+	  is also checked now when different skin choosen. If skin is not valid
+	  no skin will be changed.
+	clientgui/
+		sg_BoincSimpleGUI.cpp
+		sg_ProjectsComponent.cpp
+		sg_SkinClass.h	
+	clientgui/common
+		wxFlatNotebook.cpp
+	clientgui/skins/default && WorldCommunityGrid
+	    skin.xml

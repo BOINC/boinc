@@ -9,6 +9,12 @@
 			<prjcomponentbg>
 				<imgsrc>graphic/proj_bg.png</imgsrc>
 			</prjcomponentbg>
+			<tabareabg>
+				<imgsrc>graphic/tabArea_bg.png</imgsrc>
+			</tabareabg>
+			<spacerimage>
+				<imgsrc>graphic/spacer.png</imgsrc>
+			</spacerimage>
 			<workunitbg>
 				<imgsrc>graphic/wu_bg.png</imgsrc>
 			</workunitbg>
@@ -69,14 +75,6 @@
 					<imgsrc>graphic/arwRight.png</imgsrc>
 					<imgsrcclick>graphic/arwRightClick.png</imgsrcclick>
 				</rightArr>
-				<expand>
-					<imgsrc>graphic/btnExpand.png</imgsrc>
-					<imgsrcclick>graphic/btnExpandClick.png</imgsrcclick>
-				</expand>
-				<collapse>
-					<imgsrc>graphic/btnCollapse.png</imgsrc>
-					<imgsrcclick>graphic/btnCollapseClick.png</imgsrcclick>
-				</collapse>
 		        </buttons>
 			<icons>
 				<workingWkUnit>

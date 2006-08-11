@@ -74,6 +74,7 @@ public:
     void InitSimpleClient();
 	void UpdateClientGUI();
 	int LoadSkinXML();
+	bool CheckSkin();
 	void LoadSkinImages();
 	void ReskinAppGUI();
 	void initAfter();

@@ -652,7 +652,7 @@ void wxPageContainerBase::LoadBgImage()
 	appSkin = SkinClass::Instance();
 	wxString dirPref = appSkin->GetSkinsFolder()+_T("/")+appSkin->GetSkinName()+_T("/");
 	
-    g_tabAreaBg = new wxImage(dirPref + wxT("graphic/tabArea_bg.png"), wxBITMAP_TYPE_PNG);
+    g_tabAreaBg = new wxImage(dirPref + appSkin->GetTabAreaBg(), wxBITMAP_TYPE_PNG);
 	m_tabAreaBG = wxBitmap(g_tabAreaBg); 
 }
 

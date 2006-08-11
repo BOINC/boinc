@@ -33,6 +33,7 @@ public:
 		wxString GetAppBg() { return m_appBg; }
 		wxColour GetAppBgCol() { return GetColorFromStr(m_appBgCol); }
 		wxString GetProjCompBg() { return m_projCompBg; }
+        wxString GetSpacerImage() { return m_spacerImage; }
 		wxString GetWorkunitBg() { return m_workunitBg; }
 		wxString GetBtnPrefer() const { return m_btnPrefer; }
 		wxString GetBtnAddProj() const { return m_btnAddProj; }
@@ -62,8 +63,8 @@ public:
 		wxString GetGaugeBg() { return m_gaugeBg; }
 		wxString GetGaugeProgressInd() { return m_gaugeProgressInd; }
 	
-
-		wxColour GetTabFromColAc() { return GetColorFromStr(m_tabFromColAc); }
+        wxString GetTabAreaBg() const { return m_tabAreaBg; }
+        wxColour GetTabFromColAc() { return GetColorFromStr(m_tabFromColAc); }
 		wxColour GetTabToColAc() { return GetColorFromStr(m_tabToColAc); }
 		wxColour GetTabBrdColAc() { return GetColorFromStr(m_tabBrdColAc); }
 		wxColour GetTabFromColIn() { return GetColorFromStr(m_tabFromColIn); }
@@ -82,6 +83,7 @@ public:
 		void SetAppBg(const wxString imgsrc) { m_appBg = imgsrc; }
 		void SetAppBgCol(const wxString& clr) { m_appBgCol = clr; }
 		void SetProjCompBg(const wxString& imgsrc) { m_projCompBg = imgsrc; }
+		void SetSpacerImage(const wxString& imgsrc) { m_spacerImage = imgsrc; }
 		void SetWorkunitBg(const wxString& imgsrc) { m_workunitBg = imgsrc; }
 		void SetBtnPrefer(const wxString& imgsrc) { m_btnPrefer = imgsrc; }
 		void SetBtnAddProj(const wxString& imgsrc) { m_btnAddProj = imgsrc; }
@@ -112,6 +114,7 @@ public:
 		void SetGaugeBg(const wxString& clr) { m_gaugeBg = clr; }
 		void SetGaugeProgressInd(const wxString& clr) { m_gaugeProgressInd = clr; }
 
+		void SetTabAreaBg(const wxString& imgsrc) { m_tabAreaBg = imgsrc; }
 		void SetTabFromColAc(const wxString& clr) { m_tabFromColAc = clr; }
 		void SetTabToColAc(const wxString& clr) { m_tabToColAc = clr; }
 		void SetTabBrdColAc(const wxString& clr) { m_tabBrdColAc = clr; }
@@ -135,6 +138,7 @@ private:
 	    wxString m_appBg; 
 		wxString m_appBgCol;
 		wxString m_projCompBg;
+		wxString m_spacerImage;
 		wxString m_workunitBg;
         //Dialogs
 		wxString m_dlgPrefBg;
@@ -146,6 +150,7 @@ private:
 		wxString m_gaugeProgressInd;
 		//notebook colors
 		//active tab
+		wxString m_tabAreaBg;
         wxString m_tabFromColAc; 
 		wxString m_tabToColAc; 
 		wxString m_tabBrdColAc; 

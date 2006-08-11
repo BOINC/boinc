@@ -99,7 +99,7 @@ void CProjectsComponent::LoadSkinImages(){
 	g_advView = new wxImage(dirPref + appSkin->GetBtnAdvView(), wxBITMAP_TYPE_PNG);
 	g_advViewClick = new wxImage(dirPref + appSkin->GetBtnAdvView(), wxBITMAP_TYPE_PNG);
 	//spacer
-	g_spacer = new wxImage(dirPref + wxT("graphic/spacer.png"), wxBITMAP_TYPE_PNG);
+	g_spacer = new wxImage(dirPref + appSkin->GetSpacerImage(), wxBITMAP_TYPE_PNG);
 	
    
 	btmpComponentBg=&fileImgBuf[0];
@@ -150,7 +150,6 @@ void CProjectsComponent::CreateComponent()
 		toolTipTxt = wxString(project->project_name.c_str(), wxConvUTF8 ) +wxT(". User ") + wxString(project->user_name.c_str(), wxConvUTF8) + wxT(" has ") + userCredit + wxT(" points."); 
 		if(j < m_maxNumOfIcons){
 			// Project button
-			//wxWindow *w_statW = new wxWindow(this,-1,wxPoint(29 + 40*j,3),wxSize(40,40));
 			wxToolTip *statToolTip = new wxToolTip(toolTipTxt);
 			StatImageLoader *i_statW = new StatImageLoader(this,project->master_url);
 			i_statW->Move(wxPoint(55 + 40*j,37));
@@ -292,7 +291,7 @@ void CProjectsComponent::RemoveProject(std::string prjUrl)
 		//shift icons to the left. Nothing will be shifted if last icon is removed
 		for(int k = indexOfIcon; k < (int)m_statProjects.size(); k++){
 			StatImageLoader *i_statWShifting = m_statProjects.at(k);
-			i_statWShifting->Move(wxPoint(29 + 40*k,37));
+			i_statWShifting->Move(wxPoint(55 + 40*k,37));
 		}
 	    // create the icon on right
 		if(m_rightIndex <= m_projCnt){
@@ -351,7 +350,7 @@ void CProjectsComponent::UpdateInterface()
 		toolTipTxt = wxString(project->project_name.c_str(), wxConvUTF8 ) +wxT(". User ") + wxString(project->user_name.c_str(), wxConvUTF8) + wxT(" has ") + userCredit + wxT(" points."); 
 		wxToolTip *statToolTip = new wxToolTip(toolTipTxt);
 		StatImageLoader *i_statW = new StatImageLoader(this,project->master_url);
-		i_statW->Move(wxPoint(29 + 40*(m_projCnt-1),37));
+		i_statW->Move(wxPoint(55 + 40*(m_projCnt-1),37));
 		// resolve the proj image 
 		url_to_project_dir((char*)project->master_url.c_str() ,urlDirectory);
 		dirProjectGraphic = (std::string)urlDirectory + "/" + projectIconName;
@@ -548,10 +547,20 @@ void CProjectsComponent::OnBtnClick(wxCommandEvent& event){ //init function
 		wxASSERT(pDlg);
 		if ( pDlg->ShowModal() == wxID_OK ){
 			if(pDlg->GetSkinName() != pFrame->skinName){
+				wxString oldSkinName = appSkin->GetSkinName();
+				// set new skin name
 				appSkin->SetSkinName(pDlg->GetSkinName());
 				pFrame->skinName = pDlg->GetSkinName();
 				pFrame->skinPath = appSkin->GetSkinsFolder()+_T("/")+appSkin->GetSkinName()+_T("/")+_T("skin.xml");
-			    pFrame->ReskinAppGUI();
+			    //Check if skin can be loaded
+	            if(pFrame->CheckSkin()){
+                    pFrame->ReskinAppGUI();
+				}else{
+					wxMessageBox("Incompatible skin. Skin will not be changed.");
+		            appSkin->SetSkinName(oldSkinName);
+				    pFrame->skinName = oldSkinName;
+				    pFrame->skinPath = appSkin->GetSkinsFolder()+_T("/")+appSkin->GetSkinName()+_T("/")+_T("skin.xml");
+				}
 		   }
 		}
 		pDlg->Destroy();

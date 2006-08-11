@@ -89,8 +89,15 @@ CSimpleFrame::CSimpleFrame(wxString title, wxIcon* icon) :
 	appSkin->SetSkinsFolder(skinFoldPath);
 	skinPath = appSkin->GetSkinsFolder()+_T("/")+appSkin->GetSkinName()+_T("/")+_T("skin.xml");
 	clientGUIInitialized = false;
-	// load skin xml and parse it
-	LoadSkinXML();
+	//Check if skin can be loaded
+	if(!CheckSkin()){
+		//if current skin is not loaded then switch to default skin
+		//that is in memory
+		appSkin->SetSkinName( wxT("default"));
+		skinPath = appSkin->GetSkinsFolder()+_T("/")+appSkin->GetSkinName()+_T("/")+_T("skin.xml");
+	    wxMessageBox("Incompatible skin. Switching to default");
+		LoadSkinXML();
+	}
 	// load images from skin file
 	LoadSkinImages();
 	//set polling timer for interface
@@ -419,6 +426,7 @@ int CSimpleFrame::LoadSkinXML(){
 			mf.fgets(buf, 256);
 			if (parse_str(buf, "<imgsrc>", val)) {
 				appSkin->SetAppBg(wxString( val.c_str(), wxConvUTF8 ));
+				skinImageArray->Add(wxString( val.c_str(), wxConvUTF8 ));
 			}
 			mf.fgets(buf, 256);
             if (parse_str(buf, "<bgcol>", val)) {
@@ -428,21 +436,37 @@ int CSimpleFrame::LoadSkinXML(){
 			mf.fgets(buf, 256);
 			if (parse_str(buf, "<imgsrc>", val)) {
 				appSkin->SetProjCompBg(wxString( val.c_str(), wxConvUTF8 ));
+				skinImageArray->Add(wxString( val.c_str(), wxConvUTF8 ));
+			}
+        }else if (match_tag(buf, "<tabareabg")) {
+			mf.fgets(buf, 256);
+			if (parse_str(buf, "<imgsrc>", val)) {
+				appSkin->SetTabAreaBg(wxString( val.c_str(), wxConvUTF8 ));
+				skinImageArray->Add(wxString( val.c_str(), wxConvUTF8 ));
+			}
+        }else if (match_tag(buf, "<spacerimage")) {
+			mf.fgets(buf, 256);
+			if (parse_str(buf, "<imgsrc>", val)) {
+				appSkin->SetSpacerImage(wxString( val.c_str(), wxConvUTF8 ));
+				skinImageArray->Add(wxString( val.c_str(), wxConvUTF8 ));
 			}
         }else if (match_tag(buf, "<workunitbg")) {
 			mf.fgets(buf, 256);
 			if (parse_str(buf, "<imgsrc>", val)) {
 				appSkin->SetWorkunitBg(wxString( val.c_str(), wxConvUTF8 ));
+				skinImageArray->Add(wxString( val.c_str(), wxConvUTF8 ));
 			}
         }else if (match_tag(buf, "<dlgpreferences")) {
 			mf.fgets(buf, 256);
 			if (parse_str(buf, "<imgsrc>", val)) {
 				appSkin->SetDlgPrefBg(wxString( val.c_str(), wxConvUTF8 ));
+				skinImageArray->Add(wxString( val.c_str(), wxConvUTF8 ));
 			}
         }else if (match_tag(buf, "<dlgmessages")) {
 			mf.fgets(buf, 256);
 			if (parse_str(buf, "<imgsrc>", val)) {
 				appSkin->SetDlgMessBg(wxString( val.c_str(), wxConvUTF8 ));
+				skinImageArray->Add(wxString( val.c_str(), wxConvUTF8 ));
 			}
         }else if (match_tag(buf, "<staticline")) {
 			mf.fgets(buf, 256);
@@ -453,10 +477,12 @@ int CSimpleFrame::LoadSkinXML(){
 			mf.fgets(buf, 256);
 			if (parse_str(buf, "<gaugebg>", val)) {
 				appSkin->SetGaugeBg(wxString( val.c_str(), wxConvUTF8 ));
+				skinImageArray->Add(wxString( val.c_str(), wxConvUTF8 ));
 			}
 			mf.fgets(buf, 256);
             if (parse_str(buf, "<gaugeprogress>", val)) {
 				appSkin->SetGaugeProgressInd(wxString( val.c_str(), wxConvUTF8 ));
+				skinImageArray->Add(wxString( val.c_str(), wxConvUTF8 ));
 			}
         }else if (match_tag(buf, "<buttons")) {
 			while (mf.fgets(buf, 256)) {
@@ -469,89 +495,108 @@ int CSimpleFrame::LoadSkinXML(){
 					mf.fgets(buf, 256);
 					if (parse_str(buf, "<imgsrc>", val)) {
 						appSkin->SetBtnPrefer(wxString( val.c_str(), wxConvUTF8 ));
+						skinImageArray->Add(wxString( val.c_str(), wxConvUTF8 ));
 					}
 				}else if(match_tag(buf, "<addproj>")){
 					mf.fgets(buf, 256);
 					if (parse_str(buf, "<imgsrc>", val)) {
 						appSkin->SetBtnAddProj(wxString( val.c_str(), wxConvUTF8 ));
+						skinImageArray->Add(wxString( val.c_str(), wxConvUTF8 ));
 					}
 					mf.fgets(buf, 256);
 					if (parse_str(buf, "<imgsrcclick>", val)) {
 						appSkin->SetBtnAddProjClick(wxString( val.c_str(), wxConvUTF8 ));
+						skinImageArray->Add(wxString( val.c_str(), wxConvUTF8 ));
 					}
 				}else if(match_tag(buf, "<advancedview>")){
 					mf.fgets(buf, 256);
 					if (parse_str(buf, "<imgsrc>", val)) {
 						appSkin->SetBtnAdvView(wxString( val.c_str(), wxConvUTF8 ));
+						skinImageArray->Add(wxString( val.c_str(), wxConvUTF8 ));
 					}
 				}else if(match_tag(buf, "<resume>")){
 					mf.fgets(buf, 256);
 					if (parse_str(buf, "<imgsrc>", val)) {
 						appSkin->SetBtnResume(wxString( val.c_str(), wxConvUTF8 ));
+						skinImageArray->Add(wxString( val.c_str(), wxConvUTF8 ));
 					}
 				}else if(match_tag(buf, "<pause>")){
 					mf.fgets(buf, 256);
 					if (parse_str(buf, "<imgsrc>", val)) {
 						appSkin->SetBtnPause(wxString( val.c_str(), wxConvUTF8 ));
+						skinImageArray->Add(wxString( val.c_str(), wxConvUTF8 ));
 					}
 				}else if(match_tag(buf, "<messages>")){
 					mf.fgets(buf, 256);
 					if (parse_str(buf, "<imgsrc>", val)) {
 						appSkin->SetBtnMessages(wxString( val.c_str(), wxConvUTF8 ));
+						skinImageArray->Add(wxString( val.c_str(), wxConvUTF8 ));
 					}
 				}else if(match_tag(buf, "<save>")){
 					mf.fgets(buf, 256);
 					if (parse_str(buf, "<imgsrc>", val)) {
 						appSkin->SetBtnSave(wxString( val.c_str(), wxConvUTF8 ));
+						skinImageArray->Add(wxString( val.c_str(), wxConvUTF8 ));
 					}
 					mf.fgets(buf, 256);
 					if (parse_str(buf, "<imgsrcclick>", val)) {
 						appSkin->SetBtnSaveClick(wxString( val.c_str(), wxConvUTF8 ));
+						skinImageArray->Add(wxString( val.c_str(), wxConvUTF8 ));
 					}
 				}else if(match_tag(buf, "<cancel>")){
 					mf.fgets(buf, 256);
 					if (parse_str(buf, "<imgsrc>", val)) {
 						appSkin->SetBtnCancel(wxString( val.c_str(), wxConvUTF8 ));
+						skinImageArray->Add(wxString( val.c_str(), wxConvUTF8 ));
 					}
 					mf.fgets(buf, 256);
 					if (parse_str(buf, "<imgsrcclick>", val)) {
 						appSkin->SetBtnCancelClick(wxString( val.c_str(), wxConvUTF8 ));
+						skinImageArray->Add(wxString( val.c_str(), wxConvUTF8 ));
 					}
 				}else if(match_tag(buf, "<close>")){
 					mf.fgets(buf, 256);
 					if (parse_str(buf, "<imgsrc>", val)) {
 						appSkin->SetBtnClose(wxString( val.c_str(), wxConvUTF8 ));
+						skinImageArray->Add(wxString( val.c_str(), wxConvUTF8 ));
 					}
 					mf.fgets(buf, 256);
 					if (parse_str(buf, "<imgsrcclick>", val)) {
 						appSkin->SetBtnCloseClick(wxString( val.c_str(), wxConvUTF8 ));
+						skinImageArray->Add(wxString( val.c_str(), wxConvUTF8 ));
 					}
 				}else if(match_tag(buf, "<clear>")){
 					mf.fgets(buf, 256);
 					if (parse_str(buf, "<imgsrc>", val)) {
 						appSkin->SetBtnClear(wxString( val.c_str(), wxConvUTF8 ));
+						skinImageArray->Add(wxString( val.c_str(), wxConvUTF8 ));
 					}
 					mf.fgets(buf, 256);
 					if (parse_str(buf, "<imgsrcclick>", val)) {
 						appSkin->SetBtnClearClick(wxString( val.c_str(), wxConvUTF8 ));
+						skinImageArray->Add(wxString( val.c_str(), wxConvUTF8 ));
 					}
 				}else if(match_tag(buf, "<leftArr>")){
 					mf.fgets(buf, 256);
 					if (parse_str(buf, "<imgsrc>", val)) {
 						appSkin->SetBtnLeftArr(wxString( val.c_str(), wxConvUTF8 ));
+						skinImageArray->Add(wxString( val.c_str(), wxConvUTF8 ));
 					}
 					mf.fgets(buf, 256);
 					if (parse_str(buf, "<imgsrcclick>", val)) {
 						appSkin->SetBtnLeftArrClick(wxString( val.c_str(), wxConvUTF8 ));
+						skinImageArray->Add(wxString( val.c_str(), wxConvUTF8 ));
 					}
 				}else if(match_tag(buf, "<rightArr>")){
 					mf.fgets(buf, 256);
 					if (parse_str(buf, "<imgsrc>", val)) {
 						appSkin->SetBtnRightArr(wxString( val.c_str(), wxConvUTF8 ));
+						skinImageArray->Add(wxString( val.c_str(), wxConvUTF8 ));
 					}
 					mf.fgets(buf, 256);
 					if (parse_str(buf, "<imgsrcclick>", val)) {
 						appSkin->SetBtnRightArrClick(wxString( val.c_str(), wxConvUTF8 ));
+						skinImageArray->Add(wxString( val.c_str(), wxConvUTF8 ));
 					}
 				}
 			}//end of while
@@ -565,6 +610,7 @@ int CSimpleFrame::LoadSkinXML(){
 					mf.fgets(buf, 256);
 					if (parse_str(buf, "<imgsrc>", val)) {
 						appSkin->SetIcnWorkingWkUnit(wxString( val.c_str(), wxConvUTF8 ));
+						skinImageArray->Add(wxString( val.c_str(), wxConvUTF8 ));
 					}
 					mf.fgets(buf, 256);
 					if (parse_str(buf, "<frcol>", val)) {
@@ -595,6 +641,7 @@ int CSimpleFrame::LoadSkinXML(){
 					mf.fgets(buf, 256);
 					if (parse_str(buf, "<imgsrc>", val)) {
 						appSkin->SetDefaultStatIcn(wxString( val.c_str(), wxConvUTF8 ));
+						skinImageArray->Add(wxString( val.c_str(), wxConvUTF8 ));
 					}
 				}
 			}// end of while loop
@@ -603,6 +650,7 @@ int CSimpleFrame::LoadSkinXML(){
 			std::string val;
 			if (parse_str(buf, "<background>", val)) {
 				appSkin->SetAnimationBg(wxString( val.c_str(), wxConvUTF8 ));
+				skinImageArray->Add(wxString( val.c_str(), wxConvUTF8 ));
 			}
 			mf.fgets(buf, 256);
             if (parse_str(buf, "<animation>", val)) {
@@ -615,8 +663,27 @@ int CSimpleFrame::LoadSkinXML(){
 	return 0;
 }
 ///
+bool CSimpleFrame::CheckSkin()
+{
+	//load skin xml file first
+	if(!LoadSkinXML()==0){
+		return false;//skin xml file is not available
+	}
+
+	wxString dirPref = appSkin->GetSkinsFolder()+_T("/")+appSkin->GetSkinName()+_T("/");
+	
+	for(int x = 0; x < skinImageArray->Count();x++){
+		wxString imgLoc = skinImageArray->Item(x);
+		wxBitmap skinImage = wxBitmap(dirPref + skinImageArray->Item(x),wxBITMAP_TYPE_PNG);
+		if(!skinImage.Ok()){
+			return false;
+		}
+	}
+     
+	return true;
+}
 void CSimpleFrame::ReskinAppGUI(){
-	LoadSkinXML();
+	//LoadSkinXML();
 	LoadSkinImages();
 	// reskin GUI
 	//bg color
