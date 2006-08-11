@@ -8633,3 +8633,7 @@ Walt   10 Aug 2006
       
     clientgui/
     	BOINCGUIApp.cpp
+
+Walt   10 Aug 2006
+    - Tag for 5.5.12 release, all platforms
+      boinc_core_release_5_5_12
