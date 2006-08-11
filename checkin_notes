@@ -8626,13 +8626,13 @@ Milos  10 Aug 2006
       new skin.xml files
       
     clientgui/
-    	sg_*
+        sg_*
 
 Walt   10 Aug 2006
     - Remove taskbar icon on Linux so the manager exits properly
       
     clientgui/
-    	BOINCGUIApp.cpp
+        BOINCGUIApp.cpp
 
 Walt   10 Aug 2006
     - Tag for 5.5.12 release, all platforms
