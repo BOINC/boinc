@@ -2,7 +2,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: BOINC Manager 4.x\n"
 "POT-Creation-Date: \n"
-"PO-Revision-Date: 2006-06-13 05:23+0100\n"
+"PO-Revision-Date: 2006-08-09 06:52+0100\n"
 "Last-Translator: Spok <spok.3d@atlas.cz>\n"
 "Language-Team: BOINC Development Team <rwalton@ssl.berkeley.edu>\n"
 "MIME-Version: 1.0\n"
@@ -19,7 +19,7 @@ msgstr ""
 # Author	: Rom Walton
 # Language	: Czech
 # Translated by	: Spok
-# Date & time	: 2006/06/10 13:25:32
+# Date & time	: 2006/08/09 6:52:07
 # E-mail	: spok.3d@atlas.cz
 #############################################
 msgid "CHARSET"
@@ -95,7 +95,7 @@ msgstr "Aktualizovat Správce účtu "
 
 #: clientgui/AccountInfoPage.cpp:435
 msgid "Attach to account manager"
-msgstr "Připojení ke Správci účtu "
+msgstr "Připojit ke Správci účtu "
 
 #: clientgui/AccountInfoPage.cpp:446
 #, c-format
@@ -240,7 +240,7 @@ msgid ""
 "Please connect to the Internet, then select the 'retry communications' item off the advanced menu."
 msgstr ""
 "%s není schopen se spojit s projektem a potřebuje připojení k internetu.\n"
-"Připojte se prosím k internetu, poté zvolte 'Opakovat přenos' v rozšířeném menu."
+"Připojte se prosím k internetu, poté zvolte 'Opakovat přenos' v menu 'Nastavení'."
 
 #: clientgui/BOINCDialupManager.cpp:299
 #, c-format
@@ -421,7 +421,7 @@ msgstr "Uspat"
 #: clientgui/MainFrame.cpp:510
 #, c-format
 msgid "&About %s..."
-msgstr "&O %s."
+msgstr "&O aplikaci %s"
 
 #: clientgui/CompletionErrorPage.cpp:194
 msgid "Failed to attach to project"
@@ -526,7 +526,7 @@ msgstr "Připojení ke Správci účtu bylo úspěšně dokončeno."
 #: clientgui/DlgAbout.cpp:92
 #, c-format
 msgid "About %s"
-msgstr "O %s"
+msgstr "O aplikaci %s"
 
 #: clientgui/DlgAbout.cpp:98
 #, c-format
@@ -726,7 +726,7 @@ msgstr "Psát si s ostatními uživateli na stránkách SETI@home"
 #: clientgui/Localization.cpp:123
 #: clientgui/Localization.cpp:141
 msgid "Help"
-msgstr "Pomoc"
+msgstr "Nápověda"
 
 #: clientgui/Localization.cpp:39
 msgid "Ask questions and report problems"
@@ -1027,7 +1027,7 @@ msgstr "Připojit k jinému počítači se spuštěným %s"
 
 #: clientgui/MainFrame.cpp:434
 msgid "Select computer..."
-msgstr "Zvolit &počítač... "
+msgstr "Volba &počítače "
 
 #: clientgui/MainFrame.cpp:439
 msgid "Run CPU &benchmarks"
@@ -1039,7 +1039,7 @@ msgstr "Spouští testy procesoru"
 
 #: clientgui/MainFrame.cpp:444
 msgid "Retry &communications"
-msgstr "&Obnovit komunikaci"
+msgstr "&Opakovat přenos"
 
 #: clientgui/MainFrame.cpp:445
 msgid "Report completed work, get latest credit, get latest preferences, and possibly get more work."
@@ -1097,13 +1097,13 @@ msgstr "&Aktivita"
 
 #: clientgui/MainFrame.cpp:541
 msgid "A&dvanced"
-msgstr "&Rozšířené nastavení"
+msgstr "Na&stavení"
 
 #: clientgui/MainFrame.cpp:545
 #: clientgui/wizardex.cpp:356
 #: clientgui/wizardex.cpp:363
 msgid "&Help"
-msgstr "P&omoc"
+msgstr "Ná&pověda"
 
 #: clientgui/MainFrame.cpp:1086
 msgid ""
@@ -1209,7 +1209,7 @@ msgid ""
 "To connect up to your local computer please use 'localhost' as the host name."
 msgstr ""
 "%s není připojen k žádnému klientu %s.\n"
-"V menu 'Soubor\\Zvolit počítač...' zadejte připojiení ke klientu %s.\n"
+"V menu 'Soubor\\Volba počítače' zadejte připojiení ke klientu %s.\n"
 "Chcete-li se připojit ke klientu běžícímu na vašem počítači, \n"
 "do kolonky \"Jméno počítače\" zadejte 'localhost'."
 
@@ -1891,7 +1891,7 @@ msgstr "Odevzdat do"
 
 #: clientgui/ViewWork.cpp:150
 msgid "Tasks"
-msgstr "Možnosti"
+msgstr "Úkoly"
 
 #: clientgui/ViewWork.cpp:175
 msgid "Resuming task..."

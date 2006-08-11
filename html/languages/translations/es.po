@@ -220,6 +220,9 @@ msgstr "El código de invitación introducido no es válido."
 msgid "FORUM_TITLE"
 msgstr "Foros de $PROJECT"
 
+msgid "FORUM_TITLE_SHORT"
+msgstr "Foros"
+
 
 #########################################
 # General stuff (create_account_form.php and others)
@@ -262,6 +265,19 @@ msgstr "Miembros"
 #########################################
 # Forum
 #########################################
+msgid "FORUM_POSTS"
+msgstr "Mensajes"
+msgid "FORUM_TOPIC"
+msgstr "Tema"
+msgid "FORUM_THREADS"
+msgstr "Hilos"
+msgid "FORUM_LAST_POST"
+msgstr "Último mensaje"
+msgid "FORUM_AUTHOR"
+msgstr "Autor"
+msgid "FORUM_VIEWS"
+msgstr "Vistas"
+
 msgid "FORUM_ERR_NOT_FOUND"
 msgstr "Foro inexistente"
 
@@ -319,10 +335,33 @@ msgid "FORUM_HTML_INFO"
 msgstr "Use códigos BBCode para formatear su texto"
 
 
+#########################################
+# Forum thread
+#########################################
+
+msgid "FORUM_THREAD_HIDDEN"
+msgstr "Éste hilo ha sido ocultado por motivos administrativos"
+
+msgid "FORUM_THREAD_REPLY"
+msgstr "Responder a éste hilo"
+
+msgid "FORUM_THREAD_SUBSCRIBED"
+msgstr "Usted está suscrito a éste hilo."
+
+msgid "FORUM_THREAD_UNSUBSCRIBE"
+msgstr "Haga Click aquí para cancelar la suscripción."
+
+msgid "FORUM_THREAD_SUBSCRIBE"
+msgstr "Subscribirse a éste hilo"
+
+
 
 #########################################
 # Forum search features
 #########################################
+msgid "FORUM_SEARCH"
+msgstr "Buscar en el Foro"
+
 msgid "FORUM_SEARCH_TITLES"
 msgstr "Encabezados que contienen '%s'"
 

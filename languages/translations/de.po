@@ -23,13 +23,13 @@ msgid "POLL_TITLE"
 msgstr "BOINC-Benutzerumfrage"
 
 msgid "POLL_INTRO"
-msgstr "Mehrere Distributed Computing-Projekte, darunter "
-"ClimatePrediction.net, Einstein@home und SETI@home, nutzen "
-"eine Software namens BOINC. Wenn Sie an einem solchen Projekt "
-"teilnehmen, bitten wir Sie, folgende Fragen zu beantworten. "
-"Sie werden so den BOINC-basierten Projekten zu mehr Teilnehmern "
-"verhelfen und dazu beitragen, bedeutendere wissenschaftliche "
-"Ergebnisse zu erzielen."
+msgstr "Mehrere Distributed Computing-Projekte (Verteiltes "
+"Rechnen), darunter  ClimatePrediction.net, Einstein@home und "
+"SETI@home, nutzen eine Software namens BOINC. Wenn Sie an "
+"einem solchen Projekt teilnehmen, bitten wir Sie, folgende "
+"Fragen zu beantworten. Dies wird den BOINC-basierten Projekten "
+"zu mehr Teilnehmern verhelfen somit dazu beitragen, bedeutendere "
+"wissenschaftliche Ergebnisse zu erzielen."
 "<p>Bitte beantworten Sie so viele Fragen wie Sie möchten und "
 "bestätigen dann unten an der Seite mit einem Klick auf 'OK'. "
 "Wenn Sie die Umfrage bereits einmal ausgefüllt haben, aber "
@@ -59,16 +59,16 @@ msgstr "Bemerkungen"
 
 msgid "POLL_COMMENTS_QUESTION"
 msgstr "Wie könnten Ihrer Meinung nach BOINC und die "
-"BOINC-Projekte verbessert werden:"
+"BOINC-Projekte verbessert werden?"
 
 msgid "POLL_OTHER"
 msgstr "Sonstiges:"
 
 msgid "POLL_CHECK_ALL"
-msgstr "[alles zutreffende ankreuzen]"
+msgstr "[alles Zutreffende ankreuzen]"
 
 msgid "POLL_DONE"
-msgstr "Wenn Sie fertig sind:"
+msgstr "Wenn Sie fertig sind:&nbsp;"
 
 msgid "POLL_CURRENT"
 msgstr "Ja - BOINC läuft auf meinem Computer seit..."
@@ -99,13 +99,13 @@ msgid "POLL_LSTOPPED"
 msgstr "ich es angehalten und dann nicht wieder gestartet habe"
 
 msgid "POLL_LPROBLEMS"
-msgstr "es auf meinem Computer zu Probleme geführt hat"
+msgstr "es auf meinem Computer zu Problemen geführt hat"
 
 msgid "POLL_LPOWER"
 msgstr "der Stromverbrauch zu hoch war"
 
 msgid "POLL_LNONBOINC"
-msgstr "ich zu einem Projekt ohne BOINC gewechselt bin"
+msgstr "ich zu einem Projekt ohne BOINC gewechselt habe"
 
 msgid "POLL_FAILED"
 msgstr "Nein - Ich habe versucht, BOINC zu nutzen, aber..."
@@ -146,7 +146,7 @@ msgid "POLL_KIND"
 msgstr "Unter welchem/n Betriebssystem(en) läuft BOINC bei Ihnen?"
 
 msgid "POLL_WHERE"
-msgstr "Wo stehen diese?"
+msgstr "Wo befinden sich Ihre Computer?"
 
 msgid "POLL_HOME"
 msgstr "Zu Hause"
@@ -158,10 +158,10 @@ msgid "POLL_SCHOOL"
 msgstr "In der Schule"
 
 msgid "POLL_HOW_MANY"
-msgstr "Wie viele Computer?"
+msgstr "Anzahl der Computer:"
 
 msgid "POLL_TURNED_ON"
-msgstr "Wie viele Stunden pro Tag sind sie durchschnittlich "
+msgstr "Wie viele Stunden pro Tag sind diese durchschnittlich "
 "eingeschaltet?"
 
 msgid "POLL_AGE"
@@ -198,7 +198,7 @@ msgid "POLL_WPERS"
 msgstr "Freunde, Bekannte oder Arbeitskollegen"
 
 msgid "POLL_WTEAM"
-msgstr "Diskussionsforen oder Webseiten des Teams"
+msgstr "Diskussionsforen oder Teamwebseiten"
 
 msgid "POLL_WBOINC"
 msgstr "BOINC-Webseite"
@@ -263,10 +263,10 @@ msgid "POLL_MBOARDS"
 msgstr "Wie nutzen Sie die Diskussionsforen der Projekte?"
 
 msgid "POLL_MBR"
-msgstr "Zum Lesen von Informationen"
+msgstr "Zum Lesen von Beiträgen"
 
 msgid "POLL_MBRW"
-msgstr "Zum Lesen und Eintragen von Informationen"
+msgstr "Zum Lesen und Eintragen von Beiträgen"
 
 msgid "POLL_NONE"
 msgstr "Gar nicht"
@@ -310,3 +310,67 @@ msgstr "Antworten aufgezeichnet"
 msgid "POLL_THANKS"
 msgstr "Vielen Dank, dass Sie an der BOINC-Benutzerumfrage "
 "teilgenommen haben."
+
+msgid "POLL_RESULTS_TITLE"
+msgstr "Umfrage-Resultate"
+
+msgid "POLL_RESULTS_TEXT"
+msgstr "Dies sind die aktuellen Resultate der "
+"<a href=poll.php>BOINC-Benutzerumfrage</a>. Die Seite wird "
+"stündlich aktualisiert."
+
+
+########################################
+# download.php 2006/08/03 by je2bwm
+########################################
+
+msgid "DL_DOWNLOAD"
+msgstr "BOINC herunterladen"
+
+msgid "DL_VERSION_LNAME_SIZE"
+msgstr "%s für %s (%s MB)"
+
+msgid "DL_WHATS_BOINC"
+msgstr "BOINC ist ein Programm, mit dem Sie die ungenutzte "
+"Rechenleistung Ihres Computers wissenschaftlichen Projekten wie "
+"SETI@home, ClimatePrediction.net, Rosetta@home, World Community "
+"Grid und vielen weiteren zur Verfügung stellen können."
+"<p>Nachdem Sie BOINC auf Ihrem Computer installiert haben, "
+"können Sie an so vielen von diesen Projekten teilnehmen, wie Sie 
+"möchten.<p>"
+
+msgid "DL_SYSTEMREQ"
+msgstr "Systemanforderungen"
+
+msgid "DL_RELNOTES"
+msgstr "Versionshinweise"
+
+msgid "DL_OTHERSYS"
+msgstr "Weitere Systeme"
+
+msgid "DL_ALLVERSIONS"
+msgstr "Alle Versionen"
+
+msgid "DL_IF_OTHERTYPES"
+msgstr "Wenn Ihr Computer keinem der oben genannten Typen "
+"entspricht, können Sie"
+
+msgid "DL_MAKEYOUROWN"
+msgstr "%sIhre eigene Client-Software erstellen%s oder"
+
+msgid "DL_DL_FROM3RDP"
+msgstr "%sdas Programm von einer anderen Webseite herunterladen%s "
+"(für Solaris/Opteron, Linux/Opteron, Linux/PPC, HP-UX, FreeBSD, "
+"usw.)"
+
+msgid "DL_DOWNLOAD_TITLE"
+msgstr "BOINC: Rechnen für die Wissenschaft"
+
+msgid "DL_MIRRORS"
+msgstr "Bitte beachten Sie: Die Dateien werden von den "
+"Spiegelservern boinc.berkeley.edu, morel.mit.edu, "
+"einstein.aei.mpg.de, einstein.astro.gla.ac.uk und "
+"einstein.aset.psu.edu heruntergeladen (Dank an die "
+"Organisationen). Der Server wird zufällig ausgewählt - wenn der "
+"Download fehlschlägt, einfach die Seite neu laden und es noch "
+"einmal versuchen."

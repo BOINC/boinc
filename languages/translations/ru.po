@@ -382,7 +382,7 @@ msgstr "Это текущие результаты <a href=poll.php>опроса
 # ######################################
 # Download BOINC
 msgid "DL_DOWNLOAD"
-msgstr "Страница загрузки BOINC"
+msgstr "Загрузить BOINC"
 
 # %s for %s (%s MB)
 msgid "DL_VERSION_LNAME_SIZE"
@@ -394,12 +394,12 @@ msgstr "BOINC - это программа, предоставляющая неи
 
 # System requirements
 msgid "DL_SYSTEMREQ"
-msgstr "Требования к компьютеру"
+msgstr "Системные требования"
 
 # Release notes
 # ???
 msgid "DL_RELNOTES"
-msgstr "Описание"
+msgstr "Описание последней версии"
 
 # Other systems
 msgid "DL_OTHERSYS"
@@ -425,4 +425,260 @@ msgstr "%s загрузить готовые установочные файлы
 # BOINC: compute for science
 msgid "DL_DOWNLOAD_TITLE"
 msgstr "BOINC: вычисления для науки"
+
+# Note: files are downloaded from mirror servers at boinc.berkeley.edu, morel.mit.edu, einstein.aei.mpg.de, einstein.astro.gla.ac.uk, and einstein.aset.psu.edu (thanks to these institutions). The server is chosen randomly - if a download fails, reload this page and try again.
+msgid "DL_MIRRORS"
+msgstr "Примечание: файлы загружаются с нескольких альтернативных серверов, таких как boinc.berkeley.edu, morel.mit.edu, einstein.aei.mpg.de, einstein.astro.gla.ac.uk, and einstein.aset.psu.edu (спасибо данным организациям за предоставление такой возможности). Выбор сервера происходит случайно - если у вас проблемы с загрузкой файлов, перезагрузите данную страницу в браузере и повторите загрузку BOINC."
+
+# ############################################
+# system_requirements.php by je2bwm 2006/08/07
+# ############################################
+# System requirements
+msgid "SRQ_PAGE_TITLE"
+msgstr "Системные требования"
+
+# Your computer must satisfy the following requirements to run BOINC. BOINC-based projects may have additional requirements.
+msgid "SRQ_INTRO"
+msgstr "Для нормальной работы BOINC ваш компьютер должен удовлетворять изложенным ниже требованиям. Проекты использующие платформу BOINC могут предъявлять свои дополнительные требования к компьютеру."
+
+# Windows
+msgid "SRQ_MSWIN"
+msgstr "Windows"
+
+# Operating systems
+msgid "SRQ_OS"
+msgstr "Версии операционной системы"
+
+# Windows 98 or later
+msgid "SRQ_MSWIN_REQ_OS"
+msgstr "Windows 98 или более поздняя"
+
+# Minimum hardware
+msgid "SRQ_MIN_HARDWARE"
+msgstr "Минимальные требования к компьютеру"
+
+# Pentium 233 MHz (Recommended: Pentium 500 MHz or greater)
+msgid "SRQ_MSWIN_REQ_CPU"
+msgstr "Процессор: Pentium 233 МГц (Рекомендуется: Pentium 500 МГц или быстрее)"
+
+# 64 MB RAM (Recommended: 128 MB RAM or greater)
+msgid "SRQ_MSWIN_REQ_RAM"
+msgstr "Память: 64 МБайт ОЗУ (Рекомендуется: 128 МБайт или больше)"
+
+# 20 MB disk space
+msgid "SRQ_MSWIN_REQ_DISK"
+msgstr "20 МБайт свободного места на жёстком диске"
+
+# Macintosh
+msgid "SRQ_APPLMAC"
+msgstr "Macintosh"
+
+# Mac OS X 10.3 and later
+msgid "SRQ_APPLMAC_REQ_OS"
+msgstr "Mac OS X 10.3 или более поздняя"
+
+# Macintosh computer with an Intel x86or PowerPC G3, G4, or G5 processor
+msgid "SRQ_APPLMAC_REQ_CPU"
+msgstr "Компьютер Macintosh с процессором Intel x86 или PowerPC G3, G4, G5"
+
+# 128 MB RAM (Recommended: 256 MB RAM or greater)
+msgid "SRQ_APPLMAC_REQ_RAM"
+msgstr "Память: 128 МБайт ОЗУ (Рекомендуется: 256 МБайт или больше)"
+
+# 200 MB disk space
+msgid "SRQ_APPLMAC_REQ_DISK"
+msgstr "200 МБайт свободного места на жёстком диске"
+
+# Linux
+msgid "SRQ_LINUX"
+msgstr "Linux"
+
+# Linux kernel 2.2.14 or higher
+msgid "SRQ_LINUX_REQ_KERNEL"
+msgstr "ядро Linux 2.2.14 или новее"
+
+# glibc 2.3.2 or higher
+msgid "SRQ_LINUX_REQ_GLIBC"
+msgstr "glibc 2.3.2 или новее"
+
+# XFree86-3.3.6 or higher
+msgid "SRQ_LINUX_REQ_XFREE86"
+msgstr "XFree86-3.3.6 или новее"
+
+# gtk+2.0 or higher
+msgid "SRQ_LINUX_REQ_GTKPLUS"
+msgstr "gtk+2.0 или новее"
+
+# Pentium 500 MHz or greater
+msgid "SRQ_LINUX_REQ_CPU"
+msgstr "Pentium 500 МГц или быстрее"
+
+# 64 MB RAM
+msgid "SRQ_LINUX_REQ_RAM"
+msgstr "Память: 64 МБайт ОЗУ"
+
+# 50 MB disk space
+msgid "SRQ_LINUX_REQ_DISK"
+msgstr "50 МБайт свободного места на жёстком диске"
+
+# ############################################
+# release notes by je2bwm 2006/08/09
+# ############################################
+# Release notes
+msgid "RLN_PAGE_TITLE"
+msgstr "Описание последней версии"
+
+# What's new in %s
+msgid "RLN_WHATS_NEW"
+msgstr "Что нового в версии %s"
+
+# Installing
+msgid "RLN_INSTALLING"
+msgstr "Установка программы"
+
+# Uninstalling
+msgid "RLN_UNINSTALLING"
+msgstr "Удаление программы"
+
+# Known issues
+# ???
+msgid "RLN_KNOWN_ISSUES"
+msgstr "Замеченные проблемы"
+
+# Troubleshooting
+msgid "RLN_TROUBLESHOOT"
+msgstr "Решение возникших проблем"
+
+# Support for 'Account managers' - web sites that let you browse BOINC projects, attach/detach, change resource share and settings, all with point-and-click simplicity. Account managers are also great if you have several computers - you just have to make changes once.
+msgid "RLN_NEWF_5_4_AM"
+msgstr "Добавлена поддержка 'Менеджеров проектов' - это сайты объединяющие информацию по проектам использующим платформу BOINC,  позволяющие выбирать проекты, подключаться или отсоединяться от проектов, изменять общие настройки сразу для всех проектов, и имеющие при этом простой и понятный интерфейс. Данные сайты удобны если вы запукаете BOINC на нескольких компьютерах, в этом случае вам будет необходимо подключаться только к 'Менеджеру проектов', а не ко всему n-му количеству проектов в которых вы захотите участвовать. "
+
+# General preferences can be overridden by a local file; details are %s here %s.
+# ???
+msgid "RLN_NEWF_5_4_PREF_OVERRIDE"
+msgstr "Общие настройки могут быть заменены настройками из локально хранимого файла; подробности можно узнать %s здесь %s"
+
+# BOINC now alerts you whenever it needs you to create a network connection.
+msgid "RLN_NEWF_5_4_ALERTS_CONNECT"
+msgstr "BOINC менеджер выдаёт диалоговое окно с напоминанием каждый раз, когда BOINC клиенту требуется установить соединение с интернетом."
+
+# We recommend that all BOINC users upgrade to %s.
+msgid "RLN_RECOMMEND_LATEST_VERSION"
+msgstr "Настоятельно рекомендуется обновить BOINC до версии %s"
+
+# A detailed revision history is %s here %s.
+msgid "RLN_LINK2_VERSION_HISTORY"
+msgstr "Подробнее о нововведениях в различных версиях %s здесь %s"
+
+# Windows
+msgid "RLN_MSWIN"
+msgstr "Windows"
+
+# Macintosh
+msgid "RLN_APPLMAC"
+msgstr "Macintosh"
+
+# Linux
+msgid "RLN_LINUX"
+msgstr "Linux"
+
+# BOINC can be installed in any of several modes:
+msgid "RLN_MSWIN_INSTALL_MODES"
+msgstr "Существует несколько вариантов установки BOINC:"
+
+# Single-user installation
+msgid "RLN_SINGLE_USER_INSTALL"
+msgstr "Индивидуальная установка"
+
+# This is the recommended mode. BOINC will run while you (the installing user) are logged in. BOINC is listed in the Start menu of you,but not other users. The 'Show graphics' command in the BOINC managerworks only for you. The BOINC screensaver shows applicationgraphics only for you (other users can run the screensaver but will see  textual information only).
+msgid "RLN_MSWIN_INSTALL_SINGLE_USER_DESC"
+msgstr "Рекомендуемый вариант установки. BOINC клиент будет работать только когда вы (пользователь, устанавливающий BOINC) зайдёте на ваш компьютер. BOINC будет показываться только в вашем меню программ 'Пуск'. Кнопка 'Показать графику' в BOINC менеджере будет работать только у вас. Экранная заставка BOINC будет показывать графику приложений только у вас (другие пользователи компьютера тоже смогут выбрать экранную заставку BOINC, но они будут видеть только текст)."
+
+# Shared installation
+msgid "RLN_SHARED_INSTALL"
+msgstr "Установка для всех пользователей"
+
+# BOINC runs whenever any user is logged in. BOINC is listed in the Start menu of all users. While BOINC is running, it runs as a particular user (either the first user to log in, or the first to run BOINC). The 'Show graphics' command in the BOINC manager works only for this user. The BOINC screensaver shows application graphics only for this user (other users can run the screensaver but will see  textual information only).
+msgid "RLN_MSWIN_INSTALL_SHARED_DESC"
+msgstr "BOINC клиент будет запускаться при входе любого пользователя компьютера. BOINC будет показываться в меню программ 'Пуск' у всех пользователей компьютера. BOINC будет запускаться от имени первого вошедшего на компьютер пользователя (после выхода данного пользователя отсчёт первого пользователя начинается заново). Кнопка 'Показать графику' в BOINC менеджере будет работать только у данного первого пользователя. Экранная заставка BOINC будет показывать графику приложений только у данного первого пользователя (другие пользователи компьютера тоже смогут выбрать экранную заставку BOINC, но они будут видеть только текст)."
+
+# Shared installation
+msgid "RLN_WIN_SERVICE_INSTALL"
+msgstr "Установка в качестве службы"
+
+# BOINC runs all the time (even when no one is logged in). BOINC is listed in the Start menu of the installing user, but not other users.  The 'Show graphics' command in the BOINC manager will not work for any user. The BOINC screensaver will only show textual information.
+msgid "RLN_MSWIN_INSTALL_WINSERVICE_DESC"
+msgstr "BOINC клиент работает всегда (даже если на компьютере не вошёл ни один из пользователей). BOINC будет показываться только в меню программ 'Пуск' пользователя, установившего BOINC. Кнопка 'Показать графику' в BOINC менеджере не будет работать ни у кого. Экранная заставка BOINC будет показывать только текст)."
+
+# BOINC for Linux is distributed as a self-extracting archive. This type of installation requires that you be familiar with the UNIX command-line interface.
+msgid "RLN_LINUX_INSTALL_SEA_DESC"
+msgstr "Установочный файл BOINC для Linux представляет из себя самоизвлекающийся архив. Процесс установки рассчитан на то, что вы знакомы с интерфейсом командной строки UNIX."
+
+# The download files have names like<code> %s </code>.
+msgid "RLN_LINUX_DL_FILENAME"
+msgstr "Загрузите файл с названием, похожим на: <code> %s </code>."
+
+# After downloading the file, type<pre>%s</pre>
+msgid "RLN_LINUX_RUN_SEA"
+msgstr "После загрузки файла выполните команду <pre>%s</pre>"
+
+# This will create a directory BOINC/ with the following files:
+msgid "RLN_LINUX_RESULTOF_SEA"
+msgstr "Будут созданы папки со следующими файлами:"
+
+# The BOINC core client
+msgid "RLN_BOINC_CORE_CL"
+msgstr "Клиент BOINC"
+
+# The BOINC manager
+msgid "RLN_BOINC_MANAGER"
+msgstr "BOINC менеджер"
+
+# A script that cd's into the BOINC directory and runs the core client.
+msgid "RLN_SCRIPT_RUN_CLIENT_DESC"
+msgstr "Командный файл, меняющий текущую папку на папку с BOINC командой cd и затем запускающий клиент BOINC."
+
+# A script that cd's into the BOINC directory and runs the manager.
+msgid "RLN_SCRIPT_RUN_MANAGER_DESC"
+msgstr "Командный файл, меняющий текущую папку на папку с BOINC командой cd и затем запускающий BOINC менеджер."
+
+# You may want to%s automatically start the core client %sat boot time.
+msgid "RLN_LINUX_AUTOSTART"
+msgstr "Вы можете настроить %s автоматический запуск клиента BOINC %s при старте системы."
+
+# In the Start menu, select Programs / BOINC / Uninstall. Or in the Start menu, select Settings / Add or remove programs.
+msgid "RLN_MSWIN_UNINSTALL_DESC"
+msgstr "В меню 'Пуск' выбрать 'Программы / BOINC / Uninstall' или через 'Настройка / Панель управления / Установка и удаление программ' выбрать 'BOINC' и нажать 'Удалить'."
+
+# If you use a proxy server, please hold off upgrading for now. We have a fix in the works for proxies that use NTLM authentication.
+msgid "RLN_ISSUE_PROXY_NTLMAUTH"
+msgstr "Если вы используете прокси сервер, обновите BOINC до последней версии. Недавно были устранены ошибки при работе с прокси использующими NTLM авторизацию."
+
+# if BOINC applications are repeatedly crashing on your computer, it's possibly that you need to %supgrade to the latest version of DirectX %s.
+msgid "RLN_ISSUE_MSWIN_LATEST_DIRECTX"
+msgstr "Если BOINC часто завершается с ошибкой во время работы, возможно вам необходимо %s обновить DirectX до последней версии %s."
+
+# If BOINC runs at the same time as Windows XP 3-D screensavers, the system becomes sluggish and unresponsive.
+msgid "RLN_ISSUE_MSWIN_SCREENSAVER_XP3D"
+msgstr "Если BOINC запущен как экранная заставка Windows XP 3-D, реакция операционной системы на действия пользователя сильно замедляется (система зависает)."
+
+# Applications that were built before October 2004 do not display screensaver graphics with the Service or Shared install type, or the Single-user install type with the password protect screensaver option on NT based machines.
+msgid "RLN_ISSUE_MSWIN_NO_SCREENSAVER"
+msgstr "Приложения, созданные до октября 2004 года не показывают графику в режиме экранной заставки BOINC ни при 'установке BOINC в качестве службы', ни при установке для всех пользователей', также не отображается графика при 'индивидуальной установке' и использовании защиты паролем выхода из экранной заставки на операционных системах построенных на базе NT."
+
+# If you have problems with BOINC, here are some steps you can take:
+msgid "RLN_TROUBLESHOOT_INTRO"
+msgstr "При появлении проблем с работой BOINC, вы можете поступить следующим образом:"
+
+# If the problem is with a particular project, go to the 'Questions and Answers' area of the project's web site. You may find the solution to your problem. If not, post it there, and you'll get help from other users.
+msgid "RLN_TROUBLESHOOT_PRJ_SPECIFIC"
+msgstr "Если проблемы связаны с конкретным проектом, зайдите на страницу 'Вопросы и ответы' (Questions and Answers) на сайте проекта и поищите ответ на ваш вопрос, или задайте вопрос сами."
+
+# If project-specific problems persist, use the BOINC Manager to 'reset' that project. This will erase any jobs in progress and start from scratch.
+msgid "RLN_TROUBLESHOOT_PROBLEM_PERSIST"
+msgstr "Если не удаётся решить проблемы связанные с конкретным проектом, используйте кнопку 'Перезапустить проект' в BOINC менеджере для перезапуска проекта на вашем компьютере. Все файлы и настройки связанные с данным проектом будут уничтожены и загружены заново."
+
+# If you have problems with BOINC itself, get help from the %s BOINC message boards %s.
+msgid "RLN_TROUBLESHOOT_BOINC_ITSELF"
+msgstr "Если проблема заключается в работе самого программного обеспечения BOINC, попробуйте получить помощь на %sфоруме BOINC%s"
 
