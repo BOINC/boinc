@@ -16,7 +16,7 @@ echo "
 <h2>".sprintf(tr(RLN_WHATS_NEW),"5.4")."</h2>
 <ul>
 <li> ".tr(RLN_NEWF_5_4_AM)."
-<li> ".sprintf(tr(RLN_NEWF_5_4_AM),
+<li> ".sprintf(tr(RLN_NEWF_5_4_PREF_OVERRIDE),
           "<a href=http://boinc.berkeley.edu/prefs_override.php>","</a>")."
 <li> ".tr(RLN_NEWF_5_4_ALERTS_CONNECT)."
 </ul>

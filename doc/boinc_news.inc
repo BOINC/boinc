@@ -1,6 +1,10 @@
 <?
 
 $project_news = array(
+array("August 11, 2006",
+    "An <a href=http://qah.uni-muenster.de/article1.php>article about
+    Quantum Monte Carlo at Home</a> appeared 03.08.2006 in the German newspaper WAZ."
+),
 array("August 3, 2006",
     "A recent update of McAfee security software on Windows
     causes BOINC 5.4.9 to not work (<a href=mcafee.php>details</a>).

@@ -8690,3 +8690,12 @@ Milos  11 Aug 2006
 		wxFlatNotebook.cpp
 	clientgui/skins/default && WorldCommunityGrid
 	    skin.xml
+
+David 11 Aug 2006
+    - GUI RPC: change things so most of the read-only RPCs
+        don't require authorization for local access
+
+    client/
+        gui_rpc_server_ops.C
+    lib/
+        error_numbers.h

@@ -7,24 +7,66 @@ The BOINC core client provides a set of RPCs
 (remote procedure calls) for control and state interrogation.
 This enables the development of GUI (graphical user interface)
 programs separately from the core client.
+These RPCs send XML request and reply messages over a TCP connection.
+The XML formats are not documented, but can be deduced from the source code.
 <p>
-BOINC provides a C++ interface to these RPCs.
-The interface is based on the GUI_RPC class,
-which provides the following functions
-(the code is in <code>lib/gui_rpc_client.h</code>,
-and the program <code>boinc_cmd.C</code> gives a usage example):
-<p>
+BOINC provides a C++ interface to these RPCs,
+consisting of the <code>GUI_RPC</code> class.
+The interface is in <code>lib/gui_rpc_client.h</code>,
+and the program <code>boinc_cmd.C</code> gives a usage example).
+All member functions return an integer error code.
+To create an RPC connection, call
+
 ";
 list_start();
-list_heading("function ", "description");
 list_item_func(
     "init(char* host)",
     "Establish RPC connection to the given host"
 );
+list_end();
+echo "
+<h2>Dealing with versions</h2>
+<p>
+The GUI RPC protocol changes over time.
+If you're writing a GUI program that needs to communicate with
+older versions of the BOINC core client,
+here's what to do:
+<ul>
+<li> Create a GUI_RPC object, connect, and do any RPC
+(the get_state() RPC is supported by all core client versions).
+All RPCs return the client version number.
+<li>
+The client_major_version, client_minor_version, and client_release fields
+of your GUI_RPC object now contain the client version number.
+<li>
+Use this version number to decide what subsequent RPCs to make
+(version info is included in the RPC list below).
+</ul>
+
+<h2>Authorization</h2>
+<p>
+The RPC protocol allows the GUI program to authenticate itself
+using a password; this is described below.
+Some of the RPC operations can be done without authentication;
+others can be done without authentication, but only by a GUI program
+running on the same machine.
+";
+list_start();
 list_item_func(
     "authorize(char* password)",
     "Do authorization sequence with the peer, using given password"
 );
+list_end();
+echo "
+<p>
+<h2>RPC list</h2>
+The following functions require authorization for remote clients,
+but not for local clients.
+Note: for core client versions 5.5.12 and earlier,
+all functions except get_state(), get_results(),
+get_screensaver_mode(), and set_screensaver_mode() require authorization.
+";
+list_start();
 list_item_func(
     "get_state(CC_STATE&)",
     "Get the core client's 'static' state,
@@ -32,6 +74,13 @@ list_item_func(
     This call is relatively slow and should only
     be done initially, and when needed later (see below).
     "
+);
+list_item_func(
+    "get_cc_status(CC_STATUS&)",
+    "Return a structure containing the network status,
+    and a flag if there was an account manager password error.
+    In versions 5.13 and later, also includes
+    the task and network suspend reasons bitmaps."
 );
 list_item_func(
     "get_results(RESULTS&)",
@@ -42,6 +91,19 @@ list_item_func(
     use CC_STATE::lookup_result() to find this result in
     the current static state;
     if it's not there, call get_state() again.
+    "
+);
+list_item_func(
+    "get_screensaver_mode(int& status)",
+    "Return screensaver mode (values listed in ss_logic.h)"
+);
+list_item_func(
+    "set_screensaver_mode(
+    bool enabled, double blank_time, DISPLAY_INFO&
+)",
+    "If enabled is true, the core client should try to get
+    an application to provide screensaver graphics.
+    Blank screen after blank_time seconds.
     "
 );
 list_item_func(
@@ -63,6 +125,61 @@ list_item_func(
     "get_disk_usage(vector<PROJECT>&)",
     "Get a list of projects, with disk usage fields filled in."
 );
+list_item_func(
+    "get_run_mode(int& mode)",
+	"Get the run mode (never/auto/always)."
+);
+list_item_func(
+    "get_network_mode(int& mode)",
+	"Get the network mode (never/auto/always)."
+);
+list_item_func(
+    "get_proxy_settings(PROXY_INFO&)",
+	"Get proxy settings"
+);
+list_item_func(
+    "get_activity_state(ACTIVITY_STATE&)",
+    "Return bitmap of reasons why computation and network are suspended.
+    Deprecated - for 5.5.13 and later, use cc_status() instead.
+    In 5.5.10 and earlier, it returns bool (suspended) rather than bitmap.
+    "
+);
+list_item_func(
+    "get_messages(int seqno, MESSAGES&)",
+    "Returns a list of messages to be displayed to the user.
+    Each message has a sequence number (1, 2, ...),
+    a priority (1=informational, 2=error) and a timestamp.
+    The RPC requests the messages with sequence numbers greater than 'seqno',
+    in order of increasing sequence number."
+);
+list_item_func(
+    "get_host_info(HOST_INFO&)",
+    "Get information about host hardware and usage"
+);
+list_item_func(
+    "get_statistics(PROJECTS&)",
+    "Get information about project credit history
+    (the PROJECT::statistics field is populated)"
+);
+list_item_func(
+    "network_status(int&)",
+    "Find whether the core client has, needs, or is done with
+    a physical network connection.
+    Deprecated - for 5.5.13 and later, use cc_status() instead.
+    "
+);
+list_item_func(
+    "get_newer_versions(std::string&)",
+    "Get a string describing newer versions of the core client, if any."
+);
+list_end();
+
+echo "
+    The following operations require authentication
+    for both local and remote clients:
+";
+
+list_start();
 list_item_func(
 	"show_graphics(char* result_name, bool full_screen)",
 	"Request that the application processing the given result
@@ -93,10 +210,6 @@ list_item_func(
 	"Set the run mode (never/auto/always)."
 );
 list_item_func(
-    "get_run_mode(int& mode)",
-	"Get the run mode (never/auto/always)."
-);
-list_item_func(
     "set_network_mode(int mode)",
 	"Set the network mode (never/auto/always)."
 );
@@ -109,16 +222,9 @@ list_item_func(
 	"Set proxy settings"
 );
 list_item_func(
-    "get_proxy_settings(PROXY_INFO&)",
-	"Get proxy settings"
-);
-list_item_func(
-    "get_messages(int seqno, MESSAGES&)",
-    "Returns a list of messages to be displayed to the user.
-    Each message has a sequence number (1, 2, ...),
-    a priority (1=informational, 2=error) and a timestamp.
-    The RPC requests the messages with sequence numbers greater than 'seqno',
-    in order of increasing sequence number."
+    "network_available()",
+    "Tells the core client that a network connection is available,
+    and that it should do as much network activity as it can."
 );
 list_item_func(
     "file_transfer_op(FILE_TRANSFER&, char* op)",
@@ -136,6 +242,10 @@ list_item_func(
     \"resume\", or
     \"abort\".
     "
+);
+list_item_func(
+    "quit()",
+    "Tell the core client to exit."
 );
 list_item_func(
     "acct_mgr_rpc(
@@ -158,18 +268,6 @@ list_item_func(
     "acct_mgr_info(ACCT_MGR_INFO&)",
     "Return the URL/name of the current account manager (if any),
     and the user name and password."
-);
-list_item_func(
-    "network_query(int& network_wanted)",
-    "Returns a nonzero value in network_wanted if the core client
-    wants a network connection or is currently using one.
-    Wait to get a false twice (with a few seconds delay)
-    before closing a connection."
-);
-list_item_func(
-    "network_available()",
-    "Tells the core client that a network connection is available,
-    and that it should do as much network activity as it can."
 );
 list_item_func(
     "read_global_prefs_override()",

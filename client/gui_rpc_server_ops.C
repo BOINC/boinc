@@ -877,33 +877,18 @@ int GUI_RPC_CONN::handle_rpc() {
         handle_get_screensaver_mode(request_msg, mf);
     } else if (match_tag(request_msg, "<set_screensaver_mode")) {
         handle_set_screensaver_mode(request_msg, mf);
-
-    // Operations that require authentication start here
-
-    } else if (auth_needed) {
-        auth_failure(mf);
     } else if (match_tag(request_msg, "<get_file_transfers")) {
         gstate.write_file_transfers_gui(mf);
-    } else if (match_tag(request_msg, "<get_project_status")) {
-        handle_get_project_status(mf);
     } else if (match_tag(request_msg, "<get_simple_gui_info")) {
         handle_get_simple_gui_info(mf);
+    } else if (match_tag(request_msg, "<get_project_status")) {
+        handle_get_project_status(mf);
     } else if (match_tag(request_msg, "<get_disk_usage")) {
         handle_get_disk_usage(mf);
-    } else if (match_tag(request_msg, "<project_nomorework")) {
-         handle_project_op(request_msg, mf, "nomorework");
-     } else if (match_tag(request_msg, "<project_allowmorework")) {
-         handle_project_op(request_msg, mf, "allowmorework");
     } else if (match_tag(request_msg, "<get_run_mode")) {
         handle_get_run_mode(request_msg, mf);
-    } else if (match_tag(request_msg, "<set_network_mode")) {
-        handle_set_network_mode(request_msg, mf);
     } else if (match_tag(request_msg, "<get_network_mode")) {
         handle_get_network_mode(request_msg, mf);
-    } else if (match_tag(request_msg, "<run_benchmarks")) {
-        handle_run_benchmarks(request_msg, mf);
-    } else if (match_tag(request_msg, "<set_proxy_settings")) {
-        handle_set_proxy_settings(request_msg, mf);
     } else if (match_tag(request_msg, "<get_proxy_settings")) {
         handle_get_proxy_settings(request_msg, mf);
     } else if (match_tag(request_msg, "<get_activity_state")) {	// DEPRECATED
@@ -916,10 +901,25 @@ int GUI_RPC_CONN::handle_rpc() {
         handle_get_statistics(request_msg, mf);
     } else if (match_tag(request_msg, "<network_status")) {	// DEPRECATED
         handle_network_status(request_msg, mf);
-    } else if (match_tag(request_msg, "<network_available")) {
-        handle_network_available(request_msg, mf);
     } else if (match_tag(request_msg, "<get_newer_version>")) {
         handle_get_newer_version(mf);
+
+    // Operations that require authentication start here
+
+    } else if (auth_needed) {
+        auth_failure(mf);
+    } else if (match_tag(request_msg, "<project_nomorework")) {
+         handle_project_op(request_msg, mf, "nomorework");
+     } else if (match_tag(request_msg, "<project_allowmorework")) {
+         handle_project_op(request_msg, mf, "allowmorework");
+    } else if (match_tag(request_msg, "<set_network_mode")) {
+        handle_set_network_mode(request_msg, mf);
+    } else if (match_tag(request_msg, "<run_benchmarks")) {
+        handle_run_benchmarks(request_msg, mf);
+    } else if (match_tag(request_msg, "<set_proxy_settings")) {
+        handle_set_proxy_settings(request_msg, mf);
+    } else if (match_tag(request_msg, "<network_available")) {
+        handle_network_available(request_msg, mf);
     } else if (match_tag(request_msg, "<abort_file_transfer")) {
         handle_file_transfer_op(request_msg, mf, "abort");
     } else if (match_tag(request_msg, "<project_detach")) {

@@ -17,6 +17,9 @@
 // or write to the Free Software Foundation, Inc.,
 // 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 
+#ifndef _ERROR_NUMBERS_H_
+#define _ERROR_NUMBERS_H_
+
 // NOTE:  add new errors to the end of the list and don't change
 // old error numbers to avoid confusion between versions.  Add
 // a text description of your error to boincerror() in util.C.
@@ -182,3 +185,5 @@
 #define NETWORK_STATUS_WANT_CONNECTION	1
 #define NETWORK_STATUS_WANT_DISCONNECT	2
 #define NETWORK_STATUS_LOOKUP_PENDING	3
+
+#endif
