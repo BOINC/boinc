@@ -227,15 +227,18 @@ static void handle_project_op(char* buf, MIOFILE& fout, const char* op) {
 
         gstate.detach_project(p);       // writes state file; deletes p
         gstate.request_schedule_cpus("project detached by user");
+        gstate.request_work_fetch("project detached by user");
     } else if (!strcmp(op, "update")) {
         p->sched_rpc_pending = true;
         p->min_rpc_time = 0;
-        gstate.set_client_state_dirty("Project updated by user");
+        gstate.request_work_fetch("project updated by user");
+        gstate.set_client_state_dirty("project updated by user");
     } else if (!strcmp(op, "nomorework")) {
         p->dont_request_more_work = true;
-        gstate.set_client_state_dirty("Project modified by user");
+        gstate.set_client_state_dirty("project modified by user");
     } else if (!strcmp(op, "allowmorework")) {
         p->dont_request_more_work = false;
+        gstate.request_work_fetch("project allowed to fetch work by user");
         gstate.set_client_state_dirty("Project modified by user");
     }
     fout.printf("<success/>\n");
@@ -465,8 +468,8 @@ static void handle_result_op(char* buf, MIOFILE& fout, const char* op) {
             msg_printf(p, MSG_ERROR, "Can't suspend non-CPU-intensive result");
         } else {
             rp->suspended_via_gui = true;
+            gstate.request_work_fetch("result suspended by user");
         }
-        gstate.request_work_fetch("result suspended by user");
     } else if (!strcmp(op, "resume")) {
         rp->suspended_via_gui = false;
     }

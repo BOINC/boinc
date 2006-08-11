@@ -492,10 +492,12 @@ bool CLIENT_STATE::poll_slow_events() {
     }
     POLL_ACTION(handle_finished_apps   , handle_finished_apps   );
     if (!tasks_suspended) {
-        POLL_ACTION(compute_work_requests, compute_work_requests          );
         POLL_ACTION(possibly_schedule_cpus, possibly_schedule_cpus          );
         POLL_ACTION(enforce_schedule    , enforce_schedule  );
         tasks_restarted = true;
+    }
+    if (!tasks_suspended && !network_suspended) {
+        POLL_ACTION(compute_work_requests, compute_work_requests          );
     }
     if (!network_suspended) {
         POLL_ACTION(scheduler_rpc          , scheduler_rpc_poll     );

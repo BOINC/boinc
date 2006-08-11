@@ -476,6 +476,7 @@ void CLIENT_STATE::make_running_task_heap(
     for (i=0; i<active_tasks.active_tasks.size(); i++) {
         atp = active_tasks.active_tasks[i];
         if (atp->result->project->non_cpu_intensive) continue;
+        if (!atp->result->runnable()) continue;
         if (atp->task_state != PROCESS_EXECUTING) continue;
         running_tasks.push_back(atp);
     }
@@ -593,7 +594,6 @@ bool CLIENT_STATE::enforce_schedule() {
                 (now - atp->checkpoint_wall_time < 10);
             if (rp->project->deadlines_missed
                 || (running_beyond_sched_period && checkpointed_recently)
-				|| atp->result->suspended_via_gui
             ) {
                 // only deadlines_missed results from a project
                 // will qualify for immediate enforcement.
@@ -722,7 +722,7 @@ void PROJECT::set_rrsim_proc_rate(double per_cpu_proc_rate, double rrs) {
     if (x>1) {
         x = 1;
     }
-    rrsim_proc_rate = x*per_cpu_proc_rate*CPU_PESSIMISM_FACTOR;
+    rrsim_proc_rate = x*per_cpu_proc_rate;
 }
 
 // Do a simulation of weighted round-robin scheduling.
@@ -790,8 +790,16 @@ bool CLIENT_STATE::rr_simulation(double per_cpu_proc_rate, double rrs) {
     for (i=0; i<projects.size(); i++) {
         p = projects[i];
         p->set_rrsim_proc_rate(per_cpu_proc_rate, rrs);
+        // if there are no results for a project, the shortfall is its entire share.
+        //
+        if (!p->active.size()) {
+            p->cpu_shortfall = global_prefs.work_buf_min_days * SECONDS_PER_DAY *
+                time_stats.active_frac * time_stats.cpu_efficiency * time_stats.on_frac *
+                ncpus * p->resource_share / rrs;
+        }
     }
 
+    double buf_end = now + global_prefs.work_buf_min_days * SECONDS_PER_DAY;
     // Simulation loop.  Keep going until work done
     //
     double sim_now = now;
@@ -814,7 +822,7 @@ bool CLIENT_STATE::rr_simulation(double per_cpu_proc_rate, double rrs) {
 
         // "rpbest" is first result to finish.  Does it miss its deadline?
         //
-        double diff = sim_now + rpbest->rrsim_finish_delay - rpbest->computation_deadline();
+        double diff = sim_now + rpbest->rrsim_finish_delay - ((rpbest->computation_deadline()-now)*CPU_PESSIMISM_FACTOR + now);
         if (diff > 0) {
             if (log_flags.rr_simulation) {
                 msg_printf(0, MSG_INFO,
@@ -877,25 +885,43 @@ bool CLIENT_STATE::rr_simulation(double per_cpu_proc_rate, double rrs) {
             }
         }
 
-
         // increment CPU shortfalls if necessary
         //
-        double buf_end = now + global_prefs.work_buf_min_days * SECONDS_PER_DAY;
         if (sim_now < buf_end) {
             double end_time = sim_now + rpbest->rrsim_finish_delay;
             if (end_time > buf_end) end_time = buf_end;
-            double dtime = (end_time - sim_now);
+            double d_time = end_time - sim_now;  // dtime is a function - lets not confuse things.
             int nidle_cpus = ncpus - last_active_size;
-            if (nidle_cpus) cpu_shortfall += dtime*nidle_cpus;
+            if (nidle_cpus > 0) cpu_shortfall += d_time*nidle_cpus;
 
             double proj_cpu_share = ncpus*pbest->resource_share/saved_rrs;
-            if (last_proj_active_size < proj_cpu_share) {
-                pbest->cpu_shortfall += dtime*(proj_cpu_share - last_proj_active_size);
+
+            if (last_active_size < proj_cpu_share) {
+                pbest->cpu_shortfall += d_time*(proj_cpu_share - last_proj_active_size);
+            }
+            // this section deals with the tail computations where there are no more 
+            // results for an application.
+            if (end_time < buf_end) {
+                d_time = buf_end - end_time;
+                // if this is the last result for this project, account for the tail
+                if (!pbest->active.size()) { 
+                    pbest->cpu_shortfall += d_time * proj_cpu_share;
+                }
+            }
+            if (log_flags.rr_simulation) {
+                msg_printf(0, MSG_INFO,
+                    "rr_simulation internal shortfall loop: idle %d, last active %d, active %d, shortfall %f: proj %s, last active %d, active %d, shortfall %f",
+                    nidle_cpus, last_active_size, active.size(), cpu_shortfall, pbest->project_name, last_proj_active_size, pbest->active.size(), pbest->cpu_shortfall);
             }
         }
 
         sim_now += rpbest->rrsim_finish_delay;
     }
+
+    if (sim_now < buf_end) {
+        cpu_shortfall += (buf_end - sim_now) * ncpus;
+    }
+
     if (log_flags.rr_simulation) {
         for (i=0; i<projects.size(); i++) {
             p = projects[i];

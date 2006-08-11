@@ -252,6 +252,7 @@ double CLIENT_STATE::runnable_resource_share() {
     double x = 0;
     for (unsigned int i=0; i<projects.size(); i++) {
         PROJECT* p = projects[i];
+        if (p->non_cpu_intensive) continue;
         if (p->runnable()) {
             x += p->resource_share;
         }
@@ -265,6 +266,7 @@ double CLIENT_STATE::potentially_runnable_resource_share() {
     double x = 0;
     for (unsigned int i=0; i<projects.size(); i++) {
         PROJECT* p = projects[i];
+        if (p->non_cpu_intensive) continue;
         if (p->potentially_runnable()) {
             x += p->resource_share;
         }
@@ -278,6 +280,7 @@ double CLIENT_STATE::nearly_runnable_resource_share() {
     double x = 0;
     for (unsigned int i=0; i<projects.size(); i++) {
         PROJECT* p = projects[i];
+        if (p->non_cpu_intensive) continue;
         if (p->nearly_runnable()) {
             x += p->resource_share;
         }

@@ -165,6 +165,11 @@ PROJECT* CLIENT_STATE::next_project_need_work() {
     double work_on_prospect=0;
     unsigned int i;
     double prrs = potentially_runnable_resource_share();
+    if (log_flags.work_fetch_debug) {
+        msg_printf(0, MSG_INFO,
+            "next_project_need_work: begin"
+        );
+    }
 
     for (i=0; i<projects.size(); i++) {
         p = projects[i];
@@ -172,10 +177,14 @@ PROJECT* CLIENT_STATE::next_project_need_work() {
         if (p->work_request == 0) continue;
         if (!p->contactable()) continue;
 
+        // if we don't need work, only get work from non-cpu intensive projects.
+        //
+        if (overall_work_fetch_urgency == WORK_FETCH_DONT_NEED && !p->non_cpu_intensive) continue;
+
         // if we don't really need work,
         // and we don't really need work from this project, pass.
         //
-        if (overall_work_fetch_urgency <= WORK_FETCH_OK) {
+        if (overall_work_fetch_urgency == WORK_FETCH_OK) {
             if (p->work_request_urgency <= WORK_FETCH_OK) {
                 continue;
             }
@@ -201,7 +210,14 @@ PROJECT* CLIENT_STATE::next_project_need_work() {
     }
     if (p_prospect && (p_prospect->work_request <= 0)) {
         p_prospect->work_request = 1.0;
+        if (log_flags.work_fetch_debug) {
+            msg_printf(0, MSG_INFO,
+                "next_project_need_work: project picked %s",
+                p_prospect->project_name
+            );
+        }
     }
+
     return p_prospect;
 }
 
@@ -529,9 +545,9 @@ double CLIENT_STATE::time_until_work_done(
 //     - work_request and work_request_urgency
 //
 int CLIENT_STATE::compute_work_requests() {
+    bool retval = 0;
     unsigned int i;
     double work_min_period = global_prefs.work_buf_min_days * SECONDS_PER_DAY;
-    double prrs;
     static double last_work_request_calc = 0;
     if (gstate.now - last_work_request_calc >= 600) {
         gstate.request_work_fetch("timer");
@@ -542,23 +558,48 @@ int CLIENT_STATE::compute_work_requests() {
     must_check_work_fetch = false;
 
     adjust_debts();
-    double global_work_need = work_needed_secs();
+    if (log_flags.work_fetch_debug) {
+        msg_printf(0, MSG_INFO,
+            "rr_simulation: calling from work_fetch"
+        );
+    }
+    rr_simulation(avg_proc_rate() / ncpus, nearly_runnable_resource_share());
 
+    bool possible_deadline_miss = false;
+    bool project_shortfall = false;
     overall_work_fetch_urgency = WORK_FETCH_DONT_NEED;
     for (i=0; i< projects.size(); i++) {
-        projects[i]->work_request_urgency = WORK_FETCH_DONT_NEED;
-        projects[i]->work_request = 0;
+        PROJECT *p = projects[i];
+        if (p->non_cpu_intensive) {
+            if (p->runnable() || !p->contactable()) {
+                p->work_request = 0;
+                p->work_request_urgency = WORK_FETCH_DONT_NEED;
+            } else {
+                p->work_request = 1.0;
+                p->work_request_urgency = WORK_FETCH_NEED_IMMEDIATELY;
+                retval = 1;
+            }
+        } else {
+            p->work_request_urgency = WORK_FETCH_DONT_NEED;
+            p->work_request = 0;
+            if (p->deadlines_missed) possible_deadline_miss = true;
+            if (p->cpu_shortfall && p->long_term_debt > -global_prefs.cpu_scheduling_period_minutes * 60) {
+                project_shortfall = true;
+            }
+        }
     }
 
-
-    if (!should_get_work()) {
+    if (cpu_shortfall <= 0.0 && (possible_deadline_miss || !project_shortfall)) {
         if (log_flags.work_fetch_debug) {
             msg_printf(0, MSG_INFO,
                 "compute_work_requests(): we don't need any work"
             );
         }
-        overall_work_fetch_urgency = WORK_FETCH_DONT_NEED;
-        return 0;
+        if (!retval) {
+            //  if retval is true, we are requesting work from a non-cpu intensive project
+            overall_work_fetch_urgency = WORK_FETCH_DONT_NEED;
+        }
+        return retval;
     } else if (no_work_for_a_cpu()) {
         if (log_flags.work_fetch_debug) {
             msg_printf(0, MSG_INFO,
@@ -566,7 +607,7 @@ int CLIENT_STATE::compute_work_requests() {
             );
         }
         overall_work_fetch_urgency = WORK_FETCH_NEED_IMMEDIATELY;
-    } else if (global_work_need > 0) {
+    } else if (cpu_shortfall > 0) {
         if (log_flags.work_fetch_debug) {
             msg_printf(0, MSG_INFO,
                 "compute_work_requests(): global work needed is greater than zero\n"
@@ -577,122 +618,110 @@ int CLIENT_STATE::compute_work_requests() {
         overall_work_fetch_urgency = WORK_FETCH_OK;
     }
 
-    double max_fetch = work_min_period;
+    double prrs = potentially_runnable_resource_share();
 
-    // it is possible to have a work fetch policy of no new work and also have 
-    // a CPU idle or not enough to fill the cache.
-    // In this case, we get work, but in small increments
-    // as we are already in trouble and we need to minimize the damage.
-    //
-    if (work_fetch_no_new_work) {
-        max_fetch = 1.0;
-    }
-
-    prrs = potentially_runnable_resource_share();
-
-    // for each project, compute
-    // min_results = min # of results for project needed by CPU scheduling,
-    // to avoid "starvation".
-    // Then estimate how long it's going to be until we have fewer
-    // than this # of results remaining.
-    //
+    PROJECT *pbest = NULL;
+    double best_work;
     for (i=0; i<projects.size(); i++) {
-        PROJECT *p = projects[i];
-
-        p->work_request = 0;
-        p->work_request_urgency = WORK_FETCH_DONT_NEED;
-        if (!p->contactable()) {
+        double prospect_work = time_until_work_done(projects[i], 0, prrs);
+        PROJECT *prospect = projects[i];
+        if (!prospect->contactable()) {
             if (log_flags.work_fetch_debug) {
                 msg_printf(0, MSG_INFO,
-                    "compute_work_requests(): project '%s' is not contactable",
-                    p->project_name
+                    "compute_work_requests(): project %s not contactable\n",
+                    prospect->project_name
                 );
             }
             continue;
         }
-
-        // if system has been running in round robin,
-        // then all projects will have a LT debt greater than 
-        // -global_prefs.cpu_scheduling_period_minutes * 60
-        // Therefore any project that has a LT debt greater than this 
-        // is a candidate for more work.
-        // Also if the global need is immediate, we need to get work from 
-        // any contactable project, even if its LT debt is extremely negative.
-        // Also, if there is only one potentially runnable project,
-        // we can get work from it no matter what.
-        //
-        if ((p->overworked())
-            && (overall_work_fetch_urgency != WORK_FETCH_NEED_IMMEDIATELY)
-            && (prrs != p->resource_share)
-        ) {
+        if (prospect->deadlines_missed) {
             if (log_flags.work_fetch_debug) {
                 msg_printf(0, MSG_INFO,
-                    "compute_work_requests(): project '%s' is overworked",
-                    p->project_name
+                    "compute_work_requests(): project %s has %d deadline misses\n",
+                    prospect->project_name, prospect->deadlines_missed
                 );
             }
             continue;
         }
-
-        // if it is non cpu intensive and we have work, we don't need any more.
-        //
-        if (p->non_cpu_intensive && p->runnable()) continue;
-
-        int min_results = proj_min_results(p, prrs);
-        double estimated_time_to_starvation = time_until_work_done(p, min_results-1, prrs);
-
-        // determine project urgency
-        //
-        if (estimated_time_to_starvation < work_min_period) {
-            if (estimated_time_to_starvation == 0) {
-                if (log_flags.work_fetch_debug) {
-                    msg_printf(0, MSG_INFO,
-                        "compute_work_requests(): project '%s' is starved\n",
-                        p->project_name
-                    );
-                }
-                p->work_request_urgency = WORK_FETCH_NEED_IMMEDIATELY;
-            } else {
-                if (log_flags.work_fetch_debug) {
-                    msg_printf(0, MSG_INFO,
-                        "compute_work_requests(): project '%s' will starve in %.2f sec\n",
-                        p->project_name, estimated_time_to_starvation
-                    );
-                }
-                p->work_request_urgency = WORK_FETCH_NEED;
+        if (prospect->overworked() && overall_work_fetch_urgency < WORK_FETCH_NEED) {
+            if (log_flags.work_fetch_debug) {
+                msg_printf(0, MSG_INFO,
+                    "compute_work_requests(): project %s is overworked\n",
+                    prospect->project_name
+                );
             }
-            // determine work requests for each project
-            // NOTE: don't need to divide by active_frac etc.;
-            // the scheduler does that (see sched/sched_send.C)
-            //
-            p->work_request = max(0.0,
-                //(2*work_min_period - estimated_time_to_starvation)
-                (work_min_period - estimated_time_to_starvation)
-                * ncpus
+            continue;
+        }
+        if (prospect->cpu_shortfall == 0.0 && overall_work_fetch_urgency < WORK_FETCH_NEED) {
+            if (log_flags.work_fetch_debug) {
+                msg_printf(0, MSG_INFO,
+                    "compute_work_requests(): project %s has no shortfall\n",
+                    prospect->project_name
+                );
+            }
+            continue;
+        }
+        if (pbest) {
+            if (!pbest->overworked() && projects[i]->overworked()) {
+                if (log_flags.work_fetch_debug) {
+                    msg_printf(0, MSG_INFO,
+                        "compute_work_requests(): project %s is overworked\n",
+                        prospect->project_name
+                    );
+                }
+                continue;
+            }
+            if (pbest->long_term_debt - best_work > prospect->long_term_debt - prospect_work) {
+                if (log_flags.work_fetch_debug) {
+                    msg_printf(0, MSG_INFO,
+                        "compute_work_requests(): project %s has a higher debt load than %s\n",
+                        pbest->project_name, prospect->project_name
+                    );
+                }
+                continue;
+            }
+        }
+        pbest = prospect;
+        best_work = prospect_work;
+        retval = 1;
+        if (log_flags.work_fetch_debug) {
+            msg_printf(0, MSG_INFO,
+                "compute_work_requests(): best project so far %s",
+                pbest->project_name
             );
 
-        } else if (overall_work_fetch_urgency > WORK_FETCH_OK) {
-            p->work_request_urgency = WORK_FETCH_OK;
-            p->work_request = max(global_work_need, 1.0);
-                //In the case of an idle CPU, we need at least one second.
+        }
+    }
+
+    if (pbest) {
+        pbest->work_request = max(pbest->cpu_shortfall, cpu_shortfall * 
+            (prrs ? pbest->resource_share / prrs : 1.0) * ncpus *
+            time_stats.active_frac * time_stats.cpu_efficiency * time_stats.on_frac);
+        
+        if (!best_work) {
+            pbest->work_request_urgency = WORK_FETCH_NEED_IMMEDIATELY;
+        } else if (pbest->cpu_shortfall) {
+            pbest->work_request_urgency = WORK_FETCH_NEED;
+        } else {
+            pbest->work_request_urgency = WORK_FETCH_OK;
         }
 
         if (log_flags.work_fetch_debug) {
             msg_printf(0, MSG_INFO,
                 "compute_work_requests(): project %s work req: %f sec  urgency: %d\n",
-                p->project_name, p->work_request, p->work_request_urgency
+                pbest->project_name, pbest->work_request, pbest->work_request_urgency
             );
         }
     }
 
     if (log_flags.work_fetch_debug) {
         msg_printf(0, MSG_INFO,
-            "compute_work_requests(): client work need: %f sec, urgency %d\n",
-            global_work_need, overall_work_fetch_urgency
+            "compute_work_requests(): client work shortfall: %f sec, urgency %d\n",
+            cpu_shortfall, overall_work_fetch_urgency
         );
     }
 
-    return 1;
+    return retval;
 }
 
 // called from the client's polling loop.
@@ -737,7 +766,7 @@ bool CLIENT_STATE::scheduler_rpc_poll() {
             action = true;
             break;
         }
-        if (!(exit_when_idle && contacted_sched_server) && overall_work_fetch_urgency != WORK_FETCH_DONT_NEED) {
+        if (!(exit_when_idle && contacted_sched_server)) {
             scheduler_op->init_get_work();
             if (scheduler_op->state != SCHEDULER_OP_STATE_IDLE) {
                 break;

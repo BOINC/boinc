@@ -306,6 +306,7 @@ void ACTIVE_TASK::handle_exited_app(int stat) {
     clean_out_dir(slot_dir);
 done:
     gstate.request_schedule_cpus("application exited");
+    gstate.request_work_fetch("application exited");
 }
 
 bool ACTIVE_TASK::finish_file_present() {

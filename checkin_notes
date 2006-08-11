@@ -8637,3 +8637,18 @@ Walt   10 Aug 2006
 Walt   10 Aug 2006
     - Tag for 5.5.12 release, all platforms
       boinc_core_release_5_5_12
+
+David  10 Aug 2006
+	- major revision of work-fetch policy;
+		may fix bugs where client starves.
+		Also an improved version of my 10/8 scheduler fix.
+		(from John McLeod)
+
+	client/
+		app_control.C
+		client_state.C
+		client_types.C
+		cpu_sched.C
+		cs_apps.C
+		cs_scheduler.C
+		gui_rpc_server_ops.C
