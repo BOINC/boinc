@@ -843,14 +843,20 @@ void CAdvancedFrame::OnActivitySelection(wxCommandEvent& event) {
     wxLogTrace(wxT("Function Start/End"), wxT("CAdvancedFrame::OnActivitySelection - Function Begin"));
 
     CMainDocument* pDoc      = wxGetApp().GetDocument();
+
+#if defined(__WXMSW__) || defined(__WXMAC__)
     CTaskBarIcon*  pTaskbar  = wxGetApp().GetTaskBarIcon();
+#endif    
 
     wxASSERT(pDoc);
     wxASSERT(wxDynamicCast(pDoc, CMainDocument));
+
+#if defined(__WXMSW__) || defined(__WXMAC__)
     wxASSERT(pTaskbar);
     wxASSERT(wxDynamicCast(pTaskbar, CTaskBarIcon));
 
     pTaskbar->ResetSnoozeState();
+#endif
 
     switch(event.GetId()) {
     case ID_FILEACTIVITYRUNALWAYS:
@@ -872,14 +878,18 @@ void CAdvancedFrame::OnNetworkSelection(wxCommandEvent& event) {
     wxLogTrace(wxT("Function Start/End"), wxT("CAdvancedFrame::OnNetworkSelection - Function Begin"));
 
     CMainDocument* pDoc      = wxGetApp().GetDocument();
+#if defined(__WXMSW__) || defined(__WXMAC__)
     CTaskBarIcon*  pTaskbar  = wxGetApp().GetTaskBarIcon();
+#endif
 
     wxASSERT(pDoc);
     wxASSERT(wxDynamicCast(pDoc, CMainDocument));
     wxASSERT(pTaskbar);
     wxASSERT(wxDynamicCast(pTaskbar, CTaskBarIcon));
 
+#if defined(__WXMSW__) || defined(__WXMAC__)
     pTaskbar->ResetSnoozeState();
+#endif
 
     switch(event.GetId()) {
     case ID_FILENETWORKRUNALWAYS:

@@ -158,7 +158,9 @@ public:
     CBrandingScheme*    GetBrand()                  { return m_pBranding; }
     CBOINCBaseFrame*    GetFrame()                  { return m_pFrame; }
     CMainDocument*      GetDocument()               { return m_pDocument; }
+#if defined(__WXMSW__) || defined(__WXMAC__)
     CTaskBarIcon*       GetTaskBarIcon()            { return m_pTaskBarIcon; }
+#endif
 #ifdef __WXMAC__
     CMacSystemMenu*     GetMacSystemMenu()          { return m_pMacSystemMenu; }
 #endif

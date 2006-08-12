@@ -8699,3 +8699,11 @@ David 11 Aug 2006
         gui_rpc_server_ops.C
     lib/
         error_numbers.h
+
+Walt  11 Aug 2006
+    - Bug fix: remove references to TaskBarIcon for Linux
+        compiles. Should fix the SIGSEGVs that were reported.
+
+    clientcui/
+        AdvancedFrame.cpp
+        BOINCGUIApp.h
