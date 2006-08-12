@@ -132,32 +132,40 @@ void parse_state_file() {
 }
 
 int TASK::run() {
-    boinc_resolve_filename_s(application.c_str(), application);
-#ifdef _WIN32
-#if 0 possibly useful code
-    HANDLE pipeout_r, pipeout_w, pipein_r, pipein_w;
+	FILE* stdout_file;
+	FILE* stdin_file;
 
-    //create child's stdout pipes
-    if(!CreatePipe(&ps->pipeout_r, &ps->pipeout_w, &ps->sats, 0)) fprintf(stderr,"pipe out err\n");
-    //and its stdin pipes
-    if(!CreatePipe(&ps->pipein_r, &ps->pipein_w, &ps->sats, 0)) fprintf(stderr,"pipe in err\n");
-#endif
+    boinc_resolve_filename_s(application.c_str(), application);
+
+	// open stdout, stdin if file names are given
+	//
+	if (stdout_filename != "") {
+		stdout_file = freopen(stdout_filename.c_str(), "w", stdout);
+		if (!stdout_file) return ERR_FOPEN;
+	}
+	if (stdin != "") {
+		stdin_file = freopen(stdin_filename.c_str(), "w", stdin);
+		if (!stdin_file) return ERR_FOPEN;
+	}
+#ifdef _WIN32
 
     PROCESS_INFORMATION process_info;
     STARTUPINFO startup_info;
     memset(&process_info, 0, sizeof(process_info));
     memset(&startup_info, 0, sizeof(startup_info));
 
-    // pass stderr handle to app
+    // pass std handles to app
     //
     startup_info.dwFlags = STARTF_USESTDHANDLES;
+    startup_info.hStdIn = GetStdHandle(STD_IN_HANDLE);
+    startup_info.hStdOut = GetStdHandle(STD_OUT_HANDLE);
     startup_info.hStdError = GetStdHandle(STD_ERROR_HANDLE);
              
     if (!CreateProcess(application.c_str(),
         (LPSTR)application.c_str(),
         NULL,
         NULL,
-        FALSE,
+        TRUE,		// bInheritHandles
         CREATE_NO_WINDOW|IDLE_PRIORITY_CLASS,
         NULL,
         NULL,
@@ -169,11 +177,6 @@ int TASK::run() {
     pid_handle = process_info.hProcess;
     thread_handle = process_info.hThread;
 #else
-#if 0
-    dup2(ps->pipe[1],1);
-#endif
-
-
     int retval;
     char progname[256], buf[256];
     char* argv[2];
@@ -182,9 +185,7 @@ int TASK::run() {
         boinc_finish(ERR_FORK);
     }
     if (pid == 0) {
-        strcpy(progname, application.c_str());
-        boinc_resolve_filename(progname, buf, sizeof(buf));
-        printf("running %s\n", buf);
+        strcpy(buf, application.c_str());
         argv[0] = buf;
         argv[1] = 0;
         retval = execv(buf, argv);
