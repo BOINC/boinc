@@ -143,7 +143,7 @@ int TASK::run() {
 		stdout_file = freopen(stdout_filename.c_str(), "w", stdout);
 		if (!stdout_file) return ERR_FOPEN;
 	}
-	if (stdin != "") {
+	if (stdin_filename != "") {
 		stdin_file = freopen(stdin_filename.c_str(), "w", stdin);
 		if (!stdin_file) return ERR_FOPEN;
 	}
