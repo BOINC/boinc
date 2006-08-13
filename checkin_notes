@@ -8727,3 +8727,12 @@ David  11 Aug 2006
     html/inc/
         db_ops.inc
         profile.inc
+
+Rom    13 Aug 2006
+    - Fix thread creation failures on Win9x machines when applications
+        are built with DevC++/MinGW.
+        
+    api/
+        boinc_api.C
+    lib/
+        diagnostics_win.C

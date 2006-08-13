@@ -911,6 +911,7 @@ typedef struct _BOINC_MESSAGEMONITORENTRY {
 
 static std::vector<PBOINC_MESSAGEMONITORENTRY> diagnostics_monitor_messages;
 static PDEBUGGERMESSAGE pMessageBuffer;
+static UINT   uiMessageMonitorThreadId;
 static HANDLE hMessageMonitorThread;
 static HANDLE hMessageMonitorSync;
 static HANDLE hMessageSharedMap;
@@ -1045,7 +1046,7 @@ int diagnostics_init_message_monitor() {
                 diagnostics_message_monitor,
                 0,
                 0,
-                NULL
+                &uiMessageMonitorThreadId
             );
             if (!hMessageMonitorThread) {
                 fprintf(
@@ -1306,6 +1307,7 @@ typedef struct _BOINC_WINDOWCAPTURE {
     DWORD        window_thread_id;
 } BOINC_WINDOWCAPTURE, *PBOINC_WINDOWCAPTURE;
 
+static UINT   uiExceptionMonitorThreadId = NULL;
 static HANDLE hExceptionMonitorThread = NULL;
 static HANDLE hExceptionMonitorHalt = NULL;
 static HANDLE hExceptionMonitorStartedEvent = NULL;
@@ -1377,7 +1379,7 @@ int diagnostics_init_unhandled_exception_monitor() {
             diagnostics_unhandled_exception_monitor,
             0,
             0,
-            NULL
+            &uiExceptionMonitorThreadId
         );
         if (!hExceptionMonitorThread) {
             fprintf(

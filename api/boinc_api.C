@@ -832,13 +832,14 @@ int set_worker_timer() {
     // Create the timer thread to deal with shared memory control messages.
     //
     uintptr_t thread;
+    UINT      uiThreadId;
     thread = _beginthreadex(
         NULL,
         0,
         timer_thread,
         0,
         0,
-        NULL
+        &uiThreadId
     );
 
     if (!thread) {
