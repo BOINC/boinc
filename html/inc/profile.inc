@@ -112,12 +112,12 @@ function show_questions($profile) {
     row1(show_profile_heading1());
     rowify(show_profile_question1().html_info());
     rowify("<br>");
-    show_textarea("response1", $profile->response1);
+    show_textarea("response1", stripslashes($profile->response1));
     rowify("<br>");
     row1( show_profile_heading2());
     rowify( show_profile_question2().html_info());
     rowify("<br>");
-    show_textarea("response2", $profile->response2);
+    show_textarea("response2", stripslashes($profile->response2));
     rowify("<br>");
     show_language_selection($profile);
     rowify("<br>");

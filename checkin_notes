@@ -8707,3 +8707,21 @@ Walt  11 Aug 2006
     clientcui/
         AdvancedFrame.cpp
         BOINCGUIApp.h
+
+David  11 Aug 2006
+    - DB: the type of forum_preferences.special_user
+        was changed from integer to char(8) in db_update.php,
+        but we forgot to make the same change in schema.sql.
+        Fixed this (actually made it char(12) to allow expansion)
+
+        Any projects created since Jan 2005: check the type of this field.
+        If it's integer, change it to char(12) not null default ''.
+        Otherwise your message-board moderation features won't work.
+
+    - Show quotes correctly in profile text
+    - fixes to admin web interface
+    db/
+        schema.sql
+    html/inc/
+        db_ops.inc
+        profile.inc

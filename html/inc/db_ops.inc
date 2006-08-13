@@ -789,7 +789,7 @@ function show_app_version_short($app_version) {
     echo "
         <tr>
         <td><a href=\"db_action.php?table=app_version&id=$app_version->id\">$app_version->id</a></td>
-        <td><a href=\"db_action.php?table=app?id=$app_version->appid\">$x</a></td>
+        <td><a href=\"db_action.php?table=app&id=$app_version->appid\">$x</a></td>
         <td>$app_version->version_num</td>
         <td><a href=\"db_action.php?table=platform&id=$app_version->platformid\">$y</a></td>
         </tr>
