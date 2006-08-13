@@ -8730,7 +8730,7 @@ David  11 Aug 2006
 
 Rom    13 Aug 2006
     - Fix thread creation failures on Win9x machines when applications
-        are built with DevC++/MinGW.
+        are built with DevC++/MinGW. (From Josef W. Segur)
         
     api/
         boinc_api.C
