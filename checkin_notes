@@ -8720,6 +8720,8 @@ David  11 Aug 2006
 
     - Show quotes correctly in profile text
     - fixes to admin web interface
+    (from Christian Beer)
+
     db/
         schema.sql
     html/inc/
