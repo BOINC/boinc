@@ -59,6 +59,18 @@ td.fieldvalue {
     font-weight: bold;
 }
 
+td.fieldname_error {          
+    background-color: #ff8888;
+    text-align: right;        
+    vertical-align: top;      
+}                             
+
+td.fieldvalue_error {         
+    background-color: #ff8888;
+    vertical-align: top;      
+    font-weight: bold;        
+}                             
+
 td.category {
     background-color: #dddddd;
 }

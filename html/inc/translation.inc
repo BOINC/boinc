@@ -420,7 +420,7 @@ if (file_exists($lang_language_dir.$lang_compiled_dir."language_interface.inc"))
 
     require_once($lang_language_dir.$lang_compiled_dir.$lang_project_default.".po.inc");
     //Always include the project default as fallback
-    for ($i=sizeof($client_languages);$i>=0;$i--){
+    for ($i=sizeof($client_languages)-1;$i>=0;$i--){
         //Now for each language that the client requests
         if ((strlen($client_languages[$i])>2) && (substr($client_languages[$i],2,1)=="_" || substr($client_languages[$i],2,1)=="-")){
             //If this is defined as primary-secondary

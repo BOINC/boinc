@@ -39,7 +39,7 @@ function init_session() {
     if (strlen($path)) {
         session_set_cookie_params(0, $path);
     }
-    session_start();
+    if (session_id() == "") session_start(); // first check if there is a session
 // NOTE: in PHP 4.1+, s/key_exists/array_key_exists/
     if (array_key_exists('authenticator', $_SESSION)) {
         return $_SESSION["authenticator"];
@@ -209,11 +209,19 @@ function row1($x, $ncols=2, $class="heading") {
     echo "<tr><td class=$class colspan=$ncols>$x</td></tr>\n";
 }
 
-function row2($x, $y) {
+function row2($x, $y, $show_error=false) {
     if ($x=="") $x="<br>";
     if ($y=="") $y="<br>";
-    echo "<tr><td width=40% class=fieldname>$x</td><td class=fieldvalue>$y</td></tr>\n";
+    if ($show_error) {
+        $class1 = 'fieldname_error';
+        $class2 = 'fieldvalue_error';
+    } else {
+        $class1 = 'fieldname';
+        $class2 = 'fieldvalue';
+    }
+    echo "<tr><td width=40% class=$class1>$x</td><td class=$class2>$y</td></tr>\n";
 }
+
 function row2_init($x, $y) {
     echo "<tr><td class=fieldname width=40%>$x</td><td valign=top><b>$y\n";
 }
@@ -571,6 +579,31 @@ function make_GET_list($variable_name, $variable_value) {
 function link_with_GET_variables($text, $baseurl, $variable_name, $variable_value) {
         $list=make_GET_list($variable_name, $variable_value);
         return "<a href=\"$baseurl$list\">$text</a>";
+}
+
+// This function replaces some often made mistakes while entering numbers
+// and gives back an error if there are false characters
+// It will also be checked if the value is within certain borders
+// @param string &$value reference to the value that should be verified
+// @param double $low the lowest number of value if verified
+// @param double $high the highest number of value if verified
+// @return bool true if $value is numeric and within the defined borders, false if $value is not numeric, no changes were made in this case
+function verify_numeric(&$value, $low, $high = false) {
+    $number = trim($value);
+    $number = str_replace('o', '0', $number);
+    $number = str_replace('O', '0', $number);
+    $number = str_replace('x', '', $number); //if someone enters '0x100'
+    $number = str_replace(',', '.', $number); // replace the german decimal separator
+    // if no value was entered and this is ok
+    if ($number=='' && $low=='') return true;
+    // the supplied value contains alphabetic characters
+    if (!is_numeric($number)) return false;
+    if ($number < $low) $number = $low;
+    if ($high) {
+        if ($number > $high) $number = $high;
+    }
+    $value = (double)$number;
+    return true;
 }
 
 ?>
