@@ -21,7 +21,7 @@ admin_page_head("screen profiles");
 
 if (function_exists('profile_screen_query')) {
     $query = profile_screen_query();
-} else if (profile_screen()) {
+} else if (profile_screening()) {
     $query = "select * from profile, user where profile.userid=user.id "
         ." and has_picture>0 "
         ." and verification=0 "
