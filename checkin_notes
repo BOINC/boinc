@@ -8793,3 +8793,9 @@ Rom    14 Aug 2006
         
     clientgui/
         BOINCGUIApp.cpp
+
+Walt  14 Aug 2006
+    - Bug fix: fix boincmgr so it exits when X on window is clicked
+
+    clientgui/
+        BOINCBaseFrame.cpp
