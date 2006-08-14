@@ -588,6 +588,7 @@ function link_with_GET_variables($text, $baseurl, $variable_name, $variable_valu
 // @param double $low the lowest number of value if verified
 // @param double $high the highest number of value if verified
 // @return bool true if $value is numeric and within the defined borders, false if $value is not numeric, no changes were made in this case
+//
 function verify_numeric(&$value, $low, $high = false) {
     $number = trim($value);
     $number = str_replace('o', '0', $number);

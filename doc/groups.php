@@ -25,11 +25,11 @@ won't be able to delete the files there.
 <p>
 Edit /etc/group so that apache belongs to group boinc, i.e. the line:
 <pre>
-    boinc:x:566:
+boinc:x:566:
 </pre>
 becomes:
 <pre>
-    boinc:x:566:apache
+boinc:x:566:apache
 </pre>
 (Apache will need to be stopped/restarted for this to take effect.)
 <p>
@@ -39,10 +39,22 @@ the critical directories are owned by boincadm
 and have the set-GID bit set;
 this means that any directories or files created by apache
 in those directories will have group boinc (not group apache).
-Also, the BOINC software makes all directories group read/write.
+The BOINC software makes all directories group read/write.
 Thus, both apache and boinc will have read/write access to
 all directories and files,
 but other users will have no access.
+<p>
+On an existing project, do:
+<pre>
+chmod 02770 upload
+chmod 02770 html/cache
+chmod 02770 html/inc
+chmod 02770 html/languages
+chmod 02770 html/languages/compiled
+chmod 02770 html/user_profiles
+</pre>
+You may also need to change the ownership of these directories
+and all their subdirectories to boincadm/boinc.
 
 <p>
 If you're running several projects on the same server and

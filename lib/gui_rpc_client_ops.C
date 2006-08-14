@@ -2006,4 +2006,30 @@ int RPC_CLIENT::set_global_prefs_override(string& s) {
     return retval;
 }
 
+int RPC_CLIENT::get_global_prefs_override_struct(GLOBAL_PREFS& prefs) {
+    int retval;
+    string s;
+    MIOFILE mf;
+    char buf[64000];
+    bool found_venue;
+
+    retval = get_global_prefs_override(s);
+    if (retval) return retval;
+    strcpy(buf, s.c_str());
+    mf.init_buf(buf);
+    prefs.parse(mf, "", found_venue);
+    return 0;
+}
+
+int RPC_CLIENT::set_global_prefs_override_struct(GLOBAL_PREFS& prefs) {
+    char buf[64000];
+    MIOFILE mf;
+    string s;
+
+    mf.init_buf(buf);
+    prefs.write(mf);
+    s = buf;
+    return set_global_prefs_override(s);
+}
+
 const char *BOINC_RCSID_90e8b8d168="$Id$";

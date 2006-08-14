@@ -8737,7 +8737,7 @@ Rom    13 Aug 2006
     lib/
         diagnostics_win.C
 
-David  11 Aug 2006
+David  13 Aug 2006
     - User web: multi-column option for displaying venue-specific prefs
     - User web: value-checking on prefs
     (from Christian Beer)
@@ -8764,3 +8764,18 @@ David  11 Aug 2006
             prefs_edit_form.php (removed)
             prefs_remove.php
             white.css
+
+David  14 Aug 2006
+    - GUI RPC: added new RPCs
+        get_global_prefs_override_struct(GLOBAL_PREFS&) and
+        set_global_prefs_override_struct(GLOBAL_PREFS&)
+
+        Note: these are useful only when ALL prefs are being
+        specified in the override file,
+        as there's no provision for "undefined" values in the structs.
+
+    html/inc/
+        util.inc
+    lib/
+        gui_rpc_client.h
+        gui_rpc_client_ops.C
