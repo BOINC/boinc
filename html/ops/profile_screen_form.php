@@ -5,6 +5,7 @@ require_once("../inc/forum.inc");
 require_once("../inc/text_transform.inc");
 require_once("../inc/profile.inc");
 require_once("../inc/util_ops.inc");
+require_once("../project/project.inc");
 
 db_init();
 
@@ -18,13 +19,23 @@ function buttons($i) {
 
 admin_page_head("screen profiles");
 
-$query = "select * from profile, user where profile.userid=user.id "
-    ." and has_picture>0 "
-    ." and verification=0 "
-    ." and uotd_time is null "
-    ." and expavg_credit>1 "
-    ." order by recommend desc limit 20"
-;
+if (function_exists('profile_screen_query')) {
+    $query = profile_screen_query();
+} else if (profile_screen()) {
+    $query = "select * from profile, user where profile.userid=user.id "
+        ." and has_picture>0 "
+        ." and verification=0 "
+        ." limit 20"
+    ;
+} else {
+    $query = "select * from profile, user where profile.userid=user.id "
+        ." and has_picture>0 "
+        ." and verification=0 "
+        ." and uotd_time is null "
+        ." and expavg_credit>1 "
+        ." order by recommend desc limit 20"
+    ;
+}
 $result = mysql_query($query);
 
 $n = 0;

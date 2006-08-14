@@ -8824,3 +8824,15 @@ David  14 Aug 2006
             uotd.inc
         ops/
             profile_screen_form.php
+
+David  14 Aug 2006
+    - user web: on second thought:
+        if <profile_screening>1</profile_screening> is in the config file,
+        use the right queries for both screening and UOTD selection.
+        Leave in the option for custom queries in both places.
+
+    html/
+        inc/
+            uotd.inc
+        ops/
+            profile_screen_form.php

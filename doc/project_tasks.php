@@ -104,7 +104,7 @@ list_item("update_uotd",
     "Select a new User of the Day.
     Period: 1 day."
 );
-list_item("../html/ops/update_form_activities.php",
+list_item("../html/ops/update_forum_activities.php",
     "Recompute 'popularity' estimages for threads and posts
     in the Questions and Answers message boards.
     Recommended period: 1 hour."

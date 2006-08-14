@@ -54,8 +54,14 @@ function build_uotd_page() {
     // get a list of profiles that have been 'approved' for UOTD,
     // using a project-specific query if supplied in project.inc
     //
-    if (function_exists('get_uotd_candidates')) {
-        $query = get_uotd_candidates_query();
+    if (function_exists('uotd_candidates_query')) {
+        $query = uotd_candidates_query();
+    } else if (profile_screening()) {
+        $query = "SELECT * FROM profile,user WHERE profile.userid=user.id ";
+        $query .= " AND verification=1 ";
+        $query .= " AND expavg_credit>1 ";
+        $query .= " AND uotd_time IS NULL ";
+        $query .= "ORDER BY RAND()";
     } else {
         $query = "SELECT * FROM profile,user WHERE profile.userid=user.id ";
         $query .= " AND verification=1 ";
