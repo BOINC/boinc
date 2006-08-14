@@ -1133,8 +1133,7 @@ bool CBOINCGUIApp::SetActiveGUI(int iGUISelection, bool bShowWindow) {
 #endif
 
     // Show the new frame if needed 
-    //if (m_pFrame && bShowWindow) m_pFrame->Show();
-	if (m_pFrame && bShowWindow && (iGUISelection == BOINC_ADVANCEDGUI)) m_pFrame->Show();
+    if (m_pFrame && bShowWindow) m_pFrame->Show();
 
     m_iGUISelected = iGUISelection;
     m_pConfig->Write(wxT("GUISelection"), iGUISelection);

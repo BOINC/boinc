@@ -8785,3 +8785,11 @@ Walt  14 Aug 2006
 
     clientgui/
         AdvancedFrame.cpp
+
+Rom    14 Aug 2006
+    - Bug Fix: The application class should determine whether to show or hide a frame
+        based on the parameters passed to the application.  Frames should not show
+        or hide themselves without user interaction.
+        
+    clientgui/
+        BOINCGUIApp.cpp
