@@ -34,8 +34,8 @@ function get_current_uotd() {
     return $p;
 }
 
+// Generate the UOTD page;
 // see if it's time to pick a new UOTD.
-// Either way, generate the UOTD page
 //
 function build_uotd_page() {
     echo date("F d Y", time())."\n";
@@ -50,7 +50,19 @@ function build_uotd_page() {
             exit();
         }
     }
-    $result = mysql_query("SELECT * FROM profile,user WHERE profile.userid=user.id AND total_credit>0 AND verification=1 AND uotd_time IS NULL ORDER BY RAND()");
+
+    // get a list of profiles that have been 'approved' for UOTD,
+    // using a project-specific query if supplied in project.inc
+    //
+    if (function_exists('get_uotd_candidates')) {
+        $query = get_uotd_candidates_query();
+    } else {
+        $query = "SELECT * FROM profile,user WHERE profile.userid=user.id ";
+        $query .= " AND verification=1 ";
+        $query .= " AND uotd_time IS NULL ";
+        $query .= "ORDER BY RAND()";
+    }
+    $result = mysql_query($query);
 
     // If the number of approved profiles dips below a threshold,
     // email the sys admin every time we pick a new one.
@@ -69,7 +81,7 @@ function build_uotd_page() {
         // If all verified profiles have been selected as UOTD,
         // reshow the one that was shown least recently.
         //
-        $result = mysql_query("SELECT * FROM profile,user WHERE profile.userid=user.id AND total_credit>0 AND verification=1 ORDER BY uotd_time ASC LIMIT 1");
+        $result = mysql_query("SELECT * FROM profile,user WHERE profile.userid=user.id AND verification=1 ORDER BY uotd_time ASC LIMIT 1");
     }
 
     if (!$result || mysql_num_rows($result) == 0) {
@@ -81,7 +93,7 @@ function build_uotd_page() {
     $user = lookup_user_id($profile->userid);
     generate_uotd_page($profile, $user);
 
-    $sql = "UPDATE profile SET uotd_time = " . time() . " WHERE userid=$user->id";
+    $sql = "UPDATE profile SET uotd_time = ".time()." WHERE userid=$user->id";
     mysql_query($sql);
 
     mail($user->email_addr,

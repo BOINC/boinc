@@ -18,7 +18,14 @@ function buttons($i) {
 
 admin_page_head("screen profiles");
 
-$result = mysql_query("select * from profile, user where profile.userid=user.id and (has_picture>0) and (verification=0) order by recommend desc limit 20");
+$query = "select * from profile, user where profile.userid=user.id "
+    ." and has_picture>0 "
+    ." and verification=0 "
+    ." and uotd_time is null "
+    ." and expavg_credit>1 "
+    ." order by recommend desc limit 20"
+;
+$result = mysql_query($query);
 
 $n = 0;
 echo "<form method=\"get\" action=\"profile_screen_action.php\">\n";
@@ -34,6 +41,7 @@ while ($profile = mysql_fetch_object($result)) {
     ";
     echo "recommends: $profile->recommend
         <br>rejects: $profile->reject
+        <br>Name: $profile->name
         <br>
     ";
     show_profile($profile->userid, true);

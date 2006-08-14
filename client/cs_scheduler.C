@@ -67,6 +67,16 @@ const int SECONDS_BEFORE_REPORTING_MIN_RPC_TIME_AGAIN = 60*60;
 //
 #define REPORT_DEADLINE_CUSHION SECONDS_PER_DAY
 
+static const char* urgency_name(int urgency) {
+    switch(urgency) {
+    case WORK_FETCH_DONT_NEED: return "Don't need";
+    case WORK_FETCH_OK: return "OK";
+    case WORK_FETCH_NEED: return "Need";
+    case WORK_FETCH_NEED_IMMEDIATELY: return "Need immediately";
+    }
+    return "Unknown";
+}
+
 // how many CPUs should this project occupy on average,
 // based on its resource share relative to a given set
 //
@@ -544,10 +554,9 @@ double CLIENT_STATE::time_until_work_done(
 // - for each contactable project:
 //     - work_request and work_request_urgency
 //
-int CLIENT_STATE::compute_work_requests() {
-    bool retval = 0;
+bool CLIENT_STATE::compute_work_requests() {
+    bool non_cpu_intensive_needs_work=false;
     unsigned int i;
-    double work_min_period = global_prefs.work_buf_min_days * SECONDS_PER_DAY;
     static double last_work_request_calc = 0;
     if (gstate.now - last_work_request_calc >= 600) {
         gstate.request_work_fetch("timer");
@@ -558,18 +567,21 @@ int CLIENT_STATE::compute_work_requests() {
     must_check_work_fetch = false;
 
     adjust_debts();
+
     if (log_flags.work_fetch_debug) {
         msg_printf(0, MSG_INFO,
-            "rr_simulation: calling from work_fetch"
+            "computer_work_requests(): calling rr_simulation()"
         );
     }
-    rr_simulation(avg_proc_rate() / ncpus, nearly_runnable_resource_share());
+    rr_simulation(avg_proc_rate()/ncpus, nearly_runnable_resource_share());
 
+    // compute overall urgency
+    //
     bool possible_deadline_miss = false;
     bool project_shortfall = false;
     overall_work_fetch_urgency = WORK_FETCH_DONT_NEED;
     for (i=0; i< projects.size(); i++) {
-        PROJECT *p = projects[i];
+        PROJECT* p = projects[i];
         if (p->non_cpu_intensive) {
             if (p->runnable() || !p->contactable()) {
                 p->work_request = 0;
@@ -577,7 +589,7 @@ int CLIENT_STATE::compute_work_requests() {
             } else {
                 p->work_request = 1.0;
                 p->work_request_urgency = WORK_FETCH_NEED_IMMEDIATELY;
-                retval = 1;
+                non_cpu_intensive_needs_work = true;
             }
         } else {
             p->work_request_urgency = WORK_FETCH_DONT_NEED;
@@ -590,32 +602,24 @@ int CLIENT_STATE::compute_work_requests() {
     }
 
     if (cpu_shortfall <= 0.0 && (possible_deadline_miss || !project_shortfall)) {
-        if (log_flags.work_fetch_debug) {
-            msg_printf(0, MSG_INFO,
-                "compute_work_requests(): we don't need any work"
-            );
-        }
-        if (!retval) {
-            //  if retval is true, we are requesting work from a non-cpu intensive project
+        if (!non_cpu_intensive_needs_work) {
             overall_work_fetch_urgency = WORK_FETCH_DONT_NEED;
         }
-        return retval;
     } else if (no_work_for_a_cpu()) {
-        if (log_flags.work_fetch_debug) {
-            msg_printf(0, MSG_INFO,
-                "compute_work_requests(): CPU is idle"
-            );
-        }
         overall_work_fetch_urgency = WORK_FETCH_NEED_IMMEDIATELY;
     } else if (cpu_shortfall > 0) {
-        if (log_flags.work_fetch_debug) {
-            msg_printf(0, MSG_INFO,
-                "compute_work_requests(): global work needed is greater than zero\n"
-            );
-        }
         overall_work_fetch_urgency = WORK_FETCH_NEED;
     } else {
         overall_work_fetch_urgency = WORK_FETCH_OK;
+    }
+    if (log_flags.work_fetch_debug) {
+        msg_printf(0, MSG_INFO,
+            "compute_work_requests(): overall urgency is %s",
+            urgency_name(overall_work_fetch_urgency)
+        );
+    }
+    if (overall_work_fetch_urgency == WORK_FETCH_DONT_NEED) {
+        return false;
     }
 
     double prrs = potentially_runnable_resource_share();
@@ -623,8 +627,8 @@ int CLIENT_STATE::compute_work_requests() {
     PROJECT *pbest = NULL;
     double best_work;
     for (i=0; i<projects.size(); i++) {
-        double prospect_work = time_until_work_done(projects[i], 0, prrs);
         PROJECT *prospect = projects[i];
+        double prospect_work = time_until_work_done(prospect, 0, prrs);
         if (!prospect->contactable()) {
             if (log_flags.work_fetch_debug) {
                 msg_printf(0, MSG_INFO,
@@ -683,7 +687,6 @@ int CLIENT_STATE::compute_work_requests() {
         }
         pbest = prospect;
         best_work = prospect_work;
-        retval = 1;
         if (log_flags.work_fetch_debug) {
             msg_printf(0, MSG_INFO,
                 "compute_work_requests(): best project so far %s",
@@ -708,20 +711,21 @@ int CLIENT_STATE::compute_work_requests() {
 
         if (log_flags.work_fetch_debug) {
             msg_printf(0, MSG_INFO,
-                "compute_work_requests(): project %s work req: %f sec  urgency: %d\n",
-                pbest->project_name, pbest->work_request, pbest->work_request_urgency
+                "compute_work_requests(): project %s work req: %f sec  urgency: %s\n",
+                pbest->project_name, pbest->work_request,
+                urgency_name(pbest->work_request_urgency)
             );
         }
     }
 
     if (log_flags.work_fetch_debug) {
         msg_printf(0, MSG_INFO,
-            "compute_work_requests(): client work shortfall: %f sec, urgency %d\n",
-            cpu_shortfall, overall_work_fetch_urgency
+            "compute_work_requests(): client work shortfall: %f sec, urgency %s\n",
+            cpu_shortfall, urgency_name(overall_work_fetch_urgency)
         );
     }
 
-    return retval;
+    return false;
 }
 
 // called from the client's polling loop.
@@ -1208,79 +1212,6 @@ int CLIENT_STATE::handle_scheduler_reply(
         print_summary();
     }
     return 0;
-}
-
-bool CLIENT_STATE::should_get_work() {
-    // if there are fewer runnable results than CPUS, we need more work.
-    //
-    if (no_work_for_a_cpu()) return true;
-
-    double tot_cpu_time_remaining = 0;
-    for (unsigned int i=0; i<results.size(); i++) {
-        tot_cpu_time_remaining += results[i]->estimated_cpu_time_remaining();
-    }
-
-    // ????? shouldn't we scale by ncpus?  by avg_proc_rate()??
-    //
-    if (tot_cpu_time_remaining < global_prefs.work_buf_min_days*SECONDS_PER_DAY) {
-        return true;
-    }
-
-    set_work_fetch_mode();
-
-    return !work_fetch_no_new_work;
-}
-
-// Decide on work-fetch policy
-// Namely, set the variable work_fetch_no_new_work
-// and print a message if we're changing its value
-//
-void CLIENT_STATE::set_work_fetch_mode() {
-    bool should_not_fetch_work = false;
-    double total_proc_rate = avg_proc_rate();
-    double per_cpu_proc_rate = total_proc_rate/ncpus;
-    double rrs = nearly_runnable_resource_share();
-
-    if (log_flags.work_fetch_debug) {
-        msg_printf(0, MSG_INFO,
-            "rr_simulation: calling from work_fetch"
-        );
-    }
-    if (rr_simulation(per_cpu_proc_rate, rrs)) {
-        if (!no_work_for_a_cpu()) {
-            should_not_fetch_work = true;
-        }
-    } else {
-        // if fetching more work would cause round-robin to
-        // miss a deadline, don't fetch more work
-        //
-        if (log_flags.work_fetch_debug) {
-            msg_printf(0, MSG_INFO,
-                "rr_simulation: calling from work_fetch with extended rrs\n"
-            );
-        }
-        PROJECT* p = next_project_need_work();
-        if (p && !p->runnable()) {
-            rrs += p->resource_share;
-            if (rr_simulation(per_cpu_proc_rate, rrs)) {
-                should_not_fetch_work = true;
-            }
-        }
-    }
-    if (work_fetch_no_new_work && !should_not_fetch_work) {
-        if (log_flags.work_fetch_debug) {
-            msg_printf(NULL, MSG_INFO, "Allowing work fetch again.");
-        }
-    }
-
-    if (!work_fetch_no_new_work && should_not_fetch_work) {
-        if (log_flags.work_fetch_debug) {
-            msg_printf(NULL, MSG_INFO,
-                "Suspending work fetch because computer is overcommitted."
-            );
-        }
-    }
-    work_fetch_no_new_work = should_not_fetch_work;
 }
 
 double CLIENT_STATE::work_needed_secs() {

@@ -373,7 +373,7 @@ public:
     PROJECT* next_project_need_work();
     int make_scheduler_request(PROJECT*);
     int handle_scheduler_reply(PROJECT*, char* scheduler_url, int& nresults);
-    int compute_work_requests();
+    bool compute_work_requests();
     SCHEDULER_OP* scheduler_op;
     void scale_duration_correction_factors(double);
 private:

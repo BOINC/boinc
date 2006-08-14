@@ -1,6 +1,14 @@
 <?
 
 $project_news = array(
+array("August 14, 2006",
+    "Participants with preferences for different venues
+    (home, school, work) can now view these side-by-side
+    in a multi-column format.
+    Also, preference values are now checked for validity.
+    Thanks to Christian Beer for the PHP programming behind
+    these improvements."
+),
 array("August 11, 2006",
     "An <a href=http://qah.uni-muenster.de/article1.php>article about
     Quantum Monte Carlo at Home</a> appeared 03.08.2006 in the German newspaper WAZ."

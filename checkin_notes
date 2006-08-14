@@ -8803,3 +8803,24 @@ Walt  14 Aug 2006
 Rom    14 Aug 2006
     - Tag for 5.5.13 release, all platforms
       boinc_core_release_5_5_13
+
+David  14 Aug 2006
+    - user web: change build_uotd_page() to match the SETI@home convention
+        (that verification=1 means it's a UOTD candidate)
+        but let project define its own criteria.
+    - user web: fix bug that caused errors in profile_screen_form.php
+    - core client: removed unused functions set_work_fetch_mode()
+        and should_get_work();
+        renamed retval (???) to non_cpu_intensive_needs_work;
+        show urgency as string instead of number;
+        changed type of compute_work_requests() to bool
+
+    client/
+        client_state.h
+        cs_scheduler.C
+    html/
+        inc/
+            profile.inc
+            uotd.inc
+        ops/
+            profile_screen_form.php
