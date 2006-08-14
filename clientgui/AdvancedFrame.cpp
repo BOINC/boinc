@@ -884,10 +884,10 @@ void CAdvancedFrame::OnNetworkSelection(wxCommandEvent& event) {
 
     wxASSERT(pDoc);
     wxASSERT(wxDynamicCast(pDoc, CMainDocument));
+#if defined(__WXMSW__) || defined(__WXMAC__)
     wxASSERT(pTaskbar);
     wxASSERT(wxDynamicCast(pTaskbar, CTaskBarIcon));
 
-#if defined(__WXMSW__) || defined(__WXMAC__)
     pTaskbar->ResetSnoozeState();
 #endif
 

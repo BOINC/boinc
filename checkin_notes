@@ -8704,7 +8704,7 @@ Walt  11 Aug 2006
     - Bug fix: remove references to TaskBarIcon for Linux
         compiles. Should fix the SIGSEGVs that were reported.
 
-    clientcui/
+    clientgui/
         AdvancedFrame.cpp
         BOINCGUIApp.h
 
@@ -8779,3 +8779,9 @@ David  14 Aug 2006
     lib/
         gui_rpc_client.h
         gui_rpc_client_ops.C
+
+Walt  14 Aug 2006
+    - Fix compile errors on Linux
+
+    clientgui/
+        AdvancedFrame.cpp
