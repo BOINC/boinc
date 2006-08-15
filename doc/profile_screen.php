@@ -23,7 +23,7 @@ Both involve a 'profile screening page' used by project staff.
     This is the default.
 <li> <b>Tight screening</b>:
     All profiles are screened.
-    A profile's picture is shown only if the project has been approved.
+    A profile's picture is shown only if the project has approved it.
     The UOTD is selected randomly from among approved
     profiles that have nonzero recent average credit.
     To use tight screening, include the line
