@@ -22,10 +22,13 @@
 #endif
 
 #include "stdwx.h"
+
+#include "error_numbers.h"
+#include "util.h"
+
 #include "BOINCGUIApp.h"
 #include "BOINCBaseFrame.h"
 #include "MainDocument.h"
-#include "error_numbers.h"
 
 #ifdef SANDBOX
 #include <grp.h>
@@ -291,7 +294,7 @@ CMainDocument::CMainDocument() {
     m_bCachedStateLocked = false;
     m_dtCachedStateLockTimestamp = wxDateTime::Now();
     m_dtCachedStateTimestamp = wxDateTime((time_t)0);
-    cc_status_timestamp = wxDateTime((time_t)0);
+    cc_status_timestamp = dtime();
     m_dtCachedActivityRunModeTimestamp = wxDateTime((time_t)0);
     m_dtCachedNetworkRunModeTimestamp = wxDateTime((time_t)0);
     m_dtCachedProjecStatusTimestamp = wxDateTime((time_t)0);
@@ -304,25 +307,6 @@ CMainDocument::CMainDocument() {
 
 
 CMainDocument::~CMainDocument() {
-    m_dtStatisticsStatusTimestamp = wxDateTime::Now();
-    m_dtResourceStatusTimestamp = wxDateTime::Now();
-    m_dtFileTransfersTimestamp = wxDateTime::Now();
-    m_dtCachedResultsTimestamp = wxDateTime::Now();
-    m_dtCachedProjecStatusTimestamp = wxDateTime::Now();
-    m_dtCachedNetworkRunModeTimestamp = wxDateTime::Now();
-    m_dtCachedActivityRunModeTimestamp = wxDateTime::Now();
-    cc_status_timestamp = wxDateTime::Now();
-    m_dtCachedStateTimestamp = wxDateTime::Now();
-    m_dtCachedStateLockTimestamp = wxDateTime::Now();
-    m_bCachedStateLocked = false;
-
-    m_iMessageSequenceNumber = 0;
-
-    m_fProjectTotalResourceShare = 0.0;
-
-    m_iCachedActivityRunMode = 0;
-    m_iCachedNetworkRunMode = 0;
-
 #ifdef __WIN32__
     WSACleanup();
 #endif
@@ -561,9 +545,10 @@ int CMainDocument::SetNetworkRunMode(int iMode) {
 int CMainDocument::get_cc_status(CC_STATUS& ccs) {
     int     iRetVal = 0;
 
-    wxTimeSpan ts(wxDateTime::Now() - cc_status_timestamp);
-    if (ts.GetSeconds() > 0.5) {
-        cc_status_timestamp = wxDateTime::Now();
+    double now = dtime();
+	double diff = now - cc_status_timestamp;
+    if (diff > 0.5) {
+        cc_status_timestamp = now;
 
         if (IsConnected()) {
             iRetVal = rpc.get_cc_status(ccs);

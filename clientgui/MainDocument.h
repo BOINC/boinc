@@ -83,7 +83,7 @@ private:
 
 	wxDateTime                  m_dtCachedActivityRunModeTimestamp;
     wxDateTime                  m_dtCachedNetworkRunModeTimestamp;
-    wxDateTime                  cc_status_timestamp;
+    double                      cc_status_timestamp;
     int                         m_iCachedActivityRunMode;
     int                         m_iCachedNetworkRunMode;
     CC_STATUS cc_status;

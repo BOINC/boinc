@@ -8843,3 +8843,13 @@ Charlie 15 Aug 2006
     client/
         cpu_sched.C
         cs_scheduler.C
+
+David  15 Aug 2006
+	- core client: removed <work_fetch_debug/> message
+	- Manager: changed one wxDateTime to double (should change all)
+
+	client/
+		cs_scheduler.C
+	clientgui/
+		MainDocument.cpp,h
+

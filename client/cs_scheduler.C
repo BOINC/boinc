@@ -175,11 +175,6 @@ PROJECT* CLIENT_STATE::next_project_need_work() {
     double work_on_prospect=0;
     unsigned int i;
     double prrs = potentially_runnable_resource_share();
-    if (log_flags.work_fetch_debug) {
-        msg_printf(0, MSG_INFO,
-            "next_project_need_work: begin"
-        );
-    }
 
     for (i=0; i<projects.size(); i++) {
         p = projects[i];
