@@ -911,7 +911,7 @@ bool CLIENT_STATE::rr_simulation(double per_cpu_proc_rate, double rrs) {
             if (log_flags.rr_simulation) {
                 msg_printf(0, MSG_INFO,
                     "rr_simulation internal shortfall loop: idle %d, last active %d, active %d, shortfall %f: proj %s, last active %d, active %d, shortfall %f",
-                    nidle_cpus, last_active_size, active.size(), cpu_shortfall, pbest->project_name, last_proj_active_size, pbest->active.size(), pbest->cpu_shortfall);
+                    nidle_cpus, last_active_size, (int)active.size(), cpu_shortfall, pbest->project_name, last_proj_active_size, (int)pbest->active.size(), pbest->cpu_shortfall);
             }
         }
 

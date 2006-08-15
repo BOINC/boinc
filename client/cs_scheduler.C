@@ -625,7 +625,7 @@ bool CLIENT_STATE::compute_work_requests() {
     double prrs = potentially_runnable_resource_share();
 
     PROJECT *pbest = NULL;
-    double best_work;
+    double best_work = 0;
     for (i=0; i<projects.size(); i++) {
         PROJECT *prospect = projects[i];
         double prospect_work = time_until_work_done(prospect, 0, prrs);
