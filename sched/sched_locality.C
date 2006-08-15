@@ -304,7 +304,7 @@ static int possibly_send_result(
 
     if (retval==ERR_NO_APP_VERSION && !strcmp("anonymous", platform.name)) {
         char help_msg_buf[512];
-        sprintf(help_msg_buf, "To get more %s work, stop BOINC, remove app_info.xml file, and restart.", config.long_name);
+        sprintf(help_msg_buf, "To get more %s work, finish current work, stop BOINC, remove app_info.xml file, and restart.", config.long_name);
         USER_MESSAGE um(help_msg_buf, "high");
         reply.insert_message(um);
         reply.set_delay(4*3600);

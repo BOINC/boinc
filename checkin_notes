@@ -8861,3 +8861,9 @@ Rom    15 Aug 2006
     lib/
         miofile.C
 
+Bruce  15 Aug 2006
+    - scheduler: improved message to client for clarity
+
+    sched/
+        sched_locality.C
+
