@@ -34,7 +34,7 @@ function type_text($type) {
 $features_55 = "
     <li> New CPU Scheduler.
     <li> New Work Fetch Policy.
-    <li> CPU Capability detection.
+    <li> CPU Capability detection (currently implemented only for Windows & Linux).
     <li> Revamped logging solution.
     <li> Improved security for POSIX compliant systems
          (only implemented for the Mac)
@@ -494,11 +494,11 @@ $w419 = array(
     "
 );
 
-$m5510 = array(
-    "num"=>"5.5.10",
+$m5513 = array(
+    "num"=>"5.5.13",
     "status"=>"Development version (standard GUI)",
-    "file"=>"boinc_5.5.10_macOSX_universal.zip",
-    "date"=>"3 Aug 2006",
+    "file"=>"boinc_5.5.13_macOSX_universal.zip",
+    "date"=>"15 Aug 2006",
     "type"=>"mac_advanced",
      "features"=>"<ul>
 ".$mac_changes_55."
@@ -558,11 +558,11 @@ $m5213 = array(
     "
 );
 
-$m5510c = array(
-    "num"=>"5.5.10",
+$m5513c = array(
+    "num"=>"5.5.13",
     "status"=>"Development version (Unix command-line version)",
-    "file"=>"boinc_5.5.10_universal-apple-darwin.zip",
-    "date"=>"3 Aug 2006",
+    "file"=>"boinc_5.5.13_universal-apple-darwin.zip",
+    "date"=>"15 Aug 2006",
     "type"=>"bare_core",
     "features"=>"<ul>
 ".$mac_changes_55."
@@ -706,8 +706,8 @@ $mac = array(
     "name"=>"Mac OS X",
     "dbname" => "powerpc-apple-darwin",
     "versions"=>array(
-        $m5510,
-        $m5510c,
+        $m5513,
+        $m5513c,
         $m549,
         $m549c,
         $m5213,
