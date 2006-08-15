@@ -8853,3 +8853,11 @@ David  15 Aug 2006
 	clientgui/
 		MainDocument.cpp,h
 
+Rom    15 Aug 2006
+    - lib: Fix missing case for MIOFILE where MIOFILE.printf didn't know how
+        to handle memory buffers.  It was calling vfprintf with a null file
+        handle and crashed.
+        
+    lib/
+        miofile.C
+

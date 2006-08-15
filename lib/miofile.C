@@ -61,8 +61,10 @@ int MIOFILE::printf(const char* format, ...) {
     va_start(ap, format);
     if (mf) {
         retval = mf->vprintf(format, ap);
-    } else {
+    } else if (f) {
         retval = vfprintf(f, format, ap);
+    } else {
+        retval = vsprintf(buf, format, ap);
     }
     va_end(ap);
     return retval;
