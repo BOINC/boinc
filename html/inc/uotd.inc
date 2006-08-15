@@ -1,5 +1,7 @@
 <?php
 
+require_once('../inc/profile.inc');
+
 define('UOTD_THRESHOLD', 7);
 
 function uotd_thumbnail($profile, $user) {
