@@ -33,6 +33,7 @@ function type_text($type) {
 
 $features_55 = "
     <li> New CPU Scheduler.
+    <li> New Work Fetch Policy.
     <li> CPU Capability detection.
     <li> Revamped logging solution.
     <li> Improved security for POSIX compliant systems
@@ -349,11 +350,11 @@ $linux_libs_5512= "
       </ul>
 ";
 
-$w5511= array(
-    "num"=>"5.5.11",
+$w5513= array(
+    "num"=>"5.5.13",
     "status"=>"Development version",
-    "file"=>"boinc_5.5.11_windows_intelx86.exe",
-    "date"=>"7 Aug 2006",
+    "file"=>"boinc_5.5.13_windows_intelx86.exe",
+    "date"=>"14 Aug 2006",
     "type"=>"win_new",
     "features"=>"<ul>
 ".$features_55."
@@ -695,7 +696,7 @@ $windows = array(
     "name"=>"Windows",
     "dbname" => "windows_intelx86",
     "versions"=>array(
-        $w5511,
+        $w5513,
         $w5411,
         $w5213,
         $w445,
