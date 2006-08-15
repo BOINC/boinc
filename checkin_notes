@@ -8800,10 +8800,6 @@ Walt  14 Aug 2006
     clientgui/
         BOINCBaseFrame.cpp
 
-Rom    14 Aug 2006
-    - Tag for 5.5.13 release, all platforms
-      boinc_core_release_5_5_13
-
 David  14 Aug 2006
     - user web: change build_uotd_page() to match the SETI@home convention
         (that verification=1 means it's a UOTD candidate)
@@ -8836,3 +8832,8 @@ David  14 Aug 2006
             uotd.inc
         ops/
             profile_screen_form.php
+
+Rom    14 Aug 2006
+    - Tag for 5.5.13 release, all platforms
+      boinc_core_release_5_5_13
+
