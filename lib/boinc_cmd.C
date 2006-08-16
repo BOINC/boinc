@@ -438,6 +438,25 @@ int main(int argc, char** argv) {
         }
     } else if (!strcmp(cmd, "--read_global_prefs_override")) {
         retval = rpc.read_global_prefs_override();
+    } else if (!strcmp(cmd, "--test1")) {
+        string s;
+        retval = rpc.get_global_prefs_override(s);
+        printf("retval: %d\nprefs:\n%s\n", retval, s.c_str());
+    } else if (!strcmp(cmd, "--test2")) {
+        string s = "foobar";
+        retval = rpc.set_global_prefs_override(s);
+        printf("retval: %d\n", retval);
+    } else if (!strcmp(cmd, "--test3")) {
+        GLOBAL_PREFS p;
+        memset(&p, 0, sizeof(p));
+        retval = rpc.get_global_prefs_override_struct(p);
+        printf("retval %d max %d\n", retval, p.max_cpus);
+    } else if (!strcmp(cmd, "--test4")) {
+        GLOBAL_PREFS p;
+        memset(&p, 0, sizeof(p));
+        p.max_cpus = 2;
+        retval = rpc.set_global_prefs_override_struct(p);
+        printf("retval %d\n", retval);
     } else if (!strcmp(cmd, "--quit")) {
         retval = rpc.quit();
     } else {

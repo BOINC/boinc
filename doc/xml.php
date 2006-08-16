@@ -34,6 +34,7 @@ A file is described by an XML element of the form
     [ <signature_required/> ]
     [ <no_delete/> * ]
     [ <report_on_rpc/> * ]
+    [ <gzip_when_done/> * ]
 </file_info>
 ")."
 The elements marked with an asterisk are specified by the project;
@@ -110,6 +111,12 @@ list_item("report_on_rpc",
     "Include a description of this file in scheduler RPC requests,
     so that the scheduler may send appropriate work
     using <a href=sched_locality.php>locality scheduling</a>."
+);
+list_item("gzip_when_done",
+    "Used for output files only.
+    When the file is complete, the core client compresses it using gzip.
+    Note: the file name does not change
+    (i.e. '.gz' is not appended)."
 );
 list_end();
 echo "

@@ -54,7 +54,9 @@ function show_participate() {
         <p>
         Use the idle time on your computer
         (Windows, Mac, or Linux)
-        to do all sorts of scientific research.
+        to cure diseases, study global warming,
+        discover pulsars,
+        and do many other types of scientific research.
         It's easy:
         <ol>
         <li> <a href=projects.php><font size=+1>Choose</font></a> projects

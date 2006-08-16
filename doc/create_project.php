@@ -134,6 +134,7 @@ Web site
 <li> <a href=forum.php>Creating and managing message boards</a>
 <li> <a href=translation.php>Web site translation</a>
 <li> <a href=sstatus.php>Server status page</a>
+<li> <a href=profile_screen.php>Profile screening</a>
 </ul>
 <font size=+1><b>
 Miscellaneous

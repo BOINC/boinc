@@ -17,8 +17,7 @@
 // or write to the Free Software Foundation, Inc.,
 // 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 
-// scheduler code related to sending work
-
+// scheduler code related to homogeneous redundancy
 
 #include "config.h"
 #include <ctime>
@@ -39,17 +38,12 @@
 #define FCGI_ToFILE(x) (x)
 #endif
 
-// modified by Pietro Cicotti
-// Check that the two platform has the same architecture and operating system
-// Architectures: AMD, Intel, Macintosh
-// OS: Linux, Windows, Darwin, SunOS
-
 const int unspec = 0;
 
 const int nocpu = 1;
 const int Intel = 2;
 const int AMD = 3;
-const int Macintosh = 4;
+const int PowerPC = 4;
 
 const int noos = 128;
 const int Linux = 256;
@@ -57,34 +51,34 @@ const int Windows = 384;
 const int Darwin = 512;
 const int SunOS = 640;
 
-inline
-int OS(SCHEDULER_REQUEST& sreq){
-    if ( strstr(sreq.host.os_name, "Linux") != NULL ) return Linux;
-    else if( strstr(sreq.host.os_name, "Windows") != NULL ) return Windows;
-    else if( strstr(sreq.host.os_name, "Darwin") != NULL ) return Darwin;
-    else if( strstr(sreq.host.os_name, "SunOS") != NULL ) return SunOS;
+inline int OS(SCHEDULER_REQUEST& sreq){
+    if (strstr(sreq.host.os_name, "Linux")) return Linux;
+    else if (strstr(sreq.host.os_name, "Windows")) return Windows;
+    else if (strstr(sreq.host.os_name, "Darwin")) return Darwin;
+    else if (strstr(sreq.host.os_name, "SunOS")) return SunOS;
     else return noos;
 };
 
-inline
-int CPU(SCHEDULER_REQUEST& sreq){
-    if ( strstr(sreq.host.p_vendor, "Intel") != NULL ) return Intel;
-    else if( strstr(sreq.host.p_vendor, "AMD") != NULL ) return AMD;
-    else if( strstr(sreq.host.p_vendor, "Macintosh") != NULL ) return Macintosh;
+inline int CPU(SCHEDULER_REQUEST& sreq){
+    if (strstr(sreq.host.p_vendor, "Intel")) return Intel;
+    else if (strstr(sreq.host.p_vendor, "i386")) return Intel;
+    else if (strstr(sreq.host.p_vendor, "AMD")) return AMD;
+    else if (strstr(sreq.host.p_vendor, "Power")) return PowerPC;
     else return nocpu;
 };
 
+// Check that the two platform has the same architecture and operating system
 bool hr_unknown_platform(SCHEDULER_REQUEST& sreq) {
     if (OS(sreq) == noos) return true;
     if (CPU(sreq) == nocpu) return true;
     return false;
 }
 
-// if we've already sent a result of this WU to a different platform
+// If we've already sent a result of this WU to a different platform
 //    return true
 // else if we haven't sent a result to ANY platform
 //    update WU with platform code
-// return false
+//    return false
 //
 // (where "platform" is os_name + p_vendor; may want to sharpen this for Unix)
 //

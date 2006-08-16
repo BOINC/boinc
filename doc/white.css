@@ -1,6 +1,6 @@
 h1 {
     font-variant: small-caps;
-    font-size: 24pt;
+    font-size: 20pt;
 }
 
 pre {
@@ -35,7 +35,7 @@ a:hover {
 
 body , table , input , select {
 	font-family: "Trebuchet MS", Verdana, Arial, Sans Serif;
-    font-size: small;
+#font-size: small;
 }
 
 body {

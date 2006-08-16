@@ -36,7 +36,7 @@ msgstr "Bir çok gönüllü dağıtık işlem projeleri "
 "yeni cevaplarınız eskilerinin yerine geçecektir. "
 "<p> "
 "Anketin şu andaki sonuçları için buraya "
-"<a href=poll_results.php>tıklayınız.</a>. "
+"<a href=poll_results.php>tıklayınız</a>. "
 "<p> "
 "Bu anketi aşağıdaki dillerde de bulabilirsiniz: "
 "<a href=http://boinc.oocp.org/poll.php>Japonca</a>. "
@@ -252,7 +252,7 @@ msgid "POLL_NO",
 msgstr "Hayır"
 
 msgid "POLL_MBOARDS",
-msgstr "BOINC web forumlarını hangi amaçla kullanıyorsunuz?:"
+msgstr "BOINC web forumlarını hangi amaçla kullanıyorsunuz?"
 
 msgid "POLL_MBR",
 msgstr "Okumak için"

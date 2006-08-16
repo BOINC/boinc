@@ -1979,15 +1979,28 @@ int RPC_CLIENT::get_global_prefs_override(string& s) {
     SET_LOCALE sl;
     RPC rpc(this);
     char buf[1024];
+    bool found = false;
+    bool in_prefs = false;
 
     s = "";
     retval = rpc.do_rpc("<get_global_prefs_override/>");
-    if (!retval) {
-        while (rpc.fin.fgets(buf, 256)) {
+    if (retval) return retval;
+    while (rpc.fin.fgets(buf, 256)) {
+        if (in_prefs) {
             s += buf;
+            if (match_tag(buf, "</global_preferences>")) {
+                in_prefs = false;
+            }
+        } else {
+            if (match_tag(buf, "<global_preferences>")) {
+                s += buf;
+                in_prefs = true;
+                found = true;
+            }
         }
     }
-    return retval;
+    if (!found) return ERR_NOT_FOUND;
+    return 0;
 }
 
 int RPC_CLIENT::set_global_prefs_override(string& s) {

@@ -8874,3 +8874,23 @@ Walt   15 Aug 2006
 
     clientgui/
         AdvancedFrame.cpp
+
+David  15 Aug 2006
+    - GUI RPC: tested and fixed bugs in the set_global_prefs_override()
+        get_global_prefs_override(),
+        set_global_prefs_override_struct() and
+        get_global_prefs_override_struct() GUI RPCs.
+        Sorry about that, Milos and Kevin!
+    - Scheduler: added code that makes homogeneous redundancy
+        work with Mac/Intel
+        (which reports its p_vendor as 'i386' rather than 'Intel').
+        Without this, Mac/Intels get "platform not supported'
+        messages even if project has added platform and app_versions.
+
+    client/
+        gui_rpc_server_ops.C
+    lib/
+        boinc_cmd.C
+        gui_rpc_client_ops.C
+    sched/
+        sched_hr.C

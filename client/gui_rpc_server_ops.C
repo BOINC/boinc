@@ -788,9 +788,9 @@ static void handle_set_global_prefs_override(char* buf, MIOFILE& fout) {
 
     // strip off outer tags
     //
-    p = strstr(buf, "\n");
+    p = strstr(buf, "<set_global_prefs_override>\n");
     if (p) {
-        p++;
+        p += strlen("<set_global_prefs_override>\n");
         q = strstr(p, "</set_global_prefs_override");
     }
     if (q) {

@@ -59,7 +59,7 @@ or using command-line options to the file deleter.
 </ul>
 
 <a name=compression></a>
-<h3>File compression</h3>
+<h3>Compression of input files</h3>
 
 <p>
 Starting with version 5.4, the BOINC client
@@ -68,7 +68,7 @@ and 'gzip' (gzip algorithm).
 The client decompresses these files 'on the fly' and
 stores them on disk in uncompressed form.
 <p>
-Projects can set this encoding in two ways:
+You can use this in two ways:
 
 <ul>
 <li>
@@ -78,12 +78,15 @@ This method will work with all BOINC clients,
 but it will do compression only for 5.4+ clients.
 
 <li>
-Compress their workunits when they create them and use
-a filename suffix such as '.gz'.
-In httpd.conf make sure that the following line is present:
+Compress files and give them a filename suffix such as '.gz'.
+The name used in your <code>&lt;file_info&gt;</code>
+elements, however, is the original filename without '.gz'.
+<p>
+Include the following line in httpd.conf:
 <pre>
 AddEncoding x-gzip .gz
 </pre>
+
 This will add the content encoding to the header so that
 the client will decompress the file automatically.
 This method has the advantage of reducing server disk usage
@@ -91,17 +94,24 @@ and server CPU load,
 but it will only work with 5.4+ clients.
 Use the 'min_core_version' field of the app_version table to enforce this.
 
+
+You can use this in conjunction because the mod_deflate module
+allows you to exempt certain filetypes from on-the-fly compression.
 </ul>
 
-You can also use these in conjunction because the mod_deflate module
-allows you to exempt certain filetypes from on-the-fly compression.
-
 <p>
-Neither of these methods stores files in compressed form on the client.
-For this, you must do compression at the application level.
+Both methods store files uncompressed on the client.
+If you need compression on the client,
+you must do it at the application level.
 The BOINC source distribution includes
 <a href=boinc_zip.txt>a version of the zip library</a>
 designed for use by BOINC applications on any platform.
+
+<h3>Compression of output files</h3>
+<p>
+If you include the <code>&lt;gzip_when_done&gt;</code>
+tag in an <a href=xml.php>output file description</a>,
+the file will be gzip-compressed after it has been generated.
 ";
 page_tail();
 ?>

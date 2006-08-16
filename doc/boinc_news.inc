@@ -1,6 +1,14 @@
 <?
 
 $project_news = array(
+array("August 15, 2006",
+    "A BBC Radio program on 'Citizen Science' - including
+    a segment on volunteer computing and BOINC -
+    will air tomorrow, 16 Aug 2006, 9 PM British Time.
+    It will also be avalable 
+    <a href=http://www.bbc.co.uk/radio4/science/citizenscience.shtml>online</a>.
+    "
+),
 array("August 14, 2006",
     "Participants with preferences for different venues
     (home, school, work) can now view these side-by-side

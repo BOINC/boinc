@@ -7,7 +7,7 @@ echo "
     BOINC's administrative web interface provides interfaces for
     <ul>
     <li> Browsing the database
-    <li> Screening user profiles
+    <li> <a href=profile_screen.php>Screening user profiles</a>
     <li> Viewing recent results
     <li> Browsing stripcharts
     <li> Browsing log files
