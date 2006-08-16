@@ -365,7 +365,19 @@ bool CAdvancedFrame::CreateMenu() {
         _("Stop work regardless of preferences")
     );
 
+#if defined(__WXMSW__) || defined(__WXMAC__)
     menuActivity->AppendSeparator();
+#else
+    menuActivity->Append(
+        ID_ACTIVITYMENUSEPARATOR,
+        wxEmptyString,
+        wxEmptyString,
+        wxITEM_SEPARATOR
+    );
+#endif
+
+
+
 
     menuActivity->AppendRadioItem(
         ID_FILENETWORKRUNALWAYS,

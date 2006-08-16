@@ -50,6 +50,7 @@
 #define ID_FILESWITCHGUI                        6032
 #define ID_ALERTPOLLTIMER                       6033
 #define ID_REFRESHMESSAGESTIMER                 6034
+#define ID_ACTIVITYMENUSEPARATOR                6035
 #define ID_SIMPLEFRAME                          6100
 #define ID_TB_TIMER                             6800
 #define ID_TB_SUSPEND                           6801

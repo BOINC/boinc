@@ -8867,3 +8867,10 @@ Bruce  15 Aug 2006
     sched/
         sched_locality.C
 
+Walt   15 Aug 2006
+    - Bug fix: in Linux activity menu radio buttons worked as one group
+        instead of the two groups defined.  Use wxMenu::Append for the
+        separator instead of AppendSeparator.
+
+    clientgui/
+        AdvancedFrame.cpp
