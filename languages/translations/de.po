@@ -28,8 +28,8 @@ msgstr "Mehrere Distributed Computing-Projekte (Verteiltes "
 "SETI@home, nutzen eine Software namens BOINC. Wenn Sie an "
 "einem solchen Projekt teilnehmen, bitten wir Sie, folgende "
 "Fragen zu beantworten. Dies wird den BOINC-basierten Projekten "
-"zu mehr Teilnehmern verhelfen somit dazu beitragen, bedeutendere "
-"wissenschaftliche Ergebnisse zu erzielen."
+"zu mehr Teilnehmern verhelfen und somit dazu beitragen, "
+"bedeutendere wissenschaftliche Ergebnisse zu erzielen."
 "<p>Bitte beantworten Sie so viele Fragen wie Sie möchten und "
 "bestätigen dann unten an der Seite mit einem Klick auf 'OK'. "
 "Wenn Sie die Umfrage bereits einmal ausgefüllt haben, aber "
@@ -336,7 +336,7 @@ msgstr "BOINC ist ein Programm, mit dem Sie die ungenutzte "
 "SETI@home, ClimatePrediction.net, Rosetta@home, World Community "
 "Grid und vielen weiteren zur Verfügung stellen können."
 "<p>Nachdem Sie BOINC auf Ihrem Computer installiert haben, "
-"können Sie an so vielen von diesen Projekten teilnehmen, wie Sie 
+"können Sie an so vielen von diesen Projekten teilnehmen, wie Sie "
 "möchten.<p>"
 
 msgid "DL_SYSTEMREQ"
@@ -374,3 +374,256 @@ msgstr "Bitte beachten Sie: Die Dateien werden von den "
 "Organisationen). Der Server wird zufällig ausgewählt - wenn der "
 "Download fehlschlägt, einfach die Seite neu laden und es noch "
 "einmal versuchen."
+
+
+##############################################
+# system_requirements.php by je2bwm 2006/08/07
+##############################################
+
+msgid "SRQ_PAGE_TITLE"
+msgstr "Systemanforderungen"
+
+msgid "SRQ_INTRO"
+msgstr "Damit BOINC auf Ihrem Computer läuft, muss er die "
+"folgenden Anforderungen erfüllen. Die BOINC-basierten haben "
+"manchmal noch zusätzliche Anforderungen."
+
+msgid "SRQ_MSWIN"
+msgstr "Windows"
+
+msgid "SRQ_OS"
+msgstr "Betriebssysteme"
+
+msgid "SRQ_MSWIN_REQ_OS"
+msgstr "Windows 98 oder neuer"
+
+msgid "SRQ_MIN_HARDWARE"
+msgstr "Hardwarevoraussetzungen"
+
+msgid "SRQ_MSWIN_REQ_CPU"
+msgstr "Pentium 233 MHz (Empfohlen: Pentium 500 MHz oder besser)"
+
+msgid "SRQ_MSWIN_REQ_RAM"
+msgstr "64 MB RAM (Empfohlen: 128 MB RAM oder mehr)"
+
+msgid "SRQ_MSWIN_REQ_DISK"
+msgstr "20 MB Festplattenplatz"
+
+msgid "SRQ_APPLMAC"
+msgstr "Macintosh"
+
+msgid "SRQ_APPLMAC_REQ_OS"
+msgstr "Mac OS X 10.3 oder neuer"
+
+msgid "SRQ_APPLMAC_REQ_CPU"
+msgstr "Macintosh-Computer mit einem Intel x86-, PowerPC G3-, "
+"G4- oder G5-Prozessor"
+
+msgid "SRQ_APPLMAC_REQ_RAM"
+msgstr "128 MB RAM (Empfohlen: 256 MB RAM oder mehr)"
+
+msgid "SRQ_APPLMAC_REQ_DISK"
+msgstr "200 MB Festplattenplatz"
+
+msgid "SRQ_LINUX"
+msgstr "Linux"
+
+msgid "SRQ_LINUX_REQ_KERNEL"
+msgstr "Linux-Kernel 2.2.14 oder neuer"
+
+msgid "SRQ_LINUX_REQ_GLIBC"
+msgstr "glibc 2.3.2 oder neuer"
+
+msgid "SRQ_LINUX_REQ_XFREE86"
+msgstr "XFree86 3.3.6 oder neuer"
+
+msgid "SRQ_LINUX_REQ_GTKPLUS"
+msgstr "GTK+ 2.0 oder neuer"
+
+msgid "SRQ_LINUX_REQ_CPU"
+msgstr "Pentium 500 MHz oder besser"
+
+msgid "SRQ_LINUX_REQ_RAM"
+msgstr "64 MB RAM"
+
+msgid "SRQ_LINUX_REQ_DISK"
+msgstr "50 MB Festplattenplatz"
+
+
+##############################################
+# release notes by je2bwm 2006/08/09
+##############################################
+
+msgid "RLN_PAGE_TITLE"
+msgstr "Versionshinweise"
+
+msgid "RLN_WHATS_NEW"
+msgstr "Neues in der Version %s"
+
+msgid "RLN_INSTALLING"
+msgstr "Installation"
+
+msgid "RLN_UNINSTALLING"
+msgstr "Deinstallation"
+
+msgid "RLN_KNOWN_ISSUES"
+msgstr "Bekannte Probleme"
+
+msgid "RLN_TROUBLESHOOT"
+msgstr "Problembehebung"
+
+msgid "RLN_NEWF_5_4_AM"
+msgstr "Unterstützung für 'Kontoverwaltungen' (engl. "
+"<i>Account managers</i>) - Webseiten, mit denen Sie mit wenigen "
+"Mausklicks BOINC-Projekte an- und abmelden und die "
+"Ressourcenaufteilung und Einstellungen ändern können. "
+"Kontoverwaltungen sind insbesondere dann nützlich, wenn Sie "
+"mehrere Computer besitzen - Sie müssen Änderungen nur einmal "
+"vornehmen."
+
+msgid "RLN_NEWF_5_4_PREF_OVERRIDE"
+msgstr "Die allgemeinen Einstellungen können durch eine lokale "
+"Datei ausser Kraft gesetzt werden. Weitere Informationen dazu "
+"finden Sie %shier%s."
+
+msgid "RLN_NEWF_5_4_ALERTS_CONNECT"
+msgstr "BOINC benachrichtigt Sie nun immer, wenn eine "
+"Netzwerkverbindung aufgebaut werden muss."
+
+msgid "RLN_RECOMMEND_LATEST_VERSION"
+msgstr "Wir empfehlen allen BOINC-Nutzern die Aktualisierung auf "
+"die Version %s."
+
+msgid "RLN_LINK2_VERSION_HISTORY"
+msgstr "Eine ausführliche Versionsgeschichte finden Sie %shier%s."
+
+msgid "RLN_MSWIN"
+msgstr "Windows"
+
+msgid "RLN_APPLMAC"
+msgstr "Macintosh"
+
+msgid "RLN_LINUX"
+msgstr "Linux"
+
+msgid "RLN_MSWIN_INSTALL_MODES"
+msgstr "BOINC kann auf verschiedene Arten installiert werden:"
+
+msgid "RLN_SINGLE_USER_INSTALL"
+msgstr "Einzelbenutzer-Installation</b> <i>(Single-user "
+"installation)</i><b>"
+
+msgid "RLN_MSWIN_INSTALL_SINGLE_USER_DESC"
+msgstr "Dies ist die empfohlene Installationsart. BOINC läuft "
+"nur, wenn Sie (der Benutzer, der BOINC installiert hat) "
+"angemeldet sind. BOINC wird nur in Ihrem Startmenü aufgelistet "
+"und der Befehl 'Grafik anzeigen' im BOINC Manager funktioniert "
+"auch nur bei Ihnen (den anderen Benutzern werden im "
+"Bildschirmschoner lediglich Textinformationen angezeigt)."
+
+msgid "RLN_SHARED_INSTALL"
+msgstr "Gemeinsame Installation</b> <i>(Shared "
+"installation)</i><b>"
+
+msgid "RLN_MSWIN_INSTALL_SHARED_DESC"
+msgstr "BOINC läuft, wann immer ein Benutzer angemeldet ist und "
+"wird in den Startmenüs aller Benutzer angezeigt. BOINC wird "
+"dabei unter einem einzelnen Benutzer (entweder der Erste, der "
+"sich angemeldet hat, oder der Erste, der BOINC gestartet hat) "
+"ausgeführt. Die Funktion 'Grafik anzeigen' im BOINC Manager "
+"funktioniert nur bei diesem Benutzer (den anderen Benutzern "
+"werden im Bildschirmschoner nur Textinfoformationen "
+"angezeigt)."
+
+msgid "RLN_WIN_SERVICE_INSTALL"
+msgstr "Installation als Dienst</b> <i>(Service "
+"installation)</i><b>"
+
+msgid "RLN_MSWIN_INSTALL_WINSERVICE_DESC"
+msgstr "BOINC läuft die ganze Zeit (sogar wenn niemand angemeldet "
+"ist) und wird nur im Startmenü jenes Benutzers aufgelistet, der "
+"BOINC installiert hat. Die Funktion 'Grafik anzeigen' "
+"funktioniert bei keinem Benutzer. Der BOINC-Bildschirmschoner "
+"zeigt daher lediglich Textinformationen an."
+
+msgid "RLN_LINUX_INSTALL_SEA_DESC"
+msgstr "Die BOINC-Version für Linux steht als "
+"selbst-extrahierendes Archiv bereit. Diese Installationsart "
+"setzt voraus, dass Sie mit dem Kommandozeilen-Interface von "
+"UNIX vertraut sind."
+
+msgid "RLN_LINUX_DL_FILENAME"
+msgstr "Die zu heruntergeladenden Dateien haben Namen wie "
+"<code>%s</code>."
+
+msgid "RLN_LINUX_RUN_SEA"
+msgstr "Geben Sie nach dem Herunterladen der Datei folgendes "
+"ein: <pre>%s</pre>"
+
+msgid "RLN_LINUX_RESULTOF_SEA"
+msgstr "Damit wird ein Verzeichnis namens BOINC angelegt, das "
+"die folgenden Dateien enthält:"
+
+msgid "RLN_BOINC_CORE_CL"
+msgstr "Der BOINC-Client"
+
+msgid "RLN_BOINC_MANAGER"
+msgstr "Der BOINC Manager"
+
+msgid "RLN_SCRIPT_RUN_CLIENT_DESC"
+msgstr "Ein Skript, das zum BOINC-Verzeichnis wechselt und den "
+"Client startet."
+
+msgid "RLN_SCRIPT_RUN_MANAGER_DESC"
+msgstr "Ein Skript, das zum BOINC-Verzeichnis wechselt und den "
+"BOINC Manager startet."
+
+msgid "RLN_LINUX_AUTOSTART"
+msgstr "Sie können den %sBOINC-Clienten auch automatisch beim "
+"Hochfahren des Systems starten%s lassen."
+
+msgid "RLN_MSWIN_UNINSTALL_DESC"
+msgstr "Wählen Sie im Startmenü den Punkt 'Programme', 'BOINC', "
+"'Uninstall' oder den Punkt 'Software' in der Systemsteuerung."
+
+msgid "RLN_ISSUE_PROXY_NTLMAUTH"
+msgstr "Bitte warten Sie noch mit der Aktualisierung, wenn Sie "
+"einen Proxy-Server nutzen. Wir arbeiten zur Zeit noch an einer "
+"Korrektur für Proxies, welche die NTLM-Authentifizierung "
+"einsetzen."
+
+msgid "RLN_ISSUE_MSWIN_LATEST_DIRECTX"
+msgstr "Wenn die BOINC-Anwendungen auf Ihrem Computer wiederholt "
+"abstürzen, ist möglicherweise eine %sAktualisierung auf die "
+"neueste DirectX-Version%s nötig."
+
+msgid "RLN_ISSUE_MSWIN_SCREENSAVER_XP3D"
+msgstr "Wenn BOINC zur selben Zeit wie ein 3D-Bildschirmschoner "
+"für Windows XP läuft, wird das System träge und reagiert "
+"möglicherweise nicht mehr auf Ihre Eingaben."
+
+msgid "RLN_ISSUE_MSWIN_NO_SCREENSAVER"
+msgstr "Anwendungen, die vor Oktober 2004 erstellt worden sind, "
+"zeigen auf NT-Computern keinen Bildschirmschoner an, wenn die "
+"Passwortfunktion für Bildschirmschoner eingeschaltet ist."
+
+msgid "RLN_TROUBLESHOOT_INTRO"
+msgstr "Wenn Sie Probleme mit BOINC haben, empfiehlt sich "
+"folgendes Vorgehen:"
+
+msgid "RLN_TROUBLESHOOT_PRJ_SPECIFIC"
+msgstr "Wenn das Problem nur ein einzelnes Projekt betrifft, "
+"sollten Sie den 'Fragen und Antworten'-Bereich auf der "
+"Webseite des Projekts besuchen. Vielleicht findet sich dort "
+bereits eine Lösung für Ihr Problem. Wenn nicht, tragen Sie es "
+"einfach dort ein, und andere Benutzer werden Ihnen weiterhelfen."
+
+msgid "RLN_TROUBLESHOOT_PROBLEM_PERSIST"
+msgstr "Wenn projekt-spezifische Probleme bestehen bleiben, "
+"sollten Sie das betreffende Projekt mit dem BOINC Manager "
+"'zurücksetzen'. Damit werden werden jegliche Aufgaben gelöscht "
+"und es wird von ganz vorne begonnen."
+
+msgid "RLN_TROUBLESHOOT_BOINC_ITSELF"
+msgstr "Wenn Sie Probleme mit BOINC selbst haben, sollten Sie "
+"sich in den %sBOINC-Diskussionsforen%s weiterhelfen lassen."
