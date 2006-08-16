@@ -12,7 +12,7 @@ Project staff are:
 <dd>
 Director, architect and developer.  Contact him at davea at ssl.berkeley.edu.
 
-<dt><b>Rom Walton</b>
+<dt><a href=\"http://www.romwnet.org/\"><b>Rom Walton</b></a>
 <dd>
 Developer.
 Contact him at rwalton at ssl.berkeley.edu.
