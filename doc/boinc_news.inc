@@ -1,6 +1,12 @@
 <?
 
 $project_news = array(
+array("August 16, 2006",
+    "New documents discuss using BOINC for
+    <a href=dg.php>Desktop Grid Computing</a>
+    and for creating
+    <a href=vcsc.php>Virtual Campus Supercomputing Centers</a>."
+),
 array("August 15, 2006",
     "A BBC Radio program on 'Citizen Science' - including
     a segment on volunteer computing and BOINC -

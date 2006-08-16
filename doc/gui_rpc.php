@@ -276,14 +276,33 @@ list_item_func(
 );
 list_item_func(
     "get_global_prefs_override(std::string&)",
-    "Return the contents of the
-    <a href=prefs_override.php>global preferences override file</a>."
+    "Reads the contents of the
+    <a href=prefs_override.php>global preferences override file</a>
+    into the given string.
+    Return an error code if the file is not present."
 );
 list_item_func(
     "set_global_prefs_override(std::string&)",
     "Write the given contents to the
+    <a href=prefs_override.php>global preferences override file</a>.
+    If the argment is an empty string, delete the file.
+    Otherwise the argument must be a valid
+    &lt;global_preferences&gt; element."
+);
+list_item_func(
+    "get_global_prefs_override_struct(GLOBAL_PREFS&)",
+    "Return the contents of the
+    <a href=prefs_override.php>global preferences override file</a>,
+    parsed into a structure.
+    Default values are zero.
+    Returns an error code if the file is not present."
+);
+list_item_func(
+    "set_global_prefs_override_struct(GLOBAL_PREFS&)",
+    "Convert the given structure to XML and write it to the
     <a href=prefs_override.php>global preferences override file</a>."
 );
+
 list_end();
 echo "
 <p>

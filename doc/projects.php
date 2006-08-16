@@ -35,8 +35,7 @@ and copy the URL from your browser's address field.
 
 <p>
 Projects are independent.
-The BOINC project has no control over the creation of BOINC-based projects,
-and do not endorse them.
+BOINC does not control or endorse BOINC-based projects.
 When you participate in a project,
 you entrust that project with the health of your
 computer and the privacy of your data.

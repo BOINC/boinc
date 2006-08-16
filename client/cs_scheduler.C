@@ -549,6 +549,16 @@ double CLIENT_STATE::time_until_work_done(
 // - for each contactable project:
 //     - work_request and work_request_urgency
 //
+// Notes:
+// - at most 1 CPU-intensive project will have a nonzero work_request
+//      and a work_request_urgency higher than DONT_NEED.
+//      This prevents projects with low LTD from getting work
+//      even though there was a higher LTD project that should get work.
+// - all non-CPU-intensive projects that need work
+//      and are contactable will have a work request of 1.
+//
+// return false
+//
 bool CLIENT_STATE::compute_work_requests() {
     bool non_cpu_intensive_needs_work=false;
     unsigned int i;

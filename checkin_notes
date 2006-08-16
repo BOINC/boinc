@@ -8894,3 +8894,12 @@ David  15 Aug 2006
         gui_rpc_client_ops.C
     sched/
         sched_hr.C
+
+David  16 Aug 2006
+    - GUI RPC: set_global_prefs_override(): if arg is empty string,
+        delete prefs override file
+    - improved comments in CPU sched code
+
+    client/
+        cs_scheduler.C
+        gui_rpc_server_ops.C

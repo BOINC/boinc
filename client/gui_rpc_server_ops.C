@@ -796,13 +796,17 @@ static void handle_set_global_prefs_override(char* buf, MIOFILE& fout) {
     if (q) {
         *q = 0;
         strip_whitespace(p);
-        FILE* f = boinc_fopen(GLOBAL_PREFS_OVERRIDE_FILE, "w");
-        if (f) {
-            fprintf(f, "%s\n", p);
-            fclose(f);
-            retval = 0;
+        if (strlen(p)) {
+            FILE* f = boinc_fopen(GLOBAL_PREFS_OVERRIDE_FILE, "w");
+            if (f) {
+                fprintf(f, "%s\n", p);
+                fclose(f);
+                retval = 0;
+            } else {
+                retval = ERR_FOPEN;
+            }
         } else {
-            retval = ERR_FOPEN;
+            retval = boinc_delete_file(GLOBAL_PREFS_OVERRIDE_FILE);
         }
     }
     fout.printf(

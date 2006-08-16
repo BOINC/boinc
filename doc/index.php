@@ -6,8 +6,9 @@ function show_participant() {
     $i = rand(0, 99);
     $j = $i+1;
     echo "
-        <tr><td align=middle>
-        <hr width=70%>
+        <tr><td>
+        <center>
+        <table border=2 cellpadding=6><tr><td>
     ";
     include("piecharts/$i.html");
     echo "
@@ -17,6 +18,7 @@ function show_participant() {
         <a href=http://boinc.netsoft-online.com/rankings.php?list=r_p_1_e><b>Single-computer</a> |
         <a href=http://boinc.netsoft-online.com/rankings.php><b>Other lists</a>
         </center>
+        </td></tr></table>
         </td></tr>
     ";
 }
@@ -77,21 +79,26 @@ function show_participate() {
 function show_create() {
     global $light_blue;
     echo "
-        <tr><td bgcolor=$light_blue><font size=4>Create a volunteer computing project</font></td></tr>
+        <tr><td bgcolor=$light_blue><font size=4>Compute with BOINC</font></td></tr>
         <tr><td>
-        If you are a scientist with a computationally-intensive task,
-        you may be able to use BOINC.
         A BOINC project with a single Linux server
         can provide computing power equivalent
         to a cluster with tens of thousands of CPUs.
-        <p>
         Learn how to <a href=create_project.php><b>create
         and operate a BOINC project</b></a>.
-        <p>
-        If you lack the resources to operate a BOINC project directly,
-        organizations such as World Community Grid may be able
-        to assist you.
+        <ul>
+        <li> <b>Scientists</b>: if your group has moderate
+        programming, web, sysadmin, and hardware resources,
+        you can create your own BOINC project.
+        Otherwise, organizations such as World Community Grid may be able
+        to host your project.
         Please <a href=contact.php>contact us</a> for information.
+        <li> <b>Universities</b>: create a
+            <a href=vcsc.php>Virtual Campus Supercomputing Center</a> (VCSC)
+            using BOINC.
+        <li> <b>Companies</b>:
+            use BOINC for <a href=dg.php>Desktop Grid Computing</a>.
+        </ul>
         </td></tr>
     ";
 }
@@ -146,8 +153,8 @@ echo "
 <h1>
 Berkeley Open Infrastructure for Network Computing
 </h1>
-BOINC is free, open-source software for
-<a href=volunteer.php>volunteer computing</a> and desktop grid computing.
+Open-source software for
+<a href=volunteer.php>volunteer computing</a> and <a href=dg.php>desktop grid computing</a>.
 <p>
 ";
 search_form();

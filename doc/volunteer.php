@@ -100,7 +100,7 @@ This is different from volunteer computing.
 'Desktop grid' computing - which uses desktop PCs within an organization -
 is superficially similar to volunteer computing,
 but because it has accountability and lacks anonymity,
-it is different at a deeper level.
+it is significantly different.
 <p>
 If your definition of 'Grid computing' encompasses all distributed computing
 (which is silly - there's already a perfectly good term for that)
