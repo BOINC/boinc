@@ -8922,6 +8922,7 @@ Milos 17 Aug 2006
       and Thaw() to avoid flicker and drawing in corner when noptebook initlaized 
     - Changed bg for preferences dialog for text to be more readable
       It also detect if we are using local or global preferences.
+      
     clientgui/
         sg_BoincSimpleGUI.cpp,h
         sg_DlgPreferences.cpp,h
