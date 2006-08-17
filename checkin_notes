@@ -154,7 +154,7 @@ David  12 Aug 2006
 		wrapper.C
 
 David  16 Aug 2006
-	- wrapper: get it to compile on Win
+	- wrapper: get it to compile on Win, and fix XML parsing
 
 	wrapper/
 		wrapper.C

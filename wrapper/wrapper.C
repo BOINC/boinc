@@ -80,6 +80,7 @@ bool app_suspended = false;
 int TASK::parse(FILE* f) {
     char tag[256], contents[1024];
     while(get_tag(f, tag, contents)) {
+        fprintf(stderr, "parsed: %s\n", tag);
         if (!strcmp(tag, "/task")) {
             return 0;
         }
@@ -111,7 +112,8 @@ int parse_job_file() {
     get_tag(f, tag);
     if (strstr(tag, "?xml")) get_tag(f, tag);
     if (strcmp(tag, "job_desc")) return ERR_XML_PARSE;
-    while(get_tag(f, tag, contents)) {
+    while(get_tag(f, tag)) {
+        fprintf(stderr, "2parsed: %s\n", tag);
         if (!strcmp(tag, "/job_desc")) {
             return 0;
         }
@@ -135,25 +137,30 @@ void parse_state_file() {
 int TASK::run() {
 	FILE* stdout_file;
 	FILE* stdin_file;
+    string app_path;
 
-    boinc_resolve_filename_s(application.c_str(), application);
+    boinc_resolve_filename_s(application.c_str(), app_path);
 
 	// open stdout, stdin if file names are given
+    // NOTE: if the application is restartable, the following
+    // should use "a" instead of "w".
 	//
 	if (stdout_filename != "") {
 		stdout_file = freopen(stdout_filename.c_str(), "w", stdout);
 		if (!stdout_file) return ERR_FOPEN;
 	}
 	if (stdin_filename != "") {
-		stdin_file = freopen(stdin_filename.c_str(), "w", stdin);
+		stdin_file = freopen(stdin_filename.c_str(), "r", stdin);
 		if (!stdin_file) return ERR_FOPEN;
 	}
 #ifdef _WIN32
-
     PROCESS_INFORMATION process_info;
     STARTUPINFO startup_info;
+    string command;
+
     memset(&process_info, 0, sizeof(process_info));
     memset(&startup_info, 0, sizeof(startup_info));
+    command = app_path + string(" ") + command_line;
 
     // pass std handles to app
     //
@@ -162,8 +169,9 @@ int TASK::run() {
     startup_info.hStdOutput = GetStdHandle(STD_OUTPUT_HANDLE);
     startup_info.hStdError = GetStdHandle(STD_ERROR_HANDLE);
              
-    if (!CreateProcess(application.c_str(),
-        (LPSTR)application.c_str(),
+    if (!CreateProcess(
+        app_path.c_str(),
+        (LPSTR)command.c_str(),
         NULL,
         NULL,
         TRUE,		// bInheritHandles
@@ -178,17 +186,22 @@ int TASK::run() {
     pid_handle = process_info.hProcess;
     thread_handle = process_info.hThread;
 #else
-    int retval;
+    int retval, argc;
     char progname[256], buf[256];
-    char* argv[2];
+    char* argv[256];
+    char arglist[4000];
+
     pid = fork();
     if (pid == -1) {
         boinc_finish(ERR_FORK);
     }
     if (pid == 0) {
-        strcpy(buf, application.c_str());
+        // construct argv
+        //
+        strcpy(buf, app_path.c_str());
         argv[0] = buf;
-        argv[1] = 0;
+        strcpy(arglist, command_line.c_str());
+        argc = parse_command_line(arglist, argv+1);
         retval = execv(buf, argv);
         exit(ERR_EXEC);
     }
@@ -311,11 +324,11 @@ int main(int argc, char** argv) {
     int retval;
 
     boinc_init_diagnostics(
-        BOINC_DIAG_DUMPCALLSTACKENABLED |
-        BOINC_DIAG_HEAPCHECKENABLED |
-        BOINC_DIAG_MEMORYLEAKCHECKENABLED |
-        BOINC_DIAG_TRACETOSTDERR |
-        BOINC_DIAG_REDIRECTSTDERR
+        BOINC_DIAG_DUMPCALLSTACKENABLED
+        | BOINC_DIAG_HEAPCHECKENABLED
+        | BOINC_DIAG_MEMORYLEAKCHECKENABLED
+        | BOINC_DIAG_TRACETOSTDERR
+        //| BOINC_DIAG_REDIRECTSTDERR
     );
 
     memset(&options, 0, sizeof(options));
@@ -338,6 +351,8 @@ int main(int argc, char** argv) {
     parse_state_file();
 
     TASK& task = tasks[0];
+
+    fprintf(stderr, "running %s\n", task.application.c_str());
     retval = task.run();
     if (retval) {
         fprintf(stderr, "can't run app: %d\n", retval);
