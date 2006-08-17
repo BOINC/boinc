@@ -101,7 +101,11 @@ static bool glut_is_initialized = false;
 //
 // If running freeglut, also get the version.
 //
+#ifdef __APPLE__
+static bool glut_is_freeglut = false;   // Avoid warning message to stderr from glutGet(GLUT_VERSION) 
+#else
 static bool glut_is_freeglut = true;
+#endif
 static int glut_version = 0;
 
 

@@ -8903,3 +8903,16 @@ David  16 Aug 2006
     client/
         cs_scheduler.C
         gui_rpc_server_ops.C
+
+Charlie 17 Aug 2006
+    - Mac: Add support for hostinfo p_capabilities.  For PowerPC Macs. 
+        this just sets the string to "AltiVec" if AltiVec available. 
+        For Intel Macs, this is a string of multiple 3-character 
+        values, including MMX, SSE, SSE2, SSE3 when supported.
+    - Initialize glut_is_freeglut=false for Mac, to avoid warning 
+            message to stderr from calling glutGet(GLUT_VERSION).
+            
+    api/
+        x_opengl.C
+    client/
+        hostinfo_unix.C

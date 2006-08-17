@@ -492,6 +492,20 @@ int HOST_INFO::get_host_info() {
 #endif
 #endif
 
+#ifdef __APPLE__
+#ifdef __i386__
+    len = sizeof(p_capabilities);
+    sysctlbyname("machdep.cpu.features", p_capabilities, &len, NULL, 0);
+#else       // PowerPC
+    int response = 0;
+    int retval;
+    len = sizeof(response);
+    retval = sysctlbyname("hw.optional.altivec", &response, &len, NULL, 0);
+    if (response && (!retval)) 
+        safe_strcpy(p_capabilities, "AltiVec");
+#endif  // i386 or PowerPC
+#endif  // __APPLE__
+
     get_local_network_info();
 
     timezone = get_timezone();

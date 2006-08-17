@@ -34,7 +34,7 @@ function type_text($type) {
 $features_55 = "
     <li> New CPU Scheduler.
     <li> New Work Fetch Policy.
-    <li> CPU Capability detection (currently implemented only for Windows & Linux).
+    <li> CPU Capability detection.
     <li> Revamped logging solution.
     <li> Improved security for POSIX compliant systems
          (only implemented for the Mac)
