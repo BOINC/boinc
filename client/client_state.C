@@ -187,7 +187,10 @@ int CLIENT_STATE::init() {
 #ifdef __APPLE__
     if (executing_as_daemon) {
         msg_printf(NULL, MSG_INFO,
-            "BOINC is running as a daemon.  No application graphics will be available."
+            "BOINC is running as a daemon."
+        );
+        msg_printf(NULL, MSG_INFO,
+            "No application graphics will be available."
         );
         disable_graphics = true;
     }
