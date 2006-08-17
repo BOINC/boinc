@@ -152,3 +152,9 @@ David  12 Aug 2006
 		*.vcproj
 	wrapper/
 		wrapper.C
+
+David  16 Aug 2006
+	- wrapper: get it to compile on Win
+
+	wrapper/
+		wrapper.C

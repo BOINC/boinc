@@ -70,6 +70,7 @@ struct TASK {
     void kill();
     void stop();
     void resume();
+	double cpu_time();
 };
 
 vector<TASK> tasks;
@@ -77,7 +78,7 @@ vector<TASK> tasks;
 bool app_suspended = false;
 
 int TASK::parse(FILE* f) {
-    char tag[256], contents[1024], buf[256];
+    char tag[256], contents[1024];
     while(get_tag(f, tag, contents)) {
         if (!strcmp(tag, "/task")) {
             return 0;
@@ -157,8 +158,8 @@ int TASK::run() {
     // pass std handles to app
     //
     startup_info.dwFlags = STARTF_USESTDHANDLES;
-    startup_info.hStdIn = GetStdHandle(STD_IN_HANDLE);
-    startup_info.hStdOut = GetStdHandle(STD_OUT_HANDLE);
+    startup_info.hStdInput = GetStdHandle(STD_INPUT_HANDLE);
+    startup_info.hStdOutput = GetStdHandle(STD_OUTPUT_HANDLE);
     startup_info.hStdError = GetStdHandle(STD_ERROR_HANDLE);
              
     if (!CreateProcess(application.c_str(),
@@ -267,7 +268,7 @@ void poll_boinc_messages(TASK& task) {
     }
 }
 
-double cpu_time() {
+double TASK::cpu_time() {
 #ifdef _WIN32
     FILETIME creation_time, exit_time, kernel_time, user_time;
     ULARGE_INTEGER tKernel, tUser;
@@ -286,6 +287,9 @@ double cpu_time() {
     double cpu = totTime / 1.e7;
     return cpu;
 #else
+	// Unix variant:  return elapsed wall time
+	// TODO: get CPU time from /proc
+	//
     static double t=0, cpu;
     if (t) {
         double now = dtime();
@@ -298,8 +302,8 @@ double cpu_time() {
 #endif
 }
 
-void send_status_message() {
-    boinc_report_app_status(cpu_time(), 0, 0);
+void send_status_message(TASK& task) {
+    boinc_report_app_status(task.cpu_time(), 0, 0);
 }
 
 int main(int argc, char** argv) {
@@ -345,7 +349,7 @@ int main(int argc, char** argv) {
             boinc_finish(status);
         }
         poll_boinc_messages(task);
-        send_status_message();
+        send_status_message(task);
         boinc_sleep(1.);
     }
 }
