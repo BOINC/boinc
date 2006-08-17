@@ -91,8 +91,12 @@ public:
 	wxBitmap fileImgBuf[1];
 	virtual ~CDlgPreferences();
 	void initBefore();
+	void CheckSettings();
+	bool CheckIfInArray(wxString valArray[],wxString value,int size);
+	void ReadSettings(GLOBAL_PREFS prefs);
 	void CreateDialog();
 	void LoadSkinImages();
+	int ConvertToNumber(wxString num);
 	wxString GetSkinName() const { return m_SkinName; }
 	void SetSkinName(const wxString& skinName) { m_SkinName = skinName; }
 	void OnPaint(wxPaintEvent& event); 
@@ -102,8 +106,11 @@ public:
 
 protected:
 	wxString m_SkinName;
+	wxString m_PrefIndicator;
+	bool m_globalPrefUsed;
 	wxArrayString m_skinNames;
 	wxString m_SkinDirPrefix;
+	GLOBAL_PREFS m_prefs;
 	void OnEraseBackground(wxEraseEvent& event);
 	void OnBtnClick(wxCommandEvent& event);
 	void OnCmbSelected(wxCommandEvent& event);

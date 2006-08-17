@@ -89,6 +89,7 @@ CSimpleFrame::CSimpleFrame(wxString title, wxIcon* icon) :
 	appSkin->SetSkinsFolder(skinFoldPath);
 	skinPath = appSkin->GetSkinsFolder()+_T("/")+appSkin->GetSkinName()+_T("/")+_T("skin.xml");
 	clientGUIInitialized = false;
+	wrkUnitNotebookInit = false;
 	//Check if skin can be loaded
 	if(!CheckSkin()){
 		//if current skin is not loaded then switch to default skin
@@ -182,8 +183,11 @@ void CSimpleFrame::OnConnect(CFrameEvent& WXUNUSED(event)) {
 
     if (pAMWizard)
         pAMWizard->Destroy();
-    if (pAPWizard)
+	if (pAPWizard){
         pAPWizard->Destroy();
+		//update Project Component
+		projComponent->UpdateInterface();
+	}
 
     wxLogTrace(wxT("Function Start/End"), wxT("CSimpleFrame::OnConnect - Function End"));
 }
@@ -237,7 +241,7 @@ void CSimpleFrame::OnFrameRender(wxTimerEvent& WXUNUSED(event)) {
 			   // Thaw();
 			   //Update();
 			   clientGUIInitialized = true;
-			   Show(true);
+			   //Show(true);
 		   }else{ //check for changes in the interface
 			   UpdateClientGUI();
 		   }           
@@ -260,60 +264,57 @@ void CSimpleFrame::InitSimpleClient()
 	mainSizer = new wxFlexGridSizer(3,2);
 	//mainSizer->SetFlexibleDirection(wxHORIZONTAL);
 	SetSizer(mainSizer);
-	// FlatNotebook
-	wrkUnitNB = new wxFlatNotebook(this, -1, wxDefaultPosition, wxSize(370,330), wxFNB_TABS_BORDER_SIMPLE | wxFNB_NO_X_BUTTON | wxFNB_NO_NAV_BUTTONS | wxFNB_FANCY_TABS);
-	wrkUnitNB->SetUseBackground(true);
-	wrkUnitNB->SetBackgroundColour(appSkin->GetAppBgCol());
-	wrkUnitNB->SetTabAreaColour(appSkin->GetAppBgCol());
-	wrkUnitNB->SetGradientColors(appSkin->GetTabFromColAc(),appSkin->GetTabToColAc(),appSkin->GetTabBrdColAc());
-	wrkUnitNB->SetActiveTabTextColour(wxColour(255,255,255));
-	wrkUnitNB->SetGradientColorsInactive(appSkin->GetTabFromColIn(),appSkin->GetTabToColIn(),appSkin->GetTabBrdColIn());
-	wrkUnitNB->SetNonActiveTabTextColour(wxColour(255,255,255));
-	wrkUnitNB->SetImageList(&m_ImageList);
-	//create work unit tabs
-	int resultCnt = (int)pDoc->results.results.size();
-	
-	for(int i = 0; i < resultCnt; i++){
-		RESULT* result = pDoc->results.results[i];
-		RESULT* resState = pDoc->state.lookup_result(result->project_url, result->name);
-		wxString friendlyName;
-
-		if(resState!=0){
-			friendlyName = wxString(resState->app->name.c_str(), wxConvUTF8 );
-		}else{
-			friendlyName = wxString(resState->app->name.c_str(), wxConvUTF8 );
-		}
-		//std::string index = " ";
-		//index += i;
-		//friendlyName += wxString(index.c_str(), wxConvUTF8 );
-		CViewTabPage *wTab = new CViewTabPage(wrkUnitNB,i,resState->name,resState->project_url);
-		wrkUnitNB->AddPage(wTab, friendlyName, true);	
-		if(result->active_task_state == 1){
-			 wrkUnitNB->SetPageImageIndex(i, 0); // this is working process
-		}
-	
-		m_windows.push_back(wTab);
-	}
-
-	wrkUnitNB->SetSelection(0);	
-	// Put Grid in the sizer
 	mainSizer->Add(31, 98,0);
 	mainSizer->Add(343, 98,0);
 	mainSizer->Add(31, 98,0);
 	mainSizer->Add(0, 0,1);
-	mainSizer->Add(wrkUnitNB);
-	mainSizer->Add(0, 0,1);
+	// Do not update screen at this point
+	Freeze();
+	//create work unit tabs
+	//int resultCnt = pDoc->GetWorkCount();
+    int resultCnt = (int)pDoc->results.results.size();
+	if(resultCnt > 0){
+		//init nootebok
+		InitNotebook();
+	
+		for(int i = 0; i < resultCnt; i++){
+			RESULT* result = pDoc->results.results[i];
+			RESULT* resState = pDoc->state.lookup_result(result->project_url, result->name);
+			wxString friendlyName;
+
+			if(resState!=0){
+				friendlyName = wxString(resState->app->name.c_str(), wxConvUTF8 );
+			}else{
+				friendlyName = wxString(resState->app->name.c_str(), wxConvUTF8 );
+			}
+			CViewTabPage *wTab = new CViewTabPage(wrkUnitNB,i,resState->name,resState->project_url);
+			wrkUnitNB->AddPage(wTab, friendlyName, true);	
+			if(result->active_task_state == 1){
+				wrkUnitNB->SetPageImageIndex(i, 0); // this is working process
+			}
+			//add page to vector
+			m_windows.push_back(wTab);
+		}
+		wrkUnitNB->SetSelection(0);	
+		// Put Grid in the sizer
+		mainSizer->Add(wrkUnitNB);
+	}
+	//mainSizer->Add(0, 0,1);
 	 
 	/////////////// MY PROJECTS COMPONENT /////////////////////
     projComponent = new CProjectsComponent(this,wxPoint(31,443));
 	///////////////////////////////////////////////////////////
-	
-	Refresh();
+	//Update screen
+	Thaw();
+	mainSizer->Layout();
+	//Update();
+	//Refresh();
 }
 void CSimpleFrame::UpdateClientGUI(){
 	
 	CMainDocument* pDoc     = wxGetApp().GetDocument();
 	//update GUI
+	//int resultCnt = pDoc->GetWorkCount();
 	int resultCnt = (int)pDoc->results.results.size();
     wxString strBuffer = wxEmptyString;
 	//assume they are all inactive
@@ -321,8 +322,6 @@ void CSimpleFrame::UpdateClientGUI(){
 	{
 		CViewTabPage *currTab = m_windows[x];
 		currTab->isAlive = false;
-		//update tab interface
-		currTab->UpdateInterface();
 	}
     // Update Tabs
 	RESULT* result;
@@ -333,15 +332,31 @@ void CSimpleFrame::UpdateClientGUI(){
 		for(int j = 0; j < (int)m_windows.size(); j ++)
 		{
 			CViewTabPage *currTab = m_windows[j];
+			std::string curtabname = currTab->GetTabName();
+            std::string resultname = result->name;
+
 			if(result->name == currTab->GetTabName()){
 				//currTab FOUND;
 				currTab->isAlive = true;
 				found = true;
+				//update tab interface
+		        currTab->UpdateInterface();
 				break;
 		    }
 
 		}
 		if(!found){
+			bool addNotebookToSizer = false;
+			//stop timer untill we add the page
+			m_pFrameRenderTimer->Stop();
+			// Do not update screen at this point
+	        Freeze();
+			//Check if notebook was initialized
+			if(!wrkUnitNotebookInit){
+				//init nootebok
+				InitNotebook();
+                addNotebookToSizer = true; // since this is first page
+			}
 			// create one and add it to notebook
 			std::string projUrl = result->project_url;
 			std::string nme = result->name;
@@ -361,8 +376,18 @@ void CSimpleFrame::UpdateClientGUI(){
 			if(result->active_task_state == 1){
 				wrkUnitNB->SetPageImageIndex(i, 0); // this is working process
 			}
-
+			//add page to vector
 			m_windows.push_back(wTab);
+			if(addNotebookToSizer){
+                wrkUnitNB->SetSelection(0);	
+				// Put Grid in the sizer
+				mainSizer->Add(wrkUnitNB);
+			}
+			//Update screen
+			Thaw();
+			mainSizer->Layout();
+			//start the timer
+			m_pFrameRenderTimer->Start();
 		}		
 	}
 	//delete the ones that are not alive
@@ -388,6 +413,20 @@ void CSimpleFrame::initAfter(){
     Show(true);
 }
 //
+void CSimpleFrame::InitNotebook()
+{
+	// FlatNotebook
+	wrkUnitNB = new wxFlatNotebook(this, -1, wxDefaultPosition, wxSize(370,330), wxFNB_TABS_BORDER_SIMPLE | wxFNB_NO_X_BUTTON | wxFNB_NO_NAV_BUTTONS | wxFNB_FANCY_TABS);
+	wrkUnitNB->SetUseBackground(true);
+	wrkUnitNB->SetBackgroundColour(appSkin->GetAppBgCol());
+	wrkUnitNB->SetTabAreaColour(appSkin->GetAppBgCol());
+	wrkUnitNB->SetGradientColors(appSkin->GetTabFromColAc(),appSkin->GetTabToColAc(),appSkin->GetTabBrdColAc());
+	wrkUnitNB->SetActiveTabTextColour(wxColour(255,255,255));
+	wrkUnitNB->SetGradientColorsInactive(appSkin->GetTabFromColIn(),appSkin->GetTabToColIn(),appSkin->GetTabBrdColIn());
+	wrkUnitNB->SetNonActiveTabTextColour(wxColour(255,255,255));
+	wrkUnitNB->SetImageList(&m_ImageList);
+	wrkUnitNotebookInit = true;
+}
 void CSimpleFrame::LoadSkinImages(){
 
 	wxString dirPref = appSkin->GetSkinsFolder()+_T("/")+appSkin->GetSkinName()+_T("/");
@@ -688,15 +727,18 @@ void CSimpleFrame::ReskinAppGUI(){
 	// reskin GUI
 	//bg color
 	SetBackgroundColour(appSkin->GetAppBgCol());
-    // notebook tab color
-	wrkUnitNB->SetTabAreaColour(appSkin->GetAppBgCol());
-	wrkUnitNB->SetUseBackground(true);
-    wrkUnitNB->SetGradientColors(appSkin->GetTabFromColAc(),appSkin->GetTabToColAc(),appSkin->GetTabBrdColAc());
-    wrkUnitNB->SetGradientColorsInactive(appSkin->GetTabFromColIn(),appSkin->GetTabToColIn(),appSkin->GetTabBrdColIn());
-	// notebook pages
-	for(int i = 0; i < (int)m_windows.size(); i++){
-		CViewTabPage *wTab = m_windows.at(i);
-		wTab->ReskinInterface();
+	if(wrkUnitNotebookInit){
+        // notebook tab color
+		wrkUnitNB->SetTabAreaColour(appSkin->GetAppBgCol());
+		wrkUnitNB->SetUseBackground(true);
+		wrkUnitNB->SetGradientColors(appSkin->GetTabFromColAc(),appSkin->GetTabToColAc(),appSkin->GetTabBrdColAc());
+		wrkUnitNB->SetGradientColorsInactive(appSkin->GetTabFromColIn(),appSkin->GetTabToColIn(),appSkin->GetTabBrdColIn());
+	
+		// notebook pages
+		for(int i = 0; i < (int)m_windows.size(); i++){
+			CViewTabPage *wTab = m_windows.at(i);
+			wTab->ReskinInterface();
+		}
 	}
 	//reskin component 
 	projComponent->ReskinInterface();

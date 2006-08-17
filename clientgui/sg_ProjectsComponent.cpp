@@ -59,6 +59,7 @@ CProjectsComponent::CProjectsComponent(CSimpleFrame* parent,wxPoint coord) :
 	m_maxNumOfIcons = 6; // max number of icons in component
 	m_rightIndex = 0;
 	m_leftIndex = 0;
+	m_projCnt = 0;
     LoadSkinImages();
 	CreateComponent();
 

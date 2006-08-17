@@ -69,6 +69,7 @@ public:
 	bool btmAppCollapsed;
 	////////////////////////////;
 	bool clientGUIInitialized;
+	bool wrkUnitNotebookInit;
 
 	void InitEmptyState();
     void InitSimpleClient();
@@ -78,6 +79,7 @@ public:
 	void LoadSkinImages();
 	void ReskinAppGUI();
 	void initAfter();
+	void InitNotebook();
 	void OnProjectsAttachToProject();
 	//////////
 	wxFlexGridSizer *mainSizer;
