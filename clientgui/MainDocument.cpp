@@ -1238,6 +1238,17 @@ int CMainDocument::CachedSimpleGUIUpdate() {
 }
 
 
+int CMainDocument::GetSimpleGUIWorkCount() {
+    int iCount = -1;
+
+    CachedSimpleGUIUpdate();
+    CachedStateUpdate();
+
+    if (!results.results.empty())
+        iCount = (int)results.results.size();
+
+    return iCount;
+}
 
 
 const char *BOINC_RCSID_aa03a835ba = "$Id$";

@@ -274,10 +274,12 @@ public:
     //
     // Simple GUI Updates
     //
-public:
-    int                         CachedSimpleGUIUpdate();
 private:
     wxDateTime                  m_dtCachedSimpleGUITimestamp;
+    int                         CachedSimpleGUIUpdate();
+
+public:
+    int                         GetSimpleGUIWorkCount();
 
 };
 

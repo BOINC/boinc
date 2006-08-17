@@ -8927,4 +8927,11 @@ Milos 17 Aug 2006
         sg_BoincSimpleGUI.cpp,h
         sg_DlgPreferences.cpp,h
         sg_ProjectsComponent.cpp
+
+Rom    17 Aug 2006
+    - Bug Fix: Keep both the global state and the updated tasks records in sync within
+        the simple GUI.
         
+    clientgui/
+        MainDocument.cpp, .h
+        sg_BoincSimpleGUI.cpp

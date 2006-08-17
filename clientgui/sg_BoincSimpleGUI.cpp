@@ -227,25 +227,20 @@ void CSimpleFrame::OnProjectsAttachToProject() {
 }
 
 void CSimpleFrame::OnFrameRender(wxTimerEvent& WXUNUSED(event)) {
-
-	CMainDocument* pDoc     = wxGetApp().GetDocument();
 	int retValue;
-	//Update data
-	if(pDoc->IsConnected()){
-       retValue = pDoc->CachedSimpleGUIUpdate();
-	   if(retValue==0){
-		   if(!clientGUIInitialized){
-			   //Freeze();
-               InitSimpleClient();
-               initAfter();
-			   // Thaw();
-			   //Update();
-			   clientGUIInitialized = true;
-			   //Show(true);
-		   }else{ //check for changes in the interface
-			   UpdateClientGUI();
-		   }           
-	   }
+	CMainDocument* pDoc     = wxGetApp().GetDocument();
+
+    //Update data
+    if(pDoc->IsConnected()){
+        // Update the document state, any subsequent calls will just used the
+        //   cached data.
+        pDoc->GetSimpleGUIWorkCount();
+        if(!clientGUIInitialized){
+            InitSimpleClient();
+            initAfter();
+            clientGUIInitialized = true;
+        }
+        UpdateClientGUI();
 	}
 }
 
@@ -271,8 +266,7 @@ void CSimpleFrame::InitSimpleClient()
 	// Do not update screen at this point
 	Freeze();
 	//create work unit tabs
-	//int resultCnt = pDoc->GetWorkCount();
-    int resultCnt = (int)pDoc->results.results.size();
+    int resultCnt = (int)pDoc->GetSimpleGUIWorkCount();
 	if(resultCnt > 0){
 		//init nootebok
 		InitNotebook();
@@ -314,8 +308,7 @@ void CSimpleFrame::UpdateClientGUI(){
 	
 	CMainDocument* pDoc     = wxGetApp().GetDocument();
 	//update GUI
-	//int resultCnt = pDoc->GetWorkCount();
-	int resultCnt = (int)pDoc->results.results.size();
+    int resultCnt = (int)pDoc->GetSimpleGUIWorkCount();
     wxString strBuffer = wxEmptyString;
 	//assume they are all inactive
 	for(int x = 0; x < (int)m_windows.size(); x ++)
