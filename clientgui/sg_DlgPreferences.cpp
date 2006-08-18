@@ -61,7 +61,6 @@ CDlgPreferences::CDlgPreferences(wxWindow* parent, wxString dirPref,wxWindowID i
 	}
 	//
 	m_PrefIndicator = wxT("");
-	m_globalPrefUsed = true;
 	initBefore();
 	// load images from skin file
 	LoadSkinImages();
@@ -79,8 +78,15 @@ void CDlgPreferences::CreateDialog()
 {
 	CMainDocument* pDoc = wxGetApp().GetDocument();
     wxASSERT(pDoc);
-
-	m_prefs = pDoc->state.global_prefs;
+	
+	// populate values from prefs
+	if(pDoc->rpc.get_global_prefs_override_struct(m_prefs) == 0){
+		m_PrefIndicator = wxT("Using local preferences");
+	}else{
+        m_PrefIndicator = wxT("Using global preferences");
+		m_prefs = pDoc->state.global_prefs;
+	}
+	
 
 	SetBackgroundColour(appSkin->GetAppBgCol());
 	wxString itmsHourIntervals[]={wxT("0:00"),wxT("1:00"),wxT("2:00"),wxT("3:00"),wxT("4:00"),wxT("5:00"),wxT("6:00"),wxT("7:00"),wxT("8:00"),wxT("9:00"),wxT("10:00"),wxT("11:00"),wxT("12:00"),
@@ -100,8 +106,14 @@ void CDlgPreferences::CreateDialog()
 	}else{
         userValMaxUsed.Printf(_("%4.2f GB"),m_prefs.disk_max_used_gb); 
 	}
-	wxString itmsUseNoMoreGB[]={wxT("100MB"),wxT("200MB"),wxT("500MB"),wxT("1GB"),wxT("2GB"),wxT("5GB"),userValMaxUsed};
-	cmbUseNoMoreGB=new wxComboBox(this,-1,wxT(""),wxPoint(206,160),wxSize(75,21),7,itmsUseNoMoreGB,wxNO_BORDER | wxCB_READONLY);
+	wxString itmsUseNoMoreGB[]={wxT("100MB"),wxT("200MB"),wxT("500MB"),wxT("1GB"),wxT("2GB"),wxT("5GB")};
+	int itmUseNoMore = 6;
+	if(!this->CheckIfInArray(itmsUseNoMoreGB,userValMaxUsed,itmUseNoMore)){
+		wxString itmsUseNoMoreGBU[]={wxT("100MB"),wxT("200MB"),wxT("500MB"),wxT("1GB"),wxT("2GB"),wxT("5GB"),userValMaxUsed};
+	    cmbUseNoMoreGB=new wxComboBox(this,-1,wxT(""),wxPoint(206,160),wxSize(75,21),itmUseNoMore+1,itmsUseNoMoreGBU,wxNO_BORDER | wxCB_READONLY);
+	}else{
+        cmbUseNoMoreGB=new wxComboBox(this,-1,wxT(""),wxPoint(206,160),wxSize(75,21),itmUseNoMore,itmsUseNoMoreGB,wxNO_BORDER | wxCB_READONLY);
+	}
 	cmbUseNoMoreGB->SetValue(userValMaxUsed);
 	//
 	wxString itmsDWWCInUse[]={wxT("Yes"),wxT("No")};
@@ -115,12 +127,13 @@ void CDlgPreferences::CreateDialog()
 	wxString userValIdleFor;
 	userValIdleFor.Printf(_("%d"),(int)m_prefs.idle_time_to_run); 
 	wxString itmsDWACIdleFor[]={wxString("1"),wxString("5"),wxString("10"),wxString("15"),wxString("30"),wxString("60")};
-	int lngth = itmsDWACIdleFor->Len();
-	bool contains = itmsDWACIdleFor->Contains(wxString("5"));
-	if(!this->CheckIfInArray(itmsDWACIdleFor,userValIdleFor,6)){
-		wxString itmsDWACIdleFor[]={wxT("1"),wxT("5"),wxT("10"),wxT("15"),wxT("30"),wxT("60"),userValIdleFor};
+	int itmIdlCnt = 6;
+	if(!this->CheckIfInArray(itmsDWACIdleFor,userValIdleFor,itmIdlCnt)){
+		wxString itmsDWACIdleForU[]={wxString("1"),wxString("5"),wxString("10"),wxString("15"),wxString("30"),wxString("60"),userValIdleFor};
+        cmbDWACIdleFor=new wxComboBox(this,-1,wxT(""),wxPoint(206,230),wxSize(75,21),itmIdlCnt+1,itmsDWACIdleForU,wxNO_BORDER | wxCB_READONLY);
+	}else{
+        cmbDWACIdleFor=new wxComboBox(this,-1,wxT(""),wxPoint(206,230),wxSize(75,21),itmIdlCnt,itmsDWACIdleFor,wxNO_BORDER | wxCB_READONLY);
 	}
-	cmbDWACIdleFor=new wxComboBox(this,-1,wxT(""),wxPoint(206,230),wxSize(75,21),7,itmsDWACIdleFor,wxNO_BORDER | wxCB_READONLY);
 	cmbDWACIdleFor->SetValue(userValIdleFor);
     //
 	cmbSkinPicker=new wxComboBox(this,ID_SKINPICKERCMBBOX,wxT(""),wxPoint(206,265),wxSize(140,21),m_skinNames,wxNO_BORDER | wxCB_READONLY);
@@ -141,15 +154,6 @@ void CDlgPreferences::CreateDialog()
 	btnClear->SetBitmapSelected(btmpClearClick);
 	btnClear->SetToolTip(ttClear);
 
-	// populate values from prefs
-	/// 
-	if(pDoc->rpc.get_global_prefs_override_struct(m_prefs) == 0){
-		m_PrefIndicator = wxT("Using local preferences");
-		m_globalPrefUsed = false;
-	}else{
-        m_PrefIndicator = wxT("Using global preferences");
-		m_globalPrefUsed = true;
-	}
 	//
 	ReadSettings(m_prefs);
 	
@@ -214,11 +218,16 @@ void CDlgPreferences::OnBtnClick(wxCommandEvent& event){ //init function
 	int btnID =  event.GetId();
 	if(btnID==ID_SAVEBUTTON){
 		//wxMessageBox("OnBtnClick - btnSave");
-        CheckSettings();
+        WriteSettings();
 		EndModal(wxID_OK);
 	}
 	else if(btnID==ID_CLEARBUTTON){
-		btnClear->Refresh();
+		CMainDocument* pDoc = wxGetApp().GetDocument();
+        wxASSERT(pDoc);
+		std::string emptyS = "";
+		pDoc->rpc.set_global_prefs_override(emptyS);
+		// possible re read of global prefs to client
+		EndModal(wxID_CANCEL);
 	}else{
 		//wxMessageBox("OnBtnClick - btnCancel");
 		EndModal(wxID_CANCEL);
@@ -262,30 +271,60 @@ void CDlgPreferences::initBefore(){
 bool CDlgPreferences::CheckIfInArray(wxString valArray[],wxString value,int size){
 	
 	for(int x=0; x<size; x++){
-		//if(valArray->Contains
+		wxString val = valArray[x];
+		if(valArray[x] == value){
+			return true;
+			break;
+		}
 	}
-
-	return true;
-
+	return false;
 }
-void CDlgPreferences::CheckSettings(){
+void CDlgPreferences::WriteSettings(){
 
 	CMainDocument* pDoc = wxGetApp().GetDocument();
     wxASSERT(pDoc);
     bool valuesChanged = false;
     m_prefs = pDoc->state.global_prefs;
     
-	if(cmbDWBtwnBgn->GetValue() == wxString("Always")){
-		if((pDoc->state.global_prefs.start_hour !=0) && (pDoc->state.global_prefs.end_hour !=0)){
-
-		}
-	}else if(cmbDWBtwnBgn->GetValue()== cmbDWBtwnEnd->GetValue()){
-		//if
-	}
+	int dwBtwnIntB = ConvertToNumber(cmbDWBtwnBgn->GetValue());
+    int dwBtwnIntE = ConvertToNumber(cmbDWBtwnEnd->GetValue());
+	int ctiBtwnIntB = ConvertToNumber(cmbCTIBtwnBgn->GetValue());
+	int ctiBtwnIntE = ConvertToNumber(cmbCTIBtwnEnd->GetValue());
 	
-	//pDoc->rpc.get_global_prefs_override_struct(m_prefs) == 0)
-	int rf = 9;
-
+	m_prefs.start_hour = dwBtwnIntB;
+	m_prefs.end_hour = dwBtwnIntE;
+	m_prefs.net_start_hour = ctiBtwnIntB;
+	m_prefs.net_end_hour = ctiBtwnIntE;
+    // Use No More Than GB
+	wxString useNoMoreGB = cmbUseNoMoreGB->GetValue();
+    wxString useNoMoreGBNum = useNoMoreGB.Mid(0,useNoMoreGB.Length()-2);
+    wxString valGBMB = useNoMoreGB.Mid(useNoMoreGB.Length()-2);
+	double dblUseNoMoreGB = 0;
+	if(valGBMB == wxString("GB")){
+		if(useNoMoreGBNum.ToDouble(&dblUseNoMoreGB)){
+			m_prefs.disk_max_used_gb = dblUseNoMoreGB;
+		}
+	}else{
+		if(useNoMoreGBNum.ToDouble(&dblUseNoMoreGB)){
+			m_prefs.disk_max_used_gb = dblUseNoMoreGB/1000;
+		}
+	}
+	//Do Work While Comp In Use
+	wxString doWorkWhileInUse = cmbDWWCInUse->GetValue();
+	if(doWorkWhileInUse == wxString("Yes")){
+		m_prefs.run_if_user_active = true;
+	}else{
+		m_prefs.run_if_user_active = false;
+	}  
+    // Do work after connection idle
+	wxString doWorkConnIdleFor = cmbDWACIdleFor->GetValue();
+	double dblDoWorkConnIdleFor = 0;
+    if(doWorkConnIdleFor.ToDouble(&dblDoWorkConnIdleFor)){
+		m_prefs.idle_time_to_run = dblDoWorkConnIdleFor;
+	}
+	//
+	pDoc->rpc.set_global_prefs_override_struct(m_prefs);
+	pDoc->rpc.read_global_prefs_override();
 
 }
 void CDlgPreferences::ReadSettings(GLOBAL_PREFS prefs){
@@ -306,10 +345,9 @@ int CDlgPreferences::ConvertToNumber(wxString num){
 	wxString hoursStrVal[]={wxT("0:00"),wxT("1:00"),wxT("2:00"),wxT("3:00"),wxT("4:00"),wxT("5:00"),wxT("6:00"),wxT("7:00"),wxT("8:00"),wxT("9:00"),wxT("10:00"),wxT("11:00"),wxT("12:00"),
 		wxT("13:00"),wxT("14:00"),wxT("15:00"),wxT("16:00"),wxT("17:00"),wxT("18:00"),wxT("19:00"),wxT("20:00"),wxT("21:00"),wxT("22:00"),wxT("23:00")};
 	
-	for(int ind = 0; ind < hoursStrVal->Length(); ind++){
+	for(int ind = 0; ind < 24; ind++){
 		if(hoursStrVal[ind] == num){
 			return ind;
-			break;
 		}
 	}
 	return -1;

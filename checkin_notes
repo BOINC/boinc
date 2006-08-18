@@ -8981,3 +8981,28 @@ Rom    18 Aug 2006
     client/
         client_types.C
         cs_scheduler.C
+
+Milos    18 Aug 2006
+    - Added additional images to both skins. Main background has been changed 
+      as well.(logos) Reading and writing to override global preferences
+      enabled from Preferences dialog. Created new component ClientStateIndicator
+      for showing state in gui. Split initiation in main class to workunit view
+      and project view. Also added logic for showing state
+    
+    clientgui/
+    	sg_ViewTabPage.cpp,h
+    	sg_SkinClass.h
+    	sg_ProjectsComponent.cpp
+    	sg_DlgPreferences.cpp,h
+    	sg_ClientStateIndicator.cpp,h
+    	sg_BoincSimpleGUI.cpp,h
+    	
+    client/skins/.../
+        skin.xml
+        
+    client/skins/.../graphic
+    	conn_ind.png
+    	error_image.png
+    	state_ind_bg.png
+    	simplegui_bg.png
+        

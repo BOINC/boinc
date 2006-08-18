@@ -37,11 +37,6 @@
 
 IMPLEMENT_DYNAMIC_CLASS(CProjectsComponent, wxPanel)
 
-enum{
-	BTN_SHOW_GRAPHICS,
-	BTN_COLLAPSE,
-};
-
 
 BEGIN_EVENT_TABLE(CProjectsComponent, wxPanel)
     EVT_PAINT(CProjectsComponent::OnPaint)

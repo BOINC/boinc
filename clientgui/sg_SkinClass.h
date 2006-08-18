@@ -62,6 +62,10 @@ public:
 
 		wxString GetGaugeBg() { return m_gaugeBg; }
 		wxString GetGaugeProgressInd() { return m_gaugeProgressInd; }
+
+		wxString GetStateIndBg() { return m_stateIndBg; }
+	    wxString GetConnInd() { return m_connInd; }
+	    wxString GetErrorInd() { return m_errorInd; }
 	
         wxString GetTabAreaBg() const { return m_tabAreaBg; }
         wxColour GetTabFromColAc() { return GetColorFromStr(m_tabFromColAc); }
@@ -113,7 +117,11 @@ public:
 
 		void SetGaugeBg(const wxString& clr) { m_gaugeBg = clr; }
 		void SetGaugeProgressInd(const wxString& clr) { m_gaugeProgressInd = clr; }
-
+		
+		void SetStateIndBg(const wxString& clr) { m_stateIndBg = clr; }
+		void SetConnInd(const wxString& clr) { m_connInd = clr; }
+		void SetErrorInd(const wxString& clr) { m_errorInd = clr; }
+		
 		void SetTabAreaBg(const wxString& imgsrc) { m_tabAreaBg = imgsrc; }
 		void SetTabFromColAc(const wxString& clr) { m_tabFromColAc = clr; }
 		void SetTabToColAc(const wxString& clr) { m_tabToColAc = clr; }
@@ -148,6 +156,10 @@ private:
 		//gauge 
         wxString m_gaugeBg; 
 		wxString m_gaugeProgressInd;
+		//state indicator 
+        wxString m_stateIndBg; 
+		wxString m_connInd;
+		wxString m_errorInd;
 		//notebook colors
 		//active tab
 		wxString m_tabAreaBg;

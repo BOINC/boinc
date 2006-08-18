@@ -79,19 +79,22 @@ void CViewTabPage::LoadSkinImages(){
 
 void CViewTabPage::CreatePage()
 {
-	RESULT* resState = pDoc->state.lookup_result(resultWU->project_url, resultWU->name);
-		
-	//////////////////////Build Tab Page///////////////////////////////
-	//Project Name
-	projName = wxString(resState->project->project_name.c_str(), wxConvUTF8 );
-	//Line Proj Name
-	lnProjName = new CStaticLine(this,wxPoint(20,36),wxSize(316,1));
-	lnProjName->SetLineColor(appSkin->GetStaticLineCol());
-	//
-	wxStaticLine spacerLine = new wxStaticLine(this,-1,wxPoint(20,36),wxSize(305,1));
-	//
-	//Project
-	projectFrName = wxString(resState->app->user_friendly_name.c_str(), wxConvUTF8);
+	RESULT* resState = NULL;
+	resState = pDoc->state.lookup_result(resultWU->project_url, resultWU->name);
+	
+	if(resState){
+		//////////////////////Build Tab Page///////////////////////////////
+		//Project Name
+		projName = wxString(resState->project->project_name.c_str(), wxConvUTF8 );
+		//Line Proj Name
+		lnProjName = new CStaticLine(this,wxPoint(20,36),wxSize(316,1));
+		lnProjName->SetLineColor(appSkin->GetStaticLineCol());
+		//
+		wxStaticLine spacerLine = new wxStaticLine(this,-1,wxPoint(20,36),wxSize(305,1));
+		//
+		//Project
+		projectFrName = wxString(resState->app->user_friendly_name.c_str(), wxConvUTF8);
+	}
 	//My Progress
 	wrkUnitName = wxString(resultWU->name.c_str(),wxConvUTF8);
 	//Main Gauge

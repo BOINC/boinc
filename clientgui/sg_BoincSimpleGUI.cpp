@@ -31,6 +31,7 @@
 #include "sg_SkinClass.h"
 #include "sg_ImageLoader.h"
 #include "sg_ProjectsComponent.h"
+#include "sg_ClientStateIndicator.h"
 #include "sg_StatImageLoader.h"
 #include "sg_ViewTabPage.h"
 
@@ -236,7 +237,14 @@ void CSimpleFrame::OnFrameRender(wxTimerEvent& WXUNUSED(event)) {
         //   cached data.
         pDoc->GetSimpleGUIWorkCount();
         if(!clientGUIInitialized){
-            InitSimpleClient();
+			int resultCnt = (int)pDoc->GetSimpleGUIWorkCount();
+			if(resultCnt > 0){
+				delete clientState;
+                InitWorkUnitView();
+			}else{
+                clientState->SetNoWorkPresentState();
+			}
+			InitProjectView();//Projects are init no matter if there is any work
             initAfter();
             clientGUIInitialized = true;
         }
@@ -249,15 +257,22 @@ void CSimpleFrame::InitEmptyState()
 {
 	Show(false);
 	Centre();
-}
-void CSimpleFrame::InitSimpleClient()
-{
 	//Set Background color
 	SetBackgroundColour(appSkin->GetAppBgCol());
-	CMainDocument* pDoc     = wxGetApp().GetDocument();
+
 	// Flex Grid Sizer
 	mainSizer = new wxFlexGridSizer(3,2);
-	//mainSizer->SetFlexibleDirection(wxHORIZONTAL);
+	SetSizer(mainSizer);
+
+	clientState = new ClientStateIndicator(this,wxPoint(31,124));
+	clientState->SetStateConnectingToClient();
+	
+}
+void CSimpleFrame::InitWorkUnitView()
+{
+	
+	CMainDocument* pDoc     = wxGetApp().GetDocument();
+
 	SetSizer(mainSizer);
 	mainSizer->Add(31, 98,0);
 	mainSizer->Add(343, 98,0);
@@ -293,16 +308,18 @@ void CSimpleFrame::InitSimpleClient()
 		// Put Grid in the sizer
 		mainSizer->Add(wrkUnitNB);
 	}
-	//mainSizer->Add(0, 0,1);
-	 
+	
+	Thaw();
+	mainSizer->Layout();
+}
+void CSimpleFrame::InitProjectView()
+{
+	// Do not update screen at this point
+	Freeze();
 	/////////////// MY PROJECTS COMPONENT /////////////////////
     projComponent = new CProjectsComponent(this,wxPoint(31,443));
 	///////////////////////////////////////////////////////////
-	//Update screen
 	Thaw();
-	mainSizer->Layout();
-	//Update();
-	//Refresh();
 }
 void CSimpleFrame::UpdateClientGUI(){
 	
@@ -325,16 +342,17 @@ void CSimpleFrame::UpdateClientGUI(){
 		for(int j = 0; j < (int)m_windows.size(); j ++)
 		{
 			CViewTabPage *currTab = m_windows[j];
-			std::string curtabname = currTab->GetTabName();
-            std::string resultname = result->name;
+			//std::string curtabname = currTab->GetTabName();
+            //std::string resultname = result->name;
 
 			if(result->name == currTab->GetTabName()){
 				//currTab FOUND;
 				currTab->isAlive = true;
+				currTab->m_tabIndex = j;
 				found = true;
 				//update tab interface
 		        currTab->UpdateInterface();
-				break;
+				//break;
 		    }
 
 		}
@@ -364,7 +382,8 @@ void CSimpleFrame::UpdateClientGUI(){
 			std::string index = " ";
 			//index += i;
 			friendlyName += wxString(index.c_str(), wxConvUTF8 );
-			CViewTabPage *wTab = new CViewTabPage(wrkUnitNB,i,resState->name,resState->project_url);
+			CViewTabPage *wTab = new CViewTabPage(wrkUnitNB,i,nme,projUrl);
+		
 			wrkUnitNB->AddPage(wTab, friendlyName, true);	
 			if(result->active_task_state == 1){
 				wrkUnitNB->SetPageImageIndex(i, 0); // this is working process
@@ -403,7 +422,7 @@ void CSimpleFrame::UpdateClientGUI(){
 
 void CSimpleFrame::initAfter(){
     //add your code here
-    Show(true);
+    //Show(true);
 }
 //
 void CSimpleFrame::InitNotebook()
@@ -514,6 +533,22 @@ int CSimpleFrame::LoadSkinXML(){
 			mf.fgets(buf, 256);
             if (parse_str(buf, "<gaugeprogress>", val)) {
 				appSkin->SetGaugeProgressInd(wxString( val.c_str(), wxConvUTF8 ));
+				skinImageArray->Add(wxString( val.c_str(), wxConvUTF8 ));
+			}
+        }else if (match_tag(buf, "<stateindicator")) {
+			mf.fgets(buf, 256);
+			if (parse_str(buf, "<stateindbg>", val)) {
+				appSkin->SetStateIndBg(wxString( val.c_str(), wxConvUTF8 ));
+				skinImageArray->Add(wxString( val.c_str(), wxConvUTF8 ));
+			}
+			mf.fgets(buf, 256);
+            if (parse_str(buf, "<connindicator>", val)) {
+				appSkin->SetConnInd(wxString( val.c_str(), wxConvUTF8 ));
+				skinImageArray->Add(wxString( val.c_str(), wxConvUTF8 ));
+			}
+			mf.fgets(buf, 256);
+            if (parse_str(buf, "<errorimage>", val)) {
+				appSkin->SetErrorInd(wxString( val.c_str(), wxConvUTF8 ));
 				skinImageArray->Add(wxString( val.c_str(), wxConvUTF8 ));
 			}
         }else if (match_tag(buf, "<buttons")) {
@@ -732,6 +767,9 @@ void CSimpleFrame::ReskinAppGUI(){
 			CViewTabPage *wTab = m_windows.at(i);
 			wTab->ReskinInterface();
 		}
+	}
+	if(clientState){
+		clientState->ReskinInterface();
 	}
 	//reskin component 
 	projComponent->ReskinInterface();

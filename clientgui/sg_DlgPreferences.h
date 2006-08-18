@@ -91,7 +91,7 @@ public:
 	wxBitmap fileImgBuf[1];
 	virtual ~CDlgPreferences();
 	void initBefore();
-	void CheckSettings();
+	void WriteSettings();
 	bool CheckIfInArray(wxString valArray[],wxString value,int size);
 	void ReadSettings(GLOBAL_PREFS prefs);
 	void CreateDialog();
@@ -107,7 +107,6 @@ public:
 protected:
 	wxString m_SkinName;
 	wxString m_PrefIndicator;
-	bool m_globalPrefUsed;
 	wxArrayString m_skinNames;
 	wxString m_SkinDirPrefix;
 	GLOBAL_PREFS m_prefs;

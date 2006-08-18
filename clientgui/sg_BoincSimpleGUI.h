@@ -30,6 +30,7 @@ class StatImageLoader;
 class SkinClass;
 class ImageLoader;
 class CProjectsComponent;
+class ClientStateIndicator;
 
 #include "common/wxAnimate.h"
 #include "common/wxFlatNotebook.h"
@@ -64,6 +65,8 @@ public:
 	wxArrayString *skinImageArray;
 	// My projects component
 	CProjectsComponent *projComponent;
+	// Client State Indicator
+	ClientStateIndicator *clientState;
 	//Collapse button
 	bool midAppCollapsed;
 	bool btmAppCollapsed;
@@ -72,7 +75,8 @@ public:
 	bool wrkUnitNotebookInit;
 
 	void InitEmptyState();
-    void InitSimpleClient();
+    void InitWorkUnitView();
+	void InitProjectView();
 	void UpdateClientGUI();
 	int LoadSkinXML();
 	bool CheckSkin();

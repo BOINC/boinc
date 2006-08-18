@@ -50,6 +50,7 @@ class CViewTabPage : public wxPanel {
 public:
 	
 	bool isAlive;
+	int m_tabIndex;
 	//Skin Class
     SkinClass *appSkin;
 	wxString dirPref;
@@ -111,7 +112,6 @@ protected:
 	CMainDocument* pDoc;
 	RESULT* resultWU;
 
-	int m_tabIndex;
     //tab identifier
 	std::string m_name;
 	std::string m_prjUrl;

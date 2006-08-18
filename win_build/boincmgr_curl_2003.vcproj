@@ -414,6 +414,12 @@
 					RelativePath="..\clientgui\sg_BoincSimpleGUI.h">
 				</File>
 				<File
+					RelativePath="..\clientgui\sg_ClientStateIndicator.cpp">
+				</File>
+				<File
+					RelativePath="..\clientgui\sg_ClientStateIndicator.h">
+				</File>
+				<File
 					RelativePath="..\clientgui\sg_DlgMessages.cpp">
 				</File>
 				<File
