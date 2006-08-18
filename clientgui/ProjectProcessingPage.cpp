@@ -377,10 +377,11 @@ void CProjectProcessingPage::OnStateChange( CProjectProcessingPageEvent& WXUNUSE
 
             ai->url = (const char*)pWAP->m_ProjectInfoPage->GetProjectURL().mb_str();
 
-            if (!pWAP->m_AccountKeyPage->m_strAccountKey.IsEmpty() ||
-                pWAP->m_bCredentialsCached
+            if (!pWAP->m_AccountKeyPage->m_strAccountKey.IsEmpty() || 
+                pWAP->m_bCredentialsCached || 
+                pWAP->m_bCredentialsDetected
             ) {
-                if (!pWAP->m_bCredentialsCached) {
+                if (!pWAP->m_bCredentialsCached || pWAP->m_bCredentialsDetected) {
                     ao->authenticator = (const char*)pWAP->m_AccountKeyPage->m_strAccountKey.mb_str();
                 }
                 SetProjectCommunitcationsSucceeded(true);

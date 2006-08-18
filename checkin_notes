@@ -8916,6 +8916,7 @@ Charlie 17 Aug 2006
         x_opengl.C
     client/
         hostinfo_unix.C
+        
 Milos 17 Aug 2006
     - changed the way wxFlatNotebook is initialized when there is no work present. 
       Added routing to intialize notebook to default values.Introduced Freeze()
@@ -8949,3 +8950,28 @@ Charlie 17 Aug 2006
     mac_build/
         boinc.xcodeproj/
             project.pbxproj
+
+Rom    18 Aug 2006
+    - boincmgr - Add support for detecting an authenticator via a "Setup" cookie
+        from the projects master URL.  With this, and the project_init.xml file
+        specified for a customized installer will allow for a handsfree install
+        scenario.
+        
+        project_init.xml just needs to contain the project name and master url, the
+        website sets a cookie named "Setup" with the desired authenticator and
+        a reasonable timeout, like 30 minutes, and the attach to project wizard will
+        automatically attach to the project and get work.
+        
+        NOTE: This only works if the participant is using Internet Explorer.
+        
+    clientgui/
+        ProjectProcessingPage.cpp
+        WizardAttachProject.cpp, .h
+    clientlib/win/
+        AuthenticatorDetection.cpp, .h
+        stdafx.h
+    win_build/
+        boinc_dll.vcproj
+        boinc_dll_2003.vcproj
+
+        

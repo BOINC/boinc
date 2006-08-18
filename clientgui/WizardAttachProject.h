@@ -125,6 +125,7 @@ public:
     CErrProxyPage* m_ErrProxyPage;
 ////@end CWizardAttachProject member variables
     bool m_bCredentialsCached;
+    bool m_bCredentialsDetected;
     wxString strProjectName;
 };
 

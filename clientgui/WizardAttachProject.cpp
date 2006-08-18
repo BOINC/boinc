@@ -50,6 +50,9 @@
 #include "res/attachprojectwizard.xpm"
 ////@end XPM images
 
+#ifdef __WXMSW__
+EXTERN_C BOOL DetectSetupAuthenticator(LPCSTR szProjectURL, LPSTR szAuthenticator, LPDWORD lpdwSize);
+#endif
 
 /*!
  * CWizardAttachProject type definition
@@ -130,6 +133,7 @@ bool CWizardAttachProject::Create( wxWindow* parent, wxWindowID id, const wxPoin
     project_url = wxEmptyString;
     project_authenticator = wxEmptyString;
     m_bCredentialsCached = false;
+    m_bCredentialsDetected = false;
  
     wxString strTitle;
     if (wxGetApp().GetBrand()->IsBranded()) {
@@ -266,7 +270,27 @@ bool CWizardAttachProject::Run( wxString& WXUNUSED(strName), wxString& strURL, b
         m_bCredentialsCached = bCredentialsCached;
     }
 
-    if ( strURL.Length() && bCredentialsCached && m_ProjectProcessingPage) {
+#ifdef __WXMSW__
+
+    // If credentials are not cached, then we should try one last place to look up the
+    //   authenticator.  Some projects will set a "Setup" cookie off of their URL with a
+    //   pretty short timeout.  Lets take a crack at detecting it.
+    //
+    // Only Internet Explorer is supported at this time.
+    //
+    if (!bCredentialsCached) {
+        TCHAR  szAuthenticator[512];
+        DWORD dwSize = sizeof(szAuthenticator)/sizeof(TCHAR);
+
+        if (DetectSetupAuthenticator(strURL.mbc_str(), szAuthenticator, &dwSize)) {
+            m_bCredentialsDetected = true;
+            m_AccountKeyPage->m_strAccountKey = szAuthenticator;
+        }
+    }
+
+#endif
+
+    if ( strURL.Length() && (bCredentialsCached || m_bCredentialsDetected) && m_ProjectProcessingPage) {
         return RunWizard(m_ProjectProcessingPage);
     } else if (strURL.Length() && !bCredentialsCached && m_ProjectPropertiesPage) {
         return RunWizard(m_ProjectPropertiesPage);

@@ -41,6 +41,7 @@
 #include <EventSys.h>
 #include <wininet.h>
 #include <crtdbg.h>
+#include <tchar.h>
 
 #include <atlbase.h>
 #include <atlcom.h>

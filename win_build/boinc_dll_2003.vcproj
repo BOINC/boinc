@@ -159,7 +159,7 @@
 				PreprocessorDefinitions="WIN32;_WINDOWS;_DEBUG;_USRDLL;_ATL_ATTRIBUTES"
 				MinimalRebuild="TRUE"
 				BasicRuntimeChecks="3"
-				RuntimeLibrary="3"
+				RuntimeLibrary="1"
 				UsePrecompiledHeader="3"
 				WarningLevel="4"
 				Detect64BitPortabilityProblems="TRUE"
@@ -288,6 +288,9 @@
 			Filter="cpp;c;cxx;def;odl;idl;hpj;bat;asm;asmx"
 			UniqueIdentifier="{4FC737F1-C7A5-4376-A066-2A32D752A2FF}">
 			<File
+				RelativePath="..\clientlib\win\AuthenticatorDetection.cpp">
+			</File>
+			<File
 				RelativePath="..\clientlib\win\boinc_dll.cpp">
 			</File>
 			<File
@@ -337,6 +340,9 @@
 			Name="Header Files"
 			Filter="h;hpp;hxx;hm;inl;inc;xsd"
 			UniqueIdentifier="{93995380-89BD-4b04-88EB-625FBE52EBFB}">
+			<File
+				RelativePath="..\clientlib\win\AuthenticatorDetection.h">
+			</File>
 			<File
 				RelativePath="..\clientlib\win\boinc_dll.h">
 			</File>
