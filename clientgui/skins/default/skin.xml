@@ -31,6 +31,11 @@
 				<gaugebg>graphic/gauge_bg.png</gaugebg>
 				<gaugeprogress>graphic/gauge_progress_indicator.png</gaugeprogress>
 			</gauge>
+			<stateindicator>
+				<stateindbg>graphic/state_ind_bg.png</stateindbg>
+				<connindicator>graphic/conn_ind.png</connindicator>
+				<errorimage>graphic/error_image.png</errorimage>
+			</stateindicator>
 			<buttons>
 				<preferences>
 					<imgsrc>graphic/btnPreferences.png</imgsrc>
