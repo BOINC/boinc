@@ -134,8 +134,8 @@ int use_sandbox, int isManager
         if ((sbuf.st_mode & (S_ISUID | S_ISGID)) != (S_ISUID | S_ISGID))
             return -1005;
 
-        boinc_master_uid = sbuf.st_gid;
-        boinc_master_gid = sbuf.st_uid;
+        boinc_master_uid = sbuf.st_uid;
+        boinc_master_gid = sbuf.st_gid;
     } else {
         boinc_master_uid = geteuid();
         boinc_master_gid = getegid();

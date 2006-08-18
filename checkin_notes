@@ -8935,3 +8935,17 @@ Rom    17 Aug 2006
     clientgui/
         MainDocument.cpp, .h
         sg_BoincSimpleGUI.cpp
+
+Charlie 17 Aug 2006
+    -Mac: Fixed a bug in check_security() when ID of group boinc_master != ID of 
+        user boinc_master.
+    - Mac: XCode project sets S_ISUID and S_ISGID permission bits for stand-alone 
+        client to aid in debugging.
+    - Update obsolete screensaver test code in ss_logic.C.
+    
+    client/
+        check_security.C
+        ss_logic.C
+    mac_build/
+        boinc.xcodeproj/
+            project.pbxproj

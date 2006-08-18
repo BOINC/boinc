@@ -2070,6 +2070,7 @@
 				DDD74D8407CF482E0065AC9D /* Sources */,
 				DDD74D8507CF482E0065AC9D /* Frameworks */,
 				DD46A43A088D1BEE00052C57 /* ShellScript */,
+				DD1B90070A954C9A00FF5591 /* ShellScript */,
 			);
 			buildRules = (
 				DD6826DF08641B1E0070CDB8 /* PBXBuildRule */,
@@ -2201,6 +2202,19 @@
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
 			shellScript = "cp -fpv \"${SRCROOT}/Installer-Info.plist\" \"${BUILT_PRODUCTS_DIR}/BOINC Installer.app/Contents/Info.plist\"";
+		};
+		DD1B90070A954C9A00FF5591 /* ShellScript */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "if [ \"$BUILD_STYLE\" != \"Deploy_noSandbox\" ] && [ \"$BUILD_STYLE\" != \"Dev_noSandbox\" ]; then\n    chown -R ${USER}:${GROUP} \"${BUILT_PRODUCTS_DIR}/boinc\"\n    chmod u+s,g+s \"${BUILT_PRODUCTS_DIR}/boinc\"\nfi";
 		};
 		DD3E15370A774397007E0084 /* ShellScript */ = {
 			isa = PBXShellScriptBuildPhase;

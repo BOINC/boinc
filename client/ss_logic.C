@@ -103,7 +103,7 @@ void SS_LOGIC::reset() {
     }
 }
 
-// called 10X per second
+// called 1X per second
 //
 void SS_LOGIC::poll() {
     ACTIVE_TASK* atp, *new_atp=0;
@@ -117,9 +117,24 @@ void SS_LOGIC::poll() {
 
 #if 0
     // if you want to debug screensaver functionality...
+#define BLANK_DELAY 15 /* seconds */
+#define SAVER_PERIOD 7 /* seconds */
+    GRAPHICS_MSG gm;
     static int foo=0;
     foo++;
-    if (foo == 8) start_ss(time(0)+1000);
+    if (foo == (SAVER_PERIOD)) {
+        msg_printf(0, MSG_INFO,
+            "starting screensaver"
+        );
+        start_ss(gm, time(0)+BLANK_DELAY);
+    } 
+    if (foo >= ((2*SAVER_PERIOD)+BLANK_DELAY)) {
+        msg_printf(0, MSG_INFO,
+            "resetting screensaver counter"
+        );
+        stop_ss();
+        foo = 0;
+    }
 #endif
 
     if (!do_ss) return;
