@@ -97,6 +97,12 @@ void PROJECT::init() {
     work_request = 0;
     work_request_urgency = WORK_FETCH_DONT_NEED;
     duration_correction_factor = 1;
+
+    // Initialize scratch variables.
+    rrsim_proc_rate = 0.0;
+    cpu_shortfall = 0.0;
+    rr_sim_deadlines_missed = 0;
+    deadlines_missed = 0;
 }
 
 // parse project fields from client_state.xml

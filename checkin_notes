@@ -8974,4 +8974,10 @@ Rom    18 Aug 2006
         boinc_dll.vcproj
         boinc_dll_2003.vcproj
 
+Rom    18 Aug 2006
+    - Initialize scratch scheduler/work fetch variables when PROJECT structs are
+        created.
         
+    client/
+        client_types.C
+        cs_scheduler.C

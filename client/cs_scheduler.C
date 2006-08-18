@@ -578,6 +578,7 @@ bool CLIENT_STATE::compute_work_requests() {
             "computer_work_requests(): calling rr_simulation()"
         );
     }
+
     rr_simulation(avg_proc_rate()/ncpus, nearly_runnable_resource_share());
 
     // compute overall urgency
