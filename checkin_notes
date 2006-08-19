@@ -9005,4 +9005,13 @@ Milos    18 Aug 2006
     	error_image.png
     	state_ind_bg.png
     	simplegui_bg.png
+
+Charlie 19 Aug 2006
+    -Mac: Fixed a bug in setMacIcon() associated with sandbox security; 
+        FSpSetFInfo() was getting a permission error trying to set the 
+        kHasCustomIcon bit in the Finder flags, preventing the custom icon 
+        from appearing.  Use FSSetCatalogInfo() instead of FSpSetFInfo() 
+        as recommended by Apple (FSpSetFInfo is deprecated.)
         
+    api/
+        mac_icon.C

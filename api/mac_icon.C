@@ -52,11 +52,11 @@ char MacPListData[] = "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n"
 // Adds ther specified resource to the file given as an argument.
 int setMacRsrcForFile(char *filename, char *rsrcData, long rsrcSize, 
                             OSType rsrcType, int rsrcID, StringPtr rsrcName) {
-    OSErr oserr;        /* stores an OS error code */
-    FSSpec fsspec;      /* FileSpec */
-    FSRef fsref;        /* File Reference */
-    FInfo finfo;        /* File Info */
-    short rref;         /* Resource Reference */
+    OSErr oserr;                    /* stores an OS error code */
+    FSSpec fsspec;                  /* FileSpec */
+    FSRef fsref;                    /* File Reference */
+    FSCatalogInfo catalogInfo;      /* For setting custom icon bit in Finder Info */
+    short rref;                     /* Resource Reference */
     Handle hand;
     int retry;
 
@@ -102,9 +102,9 @@ int setMacRsrcForFile(char *filename, char *rsrcData, long rsrcSize,
 
     if (rsrcType == 'icns') {
         /* set custom icon flag */
-        CHECK_OSERR(FSpGetFInfo(&fsspec, &finfo));
-        finfo.fdFlags |= kHasCustomIcon;
-        CHECK_OSERR( FSpSetFInfo(&fsspec, &finfo));
+        CHECK_OSERR(FSGetCatalogInfo(&fsref, kFSCatInfoFinderInfo, &catalogInfo, NULL, NULL, NULL));
+        ((FileInfo *)&catalogInfo.finderInfo)->finderFlags |= kHasCustomIcon;
+        CHECK_OSERR( FSSetCatalogInfo(&fsref, kFSCatInfoFinderInfo, &catalogInfo));
     }
     return(0);
 }
