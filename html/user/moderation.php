@@ -9,9 +9,9 @@ To maximize discussion and flow of information,
 our message boards are moderated.
 Message board postings are subject to the following posting rules:
 ".post_rules()."
-Moderators may delete posts that violate any of these rules,
-and may suspend the posting privileges of anyone
-who repeatedly violates the rules.
+Moderators may delete posts that violate any of these rules.
+The authors of deleted posts will be notified via email.
+Gross offenders may have their accounts disabled to prevent further posting.
 
 <p>
 If you think a post violates any of the posting rules,
