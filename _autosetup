@@ -22,7 +22,7 @@ check_version()
     cd /tmp
     foundit=
     ## get current version of $1
-    desired=$2
+    desired=`echo $2 | awk -F. '{print $1*100+$2}'`
     echo $ECHO_N "Checking version of '$1' >= $desired... $ECHO_C"
     name=$1
     fullpath=`type $name | awk '{ print $(NF) }'`;
@@ -42,7 +42,7 @@ check_version()
 	    version="0";
 	fi
 	if [ -n "${version}" ]; then
-	    version=`echo $version | awk '{ for (i=1;i<=NF;i++) { split($i,j,"."); m=j[1]"."j[2] ; if ((m*1)>0) { print m ; break; } } }'`
+	    version=`echo $version | awk '{ for (i=1;i<=NF;i++) { split($i,j,"."); m=j[1]*100+j[2] ; if ((m*1)>0) { print m ; break; } } }'`
 	    if [ -z "$version" ]; then version=0; fi
 	    success=`echo "$version" "$desired" | awk '{ if ($1 >= $2) { print "yes";} else {print "no";}} '`
 	else
@@ -122,7 +122,7 @@ echo "$cmdline"
 if eval $cmdline; then
     echo "Done, now run ./configure"
     echo " ./configure -C                         to enable caching"
-    echo " ./configure --enable-maintainer-mode   to enable maintainer depedencies"
+    echo " ./configure --enable-maintainer-mode   to enable maintainer dependencies"
     exit 0
 else
     echo "Something failed .... please check error-message and re-run when fixed."

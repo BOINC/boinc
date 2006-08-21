@@ -20,18 +20,27 @@ The preferences override file is named <code>global_prefs_override.xml</code>.
 Its structure as follows:
 ".html_text("
 <global_preferences>
+    <run_on_batteries>0</run_on_batteries>
     <run_if_user_active>0</run_if_user_active>
-    <idle_time_to_run>3</idle_time_to_run>
-    <cpu_scheduling_period_minutes>60</cpu_scheduling_period_minutes>
+    <start_hour>0</start_hour>
+    <start_hour>0</start_hour>
+    <net_start_hour>0</net_start_hour>
+    <net_start_hour>0</net_start_hour>
+    <leave_apps_in_memory>0</leave_apps_in_memory>
+    <confirm_before_connecting>0</confirm_before_connecting>
+    <hangup_if_dialed>0</hangup_if_dialed>
     <work_buf_min_days>0.1</work_buf_min_days>
     <max_cpus>2</max_cpus>
+    <cpu_scheduling_period_minutes>60</cpu_scheduling_period_minutes>
     <disk_interval>60</disk_interval>
     <disk_max_used_gb>100</disk_max_used_gb>
     <disk_max_used_pct>50</disk_max_used_pct>
     <disk_min_free_gb>0.1</disk_min_free_gb>
     <vm_max_used_pct>75</vm_max_used_pct>
+    <idle_time_to_run>3</idle_time_to_run>
     <max_bytes_sec_down>0</max_bytes_sec_down>
     <max_bytes_sec_up>0</max_bytes_sec_up>
+    <cpu_usage_limit>100</cpu_usage_limit>
 </global_preferences>
 ")."
 

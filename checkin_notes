@@ -9015,3 +9015,17 @@ Charlie 19 Aug 2006
         
     api/
         mac_icon.C
+
+David  20 Aug 2006
+    - _autosetup: the check_version function doesn't
+        correctly handle version strings that begins with 0,
+        such as the pkg-config version 0.15.
+        This is due to that checking if a value is a number
+        it is assumed that the number is more than 0.
+        check_version also assumes that 1.10 is lower than 1.9 since it does a
+        string comparison.
+        (from Egon Larsson)
+
+    _autosetup
+    html/inc/
+        translation.inc

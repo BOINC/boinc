@@ -382,68 +382,86 @@ if (languagesNeedsRebuild($lang_language_dir, $lang_translations_dir, $lang_prj_
     buildLanguages($lang_language_dir,$lang_translations_dir,$lang_prj_translations_dir, $lang_compiled_dir);
 }
 
-// Define some variables (from constants) that the language files can use in the translation:
+// Define some variables (from constants) that the language files
+// can use in the translation:
+
 $PROJECT = PROJECT;
 
 
-if (file_exists($lang_language_dir.$lang_compiled_dir."language_interface.inc")){
-    require_once($lang_language_dir.$lang_compiled_dir."language_interface.inc");
-
-    // Make a list of languages which the user prefers
-    // (by looking at cookies and browser settings)
-    // cookies have highest priority.
-
-    if (isset($_COOKIE['lang'])){
-        $language_string = $_COOKIE['lang'].",";
-    } else {
-        $language_string = '';
-    }
-    if (isset($HTTP_SERVER_VARS["HTTP_ACCEPT_LANGUAGE"])) {
-        $language_string .= strtolower($HTTP_SERVER_VARS["HTTP_ACCEPT_LANGUAGE"]);
-    }
-
-    // Find out which language to use by iterating trough list
-    // The list is commaseperated, so split it into an array of the following type:
-    //        Array ( 
-    //    [0] => da 
-    //    [1] => en-us;q=0.7 
-    //    [2] => en;q=0.3 
-    //  )
-
-    $client_languages=explode(",",$language_string);
-
-    //Now a language is either defined as primary-secondary or merely primary
-    //it can also have a quality attribute set - which orders the languages in a user
-    //preffered ordering. Since this is usally the same order as the array indices
-    //we just ignore this attribute. (TODO: don't ignore this attribute)
-    //A missing quality attribute means q=1
-
-    require_once($lang_language_dir.$lang_compiled_dir.$lang_project_default.".po.inc");
-    //Always include the project default as fallback
-    for ($i=sizeof($client_languages)-1;$i>=0;$i--){
-        //Now for each language that the client requests
-        if ((strlen($client_languages[$i])>2) && (substr($client_languages[$i],2,1)=="_" || substr($client_languages[$i],2,1)=="-")){
-            //If this is defined as primary-secondary
-            $language = substr(
-                $client_languages[$i],0,2)."_".strtoupper(substr($client_languages[$i],3,2)
-            );
-            //represent it as xx_YY
-        } else {
-            $language = substr($client_languages[$i],0,2);
-            //else just use xx
-        }
-        if (file_exists($lang_language_dir.$lang_compiled_dir.$language.".po.inc")) {
-            //If we have the language, include it
-            //echo "[$language]";
-            require($lang_language_dir.$lang_compiled_dir.$language.".po.inc");
-        }
-    }
-
-} else {
+if (!file_exists($lang_language_dir.$lang_compiled_dir."language_interface.inc")){
     language_log("Could not load language interface.",2);
-    echo "ERROR: Could not load language interface. This is a fatal error, exiting.";
+    echo "ERROR: Could not load language interface.
+        This is a fatal error, exiting.
+    ";
     flush;
     exit;
 }
+
+require_once($lang_language_dir.$lang_compiled_dir."language_interface.inc");
+
+// Make a list of languages which the user prefers
+// (by looking at cookies and browser settings)
+// cookies have highest priority.
+
+if (isset($_COOKIE['lang'])){
+    $language_string = $_COOKIE['lang'].",";
+} else {
+    $language_string = '';
+}
+if (isset($HTTP_SERVER_VARS["HTTP_ACCEPT_LANGUAGE"])) {
+    $language_string .= strtolower($HTTP_SERVER_VARS["HTTP_ACCEPT_LANGUAGE"]);
+}
+
+// Find out which language to use by iterating trough list
+// The list is commaseperated, so split it into an array of the following type:
+//        Array ( 
+//    [0] => da 
+//    [1] => en-us;q=0.7 
+//    [2] => en;q=0.3 
+//  )
+
+$client_languages=explode(",",$language_string);
+
+// A language is either defined as primary-secondary or merely primary.
+// It can also have a quality attribute set,
+// which orders the languages in a user preferred ordering.
+// Since this is usally the same order as the array indices
+// we just ignore this attribute (TODO: don't ignore this attribute)
+// A missing quality attribute means q=1
+
+// Always include the project default as fallback
+//
+require_once(
+    $lang_language_dir.$lang_compiled_dir.$lang_project_default.".po.inc"
+);
+$language_in_use = $lang_project_default;
+
+// loop over languages that the client requests
+//
+for ($i=sizeof($client_languages)-1;$i>=0;$i--) {
+    if ((strlen($client_languages[$i])>2)
+        && (substr($client_languages[$i],2,1)=="_" || substr($client_languages[$i],2,1)=="-"))
+    {
+        // If this is defined as primary-secondary, represent it as xx_YY
+        //
+        $language = substr(
+            $client_languages[$i],0,2)."_".strtoupper(substr($client_languages[$i],3,2)
+        );
+    } else {
+        // else just use xx
+        //
+        $language = substr($client_languages[$i],0,2);
+    }
+    // If we have a translation for the language, include it
+    //
+    if (file_exists($lang_language_dir.$lang_compiled_dir.$language.".po.inc")) {
+        require($lang_language_dir.$lang_compiled_dir.$language.".po.inc");
+        $language_in_use = $language;
+
+    }
+}
+
+// If you include this file, $language_in_use is now set
+// to the language actually being used
 
 ?>

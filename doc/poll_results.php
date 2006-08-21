@@ -3,7 +3,7 @@
 require_once('docutil.php');
 require_once('../html/inc/translation.inc');
 
-$cachefile = "poll_results_cache_$language.html";
+$cachefile = "cache/poll_results_$language_in_use.html";
 
 if (file_exists($cachefile)) {
     $age = time() - filemtime($cachefile);
