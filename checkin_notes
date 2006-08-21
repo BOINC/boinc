@@ -9029,3 +9029,17 @@ David  20 Aug 2006
     _autosetup
     html/inc/
         translation.inc
+
+Charlie 21 Aug 2006
+    -Mac: Work around screensaver SETI@home crash bug seen on Intel Macs which 
+        apparently occurs in GLUT destructors; use glutHideWindow() and 
+        glutShowWindow() instead of glutDestroyWindow() and glutCreateWindow() 
+        to close and open existing window.  This is similar to implementation 
+        for FreeGLUT on Linux.
+    - Mac: When closing graphics window, remember its size and position; restore 
+        window's size and position after exiting screensaver, or if user closes 
+        and reopens the window.  Presently implemented only for Mac, and retains 
+        information only while application remains in memory.
+        
+    api/
+        x_opengl.C

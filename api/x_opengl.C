@@ -43,6 +43,7 @@ static bool visible = true;
 static int current_graphics_mode = MODE_HIDE_GRAPHICS;
 static int acked_graphics_mode;
 static int xpos = 100, ypos = 100;
+static int win_width = 600, win_height = 400;
 static int clicked_button;
 static int win=0;
 static bool glut_is_initialized = false;
@@ -252,6 +253,11 @@ static void make_new_window(int mode) {
 	  fg_window_state = MODE_WINDOW;
     }
     
+#ifdef __APPLE__
+    if (win)
+        have_window = true;
+#endif
+
     if (!have_window) {
         win = glutCreateWindow(window_title); 
         app_debug_msg("glutCreateWindow() succeeded. win = %d\n", win);
@@ -265,7 +271,7 @@ static void make_new_window(int mode) {
         glEnable(GL_DEPTH_TEST);
   
 #ifdef __APPLE__
-    glutWMCloseFunc(CloseWindow);   // Enable the window's close box
+        glutWMCloseFunc(CloseWindow);   // Enable the window's close box
         BringAppToFront();
 #endif
         app_graphics_init();
@@ -274,6 +280,14 @@ static void make_new_window(int mode) {
     if (mode == MODE_FULLSCREEN)  {
         glutFullScreen();
     }
+#ifdef __APPLE__
+        else {
+            // Changing to MODE_WINDOW from some other mode
+            glutPositionWindow(xpos, ypos);
+            glutReshapeWindow(win_width, win_height);
+        }
+        glutShowWindow();
+#endif
 
     return;
 }
@@ -346,6 +360,15 @@ static void boinc_glut_init() {
 //
 void KillWindow() {
    if (win) {
+#ifdef __APPLE__
+        if (current_graphics_mode == MODE_WINDOW) {
+            win_width = glutGet(GLUT_WINDOW_WIDTH);
+            win_height = glutGet(GLUT_WINDOW_HEIGHT);
+            xpos = glutGet(GLUT_WINDOW_X);
+            ypos = glutGet(GLUT_WINDOW_Y);
+        }
+        glutHideWindow();
+#else
       if (glut_is_freeglut && FREEGLUT_IS_INITIALIZED && GLUT_HAVE_WINDOW) {
          glutHideWindow();
       } else {
@@ -353,6 +376,7 @@ void KillWindow() {
          win = 0;	// set this to 0 FIRST to avoid recursion if the following call fails.
          glutDestroyWindow(oldwin);
       }
+#endif
    } 
 }
 
@@ -653,7 +677,7 @@ void app_debug_msg (const char* fmt, ...) {
             free(tmp);
         }
     }
-  
+
     vsnprintf (buffer, 5000, fmt, args);
     fprintf (stdout, "APP '%s' DEBUG: ", boinc_slotdir);
     fprintf (stdout, buffer);
