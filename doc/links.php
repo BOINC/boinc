@@ -21,19 +21,44 @@ function site($url, $name) {
     return "<a href=$url>$name</a>";
 }
 
+$wiki_sites = array(
+    array(
+        "http://boinc-wiki.ath.cx/",
+        "The Unofficial BOINC Wiki",
+        "(in English)",
+    ),
+    array(
+        "http://www.seti-argentina.com.ar/instrucciones-boinc-manager",
+        "BOINC Argentina",
+        "(in Spanish)",
+    ),
+    array(
+        "http://faq.boinc.de/",
+        "Deutsche BOINC FAQ",
+        "(in German)",
+    ),
+    array(
+        "http://www.boincfrance.org/wakka.php?wiki=BienVenue",
+        "BOINCFrance.org",
+        "(in French)",
+    ),
+    array(
+        "http://www.crunching-family.at/wiki/",
+        "Crunching Family Wiki",
+        "(In German)",
+    ),
+);
+
 page_head("Web resources for BOINC participants");
 
 echo "
 <table cellpadding=8><tr><td valign=top>
 <h2>Wikis</h2>
-User-editable
-sites with information and documentation about BOINC.
-<ul>
-<li> <a href=http://boinc-wiki.ath.cx/>The Unofficial BOINC Wiki</a> (in English)
-<li> <a href=http://www.seti-argentina.com.ar/instrucciones-boinc-manager>BOINC Argentina</a> (in Spanish)
-<li> <a href=http://faq.boinc.de/>Deutsche BOINC FAQ</a> (in German)
-<li> <a href=http://www.boincfrance.org/wakka.php?wiki=BienVenue>BOINCFrance.org</a> (in French)
-</ul>
+User-editable sites with information and documentation about BOINC.
+";
+shuffle($wiki_sites);
+site_list($wiki_sites);
+echo "
 
 <h2>Project status sites</h2>
 Show if the servers of various projects are up or down.

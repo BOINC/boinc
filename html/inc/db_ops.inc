@@ -601,15 +601,16 @@ FROM result WHERE
     echo "<td><h2>" . link_results("'Client error' results", $urlquery, "outcome=3", '') . "</h2></td>";
     echo "</tr>";
     echo "<tr valign=\"top\">";
-    echo "<td><table border=\"2\" cellpadding=\"4\"\n";
+    echo "<td><table border=2 cellpadding=4>\n";
     echo "<tr><th>Server state</th><th># results</th></tr>\n";
     for ($ss=1; $ss<6; $ss++) {
         row2(server_state_string($ss),
-             link_results("$server_state[$ss]",  $urlquery,"server_state=$ss", ''));
+             link_results("$server_state[$ss]",  $urlquery,"server_state=$ss", '')
+        );
     }
     echo "</table></td>";
 
-    echo "<td><table border=\"2\" cellpadding=\"4\"\n";
+    echo "<td><table border=2 cellpadding=4>\n";
     echo "<tr><th>Outcome</th><th># results</th></tr>\n";
 
     for ($ro=0; $ro<7; $ro++) {
@@ -619,14 +620,14 @@ FROM result WHERE
     }
     echo "</table></td>";
 
-    echo "<td><table border=\"2\" cellpadding=\"4\"\n";
+    echo "<td><table border=2 cellpadding=4>\n";
     echo "<tr><th>Validate state</th><th># results</th></tr>\n";
     for ($vs=0; $vs<NVALIDATE_STATES; $vs++) {
         c_row2($validate_state[$vs]?validate_color($vs):'', validate_state_str($vs),
         link_results("$validate_state[$vs]", $urlquery, "validate_state=$vs", "outcome=1"));
     }
     echo "</table>";
-    echo "<table border=\"2\" cellpadding=\"4\"\n";
+    echo "<table border=2 cellpadding=4>\n";
     echo "<tr><th>File Delete state</th><th># results</th></tr>\n";
   
     for ($fds=0; $fds<4; $fds++) {
@@ -637,7 +638,7 @@ FROM result WHERE
     link_results("$nfile_deleted", $urlquery, "outcome=1", "(file_delete_state=1 or file_delete_state=2 or file_delete_state=3)"));
     echo "</table></td>";
 
-    echo "<td><table border=\"2\" cellpadding=\"4\"\n";
+    echo "<td><table border=2 cellpadding=4>\n";
     echo "<tr><th>Client state</th><th># results</th></tr>\n";
     for ($cs=1; $cs<6; $cs++) {
         row2(client_state_string($cs),

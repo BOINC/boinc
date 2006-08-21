@@ -9067,3 +9067,18 @@ Rom    21 Aug 2006
     client/
         http_curl.C
 
+David  21 Aug 2006
+    - server: check for benchmark weightings in 0..1
+    - User and admin web: small fixes
+
+    html/
+        inc/
+            db_ops.inc
+        user/
+            head_20.png (removed)
+            img/
+                head_20.png (added)
+    py/Boinc/
+        setup_project.py
+    sched/
+        sched_config.C

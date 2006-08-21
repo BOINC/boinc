@@ -99,7 +99,13 @@ int SCHED_CONFIG::parse(FILE* f) {
         else if (!strcmp(tag, "grant_claimed_credit")) grant_claimed_credit = get_bool(contents);
         else if (!strcmp(tag, "fp_benchmark_weight")) {
             fp_benchmark_weight = get_double(contents);
-            use_benchmark_weights = true;
+            if (fp_benchmark_weight < 0 || fp_benchmark_weight > 1) {
+                fprintf(stderr,
+                    "CONFIG FILE ERROR: fp_benchmark_weight outside of 0..1"
+                );
+            } else {
+                use_benchmark_weights = true;
+            }
         }
         else if (!strcmp(tag, "default_disk_max_used_gb")) default_disk_max_used_gb = get_double(contents);
         else if (!strcmp(tag, "default_disk_max_used_pct")) default_disk_max_used_pct = get_double(contents);

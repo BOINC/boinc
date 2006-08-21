@@ -1,6 +1,12 @@
 <?
 
 $project_news = array(
+array("August 20, 2006",
+    "BOINC and SETI@home are featured in
+    <a href=http://www.be.asahi.com/20060819/W16/20060803TBEH0006A.html>an
+    article in Asahi-shinbun</a>,
+    one of the most popular newspapers in Japan."
+),
 array("August 16, 2006",
     "New documents discuss using BOINC for
     <a href=dg.php>Desktop Grid Computing</a>
