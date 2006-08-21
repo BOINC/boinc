@@ -30,6 +30,8 @@
 #include <stdio.h>
 #endif
 
+class XML_PARSER;
+
 struct LOG_FLAGS {
     // on by default, user-readable
     //
@@ -65,7 +67,7 @@ struct LOG_FLAGS {
     bool app_msg_debug;     // show shared-mem message from apps
 
     LOG_FLAGS();
-    int parse(FILE*);
+    int parse(XML_PARSER&);
 };
 
 struct CONFIG {
@@ -74,7 +76,7 @@ struct CONFIG {
     int ncpus;
     CONFIG();
     int parse(FILE*);
-    int parse_options(FILE*);
+    int parse_options(XML_PARSER&);
 };
 
 extern LOG_FLAGS log_flags;

@@ -53,36 +53,44 @@ LOG_FLAGS::LOG_FLAGS() {
 
 // Parse log flag preferences
 //
-int LOG_FLAGS::parse(FILE* f) {
-    char tag[256], contents[1024];
+int LOG_FLAGS::parse(XML_PARSER& xp) {
+    char tag[1024];
+    bool is_tag;
 
-    while (get_tag(f, tag, contents)) {
+    while (!xp.get(tag, is_tag)) {
+        if (!is_tag) {
+            msg_printf(NULL, MSG_ERROR,
+               "Unexpected text %s in %s", tag, CONFIG_FILE
+            );
+            continue;
+        }
         if (!strcmp(tag, "/log_flags")) return 0;
-        else if (!strcmp(tag, "task")) task = get_bool(contents);
-        else if (!strcmp(tag, "file_xfer")) file_xfer = get_bool(contents);
-        else if (!strcmp(tag, "sched_ops")) sched_ops = get_bool(contents);
+        else if (xp.parse_bool(tag, "task", task)) continue;
+        else if (xp.parse_bool(tag, "file_xfer", file_xfer)) continue;
+        else if (xp.parse_bool(tag, "sched_ops", sched_ops)) continue;
+        else if (xp.parse_bool(tag, "cpu_sched", cpu_sched)) continue;
+        else if (xp.parse_bool(tag, "cpu_sched_debug", cpu_sched_debug)) continue;
+        else if (xp.parse_bool(tag, "rr_simulation", rr_simulation)) continue;
+        else if (xp.parse_bool(tag, "debt_debug", debt_debug)) continue;
+        else if (xp.parse_bool(tag, "task_debug", task_debug)) continue;
+        else if (xp.parse_bool(tag, "work_fetch_debug", work_fetch_debug)) continue;
+        else if (xp.parse_bool(tag, "unparsed_xml", unparsed_xml)) continue;
+        else if (xp.parse_bool(tag, "state_debug", state_debug)) continue;
+        else if (xp.parse_bool(tag, "file_xfer_debug", file_xfer_debug)) continue;
+        else if (xp.parse_bool(tag, "sched_op_debug", sched_op_debug)) continue;
+        else if (xp.parse_bool(tag, "http_debug", http_debug)) continue;
+        else if (xp.parse_bool(tag, "proxy_debug", proxy_debug)) continue;
+        else if (xp.parse_bool(tag, "time_debug", time_debug)) continue;
+        else if (xp.parse_bool(tag, "net_xfer_debug", net_xfer_debug)) continue;
+        else if (xp.parse_bool(tag, "measurement_debug", measurement_debug)) continue;
+        else if (xp.parse_bool(tag, "poll_debug", poll_debug)) continue;
+        else if (xp.parse_bool(tag, "guirpc_debug", guirpc_debug)) continue;
+        else if (xp.parse_bool(tag, "scrsave_debug", scrsave_debug)) continue;
+        else if (xp.parse_bool(tag, "app_msg_debug", app_msg_debug)) continue;
 
-        else if (!strcmp(tag, "cpu_sched")) cpu_sched = get_bool(contents);
-        else if (!strcmp(tag, "cpu_sched_debug")) cpu_sched_debug = get_bool(contents);
-        else if (!strcmp(tag, "rr_simulation")) rr_simulation = get_bool(contents);
-        else if (!strcmp(tag, "debt_debug")) debt_debug = get_bool(contents);
-        else if (!strcmp(tag, "task_debug")) task_debug = get_bool(contents);
-        else if (!strcmp(tag, "work_fetch_debug")) work_fetch_debug = get_bool(contents);
-        else if (!strcmp(tag, "unparsed_xml")) unparsed_xml = get_bool(contents);
-        else if (!strcmp(tag, "state_debug")) state_debug = get_bool(contents);
-        else if (!strcmp(tag, "file_xfer_debug")) file_xfer_debug = get_bool(contents);
-        else if (!strcmp(tag, "sched_op_debug")) sched_op_debug = get_bool(contents);
-        else if (!strcmp(tag, "http_debug")) http_debug = get_bool(contents);
-        else if (!strcmp(tag, "proxy_debug")) proxy_debug = get_bool(contents);
-        else if (!strcmp(tag, "time_debug")) time_debug = get_bool(contents);
-        else if (!strcmp(tag, "net_xfer_debug")) net_xfer_debug = get_bool(contents);
-        else if (!strcmp(tag, "measurement_debug")) measurement_debug = get_bool(contents);
-        else if (!strcmp(tag, "poll_debug")) poll_debug = get_bool(contents);
-        else if (!strcmp(tag, "guirpc_debug")) guirpc_debug = get_bool(contents);
-        else if (!strcmp(tag, "scrsave_debug")) scrsave_debug = get_bool(contents);
-        else if (!strcmp(tag, "app_msg_debug")) app_msg_debug = get_bool(contents);
+
         else {
-            msg_printf(NULL, MSG_ERROR, "Unrecognized tag in %s: %s\n",
+            msg_printf(NULL, MSG_ERROR, "Unrecognized tag in %s: <%s>\n",
                 CONFIG_FILE, tag
             );
         }
@@ -96,19 +104,25 @@ CONFIG::CONFIG() {
     save_stats_days = 30;
 }
 
-int CONFIG::parse_options(FILE* f) {
-    char tag[256], contents[1024];
-    while (get_tag(f, tag, contents)) {
+int CONFIG::parse_options(XML_PARSER& xp) {
+    char tag[1024];
+    bool is_tag;
+
+    while (!xp.get(tag, is_tag)) {
+        if (!is_tag) {
+            msg_printf(NULL, MSG_ERROR,
+               "Unexpected text %s in %s", tag, CONFIG_FILE
+            );
+            continue;
+        }
         if (!strcmp(tag, "/options")) {
             return 0;
-        } else if (!strcmp(tag, "save_stats_days")) {
-            save_stats_days = get_int(contents);
-        } else if (!strcmp(tag, "dont_check_file_sizes")) {
-            dont_check_file_sizes = get_bool(contents);
-        } else if (!strcmp(tag, "ncpus")) {
-            ncpus = get_int(contents);
-        } else {
-            msg_printf(NULL, MSG_ERROR, "Unparsed tag in %s: %s\n",
+        }
+        else if (xp.parse_int(tag, "save_stats_days", save_stats_days)) continue;
+        else if (xp.parse_bool(tag, "dont_check_file_sizes", dont_check_file_sizes)) continue;
+        else if (xp.parse_int(tag, "ncpus", ncpus)) continue;
+        else {
+            msg_printf(NULL, MSG_ERROR, "Unparsed tag in %s: <%s>\n",
                 CONFIG_FILE, tag
             );
         }
@@ -118,20 +132,25 @@ int CONFIG::parse_options(FILE* f) {
 
 int CONFIG::parse(FILE* f) {
     char tag[256];
+    XML_PARSER xp(f);
+    bool is_tag;
 
-    get_tag(f, tag);
-    if (strstr(tag, "?xml")) get_tag(f, tag);
-    if (strcmp(tag, "cc_config")) return ERR_XML_PARSE;
-
-    while (get_tag(f, tag)) {
+    if (!xp.parse_start("cc_config")) return ERR_XML_PARSE;
+    while (!xp.get(tag, is_tag)) {
+        if (!is_tag) {
+            msg_printf(NULL, MSG_ERROR,
+               "Unexpected text %s in %s", tag, CONFIG_FILE
+            );
+            continue;
+        }
         if (!strcmp(tag, "/cc_config")) return 0;
         if (!strcmp(tag, "log_flags")) {
-            log_flags.parse(f);
+            log_flags.parse(xp);
             continue;
         } else if (!strcmp(tag, "options")) {
-            parse_options(f);
+            parse_options(xp);
         } else {
-            msg_printf(NULL, MSG_ERROR, "Unparsed tag in %s: %s\n",
+            msg_printf(NULL, MSG_ERROR, "Unparsed tag in %s: <%s>\n",
                 CONFIG_FILE, tag
             );
         }

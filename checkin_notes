@@ -9082,3 +9082,21 @@ David  21 Aug 2006
         setup_project.py
     sched/
         sched_config.C
+
+David  21 Aug 2006
+    - new XML parser (class XML_PARSER).
+        This replaces the one checked in May 24 2006, which had a design flaw.
+
+        The new one parses XML of any structure and format;
+        i.e. it works even if software other than BOINC generated the XML.
+
+        Currently this is used only for parsing sched config file
+        and client config file.
+        TODO: use it everywhere.
+        
+    client/
+        log_flags.C,h
+    lib/
+        parse.C,h
+    sched/
+        sched_config.C

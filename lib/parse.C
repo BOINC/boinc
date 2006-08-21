@@ -407,106 +407,261 @@ int skip_unrecognized(char* buf, FILE* in) {
     return ERR_XML_PARSE;
 }
 
-// Get next XML element or tag.
-//
-// NOTE: this can't be used for XML docs that have
-// nested elements and data elements at the same level, i.e.
-// <foo>
-//   <bar>1</bar>
-// </foo>
-// <blah>asdf</blah>
-//
-// If it's a close tag, or the contents pointer is NULL, just return the tag.
-// Otherwise return the contents also.
-//
-// Skips comments, single- or multi-line (<!-- ... -->)
-//
-// Returns false if text was found that wasn't a tag.
-// (can just call again in this case).
-//
-// Note: this is not a general XML parser, but it can parse both
-// <foo>X</foo>
-// and
-// <foo>
-//    X
-// </foo>
-//
-bool get_tag(FILE* f, char* tag, char* contents) {
-    char buf[1024], *p, *q;
+XML_PARSER::XML_PARSER(FILE* _f) {
+    f = _f;
+}
 
-    if (contents) *contents = 0;
+// read until find non-whitespace char.
+// Return the char in the reference param
+// Return true iff reached EOF
+//
+bool XML_PARSER::scan_nonws(int& first_char) {
+    int c;
     while (1) {
-        if (!fgets(buf, 1024, f)) return false;
-        if (strstr(buf, "<!--")) {
-            while (1) {
-                if (strstr(buf, "-->")) break;
-                if (!fgets(buf, 1024, f)) return false;
-            }
-            continue;
-        }
-        p = strchr(buf, '<');
-        if (p) break;
-    }
-    p++;
-
-    q = strchr(p, '>');
-    if (!q) return false;
-
-    // see if it's a self-closed tag (like <foo/>)
-    //
-    if (q[-1]=='/') {
-        q[-1] = 0;
-        strcpy(tag, p);
-        return true;
-    }
-    *q = 0;
-    strcpy(tag, p);
-
-    // see if this is a close tag
-    //
-    if (*p == '/') {
-        return true;
-    }
-    if (!contents) return true;
-
-    // see if close tag is on the same line; copy contents if so
-    //
-    q++;
-    p = strchr(q, '<');
-    if (p) {
-        *p = 0;
-        if (contents) {
-            strcpy(contents, q);
-            strip_whitespace(contents);
-        }
-        return true;
-    }
-
-    // close tag is not on same line.
-    // Copy contents until find close tag
-    //
-    while (1) {
-        if (!fgets(buf, 1024, f)) return false;
-        if (strchr(buf, '<')) return true;
-        strip_whitespace(buf);
-        strcat(contents, buf);
+        c = getc(f);
+        if (c == EOF) return true;
+        if (isspace(c)) continue;
+        first_char = c;
+        return false;
     }
 }
 
-bool get_bool(char* contents) {
-    if (!strlen(contents)) return true;
-    if (atoi(contents)) return true;
+// we just read a <; read until we find a >,
+// and copy intervening text to buf.
+// Return true iff reached EOF
+//
+bool XML_PARSER::scan_tag(char* buf) {
+    int c;
+    while (1) {
+        c = getc(f);
+        if (c == EOF) return true;
+        if (c == '>') {
+            *buf = 0;
+            return false;
+        }
+        *buf++ = c;
+    }
+}
+
+// read and copy text to buf; stop when find a <;
+// ungetc() that so we read it again
+// Return true iff reached EOF
+//
+bool XML_PARSER::copy_until_tag(char* buf) {
+    int c;
+    while (1) {
+        c = getc(f);
+        if (c == EOF) return true;
+        if (c == '<') {
+            ungetc(c, f);
+            *buf = 0;
+            return false;
+        }
+        *buf++ = c;
+    }
+}
+
+// Scan something, either tag or text.
+// Strip whitespace at start and end.
+// Return true iff reached EOF
+//
+bool XML_PARSER::get(char* buf, bool& is_tag) {
+    bool eof;
+    int c;
+    
+    eof = scan_nonws(c);
+    if (eof) return true;
+    if (c == '<') {
+        eof = scan_tag(buf);
+        if (eof) return true;
+        is_tag = true;
+    } else {
+        buf[0] = c;
+        eof = copy_until_tag(buf+1);
+        if (eof) return true;
+        is_tag = false;
+    }
+    strip_whitespace(buf);
     return false;
 }
 
-int get_int(char* contents) {
-    return strtol(contents, 0, 0);
+// We just parsed "parsed_tag".
+// If it matches "start_tag", and is followed by a string
+// and by the matching close tag, return the string in "buf",
+// and return true.
+//
+bool XML_PARSER::parse_str(char* parsed_tag, char* start_tag, char* buf) {
+    bool is_tag, eof;
+    char end_tag[256], tag[256];
+
+    // handle the archaic form <tag/>, which means empty string
+    //
+    strcpy(tag, start_tag);
+    strcat(tag, "/");
+    if (!strcmp(parsed_tag, tag)) {
+        strcpy(buf, "");
+        return true;
+    }
+
+    if (strcmp(parsed_tag, start_tag)) return false;
+    eof = get(buf, is_tag);
+    if (eof) return false;
+    if (is_tag) return false;
+
+    end_tag[0] = '/';
+    strcpy(end_tag+1, start_tag);
+    eof = get(tag, is_tag);
+    if (eof) return false;
+    if (!is_tag) return false;
+    if (strcmp(tag, end_tag)) return false;
+    return true;
 }
 
-double get_double(char* contents) {
-    double x = atof(contents);
-    if (finite(x)) return x;
-    return 0;
+// Same, for integers
+//
+bool XML_PARSER::parse_int(char* parsed_tag, char* start_tag, int& i) {
+    char buf[256], *end;
+    bool is_tag, eof;
+    char end_tag[256], tag[256];
+
+    if (strcmp(parsed_tag, start_tag)) return false;
+
+    eof = get(buf, is_tag);
+    if (eof) return false;
+    if (is_tag) return false;
+    i = strtol(buf, &end, 0);
+    if (end != buf+strlen(buf)) return false;
+
+    end_tag[0] = '/';
+    strcpy(end_tag+1, start_tag);
+    eof = get(tag, is_tag);
+    if (eof) return false;
+    if (!is_tag) return false;
+    if (strcmp(tag, end_tag)) return false;
+    return true;
 }
 
+// Same, for doubles
+//
+bool XML_PARSER::parse_double(char* parsed_tag, char* start_tag, double& x) {
+    char buf[256], *end;
+    bool is_tag, eof;
+    char end_tag[256], tag[256];
+
+    if (strcmp(parsed_tag, start_tag)) return false;
+
+    eof = get(buf, is_tag);
+    if (eof) return false;
+    if (is_tag) return false;
+    x = strtod(buf, &end);
+    if (end != buf+strlen(buf)) return false;
+
+    end_tag[0] = '/';
+    strcpy(end_tag+1, start_tag);
+    eof = get(tag, is_tag);
+    if (eof) return false;
+    if (!is_tag) return false;
+    if (strcmp(tag, end_tag)) return false;
+    return true;
+}
+
+// Same, for bools
+//
+bool XML_PARSER::parse_bool(char* parsed_tag, char* start_tag, bool& b) {
+    char buf[256], *end;
+    bool is_tag, eof;
+    char end_tag[256], tag[256];
+
+    // handle the archaic form <tag/>, which means true
+    //
+    strcpy(tag, start_tag);
+    strcat(tag, "/");
+    if (!strcmp(parsed_tag, tag)) {
+        b = true;
+        return true;
+    }
+
+    // otherwise look for something of the form <tag>int</tag>
+    //
+    if (strcmp(parsed_tag, start_tag)) return false;
+
+    eof = get(buf, is_tag);
+    if (eof) return false;
+    if (is_tag) return false;
+    b = (bool)strtol(buf, &end, 0);
+    if (end != buf+strlen(buf)) return false;
+
+    end_tag[0] = '/';
+    strcpy(end_tag+1, start_tag);
+    eof = get(tag, is_tag);
+    if (eof) return false;
+    if (!is_tag) return false;
+    if (strcmp(tag, end_tag)) return false;
+    return true;
+}
+
+bool XML_PARSER::parse_start(char* start_tag) {
+    char tag[256];
+    bool eof, is_tag;
+
+    eof = get(tag, is_tag);
+    if (eof || !is_tag ) {
+        return false;
+    }
+    if (strstr(tag, "?xml")) {
+        eof = get(tag, is_tag);
+        if (eof || !is_tag ) {
+            return false;
+        }
+    }
+    if (strcmp(tag, start_tag)) {
+        return false;
+    }
+    return true;
+}
+
+// sample use is shown below
+
+#if 0
+void parse(FILE* f) {
+    char tag[256];
+    bool is_tag, flag;
+    XML_PARSER xp(f);
+    char name[256];
+    int val;
+    double x;
+
+    if (!xp.parse_start("blah")) {
+        printf("missing start tag\n");
+        return;
+    }
+    while (!xp.get(tag, is_tag)) {
+        if (!is_tag) {
+            printf("unexpected text: %s\n", tag);
+            continue;
+        }
+        if (!strcmp(tag, "/blah")) {
+            printf("success\n");
+            return;
+        } else if (xp.parse_str(tag, "str", name)) {
+            printf("got str: %s\n", name);
+        } else if (xp.parse_int(tag, "int", val)) {
+            printf("got int: %d\n", val);
+        } else if (xp.parse_double(tag, "double", x)) {
+            printf("got double: %f\n", x);
+        } else if (xp.parse_bool(tag, "bool", flag)) {
+            printf("got bool: %d\n", flag);
+        } else {
+            printf("unparsed tag: %s\n", tag);
+            return;
+        }
+    }
+    printf("unexpected EOF\n");
+}
+
+int main() {
+    FILE* f = fopen("foo.xml", "r");
+    parse(f);
+}
+#endif
 const char *BOINC_RCSID_3f3de9eb18 = "$Id$";

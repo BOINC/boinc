@@ -33,6 +33,26 @@
 #endif
 #endif
 
+class XML_PARSER {
+    FILE* f;
+    bool scan_nonws(int&);
+    bool scan_tag(char*);
+    bool copy_until_tag(char*);
+public:
+    XML_PARSER(FILE*);
+    bool get(char*, bool&);
+    bool parse_start(char*);
+    bool parse_str(char*, char*, char*);
+    bool parse_int(char*, char*, int&);
+    bool parse_double(char*, char*, double&);
+    bool parse_bool(char*, char*, bool&);
+};
+
+/////////////// START DEPRECATED XML PARSER
+// Deprecated because it makes assumptions about
+// the format of the XML being parsed
+///////////////
+
 // return true if the tag appears in the line
 //
 inline bool match_tag(const char* buf, const char* tag) {
@@ -74,6 +94,9 @@ extern bool parse_str(const char*, const char*, char*, int);
 extern bool parse_str(const char* buf, const char* tag, std::string& dest);
 extern void parse_attr(const char* buf, const char* attrname, char* out, int len);
 extern bool parse_bool(const char*, const char*, bool&);
+
+/////////////// END DEPRECATED XML PARSER
+
 extern void copy_stream(FILE* in, FILE* out);
 extern int strcatdup(char*& p, char* buf);
 extern int dup_element_contents(FILE* in, const char* end_tag, char** pp);
@@ -91,10 +114,5 @@ extern void xml_escape(const char*, char*);
 extern void xml_unescape(const char*, char*);
 extern void extract_venue(char*, char*, char*);
 extern int skip_unrecognized(char* buf, FILE*);
-
-extern bool get_tag(FILE*, char* tag, char* contents=0);
-extern bool get_bool(char* contents);
-extern int get_int(char* contents);
-extern double get_double(char* contents);
 
 #endif
