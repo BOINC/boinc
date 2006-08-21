@@ -386,10 +386,6 @@ The checking this option controls is of the identity that the server claims. The
             }
         }        
 
-        // suppress Expect line in header (avoids problems with some proxies)
-        //
-        pcurlList = curl_slist_append(pcurlList, "Expect:");
-
         if (pcurlList) { // send custom headers if required
             curlErr = curl_easy_setopt(curlEasy, CURLOPT_HTTPHEADER, pcurlList);
         }

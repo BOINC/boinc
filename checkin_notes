@@ -9056,3 +9056,14 @@ David  21 Aug 2006
 
     clientgui/
         ViewStatistics.cpp
+
+Rom    21 Aug 2006
+    - Remove the suppression of the "Expect: 100 continue" in HTTP header.
+        This bug fix from Ian Hay was originally to fix some proxy issues.
+        We do not know which proxy issues it actually fixes, we are waiting
+        on some follow-up from Ian.  In the mean time this should allow
+        NTLM auth on an HTTP post operation.
+        
+    client/
+        http_curl.C
+
