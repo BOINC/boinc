@@ -9040,6 +9040,12 @@ Charlie 21 Aug 2006
         window's size and position after exiting screensaver, or if user closes 
         and reopens the window.  Presently implemented only for Mac, and retains 
         information only while application remains in memory.
+    - Mac: Show window only after a successful call to throttled_app_render(); 
+        this eliminates ugly flashes, especially when switching to MODE_WINDOW 
+        from MODE_FULLSCREEN; also avoids momentary display of old image when 
+        screensaver restarts which made image appear to "jump."  Presently 
+        implemented only for Mac
         
     api/
+        macglutfix.m
         x_opengl.C

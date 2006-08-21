@@ -104,6 +104,7 @@ static bool glut_is_initialized = false;
 //
 #ifdef __APPLE__
 static bool glut_is_freeglut = false;   // Avoid warning message to stderr from glutGet(GLUT_VERSION) 
+static bool need_show = false;
 #else
 static bool glut_is_freeglut = true;
 #endif
@@ -200,10 +201,18 @@ static void maybe_render() {
             switch (current_graphics_mode) {
             case MODE_WINDOW:
                 MacGLUTFix(false);
+                if (need_show) {
+                    glutShowWindow();
+                    need_show = false;
+                }
                 break;
             case MODE_FULLSCREEN:
             case MODE_BLANKSCREEN:
                 MacGLUTFix(true);
+                if (need_show) {
+                    glutShowWindow();
+                    need_show = false;
+                }
                 break;
             }
 #endif
@@ -270,24 +279,18 @@ static void make_new_window(int mode) {
         glutDisplayFunc(maybe_render); 
         glEnable(GL_DEPTH_TEST);
   
+        app_graphics_init();
+    }
+  
 #ifdef __APPLE__
         glutWMCloseFunc(CloseWindow);   // Enable the window's close box
         BringAppToFront();
+    need_show = true;
 #endif
-        app_graphics_init();
-    }
 
     if (mode == MODE_FULLSCREEN)  {
         glutFullScreen();
     }
-#ifdef __APPLE__
-        else {
-            // Changing to MODE_WINDOW from some other mode
-            glutPositionWindow(xpos, ypos);
-            glutReshapeWindow(win_width, win_height);
-        }
-        glutShowWindow();
-#endif
 
     return;
 }
@@ -366,7 +369,12 @@ void KillWindow() {
             win_height = glutGet(GLUT_WINDOW_HEIGHT);
             xpos = glutGet(GLUT_WINDOW_X);
             ypos = glutGet(GLUT_WINDOW_Y);
+        } else {
+            // If fullscreen, resize now to avoid ugly flash when redisplaying as MODE_WINDOW.
+            glutPositionWindow(xpos, ypos);
+            glutReshapeWindow(win_width, win_height);
         }
+        
         glutHideWindow();
 #else
       if (glut_is_freeglut && FREEGLUT_IS_INITIALIZED && GLUT_HAVE_WINDOW) {

@@ -65,6 +65,8 @@ void MacGLUTFix(bool isScreenSaver) {
         return;
         
     if (!isScreenSaver) {
+        NSButton *closeButton = [myWindow standardWindowButton:NSWindowCloseButton ];
+        [closeButton setEnabled:YES];
         [myWindow setDocumentEdited: NO];
         return;
     }
