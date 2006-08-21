@@ -226,10 +226,10 @@ void CPaintStatistics::DrawLegend(wxPaintDC &dc, PROJECTS * &proj, CMainDocument
 			dc.DrawRectangle(x_end+1,y_start+1+wxCoord(((double)(count)+0.5)*1.1*(double)(h_temp)),project_name_max_width-2,h_temp+2);
 		}
 
-		wxColour tempColour1=wxColour(0,0,0);
+//		wxColour tempColour1=wxColour(0,0,0);
 		wxColour grafColour=wxColour(0,0,0);
 		wxInt32  typePoint=0;
-		tempColour1=GetForegroundColour ();
+//		tempColour1=GetForegroundColour();
 		if (bColour){
 			getTypePoint(typePoint,count);
 			getDrawColour(grafColour,count);
@@ -238,13 +238,15 @@ void CPaintStatistics::DrawLegend(wxPaintDC &dc, PROJECTS * &proj, CMainDocument
 		dc.SetBrush(wxBrush(m_ligthbrushAxisColour , wxSOLID));
 		myDrawPoint(dc, x_end+4+1+m_GraphPointWidth/2, y_start+2+wxCoord(((double)(count)+1)*1.1*(double)(h_temp)), grafColour, typePoint ,m_GraphPointWidth);
 		dc.DrawText (head_name, x_end+4+4+m_GraphPointWidth, y_start+2+wxCoord(((double)(count)+0.5)*1.1*(double)(h_temp)));
-		dc.SetTextForeground (tempColour1);
+		dc.SetTextForeground (*wxBLACK);
 	}
 	dc.SetFont(m_font_stdandart);
 };
 
 //----Draw graph----
 void CPaintStatistics::DrawGraph(wxPaintDC &dc, std::vector<PROJECT*>::const_iterator &i, const wxCoord x_start, const wxCoord x_end, const wxCoord y_start, const wxCoord y_end, const wxColour grafColour, const wxInt32 typePoint, const wxInt32 m_SelectedStatistic, const double max_val_y, const double min_val_y, const double max_val_x, const double min_val_x) {
+
+        dc.SetClippingRegion(x_start-4, y_start-4, x_end-x_start+8, y_end-y_start+8);
 
 	const double yscale=(y_end-y_start)/(max_val_y-min_val_y);
 	const double xscale=(x_end-x_start)/(max_val_x-min_val_x);
@@ -278,10 +280,14 @@ void CPaintStatistics::DrawGraph(wxPaintDC &dc, std::vector<PROJECT*>::const_ite
 		last_y=ypos;
 	}
 	if (last_y!=0) myDrawPoint(dc, last_x, last_y, grafColour, typePoint ,m_GraphPointWidth);
+
+	dc.DestroyClippingRegion();
 }
 
 //----Draw background, axis(lines), text(01-Jan-1980)----
 void CPaintStatistics::DrawAxis(wxPaintDC &dc, const double max_val_y, const double min_val_y, const double max_val_x, const double min_val_x, wxCoord &x_start, wxCoord &x_end, wxCoord &y_start, wxCoord &y_end) {
+
+        dc.SetClippingRegion(x_start, y_start, x_end-x_start, y_end-y_start);
 
 	dc.SetBrush(wxBrush(m_brushAxisColour , wxSOLID));
 	dc.SetPen(wxPen(m_penAxisColour , 1 , wxSOLID));
@@ -318,20 +324,39 @@ void CPaintStatistics::DrawAxis(wxPaintDC &dc, const double max_val_y, const dou
 	if (x_end<x_start) x_start=x_end=(x_end+x_start)/2;
 	if (y_end<y_start) y_start=y_end=(y_end+y_start)/2;
 
+	const double yscale=(y_end-y_start)/(max_val_y-min_val_y);
+	const double xscale=(x_end-x_start)/(max_val_x-min_val_x);
+
 //Draw val and lines
 	dc.SetPen(wxPen(wxColour (64 , 128 , 192) , 1 , wxDOT));
+
 	wxInt32 d_oy_count=1;
-	d_oy_count=(wxInt32)((y_end-y_start)/(1.2*h_temp));
-	if (d_oy_count>9) d_oy_count=9;
-	if (d_oy_count<1) d_oy_count=1;
+	d_oy_count=(wxInt32)ceil((y_end-y_start)/(2.0*h_temp));
+
+//	if (d_oy_count>9) d_oy_count=9;
+//	if (d_oy_count<1) d_oy_count=1;
+
+	double d_oy_val=fabs((max_val_y-min_val_y)/d_oy_count);
+	double d2=pow(10 , floor(log10(d_oy_val)));
+
+	if (d2>=d_oy_val){
+		d_oy_val=1*d2;
+	} else	if (2*d2>=d_oy_val){ 
+			d_oy_val=2*d2;
+		} else	if (5*d2>=d_oy_val){
+				d_oy_val=5*d2;
+			} else {
+				d_oy_val=10*d2;
+			}
 	
-	double d_oy=(double)(y_end-y_start)/d_oy_count;
-	double d_oy_val=(double)(max_val_y-min_val_y)/d_oy_count;
+	double y_start_val=ceil(min_val_y/d_oy_val)*d_oy_val;
 
 	for (double ny=0; ny<=d_oy_count;++ny){
-		dc.GetTextExtent(wxString::Format(wxT("%.1f"), min_val_y+ny*d_oy_val), &w_temp, &h_temp, &des_temp, &lead_temp);
-		dc.DrawText(wxString::Format(wxT("%.1f"), min_val_y+ny*d_oy_val),(wxCoord)(x_start-w_temp-2-d_x),(wxCoord)(y_end-ny*d_oy-h_temp/2.0));
-		dc.DrawLine((wxCoord)(x_start-d_x+1),(wxCoord)(y_end-ny*d_oy),(wxCoord)(x_end+d_x),(wxCoord)(y_end-ny*d_oy));
+		dc.GetTextExtent(wxString::Format(wxT("%.1f"), y_start_val+ny*d_oy_val), &w_temp, &h_temp, &des_temp, &lead_temp);
+		if ((y_end - yscale * (y_start_val + ny * d_oy_val - min_val_y))>=(y_start-1)){
+		    dc.DrawText(wxString::Format(wxT("%.1f"), y_start_val+ny*d_oy_val),(wxCoord)(x_start-w_temp-2-d_x),(wxCoord)(y_end - yscale * (y_start_val + ny * d_oy_val - min_val_y) - h_temp/2.0));
+		    dc.DrawLine((wxCoord)(x_start-d_x+1),(wxCoord)(y_end - yscale * (y_start_val + ny * d_oy_val - min_val_y)),(wxCoord)(x_end+d_x),(wxCoord)(y_end - yscale * (y_start_val + ny * d_oy_val - min_val_y)));
+		}
 	}
 
 //Draw day numbers and lines marking the days
@@ -341,19 +366,22 @@ void CPaintStatistics::DrawAxis(wxPaintDC &dc, const double max_val_y, const dou
 
 	wxInt32 d_ox_count=1;
 	d_ox_count=(wxInt32)((x_end-x_start)/(1.2*w_temp));
-	if (d_ox_count>9) d_ox_count=9;
-	if (d_ox_count<1) d_ox_count=1;
 	
-	double d_ox=(double)(x_end-x_start)/d_ox_count;
-	double d_ox_val=(double)(max_val_x-min_val_x)/d_ox_count;
+	double d_ox_val=ceil(((double)(max_val_x-min_val_x)/d_ox_count)/86400.0)*86400.0;
+	d_ox_count=(wxInt32)ceil((max_val_x-min_val_x)/d_ox_val);
 
+	double x_start_val=ceil(min_val_x/86400.0)*86400.0;
+	
 	for (double nx=0; nx<=d_ox_count;++nx){
-		dtTemp1.Set((time_t)(min_val_x+nx*d_ox_val));
+		dtTemp1.Set((time_t)(x_start_val+nx*d_ox_val));
 		strBuffer1=dtTemp1.Format(wxT("%d.%b.%y"));
 		dc.GetTextExtent(strBuffer1, &w_temp, &h_temp, &des_temp, &lead_temp);
-		dc.DrawText(strBuffer1, (wxCoord)(x_start-w_temp/2.0+nx*d_ox), (wxCoord)(y_end+d_y));
-		dc.DrawLine((wxCoord)(x_start+nx*d_ox),(wxCoord)(y_start-d_y+1), (wxCoord)(x_start+nx*d_ox),(wxCoord)(y_end+d_y));
+		if ((x_start + xscale * (x_start_val + nx * d_ox_val - min_val_x))<=(x_end+1)){
+		    dc.DrawText(strBuffer1, (wxCoord)(x_start-w_temp/2.0 + (xscale * (x_start_val + nx * d_ox_val - min_val_x))), (wxCoord)(y_end+d_y));
+		    dc.DrawLine((wxCoord)(x_start + xscale * (x_start_val + nx * d_ox_val - min_val_x)),(wxCoord)(y_start-d_y+1), (wxCoord)(x_start + xscale * (x_start_val + nx * d_ox_val - min_val_x)),(wxCoord)(y_end+d_y));
+		}
 	}
+	dc.DestroyClippingRegion();
 }
 
 void CPaintStatistics::OnPaint(wxPaintEvent& WXUNUSED(event)) {
@@ -375,8 +403,9 @@ void CPaintStatistics::OnPaint(wxPaintEvent& WXUNUSED(event)) {
 	GetClientSize(&width, &height);
 
 	dc.SetBackground(*wxWHITE_BRUSH);
-	
-	dc.SetTextForeground (GetForegroundColour ());
+
+//	dc.SetTextForeground (GetForegroundColour ());
+	dc.SetTextForeground (*wxBLACK);
 	dc.SetTextBackground (GetBackgroundColour ());
 
 	m_font_stdandart=dc.GetFont();
@@ -441,6 +470,8 @@ void CPaintStatistics::OnPaint(wxPaintEvent& WXUNUSED(event)) {
 			MinMaxDayCredit(i, min_val_y,max_val_y,min_val_x, max_val_x, m_SelectedStatistic);
 			CheckMinMaxD(min_val_x, max_val_x);
 			CheckMinMaxD(min_val_y, max_val_y);
+			min_val_x=floor(min_val_x/86400.0)*86400.0;
+			max_val_x=ceil(max_val_x/86400.0)*86400.0;
 		//Where do we draw in?
 			wxCoord x_start=0, y_start=0, x_end=0, y_end=0;
 			x_start=(wxCoord)(rectangle_x_start+x_fac*(double)(col-1));
@@ -506,6 +537,8 @@ void CPaintStatistics::OnPaint(wxPaintEvent& WXUNUSED(event)) {
 
 			CheckMinMaxD(min_val_x, max_val_x);
 			CheckMinMaxD(min_val_y, max_val_y);
+			min_val_x=floor(min_val_x/86400.0)*86400.0;
+			max_val_x=ceil(max_val_x/86400.0)*86400.0;
 		///Draw axis + Draw Project name
 			PROJECT* statistic = wxGetApp().GetDocument()->statistic(count);
 			PROJECT* state_project = NULL;
@@ -556,6 +589,8 @@ void CPaintStatistics::OnPaint(wxPaintEvent& WXUNUSED(event)) {
 		}
 		CheckMinMaxD(min_val_x, max_val_x);
 		CheckMinMaxD(min_val_y, max_val_y);
+		min_val_x=floor(min_val_x/86400.0)*86400.0;
+		max_val_x=ceil(max_val_x/86400.0)*86400.0;
 	///Draw axis
 		CheckMinMaxC(rectangle_x_start, rectangle_x_end);
 		CheckMinMaxC(rectangle_y_start, rectangle_y_end);

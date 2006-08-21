@@ -7561,27 +7561,27 @@ David  13 July 2006
             translate.php
 
 David  14 July 2006
-	- core client: clean up related to host venue and project preferences.
-		Old: store host venue in account file,
-			and use it when parsing account file
-			to get the right venue-specific prefs.
-			This is bad because the account file is not
-			supposed to containt host-specific info,
-			and the venue is host-specific.
-		New: venue is stored in client state file, as part of project.
-			On initial parse of account file, <venue> elements are skipped.
-			Later, after client state file has been read,
-			account files projects with non-empty host_venue
-			are read again, this time looking for the selected
-			<venue> element and ignoring the rest.
-		Has this fixed any bugs?  Maybe yes, maybe no.
-		But the logic is simpler now.
+    - core client: clean up related to host venue and project preferences.
+        Old: store host venue in account file,
+            and use it when parsing account file
+            to get the right venue-specific prefs.
+            This is bad because the account file is not
+            supposed to containt host-specific info,
+            and the venue is host-specific.
+        New: venue is stored in client state file, as part of project.
+            On initial parse of account file, <venue> elements are skipped.
+            Later, after client state file has been read,
+            account files projects with non-empty host_venue
+            are read again, this time looking for the selected
+            <venue> element and ignoring the rest.
+        Has this fixed any bugs?  Maybe yes, maybe no.
+        But the logic is simpler now.
 
-	client/
-		client_state.C,h
-		client_types.C,h
-		cs_account.C
-		cs_scheduler.C
+    client/
+        client_state.C,h
+        client_types.C,h
+        cs_account.C
+        cs_scheduler.C
 
 David  17 July 2006
     - core client: close GUI RPC listening socket on exit
@@ -7770,19 +7770,19 @@ David  20 July 2006
         log_flags.C,h
 
 David  20 July 2006
-	- core client: fix crash if client state file has
-		<project_files> for a project with no account file.
-		Also shuffled logic of state file parsing to reduce indentation
+    - core client: fix crash if client state file has
+        <project_files> for a project with no account file.
+        Also shuffled logic of state file parsing to reduce indentation
 
-	client/
-		cs_statefile.C
+    client/
+        cs_statefile.C
 
 David  20 July 2006
-	- core client: fix crash if use <guirpc_debug/> flag,
-		and some GUI RPC reply is long (> 8K chars)
+    - core client: fix crash if use <guirpc_debug/> flag,
+        and some GUI RPC reply is long (> 8K chars)
 
-	client/
-		gui_rpc_server_ops.C
+    client/
+        gui_rpc_server_ops.C
 
 Rom    20 July 2006
     - Fix build break in the simple GUI when building for the Mac.  Using itoa
@@ -7989,26 +7989,26 @@ Charlie 25 July 2006
         Postinstall.cpp
 
 David  25 July 2006
-	core client fixes:
-	- fix bug where interrupted downloads failed with checksum error.
-		This was because we were comparing the HTTP status with 200.
-		But partial transfer success is 206.
-		(bug was introduced in June 28 checkin)
-	- on startup, make sure that all files that are
-		supposed to be present actually are.
-		Otherwise set status to NOT_PRESENT,
-		so that they'll be downloaded again.
-	- on reset, clear project_files and user_files vectors
-	- project files: parse and save md5 checksum.
-		Note: this is a placeholder;
-		I'll change it to full FILE_INFO later.
+    core client fixes:
+    - fix bug where interrupted downloads failed with checksum error.
+        This was because we were comparing the HTTP status with 200.
+        But partial transfer success is 206.
+        (bug was introduced in June 28 checkin)
+    - on startup, make sure that all files that are
+        supposed to be present actually are.
+        Otherwise set status to NOT_PRESENT,
+        so that they'll be downloaded again.
+    - on reset, clear project_files and user_files vectors
+    - project files: parse and save md5 checksum.
+        Note: this is a placeholder;
+        I'll change it to full FILE_INFO later.
 
-	client/
-		client_state.C,h
-		client_types.C
-		cs_files.C
-		file_xfer.C
-		http_curl.C
+    client/
+        client_state.C,h
+        client_types.C
+        cs_files.C
+        file_xfer.C
+        http_curl.C
 
 David  25 July 2006
     - fixes to Linux sandbox scripts (from Charlie)
@@ -8040,11 +8040,11 @@ David  25 July 2006
         scheduler_op.C
 
 David  25 July 2006
-	- core client: when md5'ing a file, put the size in local var
-		rather than into the FILE_INFO
+    - core client: when md5'ing a file, put the size in local var
+        rather than into the FILE_INFO
 
-	client/
-		cs_files.C
+    client/
+        cs_files.C
 
 Charlie 25 July 2006 (HEAD)
     - Mac: Create separate targets for simple-gui and non-simple-gui Managers 
@@ -8156,13 +8156,13 @@ David  28 July 2006
         forum_index.php
 
 David  28 July 2006
-	- core client: bug fixes for project file mechanism
-		- clear project_file list before parsing it
-		- set fip->is_project_file (otherwise link won't get created)
+    - core client: bug fixes for project file mechanism
+        - clear project_file list before parsing it
+        - set fip->is_project_file (otherwise link won't get created)
 
-	client/
-		client_types.C
-		cs_trickle.C
+    client/
+        client_types.C
+        cs_trickle.C
 
 David  28 July 2006
     - f2f email: don't show form if project hasn't created a mail template
@@ -8318,24 +8318,24 @@ Charlie 1 Aug 2006
             project.pbxproj
 
 David  2 Aug 2006
-	- core client: fix CPU throttling mechanism.
-		- Range is 0..100, not 0..1
-		- ACTIVE_TASK::prempt(): don't set scheduler_state
-			(that's not the job of this layer)
-	- core client: fiddle with messages
-		"task" should show you when results start and end
-			(always 2 messages per result)
-		"task_debug" shows every suspend/resume/checkpoint
-		"cpu_sched_debug" shows the results selected by scheduler
-		(more fiddling still needed)
+    - core client: fix CPU throttling mechanism.
+        - Range is 0..100, not 0..1
+        - ACTIVE_TASK::prempt(): don't set scheduler_state
+            (that's not the job of this layer)
+    - core client: fiddle with messages
+        "task" should show you when results start and end
+            (always 2 messages per result)
+        "task_debug" shows every suspend/resume/checkpoint
+        "cpu_sched_debug" shows the results selected by scheduler
+        (more fiddling still needed)
 
-	client/
-		app_control.C
-		app_start.C
-		cpu_sched.C
-		cs_prefs.C
-	lib/
-		prefs.C
+    client/
+        app_control.C
+        app_start.C
+        cpu_sched.C
+        cs_prefs.C
+    lib/
+        prefs.C
 
 David  2 Aug 2006
     - Reminder email: checked in SETI@home examples,
@@ -8450,22 +8450,22 @@ David  6 Aug 2006
         cs_apps.C
 
 David  6 Aug 2006
-	- core client: enable graphics for an app if it's
-		scheduler state is "scheduled"
-		(rather than if it's actually running)
-	- change project files to Visual Studio 2005 format
-		(Rom: please check in 2003-format files with _2003.vcproj names)
+    - core client: enable graphics for an app if it's
+        scheduler state is "scheduled"
+        (rather than if it's actually running)
+    - change project files to Visual Studio 2005 format
+        (Rom: please check in 2003-format files with _2003.vcproj names)
 
-	client/
-		app_graphics.C
-	win_build/
-		boinc.sln
-		boinc_cli_curl.vcproj
-		boinc_dll.vcproj
-		boinc_ss.vcproj
-		boinccmd.vcproj
-		boincmgr_curl.vcproj
-		libboinc.vcproj
+    client/
+        app_graphics.C
+    win_build/
+        boinc.sln
+        boinc_cli_curl.vcproj
+        boinc_dll.vcproj
+        boinc_ss.vcproj
+        boinccmd.vcproj
+        boincmgr_curl.vcproj
+        libboinc.vcproj
 
 David  6 Aug 2006
     - GUI RPC: get_activity_state() returns the reasons for suspension,
@@ -8481,15 +8481,15 @@ David  6 Aug 2006
         gui_rpc_client_ops.C
 
 David  6 Aug 2006
-	- 2nd part of the above
+    - 2nd part of the above
 
-	clientgui/
-		BOINCTaskBar.cpp
-		MainDocument.cpp
-		ViewTransfers.cpp
-		ViewWork.cpp
-	lib/
-		gui_rpc_client.h
+    clientgui/
+        BOINCTaskBar.cpp
+        MainDocument.cpp
+        ViewTransfers.cpp
+        ViewWork.cpp
+    lib/
+        gui_rpc_client.h
 
 David  7 Aug 2006
     - Add GUI RPCs for reading and writing the general prefs override file.
@@ -8567,14 +8567,14 @@ David  8 Aug 2006
         forum_moderate_post_action.php
 
 David  8 Aug 2006
-	- core client: fix CPU scheduling but that would cause idle CPU
-		after suspending a task
-	- compile fix for VS2005
+    - core client: fix CPU scheduling but that would cause idle CPU
+        after suspending a task
+    - compile fix for VS2005
 
-	api/
-		gutil_text.C
-	client/
-		cpu_sched.C
+    api/
+        gutil_text.C
+    client/
+        cpu_sched.C
 
 Walt   8 Aug 2006
     - Bugfix: On unicode builds on Linux,wasn't displaying project name
@@ -8639,57 +8639,57 @@ Walt   10 Aug 2006
       boinc_core_release_5_5_12
 
 David  10 Aug 2006
-	- major revision of work-fetch policy;
-		may fix bugs where client starves.
-		Also an improved version of my 10/8 scheduler fix.
-		(from John McLeod)
+    - major revision of work-fetch policy;
+        may fix bugs where client starves.
+        Also an improved version of my 10/8 scheduler fix.
+        (from John McLeod)
 
-	client/
-		app_control.C
-		client_state.C
-		client_types.C
-		cpu_sched.C
-		cs_apps.C
-		cs_scheduler.C
-		gui_rpc_server_ops.C
+    client/
+        app_control.C
+        client_state.C
+        client_types.C
+        cpu_sched.C
+        cs_apps.C
+        cs_scheduler.C
+        gui_rpc_server_ops.C
 
 David  11 Aug 2006
-	- GUI RPC: add task and network suspend reasons to the
-		structure returned by get_cc_status().
-		Future items should be put in this structure
-		rather than adding a new RPC.
+    - GUI RPC: add task and network suspend reasons to the
+        structure returned by get_cc_status().
+        Future items should be put in this structure
+        rather than adding a new RPC.
 
-		Old RPCs (network_status() and get_activity_state())
-		have been left in to avoid breaking current add-ons.
-		They have been marked as deprecated and will be removed 12/06.
-	- Manager: if task is suspended, say why
+        Old RPCs (network_status() and get_activity_state())
+        have been left in to avoid breaking current add-ons.
+        They have been marked as deprecated and will be removed 12/06.
+    - Manager: if task is suspended, say why
 
-	client/
-		gui_rpc_server_ops.C
-		net_stats.C
-	clientgui/
-		BOINCTaskBar.cpp
-		MainDocument.cpp,h
-		ViewTransfers.cpp
-		ViewWork.cpp
-	lib/
-		error_numbers.h
-		gui_rpc_client.h
-		gui_rpc_client_ops.C
+    client/
+        gui_rpc_server_ops.C
+        net_stats.C
+    clientgui/
+        BOINCTaskBar.cpp
+        MainDocument.cpp,h
+        ViewTransfers.cpp
+        ViewWork.cpp
+    lib/
+        error_numbers.h
+        gui_rpc_client.h
+        gui_rpc_client_ops.C
 
-Milos  11 Aug 2006	
-	- Added suport for importing images from skin for Flat Notebook
-	  Added additional routine to check for Skin validity. Skin validity
-	  is also checked now when different skin choosen. If skin is not valid
-	  no skin will be changed.
-	clientgui/
-		sg_BoincSimpleGUI.cpp
-		sg_ProjectsComponent.cpp
-		sg_SkinClass.h	
-	clientgui/common
-		wxFlatNotebook.cpp
-	clientgui/skins/default && WorldCommunityGrid
-	    skin.xml
+Milos  11 Aug 2006    
+    - Added suport for importing images from skin for Flat Notebook
+      Added additional routine to check for Skin validity. Skin validity
+      is also checked now when different skin choosen. If skin is not valid
+      no skin will be changed.
+    clientgui/
+        sg_BoincSimpleGUI.cpp
+        sg_ProjectsComponent.cpp
+        sg_SkinClass.h    
+    clientgui/common
+        wxFlatNotebook.cpp
+    clientgui/skins/default && WorldCommunityGrid
+        skin.xml
 
 David 11 Aug 2006
     - GUI RPC: change things so most of the read-only RPCs
@@ -8845,13 +8845,13 @@ Charlie 15 Aug 2006
         cs_scheduler.C
 
 David  15 Aug 2006
-	- core client: removed <work_fetch_debug/> message
-	- Manager: changed one wxDateTime to double (should change all)
+    - core client: removed <work_fetch_debug/> message
+    - Manager: changed one wxDateTime to double (should change all)
 
-	client/
-		cs_scheduler.C
-	clientgui/
-		MainDocument.cpp,h
+    client/
+        cs_scheduler.C
+    clientgui/
+        MainDocument.cpp,h
 
 Rom    15 Aug 2006
     - lib: Fix missing case for MIOFILE where MIOFILE.printf didn't know how
@@ -8990,21 +8990,21 @@ Milos    18 Aug 2006
       and project view. Also added logic for showing state
     
     clientgui/
-    	sg_ViewTabPage.cpp,h
-    	sg_SkinClass.h
-    	sg_ProjectsComponent.cpp
-    	sg_DlgPreferences.cpp,h
-    	sg_ClientStateIndicator.cpp,h
-    	sg_BoincSimpleGUI.cpp,h
-    	
+        sg_ViewTabPage.cpp,h
+        sg_SkinClass.h
+        sg_ProjectsComponent.cpp
+        sg_DlgPreferences.cpp,h
+        sg_ClientStateIndicator.cpp,h
+        sg_BoincSimpleGUI.cpp,h
+        
     client/skins/.../
         skin.xml
         
     client/skins/.../graphic
-    	conn_ind.png
-    	error_image.png
-    	state_ind_bg.png
-    	simplegui_bg.png
+        conn_ind.png
+        error_image.png
+        state_ind_bg.png
+        simplegui_bg.png
 
 Charlie 19 Aug 2006
     -Mac: Fixed a bug in setMacIcon() associated with sandbox security; 
@@ -9049,3 +9049,10 @@ Charlie 21 Aug 2006
     api/
         macglutfix.m
         x_opengl.C
+
+David  21 Aug 2006
+    - Manager: make axis labels uniform in Statistics tab
+        (from Mifistor)
+
+    clientgui/
+        ViewStatistics.cpp
