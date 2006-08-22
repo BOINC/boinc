@@ -9104,21 +9104,22 @@ David  21 Aug 2006
 Janus  22 Aug 2006
     - Avatars now stay when users edit their forum preferences
     - Changed the Q&A pages to use the new search facility instead of Google 
-    (unless ours doesn't find anything)
+        (unless ours doesn't find anything)
     - Added CVS auto tracking to some files
     - Improved visual layout of forum prefs page
     - If a user forgets to make a title for a post the post content is no longer
-    simply deleted. Instead a warning is shown.
-    - page_head and page_tail are now overridable (for easier integration with a
-    non-BOINC environment)
+        simply deleted. Instead a warning is shown.
+    - page_head and page_tail are now overridable
+        (for easier integration with a non-BOINC environment)
     - Small set of HTML4.01 transitional fixes
     
     html/inc/
-	util.inc
+        util.inc
     html/user/
-	edit_forum_preferences_form.php
-	forum_post.php
-	forum_help_desk.php
+        edit_forum_preferences_form.php
+        forum_post.php
+        forum_help_desk.php
+    
 
 David  22 Aug 2006
 	- Manager: small simplification (from Mifistor)
@@ -9130,3 +9131,21 @@ Rom    22 Aug 2006
     - Tag for 5.5.14 release, all platforms
       boinc_core_release_5_5_14
 
+David  22 Aug 2006
+    - Core client: change variable names to conform to new terminology
+        (see comment at top of cpu_sched.C):
+
+        adjust_debts_last_time => debt_interval_start
+        PROJECT::wall_cpu_time_this_period => wall_cpu_time_this_debt_interval
+        total_wall_cpu_time_this_period
+            => total_wall_cpu_time_this_debt_interval
+        ACTIVE_TASK::cpu_time_at_last_sched => debt_interval_start_cpu_time
+        ACTIVE_TASK::episode_start_wall_time => run_interval_start_wall_time
+
+    client/
+        app.C,h
+        app_start.C
+        client_state.C,h
+        client_types.C,h
+        cpu_sched.C
+        cs_apps.C

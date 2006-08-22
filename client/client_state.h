@@ -245,10 +245,10 @@ private:
 
 // --------------- cpu_sched.C:
 private:
-    double adjust_debts_last_time;
-    double total_wall_cpu_time_this_period;
-        // "wall CPU time" accumulated since last schedule_cpus()
-    double total_cpu_time_this_period;
+    double debt_interval_start;
+    double total_wall_cpu_time_this_debt_interval;
+        // "wall CPU time" accumulated since last adjust_debts()
+    double total_cpu_time_this_debt_interval;
     double cpu_shortfall;
 	bool work_fetch_no_new_work;
     bool must_enforce_cpu_schedule;

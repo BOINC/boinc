@@ -135,6 +135,7 @@ Web site
 <li> <a href=translation.php>Web site translation</a>
 <li> <a href=sstatus.php>Server status page</a>
 <li> <a href=profile_screen.php>Profile screening</a>
+<li> <a href=web_cache.php>Caching and translation</a>
 </ul>
 <font size=+1><b>
 Miscellaneous

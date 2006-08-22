@@ -65,13 +65,6 @@ typedef int PROCESS_ID;
 
 
 // Represents a task in progress.
-// The execution of a task is divided into "episodes".
-// An episode starts then the application is executed,
-// and ends when it exits or dies
-// (e.g., because it's preempted and not left in memory,
-// or the user quits BOINC, or the host is turned off).
-// A task may checkpoint now and then.
-// Each episode begins with the state of the last checkpoint.
 //
 // "CPU time" refers to the sum over all episodes.
 // (not counting the "lost" time after the last checkpoint
@@ -104,12 +97,12 @@ public:
         // App's estimate of how much of the work unit is done.
         // Passed from the application via an API call;
         // will be zero if the app doesn't use this call
-    double cpu_time_at_last_sched;
-        // CPU time when CPU scheduler last ran
+    double debt_interval_start_cpu_time;
+        // CPU time when adjust_debts() last ran
     double episode_start_cpu_time;
         // CPU time at the start of current episode
-    double episode_start_wall_time;
-        // Wall time at the start of the current episode
+    double run_interval_start_wall_time;
+        // Wall time at the start of the current run interval
     double checkpoint_cpu_time;
         // CPU at the last checkpoint
     double checkpoint_wall_time;

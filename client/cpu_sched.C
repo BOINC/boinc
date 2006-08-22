@@ -17,6 +17,26 @@
 // or write to the Free Software Foundation, Inc.,
 // 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 
+// CPU scheduling logic.
+//
+// Terminology:
+//
+// Episode
+// The execution of a task is divided into "episodes".
+// An episode starts then the application is executed,
+// and ends when it exits or dies
+// (e.g., because it's preempted and not left in memory,
+// or the user quits BOINC, or the host is turned off).
+// A task may checkpoint now and then.
+// Each episode begins with the state of the last checkpoint.
+//
+// Debt interval
+// The interval between consecutive executions of adjust_debts()
+//
+// Run interval
+// If an app is running (not suspended), the interval
+// during which it's been running.
+
 #ifdef _WIN32
 #include "boinc_win.h"
 #endif
@@ -46,8 +66,8 @@ static bool more_preemptable(ACTIVE_TASK* t0, ACTIVE_TASK* t1) {
         if (t0->result->report_deadline > t1->result->report_deadline) return true;
         return false;
     } else {
-        double t0_episode_time = gstate.now - t0->episode_start_wall_time;
-        double t1_episode_time = gstate.now - t1->episode_start_wall_time;
+        double t0_episode_time = gstate.now - t0->run_interval_start_wall_time;
+        double t1_episode_time = gstate.now - t1->run_interval_start_wall_time;
         if (t0_episode_time < t1_episode_time) return false;
         if (t0_episode_time > t1_episode_time) return true;
         if (t0->result->report_deadline > t1->result->report_deadline) return true;
@@ -206,7 +226,7 @@ void CLIENT_STATE::adjust_debts() {
     int nprojects=0, nrprojects=0;
     PROJECT *p;
     double share_frac;
-    double wall_cpu_time = gstate.now - adjust_debts_last_time;
+    double wall_cpu_time = gstate.now - debt_interval_start;
 
     if (wall_cpu_time < 1) return;
 
@@ -227,13 +247,13 @@ void CLIENT_STATE::adjust_debts() {
         if (atp->scheduler_state != CPU_SCHED_SCHEDULED) continue;
         if (atp->wup->project->non_cpu_intensive) continue;
 
-        atp->result->project->wall_cpu_time_this_period += wall_cpu_time;
-        total_wall_cpu_time_this_period += wall_cpu_time;
-        total_cpu_time_this_period += atp->current_cpu_time - atp->cpu_time_at_last_sched;
+        atp->result->project->wall_cpu_time_this_debt_interval += wall_cpu_time;
+        total_wall_cpu_time_this_debt_interval += wall_cpu_time;
+        total_cpu_time_this_debt_interval += atp->current_cpu_time - atp->debt_interval_start_cpu_time;
     }
 
     time_stats.update_cpu_efficiency(
-        total_wall_cpu_time_this_period, total_cpu_time_this_period
+        total_wall_cpu_time_this_debt_interval, total_cpu_time_this_debt_interval
     );
 
     rrs = runnable_resource_share();
@@ -244,9 +264,9 @@ void CLIENT_STATE::adjust_debts() {
 
         // potentially_runnable() can be false right after a result completes,
         // but we still need to update its LTD.
-        // In this case its wall_cpu_time_this_period will be nonzero.
+        // In this case its wall_cpu_time_this_debt_interval will be nonzero.
         //
-        if (!(p->potentially_runnable()) && p->wall_cpu_time_this_period) {
+        if (!(p->potentially_runnable()) && p->wall_cpu_time_this_debt_interval) {
             prrs += p->resource_share;
         }
     }
@@ -258,10 +278,10 @@ void CLIENT_STATE::adjust_debts() {
 
         // adjust long-term debts
         //
-        if (p->potentially_runnable() || p->wall_cpu_time_this_period) {
+        if (p->potentially_runnable() || p->wall_cpu_time_this_debt_interval) {
             share_frac = p->resource_share/prrs;
-            p->long_term_debt += share_frac*total_wall_cpu_time_this_period
-                - p->wall_cpu_time_this_period;
+            p->long_term_debt += share_frac*total_wall_cpu_time_this_debt_interval
+                - p->wall_cpu_time_this_debt_interval;
         }
         total_long_term_debt += p->long_term_debt;
 
@@ -270,8 +290,8 @@ void CLIENT_STATE::adjust_debts() {
         if (p->runnable()) {
             nrprojects++;
             share_frac = p->resource_share/rrs;
-            p->short_term_debt += share_frac*total_wall_cpu_time_this_period
-                - p->wall_cpu_time_this_period;
+            p->short_term_debt += share_frac*total_wall_cpu_time_this_debt_interval
+                - p->wall_cpu_time_this_debt_interval;
             total_short_term_debt += p->short_term_debt;
         } else {
             p->short_term_debt = 0;
@@ -317,15 +337,15 @@ void CLIENT_STATE::adjust_debts() {
     //
     for (i=0; i<projects.size(); i++) {
         p = projects[i];
-        p->wall_cpu_time_this_period = 0.0;
+        p->wall_cpu_time_this_debt_interval = 0.0;
     }
     for (i = 0; i < active_tasks.active_tasks.size(); ++i) {
         ACTIVE_TASK* atp = active_tasks.active_tasks[i];
-        atp->cpu_time_at_last_sched = atp->current_cpu_time;
+        atp->debt_interval_start_cpu_time = atp->current_cpu_time;
     }
-    total_wall_cpu_time_this_period = 0.0;
-    total_cpu_time_this_period = 0.0;
-    adjust_debts_last_time = gstate.now;
+    total_wall_cpu_time_this_debt_interval = 0.0;
+    total_cpu_time_this_debt_interval = 0.0;
+    debt_interval_start = gstate.now;
 }
 
 
@@ -588,7 +608,7 @@ bool CLIENT_STATE::enforce_schedule() {
         if (need_to_preempt) {
             atp = running_tasks[0];
             bool running_beyond_sched_period =
-                gstate.now - atp->episode_start_wall_time
+                gstate.now - atp->run_interval_start_wall_time
                 > gstate.global_prefs.cpu_scheduling_period_minutes*60;
             bool checkpointed_recently =
                 (now - atp->checkpoint_wall_time < 10);
@@ -670,7 +690,7 @@ bool CLIENT_STATE::enforce_schedule() {
                 continue;
             }
             atp->scheduler_state = CPU_SCHED_SCHEDULED;
-            atp->episode_start_wall_time = now;
+            atp->run_interval_start_wall_time = now;
             app_started = gstate.now;
         }
     }

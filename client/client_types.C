@@ -92,7 +92,7 @@ void PROJECT::init() {
     user_files.clear();
     project_files.clear();
     anticipated_debt = 0;
-    wall_cpu_time_this_period = 0;
+    wall_cpu_time_this_debt_interval = 0;
     next_runnable_result = NULL;
     work_request = 0;
     work_request_urgency = WORK_FETCH_DONT_NEED;

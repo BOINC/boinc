@@ -100,8 +100,8 @@ CLIENT_STATE::CLIENT_STATE() {
     disable_graphics = false;
     work_fetch_no_new_work = false;
 
-    adjust_debts_last_time = 0;
-    total_wall_cpu_time_this_period = 0;
+    debt_interval_start = 0;
+    total_wall_cpu_time_this_debt_interval = 0;
     must_schedule_cpus = true;
     must_enforce_cpu_schedule = true;
     no_gui_rpc = false;
@@ -270,7 +270,7 @@ int CLIENT_STATE::init() {
     //
     request_schedule_cpus("Startup");
     request_work_fetch("Startup");
-    adjust_debts_last_time = now;
+    debt_interval_start = now;
 
     // set up the project and slot directories
     //
