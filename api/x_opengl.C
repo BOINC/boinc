@@ -370,11 +370,19 @@ void KillWindow() {
             xpos = glutGet(GLUT_WINDOW_X);
             ypos = glutGet(GLUT_WINDOW_Y);
         } else {
-            // If fullscreen, resize now to avoid ugly flash when redisplaying as MODE_WINDOW.
+            // If fullscreen, resize now to avoid ugly flash if we subsequently 
+            // redisplay as MODE_WINDOW.
             glutPositionWindow(xpos, ypos);
             glutReshapeWindow(win_width, win_height);
         }
         
+        // On Intel Macs (but not on PowerPC Macs) GLUT's destuctors often crash when 
+        // glutDestroyWindow() is called.  So far, this has only been reported for
+        // SETI@home. Since it doesn't occur on PowerPC Macs, we suspect a bug in GLUT.  
+        // To work around this, we just hide the window instead.  Though this does not 
+        // free up RAM and VM used by the graphics, glutDestroyWindow() doesn't free 
+        // them either (surprisingly), so there is no additional penalty for doing it 
+        // this way.
         glutHideWindow();
 #else
       if (glut_is_freeglut && FREEGLUT_IS_INITIALIZED && GLUT_HAVE_WINDOW) {
