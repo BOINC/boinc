@@ -50,6 +50,11 @@ public:
     void init_buf(char*);
     int printf(const char* format, ...);
     char* fgets(char*, int);
+    int ungetc(int);
+    inline int getc() {
+        if (f) return ::getc(f);
+        return (*buf)?(*buf++):EOF;
+    }
 private:
     MFILE* mf;
     FILE* f;

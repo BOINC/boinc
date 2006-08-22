@@ -87,6 +87,15 @@ char* MIOFILE::fgets(char* dst, int len) {
     return dst;
 }
 
+int MIOFILE::ungetc(int c) {
+    if (f) {
+        return ::ungetc(c, f);
+    }
+    buf--;
+    *buf = c;
+    return c;
+}
+
 // copy from a file to static buffer
 //
 int copy_element_contents(MIOFILE& in, const char* end_tag, char* p, int len) {

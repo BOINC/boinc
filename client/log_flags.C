@@ -132,9 +132,11 @@ int CONFIG::parse_options(XML_PARSER& xp) {
 
 int CONFIG::parse(FILE* f) {
     char tag[256];
-    XML_PARSER xp(f);
+    MIOFILE mf;
+    XML_PARSER xp(&mf);
     bool is_tag;
 
+    mf.init_file(f);
     if (!xp.parse_start("cc_config")) return ERR_XML_PARSE;
     while (!xp.get(tag, is_tag)) {
         if (!is_tag) {

@@ -9149,3 +9149,17 @@ David  22 Aug 2006
         client_types.C,h
         cpu_sched.C
         cs_apps.C
+
+David  22 Aug 2006
+    - change XML_PARSER to take a MIOFILE* instead of a FILE*.
+        This allows it to be used anywhere in BOINC.
+
+    client/
+        log_flags.C
+    lib/
+        miofile.C,h
+        parse.C,h
+    sched/
+        sched_config.C
+    sea/
+        insecure.sh

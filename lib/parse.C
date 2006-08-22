@@ -407,7 +407,7 @@ int skip_unrecognized(char* buf, FILE* in) {
     return ERR_XML_PARSE;
 }
 
-XML_PARSER::XML_PARSER(FILE* _f) {
+XML_PARSER::XML_PARSER(MIOFILE* _f) {
     f = _f;
 }
 
@@ -418,7 +418,7 @@ XML_PARSER::XML_PARSER(FILE* _f) {
 bool XML_PARSER::scan_nonws(int& first_char) {
     int c;
     while (1) {
-        c = getc(f);
+        c = f->getc();
         if (c == EOF) return true;
         if (isspace(c)) continue;
         first_char = c;
@@ -433,7 +433,7 @@ bool XML_PARSER::scan_nonws(int& first_char) {
 bool XML_PARSER::scan_tag(char* buf) {
     int c;
     while (1) {
-        c = getc(f);
+        c = f->getc();
         if (c == EOF) return true;
         if (c == '>') {
             *buf = 0;
@@ -450,10 +450,10 @@ bool XML_PARSER::scan_tag(char* buf) {
 bool XML_PARSER::copy_until_tag(char* buf) {
     int c;
     while (1) {
-        c = getc(f);
+        c = f->getc();
         if (c == EOF) return true;
         if (c == '<') {
-            ungetc(c, f);
+            f->ungetc(c);
             *buf = 0;
             return false;
         }

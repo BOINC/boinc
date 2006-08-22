@@ -33,13 +33,15 @@
 #endif
 #endif
 
+#include "miofile.h"
+
 class XML_PARSER {
-    FILE* f;
+    MIOFILE* f;
     bool scan_nonws(int&);
     bool scan_tag(char*);
     bool copy_until_tag(char*);
 public:
-    XML_PARSER(FILE*);
+    XML_PARSER(MIOFILE*);
     bool get(char*, bool&);
     bool parse_start(char*);
     bool parse_str(char*, char*, char*);

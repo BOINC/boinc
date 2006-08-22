@@ -37,9 +37,11 @@ const char* CONFIG_FILE = "config.xml";
 
 int SCHED_CONFIG::parse(FILE* f) {
     char tag[1024], temp[1024];
-    XML_PARSER xp(f);
     bool is_tag;
+    MIOFILE mf;
+    XML_PARSER xp(&mf);
 
+    mf.init_file(f);
     memset(this, 0, sizeof(SCHED_CONFIG));
     max_wus_to_send = 10;
     default_disk_max_used_gb = 100.;
