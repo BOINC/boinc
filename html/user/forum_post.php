@@ -4,7 +4,7 @@
  * At first it displays an input box and when you submit
  * it will apply the changes by calling methods on the forum
  **/
- 
+$cvs_version_tracker[]="\$Id$";  //Generated automatically - do not edit 
 require_once('../inc/forum_email.inc');
 require_once('../inc/forum.inc');
 require_once('../inc/forum_std.inc');
@@ -54,9 +54,10 @@ $submit_help = "";
 $body_help = "";
 
 //Title
-row2(tr(FORUM_SUBMIT_NEW_TITLE).$submit_help, "<input type=text name=title size=62>");
+if ($content && !$title) $submit_help = "<br /><font color=\"red\">Remember to add a title</font>";
+row2(tr(FORUM_SUBMIT_NEW_TITLE).$submit_help, "<input type=\"text\" name=\"title\" size=\"62\">");
 //Message
-row2(tr(FORUM_MESSAGE).html_info().post_warning().$body_help, "<textarea name=content rows=12 cols=54></textarea>");
+row2(tr(FORUM_MESSAGE).html_info().post_warning().$body_help, "<textarea name=\"content\" rows=\"12\" cols=\"54\">".stripslashes($content)."</textarea>");
 
 if ($logged_in_user->hasSignatureByDefault()) {
     $enable_signature="checked=\"true\"";
@@ -64,10 +65,9 @@ if ($logged_in_user->hasSignatureByDefault()) {
     $enable_signature="";
 }
 
-row2("", "<input name=add_signature value=add_it ".$enable_signature." type=checkbox>".tr(FORUM_ADD_MY_SIG));
-row2("", "<input type=submit value=\"OK\">");
+row2("", "<input name=\"add_signature\" value=\"add_it\" ".$enable_signature." type=\"checkbox\">".tr(FORUM_ADD_MY_SIG));
+row2("", "<input type=\"submit\" value=\"OK\">");
 
-// STUB: Insert java code to check if user remembered to enter title and a message
 
 end_forum_table();
 
