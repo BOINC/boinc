@@ -151,17 +151,17 @@ function show_posts($thread, $sort_style, $filter, $logged_in_user, $show_contro
             // There *HAS* to be a better way to do this.  WOW.
             if ((!$logged_in_user) // If the user isn't logged in
                 || (!$logged_in_user->getMinimumWrapPostcount()) //or If the user hasn't enabled the feature to display only a certain amount of posts, simply display all of them.
-                || ($postcount <= $logged_in_user->getMinimumWrapPostcount()) //If it is enabled and we havent yet hit the limit, simply display all
+                || ($postcount < $logged_in_user->getMinimumWrapPostcount()) //If it is enabled and we havent yet hit the limit, simply display all
                 || ($no_wraparound)  // If the user has asked to display all the posts just display them
                 ||
                 (
-                    ($postcount > $logged_in_user->getMinimumWrapPostcount()) //If it is enabled and we have hit the limit AND we have the minimum wraparound number of posts or more
+                    ($postcount >= $logged_in_user->getMinimumWrapPostcount()) //If it is enabled and we have hit the limit AND we have the minimum wraparound number of posts or more
                     &&
                     (
                         ($postnumber==1 || $postnumber==($postcount+1)) // Let's display the post only if it is the first post 
                         || 
                         (        
-                            (($postnumber > $postcount-$logged_in_user->getDisplayWrapPostcount()) //or it is one of the last wrap_display_postcount posts.
+                            (($postnumber > $postcount+1-$logged_in_user->getDisplayWrapPostcount()) //or it is one of the last wrap_display_postcount posts.
                             && ($sort_style==CREATE_TIME_OLD))
                             ||
                             (($postnumber <= $logged_in_user->getDisplayWrapPostcount()) //or it is one of the last wrap_display_postcount posts.
@@ -176,7 +176,7 @@ function show_posts($thread, $sort_style, $filter, $logged_in_user, $show_contro
                     //A number of posts were hidden, display a way to unhide them:
                     echo "<tr class=\"postseperator\"><td></td><td colspan=\"2\">
                     Only the first post and the last ".($logged_in_user->getDisplayWrapPostcount())." posts 
-                    (of the ".($postcount)." posts in this thread) are displayed. <br />
+                    (of the ".($postcount+1)." posts in this thread) are displayed. <br />
                     <a href=\"?id=".$thread->getID()."&amp;nowrap=true\">Click here to also display the remaining posts</a>.</td></tr>";
                 }
                 $previous_post=$postnumber;
