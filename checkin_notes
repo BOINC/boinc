@@ -9163,3 +9163,10 @@ David  22 Aug 2006
         sched_config.C
     sea/
         insecure.sh
+
+Walt   22 Aug 2006
+	- Manager: Add text to tooltips for buttons on statictics
+            panel.  Linux version was showing a small empty box.
+
+	clientgui/
+		ViewStatistics.cpp

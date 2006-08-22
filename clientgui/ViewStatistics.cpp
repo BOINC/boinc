@@ -669,28 +669,28 @@ CViewStatistics::CViewStatistics(wxNotebook* pNotebook) :
 
 	pItem = new CTaskItem(
         _("Show user total"),
-        wxT(""),
+        wxT("Show total credit for user"),
         ID_TASK_STATISTICS_USERTOTAL 
     );
     pGroup->m_Tasks.push_back( pItem );
 
 	pItem = new CTaskItem(
         _("Show user average"),
-        wxT(""),
+        wxT("Show average credit for user"),
         ID_TASK_STATISTICS_USERAVERAGE 
     );
     pGroup->m_Tasks.push_back( pItem );
 
 	pItem = new CTaskItem(
         _("Show host total"),
-        wxT(""),
+        wxT("Show total credit for host"),
         ID_TASK_STATISTICS_HOSTTOTAL 
     );
     pGroup->m_Tasks.push_back( pItem );
 
 	pItem = new CTaskItem(
         _("Show host average"),
-        wxT(""),
+        wxT("Show average credit for host"),
         ID_TASK_STATISTICS_HOSTAVERAGE 
     );
     pGroup->m_Tasks.push_back( pItem );
@@ -700,13 +700,13 @@ CViewStatistics::CViewStatistics(wxNotebook* pNotebook) :
 
 	pItem = new CTaskItem(
         _("< &Previous project"),
-        wxT(""),
+        wxT("Show chart for previous project"),
         ID_TASK_STATISTICS_PREVPROJECT 
     );
     pGroup->m_Tasks.push_back( pItem );
 	pItem = new CTaskItem(
         _("&Next project >"),
-        wxT(""),
+        wxT("Show chart for next project"),
         ID_TASK_STATISTICS_NEXTPROJECT 
     );
     pGroup->m_Tasks.push_back( pItem );
@@ -715,21 +715,21 @@ CViewStatistics::CViewStatistics(wxNotebook* pNotebook) :
 	m_TaskGroups.push_back( pGroup );
 	pItem = new CTaskItem(
         _("All projects"),
-        wxT(""),
+        wxT("Show all projects, one chart per project"),
         ID_TASK_STATISTICS_MODEVIEW0 
     );
     pGroup->m_Tasks.push_back( pItem );
 
 	pItem = new CTaskItem(
         _("One project"),
-        wxT(""),
+        wxT("Show one chart with selected project"),
         ID_TASK_STATISTICS_MODEVIEW1 
     );
     pGroup->m_Tasks.push_back( pItem );
         
 	pItem = new CTaskItem(
         _("All projects(sum)"),
-        wxT(""),
+        wxT("Show one chart with all projects"),
         ID_TASK_STATISTICS_MODEVIEW2 
     );
     pGroup->m_Tasks.push_back( pItem );
