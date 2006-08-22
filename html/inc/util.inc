@@ -89,6 +89,12 @@ function show_login($user) {
     }
 }
 
+/**
+ * Page_head() is overridable so that projects that want to integrate BOINC with an existing web framework
+ * can more easily do so. To take advantage of this simply define the function page_head() somewhere
+ * in the project include file.
+ */
+if (!function_exists("page_head")){
 function page_head($title, $java_onload=null, $title_plain=null, $prefix="") {
     $styleSheet = URL_BASE . STYLESHEET;
     $rssname = PROJECT . " RSS 2.0";
@@ -115,6 +121,7 @@ function page_head($title, $java_onload=null, $title_plain=null, $prefix="") {
     display_cvs_versions();
     project_banner($title, $prefix);
 }
+}
 
 function page_tail_aux($show_return, $show_date, $prefix="") {
     project_footer($show_return, $show_date, $prefix);
@@ -124,8 +131,13 @@ function page_tail_main($show_date=false) {
     page_tail_aux(false, $show_date);
 }
 
+/**
+ * See the comments for page_head()
+ */
+if (!function_exists("page_tail")){
 function page_tail($show_date=false, $prefix="") {
     page_tail_aux(true, $show_date, $prefix);
+}
 }
 
 function display_cvs_versions(){
