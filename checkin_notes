@@ -9100,3 +9100,23 @@ David  21 Aug 2006
         parse.C,h
     sched/
         sched_config.C
+
+Janus  22 Aug 2006
+    - Avatars now stay when users edit their forum preferences
+    - Changed the Q&A pages to use the new search facility instead of Google 
+    (unless ours doesn't find anything)
+    - Added CVS auto tracking to some files
+    - Improved visual layout of forum prefs page
+    - If a user forgets to make a title for a post the post content is no longer
+    simply deleted. Instead a warning is shown.
+    - page_head and page_tail are now overridable (for easier integration with a
+    non-BOINC environment)
+    - Small set of HTML4.01 transitional fixes
+    
+    html/inc/
+	util.inc
+    html/user/
+	edit_forum_preferences_form.php
+	forum_post.php
+	forum_help_desk.php
+	
