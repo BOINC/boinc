@@ -331,7 +331,7 @@ void CPaintStatistics::DrawAxis(wxPaintDC &dc, const double max_val_y, const dou
 //	if (d_oy_count<1) d_oy_count=1;
 
 	double d_oy_val=fabs((max_val_y-min_val_y)/d_oy_count);
-	double d2=pow(10 , floor(log10(d_oy_val)));
+	double d2=pow((double)10.0 , floor(log10(d_oy_val)));
 
 	if (d2>=d_oy_val){
 		d_oy_val=1*d2;
