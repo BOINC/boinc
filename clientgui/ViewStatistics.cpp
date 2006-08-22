@@ -207,17 +207,11 @@ void CPaintStatistics::DrawLegend(wxPaintDC &dc, PROJECTS * &proj, CMainDocument
 	for (std::vector<PROJECT*>::const_iterator i=proj->projects.begin();i!=proj->projects.end(); ++i) {
 		++count;
 	///Draw project name
-		PROJECT* statistic = wxGetApp().GetDocument()->statistic(count);
-		PROJECT* state_project = NULL;
-		wxString head_name;
-		std::string project_name;
-		if (statistic) {
-			state_project = pDoc->state.lookup_project(statistic->master_url);
-			if (state_project) {
-			    state_project->get_name(project_name);
-			    head_name = wxString(project_name.c_str(), wxConvUTF8);
-			}
+		PROJECT* state_project = pDoc->state.lookup_project((*i)->master_url);
+		if (state_project) {
+			head_name = wxString(state_project->project_name.c_str(), wxConvUTF8);
 		}
+
 		wxCoord w_temp, h_temp, des_temp, lead_temp;
 		dc.GetTextExtent(head_name, &w_temp, &h_temp, &des_temp, &lead_temp);
 		if (SelProj==count){

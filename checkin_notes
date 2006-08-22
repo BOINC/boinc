@@ -9119,4 +9119,9 @@ Janus  22 Aug 2006
 	edit_forum_preferences_form.php
 	forum_post.php
 	forum_help_desk.php
-	
+
+David  22 Aug 2006
+	- Manager: small simplification (from Mifistor)
+
+	clientgui/
+		ViewStatistics.cpp
