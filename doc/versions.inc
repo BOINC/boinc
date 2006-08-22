@@ -350,23 +350,18 @@ $linux_libs_5512= "
       </ul>
 ";
 
-$w5513= array(
-    "num"=>"5.5.13",
+$w5514= array(
+    "num"=>"5.5.14",
     "status"=>"Development version",
-    "file"=>"boinc_5.5.13_windows_intelx86.exe",
-    "date"=>"14 Aug 2006",
+    "file"=>"boinc_5.5.14_windows_intelx86.exe",
+    "date"=>"22 Aug 2006",
     "type"=>"win_new",
     "features"=>"<ul>
 ".$features_55."
 ".$changes_55."
     </ul>
     ",
-    "bugs"=>"<ul>
-    <li>
-    If you use a proxy server, please hold off upgrading for now.  We have
-    a fix in the works for proxies that use NTLM authentication.
-    </ul>
-    "
+    "bugs"=>""
 );
 
 $w5411= array(
@@ -696,7 +691,7 @@ $windows = array(
     "name"=>"Windows",
     "dbname" => "windows_intelx86",
     "versions"=>array(
-        $w5513,
+        $w5514,
         $w5411,
         $w5213,
         $w445,
