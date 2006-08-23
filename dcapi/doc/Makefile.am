@@ -80,3 +80,10 @@ include $(top_srcdir)/gtk-doc.make
 # Other files to distribute
 # e.g. EXTRA_DIST += version.xml.in
 EXTRA_DIST += 
+
+# LaTeX output
+$(DOC_MODULE)-docs.tex: html-build.stamp customize.xsl
+	xsltproc --nonet --xinclude -o $(DOC_MODULE)-docs.tex customize.xsl $(DOC_MODULE)-docs.xml
+
+$(DOC_MODULE)-docs.pdf: $(DOC_MODULE)-docs.tex
+	rubber --pdf $(DOC_MODULE)-docs
