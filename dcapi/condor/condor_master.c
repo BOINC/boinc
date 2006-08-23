@@ -123,8 +123,8 @@ DC_createWU(const char *clientName,
 	     arguments && arguments[wu->data.argc];
 	     _DC_wu_set_argc(wu, wu->data.argc+1))
 		;
-	wu->subresults= subresults;
-	wu->tag= g_strdup(tag);
+	_DC_wu_set_subresults(wu, subresults);
+	_DC_wu_set_tag(wu, g_strdup(tag));
 	/*
 	uuid_generate(wu->uuid);
 	uuid_unparse_lower(wu->uuid, uuid_str);
@@ -154,21 +154,23 @@ DC_createWU(const char *clientName,
 				!g_file_test(d->str, G_FILE_TEST_IS_DIR);
 		}
 		while (!ok);
-		wu->uuid_str= s->str;
+		_DC_wu_set_uuid_str(wu, s->str);
 		g_string_free(s, FALSE);
 		/*g_string_free(hd, TRUE);*/
-		wu->workdir= d->str;
+		_DC_wu_set_workdir(wu, d->str);
 		g_string_free(d, FALSE);
 		free(wd);
 	}
 
 	if (tag)
-		wu->name= g_strdup_printf("%s_%s_%s", _DC_project_uuid_str,
-					  wu->uuid_str, tag);
+		_DC_wu_set_name(wu, g_strdup_printf("%s_%s_%s",
+						    _DC_project_uuid_str,
+						    wu->data.uuid_str, tag));
 	else
-		wu->name= g_strdup_printf("%s_%s", _DC_project_uuid_str,
-					  wu->uuid_str);
-	DC_log(LOG_DEBUG, "wu name=\"%s\"", wu->name);
+		_DC_wu_set_name(wu, g_strdup_printf("%s_%s",
+						    _DC_project_uuid_str,
+						    wu->data.uuid_str));
+	DC_log(LOG_DEBUG, "wu name=\"%s\"", wu->data.name);
 
 	/* Calculate & create the working directory. The working directory
 	 * has the form:
@@ -194,14 +196,14 @@ DC_createWU(const char *clientName,
 
 	if (!_DC_wu_table)
 		DC_initMaster(NULL);
-	g_hash_table_insert(_DC_wu_table, wu->name, wu);
+	g_hash_table_insert(_DC_wu_table, wu->data.name, wu);
 
-	ret= _DC_mkdir_with_parents(wu->workdir, 0700);
+	ret= _DC_mkdir_with_parents(wu->data.workdir, 0700);
 	if (ret)
 	{
 		DC_log(LOG_ERR,
 		       "Failed to create WU working directory %s: %s",
-		       wu->workdir, strerror(errno));
+		       wu->data.workdir, strerror(errno));
 		DC_destroyWU(wu);
 		return(NULL);
 	}
@@ -223,38 +225,38 @@ DC_destroyWU(DC_Workunit *wu)
 
 	if (!_DC_wu_check(wu))
 		return;
-	DC_log(LOG_DEBUG, "DC_destroyWU(%p-\"%s\")", wu, wu->name);
+	DC_log(LOG_DEBUG, "DC_destroyWU(%p-\"%s\")", wu, wu->data.name);
 
 	if (_DC_wu_table)
-		g_hash_table_remove(_DC_wu_table, wu->name);
+		g_hash_table_remove(_DC_wu_table, wu->data.name);
 
 	s= g_string_new("");
-	g_string_printf(s, "%s/%s", wu->workdir, "master_messages");
+	g_string_printf(s, "%s/%s", wu->data.workdir, "master_messages");
 	if ((i= _DC_nuof_messages(s->str, "message")) > 0)
 		DC_log(LOG_NOTICE, "%d master messages unhandled by "
-		       "destroying wu: %s", i, wu->name);
-	g_string_printf(s, "%s/%s", wu->workdir, "client_messages");
+		       "destroying wu: %s", i, wu->data.name);
+	g_string_printf(s, "%s/%s", wu->data.workdir, "client_messages");
 	if ((i= _DC_nuof_messages(s->str, "message")) > 0)
 		DC_log(LOG_NOTICE, "%d client messages unhandled of wu: %s",
-		       i, wu->name);
-	g_string_printf(s, "%s/%s", wu->workdir, "client_subresults");
+		       i, wu->data.name);
+	g_string_printf(s, "%s/%s", wu->data.workdir, "client_subresults");
 	if ((i= _DC_nuof_messages(s->str, "logcal_name")) > 0)
 		DC_log(LOG_NOTICE, "%d client subresults unhandled of wu: %s",
-		       i, wu->name);
+		       i, wu->data.name);
 	g_string_free(s, TRUE);
 
 	if (wu->state == DC_WU_READY ||
 	    wu->state == DC_WU_UNKNOWN)
-		DC_log(LOG_NOTICE, "Destroying an unstarted wu: %s", wu->name);
+		DC_log(LOG_NOTICE, "Destroying an unstarted wu: %s", wu->data.name);
 	if (wu->state == DC_WU_RUNNING ||
 	    wu->state == DC_WU_SUSPENDED)
 	{
 		DC_log(LOG_NOTICE, "Destroying a started but not yet "
-		       "finished wu: %s", wu->name);
+		       "finished wu: %s", wu->data.name);
 		DC_log(LOG_INFO, "WU has been started but not finished "
-		       "do not remove its workdir %s", wu->workdir);
+		       "do not remove its workdir %s", wu->data.workdir);
 	}
-	else if (wu->workdir)
+	else if (wu->data.workdir)
 	{
 		const char *name;
 		GDir *dir;
@@ -262,44 +264,44 @@ DC_destroyWU(DC_Workunit *wu)
 		GString *fn;
 
 		/* Removing generated files */
-		fn= g_string_new(wu->workdir);
+		fn= g_string_new(wu->data.workdir);
 		fn= g_string_append(fn, "/condor_submit.txt");
 		unlink(fn->str);
-		g_string_printf(fn, "%s/%s", wu->workdir, CLIENT_CONFIG_NAME);
+		g_string_printf(fn, "%s/%s", wu->data.workdir, CLIENT_CONFIG_NAME);
 		unlink(fn->str);
-		g_string_printf(fn, "%s/%s", wu->workdir,
+		g_string_printf(fn, "%s/%s", wu->data.workdir,
 				wu->data.client_name);
 		unlink(fn->str);
-		g_string_printf(fn, "%s/%s", wu->workdir, DC_LABEL_INTLOG);
+		g_string_printf(fn, "%s/%s", wu->data.workdir, DC_LABEL_INTLOG);
 		unlink(fn->str);
-		g_string_printf(fn, "%s/%s", wu->workdir, DC_LABEL_STDOUT);
+		g_string_printf(fn, "%s/%s", wu->data.workdir, DC_LABEL_STDOUT);
 		unlink(fn->str);
-		g_string_printf(fn, "%s/%s", wu->workdir, DC_LABEL_STDERR);
+		g_string_printf(fn, "%s/%s", wu->data.workdir, DC_LABEL_STDERR);
 		unlink(fn->str);
-		g_string_printf(fn, "%s/client_messages", wu->workdir);
+		g_string_printf(fn, "%s/client_messages", wu->data.workdir);
 		i= _DC_rm(fn->str);
 		if (i > 0)
 			DC_log(LOG_NOTICE, "%d unhandled client messages "
 			       "remained", i);
-		g_string_printf(fn, "%s/master_messages", wu->workdir);
+		g_string_printf(fn, "%s/master_messages", wu->data.workdir);
 		i= _DC_rm(fn->str);
 		if (i > 0)
 			DC_log(LOG_NOTICE, "%d unhandled master messages "
 			       "remained", i);
-		g_string_printf(fn, "%s/client_subresults", wu->workdir);
+		g_string_printf(fn, "%s/client_subresults", wu->data.workdir);
 		i= _DC_rm(fn->str);
 		if (i > 0)
 			DC_log(LOG_NOTICE, "%d unhandled client subresults "
 			       "remained", i);
 		g_string_free(fn, TRUE);
 		
-		dir= g_dir_open(wu->workdir, 0, NULL);
+		dir= g_dir_open(wu->data.workdir, 0, NULL);
 		/* The work directory should not contain any extra files, but
 		 * just in case */
 		while (dir &&
 		       (name= g_dir_read_name(dir)))
 		{
-			GString *str= g_string_new(wu->workdir);
+			GString *str= g_string_new(wu->data.workdir);
 			g_string_append_c(str, G_DIR_SEPARATOR);
 			g_string_append(str, name);
 			DC_log(LOG_INFO, "Removing unknown file %s",
@@ -310,19 +312,19 @@ DC_destroyWU(DC_Workunit *wu)
 		if (dir)
 			g_dir_close(dir);
 
-		ret= rmdir(wu->workdir);
+		ret= rmdir(wu->data.workdir);
 		if (ret)
 			DC_log(LOG_WARNING, "Failed to remove WU working "
-			       "directory %s: %s", wu->workdir,
+			       "directory %s: %s", wu->data.workdir,
 			       strerror(errno));
-		g_free(wu->workdir);
+		g_free(wu->data.workdir);
 	}
 
 	_DC_wu_set_client_name(wu, NULL);
-	g_free(wu->uuid_str);
+	g_free(wu->data.uuid_str);
 	g_strfreev(wu->argv);
-	g_free(wu->tag);
-	g_free(wu->name);
+	g_free(wu->data.tag);
+	g_free(wu->data.name);
 	g_array_free(wu->condor_events, TRUE);
 	g_free(wu);
 }
@@ -342,11 +344,11 @@ DC_addWUInput(DC_Workunit *wu,
 	if (!_DC_wu_check(wu))
 		return(DC_ERR_UNKNOWN_WU);
 	DC_log(LOG_DEBUG, "DC_addWUInput(%p-\"%s\", %s, %s, %d)",
-	       wu, wu->name, logicalFileName, URL, fileMode);
+	       wu, wu->data.name, logicalFileName, URL, fileMode);
 
 	if (wu->state != DC_WU_READY)
 	{
-		DC_log(LOG_INFO, "Modifying started wu %s", wu->name);
+		DC_log(LOG_INFO, "Modifying started wu %s", wu->data.name);
 		return(DC_ERR_BADPARAM);
 	}
 
@@ -416,11 +418,11 @@ DC_addWUOutput(DC_Workunit *wu, const char *logicalFileName)
 	if (!_DC_wu_check(wu))
 		return(DC_ERR_UNKNOWN_WU);
 	DC_log(LOG_DEBUG, "DC_addWUOutput(%p-\"%s\", %s)",
-	       wu, wu->name, logicalFileName);
+	       wu, wu->data.name, logicalFileName);
 
 	if (wu->state != DC_WU_READY)
 	{
-		DC_log(LOG_INFO, "Modifying started wu %s", wu->name);
+		DC_log(LOG_INFO, "Modifying started wu %s", wu->data.name);
 		return(DC_ERR_BADPARAM);
 	}
 
@@ -444,11 +446,11 @@ DC_setWUPriority(DC_Workunit *wu, int priority)
 	if (!_DC_wu_check(wu))
 		return(DC_ERR_UNKNOWN_WU);
 	DC_log(LOG_DEBUG, "DC_setWUPriority(%p-\"%s\", %d)",
-	       wu, wu->name, priority);
+	       wu, wu->data.name, priority);
 
 	if (wu->state != DC_WU_READY)
 	{
-		DC_log(LOG_INFO, "Modifying started wu %s", wu->name);
+		DC_log(LOG_INFO, "Modifying started wu %s", wu->data.name);
 		return(DC_ERR_BADPARAM);
 	}
 
@@ -508,7 +510,7 @@ DC_getWUTag(const DC_Workunit *wu)
 {
 	if (!_DC_wu_check(wu))
 		return(NULL);
-	return((wu->tag)?strdup(wu->tag):NULL);
+	return((wu->data.tag)?strdup(wu->data.tag):NULL);
 }
 
 
@@ -677,7 +679,7 @@ DC_waitWUEvent(DC_Workunit *wu, int timeout)
 		return(NULL);
 	if (timeout)
 		DC_log(LOG_DEBUG, "DC_waitWUEvent(%p-\"%s\", %d)",
-		       wu, wu->name, timeout);
+		       wu, wu->data.name, timeout);
 
 	_DC_wu_update_condor_events(wu);
 	me= _DC_wu_check_client_messages(wu);
@@ -723,8 +725,8 @@ DC_sendWUMessage(DC_Workunit *wu, const char *message)
 	if (!_DC_wu_check(wu))
 		return(DC_ERR_UNKNOWN_WU);
 	DC_log(LOG_DEBUG, "DC_sendWUMessage(%p-\"%s\", %s)",
-	       wu, wu->name, message);
-	dn= g_string_new(wu->workdir);
+	       wu, wu->data.name, message);
+	dn= g_string_new(wu->data.workdir);
 	g_string_append(dn, "/master_messages");
 	ret= _DC_create_message(dn->str, "message", message, NULL);
 	g_string_free(dn, TRUE);
@@ -784,7 +786,7 @@ DC_getResultOutput(const DC_Result *result, const char *logicalFileName)
 		return(NULL);
 	if (!_DC_wu_check(result->wu))
 		return(NULL);
-	fn= g_string_new(result->wu->workdir);
+	fn= g_string_new(result->wu->data.workdir);
 	fn= g_string_append(fn, "/");
 	fn= g_string_append(fn, logicalFileName);
 	return(g_string_free(fn, FALSE));

@@ -14,10 +14,15 @@ extern "C" {
 
 extern void _DC_wu_changed(DC_Workunit *wu);
 extern int _DC_wu_check(const DC_Workunit *wu);
-extern int _DC_wu_set_client_name(DC_Workunit *wu,
-				  const char *new_name);
-extern int _DC_wu_set_argc(DC_Workunit *wu,
-			   int new_argc);
+
+extern int _DC_wu_set_client_name(DC_Workunit *wu, const char *new_name);
+extern int _DC_wu_set_argc(DC_Workunit *wu, int new_argc);
+extern int _DC_wu_set_uuid_str(DC_Workunit *wu, char *new_uuid_str);
+extern int _DC_wu_set_name(DC_Workunit *wu, char *new_name);
+extern int _DC_wu_set_tag(DC_Workunit *wu, char *new_tag);
+extern int _DC_wu_set_subresults(DC_Workunit *wu, int new_subresults);
+extern int _DC_wu_set_workdir(DC_Workunit *wu, char *new_workdir);
+
 extern int _DC_wu_check_logical_name(DC_Workunit *wu,
 				     const char *logicalFileName);
 extern char *_DC_wu_get_workdir_path(DC_Workunit *wu,

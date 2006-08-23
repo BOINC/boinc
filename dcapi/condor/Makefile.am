@@ -57,7 +57,7 @@ libdc_client_condor_la_LIBADD = ../common/libdc-common-client.la
 
 
 dd: all
-	ssh root@emma 'make -C /home/local2/drdani/prj/szdg/dcapi/trunk/condor install'
-	$(MAKE) -C /home/local2/drdani/prj/szdg/apps/uppercase-demo/trunk clean all
-	cp /home/local2/drdani/prj/szdg/apps/uppercase-demo/trunk/src/uppercase-demo-client uppercase-demo
-	cp /home/local2/drdani/prj/szdg/apps/uppercase-demo/trunk/src/uppercase-demo-master .
+	ssh root@emma 'make -C /home/staff/drdani/prj/szdg/dcapi/trunk/condor install'
+	$(MAKE) -C ../../../apps/uppercase-demo/trunk clean all
+	cp ../../../apps/uppercase-demo/trunk/src/uppercase-demo-client uppercase-demo
+	cp ../../../apps/uppercase-demo/trunk/src/uppercase-demo-master .
