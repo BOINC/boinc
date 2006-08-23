@@ -29,6 +29,7 @@
 #include "sg_ProgressBar.h"
 #include "sg_ImageButton.h"
 
+
 IMPLEMENT_DYNAMIC_CLASS(CViewTabPage, wxPanel)
 
 enum{
@@ -81,20 +82,23 @@ void CViewTabPage::CreatePage()
 {
 	RESULT* resState = NULL;
 	resState = pDoc->state.lookup_result(resultWU->project_url, resultWU->name);
-	
 	if(resState){
 		//////////////////////Build Tab Page///////////////////////////////
 		//Project Name
 		projName = wxString(resState->project->project_name.c_str(), wxConvUTF8 );
-		//Line Proj Name
-		lnProjName = new CStaticLine(this,wxPoint(20,36),wxSize(316,1));
-		lnProjName->SetLineColor(appSkin->GetStaticLineCol());
-		//
-		wxStaticLine spacerLine = new wxStaticLine(this,-1,wxPoint(20,36),wxSize(305,1));
+		projectFrName = wxString(resState->app->user_friendly_name.c_str(), wxConvUTF8);
 		//
 		//Project
-		projectFrName = wxString(resState->app->user_friendly_name.c_str(), wxConvUTF8);
+	} else {
+		projName = wxString("Not Available - Need State Update from Rom", wxConvUTF8 );
+		projectFrName = wxString("Not Available - Need State Update from Rom", wxConvUTF8);
 	}
+	//Line Proj Name
+	lnProjName = new CStaticLine(this,wxPoint(20,36),wxSize(316,1));
+	lnProjName->SetLineColor(appSkin->GetStaticLineCol());
+	//
+	wxStaticLine spacerLine = new wxStaticLine(this,-1,wxPoint(20,36),wxSize(305,1));
+
 	//My Progress
 	wrkUnitName = wxString(resultWU->name.c_str(),wxConvUTF8);
 	//Main Gauge

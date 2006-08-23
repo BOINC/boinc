@@ -42,7 +42,6 @@
 #include "WizardAttachProject.h"
 #include "WizardAccountManager.h"
 #include "error_numbers.h"
-#include "parse.h"
 #include <string>
 
 #include "res/boinc.xpm"
@@ -70,6 +69,7 @@ CSimpleFrame::CSimpleFrame(wxString title, wxIcon* icon) :
     CBOINCBaseFrame((wxFrame *)NULL, ID_SIMPLEFRAME, title, wxDefaultPosition, wxSize(416, 600),
                     wxDEFAULT_FRAME_STYLE | wxNO_FULL_REPAINT_ON_RESIZE)
 {
+    wxLogTrace(wxT("Function Start/End"), wxT("CSimpleFrame::CSimpleFrame - Overloaded Constructor Function Begin"));
     wxString        strBaseConfigLocation = wxString(wxT("/"));
     wxConfigBase*   pConfig = wxConfigBase::Get(FALSE);
 
@@ -81,38 +81,31 @@ CSimpleFrame::CSimpleFrame(wxString title, wxIcon* icon) :
     //
     pConfig->SetPath(strBaseConfigLocation);
     pConfig->Read(wxT("Skin"), &skinName, wxT("default"));
-    pConfig->Read(wxT("SkinFolderPath"), &skinFoldPath, wxT("skins"));
 
     //init app skin class
 	appSkin = SkinClass::Instance();
-    
-    appSkin->SetSkinName(skinName);
-	appSkin->SetSkinsFolder(skinFoldPath);
-	skinPath = appSkin->GetSkinsFolder()+_T("/")+appSkin->GetSkinName()+_T("/")+_T("skin.xml");
-	clientGUIInitialized = false;
-	wrkUnitNotebookInit = false;
-	//Check if skin can be loaded
-	if(!CheckSkin()){
-		//if current skin is not loaded then switch to default skin
-		//that is in memory
-		appSkin->SetSkinName( wxT("default"));
-		skinPath = appSkin->GetSkinsFolder()+_T("/")+appSkin->GetSkinName()+_T("/")+_T("skin.xml");
-	    wxMessageBox("Incompatible skin. Switching to default");
-		LoadSkinXML();
-	}
-	// load images from skin file
+	appSkin->init_skin(skinName);
 	LoadSkinImages();
+
+	projectViewInitialized = false;
+	resultViewInitialized = false;
+	emptyViewInitialized = false;
+	notebookViewInitialized = false;
+
 	//set polling timer for interface
 	m_pFrameRenderTimer = new wxTimer(this, ID_SIMPLEFRAMERENDERTIMER);
     wxASSERT(m_pFrameRenderTimer);
     m_pFrameRenderTimer->Start(1000);                // Send event every 1 second
-    //Create client
-	InitEmptyState();
-}
+
+	InitEmptyView();
+    wxLogTrace(wxT("Function Start/End"), wxT("CSimpleFrame::CSimpleFrame - Overloaded Constructor Function End"));
+ }
 
 CSimpleFrame::~CSimpleFrame()
 {
-    wxString        strBaseConfigLocation = wxString(wxT("/"));
+    wxLogTrace(wxT("Function Start/End"), wxT("CSimpleFrame::CSimpleFrame - Destructor Function Begin"));
+
+	wxString        strBaseConfigLocation = wxString(wxT("/"));
     wxConfigBase*   pConfig = wxConfigBase::Get(FALSE);
 
     wxASSERT(m_pFrameRenderTimer);
@@ -122,12 +115,12 @@ CSimpleFrame::~CSimpleFrame()
     //
     pConfig->SetPath(strBaseConfigLocation);
     pConfig->Write(wxT("Skin"), skinName);
-    pConfig->Write(wxT("SkinFolderPath"), skinFoldPath);
 
 	if (m_pFrameRenderTimer) {
         m_pFrameRenderTimer->Stop();
         delete m_pFrameRenderTimer;
     }
+    wxLogTrace(wxT("Function Start/End"), wxT("CSimpleFrame::CSimpleFrame - Destructor Function End"));
 }
 
 
@@ -228,32 +221,48 @@ void CSimpleFrame::OnProjectsAttachToProject() {
 }
 
 void CSimpleFrame::OnFrameRender(wxTimerEvent& WXUNUSED(event)) {
-	int retValue;
 	CMainDocument* pDoc     = wxGetApp().GetDocument();
 
-    //Update data
-    if(pDoc->IsConnected()){
-        // Update the document state, any subsequent calls will just used the
-        //   cached data.
-        pDoc->GetSimpleGUIWorkCount();
-        if(!clientGUIInitialized){
-			int resultCnt = (int)pDoc->GetSimpleGUIWorkCount();
-			if(resultCnt > 0){
-				delete clientState;
-                InitWorkUnitView();
-			}else{
-                clientState->SetNoWorkPresentState();
-			}
-			InitProjectView();//Projects are init no matter if there is any work
-            initAfter();
-            clientGUIInitialized = true;
-        }
-        UpdateClientGUI();
+	if (!projectViewInitialized) {
+		InitProjectView(); 
+	}
+	// Now check to see if we show the empty state or results
+	if ( pDoc->GetSimpleGUIWorkCount() > 0 ) {
+		// If empty was displayed, remove
+		if ( emptyViewInitialized ) {
+			DestroyEmptyView();
+		}
+		// If we hadn't previously shown the results, create them.
+		if ( !resultViewInitialized ) {
+			Freeze();
+			InitResultView();
+			UpdateResultView();
+			Thaw();
+		} else {
+			UpdateResultView();
+		}
+	} else {
+		if ( resultViewInitialized ) {
+			DestroyNotebook();
+		}
+		if ( !emptyViewInitialized ) {
+			InitEmptyView();
+		}
+		UpdateEmptyView();
 	}
 }
 
+void CSimpleFrame::UpdateEmptyView() {
+	clientState->DisplayState();
+}
 
-void CSimpleFrame::InitEmptyState()
+void CSimpleFrame::DestroyEmptyView() {
+	delete clientState;
+	emptyViewInitialized = false;
+}
+
+
+void CSimpleFrame::InitEmptyView()
 {
 	Show(false);
 	Centre();
@@ -265,52 +274,27 @@ void CSimpleFrame::InitEmptyState()
 	SetSizer(mainSizer);
 
 	clientState = new ClientStateIndicator(this,wxPoint(31,124));
-	clientState->SetStateConnectingToClient();
+	clientState->DisplayState();
 	
+	emptyViewInitialized = true;
 }
-void CSimpleFrame::InitWorkUnitView()
-{
-	
-	CMainDocument* pDoc     = wxGetApp().GetDocument();
 
+void CSimpleFrame::InitResultView()
+{
+	CMainDocument* pDoc     = wxGetApp().GetDocument();
 	SetSizer(mainSizer);
 	mainSizer->Add(31, 98,0);
 	mainSizer->Add(343, 98,0);
 	mainSizer->Add(31, 98,0);
 	mainSizer->Add(0, 0,1);
-	// Do not update screen at this point
-	Freeze();
-	//create work unit tabs
-    int resultCnt = (int)pDoc->GetSimpleGUIWorkCount();
-	if(resultCnt > 0){
-		//init nootebok
-		InitNotebook();
-	
-		for(int i = 0; i < resultCnt; i++){
-			RESULT* result = pDoc->results.results[i];
-			RESULT* resState = pDoc->state.lookup_result(result->project_url, result->name);
-			wxString friendlyName;
-
-			if(resState!=0){
-				friendlyName = wxString(resState->app->name.c_str(), wxConvUTF8 );
-			}else{
-				friendlyName = wxString(resState->app->name.c_str(), wxConvUTF8 );
-			}
-			CViewTabPage *wTab = new CViewTabPage(wrkUnitNB,i,resState->name,resState->project_url);
-			wrkUnitNB->AddPage(wTab, friendlyName, true);	
-			if(result->active_task_state == 1){
-				wrkUnitNB->SetPageImageIndex(i, 0); // this is working process
-			}
-			//add page to vector
-			m_windows.push_back(wTab);
-		}
-		wrkUnitNB->SetSelection(0);	
-		// Put Grid in the sizer
-		mainSizer->Add(wrkUnitNB);
-	}
-	
-	Thaw();
 	mainSizer->Layout();
+	resultViewInitialized=true;
+}
+void CSimpleFrame::DestroyNotebook() {
+	mainSizer->Detach(wrkUnitNB);
+	delete wrkUnitNB;
+	resultViewInitialized = false;
+	notebookViewInitialized = false;
 }
 void CSimpleFrame::InitProjectView()
 {
@@ -320,9 +304,10 @@ void CSimpleFrame::InitProjectView()
     projComponent = new CProjectsComponent(this,wxPoint(31,443));
 	///////////////////////////////////////////////////////////
 	Thaw();
+	projectViewInitialized = true;
 }
-void CSimpleFrame::UpdateClientGUI(){
-	
+void CSimpleFrame::UpdateResultView(){
+    wxLogTrace(wxT("Function Start/End"), wxT("CAdvancedFrame::UpdateResultView - Function Start"));
 	CMainDocument* pDoc     = wxGetApp().GetDocument();
 	//update GUI
     int resultCnt = (int)pDoc->GetSimpleGUIWorkCount();
@@ -339,7 +324,7 @@ void CSimpleFrame::UpdateClientGUI(){
 		result = pDoc->results.results[i];
 		// get tab window
 		bool found = false;
-		for(int j = 0; j < (int)m_windows.size(); j ++)
+		for(int j = 0; j < (int)m_windows.size(); j++)
 		{
 			CViewTabPage *currTab = m_windows[j];
 			//std::string curtabname = currTab->GetTabName();
@@ -363,7 +348,7 @@ void CSimpleFrame::UpdateClientGUI(){
 			// Do not update screen at this point
 	        Freeze();
 			//Check if notebook was initialized
-			if(!wrkUnitNotebookInit){
+			if(!notebookViewInitialized){
 				//init nootebok
 				InitNotebook();
                 addNotebookToSizer = true; // since this is first page
@@ -377,7 +362,7 @@ void CSimpleFrame::UpdateClientGUI(){
 			if(resState!=0){
 				friendlyName = wxString(resState->app->name.c_str(), wxConvUTF8 );
 			}else{
-				friendlyName = wxString(resState->app->name.c_str(), wxConvUTF8 );
+				friendlyName = wxString("na");
 			}
 			std::string index = " ";
 			//index += i;
@@ -417,16 +402,13 @@ void CSimpleFrame::UpdateClientGUI(){
 			deleteIndex++;
 		}
 	}
-	//Refresh();
+//	Refresh();
+    wxLogTrace(wxT("Function Start/End"), wxT("CAdvancedFrame::UpdateResultView - Function End"));
 }
 
-void CSimpleFrame::initAfter(){
-    //add your code here
-    //Show(true);
-}
-//
 void CSimpleFrame::InitNotebook()
 {
+    wxLogTrace(wxT("Function Start/End"), wxT("CAdvancedFrame::InitNotebook - Function Start"));
 	// FlatNotebook
 	wrkUnitNB = new wxFlatNotebook(this, -1, wxDefaultPosition, wxSize(370,330), wxFNB_TABS_BORDER_SIMPLE | wxFNB_NO_X_BUTTON | wxFNB_NO_NAV_BUTTONS | wxFNB_FANCY_TABS);
 	wrkUnitNB->SetUseBackground(true);
@@ -436,326 +418,25 @@ void CSimpleFrame::InitNotebook()
 	wrkUnitNB->SetActiveTabTextColour(wxColour(255,255,255));
 	wrkUnitNB->SetGradientColorsInactive(appSkin->GetTabFromColIn(),appSkin->GetTabToColIn(),appSkin->GetTabBrdColIn());
 	wrkUnitNB->SetNonActiveTabTextColour(wxColour(255,255,255));
-	wrkUnitNB->SetImageList(&m_ImageList);
-	wrkUnitNotebookInit = true;
+	notebookViewInitialized = true;
+    wxLogTrace(wxT("Function Start/End"), wxT("CAdvancedFrame::InitNotebook - Function End"));
 }
 void CSimpleFrame::LoadSkinImages(){
-
+    wxLogTrace(wxT("Function Start/End"), wxT("CAdvancedFrame::LoadSkinImages - Function Start"));
 	wxString dirPref = appSkin->GetSkinsFolder()+_T("/")+appSkin->GetSkinName()+_T("/");
 	
     fileImgBuf[0].LoadFile(dirPref + appSkin->GetAppBg(),wxBITMAP_TYPE_PNG);
-	// work unit icons
-	g_icoWorkWU = new wxImage(dirPref + appSkin->GetIcnWorkingWkUnit(), wxBITMAP_TYPE_PNG);
-	//////////////////////////////
 	frameBg=&fileImgBuf[0];
-	/// work unit tabs icons
-	wxBitmap const workWUico = wxBitmap(g_icoWorkWU); 
-	// push them in image list
-	m_ImageList.push_back(workWUico);
+    wxLogTrace(wxT("Function Start/End"), wxT("CAdvancedFrame::LoadSkinImages - Function End"));
 }
 ///
-int CSimpleFrame::LoadSkinXML(){
-   
-	// parse xml file		    
-	FILE* f;
-    f = fopen(skinPath, "r");
-	if (!f) return ERR_FOPEN;
-    MIOFILE mf;
-    mf.init_file(f);
-    // parse
-	char buf[256];
-    std::string val;
-	// init skin image array
-	skinImageArray = new wxArrayString();
-
-    while (mf.fgets(buf, 256)) {
-        if (match_tag(buf, "<clientskin")) {
-            continue;
-		}else if (match_tag(buf, "<simple")) {
-            continue;
-		}else if (match_tag(buf, "<background")) {
-			mf.fgets(buf, 256);
-			if (parse_str(buf, "<imgsrc>", val)) {
-				appSkin->SetAppBg(wxString( val.c_str(), wxConvUTF8 ));
-				skinImageArray->Add(wxString( val.c_str(), wxConvUTF8 ));
-			}
-			mf.fgets(buf, 256);
-            if (parse_str(buf, "<bgcol>", val)) {
-				appSkin->SetAppBgCol(wxString( val.c_str(), wxConvUTF8 ));
-			}
-        }else if (match_tag(buf, "<prjcomponentbg")) {
-			mf.fgets(buf, 256);
-			if (parse_str(buf, "<imgsrc>", val)) {
-				appSkin->SetProjCompBg(wxString( val.c_str(), wxConvUTF8 ));
-				skinImageArray->Add(wxString( val.c_str(), wxConvUTF8 ));
-			}
-        }else if (match_tag(buf, "<tabareabg")) {
-			mf.fgets(buf, 256);
-			if (parse_str(buf, "<imgsrc>", val)) {
-				appSkin->SetTabAreaBg(wxString( val.c_str(), wxConvUTF8 ));
-				skinImageArray->Add(wxString( val.c_str(), wxConvUTF8 ));
-			}
-        }else if (match_tag(buf, "<spacerimage")) {
-			mf.fgets(buf, 256);
-			if (parse_str(buf, "<imgsrc>", val)) {
-				appSkin->SetSpacerImage(wxString( val.c_str(), wxConvUTF8 ));
-				skinImageArray->Add(wxString( val.c_str(), wxConvUTF8 ));
-			}
-        }else if (match_tag(buf, "<workunitbg")) {
-			mf.fgets(buf, 256);
-			if (parse_str(buf, "<imgsrc>", val)) {
-				appSkin->SetWorkunitBg(wxString( val.c_str(), wxConvUTF8 ));
-				skinImageArray->Add(wxString( val.c_str(), wxConvUTF8 ));
-			}
-        }else if (match_tag(buf, "<dlgpreferences")) {
-			mf.fgets(buf, 256);
-			if (parse_str(buf, "<imgsrc>", val)) {
-				appSkin->SetDlgPrefBg(wxString( val.c_str(), wxConvUTF8 ));
-				skinImageArray->Add(wxString( val.c_str(), wxConvUTF8 ));
-			}
-        }else if (match_tag(buf, "<dlgmessages")) {
-			mf.fgets(buf, 256);
-			if (parse_str(buf, "<imgsrc>", val)) {
-				appSkin->SetDlgMessBg(wxString( val.c_str(), wxConvUTF8 ));
-				skinImageArray->Add(wxString( val.c_str(), wxConvUTF8 ));
-			}
-        }else if (match_tag(buf, "<staticline")) {
-			mf.fgets(buf, 256);
-			if (parse_str(buf, "<col>", val)) {
-				appSkin->SetStaticLineCol(wxString( val.c_str(), wxConvUTF8 ));
-			}
-        }else if (match_tag(buf, "<gauge")) {
-			mf.fgets(buf, 256);
-			if (parse_str(buf, "<gaugebg>", val)) {
-				appSkin->SetGaugeBg(wxString( val.c_str(), wxConvUTF8 ));
-				skinImageArray->Add(wxString( val.c_str(), wxConvUTF8 ));
-			}
-			mf.fgets(buf, 256);
-            if (parse_str(buf, "<gaugeprogress>", val)) {
-				appSkin->SetGaugeProgressInd(wxString( val.c_str(), wxConvUTF8 ));
-				skinImageArray->Add(wxString( val.c_str(), wxConvUTF8 ));
-			}
-        }else if (match_tag(buf, "<stateindicator")) {
-			mf.fgets(buf, 256);
-			if (parse_str(buf, "<stateindbg>", val)) {
-				appSkin->SetStateIndBg(wxString( val.c_str(), wxConvUTF8 ));
-				skinImageArray->Add(wxString( val.c_str(), wxConvUTF8 ));
-			}
-			mf.fgets(buf, 256);
-            if (parse_str(buf, "<connindicator>", val)) {
-				appSkin->SetConnInd(wxString( val.c_str(), wxConvUTF8 ));
-				skinImageArray->Add(wxString( val.c_str(), wxConvUTF8 ));
-			}
-			mf.fgets(buf, 256);
-            if (parse_str(buf, "<errorimage>", val)) {
-				appSkin->SetErrorInd(wxString( val.c_str(), wxConvUTF8 ));
-				skinImageArray->Add(wxString( val.c_str(), wxConvUTF8 ));
-			}
-        }else if (match_tag(buf, "<buttons")) {
-			while (mf.fgets(buf, 256)) {
-				std::string val;
-				if(match_tag(buf, "</buttons>")){
-					//end of the buttons elements break out of while loop
-					break;
-				}
-				if(match_tag(buf, "<preferences>")){
-					mf.fgets(buf, 256);
-					if (parse_str(buf, "<imgsrc>", val)) {
-						appSkin->SetBtnPrefer(wxString( val.c_str(), wxConvUTF8 ));
-						skinImageArray->Add(wxString( val.c_str(), wxConvUTF8 ));
-					}
-				}else if(match_tag(buf, "<addproj>")){
-					mf.fgets(buf, 256);
-					if (parse_str(buf, "<imgsrc>", val)) {
-						appSkin->SetBtnAddProj(wxString( val.c_str(), wxConvUTF8 ));
-						skinImageArray->Add(wxString( val.c_str(), wxConvUTF8 ));
-					}
-					mf.fgets(buf, 256);
-					if (parse_str(buf, "<imgsrcclick>", val)) {
-						appSkin->SetBtnAddProjClick(wxString( val.c_str(), wxConvUTF8 ));
-						skinImageArray->Add(wxString( val.c_str(), wxConvUTF8 ));
-					}
-				}else if(match_tag(buf, "<advancedview>")){
-					mf.fgets(buf, 256);
-					if (parse_str(buf, "<imgsrc>", val)) {
-						appSkin->SetBtnAdvView(wxString( val.c_str(), wxConvUTF8 ));
-						skinImageArray->Add(wxString( val.c_str(), wxConvUTF8 ));
-					}
-				}else if(match_tag(buf, "<resume>")){
-					mf.fgets(buf, 256);
-					if (parse_str(buf, "<imgsrc>", val)) {
-						appSkin->SetBtnResume(wxString( val.c_str(), wxConvUTF8 ));
-						skinImageArray->Add(wxString( val.c_str(), wxConvUTF8 ));
-					}
-				}else if(match_tag(buf, "<pause>")){
-					mf.fgets(buf, 256);
-					if (parse_str(buf, "<imgsrc>", val)) {
-						appSkin->SetBtnPause(wxString( val.c_str(), wxConvUTF8 ));
-						skinImageArray->Add(wxString( val.c_str(), wxConvUTF8 ));
-					}
-				}else if(match_tag(buf, "<messages>")){
-					mf.fgets(buf, 256);
-					if (parse_str(buf, "<imgsrc>", val)) {
-						appSkin->SetBtnMessages(wxString( val.c_str(), wxConvUTF8 ));
-						skinImageArray->Add(wxString( val.c_str(), wxConvUTF8 ));
-					}
-				}else if(match_tag(buf, "<save>")){
-					mf.fgets(buf, 256);
-					if (parse_str(buf, "<imgsrc>", val)) {
-						appSkin->SetBtnSave(wxString( val.c_str(), wxConvUTF8 ));
-						skinImageArray->Add(wxString( val.c_str(), wxConvUTF8 ));
-					}
-					mf.fgets(buf, 256);
-					if (parse_str(buf, "<imgsrcclick>", val)) {
-						appSkin->SetBtnSaveClick(wxString( val.c_str(), wxConvUTF8 ));
-						skinImageArray->Add(wxString( val.c_str(), wxConvUTF8 ));
-					}
-				}else if(match_tag(buf, "<cancel>")){
-					mf.fgets(buf, 256);
-					if (parse_str(buf, "<imgsrc>", val)) {
-						appSkin->SetBtnCancel(wxString( val.c_str(), wxConvUTF8 ));
-						skinImageArray->Add(wxString( val.c_str(), wxConvUTF8 ));
-					}
-					mf.fgets(buf, 256);
-					if (parse_str(buf, "<imgsrcclick>", val)) {
-						appSkin->SetBtnCancelClick(wxString( val.c_str(), wxConvUTF8 ));
-						skinImageArray->Add(wxString( val.c_str(), wxConvUTF8 ));
-					}
-				}else if(match_tag(buf, "<close>")){
-					mf.fgets(buf, 256);
-					if (parse_str(buf, "<imgsrc>", val)) {
-						appSkin->SetBtnClose(wxString( val.c_str(), wxConvUTF8 ));
-						skinImageArray->Add(wxString( val.c_str(), wxConvUTF8 ));
-					}
-					mf.fgets(buf, 256);
-					if (parse_str(buf, "<imgsrcclick>", val)) {
-						appSkin->SetBtnCloseClick(wxString( val.c_str(), wxConvUTF8 ));
-						skinImageArray->Add(wxString( val.c_str(), wxConvUTF8 ));
-					}
-				}else if(match_tag(buf, "<clear>")){
-					mf.fgets(buf, 256);
-					if (parse_str(buf, "<imgsrc>", val)) {
-						appSkin->SetBtnClear(wxString( val.c_str(), wxConvUTF8 ));
-						skinImageArray->Add(wxString( val.c_str(), wxConvUTF8 ));
-					}
-					mf.fgets(buf, 256);
-					if (parse_str(buf, "<imgsrcclick>", val)) {
-						appSkin->SetBtnClearClick(wxString( val.c_str(), wxConvUTF8 ));
-						skinImageArray->Add(wxString( val.c_str(), wxConvUTF8 ));
-					}
-				}else if(match_tag(buf, "<leftArr>")){
-					mf.fgets(buf, 256);
-					if (parse_str(buf, "<imgsrc>", val)) {
-						appSkin->SetBtnLeftArr(wxString( val.c_str(), wxConvUTF8 ));
-						skinImageArray->Add(wxString( val.c_str(), wxConvUTF8 ));
-					}
-					mf.fgets(buf, 256);
-					if (parse_str(buf, "<imgsrcclick>", val)) {
-						appSkin->SetBtnLeftArrClick(wxString( val.c_str(), wxConvUTF8 ));
-						skinImageArray->Add(wxString( val.c_str(), wxConvUTF8 ));
-					}
-				}else if(match_tag(buf, "<rightArr>")){
-					mf.fgets(buf, 256);
-					if (parse_str(buf, "<imgsrc>", val)) {
-						appSkin->SetBtnRightArr(wxString( val.c_str(), wxConvUTF8 ));
-						skinImageArray->Add(wxString( val.c_str(), wxConvUTF8 ));
-					}
-					mf.fgets(buf, 256);
-					if (parse_str(buf, "<imgsrcclick>", val)) {
-						appSkin->SetBtnRightArrClick(wxString( val.c_str(), wxConvUTF8 ));
-						skinImageArray->Add(wxString( val.c_str(), wxConvUTF8 ));
-					}
-				}
-			}//end of while
-		}else if (match_tag(buf, "<icons")) {
-			while (mf.fgets(buf, 256)) {
-				std::string val;
-				if(match_tag(buf, "</icons>")){
-					//end of the buttons elements break out of while loop
-					break;
-				}else if(match_tag(buf, "<workingWkUnit>")){
-					mf.fgets(buf, 256);
-					if (parse_str(buf, "<imgsrc>", val)) {
-						appSkin->SetIcnWorkingWkUnit(wxString( val.c_str(), wxConvUTF8 ));
-						skinImageArray->Add(wxString( val.c_str(), wxConvUTF8 ));
-					}
-					mf.fgets(buf, 256);
-					if (parse_str(buf, "<frcol>", val)) {
-						appSkin->SetTabFromColAc(wxString( val.c_str(), wxConvUTF8 ));
-					}
-					mf.fgets(buf, 256);
-					if (parse_str(buf, "<tocol>", val)) {
-						appSkin->SetTabToColAc(wxString( val.c_str(), wxConvUTF8 ));
-					}
-					mf.fgets(buf, 256);
-					if (parse_str(buf, "<brdcol>", val)) {
-						appSkin->SetTabBrdColAc(wxString( val.c_str(), wxConvUTF8 ));
-					}
-				}else if(match_tag(buf, "<sleepingWkUnit>")){
-					mf.fgets(buf, 256);
-					if (parse_str(buf, "<frcol>", val)) {
-						appSkin->SetTabFromColIn(wxString( val.c_str(), wxConvUTF8 ));
-					}
-					mf.fgets(buf, 256);
-					if (parse_str(buf, "<tocol>", val)) {
-						appSkin->SetTabToColIn(wxString( val.c_str(), wxConvUTF8 ));
-					}
-					mf.fgets(buf, 256);
-					if (parse_str(buf, "<brdcol>", val)) {
-						appSkin->SetTabBrdColIn(wxString( val.c_str(), wxConvUTF8 ));
-					}
-				}else if(match_tag(buf, "<defaultStatIcon>")){
-					mf.fgets(buf, 256);
-					if (parse_str(buf, "<imgsrc>", val)) {
-						appSkin->SetDefaultStatIcn(wxString( val.c_str(), wxConvUTF8 ));
-						skinImageArray->Add(wxString( val.c_str(), wxConvUTF8 ));
-					}
-				}
-			}// end of while loop
-		}else if (match_tag(buf, "<animation")) {
-			mf.fgets(buf, 256);
-			std::string val;
-			if (parse_str(buf, "<background>", val)) {
-				appSkin->SetAnimationBg(wxString( val.c_str(), wxConvUTF8 ));
-				skinImageArray->Add(wxString( val.c_str(), wxConvUTF8 ));
-			}
-			mf.fgets(buf, 256);
-            if (parse_str(buf, "<animation>", val)) {
-				appSkin->SetAnimationFile(wxString( val.c_str(), wxConvUTF8 ));
-			}
-        }
-	}
-	//
-    fclose(f);
-	return 0;
-}
 ///
-bool CSimpleFrame::CheckSkin()
-{
-	//load skin xml file first
-	if(!LoadSkinXML()==0){
-		return false;//skin xml file is not available
-	}
-
-	wxString dirPref = appSkin->GetSkinsFolder()+_T("/")+appSkin->GetSkinName()+_T("/");
-	
-	for(int x = 0; x < skinImageArray->Count();x++){
-		wxString imgLoc = skinImageArray->Item(x);
-		wxBitmap skinImage = wxBitmap(dirPref + skinImageArray->Item(x),wxBITMAP_TYPE_PNG);
-		if(!skinImage.Ok()){
-			return false;
-		}
-	}
-     
-	return true;
-}
 void CSimpleFrame::ReskinAppGUI(){
-	//LoadSkinXML();
-	LoadSkinImages();
-	// reskin GUI
+    wxLogTrace(wxT("Function Start/End"), wxT("CAdvancedFrame::ReskinAppGUI - Function Start"));
 	//bg color
+	LoadSkinImages();
 	SetBackgroundColour(appSkin->GetAppBgCol());
-	if(wrkUnitNotebookInit){
+	if(notebookViewInitialized){
         // notebook tab color
 		wrkUnitNB->SetTabAreaColour(appSkin->GetAppBgCol());
 		wrkUnitNB->SetUseBackground(true);
@@ -767,13 +448,13 @@ void CSimpleFrame::ReskinAppGUI(){
 			CViewTabPage *wTab = m_windows.at(i);
 			wTab->ReskinInterface();
 		}
-	}
-	if(clientState){
+	} else {
 		clientState->ReskinInterface();
 	}
 	//reskin component 
 	projComponent->ReskinInterface();
 	Refresh();
+    wxLogTrace(wxT("Function Start/End"), wxT("CAdvancedFrame::ReskinAppGUI - Function End"));
 }
 
 void CSimpleFrame::OnBtnClick(wxCommandEvent& event){ //init function

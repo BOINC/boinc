@@ -543,19 +543,12 @@ void CProjectsComponent::OnBtnClick(wxCommandEvent& event){ //init function
 		wxASSERT(pDlg);
 		if ( pDlg->ShowModal() == wxID_OK ){
 			if(pDlg->GetSkinName() != pFrame->skinName){
-				wxString oldSkinName = appSkin->GetSkinName();
-				// set new skin name
-				appSkin->SetSkinName(pDlg->GetSkinName());
-				pFrame->skinName = pDlg->GetSkinName();
-				pFrame->skinPath = appSkin->GetSkinsFolder()+_T("/")+appSkin->GetSkinName()+_T("/")+_T("skin.xml");
-			    //Check if skin can be loaded
-	            if(pFrame->CheckSkin()){
-                    pFrame->ReskinAppGUI();
-				}else{
+				if ( appSkin->change_skin(pDlg->GetSkinName()) ) {
+					pFrame->skinName = pDlg->GetSkinName();
+					pFrame->ReskinAppGUI();
+				} else {
 					wxMessageBox("Incompatible skin. Skin will not be changed.");
-		            appSkin->SetSkinName(oldSkinName);
-				    pFrame->skinName = oldSkinName;
-				    pFrame->skinPath = appSkin->GetSkinsFolder()+_T("/")+appSkin->GetSkinName()+_T("/")+_T("skin.xml");
+					pDlg->SetSkinName(pFrame->skinName);
 				}
 		   }
 		}

@@ -27,6 +27,7 @@
 #include "sg_SkinClass.h"
 #include "sg_ImageLoader.h"
 #include "sg_ClientStateIndicator.h" 
+#include "time.h"
 
 #define ID_ANIMATIONRENDERTIMER  12000
 
@@ -52,6 +53,7 @@ ClientStateIndicator::ClientStateIndicator(CSimpleFrame* parent,wxPoint coord) :
 	clientCurrState = "";
 	LoadSkinImages();	
 	CreateComponent();
+	error_time = 0;
 }
 
 ClientStateIndicator::~ClientStateIndicator()
@@ -83,7 +85,7 @@ void ClientStateIndicator::CreateComponent(){
 	//Set Background color
 	SetBackgroundColour(appSkin->GetAppBgCol());
 }
-void ClientStateIndicator::SetStateConnectingToClient()
+void ClientStateIndicator::SetActionState(const char* message)
 {
 	Freeze();
 	//Delete Previous state
@@ -94,7 +96,7 @@ void ClientStateIndicator::SetStateConnectingToClient()
 	i_indBg->Move(wxPoint(42,74));
 	i_indBg->LoadImage(g_stateIndBg);
 
-	stateMessage = wxString("CONNECTING TO CLIENT");
+	stateMessage = wxString(message);
 	
 	for(int x = 0; x < numOfIndic; x++){
         ImageLoader *i_connInd = new ImageLoader(this);
@@ -111,7 +113,7 @@ void ClientStateIndicator::SetStateConnectingToClient()
     m_connRenderTimer->Start(400); 
     Thaw();
 }
-void ClientStateIndicator::SetNoWorkPresentState()
+void ClientStateIndicator::SetNoActionState(const char* message)
 {
 	Freeze();
 	//Delete Previous state
@@ -121,7 +123,7 @@ void ClientStateIndicator::SetNoWorkPresentState()
 	i_indBg = new ImageLoader(this);
 	i_indBg->Move(wxPoint(42,74));
 	i_indBg->LoadImage(g_stateIndBg);
-	stateMessage = wxString("NO WORK PRESENT"); 
+	stateMessage = wxString(message); 
 
 	i_errorInd = new ImageLoader(this);
 	i_errorInd->Move(wxPoint(rightPosition,84));
@@ -170,13 +172,7 @@ void ClientStateIndicator::RunConnectionAnimation(wxTimerEvent& WXUNUSED(event))
 void ClientStateIndicator::ReskinInterface()
 {
 	LoadSkinImages();
-
-	if(clientCurrState == "connecting"){
-		SetStateConnectingToClient();
-	}else if(clientCurrState == "nowork"){
-		SetNoWorkPresentState();
-	}
-
+	DisplayState();
 }
 void ClientStateIndicator::OnPaint(wxPaintEvent& WXUNUSED(event)) 
 { 
@@ -198,4 +194,20 @@ void ClientStateIndicator::OnEraseBackground(wxEraseEvent& event){
 		dc->DrawBitmap(m_compBG, 0, 0); 
     } 
 	
+}
+
+void ClientStateIndicator::DisplayState() {
+	CMainDocument* pDoc     = wxGetApp().GetDocument();
+	if ( pDoc->IsReconnecting() ) {
+		SetActionState("Retrieving status.");
+	} else {
+		if ( error_time == 0 ) {
+			error_time = time(NULL) + 30;
+			SetActionState("Retrieving status");
+		} else if ( error_time < time(NULL) ) {
+			SetNoActionState("No work available to process");
+		} else {
+			SetActionState("Retrieving status");
+		}
+	}
 }

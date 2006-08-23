@@ -24,10 +24,14 @@
 #pragma interface "sg_SkinClass.cpp"
 #endif
 
+#include "common/wxFlatNotebook.h"
+
 class SkinClass
 { 
 public: 
 	    static SkinClass* Instance();
+		bool change_skin(const wxString& new_skin_name);
+		bool init_skin(const wxString& skin_name);
 
         // Getters
 		wxString GetAppBg() { return m_appBg; }
@@ -42,6 +46,7 @@ public:
         wxString GetBtnResume() const { return m_btnResume; }
         wxString GetBtnPause() const { return m_btnPause; }
 		wxString GetBtnMessages() const { return m_btnMessages; }
+		wxString GetBtnAlertMessages() const { return m_btnAlertMessages; }
 		wxString GetBtnSave() const { return m_btnSave; }
 		wxString GetBtnSaveClick() const { return m_btnSaveClick; }
 		wxString GetBtnCancel() const { return m_btnCancel; }
@@ -83,6 +88,8 @@ public:
 		wxString GetSkinName() const { return m_skinName; }
 		wxString GetSkinsFolder() const { return m_skinsFolder; }
 
+		wxBitmap &getFrameBG();
+
         // Setters
 		void SetAppBg(const wxString imgsrc) { m_appBg = imgsrc; }
 		void SetAppBgCol(const wxString& clr) { m_appBgCol = clr; }
@@ -96,6 +103,7 @@ public:
 		void SetBtnResume(const wxString& imgsrc) { m_btnResume = imgsrc; }
 		void SetBtnPause(const wxString& imgsrc) { m_btnPause = imgsrc; }
 		void SetBtnMessages(const wxString& imgsrc) { m_btnMessages = imgsrc; }
+		void SetBtnAlertMessages(const wxString& imgsrc) { m_btnAlertMessages = imgsrc; }
 		void SetBtnOpen(const wxString& imgsrc) { m_btnOpen = imgsrc; }
 		void SetBtnSave(const wxString& imgsrc) { m_btnSave = imgsrc; }
 		void SetBtnSaveClick(const wxString& imgsrc) { m_btnSaveClick = imgsrc; }
@@ -142,7 +150,13 @@ private:
 	    /// Constructors
 	    SkinClass();
 		wxColour GetColorFromStr(wxString col);
-	    // Bg
+		wxString compute_skin_path();
+		wxString compute_skin_dir();
+
+		bool CheckSkin();
+		int LoadSkinXML();
+
+		// Bg
 	    wxString m_appBg; 
 		wxString m_appBgCol;
 		wxString m_projCompBg;
@@ -178,6 +192,7 @@ private:
 		wxString m_btnResume;
         wxString m_btnPause;
         wxString m_btnMessages;
+        wxString m_btnAlertMessages;
 		wxString m_btnOpen;
         wxString m_btnSave;
 		wxString m_btnSaveClick;
@@ -203,5 +218,11 @@ private:
 		//skin info
 		wxString m_skinName;
 		wxString m_skinsFolder;
+
+		wxArrayString *skinImageArray;
+
+		wxFlatNotebookImageList m_ImageList;
+
 };
+
 #endif  /* _SKIN_CLASS */

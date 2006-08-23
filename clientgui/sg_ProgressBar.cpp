@@ -38,6 +38,7 @@ CProgressBar::CProgressBar(wxPanel* parent,wxPoint coord) : wxPanel(parent, wxID
 	rightPosition = 9;
 	topPosition = 5;
 	m_progress = 0;
+	numOfProgressInd = 0;
 	LoadSkinImages();	
 }
 void CProgressBar::LoadSkinImages()
@@ -66,8 +67,6 @@ void CProgressBar::SetValue(double progress)
 		i_ind->LoadImage(g_gaugeInd);
 		m_progInd.push_back(i_ind);
 	}
-
-
 }
 void CProgressBar::UpdateValue(double progress)
 {	

@@ -46,12 +46,9 @@ public:
 
    ~CSimpleFrame();
 
-	// Images
-	wxImage *g_icoWorkWU;
 	//
 	// Flat Neotebook
 	std::vector<CViewTabPage*> m_windows; // vector of all window tabs created for notebook
-	wxFlatNotebookImageList m_ImageList;
 	wxFlatNotebook *wrkUnitNB;
     wxBitmap const workWUico;
     ////// Skin variables //////
@@ -60,9 +57,6 @@ public:
 	//Skin Class
     SkinClass *appSkin;
 	wxString skinName;
-	wxString skinPath;
-	wxString skinFoldPath;
-	wxArrayString *skinImageArray;
 	// My projects component
 	CProjectsComponent *projComponent;
 	// Client State Indicator
@@ -71,19 +65,21 @@ public:
 	bool midAppCollapsed;
 	bool btmAppCollapsed;
 	////////////////////////////;
-	bool clientGUIInitialized;
-	bool wrkUnitNotebookInit;
+	bool projectViewInitialized;
+	bool resultViewInitialized;
+	bool emptyViewInitialized;
+	bool notebookViewInitialized;
 
-	void InitEmptyState();
-    void InitWorkUnitView();
+	void InitEmptyView();
+	void UpdateEmptyView();
+	void DestroyEmptyView();
+    void InitResultView();
+	void UpdateResultView();
 	void InitProjectView();
-	void UpdateClientGUI();
-	int LoadSkinXML();
-	bool CheckSkin();
 	void LoadSkinImages();
 	void ReskinAppGUI();
-	void initAfter();
 	void InitNotebook();
+	void DestroyNotebook();
 	void OnProjectsAttachToProject();
 	//////////
 	wxFlexGridSizer *mainSizer;

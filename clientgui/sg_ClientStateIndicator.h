@@ -24,6 +24,8 @@
 #pragma interface "sg_ClientStateIndicator.cpp"
 #endif
 
+#include "time.h"
+
 class ImageLoader;
 
 class ClientStateIndicator : public wxPanel{ 
@@ -51,18 +53,20 @@ public:
 		void CreateComponent();
 		void ReskinInterface();
 		void LoadSkinImages();
-		void SetStateConnectingToClient();
-		void SetNoWorkPresentState();
 		void DeletePreviousState();
+		void DisplayState();
 
 private: 
         
+		void SetActionState(const char* message);
+		void SetNoActionState(const char* message);
 	    wxImage *g_stateIndBg;
 		wxImage *g_compBg;
 		wxImage *g_connInd;
 		wxImage *g_errorInd;
         wxBitmap m_stateIndBG; 
 		wxBitmap m_compBG;
+		time_t error_time;
 		
 		void OnEraseBackground(wxEraseEvent& event);
 		void OnPaint(wxPaintEvent& event); 
