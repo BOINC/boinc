@@ -23,6 +23,10 @@ extern int _DC_wu_set_tag(DC_Workunit *wu, char *new_tag);
 extern int _DC_wu_set_subresults(DC_Workunit *wu, int new_subresults);
 extern int _DC_wu_set_workdir(DC_Workunit *wu, char *new_workdir);
 
+extern char *_DC_wu_cfg(DC_Workunit *wu,
+			const char *key,
+			char *default_value);
+
 extern int _DC_wu_check_logical_name(DC_Workunit *wu,
 				     const char *logicalFileName);
 extern char *_DC_wu_get_workdir_path(DC_Workunit *wu,

@@ -83,11 +83,13 @@ typedef enum
 } WorkdirFile;
 
 /* DCAPI configuration keys */
-#define CFG_SLEEPINTERVAL	"SleepingInterval"
-#define CFG_ARCHITECTURES	"Architectures"
-#define CFG_CLIENT_ARCH_NAME	"Client_%s_%s"	/* client_name, architecture */
-/*#define CFG_WORKDIR		"WorkingDirectory"*/
-/*#define CFG_INSTANCEUUID	"InstanceUUID"*/
+#define ACFG_ARCHITECTURES	"Architectures"
+#define ACFG_CLIENT_ARCH_NAME	"Client_%s_%s"	/* client_name, architecture */
+
+#define SCFG_SUBMIT_FILE	"SubmitFile"
+#define SDEF_SUBMIT_FILE	"_dcapi_condor_submit.txt"
+
+#define SCFG_EXECUTABLE		"Executable"
 
 #define DC_LABEL_INTLOG		"internal_log.txt"
 

@@ -263,4 +263,19 @@ _DC_read_message(char *box, char *name, int del_msg)
 }
 
 
+/* Application level configuration parameter */
+char *
+_DC_acfg(const char *key,
+	 char *default_value)
+{
+	char *v;
+
+	v= DC_getCfgStr(key);
+	if (v &&
+	    *v)
+		return(v);
+	return(default_value);
+}
+
+
 /* End of condor_utils.c */

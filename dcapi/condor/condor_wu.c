@@ -128,6 +128,24 @@ _DC_wu_set_workdir(DC_Workunit *wu,
 }
 
 
+/* Get a configuration parameter */
+char *
+_DC_wu_cfg(DC_Workunit *wu,
+	   const char *key,
+	   char *default_value)
+{
+	char *v;
+
+	if (!_DC_wu_check(wu))
+		return(NULL);
+	v= DC_getClientCfgStr(wu->data.client_name, key, /*TRUE*/1);
+	if (v &&
+	    *v)
+		return(v);
+	return(default_value);
+}
+
+
 /* Check if the logical name is not already registered */
 int
 _DC_wu_check_logical_name(DC_Workunit *wu,
@@ -192,7 +210,10 @@ _DC_wu_gen_condor_submit(DC_Workunit *wu)
 		return(DC_ERR_UNKNOWN_WU);
 
 	fn= g_string_new(wu->data.workdir);
-	fn= g_string_append(fn, "/condor_submit.txt");
+	fn= g_string_append(fn, "/");
+	fn= g_string_append(fn, _DC_wu_cfg(wu,
+					   SCFG_SUBMIT_FILE,
+					   SDEF_SUBMIT_FILE));
 	if ((f= fopen(fn->str, "w+")) == NULL)
 	{
 		DC_log(LOG_ERR, "Condor submit file %s creation failed",
@@ -202,8 +223,11 @@ _DC_wu_gen_condor_submit(DC_Workunit *wu)
 	}
 	g_string_free(fn, TRUE);
 
-	cfgval= DC_getCfgStr(CFG_ARCHITECTURES);
-	fprintf(f, "Executable = %s\n", wu->data.client_name);
+	cfgval= DC_getCfgStr(ACFG_ARCHITECTURES);
+	fprintf(f, "Executable = %s\n",
+		_DC_wu_cfg(wu,
+			   SCFG_EXECUTABLE,
+			   wu->data.client_name));
 	if (wu->data.argc > 0)
 	{
 		int i;
@@ -260,12 +284,16 @@ _DC_wu_make_client_executables(DC_Workunit *wu)
 	if (!_DC_wu_check(wu))
 		return(DC_ERR_UNKNOWN_WU);
 
-	archs= DC_getCfgStr(CFG_ARCHITECTURES);
+	archs= DC_getCfgStr(ACFG_ARCHITECTURES);
 
-	src= g_string_new(wu->data.client_name);
+	src= g_string_new(_DC_wu_cfg(wu,
+				     SCFG_EXECUTABLE,
+				     wu->data.client_name));
 	dst= g_string_new(wu->data.workdir);
 	g_string_append(dst, "/");
-	g_string_append(dst, wu->data.client_name);
+	g_string_append(dst, _DC_wu_cfg(wu,
+					SCFG_EXECUTABLE,
+					wu->data.client_name));
 	DC_log(LOG_DEBUG, "Copying client executable %s to %s",
 	       src->str, dst->str);
 	ret= _DC_copyFile(src->str, dst->str);
@@ -333,8 +361,11 @@ _DC_wu_check_client_messages(DC_Workunit *wu)
 		return(NULL);
 
 	s= g_string_new(wu->data.workdir);
-	g_string_append_printf(s, "/%s", "client_messages");
-	if ((message= _DC_read_message(s->str, "message", 1)))
+	g_string_append_printf(s, "/%s",
+			       _DC_wu_cfg(wu,
+					  SCFG_CLIENT_MESSAGE_BOX,
+					  SDEF_CLIENT_MESSAGE_BOX));
+	if ((message= _DC_read_message(s->str, "message", TRUE)))
 	{
 		e= _DC_event_create(wu, NULL, NULL, message);
 		DC_log(LOG_DEBUG, "Message event created: %p "
@@ -343,8 +374,11 @@ _DC_wu_check_client_messages(DC_Workunit *wu)
 	}
 	else
 	{
-		g_string_printf(s, "%s/%s", wu->data.workdir, "client_subresults");
-		if ((message= _DC_read_message(s->str, "logical_name", 1)))
+		g_string_printf(s, "%s/%s", wu->data.workdir,
+				_DC_wu_cfg(wu,
+					   SCFG_SUBRESULTS_BOX,
+					   SDEF_SUBRESULTS_BOX));
+		if ((message= _DC_read_message(s->str, "logical_name", TRUE)))
 		{
 			DC_PhysicalFile *f;
 			g_string_append_printf(s, "/%s", message);
