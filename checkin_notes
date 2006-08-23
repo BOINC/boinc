@@ -9264,5 +9264,11 @@ Kevin  23 Aug 2006
 		sg_SkinClass.h
 		sg_ViewTabPage.cpp
 
+Rom    23 Aug 2006
+    - Remove the restriction where the simple gui RPC only returned active
+        tasks.
 
-
+    client/
+        client_state.h
+        cs_statefile.C
+        gui_rpc_server_ops.C

@@ -630,14 +630,11 @@ int CLIENT_STATE::write_state_gui(MIOFILE& f) {
     return 0;
 }
 
-int CLIENT_STATE::write_tasks_gui(MIOFILE& f, bool active_only) {
+int CLIENT_STATE::write_tasks_gui(MIOFILE& f) {
     unsigned int i;
     
     for (i=0; i<results.size(); i++) {
         RESULT* rp = results[i];
-        if (active_only) {
-            if (!gstate.active_tasks.lookup_result(rp)) continue;
-        }
         rp->write_gui(f);
     }
     return 0;
