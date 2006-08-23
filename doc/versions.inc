@@ -350,10 +350,10 @@ $linux_libs_5512= "
       </ul>
 ";
 
-$w5514= array(
-    "num"=>"5.5.14",
+$w5515= array(
+    "num"=>"5.5.15",
     "status"=>"Development version",
-    "file"=>"boinc_5.5.14_windows_intelx86.exe",
+    "file"=>"boinc_5.5.15_windows_intelx86.exe",
     "date"=>"22 Aug 2006",
     "type"=>"win_new",
     "features"=>"<ul>
@@ -691,7 +691,7 @@ $windows = array(
     "name"=>"Windows",
     "dbname" => "windows_intelx86",
     "versions"=>array(
-        $w5514,
+        $w5515,
         $w5411,
         $w5213,
         $w445,
