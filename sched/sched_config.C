@@ -53,7 +53,7 @@ int SCHED_CONFIG::parse(FILE* f) {
 
     if (!xp.parse_start("boinc")) return ERR_XML_PARSE;
     if (!xp.parse_start("config")) return ERR_XML_PARSE;
-    while (!xp.get(tag, is_tag)) {
+    while (!xp.get(tag, sizeof(tag), is_tag)) {
         if (!is_tag) {
             fprintf(stderr, "SCHED_CONFIG::parse(): unexpected text %s\n", tag);
             continue;
@@ -64,20 +64,20 @@ int SCHED_CONFIG::parse(FILE* f) {
             if (!strcmp(hostname, db_host)) strcpy(db_host, "localhost");
             return 0;
         }
-        else if (xp.parse_str(tag, "master_url", master_url)) continue;
-        else if (xp.parse_str(tag, "long_name", long_name)) continue;
-        else if (xp.parse_str(tag, "db_name", db_name)) continue;
-        else if (xp.parse_str(tag, "db_user", db_user)) continue;
-        else if (xp.parse_str(tag, "db_passwd", db_passwd)) continue;
-        else if (xp.parse_str(tag, "db_host", db_host)) continue;
+        else if (xp.parse_str(tag, "master_url", master_url, sizeof(master_url))) continue;
+        else if (xp.parse_str(tag, "long_name", long_name, sizeof(long_name))) continue;
+        else if (xp.parse_str(tag, "db_name", db_name, sizeof(db_name))) continue;
+        else if (xp.parse_str(tag, "db_user", db_user, sizeof(db_user))) continue;
+        else if (xp.parse_str(tag, "db_passwd", db_passwd, sizeof(db_passwd))) continue;
+        else if (xp.parse_str(tag, "db_host", db_host, sizeof(db_host))) continue;
         else if (xp.parse_int(tag, "shmem_key", shmem_key)) continue;
-        else if (xp.parse_str(tag, "key_dir", key_dir)) continue;
-        else if (xp.parse_str(tag, "download_url", download_url)) continue;
-        else if (xp.parse_str(tag, "download_dir", download_dir)) continue;
-        else if (xp.parse_str(tag, "download_dir_alt", download_dir_alt)) continue;
-        else if (xp.parse_str(tag, "upload_url", upload_url)) continue;
-        else if (xp.parse_str(tag, "upload_dir", upload_dir)) continue;
-        else if (xp.parse_str(tag, "sched_lockfile_dir", sched_lockfile_dir)) continue;
+        else if (xp.parse_str(tag, "key_dir", key_dir, sizeof(key_dir))) continue;
+        else if (xp.parse_str(tag, "download_url", download_url, sizeof(download_url))) continue;
+        else if (xp.parse_str(tag, "download_dir", download_dir, sizeof(download_dir))) continue;
+        else if (xp.parse_str(tag, "download_dir_alt", download_dir_alt, sizeof(download_dir_alt))) continue;
+        else if (xp.parse_str(tag, "upload_url", upload_url, sizeof(upload_url))) continue;
+        else if (xp.parse_str(tag, "upload_dir", upload_dir, sizeof(upload_dir))) continue;
+        else if (xp.parse_str(tag, "sched_lockfile_dir", sched_lockfile_dir, sizeof(sched_lockfile_dir))) continue;
         else if (xp.parse_bool(tag, "one_result_per_user_per_wu", one_result_per_user_per_wu)) continue;
         else if (xp.parse_bool(tag, "non_cpu_intensive", non_cpu_intensive)) continue;
         else if (xp.parse_bool(tag, "verify_files_on_app_start", verify_files_on_app_start)) continue;
@@ -115,7 +115,7 @@ int SCHED_CONFIG::parse(FILE* f) {
         else if (xp.parse_double(tag, "default_disk_max_used_gb", default_disk_max_used_gb)) continue;
         else if (xp.parse_double(tag, "default_disk_max_used_pct", default_disk_max_used_pct)) continue;
         else if (xp.parse_double(tag, "default_disk_min_free_gb", default_disk_min_free_gb)) continue;
-        else if (xp.parse_str(tag, "symstore", symstore)) continue;
+        else if (xp.parse_str(tag, "symstore", symstore, sizeof(symstore))) continue;
         else if (xp.parse_double(tag, "next_rpc_delay", next_rpc_delay)) continue;
         else if (xp.parse_bool(tag, "dont_delete_batches", dont_delete_batches)) continue;
         else if (xp.parse_int(tag, "sched_debug_level", sched_debug_level)) continue;
@@ -123,15 +123,15 @@ int SCHED_CONFIG::parse(FILE* f) {
 
         // tags the scheduler doesn't care about
         //
-        else if (xp.parse_str(tag, "cgi_url", temp)) continue;
-        else if (xp.parse_str(tag, "log_dir", temp)) continue;
-        else if (xp.parse_str(tag, "app_dir", temp)) continue;
-        else if (xp.parse_str(tag, "show_results", temp)) continue;
-        else if (xp.parse_str(tag, "host", temp)) continue;
-        else if (xp.parse_str(tag, "output_level", temp)) continue;
-        else if (xp.parse_str(tag, "profile_screening", temp)) continue;
-        else if (xp.parse_str(tag, "min_passwd_length", temp)) continue;
-        else if (xp.parse_str(tag, "disable_account_creation", temp)) continue;
+        else if (xp.parse_str(tag, "cgi_url", temp, sizeof(temp))) continue;
+        else if (xp.parse_str(tag, "log_dir", temp, sizeof(temp))) continue;
+        else if (xp.parse_str(tag, "app_dir", temp, sizeof(temp))) continue;
+        else if (xp.parse_str(tag, "show_results", temp, sizeof(temp))) continue;
+        else if (xp.parse_str(tag, "host", temp, sizeof(temp))) continue;
+        else if (xp.parse_str(tag, "output_level", temp, sizeof(temp))) continue;
+        else if (xp.parse_str(tag, "profile_screening", temp, sizeof(temp))) continue;
+        else if (xp.parse_str(tag, "min_passwd_length", temp, sizeof(temp))) continue;
+        else if (xp.parse_str(tag, "disable_account_creation", temp, sizeof(temp))) continue;
         else fprintf(stderr, "unknown tag: %s\n", tag);
     }   
     return ERR_XML_PARSE;

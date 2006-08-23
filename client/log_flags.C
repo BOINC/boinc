@@ -57,7 +57,7 @@ int LOG_FLAGS::parse(XML_PARSER& xp) {
     char tag[1024];
     bool is_tag;
 
-    while (!xp.get(tag, is_tag)) {
+    while (!xp.get(tag, sizeof(tag), is_tag)) {
         if (!is_tag) {
             msg_printf(NULL, MSG_ERROR,
                "Unexpected text %s in %s", tag, CONFIG_FILE
@@ -108,7 +108,7 @@ int CONFIG::parse_options(XML_PARSER& xp) {
     char tag[1024];
     bool is_tag;
 
-    while (!xp.get(tag, is_tag)) {
+    while (!xp.get(tag, sizeof(tag), is_tag)) {
         if (!is_tag) {
             msg_printf(NULL, MSG_ERROR,
                "Unexpected text %s in %s", tag, CONFIG_FILE
@@ -138,7 +138,7 @@ int CONFIG::parse(FILE* f) {
 
     mf.init_file(f);
     if (!xp.parse_start("cc_config")) return ERR_XML_PARSE;
-    while (!xp.get(tag, is_tag)) {
+    while (!xp.get(tag, sizeof(tag), is_tag)) {
         if (!is_tag) {
             msg_printf(NULL, MSG_ERROR,
                "Unexpected text %s in %s", tag, CONFIG_FILE

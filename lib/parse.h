@@ -38,13 +38,13 @@
 class XML_PARSER {
     MIOFILE* f;
     bool scan_nonws(int&);
-    bool scan_tag(char*);
-    bool copy_until_tag(char*);
+    bool scan_tag(char*, int);
+    bool copy_until_tag(char*, int);
 public:
     XML_PARSER(MIOFILE*);
-    bool get(char*, bool&);
+    bool get(char*, int, bool&);
     bool parse_start(char*);
-    bool parse_str(char*, char*, char*);
+    bool parse_str(char*, char*, char*, int);
     bool parse_int(char*, char*, int&);
     bool parse_double(char*, char*, double&);
     bool parse_bool(char*, char*, bool&);

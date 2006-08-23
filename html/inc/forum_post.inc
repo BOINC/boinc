@@ -163,11 +163,11 @@ class Post {
      * - Moving the post
      * - incrementing the destination thread postcount by 1
      */
-    function move($thread){
+    function move($destthread){
         $thread = $this->getThread();
-        return ($thread->decPostCount() &&
-                $this->dbhandler->updatePost($this, "thread", $thread->getID()) &&
-                $thread->incPostCount());
+        return ($thread->decPostCount()
+            && $this->dbhandler->updatePost($this, "thread", $destthread->getID())
+            && $destthread->incPostCount());
     }
     
     /**

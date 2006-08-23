@@ -110,8 +110,8 @@ bool parse_str(const char* buf, const char* tag, string& dest) {
     return true;
 }
 
-// parse a string of the form name="string";
-// returns string in dest
+// parse a string of the form 'xxx name="value" xxx';
+// returns value in dest
 //
 void parse_attr(const char* buf, const char* name, char* dest, int len) {
     const char* p;
@@ -430,7 +430,7 @@ bool XML_PARSER::scan_nonws(int& first_char) {
 // and copy intervening text to buf.
 // Return true iff reached EOF
 //
-bool XML_PARSER::scan_tag(char* buf) {
+bool XML_PARSER::scan_tag(char* buf, int len) {
     int c;
     while (1) {
         c = f->getc();
@@ -439,7 +439,9 @@ bool XML_PARSER::scan_tag(char* buf) {
             *buf = 0;
             return false;
         }
-        *buf++ = c;
+        if (--len > 0) {
+            *buf++ = c;
+        }
     }
 }
 
@@ -447,7 +449,7 @@ bool XML_PARSER::scan_tag(char* buf) {
 // ungetc() that so we read it again
 // Return true iff reached EOF
 //
-bool XML_PARSER::copy_until_tag(char* buf) {
+bool XML_PARSER::copy_until_tag(char* buf, int len) {
     int c;
     while (1) {
         c = f->getc();
@@ -457,7 +459,9 @@ bool XML_PARSER::copy_until_tag(char* buf) {
             *buf = 0;
             return false;
         }
-        *buf++ = c;
+        if (--len > 0) {
+            *buf++ = c;
+        }
     }
 }
 
@@ -465,19 +469,19 @@ bool XML_PARSER::copy_until_tag(char* buf) {
 // Strip whitespace at start and end.
 // Return true iff reached EOF
 //
-bool XML_PARSER::get(char* buf, bool& is_tag) {
+bool XML_PARSER::get(char* buf, int len, bool& is_tag) {
     bool eof;
     int c;
     
     eof = scan_nonws(c);
     if (eof) return true;
     if (c == '<') {
-        eof = scan_tag(buf);
+        eof = scan_tag(buf, len);
         if (eof) return true;
         is_tag = true;
     } else {
         buf[0] = c;
-        eof = copy_until_tag(buf+1);
+        eof = copy_until_tag(buf+1, len-1);
         if (eof) return true;
         is_tag = false;
     }
@@ -490,7 +494,9 @@ bool XML_PARSER::get(char* buf, bool& is_tag) {
 // and by the matching close tag, return the string in "buf",
 // and return true.
 //
-bool XML_PARSER::parse_str(char* parsed_tag, char* start_tag, char* buf) {
+bool XML_PARSER::parse_str(
+    char* parsed_tag, char* start_tag, char* buf, int len
+) {
     bool is_tag, eof;
     char end_tag[256], tag[256];
 
@@ -504,13 +510,13 @@ bool XML_PARSER::parse_str(char* parsed_tag, char* start_tag, char* buf) {
     }
 
     if (strcmp(parsed_tag, start_tag)) return false;
-    eof = get(buf, is_tag);
+    eof = get(buf, len, is_tag);
     if (eof) return false;
     if (is_tag) return false;
 
     end_tag[0] = '/';
     strcpy(end_tag+1, start_tag);
-    eof = get(tag, is_tag);
+    eof = get(tag, sizeof(tag), is_tag);
     if (eof) return false;
     if (!is_tag) return false;
     if (strcmp(tag, end_tag)) return false;
@@ -526,7 +532,7 @@ bool XML_PARSER::parse_int(char* parsed_tag, char* start_tag, int& i) {
 
     if (strcmp(parsed_tag, start_tag)) return false;
 
-    eof = get(buf, is_tag);
+    eof = get(buf, sizeof(buf), is_tag);
     if (eof) return false;
     if (is_tag) return false;
     i = strtol(buf, &end, 0);
@@ -534,7 +540,7 @@ bool XML_PARSER::parse_int(char* parsed_tag, char* start_tag, int& i) {
 
     end_tag[0] = '/';
     strcpy(end_tag+1, start_tag);
-    eof = get(tag, is_tag);
+    eof = get(tag, sizeof(tag), is_tag);
     if (eof) return false;
     if (!is_tag) return false;
     if (strcmp(tag, end_tag)) return false;
@@ -550,7 +556,7 @@ bool XML_PARSER::parse_double(char* parsed_tag, char* start_tag, double& x) {
 
     if (strcmp(parsed_tag, start_tag)) return false;
 
-    eof = get(buf, is_tag);
+    eof = get(buf, sizeof(buf), is_tag);
     if (eof) return false;
     if (is_tag) return false;
     x = strtod(buf, &end);
@@ -558,7 +564,7 @@ bool XML_PARSER::parse_double(char* parsed_tag, char* start_tag, double& x) {
 
     end_tag[0] = '/';
     strcpy(end_tag+1, start_tag);
-    eof = get(tag, is_tag);
+    eof = get(tag, sizeof(tag), is_tag);
     if (eof) return false;
     if (!is_tag) return false;
     if (strcmp(tag, end_tag)) return false;
@@ -585,7 +591,7 @@ bool XML_PARSER::parse_bool(char* parsed_tag, char* start_tag, bool& b) {
     //
     if (strcmp(parsed_tag, start_tag)) return false;
 
-    eof = get(buf, is_tag);
+    eof = get(buf, sizeof(buf), is_tag);
     if (eof) return false;
     if (is_tag) return false;
     b = (bool)strtol(buf, &end, 0);
@@ -593,7 +599,7 @@ bool XML_PARSER::parse_bool(char* parsed_tag, char* start_tag, bool& b) {
 
     end_tag[0] = '/';
     strcpy(end_tag+1, start_tag);
-    eof = get(tag, is_tag);
+    eof = get(tag, sizeof(tag), is_tag);
     if (eof) return false;
     if (!is_tag) return false;
     if (strcmp(tag, end_tag)) return false;
@@ -604,12 +610,12 @@ bool XML_PARSER::parse_start(char* start_tag) {
     char tag[256];
     bool eof, is_tag;
 
-    eof = get(tag, is_tag);
+    eof = get(tag, sizeof(tag), is_tag);
     if (eof || !is_tag ) {
         return false;
     }
     if (strstr(tag, "?xml")) {
-        eof = get(tag, is_tag);
+        eof = get(tag, sizeof(tag), is_tag);
         if (eof || !is_tag ) {
             return false;
         }
@@ -626,16 +632,18 @@ bool XML_PARSER::parse_start(char* start_tag) {
 void parse(FILE* f) {
     char tag[256];
     bool is_tag, flag;
+    MIOFILE mf;
     XML_PARSER xp(f);
     char name[256];
     int val;
     double x;
 
+    mf.init_file(f);
     if (!xp.parse_start("blah")) {
         printf("missing start tag\n");
         return;
     }
-    while (!xp.get(tag, is_tag)) {
+    while (!xp.get(tag, sizeof(tag), is_tag)) {
         if (!is_tag) {
             printf("unexpected text: %s\n", tag);
             continue;
@@ -643,7 +651,7 @@ void parse(FILE* f) {
         if (!strcmp(tag, "/blah")) {
             printf("success\n");
             return;
-        } else if (xp.parse_str(tag, "str", name)) {
+        } else if (xp.parse_str(tag, "str", name, sizeof(name))) {
             printf("got str: %s\n", name);
         } else if (xp.parse_int(tag, "int", val)) {
             printf("got int: %d\n", val);
