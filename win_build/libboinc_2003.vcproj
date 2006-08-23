@@ -220,6 +220,9 @@
 				</FileConfiguration>
 			</File>
 			<File
+				RelativePath="..\lib\base64.C">
+			</File>
+			<File
 				RelativePath="..\lib\crypt.C">
 			</File>
 			<File
@@ -385,6 +388,9 @@
 			UniqueIdentifier="{93995380-89BD-4b04-88EB-625FBE52EBFB}">
 			<File
 				RelativePath="..\lib\app_ipc.h">
+			</File>
+			<File
+				RelativePath="..\lib\base64.h">
 			</File>
 			<File
 				RelativePath="..\lib\boinc_win.h">
