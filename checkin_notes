@@ -9179,10 +9179,6 @@ Rom    22 Aug 2006
         AuthenticatorDetection.cpp
         stdafx.h
 
-Rom    22 Aug 2006
-    - Tag for 5.5.15 release, all platforms
-      boinc_core_release_5_5_15
-
 David  22 Aug 2006
     - Change new XML parser to prevent buffer overrun on string parsing
     - User web: fix bug in moving post from one thread to another
@@ -9197,3 +9193,7 @@ David  22 Aug 2006
         prefs.C
     sched/
         sched_config.C
+
+Rom    22 Aug 2006
+    - Tag for 5.5.15 release, all platforms
+      boinc_core_release_5_5_15
