@@ -47,7 +47,10 @@ DC_submitWU(DC_Workunit *wu)
 	//fn= g_string_new(wu->workdir);
 	//fn= g_string_append(fn, "/condor_submit.txt");
 	cmd= g_string_new("condor_submit");
-	cmd= g_string_append(cmd, " condor_submit.txt");
+	cmd= g_string_append(cmd, " ");
+	cmd= g_string_append(cmd, _DC_wu_cfg(wu,
+					     SCFG_SUBMIT_FILE,
+					     SDEF_SUBMIT_FILE));
 	act= getcwd(NULL, 0);
 	chdir(wu->data.workdir);
 	act2= getcwd(NULL, 0);
