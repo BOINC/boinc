@@ -633,7 +633,7 @@ $l5515 = array(
     "num"=>"5.5.15",
     "status"=>"Development version (standard GUI)",
     "file"=>"boinc_5.5.15_i686-pc-linux-gnu.sh",
-    "date"=>"22 AUGUST 2006",
+    "date"=>"23 AUGUST 2006",
     "type"=>"sea",
     "features"=>"<ul>
 ".$features_55."
