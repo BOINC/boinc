@@ -9170,3 +9170,15 @@ Walt   22 Aug 2006
 
 	clientgui/
 		ViewStatistics.cpp
+
+Rom    22 Aug 2006
+    - Bug Fix: Use InetnetGetCookie instead of InternetGetCookieEx so that we are
+        backwards compatible with all Windows versions that are spported.
+        
+    clientlib/win/
+        AuthenticatorDetection.cpp
+        stdafx.h
+
+Rom    22 Aug 2006
+    - Tag for 5.5.15 release, all platforms
+      boinc_core_release_5_5_15

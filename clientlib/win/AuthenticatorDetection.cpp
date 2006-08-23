@@ -33,15 +33,40 @@
  **/
 EXTERN_C __declspec(dllexport) BOOL DetectSetupAuthenticator(LPCTSTR szProjectURL, LPTSTR szAuthenticator, LPDWORD lpdwSize)
 {
-    BOOL  bReturnValue = FALSE;
-    TCHAR  szCookie[2048];
-    DWORD dwSize = sizeof(szCookie)/sizeof(TCHAR);
+    BOOL        bReturnValue = FALSE;
+    TCHAR       szCookieBuffer[2048];
+    TCHAR*      pszCookieFragment = NULL;
+    DWORD       dwSize = sizeof(szCookieBuffer)/sizeof(TCHAR);
+    std::string strCookieFragment;
+    std::string strCookieName;
+    std::string strCookieValue;
+    size_t      uiDelimeterLocation;
 
-    bReturnValue = InternetGetCookieEx(szProjectURL, _T("Setup"), szCookie, &dwSize, INTERNET_COOKIE_THIRD_PARTY, NULL);
+    bReturnValue = InternetGetCookie(szProjectURL, NULL, szCookieBuffer, &dwSize);
     if (bReturnValue)
     {
-        _tcsncpy(szAuthenticator, _tcsstr(szCookie, TEXT("=")) + 1, *lpdwSize);
-        *lpdwSize = (DWORD)_tcslen(szAuthenticator);
+        // Format of cookie buffer:
+        // 'cookie1=value1; cookie2=value2; cookie3=value3;
+        //
+        pszCookieFragment = _tcstok(szCookieBuffer, _T("; "));
+        while(pszCookieFragment)
+        {
+            // Convert to a std::string so we can go to town
+            strCookieFragment = pszCookieFragment;
+
+            // Extract the name & value
+            uiDelimeterLocation = strCookieFragment.find(_T("="), 0);
+            strCookieName = strCookieFragment.substr(0, uiDelimeterLocation);
+            strCookieValue = strCookieFragment.substr(uiDelimeterLocation + 1);
+
+            if (std::string(_T("Setup")) == strCookieName)
+            {
+                _tcsncpy(szAuthenticator, strCookieValue.c_str(), *lpdwSize);
+                *lpdwSize = (DWORD)_tcslen(szAuthenticator);
+            }
+
+            pszCookieFragment = _tcstok(NULL, _T("; "));
+        }
     }
     else
     {

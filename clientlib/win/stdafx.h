@@ -51,6 +51,7 @@
 #include <atlhost.h>
 
 #include <vector>
+#include <string>
 
 #import "SENS.DLL" raw_interfaces_only, raw_native_types, no_namespace, named_guids 
 
