@@ -263,10 +263,14 @@ private:
     void schedule_cpus();
     bool enforce_schedule();
     bool no_work_for_a_cpu();
-    bool rr_simulation(double, double);
+    bool rr_simulation();
     void make_running_task_heap(vector<ACTIVE_TASK*>&);
     void print_deadline_misses();
+	inline double work_buf_min() {
+		return global_prefs.work_buf_min_days * 86400;
+	}
 public:
+	double overall_cpu_frac();
     void request_enforce_schedule(const char*);
     void request_schedule_cpus(const char*);
         // Check for reschedule CPUs ASAP.  Called when:

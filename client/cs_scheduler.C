@@ -65,7 +65,7 @@ const int SECONDS_BEFORE_REPORTING_MIN_RPC_TIME_AGAIN = 60*60;
 
 // try to report results this much before their deadline
 //
-#define REPORT_DEADLINE_CUSHION SECONDS_PER_DAY
+#define REPORT_DEADLINE_CUSHION ((double)SECONDS_PER_DAY)
 
 static const char* urgency_name(int urgency) {
     switch(urgency) {
@@ -470,17 +470,14 @@ PROJECT* CLIENT_STATE::find_project_with_overdue_results() {
         if (net_status.have_sporadic_connection) {
             return p;
         }
-        double cushion = std::max(
-            (double)REPORT_DEADLINE_CUSHION,
-            global_prefs.work_buf_min_days * SECONDS_PER_DAY
-        );
+        double cushion = std::max(REPORT_DEADLINE_CUSHION, work_buf_min());
         if (gstate.now > r->report_deadline - cushion) {
             return p;
         }
-        if (gstate.now > r->completed_time + global_prefs.work_buf_min_days*SECONDS_PER_DAY) {
+        if (gstate.now > r->completed_time + work_buf_min()) {
             return p;
         }
-        if (gstate.now > r->report_deadline - global_prefs.work_buf_min_days * SECONDS_PER_DAY) {
+        if (gstate.now > r->report_deadline - work_buf_min()) {
             return p;   // Handles the case where the report is due before the next reconnect is 
                         // likely.
         }
@@ -489,15 +486,21 @@ PROJECT* CLIENT_STATE::find_project_with_overdue_results() {
     return 0;
 }
 
-// return the expected number of CPU seconds completed by the client
+// the fraction of time a given CPU is working for BOINC
+//
+double CLIENT_STATE::overall_cpu_frac() {
+    double running_frac = time_stats.on_frac * time_stats.active_frac * time_stats.cpu_efficiency;
+    if (running_frac < 0.01) running_frac = 0.01;
+    if (running_frac > 1) running_frac = 1;
+	return running_frac;
+}
+
+// the expected number of CPU seconds completed by the client
 // in a second of wall-clock time.
 // May be > 1 on a multiprocessor.
 //
 double CLIENT_STATE::avg_proc_rate() {
-    double running_frac = time_stats.on_frac * time_stats.active_frac;
-    if (running_frac < 0.1) running_frac = 0.1;
-    if (running_frac > 1) running_frac = 1;
-    return ncpus*running_frac*time_stats.cpu_efficiency;
+    return ncpus*overall_cpu_frac();
 }
 
 // estimate wall-clock time until the number of uncompleted results
@@ -530,11 +533,17 @@ double CLIENT_STATE::time_until_work_done(
             // if it is a non_cpu intensive project,
             // it needs only one at a time.
             //
-            est = max(rp->estimated_cpu_time_remaining(), global_prefs.work_buf_min_days * SECONDS_PER_DAY);  
+            est = max(rp->estimated_cpu_time_remaining(), work_buf_min());  
         } else {
             est += rp->estimated_cpu_time_remaining();
         }
     }
+	if (log_flags.work_fetch_debug) {
+		msg_printf(NULL, MSG_INFO,
+			"time_until_work_done(): est %f ssr %f apr %f prs %f",
+			est, subset_resource_share, avg_proc_rate(), p->resource_share
+		);
+	}
     if (subset_resource_share) {
         double apr = avg_proc_rate()*p->resource_share/subset_resource_share;
         return est/apr;
@@ -573,13 +582,7 @@ bool CLIENT_STATE::compute_work_requests() {
 
     adjust_debts();
 
-    if (log_flags.work_fetch_debug) {
-        msg_printf(0, MSG_INFO,
-            "computer_work_requests(): calling rr_simulation()"
-        );
-    }
-
-    rr_simulation(avg_proc_rate()/ncpus, nearly_runnable_resource_share());
+    rr_simulation();
 
     // compute overall urgency
     //
@@ -620,8 +623,8 @@ bool CLIENT_STATE::compute_work_requests() {
     }
     if (log_flags.work_fetch_debug) {
         msg_printf(0, MSG_INFO,
-            "compute_work_requests(): overall urgency is %s",
-            urgency_name(overall_work_fetch_urgency)
+            "compute_work_requests(): cpu_shortfall %f, overall urgency %s",
+            cpu_shortfall, urgency_name(overall_work_fetch_urgency)
         );
     }
     if (overall_work_fetch_urgency == WORK_FETCH_DONT_NEED) {
@@ -639,7 +642,7 @@ bool CLIENT_STATE::compute_work_requests() {
             if (log_flags.work_fetch_debug) {
                 msg_printf(0, MSG_INFO,
                     "compute_work_requests(): project %s not contactable\n",
-                    prospect->project_name
+                    prospect->get_project_name()
                 );
             }
             continue;
@@ -648,7 +651,7 @@ bool CLIENT_STATE::compute_work_requests() {
             if (log_flags.work_fetch_debug) {
                 msg_printf(0, MSG_INFO,
                     "compute_work_requests(): project %s has %d deadline misses\n",
-                    prospect->project_name, prospect->deadlines_missed
+                    prospect->get_project_name(), prospect->deadlines_missed
                 );
             }
             continue;
@@ -657,7 +660,7 @@ bool CLIENT_STATE::compute_work_requests() {
             if (log_flags.work_fetch_debug) {
                 msg_printf(0, MSG_INFO,
                     "compute_work_requests(): project %s is overworked\n",
-                    prospect->project_name
+                    prospect->get_project_name()
                 );
             }
             continue;
@@ -666,7 +669,7 @@ bool CLIENT_STATE::compute_work_requests() {
             if (log_flags.work_fetch_debug) {
                 msg_printf(0, MSG_INFO,
                     "compute_work_requests(): project %s has no shortfall\n",
-                    prospect->project_name
+                    prospect->get_project_name()
                 );
             }
             continue;
@@ -676,7 +679,7 @@ bool CLIENT_STATE::compute_work_requests() {
                 if (log_flags.work_fetch_debug) {
                     msg_printf(0, MSG_INFO,
                         "compute_work_requests(): project %s is overworked\n",
-                        prospect->project_name
+                        prospect->get_project_name()
                     );
                 }
                 continue;
@@ -685,7 +688,7 @@ bool CLIENT_STATE::compute_work_requests() {
                 if (log_flags.work_fetch_debug) {
                     msg_printf(0, MSG_INFO,
                         "compute_work_requests(): project %s has a higher debt load than %s\n",
-                        pbest->project_name, prospect->project_name
+                        pbest->get_project_name(), prospect->get_project_name()
                     );
                 }
                 continue;
@@ -696,16 +699,16 @@ bool CLIENT_STATE::compute_work_requests() {
         if (log_flags.work_fetch_debug) {
             msg_printf(0, MSG_INFO,
                 "compute_work_requests(): best project so far %s",
-                pbest->project_name
+                pbest->get_project_name()
             );
-
         }
     }
 
     if (pbest) {
-        pbest->work_request = max(pbest->cpu_shortfall, cpu_shortfall * 
-            (prrs ? pbest->resource_share / prrs : 1.0) * ncpus *
-            time_stats.active_frac * time_stats.cpu_efficiency * time_stats.on_frac);
+        pbest->work_request = max(
+			pbest->cpu_shortfall,
+			cpu_shortfall * (prrs ? pbest->resource_share/prrs : 1)
+		);
         
         if (!best_work) {
             pbest->work_request_urgency = WORK_FETCH_NEED_IMMEDIATELY;
@@ -717,18 +720,11 @@ bool CLIENT_STATE::compute_work_requests() {
 
         if (log_flags.work_fetch_debug) {
             msg_printf(0, MSG_INFO,
-                "compute_work_requests(): project %s work req: %f sec  urgency: %s\n",
-                pbest->project_name, pbest->work_request,
+				"compute_work_requests(): project %s: work req %f, shortfall %f, urgency %s\n",
+				pbest->get_project_name(), pbest->work_request, pbest->cpu_shortfall,
                 urgency_name(pbest->work_request_urgency)
             );
         }
-    }
-
-    if (log_flags.work_fetch_debug) {
-        msg_printf(0, MSG_INFO,
-            "compute_work_requests(): client work shortfall: %f sec, urgency %s\n",
-            cpu_shortfall, urgency_name(overall_work_fetch_urgency)
-        );
     }
 
     return false;
@@ -1175,7 +1171,7 @@ int CLIENT_STATE::handle_scheduler_reply(
 
     // handle delay request
     //
-    if (sr.request_delay) {
+    if (sr.request_delay && !project->tentative) {
         double x = gstate.now + sr.request_delay;
         if (x > project->min_rpc_time) project->min_rpc_time = x;
     } else {
@@ -1226,7 +1222,7 @@ double CLIENT_STATE::work_needed_secs() {
         if (results[i]->project->non_cpu_intensive) continue;
         total_work += results[i]->estimated_cpu_time_remaining();
     }
-    double x = global_prefs.work_buf_min_days*SECONDS_PER_DAY*avg_proc_rate() - total_work;
+    double x = work_buf_min() * avg_proc_rate() - total_work;
     if (x < 0) {
         return 0;
     }

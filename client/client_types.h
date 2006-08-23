@@ -262,12 +262,12 @@ public:
     bool overworked();
         // the project has used too much CPU time recently
 
-    // temps used in CLIENT_STATE::rr_misses_deadline();
+    // temps used in CLIENT_STATE::rr_simulation();
     std::vector<RESULT*>active;
     std::vector<RESULT*>pending;
     double rrsim_proc_rate;
         // fraction of each CPU this project will get in RR simulation
-    void set_rrsim_proc_rate(double per_cpu_proc_rate, double rrs);
+    void set_rrsim_proc_rate(double rrs);
     // set in CLIENT_STATE::rr_misses_deadline();
     double cpu_shortfall;
     int rr_sim_deadlines_missed;

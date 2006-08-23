@@ -87,8 +87,6 @@ int LOG_FLAGS::parse(XML_PARSER& xp) {
         else if (xp.parse_bool(tag, "guirpc_debug", guirpc_debug)) continue;
         else if (xp.parse_bool(tag, "scrsave_debug", scrsave_debug)) continue;
         else if (xp.parse_bool(tag, "app_msg_debug", app_msg_debug)) continue;
-
-
         else {
             msg_printf(NULL, MSG_ERROR, "Unrecognized tag in %s: <%s>\n",
                 CONFIG_FILE, tag

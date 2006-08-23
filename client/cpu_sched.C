@@ -416,12 +416,7 @@ void CLIENT_STATE::schedule_cpus() {
 
     // do round-robin simulation to find what results miss deadline,
     //
-    if (log_flags.cpu_sched_debug) {
-        msg_printf(0, MSG_INFO,
-            "rr_simulation: calling from cpu_scheduler"
-        );
-    }
-    rr_simulation(avg_proc_rate()/ncpus, runnable_resource_share());
+    rr_simulation();
     if (log_flags.cpu_sched_debug) {
         print_deadline_misses();
     }
@@ -719,7 +714,7 @@ bool CLIENT_STATE::no_work_for_a_cpu() {
 // the fraction of each CPU that it will get in round-robin mode.
 // Precondition: the project's "active" array is populated
 //
-void PROJECT::set_rrsim_proc_rate(double per_cpu_proc_rate, double rrs) {
+void PROJECT::set_rrsim_proc_rate(double rrs) {
     int nactive = (int)active.size();
     if (nactive == 0) return;
     double x;
@@ -742,7 +737,7 @@ void PROJECT::set_rrsim_proc_rate(double per_cpu_proc_rate, double rrs) {
     if (x>1) {
         x = 1;
     }
-    rrsim_proc_rate = x*per_cpu_proc_rate;
+	rrsim_proc_rate = x*gstate.overall_cpu_frac();
 }
 
 // Do a simulation of weighted round-robin scheduling.
@@ -751,7 +746,10 @@ void PROJECT::set_rrsim_proc_rate(double per_cpu_proc_rate, double rrs) {
 // per_cpu_proc_rate:
 //   the expected number of CPU seconds per wall second on each CPU
 // rrs:
-//   the total resource share of runnable projects
+//   the total resource share of relevant projects
+//   (runnable when called from CPU sched,
+//   nearly runnable when called from work fetch)
+//   NOTE: this may be zero, e.g. if no projects have results
 //
 // Outputs (changes to global state):
 // For each project p:
@@ -764,7 +762,8 @@ void PROJECT::set_rrsim_proc_rate(double per_cpu_proc_rate, double rrs) {
 //
 // Returns true if some result misses its deadline
 //
-bool CLIENT_STATE::rr_simulation(double per_cpu_proc_rate, double rrs) {
+bool CLIENT_STATE::rr_simulation() {
+	double rrs = nearly_runnable_resource_share();
     double saved_rrs = rrs;
     PROJECT* p, *pbest;
     RESULT* rp, *rpbest;
@@ -774,14 +773,9 @@ bool CLIENT_STATE::rr_simulation(double per_cpu_proc_rate, double rrs) {
     vector<RESULT*>::iterator it;
     bool rval = false;
 
-    if (log_flags.rr_simulation) {
-        msg_printf(0, MSG_INFO,
-            "rr_simulation: start"
-        );
-    }
-
-    // Initialize the "active" and "pending" lists for each project.
-    // These keep track of that project's results
+    // Initialize result lists for each project:
+	// "active" is what's currently running (in the simulation)
+	// "pending" is what's queued
     //
     for (i=0; i<projects.size(); i++) {
         p = projects[i];
@@ -809,17 +803,17 @@ bool CLIENT_STATE::rr_simulation(double per_cpu_proc_rate, double rrs) {
 
     for (i=0; i<projects.size(); i++) {
         p = projects[i];
-        p->set_rrsim_proc_rate(per_cpu_proc_rate, rrs);
+        p->set_rrsim_proc_rate(rrs);
         // if there are no results for a project, the shortfall is its entire share.
         //
         if (!p->active.size()) {
-            p->cpu_shortfall = global_prefs.work_buf_min_days * SECONDS_PER_DAY *
-                time_stats.active_frac * time_stats.cpu_efficiency * time_stats.on_frac *
-                ncpus * p->resource_share / rrs;
+			double rsf = rrs ? p->resource_share/rrs : 1;
+            p->cpu_shortfall = work_buf_min() * overall_cpu_frac() * ncpus * rsf;
         }
     }
 
-    double buf_end = now + global_prefs.work_buf_min_days * SECONDS_PER_DAY;
+    double buf_end = now + work_buf_min();
+
     // Simulation loop.  Keep going until work done
     //
     double sim_now = now;
@@ -901,7 +895,7 @@ bool CLIENT_STATE::rr_simulation(double per_cpu_proc_rate, double rrs) {
             rrs -= pbest->resource_share;
             for (i=0; i<projects.size(); i++) {
                 p = projects[i];
-                p->set_rrsim_proc_rate(per_cpu_proc_rate, rrs);
+                p->set_rrsim_proc_rate(rrs);
             }
         }
 
@@ -910,18 +904,18 @@ bool CLIENT_STATE::rr_simulation(double per_cpu_proc_rate, double rrs) {
         if (sim_now < buf_end) {
             double end_time = sim_now + rpbest->rrsim_finish_delay;
             if (end_time > buf_end) end_time = buf_end;
-            double d_time = end_time - sim_now;  // dtime is a function - lets not confuse things.
+            double d_time = end_time - sim_now;
             int nidle_cpus = ncpus - last_active_size;
             if (nidle_cpus > 0) cpu_shortfall += d_time*nidle_cpus;
 
-            double proj_cpu_share = ncpus*pbest->resource_share/saved_rrs;
+			double rsf = saved_rrs?pbest->resource_share/saved_rrs:1;
+            double proj_cpu_share = ncpus*rsf;
 
             if (last_active_size < proj_cpu_share) {
                 pbest->cpu_shortfall += d_time*(proj_cpu_share - last_proj_active_size);
             }
-            // this section deals with the tail computations where there are no more 
-            // results for an application.
-            if (end_time < buf_end) {
+
+			if (end_time < buf_end) {
                 d_time = buf_end - end_time;
                 // if this is the last result for this project, account for the tail
                 if (!pbest->active.size()) { 
@@ -930,8 +924,11 @@ bool CLIENT_STATE::rr_simulation(double per_cpu_proc_rate, double rrs) {
             }
             if (log_flags.rr_simulation) {
                 msg_printf(0, MSG_INFO,
-                    "rr_simulation internal shortfall loop: idle %d, last active %d, active %d, shortfall %f: proj %s, last active %d, active %d, shortfall %f",
-                    nidle_cpus, last_active_size, (int)active.size(), cpu_shortfall, pbest->project_name, last_proj_active_size, (int)pbest->active.size(), pbest->cpu_shortfall);
+                    "rr_simulation loop: idle %d, last active %d, active %d, shortfall %f: proj %s, last active %d, active %d, shortfall %f",
+                    nidle_cpus, last_active_size, (int)active.size(), cpu_shortfall,
+					pbest->get_project_name(), last_proj_active_size, (int)pbest->active.size(),
+					pbest->cpu_shortfall
+				);
             }
         }
 

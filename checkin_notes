@@ -9208,3 +9208,45 @@ David  23 Aug 2006
     lib/
         boinc_cmd.C
         prefs.C,h
+
+David  23 Aug 2006
+	- core client: various changes to the CPU scheduler, mostly to fix:
+		1) on cold start (no projects), when attaching to 1st project,
+			the client would do an RPC not asking for work,
+			then would back off for 10 minutes
+			(for SETI@home; this is a project param)
+			until the next RPC, which would actually get work.
+		2) On the 2nd RPC, the work fetch calculation would generate
+			some INF#00s (due to divide by zero)
+			and would end up requesting 1 second.
+		Also, some code cleanup.
+
+		- rr_simulation(): get rid of arguments.
+			Always treat nearly runnable results as if they were runnable.
+			The code was sort of doing this anyway
+		- rr_simulation(): get rid of divide by zero.
+		 	If total resource share is zero,
+			use 1 instead of p->resource_share/total resource share.
+		- rr_simulation(): remove *ncpus from calculation
+			of pbest->work_request
+		- remove per_cpu_proc_rate arg from set_rrsim_proc_rate()
+		- use project->get_project_name() instead of project->name
+		 	(works for brand-new projects also)
+		 
+		- define function work_buf_min() so you don't have to type
+			global_prefs.work_buf_min_days * SECONDS_PER_DAY all the time
+		- define overall_cpu_frac() so you don't have to type
+			time_stats.on_frac * blah blah
+		GENERAL PRINCIPAL: if there's anything complex that appears
+			repeatedly, make it a function!!
+	- Win project file: remove base64.C, crypt.C
+		(these are in libboinc)
+
+	client/
+		client_state.h
+		client_types.h
+		cpu_sched.C
+		cs_scheduler.C
+		log_flags.C
+	win_build/
+		boinc_cli_curl.vcproj
