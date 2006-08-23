@@ -340,7 +340,7 @@ $mac_changes_54= "
       </ul>
 ";
 
-$linux_libs_5512= "
+$linux_libs_5515= "
     <li>Boincmgr requires GTK++2.0 or higher, which is included in most
         Linux distributions.  Its been tested on:
       <ul>
@@ -629,15 +629,15 @@ $m443c = array(
     "
 );
 
-$l5513 = array(
-    "num"=>"5.5.13",
+$l5515 = array(
+    "num"=>"5.5.15",
     "status"=>"Development version (standard GUI)",
-    "file"=>"boinc_5.5.13_i686-pc-linux-gnu.sh",
-    "date"=>"14 AUGUST 2006",
+    "file"=>"boinc_5.5.15_i686-pc-linux-gnu.sh",
+    "date"=>"22 AUGUST 2006",
     "type"=>"sea",
     "features"=>"<ul>
 ".$features_55."
-".$linux_libs_5513."
+".$linux_libs_5515."
 ".$changes_55."
     </ul>
     "
@@ -716,7 +716,7 @@ $linux = array(
     "dbname" => "i686-pc-linux-gnu",
     "url"=>"linux.php",
     "versions"=>array(
-        $l5513,
+        $l5515,
         $l549,
         $l5213,
         $l443,
