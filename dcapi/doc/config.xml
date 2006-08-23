@@ -246,6 +246,16 @@
 	    </para>
 	  </listitem>
 	</varlistentry>
+	<varlistentry>
+	  <term>DefaultPriority</term>
+	  <listitem>
+	    <para>
+	      OPTIONAL. Specifies the default priority of the work unit. The
+	      priority is an integer number; its allowed range and exact meaning
+	      depends on the grid backend. The default value is 0.
+	    </para>
+	  </listitem>
+	</varlistentry>
       </variablelist>
     </sect3>
 

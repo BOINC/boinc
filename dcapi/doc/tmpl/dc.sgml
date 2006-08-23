@@ -245,7 +245,7 @@ Returns the number of existing work units having the specified state.
 <!-- ##### FUNCTION DC_createWU ##### -->
 <para>
 Creates a new work unit. The work unit is not known to the underlying grid
-infrastructure until DC_submutWU() is called. The returned work unit is in
+infrastructure until DC_submitWU() is called. The returned work unit is in
 the %DC_WU_READY state.
 </para>
 
@@ -269,7 +269,7 @@ units in state %DC_WU_READY (i.e., before the work unit is submitted).
 
 @wu: the work unit to add the input file to.
 @logicalFileName: the logical file name the client will use to refer to this
-	input file. The client should call the DC_resolveFilenName() function
+	input file. The client should call the DC_resolveFileName() function
 	with the %DC_FILE_IN file type and this name to get the real name of
 	the file on the local system.
 @URL: URL of the input file. May also be a local path on the master's
@@ -290,7 +290,7 @@ the work unit is submitted).
 
 @wu: the work unit to add the output file definition to.
 @logicalFileName: the logical file name the client will use to refer to this
-	output file. The client should call the DC_resolveFilenName() function
+	output file. The client should call the DC_resolveFileName() function
 	with the %DC_FILE_OUT file type and this name to get the real name of
 	the file on the local system.
 @Returns: 0 if successful or a #DC_ErrorCode.
@@ -548,8 +548,8 @@ Returns the exit code of the client application.
 </para>
 
 @result: a #DC_Result.
-@Returns: the client's exit code (the value it passed to DC_Finish()). If the
-	%DC_GC_EXITCODE capability is not set for this result, then 0 is
+@Returns: the client's exit code (the value it passed to DC_finishClient()). If
+	the %DC_GC_EXITCODE capability is not set for this result, then 0 is
 	returned.
 
 
@@ -560,8 +560,8 @@ Returns the real path name for a logical output file name.
 
 @result: a #DC_Result.
 @logicalFileName: the logical file name used by the client when creating the
-	output file. The special constants %DC_RESULT_STDOUT, %DC_RESULT_STDERR
-	and %DC_RESULT_LOG are also recognized for returning the client's
+	output file. The special constants %DC_LABEL_STDOUT, %DC_LABEL_STDERR
+	and %DC_LABEL_CLIENTLOG are also recognized for returning the client's
 	standard output, error and infrastructure-generated log file,
 	repsectively.
 @Returns: the real path name of the logical file or %NULL if the client did

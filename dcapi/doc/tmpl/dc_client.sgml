@@ -56,7 +56,7 @@ ClientEvent received from the master.
 </para>
 
 @type: type of the event.
-@message: contents of the message if @type is %DC_EVENT_MESSAGE.
+@message: contents of the message if @type is %DC_CLIENT_MESSAGE.
 
 <!-- ##### FUNCTION DC_initClient ##### -->
 <para>
@@ -91,22 +91,22 @@ When @logicalFileName is %DC_CHECKPOINT_FILE, @type is interpreted as follows:
       <para>
 	If @type is %DC_FILE_IN, then the path name of the last completed
 	checkpoint file (as indicated by the client by calling
-	DC_checkpointCompleted() previously) is returned. The client must not
-	modify this file in any way. If the client did not create any
-	checkpoints so far but it was resumed from a previous checkpoint, then
-	the path name of the original checkpoint file is returned. If there are
-	no previous checkpoints at all, %NULL is returned.
+	DC_checkpointMade() previously) is returned. The client must not modify
+	this file in any way. If the client did not create any checkpoints so
+	far but it was resumed from a previous checkpoint, then the path name
+	of the original checkpoint file is returned. If there are no previous
+	checkpoints at all, %NULL is returned.
       </para>
     </listitem>
     <listitem>
       <para>
 	If @type is %DC_FILE_OUT, then a name for a new non-existant checkpoint
 	file is returned. The client should write the checkpoint information to
-	this file and should call DC_checkpointCompleted() with this file name
-	to indicate that the checkpoint is complete. After calling
-	DC_checkpointCompleted(), the client is not allowed to modify the
-	checkpoint file in any way, and must call DC_resolveFileName() again to
-	obtain a new name for a new checkpoint file.
+	this file and should call DC_checkpointMade() with this file name to
+	indicate that the checkpoint is complete. After calling
+	DC_checkpointMade(), the client is not allowed to modify the checkpoint
+	file in any way, and must call DC_resolveFileName() again to obtain a
+	new name for a new checkpoint file.
       </para>
     </listitem>
   </itemizedlist>

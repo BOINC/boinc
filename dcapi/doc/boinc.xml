@@ -231,12 +231,12 @@
 	    <para>
 	      OPTIONAL. Boolean value telling if work units for this client can
 	      be suspended using <function><link
-		  linkend="DC_suspendWU">DC_suspendWU()</link></function> or
+		  linkend="DC-suspendWU">DC_suspendWU()</link></function> or
 	      not. The default value is true.
 	      <note>
 		When the redundancy is greater than 1, the work unit can not be
 		suspended using <function><link
-		    linkend="DC_suspendWU">DC_suspendWU()</link></function>,
+		    linkend="DC-suspendWU">DC_suspendWU()</link></function>,
 		regardless of the value of this configuration option.
 	      </note>
 	    </para>
@@ -276,7 +276,7 @@
 	and installed under the project's <filename>apps</filename> directory.
 	The BOINC name of the client application must be the same as the master
 	uses when it calls <function><link
-	    linkend="DC_createWU">DC_createWU()</link></function>. See the BOINC
+	    linkend="DC-createWU">DC_createWU()</link></function>. See the BOINC
 	documentation about how the client binaries should be named and placed
 	and how they should be registered in the database.
       </para>
@@ -485,6 +485,24 @@
 	The DC-API master application will receive notification about a result
 	when the validator has made its decision. This may also introduce some
 	delay after all BOINC results have been completed.
+      </para>
+    </sect3>
+
+    <sect3>
+      <title>Work unit priority</title>
+
+      <para>
+	The priority of a work unit can be set either by using the
+	<function><link
+	    linkend="DC-setWUPriority">DC_setWUPriority()</link></function>
+	function or by specifying it in the configuration file using the
+	<literal>DefaultPriority</literal> key. Either way, the priority can
+	be an arbitrary 32-bit integer.
+      </para>
+      <para>
+	The BOINC scheduler dispatches higher priority work units first. Results
+	belonging to work units with lower priorities will not be offered to
+	clients until all the higher priority work units are exhausted.
       </para>
     </sect3>
 
