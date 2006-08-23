@@ -70,7 +70,7 @@ EXTERN_C __declspec(dllexport) BOOL DetectSetupAuthenticator(LPCTSTR szProjectUR
     }
     else
     {
-        fprintf(stderr, TEXT("DetectSetupAuthenticator() - InternetGetCookieEx Failed. GetLastError = '%d'"), GetLastError());
+        fprintf(stderr, _T("DetectSetupAuthenticator() - InternetGetCookieEx Failed. GetLastError = '%d'"), GetLastError());
     }
 
     return bReturnValue;
