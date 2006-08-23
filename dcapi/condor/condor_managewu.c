@@ -29,11 +29,11 @@ DC_submitWU(DC_Workunit *wu)
 	if (!_DC_wu_check(wu))
 		return(DC_ERR_UNKNOWN_WU);
 
-	DC_log(LOG_DEBUG, "DC_submitWU(%p-\"%s\")", wu, wu->name);
+	DC_log(LOG_DEBUG, "DC_submitWU(%p-\"%s\")", wu, wu->data.name);
 
 	if (wu->state != DC_WU_READY)
 	{
-		DC_log(LOG_INFO, "Re-submission of %s", wu->name);
+		DC_log(LOG_INFO, "Re-submission of %s", wu->data.name);
 		return(DC_ERR_BADPARAM);
 	}
 
@@ -49,7 +49,7 @@ DC_submitWU(DC_Workunit *wu)
 	cmd= g_string_new("condor_submit");
 	cmd= g_string_append(cmd, " condor_submit.txt");
 	act= getcwd(NULL, 0);
-	chdir(wu->workdir);
+	chdir(wu->data.workdir);
 	act2= getcwd(NULL, 0);
 	DC_log(LOG_DEBUG, "Calling \"%s\" in %s...",
 	       cmd->str, act2);
@@ -87,7 +87,7 @@ DC_cancelWU(DC_Workunit *wu)
 	if (!_DC_wu_check(wu))
 		return(DC_ERR_UNKNOWN_WU);
 
-	DC_log(LOG_DEBUG, "DC_cancelWU(%p-\"%s\")", wu, wu->name);
+	DC_log(LOG_DEBUG, "DC_cancelWU(%p-\"%s\")", wu, wu->data.name);
 
 	id= DC_getWUId(wu);
 	if (!id)

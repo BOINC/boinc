@@ -72,6 +72,62 @@ _DC_wu_set_argc(DC_Workunit *wu,
 }
 
 
+int
+_DC_wu_set_uuid_str(DC_Workunit *wu,
+		    char *new_uuid_str)
+{
+	if (!_DC_wu_check(wu))
+		return(DC_ERR_UNKNOWN_WU);
+	wu->data.uuid_str= new_uuid_str;
+	_DC_wu_changed(wu);
+	return(DC_OK);
+}
+
+int
+_DC_wu_set_name(DC_Workunit *wu,
+		char *new_name)
+{
+	if (!_DC_wu_check(wu))
+		return(DC_ERR_UNKNOWN_WU);
+	wu->data.name= new_name;
+	_DC_wu_changed(wu);
+	return(DC_OK);
+}
+
+int
+_DC_wu_set_tag(DC_Workunit *wu,
+	       char *new_tag)
+{
+	if (!_DC_wu_check(wu))
+		return(DC_ERR_UNKNOWN_WU);
+	wu->data.tag= new_tag;
+	_DC_wu_changed(wu);
+	return(DC_OK);
+}
+
+int
+_DC_wu_set_subresults(DC_Workunit *wu,
+		      int new_subresults)
+{
+	if (!_DC_wu_check(wu))
+		return(DC_ERR_UNKNOWN_WU);
+	wu->data.subresults= new_subresults;
+	_DC_wu_changed(wu);
+	return(DC_OK);
+}
+
+int
+_DC_wu_set_workdir(DC_Workunit *wu,
+		   char *new_workdir)
+{
+	if (!_DC_wu_check(wu))
+		return(DC_ERR_UNKNOWN_WU);
+	wu->data.workdir= new_workdir;
+	_DC_wu_changed(wu);
+	return(DC_OK);
+}
+
+
 /* Check if the logical name is not already registered */
 int
 _DC_wu_check_logical_name(DC_Workunit *wu,
@@ -121,7 +177,7 @@ _DC_wu_get_workdir_path(DC_Workunit *wu,
 {
 	if (!_DC_wu_check(wu))
 		return(NULL);
-	return g_strdup_printf("%s%c%s", wu->workdir, G_DIR_SEPARATOR, label);
+	return g_strdup_printf("%s%c%s", wu->data.workdir, G_DIR_SEPARATOR, label);
 }
 
 
@@ -135,7 +191,7 @@ _DC_wu_gen_condor_submit(DC_Workunit *wu)
 	if (!_DC_wu_check(wu))
 		return(DC_ERR_UNKNOWN_WU);
 
-	fn= g_string_new(wu->workdir);
+	fn= g_string_new(wu->data.workdir);
 	fn= g_string_append(fn, "/condor_submit.txt");
 	if ((f= fopen(fn->str, "w+")) == NULL)
 	{
@@ -207,7 +263,7 @@ _DC_wu_make_client_executables(DC_Workunit *wu)
 	archs= DC_getCfgStr(CFG_ARCHITECTURES);
 
 	src= g_string_new(wu->data.client_name);
-	dst= g_string_new(wu->workdir);
+	dst= g_string_new(wu->data.workdir);
 	g_string_append(dst, "/");
 	g_string_append(dst, wu->data.client_name);
 	DC_log(LOG_DEBUG, "Copying client executable %s to %s",
@@ -217,7 +273,7 @@ _DC_wu_make_client_executables(DC_Workunit *wu)
 	g_string_free(dst, TRUE);
 
 	/*
-	dst= g_string_new(wu->workdir);
+	dst= g_string_new(wu->data.workdir);
 	g_string_append(dst, "/");
 	g_string_append(dst, CLIENT_CONFIG_NAME);
 	DC_log(LOG_DEBUG, "Copying config %s to %s",
@@ -244,17 +300,19 @@ _DC_wu_make_client_config(DC_Workunit *wu)
 	if (!_DC_wu_check(wu))
 		return(DC_ERR_UNKNOWN_WU);
 
-	fn= g_string_new(wu->workdir);
+	fn= g_string_new(wu->data.workdir);
 	g_string_append(fn, "/");
 	g_string_append(fn, CLIENT_CONFIG_NAME);
 	if ((f= fopen(fn->str, "w")) != NULL)
 	{
-		fprintf(f, "LogLevel = %s\n", DC_getClientCfgStr("upper_case",
-								 "LogLevel",
-								 TRUE));
-		fprintf(f, "LogFile = %s\n", DC_getClientCfgStr("upper_case",
-								"LogFile",
-								TRUE));
+		fprintf(f, "LogLevel = %s\n",
+			DC_getClientCfgStr(wu->data.client_name,
+					   "LogLevel",
+					   TRUE));
+		fprintf(f, "LogFile = %s\n",
+			DC_getClientCfgStr(wu->data.client_name,
+					   "LogFile",
+					   TRUE));
 		
 		fclose(f);
 	}
@@ -273,18 +331,18 @@ _DC_wu_check_client_messages(DC_Workunit *wu)
 	if (!_DC_wu_check(wu))
 		return(NULL);
 
-	s= g_string_new(wu->workdir);
+	s= g_string_new(wu->data.workdir);
 	g_string_append_printf(s, "/%s", "client_messages");
 	if ((message= _DC_read_message(s->str, "message", 1)))
 	{
 		e= _DC_event_create(wu, NULL, NULL, message);
 		DC_log(LOG_DEBUG, "Message event created: %p "
-		       "for wu (%p-\"%s\")", e, wu, wu->name);
+		       "for wu (%p-\"%s\")", e, wu, wu->data.name);
 		DC_log(LOG_DEBUG, "Message of the event: %s", e->message);
 	}
 	else
 	{
-		g_string_printf(s, "%s/%s", wu->workdir, "client_subresults");
+		g_string_printf(s, "%s/%s", wu->data.workdir, "client_subresults");
 		if ((message= _DC_read_message(s->str, "logical_name", 1)))
 		{
 			DC_PhysicalFile *f;

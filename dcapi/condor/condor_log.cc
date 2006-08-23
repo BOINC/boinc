@@ -34,7 +34,7 @@ _DC_wu_update_condor_events(DC_Workunit *wu)
 	if (!wu)
 		return;
 
-	fn_org= g_string_new(wu->workdir);
+	fn_org= g_string_new(wu->data.workdir);
 	fn_org= g_string_append(fn_org, "/internal_log.txt");
 	strcpy(t, "/tmp/condor_dc_api_XXXXXX");
 	res= mkstemp(t);
@@ -123,7 +123,7 @@ _DC_wu_condor2api_event(DC_Workunit *wu)
 			e= _DC_event_create(wu, _DC_result_create(wu),
 					    NULL, NULL);
 			DC_log(LOG_DEBUG, "Result event created: %p for "
-			       "wu (%p-\"%s\")", e, wu, wu->name);
+			       "wu (%p-\"%s\")", e, wu, wu->data.name);
 			/*e->type= DC_MASTER_RESULT;
 			e->wu= wu;
 			e->result= _DC_result_create(wu);*/
