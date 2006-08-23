@@ -89,8 +89,6 @@ void CLIENT_STATE::parse_cmdline(int argc, char** argv) {
         } else if (ARG(file_xfer_giveup_period)) {
             if (i == argc-1) show_options = true;
             else file_xfer_giveup_period = atoi(argv[++i]);
-        } else if (ARG(min)) {
-            global_prefs.run_minimized = true;
         } else if (ARG(suspend)) {
             user_run_request = USER_RUN_REQUEST_NEVER;
         } else if (ARG(saver)) {

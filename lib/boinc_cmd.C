@@ -454,6 +454,7 @@ int main(int argc, char** argv) {
     } else if (!strcmp(cmd, "--test4")) {
         GLOBAL_PREFS p;
         memset(&p, 0, sizeof(p));
+        p.defaults();
         p.max_cpus = 2;
         retval = rpc.set_global_prefs_override_struct(p);
         printf("retval %d\n", retval);

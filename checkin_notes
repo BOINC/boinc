@@ -9197,3 +9197,14 @@ David  22 Aug 2006
 Rom    22 Aug 2006
     - Tag for 5.5.15 release, all platforms
       boinc_core_release_5_5_15
+
+David  23 Aug 2006
+    - removed "max_memory_nbytes, "proc_priority", "cpu_affinity",
+        "run_minimized" and "run_on_startup" from global prefs;
+        not used anywhere.
+
+    client/
+        cs_cmdline.C
+    lib/
+        boinc_cmd.C
+        prefs.C,h

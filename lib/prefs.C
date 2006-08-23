@@ -45,8 +45,6 @@ void GLOBAL_PREFS::defaults() {
     end_hour = 0;
     net_start_hour = 0;
     net_end_hour = 0;
-    run_minimized = false;
-    run_on_startup = false;
     leave_apps_in_memory = false;
     confirm_before_connecting = true;
     hangup_if_dialed = false;
@@ -62,13 +60,12 @@ void GLOBAL_PREFS::defaults() {
     idle_time_to_run = 3;
     max_bytes_sec_up = 1e9;
     max_bytes_sec_down = 1e9;
-    //max_memory_mbytes = 128;
-    proc_priority = 1;
-    cpu_affinity = -1;
     cpu_usage_limit = 100;
 
     // don't initialize source_project, source_scheduler here
-    // since they are outside of <venue> elements
+    // since they are outside of <venue> elements,
+    // and this is called when find the right venue.
+    // Also, don't memset to 0
 }
 
 // before parsing
@@ -77,8 +74,6 @@ void GLOBAL_PREFS::clear_bools() {
     run_if_user_active = false;
     leave_apps_in_memory = false;
     confirm_before_connecting = false;
-    run_minimized = false;
-    run_on_startup = false;
     hangup_if_dialed = false;
     dont_verify_images = false;
 }
@@ -178,10 +173,6 @@ int GLOBAL_PREFS::parse_override(
             continue;
         } else if (xp.parse_bool(tag, "hangup_if_dialed", hangup_if_dialed)) {
             continue;
-        } else if (xp.parse_bool(tag, "run_minimized", run_minimized)) {
-            continue;
-        } else if (xp.parse_bool(tag, "run_on_startup", run_on_startup)) {
-            continue;
         } else if (xp.parse_bool(tag, "dont_verify_images", dont_verify_images)) {
             continue;
         } else if (xp.parse_double(tag, "work_buf_min_days", work_buf_min_days)) {
@@ -210,12 +201,6 @@ int GLOBAL_PREFS::parse_override(
             continue;
         } else if (xp.parse_double(tag, "max_bytes_sec_down", max_bytes_sec_down)) {
             if (max_bytes_sec_down <= 0) max_bytes_sec_down = 1e12;
-            continue;
-#if 0
-        } else if (xp.parse_int(tag, "max_memory_mbytes", max_memory_mbytes)) {
-            continue;
-#endif
-        } else if (xp.parse_int(tag, "cpu_affinity", cpu_affinity)) {
             continue;
         } else if (xp.parse_double(tag, "cpu_usage_limit", dtemp)) {
             if (dtemp > 0 && dtemp <= 100) {
@@ -255,7 +240,7 @@ int GLOBAL_PREFS::write(MIOFILE& f) {
         "   <end_hour>%d</end_hour>\n"
         "   <net_start_hour>%d</net_start_hour>\n"
         "   <net_end_hour>%d</net_end_hour>\n"
-        "%s%s%s%s%s%s"
+        "%s%s%s%s"
         "   <work_buf_min_days>%f</work_buf_min_days>\n"
         "   <max_cpus>%d</max_cpus>\n"
         "   <cpu_scheduling_period_minutes>%f</cpu_scheduling_period_minutes>\n"
@@ -277,8 +262,6 @@ int GLOBAL_PREFS::write(MIOFILE& f) {
         net_end_hour,
         leave_apps_in_memory?"   <leave_apps_in_memory/>\n":"",
         confirm_before_connecting?"   <confirm_before_connecting/>\n":"",
-        run_minimized?"   <run_minimized/>\n":"",
-        run_on_startup?"   <run_on_startup/>\n":"",
         hangup_if_dialed?"   <hangup_if_dialed/>\n":"",
         dont_verify_images?"   <dont_verify_images/>\n":"",
         work_buf_min_days,

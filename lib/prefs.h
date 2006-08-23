@@ -43,8 +43,6 @@ struct GLOBAL_PREFS {
     int net_end_hour;
     bool leave_apps_in_memory;
     bool confirm_before_connecting;
-    bool run_minimized;
-    bool run_on_startup;
     bool hangup_if_dialed;
     bool dont_verify_images;
     double work_buf_min_days;
@@ -58,9 +56,6 @@ struct GLOBAL_PREFS {
     double idle_time_to_run;
     double max_bytes_sec_up;
     double max_bytes_sec_down;
-    //int max_memory_mbytes;
-    int proc_priority;
-    int cpu_affinity;
     double cpu_usage_limit;
     char source_project[256];
     char source_scheduler[256];
