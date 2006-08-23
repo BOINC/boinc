@@ -305,10 +305,11 @@ _DC_wu_make_client_config(DC_Workunit *wu)
 	g_string_append(fn, CLIENT_CONFIG_NAME);
 	if ((f= fopen(fn->str, "w")) != NULL)
 	{
-		fprintf(f, "LogLevel = %s\n",
-			DC_getClientCfgStr(wu->data.client_name,
-					   "LogLevel",
-					   TRUE));
+		if (_DC_initClientConfig(wu->data.client_name, f))
+		{
+			fclose(f);
+			return(DC_ERR_BADPARAM);
+		}
 		fprintf(f, "LogFile = %s\n",
 			DC_getClientCfgStr(wu->data.client_name,
 					   "LogFile",
