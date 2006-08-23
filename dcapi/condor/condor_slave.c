@@ -58,7 +58,8 @@ int DC_sendResult(const char *logicalFileName,
 	       path,
 	       fileMode);
 	fn= malloc(strlen(logicalFileName)+100);
-	strcpy(fn, "client_subresults");
+	strcpy(fn, _DC_acfg(SCFG_SUBRESULTS_BOX,
+			    SDEF_SUBRESULTS_BOX));
 	strcat(fn, "/real_files");
 	if ((ret= _DC_mkdir_with_parents(fn, S_IRWXU|
 					 S_IRGRP|S_IXGRP|
@@ -78,7 +79,9 @@ int DC_sendResult(const char *logicalFileName,
 		free(fn);
 		return(ret);
 	}
-	ret= _DC_create_message("client_subresults", "logical_name",
+	ret= _DC_create_message(_DC_acfg(SCFG_SUBRESULTS_BOX,
+					 SDEF_SUBRESULTS_BOX),
+				"logical_name",
 				logicalFileName, NULL);
 	free(fn);
 	return(ret);
@@ -89,7 +92,9 @@ int DC_sendResult(const char *logicalFileName,
 int DC_sendMessage(const char *message)
 {
 	DC_log(LOG_DEBUG, "DC_sendMessage(%s)", message);
-	return _DC_create_message("client_messages", "message", message, NULL);
+	return _DC_create_message(_DC_acfg(SCFG_CLIENT_MESSAGE_BOX,
+					   SDEF_CLIENT_MESSAGE_BOX),
+					   "message", message, NULL);
 }
 
 
@@ -99,7 +104,10 @@ DC_ClientEvent *DC_checkClientEvent(void)
 	char *message;
 	DC_ClientEvent *e= NULL;
 
-	message= _DC_read_message("master_messages", "message.", 1);
+	message= _DC_read_message(_DC_acfg(SCFG_MASTER_MESSAGE_BOX,
+					   SDEF_MASTER_MESSAGE_BOX),
+				  /*"message."*/
+				  "message", /*TRUE*/1);
 	if (message)
 	{
 		if ((e= calloc(1, sizeof(DC_ClientEvent))))

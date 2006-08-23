@@ -231,16 +231,27 @@ DC_destroyWU(DC_Workunit *wu)
 		g_hash_table_remove(_DC_wu_table, wu->data.name);
 
 	s= g_string_new("");
-	g_string_printf(s, "%s/%s", wu->data.workdir, "master_messages");
+	g_string_printf(s, "%s/%s", wu->data.workdir,
+			_DC_wu_cfg(wu,
+				   SCFG_MASTER_MESSAGE_BOX,
+				   SDEF_MASTER_MESSAGE_BOX));
 	if ((i= _DC_nuof_messages(s->str, "message")) > 0)
 		DC_log(LOG_NOTICE, "%d master messages unhandled by "
 		       "destroying wu: %s", i, wu->data.name);
-	g_string_printf(s, "%s/%s", wu->data.workdir, "client_messages");
+
+	g_string_printf(s, "%s/%s", wu->data.workdir,
+			_DC_wu_cfg(wu,
+				   SCFG_CLIENT_MESSAGE_BOX,
+				   SDEF_CLIENT_MESSAGE_BOX));
 	if ((i= _DC_nuof_messages(s->str, "message")) > 0)
 		DC_log(LOG_NOTICE, "%d client messages unhandled of wu: %s",
 		       i, wu->data.name);
-	g_string_printf(s, "%s/%s", wu->data.workdir, "client_subresults");
-	if ((i= _DC_nuof_messages(s->str, "logcal_name")) > 0)
+
+	g_string_printf(s, "%s/%s", wu->data.workdir,
+			_DC_wu_cfg(wu,
+				   SCFG_SUBRESULTS_BOX,
+				   SDEF_SUBRESULTS_BOX));
+	if ((i= _DC_nuof_messages(s->str, "logical_name")) > 0)
 		DC_log(LOG_NOTICE, "%d client subresults unhandled of wu: %s",
 		       i, wu->data.name);
 	g_string_free(s, TRUE);
@@ -254,7 +265,7 @@ DC_destroyWU(DC_Workunit *wu)
 		DC_log(LOG_NOTICE, "Destroying a started but not yet "
 		       "finished wu: %s", wu->data.name);
 		DC_log(LOG_INFO, "WU has been started but not finished "
-		       "do not remove its workdir %s", wu->data.workdir);
+		       "not removing its workdir %s", wu->data.workdir);
 	}
 	else if (wu->data.workdir)
 	{
@@ -265,34 +276,56 @@ DC_destroyWU(DC_Workunit *wu)
 
 		/* Removing generated files */
 		fn= g_string_new(wu->data.workdir);
-		fn= g_string_append(fn, "/condor_submit.txt");
-		unlink(fn->str);
-		g_string_printf(fn, "%s/%s", wu->data.workdir, CLIENT_CONFIG_NAME);
+		fn= g_string_append(fn, "/");
+		fn= g_string_append(fn, _DC_wu_cfg(wu,
+						   SCFG_SUBMIT_FILE,
+						   SDEF_SUBMIT_FILE));
 		unlink(fn->str);
 		g_string_printf(fn, "%s/%s", wu->data.workdir,
-				wu->data.client_name);
+				CLIENT_CONFIG_NAME);
 		unlink(fn->str);
-		g_string_printf(fn, "%s/%s", wu->data.workdir, DC_LABEL_INTLOG);
+		g_string_printf(fn, "%s/%s", wu->data.workdir,
+				_DC_wu_cfg(wu,
+					   SCFG_EXECUTABLE,
+					   wu->data.client_name));
 		unlink(fn->str);
-		g_string_printf(fn, "%s/%s", wu->data.workdir, DC_LABEL_STDOUT);
+		g_string_printf(fn, "%s/%s", wu->data.workdir,
+				DC_LABEL_INTLOG);
 		unlink(fn->str);
-		g_string_printf(fn, "%s/%s", wu->data.workdir, DC_LABEL_STDERR);
+		g_string_printf(fn, "%s/%s", wu->data.workdir,
+				DC_LABEL_STDOUT);
 		unlink(fn->str);
-		g_string_printf(fn, "%s/client_messages", wu->data.workdir);
+		g_string_printf(fn, "%s/%s", wu->data.workdir,
+				DC_LABEL_STDERR);
+		unlink(fn->str);
+
+		g_string_printf(fn, "%s/%s", wu->data.workdir,
+				_DC_wu_cfg(wu,
+					   SCFG_CLIENT_MESSAGE_BOX,
+					   SDEF_CLIENT_MESSAGE_BOX));
 		i= _DC_rm(fn->str);
 		if (i > 0)
 			DC_log(LOG_NOTICE, "%d unhandled client messages "
 			       "remained", i);
-		g_string_printf(fn, "%s/master_messages", wu->data.workdir);
+
+		g_string_printf(fn, "%s/%s", wu->data.workdir,
+				_DC_wu_cfg(wu,
+					   SCFG_MASTER_MESSAGE_BOX,
+					   SDEF_MASTER_MESSAGE_BOX));
 		i= _DC_rm(fn->str);
 		if (i > 0)
 			DC_log(LOG_NOTICE, "%d unhandled master messages "
 			       "remained", i);
-		g_string_printf(fn, "%s/client_subresults", wu->data.workdir);
+
+		g_string_printf(fn, "%s/%s", wu->data.workdir,
+				_DC_wu_cfg(wu,
+					   SCFG_SUBRESULTS_BOX,
+					   SDEF_SUBRESULTS_BOX));
 		i= _DC_rm(fn->str);
 		if (i > 0)
 			DC_log(LOG_NOTICE, "%d unhandled client subresults "
 			       "remained", i);
+
 		g_string_free(fn, TRUE);
 		
 		dir= g_dir_open(wu->data.workdir, 0, NULL);
@@ -727,7 +760,10 @@ DC_sendWUMessage(DC_Workunit *wu, const char *message)
 	DC_log(LOG_DEBUG, "DC_sendWUMessage(%p-\"%s\", %s)",
 	       wu, wu->data.name, message);
 	dn= g_string_new(wu->data.workdir);
-	g_string_append(dn, "/master_messages");
+	g_string_append(dn, "/");
+	g_string_append(dn, _DC_wu_cfg(wu,
+				       SCFG_MASTER_MESSAGE_BOX,
+				       SDEF_MASTER_MESSAGE_BOX));
 	ret= _DC_create_message(dn->str, "message", message, NULL);
 	g_string_free(dn, TRUE);
 	return(ret);
