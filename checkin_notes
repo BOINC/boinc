@@ -9250,3 +9250,19 @@ David  23 Aug 2006
 		log_flags.C
 	win_build/
 		boinc_cli_curl.vcproj
+		
+Kevin  23 Aug 2006
+	- Fixed various errors and reorganized code in the Simple GUI
+	clientgui/
+		sg_BoincSimpleGUI.cpp
+		sg_BoincSimpleGUI.h
+		sg_ClientStateIndicator.cpp
+		sg_ClientStateIndicator.h
+		sg_ProgressBar.cpp
+		sg_ProjectsComponent.cpp
+		sg_SkinClass.cpp
+		sg_SkinClass.h
+		sg_ViewTabPage.cpp
+
+
+
