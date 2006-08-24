@@ -19,6 +19,16 @@
 #include "condor_utils.h"
 
 
+static char *
+_DC_cfg(enum _DC_e_param what)
+{
+	char *v= DC_getCfgStr(_DC_params[what].name);
+	if (v &&
+	    *v)
+		return(v);
+	return(_DC_params[what].def);
+}
+
 /* Initializes the client API. */
 int DC_initClient(void)
 {
@@ -26,6 +36,10 @@ int DC_initClient(void)
 	if (ret)
 		fprintf(stderr, "Error parsing configfile %s",
 			CLIENT_CONFIG_NAME);
+
+	_DC_init_utils();
+	_DC_init_common();
+
 	DC_log(LOG_DEBUG, "Slave dcapi initialized");
 	return(ret);
 }
@@ -58,8 +72,7 @@ int DC_sendResult(const char *logicalFileName,
 	       path,
 	       fileMode);
 	fn= malloc(strlen(logicalFileName)+100);
-	strcpy(fn, _DC_acfg(SCFG_SUBRESULTS_BOX,
-			    SDEF_SUBRESULTS_BOX));
+	strcpy(fn, _DC_cfg(cfg_subresults_box));
 	strcat(fn, "/real_files");
 	if ((ret= _DC_mkdir_with_parents(fn, S_IRWXU|
 					 S_IRGRP|S_IXGRP|
@@ -79,8 +92,7 @@ int DC_sendResult(const char *logicalFileName,
 		free(fn);
 		return(ret);
 	}
-	ret= _DC_create_message(_DC_acfg(SCFG_SUBRESULTS_BOX,
-					 SDEF_SUBRESULTS_BOX),
+	ret= _DC_create_message(_DC_cfg(cfg_subresults_box),
 				"logical_name",
 				logicalFileName, NULL);
 	free(fn);
@@ -92,8 +104,7 @@ int DC_sendResult(const char *logicalFileName,
 int DC_sendMessage(const char *message)
 {
 	DC_log(LOG_DEBUG, "DC_sendMessage(%s)", message);
-	return _DC_create_message(_DC_acfg(SCFG_CLIENT_MESSAGE_BOX,
-					   SDEF_CLIENT_MESSAGE_BOX),
+	return _DC_create_message(_DC_cfg(cfg_client_message_box),
 					   "message", message, NULL);
 }
 
@@ -104,8 +115,7 @@ DC_ClientEvent *DC_checkClientEvent(void)
 	char *message;
 	DC_ClientEvent *e= NULL;
 
-	message= _DC_read_message(_DC_acfg(SCFG_MASTER_MESSAGE_BOX,
-					   SDEF_MASTER_MESSAGE_BOX),
+	message= _DC_read_message(_DC_cfg(cfg_master_message_box),
 				  /*"message."*/
 				  "message", /*TRUE*/1);
 	if (message)
@@ -125,8 +135,18 @@ DC_ClientEvent *DC_checkClientEvent(void)
 			       "API event, memory allocation "
 			       "error");
 		}
+		return(e);
 	}
-	return(e);
+
+	message= _DC_read_message(_DC_cfg(cfg_management_box),
+				  "doit", 1);
+	if (message &&
+	    strcmp(message, "suspend") == 0)
+	{
+		DC_log(LOG_INFO, "Master asked me to suspend");
+		DC_finishClient(0);
+	}
+	return(NULL);
 }
 
 

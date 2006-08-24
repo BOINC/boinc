@@ -131,18 +131,19 @@ _DC_wu_set_workdir(DC_Workunit *wu,
 /* Get a configuration parameter */
 char *
 _DC_wu_cfg(DC_Workunit *wu,
-	   const char *key,
-	   char *default_value)
+	   enum _DC_e_param what)
 {
 	char *v;
 
 	if (!_DC_wu_check(wu))
 		return(NULL);
-	v= DC_getClientCfgStr(wu->data.client_name, key, /*TRUE*/1);
+	v= DC_getClientCfgStr(wu->data.client_name,
+			      _DC_params[what].name,
+			      /*TRUE*/1);
 	if (v &&
 	    *v)
 		return(v);
-	return(default_value);
+	return(_DC_params[what].def);
 }
 
 
@@ -204,16 +205,15 @@ _DC_wu_gen_condor_submit(DC_Workunit *wu)
 {
 	FILE *f= NULL;
 	GString *fn;
-	char *cfgval;
+	char *cfgarch;
+	char *cfgexec;
 
 	if (!_DC_wu_check(wu))
 		return(DC_ERR_UNKNOWN_WU);
 
 	fn= g_string_new(wu->data.workdir);
 	fn= g_string_append(fn, "/");
-	fn= g_string_append(fn, _DC_wu_cfg(wu,
-					   SCFG_SUBMIT_FILE,
-					   SDEF_SUBMIT_FILE));
+	fn= g_string_append(fn, _DC_wu_cfg(wu, cfg_submit_file));
 	if ((f= fopen(fn->str, "w+")) == NULL)
 	{
 		DC_log(LOG_ERR, "Condor submit file %s creation failed",
@@ -223,11 +223,11 @@ _DC_wu_gen_condor_submit(DC_Workunit *wu)
 	}
 	g_string_free(fn, TRUE);
 
-	cfgval= DC_getCfgStr(ACFG_ARCHITECTURES);
-	fprintf(f, "Executable = %s\n",
-		_DC_wu_cfg(wu,
-			   SCFG_EXECUTABLE,
-			   wu->data.client_name));
+	cfgarch= _DC_acfg(cfg_architectures);
+	cfgexec= _DC_wu_cfg(wu, cfg_executable);
+	if (!cfgexec)
+		cfgexec= wu->data.client_name;
+	fprintf(f, "Executable = %s\n", cfgexec);
 	if (wu->data.argc > 0)
 	{
 		int i;
@@ -256,7 +256,7 @@ _DC_wu_gen_condor_submit(DC_Workunit *wu)
 	fprintf(f, "Universe = vanilla\n");
 	fprintf(f, "output = %s\n", DC_LABEL_STDOUT);
 	fprintf(f, "error = %s\n", DC_LABEL_STDERR);
-	fprintf(f, "log = %s\n", DC_LABEL_INTLOG);
+	fprintf(f, "log = %s\n", _DC_wu_cfg(wu, cfg_condor_log));
 	/* Dosn't work with NFS
 	   fprintf(f, "should_transfer_files = YES\n");
 	   fprintf(f, "when_to_transfer_output = ON_EXIT_OR_EVICT\n");
@@ -278,22 +278,22 @@ int
 _DC_wu_make_client_executables(DC_Workunit *wu)
 {
 	char *archs;
+	char *exec;
 	int ret;
 	GString *src, *dst;
 
 	if (!_DC_wu_check(wu))
 		return(DC_ERR_UNKNOWN_WU);
 
-	archs= DC_getCfgStr(ACFG_ARCHITECTURES);
-
-	src= g_string_new(_DC_wu_cfg(wu,
-				     SCFG_EXECUTABLE,
-				     wu->data.client_name));
+	archs= _DC_acfg(cfg_architectures);
+	
+	exec= _DC_wu_cfg(wu, cfg_executable);
+	if (!exec)
+		exec= wu->data.client_name;
+	src= g_string_new(exec);
 	dst= g_string_new(wu->data.workdir);
 	g_string_append(dst, "/");
-	g_string_append(dst, _DC_wu_cfg(wu,
-					SCFG_EXECUTABLE,
-					wu->data.client_name));
+	g_string_append(dst, exec);
 	DC_log(LOG_DEBUG, "Copying client executable %s to %s",
 	       src->str, dst->str);
 	ret= _DC_copyFile(src->str, dst->str);
@@ -362,9 +362,8 @@ _DC_wu_check_client_messages(DC_Workunit *wu)
 
 	s= g_string_new(wu->data.workdir);
 	g_string_append_printf(s, "/%s",
-			       _DC_wu_cfg(wu,
-					  SCFG_CLIENT_MESSAGE_BOX,
-					  SDEF_CLIENT_MESSAGE_BOX));
+			       _DC_wu_cfg(wu, cfg_client_message_box));
+	DC_log(LOG_DEBUG, "Checking box %s for message\n", s->str);
 	if ((message= _DC_read_message(s->str, "message", TRUE)))
 	{
 		e= _DC_event_create(wu, NULL, NULL, message);
@@ -375,13 +374,13 @@ _DC_wu_check_client_messages(DC_Workunit *wu)
 	else
 	{
 		g_string_printf(s, "%s/%s", wu->data.workdir,
-				_DC_wu_cfg(wu,
-					   SCFG_SUBRESULTS_BOX,
-					   SDEF_SUBRESULTS_BOX));
+				_DC_wu_cfg(wu, cfg_subresults_box));
+		DC_log(LOG_DEBUG, "Checking box %s for logical_name\n", s->str);
 		if ((message= _DC_read_message(s->str, "logical_name", TRUE)))
 		{
 			DC_PhysicalFile *f;
 			g_string_append_printf(s, "/%s", message);
+			DC_log(LOG_DEBUG, "Got subresult %s %s", message, s->str);
 			f= _DC_createPhysicalFile(message, s->str);
 			e= _DC_event_create(wu, NULL, f, NULL);
 		}

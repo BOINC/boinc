@@ -12,15 +12,30 @@ extern "C" {
 
 #define CLIENT_CONFIG_NAME	"_dcapi_configfile.txt"
 
-/* Config params used in both sides and their default values */
-#define SCFG_CLIENT_MESSAGE_BOX	"ClientMessageBox"
-#define SDEF_CLIENT_MESSAGE_BOX	"_dcapi_client_messages"
 
-#define SCFG_MASTER_MESSAGE_BOX	"MasterMessageBox"
-#define SDEF_MASTER_MESSAGE_BOX	"_dcapi_master_messages"
+enum _DC_e_param {
+	cfg_client_message_box= 0,
+	cfg_master_message_box,
+	cfg_subresults_box,
+	cfg_management_box,
+	cfg_architectures,
+	cfg_submit_file,
+	cfg_executable,
+	cfg_leave_files,
+	cfg_condor_log,
+	cfg_nuof
+};
 
-#define SCFG_SUBRESULTS_BOX	"SubresultBox"
-#define SDEF_SUBRESULTS_BOX	"_dcapi_client_subresults"
+struct _DC_s_param {
+	char *name;
+	char *def;
+};
+
+
+extern struct _DC_s_param _DC_params[cfg_nuof];
+
+extern void _DC_init_common(void);
+
 
 #ifdef __cplusplus
 }

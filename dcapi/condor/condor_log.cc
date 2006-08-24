@@ -35,7 +35,8 @@ _DC_wu_update_condor_events(DC_Workunit *wu)
 		return;
 
 	fn_org= g_string_new(wu->data.workdir);
-	fn_org= g_string_append(fn_org, "/internal_log.txt");
+	fn_org= g_string_append(fn_org, "/");
+	fn_org= g_string_append(fn_org, _DC_wu_cfg(wu, cfg_condor_log));
 	strcpy(t, "/tmp/condor_dc_api_XXXXXX");
 	res= mkstemp(t);
 	fn_tmp= g_string_new(t);
@@ -65,6 +66,7 @@ _DC_wu_update_condor_events(DC_Workunit *wu)
 			e.proc= event->proc;
 			e.subproc= event->subproc;
 			e.time= mktime(&(event->eventTime));
+			e.reported= FALSE;
 			if (e.event == ULOG_JOB_TERMINATED)
 			{
 				class TerminatedEvent *te=
@@ -118,19 +120,31 @@ _DC_wu_condor2api_event(DC_Workunit *wu)
 				   i);
 		if (ce->event == ULOG_JOB_TERMINATED)
 		{
-			DC_MasterEvent *e;
-			/*e= g_new0(DC_MasterEvent, 1);*/
-			e= _DC_event_create(wu, _DC_result_create(wu),
-					    NULL, NULL);
-			DC_log(LOG_DEBUG, "Result event created: %p for "
-			       "wu (%p-\"%s\")", e, wu, wu->data.name);
-			/*e->type= DC_MASTER_RESULT;
-			e->wu= wu;
-			e->result= _DC_result_create(wu);*/
-			DC_log(LOG_DEBUG, "Result of the event: %p",
-			       e->result);
-			wu->state= DC_WU_FINISHED;
-			return(e);
+			if (!ce->reported)
+			{
+				ce->reported= TRUE;
+				if (wu->asked_to_suspend)
+				{
+					wu->state= DC_WU_SUSPENDED;
+					wu->asked_to_suspend= FALSE;
+				}
+				else
+				{
+					DC_MasterEvent *e;
+					/*e= g_new0(DC_MasterEvent, 1);*/
+					e= _DC_event_create(wu, _DC_result_create(wu),
+							    NULL, NULL);
+					DC_log(LOG_DEBUG, "Result event created: %p for "
+					       "wu (%p-\"%s\")", e, wu, wu->data.name);
+					/*e->type= DC_MASTER_RESULT;
+					  e->wu= wu;
+					  e->result= _DC_result_create(wu);*/
+					DC_log(LOG_DEBUG, "Result of the event: %p",
+					       e->result);
+					wu->state= DC_WU_FINISHED;
+					return(e);
+				}
+			}
 		}
 	}
 	return(NULL);

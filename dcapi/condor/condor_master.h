@@ -11,8 +11,12 @@ extern "C" {
 
 #include "dc.h"
 
+#include "condor_common.h"
+
 
 extern char *_DC_config_file;
+
+extern char *_DC_acfg(enum _DC_e_param what);
 
 
 #ifdef __cplusplus

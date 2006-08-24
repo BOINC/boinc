@@ -14,6 +14,13 @@
 #include "dc_common.h"
 
 #include "condor_utils.h"
+#include "condor_common.h"
+
+
+void
+_DC_init_utils(void)
+{
+}
 
 
 int
@@ -22,6 +29,7 @@ _DC_mkdir_with_parents(char *dn, mode_t mode)
 	char *p= dn;
 	int res;
 
+	/*fprintf(stderr, "making %s (EEXIST=%d)\n", dn, EEXIST);*/
 	if (!dn ||
 	    !*dn)
 		return(0);
@@ -34,13 +42,20 @@ _DC_mkdir_with_parents(char *dn, mode_t mode)
 		{
 			*p= '\0';
 			if (*dn)
+			{
+				/*fprintf(stderr, "mkdir(%s,%d)=",dn,mode);*/
 				res= mkdir(dn, mode);
+				/*fprintf(stderr, "%d %d\n", res, errno);*/
+			}
 			*p= '/';
 			p++;
 		}
 	}
+	/*fprintf(stderr, "mkdir(%s,%d)=",dn,mode);*/
 	res= mkdir(dn, mode);
-	if (res == EEXIST)
+	/*fprintf(stderr, "%d %d\n", res, errno);*/
+	if (res != 0 &&
+	    errno == EEXIST)
 		return(DC_OK);
 	return(res?DC_ERR_SYSTEM:DC_OK);
 }
@@ -260,21 +275,6 @@ _DC_read_message(char *box, char *name, int del_msg)
 	if (fn)
 		free(fn);
 	return(buf);
-}
-
-
-/* Application level configuration parameter */
-char *
-_DC_acfg(const char *key,
-	 char *default_value)
-{
-	char *v;
-
-	v= DC_getCfgStr(key);
-	if (v &&
-	    *v)
-		return(v);
-	return(default_value);
 }
 
 
