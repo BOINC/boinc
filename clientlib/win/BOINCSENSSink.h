@@ -53,6 +53,7 @@ __interface IBOINCSENSSink : IDispatch
 [
     coclass,
     threading("free"),
+    default(IBOINCSENSSink),
     vi_progid("BOINCSENS.BOINCSENSSink"),
     progid("BOINCSENS.BOINCSENSSink.1"),
     version(1.0),

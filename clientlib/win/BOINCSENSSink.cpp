@@ -97,7 +97,7 @@ HRESULT CBOINCSENSSink::ConnectionMadeNoQOCInfo(BSTR bstrConnection, unsigned lo
     return S_OK;
 }
 
-HRESULT CBOINCSENSSink::ConnectionLost(BSTR bstrConnection, unsigned long ulType)
+HRESULT CBOINCSENSSink::ConnectionLost(BSTR bstrConnection, unsigned long /* ulType */)
 {
     USES_CONVERSION;
     std::vector<PNETWORK_CONNECTION>::iterator iter;
@@ -110,12 +110,12 @@ HRESULT CBOINCSENSSink::ConnectionLost(BSTR bstrConnection, unsigned long ulType
     return S_OK;
 }
 
-HRESULT CBOINCSENSSink::DestinationReachable(BSTR bstrDestination, BSTR bstrConnection, unsigned long ulType, SENS_QOCINFO * lpQOCInfo)
+HRESULT CBOINCSENSSink::DestinationReachable(BSTR /* bstrDestination */, BSTR /* bstrConnection */, unsigned long /* ulType */, SENS_QOCINFO* /* lpQOCInfo */ )
 {
     return S_OK;
 }
 
-HRESULT CBOINCSENSSink::DestinationReachableNoQOCInfo(BSTR bstrDestination, BSTR bstrConnection, unsigned long ulType)
+HRESULT CBOINCSENSSink::DestinationReachableNoQOCInfo(BSTR /* bstrDestination */, BSTR /* bstrConnection */, unsigned long /* ulType */)
 {
     return S_OK;
 }
@@ -126,48 +126,48 @@ HRESULT CBOINCSENSSink::OnACPower()
     return S_OK;
 }
 
-HRESULT CBOINCSENSSink::OnBatteryPower(unsigned long dwBatteryLifePercent)
+HRESULT CBOINCSENSSink::OnBatteryPower(unsigned long /* dwBatteryLifePercent */)
 {
     return S_OK;
 }
 
-HRESULT CBOINCSENSSink::BatteryLow(unsigned long dwBatteryLifePercent)
+HRESULT CBOINCSENSSink::BatteryLow(unsigned long /* dwBatteryLifePercent */)
 {
     return S_OK;
 }
 
 // ISensLogon Methods
-HRESULT CBOINCSENSSink::Logon(BSTR bstrUserName)
+HRESULT CBOINCSENSSink::Logon(BSTR /* bstrUserName */)
 {
     return S_OK;
 }
 
-HRESULT CBOINCSENSSink::Logoff(BSTR bstrUserName)
+HRESULT CBOINCSENSSink::Logoff(BSTR /* bstrUserName */)
 {
     return S_OK;
 }
 
-HRESULT CBOINCSENSSink::StartShell(BSTR bstrUserName)
+HRESULT CBOINCSENSSink::StartShell(BSTR /* bstrUserName */)
 {
     return S_OK;
 }
 
-HRESULT CBOINCSENSSink::DisplayLock(BSTR bstrUserName)
+HRESULT CBOINCSENSSink::DisplayLock(BSTR /* bstrUserName */)
 {
     return S_OK;
 }
 
-HRESULT CBOINCSENSSink::DisplayUnlock(BSTR bstrUserName)
+HRESULT CBOINCSENSSink::DisplayUnlock(BSTR /* bstrUserName */)
 {
     return S_OK;
 }
 
-HRESULT CBOINCSENSSink::StartScreenSaver(BSTR bstrUserName)
+HRESULT CBOINCSENSSink::StartScreenSaver(BSTR /* bstrUserName */)
 {
     return S_OK;
 }
 
-HRESULT CBOINCSENSSink::StopScreenSaver(BSTR bstrUserName)
+HRESULT CBOINCSENSSink::StopScreenSaver(BSTR /* bstrUserName */)
 {
     return S_OK;
 }
