@@ -38,12 +38,15 @@
 
 // reasons for making a scheduler RPC:
 //
-typedef enum {
-    REASON_USER_REQ,
-    REASON_RESULTS_DUE,
-    REASON_NEED_WORK,
-    REASON_TRICKLE_UP
-} SCHEDULER_OP_REASON ;
+
+#define REASON_USER_REQ			1
+#define REASON_RESULTS_DUE		2
+#define REASON_NEED_WORK		3
+#define REASON_TRICKLE_UP		4
+#define REASON_ACCT_MGR_REQ		5
+#define REASON_INIT				6
+#define REASON_PROJECT_REQ		7
+
 
 // defaults related to scheduler RPC policy
 // See client_state.h for definitions
@@ -74,14 +77,14 @@ private:
 public:
     PROJECT* cur_proj;               // project we're currently contacting
     int state;
-    SCHEDULER_OP_REASON reason;
+    int reason;
     double url_random;              // used to randomize order
 
 public:
     SCHEDULER_OP(HTTP_OP_SET*);
     bool poll();
     int init_get_work();
-    int init_op_project(PROJECT*, SCHEDULER_OP_REASON);
+    int init_op_project(PROJECT*, int);
     int init_master_fetch(PROJECT*);
     bool check_master_fetch_start();
     void backoff(PROJECT* p, const char *error_msg);

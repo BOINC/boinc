@@ -75,7 +75,7 @@ void PROJECT::init() {
     master_fetch_failures = 0;
     min_rpc_time = 0;
     master_url_fetch_pending = false;
-    sched_rpc_pending = false;
+    sched_rpc_pending = 0;
     next_rpc_time = 0;
     trickle_up_pending = false;
     tentative = false;
@@ -159,7 +159,7 @@ int PROJECT::parse_state(MIOFILE& in) {
             continue;
         }
         else if (match_tag(buf, "<master_url_fetch_pending/>")) master_url_fetch_pending = true;
-        else if (match_tag(buf, "<sched_rpc_pending/>")) sched_rpc_pending = true;
+        else if (parse_int(buf, "<sched_rpc_pending>", sched_rpc_pending)) continue;
         else if (parse_double(buf, "<next_rpc_time>", next_rpc_time)) continue;
         else if (match_tag(buf, "<trickle_up_pending/>")) trickle_up_pending = true;
         else if (match_tag(buf, "<send_file_list/>")) send_file_list = true;
@@ -220,7 +220,8 @@ int PROJECT::write_state(MIOFILE& out, bool gui_rpc) {
         "    <long_term_debt>%f</long_term_debt>\n"
         "    <resource_share>%f</resource_share>\n"
         "    <duration_correction_factor>%f</duration_correction_factor>\n"
-        "%s%s%s%s%s%s%s%s%s%s",
+		"    <sched_rpc_pending>%d</sched_rpc_pending>\n"
+        "%s%s%s%s%s%s%s%s%s",
         master_url,
         project_name,
         symstore,
@@ -245,8 +246,8 @@ int PROJECT::write_state(MIOFILE& out, bool gui_rpc) {
         long_term_debt,
         resource_share,
         duration_correction_factor,
+		sched_rpc_pending,
         master_url_fetch_pending?"    <master_url_fetch_pending/>\n":"",
-        sched_rpc_pending?"    <sched_rpc_pending/>\n":"",
         trickle_up_pending?"    <trickle_up_pending/>\n":"",
         send_file_list?"    <send_file_list/>\n":"",
         non_cpu_intensive?"    <non_cpu_intensive/>\n":"",

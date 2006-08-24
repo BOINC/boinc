@@ -132,7 +132,7 @@ PROJECT* CLIENT_STATE::next_project_sched_rpc_pending() {
         p = projects[i];
         if (p->waiting_until_min_rpc_time()) continue;
         if (p->next_rpc_time && p->next_rpc_time<now) {
-            p->sched_rpc_pending = true;
+            p->sched_rpc_pending = REASON_PROJECT_REQ;
             p->next_rpc_time = 0;
         }
         //if (p->suspended_via_gui) continue;
@@ -738,6 +738,8 @@ bool CLIENT_STATE::scheduler_rpc_poll() {
     bool action=false;
     static double last_time=0;
 
+	// check only every 5 sec, unless there's a tentative (new) project
+	//
     if (!have_tentative_project && gstate.now - last_time < 5.0) return false;
     last_time = gstate.now;
 
@@ -748,11 +750,9 @@ bool CLIENT_STATE::scheduler_rpc_poll() {
             break;
         }
 
-        // contact project requested by user
-        //
         p = next_project_sched_rpc_pending();
         if (p) {
-            scheduler_op->init_op_project(p, REASON_USER_REQ);
+			scheduler_op->init_op_project(p, p->sched_rpc_pending);
             action = true;
             break;
         }
@@ -1166,12 +1166,12 @@ int CLIENT_STATE::handle_scheduler_reply(
     if (sr.send_file_list) {
         project->send_file_list = true;
     }
-    project->sched_rpc_pending = false;
+    project->sched_rpc_pending = 0;
     project->trickle_up_pending = false;
 
     // handle delay request
     //
-    if (sr.request_delay && !project->tentative) {
+    if (sr.request_delay) {
         double x = gstate.now + sr.request_delay;
         if (x > project->min_rpc_time) project->min_rpc_time = x;
     } else {
@@ -1245,7 +1245,7 @@ void CLIENT_STATE::generate_new_host_cpid() {
     host_info.generate_host_cpid();
     for (unsigned int i=0; i<projects.size(); i++) {
         if (projects[i]->attached_via_acct_mgr) {
-            projects[i]->sched_rpc_pending = true;
+            projects[i]->sched_rpc_pending = REASON_ACCT_MGR_REQ;
             projects[i]->min_rpc_time = now + 15;
         }
     }

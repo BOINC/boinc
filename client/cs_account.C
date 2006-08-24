@@ -239,7 +239,7 @@ int CLIENT_STATE::parse_account_files() {
         // true until we read client_state.xml
         //
         project->master_url_fetch_pending = true;
-        project->sched_rpc_pending = true;
+        project->sched_rpc_pending = REASON_INIT;
         retval = project->parse_account(f);
         fclose(f);
         if (retval) {
@@ -326,13 +326,13 @@ int CLIENT_STATE::parse_statistics_files() {
             fclose(f);
             if (retval) {
                 msg_printf(NULL, MSG_ERROR,
-                    "Couldn't parse statistics file %s", name.c_str()
+                    "Couldn't parse %s", name.c_str()
                 );
             } else {
                 project=lookup_project(temp->master_url);
                 if (project==NULL) {
                     msg_printf(NULL, MSG_ERROR,
-                        "Project for statistics file %s not found - ignoring",
+                        "Project for %s not found - ignoring",
                         name.c_str()
                     );
                 } else {
@@ -454,7 +454,7 @@ int CLIENT_STATE::add_project(
     retval = make_project_dir(*project);
     if (retval) return retval;
     projects.push_back(project);
-    project->sched_rpc_pending = true;
+    project->sched_rpc_pending = REASON_INIT;
     set_client_state_dirty("Add project");
     return 0;
 }

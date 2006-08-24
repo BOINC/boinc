@@ -9294,3 +9294,36 @@ Kevin  24 Aug 2006
 		sg_SkinClass.cpp
 		
 
+David  24 Aug 2006
+	- Core client: change the sequence of events for first-time use,
+		with the goal of not running CPU benchmarks until user
+		has attached to project and started to run first result.
+		Sequence is:
+		1) manager requests get_project_config, polls until done
+		2) manager calls lookup_account or create_account, polls until done
+		3) manager calls project_attach.
+			core client sets CPU specs to default values (1 GFLOPS),
+			sets project work_request to 1 second,
+			does scheduler RPC
+		4) Manager poll finishes
+		5) core client starts CPU benchmarks
+
+		The above is enforced by:
+		- only run benchmarks if there's a nontentative project
+		- if RPC reason is INIT, set work_request to 1
+		- after successful RPC, set work_request to zero
+
+	- Core client: PROJECT::sched_rpc_pending is now an int
+		that encodes the reason we need to do a sched RPC.
+		The actual reason is now shown, not always "Requested by user".
+
+	client/
+		acct_mgr.C
+		client_state.C,h
+		client_types.C,h
+		cs_account.C
+		cs_benchmark.C
+		cs_cmdline.C
+		cs_scheduler.C
+		gui_rpc_server_ops.C
+		scheduler_op.C,h

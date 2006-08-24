@@ -273,7 +273,7 @@ void CLIENT_STATE::do_cmdline_actions() {
     if (strlen(update_prefs_url)) {
         PROJECT* project = lookup_project(update_prefs_url);
         if (project) {
-            project->sched_rpc_pending = true;
+            project->sched_rpc_pending = REASON_USER_REQ;
         } else {
             msg_printf(NULL, MSG_ERROR, "project %s not found\n", update_prefs_url);
         }

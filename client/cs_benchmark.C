@@ -178,10 +178,7 @@ void CLIENT_STATE::start_cpu_benchmarks() {
                 "CLIENT_STATE::cpu_benchmarks(): Skipping CPU benchmarks"
             );
         }
-        host_info.p_fpops = DEFAULT_FPOPS;
-        host_info.p_iops = DEFAULT_IOPS;
-        host_info.p_membw = DEFAULT_MEMBW;
-        host_info.m_cache = DEFAULT_CACHE;
+		cpu_benchmarks_set_defaults();
         return;
     }
 
@@ -351,10 +348,7 @@ bool CLIENT_STATE::cpu_benchmarks_poll() {
             "CPU benchmarks timed out, using default values"
         );
         abort_cpu_benchmarks();
-        host_info.p_fpops = DEFAULT_FPOPS;
-        host_info.p_iops = DEFAULT_IOPS;
-        host_info.p_membw = DEFAULT_MEMBW;
-        host_info.m_cache = DEFAULT_CACHE;
+		cpu_benchmarks_set_defaults();
         benchmarks_running = false;
         set_client_state_dirty("CPU benchmarks");
     }
@@ -373,10 +367,7 @@ bool CLIENT_STATE::cpu_benchmarks_poll() {
         double old_p_fpops = host_info.p_fpops;
         if (had_error) {
             msg_printf(NULL, MSG_ERROR, "CPU benchmarks error");
-            host_info.p_fpops = DEFAULT_FPOPS;
-            host_info.p_iops = DEFAULT_IOPS;
-            host_info.p_membw = DEFAULT_MEMBW;
-            host_info.m_cache = DEFAULT_CACHE;
+			cpu_benchmarks_set_defaults();
         } else {
             host_info.p_fpops = 0;
             host_info.p_iops = 0;
@@ -421,6 +412,17 @@ bool CLIENT_STATE::cpu_benchmarks_poll() {
         set_client_state_dirty("CPU benchmarks");
     }
     return false;
+}
+
+bool CLIENT_STATE::cpu_benchmarks_done() {
+	return (host_info.p_calculated != 0);
+}
+
+void CLIENT_STATE::cpu_benchmarks_set_defaults() {
+    host_info.p_fpops = DEFAULT_FPOPS;
+    host_info.p_iops = DEFAULT_IOPS;
+    host_info.p_membw = DEFAULT_MEMBW;
+    host_info.m_cache = DEFAULT_CACHE;
 }
 
 // return true if any CPU benchmark thread/process is running

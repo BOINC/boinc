@@ -229,7 +229,7 @@ static void handle_project_op(char* buf, MIOFILE& fout, const char* op) {
         gstate.request_schedule_cpus("project detached by user");
         gstate.request_work_fetch("project detached by user");
     } else if (!strcmp(op, "update")) {
-        p->sched_rpc_pending = true;
+        p->sched_rpc_pending = REASON_USER_REQ;
         p->min_rpc_time = 0;
         gstate.request_work_fetch("project updated by user");
         gstate.set_client_state_dirty("project updated by user");

@@ -205,15 +205,16 @@ public:
         // returns true if min_rpc_time > now
     bool master_url_fetch_pending;
                                 // need to fetch and parse the master URL
-    bool sched_rpc_pending;
+    int sched_rpc_pending;
         // we need to do a scheduler RPC, for various possible reasons:
-        // user request, propagate host CPID, time-based, etc
+        // user request, propagate host CPID, time-based, etc.
+		// Reasons are enumerated in scheduler_op.h
     double next_rpc_time;
         // if nonzero, specifies a time when another scheduler RPC
         // should be done (as requested by server)
     bool trickle_up_pending;    // have trickle up to send
-    bool tentative;             // master URL and account ID not confirmed
-
+    bool tentative;             // we haven't done a scheduler RPC to this project yet
+								// (still need to verify that its name isn't a dup)
     bool anonymous_platform;    // app_versions.xml file found in project dir;
                             // use those apps rather then getting from server
     bool non_cpu_intensive;

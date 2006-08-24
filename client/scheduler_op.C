@@ -99,7 +99,7 @@ int SCHEDULER_OP::init_get_work() {
 // If there are multiple schedulers, start with a random one.
 // User messages and backoff() is done at this level.
 //
-int SCHEDULER_OP::init_op_project(PROJECT* p, SCHEDULER_OP_REASON r) {
+int SCHEDULER_OP::init_op_project(PROJECT* p, int r) {
     int retval;
     char err_msg[256];
 
@@ -124,6 +124,13 @@ int SCHEDULER_OP::init_op_project(PROJECT* p, SCHEDULER_OP_REASON r) {
         }
         return retval;
     }
+
+	if (reason == REASON_INIT) {
+		p->work_request = 1;
+		if (!gstate.cpu_benchmarks_done()) {
+			gstate.cpu_benchmarks_set_defaults();
+		}
+	}
 
     url_index = 0;
     retval = gstate.make_scheduler_request(p);
@@ -213,6 +220,9 @@ int SCHEDULER_OP::start_rpc(PROJECT* p) {
         case REASON_NEED_WORK: why = "To fetch work"; break;
         case REASON_RESULTS_DUE: why = "To report completed tasks"; break;
         case REASON_TRICKLE_UP: why = "To send trickle-up message"; break;
+		case REASON_ACCT_MGR_REQ: why = "Requested by account manager"; break;
+		case REASON_INIT: why = "Project initialization"; break;
+		case REASON_PROJECT_REQ: why = "Requested by project"; break;
         default: why = "Unknown";
         }
         msg_printf(p, MSG_INFO,  "Sending scheduler request: %s", why);
@@ -407,7 +417,7 @@ bool SCHEDULER_OP::poll() {
                 } else {
                     // parse succeeded
                     //
-                    msg_printf(cur_proj, MSG_INFO, "Scheduler list download succeeded");
+                    msg_printf(cur_proj, MSG_INFO, "Master file download succeeded");
                     cur_proj->master_fetch_failures = 0;
                     changed = update_urls(cur_proj, urls);
                     
@@ -471,7 +481,7 @@ bool SCHEDULER_OP::poll() {
                     // if project suspended, don't retry failed RPC
                     //
                     if (cur_proj->suspended_via_gui) {
-                        cur_proj->sched_rpc_pending = false;
+                        cur_proj->sched_rpc_pending = 0;
                     }
                 }
             } else {
@@ -485,15 +495,16 @@ bool SCHEDULER_OP::poll() {
                         retval = cur_proj->write_account_file();
                         if (retval) {
                             cur_proj->attach_failed(ERR_ATTACH_FAIL_FILE_WRITE);
-                        } else {
-                            gstate.project_attach.error_num = 0;
-                            msg_printf(cur_proj, MSG_INFO,
-                                "Successfully attached to %s",
-                                cur_proj->get_project_name()
-                            );
-                        }
+						} else {
+							gstate.project_attach.error_num = 0;
+							msg_printf(cur_proj, MSG_INFO,
+								"Successfully attached to %s",
+								cur_proj->get_project_name()
+							);
+						}
                     }
                 } else {
+					cur_proj->work_request = 0;		// don't ask again right away
                     switch (retval) {
                     case 0:
                         // if we asked for work and didn't get any,

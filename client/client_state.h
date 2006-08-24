@@ -230,6 +230,7 @@ public:
     int detach_project(PROJECT*);
     int report_result_error(RESULT&, const char *format, ...);
     int reset_project(PROJECT*);
+	bool have_nontentative_project();
     bool no_gui_rpc;
 private:
     int link_app(PROJECT*, APP*);
@@ -335,6 +336,8 @@ public:
     bool cpu_benchmarks_poll();
     void abort_cpu_benchmarks();
     bool are_cpu_benchmarks_running();
+	bool cpu_benchmarks_done();
+	void cpu_benchmarks_set_defaults();
 
 // --------------- cs_cmdline.C:
 public:
