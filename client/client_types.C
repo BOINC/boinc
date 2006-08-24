@@ -1629,6 +1629,7 @@ double RESULT::estimated_cpu_time_remaining() {
 //
 void PROJECT::update_duration_correction_factor(RESULT* rp) {
     double ratio = rp->final_cpu_time / rp->estimated_cpu_time();
+	double old_dcf = duration_correction_factor;
 
     // it's OK to overestimate completion time,
     // but bad to underestimate it.
@@ -1647,6 +1648,11 @@ void PROJECT::update_duration_correction_factor(RESULT* rp) {
             duration_correction_factor = duration_correction_factor*0.9 + 0.1*ratio;
         }
     }
+	if (log_flags.cpu_sched_debug) {
+		msg_printf(this, MSG_INFO, "duration correction factor: %f => %f, ratio %f",
+			old_dcf, duration_correction_factor, ratio
+		);
+	}
 }
 
 bool RESULT::runnable() {

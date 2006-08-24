@@ -834,19 +834,26 @@ bool CLIENT_STATE::rr_simulation() {
 
         pbest = rpbest->project;
 
+        if (log_flags.rr_simulation) {
+            msg_printf(0, MSG_INFO,
+                "rr_sim: result %s finishes after %f (%f/%f)",
+				rpbest->name, rpbest->rrsim_finish_delay, rpbest->rrsim_cpu_left, pbest->rrsim_proc_rate
+            );
+        }
+
         // "rpbest" is first result to finish.  Does it miss its deadline?
         //
         double diff = sim_now + rpbest->rrsim_finish_delay - ((rpbest->computation_deadline()-now)*CPU_PESSIMISM_FACTOR + now);
         if (diff > 0) {
-            if (log_flags.rr_simulation) {
-                msg_printf(0, MSG_INFO,
-                    "rr_simulation: result %s misses deadline by %f\n",
-                    rpbest->name, diff
-                );
-            }
             rpbest->rr_sim_misses_deadline = true;
             pbest->rr_sim_deadlines_missed++;
             rval = true;
+			if (log_flags.rr_simulation) {
+				msg_printf(0, MSG_INFO,
+					"rr_sim: result %s misses deadline by %f",
+					rpbest->name, diff
+				);
+			}
         }
 
         int last_active_size = active.size();

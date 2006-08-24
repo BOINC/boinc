@@ -403,7 +403,7 @@ bool CLIENT_STATE::cpu_benchmarks_poll() {
 
         // scale duration correction factor according to change in benchmarks.
         //
-        if (old_p_fpops) {
+        if (host_info.p_calculated && old_p_fpops) {
             scale_duration_correction_factors(host_info.p_fpops/old_p_fpops);
         }
         host_info.p_calculated = now;

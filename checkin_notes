@@ -9327,3 +9327,16 @@ David  24 Aug 2006
 		cs_scheduler.C
 		gui_rpc_server_ops.C
 		scheduler_op.C,h
+
+David  24 Aug 2006
+	- core client: is cpu_sched_debug log flag is set,
+		show messages when duration correction factor is changed
+	- more detailed rr_simulation messages
+	- on CPU benchmark completion, scale DCFs only if
+		original benchmark is real (not 1 GFLOPS estimate)
+
+	client/
+		client_types.C
+		cpu_sched.C
+		cs_benchmark.C
+		cs_scheduler.C

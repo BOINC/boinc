@@ -1235,6 +1235,9 @@ void CLIENT_STATE::scale_duration_correction_factors(double factor) {
         PROJECT* p = projects[i];
         p->duration_correction_factor *= factor;
     }
+	if (log_flags.cpu_sched_debug) {
+		msg_printf(NULL, MSG_INFO, "scaling duration correction factors by %f", factor);
+	}
 }
 
 // Choose a new host CPID.
