@@ -129,7 +129,7 @@ void read_password_from_file(char* buf) {
 	FILE* f = fopen("gui_rpc_auth.cfg", "r");
 	if (!f) return;
 	fgets(buf, 256, f);
-	int n = strlen(buf);
+	int n = (int)strlen(buf);
 
 	// trim CR
 	//

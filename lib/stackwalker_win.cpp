@@ -121,7 +121,7 @@ bool DebuggerLoadLibrary(
     return true;
 }
 
-BOOL CALLBACK SymbolServerCallbackProc(UINT_PTR ActionCode, ULONG64 CallbackData, ULONG64 UserContext)
+BOOL CALLBACK SymbolServerCallbackProc(UINT_PTR ActionCode, ULONG64 CallbackData, ULONG64 /* UserContext */)
 {
     BOOL bRetVal = FALSE;
     PIMAGEHLP_CBA_EVENT pEvent = NULL;
@@ -154,7 +154,7 @@ BOOL CALLBACK SymbolServerCallbackProc(UINT_PTR ActionCode, ULONG64 CallbackData
     return bRetVal;
 }
 
-BOOL CALLBACK SymRegisterCallbackProc(HANDLE hProcess, ULONG ActionCode, ULONG64 CallbackData, ULONG64 UserContext)
+BOOL CALLBACK SymRegisterCallbackProc(HANDLE /* hProcess */, ULONG ActionCode, ULONG64 CallbackData, ULONG64 /* UserContext */)
 {
     BOOL bRetVal = FALSE;
     PIMAGEHLP_CBA_EVENT pEvent = NULL;
@@ -187,7 +187,7 @@ BOOL CALLBACK SymRegisterCallbackProc(HANDLE hProcess, ULONG ActionCode, ULONG64
     return bRetVal;
 }
 
-BOOL CALLBACK SymEnumerateModulesProc(LPSTR ModuleName, DWORD64 BaseOfDll, PVOID UserContext)
+BOOL CALLBACK SymEnumerateModulesProc(LPSTR /* ModuleName */, DWORD64 BaseOfDll, PVOID /* UserContext */)
 {
     IMAGEHLP_MODULE64   Module;
     char                szSymbolType[32];
@@ -514,8 +514,6 @@ int DebuggerInitialize( LPCSTR pszBOINCLocation, LPCSTR pszSymbolStore, BOOL bPr
     std::string strLocalSymbolStore;
     std::string strSymbolSearchPath;
 
-    static const std::basic_string<char>::size_type npos = -1;
-
     tt = (CHAR*) malloc(sizeof(CHAR) * TTBUFLEN); // Get the temporary buffer
     if (!tt) return 1;  // not enough memory...
 
@@ -558,21 +556,21 @@ int DebuggerInitialize( LPCSTR pszBOINCLocation, LPCSTR pszSymbolStore, BOOL bPr
         strLocalSymbolStore += tt + std::string("symbols");
 
     // microsoft public symbol server
-    if (npos == strSymbolSearchPath.find("http://msdl.microsoft.com/download/symbols")) {
+    if (std::string::npos == strSymbolSearchPath.find("http://msdl.microsoft.com/download/symbols")) {
         strSymbolSearchPath += 
             std::string( "srv*" ) + strLocalSymbolStore + 
             std::string( "*http://msdl.microsoft.com/download/symbols;" );
     }
 
     // project symbol server
-    if ((npos == strSymbolSearchPath.find(pszSymbolStore)) && (0 < strlen(pszSymbolStore))) {
+    if ((std::string::npos == strSymbolSearchPath.find(pszSymbolStore)) && (0 < strlen(pszSymbolStore))) {
         strSymbolSearchPath += 
             std::string( "srv*" ) + strLocalSymbolStore + std::string( "*" ) +
             std::string( pszSymbolStore ) + std::string( ";" );
     }
 
     // boinc symbol server
-    if (npos == strSymbolSearchPath.find("http://boinc.berkeley.edu/symstore")) {
+    if (std::string::npos == strSymbolSearchPath.find("http://boinc.berkeley.edu/symstore")) {
         strSymbolSearchPath += 
             std::string( "srv*" ) + strLocalSymbolStore + 
             std::string( "*http://boinc.berkeley.edu/symstore;" );
@@ -689,9 +687,9 @@ static void ShowStackRM(HANDLE hThread, CONTEXT& Context)
 {
     BOOL bRetVal = FALSE;
 
-    int frameNum;
-    DWORD64 offsetFromSymbol;
-    DWORD offsetFromLine;
+    int frameNum = 0;
+    DWORD64 offsetFromSymbol = 0;
+    DWORD offsetFromLine = 0;
     char undName[MAX_SYM_NAME];
 
     char szMsgSymFromAddr[256];

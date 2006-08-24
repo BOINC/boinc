@@ -364,8 +364,6 @@ int diagnostics_update_thread_list_NT() {
     PSYSTEM_PROCESSES_NT4   pProcesses = NULL;
     PSYSTEM_THREADS         pThread = NULL;
     UINT                    uiSystemIndex = 0;
-    UINT                    uiInternalIndex = 0;
-    UINT                    uiInternalCount = 0;
     HMODULE                 hKernel32Lib;
     tOT                     pOT = NULL;
 
@@ -457,8 +455,6 @@ int diagnostics_update_thread_list_XP() {
     PSYSTEM_PROCESSES       pProcesses = NULL;
     PSYSTEM_THREADS         pThread = NULL;
     UINT                    uiSystemIndex = 0;
-    UINT                    uiInternalIndex = 0;
-    UINT                    uiInternalCount = 0;
     HMODULE                 hKernel32Lib;
     tOT                     pOT = NULL;
 
@@ -1141,7 +1137,7 @@ int diagnostics_message_monitor_dump() {
 //
 // See: http://support.microsoft.com/kb/q173260/
 //
-UINT WINAPI diagnostics_message_monitor(LPVOID lpParameter) {
+UINT WINAPI diagnostics_message_monitor(LPVOID /* lpParameter */) {
     DWORD       dwEvent = NULL;
     DWORD       dwCurrentProcessId = NULL;
     BOOL        bContinue = TRUE;
@@ -1794,7 +1790,7 @@ UINT diagnostics_determine_exit_code() {
 }
 
 
-UINT WINAPI diagnostics_unhandled_exception_monitor(LPVOID lpParameter) {
+UINT WINAPI diagnostics_unhandled_exception_monitor(LPVOID /* lpParameter */) {
     DWORD        dwEvent = NULL;
     BOOL         bContinue = TRUE;
     BOOL         bDebuggerInitialized = FALSE;
@@ -1940,7 +1936,7 @@ UINT WINAPI diagnostics_unhandled_exception_monitor(LPVOID lpParameter) {
 
                 // Force terminate the app letting BOINC know an exception has occurred.
                 if (diagnostics_is_aborted_via_gui()) {
-                    TerminateProcess(GetCurrentProcess(), ERR_ABORTED_VIA_GUI);
+                    TerminateProcess(GetCurrentProcess(), (UINT)ERR_ABORTED_VIA_GUI);
                 } else {
                     TerminateProcess(GetCurrentProcess(), diagnostics_determine_exit_code());
                 }
