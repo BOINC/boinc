@@ -54,6 +54,7 @@
 				WarnAsError="false"
 				Detect64BitPortabilityProblems="true"
 				DebugInformationFormat="3"
+				DisableSpecificWarnings="4127;4702;4244"
 				ForcedIncludeFiles="stdwx.h"
 			/>
 			<Tool
@@ -151,6 +152,7 @@
 				Detect64BitPortabilityProblems="true"
 				DebugInformationFormat="4"
 				CompileAs="2"
+				DisableSpecificWarnings="4127;4702;4244"
 				ForcedIncludeFiles="stdwx.h"
 			/>
 			<Tool
@@ -245,6 +247,7 @@
 				Detect64BitPortabilityProblems="true"
 				DebugInformationFormat="4"
 				CompileAs="2"
+				DisableSpecificWarnings="4127;4702;4244"
 				ForcedIncludeFiles="stdwx.h"
 			/>
 			<Tool
@@ -334,6 +337,7 @@
 				WarnAsError="false"
 				Detect64BitPortabilityProblems="true"
 				DebugInformationFormat="3"
+				DisableSpecificWarnings="4127;4702;4244"
 				ForcedIncludeFiles="stdwx.h"
 			/>
 			<Tool
