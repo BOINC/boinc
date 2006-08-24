@@ -10,6 +10,7 @@ extern "C" {
 #endif
 
 #include "condor_defs.h"
+#include "condor_common.h"
 
 
 extern void _DC_wu_changed(DC_Workunit *wu);
@@ -24,8 +25,7 @@ extern int _DC_wu_set_subresults(DC_Workunit *wu, int new_subresults);
 extern int _DC_wu_set_workdir(DC_Workunit *wu, char *new_workdir);
 
 extern char *_DC_wu_cfg(DC_Workunit *wu,
-			const char *key,
-			char *default_value);
+			enum _DC_e_param what);
 
 extern int _DC_wu_check_logical_name(DC_Workunit *wu,
 				     const char *logicalFileName);

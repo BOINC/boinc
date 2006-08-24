@@ -11,6 +11,10 @@ extern "C" {
 
 #include <fcntl.h>
 
+#include "condor_common.h"
+
+
+extern void _DC_init_utils(void);
 
 /* Usefull funcs */
 extern int _DC_mkdir_with_parents(char *dn, mode_t mode);
@@ -24,10 +28,6 @@ extern int _DC_create_message(char *box,
 extern int _DC_nuof_messages(char *box, char *name);
 extern char *_DC_message_name(char *box, char *name);
 extern char *_DC_read_message(char *box, char *name, int del_msg);
-
-/* Wrappers */
-extern char *_DC_acfg(const char *key,
-		      char *default_value);
 
 
 #ifdef __cplusplus

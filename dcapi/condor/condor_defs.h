@@ -27,6 +27,7 @@ struct _DC_condor_event
 	int proc;
 	int subproc;
 	time_t time;
+	gboolean reported;
 	union
 	{
 		struct
@@ -60,7 +61,8 @@ struct _DC_Workunit
 	char **argv;
     
 	DC_WUState state;
-    
+	gboolean asked_to_suspend;
+
 	/*char *condor_id;*/
 	GArray *condor_events;
      
@@ -82,16 +84,8 @@ typedef enum
 	FILE_DCAPI
 } WorkdirFile;
 
-/* DCAPI configuration keys */
-#define ACFG_ARCHITECTURES	"Architectures"
-#define ACFG_CLIENT_ARCH_NAME	"Client_%s_%s"	/* client_name, architecture */
 
-#define SCFG_SUBMIT_FILE	"SubmitFile"
-#define SDEF_SUBMIT_FILE	"_dcapi_condor_submit.txt"
-
-#define SCFG_EXECUTABLE		"Executable"
-
-#define DC_LABEL_INTLOG		"internal_log.txt"
+/*#define DC_LABEL_INTLOG		"internal_log.txt"*/
 
 
 #ifdef __cplusplus

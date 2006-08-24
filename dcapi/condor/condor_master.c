@@ -63,6 +63,9 @@ DC_initMaster(const char *configFile)
 	}
 	DC_log(LOG_DEBUG, "DC_initMaster(%s)", configFile);
 
+	_DC_init_utils();
+	_DC_init_common();
+
 	if (!_DC_wu_table)
 		_DC_wu_table= g_hash_table_new_full(g_str_hash,
 						    g_str_equal,
@@ -232,25 +235,19 @@ DC_destroyWU(DC_Workunit *wu)
 
 	s= g_string_new("");
 	g_string_printf(s, "%s/%s", wu->data.workdir,
-			_DC_wu_cfg(wu,
-				   SCFG_MASTER_MESSAGE_BOX,
-				   SDEF_MASTER_MESSAGE_BOX));
+			_DC_wu_cfg(wu, cfg_master_message_box));
 	if ((i= _DC_nuof_messages(s->str, "message")) > 0)
 		DC_log(LOG_NOTICE, "%d master messages unhandled by "
 		       "destroying wu: %s", i, wu->data.name);
 
 	g_string_printf(s, "%s/%s", wu->data.workdir,
-			_DC_wu_cfg(wu,
-				   SCFG_CLIENT_MESSAGE_BOX,
-				   SDEF_CLIENT_MESSAGE_BOX));
+			_DC_wu_cfg(wu, cfg_client_message_box));
 	if ((i= _DC_nuof_messages(s->str, "message")) > 0)
 		DC_log(LOG_NOTICE, "%d client messages unhandled of wu: %s",
 		       i, wu->data.name);
 
 	g_string_printf(s, "%s/%s", wu->data.workdir,
-			_DC_wu_cfg(wu,
-				   SCFG_SUBRESULTS_BOX,
-				   SDEF_SUBRESULTS_BOX));
+			_DC_wu_cfg(wu, cfg_subresults_box));
 	if ((i= _DC_nuof_messages(s->str, "logical_name")) > 0)
 		DC_log(LOG_NOTICE, "%d client subresults unhandled of wu: %s",
 		       i, wu->data.name);
@@ -270,86 +267,102 @@ DC_destroyWU(DC_Workunit *wu)
 	else if (wu->data.workdir)
 	{
 		const char *name;
+		char *exec;
 		GDir *dir;
 		int ret, i;
 		GString *fn;
+		int leave;
+
+		leave= strtol(_DC_wu_cfg(wu, cfg_leave_files), 0, 0);
+		if (leave)
+			DC_log(LOG_INFO, "WU's files not deleted");
 
 		/* Removing generated files */
 		fn= g_string_new(wu->data.workdir);
-		fn= g_string_append(fn, "/");
-		fn= g_string_append(fn, _DC_wu_cfg(wu,
-						   SCFG_SUBMIT_FILE,
-						   SDEF_SUBMIT_FILE));
-		unlink(fn->str);
-		g_string_printf(fn, "%s/%s", wu->data.workdir,
-				CLIENT_CONFIG_NAME);
-		unlink(fn->str);
-		g_string_printf(fn, "%s/%s", wu->data.workdir,
-				_DC_wu_cfg(wu,
-					   SCFG_EXECUTABLE,
-					   wu->data.client_name));
-		unlink(fn->str);
-		g_string_printf(fn, "%s/%s", wu->data.workdir,
-				DC_LABEL_INTLOG);
-		unlink(fn->str);
-		g_string_printf(fn, "%s/%s", wu->data.workdir,
-				DC_LABEL_STDOUT);
-		unlink(fn->str);
-		g_string_printf(fn, "%s/%s", wu->data.workdir,
-				DC_LABEL_STDERR);
-		unlink(fn->str);
-
-		g_string_printf(fn, "%s/%s", wu->data.workdir,
-				_DC_wu_cfg(wu,
-					   SCFG_CLIENT_MESSAGE_BOX,
-					   SDEF_CLIENT_MESSAGE_BOX));
-		i= _DC_rm(fn->str);
-		if (i > 0)
-			DC_log(LOG_NOTICE, "%d unhandled client messages "
-			       "remained", i);
-
-		g_string_printf(fn, "%s/%s", wu->data.workdir,
-				_DC_wu_cfg(wu,
-					   SCFG_MASTER_MESSAGE_BOX,
-					   SDEF_MASTER_MESSAGE_BOX));
-		i= _DC_rm(fn->str);
-		if (i > 0)
-			DC_log(LOG_NOTICE, "%d unhandled master messages "
-			       "remained", i);
-
-		g_string_printf(fn, "%s/%s", wu->data.workdir,
-				_DC_wu_cfg(wu,
-					   SCFG_SUBRESULTS_BOX,
-					   SDEF_SUBRESULTS_BOX));
-		i= _DC_rm(fn->str);
-		if (i > 0)
-			DC_log(LOG_NOTICE, "%d unhandled client subresults "
-			       "remained", i);
+		if (!leave)
+		{
+			fn= g_string_append(fn, "/");
+			fn= g_string_append(fn, _DC_wu_cfg(wu, cfg_submit_file));
+			unlink(fn->str);
+			g_string_printf(fn, "%s/%s", wu->data.workdir,
+					CLIENT_CONFIG_NAME);
+			unlink(fn->str);
+			g_string_printf(fn, "%s/%s", wu->data.workdir,
+					_DC_wu_cfg(wu, cfg_executable));
+			unlink(fn->str);
+			g_string_printf(fn, "%s/%s", wu->data.workdir,
+					_DC_wu_cfg(wu, cfg_condor_log));
+			unlink(fn->str);
+			g_string_printf(fn, "%s/%s", wu->data.workdir,
+					DC_LABEL_STDOUT);
+			unlink(fn->str);
+			g_string_printf(fn, "%s/%s", wu->data.workdir,
+					DC_LABEL_STDERR);
+			unlink(fn->str);
+			exec= _DC_wu_cfg(wu, cfg_executable);
+			if (!exec)
+				exec= wu->data.client_name;
+			g_string_printf(fn, "%s/%s", wu->data.workdir,
+					exec);
+			unlink(fn->str);
+			g_string_printf(fn, "%s/%s", wu->data.workdir,
+					DC_getClientCfgStr(wu->data.client_name,
+							   "LogFile",
+							   TRUE));
+			unlink(fn->str);
+		}
+		
+		if (!leave)
+		{
+			g_string_printf(fn, "%s/%s", wu->data.workdir,
+					_DC_wu_cfg(wu, cfg_client_message_box));
+			i= _DC_rm(fn->str);
+			if (i > 0)
+				DC_log(LOG_NOTICE, "%d unhandled client messages "
+				       "remained", i);
+			
+			g_string_printf(fn, "%s/%s", wu->data.workdir,
+					_DC_wu_cfg(wu, cfg_master_message_box));
+			i= _DC_rm(fn->str);
+			if (i > 0)
+				DC_log(LOG_NOTICE, "%d unhandled master messages "
+				       "remained", i);
+			
+			g_string_printf(fn, "%s/%s", wu->data.workdir,
+					_DC_wu_cfg(wu, cfg_subresults_box));
+			i= _DC_rm(fn->str);
+			if (i > 0)
+				DC_log(LOG_NOTICE, "%d unhandled client subresults "
+				       "remained", i);
+		}
 
 		g_string_free(fn, TRUE);
 		
-		dir= g_dir_open(wu->data.workdir, 0, NULL);
 		/* The work directory should not contain any extra files, but
 		 * just in case */
-		while (dir &&
-		       (name= g_dir_read_name(dir)))
+		if (!leave)
 		{
-			GString *str= g_string_new(wu->data.workdir);
-			g_string_append_c(str, G_DIR_SEPARATOR);
-			g_string_append(str, name);
-			DC_log(LOG_INFO, "Removing unknown file %s",
-			       str->str);
-			unlink(str->str);
-			g_string_free(str, TRUE);
-		}
-		if (dir)
-			g_dir_close(dir);
+			dir= g_dir_open(wu->data.workdir, 0, NULL);
+			while (dir &&
+			       (name= g_dir_read_name(dir)))
+			{
+				GString *str= g_string_new(wu->data.workdir);
+				g_string_append_c(str, G_DIR_SEPARATOR);
+				g_string_append(str, name);
+				DC_log(LOG_INFO, "Removing unknown file %s",
+				       str->str);
+				unlink(str->str);
+				g_string_free(str, TRUE);
+			}
+			if (dir)
+				g_dir_close(dir);
 
-		ret= rmdir(wu->data.workdir);
-		if (ret)
-			DC_log(LOG_WARNING, "Failed to remove WU working "
-			       "directory %s: %s", wu->data.workdir,
-			       strerror(errno));
+			ret= rmdir(wu->data.workdir);
+			if (ret)
+				DC_log(LOG_WARNING, "Failed to remove WU working "
+				       "directory %s: %s", wu->data.workdir,
+				       strerror(errno));
+		}
 		g_free(wu->data.workdir);
 	}
 
@@ -761,9 +774,7 @@ DC_sendWUMessage(DC_Workunit *wu, const char *message)
 	       wu, wu->data.name, message);
 	dn= g_string_new(wu->data.workdir);
 	g_string_append(dn, "/");
-	g_string_append(dn, _DC_wu_cfg(wu,
-				       SCFG_MASTER_MESSAGE_BOX,
-				       SDEF_MASTER_MESSAGE_BOX));
+	g_string_append(dn, _DC_wu_cfg(wu, cfg_master_message_box));
 	ret= _DC_create_message(dn->str, "message", message, NULL);
 	g_string_free(dn, TRUE);
 	return(ret);
@@ -826,6 +837,20 @@ DC_getResultOutput(const DC_Result *result, const char *logicalFileName)
 	fn= g_string_append(fn, "/");
 	fn= g_string_append(fn, logicalFileName);
 	return(g_string_free(fn, FALSE));
+}
+
+
+/* Application level configuration parameter */
+char *
+_DC_acfg(enum _DC_e_param what)
+{
+	char *v;
+
+	v= DC_getCfgStr(_DC_params[what].name);
+	if (v &&
+	    *v)
+		return(v);
+	return(_DC_params[what].def);
 }
 
 
