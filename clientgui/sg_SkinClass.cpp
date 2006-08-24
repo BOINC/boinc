@@ -231,6 +231,12 @@ int SkinClass::LoadSkinXML(){
 						SetBtnAlertMessages(wxString( val.c_str(), wxConvUTF8 ));
 						skinImageArray->Add(wxString( val.c_str(), wxConvUTF8 ));
 					}
+				}else if(match_tag(buf, "<alert_messages>")){
+					mf.fgets(buf, 256);
+					if (parse_str(buf, "<imgsrc>", val)) {
+						SetBtnAlertMessages(wxString( val.c_str(), wxConvUTF8 ));
+						skinImageArray->Add(wxString( val.c_str(), wxConvUTF8 ));
+					}
 				}else if(match_tag(buf, "<save>")){
 					mf.fgets(buf, 256);
 					if (parse_str(buf, "<imgsrc>", val)) {

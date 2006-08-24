@@ -45,12 +45,12 @@ ClientStateIndicator::ClientStateIndicator(CSimpleFrame* parent,wxPoint coord) :
 {
 	connIndicatorWidth = 14;
 	connIndicatorHeight = 15;
-	numOfIndic = 3;
+	numOfIndic = 5;
 	indexIndVis = 1;//first will be visible on start
-	rightPosition = 142;
+	rightPosition = 118;
 	topPosition = 5;
 	stateMessage = wxString("");
-	clientCurrState = "";
+	clientState = CLIENT_STATE_NONE;
 	LoadSkinImages();	
 	CreateComponent();
 	error_time = 0;
@@ -59,8 +59,10 @@ ClientStateIndicator::ClientStateIndicator(CSimpleFrame* parent,wxPoint coord) :
 ClientStateIndicator::~ClientStateIndicator()
 {
 	if (m_connRenderTimer) {
-        m_connRenderTimer->Stop();
-        delete m_connRenderTimer;
+		if ( clientState == CLIENT_STATE_ACTION ) {
+			m_connRenderTimer->Stop();
+			delete m_connRenderTimer;
+		}
     }
 }
 
@@ -88,53 +90,81 @@ void ClientStateIndicator::CreateComponent(){
 void ClientStateIndicator::SetActionState(const char* message)
 {
 	Freeze();
-	//Delete Previous state
-	DeletePreviousState();
-
-	clientCurrState = "connecting";
-	i_indBg = new ImageLoader(this);
-	i_indBg->Move(wxPoint(42,74));
-	i_indBg->LoadImage(g_stateIndBg);
-
 	stateMessage = wxString(message);
-	
-	for(int x = 0; x < numOfIndic; x++){
-        ImageLoader *i_connInd = new ImageLoader(this);
-		i_connInd->Move(wxPoint(rightPosition +(connIndicatorWidth+10) * x,84));
-		i_connInd->LoadImage(g_connInd);
-		if(x !=0){
-            i_connInd->Show(false);
+	if ( clientState != CLIENT_STATE_ACTION ) {
+		//Delete Previous state
+		DeletePreviousState();
+
+		clientState = CLIENT_STATE_ACTION;
+		i_indBg = new ImageLoader(this);
+		i_indBg->Move(wxPoint(42,74));
+		i_indBg->LoadImage(g_stateIndBg);
+
+		for(int x = 0; x < numOfIndic; x++){
+			ImageLoader *i_connInd = new ImageLoader(this);
+			i_connInd->Move(wxPoint(rightPosition +(connIndicatorWidth+10) * x,84));
+			i_connInd->LoadImage(g_connInd);
+			if(x !=0){
+				i_connInd->Show(false);
+			}
+			m_connIndV.push_back(i_connInd);
 		}
-		m_connIndV.push_back(i_connInd);
+		//set animation timer for interface
+		m_connRenderTimer = new wxTimer(this, ID_ANIMATIONRENDERTIMER);
+		wxASSERT(m_connRenderTimer);
+		m_connRenderTimer->Start(500); 
 	}
-	//set animation timer for interface
-	m_connRenderTimer = new wxTimer(this, ID_ANIMATIONRENDERTIMER);
-	wxASSERT(m_connRenderTimer);
-    m_connRenderTimer->Start(400); 
+    Thaw();
+}
+
+void ClientStateIndicator::SetPausedState(const char* message)
+{
+	Freeze();
+	stateMessage = wxString(message);
+	if ( clientState != CLIENT_STATE_PAUSED ) {
+		//Delete Previous state
+		DeletePreviousState();
+
+		clientState = CLIENT_STATE_PAUSED;
+		i_indBg = new ImageLoader(this);
+		i_indBg->Move(wxPoint(42,74));
+		i_indBg->LoadImage(g_stateIndBg);
+
+	
+		for(int x = 0; x < numOfIndic; x++){
+			ImageLoader *i_connInd = new ImageLoader(this);
+			i_connInd->Move(wxPoint(rightPosition +(connIndicatorWidth+10) * x,84));
+			i_connInd->LoadImage(g_connInd);
+			m_connIndV.push_back(i_connInd);
+		}
+	}
     Thaw();
 }
 void ClientStateIndicator::SetNoActionState(const char* message)
 {
 	Freeze();
-	//Delete Previous state
-	DeletePreviousState();
-
-    clientCurrState = "nowork";
-	i_indBg = new ImageLoader(this);
-	i_indBg->Move(wxPoint(42,74));
-	i_indBg->LoadImage(g_stateIndBg);
 	stateMessage = wxString(message); 
 
-	i_errorInd = new ImageLoader(this);
-	i_errorInd->Move(wxPoint(rightPosition,84));
-	i_errorInd->LoadImage(g_errorInd);
-	i_errorInd->Refresh();
+	if ( clientState != CLIENT_STATE_ERROR ) {
+		//Delete Previous state
+		DeletePreviousState();
+
+		clientState = CLIENT_STATE_ERROR;
+		i_indBg = new ImageLoader(this);
+		i_indBg->Move(wxPoint(42,74));
+		i_indBg->LoadImage(g_stateIndBg);
+
+		i_errorInd = new ImageLoader(this);
+		i_errorInd->Move(wxPoint(rightPosition+24,84));
+		i_errorInd->LoadImage(g_errorInd);
+		i_errorInd->Refresh();
+	}
 	Thaw();	
 }
 void ClientStateIndicator::DeletePreviousState()
 {
-	if(clientCurrState == "connecting"){
-		if (m_connRenderTimer) {
+	if(clientState == CLIENT_STATE_ACTION || clientState == CLIENT_STATE_PAUSED){
+		if (m_connRenderTimer && clientState == CLIENT_STATE_ACTION) {
 			m_connRenderTimer->Stop();
 			delete m_connRenderTimer;
 		}
@@ -147,7 +177,7 @@ void ClientStateIndicator::DeletePreviousState()
 		}
 		//delete ind bg
 		delete i_indBg;
-	}else if(clientCurrState == "nowork"){
+	}else if(clientState == CLIENT_STATE_ERROR){
 		delete i_errorInd;
 		//delete ind bg
 		delete i_indBg;
@@ -177,9 +207,12 @@ void ClientStateIndicator::ReskinInterface()
 void ClientStateIndicator::OnPaint(wxPaintEvent& WXUNUSED(event)) 
 { 
     wxPaintDC dc(this);
-	//static: message
+	//set font
 	dc.SetFont(wxFont(9,74,90,90,0,wxT("Arial")));
-	dc.DrawText(stateMessage, wxPoint(47,120)); 
+	// center the text
+	wxCoord height, width;
+	dc.GetTextExtent(stateMessage, &width, &height);
+	dc.DrawText(stateMessage, wxPoint(176-width/2,120)); 
      	
 }
 void ClientStateIndicator::OnEraseBackground(wxEraseEvent& event){
@@ -196,18 +229,40 @@ void ClientStateIndicator::OnEraseBackground(wxEraseEvent& event){
 	
 }
 
+bool ClientStateIndicator::DownloadingResults() {
+	bool return_value = false;
+	CMainDocument* pDoc     = wxGetApp().GetDocument();
+	if ( pDoc->results.results.size() > 0 ) {
+		RESULT* result;
+		for(unsigned int i=0; !return_value && i < pDoc->results.results.size(); i++ ) {
+			result = pDoc->result(i);
+			if ( result != NULL && result->state == RESULT_FILES_DOWNLOADING ) {
+				return_value = true;
+			}
+		}
+	}
+	return return_value;
+}
+
 void ClientStateIndicator::DisplayState() {
 	CMainDocument* pDoc     = wxGetApp().GetDocument();
 	if ( pDoc->IsReconnecting() ) {
-		SetActionState("Retrieving status.");
+		error_time = 0;
+		SetActionState(_T("Retrieving current status."));
+	} else if ( pDoc->IsConnected() && pDoc->state.projects.size() == 0) {
+		error_time = 0;
+		SetPausedState(_T("You don't have any projects.  Please Add a Project."));
+	} else if ( DownloadingResults() ) {
+		error_time = 0;
+		SetActionState(_T("Downloading work from the server."));
 	} else {
 		if ( error_time == 0 ) {
-			error_time = time(NULL) + 30;
-			SetActionState("Retrieving status");
+			error_time = time(NULL) + 15;
+			SetActionState(_T("Retrieving current status"));
 		} else if ( error_time < time(NULL) ) {
-			SetNoActionState("No work available to process");
+			SetNoActionState(_T("No work available to process"));
 		} else {
-			SetActionState("Retrieving status");
+			SetActionState(_T("Retrieving current status"));
 		}
 	}
 }

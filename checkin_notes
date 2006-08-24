@@ -9278,3 +9278,19 @@ David  23 Aug 2006
 
     html/inc/
         prefs.inc
+        
+Kevin  24 Aug 2006
+	- Enhancements to the simple gui
+		-- Messages button will now alternate between black and red when alert messages have been recieved
+		-- Additional client states are now shown when no work tabs are available such as 'downloading work'
+	clientgui/
+		MainDocument.cpp
+		sg_BoincSimpleGUI.cpp
+		sg_BoincSimpleGUI.h
+		sg_ClientStateIndicator.cpp
+		sg_ClientStateIndicator.h
+		sg_ProjectsComponent.cpp
+		sg_ProjectsComponent.h
+		sg_SkinClass.cpp
+		
+

@@ -56,7 +56,7 @@ CViewTabPage::CViewTabPage(wxFlatNotebook* parent,int index,std::string name,std
     m_hasGraphic = false;
 	// init doc and results data
 	pDoc  = wxGetApp().GetDocument();
-	resultWU = pDoc->results.results[m_tabIndex];
+	resultWU = pDoc->result(m_tabIndex);
 	//load skin images
     LoadSkinImages();
     //create page
@@ -145,7 +145,7 @@ void CViewTabPage::CreatePage()
 }
 void CViewTabPage::UpdateInterface()
 {
-	resultWU = pDoc->results.results[m_tabIndex];
+	resultWU = pDoc->result(m_tabIndex);
 	wxString strBuffer = wxEmptyString;
 	//Gauge
 	gaugeWUMain->UpdateValue(floor(resultWU->fraction_done * 100000)/1000);
@@ -238,8 +238,6 @@ void CViewTabPage::SGUITimeFormat(float fBuffer, wxString& strBuffer) const {
 }
 
 void CViewTabPage::OnWorkShowGraphics() {
-    wxLogTrace(wxT("Function Start/End"), wxT("CViewTabPage::OnWorkShowGraphics - Function Begin"));
-
     wxInt32  iAnswer        = 0; 
     wxString strMachineName = wxEmptyString;
     
@@ -277,7 +275,6 @@ void CViewTabPage::OnWorkShowGraphics() {
         );
     }
 
-    wxLogTrace(wxT("Function Start/End"), wxT("CViewTabPage::OnWorkShowGraphics - Function End"));
 }
 void CViewTabPage::OnPaint(wxPaintEvent& WXUNUSED(event)) 
 { 

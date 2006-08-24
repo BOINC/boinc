@@ -1239,14 +1239,16 @@ int CMainDocument::CachedSimpleGUIUpdate() {
 
 
 int CMainDocument::GetSimpleGUIWorkCount() {
-    int iCount = -1;
+    int iCount = 0;
 
     CachedSimpleGUIUpdate();
     CachedStateUpdate();
 
-    if (!results.results.empty())
-        iCount = (int)results.results.size();
-
+	for(int i=0;i<results.results.size();i++) {
+		if ( results.results[i]->active_task ) {
+			iCount++;
+		}
+	}
     return iCount;
 }
 

@@ -34,6 +34,7 @@
 
 #include "app_ipc.h"
 
+#define ID_CHECKFORERRORMESSAGETIMER  13000
 
 IMPLEMENT_DYNAMIC_CLASS(CProjectsComponent, wxPanel)
 
@@ -42,7 +43,10 @@ BEGIN_EVENT_TABLE(CProjectsComponent, wxPanel)
     EVT_PAINT(CProjectsComponent::OnPaint)
     EVT_BUTTON(-1,CProjectsComponent::OnBtnClick)
 	EVT_ERASE_BACKGROUND(CProjectsComponent::OnEraseBackground)
+	EVT_TIMER(ID_CHECKFORERRORMESSAGETIMER, CProjectsComponent::CheckForErrorMessages)
 END_EVENT_TABLE()
+
+int CProjectsComponent::lastMessageId = 0;
 
 CProjectsComponent::CProjectsComponent() {}
 
@@ -58,9 +62,19 @@ CProjectsComponent::CProjectsComponent(CSimpleFrame* parent,wxPoint coord) :
     LoadSkinImages();
 	CreateComponent();
 
+	receivedErrorMessage = false;
+	alertMessageDisplayed = false;
+	checkForMessagesTimer = new wxTimer(this, ID_CHECKFORERRORMESSAGETIMER);
+	checkForMessagesTimer->Start(5000); 
+
 }
 
-CProjectsComponent::~CProjectsComponent() {}
+CProjectsComponent::~CProjectsComponent() {
+	if ( checkForMessagesTimer->IsRunning() ) {
+		checkForMessagesTimer->Stop();
+	}
+	delete checkForMessagesTimer;
+}
 void CProjectsComponent::LoadSkinImages(){
 
 	//app skin class
@@ -82,6 +96,9 @@ void CProjectsComponent::LoadSkinImages(){
     // messages
 	g_messages = new wxImage(dirPref + appSkin->GetBtnMessages(), wxBITMAP_TYPE_PNG);
 	g_messagesClick = new wxImage(dirPref + appSkin->GetBtnMessages(), wxBITMAP_TYPE_PNG);
+    // error messages
+	g_alertMessages = new wxImage(dirPref + appSkin->GetBtnAlertMessages(), wxBITMAP_TYPE_PNG);
+	g_alertMessagesClick = new wxImage(dirPref + appSkin->GetBtnAlertMessages(), wxBITMAP_TYPE_PNG);
 	// pause
 	g_pause = new wxImage(dirPref + appSkin->GetBtnPause(), wxBITMAP_TYPE_PNG);
 	g_pauseClick = new wxImage(dirPref + appSkin->GetBtnPause(), wxBITMAP_TYPE_PNG);
@@ -107,6 +124,8 @@ void CProjectsComponent::LoadSkinImages(){
 	btmpAddProjC= wxBitmap(g_addProjClick);
 	btmpMessages= wxBitmap(g_messages);
 	btmpMessagesC= wxBitmap(g_messagesClick);
+	btmpAlertMessages= wxBitmap(g_alertMessages);
+	btmpAlertMessagesC= wxBitmap(g_alertMessagesClick);
 	btmpPause= wxBitmap(g_pause);
 	btmpPauseC= wxBitmap(g_pauseClick);
 	btmpResume= wxBitmap(g_resume);
@@ -187,6 +206,11 @@ void CProjectsComponent::CreateComponent()
 	btnMessages=new wxBitmapButton(this,-1,btmpMessages,wxPoint(11,86),wxSize(70,20),wxNO_BORDER);
 	btnMessages->SetBitmapSelected(btmpMessagesC);
 	btnMessages->SetToolTip(ttMessages);
+	wxToolTip *ttAlertMessages = new wxToolTip(wxT("Messages"));
+	btnAlertMessages=new wxBitmapButton(this,-1,btmpAlertMessages,wxPoint(11,86),wxSize(70,20),wxNO_BORDER);
+	btnAlertMessages->SetBitmapSelected(btmpAlertMessagesC);
+	btnAlertMessages->SetToolTip(ttAlertMessages);
+	btnAlertMessages->Show(false);
 	//spacer
 	wxWindow *w_sp1 = new wxWindow(this,-1,wxPoint(83,91),wxSize(2,11));
     i_spacer = new ImageLoader(w_sp1);
@@ -334,6 +358,31 @@ void CProjectsComponent::RemoveProject(std::string prjUrl)
 void CProjectsComponent::UpdateInterface()
 {
 	CMainDocument* pDoc     = wxGetApp().GetDocument();
+
+	// Check to see if error messages have been received
+	if ( receivedErrorMessage ) {
+		Freeze();
+		if ( alertMessageDisplayed ) {
+			btnAlertMessages->Show(false);
+			btnMessages->Show(true);
+			alertMessageDisplayed = false;
+		} else {
+			btnAlertMessages->Show(true);
+			btnMessages->Show(false);
+			alertMessageDisplayed = true;
+		}
+		Thaw();
+	} else {
+		if ( alertMessageDisplayed ) {
+			Freeze();
+			btnAlertMessages->Show(false);
+			btnMessages->Show(true);
+			alertMessageDisplayed = false;
+			Thaw();
+		}
+	}
+
+	// Check number of projects
 	int oldProjCnt = m_projCnt;
 	m_projCnt = pDoc->GetProjectCount();
 	if(m_projCnt == oldProjCnt){
@@ -393,6 +442,10 @@ void CProjectsComponent::ReskinInterface()
 	btnMessages->SetBackgroundColour(appSkin->GetAppBgCol());
 	btnMessages->SetBitmapLabel(btmpMessages);
 	btnMessages->SetBitmapSelected(btmpMessagesC);
+	// alert messages btn
+	btnAlertMessages->SetBackgroundColour(appSkin->GetAppBgCol());
+	btnAlertMessages->SetBitmapLabel(btmpAlertMessages);
+	btnAlertMessages->SetBitmapSelected(btmpAlertMessagesC);
 	// pause btn
 	btnPause->SetBackgroundColour(appSkin->GetAppBgCol());
 	btnPause->SetBitmapLabel(btmpPause);
@@ -522,7 +575,8 @@ void CProjectsComponent::OnBtnClick(wxCommandEvent& event){ //init function
 	}else if(m_wxBtnObj==btnAddProj){
 		pFrame->OnProjectsAttachToProject();
 		btnAddProj->Refresh();
-	}else if(m_wxBtnObj==btnMessages){
+	}else if(m_wxBtnObj==btnMessages || m_wxBtnObj==btnAlertMessages){
+		MessagesViewed();
 		CDlgMessages* pDlg = new CDlgMessages(NULL,appSkin->GetSkinsFolder()+_T("/")+appSkin->GetSkinName()+_T("/"));
 		wxASSERT(pDlg);
 		pDlg->ShowModal();
@@ -588,4 +642,28 @@ void CProjectsComponent::DrawBackImg(wxEraseEvent& event,wxWindow *win,wxBitmap 
 			}
 			break;}
 	}
+}
+
+void CProjectsComponent::CheckForErrorMessages(wxTimerEvent& WXUNUSED(event)) {
+	CMainDocument* pDoc     = wxGetApp().GetDocument();
+	MESSAGE* message;
+	// Only look at the messages recieved since the last time we looked
+	if ( pDoc->GetMessageCount() > lastMessageId ) {
+		// Loop through and check for any messages recieved that are error messages
+		for(int i=lastMessageId; i < pDoc->messages.messages.size(); i++) {
+			lastMessageId = i+1;
+			message = pDoc->message(i);
+			if ( message != NULL && message->priority == MSG_PRIORITY_ERROR ) {
+				receivedErrorMessage = true;
+				checkForMessagesTimer->Stop();
+				lastMessageId = pDoc->messages.messages.size();
+				break;
+			}
+		}
+	}
+}
+
+void CProjectsComponent::MessagesViewed() {
+	receivedErrorMessage = false;
+	checkForMessagesTimer->Start();
 }

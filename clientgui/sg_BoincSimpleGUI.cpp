@@ -211,8 +211,6 @@ void CSimpleFrame::OnProjectsAttachToProject() {
             pWizard->Destroy();
 
         m_pFrameRenderTimer->Start();
-		//update Project Component
-        projComponent->UpdateInterface();
     } else {
         ShowNotCurrentlyConnectedAlert();
     }
@@ -223,8 +221,10 @@ void CSimpleFrame::OnProjectsAttachToProject() {
 void CSimpleFrame::OnFrameRender(wxTimerEvent& WXUNUSED(event)) {
 	CMainDocument* pDoc     = wxGetApp().GetDocument();
 
-	if (!projectViewInitialized) {
+	if (!projectViewInitialized && pDoc->IsConnected()) {
 		InitProjectView(); 
+	} else if ( pDoc->IsConnected() ) {
+		UpdateProjectView();
 	}
 	// Now check to see if we show the empty state or results
 	if ( pDoc->GetSimpleGUIWorkCount() > 0 ) {
@@ -278,7 +278,11 @@ void CSimpleFrame::InitEmptyView()
 	
 	emptyViewInitialized = true;
 }
-
+void CSimpleFrame::UpdateProjectView()
+{
+	//update Project Component
+    projComponent->UpdateInterface();
+}
 void CSimpleFrame::InitResultView()
 {
 	CMainDocument* pDoc     = wxGetApp().GetDocument();
@@ -307,10 +311,8 @@ void CSimpleFrame::InitProjectView()
 	projectViewInitialized = true;
 }
 void CSimpleFrame::UpdateResultView(){
-    wxLogTrace(wxT("Function Start/End"), wxT("CAdvancedFrame::UpdateResultView - Function Start"));
 	CMainDocument* pDoc     = wxGetApp().GetDocument();
 	//update GUI
-    int resultCnt = (int)pDoc->GetSimpleGUIWorkCount();
     wxString strBuffer = wxEmptyString;
 	//assume they are all inactive
 	for(int x = 0; x < (int)m_windows.size(); x ++)
@@ -320,8 +322,11 @@ void CSimpleFrame::UpdateResultView(){
 	}
     // Update Tabs
 	RESULT* result;
-	for(int i = 0; i < resultCnt; i++){
-		result = pDoc->results.results[i];
+	for(int i = 0; i < pDoc->results.results.size(); i++){
+		result = pDoc->result(i);
+		if ( result == NULL || !result->active_task ) {
+			continue;
+		}
 		// get tab window
 		bool found = false;
 		for(int j = 0; j < (int)m_windows.size(); j++)
@@ -403,7 +408,6 @@ void CSimpleFrame::UpdateResultView(){
 		}
 	}
 //	Refresh();
-    wxLogTrace(wxT("Function Start/End"), wxT("CAdvancedFrame::UpdateResultView - Function End"));
 }
 
 void CSimpleFrame::InitNotebook()

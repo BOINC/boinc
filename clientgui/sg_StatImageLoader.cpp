@@ -98,8 +98,6 @@ void StatImageLoader::OnMenuLinkClicked(wxCommandEvent& event)
   
 } 
 void StatImageLoader::OnProjectDetach() {
-    wxLogTrace(wxT("Function Start/End"), wxT("StatImageLoader::OnProjectDetach - Function Begin"));
-
     wxInt32  iAnswer        = 0; 
     std::string strProjectName;
     wxString strMessage     = wxEmptyString;
@@ -143,8 +141,6 @@ void StatImageLoader::OnProjectDetach() {
         pDoc->ProjectDetach(indexOfProj);
 		pComp->RemoveProject(m_prjUrl);
     }
-    
-    wxLogTrace(wxT("Function Start/End"), wxT("StatImageLoader::OnProjectDetach - Function End"));
 }
 
 

@@ -68,6 +68,8 @@ public:
 	wxImage *g_addProjClick;
 	wxImage *g_messages;
 	wxImage *g_messagesClick;
+	wxImage *g_alertMessages;
+	wxImage *g_alertMessagesClick;
 	wxImage *g_pause;
 	wxImage *g_pauseClick;
 	wxImage *g_resume;
@@ -84,6 +86,8 @@ public:
 	wxBitmap btmpAddProjC;
 	wxBitmap btmpMessages;
 	wxBitmap btmpMessagesC;
+	wxBitmap btmpAlertMessages;
+	wxBitmap btmpAlertMessagesC;
 	wxBitmap btmpPause;
 	wxBitmap btmpPauseC;
 	wxBitmap btmpResume;
@@ -96,6 +100,7 @@ public:
 	wxBitmapButton *btnArwRight;
 	wxBitmapButton *btnAddProj;
 	wxBitmapButton *btnMessages;
+	wxBitmapButton *btnAlertMessages;
 	wxBitmapButton *btnPause;
 	wxBitmapButton *btnResume;
 	wxBitmapButton *btnPreferences;
@@ -115,7 +120,7 @@ public:
 	void ReskinInterface();
     void OnBtnClick(wxCommandEvent& event);
 	void OnPaint(wxPaintEvent& event); 
-   		
+
 	DECLARE_EVENT_TABLE()
 
 protected:
@@ -126,9 +131,15 @@ protected:
 
 	void OnEraseBackground(wxEraseEvent& event);
     void DrawBackImg(wxEraseEvent& event,wxWindow *win,wxBitmap & bitMap,int opz);
-	
-};
 
+private:
+	wxTimer* checkForMessagesTimer;
+	bool receivedErrorMessage;
+	bool alertMessageDisplayed;
+	static int lastMessageId;
+	void CheckForErrorMessages(wxTimerEvent& WXUNUSED(event));
+   	void MessagesViewed();
+};
 
 #endif
 

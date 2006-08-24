@@ -45,7 +45,7 @@ public:
 		std::vector<ImageLoader*> m_connIndV;
 		wxTimer *m_connRenderTimer;
 		wxString stateMessage;
-		std::string clientCurrState;
+		int clientState;
 	    /// Constructors
 		ClientStateIndicator();
 	    ClientStateIndicator(CSimpleFrame* parent, wxPoint coord);
@@ -60,6 +60,8 @@ private:
         
 		void SetActionState(const char* message);
 		void SetNoActionState(const char* message);
+		void SetPausedState(const char* message);
+		bool DownloadingResults();
 	    wxImage *g_stateIndBg;
 		wxImage *g_compBg;
 		wxImage *g_connInd;
@@ -74,6 +76,11 @@ private:
 
         DECLARE_EVENT_TABLE() 
 }; 
+
+#define CLIENT_STATE_NONE 0
+#define CLIENT_STATE_ACTION 1
+#define CLIENT_STATE_PAUSED 2
+#define CLIENT_STATE_ERROR 3
 
 #endif 
 
