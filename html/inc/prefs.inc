@@ -1080,8 +1080,10 @@ function prefs_global_parse_form(&$prefs) {
     $run_on_batteries = $_GET["run_on_batteries"];
     $run_if_user_active = $_GET["run_if_user_active"];
     $idle_time_to_run = $_GET["idle_time_to_run"];
+    $start_hour = $_GET["start_hour"];
+    $end_hour = $_GET["end_hour"];
     $leave_apps_in_memory = $_GET["leave_apps_in_memory"];
-    $cpu_sched_period_minutes = $_GET["cpu_scheduling_period_minutes"];
+    $cpu_scheduling_period_minutes = $_GET["cpu_scheduling_period_minutes"];
     $max_cpus = $_GET["max_cpus"];
     $cpu_usage_limit = $_GET["cpu_usage_limit"];
     $disk_max_used_gb = $_GET["disk_max_used_gb"];
@@ -1094,10 +1096,14 @@ function prefs_global_parse_form(&$prefs) {
     $hangup_if_dialed = $_GET["hangup_if_dialed"];
     $max_bytes_sec_down = $_GET["max_bytes_sec_down"];
     $max_bytes_sec_up = $_GET["max_bytes_sec_up"];
+    $net_start_hour = $_GET["net_start_hour"];
+    $net_end_hour = $_GET["net_end_hour"];
     $dont_verify_images = $_GET["dont_verify_images"];
     // Verification of all user input values
     if (!verify_numeric($idle_time_to_run, 1)) $error->idle_time_to_run = true;
-    if (!verify_numeric($cpu_sched_period_minutes, 1)) $error->cpu_scheduling_period_minutes = true;;
+    if (!verify_numeric($start_hour, 0)) $error->start_hour = true;
+    if (!verify_numeric($end_hour, 0)) $error->end_hour = true;
+    if (!verify_numeric($cpu_scheduling_period_minutes, 1)) $error->cpu_scheduling_period_minutes = true;;
     if (!verify_numeric($max_cpus, 1)) $error->max_cpus = true;
     if (!verify_numeric($cpu_usage_limit, 0, 100)) $error->cpu_usage_limit = true;
     if (!verify_numeric($disk_max_used_gb, 0)) $error->disk_max_used_gb = true;
@@ -1108,14 +1114,16 @@ function prefs_global_parse_form(&$prefs) {
     if (!verify_numeric($work_buf_min_days, 0, 10)) $error->work_buf_min_days = true;
     if (!verify_numeric($max_bytes_sec_down, '')) $error->max_bytes_sec_down = true;
     if (!verify_numeric($max_bytes_sec_up, '')) $error->max_bytes_sec_up = true;
+    if (!verify_numeric($net_start_hour, 0)) $error->net_start_hour = true;
+    if (!verify_numeric($net_end_hour, 0)) $error->net_end_hour = true;
     // Modify all values within the supplied Object
     $prefs->run_on_batteries = ($run_on_batteries == "yes");
     $prefs->run_if_user_active = ($run_if_user_active == "yes");
     $prefs->idle_time_to_run = $idle_time_to_run;
-    $prefs->start_hour = $_GET["start_hour"];
-    $prefs->end_hour = $_GET["end_hour"];
+    $prefs->start_hour = $start_hour;
+    $prefs->end_hour = $end_hour;
     $prefs->leave_apps_in_memory = ($leave_apps_in_memory == "yes");
-    $prefs->cpu_scheduling_period_minutes = $_GET["cpu_scheduling_period_minutes"];
+    $prefs->cpu_scheduling_period_minutes = $cpu_scheduling_period_minutes;
     $prefs->max_cpus = $max_cpus;
     $prefs->cpu_usage_limit = $cpu_usage_limit;
     $prefs->disk_max_used_gb = $disk_max_used_gb;
@@ -1128,8 +1136,8 @@ function prefs_global_parse_form(&$prefs) {
     $prefs->hangup_if_dialed = ($hangup_if_dialed == "yes");
     $prefs->max_bytes_sec_down = max_bytes_db_mode($max_bytes_sec_down);
     $prefs->max_bytes_sec_up = max_bytes_db_mode($max_bytes_sec_up);
-    $prefs->net_start_hour = $_GET["net_start_hour"];
-    $prefs->net_end_hour = $_GET["net_end_hour"];
+    $prefs->net_start_hour = $net_start_hour;
+    $prefs->net_end_hour = $net_end_hour;
     $prefs->dont_verify_images = ($dont_verify_images == "yes");
 
     return $error;

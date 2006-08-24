@@ -9272,3 +9272,9 @@ Rom    23 Aug 2006
         client_state.h
         cs_statefile.C
         gui_rpc_server_ops.C
+
+David  23 Aug 2006
+    - user web: prefs fix
+
+    html/inc/
+        prefs.inc
