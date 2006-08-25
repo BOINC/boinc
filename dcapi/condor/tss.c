@@ -76,7 +76,33 @@ main(int argc, char *argv[])
       cyc--;
       i++;
       printf("\nCycle %d. starting...\n", i);
+
+      {
+	DC_ClientEvent *e= DC_checkClientEvent();
+	if (e)
+	  {
+	    switch (e->type)
+	      {
+	      case DC_CLIENT_CHECKPOINT:
+		{
+		  break;
+		}
+	      case DC_CLIENT_FINISH:
+		{
+		  break;
+		}
+	      case DC_CLIENT_MESSAGE:
+		{
+		  printf("At cyc=%d got a message: \"%s\"\n", i,
+			 e->message);
+		  break;
+		}
+	      }
+	    DC_destroyClientEvent(e);
+	  }
+      }
       sleep(1);
+
       if (sub &&
 	  i%sub == 0)
 	send_subresult(i);
