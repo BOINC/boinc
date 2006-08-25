@@ -1,11 +1,5 @@
 #include "diagnostic_win.h"
-
-struct PROCINFO {
-    double virtual_size;
-    double working_set_size;
-    double user_time;
-    double kernel_time;
-};
+#include "procinfo.h"
 
 static int get_process_information(PVOID* ppBuffer, PULONG pcbBuffer) {
     int      retval = 0;
