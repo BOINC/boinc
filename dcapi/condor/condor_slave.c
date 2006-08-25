@@ -235,8 +235,17 @@ void DC_destroyClientEvent(DC_ClientEvent *event)
 	DC_log(LOG_DEBUG, "DC_destroyClientEvent(%p)", event);
 	if (event)
 	{
-		if (event->message)
-			free(event->message);
+		switch (event->type)
+		{
+		case DC_CLIENT_MESSAGE:
+		{
+			if (event->message)
+				free(event->message);
+			break;
+		}
+		default:
+			break;
+		}
 		free(event);
 	}
 }
