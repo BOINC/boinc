@@ -350,11 +350,11 @@ $linux_libs_5515= "
       </ul>
 ";
 
-$w5515= array(
-    "num"=>"5.5.15",
+$w5516= array(
+    "num"=>"5.5.16",
     "status"=>"Development version",
-    "file"=>"boinc_5.5.15_windows_intelx86.exe",
-    "date"=>"22 Aug 2006",
+    "file"=>"boinc_5.5.16_windows_intelx86.exe",
+    "date"=>"24 Aug 2006",
     "type"=>"win_new",
     "features"=>"<ul>
 ".$features_55."
