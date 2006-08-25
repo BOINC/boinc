@@ -45,6 +45,9 @@ int DC_initClient(void)
 }
 
 
+static int _DC_checkpoint_file_requested= 0;
+static int _DC_checkpoint_made= 0;
+
 /* Resolves the local name of input/output files. */
 char *DC_resolveFileName(DC_FileType type,
 			 const char *logicalFileName)
@@ -53,9 +56,85 @@ char *DC_resolveFileName(DC_FileType type,
 	   from here */
 	/*DC_log(LOG_DEBUG, "DC_resolveFileName(%d,%s)",
 	  type, logicalFileName);*/
+	char *cn= _DC_cfg(cfg_checkpoint_file);
 	if (!strcmp(logicalFileName, DC_CHECKPOINT_FILE))
-		return(strdup(CKPT_LABEL));
+	{
+		switch (type)
+		{
+		case DC_FILE_IN:
+		{
+			/* - param of last DC_checkpointMade()
+			   - filename created by previous run
+			   - NULL otherwise */
+			if (_DC_checkpoint_made)
+			{
+				char *fn= (char*)malloc(strlen(cn)+100);
+				sprintf(fn, "%s_finished.txt", cn);
+				return(fn);
+			}
+			else
+			{
+				FILE *f;
+				char *fn= (char*)malloc(strlen(cn)+100);
+				sprintf(fn, "%s_finished.txt", cn);
+				if ((f= fopen(fn, "r")) != NULL)
+				{
+					fclose(f);
+					return(fn);
+				}
+				else
+				{
+					free(fn);
+					return(NULL);
+				}
+			}
+			break;
+		}
+		case DC_FILE_OUT:
+		{
+			char *s;
+			/* new non-existant name */
+			if (_DC_checkpoint_file_requested)
+			{
+				DC_log(LOG_ERR, "Checkpoint file creation "
+				       "can not be restarted "
+					"(DC_resolveFileName("
+					DC_CHECKPOINT_FILE
+					") called twice without calling of "
+					"DC_checkpointMade())");
+				return(NULL);
+			}
+			_DC_checkpoint_file_requested= 1;
+			s= (char*)malloc(strlen(cn)+100);
+			sprintf(s, "%s_creating.txt", cn);
+			return(s);
+			break;
+		}
+		default:
+			return(NULL);
+		}
+	}
 	return(strdup((char*)logicalFileName));
+	switch (type)
+	{
+	case DC_FILE_IN:
+	{
+		/* registered by DC_addWUInput() */
+		break;
+	}
+	case DC_FILE_OUT:
+	{
+		/* registered by DC_addWUOutput */
+		break;
+	}
+	case DC_FILE_TMP:
+	{
+		/* non-registered */
+		break;
+	}
+	default:
+		return(NULL);
+	}
 }
 
 
@@ -167,6 +246,22 @@ void DC_destroyClientEvent(DC_ClientEvent *event)
 void DC_checkpointMade(const char *fileName)
 {
 	DC_log(LOG_DEBUG, "DC_checkpointMade(%s)", fileName);
+	_DC_checkpoint_file_requested= 0;
+	if (fileName)
+	{
+		char *cn= _DC_cfg(cfg_checkpoint_file);
+		char *fn;
+		fn= (char*)malloc(strlen(cn)+100);
+		sprintf(fn, "%s_finished.txt", cn);
+		if (rename(fileName, fn) != 0)
+		{
+			DC_log(LOG_ERR, "Renaming %s to %s failed: %s",
+			       fileName, fn, strerror(errno));
+		}
+		else
+			_DC_checkpoint_made++;
+		free(fn);
+	}
 }
 
 
