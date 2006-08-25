@@ -137,6 +137,9 @@ _DC_create_message(char *box,
 			fprintf(f, "%s", message);
 		else if (msgfile)
 			ret= _DC_copyFile(msgfile, fn);
+		if (fsync(fileno(f)) != 0)
+			DC_log(LOG_ERR, "Sync of %s: %d %s", fn,
+			       errno, strerror(errno));
 		fclose(f);
 		/*DC_log(LOG_DEBUG, "Message %d created", _DC_message_id);*/
 	}
@@ -149,6 +152,7 @@ _DC_create_message(char *box,
 	fn2= malloc(strlen(box)+strlen(name)+100);
 	sprintf(fn2, "%s/%s.%d", box, name, _DC_message_id);
 	rename(fn, fn2);
+	DC_log(LOG_DEBUG, "Message created: %s", fn2);
 	free(fn2);
 	free(fn);
 	return(ret);
@@ -167,7 +171,7 @@ _DC_nuof_messages(char *box, char *name)
 		return(0);
 	if ((d= opendir(box)) == NULL)
 		return(0);
-	s= malloc(name?strlen(name):20+10);
+	s= malloc(name?strlen(name):20+100);
 	name?strcpy(s, name):strcpy(s, "message");
 	strcat(s, ".");
 	while ((de= readdir(d)) != NULL)
@@ -193,24 +197,30 @@ _DC_message_name(char *box, char *name)
 	if (!box ||
 	    !name)
 		return(NULL);
+	/*DC_log(LOG_DEBUG, "_DC_message_name(%s,%s)", box, name);*/
 	dn= strdup(box);
 	n= malloc(strlen(name)+10);
 	strcpy(n, name);
 	strcat(n, ".");
+	/*DC_log(LOG_DEBUG, "opendir(%s)=", dn);*/
 	d= opendir(dn);
+	/*DC_log(LOG_DEBUG, "%p", d);*/
 	min_id= -1;
 	while (d &&
 	       (de= readdir(d)) != NULL)
 	{
 		char *found= strstr(de->d_name, n);
+		/*DC_log(LOG_DEBUG, "%s <-> %s", de->d_name, n);*/
 		if (found == de->d_name)
 		{
 			char *pos= strrchr(de->d_name, '.');
+			/*DC_log(LOG_DEBUG, "found");*/
 			if (pos)
 			{
 				int id= 0;
 				pos++;
 				id= strtol(pos, NULL, 10);
+				/*DC_log(LOG_DEBUG, "id=%d", id);*/
 				if (id > 0)
 				{
 					if (min_id < 0)
@@ -221,6 +231,8 @@ _DC_message_name(char *box, char *name)
 				}
 			}
 		}
+		/*else
+		  DC_log(LOG_DEBUG, "not found");*/
 	}
 	if (d)
 		closedir(d);
@@ -229,12 +241,14 @@ _DC_message_name(char *box, char *name)
 		dn= realloc(dn, 100);
 		sprintf(dn, "%s/%s.%d", box, name, min_id);
 		free(n);
+		/*DC_log(LOG_DEBUG, "return: %s", dn);*/
 		return(dn);
 	}
 	if (dn)
 		free(dn);
 	if (n)
 		free(n);
+	/*DC_log(LOG_DEBUG, "return null");*/
 	return(NULL);
 }
 
@@ -248,7 +262,7 @@ _DC_read_message(char *box, char *name, int del_msg)
 
 	if (!fn)
 		return(NULL);
-	DC_log(LOG_DEBUG, "Reading message from %s", fn);
+	/*DC_log(LOG_DEBUG, "Reading message from %s", fn);*/
 	if ((f= fopen(fn, "r")) != NULL)
 	{
 		int bs= 100, i;
@@ -275,6 +289,31 @@ _DC_read_message(char *box, char *name, int del_msg)
 	if (fn)
 		free(fn);
 	return(buf);
+}
+
+
+static struct {
+	DC_WUState state;
+	char *name;
+}
+_DC_state_names[]= {
+	{ DC_WU_READY, "READY" },
+	{ DC_WU_RUNNING, "RUNNING" },
+	{ DC_WU_FINISHED, "FINISHED" },
+	{ DC_WU_SUSPENDED, "SUSPENDED" },
+	{ DC_WU_ABORTED, "ABORTED" },
+	{ DC_WU_UNKNOWN, "UNKNOWN" },
+	{ 0, NULL }
+};
+
+char *
+_DC_state_name(DC_WUState state)
+{
+	int i;
+	for (i= 0; _DC_state_names[i].name; i++)
+		if (_DC_state_names[i].state == state)
+			return(_DC_state_names[i].name);
+	return("(unknown)");
 }
 
 
