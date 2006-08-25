@@ -9345,3 +9345,10 @@ Rom    24 Aug 2006
     - Tag for 5.5.16 release, all platforms
       boinc_core_release_5_5_16
 
+Charlie 25 Aug 2006 (HEAD - all changes tagged for boinc_core_release_5_5_16)
+    - Mac: install ca-bundle.crt file in BOINC Data folder, and include it 
+        with comman line distribution. 
+        
+    mac_installer/
+        release_boinc.sh
+        release_GridRepublic.sh
