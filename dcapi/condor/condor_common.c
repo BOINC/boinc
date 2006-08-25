@@ -49,6 +49,9 @@ _DC_init_common(void)
 
 	_DC_params[cfg_condor_log].name= "CondorLog";
 	_DC_params[cfg_condor_log].def= "_dcapi_internal_log.txt";
+
+	_DC_params[cfg_checkpoint_file].name= "CheckpointFile";
+	_DC_params[cfg_checkpoint_file].def= "_dcapi_checkpoint";
 }
 
 
