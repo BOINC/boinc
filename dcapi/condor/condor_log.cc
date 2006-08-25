@@ -89,6 +89,17 @@ _DC_wu_update_condor_events(DC_Workunit *wu)
 						g_strdup(ae->getReason());
 				}
 			}
+			if (e.event == ULOG_EXECUTE)
+			{
+				class ExecuteEvent *ae=
+					dynamic_cast<class ExecuteEvent *>
+					(event);
+				if (ae)
+				{
+					e.exec_info.host=
+						g_strdup(ae->executeHost);
+				}
+			}
 			g_array_append_val(wu->condor_events, e);
 			DC_log(LOG_DEBUG, "Condor event %d %s",
 			       event->eventNumber,
@@ -123,9 +134,12 @@ _DC_wu_condor2api_event(DC_Workunit *wu)
 			if (!ce->reported)
 			{
 				ce->reported= TRUE;
+				DC_log(LOG_DEBUG, "Job terminated, "
+				       "asked to susp=%d",
+				       wu->asked_to_suspend);
 				if (wu->asked_to_suspend)
 				{
-					wu->state= DC_WU_SUSPENDED;
+					_DC_wu_set_state(wu, DC_WU_SUSPENDED);
 					wu->asked_to_suspend= FALSE;
 				}
 				else
@@ -141,9 +155,17 @@ _DC_wu_condor2api_event(DC_Workunit *wu)
 					  e->result= _DC_result_create(wu);*/
 					DC_log(LOG_DEBUG, "Result of the event: %p",
 					       e->result);
-					wu->state= DC_WU_FINISHED;
+					_DC_wu_set_state(wu, DC_WU_FINISHED);
 					return(e);
 				}
+			}
+		}
+		if (ce->event == ULOG_EXECUTE)
+		{
+			if (!ce->reported)
+			{
+				ce->reported= TRUE;
+				_DC_wu_set_state(wu, DC_WU_RUNNING);
 			}
 		}
 	}

@@ -213,7 +213,7 @@ DC_createWU(const char *clientName,
 
 	_DC_wu_make_client_config(wu);
 	_DC_wu_make_client_executables(wu);
-	wu->state= DC_WU_READY;
+	_DC_wu_set_state(wu, DC_WU_READY);
 
 	return(wu);
 }
@@ -253,11 +253,11 @@ DC_destroyWU(DC_Workunit *wu)
 		       i, wu->data.name);
 	g_string_free(s, TRUE);
 
-	if (wu->state == DC_WU_READY ||
-	    wu->state == DC_WU_UNKNOWN)
+	if (wu->data.state == DC_WU_READY ||
+	    wu->data.state == DC_WU_UNKNOWN)
 		DC_log(LOG_NOTICE, "Destroying an unstarted wu: %s", wu->data.name);
-	if (wu->state == DC_WU_RUNNING ||
-	    wu->state == DC_WU_SUSPENDED)
+	if (wu->data.state == DC_WU_RUNNING ||
+	    wu->data.state == DC_WU_SUSPENDED)
 	{
 		DC_log(LOG_NOTICE, "Destroying a started but not yet "
 		       "finished wu: %s", wu->data.name);
@@ -392,7 +392,7 @@ DC_addWUInput(DC_Workunit *wu,
 	DC_log(LOG_DEBUG, "DC_addWUInput(%p-\"%s\", %s, %s, %d)",
 	       wu, wu->data.name, logicalFileName, URL, fileMode);
 
-	if (wu->state != DC_WU_READY)
+	if (wu->data.state != DC_WU_READY)
 	{
 		DC_log(LOG_INFO, "Modifying started wu %s", wu->data.name);
 		return(DC_ERR_BADPARAM);
@@ -466,7 +466,7 @@ DC_addWUOutput(DC_Workunit *wu, const char *logicalFileName)
 	DC_log(LOG_DEBUG, "DC_addWUOutput(%p-\"%s\", %s)",
 	       wu, wu->data.name, logicalFileName);
 
-	if (wu->state != DC_WU_READY)
+	if (wu->data.state != DC_WU_READY)
 	{
 		DC_log(LOG_INFO, "Modifying started wu %s", wu->data.name);
 		return(DC_ERR_BADPARAM);
@@ -494,7 +494,7 @@ DC_setWUPriority(DC_Workunit *wu, int priority)
 	DC_log(LOG_DEBUG, "DC_setWUPriority(%p-\"%s\", %d)",
 	       wu, wu->data.name, priority);
 
-	if (wu->state != DC_WU_READY)
+	if (wu->data.state != DC_WU_READY)
 	{
 		DC_log(LOG_INFO, "Modifying started wu %s", wu->data.name);
 		return(DC_ERR_BADPARAM);
@@ -525,7 +525,7 @@ DC_getWUState(DC_Workunit *wu)
 {
 	if (!_DC_wu_check(wu))
 		return(DC_WU_UNKNOWN);
-	return(wu->state);
+	return(wu->data.state);
 }
 
 
@@ -584,7 +584,7 @@ static void _DC_dd_check_state(void *key, void *value, void *ptr)
 {
 	DC_Workunit *wu=(DC_Workunit *)value;
 	int *count= (int *)ptr;
-	if (wu->state == _DC_dd_look_for_state)
+	if (wu->data.state == _DC_dd_look_for_state)
 		++(*count);
 }
 
@@ -608,6 +608,8 @@ _DC_process_event(DC_MasterEvent *event)
 	if (!event)
 		return;
 
+	DC_log(LOG_DEBUG, "Processing an event %d, calling callback...",
+	       event->type);
 	switch (event->type)
 	{
 	case DC_MASTER_RESULT:
@@ -619,6 +621,10 @@ _DC_process_event(DC_MasterEvent *event)
 	}
 	case DC_MASTER_SUBRESULT:
 	{
+		if (_DC_subresult_callback)
+			(*_DC_subresult_callback)(event->wu,
+						  event->subresult->label,
+						  event->subresult->path);
 		break;
 	}
 	case DC_MASTER_MESSAGE:
@@ -673,7 +679,10 @@ _DC_check_filtered_wu_event(gpointer wu_name, gpointer w, gpointer ptr)
 	if (filter &&
 	    ((strcmp(DC_getWUTag(wu), filter) != 0)))
 		return(FALSE);
-	_DC_filtered_event= DC_waitWUEvent(wu, 0);
+	if ((_DC_filtered_event= DC_waitWUEvent(wu, 0)) != NULL)
+		DC_log(LOG_DEBUG,
+		       "DC_waitMasterEvent found an event for wu %s",
+		       wu->data.name);
 	return(!_DC_filtered_event);
 }
 
@@ -728,9 +737,14 @@ DC_waitWUEvent(DC_Workunit *wu, int timeout)
 		       wu, wu->data.name, timeout);
 
 	_DC_wu_update_condor_events(wu);
-	me= _DC_wu_check_client_messages(wu);
+	if ((me= _DC_wu_check_client_messages(wu)) != NULL)
+		DC_log(LOG_DEBUG, "DC_waitWUEvent found a message");
 	if (!me)
-		me= _DC_wu_condor2api_event(wu);
+		{
+			if ((me= _DC_wu_condor2api_event(wu)) != NULL)
+				DC_log(LOG_DEBUG,
+				       "DC_waitWUEvent found a condor event");
+		}
 	if (me || timeout==0)
 		return(me);
 	start= time(NULL);
@@ -739,9 +753,15 @@ DC_waitWUEvent(DC_Workunit *wu, int timeout)
 	{
 		sleep(1);
 		_DC_wu_update_condor_events(wu);
-		me= _DC_wu_check_client_messages(wu);
+		if ((me= _DC_wu_check_client_messages(wu)) != NULL)
+			DC_log(LOG_DEBUG, "DC_waitWUEvent found a message");
 		if (!me)
-			me= _DC_wu_condor2api_event(wu);
+			{
+				if ((me= _DC_wu_condor2api_event(wu)) != NULL)
+					DC_log(LOG_DEBUG,
+					       "DC_waitWUEvent found a "
+					       "condor event");
+			}
 		if (me)
 			return(me);
 		now= time(NULL);

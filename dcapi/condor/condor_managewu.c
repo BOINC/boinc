@@ -55,7 +55,7 @@ DC_submitWU(DC_Workunit *wu)
 
 	DC_log(LOG_DEBUG, "DC_submitWU(%p-\"%s\")", wu, wu->data.name);
 
-	if (wu->state != DC_WU_READY)
+	if (wu->data.state != DC_WU_READY)
 	{
 		DC_log(LOG_INFO, "Re-submission of %s", wu->data.name);
 		return(DC_ERR_BADPARAM);
@@ -79,7 +79,7 @@ DC_submitWU(DC_Workunit *wu)
 			sleep(1);
 			_DC_wu_update_condor_events(wu);
 		}
-		wu->state= DC_WU_RUNNING;
+		/*_DC_wu_set_state(wu, DC_WU_RUNNING);*/
 		id= DC_getWUId(wu);
 		DC_log(LOG_INFO, "Condor id of wu's job: %s", id);
 		g_free(id);
@@ -123,16 +123,16 @@ DC_cancelWU(DC_Workunit *wu)
 
 	DC_log(LOG_DEBUG, "DC_cancelWU(%p-\"%s\")", wu, wu->data.name);
 
-	if (wu->state != DC_WU_RUNNING ||
-	    wu->state != DC_WU_SUSPENDED)
+	if (wu->data.state != DC_WU_RUNNING ||
+	    wu->data.state != DC_WU_SUSPENDED)
 	{
 		DC_log(LOG_NOTICE, "Can not cancel a non-running/suspended wu");
 		return(DC_ERR_INTERNAL);
 	}
 	ret= _DC_stop_condor_job(wu);
-	if (wu->state == DC_WU_SUSPENDED)
+	if (wu->data.state == DC_WU_SUSPENDED)
 		ret= 0;
-	wu->state= DC_WU_ABORTED;
+	_DC_wu_set_state(wu, DC_WU_ABORTED);
 	return((ret==0)?DC_OK:DC_ERR_BADPARAM);
 }
 
@@ -146,7 +146,7 @@ DC_suspendWU(DC_Workunit *wu)
 
 	DC_log(LOG_DEBUG, "DC_suspendWU(%p-\"%s\")", wu, wu->data.name);
 
-	if (wu->state != DC_WU_RUNNING)
+	if (wu->data.state != DC_WU_RUNNING)
 	{
 		DC_log(LOG_NOTICE, "Can not suspend a non-running wu");
 		return(DC_ERR_INTERNAL);
@@ -172,7 +172,7 @@ DC_resumeWU(DC_Workunit *wu)
 
 	DC_log(LOG_DEBUG, "DC_resumeWU(%p-\"%s\")", wu, wu->data.name);
 
-	if (wu->state != DC_WU_SUSPENDED)
+	if (wu->data.state != DC_WU_SUSPENDED)
 	{
 		DC_log(LOG_NOTICE, "Can not resume a non-suspended wu");
 		return(DC_ERR_INTERNAL);
@@ -186,7 +186,7 @@ DC_resumeWU(DC_Workunit *wu)
 			sleep(1);
 			_DC_wu_update_condor_events(wu);
 		}
-		wu->state= DC_WU_RUNNING;
+		_DC_wu_set_state(wu, DC_WU_RUNNING);
 		id= DC_getWUId(wu);
 		DC_log(LOG_INFO, "Condor id of wu's job: %s", id);
 		g_free(id);
