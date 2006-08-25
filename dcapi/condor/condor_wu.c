@@ -128,6 +128,20 @@ _DC_wu_set_workdir(DC_Workunit *wu,
 }
 
 
+DC_WUState
+_DC_wu_set_state(DC_Workunit *wu,
+		 DC_WUState new_state)
+{
+	/*DC_WUState act= wu->state;*/
+	if (!_DC_wu_check(wu))
+		return(DC_WU_UNKNOWN);
+	DC_log(LOG_DEBUG, "Set state to %s of %p-\"%s\"", _DC_state_name(new_state), wu, wu->data.name);
+	wu->data.state= new_state;
+	_DC_wu_changed(wu);
+	return(wu->data.state);
+}
+
+
 /* Get a configuration parameter */
 char *
 _DC_wu_cfg(DC_Workunit *wu,
@@ -363,7 +377,7 @@ _DC_wu_check_client_messages(DC_Workunit *wu)
 	s= g_string_new(wu->data.workdir);
 	g_string_append_printf(s, "/%s",
 			       _DC_wu_cfg(wu, cfg_client_message_box));
-	DC_log(LOG_DEBUG, "Checking box %s for message\n", s->str);
+	/*DC_log(LOG_DEBUG, "Checking box %s for message\n", s->str);*/
 	if ((message= _DC_read_message(s->str, "message", TRUE)))
 	{
 		e= _DC_event_create(wu, NULL, NULL, message);
@@ -375,12 +389,14 @@ _DC_wu_check_client_messages(DC_Workunit *wu)
 	{
 		g_string_printf(s, "%s/%s", wu->data.workdir,
 				_DC_wu_cfg(wu, cfg_subresults_box));
-		DC_log(LOG_DEBUG, "Checking box %s for logical_name\n", s->str);
+		/*DC_log(LOG_DEBUG, "Checking box %s for logical_name\n",
+		  s->str);*/
 		if ((message= _DC_read_message(s->str, "logical_name", TRUE)))
 		{
 			DC_PhysicalFile *f;
-			g_string_append_printf(s, "/%s", message);
-			DC_log(LOG_DEBUG, "Got subresult %s %s", message, s->str);
+			g_string_append_printf(s, "/real_files/%s", message);
+			DC_log(LOG_DEBUG, "Got subresult %s %s",
+			       message, s->str);
 			f= _DC_createPhysicalFile(message, s->str);
 			e= _DC_event_create(wu, NULL, f, NULL);
 		}

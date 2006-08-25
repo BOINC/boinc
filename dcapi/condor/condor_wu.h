@@ -24,6 +24,9 @@ extern int _DC_wu_set_tag(DC_Workunit *wu, char *new_tag);
 extern int _DC_wu_set_subresults(DC_Workunit *wu, int new_subresults);
 extern int _DC_wu_set_workdir(DC_Workunit *wu, char *new_workdir);
 
+extern DC_WUState _DC_wu_set_state(DC_Workunit *wu,
+				   DC_WUState new_state);
+
 extern char *_DC_wu_cfg(DC_Workunit *wu,
 			enum _DC_e_param what);
 
