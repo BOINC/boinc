@@ -9340,3 +9340,8 @@ David  24 Aug 2006
 		cpu_sched.C
 		cs_benchmark.C
 		cs_scheduler.C
+
+Rom    24 Aug 2006
+    - Tag for 5.5.16 release, all platforms
+      boinc_core_release_5_5_16
+
