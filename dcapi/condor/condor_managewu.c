@@ -141,6 +141,8 @@ DC_cancelWU(DC_Workunit *wu)
 int
 DC_suspendWU(DC_Workunit *wu)
 {
+	GString *dn;
+
 	if (!_DC_wu_check(wu))
 		return(DC_ERR_UNKNOWN_WU);
 
@@ -151,10 +153,11 @@ DC_suspendWU(DC_Workunit *wu)
 		DC_log(LOG_NOTICE, "Can not suspend a non-running wu");
 		return(DC_ERR_INTERNAL);
 	}
-	_DC_create_message(_DC_wu_cfg(wu, cfg_management_box),
-			   "doit",
-			   "suspend",
-			   NULL);
+	dn= g_string_new(wu->data.workdir);
+	g_string_append(dn, "/");
+	g_string_append(dn, _DC_wu_cfg(wu, cfg_management_box));
+	_DC_create_message(dn->str, "doit", "suspend", NULL);
+	g_string_free(dn, TRUE);
 	wu->asked_to_suspend= TRUE;
 	return(DC_OK);
 }
