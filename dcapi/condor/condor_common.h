@@ -23,6 +23,7 @@ enum _DC_e_param {
 	cfg_executable,
 	cfg_leave_files,
 	cfg_condor_log,
+	cfg_checkpoint_file,
 	cfg_nuof
 };
 
