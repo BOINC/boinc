@@ -1244,7 +1244,7 @@ int CMainDocument::GetSimpleGUIWorkCount() {
     CachedSimpleGUIUpdate();
     CachedStateUpdate();
 
-	for(int i=0;i<results.results.size();i++) {
+	for(unsigned int i=0;i<results.results.size();i++) {
 		if ( results.results[i]->active_task ) {
 			iCount++;
 		}

@@ -9352,3 +9352,9 @@ Charlie 25 Aug 2006 (HEAD - all changes tagged for boinc_core_release_5_5_16)
     mac_installer/
         release_boinc.sh
         release_GridRepublic.sh
+
+Charlie 25 Aug 2006
+    - Fix compiler warning.
+    
+    clientgui/
+        MainDocument.cpp
