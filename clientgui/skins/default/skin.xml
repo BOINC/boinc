@@ -56,6 +56,9 @@
 				<messages>
 					<imgsrc>graphic/btnMessages.png</imgsrc>
 				</messages>
+				<alert_messages>
+					<imgsrc>graphic/btnMessagesRed.png</imgsrc>
+				</alert_messages>
 				<save>
 					<imgsrc>graphic/btnSave.png</imgsrc>
 					<imgsrcclick>graphic/btnSaveClick.png</imgsrcclick>
