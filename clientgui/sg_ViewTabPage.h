@@ -50,7 +50,6 @@ class CViewTabPage : public wxPanel {
 public:
 	
 	bool isAlive;
-	int m_tabIndex;
 	//Skin Class
     SkinClass *appSkin;
 	wxString dirPref;
@@ -76,13 +75,14 @@ public:
 	wxStaticText *lblWrkUnitName;
 	wxStaticText *lblProjectFrName;
 	wxString percStr;
-	wxInt32 percNum;;
+	wxFloat64 percNum;
 	// bg
 	wxBitmap *btmpComponentBg;
+	RESULT* resultWU;
 
     CViewTabPage();
     CViewTabPage(
-		wxFlatNotebook* parent, int index, std::string name,std::string url
+		wxFlatNotebook* parent, RESULT* result, std::string name,std::string url
     );
     ~CViewTabPage();
 
@@ -108,9 +108,6 @@ public:
 	DECLARE_EVENT_TABLE()
 
 protected:
-
-	CMainDocument* pDoc;
-	RESULT* resultWU;
 
     //tab identifier
 	std::string m_name;

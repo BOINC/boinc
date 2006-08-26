@@ -293,6 +293,12 @@ void CSimpleFrame::InitResultView()
 	mainSizer->Add(0, 0,1);
 	mainSizer->Layout();
 	resultViewInitialized=true;
+	//present any results available
+	UpdateResultView();
+	//make sure the first tab is in front
+	if (m_windows.size() > 0 ) {
+		wrkUnitNB->SetSelection(0);
+	}
 }
 void CSimpleFrame::DestroyNotebook() {
 	mainSizer->Detach(wrkUnitNB);
@@ -338,10 +344,15 @@ void CSimpleFrame::UpdateResultView(){
 			if(result->name == currTab->GetTabName()){
 				//currTab FOUND;
 				currTab->isAlive = true;
-				currTab->m_tabIndex = j;
+				currTab->resultWU = result;
 				found = true;
 				//update tab interface
 		        currTab->UpdateInterface();
+				if(result->active_task_state == 1 && wrkUnitNB->GetPageImageIndex(j) != 0){
+					wrkUnitNB->SetPageImageIndex(j, 0); // this is working process
+				} else if ( result->active_task_state != 1 && wrkUnitNB->GetPageImageIndex(j) != -1 ) {
+					wrkUnitNB->SetPageImageIndex(j, -1); // this is working process
+				}
 				//break;
 		    }
 
@@ -372,11 +383,12 @@ void CSimpleFrame::UpdateResultView(){
 			std::string index = " ";
 			//index += i;
 			friendlyName += wxString(index.c_str(), wxConvUTF8 );
-			CViewTabPage *wTab = new CViewTabPage(wrkUnitNB,i,nme,projUrl);
+			CViewTabPage *wTab = new CViewTabPage(wrkUnitNB,result,nme,projUrl);
 		
 			wrkUnitNB->AddPage(wTab, friendlyName, true);	
 			if(result->active_task_state == 1){
-				wrkUnitNB->SetPageImageIndex(i, 0); // this is working process
+				int pageIndex = wrkUnitNB->GetPageIndex(wTab);
+				wrkUnitNB->SetPageImageIndex(pageIndex, 0); // this is working process
 			}
 			//add page to vector
 			m_windows.push_back(wTab);
@@ -422,16 +434,23 @@ void CSimpleFrame::InitNotebook()
 	wrkUnitNB->SetActiveTabTextColour(wxColour(255,255,255));
 	wrkUnitNB->SetGradientColorsInactive(appSkin->GetTabFromColIn(),appSkin->GetTabToColIn(),appSkin->GetTabBrdColIn());
 	wrkUnitNB->SetNonActiveTabTextColour(wxColour(255,255,255));
+	wrkUnitNB->SetImageList(&m_ImageList);
 	notebookViewInitialized = true;
     wxLogTrace(wxT("Function Start/End"), wxT("CAdvancedFrame::InitNotebook - Function End"));
 }
 void CSimpleFrame::LoadSkinImages(){
-    wxLogTrace(wxT("Function Start/End"), wxT("CAdvancedFrame::LoadSkinImages - Function Start"));
+
 	wxString dirPref = appSkin->GetSkinsFolder()+_T("/")+appSkin->GetSkinName()+_T("/");
 	
     fileImgBuf[0].LoadFile(dirPref + appSkin->GetAppBg(),wxBITMAP_TYPE_PNG);
+	// work unit icons
+	g_icoWorkWU = new wxImage(dirPref + appSkin->GetIcnWorkingWkUnit(), wxBITMAP_TYPE_PNG);
+	//////////////////////////////
 	frameBg=&fileImgBuf[0];
-    wxLogTrace(wxT("Function Start/End"), wxT("CAdvancedFrame::LoadSkinImages - Function End"));
+	/// work unit tabs icons
+	wxBitmap const workWUico = wxBitmap(g_icoWorkWU); 
+	// push them in image list
+	m_ImageList.push_back(workWUico);
 }
 ///
 ///

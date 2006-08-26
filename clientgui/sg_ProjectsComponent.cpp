@@ -172,14 +172,7 @@ void CProjectsComponent::CreateComponent()
 			// resolve the proj image 
 			url_to_project_dir((char*)project->master_url.c_str() ,urlDirectory);
 			dirProjectGraphic = (std::string)urlDirectory + "/" + projectIconName;
-			//load stat icon
-			if(boinc_resolve_filename(dirProjectGraphic.c_str(), defaultIcnPath, sizeof(defaultIcnPath)) == 0){
-				g_statIcn = new wxImage(defaultIcnPath, wxBITMAP_TYPE_PNG);
-				i_statW->LoadImage(g_statIcn);
-			}else{
-				i_statW->LoadImage(g_statIcnDefault);
-			}
-
+			i_statW->LoadImage(dirProjectGraphic, g_statIcnDefault);
 			i_statW->SetToolTip(statToolTip);
 			
 			// push icon in the vector
@@ -290,13 +283,7 @@ void CProjectsComponent::RemoveProject(std::string prjUrl)
 			// resolve the proj image 
 			url_to_project_dir((char*)project->master_url.c_str() ,urlDirectory);
 			dirProjectGraphic = (std::string)urlDirectory + "/" + projectIconName;
-			if(boinc_resolve_filename(dirProjectGraphic.c_str(), defaultIcnPath, sizeof(defaultIcnPath)) == 0){
-				g_statIcn = new wxImage(defaultIcnPath, wxBITMAP_TYPE_PNG);
-				i_statW->LoadImage(g_statIcn);
-			}else{
-				i_statW->LoadImage(g_statIcnDefault);
-			}
-
+			i_statW->LoadImage(dirProjectGraphic, g_statIcnDefault);
 			i_statW->SetToolTip(statToolTip);
 			
 		    // push icon in the vector
@@ -324,13 +311,7 @@ void CProjectsComponent::RemoveProject(std::string prjUrl)
 			// resolve the proj image 
 			url_to_project_dir((char*)project->master_url.c_str() ,urlDirectory);
 			dirProjectGraphic = (std::string)urlDirectory + "/" + projectIconName;
-			if(boinc_resolve_filename(dirProjectGraphic.c_str(), defaultIcnPath, sizeof(defaultIcnPath)) == 0){
-				g_statIcn = new wxImage(defaultIcnPath, wxBITMAP_TYPE_PNG);
-				i_statW->LoadImage(g_statIcn);
-			}else{
-				i_statW->LoadImage(g_statIcnDefault);
-			}
-
+			i_statW->LoadImage(dirProjectGraphic, g_statIcnDefault);
 			i_statW->SetToolTip(statToolTip);
 			
 			// push icon in the vector
@@ -399,13 +380,7 @@ void CProjectsComponent::UpdateInterface()
 		// resolve the proj image 
 		url_to_project_dir((char*)project->master_url.c_str() ,urlDirectory);
 		dirProjectGraphic = (std::string)urlDirectory + "/" + projectIconName;
-		if(boinc_resolve_filename(dirProjectGraphic.c_str(), defaultIcnPath, sizeof(defaultIcnPath)) == 0){
-			g_statIcn = new wxImage(defaultIcnPath, wxBITMAP_TYPE_PNG);
-			i_statW->LoadImage(g_statIcn);
-		}else{
-			i_statW->LoadImage(g_statIcnDefault);
-		}
-
+		i_statW->LoadImage(dirProjectGraphic, g_statIcnDefault);
 		i_statW->SetToolTip(statToolTip);
 		
 		// push icon in the vector
@@ -498,12 +473,7 @@ void CProjectsComponent::OnBtnClick(wxCommandEvent& event){ //init function
 			// resolve the proj image 
 			url_to_project_dir((char*)project->master_url.c_str() ,urlDirectory);
 			dirProjectGraphic = (std::string)urlDirectory + "/" + projectIconName;
-			if(boinc_resolve_filename(dirProjectGraphic.c_str(), defaultIcnPath, sizeof(defaultIcnPath)) == 0){
-				g_statIcn = new wxImage(defaultIcnPath, wxBITMAP_TYPE_PNG);
-				i_statW->LoadImage(g_statIcn);
-			}else{
-				i_statW->LoadImage(g_statIcnDefault);
-			}
+			i_statW->LoadImage(dirProjectGraphic, g_statIcnDefault);
 
 			i_statW->SetToolTip(statToolTip);
 			
@@ -548,13 +518,7 @@ void CProjectsComponent::OnBtnClick(wxCommandEvent& event){ //init function
 			// resolve the proj image 
 			url_to_project_dir((char*)project->master_url.c_str() ,urlDirectory);
 			dirProjectGraphic = (std::string)urlDirectory + "/" + projectIconName;
-			if(boinc_resolve_filename(dirProjectGraphic.c_str(), defaultIcnPath, sizeof(defaultIcnPath)) == 0){
-				g_statIcn = new wxImage(defaultIcnPath, wxBITMAP_TYPE_PNG);
-				i_statW->LoadImage(g_statIcn);
-			}else{
-				i_statW->LoadImage(g_statIcnDefault);
-			}
-
+			i_statW->LoadImage(dirProjectGraphic, g_statIcnDefault);
 			i_statW->SetToolTip(statToolTip);
 			
 		    // push icon in the vector

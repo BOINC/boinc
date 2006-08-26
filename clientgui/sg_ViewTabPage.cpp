@@ -45,18 +45,15 @@ END_EVENT_TABLE()
 
 CViewTabPage::CViewTabPage() {}
 
-CViewTabPage::CViewTabPage(wxFlatNotebook* parent,int index,std::string name,std::string url) :
+CViewTabPage::CViewTabPage(wxFlatNotebook* parent,RESULT* result,std::string name,std::string url) :
     wxPanel(parent, -1, wxDefaultPosition, wxSize(370,330), wxNO_BORDER)
 {
     wxASSERT(parent);
-	m_tabIndex = index;
 	m_name = name;
 	isAlive = true;
 	m_prjUrl = url;
     m_hasGraphic = false;
-	// init doc and results data
-	pDoc  = wxGetApp().GetDocument();
-	resultWU = pDoc->result(m_tabIndex);
+	resultWU = result;
 	//load skin images
     LoadSkinImages();
     //create page
@@ -80,18 +77,16 @@ void CViewTabPage::LoadSkinImages(){
 
 void CViewTabPage::CreatePage()
 {
+	// Show or don't show the icon if the WU is running
 	RESULT* resState = NULL;
+	CMainDocument* pDoc     = wxGetApp().GetDocument();
 	resState = pDoc->state.lookup_result(resultWU->project_url, resultWU->name);
 	if(resState){
-		//////////////////////Build Tab Page///////////////////////////////
-		//Project Name
 		projName = wxString(resState->project->project_name.c_str(), wxConvUTF8 );
 		projectFrName = wxString(resState->app->user_friendly_name.c_str(), wxConvUTF8);
-		//
-		//Project
 	} else {
-		projName = wxString("Not Available - Need State Update from Rom", wxConvUTF8 );
-		projectFrName = wxString("Not Available - Need State Update from Rom", wxConvUTF8);
+		projName = wxString("Not Available", wxConvUTF8 );
+		projectFrName = wxString("Not Available", wxConvUTF8);
 	}
 	//Line Proj Name
 	lnProjName = new CStaticLine(this,wxPoint(20,36),wxSize(316,1));
@@ -105,8 +100,8 @@ void CViewTabPage::CreatePage()
     gaugeWUMain=new CProgressBar(this,wxPoint(20,89));
 	gaugeWUMain->SetValue(floor(resultWU->fraction_done * 100000)/1000);
 	//percent
-	percNum = (wxInt32)(floor(resultWU->fraction_done * 100000)/1000);
-    percStr.Printf(_("%d"), percNum);
+	percNum = (wxFloat64)(floor(resultWU->fraction_done * 100000)/1000);
+    percStr.Printf(_("%.1lf"), percNum);
 	gaugePercent = percStr + _T(" %");
     //Elapsed Time
 	FormatCPUTime(resultWU, elapsedTimeValue);
@@ -145,13 +140,12 @@ void CViewTabPage::CreatePage()
 }
 void CViewTabPage::UpdateInterface()
 {
-	resultWU = pDoc->result(m_tabIndex);
 	wxString strBuffer = wxEmptyString;
 	//Gauge
 	gaugeWUMain->UpdateValue(floor(resultWU->fraction_done * 100000)/1000);
 	//percent
-	percNum = (wxInt32)(floor(resultWU->fraction_done * 100000)/1000);
-    percStr.Printf(_("%d"), percNum);
+	percNum = (wxFloat64)(floor(resultWU->fraction_done * 100000)/1000);
+    percStr.Printf(_("%.1lf"), percNum);
 	gaugePercent = percStr + _T(" %");
 	// Elapsed Time
 	FormatCPUTime(resultWU, elapsedTimeValue);
@@ -220,7 +214,6 @@ wxInt32 CViewTabPage::FormatTimeToCompletion(RESULT* rslt, wxString& strBuffer) 
 }
 
 void CViewTabPage::SGUITimeFormat(float fBuffer, wxString& strBuffer) const {
-	wxInt32        iDay = 0;
     wxInt32        iHour = 0;
     wxInt32        iMin = 0;
     wxInt32        iSec = 0;
@@ -238,12 +231,10 @@ void CViewTabPage::SGUITimeFormat(float fBuffer, wxString& strBuffer) const {
 }
 
 void CViewTabPage::OnWorkShowGraphics() {
+	CMainDocument* pDoc     = wxGetApp().GetDocument();
     wxInt32  iAnswer        = 0; 
     wxString strMachineName = wxEmptyString;
     
-    wxASSERT(pDoc);
-    wxASSERT(wxDynamicCast(pDoc, CMainDocument));
-
     // TODO: implement hide as well as show
 #if (defined(_WIN32) || defined(__WXMAC__))
     pDoc->GetConnectedComputerName(strMachineName);

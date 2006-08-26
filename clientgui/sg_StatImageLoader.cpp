@@ -4,7 +4,9 @@
 #include "sg_StatImageLoader.h" 
 #include "BOINCBaseFrame.h"
 #include "sg_ProjectsComponent.h" 
+#include "app_ipc.h"
 
+#define ID_CHECKFORPROJECTICONDOWNLOADED  13001
 
 enum{
 	WEBSITE_URL_MENU_ID = 34500,
@@ -17,6 +19,7 @@ BEGIN_EVENT_TABLE(StatImageLoader, wxWindow)
 		EVT_LEFT_DOWN(StatImageLoader::PopUpMenu)
 		EVT_MENU(WEBSITE_URL_MENU_ID,StatImageLoader::OnMenuLinkClicked)
 		EVT_MENU(WEBSITE_URL_MENU_ID_REMOVE_PROJECT,StatImageLoader::OnMenuLinkClicked)
+		EVT_TIMER(ID_CHECKFORPROJECTICONDOWNLOADED, StatImageLoader::CheckForProjectIconDownloaded)
 END_EVENT_TABLE() 
 
 StatImageLoader::StatImageLoader(wxWindow* parent, std::string url) : wxWindow(parent, wxID_ANY, wxDefaultPosition, wxSize(40,40), wxNO_BORDER) 
@@ -39,12 +42,12 @@ void StatImageLoader::CreateMenu()
 	appSkin = SkinClass::Instance();
 
 	PROJECT* project = pDoc->state.lookup_project(m_prjUrl);
-	int urlCount = project->gui_urls.size();
+	size_t urlCount = project->gui_urls.size();
 	
 	// create pop up menu
 	statPopUpMenu = new wxMenu(wxSIMPLE_BORDER);
 
-	for(int i = 0; i < urlCount; i++){
+	for(unsigned int i = 0; i < urlCount; i++){
 		wxMenuItem *urlItem = new wxMenuItem(statPopUpMenu, WEBSITE_URL_MENU_ID + i,wxString(project->gui_urls[i].name.c_str(), wxConvUTF8));
 		#ifdef __WXMSW__
 			urlItem->SetBackgroundColour(appSkin->GetAppBgCol());
@@ -93,7 +96,6 @@ void StatImageLoader::OnMenuLinkClicked(wxCommandEvent& event)
          wxASSERT(pFrame);
          wxASSERT(wxDynamicCast(pFrame, CBOINCBaseFrame));
 	     pFrame->ExecuteBrowserLink(project->gui_urls[menuId].url.c_str());
-	     int re = 4;
 	 }
   
 } 
@@ -143,15 +145,57 @@ void StatImageLoader::OnProjectDetach() {
     }
 }
 
-
-void StatImageLoader::LoadImage(const wxImage& image) 
-{ 
+void StatImageLoader::LoadStatIcon(const wxImage& image) {
 	Bitmap = wxBitmap();//delete existing bitmap since we are loading new one
 	int width = image.GetWidth(); 
 	int height = image.GetHeight(); 
 	Bitmap = wxBitmap(image); 
 	SetSize(width, height); 
+}
+
+
+void StatImageLoader::LoadImage(std::string project_icon, const wxImage& defaultImage) 
+{ 
+	char defaultIcnPath[256];
+	bool defaultUsed = true;
+	if(boinc_resolve_filename(project_icon.c_str(), defaultIcnPath, sizeof(defaultIcnPath)) == 0){
+		wxImage* g_statIcn = new wxImage();
+		if ( g_statIcn->LoadFile(defaultIcnPath, wxBITMAP_TYPE_PNG) ) {
+			LoadStatIcon(g_statIcn);
+			defaultUsed = false;
+		} else {
+			// TODO - need to set a timer to switch this to load the real graphics once they are downloaded
+			LoadStatIcon(defaultImage);
+		}
+	}else{
+		LoadStatIcon(defaultImage);
+	}
+
+	if ( defaultUsed ) {
+		projectIcon = project_icon;
+		numReloadTries = 80; // check for 10 minutes
+		attemptToReloadTimer = new wxTimer(this, ID_CHECKFORPROJECTICONDOWNLOADED);
+		attemptToReloadTimer->Start(7500);
+	}
 } 
+
+void StatImageLoader::CheckForProjectIconDownloaded(wxTimerEvent& WXUNUSED(event)) {
+	char defaultIcnPath[256];
+	bool success = false;
+	if(boinc_resolve_filename(projectIcon.c_str(), defaultIcnPath, sizeof(defaultIcnPath)) == 0){
+		wxImage* g_statIcn = new wxImage();
+		if ( g_statIcn->LoadFile(defaultIcnPath, wxBITMAP_TYPE_PNG) ) {
+			LoadStatIcon(g_statIcn);
+			success = true;
+			Refresh();
+			Update();
+		}
+	}
+	// Try numReloadTries times (set in constructor) or until success
+	if ( success || numReloadTries-- <=0 ) {
+		attemptToReloadTimer->Stop();
+	}
+}
 
 void StatImageLoader::OnPaint(wxPaintEvent& WXUNUSED(event)) 
 { 

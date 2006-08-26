@@ -46,9 +46,12 @@ public:
 
    ~CSimpleFrame();
 
+	// Images
+	wxImage *g_icoWorkWU;
 	//
 	// Flat Neotebook
 	std::vector<CViewTabPage*> m_windows; // vector of all window tabs created for notebook
+	wxFlatNotebookImageList m_ImageList;
 	wxFlatNotebook *wrkUnitNB;
     wxBitmap const workWUico;
     ////// Skin variables //////
