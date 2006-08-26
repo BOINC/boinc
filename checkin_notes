@@ -9358,3 +9358,20 @@ Charlie 25 Aug 2006
     
     clientgui/
         MainDocument.cpp
+        
+Kevin  25 Aug 2006
+	- Enhancements to the simple gui
+		-- Project icons that are downloaded after the BSG is started will be displayed when they become available
+		-- Make sure that the first tab is the selected tab when the BSG is opened
+		-- The 'currently running' indicator is now properly added and removed as different results are started and stopped
+		-- The percent displayed now includes one decimal place
+	clientgui/
+		MainDocument.cpp
+		sg_BoincSimpleGUI.cpp
+		sg_BoincSimpleGUI.h
+		sg_ClientStateIndicator.cpp
+		sg_ClientStateIndicator.h
+		sg_ProjectsComponent.cpp
+		sg_ProjectsComponent.h
+		sg_SkinClass.cpp
+
