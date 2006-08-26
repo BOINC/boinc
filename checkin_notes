@@ -9366,12 +9366,12 @@ Kevin  25 Aug 2006
 		-- The 'currently running' indicator is now properly added and removed as different results are started and stopped
 		-- The percent displayed now includes one decimal place
 	clientgui/
-		MainDocument.cpp
 		sg_BoincSimpleGUI.cpp
 		sg_BoincSimpleGUI.h
-		sg_ClientStateIndicator.cpp
-		sg_ClientStateIndicator.h
 		sg_ProjectsComponent.cpp
 		sg_ProjectsComponent.h
-		sg_SkinClass.cpp
+		sg_StatImageLoader.cpp
+		sg_StatImageLoader.h
+		sg_ViewTabPage.cpp
+		sg_ViewTabPage.h
 
