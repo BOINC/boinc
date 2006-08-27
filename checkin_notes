@@ -9381,3 +9381,17 @@ Charlie 26 Aug 2006
         
     api/
         x_opengl.C
+
+Janus  27 Aug 2006
+    - show_user.php is now translation capable and uses the object 
+    cache (when accessed throught the web frontend). This should fix 
+    the issues where the page appears in another language than the 
+    selected one.
+    - Simplification: Now only allow people to do userid lookups using 
+    the id of a user instead of the authenticator (when in XML mode 
+    people can still use the authenticator)
+    
+    html/user/
+	show_user.php
+	
+	
