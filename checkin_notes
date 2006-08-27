@@ -9375,3 +9375,9 @@ Kevin  25 Aug 2006
 		sg_ViewTabPage.cpp
 		sg_ViewTabPage.h
 
+Charlie 26 Aug 2006
+    -Mac: Add a comment; remove bogus Mac-only code from restart() 
+        in x_opengl.C.
+        
+    api/
+        x_opengl.C

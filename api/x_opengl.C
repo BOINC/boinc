@@ -283,8 +283,11 @@ static void make_new_window(int mode) {
     }
   
 #ifdef __APPLE__
-        glutWMCloseFunc(CloseWindow);   // Enable the window's close box
-        BringAppToFront();
+    glutWMCloseFunc(CloseWindow);   // Enable the window's close box
+    BringAppToFront();
+    // Show window only after a successful call to throttled_app_render(); 
+    // this avoids momentary display of old image when screensaver restarts 
+    // which made image appear to "jump."
     need_show = true;
 #endif
 
@@ -506,22 +509,6 @@ void restart() {
     //
     // 
     if (glut_is_initialized ) {
-#ifdef __APPLE__
-        if (boinc_is_standalone()) {
-            app_debug_msg(
-                "Assuming user pressed 'close'... means we're exiting now.\n"
-            );
-        } else {
-            app_debug_msg(
-                "Assuming user pressed 'quit'... means we're exiting now.\n"
-            );
-        }
-
-        if (boinc_delete_file(LOCKFILE) != 0) {
-            perror ("Failed to remove lockfile..\n");
-        }
-        return;
-#else
         if (boinc_is_standalone()) {
             app_debug_msg(
                 "Assuming user pressed 'close'... means we're exiting now.\n"
@@ -531,7 +518,6 @@ void restart() {
             }
             return;
         }
-#endif
     }
 
     // re-install the  exit-handler to catch glut's notorious exits()...
