@@ -1,0 +1,236 @@
+a:link {
+    color: blue;
+}
+
+a:visited {
+    color: blue;
+}
+
+a:active {
+    color: blue;
+}
+
+body , table , input , select {
+    background-color: white;
+    font-family: Verdana, Arial, Sans-Serif;
+    font-size: 12px;
+}
+
+body {
+    background-color: white;
+    color: black;
+}
+
+th{
+    background-color: #c8c8c8;
+    font-weight: bold;
+}
+
+td {
+    border: 1px solid white;
+}
+
+td.bordered {
+    border: 1px solid gray;
+}
+
+td.indent {
+     border-left: 4px solid white;
+}
+
+td.heading {
+    background-color: #d8d8d8;
+    font-weight: bold;
+}
+
+td.heading2 {
+    background-color:#c0c0ff;
+    font-weight: bold;
+}
+
+td.fieldname {
+    background-color: #eeeeee;
+    text-align: right;
+    vertical-align: top;
+}
+
+td.fieldvalue {
+    vertical-align: top;
+    font-weight: bold;
+}
+
+td.fieldname_error {          
+    background-color: #ff8888;
+    text-align: right;        
+    vertical-align: top;      
+}                             
+
+td.fieldvalue_error {         
+    background-color: #ff8888;
+    vertical-align: top;      
+    font-weight: bold;        
+}                             
+
+td.category {
+    background-color: #dddddd;
+}
+
+td.navbar {
+    border: 0px;
+    text-align: center;
+}
+
+a.navbar:link {
+    color: #ff9711;
+    text-decoration: none;
+}
+
+a.navbar:visited {
+    color: #ff9711;
+    text-decoration: none;
+}
+
+a.navbar:hover {
+    color: #ffc060;
+    text-decoration: underline;
+}
+
+tr.row0 {
+    background-color: rgb(217,217,217);
+    text-align: left;
+}
+
+tr.row1 {
+    background-color: rgb(237,237,237);
+    text-align: left;
+}
+
+tr.subtitle {
+    background-color: #eeeeee;
+    font-weight: bold;
+}
+
+tr.message {
+    background-color:#E0E0EF;
+}
+
+input , select {
+    vertical-align: middle;
+}
+
+h1 , h2 {
+    color: black;
+    font-size: x-large;
+    font-weight: normal;
+    margin-top: 10px;
+}
+
+h3 , h4 {
+    color: black;
+    font-size: small;
+    font-weight: bold;
+}
+
+img {
+    border: 0px;
+}
+
+.title {
+    font-size: small;
+    font-weight: bold;
+}
+
+.description {
+    font-size: 80%;
+    font-weight: normal;
+}
+
+.authorcol {
+    width: 115px;
+    overflow: hidden;
+}
+
+.cellwrap{
+    width: 100%;
+    overflow: auto;
+}
+
+blockquote {
+    border-left: 2px solid blue;
+    background: #DDDDDD;
+    padding-left: 3px;
+    padding-bottom: 0px;
+    margin-bottom: 0px;
+    margin-left: 10px;
+    font-style: italic;
+}
+
+#blockquote.postbody {
+    border-style: inset;
+    border-color: blue;
+    background-color: rgb(240,240,255);
+    padding-left: 5px;
+    padding-bottom: 0px;
+    margin-bottom: 0px;
+    margin-left: 15px;
+    margin-right: 160px;
+    font-style: oblique
+} 
+
+#thread table {
+    width: 100%;
+    table-layout: fixed;
+}
+
+.sigdelim {
+    width: 60%;
+    height: 1px;
+    background-color: black;
+    color: black;
+    border: 0;
+    margin-right: 100%;
+}
+
+td.postheader{
+    background-color: rgb(220,210,210);
+    border-bottom: 1px solid rgb(190,190,200);
+    border-left: none;
+    border-right: none;
+    height:1px;
+}
+
+td.postbody {
+    font-size: 9pt;
+}
+
+td.postfooter{
+    background-color: rgb(220,210,210);
+    border-top: 1px solid rgb(190,190,200);
+    border-left: none;
+    border-right: none;
+    height:1px;
+}
+
+tr.helpdeskseperator{
+    height: 10pt;
+}
+
+tr.postseperator{
+    background-color: rgb(200,200,200);
+    height:4px;
+}
+
+tr.postseperator td{
+    border-top: 1px solid rgb(170,170,170);
+    border-bottom: 1px      solid rgb(170,170,170);
+}
+
+td.threadline {
+#font-size:10pt;
+    text-align:left;
+}
+
+.code {
+    font-family: System, Fixed, sans-serif;
+    color: #000000;
+}

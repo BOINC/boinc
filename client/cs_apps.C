@@ -1,0 +1,366 @@
+// Berkeley Open Infrastructure for Network Computing
+// http://boinc.berkeley.edu
+// Copyright (C) 2005 University of California
+//
+// This is free software; you can redistribute it and/or
+// modify it under the terms of the GNU Lesser General Public
+// License as published by the Free Software Foundation;
+// either version 2.1 of the License, or (at your option) any later version.
+//
+// This software is distributed in the hope that it will be useful,
+// but WITHOUT ANY WARRANTY; without even the implied warranty of
+// MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
+// See the GNU Lesser General Public License for more details.
+//
+// To view the GNU Lesser General Public License visit
+// http://www.gnu.org/copyleft/lesser.html
+// or write to the Free Software Foundation, Inc.,
+// 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
+
+// The "policy" part of task execution is here.
+// The "mechanism" part is in app.C
+//
+
+#include "cpp.h"
+
+#ifdef _WIN32
+#include "boinc_win.h"
+#endif
+
+#ifndef _WIN32
+#include "config.h"
+#include <cassert>
+#include <csignal>
+#endif
+
+#include "md5_file.h"
+#include "util.h"
+#include "error_numbers.h"
+#include "file_names.h"
+#include "filesys.h"
+#include "shmem.h"
+#include "log_flags.h"
+#include "client_msgs.h"
+#include "client_state.h"
+
+using std::vector;
+
+// Handle a task that has finished.
+// Mark its output files as present, and delete scratch files.
+// Don't delete input files because they might be shared with other WUs.
+// Update state of result record.
+//
+int CLIENT_STATE::app_finished(ACTIVE_TASK& at) {
+    RESULT* rp = at.result;
+    FILE_INFO* fip;
+    unsigned int i;
+    char path[256];
+    int retval;
+    double size;
+
+    bool had_error = false;
+
+    // scan the output files, check if missing or too big
+    // Don't bother doing this if result was aborted via GUI
+
+    if (rp->exit_status != ERR_ABORTED_VIA_GUI) {
+        for (i=0; i<rp->output_files.size(); i++) {
+            fip = rp->output_files[i].file_info;
+            if (fip->uploaded) continue;
+            get_pathname(fip, path);
+            retval = file_size(path, size);
+            if (retval) {
+                // an output file is unexpectedly absent.
+                //
+                fip->status = retval;
+                had_error = true;
+            } else if (size > fip->max_nbytes) {
+                // Note: this is only checked when the application finishes.
+                // The total disk space is checked while the application is running.
+                //
+                msg_printf(
+                    rp->project, MSG_INFO,
+                    "Output file %s for task %s exceeds size limit.",
+                    fip->name, rp->name
+                );
+                msg_printf(
+                    rp->project, MSG_INFO,
+                    "File size: %f bytes.  Limit: %f bytes",
+                    size, fip->max_nbytes
+                );
+
+                fip->delete_file();
+                fip->status = ERR_FILE_TOO_BIG;
+                had_error = true;
+            } else {
+                if (!fip->upload_when_present && !fip->sticky) {
+                    fip->delete_file();     // sets status to NOT_PRESENT
+                } else {
+                    retval = 0;
+                    if (fip->gzip_when_done) {
+                        retval = fip->gzip();
+                    }
+                    if (!retval) {
+                        retval = md5_file(path, fip->md5_cksum, fip->nbytes);
+                    }
+                    if (retval) {
+                        fip->status = retval;
+                        had_error = true;
+                    } else {
+                        fip->status = FILE_PRESENT;
+                    }
+                }
+            }
+        }
+    }
+
+    if (rp->exit_status != 0) {
+        had_error = true;
+    }
+
+    if (had_error) {
+        switch (rp->exit_status) {
+        case ERR_ABORTED_VIA_GUI:
+        case ERR_ABORTED_BY_PROJECT:
+            rp->state = RESULT_ABORTED;
+            break;
+        default:
+            rp->state = RESULT_COMPUTE_ERROR;
+        }
+    } else {
+        rp->state = RESULT_FILES_UPLOADING;
+        rp->project->update_duration_correction_factor(rp);
+    }
+
+    double wall_cpu_time = now - debt_interval_start;
+    at.result->project->wall_cpu_time_this_debt_interval += wall_cpu_time;
+    total_wall_cpu_time_this_debt_interval += wall_cpu_time;
+    total_cpu_time_this_debt_interval += at.current_cpu_time - at.debt_interval_start_cpu_time;
+
+    return 0;
+}
+
+// clean up after finished apps
+//
+bool CLIENT_STATE::handle_finished_apps() {
+    unsigned int i;
+    ACTIVE_TASK* atp;
+    bool action = false;
+    static double last_time = 0;
+    if (gstate.now - last_time < 1.0) return false;
+    last_time = gstate.now;
+
+    for (i=0; i<active_tasks.active_tasks.size(); i++) {
+        atp = active_tasks.active_tasks[i];
+        switch (atp->task_state) {
+        case PROCESS_EXITED:
+        case PROCESS_WAS_SIGNALED:
+        case PROCESS_EXIT_UNKNOWN:
+        case PROCESS_COULDNT_START:
+        case PROCESS_ABORTED:
+            if (log_flags.task) {
+                msg_printf(atp->wup->project, MSG_INFO,
+                    "Computation for task %s finished", atp->result->name
+                );
+            }
+            if (log_flags.task_debug) {
+                msg_printf(0, MSG_INFO,
+                    "CLIENT_STATE::handle_finished_apps(): task finished; pid %d, status %d\n",
+                    atp->pid, atp->result->exit_status
+                );
+            }
+            app_finished(*atp);
+            active_tasks.remove(atp);
+            delete atp;
+            set_client_state_dirty("handle_finished_apps");
+            action = true;
+        }
+    }
+    return action;
+}
+
+// Returns true iff all the input files for a result are present
+// (both WU and app version)
+// Called from CLIENT_STATE::update_results (with verify=false)
+// to transition result from DOWNLOADING to DOWNLOADED.
+// Called from ACTIVE_TASK::start() (with verify=true)
+// when project has verify_files_on_app_start set.
+//
+int CLIENT_STATE::input_files_available(RESULT* rp, bool verify) {
+    WORKUNIT* wup = rp->wup;
+    FILE_INFO* fip;
+    unsigned int i;
+    APP_VERSION* avp;
+    FILE_REF fr;
+    PROJECT* project = rp->project;
+    int retval;
+
+    avp = wup->avp;
+    for (i=0; i<avp->app_files.size(); i++) {
+        fr = avp->app_files[i];
+        fip = fr.file_info;
+        if (fip->status != FILE_PRESENT) return ERR_FILE_MISSING;
+
+        // don't verify app files if using anonymous platform
+        //
+        if (!project->anonymous_platform) {
+            retval = fip->verify_file(verify);
+            if (retval) return retval;
+        }
+    }
+
+    for (i=0; i<wup->input_files.size(); i++) {
+        fip = wup->input_files[i].file_info;
+        if (fip->generated_locally) continue;
+        if (fip->status != FILE_PRESENT) return ERR_FILE_MISSING;
+        retval = fip->verify_file(verify);
+        if (retval) return retval;
+    }
+    return 0;
+}
+
+
+// if there's not an active task for the result, make one
+//
+ACTIVE_TASK* CLIENT_STATE::get_task(RESULT* rp) {
+    ACTIVE_TASK *atp = lookup_active_task_by_result(rp);
+    if (!atp) {
+        atp = new ACTIVE_TASK;
+        atp->slot = active_tasks.get_free_slot();
+        atp->init(rp);
+        active_tasks.active_tasks.push_back(atp);
+    }
+    return atp;
+}
+
+
+// find total resource shares of all projects
+//
+double CLIENT_STATE::total_resource_share() {
+    double x = 0;
+    for (unsigned int i=0; i<projects.size(); i++) {
+        if (!projects[i]->non_cpu_intensive ) {
+            x += projects[i]->resource_share;
+        }
+    }
+    return x;
+}
+
+// same, but only runnable projects (can use CPU right now)
+//
+double CLIENT_STATE::runnable_resource_share() {
+    double x = 0;
+    for (unsigned int i=0; i<projects.size(); i++) {
+        PROJECT* p = projects[i];
+        if (p->non_cpu_intensive) continue;
+        if (p->runnable()) {
+            x += p->resource_share;
+        }
+    }
+    return x;
+}
+
+// same, but potentially runnable (could ask for work right now)
+//
+double CLIENT_STATE::potentially_runnable_resource_share() {
+    double x = 0;
+    for (unsigned int i=0; i<projects.size(); i++) {
+        PROJECT* p = projects[i];
+        if (p->non_cpu_intensive) continue;
+        if (p->potentially_runnable()) {
+            x += p->resource_share;
+        }
+    }
+    return x;
+}
+
+// same, but nearly runnable (could be downloading work right now)
+//
+double CLIENT_STATE::nearly_runnable_resource_share() {
+    double x = 0;
+    for (unsigned int i=0; i<projects.size(); i++) {
+        PROJECT* p = projects[i];
+        if (p->non_cpu_intensive) continue;
+        if (p->nearly_runnable()) {
+            x += p->resource_share;
+        }
+    }
+    return x;
+}
+
+// called at startup (after get_host_info())
+// and when general prefs have been parsed
+//
+void CLIENT_STATE::set_ncpus() {
+    int ncpus_old = ncpus;
+
+    if (config.ncpus>0) {
+        ncpus = config.ncpus;
+    } else if (host_info.p_ncpus>0) {
+        ncpus = host_info.p_ncpus;
+    } else {
+        ncpus = 1;
+    }
+    if (ncpus > global_prefs.max_cpus) ncpus = global_prefs.max_cpus;
+
+    if (initialized && ncpus != ncpus_old) {
+        msg_printf(0, MSG_INFO,
+            "Number of usable CPUs has changed from %d to %d.  Running benchmarks.",
+            ncpus_old, ncpus
+        );
+        run_cpu_benchmarks = true;
+        request_schedule_cpus("Number of usable CPUs has changed");
+        request_work_fetch("Number of usable CPUs has changed");
+    }
+}
+
+inline double force_fraction(double f) {
+    if (f < 0) return 0;
+    if (f > 1) return 1;
+    return f;
+}
+
+double CLIENT_STATE::get_fraction_done(RESULT* result) {
+    ACTIVE_TASK* atp = active_tasks.lookup_result(result);
+    return atp ? force_fraction(atp->fraction_done) : 0.0;
+}
+
+// Decide which app version to use for a WU.
+// Return -1 if can't find one
+//
+int CLIENT_STATE::choose_version_num(WORKUNIT* wup, SCHEDULER_REPLY& sr) {
+    unsigned int i;
+    int best = -1;
+    APP_VERSION* avp;
+
+    // First look in the scheduler reply
+    //
+    for (i=0; i<sr.app_versions.size(); i++) {
+        avp = &sr.app_versions[i];
+        if (!strcmp(wup->app_name, avp->app_name)) {
+            return avp->version_num;
+        }
+    }
+
+    // If not there, use the latest one in our state
+    //
+    for (i=0; i<app_versions.size(); i++) {
+        avp = app_versions[i];
+        if (avp->project != wup->project) continue;
+        if (strcmp(avp->app_name, wup->app_name)) continue;
+        if (avp->version_num < best) continue;
+        best = avp->version_num;
+    }
+    return best;
+}
+
+// trigger work fetch
+// 
+void CLIENT_STATE::request_work_fetch(const char* where) {
+    if (log_flags.work_fetch_debug) {
+        msg_printf(0, MSG_INFO, "Request work fetch: %s", where);
+    }
+    must_check_work_fetch = true;
+}
+
+const char *BOINC_RCSID_7bf63ad771 = "$Id$";

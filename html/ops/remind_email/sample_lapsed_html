@@ -1,0 +1,72 @@
+<html>
+<body>
+<table width=600 cellpadding=10>
+<tr>
+<td width=60% align=middle>
+<a href=http://setiathome.berkeley.edu>
+<img middle src=http://setiathome.berkeley.edu/logo7.gif border=0>
+</a>
+<td align=right>
+<img align=right border=0 src=http://setiathome.berkeley.edu/images/uc_logo_120.png>
+</td>
+</tr>
+<tr><td colspan=2 bgcolor=ffffcc>
+<p>
+Dear <name/>:
+<p>
+We'd like to invite you to reconnect with SETI@home.
+Our records show that you've been with SETI@home since <create_time/>,
+but it's been <lapsed_interval/> days since you last returned a work unit.
+We want you back, and here's why:
+
+<p>
+There are exciting times for SETI@home.
+We recently installed a new SETI@home data recorder
+at the Arecibo radio telescope in Puerto Rico.
+This recorder is attached to a state-of-the-art multibeam receiver,
+so we can now measure signals from 7 positions on the sky at once,
+with greater sensitivity to weak signals compared to the data
+from the flat feed antenna we've used since 1999.
+Coupled with a new application, SETI@home Enhanced,
+we've greatly increased the sensitivity of our data analysis,
+and the likelihood that we'll find the first signs
+of extraterrestrial life.
+We're also testing a second application, Astropulse,
+which will look for extremely short pulses of astronomical
+(and possibly intelligent) origin.
+
+<p>
+With these new development comes an increase in required computing power,
+for which we depend on people like you.
+We hope you will consider signing back on with SETI@home,
+and help in this wonderful scientific venture.
+
+<p>
+Whether or now you resume running SETI@home,
+you can help us by filling out
+<a href=http://boinc.berkeley.edu/poll.php>a survey about the BOINC software used by SETI@home</a>.
+We want to make sure that SETI@home is easy to use for everyone,
+and your comments will help us make this happen.
+
+<p>
+If you experienced problems running SETI@home, please visit
+<a href=http://setiathome.berkeley.edu/forum_help_desk.php>the Questions and Answers area of our web site</a>.
+You may find the solution to your problem there;
+if not, you can ask for help from project volunteers and staff.
+
+<p>
+We thank you for your involvement in SETI@home,
+and hope that you rejoin us in our search
+for signals from other worlds.
+
+<p>
+
+-- The SETI@home team
+
+<p>
+<hr>
+To not get any more email from SETI@home, please
+<a href=<opt_out_url/>>click here</a>.
+</td></tr></table>
+</body>
+</html>

@@ -1,0 +1,415 @@
+﻿##########################################
+# Language: Russian (Russian Federation) (based on en.po v1.26)
+# FileID  : #$Id$
+# Author  : Janus Kristensen (Translated by: Cyril Tikhonov, Nikolay Saharov)
+# Email   : jbk@visualgroup.dk (cyrilussr@yahoo.com, saharovna@mail.ru)
+##########################################
+# For more information please see:
+# http://boinc.berkeley.edu/web_translation.php
+##########################################
+
+
+# The charset used for the text in this file (please try to use UTF-8 if possible)
+# Кодовая страница для текста в этом файле (пожалуйста, используйте UTF-8 по возможности)
+msgid "CHARSET"
+msgstr "UTF-8"
+
+# The name of this language in this language
+# Имя языка в этом файле
+msgid "LANG_NAME_NATIVE"
+msgstr "Русский"
+
+# The name of this language in an international language (English)
+# Имя языка в этом файле на интернациональном языке (английском)
+msgid "LANG_NAME_INTERNATIONAL"
+msgstr "Russian"
+
+
+#########################################
+# Apps page (apps.php)
+# Страница приложений
+#########################################
+
+msgid "APPS_TITLE"
+msgstr "Приложения"
+
+msgid "APPS_DESCRIPTION"
+msgstr "$PROJECT на данный момент имеет следующие приложения. "
+"Когда Вы участвуете в $PROJECT, Вашему компьютеру будут назначены задания для одного "
+"или нескольких из этих приложений. "
+"На Ваш компьютер будет скачана текущая версия приложения. "
+"Все это происходит автоматически; Вам не нужно что-либо предпринимать дополнительно. "
+
+msgid "APPS_PLATFORM"
+msgstr "Платформа"
+
+msgid "APPS_VERSION"
+msgstr "Текущая версия"
+
+msgid "APPS_INSTALLTIME"
+msgstr "Время сборки"
+
+
+#########################################
+# Rules and Policies page (info.php)
+# Страница Правил и Политик
+#########################################
+
+msgid "RULES_TITLE"
+msgstr "Прочтите наши правила и политики"
+
+msgid "RULES_ONLY_AUTH"
+msgstr "Запускайте $PROJECT только на авторизованных компьютерах"
+
+msgid "RULES_ONLY_AUTH_TEXT"
+msgstr "Запускайте $PROJECT только на компьютерах, которыми Вы владеете, "
+"или для которых Вы получили права владельца. "
+"В некоторых компаниях и школах (ВУЗах) установлен порядок, по которому запрещается использовать их компьютеры "
+"в таких проектах, как $PROJECT."
+
+msgid "RULES_COMPUTER_USE"
+msgstr "Как $PROJECT будет использовать Ваш компьютер"
+
+msgid "RULES_COMPUTER_USE_TEXT_A"
+msgstr "Когда Вы запускаете $PROJECT на Вашем компьютере, "
+"он будет использовать часть ресурсов процессора, пространство на жестком диске (винчестере), и сетевой трафик. "
+"Вы можете контролировать, сколько ресурсов Вашего компьютера будет использовано для работы $PROJECT, "
+"и когда они (ресурсы) будут использоваться."
+
+msgid "RULES_COMPUTER_USE_TEXT_B"
+msgstr "Работа, совершенная Вашим компьютером, содействует решению "
+"задач $PROJECT, как описано на web-сайте проекта. "
+"Приложения могут меняться время от времени."
+
+msgid "RULES_PRIVACY"
+msgstr "Обеспечение конфиденциальности"
+
+msgid "RULES_PRIVACY_TEXT_A"
+msgstr "Ваша учетная запись на $PROJECT идентифицируется по имени, которое Вы указали. "
+"Это имя может быть показано на web-сайте $PROJECT, наряду со сводкой работы Вашего "
+"компьютера, сделанной для $PROJECT. "
+"Если Вы хотите остаться неизвестным, выберите имя, которое не соответствует Вашему настоящему имени."
+
+msgid "RULES_PRIVACY_TEXT_B"
+msgstr "Если Вы принимаете участие в $PROJECT, информация о Вашем компьютере "
+"(такая как тип процессора, объем оперативной памяти, и т.д.) "
+"будет записана проектом $PROJECT и использована для принятия решения о том, какой тип работы "
+"назначить Вашему компьютеру. Эта информация также будет показана на web-сайте $PROJECT. "
+"Ничего, что указывало бы на местонахождение Вашего компьютера (например, его доменное или "
+"сетевое имя), не будет показываться."
+
+msgid "RULES_PRIVACY_TEXT_C"
+msgstr "Чтобы принять участие в $PROJECT, Вы должны указать Ваш адрес электронной почты. "
+"Этот адрес не будет показан на web-сайте $PROJECT или доступен другим организациям. "
+"$PROJECT может посылать Вам периодические новостные письма; тем не менее, Вы можете отказаться от них в любое время."
+
+msgid "RULES_SAFE"
+msgstr "На сколько безопасен запуск $PROJECT?"
+
+msgid "RULES_SAFE_TEXT_A"
+msgstr "Каждый раз при загрузке программы через Интернет может случиться следующее: "
+"программа может иметь опасные ошибки, "
+"или сервер может быть взломан. "
+"$PROJECT предпринял усилия для минимизации этих рисков. "
+"Мы тщательно оттестировали наши приложения. "
+"Наши сервера защищены сетевым экраном и настроены на высокую безопасность. "
+"Чтобы удостовериться в целостности загружаемых программ, все исполняемые файлы подписаны цифровой подписью "
+"на защищенном компьютере, не подключенном к сети Интернет."
+
+msgid "RULES_SAFE_TEXT_B"
+msgstr "Приложения, запускаемые проектом $PROJECT, могут послужить причиной перегрева некоторых компьютеров. "
+"Если это случилось, остановите выполнение $PROJECT или используйте %s, что ограничит использование процессора."
+
+msgid "RULES_UTILITY_PROGRAM"
+msgstr "утилиты"
+
+msgid "RULES_SAFE_TEXT_C"
+msgstr "$PROJECT был разработан %s. BOINC был разработан в Университете Калифорнии (the University of "
+"California)."
+
+msgid "RULES_LIABILITY"
+msgstr "Ответственность"
+
+msgid "RULES_LIABILITY_TEXT"
+msgstr "$PROJECT и %s не берут на себя ответственность за ущерб, нанесенный Вашему компьютеру, "
+"потерю данных, или любое другое событие или инцидент, который может произойти как результат "
+"участия в $PROJECT."
+
+msgid "RULES_OTHER"
+msgstr "Другие BOINC-проекты"
+
+msgid "RULES_OTHER_TEXT_A"
+msgstr "Другие проекты используют ту же платформу - BOINC - что и $PROJECT. Вы можете захотеть "
+"принять участие в одном или нескольких из этих проектов. "
+"Если Вы присоединитесь к нескольким проектам, Ваш компьютер будет выполнять полезную работу, даже когда $PROJECT не будет иметь заданий, "
+"доступных для обработки."
+
+msgid "RULES_OTHER_TEXT_B"
+msgstr "Другие проекты не связаны с $PROJECT, и мы не можем "
+"поручиться за их безопасность или природу их исследований. Присоединяйтесь к ним "
+"на свой страх и риск."
+
+
+#########################################
+# Create account form (create_account_form.php)
+# Форма создания учетной записи
+#########################################
+
+msgid "CREATE_AC_TITLE"
+msgstr "Создание учетной записи"
+
+msgid "CREATE_AC_READ_RULES"
+msgstr "Прочтите %s до создания учетной записи."
+
+msgid "CREATE_AC_ALREADY_GOT"
+msgstr "Если Вы уже получили учетную запись, не заполняйте эту форму. "
+"%s вместо этого."
+
+msgid "CREATE_AC_NAME"
+msgstr "Имя"
+
+msgid "CREATE_AC_NAME_DESC"
+msgstr "Идентифицирует Вас на нашем web-сайте. Введите Ваше настоящее имя или псевдоним"
+
+msgid "CREATE_AC_EMAIL"
+msgstr "Адрес электронной почты"
+
+msgid "CREATE_AC_EMAIL_DESC"
+msgstr "Должен быть действительным адресом в форме 'имя@домен', к примеру, user@aol.com"
+
+msgid "CREATE_AC_COUNTRY"
+msgstr "Страна"
+
+msgid "CREATE_AC_COUNTRY_DESC"
+msgstr "Выберите страну, которую представляете, если хотите"
+
+msgid "CREATE_AC_ZIP"
+msgstr "Почтовый индекс или ZIP-код"
+
+msgid "CREATE_AC_CREATE"
+msgstr "Создать учетную запись"
+
+msgid "CREATE_AC_DISABLED"
+msgstr "Создание учетной записи запрещено"
+
+msgid "CREATE_AC_DISABLED_TEXT"
+msgstr "Создание учетной записи запрещено для $PROJECT в данный момент. "
+"Пожалуйста, повторите позже."
+
+msgid "CREATE_AC_TEAM"
+msgstr "Эта учетная запись будет относиться к команде '%s' и будет иметь настройки проекта как у ее создателя."
+
+msgid "CREATE_AC_USE_CLIENT"
+msgstr "Внимание: Если Вы используете BOINC версии 5.2+ вместе с Менеджером BOINC, "
+"не используйте эту форму. "
+"Просто запустите BOINC, выберите 'Добавить проект', "
+"и введите адрес электронной почты и пароль. "
+
+msgid "CREATE_AC_PASSWORD"
+msgstr "Пароль"
+
+msgid "CREATE_AC_PASSWORD_DESC"
+msgstr "Должно быть по крайней мере %s символов"
+
+msgid "CREATE_AC_CONFIRM_PASSWORD"
+msgstr "Подтвердите пароль"
+
+msgid  "AC_INVITE_CODE"
+msgstr "Пригласительный код"
+
+msgid  "AC_INVITE_CODE_DESC"
+msgstr "Для создания учетной записи необходим действительный пригласительный код"
+
+msgid "AC_INVITE_REQUIRED"
+msgstr "Чтобы создать учетную запись, Вы должны указать пригласительный код."
+
+msgid "AC_INVITE_INVALID"
+msgstr "Указанный Вами пригласительный код не действителен."
+
+
+#########################################
+# Forum sample index page
+# Пример главной страницы форума
+#########################################
+
+msgid "FORUM_TITLE"
+msgstr "Доска сообщений $PROJECT"
+
+msgid "FORUM_TITLE_SHORT"
+msgstr "Доска сообщений"
+
+
+#########################################
+# General stuff (create_account_form.php and others)
+# Общий материал
+#########################################
+
+msgid "OPTIONAL"
+msgstr "Необязательно"
+
+
+#########################################
+# Various top table pages (top users, computers, teams)
+# Различные страницы топов
+#########################################
+
+msgid "TOP_PARTICIPANT_TITLE"
+msgstr "Лучшие участники"
+
+msgid "USER_TABLE_RANK"
+msgstr "Позиция"
+
+msgid "USER_TABLE_NAME"
+msgstr "Имя"
+
+msgid "TOTAL_CREDIT"
+msgstr "Всего очков"
+
+msgid "EXPAVG_CREDIT"
+msgstr "В среднем за день"
+
+msgid "USER_TABLE_COUNTRY"
+msgstr "Страна"
+
+msgid "USER_TABLE_PTIME"
+msgstr "Учавствует с"
+
+msgid "TOP_TEAMS_TITLE"
+msgstr "Лучшие %s команды"
+
+msgid "TEAM_TABLE_MEMBERS"
+msgstr "Участники"
+
+
+#########################################
+# Forum
+# Форум
+#########################################
+
+msgid "FORUM_POSTS"
+msgstr "Сообщения"
+
+msgid "FORUM_TOPIC"
+msgstr "Тема"
+
+msgid "FORUM_THREADS"
+msgstr "Обсуждения"
+
+msgid "FORUM_LAST_POST"
+msgstr "Последнее сообщение"
+
+msgid "FORUM_AUTHOR"
+msgstr "Автор"
+
+msgid "FORUM_VIEWS"
+msgstr "Просмотры"
+
+msgid "FORUM_ERR_NOT_FOUND"
+msgstr "Нет такого форума"
+
+msgid "FORUM_ERR_EXPAVG"
+msgstr "Чтобы создать новую тему для обсуждения в %s, у Вас должно быть определенное количество очков. "
+"Это должно предотвратить и защитить против злоупотребления системой."
+
+msgid "FORUM_ERR_INTERVAL"
+msgstr "Прямо сейчас Вы не можете создать тему для обсуждения. Пожалуйста, немного подождите перед повторной попыткой. "
+"Эта задержка произошла для того, чтобы защитить против злоупотребления системой."
+
+msgid "FORUM_QA_POST_MESSAGE"
+msgstr "Область %s позволяет Вам получить помощь других пользователей. Если у Вас есть вопрос или проблема:"
+
+msgid "FORUM_QA_POST_MESSAGE2"
+msgstr "Прочитайте имеющийся список вопросов. Если Ваш вопрос уже там, "
+"нажмите на кнопку %s. Если ответы на вопрос были представлены, прочитайте их. "
+"Если один из них отвечает на Ваш вопрос, нажмите на кнопку %s."
+
+msgid "FORUM_QA_POST_MESSAGE3"
+msgstr "Если Ваш вопрос еще не задали, заполните и представьте эту форму."
+
+msgid "FORUM_QA_POST_MESSAGE4"
+msgstr "Это предотвратит многократное задание похожих вопросов."
+
+msgid "FORUM_QA_SUBMIT_NEW"
+msgstr "Представить новый вопрос/проблему"
+
+msgid "FORUM_SUBMIT_NEW"
+msgstr "Создать новую тему"
+
+msgid "FORUM_SUBMIT_NEW_TITLE"
+msgstr "Тема"
+
+msgid "FORUM_QA_SUBMIT_NEW_HELP"
+msgstr "Опишите Ваш вопрос в нескольких словах. "
+"Краткое, ясное резюме поможет другим с тем же самым "
+"вопросом (или ответом) найти его."
+
+msgid "FORUM_QA_SUBMIT_NEW_BODY_HELP"
+msgstr "Если у Вас проблемы с программным обеспечением, "
+"укажите номер версии программы, "
+"тип Вашего компьютера и операционную систему."
+
+msgid "FORUM_ADD_MY_SIG"
+msgstr "Добавить мою подпись к этому сообщению"
+
+msgid "FORUM_MESSAGE"
+msgstr "Сообщение"
+
+msgid "FORUM_QA_GOT_PROBLEM_TOO"
+msgstr "У меня такая же проблема"
+
+msgid "FORUM_QA_QUESTION_ANSWERED"
+msgstr "Это ответ на мой вопрос"
+
+msgid "FORUM_HTML_INFO"
+msgstr "Используйте тэги BBCode для форматирования Вашего текста"
+
+
+#########################################
+# Forum thread
+# Обсуждение на форуме
+#########################################
+
+msgid "FORUM_THREAD_HIDDEN"
+msgstr "Это обсуждение было скрыто в административных целях"
+
+msgid "FORUM_THREAD_REPLY"
+msgstr "Ответить на это обсуждение"
+
+msgid "FORUM_THREAD_SUBSCRIBED"
+msgstr "Вы подписаны на это обсуждение."
+
+msgid "FORUM_THREAD_UNSUBSCRIBE"
+msgstr "Нажмите сюда чтобы отписаться"
+
+msgid "FORUM_THREAD_SUBSCRIBE"
+msgstr "Подписаться на это обсуждение"
+
+
+#########################################
+# Forum search features
+# Особенности поиска на форуме
+#########################################
+
+msgid "FORUM_SEARCH"
+msgstr "Поиск в форуме"
+
+msgid "FORUM_SEARCH_TITLES"
+msgstr "Темы, содержащие '%s'"
+
+msgid "FORUM_SEARCH_BODIES"
+msgstr "Сообщения, содержащие '%s'"
+
+msgid "FORUM_SEARCH_TITLES_NO"
+msgstr "Темы, содержащие '%s', не были найдены."
+
+msgid "FORUM_SEARCH_BODIES_NO"
+msgstr "Сообщения, содержащие '%s', не были найдены."
+
+
+#########################################
+# Links from the main page
+# Ссылки с главной страницы
+#########################################
+
+msgid "LINKS_QA"
+msgstr "Вопросы и ответы"

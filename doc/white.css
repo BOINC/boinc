@@ -1,0 +1,107 @@
+h1 {
+    font-variant: small-caps;
+    font-size: 20pt;
+}
+
+pre {
+    font-size: medium;
+}
+
+code {
+    font-size: medium;
+}
+
+a:link {
+	color: blue;
+    text-decoration: none;
+	font-weight: bold;
+}
+
+a:visited {
+	color: blue;
+    text-decoration: none;
+	font-weight: bold;
+}
+
+a:active {
+	color: blue;
+	font-weight: bold;
+}
+
+a:hover {
+    color: rgb(200,80,80);
+	font-weight: bold;
+}
+
+body , table , input , select {
+	font-family: "Trebuchet MS", Verdana, Arial, Sans Serif;
+#font-size: small;
+}
+
+body {
+	background-color: white;
+    color: black;
+}
+
+pre {
+	background-color: #d8e8ff;
+}
+
+th {
+	background-color: #c8c8ff;
+	color: black;
+	font-weight: bold;
+}
+
+td.indent {
+         border-left: 4px solid white;
+}
+
+td.heading {
+        background-color: rgb(217,217,217);
+	    font-weight: bold;
+}
+
+td.fieldname {
+        background-color: rgb(237,237,237);
+}
+
+td.category {
+        border: 1px solid black;
+}
+
+tr.row0 {
+        background-color: rgb(217,217,217);
+}
+
+tr.row1 {
+        background-color: rgb(237,237,237);
+}
+
+tr.subtitle {
+	background-color: white;
+	color: black;
+	font-weight: bold;
+}
+
+tr.message {
+           background-color:#E0E0EF;
+}
+
+input , select {
+	vertical-align: middle;
+}
+
+img {
+    border: 0px;
+}
+
+.title {
+	font-size: small;
+	font-weight: bold;
+}
+
+.description {
+	font-size: 80%;
+	font-weight: normal;
+}

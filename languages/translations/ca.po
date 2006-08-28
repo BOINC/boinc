@@ -1,0 +1,529 @@
+msgid ""
+msgstr ""
+"Project-Id-Version: \n"
+"POT-Creation-Date: \n"
+"PO-Revision-Date: 2006-08-11 17:52+0100\n"
+"Last-Translator: cesc <saphojuice@hotmail.com>\n"
+"Language-Team: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=utf-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"X-Poedit-Language: Catalan\n"
+"X-Poedit-Country: SPAIN\n"
+
+# ########################################
+# Language: Catalan
+# FileID  : cat.po,v 1.0, based on en.po v1.8(cvs).   2006/08/10 14:10:34+0100
+# Author  : boincadm  ( Translator: Francesc Alsinet )
+# ########################################
+# For more information please see:
+# http://boinc.berkeley.edu/web_translation.php
+# ########################################
+# The charset used for the text in this file (please try to use UTF-8 if possible)
+msgid "CHARSET"
+msgstr "UTF-8"
+
+# The name of this language in this language
+msgid "LANG_NAME_NATIVE"
+msgstr "Català"
+
+# The name of this language in an international language (English)
+msgid "LANG_NAME_INTERNATIONAL"
+msgstr "Catalan"
+
+# for user survey
+msgid "POLL_TITLE"
+msgstr "Enquesta per a usuaris de BOINC"
+
+msgid "POLL_INTRO"
+msgstr "Diversos projectes de computació distribuïda, incloent Climateprediction.net, Einstein@home, i SETI@home, utilitzen un programari anomenat BOINC. Si participa en projectes com aquests, li demanem que respongui a les següents qüestions. Això ajudarà els projectes basats en BOINC a incrementar la participació i a assolir majors fites científics. <p> Si us plau respongui  tantes preguntes com vulgui, llavors dirigeixis a la part inferior de la pàgina i faci clic en el botó OK. Si ha respost amb anterioritat a l'enquesta però les seves repsostes han canviat, si us plau completi l'enquesta altra vegada -  les seves noves respostes substituiran les antigues. <p> Els resultats actuals de l'enquesta són <a href=poll_results.php>aquí</a>. "
+
+msgid "POLL_RUN"
+msgstr "Executa BOINC?"
+
+msgid "POLL_PARTICIPATION"
+msgstr "La seva participació"
+
+msgid "POLL_COMPUTERS"
+msgstr "Els seus ordinadors"
+
+msgid "POLL_YOU"
+msgstr "Vostè"
+
+msgid "POLL_NATIONALITY"
+msgstr "Nacionalitat"
+
+msgid "POLL_COMMENTS"
+msgstr "Comentaris"
+
+msgid "POLL_COMMENTS_QUESTION"
+msgstr "Si us plau, suggereixi maneres en les que BOINC, i els projectes que en fan ús, podrien millorar:"
+
+msgid "POLL_OTHER"
+msgstr "Altres:"
+
+msgid "POLL_CHECK_ALL"
+msgstr "[marqui totes les opcions pertinents]"
+
+msgid "POLL_DONE"
+msgstr "Quan hagi acabat, faci clic:"
+
+msgid "POLL_CURRENT"
+msgstr "Sí - He fet executar BOINC en el meu ordinador durant..."
+
+msgid "POLL_TWEEK"
+msgstr "menys d'una setmana"
+
+msgid "POLL_TMONTH"
+msgstr "menys d'un mes"
+
+msgid "POLL_TYEAR"
+msgstr "menys d'un any"
+
+msgid "POLL_TMOREYEAR"
+msgstr "més d'un any"
+
+msgid "POLL_LAPSED"
+msgstr "No - He fet executar BOINC en alguna ocasió, però ho he deixat perquè..."
+
+msgid "POLL_LINTEREST"
+msgstr "he perdut interès"
+
+msgid "POLL_LCOMPLICATED"
+msgstr "era massa complicat"
+
+msgid "POLL_LSTOPPED"
+msgstr "vaig aturar-lo i he oblidat reiniciar-lo altra vegada"
+
+msgid "POLL_LPROBLEMS"
+msgstr "causava problemes al meu ordinador"
+
+msgid "POLL_LPOWER"
+msgstr "consumia massa electricitat"
+
+msgid "POLL_LNONBOINC"
+msgstr "he passat a participar en un projecte de computació no basat en BOINC"
+
+msgid "POLL_FAILED"
+msgstr "No - Vaig intentar executar BOINC, però..."
+
+msgid "POLL_FINSTALL"
+msgstr "el programari no s'instalava correctament"
+
+msgid "POLL_FFIGURE"
+msgstr "no vaig poder imaginar com utilitzar el programari"
+
+msgid "POLL_FNETWORK"
+msgstr "vaig tenir problemes de comunicació amb la xarxa"
+
+msgid "POLL_FATTACH"
+msgstr "no em vaig poder unir a cap projecte"
+
+msgid "POLL_FWORK"
+msgstr "em vaig unir a un projecte, però no vaig arribar rebre feina"
+
+msgid "POLL_NEVER"
+msgstr "No - Mai he provat d'executar BOINC, perquè..."
+
+msgid "POLL_NSECURITY"
+msgstr "em preocupava la seguretat"
+
+msgid "POLL_NPROJECT"
+msgstr "no m'interesava cap dels projectes"
+
+msgid "POLL_NPERMISSION"
+msgstr "no tinc permís per executar BOINC en el meu ordinador"
+
+msgid "POLL_NVERSION"
+msgstr "no hi ha cap versió disponible per al meu ordinador"
+
+msgid "POLL_KIND"
+msgstr "En quin tipus d'ordinadors fa executar BOINC?"
+
+msgid "POLL_WHERE"
+msgstr "On estan situats?"
+
+msgid "POLL_HOME"
+msgstr "A casa"
+
+msgid "POLL_WORK"
+msgstr "Al lloc de treball"
+
+msgid "POLL_SCHOOL"
+msgstr "A l'escola"
+
+msgid "POLL_HOW_MANY"
+msgstr "Quants ordinadors?"
+
+msgid "POLL_TURNED_ON"
+msgstr "De mitjana, quantes hores al dia estan encesos?"
+
+msgid "POLL_AGE"
+msgstr "Edat"
+
+msgid "POLL_SEX"
+msgstr "Sexe"
+
+msgid "POLL_MALE"
+msgstr "Mascle"
+
+msgid "POLL_FEMALE"
+msgstr "Femella"
+
+msgid "POLL_EXPERTISE"
+msgstr "El seu nivell de coneixements informàtics"
+
+msgid "POLL_LEVB"
+msgstr "Principiant"
+
+msgid "POLL_LEVI"
+msgstr "Intermig"
+
+msgid "POLL_LEVA"
+msgstr "Avançat"
+
+msgid "POLL_LEARN_WHERE"
+msgstr "A través de quins mitjans ha conegut projectes BOINC?"
+
+msgid "POLL_WTV"
+msgstr "Televisó/radio/premsa escrita"
+
+msgid "POLL_WPERS"
+msgstr "Amics, familiars, companys de feina"
+
+msgid "POLL_WTEAM"
+msgstr "Fòrums, taulells de missatges o pàgines web d'algun equip"
+
+msgid "POLL_WBOINC"
+msgstr "La pàgina web de BOINC"
+
+msgid "POLL_WWEB"
+msgstr "Altres pàgines web"
+
+msgid "POLL_FACTOR"
+msgstr "Quins són els factors més importants que té en compte quan decideix si participar o no en un projecte BOINC?"
+
+msgid "POLL_GRAPHICS"
+msgstr "Gràfics atractius al salvapantalles"
+
+msgid "POLL_CREDIT_FAIR"
+msgstr "Retribució justa i ràpida de crèdit per la feina feta"
+
+msgid "POLL_CREDIT_MORE"
+msgstr "Obtenció de més credit del projecte en qüestió, que dels altres"
+
+msgid "POLL_MB_FRIENDLY"
+msgstr "Taulells de missatges o fòrums on s'ajudi i hi hagi ambient amigable"
+
+msgid "POLL_MB_STAFF"
+msgstr "Participació de responsables del projecte als taulells de missatges"
+
+msgid "POLL_WEB_SITE"
+msgstr "Pàgina web del projecte informativa"
+
+msgid "POLL_SCIENCE_IMPORTANT"
+msgstr "Que la investigació sigui important i beneficiosa"
+
+msgid "POLL_SCIENCE_PUBLIC"
+msgstr "Sense ànim de lucre, i resultats públics"
+
+msgid "POLL_RECOGNIZE"
+msgstr "Reconeixement personal si el meu ordinador troba alguna cosa"
+
+msgid "POLL_PUBLISH"
+msgstr "Publicacions per part del projecte en revistes científiques"
+
+msgid "POLL_EMAIL"
+msgstr "Distribució periòdica d'informació sobre el projecte per correu electrònic"
+
+msgid "POLL_NPROJECTS"
+msgstr "En quants projectes participa?"
+
+msgid "POLL_SSAVER"
+msgstr "Utilitza BOINC com a salvapantalles?"
+
+msgid "POLL_YES"
+msgstr "Sí"
+
+msgid "POLL_NO"
+msgstr "No"
+
+msgid "POLL_MBOARDS"
+msgstr "El seu ús dels taulells de missatges o fòrums:"
+
+msgid "POLL_MBR"
+msgstr "per llegir informació"
+
+msgid "POLL_MBRW"
+msgstr "per llegir i publicar informació"
+
+msgid "POLL_NONE"
+msgstr "cap"
+
+msgid "POLL_HELP"
+msgstr "D'on obté informació per ajudar a resoldre problemes relacionats amb BOINC i/o amb projectes basats en BOINC?"
+
+msgid "POLL_HELP_PMB"
+msgstr "Taulells de missatges del projecte"
+
+msgid "POLL_HELP_BMB"
+msgstr "Taulells de missatges de BOINC"
+
+msgid "POLL_HELP_BDOC"
+msgstr "Pàgina web de BOINC"
+
+msgid "POLL_HELP_BMLIST"
+msgstr "Llistes de correu de BOINC"
+
+msgid "POLL_HELP_WIKI"
+msgstr "Enciclopedia Wiki no oficial de BOINC"
+
+msgid "POLL_HELP_TEAM"
+msgstr "Pàgines web de l'equip"
+
+msgid "POLL_HELP_GOOGLE"
+msgstr "Google o altres motors de recerca"
+
+msgid "POLL_ERROR_TITLE"
+msgstr "Error - no s'han desat els resultats"
+
+msgid "POLL_ERROR_TEXT"
+msgstr "Un error intern ens ha impedit desar les seves respostes a l'enquesta. Si us plau torni a intentar-ho més tard."
+
+msgid "POLL_RECORDED"
+msgstr "Respostes de l'enquesta desades"
+
+msgid "POLL_THANKS"
+msgstr "Gràcies per respondre les preguntes de l'enquesta per a usuaris de BOINC."
+
+msgid "POLL_RESULTS_TITLE"
+msgstr "Resultats de l'enquesta"
+
+msgid "POLL_RESULTS_TEXT"
+msgstr "Aquests són els resultats de l'<a href=poll.php>enquesta per a usuaris de BOINC</a>.  Aquesta pàgina s'actualitza cada hora."
+
+########################################
+# download.php 2006/08/03 by je2bwm
+########################################
+msgid "DL_DOWNLOAD"
+msgstr "Descarregar BOINC"
+
+msgid "DL_VERSION_LNAME_SIZE"
+msgstr "%s for %s (%s MB)"
+
+msgid "DL_WHATS_BOINC"
+msgstr " BOINC és un programa que li permet donar la capacitat de càlcul no aprofitada del seu ordinador a projectes científics com SETI@home, Climateprediction.net, Rosetta@home, World Community Grid, i molts altres.        <p>        Després d'intal·lar el client BOINC al seu ordinador, el pot connectar a tants projectes com vostè vulgui.        <p>"
+
+msgid "DL_SYSTEMREQ"
+msgstr "Requirements del sistema"
+
+msgid "DL_RELNOTES"
+msgstr "Notes de llançament"
+
+msgid "DL_OTHERSYS"
+msgstr "Altres sistemes"
+
+msgid "DL_ALLVERSIONS"
+msgstr "Totes les versions"
+
+msgid "DL_IF_OTHERTYPES"
+msgstr "Si el seu ordinador no és de cap dels tipus indicats aquí dalt, pot"
+
+msgid "DL_MAKEYOUROWN"
+msgstr "%s crear els seu propi client %s o bé"
+
+msgid "DL_DL_FROM3RDP"
+msgstr "%s descarregar executables desde pàgines de tercers %s"
+
+msgid "DL_DOWNLOAD_TITLE"
+msgstr "BOINC: computació per a la ciència"
+
+##############################################
+# system_requirements.php by je2bwm 2006/08/07
+##############################################
+msgid "SRQ_PAGE_TITLE"
+msgstr "Requirements del sistema"
+
+msgid "SRQ_INTRO"
+msgstr "Cal que el seu ordinador satisfaci els següents requeriments per poder executar el client BOINC. "
+
+msgid "SRQ_MSWIN"
+msgstr "Windows"
+
+msgid "SRQ_OS"
+msgstr "Sistemes operatius"
+
+msgid "SRQ_MSWIN_REQ_OS"
+msgstr "Windows 98 o posterior"
+
+msgid "SRQ_MIN_HARDWARE"
+msgstr "Maquinari mínim"
+
+msgid "SRQ_MSWIN_REQ_CPU"
+msgstr "Pentium 233 MHz (Recomenat: Pentium 500 MHz o superior)"
+
+msgid "SRQ_MSWIN_REQ_RAM"
+msgstr "64 MB RAM (Recomenat: 128 MB RAM o més)"
+
+msgid "SRQ_MSWIN_REQ_DISK"
+msgstr "20 MB d'espai de disc"
+
+msgid "SRQ_APPLMAC"
+msgstr "Macintosh"
+
+msgid "SRQ_APPLMAC_REQ_OS"
+msgstr "Mac OS X 10.3 o posterior"
+
+msgid "SRQ_APPLMAC_REQ_CPU"
+msgstr "Ordinador Macintosh amb processador Intel x86 o PowerPC G3, G4, o G5"
+
+msgid "SRQ_APPLMAC_REQ_RAM"
+msgstr "128 MB RAM (Recomenat: 256 MB RAM o més)"
+
+msgid "SRQ_APPLMAC_REQ_DISK"
+msgstr "200 MB d'espai de disc"
+
+msgid "SRQ_LINUX"
+msgstr "Linux"
+
+msgid "SRQ_LINUX_REQ_KERNEL"
+msgstr "Linux amb kernel 2.2.14 o posterior"
+
+msgid "SRQ_LINUX_REQ_GLIBC"
+msgstr "glibc 2.3.2 o posterior"
+
+msgid "SRQ_LINUX_REQ_XFREE86"
+msgstr "XFree86-3.3.6 o posterior"
+
+msgid "SRQ_LINUX_REQ_GTKPLUS"
+msgstr "gtk+2.0 o posterior"
+
+msgid "SRQ_LINUX_REQ_CPU"
+msgstr "Pentium 500 MHz o superior"
+
+msgid "SRQ_LINUX_REQ_RAM"
+msgstr "64 MB RAM"
+
+msgid "SRQ_LINUX_REQ_DISK"
+msgstr "50 MB d'espai de disc"
+
+##############################################
+# release notes by je2bwm 2006/08/09
+##############################################
+msgid "RLN_PAGE_TITLE"
+msgstr "Notes de llançament"
+
+msgid "RLN_WHATS_NEW"
+msgstr "Què hi ha de nou a %s"
+
+msgid "RLN_INSTALLING"
+msgstr "Instal·lant"
+
+msgid "RLN_UNINSTALLING"
+msgstr "Desinstal·lant"
+
+msgid "RLN_KNOWN_ISSUES"
+msgstr "Problemes coneguts"
+
+msgid "RLN_TROUBLESHOOT"
+msgstr "Resolució de problemes"
+
+msgid "RLN_NEWF_5_4_AM"
+msgstr "Suport per 'Gestors de comptes' (Account managers) - pàgines web que permeten controlar tots els clients i configurar les comptes dels diversos projectes de manera centralitzada."
+
+msgid "RLN_NEWF_5_4_PREF_OVERRIDE"
+msgstr "Les Preferències generals (General preferences) es poden superar a través d'un arxiu local; "
+
+msgid "RLN_NEWF_5_4_ALERTS_CONNECT"
+msgstr "Ara, quan el client BOINC necessita a l'usuari, avisa"
+
+msgid "RLN_RECOMMEND_LATEST_VERSION"
+msgstr "Recomenem a tots els usuaris de BOINC que actualitzin a %s."
+
+msgid "RLN_LINK2_VERSION_HISTORY"
+msgstr "L'historial detallat de revisions és %s aquí %s."
+
+msgid "RLN_MSWIN"
+msgstr "Windows"
+
+msgid "RLN_APPLMAC"
+msgstr "Macintosh"
+
+msgid "RLN_LINUX"
+msgstr "Linux"
+
+msgid "RLN_MSWIN_INSTALL_MODES"
+msgstr "El client BOINC té diferents tipus d'instal·lació:"
+
+msgid "RLN_SINGLE_USER_INSTALL"
+msgstr "Instal·lació com a usuari únic (Single-user installation)"
+
+msgid "RLN_MSWIN_INSTALL_SINGLE_USER_DESC"
+msgstr "Aquest és el tipus d'instal·lació recomanat."
+
+msgid "RLN_SHARED_INSTALL"
+msgstr "Instal·lació compartida (Shared installation)"
+
+msgid "RLN_MSWIN_INSTALL_SHARED_DESC"
+msgstr "El client BOINC és executat mentre qualsevol usuari tingui una sessió oberta. "
+
+msgid "RLN_WIN_SERVICE_INSTALL"
+msgstr "Instal·lació com a Servei (Service installation)"
+
+msgid "RLN_MSWIN_INSTALL_WINSERVICE_DESC"
+msgstr "El client BOINC és executat sempre (encara que no hi hagi cap sessió oberta). "
+
+msgid "RLN_LINUX_INSTALL_SEA_DESC"
+msgstr "El client BOINC per Linux és distribuït com a arxiu autoextraïble. "
+
+msgid "RLN_LINUX_DL_FILENAME"
+msgstr "Els arxius que cal descarregar tenen noms com <code>%s</code>."
+
+msgid "RLN_LINUX_RUN_SEA"
+msgstr "Després de descarregar els arxius, cal realitza la comanda<pre>%s</pre>"
+
+msgid "RLN_LINUX_RESULTOF_SEA"
+msgstr "Així es crearà un directori BOINC/ amb els següents arxius:"
+
+msgid "RLN_BOINC_CORE_CL"
+msgstr "El <i>core</i> del client BOINC"
+
+msgid "RLN_BOINC_MANAGER"
+msgstr "El gestor del client BOINC (BOINC manager)"
+
+msgid "RLN_SCRIPT_RUN_CLIENT_DESC"
+msgstr "Un script que condueix (cd's) fins al directori de BOINC i executa el <i>core</i> del client BOINC."
+
+msgid "RLN_SCRIPT_RUN_MANAGER_DESC"
+msgstr "Un script que condueix (cd's) fins al directori de BOINC i executa el gestor del client BOINC."
+
+msgid "RLN_LINUX_AUTOSTART"
+msgstr "Pot voler%s executar automaticament el client %sen el moment que encén l'ordinador."
+
+msgid "RLN_MSWIN_UNINSTALL_DESC"
+msgstr "En el menú Inici, seleccioni Programes / BOINC / Uninstall. "
+
+msgid "RLN_ISSUE_PROXY_NTLMAUTH"
+msgstr "Si utilitza un servidor proxy, si us plau, de moment abstinguis d'actualitzar la versió del client BOINC."
+
+msgid "RLN_ISSUE_MSWIN_LATEST_DIRECTX"
+msgstr "si les aplicacions de BOINC s'executen malament en el seu ordinador de manera sistemàtica,"
+
+msgid "RLN_ISSUE_MSWIN_SCREENSAVER_XP3D"
+msgstr "Si el client BOINC s'executa al mateix temps que algun salvapantalles 3D de Windows XP, "
+
+msgid "RLN_ISSUE_MSWIN_NO_SCREENSAVER"
+msgstr "Aplicacions creades amb anterioritat a Octubre de 2004"
+
+msgid "RLN_TROUBLESHOOT_INTRO"
+msgstr "Si experimenta problemes amb BOINC, hi ha alguns pasos que pot seguir:"
+
+msgid "RLN_TROUBLESHOOT_PRJ_SPECIFIC"
+msgstr "Si el problema és amb algun projecte en particular, "
+
+msgid "RLN_TROUBLESHOOT_PROBLEM_PERSIST"
+msgstr "Si problemes específics amb un projecte persisteixen,"
+
+msgid "RLN_TROUBLESHOOT_BOINC_ITSELF"
+msgstr "Si experimenta problemes amb el client BOINC mateix, "
+
