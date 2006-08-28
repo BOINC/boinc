@@ -67,6 +67,7 @@
 #include "shmem.h"
 #include "util.h"
 #include "client_msgs.h"
+#include "procinfo.h"
 #include "app.h"
 
 using std::max;
@@ -199,6 +200,7 @@ void ACTIVE_TASK_SET::free_mem() {
 //
 bool ACTIVE_TASK_SET::poll() {
     bool action;
+	unsigned int i;
     static double last_time = 0;
     if (gstate.now - last_time < 1.0) return false;
     last_time = gstate.now;
@@ -210,7 +212,7 @@ bool ACTIVE_TASK_SET::poll() {
     process_control_poll();
     action |= check_rsc_limits_exceeded();
     action |= get_msgs();
-    for (unsigned int i=0; i<active_tasks.size(); i++) {
+    for (i=0; i<active_tasks.size(); i++) {
         ACTIVE_TASK* atp = active_tasks[i];
         if (atp->task_state == PROCESS_ABORT_PENDING) {
             if (gstate.now > atp->abort_time + 5.0) {
@@ -222,6 +224,35 @@ bool ACTIVE_TASK_SET::poll() {
     if (action) {
         gstate.set_client_state_dirty("ACTIVE_TASK_SET::poll");
     }
+
+	if (log_flags.mem_usage_debug) {
+		static double last_mem_time=0;
+		if (gstate.now - last_mem_time > 10) {
+			last_mem_time = gstate.now;
+			vector<PROCINFO> piv;
+			PROCINFO pi;
+			procinfo_setup(piv);
+			for (i=0; i<active_tasks.size(); i++) {
+				ACTIVE_TASK* atp = active_tasks[i];
+				if (atp->task_state == PROCESS_EXECUTING) {
+					memset(&pi, 0, sizeof(pi));
+					pi.id = atp->pid;
+					procinfo_app(pi, piv);
+					msg_printf(NULL, MSG_INFO, "%s: RAM %dKB, page %dKB, user %f, kernel %f",
+						atp->result->name,
+						(int)(pi.working_set_size/1024), (int)(pi.swap_size/1024),
+						pi.user_time, pi.kernel_time
+					);
+				}
+			}
+			procinfo_other(pi, piv);
+			msg_printf(NULL, MSG_INFO, "All others: RAM %dKB, page %dKB, user %f, kernel %f",
+				(int)(pi.working_set_size/1024), (int)(pi.swap_size/1024),
+				pi.user_time, pi.kernel_time
+			);
+		}
+	}
+
     return action;
 }
 

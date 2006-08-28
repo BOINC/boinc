@@ -1,5 +1,18 @@
-#include "diagnostic_win.h"
+#include "diagnostics_win.h"
 #include "procinfo.h"
+
+using std::vector;
+
+// NtQuerySystemInformation
+typedef NTSTATUS (WINAPI *tNTQSI)(
+    ULONG SystemInformationClass,
+    PVOID SystemInformation,
+    ULONG SystemInformationLength,
+    PULONG ReturnLength
+);
+
+// OpenThread
+typedef HANDLE (WINAPI *tOT)(DWORD dwDesiredAccess, BOOL bInheritHandle, DWORD dwThreadId);
 
 static int get_process_information(PVOID* ppBuffer, PULONG pcbBuffer) {
     int      retval = 0;
@@ -40,7 +53,6 @@ int get_procinfo_XP(vector<PROCINFO>& pi) {
     ULONG                   cbBuffer = 32*1024;    // 32k initial buffer
     PVOID                   pBuffer = NULL;
     PSYSTEM_PROCESSES       pProcesses = NULL;
-    PSYSTEM_THREADS         pThread = NULL;
     HMODULE                 hKernel32Lib;
     tOT                     pOT = NULL;
 
@@ -51,10 +63,15 @@ int get_procinfo_XP(vector<PROCINFO>& pi) {
     pProcesses = (PSYSTEM_PROCESSES)pBuffer;
     while (pProcesses) {
         PROCINFO p;
-        p.virtual_size = pProcesses->VmCounters.VirtualSize;
+		p.id = pProcesses->ProcessId;
+		p.parentid = pProcesses->InheritedFromProcessId;
+        p.swap_size = pProcesses->VmCounters.PagefileUsage;
         p.working_set_size = pProcesses->VmCounters.WorkingSetSize;
-        p.user_time = (double) pProcesses->UserTime.QuadPart;
-        p.kernel_time = (double) pProcesses->KernelTime.QuadPart;
+        p.user_time = ((double) pProcesses->UserTime.QuadPart)/1e7;
+        p.kernel_time = ((double) pProcesses->KernelTime.QuadPart)/1e7;
+		p.id = pProcesses->ProcessId;
+		p.parentid = pProcesses->InheritedFromProcessId;
+		p.is_boinc_app = false;
         pi.push_back(p);
 
         if (!pProcesses->NextEntryDelta) {
@@ -66,14 +83,16 @@ int get_procinfo_XP(vector<PROCINFO>& pi) {
     if (pBuffer) HeapFree(GetProcessHeap(), NULL, pBuffer);
     return 0;
 }
-int get_procinfo_NT(vector<PROCINFO>& pi) {
+int get_procinfo_NT(vector<PROCINFO>&) {
     return 0;
 }
-int get_procinfo_9X(vector<PROCINFO>& pi) {
+int get_procinfo_9X(vector<PROCINFO>&) {
     return 0;
 }
 
-int get_procinfo(vector<PROCINFO>& pi) {
+// get a list of all running processes.
+//
+int procinfo_setup(vector<PROCINFO>& pi) {
     OSVERSIONINFO osvi; 
     osvi.dwOSVersionInfoSize = sizeof(osvi);
     GetVersionEx(&osvi);
@@ -83,7 +102,7 @@ int get_procinfo(vector<PROCINFO>& pi) {
     switch(osvi.dwPlatformId) {
     case VER_PLATFORM_WIN32_WINDOWS:
         // Win95, Win98, WinME
-        return get_procinfo_9x(pi);
+        return get_procinfo_9X(pi);
     case VER_PLATFORM_WIN32_NT:
         switch(osvi.dwMajorVersion) {
         case 4:
@@ -97,11 +116,53 @@ int get_procinfo(vector<PROCINFO>& pi) {
                 // WinVista
                 return get_procinfo_XP(pi);
             } else {
-                return get_procinfo_9x(pi);
+                return get_procinfo_9X(pi);
             }
         default:
-            return get_procinfo_9x(pi);
+            return get_procinfo_9X(pi);
         }
     }
-    return get_procinfo_9x(pi);
+    return get_procinfo_9X(pi);
+}
+
+// scan the process table from the given point,
+// adding in CPU time and mem usage
+// 
+void add_proc_totals(PROCINFO& pi, vector<PROCINFO>& piv, int pid, int start) {
+	unsigned int i;
+	for (i=start; i<piv.size(); i++) {
+		PROCINFO& p = piv[i];
+		if (p.id == pid || p.parentid == pid) {
+			pi.kernel_time += p.kernel_time;
+			pi.user_time += p.user_time;
+			pi.swap_size += p.swap_size;
+			pi.working_set_size += p.working_set_size;
+			p.is_boinc_app = true;
+		} 
+		if (p.parentid == pid) {
+			add_proc_totals(pi, piv, p.id, i+1);	// recursion - woo hoo!
+		}
+	}
+}
+
+// fill in the given PROCINFO (which initially is zero except for id)
+// with totals from that process and all its descendants
+//
+void procinfo_app(PROCINFO& pi, vector<PROCINFO>& piv) {
+	add_proc_totals(pi, piv, pi.id, 0);
+}
+
+void procinfo_other(PROCINFO& pi, vector<PROCINFO>& piv) {
+	unsigned int i;
+	memset(&pi, 0, sizeof(pi));
+	for (i=0; i<piv.size(); i++) {
+		PROCINFO& p = piv[i];
+		if (!p.is_boinc_app) {
+			pi.kernel_time += p.kernel_time;
+			pi.user_time += p.user_time;
+			pi.swap_size += p.swap_size;
+			pi.working_set_size += p.working_set_size;
+			p.is_boinc_app = true;
+		}
+	}
 }

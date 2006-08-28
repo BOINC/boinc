@@ -9401,3 +9401,23 @@ Charlie 28 Aug 2006
     clientgui/
         AdvancedFrame.cpp,h
         Events.h
+
+David  28 Aug 2006
+	- Detection of memory usage now works on Windows.
+		You can find the amount of RAM (working set)
+		and page file spaced used by each running BOINC app,
+		and by all non-BOINC apps.
+		Currently this isn't used for anything.
+		If you set the <mem_usage_debug/> flag in cc_config.xml,
+		it will print memory stats every 10 seconds.
+
+		TODO: get this working for Linux/Mac
+
+	client/
+		app.C
+		log_flags.C,h
+	lib/
+		procinfo.h
+		procinfo_win.h
+	win_build/
+		boinc_cli_curl.vcproj

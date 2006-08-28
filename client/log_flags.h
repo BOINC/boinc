@@ -65,6 +65,7 @@ struct LOG_FLAGS {
     bool guirpc_debug;
     bool scrsave_debug;
     bool app_msg_debug;     // show shared-mem message from apps
+	bool mem_usage_debug;	// memory usage
 
     LOG_FLAGS();
     int parse(XML_PARSER&);
