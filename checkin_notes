@@ -9433,3 +9433,7 @@ Rom    28 Aug 2006
         win_screensaver.cpp, .h
     clientgui/
         ViewWork.cpp
+
+Rom    28 Aug 2006 (Forked from HEAD)
+    - Branch boinc_core_release_5_6 created for the BOINC 5.6 client release.
+
