@@ -236,19 +236,19 @@ DC_destroyWU(DC_Workunit *wu)
 	s= g_string_new("");
 	g_string_printf(s, "%s/%s", wu->data.workdir,
 			_DC_wu_cfg(wu, cfg_master_message_box));
-	if ((i= _DC_nuof_messages(s->str, "message")) > 0)
+	if ((i= _DC_nuof_messages(s->str, _DCAPI_MSG_MESSAGE)) > 0)
 		DC_log(LOG_NOTICE, "%d master messages unhandled by "
 		       "destroying wu: %s", i, wu->data.name);
 
 	g_string_printf(s, "%s/%s", wu->data.workdir,
 			_DC_wu_cfg(wu, cfg_client_message_box));
-	if ((i= _DC_nuof_messages(s->str, "message")) > 0)
+	if ((i= _DC_nuof_messages(s->str, _DCAPI_MSG_MESSAGE)) > 0)
 		DC_log(LOG_NOTICE, "%d client messages unhandled of wu: %s",
 		       i, wu->data.name);
 
 	g_string_printf(s, "%s/%s", wu->data.workdir,
 			_DC_wu_cfg(wu, cfg_subresults_box));
-	if ((i= _DC_nuof_messages(s->str, "logical_name")) > 0)
+	if ((i= _DC_nuof_messages(s->str, _DCAPI_MSG_LOGICAL)) > 0)
 		DC_log(LOG_NOTICE, "%d client subresults unhandled of wu: %s",
 		       i, wu->data.name);
 	g_string_free(s, TRUE);
@@ -795,7 +795,7 @@ DC_sendWUMessage(DC_Workunit *wu, const char *message)
 	dn= g_string_new(wu->data.workdir);
 	g_string_append(dn, "/");
 	g_string_append(dn, _DC_wu_cfg(wu, cfg_master_message_box));
-	ret= _DC_create_message(dn->str, "message", message, NULL);
+	ret= _DC_create_message(dn->str, _DCAPI_MSG_MESSAGE, message, NULL);
 	g_string_free(dn, TRUE);
 	return(ret);
 }

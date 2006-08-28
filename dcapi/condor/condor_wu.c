@@ -364,6 +364,8 @@ _DC_wu_make_client_config(DC_Workunit *wu)
 }
 
 
+/*static int _DC_counter= 0;*/
+
 DC_MasterEvent *
 _DC_wu_check_client_messages(DC_Workunit *wu)
 {
@@ -378,20 +380,37 @@ _DC_wu_check_client_messages(DC_Workunit *wu)
 	g_string_append_printf(s, "/%s",
 			       _DC_wu_cfg(wu, cfg_client_message_box));
 	/*DC_log(LOG_DEBUG, "Checking box %s for message\n", s->str);*/
-	if ((message= _DC_read_message(s->str, "message", TRUE)))
+	if ((message= _DC_read_message(s->str, _DCAPI_MSG_MESSAGE, TRUE)))
 	{
 		e= _DC_event_create(wu, NULL, NULL, message);
 		DC_log(LOG_DEBUG, "Message event created: %p "
 		       "for wu (%p-\"%s\")", e, wu, wu->data.name);
 		DC_log(LOG_DEBUG, "Message of the event: %s", e->message);
 	}
-	else
+
+	/*
+	g_string_printf(s, "%s/%s", wu->data.workdir,
+			_DC_wu_cfg(wu, cfg_management_box));
+	if ((message= _DC_read_message(s->str, _DCAPI_MSG_ACK, TRUE)))
+	{
+		DC_log(LOG_DEBUG, "Acknowledge arrived: %s", message);
+		if (strcmp(message, _DCAPI_ACK_SUSPEND) == 0)
+		{
+			wu->asked_to_suspend= TRUE;
+		}
+	}
+	*/
+
+	if (e == NULL/*)
+		_DC_counter++;
+		  if (_DC_counter % 5 == 0*/)
 	{
 		g_string_printf(s, "%s/%s", wu->data.workdir,
 				_DC_wu_cfg(wu, cfg_subresults_box));
 		/*DC_log(LOG_DEBUG, "Checking box %s for logical_name\n",
 		  s->str);*/
-		if ((message= _DC_read_message(s->str, "logical_name", TRUE)))
+		if ((message= _DC_read_message(s->str, _DCAPI_MSG_LOGICAL,
+					       TRUE)))
 		{
 			DC_PhysicalFile *f;
 			g_string_append_printf(s, "/real_files/%s", message);

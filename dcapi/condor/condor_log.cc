@@ -15,11 +15,13 @@
 #include "dc.h"
 #include "dc_common.h"
 
+#include "condor_log.h"
+
 #include "condor_defs.h"
 #include "condor_event.h"
 #include "condor_result.h"
 #include "condor_wu.h"
-#include "condor_log.h"
+#include "condor_utils.h"
 
 
 void
@@ -129,44 +131,59 @@ _DC_wu_condor2api_event(DC_Workunit *wu)
 		ce= &g_array_index(wu->condor_events,
 				   struct _DC_condor_event,
 				   i);
+		if (ce->reported)
+			continue;
+		ce->reported= TRUE;
 		if (ce->event == ULOG_JOB_TERMINATED)
 		{
-			if (!ce->reported)
+			DC_log(LOG_DEBUG, "Job terminated, "
+			       "asked to susp=%d",
+			       wu->asked_to_suspend);
+			GString *s;
+			s= g_string_new("");
+			g_string_printf(s, "%s/%s", wu->data.workdir,
+					_DC_wu_cfg(wu, cfg_management_box));
+			char *message;
+			if ((message= _DC_read_message(s->str,
+						       _DCAPI_MSG_ACK,
+						       FALSE)))
 			{
-				ce->reported= TRUE;
-				DC_log(LOG_DEBUG, "Job terminated, "
-				       "asked to susp=%d",
-				       wu->asked_to_suspend);
-				if (wu->asked_to_suspend)
+				DC_log(LOG_DEBUG, "Acknowledge exists: %s",
+				       message);
+				if (strcmp(message, _DCAPI_ACK_SUSPEND) == 0)
 				{
-					_DC_wu_set_state(wu, DC_WU_SUSPENDED);
-					wu->asked_to_suspend= FALSE;
+					DC_log(LOG_DEBUG, "Suspend "
+					       "acknowledged");
+					_DC_read_message(s->str,
+							 _DCAPI_MSG_ACK,
+							 TRUE);
+					wu->asked_to_suspend= TRUE;
 				}
-				else
-				{
-					DC_MasterEvent *e;
-					/*e= g_new0(DC_MasterEvent, 1);*/
-					e= _DC_event_create(wu, _DC_result_create(wu),
-							    NULL, NULL);
-					DC_log(LOG_DEBUG, "Result event created: %p for "
-					       "wu (%p-\"%s\")", e, wu, wu->data.name);
-					/*e->type= DC_MASTER_RESULT;
-					  e->wu= wu;
-					  e->result= _DC_result_create(wu);*/
-					DC_log(LOG_DEBUG, "Result of the event: %p",
-					       e->result);
-					_DC_wu_set_state(wu, DC_WU_FINISHED);
-					return(e);
-				}
+			}
+			g_string_free(s, TRUE);
+
+			if (wu->asked_to_suspend)
+			{
+				_DC_wu_set_state(wu, DC_WU_SUSPENDED);
+				wu->asked_to_suspend= FALSE;
+			}
+			else
+			{
+				DC_MasterEvent *e;
+				e= _DC_event_create(wu, _DC_result_create(wu),
+						    NULL, NULL);
+				DC_log(LOG_DEBUG, "Result event created: "
+				       "%p for wu (%p-\"%s\")",
+				       e, wu, wu->data.name);
+				DC_log(LOG_DEBUG, "Result of the event: %p",
+				       e->result);
+				_DC_wu_set_state(wu, DC_WU_FINISHED);
+				return(e);
 			}
 		}
 		if (ce->event == ULOG_EXECUTE)
 		{
-			if (!ce->reported)
-			{
-				ce->reported= TRUE;
-				_DC_wu_set_state(wu, DC_WU_RUNNING);
-			}
+			_DC_wu_set_state(wu, DC_WU_RUNNING);
 		}
 	}
 	return(NULL);

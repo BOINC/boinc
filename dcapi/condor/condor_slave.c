@@ -19,6 +19,9 @@
 #include "condor_utils.h"
 
 
+static int _DC_checkpoint_file_requested= 0;
+static int _DC_checkpoint_made= 0;
+
 static char *
 _DC_cfg(enum _DC_e_param what)
 {
@@ -32,6 +35,8 @@ _DC_cfg(enum _DC_e_param what)
 /* Initializes the client API. */
 int DC_initClient(void)
 {
+	char *message;
+
 	int ret= _DC_parseCfg(CLIENT_CONFIG_NAME);
 	if (ret)
 		fprintf(stderr, "Error parsing configfile %s",
@@ -41,12 +46,20 @@ int DC_initClient(void)
 	_DC_init_common();
 
 	DC_log(LOG_DEBUG, "Slave dcapi initialized");
+
+	message= _DC_read_message(_DC_cfg(cfg_management_box),
+				  _DCAPI_MSG_COMMAND, /*FALSE*/0);
+	if (message &&
+	    strcmp(message, _DCAPI_CMD_RESUME) == 0)
+	{
+		DC_log(LOG_INFO, "Resume, restarting...");
+		_DC_read_message(_DC_cfg(cfg_management_box),
+				 _DCAPI_MSG_COMMAND, /*TRUE*/1);
+	}
+
 	return(ret);
 }
 
-
-static int _DC_checkpoint_file_requested= 0;
-static int _DC_checkpoint_made= 0;
 
 /* Resolves the local name of input/output files. */
 char *DC_resolveFileName(DC_FileType type,
@@ -172,8 +185,7 @@ int DC_sendResult(const char *logicalFileName,
 		return(ret);
 	}
 	ret= _DC_create_message(_DC_cfg(cfg_subresults_box),
-				"logical_name",
-				logicalFileName, NULL);
+				_DCAPI_MSG_LOGICAL, logicalFileName, NULL);
 	free(fn);
 	return(ret);
 }
@@ -184,7 +196,7 @@ int DC_sendMessage(const char *message)
 {
 	DC_log(LOG_DEBUG, "DC_sendMessage(%s)", message);
 	return _DC_create_message(_DC_cfg(cfg_client_message_box),
-					   "message", message, NULL);
+				  _DCAPI_MSG_MESSAGE, message, NULL);
 }
 
 
@@ -195,8 +207,7 @@ DC_ClientEvent *DC_checkClientEvent(void)
 	DC_ClientEvent *e= NULL;
 
 	message= _DC_read_message(_DC_cfg(cfg_master_message_box),
-				  /*"message."*/
-				  "message", /*TRUE*/1);
+				  _DCAPI_MSG_MESSAGE, /*TRUE*/1);
 	if (message)
 	{
 		if ((e= calloc(1, sizeof(DC_ClientEvent))))
@@ -218,11 +229,53 @@ DC_ClientEvent *DC_checkClientEvent(void)
 	}
 
 	message= _DC_read_message(_DC_cfg(cfg_management_box),
-				  "doit", 1);
+				  _DCAPI_MSG_COMMAND, /*TRUE*/1);
 	if (message &&
-	    strcmp(message, "suspend") == 0)
+	    strcmp(message, _DCAPI_CMD_SUSPEND) == 0)
 	{
+		char *fn;
+		int f;
+
 		DC_log(LOG_INFO, "Master asked me to suspend");
+		_DC_create_message(_DC_cfg(cfg_management_box),
+				   _DCAPI_MSG_ACK,
+				   _DCAPI_ACK_SUSPEND,
+				   NULL);
+
+		fn= DC_resolveFileName(DC_FILE_IN, DC_CHECKPOINT_FILE);
+		if (fn != NULL)
+			free(fn);
+		else
+		{
+			DC_log(LOG_WARNING, "Slave suspending but "
+			       "no checkpoint made yet");
+			free(fn);
+		}
+
+		fflush(NULL);
+		fn= DC_resolveFileName(DC_FILE_OUT, DC_LABEL_STDOUT);
+		if (fn)
+		{
+			if ((f= open(fn, O_APPEND)) > 0)
+				fsync(f);
+			free(fn);
+		}
+		_DC_create_message(_DC_cfg(cfg_output_cache),
+				   DC_LABEL_STDOUT,
+				   NULL,
+				   DC_LABEL_STDOUT);
+		fn= DC_resolveFileName(DC_FILE_OUT, DC_LABEL_STDERR);
+		if (fn)
+		{
+			if ((f= open(fn, O_APPEND)) > 0)
+				fsync(f);
+			free(fn);
+		}
+		_DC_create_message(_DC_cfg(cfg_output_cache),
+				   DC_LABEL_STDERR,
+				   NULL,
+				   DC_LABEL_STDERR);
+
 		DC_finishClient(0);
 	}
 	return(NULL);
