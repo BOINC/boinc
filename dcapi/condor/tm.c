@@ -208,7 +208,7 @@ t(int what)
 		procs(wu, DC_WU_SUSPENDED, 1);
 
 		printf("now suspended, wait a bit...\n");
-		proci(wu, 5, 1);
+		proci(wu, 3, 1);
 
 		printf("Resuming wu...\n");
 		if ((r= DC_resumeWU(wu)) != 0)

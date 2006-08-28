@@ -30,7 +30,21 @@ send_subresult(int c)
 static void
 mk_checkpoint(int c)
 {
+  char *fn;
+  char buf[100];
+
   printf("cyc=%d Making checkpoint...\n", c);
+  fn= DC_resolveFileName(DC_FILE_OUT, DC_CHECKPOINT_FILE);
+  if (fn)
+    {
+      sprintf(buf, "%d\n", c);
+      create_file(fn, buf);
+      printf("Checkpoint created in file %s\n", fn);
+      DC_checkpointMade(fn);
+      free(fn);
+    }
+  else
+    printf("Failed\n");
 }
 
 static void
@@ -71,6 +85,22 @@ main(int argc, char *argv[])
     }
 
   i= 0;
+  {
+    char *fn= DC_resolveFileName(DC_FILE_IN, DC_CHECKPOINT_FILE);
+    if (fn)
+      {
+	char *s= get_file(fn);
+	printf("Checkpoint file found %s\n", fn);
+	printf("Content: \"%s\"\n", s);
+	i= strtol(s, 0, 0);
+	printf("Continuing from cycle %d\n", i);
+	cyc-= i;
+	free(s);
+	free(fn);
+      }
+    else
+      printf("No checkpoint file found, start from the beginning...\n");
+  }
   while (cyc)
     {
       cyc--;
