@@ -136,7 +136,17 @@ _DC_create_message(char *box,
 		if (message)
 			fprintf(f, "%s", message);
 		else if (msgfile)
-			ret= _DC_copyFile(msgfile, fn);
+			{
+				if ((ret= _DC_copyFile(msgfile, fn)) != 0)
+					DC_log(LOG_ERR, "copyFile(%s,%s) "
+					       "error: %s", msgfile, fn,
+					       strerror(errno));
+			}
+		else
+		{
+			DC_log(LOG_WARNING, "No message specified for "
+			       "creation");
+		}
 		if (fsync(fileno(f)) != 0)
 			DC_log(LOG_ERR, "Sync of %s: %d %s", fn,
 			       errno, strerror(errno));
@@ -171,8 +181,8 @@ _DC_nuof_messages(char *box, char *name)
 		return(0);
 	if ((d= opendir(box)) == NULL)
 		return(0);
-	s= malloc(name?strlen(name):20+100);
-	name?strcpy(s, name):strcpy(s, "message");
+	s= malloc(100+name?strlen(name):strlen(_DCAPI_MSG_MESSAGE));
+	strcpy(s, name?name:_DCAPI_MSG_MESSAGE);
 	strcat(s, ".");
 	while ((de= readdir(d)) != NULL)
 	{
