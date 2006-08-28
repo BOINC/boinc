@@ -557,16 +557,16 @@ void CViewWork::UpdateSelection() {
 wxInt32 CViewWork::FormatProjectName(wxInt32 item, wxString& strBuffer) const {
     CMainDocument* doc = wxGetApp().GetDocument();
     RESULT* result = wxGetApp().GetDocument()->result(item);
-    RESULT* state_result = NULL;
+    PROJECT* state_project = NULL;
     std::string project_name;
 
     wxASSERT(doc);
     wxASSERT(wxDynamicCast(doc, CMainDocument));
 
     if (result) {
-        state_result = doc->state.lookup_result(result->project_url, result->name);
-        if (state_result) {
-            state_result->project->get_name(project_name);
+        state_project = doc->state.lookup_project(result->project_url);
+        if (state_project) {
+            state_project->get_name(project_name);
             strBuffer = wxString(project_name.c_str(), wxConvUTF8);
         } else {
             doc->ForceCacheUpdate();

@@ -9421,3 +9421,15 @@ David  28 Aug 2006
 		procinfo_win.h
 	win_build/
 		boinc_cli_curl.vcproj
+
+Rom    28 Aug 2006
+    - Bug Fix: Fix missing screensaver condition.
+    - Bug Fix: Lookup project structure directly instead of looking up the
+        project by way of the result.
+        
+    client/win/
+        boinc_ss.h
+        boinc_ss.rc
+        win_screensaver.cpp, .h
+    clientgui/
+        ViewWork.cpp

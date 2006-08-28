@@ -25,6 +25,7 @@
 #define SCRAPPERR_BOINCAPPFOUNDGRAPHICSLOADING              0x82000009
 #define SCRAPPERR_BOINCSHUTDOWNEVENT                        0x8200000a
 #define SCRAPPERR_NOPREVIEW                                 0x8200000f
+#define SCRAPPERR_DAEMONALLOWSNOGRAPHICS                    0x82000010
 
 
 //-----------------------------------------------------------------------------

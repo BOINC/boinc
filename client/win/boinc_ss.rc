@@ -285,6 +285,8 @@ BEGIN
                             "Application found, graphics loading...\n\nPlease wait..."
     IDS_ERR_BOINCSHUTDOWNEVENT
                             "Gridrepublic screensaver shutting down."
+    IDS_ERR_DAEMONALLOWSNOGRAPHICS
+                            "Gridrepublic screensaver graphics\ndisabled.\n\nGraphics cannot be displayed when configured to run\nas a Windows service."
 END
 
 #elif defined(_CPDNBBC)
@@ -357,6 +359,8 @@ BEGIN
                             "Application found, graphics loading...\n\nPlease wait..."
     IDS_ERR_BOINCSHUTDOWNEVENT
                             "BOINC screensaver shutting down."
+    IDS_ERR_DAEMONALLOWSNOGRAPHICS
+                            "BOINC screensaver graphics disabled.\n\nGraphics cannot be displayed when configured to run\nas a Windows service."
 END
 
 #endif

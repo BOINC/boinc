@@ -21,6 +21,7 @@
 #define IDS_ERR_BOINCSHUTDOWNEVENT           2109
 #define IDS_ERR_OUTOFMEMORY                  2110
 #define IDS_ERR_NOPREVIEW                    2112
+#define IDS_ERR_DAEMONALLOWSNOGRAPHICS       2113
 
 // Next default values for new objects
 // 
