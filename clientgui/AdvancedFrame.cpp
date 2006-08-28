@@ -310,7 +310,7 @@ bool CAdvancedFrame::CreateMenu() {
 #ifdef __WXMAC__
     menuFile->Append(
         ID_FILECLOSEWINDOW,
-        _("&Close\tCTRL+W"),            // Enable the standard Command-W Mac shortcut to close window
+        _("&Close Window\tCTRL+W"),            // Enable the standard Command-W Mac shortcut to close window
         _("Close BOINC Manager Window.")
     );
 #endif
