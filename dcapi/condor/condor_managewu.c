@@ -156,9 +156,10 @@ DC_suspendWU(DC_Workunit *wu)
 	dn= g_string_new(wu->data.workdir);
 	g_string_append(dn, "/");
 	g_string_append(dn, _DC_wu_cfg(wu, cfg_management_box));
-	_DC_create_message(dn->str, "doit", "suspend", NULL);
+	_DC_create_message(dn->str, _DCAPI_MSG_COMMAND, _DCAPI_CMD_SUSPEND,
+			   NULL);
 	g_string_free(dn, TRUE);
-	wu->asked_to_suspend= TRUE;
+	/*wu->asked_to_suspend= TRUE;*/
 	return(DC_OK);
 }
 
@@ -169,6 +170,7 @@ DC_resumeWU(DC_Workunit *wu)
 {
 	int ret;
 	char *id;
+	GString *dn;
 
 	if (!_DC_wu_check(wu))
 		return(DC_ERR_UNKNOWN_WU);
@@ -180,6 +182,12 @@ DC_resumeWU(DC_Workunit *wu)
 		DC_log(LOG_NOTICE, "Can not resume a non-suspended wu");
 		return(DC_ERR_INTERNAL);
 	}
+	dn= g_string_new(wu->data.workdir);
+	g_string_append(dn, "/");
+	g_string_append(dn, _DC_wu_cfg(wu, cfg_management_box));
+	_DC_create_message(dn->str, _DCAPI_MSG_COMMAND, _DCAPI_CMD_RESUME,
+			   NULL);
+	g_string_free(dn, TRUE);
 	ret= _DC_start_condor_job(wu);
 	if (ret == 0)
 	{
