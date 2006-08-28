@@ -8,6 +8,7 @@
 #include <stdio.h>
 #include <errno.h>
 #include <time.h>
+#include <unistd.h>
 
 #ifndef _WIN32
 #include <sys/syslog.h>
@@ -159,4 +160,5 @@ void DC_vlog(int level, const char *fmt, va_list ap)
 	vfprintf(logfile, fmt, ap);
 	fprintf(logfile, "\n");
 	fflush(logfile);
+	fsync(fileno(logfile));
 }
