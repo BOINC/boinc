@@ -152,6 +152,9 @@ BEGIN_EVENT_TABLE (CAdvancedFrame, CBOINCBaseFrame)
     EVT_MENU(ID_FILERUNBENCHMARKS, CAdvancedFrame::OnRunBenchmarks)
     EVT_MENU(ID_FILESELECTCOMPUTER, CAdvancedFrame::OnSelectComputer)
     EVT_MENU(ID_FILESWITCHGUI, CAdvancedFrame::OnSwitchGUI)
+#ifdef __WXMAC__
+    EVT_MENU(ID_FILECLOSEWINDOW, CAdvancedFrame::OnCloseWindow)
+#endif
     EVT_MENU(wxID_EXIT, CAdvancedFrame::OnExit)
     EVT_MENU_RANGE(ID_FILEACTIVITYRUNALWAYS, ID_FILEACTIVITYSUSPEND, CAdvancedFrame::OnActivitySelection)
     EVT_MENU_RANGE(ID_FILENETWORKRUNALWAYS, ID_FILENETWORKSUSPEND, CAdvancedFrame::OnNetworkSelection)
@@ -301,6 +304,14 @@ bool CAdvancedFrame::CreateMenu() {
         ID_FILESWITCHGUI,
         _("&Switch to Simple GUI"),
         _("Display the simple BOINC graphical interface.")
+    );
+#endif
+
+#ifdef __WXMAC__
+    menuFile->Append(
+        ID_FILECLOSEWINDOW,
+        _("&Close\tCTRL+W"),            // Enable the standard Command-W Mac shortcut to close window
+        _("Close BOINC Manager Window.")
     );
 #endif
 
@@ -1015,6 +1026,14 @@ void CAdvancedFrame::OnSwitchGUI(wxCommandEvent& WXUNUSED(event)) {
 
     wxLogTrace(wxT("Function Start/End"), wxT("CAdvancedFrame::OnSwitchGUI - Function End"));
 }
+
+
+#ifdef __WXMAC__
+// Accept the standard Command-W Mac shortcut to close window
+void CAdvancedFrame::OnCloseWindow(wxCommandEvent& WXUNUSED(event)) {
+    Hide();
+}
+#endif
 
 
 void CAdvancedFrame::OnExit(wxCommandEvent& WXUNUSED(event)) {

@@ -9394,4 +9394,10 @@ Janus  27 Aug 2006
     html/user/
 	show_user.php
 	
-	
+Charlie 28 Aug 2006
+    -Mac: Implement standard Mac shortcut command-W for closing main 
+        Manager window (requires adding "Close Window" to File menu.)
+    
+    clientgui/
+        AdvancedFrame.cpp,h
+        Events.h
