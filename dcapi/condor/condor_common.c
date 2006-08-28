@@ -52,6 +52,9 @@ _DC_init_common(void)
 
 	_DC_params[cfg_checkpoint_file].name= "CheckpointFile";
 	_DC_params[cfg_checkpoint_file].def= "_dcapi_checkpoint";
+
+	_DC_params[cfg_output_cache].name= "SavedOutputs";
+	_DC_params[cfg_output_cache].def= "_dcapi_saved_output";
 }
 
 

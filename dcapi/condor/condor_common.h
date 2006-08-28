@@ -24,6 +24,7 @@ enum _DC_e_param {
 	cfg_leave_files,
 	cfg_condor_log,
 	cfg_checkpoint_file,
+	cfg_output_cache,
 	cfg_nuof
 };
 
@@ -36,6 +37,17 @@ struct _DC_s_param {
 extern struct _DC_s_param _DC_params[cfg_nuof];
 
 extern void _DC_init_common(void);
+
+
+#define _DCAPI_MSG_MESSAGE	"message"
+#define _DCAPI_MSG_LOGICAL	"logical_name"
+#define _DCAPI_MSG_COMMAND	"command"
+#define _DCAPI_MSG_ACK		"acknowledge"
+
+#define _DCAPI_CMD_SUSPEND	"suspend"
+#define _DCAPI_ACK_SUSPEND	"suspending"
+
+#define _DCAPI_CMD_RESUME	"resume"
 
 
 #ifdef __cplusplus
