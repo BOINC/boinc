@@ -1065,7 +1065,17 @@ const char* boincerror(int which_error) {
     sprintf(buf, "Error %d", which_error);
     return buf;
 }
- 
+
+const char* network_status_string(int n) {
+	switch (n) {
+	case NETWORK_STATUS_ONLINE: return "online";
+	case NETWORK_STATUS_WANT_CONNECTION: return "need connection";
+	case NETWORK_STATUS_WANT_DISCONNECT: return "don't need connection";
+	case NETWORK_STATUS_LOOKUP_PENDING: return "reference site lookup pending";
+	default: return "unknown";
+	}
+}
+
 #ifndef _WIN32
 int lookup_group(char* name, gid_t& gid) {
     struct group* gp = getgrnam(name);

@@ -103,6 +103,10 @@ void NET_STATS::poll(FILE_XFER_SET& fxs, HTTP_OP_SET& hops) {
     fxs.check_active(upload_active, download_active);
     up.update(dt, hops.bytes_up, upload_active);
     down.update(dt, hops.bytes_down, download_active);
+
+	if (net_status.need_to_contact_reference_site && gstate.gui_http.state==GUI_HTTP_STATE_IDLE) {
+		net_status.contact_reference_site();
+	}
 }
 
 // Write XML based network statistics
@@ -156,27 +160,30 @@ int NET_STATS::parse(MIOFILE& in) {
 //
 int NET_STATUS::network_status() {
     static double last_comm_time=0;
+	int retval;
 
     if (gstate.http_ops->nops()) {
         last_comm_time = gstate.now;
     }
     if (gstate.now - last_comm_time < 10) {
         //msg_printf(0, MSG_INFO, "nops %d; return 0", http_ops->nops());
-        return NETWORK_STATUS_ONLINE;
-    }
-    if (gstate.lookup_website_op.error_num == ERR_IN_PROGRESS) {
-        return NETWORK_STATUS_LOOKUP_PENDING;
-    }
-    if (need_physical_connection) {
+        retval = NETWORK_STATUS_ONLINE;
+    } else if (gstate.lookup_website_op.error_num == ERR_IN_PROGRESS) {
+        retval = NETWORK_STATUS_LOOKUP_PENDING;
+    } else if (need_physical_connection) {
         //msg_printf(0, MSG_INFO, "need phys conn; return 1");
-        return NETWORK_STATUS_WANT_CONNECTION;
-    }
-    if (gstate.active_tasks.want_network()) {
-        return NETWORK_STATUS_WANT_CONNECTION;
-    }
-    have_sporadic_connection = false;
+        retval = NETWORK_STATUS_WANT_CONNECTION;
+    } else if (gstate.active_tasks.want_network()) {
+        retval = NETWORK_STATUS_WANT_CONNECTION;
+	} else {
+		have_sporadic_connection = false;
     //msg_printf(0, MSG_INFO, "returning 2");
-    return NETWORK_STATUS_WANT_DISCONNECT;
+		retval = NETWORK_STATUS_WANT_DISCONNECT;
+	}
+	if (log_flags.network_status_debug) {
+		msg_printf(NULL, MSG_INFO, "network status: %s", network_status_string(retval));
+	}
+	return retval;
 }
 
 // There's now a network connection, after some period of disconnection.
@@ -208,10 +215,19 @@ void NET_STATUS::got_http_error() {
     if ((gstate.lookup_website_op.error_num != ERR_IN_PROGRESS)
         && !need_physical_connection
     ) {
-        std::string url = "http://www.google.com";
-        //msg_printf(0, MSG_ERROR, "need_phys_conn %d trying google", gstate.need_physical_connection);
-        gstate.lookup_website_op.do_rpc(url);
+		need_to_contact_reference_site = true;
     }
+}
+
+void NET_STATUS::contact_reference_site() {
+    std::string url = "http://www.google.com";
+	if (log_flags.http_debug) {
+		msg_printf(0, MSG_ERROR,
+			"need_phys_conn %d; trying google", need_physical_connection
+		);
+	}
+    gstate.lookup_website_op.do_rpc(url);
+	need_to_contact_reference_site = false;
 }
 
 const char *BOINC_RCSID_733b4006f5 = "$Id$";

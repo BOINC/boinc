@@ -72,12 +72,17 @@ public:
         // so do as much network comm as possible
         // (e.g. report completed results)
         //
+	bool need_to_contact_reference_site;
+		// contact the reference site as soon as GUI_HTTP is idle
+		// polled from NET_STATS::poll(), for want of a better place
     int network_status();
     void network_available();
     void got_http_error();
+	void contact_reference_site();
     NET_STATUS() {
         need_physical_connection = false;
         have_sporadic_connection = false;
+		need_to_contact_reference_site = false;
     }
 };
 

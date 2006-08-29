@@ -9122,10 +9122,10 @@ Janus  22 Aug 2006
     
 
 David  22 Aug 2006
-	- Manager: small simplification (from Mifistor)
+    - Manager: small simplification (from Mifistor)
 
-	clientgui/
-		ViewStatistics.cpp
+    clientgui/
+        ViewStatistics.cpp
 
 Rom    22 Aug 2006
     - Tag for 5.5.14 release, all platforms
@@ -9165,11 +9165,11 @@ David  22 Aug 2006
         insecure.sh
 
 Walt   22 Aug 2006
-	- Manager: Add text to tooltips for buttons on statictics
+    - Manager: Add text to tooltips for buttons on statictics
             panel.  Linux version was showing a small empty box.
 
-	clientgui/
-		ViewStatistics.cpp
+    clientgui/
+        ViewStatistics.cpp
 
 Rom    22 Aug 2006
     - Bug Fix: Use InetnetGetCookie instead of InternetGetCookieEx so that we are
@@ -9210,59 +9210,59 @@ David  23 Aug 2006
         prefs.C,h
 
 David  23 Aug 2006
-	- core client: various changes to the CPU scheduler, mostly to fix:
-		1) on cold start (no projects), when attaching to 1st project,
-			the client would do an RPC not asking for work,
-			then would back off for 10 minutes
-			(for SETI@home; this is a project param)
-			until the next RPC, which would actually get work.
-		2) On the 2nd RPC, the work fetch calculation would generate
-			some INF#00s (due to divide by zero)
-			and would end up requesting 1 second.
-		Also, some code cleanup.
+    - core client: various changes to the CPU scheduler, mostly to fix:
+        1) on cold start (no projects), when attaching to 1st project,
+            the client would do an RPC not asking for work,
+            then would back off for 10 minutes
+            (for SETI@home; this is a project param)
+            until the next RPC, which would actually get work.
+        2) On the 2nd RPC, the work fetch calculation would generate
+            some INF#00s (due to divide by zero)
+            and would end up requesting 1 second.
+        Also, some code cleanup.
 
-		- rr_simulation(): get rid of arguments.
-			Always treat nearly runnable results as if they were runnable.
-			The code was sort of doing this anyway
-		- rr_simulation(): get rid of divide by zero.
-		 	If total resource share is zero,
-			use 1 instead of p->resource_share/total resource share.
-		- rr_simulation(): remove *ncpus from calculation
-			of pbest->work_request
-		- remove per_cpu_proc_rate arg from set_rrsim_proc_rate()
-		- use project->get_project_name() instead of project->name
-		 	(works for brand-new projects also)
-		 
-		- define function work_buf_min() so you don't have to type
-			global_prefs.work_buf_min_days * SECONDS_PER_DAY all the time
-		- define overall_cpu_frac() so you don't have to type
-			time_stats.on_frac * blah blah
-		GENERAL PRINCIPAL: if there's anything complex that appears
-			repeatedly, make it a function!!
-	- Win project file: remove base64.C, crypt.C
-		(these are in libboinc)
+        - rr_simulation(): get rid of arguments.
+            Always treat nearly runnable results as if they were runnable.
+            The code was sort of doing this anyway
+        - rr_simulation(): get rid of divide by zero.
+             If total resource share is zero,
+            use 1 instead of p->resource_share/total resource share.
+        - rr_simulation(): remove *ncpus from calculation
+            of pbest->work_request
+        - remove per_cpu_proc_rate arg from set_rrsim_proc_rate()
+        - use project->get_project_name() instead of project->name
+             (works for brand-new projects also)
+         
+        - define function work_buf_min() so you don't have to type
+            global_prefs.work_buf_min_days * SECONDS_PER_DAY all the time
+        - define overall_cpu_frac() so you don't have to type
+            time_stats.on_frac * blah blah
+        GENERAL PRINCIPAL: if there's anything complex that appears
+            repeatedly, make it a function!!
+    - Win project file: remove base64.C, crypt.C
+        (these are in libboinc)
 
-	client/
-		client_state.h
-		client_types.h
-		cpu_sched.C
-		cs_scheduler.C
-		log_flags.C
-	win_build/
-		boinc_cli_curl.vcproj
-		
+    client/
+        client_state.h
+        client_types.h
+        cpu_sched.C
+        cs_scheduler.C
+        log_flags.C
+    win_build/
+        boinc_cli_curl.vcproj
+        
 Kevin  23 Aug 2006
-	- Fixed various errors and reorganized code in the Simple GUI
-	clientgui/
-		sg_BoincSimpleGUI.cpp
-		sg_BoincSimpleGUI.h
-		sg_ClientStateIndicator.cpp
-		sg_ClientStateIndicator.h
-		sg_ProgressBar.cpp
-		sg_ProjectsComponent.cpp
-		sg_SkinClass.cpp
-		sg_SkinClass.h
-		sg_ViewTabPage.cpp
+    - Fixed various errors and reorganized code in the Simple GUI
+    clientgui/
+        sg_BoincSimpleGUI.cpp
+        sg_BoincSimpleGUI.h
+        sg_ClientStateIndicator.cpp
+        sg_ClientStateIndicator.h
+        sg_ProgressBar.cpp
+        sg_ProjectsComponent.cpp
+        sg_SkinClass.cpp
+        sg_SkinClass.h
+        sg_ViewTabPage.cpp
 
 Rom    23 Aug 2006
     - Remove the restriction where the simple gui RPC only returned active
@@ -9280,66 +9280,66 @@ David  23 Aug 2006
         prefs.inc
         
 Kevin  24 Aug 2006
-	- Enhancements to the simple gui
-		-- Messages button will now alternate between black and red when alert messages have been recieved
-		-- Additional client states are now shown when no work tabs are available such as 'downloading work'
-	clientgui/
-		MainDocument.cpp
-		sg_BoincSimpleGUI.cpp
-		sg_BoincSimpleGUI.h
-		sg_ClientStateIndicator.cpp
-		sg_ClientStateIndicator.h
-		sg_ProjectsComponent.cpp
-		sg_ProjectsComponent.h
-		sg_SkinClass.cpp
-		
+    - Enhancements to the simple gui
+        -- Messages button will now alternate between black and red when alert messages have been recieved
+        -- Additional client states are now shown when no work tabs are available such as 'downloading work'
+    clientgui/
+        MainDocument.cpp
+        sg_BoincSimpleGUI.cpp
+        sg_BoincSimpleGUI.h
+        sg_ClientStateIndicator.cpp
+        sg_ClientStateIndicator.h
+        sg_ProjectsComponent.cpp
+        sg_ProjectsComponent.h
+        sg_SkinClass.cpp
+        
 
 David  24 Aug 2006
-	- Core client: change the sequence of events for first-time use,
-		with the goal of not running CPU benchmarks until user
-		has attached to project and started to run first result.
-		Sequence is:
-		1) manager requests get_project_config, polls until done
-		2) manager calls lookup_account or create_account, polls until done
-		3) manager calls project_attach.
-			core client sets CPU specs to default values (1 GFLOPS),
-			sets project work_request to 1 second,
-			does scheduler RPC
-		4) Manager poll finishes
-		5) core client starts CPU benchmarks
+    - Core client: change the sequence of events for first-time use,
+        with the goal of not running CPU benchmarks until user
+        has attached to project and started to run first result.
+        Sequence is:
+        1) manager requests get_project_config, polls until done
+        2) manager calls lookup_account or create_account, polls until done
+        3) manager calls project_attach.
+            core client sets CPU specs to default values (1 GFLOPS),
+            sets project work_request to 1 second,
+            does scheduler RPC
+        4) Manager poll finishes
+        5) core client starts CPU benchmarks
 
-		The above is enforced by:
-		- only run benchmarks if there's a nontentative project
-		- if RPC reason is INIT, set work_request to 1
-		- after successful RPC, set work_request to zero
+        The above is enforced by:
+        - only run benchmarks if there's a nontentative project
+        - if RPC reason is INIT, set work_request to 1
+        - after successful RPC, set work_request to zero
 
-	- Core client: PROJECT::sched_rpc_pending is now an int
-		that encodes the reason we need to do a sched RPC.
-		The actual reason is now shown, not always "Requested by user".
+    - Core client: PROJECT::sched_rpc_pending is now an int
+        that encodes the reason we need to do a sched RPC.
+        The actual reason is now shown, not always "Requested by user".
 
-	client/
-		acct_mgr.C
-		client_state.C,h
-		client_types.C,h
-		cs_account.C
-		cs_benchmark.C
-		cs_cmdline.C
-		cs_scheduler.C
-		gui_rpc_server_ops.C
-		scheduler_op.C,h
+    client/
+        acct_mgr.C
+        client_state.C,h
+        client_types.C,h
+        cs_account.C
+        cs_benchmark.C
+        cs_cmdline.C
+        cs_scheduler.C
+        gui_rpc_server_ops.C
+        scheduler_op.C,h
 
 David  24 Aug 2006
-	- core client: is cpu_sched_debug log flag is set,
-		show messages when duration correction factor is changed
-	- more detailed rr_simulation messages
-	- on CPU benchmark completion, scale DCFs only if
-		original benchmark is real (not 1 GFLOPS estimate)
+    - core client: is cpu_sched_debug log flag is set,
+        show messages when duration correction factor is changed
+    - more detailed rr_simulation messages
+    - on CPU benchmark completion, scale DCFs only if
+        original benchmark is real (not 1 GFLOPS estimate)
 
-	client/
-		client_types.C
-		cpu_sched.C
-		cs_benchmark.C
-		cs_scheduler.C
+    client/
+        client_types.C
+        cpu_sched.C
+        cs_benchmark.C
+        cs_scheduler.C
 
 Rom    24 Aug 2006
     - Tag for 5.5.16 release, all platforms
@@ -9360,20 +9360,20 @@ Charlie 25 Aug 2006
         MainDocument.cpp
         
 Kevin  25 Aug 2006
-	- Enhancements to the simple gui
-		-- Project icons that are downloaded after the BSG is started will be displayed when they become available
-		-- Make sure that the first tab is the selected tab when the BSG is opened
-		-- The 'currently running' indicator is now properly added and removed as different results are started and stopped
-		-- The percent displayed now includes one decimal place
-	clientgui/
-		sg_BoincSimpleGUI.cpp
-		sg_BoincSimpleGUI.h
-		sg_ProjectsComponent.cpp
-		sg_ProjectsComponent.h
-		sg_StatImageLoader.cpp
-		sg_StatImageLoader.h
-		sg_ViewTabPage.cpp
-		sg_ViewTabPage.h
+    - Enhancements to the simple gui
+        -- Project icons that are downloaded after the BSG is started will be displayed when they become available
+        -- Make sure that the first tab is the selected tab when the BSG is opened
+        -- The 'currently running' indicator is now properly added and removed as different results are started and stopped
+        -- The percent displayed now includes one decimal place
+    clientgui/
+        sg_BoincSimpleGUI.cpp
+        sg_BoincSimpleGUI.h
+        sg_ProjectsComponent.cpp
+        sg_ProjectsComponent.h
+        sg_StatImageLoader.cpp
+        sg_StatImageLoader.h
+        sg_ViewTabPage.cpp
+        sg_ViewTabPage.h
 
 Charlie 26 Aug 2006
     -Mac: Add a comment; remove bogus Mac-only code from restart() 
@@ -9392,8 +9392,8 @@ Janus  27 Aug 2006
     people can still use the authenticator)
     
     html/user/
-	show_user.php
-	
+    show_user.php
+    
 Charlie 28 Aug 2006
     -Mac: Implement standard Mac shortcut command-W for closing main 
         Manager window (requires adding "Close Window" to File menu.)
@@ -9403,24 +9403,24 @@ Charlie 28 Aug 2006
         Events.h
 
 David  28 Aug 2006
-	- Detection of memory usage now works on Windows.
-		You can find the amount of RAM (working set)
-		and page file spaced used by each running BOINC app,
-		and by all non-BOINC apps.
-		Currently this isn't used for anything.
-		If you set the <mem_usage_debug/> flag in cc_config.xml,
-		it will print memory stats every 10 seconds.
+    - Detection of memory usage now works on Windows.
+        You can find the amount of RAM (working set)
+        and page file spaced used by each running BOINC app,
+        and by all non-BOINC apps.
+        Currently this isn't used for anything.
+        If you set the <mem_usage_debug/> flag in cc_config.xml,
+        it will print memory stats every 10 seconds.
 
-		TODO: get this working for Linux/Mac
+        TODO: get this working for Linux/Mac
 
-	client/
-		app.C
-		log_flags.C,h
-	lib/
-		procinfo.h
-		procinfo_win.h
-	win_build/
-		boinc_cli_curl.vcproj
+    client/
+        app.C
+        log_flags.C,h
+    lib/
+        procinfo.h
+        procinfo_win.h
+    win_build/
+        boinc_cli_curl.vcproj
 
 Rom    28 Aug 2006
     - Bug Fix: Fix missing screensaver condition.
@@ -9449,4 +9449,22 @@ Charlie 28 Aug 2006 (HEAD and boinc_core_release_5_6_0 tag)
         release_GridRepublic.sh
     client/
         app.C
-    
+
+David  29 Aug 2006
+	(all changes to core client)
+	- fixed bug where, if a GUI_HTTP op failed
+		(e.g. initial lookup of project)
+		the HTTP op to the reference site would immediately fail
+		because GUI_HTTP.state is not IDLE at this point.
+		Instead, set a need_to_contact_reference_site flag,
+		and start the op later when GUI_HTTP.state is IDLE.
+	- more messages for http_debug log flag
+	- changed net_xfer_debug to http_xfer_debug
+	- added network_status_debug log flag
+
+	client/
+		http_curl.C
+		log_flags.C,h
+		net_stats.C,h
+	lib/
+		util.C,h
