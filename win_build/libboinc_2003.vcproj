@@ -445,6 +445,9 @@
 				RelativePath="..\lib\prefs.h">
 			</File>
 			<File
+				RelativePath="..\lib\procinfo.h">
+			</File>
+			<File
 				RelativePath="..\lib\proxy_info.h">
 			</File>
 			<File
