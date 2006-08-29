@@ -58,7 +58,7 @@ struct LOG_FLAGS {
     bool sched_op_debug;
     bool http_debug;
     bool proxy_debug;
-    bool time_debug;        // print message on sleep
+    bool time_debug;        // changes in on_frac, active_frac, connected_frac
     bool http_xfer_debug;
     bool measurement_debug; // host measurement notices
     bool poll_debug;        // show what polls are responding

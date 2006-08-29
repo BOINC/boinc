@@ -9481,3 +9481,15 @@ David  29 Aug 2006
         cs_account.C
         cs_scheduler.C
         scheduler_op.C
+
+David  29 Aug 2006
+	- lots more debug messages in RR simulator
+	- fixed small bug in RR sim
+		(last_active_size => last_project_active_size)
+	- change meaning of time_debug log flag;
+		it prints messages related to on_frac etc.
+
+	client/
+		cpu_sched.C
+		log_flags.h
+		time_stats.C
