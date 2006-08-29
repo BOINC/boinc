@@ -9446,3 +9446,13 @@ Walt   28 Aug 2006
     - Fix client build errors on Linux
     lib/
         app.C
+
+Charlie 28 Aug 2006 (HEAD and boinc_core_release_5_6 branch)
+    -Mac: Clear S_ISUID and S_ISGID permission bits from standalone Client 
+        when releasing, to eliminate warning when users try to copy it.  
+        End users of standalone Client need to run Mac_SA_Secure.sh script, 
+        which will set these bits.
+        
+    mac_installer/
+        release_boinc.sh
+        release_GridRepublic.sh
