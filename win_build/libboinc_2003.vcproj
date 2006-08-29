@@ -338,6 +338,9 @@
 				</FileConfiguration>
 			</File>
 			<File
+				RelativePath="..\lib\procinfo_win.C">
+			</File>
+			<File
 				RelativePath="..\lib\proxy_info.C">
 			</File>
 			<File
