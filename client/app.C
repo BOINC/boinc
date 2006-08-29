@@ -225,6 +225,7 @@ bool ACTIVE_TASK_SET::poll() {
         gstate.set_client_state_dirty("ACTIVE_TASK_SET::poll");
     }
 
+#ifdef _WIN32
 	if (log_flags.mem_usage_debug) {
 		static double last_mem_time=0;
 		if (gstate.now - last_mem_time > 10) {
@@ -252,6 +253,7 @@ bool ACTIVE_TASK_SET::poll() {
 			);
 		}
 	}
+#endif
 
     return action;
 }

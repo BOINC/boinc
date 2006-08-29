@@ -9437,13 +9437,16 @@ Rom    28 Aug 2006
 Rom    28 Aug 2006 (Forked from HEAD)
     - Branch boinc_core_release_5_6 created for the BOINC 5.6 client release.
 
-Charlie 28 Aug 2006 (HEAD and boinc_core_release_5_6 branch)
-    -Mac: Clear S_ISUID and S_ISGID permission bits from standalone Client 
+Charlie 28 Aug 2006 (HEAD and boinc_core_release_5_6_0 tag)
+    - Mac: Clear S_ISUID and S_ISGID permission bits from standalone Client 
         when releasing, to eliminate warning when users try to copy it.  
         End users of standalone Client need to run Mac_SA_Secure.sh script, 
         which will set these bits.
+    - Fix compile error for non_windows systems (calls to proc_info*)
         
     mac_installer/
         release_boinc.sh
         release_GridRepublic.sh
+    client/
+        app.C
     
