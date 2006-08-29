@@ -9493,3 +9493,18 @@ David  29 Aug 2006
 		cpu_sched.C
 		log_flags.h
 		time_stats.C
+
+Rom    29 Aug 2006
+    - Bug Fix: Remove google and yahoo detection code from the wizard in the
+        manager
+    - Bug Fix: Remove network detection code the wizard in the manager by replacing
+        it with the get_cc_status RPC.
+    - Bug Fix: Clean up the parsing logic for the get_cc_status rpc.
+    
+    clientgui/
+        ProjectPropertiesPage.cpp, .h
+    lib/
+        gui_rpc_client.h
+        gui_rpc_client_ops.C
+
+        

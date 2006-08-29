@@ -499,7 +499,6 @@ struct ACCOUNT_IN {
 struct ACCOUNT_OUT {
     int error_num;
     std::vector<std::string>messages;
-
     std::string authenticator;
 
     ACCOUNT_OUT();
@@ -515,6 +514,13 @@ struct CC_STATUS {
     bool ams_password_error;
     int task_suspend_reason;
     int network_suspend_reason;
+
+    CC_STATUS();
+    ~CC_STATUS();
+
+    int parse(MIOFILE&);
+    void clear();
+    void print();
 };
 
 struct SIMPLE_GUI_INFO {

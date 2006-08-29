@@ -123,12 +123,6 @@ public:
     bool GetProjectAlreadyAttached() const { return m_bProjectAlreadyAttached ; }
     void SetProjectAlreadyAttached(bool value) { m_bProjectAlreadyAttached = value ; }
 
-    bool GetCommunicateYahooSucceeded() const { return m_bCommunicateYahooSucceeded ; }
-    void SetCommunicateYahooSucceeded(bool value) { m_bCommunicateYahooSucceeded = value ; }
-
-    bool GetCommunicateGoogleSucceeded() const { return m_bCommunicateGoogleSucceeded ; }
-    void SetCommunicateGoogleSucceeded(bool value) { m_bCommunicateGoogleSucceeded = value ; }
-
     bool GetDeterminingConnectionStatusSucceeded() const { return m_bDeterminingConnectionStatusSucceeded ; }
     void SetDeterminingConnectionStatusSucceeded(bool value) { m_bDeterminingConnectionStatusSucceeded = value ; }
 
@@ -152,8 +146,6 @@ public:
     bool m_bProjectAccountCreationDisabled;
     bool m_bProjectClientAccountCreationDisabled;
     bool m_bProjectAlreadyAttached;
-    bool m_bCommunicateYahooSucceeded;
-    bool m_bCommunicateGoogleSucceeded;
     bool m_bDeterminingConnectionStatusSucceeded;
     int m_iBitmapIndex;
     int m_iCurrentState;
