@@ -79,9 +79,9 @@ They include:
 
 list_start();
 
-list_bar("Computing preferences");
+list_bar("Processor usage");
 list_item("When to work",
-"You can specify whether work (computation and network transfer) should be done
+"You can specify whether computation should be done
 1) if the computer is in use (i.e. during keyboard and mouse input);
 2) if the computer is being powered by batteries (for laptop users).
 You can also specify a range of hours when work should be done.
@@ -97,12 +97,16 @@ list_item("Leave applications in memory while preempted",
 list_item("Switch between applications every X minutes",
     "This determines how often BOINC switches between projects."
 );
-
-list_item("Virtual memory",
-    "Limit the virtual memory used by BOINC"
+list_item("Maximum number of processors to use",
+    "On a multiprocessor, this limits the number of processors
+    that BOINC will use."
+);
+list_item("Use at most X% of CPU time",
+    "It you specify 50%, BOINC will compute only every other second.
+    This reduces the heat output and energy usage of your CPU chip."
 );
 
-list_bar("Disk preferences");
+list_bar("Disk and memory usage");
 
 list_item("Usage limits",
 "You can limit the disk space used by BOINC in any of three ways:
@@ -117,7 +121,14 @@ list_item("Access interval",
     "
 );
 
-list_bar("Network preferences");
+list_item("Virtual memory",
+    "Limit the virtual memory used by BOINC"
+);
+
+list_bar("Network usage");
+list_item("Time of day limits",
+    "Limit the hours during which BOINC will do network communication."
+);
 list_item("Bandwidth limits",
     "Limit the number of bytes per second uploaded or downloaded by BOINC."
 );

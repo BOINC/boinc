@@ -232,7 +232,7 @@ function update_1_13_2005() {
 }
 
 function update_1_18_2005() {
-    do_query("ALTER TABLE forum_preferences CHANGE special_user special_user CHAR( 8 ) DEFAULT '0' NOT NULL");
+    do_query("ALTER TABLE forum_preferences CHANGE special_user special_user CHAR(12) DEFAULT '0' NOT NULL");
 }
 
 function update_1_19_2005() {

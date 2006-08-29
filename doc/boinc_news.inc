@@ -1,6 +1,11 @@
 <?
 
 $project_news = array(
+array("August 24, 2006",
+    "<a href=http://gridrepublic.org>GridRepublic</a>,
+    a BOINC account manager, recently moved into beta test.
+    It was written up by <a href=http://news.com.com/2061-12572_3-6108804.html>CNET</a>."
+),
 array("August 20, 2006",
     "BOINC and SETI@home are featured in
     <a href=http://www.be.asahi.com/20060819/W16/20060803TBEH0006A.html>an
@@ -17,7 +22,7 @@ array("August 15, 2006",
     "A BBC Radio program on 'Citizen Science' - including
     a segment on volunteer computing and BOINC -
     will air tomorrow, 16 Aug 2006, 9 PM British Time.
-    It will also be avalable 
+    It will also be available 
     <a href=http://www.bbc.co.uk/radio4/science/citizenscience.shtml>online</a>.
     "
 ),
@@ -151,7 +156,7 @@ array("June 14, 2006",
     "
 ),
 array("June 10, 2006",
-    "The <a href=http://www.boincuk.com/newsletter_reg.php>BOINC UK Newsletter Circuler</a> (bunc) has released its June 2006 edition,
+    "The <a href=http://www.boincuk.com/newsletter_reg.php>BOINC UK Newsletter Circular</a> (bunc) has released its June 2006 edition,
     featuring an interview with David Anderson."
 ),
 array("June 7, 2006",

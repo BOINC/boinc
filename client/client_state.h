@@ -230,6 +230,7 @@ public:
     int detach_project(PROJECT*);
     int report_result_error(RESULT&, const char *format, ...);
     int reset_project(PROJECT*);
+    bool have_tentative_project();
 	bool have_nontentative_project();
     bool no_gui_rpc;
 private:
@@ -285,7 +286,6 @@ public:
 
 // --------------- cs_account.C:
 public:
-    bool have_tentative_project;
     int add_project(
         const char* master_url, const char* authenticator,
         bool attached_via_acct_mgr=false

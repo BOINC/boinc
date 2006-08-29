@@ -10,7 +10,7 @@ This file has the following format:
 <cc_config>
     <options>
         [ <save_stats_days>N</save_stats_days> ]
-        [ <dont_check_file_size>0|1</dont_check_file_size> ]
+        [ <dont_check_file_sizes>0|1</dont_check_file_sizes> ]
         [ <ncpus>N</ncpus> ]
     </options>
     <log_flags>

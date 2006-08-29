@@ -4,7 +4,10 @@ require_once("projects.inc");
 page_head("Choosing BOINC projects");
 
 echo "
-A partial list of current projects (mouse over for details):
+A partial list of current projects is below;
+you can find others using <a href=http://google.com>Google</a>.
+<p>
+Mouse over a project for details.
     <ul>
 ";
 shuffle($areas);

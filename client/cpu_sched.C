@@ -804,11 +804,18 @@ bool CLIENT_STATE::rr_simulation() {
     for (i=0; i<projects.size(); i++) {
         p = projects[i];
         p->set_rrsim_proc_rate(rrs);
-        // if there are no results for a project, the shortfall is its entire share.
+        // if there are no results for a project,
+        // the shortfall is its entire share.
         //
         if (!p->active.size()) {
 			double rsf = rrs ? p->resource_share/rrs : 1;
             p->cpu_shortfall = work_buf_min() * overall_cpu_frac() * ncpus * rsf;
+            if (log_flags.rr_simulation) {
+                msg_printf(NULL, MSG_INFO,
+                    "no results for %s; shortfall %f wbm %f ocf %f rsf %f",
+                    p->cpu_shortfall, work_buf_min(), overall_cpu_frac(), rsf
+                );
+            }
         }
     }
 

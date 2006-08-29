@@ -49,6 +49,26 @@ echo "
 ".tr(RLN_MSWIN_INSTALL_WINSERVICE_DESC)."
 </ul>
 
+<h3>Mac OS X</h3>
+<ul>
+<li> If your browser has not already done so,
+expand the zip archive by double-clicking on it in the Finder.
+<li> Double-click on <b>BOINC.pkg</b> to run the installer,
+then follow the prompts.
+<li> Close the installer when it is finished.
+This will automatically launch the BOINC Manager.
+<li> If you want BOINC to be your screen saver,
+open <b>System Preferences</b> from the Apple menu.
+Select <b>Desktop & Screen Saver</b> and select <b>BOINCSaver</b>.
+</ul>
+<p>
+Several <a href=mac_admin_tools.php>tools</a> for Macintosh system administrators are available to:
+<ul>
+<li> automatically run BOINC as a daemon or system service at boot time
+<li> improve security for stand-alone clients 
+<li> prevent BOINC Manager from launching automatically when selected users log in.
+</ul>
+
 <h3>".tr(RLN_LINUX)."</h3>
 ".tr(RLN_LINUX_INSTALL_SEA_DESC)."
 <p>"
@@ -75,6 +95,19 @@ run_manager
 <h2>".tr(RLN_UNINSTALLING)."</h2>
 <h3>".tr(RLN_MSWIN)."</h3>
 ".tr(RLN_MSWIN_UNINSTALL_DESC)."
+<h3>Mac OS X</h3>
+To completely remove (<b>uninstall</b>) BOINC from your Macintosh:
+    <ul>
+    <li> Move the following files to the trash:
+        <ul>
+        <li> BOINCManager.app (from your <b>/Applications/</b> folder)
+        <li> BOINCSaver.saver (from your <b>/Library/Screen Savers/</b> folder)  
+        <li> the <b>BOINC Data/</b> folder (from your<b>/Library/Applications Support/</b> folder.)
+        <li> BOINC.pkg (from your <b>/Library/Receipts/</b> folder) 
+        </ul>
+    <li> Open the <b>Accounts</b> pane in the <b>System Preferences</b> (accessible from the Apple menu), and remove BOINCManager from your list of <b>Login Items</b> (or <b>Startup Items</b> under OS 10.3.)
+    <li> Open <b>System Preferences</b> from the Apple menu. Select <b>Desktop & Screen Saver</b> and select a different screen saver.
+    </ul>
 
 <a name=issues></a>
 <h2>".tr(RLN_KNOWN_ISSUES)."</h2>

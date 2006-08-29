@@ -6,9 +6,12 @@ function show_participant() {
     $i = rand(0, 99);
     $j = $i+1;
     echo "
+        <tr><td bgcolor=$light_blue>
+            <font size=4>&nbsp;Featured volunteer</font>
+        </td></tr>
         <tr><td>
         <center>
-        <table border=2 cellpadding=6><tr><td>
+        <table border=0 cellpadding=6><tr><td>
     ";
     include("piecharts/$i.html");
     echo "
@@ -65,6 +68,11 @@ function show_participate() {
         <li> <a href=download.php><font size=+1>Download</font></a> and run BOINC software
         <li> <font size=+1>Enter</font> the project URLs, your email address, and password.
         </ol>
+        <p>
+        Or, for simplicity and convenience,
+        use an <a href=acct_mgrs.php>account manager</a>
+        such as <a href=http://gridrepublic.org>GridRepublic</a>
+        or <a href=http://bam.boincstats.com/>BAM!</a>.
         <center>
         <a href=participate.php><b><nobr>Details</nobr></b></a> 
         | <a href=download.php><b>Download</b></a>
@@ -153,8 +161,9 @@ echo "
 <h1>
 Berkeley Open Infrastructure for Network Computing
 </h1>
+<font size=+1>
 Open-source software for
-<a href=volunteer.php>volunteer computing</a> and <a href=dg.php>desktop grid computing</a>.
+<a href=volunteer.php>volunteer computing</a> and <a href=dg.php>desktop grid computing</a>.</font>
 <p>
 ";
 search_form();

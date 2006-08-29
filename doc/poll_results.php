@@ -53,13 +53,13 @@ function other_link($sums, $other_name, $link_text, $ntotal) {
     $y = "";
     $n = count($sums[$other_name]);
     if ($n) {
-        $fname = "poll_$other_name.txt";
+        $fname = "poll_$other_name.html";
         $b = bar($n, $ntotal);
         $y .= "$b <a href=$fname>$link_text</a>";
         $f = fopen($fname, "w");
         foreach ($sums[$other_name] as $text) {
             fwrite($f, $text);
-            fwrite($f, "\n-----------------\n");
+            fwrite($f, "\n<hr>\n");
         }
         fclose($f);
     } else {

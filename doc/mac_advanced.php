@@ -5,9 +5,13 @@ echo "
 <ul>
 <li> If your browser has not already done so,
 expand the zip archive by double-clicking on it in the Finder.
-<li> Double-click on <b>BOINC.pkg</b> to run the installer, then follow the prompts.
-<li> Close the installer when it is finished.  This will automatically launch the BOINC Manager.
-<li> If you want BOINC to be your screen saver, open <b>System Preferences</b> from the Apple menu. Select <b>Desktop & Screen Saver</b> and select <b>BOINCSaver</b>.
+<li> Double-click on <b>BOINC.pkg</b> to run the installer,
+then follow the prompts.
+<li> Close the installer when it is finished.
+This will automatically launch the BOINC Manager.
+<li> If you want BOINC to be your screen saver,
+open <b>System Preferences</b> from the Apple menu.
+Select <b>Desktop & Screen Saver</b> and select <b>BOINCSaver</b>.
 <p>
 <li> The installer does the following:
     <ul>

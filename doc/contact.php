@@ -8,9 +8,9 @@ The BOINC project is based at the
 at the University of California, Berkeley.
 Project staff are:
 <dl>
-<dt> <b>Dr. David P. Anderson</b>
+<dt> <a href=http://boinc.berkeley.edu/anderson/>Dr. David P. Anderson</a>
 <dd>
-Director, architect and developer.  Contact him at davea at ssl.berkeley.edu.
+Director and architect.  Contact him at davea at ssl.berkeley.edu.
 
 <dt><a href=\"http://www.romwnet.org/\"><b>Rom Walton</b></a>
 <dd>

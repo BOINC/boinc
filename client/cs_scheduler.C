@@ -740,7 +740,7 @@ bool CLIENT_STATE::scheduler_rpc_poll() {
 
 	// check only every 5 sec, unless there's a tentative (new) project
 	//
-    if (!have_tentative_project && gstate.now - last_time < 5.0) return false;
+    if (!have_tentative_project() && gstate.now - last_time < 5.0) return false;
     last_time = gstate.now;
 
     switch(scheduler_op->state) {

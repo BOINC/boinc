@@ -23,7 +23,7 @@ echo "
 </ul>
 
 <li> <a href=prefs.php>Preferences</a>
-<li> <a href=energy.php>Energy considerations</a>
+<li> <a href=energy.php>Heat and energy considerations</a>
 <li> <a href=host_id.php>Host identification and merging</a>
 <li> <a href=multiple_projects.php>Participating in multiple projects</a>
 <li> <a href=credit.php>Computation credit</a>

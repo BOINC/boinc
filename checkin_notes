@@ -9468,3 +9468,16 @@ David  29 Aug 2006
 		net_stats.C,h
 	lib/
 		util.C,h
+
+David  29 Aug 2006
+    core client:
+    - replace have_tentative_project variable with a function
+    - log message for project shortfall in no-result case
+
+    client/
+        client_state.C,h
+        client_types.C
+        cpu_sched.C
+        cs_account.C
+        cs_scheduler.C
+        scheduler_op.C

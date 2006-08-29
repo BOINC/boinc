@@ -1,7 +1,29 @@
 <?php
 require_once("docutil.php");
-page_head("Energy considerations");
+page_head("Heat and Energy considerations");
 echo "
+<h2>CPU heat</h2>
+
+<p>
+When BOINC applications are running on a computer,
+its CPU chip produces more heat than when it is idle.
+The computer's heat sinks and fans are normally able to
+dissipate this heat sufficiently.
+However, if the fans become clogged with dust,
+they may not be able to cool the CPU adequately,
+and this can lead to premature failure of the CPU or motherboard.
+
+<p>
+To deal with this problem, we recommend that you:
+<ul>
+<li> Clean your computer's fans and heat sinks periodically.
+<li> Install a utility that monitors CPU temperature,
+such as <a href=http://www.pcworld.com/downloads/file/fid,7309-order,1-page,1-c,alldownloads/description.html>Motherboard Monitor</a> or
+<a href=http://www.diefer.de/i8kfan/index.html>i8kfan</a>
+(for Dell laptops).
+<li> If needed,
+set your <a href=prefs.php>general preferences</a> to throttle CPU usage.
+</ul>
 <h2>The energy cost and environmental impact of running BOINC</h2>
 <p>
 A computer running BOINC uses more energy than an idle computer.
@@ -31,8 +53,8 @@ list_item_array(array("Active", "150 watts", "110 kWh", "$8.80"));
 list_end();
 echo "
 Under these assumptions, running BOINC costs about $3/month
-relative to leaving your computer on but idle,
-and about $8.80/month relative to leaving it off all the time.
+more than leaving your computer on but idle,
+and about $8.80/month more than leaving it off all the time.
 
 <p>
 There may also be an environmental cost.
