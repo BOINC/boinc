@@ -919,7 +919,7 @@ function assimilate_state_str($s) {
     case 1: return "Ready to assimilate";
     case 2: return "Assimilated";
     }
-    echo "<b>THIS IS AN INTERNAL BUG IN BOINC: PLEASE CONTACT BOINC DEVELOPERS</b><br/>";
+    echo "<b>THIS IS AN INTERNAL BUG #1 [$s] IN BOINC: PLEASE CONTACT BOINC DEVELOPERS</b><br/>";
     return "Unknown";
 }
 
@@ -930,7 +930,7 @@ function file_delete_state_str($s) {
     case 2: return "Deleted";
     case 3: return "Delete Error";
     }
-    echo "<b>THIS IS AN INTERNAL BUG IN BOINC: PLEASE CONTACT BOINC DEVELOPERS</b><br/>";
+    echo "<b>THIS IS AN INTERNAL BUG #2 [$s] IN BOINC: PLEASE CONTACT BOINC DEVELOPERS</b><br/>";
     return "Unknown";
 }
 
@@ -1019,7 +1019,7 @@ function server_state_string($s) {
     case 4: return "In Progress";
     case 5: return "Over";
     }
-    echo "<b>THIS IS AN INTERNAL BUG IN BOINC: PLEASE CONTACT BOINC DEVELOPERS</b><br/>";
+    echo "<b>THIS IS AN INTERNAL BUG #3 [$s] IN BOINC: PLEASE CONTACT BOINC DEVELOPERS</b><br/>";
     return "Unknown";
 }
 
@@ -1034,7 +1034,7 @@ function outcome_string($s) {
     case 6: return "Validate error";
     case 7: return "Client detached";
     }
-    echo "<b>THIS IS AN INTERNAL BUG IN BOINC: PLEASE CONTACT BOINC DEVELOPERS</b><br/>";
+    echo "<b>THIS IS AN INTERNAL BUG #4 [$s] IN BOINC: PLEASE CONTACT BOINC DEVELOPERS</b><br/>";
     return "Unknown";
 }
 
@@ -1043,11 +1043,12 @@ function client_state_string($s) {
     case 0: return "New";
     case 1: return "Downloading";
     case 2: return "Downloaded";
-    case 3: return "Computing";
+    case 3: return "Compute error";
     case 4: return "Uploading";
-    case 5: return "Done";
+    case 5: return "Uploaded";
+    case 6: return "Aborted";
     }
-    echo "<b>THIS IS AN INTERNAL BUG IN BOINC: PLEASE CONTACT BOINC DEVELOPERS</b><br/>";
+    echo "<b>THIS IS AN INTERNAL BUG #5 [$s] IN BOINC: PLEASE CONTACT BOINC DEVELOPERS</b><br/>";
     return "Unknown";
 }
 
@@ -1060,7 +1061,7 @@ function validate_state_str($s) {
     case 4: return "Inconclusive";
     case 5: return "Too late";
     }
-    echo "<b>THIS IS AN INTERNAL BUG IN BOINC: PLEASE CONTACT BOINC DEVELOPERS</b><br/>";
+    echo "<b>THIS IS AN INTERNAL BUG #6 [$s] IN BOINC: PLEASE CONTACT BOINC DEVELOPERS</b><br/>";
     return "Unknown";
 }
 

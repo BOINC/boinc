@@ -9518,3 +9518,11 @@ David  30 Aug
 
     client/
         cs_scheduler.C
+
+Bruce 30 Aug
+    - ops pages, missing client state value
+
+    html/
+        inc/
+            db_ops.inc
+
