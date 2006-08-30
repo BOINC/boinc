@@ -631,84 +631,85 @@ bool CLIENT_STATE::compute_work_requests() {
         return false;
     }
 
+    // loop over projects, and pick one to get work from
+    //
     double prrs = potentially_runnable_resource_share();
-
     PROJECT *pbest = NULL;
     double best_work = 0;
     for (i=0; i<projects.size(); i++) {
-        PROJECT *prospect = projects[i];
-        double prospect_work = time_until_work_done(prospect, 0, prrs);
-        if (!prospect->contactable()) {
+        PROJECT *p = projects[i];
+
+        // see if this project can be ruled out completely
+        //
+        if (!p->contactable()) {
             if (log_flags.work_fetch_debug) {
-                msg_printf(0, MSG_INFO,
-                    "compute_work_requests(): project %s not contactable\n",
-                    prospect->get_project_name()
+                msg_printf(p, MSG_INFO, "work fetch: project not contactable");
+            }
+            continue;
+        }
+        if (p->deadlines_missed
+            && overall_work_fetch_urgency != WORK_FETCH_NEED_IMMEDIATELY
+        ) {
+            if (log_flags.work_fetch_debug) {
+                msg_printf(p, MSG_INFO,
+                    "work fetch: project has %d deadline misses",
+                    p->deadlines_missed
                 );
             }
             continue;
         }
-        if (prospect->deadlines_missed) {
+        if (p->overworked() && overall_work_fetch_urgency < WORK_FETCH_NEED) {
             if (log_flags.work_fetch_debug) {
-                msg_printf(0, MSG_INFO,
-                    "compute_work_requests(): project %s has %d deadline misses\n",
-                    prospect->get_project_name(), prospect->deadlines_missed
-                );
+                msg_printf(p, MSG_INFO, "work fetch: project is overworked");
             }
             continue;
         }
-        if (prospect->overworked() && overall_work_fetch_urgency < WORK_FETCH_NEED) {
+        if (p->cpu_shortfall == 0.0 && overall_work_fetch_urgency < WORK_FETCH_NEED) {
             if (log_flags.work_fetch_debug) {
-                msg_printf(0, MSG_INFO,
-                    "compute_work_requests(): project %s is overworked\n",
-                    prospect->get_project_name()
-                );
+                msg_printf(p, MSG_INFO, "work fetch: project has no shortfall");
             }
             continue;
         }
-        if (prospect->cpu_shortfall == 0.0 && overall_work_fetch_urgency < WORK_FETCH_NEED) {
-            if (log_flags.work_fetch_debug) {
-                msg_printf(0, MSG_INFO,
-                    "compute_work_requests(): project %s has no shortfall\n",
-                    prospect->get_project_name()
-                );
-            }
-            continue;
-        }
+
+        // see if this project is better than our current best
+        //
+        double prospect_work = time_until_work_done(p, 0, prrs);
         if (pbest) {
-            if (!pbest->overworked() && projects[i]->overworked()) {
+            if (!pbest->overworked() && p->overworked()) {
                 if (log_flags.work_fetch_debug) {
-                    msg_printf(0, MSG_INFO,
-                        "compute_work_requests(): project %s is overworked\n",
-                        prospect->get_project_name()
+                    msg_printf(p, MSG_INFO,
+                        "work_fetch: project is overworked, %s isn't",
+                        pbest->get_project_name()
                     );
                 }
                 continue;
             }
-            if (pbest->long_term_debt - best_work > prospect->long_term_debt - prospect_work) {
+            if (pbest->long_term_debt - best_work > p->long_term_debt - prospect_work) {
                 if (log_flags.work_fetch_debug) {
-                    msg_printf(0, MSG_INFO,
-                        "compute_work_requests(): project %s has a higher debt load than %s\n",
-                        pbest->get_project_name(), prospect->get_project_name()
+                    msg_printf(p, MSG_INFO,
+                        "work_fetch: project has less LTD than %s",
+                        pbest->get_project_name()
                     );
                 }
                 continue;
             }
         }
-        pbest = prospect;
+        pbest = p;
         best_work = prospect_work;
         if (log_flags.work_fetch_debug) {
-            msg_printf(0, MSG_INFO,
-                "compute_work_requests(): best project so far %s",
-                pbest->get_project_name()
-            );
+            msg_printf(pbest, MSG_INFO, "work_fetch: best project so far");
         }
     }
 
     if (pbest) {
-        pbest->work_request = max(
-			pbest->cpu_shortfall,
-			cpu_shortfall * (prrs ? pbest->resource_share/prrs : 1)
-		);
+        if (pbest->deadlines_missed) {
+            pbest->work_request = 1;
+        } else {
+            pbest->work_request = max(
+                pbest->cpu_shortfall,
+                cpu_shortfall * (prrs ? pbest->resource_share/prrs : 1)
+            );
+        }
         
         if (!best_work) {
             pbest->work_request_urgency = WORK_FETCH_NEED_IMMEDIATELY;

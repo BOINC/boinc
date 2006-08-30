@@ -9512,3 +9512,9 @@ David  29 Aug
 
     client/
         cpu_sched.C
+
+David  30 Aug
+    - core client: work fetch bug fix from JM7
+
+    client/
+        cs_scheduler.C
