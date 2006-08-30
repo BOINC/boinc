@@ -764,7 +764,7 @@ void PROJECT::set_rrsim_proc_rate(double rrs) {
 //
 bool CLIENT_STATE::rr_simulation() {
 	double rrs = nearly_runnable_resource_share();
-    double saved_rrs = rrs;
+    double trs = total_resource_share();
     PROJECT* p, *pbest;
     RESULT* rp, *rpbest;
     vector<RESULT*> active;
@@ -774,7 +774,10 @@ bool CLIENT_STATE::rr_simulation() {
     bool rval = false;
 
 	if (log_flags.rr_simulation) {
-		 msg_printf(0, MSG_INFO, "rr_sim start: work_buf_min %f rrs %f", work_buf_min(), rrs);
+		msg_printf(0, MSG_INFO,
+            "rr_sim start: work_buf_min %f rrs %f trs %f",
+            work_buf_min(), rrs, trs
+        );
 	}
 
     // Initialize result lists for each project:
@@ -812,7 +815,7 @@ bool CLIENT_STATE::rr_simulation() {
         // the shortfall is its entire share.
         //
         if (!p->active.size()) {
-			double rsf = rrs ? p->resource_share/rrs : 1;
+			double rsf = trs ? p->resource_share/trs : 1;
             p->cpu_shortfall = work_buf_min() * overall_cpu_frac() * ncpus * rsf;
             if (log_flags.rr_simulation) {
                 msg_printf(p, MSG_INFO,
@@ -926,7 +929,7 @@ bool CLIENT_STATE::rr_simulation() {
             int nidle_cpus = ncpus - last_active_size;
             if (nidle_cpus > 0) cpu_shortfall += d_time*nidle_cpus;
 
-			double rsf = saved_rrs?pbest->resource_share/saved_rrs:1;
+			double rsf = trs?pbest->resource_share/trs:1;
             double proj_cpu_share = ncpus*rsf;
 
             if (last_proj_active_size < proj_cpu_share) {

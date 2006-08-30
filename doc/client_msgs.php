@@ -111,7 +111,7 @@ list_item_func("<proxy_debug>",
     "Debugging information about HTTP proxy operations"
 );
 list_item_func("<time_debug>",
-    "Log the passage of time."
+    "Updates to on_frac, active_frac, connected_frac."
 );
 list_item_func("<net_xfer_debug>",
     "Debugging information about network communication"
@@ -130,6 +130,12 @@ list_item_func("<scrsave_debug>",
 );
 list_item_func("<app_msg_debug>",
     "Shared-memory messages from applications."
+);
+list_item_func("<mem_usage_debug>",
+    "Application memory usage."
+);
+list_item_func("<network_status_debug>",
+    "Network status (whether need physical connection)."
 );
 list_end();
 

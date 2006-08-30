@@ -9507,4 +9507,8 @@ Rom    29 Aug 2006
         gui_rpc_client.h
         gui_rpc_client_ops.C
 
-        
+David  29 Aug
+    - core client: CPU sched bug fix from JM7
+
+    client/
+        cpu_sched.C
