@@ -931,6 +931,33 @@ void ACCOUNT_OUT::clear() {
     authenticator.clear();
 }
 
+CC_STATUS::CC_STATUS() {
+    clear();
+}
+
+CC_STATUS::~CC_STATUS() {
+    clear();
+}
+
+int CC_STATUS::parse(MIOFILE& in) {
+    char buf[256];
+    while (in.fgets(buf, 256)) {
+        if (match_tag(buf, "</cc_status>")) return 0; 
+        else if (parse_int(buf, "<network_status>", network_status)) continue;
+        else if (parse_bool(buf, "ams_password_error", ams_password_error)) continue;
+        else if (parse_int(buf, "<task_suspend_reason>", task_suspend_reason)) continue;
+        else if (parse_int(buf, "<network_suspend_reason>", network_suspend_reason)) continue;
+    }
+    return ERR_XML_PARSE;
+}
+
+void CC_STATUS::clear() {
+    network_status = -1;
+    ams_password_error = false;
+    task_suspend_reason = 0;
+    network_suspend_reason = 0;
+}
+
 /////////// END OF PARSING FUNCTIONS.  RPCS START HERE ////////////////
 
 int RPC_CLIENT::get_state(CC_STATE& state) {
@@ -1286,16 +1313,13 @@ int RPC_CLIENT::get_cc_status(CC_STATUS& status) {
     char buf[256];
     RPC rpc(this);
 
-	memset(&status, 0, sizeof(status));
     int retval = rpc.do_rpc("<get_cc_status/>\n");
-    status.network_status = -1;
-    status.ams_password_error = false;
     if (!retval) {
         while (rpc.fin.fgets(buf, 256)) {
-            if (parse_int(buf, "<network_status>", status.network_status)) continue;
-            if (parse_bool(buf, "ams_password_error", status.ams_password_error)) continue;
-            if (parse_int(buf, "<task_suspend_reason>", status.task_suspend_reason)) continue;
-            if (parse_int(buf, "<network_suspend_reason>", status.network_suspend_reason)) continue;
+            if (match_tag(buf, "<cc_status>")) {
+                retval = status.parse(rpc.fin);
+                if (retval) break;
+            }
         }
     }
     return retval;

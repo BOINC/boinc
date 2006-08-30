@@ -55,8 +55,6 @@
 using std::min;
 using std::vector;
 
-#define NET_XFER_TIMEOUT    600
-
 static CURLM* g_curlMulti = NULL;
 
 static char g_user_agent_string[256] = {""};
@@ -188,6 +186,9 @@ int HTTP_OP::init_get(
     }
     http_op_type = HTTP_OP_GET;
     http_op_state = HTTP_STATE_CONNECTING;
+    if (log_flags.http_debug) {
+        msg_printf(0, MSG_INFO, "HTTP_OP::init_get(): %s", url);
+    }
     return HTTP_OP::libcurl_exec(url, NULL, out, off, false);
 }
 
@@ -212,13 +213,12 @@ int HTTP_OP::init_post(
     http_op_type = HTTP_OP_POST;
     http_op_state = HTTP_STATE_CONNECTING;
     if (log_flags.http_debug) {
-        msg_printf(0, MSG_INFO, "HTTP_OP::init_post(): %p\n", this);
+        msg_printf(0, MSG_INFO, "HTTP_OP::init_post(): %s", url);
     }
     return HTTP_OP::libcurl_exec(url, in, out, 0.0, true);  // note that no offset for this, for resumable uploads use post2!
 }
 
-// the following will do an HTTP GET or POST using libcurl,
-// polling at the net_xfer level
+// the following will do an HTTP GET or POST using libcurl
 //
 int HTTP_OP::libcurl_exec(
     const char* url, const char* in, const char* out, double offset, bool bPost
@@ -452,7 +452,7 @@ The checking this option controls is of the identity that the server claims. The
     }
 
     // turn on debug info if tracing enabled
-    if (log_flags.net_xfer_debug) {
+    if (log_flags.http_xfer_debug) {
         static int trace_count = 0;
         curlErr = curl_easy_setopt(curlEasy, CURLOPT_DEBUGFUNCTION, libcurl_debugfunction);
         curlErr = curl_easy_setopt(curlEasy, CURLOPT_DEBUGDATA, this );
@@ -468,8 +468,6 @@ The checking this option controls is of the identity that the server claims. The
         return ERR_HTTP_ERROR; // returns 0 (CURLM_OK) on successful handle creation
     }
 
-    // that should about do it, the net_xfer_set polling will actually start the transaction
-    // for this HTTP_OP
     return 0;
 }
 
@@ -977,6 +975,9 @@ void HTTP_OP_SET::got_select(FDSET_GROUP&, double timeout) {
             strcpy(hop->error_msg, curl_easy_strerror(hop->CurlResult));
             hop->http_op_retval = ERR_HTTP_ERROR;
             net_status.got_http_error();
+			if (log_flags.http_debug) {
+				msg_printf(NULL, MSG_ERROR, "HTTP error: %s", hop->error_msg);
+			}
         }
 
         if (!hop->http_op_retval && hop->http_op_type == HTTP_OP_POST2) {
@@ -1035,7 +1036,7 @@ void HTTP_OP::update_speed() {
 void HTTP_OP::got_error() {
     // TODO: which socket??
     error = ERR_IO;
-    if (log_flags.net_xfer_debug) {
+    if (log_flags.http_xfer_debug) {
         msg_printf(0, MSG_INFO, "IO error on socket");
     }
 }

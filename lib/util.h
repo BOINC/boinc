@@ -145,6 +145,8 @@ extern void mysql_timestamp(double, char*);
 //
 extern const char* boincerror(int which_error);
 
+extern const char* network_status_string(int);
+
 #ifdef HAVE_PTHREAD
 extern pthread_mutex_t getrusage_mutex;
 #endif

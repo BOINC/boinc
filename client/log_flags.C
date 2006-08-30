@@ -81,13 +81,14 @@ int LOG_FLAGS::parse(XML_PARSER& xp) {
         else if (xp.parse_bool(tag, "http_debug", http_debug)) continue;
         else if (xp.parse_bool(tag, "proxy_debug", proxy_debug)) continue;
         else if (xp.parse_bool(tag, "time_debug", time_debug)) continue;
-        else if (xp.parse_bool(tag, "net_xfer_debug", net_xfer_debug)) continue;
+        else if (xp.parse_bool(tag, "http_xfer_debug", http_xfer_debug)) continue;
         else if (xp.parse_bool(tag, "measurement_debug", measurement_debug)) continue;
         else if (xp.parse_bool(tag, "poll_debug", poll_debug)) continue;
         else if (xp.parse_bool(tag, "guirpc_debug", guirpc_debug)) continue;
         else if (xp.parse_bool(tag, "scrsave_debug", scrsave_debug)) continue;
         else if (xp.parse_bool(tag, "app_msg_debug", app_msg_debug)) continue;
         else if (xp.parse_bool(tag, "mem_usage_debug", mem_usage_debug)) continue;
+        else if (xp.parse_bool(tag, "network_status_debug", network_status_debug)) continue;
         else {
             msg_printf(NULL, MSG_ERROR, "Unrecognized tag in %s: <%s>\n",
                 CONFIG_FILE, tag

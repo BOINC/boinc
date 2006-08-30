@@ -9462,4 +9462,72 @@ Charlie 28 Aug 2006 (HEAD and boinc_core_release_5_6_0 tag)
         release_GridRepublic.sh
     client/
         app.C
+
+David  29 Aug 2006
+	(all changes to core client)
+	- fixed bug where, if a GUI_HTTP op failed
+		(e.g. initial lookup of project)
+		the HTTP op to the reference site would immediately fail
+		because GUI_HTTP.state is not IDLE at this point.
+		Instead, set a need_to_contact_reference_site flag,
+		and start the op later when GUI_HTTP.state is IDLE.
+	- more messages for http_debug log flag
+	- changed net_xfer_debug to http_xfer_debug
+	- added network_status_debug log flag
+
+	client/
+		http_curl.C
+		log_flags.C,h
+		net_stats.C,h
+	lib/
+		util.C,h
+
+David  29 Aug 2006
+    core client:
+    - replace have_tentative_project variable with a function
+    - log message for project shortfall in no-result case
+
+    client/
+        client_state.C,h
+        client_types.C
+        cpu_sched.C
+        cs_account.C
+        cs_scheduler.C
+        scheduler_op.C
+
+David  29 Aug 2006
+	- lots more debug messages in RR simulator
+	- fixed small bug in RR sim
+		(last_active_size => last_project_active_size)
+	- change meaning of time_debug log flag;
+		it prints messages related to on_frac etc.
+
+	client/
+		cpu_sched.C
+		log_flags.h
+		time_stats.C
+
+Rom    29 Aug 2006
+    - Bug Fix: Remove google and yahoo detection code from the wizard in the
+        manager
+    - Bug Fix: Remove network detection code the wizard in the manager by replacing
+        it with the get_cc_status RPC.
+    - Bug Fix: Clean up the parsing logic for the get_cc_status rpc.
     
+    clientgui/
+        ProjectPropertiesPage.cpp, .h
+    lib/
+        gui_rpc_client.h
+        gui_rpc_client_ops.C
+
+David  29 Aug
+    - core client: CPU sched bug fix from JM7
+
+    client/
+        cpu_sched.C
+
+David  30 Aug
+    - core client: work fetch bug fix from JM7
+
+    client/
+        cs_scheduler.C
