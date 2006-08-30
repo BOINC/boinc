@@ -675,7 +675,20 @@ bool CLIENT_STATE::compute_work_requests() {
         //
         double prospect_work = time_until_work_done(p, 0, prrs);
         if (pbest) {
-            if (!pbest->overworked() && p->overworked()) {
+            // avoid getting work from a project in deadline trouble
+            //
+            if (p->deadlines_missed && !pbest->deadlines_missed) {
+                if (log_flags.work_fetch_debug) {
+                    msg_printf(p, MSG_INFO,
+                        "work_fetch: project has deadline misses, %s doesn't",
+                        pbest->get_project_name()
+                    );
+                }
+                continue;
+            }
+            // avoid getting work from an overworked project
+            //
+            if (p->overworked() && !pbest->overworked()) {
                 if (log_flags.work_fetch_debug) {
                     msg_printf(p, MSG_INFO,
                         "work_fetch: project is overworked, %s isn't",
@@ -684,6 +697,8 @@ bool CLIENT_STATE::compute_work_requests() {
                 }
                 continue;
             }
+            // get work from project with highest LTD
+            //
             if (pbest->long_term_debt - best_work > p->long_term_debt - prospect_work) {
                 if (log_flags.work_fetch_debug) {
                     msg_printf(p, MSG_INFO,
@@ -702,14 +717,10 @@ bool CLIENT_STATE::compute_work_requests() {
     }
 
     if (pbest) {
-        if (pbest->deadlines_missed) {
-            pbest->work_request = 1;
-        } else {
-            pbest->work_request = max(
-                pbest->cpu_shortfall,
-                cpu_shortfall * (prrs ? pbest->resource_share/prrs : 1)
-            );
-        }
+        pbest->work_request = max(
+            pbest->cpu_shortfall,
+            cpu_shortfall * (prrs ? pbest->resource_share/prrs : 1)
+        );
         
         if (!best_work) {
             pbest->work_request_urgency = WORK_FETCH_NEED_IMMEDIATELY;
