@@ -260,6 +260,7 @@ void CAccountManagerPropertiesPage::OnStateChange( CAccountManagerPropertiesPage
             dtCurrentExecutionTime = wxDateTime::Now();
             tsExecutionTime = dtCurrentExecutionTime - dtStartExecutionTime;
             iReturnValue = 0;
+            pc->clear();
             pc->error_num = ERR_IN_PROGRESS;
             while ((!iReturnValue && (ERR_IN_PROGRESS == pc->error_num)) &&
                    tsExecutionTime.GetSeconds() <= 60 &&
@@ -309,7 +310,7 @@ void CAccountManagerPropertiesPage::OnStateChange( CAccountManagerPropertiesPage
                     (!iReturnValue) && (HTTP_STATUS_NOT_FOUND == pc->error_num) ||
                     (!iReturnValue) && (HTTP_STATUS_MOVED_PERM == pc->error_num) ||
                     (!iReturnValue) && (HTTP_STATUS_MOVED_TEMP == pc->error_num) ||
-                    (!iReturnValue) && (ERR_GETHOSTBYNAME == pc->error_num) ||
+                    (!iReturnValue) && (ERR_HTTP_ERROR == pc->error_num) ||
                     (!iReturnValue) && (ERR_XML_PARSE == pc->error_num);
                 if (bSuccessfulCondition || CHECK_DEBUG_FLAG(WIZDEBUG_ERRPROJECTPROPERTIESURL)) {
                     SetProjectPropertiesURLFailure(true);

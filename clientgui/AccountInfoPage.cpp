@@ -270,8 +270,8 @@ void CAccountInfoPage::OnPageChanged( wxWizardExEvent& event ) {
     if (bRunOnce) {
         bRunOnce = false;
         if (!IS_ACCOUNTMANAGERWIZARD()) {
-            m_pAccountCreateCtrl->SetValue(TRUE);
-            m_pAccountUseExistingCtrl->SetValue(FALSE);
+            m_pAccountCreateCtrl->SetValue(true);
+            m_pAccountUseExistingCtrl->SetValue(false);
         }
     }
 
@@ -286,14 +286,20 @@ void CAccountInfoPage::OnPageChanged( wxWizardExEvent& event ) {
         m_pAccountPasswordRequirmentsStaticCtrl->Hide();
     }
 
-    if (((CBOINCBaseWizard*)GetParent())->project_config.account_creation_disabled) {
-        if (!IS_ACCOUNTMANAGERWIZARD()) {
+    if (!IS_ACCOUNTMANAGERWIZARD()) {
+        if (((CBOINCBaseWizard*)GetParent())->project_config.account_creation_disabled) {
             m_pAccountCreateCtrl->SetValue(false);
-            m_pAccountCreateCtrl->Disable();
             m_pAccountUseExistingCtrl->SetValue(true);
+
+            m_pAccountCreateCtrl->Disable();
             m_pAccountConfirmPasswordStaticCtrl->Hide();
             m_pAccountConfirmPasswordCtrl->Hide();
             m_pAccountPasswordRequirmentsStaticCtrl->Hide();
+        } else {
+            m_pAccountCreateCtrl->Enable();
+            m_pAccountConfirmPasswordStaticCtrl->Show();
+            m_pAccountConfirmPasswordCtrl->Show();
+            m_pAccountPasswordRequirmentsStaticCtrl->Show();
         }
     }
 

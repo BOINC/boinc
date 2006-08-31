@@ -104,7 +104,7 @@ bool CProjectPropertiesPage::Create( CBOINCBaseWizard* parent )
     m_bProjectPropertiesURLFailure = false;
     m_bProjectAccountCreationDisabled = false;
     m_bProjectClientAccountCreationDisabled = false;
-    m_bDeterminingConnectionStatusSucceeded = false;
+    m_bNetworkConnectionDetected = false;
     m_iBitmapIndex = 0;
     m_iCurrentState = PROJPROP_INIT;
  
@@ -186,10 +186,10 @@ wxWizardPageEx* CProjectPropertiesPage::GetNext() const
     } else if (!GetProjectPropertiesSucceeded() && GetProjectPropertiesURLFailure()) {
         // Not a BOINC based project
         return PAGE_TRANSITION_NEXT(ID_ERRNOTDETECTEDPAGE);
-    } else if (GetDeterminingConnectionStatusSucceeded()) {
+    } else if (!GetProjectPropertiesSucceeded() && !GetProjectPropertiesURLFailure() && GetNetworkConnectionDetected()) {
         // Possible proxy problem
         return PAGE_TRANSITION_NEXT(ID_ERRPROXYINFOPAGE);
-    } else if (!GetDeterminingConnectionStatusSucceeded()) {
+    } else if (!GetProjectPropertiesSucceeded() && !GetProjectPropertiesURLFailure() && !GetNetworkConnectionDetected()) {
         // No Internet Connection
         return PAGE_TRANSITION_NEXT(ID_ERRNOINTERNETCONNECTIONPAGE);
     } else {
@@ -329,7 +329,7 @@ void CProjectPropertiesPage::OnPageChanged( wxWizardExEvent& event ) {
     SetProjectPropertiesURLFailure(false);
     SetProjectAccountCreationDisabled(false);
     SetProjectClientAccountCreationDisabled(false);
-    SetDeterminingConnectionStatusSucceeded(false);
+    SetNetworkConnectionDetected(false);
     SetNextState(PROJPROP_INIT);
 
     CProjectPropertiesPageEvent TransitionEvent(wxEVT_PROJECTPROPERTIES_STATECHANGE, this);
@@ -387,6 +387,7 @@ void CProjectPropertiesPage::OnStateChange( CProjectPropertiesPageEvent& WXUNUSE
             dtCurrentExecutionTime = wxDateTime::Now();
             tsExecutionTime = dtCurrentExecutionTime - dtStartExecutionTime;
             iReturnValue = 0;
+            pc->clear();
             pc->error_num = ERR_IN_PROGRESS;
             while ((!iReturnValue && (ERR_IN_PROGRESS == pc->error_num)) &&
                    tsExecutionTime.GetSeconds() <= 60 &&
@@ -442,7 +443,11 @@ void CProjectPropertiesPage::OnStateChange( CProjectPropertiesPageEvent& WXUNUSE
             } else {
                 SetProjectPropertiesSucceeded(false);
                 bSuccessfulCondition = 
-                    (!iReturnValue) && (ERR_HTTP_ERROR == pc->error_num);
+                    (!iReturnValue) && (HTTP_STATUS_NOT_FOUND == pc->error_num) ||
+                    (!iReturnValue) && (HTTP_STATUS_MOVED_PERM == pc->error_num) ||
+                    (!iReturnValue) && (HTTP_STATUS_MOVED_TEMP == pc->error_num) ||
+                    (!iReturnValue) && (ERR_HTTP_ERROR == pc->error_num) ||
+                    (!iReturnValue) && (ERR_XML_PARSE == pc->error_num);
                 if (bSuccessfulCondition || CHECK_DEBUG_FLAG(WIZDEBUG_ERRPROJECTPROPERTIESURL)) {
                     SetProjectPropertiesURLFailure(true);
                 } else {
@@ -479,9 +484,9 @@ void CProjectPropertiesPage::OnStateChange( CProjectPropertiesPageEvent& WXUNUSE
 
             bSuccessfulCondition = NETWORK_STATUS_ONLINE == status.network_status;
             if (bSuccessfulCondition && !CHECK_DEBUG_FLAG(WIZDEBUG_ERRNETDETECTION)) {
-                SetDeterminingConnectionStatusSucceeded(true);
+                SetNetworkConnectionDetected(true);
             } else {
-                SetDeterminingConnectionStatusSucceeded(false);
+                SetNetworkConnectionDetected(false);
             }
             SetNextState(PROJPROP_CLEANUP);
 

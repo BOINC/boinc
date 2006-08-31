@@ -9513,16 +9513,26 @@ David  29 Aug
     client/
         cpu_sched.C
 
-David  30 Aug
+David  30 Aug 2006
     - core client: work fetch bug fix from JM7
 
     client/
         cs_scheduler.C
 
-Bruce 30 Aug
+Bruce 30 Aug 2006
     - ops pages, missing client state value
 
     html/
         inc/
             db_ops.inc
 
+Rom    31 Aug 2006
+    - Bug Fix: Be sure to clear the PROJECT_CONFIG structure before reuse.  Not
+        all elements in the project config xml are required.
+    - Bug Fix: Re-enable needed controls when account creation goes from disabled
+        to enabled because of a project URL change.
+        
+    clientgui/
+        AccountInfoPage.cpp
+        AccountManagerPropertiesPage.cpp
+        ProjectPropertiesPage.cpp, .h
