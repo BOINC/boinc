@@ -9606,3 +9606,13 @@ David  31 Aug 2006
         gui_rpc_server.C
     lib/
         Makefile.am
+
+Rom    31 Aug 2006
+    - Bug Fix: Only show password confirmation controls when the create account
+        radio button is selected.
+    - Hook up new return codes to the project and account manager wizards.
+    
+    clientgui/
+        AccountInfoPage.cpp
+        AccountManagerPropertiesPage.cpp, .h
+        ProjectPropertiesPage.cpp

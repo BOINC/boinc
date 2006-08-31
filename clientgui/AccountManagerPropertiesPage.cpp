@@ -105,9 +105,7 @@ bool CAccountManagerPropertiesPage::Create( CBOINCBaseWizard* parent )
     m_bProjectPropertiesURLFailure = false;
     m_bProjectAccountCreationDisabled = false;
     m_bProjectClientAccountCreationDisabled = false;
-    m_bCommunicateYahooSucceeded = false;
-    m_bCommunicateGoogleSucceeded = false;
-    m_bDeterminingConnectionStatusSucceeded = false;
+    m_bNetworkConnectionDetected = false;
     m_iBitmapIndex = 0;
     m_iCurrentState = ACCTMGRPROP_INIT;
  
@@ -201,9 +199,7 @@ void CAccountManagerPropertiesPage::OnPageChanged( wxWizardExEvent& event )
     SetProjectPropertiesURLFailure(false);
     SetProjectAccountCreationDisabled(false);
     SetProjectClientAccountCreationDisabled(false);
-    SetCommunicateYahooSucceeded(false);
-    SetCommunicateGoogleSucceeded(false);
-    SetDeterminingConnectionStatusSucceeded(false);
+    SetNetworkConnectionDetected(false);
     SetNextState(ACCTMGRPROP_INIT);
 
     CAccountManagerPropertiesPageEvent TransitionEvent(wxEVT_ACCOUNTMANAGERPROPERTIES_STATECHANGE, this);
@@ -229,6 +225,7 @@ void CAccountManagerPropertiesPage::OnStateChange( CAccountManagerPropertiesPage
     CMainDocument* pDoc         = wxGetApp().GetDocument();
     CWizardAccountManager* pWAM = ((CWizardAccountManager*)GetParent());
     PROJECT_CONFIG* pc          = &pWAM->project_config;
+    CC_STATUS status;
     wxDateTime dtStartExecutionTime;
     wxDateTime dtCurrentExecutionTime;
     wxTimeSpan tsExecutionTime;
@@ -307,10 +304,8 @@ void CAccountManagerPropertiesPage::OnStateChange( CAccountManagerPropertiesPage
             } else {
                 SetProjectPropertiesSucceeded(false);
                 bSuccessfulCondition = 
-                    (!iReturnValue) && (HTTP_STATUS_NOT_FOUND == pc->error_num) ||
-                    (!iReturnValue) && (HTTP_STATUS_MOVED_PERM == pc->error_num) ||
-                    (!iReturnValue) && (HTTP_STATUS_MOVED_TEMP == pc->error_num) ||
-                    (!iReturnValue) && (ERR_HTTP_ERROR == pc->error_num) ||
+                    (!iReturnValue) && (ERR_FILE_NOT_FOUND == pc->error_num) ||
+                    (!iReturnValue) && (ERR_GETHOSTNAME == pc->error_num) ||
                     (!iReturnValue) && (ERR_XML_PARSE == pc->error_num);
                 if (bSuccessfulCondition || CHECK_DEBUG_FLAG(WIZDEBUG_ERRPROJECTPROPERTIESURL)) {
                     SetProjectPropertiesURLFailure(true);
@@ -325,12 +320,34 @@ void CAccountManagerPropertiesPage::OnStateChange( CAccountManagerPropertiesPage
             break;
         case ACCTMGRPROP_DETERMINENETWORKSTATUS_EXECUTE:
             // Attempt to determine if we are even connected to a network
-            bSuccessfulCondition = CONNECTED_STATE_CONNECTED == get_connected_state();
-            if (bSuccessfulCondition && !CHECK_DEBUG_FLAG(WIZDEBUG_ERRNETDETECTION)) {
-                SetDeterminingConnectionStatusSucceeded(true);
-            } else {
-                SetDeterminingConnectionStatusSucceeded(false);
+
+            // Wait until we are done processing the request.
+            dtStartExecutionTime = wxDateTime::Now();
+            dtCurrentExecutionTime = wxDateTime::Now();
+            tsExecutionTime = dtCurrentExecutionTime - dtStartExecutionTime;
+            iReturnValue = 0;
+            status.network_status = NETWORK_STATUS_LOOKUP_PENDING;
+            while ((!iReturnValue && (NETWORK_STATUS_LOOKUP_PENDING == status.network_status)) &&
+                   tsExecutionTime.GetSeconds() <= 60 &&
+                   !CHECK_CLOSINGINPROGRESS()
+                  )
+            {
+                dtCurrentExecutionTime = wxDateTime::Now();
+                tsExecutionTime = dtCurrentExecutionTime - dtStartExecutionTime;
+                iReturnValue = pDoc->rpc.get_cc_status(status);
+                IncrementProgress(m_pProgressIndicator);
+
+                ::wxMilliSleep(500);
+                ::wxSafeYield(GetParent());
             }
+
+            bSuccessfulCondition = NETWORK_STATUS_WANT_CONNECTION != status.network_status;
+            if (bSuccessfulCondition && !CHECK_DEBUG_FLAG(WIZDEBUG_ERRNETDETECTION)) {
+                SetNetworkConnectionDetected(true);
+            } else {
+                SetNetworkConnectionDetected(false);
+            }
+
             SetNextState(ACCTMGRPROP_CLEANUP);
             break;
         case ACCTMGRPROP_CLEANUP:
@@ -376,15 +393,12 @@ wxWizardPageEx* CAccountManagerPropertiesPage::GetNext() const
     } else if (GetProjectPropertiesSucceeded()) {
         // We were successful in retrieving the project properties
         return PAGE_TRANSITION_NEXT(ID_ACCOUNTINFOPAGE);
-    } else if (!GetProjectPropertiesSucceeded() && GetProjectPropertiesURLFailure()) {
+    } else if (GetProjectPropertiesURLFailure()) {
         // Not a BOINC based project
         return PAGE_TRANSITION_NEXT(ID_ERRNOTDETECTEDPAGE);
-    } else if ((!GetCommunicateYahooSucceeded() && !GetCommunicateGoogleSucceeded()) && GetDeterminingConnectionStatusSucceeded()) {
+    } else if (!GetNetworkConnectionDetected()) {
         // Possible proxy problem
         return PAGE_TRANSITION_NEXT(ID_ERRPROXYINFOPAGE);
-    } else if ((!GetCommunicateYahooSucceeded() && !GetCommunicateGoogleSucceeded()) && !GetDeterminingConnectionStatusSucceeded()) {
-        // No Internet Connection
-        return PAGE_TRANSITION_NEXT(ID_ERRNOINTERNETCONNECTIONPAGE);
     } else {
         // The project must be down for maintenance
         return PAGE_TRANSITION_NEXT(ID_ERRUNAVAILABLEPAGE);

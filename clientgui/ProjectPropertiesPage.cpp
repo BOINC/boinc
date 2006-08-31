@@ -183,15 +183,12 @@ wxWizardPageEx* CProjectPropertiesPage::GetNext() const
     } else if (GetProjectPropertiesSucceeded()) {
         // We were successful in retrieving the project properties
         return PAGE_TRANSITION_NEXT(ID_ACCOUNTINFOPAGE);
-    } else if (!GetProjectPropertiesSucceeded() && GetProjectPropertiesURLFailure()) {
+    } else if (GetProjectPropertiesURLFailure()) {
         // Not a BOINC based project
         return PAGE_TRANSITION_NEXT(ID_ERRNOTDETECTEDPAGE);
-    } else if (!GetProjectPropertiesSucceeded() && !GetProjectPropertiesURLFailure() && GetNetworkConnectionDetected()) {
-        // Possible proxy problem
-        return PAGE_TRANSITION_NEXT(ID_ERRPROXYINFOPAGE);
-    } else if (!GetProjectPropertiesSucceeded() && !GetProjectPropertiesURLFailure() && !GetNetworkConnectionDetected()) {
+    } else if (!GetNetworkConnectionDetected()) {
         // No Internet Connection
-        return PAGE_TRANSITION_NEXT(ID_ERRNOINTERNETCONNECTIONPAGE);
+        return PAGE_TRANSITION_NEXT(ID_ERRPROXYINFOPAGE);
     } else {
         // The project must be down for maintenance
         return PAGE_TRANSITION_NEXT(ID_ERRUNAVAILABLEPAGE);
@@ -443,10 +440,8 @@ void CProjectPropertiesPage::OnStateChange( CProjectPropertiesPageEvent& WXUNUSE
             } else {
                 SetProjectPropertiesSucceeded(false);
                 bSuccessfulCondition = 
-                    (!iReturnValue) && (HTTP_STATUS_NOT_FOUND == pc->error_num) ||
-                    (!iReturnValue) && (HTTP_STATUS_MOVED_PERM == pc->error_num) ||
-                    (!iReturnValue) && (HTTP_STATUS_MOVED_TEMP == pc->error_num) ||
-                    (!iReturnValue) && (ERR_HTTP_ERROR == pc->error_num) ||
+                    (!iReturnValue) && (ERR_FILE_NOT_FOUND == pc->error_num) ||
+                    (!iReturnValue) && (ERR_GETHOSTNAME == pc->error_num) ||
                     (!iReturnValue) && (ERR_XML_PARSE == pc->error_num);
                 if (bSuccessfulCondition || CHECK_DEBUG_FLAG(WIZDEBUG_ERRPROJECTPROPERTIESURL)) {
                     SetProjectPropertiesURLFailure(true);
@@ -482,7 +477,7 @@ void CProjectPropertiesPage::OnStateChange( CProjectPropertiesPageEvent& WXUNUSE
                 ::wxSafeYield(GetParent());
             }
 
-            bSuccessfulCondition = NETWORK_STATUS_ONLINE == status.network_status;
+            bSuccessfulCondition = NETWORK_STATUS_WANT_CONNECTION != status.network_status;
             if (bSuccessfulCondition && !CHECK_DEBUG_FLAG(WIZDEBUG_ERRNETDETECTION)) {
                 SetNetworkConnectionDetected(true);
             } else {

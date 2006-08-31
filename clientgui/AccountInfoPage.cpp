@@ -292,16 +292,10 @@ void CAccountInfoPage::OnPageChanged( wxWizardExEvent& event ) {
             m_pAccountCreateCtrl->Hide();
             m_pAccountUseExistingCtrl->SetValue(true);
             m_pAccountUseExistingCtrl->Hide();
-            m_pAccountConfirmPasswordStaticCtrl->Hide();
-            m_pAccountConfirmPasswordCtrl->Hide();
-            m_pAccountPasswordRequirmentsStaticCtrl->Hide();
         } else {
             m_pAccountCreateCtrl->Show();
             m_pAccountCreateCtrl->Enable();
             m_pAccountUseExistingCtrl->Show();
-            m_pAccountConfirmPasswordStaticCtrl->Show();
-            m_pAccountConfirmPasswordCtrl->Show();
-            m_pAccountPasswordRequirmentsStaticCtrl->Show();
         }
     }
 
@@ -343,18 +337,23 @@ void CAccountInfoPage::OnPageChanged( wxWizardExEvent& event ) {
     }
 
     if (m_pAccountUseExistingCtrl->GetValue()) {
+        m_pAccountConfirmPasswordStaticCtrl->Hide();
+        m_pAccountConfirmPasswordCtrl->Hide();
+        m_pAccountPasswordRequirmentsStaticCtrl->Hide();
         m_pAccountPasswordStaticCtrl->SetLabel(
             _("&Password:")
         );
     } else {
+        m_pAccountConfirmPasswordStaticCtrl->Show();
+        m_pAccountConfirmPasswordCtrl->Show();
+        m_pAccountPasswordRequirmentsStaticCtrl->Show();
         m_pAccountPasswordStaticCtrl->SetLabel(
             _("Choose a &password:")
         );
+        m_pAccountConfirmPasswordStaticCtrl->SetLabel(
+            _("C&onfirm password:")
+        );
     }
-
-    m_pAccountConfirmPasswordStaticCtrl->SetLabel(
-        _("C&onfirm password:")
-    );
 
     if (!((CBOINCBaseWizard*)GetParent())->project_name.IsEmpty()) {
         wxString strQuestion;
