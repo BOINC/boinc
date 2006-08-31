@@ -289,9 +289,9 @@ void CAccountInfoPage::OnPageChanged( wxWizardExEvent& event ) {
     if (!IS_ACCOUNTMANAGERWIZARD()) {
         if (((CBOINCBaseWizard*)GetParent())->project_config.account_creation_disabled) {
             m_pAccountCreateCtrl->SetValue(false);
+           m_pAccountCreateCtrl->Hide();
             m_pAccountUseExistingCtrl->SetValue(true);
-
-            m_pAccountCreateCtrl->Disable();
+            m_pAccountUseExistingCtrl->Hide();
             m_pAccountConfirmPasswordStaticCtrl->Hide();
             m_pAccountConfirmPasswordCtrl->Hide();
             m_pAccountPasswordRequirmentsStaticCtrl->Hide();
@@ -308,9 +308,17 @@ void CAccountInfoPage::OnPageChanged( wxWizardExEvent& event ) {
     );
 
     if (!IS_ACCOUNTMANAGERWIZARD() && !IS_ACCOUNTMANAGERUPDATEWIZARD()) {
-        m_pAccountQuestionStaticCtrl->SetLabel(
-            _("Are you already running this project?")
-        );
+		if (((CBOINCBaseWizard*)GetParent())->project_config.account_creation_disabled) {
+			m_pAccountQuestionStaticCtrl->SetLabel(
+				_("This project is not currently accepting new accounts.\n"
+					"You can attach only if you already have an account."
+				)
+			);
+		} else {
+			m_pAccountQuestionStaticCtrl->SetLabel(
+				_("Are you already running this project?")
+			);
+		}
         m_pAccountCreateCtrl->SetLabel(
             _("&No, new user")
         );
@@ -402,8 +410,7 @@ void CAccountInfoPage::OnPageChanged( wxWizardExEvent& event ) {
         if (m_pAccountInformationStaticCtrl) {
             if (m_pAccountInformationStaticCtrl->GetLabel().IsEmpty()) {
                 m_pAccountInformationStaticCtrl->SetLabel(
-                    _("Enter the email address and password you used on\n"
-                    "the web site.")
+                    _("Enter the email address and password of your account\n")
                 );
             }
         }

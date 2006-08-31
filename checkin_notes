@@ -9536,3 +9536,12 @@ Rom    31 Aug 2006
         AccountInfoPage.cpp
         AccountManagerPropertiesPage.cpp
         ProjectPropertiesPage.cpp, .h
+
+David  31 Aug 2006
+	- Manager: if project doesn't allow account creation, say so,
+		and don't show yes/no radio buttons
+		NOTE: it still doesn't work right if you try alpha first,
+		and then cplan.
+
+    clientgui/
+        AccountInfoPage.cpp
