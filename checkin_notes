@@ -9545,3 +9545,25 @@ David  31 Aug 2006
 
     clientgui/
         AccountInfoPage.cpp
+
+David  31 Aug 2006
+    - GUI RPC: add a new exchange_versions() RPC to get core client version.
+        Other RPCs no longer exchange version info.
+        Client library still parses version info from get_state()
+        so you can find version of clients that predate this change.
+    - Core client: the http_op_retval is now always a BOINC (ERR_*) code
+        (not, e.g. an HTTP status code)
+        Specific errors are returned for DNS lookup failure,
+        connection failure, and file not found.
+        This is documented in http_curl.h
+    - GUI RPCs that poll HTTP operation completion now return the above 
+        error codes also.
+
+    client/
+        gui_rpc_server_ops.C
+        httl_curl.C,h
+    lib/
+        error_numbers.h
+        gui_rpc_client.C,h
+        gui_rpc_client_ops.C
+        util.C

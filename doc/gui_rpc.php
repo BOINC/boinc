@@ -32,14 +32,13 @@ If you're writing a GUI program that needs to communicate with
 older versions of the BOINC core client,
 here's what to do:
 <ul>
-<li> Create a GUI_RPC object, connect, and do any RPC
-(the get_state() RPC is supported by all core client versions).
-All RPCs return the client version number.
+<li> Create a GUI_RPC object and connect.
+Call exchange_versions() to get the client version.
 <li>
-The client_major_version, client_minor_version, and client_release fields
-of your GUI_RPC object now contain the client version number.
+If exchange_versions() fails (it's not suppored in pre-5.6 clients)
+do a get_state() RPC, and get the client version from CC_STATE::version_info.
 <li>
-Use this version number to decide what subsequent RPCs to make
+Use the client version number to decide what subsequent RPCs to make
 (version info is included in the RPC list below).
 </ul>
 
@@ -74,6 +73,11 @@ list_item_func(
     This call is relatively slow and should only
     be done initially, and when needed later (see below).
     "
+);
+list_item_func(
+    "exchange_versions(VERSION_INFO&)",
+    "Exchange version info with the core client.
+    The core client's version info is returned."
 );
 list_item_func(
     "get_cc_status(CC_STATUS&)",

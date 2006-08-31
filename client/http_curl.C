@@ -815,7 +815,7 @@ void HTTP_OP::reset() {
     want_upload = false;
     fileIn = NULL;
     fileOut = NULL;
-    error = 0;
+    connect_error = 0;
     bytes_xferred = 0;
     xfer_speed = 0;
     bSentHeader = false;
@@ -925,7 +925,7 @@ void HTTP_OP_SET::got_select(FDSET_GROUP&, double timeout) {
         // included with Mac OS X 10.3.9
         //
         curlErr = curl_easy_getinfo(hop->curlEasy, 
-            (CURLINFO)(CURLINFO_LONG+25) /*CURLINFO_OS_ERRNO*/, &hop->error
+            (CURLINFO)(CURLINFO_LONG+25) /*CURLINFO_OS_ERRNO*/, &hop->connect_error
         );
 
         // update byte counts and transfer speed
@@ -963,17 +963,33 @@ void HTTP_OP_SET::got_select(FDSET_GROUP&, double timeout) {
             } else {
                 // Got a response from server but its not OK or CONTINUE,
                 // so save response with error message to display later.
-                hop->http_op_retval = hop->response;
+                //
                 if (hop->response >= 400) {
                     strcpy(hop->error_msg, boincerror(hop->response));
                 } else {
                     sprintf(hop->error_msg, "HTTP error %d", hop->response);
                 }
+                switch (hop->response) {
+                case HTTP_STATUS_NOT_FOUND:
+                    hop->http_op_retval = ERR_FILE_NOT_FOUND;
+                    break;
+                default:
+                    hop->http_op_retval = ERR_HTTP_ERROR;
+                }
             }
             net_status.need_physical_connection = false;
         } else {
             strcpy(hop->error_msg, curl_easy_strerror(hop->CurlResult));
-            hop->http_op_retval = ERR_HTTP_ERROR;
+            switch(hop->CurlResult) {
+            case CURLE_COULDNT_RESOLVE_HOST:
+                hop->http_op_retval = ERR_GETHOSTBYNAME;
+                break;
+            case CURLE_COULDNT_CONNECT:
+                hop->http_op_retval = ERR_CONNECT;
+                break;
+            default:
+                hop->http_op_retval = ERR_HTTP_ERROR;
+            }
             net_status.got_http_error();
 			if (log_flags.http_debug) {
 				msg_printf(NULL, MSG_ERROR, "HTTP error: %s", hop->error_msg);
@@ -1032,14 +1048,5 @@ void HTTP_OP::update_speed() {
         xfer_speed = bytes_xferred / delta_t;
     }
 }
-
-void HTTP_OP::got_error() {
-    // TODO: which socket??
-    error = ERR_IO;
-    if (log_flags.http_xfer_debug) {
-        msg_printf(0, MSG_INFO, "IO error on socket");
-    }
-}
-
 
 const char *BOINC_RCSID_57f273bb60 = "$Id$";

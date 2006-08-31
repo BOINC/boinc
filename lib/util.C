@@ -931,8 +931,8 @@ void mysql_timestamp(double dt, char* p) {
     );
 }
 
-// Return a text-string description of a given error.  Must be kept
-// consistent with error_numbers.h
+// Return a text-string description of a given error.
+// Must be kept consistent with error_numbers.h
 //
 const char* boincerror(int which_error) {
     switch (which_error) {
@@ -1052,6 +1052,7 @@ const char* boincerror(int which_error) {
         case ERR_ABORTED_BY_PROJECT: return "Aborted by project";
         case ERR_GETGRNAM: return "Group not found";
         case ERR_CHOWN: return "can't change owner";
+        case ERR_FILE_NOT_FOUND: return "file not found";
         case 404: return "HTTP file not found";
         case 407: return "HTTP proxy authentication failure";
         case 416: return "HTTP range request error";
