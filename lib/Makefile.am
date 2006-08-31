@@ -63,6 +63,7 @@ libboinc_a_SOURCES = \
     network.C \
     parse.C \
     prefs.C \
+    procinfo_unix.C \
     proxy_info.C \
     shmem.C \
     util.C	\

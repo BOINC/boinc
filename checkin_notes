@@ -9567,3 +9567,11 @@ David  31 Aug 2006
         gui_rpc_client.C,h
         gui_rpc_client_ops.C
         util.C
+
+
+Walt   31 Aug 2006
+    - Add process memory info for Linux.
+
+    lib/
+        procinfo_unix.C (new)
+        Makefile.am
