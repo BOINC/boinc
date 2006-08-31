@@ -284,9 +284,6 @@ CMainDocument::CMainDocument() {
     }
 #endif
 
-    m_iCachedActivityRunMode = 0;
-    m_iCachedNetworkRunMode = 0;
-
     m_fProjectTotalResourceShare = 0.0;
 
     m_iMessageSequenceNumber = 0;
@@ -294,15 +291,13 @@ CMainDocument::CMainDocument() {
     m_bCachedStateLocked = false;
     m_dtCachedStateLockTimestamp = wxDateTime::Now();
     m_dtCachedStateTimestamp = wxDateTime((time_t)0);
-    cc_status_timestamp = dtime();
-    m_dtCachedActivityRunModeTimestamp = wxDateTime((time_t)0);
-    m_dtCachedNetworkRunModeTimestamp = wxDateTime((time_t)0);
-    m_dtCachedProjecStatusTimestamp = wxDateTime((time_t)0);
-    m_dtCachedResultsTimestamp = wxDateTime((time_t)0);
+    m_dtCachedCCStatusTimestamp = wxDateTime((time_t)0);
+    m_dtProjecStatusTimestamp = wxDateTime((time_t)0);
+    m_dtResultsTimestamp = wxDateTime((time_t)0);
     m_dtFileTransfersTimestamp = wxDateTime((time_t)0);
     m_dtResourceStatusTimestamp = wxDateTime((time_t)0);
     m_dtStatisticsStatusTimestamp = wxDateTime((time_t)0);
-	m_dtCachedSimpleGUITimestamp = wxDateTime((time_t)0);//Added By MILOS
+	m_dtCachedSimpleGUITimestamp = wxDateTime((time_t)0);
 }
 
 
@@ -466,20 +461,21 @@ int CMainDocument::FrameShutdownDetected() {
     return m_pNetworkConnection->FrameShutdownDetected();
 }
 
-int CMainDocument::GetActivityRunMode(int& iMode) {
+
+int CMainDocument::GetCoreClientStatus(CC_STATUS& ccs) {
     int     iRetVal = 0;
 
     if (IsConnected()) {
-        wxTimeSpan ts(wxDateTime::Now() - m_dtCachedActivityRunModeTimestamp);
-        if (ts.GetSeconds() > 2) {
-            m_dtCachedActivityRunModeTimestamp = wxDateTime::Now();
+        wxTimeSpan ts(wxDateTime::Now() - m_dtCachedCCStatusTimestamp);
+        if (ts.GetSeconds() > 0) {
+            m_dtCachedCCStatusTimestamp = wxDateTime::Now();
 
-            iRetVal = rpc.get_run_mode(iMode);
+            iRetVal = rpc.get_cc_status(ccs);
             if (0 == iRetVal) {
-                m_iCachedActivityRunMode = iMode;
+                status = ccs;
             }
         } else {
-            iMode = m_iCachedActivityRunMode;
+            ccs = status;
         }
     } else {
         iRetVal = -1;
@@ -495,32 +491,8 @@ int CMainDocument::SetActivityRunMode(int iMode) {
     if (IsConnected()) {
         iRetVal = rpc.set_run_mode(iMode);
         if (0 == iRetVal) {
-            m_dtCachedActivityRunModeTimestamp = wxDateTime::Now();
-            m_iCachedActivityRunMode = iMode;
+            status.task_mode = iMode;
         }
-    }
-
-    return iRetVal;
-}
-
-
-int CMainDocument::GetNetworkRunMode(int& iMode) {
-    int     iRetVal = 0;
-
-    if (IsConnected()) {
-        wxTimeSpan ts(wxDateTime::Now() - m_dtCachedNetworkRunModeTimestamp);
-        if (ts.GetSeconds() > 2) {
-            m_dtCachedNetworkRunModeTimestamp = wxDateTime::Now();
-
-            iRetVal = rpc.get_network_mode(iMode);
-            if (0 == iRetVal) {
-                m_iCachedNetworkRunMode = iMode;
-            }
-        } else {
-            iMode = m_iCachedNetworkRunMode;
-        }
-    } else {
-        iRetVal = -1;
     }
 
     return iRetVal;
@@ -533,31 +505,8 @@ int CMainDocument::SetNetworkRunMode(int iMode) {
     if (IsConnected()) {
         iRetVal = rpc.set_network_mode(iMode);
         if (0 == iRetVal) {
-            m_dtCachedNetworkRunModeTimestamp = wxDateTime::Now();
-            m_iCachedNetworkRunMode = iMode;
+            status.network_mode = iMode;
         }
-    }
-
-    return iRetVal;
-}
-
-
-int CMainDocument::get_cc_status(CC_STATUS& ccs) {
-    int     iRetVal = 0;
-
-    double now = dtime();
-	double diff = now - cc_status_timestamp;
-    if (diff > 0.5) {
-        cc_status_timestamp = now;
-
-        if (IsConnected()) {
-            iRetVal = rpc.get_cc_status(ccs);
-            if (0 == iRetVal) {
-                cc_status = ccs;
-            }
-        }
-    } else {
-        ccs = cc_status;
     }
 
     return iRetVal;
@@ -645,9 +594,9 @@ int CMainDocument::CachedProjectStatusUpdate() {
     int     i = 0;
 
     if (IsConnected()) {
-        wxTimeSpan ts(wxDateTime::Now() - m_dtCachedProjecStatusTimestamp);
+        wxTimeSpan ts(wxDateTime::Now() - m_dtProjecStatusTimestamp);
         if (ts.GetSeconds() > 0) {
-            m_dtCachedProjecStatusTimestamp = wxDateTime::Now();
+            m_dtProjecStatusTimestamp = wxDateTime::Now();
 
             iRetVal = rpc.get_project_status(state);
             if (iRetVal) {
@@ -800,9 +749,9 @@ int CMainDocument::CachedResultsStatusUpdate() {
     int     iRetVal = 0;
 
     if (IsConnected()) {
-        wxTimeSpan ts(wxDateTime::Now() - m_dtCachedResultsTimestamp);
+        wxTimeSpan ts(wxDateTime::Now() - m_dtResultsTimestamp);
         if (ts.GetSeconds() > 0) {
-            m_dtCachedResultsTimestamp = wxDateTime::Now();
+            m_dtResultsTimestamp = wxDateTime::Now();
 
             iRetVal = rpc.get_results(results);
             if (iRetVal) {
@@ -1240,12 +1189,13 @@ int CMainDocument::CachedSimpleGUIUpdate() {
 
 int CMainDocument::GetSimpleGUIWorkCount() {
     int iCount = 0;
+    unsigned int i = 0;
 
     CachedSimpleGUIUpdate();
     CachedStateUpdate();
 
-	for(unsigned int i=0;i<results.results.size();i++) {
-		if ( results.results[i]->active_task ) {
+	for(i=0; i<results.results.size(); i++) {
+		if (results.results[i]->active_task) {
 			iCount++;
 		}
 	}

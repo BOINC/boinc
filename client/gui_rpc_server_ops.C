@@ -274,6 +274,7 @@ static void handle_set_run_mode(char* buf, MIOFILE& fout) {
     fout.printf("<success/>\n");
 }
 
+// DEPRECATED - REMOVE 12/06
 static void handle_get_run_mode(char* , MIOFILE& fout) {
     fout.printf("<run_mode>\n");
     switch (gstate.user_run_request) {
@@ -307,6 +308,7 @@ static void handle_set_network_mode(char* buf, MIOFILE& fout) {
     fout.printf("<success/>\n");
 }
 
+// DEPRECATED - REMOVE 12/06
 static void handle_get_network_mode(char* , MIOFILE& fout) {
     fout.printf("<network_mode>\n");
     switch (gstate.user_network_request) {
@@ -564,11 +566,15 @@ static void handle_get_cc_status(MIOFILE& fout) {
         "   <ams_password_error>%d</ams_password_error>\n"
         "   <task_suspend_reason>%d</task_suspend_reason>\n"
         "   <network_suspend_reason>%d</network_suspend_reason>\n"
+        "   <task_mode>%d</task_mode>\n"
+        "   <network_mode>%d</network_mode>\n"
         "</cc_status>\n",
         net_status.network_status(),
         gstate.acct_mgr_info.password_error?1:0,
         gstate.suspend_reason,
-        gstate.network_suspend_reason
+        gstate.network_suspend_reason,
+        gstate.user_run_request,
+        gstate.user_network_request
     );
 }
 

@@ -83,10 +83,10 @@ private:
 
 	wxDateTime                  m_dtCachedActivityRunModeTimestamp;
     wxDateTime                  m_dtCachedNetworkRunModeTimestamp;
-    double                      cc_status_timestamp;
+    wxDateTime                  m_dtCachedCCStatusTimestamp;
     int                         m_iCachedActivityRunMode;
     int                         m_iCachedNetworkRunMode;
-    CC_STATUS cc_status;
+    CC_STATUS                   status;
 
     int                         CachedStateUpdate();
 
@@ -121,11 +121,9 @@ public:
     bool                        IsConnected();
     bool                        IsReconnecting();
 
-    int                         GetActivityRunMode(int& iMode);
+    int                         GetCoreClientStatus(CC_STATUS&);
     int                         SetActivityRunMode(int iMode);
-    int                         GetNetworkRunMode(int& iMode);
     int                         SetNetworkRunMode(int iMode);
-    int                         get_cc_status(CC_STATUS&);
 
     int                         ForceCacheUpdate();
     int                         RunBenchmarks();
@@ -144,7 +142,7 @@ public:
     //
 private:
     int                         CachedProjectStatusUpdate();
-    wxDateTime                  m_dtCachedProjecStatusTimestamp;
+    wxDateTime                  m_dtProjecStatusTimestamp;
 
 public:
     PROJECT*                    project(unsigned int);
@@ -167,7 +165,7 @@ public:
     //
 private:
     int                         CachedResultsStatusUpdate();
-    wxDateTime                  m_dtCachedResultsTimestamp;
+    wxDateTime                  m_dtResultsTimestamp;
 
 public:
     RESULTS                     results;

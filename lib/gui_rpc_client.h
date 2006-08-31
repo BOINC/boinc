@@ -521,6 +521,8 @@ struct CC_STATUS {
     bool ams_password_error;
     int task_suspend_reason;
     int network_suspend_reason;
+    int task_mode;
+    int network_mode;
 
     CC_STATUS();
     ~CC_STATUS();
@@ -584,9 +586,9 @@ public:
     );
     int project_op(PROJECT&, const char* op);
     int set_run_mode(int mode);
-    int get_run_mode(int& mode);
+    int get_run_mode(int& mode);    // DEPRECATED
     int set_network_mode(int mode);
-    int get_network_mode(int& mode);
+    int get_network_mode(int& mode);    // DEPRECATED
     int get_activity_state(ACTIVITY_STATE&);	// DEPRECATED
     int get_screensaver_mode(int& status);
     int set_screensaver_mode(

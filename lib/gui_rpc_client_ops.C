@@ -947,6 +947,8 @@ int CC_STATUS::parse(MIOFILE& in) {
         else if (parse_bool(buf, "ams_password_error", ams_password_error)) continue;
         else if (parse_int(buf, "<task_suspend_reason>", task_suspend_reason)) continue;
         else if (parse_int(buf, "<network_suspend_reason>", network_suspend_reason)) continue;
+        else if (parse_int(buf, "<task_mode>", task_mode)) continue;
+        else if (parse_int(buf, "<network_mode>", network_mode)) continue;
     }
     return ERR_XML_PARSE;
 }
@@ -954,8 +956,10 @@ int CC_STATUS::parse(MIOFILE& in) {
 void CC_STATUS::clear() {
     network_status = -1;
     ams_password_error = false;
-    task_suspend_reason = 0;
-    network_suspend_reason = 0;
+    task_suspend_reason = -1;
+    network_suspend_reason = -1;
+    task_mode = -1;
+    network_mode = -1;
 }
 
 /////////// END OF PARSING FUNCTIONS.  RPCS START HERE ////////////////
@@ -1546,6 +1550,8 @@ int RPC_CLIENT::set_run_mode(int mode) {
     return retval;
 }
 
+// DEPRECATED - REMOVE 12/06
+//
 int RPC_CLIENT::get_run_mode(int& mode) {
     int retval;
     SET_LOCALE sl;
@@ -1581,6 +1587,8 @@ int RPC_CLIENT::set_network_mode(int mode) {
     return retval;
 }
 
+// DEPRECATED - REMOVE 12/06
+//
 int RPC_CLIENT::get_network_mode(int& mode) {
     int retval;
     SET_LOCALE sl;

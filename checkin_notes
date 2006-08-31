@@ -9575,3 +9575,25 @@ Walt   31 Aug 2006
     lib/
         procinfo_unix.C (new)
         Makefile.am
+
+Rom    31 Aug 2006
+    - Bug Fix: You have to show controls that you previously hidden the last
+        time the wizard page was viewed when one of the state variables change.
+    - Deprecate <get_run_mode/> and <get_network_mode/> GUI RPC's as that 
+        functionality has been rolled into <cc_status/>.  Update BOINC Manager
+        in the dozen or so places that check the activity and network modes.
+    
+    client/
+        gui_rpc_server_ops.C
+    clientgui/
+        AccountInfoPage.cpp
+        AdvancedFrame.cpp
+        BOINCTaskBar.cpp
+        MainDocument.cpp, .h
+        sg_ProjectsComponent.cpp
+        ViewTransfers.cpp
+        ViewWork.cpp
+    lib/
+        gui_rpc_client.h
+        gui_rpc_client_ops.C
+

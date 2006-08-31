@@ -289,14 +289,16 @@ void CAccountInfoPage::OnPageChanged( wxWizardExEvent& event ) {
     if (!IS_ACCOUNTMANAGERWIZARD()) {
         if (((CBOINCBaseWizard*)GetParent())->project_config.account_creation_disabled) {
             m_pAccountCreateCtrl->SetValue(false);
-           m_pAccountCreateCtrl->Hide();
+            m_pAccountCreateCtrl->Hide();
             m_pAccountUseExistingCtrl->SetValue(true);
             m_pAccountUseExistingCtrl->Hide();
             m_pAccountConfirmPasswordStaticCtrl->Hide();
             m_pAccountConfirmPasswordCtrl->Hide();
             m_pAccountPasswordRequirmentsStaticCtrl->Hide();
         } else {
+            m_pAccountCreateCtrl->Show();
             m_pAccountCreateCtrl->Enable();
+            m_pAccountUseExistingCtrl->Show();
             m_pAccountConfirmPasswordStaticCtrl->Show();
             m_pAccountConfirmPasswordCtrl->Show();
             m_pAccountPasswordRequirmentsStaticCtrl->Show();
