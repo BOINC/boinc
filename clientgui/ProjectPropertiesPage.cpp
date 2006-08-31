@@ -441,7 +441,7 @@ void CProjectPropertiesPage::OnStateChange( CProjectPropertiesPageEvent& WXUNUSE
                 SetProjectPropertiesSucceeded(false);
                 bSuccessfulCondition = 
                     (!iReturnValue) && (ERR_FILE_NOT_FOUND == pc->error_num) ||
-                    (!iReturnValue) && (ERR_GETHOSTNAME == pc->error_num) ||
+                    (!iReturnValue) && (ERR_GETHOSTBYNAME == pc->error_num) ||
                     (!iReturnValue) && (ERR_XML_PARSE == pc->error_num);
                 if (bSuccessfulCondition || CHECK_DEBUG_FLAG(WIZDEBUG_ERRPROJECTPROPERTIESURL)) {
                     SetProjectPropertiesURLFailure(true);
