@@ -33,6 +33,10 @@ EXTRA_DIST =                                    \
 	stripchart                                  \
     INSTALL										
 
+includedir = ${prefix}/include/BOINC
+include_HEADERS = \
+    config.h \
+    version.h
 
 dist-hook:
 	rm -rf `find $(distdir) -name .backup -prune -o -name '*~' -o -name CVS`

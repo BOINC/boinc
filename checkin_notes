@@ -9597,3 +9597,12 @@ Rom    31 Aug 2006
         gui_rpc_client.h
         gui_rpc_client_ops.C
 
+David  31 Aug 2006
+    - Fix Makefiles so that "install" installs needed files
+        (from Frank Thomas)
+
+    Makefile/am
+    client/
+        gui_rpc_server.C
+    lib/
+        Makefile.am

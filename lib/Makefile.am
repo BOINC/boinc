@@ -69,22 +69,23 @@ libboinc_a_SOURCES = \
     util.C	\
 	$(mac_sources)
 
-
-
-include_HEADERS = 	\
-    app_ipc.h 		\
-    boinc_win.h 	\
-    diagnostics.h 	\
-    filesys.h 		\
-    hostinfo.h		\
-    mfile.h 		\
-    miofile.h 		\
-    parse.h 		\
-    prefs.h 		\
-    proxy_info.h 	\
-    util.h 			\
-	msg_log.h 		\
-	crypt.h
+include_HEADERS = \
+    app_ipc.h \
+    boinc_win.h \
+    crypt.h \
+    diagnostics.h \
+    error_numbers.h \
+    filesys.h \
+    gui_rpc_client.h \
+    hostinfo.h \
+    mfile.h \
+    miofile.h \
+    msg_log.h \
+    parse.h \
+    prefs.h \
+    proxy_info.h \
+    std_fixes.h \
+    util.h
 
 ## install header-files with prefix-subdir BOINC/ to avoid name-conflicts
 includedir = ${prefix}/include/BOINC/
