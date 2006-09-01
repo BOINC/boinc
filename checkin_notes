@@ -9715,3 +9715,10 @@ David  1 Sep 2006
 		ViewMessages.cpp
 		sg_DlgMessages.cpp
 		sg_ProjectsComponents.cpp
+
+David  1 Sep 2006
+    - make scripts work with sh
+
+    sea/
+        insecure.sh
+        secure.sh

@@ -27,14 +27,14 @@
 #
 # Execute this as root in the BOINC directory
 
-function remove_boinc_users() {
+remove_boinc_users() {
 	userdel boinc_master
 	userdel boinc_projects
 	groupdel boinc_master
 	groupdel boinc_projects
 }
 
-function check_login() {
+check_login() {
     if [ `whoami` != 'root' ]
     then
         echo 'This script must be run as root'
