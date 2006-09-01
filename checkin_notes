@@ -9625,3 +9625,12 @@ David  31 Aug 2006
 
     clientgui/
         AccountInfoPage.cpp
+
+Walt   31 Aug 2006
+    - Bug Fix: Need to close directory after reading it.
+    - Enable <mem_usage_debug/> flag in Linux
+
+    client
+        app.C
+    lib/
+        procinfo_unix.C 
