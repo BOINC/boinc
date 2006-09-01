@@ -9531,3 +9531,95 @@ David  30 Aug 2006
 
     client/
         cs_scheduler.C
+
+Rom    31 Aug 2006
+    - Bug Fix: Be sure to clear the PROJECT_CONFIG structure before reuse.  Not
+        all elements in the project config xml are required.
+    - Bug Fix: Re-enable needed controls when account creation goes from disabled
+        to enabled because of a project URL change.
+        
+    clientgui/
+        AccountInfoPage.cpp
+        AccountManagerPropertiesPage.cpp
+        ProjectPropertiesPage.cpp, .h
+
+David  31 Aug 2006
+	- Manager: if project doesn't allow account creation, say so,
+		and don't show yes/no radio buttons
+		NOTE: it still doesn't work right if you try alpha first,
+		and then cplan.
+
+    clientgui/
+        AccountInfoPage.cpp
+
+David  31 Aug 2006
+    - GUI RPC: add a new exchange_versions() RPC to get core client version.
+        Other RPCs no longer exchange version info.
+        Client library still parses version info from get_state()
+        so you can find version of clients that predate this change.
+    - Core client: the http_op_retval is now always a BOINC (ERR_*) code
+        (not, e.g. an HTTP status code)
+        Specific errors are returned for DNS lookup failure,
+        connection failure, and file not found.
+        This is documented in http_curl.h
+    - GUI RPCs that poll HTTP operation completion now return the above 
+        error codes also.
+
+    client/
+        gui_rpc_server_ops.C
+        httl_curl.C,h
+    lib/
+        error_numbers.h
+        gui_rpc_client.C,h
+        gui_rpc_client_ops.C
+        util.C
+
+Rom    31 Aug 2006
+    - Bug Fix: You have to show controls that you previously hidden the last
+        time the wizard page was viewed when one of the state variables change.
+    - Deprecate <get_run_mode/> and <get_network_mode/> GUI RPC's as that 
+        functionality has been rolled into <cc_status/>.  Update BOINC Manager
+        in the dozen or so places that check the activity and network modes.
+    
+    client/
+        gui_rpc_server_ops.C
+    clientgui/
+        AccountInfoPage.cpp
+        AdvancedFrame.cpp
+        BOINCTaskBar.cpp
+        MainDocument.cpp, .h
+        sg_ProjectsComponent.cpp
+        ViewTransfers.cpp
+        ViewWork.cpp
+    lib/
+        gui_rpc_client.h
+        gui_rpc_client_ops.C
+
+Rom    31 Aug 2006
+    - Bug Fix: Only show password confirmation controls when the create account
+        radio button is selected.
+    - Hook up new return codes to the project and account manager wizards.
+    
+    clientgui/
+        AccountInfoPage.cpp
+        AccountManagerPropertiesPage.cpp, .h
+        ProjectPropertiesPage.cpp
+
+David  31 Aug 2006
+	- manager: say "choose password" only if user is picking new password.
+		otherwise say "enter password".
+	- manager: if user leaves email address blank,
+		ask for email address, not account key
+
+    clientgui/
+        AccountInfoPage.cpp
+
+Rom    31 Aug 2006
+    - Bug Fix: Forcing a global state refresh now causes the client to update the
+        state right then and there. This should fix the app version friendly name
+        flicker problem.
+        
+    clientgui/
+        MainDocument.cpp, .h
+        sg_BoincSimpleGUI.cpp
+        ViewWork.cpp
