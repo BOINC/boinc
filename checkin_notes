@@ -9695,6 +9695,7 @@ David  1 Sep 2006
     lib/
         app_ipc.h
         boinc_cmd.C
+        common_defs.h (new)
         error_numbers.h
         gui_rpc_client.C,h
         gui_rpc_client_ops.C
