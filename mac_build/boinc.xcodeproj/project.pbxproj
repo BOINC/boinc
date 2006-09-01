@@ -2394,7 +2394,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "touch \"$TARGET_BUILD_DIR/SymbolTables/${PRODUCT_NAME}_i386\"\ntouch \"$TARGET_BUILD_DIR/SymbolTables/${PRODUCT_NAME}_ppc\"\n";
+			shellScript = "if [ \"$BUILD_STYLE\" = \"i386_Deployment\" ] || [ \"$BUILD_STYLE\" = \"ppc_Deployment\" ] || [ \"$BUILD_STYLE\" = \"Deployment\" ]; then\n  touch \"$TARGET_BUILD_DIR/SymbolTables/${PRODUCT_NAME}_i386\"\n  touch \"$TARGET_BUILD_DIR/SymbolTables/${PRODUCT_NAME}_ppc\"\nfi";
 		};
 		DDEE267E0AA83FB10055C98F /* ShellScript */ = {
 			isa = PBXShellScriptBuildPhase;
@@ -2409,7 +2409,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "touch \"$TARGET_BUILD_DIR/SymbolTables/BOINCManager_i386\"\ntouch \"$TARGET_BUILD_DIR/SymbolTables/BOINCManager_ppc\"\n";
+			shellScript = "if [ \"$BUILD_STYLE\" = \"i386_Deployment\" ] || [ \"$BUILD_STYLE\" = \"ppc_Deployment\" ] || [ \"$BUILD_STYLE\" = \"Deployment\" ]; then\n  touch \"$TARGET_BUILD_DIR/SymbolTables/BOINCManager_i386\"\n  touch \"$TARGET_BUILD_DIR/SymbolTables/BOINCManager_ppc\"\nfi";
 		};
 		DDF10D960A476D37001F76D6 /* ShellScript */ = {
 			isa = PBXShellScriptBuildPhase;
