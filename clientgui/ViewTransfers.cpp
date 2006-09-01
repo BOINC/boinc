@@ -503,16 +503,14 @@ wxInt32 CViewTransfers::FormatSpeed(wxInt32 item, wxString& strBuffer) const {
 
 
 wxInt32 CViewTransfers::FormatStatus(wxInt32 item, wxString& strBuffer) const {
-    wxInt32        iActivityMode = -1;
-	CC_STATUS ccs;
     CMainDocument* doc = wxGetApp().GetDocument();
     FILE_TRANSFER* transfer = wxGetApp().GetDocument()->file_transfer(item);
+    CC_STATUS      status;
 
     wxASSERT(doc);
     wxASSERT(wxDynamicCast(doc, CMainDocument));
 
-    doc->get_cc_status(ccs);
-    doc->GetActivityRunMode(iActivityMode);
+    doc->GetCoreClientStatus(status);
 
     wxDateTime dtNextRequest((time_t)transfer->next_request_time);
     wxDateTime dtNow(wxDateTime::Now());
@@ -526,7 +524,7 @@ wxInt32 CViewTransfers::FormatStatus(wxInt32 item, wxString& strBuffer) const {
         } else if (ERR_GIVEUP_UPLOAD == transfer->status) {
             strBuffer = _("Upload failed");
         } else {
-            if (ccs.network_suspend_reason) {
+            if (status.network_suspend_reason) {
                 strBuffer = _("Suspended");
             } else {
                 if (transfer->xfer_active) {
@@ -538,7 +536,7 @@ wxInt32 CViewTransfers::FormatStatus(wxInt32 item, wxString& strBuffer) const {
         }
     }
 
-    if (iActivityMode == RUN_MODE_NEVER) {
+    if (status.task_mode == RUN_MODE_NEVER) {
         strBuffer = wxT(" (") + strBuffer + wxT(") ");
         strBuffer = _("Suspended") + strBuffer;
     }

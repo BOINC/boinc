@@ -547,7 +547,9 @@ void CProjectsComponent::OnBtnClick(wxCommandEvent& event){ //init function
 		pDlg->Destroy();
     }else if(m_wxBtnObj==btnPause) {
 		CMainDocument* pDoc     = wxGetApp().GetDocument();
-		pDoc->GetActivityRunMode(clientRunMode);
+        CC_STATUS      status;
+        pDoc->GetCoreClientStatus(status);
+        clientRunMode = status.task_mode;
 		pDoc->SetActivityRunMode(RUN_MODE_NEVER);
 		btnPause->Show(false);
 		btnResume->Show(true);

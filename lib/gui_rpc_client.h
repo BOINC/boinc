@@ -335,6 +335,12 @@ public:
     void clear();
 };
 
+struct VERSION_INFO {
+    int major;
+    int minor;
+    int release;
+};
+
 class CC_STATE {
 public:
     std::vector<PROJECT*> projects;
@@ -344,6 +350,7 @@ public:
     std::vector<RESULT*> results;
 
     GLOBAL_PREFS global_prefs;
+    VERSION_INFO version_info;  // populated only if talking to pre-5.6 CC
 
     CC_STATE();
     ~CC_STATE();
@@ -514,6 +521,8 @@ struct CC_STATUS {
     bool ams_password_error;
     int task_suspend_reason;
     int network_suspend_reason;
+    int task_mode;
+    int network_mode;
 
     CC_STATUS();
     ~CC_STATUS();
@@ -538,9 +547,6 @@ struct ACTIVITY_STATE {
 class RPC_CLIENT {
 public:
     int sock;
-    int client_major_version;
-    int client_minor_version;
-    int client_release;
     double start_time;
     double timeout;
     bool retry;
@@ -565,6 +571,7 @@ public:
     int init_poll();
     void close();
     int authorize(const char* passwd);
+    int exchange_versions(VERSION_INFO&);
     int get_state(CC_STATE&);
     int get_results(RESULTS&);
     int get_file_transfers(FILE_TRANSFERS&);
@@ -579,9 +586,9 @@ public:
     );
     int project_op(PROJECT&, const char* op);
     int set_run_mode(int mode);
-    int get_run_mode(int& mode);
+    int get_run_mode(int& mode);    // DEPRECATED
     int set_network_mode(int mode);
-    int get_network_mode(int& mode);
+    int get_network_mode(int& mode);    // DEPRECATED
     int get_activity_state(ACTIVITY_STATE&);	// DEPRECATED
     int get_screensaver_mode(int& status);
     int set_screensaver_mode(
@@ -620,6 +627,7 @@ public:
         bool use_config_file=false
     );
     int acct_mgr_rpc_poll(ACCT_MGR_RPC_REPLY&);
+
     int get_newer_version(std::string&);
     int read_global_prefs_override();
     int get_cc_status(CC_STATUS&);

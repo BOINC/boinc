@@ -270,8 +270,8 @@ void CAccountInfoPage::OnPageChanged( wxWizardExEvent& event ) {
     if (bRunOnce) {
         bRunOnce = false;
         if (!IS_ACCOUNTMANAGERWIZARD()) {
-            m_pAccountCreateCtrl->SetValue(TRUE);
-            m_pAccountUseExistingCtrl->SetValue(FALSE);
+            m_pAccountCreateCtrl->SetValue(true);
+            m_pAccountUseExistingCtrl->SetValue(false);
         }
     }
 
@@ -286,14 +286,16 @@ void CAccountInfoPage::OnPageChanged( wxWizardExEvent& event ) {
         m_pAccountPasswordRequirmentsStaticCtrl->Hide();
     }
 
-    if (((CBOINCBaseWizard*)GetParent())->project_config.account_creation_disabled) {
-        if (!IS_ACCOUNTMANAGERWIZARD()) {
+    if (!IS_ACCOUNTMANAGERWIZARD()) {
+        if (((CBOINCBaseWizard*)GetParent())->project_config.account_creation_disabled) {
             m_pAccountCreateCtrl->SetValue(false);
-            m_pAccountCreateCtrl->Disable();
+            m_pAccountCreateCtrl->Hide();
             m_pAccountUseExistingCtrl->SetValue(true);
-            m_pAccountConfirmPasswordStaticCtrl->Hide();
-            m_pAccountConfirmPasswordCtrl->Hide();
-            m_pAccountPasswordRequirmentsStaticCtrl->Hide();
+            m_pAccountUseExistingCtrl->Hide();
+        } else {
+            m_pAccountCreateCtrl->Show();
+            m_pAccountCreateCtrl->Enable();
+            m_pAccountUseExistingCtrl->Show();
         }
     }
 
@@ -302,9 +304,17 @@ void CAccountInfoPage::OnPageChanged( wxWizardExEvent& event ) {
     );
 
     if (!IS_ACCOUNTMANAGERWIZARD() && !IS_ACCOUNTMANAGERUPDATEWIZARD()) {
-        m_pAccountQuestionStaticCtrl->SetLabel(
-            _("Are you already running this project?")
-        );
+		if (((CBOINCBaseWizard*)GetParent())->project_config.account_creation_disabled) {
+			m_pAccountQuestionStaticCtrl->SetLabel(
+				_("This project is not currently accepting new accounts.\n"
+					"You can attach only if you already have an account."
+				)
+			);
+		} else {
+			m_pAccountQuestionStaticCtrl->SetLabel(
+				_("Are you already running this project?")
+			);
+		}
         m_pAccountCreateCtrl->SetLabel(
             _("&No, new user")
         );
@@ -327,18 +337,23 @@ void CAccountInfoPage::OnPageChanged( wxWizardExEvent& event ) {
     }
 
     if (m_pAccountUseExistingCtrl->GetValue()) {
+        m_pAccountConfirmPasswordStaticCtrl->Hide();
+        m_pAccountConfirmPasswordCtrl->Hide();
+        m_pAccountPasswordRequirmentsStaticCtrl->Hide();
         m_pAccountPasswordStaticCtrl->SetLabel(
             _("&Password:")
         );
     } else {
+        m_pAccountConfirmPasswordStaticCtrl->Show();
+        m_pAccountConfirmPasswordCtrl->Show();
+        m_pAccountPasswordRequirmentsStaticCtrl->Show();
         m_pAccountPasswordStaticCtrl->SetLabel(
             _("Choose a &password:")
         );
+        m_pAccountConfirmPasswordStaticCtrl->SetLabel(
+            _("C&onfirm password:")
+        );
     }
-
-    m_pAccountConfirmPasswordStaticCtrl->SetLabel(
-        _("C&onfirm password:")
-    );
 
     if (!((CBOINCBaseWizard*)GetParent())->project_name.IsEmpty()) {
         wxString strQuestion;
@@ -396,8 +411,7 @@ void CAccountInfoPage::OnPageChanged( wxWizardExEvent& event ) {
         if (m_pAccountInformationStaticCtrl) {
             if (m_pAccountInformationStaticCtrl->GetLabel().IsEmpty()) {
                 m_pAccountInformationStaticCtrl->SetLabel(
-                    _("Enter the email address and password you used on\n"
-                    "the web site.")
+                    _("Enter the email address and password of your account\n")
                 );
             }
         }
@@ -443,13 +457,13 @@ void CAccountInfoPage::OnPageChanging( wxWizardExEvent& event )
         if (strPassword.Length() < iMinLength) {
             if (IS_ATTACHTOPROJECTWIZARD()) {
                 strMessage.Printf(
-                    _("The minimum password length for this project is %d. Please choose a different password."),
+                    _("The minimum password length for this project is %d. Please enter a different password."),
                     iMinLength
                 );
             }
             if (IS_ACCOUNTMANAGERWIZARD()) {
                 strMessage.Printf(
-                    _("The minimum password length for this account manager is %d. Please choose a different password."),
+                    _("The minimum password length for this account manager is %d. Please enter a different password."),
                     iMinLength
                 );
             }

@@ -947,6 +947,8 @@ int CC_STATUS::parse(MIOFILE& in) {
         else if (parse_bool(buf, "ams_password_error", ams_password_error)) continue;
         else if (parse_int(buf, "<task_suspend_reason>", task_suspend_reason)) continue;
         else if (parse_int(buf, "<network_suspend_reason>", network_suspend_reason)) continue;
+        else if (parse_int(buf, "<task_mode>", task_mode)) continue;
+        else if (parse_int(buf, "<network_mode>", network_mode)) continue;
     }
     return ERR_XML_PARSE;
 }
@@ -954,11 +956,43 @@ int CC_STATUS::parse(MIOFILE& in) {
 void CC_STATUS::clear() {
     network_status = -1;
     ams_password_error = false;
-    task_suspend_reason = 0;
-    network_suspend_reason = 0;
+    task_suspend_reason = -1;
+    network_suspend_reason = -1;
+    task_mode = -1;
+    network_mode = -1;
 }
 
 /////////// END OF PARSING FUNCTIONS.  RPCS START HERE ////////////////
+
+int RPC_CLIENT::exchange_versions(VERSION_INFO& server) {
+    int retval;
+    SET_LOCALE sl;
+    char buf[256];
+    RPC rpc(this);
+
+    sprintf(buf,
+        "<exchange_versions>\n"
+        "   <major>%d</major>\n"
+        "   <minor>%d</minor>\n"
+        "   <release>%d</release>\n"
+        "</exchange_versions>\n",
+        BOINC_MAJOR_VERSION,
+        BOINC_MINOR_VERSION,
+        BOINC_RELEASE
+    );
+
+    retval = rpc.do_rpc(buf);
+    if (!retval) {
+        memset(&server, 0, sizeof(server));
+        while (rpc.fin.fgets(buf, 256)) {
+            if (match_tag(buf, "</server_version>")) break;
+            else if (parse_int(buf, "<major>", server.major)) continue;
+            else if (parse_int(buf, "<minor>", server.minor)) continue;
+            else if (parse_int(buf, "<release>", server.release)) continue;
+        }
+    }
+    return retval;
+}
 
 int RPC_CLIENT::get_state(CC_STATE& state) {
     int retval;
@@ -977,9 +1011,13 @@ int RPC_CLIENT::get_state(CC_STATE& state) {
                 break;
             }
             if (match_tag(buf, "</client_state>")) break;
-            else if (parse_int(buf, "<major_version>", client_major_version)) continue;
-            else if (parse_int(buf, "<minor_version>", client_minor_version)) continue;
-            else if (parse_int(buf, "<release>", client_release)) continue;
+
+            // the following are to handle responses from pre-5.6 core clients
+            // remove them 6/07
+            else if (parse_int(buf, "<major_version>", state.version_info.major)) continue;
+            else if (parse_int(buf, "<minor_version>", state.version_info.minor)) continue;
+            else if (parse_int(buf, "<release>", state.version_info.release)) continue;
+
             else if (match_tag(buf, "<project>")) {
                 project = new PROJECT();
                 project->parse(rpc.fin);
@@ -1512,6 +1550,8 @@ int RPC_CLIENT::set_run_mode(int mode) {
     return retval;
 }
 
+// DEPRECATED - REMOVE 12/06
+//
 int RPC_CLIENT::get_run_mode(int& mode) {
     int retval;
     SET_LOCALE sl;
@@ -1547,6 +1587,8 @@ int RPC_CLIENT::set_network_mode(int mode) {
     return retval;
 }
 
+// DEPRECATED - REMOVE 12/06
+//
 int RPC_CLIENT::get_network_mode(int& mode) {
     int retval;
     SET_LOCALE sl;

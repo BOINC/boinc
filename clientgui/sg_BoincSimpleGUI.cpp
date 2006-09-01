@@ -372,14 +372,14 @@ void CSimpleFrame::UpdateResultView(){
 			// create one and add it to notebook
 			std::string projUrl = result->project_url;
 			std::string nme = result->name;
-			RESULT* resState = pDoc->state.lookup_result(projUrl, nme);
-			wxString friendlyName;
-
-			if(resState!=0){
-				friendlyName = wxString(resState->app->name.c_str(), wxConvUTF8 );
-			}else{
-				friendlyName = wxString("na");
+			RESULT* resState = NULL;
+ 			wxString friendlyName;
+ 
+            resState = pDoc->state.lookup_result(projUrl, nme);
+			if(!resState){
+                pDoc->ForceCacheUpdate();
 			}
+            friendlyName = wxString(resState->app->name.c_str(), wxConvUTF8 );
 			std::string index = " ";
 			//index += i;
 			friendlyName += wxString(index.c_str(), wxConvUTF8 );

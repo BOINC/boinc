@@ -123,8 +123,8 @@ public:
     bool GetProjectAlreadyAttached() const { return m_bProjectAlreadyAttached ; }
     void SetProjectAlreadyAttached(bool value) { m_bProjectAlreadyAttached = value ; }
 
-    bool GetDeterminingConnectionStatusSucceeded() const { return m_bDeterminingConnectionStatusSucceeded ; }
-    void SetDeterminingConnectionStatusSucceeded(bool value) { m_bDeterminingConnectionStatusSucceeded = value ; }
+    bool GetNetworkConnectionDetected() const { return m_bNetworkConnectionDetected ; }
+    void SetNetworkConnectionDetected(bool value) { m_bNetworkConnectionDetected = value ; }
 
     wxInt32 GetCurrentState() const { return m_iCurrentState ; }
     void SetNextState(wxInt32 value) { m_iCurrentState = value ; }
@@ -146,7 +146,7 @@ public:
     bool m_bProjectAccountCreationDisabled;
     bool m_bProjectClientAccountCreationDisabled;
     bool m_bProjectAlreadyAttached;
-    bool m_bDeterminingConnectionStatusSucceeded;
+    bool m_bNetworkConnectionDetected;
     int m_iBitmapIndex;
     int m_iCurrentState;
 };

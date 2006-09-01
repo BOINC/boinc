@@ -1719,35 +1719,33 @@ void CAdvancedFrame::OnFrameRender(wxTimerEvent &event) {
 
                 // Update the menu bar
                 wxMenuBar* pMenuBar      = GetMenuBar();
-                int        iActivityMode = -1;
-                int        iNetworkMode  = -1;
+                CC_STATUS  status;
 
                 wxASSERT(pMenuBar);
                 wxASSERT(wxDynamicCast(pMenuBar, wxMenuBar));
 
-                pMenuBar->Check(ID_FILEACTIVITYRUNALWAYS, false);
-                pMenuBar->Check(ID_FILEACTIVITYSUSPEND, false);
-                pMenuBar->Check(ID_FILEACTIVITYRUNBASEDONPREPERENCES, false);
-                if ((pDoc->IsConnected()) && (0 == pDoc->GetActivityRunMode(iActivityMode))) {
-                    if (iActivityMode == RUN_MODE_ALWAYS)
+                if ((pDoc->IsConnected()) && (0 == pDoc->GetCoreClientStatus(status))) {
+                    pMenuBar->Check(ID_FILEACTIVITYRUNALWAYS, false);
+                    pMenuBar->Check(ID_FILEACTIVITYSUSPEND, false);
+                    pMenuBar->Check(ID_FILEACTIVITYRUNBASEDONPREPERENCES, false);
+                    if (RUN_MODE_ALWAYS == status.task_mode)
                         pMenuBar->Check(ID_FILEACTIVITYRUNALWAYS, true);
-                    if (iActivityMode == RUN_MODE_NEVER)
+                    if (RUN_MODE_NEVER == status.task_mode)
                         pMenuBar->Check(ID_FILEACTIVITYSUSPEND, true);
-                    if (iActivityMode == RUN_MODE_AUTO)
+                    if (RUN_MODE_AUTO == status.task_mode)
                         pMenuBar->Check(ID_FILEACTIVITYRUNBASEDONPREPERENCES, true);
-                }
 
-                pMenuBar->Check(ID_FILENETWORKRUNALWAYS, false);
-                pMenuBar->Check(ID_FILENETWORKSUSPEND, false);
-                pMenuBar->Check(ID_FILENETWORKRUNBASEDONPREPERENCES, false);
-                if ((pDoc->IsConnected()) && (0 == pDoc->GetNetworkRunMode(iNetworkMode))) {
-                    if (RUN_MODE_ALWAYS == iNetworkMode)
+                    pMenuBar->Check(ID_FILENETWORKRUNALWAYS, false);
+                    pMenuBar->Check(ID_FILENETWORKSUSPEND, false);
+                    pMenuBar->Check(ID_FILENETWORKRUNBASEDONPREPERENCES, false);
+                    if (RUN_MODE_ALWAYS == status.network_mode)
                         pMenuBar->Check(ID_FILENETWORKRUNALWAYS, true);
-                    if (RUN_MODE_NEVER == iNetworkMode)
+                    if (RUN_MODE_NEVER == status.network_mode)
                         pMenuBar->Check(ID_FILENETWORKSUSPEND, true);
-                    if (RUN_MODE_AUTO == iNetworkMode)
+                    if (RUN_MODE_AUTO == status.network_mode)
                         pMenuBar->Check(ID_FILENETWORKRUNBASEDONPREPERENCES, true);
                 }
+
 
                 // Update the statusbar
                 wxASSERT(wxDynamicCast(m_pStatusbar, CStatusBar));

@@ -53,9 +53,6 @@ using std::string;
 using std::vector;
 
 RPC_CLIENT::RPC_CLIENT() {
-    client_major_version = 0;
-    client_minor_version = 0;
-    client_release = 0;
     sock = -1;
 }
 
@@ -235,14 +232,8 @@ int RPC_CLIENT::send_request(const char* p) {
     char buf[4096];
     sprintf(buf,
         "<boinc_gui_rpc_request>\n"
-        "   <major_version>%d</major_version>\n"
-        "   <minor_version>%d</minor_version>\n"
-        "   <release>%d</release>\n"
         "%s"
         "</boinc_gui_rpc_request>\n\003",
-        BOINC_MAJOR_VERSION,
-        BOINC_MINOR_VERSION,
-        BOINC_RELEASE,
         p
     );
     int n = send(sock, buf, (int)strlen(buf), 0);
