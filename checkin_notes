@@ -9704,3 +9704,14 @@ David  1 Sep 2006
         util.C
     sched/
         server_types.h
+
+David  1 Sep 2006
+	- Get things to compile on Win.
+		The above fix seems to work.
+
+	client/win/
+		win_screensaver.cpp
+	clientgui/
+		ViewMessages.cpp
+		sg_DlgMessages.cpp
+		sg_ProjectsComponents.cpp

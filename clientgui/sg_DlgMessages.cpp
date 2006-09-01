@@ -22,6 +22,7 @@
 #endif
 
 #include "stdwx.h"
+#include "common_defs.h"
 #include "BOINCGUIApp.h"
 #include "sg_DlgMessages.h"
 #include "sg_SGUIListControl.h"
@@ -268,7 +269,7 @@ wxInt32 CDlgMessages::FormatPriority(wxInt32 item, wxString& strBuffer) const {
 
     if (message) {
         switch(message->priority) {
-        case MSG_PRIORITY_INFO:
+        case MSG_INFO:
             strBuffer = wxT("I");
             break;
         default:
