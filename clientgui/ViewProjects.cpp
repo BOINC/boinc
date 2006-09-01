@@ -22,6 +22,7 @@
 #endif
 
 #include "stdwx.h"
+#include "util.h"
 #include "BOINCGUIApp.h"
 #include "MainDocument.h"
 #include "AdvancedFrame.h"
@@ -683,7 +684,8 @@ wxInt32 CViewProjects::FormatStatus(wxInt32 item, wxString& status) const {
             append_to_status(status, _("Won't get new tasks"));
         }
         if (project->sched_rpc_pending) {
-            append_to_status(status, _("Scheduler request pending -")+rpc_reason_string(sched_rpc_pending));
+            append_to_status(status, _("Scheduler request pending"));
+			append_to_status(status, rpc_reason_string(project->sched_rpc_pending));
         }
         wxDateTime dtNextRPC((time_t)project->min_rpc_time);
         wxDateTime dtNow(wxDateTime::Now());
