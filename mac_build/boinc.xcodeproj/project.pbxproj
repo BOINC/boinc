@@ -1780,6 +1780,7 @@
 				DD8F75CB088D159D001AFCCA /* ShellScript */,
 				DD5FD5B20A02351A0093C19F /* ShellScript */,
 				DDF10D960A476D37001F76D6 /* ShellScript */,
+				DDEE267E0AA83FB10055C98F /* ShellScript */,
 			);
 			buildRules = (
 				DD6826EE08641BE00070CDB8 /* PBXBuildRule */,
@@ -2071,6 +2072,7 @@
 				DDD74D8507CF482E0065AC9D /* Frameworks */,
 				DD46A43A088D1BEE00052C57 /* ShellScript */,
 				DD1B90070A954C9A00FF5591 /* ShellScript */,
+				DDEE266A0AA83F2B0055C98F /* ShellScript */,
 			);
 			buildRules = (
 				DD6826DF08641B1E0070CDB8 /* PBXBuildRule */,
@@ -2268,11 +2270,11 @@
 				"${BUILT_PRODUCTS_DIR}/$PRODUCT_NAME",
 			);
 			outputPaths = (
-				"${BUILT_PRODUCTS_DIR}/SymbolTables/$PRODUCT_NAME",
+				"${BUILT_PRODUCTS_DIR}/SymbolTables/${PRODUCT_NAME}_i386",
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "if [ \"$BUILD_STYLE\" = \"i386_Deployment\" ] || [ \"$BUILD_STYLE\" = \"ppc_Deployment\" ] || [ \"$BUILD_STYLE\" = \"Deployment\" ]; then\n  mkdir \"${BUILT_PRODUCTS_DIR}/SymbolTables\"\n  lipo \"${BUILT_PRODUCTS_DIR}/$PRODUCT_NAME\" -thin i386 -output \"$TARGET_BUILD_DIR/SymbolTables/${PRODUCT_NAME}_i386\"\n  lipo \"${BUILT_PRODUCTS_DIR}/$PRODUCT_NAME\" -thin ppc -output \"$TARGET_BUILD_DIR/SymbolTables/${PRODUCT_NAME}_ppc\"\n  /usr/bin/strip \"${BUILT_PRODUCTS_DIR}/$PRODUCT_NAME\"\nfi";
+			shellScript = "if [ \"$BUILD_STYLE\" = \"i386_Deployment\" ] || [ \"$BUILD_STYLE\" = \"ppc_Deployment\" ] || [ \"$BUILD_STYLE\" = \"Deployment\" ]; then\n  mkdir \"${BUILT_PRODUCTS_DIR}/SymbolTables\"\n  if [ \"${BUILT_PRODUCTS_DIR}/$PRODUCT_NAME\" -nt \"$TARGET_BUILD_DIR/SymbolTables/${PRODUCT_NAME}_i386\" ]; then\n    lipo \"${BUILT_PRODUCTS_DIR}/$PRODUCT_NAME\" -thin i386 -output \"$TARGET_BUILD_DIR/SymbolTables/${PRODUCT_NAME}_i386\"\n    lipo \"${BUILT_PRODUCTS_DIR}/$PRODUCT_NAME\" -thin ppc -output \"$TARGET_BUILD_DIR/SymbolTables/${PRODUCT_NAME}_ppc\"\n    /usr/bin/strip \"${BUILT_PRODUCTS_DIR}/$PRODUCT_NAME\"\n  fi\nfi";
 		};
 		DD5FD5830A0232F30093C19F /* ShellScript */ = {
 			isa = PBXShellScriptBuildPhase;
@@ -2343,11 +2345,11 @@
 				"${BUILT_PRODUCTS_DIR}/BOINCManager.app/Contents/MacOS/BOINCManager",
 			);
 			outputPaths = (
-				"${BUILT_PRODUCTS_DIR}/SymbolTables/BOINCManager",
+				"${BUILT_PRODUCTS_DIR}/SymbolTables/BOINCManager_i386",
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "if [ \"$BUILD_STYLE\" = \"i386_Deployment\" ] || [ \"$BUILD_STYLE\" = \"ppc_Deployment\" ] || [ \"$BUILD_STYLE\" = \"Deployment\" ]; then\n  mkdir \"${BUILT_PRODUCTS_DIR}/SymbolTables\"\n  lipo \"${BUILT_PRODUCTS_DIR}/BOINCManager.app/Contents/MacOS/BOINCManager\" -thin i386 -output \"$TARGET_BUILD_DIR/SymbolTables/BOINCManager_i386\"\n  lipo \"${BUILT_PRODUCTS_DIR}/BOINCManager.app/Contents/MacOS/BOINCManager\" -thin ppc -output \"$TARGET_BUILD_DIR/SymbolTables/BOINCManager_ppc\"\n  /usr/bin/strip \"${BUILT_PRODUCTS_DIR}/BOINCManager.app/Contents/MacOS/BOINCManager\"\nfi\n";
+			shellScript = "if [ \"$BUILD_STYLE\" = \"i386_Deployment\" ] || [ \"$BUILD_STYLE\" = \"ppc_Deployment\" ] || [ \"$BUILD_STYLE\" = \"Deployment\" ]; then\n  mkdir \"${BUILT_PRODUCTS_DIR}/SymbolTables\"\n  if [ \"${BUILT_PRODUCTS_DIR}/BOINCManager.app/Contents/MacOS/BOINCManager\" -nt \"$TARGET_BUILD_DIR/SymbolTables/BOINCManager_i386\" ]; then\n    lipo \"${BUILT_PRODUCTS_DIR}/BOINCManager.app/Contents/MacOS/BOINCManager\" -thin i386 -output \"$TARGET_BUILD_DIR/SymbolTables/BOINCManager_i386\"\n    lipo \"${BUILT_PRODUCTS_DIR}/BOINCManager.app/Contents/MacOS/BOINCManager\" -thin ppc -output \"$TARGET_BUILD_DIR/SymbolTables/BOINCManager_ppc\"\n    /usr/bin/strip \"${BUILT_PRODUCTS_DIR}/BOINCManager.app/Contents/MacOS/BOINCManager\"\n  fi\nfi\n";
 		};
 		DDAD1A380909139E004E7DD0 /* ShellScript */ = {
 			isa = PBXShellScriptBuildPhase;
@@ -2378,6 +2380,36 @@
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
 			shellScript = "if [ ! \"$BUILD_DIR/../../clientgui/mac/BOINCSaver.nib\" -nt \"$BUILD_DIR/../../clientgui/mac/BOINCSaver.nib.sit\" ]; then\nrm -dfR \"$BUILD_DIR/../../clientgui/mac/BOINCSaver.nib\"\nopen \"$BUILD_DIR/../../clientgui/mac/BOINCSaver.nib.sit\"\nsleep 6\ntouch \"$BUILD_DIR/../../clientgui/mac/BOINCSaver.nib\"\nfi\n";
+		};
+		DDEE266A0AA83F2B0055C98F /* ShellScript */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+				"${BUILT_PRODUCTS_DIR}/$PRODUCT_NAME",
+			);
+			outputPaths = (
+				"${BUILT_PRODUCTS_DIR}/SymbolTables/${PRODUCT_NAME}_i386",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "touch \"$TARGET_BUILD_DIR/SymbolTables/${PRODUCT_NAME}_i386\"\ntouch \"$TARGET_BUILD_DIR/SymbolTables/${PRODUCT_NAME}_ppc\"\n";
+		};
+		DDEE267E0AA83FB10055C98F /* ShellScript */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+				"${BUILT_PRODUCTS_DIR}/BOINCManager.app/Contents/MacOS/BOINCManager",
+			);
+			outputPaths = (
+				"${BUILT_PRODUCTS_DIR}/SymbolTables/BOINCManager_i386",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "touch \"$TARGET_BUILD_DIR/SymbolTables/BOINCManager_i386\"\ntouch \"$TARGET_BUILD_DIR/SymbolTables/BOINCManager_ppc\"\n";
 		};
 		DDF10D960A476D37001F76D6 /* ShellScript */ = {
 			isa = PBXShellScriptBuildPhase;

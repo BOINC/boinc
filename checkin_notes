@@ -9648,6 +9648,11 @@ Rom    31 Aug 2006
 Charlie 1 Sep 2006 (HEAD and boinc_core_release_5_6_1 tag)
     - Removed wxLogTrace call which crashes BOINC Manager on Mac. (The compiler 
         gave a warning about this statement.)
+    - Mac: Minor fix to XCode build script: extract symbol table file only if 
+        product has not already been stripped.
 
     clientgui/
         MainDocument.cpp
+    mac_build/
+        boinc.xcodeproj/
+            project.pbxproj
