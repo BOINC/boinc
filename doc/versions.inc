@@ -489,11 +489,11 @@ $w419 = array(
     "
 );
 
-$m560 = array(
-    "num"=>"5.6.0",
+$m561 = array(
+    "num"=>"5.6.1",
     "status"=>"Development version (standard GUI)",
-    "file"=>"boinc_5.6.0_macOSX_universal.zip",
-    "date"=>"28 Aug 2006",
+    "file"=>"boinc_5.6.1_macOSX_universal.zip",
+    "date"=>"1 Sep 2006",
     "type"=>"mac_advanced",
      "features"=>"<ul>
 ".$mac_changes_55."
@@ -553,11 +553,11 @@ $m5213 = array(
     "
 );
 
-$m560c = array(
-    "num"=>"5.6.0",
+$m561c = array(
+    "num"=>"5.6.1",
     "status"=>"Development version (Unix command-line version)",
-    "file"=>"boinc_5.6.0_universal-apple-darwin.zip",
-    "date"=>"28 Aug 2006",
+    "file"=>"boinc_5.6.1_universal-apple-darwin.zip",
+    "date"=>"1 Sep 2006",
     "type"=>"bare_core",
     "features"=>"<ul>
 ".$mac_changes_55."
@@ -701,8 +701,8 @@ $mac = array(
     "name"=>"Mac OS X",
     "dbname" => "powerpc-apple-darwin",
     "versions"=>array(
-        $m560,
-        $m560c,
+        $m561,
+        $m561c,
         $m549,
         $m549c,
         $m5213,
