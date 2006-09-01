@@ -9644,3 +9644,10 @@ Rom    31 Aug 2006
         MainDocument.cpp, .h
         sg_BoincSimpleGUI.cpp
         ViewWork.cpp
+
+Charlie 1 Sep 2006 (HEAD and boinc_core_release_5_6_1 tag)
+    - Removed wxLogTrace call which crashes BOINC Manager on Mac. (The compiler 
+        gave a warning about this statement.)
+
+    clientgui/
+        MainDocument.cpp

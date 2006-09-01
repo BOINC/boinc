@@ -324,7 +324,8 @@ int CMainDocument::CachedStateUpdate() {
             m_pNetworkConnection->SetStateDisconnected();
         }
         wxTimeSpan tsStateParseDuration(wxDateTime::Now() - m_dtCachedStateTimestamp);
-        wxLogTrace(wxT("Function Status"), wxT("CMainDocument::CachedStateUpdate - State Update Time (Milliseconds) '%d'"), tsStateParseDuration.GetMilliseconds());
+// This causes a crash on Macintosh
+//        wxLogTrace(wxT("Function Status"), wxT("CMainDocument::CachedStateUpdate - State Update Time (Milliseconds) '%d'"), tsStateParseDuration.GetMilliseconds());
 
         pFrame->UpdateStatusText(_("Retrieving host information; please wait..."));
 
