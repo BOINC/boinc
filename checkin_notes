@@ -9616,3 +9616,12 @@ Rom    31 Aug 2006
         AccountInfoPage.cpp
         AccountManagerPropertiesPage.cpp, .h
         ProjectPropertiesPage.cpp
+
+David  31 Aug 2006
+	- manager: say "choose password" only if user is picking new password.
+		otherwise say "enter password".
+	- manager: if user leaves email address blank,
+		ask for email address, not account key
+
+    clientgui/
+        AccountInfoPage.cpp

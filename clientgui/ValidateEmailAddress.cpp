@@ -75,7 +75,7 @@ bool CValidateEmailAddress::Validate(wxWindow *parent) {
 
     if (val.Length() == 0) {
         ok = FALSE;
-        m_errormsg = _("Please specify an account key to continue.");
+        m_errormsg = _("Please specify an email address");
     } else if (!reEmail.Matches(val)) {
         ok = FALSE;
         m_errormsg = _("Invalid email address; please enter a valid email address");
