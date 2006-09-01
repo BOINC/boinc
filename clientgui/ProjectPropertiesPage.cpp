@@ -183,12 +183,12 @@ wxWizardPageEx* CProjectPropertiesPage::GetNext() const
     } else if (GetProjectPropertiesSucceeded()) {
         // We were successful in retrieving the project properties
         return PAGE_TRANSITION_NEXT(ID_ACCOUNTINFOPAGE);
+    } else if (GetProjectPropertiesURLFailure() && !GetNetworkConnectionDetected()) {
+        // No Internet Connection
+        return PAGE_TRANSITION_NEXT(ID_ERRPROXYINFOPAGE);
     } else if (GetProjectPropertiesURLFailure()) {
         // Not a BOINC based project
         return PAGE_TRANSITION_NEXT(ID_ERRNOTDETECTEDPAGE);
-    } else if (!GetNetworkConnectionDetected()) {
-        // No Internet Connection
-        return PAGE_TRANSITION_NEXT(ID_ERRPROXYINFOPAGE);
     } else {
         // The project must be down for maintenance
         return PAGE_TRANSITION_NEXT(ID_ERRUNAVAILABLEPAGE);
