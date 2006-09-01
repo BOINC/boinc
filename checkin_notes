@@ -9623,3 +9623,7 @@ Rom    31 Aug 2006
         MainDocument.cpp, .h
         sg_BoincSimpleGUI.cpp
         ViewWork.cpp
+
+Rom    31 Aug 2006
+    - Tag for 5.6.1 release, all platforms
+      boinc_core_release_5_6_1
