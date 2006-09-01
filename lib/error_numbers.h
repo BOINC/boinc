@@ -173,6 +173,8 @@
 #define ERR_ABORTED_BY_PROJECT  -221
 #define ERR_GETGRNAM        -222
 #define ERR_CHOWN           -223
+#define ERR_FILE_NOT_FOUND  -224
+    // represents HTTP 404 error
 
 // PLEASE: add a text description of your error to 
 // the text description function boincerror() in util.C.

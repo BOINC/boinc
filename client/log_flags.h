@@ -58,14 +58,15 @@ struct LOG_FLAGS {
     bool sched_op_debug;
     bool http_debug;
     bool proxy_debug;
-    bool time_debug;        // print message on sleep
-    bool net_xfer_debug;
+    bool time_debug;        // changes in on_frac, active_frac, connected_frac
+    bool http_xfer_debug;
     bool measurement_debug; // host measurement notices
     bool poll_debug;        // show what polls are responding
     bool guirpc_debug;
     bool scrsave_debug;
     bool app_msg_debug;     // show shared-mem message from apps
 	bool mem_usage_debug;	// memory usage
+	bool network_status_debug;
 
     LOG_FLAGS();
     int parse(XML_PARSER&);

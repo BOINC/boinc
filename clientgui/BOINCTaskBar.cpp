@@ -130,7 +130,7 @@ void CTaskBarIcon::OnRefresh(wxTimerEvent& WXUNUSED(event)) {
     wxLogTrace(wxT("Function Start/End"), wxT("CTaskBarIcon::OnRefresh - Function Begin"));
 
     CMainDocument* pDoc = wxGetApp().GetDocument();
-    wxInt32        iActivityMode = -1;
+    CC_STATUS      status;
 
     wxASSERT(pDoc);
     wxASSERT(wxDynamicCast(pDoc, CMainDocument));
@@ -149,14 +149,14 @@ void CTaskBarIcon::OnRefresh(wxTimerEvent& WXUNUSED(event)) {
 
 
     // What is the current status of the client?
-    pDoc->GetActivityRunMode(iActivityMode);
+    pDoc->GetCoreClientStatus(status);
 
 
     // Which icon should be displayed?
     if (!pDoc->IsConnected()) {
         SetIcon(m_iconTaskBarDisconnected, m_strDefaultTitle);
     } else {
-        if (RUN_MODE_NEVER == iActivityMode) {
+        if (RUN_MODE_NEVER == status.task_mode) {
             SetIcon(m_iconTaskBarSnooze, m_strDefaultTitle);
         } else {
             SetIcon(m_iconTaskBarNormal, m_strDefaultTitle);
@@ -227,8 +227,7 @@ void CTaskBarIcon::OnOpenWebsite(wxCommandEvent& WXUNUSED(event)) {
 void CTaskBarIcon::OnSuspend(wxCommandEvent& WXUNUSED(event)) {
     wxLogTrace(wxT("Function Start/End"), wxT("CTaskBarIcon::OnSuspend - Function Begin"));
     CMainDocument* pDoc      = wxGetApp().GetDocument();
-    wxInt32        iActivityMode = -1;
-    wxInt32        iNetworkMode  = -1;
+    CC_STATUS      status;
 
     wxASSERT(pDoc);
     wxASSERT(wxDynamicCast(pDoc, CMainDocument));
@@ -236,10 +235,9 @@ void CTaskBarIcon::OnSuspend(wxCommandEvent& WXUNUSED(event)) {
 
     ResetTaskBar();
 
-    pDoc->GetActivityRunMode(iActivityMode);
-    pDoc->GetNetworkRunMode(iNetworkMode);
+    pDoc->GetCoreClientStatus(status);
 
-    if ((RUN_MODE_NEVER == iActivityMode) && (RUN_MODE_NEVER == iNetworkMode) &&
+    if ((RUN_MODE_NEVER == status.task_mode) && (RUN_MODE_NEVER == status.network_mode) &&
         (RUN_MODE_NEVER == m_iPreviousActivityMode) && (RUN_MODE_NEVER == m_iPreviousActivityMode)) {
 
         ResetSnoozeState();
@@ -247,7 +245,7 @@ void CTaskBarIcon::OnSuspend(wxCommandEvent& WXUNUSED(event)) {
         pDoc->SetActivityRunMode(RUN_MODE_AUTO);
         pDoc->SetNetworkRunMode(RUN_MODE_AUTO);
 
-    } else if ((RUN_MODE_NEVER == iActivityMode) && (RUN_MODE_NEVER == iNetworkMode)) {
+    } else if ((RUN_MODE_NEVER == status.task_mode) && (RUN_MODE_NEVER == status.network_mode)) {
 
         ResetSnoozeState();
 
@@ -256,8 +254,8 @@ void CTaskBarIcon::OnSuspend(wxCommandEvent& WXUNUSED(event)) {
 
     } else {
 
-        m_iPreviousActivityMode = iActivityMode;
-        m_iPreviousNetworkMode = iNetworkMode;
+        m_iPreviousActivityMode = status.task_mode;
+        m_iPreviousNetworkMode = status.network_mode;
 
         m_dtSnoozeStartTime = wxDateTime::Now();
 
@@ -333,20 +331,20 @@ void CTaskBarIcon::OnMouseMove(wxTaskBarIconEvent& WXUNUSED(event)) {
     if ((tsLastHover.GetSeconds() >= 2) && (tsLastBalloon.GetSeconds() >= 10)) {
         m_dtLastBalloonDisplayed = wxDateTime::Now();
 
-        wxString strTitle             = wxGetApp().GetBrand()->GetApplicationName();
-        wxString strMachineName       = wxEmptyString;
-        wxString strMessage           = wxEmptyString;
-        wxString strBuffer            = wxEmptyString;
-        wxString strProjectName       = wxEmptyString;
-        float    fProgress            = 0;
-        bool     bIsActive            = false;
-        bool     bIsExecuting         = false;
-        bool     bIsDownloaded        = false;
-        wxInt32  iResultCount         = 0;
-        wxInt32  iIndex               = 0;
-		CC_STATUS ccs;
-        wxIcon   iconIcon             = wxNullIcon;
+        wxString       strTitle             = wxGetApp().GetBrand()->GetApplicationName();
+        wxString       strMachineName       = wxEmptyString;
+        wxString       strMessage           = wxEmptyString;
+        wxString       strBuffer            = wxEmptyString;
+        wxString       strProjectName       = wxEmptyString;
+        float          fProgress            = 0;
+        bool           bIsActive            = false;
+        bool           bIsExecuting         = false;
+        bool           bIsDownloaded        = false;
+        wxInt32        iResultCount         = 0;
+        wxInt32        iIndex               = 0;
+        wxIcon         iconIcon             = wxNullIcon;
         CMainDocument* pDoc           = wxGetApp().GetDocument();
+        CC_STATUS      status;
 
         wxASSERT(pDoc);
         wxASSERT(wxDynamicCast(pDoc, CMainDocument));
@@ -355,8 +353,8 @@ void CTaskBarIcon::OnMouseMove(wxTaskBarIconEvent& WXUNUSED(event)) {
             pDoc->GetConnectedComputerName(strMachineName);
             strTitle = strTitle + wxT(" - (") + strMachineName + wxT(")");
 
-            pDoc->get_cc_status(ccs);
-            if (ccs.task_suspend_reason) {
+            pDoc->GetCoreClientStatus(status);
+            if (status.task_suspend_reason) {
                 // 1st %s is the previous instance of the message
                 // 2nd %s is the project name
                 //    i.e. 'BOINC', 'GridRepublic'
@@ -368,7 +366,7 @@ void CTaskBarIcon::OnMouseMove(wxTaskBarIconEvent& WXUNUSED(event)) {
                 strMessage += strBuffer;
             }
 
-            if (ccs.network_suspend_reason) {
+            if (status.network_suspend_reason) {
                 // 1st %s is the previous instance of the message
                 // 2nd %s is the project name
                 //    i.e. 'BOINC', 'GridRepublic'
@@ -675,16 +673,14 @@ wxMenu *CTaskBarIcon::BuildContextMenu() {
 
 void CTaskBarIcon::AdjustMenuItems(wxMenu* menu) {
     CMainDocument* pDoc          = wxGetApp().GetDocument();
-    wxInt32        iActivityMode = -1;
-    wxInt32        iNetworkMode  = -1;
+    CC_STATUS      status;
 
     wxASSERT(pDoc);
     wxASSERT(wxDynamicCast(pDoc, CMainDocument));
 
-    pDoc->GetActivityRunMode(iActivityMode);
-    pDoc->GetNetworkRunMode(iNetworkMode);
+    pDoc->GetCoreClientStatus(status);
 
-    if ((RUN_MODE_NEVER == iActivityMode) && (RUN_MODE_NEVER == iActivityMode)) {
+    if ((RUN_MODE_NEVER == status.task_mode) && (RUN_MODE_NEVER == status.network_mode)) {
         menu->Check(ID_TB_SUSPEND, true);
     } else {
         menu->Check(ID_TB_SUSPEND, false);

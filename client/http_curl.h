@@ -102,16 +102,21 @@ public:
 
     bool want_download;     // at most one should be true
     bool want_upload;
-    int error;
-	int response;
+    int connect_error;      // errno from connect() (not used for anything)
+	int response;           // HTTP status code from server
     double start_time;
     double xfer_speed;
     double bytes_xferred;   // bytes transferred in this session
 
-	int http_op_state;     // values above
-    int http_op_type;
+	int http_op_state;      // values above
+    int http_op_type;       // HTTP_OP_* (see above)
     int http_op_retval;
-
+        // Either:
+        // 0
+        // ERR_GETHOSTBYNAME (if no such host)
+        // ERR_CONNECT (if server down)
+        // ERR_FILE_NOT_FOUND (if 404)
+        // ERR_HTTP_ERROR (other failures)
     // save authorization types supported by proxy/socks server
     bool auth_flag;       // TRUE = server uses authorization
     long auth_type;       // 0 = haven't contacted server yet.
@@ -122,7 +127,6 @@ public:
     void close_socket();
     void close_file();
     void update_speed();
-    void got_error();
 
 	//int init_head(const char* url);
     int init_get(const char* url, const char* outfile, bool del_old_file, double offset=0);

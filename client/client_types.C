@@ -1648,8 +1648,9 @@ void PROJECT::update_duration_correction_factor(RESULT* rp) {
             duration_correction_factor = duration_correction_factor*0.9 + 0.1*ratio;
         }
     }
-	if (log_flags.cpu_sched_debug) {
-		msg_printf(this, MSG_INFO, "duration correction factor: %f => %f, ratio %f",
+	if (log_flags.cpu_sched_debug || log_flags.work_fetch_debug) {
+		msg_printf(this, MSG_INFO,
+            "duration correction factor: %f => %f, ratio %f",
 			old_dcf, duration_correction_factor, ratio
 		);
 	}

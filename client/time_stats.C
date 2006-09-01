@@ -43,10 +43,10 @@
 #include "time_stats.h"
 
 // exponential decay constant.
-// The last 30 days have a weight of 1/e;
+// The last 10 days have a weight of 1/e;
 // everything before that has a weight of (1-1/e)
 
-const float ALPHA = (SECONDS_PER_DAY*30);
+const float ALPHA = (SECONDS_PER_DAY*10);
 //const float ALPHA = 60;   // for testing
 
 bool BOINC_OUTAGE::is_recent() const {
@@ -127,11 +127,11 @@ void TIME_STATS::update(bool is_active) {
         }
         last_update = gstate.now;
     }
-#if 0
-    msg_printf(0, MSG_INFO, "on %f; active %f; conn %f",
-        on_frac, active_frac, connected_frac
-    );
-#endif
+	if (log_flags.time_debug) {
+		msg_printf(0, MSG_INFO, "dt %f w2 %f on %f; active %f; conn %f",
+			dt, w2, on_frac, active_frac, connected_frac
+		);
+	}
 }
 
 void TIME_STATS::update_cpu_efficiency(double cpu_wall_time, double cpu_time) {

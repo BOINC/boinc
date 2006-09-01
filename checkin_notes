@@ -9433,3 +9433,209 @@ Rom    28 Aug 2006
         win_screensaver.cpp, .h
     clientgui/
         ViewWork.cpp
+
+Rom    28 Aug 2006 (Forked from HEAD)
+    - Branch boinc_core_release_5_6 created for the BOINC 5.6 client release.
+
+Rom    24 Aug 2006
+    - Tag for 5.6.0 release, all platforms
+      boinc_core_release_5_6_0
+
+Walt   28 Aug 2006
+    - Fix client build errors on Linux
+    client/
+        app.C
+
+Charlie 28 Aug 2006 (HEAD and boinc_core_release_5_6_0 tag)
+    - Mac: Clear S_ISUID and S_ISGID permission bits from standalone Client 
+        when releasing, to eliminate warning when users try to copy it.  
+        End users of standalone Client need to run Mac_SA_Secure.sh script, 
+        which will set these bits.
+    - Tagged Walt's app.C fix for boinc_core_release_5_6_0 since it was used 
+        at least for Mac and Linux builds of 5.6.0.
+    - Fix app.C compile error for all non_windows systems (code to support 
+        <mem_usage_debug/> flag has calls to proc_info* which currently  exist 
+        only for Windows).
+        
+    mac_installer/
+        release_boinc.sh
+        release_GridRepublic.sh
+    client/
+        app.C
+
+David  29 Aug 2006
+	(all changes to core client)
+	- fixed bug where, if a GUI_HTTP op failed
+		(e.g. initial lookup of project)
+		the HTTP op to the reference site would immediately fail
+		because GUI_HTTP.state is not IDLE at this point.
+		Instead, set a need_to_contact_reference_site flag,
+		and start the op later when GUI_HTTP.state is IDLE.
+	- more messages for http_debug log flag
+	- changed net_xfer_debug to http_xfer_debug
+	- added network_status_debug log flag
+
+	client/
+		http_curl.C
+		log_flags.C,h
+		net_stats.C,h
+	lib/
+		util.C,h
+
+David  29 Aug 2006
+    core client:
+    - replace have_tentative_project variable with a function
+    - log message for project shortfall in no-result case
+
+    client/
+        client_state.C,h
+        client_types.C
+        cpu_sched.C
+        cs_account.C
+        cs_scheduler.C
+        scheduler_op.C
+
+David  29 Aug 2006
+	- lots more debug messages in RR simulator
+	- fixed small bug in RR sim
+		(last_active_size => last_project_active_size)
+	- change meaning of time_debug log flag;
+		it prints messages related to on_frac etc.
+
+	client/
+		cpu_sched.C
+		log_flags.h
+		time_stats.C
+
+Rom    29 Aug 2006
+    - Bug Fix: Remove google and yahoo detection code from the wizard in the
+        manager
+    - Bug Fix: Remove network detection code the wizard in the manager by replacing
+        it with the get_cc_status RPC.
+    - Bug Fix: Clean up the parsing logic for the get_cc_status rpc.
+    
+    clientgui/
+        ProjectPropertiesPage.cpp, .h
+    lib/
+        gui_rpc_client.h
+        gui_rpc_client_ops.C
+
+David  29 Aug 2006
+    - core client: CPU sched bug fix from JM7
+
+    client/
+        cpu_sched.C
+
+David  30 Aug 2006
+    - core client: work fetch bug fix from JM7
+
+    client/
+        cs_scheduler.C
+
+Rom    31 Aug 2006
+    - Bug Fix: Be sure to clear the PROJECT_CONFIG structure before reuse.  Not
+        all elements in the project config xml are required.
+    - Bug Fix: Re-enable needed controls when account creation goes from disabled
+        to enabled because of a project URL change.
+        
+    clientgui/
+        AccountInfoPage.cpp
+        AccountManagerPropertiesPage.cpp
+        ProjectPropertiesPage.cpp, .h
+
+David  31 Aug 2006
+	- Manager: if project doesn't allow account creation, say so,
+		and don't show yes/no radio buttons
+		NOTE: it still doesn't work right if you try alpha first,
+		and then cplan.
+
+    clientgui/
+        AccountInfoPage.cpp
+
+David  31 Aug 2006
+    - GUI RPC: add a new exchange_versions() RPC to get core client version.
+        Other RPCs no longer exchange version info.
+        Client library still parses version info from get_state()
+        so you can find version of clients that predate this change.
+    - Core client: the http_op_retval is now always a BOINC (ERR_*) code
+        (not, e.g. an HTTP status code)
+        Specific errors are returned for DNS lookup failure,
+        connection failure, and file not found.
+        This is documented in http_curl.h
+    - GUI RPCs that poll HTTP operation completion now return the above 
+        error codes also.
+
+    client/
+        gui_rpc_server_ops.C
+        httl_curl.C,h
+    lib/
+        error_numbers.h
+        gui_rpc_client.C,h
+        gui_rpc_client_ops.C
+        util.C
+
+Rom    31 Aug 2006
+    - Bug Fix: You have to show controls that you previously hidden the last
+        time the wizard page was viewed when one of the state variables change.
+    - Deprecate <get_run_mode/> and <get_network_mode/> GUI RPC's as that 
+        functionality has been rolled into <cc_status/>.  Update BOINC Manager
+        in the dozen or so places that check the activity and network modes.
+    
+    client/
+        gui_rpc_server_ops.C
+    clientgui/
+        AccountInfoPage.cpp
+        AdvancedFrame.cpp
+        BOINCTaskBar.cpp
+        MainDocument.cpp, .h
+        sg_ProjectsComponent.cpp
+        ViewTransfers.cpp
+        ViewWork.cpp
+    lib/
+        gui_rpc_client.h
+        gui_rpc_client_ops.C
+
+Rom    31 Aug 2006
+    - Bug Fix: Only show password confirmation controls when the create account
+        radio button is selected.
+    - Hook up new return codes to the project and account manager wizards.
+    
+    clientgui/
+        AccountInfoPage.cpp
+        AccountManagerPropertiesPage.cpp, .h
+        ProjectPropertiesPage.cpp
+
+David  31 Aug 2006
+	- manager: say "choose password" only if user is picking new password.
+		otherwise say "enter password".
+	- manager: if user leaves email address blank,
+		ask for email address, not account key
+
+    clientgui/
+        AccountInfoPage.cpp
+
+Rom    31 Aug 2006
+    - Bug Fix: Forcing a global state refresh now causes the client to update the
+        state right then and there. This should fix the app version friendly name
+        flicker problem.
+        
+    clientgui/
+        MainDocument.cpp, .h
+        sg_BoincSimpleGUI.cpp
+        ViewWork.cpp
+
+Rom    31 Aug 2006
+    - Tag for 5.6.1 release, all platforms
+      boinc_core_release_5_6_1
+
+Charlie 1 Sep 2006 (HEAD and boinc_core_release_5_6_1 tag)
+    - Removed wxLogTrace call which crashes BOINC Manager on Mac. (The compiler 
+        gave a warning about this statement.)
+    - Mac: Minor fix to XCode build script: extract symbol table file only if 
+        product has not already been stripped.
+
+    clientgui/
+        MainDocument.cpp
+    mac_build/
+        boinc.xcodeproj/
+            project.pbxproj

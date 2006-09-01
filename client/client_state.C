@@ -105,7 +105,6 @@ CLIENT_STATE::CLIENT_STATE() {
     must_schedule_cpus = true;
     must_enforce_cpu_schedule = true;
     no_gui_rpc = false;
-    have_tentative_project = false;
     new_version_check_time = 0;
     detach_console = false;
 #ifdef SANDBOX
@@ -1408,6 +1407,15 @@ static inline double rand_range(double rmin, double rmax) {
 double calculate_exponential_backoff( int n, double MIN, double MAX) {
     double rmax = std::min(MAX, exp((double)n));
     return rand_range(MIN, rmax);
+}
+
+bool CLIENT_STATE::have_tentative_project() {
+	unsigned int i;
+	for (i=0; i<projects.size(); i++) {
+		PROJECT* p = projects[i];
+		if (p->tentative) return true;
+	}
+	return false;
 }
 
 bool CLIENT_STATE::have_nontentative_project() {
