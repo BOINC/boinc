@@ -24,7 +24,7 @@
 #include <vector>
 
 #include "boinc_db.h"
-#include "result_state.h"
+#include "common_defs.h"
 #include "md5_file.h"
 
 // summary of a client's request for work, and our response to it

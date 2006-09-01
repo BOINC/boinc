@@ -47,6 +47,7 @@
 #include "miofile.h"
 #include "md5_file.h"
 #include "network.h"
+#include "common_defs.h"
 #include "gui_rpc_client.h"
 
 using std::string;

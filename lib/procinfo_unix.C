@@ -21,13 +21,9 @@
 #include "config.h"
 #include <stdio.h>
 
-#ifdef HAVE_SYS_TYPES_H
+#include <ctype.h>
 #include <sys/types.h>
-#endif
-
-#ifdef HAVE_DIRENT_H
 #include <dirent.h>
-#endif
 
 #include "procinfo.h"
 #include "client_msgs.h"

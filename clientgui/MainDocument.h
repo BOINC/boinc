@@ -24,6 +24,7 @@
 #pragma interface "MainDocument.cpp"
 #endif
 
+#include "common_defs.h"
 #include "gui_rpc_client.h"
 
 class CMainDocument;

@@ -261,11 +261,11 @@ static void handle_project_op(char* buf, MIOFILE& fout, const char* op) {
 
 static void handle_set_run_mode(char* buf, MIOFILE& fout) {
     if (match_tag(buf, "<always")) {
-        gstate.user_run_request = USER_RUN_REQUEST_ALWAYS;
+        gstate.user_run_request = RUN_MODE_ALWAYS;
     } else if (match_tag(buf, "<never")) {
-        gstate.user_run_request = USER_RUN_REQUEST_NEVER;
+        gstate.user_run_request = RUN_MODE_NEVER;
     } else if (match_tag(buf, "<auto")) {
-        gstate.user_run_request = USER_RUN_REQUEST_AUTO;
+        gstate.user_run_request = RUN_MODE_AUTO;
     } else {
         fout.printf("<error>Missing mode</error>\n");
         return;
@@ -278,13 +278,13 @@ static void handle_set_run_mode(char* buf, MIOFILE& fout) {
 static void handle_get_run_mode(char* , MIOFILE& fout) {
     fout.printf("<run_mode>\n");
     switch (gstate.user_run_request) {
-    case USER_RUN_REQUEST_ALWAYS:
+    case RUN_MODE_ALWAYS:
         fout.printf("<always/>\n");
         break;
-    case USER_RUN_REQUEST_NEVER:
+    case RUN_MODE_NEVER:
         fout.printf("<never/>\n");
         break;
-    case USER_RUN_REQUEST_AUTO:
+    case RUN_MODE_AUTO:
         fout.printf("<auto/>\n");
         break;
     default:
@@ -295,11 +295,11 @@ static void handle_get_run_mode(char* , MIOFILE& fout) {
 
 static void handle_set_network_mode(char* buf, MIOFILE& fout) {
     if (match_tag(buf, "<always")) {
-        gstate.user_network_request = USER_RUN_REQUEST_ALWAYS;
+        gstate.user_network_request = RUN_MODE_ALWAYS;
     } else if (match_tag(buf, "<never")) {
-        gstate.user_network_request = USER_RUN_REQUEST_NEVER;
+        gstate.user_network_request = RUN_MODE_NEVER;
     } else if (match_tag(buf, "<auto")) {
-        gstate.user_network_request = USER_RUN_REQUEST_AUTO;
+        gstate.user_network_request = RUN_MODE_AUTO;
     } else {
         fout.printf("<error>Missing mode</error>\n");
         return;
@@ -312,13 +312,13 @@ static void handle_set_network_mode(char* buf, MIOFILE& fout) {
 static void handle_get_network_mode(char* , MIOFILE& fout) {
     fout.printf("<network_mode>\n");
     switch (gstate.user_network_request) {
-    case USER_RUN_REQUEST_ALWAYS:
+    case RUN_MODE_ALWAYS:
         fout.printf("<always/>\n");
         break;
-    case USER_RUN_REQUEST_NEVER:
+    case RUN_MODE_NEVER:
         fout.printf("<never/>\n");
         break;
-    case USER_RUN_REQUEST_AUTO:
+    case RUN_MODE_AUTO:
         fout.printf("<auto/>\n");
         break;
     default:

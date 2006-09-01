@@ -53,6 +53,7 @@
 
 
 #include "error_numbers.h"
+#include "common_defs.h"
 #include "filesys.h"
 #include "util.h"
 

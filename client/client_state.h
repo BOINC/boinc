@@ -45,10 +45,6 @@ using std::vector;
 #include "time_stats.h"
 #include "http_curl.h"
 
-#define USER_RUN_REQUEST_ALWAYS     1
-#define USER_RUN_REQUEST_AUTO       2
-#define USER_RUN_REQUEST_NEVER      3
-
 #define WORK_FETCH_DONT_NEED 0
     // project: suspended, deferred, or no new work (can't ask for more work)
     // overall: not work_fetch_ok (from CPU policy)
@@ -61,16 +57,6 @@ using std::vector;
 #define WORK_FETCH_NEED_IMMEDIATELY 3
     // project: no downloading or runnable results
     // overall: at least one idle CPU
-
-enum SUSPEND_REASON {
-    SUSPEND_REASON_BATTERIES = 1,
-    SUSPEND_REASON_USER_ACTIVE = 2,
-    SUSPEND_REASON_USER_REQ = 4,
-    SUSPEND_REASON_TIME_OF_DAY = 8,
-    SUSPEND_REASON_BENCHMARKS = 16,
-    SUSPEND_REASON_DISK_SIZE = 32,
-    SUSPEND_REASON_CPU_USAGE_LIMIT = 64,
-};
 
 // CLIENT_STATE encapsulates the global variables of the core client.
 // If you add anything here, initialize it in the constructor

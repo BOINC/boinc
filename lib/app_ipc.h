@@ -27,6 +27,7 @@
 #include "hostinfo.h"
 #include "proxy_info.h"
 #include "prefs.h"
+#include "common_defs.h"
 
 // Communication between the core client and the BOINC app library.
 // This code is linked into both core client and app lib.
@@ -115,18 +116,6 @@ struct MSG_QUEUE {
 
 #define SHM_PREFIX          "shm_"
 #define QUIT_PREFIX         "quit_"
-
-// graphics messages
-//
-#define MODE_UNSUPPORTED        0
-#define MODE_HIDE_GRAPHICS      1
-#define MODE_WINDOW             2
-#define MODE_FULLSCREEN         3
-#define MODE_BLANKSCREEN        4
-#define MODE_REREAD_PREFS       5
-#define MODE_QUIT               6
-
-#define NGRAPHICS_MSGS  7
 
 struct GRAPHICS_MSG {
     int mode;

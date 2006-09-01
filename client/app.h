@@ -58,12 +58,6 @@ typedef int PROCESS_ID;
 #define PROCESS_IN_LIMBO        8
     // process exited zero, but no finish file; leave the task there.
 
-// values of ACTIVE_TASK::scheduler_state and ACTIVE_TASK::next_scheduler_state
-#define CPU_SCHED_UNINITIALIZED   0
-#define CPU_SCHED_PREEMPTED       1
-#define CPU_SCHED_SCHEDULED       2
-
-
 // Represents a task in progress.
 //
 // "CPU time" refers to the sum over all episodes.

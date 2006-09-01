@@ -9656,3 +9656,50 @@ Charlie 1 Sep 2006 (HEAD and boinc_core_release_5_6_1 tag)
     mac_build/
         boinc.xcodeproj/
             project.pbxproj
+
+David  1 Sep 2006
+    - Aargh!  A recent Manager bug (run-mode selection acting weird)
+        was because the core client and the Manager had different
+        #defines for always/auto/never:
+        one used 0/1/2 and the other used 1/2/3.
+
+        There were a number of accidents of this sort waiting to happen,
+        i.e. the same #defines cut-and-pasted into 2 different files.
+
+        To keep this from ever happening again,
+        I added a new file (lib/common_defs.h) that includes
+        all #defines and enums shared among different BOINC
+        components (client/Manager, screensaver/client, client/server etc.).
+        This replaces result_state.h.
+
+        In principle error_numbers.h should be merged into this file
+        but this would required too much editing so I didn't do it.
+
+    - Linux compile fix
+
+    client/
+        app.h
+        client_msgs.h
+        client_state.C,h
+        client_types.h
+        cs_cmdline.C
+        cs_prefs.C
+        gui_rpc_server.h
+        gui_rpc_server_ops.C
+        http_curl.h
+        log_flags.C
+        main.C
+        ss_logic.h
+    clientgui/
+        MainDocument.h
+    lib/
+        app_ipc.h
+        boinc_cmd.C
+        error_numbers.h
+        gui_rpc_client.C,h
+        gui_rpc_client_ops.C
+        procinfo_unix.C
+        results_state.h (removed)
+        util.C
+    sched/
+        server_types.h

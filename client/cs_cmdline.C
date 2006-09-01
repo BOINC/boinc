@@ -90,7 +90,7 @@ void CLIENT_STATE::parse_cmdline(int argc, char** argv) {
             if (i == argc-1) show_options = true;
             else file_xfer_giveup_period = atoi(argv[++i]);
         } else if (ARG(suspend)) {
-            user_run_request = USER_RUN_REQUEST_NEVER;
+            user_run_request = RUN_MODE_NEVER;
         } else if (ARG(saver)) {
             started_by_screensaver = true;
         } else if (!strncmp(argv[i], "-psn_", strlen("-psn_"))) {
