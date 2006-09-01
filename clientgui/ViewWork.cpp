@@ -578,27 +578,30 @@ wxInt32 CViewWork::FormatProjectName(wxInt32 item, wxString& strBuffer) const {
 
 
 wxInt32 CViewWork::FormatApplicationName(wxInt32 item, wxString& strBuffer) const {
-    CMainDocument* doc = wxGetApp().GetDocument();
+    CMainDocument* pDoc = wxGetApp().GetDocument();
     RESULT* result = wxGetApp().GetDocument()->result(item);
     RESULT* state_result = NULL;
 
-    wxASSERT(doc);
-    wxASSERT(wxDynamicCast(doc, CMainDocument));
+    wxASSERT(pDoc);
+    wxASSERT(wxDynamicCast(pDoc, CMainDocument));
 
     if (result) {
-        state_result = doc->state.lookup_result(result->project_url, result->name);
-        if (state_result) {
-            wxString strLocale = wxString(setlocale(LC_NUMERIC, NULL), wxConvUTF8);
-            setlocale(LC_NUMERIC, "C");
-            strBuffer.Printf(
-                wxT("%s %.2f"), 
-                wxString(state_result->wup->avp->app_name.c_str(), wxConvUTF8).c_str(),
-                state_result->wup->avp->version_num/100.0
-            );
-            setlocale(LC_NUMERIC, (const char*)strLocale.mb_str());
-        } else {
-            doc->ForceCacheUpdate();
+        state_result = pDoc->state.lookup_result(result->project_url, result->name);
+        if (!state_result) {
+            pDoc->ForceCacheUpdate();
+            state_result = pDoc->state.lookup_result(result->project_url, result->name);
         }
+        wxASSERT(state_result);
+
+        wxString strLocale = wxString(setlocale(LC_NUMERIC, NULL), wxConvUTF8);
+        setlocale(LC_NUMERIC, "C");
+        strBuffer.Printf(
+            wxT("%s %.2f"), 
+            wxString(state_result->wup->avp->app_name.c_str(), wxConvUTF8).c_str(),
+            state_result->wup->avp->version_num/100.0
+        );
+        setlocale(LC_NUMERIC, (const char*)strLocale.mb_str());
+
     }
 
     return 0;

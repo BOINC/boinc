@@ -79,14 +79,7 @@ public:
     //
 private:
 
-    bool                        m_bCachedStateLocked;
-
-	wxDateTime                  m_dtCachedActivityRunModeTimestamp;
-    wxDateTime                  m_dtCachedNetworkRunModeTimestamp;
     wxDateTime                  m_dtCachedCCStatusTimestamp;
-    int                         m_iCachedActivityRunMode;
-    int                         m_iCachedNetworkRunMode;
-    CC_STATUS                   status;
 
     int                         CachedStateUpdate();
 
@@ -132,9 +125,9 @@ public:
 
     RPC_CLIENT                  rpc;
     CC_STATE                    state;
+    CC_STATUS                   status;
     HOST_INFO                   host;
     wxDateTime                  m_dtCachedStateTimestamp;
-    wxDateTime                  m_dtCachedStateLockTimestamp;
 
 
     //

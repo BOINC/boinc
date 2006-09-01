@@ -9634,3 +9634,13 @@ Walt   31 Aug 2006
         app.C
     lib/
         procinfo_unix.C 
+
+Rom    31 Aug 2006
+    - Bug Fix: Forcing a global state refresh now causes the client to update the
+        state right then and there. This should fix the app version friendly name
+        flicker problem.
+        
+    clientgui/
+        MainDocument.cpp, .h
+        sg_BoincSimpleGUI.cpp
+        ViewWork.cpp

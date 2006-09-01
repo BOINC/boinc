@@ -288,8 +288,6 @@ CMainDocument::CMainDocument() {
 
     m_iMessageSequenceNumber = 0;
 
-    m_bCachedStateLocked = false;
-    m_dtCachedStateLockTimestamp = wxDateTime::Now();
     m_dtCachedStateTimestamp = wxDateTime((time_t)0);
     m_dtCachedCCStatusTimestamp = wxDateTime((time_t)0);
     m_dtProjecStatusTimestamp = wxDateTime((time_t)0);
@@ -309,20 +307,24 @@ CMainDocument::~CMainDocument() {
 
 
 int CMainDocument::CachedStateUpdate() {
+    wxLogTrace(wxT("Function Start/End"), wxT("CMainDocument::CachedStateUpdate - Function Begin"));
+
     CBOINCBaseFrame* pFrame = wxGetApp().GetFrame();
     int     retval = 0;
 
-    wxTimeSpan ts(m_dtCachedStateLockTimestamp - m_dtCachedStateTimestamp);
-    if (!m_bCachedStateLocked && IsConnected() && (ts.GetSeconds() > 3600)) {
+    wxTimeSpan ts(wxDateTime::Now() - m_dtCachedStateTimestamp);
+    if (IsConnected() && (ts.GetSeconds() > 3600)) {
         wxASSERT(wxDynamicCast(pFrame, CBOINCBaseFrame));
         pFrame->UpdateStatusText(_("Retrieving system state; please wait..."));
 
-        m_dtCachedStateTimestamp = m_dtCachedStateLockTimestamp;
+        m_dtCachedStateTimestamp = wxDateTime::Now();
         retval = rpc.get_state(state);
         if (retval) {
             wxLogTrace(wxT("Function Status"), wxT("CMainDocument::CachedStateUpdate - Get State Failed '%d'"), retval);
             m_pNetworkConnection->SetStateDisconnected();
         }
+        wxTimeSpan tsStateParseDuration(wxDateTime::Now() - m_dtCachedStateTimestamp);
+        wxLogTrace(wxT("Function Status"), wxT("CMainDocument::CachedStateUpdate - State Update Time (Milliseconds) '%d'"), tsStateParseDuration.GetMilliseconds());
 
         pFrame->UpdateStatusText(_("Retrieving host information; please wait..."));
 
@@ -335,6 +337,7 @@ int CMainDocument::CachedStateUpdate() {
         pFrame->UpdateStatusText(wxEmptyString);
     }
 
+    wxLogTrace(wxT("Function Start/End"), wxT("CMainDocument::CachedStateUpdate - Function End"));
     return retval;
 }
 
@@ -391,8 +394,7 @@ int CMainDocument::ResetState() {
     resource_status.clear();
     proxy_info.clear();
     
-    m_dtCachedStateLockTimestamp = wxDateTime::Now();
-    m_dtCachedStateTimestamp = wxDateTime((time_t)0);
+    ForceCacheUpdate();
 
     m_iMessageSequenceNumber = 0;
     return 0;
@@ -441,19 +443,6 @@ bool CMainDocument::IsConnected() {
 
 bool CMainDocument::IsReconnecting() {
     return m_pNetworkConnection->IsReconnecting();
-}
-
-
-int CMainDocument::CachedStateLock() {
-    m_bCachedStateLocked = true;
-    m_dtCachedStateLockTimestamp = wxDateTime::Now();
-    return 0;
-}
-
-
-int CMainDocument::CachedStateUnlock() {
-    m_bCachedStateLocked = false;
-    return 0;
 }
 
 
@@ -514,8 +503,8 @@ int CMainDocument::SetNetworkRunMode(int iMode) {
 
 
 int CMainDocument::ForceCacheUpdate() {
-    m_dtCachedStateLockTimestamp = wxDateTime::Now();
     m_dtCachedStateTimestamp = wxDateTime((time_t)0);
+    CachedStateUpdate();
     return 0;
 }
 
