@@ -9451,23 +9451,23 @@ Charlie 28 Aug 2006 (HEAD and boinc_core_release_5_6_0 tag)
         app.C
 
 David  29 Aug 2006
-	(all changes to core client)
-	- fixed bug where, if a GUI_HTTP op failed
-		(e.g. initial lookup of project)
-		the HTTP op to the reference site would immediately fail
-		because GUI_HTTP.state is not IDLE at this point.
-		Instead, set a need_to_contact_reference_site flag,
-		and start the op later when GUI_HTTP.state is IDLE.
-	- more messages for http_debug log flag
-	- changed net_xfer_debug to http_xfer_debug
-	- added network_status_debug log flag
+    (all changes to core client)
+    - fixed bug where, if a GUI_HTTP op failed
+        (e.g. initial lookup of project)
+        the HTTP op to the reference site would immediately fail
+        because GUI_HTTP.state is not IDLE at this point.
+        Instead, set a need_to_contact_reference_site flag,
+        and start the op later when GUI_HTTP.state is IDLE.
+    - more messages for http_debug log flag
+    - changed net_xfer_debug to http_xfer_debug
+    - added network_status_debug log flag
 
-	client/
-		http_curl.C
-		log_flags.C,h
-		net_stats.C,h
-	lib/
-		util.C,h
+    client/
+        http_curl.C
+        log_flags.C,h
+        net_stats.C,h
+    lib/
+        util.C,h
 
 David  29 Aug 2006
     core client:
@@ -9483,16 +9483,16 @@ David  29 Aug 2006
         scheduler_op.C
 
 David  29 Aug 2006
-	- lots more debug messages in RR simulator
-	- fixed small bug in RR sim
-		(last_active_size => last_project_active_size)
-	- change meaning of time_debug log flag;
-		it prints messages related to on_frac etc.
+    - lots more debug messages in RR simulator
+    - fixed small bug in RR sim
+        (last_active_size => last_project_active_size)
+    - change meaning of time_debug log flag;
+        it prints messages related to on_frac etc.
 
-	client/
-		cpu_sched.C
-		log_flags.h
-		time_stats.C
+    client/
+        cpu_sched.C
+        log_flags.h
+        time_stats.C
 
 Rom    29 Aug 2006
     - Bug Fix: Remove google and yahoo detection code from the wizard in the
@@ -9538,10 +9538,10 @@ Rom    31 Aug 2006
         ProjectPropertiesPage.cpp, .h
 
 David  31 Aug 2006
-	- Manager: if project doesn't allow account creation, say so,
-		and don't show yes/no radio buttons
-		NOTE: it still doesn't work right if you try alpha first,
-		and then cplan.
+    - Manager: if project doesn't allow account creation, say so,
+        and don't show yes/no radio buttons
+        NOTE: it still doesn't work right if you try alpha first,
+        and then cplan.
 
     clientgui/
         AccountInfoPage.cpp
@@ -9618,10 +9618,10 @@ Rom    31 Aug 2006
         ProjectPropertiesPage.cpp
 
 David  31 Aug 2006
-	- manager: say "choose password" only if user is picking new password.
-		otherwise say "enter password".
-	- manager: if user leaves email address blank,
-		ask for email address, not account key
+    - manager: say "choose password" only if user is picking new password.
+        otherwise say "enter password".
+    - manager: if user leaves email address blank,
+        ask for email address, not account key
 
     clientgui/
         AccountInfoPage.cpp
@@ -9706,15 +9706,15 @@ David  1 Sep 2006
         server_types.h
 
 David  1 Sep 2006
-	- Get things to compile on Win.
-		The above fix seems to work.
+    - Get things to compile on Win.
+        The above fix seems to work.
 
-	client/win/
-		win_screensaver.cpp
-	clientgui/
-		ViewMessages.cpp
-		sg_DlgMessages.cpp
-		sg_ProjectsComponents.cpp
+    client/win/
+        win_screensaver.cpp
+    clientgui/
+        ViewMessages.cpp
+        sg_DlgMessages.cpp
+        sg_ProjectsComponents.cpp
 
 David  1 Sep 2006
     - make scripts work with sh
@@ -9722,3 +9722,27 @@ David  1 Sep 2006
     sea/
         insecure.sh
         secure.sh
+
+David  1 Sep 2006
+    - Manager: in projects tab, show when an RPC is pending
+        (and - added bonus - say why)
+        Thanks to Paul (A.K.A. The Gas Giant)
+        for not letting this slip through the cracks
+
+        The problem: a while back I changed sched_rpc_request from bool to int
+        in the client; neglected to change it in GUI RPC and Manager also
+
+    client/
+        acct_mgr.C
+        cs_account.C
+        cs_cmdline.C
+        cs_scheduler.C
+        gui_rpc_server_ops.C
+        scheduler_ops.C,h
+    clientgui/
+        ViewProjects.cpp
+    lib/
+        common_defs.h
+        gui_rpc_client.h
+        gui_rpc_client_ops.C
+        util.C,h

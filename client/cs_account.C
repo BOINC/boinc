@@ -239,7 +239,7 @@ int CLIENT_STATE::parse_account_files() {
         // true until we read client_state.xml
         //
         project->master_url_fetch_pending = true;
-        project->sched_rpc_pending = REASON_INIT;
+        project->sched_rpc_pending = RPC_REASON_INIT;
         retval = project->parse_account(f);
         fclose(f);
         if (retval) {
@@ -453,7 +453,7 @@ int CLIENT_STATE::add_project(
     retval = make_project_dir(*project);
     if (retval) return retval;
     projects.push_back(project);
-    project->sched_rpc_pending = REASON_INIT;
+    project->sched_rpc_pending = RPC_REASON_INIT;
     set_client_state_dirty("Add project");
     return 0;
 }

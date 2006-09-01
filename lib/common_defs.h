@@ -121,4 +121,15 @@ enum SUSPEND_REASON {
 #define NETWORK_STATUS_WANT_DISCONNECT	2
 #define NETWORK_STATUS_LOOKUP_PENDING	3
 
+// reasons for making a scheduler RPC:
+//
+
+#define RPC_REASON_USER_REQ         1
+#define RPC_REASON_RESULTS_DUE      2
+#define RPC_REASON_NEED_WORK        3
+#define RPC_REASON_TRICKLE_UP       4
+#define RPC_REASON_ACCT_MGR_REQ     5
+#define RPC_REASON_INIT             6
+#define RPC_REASON_PROJECT_REQ      7
+
 #endif

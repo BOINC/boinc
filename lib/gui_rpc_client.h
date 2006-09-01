@@ -76,7 +76,7 @@ public:
     double min_rpc_time;           // earliest time to contact any server
 
     bool master_url_fetch_pending; // need to fetch and parse the master URL
-    bool sched_rpc_pending;     // contact scheduling server for preferences
+    int sched_rpc_pending;      // contact scheduling server for preferences
     bool tentative;             // master URL and account ID not confirmed
     bool non_cpu_intensive;
     bool suspended_via_gui;
