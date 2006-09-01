@@ -9627,3 +9627,10 @@ Rom    31 Aug 2006
 Rom    31 Aug 2006
     - Tag for 5.6.1 release, all platforms
       boinc_core_release_5_6_1
+
+Charlie 1 Sep 2006 (HEAD and boinc_core_release_5_6_1 tag)
+    - Removed wxLogTrace call which crashes BOINC Manager on Mac. (The compiler 
+        gave a warning about this statement.)
+
+    clientgui/
+        MainDocument.cpp
