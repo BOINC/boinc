@@ -176,10 +176,10 @@ int procinfo_setup(vector<PROCINFO>& pi) {
                     pi.push_back(p);
                 }
             }
-		} else {
-			closedir(dir);
-			return 0;
-		}
+        } else {
+            closedir(dir);
+            return 0;
+        }
     }
  
 #endif    
