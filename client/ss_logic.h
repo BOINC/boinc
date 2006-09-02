@@ -24,25 +24,6 @@
 #include <ctime>
 #endif
 
-// the core client can be requested to provide screensaver graphics (SSG).
-// The following are states of this function:
-
-#define SS_STATUS_ENABLED                           1
-    // requested to provide SSG
-#define SS_STATUS_BLANKED                           3
-    // not providing SSG, SS should blank screen
-#define SS_STATUS_BOINCSUSPENDED                    4
-    // not providing SS because suspended
-#define SS_STATUS_NOAPPSEXECUTING                   6
-    // no apps executing
-#define SS_STATUS_NOGRAPHICSAPPSEXECUTING           7
-    // apps executing, but none graphical
-#define SS_STATUS_QUIT                              8
-    // not requested to provide SSG
-#define SS_STATUS_NOPROJECTSDETECTED                9
-    // SSG unsupported; client running as daemon
-#define SS_STATUS_DAEMONALLOWSNOGRAPHICS            10
-
 class SS_LOGIC {
 public:
 

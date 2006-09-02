@@ -132,7 +132,7 @@ PROJECT* CLIENT_STATE::next_project_sched_rpc_pending() {
         p = projects[i];
         if (p->waiting_until_min_rpc_time()) continue;
         if (p->next_rpc_time && p->next_rpc_time<now) {
-            p->sched_rpc_pending = REASON_PROJECT_REQ;
+            p->sched_rpc_pending = RPC_REASON_PROJECT_REQ;
             p->next_rpc_time = 0;
         }
         //if (p->suspended_via_gui) continue;
@@ -771,7 +771,7 @@ bool CLIENT_STATE::scheduler_rpc_poll() {
         if (network_suspended) break;
         p = next_project_trickle_up_pending();
         if (p) {
-            scheduler_op->init_op_project(p, REASON_TRICKLE_UP);
+            scheduler_op->init_op_project(p, RPC_REASON_TRICKLE_UP);
             action = true;
             break;
         }
@@ -780,7 +780,7 @@ bool CLIENT_STATE::scheduler_rpc_poll() {
         //
         p = find_project_with_overdue_results();
         if (p) {
-            scheduler_op->init_op_project(p, REASON_RESULTS_DUE);
+            scheduler_op->init_op_project(p, RPC_REASON_RESULTS_DUE);
             action = true;
             break;
         }
@@ -1260,7 +1260,7 @@ void CLIENT_STATE::generate_new_host_cpid() {
     host_info.generate_host_cpid();
     for (unsigned int i=0; i<projects.size(); i++) {
         if (projects[i]->attached_via_acct_mgr) {
-            projects[i]->sched_rpc_pending = REASON_ACCT_MGR_REQ;
+            projects[i]->sched_rpc_pending = RPC_REASON_ACCT_MGR_REQ;
             projects[i]->min_rpc_time = now + 15;
         }
     }

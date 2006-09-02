@@ -268,10 +268,10 @@ static void signal_handler(int signum) {
 #endif
         break;
     case SIGTSTP:
-        gstate.user_run_request = USER_RUN_REQUEST_NEVER;
+        gstate.user_run_request = RUN_MODE_NEVER;
         break;
     case SIGCONT:
-        gstate.user_run_request = USER_RUN_REQUEST_AUTO;
+        gstate.user_run_request = RUN_MODE_AUTO;
         break;
     default:
         msg_printf(NULL, MSG_ERROR, "Signal not handled");
@@ -543,13 +543,13 @@ int boinc_main_loop() {
         }
 #ifdef _WIN32
         if (requested_suspend) {
-            gstate.user_run_request = USER_RUN_REQUEST_NEVER;
-            gstate.user_network_request = USER_RUN_REQUEST_NEVER;
+            gstate.user_run_request = RUN_MODE_NEVER;
+            gstate.user_network_request = RUN_MODE_NEVER;
             requested_suspend = false;
         }
         if (requested_resume) {
-            gstate.user_run_request = USER_RUN_REQUEST_AUTO;
-            gstate.user_network_request = USER_RUN_REQUEST_AUTO;
+            gstate.user_run_request = RUN_MODE_AUTO;
+            gstate.user_network_request = RUN_MODE_AUTO;
             requested_resume = false;
         }
 #endif

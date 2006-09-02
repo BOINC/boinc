@@ -59,6 +59,3 @@ public:
     void close();
     bool got_recent_rpc(double interval);
 };
-
-
-#define GUI_RPC_PORT 31416

@@ -30,10 +30,10 @@
 #endif
 
 #include "error_numbers.h"
+#include "common_defs.h"
 #include "file_names.h"
 #include "client_msgs.h"
 #include "parse.h"
-
 #include "filesys.h"
 
 LOG_FLAGS log_flags;

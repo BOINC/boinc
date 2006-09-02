@@ -9639,3 +9639,97 @@ Charlie 1 Sep 2006 (HEAD and boinc_core_release_5_6_1 tag)
     mac_build/
         boinc.xcodeproj/
             project.pbxproj
+
+David  1 Sep 2006
+    - Aargh!  A recent Manager bug (run-mode selection acting weird)
+        was because the core client and the Manager had different
+        #defines for always/auto/never:
+        one used 0/1/2 and the other used 1/2/3.
+
+        There were a number of accidents of this sort waiting to happen,
+        i.e. the same #defines cut-and-pasted into 2 different files.
+
+        To keep this from ever happening again,
+        I added a new file (lib/common_defs.h) that includes
+        all #defines and enums shared among different BOINC
+        components (client/Manager, screensaver/client, client/server etc.).
+        This replaces result_state.h.
+
+        In principle error_numbers.h should be merged into this file
+        but this would required too much editing so I didn't do it.
+
+    - Linux compile fix
+
+    client/
+        app.h
+        client_msgs.h
+        client_state.C,h
+        client_types.h
+        cs_cmdline.C
+        cs_prefs.C
+        gui_rpc_server.h
+        gui_rpc_server_ops.C
+        http_curl.h
+        log_flags.C
+        main.C
+        ss_logic.h
+    clientgui/
+        MainDocument.h
+    lib/
+        app_ipc.h
+        boinc_cmd.C
+        common_defs.h (new)
+        error_numbers.h
+        gui_rpc_client.C,h
+        gui_rpc_client_ops.C
+        procinfo_unix.C
+        results_state.h (removed)
+        util.C
+    sched/
+        server_types.h
+
+David  1 Sep 2006
+    - Get things to compile on Win.
+        The above fix seems to work.
+
+    client/win/
+        win_screensaver.cpp
+    clientgui/
+        ViewMessages.cpp
+        sg_DlgMessages.cpp
+        sg_ProjectsComponents.cpp
+
+David  1 Sep 2006
+    - make scripts work with sh
+
+    sea/
+        insecure.sh
+        secure.sh
+
+David  1 Sep 2006
+    - Manager: in projects tab, show when an RPC is pending
+        (and - added bonus - say why)
+        Thanks to Paul (A.K.A. The Gas Giant)
+        for not letting this slip through the cracks
+
+        The problem: a while back I changed sched_rpc_request from bool to int
+        in the client; neglected to change it in GUI RPC and Manager also
+
+    client/
+        acct_mgr.C
+        cs_account.C
+        cs_cmdline.C
+        cs_scheduler.C
+        gui_rpc_server_ops.C
+        scheduler_ops.C,h
+    clientgui/
+        ViewProjects.cpp
+    lib/
+        common_defs.h
+        gui_rpc_client.h
+        gui_rpc_client_ops.C
+        util.C,h
+
+Rom    1 Sep 2006
+    - Tag for 5.6.2 release, all platforms
+      boinc_core_release_5_6_2

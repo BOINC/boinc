@@ -179,13 +179,4 @@
 // PLEASE: add a text description of your error to 
 // the text description function boincerror() in util.C.
 
-//////////////// other #defines shared by client and Manager
-
-// values of "network status"
-//
-#define NETWORK_STATUS_ONLINE			0
-#define NETWORK_STATUS_WANT_CONNECTION	1
-#define NETWORK_STATUS_WANT_DISCONNECT	2
-#define NETWORK_STATUS_LOOKUP_PENDING	3
-
 #endif

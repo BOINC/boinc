@@ -34,8 +34,9 @@
 
 #include "boinc_ss.h"
 #include "diagnostics.h"
-#include "win_screensaver.h"
+#include "common_defs.h"
 #include "util.h"
+#include "win_screensaver.h"
 
 #ifdef _DEBUG
 #define UNUSED(x)

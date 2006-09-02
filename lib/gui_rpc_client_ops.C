@@ -69,6 +69,7 @@
 #include "miofile.h"
 #include "md5_file.h"
 #include "network.h"
+#include "common_defs.h"
 #include "gui_rpc_client.h"
 
 using std::string;
@@ -154,10 +155,7 @@ int PROJECT::parse(MIOFILE& in) {
             master_url_fetch_pending = true;
             continue;
         }
-        else if (match_tag(buf, "<sched_rpc_pending/>")) {
-            sched_rpc_pending = true;
-            continue;
-        }
+        else if (parse_int(buf, "<sched_rpc_pending>", sched_rpc_pending)) continue;
         else if (match_tag(buf, "<non_cpu_intensive/>")) {
             non_cpu_intensive = true;
             continue;
@@ -213,7 +211,7 @@ void PROJECT::clear() {
     master_fetch_failures = 0;
     min_rpc_time = 0;
     master_url_fetch_pending = false;
-    sched_rpc_pending = false;
+    sched_rpc_pending = 0;
     tentative = false;
     non_cpu_intensive = false;
     suspended_via_gui = false;

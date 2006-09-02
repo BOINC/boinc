@@ -378,6 +378,7 @@ void CSimpleFrame::UpdateResultView(){
             resState = pDoc->state.lookup_result(projUrl, nme);
 			if(!resState){
                 pDoc->ForceCacheUpdate();
+                resState = pDoc->state.lookup_result(projUrl, nme);
 			}
             friendlyName = wxString(resState->app->name.c_str(), wxConvUTF8 );
 			std::string index = " ";

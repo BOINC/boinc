@@ -31,14 +31,14 @@
 # e.g.:
 # usermod -G boinc_master,boinc_projects -a mary
 
-function make_boinc_users() {
+make_boinc_users() {
     groupadd boinc_master
     groupadd boinc_projects
     useradd boinc_master -g boinc_master
     useradd boinc_projects -g boinc_projects
 }
 
-function check_login() {
+check_login() {
     if [ `whoami` != 'root' ]
     then
         echo 'This script must be run as root'
@@ -48,21 +48,21 @@ function check_login() {
 
 # set_perm path user group perm
 #   set a file or directory to the given ownership/permissions
-function set_perm() {
+set_perm() {
     chown $2:$3 "$1"
     chmod $4 "$1"
 }
 
 # same, but apply to all subdirs and files
 #
-function set_perm_recursive() {
+set_perm_recursive() {
     chown -R $2:$3 "$1"
     chmod -R $4 "$1"
 }
 
 # same, but apply to items in the given dir
 #
-function set_perm_dir() {
+set_perm_dir() {
     for file in $(ls "$1")
     do
         path="$1/${file}"
@@ -70,7 +70,7 @@ function set_perm_dir() {
     done
 }
 
-function update_nested_dirs() {
+update_nested_dirs() {
    chmod u+x,g+x,o+x "${1}"
    
    for file in $(ls "$1")

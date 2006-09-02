@@ -35,7 +35,6 @@
 #include "md5_file.h"
 #include "hostinfo.h"
 #include "miofile.h"
-#include "result_state.h"
 
 #define P_LOW 1
 #define P_MEDIUM 3

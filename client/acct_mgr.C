@@ -354,7 +354,7 @@ void ACCT_MGR_OP::handle_reply(int http_op_retval) {
                         // initiate a scheduler RPC if requested by AMS
                         //
                         if (acct.update) {
-                            pp->sched_rpc_pending = REASON_ACCT_MGR_REQ;
+                            pp->sched_rpc_pending = RPC_REASON_ACCT_MGR_REQ;
                             pp->min_rpc_time = 0;
                         }
                     }

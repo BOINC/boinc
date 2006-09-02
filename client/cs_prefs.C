@@ -138,8 +138,8 @@ void CLIENT_STATE::check_suspend_activities(int& reason) {
     }
 
     switch(user_run_request) {
-    case USER_RUN_REQUEST_ALWAYS: break;
-    case USER_RUN_REQUEST_NEVER:
+    case RUN_MODE_ALWAYS: break;
+    case RUN_MODE_NEVER:
         reason = SUSPEND_REASON_USER_REQ;
         return;
     default:
@@ -237,9 +237,9 @@ int CLIENT_STATE::resume_tasks(int reason) {
 void CLIENT_STATE::check_suspend_network(int& reason) {
     reason = 0;
 
-    if (user_network_request == USER_RUN_REQUEST_ALWAYS) return;
+    if (user_network_request == RUN_MODE_ALWAYS) return;
 
-    if (user_network_request == USER_RUN_REQUEST_NEVER) {
+    if (user_network_request == RUN_MODE_NEVER) {
         reason |= SUSPEND_REASON_USER_REQ;
         return;
     }

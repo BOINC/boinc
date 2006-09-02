@@ -144,8 +144,8 @@ extern void mysql_timestamp(double, char*);
 // int errornumber from error_numbers.h
 //
 extern const char* boincerror(int which_error);
-
 extern const char* network_status_string(int);
+extern const char* rpc_reason_string(int);
 
 #ifdef HAVE_PTHREAD
 extern pthread_mutex_t getrusage_mutex;

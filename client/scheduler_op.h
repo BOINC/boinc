@@ -36,18 +36,6 @@
 #define SCHEDULER_OP_STATE_GET_MASTER   1
 #define SCHEDULER_OP_STATE_RPC          2
 
-// reasons for making a scheduler RPC:
-//
-
-#define REASON_USER_REQ			1
-#define REASON_RESULTS_DUE		2
-#define REASON_NEED_WORK		3
-#define REASON_TRICKLE_UP		4
-#define REASON_ACCT_MGR_REQ		5
-#define REASON_INIT				6
-#define REASON_PROJECT_REQ		7
-
-
 // defaults related to scheduler RPC policy
 // See client_state.h for definitions
 

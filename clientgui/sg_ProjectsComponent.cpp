@@ -548,7 +548,9 @@ void CProjectsComponent::OnBtnClick(wxCommandEvent& event){ //init function
     }else if(m_wxBtnObj==btnPause) {
 		CMainDocument* pDoc     = wxGetApp().GetDocument();
         CC_STATUS      status;
+
         pDoc->GetCoreClientStatus(status);
+
         clientRunMode = status.task_mode;
 		pDoc->SetActivityRunMode(RUN_MODE_NEVER);
 		btnPause->Show(false);
@@ -619,7 +621,7 @@ void CProjectsComponent::CheckForErrorMessages(wxTimerEvent& WXUNUSED(event)) {
 		for(int i=lastMessageId; i < pDoc->messages.messages.size(); i++) {
 			lastMessageId = i+1;
 			message = pDoc->message(i);
-			if ( message != NULL && message->priority == MSG_PRIORITY_ERROR ) {
+			if ( message != NULL && message->priority == MSG_ERROR ) {
 				receivedErrorMessage = true;
 				checkForMessagesTimer->Stop();
 				lastMessageId = pDoc->messages.messages.size();

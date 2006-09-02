@@ -53,6 +53,7 @@
 
 
 #include "error_numbers.h"
+#include "common_defs.h"
 #include "filesys.h"
 #include "util.h"
 
@@ -931,8 +932,8 @@ void mysql_timestamp(double dt, char* p) {
     );
 }
 
-// Return a text-string description of a given error.  Must be kept
-// consistent with error_numbers.h
+// Return a text-string description of a given error.
+// Must be kept consistent with error_numbers.h
 //
 const char* boincerror(int which_error) {
     switch (which_error) {
@@ -1052,6 +1053,7 @@ const char* boincerror(int which_error) {
         case ERR_ABORTED_BY_PROJECT: return "Aborted by project";
         case ERR_GETGRNAM: return "Group not found";
         case ERR_CHOWN: return "can't change owner";
+        case ERR_FILE_NOT_FOUND: return "file not found";
         case 404: return "HTTP file not found";
         case 407: return "HTTP proxy authentication failure";
         case 416: return "HTTP range request error";
@@ -1074,6 +1076,19 @@ const char* network_status_string(int n) {
 	case NETWORK_STATUS_LOOKUP_PENDING: return "reference site lookup pending";
 	default: return "unknown";
 	}
+}
+
+const char* rpc_reason_string(int reason) {
+    switch (reason) {
+    case RPC_REASON_USER_REQ: return "Requested by user";
+    case RPC_REASON_NEED_WORK: return "To fetch work";
+    case RPC_REASON_RESULTS_DUE: return "To report completed tasks";
+    case RPC_REASON_TRICKLE_UP: return "To send trickle-up message";
+    case RPC_REASON_ACCT_MGR_REQ: return "Requested by account manager";
+    case RPC_REASON_INIT: return "Project initialization";
+    case RPC_REASON_PROJECT_REQ: return "Requested by project";
+    default: return "Unknown reason";
+    }
 }
 
 #ifndef _WIN32

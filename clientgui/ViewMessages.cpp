@@ -310,7 +310,7 @@ wxInt32 CViewMessages::FormatPriority(wxInt32 item, wxString& strBuffer) const {
 
     if (message) {
         switch(message->priority) {
-        case MSG_PRIORITY_INFO:
+        case MSG_INFO:
             strBuffer = wxT("I");
             break;
         default:
