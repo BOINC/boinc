@@ -1,0 +1,415 @@
+﻿##########################################
+# Language: Belarussian (Belarus Republic) (based on en.po v1.26)
+# FileID  : #$Id$
+# Author  : Janus Kristensen (Translated by: Drive DRKA)
+# Email   : jbk@visualgroup.dk (drka2003@mail.ru)
+##########################################
+# For more information please see:
+# http://boinc.berkeley.edu/web_translation.php
+##########################################
+
+
+# The charset used for the text in this file (please try to use UTF-8 if possible)
+# Кодавая старонка для тэксту ў гэтым файле (калі ласка, выкарыстайце UTF-8 па магчымасці)
+msgid "CHARSET"
+msgstr "UTF-8"
+
+# The name of this language in this language
+# Імя мовы ў гэтым файле
+msgid "LANG_NAME_NATIVE"
+msgstr "Беларускі"
+
+# The name of this language in an international language (English)
+# Імя мовы ў гэтым файле на інтэрнацыянальнай мове (ангельскім)
+msgid "LANG_NAME_INTERNATIONAL"
+msgstr "Belarussian"
+
+
+#########################################
+# Apps page (apps.php)
+# Старонка прыкладанняў
+#########################################
+
+msgid "APPS_TITLE"
+msgstr "Прыкладанні"
+
+msgid "APPS_DESCRIPTION"
+msgstr "$PROJECT на дадзены момант мае наступныя прыкладанні. "
+"Калі Вы ўдзельнічаеце ў $PROJECT, Вашаму кампутару будуць прызначаныя заданні для аднога "
+"або некалькіх з гэтых прыкладанняў. "
+"На Ваш кампутар будзе запампаваная бягучая версія прыкладання. "
+"Усё гэта адбываецца аўтаматычна; Вам не трэба штосьці прадпрымаць дадаткова. "
+
+msgid "APPS_PLATFORM"
+msgstr "Платформа"
+
+msgid "APPS_VERSION"
+msgstr "Бягучая версія"
+
+msgid "APPS_INSTALLTIME"
+msgstr "Час зборкі"
+
+
+#########################################
+# Rules and Policies page (info.php)
+# Старонка Правілаў і Палітык
+#########################################
+
+msgid "RULES_TITLE"
+msgstr "Прачытайце нашы правілы і палітыкі"
+
+msgid "RULES_ONLY_AUTH"
+msgstr "Запускайце $PROJECT толькі на аўтарызаваных кампутарах"
+
+msgid "RULES_ONLY_AUTH_TEXT"
+msgstr "Запускайце $PROJECT толькі на кампутарах, якімі Вы валодаеце, "
+"або для якіх Вы атрымалі правы ўладальніка. "
+"У некаторых кампаніях і школах (Вну) усталяваны парадак, па якім забараняецца выкарыстаць іх кампутары "
+"у такіх праектах, як $PROJECT."
+
+msgid "RULES_COMPUTER_USE"
+msgstr "Як $PROJECT будзе выкарыстаць Ваш кампутар"
+
+msgid "RULES_COMPUTER_USE_TEXT_A"
+msgstr "Калі Вы запускаеце $PROJECT на Вашым кампутары, "
+"ён будзе выкарыстаць частка рэсурсаў працэсара, прастора на цвёрдым дыску (вінчэстары), і сеткавы трафік. "
+"Вы можаце кантраляваць, колькі рэсурсаў Вашага кампутара будзе скарыстана для працы $PROJECT, "
+"і калі яны (рэсурсы) будуць выкарыстоўвацца."
+
+msgid "RULES_COMPUTER_USE_TEXT_B"
+msgstr "Праца, дасканалая Вашым кампутарам, садзейнічае рашэнню "
+"задачаў $PROJECT, як апісана на web-сайце праекту. "
+"Прыкладанні могуць змяняцца час ад часу."
+
+msgid "RULES_PRIVACY"
+msgstr "Забеспячэнне прыватнасці"
+
+msgid "RULES_PRIVACY_TEXT_A"
+msgstr "Ваш уліковы запіс на $PROJECT ідэнтыфікуецца па імі, якое Вы паказалі. "
+"Гэтае імя можа быць паказана на web-сайце $PROJECT, нараўне са зводкаю працы Вашага "
+"кампутара, зробленае для $PROJECT. "
+"Калі Вы жадаеце застацца невядомым, вылучыце імя, якое не адпавядае Вашаму сучаснасці імя."
+
+msgid "RULES_PRIVACY_TEXT_B"
+msgstr "Калі Вы прымаеце ўдзел у $PROJECT, інфармацыя аб Вашым кампутары "
+"(такая як тып працэсара, аб'ём аператыўнае памяці, і т.д.) "
+"будзе запісаная праектам $PROJECT і скарыстаная для прыняцця рашэння аб тым, які тып працы "
+"прызначыць Вашаму кампутару. Гэтая інфармацыя таксама будзе паказаная на web-сайце $PROJECT. "
+"Нічога, што паказвала бы на месцазнаходжанне Вашага кампутара (напрыклад, яго даменнае або "
+"сеткавае імя), не будзе паказвацца."
+
+msgid "RULES_PRIVACY_TEXT_C"
+msgstr "Каб прыняць удзел у $PROJECT, Вы павінны паказаць Ваш адрас электроннае пошты. "
+"Гэты адрас не будзе паказаны на web-сайце $PROJECT або даступны іншым арганізацыям. "
+"$PROJECT можа пасылаць Вам перыядычныя навінавыя лісты; тым не менш, Вы можаце адмовіцца ад іх у любы час."
+
+msgid "RULES_SAFE"
+msgstr "На колькі бяспечны запуск $PROJECT?"
+
+msgid "RULES_SAFE_TEXT_A"
+msgstr "Штораз пры загрузцы праграмы праз Інтэрнэт можа здарыцца наступнае: "
+"праграма можа мець небяспечныя памылкі, "
+"або сервер можа быць узламаны. "
+"$PROJECT распачаў высілкі для мінімізацыі гэтых рызыкаў. "
+"Мы дбайна атэставалі нашы прыкладанні. "
+"Нашы сервера абароненыя сеткавым экранам і наладжаныя на высокую бяспеку. "
+"Каб пераканацца ў цэласнасці загружаных праграмаў, усе выконваемыя файлы падпісаныя  подпісам "
+"на абароненым кампутары, не падлучаным да сеткі Інтэрнэт."
+
+msgid "RULES_SAFE_TEXT_B"
+msgstr "Прыкладанні, якія запускаюцца праектам $PROJECT, могуць прычыніцца перагрэва некаторых кампутараў. "
+"Калі гэта здарылася, спыніце выкананне $PROJECT або выкарыстайце %s, што абмяжуе выкарыстанне працэсара."
+
+msgid "RULES_UTILITY_PROGRAM"
+msgstr "утыліты"
+
+msgid "RULES_SAFE_TEXT_C"
+msgstr "$PROJECT быў распрацаваны %s. BOINC быў распрацаваны ва Ўніверсітэце Каліфорніі (the University of "
+"California)."
+
+msgid "RULES_LIABILITY"
+msgstr "Адказнасць"
+
+msgid "RULES_LIABILITY_TEXT"
+msgstr "$PROJECT і %s не бяруць на сябе адказнасць за шкода, нанесены Вашаму кампутару, "
+"страту дадзеных, або любая іншая падзея або інцыдэнт, які можа адбыцца як вынік "
+"удзелы ў $PROJECT."
+
+msgid "RULES_OTHER"
+msgstr "Іншыя BOINC-праекты"
+
+msgid "RULES_OTHER_TEXT_A"
+msgstr "Іншыя праекты выкарыстаюць тую жа платформу - BOINC - што і $PROJECT. Вы можаце захацець "
+"прыняць удзел у адным або некалькіх з гэтых праектаў. "
+"Калі Вы далучыцеся да некалькіх праектаў, Ваш кампутар будзе выконваць карысную працу, нават калі $PROJECT не будзе мець заданняў, "
+"даступных для апрацоўкі."
+
+msgid "RULES_OTHER_TEXT_B"
+msgstr "Іншыя праекты не звязаныя з $PROJECT, і мы не можам "
+"даручыцца за іх бяспека або прыроду іх даследаванняў. Далучайцеся да іх "
+"на свой страх і рызыка."
+
+
+#########################################
+# Create account form (create_account_form.php)
+# Форма стварэння  запісу
+#########################################
+
+msgid "CREATE_AC_TITLE"
+msgstr "Стварэнне  запісу"
+
+msgid "CREATE_AC_READ_RULES"
+msgstr "Прачытайце %s да стварэння  запісу."
+
+msgid "CREATE_AC_ALREADY_GOT"
+msgstr "Калі Вы ўжо атрымалі ўліковы запіс, не запаўняйце гэтую форму. "
+"%s замест гэтага."
+
+msgid "CREATE_AC_NAME"
+msgstr "Імя"
+
+msgid "CREATE_AC_NAME_DESC"
+msgstr "Ідэнтыфікуе Вас на нашым web-сайце. Увядзіце Ваша сучаснасць імя або псеўданім"
+
+msgid "CREATE_AC_EMAIL"
+msgstr "Адрас электроннае пошты"
+
+msgid "CREATE_AC_EMAIL_DESC"
+msgstr "Павінен быць сапраўдным адрасам у форме 'імя@дамен', да прыкладу, user@aol.com"
+
+msgid "CREATE_AC_COUNTRY"
+msgstr "Краіна"
+
+msgid "CREATE_AC_COUNTRY_DESC"
+msgstr "Вылучыце краіну, якую ўяўляеце, калі жадаеце"
+
+msgid "CREATE_AC_ZIP"
+msgstr "Паштовы індэкс або ZIP-код"
+
+msgid "CREATE_AC_CREATE"
+msgstr "Стварыць уліковы запіс"
+
+msgid "CREATE_AC_DISABLED"
+msgstr "Стварэнне  запісу забароненае"
+
+msgid "CREATE_AC_DISABLED_TEXT"
+msgstr "Стварэнне  запісу забароненае для $PROJECT у дадзены момант. "
+"Калі ласка, паўторыце пазней."
+
+msgid "CREATE_AC_TEAM"
+msgstr "Гэты ўліковы запіс будзе ставіцца да каманды '%s' і будзе мець налады праекту як у яе стваральніка."
+
+msgid "CREATE_AC_USE_CLIENT"
+msgstr "Увага: Калі Вы выкарыстаеце BOINC версіі 5.2+ разам з Мэнэджэрам BOINC, "
+"не выкарыстайце гэтую форму. "
+"Проста запусціце BOINC, вылучыце 'Дадаць праект', "
+"і ўвядзіце адрас электроннае пошты і пароль. "
+
+msgid "CREATE_AC_PASSWORD"
+msgstr "Пароль"
+
+msgid "CREATE_AC_PASSWORD_DESC"
+msgstr "Павінна быць прынамсі %s знакаў"
+
+msgid "CREATE_AC_CONFIRM_PASSWORD"
+msgstr "Пацвердзіце пароль"
+
+msgid  "AC_INVITE_CODE"
+msgstr "Запрашальны код"
+
+msgid  "AC_INVITE_CODE_DESC"
+msgstr "Для стварэння  запісу неабходны сапраўдны запрашальны код"
+
+msgid "AC_INVITE_REQUIRED"
+msgstr "Каб стварыць уліковы запіс, Вы павінны паказаць запрашальны код."
+
+msgid "AC_INVITE_INVALID"
+msgstr "Паказаны Вамі запрашальны код не сапраўдны."
+
+
+#########################################
+# Forum sample index page
+# Прыклад галоўнае старонкі форума
+#########################################
+
+msgid "FORUM_TITLE"
+msgstr "Дошка паведамленняў $PROJECT"
+
+msgid "FORUM_TITLE_SHORT"
+msgstr "Дошка паведамленняў"
+
+
+#########################################
+# General stuff (create_account_form.php and others)
+# Агульны матэрыял
+#########################################
+
+msgid "OPTIONAL"
+msgstr "Неабавязкова"
+
+
+#########################################
+# Various top table pages (top users, computers, teams)
+# Розныя старонкі топаў
+#########################################
+
+msgid "TOP_PARTICIPANT_TITLE"
+msgstr "Лепшыя ўдзельнікі"
+
+msgid "USER_TABLE_RANK"
+msgstr "Пазіцыя"
+
+msgid "USER_TABLE_NAME"
+msgstr "Імя"
+
+msgid "TOTAL_CREDIT"
+msgstr "Усяго ачкоў"
+
+msgid "EXPAVG_CREDIT"
+msgstr "У сярэднім за дзень"
+
+msgid "USER_TABLE_COUNTRY"
+msgstr "Краіна"
+
+msgid "USER_TABLE_PTIME"
+msgstr "Удельнічае з"
+
+msgid "TOP_TEAMS_TITLE"
+msgstr "Лепшыя %s каманды"
+
+msgid "TEAM_TABLE_MEMBERS"
+msgstr "Удзельнікі"
+
+
+#########################################
+# Forum
+# Форум
+#########################################
+
+msgid "FORUM_POSTS"
+msgstr "Паведамленні"
+
+msgid "FORUM_TOPIC"
+msgstr "Тэма"
+
+msgid "FORUM_THREADS"
+msgstr "Абмеркаванні"
+
+msgid "FORUM_LAST_POST"
+msgstr "Апошняе паведамленне"
+
+msgid "FORUM_AUTHOR"
+msgstr "Аўтар"
+
+msgid "FORUM_VIEWS"
+msgstr "Прагляды"
+
+msgid "FORUM_ERR_NOT_FOUND"
+msgstr "Няма такога форума"
+
+msgid "FORUM_ERR_EXPAVG"
+msgstr "Каб стварыць новую тэму для абмеркавання ў %s, у Вас павінна быць вызначаная колькасць ачкоў. "
+"Гэта павінна прадухіліць і абараніць супраць злоўжыванні сістэмаю."
+
+msgid "FORUM_ERR_INTERVAL"
+msgstr "Прама зараз Вы не можаце стварыць тэму для абмеркавання. Калі ласка, трохі пачакайце перад паўторнаю спробаю. "
+"Гэтая затрымка адбылася для таго, каб абараніць супраць злоўжыванні сістэмаю."
+
+msgid "FORUM_QA_POST_MESSAGE"
+msgstr "Вобласць %s дазваляе Вам атрымаць дапамогу іншых карыстачоў. Калі ў Вас ёсць пытанне або праблема:"
+
+msgid "FORUM_QA_POST_MESSAGE2"
+msgstr "Прачытайце наяўны спіс пытанняў. Калі Ваша пытанне ўжо там, "
+"націсніце на кнопку %s. Калі адказы на пытанне былі прадстаўленыя, прачытайце іх. "
+"Калі адзін з іх адказвае на Ваша пытанне, націсніце на кнопку %s."
+
+msgid "FORUM_QA_POST_MESSAGE3"
+msgstr "Калі Ваша пытанне яшчэ не задалі, запоўніце і прадстаўце гэтую форму."
+
+msgid "FORUM_QA_POST_MESSAGE4"
+msgstr "Гэта прадухіліць шматразовае заданне падобных пытанняў."
+
+msgid "FORUM_QA_SUBMIT_NEW"
+msgstr "Прадставіць новае пытанне/праблему"
+
+msgid "FORUM_SUBMIT_NEW"
+msgstr "Стварыць новую тэму"
+
+msgid "FORUM_SUBMIT_NEW_TITLE"
+msgstr "Тэма"
+
+msgid "FORUM_QA_SUBMIT_NEW_HELP"
+msgstr "Апішыце Ваша пытанне ў некалькіх словах. "
+"Кароткае, яснае рэзюмэ дапаможа іншым з тым жа самым "
+"пытаннем (або адказам) знайсці яго."
+
+msgid "FORUM_QA_SUBMIT_NEW_BODY_HELP"
+msgstr "Калі ў Вас праблемы з праграмным забеспячэннем, "
+"пакажыце нумар версіі праграмы, "
+"тып Вашага кампутара і аперацыйную сістэму."
+
+msgid "FORUM_ADD_MY_SIG"
+msgstr "Дадаць мой подпіс да гэтага паведамлення"
+
+msgid "FORUM_MESSAGE"
+msgstr "Паведамленне"
+
+msgid "FORUM_QA_GOT_PROBLEM_TOO"
+msgstr "У мяне такая жа праблема"
+
+msgid "FORUM_QA_QUESTION_ANSWERED"
+msgstr "Гэта адказ на маё пытанне"
+
+msgid "FORUM_HTML_INFO"
+msgstr "Выкарыстайце тэгі BBCode для фарматавання Вашага тэксту"
+
+
+#########################################
+# Forum thread
+# Абмеркаванне на форуме
+#########################################
+
+msgid "FORUM_THREAD_HIDDEN"
+msgstr "Гэтае абмеркаванне было ўтоена ў адміністрацыйных мэтах"
+
+msgid "FORUM_THREAD_REPLY"
+msgstr "Адказаць на гэтае абмеркаванне"
+
+msgid "FORUM_THREAD_SUBSCRIBED"
+msgstr "Вы падпісаныя на гэтае абмеркаванне."
+
+msgid "FORUM_THREAD_UNSUBSCRIBE"
+msgstr "Націсніце сюды каб адпісацца"
+
+msgid "FORUM_THREAD_SUBSCRIBE"
+msgstr "Падпісацца на гэтае абмеркаванне"
+
+
+#########################################
+# Forum search features
+# Асаблівасці пошуку на форуме
+#########################################
+
+msgid "FORUM_SEARCH"
+msgstr "Пошук у форуме"
+
+msgid "FORUM_SEARCH_TITLES"
+msgstr "Тэмы, якія змяшчаюць '%s'"
+
+msgid "FORUM_SEARCH_BODIES"
+msgstr "Паведамленні, якія змяшчаюць '%s'"
+
+msgid "FORUM_SEARCH_TITLES_NO"
+msgstr "Тэмы, якія змяшчаюць '%s', не былі знойдзеныя."
+
+msgid "FORUM_SEARCH_BODIES_NO"
+msgstr "Паведамленні, якія змяшчаюць '%s', не былі знойдзеныя."
+
+
+#########################################
+# Links from the main page
+# Спасылкі з галоўнае старонкі
+#########################################
+
+msgid "LINKS_QA"
+msgstr "Пытанні і адказы"
