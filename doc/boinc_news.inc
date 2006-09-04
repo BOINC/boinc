@@ -1,6 +1,11 @@
 <?
 
 $project_news = array(
+array("Sept. 2, 2006",
+    "The <a href=http://spin.fh-bielefeld.de/>Spinhenge</a> project
+    has moved into public beta test,
+    and is accepting new participant accounts."
+),
 array("August 24, 2006",
     "<a href=http://gridrepublic.org>GridRepublic</a>,
     a BOINC account manager, recently moved into beta test.

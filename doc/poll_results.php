@@ -134,9 +134,11 @@ function display_countries($sums) {
     $y = "";
     $ntotal = 0;
     foreach ($sums['country'] as $country=>$n) {
+        if ($n < 20) continue;
         $ntotal += $n;
     }
     foreach ($sums['country'] as $country=>$n) {
+        if ($n < 20) continue;
         $c = urldecode($country);
         $b = bar($n, $ntotal);
         $y .= "$b $c<br>";

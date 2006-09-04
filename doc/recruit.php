@@ -1,7 +1,125 @@
 <?php
 require_once("docutil.php");
-page_head("Email tools: newsletters, reminders, and friend-to-friend");
+page_head("Recruiting and retaining volunteers");
 echo "
+<h3>Contents</h3>
+<ul>
+<li> <a href=#web>Project web site</a>
+<li> <a href=#pr>Publicity</a>
+<li> <a href=#email>Email-based mechanisms</a>
+    <ul>
+    <li> <a href=#newsletter>Newsletters</a>
+    <li> <a href=#reminder>Reminders</a>
+    <li> <a href=#f2f>Friend-to-friend</a>
+    </ul>
+</ul>
+
+<hr>
+The following is a list of suggestions for
+getting more people to participate in your project.
+Much of this is based on
+<a href=poll_results.php>the results of the BOINC user survey</a>;
+study this yourself.
+
+<p>
+Most of these suggestions involve writing
+prose to be read by the general public.
+If (like many scientists) you are not good at this or avoid doing it,
+find someone who is good at it.
+This could be one of your students,
+a friend of a friend, or a professional writer.
+
+<p>
+English is the most widely-spoken language among BOINC participants,
+and you should probably use it as the main language for
+web materials and email.
+BOINC provides mechanisms for <a href=translation.php>Web site translation</a>;
+it's generally easy to get volunteers to do this.
+
+<a name=web></a>
+<h2>Project web site</h2>
+
+Your project's web site has a large role in attracting participants.
+Some suggestions:
+<ul>
+<li> Present your project's credentials:
+the educational credentials of its leaders,
+its research track record,
+and the status of its institution.
+<li> Describe what your project is doing:
+its high-level scientific goals, its methods,
+the details of the computation being done using volunteers,
+and the (non-distributed) computations that precede and follow this.
+How will your research affect the lives of everyday people
+now and/or 50 years from now?
+<li> Who owns the intellectual property that arises from
+volunteer computations?
+Will it be released to the public?
+When, and under what terms?
+<li> Show all the scientific results of the computation so far,
+and any publications that arise from these results.
+(<a href=http://folding.stanford.edu/papers.html>Folding@home</a>
+provides a good example of this).
+Announce new results and publications on the News column.
+Make sure your News column is being properly published as an RSS feed.
+<li> Give some personal information about your team members:
+their names, background, interests, and preferably a photograph.
+This will 'humanize' your project in the eyes of potential participants.
+<li> Take an active role in your web site's message boards.
+Read them frequently,
+and respond quickly to any negative threads that arise.
+Make a periodic posting giving 'insider info' on your project.
+<li> Make sure your the web site has clear navigation,
+so that the above information is easy to find from the front page.
+Do a user study - show your web site to a strangers,
+ask them to browse it and/or to find particular information,
+and get their feedback (you may be surprised).
+<li> If possible, create a graphical identity
+(logo, color scheme, etc.) for your project.
+Your web site should project professionalism and 
+inspire confidence and interest in prospective volunteers.
+
+
+</ul>
+
+<a name=pr></a>
+<h2>Publicity</h2>
+
+The world will not beat a path to your door.
+You need to work hard to spread the word about your project.
+
+<ul>
+<li> Get in the mass media (newspapers, magazines, radio, television)
+as much as possible.
+If your institution has a PR director or media spokesperson,
+contact them while you're developing your project,
+and again any time your project has major news.
+If no such person is available,
+call local media outlets yourself.
+<li>
+Exploit existing organizational relationships.
+If you work at a University,
+try to get your project running on the PCs in the teaching labs,
+and on the PCs of students, faculty and staff.
+If you have connections with organizations with PR capabilities
+(i.e., web sites or newsletters),
+enlist their support for your project, and get them to publicize it.
+A typical example: professional organization in your subject area.
+<li>
+The BOINC web site will generally announce new projects.
+Also, make sure your project is listed on
+<a href=acct_mgrs.php>account managers</a> like GridRepublic and BAM!
+<li>
+Use the web.
+Announce your project in forums like Slashdot,
+and on the message boards of the major cross-project teams
+like BOINC Synergy, Overclockers UK, Team Anandtech, etc.
+
+</ul>
+
+<a name=email></a>
+<h2>Email-based mechanisms</h2>
+<p>
 BOINC provides PHP-based tools
 for sending three types of email to participants:
 <ul>
@@ -115,6 +233,7 @@ Your email is less likely to be rejected by spam filters if:
 or has at least 400 words.
 </ul>
 
+<a name=newsletter></a>
 <h2>Newsletters</h2>
 <p>
 The script <b>html/ops/mass_email_script.php</b>
@@ -252,6 +371,7 @@ empty the file <b>mass_email/log</b>; i.e.
 truncate mass_email/log
 </pre>
 
+<a name=reminder></a>
 <h2>Reminder emails</h2>
 
 <p>
@@ -299,6 +419,7 @@ For this reason, it has no checkpoint/restart mechanism.
 The procedure for testing your reminder email is
 similar to that for email newsletters (see above).
 
+<a name=f2f></a>
 <h2>Friend-to-friend emails</h2>
 <p>
 The web page ffemail_form.php lets users send emails to their friends.

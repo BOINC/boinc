@@ -58,7 +58,6 @@ run multiple applications in sequence
 Notes:
 <ul>
 <li> This requires version 5.5 or higher of the BOINC core client.
-<li> The stdin/stdout feature is not implemented yet
 <li> Multiple tasks per job is not implemented yet
 <li> TODO: provide a way for projects to supply an animated GIFF
 which is shown (with user/team credit text) as screensaver graphics.

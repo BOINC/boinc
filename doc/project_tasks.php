@@ -95,7 +95,7 @@ list_item("update_stats -update_teams -update_users -update_hosts",
     "Update the recent average credit fields of
     users, teams, and hosts.
     This is important if you use send personalized
-    <a href=mass_email.php>mass emails</a> or
+    <a href=recruit.php>mass emails</a> or
     <a href=reminder_email.php>reminder emails</a>,
     or use recent credit to enable message-board posting.
     Recommended period: every few days."
