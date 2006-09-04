@@ -9746,3 +9746,11 @@ David  1 Sep 2006
         gui_rpc_client.h
         gui_rpc_client_ops.C
         util.C,h
+
+Bruce 4 Sept 2006
+    - Ops pages: modify to include new client state outcome (aborted)
+
+    html/
+        inc/
+            db_ops.inc
+

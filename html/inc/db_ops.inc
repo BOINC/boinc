@@ -530,7 +530,8 @@ SELECT COUNT(id) AS nTotal,
        SUM(case when server_state = '5' and outcome = '3' and client_state = '2' then 1 else 0 end) AS clientstate_downloaded,
        SUM(case when server_state = '5' and outcome = '3' and client_state = '3' then 1 else 0 end) AS clientstate_computedone,
        SUM(case when server_state = '5' and outcome = '3' and client_state = '4' then 1 else 0 end) AS clientstate_uploading,
-       SUM(case when server_state = '5' and outcome = '3' and client_state = '5' then 1 else 0 end) AS clientstate_uploaded
+       SUM(case when server_state = '5' and outcome = '3' and client_state = '5' then 1 else 0 end) AS clientstate_uploaded,
+       SUM(case when server_state = '5' and outcome = '3' and client_state = '6' then 1 else 0 end) AS clientstate_aborted
 FROM result WHERE 
     ";
 
@@ -575,6 +576,7 @@ FROM result WHERE
         $client_state[3] = $res->clientstate_computedone;
         $client_state[4] = $res->clientstate_uploading;
         $client_state[5] = $res->clientstate_uploaded;
+        $client_state[6] = $res->clientstate_aborted;
 
         $validate_state[0] = $res->validate_init;
         $validate_state[1] = $res->validate_valid;
@@ -640,7 +642,7 @@ FROM result WHERE
 
     echo "<td><table border=2 cellpadding=4>\n";
     echo "<tr><th>Client state</th><th># results</th></tr>\n";
-    for ($cs=1; $cs<6; $cs++) {
+    for ($cs=1; $cs<7; $cs++) {
         row2(client_state_string($cs),
             link_results("$client_state[$cs]", $urlquery, "client_state=$cs", "outcome=3")
         );
