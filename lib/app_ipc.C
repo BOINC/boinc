@@ -280,7 +280,7 @@ void APP_CLIENT_SHM::reset_msgs() {
     memset(shm, 0, sizeof(SHARED_MEM));
 }
 
-// resolve XML soft link
+// resolve "symbolic link"
 //
 int boinc_resolve_filename(const char *virtual_name, char *physical_name, int len) {
     FILE *fp;
@@ -289,7 +289,7 @@ int boinc_resolve_filename(const char *virtual_name, char *physical_name, int le
     if (!virtual_name) return ERR_NULL;
     strlcpy(physical_name, virtual_name, len);
 
-    // Open the file and load the first line
+    // Open the link file and read the first line
     //
     fp = boinc_fopen(virtual_name, "r");
     if (!fp) return ERR_FOPEN;
@@ -308,22 +308,17 @@ int boinc_resolve_filename(const char *virtual_name, char *physical_name, int le
 }
 
 
-// resolve XML soft link
+// same, std::string version
 //
 int boinc_resolve_filename_s(const char *virtual_name, string& physical_name) {
+    char buf[512];
     if (!virtual_name) return ERR_NULL;
     physical_name = virtual_name;
-    // Open the file and load the first line
     FILE *fp = fopen(virtual_name, "r");
     if (!fp) return ERR_FOPEN;
-
-    char buf[512];
+    buf[0] = 0;
     fgets(buf, 512, fp);
     fclose(fp);
-
-    // If it's the <soft_link> XML tag, return its value,
-    // otherwise, return the original file name
-    //
     parse_str(buf, "<soft_link>", physical_name);
     return 0;
 }

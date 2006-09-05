@@ -9730,6 +9730,16 @@ David  1 Sep 2006
         gui_rpc_client_ops.C
         util.C,h
 
-Rom    1 Sep 2006
+David  4 Sept 2006
+    - core client: added a couple of rr_simulation messages
+
+    client/
+        cpu_sched.C
+        cs_scheduler.C
+    lib/
+        app_ipc.C
+
+Rom    4 Sep 2006
     - Tag for 5.6.2 release, all platforms
       boinc_core_release_5_6_2
+
