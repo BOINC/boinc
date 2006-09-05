@@ -34,6 +34,7 @@
 #include <sys/stat.h>
 
 #include "gui_rpc_client.h"
+#include "common_defs.h"
 
 //#include <drivers/event_status_driver.h>
 #ifdef __cplusplus

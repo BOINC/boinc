@@ -8224,7 +8224,7 @@ Charlie 1 Aug 2006
         file_names.C
         gui_rpc_server.C
         main.C
-    clientGUI/
+    clientgui/
         BOINCGUIApp.cpp,h
         MainDocument.cpp
         mac/
@@ -8306,7 +8306,7 @@ Charlie 1 Aug 2006
     client/
         check_security.C
         client_state.C
-    clientGUI/
+    clientgui/
         mac/
             mac_saver_module.cpp
     lib/
@@ -9766,3 +9766,13 @@ David  4 Sept 2006
     lib/
         app_ipc.C
         
+
+Charlie 5 Sep 2006
+    - Mac changes for new common_defs.h, removed results_state.h.
+
+    clientgui/
+        mac/
+            mac_saver_module.cpp
+    mac_build/
+        boinc.xcodeproj/
+            project.pbxproj

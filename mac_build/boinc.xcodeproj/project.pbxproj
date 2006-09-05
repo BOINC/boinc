@@ -1054,6 +1054,7 @@
 		DD6D0A8507E9A61B007F882B /* network.C */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.cpp.cpp; name = network.C; path = ../lib/network.C; sourceTree = SOURCE_ROOT; };
 		DD6D0A8607E9A61B007F882B /* network.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = network.h; path = ../lib/network.h; sourceTree = SOURCE_ROOT; };
 		DD6D82DA08131AB1008F7200 /* macglutfix.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = macglutfix.m; sourceTree = "<group>"; };
+		DD7168360AAD72040051642B /* common_defs.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = common_defs.h; path = ../lib/common_defs.h; sourceTree = SOURCE_ROOT; };
 		DD73E34E08A0694000656EB1 /* gui_rpc_client_ops.C */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.cpp.cpp; name = gui_rpc_client_ops.C; path = ../lib/gui_rpc_client_ops.C; sourceTree = SOURCE_ROOT; };
 		DD73E34F08A0694100656EB1 /* gui_rpc_client_print.C */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.cpp.cpp; name = gui_rpc_client_print.C; path = ../lib/gui_rpc_client_print.C; sourceTree = SOURCE_ROOT; };
 		DD73E36208A06ED400656EB1 /* gui_rpc_server_ops.C */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.cpp.cpp; name = gui_rpc_server_ops.C; path = ../client/gui_rpc_server_ops.C; sourceTree = SOURCE_ROOT; };
@@ -1063,7 +1064,6 @@
 		DD7748B40A356D6C0025D05E /* SetupSecurity.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = SetupSecurity.cpp; path = ../clientgui/mac/SetupSecurity.cpp; sourceTree = SOURCE_ROOT; };
 		DD7C5E7508110AE3002FCE1E /* ScreenSaver.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = ScreenSaver.framework; path = /System/Library/Frameworks/ScreenSaver.framework; sourceTree = "<absolute>"; };
 		DD81C3D507C5CEB50098A04D /* cpp.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = cpp.h; path = ../client/cpp.h; sourceTree = SOURCE_ROOT; };
-		DD81C3F007C5CFE10098A04D /* result_state.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = result_state.h; path = ../lib/result_state.h; sourceTree = SOURCE_ROOT; };
 		DD81C3FE07C5D1020098A04D /* BOINCBaseView.cpp */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.cpp.cpp; name = BOINCBaseView.cpp; path = ../clientgui/BOINCBaseView.cpp; sourceTree = SOURCE_ROOT; };
 		DD81C3FF07C5D1020098A04D /* DlgOptions.cpp */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.cpp.cpp; name = DlgOptions.cpp; path = ../clientgui/DlgOptions.cpp; sourceTree = SOURCE_ROOT; };
 		DD81C40207C5D1020098A04D /* DlgAbout.cpp */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.cpp.cpp; name = DlgAbout.cpp; path = ../clientgui/DlgAbout.cpp; sourceTree = SOURCE_ROOT; };
@@ -1585,6 +1585,7 @@
 				DD344B6407C5ACEB0043025C /* base64.h */,
 				DD69FEF608416C9A00C01361 /* boinc_cmd.C */,
 				DD81C5F007C5D8290098A04D /* boinc_win.h */,
+				DD7168360AAD72040051642B /* common_defs.h */,
 				F51DA64D02DB97FF010E292A /* crypt.C */,
 				F51DA64E02DB97FF010E292A /* crypt.h */,
 				DD344BA207C5AE5A0043025C /* diagnostics.C */,
@@ -1624,7 +1625,6 @@
 				DD344BE507C5B1670043025C /* prefs.h */,
 				DD344BEF07C5B1770043025C /* proxy_info.C */,
 				DD344BEE07C5B1770043025C /* proxy_info.h */,
-				DD81C3F007C5CFE10098A04D /* result_state.h */,
 				AAA31C97042157A800A80164 /* shmem.C */,
 				AAA31C98042157A800A80164 /* shmem.h */,
 				DD407ADC07D2FDF700163EF5 /* std_fixes.h */,
