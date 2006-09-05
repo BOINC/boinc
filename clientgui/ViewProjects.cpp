@@ -685,7 +685,7 @@ wxInt32 CViewProjects::FormatStatus(wxInt32 item, wxString& status) const {
         }
         if (project->sched_rpc_pending) {
             append_to_status(status, _("Scheduler request pending"));
-			append_to_status(status, _(rpc_reason_string(project->sched_rpc_pending)));
+			append_to_status(status, wxString(rpc_reason_string(project->sched_rpc_pending), wxConvUTF8));
         }
         wxDateTime dtNextRPC((time_t)project->min_rpc_time);
         wxDateTime dtNow(wxDateTime::Now());

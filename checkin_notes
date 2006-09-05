@@ -9819,3 +9819,9 @@ David  5 Sept 2006
 		app_control.C
 	clientgui/
 		ViewProjects.cpp
+
+Walt   5 Sept 2006
+    - compile fix for Linux unicode build
+
+    clientgui/
+        ViewProjects.cpp
