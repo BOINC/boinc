@@ -9763,3 +9763,8 @@ Rom    4 Sep 2006
     - Tag for 5.6.3 release, all platforms
       boinc_core_release_5_6_3
 
+Walt   5 Sep 2006
+    - Fix compile error on Linux
+
+    clientgui/
+        ViewProjects.cpp
