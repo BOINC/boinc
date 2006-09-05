@@ -9776,3 +9776,9 @@ Charlie 5 Sep 2006
     mac_build/
         boinc.xcodeproj/
             project.pbxproj
+
+David  5 Sept 2006
+    - change run-mode #defines to match old ones
+
+    lib/
+        common_defs.h

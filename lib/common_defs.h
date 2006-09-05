@@ -26,8 +26,8 @@
 #define GUI_RPC_PORT                                31416
 
 #define RUN_MODE_ALWAYS 1
-#define RUN_MODE_NEVER  2
-#define RUN_MODE_AUTO   3
+#define RUN_MODE_AUTO   2
+#define RUN_MODE_NEVER  3
 
 // values of ACTIVE_TASK::scheduler_state and ACTIVE_TASK::next_scheduler_state
 #define CPU_SCHED_UNINITIALIZED   0
