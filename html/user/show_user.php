@@ -26,11 +26,11 @@ if ($format=="xml"){
     start_cache(USER_PAGE_TTL, $cache_args);
     db_init();
     if ($auth){
-        $user = lookup_user_auth($auth);	
-	$show_hosts = true;
+        $user = lookup_user_auth($auth);        
+        $show_hosts = true;
     } else {
         $user = lookup_user_id($id);
-	$show_hosts = false;
+        $show_hosts = false;
     }
     if (!$user) xml_error("no such user ID");
 
@@ -42,14 +42,14 @@ if ($format=="xml"){
     $cache_args="userid=".$id;
     $cached_data = get_cached_data(TOP_PAGES_TTL,$cache_args);
     if ($cached_data){
-	// We found some old but non-stale data, let's use it
-	$user = unserialize($cached_data);
+        // We found some old but non-stale data, let's use it
+        $user = unserialize($cached_data);
     } else {
-	// No data was found, generate new data for the cache and store it
-	db_init();
+        // No data was found, generate new data for the cache and store it
+        db_init();
         $user = lookup_user_id($id);
-	$user = getForumPreferences($user);
-	set_cache_data(serialize($user),$cache_args);
+        $user = getForumPreferences($user);
+        set_cache_data(serialize($user),$cache_args);
     }
     if (!$user->id) error_page("No such user found - please check the ID and try again. If the user is very new it may take a while before it can be displayed.");
 

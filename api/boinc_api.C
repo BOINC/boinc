@@ -214,9 +214,7 @@ static int boinc_worker_thread_cpu_time(double& cpu) {
 // communicate to the core client (via shared mem)
 // the current CPU time and fraction done
 //
-static bool update_app_progress(
-    double cpu_t, double cp_cpu_t, double rss=0, double vm=0
-) {
+static bool update_app_progress(double cpu_t, double cp_cpu_t) {
     char msg_buf[MSG_CHANNEL_SIZE], buf[256];
 
     if (standalone) return true;
@@ -233,14 +231,6 @@ static bool update_app_progress(
         double range = aid.fraction_done_end - aid.fraction_done_start;
         double fdone = aid.fraction_done_start + fraction_done*range;
         sprintf(buf, "<fraction_done>%2.8f</fraction_done>\n", fdone);
-        strcat(msg_buf, buf);
-    }
-    if (rss) {
-        sprintf(buf, "<rss_bytes>%f</rss_bytes>\n", rss);
-        strcat(msg_buf, buf);
-    }
-    if (vm) {
-        sprintf(buf, "<vm_bytes>%f</vm_bytes>\n", vm);
         strcat(msg_buf, buf);
     }
     if (fpops_per_cpu_sec) {

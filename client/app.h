@@ -104,9 +104,9 @@ public:
     double current_cpu_time;
         // most recent CPU time reported by app
     double vm_bytes;
-        // virtual memory used
+        // swap space used
     double rss_bytes;
-        // resident set size
+        // working set size
     int current_disk_usage(double&);
         // disk used by output files and temp files of this task
     char slot_dir[256];      // directory where process runs
@@ -230,6 +230,7 @@ public:
     void network_available();   // notify tasks that network is available
     void free_mem();
     bool slot_taken(int);
+    void get_memory_usage();
 
     // screensaver-related functions
     ACTIVE_TASK* get_ss_app();

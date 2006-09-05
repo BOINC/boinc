@@ -9782,3 +9782,31 @@ David  5 Sept 2006
 
     lib/
         common_defs.h
+
+David  5 Sept 2006
+    - first pass at enforcing RAM limits:
+        - if computer is in use (kbd/mouse input)
+            BOINC will use at most half of RAM
+            (i.e. it won't run a set of apps whose working set size
+            exceeds RAM/2)
+        _ if computer is not in use, BOINC will use at most all of RAM
+            (it won't run a set of apps whose WSS exceeds RAM)
+
+        This is pretty lame.  For example, in case 2 BOINC will
+        run any set of programs, since by definitions their WSs
+        all fit in RAM (they may be thrashing).
+        So we need to do some thinking/experimenting.
+    - Fix HTTP bug that affects 64-bit compiles
+        (from Pav Lucistnik)
+
+    api/
+        boinc_api.C
+    client/
+        app.C,h
+        app_control.C
+        client_state.h
+        cpu_sched.C
+        cs_prefs.C
+        http_curl.h
+    html/user/
+        show_user.php

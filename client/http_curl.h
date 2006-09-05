@@ -89,8 +89,10 @@ public:
 
     bool want_download;     // at most one should be true
     bool want_upload;
-    int connect_error;      // errno from connect() (not used for anything)
-	int response;           // HTTP status code from server
+    long connect_error;      // errno from connect() (not used for anything)
+	long response;          // HTTP status code from server
+        // the above two MUST be long (not int)
+        // otherwise breaks on 64-bit machines
     double start_time;
     double xfer_speed;
     double bytes_xferred;   // bytes transferred in this session

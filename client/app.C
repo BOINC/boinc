@@ -193,6 +193,47 @@ void ACTIVE_TASK_SET::free_mem() {
 }
 #endif
 
+void ACTIVE_TASK_SET::get_memory_usage() {
+    static double last_mem_time=0;
+	unsigned int i;
+
+    if (gstate.now - last_mem_time < 10) return;
+
+    last_mem_time = gstate.now;
+    vector<PROCINFO> piv;
+    PROCINFO pi;
+    procinfo_setup(piv);
+    for (i=0; i<active_tasks.size(); i++) {
+        ACTIVE_TASK* atp = active_tasks[i];
+        if (atp->task_state == PROCESS_EXECUTING) {
+            memset(&pi, 0, sizeof(pi));
+            pi.id = atp->pid;
+            procinfo_app(pi, piv);
+            atp->rss_bytes = pi.working_set_size;
+            atp->vm_bytes = pi.swap_size;
+            if (log_flags.mem_usage_debug) {
+                msg_printf(NULL, MSG_INFO,
+                    "%s: RAM %dKB, page %dKB, user CPU %f, kernel CPU %f",
+                    atp->result->name,
+                    (int)(pi.working_set_size/1024), (int)(pi.swap_size/1024),
+                    pi.user_time, pi.kernel_time
+                );
+            }
+        }
+    }
+
+#if 0
+    // the following is not useful because most OSs don't
+    // move idle processes out of RAM, so physical memory is always full
+    //
+    procinfo_other(pi, piv);
+    msg_printf(NULL, MSG_INFO, "All others: RAM %dKB, page %dKB, user %f, kernel %f",
+        (int)(pi.working_set_size/1024), (int)(pi.swap_size/1024),
+        pi.user_time, pi.kernel_time
+    );
+#endif
+}
+
 // Do periodic checks on running apps:
 // - get latest CPU time and % done info
 // - check if any has exited, and clean up
@@ -210,6 +251,7 @@ bool ACTIVE_TASK_SET::poll() {
     send_trickle_downs();
     graphics_poll();
     process_control_poll();
+    get_memory_usage();
     action |= check_rsc_limits_exceeded();
     action |= get_msgs();
     for (i=0; i<active_tasks.size(); i++) {
@@ -225,35 +267,6 @@ bool ACTIVE_TASK_SET::poll() {
         gstate.set_client_state_dirty("ACTIVE_TASK_SET::poll");
     }
 
-#if defined(_WIN32) || (defined(__GNUG__) && !defined(__APPLE__))
-	if (log_flags.mem_usage_debug) {
-		static double last_mem_time=0;
-		if (gstate.now - last_mem_time > 10) {
-			last_mem_time = gstate.now;
-			vector<PROCINFO> piv;
-			PROCINFO pi;
-			procinfo_setup(piv);
-			for (i=0; i<active_tasks.size(); i++) {
-				ACTIVE_TASK* atp = active_tasks[i];
-				if (atp->task_state == PROCESS_EXECUTING) {
-					memset(&pi, 0, sizeof(pi));
-					pi.id = atp->pid;
-					procinfo_app(pi, piv);
-					msg_printf(NULL, MSG_INFO, "%s: RAM %dKB, page %dKB, user %f, kernel %f",
-						atp->result->name,
-						(int)(pi.working_set_size/1024), (int)(pi.swap_size/1024),
-						pi.user_time, pi.kernel_time
-					);
-				}
-			}
-			procinfo_other(pi, piv);
-			msg_printf(NULL, MSG_INFO, "All others: RAM %dKB, page %dKB, user %f, kernel %f",
-				(int)(pi.working_set_size/1024), (int)(pi.swap_size/1024),
-				pi.user_time, pi.kernel_time
-			);
-		}
-	}
-#endif
 
     return action;
 }
@@ -477,8 +490,8 @@ int ACTIVE_TASK::parse(MIOFILE& fin) {
         else if (parse_double(buf, "<fraction_done>", fraction_done)) continue;
         else if (parse_double(buf, "<current_cpu_time>", current_cpu_time)) continue;
         else if (parse_int(buf, "<active_task_state>", n)) continue;
-        else if (parse_double(buf, "<vm_bytes>", x)) continue;
-        else if (parse_double(buf, "<rss_bytes>", x)) continue;
+        else if (parse_double(buf, "<vm_bytes>", vm_bytes)) continue;
+        else if (parse_double(buf, "<rss_bytes>", rss_bytes)) continue;
         else if (match_tag(buf, "<supports_graphics/>")) continue;
         else if (parse_int(buf, "<graphics_mode_acked>", n)) continue;
         else if (parse_int(buf, "<scheduler_state>", n)) continue;

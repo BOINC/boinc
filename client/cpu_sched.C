@@ -564,12 +564,31 @@ bool CLIENT_STATE::enforce_schedule() {
         running_tasks.pop_back();
     }
 
-    // count of how many tasks have next_scheduler_state = SCHEDULED
+    double mem_used = 0;
+    double max_mem_used;
+
+    // if user is active, use at most half of RAM;
+    // otherwise use all of it
+    //
+    if (gstate.user_active) {
+        max_mem_used = host_info.m_nbytes/2;
+    } else {
+        max_mem_used = host_info.m_nbytes;
+    }
+    if (log_flags.mem_usage_debug) {
+        msg_printf(0, MSG_INFO,
+            "enforce: max mem used %f",
+            max_mem_used
+        );
+    }
+
+    // keep track of how many tasks we plan on running
+    // (i.e. have next_scheduler_state = SCHEDULED)
     //
     int nrunning = running_tasks.size();
 
     // Loop through the scheduled results
-    // to see if they should preempt something
+    // to see if they should preempt a running task
     //
     for (i=0; i<ordered_scheduled_results.size(); i++) {
         RESULT* rp = ordered_scheduled_results[i];
@@ -592,7 +611,40 @@ bool CLIENT_STATE::enforce_schedule() {
                 break;
             }
         }
-        if (atp) continue;  // the scheduled result is already running.
+        if (atp) {
+            // the scheduled result is already running.
+            // see if it fits in mem
+            //
+            if (mem_used + atp->rss_bytes > max_mem_used) {
+                atp->next_scheduler_state = CPU_SCHED_PREEMPTED;
+                nrunning--;
+                if (log_flags.mem_usage_debug) {
+                    msg_printf(rp->project, MSG_INFO,
+                        "enforce: result %s mem1 %f %f %f",
+                        rp->name, mem_used, atp->rss_bytes, max_mem_used
+                    );
+                }
+            } else {
+                mem_used += atp->rss_bytes;
+                continue;
+            }
+        }
+
+        // if the result already has a (non-running) active task,
+        // see if it fits in mem
+        //
+        atp = active_tasks.lookup_result(rp);
+        if (atp) {
+            if (mem_used + atp->rss_bytes > max_mem_used) {
+                if (log_flags.mem_usage_debug) {
+                    msg_printf(rp->project, MSG_INFO,
+                        "enforce: result %s mem2 %f %f %f",
+                        rp->name, mem_used, atp->rss_bytes, max_mem_used
+                    );
+                }
+                continue;
+            }
+        }
 
         // The scheduled result is not already running.  
         // Preempt something if needed and possible.
@@ -633,6 +685,24 @@ bool CLIENT_STATE::enforce_schedule() {
             atp = get_task(rp);
             atp->next_scheduler_state = CPU_SCHED_SCHEDULED;
             nrunning++;
+            mem_used += atp->rss_bytes;
+        }
+    }
+
+    // make sure we don't exceed RAM limits
+    //
+    for (i=0; i<running_tasks.size(); i++) {
+        atp = running_tasks[i];
+        if (mem_used + atp->rss_bytes > max_mem_used) {
+            atp->next_scheduler_state = CPU_SCHED_PREEMPTED;
+            if (log_flags.mem_usage_debug) {
+                msg_printf(atp->result->project, MSG_INFO,
+                    "enforce: result %s mem3 %f %f %f",
+                    atp->result->name, mem_used, atp->rss_bytes, max_mem_used
+                );
+            }
+        } else {
+            mem_used += atp->rss_bytes;
         }
     }
 

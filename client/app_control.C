@@ -462,25 +462,6 @@ bool ACTIVE_TASK::check_max_disk_exceeded() {
     return false;
 }
 
-#if 0
-// if an app has exceeded its maximum allowed memory, abort it
-//
-bool ACTIVE_TASK::check_max_mem_exceeded() {
-    // TODO: calculate working set size elsewhere
-    if (working_set_size > max_mem_usage || working_set_size/1048576 > gstate.global_prefs.max_memory_mbytes) {
-        msg_printf(
-            result->project, MSG_INFO,
-            "Aborting task %s: exceeded memory limit %f\n",
-            result->name,
-            min(max_mem_usage, gstate.global_prefs.max_memory_mbytes*1048576)
-        );
-        abort_task(ERR_RSC_LIMIT_EXCEEDED, "Maximum memory usage exceeded");
-        return true;
-    }
-    return false;
-}
-#endif
-
 bool ACTIVE_TASK::check_max_mem_exceeded() {
     if (max_mem_usage != 0 && rss_bytes > max_mem_usage) {
         msg_printf(
@@ -887,8 +868,6 @@ bool ACTIVE_TASK::get_app_status_msg() {
     }
     parse_double(msg_buf, "<current_cpu_time>", current_cpu_time);
     parse_double(msg_buf, "<checkpoint_cpu_time>", checkpoint_cpu_time);
-    parse_double(msg_buf, "<vm_bytes>", vm_bytes);
-    parse_double(msg_buf, "<rss_bytes>", rss_bytes);
     parse_double(msg_buf, "<fpops_per_cpu_sec>", result->fpops_per_cpu_sec);
     parse_double(msg_buf, "<fpops_cumulative>", result->fpops_cumulative);
     parse_double(msg_buf, "<intops_per_cpu_sec>", result->intops_per_cpu_sec);

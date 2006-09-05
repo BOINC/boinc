@@ -137,6 +137,9 @@ void CLIENT_STATE::check_suspend_activities(int& reason) {
         return;
     }
 
+    user_active = !host_info.users_idle(
+        check_all_logins, global_prefs.idle_time_to_run
+    );
     switch(user_run_request) {
     case RUN_MODE_ALWAYS: break;
     case RUN_MODE_NEVER:
@@ -150,11 +153,7 @@ void CLIENT_STATE::check_suspend_activities(int& reason) {
             return;
         }
 
-        if (!global_prefs.run_if_user_active
-            && !host_info.users_idle(
-                check_all_logins, global_prefs.idle_time_to_run
-            )
-        ) {
+        if (!global_prefs.run_if_user_active && user_active) {
             reason = SUSPEND_REASON_USER_ACTIVE;
             return;
         }
