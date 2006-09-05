@@ -9758,3 +9758,8 @@ David  5 Sept 2006
 
     lib/
         common_defs.h
+
+Rom    4 Sep 2006
+    - Tag for 5.6.3 release, all platforms
+      boinc_core_release_5_6_3
+
