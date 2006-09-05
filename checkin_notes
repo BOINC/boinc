@@ -9810,3 +9810,12 @@ David  5 Sept 2006
         http_curl.h
     html/user/
         show_user.php
+
+David  5 Sept 2006
+	- don't print too-much-memory messages
+	- compile fix
+
+	client/
+		app_control.C
+	clientgui/
+		ViewProjects.cpp

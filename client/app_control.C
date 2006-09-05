@@ -464,15 +464,14 @@ bool ACTIVE_TASK::check_max_disk_exceeded() {
 
 bool ACTIVE_TASK::check_max_mem_exceeded() {
     if (max_mem_usage != 0 && rss_bytes > max_mem_usage) {
-        msg_printf(
-            result->project, MSG_INFO,
-            "Task %s: memory usage %f exceeds limit %f\n",
-            result->name,
-            rss_bytes,
-            max_mem_usage
-        );
+		if (log_flags.mem_usage_debug) {
+			msg_printf(
+				result->project, MSG_INFO,
+				"Task %s: memory usage %f exceeds limit %f\n",
+				result->name, rss_bytes, max_mem_usage
+			);
+		}
         //abort_task(ERR_RSC_LIMIT_EXCEEDED, "Maximum memory usage exceeded");
-        return true;
     }
     return false;
 }
