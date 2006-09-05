@@ -9743,3 +9743,12 @@ Rom    4 Sep 2006
     - Tag for 5.6.2 release, all platforms
       boinc_core_release_5_6_2
 
+Charlie 5 Sep 2006 (HEAD and boinc_core_release_5_6_2 tag)
+    - Mac changes for new common_defs.h, removed results_state.h.
+
+    clientgui/
+        mac/
+            mac_saver_module.cpp
+    mac_build/
+        boinc.xcodeproj/
+            project.pbxproj
