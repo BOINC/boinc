@@ -738,6 +738,12 @@ void PROJECT::set_rrsim_proc_rate(double rrs) {
         x = 1;
     }
 	rrsim_proc_rate = x*gstate.overall_cpu_frac();
+    if (log_flags.rr_simulation) {
+        msg_printf(this, MSG_INFO,
+            "set_rrsim_proc_rate: %f (rrs %f, rs %f, nactive %d, ocf %f",
+            rrsim_proc_rate, rrs, resource_share, nactive, gstate.overall_cpu_frac()
+        );
+    }
 }
 
 // Do a simulation of weighted round-robin scheduling.
@@ -849,7 +855,7 @@ bool CLIENT_STATE::rr_simulation() {
         pbest = rpbest->project;
 
         if (log_flags.rr_simulation) {
-            msg_printf(0, MSG_INFO,
+            msg_printf(pbest, MSG_INFO,
                 "rr_sim: result %s finishes after %f (%f/%f)",
 				rpbest->name, rpbest->rrsim_finish_delay, rpbest->rrsim_cpu_left, pbest->rrsim_proc_rate
             );
@@ -914,6 +920,12 @@ bool CLIENT_STATE::rr_simulation() {
         //
         if (pbest->active.size() == 0) {
             rrs -= pbest->resource_share;
+            if (log_flags.rr_simulation) {
+                msg_printf(pbest, MSG_INFO,
+                    "rr_sim: decr rrs by %f, new value %f",
+                    pbest->resource_share, rrs
+                );
+            }
             for (i=0; i<projects.size(); i++) {
                 p = projects[i];
                 p->set_rrsim_proc_rate(rrs);
@@ -927,6 +939,7 @@ bool CLIENT_STATE::rr_simulation() {
             if (end_time > buf_end) end_time = buf_end;
             double d_time = end_time - sim_now;
             int nidle_cpus = ncpus - last_active_size;
+            if (nidle_cpus<0) nidle_cpus = 0;
             if (nidle_cpus > 0) cpu_shortfall += d_time*nidle_cpus;
 
 			double rsf = trs?pbest->resource_share/trs:1;

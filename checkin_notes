@@ -9754,3 +9754,15 @@ Bruce 4 Sept 2006
         inc/
             db_ops.inc
 
+David  4 Sept 2006
+    - core client: added a couple of rr_simulation messages
+    - user web: removed SETI@home text from sample project.inc
+
+    client/
+        cpu_sched.C
+        cs_scheduler.C
+    html/project.sample/
+        project.inc
+    lib/
+        app_ipc.C
+        

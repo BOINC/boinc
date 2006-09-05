@@ -731,9 +731,9 @@ bool CLIENT_STATE::compute_work_requests() {
         }
 
         if (log_flags.work_fetch_debug) {
-            msg_printf(0, MSG_INFO,
-				"compute_work_requests(): project %s: work req %f, shortfall %f, urgency %s\n",
-				pbest->get_project_name(), pbest->work_request, pbest->cpu_shortfall,
+            msg_printf(pbest, MSG_INFO,
+				"compute_work_requests(): work req %f, shortfall %f, urgency %s\n",
+				pbest->work_request, pbest->cpu_shortfall,
                 urgency_name(pbest->work_request_urgency)
             );
         }

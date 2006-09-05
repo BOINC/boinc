@@ -7,25 +7,23 @@ echo "
 When you create a BOINC project using
 <a href=make_project.php>make_project</a>,
 a web site is created for you.
-This consists of a front page (html/user/index.php)
-and a number of pages that let users
+This consists of a front page (html/user/index.php),
+which links to pages where users can
 log in, edit preferences, create profiles, and so on.
 <p>
 Before your project goes public,
-you'll want to edit this web site in various ways:
-<ul>
-<li> Add pages describing your project
-<li> Give all the pages a graphical identity
-specific to your project; i.e.,
-change the color scheme and/or fonts,
-add a banner with your project's logo,
-add your own navigation scheme, etc.
+you'll want to change this web site by
+adding content specific to your project,
+and by giving the web site a graphical identity specific to your project.
+Make sure you do a good job;
+your web site has a large impact on your project's ability to
+<a href=recruit.php>recruit and retain participants</a>.
 </ul>
 
 <p>
 Some of this customization can be done by editing
 the main page (index.php) and the stylesheet (white.css).
-Other aspects are changed using a configuration file.
+Other aspects are changed using a configuration file, described below.
 
 <h2>Web configuration file</h2>
 <p>
@@ -43,7 +41,7 @@ It includes constants:
 list_start();
 list_item("PROJECT", "The name of your project");
 list_item("MASTER_URL", "Your project's master URL");
-list_item("URL_BASE", "Base URL for web pages");
+list_item("URL_BASE", "Base URL for web pages (usually same as master URL)");
 list_item("STYLESHEET", "Name of stylesheet file");
 list_item("COPYRIGHT_HOLDER", "Name of copyright holder");
 list_item("SYS_ADMIN_EMAIL", "Users are directed here if they
@@ -58,7 +56,27 @@ list_item("INVITE_CODES", "regular expression used for
 ");
 list_item("EMAIL_FROM", "'from' address for emails");
 list_item("EMAIL_FROM_NAME", "'from' name for emails");
+list_end();
 
+echo "
+and functions:
+";
+list_start();
+list_item("project_banner($title)", "prints page header");
+list_item("project_banner()", "prints page footer");
+list_item("show_profile_heading1(), show_profile_heading2()",
+    "text on user profile page");
+list_item("show_profile_question1(), show_profile_question2()",
+    "text on user profile page");
+list_item("project_workunit()",
+    "prints project-specific text on workunit page"
+);
+list_item("project_user_summary()",
+    "prints project-specific text on user page"
+);
+list_item("project_user_page_private()",
+    "prints project-specific text on private user page"
+);
 list_end();
 echo "
 and variables:
@@ -76,17 +94,6 @@ list_item("PHPMAILER_HOST",
 list_item("PHPMAIL_MAILER",
     "The Mailer argument to PHPMailer; typically 'sendmail', 'mail', or 'smtp'.
 ");
-list_end();
-echo "
-and functions:
-";
-list_start();
-list_item("project_banner($title)", "prints page header");
-list_item("project_banner()", "prints page footer");
-list_item("show_profile_heading1(), show_profile_heading2()",
-    "text on user profile page");
-list_item("show_profile_question1(), show_profile_question2()",
-    "text on user profile page");
 list_end();
 page_tail();
 ?>
