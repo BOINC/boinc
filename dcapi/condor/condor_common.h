@@ -49,6 +49,8 @@ extern void _DC_init_common(void);
 
 #define _DCAPI_CMD_RESUME	"resume"
 
+#define _DCAPI_SIG_SERIALIZED	"serialized"
+
 
 #ifdef __cplusplus
 }
