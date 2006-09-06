@@ -224,6 +224,14 @@ t(int what)
 		DC_destroyWU(wu);
 		break;
 	}
+	case 4:
+	{
+		char *s;
+		wu= create_short();
+		printf("Ser=\"%s\"\n", s= DC_serializeWU(wu));
+		free(s);
+		DC_destroyWU(wu);
+	}
 	}
 }
 
