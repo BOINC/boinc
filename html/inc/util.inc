@@ -6,6 +6,8 @@ require_once("../inc/countries.inc");
 require_once("../inc/db.inc");
 require_once("../inc/translation.inc");
 
+$generating_xml = false;
+
 function db_init() {
     if (project_is_stopped()) {
         page_head("Not available");
@@ -27,6 +29,7 @@ function db_init() {
         echo mysql_error();
         exit();
     }
+    return 0;
 }
 
 // Initializes the session and returns the authenticator
@@ -159,6 +162,10 @@ function db_error_page() {
 }
 
 function error_page($msg) {
+    global $generating_xml;
+    if ($generating_xml) {
+        xml_error(-1, $msg);
+    }
     page_head("Unable to handle request");
     echo $msg;
     page_tail();

@@ -24,36 +24,29 @@ function bad_xml($text, $start, $end) {
     return "";
 }
 
-function reply($x) {
+function success($x) {
     echo "<am_set_info_reply>
+    <success/>
     $x
 </am_set_info_reply>
 ";
-    exit();
 }
 
-function error($x) {
-    reply("<error>$x</error>");
-}
-
-function success($x) {
-    reply("<success/>\n$x");
-}
-
-db_init();
 
 xml_header();
+$retval = db_init_xml();
+if ($retval) xml_error($retval);
 
 $auth = process_user_text($_GET["account_key"]);
 $user = lookup_user_auth($auth);
 if (!$user) {
-    error("no such user");
+    xml_error(-136);
 }
 
 $name = process_user_text($_GET["name"]);
 $country = $_GET["country"];
 if ($country && !is_valid_country($country)) {
-    error("invalid country");
+    xml_error(-1, "invalid country");
 }
 $postal_code = process_user_text($_GET["postal_code"]);
 $global_prefs = process_user_text($_GET["global_prefs"]);
@@ -88,7 +81,7 @@ if ($project_prefs) {
     $project_prefs = str_replace("\\r\\n", "\n", $project_prefs);
     $x = bad_xml($project_prefs, "<project_preferences>", "</project_preferences>");
     if ($x) {
-        error("Invalid project preferences: $x");
+        xml_error(-1, "Invalid project preferences: $x");
     }
     $query .= " project_prefs='$project_prefs', ";
 }
@@ -136,11 +129,10 @@ if (strlen($query)) {
         }
         success("");
     } else {
-        error("database error: ".mysql_error());
+        xml_error(-1, "database error: ".mysql_error());
     }
 } else {
     success("");
 }
-
 
 ?>

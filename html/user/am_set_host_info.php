@@ -3,46 +3,35 @@
 require_once("../inc/db.inc");
 require_once("../inc/xml.inc");
 
-function reply($x) {
-    echo "<am_set_host_info_reply>
-    $x
-</am_set_host_info_reply>
-";
-    exit();
-}
-
-function error($x) {
-    reply("<error>$x</error>");
-}
-
-function success($x) {
-    reply("<success/>\n$x");
-}
-
-db_init();
-
 xml_header();
+
+$retval = db_init_xml();
+if ($retval) xml_error($retval);
+
 
 $auth = process_user_text($_GET["account_key"]);
 $user = lookup_user_auth($auth);
 if (!$user) {
-    error("no such user");
+    xml_error(-136);
 }
 
 $hostid = get_int("hostid");
 
 $host = lookup_host($hostid);
 if (!$host || $host->userid != $user->id) {
-    error("no such host");
+    xml_error(-136);
 }
 
 $venue = process_user_text($_GET["venue"]);
 
 $result = mysql_query("update host set venue='$venue' where id=$hostid");
 if ($result) {
-    success("");
+    echo "<am_set_host_info_reply>
+    <success/>
+</am_set_host_info_reply>
+";
 } else {
-    error("database error");
+    xml_error(-1, "database error");
 }
 
 ?>

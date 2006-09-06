@@ -1,13 +1,39 @@
 <?php
 
-function xml_header() {
-    header('Content-type: text/xml');
-    echo "<?xml version=\"1.0\" encoding=\"ISO-8859-1\" ?>\n";
+require_once("../inc/db.inc");
+require_once("../inc/util.inc");
+
+function db_init_xml() {
+    if (project_is_stopped()) {
+        return -183;
+    }
+    $retval = db_init_aux();
+    if ($retval) return -138;
+    return 0;
 }
 
-function xml_error($msg) {
-    xml_header();
-    echo "<error>$msg</error>\n";
+function xml_header() {
+    global $generating_xml;
+    header('Content-type: text/xml');
+    echo "<?xml version=\"1.0\" encoding=\"ISO-8859-1\" ?>\n";
+    $generating_xml = true;
+}
+
+function xml_error($num, $msg=null) {
+    if (!$msg) {
+        switch($num) {
+        case -136: $msg = "Invalid ID"; break;
+        case -138: $msg = "Can't access database"; break;
+        case -183: $msg = "Project is temporarily offline"; break;
+        case -206: $msg = "Invalid password"; break;
+        default: "Unknown error"; break;
+        }
+    }
+    echo "<error>
+    <error_num>$num</error_num>
+    <error_msg>$msg</error_msg>
+</error>
+";
     exit();
 }
 
@@ -34,7 +60,6 @@ function show_host_xml($host) {
 }
 
 function show_user_xml($user, $show_hosts) {
-    xml_header();
     $cpid = md5($user->cross_project_id.$user->email_addr);
     echo "<user>
     <id>$user->id</id>

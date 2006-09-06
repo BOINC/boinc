@@ -7,28 +7,23 @@ require_once("../inc/util.inc");
 require_once("../inc/email.inc");
 require_once("../inc/xml.inc");
 
-function error() {
-    echo "<account_out>\n";
-    echo "<error_num>-161</error_num>\n";
-    echo "</account_out>\n";
-    exit();
-}
-
-db_init();
-
 xml_header();
+$retval = db_init_xml();
+if ($retval) xml_error($retval);
 
 $email_addr = get_str("email_addr");
 $passwd_hash = process_user_text(get_str("passwd_hash", true));
 
 $user = lookup_user_email_addr($email_addr);
 if (!$user) {
-    error();
+    xml_error(-136);
 }
 
 if (!$passwd_hash) {
-    echo "<account_out>\n";
-    echo "</account_out>\n";
+    echo "<account_out>
+    <success/>
+</account_out>
+";
     exit();
 }
 
@@ -48,7 +43,7 @@ if ($user->passwd_hash == $passwd_hash || $auth_hash == $passwd_hash) {
     echo "<authenticator>$user->authenticator</authenticator>\n";
     echo "</account_out>\n";
 } else {
-    error();
+    xml_error(-206);
 }
 
 ?>

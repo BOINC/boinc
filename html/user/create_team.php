@@ -4,35 +4,20 @@ require_once("../inc/db.inc");
 require_once("../inc/xml.inc");
 require_once("../inc/team.inc");
 
-db_init();
 
 xml_header();
-
-function reply($x) {
-    echo "<create_team_reply>
-    $x
-</create_team_reply>
-";
-    exit();
-}
-
-function error($x) {
-    reply("<error>$x</error>");
-}
-
-function success($x) {
-    reply("<success/>\n$x");
-}
+$retval = db_init_xml();
+if ($retval) xml_error($retval);
 
 $auth = process_user_text($_GET["account_key"]);
 $user = lookup_user_auth($auth);
 if (!$user) {
-    error("no such user");
+    xml_error(-136);
 }
 
 $name = process_user_text(strip_tags($_GET["name"]));
 if (strlen($name) == 0) {
-    error("must set team name");
+    xml_error(-1, "must set team name");
 }
 $name_lc = strtolower($name);
 
@@ -64,9 +49,13 @@ if ($result) {
     $new_team = mysql_fetch_object($team_result);
     mysql_free_result($team_result);
     user_join_team($new_team, $user);
-    success("<team_id>$teamid</team_id>");
+    echo "<create_team_reply>
+    <success/>
+    <team_id>$teamid</team_id>
+</create_team_reply>
+";
 } else {
-    error("could not create team");
+    xml_error(-1, "could not create team");
 }
 
 ?>

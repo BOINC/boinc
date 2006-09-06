@@ -7,16 +7,14 @@ require_once("../inc/util.inc");
 require_once("../inc/email.inc");
 require_once("../inc/xml.inc");
 
-db_init();
-
 xml_header();
+
+$retval = db_init_xml();
+if ($retval) xml_error($retval);
 
 $config = get_config();
 if (parse_bool($config, "disable_account_creation") || defined('INVITE_CODES')) {
-    echo "<account_out>\n";
-    echo "<error_num>-208</error_num>\n";
-    echo "</account_out>\n";
-    exit();
+    xml_error(-208);
 }
 
 $email_addr = get_str("email_addr");
@@ -25,17 +23,11 @@ $passwd_hash = process_user_text(get_str("passwd_hash"));
 $user_name = process_user_text(get_str("user_name"));
 
 if (!is_valid_email_addr($email_addr)) {
-    echo "<account_out>\n";
-    echo "   <error_num>-205</error_num>\n";
-    echo "</account_out>\n";
-    exit();
+    xml_error(-205);
 }
 
 if (strlen($passwd_hash) != 32) {
-    echo "<account_out>\n";
-    echo "   <error_num>-206</error_num>\n";
-    echo "</account_out>\n";
-    exit();
+    xml_error(-206);
 }
 
 $user = lookup_user_email_addr($email_addr);
@@ -58,9 +50,7 @@ if ($user) {
 }
 
 if ($bad) {
-    echo "<account_out>\n";
-    echo "   <error_num>-207</error_num>\n";
-    echo "</account_out>\n";
+    xml_error(-207);
 } else {
     echo " <account_out>\n";
     echo "   <authenticator>$authenticator</authenticator>\n";

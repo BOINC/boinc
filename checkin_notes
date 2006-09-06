@@ -9851,3 +9851,42 @@ David  6 Sept 2006
         setup_project.py
     tools/
         parse_config
+
+David  6 Sept 2006
+    - Web RPCs: clean up error returns.  All web RPCs now return
+           <error>
+               <error_num>N</error_num>
+               <error_msg>xxx</error_msg>
+           </error>
+        in the case of an error.
+        Both fields are always supplied,
+        and in most cases they're both meaningful.
+    - Web RPCs: make sure that return message is always XML.
+        For example: if db_init() failed,
+        we used to return an (HTML) error page.
+        Instead: use db_init_xml() instead.
+
+        Also, change get_str(), get_int() etc. so that
+        if we're generating XML (i.e. if xml_header() has been called)
+        an XML error is generated.
+    - user web: check for the existence of ../project/donations.inc
+        before trying to read it
+
+    html/
+        inc/
+            forum_user.inc
+            user.inc
+            util.inc
+            xml.inc
+        user/
+            am_get_info.php
+            am_set_host_info.php
+            am_set_info.php
+            create_account.php
+            create_team.php
+            lookup_account.php
+            show_user.php
+            team_email_list.php
+            team_lookup.php
+        lib/
+            error_numbers.h

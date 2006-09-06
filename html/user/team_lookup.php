@@ -4,33 +4,37 @@ require_once("../inc/db.inc");
 require_once("../inc/util.inc");
 require_once("../inc/team.inc");
 
-db_init();
-init_session();
-
-$team_name = $_GET["team_name"];
-$name_lc = strtolower($team_name);
-$name_lc = escape_pattern($name_lc);
 $format = get_str("format", true);
 $team_id = get_int("team_id", true);
- 
-if ($team_id) {
-    $team = lookup_team($team_id);
+
+if ($team_id || ($format == 'xml')) {
     require_once ('../inc/xml.inc');
     xml_header();
+    $retval = db_init_xml();
+    if ($retval) xml_error($retval);
+} else {
+    db_init();
+    init_session();
+}
+
+if ($team_id) {
+    $team = lookup_team($team_id);
     if ($team) {
         show_team_xml($team);
     } else {
-        echo "<error>\nno such team\n</error>\n";
+        xml_error(-136);
     }
     exit();
 }
 
+$team_name = $_GET["team_name"];
+$name_lc = strtolower($team_name);
+$name_lc = escape_pattern($name_lc);
+ 
 $query = "select * from team where name like '%$name_lc%'";
 $result_list = mysql_query($query);
 
 if ($format == 'xml') {
-    require_once ('../inc/xml.inc');
-    xml_header();
     echo "<teams>\n";
     $total = 0;
     while ($team = mysql_fetch_object($result_list)) {

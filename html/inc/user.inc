@@ -147,9 +147,11 @@ function show_user_summary_public($user) {
     }
 
     if ($user->donated == 1) { 
-        require_once("../project/donations.inc");
-        $x .= DONATION_LINK;
-        row2("Donor",$x);
+        if (file_exists("../project/donations.inc")) {
+            require_once("../project/donations.inc");
+            $x .= DONATION_LINK;
+            row2("Donor",$x);
+        }
     }
 }
 
@@ -173,8 +175,10 @@ function show_user_page_private($user) {
     // function to show user donation information in ../project/donations.inc
     //
     if (parse_bool($config, "donations_accepted")) {
-      require_once("../project/donations.inc");
-      show_user_donations_private($user);
+        if (file_exists("../project/donations.inc")) {
+            require_once("../project/donations.inc");
+            show_user_donations_private($user);
+        }
     }
     end_table();
 }

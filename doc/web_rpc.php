@@ -43,6 +43,14 @@ and val1 ... valn are the values.
 Parameter values must be URL-encoded
 (for example, using PHP's <code>urlencode</code> function).
 <li>
+If an RPC fails, the returned XML document is
+".html_text("<error>
+    <error_num>N</error_num>
+    <error_string>xxx</error_string>
+</error>")."
+where N is a BOINC error number
+(see lib/error_numbers.h) and xxx is a textual description.
+<li>
 The output is XML.
 <li>
 If the project's <a href=project_config.php>get_project_config.php</a> file
@@ -77,10 +85,8 @@ list_item(
 list_item(
     "output",
     html_text("<account_out>
-    [ <error_num>N</error_num> ]
-    [ <authenticator>XXX</authenticator> ]
-</account_out>
-    ")
+    <authenticator>XXX</authenticator>
+</account_out>")
 );
 list_item(
     "action",
@@ -109,7 +115,6 @@ list_item(
 list_item(
     "output",
     html_text("<account_out>
-    [ <error_num>N</error_num> ]
     [ <authenticator>XXX</authenticator> ]
 </account_out>
     ")
@@ -151,12 +156,6 @@ list_item("output",
     [ <teamfounder/> ]
     <venue>X</venue>
 </am_get_info_reply>
-
-or
-
-<am_get_info_reply>
-    <error>MSG</error>
-</am_get_info_reply>
     ")
 );
 list_item("action", "returns data associated with the given account");
@@ -185,8 +184,7 @@ list_item("input",
 );
 list_item("output",
     html_text("<am_set_info_reply>
-    [ <error>MSG</error> ]
-    [ <success/> ]
+    <success/>
 </am_set_info_reply>")
 );
 list_item("action",
@@ -212,8 +210,7 @@ list_item("input",
 );
 list_item("output",
     html_text("<am_set_host_info_reply>
-    [ <error>MSG</error> ]
-    [ <success/> ]
+    <success/>
 </am_set_host_info_reply>")
 );
 list_item("action",
@@ -311,12 +308,6 @@ list_item("output",
     <success/>
     <teamid>N</teamid>
 </create_team_reply>
-
-or
-
-<create_team_reply>
-    <error>messages</error>
-</create_team_reply>
 "));
 list_item("action",
     "Creates a team"
@@ -377,10 +368,10 @@ list_item("input",
 );
 list_item("output",
     html_text("<team>
-        <id>5</id>
-        <name>BOINC@AUSTRALIA</name>
-        <country>Australia</country>
-    </team>
+    <id>5</id>
+    <name>BOINC@AUSTRALIA</name>
+    <country>Australia</country>
+</team>
 ")
 );
 list_item("action",
@@ -461,9 +452,7 @@ list_item('input',
 '
 );
 list_item('output',
-    '<code>&lt;success/></code>
-    or <code>&lt;error>XXX&lt;/error></code>
-    '
+    'A lot of HTML (not XML)'
 );
 list_item('action',
     'Update user\'s forum preferences'

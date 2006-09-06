@@ -3,31 +3,16 @@
 require_once("../inc/db.inc");
 require_once("../inc/xml.inc");
 
-db_init();
+xml_header();
+
+$retval = db_init_xml();
+if ($retval) xml_error($retval);
 
 $auth = process_user_text($_GET["account_key"]);
 
-xml_header();
-
-function reply($x) {
-    echo "<am_get_info_reply>
-    $x
-</am_get_info_reply>
-";
-    exit();
-}
-
-function error($x) {
-    reply("<error>$x</error>");
-}
-
-function success($x) {
-    reply("<success/>\n$x");
-}
-
 $user = lookup_user_auth($auth);
 if (!$user) {
-    error("no such user");
+    xml_error(-136);
 }
 
 $name = urlencode($user->name);
@@ -58,6 +43,10 @@ if ($user->teamid) {
     }
 }
 
-success($ret);
+    echo "<am_get_info_reply>
+    <success/>
+    $ret
+</am_get_info_reply>
+";
 
 ?>

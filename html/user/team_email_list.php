@@ -5,23 +5,16 @@ require_once("../inc/util.inc");
 require_once("../inc/email.inc");
 require_once("../inc/team.inc");
 
-db_init();
-
-$teamid = get_int("teamid");
-$team = lookup_team($teamid);
-
-function error($x) {
-    echo "<error>$x</error>
-    ";
-    exit();
-}
-
 $xml = get_int('xml', true);
 if ($xml) {
     require_once("../inc/xml.inc");
     xml_header();
+    $retval = db_init_xml();
+    if ($retval) xml_error($retval);
+    $teamid = get_int("teamid");
+    $team = lookup_team($teamid);
     if (!$team) {
-        error("no such team");
+        xml_error(-136);
     }
     $show_email = true;
     $account_key = get_str('account_key', true);
@@ -40,6 +33,10 @@ if ($xml) {
     exit();
 }
 
+db_init();
+
+$teamid = get_int("teamid");
+$team = lookup_team($teamid);
 $user = get_logged_in_user();
 require_founder_login($user, $team);
 
