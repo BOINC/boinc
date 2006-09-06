@@ -62,7 +62,7 @@ function show_participate() {
         to cure diseases, study global warming,
         discover pulsars,
         and do many other types of scientific research.
-        It's easy:
+        It's safe, secure, and easy:
         <ol>
         <li> <a href=projects.php><font size=+1>Choose</font></a> projects
         <li> <a href=download.php><font size=+1>Download</font></a> and run BOINC software
@@ -92,8 +92,8 @@ function show_create() {
         A BOINC project with a single Linux server
         can provide computing power equivalent
         to a cluster with tens of thousands of CPUs.
-        Learn how to <a href=create_project.php><b>create
-        and operate a BOINC project</b></a>.
+        Learn how to <a href=create_project.php>create
+        and operate a BOINC project</a>.
         <ul>
         <li> <b>Scientists</b>: if your group has moderate
         programming, web, sysadmin, and hardware resources,

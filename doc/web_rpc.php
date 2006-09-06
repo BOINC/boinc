@@ -4,6 +4,24 @@ require_once("docutil.php");
 page_head("Web Remote Procedure Calls (RPCs)");
 
 echo "
+<h3>Contents</h3>
+<ul>
+<li> <a href=#overview>Overview</a>
+<li> <a href=#create_account>Create account</a>
+<li> <a href=#lookup_account>Lookup account</a>
+<li> <a href=#am_get_info>Get account info</a>
+<li> <a href=#am_set_info>Set account info</a>
+<li> <a href=#am_set_host_info>Set host info</a>
+<li> <a href=#show_user>Get account/host credit info</a>
+<li> <a href=#create_team>Create team</a>
+<li> <a href=#team_lookup>Lookup teams by name</a>
+<li> <a href=#team_lookup_id>Lookup team by ID</a>
+<li> <a href=#team_email_list>Get team member list</a>
+<li> <a href=#edit_forum_preferences_action>Set forum preferences</a>
+</ul>
+
+<a name=overview></a>
+<h3>Overview</h3>
 <p>
 BOINC projects export a number of Web RPCs
 that can be used to create, query and update
@@ -33,6 +51,7 @@ otherwise use the project's master URL.
 
 </ul>
 
+<a name=create_account></a>
 <h3>Create account</h3>
 ";
 
@@ -66,6 +85,7 @@ list_item(
 list_end();
 
 echo "
+<a name=lookup_account></a>
 <h3>Look up account</h3>
 ";
 list_start();
@@ -95,6 +115,7 @@ list_item(
 
 list_end();
 echo "
+<a name=am_get_info></a>
 <h3>Get account info</h3>
 ";
 
@@ -132,6 +153,7 @@ or
 list_item("action", "returns data associated with the given account");
 list_end();
 echo "
+<a name=am_set_info></a>
 <h3>Set account info</h3>
 ";
 list_start();
@@ -168,6 +190,7 @@ list_item("action",
 list_end();
 
 echo "
+<a name=am_set_host_info></a>
 <h3>Set host info</h3>
 ";
 list_start();
@@ -189,6 +212,7 @@ list_item("action",
 );
 list_end();
 echo "
+<a name=show_user></a>
 <h3>Get account/host credit information</h3>
 ";
 list_start();
@@ -256,6 +280,7 @@ list_item("action",
 );
 list_end();
 echo "
+<a name=create_team></a>
 <h3>Create team</h3>
 ";
 list_start();
@@ -289,7 +314,8 @@ list_item("action",
 );
 list_end();
 echo "
-<h3>Look up teams</h3>
+<a name=team_lookup></a>
+<h3>Look up teams by name</h3>
 ";
 list_start();
 list_item("URL",
@@ -330,6 +356,31 @@ list_item("action",
 list_end();
 
 echo "
+<a name=team_lookup_id></a>
+<h3>Look up team by ID</h3>
+";
+list_start();
+list_item("URL",
+    "project/team_lookup.php?team_id=N"
+);
+list_item("input",
+    "Team ID"
+);
+list_item("output",
+    html_text("<team>
+        <id>5</id>
+        <name>BOINC@AUSTRALIA</name>
+        <country>Australia</country>
+    </team>
+")
+);
+list_item("action",
+    "Show info on team with the given ID."
+);
+list_end();
+
+echo "
+<a name=team_email_list></a>
 <h3>Get team member list</h3>
 ";
 list_start();
@@ -364,7 +415,9 @@ list_item('action',
 );
 list_end();
 
-echo "<h3>Set forum preferences</h3>
+echo "
+<a name=edit_forum_preferences_action></a>
+<h3>Set forum preferences</h3>
 ";
 
 list_start();
