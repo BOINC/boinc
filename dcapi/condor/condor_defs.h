@@ -89,6 +89,19 @@ typedef enum
 } WorkdirFile;
 
 
+typedef enum
+{
+	st_name= 0,
+	st_workdir,
+	st_tag,
+	st_client_name,
+	st_argc,
+	st_argv,
+	st_state,
+	st_state_name
+} _DC_serialized_token;
+
+
 /*#define DC_LABEL_INTLOG		"internal_log.txt"*/
 
 
