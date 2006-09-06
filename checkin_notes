@@ -9890,3 +9890,14 @@ David  6 Sept 2006
             team_lookup.php
         lib/
             error_numbers.h
+
+David  6 Sept 2006
+    - core client: scheduling bug fix:
+        the definitions of "nearly runnable" were slightly
+        different for project and result.
+        This could lead to a rare situation where rr_simulation()
+        would generate huge cpu shortfalls.
+        (from John McLeod)
+
+    client/
+        client_types.C,h
