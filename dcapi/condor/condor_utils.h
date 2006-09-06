@@ -30,6 +30,7 @@ extern char *_DC_message_name(char *box, char *name);
 extern char *_DC_read_message(char *box, char *name, int del_msg);
 
 extern char *_DC_state_name(DC_WUState state);
+extern char *_DC_quote_string(char *str);
 
 
 #ifdef __cplusplus
