@@ -7,6 +7,7 @@ echo "
 <h3>Contents</h3>
 <ul>
 <li> <a href=#overview>Overview</a>
+<li> <a href=#project_config#>Project configuration</a>
 <li> <a href=#create_account>Create account</a>
 <li> <a href=#lookup_account>Lookup account</a>
 <li> <a href=#am_get_info>Get account info</a>
@@ -50,6 +51,14 @@ its content should be used as the URL prefix;
 otherwise use the project's master URL.
 
 </ul>
+
+
+<a name=project_config></a>
+<h3>Project configuration</h3>
+Each BOINC project exports some configuration items relevant
+to attaching and creating accounts.
+This RPC is documented
+<a href=project_config.php>here</a>.
 
 <a name=create_account></a>
 <h3>Create account</h3>

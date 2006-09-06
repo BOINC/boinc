@@ -312,7 +312,7 @@ def create_project_dirs(dest_dir):
 
 def install_boinc_files(dest_dir):
     """Copy files from source dir to project dir.
-        Used by the upgrade script, so don't overwrite sample files."""
+        Used by the upgrade script, so don't copy sample files to real name."""
 
     def dir(*dirs):
         return apply(os.path.join,(dest_dir,)+dirs)
@@ -461,9 +461,11 @@ class Project:
 
         install_boinc_files(self.dir())
 
-        # copy sample web files
+        # copy sample web files to final names
         install(srcdir('html/user/sample_index.php'),
             self.dir('html/user/index.php'))
+        install(srcdir('html/user/sample_get_project_config.php'),
+            self.dir('html/user/get_project_config.php'))
         install(srcdir('html/project.sample/project.inc'),
             self.dir('html/project/project.inc'))
         install(srcdir('html/project.sample/project_specific_prefs.inc'),

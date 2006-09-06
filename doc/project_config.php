@@ -1,12 +1,17 @@
 <?php
 require_once("docutil.php");
-page_head("Project XML document");
+page_head("Project configuration web RPC");
 echo "
-Each BOINC project and account manager must provide an XML document
-at the address
+Each BOINC project and account manager exports
+a few configuration items via a web RPC;
+namely, it must provide an XML document at the address
 <pre>
 http://PROJECT_URL/get_project_config.php
 </pre>
+This file is created by <a href=make_project.php>make_project</a>,
+and in most cases you don't have to change it.
+
+<p>
 This document has the structure
 ".html_text("
 <project_config>
@@ -15,6 +20,7 @@ This document has the structure
     [ <account_manager/> ]
     [ <uses_username/> ]
     [ <account_creation_disabled/> ]
+    [ <client_account_creation_disabled/> ]
     [ <rpc_prefix>URL</rpc_prefix> ]
     [ <error_num>N</error_num> ]
     [
@@ -52,6 +58,10 @@ list_item("uses_username",
 list_item("account_creation_disabled",
     "If present, this project is not allowing creation of new accounts"
 );
+list_item("client_account_creation_disabled",
+    "If present, new accounts can be created only via the web
+    (not via the client software)."
+);
 list_item("min_passwd_length",
     "Minimum password length (for new account creation)"
 );
@@ -67,10 +77,12 @@ list_item("system_requirements",
     get sent any work by the project.
     All requirements are 'net'; e.g. the CPU requirements
     are after factors like <a href=sched.php>on-fraction, active-fraction</a>,
-    and resource share have been taken into consideration."
+    and resource share have been taken into consideration.
+    NOT IMPLEMENTED YET."
 );
 list_item("platforms",
-    "A list of platforms for which the project has application versions."
+    "A list of platforms for which the project has application versions.
+    NOT IMPLEMENTED YET."
 );
 list_end();
 echo "

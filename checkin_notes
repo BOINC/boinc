@@ -9838,3 +9838,16 @@ David  6 Sept 2006
 
 	clientgui/
 		AccountInfoPage.cpp
+
+David  6 Sept 2006
+    - Renamed html/user/get_project_config.php to sample_get_project_config.php
+        this avoids overwriting a project-modified version.
+    - Fixed the "parse_config" script.
+
+    html/user/
+        get_project_config.php
+        sample_get_project_config.php
+    py/Boinc/
+        setup_project.py
+    tools/
+        parse_config
