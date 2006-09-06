@@ -369,4 +369,41 @@ _DC_quote_string(char *str)
 }
 
 
+char *
+_DC_unquote_string(char *str)
+{
+	char *s, *p, *i;
+
+	if (!str)
+		return(NULL);
+	s= calloc(strlen(str)+1, 1);
+	p= str;
+	i= s;
+	while (!*p)
+	{
+		if (*p != '\\')
+			*i= *p;
+		else
+		{
+			char c, *x= p+4;
+			int l;
+			c= *x;
+			*x= '\0';
+			if (strcmp(p+1, "nnn") == 0)
+			{
+				free(s);
+				return(NULL);
+			}
+			l= strtol(p+1, 0, 8);
+			*i= (char)l;
+			*x= c;
+			p= x;
+		}
+		p++;
+		i++;
+	}
+	return(s);
+}
+
+
 /* End of condor_utils.c */
