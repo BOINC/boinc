@@ -304,7 +304,13 @@ void CAccountInfoPage::OnPageChanged( wxWizardExEvent& event ) {
     );
 
     if (!IS_ACCOUNTMANAGERWIZARD() && !IS_ACCOUNTMANAGERUPDATEWIZARD()) {
-		if (((CBOINCBaseWizard*)GetParent())->project_config.account_creation_disabled) {
+		if (((CBOINCBaseWizard*)GetParent())->project_config.client_account_creation_disabled) {
+			m_pAccountQuestionStaticCtrl->SetLabel(
+				_("Please enter your account information\n"
+				"(to create an account, visit the project's web site)"
+				)
+			);
+		} else if (((CBOINCBaseWizard*)GetParent())->project_config.account_creation_disabled) {
 			m_pAccountQuestionStaticCtrl->SetLabel(
 				_("This project is not currently accepting new accounts.\n"
 					"You can attach only if you already have an account."

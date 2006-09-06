@@ -9831,3 +9831,10 @@ David  6 Sept 2006
 
     client/
         time_stats.C
+
+David  6 Sept 2006
+	- Manager: if project allows account creation only on web site,
+		show appropriate text in attach-project wizard
+
+	clientgui/
+		AccountInfoPage.cpp
