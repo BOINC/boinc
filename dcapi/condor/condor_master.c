@@ -225,6 +225,7 @@ DC_destroyWU(DC_Workunit *wu)
 {
 	int i;
 	GString *s;
+	int serialized= FALSE;
 
 	if (!_DC_wu_check(wu))
 		return;
@@ -234,6 +235,16 @@ DC_destroyWU(DC_Workunit *wu)
 		g_hash_table_remove(_DC_wu_table, wu->data.name);
 
 	s= g_string_new("");
+
+	g_string_printf(s, "%s/%s", wu->data.workdir,
+			_DC_wu_cfg(wu, cfg_management_box));
+	if ((i= _DC_nuof_messages(s->str, _DCAPI_SIG_SERIALIZED)) > 0)
+	{
+		DC_log(LOG_NOTICE, "destroying a serialized "
+		       "wu: %s", wu->data.name);
+		serialized= TRUE;
+	}
+
 	g_string_printf(s, "%s/%s", wu->data.workdir,
 			_DC_wu_cfg(wu, cfg_master_message_box));
 	if ((i= _DC_nuof_messages(s->str, _DCAPI_MSG_MESSAGE)) > 0)
@@ -279,7 +290,8 @@ DC_destroyWU(DC_Workunit *wu)
 
 		/* Removing generated files */
 		fn= g_string_new(wu->data.workdir);
-		if (!leave)
+		if (!leave &&
+		    !serialized)
 		{
 			fn= g_string_append(fn, "/");
 			fn= g_string_append(fn, _DC_wu_cfg(wu, cfg_submit_file));
@@ -312,7 +324,8 @@ DC_destroyWU(DC_Workunit *wu)
 			unlink(fn->str);
 		}
 		
-		if (!leave)
+		if (!leave &&
+		    !serialized)
 		{
 			g_string_printf(fn, "%s/%s", wu->data.workdir,
 					_DC_wu_cfg(wu, cfg_client_message_box));
@@ -340,7 +353,8 @@ DC_destroyWU(DC_Workunit *wu)
 		
 		/* The work directory should not contain any extra files, but
 		 * just in case */
-		if (!leave)
+		if (!leave &&
+		    !serialized)
 		{
 			dir= g_dir_open(wu->data.workdir, 0, NULL);
 			while (dir &&
@@ -560,12 +574,91 @@ DC_getWUTag(const DC_Workunit *wu)
 }
 
 
+#define _DC_SERIALIZED_SEPARATOR '|'
+
+static void
+_DC_sser(GString *ser,
+	 _DC_serialized_token tok,
+	 char *str)
+{
+	char *s;
+	if (!ser)
+		return;
+	g_string_append_printf(ser, "%c%c%s",
+			       _DC_SERIALIZED_SEPARATOR,
+			       'a'+tok,
+			       s= _DC_quote_string(str));
+	s?free(s):0;
+}
+
+static void
+_DC_iser(GString *ser,
+	 _DC_serialized_token tok,
+	 int i)
+{
+	if (!ser)
+		return;
+	g_string_append_printf(ser, "%c%c%d",
+			       _DC_SERIALIZED_SEPARATOR,
+			       'a'+tok,
+			       i);
+}
+
 /* Serializes a work unit description. */
 char *
 DC_serializeWU(DC_Workunit *wu)
 {
+	GString *dn, *ser;
+	char *s;
+	int i;
+
 	if (!_DC_wu_check(wu))
 		return(NULL);
+	DC_log(LOG_DEBUG, "DC_serializeWU(%p-\"%s\")",
+	       wu, wu->data.name);
+
+	dn= g_string_new("");
+	g_string_printf(dn, "%s/%s", wu->data.workdir,
+			_DC_wu_cfg(wu, cfg_management_box));
+	if (_DC_nuof_messages(dn->str, _DCAPI_SIG_SERIALIZED) > 0)
+	{
+		/* serialized already */
+		s= _DC_read_message(dn->str, _DCAPI_SIG_SERIALIZED, FALSE);
+		g_string_free(dn, TRUE);
+		return(s);
+	}
+	else
+	{
+		/* new serialization */
+		ser= g_string_new("");
+		s= _DC_quote_string(wu->data.name);
+		g_string_append_printf(ser, "%c%s", 'a'+st_name, s);
+		s?free(s):NULL;
+
+		_DC_sser(ser, st_workdir, wu->data.workdir);
+
+		_DC_sser(ser, st_tag, wu->data.tag);
+
+		_DC_sser(ser, st_client_name, wu->data.client_name);
+
+		_DC_iser(ser, st_argc, wu->data.argc);
+		for (i= 0; i<wu->data.argc; i++)
+		{
+			_DC_sser(ser, st_argv,
+				 (wu->argv[i])?(wu->argv[i]):NULL);
+		}
+
+		_DC_iser(ser, st_state, wu->data.state);
+		_DC_sser(ser, st_state_name, _DC_state_name(wu->data.state));
+
+		s= ser->str;
+		g_string_free(ser, FALSE);
+
+		_DC_create_message(dn->str, _DCAPI_SIG_SERIALIZED,
+				   s, NULL);
+		g_string_free(dn, TRUE);
+		return(s);
+	}
 	return(0);
 }
 
