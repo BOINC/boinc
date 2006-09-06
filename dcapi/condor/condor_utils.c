@@ -9,6 +9,7 @@
 #include <errno.h>
 #include <unistd.h>
 #include <stdlib.h>
+#include <ctype.h>
 
 #include "dc_internal.h"
 #include "dc_common.h"
@@ -324,6 +325,47 @@ _DC_state_name(DC_WUState state)
 		if (_DC_state_names[i].state == state)
 			return(_DC_state_names[i].name);
 	return("(unknown)");
+}
+
+
+char *
+_DC_quote_string(char *str)
+{
+	int i, n;
+	char *s, *p;
+
+	if (!str)
+	{
+		s= strdup("\\nnn");
+		return(s);
+	}
+	if (!*str)
+	{
+		s= strdup("\\000");
+		return(s);
+	}
+
+	for (i= n= 0; str[i]; i++)
+	{
+		if (!isalnum(str[i]))
+			n++;
+	}
+
+	s= calloc(strlen(str)+10*n+10, 1);
+	for (i= 0, p= s; str[i]; i++)
+	{
+		if (isalnum(str[i]))
+		{
+			*p= str[i];
+			p++;
+		}
+		else
+		{
+			sprintf(p, "\\%03o", str[i]);
+			p+= strlen(p);
+		}
+	}
+	return(s);
 }
 
 
