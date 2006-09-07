@@ -207,7 +207,7 @@ static string reason_string(int reason) {
 int CLIENT_STATE::suspend_tasks(int reason) {
     if (reason == SUSPEND_REASON_CPU_USAGE_LIMIT) {
         if (log_flags.cpu_sched) {
-            msg_printf(NULL, MSG_INFO, "Suspending - CPU throttle");
+            msg_printf(NULL, MSG_INFO, "[cpu_sched] Suspending - CPU throttle");
         }
         active_tasks.suspend_all(true);
     } else {
@@ -222,7 +222,7 @@ int CLIENT_STATE::suspend_tasks(int reason) {
 int CLIENT_STATE::resume_tasks(int reason) {
     if (reason == SUSPEND_REASON_CPU_USAGE_LIMIT) {
         if (log_flags.cpu_sched) {
-            msg_printf(NULL, MSG_INFO, "Resuming - CPU throttle");
+            msg_printf(NULL, MSG_INFO, "[cpu_sched] Resuming - CPU throttle");
         }
         active_tasks.unsuspend_all();
     } else {

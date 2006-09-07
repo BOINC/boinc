@@ -45,7 +45,6 @@
 #include "client_state.h"
 #include "client_msgs.h"
 #include "file_xfer.h"
-#include "log_flags.h"
 
 #define MAX_TRANSFERS_PER_PROJECT   2
 

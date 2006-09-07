@@ -1379,7 +1379,7 @@ int RESULT::parse_server(MIOFILE& in) {
         else {
             if (log_flags.unparsed_xml) {
                 msg_printf(0, MSG_ERROR,
-                    "RESULT::parse(): unrecognized: %s\n", buf
+                    "[unparsed_xml] RESULT::parse(): unrecognized: %s\n", buf
                 );
             }
         }
@@ -1437,7 +1437,7 @@ int RESULT::parse_state(MIOFILE& in) {
         else {
             if (log_flags.unparsed_xml) {
                 msg_printf(0, MSG_ERROR,
-                    "RESULT::parse(): unrecognized: %s\n", buf
+                    "[unparsed_xml] RESULT::parse(): unrecognized: %s\n", buf
                 );
             }
         }
@@ -1650,7 +1650,7 @@ void PROJECT::update_duration_correction_factor(RESULT* rp) {
     }
 	if (log_flags.cpu_sched_debug || log_flags.work_fetch_debug) {
 		msg_printf(this, MSG_INFO,
-            "duration correction factor: %f => %f, ratio %f",
+            "[csd|wfd] duration correction factor: %f => %f, ratio %f",
 			old_dcf, duration_correction_factor, ratio
 		);
 	}

@@ -9948,3 +9948,12 @@ David  7 Sept 2006
 	lib/
 		filesys.C
 		parse.C
+
+David  7 Sept 2006
+    - core client: for debugging messages, include the name of
+        the flag that enables the message.
+        This makes the messages longer but should make then more usable
+        when several flags are set.
+
+    client/
+        *.C

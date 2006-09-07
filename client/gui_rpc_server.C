@@ -126,7 +126,7 @@ int GUI_RPC_CONN_SET::get_allowed_hosts() {
     if (f != NULL) {    
         if (log_flags.guirpc_debug) {
             msg_printf(0, MSG_INFO,
-                "GUI_RPC_CONN_SET::get_allowed_hosts(): found allowed hosts list\n"
+                "[guirpc_debug] GUI_RPC_CONN_SET::get_allowed_hosts(): found allowed hosts list\n"
             );
         }
  
@@ -183,12 +183,12 @@ int GUI_RPC_CONN_SET::init() {
     if (gstate.allow_remote_gui_rpc || allowed_remote_ip_addresses.size() > 0) {
         addr.sin_addr.s_addr = htonl(INADDR_ANY);
         if (log_flags.guirpc_debug) {
-            msg_printf(NULL, MSG_INFO, "Remote control allowed");
+            msg_printf(NULL, MSG_INFO, "[guirpc_debug] Remote control allowed");
         }
     } else {
         addr.sin_addr.s_addr = inet_addr("127.0.0.1");
         if (log_flags.guirpc_debug) {
-            msg_printf(NULL, MSG_INFO, "Local control only allowed");
+            msg_printf(NULL, MSG_INFO, "[guirpc_debug] Local control only allowed");
         }
     }
 #endif
@@ -207,7 +207,7 @@ int GUI_RPC_CONN_SET::init() {
         return ERR_BIND;
     }
     if (log_flags.guirpc_debug) {
-        msg_printf(NULL, MSG_INFO, "Listening on port %d", htons(addr.sin_port));
+        msg_printf(NULL, MSG_INFO, "[guirpc_debug] Listening on port %d", htons(addr.sin_port));
     }
 
     retval = listen(lsock, 999);
@@ -369,7 +369,7 @@ void GUI_RPC_CONN_SET::got_select(FDSET_GROUP& fg) {
 
 void GUI_RPC_CONN_SET::close() {
     if (log_flags.guirpc_debug) {
-        msg_printf(NULL, MSG_INFO, "closing GUI RPC socket %d\n", lsock);
+        msg_printf(NULL, MSG_INFO, "[guirpc_debug] closing GUI RPC socket %d\n", lsock);
     }
     if (lsock >= 0) {
         boinc_close_socket(lsock);

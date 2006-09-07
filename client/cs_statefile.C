@@ -33,7 +33,7 @@
 
 void CLIENT_STATE::set_client_state_dirty(const char* source) {
     if (log_flags.state_debug) {
-        msg_printf(0, MSG_INFO, "set dirty: %s\n", source);
+        msg_printf(0, MSG_INFO, "[state_debug] set dirty: %s\n", source);
     }
     client_state_dirty = true;
 }
@@ -78,7 +78,7 @@ int CLIENT_STATE::parse_state_file() {
     } else {
         if (log_flags.state_debug) {
             msg_printf(0, MSG_INFO,
-                "CLIENT_STATE::parse_state_file(): No state file; will create one"
+                "[state_debug] CLIENT_STATE::parse_state_file(): No state file; will create one"
             );
         }
 
@@ -351,7 +351,7 @@ int CLIENT_STATE::parse_state_file() {
         } else {
             if (log_flags.unparsed_xml) {
                 msg_printf(0, MSG_ERROR,
-                    "CLIENT_STATE::parse_state_file: unrecognized: %s", buf
+                    "[unparsed_xml] state_file: unrecognized: %s", buf
                 );
             }
         }
@@ -369,7 +369,7 @@ int CLIENT_STATE::write_state_file() {
 
     if (log_flags.state_debug) {
         msg_printf(0, MSG_INFO,
-            "CLIENT_STATE::write_state_file(): Writing state file"
+            "[status_debug] CLIENT_STATE::write_state_file(): Writing state file"
         );
     }
 #ifdef _WIN32
@@ -398,7 +398,7 @@ int CLIENT_STATE::write_state_file() {
     retval = boinc_rename(STATE_FILE_NEXT, STATE_FILE_NAME);
     if (log_flags.state_debug) {
         msg_printf(0, MSG_INFO,
-            "CLIENT_STATE::write_state_file(): Done writing state file"
+            "[status_debug] CLIENT_STATE::write_state_file(): Done writing state file"
         );
     }
     if (retval) {

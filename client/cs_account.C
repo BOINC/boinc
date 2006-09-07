@@ -130,7 +130,7 @@ int PROJECT::parse_account(FILE* in) {
         } else {
             if (log_flags.unparsed_xml) {
                 msg_printf(0, MSG_ERROR,
-                    "PROJECT::parse_account(): unrecognized: %s\n", buf
+                    "[unparsed_xml] PROJECT::parse_account(): unrecognized: %s\n", buf
                 );
             }
         }
@@ -186,7 +186,7 @@ int PROJECT::parse_account_file_venue() {
         } else {
             if (log_flags.unparsed_xml) {
                 msg_printf(0, MSG_ERROR,
-                    "parse_account_file_venue(): unrecognized: %s\n", buf
+                    "[unparsed_xml] parse_account_file_venue(): unrecognized: %s\n", buf
                 );
             }
         }
@@ -302,7 +302,7 @@ int PROJECT::parse_statistics(FILE* in) {
         else {
             if (log_flags.unparsed_xml) {
                 msg_printf(0, MSG_ERROR,
-                    "PROJECT::parse_statistics(): unrecognized: %s\n", buf
+                    "[unparsed_xml] PROJECT::parse_statistics(): unrecognized: %s\n", buf
                 );
             }
         }

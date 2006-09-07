@@ -213,7 +213,7 @@ void ACTIVE_TASK_SET::get_memory_usage() {
             atp->vm_bytes = pi.swap_size;
             if (log_flags.mem_usage_debug) {
                 msg_printf(NULL, MSG_INFO,
-                    "%s: RAM %dKB, page %dKB, user CPU %f, kernel CPU %f",
+                    "[mem_usage_debug] %s: RAM %dKB, page %dKB, user CPU %f, kernel CPU %f",
                     atp->result->name,
                     (int)(pi.working_set_size/1024), (int)(pi.swap_size/1024),
                     pi.user_time, pi.kernel_time
@@ -497,7 +497,7 @@ int ACTIVE_TASK::parse(MIOFILE& fin) {
         else {
             if (log_flags.unparsed_xml) {
                 msg_printf(0, MSG_ERROR,
-                    "ACTIVE_TASK::parse(): unrecognized %s\n", buf
+                    "[unparsed_xml] ACTIVE_TASK::parse(): unrecognized %s\n", buf
                 );
             }
         }
@@ -546,7 +546,7 @@ int ACTIVE_TASK_SET::parse(MIOFILE& fin) {
         } else {
             if (log_flags.unparsed_xml) {
                 msg_printf(0, MSG_ERROR,
-                    "ACTIVE_TASK_SET::parse(): unrecognized %s\n", buf
+                    "[unparsed_xml] ACTIVE_TASK_SET::parse(): unrecognized %s\n", buf
                 );
             }
         }

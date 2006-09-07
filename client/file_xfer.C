@@ -217,7 +217,7 @@ bool FILE_XFER_SET::poll() {
         fxp->file_xfer_done = true;
         if (log_flags.file_xfer_debug) {
             msg_printf(0, MSG_INFO,
-                "FILE_XFER_SET::poll(): http op done; retval %d\n",
+                "[file_xfer_debug] FILE_XFER_SET::poll(): http op done; retval %d\n",
                 fxp->http_op_retval
             );
         }

@@ -72,10 +72,10 @@ static const int PROCESS_IDLE_PRIORITY = 19;
 static void debug_print_argv(char** argv) {
     int i;
 
-    msg_printf(0, MSG_INFO, "Arguments:");
+    msg_printf(0, MSG_INFO, "[task_debug] Arguments:");
     for (i=0; argv[i]; i++) {
         msg_printf(0, MSG_INFO,
-            "   argv[%d]: %s\n", i, argv[i]
+            "[task_debug]    argv[%d]: %s\n", i, argv[i]
         );
     }
 }
@@ -320,7 +320,7 @@ int ACTIVE_TASK::start(bool first_time) {
     }
     if (log_flags.cpu_sched) {
         msg_printf(0, MSG_INFO,
-            "Starting %s%s", result->name, first_time?" (initial)":"(resume)"
+            "[cpu_sched] Starting %s%s", result->name, first_time?" (initial)":"(resume)"
         );
     }
 
@@ -542,7 +542,7 @@ int ACTIVE_TASK::start(bool first_time) {
 
     if (log_flags.task_debug) {
         msg_printf(0, MSG_INFO,
-            "ACTIVE_TASK::start(): forked process: pid %d\n", pid
+            "[task_debug] ACTIVE_TASK::start(): forked process: pid %d\n", pid
         );
     }
 
@@ -632,7 +632,7 @@ int ACTIVE_TASK::start(bool first_time) {
 
     if (log_flags.task_debug) {
         msg_printf(0, MSG_INFO,
-            "ACTIVE_TASK::start(): forked process: pid %d\n", pid
+            "[task_debug] ACTIVE_TASK::start(): forked process: pid %d\n", pid
         );
     }
 

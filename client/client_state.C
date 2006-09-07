@@ -399,7 +399,7 @@ void CLIENT_STATE::do_io_or_sleep(double x) {
     do { if (func()) { \
             ++actions; \
             if (log_flags.poll_debug) { \
-                msg_printf(0, MSG_INFO, "CLIENT_STATE::poll_slow_events(): " #name "\n"); \
+                msg_printf(0, MSG_INFO, "[poll_debug] CLIENT_STATE::poll_slow_events(): " #name "\n"); \
             } \
         } } while(0)
 
@@ -525,7 +525,7 @@ bool CLIENT_STATE::poll_slow_events() {
     }
     if (log_flags.poll_debug) {
         msg_printf(0, MSG_INFO,
-            "CLIENT_STATE::do_something(): End poll: %d tasks active\n", actions
+            "[poll_debug] CLIENT_STATE::do_something(): End poll: %d tasks active\n", actions
         );
     }
     if (actions > 0) {
@@ -756,7 +756,7 @@ void CLIENT_STATE::print_summary() {
     double t;
     if (!log_flags.state_debug) return;
 
-    msg_printf(0, MSG_INFO, "CLIENT_STATE::print_summary(): Client state summary:\n");
+    msg_printf(0, MSG_INFO, "[state_debug] CLIENT_STATE::print_summary(): Client state summary:\n");
     msg_printf(0, MSG_INFO, "%d projects:\n", (int)projects.size());
     for (i=0; i<projects.size(); i++) {
         t = projects[i]->min_rpc_time;
@@ -857,7 +857,7 @@ bool CLIENT_STATE::garbage_collect_always() {
         if (rp->got_server_ack) {
             if (log_flags.state_debug) {
                 msg_printf(0, MSG_INFO,
-                    "CLIENT_STATE::garbage_collect(): deleting result %s\n",
+                    "[state_debug] CLIENT_STATE::garbage_collect(): deleting result %s\n",
                     rp->name
                 );
             }
@@ -919,7 +919,7 @@ bool CLIENT_STATE::garbage_collect_always() {
         if (wup->ref_cnt == 0) {
             if (log_flags.state_debug) {
                 msg_printf(0, MSG_INFO,
-                    "CLIENT_STATE::garbage_collect(): deleting workunit %s\n",
+                    "[state_debug] CLIENT_STATE::garbage_collect(): deleting workunit %s\n",
                     wup->name
                 );
             }
@@ -1001,7 +1001,7 @@ bool CLIENT_STATE::garbage_collect_always() {
             fip->delete_file();
             if (log_flags.state_debug) {
                 msg_printf(0, MSG_INFO,
-                    "CLIENT_STATE::garbage_collect(): deleting file %s\n",
+                    "[state_debug] CLIENT_STATE::garbage_collect(): deleting file %s\n",
                     fip->name
                 );
             }

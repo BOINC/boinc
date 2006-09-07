@@ -860,7 +860,7 @@ int GUI_RPC_CONN::handle_rpc() {
 
     if (log_flags.guirpc_debug) {
         msg_printf(0, MSG_INFO,
-            "GUI RPC Command = '%s'\n", request_msg
+            "[guirpc_debug] GUI RPC Command = '%s'\n", request_msg
         );
     }
 
@@ -1011,7 +1011,7 @@ int GUI_RPC_CONN::handle_rpc() {
         if (log_flags.guirpc_debug) {
             if (n > 1000) p[1000] = 0;
             msg_printf(0, MSG_INFO,
-                "GUI RPC reply: '%s'\n", p
+                "[guirpc_debug] GUI RPC reply: '%s'\n", p
             );
         }
         free(p);

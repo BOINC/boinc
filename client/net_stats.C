@@ -181,7 +181,7 @@ int NET_STATUS::network_status() {
 		retval = NETWORK_STATUS_WANT_DISCONNECT;
 	}
 	if (log_flags.network_status_debug) {
-		msg_printf(NULL, MSG_INFO, "network status: %s", network_status_string(retval));
+		msg_printf(NULL, MSG_INFO, "[network_status_debug] status: %s", network_status_string(retval));
 	}
 	return retval;
 }
@@ -221,9 +221,9 @@ void NET_STATUS::got_http_error() {
 
 void NET_STATUS::contact_reference_site() {
     std::string url = "http://www.google.com";
-	if (log_flags.http_debug) {
+	if (log_flags.network_status_debug) {
 		msg_printf(0, MSG_ERROR,
-			"need_phys_conn %d; trying google", need_physical_connection
+			"[network_status_debug] need_phys_conn %d; trying google", need_physical_connection
 		);
 	}
     gstate.lookup_website_op.do_rpc(url);

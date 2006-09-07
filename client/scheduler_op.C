@@ -106,7 +106,7 @@ int SCHEDULER_OP::init_op_project(PROJECT* p, int r) {
     reason = r;
     if (log_flags.sched_op_debug) {
         msg_printf(0, MSG_INFO,
-            "SCHEDULER_OP::init_op_project(): starting op for %s\n",
+            "[sched_op_debug] SCHEDULER_OP::init_op_project(): starting op for %s\n",
             p->master_url
         );
     }
@@ -282,7 +282,7 @@ int SCHEDULER_OP::init_master_fetch(PROJECT* p) {
 
     if (log_flags.sched_op_debug) {
         msg_printf(0, MSG_INFO,
-            "SCHEDULER_OP::init_master_fetch(): Fetching master file for %s\n",
+            "[sched_op_debug] SCHEDULER_OP::init_master_fetch(): Fetching master file for %s\n",
             p->master_url
         );
     }
@@ -327,7 +327,7 @@ int SCHEDULER_OP::parse_master_file(PROJECT* p, vector<std::string> &urls) {
     fclose(f);
     if (log_flags.sched_op_debug) {
         msg_printf(0, MSG_INFO,
-            "SCHEDULER_OP::parse_master_file(): got %d scheduler URLs\n",
+            "[sched_op_debug] SCHEDULER_OP::parse_master_file(): got %d scheduler URLs\n",
             (int)urls.size()
         );
     }
@@ -389,7 +389,7 @@ bool SCHEDULER_OP::poll() {
             if (http_op.http_op_retval == 0) {
                 if (log_flags.sched_op_debug) {
                     msg_printf(0, MSG_INFO,
-                        "SCHEDULER_OP::poll(): Got master file from %s; parsing",
+                        "[sched_op_debug] SCHEDULER_OP::poll(): Got master file from %s; parsing",
                          cur_proj->master_url
                     );
                 }
@@ -822,7 +822,7 @@ int SCHEDULER_REPLY::parse(FILE* in, PROJECT* project) {
         } else if (strlen(buf)>1){
             if (log_flags.unparsed_xml) {
                 msg_printf(0, MSG_ERROR,
-                    "SCHEDULER_REPLY::parse(): unrecognized %s\n", buf
+                    "[unparsed_xml] SCHEDULER_REPLY::parse(): unrecognized %s\n", buf
                 );
             }
         }
