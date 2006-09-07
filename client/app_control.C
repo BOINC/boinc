@@ -148,15 +148,20 @@ int ACTIVE_TASK::preempt(bool quit_task) {
     if (quit_task && (checkpoint_cpu_time>0)) {
         pending_suspend_via_quit = true;
         retval = request_exit();
+        if (log_flags.cpu_sched) {
+            msg_printf(result->project, MSG_INFO,
+                "Preempting %s (removed from memory)",
+                result->name
+            );
+        }
     } else {
         retval = suspend();
-    }
-
-    if (log_flags.task_debug) {
-        msg_printf(result->project, MSG_INFO,
-            "Pausing task %s (%s)",
-            result->name, (quit_task ? "removed from memory" : "left in memory")
-        );
+        if (log_flags.cpu_sched) {
+            msg_printf(result->project, MSG_INFO,
+                "Preempting %s (left in memory)",
+                result->name
+            );
+        }
     }
     return 0;
 }
@@ -816,7 +821,7 @@ int ACTIVE_TASK::suspend() {
 //
 int ACTIVE_TASK::unsuspend() {
     if (!app_client_shm.shm) return 0;
-    if (log_flags.task_debug) {
+    if (log_flags.cpu_sched) {
         msg_printf(0, MSG_INFO, "Resuming %s", result->name);
     }
     process_control_queue.msg_queue_send(

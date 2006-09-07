@@ -9914,3 +9914,19 @@ David  7 Sept 2006
     client/
         client_state.C
         log_flags.C,h
+
+David  7 Sept 2006
+    - core client: change log message writes to conform to docs.
+        "task": write when app starts or finishes a result
+            (i.e. two messages per result, period)
+        "cpu_sched": write when core client starts,
+            resumes, suspends, or quits an app
+            (i.e. show the CPU scheduler's actions)
+        "cpu_sched_debug": show the internal logic of the CPU scheduler
+        "task_debug": show details of process birth and death
+            (e.g. exit status, signals)
+
+    client/
+        app_control.C
+        app_start.C
+        cpu_sched.C

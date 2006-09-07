@@ -85,7 +85,7 @@ list_item_func("<debt_debug>",
     "Changes to project debt"
 );
 list_item_func("<task_debug>",
-    "Prints messages when tasks are preempted and resumed,
+    "Low-level details of process start/end (status codes, PIDs etc.),
     and when applications checkpoint."
 );
 list_item_func("<work_fetch_debug>",

@@ -318,9 +318,9 @@ int ACTIVE_TASK::start(bool first_time) {
             "Starting %s", result->name
         );
     }
-    if (log_flags.task_debug) {
+    if (log_flags.cpu_sched) {
         msg_printf(0, MSG_INFO,
-            "Starting %s%s", result->name, first_time?" (first time)":""
+            "Starting %s%s", result->name, first_time?" (initial)":"(resume)"
         );
     }
 
