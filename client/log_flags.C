@@ -98,6 +98,53 @@ int LOG_FLAGS::parse(XML_PARSER& xp) {
     return ERR_XML_PARSE;
 }
 
+static void show_flag(char* buf, bool flag, const char* flag_name) {
+    if (!flag) return;
+    int n = strlen(buf);
+    if (!n) {
+        strcpy(buf, flag_name);
+        return;
+    }
+    strcat(buf, ", ");
+    strcat(buf, flag_name);
+    if (strlen(buf) > 60) {
+        msg_printf(NULL, MSG_INFO, "log flags: %s", buf);
+        strcpy(buf, "");
+    }
+}
+
+void LOG_FLAGS::show() {
+    char buf[256];
+    strcpy(buf, "");
+    show_flag(buf, task, "task");
+    show_flag(buf, file_xfer, "file_xfer");
+    show_flag(buf, sched_ops, "sched_ops");
+    show_flag(buf, cpu_sched, "cpu_sched");
+    show_flag(buf, cpu_sched_debug, "cpu_sched_debug");
+    show_flag(buf, rr_simulation, "rr_simulation");
+    show_flag(buf, debt_debug, "debt_debug");
+    show_flag(buf, task_debug, "task_debug");
+    show_flag(buf, work_fetch_debug, "work_fetch_debug");
+    show_flag(buf, unparsed_xml, "unparsed_xml");
+    show_flag(buf, state_debug, "state_debug");
+    show_flag(buf, file_xfer_debug, "file_xfer_debug");
+    show_flag(buf, sched_op_debug, "sched_op_debug");
+    show_flag(buf, http_debug, "http_debug");
+    show_flag(buf, proxy_debug, "proxy_debug");
+    show_flag(buf, time_debug, "time_debug");
+    show_flag(buf, http_xfer_debug, "http_xfer_debug");
+    show_flag(buf, measurement_debug, "measurement_debug");
+    show_flag(buf, poll_debug, "poll_debug");
+    show_flag(buf, guirpc_debug, "guirpc_debug");
+    show_flag(buf, scrsave_debug, "scrsave_debug");
+    show_flag(buf, app_msg_debug, "app_msg_debug");
+    show_flag(buf, mem_usage_debug, "mem_usage_debug");
+    show_flag(buf, network_status_debug, "network_status_debug");
+    if (strlen(buf)) {
+        msg_printf(NULL, MSG_INFO, "log flags: %s", buf);
+    }
+}
+
 CONFIG::CONFIG() {
     memset(this, 0, sizeof(CONFIG));
     dont_check_file_sizes = false;

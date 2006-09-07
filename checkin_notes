@@ -9902,8 +9902,15 @@ David  6 Sept 2006
     client/
         client_types.C,h
 
-David  6 Sept 2006
+David  7 Sept 2006
     - added program to test rr_simulation()
 
     client/
         rrsim_test.C
+
+David  7 Sept 2006
+    - core client: print log flags at start of log
+
+    client/
+        client_state.C
+        log_flags.C,h

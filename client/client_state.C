@@ -153,6 +153,7 @@ int CLIENT_STATE::init() {
         core_client_major_version, core_client_minor_version,
         core_client_release, platform_name, debug_str
     );
+    log_flags.show();
 
     msg_printf(NULL, MSG_INFO, "Libraries: %s", curl_version());
 
