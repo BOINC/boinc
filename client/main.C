@@ -656,7 +656,7 @@ int main(int argc, char** argv) {
             // start with space for two '"'s
             len = 2;
             for (i = 0; i < argc; i++) {
-                len += strlen(argv[i]) + 1;
+                len += (int)strlen(argv[i]) + 1;
             }
             if ((commandLine = (char *) malloc(len)) == NULL) {
                 // Drop back ten and punt.  Can't do the detach thing, so we just carry on.

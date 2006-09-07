@@ -585,7 +585,7 @@ bool CLIENT_STATE::enforce_schedule() {
     // keep track of how many tasks we plan on running
     // (i.e. have next_scheduler_state = SCHEDULED)
     //
-    int nrunning = running_tasks.size();
+    int nrunning = (int)running_tasks.size();
 
     // Loop through the scheduled results
     // to see if they should preempt a running task
@@ -946,8 +946,8 @@ bool CLIENT_STATE::rr_simulation() {
 			}
         }
 
-        int last_active_size = active.size();
-        int last_proj_active_size = pbest->active.size();
+        int last_active_size = (int)active.size();
+        int last_proj_active_size = (int)pbest->active.size();
 
         // remove *rpbest from active set,
         // and adjust CPU time left for other results

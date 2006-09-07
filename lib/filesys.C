@@ -425,12 +425,11 @@ int boinc_touch_file(const char *path) {
     if (boinc_file_exists(path)) {
         return 0;
     }
-                                                                                                                                                                               
-    if ((fp=fopen(path, "w"))) {
+    fp = fopen(path, "w");                                                                                                                                                                  
+    if (fp) {
         fclose(fp);
         return 0;
-    }
-                                                                                                                                                                               
+    }                                                                                                                                                                    
     return -1;
 }
 

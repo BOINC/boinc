@@ -493,7 +493,7 @@ int HTTP_OP::init_post2(
         }
         content_length = (int)size - (int)offset;
     }
-    content_length += strlen(req1);
+    content_length += (int)strlen(req1);
     http_op_type = HTTP_OP_POST2;
     http_op_state = HTTP_STATE_CONNECTING;
     return HTTP_OP::libcurl_exec(url, in, NULL, offset, true);
@@ -539,7 +539,7 @@ int HTTP_OP_SET::remove(HTTP_OP* p) {
 }
 
 int HTTP_OP_SET::nops() {
-    return http_ops.size();  
+    return (int)http_ops.size();  
 }
 
 
@@ -604,7 +604,7 @@ size_t libcurl_read( void *ptr, size_t size, size_t nmemb, HTTP_OP* phop) {
             // this is the first time in this function for this phop)
             // or the last read didn't ask for the entire header
 
-            stRead = strlen(phop->req1) - phop->lSeek;  // how much of header left to read
+            stRead = (int)strlen(phop->req1) - phop->lSeek;  // how much of header left to read
 
             // only memcpy if request isn't out of bounds
             if (stRead < 0) {
@@ -642,7 +642,7 @@ size_t libcurl_read( void *ptr, size_t size, size_t nmemb, HTTP_OP* phop) {
             // content_length (which includes the strlen(req1) also)
             // note the use of stOld to get to the right position in case the header was read in above
             //ptr2 = (unsigned char*)ptr +(int)stOld;
-            stRead = fread(ptr, 1, stSend, phop->fileIn); 
+            stRead = (int)fread(ptr, 1, stSend, phop->fileIn); 
         }    
         phop->lSeek += (long) stRead;  // increment lSeek to new position
         phop->bytes_xferred += (double)(stRead);

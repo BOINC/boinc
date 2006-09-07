@@ -69,7 +69,7 @@ void GUI_RPC_CONN::handle_auth2(char* buf, MIOFILE& fout) {
         return;
     }
     sprintf(buf2, "%s%s", nonce, gstate.gui_rpcs.password);
-    md5_block((const unsigned char*)buf2, strlen(buf2), nonce_hash_correct);
+    md5_block((const unsigned char*)buf2, (int)strlen(buf2), nonce_hash_correct);
     if (strcmp(nonce_hash, nonce_hash_correct)) {
         auth_failure(fout);
         return;
@@ -375,7 +375,7 @@ static void handle_get_messages(char* buf, MIOFILE& fout) {
     // i.e. newer ones are at the head of the vector.
     // compute j = index of first message to return
     //
-    j = message_descs.size()-1;
+    j = (int)message_descs.size()-1;
     for (k=0; k<message_descs.size(); k++) {
         mdp = message_descs[k];
         if (mdp->seqno <= seqno) {

@@ -415,7 +415,6 @@ int ACTIVE_TASK::write(MIOFILE& fout) {
 int ACTIVE_TASK::parse(MIOFILE& fin) {
     char buf[256], result_name[256], project_master_url[256];
     int app_version_num=0, n;
-    double x;
     unsigned int i;
     PROJECT* project;
 

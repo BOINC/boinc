@@ -594,7 +594,7 @@ bool XML_PARSER::parse_bool(char* parsed_tag, char* start_tag, bool& b) {
     eof = get(buf, sizeof(buf), is_tag);
     if (eof) return false;
     if (is_tag) return false;
-    b = (bool)strtol(buf, &end, 0);
+    b = (strtol(buf, &end, 0) != 0);
     if (end != buf+strlen(buf)) return false;
 
     end_tag[0] = '/';

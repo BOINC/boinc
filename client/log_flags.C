@@ -100,7 +100,7 @@ int LOG_FLAGS::parse(XML_PARSER& xp) {
 
 static void show_flag(char* buf, bool flag, const char* flag_name) {
     if (!flag) return;
-    int n = strlen(buf);
+    int n = (int)strlen(buf);
     if (!n) {
         strcpy(buf, flag_name);
         return;

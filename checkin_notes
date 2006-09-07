@@ -9930,3 +9930,21 @@ David  7 Sept 2006
         app_control.C
         app_start.C
         cpu_sched.C
+
+David  7 Sept 2006
+	- remove some (but not all) compile warnings on Win/VS
+		(no functional changes)
+
+	client/
+		app.C
+		app_control.C
+		client_state.C
+		client_types.C
+		cpu_sched.C
+		gui_rpc_server_ops.C
+		http_curl.C
+		log_flags.C
+		main.C
+	lib/
+		filesys.C
+		parse.C

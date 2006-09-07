@@ -561,7 +561,7 @@ bool ACTIVE_TASK::read_stderr_file() {
         // it's unlikely that more than that will be useful
         //
         int max_len = 63*1024;
-        int len = stderr_file.length();
+        int len = (int)stderr_file.length();
         if (len > max_len) {
             stderr_file = stderr_file.substr(len-max_len, len);
         }
