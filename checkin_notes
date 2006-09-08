@@ -10080,3 +10080,8 @@ David  8 Sept 2006
     client/
         main.C
 
+David  8 Sept 2006
+	- Manager: handle client_account_creation_disabled flag correctly
+
+	clientgui/
+		AccountInfoPage.cpp

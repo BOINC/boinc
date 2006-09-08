@@ -265,6 +265,7 @@ void CAccountInfoPage::OnPageChanged( wxWizardExEvent& event ) {
     wxASSERT(m_pAccountConfirmPasswordCtrl);
     wxASSERT(m_pAccountPasswordRequirmentsStaticCtrl);
 
+	PROJECT_CONFIG& pc = ((CBOINCBaseWizard*)GetParent())->project_config;
 
     static bool bRunOnce = true;
     if (bRunOnce) {
@@ -287,7 +288,7 @@ void CAccountInfoPage::OnPageChanged( wxWizardExEvent& event ) {
     }
 
     if (!IS_ACCOUNTMANAGERWIZARD()) {
-        if (((CBOINCBaseWizard*)GetParent())->project_config.account_creation_disabled) {
+        if (pc.account_creation_disabled || pc.client_account_creation_disabled) {
             m_pAccountCreateCtrl->SetValue(false);
             m_pAccountCreateCtrl->Hide();
             m_pAccountUseExistingCtrl->SetValue(true);
@@ -304,13 +305,13 @@ void CAccountInfoPage::OnPageChanged( wxWizardExEvent& event ) {
     );
 
     if (!IS_ACCOUNTMANAGERWIZARD() && !IS_ACCOUNTMANAGERUPDATEWIZARD()) {
-		if (((CBOINCBaseWizard*)GetParent())->project_config.client_account_creation_disabled) {
+		if (pc.client_account_creation_disabled) {
 			m_pAccountQuestionStaticCtrl->SetLabel(
 				_("Please enter your account information\n"
 				"(to create an account, visit the project's web site)"
 				)
 			);
-		} else if (((CBOINCBaseWizard*)GetParent())->project_config.account_creation_disabled) {
+		} else if (pc.account_creation_disabled) {
 			m_pAccountQuestionStaticCtrl->SetLabel(
 				_("This project is not currently accepting new accounts.\n"
 					"You can attach only if you already have an account."
