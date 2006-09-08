@@ -10035,3 +10035,39 @@ Kevin  8 Sept 2006
 		sg_StatImageLoader.cpp
 		sg_StatImageLoader.h
 		sg_ViewTabPage.cpp
+
+David  8 Sept 2006
+	- core client:
+		fix the mechanism that allows network access for 5 minutes
+		if it's needed to carry out a user-initiated GUI RPC
+		(e.g. attaching to a project).
+		This situation allows network access even if the
+		user has set network mode to "never".
+
+		Otherwise, if you try to attach to a project,
+		the manager sits there for 60 seconds,
+		then responds with "network failure" or something like that.
+
+		I suppose another solution would be for the manager to
+		notice that network is suspended,
+		and not let you try to attach to a project.
+		But this way is more user-friendly, I think.
+
+		Renamed gui_rpcs.got_recent_rpc() to recent_rpc_needs_network();
+		Renamed last_rpc_time to time_of_last_rpc_needing_network.
+		Shuffled order of RPCs in gui_rpc_server_ops.C;
+		this is critical to things working.
+
+	- manager: check for ERR_DB_NOT_FOUND in return codes from web RPCs
+	- manager: parse error message in ACCOUNT_OUT correctly
+
+	client/
+		client_state.C
+		gui_rpc_server.C,h
+		gui_rpc_server_ops.C
+	clientgui/
+		AccountManagerProcessingPage.cpp
+		ProjectProcessingPage.cpp
+	lib/
+		gui_rpc_client.h
+		gui_rpc_client_ops.C

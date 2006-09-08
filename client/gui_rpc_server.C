@@ -66,12 +66,12 @@ GUI_RPC_CONN::~GUI_RPC_CONN() {
 
 GUI_RPC_CONN_SET::GUI_RPC_CONN_SET() {
     lsock = -1;
-    last_rpc_time = 0;
+    time_of_last_rpc_needing_network = 0;
 }
 
-bool GUI_RPC_CONN_SET::got_recent_rpc(double interval) {
-    if (!last_rpc_time) return false;
-    if (gstate.now < last_rpc_time + interval) return true;
+bool GUI_RPC_CONN_SET::recent_rpc_needs_network(double interval) {
+    if (!time_of_last_rpc_needing_network) return false;
+    if (gstate.now < time_of_last_rpc_needing_network + interval) return true;
     return false;
 }
 

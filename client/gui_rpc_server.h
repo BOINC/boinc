@@ -46,10 +46,8 @@ class GUI_RPC_CONN_SET {
     int insert(GUI_RPC_CONN*);
 public:
     int lsock;
-    double last_rpc_time;
-        // actually, the last time of a project or result op
-        // (ones that are triggered by a user action,
-        // rather than by the Manager itself)
+    double time_of_last_rpc_needing_network;
+        // time of the last RPC that needs network access to handle
 
     GUI_RPC_CONN_SET();
     char password[256];
@@ -57,5 +55,5 @@ public:
     void got_select(FDSET_GROUP&);
     int init();
     void close();
-    bool got_recent_rpc(double interval);
+    bool recent_rpc_needs_network(double interval);
 };

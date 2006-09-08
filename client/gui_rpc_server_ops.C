@@ -913,6 +913,8 @@ int GUI_RPC_CONN::handle_rpc() {
         handle_network_status(request_msg, mf);
     } else if (match_tag(request_msg, "<get_newer_version>")) {
         handle_get_newer_version(mf);
+    } else if (match_tag(request_msg, "<get_cc_status")) {
+        handle_get_cc_status(mf);
 
     // Operations that require authentication start here
 
@@ -956,6 +958,12 @@ int GUI_RPC_CONN::handle_rpc() {
         gstate.read_global_prefs();
         gstate.request_schedule_cpus("Preferences override");
         gstate.request_work_fetch("Preferences override");
+    } else if (match_tag(request_msg, "<get_project_init_status")) {
+        handle_get_project_init_status(request_msg, mf);
+    } else if (match_tag(request_msg, "<get_global_prefs_override")) {
+        handle_get_global_prefs_override(mf);
+    } else if (match_tag(request_msg, "<set_global_prefs_override")) {
+        handle_set_global_prefs_override(request_msg, mf);
     } else {
 
         // RPCs after this point enable network communication
@@ -963,7 +971,7 @@ int GUI_RPC_CONN::handle_rpc() {
         // Things like attaching projects, etc.
         //
 
-        gstate.gui_rpcs.last_rpc_time = gstate.now;
+        gstate.gui_rpcs.time_of_last_rpc_needing_network = gstate.now;
 
         if (match_tag(request_msg, "<retry_file_transfer")) {
             handle_file_transfer_op(request_msg, mf, "retry");
@@ -971,8 +979,6 @@ int GUI_RPC_CONN::handle_rpc() {
             handle_project_op(request_msg, mf, "reset");
         } else if (match_tag(request_msg, "<project_update")) {
             handle_project_op(request_msg, mf, "update");
-        } else if (match_tag(request_msg, "<get_project_init_status")) {
-            handle_get_project_init_status(request_msg, mf);
         } else if (match_tag(request_msg, "<get_project_config>")) {
             handle_get_project_config(request_msg, mf);
         } else if (match_tag(request_msg, "<get_project_config_poll")) {
@@ -993,12 +999,10 @@ int GUI_RPC_CONN::handle_rpc() {
             handle_acct_mgr_rpc(request_msg, mf);
         } else if (match_tag(request_msg, "<acct_mgr_rpc_poll")) {
             handle_acct_mgr_rpc_poll(request_msg, mf);
-        } else if (match_tag(request_msg, "<get_cc_status")) {
-            handle_get_cc_status(mf);
-        } else if (match_tag(request_msg, "<get_global_prefs_override")) {
-            handle_get_global_prefs_override(mf);
-        } else if (match_tag(request_msg, "<set_global_prefs_override")) {
-            handle_set_global_prefs_override(request_msg, mf);
+
+		// DON'T JUST ADD NEW RPCS HERE - THINK ABOUT THEIR
+		// AUTHENTICATION AND NETWORK REQUIREMENTS FIRST
+
         } else {
             mf.printf("<error>unrecognized op</error>\n");
         }
