@@ -616,6 +616,7 @@ DC_serializeWU(DC_Workunit *wu)
 	GString *dn, *ser;
 	char *s;
 	int i;
+	unsigned int u;
 
 	if (!_DC_wu_check(wu))
 		return(NULL);
@@ -635,6 +636,7 @@ DC_serializeWU(DC_Workunit *wu)
 	else
 	{
 		/* new serialization */
+		int r;
 		ser= g_string_new("");
 		s= _DC_quote_string(wu->data.name);
 		g_string_append_printf(ser, "%c%s", 'a'+st_name, s);
@@ -656,6 +658,26 @@ DC_serializeWU(DC_Workunit *wu)
 		_DC_iser(ser, st_state, wu->data.state);
 		_DC_sser(ser, st_state_name, _DC_state_name(wu->data.state));
 
+		for (u= r= 0; u < wu->condor_events->len; u++)
+		{
+			struct _DC_condor_event *ce;
+			ce= &g_array_index(wu->condor_events,
+					   struct _DC_condor_event,
+					   u);
+			if (ce->reported)
+				r++;
+		}
+		_DC_iser(ser, st_nuof_reported, r);
+		for (u= 0; u < wu->condor_events->len; u++)
+		{
+			struct _DC_condor_event *ce;
+			ce= &g_array_index(wu->condor_events,
+					   struct _DC_condor_event,
+					   u);
+			if (ce->reported)
+				_DC_iser(ser, st_reported, u);
+		}
+
 		s= ser->str;
 		g_string_free(ser, FALSE);
 
@@ -668,11 +690,120 @@ DC_serializeWU(DC_Workunit *wu)
 }
 
 
+static int
+_DC_iunser(char *s)
+{
+	int i;
+	if (!s)
+		return(0);
+	i= strtol(s, 0, 0);
+	free(s);
+	return(i);
+}
+
 /* Restores a serialized work unit. */
 DC_Workunit *
 DC_deserializeWU(const char *buf)
 {
-	return(0);
+	char *tok, *s, *b;
+	char sep[2]= "\0\0";
+	DC_Workunit *wu;
+	int argv_i;
+	GString *dn;
+
+	wu= g_new0(DC_Workunit ,1);
+	_DC_wu_changed(wu);
+	wu->condor_events= g_array_new(FALSE, FALSE,
+				       sizeof(struct _DC_condor_event));
+
+	b= strdup(buf);
+	sep[0]= _DC_SERIALIZED_SEPARATOR;
+	tok= strtok(b, sep);
+	while (tok)
+	{
+		_DC_serialized_token st= (_DC_serialized_token)(tok[0]-'a');
+		s= _DC_unquote_string(&tok[1]);
+		switch (st)
+		{
+		case st_name:
+		{
+			_DC_wu_set_name(wu, s);
+			break;
+		}
+		case st_workdir:
+		{
+			_DC_wu_set_workdir(wu, s);
+			_DC_wu_update_condor_events(wu);
+			break;
+		}
+		case st_tag:
+		{
+			_DC_wu_set_tag(wu, s);
+			break;
+		}
+		case st_client_name:
+		{
+			_DC_wu_set_client_name(wu, s);
+			if (!_DC_wu_table)
+				DC_initMaster(NULL);
+			g_hash_table_insert(_DC_wu_table, wu->data.name, wu);
+			break;
+		}
+		case st_argc:
+		{
+			_DC_wu_set_argc(wu, _DC_iunser(s));
+			wu->argv= g_new0(char*, wu->data.argc+1);
+			argv_i= 0;
+			break;
+		}
+		case st_argv:
+		{
+			if (argv_i < wu->data.argc)
+			{
+				wu->argv[argv_i]= s;
+				argv_i++;
+			}
+			break;
+		}
+		case st_state:
+		{
+			_DC_wu_set_state(wu, (DC_WUState)_DC_iunser(s));
+			break;
+		}
+		case st_state_name:
+		{
+			free(s);
+			break;
+		}
+		case st_nuof_reported:
+		{
+			free(s);
+			break;
+		}
+		case st_reported:
+		{
+			unsigned int u;
+			u= _DC_iunser(s);
+			if (u < wu->condor_events->len)
+			{
+				struct _DC_condor_event *ce;
+				ce= &g_array_index(wu->condor_events,
+						   struct _DC_condor_event,
+						   u);
+				ce->reported= TRUE;
+			}
+		}
+		}
+		tok= strtok(NULL, sep);
+	}
+	free(b);
+
+	dn= g_string_new("");
+	g_string_printf(dn, "%s/%s", wu->data.workdir,
+			_DC_wu_cfg(wu, cfg_management_box));
+	_DC_read_message(dn->str, _DCAPI_SIG_SERIALIZED, TRUE);
+	g_string_free(dn, TRUE);
+	return(wu);
 }
 
 
