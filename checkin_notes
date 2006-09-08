@@ -10001,3 +10001,17 @@ David  8 Sept 2006
             am_set_info.php
             create_account.php
             create_team.php
+
+David  8 Sept 2006
+	- manager: if client_account_creation_disabled is set,
+		don't go to the account key page.
+		Everything related to account keys can now be
+		removed from the manager.
+	- manager: removed redundant text on User Information page
+	- manager: don't refer to "Messages Tab" (or any other tab)
+		in the wizard; don't exist in simple GUI
+
+	clientgui/
+		AccountInfoPage.cpp
+		CompletionErrorPage.cpp
+		ProjectPropertiesPage.cpp

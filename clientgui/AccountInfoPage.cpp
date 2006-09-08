@@ -386,6 +386,7 @@ void CAccountInfoPage::OnPageChanged( wxWizardExEvent& event ) {
                 );
             }
         }
+#if 0
         if (m_pAccountInformationStaticCtrl) {
             if (m_pAccountInformationStaticCtrl->GetLabel().IsEmpty()) {
                 m_pAccountInformationStaticCtrl->SetLabel(
@@ -394,6 +395,7 @@ void CAccountInfoPage::OnPageChanged( wxWizardExEvent& event ) {
                 );
             }
         }
+#endif
         m_pAccountEmailAddressStaticCtrl->SetLabel(
             _("&Username:")
         );
@@ -414,6 +416,7 @@ void CAccountInfoPage::OnPageChanged( wxWizardExEvent& event ) {
                 );
             }
         }
+#if 0
         if (m_pAccountInformationStaticCtrl) {
             if (m_pAccountInformationStaticCtrl->GetLabel().IsEmpty()) {
                 m_pAccountInformationStaticCtrl->SetLabel(
@@ -421,6 +424,7 @@ void CAccountInfoPage::OnPageChanged( wxWizardExEvent& event ) {
                 );
             }
         }
+#endif
         m_pAccountEmailAddressStaticCtrl->SetLabel(
             _("&Email address:")
         );
