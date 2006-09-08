@@ -81,7 +81,7 @@ if ($project_prefs) {
     $project_prefs = str_replace("\\r\\n", "\n", $project_prefs);
     $x = bad_xml($project_prefs, "<project_preferences>", "</project_preferences>");
     if ($x) {
-        xml_error(-1, "Invalid project preferences: $x");
+        xml_error(-112, "Invalid project preferences: $x");
     }
     $query .= " project_prefs='$project_prefs', ";
 }

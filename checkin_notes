@@ -9990,3 +9990,14 @@ David  8 Sept 2006
 		procinfo_win.C
 	win_build/
 		boinc_cli_curl.vcproj
+
+David  8 Sept 2006
+    - Web RPCs: return correct error codes
+
+    html/
+        inc/
+            xml.inc
+        user/
+            am_set_info.php
+            create_account.php
+            create_team.php

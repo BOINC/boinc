@@ -48,8 +48,26 @@ If an RPC fails, the returned XML document is
     <error_num>N</error_num>
     <error_string>xxx</error_string>
 </error>")."
-where N is a BOINC error number
-(see lib/error_numbers.h) and xxx is a textual description.
+where N is a BOINC error number and xxx is a textual description.
+BOINC error numbers are in lib/error_numbers.h; common errors are:
+";
+list_start();
+list_item("-1", "Generic error (error_string may have more info)");
+list_item("-112", "Invalid XML (e.g., the preferences passed to am_set_info.php are invalid)");
+list_item("-136", "Item not found in database
+    (bad ID of any sort, or ID refers to an item not owned by the caller)");
+list_item("-137", "Name is not unique (Can't create account because
+    email address already in use,
+    or can't create team because name is in use)");
+list_item("-138", "Can't access database (treat same as -183)");
+list_item("-161", "Item not found (deprecated; treat same as -136)");
+list_item("-183", "Project is temporarily down");
+list_item("-205", "Email address has invalid syntax");
+list_item("-206", "Wrong password");
+list_item("-207", "Non-unique email address (treat same as -137)");
+list_item("-208", "Account creation disabled");
+list_end();
+echo "
 <li>
 The output is XML.
 <li>

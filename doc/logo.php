@@ -5,7 +5,7 @@ page_head("Logos and graphics");
 
 echo "
 
-<h2>The BOINC logo</h2>
+<h2>The current BOINC logo and icons</h2>
 <ul>
 <li>
 The logo in its native form as <a href=logo/logo.doc>a Word document</a>.
@@ -17,18 +17,31 @@ Hi-res versions of the logo:
 <li>
 An icon for BOINC-related Podcasts, from Christian Beer:
 <img align=top src=images/Logo_blau.jpg>
-
 </ul>
-We welcome alternative ideas.
+<p>
+The 'B in a circle' icon was designed by Tim Lan.
+The Mac variant was contributed by Juho Viitasalo.
+
+<h2>New BOINC logo?</h2>
+<p>
+We are looking for a new graphical identity for BOINC.
 Our criteria:
 <ul>
-<li> It should look good on a white background,
-and should have a transparent-background variant that
-works with any light-colored background.
-<li> It should allow recognizable and visually consistent versions
-ranging from a 16x16 icon up to a 200x300 rectangle.
-<li> It should refer in some way either to 'BOINC' as a sound effect,
-    or to global distributed computing, or both.
+<li> It should work on light-colored backgrounds.
+<li> It should include graphics of various sizes,
+including icons (16x16 up to 128x128),
+a web-site logo (roughly 200x100),
+and an installer splash screen (roughly 400x300).
+These should all be recognizable and visually consistent.
+<li>
+It should appeal to people of all interests and demographics.
+In particular, it should NOT have a futuristic,
+high-tech, aggressive, or sci-fi look.
+<li>
+It would be good (though not vital) for the logo
+to suggest global distributed computing,
+or scientific research, or both.
+
 </ul>
 Here are some submissions:
 <p>
@@ -99,12 +112,6 @@ If you have an opinion, please <a href=contact.php>contact us</a>.
 <a href=images/hatfield.png><img src=images/hatfield_120.png></a>
 </td></tr>
 </table>
-
-<h2>BOINC icons</h2>
-<p>
-The 'B in a circle' icon was designed by Tim Lan.
-The Mac variant was contributed by Juho Viitasalo.
-<p>
 
 <h2>Coinage</h2>
 Tony/Knightrider/Chuggybus has created BOINC coinage.

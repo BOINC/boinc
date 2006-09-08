@@ -55,7 +55,7 @@ if ($result) {
 </create_team_reply>
 ";
 } else {
-    xml_error(-1, "could not create team");
+    xml_error(-137, "could not create team");
 }
 
 ?>

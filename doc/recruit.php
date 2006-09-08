@@ -58,8 +58,9 @@ Will it be released to the public?
 When, and under what terms?
 <li> Show all the scientific results of the computation so far,
 and any publications that arise from these results.
-(<a href=http://folding.stanford.edu/papers.html>Folding@home</a>
-provides a good example of this).
+(<a href=http://depts.washington.edu/~bakerpg/publications.html>Rosetta@home</a>
+and <a href=http://folding.stanford.edu/papers.html>Folding@home</a>
+provide good examples of this).
 Announce new results and publications on the News column.
 Make sure your News column is being properly published as an RSS feed.
 <li> Give some personal information about your team members:

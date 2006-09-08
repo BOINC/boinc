@@ -27,14 +27,13 @@ if (!is_valid_email_addr($email_addr)) {
 }
 
 if (strlen($passwd_hash) != 32) {
-    xml_error(-206);
+    xml_error(-1, "password hash length not 32");
 }
 
 $user = lookup_user_email_addr($email_addr);
-$bad = false;
 if ($user) {
     if ($user->passwd_hash != $passwd_hash) {
-        $bad = true;
+        xml_error(-206);
     } else {
         $authenticator = $user->authenticator;
     }
@@ -45,17 +44,13 @@ if ($user) {
     $query = "insert into user (create_time, email_addr, name, authenticator, expavg_time, send_email, show_hosts, cross_project_id, passwd_hash) values($now, '$email_addr', '$user_name', '$authenticator', unix_timestamp(), 1, 1, '$cross_project_id', '$passwd_hash')";
     $result = mysql_query($query);
     if (!$result) {
-        $bad = true;
+        xml_error(-137);
     }
 }
 
-if ($bad) {
-    xml_error(-207);
-} else {
-    echo " <account_out>\n";
-    echo "   <authenticator>$authenticator</authenticator>\n";
-    echo "</account_out>\n";
-}
+echo " <account_out>\n";
+echo "   <authenticator>$authenticator</authenticator>\n";
+echo "</account_out>\n";
 
 ?>
 

@@ -22,10 +22,15 @@ function xml_header() {
 function xml_error($num, $msg=null) {
     if (!$msg) {
         switch($num) {
+        case -112: $msg = "Invalid XML"; break;
         case -136: $msg = "Invalid ID"; break;
+        case -137: $msg = "Name or email address is not unique"; break;
         case -138: $msg = "Can't access database"; break;
         case -183: $msg = "Project is temporarily offline"; break;
+        case -205: $msg = "Email address has invalid syntax"; break;
         case -206: $msg = "Invalid password"; break;
+        case -207: $msg = "Email address is not unique"; break;
+        case -208: $msg = "Account creation is disabled"; break;
         default: "Unknown error"; break;
         }
     }
