@@ -231,10 +231,42 @@ t(int what)
 	case 4:
 	{
 		char *s;
-		wu= create_short();
+		int r;
+		wu= create_long(20);
 		printf("Ser=\"%s\"\n", s= DC_serializeWU(wu));
+		create_file("serialized_wu.txt", s);
 		free(s);
+		printf("Submitting...\n");
+		if ((r= DC_submitWU(wu)) != 0)
+			fail("DC_submitWU", r);
+		DC_setMasterCb(result_cb, subresult_cb, message_cb);
+
+		printf("waiting to be running...\n");
+		procs(wu, DC_WU_RUNNING, 1);
+		/*DC_destroyWU(wu);*/
+		break;
+	}
+	case 5:
+	{
+		char *s= get_file("serialized_wu.txt");
+		int r;
+		wu= DC_deserializeWU(s);
+		free(s);
+
+		printf("Submitting...\n");
+		if ((r= DC_submitWU(wu)) != 0)
+			fail("DC_submitWU", r);
+		DC_setMasterCb(result_cb, subresult_cb, message_cb);
+
+		printf("waiting to be running...\n");
+		procs(wu, DC_WU_RUNNING, 1);
+		
+		printf("waiting to finish...\n");
+		procs(wu, DC_WU_FINISHED, 1);
+		
+		printf("Destroying...\n");
 		DC_destroyWU(wu);
+		break;
 	}
 	}
 }
