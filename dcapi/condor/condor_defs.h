@@ -103,7 +103,9 @@ typedef enum
 	st_argc,
 	st_argv,
 	st_state,
-	st_state_name
+	st_state_name,
+	st_nuof_reported,
+	st_reported
 } _DC_serialized_token;
 
 
