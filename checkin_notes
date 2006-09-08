@@ -10071,3 +10071,12 @@ David  8 Sept 2006
 	lib/
 		gui_rpc_client.h
 		gui_rpc_client_ops.C
+
+David  8 Sept 2006
+    - core client, Unix:
+        change syslog() call so message is INFO rather than EMERGENCY
+        (from Evandro Menezes)
+
+    client/
+        main.C
+

@@ -688,7 +688,7 @@ int main(int argc, char** argv) {
     
     for (i = 1; i < argc; i++) {
         if (strcmp(argv[i], "-daemon") == 0 || strcmp(argv[i], "--daemon") == 0) {
-            syslog(LOG_DAEMON, "Starting Boinc-Daemon, listening on port %d.", GUI_RPC_PORT);
+            syslog(LOG_DAEMON|LOG_INFO, "Starting Boinc-Daemon, listening on port %d.", GUI_RPC_PORT);
             // from <unistd.h>:
             // Detach from the controlling terminal and run in the background as system daemon.
             // Don't change working directory to root ("/"), but redirect
