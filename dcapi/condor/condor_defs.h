@@ -1,6 +1,11 @@
-/* Local variables: */
-/* c-file-style: "linux" */
-/* End: */
+/*
+ * condor/condor_defs.h
+ *
+ * DC-API type definitions for master side
+ *
+ * (c) Daniel Drotos, 2006
+ */
+
 
 #ifndef __DC_API_CONDOR_DEFS_H_
 #define __DC_API_CONDOR_DEFS_H_
@@ -112,3 +117,7 @@ typedef enum
 #endif
 
 /* End of condor/condor_defs.h */
+
+/* Local variables: */
+/* c-file-style: "linux" */
+/* End: */

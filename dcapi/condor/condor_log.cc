@@ -1,6 +1,11 @@
-/* Local variables: */
-/* c-file-style: "linux" */
-/* End: */
+/*
+ * condor/condor_log.cc
+ *
+ * DC-API utils to read and process condor "user log" file
+ *
+ * (c) Daniel Drotos, 2006
+ */
+
 
 #include <stdio.h>
 #include <time.h>
@@ -215,3 +220,7 @@ _DC_wu_exit_code(DC_Workunit *wu, int *res)
 
 
 /* End of condor_log.cc */
+
+/* Local variables: */
+/* c-file-style: "linux" */
+/* End: */

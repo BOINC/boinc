@@ -1,6 +1,11 @@
-/* Local variables: */
-/* c-file-style: "linux" */
-/* End: */
+/*
+ * condor/condor_common.h
+ *
+ * DC-API functions common for master and slave side
+ *
+ * (c) Daniel Drotos, 2006
+ */
+
 
 #ifndef _DC_API_CONDOR_COMMON_H_
 #define _DC_API_CONDOR_COMMON_H_
@@ -59,3 +64,7 @@ extern void _DC_init_common(void);
 #endif
 
 /* End of condor/condor_common.h */
+
+/* Local variables: */
+/* c-file-style: "linux" */
+/* End: */

@@ -1,6 +1,11 @@
-/* Local variables: */
-/* c-file-style: "linux" */
-/* End: */
+/*
+ * condor/condor_log.h
+ *
+ * DC-API utils to read and process condor "user log" file
+ *
+ * (c) Daniel Drotos, 2006
+ */
+
 
 #ifndef _DC_API_CONDOR_LOG_H_
 #define _DC_API_CONDOR_LOG_H_
@@ -24,3 +29,7 @@ extern int _DC_wu_exit_code(DC_Workunit *wu, int *res);
 #endif
 
 /* End of condor/condor_log.h */
+
+/* Local variables: */
+/* c-file-style: "linux" */
+/* End: */

@@ -1,6 +1,10 @@
-/* Local variables: */
-/* c-file-style: "linux" */
-/* End: */
+/*
+ * condor/condor_common.c
+ *
+ * DC-API functions common for master and slave side
+ *
+ * (c) Daniel Drotos, 2006
+ */
 
 #include <glib.h>
 #include <stdio.h>
@@ -86,3 +90,7 @@ unsigned DC_getGridCapabilities(void)
 
 
 /* End of condor/condor_common.c */
+
+/* Local variables: */
+/* c-file-style: "linux" */
+/* End: */

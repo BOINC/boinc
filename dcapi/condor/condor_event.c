@@ -1,6 +1,11 @@
-/* Local variables: */
-/* c-file-style: "linux" */
-/* End: */
+/*
+ * condor/condor_event.c
+ *
+ * DC-API functions to handle DC_MasterEvent data type
+ *
+ * (c) Daniel Drotos, 2006
+ */
+
 
 #include <glib.h>
 
@@ -74,3 +79,7 @@ _DC_event_destroy(DC_MasterEvent *event)
 
 
 /* End of condor/condor_event.h */
+
+/* Local variables: */
+/* c-file-style: "linux" */
+/* End: */

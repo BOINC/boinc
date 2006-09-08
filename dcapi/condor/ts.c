@@ -1,6 +1,10 @@
-/* Local variables: */
-/* c-file-style: "linux" */
-/* End: */
+/*
+ * condor/ts.c
+ *
+ * DC-API test application, slave
+ *
+ * (c) Daniel Drotos, 2006
+ */
 
 #include "dc_client.h"
 
@@ -155,3 +159,7 @@ int WINAPI WinMain(HINSTANCE hInst, HINSTANCE hPrevInst, LPSTR Args, int WinMode
 	return main(argc, argv);
 }
 #endif
+
+/* Local variables: */
+/* c-file-style: "linux" */
+/* End: */

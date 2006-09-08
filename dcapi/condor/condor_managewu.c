@@ -1,6 +1,11 @@
-/* Local variables: */
-/* c-file-style: "linux" */
-/* End: */
+/*
+ * condor/condor_managewu.c
+ *
+ * DC-API wu management functions
+ *
+ * (c) Daniel Drotos, 2006
+ */
+
 
 #include <stdio.h>
 #include <stdlib.h>
@@ -207,3 +212,7 @@ DC_resumeWU(DC_Workunit *wu)
 
 
 /* End of condor/condor_managewu.c */
+
+/* Local variables: */
+/* c-file-style: "linux" */
+/* End: */
