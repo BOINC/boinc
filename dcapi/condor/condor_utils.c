@@ -383,7 +383,7 @@ _DC_unquote_string(char *str)
 	s= calloc(strlen(str)+1, 1);
 	p= str;
 	i= s;
-	while (!*p)
+	while (*p != '\0')
 	{
 		if (*p != '\\')
 			*i= *p;
@@ -401,7 +401,7 @@ _DC_unquote_string(char *str)
 			l= strtol(p+1, 0, 8);
 			*i= (char)l;
 			*x= c;
-			p= x;
+			p= x-1;
 		}
 		p++;
 		i++;
