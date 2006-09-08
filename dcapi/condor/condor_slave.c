@@ -1,6 +1,10 @@
-/* Local variables: */
-/* c-file-style: "linux" */
-/* End: */
+/*
+ * condor/condor_slave.c
+ *
+ * DC-API functions of slave side
+ *
+ * (c) Daniel Drotos, 2006
+ */
 
 #include <stdio.h>
 #include <string.h>
@@ -343,3 +347,7 @@ void DC_finishClient(int exitcode)
 
 
 /* End of condor/condor_slave.c */
+
+/* Local variables: */
+/* c-file-style: "linux" */
+/* End: */

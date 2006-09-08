@@ -1,6 +1,10 @@
-/* Local variables: */
-/* c-file-style: "linux" */
-/* End: */
+/*
+ * condor/condor_master.h
+ *
+ * DC-API functions of master side
+ *
+ * (c) Daniel Drotos, 2006
+ */
 
 #ifndef _DC_API_CONDOR_MASTER_H_
 #define _DC_API_CONDOR_MASTER_H_
@@ -26,3 +30,7 @@ extern char *_DC_acfg(enum _DC_e_param what);
 #endif
 
 /* End of condor/condor_master.h */
+
+/* Local variables: */
+/* c-file-style: "linux" */
+/* End: */

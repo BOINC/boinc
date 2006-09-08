@@ -1,6 +1,10 @@
-/* Local variables: */
-/* c-file-style: "linux" */
-/* End: */
+/*
+ * condor/tm.c
+ *
+ * DC-API test application, master
+ *
+ * (c) Daniel Drotos, 2006
+ */
 
 #include <stdio.h>
 #include <string.h>
@@ -262,3 +266,7 @@ main(int argc, char *argv[])
 
 	return 0;
 }
+
+/* Local variables: */
+/* c-file-style: "linux" */
+/* End: */

@@ -1,6 +1,10 @@
-/* Local variables: */
-/* c-file-style: "linux" */
-/* End: */
+/*
+ * condor/condor_wu.c
+ *
+ * DC-API functions to handle DC_Workunit data type
+ *
+ * (c) Daniel Drotos, 2006
+ */
 
 #include <glib.h>
 #include <stdio.h>
@@ -427,3 +431,7 @@ _DC_wu_check_client_messages(DC_Workunit *wu)
 
 
 /* End of condor/condor_wu.c */
+
+/* Local variables: */
+/* c-file-style: "linux" */
+/* End: */

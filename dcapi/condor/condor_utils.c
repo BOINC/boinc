@@ -1,6 +1,10 @@
-/* Local variables: */
-/* c-file-style: "linux" */
-/* End: */
+/*
+ * condor/condor_utils.c
+ *
+ * DC-API usefull functions
+ *
+ * (c) Daniel Drotos, 2006
+ */
 
 #include <stdio.h>
 #include <sys/stat.h>
@@ -407,3 +411,7 @@ _DC_unquote_string(char *str)
 
 
 /* End of condor_utils.c */
+
+/* Local variables: */
+/* c-file-style: "linux" */
+/* End: */

@@ -1,6 +1,10 @@
-/* Local variables: */
-/* c-file-style: "linux" */
-/* End: */
+/*
+ * condor/condor_wu.h
+ *
+ * DC-API functions to handle DC_Workunit data type
+ *
+ * (c) Daniel Drotos, 2006
+ */
 
 #ifndef _DC_API_CONDOR_WU_H_
 #define _DC_API_CONDOR_WU_H_
@@ -48,3 +52,7 @@ extern DC_MasterEvent *_DC_wu_check_client_messages(DC_Workunit *wu);
 #endif
 
 /* End of condor/condor_wu.h */
+
+/* Local variables: */
+/* c-file-style: "linux" */
+/* End: */

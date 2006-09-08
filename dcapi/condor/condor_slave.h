@@ -1,6 +1,10 @@
-/* Local variables: */
-/* c-file-style: "linux" */
-/* End: */
+/*
+ * condor/condor_slave.h
+ *
+ * DC-API functions of slave side
+ *
+ * (c) Daniel Drotos, 2006
+ */
 
 #ifndef __DC_API_CONDOR_SLAVE_H_
 #define __DC_API_CONDOR_SLAVE_H_
@@ -21,3 +25,7 @@ extern "C" {
 #endif
 
 /* End of condor/condor_slave.h */
+
+/* Local variables: */
+/* c-file-style: "linux" */
+/* End: */

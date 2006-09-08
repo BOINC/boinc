@@ -1,6 +1,10 @@
-/* Local variables: */
-/* c-file-style: "linux" */
-/* End: */
+/*
+ * condor/condor_result.h
+ *
+ * DC-API functions to handle DC_Result data type
+ *
+ * (c) Daniel Drotos, 2006
+ */
 
 #ifndef _DC_API_CONDOR_RESULT_H_
 #define _DC_API_CONDOR_RESULT_H_
@@ -23,3 +27,7 @@ extern void _DC_result_destroy(DC_Result *result);
 #endif
 
 /* End of condor/condor_result.h */
+
+/* Local variables: */
+/* c-file-style: "linux" */
+/* End: */
