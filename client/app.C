@@ -95,12 +95,11 @@ ACTIVE_TASK::ACTIVE_TASK() {
     checkpoint_cpu_time = 0;
     checkpoint_wall_time = 0;
     current_cpu_time = 0;
-    vm_bytes = 0;
-    rss_bytes = 0;
     have_trickle_down = false;
     send_upload_file_status = false;
     pending_suspend_via_quit = false;
     want_network = 0;
+	memset(&procinfo, 0, sizeof(procinfo));
 #ifdef _WIN32
     pid_handle = 0;
     thread_handle = 0;
@@ -197,25 +196,28 @@ void ACTIVE_TASK_SET::get_memory_usage() {
     static double last_mem_time=0;
 	unsigned int i;
 
-    if (gstate.now - last_mem_time < 10) return;
+	double diff = gstate.now - last_mem_time;
+    if (diff < 10) return;
 
     last_mem_time = gstate.now;
     vector<PROCINFO> piv;
-    PROCINFO pi;
     procinfo_setup(piv);
     for (i=0; i<active_tasks.size(); i++) {
         ACTIVE_TASK* atp = active_tasks[i];
         if (atp->task_state == PROCESS_EXECUTING) {
+			PROCINFO& pi = atp->procinfo;
+			unsigned long last_page_fault_count = pi.page_fault_count;
             memset(&pi, 0, sizeof(pi));
             pi.id = atp->pid;
             procinfo_app(pi, piv);
-            atp->rss_bytes = pi.working_set_size;
-            atp->vm_bytes = pi.swap_size;
+			int pf = pi.page_fault_count - last_page_fault_count;
+			pi.page_fault_rate = pf/diff;
             if (log_flags.mem_usage_debug) {
                 msg_printf(NULL, MSG_INFO,
-                    "[mem_usage_debug] %s: RAM %dKB, page %dKB, user CPU %f, kernel CPU %f",
+                    "[mem_usage_debug] %s: RAM %dKB, page %dKB, %f page faults/sec, user CPU %f, kernel CPU %f",
                     atp->result->name,
                     (int)(pi.working_set_size/1024), (int)(pi.swap_size/1024),
+					pi.page_fault_rate,
                     pi.user_time, pi.kernel_time
                 );
             }
@@ -387,8 +389,9 @@ int ACTIVE_TASK::write(MIOFILE& fout) {
         "    <checkpoint_cpu_time>%f</checkpoint_cpu_time>\n"
         "    <fraction_done>%f</fraction_done>\n"
         "    <current_cpu_time>%f</current_cpu_time>\n"
-        "    <vm_bytes>%f</vm_bytes>\n"
-        "    <rss_bytes>%f</rss_bytes>\n",
+        "    <swap_size>%f</swap_size>\n"
+        "    <working_set_size>%f</working_set_size>\n"
+		"    <page_fault_rate>%f</page_fault_rate>\n",
         result->project->master_url,
         result->name,
         task_state,
@@ -398,8 +401,9 @@ int ACTIVE_TASK::write(MIOFILE& fout) {
         checkpoint_cpu_time,
         fraction_done,
         current_cpu_time,
-        vm_bytes,
-        rss_bytes
+        procinfo.swap_size,
+        procinfo.working_set_size,
+		procinfo.page_fault_rate
     );
     if (supports_graphics() && !gstate.disable_graphics) {
         fout.printf(
@@ -489,8 +493,9 @@ int ACTIVE_TASK::parse(MIOFILE& fin) {
         else if (parse_double(buf, "<fraction_done>", fraction_done)) continue;
         else if (parse_double(buf, "<current_cpu_time>", current_cpu_time)) continue;
         else if (parse_int(buf, "<active_task_state>", n)) continue;
-        else if (parse_double(buf, "<vm_bytes>", vm_bytes)) continue;
-        else if (parse_double(buf, "<rss_bytes>", rss_bytes)) continue;
+        else if (parse_double(buf, "<swap_size>", procinfo.swap_size)) continue;
+        else if (parse_double(buf, "<working_set_size>", procinfo.working_set_size)) continue;
+        else if (parse_double(buf, "<page_fault_rate>", procinfo.page_fault_rate)) continue;
         else if (match_tag(buf, "<supports_graphics/>")) continue;
         else if (parse_int(buf, "<graphics_mode_acked>", n)) continue;
         else if (parse_int(buf, "<scheduler_state>", n)) continue;

@@ -468,12 +468,12 @@ bool ACTIVE_TASK::check_max_disk_exceeded() {
 }
 
 bool ACTIVE_TASK::check_max_mem_exceeded() {
-    if (max_mem_usage != 0 && rss_bytes > max_mem_usage) {
+    if (max_mem_usage != 0 && procinfo.working_set_size > max_mem_usage) {
 		if (log_flags.mem_usage_debug) {
 			msg_printf(
 				result->project, MSG_INFO,
 				"[mem_usage_debug] Task %s: memory usage %f exceeds limit %f\n",
-				result->name, rss_bytes, max_mem_usage
+				result->name, procinfo.working_set_size, max_mem_usage
 			);
 		}
         //abort_task(ERR_RSC_LIMIT_EXCEEDED, "Maximum memory usage exceeded");
@@ -490,7 +490,7 @@ bool ACTIVE_TASK_SET::vm_limit_exceeded(double vm_limit) {
     for (i=0; i<active_tasks.size(); ++i) {
         atp = active_tasks[i];
         if (!atp->process_exists()) continue;
-        total_vm_usage += atp->vm_bytes;
+        total_vm_usage += atp->procinfo.swap_size;
     }
 
     return (total_vm_usage > vm_limit);

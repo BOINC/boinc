@@ -9957,3 +9957,36 @@ David  7 Sept 2006
 
     client/
         *.C
+
+David  8 Sept 2006
+	- core client: frustrating attempt to get page fault rate on Windows.
+		It turns out that the "page fault count" reported by Windows
+		includes "soft" page faults that don't read from disk.
+		A typical process gets hundreds or thousands of these per second.
+		There doesn't seem to be a way to get a count
+		of real page faults.
+
+		In any case: I added PROCINFO to the ACTIVE_TASK structure,
+		eliminating the need for the vm_nbytes and rss_bytes fields.
+
+	Note: the reason I'm worrying about this is:
+	suppose an OS defines a process's "working set"
+	as the amount of RAM it currently has.
+	Then all running apps will appear to fit in RAM,
+	and our goal of avoiding thrashing will fail.
+	I was looking at page fault rate as a way to get around this.
+
+	However: I ran across a note that says that Windows
+	defines "working set" as "the amount of memory needed
+	for the process to run efficiently".
+	If that's the case, we don't need to worry about page fault rate.
+
+	client/
+		app.C,h
+		app_control.C
+		cpu_sched.C
+	lib/
+		procinfo.h
+		procinfo_win.C
+	win_build/
+		boinc_cli_curl.vcproj

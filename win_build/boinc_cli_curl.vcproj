@@ -1725,6 +1725,10 @@
 				>
 			</File>
 			<File
+				RelativePath="..\lib\diagnostics_win.h"
+				>
+			</File>
+			<File
 				RelativePath="..\lib\error_numbers.h"
 				>
 			</File>

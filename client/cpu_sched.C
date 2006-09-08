@@ -615,17 +615,17 @@ bool CLIENT_STATE::enforce_schedule() {
             // the scheduled result is already running.
             // see if it fits in mem
             //
-            if (mem_used + atp->rss_bytes > max_mem_used) {
+            if (mem_used + atp->procinfo.working_set_size > max_mem_used) {
                 atp->next_scheduler_state = CPU_SCHED_PREEMPTED;
                 nrunning--;
                 if (log_flags.mem_usage_debug) {
                     msg_printf(rp->project, MSG_INFO,
                         "[mem_usage_debug] enforce: result %s mem1 %f %f %f",
-                        rp->name, mem_used, atp->rss_bytes, max_mem_used
+                        rp->name, mem_used, atp->procinfo.working_set_size, max_mem_used
                     );
                 }
             } else {
-                mem_used += atp->rss_bytes;
+                mem_used += atp->procinfo.working_set_size;
                 continue;
             }
         }
@@ -635,11 +635,11 @@ bool CLIENT_STATE::enforce_schedule() {
         //
         atp = active_tasks.lookup_result(rp);
         if (atp) {
-            if (mem_used + atp->rss_bytes > max_mem_used) {
+            if (mem_used + atp->procinfo.working_set_size > max_mem_used) {
                 if (log_flags.mem_usage_debug) {
                     msg_printf(rp->project, MSG_INFO,
                         "[mem_usage_debug] enforce: result %s mem2 %f %f %f",
-                        rp->name, mem_used, atp->rss_bytes, max_mem_used
+                        rp->name, mem_used, atp->procinfo.working_set_size, max_mem_used
                     );
                 }
                 continue;
@@ -685,7 +685,7 @@ bool CLIENT_STATE::enforce_schedule() {
             atp = get_task(rp);
             atp->next_scheduler_state = CPU_SCHED_SCHEDULED;
             nrunning++;
-            mem_used += atp->rss_bytes;
+            mem_used += atp->procinfo.working_set_size;
         }
     }
 
@@ -693,16 +693,16 @@ bool CLIENT_STATE::enforce_schedule() {
     //
     for (i=0; i<running_tasks.size(); i++) {
         atp = running_tasks[i];
-        if (mem_used + atp->rss_bytes > max_mem_used) {
+        if (mem_used + atp->procinfo.working_set_size > max_mem_used) {
             atp->next_scheduler_state = CPU_SCHED_PREEMPTED;
             if (log_flags.mem_usage_debug) {
                 msg_printf(atp->result->project, MSG_INFO,
                     "[mem_usage_debug] enforce: result %s mem3 %f %f %f",
-                    atp->result->name, mem_used, atp->rss_bytes, max_mem_used
+                    atp->result->name, mem_used, atp->procinfo.working_set_size, max_mem_used
                 );
             }
         } else {
-            mem_used += atp->rss_bytes;
+            mem_used += atp->procinfo.working_set_size;
         }
     }
 

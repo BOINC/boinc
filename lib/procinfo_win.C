@@ -67,6 +67,7 @@ int get_procinfo_XP(vector<PROCINFO>& pi) {
 		p.parentid = pProcesses->InheritedFromProcessId;
         p.swap_size = pProcesses->VmCounters.PagefileUsage;
         p.working_set_size = pProcesses->VmCounters.WorkingSetSize;
+		p.page_fault_count = pProcesses->VmCounters.PageFaultCount;
         p.user_time = ((double) pProcesses->UserTime.QuadPart)/1e7;
         p.kernel_time = ((double) pProcesses->KernelTime.QuadPart)/1e7;
 		p.id = pProcesses->ProcessId;
@@ -137,6 +138,7 @@ void add_proc_totals(PROCINFO& pi, vector<PROCINFO>& piv, int pid, int start) {
 			pi.user_time += p.user_time;
 			pi.swap_size += p.swap_size;
 			pi.working_set_size += p.working_set_size;
+			pi.page_fault_count += p.page_fault_count;
 			p.is_boinc_app = true;
 		} 
 		if (p.parentid == pid) {

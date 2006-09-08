@@ -27,6 +27,7 @@
 
 #include "client_types.h"
 #include "app_ipc.h"
+#include "procinfo.h"
 
 class CLIENT_STATE;
 typedef int PROCESS_ID;
@@ -82,7 +83,9 @@ public:
     WORKUNIT* wup;
     APP_VERSION* app_version;
     PROCESS_ID pid;
-    int slot;   // which slot (determines directory)
+	PROCINFO procinfo;
+
+    int slot;   // subdirectory of slots/ where this runs
     int task_state;
     int scheduler_state;
     int next_scheduler_state; // temp
@@ -103,10 +106,6 @@ public:
         // wall time at the last checkpoint
     double current_cpu_time;
         // most recent CPU time reported by app
-    double vm_bytes;
-        // swap space used
-    double rss_bytes;
-        // working set size
     int current_disk_usage(double&);
         // disk used by output files and temp files of this task
     char slot_dir[256];      // directory where process runs
