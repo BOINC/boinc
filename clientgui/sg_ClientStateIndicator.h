@@ -62,6 +62,7 @@ private:
 		void SetNoActionState(const char* message);
 		void SetPausedState(const char* message);
 		bool DownloadingResults();
+		bool Suspended();
 	    wxImage *g_stateIndBg;
 		wxImage *g_compBg;
 		wxImage *g_connInd;

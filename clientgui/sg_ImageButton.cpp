@@ -72,4 +72,11 @@ void CImageButton::OnLeftUp(wxMouseEvent& event)
 	pView->OnImageButton();
 	
 }
+
+void CImageButton::SetShowText(bool show) {
+	if ( show != m_drawText )  {
+		m_drawText = show;
+		Refresh();
+	}
+}
  

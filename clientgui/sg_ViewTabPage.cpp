@@ -157,6 +157,14 @@ void CViewTabPage::UpdateInterface()
 	//lblTimeRemainingValue->Refresh();
 	DrawText();
 
+	// check to see if we can display graphics
+	if (resultWU->supports_graphics && resultWU->active_task_state == 1) {
+		m_hasGraphic = true;
+	} else {
+		m_hasGraphic = false;
+	}
+	btnAminBg->SetShowText(m_hasGraphic);
+
 }
 void CViewTabPage::ReskinInterface()
 {	

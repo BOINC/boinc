@@ -35,6 +35,7 @@ public:
 		void OnPaint(wxPaintEvent& event); 
 		void OnLeftUp(wxMouseEvent& event);
 		void OnEraseBackground(wxEraseEvent& event);
+		void SetShowText(bool show);
 private: 
         //static const int MaxWidth = 320; 
         //static const int MaxHeight = 240; 

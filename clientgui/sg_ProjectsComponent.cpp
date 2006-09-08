@@ -46,7 +46,7 @@ BEGIN_EVENT_TABLE(CProjectsComponent, wxPanel)
 	EVT_TIMER(ID_CHECKFORERRORMESSAGETIMER, CProjectsComponent::CheckForErrorMessages)
 END_EVENT_TABLE()
 
-int CProjectsComponent::lastMessageId = 0;
+size_t CProjectsComponent::lastMessageId = 0;
 
 CProjectsComponent::CProjectsComponent() {}
 
@@ -392,6 +392,12 @@ void CProjectsComponent::UpdateInterface()
 	if(m_projCnt > m_maxNumOfIcons){
 		btnArwRight->Show(true);
 	}
+
+	// Update stat icons
+	for(int m = 0; m < (int)m_statProjects.size(); m++){
+		StatImageLoader *i_statWShifting = m_statProjects.at(m);
+		i_statWShifting->UpdateInterface();
+	}
 	
 }
 
@@ -441,6 +447,11 @@ void CProjectsComponent::ReskinInterface()
 	lnMyProjTop->SetLineColor(appSkin->GetStaticLineCol());
 	lnMyProjBtm->SetLineColor(appSkin->GetStaticLineCol());
 
+	// Rebuild menus for the stat icons
+	for(int m = 0; m < (int)m_statProjects.size(); m++){
+		StatImageLoader *i_statWShifting = m_statProjects.at(m);
+		i_statWShifting->RebuildMenu();
+	}
 }
 
 void CProjectsComponent::OnBtnClick(wxCommandEvent& event){ //init function
@@ -616,11 +627,11 @@ void CProjectsComponent::CheckForErrorMessages(wxTimerEvent& WXUNUSED(event)) {
 	CMainDocument* pDoc     = wxGetApp().GetDocument();
 	MESSAGE* message;
 	// Only look at the messages recieved since the last time we looked
-	if ( pDoc->GetMessageCount() > lastMessageId ) {
+	if ( pDoc->GetMessageCount() > (int) lastMessageId ) {
 		// Loop through and check for any messages recieved that are error messages
-		for(int i=lastMessageId; i < pDoc->messages.messages.size(); i++) {
+		for(size_t i=lastMessageId; i < pDoc->messages.messages.size(); i++) {
 			lastMessageId = i+1;
-			message = pDoc->message(i);
+			message = pDoc->message((unsigned int) i);
 			if ( message != NULL && message->priority == MSG_ERROR ) {
 				receivedErrorMessage = true;
 				checkForMessagesTimer->Stop();

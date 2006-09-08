@@ -264,8 +264,6 @@ void CSimpleFrame::DestroyEmptyView() {
 
 void CSimpleFrame::InitEmptyView()
 {
-	Show(false);
-	Centre();
 	//Set Background color
 	SetBackgroundColour(appSkin->GetAppBgCol());
 
@@ -285,7 +283,6 @@ void CSimpleFrame::UpdateProjectView()
 }
 void CSimpleFrame::InitResultView()
 {
-	CMainDocument* pDoc     = wxGetApp().GetDocument();
 	SetSizer(mainSizer);
 	mainSizer->Add(31, 98,0);
 	mainSizer->Add(343, 98,0);
@@ -328,7 +325,7 @@ void CSimpleFrame::UpdateResultView(){
 	}
     // Update Tabs
 	RESULT* result;
-	for(int i = 0; i < pDoc->results.results.size(); i++){
+	for(int i = 0; i < (int) pDoc->results.results.size(); i++){
 		result = pDoc->result(i);
 		if ( result == NULL || !result->active_task ) {
 			continue;
@@ -358,6 +355,19 @@ void CSimpleFrame::UpdateResultView(){
 
 		}
 		if(!found){
+
+			// First check to see if the underlying state object contains this data
+			// if not, then force an update and skip this result for now.
+			RESULT* resState = NULL;
+			std::string projUrl = result->project_url;
+			std::string nme = result->name;
+            resState = pDoc->state.lookup_result(projUrl, nme);
+			if(!resState){
+                pDoc->ForceCacheUpdate();
+ 				continue;
+			}
+ 			wxString appShortName = wxString(resState->app->name.c_str(), wxConvUTF8 );
+
 			bool addNotebookToSizer = false;
 			//stop timer untill we add the page
 			m_pFrameRenderTimer->Stop();
@@ -370,23 +380,12 @@ void CSimpleFrame::UpdateResultView(){
                 addNotebookToSizer = true; // since this is first page
 			}
 			// create one and add it to notebook
-			std::string projUrl = result->project_url;
-			std::string nme = result->name;
-			RESULT* resState = NULL;
- 			wxString friendlyName;
- 
-            resState = pDoc->state.lookup_result(projUrl, nme);
-			if(!resState){
-                pDoc->ForceCacheUpdate();
-                resState = pDoc->state.lookup_result(projUrl, nme);
-			}
-            friendlyName = wxString(resState->app->name.c_str(), wxConvUTF8 );
 			std::string index = " ";
 			//index += i;
-			friendlyName += wxString(index.c_str(), wxConvUTF8 );
+			appShortName += wxString(index.c_str(), wxConvUTF8 );
 			CViewTabPage *wTab = new CViewTabPage(wrkUnitNB,result,nme,projUrl);
 		
-			wrkUnitNB->AddPage(wTab, friendlyName, true);	
+			wrkUnitNB->AddPage(wTab, appShortName, true);	
 			if(result->active_task_state == 1){
 				int pageIndex = wrkUnitNB->GetPageIndex(wTab);
 				wrkUnitNB->SetPageImageIndex(pageIndex, 0); // this is working process

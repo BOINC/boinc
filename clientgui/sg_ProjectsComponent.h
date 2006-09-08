@@ -136,7 +136,7 @@ private:
 	wxTimer* checkForMessagesTimer;
 	bool receivedErrorMessage;
 	bool alertMessageDisplayed;
-	static int lastMessageId;
+	static size_t lastMessageId;
 	void CheckForErrorMessages(wxTimerEvent& WXUNUSED(event));
    	void MessagesViewed();
 };

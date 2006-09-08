@@ -10015,3 +10015,23 @@ David  8 Sept 2006
 		AccountInfoPage.cpp
 		CompletionErrorPage.cpp
 		ProjectPropertiesPage.cpp
+		
+Kevin  8 Sept 2006
+	- BSG: 
+		- Resolved some remaining bugs that prevented display of project information for newly attached projects
+		- The show graphics button will only be displayed when graphics can actually be displayed
+		- Added additional states to explain why no work is running (ex: benchmarks running).
+		- The drop down for project gui urls will now be updated when the list of GUI urls for the project become available
+	    - Detaching from a project no longer causes the app to minimize to the system tray
+	    
+	clientgui/
+		sg_BoincSimpleGUI.cpp
+		sg_ClientStateIndicator.cpp
+		sg_ClientStateIndicator.h
+		sg_ImageButton.cpp
+		sg_ImageButton.h
+		sg_ProjectsComponent.cpp
+		sg_ProjectsComponent.h
+		sg_StatImageLoader.cpp
+		sg_StatImageLoader.h
+		sg_ViewTabPage.cpp

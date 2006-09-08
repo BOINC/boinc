@@ -22,12 +22,15 @@ public:
 		void OnMenuLinkClicked(wxCommandEvent& event);
 		void OnProjectDetach();
 		void PopUpMenu(wxMouseEvent& event); 
-        void OnPaint(wxPaintEvent& event); 
+        void OnPaint(wxPaintEvent& event);
+		void RebuildMenu();
+		void UpdateInterface();
 private: 
         //private memb 
         wxBitmap Bitmap; 
 		std::string projectIcon;
 		int numReloadTries;
+		size_t urlCount;
 		wxTimer* attemptToReloadTimer;
 		void LoadStatIcon(const wxImage& image);
 		void CheckForProjectIconDownloaded(wxTimerEvent& WXUNUSED(event));

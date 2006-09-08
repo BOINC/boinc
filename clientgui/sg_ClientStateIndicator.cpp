@@ -244,6 +244,17 @@ bool ClientStateIndicator::DownloadingResults() {
 	return return_value;
 }
 
+bool ClientStateIndicator::Suspended() {
+	CMainDocument* pDoc     = wxGetApp().GetDocument();
+	CC_STATUS status;
+	bool result = false;
+	pDoc->GetCoreClientStatus(status);
+	if ( pDoc->IsConnected() && status.task_suspend_reason > 0 && status.task_suspend_reason != SUSPEND_REASON_DISK_SIZE &&  status.task_suspend_reason != SUSPEND_REASON_CPU_USAGE_LIMIT ) {
+		result = true;
+	}
+	return result;
+}
+
 void ClientStateIndicator::DisplayState() {
 	CMainDocument* pDoc     = wxGetApp().GetDocument();
 	if ( pDoc->IsReconnecting() ) {
@@ -255,6 +266,23 @@ void ClientStateIndicator::DisplayState() {
 	} else if ( DownloadingResults() ) {
 		error_time = 0;
 		SetActionState(_T("Downloading work from the server."));
+	} else if ( Suspended() ) {
+		CC_STATUS status;
+		bool result = false;
+		pDoc->GetCoreClientStatus(status);
+		if ( status.task_suspend_reason & SUSPEND_REASON_BATTERIES ) {
+			SetActionState(_T("Processing Suspended:  Running On Batteries."));
+		} else if ( status.task_suspend_reason & SUSPEND_REASON_USER_ACTIVE ) {
+			SetActionState(_T("Processing Suspended:  User Active."));
+		} else if ( status.task_suspend_reason & SUSPEND_REASON_USER_REQ ) {
+			SetActionState(_T("Processing Suspended:  User paused processing."));
+		} else if ( status.task_suspend_reason & SUSPEND_REASON_TIME_OF_DAY ) {
+			SetActionState(_T("Processing Suspended:  Time of Day."));
+		} else if ( status.task_suspend_reason & SUSPEND_REASON_BENCHMARKS ) {
+			SetActionState(_T("Processing Suspended:  Benchmarks Running."));
+		} else {
+			SetActionState(_T("Processing Suspended."));
+		}
 	} else {
 		if ( error_time == 0 ) {
 			error_time = time(NULL) + 15;

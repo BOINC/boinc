@@ -34,6 +34,13 @@ void StatImageLoader::PopUpMenu(wxMouseEvent& WXUNUSED(event))
 	bool menuPoped = PopupMenu(statPopUpMenu);
 }
 
+void StatImageLoader::RebuildMenu() {
+	Freeze();
+	delete statPopUpMenu;
+	CreateMenu();
+	Thaw();
+}
+
 void StatImageLoader::CreateMenu() 
 { 
 	CMainDocument* pDoc = wxGetApp().GetDocument();
@@ -42,9 +49,8 @@ void StatImageLoader::CreateMenu()
 	appSkin = SkinClass::Instance();
 
 	PROJECT* project = pDoc->state.lookup_project(m_prjUrl);
-	size_t urlCount = project->gui_urls.size();
+	urlCount = project->gui_urls.size();
 	
-	// create pop up menu
 	statPopUpMenu = new wxMenu(wxSIMPLE_BORDER);
 
 	for(unsigned int i = 0; i < urlCount; i++){
@@ -59,7 +65,6 @@ void StatImageLoader::CreateMenu()
     
 	statPopUpMenu->AppendSeparator();
 	wxMenuItemList menuList = statPopUpMenu->GetMenuItems();
-	//wxMenuItem* separ = statPopUpMenu->FindItemByPosition(i);
 	#ifdef __WXMSW__
 		menuList[statPopUpMenu->GetMenuItemCount()-1]->SetBackgroundColour(wxColour("RED"));
 	#endif
@@ -70,12 +75,7 @@ void StatImageLoader::CreateMenu()
 	#endif
 	Connect( WEBSITE_URL_MENU_ID_REMOVE_PROJECT,  wxEVT_COMMAND_MENU_SELECTED, wxCommandEventHandler(StatImageLoader::OnMenuLinkClicked) );
 	statPopUpMenu->Append(urlItem);
-	//
-	/*
-	wxBitmap  *btmTellFriend = new wxBitmap();
-	btmTellFriend->LoadFile("skins/default/graphic/micnTellFriend.png",wxBITMAP_TYPE_PNG);
-    itmTellFriend->SetBitmap(*btmTellFriend);
-	*/
+
 }
 void StatImageLoader::OnMenuLinkClicked(wxCommandEvent& event) 
 { 
@@ -124,9 +124,6 @@ void StatImageLoader::OnProjectDetach() {
 			break;
 		}
 	}
-    // PROJECT* project = pDoc->project(m_ProjIconIndex);
-    //project->get_name(strProjectName);
-
     strMessage.Printf(
         _("Are you sure you want to detach from project '%s'?"), 
         strProjectName.c_str()
@@ -164,7 +161,6 @@ void StatImageLoader::LoadImage(std::string project_icon, const wxImage& default
 			LoadStatIcon(g_statIcn);
 			defaultUsed = false;
 		} else {
-			// TODO - need to set a timer to switch this to load the real graphics once they are downloaded
 			LoadStatIcon(defaultImage);
 		}
 	}else{
@@ -182,6 +178,7 @@ void StatImageLoader::LoadImage(std::string project_icon, const wxImage& default
 void StatImageLoader::CheckForProjectIconDownloaded(wxTimerEvent& WXUNUSED(event)) {
 	char defaultIcnPath[256];
 	bool success = false;
+	// Check project icon downloaded
 	if(boinc_resolve_filename(projectIcon.c_str(), defaultIcnPath, sizeof(defaultIcnPath)) == 0){
 		wxImage* g_statIcn = new wxImage();
 		if ( g_statIcn->LoadFile(defaultIcnPath, wxBITMAP_TYPE_PNG) ) {
@@ -191,10 +188,21 @@ void StatImageLoader::CheckForProjectIconDownloaded(wxTimerEvent& WXUNUSED(event
 			Update();
 		}
 	}
+
+	CMainDocument* pDoc = wxGetApp().GetDocument();
+	PROJECT* project = pDoc->state.lookup_project(m_prjUrl);
+	if ( urlCount != project->gui_urls.size() ) {
+		RebuildMenu();
+	}
+
 	// Try numReloadTries times (set in constructor) or until success
 	if ( success || numReloadTries-- <=0 ) {
 		attemptToReloadTimer->Stop();
 	}
+}
+
+void StatImageLoader::UpdateInterface() {
+	// TODO - need to update this so that the gui urls are checked here
 }
 
 void StatImageLoader::OnPaint(wxPaintEvent& WXUNUSED(event)) 
