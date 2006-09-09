@@ -1,7 +1,7 @@
 <?
 
 $project_news = array(
-array("Sept. 2, 2006",
+array("September 2, 2006",
     "The <a href=http://spin.fh-bielefeld.de/>Spinhenge</a> project
     has moved into public beta test,
     and is accepting new participant accounts."

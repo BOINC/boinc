@@ -9812,13 +9812,13 @@ David  5 Sept 2006
         show_user.php
 
 David  5 Sept 2006
-	- don't print too-much-memory messages
-	- compile fix
+    - don't print too-much-memory messages
+    - compile fix
 
-	client/
-		app_control.C
-	clientgui/
-		ViewProjects.cpp
+    client/
+        app_control.C
+    clientgui/
+        ViewProjects.cpp
 
 Walt   5 Sept 2006
     - compile fix for Linux unicode build
@@ -9833,11 +9833,11 @@ David  6 Sept 2006
         time_stats.C
 
 David  6 Sept 2006
-	- Manager: if project allows account creation only on web site,
-		show appropriate text in attach-project wizard
+    - Manager: if project allows account creation only on web site,
+        show appropriate text in attach-project wizard
 
-	clientgui/
-		AccountInfoPage.cpp
+    clientgui/
+        AccountInfoPage.cpp
 
 David  6 Sept 2006
     - Renamed html/user/get_project_config.php to sample_get_project_config.php
@@ -9932,22 +9932,22 @@ David  7 Sept 2006
         cpu_sched.C
 
 David  7 Sept 2006
-	- remove some (but not all) compile warnings on Win/VS
-		(no functional changes)
+    - remove some (but not all) compile warnings on Win/VS
+        (no functional changes)
 
-	client/
-		app.C
-		app_control.C
-		client_state.C
-		client_types.C
-		cpu_sched.C
-		gui_rpc_server_ops.C
-		http_curl.C
-		log_flags.C
-		main.C
-	lib/
-		filesys.C
-		parse.C
+    client/
+        app.C
+        app_control.C
+        client_state.C
+        client_types.C
+        cpu_sched.C
+        gui_rpc_server_ops.C
+        http_curl.C
+        log_flags.C
+        main.C
+    lib/
+        filesys.C
+        parse.C
 
 David  7 Sept 2006
     - core client: for debugging messages, include the name of
@@ -9959,37 +9959,37 @@ David  7 Sept 2006
         *.C
 
 David  8 Sept 2006
-	- core client: frustrating attempt to get page fault rate on Windows.
-		It turns out that the "page fault count" reported by Windows
-		includes "soft" page faults that don't read from disk.
-		A typical process gets hundreds or thousands of these per second.
-		There doesn't seem to be a way to get a count
-		of real page faults.
+    - core client: frustrating attempt to get page fault rate on Windows.
+        It turns out that the "page fault count" reported by Windows
+        includes "soft" page faults that don't read from disk.
+        A typical process gets hundreds or thousands of these per second.
+        There doesn't seem to be a way to get a count
+        of real page faults.
 
-		In any case: I added PROCINFO to the ACTIVE_TASK structure,
-		eliminating the need for the vm_nbytes and rss_bytes fields.
+        In any case: I added PROCINFO to the ACTIVE_TASK structure,
+        eliminating the need for the vm_nbytes and rss_bytes fields.
 
-	Note: the reason I'm worrying about this is:
-	suppose an OS defines a process's "working set"
-	as the amount of RAM it currently has.
-	Then all running apps will appear to fit in RAM,
-	and our goal of avoiding thrashing will fail.
-	I was looking at page fault rate as a way to get around this.
+    Note: the reason I'm worrying about this is:
+    suppose an OS defines a process's "working set"
+    as the amount of RAM it currently has.
+    Then all running apps will appear to fit in RAM,
+    and our goal of avoiding thrashing will fail.
+    I was looking at page fault rate as a way to get around this.
 
-	However: I ran across a note that says that Windows
-	defines "working set" as "the amount of memory needed
-	for the process to run efficiently".
-	If that's the case, we don't need to worry about page fault rate.
+    However: I ran across a note that says that Windows
+    defines "working set" as "the amount of memory needed
+    for the process to run efficiently".
+    If that's the case, we don't need to worry about page fault rate.
 
-	client/
-		app.C,h
-		app_control.C
-		cpu_sched.C
-	lib/
-		procinfo.h
-		procinfo_win.C
-	win_build/
-		boinc_cli_curl.vcproj
+    client/
+        app.C,h
+        app_control.C
+        cpu_sched.C
+    lib/
+        procinfo.h
+        procinfo_win.C
+    win_build/
+        boinc_cli_curl.vcproj
 
 David  8 Sept 2006
     - Web RPCs: return correct error codes
@@ -10003,74 +10003,74 @@ David  8 Sept 2006
             create_team.php
 
 David  8 Sept 2006
-	- manager: if client_account_creation_disabled is set,
-		don't go to the account key page.
-		Everything related to account keys can now be
-		removed from the manager.
-	- manager: removed redundant text on User Information page
-	- manager: don't refer to "Messages Tab" (or any other tab)
-		in the wizard; don't exist in simple GUI
+    - manager: if client_account_creation_disabled is set,
+        don't go to the account key page.
+        Everything related to account keys can now be
+        removed from the manager.
+    - manager: removed redundant text on User Information page
+    - manager: don't refer to "Messages Tab" (or any other tab)
+        in the wizard; don't exist in simple GUI
 
-	clientgui/
-		AccountInfoPage.cpp
-		CompletionErrorPage.cpp
-		ProjectPropertiesPage.cpp
-		
+    clientgui/
+        AccountInfoPage.cpp
+        CompletionErrorPage.cpp
+        ProjectPropertiesPage.cpp
+        
 Kevin  8 Sept 2006
-	- BSG: 
-		- Resolved some remaining bugs that prevented display of project information for newly attached projects
-		- The show graphics button will only be displayed when graphics can actually be displayed
-		- Added additional states to explain why no work is running (ex: benchmarks running).
-		- The drop down for project gui urls will now be updated when the list of GUI urls for the project become available
-	    - Detaching from a project no longer causes the app to minimize to the system tray
-	    
-	clientgui/
-		sg_BoincSimpleGUI.cpp
-		sg_ClientStateIndicator.cpp
-		sg_ClientStateIndicator.h
-		sg_ImageButton.cpp
-		sg_ImageButton.h
-		sg_ProjectsComponent.cpp
-		sg_ProjectsComponent.h
-		sg_StatImageLoader.cpp
-		sg_StatImageLoader.h
-		sg_ViewTabPage.cpp
+    - BSG: 
+        - Resolved some remaining bugs that prevented display of project information for newly attached projects
+        - The show graphics button will only be displayed when graphics can actually be displayed
+        - Added additional states to explain why no work is running (ex: benchmarks running).
+        - The drop down for project gui urls will now be updated when the list of GUI urls for the project become available
+        - Detaching from a project no longer causes the app to minimize to the system tray
+        
+    clientgui/
+        sg_BoincSimpleGUI.cpp
+        sg_ClientStateIndicator.cpp
+        sg_ClientStateIndicator.h
+        sg_ImageButton.cpp
+        sg_ImageButton.h
+        sg_ProjectsComponent.cpp
+        sg_ProjectsComponent.h
+        sg_StatImageLoader.cpp
+        sg_StatImageLoader.h
+        sg_ViewTabPage.cpp
 
 David  8 Sept 2006
-	- core client:
-		fix the mechanism that allows network access for 5 minutes
-		if it's needed to carry out a user-initiated GUI RPC
-		(e.g. attaching to a project).
-		This situation allows network access even if the
-		user has set network mode to "never".
+    - core client:
+        fix the mechanism that allows network access for 5 minutes
+        if it's needed to carry out a user-initiated GUI RPC
+        (e.g. attaching to a project).
+        This situation allows network access even if the
+        user has set network mode to "never".
 
-		Otherwise, if you try to attach to a project,
-		the manager sits there for 60 seconds,
-		then responds with "network failure" or something like that.
+        Otherwise, if you try to attach to a project,
+        the manager sits there for 60 seconds,
+        then responds with "network failure" or something like that.
 
-		I suppose another solution would be for the manager to
-		notice that network is suspended,
-		and not let you try to attach to a project.
-		But this way is more user-friendly, I think.
+        I suppose another solution would be for the manager to
+        notice that network is suspended,
+        and not let you try to attach to a project.
+        But this way is more user-friendly, I think.
 
-		Renamed gui_rpcs.got_recent_rpc() to recent_rpc_needs_network();
-		Renamed last_rpc_time to time_of_last_rpc_needing_network.
-		Shuffled order of RPCs in gui_rpc_server_ops.C;
-		this is critical to things working.
+        Renamed gui_rpcs.got_recent_rpc() to recent_rpc_needs_network();
+        Renamed last_rpc_time to time_of_last_rpc_needing_network.
+        Shuffled order of RPCs in gui_rpc_server_ops.C;
+        this is critical to things working.
 
-	- manager: check for ERR_DB_NOT_FOUND in return codes from web RPCs
-	- manager: parse error message in ACCOUNT_OUT correctly
+    - manager: check for ERR_DB_NOT_FOUND in return codes from web RPCs
+    - manager: parse error message in ACCOUNT_OUT correctly
 
-	client/
-		client_state.C
-		gui_rpc_server.C,h
-		gui_rpc_server_ops.C
-	clientgui/
-		AccountManagerProcessingPage.cpp
-		ProjectProcessingPage.cpp
-	lib/
-		gui_rpc_client.h
-		gui_rpc_client_ops.C
+    client/
+        client_state.C
+        gui_rpc_server.C,h
+        gui_rpc_server_ops.C
+    clientgui/
+        AccountManagerProcessingPage.cpp
+        ProjectProcessingPage.cpp
+    lib/
+        gui_rpc_client.h
+        gui_rpc_client_ops.C
 
 David  8 Sept 2006
     - core client, Unix:
@@ -10081,7 +10081,13 @@ David  8 Sept 2006
         main.C
 
 David  8 Sept 2006
-	- Manager: handle client_account_creation_disabled flag correctly
+    - Manager: handle client_account_creation_disabled flag correctly
 
-	clientgui/
-		AccountInfoPage.cpp
+    clientgui/
+        AccountInfoPage.cpp
+
+David  9 Sept 2006
+    - Manager: make Statistics tab text translatable
+
+    clientgui/
+        ViewStatistics.cpp

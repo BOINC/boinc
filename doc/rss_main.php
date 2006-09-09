@@ -57,13 +57,14 @@ for( $item=0; $item < $news; $item++ ) {
     $j = $tot - $item;
     if( count($project_news[$item]) == 2) {
         $d = strtotime($project_news[$item][0]);
-        $d = strftime("%a, %d %b %Y", $d);
+        $news_date=gmdate('D, d M Y H:i:s',$d) . ' GMT';
+        $unique_url="http://boinc.berkeley.edu/all_news.php#$j";
         echo "<item>
             <title>Project News ".strip_tags($project_news[$item][0])."</title>
             <link>http://boinc.berkeley.edu/all_news.php#$j</link>
-            <guid>$item</guid>
+            <guid isPermaLink=\"true\">$unique_url</guid>
             <description>".strip_tags($project_news[$item][1])."</description>
-            <pubDate>$d</pubDate>
+            <pubDate>$news_date</pubDate>
             </item>
         ";
     }
