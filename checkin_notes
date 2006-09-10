@@ -10097,3 +10097,20 @@ David  9 Sept 2006
 
     lib/
         parse.C,h
+
+Bruce 10 Sept 2006
+    - For computing and tracking a host's average credit/cpu_time I
+      have inserted a new averaging function
+      update_credit_per_cpu_sec() into lib/util.C.  This function
+      should be called from validator.C, and then the value of
+      credit_per_cpu_sec should be exported by db_dump.C in the
+      host_id.gz stats file.
+
+      David, Eric, if you could check the code and logic here I would
+      be grateful.  I won't modify validator.C or db_dump.C until
+      we've agreed on this.
+
+    lib/
+        util.C
+
+
