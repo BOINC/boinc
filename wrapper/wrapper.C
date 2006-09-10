@@ -64,7 +64,7 @@ struct TASK {
 #else
     int pid;
 #endif
-    int parse(FILE*);
+    int parse(XML_PARSER&);
     bool poll(int& status);
     int run();
     void kill();
@@ -77,49 +77,50 @@ vector<TASK> tasks;
 
 bool app_suspended = false;
 
-int TASK::parse(FILE* f) {
-    char tag[256], contents[1024];
-    while(get_tag(f, tag, contents)) {
-        fprintf(stderr, "parsed: %s\n", tag);
+int TASK::parse(XML_PARSER& xp) {
+    char tag[1024];
+    bool is_tag;
+
+    while (!xp.get(tag, sizeof(tag), is_tag)) {
+        if (!is_tag) {
+            fprintf(stderr, "SCHED_CONFIG::parse(): unexpected text %s\n", tag);
+            continue;
+        }
         if (!strcmp(tag, "/task")) {
             return 0;
         }
-        if (!strcmp(tag, "application")) {
-            application = contents;
-            continue;
-        }
-        if (!strcmp(tag, "stdin_filename")) {
-            stdin_filename = contents;
-            continue;
-        }
-        if (!strcmp(tag, "stdout_filename")) {
-            stdout_filename = contents;
-            continue;
-        }
-        if (!strcmp(tag, "command_line")) {
-            command_line = contents;
-            continue;
-        }
+        else if (xp.parse_string(tag, "application", application)) continue;
+        else if (xp.parse_string(tag, "stdin_filename", stdin_filename)) continue;
+        else if (xp.parse_string(tag, "stdout_filename", stdout_filename)) continue;
+        else if (xp.parse_string(tag, "command_line", command_line)) continue;
     }
     return ERR_XML_PARSE;
 }
 
 int parse_job_file() {
-    char tag[256], contents[1024], buf[256];
+    MIOFILE mf;
+    char tag[1024], buf[256];
+    bool is_tag;
+
     boinc_resolve_filename("job.xml", buf, 1024);
     FILE* f = boinc_fopen(buf, "r");
     if (!f) return ERR_FOPEN;
-    get_tag(f, tag);
-    if (strstr(tag, "?xml")) get_tag(f, tag);
-    if (strcmp(tag, "job_desc")) return ERR_XML_PARSE;
-    while(get_tag(f, tag)) {
-        fprintf(stderr, "2parsed: %s\n", tag);
+    mf.init_file(f);
+    XML_PARSER xp(&mf);
+
+
+    if (!xp.parse_start("job_desc")) return ERR_XML_PARSE;
+    while (!xp.get(tag, sizeof(tag), is_tag)) {
+        if (!is_tag) {
+            fprintf(stderr, "SCHED_CONFIG::parse(): unexpected text %s\n", tag);
+            continue;
+        }
         if (!strcmp(tag, "/job_desc")) {
             return 0;
         }
         if (!strcmp(tag, "task")) {
             TASK task;
-            int retval = task.parse(f);
+            int retval = task.parse(xp);
             if (!retval) {
                 tasks.push_back(task);
             }

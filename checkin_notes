@@ -158,3 +158,9 @@ David  16 Aug 2006
 
 	wrapper/
 		wrapper.C
+
+David  9 Sept 2006
+    - change wrapper to use new XML parser
+
+    wrapper/
+        wrapper.C
