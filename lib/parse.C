@@ -523,6 +523,15 @@ bool XML_PARSER::parse_str(
     return true;
 }
 
+bool XML_PARSER::parse_string(
+    char* parsed_tag, char* start_tag, string& str
+) {
+    char buf[8192];
+    bool flag = parse_str(parsed_tag, start_tag, buf, sizeof(buf));
+    if (!flag) return false;
+    str = buf;
+}
+
 // Same, for integers
 //
 bool XML_PARSER::parse_int(char* parsed_tag, char* start_tag, int& i) {
@@ -606,6 +615,8 @@ bool XML_PARSER::parse_bool(char* parsed_tag, char* start_tag, bool& b) {
     return true;
 }
 
+// parse a start tag (optionally preceded by <?xml>)
+//
 bool XML_PARSER::parse_start(char* start_tag) {
     char tag[256];
     bool eof, is_tag;

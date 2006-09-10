@@ -10091,3 +10091,9 @@ David  9 Sept 2006
 
     clientgui/
         ViewStatistics.cpp
+
+David  9 Sept 2006
+    - XML parser: add function for parsing std::string
+
+    lib/
+        parse.C,h
