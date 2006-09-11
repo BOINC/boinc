@@ -10112,5 +10112,6 @@ Bruce 10 Sept 2006
 
     lib/
         util.C
+        util.h
 
 

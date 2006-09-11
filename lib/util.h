@@ -133,6 +133,7 @@ extern int boinc_process_cpu_time(double& cpu);
 #endif
 
 extern void update_average(double, double, double, double&, double&);
+extern int update_credit_per_cpu_sec(double credit, double cpu_time, double& credit_per_cpu_sec);
 
 extern int boinc_calling_thread_cpu_time(double&);
 
