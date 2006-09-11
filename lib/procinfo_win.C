@@ -11,9 +11,6 @@ typedef NTSTATUS (WINAPI *tNTQSI)(
     PULONG ReturnLength
 );
 
-// OpenThread
-typedef HANDLE (WINAPI *tOT)(DWORD dwDesiredAccess, BOOL bInheritHandle, DWORD dwThreadId);
-
 static int get_process_information(PVOID* ppBuffer, PULONG pcbBuffer) {
     int      retval = 0;
     NTSTATUS Status = STATUS_INFO_LENGTH_MISMATCH;
@@ -49,15 +46,13 @@ static int get_process_information(PVOID* ppBuffer, PULONG pcbBuffer) {
     return retval;
 }
 
+// Note: the following will work on both NT and XP,
+// because the NT process structure differs only at the end
+//
 int get_procinfo_XP(vector<PROCINFO>& pi) {
     ULONG                   cbBuffer = 32*1024;    // 32k initial buffer
     PVOID                   pBuffer = NULL;
     PSYSTEM_PROCESSES       pProcesses = NULL;
-    HMODULE                 hKernel32Lib;
-    tOT                     pOT = NULL;
-
-    hKernel32Lib = GetModuleHandle("kernel32.dll");
-    pOT = (tOT) GetProcAddress( hKernel32Lib, "OpenThread" );
 
     get_process_information(&pBuffer, &cbBuffer);
     pProcesses = (PSYSTEM_PROCESSES)pBuffer;
@@ -84,12 +79,6 @@ int get_procinfo_XP(vector<PROCINFO>& pi) {
     if (pBuffer) HeapFree(GetProcessHeap(), NULL, pBuffer);
     return 0;
 }
-int get_procinfo_NT(vector<PROCINFO>&) {
-    return 0;
-}
-int get_procinfo_9X(vector<PROCINFO>&) {
-    return 0;
-}
 
 // get a list of all running processes.
 //
@@ -103,27 +92,11 @@ int procinfo_setup(vector<PROCINFO>& pi) {
     switch(osvi.dwPlatformId) {
     case VER_PLATFORM_WIN32_WINDOWS:
         // Win95, Win98, WinME
-        return get_procinfo_9X(pi);
+        return 0;   // not supported
     case VER_PLATFORM_WIN32_NT:
-        switch(osvi.dwMajorVersion) {
-        case 4:
-            // WinNT 4.0
-            return get_procinfo_NT(pi);
-        case 5:
-            // Win2k, WinXP, Win2k3
-            return get_procinfo_XP(pi);
-        case 6:
-            if (osvi.dwMinorVersion == 0) {
-                // WinVista
-                return get_procinfo_XP(pi);
-            } else {
-                return get_procinfo_9X(pi);
-            }
-        default:
-            return get_procinfo_9X(pi);
-        }
+        return get_procinfo_XP(pi);
     }
-    return get_procinfo_9X(pi);
+    return 0;
 }
 
 // scan the process table from the given point,

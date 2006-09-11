@@ -10117,4 +10117,9 @@ Bruce 10 Sept 2006
         db_dump.C
         validator.C
 
+David  11 Sept 2006
+    - core client: code to get mem usage should now work on all versions
+        of Windows (it's a no-op on 9X, ME)
 
+    lib/
+        procinfo_win.C
