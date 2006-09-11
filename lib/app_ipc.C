@@ -186,6 +186,7 @@ int parse_init_data_file(FILE* f, APP_INIT_DATA& ai) {
     ai.fraction_done_end = 1;
 
     while (!xp.get(tag, sizeof(tag), is_tag)) {
+        printf("tag: %s\n", tag);
         if (!is_tag) {
             printf("unexpected text: %s\n", tag);
             continue;
@@ -200,44 +201,47 @@ int parse_init_data_file(FILE* f, APP_INIT_DATA& ai) {
             if (retval) return retval;
             continue;
         }
-        else if (!strcmp(tag, "<host_info>")) {
+        else if (!strcmp(tag, "host_info")) {
             ai.host_info.parse(mf);
             continue;
         }
-        else if (xp.parse_int(tag, "<major_version>", ai.major_version)) continue;
-        else if (xp.parse_int(tag, "<minor_version>", ai.minor_version)) continue;
-        else if (xp.parse_int(tag, "<release>", ai.release)) continue;
-        else if (xp.parse_int(tag, "<app_version>", ai.app_version)) continue;
-        else if (xp.parse_str(tag, "<app_name>", ai.app_name, sizeof(ai.app_name))) continue;
-        else if (xp.parse_str(tag, "<symstore>", ai.symstore, sizeof(ai.symstore))) continue;
-        else if (xp.parse_str(tag, "<acct_mgr_url>", ai.acct_mgr_url, sizeof(ai.acct_mgr_url))) continue;
-        else if (xp.parse_str(tag, "<user_name>", ai.user_name, sizeof(ai.user_name))) continue;
-        else if (xp.parse_str(tag, "<team_name>", ai.team_name, sizeof(ai.team_name))) continue;
-        else if (xp.parse_str(tag, "<project_dir>", ai.project_dir, sizeof(ai.project_dir))) continue;
-        else if (xp.parse_str(tag, "<boinc_dir>", ai.boinc_dir, sizeof(ai.boinc_dir))) continue;
-        else if (xp.parse_str(tag, "<authenticator>", ai.authenticator, sizeof(ai.authenticator))) continue;
-        else if (xp.parse_str(tag, "<wu_name>", ai.wu_name, sizeof(ai.wu_name))) continue;
+        else if (!strcmp(tag, "proxy_info")) {
+            ai.proxy_info.parse(mf);
+        }
+        else if (xp.parse_int(tag, "major_version", ai.major_version)) continue;
+        else if (xp.parse_int(tag, "minor_version", ai.minor_version)) continue;
+        else if (xp.parse_int(tag, "release", ai.release)) continue;
+        else if (xp.parse_int(tag, "app_version", ai.app_version)) continue;
+        else if (xp.parse_str(tag, "app_name", ai.app_name, sizeof(ai.app_name))) continue;
+        else if (xp.parse_str(tag, "symstore", ai.symstore, sizeof(ai.symstore))) continue;
+        else if (xp.parse_str(tag, "acct_mgr_url", ai.acct_mgr_url, sizeof(ai.acct_mgr_url))) continue;
+        else if (xp.parse_str(tag, "user_name", ai.user_name, sizeof(ai.user_name))) continue;
+        else if (xp.parse_str(tag, "team_name", ai.team_name, sizeof(ai.team_name))) continue;
+        else if (xp.parse_str(tag, "project_dir", ai.project_dir, sizeof(ai.project_dir))) continue;
+        else if (xp.parse_str(tag, "boinc_dir", ai.boinc_dir, sizeof(ai.boinc_dir))) continue;
+        else if (xp.parse_str(tag, "authenticator", ai.authenticator, sizeof(ai.authenticator))) continue;
+        else if (xp.parse_str(tag, "wu_name", ai.wu_name, sizeof(ai.wu_name))) continue;
 #ifdef _WIN32
-        else if (xp.parse_str(tag, "<comm_obj_name>", ai.shmem_seg_name, sizeof(ai.shmem_seg_name))) continue;
+        else if (xp.parse_str(tag, "comm_obj_name", ai.shmem_seg_name, sizeof(ai.shmem_seg_name))) continue;
 #else
-        else if (xp.parse_int(tag, "<shm_key>", ai.shmem_seg_name)) continue;
+        else if (xp.parse_int(tag, "shm_key", ai.shmem_seg_name)) continue;
 #endif
-        else if (xp.parse_int(tag, "<slot>", ai.slot)) continue;
-        else if (xp.parse_double(tag, "<user_total_credit>", ai.user_total_credit)) continue;
-        else if (xp.parse_double(tag, "<user_expavg_credit>", ai.user_expavg_credit)) continue;
-        else if (xp.parse_double(tag, "<host_total_credit>", ai.host_total_credit)) continue;
-        else if (xp.parse_double(tag, "<host_expavg_credit>", ai.host_expavg_credit)) continue;
-        else if (xp.parse_double(tag, "<resource_share_fraction>", ai.resource_share_fraction)) continue;
-        else if (xp.parse_double(tag, "<rsc_fpops_est>", ai.rsc_fpops_est)) continue;
-        else if (xp.parse_double(tag, "<rsc_fpops_bound>", ai.rsc_fpops_bound)) continue;
-        else if (xp.parse_double(tag, "<rsc_memory_bound>", ai.rsc_memory_bound)) continue;
-        else if (xp.parse_double(tag, "<rsc_disk_bound>", ai.rsc_disk_bound)) continue;
-        else if (xp.parse_double(tag, "<wu_cpu_time>", ai.wu_cpu_time)) continue;
-        else if (xp.parse_double(tag, "<checkpoint_period>", ai.checkpoint_period)) continue;
-        else if (xp.parse_double(tag, "<fraction_done_update_period>", ai.fraction_done_update_period)) continue;
-        else if (xp.parse_double(tag, "<fraction_done_start>", ai.fraction_done_start)) continue;
-        else if (xp.parse_double(tag, "<fraction_done_end>", ai.fraction_done_end)) continue;
-        //else fprintf(stderr, "parse_init_data_file: unrecognized %s", buf);
+        else if (xp.parse_int(tag, "slot", ai.slot)) continue;
+        else if (xp.parse_double(tag, "user_total_credit", ai.user_total_credit)) continue;
+        else if (xp.parse_double(tag, "user_expavg_credit", ai.user_expavg_credit)) continue;
+        else if (xp.parse_double(tag, "host_total_credit", ai.host_total_credit)) continue;
+        else if (xp.parse_double(tag, "host_expavg_credit", ai.host_expavg_credit)) continue;
+        else if (xp.parse_double(tag, "resource_share_fraction", ai.resource_share_fraction)) continue;
+        else if (xp.parse_double(tag, "rsc_fpops_est", ai.rsc_fpops_est)) continue;
+        else if (xp.parse_double(tag, "rsc_fpops_bound", ai.rsc_fpops_bound)) continue;
+        else if (xp.parse_double(tag, "rsc_memory_bound", ai.rsc_memory_bound)) continue;
+        else if (xp.parse_double(tag, "rsc_disk_bound", ai.rsc_disk_bound)) continue;
+        else if (xp.parse_double(tag, "wu_cpu_time", ai.wu_cpu_time)) continue;
+        else if (xp.parse_double(tag, "checkpoint_period", ai.checkpoint_period)) continue;
+        else if (xp.parse_double(tag, "fraction_done_update_period", ai.fraction_done_update_period)) continue;
+        else if (xp.parse_double(tag, "fraction_done_start", ai.fraction_done_start)) continue;
+        else if (xp.parse_double(tag, "fraction_done_end", ai.fraction_done_end)) continue;
+        else fprintf(stderr, "parse_init_data_file: unrecognized %s", tag);
     }
     return 0;
 }

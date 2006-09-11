@@ -10142,3 +10142,9 @@ David  11 Sept 2006
         app_ipc.C
         gui_rpc_client_ops.C
         prefs.C,h
+
+David  11 Sept 2006
+    - API bug fix
+
+    lib/
+        app_ipc.C
