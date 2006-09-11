@@ -121,11 +121,22 @@ int grant_credit(RESULT& result, double credit) {
 
     double turnaround = result.received_time - result.sent_time;
     compute_avg_turnaround(host, turnaround);
-    
+
+#ifdef TEST_CREDIT_PER_CPU_SEC
+    int err = update_credit_per_cpu_sec(credit, result.cpu_time, host.credit_per_cpu_sec);
+    if (err) {
+        log_messages.printf(
+            SCHED_MSG_LOG::MSG_CRITICAL,
+            "[RESULT#%d][HOST#%d] claimed too much credit (%f) in too little CPU time (%f)\n",
+            result.id, result.hostid, credit, result.cpu_time
+        );
+    }
+#endif
+
     sprintf(
         buf,
-        "total_credit=total_credit+%f, expavg_credit=%f, expavg_time=%f, avg_turnaround=%f",
-        credit,  host.expavg_credit, host.expavg_time, host.avg_turnaround
+        "total_credit=total_credit+%f, expavg_credit=%f, expavg_time=%f, avg_turnaround=%f, credit_per_cpu_sec=%f",
+        credit,  host.expavg_credit, host.expavg_time, host.avg_turnaround, host.credit_per_cpu_sec
     );
     retval = host.update_field(buf);
     if (retval) {

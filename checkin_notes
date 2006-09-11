@@ -10107,11 +10107,14 @@ Bruce 10 Sept 2006
       host_id.gz stats file.
 
       David, Eric, if you could check the code and logic here I would
-      be grateful.  I won't modify validator.C or db_dump.C until
-      we've agreed on this.
+      be grateful. This is currently disabled in validator.C with
+      a #ifdef macro.  I won't enable it until we've agreed on this.
 
     lib/
         util.C
         util.h
+    sched/
+        db_dump.C
+        validator.C
 
 

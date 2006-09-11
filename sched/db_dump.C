@@ -325,13 +325,15 @@ void write_host(HOST& host, FILE* f, bool detail) {
         "    <p_model>%s</p_model>\n"
         "    <os_name>%s</os_name>\n"
         "    <os_version>%s</os_version>\n",
+        "    <credit_per_cpu_sec>%f</credit_per_cpu_sec>\n",
         host.total_credit,
         host.expavg_credit,
         host.expavg_time,
         p_vendor,
         p_model,
         os_name,
-        os_version
+        os_version,
+        host.credit_per_cpu_sec
     );
     if (detail) {
         fprintf(f,
