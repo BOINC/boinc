@@ -5,12 +5,16 @@
 # This creates a symbolic link to the C++ library,
 # which is linked statically
 
+BOINC_DIR = ../../boinc
+BOINC_API_DIR = $(BOINC_DIR)/api
+BOINC_LIB_DIR = $(BOINC_DIR)/lib
+
 CXXFLAGS = -g \
-    -I ../../boinc \
-    -I ../../boinc/lib \
-    -I ../../boinc/api \
-    -L ../../boinc/api \
-    -L ../../boinc/lib \
+    -I$(BOINC_DIR) \
+    -I$(BOINC_LIB_DIR) \
+    -I$(BOINC_API_DIR) \
+    -L$(BOINC_API_DIR) \
+    -L$(BOINC_LIB_DIR) \
     -L.
 
 PROGS = sleeper
@@ -20,5 +24,5 @@ all: $(PROGS)
 clean:
 	rm $(PROGS)
 
-sleeper: sleeper.o
+sleeper: sleeper.o $(BOINC_LIB_DIR)/libboinc.a $(BOINC_API_DIR)/libboinc_api.a
 	g++ $(CXXFLAGS) -o sleeper sleeper.o libstdc++.a -pthread -lboinc_api -lboinc

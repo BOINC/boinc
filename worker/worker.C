@@ -19,9 +19,12 @@
 
 // worker - application without BOINC runtime system;
 // used for testing wrapper
+//
+// THIS PROGRAM SHOULDN'T USE ANY BOINC CODE.  That's the whole point.
 
 #include <stdio.h>
 #include <time.h>
+
 #include "util.h"
 
 int main(int, char**) {

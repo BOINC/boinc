@@ -164,3 +164,13 @@ David  9 Sept 2006
 
     wrapper/
         wrapper.C
+
+David  11 Sept 2006
+    - added library dependencies to makefiles
+
+    uppercase/Makefile
+    sleeper/Makefile
+    worker/
+        Makefile
+        worker.C
+    wrapper/Makefile
