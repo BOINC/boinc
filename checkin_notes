@@ -10123,3 +10123,22 @@ David  11 Sept 2006
 
     lib/
         procinfo_win.C
+
+David  11 Sept 2006
+    - API: fix bug in parsing global prefs.
+        GLOBAL_PREFS::parse_override() was calling xp.parse_start(),
+        which is wrong because in some cases
+        (e.g. parsing app init data file)
+        the start tag has already been parsed.
+        Principle: only call xp.parse_start() if you're
+        the function that actually opens the file.
+    - convert parsing of global preferences to use new XML parser
+    - core client: print error message if can't parse cc_config.xml
+
+    client/
+        cs_prefs.C
+        log_flags.C
+    lib/
+        app_ipc.C
+        gui_rpc_client_ops.C
+        prefs.C,h

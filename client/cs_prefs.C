@@ -370,7 +370,8 @@ void CLIENT_STATE::read_global_prefs() {
     if (f) {
         MIOFILE mf;
         mf.init_file(f);
-        global_prefs.parse_override(mf, main_host_venue, found_venue);
+        XML_PARSER xp(&mf);
+        global_prefs.parse_override(xp, main_host_venue, found_venue);
         msg_printf(NULL, MSG_INFO, "Reading preferences override file");
         fclose(f);
     }

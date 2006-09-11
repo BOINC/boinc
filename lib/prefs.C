@@ -83,16 +83,17 @@ GLOBAL_PREFS::GLOBAL_PREFS() {
 }
 
 // Parse XML global prefs, setting defaults first.
+// The start tag has already been parsed.
 //
 int GLOBAL_PREFS::parse(
-    MIOFILE& in, const char* host_venue, bool& found_venue
+    XML_PARSER& xp, const char* host_venue, bool& found_venue
 ) {
     defaults();
     clear_bools();
 
     strcpy(source_project, "");
     strcpy(source_scheduler, "");
-    return parse_override(in, host_venue, found_venue);
+    return parse_override(xp, host_venue, found_venue);
 }
 
 // Parse global prefs, overriding whatever is currently in the structure.
@@ -104,18 +105,16 @@ int GLOBAL_PREFS::parse(
 // where X==host_venue, then parse that and ignore the rest.
 // Otherwise ignore <venue> elements.
 //
+// The start tag has already been parsed.
+//
 int GLOBAL_PREFS::parse_override(
-    MIOFILE& in, const char* host_venue, bool& found_venue
+    XML_PARSER& xp, const char* host_venue, bool& found_venue
 ) {
     char tag[256], buf2[256];
     bool in_venue = false, in_correct_venue=false, is_tag;
     double dtemp;
-    XML_PARSER xp(&in);
 
     found_venue = false;
-    if (!xp.parse_start("global_preferences")) {
-        return ERR_XML_PARSE;
-    }
     while (!xp.get(tag, sizeof(tag), is_tag)) {
         if (!is_tag) {
             printf("unexpected text: %s\n", tag);
@@ -224,7 +223,11 @@ int GLOBAL_PREFS::parse_file(
     if (!f) return ERR_FOPEN;
     MIOFILE mf;
     mf.init_file(f);
-    retval = parse(mf, host_venue, found_venue);
+    XML_PARSER xp(&mf);
+    if (!xp.parse_start("global_preferences")) {
+        return ERR_XML_PARSE;
+    }
+    retval = parse(xp, host_venue, found_venue);
     fclose(f);
     return retval;
 }
