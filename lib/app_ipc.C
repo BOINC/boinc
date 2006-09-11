@@ -186,9 +186,8 @@ int parse_init_data_file(FILE* f, APP_INIT_DATA& ai) {
     ai.fraction_done_end = 1;
 
     while (!xp.get(tag, sizeof(tag), is_tag)) {
-        printf("tag: %s\n", tag);
         if (!is_tag) {
-            printf("unexpected text: %s\n", tag);
+            printf("unexpected text in init_data.xml: %s\n", tag);
             continue;
         }   
         if (!strcmp(tag, "project_preferences")) {
@@ -241,7 +240,7 @@ int parse_init_data_file(FILE* f, APP_INIT_DATA& ai) {
         else if (xp.parse_double(tag, "fraction_done_update_period", ai.fraction_done_update_period)) continue;
         else if (xp.parse_double(tag, "fraction_done_start", ai.fraction_done_start)) continue;
         else if (xp.parse_double(tag, "fraction_done_end", ai.fraction_done_end)) continue;
-        else fprintf(stderr, "parse_init_data_file: unrecognized %s", tag);
+        //else fprintf(stderr, "parse_init_data_file: unrecognized %s", tag);
     }
     return 0;
 }
