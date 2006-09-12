@@ -12,6 +12,7 @@
     <xi:include href="intro.xml"/>
     <xi:include href="concepts.xml"/>
     <xi:include href="config.xml"/>
+    <xi:include href="using.xml"/>
   </chapter>
 
   <chapter id="backends">

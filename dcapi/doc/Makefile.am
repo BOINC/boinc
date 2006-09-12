@@ -59,7 +59,8 @@ content_files = \
 		boinc.xml \
 		concepts.xml \
 		config.xml \
-		intro.xml
+		intro.xml \
+		using.xml
 
 # SGML files where gtk-doc abbrevations (#GtkWidget) are expanded
 # These files must be listed here *and* in content_files
