@@ -656,7 +656,7 @@ int main(int argc, char** argv) {
             // start with space for two '"'s
             len = 2;
             for (i = 0; i < argc; i++) {
-                len += strlen(argv[i]) + 1;
+                len += (int)strlen(argv[i]) + 1;
             }
             if ((commandLine = (char *) malloc(len)) == NULL) {
                 // Drop back ten and punt.  Can't do the detach thing, so we just carry on.
@@ -688,7 +688,7 @@ int main(int argc, char** argv) {
     
     for (i = 1; i < argc; i++) {
         if (strcmp(argv[i], "-daemon") == 0 || strcmp(argv[i], "--daemon") == 0) {
-            syslog(LOG_DAEMON, "Starting Boinc-Daemon, listening on port %d.", GUI_RPC_PORT);
+            syslog(LOG_DAEMON|LOG_INFO, "Starting Boinc-Daemon, listening on port %d.", GUI_RPC_PORT);
             // from <unistd.h>:
             // Detach from the controlling terminal and run in the background as system daemon.
             // Don't change working directory to root ("/"), but redirect

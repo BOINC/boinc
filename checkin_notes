@@ -9768,3 +9768,80 @@ Walt   5 Sep 2006
 
     clientgui/
         ViewProjects.cpp
+
+David  6 Sept 2006
+    - compile warning fix
+
+    client/
+        time_stats.C
+
+David  6 Sept 2006
+    - Manager: if project allows account creation only on web site,
+        show appropriate text in attach-project wizard
+
+    clientgui/
+        AccountInfoPage.cpp
+
+David  6 Sept 2006
+    - core client: scheduling bug fix:
+        the definitions of "nearly runnable" were slightly
+        different for project and result.
+        This could lead to a rare situation where rr_simulation()
+        would generate huge cpu shortfalls.
+        (from John McLeod)
+
+    client/
+        client_types.C,h
+
+David  7 Sept 2006
+    - core client: print log flags at start of log
+
+    client/
+        client_state.C
+        log_flags.C,h
+
+David  7 Sept 2006
+    - core client: change log message writes to conform to docs.
+        "task": write when app starts or finishes a result
+            (i.e. two messages per result, period)
+        "cpu_sched": write when core client starts,
+            resumes, suspends, or quits an app
+            (i.e. show the CPU scheduler's actions)
+        "cpu_sched_debug": show the internal logic of the CPU scheduler
+        "task_debug": show details of process birth and death
+            (e.g. exit status, signals)
+
+    client/
+        app_control.C
+        app_start.C
+        cpu_sched.C
+
+David  7 Sept 2006
+    - remove some (but not all) compile warnings on Win/VS
+        (no functional changes)
+
+    client/
+        app.C
+        app_control.C
+        client_state.C
+        client_types.C
+        cpu_sched.C
+        gui_rpc_server_ops.C
+        http_curl.C
+        log_flags.C
+        main.C
+    lib/
+        filesys.C
+        parse.C
+
+David  7 Sept 2006
+    - core client: for debugging messages, include the name of
+        the flag that enables the message.
+        This makes the messages longer but should make then more usable
+        when several flags are set.
+
+    client/
+        *.C
+
+
+

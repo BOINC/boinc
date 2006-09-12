@@ -187,7 +187,7 @@ int HTTP_OP::init_get(
     http_op_type = HTTP_OP_GET;
     http_op_state = HTTP_STATE_CONNECTING;
     if (log_flags.http_debug) {
-        msg_printf(0, MSG_INFO, "HTTP_OP::init_get(): %s", url);
+        msg_printf(0, MSG_INFO, "[http_debug] HTTP_OP::init_get(): %s", url);
     }
     return HTTP_OP::libcurl_exec(url, NULL, out, off, false);
 }
@@ -213,7 +213,7 @@ int HTTP_OP::init_post(
     http_op_type = HTTP_OP_POST;
     http_op_state = HTTP_STATE_CONNECTING;
     if (log_flags.http_debug) {
-        msg_printf(0, MSG_INFO, "HTTP_OP::init_post(): %s", url);
+        msg_printf(0, MSG_INFO, "[http_debug] HTTP_OP::init_post(): %s", url);
     }
     return HTTP_OP::libcurl_exec(url, in, out, 0.0, true);  // note that no offset for this, for resumable uploads use post2!
 }
@@ -493,7 +493,7 @@ int HTTP_OP::init_post2(
         }
         content_length = (int)size - (int)offset;
     }
-    content_length += strlen(req1);
+    content_length += (int)strlen(req1);
     http_op_type = HTTP_OP_POST2;
     http_op_state = HTTP_STATE_CONNECTING;
     return HTTP_OP::libcurl_exec(url, in, NULL, offset, true);
@@ -539,7 +539,7 @@ int HTTP_OP_SET::remove(HTTP_OP* p) {
 }
 
 int HTTP_OP_SET::nops() {
-    return http_ops.size();  
+    return (int)http_ops.size();  
 }
 
 
@@ -566,8 +566,8 @@ size_t libcurl_write(void *ptr, size_t size, size_t nmemb, HTTP_OP* phop) {
     //CMC TODO: maybe assert stRead == size*nmemb, add exception handling on phop members
     size_t stWrite = fwrite(ptr, size, nmemb, (FILE*) phop->fileOut);
 #if 0
-    if (log_flags.http_debug) {
-        msg_printf(NULL, MSG_INFO, "HTTP: wrote %d bytes", stWrite);
+    if (log_flags.http_xfer_debug) {
+        msg_printf(NULL, MSG_INFO, "[http_xfer_debug] HTTP: wrote %d bytes", stWrite);
     }
 #endif
     phop->bytes_xferred += (double)(stWrite);
@@ -604,7 +604,7 @@ size_t libcurl_read( void *ptr, size_t size, size_t nmemb, HTTP_OP* phop) {
             // this is the first time in this function for this phop)
             // or the last read didn't ask for the entire header
 
-            stRead = strlen(phop->req1) - phop->lSeek;  // how much of header left to read
+            stRead = (int)strlen(phop->req1) - phop->lSeek;  // how much of header left to read
 
             // only memcpy if request isn't out of bounds
             if (stRead < 0) {
@@ -642,7 +642,7 @@ size_t libcurl_read( void *ptr, size_t size, size_t nmemb, HTTP_OP* phop) {
             // content_length (which includes the strlen(req1) also)
             // note the use of stOld to get to the right position in case the header was read in above
             //ptr2 = (unsigned char*)ptr +(int)stOld;
-            stRead = fread(ptr, 1, stSend, phop->fileIn); 
+            stRead = (int)fread(ptr, 1, stSend, phop->fileIn); 
         }    
         phop->lSeek += (long) stRead;  // increment lSeek to new position
         phop->bytes_xferred += (double)(stRead);
@@ -680,7 +680,7 @@ int libcurl_debugfunction(
     case CURLINFO_TEXT:
         if (log_flags.http_debug) {
             msg_printf(0, MSG_INFO,
-                "[ID#%i] info: %s\n", phop->trace_id, data
+                "[http_debug] [ID#%i] info: %s\n", phop->trace_id, data
             );
         }
         return 0;
@@ -700,7 +700,7 @@ int libcurl_debugfunction(
     buf[mysize]='\0';
     if (log_flags.http_debug) {
         msg_printf(0, MSG_INFO,
-            "%s %s\n", hdr, buf
+            "[http_debug] %s %s\n", hdr, buf
         );
     }
     return 0;
@@ -992,7 +992,7 @@ void HTTP_OP_SET::got_select(FDSET_GROUP&, double timeout) {
             }
             net_status.got_http_error();
 			if (log_flags.http_debug) {
-				msg_printf(NULL, MSG_ERROR, "HTTP error: %s", hop->error_msg);
+				msg_printf(NULL, MSG_ERROR, "[http_debug] HTTP error: %s", hop->error_msg);
 			}
         }
 

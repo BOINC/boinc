@@ -148,15 +148,20 @@ int ACTIVE_TASK::preempt(bool quit_task) {
     if (quit_task && (checkpoint_cpu_time>0)) {
         pending_suspend_via_quit = true;
         retval = request_exit();
+        if (log_flags.cpu_sched) {
+            msg_printf(result->project, MSG_INFO,
+                "[cpu_sched] Preempting %s (removed from memory)",
+                result->name
+            );
+        }
     } else {
         retval = suspend();
-    }
-
-    if (log_flags.task_debug) {
-        msg_printf(result->project, MSG_INFO,
-            "Pausing task %s (%s)",
-            result->name, (quit_task ? "removed from memory" : "left in memory")
-        );
+        if (log_flags.cpu_sched) {
+            msg_printf(result->project, MSG_INFO,
+                "[cpu_sched] Preempting %s (left in memory)",
+                result->name
+            );
+        }
     }
     return 0;
 }
@@ -252,7 +257,7 @@ void ACTIVE_TASK::handle_exited_app(int stat) {
             }
             if (log_flags.task_debug) {
                 msg_printf(0, MSG_INFO,
-                    "ACTIVE_TASK::handle_exited_app(): process exited: status %d\n",
+                    "[task_debug] ACTIVE_TASK::handle_exited_app(): process exited: status %d\n",
                     result->exit_status
                 );
             }
@@ -281,7 +286,7 @@ void ACTIVE_TASK::handle_exited_app(int stat) {
             );
             if (log_flags.task_debug) {
                 msg_printf(0, MSG_INFO,
-                    "ACTIVE_TASK::handle_exited_app(): process got signal %d\n",
+                    "[task_debug] ACTIVE_TASK::handle_exited_app(): process got signal %d\n",
                     signal
                 );
             }
@@ -383,7 +388,7 @@ bool ACTIVE_TASK_SET::check_app_exited() {
             if (log_flags.task_debug) {
                 char errmsg[1024];
                 msg_printf(0, MSG_INFO,
-                    "ACTIVE_TASK_SET::check_app_exited(): task %s GetExitCodeProcess Failed - GLE %d (0x%x)",
+                    "[task_debug] ACTIVE_TASK_SET::check_app_exited(): task %s GetExitCodeProcess Failed - GLE %d (0x%x)",
                     windows_format_error_string(GetLastError(), errmsg, sizeof(errmsg)),
                     GetLastError(), GetLastError()
                 );
@@ -396,7 +401,7 @@ bool ACTIVE_TASK_SET::check_app_exited() {
     if ((pid = waitpid(0, &stat, WNOHANG)) > 0) {
         if (log_flags.task_debug) {
             msg_printf(0, MSG_INFO,
-                "ACTIVE_TASK_SET::check_app_exited(): process %d is done\n",
+                "[task_debug] ACTIVE_TASK_SET::check_app_exited(): process %d is done\n",
                 pid
             );
         }
@@ -462,36 +467,16 @@ bool ACTIVE_TASK::check_max_disk_exceeded() {
     return false;
 }
 
-#if 0
-// if an app has exceeded its maximum allowed memory, abort it
-//
-bool ACTIVE_TASK::check_max_mem_exceeded() {
-    // TODO: calculate working set size elsewhere
-    if (working_set_size > max_mem_usage || working_set_size/1048576 > gstate.global_prefs.max_memory_mbytes) {
-        msg_printf(
-            result->project, MSG_INFO,
-            "Aborting task %s: exceeded memory limit %f\n",
-            result->name,
-            min(max_mem_usage, gstate.global_prefs.max_memory_mbytes*1048576)
-        );
-        abort_task(ERR_RSC_LIMIT_EXCEEDED, "Maximum memory usage exceeded");
-        return true;
-    }
-    return false;
-}
-#endif
-
 bool ACTIVE_TASK::check_max_mem_exceeded() {
     if (max_mem_usage != 0 && rss_bytes > max_mem_usage) {
-        msg_printf(
-            result->project, MSG_INFO,
-            "Task %s: memory usage %f exceeds limit %f\n",
-            result->name,
-            rss_bytes,
-            max_mem_usage
-        );
+		if (log_flags.mem_usage_debug) {
+			msg_printf(
+				result->project, MSG_INFO,
+				"[mem_usage_debug] Task %s: memory usage %f exceeds limit %f\n",
+				result->name, rss_bytes, max_mem_usage
+			);
+		}
         //abort_task(ERR_RSC_LIMIT_EXCEEDED, "Maximum memory usage exceeded");
-        return true;
     }
     return false;
 }
@@ -576,7 +561,7 @@ bool ACTIVE_TASK::read_stderr_file() {
         // it's unlikely that more than that will be useful
         //
         int max_len = 63*1024;
-        int len = stderr_file.length();
+        int len = (int)stderr_file.length();
         if (len > max_len) {
             stderr_file = stderr_file.substr(len-max_len, len);
         }
@@ -836,8 +821,8 @@ int ACTIVE_TASK::suspend() {
 //
 int ACTIVE_TASK::unsuspend() {
     if (!app_client_shm.shm) return 0;
-    if (log_flags.task_debug) {
-        msg_printf(0, MSG_INFO, "Resuming %s", result->name);
+    if (log_flags.cpu_sched) {
+        msg_printf(0, MSG_INFO, "[cpu_sched] Resuming %s", result->name);
     }
     process_control_queue.msg_queue_send(
         "<resume/>",
@@ -874,7 +859,7 @@ bool ACTIVE_TASK::get_app_status_msg() {
         return false;
     }
     if (log_flags.app_msg_debug) {
-        msg_printf(NULL, MSG_INFO, "slot %d msg: %s", slot, msg_buf);
+        msg_printf(NULL, MSG_INFO, "[app_msg_debug] slot %d msg: %s", slot, msg_buf);
     }
     want_network = 0;
     current_cpu_time = checkpoint_cpu_time = 0.0;
@@ -939,7 +924,7 @@ bool ACTIVE_TASK_SET::get_msgs() {
                 action = true;
                 if (log_flags.task_debug) {
                     msg_printf(atp->wup->project, MSG_INFO,
-                        "result %s checkpointed",
+                        "[task_debug] result %s checkpointed",
                         atp->result->name
                     );
                 }

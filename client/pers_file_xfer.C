@@ -148,7 +148,7 @@ int PERS_FILE_XFER::start_xfer() {
     }
     if (log_flags.file_xfer_debug) {
         msg_printf(0, MSG_INFO,
-            "PERS_FILE_XFER::start_xfer(): URL: %s\n",
+            "[file_xfer_debug] PERS_FILE_XFER::start_xfer(): URL: %s\n",
             fip->get_current_url(is_upload)
         );
     }
@@ -201,7 +201,7 @@ bool PERS_FILE_XFER::poll() {
     if (fxp->file_xfer_done) {
         if (log_flags.file_xfer_debug) {
             msg_printf(0, MSG_INFO,
-                "PERS_FILE_XFER::poll(): file transfer status %d",
+                "[file_xfer_debug] PERS_FILE_XFER::poll(): file transfer status %d",
                 fxp->file_xfer_retval
             );
         }

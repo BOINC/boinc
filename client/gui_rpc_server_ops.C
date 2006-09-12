@@ -69,7 +69,7 @@ void GUI_RPC_CONN::handle_auth2(char* buf, MIOFILE& fout) {
         return;
     }
     sprintf(buf2, "%s%s", nonce, gstate.gui_rpcs.password);
-    md5_block((const unsigned char*)buf2, strlen(buf2), nonce_hash_correct);
+    md5_block((const unsigned char*)buf2, (int)strlen(buf2), nonce_hash_correct);
     if (strcmp(nonce_hash, nonce_hash_correct)) {
         auth_failure(fout);
         return;
@@ -375,7 +375,7 @@ static void handle_get_messages(char* buf, MIOFILE& fout) {
     // i.e. newer ones are at the head of the vector.
     // compute j = index of first message to return
     //
-    j = message_descs.size()-1;
+    j = (int)message_descs.size()-1;
     for (k=0; k<message_descs.size(); k++) {
         mdp = message_descs[k];
         if (mdp->seqno <= seqno) {
@@ -860,7 +860,7 @@ int GUI_RPC_CONN::handle_rpc() {
 
     if (log_flags.guirpc_debug) {
         msg_printf(0, MSG_INFO,
-            "GUI RPC Command = '%s'\n", request_msg
+            "[guirpc_debug] GUI RPC Command = '%s'\n", request_msg
         );
     }
 
@@ -913,6 +913,8 @@ int GUI_RPC_CONN::handle_rpc() {
         handle_network_status(request_msg, mf);
     } else if (match_tag(request_msg, "<get_newer_version>")) {
         handle_get_newer_version(mf);
+    } else if (match_tag(request_msg, "<get_cc_status")) {
+        handle_get_cc_status(mf);
 
     // Operations that require authentication start here
 
@@ -956,6 +958,12 @@ int GUI_RPC_CONN::handle_rpc() {
         gstate.read_global_prefs();
         gstate.request_schedule_cpus("Preferences override");
         gstate.request_work_fetch("Preferences override");
+    } else if (match_tag(request_msg, "<get_project_init_status")) {
+        handle_get_project_init_status(request_msg, mf);
+    } else if (match_tag(request_msg, "<get_global_prefs_override")) {
+        handle_get_global_prefs_override(mf);
+    } else if (match_tag(request_msg, "<set_global_prefs_override")) {
+        handle_set_global_prefs_override(request_msg, mf);
     } else {
 
         // RPCs after this point enable network communication
@@ -963,7 +971,7 @@ int GUI_RPC_CONN::handle_rpc() {
         // Things like attaching projects, etc.
         //
 
-        gstate.gui_rpcs.last_rpc_time = gstate.now;
+        gstate.gui_rpcs.time_of_last_rpc_needing_network = gstate.now;
 
         if (match_tag(request_msg, "<retry_file_transfer")) {
             handle_file_transfer_op(request_msg, mf, "retry");
@@ -971,8 +979,6 @@ int GUI_RPC_CONN::handle_rpc() {
             handle_project_op(request_msg, mf, "reset");
         } else if (match_tag(request_msg, "<project_update")) {
             handle_project_op(request_msg, mf, "update");
-        } else if (match_tag(request_msg, "<get_project_init_status")) {
-            handle_get_project_init_status(request_msg, mf);
         } else if (match_tag(request_msg, "<get_project_config>")) {
             handle_get_project_config(request_msg, mf);
         } else if (match_tag(request_msg, "<get_project_config_poll")) {
@@ -993,12 +999,10 @@ int GUI_RPC_CONN::handle_rpc() {
             handle_acct_mgr_rpc(request_msg, mf);
         } else if (match_tag(request_msg, "<acct_mgr_rpc_poll")) {
             handle_acct_mgr_rpc_poll(request_msg, mf);
-        } else if (match_tag(request_msg, "<get_cc_status")) {
-            handle_get_cc_status(mf);
-        } else if (match_tag(request_msg, "<get_global_prefs_override")) {
-            handle_get_global_prefs_override(mf);
-        } else if (match_tag(request_msg, "<set_global_prefs_override")) {
-            handle_set_global_prefs_override(request_msg, mf);
+
+		// DON'T JUST ADD NEW RPCS HERE - THINK ABOUT THEIR
+		// AUTHENTICATION AND NETWORK REQUIREMENTS FIRST
+
         } else {
             mf.printf("<error>unrecognized op</error>\n");
         }
@@ -1011,7 +1015,7 @@ int GUI_RPC_CONN::handle_rpc() {
         if (log_flags.guirpc_debug) {
             if (n > 1000) p[1000] = 0;
             msg_printf(0, MSG_INFO,
-                "GUI RPC reply: '%s'\n", p
+                "[guirpc_debug] GUI RPC reply: '%s'\n", p
             );
         }
         free(p);

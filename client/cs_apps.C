@@ -165,7 +165,7 @@ bool CLIENT_STATE::handle_finished_apps() {
             }
             if (log_flags.task_debug) {
                 msg_printf(0, MSG_INFO,
-                    "CLIENT_STATE::handle_finished_apps(): task finished; pid %d, status %d\n",
+                    "[task_debug] CLIENT_STATE::handle_finished_apps(): task finished; pid %d, status %d\n",
                     atp->pid, atp->result->exit_status
                 );
             }
@@ -358,7 +358,7 @@ int CLIENT_STATE::choose_version_num(WORKUNIT* wup, SCHEDULER_REPLY& sr) {
 // 
 void CLIENT_STATE::request_work_fetch(const char* where) {
     if (log_flags.work_fetch_debug) {
-        msg_printf(0, MSG_INFO, "Request work fetch: %s", where);
+        msg_printf(0, MSG_INFO, "[work_fetch_debug] Request work fetch: %s", where);
     }
     must_check_work_fetch = true;
 }

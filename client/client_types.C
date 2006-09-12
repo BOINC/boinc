@@ -379,7 +379,7 @@ bool PROJECT::downloading() {
     for (unsigned int i=0; i<gstate.results.size(); i++) {
         RESULT* rp = gstate.results[i];
         if (rp->project != this) continue;
-        if (rp->state == RESULT_FILES_DOWNLOADING) return true;
+        if (rp->downloading()) return true;
     }
     return false;
 }
@@ -875,7 +875,7 @@ const char* FILE_INFO::get_init_url(bool is_upload) {
     start_url = current_url;
     while(1) {
         if (!is_correct_url_type(is_upload, urls[current_url])) {
-            current_url = (current_url + 1)%urls.size();
+            current_url = (current_url + 1)%((int)urls.size());
             if (current_url == start_url) {
                 msg_printf(project, MSG_ERROR,
                     "Couldn't find suitable URL for %s", name);
@@ -894,7 +894,7 @@ const char* FILE_INFO::get_init_url(bool is_upload) {
 const char* FILE_INFO::get_next_url(bool is_upload) {
     if (!urls.size()) return NULL;
     while(1) {
-        current_url = (current_url + 1)%urls.size();
+        current_url = (current_url + 1)%((int)urls.size());
         if (current_url == start_url) {
             return NULL;
         }
@@ -1002,7 +1002,7 @@ int FILE_INFO::gzip() {
     if (!in) return ERR_FOPEN;
     gzFile out = gzopen(outpath, "wb");
     while (1) {
-        int n = fread(buf, 1, BUFSIZE, in);
+        int n = (int)fread(buf, 1, BUFSIZE, in);
         if (n <= 0) break;
         int m = gzwrite(out, buf, n);
         if (m != n) {
@@ -1379,7 +1379,7 @@ int RESULT::parse_server(MIOFILE& in) {
         else {
             if (log_flags.unparsed_xml) {
                 msg_printf(0, MSG_ERROR,
-                    "RESULT::parse(): unrecognized: %s\n", buf
+                    "[unparsed_xml] RESULT::parse(): unrecognized: %s\n", buf
                 );
             }
         }
@@ -1437,7 +1437,7 @@ int RESULT::parse_state(MIOFILE& in) {
         else {
             if (log_flags.unparsed_xml) {
                 msg_printf(0, MSG_ERROR,
-                    "RESULT::parse(): unrecognized: %s\n", buf
+                    "[unparsed_xml] RESULT::parse(): unrecognized: %s\n", buf
                 );
             }
         }
@@ -1479,7 +1479,7 @@ int RESULT::write(MIOFILE& out, bool to_server) {
             wup->version_num
         );
     }
-    n = stderr_out.length();
+    n = (int)stderr_out.length();
     if (n || to_server) {
         out.printf("<stderr_out>\n");
 
@@ -1650,7 +1650,7 @@ void PROJECT::update_duration_correction_factor(RESULT* rp) {
     }
 	if (log_flags.cpu_sched_debug || log_flags.work_fetch_debug) {
 		msg_printf(this, MSG_INFO,
-            "duration correction factor: %f => %f, ratio %f",
+            "[csd|wfd] duration correction factor: %f => %f, ratio %f",
 			old_dcf, duration_correction_factor, ratio
 		);
 	}
@@ -1664,9 +1664,13 @@ bool RESULT::runnable() {
 }
 
 bool RESULT::nearly_runnable() {
+    return runnable() || downloading();
+}
+
+bool RESULT::downloading() {
     if (suspended_via_gui) return false;
     if (project->suspended_via_gui) return false;
-    if (computing_done()) return false;
+    if (state > RESULT_FILES_DOWNLOADING) return false;
     return true;
 }
 

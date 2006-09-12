@@ -217,7 +217,7 @@ PROJECT* CLIENT_STATE::next_project_need_work() {
         p_prospect->work_request = 1.0;
         if (log_flags.work_fetch_debug) {
             msg_printf(0, MSG_INFO,
-                "next_project_need_work: project picked %s",
+                "[work_fetch_debug] next_project_need_work: project picked %s",
                 p_prospect->project_name
             );
         }
@@ -540,7 +540,7 @@ double CLIENT_STATE::time_until_work_done(
     }
 	if (log_flags.work_fetch_debug) {
 		msg_printf(NULL, MSG_INFO,
-			"time_until_work_done(): est %f ssr %f apr %f prs %f",
+			"[work_fetch_debug] time_until_work_done(): est %f ssr %f apr %f prs %f",
 			est, subset_resource_share, avg_proc_rate(), p->resource_share
 		);
 	}
@@ -623,7 +623,7 @@ bool CLIENT_STATE::compute_work_requests() {
     }
     if (log_flags.work_fetch_debug) {
         msg_printf(0, MSG_INFO,
-            "compute_work_requests(): cpu_shortfall %f, overall urgency %s",
+            "[work_fetch_debug] compute_work_requests(): cpu_shortfall %f, overall urgency %s",
             cpu_shortfall, urgency_name(overall_work_fetch_urgency)
         );
     }
@@ -643,7 +643,7 @@ bool CLIENT_STATE::compute_work_requests() {
         //
         if (!p->contactable()) {
             if (log_flags.work_fetch_debug) {
-                msg_printf(p, MSG_INFO, "work fetch: project not contactable");
+                msg_printf(p, MSG_INFO, "[work_fetch_debug] work fetch: project not contactable");
             }
             continue;
         }
@@ -652,7 +652,7 @@ bool CLIENT_STATE::compute_work_requests() {
         ) {
             if (log_flags.work_fetch_debug) {
                 msg_printf(p, MSG_INFO,
-                    "work fetch: project has %d deadline misses",
+                    "[work_fetch_debug] project has %d deadline misses",
                     p->deadlines_missed
                 );
             }
@@ -660,13 +660,13 @@ bool CLIENT_STATE::compute_work_requests() {
         }
         if (p->overworked() && overall_work_fetch_urgency < WORK_FETCH_NEED) {
             if (log_flags.work_fetch_debug) {
-                msg_printf(p, MSG_INFO, "work fetch: project is overworked");
+                msg_printf(p, MSG_INFO, "[work_fetch_debug] project is overworked");
             }
             continue;
         }
         if (p->cpu_shortfall == 0.0 && overall_work_fetch_urgency < WORK_FETCH_NEED) {
             if (log_flags.work_fetch_debug) {
-                msg_printf(p, MSG_INFO, "work fetch: project has no shortfall");
+                msg_printf(p, MSG_INFO, "[work_fetch_debug] project has no shortfall");
             }
             continue;
         }
@@ -680,7 +680,7 @@ bool CLIENT_STATE::compute_work_requests() {
             if (p->deadlines_missed && !pbest->deadlines_missed) {
                 if (log_flags.work_fetch_debug) {
                     msg_printf(p, MSG_INFO,
-                        "work_fetch: project has deadline misses, %s doesn't",
+                        "[work_fetch_debug] project has deadline misses, %s doesn't",
                         pbest->get_project_name()
                     );
                 }
@@ -691,7 +691,7 @@ bool CLIENT_STATE::compute_work_requests() {
             if (p->overworked() && !pbest->overworked()) {
                 if (log_flags.work_fetch_debug) {
                     msg_printf(p, MSG_INFO,
-                        "work_fetch: project is overworked, %s isn't",
+                        "[work_fetch_debug] project is overworked, %s isn't",
                         pbest->get_project_name()
                     );
                 }
@@ -702,7 +702,7 @@ bool CLIENT_STATE::compute_work_requests() {
             if (pbest->long_term_debt - best_work > p->long_term_debt - prospect_work) {
                 if (log_flags.work_fetch_debug) {
                     msg_printf(p, MSG_INFO,
-                        "work_fetch: project has less LTD than %s",
+                        "[work_fetch_debug] project has less LTD than %s",
                         pbest->get_project_name()
                     );
                 }
@@ -712,7 +712,7 @@ bool CLIENT_STATE::compute_work_requests() {
         pbest = p;
         best_work = prospect_work;
         if (log_flags.work_fetch_debug) {
-            msg_printf(pbest, MSG_INFO, "work_fetch: best project so far");
+            msg_printf(pbest, MSG_INFO, "[work_fetch_debug] best project so far");
         }
     }
 
@@ -732,7 +732,7 @@ bool CLIENT_STATE::compute_work_requests() {
 
         if (log_flags.work_fetch_debug) {
             msg_printf(pbest, MSG_INFO,
-				"compute_work_requests(): work req %f, shortfall %f, urgency %s\n",
+				"[work_fetch_debug] compute_work_requests(): work req %f, shortfall %f, urgency %s\n",
 				pbest->work_request, pbest->cpu_shortfall,
                 urgency_name(pbest->work_request_urgency)
             );
@@ -1134,7 +1134,7 @@ int CLIENT_STATE::handle_scheduler_reply(
         RESULT* rp = lookup_result(project, sr.result_acks[i].name);
         if (log_flags.sched_op_debug) {
             msg_printf(0, MSG_INFO,
-                "handle_scheduler_reply(): got ack for result %s\n",
+                "[sched_op_debug] handle_scheduler_reply(): got ack for result %s\n",
                 sr.result_acks[i].name
             );
         }
@@ -1221,7 +1221,7 @@ int CLIENT_STATE::handle_scheduler_reply(
     set_client_state_dirty("handle_scheduler_reply");
     if (log_flags.state_debug) {
         msg_printf(0, MSG_INFO,
-            "handle_scheduler_reply(): State after handle_scheduler_reply():"
+            "[state_debug] handle_scheduler_reply(): State after handle_scheduler_reply():"
         );
         print_summary();
     }
@@ -1248,7 +1248,7 @@ void CLIENT_STATE::scale_duration_correction_factors(double factor) {
         p->duration_correction_factor *= factor;
     }
 	if (log_flags.cpu_sched_debug) {
-		msg_printf(NULL, MSG_INFO, "scaling duration correction factors by %f", factor);
+		msg_printf(NULL, MSG_INFO, "[cpu_sched_debug] scaling duration correction factors by %f", factor);
 	}
 }
 

@@ -175,7 +175,7 @@ void CLIENT_STATE::start_cpu_benchmarks() {
     if (skip_cpu_benchmarks) {
         if (log_flags.measurement_debug) {
             msg_printf(0, MSG_INFO,
-                "CLIENT_STATE::cpu_benchmarks(): Skipping CPU benchmarks"
+                "[measurement_debug] CLIENT_STATE::cpu_benchmarks(): Skipping CPU benchmarks"
             );
         }
 		cpu_benchmarks_set_defaults();

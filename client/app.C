@@ -225,35 +225,6 @@ bool ACTIVE_TASK_SET::poll() {
         gstate.set_client_state_dirty("ACTIVE_TASK_SET::poll");
     }
 
-#ifdef _WIN32
-	if (log_flags.mem_usage_debug) {
-		static double last_mem_time=0;
-		if (gstate.now - last_mem_time > 10) {
-			last_mem_time = gstate.now;
-			vector<PROCINFO> piv;
-			PROCINFO pi;
-			procinfo_setup(piv);
-			for (i=0; i<active_tasks.size(); i++) {
-				ACTIVE_TASK* atp = active_tasks[i];
-				if (atp->task_state == PROCESS_EXECUTING) {
-					memset(&pi, 0, sizeof(pi));
-					pi.id = atp->pid;
-					procinfo_app(pi, piv);
-					msg_printf(NULL, MSG_INFO, "%s: RAM %dKB, page %dKB, user %f, kernel %f",
-						atp->result->name,
-						(int)(pi.working_set_size/1024), (int)(pi.swap_size/1024),
-						pi.user_time, pi.kernel_time
-					);
-				}
-			}
-			procinfo_other(pi, piv);
-			msg_printf(NULL, MSG_INFO, "All others: RAM %dKB, page %dKB, user %f, kernel %f",
-				(int)(pi.working_set_size/1024), (int)(pi.swap_size/1024),
-				pi.user_time, pi.kernel_time
-			);
-		}
-	}
-#endif
 
     return action;
 }
@@ -402,7 +373,6 @@ int ACTIVE_TASK::write(MIOFILE& fout) {
 int ACTIVE_TASK::parse(MIOFILE& fin) {
     char buf[256], result_name[256], project_master_url[256];
     int app_version_num=0, n;
-    double x;
     unsigned int i;
     PROJECT* project;
 
@@ -485,7 +455,7 @@ int ACTIVE_TASK::parse(MIOFILE& fin) {
         else {
             if (log_flags.unparsed_xml) {
                 msg_printf(0, MSG_ERROR,
-                    "ACTIVE_TASK::parse(): unrecognized %s\n", buf
+                    "[unparsed_xml] ACTIVE_TASK::parse(): unrecognized %s\n", buf
                 );
             }
         }
@@ -534,7 +504,7 @@ int ACTIVE_TASK_SET::parse(MIOFILE& fin) {
         } else {
             if (log_flags.unparsed_xml) {
                 msg_printf(0, MSG_ERROR,
-                    "ACTIVE_TASK_SET::parse(): unrecognized %s\n", buf
+                    "[unparsed_xml] ACTIVE_TASK_SET::parse(): unrecognized %s\n", buf
                 );
             }
         }

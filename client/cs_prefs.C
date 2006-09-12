@@ -137,6 +137,9 @@ void CLIENT_STATE::check_suspend_activities(int& reason) {
         return;
     }
 
+    user_active = !host_info.users_idle(
+        check_all_logins, global_prefs.idle_time_to_run
+    );
     switch(user_run_request) {
     case RUN_MODE_ALWAYS: break;
     case RUN_MODE_NEVER:
@@ -150,11 +153,7 @@ void CLIENT_STATE::check_suspend_activities(int& reason) {
             return;
         }
 
-        if (!global_prefs.run_if_user_active
-            && !host_info.users_idle(
-                check_all_logins, global_prefs.idle_time_to_run
-            )
-        ) {
+        if (!global_prefs.run_if_user_active && user_active) {
             reason = SUSPEND_REASON_USER_ACTIVE;
             return;
         }
@@ -208,7 +207,7 @@ static string reason_string(int reason) {
 int CLIENT_STATE::suspend_tasks(int reason) {
     if (reason == SUSPEND_REASON_CPU_USAGE_LIMIT) {
         if (log_flags.cpu_sched) {
-            msg_printf(NULL, MSG_INFO, "Suspending - CPU throttle");
+            msg_printf(NULL, MSG_INFO, "[cpu_sched] Suspending - CPU throttle");
         }
         active_tasks.suspend_all(true);
     } else {
@@ -223,7 +222,7 @@ int CLIENT_STATE::suspend_tasks(int reason) {
 int CLIENT_STATE::resume_tasks(int reason) {
     if (reason == SUSPEND_REASON_CPU_USAGE_LIMIT) {
         if (log_flags.cpu_sched) {
-            msg_printf(NULL, MSG_INFO, "Resuming - CPU throttle");
+            msg_printf(NULL, MSG_INFO, "[cpu_sched] Resuming - CPU throttle");
         }
         active_tasks.unsuspend_all();
     } else {
@@ -371,7 +370,8 @@ void CLIENT_STATE::read_global_prefs() {
     if (f) {
         MIOFILE mf;
         mf.init_file(f);
-        global_prefs.parse_override(mf, main_host_venue, found_venue);
+        XML_PARSER xp(&mf);
+        global_prefs.parse_override(xp, main_host_venue, found_venue);
         msg_printf(NULL, MSG_INFO, "Reading preferences override file");
         fclose(f);
     }

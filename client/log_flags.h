@@ -70,6 +70,7 @@ struct LOG_FLAGS {
 
     LOG_FLAGS();
     int parse(XML_PARSER&);
+    void show();
 };
 
 struct CONFIG {
@@ -86,4 +87,3 @@ extern CONFIG config;
 extern void read_config_file();
 
 #endif
-

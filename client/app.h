@@ -27,6 +27,7 @@
 
 #include "client_types.h"
 #include "app_ipc.h"
+#include "procinfo.h"
 
 class CLIENT_STATE;
 typedef int PROCESS_ID;
@@ -82,7 +83,8 @@ public:
     WORKUNIT* wup;
     APP_VERSION* app_version;
     PROCESS_ID pid;
-    int slot;   // which slot (determines directory)
+
+    int slot;   // subdirectory of slots/ where this runs
     int task_state;
     int scheduler_state;
     int next_scheduler_state; // temp

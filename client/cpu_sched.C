@@ -178,7 +178,7 @@ RESULT* CLIENT_STATE::largest_debt_project_best_result() {
 
     if (log_flags.cpu_sched_debug) {
         msg_printf(best_project, MSG_INFO,
-            "highest debt: %f %s",
+            "[cpu_sched_debug] highest debt: %f %s",
             best_project->anticipated_debt,
             best_project->next_runnable_result->name
         );
@@ -208,7 +208,7 @@ RESULT* CLIENT_STATE::earliest_deadline_result() {
 
     if (log_flags.cpu_sched_debug) {
         msg_printf(best_result->project, MSG_INFO,
-            "earliest deadline: %f %s",
+            "[cpu_sched_debug] earliest deadline: %f %s",
             best_result->report_deadline, best_result->name
         );
     }
@@ -327,7 +327,7 @@ void CLIENT_STATE::adjust_debts() {
         p->long_term_debt -= avg_long_term_debt;
         if (log_flags.debt_debug) {
             msg_printf(0, MSG_INFO,
-                "adjust_debts(): project %s: STD %f, LTD %f",
+                "[debt_debug] adjust_debts(): project %s: STD %f, LTD %f",
                 p->project_name, p->short_term_debt, p->long_term_debt
             );
         }
@@ -384,12 +384,12 @@ void CLIENT_STATE::print_deadline_misses() {
         rp = results[i];
         if (rp->rr_sim_misses_deadline && !rp->last_rr_sim_missed_deadline) {
             msg_printf(rp->project, MSG_INFO,
-                "Result %s projected to miss deadline.", rp->name
+                "[cpu_sched_debug] Result %s projected to miss deadline.", rp->name
             );
         }
         else if (!rp->rr_sim_misses_deadline && rp->last_rr_sim_missed_deadline) {
             msg_printf(rp->project, MSG_INFO,
-                "Result %s projected to meet deadline.", rp->name
+                "[cpu_sched_debug] Result %s projected to meet deadline.", rp->name
             );
         }
     }
@@ -397,7 +397,7 @@ void CLIENT_STATE::print_deadline_misses() {
         p = projects[i];
         if (p->rr_sim_deadlines_missed) {
             msg_printf(p, MSG_INFO,
-                "Project has %d projected deadline misses",
+                "[cpu_sched_debug] Project has %d projected deadline misses",
                 p->rr_sim_deadlines_missed
             );
         }
@@ -458,7 +458,7 @@ void CLIENT_STATE::schedule_cpus() {
         rp->project->anticipated_debt -= (1 - rp->project->resource_share / rrs) * expected_pay_off;
         rp->project->deadlines_missed--;
         if (log_flags.cpu_sched_debug) {
-            msg_printf(NULL, MSG_INFO, "scheduling (deadline) %s", rp->name);
+            msg_printf(NULL, MSG_INFO, "[cpu_sched_debug] scheduling (deadline) %s", rp->name);
         }
         ordered_scheduled_results.push_back(rp);
     }
@@ -471,7 +471,7 @@ void CLIENT_STATE::schedule_cpus() {
         if (!rp) break;
         rp->project->anticipated_debt -= (1 - rp->project->resource_share / rrs) * expected_pay_off;
         if (log_flags.cpu_sched_debug) {
-            msg_printf(NULL, MSG_INFO, "scheduling (regular) %s", rp->name);
+            msg_printf(NULL, MSG_INFO, "[cpu_sched_debug] scheduling (regular) %s", rp->name);
         }
         ordered_scheduled_results.push_back(rp);
     }
@@ -529,8 +529,8 @@ bool CLIENT_STATE::enforce_schedule() {
     must_enforce_cpu_schedule = false;
     bool action = false;
 
-    if (log_flags.cpu_sched) {
-        msg_printf(0, MSG_INFO, "Enforcing schedule");
+    if (log_flags.cpu_sched_debug) {
+        msg_printf(0, MSG_INFO, "[cpu_sched_debug] Enforcing schedule");
     }
 
     // set temporary variables
@@ -564,12 +564,13 @@ bool CLIENT_STATE::enforce_schedule() {
         running_tasks.pop_back();
     }
 
-    // count of how many tasks have next_scheduler_state = SCHEDULED
+    // keep track of how many tasks we plan on running
+    // (i.e. have next_scheduler_state = SCHEDULED)
     //
-    int nrunning = running_tasks.size();
+    int nrunning = (int)running_tasks.size();
 
     // Loop through the scheduled results
-    // to see if they should preempt something
+    // to see if they should preempt a running task
     //
     for (i=0; i<ordered_scheduled_results.size(); i++) {
         RESULT* rp = ordered_scheduled_results[i];
@@ -636,13 +637,13 @@ bool CLIENT_STATE::enforce_schedule() {
         }
     }
 
-    if (log_flags.cpu_sched && nrunning < ncpus) {
-        msg_printf(0, MSG_INFO, "Too few tasks started (%d<%d)",
+    if (log_flags.cpu_sched_debug && nrunning < ncpus) {
+        msg_printf(0, MSG_INFO, "[cpu_sched_debug] Too few tasks started (%d<%d)",
             nrunning, ncpus
         );
     }
-    if (log_flags.cpu_sched && nrunning > ncpus) {
-        msg_printf(0, MSG_INFO, "Too many tasks started (%d>%d)",
+    if (log_flags.cpu_sched_debug && nrunning > ncpus) {
+        msg_printf(0, MSG_INFO, "[cpu_sched_debug] Too many tasks started (%d>%d)",
             nrunning, ncpus
         );
     }
@@ -740,7 +741,7 @@ void PROJECT::set_rrsim_proc_rate(double rrs) {
 	rrsim_proc_rate = x*gstate.overall_cpu_frac();
     if (log_flags.rr_simulation) {
         msg_printf(this, MSG_INFO,
-            "set_rrsim_proc_rate: %f (rrs %f, rs %f, nactive %d, ocf %f",
+            "[rr_sim] set_rrsim_proc_rate: %f (rrs %f, rs %f, nactive %d, ocf %f",
             rrsim_proc_rate, rrs, resource_share, nactive, gstate.overall_cpu_frac()
         );
     }
@@ -781,7 +782,7 @@ bool CLIENT_STATE::rr_simulation() {
 
 	if (log_flags.rr_simulation) {
 		msg_printf(0, MSG_INFO,
-            "rr_sim start: work_buf_min %f rrs %f trs %f",
+            "[rr_sim] rr_sim start: work_buf_min %f rrs %f trs %f",
             work_buf_min(), rrs, trs
         );
 	}
@@ -825,7 +826,7 @@ bool CLIENT_STATE::rr_simulation() {
             p->cpu_shortfall = work_buf_min() * overall_cpu_frac() * ncpus * rsf;
             if (log_flags.rr_simulation) {
                 msg_printf(p, MSG_INFO,
-                    "no results; shortfall %f wbm %f ocf %f rsf %f",
+                    "[rr_sim] no results; shortfall %f wbm %f ocf %f rsf %f",
                     p->cpu_shortfall, work_buf_min(), overall_cpu_frac(), rsf
                 );
             }
@@ -856,7 +857,7 @@ bool CLIENT_STATE::rr_simulation() {
 
         if (log_flags.rr_simulation) {
             msg_printf(pbest, MSG_INFO,
-                "rr_sim: result %s finishes after %f (%f/%f)",
+                "[rr_sim] result %s finishes after %f (%f/%f)",
 				rpbest->name, rpbest->rrsim_finish_delay, rpbest->rrsim_cpu_left, pbest->rrsim_proc_rate
             );
         }
@@ -870,14 +871,14 @@ bool CLIENT_STATE::rr_simulation() {
             rval = true;
 			if (log_flags.rr_simulation) {
 				msg_printf(0, MSG_INFO,
-					"rr_sim: result %s misses deadline by %f",
+					"[rr_sim] result %s misses deadline by %f",
 					rpbest->name, diff
 				);
 			}
         }
 
-        int last_active_size = active.size();
-        int last_proj_active_size = pbest->active.size();
+        int last_active_size = (int)active.size();
+        int last_proj_active_size = (int)pbest->active.size();
 
         // remove *rpbest from active set,
         // and adjust CPU time left for other results
@@ -922,7 +923,7 @@ bool CLIENT_STATE::rr_simulation() {
             rrs -= pbest->resource_share;
             if (log_flags.rr_simulation) {
                 msg_printf(pbest, MSG_INFO,
-                    "rr_sim: decr rrs by %f, new value %f",
+                    "[rr_sim] decr rrs by %f, new value %f",
                     pbest->resource_share, rrs
                 );
             }
@@ -949,7 +950,7 @@ bool CLIENT_STATE::rr_simulation() {
                 pbest->cpu_shortfall += d_time*(proj_cpu_share - last_proj_active_size);
 				if (log_flags.rr_simulation) {
 					msg_printf(pbest, MSG_INFO,
-						"rr_sim: new shortfall %f d_time %f proj_cpu_share %f lpas %d",
+						"[rr_sim] new shortfall %f d_time %f proj_cpu_share %f lpas %d",
 						pbest->cpu_shortfall, d_time, proj_cpu_share, last_proj_active_size
 					);
 				}
@@ -961,7 +962,7 @@ bool CLIENT_STATE::rr_simulation() {
                 if (!pbest->active.size()) { 
                     pbest->cpu_shortfall += d_time * proj_cpu_share;
 					if (log_flags.rr_simulation) {
-						 msg_printf(pbest, MSG_INFO, "rr_sim proj out of work; shortfall %f d %f pcs %f",
+						 msg_printf(pbest, MSG_INFO, "[rr_sim] proj out of work; shortfall %f d %f pcs %f",
 							 pbest->cpu_shortfall, d_time, proj_cpu_share
 					     );
 					}
@@ -969,7 +970,7 @@ bool CLIENT_STATE::rr_simulation() {
             }
             if (log_flags.rr_simulation) {
                 msg_printf(0, MSG_INFO,
-                    "rr_sim total: idle cpus %d, last active %d, active %d, shortfall %f",
+                    "[rr_sim] total: idle cpus %d, last active %d, active %d, shortfall %f",
                     nidle_cpus, last_active_size, (int)active.size(), cpu_shortfall
 					
 				);
@@ -993,7 +994,7 @@ bool CLIENT_STATE::rr_simulation() {
             p = projects[i];
             if (p->cpu_shortfall) {
                 msg_printf(p, MSG_INFO,
-                    "rr_sim: shortfall %f\n", p->cpu_shortfall
+                    "[rr_sim] shortfall %f\n", p->cpu_shortfall
                 );
             }
         }
@@ -1012,7 +1013,7 @@ bool CLIENT_STATE::rr_simulation() {
 //
 void CLIENT_STATE::request_enforce_schedule(const char* where) {
     if (log_flags.cpu_sched_debug) {
-        msg_printf(0, MSG_INFO, "Request enforce CPU schedule: %s", where);
+        msg_printf(0, MSG_INFO, "[cpu_sched_debug] Request enforce CPU schedule: %s", where);
     }
     must_enforce_cpu_schedule = true;
 }
@@ -1025,7 +1026,7 @@ void CLIENT_STATE::request_enforce_schedule(const char* where) {
 //
 void CLIENT_STATE::request_schedule_cpus(const char* where) {
     if (log_flags.cpu_sched_debug) {
-        msg_printf(0, MSG_INFO, "Request CPU reschedule: %s", where);
+        msg_printf(0, MSG_INFO, "[cpu_sched_debug] Request CPU reschedule: %s", where);
     }
     must_schedule_cpus = true;
 }
