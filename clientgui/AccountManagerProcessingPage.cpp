@@ -286,6 +286,7 @@ void CAccountManagerProcessingPage::OnStateChange( CAccountManagerProcessingPage
                 SetProjectAttachSucceeded(false);
 
                 if ((ERR_NOT_FOUND == reply.error_num) ||
+					(ERR_DB_NOT_FOUND == reply.error_num) ||
                     (ERR_BAD_EMAIL_ADDR == reply.error_num) ||
                     (ERR_BAD_PASSWD == reply.error_num) ||
                     CHECK_DEBUG_FLAG(WIZDEBUG_ERRACCOUNTNOTFOUND)) {

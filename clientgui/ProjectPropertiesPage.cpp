@@ -177,9 +177,6 @@ wxWizardPageEx* CProjectPropertiesPage::GetNext() const
     } else if (GetProjectPropertiesSucceeded() && GetProjectAlreadyAttached()) {
         // Already attach to the project
         return PAGE_TRANSITION_NEXT(ID_ERRALREADYATTACHEDPAGE);
-    } else if (GetProjectPropertiesSucceeded() && GetProjectClientAccountCreationDisabled()) {
-        // Client Account Creation Disabled - Use Legacy Authentication Scheme
-        return PAGE_TRANSITION_NEXT(ID_ACCOUNTKEYPAGE);
     } else if (GetProjectPropertiesSucceeded()) {
         // We were successful in retrieving the project properties
         return PAGE_TRANSITION_NEXT(ID_ACCOUNTINFOPAGE);

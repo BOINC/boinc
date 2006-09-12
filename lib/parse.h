@@ -45,6 +45,7 @@ public:
     bool get(char*, int, bool&);
     bool parse_start(char*);
     bool parse_str(char*, char*, char*, int);
+    bool parse_string(char*, char*, std::string&);
     bool parse_int(char*, char*, int&);
     bool parse_double(char*, char*, double&);
     bool parse_bool(char*, char*, bool&);

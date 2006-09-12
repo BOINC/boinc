@@ -9843,5 +9843,120 @@ David  7 Sept 2006
     client/
         *.C
 
+David  8 Sept 2006
+    - manager: if client_account_creation_disabled is set,
+        don't go to the account key page.
+        Everything related to account keys can now be
+        removed from the manager.
+    - manager: removed redundant text on User Information page
+    - manager: don't refer to "Messages Tab" (or any other tab)
+        in the wizard; don't exist in simple GUI
 
+    clientgui/
+        AccountInfoPage.cpp
+        CompletionErrorPage.cpp
+        ProjectPropertiesPage.cpp
+        
+David  8 Sept 2006
+    - core client:
+        fix the mechanism that allows network access for 5 minutes
+        if it's needed to carry out a user-initiated GUI RPC
+        (e.g. attaching to a project).
+        This situation allows network access even if the
+        user has set network mode to "never".
+
+        Otherwise, if you try to attach to a project,
+        the manager sits there for 60 seconds,
+        then responds with "network failure" or something like that.
+
+        I suppose another solution would be for the manager to
+        notice that network is suspended,
+        and not let you try to attach to a project.
+        But this way is more user-friendly, I think.
+
+        Renamed gui_rpcs.got_recent_rpc() to recent_rpc_needs_network();
+        Renamed last_rpc_time to time_of_last_rpc_needing_network.
+        Shuffled order of RPCs in gui_rpc_server_ops.C;
+        this is critical to things working.
+
+    - manager: check for ERR_DB_NOT_FOUND in return codes from web RPCs
+    - manager: parse error message in ACCOUNT_OUT correctly
+
+    client/
+        client_state.C
+        gui_rpc_server.C,h
+        gui_rpc_server_ops.C
+    clientgui/
+        AccountManagerProcessingPage.cpp
+        ProjectProcessingPage.cpp
+    lib/
+        gui_rpc_client.h
+        gui_rpc_client_ops.C
+
+David  8 Sept 2006
+    - core client, Unix:
+        change syslog() call so message is INFO rather than EMERGENCY
+        (from Evandro Menezes)
+
+    client/
+        main.C
+
+David  8 Sept 2006
+    - Manager: handle client_account_creation_disabled flag correctly
+
+    clientgui/
+        AccountInfoPage.cpp
+
+David  9 Sept 2006
+    - Manager: make Statistics tab text translatable
+
+    clientgui/
+        ViewStatistics.cpp
+
+David  9 Sept 2006
+    - XML parser: add function for parsing std::string
+
+    lib/
+        parse.C,h
+
+David  11 Sept 2006
+    - API: fix bug in parsing global prefs.
+        GLOBAL_PREFS::parse_override() was calling xp.parse_start(),
+        which is wrong because in some cases
+        (e.g. parsing app init data file)
+        the start tag has already been parsed.
+        Principle: only call xp.parse_start() if you're
+        the function that actually opens the file.
+    - convert parsing of global preferences to use new XML parser
+    - core client: print error message if can't parse cc_config.xml
+
+    client/
+        cs_prefs.C
+        log_flags.C
+    lib/
+        app_ipc.C
+        gui_rpc_client_ops.C
+        prefs.C,h
+
+David  11 Sept 2006
+    - API bug fix
+
+    lib/
+        app_ipc.C
+
+David  11 Sept 2006
+    - XML parser bug fix (from Urs Echternacht)
+
+    lib/
+        parse.C
+
+Rom    11 Sept 2006
+    - Bug Fix: Keep one second disk writes from happening on the OnRender()
+        function of the advanced frame.  GTK2 appears to emulate user activity
+        when setting a control's state programtically which in turn causes
+        the set_*_mode rpc functions which in turn causes the state file to
+        be flagged as dirty.
+        
+    clientgui/
+        AdvancedFrame.cpp, .h
 

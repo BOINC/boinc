@@ -455,6 +455,7 @@ void CProjectProcessingPage::OnStateChange( CProjectProcessingPageEvent& WXUNUSE
                     }
 
                     if ((ERR_NOT_FOUND == ao->error_num) ||
+						(ao->error_num == ERR_DB_NOT_FOUND) ||
                         (ERR_BAD_EMAIL_ADDR == ao->error_num) ||
                         (ERR_BAD_PASSWD == ao->error_num) ||
                         CHECK_DEBUG_FLAG(WIZDEBUG_ERRACCOUNTNOTFOUND)) {
@@ -472,8 +473,8 @@ void CProjectProcessingPage::OnStateChange( CProjectProcessingPageEvent& WXUNUSE
                         strBuffer += 
                             _("An internal server error has occurred.\n");
                     } else {
-                        for (i=0; i<ao->messages.size(); i++) {
-                            strBuffer += wxString(ao->messages[i].c_str(), wxConvUTF8) + wxString(wxT("\n"));
+						if (ao->error_msg.size()) {
+                            strBuffer += wxString(ao->error_msg.c_str(), wxConvUTF8) + wxString(wxT("\n"));
                         }
                     }
                     pWAP->m_CompletionErrorPage->m_pServerMessagesCtrl->SetLabel(strBuffer);

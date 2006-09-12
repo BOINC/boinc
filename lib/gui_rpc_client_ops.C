@@ -910,22 +910,18 @@ ACCOUNT_OUT::~ACCOUNT_OUT() {
 
 int ACCOUNT_OUT::parse(MIOFILE& in) {
     char buf[256];
-    std::string msg;
     clear();
     while (in.fgets(buf, 256)) {
-        if (match_tag(buf, "</account_out>")) return 0; 
-        else if (parse_int(buf, "<error_num>", error_num)) continue;
+        if (parse_int(buf, "<error_num>", error_num)) continue;
+        else if (parse_str(buf, "<error_msg>", error_msg)) continue;
         else if (parse_str(buf, "<authenticator>", authenticator)) continue;
-        else if (parse_str(buf, "<message>", msg)) {
-            messages.push_back(msg);
-        }
     }
-    return ERR_XML_PARSE;
+    return 0;
 }
 
 void ACCOUNT_OUT::clear() {
     error_num = 0;
-    messages.clear();
+	error_msg = "";
     authenticator.clear();
 }
 
@@ -1057,7 +1053,8 @@ int RPC_CLIENT::get_state(CC_STATE& state) {
             }
             else if (match_tag(buf, "<global_preferences>")) {
                 bool flag = false;
-                state.global_prefs.parse(rpc.fin, "", flag);
+                XML_PARSER xp(&rpc.fin);
+                state.global_prefs.parse(xp, "", flag);
                 continue;
             }
         }
@@ -2094,7 +2091,8 @@ int RPC_CLIENT::get_global_prefs_override_struct(GLOBAL_PREFS& prefs) {
     if (retval) return retval;
     strcpy(buf, s.c_str());
     mf.init_buf(buf);
-    prefs.parse(mf, "", found_venue);
+    XML_PARSER xp(&mf);
+    prefs.parse(xp, "", found_venue);
     return 0;
 }
 
