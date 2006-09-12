@@ -530,6 +530,7 @@ bool XML_PARSER::parse_string(
     bool flag = parse_str(parsed_tag, start_tag, buf, sizeof(buf));
     if (!flag) return false;
     str = buf;
+    return true;
 }
 
 // Same, for integers

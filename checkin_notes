@@ -10148,3 +10148,9 @@ David  11 Sept 2006
 
     lib/
         app_ipc.C
+
+David  11 Sept 2006
+    - XML parser bug fix (from Urs Echternacht)
+
+    lib/
+        parse.C

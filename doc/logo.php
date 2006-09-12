@@ -27,7 +27,8 @@ The Mac variant was contributed by Juho Viitasalo.
 We are looking for a new graphical identity for BOINC.
 Our criteria:
 <ul>
-<li> It should work on light-colored backgrounds.
+<li> It should work on light-colored backgrounds
+(both the web) and also on black (for the screensaver).
 <li> It should include graphics of various sizes,
 including icons (16x16 up to 128x128),
 a web-site logo (roughly 200x100),
@@ -43,7 +44,9 @@ to suggest global distributed computing,
 or scientific research, or both.
 
 </ul>
-Here are some submissions:
+Here are some candidates.
+If you have an opinion, or think you can do better,
+   please <a href=contact.php>contact us</a>.
 <p>
 <table cellpadding=8 border=1>
 <tr><th>Artist</th><th>Images (click for hi-res version)</th></tr>
@@ -53,6 +56,28 @@ Here are some submissions:
 ... and <a href=logos/>many variants</a> in different sizes and colors,
 and for specific countries.
 </td></tr>
+<tr>
+<td>
+Dario Arnaez
+</td>
+<td>
+    <img src=logos/Boinc-Iso2.jpg>
+</td>
+</tr>
+<tr>
+<td>Rebirther</td>
+<td>
+    <img src=logo/rebirther/boincanderson7b-3.png>
+    <img src=logo/rebirther/blackbackground.png>
+</td>
+</tr>
+<td>Michal Krakowiak</td>
+<td>
+    <img src=logos/boinc_krakowiak.jpg>
+    <br>
+    16x16 icon: <img src=logos/boinc_small_icon_krakowiak.jpg>
+</td>
+</tr>
 <tr> <td>Jim Paulis</td><td>
 <a href=images/BOINC_logo.jpg><img src=images/BOINC_logo_240.jpg></a>
 ... and several variants
@@ -80,6 +105,14 @@ and for specific countries.
 </td>
 </tr>
 <tr>
+</tr>
+</table>
+
+<h2>Banners for BOINC projects</h2>
+<p>
+<table cellpadding=8 border=1>
+<tr><th>Artist</th><th>Images</th></tr>
+<tr>
 <td>Tony Hern</td>
 <td>
 <a href=logos/Knightrider_TV_1.gif><img height=90 src=logos/Knightrider_TV_1.gif></a>
@@ -87,14 +120,7 @@ and for specific countries.
 <a href=logos/Knightrider_TV_1tp.gif><img height=90 src=logos/Knightrider_TV_1tp.gif></a>
 </td>
 </tr>
-</table>
-<p>
-If you have an opinion, please <a href=contact.php>contact us</a>.
-
-<h2>Banners for BOINC projects</h2>
-<p>
-<table cellpadding=8 border=1>
-<tr><th>Artist</th><th>Images</th></tr>
+<tr>
 <td>Anthony Hern</td>
 <td>
 <img src=images/hern_logo3.gif>

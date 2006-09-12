@@ -3,13 +3,35 @@ require_once("docutil.php");
 page_head("Building BOINC on Unix");
 
 echo "
-On UNIX systems, the BOINC software (both server and client)
-can be built by typing
+The BOINC software consists of several components:
+<p>
+<center>
+<img src=components.png>
+</center>
+<p>
+<ul>
+<li> <b>Miscellaneous</b>: the API and various shared code.
+<li> <b>Client</b>: the core client and Manager.
+<li> <b>Server</b>: the scheduler, file upload handler, daemons, and tools.
+</ul>
+Which components you need depends on what you're doing:
+<ul>
+<li> If you're creating a project, you need to build the server
+and miscellaneous software
+(you <b>don't</b> need to build the client software;
+participants can get that from the BOINC web site).
+<li> If you're porting the BOINC client software to a new platform,
+you need the client and miscellaneous components.
+<li> If you're developing or porting a BOINC application,
+you need only the miscellaneous component.
+</ul>
+
+On UNIX systems, the entire BOINC software can be built by typing
 <pre>
-  ./_autosetup
-  ./configure [see options below]
-  make
-  make install  [optional: installs libraries and header files useful for building apps]
+./_autosetup
+./configure [see options below]
+make
+make install  [optional: installs libraries and header files useful for building apps]
 </pre>
 in the top directory.
 
@@ -60,12 +82,18 @@ list_item("--enable-debug",
     "enable tracing and debugging flags for all components"
 );
 list_item("--disable-server",
-    "disable building the scheduling server"
+    "disable building the server component"
 );
 list_item("--disable-client",
-    "disable building the client
+    "disable building the client component
     Default: --enable-server --enable-client: builds
-    both server and client"
+    both server and client.
+    <p>
+    If configure can't find WxWidgets it will build
+    the core client but not the Manager.
+    If you want to build only the core client,
+    run configure with --with-wxdir=junk.
+    "
 );
 list_item("--enable-maintainer-mode",
     "enable make rules and dependencies not useful
