@@ -135,6 +135,9 @@ private:
     bool            SaveState();
     bool            RestoreState();
 
+    void            UpdateActivityModeControls( CC_STATUS& status );
+    void            UpdateNetworkModeControls( CC_STATUS& status );
+
     DECLARE_EVENT_TABLE()
 };
 

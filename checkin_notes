@@ -10154,3 +10154,13 @@ David  11 Sept 2006
 
     lib/
         parse.C
+
+Rom    11 Sept 2006
+    - Bug Fix: Keep one second disk writes from happening on the OnRender()
+        function of the advanced frame.  GTK2 appears to emulate user activity
+        when setting a control's state programtically which in turn causes
+        the set_*_mode rpc functions which in turn causes the state file to
+        be flagged as dirty.
+        
+    clientgui/
+        AdvancedFrame.cpp, .h
