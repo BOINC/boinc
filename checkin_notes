@@ -10164,3 +10164,13 @@ Rom    11 Sept 2006
         
     clientgui/
         AdvancedFrame.cpp, .h
+        
+Kevin    12 Sept 2006
+    - BSG
+    	- Modify skin.xml format to be more readable
+    	- Add additional check to a skin.xml file to ensure that it is valid before attempting to display
+        
+    clientgui/
+        sg_SkinClass.cpp
+ 
+        
