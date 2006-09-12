@@ -49,6 +49,7 @@ public:
     bool parse_int(char*, char*, int&);
     bool parse_double(char*, char*, double&);
     bool parse_bool(char*, char*, bool&);
+	int element_contents(const char*, char*, int);
 };
 
 /////////////// START DEPRECATED XML PARSER

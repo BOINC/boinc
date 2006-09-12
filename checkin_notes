@@ -10173,4 +10173,32 @@ Kevin    12 Sept 2006
     clientgui/
         sg_SkinClass.cpp
  
-        
+David  12 Sept 2006
+	- Core client and account manager protocol:
+		account manager replies can include a
+		<opaque>
+		   ...
+		</opaque>
+		element.  It is stored in the acct_mgr_login.xml file,
+		and returned verbatim in subsequent account manager RPCs.
+		This is intended to allow account managers to send a
+		string analogous to BOINC's account key,
+		identifying the user and/or host on subsequent RPCs.
+		This overrides the name/password, and allows RPCs to
+		continue working even if the user changes name/password
+		on the AMS site.
+
+		NOTE: the contents of <opaque> are arbitrary XML.
+		Can contain other elements, and can have newlines.
+		Doing this required switching all AMS-related XML parsing
+		to use the new XML parser.
+		So now AMS replies don't have any XML formatting restrictions.
+		Woo-hoo!
+	- XML_PARSER: added element_contents() method to parse
+		stuff that may contain tags (like <opaque>)
+
+	client/
+		acct_mgr.C,h
+	lib/
+		parse.C,h
+

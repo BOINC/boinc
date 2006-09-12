@@ -638,6 +638,36 @@ bool XML_PARSER::parse_start(char* start_tag) {
     return true;
 }
 
+// copy everything up to (but not including) the given end tag.
+// The copied text may include XML tags.
+// strips whitespace.
+//
+int XML_PARSER::element_contents(const char* end_tag, char* buf, int buflen) {
+	int n=0;
+	int retval=0;
+    while (1) {
+		if (n == buflen-1) {
+			retval = ERR_XML_PARSE;
+			break;
+		}
+        int c = f->getc();
+		if (c == EOF) {
+			retval = ERR_XML_PARSE;
+			break;
+		}
+		buf[n++] = c;
+		buf[n] = 0;
+		char* p = strstr(buf, end_tag);
+		if (p) {
+			*p = 0;
+			break;
+		}
+    }
+	buf[n] = 0;
+    strip_whitespace(buf);
+    return retval;
+}
+
 // sample use is shown below
 
 #if 0

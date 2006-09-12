@@ -24,6 +24,7 @@
 #include <vector>
 
 #include "miofile.h"
+#include "parse.h"
 #include "gui_http.h"
 #include "client_types.h"
 
@@ -38,6 +39,8 @@ struct ACCT_MGR_INFO {
     char login_name[256];
     char password_hash[256];
         // md5 of password.lowercase(login_name)
+	char opaque[256];
+		// whatever the AMS sends us
     char signing_key[MAX_KEY_LEN];
     char previous_host_cpid[64];
         // the host CPID sent in last RPC
@@ -65,7 +68,7 @@ struct AM_ACCOUNT {
     bool detach;
     bool update;
 
-    int parse(FILE*);
+    int parse(XML_PARSER&);
     AM_ACCOUNT() {}
     ~AM_ACCOUNT() {}
 };

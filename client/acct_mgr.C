@@ -161,6 +161,13 @@ int ACCT_MGR_OP::do_rpc(
             fclose(fprefs);
         }
     }
+	if (strlen(gstate.acct_mgr_info.opaque)) {
+		fprintf(f,
+			"   <opaque>\n%s\n"
+			"   </opaque>\n",
+			gstate.acct_mgr_info.opaque
+		);
+	}
     fprintf(f, "</acct_mgr_request>\n");
     fclose(f);
     sprintf(buf, "%srpc.php", url.c_str());
@@ -176,9 +183,10 @@ int ACCT_MGR_OP::do_rpc(
     return 0;
 }
 
-int AM_ACCOUNT::parse(FILE* f) {
-    char buf[256];
-    int retval;
+int AM_ACCOUNT::parse(XML_PARSER& xp) {
+    char tag[256];
+	bool is_tag;
+	int retval;
 
     detach = false;
     update = false;
@@ -186,66 +194,80 @@ int AM_ACCOUNT::parse(FILE* f) {
     strcpy(url_signature, "");
     authenticator = "";
 
-    while (fgets(buf, sizeof(buf), f)) {
-        if (match_tag(buf, "</account>")) {
+    while (!xp.get(tag, sizeof(tag), is_tag)) {
+		if (!is_tag) {
+			if (log_flags.unparsed_xml) {
+				msg_printf(0, MSG_ERROR, "AM_ACCOUNT::parse: unexpected text %s", tag);
+			}
+			continue;
+		}
+        if (!strcmp(tag, "/account")) {
             if (url.length() && authenticator.length()) return 0;
             return ERR_XML_PARSE;
         }
-        if (parse_str(buf, "<url>", url)) continue;
-        if (match_tag(buf, "<url_signature>")) {
-            retval = copy_element_contents(
-                f,
-                "</url_signature>",
-                url_signature,
-                sizeof(url_signature)
-            );
+        if (xp.parse_string(tag, "url", url)) continue;
+        if (!strcmp(tag, "url_signature")) {
+            retval = xp.element_contents("</url_signature>", url_signature, sizeof(url_signature));
             if (retval) return retval;
+			strcat(url_signature, "\n");
             continue;
         }
-        if (parse_str(buf, "<authenticator>", authenticator)) continue;
-        if (parse_bool(buf, "detach", detach)) continue;
-        if (parse_bool(buf, "update", update)) continue;
+        if (xp.parse_string(tag, "authenticator", authenticator)) continue;
+        if (xp.parse_bool(tag, "detach", detach)) continue;
+        if (xp.parse_bool(tag, "update", update)) continue;
     }
     return ERR_XML_PARSE;
 }
 
 int ACCT_MGR_OP::parse(FILE* f) {
-    char buf[256];
+    char tag[1024];
+	bool is_tag;
     string message;
     int retval;
+	MIOFILE mf;
+	mf.init_file(f);
+	XML_PARSER xp(&mf);
 
     accounts.clear();
     error_str = "";
     error_num = 0;
     repeat_sec = 0;
     strcpy(host_venue, "");
-    while (fgets(buf, sizeof(buf), f)) {
-        if (match_tag(buf, "</acct_mgr_reply>")) return 0;
-        if (parse_str(buf, "<name>", ami.acct_mgr_name, 256)) continue;
-        if (parse_int(buf, "<error_num>", error_num)) continue;
-        if (parse_str(buf, "<error>", error_str)) continue;
-        if (parse_double(buf, "<repeat_sec>", repeat_sec)) continue;
-        if (parse_str(buf, "<message>", message)) {
+	strcpy(ami.opaque, "");
+	if (!xp.parse_start("acct_mgr_reply")) return ERR_XML_PARSE;
+    while (!xp.get(tag, sizeof(tag), is_tag)) {
+		if (!is_tag) {
+			if (log_flags.unparsed_xml) {
+				msg_printf(0, MSG_ERROR, "ACCT_MGR_OP::parse: unexpected text %s", tag);
+			}
+			continue;
+		}
+        if (!strcmp(tag, "/acct_mgr_reply")) return 0;
+        if (xp.parse_str(tag, "name", ami.acct_mgr_name, 256)) continue;
+        if (xp.parse_int(tag, "error_num", error_num)) continue;
+        if (xp.parse_string(tag, "error", error_str)) continue;
+        if (xp.parse_double(tag, "repeat_sec", repeat_sec)) continue;
+        if (xp.parse_string(tag, "message", message)) {
             msg_printf(NULL, MSG_INFO, "Account manager: %s", message.c_str());
             continue;
         }
-        if (match_tag(buf, "<signing_key>")) {
-            retval = copy_element_contents(
-                f,
-                "</signing_key>",
-                ami.signing_key,
-                sizeof(ami.signing_key)
-            );
+		if (!strcmp(tag, "opaque")) {
+			retval = xp.element_contents("</opaque>", ami.opaque, sizeof(ami.opaque));
+			if (retval) return retval;
+			continue;
+		}
+        if (!strcmp(tag, "signing_key")) {
+            retval = xp.element_contents("</signing_key>", ami.signing_key, sizeof(ami.signing_key));
             if (retval) return retval;
             continue;
         }
-        if (match_tag(buf, "<account>")) {
+        if (!strcmp(tag, "<account>")) {
             AM_ACCOUNT account;
-            retval = account.parse(f);
+            retval = account.parse(xp);
             if (!retval) accounts.push_back(account);
             continue;
         }
-        if (match_tag(buf, "<global_preferences>")) {
+        if (!strcmp(tag, "<global_preferences>")) {
             retval = dup_element_contents(
                 f,
                 "</global_preferences>",
@@ -260,7 +282,7 @@ int ACCT_MGR_OP::parse(FILE* f) {
             }
             continue;
         }
-        if (parse_str(buf, "<host_venue>", host_venue, sizeof(host_venue))) continue;
+        if (xp.parse_str(tag, "<host_venue>", host_venue, sizeof(host_venue))) continue;
     }
     return ERR_XML_PARSE;
 }
@@ -328,6 +350,7 @@ void ACCT_MGR_OP::handle_reply(int http_op_retval) {
         strcpy(gstate.acct_mgr_info.signing_key, ami.signing_key);
         strcpy(gstate.acct_mgr_info.login_name, ami.login_name);
         strcpy(gstate.acct_mgr_info.password_hash, ami.password_hash);
+		strcpy(gstate.acct_mgr_info.opaque, ami.opaque);
 
         // process projects
         //
@@ -421,7 +444,7 @@ int ACCT_MGR_INFO::write_info() {
             if (send_gui_rpc_info) fprintf(p,"    <send_gui_rpc_info/>\n");
             if (strlen(signing_key)) {
                 fprintf(p, 
-                    "    <signing_key>\n%s</signing_key>\n",
+                    "    <signing_key>\n%s\n</signing_key>\n",
                     signing_key
                 );
             }
@@ -442,11 +465,14 @@ int ACCT_MGR_INFO::write_info() {
                 "    <password_hash>%s</password_hash>\n"
                 "    <previous_host_cpid>%s</previous_host_cpid>\n"
                 "    <next_rpc_time>%f</next_rpc_time>\n"
+				"    <opaque>\n%s\n"
+				"    </opaque>\n"
                 "</acct_mgr_login>\n",
                 login_name,
                 password_hash,
                 previous_host_cpid,
-                next_rpc_time
+                next_rpc_time,
+				opaque
             );
             fclose(p);
         }
@@ -461,6 +487,7 @@ void ACCT_MGR_INFO::clear() {
     strcpy(password_hash, "");
     strcpy(signing_key, "");
     strcpy(previous_host_cpid, "");
+	strcpy(opaque, "");
     next_rpc_time = 0;
     send_gui_rpc_info = false;
     password_error = false;
@@ -471,7 +498,8 @@ ACCT_MGR_INFO::ACCT_MGR_INFO() {
 }
 
 int ACCT_MGR_INFO::init() {
-    char    buf[256];
+	char tag[1024];
+	bool is_tag;
     MIOFILE mf;
     FILE*   p;
     int retval;
@@ -480,19 +508,22 @@ int ACCT_MGR_INFO::init() {
     p = fopen(ACCT_MGR_URL_FILENAME, "r");
     if (!p) return 0;
     mf.init_file(p);
-    while(mf.fgets(buf, sizeof(buf))) {
-        if (match_tag(buf, "</acct_mgr>")) break;
-        else if (parse_str(buf, "<name>", acct_mgr_name, 256)) continue;
-        else if (parse_str(buf, "<url>", acct_mgr_url, 256)) continue;
-        else if (parse_bool(buf, "send_gui_rpc_info", send_gui_rpc_info)) continue;
-        else if (match_tag(buf, "<signing_key>")) {
-            retval = copy_element_contents(
-                p,
-                "</signing_key>",
-                signing_key,
-                sizeof(signing_key)
-            );
-            if (retval) return retval;
+	XML_PARSER xp(&mf);
+	if (!xp.parse_start("acct_mgr_login")) {
+		//
+	}
+	while (!xp.get(tag, sizeof(tag), is_tag)) {
+		if (!is_tag) {
+			printf("unexpected text: %s\n", tag);
+			continue;
+		} 
+        if (!strcmp(tag, "/acct_mgr")) break;
+        else if (xp.parse_str(tag, "name", acct_mgr_name, 256)) continue;
+        else if (xp.parse_str(tag, "url", acct_mgr_url, 256)) continue;
+        else if (xp.parse_bool(tag, "send_gui_rpc_info", send_gui_rpc_info)) continue;
+        else if (!strcmp(tag, "signing_key")) {
+            retval = xp.element_contents("</signing_key>", signing_key, sizeof(signing_key));
+            continue;
         }
     }
     fclose(p);
@@ -500,12 +531,24 @@ int ACCT_MGR_INFO::init() {
     p = fopen(ACCT_MGR_LOGIN_FILENAME, "r");
     if (p) {
         mf.init_file(p);
-        while(mf.fgets(buf, sizeof(buf))) {
-            if (match_tag(buf, "</acct_mgr_login>")) break;
-            else if (parse_str(buf, "<login>", login_name, 256)) continue;
-            else if (parse_str(buf, "<password_hash>", password_hash, 256)) continue;
-            else if (parse_str(buf, "<previous_host_cpid>", previous_host_cpid, sizeof(previous_host_cpid))) continue;
-            else if (parse_double(buf, "<next_rpc_time>", next_rpc_time)) continue;
+		XML_PARSER xp(&mf);
+		if (!xp.parse_start("acct_mgr_login")) {
+			//
+		}
+		while (!xp.get(tag, sizeof(tag), is_tag)) {
+			if (!is_tag) {
+				printf("unexpected text: %s\n", tag);
+				continue;
+			}
+            if (!strcmp(tag, "/acct_mgr_login")) break;
+            else if (xp.parse_str(tag, "login", login_name, 256)) continue;
+            else if (xp.parse_str(tag, "password_hash", password_hash, 256)) continue;
+            else if (xp.parse_str(tag, "previous_host_cpid", previous_host_cpid, sizeof(previous_host_cpid))) continue;
+            else if (xp.parse_double(tag, "next_rpc_time", next_rpc_time)) continue;
+			else if (!strcmp(tag, "opaque")) {
+				retval = xp.element_contents("</opaque>", opaque, sizeof(opaque));
+				continue;
+			}
         }
         fclose(p);
     }
