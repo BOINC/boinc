@@ -1,34 +1,23 @@
-msgid ""
-msgstr ""
-"Project-Id-Version: \n"
-"POT-Creation-Date: \n"
-"PO-Revision-Date: 2005-09-06 07:30+0100\n"
-"Last-Translator: Jens Seidler <webmaster@boinc.de>\n"
-"Language-Team: \n"
-"MIME-Version: 1.0\n"
-"Content-Type: text/plain; charset=iso-8859-1\n"
-"Content-Transfer-Encoding: 8bit\n"
-
 ##########################################
-# Language: Polski
+# Language: English (International)
 # FileID  : $Id$
-# Author  : Dariusz Zukowski
-# Email   : zen.bcr@wp.pl
+# Author  : Bartosz Kaszubowski
+# Email   : gosimek@gmail.com
 ##########################################
 # For more information please see:
 # http://boinc.berkeley.edu/web_translation.php
 ##########################################
+
 # The charset used for the text in this file (please try to use UTF-8 if possible)
 msgid "CHARSET"
 msgstr "windows-1250"
-
 # The name of this language in this language
 msgid "LANG_NAME_NATIVE"
 msgstr "Polski"
-
 # The name of this language in an international language (English)
 msgid "LANG_NAME_INTERNATIONAL"
 msgstr "Polish"
+
 
 #########################################
 # Apps page (apps.php)
@@ -37,79 +26,79 @@ msgid "APPS_TITLE"
 msgstr "Aplikacje"
 
 msgid "APPS_DESCRIPTION"
-msgstr "$PROJECT obecnie zawiera nastêpuj¹ce aplikacje. Uczestnicz¹c w $PROJECT twój komputer otrzyma pracê od 1 lub wiêcej z tych aplikacji. Pobrana zostanie bie¿¹ca wersja danej aplikacji. Stanie siê to automatycznie, nie musisz siê o nic martwiæ. "
+msgstr "Projekt $PROJECT obecnie korzysta z aplikacji wypisanych w tabelce poni¿ej. Uczestnicz¹c w $PROJECT twój komputer otrzyma pracê od jednej lub wiêcej z tych aplikacji. Za ka¿dym razem, gdy zmieni siê wersja aplikacji, zostanie ona pobrana automatycznie przez BOINC Manager'a, wiêc nie musisz siê o nic martwiæ."
 
 msgid "APPS_PLATFORM"
 msgstr "Platforma"
 
 msgid "APPS_VERSION"
-msgstr "Bie¿¹ca wersja"
+msgstr "Aktualna wersja"
 
 msgid "APPS_INSTALLTIME"
-msgstr "Zainstalowane"
+msgstr "Zainstalowano"
 
 #########################################
 # Rules and Policies page (info.php)
 #########################################
 msgid "RULES_TITLE"
-msgstr "Zasady"
+msgstr "Zasady i regu³y"
 
 msgid "RULES_ONLY_AUTH"
-msgstr "Uruchamiaj $PROJECT wy³¹cznie na komputerach autoryzowanych. "
+msgstr "Licz w projekcie $PROJECT wy³¹cznie na komputerach autoryzowanych."
 
 msgid "RULES_ONLY_AUTH_TEXT"
-msgstr "Uruchamiaj $PROJECT tylko na komputerach, które s¹ twoj¹ w³asnoœci¹ lub do u¿ycia których masz zgodê w³aœciciela. Niektóre firmy i szko³y maj¹ zasady zabraniaj¹ce wykorzystywania ich maszyn do projektów takich jak $PROJECT"
+msgstr "Licz w projekcie $PROJECT tylko na komputerach, które s¹ twoj¹ w³asnoœci¹ lub do u¿ycia których masz zgodê w³aœciciela. Niektóre firmy i szko³y maj¹ zasady zabraniaj¹ce wykorzystywania ich maszyn do celów takich, jak wykorzystywanie mocy obliczeniowej w projektach naukowych."
 
 msgid "RULES_COMPUTER_USE"
-msgstr "Jak $PROJECT wykorzysta twój komputer"
+msgstr "Jak projekt $PROJECT wykorzysta twój komputer?"
 
 msgid "RULES_COMPUTER_USE_TEXT_A"
-msgstr "Gdy uruchomisz $PROJECT na swoim komputerze, bêdzie on wykorzystywa³ czêœæ mocy jego CPU, przestrzeni dysku i przepustowoœci ³¹cza. Mo¿esz jednak regulowaæ, ile zasobów przeznaczyæ na $PROJECT"
+msgstr "Gdy uruchomisz aplikacjê projektu $PROJECT na swoim komputerze bêdzie ona wykorzystywaæ czêœæ mocy jego procesora, przestrzeni dysku i przepustowoœci ³¹cza. Mo¿esz jednak regulowaæ, ile zasobów systemowych chcesz przeznaczyæ na pracê w projekcie $PROJECT."
 
 msgid "RULES_COMPUTER_USE_TEXT_B"
-msgstr "Praca wykonywana przez twój komputer s³u¿y celom $PROJECT, które opisane s¹ na tej stronie. Aplikacje mog¹ zmieniaæ siê od czasu do czasu."
+msgstr "Praca wykonywana przez twój komputer s³u¿y celom projektu $PROJECT, które opisane s¹ na stronie g³ównej. Aplikacje tego projektu mog¹ co jakiœ czas siê zmieniaæ."
 
 msgid "RULES_PRIVACY"
 msgstr "Polityka prywatnoœci"
 
 msgid "RULES_PRIVACY_TEXT_A"
-msgstr "Twoje konto na $PROJECT jest identyfikowane nazw¹, któr¹ sam okreœlasz. Mo¿e byæ ona wyœwietlona na stronie WWW $PROJECT wraz z podsumowaniem pracy, któr¹ dla projektu wykona³ twój komputer. Jeœli jednak chcesz pozostaæ anonimowy, mo¿esz wybraæ nazwê, która nie zdradzi twej to¿samoœci."
+msgstr "Twoje konto w projekcie $PROJECT jest identyfikowane dziêki nazwie, któr¹ sam okreœlasz. Mo¿e byæ ona wyœwietlona na stronie internetowej projektu $PROJECT wraz z podsumowaniem pracy, któr¹ dla potrzeb projektu wykona³ twój komputer. Je¿li jednak chcesz pozostaæ anonimowy, mo¿esz wybraæ nazwê, która nie zdradzi twej to¿samoœci."
 
 msgid "RULES_PRIVACY_TEXT_B"
-msgstr "Gdy bierzesz udzia³ w $PROJECT, informacje o twym komputerze, jak rodzaj CPU, iloœæ pamiêci itp., bêd¹ zapisane przez $PROJECT i pos³u¿¹ okreœleniu, jakiego rodzaju zadania ci przydzielaæ. Dane te bêd¹ te¿ wyœwietlone na stronie $PROJECT Nie bêdzie zaœ wyœwietlone nic, co umo¿liwi³oby rozpoznanie lokacji twojego komputera (np. nazwa domeny czy adres sieciowy)."
+msgstr "Gdy bierzesz udzia³ w projekcie $PROJECT, informacje o twym komputerze, takie jak rodzaj procesora, iloœæ pamiêci operacyjnej itp. bêd¹ zapisane przez ten projekt i pos³u¿¹ okreœleniu, jakiego rodzaju zadania nale¿y przydzielaæ twojemu komputerowi. Dane te bêd¹ tak¿e wyœwietlone na stronie  projeku $PROJECT, lecz mo¿e je ukryæ, jeœli tego chcesz. Zapewniamy, ¿e nie bêd¹ wyœwietlone informacje, które umo¿liwi³oby rozpoznanie lokacji twojego komputera (np. nazwa domeny czy adres sieciowy)."
 
 msgid "RULES_PRIVACY_TEXT_C"
-msgstr "By uczestniczyæ w $PROJECT, musisz podaæ adres, na który ma przyjœæ e-mail. Nie bêdzie on ujawniony na stronie $PROJECT ani u¿yczany jakimkolwiek organizacjom. $PROJECT mo¿e przysy³aæ ci okresowo listy z nowinami, mo¿esz jednak z nich zrezygnowaæ w ka¿dej chwili."
+msgstr "By uczestniczyæ w projekcie $PROJECT, musisz podaæ adres e-mailowy, na który chcesz otrzymywaæ wiadomoœci odnoœnie projektu. Nie bêdzie on ujawniony na stronie internetowej projektu, ani u¿yczany jakimkolwiek organizacjom. Projekt $PROJECT mo¿e przysy³aæ Ci co jakiœ czas wiadomoœci z nowoœciami, mo¿esz jednak z nich zrezygnowaæ w ka¿dej chwili."
 
 msgid "RULES_SAFE"
-msgstr "Czy uruchamianie $PROJECT jest bezpieczne?"
+msgstr "Czy uruchamianie aplikacji projektu $PROJECT jest bezpieczne?"
 
 msgid "RULES_SAFE_TEXT_A"
-msgstr "Za ka¿dym razem, gdy pobierasz z sieci program, ryzykujesz: mo¿e on zawieraæ niebezpieczne b³êdy, albo serwer, z którego pobierasz, mo¿e zostaæ zhakowany. W $PROJECT staramy siê sprowadziæ to ryzyko do minimum. "
+msgstr "Za ka¿dym razem, gdy pobierasz z sieci program, ryzykujesz: mo¿e on zawieraæ niebezpieczne b³êdy, albo serwer, z którego go pobierasz, mo¿e zostaæ zhakowany. W projekcie $PROJECT staramy siê sprowadziæ to ryzyko do minimum, aby zapewniæ uczestnikom jak najwy¿szy poziom bezpieczeñstwa."
 
 msgid "RULES_SAFE_TEXT_B"
-msgstr "Aplikacje uruchamiane przez $PROJECT mog¹ powodowaæ przegrzanie niektórych komputerów. W takim przypadku zatrzymaj $PROJECT lub u¿yj %s , co ogranicza wykorzystanie procesora."
+msgstr "Aplikacje uruchamiane przez projekt $PROJECT mog¹ powodowaæ przegrzanie siê niektórych komputerów. W takim przypadku zatrzymaj pracê aplikacji tego projektu lub u¿yj %s, które miêdzyinnymi ograniczaj¹ wykorzystywanie procesora twojego komputera."
 
 msgid "RULES_UTILITY_PROGRAM"
-msgstr "utility program"
+msgstr "dodatkowych programów"
 
 msgid "RULES_SAFE_TEXT_C"
-msgstr "$PROJECT stworzy³ %s. BOINC napisano w University of California."
+msgstr "Projekt $PROJECT powsta³ w %s. Platformê BOINC napisano na Uniwersytecie Kalifornia."
 
 msgid "RULES_LIABILITY"
 msgstr "Odpowiedzialnoœæ"
 
 msgid "RULES_LIABILITY_TEXT"
-msgstr "$PROJECT oraz %s nie bior¹ odpowiedzialnoœci za uszkodzenie twojego komputera, utratê danych czy inne wypadki, które mog¹ wyst¹piæ jako skutek uczestnictwa w $PROJECT."
+msgstr "Projekt $PROJECT oraz %s nie bior¹ odpowiedzialnoœci za uszkodzenie twojego komputera, utratê danych czy inne wypadki, które mog¹ wyst¹piæ jako skutek uczestnictwa w tym projekcie."
 
 msgid "RULES_OTHER"
 msgstr "Inne projekty BOINC"
 
 msgid "RULES_OTHER_TEXT_A"
-msgstr "Inne projekty poza $PROJECT tak¿e u¿ywaj¹ BOINC. Rozwa¿ uczestnictwo w projektach innych ni¿ $PROJECT. W ten sposób twój komputer mo¿e wykonywaæ po¿yteczn¹ pracê nawet jeœli $PROJECT nie ma dla niego w danej chwili ¿adnych zadañ."
+msgstr "Inne projekty poza $PROJECT u¿ywaj¹ tak¿e platformy BOINC. Rozwa¿ tak¿e uczestnictwo w innych projektach przetwarzania rozproszonego. W ten sposób twój komputer mo¿e wykonywaæ po¿yteczne obliczenia nawet jeœli projekt $PROJECT nie ma dla niego w danej chwili ¿adnych zadañ."
 
 msgid "RULES_OTHER_TEXT_B"
-msgstr "Inne projekty nie maj¹ zwi¹zku z $PROJECT, nie mo¿emy wiêc odpowiadaæ za ich jakoœæ zabezpieczeñ czy naturê prowadzonych badañ. Uczestniczysz w nich na w³asne ryzyko."
+msgstr "Inne projekty nie maj¹ zwi¹zku z projektem $PROJECT, nie mo¿emy wiêc odpowiadaæ za jakoœæ ich zabezpieczeñ czy naturê prowadzonych badañ. Uczestniczysz w nich na w³asn¹ odpowiedzialnoœæ oraz ryzyko."
 
 #########################################
 # Create account form (create_account_form.php)
@@ -118,22 +107,22 @@ msgid "CREATE_AC_TITLE"
 msgstr "Stwórz konto"
 
 msgid "CREATE_AC_READ_RULES"
-msgstr "Przeczytaj %s zanim stworzysz konto."
+msgstr "Przeczytaj %s zanim stworzysz nowe konto."
 
 msgid "CREATE_AC_ALREADY_GOT"
 msgstr "Jeœli ju¿ otrzyma³eœ klucz do konta, nie wysy³aj tego formularza, tylko %s."
 
 msgid "CREATE_AC_NAME"
-msgstr "Nazwa"
+msgstr "Nazwa konta"
 
 msgid "CREATE_AC_NAME_DESC"
-msgstr "Identyfikuje ciê na stronie. U¿yj swego imienia lub pseudonimu."
+msgstr "Identyfikuje Ciê na stronie. U¿yj swego imienia lub pseudonimu."
 
 msgid "CREATE_AC_EMAIL"
 msgstr "Adres e-mail"
 
 msgid "CREATE_AC_EMAIL_DESC"
-msgstr "Musi to byæ dzia³aj¹cy adres o postaci 'nazwa@domena'."
+msgstr "Musi to byæ aktualny adres wpisany w postaci 'nazwa@domena'."
 
 msgid "CREATE_AC_COUNTRY"
 msgstr "Kraj"
@@ -142,163 +131,80 @@ msgid "CREATE_AC_COUNTRY_DESC"
 msgstr "Jeœli chcesz, wybierz kraj, który reprezentujesz."
 
 msgid "CREATE_AC_ZIP"
-msgstr "Kod pocztowy."
+msgstr "Kod pocztowy"
 
 msgid "CREATE_AC_CREATE"
 msgstr "Stwórz konto"
 
 msgid "CREATE_AC_DISABLED"
-msgstr "Tworzenie konta wy³¹czone"
+msgstr "Tworzenie nowego konta jest aktualnie wy³¹czone!"
 
 msgid "CREATE_AC_DISABLED_TEXT"
-msgstr "W tej chwili mo¿liwoœæ stworzenia konta do $PROJECT jest zawieszona. Proszê spróbowaæ póŸniej."
+msgstr "W tej chwili mo¿liwoœæ tworzenia konta w projekcie $PROJECT jest zawieszona. Jeœli chcesz spróbój stworzyæ konto póŸniej."
 
 msgid "CREATE_AC_TEAM"
-msgstr "To konto nale¿eæ bêdzie do zespo³u %s i zyska ustawienia okreœlone przez za³o¿yciela tego zespo³u."
+msgstr "To konto automatycznie bêdzie przy³¹czone do zespo³u %s i zyska ustawienia okreœlone przez za³o¿yciela tego zespo³u."
 
-#########################################
-# Account created page (account_created.php)
-#########################################
-msgid "AC_READY_TITLE"
-msgstr "Konto stworzone"
+msgid "CREATE_AC_USE_CLIENT"
+msgstr "UWAGA: Je¿eli u¿ywasz BOINC Managera w wersji 5.2+ nie u¿ywaj tej strony do stworzenia konta. Poprostu uruchom BOINC, wybierz z 'Narzêdzi' opcjê 'Przy³¹cz do projektu' i wpisz adres e-mail oraz has³o."
 
-msgid "AC_READY_WELCOME"
-msgstr "Gratulacje - stworzy³eœ w³asne konto w $PROJECT"
+msgid "CREATE_AC_PASSWORD"
+msgstr "Has³o"
 
-msgid "AC_READY_PASTE"
-msgstr "By przejœæ dalej, wklej tu klucz konta:"
+msgid "CREATE_AC_PASSWORD_DESC"
+msgstr "Musi mieæ conajmniej %s znaków!"
 
-msgid "AC_READY_CLICK"
-msgstr "i kliknij"
+msgid "CREATE_AC_CONFIRM_PASSWORD"
+msgstr "Powtórz has³o"
 
-#########################################
-# Account setup page (account_setuo.php)
-#########################################
-#also used in account_setup_nonfirst.php:
-msgid "AC_SETUP_TITLE"
-msgstr "Ustawienia konta"
+msgid  "AC_INVITE_CODE"
+msgstr "Kod Zaproszenia"
 
-msgid "AC_SETUP_USES_BOINC"
-msgstr "$PROJECT u¿ywa oprogramowania systemu BOINC."
+msgid  "AC_INVITE_CODE_DESC"
+msgstr "Poprawny kod zaproszenia jest wymagany, aby stworzyæ konto w tym projekcie!"
 
-msgid "AC_SETUP_DIVISION"
-msgstr "BOINC umo¿liwia dzielenie czasu pracy komputera miêdzy kilka projektów obliczeniowych."
+msgid "AC_INVITE_REQUIRED"
+msgstr "Musisz posiadaæ kod zaproszenia, aby stworzyc konto w tym projekcie."
 
-msgid "AC_SETUP_ISFIRST"
-msgstr "Czy to twój pierwszy projekt BOINC?"
+msgid "AC_INVITE_INVALID"
+msgstr "Wpisany kod zaproszenia jest niepoprawny."
 
-msgid "AC_SETUP_FIRST"
-msgstr "Tak - to mój pierwszy projekt BOINC"
-
-msgid "AC_SETUP_NONFIRST"
-msgstr "Nie - uczestniczê w co najmniej jednym innym projekcie BOINC"
-
-#########################################
-# First Account setup page (account_setup_first.php)
-#########################################
-msgid "AC_FIRST_TITLE"
-msgstr "Ustawienia konta"
-
-msgid "AC_FIRST_CONTROL"
-msgstr "Mo¿esz kontrolowaæ, jak i kiedy $PROJECT u¿ywa twojego komputera"
-
-msgid "AC_FIRST_DEFAULT"
-msgstr "By u¿yæ ustawieñ domyœlnych, przewiñ do do³u ekranu i kliknij OK."
-
-#########################################
-# First Account setup done page (account_setup_first_done.php)
-# and (account_setup_nonfirst_done.php
-#########################################
-msgid "AC_DONE_TITLE"
-msgstr "Ustawienia konta: skoñczone"
-
-msgid "AC_DONE_COMPLETE"
-msgstr "Ustawianie twojego konta zakoñczone."
-
-msgid "AC_DONE_BOINC"
-msgstr "Teraz musisz pobraæ i zainstalowaæ oprogramowanie BOINC i powiedzieæ komputerowi(om), by u¿ywa³(y) tego konta."
-
-msgid "AC_DONE_URL"
-msgstr "Przy pierwszym uruchomieniu BOINC zapyta ciê o <b>URL projektu</b> oraz <b>klucz konta</b>."
-
-msgid "AC_DONE_COPYPASTE"
-msgstr "Skopiuj i wklej je st¹d:"
-
-msgid "AC_DONE_GETDOWNLOAD"
-msgstr "Mo¿esz teraz %s by zakoñczyæ instalacjê $PROJECT."
-
-msgid "AC_DONE_DL_BOINC"
-msgstr "pobieranie oprogramowania BOINC"
-
-msgid "AC_DONE_THANKS"
-msgstr "Dziêkujemy za uczestnictwo w $PROJECT"
-
-#########################################
-# Non-first Account setup page (account_setup_nonfirst.php)
-#########################################
-msgid "AC_NONFIRST_TITLE"
-msgstr "Ustawianie konta: dzielenie zasobów"
-
-#########################################
-# Non-first Account setup done page (account_setup_nonfirst_done.php)
-#########################################
-msgid "AC_DONE_MUST_USE"
-msgstr "Musisz teraz powiedzieæ komputerowi(om), by u¿ywa³(y) tego konta."
-
-msgid "AC_DONE_WIN"
-msgstr "U¿ytkownicy Windowsa:"
-
-msgid "AC_DONE_WIN_TEXT"
-msgstr "Otwórz okno aplikacji BOINC, klikaj¹c 2x na ikonê BOINC na pasku. Wybierz 'Uczestnictwo w projekcie' w Ustawieniach. Program zapyta o URL projektu oraz klucz konta."
-
-msgid "AC_DONE_UNIX"
-msgstr "U¿ytkownicy Maca, Unixa i Linuxa:"
-
-msgid "AC_DONE_UNIX_TEXT"
-msgstr "Wy³¹cz klienta BOINC. Nastêpnie uruchom go z opcj¹ -attach_project.Program spyta o URL projektu i klucz konta."
-
-msgid "AC_DONE_ANYCASE"
-msgstr "Niezale¿nie od wszystkiego skopiuj i wklej nastêpuj¹ce dane:"
-
-msgid "AC_DONE_INSTALLED"
-msgstr "To dope³nia instalacji $PROJECT."
 
 #########################################
 # Forum sample index page
 #########################################
-msgid "FORUM_TITLE"
-msgstr "Tablice og³oszeñ $PROJECT"
 
-#########################################
-# Different strange places:
-#########################################
-# account_created.php
-msgid "AC_CREATED_TITLE"
-msgstr "Skonfiguruj konto"
+msgid "FORUM_TITLE"
+msgstr "Forum dyskusyjne $PROJECT"
+
+msgid "FORUM_TITLE_SHORT"
+msgstr "Forum dyskusyjne"
+
 
 #########################################
 # General stuff (create_account_form.php and others)
 #########################################
 msgid "OPTIONAL"
-msgstr "Ewentualnie"
+msgstr "Opcjonalnie"
 
 #########################################
 # Various top table pages (top users, computers, teams)
 #########################################
+
 msgid "TOP_PARTICIPANT_TITLE"
 msgstr "Najlepsi uczestnicy"
 
 msgid "USER_TABLE_RANK"
-msgstr "Ranga"
+msgstr "Miejsce"
 
 msgid "USER_TABLE_NAME"
 msgstr "Nazwa"
 
-msgid "USER_TABLE_TOTAL_CREDIT"
-msgstr "Kredyt ogó³em"
+msgid "TOTAL_CREDIT"
+msgstr "Ca³kowita liczba punktów"
 
-msgid "USER_TABLE_EXPAVG"
-msgstr "Ostatni œredni kredyt"
+msgid "EXPAVG_CREDIT"
+msgstr "Œrednia liczba punktów"
 
 msgid "USER_TABLE_COUNTRY"
 msgstr "Kraj"
@@ -307,5 +213,130 @@ msgid "USER_TABLE_PTIME"
 msgstr "Uczestniczy od"
 
 msgid "TOP_TEAMS_TITLE"
-msgstr "Najlepsze %s zespo³ów"
+msgstr "Najlepsze zespo³y"
+
+msgid "TEAM_TABLE_MEMBERS"
+msgstr "Liczba cz³onków"
+
+
+#########################################
+# Forum
+#########################################
+msgid "FORUM_POSTS"
+msgstr "Posty"
+msgid "FORUM_TOPIC"
+msgstr "Kategorie"
+msgid "FORUM_THREADS"
+msgstr "Tematy"
+msgid "FORUM_LAST_POST"
+msgstr "Ostatni post"
+msgid "FORUM_AUTHOR"
+msgstr "Autor"
+msgid "FORUM_VIEWS"
+msgstr "Czytano"
+
+msgid "FORUM_ERR_NOT_FOUND"
+msgstr "Nie znaleziono tematu!"
+
+msgid "FORUM_ERR_EXPAVG"
+msgstr "Aby stworzyæ nowy temat w %s musisz mieæ okreœlon¹ liczbê punktów."
+"Zapobiega to spamowaniu na forum."
+
+msgid "FORUM_ERR_INTERVAL"
+msgstr "Nie mo¿esz stworzyæ teraz ¿adnego tematu wiêcej. Odczekaj chwile, zanim spróbujesz stworzyæ temat ponownie."
+"Zapobiega to spamowaniu na forum."
+
+msgid "FORUM_QA_POST_MESSAGE"
+msgstr "%s pomoga Ci otrzymaæ pomoc od innych uczestników. Je¿eli masz jakieœ pytanie lub jakiœ problem:"
+
+msgid "FORUM_QA_POST_MESSAGE2"
+msgstr "Przeczytaj listê istniej¹cych pytañ. Je¿lei twoje pytanie znajduje siê ju¿ tutaj,"
+"kliknij na przycisk '%s'. Je¿eli zosta³y napisane odpowiedzi na to pytanie, przeczytaj je."
+"Je¿eli jedna z nich odpowiad w pe³ni na twoje pytanie, kliknij przycisk '%s'."
+
+msgid "FORUM_QA_POST_MESSAGE3"
+msgstr "Je¿eli pytanie nie by³o jeszcze zadane wype³nij ten formularz."
+
+msgid "FORUM_QA_POST_MESSAGE4"
+msgstr "To wszystko powinno zapobiec powtarzaniu pytañ."
+
+msgid "FORUM_QA_SUBMIT_NEW"
+msgstr "Wyœlij nowe pytanie/problem"
+
+msgid "FORUM_SUBMIT_NEW"
+msgstr "Stwórz nowy temat"
+
+msgid "FORUM_SUBMIT_NEW_TITLE"
+msgstr "Nazwa"
+
+msgid "FORUM_QA_SUBMIT_NEW_HELP"
+msgstr "Opisz swoje pytanie w kilku s³owach. "
+"To na pewno pomo¿e w znalezieniu odpowiedzi "
+"na zadane przez Ciebie pytanie."
+
+msgid "FORUM_QA_SUBMIT_NEW_BODY_HELP"
+msgstr "Je¿eli mas zproblem z oprogramowaniem, "
+"napisz jego wersjê, napisz jaki masz komputer "
+"oraz z jakiego systemu operacyjnego korzystasz."
+
+msgid "FORUM_ADD_MY_SIG"
+msgstr "Dodaj moj¹ sygnaturê do tego postu"
+
+msgid "FORUM_MESSAGE"
+msgstr "Wiadomoœæ"
+
+msgid "FORUM_QA_GOT_PROBLEM_TOO"
+msgstr "Mam tak¿e ten problem!"
+
+msgid "FORUM_QA_QUESTION_ANSWERED"
+msgstr "To odpowiada na moje pytanie!"
+
+msgid "FORUM_HTML_INFO"
+msgstr "U¿ywaj BBCode do formatowanie wpisywanego tekstu"
+
+
+#########################################
+# Forum thread
+#########################################
+
+msgid "FORUM_THREAD_HIDDEN"
+msgstr "Ten temat zosta³ ukryty przez administracjê forum"
+
+msgid "FORUM_THREAD_REPLY"
+msgstr "Odpowiedz an ten temat"
+
+msgid "FORUM_THREAD_SUBSCRIBED"
+msgstr "Obserwujesz ten temat."
+
+msgid "FORUM_THREAD_UNSUBSCRIBE"
+msgstr "Kliknij tutaj, aby z tego zrezygnowaæ."
+
+msgid "FORUM_THREAD_SUBSCRIBE"
+msgstr "Obserwuj ten temat"
+
+
+#########################################
+# Forum search features
+#########################################
+msgid "FORUM_SEARCH"
+msgstr "Szukaj na forum"
+
+msgid "FORUM_SEARCH_TITLES"
+msgstr "Tematy zawieraj¹ce '%s'"
+
+msgid "FORUM_SEARCH_BODIES"
+msgstr "Posty zawieraj¹ce '%s'"
+
+msgid "FORUM_SEARCH_TITLES_NO"
+msgstr "Nie znaleziono tematów zaieraj¹cych '%s'."
+
+msgid "FORUM_SEARCH_BODIES_NO"
+msgstr "Nie znaleziono postów zaieraj¹cych '%s'."
+
+
+#########################################
+# Links from the main page
+#########################################
+msgid "LINKS_QA"
+msgstr "Pytania i odpowiedzi"
 
