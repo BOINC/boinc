@@ -149,7 +149,7 @@ DC_PhysicalFile *_DC_createPhysicalFile(const char *label,
 {
 	DC_PhysicalFile *file;
 
-	file = (DC_PhysicalFile *)malloc(sizeof(*file));
+	file = malloc(sizeof(*file));
 	if (!file)
 		return NULL;
 
