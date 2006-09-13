@@ -125,6 +125,8 @@ function show_other() {
             <li> BOINC <a href=dev/>message boards</a>
             <li> <a href=papers.php>Papers related to BOINC</a>
             <li> <a href=logo.php>Logos and graphics</a>
+            <li> The <a href=workshop_06.php>2nd Pan-Galactic BOINC Workshop</a>
+    will be held 20-21 September at the University of Geneva, Switzerland.
             </ul>
             <br>
         </td></tr>

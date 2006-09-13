@@ -127,6 +127,7 @@ show_name("Carl Christensen");
 show_name("Markku Degerholm");
 show_name("Glenn Dill");
 show_name("James Drews");
+show_name("Urs Echternacht");
 show_name("Charlie Fenton");
 show_name("Mike Fleetwood");
 show_name("John Flynn III");

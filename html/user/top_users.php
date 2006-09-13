@@ -37,7 +37,7 @@ if (isset($_GET["sort_by"])) {
 
 $offset = get_int("offset", true);
 if (!$offset) $offset=0;
-if ($offset % $n) $offset = 0;
+if ($offset % ITEMS_PER_PAGE) $offset = 0;
 
 if ($offset < ITEM_LIMIT) {
     $cache_args = "sort_by=$sort_by&offset=$offset";

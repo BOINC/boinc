@@ -4,7 +4,7 @@ $project_news = array(
 array("September 11, 2006",
     "<a href=chart_list.php>UW-Madison CAE</a>,
     the first BOINC user to top the 1 TERAFLOPS barrier,
-    has surpassed 2 TERAFLOPS.  Congratulations!"
+    now has surpassed 2 TERAFLOPS.  Congratulations!"
 ),
 array("September 2, 2006",
     "The <a href=http://spin.fh-bielefeld.de/>Spinhenge</a> project

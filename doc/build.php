@@ -4,17 +4,17 @@ require_once("docutil.php");
 page_head("Software prerequisites");
 
 echo "
-You need certain software packages to compile and/or run BOINC.
+You need certain software packages to build BOINC.
 The list depends on the system you're on,
-and the parts of BOINC that you need to use.
+and the parts of BOINC that you need.
+<b>If you're creating a BOINC project,
+you don't need to build the Core client or BOINC Manager.</b>
 
 <h2>Unix</h2>
-Solaris 2.6-2.9, Red Hat 8 and Enterprise Edition,
-Mac OS X, and Debian Linux (stable and unstable)
-should work out of the box.
-Other Unix-like systems should work without too much effort.
 <p>
-You'll need to install the following software before building BOINC:
+The various parts of BOINC have dependencies on other software;
+most or all of these may already be present on your system.
+You'll need to download and install the ones you don't have.
 
 <table border=1 cellpadding=8>
 <tr>

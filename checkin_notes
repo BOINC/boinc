@@ -10202,3 +10202,9 @@ David  12 Sept 2006
 	lib/
 		parse.C,h
 
+David  12 Sept 2006
+    - user web: $n -> ITEMS_PER_PAGE
+
+    html/user
+        top_teams.php
+        top_users.php

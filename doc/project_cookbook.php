@@ -7,6 +7,7 @@ echo "
 <li> Install and configure all <a href=build.php>prerequisite software</a>
 (follow the directions carefully).
 Make sure MySQL is configured and running.
+<li> Get the BOINC
 <li> Compile the BOINC software, say into HOME/boinc.
 <li> Run HOME/boinc/tools/<a href=make_project.php>make_project</a>
 <li> Append the contents of projects/PROJECT/PROJECT.httpd.conf
