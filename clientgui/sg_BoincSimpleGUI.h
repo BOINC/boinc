@@ -113,6 +113,11 @@ protected:
     void OnFrameRender(wxTimerEvent& event );
 	void OnPageChanged(wxFlatNotebookEvent& event);
     void DrawBackImg(wxEraseEvent& event,wxWindow *win,wxBitmap & bitMap,int opz);
+
+private:
+	bool SaveState();
+	bool RestoreState();
+
 };
 
 #endif

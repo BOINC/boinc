@@ -10241,6 +10241,13 @@ Kevin    14 Sept 2006
         sg_ProjectsComponent.cpp
         sg_SkinClass.cpp/h
         sg_StaticLine.cpp/h
-        sg_SkinClass.cpp
-        sg_SkinClass.cpp
+        
+Kevin    14 Sept 2006
+    - BSG
+    	- Fixed issue with connection failure dialogue being repeatedly displayed
+    	- BSG now calls CBOINCBaseFrame::RestoreState() and CBOINCBaseFrame::SaveState()
+         
+    clientgui/
+        sg_BoincSimpleGUI.cpp/h
+
         

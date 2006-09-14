@@ -70,18 +70,12 @@ CSimpleFrame::CSimpleFrame(wxString title, wxIcon* icon) :
                     wxDEFAULT_FRAME_STYLE | wxNO_FULL_REPAINT_ON_RESIZE)
 {
     wxLogTrace(wxT("Function Start/End"), wxT("CSimpleFrame::CSimpleFrame - Overloaded Constructor Function Begin"));
-    wxString        strBaseConfigLocation = wxString(wxT("/"));
-    wxConfigBase*   pConfig = wxConfigBase::Get(FALSE);
+ 
+	RestoreState();
 
     // Initialize Application
     SetIcon(*icon);
 	
-    //
-    // Restore Frame State
-    //
-    pConfig->SetPath(strBaseConfigLocation);
-    pConfig->Read(wxT("Skin"), &skinName, wxT("default"));
-
     //init app skin class
 	appSkin = SkinClass::Instance();
 	appSkin->init_skin(skinName);
@@ -105,10 +99,53 @@ CSimpleFrame::~CSimpleFrame()
 {
     wxLogTrace(wxT("Function Start/End"), wxT("CSimpleFrame::CSimpleFrame - Destructor Function Begin"));
 
-	wxString        strBaseConfigLocation = wxString(wxT("/"));
-    wxConfigBase*   pConfig = wxConfigBase::Get();
-
     wxASSERT(m_pFrameRenderTimer);
+
+	SaveState();
+
+	if (m_pFrameRenderTimer) {
+        m_pFrameRenderTimer->Stop();
+        delete m_pFrameRenderTimer;
+    }
+    wxLogTrace(wxT("Function Start/End"), wxT("CSimpleFrame::CSimpleFrame - Destructor Function End"));
+
+	CBOINCBaseFrame::SaveState();
+}
+
+bool CSimpleFrame::RestoreState() {
+	CBOINCBaseFrame::RestoreState();
+    wxConfigBase*   pConfig = wxConfigBase::Get(FALSE);
+    wxString        strBaseConfigLocation = wxString(wxT("/"));
+    wxASSERT(pConfig);
+
+	skinName = wxT("default");
+    // An odd case happens every once and awhile where wxWidgets looses
+    //   the pointer to the config object, or it is cleaned up before
+    //   the window has finished it's cleanup duty.  If we detect a NULL
+    //   pointer, return false.
+    if (!pConfig) return false;
+
+    //
+    // Restore Frame State
+    //
+    pConfig->SetPath(strBaseConfigLocation);
+    pConfig->Read(wxT("Skin"), &skinName, wxT("default"));
+
+	return true;
+}
+
+bool CSimpleFrame::SaveState() {
+	CBOINCBaseFrame::RestoreState();
+    wxConfigBase*   pConfig = wxConfigBase::Get(FALSE);
+	wxString        strBaseConfigLocation = wxString(wxT("/"));
+
+    wxASSERT(pConfig);
+
+    // An odd case happens every once and awhile where wxWidgets looses
+    //   the pointer to the config object, or it is cleaned up before
+    //   the window has finished it's cleanup duty.  If we detect a NULL
+    //   pointer, return false.
+    if (!pConfig) return false;
 
     //
     // Save Frame State
@@ -116,11 +153,7 @@ CSimpleFrame::~CSimpleFrame()
     pConfig->SetPath(strBaseConfigLocation);
     pConfig->Write(wxT("Skin"), skinName);
 
-	if (m_pFrameRenderTimer) {
-        m_pFrameRenderTimer->Stop();
-        delete m_pFrameRenderTimer;
-    }
-    wxLogTrace(wxT("Function Start/End"), wxT("CSimpleFrame::CSimpleFrame - Destructor Function End"));
+	return true;
 }
 
 
