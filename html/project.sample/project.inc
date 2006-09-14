@@ -4,6 +4,8 @@
 // Modify it to suit your project.
 // Put your version in html/project/project.inc
 
+require_once("../inc/util.inc");
+
 $master_url = parse_config(get_config(), "<master_url>");
 define("PROJECT", "Test Project");
 define("URL_BASE", $master_url);

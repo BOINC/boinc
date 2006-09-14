@@ -113,7 +113,7 @@ list_item_func("<proxy_debug>",
 list_item_func("<time_debug>",
     "Updates to on_frac, active_frac, connected_frac."
 );
-list_item_func("<net_xfer_debug>",
+list_item_func("<http_xfer_debug>",
     "Debugging information about network communication"
 );
 list_item_func("<measurement_debug>",

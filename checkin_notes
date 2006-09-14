@@ -10208,3 +10208,20 @@ David  12 Sept 2006
     html/user
         top_teams.php
         top_users.php
+
+David  12 Sept 2006
+    bugs that affect newly-created projects:
+
+    - remove outdated forum_sample_index.php (just use forum_index.php)
+    - include util.inc in project.inc
+    - create_forums.php is a script, not a web page
+
+    html/
+        ops/
+            create_forums.php
+        project.sample/
+            project.inc
+        user/
+            forum_sample_index.php (removed)
+    py/Boinc/
+        setup_project.py

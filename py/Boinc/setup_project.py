@@ -474,8 +474,6 @@ class Project:
             self.dir('html/project/project_news.inc'))
         install(srcdir('html/project.sample/cache_parameters.inc'),
             self.dir('html/project/cache_parameters.inc'))
-        install(srcdir('html/user', 'forum_sample_index.php'),
-            self.dir('html/user/forum_index.php'))
         install(srcdir('html/user', 'sample_rss_main.php'),
             self.dir('html/user/rss_main.php'))
         install(srcdir('html/ops', 'sample_server_status.php'),
