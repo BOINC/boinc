@@ -62,15 +62,17 @@ bool SkinClass::CheckSkin()
 
 	wxString dirPref = compute_skin_dir()+_T("/");
 
-	if ( skinImageArray->Count() != 35 ) {
+	if ( skinImageNames.size() != 35 ) {
 		return false;
 	}
 	
-	for(unsigned int x = 0; x < skinImageArray->Count();x++){
-		wxString imgLoc = skinImageArray->Item(x);
-		wxBitmap skinImage = wxBitmap(dirPref + skinImageArray->Item(x),wxBITMAP_TYPE_PNG);
+	for( wxStringHashMap::iterator x = skinImageNames.begin(); x != skinImageNames.end();x++){
+		wxString imgLoc = x->second;
+		wxBitmap skinImage = wxBitmap(dirPref + imgLoc,wxBITMAP_TYPE_ANY);
 		if(!skinImage.Ok()){
 			return false;
+		} else {
+			skinImages[x->first] = skinImage;
 		}
 	}
      
@@ -84,6 +86,18 @@ wxString SkinClass::compute_skin_dir() {
 wxString SkinClass::compute_skin_path() {
 	return compute_skin_dir()+_T("/")+_T("skin.xml");
 }
+
+bool SkinClass::GetImageName(char* buf, const char* field) {
+    std::string val;
+	std::string start = "<";
+	if (parse_str(buf, start.append(field).c_str(),val)) {
+		skinImageNames[wxString(_T(field))]=wxString( val.c_str(), wxConvUTF8 );
+		return true;
+	} else {
+		return false;
+	}
+}
+
 int SkinClass::LoadSkinXML(){
    
 	// parse xml file		    
@@ -97,117 +111,49 @@ int SkinClass::LoadSkinXML(){
 	char buf[256];
     std::string val;
 	char val1[256];
-	// init skin image array
-	skinImageArray = new wxArrayString();
 
     while (mf.fgets(buf, 256)) {
         if (match_tag(buf, "<clientskin")) {
             continue;
-		}else if (match_tag(buf, "<simple")) {
+		} else if (match_tag(buf, "<simple")) {
             continue;
-		}else if (parse_str(buf, "<background",val)) {
-			SetAppBg(wxString( val.c_str(), wxConvUTF8 ));
-			skinImageArray->Add(wxString( val.c_str(), wxConvUTF8 ));
+		} else if (GetImageName(buf, "background")) {
 			parse_attr(buf,"background_color", val1, buf_size);
 			SetAppBgCol(wxString( val1, wxConvUTF8 ));
-        }else if (parse_str(buf, "<project_component_background",val)) {
-			SetProjCompBg(wxString( val.c_str(), wxConvUTF8 ));
-			skinImageArray->Add(wxString( val.c_str(), wxConvUTF8 ));
-        }else if (parse_str(buf, "<tab_area_background",val)) {
-			SetTabAreaBg(wxString( val.c_str(), wxConvUTF8 ));
-			skinImageArray->Add(wxString( val.c_str(), wxConvUTF8 ));
-        }else if (parse_str(buf, "<spacer_image",val)) {
-			SetSpacerImage(wxString( val.c_str(), wxConvUTF8 ));
-			skinImageArray->Add(wxString( val.c_str(), wxConvUTF8 ));
-        }else if (parse_str(buf, "<workunit_background",val)) {
-			SetWorkunitBg(wxString( val.c_str(), wxConvUTF8 ));
-			skinImageArray->Add(wxString( val.c_str(), wxConvUTF8 ));
-        }else if (parse_str(buf, "<preferences_dialogue",val)) {
-			SetDlgPrefBg(wxString( val.c_str(), wxConvUTF8 ));
-			skinImageArray->Add(wxString( val.c_str(), wxConvUTF8 ));
-        }else if (parse_str(buf, "<messages_dialogue",val)) {
-			SetDlgMessBg(wxString( val.c_str(), wxConvUTF8 ));
-			skinImageArray->Add(wxString( val.c_str(), wxConvUTF8 ));
-        }else if (parse_str(buf, "<static_line_color",val)) {
+        } else if (GetImageName(buf, "project_component_background")) {
+        } else if (GetImageName(buf, "tab_area_background")) {
+        } else if (GetImageName(buf, "spacer_image")) {
+        } else if (GetImageName(buf, "workunit_background")) {
+        } else if (GetImageName(buf, "preferences_dialogue")) {
+        } else if (GetImageName(buf, "messages_dialogue")) {
+        } else if (parse_str(buf, "<static_line_color",val)) {
 			SetStaticLineCol(wxString( val.c_str(), wxConvUTF8 ));
-        }else if (parse_str(buf, "<gauge_background",val)) {
-			SetGaugeBg(wxString( val.c_str(), wxConvUTF8 ));
-			skinImageArray->Add(wxString( val.c_str(), wxConvUTF8 ));
-        }else if (parse_str(buf, "<gauge_progress",val)) {
-			SetGaugeProgressInd(wxString( val.c_str(), wxConvUTF8 ));
-			skinImageArray->Add(wxString( val.c_str(), wxConvUTF8 ));
-        }else if (parse_str(buf, "<state_indicator_background",val)) {
-			SetStateIndBg(wxString( val.c_str(), wxConvUTF8 ));
-			skinImageArray->Add(wxString( val.c_str(), wxConvUTF8 ));
-        }else if (parse_str(buf, "<connecting_indicator",val)) {
-			SetConnInd(wxString( val.c_str(), wxConvUTF8 ));
-			skinImageArray->Add(wxString( val.c_str(), wxConvUTF8 ));
-        }else if (parse_str(buf, "<error_indicator",val)) {
-			SetErrorInd(wxString( val.c_str(), wxConvUTF8 ));
-			skinImageArray->Add(wxString( val.c_str(), wxConvUTF8 ));
-		} else if (parse_str(buf, "<preferences_button", val)){
-			SetBtnPrefer(wxString( val.c_str(), wxConvUTF8 ));
-			skinImageArray->Add(wxString( val.c_str(), wxConvUTF8 ));
-		} else if (parse_str(buf, "<add_project_button", val)){
-			SetBtnAddProj(wxString( val.c_str(), wxConvUTF8 ));
-			skinImageArray->Add(wxString( val.c_str(), wxConvUTF8 ));
-		} else if (parse_str(buf, "<add_project_clicked_button", val)){
-			SetBtnAddProjClick(wxString( val.c_str(), wxConvUTF8 ));
-			skinImageArray->Add(wxString( val.c_str(), wxConvUTF8 ));
-		} else if (parse_str(buf, "<advanced_view_button", val)){
-			SetBtnAdvView(wxString( val.c_str(), wxConvUTF8 ));
-			skinImageArray->Add(wxString( val.c_str(), wxConvUTF8 ));
-		} else if (parse_str(buf, "<resume_button", val)){
-			SetBtnResume(wxString( val.c_str(), wxConvUTF8 ));
-			skinImageArray->Add(wxString( val.c_str(), wxConvUTF8 ));
-		} else if (parse_str(buf, "<pause_button", val)){
-			SetBtnPause(wxString( val.c_str(), wxConvUTF8 ));
-			skinImageArray->Add(wxString( val.c_str(), wxConvUTF8 ));
-		} else if (parse_str(buf, "<messages_button", val)){
-			SetBtnMessages(wxString( val.c_str(), wxConvUTF8 ));
-			skinImageArray->Add(wxString( val.c_str(), wxConvUTF8 ));
-		} else if (parse_str(buf, "<alert_messages_button", val)){
-			SetBtnAlertMessages(wxString( val.c_str(), wxConvUTF8 ));
-			skinImageArray->Add(wxString( val.c_str(), wxConvUTF8 ));
-		} else if (parse_str(buf, "<save_button", val)){
-			SetBtnSave(wxString( val.c_str(), wxConvUTF8 ));
-			skinImageArray->Add(wxString( val.c_str(), wxConvUTF8 ));
-		} else if (parse_str(buf, "<save_clicked_button", val)){
-			SetBtnSaveClick(wxString( val.c_str(), wxConvUTF8 ));
-			skinImageArray->Add(wxString( val.c_str(), wxConvUTF8 ));
-		} else if (parse_str(buf, "<cancel_button", val)){
-			SetBtnCancel(wxString( val.c_str(), wxConvUTF8 ));
-			skinImageArray->Add(wxString( val.c_str(), wxConvUTF8 ));
-		} else if (parse_str(buf, "<cancel_clicked_button", val)){
-			SetBtnCancelClick(wxString( val.c_str(), wxConvUTF8 ));
-			skinImageArray->Add(wxString( val.c_str(), wxConvUTF8 ));
-		} else if (parse_str(buf, "<close_button", val)){
-			SetBtnClose(wxString( val.c_str(), wxConvUTF8 ));
-			skinImageArray->Add(wxString( val.c_str(), wxConvUTF8 ));
-		} else if (parse_str(buf, "<close_clicked_button", val)){
-			SetBtnCloseClick(wxString( val.c_str(), wxConvUTF8 ));
-			skinImageArray->Add(wxString( val.c_str(), wxConvUTF8 ));
-		} else if (parse_str(buf, "<clear_button", val)){
-			SetBtnClear(wxString( val.c_str(), wxConvUTF8 ));
-			skinImageArray->Add(wxString( val.c_str(), wxConvUTF8 ));
-		} else if (parse_str(buf, "<clear_clicked_button", val)){
-			SetBtnClearClick(wxString( val.c_str(), wxConvUTF8 ));
-			skinImageArray->Add(wxString( val.c_str(), wxConvUTF8 ));
-		} else if (parse_str(buf, "<left_arrow_button", val)){
-			SetBtnLeftArr(wxString( val.c_str(), wxConvUTF8 ));
-			skinImageArray->Add(wxString( val.c_str(), wxConvUTF8 ));
-		} else if (parse_str(buf, "<left_arrow_clicked_button", val)){
-			SetBtnLeftArrClick(wxString( val.c_str(), wxConvUTF8 ));
-			skinImageArray->Add(wxString( val.c_str(), wxConvUTF8 ));
-		} else if (parse_str(buf, "<right_arrow_button", val)){
-			SetBtnRightArr(wxString( val.c_str(), wxConvUTF8 ));
-			skinImageArray->Add(wxString( val.c_str(), wxConvUTF8 ));
-		} else if (parse_str(buf, "<right_arrow_clicked_button", val)){
-			SetBtnRightArrClick(wxString( val.c_str(), wxConvUTF8 ));
-			skinImageArray->Add(wxString( val.c_str(), wxConvUTF8 ));
-		} else if (parse_str(buf, "<animation_background", val)){
-			SetAnimationBg(wxString( val.c_str(), wxConvUTF8 ));
-			skinImageArray->Add(wxString( val.c_str(), wxConvUTF8 ));
+        } else if (GetImageName(buf, "gauge_background")) {
+        } else if (GetImageName(buf, "gauge_progress")) {
+        } else if (GetImageName(buf, "state_indicator_background")) {
+        } else if (GetImageName(buf, "connecting_indicator")) {
+        } else if (GetImageName(buf, "error_indicator")) {
+		} else if (GetImageName(buf, "preferences_button")){
+		} else if (GetImageName(buf, "add_project_button")){
+		} else if (GetImageName(buf, "add_project_clicked_button")){
+		} else if (GetImageName(buf, "advanced_view_button")){
+		} else if (GetImageName(buf, "resume_button")){
+		} else if (GetImageName(buf, "pause_button")){
+		} else if (GetImageName(buf, "messages_button")){
+		} else if (GetImageName(buf, "alert_messages_button")){
+		} else if (GetImageName(buf, "save_button")){
+		} else if (GetImageName(buf, "save_clicked_button")){
+		} else if (GetImageName(buf, "cancel_button")){
+		} else if (GetImageName(buf, "cancel_clicked_button")){
+		} else if (GetImageName(buf, "close_button")){
+		} else if (GetImageName(buf, "close_clicked_button")){
+		} else if (GetImageName(buf, "clear_button")){
+		} else if (GetImageName(buf, "clear_clicked_button")){
+		} else if (GetImageName(buf, "left_arrow_button")){
+		} else if (GetImageName(buf, "left_arrow_clicked_button")){
+		} else if (GetImageName(buf, "right_arrow_button")){
+		} else if (GetImageName(buf, "right_arrow_clicked_button")){
+		} else if (GetImageName(buf, "animation_background")){
 		} else if (parse_str(buf, "<default_animation", val)){
 			SetAnimationFile(wxString( val.c_str(), wxConvUTF8 ));
 		} else if (match_tag(buf, "<icons")) {
@@ -218,9 +164,8 @@ int SkinClass::LoadSkinXML(){
 					break;
 				}else if(match_tag(buf, "<workingWkUnit>")){
 					mf.fgets(buf, 256);
-					if (parse_str(buf, "<imgsrc>", val)) {
-						SetIcnWorkingWkUnit(wxString( val.c_str(), wxConvUTF8 ));
-						skinImageArray->Add(wxString( val.c_str(), wxConvUTF8 ));
+					if (parse_str(buf, "<imgsrc", val)) {
+						skinImageNames[wxString(_T("workingWkUnit"))]=wxString( val.c_str(), wxConvUTF8 );
 					}
 					mf.fgets(buf, 256);
 					if (parse_str(buf, "<frcol>", val)) {
@@ -249,9 +194,8 @@ int SkinClass::LoadSkinXML(){
 					}
 				}else if(match_tag(buf, "<defaultStatIcon>")){
 					mf.fgets(buf, 256);
-					if (parse_str(buf, "<imgsrc>", val)) {
-						SetDefaultStatIcn(wxString( val.c_str(), wxConvUTF8 ));
-						skinImageArray->Add(wxString( val.c_str(), wxConvUTF8 ));
+					if (parse_str(buf, "<imgsrc", val)) {
+						skinImageNames[wxString(_T("defaultStatIcon"))]=wxString( val.c_str(), wxConvUTF8 );
 					}
 				}
 			}// end of while loop

@@ -106,7 +106,7 @@ CSimpleFrame::~CSimpleFrame()
     wxLogTrace(wxT("Function Start/End"), wxT("CSimpleFrame::CSimpleFrame - Destructor Function Begin"));
 
 	wxString        strBaseConfigLocation = wxString(wxT("/"));
-    wxConfigBase*   pConfig = wxConfigBase::Get(FALSE);
+    wxConfigBase*   pConfig = wxConfigBase::Get();
 
     wxASSERT(m_pFrameRenderTimer);
 
@@ -439,7 +439,7 @@ void CSimpleFrame::InitNotebook()
     wxLogTrace(wxT("Function Start/End"), wxT("CAdvancedFrame::InitNotebook - Function End"));
 }
 void CSimpleFrame::LoadSkinImages(){
-
+    wxLogTrace(wxT("Function Start/End"), wxT("CSimpleFrame::LoadSkinImages - Function Start"));
 	wxString dirPref = appSkin->GetSkinsFolder()+_T("/")+appSkin->GetSkinName()+_T("/");
 	
     fileImgBuf[0].LoadFile(dirPref + appSkin->GetAppBg(),wxBITMAP_TYPE_PNG);
@@ -450,12 +450,14 @@ void CSimpleFrame::LoadSkinImages(){
 	/// work unit tabs icons
 	wxBitmap const workWUico = wxBitmap(g_icoWorkWU); 
 	// push them in image list
+    wxLogTrace(wxT("Function Start/End"), wxT("CSimpleFrame::LoadSkinImages - Time to push"));
 	m_ImageList.push_back(workWUico);
+    wxLogTrace(wxT("Function Start/End"), wxT("CSimpleFrame::LoadSkinImages - Function End"));
 }
 ///
 ///
 void CSimpleFrame::ReskinAppGUI(){
-    wxLogTrace(wxT("Function Start/End"), wxT("CAdvancedFrame::ReskinAppGUI - Function Start"));
+    wxLogTrace(wxT("Function Start/End"), wxT("CSimpleFrame::ReskinAppGUI - Function Start"));
 	//bg color
 	LoadSkinImages();
 	SetBackgroundColour(appSkin->GetAppBgCol());
@@ -477,7 +479,7 @@ void CSimpleFrame::ReskinAppGUI(){
 	//reskin component 
 	projComponent->ReskinInterface();
 	Refresh();
-    wxLogTrace(wxT("Function Start/End"), wxT("CAdvancedFrame::ReskinAppGUI - Function End"));
+    wxLogTrace(wxT("Function Start/End"), wxT("CSimpleFrame::ReskinAppGUI - Function End"));
 }
 
 void CSimpleFrame::OnBtnClick(wxCommandEvent& event){ //init function

@@ -26,6 +26,7 @@
 #endif
 
 #include <wx/dir.h> 
+#include "sg_StaticLine.h"
 
 class SkinClass;
 
@@ -61,6 +62,7 @@ public:
 	wxBitmap btmpClear; 
 	wxBitmap btmpClearClick; 
 	wxBitmapButton *btnSave;
+	wxBitmapButton *btnSaveSkin;
 	wxBitmapButton *btnCancel;
 	wxBitmapButton *btnClear;
 	// Pointer control
@@ -115,6 +117,9 @@ protected:
 	void OnCmbSelected(wxCommandEvent& event);
 	void VwXEvOnEraseBackground(wxEraseEvent& event);
 	void VwXDrawBackImg(wxEraseEvent& event,wxWindow *win,wxBitmap & bitMap,int opz);
+
+private: 
+	CStaticLine *lnMyTop;
 
 //[win]end your code 
 };

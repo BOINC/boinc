@@ -586,6 +586,7 @@ void CProjectsComponent::OnBtnClick(wxCommandEvent& event){ //init function
 		   }
 		}
 		pDlg->Destroy();
+		delete pDlg;
     }else if(m_wxBtnObj==btnAdvancedView) {
         wxGetApp().SetActiveGUI(BOINC_ADVANCEDGUI, true);
     }

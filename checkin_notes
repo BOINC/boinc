@@ -10225,3 +10225,22 @@ David  12 Sept 2006
             forum_sample_index.php (removed)
     py/Boinc/
         setup_project.py
+
+Kevin    14 Sept 2006
+    - BSG
+    	- Modify the way the the skin.xml is read and stored
+    	- Added a bit of trace logging
+    	- Modified the preferences dialogue so that changing the skin is a seperate action 
+    	  from changing local settings
+    	- Fixed some bugs that were causing the BSG to crash
+         
+    clientgui/
+        sg_BoincSimpleGUI.cpp
+        sg_DlgPreferences.cpp/h
+        sg_ProgressBar.cpp
+        sg_ProjectsComponent.cpp
+        sg_SkinClass.cpp/h
+        sg_StaticLine.cpp/h
+        sg_SkinClass.cpp
+        sg_SkinClass.cpp
+        

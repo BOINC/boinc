@@ -28,7 +28,7 @@ class CStaticLine : public wxPanel
 { 
 public: 
 	    /// Constructors
-	    CStaticLine(wxPanel* parent,wxPoint coord,wxSize size); 
+	    CStaticLine(wxWindow* parent,wxPoint coord,wxSize size); 
         void OnPaint(wxPaintEvent& event); 
 		void SetLineColor(wxColour col);
 private: 

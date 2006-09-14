@@ -28,7 +28,7 @@ BEGIN_EVENT_TABLE(CStaticLine, wxWindow)
         EVT_PAINT(CStaticLine::OnPaint) 
 END_EVENT_TABLE() 
 
-CStaticLine::CStaticLine(wxPanel* parent,wxPoint coord,wxSize size) : wxPanel(parent, wxID_ANY, coord, size, wxNO_BORDER) 
+CStaticLine::CStaticLine(wxWindow* parent,wxPoint coord,wxSize size) : wxPanel(parent, wxID_ANY, coord, size, wxNO_BORDER) 
 { 
 	m_lineCol = wxColour(255,255,255);
 }

@@ -25,17 +25,18 @@
 #include "BOINCGUIApp.h"
 #include "sg_DlgPreferences.h"
 #include "sg_SkinClass.h"
-//#include <wx/dir.h> 
+#include "sg_StaticLine.h"
 
 enum 
 { 
     ID_OPENBUTTON = 10001, 
     ID_SAVEBUTTON = 10002, 
-    ID_CANCELBUTTON = 10003,
-	ID_CLEARBUTTON = 10007,
-	ID_SKINPICKERCMBBOX = 10004, 
-	ID_DOWORKONLYBGNCMBBOX = 10005,
-	ID_DOCONNECTONLYBGNCMBBOX = 10006,
+    ID_SAVESKINBUTTON = 10003, 
+    ID_CANCELBUTTON = 10004,
+	ID_CLEARBUTTON = 10005,
+	ID_SKINPICKERCMBBOX = 10006, 
+	ID_DOWORKONLYBGNCMBBOX = 10007,
+	ID_DOCONNECTONLYBGNCMBBOX = 10008,
 }; 
 
 BEGIN_EVENT_TABLE( CDlgPreferences,wxDialog)
@@ -87,18 +88,29 @@ void CDlgPreferences::CreateDialog()
 		m_prefs = pDoc->state.global_prefs;
 	}
 	
-
 	SetBackgroundColour(appSkin->GetAppBgCol());
+
+	cmbSkinPicker=new wxComboBox(this,ID_SKINPICKERCMBBOX,wxT(""),wxPoint(206,37),wxSize(140,21),m_skinNames,wxNO_BORDER | wxCB_READONLY);
+	cmbSkinPicker->SetValue(m_SkinName);
+
+	wxToolTip *ttSaveSkin = new wxToolTip(wxT("Change skin"));
+	btnSaveSkin=new wxBitmapButton(this,ID_SAVESKINBUTTON,btmpSave,wxPoint(187,82),wxSize(57,16),wxNO_BORDER);
+	btnSaveSkin->SetBitmapSelected(btmpSaveClick);
+	btnSaveSkin->SetToolTip(ttSaveSkin);
+
+	lnMyTop = new CStaticLine(this,wxPoint(16,113),wxSize(378,1));
+	lnMyTop->SetLineColor(appSkin->GetStaticLineCol());
+
 	wxString itmsHourIntervals[]={wxT("0:00"),wxT("1:00"),wxT("2:00"),wxT("3:00"),wxT("4:00"),wxT("5:00"),wxT("6:00"),wxT("7:00"),wxT("8:00"),wxT("9:00"),wxT("10:00"),wxT("11:00"),wxT("12:00"),
 		wxT("13:00"),wxT("14:00"),wxT("15:00"),wxT("16:00"),wxT("17:00"),wxT("18:00"),wxT("19:00"),wxT("20:00"),wxT("21:00"),wxT("22:00"),wxT("23:00")};
 	
-    cmbDWBtwnBgn=new wxComboBox(this,ID_DOWORKONLYBGNCMBBOX,wxT(""),wxPoint(206,90),wxSize(75,21),24,itmsHourIntervals,wxNO_BORDER | wxCB_READONLY);
+    cmbDWBtwnBgn=new wxComboBox(this,ID_DOWORKONLYBGNCMBBOX,wxT(""),wxPoint(206,155),wxSize(75,21),24,itmsHourIntervals,wxNO_BORDER | wxCB_READONLY);
 	//
-	cmbDWBtwnEnd=new wxComboBox(this,-1,wxT(""),wxPoint(307,90),wxSize(75,21),24,itmsHourIntervals,wxNO_BORDER | wxCB_READONLY);
+	cmbDWBtwnEnd=new wxComboBox(this,-1,wxT(""),wxPoint(307,155),wxSize(75,21),24,itmsHourIntervals,wxNO_BORDER | wxCB_READONLY);
 	//
-	cmbCTIBtwnBgn=new wxComboBox(this,ID_DOCONNECTONLYBGNCMBBOX,wxT(""),wxPoint(206,125),wxSize(75,21),24,itmsHourIntervals,wxNO_BORDER | wxCB_READONLY);
+	cmbCTIBtwnBgn=new wxComboBox(this,ID_DOCONNECTONLYBGNCMBBOX,wxT(""),wxPoint(206,190),wxSize(75,21),24,itmsHourIntervals,wxNO_BORDER | wxCB_READONLY);
 	//
-	cmbCTIBtwnEnd=new wxComboBox(this,-1,wxT(""),wxPoint(307,125),wxSize(75,21),24,itmsHourIntervals,wxNO_BORDER | wxCB_READONLY);
+	cmbCTIBtwnEnd=new wxComboBox(this,-1,wxT(""),wxPoint(307,190),wxSize(75,21),24,itmsHourIntervals,wxNO_BORDER | wxCB_READONLY);
 	//
 	wxString userValMaxUsed;
 	if(m_prefs.disk_max_used_gb < 1){
@@ -110,14 +122,14 @@ void CDlgPreferences::CreateDialog()
 	int itmUseNoMore = 6;
 	if(!this->CheckIfInArray(itmsUseNoMoreGB,userValMaxUsed,itmUseNoMore)){
 		wxString itmsUseNoMoreGBU[]={wxT("100MB"),wxT("200MB"),wxT("500MB"),wxT("1GB"),wxT("2GB"),wxT("5GB"),userValMaxUsed};
-	    cmbUseNoMoreGB=new wxComboBox(this,-1,wxT(""),wxPoint(206,160),wxSize(75,21),itmUseNoMore+1,itmsUseNoMoreGBU,wxNO_BORDER | wxCB_READONLY);
+	    cmbUseNoMoreGB=new wxComboBox(this,-1,wxT(""),wxPoint(206,225),wxSize(75,21),itmUseNoMore+1,itmsUseNoMoreGBU,wxNO_BORDER | wxCB_READONLY);
 	}else{
-        cmbUseNoMoreGB=new wxComboBox(this,-1,wxT(""),wxPoint(206,160),wxSize(75,21),itmUseNoMore,itmsUseNoMoreGB,wxNO_BORDER | wxCB_READONLY);
+        cmbUseNoMoreGB=new wxComboBox(this,-1,wxT(""),wxPoint(206,225),wxSize(75,21),itmUseNoMore,itmsUseNoMoreGB,wxNO_BORDER | wxCB_READONLY);
 	}
 	cmbUseNoMoreGB->SetValue(userValMaxUsed);
 	//
 	wxString itmsDWWCInUse[]={wxT("Yes"),wxT("No")};
-	cmbDWWCInUse=new wxComboBox(this,-1,wxT(""),wxPoint(206,195),wxSize(45,21),2,itmsDWWCInUse,wxNO_BORDER | wxCB_READONLY);
+	cmbDWWCInUse=new wxComboBox(this,-1,wxT(""),wxPoint(206,260),wxSize(45,21),2,itmsDWWCInUse,wxNO_BORDER | wxCB_READONLY);
 	if(m_prefs.run_if_user_active){
         cmbDWWCInUse->SetValue(wxT("Yes"));
 	}else{
@@ -130,27 +142,24 @@ void CDlgPreferences::CreateDialog()
 	int itmIdlCnt = 6;
 	if(!this->CheckIfInArray(itmsDWACIdleFor,userValIdleFor,itmIdlCnt)){
 		wxString itmsDWACIdleForU[]={wxString("1"),wxString("5"),wxString("10"),wxString("15"),wxString("30"),wxString("60"),userValIdleFor};
-        cmbDWACIdleFor=new wxComboBox(this,-1,wxT(""),wxPoint(206,230),wxSize(75,21),itmIdlCnt+1,itmsDWACIdleForU,wxNO_BORDER | wxCB_READONLY);
+        cmbDWACIdleFor=new wxComboBox(this,-1,wxT(""),wxPoint(206,295),wxSize(75,21),itmIdlCnt+1,itmsDWACIdleForU,wxNO_BORDER | wxCB_READONLY);
 	}else{
-        cmbDWACIdleFor=new wxComboBox(this,-1,wxT(""),wxPoint(206,230),wxSize(75,21),itmIdlCnt,itmsDWACIdleFor,wxNO_BORDER | wxCB_READONLY);
+        cmbDWACIdleFor=new wxComboBox(this,-1,wxT(""),wxPoint(206,295),wxSize(75,21),itmIdlCnt,itmsDWACIdleFor,wxNO_BORDER | wxCB_READONLY);
 	}
 	cmbDWACIdleFor->SetValue(userValIdleFor);
-    //
-	cmbSkinPicker=new wxComboBox(this,ID_SKINPICKERCMBBOX,wxT(""),wxPoint(206,265),wxSize(140,21),m_skinNames,wxNO_BORDER | wxCB_READONLY);
-	cmbSkinPicker->SetValue(m_SkinName);
 	// Btn Save and Cancel
-	wxToolTip *ttSave = new wxToolTip(wxT("Save preferences"));
-	btnSave=new wxBitmapButton(this,ID_SAVEBUTTON,btmpSave,wxPoint(120,325),wxSize(57,16),wxNO_BORDER);
+	wxToolTip *ttSave = new wxToolTip(wxT("Save preferences locally and close window"));
+	btnSave=new wxBitmapButton(this,ID_SAVEBUTTON,btmpSave,wxPoint(120,340),wxSize(57,16),wxNO_BORDER);
 	btnSave->SetBitmapSelected(btmpSaveClick);
 	btnSave->SetToolTip(ttSave);
 
-	wxToolTip *ttCancel = new wxToolTip(wxT("Cancel changes"));
-	btnCancel=new wxBitmapButton(this,ID_CANCELBUTTON,btmpCancel,wxPoint(187,325),wxSize(57,16),wxNO_BORDER);
+	wxToolTip *ttCancel = new wxToolTip(wxT("Cancel changes and close window"));
+	btnCancel=new wxBitmapButton(this,ID_CANCELBUTTON,btmpCancel,wxPoint(187,340),wxSize(57,16),wxNO_BORDER);
 	btnCancel->SetBitmapSelected(btmpCancelClick);
 	btnCancel->SetToolTip(ttCancel);
 
-	wxToolTip *ttClear = new wxToolTip(wxT("Clear saved preferences"));
-	btnClear=new wxBitmapButton(this,ID_CLEARBUTTON,btmpClear,wxPoint(254,325),wxSize(57,16),wxNO_BORDER);
+	wxToolTip *ttClear = new wxToolTip(wxT("Clear local preferences and use preferences from the web"));
+	btnClear=new wxBitmapButton(this,ID_CLEARBUTTON,btmpClear,wxPoint(254,340),wxSize(57,16),wxNO_BORDER);
 	btnClear->SetBitmapSelected(btmpClearClick);
 	btnClear->SetToolTip(ttClear);
 
@@ -217,11 +226,11 @@ void CDlgPreferences::OnBtnClick(wxCommandEvent& event){ //init function
     wxObject *m_wxDlgBtnObj = event.GetEventObject();
 	int btnID =  event.GetId();
 	if(btnID==ID_SAVEBUTTON){
-		//wxMessageBox("OnBtnClick - btnSave");
         WriteSettings();
 		EndModal(wxID_OK);
-	}
-	else if(btnID==ID_CLEARBUTTON){
+	} else if(btnID==ID_SAVESKINBUTTON){
+	    EndModal(wxID_OK);
+	} else if(btnID==ID_CLEARBUTTON){
 		CMainDocument* pDoc = wxGetApp().GetDocument();
         wxASSERT(pDoc);
 		std::string emptyS = "";
@@ -283,7 +292,6 @@ void CDlgPreferences::WriteSettings(){
 
 	CMainDocument* pDoc = wxGetApp().GetDocument();
     wxASSERT(pDoc);
-    bool valuesChanged = false;
     m_prefs = pDoc->state.global_prefs;
     
 	int dwBtwnIntB = ConvertToNumber(cmbDWBtwnBgn->GetValue());
@@ -360,26 +368,23 @@ void CDlgPreferences::initAfter(){
 void CDlgPreferences::OnPaint(wxPaintEvent& WXUNUSED(event)) 
 { 
     wxPaintDC dc(this);
-    //Project Name
-	dc.SetFont(wxFont(16,74,90,90,0,wxT("Arial"))); 
-	dc.DrawText(wxT("Preferences"), wxPoint(16,10)); 
-	dc.SetFont(wxFont(8,74,90,90,0,wxT("Arial")));
-	dc.DrawText(m_PrefIndicator, wxPoint(272,16));
-	//static: APPLICATION,MY PROGRESS,ELAPSED TIME,TIME REMAINING
+ 	dc.SetFont(wxFont(16,74,90,90,0,wxT("Arial"))); 
+	dc.DrawText(wxT("Skin"), wxPoint(16,10)); 
 	dc.SetFont(wxFont(9,74,90,90,0,wxT("Arial")));
-	dc.DrawText(wxT("Modify settings for this computer:"), wxPoint(26,60));
-	dc.DrawText(wxT("Do work only between:"), wxPoint(82,93));
-    dc.DrawText(wxT("and"), wxPoint(284,93));
-	dc.DrawText(wxT("Connect to internet only between:"), wxPoint(24,128));
-	dc.DrawText(wxT("and"), wxPoint(284,128));
-	dc.DrawText(wxT("Use no more than:"), wxPoint(103,163));
-    dc.DrawText(wxT("Do work while computer is in use?"), wxPoint(16,198));
-    dc.DrawText(wxT("Do work after computer is idle for:"), wxPoint(22,233));
-    dc.DrawText(wxT("minutes"), wxPoint(284,233));
-	dc.DrawText(wxT("Skin XML file:"), wxPoint(133,268));
-	
-	
-
+	dc.DrawText(wxT("Skin XML file:"), wxPoint(133,40));
+ 	dc.SetFont(wxFont(16,74,90,90,0,wxT("Arial"))); 
+	dc.DrawText(wxT("Preferences"), wxPoint(16,122)); 
+	dc.SetFont(wxFont(8,74,90,90,0,wxT("Arial")));
+	dc.DrawText(m_PrefIndicator, wxPoint(272,128));
+	dc.SetFont(wxFont(9,74,90,90,0,wxT("Arial")));
+	dc.DrawText(wxT("Do work only between:"), wxPoint(82,158));
+    dc.DrawText(wxT("and"), wxPoint(284,158));
+	dc.DrawText(wxT("Connect to internet only between:"), wxPoint(24,193));
+	dc.DrawText(wxT("and"), wxPoint(284,193));
+	dc.DrawText(wxT("Use no more than:"), wxPoint(103,228));
+    dc.DrawText(wxT("Do work while computer is in use?"), wxPoint(16,263));
+    dc.DrawText(wxT("Do work after computer is idle for:"), wxPoint(22,298));
+    dc.DrawText(wxT("minutes"), wxPoint(284,298));
 }
 //[evtFunc]end your code
 wxDirTraverseResult DirTraverserSkins::OnFile(const wxString& filename)

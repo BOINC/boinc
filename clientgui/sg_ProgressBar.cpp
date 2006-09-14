@@ -95,6 +95,7 @@ void CProgressBar::ReskinInterface()
 }
 void CProgressBar::ClearIndicators()
 {
+    wxLogTrace(wxT("Function Start/End"), wxT("CProgressBar::ClearIndicators - Function Start"));
 	for(int indIndex = 0; indIndex < numOfProgressInd; indIndex++){
 		delete m_progInd.at(indIndex);
 	}
@@ -102,6 +103,7 @@ void CProgressBar::ClearIndicators()
 	if(m_progInd.size() > 0){
         m_progInd.clear();
 	}
+    wxLogTrace(wxT("Function Start/End"), wxT("CProgressBar::ClearIndicators - Function End"));
 }
 void CProgressBar::OnEraseBackground(wxEraseEvent& event){
 
