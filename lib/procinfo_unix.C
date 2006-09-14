@@ -164,6 +164,8 @@ int procinfo_setup(vector<PROCINFO>& pi) {
                     // rss = pages, need bytes
                     // assumes page size = 4k
                     p.working_set_size = ps.rss * 4096.;
+					// page faults: I/O + non I/O
+					p.page_fault_count = ps.majflt + ps.minflt;
                     // times are in jiffies, need seconds
                     // assumes 100 jiffies per second
                     p.user_time = ps.utime / 100.;
