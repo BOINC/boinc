@@ -63,8 +63,6 @@ CDlgPreferences::CDlgPreferences(wxWindow* parent, wxString dirPref,wxWindowID i
 	//
 	m_PrefIndicator = wxT("");
 	initBefore();
-	// load images from skin file
-	LoadSkinImages();
 	//Create dialog
 	CreateDialog();
 	initAfter();
@@ -93,8 +91,8 @@ void CDlgPreferences::CreateDialog()
 	cmbSkinPicker->SetValue(m_SkinName);
 
 	wxToolTip *ttSaveSkin = new wxToolTip(wxT("Change skin"));
-	btnSaveSkin=new wxBitmapButton(this,ID_SAVESKINBUTTON,*btmpSave,wxPoint(187,82),wxSize(57,16),wxNO_BORDER);
-	btnSaveSkin->SetBitmapSelected(*btmpSaveClick);
+	btnSaveSkin=new wxBitmapButton(this,ID_SAVESKINBUTTON,*(appSkin->GetBtnSave()),wxPoint(187,82),wxSize(57,16),wxNO_BORDER);
+	btnSaveSkin->SetBitmapSelected(*(appSkin->GetBtnSaveClick()));
 	btnSaveSkin->SetToolTip(ttSaveSkin);
 
 	lnMyTop = new CStaticLine(this,wxPoint(16,113),wxSize(378,1));
@@ -148,18 +146,18 @@ void CDlgPreferences::CreateDialog()
 	cmbDWACIdleFor->SetValue(userValIdleFor);
 	// Btn Save and Cancel
 	wxToolTip *ttSave = new wxToolTip(wxT("Save preferences locally and close window"));
-	btnSave=new wxBitmapButton(this,ID_SAVEBUTTON,*btmpSave,wxPoint(120,340),wxSize(57,16),wxNO_BORDER);
-	btnSave->SetBitmapSelected(*btmpSaveClick);
+	btnSave=new wxBitmapButton(this,ID_SAVEBUTTON,*(appSkin->GetBtnSave()),wxPoint(120,340),wxSize(57,16),wxNO_BORDER);
+	btnSave->SetBitmapSelected(*(appSkin->GetBtnSaveClick()));
 	btnSave->SetToolTip(ttSave);
 
 	wxToolTip *ttCancel = new wxToolTip(wxT("Cancel changes and close window"));
-	btnCancel=new wxBitmapButton(this,ID_CANCELBUTTON,*btmpCancel,wxPoint(187,340),wxSize(57,16),wxNO_BORDER);
-	btnCancel->SetBitmapSelected(*btmpCancelClick);
+	btnCancel=new wxBitmapButton(this,ID_CANCELBUTTON,*(appSkin->GetBtnCancel()),wxPoint(187,340),wxSize(57,16),wxNO_BORDER);
+	btnCancel->SetBitmapSelected(*(appSkin->GetBtnCancelClick()));
 	btnCancel->SetToolTip(ttCancel);
 
 	wxToolTip *ttClear = new wxToolTip(wxT("Clear local preferences and use preferences from the web"));
-	btnClear=new wxBitmapButton(this,ID_CLEARBUTTON,*btmpClear,wxPoint(254,340),wxSize(57,16),wxNO_BORDER);
-	btnClear->SetBitmapSelected(*btmpClearClick);
+	btnClear=new wxBitmapButton(this,ID_CLEARBUTTON,*(appSkin->GetBtnClear()),wxPoint(254,340),wxSize(57,16),wxNO_BORDER);
+	btnClear->SetBitmapSelected(*(appSkin->GetBtnClearClick()));
 	btnClear->SetToolTip(ttClear);
 
 	//
@@ -167,15 +165,7 @@ void CDlgPreferences::CreateDialog()
 	
 	Refresh();
 }
-void CDlgPreferences::LoadSkinImages(){
-   	btmpDlgBg=appSkin->GetDlgPrefBg();
-	btmpSave= appSkin->GetBtnSave(); 
-    btmpSaveClick= appSkin->GetBtnSaveClick(); 
-	btmpCancel= appSkin->GetBtnCancel(); 
-	btmpCancelClick= appSkin->GetBtnCancelClick(); 
-	btmpClear= appSkin->GetBtnClear(); 
-    btmpClearClick= appSkin->GetBtnClearClick(); 
-}
+
 void CDlgPreferences::VwXDrawBackImg(wxEraseEvent& event,wxWindow *win,wxBitmap* bitMap,int opz){
  event.Skip(false);wxDC *dc;
  dc=event.GetDC();
@@ -203,7 +193,7 @@ void CDlgPreferences::VwXDrawBackImg(wxEraseEvent& event,wxWindow *win,wxBitmap*
 }
 void CDlgPreferences::OnEraseBackground(wxEraseEvent& event){
  wxObject *m_wxWin = event.GetEventObject();
- if(m_wxWin==this){event.Skip(true);VwXDrawBackImg(event,this,btmpDlgBg,0);VwXEvOnEraseBackground(event) ;return;}
+ if(m_wxWin==this){event.Skip(true);VwXDrawBackImg(event,this,appSkin->GetDlgPrefBg(),0);VwXEvOnEraseBackground(event) ;return;}
  event.Skip(true);
 }
 

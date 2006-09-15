@@ -79,7 +79,7 @@ CSimpleFrame::CSimpleFrame(wxString title, wxIcon* icon) :
     //init app skin class
 	appSkin = SkinClass::Instance();
 	appSkin->init_skin(skinName);
-	LoadSkinImages();
+	m_ImageList.push_back(*(appSkin->GetIcnWorkingWkUnit()));
 
 	projectViewInitialized = false;
 	resultViewInitialized = false;
@@ -332,6 +332,7 @@ void CSimpleFrame::InitResultView()
 void CSimpleFrame::DestroyNotebook() {
 	mainSizer->Detach(wrkUnitNB);
 	delete wrkUnitNB;
+	m_windows.clear();
 	resultViewInitialized = false;
 	notebookViewInitialized = false;
 }
@@ -470,19 +471,11 @@ void CSimpleFrame::InitNotebook()
 	notebookViewInitialized = true;
     wxLogTrace(wxT("Function Start/End"), wxT("CAdvancedFrame::InitNotebook - Function End"));
 }
-void CSimpleFrame::LoadSkinImages(){
-    wxLogTrace(wxT("Function Start/End"), wxT("CSimpleFrame::LoadSkinImages - Function Start"));
-	frameBg=appSkin->GetAppBg();
-    wxLogTrace(wxT("Function Start/End"), wxT("CSimpleFrame::LoadSkinImages - Time to push"));
-	m_ImageList.push_back(*(appSkin->GetIcnWorkingWkUnit()));
-    wxLogTrace(wxT("Function Start/End"), wxT("CSimpleFrame::LoadSkinImages - Function End"));
-}
-///
 ///
 void CSimpleFrame::ReskinAppGUI(){
     wxLogTrace(wxT("Function Start/End"), wxT("CSimpleFrame::ReskinAppGUI - Function Start"));
 	//bg color
-	LoadSkinImages();
+	m_ImageList.push_back(*(appSkin->GetIcnWorkingWkUnit()));
 	SetBackgroundColour(appSkin->GetAppBgCol());
 	if(notebookViewInitialized){
         // notebook tab color
@@ -515,7 +508,7 @@ void CSimpleFrame::OnPageChanged(wxFlatNotebookEvent& WXUNUSED(event))
 }
 void CSimpleFrame::OnEraseBackground(wxEraseEvent& event){
   wxObject *m_wxWin = event.GetEventObject();
-  if(m_wxWin==this){event.Skip(true);DrawBackImg(event,this,frameBg,0);return;}
+  if(m_wxWin==this){event.Skip(true);DrawBackImg(event,this,appSkin->GetAppBg(),0);return;}
   event.Skip(true);
 }
 void CSimpleFrame::DrawBackImg(wxEraseEvent& event,wxWindow *win,wxBitmap* bitMap,int opz){

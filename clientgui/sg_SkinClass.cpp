@@ -58,7 +58,7 @@ bool SkinClass::CheckSkin()
 	//load skin xml file first
 	if(!LoadSkinXML()==0){
 		return false;//skin xml file is not available
-	}
+	} 
 
 	if ( skinImageNames.size() != 35 ) {
 		return false;
@@ -68,31 +68,43 @@ bool SkinClass::CheckSkin()
 }
 
 bool SkinClass::LoadImages() {
-	wxString dirPref = compute_skin_dir()+_T("/");
+	wxString dirPref = ComputeSkinDir()+_T("/");
+	wxBitmapHashMap temp;
+	wxBitmap* skinImage;
+	wxString imgLoc;
 	for( wxStringHashMap::iterator x = skinImageNames.begin(); x != skinImageNames.end();x++){
-		wxString imgLoc = x->second;
-		wxBitmap* skinImage = new wxBitmap(dirPref + imgLoc,wxBITMAP_TYPE_ANY);
+		imgLoc = x->second;
+		skinImage = new wxBitmap(dirPref + imgLoc,wxBITMAP_TYPE_ANY);
 		if(!skinImage->Ok()){
+			// delete any images loaded and then exit
+			delete skinImage;
+			for( wxBitmapHashMap::iterator y = temp.begin(); y != temp.end();y++) {
+				delete y->second;
+			}
 			return false;
 		} else {
-			wxBitmapHashMap::iterator y = skinImages.find(x->first);
-			if ( y != skinImages.end() ) {
-				delete y->second;
-				skinImages.erase(y);
-			}
-			skinImages[x->first] = skinImage;
+			temp[x->first] = skinImage;
 		}
+	}
+
+	// put onto the 'real' array
+	for( wxBitmapHashMap::iterator x = temp.begin(); x != temp.end();x++) {
+		wxBitmapHashMap::iterator y = skinImages.find(x->first);
+		if ( y != skinImages.end() ) {
+			delete y->second;
+		}
+		skinImages[x->first] = x->second;
 	}
      
 	return true;
 }
 
-wxString SkinClass::compute_skin_dir() {
+wxString SkinClass::ComputeSkinDir() {
 	return GetSkinsFolder()+_T("/")+GetSkinName();
 }
 
 wxString SkinClass::compute_skin_path() {
-	return compute_skin_dir()+_T("/")+_T("skin.xml");
+	return ComputeSkinDir()+_T("/")+_T("skin.xml");
 }
 
 bool SkinClass::GetImageName(char* buf, const char* field) {
@@ -221,7 +233,7 @@ bool SkinClass::change_skin(const wxString& new_skin_name) {
 	if ( CheckSkin() ) {
 		return true;
 	} else {
-		m_skinName = old_skin_name;
+		SetSkinName(old_skin_name);
 		LoadSkinXML();
 		LoadImages();
 		return false;
@@ -233,7 +245,7 @@ bool SkinClass::init_skin(const wxString& skin_name) {
 	if ( CheckSkin() ) {
 		return true;
 	} else {
-		m_skinName = wxString("default");
+		SetSkinName(wxString("default"));
 		LoadSkinXML();
 		LoadImages();
 		return false;

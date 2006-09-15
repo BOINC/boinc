@@ -43,12 +43,9 @@ public:
 		void SetValue(double progress);
 		void UpdateValue(double progress);
 		void ReskinInterface();
-		void LoadSkinImages();
 		void ClearIndicators();
 private: 
         
-		wxBitmap* g_gaugeInd;
-        wxBitmap* m_gaugeBG; 
 		double m_progress;
 
 		void OnEraseBackground(wxEraseEvent& event);

@@ -75,7 +75,6 @@ public:
 	void UpdateResultView();
 	void InitProjectView();
 	void UpdateProjectView();
-	void LoadSkinImages();
 	void ReskinAppGUI();
 	void InitNotebook();
 	void DestroyNotebook();

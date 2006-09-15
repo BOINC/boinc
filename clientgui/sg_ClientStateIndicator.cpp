@@ -51,7 +51,7 @@ ClientStateIndicator::ClientStateIndicator(CSimpleFrame* parent,wxPoint coord) :
 	topPosition = 5;
 	stateMessage = wxString("");
 	clientState = CLIENT_STATE_NONE;
-	LoadSkinImages();	
+	appSkin = SkinClass::Instance();
 	CreateComponent();
 	error_time = 0;
 }
@@ -65,17 +65,6 @@ ClientStateIndicator::~ClientStateIndicator()
 		}
     }
 
-}
-
-void ClientStateIndicator::LoadSkinImages()
-{
-	//app skin class
-	appSkin = SkinClass::Instance();
-	btmpCompBg = appSkin->GetWorkunitBg(); 
-	btmpStateIndBg = appSkin->GetStateIndBg(); 
-	btmpConnInd = appSkin->GetConnInd();
-	btmpErrorInd = appSkin->GetErrorInd();
-	
 }
 
 void ClientStateIndicator::CreateComponent(){
@@ -93,12 +82,12 @@ void ClientStateIndicator::SetActionState(const char* message)
 		clientState = CLIENT_STATE_ACTION;
 		i_indBg = new ImageLoader(this);
 		i_indBg->Move(wxPoint(42,74));
-		i_indBg->LoadImage(*btmpStateIndBg);
+		i_indBg->LoadImage(*(appSkin->GetStateIndBg()));
 
 		for(int x = 0; x < numOfIndic; x++){
 			ImageLoader *i_connInd = new ImageLoader(this);
 			i_connInd->Move(wxPoint(rightPosition +(connIndicatorWidth+10) * x,84));
-			i_connInd->LoadImage(*btmpConnInd);
+			i_connInd->LoadImage(*(appSkin->GetConnInd()));
 			if(x !=0){
 				i_connInd->Show(false);
 			}
@@ -123,13 +112,13 @@ void ClientStateIndicator::SetPausedState(const char* message)
 		clientState = CLIENT_STATE_PAUSED;
 		i_indBg = new ImageLoader(this);
 		i_indBg->Move(wxPoint(42,74));
-		i_indBg->LoadImage(*btmpStateIndBg);
+		i_indBg->LoadImage(*(appSkin->GetStateIndBg()));
 
 	
 		for(int x = 0; x < numOfIndic; x++){
 			ImageLoader *i_connInd = new ImageLoader(this);
 			i_connInd->Move(wxPoint(rightPosition +(connIndicatorWidth+10) * x,84));
-			i_connInd->LoadImage(*btmpConnInd);
+			i_connInd->LoadImage(*(appSkin->GetConnInd()));
 			m_connIndV.push_back(i_connInd);
 		}
 	}
@@ -147,11 +136,11 @@ void ClientStateIndicator::SetNoActionState(const char* message)
 		clientState = CLIENT_STATE_ERROR;
 		i_indBg = new ImageLoader(this);
 		i_indBg->Move(wxPoint(42,74));
-		i_indBg->LoadImage(*btmpStateIndBg);
+		i_indBg->LoadImage(*(appSkin->GetStateIndBg()));
 
 		i_errorInd = new ImageLoader(this);
 		i_errorInd->Move(wxPoint(rightPosition+24,84));
-		i_errorInd->LoadImage(*btmpErrorInd);
+		i_errorInd->LoadImage(*(appSkin->GetErrorInd()));
 		i_errorInd->Refresh();
 	}
 	Thaw();	
@@ -196,7 +185,6 @@ void ClientStateIndicator::RunConnectionAnimation(wxTimerEvent& WXUNUSED(event))
 }
 void ClientStateIndicator::ReskinInterface()
 {
-	LoadSkinImages();
 	DisplayState();
 }
 void ClientStateIndicator::OnPaint(wxPaintEvent& WXUNUSED(event)) 
@@ -217,11 +205,8 @@ void ClientStateIndicator::OnEraseBackground(wxEraseEvent& event){
 	dc=event.GetDC();
 	dc->SetBackground(wxBrush(this->GetBackgroundColour(),wxSOLID));
 	dc->Clear();
-	if(btmpCompBg->Ok()) 
-    { 
-		dc->DrawBitmap(*btmpCompBg, 0, 0); 
-    } 
-	
+	dc->DrawBitmap(*(appSkin->GetWorkunitBg()), 0, 0); 
+
 }
 
 bool ClientStateIndicator::DownloadingResults() {

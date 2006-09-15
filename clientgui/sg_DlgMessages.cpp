@@ -73,8 +73,7 @@ CDlgMessages::CDlgMessages(wxWindow* parent, wxString dirPref,wxWindowID id,cons
     m_pMessageErrorAttr = new wxListItemAttr(*wxRED, *wxWHITE, wxNullFont);
 
 	initBefore();
-	// load images from skin file
-	LoadSkinImages();
+	appSkin = SkinClass::Instance();
 	//Create dialog
 	CreateDialog();
 	initAfter();
@@ -103,19 +102,11 @@ void CDlgMessages::CreateDialog()
 	SetBackgroundColour(appSkin->GetAppBgCol());
 	
 	wxToolTip *ttClose = new wxToolTip(wxT("Close message window"));
-	btnClose=new wxBitmapButton(this,ID_CLOSEBUTTON,*btmpClose,wxPoint(472,398),wxSize(57,16),wxNO_BORDER);
-	btnClose->SetBitmapSelected(*btmpCloseClick);
+	btnClose=new wxBitmapButton(this,ID_CLOSEBUTTON,*(appSkin->GetBtnClose()),wxPoint(472,398),wxSize(57,16),wxNO_BORDER);
+	btnClose->SetBitmapSelected(*(appSkin->GetBtnCloseClick()));
 	btnClose->SetToolTip(ttClose);
 	
 	Refresh();
-}
-void CDlgMessages::LoadSkinImages(){
-	//get skin class
-	appSkin = SkinClass::Instance();
-	btmpWindowBg=appSkin->GetDlgMessBg();
-	btmpClose= appSkin->GetBtnClose(); 
-    btmpCloseClick= appSkin->GetBtnCloseClick(); 
-
 }
 void CDlgMessages::VwXDrawBackImg(wxEraseEvent& event,wxWindow *win,wxBitmap* bitMap,int opz){
  event.Skip(false);wxDC *dc;
@@ -144,7 +135,7 @@ void CDlgMessages::VwXDrawBackImg(wxEraseEvent& event,wxWindow *win,wxBitmap* bi
 }
 void CDlgMessages::OnEraseBackground(wxEraseEvent& event){
  wxObject *m_wxWin = event.GetEventObject();
- if(m_wxWin==this){event.Skip(true);VwXDrawBackImg(event,this,btmpWindowBg,0);VwXEvOnEraseBackground(event) ;return;}
+ if(m_wxWin==this){event.Skip(true);VwXDrawBackImg(event,this,appSkin->GetDlgMessBg(),0);VwXEvOnEraseBackground(event) ;return;}
  event.Skip(true);
 }
 

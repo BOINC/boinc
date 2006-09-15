@@ -46,7 +46,6 @@ public:
 	virtual ~CDlgMessages();
 	void initBefore();
 	void CreateDialog();
-	void LoadSkinImages();
 	void initAfter();
 	//
 	virtual wxString        OnListGetItemText( long item, long column ) const;

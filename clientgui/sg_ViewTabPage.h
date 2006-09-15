@@ -52,7 +52,6 @@ public:
 	bool isAlive;
 	//Skin Class
     SkinClass *appSkin;
-	wxString dirPref;
 	// btns ////////////
 	////////////////////
 	// animation
@@ -75,7 +74,6 @@ public:
 	wxString percStr;
 	wxFloat64 percNum;
 	// bg
-	wxBitmap* btmpComponentBg;
 	RESULT* resultWU;
 
     CViewTabPage();
@@ -84,7 +82,6 @@ public:
     );
     ~CViewTabPage();
 
-	void LoadSkinImages();
     void CreatePage();
 	void UpdateInterface();
 	void ReskinInterface();
@@ -117,7 +114,7 @@ protected:
 	void SGUITimeFormat( float fBuffer, wxString& strBuffer) const;
 
 	void OnEraseBackground(wxEraseEvent& event);
-    void DrawBackImg(wxEraseEvent& event,wxWindow *win,wxBitmap* bitMap,int opz);
+    void DrawBackImg(wxEraseEvent& event,wxWindow *win,wxBitmap bitMap,int opz);
     
 	MyCanvas*           m_canvas;
     wxGIFAnimationCtrl* m_animationCtrl;

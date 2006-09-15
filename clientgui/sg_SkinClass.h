@@ -106,13 +106,13 @@ public:
 		
 		void SetSkinName(const wxString& name) { m_skinName = name; }
 		void SetSkinsFolder(const wxString& fldr) { m_skinsFolder = fldr; }
+		wxString ComputeSkinDir();
 
 private: 
 	    /// Constructors
 	    SkinClass();
 		wxColour GetColorFromStr(wxString col);
 		wxString compute_skin_path();
-		wxString compute_skin_dir();
 
 		bool GetImageName(char* buf, const char* field);
 

@@ -55,20 +55,13 @@ CViewTabPage::CViewTabPage(wxFlatNotebook* parent,RESULT* result,std::string nam
     m_hasGraphic = false;
 	resultWU = result;
 	//load skin images
-    LoadSkinImages();
+	appSkin = SkinClass::Instance();
     //create page
 	CreatePage();
 
 }
 
 CViewTabPage::~CViewTabPage() {
-}
-void CViewTabPage::LoadSkinImages(){
-
-	//app skin class
-	appSkin = SkinClass::Instance();
-	dirPref = appSkin->GetSkinsFolder()+_T("/")+appSkin->GetSkinName()+_T("/");
-	btmpComponentBg=appSkin->GetWorkunitBg();
 }
 
 void CViewTabPage::CreatePage()
@@ -123,7 +116,7 @@ void CViewTabPage::CreatePage()
 		wxPoint(0, 0), wxSize(148, 142));
 	m_animationCtrl->GetPlayer().UseBackgroundColour(true);
 	m_animationCtrl->Stop();
-	if (m_animationCtrl->LoadFile(dirPref + appSkin->GetAnimationFile()))
+	if (m_animationCtrl->LoadFile(appSkin->ComputeSkinDir() + wxString(_T("/")) + appSkin->GetAnimationFile()))
 	{
 		m_animationCtrl->Play();
 	}
@@ -162,8 +155,6 @@ void CViewTabPage::UpdateInterface()
 }
 void CViewTabPage::ReskinInterface()
 {	
-	//Load new skin images
-	LoadSkinImages();
     //animation bg
 	btnAminBg->SetImage(*(appSkin->GetAnimationBg()));
     //line
@@ -271,6 +262,7 @@ void CViewTabPage::OnWorkShowGraphics() {
 }
 void CViewTabPage::OnPaint(wxPaintEvent& WXUNUSED(event)) 
 { 
+    wxLogTrace(wxT("Function Start/End"), wxT("CViewTabPage::OnPaint - Begin"));
     wxPaintDC dc(this);
     //Project Name
 	dc.SetFont(wxFont(16,74,90,90,0,wxT("Arial"))); 
@@ -288,6 +280,7 @@ void CViewTabPage::OnPaint(wxPaintEvent& WXUNUSED(event))
     dc.DrawText(gaugePercent, wxPoint(290,90)); 
     dc.DrawText(elapsedTimeValue, wxPoint(118,115)); 
 	dc.DrawText(timeRemainingValue, wxPoint(130,134)); 	
+    wxLogTrace(wxT("Function Start/End"), wxT("CViewTabPage::OnPaint - End"));
 }
 void CViewTabPage::OnImageButton() 
 { 
@@ -298,11 +291,12 @@ void CViewTabPage::OnImageButton()
 }
 void CViewTabPage::DrawText() 
 { 
+    wxLogTrace(wxT("Function Start/End"), wxT("CViewTabPage::DrawText - Begin"));
     wxClientDC dcc(this);
 	wxBufferedDC dc(&dcc, wxSize(GetSize().GetWidth(), GetSize().GetHeight())); 
 
     //Project Name
-	dc.DrawBitmap(*btmpComponentBg, 0, 0);
+	dc.DrawBitmap(*(appSkin->GetWorkunitBg()), 0, 0);
 	dc.SetFont(wxFont(16,74,90,90,0,wxT("Arial"))); 
 	dc.DrawText(projName, wxPoint(20,8)); 
 	//static: APPLICATION,MY PROGRESS,ELAPSED TIME,TIME REMAINING
@@ -318,14 +312,15 @@ void CViewTabPage::DrawText()
     dc.DrawText(gaugePercent, wxPoint(290,90)); 
     dc.DrawText(elapsedTimeValue, wxPoint(118,115)); 
 	dc.DrawText(timeRemainingValue, wxPoint(130,134)); 
+    wxLogTrace(wxT("Function Start/End"), wxT("CViewTabPage::DrawText - End"));
 }
 void CViewTabPage::OnEraseBackground(wxEraseEvent& event){
   wxObject *m_wxWin = event.GetEventObject();
-  if(m_wxWin==this){event.Skip(true);DrawBackImg(event,this,btmpComponentBg,0);return;}
+  if(m_wxWin==this){event.Skip(true);DrawBackImg(event,this,*(appSkin->GetWorkunitBg()),0);return;}
   event.Skip(true);
 }
-void CViewTabPage::DrawBackImg(wxEraseEvent& event,wxWindow *win,wxBitmap* bitMap,int opz){
-
+void CViewTabPage::DrawBackImg(wxEraseEvent& event,wxWindow *win,wxBitmap bitMap,int opz){
+    wxLogTrace(wxT("Function Start/End"), wxT("CViewTabPage::DrawBackImg - Begin"));
 	event.Skip(false);
 	wxDC *dc;
 	dc=event.GetDC();
@@ -333,23 +328,24 @@ void CViewTabPage::DrawBackImg(wxEraseEvent& event,wxWindow *win,wxBitmap* bitMa
 	dc->Clear();
 	switch (opz) {
 	case 0:{
-			dc->DrawBitmap(*bitMap, 0, 0);
+			dc->DrawBitmap(bitMap, 0, 0);
 			break;}
 	case 1:{
 			wxRect rec=win->GetClientRect();
-			rec.SetLeft((rec.GetWidth()-bitMap->GetWidth())   / 2);
-			rec.SetTop ((rec.GetHeight()-bitMap->GetHeight()) / 2);
-			dc->DrawBitmap(*bitMap,rec.GetLeft(),rec.GetTop(),0);
+			rec.SetLeft((rec.GetWidth()-bitMap.GetWidth())   / 2);
+			rec.SetTop ((rec.GetHeight()-bitMap.GetHeight()) / 2);
+			dc->DrawBitmap(bitMap,rec.GetLeft(),rec.GetTop(),0);
 			break;}
 	case 2:{
 			wxRect rec=win->GetClientRect();
-			for(int y=0;y < rec.GetHeight();y+=bitMap->GetHeight()){
-			for(int x=0;x < rec.GetWidth();x+=bitMap->GetWidth()){
-				dc->DrawBitmap(*bitMap,x,y,0);
+			for(int y=0;y < rec.GetHeight();y+=bitMap.GetHeight()){
+			for(int x=0;x < rec.GetWidth();x+=bitMap.GetWidth()){
+				dc->DrawBitmap(bitMap,x,y,0);
 			}
 			}
 			break;}
 	}
+    wxLogTrace(wxT("Function Start/End"), wxT("CViewTabPage::DrawBackImg - End"));
 }
 // ---------------------------------------------------------------------------
 // MyCanvas
@@ -370,6 +366,7 @@ MyCanvas::MyCanvas(wxWindow *parent, const wxPoint& pos, const wxSize& size)
 
 void MyCanvas::OnPaint(wxPaintEvent& WXUNUSED(event))
 {
+    wxLogTrace(wxT("Function Start/End"), wxT("MyCanvas::OnPaint - Begin"));
     wxPaintDC dc(this);
 #if 0
     CSimpleFrame* frame = (CSimpleFrame*) GetParent();
@@ -378,4 +375,5 @@ void MyCanvas::OnPaint(wxPaintEvent& WXUNUSED(event))
         frame->GetPlayer().Draw(dc);
     }
 #endif
+    wxLogTrace(wxT("Function Start/End"), wxT("MyCanvas::OnPaint - End"));
 }

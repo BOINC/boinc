@@ -56,29 +56,6 @@ public:
 	// default icon
 	// spacer
 	ImageLoader *i_spacer;
-	// btns
-	// arrows
-	wxBitmap* btmpSpacer;
-	wxBitmap* btmpStatIcnDefault;
-	wxBitmap* btmpArwL; 
-    wxBitmap* btmpArwR; 
-    wxBitmap* btmpArwLC; 
-    wxBitmap* btmpArwRC; 
-	wxBitmap* btmpAddProj;
-	wxBitmap* btmpAddProjC;
-	wxBitmap* btmpMessages;
-	wxBitmap* btmpMessagesC;
-	wxBitmap* btmpAlertMessages;
-	wxBitmap* btmpAlertMessagesC;
-	wxBitmap* btmpPause;
-	wxBitmap* btmpPauseC;
-	wxBitmap* btmpResume;
-	wxBitmap* btmpResumeC;
-	wxBitmap* btmpPref;
-	wxBitmap* btmpPrefC;
-	wxBitmap* btmpAdvView;
-	wxBitmap* btmpAdvViewC;
-	wxBitmap* btmpComponentBg;
 
 	wxBitmapButton *btnArwLeft;
 	wxBitmapButton *btnArwRight;
@@ -94,7 +71,6 @@ public:
     CProjectsComponent(CSimpleFrame* parent,wxPoint coord);
     ~CProjectsComponent();
 
-	void LoadSkinImages();
     void CreateComponent();
 	void RemoveProject(std::string prjUrl);
 	void UpdateInterface();

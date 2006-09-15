@@ -52,7 +52,6 @@ public:
 		~ClientStateIndicator();
 		void CreateComponent();
 		void ReskinInterface();
-		void LoadSkinImages();
 		void DeletePreviousState();
 		void DisplayState();
 
@@ -63,10 +62,6 @@ private:
 		void SetPausedState(const char* message);
 		bool DownloadingResults();
 		bool Suspended();
-		wxBitmap* btmpConnInd;
-		wxBitmap* btmpErrorInd;
-        wxBitmap* btmpStateIndBg; 
-		wxBitmap* btmpCompBg;
 		time_t error_time;
 		
 		void OnEraseBackground(wxEraseEvent& event);

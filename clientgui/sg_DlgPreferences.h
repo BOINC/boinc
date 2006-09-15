@@ -48,14 +48,6 @@ public:
  CDlgPreferences(wxWindow* parent, wxString dirPref,wxWindowID id = -1, const wxString& title = wxT(""), const wxPoint& pos = wxDefaultPosition, const wxSize& size = wxDefaultSize, long style = wxDEFAULT_DIALOG_STYLE, const wxString& name = wxT("dialogBox"));
 	//Skin Class
 	SkinClass *appSkin;
-	//btns
-	wxBitmap* btmpSave; 
-	wxBitmap* btmpSaveClick; 
-	wxBitmap* btmpCancel; 
-	wxBitmap* btmpCancelClick; 
-	wxBitmap* btmpClear; 
-	wxBitmap* btmpClearClick; 
-	wxBitmap* btmpDlgBg;
 
 	wxBitmapButton *btnSave;
 	wxBitmapButton *btnSaveSkin;
@@ -91,7 +83,6 @@ public:
 	bool CheckIfInArray(wxString valArray[],wxString value,int size);
 	void ReadSettings(GLOBAL_PREFS prefs);
 	void CreateDialog();
-	void LoadSkinImages();
 	int ConvertToNumber(wxString num);
 	wxString GetSkinName() const { return m_SkinName; }
 	void SetSkinName(const wxString& skinName) { m_SkinName = skinName; }
