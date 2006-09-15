@@ -71,7 +71,6 @@ CDlgPreferences::CDlgPreferences(wxWindow* parent, wxString dirPref,wxWindowID i
 }
 CDlgPreferences::~CDlgPreferences()
 {
-
 }
 
 
@@ -94,8 +93,8 @@ void CDlgPreferences::CreateDialog()
 	cmbSkinPicker->SetValue(m_SkinName);
 
 	wxToolTip *ttSaveSkin = new wxToolTip(wxT("Change skin"));
-	btnSaveSkin=new wxBitmapButton(this,ID_SAVESKINBUTTON,btmpSave,wxPoint(187,82),wxSize(57,16),wxNO_BORDER);
-	btnSaveSkin->SetBitmapSelected(btmpSaveClick);
+	btnSaveSkin=new wxBitmapButton(this,ID_SAVESKINBUTTON,*btmpSave,wxPoint(187,82),wxSize(57,16),wxNO_BORDER);
+	btnSaveSkin->SetBitmapSelected(*btmpSaveClick);
 	btnSaveSkin->SetToolTip(ttSaveSkin);
 
 	lnMyTop = new CStaticLine(this,wxPoint(16,113),wxSize(378,1));
@@ -149,18 +148,18 @@ void CDlgPreferences::CreateDialog()
 	cmbDWACIdleFor->SetValue(userValIdleFor);
 	// Btn Save and Cancel
 	wxToolTip *ttSave = new wxToolTip(wxT("Save preferences locally and close window"));
-	btnSave=new wxBitmapButton(this,ID_SAVEBUTTON,btmpSave,wxPoint(120,340),wxSize(57,16),wxNO_BORDER);
-	btnSave->SetBitmapSelected(btmpSaveClick);
+	btnSave=new wxBitmapButton(this,ID_SAVEBUTTON,*btmpSave,wxPoint(120,340),wxSize(57,16),wxNO_BORDER);
+	btnSave->SetBitmapSelected(*btmpSaveClick);
 	btnSave->SetToolTip(ttSave);
 
 	wxToolTip *ttCancel = new wxToolTip(wxT("Cancel changes and close window"));
-	btnCancel=new wxBitmapButton(this,ID_CANCELBUTTON,btmpCancel,wxPoint(187,340),wxSize(57,16),wxNO_BORDER);
-	btnCancel->SetBitmapSelected(btmpCancelClick);
+	btnCancel=new wxBitmapButton(this,ID_CANCELBUTTON,*btmpCancel,wxPoint(187,340),wxSize(57,16),wxNO_BORDER);
+	btnCancel->SetBitmapSelected(*btmpCancelClick);
 	btnCancel->SetToolTip(ttCancel);
 
 	wxToolTip *ttClear = new wxToolTip(wxT("Clear local preferences and use preferences from the web"));
-	btnClear=new wxBitmapButton(this,ID_CLEARBUTTON,btmpClear,wxPoint(254,340),wxSize(57,16),wxNO_BORDER);
-	btnClear->SetBitmapSelected(btmpClearClick);
+	btnClear=new wxBitmapButton(this,ID_CLEARBUTTON,*btmpClear,wxPoint(254,340),wxSize(57,16),wxNO_BORDER);
+	btnClear->SetBitmapSelected(*btmpClearClick);
 	btnClear->SetToolTip(ttClear);
 
 	//
@@ -169,48 +168,34 @@ void CDlgPreferences::CreateDialog()
 	Refresh();
 }
 void CDlgPreferences::LoadSkinImages(){
-    
-	fileImgBuf[0].LoadFile(m_SkinDirPrefix + appSkin->GetDlgPrefBg(),wxBITMAP_TYPE_PNG);
-	
-	// save
-	g_save = new wxImage(m_SkinDirPrefix + appSkin->GetBtnSave(), wxBITMAP_TYPE_PNG);
-	g_saveClick = new wxImage(m_SkinDirPrefix + appSkin->GetBtnSaveClick(), wxBITMAP_TYPE_PNG);
-    // cancel
-	g_cancel = new wxImage(m_SkinDirPrefix + appSkin->GetBtnCancel(), wxBITMAP_TYPE_PNG);
-	g_cancelClick = new wxImage(m_SkinDirPrefix + appSkin->GetBtnCancelClick(), wxBITMAP_TYPE_PNG);
-    
-	// clear
-	g_clear = new wxImage(m_SkinDirPrefix + appSkin->GetBtnClear(), wxBITMAP_TYPE_PNG);
-	g_clearClick = new wxImage(m_SkinDirPrefix + appSkin->GetBtnClearClick(), wxBITMAP_TYPE_PNG);
-   
-	dlgBack=&fileImgBuf[0];
-	btmpSave= wxBitmap(g_save); 
-    btmpSaveClick= wxBitmap(g_saveClick); 
-	btmpCancel= wxBitmap(g_cancel); 
-	btmpClearClick= wxBitmap(g_saveClick); 
-	btmpClear= wxBitmap(g_clear); 
-    btmpClearClick= wxBitmap(g_clearClick); 
+   	btmpDlgBg=appSkin->GetDlgPrefBg();
+	btmpSave= appSkin->GetBtnSave(); 
+    btmpSaveClick= appSkin->GetBtnSaveClick(); 
+	btmpCancel= appSkin->GetBtnCancel(); 
+	btmpCancelClick= appSkin->GetBtnCancelClick(); 
+	btmpClear= appSkin->GetBtnClear(); 
+    btmpClearClick= appSkin->GetBtnClearClick(); 
 }
-void CDlgPreferences::VwXDrawBackImg(wxEraseEvent& event,wxWindow *win,wxBitmap & bitMap,int opz){
+void CDlgPreferences::VwXDrawBackImg(wxEraseEvent& event,wxWindow *win,wxBitmap* bitMap,int opz){
  event.Skip(false);wxDC *dc;
  dc=event.GetDC();
  dc->SetBackground(wxBrush(win->GetBackgroundColour(),wxSOLID));
  dc->Clear();
  switch (opz) {
   case 0:{
-         dc->DrawBitmap(bitMap, 0, 0);
+         dc->DrawBitmap(*bitMap, 0, 0);
          break;}
   case 1:{
          wxRect rec=win->GetClientRect();
-         rec.SetLeft((rec.GetWidth()-bitMap.GetWidth())   / 2);
-         rec.SetTop ((rec.GetHeight()-bitMap.GetHeight()) / 2);
-         dc->DrawBitmap(bitMap,rec.GetLeft(),rec.GetTop(),0);
+         rec.SetLeft((rec.GetWidth()-bitMap->GetWidth())   / 2);
+         rec.SetTop ((rec.GetHeight()-bitMap->GetHeight()) / 2);
+         dc->DrawBitmap(*bitMap,rec.GetLeft(),rec.GetTop(),0);
          break;}
   case 2:{
          wxRect rec=win->GetClientRect();
-         for(int y=0;y < rec.GetHeight();y+=bitMap.GetHeight()){
-           for(int x=0;x < rec.GetWidth();x+=bitMap.GetWidth()){
-             dc->DrawBitmap(bitMap,x,y,0);
+         for(int y=0;y < rec.GetHeight();y+=bitMap->GetHeight()){
+           for(int x=0;x < rec.GetWidth();x+=bitMap->GetWidth()){
+             dc->DrawBitmap(*bitMap,x,y,0);
            }
          }
          break;}
@@ -218,12 +203,11 @@ void CDlgPreferences::VwXDrawBackImg(wxEraseEvent& event,wxWindow *win,wxBitmap 
 }
 void CDlgPreferences::OnEraseBackground(wxEraseEvent& event){
  wxObject *m_wxWin = event.GetEventObject();
- if(m_wxWin==this){event.Skip(true);VwXDrawBackImg(event,this,*dlgBack,0);VwXEvOnEraseBackground(event) ;return;}
+ if(m_wxWin==this){event.Skip(true);VwXDrawBackImg(event,this,btmpDlgBg,0);VwXEvOnEraseBackground(event) ;return;}
  event.Skip(true);
 }
 
 void CDlgPreferences::OnBtnClick(wxCommandEvent& event){ //init function
-    wxObject *m_wxDlgBtnObj = event.GetEventObject();
 	int btnID =  event.GetId();
 	if(btnID==ID_SAVEBUTTON){
         WriteSettings();
@@ -244,7 +228,6 @@ void CDlgPreferences::OnBtnClick(wxCommandEvent& event){ //init function
 } //end function
 
 void CDlgPreferences::OnCmbSelected(wxCommandEvent& event){ //init function
-    wxObject *m_wxDlgCmbObj = event.GetEventObject();
 	int cmbID =  event.GetId();
 	if(cmbID==ID_SKINPICKERCMBBOX){
 		m_SkinName = event.GetString();

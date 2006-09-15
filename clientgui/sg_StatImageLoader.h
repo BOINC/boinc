@@ -17,7 +17,7 @@ public:
 		std::string m_prjUrl;
 	    /// Constructors
 		StatImageLoader(wxWindow* parent, std::string url); 
-        void LoadImage(std::string project_icon, const wxImage& defaultImage); 
+        void LoadImage(std::string project_icon, wxBitmap* defaultImage); 
 		void CreateMenu();
 		void OnMenuLinkClicked(wxCommandEvent& event);
 		void OnProjectDetach();
@@ -32,7 +32,7 @@ private:
 		int numReloadTries;
 		size_t urlCount;
 		wxTimer* attemptToReloadTimer;
-		void LoadStatIcon(const wxImage& image);
+		void LoadStatIcon(wxBitmap& image);
 		void CheckForProjectIconDownloaded(wxTimerEvent& WXUNUSED(event));
         DECLARE_EVENT_TABLE() 
 }; 

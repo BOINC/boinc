@@ -48,7 +48,8 @@ END_EVENT_TABLE()
 
 size_t CProjectsComponent::lastMessageId = 0;
 
-CProjectsComponent::CProjectsComponent() {}
+CProjectsComponent::CProjectsComponent() {
+}
 
 
 CProjectsComponent::CProjectsComponent(CSimpleFrame* parent,wxPoint coord) :
@@ -79,61 +80,27 @@ void CProjectsComponent::LoadSkinImages(){
 
 	//app skin class
 	appSkin = SkinClass::Instance();
-	wxString dirPref = appSkin->GetSkinsFolder()+_T("/")+appSkin->GetSkinName()+_T("/");
-	//
-	//component bg
-	fileImgBuf[0].LoadFile(dirPref + appSkin->GetProjCompBg(),wxBITMAP_TYPE_PNG);
-	// default stat icon
-	g_statIcnDefault = new wxImage(dirPref + appSkin->GetDefaultStatIcn(), wxBITMAP_TYPE_PNG);
-	// arrows
-	g_arwLeft = new wxImage(dirPref + appSkin->GetBtnLeftArr(), wxBITMAP_TYPE_PNG);
-	g_arwRight = new wxImage(dirPref + appSkin->GetBtnRightArr(), wxBITMAP_TYPE_PNG); 
-	g_arwLeftClick = new wxImage(dirPref + appSkin->GetBtnLeftArrClick(), wxBITMAP_TYPE_PNG);
-	g_arwRightClick = new wxImage(dirPref + appSkin->GetBtnRightArrClick(), wxBITMAP_TYPE_PNG);
-	// add proj
-	g_addProj = new wxImage(dirPref + appSkin->GetBtnAddProj(), wxBITMAP_TYPE_PNG);
-	g_addProjClick = new wxImage(dirPref + appSkin->GetBtnAddProjClick(), wxBITMAP_TYPE_PNG);
-    // messages
-	g_messages = new wxImage(dirPref + appSkin->GetBtnMessages(), wxBITMAP_TYPE_PNG);
-	g_messagesClick = new wxImage(dirPref + appSkin->GetBtnMessages(), wxBITMAP_TYPE_PNG);
-    // error messages
-	g_alertMessages = new wxImage(dirPref + appSkin->GetBtnAlertMessages(), wxBITMAP_TYPE_PNG);
-	g_alertMessagesClick = new wxImage(dirPref + appSkin->GetBtnAlertMessages(), wxBITMAP_TYPE_PNG);
-	// pause
-	g_pause = new wxImage(dirPref + appSkin->GetBtnPause(), wxBITMAP_TYPE_PNG);
-	g_pauseClick = new wxImage(dirPref + appSkin->GetBtnPause(), wxBITMAP_TYPE_PNG);
-	// resume
-	g_resume = new wxImage(dirPref + appSkin->GetBtnResume(), wxBITMAP_TYPE_PNG);
-	g_resumeClick = new wxImage(dirPref + appSkin->GetBtnResume(), wxBITMAP_TYPE_PNG);
-    // resume
-	g_pref = new wxImage(dirPref + appSkin->GetBtnPrefer(), wxBITMAP_TYPE_PNG);
-	g_prefClick = new wxImage(dirPref + appSkin->GetBtnPrefer(), wxBITMAP_TYPE_PNG);
-    // resume
-	g_advView = new wxImage(dirPref + appSkin->GetBtnAdvView(), wxBITMAP_TYPE_PNG);
-	g_advViewClick = new wxImage(dirPref + appSkin->GetBtnAdvView(), wxBITMAP_TYPE_PNG);
-	//spacer
-	g_spacer = new wxImage(dirPref + appSkin->GetSpacerImage(), wxBITMAP_TYPE_PNG);
-	
-   
-	btmpComponentBg=&fileImgBuf[0];
-	btmpArwL= wxBitmap(g_arwLeft); 
-    btmpArwR= wxBitmap(g_arwRight); 
-    btmpArwLC= wxBitmap(g_arwLeftClick); 
-    btmpArwRC= wxBitmap(g_arwRightClick); 
-	btmpAddProj= wxBitmap(g_addProj);
-	btmpAddProjC= wxBitmap(g_addProjClick);
-	btmpMessages= wxBitmap(g_messages);
-	btmpMessagesC= wxBitmap(g_messagesClick);
-	btmpAlertMessages= wxBitmap(g_alertMessages);
-	btmpAlertMessagesC= wxBitmap(g_alertMessagesClick);
-	btmpPause= wxBitmap(g_pause);
-	btmpPauseC= wxBitmap(g_pauseClick);
-	btmpResume= wxBitmap(g_resume);
-	btmpResumeC= wxBitmap(g_resumeClick);
-	btmpPref= wxBitmap(g_pref);
-	btmpPrefC= wxBitmap(g_prefClick);
-	btmpAdvView= wxBitmap(g_advView);
-	btmpAdvViewC= wxBitmap(g_advViewClick);
+	btmpComponentBg=appSkin->GetProjCompBg();
+	btmpStatIcnDefault = appSkin->GetDefaultStatIcn();
+	btmpArwL= appSkin->GetBtnLeftArr(); 
+    btmpArwR= appSkin->GetBtnRightArr(); 
+    btmpArwLC= appSkin->GetBtnLeftArrClick(); 
+    btmpArwRC= appSkin->GetBtnRightArrClick(); 
+	btmpAddProj= appSkin->GetBtnAddProj();
+	btmpAddProjC= appSkin->GetBtnAddProjClick();
+	btmpMessages= appSkin->GetBtnMessages();
+	btmpMessagesC= appSkin->GetBtnMessages();
+	btmpAlertMessages= appSkin->GetBtnAlertMessages();
+	btmpAlertMessagesC= appSkin->GetBtnAlertMessages();
+	btmpPause= appSkin->GetBtnPause();
+	btmpPauseC= appSkin->GetBtnPause();
+	btmpResume= appSkin->GetBtnResume();
+	btmpResumeC= appSkin->GetBtnResume();
+	btmpPref= appSkin->GetBtnPrefer();
+	btmpPrefC= appSkin->GetBtnPrefer();
+	btmpAdvView= appSkin->GetBtnAdvView();
+	btmpAdvViewC= appSkin->GetBtnAdvView();
+	btmpSpacer = appSkin->GetSpacerImage();
 
 }
 
@@ -144,8 +111,8 @@ void CProjectsComponent::CreateComponent()
 	//Static content in my Projects section
 	// add project button
 	wxToolTip *ttAddProject = new wxToolTip(wxT("Add Project"));
-	btnAddProj=new wxBitmapButton(this,-1,btmpAddProj,wxPoint(235,7),wxSize(81,18),wxNO_BORDER);
-	btnAddProj->SetBitmapSelected(btmpAddProjC);
+	btnAddProj=new wxBitmapButton(this,-1,*btmpAddProj,wxPoint(235,7),wxSize(81,18),wxNO_BORDER);
+	btnAddProj->SetBitmapSelected(*btmpAddProjC);
 	btnAddProj->SetToolTip(ttAddProject);
 	/// Line
 	lnMyProjTop = new CStaticLine(this,wxPoint(29,29),wxSize(292,1));
@@ -172,7 +139,7 @@ void CProjectsComponent::CreateComponent()
 			// resolve the proj image 
 			url_to_project_dir((char*)project->master_url.c_str() ,urlDirectory);
 			dirProjectGraphic = (std::string)urlDirectory + "/" + projectIconName;
-			i_statW->LoadImage(dirProjectGraphic, g_statIcnDefault);
+			i_statW->LoadImage(dirProjectGraphic, btmpStatIcnDefault);
 			i_statW->SetToolTip(statToolTip);
 			
 			// push icon in the vector
@@ -183,11 +150,11 @@ void CProjectsComponent::CreateComponent()
 		
 	}
 	//// Arrow Btns
-	btnArwLeft=new wxBitmapButton(this,-1,btmpArwL,wxPoint(29,47),wxSize(20,20),wxNO_BORDER);
-	btnArwLeft->SetBitmapSelected(btmpArwLC);
+	btnArwLeft=new wxBitmapButton(this,-1,*btmpArwL,wxPoint(29,47),wxSize(20,20),wxNO_BORDER);
+	btnArwLeft->SetBitmapSelected(*btmpArwLC);
     btnArwLeft->Show(false);//on creation this one is always false
-	btnArwRight=new wxBitmapButton(this,-1,btmpArwR,wxPoint(301,47),wxSize(20,20),wxNO_BORDER);
-	btnArwRight->SetBitmapSelected(btmpArwRC);
+	btnArwRight=new wxBitmapButton(this,-1,*btmpArwR,wxPoint(301,47),wxSize(20,20),wxNO_BORDER);
+	btnArwRight->SetBitmapSelected(*btmpArwRC);
 	if(m_projCnt > m_maxNumOfIcons){//right shows up only if there is more than max num of icons
 		btnArwRight->Show(true);
 	}else{
@@ -196,46 +163,46 @@ void CProjectsComponent::CreateComponent()
 	//
 	//// Messages Play Pause Btns
 	wxToolTip *ttMessages = new wxToolTip(wxT("Messages"));
-	btnMessages=new wxBitmapButton(this,-1,btmpMessages,wxPoint(11,86),wxSize(70,20),wxNO_BORDER);
-	btnMessages->SetBitmapSelected(btmpMessagesC);
+	btnMessages=new wxBitmapButton(this,-1,*btmpMessages,wxPoint(11,86),wxSize(70,20),wxNO_BORDER);
+	btnMessages->SetBitmapSelected(*btmpMessagesC);
 	btnMessages->SetToolTip(ttMessages);
 	wxToolTip *ttAlertMessages = new wxToolTip(wxT("Messages"));
-	btnAlertMessages=new wxBitmapButton(this,-1,btmpAlertMessages,wxPoint(11,86),wxSize(70,20),wxNO_BORDER);
-	btnAlertMessages->SetBitmapSelected(btmpAlertMessagesC);
+	btnAlertMessages=new wxBitmapButton(this,-1,*btmpAlertMessages,wxPoint(11,86),wxSize(70,20),wxNO_BORDER);
+	btnAlertMessages->SetBitmapSelected(*btmpAlertMessagesC);
 	btnAlertMessages->SetToolTip(ttAlertMessages);
 	btnAlertMessages->Show(false);
 	//spacer
 	wxWindow *w_sp1 = new wxWindow(this,-1,wxPoint(83,91),wxSize(2,11));
     i_spacer = new ImageLoader(w_sp1);
-    i_spacer->LoadImage(g_spacer);
+    i_spacer->LoadImage(*btmpSpacer);
 	// pause btn
 	wxToolTip *ttPause = new wxToolTip(wxT("Pause all processing"));
-	btnPause=new wxBitmapButton(this,-1,btmpPause,wxPoint(85,86),wxSize(59,20),wxNO_BORDER);
-	btnPause->SetBitmapSelected(btmpPauseC);
+	btnPause=new wxBitmapButton(this,-1,*btmpPause,wxPoint(85,86),wxSize(59,20),wxNO_BORDER);
+	btnPause->SetBitmapSelected(*btmpPauseC);
 	btnPause->SetToolTip(ttPause);
     // resume btn   
 	wxToolTip *ttResume = new wxToolTip(wxT("Resume all Processing"));
-	btnResume=new wxBitmapButton(this,-1,btmpResume,wxPoint(85,86),wxSize(59,20),wxNO_BORDER);
-	btnResume->SetBitmapSelected(btmpResumeC);
+	btnResume=new wxBitmapButton(this,-1,*btmpResume,wxPoint(85,86),wxSize(59,20),wxNO_BORDER);
+	btnResume->SetBitmapSelected(*btmpResumeC);
 	btnResume->SetToolTip(ttResume);
 	btnResume->Show(false);
 	//spacer
 	wxWindow *w_sp2 = new wxWindow(this,-1,wxPoint(144,91),wxSize(2,11));
     i_spacer = new ImageLoader(w_sp2);
-    i_spacer->LoadImage(g_spacer);
+    i_spacer->LoadImage(*btmpSpacer);
 	// Pref Btn
 	wxToolTip *ttPreferences = new wxToolTip(wxT("Preferences"));
-	btnPreferences=new wxBitmapButton(this,-1,btmpPref,wxPoint(149,86),wxSize(81,20),wxNO_BORDER);
-	btnPreferences->SetBitmapSelected(btmpPrefC);
+	btnPreferences=new wxBitmapButton(this,-1,*btmpPref,wxPoint(149,86),wxSize(81,20),wxNO_BORDER);
+	btnPreferences->SetBitmapSelected(*btmpPrefC);
 	btnPreferences->SetToolTip(ttPreferences);
 	//spacer
 	wxWindow *w_sp3 = new wxWindow(this,-1,wxPoint(230,91),wxSize(2,11));
     i_spacer = new ImageLoader(w_sp3);
-    i_spacer->LoadImage(g_spacer);
+    i_spacer->LoadImage(*btmpSpacer);
 	// Advanced View
 	wxToolTip *ttAdvView = new wxToolTip(wxT("Advanced View"));
-	btnAdvancedView=new wxBitmapButton(this,-1,btmpAdvView,wxPoint(233,86),wxSize(101,20),wxNO_BORDER);
-    btnAdvancedView->SetBitmapSelected(btmpAdvViewC);
+	btnAdvancedView=new wxBitmapButton(this,-1,*btmpAdvView,wxPoint(233,86),wxSize(101,20),wxNO_BORDER);
+    btnAdvancedView->SetBitmapSelected(*btmpAdvViewC);
 	btnAdvancedView->SetToolTip(ttAdvView);
 	/// Line
 	lnMyProjBtm = new CStaticLine(this,wxPoint(29,83),wxSize(292,1));
@@ -283,7 +250,7 @@ void CProjectsComponent::RemoveProject(std::string prjUrl)
 			// resolve the proj image 
 			url_to_project_dir((char*)project->master_url.c_str() ,urlDirectory);
 			dirProjectGraphic = (std::string)urlDirectory + "/" + projectIconName;
-			i_statW->LoadImage(dirProjectGraphic, g_statIcnDefault);
+			i_statW->LoadImage(dirProjectGraphic, btmpStatIcnDefault);
 			i_statW->SetToolTip(statToolTip);
 			
 		    // push icon in the vector
@@ -311,7 +278,7 @@ void CProjectsComponent::RemoveProject(std::string prjUrl)
 			// resolve the proj image 
 			url_to_project_dir((char*)project->master_url.c_str() ,urlDirectory);
 			dirProjectGraphic = (std::string)urlDirectory + "/" + projectIconName;
-			i_statW->LoadImage(dirProjectGraphic, g_statIcnDefault);
+			i_statW->LoadImage(dirProjectGraphic, btmpStatIcnDefault);
 			i_statW->SetToolTip(statToolTip);
 			
 			// push icon in the vector
@@ -380,7 +347,7 @@ void CProjectsComponent::UpdateInterface()
 		// resolve the proj image 
 		url_to_project_dir((char*)project->master_url.c_str() ,urlDirectory);
 		dirProjectGraphic = (std::string)urlDirectory + "/" + projectIconName;
-		i_statW->LoadImage(dirProjectGraphic, g_statIcnDefault);
+		i_statW->LoadImage(dirProjectGraphic, btmpStatIcnDefault);
 		i_statW->SetToolTip(statToolTip);
 		
 		// push icon in the vector
@@ -409,40 +376,40 @@ void CProjectsComponent::ReskinInterface()
 	SetBackgroundColour(appSkin->GetAppBgCol());
 	//right button
 	btnArwRight->SetBackgroundColour(appSkin->GetAppBgCol());
-	btnArwRight->SetBitmapLabel(btmpArwR);
-	btnArwRight->SetBitmapSelected(btmpArwRC);
+	btnArwRight->SetBitmapLabel(*btmpArwR);
+	btnArwRight->SetBitmapSelected(*btmpArwRC);
 	//left button
 	btnArwLeft->SetBackgroundColour(appSkin->GetAppBgCol());
-	btnArwLeft->SetBitmapLabel(btmpArwL);
-	btnArwLeft->SetBitmapSelected(btmpArwLC);
+	btnArwLeft->SetBitmapLabel(*btmpArwL);
+	btnArwLeft->SetBitmapSelected(*btmpArwLC);
 	// add project btn
 	btnAddProj->SetBackgroundColour(appSkin->GetAppBgCol());
-	btnAddProj->SetBitmapLabel(btmpAddProj);
-	btnAddProj->SetBitmapSelected(btmpAddProjC);
+	btnAddProj->SetBitmapLabel(*btmpAddProj);
+	btnAddProj->SetBitmapSelected(*btmpAddProjC);
 	// messages btn
 	btnMessages->SetBackgroundColour(appSkin->GetAppBgCol());
-	btnMessages->SetBitmapLabel(btmpMessages);
-	btnMessages->SetBitmapSelected(btmpMessagesC);
+	btnMessages->SetBitmapLabel(*btmpMessages);
+	btnMessages->SetBitmapSelected(*btmpMessagesC);
 	// alert messages btn
 	btnAlertMessages->SetBackgroundColour(appSkin->GetAppBgCol());
-	btnAlertMessages->SetBitmapLabel(btmpAlertMessages);
-	btnAlertMessages->SetBitmapSelected(btmpAlertMessagesC);
+	btnAlertMessages->SetBitmapLabel(*btmpAlertMessages);
+	btnAlertMessages->SetBitmapSelected(*btmpAlertMessagesC);
 	// pause btn
 	btnPause->SetBackgroundColour(appSkin->GetAppBgCol());
-	btnPause->SetBitmapLabel(btmpPause);
-	btnPause->SetBitmapSelected(btmpPauseC);
+	btnPause->SetBitmapLabel(*btmpPause);
+	btnPause->SetBitmapSelected(*btmpPauseC);
 	// resume btn
     btnResume->SetBackgroundColour(appSkin->GetAppBgCol());
-	btnResume->SetBitmapLabel(btmpResume);
-	btnResume->SetBitmapSelected(btmpResumeC);
+	btnResume->SetBitmapLabel(*btmpResume);
+	btnResume->SetBitmapSelected(*btmpResumeC);
 	// preferences btn
     btnPreferences->SetBackgroundColour(appSkin->GetAppBgCol());
-	btnPreferences->SetBitmapLabel(btmpPref);
-	btnPreferences->SetBitmapSelected(btmpPrefC);
+	btnPreferences->SetBitmapLabel(*btmpPref);
+	btnPreferences->SetBitmapSelected(*btmpPrefC);
 	// advance view btn
     btnAdvancedView->SetBackgroundColour(appSkin->GetAppBgCol());
-	btnAdvancedView->SetBitmapLabel(btmpAdvView);
-	btnAdvancedView->SetBitmapSelected(btmpAdvViewC);
+	btnAdvancedView->SetBitmapLabel(*btmpAdvView);
+	btnAdvancedView->SetBitmapSelected(*btmpAdvViewC);
 	//set line colors
 	lnMyProjTop->SetLineColor(appSkin->GetStaticLineCol());
 	lnMyProjBtm->SetLineColor(appSkin->GetStaticLineCol());
@@ -484,7 +451,7 @@ void CProjectsComponent::OnBtnClick(wxCommandEvent& event){ //init function
 			// resolve the proj image 
 			url_to_project_dir((char*)project->master_url.c_str() ,urlDirectory);
 			dirProjectGraphic = (std::string)urlDirectory + "/" + projectIconName;
-			i_statW->LoadImage(dirProjectGraphic, g_statIcnDefault);
+			i_statW->LoadImage(dirProjectGraphic, btmpStatIcnDefault);
 
 			i_statW->SetToolTip(statToolTip);
 			
@@ -529,7 +496,7 @@ void CProjectsComponent::OnBtnClick(wxCommandEvent& event){ //init function
 			// resolve the proj image 
 			url_to_project_dir((char*)project->master_url.c_str() ,urlDirectory);
 			dirProjectGraphic = (std::string)urlDirectory + "/" + projectIconName;
-			i_statW->LoadImage(dirProjectGraphic, g_statIcnDefault);
+			i_statW->LoadImage(dirProjectGraphic, btmpStatIcnDefault);
 			i_statW->SetToolTip(statToolTip);
 			
 		    // push icon in the vector
@@ -593,10 +560,10 @@ void CProjectsComponent::OnBtnClick(wxCommandEvent& event){ //init function
 }
 void CProjectsComponent::OnEraseBackground(wxEraseEvent& event){
   wxObject *m_wxWin = event.GetEventObject();
-  if(m_wxWin==this){event.Skip(true);DrawBackImg(event,this,*btmpComponentBg,0);return;}
+  if(m_wxWin==this){event.Skip(true);DrawBackImg(event,this,btmpComponentBg,0);return;}
   event.Skip(true);
 }
-void CProjectsComponent::DrawBackImg(wxEraseEvent& event,wxWindow *win,wxBitmap & bitMap,int opz){
+void CProjectsComponent::DrawBackImg(wxEraseEvent& event,wxWindow *win,wxBitmap* bitMap,int opz){
 
 	event.Skip(false);
 	wxDC *dc;
@@ -605,19 +572,19 @@ void CProjectsComponent::DrawBackImg(wxEraseEvent& event,wxWindow *win,wxBitmap 
 	dc->Clear();
 	switch (opz) {
 	case 0:{
-			dc->DrawBitmap(bitMap, 0, 0);
+			dc->DrawBitmap(*bitMap, 0, 0);
 			break;}
 	case 1:{
 			wxRect rec=win->GetClientRect();
-			rec.SetLeft((rec.GetWidth()-bitMap.GetWidth())   / 2);
-			rec.SetTop ((rec.GetHeight()-bitMap.GetHeight()) / 2);
-			dc->DrawBitmap(bitMap,rec.GetLeft(),rec.GetTop(),0);
+			rec.SetLeft((rec.GetWidth()-bitMap->GetWidth())   / 2);
+			rec.SetTop ((rec.GetHeight()-bitMap->GetHeight()) / 2);
+			dc->DrawBitmap(*bitMap,rec.GetLeft(),rec.GetTop(),0);
 			break;}
 	case 2:{
 			wxRect rec=win->GetClientRect();
-			for(int y=0;y < rec.GetHeight();y+=bitMap.GetHeight()){
-			for(int x=0;x < rec.GetWidth();x+=bitMap.GetWidth()){
-				dc->DrawBitmap(bitMap,x,y,0);
+			for(int y=0;y < rec.GetHeight();y+=bitMap->GetHeight()){
+			for(int x=0;x < rec.GetWidth();x+=bitMap->GetWidth()){
+				dc->DrawBitmap(*bitMap,x,y,0);
 			}
 			}
 			break;}

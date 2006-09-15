@@ -31,7 +31,7 @@ StatImageLoader::StatImageLoader(wxWindow* parent, std::string url) : wxWindow(p
 void StatImageLoader::PopUpMenu(wxMouseEvent& WXUNUSED(event)) 
 { 
 	// pop up menu
-	bool menuPoped = PopupMenu(statPopUpMenu);
+	PopupMenu(statPopUpMenu);
 }
 
 void StatImageLoader::RebuildMenu() {
@@ -81,7 +81,6 @@ void StatImageLoader::OnMenuLinkClicked(wxCommandEvent& event)
 { 
 	 CMainDocument* pDoc = wxGetApp().GetDocument();
      wxASSERT(pDoc);
-     wxObject *m_wxBtnObj = event.GetEventObject();
 	 int menuIDevt =  event.GetId();
 
 	 if(menuIDevt == WEBSITE_URL_MENU_ID_REMOVE_PROJECT){
@@ -142,29 +141,28 @@ void StatImageLoader::OnProjectDetach() {
     }
 }
 
-void StatImageLoader::LoadStatIcon(const wxImage& image) {
-	Bitmap = wxBitmap();//delete existing bitmap since we are loading new one
+void StatImageLoader::LoadStatIcon(wxBitmap& image) {
 	int width = image.GetWidth(); 
 	int height = image.GetHeight(); 
-	Bitmap = wxBitmap(image); 
+	Bitmap = image; 
 	SetSize(width, height); 
 }
 
 
-void StatImageLoader::LoadImage(std::string project_icon, const wxImage& defaultImage) 
+void StatImageLoader::LoadImage(std::string project_icon, wxBitmap* defaultImage) 
 { 
 	char defaultIcnPath[256];
 	bool defaultUsed = true;
 	if(boinc_resolve_filename(project_icon.c_str(), defaultIcnPath, sizeof(defaultIcnPath)) == 0){
-		wxImage* g_statIcn = new wxImage();
-		if ( g_statIcn->LoadFile(defaultIcnPath, wxBITMAP_TYPE_PNG) ) {
-			LoadStatIcon(g_statIcn);
+		wxBitmap* btmpStatIcn = new wxBitmap();
+		if ( btmpStatIcn->LoadFile(defaultIcnPath, wxBITMAP_TYPE_ANY) ) {
+			LoadStatIcon(*btmpStatIcn);
 			defaultUsed = false;
 		} else {
-			LoadStatIcon(defaultImage);
+			LoadStatIcon(*defaultImage);
 		}
 	}else{
-		LoadStatIcon(defaultImage);
+		LoadStatIcon(*defaultImage);
 	}
 
 	if ( defaultUsed ) {
@@ -180,9 +178,9 @@ void StatImageLoader::CheckForProjectIconDownloaded(wxTimerEvent& WXUNUSED(event
 	bool success = false;
 	// Check project icon downloaded
 	if(boinc_resolve_filename(projectIcon.c_str(), defaultIcnPath, sizeof(defaultIcnPath)) == 0){
-		wxImage* g_statIcn = new wxImage();
-		if ( g_statIcn->LoadFile(defaultIcnPath, wxBITMAP_TYPE_PNG) ) {
-			LoadStatIcon(g_statIcn);
+		wxBitmap* btmpStatIcn = new wxBitmap();
+		if ( btmpStatIcn->LoadFile(defaultIcnPath, wxBITMAP_TYPE_ANY) ) {
+			LoadStatIcon(*btmpStatIcn);
 			success = true;
 			Refresh();
 			Update();

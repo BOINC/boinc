@@ -49,18 +49,14 @@ public:
 	//Skin Class
 	SkinClass *appSkin;
 	//btns
-	wxImage *g_save;
-	wxImage *g_saveClick;
-	wxImage *g_cancel;
-	wxImage *g_cancelClick;
-	wxImage *g_clear;
-	wxImage *g_clearClick;
-	wxBitmap btmpSave; 
-	wxBitmap btmpSaveClick; 
-	wxBitmap btmpCancel; 
-	wxBitmap btmpCancelClick; 
-	wxBitmap btmpClear; 
-	wxBitmap btmpClearClick; 
+	wxBitmap* btmpSave; 
+	wxBitmap* btmpSaveClick; 
+	wxBitmap* btmpCancel; 
+	wxBitmap* btmpCancelClick; 
+	wxBitmap* btmpClear; 
+	wxBitmap* btmpClearClick; 
+	wxBitmap* btmpDlgBg;
+
 	wxBitmapButton *btnSave;
 	wxBitmapButton *btnSaveSkin;
 	wxBitmapButton *btnCancel;
@@ -89,8 +85,6 @@ public:
 	wxComboBox *cmbSkinPicker;
 	//wxTextCtrl *tx30c;
 
-	wxBitmap *dlgBack;
-	wxBitmap fileImgBuf[1];
 	virtual ~CDlgPreferences();
 	void initBefore();
 	void WriteSettings();
@@ -116,7 +110,7 @@ protected:
 	void OnBtnClick(wxCommandEvent& event);
 	void OnCmbSelected(wxCommandEvent& event);
 	void VwXEvOnEraseBackground(wxEraseEvent& event);
-	void VwXDrawBackImg(wxEraseEvent& event,wxWindow *win,wxBitmap & bitMap,int opz);
+	void VwXDrawBackImg(wxEraseEvent& event,wxWindow *win,wxBitmap* bitMap,int opz);
 
 private: 
 	CStaticLine *lnMyTop;

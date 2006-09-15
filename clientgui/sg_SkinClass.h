@@ -34,45 +34,45 @@ public:
 		bool init_skin(const wxString& skin_name);
 
         // Getters
-		wxString GetAppBg() { return skinImageNames[wxString(_T("background"))]; }
+		wxBitmap* GetAppBg() { return skinImages[wxString(_T("background"))]; }
 		wxColour GetAppBgCol() { return GetColorFromStr(m_appBgCol); }
-		wxString GetProjCompBg() { return skinImageNames[wxString(_T("project_component_background"))]; }
-        wxString GetSpacerImage() { return skinImageNames[wxString(_T("spacer_image"))]; }
-		wxString GetWorkunitBg() { return skinImageNames[wxString(_T("workunit_background"))]; }
-		wxString GetBtnPrefer() { return skinImageNames[wxString(_T("preferences_button"))]; }
-		wxString GetBtnAddProj() { return skinImageNames[wxString(_T("add_project_button"))]; }
-		wxString GetBtnAddProjClick() { return skinImageNames[wxString(_T("add_project_clicked_button"))]; }
-		wxString GetBtnAdvView() { return skinImageNames[wxString(_T("advanced_view_button"))]; }
-        wxString GetBtnResume() { return skinImageNames[wxString(_T("resume_button"))]; }
-        wxString GetBtnPause() { return skinImageNames[wxString(_T("pause_button"))]; }
-		wxString GetBtnMessages() { return skinImageNames[wxString(_T("messages_button"))]; }
-		wxString GetBtnAlertMessages() { return skinImageNames[wxString(_T("alert_messages_button"))]; }
-		wxString GetBtnSave() { return skinImageNames[wxString(_T("save_button"))]; }
-		wxString GetBtnSaveClick() { return skinImageNames[wxString(_T("save_clicked_button"))]; }
-		wxString GetBtnCancel() { return skinImageNames[wxString(_T("cancel_button"))]; }
-		wxString GetBtnCancelClick() { return skinImageNames[wxString(_T("cancel_clicked_button"))]; }
-		wxString GetBtnClear() { return skinImageNames[wxString(_T("clear_button"))]; }
-		wxString GetBtnClearClick() { return skinImageNames[wxString(_T("clear_clicked_button"))]; }
-		wxString GetBtnClose() { return skinImageNames[wxString(_T("close_button"))]; }
-		wxString GetBtnCloseClick() { return skinImageNames[wxString(_T("close_clicked_button"))]; }
-		wxString GetBtnLeftArr() { return skinImageNames[wxString(_T("left_arrow_button"))]; }
-		wxString GetBtnRightArr() { return skinImageNames[wxString(_T("right_arrow_button"))]; }
-		wxString GetBtnLeftArrClick() { return skinImageNames[wxString(_T("left_arrow_clicked_button"))]; }
-		wxString GetBtnRightArrClick() { return skinImageNames[wxString(_T("right_arrow_clicked_button"))]; }
+		wxBitmap* GetProjCompBg() { return skinImages[wxString(_T("project_component_background"))]; }
+        wxBitmap* GetSpacerImage() { return skinImages[wxString(_T("spacer_image"))]; }
+		wxBitmap* GetWorkunitBg() { return skinImages[wxString(_T("workunit_background"))]; }
+		wxBitmap* GetBtnPrefer() { return skinImages[wxString(_T("preferences_button"))]; }
+		wxBitmap* GetBtnAddProj() { return skinImages[wxString(_T("add_project_button"))]; }
+		wxBitmap* GetBtnAddProjClick() { return skinImages[wxString(_T("add_project_clicked_button"))]; }
+		wxBitmap* GetBtnAdvView() { return skinImages[wxString(_T("advanced_view_button"))]; }
+        wxBitmap* GetBtnResume() { return skinImages[wxString(_T("resume_button"))]; }
+        wxBitmap* GetBtnPause() { return skinImages[wxString(_T("pause_button"))]; }
+		wxBitmap* GetBtnMessages() { return skinImages[wxString(_T("messages_button"))]; }
+		wxBitmap* GetBtnAlertMessages() { return skinImages[wxString(_T("alert_messages_button"))]; }
+		wxBitmap* GetBtnSave() { return skinImages[wxString(_T("save_button"))]; }
+		wxBitmap* GetBtnSaveClick() { return skinImages[wxString(_T("save_clicked_button"))]; }
+		wxBitmap* GetBtnCancel() { return skinImages[wxString(_T("cancel_button"))]; }
+		wxBitmap* GetBtnCancelClick() { return skinImages[wxString(_T("cancel_clicked_button"))]; }
+		wxBitmap* GetBtnClear() { return skinImages[wxString(_T("clear_button"))]; }
+		wxBitmap* GetBtnClearClick() { return skinImages[wxString(_T("clear_clicked_button"))]; }
+		wxBitmap* GetBtnClose() { return skinImages[wxString(_T("close_button"))]; }
+		wxBitmap* GetBtnCloseClick() { return skinImages[wxString(_T("close_clicked_button"))]; }
+		wxBitmap* GetBtnLeftArr() { return skinImages[wxString(_T("left_arrow_button"))]; }
+		wxBitmap* GetBtnRightArr() { return skinImages[wxString(_T("right_arrow_button"))]; }
+		wxBitmap* GetBtnLeftArrClick() { return skinImages[wxString(_T("left_arrow_clicked_button"))]; }
+		wxBitmap* GetBtnRightArrClick() { return skinImages[wxString(_T("right_arrow_clicked_button"))]; }
         
-		wxString GetDlgPrefBg() { return skinImageNames[wxString(_T("preferences_dialogue"))]; }
-		wxString GetDlgMessBg() { return skinImageNames[wxString(_T("messages_dialogue"))]; }
+		wxBitmap* GetDlgPrefBg() { return skinImages[wxString(_T("preferences_dialogue"))]; }
+		wxBitmap* GetDlgMessBg() { return skinImages[wxString(_T("messages_dialogue"))]; }
 
 		wxColour GetStaticLineCol() { return GetColorFromStr(m_staticLineCol); }
 
-		wxString GetGaugeBg() { return skinImageNames[wxString(_T("gauge_background"))]; }
-		wxString GetGaugeProgressInd() { return skinImageNames[wxString(_T("gauge_progress"))]; }
+		wxBitmap* GetGaugeBg() { return skinImages[wxString(_T("gauge_background"))]; }
+		wxBitmap* GetGaugeProgressInd() { return skinImages[wxString(_T("gauge_progress"))]; }
 
-		wxString GetStateIndBg() { return skinImageNames[wxString(_T("state_indicator_background"))]; }
-	    wxString GetConnInd() { return skinImageNames[wxString(_T("connecting_indicator"))]; }
-	    wxString GetErrorInd() { return skinImageNames[wxString(_T("error_indicator"))]; }
+		wxBitmap* GetStateIndBg() { return skinImages[wxString(_T("state_indicator_background"))]; }
+	    wxBitmap* GetConnInd() { return skinImages[wxString(_T("connecting_indicator"))]; }
+	    wxBitmap* GetErrorInd() { return skinImages[wxString(_T("error_indicator"))]; }
 	
-        wxString GetTabAreaBg() { return skinImageNames[wxString(_T("tab_area_background"))]; }
+        wxBitmap* GetTabAreaBg() { return skinImages[wxString(_T("tab_area_background"))]; }
         wxColour GetTabFromColAc() { return GetColorFromStr(m_tabFromColAc); }
 		wxColour GetTabToColAc() { return GetColorFromStr(m_tabToColAc); }
 		wxColour GetTabBrdColAc() { return GetColorFromStr(m_tabBrdColAc); }
@@ -80,9 +80,9 @@ public:
 		wxColour GetTabToColIn() { return GetColorFromStr(m_tabToColIn); }
 		wxColour GetTabBrdColIn() { return GetColorFromStr(m_tabBrdColIn); }
         
-		wxString GetIcnWorkingWkUnit() { return skinImageNames[wxString(_T("workingWkUnit"))]; }
-        wxString GetDefaultStatIcn() { return skinImageNames[wxString(_T("defaultStatIcon"))]; }
-        wxString GetAnimationBg() { return skinImageNames[wxString(_T("animation_background"))]; }
+		wxBitmap* GetIcnWorkingWkUnit() { return skinImages[wxString(_T("workingWkUnit"))]; }
+        wxBitmap* GetDefaultStatIcn() { return skinImages[wxString(_T("defaultStatIcon"))]; }
+        wxBitmap* GetAnimationBg() { return skinImages[wxString(_T("animation_background"))]; }
         wxString GetAnimationFile() const { return m_animFile; }
         
 		wxString GetSkinName() const { return m_skinName; }
@@ -118,6 +118,7 @@ private:
 
 		bool CheckSkin();
 		int LoadSkinXML();
+		bool LoadImages();
 
 		// Bg
 		wxString m_appBgCol;
@@ -139,7 +140,7 @@ private:
 
 		WX_DECLARE_STRING_HASH_MAP( wxString, wxStringHashMap );
 		wxStringHashMap skinImageNames;
-		WX_DECLARE_STRING_HASH_MAP( wxBitmap, wxBitmapHashMap );
+		WX_DECLARE_STRING_HASH_MAP( wxBitmap*, wxBitmapHashMap );
 		wxBitmapHashMap skinImages;
 
 		wxFlatNotebookImageList m_ImageList;

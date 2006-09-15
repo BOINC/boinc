@@ -29,7 +29,7 @@ class ImageLoader : public wxWindow
 public: 
 	    /// Constructors
 	    ImageLoader(wxWindow* parent); 
-        void LoadImage(const wxImage& image); 
+        void LoadImage(wxBitmap image); 
         void OnPaint(wxPaintEvent& event); 
 private: 
         //static const int MaxWidth = 320; 

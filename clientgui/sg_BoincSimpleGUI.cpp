@@ -107,9 +107,8 @@ CSimpleFrame::~CSimpleFrame()
         m_pFrameRenderTimer->Stop();
         delete m_pFrameRenderTimer;
     }
-    wxLogTrace(wxT("Function Start/End"), wxT("CSimpleFrame::CSimpleFrame - Destructor Function End"));
 
-	CBOINCBaseFrame::SaveState();
+    wxLogTrace(wxT("Function Start/End"), wxT("CSimpleFrame::CSimpleFrame - Destructor Function End"));
 }
 
 bool CSimpleFrame::RestoreState() {
@@ -135,7 +134,7 @@ bool CSimpleFrame::RestoreState() {
 }
 
 bool CSimpleFrame::SaveState() {
-	CBOINCBaseFrame::RestoreState();
+	CBOINCBaseFrame::SaveState();
     wxConfigBase*   pConfig = wxConfigBase::Get(FALSE);
 	wxString        strBaseConfigLocation = wxString(wxT("/"));
 
@@ -473,18 +472,9 @@ void CSimpleFrame::InitNotebook()
 }
 void CSimpleFrame::LoadSkinImages(){
     wxLogTrace(wxT("Function Start/End"), wxT("CSimpleFrame::LoadSkinImages - Function Start"));
-	wxString dirPref = appSkin->GetSkinsFolder()+_T("/")+appSkin->GetSkinName()+_T("/");
-	
-    fileImgBuf[0].LoadFile(dirPref + appSkin->GetAppBg(),wxBITMAP_TYPE_PNG);
-	// work unit icons
-	g_icoWorkWU = new wxImage(dirPref + appSkin->GetIcnWorkingWkUnit(), wxBITMAP_TYPE_PNG);
-	//////////////////////////////
-	frameBg=&fileImgBuf[0];
-	/// work unit tabs icons
-	wxBitmap const workWUico = wxBitmap(g_icoWorkWU); 
-	// push them in image list
+	frameBg=appSkin->GetAppBg();
     wxLogTrace(wxT("Function Start/End"), wxT("CSimpleFrame::LoadSkinImages - Time to push"));
-	m_ImageList.push_back(workWUico);
+	m_ImageList.push_back(*(appSkin->GetIcnWorkingWkUnit()));
     wxLogTrace(wxT("Function Start/End"), wxT("CSimpleFrame::LoadSkinImages - Function End"));
 }
 ///
@@ -525,10 +515,10 @@ void CSimpleFrame::OnPageChanged(wxFlatNotebookEvent& WXUNUSED(event))
 }
 void CSimpleFrame::OnEraseBackground(wxEraseEvent& event){
   wxObject *m_wxWin = event.GetEventObject();
-  if(m_wxWin==this){event.Skip(true);DrawBackImg(event,this,*frameBg,0);return;}
+  if(m_wxWin==this){event.Skip(true);DrawBackImg(event,this,frameBg,0);return;}
   event.Skip(true);
 }
-void CSimpleFrame::DrawBackImg(wxEraseEvent& event,wxWindow *win,wxBitmap & bitMap,int opz){
+void CSimpleFrame::DrawBackImg(wxEraseEvent& event,wxWindow *win,wxBitmap* bitMap,int opz){
 
 	event.Skip(false);
 	wxDC *dc;
@@ -537,19 +527,19 @@ void CSimpleFrame::DrawBackImg(wxEraseEvent& event,wxWindow *win,wxBitmap & bitM
 	dc->Clear();
 	switch (opz) {
 	case 0:{
-			dc->DrawBitmap(bitMap, 0, 0);
+			dc->DrawBitmap(*bitMap, 0, 0);
 			break;}
 	case 1:{
 			wxRect rec=win->GetClientRect();
-			rec.SetLeft((rec.GetWidth()-bitMap.GetWidth())   / 2);
-			rec.SetTop ((rec.GetHeight()-bitMap.GetHeight()) / 2);
-			dc->DrawBitmap(bitMap,rec.GetLeft(),rec.GetTop(),0);
+			rec.SetLeft((rec.GetWidth()-bitMap->GetWidth())   / 2);
+			rec.SetTop ((rec.GetHeight()-bitMap->GetHeight()) / 2);
+			dc->DrawBitmap(*bitMap,rec.GetLeft(),rec.GetTop(),0);
 			break;}
 	case 2:{
 			wxRect rec=win->GetClientRect();
-			for(int y=0;y < rec.GetHeight();y+=bitMap.GetHeight()){
-			for(int x=0;x < rec.GetWidth();x+=bitMap.GetWidth()){
-				dc->DrawBitmap(bitMap,x,y,0);
+			for(int y=0;y < rec.GetHeight();y+=bitMap->GetHeight()){
+			for(int x=0;x < rec.GetWidth();x+=bitMap->GetWidth()){
+				dc->DrawBitmap(*bitMap,x,y,0);
 			}
 			}
 			break;}

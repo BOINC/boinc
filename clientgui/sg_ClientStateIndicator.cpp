@@ -64,22 +64,17 @@ ClientStateIndicator::~ClientStateIndicator()
 			delete m_connRenderTimer;
 		}
     }
+
 }
 
 void ClientStateIndicator::LoadSkinImages()
 {
 	//app skin class
 	appSkin = SkinClass::Instance();
-	wxString dirPref = appSkin->GetSkinsFolder()+_T("/")+appSkin->GetSkinName()+_T("/");
-	// comp bg
-	g_compBg = new wxImage(dirPref + appSkin->GetWorkunitBg(), wxBITMAP_TYPE_PNG);
-	m_compBG = wxBitmap(g_compBg); 
-	//state ind bg
-    g_stateIndBg = new wxImage(dirPref + appSkin->GetStateIndBg(), wxBITMAP_TYPE_PNG);
-	m_stateIndBG = wxBitmap(g_stateIndBg); 
-	// indicators
-	g_connInd = new wxImage(dirPref + appSkin->GetConnInd(), wxBITMAP_TYPE_PNG);
-	g_errorInd = new wxImage(dirPref + appSkin->GetErrorInd(), wxBITMAP_TYPE_PNG);
+	btmpCompBg = appSkin->GetWorkunitBg(); 
+	btmpStateIndBg = appSkin->GetStateIndBg(); 
+	btmpConnInd = appSkin->GetConnInd();
+	btmpErrorInd = appSkin->GetErrorInd();
 	
 }
 
@@ -98,12 +93,12 @@ void ClientStateIndicator::SetActionState(const char* message)
 		clientState = CLIENT_STATE_ACTION;
 		i_indBg = new ImageLoader(this);
 		i_indBg->Move(wxPoint(42,74));
-		i_indBg->LoadImage(g_stateIndBg);
+		i_indBg->LoadImage(*btmpStateIndBg);
 
 		for(int x = 0; x < numOfIndic; x++){
 			ImageLoader *i_connInd = new ImageLoader(this);
 			i_connInd->Move(wxPoint(rightPosition +(connIndicatorWidth+10) * x,84));
-			i_connInd->LoadImage(g_connInd);
+			i_connInd->LoadImage(*btmpConnInd);
 			if(x !=0){
 				i_connInd->Show(false);
 			}
@@ -128,13 +123,13 @@ void ClientStateIndicator::SetPausedState(const char* message)
 		clientState = CLIENT_STATE_PAUSED;
 		i_indBg = new ImageLoader(this);
 		i_indBg->Move(wxPoint(42,74));
-		i_indBg->LoadImage(g_stateIndBg);
+		i_indBg->LoadImage(*btmpStateIndBg);
 
 	
 		for(int x = 0; x < numOfIndic; x++){
 			ImageLoader *i_connInd = new ImageLoader(this);
 			i_connInd->Move(wxPoint(rightPosition +(connIndicatorWidth+10) * x,84));
-			i_connInd->LoadImage(g_connInd);
+			i_connInd->LoadImage(*btmpConnInd);
 			m_connIndV.push_back(i_connInd);
 		}
 	}
@@ -152,11 +147,11 @@ void ClientStateIndicator::SetNoActionState(const char* message)
 		clientState = CLIENT_STATE_ERROR;
 		i_indBg = new ImageLoader(this);
 		i_indBg->Move(wxPoint(42,74));
-		i_indBg->LoadImage(g_stateIndBg);
+		i_indBg->LoadImage(*btmpStateIndBg);
 
 		i_errorInd = new ImageLoader(this);
 		i_errorInd->Move(wxPoint(rightPosition+24,84));
-		i_errorInd->LoadImage(g_errorInd);
+		i_errorInd->LoadImage(*btmpErrorInd);
 		i_errorInd->Refresh();
 	}
 	Thaw();	
@@ -222,9 +217,9 @@ void ClientStateIndicator::OnEraseBackground(wxEraseEvent& event){
 	dc=event.GetDC();
 	dc->SetBackground(wxBrush(this->GetBackgroundColour(),wxSOLID));
 	dc->Clear();
-	if(m_compBG.Ok()) 
+	if(btmpCompBg->Ok()) 
     { 
-		dc->DrawBitmap(m_compBG, 0, 0); 
+		dc->DrawBitmap(*btmpCompBg, 0, 0); 
     } 
 	
 }
@@ -268,7 +263,6 @@ void ClientStateIndicator::DisplayState() {
 		SetActionState(_T("Downloading work from the server."));
 	} else if ( Suspended() ) {
 		CC_STATUS status;
-		bool result = false;
 		pDoc->GetCoreClientStatus(status);
 		if ( status.task_suspend_reason & SUSPEND_REASON_BATTERIES ) {
 			SetActionState(_T("Processing Suspended:  Running On Batteries."));

@@ -50,7 +50,7 @@ void CImageButton::OnPaint(wxPaintEvent& WXUNUSED(event))
 } 
 void CImageButton::SetImage(wxBitmap bg) 
 { 
-      btnBG = wxBitmap(bg);  
+      btnBG = bg;  
 } 
 void CImageButton::OnEraseBackground(wxEraseEvent& event){
 

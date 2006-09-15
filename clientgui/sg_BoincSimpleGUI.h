@@ -46,17 +46,12 @@ public:
 
    ~CSimpleFrame();
 
-	// Images
-	wxImage *g_icoWorkWU;
 	//
 	// Flat Neotebook
 	std::vector<CViewTabPage*> m_windows; // vector of all window tabs created for notebook
 	wxFlatNotebookImageList m_ImageList;
 	wxFlatNotebook *wrkUnitNB;
     wxBitmap const workWUico;
-    ////// Skin variables //////
-	//XML doc
-	wxXmlDocument *skinXML;
 	//Skin Class
     SkinClass *appSkin;
 	wxString skinName;
@@ -95,7 +90,6 @@ public:
 	wxBitmap *bm39cImg0;
 
 	wxBitmap *btmpIcnSleeping;
-	wxBitmap fileImgBuf[1];
 	
 #if 0
     wxAnimationPlayer& GetPlayer() { return m_player; }
@@ -112,7 +106,7 @@ protected:
 	void OnConnect(CFrameEvent& event );
     void OnFrameRender(wxTimerEvent& event );
 	void OnPageChanged(wxFlatNotebookEvent& event);
-    void DrawBackImg(wxEraseEvent& event,wxWindow *win,wxBitmap & bitMap,int opz);
+    void DrawBackImg(wxEraseEvent& event,wxWindow *win,wxBitmap* bitMap,int opz);
 
 private:
 	bool SaveState();

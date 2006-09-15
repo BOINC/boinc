@@ -514,9 +514,7 @@ protected:
 
 	//Skin Class
     SkinClass *appSkin;
-	//tabs background
-	wxImage *g_tabAreaBg;
-	wxBitmap m_tabAreaBG; 
+	wxBitmap* m_tabAreaBG; 
 
 public:
 	/// Parametrized constructor

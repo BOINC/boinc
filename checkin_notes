@@ -10255,3 +10255,23 @@ Walt   14 Sept 2006
 
     lib/
         procinfo_unix.C
+
+Kevin    14 Sept 2006
+    - BSG
+    	- Changed skin file so that most images are obtained from the skin class
+         
+    clientgui/
+        sg_BoincSimpleGUI.cpp/h
+        sg_ClientStateIndicator.cpp/h
+        sg_DlgMessages.cpp/h
+        sg_DlgPreferences.cpp/h
+        sg_ImageButton.cpp/h
+        sg_ImageLoader.cpp/h
+        sg_ProgressBar.cpp/h
+        sg_ProjectsComponent.cpp/h
+        sg_SkinClass.cpp/h
+        sg_StatImageLoader.cpp/h
+        sg_ViewTabPage.cpp/h
+     clientgui/common
+     	wxFlatNotebook.cpp/h
+        

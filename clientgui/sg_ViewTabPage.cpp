@@ -61,18 +61,14 @@ CViewTabPage::CViewTabPage(wxFlatNotebook* parent,RESULT* result,std::string nam
 
 }
 
-CViewTabPage::~CViewTabPage() {}
+CViewTabPage::~CViewTabPage() {
+}
 void CViewTabPage::LoadSkinImages(){
 
 	//app skin class
 	appSkin = SkinClass::Instance();
 	dirPref = appSkin->GetSkinsFolder()+_T("/")+appSkin->GetSkinName()+_T("/");
-	//anim bg
-	g_projBg = new wxImage(dirPref + appSkin->GetAnimationBg(), wxBITMAP_TYPE_PNG);
-	//////////////////////////////
-	//component bg
-	fileImgBuf[0].LoadFile(dirPref + appSkin->GetWorkunitBg(),wxBITMAP_TYPE_PNG);
-	btmpComponentBg=&fileImgBuf[0];
+	btmpComponentBg=appSkin->GetWorkunitBg();
 }
 
 void CViewTabPage::CreatePage()
@@ -91,7 +87,7 @@ void CViewTabPage::CreatePage()
 	//Line Proj Name
 	lnProjName = new CStaticLine(this,wxPoint(20,36),wxSize(316,1));
 	lnProjName->SetLineColor(appSkin->GetStaticLineCol());
-	//
+	//TODO - is this line below needed?
 	wxStaticLine spacerLine = new wxStaticLine(this,-1,wxPoint(20,36),wxSize(305,1));
 
 	//My Progress
@@ -111,9 +107,7 @@ void CViewTabPage::CreatePage()
 		m_hasGraphic = true;
 	}
 	// project image behind graphic <><><>
-	wxString dirPref = appSkin->GetSkinsFolder()+_T("/")+appSkin->GetSkinName()+_T("/");
-	wxImage g_projBg = new wxImage(dirPref + appSkin->GetAnimationBg(), wxBITMAP_TYPE_PNG);
-	btnAminBg = new CImageButton(this,wxBitmap(g_projBg),wxPoint(28,154),wxSize(294,146),m_hasGraphic);
+	btnAminBg = new CImageButton(this,*(appSkin->GetAnimationBg()),wxPoint(28,154),wxSize(294,146),m_hasGraphic);
 
 	//// Animation Window
 	wAnimWk1=new wxWindow(this,-1,wxPoint(98,156),wxSize(148,142),wxNO_BORDER);
@@ -171,7 +165,7 @@ void CViewTabPage::ReskinInterface()
 	//Load new skin images
 	LoadSkinImages();
     //animation bg
-	btnAminBg->SetImage(wxBitmap(g_projBg));
+	btnAminBg->SetImage(*(appSkin->GetAnimationBg()));
     //line
 	lnProjName->SetLineColor(appSkin->GetStaticLineCol());
 	// gauge
@@ -327,10 +321,10 @@ void CViewTabPage::DrawText()
 }
 void CViewTabPage::OnEraseBackground(wxEraseEvent& event){
   wxObject *m_wxWin = event.GetEventObject();
-  if(m_wxWin==this){event.Skip(true);DrawBackImg(event,this,*btmpComponentBg,0);return;}
+  if(m_wxWin==this){event.Skip(true);DrawBackImg(event,this,btmpComponentBg,0);return;}
   event.Skip(true);
 }
-void CViewTabPage::DrawBackImg(wxEraseEvent& event,wxWindow *win,wxBitmap & bitMap,int opz){
+void CViewTabPage::DrawBackImg(wxEraseEvent& event,wxWindow *win,wxBitmap* bitMap,int opz){
 
 	event.Skip(false);
 	wxDC *dc;
@@ -339,19 +333,19 @@ void CViewTabPage::DrawBackImg(wxEraseEvent& event,wxWindow *win,wxBitmap & bitM
 	dc->Clear();
 	switch (opz) {
 	case 0:{
-			dc->DrawBitmap(bitMap, 0, 0);
+			dc->DrawBitmap(*bitMap, 0, 0);
 			break;}
 	case 1:{
 			wxRect rec=win->GetClientRect();
-			rec.SetLeft((rec.GetWidth()-bitMap.GetWidth())   / 2);
-			rec.SetTop ((rec.GetHeight()-bitMap.GetHeight()) / 2);
-			dc->DrawBitmap(bitMap,rec.GetLeft(),rec.GetTop(),0);
+			rec.SetLeft((rec.GetWidth()-bitMap->GetWidth())   / 2);
+			rec.SetTop ((rec.GetHeight()-bitMap->GetHeight()) / 2);
+			dc->DrawBitmap(*bitMap,rec.GetLeft(),rec.GetTop(),0);
 			break;}
 	case 2:{
 			wxRect rec=win->GetClientRect();
-			for(int y=0;y < rec.GetHeight();y+=bitMap.GetHeight()){
-			for(int x=0;x < rec.GetWidth();x+=bitMap.GetWidth()){
-				dc->DrawBitmap(bitMap,x,y,0);
+			for(int y=0;y < rec.GetHeight();y+=bitMap->GetHeight()){
+			for(int x=0;x < rec.GetWidth();x+=bitMap->GetWidth()){
+				dc->DrawBitmap(*bitMap,x,y,0);
 			}
 			}
 			break;}

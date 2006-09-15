@@ -47,9 +47,8 @@ public:
 		void ClearIndicators();
 private: 
         
-	    wxImage *g_gaugeBg;
-		wxImage *g_gaugeInd;
-        wxBitmap m_gaugeBG; 
+		wxBitmap* g_gaugeInd;
+        wxBitmap* m_gaugeBG; 
 		double m_progress;
 
 		void OnEraseBackground(wxEraseEvent& event);

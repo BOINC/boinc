@@ -37,15 +37,11 @@ public:
 	//Skin Class
 	SkinClass *appSkin;
 	//btns
-	wxImage *g_close;
-	wxImage *g_closeClick;
-	wxBitmap btmpClose; 
-	wxBitmap btmpCloseClick; 
+	wxBitmap* btmpClose; 
+	wxBitmap* btmpCloseClick; 
+	wxBitmap* btmpWindowBg;
 	wxBitmapButton *btnClose;
-	//window bg
-	wxBitmap *windowBg;
-	wxBitmap fileImgBuf[1];
-	//
+
 	// Pointer control
 	virtual ~CDlgMessages();
 	void initBefore();
@@ -81,7 +77,7 @@ protected:
 	void OnEraseBackground(wxEraseEvent& event);
 	void OnBtnClick(wxCommandEvent& event);
 	void VwXEvOnEraseBackground(wxEraseEvent& event);
-	void VwXDrawBackImg(wxEraseEvent& event,wxWindow *win,wxBitmap & bitMap,int opz);
+	void VwXDrawBackImg(wxEraseEvent& event,wxWindow *win,wxBitmap* bitMap,int opz);
     //
 	virtual void            OnListRender( wxTimerEvent& event );
 	virtual wxInt32         GetDocCount();

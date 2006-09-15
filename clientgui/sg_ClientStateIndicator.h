@@ -63,12 +63,10 @@ private:
 		void SetPausedState(const char* message);
 		bool DownloadingResults();
 		bool Suspended();
-	    wxImage *g_stateIndBg;
-		wxImage *g_compBg;
-		wxImage *g_connInd;
-		wxImage *g_errorInd;
-        wxBitmap m_stateIndBG; 
-		wxBitmap m_compBG;
+		wxBitmap* btmpConnInd;
+		wxBitmap* btmpErrorInd;
+        wxBitmap* btmpStateIndBg; 
+		wxBitmap* btmpCompBg;
 		time_t error_time;
 		
 		void OnEraseBackground(wxEraseEvent& event);

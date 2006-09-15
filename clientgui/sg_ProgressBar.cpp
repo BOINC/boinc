@@ -45,12 +45,10 @@ void CProgressBar::LoadSkinImages()
 {
 	//app skin class
 	appSkin = SkinClass::Instance();
-	wxString dirPref = appSkin->GetSkinsFolder()+_T("/")+appSkin->GetSkinName()+_T("/");
 	//bg
-    g_gaugeBg = new wxImage(dirPref + appSkin->GetGaugeBg(), wxBITMAP_TYPE_PNG);
-	m_gaugeBG = wxBitmap(g_gaugeBg); 
+	m_gaugeBG = appSkin->GetGaugeBg(); 
 	// indicator
-	g_gaugeInd = new wxImage(dirPref + appSkin->GetGaugeProgressInd(), wxBITMAP_TYPE_PNG);
+	g_gaugeInd = appSkin->GetGaugeProgressInd();
 	
 }
 void CProgressBar::SetValue(double progress)
@@ -64,7 +62,7 @@ void CProgressBar::SetValue(double progress)
 	for(int indIndex = 0; indIndex < numOfProgressInd; indIndex++){
 		ImageLoader *i_ind = new ImageLoader(this);
         i_ind->Move(wxPoint(rightPosition +((indicatorWidth)*indIndex),topPosition));
-		i_ind->LoadImage(g_gaugeInd);
+		i_ind->LoadImage(*g_gaugeInd);
 		m_progInd.push_back(i_ind);
 	}
 }
@@ -80,7 +78,7 @@ void CProgressBar::UpdateValue(double progress)
 		for(int indIndex = numOfProgressInd; indIndex < currProg; indIndex++){
 			wxWindow *w_ind=new wxWindow(this,-1,wxPoint(rightPosition +((indicatorWidth)*indIndex),topPosition),wxSize(indicatorWidth,indicatorHeight));
 			ImageLoader *i_ind = new ImageLoader(w_ind);
-			i_ind->LoadImage(g_gaugeInd);
+			i_ind->LoadImage(*g_gaugeInd);
 			numOfProgressInd = progress /(100/numOfIndic);
 		}
 	}
@@ -112,9 +110,9 @@ void CProgressBar::OnEraseBackground(wxEraseEvent& event){
 	dc=event.GetDC();
 	dc->SetBackground(wxBrush(this->GetBackgroundColour(),wxSOLID));
 	dc->Clear();
-	if(m_gaugeBG.Ok()) 
+	if(m_gaugeBG->Ok()) 
     { 
-		dc->DrawBitmap(m_gaugeBG, 0, 0); 
+		dc->DrawBitmap(*m_gaugeBG, 0, 0); 
     } 
 	
 }

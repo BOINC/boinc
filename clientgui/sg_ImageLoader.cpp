@@ -31,19 +31,11 @@ END_EVENT_TABLE()
 ImageLoader::ImageLoader(wxWindow* parent) : wxWindow(parent, wxID_ANY, wxDefaultPosition, wxDefaultSize, wxNO_BORDER) 
 { 
 }
-void ImageLoader::LoadImage(const wxImage& image) 
+void ImageLoader::LoadImage(wxBitmap image) 
 { 
-		Bitmap = wxBitmap();//delete existing bitmap since we are loading newone
-
         int width = image.GetWidth(); 
         int height = image.GetHeight(); 
-        //double X_Ratio = (double) MaxWidth / (double) width; 
-        //double Y_Ratio = (double) MaxHeight / (double) height; 
-        //double Ratio = X_Ratio < Y_Ratio ? X_Ratio : Y_Ratio; 
-        //wxImage Image = image.Scale((int)(Ratio * width), (int)(Ratio * height)); 
-        Bitmap = wxBitmap(image); 
-        //width = imageGetWidth(); 
-        //height = image.GetHeight(); 
+        Bitmap = image; 
         SetSize(width, height); 
 } 
 

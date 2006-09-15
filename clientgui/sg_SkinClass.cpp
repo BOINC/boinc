@@ -60,18 +60,26 @@ bool SkinClass::CheckSkin()
 		return false;//skin xml file is not available
 	}
 
-	wxString dirPref = compute_skin_dir()+_T("/");
-
 	if ( skinImageNames.size() != 35 ) {
 		return false;
 	}
 	
+	return LoadImages();;
+}
+
+bool SkinClass::LoadImages() {
+	wxString dirPref = compute_skin_dir()+_T("/");
 	for( wxStringHashMap::iterator x = skinImageNames.begin(); x != skinImageNames.end();x++){
 		wxString imgLoc = x->second;
-		wxBitmap skinImage = wxBitmap(dirPref + imgLoc,wxBITMAP_TYPE_ANY);
-		if(!skinImage.Ok()){
+		wxBitmap* skinImage = new wxBitmap(dirPref + imgLoc,wxBITMAP_TYPE_ANY);
+		if(!skinImage->Ok()){
 			return false;
 		} else {
+			wxBitmapHashMap::iterator y = skinImages.find(x->first);
+			if ( y != skinImages.end() ) {
+				delete y->second;
+				skinImages.erase(y);
+			}
 			skinImages[x->first] = skinImage;
 		}
 	}
@@ -215,6 +223,7 @@ bool SkinClass::change_skin(const wxString& new_skin_name) {
 	} else {
 		m_skinName = old_skin_name;
 		LoadSkinXML();
+		LoadImages();
 		return false;
 	}
 }
@@ -226,6 +235,7 @@ bool SkinClass::init_skin(const wxString& skin_name) {
 	} else {
 		m_skinName = wxString("default");
 		LoadSkinXML();
+		LoadImages();
 		return false;
 	}
 }

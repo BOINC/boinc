@@ -103,8 +103,8 @@ void CDlgMessages::CreateDialog()
 	SetBackgroundColour(appSkin->GetAppBgCol());
 	
 	wxToolTip *ttClose = new wxToolTip(wxT("Close message window"));
-	btnClose=new wxBitmapButton(this,ID_CLOSEBUTTON,btmpClose,wxPoint(472,398),wxSize(57,16),wxNO_BORDER);
-	btnClose->SetBitmapSelected(btmpCloseClick);
+	btnClose=new wxBitmapButton(this,ID_CLOSEBUTTON,*btmpClose,wxPoint(472,398),wxSize(57,16),wxNO_BORDER);
+	btnClose->SetBitmapSelected(*btmpCloseClick);
 	btnClose->SetToolTip(ttClose);
 	
 	Refresh();
@@ -112,39 +112,31 @@ void CDlgMessages::CreateDialog()
 void CDlgMessages::LoadSkinImages(){
 	//get skin class
 	appSkin = SkinClass::Instance();
-
-	fileImgBuf[0].LoadFile(m_SkinDirPrefix + appSkin->GetDlgMessBg(),wxBITMAP_TYPE_PNG);
-	
-	// close
-	g_close = new wxImage(m_SkinDirPrefix + appSkin->GetBtnClose(), wxBITMAP_TYPE_PNG);
-	g_closeClick = new wxImage(m_SkinDirPrefix + appSkin->GetBtnCloseClick(), wxBITMAP_TYPE_PNG);
-   
-	windowBg=&fileImgBuf[0];
-	
-	btmpClose= wxBitmap(g_close); 
-    btmpCloseClick= wxBitmap(g_closeClick); 
+	btmpWindowBg=appSkin->GetDlgMessBg();
+	btmpClose= appSkin->GetBtnClose(); 
+    btmpCloseClick= appSkin->GetBtnCloseClick(); 
 
 }
-void CDlgMessages::VwXDrawBackImg(wxEraseEvent& event,wxWindow *win,wxBitmap & bitMap,int opz){
+void CDlgMessages::VwXDrawBackImg(wxEraseEvent& event,wxWindow *win,wxBitmap* bitMap,int opz){
  event.Skip(false);wxDC *dc;
  dc=event.GetDC();
  dc->SetBackground(wxBrush(win->GetBackgroundColour(),wxSOLID));
  dc->Clear();
  switch (opz) {
   case 0:{
-         dc->DrawBitmap(bitMap, 0, 0);
+         dc->DrawBitmap(*bitMap, 0, 0);
          break;}
   case 1:{
          wxRect rec=win->GetClientRect();
-         rec.SetLeft((rec.GetWidth()-bitMap.GetWidth())   / 2);
-         rec.SetTop ((rec.GetHeight()-bitMap.GetHeight()) / 2);
-         dc->DrawBitmap(bitMap,rec.GetLeft(),rec.GetTop(),0);
+         rec.SetLeft((rec.GetWidth()-bitMap->GetWidth())   / 2);
+         rec.SetTop ((rec.GetHeight()-bitMap->GetHeight()) / 2);
+         dc->DrawBitmap(*bitMap,rec.GetLeft(),rec.GetTop(),0);
          break;}
   case 2:{
          wxRect rec=win->GetClientRect();
-         for(int y=0;y < rec.GetHeight();y+=bitMap.GetHeight()){
-           for(int x=0;x < rec.GetWidth();x+=bitMap.GetWidth()){
-             dc->DrawBitmap(bitMap,x,y,0);
+         for(int y=0;y < rec.GetHeight();y+=bitMap->GetHeight()){
+           for(int x=0;x < rec.GetWidth();x+=bitMap->GetWidth()){
+             dc->DrawBitmap(*bitMap,x,y,0);
            }
          }
          break;}
@@ -152,12 +144,11 @@ void CDlgMessages::VwXDrawBackImg(wxEraseEvent& event,wxWindow *win,wxBitmap & b
 }
 void CDlgMessages::OnEraseBackground(wxEraseEvent& event){
  wxObject *m_wxWin = event.GetEventObject();
- if(m_wxWin==this){event.Skip(true);VwXDrawBackImg(event,this,*windowBg,0);VwXEvOnEraseBackground(event) ;return;}
+ if(m_wxWin==this){event.Skip(true);VwXDrawBackImg(event,this,btmpWindowBg,0);VwXEvOnEraseBackground(event) ;return;}
  event.Skip(true);
 }
 
 void CDlgMessages::OnBtnClick(wxCommandEvent& event){ //init function
-    wxObject *m_wxDlgBtnObj = event.GetEventObject();
 	int btnID =  event.GetId();
 	if(btnID==ID_CLOSEBUTTON){
 		//wxMessageBox("OnBtnClick - btnClose");

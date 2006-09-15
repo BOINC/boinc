@@ -54,49 +54,33 @@ public:
 	wxString toolTipTxt;
 	wxString userCredit;
 	// default icon
-	wxImage *g_statIcnDefault;
 	// spacer
-	wxImage *g_spacer;
 	ImageLoader *i_spacer;
 	// btns
 	// arrows
-    wxImage *g_arwLeft;
-	wxImage *g_arwRight;
-	wxImage *g_arwLeftClick;
-	wxImage *g_arwRightClick;
-	wxImage *g_addProj;
-	wxImage *g_addProjClick;
-	wxImage *g_messages;
-	wxImage *g_messagesClick;
-	wxImage *g_alertMessages;
-	wxImage *g_alertMessagesClick;
-	wxImage *g_pause;
-	wxImage *g_pauseClick;
-	wxImage *g_resume;
-	wxImage *g_resumeClick;
-	wxImage *g_pref;
-	wxImage *g_prefClick;
-	wxImage *g_advView;
-	wxImage *g_advViewClick;
-	wxBitmap btmpArwL; 
-    wxBitmap btmpArwR; 
-    wxBitmap btmpArwLC; 
-    wxBitmap btmpArwRC; 
-	wxBitmap btmpAddProj;
-	wxBitmap btmpAddProjC;
-	wxBitmap btmpMessages;
-	wxBitmap btmpMessagesC;
-	wxBitmap btmpAlertMessages;
-	wxBitmap btmpAlertMessagesC;
-	wxBitmap btmpPause;
-	wxBitmap btmpPauseC;
-	wxBitmap btmpResume;
-	wxBitmap btmpResumeC;
-	wxBitmap btmpPref;
-	wxBitmap btmpPrefC;
-	wxBitmap btmpAdvView;
-	wxBitmap btmpAdvViewC;
-    wxBitmapButton *btnArwLeft;
+	wxBitmap* btmpSpacer;
+	wxBitmap* btmpStatIcnDefault;
+	wxBitmap* btmpArwL; 
+    wxBitmap* btmpArwR; 
+    wxBitmap* btmpArwLC; 
+    wxBitmap* btmpArwRC; 
+	wxBitmap* btmpAddProj;
+	wxBitmap* btmpAddProjC;
+	wxBitmap* btmpMessages;
+	wxBitmap* btmpMessagesC;
+	wxBitmap* btmpAlertMessages;
+	wxBitmap* btmpAlertMessagesC;
+	wxBitmap* btmpPause;
+	wxBitmap* btmpPauseC;
+	wxBitmap* btmpResume;
+	wxBitmap* btmpResumeC;
+	wxBitmap* btmpPref;
+	wxBitmap* btmpPrefC;
+	wxBitmap* btmpAdvView;
+	wxBitmap* btmpAdvViewC;
+	wxBitmap* btmpComponentBg;
+
+	wxBitmapButton *btnArwLeft;
 	wxBitmapButton *btnArwRight;
 	wxBitmapButton *btnAddProj;
 	wxBitmapButton *btnMessages;
@@ -105,9 +89,6 @@ public:
 	wxBitmapButton *btnResume;
 	wxBitmapButton *btnPreferences;
 	wxBitmapButton *btnAdvancedView;
-    // bg
-	wxBitmap *btmpComponentBg;
-	wxBitmap fileImgBuf[1];
 	
     CProjectsComponent();
     CProjectsComponent(CSimpleFrame* parent,wxPoint coord);
@@ -130,7 +111,7 @@ protected:
 	int m_rightIndex;
 
 	void OnEraseBackground(wxEraseEvent& event);
-    void DrawBackImg(wxEraseEvent& event,wxWindow *win,wxBitmap & bitMap,int opz);
+    void DrawBackImg(wxEraseEvent& event,wxWindow *win,wxBitmap* bitMap,int opz);
 
 private:
 	wxTimer* checkForMessagesTimer;

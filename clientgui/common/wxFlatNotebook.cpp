@@ -650,10 +650,7 @@ void wxPageContainerBase::LoadBgImage()
 {
 	//app skin class
 	appSkin = SkinClass::Instance();
-	wxString dirPref = appSkin->GetSkinsFolder()+_T("/")+appSkin->GetSkinName()+_T("/");
-	
-    g_tabAreaBg = new wxImage(dirPref + appSkin->GetTabAreaBg(), wxBITMAP_TYPE_PNG);
-	m_tabAreaBG = wxBitmap(g_tabAreaBg); 
+	m_tabAreaBG = appSkin->GetTabAreaBg();
 }
 
 int wxPageContainerBase::GetButtonAreaWidth(void)
@@ -737,9 +734,9 @@ void wxPageContainerBase::OnPaint(wxPaintEvent &event)
 	if(!m_useBg){
         dc.DrawRectangle(0, 0, size.x, size.y); // draws background around the tabs
 	}else{
-		if(m_tabAreaBG.Ok()) 
+		if(m_tabAreaBG->Ok()) 
 		{ 
-			dc.DrawBitmap(m_tabAreaBG, 0, 0); 
+			dc.DrawBitmap(*m_tabAreaBG, 0, 0); 
 		}
 	}
     ///////////////////////////////////////////////////////////////////////////////

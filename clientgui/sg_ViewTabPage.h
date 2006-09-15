@@ -56,10 +56,8 @@ public:
 	// btns ////////////
 	////////////////////
 	// animation
-	wxBitmap *btmpBgAnim;
-	wxBitmap fileImgBuf[1];
-	wxImage *g_projBg;
-	wxWindow *wAnimWk1;
+	wxBitmap* btmpBgAnim;
+	wxWindow* wAnimWk1;
 	CImageButton * btnAminBg;
     //line
 	CStaticLine *lnProjName;
@@ -77,7 +75,7 @@ public:
 	wxString percStr;
 	wxFloat64 percNum;
 	// bg
-	wxBitmap *btmpComponentBg;
+	wxBitmap* btmpComponentBg;
 	RESULT* resultWU;
 
     CViewTabPage();
@@ -119,7 +117,7 @@ protected:
 	void SGUITimeFormat( float fBuffer, wxString& strBuffer) const;
 
 	void OnEraseBackground(wxEraseEvent& event);
-    void DrawBackImg(wxEraseEvent& event,wxWindow *win,wxBitmap & bitMap,int opz);
+    void DrawBackImg(wxEraseEvent& event,wxWindow *win,wxBitmap* bitMap,int opz);
     
 	MyCanvas*           m_canvas;
     wxGIFAnimationCtrl* m_animationCtrl;
