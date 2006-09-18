@@ -182,70 +182,77 @@ void CBOINCBaseFrame::OnInitialized(CFrameEvent& WXUNUSED(event)) {
 
 void CBOINCBaseFrame::OnAlert(CFrameAlertEvent& event) {
     wxLogTrace(wxT("Function Start/End"), wxT("CBOINCBaseFrame::OnAlert - Function Begin"));
+    static bool       bAlreadyRunningLoop = false;
+
+    if (!bAlreadyRunningLoop) {
+        bAlreadyRunningLoop = true;
 
 #ifdef __WXMSW__
-    CTaskBarIcon* pTaskbar = wxGetApp().GetTaskBarIcon();
-    wxASSERT(pTaskbar);
+        CTaskBarIcon* pTaskbar = wxGetApp().GetTaskBarIcon();
+        wxASSERT(pTaskbar);
 
-    if ((IsShown() && !event.m_notification_only) || (IsShown() && !pTaskbar->IsBalloonsSupported())) {
-        if (!event.m_notification_only) {
-            int retval = 0;
+        if ((IsShown() && !event.m_notification_only) || (IsShown() && !pTaskbar->IsBalloonsSupported())) {
+            if (!event.m_notification_only) {
+                int retval = 0;
 
-            if (!IsShown()) {
-                Show();
+                if (!IsShown()) {
+                    Show();
+                }
+
+                retval = ::wxMessageBox(event.m_message, event.m_title, event.m_style, this);
+                if (event.m_alert_event_type == AlertProcessResponse) {
+                    event.ProcessResponse(retval);
+                }
             }
-
-            retval = ::wxMessageBox(event.m_message, event.m_title, event.m_style, this);
-            if (event.m_alert_event_type == AlertProcessResponse) {
-                event.ProcessResponse(retval);
-            }
-        }
-    } else {
-        // If the main window is hidden or minimzed use the system tray ballon
-        //   to notify the user instead.  This keeps dialogs from interfering
-        //   with people typing email messages or any other activity where they
-        //   do not want keyboard focus changed to another window while typing.
-        unsigned int  icon_type;
-
-        if (wxICON_ERROR & event.m_style) {
-            icon_type = NIIF_ERROR;
-        } else if (wxICON_WARNING & event.m_style) {
-            icon_type = NIIF_WARNING;
-        } else if (wxICON_INFORMATION & event.m_style) {
-            icon_type = NIIF_INFO;
         } else {
-            icon_type = NIIF_NONE;
-        }
+            // If the main window is hidden or minimzed use the system tray ballon
+            //   to notify the user instead.  This keeps dialogs from interfering
+            //   with people typing email messages or any other activity where they
+            //   do not want keyboard focus changed to another window while typing.
+            unsigned int  icon_type;
 
-        pTaskbar->SetBalloon(
-            pTaskbar->m_iconTaskBarNormal,
-            event.m_title,
-            event.m_message,
-            5000,
-            icon_type
-        );
-    }
+            if (wxICON_ERROR & event.m_style) {
+                icon_type = NIIF_ERROR;
+            } else if (wxICON_WARNING & event.m_style) {
+                icon_type = NIIF_WARNING;
+            } else if (wxICON_INFORMATION & event.m_style) {
+                icon_type = NIIF_INFO;
+            } else {
+                icon_type = NIIF_NONE;
+            }
+
+            pTaskbar->SetBalloon(
+                pTaskbar->m_iconTaskBarNormal,
+                event.m_title,
+                event.m_message,
+                5000,
+                icon_type
+            );
+        }
 #else
-    // Notification only events on platforms other than Windows are currently
-    //   discarded.  On the Mac a model dialog box for a hidden window causes
-    //   the menus to be locked and the application to become unresponsive. On
-    //   Linux the application is restored and input focus is set on the
-    //   notification which interrupts whatever the user was up to.
-    if (IsShown() && !event.m_notification_only) {
-        if (!event.m_notification_only) {
-            int retval = 0;
+        // Notification only events on platforms other than Windows are currently
+        //   discarded.  On the Mac a model dialog box for a hidden window causes
+        //   the menus to be locked and the application to become unresponsive. On
+        //   Linux the application is restored and input focus is set on the
+        //   notification which interrupts whatever the user was up to.
+        if (IsShown() && !event.m_notification_only) {
+            if (!event.m_notification_only) {
+                int retval = 0;
 
-            if (!IsShown()) {
-                Show();
-            }
+                if (!IsShown()) {
+                    Show();
+                }
 
-            retval = ::wxMessageBox(event.m_message, event.m_title, event.m_style, this);
-            if (event.m_alert_event_type == AlertProcessResponse) {
-                event.ProcessResponse(retval);
+                retval = ::wxMessageBox(event.m_message, event.m_title, event.m_style, this);
+                if (event.m_alert_event_type == AlertProcessResponse) {
+                    event.ProcessResponse(retval);
+                }
             }
         }
-    }
 #endif
+
+        bAlreadyRunningLoop = false;
+    }
 
     wxLogTrace(wxT("Function Start/End"), wxT("CBOINCBaseFrame::OnAlert - Function End"));
 }

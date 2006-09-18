@@ -10289,4 +10289,11 @@ Kevin    15 Sept 2006
         sg_ProjectsComponent.cpp/h
         sg_SkinClass.cpp/h
         sg_ViewTabPage.cpp/h
-        
+
+Rom    17 Sept 2006
+    - Clean up some of the dialup logic.
+    - Make sure that only one dialog can be displayed at a time.
+    
+    clientgui/
+        BOINCBaseFrame.cpp
+        BOINCDialupManager.cpp, .h

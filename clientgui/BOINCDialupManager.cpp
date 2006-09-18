@@ -88,19 +88,20 @@ size_t CBOINCDialUpManager::GetISPNames(wxArrayString& names) {
 void CBOINCDialUpManager::poll() {
     CMainDocument*      pDoc = wxGetApp().GetDocument();
     CBOINCBaseFrame*    pFrame = wxGetApp().GetFrame();
-
+    CTaskBarIcon*       pTaskbar = wxGetApp().GetTaskBarIcon();
+    wxTimeSpan          tsLastDialupAlertSent;
     bool                bIsOnline = false;
     bool                bWantConnection = false;
     bool                bWantDisconnect = false;
     wxString            strDialogMessage = wxEmptyString;
-    CC_STATUS cc_status;
+    CC_STATUS           cc_status;
 
 
     // We are ready to rock and roll.
     if (pDoc) {
         wxASSERT(wxDynamicCast(pDoc, CMainDocument));
         wxASSERT(wxDynamicCast(pFrame, CBOINCBaseFrame));
-
+        wxASSERT(wxDynamicCast(pTaskbar, CTaskBarIcon));
 
         // cache the various states
 
@@ -144,78 +145,31 @@ void CBOINCDialUpManager::poll() {
         */
 
 #ifndef __WXMSW__           // notification logic for non MS-Windows systems
-        wxTimeSpan          tsLastDialupAlertSent;
-
         if (!bIsOnline && bWantConnection) {
-            wxTimeSpan          tsLastDialupAlertSent;
-            tsLastDialupAlertSent = wxDateTime::Now() - m_dtLastDialupAlertSent;            
             // Make sure window is visable and active, don't want the message box
             // to pop up on top of anything else
+            wxLogTrace(wxT("Function Status"), wxT("CBOINCDialUpManager::poll - Notify need Internet Connection"));
             if (pFrame->IsShown() && wxGetApp().IsActive()) {
-
-                if (tsLastDialupAlertSent.GetSeconds() >= (pFrame->GetReminderFrequency() * 60)) {
-                    wxLogTrace(wxT("Function Status"), wxT("CBOINCDialUpManager::poll - Notify need Internet Connection"));
-                    m_dtLastDialupAlertSent = wxDateTime::Now();
-
-                    // %s is the project name
-                    //    i.e. 'BOINC', 'GridRepublic'
-                    strDialogMessage.Printf(
-                        _("%s is unable to communicate with a project and needs an Internet connection.\n"
-                          "Please connect to the Internet, then select the 'retry communications' "
-                          "item off the advanced menu."),
-                        wxGetApp().GetBrand()->GetProjectName().c_str()
-                    );
-                    
-                    pFrame->ShowAlert(
-                        m_strDialogTitle,
-                        strDialogMessage,
-                        wxOK | wxICON_INFORMATION,      
-                        false
-                    );
-                }
+                NotifyUserNeedConnection(false);
             } 
 /*
 // this section commented out until taskbar/systray notification alerts are implemented
               else {
                 // window is not visible, show alert
-                CTaskBarIcon* pTaskbar = wxGetApp().GetTaskBarIcon();
-                wxASSERT(pTaskbar);
                 if (pTaskbar && pTaskbar->IsBalloonsSupported()) {
-                    tsLastDialupAlertSent = wxDateTime::Now() - m_dtLastDialupAlertSent;
-                    if (tsLastDialupAlertSent.GetSeconds() >= (pFrame->GetReminderFrequency() * 60)) {
-                        wxLogTrace(wxT("Function Status"), wxT("CBOINCDialUpManager::poll - Need Internet Connection Alert"));
-                        m_dtLastDialupAlertSent = wxDateTime::Now();
-
-                        // %s is the project name
-                        //    i.e. 'BOINC', 'GridRepublic'
-                        strDialogMessage.Printf(
-                            _("%s is unable to communicate with a project and needs an Internet "
-                              "connection.  Please connect to the Internet then open the %s and "
-                              "'retry communications'."),
-                            wxGetApp().GetBrand()->GetProjectName().c_str(),
-                            wxGetApp().GetBrand()->GetApplicationName().c_str()
-                        );
-                    
-                        pFrame->ShowAlert(
-                            m_strDialogTitle,
-                            strDialogMessage,
-                            wxOK | wxICON_INFORMATION,      
-                            true
-                        );
-                    }
+                    NotifyUserNeedConnection(true);
                 }
             }
 */
         } 
 #else               // dialer stuff for MS-Windows systems
         bool  bIsDialing = m_pDialupManager->IsDialing();
-        if (!bIsOnline && !bIsDialing && !m_bWasDialing && bWantConnection)
-        {
+        if (!bIsOnline && !bIsDialing && !m_bWasDialing && bWantConnection) {
             wxLogTrace(wxT("Function Status"), wxT("CBOINCDialUpManager::poll - !bIsOnline && !bIsDialing && !m_bWasDialing && bWantConnection"));
             if (!pFrame->IsShown()) {
                 // BOINC Manager is hidden and displaying a dialog might interupt what they
                 //   are doing.
-                NotifyUserNeedConnection();
+                NotifyUserNeedConnection(true);
             } else {
                 // BOINC Manager is visable and can process user input.
                 m_bSetConnectionTimer = true;
@@ -248,13 +202,6 @@ void CBOINCDialUpManager::poll() {
             wxTimeSpan tsTimeout = wxDateTime::Now() - m_dtDialupConnectionTimeout;
             if (30 > tsTimeout.GetSeconds()) {
                 if(m_iConnectAttemptRetVal != BOINC_SUCCESS) {
-#if 0
-                    if (m_iConnectAttemptRetVal != ERR_IN_PROGRESS) {
-                        // Attempt to successfully download the Google homepage
-                        pDoc->rpc.lookup_website(LOOKUP_GOOGLE);
-                    }
-                    m_iConnectAttemptRetVal = pDoc->rpc.lookup_website_poll();
-#endif
                     return;
                 }
             }
@@ -277,20 +224,19 @@ void CBOINCDialUpManager::poll() {
 }
 
 
-int CBOINCDialUpManager::NotifyUserNeedConnection() {
+int CBOINCDialUpManager::NotifyUserNeedConnection(bool bNotificationOnly) {
     CBOINCBaseFrame*    pFrame = wxGetApp().GetFrame();
     wxTimeSpan          tsLastDialupAlertSent;
     wxString            strDialogMessage = wxEmptyString;
 
-    wxASSERT(pFrame);
     wxASSERT(wxDynamicCast(pFrame, CBOINCBaseFrame));
 
     tsLastDialupAlertSent = wxDateTime::Now() - m_dtLastDialupAlertSent;
-    if (tsLastDialupAlertSent.GetSeconds() >= (pFrame->GetReminderFrequency() * 60)) {
+    if (tsLastDialupAlertSent.GetMinutes() >= pFrame->GetReminderFrequency()) {
         wxLogTrace(wxT("Function Status"), wxT("CBOINCDialUpManager::NotifyUserNeedConnection - Manager not shown, notify instead"));
-
         m_dtLastDialupAlertSent = wxDateTime::Now();
 
+#ifdef __WXWIN__
         // 1st %s is the project name
         //    i.e. 'BOINC', 'GridRepublic'
         // 2st %s is the application name
@@ -300,12 +246,21 @@ int CBOINCDialUpManager::NotifyUserNeedConnection() {
             wxGetApp().GetBrand()->GetProjectName().c_str(),
             wxGetApp().GetBrand()->GetApplicationName().c_str()
         );
-
+#else
+        // %s is the project name
+        //    i.e. 'BOINC', 'GridRepublic'
+        strDialogMessage.Printf(
+            _("%s is unable to communicate with a project and needs an Internet connection.\n"
+                "Please connect to the Internet, then select the 'retry communications' "
+                "item off the advanced menu."),
+            wxGetApp().GetBrand()->GetProjectName().c_str()
+        );
+#endif
         pFrame->ShowAlert(
             m_strDialogTitle,
             strDialogMessage,
             wxOK | wxICON_INFORMATION,
-            true
+            bNotificationOnly
         );
     }
 
@@ -320,15 +275,12 @@ int CBOINCDialUpManager::Connect() {
     int                 iAnswer;
     wxString            strDialogMessage = wxEmptyString;
 
-    wxASSERT(pDoc);
-    wxASSERT(pFrame);
     wxASSERT(wxDynamicCast(pDoc, CMainDocument));
     wxASSERT(wxDynamicCast(pFrame, CBOINCBaseFrame));
 
     tsLastDialupRequest = wxDateTime::Now() - m_dtLastDialupRequest;
-    if (tsLastDialupRequest.GetSeconds() >= (pFrame->GetReminderFrequency() * 60)) {
+    if (tsLastDialupRequest.GetMinutes() >= pFrame->GetReminderFrequency()) {
         wxLogTrace(wxT("Function Status"), wxT("CBOINCDialUpManager::Connect - Begin connection process"));
-
         m_dtLastDialupRequest = wxDateTime::Now();
 
         if(pFrame->GetDialupConnectionName().size()) {
@@ -404,7 +356,6 @@ int CBOINCDialUpManager::ConnectionSucceeded() {
     CBOINCBaseFrame*    pFrame = wxGetApp().GetFrame();
     wxString            strDialogMessage = wxEmptyString;
 
-    wxASSERT(pFrame);
     wxASSERT(wxDynamicCast(pFrame, CBOINCBaseFrame));
 
     // %s is the project name
@@ -429,7 +380,6 @@ int CBOINCDialUpManager::ConnectionFailed() {
     CBOINCBaseFrame*    pFrame = wxGetApp().GetFrame();
     wxString            strDialogMessage = wxEmptyString;
 
-    wxASSERT(pFrame);
     wxASSERT(wxDynamicCast(pFrame, CBOINCBaseFrame));
 
     // %s is the project name
@@ -455,9 +405,7 @@ int CBOINCDialUpManager::NetworkAvailable() {
     CBOINCBaseFrame*    pFrame = wxGetApp().GetFrame();
     wxString            strDialogMessage = wxEmptyString;
 
-    wxASSERT(pDoc);
     wxASSERT(wxDynamicCast(pDoc, CMainDocument));
-    wxASSERT(pFrame);
     wxASSERT(wxDynamicCast(pFrame, CBOINCBaseFrame));
 
     wxLogTrace(wxT("Function Status"), wxT("CBOINCDialUpManager::NetworkAvailable - Connection Detected, notifing user of update to all projects"));
@@ -495,9 +443,7 @@ int CBOINCDialUpManager::Disconnect() {
     CBOINCBaseFrame*    pFrame = wxGetApp().GetFrame();
     wxString            strDialogMessage = wxEmptyString;
 
-    wxASSERT(pDoc);
     wxASSERT(wxDynamicCast(pDoc, CMainDocument));
-    wxASSERT(pFrame);
     wxASSERT(wxDynamicCast(pFrame, CBOINCBaseFrame));
 
 
