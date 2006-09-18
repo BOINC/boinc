@@ -185,9 +185,7 @@ int CONFIG::parse(FILE* f) {
 
     mf.init_file(f);
     if (!xp.parse_start("cc_config")) {
-        msg_printf(NULL, MSG_ERROR,
-           "Missing start tag in %s", tag, CONFIG_FILE
-        );
+        msg_printf(NULL, MSG_ERROR, "Missing start tag in %s", CONFIG_FILE);
         return ERR_XML_PARSE;
     }
     while (!xp.get(tag, sizeof(tag), is_tag)) {
@@ -209,9 +207,7 @@ int CONFIG::parse(FILE* f) {
             );
         }
     }
-    msg_printf(NULL, MSG_ERROR,
-       "Missing end tag in %s", tag, CONFIG_FILE
-    );
+    msg_printf(NULL, MSG_ERROR, "Missing end tag in %s", CONFIG_FILE);
     return ERR_XML_PARSE;
 }
 
