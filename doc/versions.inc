@@ -350,11 +350,11 @@ $linux_libs_56= "
       </ul>
 ";
 
-$w563= array(
-    "num"=>"5.6.3",
+$w564= array(
+    "num"=>"5.6.4",
     "status"=>"Development version",
-    "file"=>"boinc_5.6.3_windows_intelx86.exe",
-    "date"=>"5 Sep 2006",
+    "file"=>"boinc_5.6.4_windows_intelx86.exe",
+    "date"=>"17 Sep 2006",
     "type"=>"win_new",
     "features"=>"<ul>
 ".$features_55."
