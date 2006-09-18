@@ -10297,3 +10297,9 @@ Rom    17 Sept 2006
     clientgui/
         BOINCBaseFrame.cpp
         BOINCDialupManager.cpp, .h
+
+Walt   18 Sept 2006
+    - Compile fixes for Linux
+
+    clientgui/
+        BOINCDialupManager.cpp
