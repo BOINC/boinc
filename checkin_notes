@@ -9960,3 +9960,10 @@ Rom    11 Sept 2006
     clientgui/
         AdvancedFrame.cpp, .h
 
+Rom    17 Sept 2006
+    - Clean up some of the dialup logic.
+    - Make sure that only one dialog can be displayed at a time.
+    
+    clientgui/
+        BOINCBaseFrame.cpp
+        BOINCDialupManager.cpp, .h
