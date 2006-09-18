@@ -9972,3 +9972,8 @@ Rom    17 Sept 2006
     - Tag for 5.6.4 release, all platforms
       boinc_core_release_5_6_4
 
+Walt   18 Sept 2006
+    - Compile fixes for Linux
+    
+    clientgui/
+        BOINCDialupManager.cpp

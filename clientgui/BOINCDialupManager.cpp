@@ -88,7 +88,9 @@ size_t CBOINCDialUpManager::GetISPNames(wxArrayString& names) {
 void CBOINCDialUpManager::poll() {
     CMainDocument*      pDoc = wxGetApp().GetDocument();
     CBOINCBaseFrame*    pFrame = wxGetApp().GetFrame();
+#if defined(__WXMSW__) || defined(__WXMAC__)
     CTaskBarIcon*       pTaskbar = wxGetApp().GetTaskBarIcon();
+#endif
     wxTimeSpan          tsLastDialupAlertSent;
     bool                bIsOnline = false;
     bool                bWantConnection = false;
@@ -101,7 +103,9 @@ void CBOINCDialUpManager::poll() {
     if (pDoc) {
         wxASSERT(wxDynamicCast(pDoc, CMainDocument));
         wxASSERT(wxDynamicCast(pFrame, CBOINCBaseFrame));
+#if defined(__WXMSW__) || defined(__WXMAC__)
         wxASSERT(wxDynamicCast(pTaskbar, CTaskBarIcon));
+#endif
 
         // cache the various states
 
