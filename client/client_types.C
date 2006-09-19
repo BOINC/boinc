@@ -1496,7 +1496,7 @@ int RESULT::write(MIOFILE& out, bool to_server) {
         }
         if (n) {
             out.printf("<![CDATA[\n");
-            out.printf(stderr_out.c_str());
+            out.printf("%s",stderr_out.c_str());
             if (stderr_out[n-1] != '\n') {
                 out.printf("\n");
             }
