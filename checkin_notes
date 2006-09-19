@@ -10310,3 +10310,18 @@ Eric K	18 Sept 2006
 
     client/
         client_types.C
+
+Charlie 19 Sept 2006
+    - Mac: Add process memory info for Mac, using a pipe to ps command.  
+        Does not set the page_fault_count, user_time or kernel_time fields 
+        in PROCINFO struct.  See comments in procinfo_mac.C for other 
+        values of possible interest that are avaiable from ps command.
+    - Fix compiler warning in http_curl.C.
+
+    client/
+        http_curl.C
+    lib/
+        procinfo_mac.C (new)
+    mac_build/
+        boinc.xcodeproj/
+            project.pbxproj

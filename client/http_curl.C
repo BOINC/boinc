@@ -967,7 +967,7 @@ void HTTP_OP_SET::got_select(FDSET_GROUP&, double timeout) {
                 if (hop->response >= 400) {
                     strcpy(hop->error_msg, boincerror(hop->response));
                 } else {
-                    sprintf(hop->error_msg, "HTTP error %d", hop->response);
+                    sprintf(hop->error_msg, "HTTP error %ld", hop->response);
                 }
                 switch (hop->response) {
                 case HTTP_STATUS_NOT_FOUND:
