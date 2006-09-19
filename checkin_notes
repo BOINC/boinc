@@ -10303,3 +10303,10 @@ Walt   18 Sept 2006
 
     clientgui/
         BOINCDialupManager.cpp
+
+Eric K	18 Sept 2006
+    - Fixed stack corruption that occurs if stderr contains a c format 
+      code.  Bug reported by Nicolas Alvarez.
+
+    client/
+        client_types.C
