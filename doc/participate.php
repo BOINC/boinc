@@ -44,7 +44,7 @@ echo "
 <p>
 <h3>Add-on software</h3>
 <ul>
-<li> <a href=download_network.php>Add-on software</a>
+<li> <a href=addons.php>Add-on software</a>
 <li> <a href=proxy_server.php>Proxy servers</a> (why BOINC doesn't have them).
 </ul>
 ";

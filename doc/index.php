@@ -77,7 +77,7 @@ function show_participate() {
         <a href=participate.php><b><nobr>Details</nobr></b></a> 
         | <a href=download.php><b>Download</b></a>
         | <a href=links.php><b><nobr>Web sites</nobr></b></a>
-        | <a href=download_network.php><b>Add-ons</b></a>
+        | <a href=addons.php><b>Add-ons</b></a>
         | <a href=poll.php><b><nobr>Survey</nobr></b></a>
         </center>
         </td></tr>

@@ -38,9 +38,10 @@ list_item("<a href=prefs_override.php>Local editing of preferences</a>",
 list_end();
 echo "
 <p>
-An <a href=download_network.php>index of add-on software</a>
-is maintained by Janus Kristensen.
-If you write something useful, publicize it by adding it to the index.
+Check the
+<a href=addons.php>index of add-on software</a>
+before writing anything (it may already exist).
+The index has instructions for submitting new add-ons.
 
 <h2>Developing BOINC itself</h2>
 <p>

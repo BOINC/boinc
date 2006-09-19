@@ -28,7 +28,6 @@ function show_nav() {
         <ul>
         <li><a href=home.php>Your account</a> - view stats, modify preferences
         <li><a href=team.php>Teams</a> - create or join a team
-        <li><a href=download_network.php>Add-ons</a>
         <li><a href=apps.php>".tr(APPS_TITLE)."</a>
         </ul>
         <h3>Community</h3>

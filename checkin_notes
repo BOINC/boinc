@@ -10347,3 +10347,16 @@ David  19 Sept 2006
             mungetest.php (removed)
         user/
             edit_forum_preferences_action.php
+
+David  19 Sept 2006
+    - removed references to Janus' 'download network',
+        which he's phasing out.
+        Instead, just keep a list of addons in doc/addons.php
+
+    html/
+        inc/
+            download.inc (removed)
+            download_network.inc (removed)
+        user/
+            download_network.php (removed)
+            sample_index.php
