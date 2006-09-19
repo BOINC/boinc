@@ -10304,6 +10304,12 @@ Walt   18 Sept 2006
     clientgui/
         BOINCDialupManager.cpp
 
+David  18 Sept 2006
+    - core client: bug in config file error message printfs
+
+    client/
+        log_flags.C
+
 Eric K	18 Sept 2006
     - Fixed stack corruption that occurs if stderr contains a c format 
       code.  Bug reported by Nicolas Alvarez.
@@ -10325,3 +10331,19 @@ Charlie 19 Sept 2006
     mac_build/
         boinc.xcodeproj/
             project.pbxproj
+
+David  19 Sept 2006
+    - update account-created email
+    - user web: use $_POST instead of $_HTTP_POST_VARS.
+        The latter doesn't work in PHP 5
+        (from Christian Beer)
+
+    html/
+        inc/
+            email.inc
+        ops/
+            make_fake_tables.php (removed)
+            migrate_tables.php (removed)
+            mungetest.php (removed)
+        user/
+            edit_forum_preferences_action.php

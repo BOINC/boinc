@@ -19,7 +19,7 @@ if (post_str("action", true)=="reset"){
     $special_user = $user->getSpecialUser();
     $dbhandler->deleteUserPrefs($user);
     $user->resetPrefs();
-    $user->setPostcount($post_count);	// Recreate postcount
+    $user->setPostcount($post_count);        // Recreate postcount
     $user->setSpecialUser($special_user); // And recreate special user bitfield
     Header("Location: edit_forum_preferences_form.php");    
     exit;
@@ -60,13 +60,13 @@ if ($avatar_type==0){
 $user->setAvatar($avatar_url);
 
 // Update some simple prefs that are either on or off
-$images_as_links = ($HTTP_POST_VARS["forum_images_as_links"]!="");
-$link_externally = ($HTTP_POST_VARS["forum_link_externally"]!="");
-$hide_avatars = ($HTTP_POST_VARS["forum_hide_avatars"]!="");
-$hide_signatures = ($HTTP_POST_VARS["forum_hide_signatures"]!="");
-$jump_to_unread = ($HTTP_POST_VARS["forum_jump_to_unread"]!="");
-$ignore_sticky_posts = ($HTTP_POST_VARS["forum_ignore_sticky_posts"]!="");
-$signature_by_default = ($HTTP_POST_VARS["signature_enable"]!="");
+$images_as_links = ($_POST["forum_images_as_links"]!="");
+$link_externally = ($_POST["forum_link_externally"]!="");
+$hide_avatars = ($_POST["forum_hide_avatars"]!="");
+$hide_signatures = ($_POST["forum_hide_signatures"]!="");
+$jump_to_unread = ($_POST["forum_jump_to_unread"]!="");
+$ignore_sticky_posts = ($_POST["forum_ignore_sticky_posts"]!="");
+$signature_by_default = ($_POST["signature_enable"]!="");
 $user->setImagesAsLinks($images_as_links);
 $user->setLinkPopup($link_externally);
 $user->setHideAvatars($hide_avatars);
@@ -82,7 +82,7 @@ $user->setLowRatingThreshold($low_rating_threshold);
 $user->setHighRatingThreshold($high_rating_threshold);
 
 // Update the signature for this user
-$signature = sanitize_html(stripslashes($HTTP_POST_VARS["signature"]));
+$signature = sanitize_html(stripslashes($_POST["signature"]));
 if (strlen($signature)>250) {
     error_page("Your signature was too long, please keep it less than 250 chars");
 }
@@ -95,20 +95,20 @@ $user->setForumSortStyle($forum_sort);
 $user->setThreadSortStyle($thread_sort);
 
 // Add users to the ignore list if any users are defined
-$add_user_to_filter = ($HTTP_POST_VARS["add_user_to_filter"]!="");
+$add_user_to_filter = ($_POST["add_user_to_filter"]!="");
 if ($add_user_to_filter){
-    $user_to_add = trim($HTTP_POST_VARS["forum_filter_user"]);
+    $user_to_add = trim($_POST["forum_filter_user"]);
     if ($user_to_add!="" and $user_to_add==strval(intval($user_to_add))){
-	$user->addIgnoredUser(newUser($user_to_add));
+        $user->addIgnoredUser(newUser($user_to_add));
     }
 }
 
 // Or remove some from the ignore list
 $ignored_users = $user->getIgnorelist();
 for ($i=0;$i<sizeof($ignored_users);$i++){
-    if ($HTTP_POST_VARS["remove".trim($ignored_users[$i])]!=""){
-	//this user will be removed and no longer ignored
-	$user->removeIgnoredUser(newUser($ignored_users[$i]));
+    if ($_POST["remove".trim($ignored_users[$i])]!=""){
+        //this user will be removed and no longer ignored
+        $user->removeIgnoredUser(newUser($ignored_users[$i]));
     }
 }
 // Update preferences for the "Display only the Y last posts if there are more than X posts in the thread" feature

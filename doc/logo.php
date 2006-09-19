@@ -19,7 +19,8 @@ An icon for BOINC-related Podcasts, from Christian Beer:
 <img align=top src=images/Logo_blau.jpg>
 </ul>
 <p>
-The 'B in a circle' icon was designed by Tim Lan.
+The 'B in a circle' icon
+<img src=logo/setup.PNG>was designed by Tim Lan.
 The Mac variant was contributed by Juho Viitasalo.
 
 <h2>New BOINC logo?</h2>

@@ -79,25 +79,27 @@ function send_auth_email($user, $is_new) {
 
 This email confirms your account with ".PROJECT.":
     Project URL:         $master_url
-    Account Key:         $user->authenticator
-
     User name:           $user->name
     E-mail:              $user->email_addr
+    Account Key:         $user->authenticator
+    (use this to log in if you forget your password)
 ";
     } else {
         $subject = PROJECT." information for $user->name";
         $body = "Your ".PROJECT." account information is:
-    Project URL:         $master_url
-    Account Key:         $user->authenticator
 
+    Project URL:         $master_url
     User name:           $user->name
     E-mail:              $user->email_addr
+    Account Key:         $user->authenticator
+    (use this to log in if you forget your password)
 ";
     }
 
 $body .= "
 
-For further information and assistance with ".PROJECT." go to $master_url
+For further information and assistance with ".PROJECT." go to
+$master_url
 ";
     return send_email($user, $subject, $body);
 }
