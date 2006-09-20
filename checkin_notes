@@ -10360,3 +10360,10 @@ David  19 Sept 2006
         user/
             download_network.php (removed)
             sample_index.php
+
+Walt   20 Sept 2006
+    - Bug fix: fix task status text when the manager connects to an
+        older client that doesn't support <get_cc_status>.
+
+    clientgui/
+        ViewWork.cpp

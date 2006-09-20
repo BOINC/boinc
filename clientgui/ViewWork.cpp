@@ -747,7 +747,7 @@ wxInt32 CViewWork::FormatStatus(wxInt32 item, wxString& strBuffer) const {
                     strBuffer = _("Project suspended by user");
                 } else if (result->suspended_via_gui) {
                     strBuffer = _("Task suspended by user");
-				} else if (status.task_suspend_reason) {
+				} else if (status.task_suspend_reason > 0) {
 					strBuffer = _("Suspended");
 					if (status.task_suspend_reason & SUSPEND_REASON_BATTERIES) {
 						strBuffer += _(" - on batteries");
