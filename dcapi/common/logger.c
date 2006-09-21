@@ -160,5 +160,4 @@ void DC_vlog(int level, const char *fmt, va_list ap)
 	vfprintf(logfile, fmt, ap);
 	fprintf(logfile, "\n");
 	fflush(logfile);
-	fsync(fileno(logfile));
 }
