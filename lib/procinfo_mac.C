@@ -37,7 +37,7 @@ int procinfo_setup(vector<PROCINFO>& pi) {
 
     FILE* fd;
     PROCINFO p;
-    int c, real_mem, virtual_mem;
+    int c, real_mem, virtual_mem, hours;
 
 // Some values of possible interest available from 'ps' command:
 // %cpu       percentage cpu usage (alias pcpu)
@@ -45,6 +45,7 @@ int procinfo_setup(vector<PROCINFO>& pi) {
 // majflt     total page faults
 // minflt     total page reclaims
 // nswap      total swaps in/out
+// pagein     pageins (same as majflt)
 // pid        process ID
 // ppid       parent process ID
 // poip       pageouts in progress
@@ -53,9 +54,7 @@ int procinfo_setup(vector<PROCINFO>& pi) {
 // time       accumulated cpu time, user + system
 // vsz        virtual size in Kbytes
 
-    memset(&p, 0, sizeof(p));
-
-    fd = popen("ps -axopid,ppid,rss,vsz", "r");
+    fd = popen("ps -axopid,ppid,rsz,vsz,pagein,time", "r");
     if (!fd) return 0;
 
     // Skip over the header line
@@ -68,13 +67,14 @@ int procinfo_setup(vector<PROCINFO>& pi) {
     } while (c != '\n');
 
     while (1) {
-        c = fscanf(fd, "%5d%6d%6d%9d\n", &p.id, &p.parentid, &real_mem, &virtual_mem);
-        if (c < 4) break;
+        memset(&p, 0, sizeof(p));
+        c = fscanf(fd, "%d%d%d%d%ld%d:%lf\n", &p.id, &p.parentid, &real_mem, &virtual_mem, &p.page_fault_count, &hours, &p.user_time);
+        if (c < 7) break;
         p.working_set_size = (double)real_mem * 1024.;
         p.swap_size = (double)virtual_mem * 1024.;
+        p.user_time += 60. * (float)hours;
         p.is_boinc_app = false;
         pi.push_back(p);
-
     }
     
     pclose(fd);
@@ -95,7 +95,7 @@ void add_child_totals(PROCINFO& pi, vector<PROCINFO>& piv, int pid, int rlvl) {
         PROCINFO& p = piv[i];
         if (p.parentid == pid) {
 //            pi.kernel_time += p.kernel_time;
-//            pi.user_time += p.user_time;
+            pi.user_time += p.user_time;
             pi.swap_size += p.swap_size;
             pi.working_set_size += p.working_set_size;
             p.is_boinc_app = true;
@@ -115,7 +115,7 @@ void procinfo_app(PROCINFO& pi, vector<PROCINFO>& piv) {
         PROCINFO& p = piv[i];
         if (p.id == pi.id) {
 //            pi.kernel_time += p.kernel_time;
-//            pi.user_time += p.user_time;
+            pi.user_time += p.user_time;
             pi.swap_size += p.swap_size;
             pi.working_set_size += p.working_set_size;
             p.is_boinc_app = true;
@@ -134,7 +134,7 @@ void procinfo_other(PROCINFO& pi, vector<PROCINFO>& piv) {
         PROCINFO& p = piv[i];
         if (!p.is_boinc_app) {
 //            pi.kernel_time += p.kernel_time;
-//            pi.user_time += p.user_time;
+            pi.user_time += p.user_time;
             pi.swap_size += p.swap_size;
             pi.working_set_size += p.working_set_size;
             p.is_boinc_app = true;

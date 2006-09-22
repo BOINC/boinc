@@ -10367,3 +10367,22 @@ Walt   20 Sept 2006
 
     clientgui/
         ViewWork.cpp
+
+Charlie 21 Sept 2006
+    - Mac: Set PROCINFO user_time to cpu time from ps command; use rsz 
+        instead of rss for working_set_size; set page_fault_count to 
+        pagein value from ps command.  Unfortunately, none of these 
+        selectors work correctly in OS X version of ps command: pagein, 
+        majflt and minflt. 
+    - Mac: modify release script to include these files in distribution: 
+        switcher/switcher, switcher/setprojectgrp, Mac_SA_Secure.sh and 
+        Mac_SA_Insecure.sh.
+    - Mac: improvements to Mac_SA_Secure.sh, Mac_SA_Insecure.sh scripts.
+
+    lib/
+        procinfo_mac.C
+    mac_installer/
+        release_boinc.sh
+    mac_build/
+        Mac_SA_Insecure.sh
+        Mac_SA_Secure.sh
