@@ -10369,6 +10369,7 @@ Walt   20 Sept 2006
         ViewWork.cpp
 
 Charlie 21 Sept 2006
+    - Mac: fix compiler warning.
     - Mac: Set PROCINFO user_time to cpu time from ps command; use rsz 
         instead of rss for working_set_size; set page_fault_count to 
         pagein value from ps command.  Unfortunately, none of these 
@@ -10379,6 +10380,8 @@ Charlie 21 Sept 2006
         Mac_SA_Insecure.sh.
     - Mac: improvements to Mac_SA_Secure.sh, Mac_SA_Insecure.sh scripts.
 
+    clientgui/
+        BOINCDialupManager.cpp
     lib/
         procinfo_mac.C
     mac_installer/
