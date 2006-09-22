@@ -9977,3 +9977,21 @@ Walt   18 Sept 2006
     
     clientgui/
         BOINCDialupManager.cpp
+        
+Charlie 21 Sept 2006
+    - Mac: fix compiler warning.
+    - Mac: modify release script to include these files in distribution: 
+        switcher/switcher, switcher/setprojectgrp, Mac_SA_Secure.sh and 
+        Mac_SA_Insecure.sh.
+    - Mac: improvements to Mac_SA_Secure.sh, Mac_SA_Insecure.sh scripts.
+    - Fix bug in config file error message printfs
+
+    client/
+        log_flags.C
+    clientgui/
+        BOINCDialupManager.cpp
+    mac_installer/
+        release_boinc.sh
+    mac_build/
+        Mac_SA_Insecure.sh
+        Mac_SA_Secure.sh

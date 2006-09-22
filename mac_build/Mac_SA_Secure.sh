@@ -21,7 +21,10 @@
 
 # Make a BOINC installation "secure" on a Macintosh with stand-alone BOINC Client
 # The BOINC installer does this for a Macintosh installation with BOINC Manager; 
-# do not use this script.
+# the BOINC Manager contains the BOINC client embedded in its bundle.
+# if you ran the BOINC installer, you do not need to use this script unless you 
+# wish to run a separate copy of the stand-alone client in the BOINC Data 
+# directory.
 #
 # Create groups and users, set file/dir ownership and protection
 #
@@ -32,8 +35,9 @@
 # Hint: you can enter the path to a directory or file by dragging its 
 # icon from the Finder onto the Terminal window.
 #
-# You must have already run the installer script
-# that creates the switcher/ and locale/ directories, and their contents
+# You must have already put all necessary files into the boinc directory,
+# including the boinc client, boinc_cmd application, ca-bundle.crt, plus 
+# the switcher/ directory and its contents.
 #
 # This script also assumes that the user who runs it will be authorized 
 # to administer BOINC. For convenience in administering BOINC, this script 
@@ -49,6 +53,8 @@
 # To remove user mary from group boinc_master:
 # sudo dscl . -delete /groups/boinc_master users mary
 # 
+
+# Last updated 9/21/06
 
 function make_boinc_user() {
     # Check whether group already exists
@@ -153,9 +159,9 @@ then
     exit
 fi
 
-if [ ! -f "boinc" ]
+if [ ! -x "switcher/switcher" ]
 then
-    echo "Can't find boinc Client in directory $(pwd); exiting"
+    echo "Can't find switcher application in directory $(pwd); exiting"
     exit
 fi
 
@@ -186,10 +192,17 @@ set_perm switcher/switcher boinc_project boinc_project 6551
 set_perm switcher/setprojectgrp boinc_master boinc_project 2500
 set_perm switcher boinc_master boinc_master 0550
 
-set_perm_recursive locale boinc_master boinc_master u+r-w,g+r-w,o-rwx
+if [ -d locale ] ; then
+    set_perm_recursive locale boinc_master boinc_master u+r-w,g+r-w,o-rwx
+fi
 
-set_perm boinc boinc_master boinc_master 6555       # boinc client
+if [ -f boinc ] ; then
+    set_perm boinc boinc_master boinc_master 6555       # boinc client
+fi
 
+if [ -f boinc_cmd ] ; then
+    set_perm boinc_cmd boinc_master boinc_master 0550
+fi
 
 if [ -x /Applications/BOINCManager.app/Contents/MacOS/BOINCManager ] ; then 
     set_perm  /Applications/BOINCManager.app/Contents/MacOS/BOINCManager boinc_master boinc_master 2555
