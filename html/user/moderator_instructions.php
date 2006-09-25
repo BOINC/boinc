@@ -20,6 +20,9 @@ content might not exactly violate any of the rules above
 that may contain less offensive but still questionable material
 <li>a thread needs massive cleanup can be temporarily
 deleted to hide it while cleanup takes place
+<li>clear invasions of privacy (bugging posts to trap
+IP addresses, posting contents of personal emails (real
+or fake), etc.)
 </ul>
 If in doubt, discuss it with other moderators on the email list.
 Please respect the following guidelines:
