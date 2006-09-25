@@ -53,6 +53,7 @@
 #include <sys/types.h>
 #include <mach/shared_memory_server.h>
 #include <mach/mach.h>
+#include <mach/mach_error.h>
 #include <sys/sysctl.h>
 
 #include "procinfo.h"
