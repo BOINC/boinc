@@ -507,13 +507,17 @@ function show_post2($post, $n) {
 function post_rules() {
     return "
         <ul>
+        <li> Posts must be 'kid friendly': they may not contain
+            content that is obscene, hate-related,
+            sexually explicit or suggestive.
         <li> No commercial advertisements.
-        <li> No messages whose only intention is to annoy or antagonize other people.
-        <li> No messages whose only intention is to hijack a thread.
+        <li> No links to web sites involving sexual content,
+            gambling, or intolerance of others.
+        <li> No messages intended to annoy or antagonize other people,
+            or to hijack a thread.
         <li> No messages that are deliberately hostile or insulting.
         <li> No abusive comments involving race, religion,
-        nationality, gender, class or sexuality.
-        <li> No obscene language.
+            nationality, gender, class or sexuality.
         </ul>
     ";
 }

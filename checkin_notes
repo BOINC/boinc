@@ -10425,3 +10425,9 @@ David  25 Sept 2006
 
     client/
         main.C
+
+David  25 Sept 2006
+    - revise forum post rules to include 'kid friendly'
+
+    html/inc/
+        forum.inc
