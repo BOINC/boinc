@@ -57,7 +57,6 @@
 
 #include "procinfo.h"
 
-
 using std::vector;
 
 static int build_proc_list (vector<PROCINFO>& pi);
@@ -71,12 +70,21 @@ static void print_procinfo(PROCINFO& pinfo);
 static void vm_size_render(unsigned long long a_size);
 #endif
 
+// BOINC helper application to get info about each of the BOINC Client's 
+// child processes (including all its descendants) and also totals for 
+// all other processes. 
+// On the Mac, much of this information is accessible only by the super-user, 
+// so this helper application must be run setuid root. 
+
 int main(int argc, char** argv) {
     int boinc_pid, my_pid;
     int retval;
     vector<PROCINFO> piv;
     PROCINFO child_total;
     unsigned int i;
+    
+    if (geteuid() != 0)             // This must be run setuid root
+        return EACCES;
 
     my_pid = getpid();
     boinc_pid = getppid();          // Assumes we were called by BOINC client
@@ -86,7 +94,7 @@ int main(int argc, char** argv) {
     
     retval = build_proc_list(piv);
     if (retval)
-        return 0;
+        return retval;
 
     for (i=0; i<piv.size(); i++) {
         PROCINFO& p = piv[i];
@@ -121,11 +129,9 @@ int main(int argc, char** argv) {
 
 
 static void output_child_totals(PROCINFO& pinfo) {
-    unsigned long long rsize, vsize;
-    
-    rsize = pinfo.working_set_size;
-    vsize = pinfo.swap_size;
-    printf("%d %d %llu %llu %lu, %lf, %lf\n", pinfo.id, pinfo.parentid, rsize, vsize, pinfo.page_fault_count, pinfo.user_time, pinfo.kernel_time);
+    printf("%d %d %.0lf %.0lf %lu %lf %lf\n", 
+                pinfo.id, pinfo.parentid, pinfo.working_set_size, pinfo.swap_size, 
+                pinfo.page_fault_count, pinfo.user_time, pinfo.kernel_time);
 }
 
 static int build_proc_list (vector<PROCINFO>& pi) {

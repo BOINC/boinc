@@ -387,7 +387,28 @@ int use_sandbox, int isManager
 
         if ((sbuf.st_mode & 07777) != 02500)
             return -1044;
+
+        strlcpy(full_path, dir_path, sizeof(dir_path));
+        strlcat(full_path, "/", sizeof(full_path));
+        strlcat(full_path, SWITCHER_DIR, sizeof(full_path));
+
+#ifdef __APPLE__
+        strlcat(full_path, "/", sizeof(full_path));
+        strlcat(full_path, APP_STATS_FILE_NAME, sizeof(full_path));
+        retval = stat(full_path, &sbuf);
+        if (retval)
+            return -1045;
+        
+        if (sbuf.st_gid != boinc_master_gid)
+            return -1046;
+
+        if (sbuf.st_uid != 0)   // AppStats application must be setuid root
+            return -1047;
+
+        if ((sbuf.st_mode & 07777) != 04550)
+            return -1048;
     }       // if (use_sandbox)
+#endif  // __APPLE__
     
     return 0;
 }

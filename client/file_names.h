@@ -83,4 +83,8 @@ extern int set_to_project_group(const char* path);
 #define SWITCHER_FILE_NAME          "switcher"
 #define SETPROJECTGRP_FILE_NAME     "setprojectgrp"
 
+#ifdef __APPLE__
+#define APP_STATS_FILE_NAME          "AppStats"
+#endif
+
 #endif

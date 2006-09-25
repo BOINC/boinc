@@ -10389,3 +10389,32 @@ Charlie 21 Sept 2006
     mac_build/
         Mac_SA_Insecure.sh
         Mac_SA_Secure.sh
+
+Charlie 25 Sept 2006
+    - Mac: Use pipe to new helper application AppStats instead of 'ps' 
+        command to get process info for project applications and their 
+        descendants.  On OS X, most of this info is available only to 
+        the super-user, so AppStats runs setuid root (as do 'ps' and 
+        'top'.)  This allows us to completely fill in PROCINFO struct.
+    - Mac: Also set host_info.m_swap in procinfo_setup(), because 
+        sysctl(vm.vmmeter) doesn't work on OS X, so hostinfo_unix.C 
+        function HOST_INFO::get_host_info() can't get total swap space. 
+
+    client/
+        app_stats_mac.C (new)
+        check_security.C
+        file_names.h
+        hostinfo_unix.C
+    clientgui/
+        mac/
+            SetupSecurity.cpp
+    lib/
+        procinfo_mac.C
+    mac_installer/
+        release_boinc.sh
+        release_GridRepublic.sh
+    mac_build/
+        Mac_SA_Insecure.sh
+        Mac_SA_Secure.sh
+        boinc.xcodeproj/
+            project.pbxproj

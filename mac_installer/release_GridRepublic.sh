@@ -114,6 +114,7 @@ mkdir -p "${PR_PATH}/Library/Application Support/BOINC Data/switcher"
 
 cp -fpR "$BUILDPATH/switcher" "${PR_PATH}/Library/Application Support/BOINC Data/switcher/"
 cp -fpR "$BUILDPATH/setprojectgrp" "${PR_PATH}/Library/Application Support/BOINC Data/switcher/"
+cp -fpR "$BUILDPATH/AppStats" "${PR_PATH}/Library/Application Support/BOINC Data/switcher/"
 
 cp -fpR curl/ca-bundle.crt  "${PR_PATH}/Library/Application Support/BOINC Data/"
 

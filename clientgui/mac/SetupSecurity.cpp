@@ -451,6 +451,31 @@ int SetBOINCDataOwnersGroupsAndPermissions() {
         if (err)
             return err;
     }       // setprojectgrp application
+
+#ifdef __APPLE__
+    strlcpy(fullpath, BOINCDataDirPath, MAXPATHLEN);
+    strlcat(fullpath, "/", MAXPATHLEN);
+    strlcat(fullpath, SWITCHER_DIR, MAXPATHLEN);
+    strlcat(fullpath, "/", MAXPATHLEN);
+    strlcat(fullpath, APP_STATS_FILE_NAME, MAXPATHLEN);
+        result = FSPathMakeRef((StringPtr)fullpath, &ref, &isDirectory);
+    if ((result == noErr) && (! isDirectory)) {
+        // Set owner and group of AppStats application (must be setuid root)
+        sprintf(buf1, "root:%s", boinc_master_group_name);
+        // chown root:boinc_project "/Library/Applications/BOINC Data/switcher/setprojectgrp"
+        err = DoPrivilegedExec(chownPath, buf1, fullpath, NULL, NULL, NULL);
+        if (err)
+            return err;
+
+        // Set permissions of AppStats application
+        // chmod u=rsx,g=rx,o= "/Library/Applications/BOINC Data/switcher/setprojectgrp"
+        // 04550 = S_ISUID | S_IRUSR | S_IXUSR | S_IRGRP | S_IXGRP
+        //  setuid-on-execution plus read and execute permission for user and group
+        err = DoPrivilegedExec(chmodPath, "u=rsx,g=rx,o=", fullpath, NULL, NULL, NULL);
+        if (err)
+            return err;
+    }       // setprojectgrp application
+#endif  // __APPLE__
     
 
     return noErr;

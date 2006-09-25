@@ -17,6 +17,8 @@
 // or write to the Free Software Foundation, Inc.,
 // 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 
+// procinfo_mac.C
+//
 
 #include "config.h"
 #include <stdio.h>
@@ -27,82 +29,78 @@
 
 #include "procinfo.h"
 #include "client_msgs.h"
+#include "file_names.h"
+#include "client_state.h"
+#include "hostinfo.h"
 
 using std::vector;
 
-
-// build table of all processes in system
+// Routines to determine cpu time, memory usage and page fault count for 
+// BOINC Client's child processes (including all their descendants) and also 
+// totals for all other processes.  This also sets host_info.m_swap.
 //
-int procinfo_setup(vector<PROCINFO>& pi) {
+// On the Mac, most of this information is only accessible by the super-user, 
+// so this code calls a helper application AppStats which is run setuid root 
+// to do most of the work.  
+//
+// Since AppStats is called from the BOINC Client, it gets the BOINC Client's 
+// pid using getppid().  It then searches the process list for all other 
+// processes with the same parent.  
+//
+// For each child of BOINC Client, AppStats totals the cpu times, memory usage 
+// and page fault counts for the child and all its descendants, and prints the 
+// totals to stdout.
+//
+// Finally, AppStats computes these totals for all remaining processes and 
+// prints them to stdout (with a value of 0 for the pid).
+//
+// This code doesn't use PROCINFO.is_boinc_app, but we set it to be consistent 
+// with the code for other platforms.
 
+
+int procinfo_setup(vector<PROCINFO>& pi) {
+    char appstats_path[100];
     FILE* fd;
     PROCINFO p;
-    int c, real_mem, virtual_mem, hours;
+    int c;
+    unsigned int i;
+    double m_swap;
 
-// Some values of possible interest available from 'ps' command:
-// %cpu       percentage cpu usage (alias pcpu)
-// %mem       percentage memory usage (alias pmem)
-// majflt     total page faults
-// minflt     total page reclaims
-// nswap      total swaps in/out
-// pagein     pageins (same as majflt)
-// pid        process ID
-// ppid       parent process ID
-// poip       pageouts in progress
-// rss        resident set size in Kbytes
-// rsz        resident set size + (text size / text use count)
-// time       accumulated cpu time, user + system
-// vsz        virtual size in Kbytes
-
-    fd = popen("ps -axopid,ppid,rsz,vsz,pagein,time", "r");
+    sprintf(appstats_path, "%s/%s", SWITCHER_DIR, APP_STATS_FILE_NAME);
+    fd = popen(appstats_path, "r");
     if (!fd) return 0;
-
-    // Skip over the header line
-    do {
-        c = fgetc(fd);
-        if (c == EOF) {
-            pclose(fd);
-            return 0;
-        }
-    } while (c != '\n');
 
     while (1) {
         memset(&p, 0, sizeof(p));
-        c = fscanf(fd, "%d%d%d%d%ld%d:%lf\n", &p.id, &p.parentid, &real_mem, &virtual_mem, &p.page_fault_count, &hours, &p.user_time);
+        c = fscanf(fd, "%d %d %lf %lf %lu %lf %lf\n", 
+                        &p.id, &p.parentid, &p.working_set_size, &p.swap_size, 
+                        &p.page_fault_count, &p.user_time, &p.kernel_time);
         if (c < 7) break;
-        p.working_set_size = (double)real_mem * 1024.;
-        p.swap_size = (double)virtual_mem * 1024.;
-        p.user_time += 60. * (float)hours;
         p.is_boinc_app = false;
         pi.push_back(p);
+        
+        if (log_flags.mem_usage_debug) {
+            msg_printf(
+                    NULL, MSG_INFO,
+                    "[mem_usage_debug] pid=%d, ppid=%d, rm=%.0lf, vm=%.0lf, pageins=%lu, usertime=%lf, systime=%lf\n",
+                    p.id, p.parentid, p.working_set_size, p.swap_size, 
+                    p.page_fault_count, p.user_time, p.kernel_time  
+            );
+        }
     }
     
     pclose(fd);
+    
+    // The sysctl(vm.vmmeter) function doesn't work on OS X, so hostinfo_unix.C
+    // function HOST_INFO::get_host_info() can't get the total swap space. 
+    // It is easily calculated here, so fill in the value of host_info.m_swap.
+    m_swap = 0;
+    for (i=0; i<pi.size(); i++) {
+        m_swap += pi[i].swap_size;
+    }
+    gstate.host_info.m_swap = m_swap;
+    
     return 0;
-}
-
-// Scan the process table adding in CPU time and mem usage. Loop
-// thru entire table as the entries aren't in order.  Recurse at
-// most 4 times to get additional child processes 
-//
-void add_child_totals(PROCINFO& pi, vector<PROCINFO>& piv, int pid, int rlvl) {
-    unsigned int i;
-
-    if (rlvl > 3) {
-        return;
-    }
-    for (i=0; i<piv.size(); i++) {
-        PROCINFO& p = piv[i];
-        if (p.parentid == pid) {
-//            pi.kernel_time += p.kernel_time;
-            pi.user_time += p.user_time;
-            pi.swap_size += p.swap_size;
-            pi.working_set_size += p.working_set_size;
-            p.is_boinc_app = true;
-            // look for child process of this one
-            add_child_totals(pi, piv, p.id, rlvl+1); // recursion - woo hoo!
-        }
-    }
 }
 
 // fill in the given PROCINFO (which initially is zero except for id)
@@ -110,34 +108,22 @@ void add_child_totals(PROCINFO& pi, vector<PROCINFO>& piv, int pid, int rlvl) {
 //
 void procinfo_app(PROCINFO& pi, vector<PROCINFO>& piv) {
     unsigned int i;
-
+    // AppStat returned totals for each of BOINC's children and its descendants
+    // as a single PROCINFO struct with the id field set to the pid of BOINC's 
+    // direct child. 
     for (i=0; i<piv.size(); i++) {
         PROCINFO& p = piv[i];
         if (p.id == pi.id) {
-//            pi.kernel_time += p.kernel_time;
-            pi.user_time += p.user_time;
-            pi.swap_size += p.swap_size;
-            pi.working_set_size += p.working_set_size;
+            pi = p;
             p.is_boinc_app = true;
-            // look for child processes
- 	    add_child_totals(pi, piv, pi.id, 0);
             return;
         }
     }
 }
 
 void procinfo_other(PROCINFO& pi, vector<PROCINFO>& piv) {
-    unsigned int i;
-
+    // AppStat returned total for all other processes as a single PROCINFO 
+    // struct with id field set to zero.
     memset(&pi, 0, sizeof(pi));
-    for (i=0; i<piv.size(); i++) {
-        PROCINFO& p = piv[i];
-        if (!p.is_boinc_app) {
-//            pi.kernel_time += p.kernel_time;
-            pi.user_time += p.user_time;
-            pi.swap_size += p.swap_size;
-            pi.working_set_size += p.working_set_size;
-            p.is_boinc_app = true;
-        }
-    }
+    procinfo_app(pi, piv);
 }
