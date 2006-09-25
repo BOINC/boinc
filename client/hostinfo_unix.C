@@ -451,9 +451,14 @@ int HOST_INFO::get_host_info() {
         }
         fclose(fp);
     }
-#elif defined(HAVE_SYS_SYSCTL_H) && defined(CTL_VM) && defined(VM_METER)
+#elif defined(HAVE_VMMETER_H) && defined(HAVE_SYS_SYSCTL_H) && defined(CTL_VM) && defined(VM_METER)
     // MacOSX, I think...
     // <http://www.osxfaq.com/man/3/sysctl.ws>
+#ifndef __APPLE__
+    // The sysctl(vm.vmmeter) function doesn't work on OS X, so the following 
+    // code fails to get the total swap space.  However, procinfo_setup() in  
+    // procinfo_mac.C can easily calculate it, so we fill in the value there.
+
     struct vmtotal vm_info;
 
     mib[0] = CTL_VM;
@@ -462,10 +467,7 @@ int HOST_INFO::get_host_info() {
     if (!sysctl(mib, 2, &vm_info, &len, NULL, 0)) {
         m_swap = 1024. * getpagesize() * (double) vm_info.t_vm;
     }
-
-    // The sysctl(vm.vmmeter) function doesn't work on OS X, so the following 
-    // code fails to get the total swap space.  However, procinfo_setup() in  
-    // procinfo_mac.C can easily calculate it, so we fill in the value there.
+#endif  // __APPLE__
 
 #elif defined(_HPUX_SOURCE)
     struct pst_vminfo vminfo;
