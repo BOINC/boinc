@@ -69,7 +69,6 @@ Each area is managed by an 'owner'.
 <tr>
     <td>Translations of GUI and web text</td>
     <td>Jens Seidler</td>
-    <td>Janus Kristensen</td>
 </tr>
 <tr>
     <td>Unix build system</td>
@@ -78,7 +77,7 @@ Each area is managed by an 'owner'.
 </tr>
 <tr>
     <td>Web features</td>
-    <td>Janus Kristensen</td>
+    <td>David Anderson</td>
     <td><a href=http://rob.axpr.net/>Rob Ogilvie</a></td>
 </tr>
 <tr>

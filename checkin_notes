@@ -10418,3 +10418,10 @@ Charlie 25 Sept 2006
         Mac_SA_Secure.sh
         boinc.xcodeproj/
             project.pbxproj
+
+David  25 Sept 2006
+    - core client, Mac: if file ownership not secure, describe
+        -insecure option in error message
+
+    client/
+        main.C
