@@ -93,9 +93,11 @@ chown -R ${user}:${group} .
 chmod -R u+rw-s,g+r-w-s,o+r-w .
 chmod 600 gui_rpc_auth.cfg
 
-# AppStats application must run setuid root
+if [ -f switcher/AppStats ] ; then 
+# AppStats application must run setuid root (used in BOINC 5.7 and later)
 chown root:${group} switcher/AppStats
 chmod 4550 switcher/AppStats
+fi
 
 if [ -x /Applications/BOINCManager.app/Contents/MacOS/BOINCManager ] ; then 
     chown ${user}:${group} /Applications/BOINCManager.app/Contents/MacOS/BOINCManager

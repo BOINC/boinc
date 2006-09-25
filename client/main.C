@@ -770,7 +770,8 @@ int main(int argc, char** argv) {
             "File ownership or permissions are set in a way that\n"
             "does not allow sandboxed execution of BOINC applications.\n"
             "To use BOINC anyway, use the -insecure command line option.\n"
-            "To change ownership/permission, reinstall BOINC.\n"
+            "To change ownership/permission, reinstall BOINC or run\n"
+            " the shell script Mac_SA_Secure.sh.\n"
         );
         return ERR_USER_PERMISSION;
     }
