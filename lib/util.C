@@ -392,6 +392,33 @@ void strip_whitespace(string& str) {
     }
 }
 
+void remove_duplicate_words(char *str) {
+    char *buffer=(char *)malloc(strlen(str)+1);
+    char *tok=(char *)malloc(strlen(str)+1);
+    strcpy(buffer,str);
+    str[0]=0;
+    char *p=strtok(buffer," ,");
+    while (p) {
+      strlcpy(tok,p,1024);
+      tok[strlen(p)]=' ';
+      tok[strlen(p)+1]=0;
+      if (!strstr(str,tok)) {
+        strcat(str,tok);
+      }
+      p=strtok(NULL," ,");
+    }
+    free(tok);
+    free(buffer);
+}
+
+void remove_duplicate_words(string &str) {
+    char *buffer=(char *)malloc(str.length()+1);
+    strcpy(buffer,str.c_str());
+    remove_duplicate_words(buffer);
+    str=string(buffer);
+    free(buffer);
+}
+
 #if 0
 bool starts_with(const char* str, const char* prefix) {
     if (strstr(str, prefix) == str) return true;

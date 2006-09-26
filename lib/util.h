@@ -76,6 +76,12 @@ extern std::string timediff_format(double);
 extern int read_file_string(const char* pathname, std::string& result);
 extern void escape_project_url(char *in, char* out);
 
+// remove duplicated words in a comma or space delimited string.
+// result is a space delimited string.
+// "this is this a is test" -> "this is a test"
+extern void remove_duplicate_words(char *str);
+extern void remove_duplicate_words(std::string &str);
+
 inline bool ends_with(std::string const& s, std::string const& suffix) {
     return
         s.size()>=suffix.size() &&
