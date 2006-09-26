@@ -10454,3 +10454,9 @@ Eric K 26 Sept 2006
       Added check for libSystemStubs (MacOS command line build)
 
     configure.ac
+
+David  26 Sept 2006
+    - fix FCGI compile error
+
+    lib/
+        miofile.h

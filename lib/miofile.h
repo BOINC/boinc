@@ -42,6 +42,10 @@
 // you can't do fdopen() on a socket.
 
 class MIOFILE {
+private:
+    MFILE* mf;
+    FILE* f;
+    char* buf;
 public:
     MIOFILE();
     ~MIOFILE();
@@ -52,13 +56,13 @@ public:
     char* fgets(char*, int);
     int ungetc(int);
     inline int getc() {
+#ifdef _USING_FCGI_
+        if (f) return FCGI_fgetc(f);
+#else
         if (f) return ::getc(f);
+#endif
         return (*buf)?(*buf++):EOF;
     }
-private:
-    MFILE* mf;
-    FILE* f;
-    char* buf;
 };
 
 extern int copy_element_contents(MIOFILE& in, const char* end_tag, char* p, int len);
