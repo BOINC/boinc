@@ -776,7 +776,7 @@ int main(int argc, char** argv) {
 #elif defined linux
             " or run\n the shell script secure.sh"
 #endif
-            ".\n"
+            ". (Error code %d)\n", i
         );
         return ERR_USER_PERMISSION;
     }
