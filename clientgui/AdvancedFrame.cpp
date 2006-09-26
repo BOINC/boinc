@@ -302,7 +302,7 @@ bool CAdvancedFrame::CreateMenu() {
 #ifdef SIMPLEGUI
     menuFile->Append(
         ID_FILESWITCHGUI,
-        _("&Switch to Simple GUI"),
+        _("&Switch to Simple View"),
         _("Display the simple BOINC graphical interface.")
     );
 #endif

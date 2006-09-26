@@ -11,6 +11,7 @@
 enum{
 	WEBSITE_URL_MENU_ID = 34500,
 	WEBSITE_URL_MENU_ID_REMOVE_PROJECT = 34550,
+	WEBSITE_URL_MENU_ID_HOMEPAGE = 34551,
 };
 
 
@@ -53,8 +54,18 @@ void StatImageLoader::CreateMenu()
 	
 	statPopUpMenu = new wxMenu(wxSIMPLE_BORDER);
 
+	// Add the home page link
+    wxMenuItem *urlItem = new wxMenuItem(statPopUpMenu, WEBSITE_URL_MENU_ID_HOMEPAGE,wxString(project->project_name.c_str(), wxConvUTF8));
+	#ifdef __WXMSW__
+		urlItem->SetBackgroundColour(appSkin->GetAppBgCol());
+	#endif
+	Connect( WEBSITE_URL_MENU_ID_HOMEPAGE,  wxEVT_COMMAND_MENU_SELECTED, wxCommandEventHandler(StatImageLoader::OnMenuLinkClicked) );
+	statPopUpMenu->Append(urlItem);
+
+
+	// Add any GUI urls
 	for(unsigned int i = 0; i < urlCount; i++){
-		wxMenuItem *urlItem = new wxMenuItem(statPopUpMenu, WEBSITE_URL_MENU_ID + i,wxString(project->gui_urls[i].name.c_str(), wxConvUTF8));
+		urlItem = new wxMenuItem(statPopUpMenu, WEBSITE_URL_MENU_ID + i,wxString(project->gui_urls[i].name.c_str(), wxConvUTF8));
 		#ifdef __WXMSW__
 			urlItem->SetBackgroundColour(appSkin->GetAppBgCol());
 		#endif
@@ -63,13 +74,14 @@ void StatImageLoader::CreateMenu()
 		statPopUpMenu->Append(urlItem);
 	}
     
+	//  Add the 'remove project' option
 	statPopUpMenu->AppendSeparator();
 	wxMenuItemList menuList = statPopUpMenu->GetMenuItems();
 	#ifdef __WXMSW__
 		menuList[statPopUpMenu->GetMenuItemCount()-1]->SetBackgroundColour(wxColour("RED"));
 	#endif
 
-	wxMenuItem *urlItem = new wxMenuItem(statPopUpMenu, WEBSITE_URL_MENU_ID_REMOVE_PROJECT,wxT("Remove Project"));
+	urlItem = new wxMenuItem(statPopUpMenu, WEBSITE_URL_MENU_ID_REMOVE_PROJECT,wxT("Remove Project"));
 	#ifdef __WXMSW__
 		urlItem->SetBackgroundColour(appSkin->GetAppBgCol());
 	#endif
@@ -86,7 +98,12 @@ void StatImageLoader::OnMenuLinkClicked(wxCommandEvent& event)
 	 if(menuIDevt == WEBSITE_URL_MENU_ID_REMOVE_PROJECT){
 		 //call detach project function	
          OnProjectDetach();
-	 }else{
+	 } else if (menuIDevt == WEBSITE_URL_MENU_ID_HOMEPAGE ) {
+	     CBOINCBaseFrame* pFrame = wxDynamicCast(m_parent->GetParent(),CBOINCBaseFrame);
+         wxASSERT(pFrame);
+         wxASSERT(wxDynamicCast(pFrame, CBOINCBaseFrame));
+	     pFrame->ExecuteBrowserLink(m_prjUrl.c_str());
+	 } else{
          int menuId = menuIDevt - WEBSITE_URL_MENU_ID;
 	     PROJECT* project = pDoc->state.lookup_project(m_prjUrl);
 		 project->gui_urls[menuId].name.c_str();

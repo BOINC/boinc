@@ -85,6 +85,7 @@ CSimpleFrame::CSimpleFrame(wxString title, wxIcon* icon) :
 	resultViewInitialized = false;
 	emptyViewInitialized = false;
 	notebookViewInitialized = false;
+	dlgOpen = false;
 
 	//set polling timer for interface
 	m_pFrameRenderTimer = new wxTimer(this, ID_SIMPLEFRAMERENDERTIMER);
@@ -251,6 +252,11 @@ void CSimpleFrame::OnProjectsAttachToProject() {
 }
 
 void CSimpleFrame::OnFrameRender(wxTimerEvent& WXUNUSED(event)) {
+
+	// State changes can cause the BSG to crash if a dialogue is open.
+	// Only do the min updates if a dialogue is open
+	if ( dlgOpen ) return;
+
 	CMainDocument* pDoc     = wxGetApp().GetDocument();
 
 	if (!projectViewInitialized && pDoc->IsConnected()) {
@@ -258,6 +264,7 @@ void CSimpleFrame::OnFrameRender(wxTimerEvent& WXUNUSED(event)) {
 	} else if ( pDoc->IsConnected() ) {
 		UpdateProjectView();
 	}
+
 	// Now check to see if we show the empty state or results
 	if ( pDoc->GetSimpleGUIWorkCount() > 0 ) {
 		// If empty was displayed, remove

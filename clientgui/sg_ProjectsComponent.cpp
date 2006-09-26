@@ -490,10 +490,12 @@ void CProjectsComponent::OnBtnClick(wxCommandEvent& event){ //init function
 		btnAddProj->Refresh();
 	}else if(m_wxBtnObj==btnMessages || m_wxBtnObj==btnAlertMessages){
 		MessagesViewed();
+		pFrame->SetDlgOpen(true);
 		CDlgMessages* pDlg = new CDlgMessages(NULL,appSkin->GetSkinsFolder()+_T("/")+appSkin->GetSkinName()+_T("/"));
 		wxASSERT(pDlg);
 		pDlg->ShowModal();
 		pDlg->Destroy();
+		pFrame->SetDlgOpen(false);
     }else if(m_wxBtnObj==btnPause) {
 		CMainDocument* pDoc     = wxGetApp().GetDocument();
         CC_STATUS      status;
@@ -510,6 +512,7 @@ void CProjectsComponent::OnBtnClick(wxCommandEvent& event){ //init function
 		btnResume->Show(false);
 		btnPause->Show(true);
     }else if(m_wxBtnObj==btnPreferences){
+		pFrame->SetDlgOpen(true);
 		CDlgPreferences* pDlg = new CDlgPreferences(NULL,appSkin->GetSkinsFolder()+_T("/")+appSkin->GetSkinName()+_T("/"));
 		wxASSERT(pDlg);
 		if ( pDlg->ShowModal() == wxID_OK ){
@@ -524,7 +527,7 @@ void CProjectsComponent::OnBtnClick(wxCommandEvent& event){ //init function
 		   }
 		}
 		pDlg->Destroy();
-		delete pDlg;
+		pFrame->SetDlgOpen(false);
     }else if(m_wxBtnObj==btnAdvancedView) {
         wxGetApp().SetActiveGUI(BOINC_ADVANCEDGUI, true);
     }

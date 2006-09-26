@@ -79,6 +79,8 @@ public:
 	void InitNotebook();
 	void DestroyNotebook();
 	void OnProjectsAttachToProject();
+	void SetDlgOpen(bool newDlgState) { dlgOpen = newDlgState; }
+	bool GetDlgOpen() { return dlgOpen; }
 	//////////
 	wxFlexGridSizer *mainSizer;
 	wxSize wxNotebookSize;
@@ -110,6 +112,7 @@ protected:
 private:
 	bool SaveState();
 	bool RestoreState();
+	bool dlgOpen;
 
 };
 

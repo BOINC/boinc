@@ -10460,3 +10460,18 @@ David  26 Sept 2006
 
     lib/
         miofile.h
+
+Kevin  25 Sept 2006
+    - BSG
+    	- Fixed an bug that prevented the message dialogue from closing when the X button was clicked.
+		- Add a link to the home page for all projects in the drop down
+        - Change label in menu in the advanced view read 'Switch to Simple View'
+        - Fix bug that occurs when the notebook is rendered while a dialogue box is open         
+        
+    clientgui/
+    	AdvancedFrame.cpp
+        sg_BoincSimpleGUI.cpp/h
+        sg_DlgMessages.cpp
+        sg_ProjectsComponent.cpp
+        sg_StatImageLoader.cpp
+        sg_ViewTabPage.cpp/h

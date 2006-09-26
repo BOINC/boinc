@@ -141,8 +141,10 @@ void CDlgMessages::OnEraseBackground(wxEraseEvent& event){
 
 void CDlgMessages::OnBtnClick(wxCommandEvent& event){ //init function
 	int btnID =  event.GetId();
-	if(btnID==ID_CLOSEBUTTON){
+	if(btnID==ID_CLOSEBUTTON || btnID==wxID_CANCEL){
 		//wxMessageBox("OnBtnClick - btnClose");
+		EndModal(wxID_CANCEL);
+	} else {
 		EndModal(wxID_CANCEL);
 	}
 } //end function
