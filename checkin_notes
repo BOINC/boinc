@@ -9995,3 +9995,10 @@ Charlie 21 Sept 2006
     mac_build/
         Mac_SA_Insecure.sh
         Mac_SA_Secure.sh
+
+Walt   25 Sept 2006
+    - Bug fix: fix task status text when the manager connects to an
+        older client that doesn't support <get_cc_status>.
+
+    clientgui/
+        ViewWork.cpp
