@@ -174,7 +174,14 @@ David  11 Sept 2006
         Makefile
         worker.C
     wrapper/Makefile
+
 David  11 Sept 2006
 	- include all apps in VS solution
 
 	win_build/samples.sln
+
+David  26 Sept 2006
+    - close state file in uppercase (from Ian/Tigher)
+
+    uppercase/
+        upper_case.C

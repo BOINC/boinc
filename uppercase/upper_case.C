@@ -118,6 +118,7 @@ void worker() {
     state = boinc_fopen(resolved_name, "r");
     if (state) {
         fscanf(state, "%d", &nchars);
+        fclose(state);
         fseek(infile, nchars, SEEK_SET);
         boinc_resolve_filename(OUTPUT_FILENAME, resolved_name, sizeof(resolved_name));
         retval = out.open(resolved_name, "a");
