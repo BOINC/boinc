@@ -47,6 +47,17 @@ echo "
 <li> <a href=addons.php>Add-on software</a>
 <li> <a href=proxy_server.php>Proxy servers</a> (why BOINC doesn't have them).
 </ul>
+<p>
+If you're interested in donating your time (rather than computing power),
+check out
+<ul>
+<li> <a href=http://clickworkers.arc.nasa.gov/>Clickworkers</a>
+(from NASA Ames Research Center)
+<li> <a href=http://stardustathome.ssl.berkeley.edu/>Stardust@home</a>
+(from UC Berkeley Space Sciences Lab).
+<li> <a http://www.pgdp.net/c/default.php>Distributed Proofreaders</a>
+</ul>
+
 ";
 page_tail();
 ?>

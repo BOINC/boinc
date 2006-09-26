@@ -412,8 +412,8 @@ if (isset($HTTP_SERVER_VARS["HTTP_ACCEPT_LANGUAGE"])) {
     $language_string .= strtolower($HTTP_SERVER_VARS["HTTP_ACCEPT_LANGUAGE"]);
 }
 
-// Find out which language to use by iterating trough list
-// The list is commaseperated, so split it into an array of the following type:
+// Find out which language to use by iterating through list
+// The list is comma-separated, so split it into an array of the following type:
 //        Array ( 
 //    [0] => da 
 //    [1] => en-us;q=0.7 
@@ -422,7 +422,7 @@ if (isset($HTTP_SERVER_VARS["HTTP_ACCEPT_LANGUAGE"])) {
 
 $client_languages=explode(",",$language_string);
 
-// A language is either defined as primary-secondary or merely primary.
+// A language is either defined as primary-secondary or primary.
 // It can also have a quality attribute set,
 // which orders the languages in a user preferred ordering.
 // Since this is usally the same order as the array indices
@@ -447,17 +447,31 @@ for ($i=sizeof($client_languages)-1;$i>=0;$i--) {
         $language = substr(
             $client_languages[$i],0,2)."_".strtoupper(substr($client_languages[$i],3,2)
         );
+
+        // And also check for the primary language
+        //
+        $language2 = substr($client_languages[$i],0,2);
     } else {
         // else just use xx
         //
         $language = substr($client_languages[$i],0,2);
+        $language2 = null;
     }
+
     // If we have a translation for the language, include it
     //
-    if (file_exists($lang_language_dir.$lang_compiled_dir.$language.".po.inc")) {
-        require($lang_language_dir.$lang_compiled_dir.$language.".po.inc");
+    $file_name = $lang_language_dir.$lang_compiled_dir.$language.".po.inc";
+    if (file_exists($file_name)) {
+        require($file_name);
         $language_in_use = $language;
 
+    }
+    if ($language2) {
+        $file_name = $lang_language_dir.$lang_compiled_dir.$language2.".po.inc";
+        if (file_exists($file_name)) {
+            require($file_name);
+            $language_in_use = $language2;
+        }
     }
 }
 

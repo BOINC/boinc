@@ -10438,3 +10438,10 @@ Eric K 26 Sept 2006
     
     lib/
         util.[Ch]
+
+David  26 Sept 2006
+    - user web: if user has a compound language (like en-us) in their list,
+        and there's a translation file for the base language (en), use it.
+
+    html/inc/
+        translation.inc
