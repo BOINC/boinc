@@ -294,7 +294,7 @@ ERROR: could not find (recent enough) development-libs for libcurl.
 
 fi
 
-dnl save the libs
+dnl save the libs, since SAH_CHECK_LIB() will change them
 SAVELIBS_AAF="${LIBS}"
 SAH_CHECK_LIB([cygipc], [shmget],
     [BOINC_EXTRA_LIBS="${BOINC_EXTRA_LIBS} ${sah_lib_last}"])
@@ -312,7 +312,8 @@ SAH_CHECK_LIB([socket], [bind],
     [BOINC_EXTRA_LIBS="${BOINC_EXTRA_LIBS} ${sah_lib_last}"])
 SAH_CHECK_LIB([z], [gzopen], 
     [BOINC_EXTRA_LIBS="${BOINC_EXTRA_LIBS} ${sah_lib_last}"])
-
+SAH_CHECK_LIB([cups], [md5_finish],
+    [BOINC_EXTRA_LIBS="${BOINC_EXTRA_LIBS} ${sah_lib_last}"])
 SAH_CHECK_LIB([curl], [curl_easy_init],
     [BOINC_EXTRA_LIBS="${BOINC_EXTRA_LIBS} ${LIBCURL}"],, [${LIBCURL}])
 
@@ -406,7 +407,7 @@ AC_HEADER_STDC
 AC_HEADER_SYS_WAIT
 AC_HEADER_TIME
 AC_TYPE_SIGNAL
-AC_CHECK_HEADERS(windows.h arpa/inet.h dirent.h fcntl.h inttypes.h stdint.h malloc.h alloca.h memory.h netdb.h netinet/in.h netinet/tcp.h signal.h strings.h sys/file.h sys/ipc.h sys/mount.h sys/param.h sys/resource.h sys/select.h sys/shm.h sys/socket.h sys/stat.h sys/statvfs.h sys/statfs.h sys/swap.h sys/sysctl.h sys/systeminfo.h sys/time.h sys/types.h sys/utsname.h sys/vmmeter.h sys/wait.h unistd.h utmp.h errno.h procfs.h ieeefp.h)
+AC_CHECK_HEADERS(windows.h arpa/inet.h dirent.h fcntl.h inttypes.h stdint.h malloc.h alloca.h memory.h netdb.h netinet/in.h netinet/tcp.h signal.h strings.h sys/auxv.h sys/file.h sys/ipc.h sys/mount.h sys/param.h sys/resource.h sys/select.h sys/shm.h sys/socket.h sys/stat.h sys/statvfs.h sys/statfs.h sys/swap.h sys/sysctl.h sys/systeminfo.h sys/time.h sys/types.h sys/utsname.h sys/vmmeter.h sys/wait.h unistd.h utmp.h errno.h procfs.h ieeefp.h)
 
 AC_LANG_PUSH(C++)
 SAH_LARGEFILE_BREAKS_CXX
@@ -422,7 +423,7 @@ AC_LANG_POP
 dnl Checks for library functions.
 AC_PROG_GCC_TRADITIONAL
 AC_FUNC_VPRINTF
-AC_CHECK_FUNCS(alloca _alloca setpriority strlcpy strlcat sigaction getutent setutent)
+AC_CHECK_FUNCS(alloca _alloca setpriority strlcpy strlcat sigaction getutent setutent getisax)
 
 dnl Checks for typedefs, structures, and compiler characteristics.
 AC_C_CONST
@@ -562,10 +563,6 @@ SAH_CHECK_LIB([c],[atexit], [
     AC_DEFINE([HAVE_LIBC],[1],[Define to 1 if you have the c library])
     CLIENTLIBS="${CLIENTLIBS} ${sah_lib_last}"])
    echo DEBUG: CLIENTLIBS=${CLIENTLIBS} >&5
-SAH_CHECK_LIB([gcc],[sscanf], [
-    AC_DEFINE([HAVE_LIBGCC],[1],[Define to 1 if you have the gcc library])
-    CLIENTLIBS="${CLIENTLIBS} ${sah_lib_last}"])
-   echo DEBUG: CLIENTLIBS=${CLIENTLIBS} >&5
 SAH_CHECK_LIB([gcc_eh],[_Unwind_Resume],[ 
     AC_DEFINE([HAVE_LIBGCC_EH],[1],[Define to 1 if you have the gcc_eh library])
     CLIENTLIBS="${CLIENTLIBS} ${sah_lib_last}"])
@@ -573,6 +570,10 @@ SAH_CHECK_LIB([gcc_eh],[_Unwind_Resume],[
 SAH_CHECK_LIB([stdc++],[sscanf],[
     AC_DEFINE([HAVE_LIBSTDC__],[1],[Define to 1 if you have the stdc++ library])
     CLIENTLIBS="${CLIENTLIBS} ${sah_lib_last}"])
+   echo DEBUG: CLIENTLIBS=${CLIENTLIBS} >&5
+SAH_CHECK_LIB([gcc],[sscanf], [
+    AC_DEFINE([HAVE_LIBGCC],[1],[Define to 1 if you have the gcc library])
+    CLIENTLIBS="${CLIENTLIBS} ${sah_lib_last}" ])
    echo DEBUG: CLIENTLIBS=${CLIENTLIBS} >&5
 SAH_CHECK_LIB([m],[sin], [
     AC_DEFINE([HAVE_LIBM],[1],[Define to 1 if you have the math library])
@@ -589,6 +590,13 @@ SAH_CHECK_LIB([wsock32],[fopen],[
     
 
 if ( test "${disable_static_linkage}" != yes ) && ( test "${enable_client_release}" = yes ); then
+
+SAH_CHECK_LDFLAG([-nodefaultlibs],[CLIENTLIBS="-nodefaultlibs ${CLIENTLIBS}"])
+   echo DEBUG: CLIENTLIBS=${CLIENTLIBS} >&5
+
+SAH_CHECK_LDFLAG([-lSystemStubs],[LIBS="${LIBS} -lSystemStubs"])
+   echo DEBUG: LIBS=${LIBS} >&5
+
    echo "----------"
    echo "NOTE: Building portable client binaries"
    echo "----------"
