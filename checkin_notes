@@ -10445,3 +10445,12 @@ David  26 Sept 2006
 
     html/inc/
         translation.inc
+
+Eric K 26 Sept 2006
+    - Changes to configure.ac
+      Added check for header sys/auxv.h (Solaris)
+      Added check for function getisax() (Solaris 10)
+      Added check for libcups (MacOS command line build)
+      Added check for libSystemStubs (MacOS command line build)
+
+    configure.ac
