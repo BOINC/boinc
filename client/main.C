@@ -763,7 +763,18 @@ int main(int argc, char** argv) {
 #endif  // _DEBUG && __APPLE__
     int i = check_security(g_use_sandbox, false);
     if (i) {
-        printf( "\nBOINC ownership or permissions are not set properly; please reinstall BOINC. (Error code %d)\n", i);
+        printf(
+            "File ownership or permissions are set in a way that\n"
+            "does not allow sandboxed execution of BOINC applications.\n"
+            "To use BOINC anyway, use the -insecure command line option.\n"
+            "To change ownership/permission, reinstall BOINC"
+#ifdef __APPLE__
+            " or run\n the shell script Mac_SA_Secure.sh"
+#elif defined linux
+            " or run\n the shell script secure.sh"
+#endif
+            ". (Error code %d)\n", i
+        );
         return ERR_USER_PERMISSION;
     }
 #endif  // SANDBOX
