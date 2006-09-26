@@ -10431,3 +10431,10 @@ David  25 Sept 2006
 
     html/inc/
         forum.inc
+
+Eric K 26 Sept 2006
+    - new functions in util.[Ch]  remove_duplicate_words(char * or string &).
+      removes duplicate words from a space or comma delimited string.
+    
+    lib/
+        util.[Ch]
