@@ -10487,3 +10487,15 @@ Charlie 26 Sept 2006
     client/
         app_stats_mac.C
         hostinfo_unix.C
+
+David  27 Sept 2006
+    - fix compile of FCGI scheduler and file upload handler
+        NOTE: I did this by manually putting in a #ifdef _USING_FCGI_
+        in miofile.C
+        I don't understand why this was necessary.
+
+    lib/
+        miofile.C,h
+        parse.C
+    sched/
+        Makefile.am

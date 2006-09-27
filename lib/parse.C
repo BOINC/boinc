@@ -418,7 +418,7 @@ XML_PARSER::XML_PARSER(MIOFILE* _f) {
 bool XML_PARSER::scan_nonws(int& first_char) {
     int c;
     while (1) {
-        c = f->getc();
+        c = f->_getc();
         if (c == EOF) return true;
         if (isspace(c)) continue;
         first_char = c;
@@ -433,7 +433,7 @@ bool XML_PARSER::scan_nonws(int& first_char) {
 bool XML_PARSER::scan_tag(char* buf, int len) {
     int c;
     while (1) {
-        c = f->getc();
+        c = f->_getc();
         if (c == EOF) return true;
         if (c == '>') {
             *buf = 0;
@@ -452,10 +452,10 @@ bool XML_PARSER::scan_tag(char* buf, int len) {
 bool XML_PARSER::copy_until_tag(char* buf, int len) {
     int c;
     while (1) {
-        c = f->getc();
+        c = f->_getc();
         if (c == EOF) return true;
         if (c == '<') {
-            f->ungetc(c);
+            f->_ungetc(c);
             *buf = 0;
             return false;
         }
@@ -650,7 +650,7 @@ int XML_PARSER::element_contents(const char* end_tag, char* buf, int buflen) {
 			retval = ERR_XML_PARSE;
 			break;
 		}
-        int c = f->getc();
+        int c = f->_getc();
 		if (c == EOF) {
 			retval = ERR_XML_PARSE;
 			break;

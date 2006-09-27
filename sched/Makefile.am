@@ -167,7 +167,6 @@ fcgi_SOURCES =                                  \
     sched_array.C 				\
     sched_hr.C 					\
     server_types.C                              \
-    ../lib/synch.C                              \
     sched_shmem.C                               \
     sched_util.C                                \
     sched_config.C                              \
@@ -176,15 +175,17 @@ fcgi_SOURCES =                                  \
     sched_timezone.C                            \
     ../db/boinc_db.C                            \
     ../db/db_base.C                             \
-    ../lib/util.C                               \
+    ../lib/base64.C                             \
     ../lib/crypt.C                              \
     ../lib/filesys.C                            \
-    ../lib/parse.C                              \
-    ../lib/base64.C                             \
-    ../lib/shmem.C                              \
     ../lib/md5.c                                \
     ../lib/md5_file.C                           \
+    ../lib/miofile.C                            \
     ../lib/msg_log.C                            \
+    ../lib/parse.C                              \
+    ../lib/shmem.C                              \
+    ../lib/synch.C                              \
+    ../lib/util.C                               \
     ../tools/process_result_template.C          \
     ../tools/backend_lib.C
 

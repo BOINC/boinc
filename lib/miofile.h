@@ -26,6 +26,10 @@
 
 #include "mfile.h"
 
+#ifdef _USING_FCGI_
+#include "fcgi_stdio.h"
+#endif
+
 // MIOFILE lets you do formatted I/O to either a FILE or a memory buffer,
 // depending on how you initialize it.
 //
@@ -42,7 +46,6 @@
 // you can't do fdopen() on a socket.
 
 class MIOFILE {
-private:
     MFILE* mf;
     FILE* f;
     char* buf;
@@ -54,13 +57,15 @@ public:
     void init_buf(char*);
     int printf(const char* format, ...);
     char* fgets(char*, int);
-    int ungetc(int);
-    inline int getc() {
+    int _ungetc(int);
+    inline int _getc() {
+        if (f) {
 #ifdef _USING_FCGI_
-        if (f) return FCGI_fgetc(f);
+            return FCGI_fgetc(f);
 #else
-        if (f) return ::getc(f);
+            return getc(f);
 #endif
+        }
         return (*buf)?(*buf++):EOF;
     }
 };

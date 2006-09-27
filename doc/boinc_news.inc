@@ -1,6 +1,11 @@
 <?
 
 $project_news = array(
+array("September 26, 2006",
+    "The 2nd Annual Pangalactic BOINC Workshop was held
+    in Geneva on 20-21 September.
+    Read <a href=ws_06.php>the online workshop proceedings</a>."
+),
 array("September 11, 2006",
     "<a href=chart_list.php>UW-Madison CAE</a>,
     the first BOINC user to top the 1 TERAFLOPS barrier,

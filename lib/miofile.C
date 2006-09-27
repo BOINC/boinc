@@ -87,9 +87,13 @@ char* MIOFILE::fgets(char* dst, int len) {
     return dst;
 }
 
-int MIOFILE::ungetc(int c) {
+int MIOFILE::_ungetc(int c) {
     if (f) {
-        return ::ungetc(c, f);
+#ifdef _USING_FCGI_
+        return FCGI_ungetc(c, f);
+#else
+        return ungetc(c, f);
+#endif
     }
     buf--;
     *buf = c;
