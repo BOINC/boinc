@@ -10002,3 +10002,11 @@ Walt   25 Sept 2006
 
     clientgui/
         ViewWork.cpp
+
+Charlie 26 Sept 2006
+    - Mac: Set host_info.m_swap to total free disk space, because OS X 
+        uses all of the available space on the machine’s boot partition
+        for swap space if needed.
+
+    client/
+        hostinfo_unix.C
