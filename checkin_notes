@@ -10499,3 +10499,11 @@ David  27 Sept 2006
         parse.C
     sched/
         Makefile.am
+
+Kevin  27 Sept 2006
+    - BSG
+    	- Fix bug that caused an occasional error in the BSG when switching skins
+        
+    clientgui/
+        sg_BoincSimpleGUI.cpp
+        sg_ProgressBar.cpp/h

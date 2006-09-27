@@ -36,17 +36,17 @@ public:
 		double numOfIndic;
 		int rightPosition;
 	    int topPosition;
-		int numOfProgressInd;
 		std::vector<ImageLoader*> m_progInd;
 	    /// Constructors
 	    CProgressBar(wxPanel* parent, wxPoint coord); 
 		void SetValue(double progress);
 		void UpdateValue(double progress);
 		void ReskinInterface();
-		void ClearIndicators();
+		void LoadIndicators();
 private: 
         
 		double m_progress;
+		int m_numOfProgressInd;
 
 		void OnEraseBackground(wxEraseEvent& event);
 

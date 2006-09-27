@@ -38,56 +38,74 @@ CProgressBar::CProgressBar(wxPanel* parent,wxPoint coord) : wxPanel(parent, wxID
 	rightPosition = 9;
 	topPosition = 5;
 	m_progress = 0;
-	numOfProgressInd = 0;
+	m_numOfProgressInd = 0;
 	appSkin = SkinClass::Instance();
+	LoadIndicators();
+}
+
+void CProgressBar::LoadIndicators() {
+	// Remove any currently loaded
+	int indIndex = 0;
+	int x_pos;
+    wxLogTrace(wxT("Function Start/End"), wxT("CProgressBar::LoadIndicators - Function Start"));
+	for(indIndex = (int) m_progInd.size()-1; indIndex >= 0; indIndex--){
+		delete m_progInd.at(indIndex);
+	}
+    m_progInd.clear();
+
+	// Load all new ones but do not display
+	for(indIndex=0; indIndex < numOfIndic; indIndex++) {
+		ImageLoader *i_ind = new ImageLoader(this);
+		x_pos = rightPosition +((indicatorWidth)*indIndex);
+        i_ind->Move(wxPoint(x_pos,topPosition));
+		i_ind->LoadImage(*(appSkin->GetGaugeProgressInd()));
+		i_ind->Show(true);
+		m_progInd.push_back(i_ind);
+	}
+
+    wxLogTrace(wxT("Function Start/End"), wxT("CProgressBar::LoadIndicators - Function End"));
 }
 void CProgressBar::SetValue(double progress)
 {
-	// clrear prior indicators
-	ClearIndicators();
+	int numOfProgressInd = progress /(100/numOfIndic);
+	int indIndex = 0;
+	
+	for(indIndex = 0; indIndex < numOfIndic; indIndex++){
+		ImageLoader *i_ind = m_progInd.at(indIndex);
+		if ( indIndex + 1 <= numOfProgressInd ) {
+			i_ind->Show(true);
+		} else {
+			i_ind->Show(false);
+		}
+	}
 
 	m_progress = progress;
-	numOfProgressInd = progress /(100/numOfIndic);
-	
-	for(int indIndex = 0; indIndex < numOfProgressInd; indIndex++){
-		ImageLoader *i_ind = new ImageLoader(this);
-        i_ind->Move(wxPoint(rightPosition +((indicatorWidth)*indIndex),topPosition));
-		i_ind->LoadImage(*(appSkin->GetGaugeProgressInd()));
-		m_progInd.push_back(i_ind);
-	}
+	m_numOfProgressInd = numOfProgressInd;
 }
 void CProgressBar::UpdateValue(double progress)
 {	
-	// if updating with smaller value clear indicators first
-	if(m_progress>progress){
-		ClearIndicators();
-	}
-    m_progress = progress;
-	int currProg = progress /(100/numOfIndic);
-	if(numOfProgressInd < currProg){
-		for(int indIndex = numOfProgressInd; indIndex < currProg; indIndex++){
-			wxWindow *w_ind=new wxWindow(this,-1,wxPoint(rightPosition +((indicatorWidth)*indIndex),topPosition),wxSize(indicatorWidth,indicatorHeight));
-			ImageLoader *i_ind = new ImageLoader(w_ind);
-			i_ind->LoadImage(*(appSkin->GetGaugeProgressInd()));
-			numOfProgressInd = progress /(100/numOfIndic);
+	int indIndex = 0;
+	int numOfProgressInd = progress /(100/numOfIndic);
+
+	if ( numOfProgressInd > m_numOfProgressInd ) {
+		for(indIndex=m_numOfProgressInd; indIndex < numOfProgressInd; indIndex++) {
+			ImageLoader *i_ind = m_progInd.at(indIndex);
+			i_ind->Show(true);
+		}
+	} else if ( numOfProgressInd < m_numOfProgressInd ) {
+		for(indIndex=m_numOfProgressInd - 1; indIndex > numOfProgressInd - 1; indIndex--) {
+			ImageLoader *i_ind = m_progInd.at(indIndex);
+			i_ind->Show(false);
 		}
 	}
+
+	m_progress = progress;
+	m_numOfProgressInd = numOfProgressInd;
 }
 void CProgressBar::ReskinInterface()
 {
+	LoadIndicators();
 	SetValue(m_progress);
-}
-void CProgressBar::ClearIndicators()
-{
-    wxLogTrace(wxT("Function Start/End"), wxT("CProgressBar::ClearIndicators - Function Start"));
-	for(int indIndex = 0; indIndex < numOfProgressInd; indIndex++){
-		delete m_progInd.at(indIndex);
-	}
-	//clear vector
-	if(m_progInd.size() > 0){
-        m_progInd.clear();
-	}
-    wxLogTrace(wxT("Function Start/End"), wxT("CProgressBar::ClearIndicators - Function End"));
 }
 void CProgressBar::OnEraseBackground(wxEraseEvent& event){
 

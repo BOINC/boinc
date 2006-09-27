@@ -253,9 +253,6 @@ void CSimpleFrame::OnProjectsAttachToProject() {
 
 void CSimpleFrame::OnFrameRender(wxTimerEvent& WXUNUSED(event)) {
 
-	// State changes can cause the BSG to crash if a dialogue is open.
-	// Only do the min updates if a dialogue is open
-	if ( dlgOpen ) return;
 
 	CMainDocument* pDoc     = wxGetApp().GetDocument();
 
@@ -267,8 +264,15 @@ void CSimpleFrame::OnFrameRender(wxTimerEvent& WXUNUSED(event)) {
 
 	// Now check to see if we show the empty state or results
 	if ( pDoc->GetSimpleGUIWorkCount() > 0 ) {
+		// State changes can cause the BSG to crash if a dialogue is open.
+		// Defer state change until after the dialogue is closed
+		if ( (emptyViewInitialized || !resultViewInitialized) && dlgOpen ) {
+			return;
+		}
+
 		// If empty was displayed, remove
 		if ( emptyViewInitialized ) {
+
 			DestroyEmptyView();
 		}
 		// If we hadn't previously shown the results, create them.
@@ -281,6 +285,12 @@ void CSimpleFrame::OnFrameRender(wxTimerEvent& WXUNUSED(event)) {
 			UpdateResultView();
 		}
 	} else {
+		// State changes can cause the BSG to crash if a dialogue is open.
+		// Defer state change until after the dialogue is closed
+		if ( (!emptyViewInitialized || resultViewInitialized) && dlgOpen ) {
+			return;
+		}
+
 		if ( resultViewInitialized ) {
 			DestroyNotebook();
 		}
