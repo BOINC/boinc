@@ -36,7 +36,7 @@ if ($thread->isHidden()) {
         "This thread has been hidden for administrative purposes.");
 }
 
-if ($logged_in_user->getTotalCredit()<$forum->getPostMinTotalCredit() || $logged_in_user->getExpavgCredit()<$forum->getPostMinExpavgCredit()){
+if (!$logged_in_user->isSpecialUser(S_MODERATOR) && ($logged_in_user->getTotalCredit()<$forum->getPostMinTotalCredit() || $logged_in_user->getExpavgCredit()<$forum->getPostMinExpavgCredit())) {
     //If user haven't got enough credit (according to forum regulations)
     //We do not tell the (ab)user how much this is - no need to make it easy for them to break the system.
     error_page(
