@@ -49,6 +49,27 @@
 
 // #define _DEBUG 1
 
+// Put a safety limit on recursion
+#define MAX_DESCENDANT_LEVEL 4
+
+// Totals for non_BOINC processes are not useful because most OSs don't
+// move idle processes out of RAM, so physical memory is always full
+#define GET_NON_BOINC_INFO 0
+
+// We don't need swap space info because
+// http://developer.apple.com/documentation/Performance/Conceptual/ManagingMemory/Articles/AboutMemory.html says:
+//     Unlike most UNIX-based operating systems, Mac OS X does not use a 
+//     preallocated swap partition for virtual memory. Instead, it uses all
+//     of the available space on the machine’s boot partition.
+// However, the associated overhead is not significant if we are examining 
+// only BOINC descendant processes.
+#define GET_SWAP_SIZE 1
+
+// The overhead for getting CPU times is not significant if we are 
+// examining only BOINC descendant processes.
+#define GET_CPU_TIMES 1
+
+
 #include <cerrno>
 #include <sys/types.h>
 #include <mach/shared_memory_server.h>
@@ -60,11 +81,12 @@
 
 using std::vector;
 
-static int build_proc_list (vector<PROCINFO>& pi);
+static int build_proc_list (vector<PROCINFO>& pi, int boinc_pid);
 static void output_child_totals(PROCINFO& pinfo);
-static boolean_t appstats_task_update(task_t a_task, PROCINFO& pinfo);
+static boolean_t appstats_task_update(task_t a_task, vector<PROCINFO>& piv);
+static void find_all_descendants(vector<PROCINFO>& piv, int pid, int rlvl);
 static void add_child_totals(PROCINFO& pi, vector<PROCINFO>& piv, int pid, int rlvl);
-static void add_others(PROCINFO&, std::vector<PROCINFO>&);
+//static void add_others(PROCINFO&, std::vector<PROCINFO>&);
 
 #ifdef _DEBUG
 static void print_procinfo(PROCINFO& pinfo);
@@ -93,7 +115,7 @@ int main(int argc, char** argv) {
     if (argc == 2)
         boinc_pid = atoi(argv[1]);  // Pass in any desired valid pid for testing
     
-    retval = build_proc_list(piv);
+    retval = build_proc_list(piv, boinc_pid);
     if (retval)
         return retval;
 
@@ -118,12 +140,14 @@ int main(int argc, char** argv) {
         }
     }
     
+#if 0
 #ifdef _DEBUG
     printf("\n\nSumming info for all other processes\n");
 #endif
     memset(&child_total, 0, sizeof(child_total));
     add_others(child_total, piv);
     output_child_totals(child_total);
+#endif
     
     return 0;
 }
@@ -135,16 +159,21 @@ static void output_child_totals(PROCINFO& pinfo) {
                 pinfo.page_fault_count, pinfo.user_time, pinfo.kernel_time);
 }
 
-static int build_proc_list (vector<PROCINFO>& pi) {
-	boolean_t	retval;
-	kern_return_t	error;
-        mach_port_t appstats_port;
-	processor_set_t	*psets, pset;
-	task_t		*tasks;
-	unsigned	i, j, pcnt, tcnt;
-        PROCINFO        pinfo;
+static int build_proc_list (vector<PROCINFO>& pi, int boinc_pid) {
+	boolean_t               retval = FALSE;
+	kern_return_t           error;
+        mach_port_t             appstats_port;
+	processor_set_t         *psets, pset;
+	task_t                  *tasks;
+	unsigned                i, j, pcnt, tcnt;
+        PROCINFO                pinfo;
+	int                     pid, mib[4];
+	struct kinfo_proc	kinfo;
+	size_t			kinfosize;
         
 	appstats_port = mach_host_self();
+
+        // First, get a list of all tasks / processes
 
 	error = host_processor_sets(appstats_port, &psets, &pcnt);
 	if (error != KERN_SUCCESS) {
@@ -156,13 +185,16 @@ static int build_proc_list (vector<PROCINFO>& pi) {
 	}
 
 	for (i = 0; i < pcnt; i++) {
+                if (retval)
+                        break;
+                
 		error = host_processor_set_priv(appstats_port, psets[i], &pset);
 		if (error != KERN_SUCCESS) {
 			fprintf(stderr, 
 			    "Error in host_processor_set_priv(): %s",
 			    mach_error_string(error));
 			retval = TRUE;
-			goto RETURN;
+			break;
 		}
 
 		error = processor_set_tasks(pset, &tasks, &tcnt);
@@ -171,16 +203,64 @@ static int build_proc_list (vector<PROCINFO>& pi) {
 			    "Error in processor_set_tasks(): %s",
 			    mach_error_string(error));
 			retval = TRUE;
-			goto RETURN;
+			break;
 		}
 
 		for (j = 0; j < tcnt; j++) {
-			if (appstats_task_update(tasks[j], pinfo)) {
-				retval = TRUE;
-				goto RETURN;
-			}
+                        if (retval)
+                                break;
+                        
+                        memset(&pinfo, 0, sizeof(PROCINFO));
+
+                        /* Get pid for this task. */
+                        error = pid_for_task(tasks[j], &pid);
+                        if (error != KERN_SUCCESS) {
+                                /* Not a process, or the process is gone. */
+                                continue;
+                        }
+                        
+                        // Get parent pid for each process
+                        /* Get kinfo structure for this task. */
+                        kinfosize = sizeof(struct kinfo_proc);
+                        mib[0] = CTL_KERN;
+                        mib[1] = KERN_PROC;
+                        mib[2] = KERN_PROC_PID;
+                        mib[3] = pid;
+
+                        if (sysctl(mib, 4, &kinfo, &kinfosize, NULL, 0) == -1) {
+                                fprintf(stderr,
+                                    "%s(): Error in sysctl(): %s", __FUNCTION__,
+                                    strerror(errno));
+                                retval = TRUE;
+                                break;
+                        }
+
+                        if (kinfo.kp_proc.p_stat == 0) {
+                                /* Zombie process. */
+                                continue;
+                        }
+
+                        pinfo.id = pid;
+                        pinfo.parentid = kinfo.kp_eproc.e_ppid;
 
                         pi.push_back(pinfo);
+                }
+        }
+        
+#if ! GET_NON_BOINC_INFO
+        // Next, find all BOINC's decendants and mark them for further study
+        if (! retval)
+                find_all_descendants(pi, boinc_pid, 0);
+#endif
+        
+        // Now get the process information for each descendant
+	for (i = 0; i < pcnt; i++) {
+		for (j = 0; j < tcnt; j++) {
+                        if (! retval)
+                            if (appstats_task_update(tasks[j], pi)) {
+                                    retval = TRUE;
+                                    goto RETURN;
+                            }
 
 			/* Delete task port if it isn't our own. */
 			if (tasks[j] != mach_task_self()) {
@@ -192,9 +272,10 @@ static int build_proc_list (vector<PROCINFO>& pi) {
 		error = vm_deallocate((vm_map_t)mach_task_self(),
 		    (vm_address_t)tasks, tcnt * sizeof(task_t));
 		if (error != KERN_SUCCESS) {
-			fprintf(stderr,
-			    "Error in vm_deallocate(): %s",
-			    mach_error_string(error));
+                        if (!retval)
+                                fprintf(stderr,
+                                    "Error in vm_deallocate(): %s",
+                                    mach_error_string(error));
 			retval = TRUE;
 			goto RETURN;
 		}
@@ -202,9 +283,10 @@ static int build_proc_list (vector<PROCINFO>& pi) {
 			 pset)) != KERN_SUCCESS
 		    || (error = mach_port_deallocate(mach_task_self(),
 			psets[i])) != KERN_SUCCESS) {
-			fprintf(stderr,
-			    "Error in mach_port_deallocate(): %s",
-			    mach_error_string(error));
+                        if (!retval)
+                                fprintf(stderr,
+                                    "Error in mach_port_deallocate(): %s",
+                                    mach_error_string(error));
 			retval = TRUE;
 			goto RETURN;
 		}
@@ -213,27 +295,24 @@ static int build_proc_list (vector<PROCINFO>& pi) {
 	error = vm_deallocate((vm_map_t)mach_task_self(),
 	    (vm_address_t)psets, pcnt * sizeof(processor_set_t));
 	if (error != KERN_SUCCESS) {
-		fprintf(stderr,
-		    "Error in vm_deallocate(): %s",
-		    mach_error_string(error));
+                if (!retval)
+                        fprintf(stderr,
+                            "Error in vm_deallocate(): %s",
+                            mach_error_string(error));
 		retval = TRUE;
 		goto RETURN;
 	}
 
-	retval = FALSE;
 	RETURN:
 	return retval;
 
 }
 
 /* Update statistics for task a_task. */
-static boolean_t appstats_task_update(task_t a_task, PROCINFO& pinfo)
+static boolean_t appstats_task_update(task_t a_task, vector<PROCINFO>& piv)
 {
 	boolean_t		retval;
 	kern_return_t		error;
-	struct kinfo_proc	kinfo;
-	size_t			kinfosize;
-	int			pid, mib[4];
 	mach_msg_type_number_t	count;
 	task_basic_info_data_t	ti;
 	vm_address_t		address;
@@ -247,9 +326,9 @@ static boolean_t appstats_task_update(task_t a_task, PROCINFO& pinfo)
 	unsigned		i;
 	task_events_info_data_t	events;
         vm_size_t               vsize, rsize;
-
-        memset(&pinfo, 0, sizeof(PROCINFO));
-
+        PROCINFO                *pinfo;
+        int                     pid;
+        
 	/* Get pid for this task. */
 	error = pid_for_task(a_task, &pid);
 	if (error != KERN_SUCCESS) {
@@ -257,31 +336,25 @@ static boolean_t appstats_task_update(task_t a_task, PROCINFO& pinfo)
 		retval = FALSE;
 		goto GONE;
 	}
+        
+        for (i=0; i<piv.size(); i++) {
+                pinfo = &piv[i];
+                if (pinfo->id == pid)
+                        break;
+        }
 
-	/* Get kinfo structure for this task. */
-	kinfosize = sizeof(struct kinfo_proc);
-	mib[0] = CTL_KERN;
-	mib[1] = KERN_PROC;
-	mib[2] = KERN_PROC_PID;
-	mib[3] = pid;
-
-	if (sysctl(mib, 4, &kinfo, &kinfosize, NULL, 0) == -1) {
-		fprintf(stderr,
-		    "%s(): Error in sysctl(): %s", __FUNCTION__,
-		    strerror(errno));
-		retval = TRUE;
-		goto RETURN;
-	}
-
-	if (kinfo.kp_proc.p_stat == 0) {
-		/* Zombie process. */
+        if (pinfo->id != pid) {
+		fprintf(stderr, "pid %d missing from list\n", pid);
 		retval = FALSE;
 		goto RETURN;
 	}
-
-        pinfo.id = pid;
-        pinfo.parentid = kinfo.kp_eproc.e_ppid;
-
+        
+#if ! GET_NON_BOINC_INFO
+        if (!pinfo->is_boinc_app) {
+		retval = FALSE;
+		goto RETURN;
+	}
+#endif        
 	/*
 	 * Get task_info, which is used for memory usage and CPU usage
 	 * statistics.
@@ -303,6 +376,7 @@ static boolean_t appstats_task_update(task_t a_task, PROCINFO& pinfo)
 	 * globally shared text and data regions).
 	 */
          rsize = ti.resident_size;
+#if GET_SWAP_SIZE
          vsize = ti.virtual_size;
             /*
              * Iterate through the VM regions of the process and determine
@@ -346,16 +420,18 @@ static boolean_t appstats_task_update(task_t a_task, PROCINFO& pinfo)
                             }
                 }
         }
-
-        pinfo.working_set_size = rsize;
-	pinfo.swap_size = vsize;
+#else
+        vsize = 0;
+#endif      // GET_SWAP_SIZE
+        pinfo->working_set_size = rsize;
+	pinfo->swap_size = vsize;
 
 	/*
 	 * Get CPU usage statistics.
 	 */
 
-        pinfo.user_time = (double)ti.user_time.seconds + (((double)ti.user_time.microseconds)/1000000.);
-        pinfo.kernel_time = (double)ti.system_time.seconds + (((double)ti.system_time.microseconds)/1000000.);
+        pinfo->user_time = (double)ti.user_time.seconds + (((double)ti.user_time.microseconds)/1000000.);
+        pinfo->kernel_time = (double)ti.system_time.seconds + (((double)ti.system_time.microseconds)/1000000.);
 
 	/* Get number of threads. */
 	error = task_threads(a_task, &thread_table, &table_size);
@@ -364,6 +440,7 @@ static boolean_t appstats_task_update(task_t a_task, PROCINFO& pinfo)
 		goto RETURN;
 	}
 
+#if GET_CPU_TIMES
 	/* Iterate through threads and collect usage stats. */
 	thi = &thi_data;
 	for (i = 0; i < table_size; i++) {
@@ -371,8 +448,8 @@ static boolean_t appstats_task_update(task_t a_task, PROCINFO& pinfo)
 		if (thread_info(thread_table[i], THREAD_BASIC_INFO,
 		    (thread_info_t)thi, &count) == KERN_SUCCESS) {
 			if ((thi->flags & TH_FLAGS_IDLE) == 0) {
-                            pinfo.user_time += (double)thi->user_time.seconds + (((double)thi->user_time.microseconds)/1000000.);
-                            pinfo.kernel_time += (double)thi->system_time.seconds + (((double)thi->system_time.microseconds)/1000000.);
+                            pinfo->user_time += (double)thi->user_time.seconds + (((double)thi->user_time.microseconds)/1000000.);
+                            pinfo->kernel_time += (double)thi->system_time.seconds + (((double)thi->system_time.microseconds)/1000000.);
 			}
 		}
 		if (a_task != mach_task_self()) {
@@ -394,6 +471,7 @@ static boolean_t appstats_task_update(task_t a_task, PROCINFO& pinfo)
 		retval = TRUE;
 		goto RETURN;
 	}
+#endif GET_CPU_TIMES
 
 	/*
 	 * Get event counters.
@@ -406,7 +484,7 @@ static boolean_t appstats_task_update(task_t a_task, PROCINFO& pinfo)
 		retval = FALSE;
 		goto RETURN;
 	} else {
-            pinfo.page_fault_count = events.pageins;
+            pinfo->page_fault_count = events.pageins;
         }
 
 	retval = FALSE;
@@ -416,6 +494,26 @@ static boolean_t appstats_task_update(task_t a_task, PROCINFO& pinfo)
 	return retval;
 }
 
+// Scan the process table marking all the decendants of the parent 
+// process. Loop thru entire table as the entries aren't in order.  
+// Recurse at most 5 times to get additional child processes. 
+//
+static void find_all_descendants(vector<PROCINFO>& piv, int pid, int rlvl) {
+    unsigned int i;
+
+    if (rlvl > MAX_DESCENDANT_LEVEL) {
+        return;
+    }
+    for (i=0; i<piv.size(); i++) {
+        PROCINFO& p = piv[i];
+        if (p.parentid == pid) {
+            p.is_boinc_app = true;
+            // look for child process of this one
+            find_all_descendants(piv, p.id, rlvl+1); // recursion - woo hoo!
+        }
+    }
+}
+
 // Scan the process table adding in CPU time and mem usage. Loop
 // thru entire table as the entries aren't in order.  Recurse at
 // most 4 times to get additional child processes 
@@ -423,7 +521,7 @@ static boolean_t appstats_task_update(task_t a_task, PROCINFO& pinfo)
 static void add_child_totals(PROCINFO& pi, vector<PROCINFO>& piv, int pid, int rlvl) {
     unsigned int i;
 
-    if (rlvl > 3) {
+    if (rlvl > (MAX_DESCENDANT_LEVEL - 1)) {
         return;
     }
     for (i=0; i<piv.size(); i++) {
@@ -444,6 +542,7 @@ static void add_child_totals(PROCINFO& pi, vector<PROCINFO>& piv, int pid, int r
     }
 }
 
+#if 0
 static void add_others(PROCINFO& pi, vector<PROCINFO>& piv) {
     unsigned int i;
 
@@ -463,13 +562,14 @@ static void add_others(PROCINFO& pi, vector<PROCINFO>& piv) {
         }
     }
 }
+#endif
 
 #ifdef _DEBUG
 static void print_procinfo(PROCINFO& pinfo) {
     unsigned long long rsize, vsize;
     
-    rsize = pinfo.working_set_size;
-    vsize = pinfo.swap_size;
+    rsize = (unsigned long long)pinfo.working_set_size;
+    vsize = (unsigned long long)pinfo.swap_size;
     printf("pid=%d, ppid=%d, rm=%llu=", pinfo.id, pinfo.parentid, rsize);
     vm_size_render(rsize);
     printf("=, vm=%llu=", vsize);

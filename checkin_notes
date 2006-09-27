@@ -10475,3 +10475,15 @@ Kevin  25 Sept 2006
         sg_ProjectsComponent.cpp
         sg_StatImageLoader.cpp
         sg_ViewTabPage.cpp/h
+
+Charlie 26 Sept 2006
+    - Mac: AppStats helper application gets info only for descendants of 
+        BOINC, which substantially improves speed & efficiency. (PROCINFO 
+        totals for other processes are not currently used anywhere.)
+    - Mac: Set host_info.m_swap to total free disk space, because OS X 
+        uses all of the available space on the machine’s boot partition
+        for swap space if needed.
+
+    client/
+        app_stats_mac.C
+        hostinfo_unix.C

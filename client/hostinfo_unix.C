@@ -451,23 +451,36 @@ int HOST_INFO::get_host_info() {
         }
         fclose(fp);
     }
+#elif defined(__APPLE__)
+    // The sysctl(vm.vmmeter) function doesn't work on OS X.  However, swap  
+    // space is limited only by free disk space, so we get that info instead. 
+    // This is larger than free disk space reported by get_filesystem_info() 
+    // because it includes space available only to the kernel / super-user.
+    //
+    // http://developer.apple.com/documentation/Performance/Conceptual/ManagingMemory/Articles/AboutMemory.html says:
+    //    Unlike most UNIX-based operating systems, Mac OS X does not use a 
+    //    preallocated swap partition for virtual memory. Instead, it uses all
+    //    of the available space on the machine’s boot partition.
+    struct statfs fs_info;
+
+    statfs(".", &fs_info);
+    m_swap = (double)fs_info.f_bsize * (double)fs_info.f_bfree;
+
 #elif defined(HAVE_VMMETER_H) && defined(HAVE_SYS_SYSCTL_H) && defined(CTL_VM) && defined(VM_METER)
     // MacOSX, I think...
     // <http://www.osxfaq.com/man/3/sysctl.ws>
-#ifndef __APPLE__
     // The sysctl(vm.vmmeter) function doesn't work on OS X, so the following 
-    // code fails to get the total swap space.  However, procinfo_setup() in  
-    // procinfo_mac.C can easily calculate it, so we fill in the value there.
-
+    // code fails to get the total swap space.  See note above for APPLE case.
+    // I've left this code here in case it is used by a different platform, 
+    // though I believe the first argument should be CTL_VM instead of CTL_USER.
     struct vmtotal vm_info;
 
-    mib[0] = CTL_VM;
+    mib[0] = CTL_USER;  // Should this be CTL_VM ?
     mib[1] = VM_METER;
     len = sizeof(vm_info);
     if (!sysctl(mib, 2, &vm_info, &len, NULL, 0)) {
         m_swap = 1024. * getpagesize() * (double) vm_info.t_vm;
     }
-#endif  // __APPLE__
 
 #elif defined(_HPUX_SOURCE)
     struct pst_vminfo vminfo;
