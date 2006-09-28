@@ -10509,8 +10509,10 @@ Kevin  27 Sept 2006
         sg_ProgressBar.cpp/h
 
 Charlie 27 Sept 2006
-    - Mac: Use full-duplex pipes s AppStats helper application can stay open 
-        for better efficiency.
+    - Mac: Use full-duplex pipes so AppStats helper application can stay open 
+        for better efficiency.  Note: the code in app_stats_mac.C and 
+        procinfo_mac.C uses standard BSD calls and so should work for any 
+        BSD Unix system (BSD 4.3 or above).
     - Mac: Update host_info.m_swap on each PROCINFO update.
     - Comment out bogus memory usage exceeded message if mem_usage_debug log 
         flag is set.
@@ -10520,7 +10522,6 @@ Charlie 27 Sept 2006
         app_stats_mac.C
     lib/
         procinfo_mac.C
-
         
 Kevin  27 Sept 2006
     - BSG
