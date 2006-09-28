@@ -92,6 +92,7 @@ CSimpleFrame::CSimpleFrame(wxString title, wxIcon* icon) :
     wxASSERT(m_pFrameRenderTimer);
     m_pFrameRenderTimer->Start(1000);                // Send event every 1 second
 
+
 	InitEmptyView();
     wxLogTrace(wxT("Function Start/End"), wxT("CSimpleFrame::CSimpleFrame - Overloaded Constructor Function End"));
  }
@@ -131,6 +132,11 @@ bool CSimpleFrame::RestoreState() {
     pConfig->SetPath(strBaseConfigLocation);
     pConfig->Read(wxT("Skin"), &skinName, wxT("default"));
 
+	int x = pConfig->Read(wxT("X_Position"), ((wxPoint) wxDefaultPosition).x);
+	int y = pConfig->Read(wxT("Y_Position"), ((wxPoint) wxDefaultPosition).y);
+	Move(x,y);
+	
+
 	return true;
 }
 
@@ -153,6 +159,10 @@ bool CSimpleFrame::SaveState() {
     pConfig->SetPath(strBaseConfigLocation);
     pConfig->Write(wxT("Skin"), skinName);
 
+	int x,y;
+	GetPosition(&x, &y);
+	pConfig->Write(wxT("X_Position"), x);
+	pConfig->Write(wxT("Y_Position"), y);
 	return true;
 }
 

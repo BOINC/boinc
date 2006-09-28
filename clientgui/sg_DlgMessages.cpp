@@ -235,7 +235,7 @@ bool CDlgMessages::_EnsureLastItemVisible() {
     return EnsureLastItemVisible();
 }
 bool CDlgMessages::EnsureLastItemVisible() {
-    return false;
+    return true;
 }
 wxInt32 CDlgMessages::FormatProjectName(wxInt32 item, wxString& strBuffer) const {
     MESSAGE* message = wxGetApp().GetDocument()->message(item);

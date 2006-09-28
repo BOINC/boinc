@@ -355,6 +355,7 @@ void CDlgPreferences::OnPaint(wxPaintEvent& WXUNUSED(event))
 	dc.DrawText(wxT("Connect to internet only between:"), wxPoint(24,193));
 	dc.DrawText(wxT("and"), wxPoint(284,193));
 	dc.DrawText(wxT("Use no more than:"), wxPoint(103,228));
+	dc.DrawText(wxT("of disk space"), wxPoint(284,228));
     dc.DrawText(wxT("Do work while computer is in use?"), wxPoint(16,263));
     dc.DrawText(wxT("Do work after computer is idle for:"), wxPoint(22,298));
     dc.DrawText(wxT("minutes"), wxPoint(284,298));

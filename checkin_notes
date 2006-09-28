@@ -10520,3 +10520,20 @@ Charlie 27 Sept 2006
         app_stats_mac.C
     lib/
         procinfo_mac.C
+
+        
+Kevin  27 Sept 2006
+    - BSG
+    	- Add support for additional file types for the skin
+    	  (GIF and ICO - in addition to the BMP, XPM and PNG 
+    	  that were already available)
+   		- Remember where the BSG was positioned last time it was open
+   		- Position the messages dialogue so that the most recent message is displayed
+   		- Add text to the preferences dialogue
+   		- Reduce size of some of the skin images
+        
+    clientgui/
+        BOINCGUIApp.cpp
+        sg_BoincSimpleGUI.cpp
+        sg_DlgMessages.cpp
+        sg_DlgPreferences.cpp

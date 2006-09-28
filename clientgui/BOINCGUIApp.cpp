@@ -423,6 +423,8 @@ bool CBOINCGUIApp::OnInit() {
     // Enable known image types
     wxImage::AddHandler(new wxXPMHandler);
 	wxImage::AddHandler(new wxPNGHandler);
+	wxImage::AddHandler(new wxGIFHandler);
+	wxImage::AddHandler(new wxICOHandler);
 
     // Initialize the internationalization module
     m_pLocale = new wxLocale();
