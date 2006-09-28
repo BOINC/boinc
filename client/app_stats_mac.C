@@ -81,12 +81,14 @@
 
 using std::vector;
 
+static int get_boinc_proc_info(int my_pid, int boinc_pid);
 static int build_proc_list (vector<PROCINFO>& pi, int boinc_pid);
 static void output_child_totals(PROCINFO& pinfo);
 static boolean_t appstats_task_update(task_t a_task, vector<PROCINFO>& piv);
 static void find_all_descendants(vector<PROCINFO>& piv, int pid, int rlvl);
 static void add_child_totals(PROCINFO& pi, vector<PROCINFO>& piv, int pid, int rlvl);
 //static void add_others(PROCINFO&, std::vector<PROCINFO>&);
+static void sig_pipe(int signo);
 
 #ifdef _DEBUG
 static void print_procinfo(PROCINFO& pinfo);
@@ -102,9 +104,7 @@ static void vm_size_render(unsigned long long a_size);
 int main(int argc, char** argv) {
     int boinc_pid, my_pid;
     int retval;
-    vector<PROCINFO> piv;
-    PROCINFO child_total;
-    unsigned int i;
+    char buf[256];
     
     if (geteuid() != 0)             // This must be run setuid root
         return EACCES;
@@ -114,7 +114,35 @@ int main(int argc, char** argv) {
 
     if (argc == 2)
         boinc_pid = atoi(argv[1]);  // Pass in any desired valid pid for testing
+
+    if (signal(SIGPIPE, sig_pipe) == SIG_ERR) {
+        fprintf(stderr, "signal error");
+        return 0;
+    }
     
+    setbuf(stdin, 0);
+    setbuf(stdout, 0);
+    
+    while (1) {
+        if (fgets(buf, sizeof(buf), stdin) == NULL)
+            return 0;
+        
+        if (feof(stdin))
+            return 0;
+
+        retval = get_boinc_proc_info(my_pid, boinc_pid);
+    }
+    
+    return 0;
+}
+
+static int get_boinc_proc_info(int my_pid, int boinc_pid) {    
+    int retval;
+    vector<PROCINFO> piv;
+    PROCINFO child_total;
+    unsigned int i;
+    
+
     retval = build_proc_list(piv, boinc_pid);
     if (retval)
         return retval;
@@ -140,14 +168,14 @@ int main(int argc, char** argv) {
         }
     }
     
+    memset(&child_total, 0, sizeof(child_total));
 #if 0
 #ifdef _DEBUG
     printf("\n\nSumming info for all other processes\n");
 #endif
-    memset(&child_total, 0, sizeof(child_total));
     add_others(child_total, piv);
-    output_child_totals(child_total);
 #endif
+    output_child_totals(child_total);   // zero pid signals end of data
     
     return 0;
 }
@@ -157,6 +185,7 @@ static void output_child_totals(PROCINFO& pinfo) {
     printf("%d %d %.0lf %.0lf %lu %lf %lf\n", 
                 pinfo.id, pinfo.parentid, pinfo.working_set_size, pinfo.swap_size, 
                 pinfo.page_fault_count, pinfo.user_time, pinfo.kernel_time);
+//    fflush(stdout);
 }
 
 static int build_proc_list (vector<PROCINFO>& pi, int boinc_pid) {
@@ -563,6 +592,11 @@ static void add_others(PROCINFO& pi, vector<PROCINFO>& piv) {
     }
 }
 #endif
+
+static void sig_pipe(int signo)
+{
+	exit(1);
+}
 
 #ifdef _DEBUG
 static void print_procinfo(PROCINFO& pinfo) {

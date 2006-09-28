@@ -469,6 +469,7 @@ bool ACTIVE_TASK::check_max_disk_exceeded() {
 
 bool ACTIVE_TASK::check_max_mem_exceeded() {
     if (max_mem_usage != 0 && procinfo.working_set_size > max_mem_usage) {
+#if 0
 		if (log_flags.mem_usage_debug) {
 			msg_printf(
 				result->project, MSG_INFO,
@@ -477,6 +478,7 @@ bool ACTIVE_TASK::check_max_mem_exceeded() {
 			);
 		}
         //abort_task(ERR_RSC_LIMIT_EXCEEDED, "Maximum memory usage exceeded");
+#endif
     }
     return false;
 }

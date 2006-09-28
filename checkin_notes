@@ -10507,3 +10507,16 @@ Kevin  27 Sept 2006
     clientgui/
         sg_BoincSimpleGUI.cpp
         sg_ProgressBar.cpp/h
+
+Charlie 27 Sept 2006
+    - Mac: Use full-duplex pipes s AppStats helper application can stay open 
+        for better efficiency.
+    - Mac: Update host_info.m_swap on each PROCINFO update.
+    - Comment out bogus memory usage exceeded message if mem_usage_debug log 
+        flag is set.
+    
+    client/
+        app_control.C
+        app_stats_mac.C
+    lib/
+        procinfo_mac.C

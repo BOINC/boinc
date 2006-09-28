@@ -20,12 +20,22 @@
 // procinfo_mac.C
 //
 
+#define SHOW_TIMING 0
+
 #include "config.h"
 #include <stdio.h>
 
 #include <ctype.h>
+#include <cerrno>
 #include <sys/types.h>
 #include <dirent.h>
+#include <signal.h>
+#include <sys/socket.h>
+#include <sys/mount.h>
+
+#if SHOW_TIMING
+#include <Carbon/Carbon.h>
+#endif
 
 #include "procinfo.h"
 #include "client_msgs.h"
@@ -57,25 +67,54 @@ using std::vector;
 // This code doesn't use PROCINFO.is_boinc_app, but we set it to be consistent 
 // with the code for other platforms.
 
+static int bidirectional_popen(char *path, int *fd);
 
 int procinfo_setup(vector<PROCINFO>& pi) {
     char appstats_path[100];
-    FILE* fd;
+    static int fd[2] = {0, 0};
     PROCINFO p;
-    int c;
-    unsigned int i;
-    double m_swap;
+    int c, result, retry = 0;
+    char buf[256];
+    struct statfs fs_info;
+#if SHOW_TIMING
+    UnsignedWide start, end, elapsed;
 
-    sprintf(appstats_path, "%s/%s", SWITCHER_DIR, APP_STATS_FILE_NAME);
-    fd = popen(appstats_path, "r");
-    if (!fd) return 0;
+    start = UpTime();
+#endif
+
+    if (fd[0] == 0) {
+        // Launch AppStats helper application with a bidirectional pipe
+RELAUNCH:
+        sprintf(appstats_path, "%s/%s", SWITCHER_DIR, APP_STATS_FILE_NAME);
+        result = bidirectional_popen(appstats_path, fd);
+#if SHOW_TIMING
+        msg_printf(NULL, MSG_ERROR, "bidirectional_popen returned %d\n", result);
+#endif
+        if (result) return 0;
+        retry = 0;              // Reset retry counter on success
+    }
 
     while (1) {
+        c = write(fd[0], "\n", 1);    // Request a set of process info from AppStats helper application
+        if (c < 0)              // AppStats application quit
+            if (++retry == 1)
+                goto RELAUNCH;
+
         memset(&p, 0, sizeof(p));
-        c = fscanf(fd, "%d %d %lf %lf %lu %lf %lf\n", 
+        for (unsigned int i=0; i<sizeof(buf); i++) {
+            c = read(fd[0], buf+i, 1);
+            if (c < 0)              // AppStats application quit
+                if (++retry == 1)
+                    goto RELAUNCH;
+             if (buf[i] == '\n')
+                break;
+        }
+        c = sscanf(buf, "%d %d %lf %lf %lu %lf %lf\n", 
                         &p.id, &p.parentid, &p.working_set_size, &p.swap_size, 
                         &p.page_fault_count, &p.user_time, &p.kernel_time);
-        if (c < 7) break;
+                                    
+        if (p.id == 0)
+            break;
         p.is_boinc_app = false;
         pi.push_back(p);
         
@@ -87,18 +126,16 @@ int procinfo_setup(vector<PROCINFO>& pi) {
                     p.page_fault_count, p.user_time, p.kernel_time  
             );
         }
+
+        statfs(".", &fs_info);
+        gstate.host_info.m_swap = (double)fs_info.f_bsize * (double)fs_info.f_bfree;
     }
     
-    pclose(fd);
-    
-    // The sysctl(vm.vmmeter) function doesn't work on OS X, so hostinfo_unix.C
-    // function HOST_INFO::get_host_info() can't get the total swap space. 
-    // It is easily calculated here, so fill in the value of host_info.m_swap.
-    m_swap = 0;
-    for (i=0; i<pi.size(); i++) {
-        m_swap += pi[i].swap_size;
-    }
-    gstate.host_info.m_swap = m_swap;
+#if SHOW_TIMING
+    end = UpTime();
+    elapsed = AbsoluteToNanoseconds(SubAbsoluteFromAbsolute(end, start));
+    msg_printf(NULL, MSG_ERROR, "elapsed time = %llu, m_swap = %lf\n", elapsed, gstate.host_info.m_swap);
+#endif
     
     return 0;
 }
@@ -121,9 +158,58 @@ void procinfo_app(PROCINFO& pi, vector<PROCINFO>& piv) {
     }
 }
 
+#if 0
+    // the following is not useful because most OSs don't
+    // move idle processes out of RAM, so physical memory is always full
+    //
 void procinfo_other(PROCINFO& pi, vector<PROCINFO>& piv) {
     // AppStat returned total for all other processes as a single PROCINFO 
     // struct with id field set to zero.
     memset(&pi, 0, sizeof(pi));
     procinfo_app(pi, piv);
+}
+#endif
+
+static int bidirectional_popen(char *path, int *fd) {
+    pid_t	pid;
+    char        *appname;
+
+    appname = strrchr(path, '/');
+    if (! appname)
+        appname = path;
+
+    if (socketpair(AF_UNIX, SOCK_STREAM, 0, fd) < 0) {			/* only need a single stream pipe */
+        msg_printf(NULL, MSG_ERROR, "%s: pipe error %d: %s\n", appname, errno, strerror(errno));
+        return ERR_SOCKET;
+    }
+    
+    if ( (pid = fork()) < 0) {
+        close(fd[0]);
+        close(fd[1]);
+        msg_printf(NULL, MSG_ERROR, "%s: fork error\n", appname);
+        return ERR_FORK;
+    }
+    else if (pid > 0) {							/* parent */
+        close(fd[1]);
+     } else {								/* child */
+        close(fd[0]);
+        if (fd[1] != STDIN_FILENO) {
+            if (dup2(fd[1], STDIN_FILENO) != STDIN_FILENO) {
+               fprintf(stderr, "dup2 error to stdin");
+               exit (1);
+            }
+        }
+        if (fd[1] != STDOUT_FILENO) {
+            if (dup2(fd[1], STDOUT_FILENO) != STDOUT_FILENO) {
+                fprintf(stderr, "dup2 error to stdout");
+                exit (1);
+            }
+        }
+        if (execl(path, appname, NULL) < 0) {
+            printf("-1\n");
+            fprintf(stderr, "execl error");
+        }
+    }
+    
+    return 0;
 }
