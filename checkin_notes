@@ -10576,3 +10576,16 @@ David  28 Sept 2006
         update_uotd.php
         watchdogs.php
         wd_nresults_changing.php
+
+David  28 Sept 2006
+    - Redo the above, using
+        #!/usr/bin/env php
+        (suggested by Eric Myers)
+
+    html/ops/
+        db_update.php
+        update_forum_activities.php
+        update_profile_pages.php
+        update_uotd.php
+        watchdogs.php
+        wd_nresults_changing.php

@@ -1,4 +1,4 @@
-#! /usr/bin/php
+#! /usr/bin/env php
 <?php
 
 // General-purpose watchdog script.
