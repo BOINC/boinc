@@ -10556,3 +10556,23 @@ David  28 Sept 2006
         user/
             cert1.php (new)
             sample_index.php
+
+David  28 Sept 2006
+    - Change first line of various scripts from
+        #!/usr/local/bin/php (which seems to be Solaris-specific)
+        to
+        #!/usr/bin/php (which seems to be more standard)
+
+        It would be nice to have this not hardwired.
+        One solution would be to omit the first line
+        (make these files into PHP files rather than scripts)
+        and require the <command> tags in config.xml to specify the PHP path.
+        But this would disrupt some projects, so I'll defer this.
+
+    html/ops/
+        db_update.php
+        update_forum_activities.php
+        update_profile_pages.php
+        update_uotd.php
+        watchdogs.php
+        wd_nresults_changing.php

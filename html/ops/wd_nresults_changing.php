@@ -1,4 +1,4 @@
-#! /usr/local/bin/php -q
+#! /usr/bin/php -q
 <?php
 
 // watchdog script to ensure that the number of result records

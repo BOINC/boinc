@@ -1,4 +1,4 @@
-#! /usr/local/bin/php
+#! /usr/bin/php
 <?php
 
 // General-purpose watchdog script.
