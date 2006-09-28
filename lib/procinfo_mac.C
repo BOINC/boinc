@@ -70,10 +70,12 @@ using std::vector;
 static int bidirectional_popen(char *path, int *fd);
 
 int procinfo_setup(vector<PROCINFO>& pi) {
-    char appstats_path[100];
     static int fd[2] = {0, 0};
+    static int failed_retries = 0;
+
+    char appstats_path[100];
     PROCINFO p;
-    int c, result, retry = 0;
+    int c, result, retry_count = 0;
     char buf[256];
     struct statfs fs_info;
 #if SHOW_TIMING
@@ -85,27 +87,40 @@ int procinfo_setup(vector<PROCINFO>& pi) {
     if (fd[0] == 0) {
         // Launch AppStats helper application with a bidirectional pipe
 RELAUNCH:
+        if (failed_retries > 4) // Give up after failures on 5 consecutive calls 
+            return ERR_EXEC;    //  of procinfo_setup()
+            
+        if (retry_count > 1) {
+            ++failed_retries;
+            return ERR_EXEC;
+        }
+            
         sprintf(appstats_path, "%s/%s", SWITCHER_DIR, APP_STATS_FILE_NAME);
         result = bidirectional_popen(appstats_path, fd);
 #if SHOW_TIMING
         msg_printf(NULL, MSG_ERROR, "bidirectional_popen returned %d\n", result);
 #endif
-        if (result) return 0;
-        retry = 0;              // Reset retry counter on success
+        if (result) {
+            ++retry_count;
+            goto RELAUNCH;
+        }
+    }
+
+    c = write(fd[0], "\n", 1);  // Request a set of process info from AppStats helper application
+    if (c < 0) {                // AppStats application exited
+        ++retry_count;
+        goto RELAUNCH;
     }
 
     while (1) {
-        c = write(fd[0], "\n", 1);    // Request a set of process info from AppStats helper application
-        if (c < 0)              // AppStats application quit
-            if (++retry == 1)
-                goto RELAUNCH;
-
         memset(&p, 0, sizeof(p));
         for (unsigned int i=0; i<sizeof(buf); i++) {
             c = read(fd[0], buf+i, 1);
-            if (c < 0)              // AppStats application quit
-                if (++retry == 1)
-                    goto RELAUNCH;
+            if (c < 0) {                // AppStats application exited
+                ++retry_count;
+                goto RELAUNCH;
+            }
+
              if (buf[i] == '\n')
                 break;
         }
@@ -126,11 +141,13 @@ RELAUNCH:
                     p.page_fault_count, p.user_time, p.kernel_time  
             );
         }
-
-        statfs(".", &fs_info);
-        gstate.host_info.m_swap = (double)fs_info.f_bsize * (double)fs_info.f_bfree;
     }
-    
+
+    failed_retries = 0;        // Success: reset consecutive failures counter
+
+    statfs(".", &fs_info);
+    gstate.host_info.m_swap = (double)fs_info.f_bsize * (double)fs_info.f_bfree;
+
 #if SHOW_TIMING
     end = UpTime();
     elapsed = AbsoluteToNanoseconds(SubAbsoluteFromAbsolute(end, start));
@@ -162,6 +179,10 @@ void procinfo_app(PROCINFO& pi, vector<PROCINFO>& piv) {
     // the following is not useful because most OSs don't
     // move idle processes out of RAM, so physical memory is always full
     //
+    // If you wish to implement this in a future release, you must also 
+    // enable the corresponding logic in app_stats_mac.C by defining 
+    // GET_NON_BOINC_INFO to 1
+    //
 void procinfo_other(PROCINFO& pi, vector<PROCINFO>& piv) {
     // AppStat returned total for all other processes as a single PROCINFO 
     // struct with id field set to zero.
@@ -186,6 +207,8 @@ static int bidirectional_popen(char *path, int *fd) {
     if ( (pid = fork()) < 0) {
         close(fd[0]);
         close(fd[1]);
+        fd[0] = 0;
+        fd[1] = 0;
         msg_printf(NULL, MSG_ERROR, "%s: fork error\n", appname);
         return ERR_FORK;
     }

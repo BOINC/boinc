@@ -10538,3 +10538,9 @@ Kevin  27 Sept 2006
         sg_BoincSimpleGUI.cpp
         sg_DlgMessages.cpp
         sg_DlgPreferences.cpp
+
+Charlie 28 Sept 2006
+    - Mac: Add safety features and fix bugs in procinfo_setup().
+
+    lib/
+        procinfo_mac.C
