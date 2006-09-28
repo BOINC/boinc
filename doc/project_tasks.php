@@ -4,7 +4,7 @@ require_once("docutil.php");
 page_head("Periodic tasks");
 echo "
 <b>Periodic tasks</b> are programs that are run periodically.
-They are executed by the <a href=tools_start.php>bin/start --cron</a> program,
+They are executed by the <a href=tool_start.php>bin/start --cron</a> program,
 which you should run from cron.
 (To do this, run crontab and add a line of the form
 <pre>

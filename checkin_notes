@@ -10544,3 +10544,15 @@ Charlie 28 Sept 2006
 
     lib/
         procinfo_mac.C
+
+David  28 Sept 2006
+    - user web: add page for "Certificate of Computation"
+        (mostly borrowed from SETI@home; needs to be
+        customized by the project)
+
+    html/
+        inc/
+            cert.inc (new)
+        user/
+            cert1.php (new)
+            sample_index.php
