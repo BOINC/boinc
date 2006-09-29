@@ -83,8 +83,8 @@ public:
 		wxBitmap* GetIcnWorkingWkUnit() { return skinImages[wxString(_T("workingWkUnit"))]; }
         wxBitmap* GetDefaultStatIcn() { return skinImages[wxString(_T("defaultStatIcon"))]; }
         wxBitmap* GetAnimationBg() { return skinImages[wxString(_T("animation_background"))]; }
-        wxString GetAnimationFile() const { return m_animFile; }
-        
+        wxBitmap* GetDefaultWorkunitImage() { return skinImages[wxString(_T("default_wu_image"))]; }
+         
 		wxString GetSkinName() const { return m_skinName; }
 		wxString GetSkinsFolder() const { return m_skinsFolder; }
 

@@ -28,13 +28,14 @@ class ImageLoader : public wxWindow
 { 
 public: 
 	    /// Constructors
-	    ImageLoader(wxWindow* parent); 
+	    ImageLoader(wxWindow* parent, bool center = false); 
         void LoadImage(wxBitmap image); 
         void OnPaint(wxPaintEvent& event); 
 private: 
         //static const int MaxWidth = 320; 
         //static const int MaxHeight = 240; 
         wxBitmap Bitmap; 
+		bool centerOnParent;
         DECLARE_EVENT_TABLE() 
 }; 
 

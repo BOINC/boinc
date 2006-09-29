@@ -24,13 +24,20 @@
 #pragma interface "sg_ViewTabPage.cpp"
 #endif
 
+#include <vector>
+#include "common/wxFlatNotebook.h"
+#include "BOINCGUIApp.h"
+#include "sg_ImageLoader.h"
+
+
 class MyCanvas : public wxScrolledWindow
 {
 public:
-    MyCanvas(wxWindow *parent, const wxPoint& pos, const wxSize& size);
+	MyCanvas(wxWindow *parent, const wxPoint& pos, const wxSize& size, std::vector<wxBitmap> images);
     void OnPaint(wxPaintEvent& event);
 
 private:
+	std::vector<ImageLoader*> vSlideShow;
 
     DECLARE_EVENT_TABLE()
 };
@@ -39,10 +46,6 @@ class CProgressBar;
 class CStaticLine;
 class CStaticLine;
 class CImageButton;
-
-#include "BOINCGUIApp.h"
-#include "common/wxAnimate.h"
-#include "common/wxFlatNotebook.h"
 
 class CViewTabPage : public wxPanel {
     DECLARE_DYNAMIC_CLASS( CViewTabPage )
@@ -56,7 +59,6 @@ public:
 	////////////////////
 	// animation
 	wxBitmap* btmpBgAnim;
-	wxWindow* wAnimWk1;
 	CImageButton * btnAminBg;
     //line
 	CStaticLine *lnProjName;
@@ -98,7 +100,6 @@ public:
 		
 	// Animation
     MyCanvas* GetCanvas() const { return m_canvas; }
-    wxGIFAnimationCtrl* GetAnimationCtrl() const { return m_animationCtrl; }
 	
 	DECLARE_EVENT_TABLE()
 
@@ -116,12 +117,13 @@ protected:
 	void OnEraseBackground(wxEraseEvent& event);
     void DrawBackImg(wxEraseEvent& event,wxWindow *win,wxBitmap bitMap,int opz);
     
-	MyCanvas*           m_canvas;
-    wxGIFAnimationCtrl* m_animationCtrl;
-#if 0
-    wxAnimationPlayer   m_player;
-    wxGIFAnimation      m_animation;
-#endif
+
+private:
+
+	void CreateSlideShowWindow();
+	std::vector<wxBitmap> GetSlideShow();
+	wxWindow* wSlideShow;
+	MyCanvas* m_canvas;
 
 };
 

@@ -28,8 +28,9 @@ BEGIN_EVENT_TABLE(ImageLoader, wxWindow)
         EVT_PAINT(ImageLoader::OnPaint) 
 END_EVENT_TABLE() 
 
-ImageLoader::ImageLoader(wxWindow* parent) : wxWindow(parent, wxID_ANY, wxDefaultPosition, wxDefaultSize, wxNO_BORDER) 
+ImageLoader::ImageLoader(wxWindow* parent, bool center) : wxWindow(parent, wxID_ANY, wxDefaultPosition, wxDefaultSize, wxNO_BORDER) 
 { 
+	centerOnParent = center;
 }
 void ImageLoader::LoadImage(wxBitmap image) 
 { 
@@ -37,6 +38,9 @@ void ImageLoader::LoadImage(wxBitmap image)
         int height = image.GetHeight(); 
         Bitmap = image; 
         SetSize(width, height); 
+		if ( centerOnParent ) {
+			CentreOnParent();
+		}
 } 
 
 void ImageLoader::OnPaint(wxPaintEvent& WXUNUSED(event)) 

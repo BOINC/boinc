@@ -102,28 +102,13 @@ void CViewTabPage::CreatePage()
 	// project image behind graphic <><><>
 	btnAminBg = new CImageButton(this,*(appSkin->GetAnimationBg()),wxPoint(28,154),wxSize(294,146),m_hasGraphic);
 
-	//// Animation Window
-	wAnimWk1=new wxWindow(this,-1,wxPoint(98,156),wxSize(148,142),wxNO_BORDER);
-	// media control
-	/////////////
-	m_canvas = new MyCanvas(wAnimWk1, wxPoint(0,0), wxSize(148,142));
-	#if 0
-		m_player.SetDestroyAnimation(false);
-		m_player.SetWindow(m_canvas);
-		m_player.SetPosition(wxPoint(0, 0));
-	#endif
-	m_animationCtrl = new wxGIFAnimationCtrl(m_canvas, -1, wxEmptyString,
-		wxPoint(0, 0), wxSize(148, 142));
-	m_animationCtrl->GetPlayer().UseBackgroundColour(true);
-	m_animationCtrl->Stop();
-	if (m_animationCtrl->LoadFile(appSkin->ComputeSkinDir() + wxString(_T("/")) + appSkin->GetAnimationFile()))
-	{
-		m_animationCtrl->Play();
-	}
-	else
-	{
-		wxMessageBox(_T("Sorry, this animation was not a valid animated GIF."));
-	}
+	CreateSlideShowWindow();
+}
+
+std::vector<wxBitmap> CViewTabPage::GetSlideShow() {
+	std::vector<wxBitmap> vSlideShow;
+	vSlideShow.push_back(*(appSkin->GetDefaultWorkunitImage()));
+	return vSlideShow;
 }
 void CViewTabPage::UpdateInterface()
 {
@@ -145,13 +130,33 @@ void CViewTabPage::UpdateInterface()
 	DrawText();
 
 	// check to see if we can display graphics
+	bool changed = false;
 	if (resultWU->supports_graphics && resultWU->active_task_state == 1) {
+		if ( !m_hasGraphic ) {
+			changed = true;
+		}
 		m_hasGraphic = true;
 	} else {
+		if ( m_hasGraphic ) {
+			changed = true;
+		}
 		m_hasGraphic = false;
 	}
 	btnAminBg->SetShowText(m_hasGraphic);
-
+	if ( changed ) {
+		btnAminBg->Update();
+		m_canvas->Refresh();
+		m_canvas->Update();
+	}
+}
+void CViewTabPage::CreateSlideShowWindow() {
+//	wAnimWk1=new wxWindow(this,-1,wxPoint(98,156),wxSize(148,142),wxNO_BORDER);
+	if ( wSlideShow <= NULL ) {
+		delete wSlideShow;
+	}
+	wSlideShow=new wxWindow(this,-1,wxPoint(32,158),wxSize(286,128),wxNO_BORDER);
+//	m_canvas = new MyCanvas(wAnimWk1, wxPoint(0,0), wxSize(148,142), GetSlideShow());
+	m_canvas = new MyCanvas(wSlideShow, wxPoint(0,0), wxSize(286,128), GetSlideShow());
 }
 void CViewTabPage::ReskinInterface()
 {	
@@ -161,6 +166,7 @@ void CViewTabPage::ReskinInterface()
 	lnProjName->SetLineColor(appSkin->GetStaticLineCol());
 	// gauge
 	gaugeWUMain->ReskinInterface();
+	CreateSlideShowWindow();
 }
 
 
@@ -356,24 +362,49 @@ BEGIN_EVENT_TABLE(MyCanvas, wxScrolledWindow)
 END_EVENT_TABLE()
 
 // Define a constructor for my canvas
-MyCanvas::MyCanvas(wxWindow *parent, const wxPoint& pos, const wxSize& size)
+MyCanvas::MyCanvas(wxWindow *parent, const wxPoint& pos, const wxSize& size, std::vector<wxBitmap> images)
         : wxScrolledWindow(parent, -1, pos, size,
                            wxNO_BORDER |
                            wxNO_FULL_REPAINT_ON_RESIZE)
 {
     SetBackgroundColour(wxColour(_T("BLACK")));
+	wxBitmap* image;
+	ImageLoader* il;
+	double xRatio, yRatio, ratio;
+	for(unsigned int i=0; i < images.size(); i++) {
+		image = &(images.at(i));
+
+		// Check to see if they need to be rescaled to fit in the window
+		ratio = 1.0;
+		xRatio = ((double) size.GetWidth())/((double) image->GetWidth());
+		yRatio = ((double) size.GetHeight())/((double) image->GetHeight());
+		if ( xRatio < ratio ) {
+			ratio = xRatio;
+		}
+		if ( yRatio < ratio ) {
+			ratio = yRatio;
+		}
+		if ( ratio < 1.0 ) {
+			wxImage img = image->ConvertToImage();
+			img.Rescale((int) image->GetWidth()*ratio, (int) image->GetHeight()*ratio);
+			image = new wxBitmap(img);
+		}
+		il = new ImageLoader(this, true);
+		il->LoadImage(*image);
+		if ( ratio < 1.0 ) {
+			delete image;
+		}
+		il->Show(true);
+		vSlideShow.push_back(il);
+	} 
 }
 
 void MyCanvas::OnPaint(wxPaintEvent& WXUNUSED(event))
 {
     wxLogTrace(wxT("Function Start/End"), wxT("MyCanvas::OnPaint - Begin"));
     wxPaintDC dc(this);
-#if 0
-    CSimpleFrame* frame = (CSimpleFrame*) GetParent();
-    if (frame->GetPlayer().IsPlaying())
-    {
-        frame->GetPlayer().Draw(dc);
-    }
-#endif
+//	if ( vSlideShow.size() > 0 && vSlideShow.at(0).Ok() ) {
+//		dc.DrawBitmap(vSlideShow.at(0),0,0,false);
+//	}
     wxLogTrace(wxT("Function Start/End"), wxT("MyCanvas::OnPaint - End"));
 }

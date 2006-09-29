@@ -44,8 +44,12 @@ void CImageButton::OnPaint(wxPaintEvent& WXUNUSED(event))
 		{
 			dc.SetTextForeground(wxColour(*wxWHITE));
 			dc.SetFont(wxFont(7,74,90,90,0,wxT("Arial")));
-			dc.DrawText(wxT("> Show real-time"), wxPoint(220,120));
-			dc.DrawText(wxT("graphics"), wxPoint(230,130));
+			wxString text = wxString(wxT("> Show real-time graphics"));
+			wxCoord width, height;
+			dc.GetTextExtent(text, &width, &height);
+			int x, y;
+			GetSize(&x,&y);
+			dc.DrawText(text, wxPoint(x-width-7,y-height-4));
 		}
 } 
 void CImageButton::SetImage(wxBitmap bg) 

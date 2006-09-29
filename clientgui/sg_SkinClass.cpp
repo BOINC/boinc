@@ -60,7 +60,7 @@ bool SkinClass::CheckSkin()
 		return false;//skin xml file is not available
 	} 
 
-	if ( skinImageNames.size() != 35 ) {
+	if ( skinImageNames.size() != 36 ) {
 		return false;
 	}
 	
@@ -174,8 +174,7 @@ int SkinClass::LoadSkinXML(){
 		} else if (GetImageName(buf, "right_arrow_button")){
 		} else if (GetImageName(buf, "right_arrow_clicked_button")){
 		} else if (GetImageName(buf, "animation_background")){
-		} else if (parse_str(buf, "<default_animation", val)){
-			SetAnimationFile(wxString( val.c_str(), wxConvUTF8 ));
+		} else if (GetImageName(buf, "default_wu_image")){
 		} else if (match_tag(buf, "<icons")) {
 			while (mf.fgets(buf, 256)) {
 				std::string val;
