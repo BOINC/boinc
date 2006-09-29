@@ -10604,3 +10604,10 @@ Kevin  29 Sept 2006
         sg_BoincSimpleGUI.cpp
         sg_DlgMessages.cpp
         sg_DlgPreferences.cpp
+
+David  29 Sept 2006
+    - include cpu_usage_limit in prefs XML
+        (in get_state GUI RPC reply, and in app init file)
+
+    lib/
+        prefs.C

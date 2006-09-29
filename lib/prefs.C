@@ -232,7 +232,9 @@ int GLOBAL_PREFS::parse_file(
     return retval;
 }
 
-// this is used only to write the app init data file
+// this is used to write
+// 1) the app init data file
+// 2) GUI RPC get_state reply
 //
 int GLOBAL_PREFS::write(MIOFILE& f) {
     f.printf(
@@ -255,6 +257,7 @@ int GLOBAL_PREFS::write(MIOFILE& f) {
         "   <idle_time_to_run>%f</idle_time_to_run>\n"
         "   <max_bytes_sec_up>%f</max_bytes_sec_up>\n"
         "   <max_bytes_sec_down>%f</max_bytes_sec_down>\n"
+        "   <cpu_usage_limit>%f</cpu_usage_limit>\n"
         "</global_preferences>\n",
         mod_time,
         run_on_batteries?"   <run_on_batteries/>\n":"",
@@ -277,7 +280,8 @@ int GLOBAL_PREFS::write(MIOFILE& f) {
         vm_max_used_pct,
         idle_time_to_run,
         max_bytes_sec_up,
-        max_bytes_sec_down
+        max_bytes_sec_down,
+        cpu_usage_limit
     );
     return 0;
 }
