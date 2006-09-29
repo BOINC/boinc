@@ -10589,3 +10589,18 @@ David  28 Sept 2006
         update_uotd.php
         watchdogs.php
         wd_nresults_changing.php
+
+Kevin  29 Sept 2006
+    - BSG
+    	- Changed workunit area to use a static image rather then an animiated gif
+    	- Center the image within the space and resize it dyanmically if necessary to fit
+    	  within the allocated space
+   		- Fix bug that makes sure that the BSG will be displayed on the screen if the 
+   		  values of the previous location are corrupted for some reason
+ 
+        
+    clientgui/
+        BOINCGUIApp.cpp
+        sg_BoincSimpleGUI.cpp
+        sg_DlgMessages.cpp
+        sg_DlgPreferences.cpp
