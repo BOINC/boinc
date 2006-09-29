@@ -132,8 +132,27 @@ bool CSimpleFrame::RestoreState() {
     pConfig->SetPath(strBaseConfigLocation);
     pConfig->Read(wxT("Skin"), &skinName, wxT("default"));
 
+	// Read the last coordinates of the BSG
 	int x = pConfig->Read(wxT("X_Position"), ((wxPoint) wxDefaultPosition).x);
 	int y = pConfig->Read(wxT("Y_Position"), ((wxPoint) wxDefaultPosition).y);
+	
+	// If either co-ordinate is less then 0 then set it equal to 0 to ensure
+	// it displays on the screen.
+	if ( x < 0 ) x = 0;
+	if ( y < 0 ) y = 0;
+
+	// Read the size of the screen
+	int maxX = wxSystemSettings::GetSystemMetric( wxSYS_SCREEN_X );
+	int maxY = wxSystemSettings::GetSystemMetric( wxSYS_SCREEN_Y );
+
+	// Read the size of the BSG
+	int width, height;
+	GetSize(&width, &height);
+
+	// Max sure that it doesn't go off to the right or bottom
+	if ( x + width > maxX ) x=maxX-width;
+	if ( y + height > maxY ) y=maxY-height;
+
 	Move(x,y);
 	
 
