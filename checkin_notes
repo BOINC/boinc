@@ -10611,3 +10611,10 @@ David  29 Sept 2006
 
     lib/
         prefs.C
+
+Rom    1 Oct 2006
+    - Update libcurl for Windows to version 7.15.5 so that curl can handle bandwidth
+        throttling.
+        
+    curl/
+        <Various Files>

@@ -58,7 +58,18 @@ extern "C" {
 #define CURL_EXTERN  __declspec(dllimport)
 #endif
 #else
+
+#ifdef CURL_HIDDEN_SYMBOLS
+/*
+ * This definition is used to make external definitions visibile in the
+ * shared library when symbols are hidden by default.  It makes no
+ * difference when compiling applications whether this is set or not,
+ * only when compiling the library.
+ */
+#define CURL_EXTERN CURL_EXTERN_SYMBOL
+#else
 #define CURL_EXTERN
+#endif
 #endif
 
 /*
@@ -242,7 +253,7 @@ typedef enum {
   CURLE_UNSUPPORTED_PROTOCOL,    /* 1 */
   CURLE_FAILED_INIT,             /* 2 */
   CURLE_URL_MALFORMAT,           /* 3 */
-  CURLE_URL_MALFORMAT_USER,      /* 4 (NOT USED) */
+  CURLE_URL_MALFORMAT_USER,      /* 4 - NOT USED */
   CURLE_COULDNT_RESOLVE_PROXY,   /* 5 */
   CURLE_COULDNT_RESOLVE_HOST,    /* 6 */
   CURLE_COULDNT_CONNECT,         /* 7 */
@@ -250,7 +261,7 @@ typedef enum {
   CURLE_FTP_ACCESS_DENIED,       /* 9 a service was denied by the FTP server
                                     due to lack of access - when login fails
                                     this is not returned. */
-  CURLE_FTP_USER_PASSWORD_INCORRECT, /* 10 */
+  CURLE_FTP_USER_PASSWORD_INCORRECT, /* 10 - NOT USED */
   CURLE_FTP_WEIRD_PASS_REPLY,    /* 11 */
   CURLE_FTP_WEIRD_USER_REPLY,    /* 12 */
   CURLE_FTP_WEIRD_PASV_REPLY,    /* 13 */
@@ -268,6 +279,10 @@ typedef enum {
   CURLE_FTP_COULDNT_STOR_FILE,   /* 25 - failed FTP upload */
   CURLE_READ_ERROR,              /* 26 - could open/read from file */
   CURLE_OUT_OF_MEMORY,           /* 27 */
+  /* Note: CURLE_OUT_OF_MEMORY may sometimes indicate a conversion error
+           instead of a memory allocation error if CURL_DOES_CONVERSIONS
+           is defined
+  */
   CURLE_OPERATION_TIMEOUTED,     /* 28 - the timeout time was reached */
   CURLE_FTP_COULDNT_SET_ASCII,   /* 29 - TYPE A failed */
   CURLE_FTP_PORT_FAILED,         /* 30 - FTP PORT operation failed */
@@ -318,8 +333,17 @@ typedef enum {
   CURLE_TFTP_UNKNOWNID,          /* 72 - Unknown transfer ID */
   CURLE_TFTP_EXISTS,             /* 73 - File already exists */
   CURLE_TFTP_NOSUCHUSER,         /* 74 - No such user */
+  CURLE_CONV_FAILED,             /* 75 - conversion failed */
+  CURLE_CONV_REQD,               /* 76 - caller must register conversion
+                                    callbacks using curl_easy_setopt options
+                                    CURLOPT_CONV_FROM_NETWORK_FUNCTION,
+                                    CURLOPT_CONV_TO_NETWORK_FUNCTION, and
+                                    CURLOPT_CONV_FROM_UTF8_FUNCTION */
   CURL_LAST /* never use! */
 } CURLcode;
+
+/* This prototype applies to all conversion callbacks */
+typedef CURLcode (*curl_conv_callback)(char *buffer, size_t length);
 
 typedef CURLcode (*curl_ssl_ctx_callback)(CURL *curl,    /* easy handle */
                                           void *ssl_ctx, /* actually an
@@ -412,7 +436,7 @@ typedef enum {
  */
 #if defined(__STDC__) || defined(_MSC_VER) || defined(__cplusplus) || \
   defined(__HP_aCC) || defined(__BORLANDC__) || defined(__LCC__) || \
-  defined(__POCC__)
+  defined(__POCC__) || defined(__SALFORDC__)
   /* This compiler is believed to have an ISO compatible preprocessor */
 #define CURL_ISOCPP
 #else
@@ -937,6 +961,27 @@ typedef enum {
      extracting it with CURLINFO_LASTSOCKET */
   CINIT(CONNECT_ONLY, LONG, 141),
 
+  /* Function that will be called to convert from the
+     network encoding (instead of using the iconv calls in libcurl) */
+  CINIT(CONV_FROM_NETWORK_FUNCTION, FUNCTIONPOINT, 142),
+
+  /* Function that will be called to convert to the
+     network encoding (instead of using the iconv calls in libcurl) */
+  CINIT(CONV_TO_NETWORK_FUNCTION, FUNCTIONPOINT, 143),
+
+  /* Function that will be called to convert from UTF8
+     (instead of using the iconv calls in libcurl)
+     Note that this is used only for SSL certificate processing */
+  CINIT(CONV_FROM_UTF8_FUNCTION, FUNCTIONPOINT, 144),
+
+  /* if the connection proceeds too quickly then need to slow it down */
+  /* limit-rate: maximum number of bytes per second to send or receive */
+  CINIT(MAX_SEND_SPEED_LARGE, OFF_T, 145),
+  CINIT(MAX_RECV_SPEED_LARGE, OFF_T, 146),
+
+  /* Pointer to command string to send if USER/PASS fails. */
+  CINIT(FTP_ALTERNATIVE_TO_USER, OBJECTPOINT, 147),
+
   CURLOPT_LASTENTRY /* the last unused */
 } CURLoption;
 
@@ -1118,6 +1163,26 @@ CURL_EXTERN CURLFORMcode curl_formadd(struct curl_httppost **httppost,
                                       ...);
 
 /*
+ * callback function for curl_formget()
+ * The void *arg pointer will be the one passed as second argument to curl_formget().
+ * The character buffer passed to it must not be freed.
+ * Should return the buffer length passed to it as the argument "len" on success.
+ */
+typedef size_t (*curl_formget_callback)(void *arg, const char *buf, size_t len);
+
+/*
+ * NAME curl_formget()
+ *
+ * DESCRIPTION
+ *
+ * Serialize a curl_httppost struct built with curl_formadd().
+ * Accepts a void pointer as second argument which will be passed to
+ * the curl_formget_callback function.
+ * Returns 0 on success.
+ */
+CURL_EXTERN int curl_formget(struct curl_httppost *form, void *arg,
+                             curl_formget_callback append);
+/*
  * NAME curl_formfree()
  *
  * DESCRIPTION
@@ -1146,7 +1211,7 @@ CURL_EXTERN char *curl_getenv(const char *variable);
 CURL_EXTERN char *curl_version(void);
 
 /*
- * NAME curl_escape()
+ * NAME curl_easy_escape()
  *
  * DESCRIPTION
  *
@@ -1154,18 +1219,34 @@ CURL_EXTERN char *curl_version(void);
  * %XX versions). This function returns a new allocated string or NULL if an
  * error occurred.
  */
-CURL_EXTERN char *curl_escape(const char *string, int length);
+CURL_EXTERN char *curl_easy_escape(CURL *handle,
+                                   const char *string,
+                                   int length);
+
+/* the previous version: */
+CURL_EXTERN char *curl_escape(const char *string,
+                              int length);
+
 
 /*
- * NAME curl_unescape()
+ * NAME curl_easy_unescape()
  *
  * DESCRIPTION
  *
  * Unescapes URL encoding in strings (converts all %XX codes to their 8bit
  * versions). This function returns a new allocated string or NULL if an error
  * occurred.
+ * Conversion Note: On non-ASCII platforms the ASCII %XX codes are
+ * converted into the host encoding.
  */
-CURL_EXTERN char *curl_unescape(const char *string, int length);
+CURL_EXTERN char *curl_easy_unescape(CURL *handle,
+                                     const char *string,
+                                     int length,
+                                     int *outlength);
+
+/* the previous version */
+CURL_EXTERN char *curl_unescape(const char *string,
+                                int length);
 
 /*
  * NAME curl_free()
@@ -1292,9 +1373,10 @@ typedef enum {
   CURLINFO_SSL_ENGINES      = CURLINFO_SLIST  + 27,
   CURLINFO_COOKIELIST       = CURLINFO_SLIST  + 28,
   CURLINFO_LASTSOCKET       = CURLINFO_LONG   + 29,
+  CURLINFO_FTP_ENTRY_PATH   = CURLINFO_STRING + 30,
   /* Fill in new entries below here! */
 
-  CURLINFO_LASTONE          = 29
+  CURLINFO_LASTONE          = 30
 } CURLINFO;
 
 /* CURLINFO_RESPONSE_CODE is the new name for the option previously known as
@@ -1415,8 +1497,11 @@ typedef struct {
   const char *ares;
   int ares_num;
 
-  /* This field was aded in CURLVERSION_THIRD */
+  /* This field was added in CURLVERSION_THIRD */
   const char *libidn;
+
+  /* Same as '_libiconv_version' if built with HAVE_ICONV */
+  int iconv_ver_num;
 } curl_version_info_data;
 
 #define CURL_VERSION_IPV6      (1<<0)  /* IPv6-enabled */
@@ -1431,6 +1516,8 @@ typedef struct {
 #define CURL_VERSION_LARGEFILE (1<<9)  /* supports files bigger than 2GB */
 #define CURL_VERSION_IDN       (1<<10) /* International Domain Names support */
 #define CURL_VERSION_SSPI      (1<<11) /* SSPI is supported */
+#define CURL_VERSION_CONV      (1<<12) /* character conversions are
+                                          supported */
 
 /*
  * NAME curl_version_info()
