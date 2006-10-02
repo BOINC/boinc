@@ -65,10 +65,9 @@ list_item(
 );
 list_item(
     "rsc_memory_bound",
-    "A bound on the virtual memory working set size.
+    "An estimate of application's largest working set size.
     The workunit will only be sent to hosts with
-    at least this much available RAM.
-    If this bound is exceeded, the application will be aborted."
+    at least this much available RAM."
 );
 list_item(
     "rsc_disk_bound",

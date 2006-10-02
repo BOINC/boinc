@@ -64,6 +64,7 @@ int GUI_HTTP::do_rpc_post(GUI_HTTP_OP* op, string url, string input_file, string
     }
     return retval;
 }
+
 bool GUI_HTTP::poll() {
     if (state == GUI_HTTP_STATE_IDLE) return false;
     static double last_time=0;
@@ -78,4 +79,5 @@ bool GUI_HTTP::poll() {
     }
     return true;
 }
+
 const char *BOINC_RCSID_7c374a67d3="$Id$";

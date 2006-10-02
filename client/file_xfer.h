@@ -66,6 +66,7 @@ public:
     int remove(FILE_XFER*);
     bool poll();
     void check_active(bool&, bool&);
+    void set_bandwidth_limits(bool is_upload);
 };
 
 #endif

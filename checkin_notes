@@ -10613,8 +10613,22 @@ David  29 Sept 2006
         prefs.C
 
 Rom    1 Oct 2006
-    - Update libcurl for Windows to version 7.15.5 so that curl can handle bandwidth
-        throttling.
+    - Update libcurl for Windows to version 7.15.5 so that curl
+        can handle bandwidth throttling.
         
     curl/
         <Various Files>
+
+David  2 Oct 2006
+    - Add code that sets upload/download bandwidth limits
+        using new Curl functions.
+        Curl's limits are per connection.
+        So whenever we make a new connection or close an old one,
+        and the prefs have a limit defined,
+        divide it uniformly among connections in that direction
+        and call libCurl to set the limit.
+
+    client/
+        file_xfer.C,h
+        gui_http.C
+        http_curl.C,h

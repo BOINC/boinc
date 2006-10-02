@@ -116,6 +116,7 @@ public:
     void close_socket();
     void close_file();
     void update_speed();
+    void set_speed_limit(bool is_upload, double bytes_sec);
 
 	//int init_head(const char* url);
     int init_get(const char* url, const char* outfile, bool del_old_file, double offset=0);

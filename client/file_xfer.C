@@ -171,6 +171,7 @@ int FILE_XFER_SET::insert(FILE_XFER* fxp) {
     retval = http_ops->insert(fxp);
     if (retval) return retval;
     file_xfers.push_back(fxp);
+    set_bandwidth_limits(fxp->is_upload);
     return 0;
 }
 
@@ -192,6 +193,7 @@ int FILE_XFER_SET::remove(FILE_XFER* fxp) {
     msg_printf(NULL, MSG_ERROR,
         "File transfer for %s not found", fxp->fip->name
     );
+    set_bandwidth_limits(fxp->is_upload);
     return ERR_NOT_FOUND;
 }
 
@@ -331,6 +333,7 @@ bool FILE_XFER_SET::poll() {
     }
     return action;
 }
+
 // return true if an upload is currently in progress
 // or has been since the last call to this.
 // Similar for download.
@@ -347,6 +350,43 @@ void FILE_XFER_SET::check_active(bool& up, bool& down) {
     }
     up_active = false;
     down_active = false;
+}
+
+// adjust bandwidth limits
+//
+void FILE_XFER_SET::set_bandwidth_limits(bool is_upload) {
+    double max_bytes_sec;
+    unsigned int i;
+    FILE_XFER* fxp;
+
+    if (is_upload) {
+        max_bytes_sec = gstate.global_prefs.max_bytes_sec_up;
+    } else {
+        max_bytes_sec = gstate.global_prefs.max_bytes_sec_down;
+    }
+    if (!max_bytes_sec) return;
+    int n = 0;
+    for (i=0; i<file_xfers.size(); i++) {
+        fxp = file_xfers[i];
+        if (is_upload) {
+            if (!fxp->is_upload) continue;
+        } else {
+            if (fxp->is_upload) continue;
+        }
+        n++;
+    }
+    if (!n) return;
+    max_bytes_sec /= n;
+    for (i=0; i<file_xfers.size(); i++) {
+        fxp = file_xfers[i];
+        if (is_upload) {
+            if (!fxp->is_upload) continue;
+            fxp->set_speed_limit(true, max_bytes_sec);
+        } else {
+            if (fxp->is_upload) continue;
+            fxp->set_speed_limit(false, max_bytes_sec);
+        }
+    }
 }
 
 const char *BOINC_RCSID_31ba21bea3 = "$Id$";
