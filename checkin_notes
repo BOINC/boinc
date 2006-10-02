@@ -10055,3 +10055,8 @@ David  2 Oct 2006
 		file_xfer.C
 		http_curl.C,h
 		pers_file_xfer.C
+
+Rom    2 Oct 2006
+    - Tag for 5.6.5 release, all platforms
+      boinc_core_release_5_6_5
+
