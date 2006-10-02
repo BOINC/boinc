@@ -10649,3 +10649,25 @@ David  2 Oct 2006
 		file_xfer.C
 		http_curl.C,h
 		pers_file_xfer.C
+
+David  2 Oct 2006
+	- core client: implement memory management system, as described in
+		http://boinc.berkeley.edu/memory.h
+	- core client: fix erroneous speed calculation
+		when a file xfer is resumed
+
+	TODO:
+		- export memory usage into to apps
+		- change scheduler to use memory prefs
+
+	client/
+		app.h
+		app_control.C
+		client_state.h
+		cpu_sched.C
+		cs_prefs.C
+		http_curl.C,h
+	lib/
+		prefs.C,h
+		procinfo.h
+		procinfo_win.C

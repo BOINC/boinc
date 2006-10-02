@@ -183,6 +183,7 @@ int HTTP_OP::init_get(
     // usually have an outfile on a get
     if (off != 0) {
         bytes_xferred = off;
+		start_bytes_xferred = off;
     }
     http_op_type = HTTP_OP_GET;
     http_op_state = HTTP_STATE_CONNECTING;
@@ -863,6 +864,7 @@ void HTTP_OP::close_file() {
 void HTTP_OP::init() {
     reset();
     start_time = gstate.now;
+	start_bytes_xferred = 0;
 }
 
 
@@ -1051,7 +1053,7 @@ HTTP_OP* HTTP_OP_SET::lookup_curl(CURL* pcurl)  {
 void HTTP_OP::update_speed() {
     double delta_t = dtime() - start_time;
     if (delta_t > 0) {
-        xfer_speed = bytes_xferred / delta_t;
+        xfer_speed = (bytes_xferred-start_bytes_xferred) / delta_t;
     }
 }
 

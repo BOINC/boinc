@@ -426,28 +426,12 @@ bool ACTIVE_TASK_SET::check_app_exited() {
     return found;
 }
 
-// if an app has exceeded its maximum CPU time, abort it
-//
-bool ACTIVE_TASK::check_max_cpu_exceeded() {
-    if (current_cpu_time > max_cpu_time) {
-        msg_printf(result->project, MSG_INFO,
-            "Aborting task %s: exceeded CPU time limit %f\n",
-            result->name, max_cpu_time
-        );
-        abort_task(ERR_RSC_LIMIT_EXCEEDED, "Maximum CPU time exceeded");
-        return true;
-    }
-    return false;
-}
-
 // if an app has exceeded its maximum disk usage, abort it
 //
 bool ACTIVE_TASK::check_max_disk_exceeded() {
     double disk_usage;
     int retval;
 
-    // don't do disk check too often
-    //
     retval = current_disk_usage(disk_usage);
     if (retval) {
         msg_printf(0, MSG_ERROR,
@@ -467,46 +451,18 @@ bool ACTIVE_TASK::check_max_disk_exceeded() {
     return false;
 }
 
-bool ACTIVE_TASK::check_max_mem_exceeded() {
-    if (max_mem_usage != 0 && procinfo.working_set_size > max_mem_usage) {
-#if 0
-		if (log_flags.mem_usage_debug) {
-			msg_printf(
-				result->project, MSG_INFO,
-				"[mem_usage_debug] Task %s: memory usage %f exceeds limit %f\n",
-				result->name, procinfo.working_set_size, max_mem_usage
-			);
-		}
-        //abort_task(ERR_RSC_LIMIT_EXCEEDED, "Maximum memory usage exceeded");
-#endif
-    }
-    return false;
-}
-
-bool ACTIVE_TASK_SET::vm_limit_exceeded(double vm_limit) {
-    unsigned int i;
-    ACTIVE_TASK *atp;
-
-    double total_vm_usage = 0;
-
-    for (i=0; i<active_tasks.size(); ++i) {
-        atp = active_tasks[i];
-        if (!atp->process_exists()) continue;
-        total_vm_usage += atp->procinfo.swap_size;
-    }
-
-    return (total_vm_usage > vm_limit);
-}
-
 // Check if any of the active tasks have exceeded their
 // resource limits on disk, CPU time or memory
 //
 bool ACTIVE_TASK_SET::check_rsc_limits_exceeded() {
-    unsigned int j;
+    unsigned int i;
     ACTIVE_TASK *atp;
     static double last_disk_check_time = 0;
     bool do_disk_check = false;
     bool did_anything = false;
+
+	double ram_left = gstate.available_ram();
+	double max_ram = gstate.max_available_ram();
 
     // Some slot dirs have lots of files,
     // so only check every min(disk_interval, 300) secs
@@ -516,15 +472,36 @@ bool ACTIVE_TASK_SET::check_rsc_limits_exceeded() {
     if (gstate.now > last_disk_check_time + min_interval) {
         do_disk_check = true;
     }
-    for (j=0;j<active_tasks.size();j++) {
-        atp = active_tasks[j];
+    for (i=0; i<active_tasks.size(); i++) {
+        atp = active_tasks[i];
         if (atp->task_state != PROCESS_EXECUTING) continue;
-        if (atp->check_max_cpu_exceeded()) did_anything = true;
-        else if (atp->check_max_mem_exceeded()) did_anything = true;
-        else if (do_disk_check && atp->check_max_disk_exceeded()) {
+		if (atp->current_cpu_time > atp->max_cpu_time) {
+			msg_printf(atp->result->project, MSG_INFO,
+				"Aborting task %s: exceeded CPU time limit %f\n",
+				atp->result->name, atp->max_cpu_time
+			);
+			atp->abort_task(ERR_RSC_LIMIT_EXCEEDED, "Maximum CPU time exceeded");
+			did_anything = true;
+			continue;
+		}
+		if (atp->procinfo.working_set_size_smoothed > max_ram) {
+			msg_printf(atp->result->project, MSG_INFO,
+				"Aborting task %s: exceeded memory limit %f %f\n",
+				atp->result->name, atp->procinfo.working_set_size_smoothed, max_ram
+			);
+			atp->abort_task(ERR_RSC_LIMIT_EXCEEDED, "Maximum memory exceeded");
+			did_anything = true;
+			continue;
+		}
+        if (do_disk_check && atp->check_max_disk_exceeded()) {
             did_anything = true;
+			continue;
         }
+		ram_left -= atp->procinfo.working_set_size_smoothed;
     }
+	if (ram_left < 0) {
+		gstate.request_schedule_cpus("RAM usage limit exceeded");
+	}
     if (do_disk_check) {
         last_disk_check_time = gstate.now;
     }

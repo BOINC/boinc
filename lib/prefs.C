@@ -56,7 +56,9 @@ void GLOBAL_PREFS::defaults() {
     disk_max_used_gb = 10;
     disk_max_used_pct = 50;
     disk_min_free_gb = 0.1;
-    vm_max_used_pct = 75;
+    vm_max_used_frac = 0.75;
+	ram_max_used_busy_frac = 0.5;
+	ram_max_used_idle_frac = 0.9;
     idle_time_to_run = 3;
     max_bytes_sec_up = 1e9;
     max_bytes_sec_down = 1e9;
@@ -191,7 +193,14 @@ int GLOBAL_PREFS::parse_override(
             continue;
         } else if (xp.parse_double(tag, "disk_min_free_gb", disk_min_free_gb)) {
             continue;
-        } else if (xp.parse_double(tag, "vm_max_used_pct", vm_max_used_pct)) {
+        } else if (xp.parse_double(tag, "vm_max_used_pct", dtemp)) {
+			vm_max_used_frac = dtemp/100;
+            continue;
+        } else if (xp.parse_double(tag, "ram_max_used_busy_pct", dtemp)) {
+			ram_max_used_busy_frac = dtemp/100;
+            continue;
+        } else if (xp.parse_double(tag, "ram_max_used_idle_pct", dtemp)) {
+			ram_max_used_idle_frac = dtemp/100;
             continue;
         } else if (xp.parse_double(tag, "idle_time_to_run", idle_time_to_run)) {
             continue;
@@ -254,6 +263,8 @@ int GLOBAL_PREFS::write(MIOFILE& f) {
         "   <disk_max_used_pct>%f</disk_max_used_pct>\n"
         "   <disk_min_free_gb>%f</disk_min_free_gb>\n"
         "   <vm_max_used_pct>%f</vm_max_used_pct>\n"
+        "   <ram_max_used_busy_pct>%f</ram_max_used_busy_pct>\n"
+        "   <ram_max_used_idle_pct>%f</ram_max_used_idle_pct>\n"
         "   <idle_time_to_run>%f</idle_time_to_run>\n"
         "   <max_bytes_sec_up>%f</max_bytes_sec_up>\n"
         "   <max_bytes_sec_down>%f</max_bytes_sec_down>\n"
@@ -277,7 +288,9 @@ int GLOBAL_PREFS::write(MIOFILE& f) {
         disk_max_used_gb,
         disk_max_used_pct,
         disk_min_free_gb,
-        vm_max_used_pct,
+        vm_max_used_frac*100,
+		ram_max_used_busy_frac*100,
+		ram_max_used_idle_frac*100,
         idle_time_to_run,
         max_bytes_sec_up,
         max_bytes_sec_down,

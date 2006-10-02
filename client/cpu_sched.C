@@ -410,6 +410,7 @@ void CLIENT_STATE::print_deadline_misses() {
 void CLIENT_STATE::schedule_cpus() {
     RESULT* rp;
     PROJECT* p;
+	ACTIVE_TASK* atp;
     double expected_pay_off;
     unsigned int i;
     double rrs = runnable_resource_share();
@@ -445,12 +446,18 @@ void CLIENT_STATE::schedule_cpus() {
 
     expected_pay_off = gstate.global_prefs.cpu_scheduling_period_minutes * 60;
     ordered_scheduled_results.clear();
+	double ram_left = available_ram();
 
     // First choose results from projects with P.deadlines_missed>0
     //
     while ((int)ordered_scheduled_results.size() < ncpus) {
         rp = earliest_deadline_result();
         if (!rp) break;
+		atp = lookup_active_task_by_result(rp);
+		if (atp) {
+			if (atp->procinfo.working_set_size_smoothed > ram_left) continue;
+			ram_left -= atp->procinfo.working_set_size_smoothed;
+		}
 
         // If such an R exists, decrement P.deadlines_missed 
         //
@@ -469,6 +476,11 @@ void CLIENT_STATE::schedule_cpus() {
         assign_results_to_projects();
         rp = largest_debt_project_best_result();
         if (!rp) break;
+		atp = lookup_active_task_by_result(rp);
+		if (atp) {
+			if (atp->procinfo.working_set_size_smoothed > ram_left) continue;
+			ram_left -= atp->procinfo.working_set_size_smoothed;
+		}
         rp->project->anticipated_debt -= (1 - rp->project->resource_share / rrs) * expected_pay_off;
         if (log_flags.cpu_sched_debug) {
             msg_printf(NULL, MSG_INFO, "[cpu_sched_debug] scheduling (regular) %s", rp->name);
@@ -547,7 +559,7 @@ bool CLIENT_STATE::enforce_schedule() {
         }
     }
 
-    // make list of preemptable tasks
+    // make list of currently running tasks
     //
     make_running_task_heap(running_tasks);
 
@@ -564,21 +576,12 @@ bool CLIENT_STATE::enforce_schedule() {
         running_tasks.pop_back();
     }
 
-    double mem_used = 0;
-    double max_mem_used;
+	double ram_left = available_ram();
 
-    // if user is active, use at most half of RAM;
-    // otherwise use all of it
-    //
-    if (gstate.user_active) {
-        max_mem_used = host_info.m_nbytes/2;
-    } else {
-        max_mem_used = host_info.m_nbytes;
-    }
     if (log_flags.mem_usage_debug) {
         msg_printf(0, MSG_INFO,
             "[mem_usage_debug] enforce: max mem used %f",
-            max_mem_used
+            ram_left
         );
     }
 
@@ -615,17 +618,17 @@ bool CLIENT_STATE::enforce_schedule() {
             // the scheduled result is already running.
             // see if it fits in mem
             //
-            if (mem_used + atp->procinfo.working_set_size > max_mem_used) {
+            if (atp->procinfo.working_set_size_smoothed > ram_left) {
                 atp->next_scheduler_state = CPU_SCHED_PREEMPTED;
                 nrunning--;
                 if (log_flags.mem_usage_debug) {
                     msg_printf(rp->project, MSG_INFO,
-                        "[mem_usage_debug] enforce: result %s mem1 %f %f %f",
-                        rp->name, mem_used, atp->procinfo.working_set_size, max_mem_used
+                        "[mem_usage_debug] enforce: result %s mem1 %f %f",
+                        rp->name,  atp->procinfo.working_set_size_smoothed, ram_left
                     );
                 }
             } else {
-                mem_used += atp->procinfo.working_set_size;
+                ram_left -= atp->procinfo.working_set_size_smoothed;
                 continue;
             }
         }
@@ -633,13 +636,13 @@ bool CLIENT_STATE::enforce_schedule() {
         // if the result already has a (non-running) active task,
         // see if it fits in mem
         //
-        atp = active_tasks.lookup_result(rp);
+        atp = lookup_active_task_by_result(rp);
         if (atp) {
-            if (mem_used + atp->procinfo.working_set_size > max_mem_used) {
+            if (atp->procinfo.working_set_size_smoothed > ram_left) {
                 if (log_flags.mem_usage_debug) {
                     msg_printf(rp->project, MSG_INFO,
-                        "[mem_usage_debug] enforce: result %s mem2 %f %f %f",
-                        rp->name, mem_used, atp->procinfo.working_set_size, max_mem_used
+                        "[mem_usage_debug] enforce: result %s mem2 %f %f",
+                        rp->name, atp->procinfo.working_set_size_smoothed, ram_left
                     );
                 }
                 continue;
@@ -685,7 +688,7 @@ bool CLIENT_STATE::enforce_schedule() {
             atp = get_task(rp);
             atp->next_scheduler_state = CPU_SCHED_SCHEDULED;
             nrunning++;
-            mem_used += atp->procinfo.working_set_size;
+            ram_left -= atp->procinfo.working_set_size_smoothed;
         }
     }
 
@@ -693,16 +696,16 @@ bool CLIENT_STATE::enforce_schedule() {
     //
     for (i=0; i<running_tasks.size(); i++) {
         atp = running_tasks[i];
-        if (mem_used + atp->procinfo.working_set_size > max_mem_used) {
+        if (atp->procinfo.working_set_size_smoothed > ram_left) {
             atp->next_scheduler_state = CPU_SCHED_PREEMPTED;
             if (log_flags.mem_usage_debug) {
                 msg_printf(atp->result->project, MSG_INFO,
-                    "[mem_usage_debug] enforce: result %s mem3 %f %f %f",
-                    atp->result->name, mem_used, atp->procinfo.working_set_size, max_mem_used
+                    "[mem_usage_debug] enforce: result %s mem3 %f %f",
+                    atp->result->name, atp->procinfo.working_set_size_smoothed, ram_left
                 );
             }
         } else {
-            mem_used += atp->procinfo.working_set_size;
+            ram_left -= atp->procinfo.working_set_size_smoothed;
         }
     }
 
@@ -727,7 +730,7 @@ bool CLIENT_STATE::enforce_schedule() {
         }
     }
 
-    double vm_limit = (global_prefs.vm_max_used_pct/100.0)*host_info.m_swap;
+    double swap_left = (global_prefs.vm_max_used_frac)*host_info.m_swap;
 
     // preempt and start tasks as needed
     //
@@ -738,7 +741,9 @@ bool CLIENT_STATE::enforce_schedule() {
         ) {
             action = true;
             bool preempt_by_quit = !global_prefs.leave_apps_in_memory;
-            preempt_by_quit |= active_tasks.vm_limit_exceeded(vm_limit);
+			if (swap_left < 0) {
+				preempt_by_quit = true;
+			}
 
             atp->preempt(preempt_by_quit);
             atp->scheduler_state = CPU_SCHED_PREEMPTED;
@@ -757,6 +762,7 @@ bool CLIENT_STATE::enforce_schedule() {
             atp->scheduler_state = CPU_SCHED_SCHEDULED;
             atp->run_interval_start_wall_time = now;
             app_started = gstate.now;
+			swap_left -= atp->procinfo.swap_size;
         }
     }
     if (action) {

@@ -353,6 +353,8 @@ public:
     int resume_network();
     void read_global_prefs();
     int save_global_prefs(char* prefs, char* url, char* sched);
+	double available_ram();
+	double max_available_ram();
 private:
     void check_suspend_activities(int&);
     void check_suspend_network(int&);

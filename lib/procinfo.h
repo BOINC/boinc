@@ -27,6 +27,7 @@ struct PROCINFO {
 	int parentid;
     double swap_size;
     double working_set_size;
+	double working_set_size_smoothed;
 	unsigned long page_fault_count;
     double user_time;
     double kernel_time;

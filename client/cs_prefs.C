@@ -417,4 +417,18 @@ int CLIENT_STATE::save_global_prefs(
     return 0;
 }
 
+double CLIENT_STATE::available_ram() {
+    if (user_active) {
+        return host_info.m_nbytes * global_prefs.ram_max_used_busy_frac;
+    } else {
+		return host_info.m_nbytes * global_prefs.ram_max_used_idle_frac;
+    }
+}
+
+double CLIENT_STATE::max_available_ram() {
+	return host_info.m_nbytes*std::max(
+		global_prefs.ram_max_used_busy_frac, global_prefs.ram_max_used_idle_frac
+	);
+}
+
 const char *BOINC_RCSID_92ad99cddf = "$Id$";

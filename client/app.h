@@ -177,9 +177,7 @@ public:
     void handle_exited_app(int stat);
 #endif
 
-    bool check_max_cpu_exceeded();
     bool check_max_disk_exceeded();
-    bool check_max_mem_exceeded();
 
     bool get_app_status_msg();
     bool get_trickle_up_msg();
@@ -218,7 +216,6 @@ public:
     bool check_app_exited();
     bool check_rsc_limits_exceeded();
     bool check_quit_timeout_exceeded();
-    bool vm_limit_exceeded(double);
     int get_free_slot();
     void send_heartbeats();
     void send_trickle_downs();

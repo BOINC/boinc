@@ -95,7 +95,8 @@ public:
         // otherwise breaks on 64-bit machines
     double start_time;
     double xfer_speed;
-    double bytes_xferred;   // bytes transferred in this session
+    double bytes_xferred;   // bytes transferred overall
+	double start_bytes_xferred;
 
 	int http_op_state;      // values above
     int http_op_type;       // HTTP_OP_* (see above)
