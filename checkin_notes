@@ -10632,3 +10632,20 @@ David  2 Oct 2006
         file_xfer.C,h
         gui_http.C
         http_curl.C,h
+
+David  2 Oct 2006
+	- core client: bug fix in bandwidth-limiting code
+	- core client bug fix: when reset or detach a project,
+		sometimes would get a crash when deleting FILE_INFOs.
+		This is because instead of
+			iter = foo.erase(iter);
+		we just had
+			foo.erase(iter);
+		Clean up all code to always use the former.
+	client/
+		app.C
+		client_state.C
+		cpu_sched.C
+		file_xfer.C
+		http_curl.C,h
+		pers_file_xfer.C

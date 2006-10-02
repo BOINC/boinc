@@ -185,7 +185,8 @@ int FILE_XFER_SET::remove(FILE_XFER* fxp) {
     iter = file_xfers.begin();
     while (iter != file_xfers.end()) {
         if (*iter == fxp) {
-            file_xfers.erase(iter);
+            iter = file_xfers.erase(iter);
+			set_bandwidth_limits(fxp->is_upload);
             return 0;
         }
         iter++;
@@ -193,7 +194,6 @@ int FILE_XFER_SET::remove(FILE_XFER* fxp) {
     msg_printf(NULL, MSG_ERROR,
         "File transfer for %s not found", fxp->fip->name
     );
-    set_bandwidth_limits(fxp->is_upload);
     return ERR_NOT_FOUND;
 }
 

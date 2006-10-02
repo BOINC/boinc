@@ -282,7 +282,7 @@ int ACTIVE_TASK_SET::remove(ACTIVE_TASK* atp) {
     iter = active_tasks.begin();
     while (iter != active_tasks.end()) {
         if (*iter == atp) {
-            active_tasks.erase(iter);
+            iter = active_tasks.erase(iter);
             return 0;
         }
         iter++;

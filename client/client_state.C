@@ -1309,7 +1309,7 @@ int CLIENT_STATE::detach_project(PROJECT* project) {
     while (fi_iter != file_infos.end()) {
         fip = *fi_iter;
         if (fip->project == project) {
-            file_infos.erase(fi_iter);
+            fi_iter = file_infos.erase(fi_iter);
             delete fip;
         } else {
             fi_iter++;
@@ -1329,7 +1329,7 @@ int CLIENT_STATE::detach_project(PROJECT* project) {
     for (project_iter = projects.begin(); project_iter != projects.end(); project_iter++) {
         p = *project_iter;
         if (p == project) {
-            projects.erase(project_iter);
+            project_iter = projects.erase(project_iter);
             break;
         }
     }

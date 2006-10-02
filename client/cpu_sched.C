@@ -602,7 +602,7 @@ bool CLIENT_STATE::enforce_schedule() {
                 // The task is already running; remove it from the heap
                 //
                 atp = atp1;
-                running_tasks.erase(it);
+                it = running_tasks.erase(it);
                 std::make_heap(
                     running_tasks.begin(),
                     running_tasks.end(),
