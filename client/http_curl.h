@@ -89,8 +89,10 @@ public:
 
     bool want_download;     // at most one should be true
     bool want_upload;
-    int connect_error;      // errno from connect() (not used for anything)
-	int response;           // HTTP status code from server
+    long connect_error;      // errno from connect() (not used for anything)
+	long response;          // HTTP status code from server
+        // the above two MUST be long (not int)
+        // otherwise breaks on 64-bit machines
     double start_time;
     double xfer_speed;
     double bytes_xferred;   // bytes transferred in this session
@@ -114,6 +116,7 @@ public:
     void close_socket();
     void close_file();
     void update_speed();
+    void set_speed_limit(bool is_upload, double bytes_sec);
 
 	//int init_head(const char* url);
     int init_get(const char* url, const char* outfile, bool del_old_file, double offset=0);
@@ -130,17 +133,19 @@ public:
 private:
 	// internal use in the class -- takes an init_get/post/post2 and turns it into
 	// an appropriate libcurl request
-	int libcurl_exec(const char* url, const char* in = NULL, const char* out = NULL, 
-		double offset = 0.0f, bool bPost = true
+	int libcurl_exec(const char* url, const char* in, const char* out, 
+		double offset, bool bPost
     );
 };
 
 // global function used by libcurl to write http replies to disk
+//
 size_t libcurl_write(void *ptr, size_t size, size_t nmemb, HTTP_OP* phop);
 size_t libcurl_read( void *ptr, size_t size, size_t nmemb, HTTP_OP* phop);
 curlioerr libcurl_ioctl(CURL *handle, curliocmd cmd, HTTP_OP* phop);
 int libcurl_debugfunction(CURL *handle, curl_infotype type,
-             unsigned char *data, size_t size, HTTP_OP* phop);
+	unsigned char *data, size_t size, HTTP_OP* phop
+);
 
 // represents a set of HTTP requests in progress
 //

@@ -510,7 +510,7 @@ int PERS_FILE_XFER_SET::remove(PERS_FILE_XFER* pfx) {
     iter = pers_file_xfers.begin();
     while (iter != pers_file_xfers.end()) {
         if (*iter == pfx) {
-            pers_file_xfers.erase(iter);
+            iter = pers_file_xfers.erase(iter);
             return 0;
         }
         iter++;

@@ -271,6 +271,9 @@ int HTTP_OP::libcurl_exec(
         return ERR_HTTP_ERROR; // returns 0 (CURLM_OK) on successful handle creation
     }
 
+	// the following seems to be a no-op
+	//curlErr = curl_easy_setopt(curlEasy, CURLOPT_ERRORBUFFER, error_msg);
+
     // OK, we have a handle, now open an asynchronous libcurl connection
 
     // set the URL to use
@@ -529,7 +532,7 @@ int HTTP_OP_SET::remove(HTTP_OP* p) {
     iter = http_ops.begin();
     while (iter != http_ops.end()) {
         if (*iter == p) {
-            http_ops.erase(iter);
+            iter = http_ops.erase(iter);
             return 0;
         }
         iter++;
@@ -907,7 +910,10 @@ void HTTP_OP_SET::got_select(FDSET_GROUP&, double timeout) {
 
     // read messages from curl that may have come in from the above loop
     //
-    while ((pcurlMsg = curl_multi_info_read(g_curlMulti, &iNumMsg))) {
+	while (1) {
+		pcurlMsg = curl_multi_info_read(g_curlMulti, &iNumMsg);
+		if (!pcurlMsg) break;
+
         // if we have a msg, then somebody finished
         // can check also with pcurlMsg->msg == CURLMSG_DONE
         //
@@ -967,7 +973,7 @@ void HTTP_OP_SET::got_select(FDSET_GROUP&, double timeout) {
                 if (hop->response >= 400) {
                     strcpy(hop->error_msg, boincerror(hop->response));
                 } else {
-                    sprintf(hop->error_msg, "HTTP error %d", hop->response);
+                    sprintf(hop->error_msg, "HTTP error %ld", hop->response);
                 }
                 switch (hop->response) {
                 case HTTP_STATUS_NOT_FOUND:
@@ -1047,6 +1053,19 @@ void HTTP_OP::update_speed() {
     if (delta_t > 0) {
         xfer_speed = bytes_xferred / delta_t;
     }
+}
+
+void HTTP_OP::set_speed_limit(bool is_upload, double bytes_sec) {
+	CURLcode cc;
+    curl_off_t bs = (curl_off_t)bytes_sec;
+    if (is_upload) {
+        cc = curl_easy_setopt(curlEasy, CURLOPT_MAX_SEND_SPEED_LARGE, bs);
+    } else {
+        cc = curl_easy_setopt(curlEasy, CURLOPT_MAX_RECV_SPEED_LARGE, bs);
+    }
+	if (cc) {
+		msg_printf(NULL, MSG_ERROR, "Curl error: %s", curl_easy_strerror(cc));
+	}
 }
 
 const char *BOINC_RCSID_57f273bb60 = "$Id$";
