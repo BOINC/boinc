@@ -368,6 +368,7 @@ void FILE_XFER_SET::set_bandwidth_limits(bool is_upload) {
     int n = 0;
     for (i=0; i<file_xfers.size(); i++) {
         fxp = file_xfers[i];
+		if (!fxp->is_active()) continue;
         if (is_upload) {
             if (!fxp->is_upload) continue;
         } else {
@@ -379,6 +380,7 @@ void FILE_XFER_SET::set_bandwidth_limits(bool is_upload) {
     max_bytes_sec /= n;
     for (i=0; i<file_xfers.size(); i++) {
         fxp = file_xfers[i];
+		if (!fxp->is_active()) continue;
         if (is_upload) {
             if (!fxp->is_upload) continue;
             fxp->set_speed_limit(true, max_bytes_sec);

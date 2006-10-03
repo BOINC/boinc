@@ -10752,3 +10752,11 @@ David  3 Oct 2006
 		client_state.h
 		cpu_sched.C
 		cs_scheduler.C
+
+David  3 Oct 2006
+	- core client: fixed bug that could cause Curl to be
+		passed a null pointer (bandwidth limiting)
+
+	client/
+		file_xfer.C
+		http_curl.C,h

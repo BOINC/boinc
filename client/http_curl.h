@@ -130,6 +130,9 @@ public:
     bool http_op_done();
 	int set_proxy(PROXY_INFO *new_pi);
 	void setupProxyCurl();
+	bool is_active() {
+		return curlEasy!=NULL;
+	}
 
 private:
 	// internal use in the class -- takes an init_get/post/post2 and turns it into
