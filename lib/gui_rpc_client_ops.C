@@ -359,10 +359,14 @@ int RESULT::parse(MIOFILE& in) {
         else if (parse_int(buf, "<app_version_num>", app_version_num)) continue;
         else if (parse_double(buf, "<checkpoint_cpu_time>", checkpoint_cpu_time)) continue;
         else if (parse_double(buf, "<current_cpu_time>", current_cpu_time)) continue;
-        else if (parse_double(buf, "<vm_bytes>", vm_bytes)) continue;
-        else if (parse_double(buf, "<rss_bytes>", rss_bytes)) continue;
+        else if (parse_double(buf, "<swap_size>", swap_size)) continue;
+        else if (parse_double(buf, "<working_set_size_smoothed>", working_set_size_smoothed)) continue;
         else if (parse_double(buf, "<fraction_done>", fraction_done)) continue;
         else if (parse_double(buf, "<estimated_cpu_time_remaining>", estimated_cpu_time_remaining)) continue;
+        else if (match_tag(buf, "<too_large/>")) {
+            too_large = true;
+            continue;
+        }
     }
     return ERR_XML_PARSE;
 }
@@ -379,17 +383,23 @@ void RESULT::clear() {
     scheduler_state = 0;
     exit_status = 0;
     signal = 0;
-    active_task_state = 0;
-    active_task = false;
     stderr_out.clear();
+    suspended_via_gui = false;
+    project_suspended_via_gui = false;
+
+    active_task = false;
+    active_task_state = 0;
     app_version_num = 0;
     checkpoint_cpu_time = 0.0;
     current_cpu_time = 0.0;
     fraction_done = 0.0;
+    swap_size = 0;
+    working_set_size_smoothed = 0;
     estimated_cpu_time_remaining = 0.0;
-    suspended_via_gui = false;
-    project_suspended_via_gui = false;
     supports_graphics = false;
+    graphics_mode_acked = 0;
+    too_large = false;
+
     app = NULL;
     wup = NULL;
     project = NULL;

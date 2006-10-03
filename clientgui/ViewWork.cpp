@@ -771,7 +771,9 @@ wxInt32 CViewWork::FormatStatus(wxInt32 item, wxString& strBuffer) const {
 						strBuffer += _(" - CPU throttled");
 					}
                 } else if (result->active_task) {
-                    if (result->scheduler_state == CPU_SCHED_SCHEDULED) {
+                    if (result->too_large) {
+                        strBuffer = _("Waiting for memory");
+                    } else if (result->scheduler_state == CPU_SCHED_SCHEDULED) {
                         strBuffer = _("Running");
                     } else if (result->scheduler_state == CPU_SCHED_PREEMPTED) {
                         strBuffer = _("Preempted");

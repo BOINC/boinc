@@ -10760,3 +10760,19 @@ David  3 Oct 2006
 	client/
 		file_xfer.C
 		http_curl.C,h
+
+David  3 Oct 2006
+    - core client and manager: set things up so that if
+         a result isn't running because it requires too much RAM,
+         an appropriate message ("Waiting for memory")
+         is shown in the Manager
+
+    client/
+        app.C,h
+        cpu_sched.C
+    clientgui/
+        ViewWork.cpp
+    lib/
+        gui_rpc_client.h
+        gui_rpc_client_ops.C
+        gui_rpc_client_print.C

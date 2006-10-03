@@ -115,6 +115,7 @@ public:
     bool have_trickle_down;
     bool send_upload_file_status;
     bool pending_suspend_via_quit;  // waiting for task to suspend via quit
+    bool too_large;                 // working set too large to run now
     int want_network;
         // This task wants to do network comm (for F@h)
         // this is passed via share-memory message (app_status channel)

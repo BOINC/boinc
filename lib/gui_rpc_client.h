@@ -176,11 +176,12 @@ public:
     double checkpoint_cpu_time;
     double current_cpu_time;
     double fraction_done;
-    double vm_bytes;
-    double rss_bytes;
+    double swap_size;
+    double working_set_size_smoothed;
     double estimated_cpu_time_remaining;
     bool supports_graphics;
     int graphics_mode_acked;
+    bool too_large;
 
     APP* app;
     WORKUNIT* wup;

@@ -572,6 +572,7 @@ bool CLIENT_STATE::enforce_schedule() {
     }
     for (i=0; i< active_tasks.active_tasks.size(); i++) {
         atp = active_tasks.active_tasks[i];
+        atp->too_large = false;
         if (atp->result->runnable()) {
             atp->next_scheduler_state = atp->scheduler_state;
         } else {
@@ -640,6 +641,7 @@ bool CLIENT_STATE::enforce_schedule() {
             //
             if (atp->procinfo.working_set_size_smoothed > ram_left) {
                 atp->next_scheduler_state = CPU_SCHED_PREEMPTED;
+                atp->too_large = true;
                 nrunning--;
                 if (log_flags.mem_usage_debug) {
                     msg_printf(rp->project, MSG_INFO,
@@ -659,6 +661,7 @@ bool CLIENT_STATE::enforce_schedule() {
         atp = lookup_active_task_by_result(rp);
         if (atp) {
             if (atp->procinfo.working_set_size_smoothed > ram_left) {
+                atp->too_large = true;
                 if (log_flags.mem_usage_debug) {
                     msg_printf(rp->project, MSG_INFO,
                         "[mem_usage_debug] enforce: result %s can't start, too big %.2fMB > %.2fMB",
@@ -718,6 +721,7 @@ bool CLIENT_STATE::enforce_schedule() {
         atp = running_tasks[i];
         if (atp->procinfo.working_set_size_smoothed > ram_left) {
             atp->next_scheduler_state = CPU_SCHED_PREEMPTED;
+            atp->too_large = true;
             if (log_flags.mem_usage_debug) {
                 msg_printf(atp->result->project, MSG_INFO,
                     "[mem_usage_debug] enforce: result %s can't keep, too big %.2fMB > %.2fMB",
