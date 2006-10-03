@@ -10060,3 +10060,12 @@ Rom    2 Oct 2006
     - Tag for 5.6.5 release, all platforms
       boinc_core_release_5_6_5
 
+
+Charlie 2 Oct 2006
+    - Mac: Changes for libcurl 7.15.5. (tagged for 5.6.5)
+
+    mac_build/
+        buildcurl.sh
+        HowToBuildBOINC_XCode.rtf
+        boinc.xcodeproj/
+            project.pbxproj
