@@ -584,10 +584,10 @@ static void handle_heartbeat_msg() {
             BOINCINFO("Disabling heartbeat");
             heartbeat_active = false;
         }
-        if (parse_double(buf, "<working_set_size>", dtemp)) {
+        if (parse_double(buf, "<wss>", dtemp)) {
             boinc_status.working_set_size = dtemp;
         }
-        if (parse_double(buf, "<max_working_set_size>", dtemp)) {
+        if (parse_double(buf, "<max_wss>", dtemp)) {
             boinc_status.max_working_set_size = dtemp;
         }
     }

@@ -10721,3 +10721,13 @@ David  3 Oct 2006
 		util.h
 	win_build/
 		boinc_cli_curl.vcproj
+
+David  3 Oct 2006
+    - core client: save/restore smoothed WSS
+
+    api/
+        boinc_api.C
+    client/
+        app.C
+    html/inc/
+        prefs.inc

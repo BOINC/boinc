@@ -393,6 +393,7 @@ int ACTIVE_TASK::write(MIOFILE& fout) {
         "    <current_cpu_time>%f</current_cpu_time>\n"
         "    <swap_size>%f</swap_size>\n"
         "    <working_set_size>%f</working_set_size>\n"
+        "    <working_set_size_smoothed>%f</working_set_size_smoothed>\n"
 		"    <page_fault_rate>%f</page_fault_rate>\n",
         result->project->master_url,
         result->name,
@@ -405,6 +406,7 @@ int ACTIVE_TASK::write(MIOFILE& fout) {
         current_cpu_time,
         procinfo.swap_size,
         procinfo.working_set_size,
+        procinfo.working_set_size_smoothed,
 		procinfo.page_fault_rate
     );
     if (supports_graphics() && !gstate.disable_graphics) {
@@ -497,6 +499,7 @@ int ACTIVE_TASK::parse(MIOFILE& fin) {
         else if (parse_int(buf, "<active_task_state>", n)) continue;
         else if (parse_double(buf, "<swap_size>", procinfo.swap_size)) continue;
         else if (parse_double(buf, "<working_set_size>", procinfo.working_set_size)) continue;
+        else if (parse_double(buf, "<working_set_size_smoothed>", procinfo.working_set_size_smoothed)) continue;
         else if (parse_double(buf, "<page_fault_rate>", procinfo.page_fault_rate)) continue;
         else if (match_tag(buf, "<supports_graphics/>")) continue;
         else if (parse_int(buf, "<graphics_mode_acked>", n)) continue;

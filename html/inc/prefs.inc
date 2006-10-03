@@ -637,7 +637,7 @@ function prefs_show_global($prefs) {
     row2(LEAVE_APPS_IN_MEMORY_DESC, $prefs->leave_apps_in_memory?"yes":"no");
     row2(CPU_SCHEDULING_DESC, "$prefs->cpu_scheduling_period_minutes minutes");
     row2(MAX_CPUS_DESC, "$prefs->max_cpus ".MAX_CPUS_DESC2);
-    row2(CPU_USAGE_LIMIT_DESC, "$prefs->cpu_usage_limit ".CPU_USAGE_LIMIT_DESC2);
+    row2(USE_AT_MOST, "$prefs->cpu_usage_limit ".CPU_USAGE_LIMIT_DESC2);
     row1(DISK_LIMIT_DESC);
     row2(USE_AT_MOST, "$prefs->disk_max_used_gb GB disk space");
 
@@ -914,7 +914,7 @@ function prefs_form_global($user, $prefs, $error=false) {
 
     $show_error = false;
     if (isset($error->cpu_usage_limit)) $show_error= true;
-    row2(CPU_USAGE_LIMIT_DESC,
+    row2(USE_AT_MOST,
         "<input size=4 name=cpu_usage_limit value=$prefs->cpu_usage_limit> ".CPU_USAGE_LIMIT_DESC2,
         $show_error);
 
