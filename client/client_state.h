@@ -252,7 +252,7 @@ private:
     void schedule_cpus();
     bool enforce_schedule();
     bool no_work_for_a_cpu();
-    bool rr_simulation();
+    void rr_simulation();
     void make_running_task_heap(vector<ACTIVE_TASK*>&);
     void print_deadline_misses();
 	inline double work_buf_min() {

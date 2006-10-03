@@ -569,7 +569,6 @@ double CLIENT_STATE::time_until_work_done(
 // return false
 //
 bool CLIENT_STATE::compute_work_requests() {
-    bool non_cpu_intensive_needs_work=false;
     unsigned int i;
     static double last_work_request_calc = 0;
     if (gstate.now - last_work_request_calc >= 600) {
@@ -584,11 +583,10 @@ bool CLIENT_STATE::compute_work_requests() {
 
     rr_simulation();
 
-    // compute overall urgency
+    // compute per-project and overall urgency
     //
     bool possible_deadline_miss = false;
     bool project_shortfall = false;
-    overall_work_fetch_urgency = WORK_FETCH_DONT_NEED;
     for (i=0; i< projects.size(); i++) {
         PROJECT* p = projects[i];
         if (p->non_cpu_intensive) {
@@ -598,12 +596,20 @@ bool CLIENT_STATE::compute_work_requests() {
             } else {
                 p->work_request = 1.0;
                 p->work_request_urgency = WORK_FETCH_NEED_IMMEDIATELY;
-                non_cpu_intensive_needs_work = true;
+				overall_work_fetch_urgency = WORK_FETCH_NEED_IMMEDIATELY;
+				if (log_flags.work_fetch_debug) {
+					msg_printf(p, MSG_INFO,
+						"[work_fetch_debug] non-CPU-intensive project needs work"
+					);
+				}
+				return false;
             }
         } else {
             p->work_request_urgency = WORK_FETCH_DONT_NEED;
             p->work_request = 0;
-            if (p->deadlines_missed) possible_deadline_miss = true;
+			if (p->rr_sim_deadlines_missed) {
+				possible_deadline_miss = true;
+			}
             if (p->cpu_shortfall && p->long_term_debt > -global_prefs.cpu_scheduling_period_minutes * 60) {
                 project_shortfall = true;
             }
@@ -611,9 +617,7 @@ bool CLIENT_STATE::compute_work_requests() {
     }
 
     if (cpu_shortfall <= 0.0 && (possible_deadline_miss || !project_shortfall)) {
-        if (!non_cpu_intensive_needs_work) {
-            overall_work_fetch_urgency = WORK_FETCH_DONT_NEED;
-        }
+        overall_work_fetch_urgency = WORK_FETCH_DONT_NEED;
     } else if (no_work_for_a_cpu()) {
         overall_work_fetch_urgency = WORK_FETCH_NEED_IMMEDIATELY;
     } else if (cpu_shortfall > 0) {

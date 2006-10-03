@@ -10731,3 +10731,24 @@ David  3 Oct 2006
         app.C
     html/inc/
         prefs.inc
+
+David  3 Oct 2006
+	- In a situation where project A as a result that uses too
+		much RAM to run right now, and is in deadline trouble,
+		the work-fetch policy wouldn't get more work,
+		even if project B has small-RAM jobs.  This is bad.
+
+		Fix (kludge): rr_simulator() doesn't count a result
+		as being a deadline miss if it uses too much RAM
+		to run right now.
+	- Changes to compute_work_requests():
+		- if a contactable non-CPU-intensive project needs work,
+			return immediately
+		- use p->rr_sim_deadlines_missed, NOT p->deadlines_missed
+			(the latter is a temp variable,
+			with no defined value at this point)
+
+	client/
+		client_state.h
+		cpu_sched.C
+		cs_scheduler.C

@@ -461,7 +461,7 @@ void CLIENT_STATE::schedule_cpus() {
 		if (atp) {
 			if (atp->procinfo.working_set_size_smoothed > ram_left) {
 				if (log_flags.cpu_sched_debug) {
-					msg_printf(NULL, MSG_INFO,
+					msg_printf(rp->project, MSG_INFO,
 						"[cpu_sched_debug]  %s misses deadline but too large: %.2fMB",
 						rp->name, atp->procinfo.working_set_size_smoothed/MEGA
 					);
@@ -474,7 +474,10 @@ void CLIENT_STATE::schedule_cpus() {
         rp->project->anticipated_debt -= (1 - rp->project->resource_share / rrs) * expected_pay_off;
         rp->project->deadlines_missed--;
         if (log_flags.cpu_sched_debug) {
-            msg_printf(NULL, MSG_INFO, "[cpu_sched_debug] scheduling (deadline) %s", rp->name);
+            msg_printf(rp->project, MSG_INFO,
+				"[cpu_sched_debug] scheduling (deadline) %s",
+				rp->name
+			);
         }
         ordered_scheduled_results.push_back(rp);
     }
@@ -865,9 +868,10 @@ void PROJECT::set_rrsim_proc_rate(double rrs) {
 //   r->last_rr_sim_missed_deadline
 // gstate.cpu_shortfall
 //
-// Returns true if some result misses its deadline
+// NOTE: deadline misses are not counted for tasks
+// that are too large to run in RAM right now.
 //
-bool CLIENT_STATE::rr_simulation() {
+void CLIENT_STATE::rr_simulation() {
 	double rrs = nearly_runnable_resource_share();
     double trs = total_resource_share();
     PROJECT* p, *pbest;
@@ -876,7 +880,8 @@ bool CLIENT_STATE::rr_simulation() {
     unsigned int i;
     double x;
     vector<RESULT*>::iterator it;
-    bool rval = false;
+
+	double ar = available_ram();
 
 	if (log_flags.rr_simulation) {
 		msg_printf(0, MSG_INFO,
@@ -964,14 +969,23 @@ bool CLIENT_STATE::rr_simulation() {
         //
         double diff = sim_now + rpbest->rrsim_finish_delay - ((rpbest->computation_deadline()-now)*CPU_PESSIMISM_FACTOR + now);
         if (diff > 0) {
-            rpbest->rr_sim_misses_deadline = true;
-            pbest->rr_sim_deadlines_missed++;
-            rval = true;
-			if (log_flags.rr_simulation) {
-				msg_printf(0, MSG_INFO,
-					"[rr_sim] result %s misses deadline by %f",
-					rpbest->name, diff
-				);
+			ACTIVE_TASK* atp = lookup_active_task_by_result(rpbest);
+			if (atp && atp->procinfo.working_set_size_smoothed > ar) {
+				if (log_flags.rr_simulation) {
+					msg_printf(pbest, MSG_INFO,
+						"[rr_sim] result %s misses deadline but too large to run",
+						rpbest->name
+					);
+				}
+			} else {
+				rpbest->rr_sim_misses_deadline = true;
+				pbest->rr_sim_deadlines_missed++;
+				if (log_flags.rr_simulation) {
+					msg_printf(pbest, MSG_INFO,
+						"[rr_sim] result %s misses deadline by %f",
+						rpbest->name, diff
+					);
+				}
 			}
         }
 
@@ -1097,12 +1111,10 @@ bool CLIENT_STATE::rr_simulation() {
             }
         }
         msg_printf(NULL, MSG_INFO,
-            "rr_simulation: end; returning %s; total shortfall %f\n",
-            rval?"true":"false",
+            "rr_simulation: end; total shortfall %f\n",
             cpu_shortfall
         );
     }
-    return rval;
 }
 
 // trigger CPU schedule enforcement.
