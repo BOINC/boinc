@@ -1,0 +1,12 @@
+<?xml version="1.0"?>
+<!DOCTYPE sect1 PUBLIC "-//OASIS//DTD DocBook XML V4.1.2//EN" 
+               "http://www.oasis-open.org/docbook/xml/4.1.2/docbookx.dtd">
+<sect1 id="condor">
+  <title>CONDOR</title>
+  <sect2>
+    <title>Configuration options</title>
+
+  </sect2>
+</sect1>
+
+<!-- End of condor.xml -->
