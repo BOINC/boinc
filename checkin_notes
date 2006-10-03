@@ -10671,3 +10671,12 @@ David  2 Oct 2006
 		prefs.C,h
 		procinfo.h
 		procinfo_win.C
+
+Charlie 2 Oct 2006
+    - Mac: Changes for libcurl 7.15.5.
+
+    mac_build/
+        buildcurl.sh
+        HowToBuildBOINC_XCode.rtf
+        boinc.xcodeproj/
+            project.pbxproj
