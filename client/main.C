@@ -268,10 +268,10 @@ static void signal_handler(int signum) {
 #endif
         break;
     case SIGTSTP:
-        gstate.user_run_request = USER_RUN_REQUEST_NEVER;
+        gstate.user_run_request = RUN_MODE_NEVER;
         break;
     case SIGCONT:
-        gstate.user_run_request = USER_RUN_REQUEST_AUTO;
+        gstate.user_run_request = RUN_MODE_AUTO;
         break;
     default:
         msg_printf(NULL, MSG_ERROR, "Signal not handled");
@@ -543,13 +543,13 @@ int boinc_main_loop() {
         }
 #ifdef _WIN32
         if (requested_suspend) {
-            gstate.user_run_request = USER_RUN_REQUEST_NEVER;
-            gstate.user_network_request = USER_RUN_REQUEST_NEVER;
+            gstate.user_run_request = RUN_MODE_NEVER;
+            gstate.user_network_request = RUN_MODE_NEVER;
             requested_suspend = false;
         }
         if (requested_resume) {
-            gstate.user_run_request = USER_RUN_REQUEST_AUTO;
-            gstate.user_network_request = USER_RUN_REQUEST_AUTO;
+            gstate.user_run_request = RUN_MODE_AUTO;
+            gstate.user_network_request = RUN_MODE_AUTO;
             requested_resume = false;
         }
 #endif
@@ -656,7 +656,7 @@ int main(int argc, char** argv) {
             // start with space for two '"'s
             len = 2;
             for (i = 0; i < argc; i++) {
-                len += strlen(argv[i]) + 1;
+                len += (int)strlen(argv[i]) + 1;
             }
             if ((commandLine = (char *) malloc(len)) == NULL) {
                 // Drop back ten and punt.  Can't do the detach thing, so we just carry on.
@@ -688,7 +688,7 @@ int main(int argc, char** argv) {
     
     for (i = 1; i < argc; i++) {
         if (strcmp(argv[i], "-daemon") == 0 || strcmp(argv[i], "--daemon") == 0) {
-            syslog(LOG_DAEMON, "Starting Boinc-Daemon, listening on port %d.", GUI_RPC_PORT);
+            syslog(LOG_DAEMON|LOG_INFO, "Starting Boinc-Daemon, listening on port %d.", GUI_RPC_PORT);
             // from <unistd.h>:
             // Detach from the controlling terminal and run in the background as system daemon.
             // Don't change working directory to root ("/"), but redirect
@@ -763,7 +763,18 @@ int main(int argc, char** argv) {
 #endif  // _DEBUG && __APPLE__
     int i = check_security(g_use_sandbox, false);
     if (i) {
-        printf( "\nBOINC ownership or permissions are not set properly; please reinstall BOINC. (Error code %d)\n", i);
+        printf(
+            "File ownership or permissions are set in a way that\n"
+            "does not allow sandboxed execution of BOINC applications.\n"
+            "To use BOINC anyway, use the -insecure command line option.\n"
+            "To change ownership/permission, reinstall BOINC"
+#ifdef __APPLE__
+            " or run\n the shell script Mac_SA_Secure.sh"
+#elif defined linux
+            " or run\n the shell script secure.sh"
+#endif
+            ". (Error code %d)\n", i
+        );
         return ERR_USER_PERMISSION;
     }
 #endif  // SANDBOX

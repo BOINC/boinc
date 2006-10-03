@@ -82,8 +82,8 @@ CLIENT_STATE::CLIENT_STATE() {
     strcpy(main_host_venue, "");
     strcpy(attach_project_url, "");
     strcpy(attach_project_auth, "");
-    user_run_request = USER_RUN_REQUEST_AUTO;
-    user_network_request = USER_RUN_REQUEST_AUTO;
+    user_run_request = RUN_MODE_AUTO;
+    user_network_request = RUN_MODE_AUTO;
     started_by_screensaver = false;
     requested_exit = false;
     master_fetch_period = MASTER_FETCH_PERIOD;
@@ -105,7 +105,6 @@ CLIENT_STATE::CLIENT_STATE() {
     must_schedule_cpus = true;
     must_enforce_cpu_schedule = true;
     no_gui_rpc = false;
-    have_tentative_project = false;
     new_version_check_time = 0;
     detach_console = false;
 #ifdef SANDBOX
@@ -154,6 +153,7 @@ int CLIENT_STATE::init() {
         core_client_major_version, core_client_minor_version,
         core_client_release, platform_name, debug_str
     );
+    log_flags.show();
 
     msg_printf(NULL, MSG_INFO, "Libraries: %s", curl_version());
 
@@ -399,7 +399,7 @@ void CLIENT_STATE::do_io_or_sleep(double x) {
     do { if (func()) { \
             ++actions; \
             if (log_flags.poll_debug) { \
-                msg_printf(0, MSG_INFO, "CLIENT_STATE::poll_slow_events(): " #name "\n"); \
+                msg_printf(0, MSG_INFO, "[poll_debug] CLIENT_STATE::poll_slow_events(): " #name "\n"); \
             } \
         } } while(0)
 
@@ -452,11 +452,10 @@ bool CLIENT_STATE::poll_slow_events() {
 
     check_suspend_network(network_suspend_reason);
 
-    // if we've had a GUI RPC in last few minutes, relax the normal rules
+    // if a recent GUI RPC needs network access, allow it
     //
-    if (gui_rpcs.got_recent_rpc(300)) {
-        network_suspend_reason &= ~SUSPEND_REASON_USER_ACTIVE;
-        network_suspend_reason &= ~SUSPEND_REASON_BATTERIES;
+    if (gui_rpcs.recent_rpc_needs_network(300)) {
+        network_suspend_reason = 0;
     }
     if (network_suspend_reason) {
         if (!network_suspended) {
@@ -525,7 +524,7 @@ bool CLIENT_STATE::poll_slow_events() {
     }
     if (log_flags.poll_debug) {
         msg_printf(0, MSG_INFO,
-            "CLIENT_STATE::do_something(): End poll: %d tasks active\n", actions
+            "[poll_debug] CLIENT_STATE::do_something(): End poll: %d tasks active\n", actions
         );
     }
     if (actions > 0) {
@@ -551,12 +550,12 @@ PROJECT* CLIENT_STATE::lookup_project(const char* master_url) {
     int len1, len2;
     char *mu;
 
-    len1 = strlen(master_url);
+    len1 = (int)strlen(master_url);
     if (master_url[strlen(master_url)-1] == '/') len1--;
 
     for (unsigned int i=0; i<projects.size(); i++) {
         mu = projects[i]->master_url;
-        len2 = strlen(mu);
+        len2 = (int)strlen(mu);
         if (mu[strlen(mu)-1] == '/') len2--;
         if (!strncmp(master_url, projects[i]->master_url, max(len1,len2))) {
             return projects[i];
@@ -756,7 +755,7 @@ void CLIENT_STATE::print_summary() {
     double t;
     if (!log_flags.state_debug) return;
 
-    msg_printf(0, MSG_INFO, "CLIENT_STATE::print_summary(): Client state summary:\n");
+    msg_printf(0, MSG_INFO, "[state_debug] CLIENT_STATE::print_summary(): Client state summary:\n");
     msg_printf(0, MSG_INFO, "%d projects:\n", (int)projects.size());
     for (i=0; i<projects.size(); i++) {
         t = projects[i]->min_rpc_time;
@@ -857,7 +856,7 @@ bool CLIENT_STATE::garbage_collect_always() {
         if (rp->got_server_ack) {
             if (log_flags.state_debug) {
                 msg_printf(0, MSG_INFO,
-                    "CLIENT_STATE::garbage_collect(): deleting result %s\n",
+                    "[state_debug] CLIENT_STATE::garbage_collect(): deleting result %s\n",
                     rp->name
                 );
             }
@@ -919,7 +918,7 @@ bool CLIENT_STATE::garbage_collect_always() {
         if (wup->ref_cnt == 0) {
             if (log_flags.state_debug) {
                 msg_printf(0, MSG_INFO,
-                    "CLIENT_STATE::garbage_collect(): deleting workunit %s\n",
+                    "[state_debug] CLIENT_STATE::garbage_collect(): deleting workunit %s\n",
                     wup->name
                 );
             }
@@ -1001,7 +1000,7 @@ bool CLIENT_STATE::garbage_collect_always() {
             fip->delete_file();
             if (log_flags.state_debug) {
                 msg_printf(0, MSG_INFO,
-                    "CLIENT_STATE::garbage_collect(): deleting file %s\n",
+                    "[state_debug] CLIENT_STATE::garbage_collect(): deleting file %s\n",
                     fip->name
                 );
             }
@@ -1310,7 +1309,7 @@ int CLIENT_STATE::detach_project(PROJECT* project) {
     while (fi_iter != file_infos.end()) {
         fip = *fi_iter;
         if (fip->project == project) {
-            file_infos.erase(fi_iter);
+            fi_iter = file_infos.erase(fi_iter);
             delete fip;
         } else {
             fi_iter++;
@@ -1330,7 +1329,7 @@ int CLIENT_STATE::detach_project(PROJECT* project) {
     for (project_iter = projects.begin(); project_iter != projects.end(); project_iter++) {
         p = *project_iter;
         if (p == project) {
-            projects.erase(project_iter);
+            project_iter = projects.erase(project_iter);
             break;
         }
     }
@@ -1408,6 +1407,15 @@ static inline double rand_range(double rmin, double rmax) {
 double calculate_exponential_backoff( int n, double MIN, double MAX) {
     double rmax = std::min(MAX, exp((double)n));
     return rand_range(MIN, rmax);
+}
+
+bool CLIENT_STATE::have_tentative_project() {
+	unsigned int i;
+	for (i=0; i<projects.size(); i++) {
+		PROJECT* p = projects[i];
+		if (p->tentative) return true;
+	}
+	return false;
 }
 
 bool CLIENT_STATE::have_nontentative_project() {

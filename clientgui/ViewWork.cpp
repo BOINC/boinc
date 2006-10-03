@@ -578,27 +578,30 @@ wxInt32 CViewWork::FormatProjectName(wxInt32 item, wxString& strBuffer) const {
 
 
 wxInt32 CViewWork::FormatApplicationName(wxInt32 item, wxString& strBuffer) const {
-    CMainDocument* doc = wxGetApp().GetDocument();
+    CMainDocument* pDoc = wxGetApp().GetDocument();
     RESULT* result = wxGetApp().GetDocument()->result(item);
     RESULT* state_result = NULL;
 
-    wxASSERT(doc);
-    wxASSERT(wxDynamicCast(doc, CMainDocument));
+    wxASSERT(pDoc);
+    wxASSERT(wxDynamicCast(pDoc, CMainDocument));
 
     if (result) {
-        state_result = doc->state.lookup_result(result->project_url, result->name);
-        if (state_result) {
-            wxString strLocale = wxString(setlocale(LC_NUMERIC, NULL), wxConvUTF8);
-            setlocale(LC_NUMERIC, "C");
-            strBuffer.Printf(
-                wxT("%s %.2f"), 
-                wxString(state_result->wup->avp->app_name.c_str(), wxConvUTF8).c_str(),
-                state_result->wup->avp->version_num/100.0
-            );
-            setlocale(LC_NUMERIC, (const char*)strLocale.mb_str());
-        } else {
-            doc->ForceCacheUpdate();
+        state_result = pDoc->state.lookup_result(result->project_url, result->name);
+        if (!state_result) {
+            pDoc->ForceCacheUpdate();
+            state_result = pDoc->state.lookup_result(result->project_url, result->name);
         }
+        wxASSERT(state_result);
+
+        wxString strLocale = wxString(setlocale(LC_NUMERIC, NULL), wxConvUTF8);
+        setlocale(LC_NUMERIC, "C");
+        strBuffer.Printf(
+            wxT("%s %.2f"), 
+            wxString(state_result->wup->avp->app_name.c_str(), wxConvUTF8).c_str(),
+            state_result->wup->avp->version_num/100.0
+        );
+        setlocale(LC_NUMERIC, (const char*)strLocale.mb_str());
+
     }
 
     return 0;
@@ -718,16 +721,14 @@ wxInt32 CViewWork::FormatReportDeadline(wxInt32 item, wxString& strBuffer) const
 
 
 wxInt32 CViewWork::FormatStatus(wxInt32 item, wxString& strBuffer) const {
-    wxInt32        iActivityMode = -1;
-	CC_STATUS ccs;
     CMainDocument* doc = wxGetApp().GetDocument();
     RESULT*        result = wxGetApp().GetDocument()->result(item);
+    CC_STATUS      status;
 
     wxASSERT(doc);
     wxASSERT(wxDynamicCast(doc, CMainDocument));
 
-    doc->get_cc_status(ccs);
-    doc->GetActivityRunMode(iActivityMode);
+    doc->GetCoreClientStatus(status);
 
     if (result) {
         switch(result->state) {
@@ -746,27 +747,27 @@ wxInt32 CViewWork::FormatStatus(wxInt32 item, wxString& strBuffer) const {
                     strBuffer = _("Project suspended by user");
                 } else if (result->suspended_via_gui) {
                     strBuffer = _("Task suspended by user");
-				} else if (ccs.task_suspend_reason) {
+				} else if (status.task_suspend_reason > 0) {
 					strBuffer = _("Suspended");
-					if (ccs.task_suspend_reason&SUSPEND_REASON_BATTERIES) {
+					if (status.task_suspend_reason & SUSPEND_REASON_BATTERIES) {
 						strBuffer += _(" - on batteries");
 					}
-					if (ccs.task_suspend_reason&SUSPEND_REASON_USER_ACTIVE) {
+					if (status.task_suspend_reason & SUSPEND_REASON_USER_ACTIVE) {
 						strBuffer += _(" - user active");
 					}
-					if (ccs.task_suspend_reason&SUSPEND_REASON_USER_REQ) {
+					if (status.task_suspend_reason & SUSPEND_REASON_USER_REQ) {
 						strBuffer += _(" - computation suspended");
 					}
-					if (ccs.task_suspend_reason&SUSPEND_REASON_TIME_OF_DAY) {
+					if (status.task_suspend_reason & SUSPEND_REASON_TIME_OF_DAY) {
 						strBuffer += _(" - time of day");
 					}
-					if (ccs.task_suspend_reason&SUSPEND_REASON_BENCHMARKS) {
+					if (status.task_suspend_reason & SUSPEND_REASON_BENCHMARKS) {
 						strBuffer += _(" - CPU benchmarks");
 					}
-					if (ccs.task_suspend_reason&SUSPEND_REASON_DISK_SIZE) {
+					if (status.task_suspend_reason & SUSPEND_REASON_DISK_SIZE) {
 						strBuffer += _(" - need disk space");
 					}
-					if (ccs.task_suspend_reason&SUSPEND_REASON_CPU_USAGE_LIMIT) {
+					if (status.task_suspend_reason & SUSPEND_REASON_CPU_USAGE_LIMIT) {
 						strBuffer += _(" - CPU throttled");
 					}
                 } else if (result->active_task) {
@@ -815,7 +816,7 @@ wxInt32 CViewWork::FormatStatus(wxInt32 item, wxString& strBuffer) const {
         }
     }
 
-    if (!ccs.task_suspend_reason && iActivityMode == RUN_MODE_NEVER) {
+    if (!status.task_suspend_reason && status.task_mode == RUN_MODE_NEVER) {
         strBuffer = wxT(" (") + strBuffer + wxT(") ");
         strBuffer = _("Activities suspended by user") + strBuffer;
     }

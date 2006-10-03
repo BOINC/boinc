@@ -44,7 +44,7 @@ void SS_LOGIC::ask_app(ACTIVE_TASK* atp, GRAPHICS_MSG& m) {
     ack_deadline = gstate.now + 30.0;
     if (log_flags.scrsave_debug) {
         msg_printf(0, MSG_INFO,
-            "SS_LOGIC::ask_app(): starting %s current time %f deadline %f",
+            "[scrsave_debug] SS_LOGIC::ask_app(): starting %s current time %f deadline %f",
             atp->result->name, gstate.now, ack_deadline
         );
     }
@@ -77,7 +77,7 @@ void SS_LOGIC::stop_ss() {
     ss_status = SS_STATUS_QUIT;
     if (log_flags.scrsave_debug) {
         msg_printf(0, MSG_INFO,
-            "SS_LOGIC::stop_ss(): stopping screen saver"
+            "[scrsave_debug] SS_LOGIC::stop_ss(): stopping screen saver"
         );
     }
     gstate.active_tasks.restore_apps();
@@ -94,7 +94,7 @@ void SS_LOGIC::reset() {
     if (atp) {
         if (log_flags.scrsave_debug) {
             msg_printf(0, MSG_INFO,
-                "SS_LOGIC::reset(): resetting %s", atp->result->name
+                "[scrsave_debug] SS_LOGIC::reset(): resetting %s", atp->result->name
             );
         }
         atp->request_graphics_mode(m);
@@ -158,7 +158,7 @@ void SS_LOGIC::poll() {
         if (SS_STATUS_BLANKED != ss_status) {
             if (log_flags.scrsave_debug) {
                 msg_printf(0, MSG_INFO,
-                    "SS_LOGIC::poll(): going to black"
+                    "[scrsave_debug] SS_LOGIC::poll(): going to black"
                 );
             }
             reset();
@@ -172,7 +172,7 @@ void SS_LOGIC::poll() {
                 if (atp->scheduler_state != CPU_SCHED_SCHEDULED) {
                     if (log_flags.scrsave_debug) {
                         msg_printf(0, MSG_INFO,
-                            "SS_LOGIC::poll(): app %s not scheduled\n",
+                            "[scrsave_debug] SS_LOGIC::poll(): app %s not scheduled\n",
                             atp->result->name
                         );
                     }
@@ -187,7 +187,7 @@ void SS_LOGIC::poll() {
                 if (gstate.now > ack_deadline) {
                     if (log_flags.scrsave_debug) {
                         msg_printf(0, MSG_INFO,
-                            "SS_LOGIC::poll(): app %s is no longer fullscreen and passed ack deadline, current time %f deadline %f",
+                            "[scrsave_debug] SS_LOGIC::poll(): app %s is no longer fullscreen and passed ack deadline, current time %f deadline %f",
                             atp->result->name, gstate.now, ack_deadline
                         );
                     }
@@ -215,7 +215,7 @@ void SS_LOGIC::poll() {
         if (atp) {
             if (log_flags.scrsave_debug) {
                 msg_printf(0, MSG_INFO,
-                    "SS_LOGIC::poll(): picked %s, request restart\n",
+                    "[scrsave_debug] SS_LOGIC::poll(): picked %s, request restart\n",
                     atp->result->name
                 );
             }
@@ -225,7 +225,7 @@ void SS_LOGIC::poll() {
         } else {
             if (log_flags.scrsave_debug) {
                 msg_printf(0, MSG_INFO,
-                    "SS_LOGIC::poll(): no app found"
+                    "[scrsave_debug] SS_LOGIC::poll(): no app found"
                 );
             }
             if (gstate.active_tasks.active_tasks.size()==0) {

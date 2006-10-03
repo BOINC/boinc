@@ -86,7 +86,7 @@ int SCHEDULER_OP::init_get_work() {
 
     PROJECT* p = gstate.next_project_need_work();
     if (p) {
-        retval = init_op_project(p, REASON_NEED_WORK);
+        retval = init_op_project(p, RPC_REASON_NEED_WORK);
         if (retval) {
             return retval;
         }
@@ -106,7 +106,7 @@ int SCHEDULER_OP::init_op_project(PROJECT* p, int r) {
     reason = r;
     if (log_flags.sched_op_debug) {
         msg_printf(0, MSG_INFO,
-            "SCHEDULER_OP::init_op_project(): starting op for %s\n",
+            "[sched_op_debug] SCHEDULER_OP::init_op_project(): starting op for %s\n",
             p->master_url
         );
     }
@@ -125,7 +125,7 @@ int SCHEDULER_OP::init_op_project(PROJECT* p, int r) {
         return retval;
     }
 
-	if (reason == REASON_INIT) {
+	if (reason == RPC_REASON_INIT) {
 		p->work_request = 1;
 		if (!gstate.cpu_benchmarks_done()) {
 			gstate.cpu_benchmarks_set_defaults();
@@ -214,18 +214,10 @@ int SCHEDULER_OP::start_rpc(PROJECT* p) {
 
     safe_strcpy(scheduler_url, p->get_scheduler_url(url_index, url_random));
     if (log_flags.sched_ops) {
-        const char* why;
-        switch (reason) {
-        case REASON_USER_REQ: why = "Requested by user"; break;
-        case REASON_NEED_WORK: why = "To fetch work"; break;
-        case REASON_RESULTS_DUE: why = "To report completed tasks"; break;
-        case REASON_TRICKLE_UP: why = "To send trickle-up message"; break;
-		case REASON_ACCT_MGR_REQ: why = "Requested by account manager"; break;
-		case REASON_INIT: why = "Project initialization"; break;
-		case REASON_PROJECT_REQ: why = "Requested by project"; break;
-        default: why = "Unknown";
-        }
-        msg_printf(p, MSG_INFO,  "Sending scheduler request: %s", why);
+        msg_printf(p, MSG_INFO,
+            "Sending scheduler request: %s",
+            rpc_reason_string(reason)
+        );
         if (p->work_request != 0.0 && p->nresults_returned != 0) {
             msg_printf(
                 p, MSG_INFO,
@@ -290,7 +282,7 @@ int SCHEDULER_OP::init_master_fetch(PROJECT* p) {
 
     if (log_flags.sched_op_debug) {
         msg_printf(0, MSG_INFO,
-            "SCHEDULER_OP::init_master_fetch(): Fetching master file for %s\n",
+            "[sched_op_debug] SCHEDULER_OP::init_master_fetch(): Fetching master file for %s\n",
             p->master_url
         );
     }
@@ -335,7 +327,7 @@ int SCHEDULER_OP::parse_master_file(PROJECT* p, vector<std::string> &urls) {
     fclose(f);
     if (log_flags.sched_op_debug) {
         msg_printf(0, MSG_INFO,
-            "SCHEDULER_OP::parse_master_file(): got %d scheduler URLs\n",
+            "[sched_op_debug] SCHEDULER_OP::parse_master_file(): got %d scheduler URLs\n",
             (int)urls.size()
         );
     }
@@ -397,7 +389,7 @@ bool SCHEDULER_OP::poll() {
             if (http_op.http_op_retval == 0) {
                 if (log_flags.sched_op_debug) {
                     msg_printf(0, MSG_INFO,
-                        "SCHEDULER_OP::poll(): Got master file from %s; parsing",
+                        "[sched_op_debug] SCHEDULER_OP::poll(): Got master file from %s; parsing",
                          cur_proj->master_url
                     );
                 }
@@ -491,7 +483,6 @@ bool SCHEDULER_OP::poll() {
                         cur_proj->attach_failed(ERR_ATTACH_FAIL_SERVER_ERROR);
                     } else {
                         cur_proj->tentative = false;
-                        gstate.have_tentative_project = false;
                         retval = cur_proj->write_account_file();
                         if (retval) {
                             cur_proj->attach_failed(ERR_ATTACH_FAIL_FILE_WRITE);
@@ -510,7 +501,7 @@ bool SCHEDULER_OP::poll() {
                         // if we asked for work and didn't get any,
                         // back off this project
                         //
-                        if (reason==REASON_NEED_WORK && nresults==0) {
+                        if (reason==RPC_REASON_NEED_WORK && nresults==0) {
                             backoff(cur_proj, "No work from project\n");
                         } else {
                             cur_proj->nrpc_failures = 0;
@@ -831,7 +822,7 @@ int SCHEDULER_REPLY::parse(FILE* in, PROJECT* project) {
         } else if (strlen(buf)>1){
             if (log_flags.unparsed_xml) {
                 msg_printf(0, MSG_ERROR,
-                    "SCHEDULER_REPLY::parse(): unrecognized %s\n", buf
+                    "[unparsed_xml] SCHEDULER_REPLY::parse(): unrecognized %s\n", buf
                 );
             }
         }

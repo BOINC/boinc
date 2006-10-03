@@ -22,7 +22,6 @@
 # Mac_SA_Insecure.sh user group
 #
 # Undo making a Macintosh BOINC installation secure.  
-# This script is for Macintosh installations with stand-alone BOINC CLient (i.e., no BOINC Manager.)
 # - Set file/dir ownership to the specified user and group
 # - Remove BOINC groups and users
 #
@@ -30,13 +29,32 @@
 # cd {path_to_boinc_directory}
 # sudo sh {path}/Mac_SA_Insecure.sh user group
 #
+# After running this script, the boinc client must be run with 
+# the --insecure option.
+# NOTE: running BOINC with security disabled is not recommended.
+#
+# Last updated 9/21/06
 
 function remove_boinc_users() {
-sudo dscl . -delete /users/boinc_master
-sudo dscl . -delete /groups/boinc_master
+    name=$(dscl . search /users RecordName boinc_master | cut -f1 -)
+    if [ "$name" = "boinc_master" ] ; then
+        sudo dscl . -delete /users/boinc_master
+    fi
 
-sudo dscl . -delete /users/boinc_project
-sudo dscl . -delete /groups/boinc_project
+    name=$(dscl . search /groups RecordName boinc_master | cut -f1 -)
+    if [ "$name" = "boinc_master" ] ; then
+        sudo dscl . -delete /groups/boinc_master
+    fi
+    
+    name=$(dscl . search /users RecordName boinc_project | cut -f1 -)
+    if [ "$name" = "boinc_project" ] ; then
+        sudo dscl . -delete /users/boinc_project
+    fi
+
+    name=$(dscl . search /groups RecordName boinc_project | cut -f1 -)
+    if [ "$name" = "boinc_project" ] ; then
+        sudo dscl . -delete /groups/boinc_project
+    fi
 }
 
 function check_login() {
@@ -65,7 +83,7 @@ then
     exit
 fi
 
-if [ ! -x "boinc" ]
+if [ ! -f "boinc" ]
 then
     echo "Can't find boinc Client in directory $(pwd); exiting"
     exit

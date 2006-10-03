@@ -37,7 +37,7 @@ public:
 
     void poll();
 
-    int NotifyUserNeedConnection();
+    int NotifyUserNeedConnection(bool bNotificationOnly);
 
     int Connect();
     int ConnectionSucceeded();

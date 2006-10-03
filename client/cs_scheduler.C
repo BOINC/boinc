@@ -132,7 +132,7 @@ PROJECT* CLIENT_STATE::next_project_sched_rpc_pending() {
         p = projects[i];
         if (p->waiting_until_min_rpc_time()) continue;
         if (p->next_rpc_time && p->next_rpc_time<now) {
-            p->sched_rpc_pending = REASON_PROJECT_REQ;
+            p->sched_rpc_pending = RPC_REASON_PROJECT_REQ;
             p->next_rpc_time = 0;
         }
         //if (p->suspended_via_gui) continue;
@@ -217,7 +217,7 @@ PROJECT* CLIENT_STATE::next_project_need_work() {
         p_prospect->work_request = 1.0;
         if (log_flags.work_fetch_debug) {
             msg_printf(0, MSG_INFO,
-                "next_project_need_work: project picked %s",
+                "[work_fetch_debug] next_project_need_work: project picked %s",
                 p_prospect->project_name
             );
         }
@@ -540,7 +540,7 @@ double CLIENT_STATE::time_until_work_done(
     }
 	if (log_flags.work_fetch_debug) {
 		msg_printf(NULL, MSG_INFO,
-			"time_until_work_done(): est %f ssr %f apr %f prs %f",
+			"[work_fetch_debug] time_until_work_done(): est %f ssr %f apr %f prs %f",
 			est, subset_resource_share, avg_proc_rate(), p->resource_share
 		);
 	}
@@ -623,7 +623,7 @@ bool CLIENT_STATE::compute_work_requests() {
     }
     if (log_flags.work_fetch_debug) {
         msg_printf(0, MSG_INFO,
-            "compute_work_requests(): cpu_shortfall %f, overall urgency %s",
+            "[work_fetch_debug] compute_work_requests(): cpu_shortfall %f, overall urgency %s",
             cpu_shortfall, urgency_name(overall_work_fetch_urgency)
         );
     }
@@ -631,84 +631,96 @@ bool CLIENT_STATE::compute_work_requests() {
         return false;
     }
 
+    // loop over projects, and pick one to get work from
+    //
     double prrs = potentially_runnable_resource_share();
-
     PROJECT *pbest = NULL;
     double best_work = 0;
     for (i=0; i<projects.size(); i++) {
-        PROJECT *prospect = projects[i];
-        double prospect_work = time_until_work_done(prospect, 0, prrs);
-        if (!prospect->contactable()) {
+        PROJECT *p = projects[i];
+
+        // see if this project can be ruled out completely
+        //
+        if (!p->contactable()) {
             if (log_flags.work_fetch_debug) {
-                msg_printf(0, MSG_INFO,
-                    "compute_work_requests(): project %s not contactable\n",
-                    prospect->get_project_name()
+                msg_printf(p, MSG_INFO, "[work_fetch_debug] work fetch: project not contactable");
+            }
+            continue;
+        }
+        if (p->deadlines_missed
+            && overall_work_fetch_urgency != WORK_FETCH_NEED_IMMEDIATELY
+        ) {
+            if (log_flags.work_fetch_debug) {
+                msg_printf(p, MSG_INFO,
+                    "[work_fetch_debug] project has %d deadline misses",
+                    p->deadlines_missed
                 );
             }
             continue;
         }
-        if (prospect->deadlines_missed) {
+        if (p->overworked() && overall_work_fetch_urgency < WORK_FETCH_NEED) {
             if (log_flags.work_fetch_debug) {
-                msg_printf(0, MSG_INFO,
-                    "compute_work_requests(): project %s has %d deadline misses\n",
-                    prospect->get_project_name(), prospect->deadlines_missed
-                );
+                msg_printf(p, MSG_INFO, "[work_fetch_debug] project is overworked");
             }
             continue;
         }
-        if (prospect->overworked() && overall_work_fetch_urgency < WORK_FETCH_NEED) {
+        if (p->cpu_shortfall == 0.0 && overall_work_fetch_urgency < WORK_FETCH_NEED) {
             if (log_flags.work_fetch_debug) {
-                msg_printf(0, MSG_INFO,
-                    "compute_work_requests(): project %s is overworked\n",
-                    prospect->get_project_name()
-                );
+                msg_printf(p, MSG_INFO, "[work_fetch_debug] project has no shortfall");
             }
             continue;
         }
-        if (prospect->cpu_shortfall == 0.0 && overall_work_fetch_urgency < WORK_FETCH_NEED) {
-            if (log_flags.work_fetch_debug) {
-                msg_printf(0, MSG_INFO,
-                    "compute_work_requests(): project %s has no shortfall\n",
-                    prospect->get_project_name()
-                );
-            }
-            continue;
-        }
+
+        // see if this project is better than our current best
+        //
+        double prospect_work = time_until_work_done(p, 0, prrs);
         if (pbest) {
-            if (!pbest->overworked() && projects[i]->overworked()) {
+            // avoid getting work from a project in deadline trouble
+            //
+            if (p->deadlines_missed && !pbest->deadlines_missed) {
                 if (log_flags.work_fetch_debug) {
-                    msg_printf(0, MSG_INFO,
-                        "compute_work_requests(): project %s is overworked\n",
-                        prospect->get_project_name()
+                    msg_printf(p, MSG_INFO,
+                        "[work_fetch_debug] project has deadline misses, %s doesn't",
+                        pbest->get_project_name()
                     );
                 }
                 continue;
             }
-            if (pbest->long_term_debt - best_work > prospect->long_term_debt - prospect_work) {
+            // avoid getting work from an overworked project
+            //
+            if (p->overworked() && !pbest->overworked()) {
                 if (log_flags.work_fetch_debug) {
-                    msg_printf(0, MSG_INFO,
-                        "compute_work_requests(): project %s has a higher debt load than %s\n",
-                        pbest->get_project_name(), prospect->get_project_name()
+                    msg_printf(p, MSG_INFO,
+                        "[work_fetch_debug] project is overworked, %s isn't",
+                        pbest->get_project_name()
+                    );
+                }
+                continue;
+            }
+            // get work from project with highest LTD
+            //
+            if (pbest->long_term_debt - best_work > p->long_term_debt - prospect_work) {
+                if (log_flags.work_fetch_debug) {
+                    msg_printf(p, MSG_INFO,
+                        "[work_fetch_debug] project has less LTD than %s",
+                        pbest->get_project_name()
                     );
                 }
                 continue;
             }
         }
-        pbest = prospect;
+        pbest = p;
         best_work = prospect_work;
         if (log_flags.work_fetch_debug) {
-            msg_printf(0, MSG_INFO,
-                "compute_work_requests(): best project so far %s",
-                pbest->get_project_name()
-            );
+            msg_printf(pbest, MSG_INFO, "[work_fetch_debug] best project so far");
         }
     }
 
     if (pbest) {
         pbest->work_request = max(
-			pbest->cpu_shortfall,
-			cpu_shortfall * (prrs ? pbest->resource_share/prrs : 1)
-		);
+            pbest->cpu_shortfall,
+            cpu_shortfall * (prrs ? pbest->resource_share/prrs : 1)
+        );
         
         if (!best_work) {
             pbest->work_request_urgency = WORK_FETCH_NEED_IMMEDIATELY;
@@ -719,9 +731,9 @@ bool CLIENT_STATE::compute_work_requests() {
         }
 
         if (log_flags.work_fetch_debug) {
-            msg_printf(0, MSG_INFO,
-				"compute_work_requests(): project %s: work req %f, shortfall %f, urgency %s\n",
-				pbest->get_project_name(), pbest->work_request, pbest->cpu_shortfall,
+            msg_printf(pbest, MSG_INFO,
+				"[work_fetch_debug] compute_work_requests(): work req %f, shortfall %f, urgency %s\n",
+				pbest->work_request, pbest->cpu_shortfall,
                 urgency_name(pbest->work_request_urgency)
             );
         }
@@ -740,7 +752,7 @@ bool CLIENT_STATE::scheduler_rpc_poll() {
 
 	// check only every 5 sec, unless there's a tentative (new) project
 	//
-    if (!have_tentative_project && gstate.now - last_time < 5.0) return false;
+    if (!have_tentative_project() && gstate.now - last_time < 5.0) return false;
     last_time = gstate.now;
 
     switch(scheduler_op->state) {
@@ -759,7 +771,7 @@ bool CLIENT_STATE::scheduler_rpc_poll() {
         if (network_suspended) break;
         p = next_project_trickle_up_pending();
         if (p) {
-            scheduler_op->init_op_project(p, REASON_TRICKLE_UP);
+            scheduler_op->init_op_project(p, RPC_REASON_TRICKLE_UP);
             action = true;
             break;
         }
@@ -768,7 +780,7 @@ bool CLIENT_STATE::scheduler_rpc_poll() {
         //
         p = find_project_with_overdue_results();
         if (p) {
-            scheduler_op->init_op_project(p, REASON_RESULTS_DUE);
+            scheduler_op->init_op_project(p, RPC_REASON_RESULTS_DUE);
             action = true;
             break;
         }
@@ -1122,7 +1134,7 @@ int CLIENT_STATE::handle_scheduler_reply(
         RESULT* rp = lookup_result(project, sr.result_acks[i].name);
         if (log_flags.sched_op_debug) {
             msg_printf(0, MSG_INFO,
-                "handle_scheduler_reply(): got ack for result %s\n",
+                "[sched_op_debug] handle_scheduler_reply(): got ack for result %s\n",
                 sr.result_acks[i].name
             );
         }
@@ -1209,7 +1221,7 @@ int CLIENT_STATE::handle_scheduler_reply(
     set_client_state_dirty("handle_scheduler_reply");
     if (log_flags.state_debug) {
         msg_printf(0, MSG_INFO,
-            "handle_scheduler_reply(): State after handle_scheduler_reply():"
+            "[state_debug] handle_scheduler_reply(): State after handle_scheduler_reply():"
         );
         print_summary();
     }
@@ -1236,7 +1248,7 @@ void CLIENT_STATE::scale_duration_correction_factors(double factor) {
         p->duration_correction_factor *= factor;
     }
 	if (log_flags.cpu_sched_debug) {
-		msg_printf(NULL, MSG_INFO, "scaling duration correction factors by %f", factor);
+		msg_printf(NULL, MSG_INFO, "[cpu_sched_debug] scaling duration correction factors by %f", factor);
 	}
 }
 
@@ -1248,7 +1260,7 @@ void CLIENT_STATE::generate_new_host_cpid() {
     host_info.generate_host_cpid();
     for (unsigned int i=0; i<projects.size(); i++) {
         if (projects[i]->attached_via_acct_mgr) {
-            projects[i]->sched_rpc_pending = REASON_ACCT_MGR_REQ;
+            projects[i]->sched_rpc_pending = RPC_REASON_ACCT_MGR_REQ;
             projects[i]->min_rpc_time = now + 15;
         }
     }

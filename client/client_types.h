@@ -35,7 +35,6 @@
 #include "md5_file.h"
 #include "hostinfo.h"
 #include "miofile.h"
-#include "result_state.h"
 
 #define P_LOW 1
 #define P_MEDIUM 3
@@ -471,6 +470,8 @@ struct RESULT {
     bool nearly_runnable();
         // downloading or downloaded,
         // not finished, suspended, project not suspended
+    bool downloading();
+        // downloading, not downloaded, not suspended, project not suspended
     // temporaries used in CLIENT_STATE::rr_misses_deadline():
     double rrsim_cpu_left;
     double rrsim_finish_delay;

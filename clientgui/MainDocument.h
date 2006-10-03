@@ -24,6 +24,7 @@
 #pragma interface "MainDocument.cpp"
 #endif
 
+#include "common_defs.h"
 #include "gui_rpc_client.h"
 
 class CMainDocument;
@@ -79,14 +80,7 @@ public:
     //
 private:
 
-    bool                        m_bCachedStateLocked;
-
-	wxDateTime                  m_dtCachedActivityRunModeTimestamp;
-    wxDateTime                  m_dtCachedNetworkRunModeTimestamp;
-    double                      cc_status_timestamp;
-    int                         m_iCachedActivityRunMode;
-    int                         m_iCachedNetworkRunMode;
-    CC_STATUS cc_status;
+    wxDateTime                  m_dtCachedCCStatusTimestamp;
 
     int                         CachedStateUpdate();
 
@@ -121,11 +115,9 @@ public:
     bool                        IsConnected();
     bool                        IsReconnecting();
 
-    int                         GetActivityRunMode(int& iMode);
+    int                         GetCoreClientStatus(CC_STATUS&);
     int                         SetActivityRunMode(int iMode);
-    int                         GetNetworkRunMode(int& iMode);
     int                         SetNetworkRunMode(int iMode);
-    int                         get_cc_status(CC_STATUS&);
 
     int                         ForceCacheUpdate();
     int                         RunBenchmarks();
@@ -134,9 +126,9 @@ public:
 
     RPC_CLIENT                  rpc;
     CC_STATE                    state;
+    CC_STATUS                   status;
     HOST_INFO                   host;
     wxDateTime                  m_dtCachedStateTimestamp;
-    wxDateTime                  m_dtCachedStateLockTimestamp;
 
 
     //
@@ -144,7 +136,7 @@ public:
     //
 private:
     int                         CachedProjectStatusUpdate();
-    wxDateTime                  m_dtCachedProjecStatusTimestamp;
+    wxDateTime                  m_dtProjecStatusTimestamp;
 
 public:
     PROJECT*                    project(unsigned int);
@@ -167,7 +159,7 @@ public:
     //
 private:
     int                         CachedResultsStatusUpdate();
-    wxDateTime                  m_dtCachedResultsTimestamp;
+    wxDateTime                  m_dtResultsTimestamp;
 
 public:
     RESULTS                     results;

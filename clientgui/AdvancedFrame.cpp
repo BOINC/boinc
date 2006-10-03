@@ -1716,41 +1716,16 @@ void CAdvancedFrame::OnFrameRender(wxTimerEvent &event) {
         if (IsShown()) {
             if (pDoc) {
                 wxASSERT(wxDynamicCast(pDoc, CMainDocument));
+                wxASSERT(wxDynamicCast(m_pStatusbar, CStatusBar));
 
                 // Update the menu bar
-                wxMenuBar* pMenuBar      = GetMenuBar();
-                int        iActivityMode = -1;
-                int        iNetworkMode  = -1;
-
-                wxASSERT(pMenuBar);
-                wxASSERT(wxDynamicCast(pMenuBar, wxMenuBar));
-
-                pMenuBar->Check(ID_FILEACTIVITYRUNALWAYS, false);
-                pMenuBar->Check(ID_FILEACTIVITYSUSPEND, false);
-                pMenuBar->Check(ID_FILEACTIVITYRUNBASEDONPREPERENCES, false);
-                if ((pDoc->IsConnected()) && (0 == pDoc->GetActivityRunMode(iActivityMode))) {
-                    if (iActivityMode == RUN_MODE_ALWAYS)
-                        pMenuBar->Check(ID_FILEACTIVITYRUNALWAYS, true);
-                    if (iActivityMode == RUN_MODE_NEVER)
-                        pMenuBar->Check(ID_FILEACTIVITYSUSPEND, true);
-                    if (iActivityMode == RUN_MODE_AUTO)
-                        pMenuBar->Check(ID_FILEACTIVITYRUNBASEDONPREPERENCES, true);
-                }
-
-                pMenuBar->Check(ID_FILENETWORKRUNALWAYS, false);
-                pMenuBar->Check(ID_FILENETWORKSUSPEND, false);
-                pMenuBar->Check(ID_FILENETWORKRUNBASEDONPREPERENCES, false);
-                if ((pDoc->IsConnected()) && (0 == pDoc->GetNetworkRunMode(iNetworkMode))) {
-                    if (RUN_MODE_ALWAYS == iNetworkMode)
-                        pMenuBar->Check(ID_FILENETWORKRUNALWAYS, true);
-                    if (RUN_MODE_NEVER == iNetworkMode)
-                        pMenuBar->Check(ID_FILENETWORKSUSPEND, true);
-                    if (RUN_MODE_AUTO == iNetworkMode)
-                        pMenuBar->Check(ID_FILENETWORKRUNBASEDONPREPERENCES, true);
+                CC_STATUS  status;
+                if ((pDoc->IsConnected()) && (0 == pDoc->GetCoreClientStatus(status))) {
+                    UpdateActivityModeControls(status);
+                    UpdateNetworkModeControls(status);
                 }
 
                 // Update the statusbar
-                wxASSERT(wxDynamicCast(m_pStatusbar, CStatusBar));
                 if (pDoc->IsConnected() || pDoc->IsReconnecting()) {
                     m_pStatusbar->m_pbmpConnected->Show();
                     m_pStatusbar->m_ptxtConnected->Show();
@@ -1895,6 +1870,60 @@ void CAdvancedFrame::SetFrameListPanelRenderTimerRate() {
         m_pFrameListPanelRenderTimer->Start(1000);  // Refresh every 1 seconds
         break;
     }
+}
+
+
+void CAdvancedFrame::UpdateActivityModeControls( CC_STATUS& status ) {
+    wxMenuBar* pMenuBar      = GetMenuBar();
+
+    wxASSERT(pMenuBar);
+    wxASSERT(wxDynamicCast(pMenuBar, wxMenuBar));
+
+    // Skip if everything is already setup, Linux and possibly a few other platforms
+    //   will emulate a click event for a menu item even when the action of setting
+    //   a controls value wasn't initiated via user interaction. This in turn causes
+    //   the set_* RPC to be called which will cause the state file to become dirty.
+    if ((RUN_MODE_ALWAYS == status.task_mode) && pMenuBar->IsChecked(ID_FILEACTIVITYRUNALWAYS)) return;
+    if ((RUN_MODE_NEVER == status.task_mode) && pMenuBar->IsChecked(ID_FILEACTIVITYSUSPEND)) return;
+    if ((RUN_MODE_AUTO == status.task_mode) && pMenuBar->IsChecked(ID_FILEACTIVITYRUNBASEDONPREPERENCES)) return;
+
+    // Set things up.
+    pMenuBar->Check(ID_FILEACTIVITYRUNALWAYS, false);
+    pMenuBar->Check(ID_FILEACTIVITYSUSPEND, false);
+    pMenuBar->Check(ID_FILEACTIVITYRUNBASEDONPREPERENCES, false);
+    if (RUN_MODE_ALWAYS == status.task_mode)
+        pMenuBar->Check(ID_FILEACTIVITYRUNALWAYS, true);
+    if (RUN_MODE_NEVER == status.task_mode)
+        pMenuBar->Check(ID_FILEACTIVITYSUSPEND, true);
+    if (RUN_MODE_AUTO == status.task_mode)
+        pMenuBar->Check(ID_FILEACTIVITYRUNBASEDONPREPERENCES, true);
+}
+
+
+void CAdvancedFrame::UpdateNetworkModeControls( CC_STATUS& status ) {
+    wxMenuBar* pMenuBar      = GetMenuBar();
+
+    wxASSERT(pMenuBar);
+    wxASSERT(wxDynamicCast(pMenuBar, wxMenuBar));
+
+    // Skip if everything is already setup, Linux and possibly a few other platforms
+    //   will emulate a click event for a menu item even when the action of setting
+    //   a controls value wasn't initiated via user interaction. This in turn causes
+    //   the set_* RPC to be called which will cause the state file to become dirty.
+    if ((RUN_MODE_ALWAYS == status.network_mode) && pMenuBar->IsChecked(ID_FILENETWORKRUNALWAYS)) return;
+    if ((RUN_MODE_NEVER == status.network_mode) && pMenuBar->IsChecked(ID_FILENETWORKSUSPEND)) return;
+    if ((RUN_MODE_AUTO == status.network_mode) && pMenuBar->IsChecked(ID_FILENETWORKRUNBASEDONPREPERENCES)) return;
+
+    // Set things up.
+    pMenuBar->Check(ID_FILENETWORKRUNALWAYS, false);
+    pMenuBar->Check(ID_FILENETWORKSUSPEND, false);
+    pMenuBar->Check(ID_FILENETWORKRUNBASEDONPREPERENCES, false);
+    if (RUN_MODE_ALWAYS == status.network_mode)
+        pMenuBar->Check(ID_FILENETWORKRUNALWAYS, true);
+    if (RUN_MODE_NEVER == status.network_mode)
+        pMenuBar->Check(ID_FILENETWORKSUSPEND, true);
+    if (RUN_MODE_AUTO == status.network_mode)
+        pMenuBar->Check(ID_FILENETWORKRUNBASEDONPREPERENCES, true);
 }
 
 

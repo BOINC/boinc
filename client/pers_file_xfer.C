@@ -148,7 +148,7 @@ int PERS_FILE_XFER::start_xfer() {
     }
     if (log_flags.file_xfer_debug) {
         msg_printf(0, MSG_INFO,
-            "PERS_FILE_XFER::start_xfer(): URL: %s\n",
+            "[file_xfer_debug] PERS_FILE_XFER::start_xfer(): URL: %s\n",
             fip->get_current_url(is_upload)
         );
     }
@@ -201,7 +201,7 @@ bool PERS_FILE_XFER::poll() {
     if (fxp->file_xfer_done) {
         if (log_flags.file_xfer_debug) {
             msg_printf(0, MSG_INFO,
-                "PERS_FILE_XFER::poll(): file transfer status %d",
+                "[file_xfer_debug] PERS_FILE_XFER::poll(): file transfer status %d",
                 fxp->file_xfer_retval
             );
         }
@@ -510,7 +510,7 @@ int PERS_FILE_XFER_SET::remove(PERS_FILE_XFER* pfx) {
     iter = pers_file_xfers.begin();
     while (iter != pers_file_xfers.end()) {
         if (*iter == pfx) {
-            pers_file_xfers.erase(iter);
+            iter = pers_file_xfers.erase(iter);
             return 0;
         }
         iter++;

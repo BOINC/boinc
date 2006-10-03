@@ -58,7 +58,7 @@ void ACTIVE_TASK::request_graphics_mode(GRAPHICS_MSG& m) {
 
     if (log_flags.scrsave_debug) {
         msg_printf(0, MSG_INFO,
-            "ACTIVE_TASK::request_graphics_mode(): requesting graphics mode %s for %s",
+            "[scrsave_debug] ACTIVE_TASK::request_graphics_mode(): requesting graphics mode %s for %s",
             xml_graphics_modes[m.mode], result->name
         );
     }
@@ -85,7 +85,7 @@ void ACTIVE_TASK::check_graphics_mode_ack() {
         app_client_shm.decode_graphics_msg(buf, gm);
         if (log_flags.scrsave_debug) {
             msg_printf(0, MSG_INFO,
-                "ACTIVE_TASK::check_graphics_mode_ack(): got graphics ack %s for %s, previous mode %s",
+                "[scrsave_debug] ACTIVE_TASK::check_graphics_mode_ack(): got graphics ack %s for %s, previous mode %s",
                 buf, result->name, xml_graphics_modes[graphics_mode_acked]
             );
         }
@@ -104,7 +104,7 @@ void ACTIVE_TASK::check_graphics_mode_ack() {
             gstate.ss_logic.stop_ss();
             if (log_flags.scrsave_debug) {
                 msg_printf(0, MSG_INFO,
-                    "ACTIVE_TASK::check_graphics_mode_ack(): shutting down the screensaver"
+                    "[scrsave_debug] ACTIVE_TASK::check_graphics_mode_ack(): shutting down the screensaver"
                 );
             }
         }
@@ -147,7 +147,7 @@ void ACTIVE_TASK_SET::save_app_modes() {
         atp->graphics_mode_before_ss = atp->graphics_mode_acked;
         if (log_flags.scrsave_debug) {
             msg_printf(0, MSG_INFO,
-                "ACTIVE_TASK_SET::save_app_modes(): saved mode %d",
+                "[scrsave_debug] ACTIVE_TASK_SET::save_app_modes(): saved mode %d",
                 atp->graphics_mode_acked
             );
         }
@@ -288,7 +288,7 @@ ACTIVE_TASK* CLIENT_STATE::get_next_graphics_capable_app() {
             if (best_atp) {
                 if (log_flags.scrsave_debug) {
                     msg_printf(0, MSG_INFO,
-                        "CLIENT_STATE::get_next_graphics_capable_app(): get_next_app: %s",
+                        "[scrsave_debug] CLIENT_STATE::get_next_graphics_capable_app(): get_next_app: %s",
                         best_atp->result->name
                     );
                 }
@@ -298,7 +298,7 @@ ACTIVE_TASK* CLIENT_STATE::get_next_graphics_capable_app() {
     }
     if (log_flags.scrsave_debug) {
         msg_printf(0, MSG_INFO,
-            "CLIENT_STATE::get_next_graphics_capable_app(): get_next_app: none"
+            "[scrsave_debug] CLIENT_STATE::get_next_graphics_capable_app(): get_next_app: none"
         );
     }
     return NULL;

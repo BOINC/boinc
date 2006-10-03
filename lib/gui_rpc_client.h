@@ -35,77 +35,6 @@
 #include "prefs.h"
 #include "hostinfo.h"
 
-#define GUI_RPC_PORT                                31416
-
-// official HTTP status codes
-//
-#define HTTP_STATUS_OK                              200
-#define HTTP_STATUS_PARTIAL_CONTENT                 206
-#define HTTP_STATUS_RANGE_REQUEST_ERROR             416
-#define HTTP_STATUS_MOVED_PERM                      301
-#define HTTP_STATUS_MOVED_TEMP                      302
-#define HTTP_STATUS_NOT_FOUND                       404
-#define HTTP_STATUS_PROXY_AUTH_REQ                  407
-#define HTTP_STATUS_INTERNAL_SERVER_ERROR           500
-#define HTTP_STATUS_SERVICE_UNAVAILABLE             503
-
-#define RUN_MODE_ALWAYS                             0
-#define RUN_MODE_NEVER                              1
-#define RUN_MODE_AUTO                               2
-
-#define RESULT_NEW                                  0
-#define RESULT_FILES_DOWNLOADING                    1
-#define RESULT_FILES_DOWNLOADED                     2
-#define RESULT_COMPUTE_ERROR                        3
-#define RESULT_FILES_UPLOADING                      4
-#define RESULT_FILES_UPLOADED                       5
-#define RESULT_ABORTED                              6
-
-// values for RESULT::scheduler_state
-//
-#define CPU_SCHED_UNINITIALIZED                     0
-#define CPU_SCHED_PREEMPTED                         1
-#define CPU_SCHED_SCHEDULED                         2
-
-// see client/ss_logic.h for explanation
-//
-#define SS_STATUS_ENABLED                           1
-#define SS_STATUS_RESTARTREQUEST                    2
-#define SS_STATUS_BLANKED                           3
-#define SS_STATUS_BOINCSUSPENDED                    4
-#define SS_STATUS_NOAPPSEXECUTING                   6
-#define SS_STATUS_NOGRAPHICSAPPSEXECUTING           7
-#define SS_STATUS_QUIT                              8
-#define SS_STATUS_NOPROJECTSDETECTED                9
-#define SS_STATUS_DAEMONALLOWSNOGRAPHICS            10
-
-// see lib/app_ipc.h for explanation
-//
-#define MODE_UNSUPPORTED                            0
-#define MODE_HIDE_GRAPHICS                          1
-#define MODE_WINDOW                                 2
-#define MODE_FULLSCREEN                             3
-#define MODE_BLANKSCREEN                            4
-#define MODE_REREAD_PREFS                           5
-#define MODE_QUIT                                   6
-
-// These MUST match the constants in client/client_msgs.h
-//
-#define MSG_PRIORITY_INFO                           1
-    // show message in black
-#define MSG_PRIORITY_ERROR                          2
-    // show message in red
-
-enum SUSPEND_REASON {
-    SUSPEND_REASON_BATTERIES = 1,
-    SUSPEND_REASON_USER_ACTIVE = 2,
-    SUSPEND_REASON_USER_REQ = 4,
-    SUSPEND_REASON_TIME_OF_DAY = 8,
-    SUSPEND_REASON_BENCHMARKS = 16,
-    SUSPEND_REASON_DISK_SIZE = 32,
-    SUSPEND_REASON_CPU_USAGE_LIMIT = 64,
-};
-
 struct GUI_URL {
     std::string name;
     std::string description;
@@ -147,7 +76,7 @@ public:
     double min_rpc_time;           // earliest time to contact any server
 
     bool master_url_fetch_pending; // need to fetch and parse the master URL
-    bool sched_rpc_pending;     // contact scheduling server for preferences
+    int sched_rpc_pending;      // contact scheduling server for preferences
     bool tentative;             // master URL and account ID not confirmed
     bool non_cpu_intensive;
     bool suspended_via_gui;
@@ -335,6 +264,12 @@ public:
     void clear();
 };
 
+struct VERSION_INFO {
+    int major;
+    int minor;
+    int release;
+};
+
 class CC_STATE {
 public:
     std::vector<PROJECT*> projects;
@@ -344,6 +279,7 @@ public:
     std::vector<RESULT*> results;
 
     GLOBAL_PREFS global_prefs;
+    VERSION_INFO version_info;  // populated only if talking to pre-5.6 CC
 
     CC_STATE();
     ~CC_STATE();
@@ -498,8 +434,7 @@ struct ACCOUNT_IN {
 
 struct ACCOUNT_OUT {
     int error_num;
-    std::vector<std::string>messages;
-
+	std::string error_msg;
     std::string authenticator;
 
     ACCOUNT_OUT();
@@ -515,6 +450,15 @@ struct CC_STATUS {
     bool ams_password_error;
     int task_suspend_reason;
     int network_suspend_reason;
+    int task_mode;
+    int network_mode;
+
+    CC_STATUS();
+    ~CC_STATUS();
+
+    int parse(MIOFILE&);
+    void clear();
+    void print();
 };
 
 struct SIMPLE_GUI_INFO {
@@ -532,9 +476,6 @@ struct ACTIVITY_STATE {
 class RPC_CLIENT {
 public:
     int sock;
-    int client_major_version;
-    int client_minor_version;
-    int client_release;
     double start_time;
     double timeout;
     bool retry;
@@ -559,6 +500,7 @@ public:
     int init_poll();
     void close();
     int authorize(const char* passwd);
+    int exchange_versions(VERSION_INFO&);
     int get_state(CC_STATE&);
     int get_results(RESULTS&);
     int get_file_transfers(FILE_TRANSFERS&);
@@ -573,9 +515,9 @@ public:
     );
     int project_op(PROJECT&, const char* op);
     int set_run_mode(int mode);
-    int get_run_mode(int& mode);
+    int get_run_mode(int& mode);    // DEPRECATED
     int set_network_mode(int mode);
-    int get_network_mode(int& mode);
+    int get_network_mode(int& mode);    // DEPRECATED
     int get_activity_state(ACTIVITY_STATE&);	// DEPRECATED
     int get_screensaver_mode(int& status);
     int set_screensaver_mode(
@@ -614,6 +556,7 @@ public:
         bool use_config_file=false
     );
     int acct_mgr_rpc_poll(ACCT_MGR_RPC_REPLY&);
+
     int get_newer_version(std::string&);
     int read_global_prefs_override();
     int get_cc_status(CC_STATUS&);

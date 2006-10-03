@@ -213,10 +213,10 @@ void CCompletionErrorPage::OnPageChanged( wxWizardExEvent& event ) {
 
     if (m_pServerMessagesCtrl->GetLabel().IsEmpty()) {
         m_pDirectionsStaticCtrl->SetLabel(
-            _("An error has occurred, please check the messages tab for further\n"
-              "details.\n"
-              "\n"
-              "Click Finish to close.")
+            _("An error has occurred;\n"
+				"check Messages for details.\n"
+               "\n"
+               "Click Finish to close.")
         );
     } else {
         m_pDirectionsStaticCtrl->SetLabel(

@@ -20,13 +20,13 @@
 # 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 #
 #
-# Script to build Macintosh Universal Binary library of curl-7.15.3 for
+# Script to build Macintosh Universal Binary library of curl-7.15.5 for
 # use in building BOINC.
 #
 # by Charlie Fenton 7/21/06
 #
-## In Terminal, CD to the curl-7.15.3 directory.
-##     cd [path]/curl-7.15.3/
+## In Terminal, CD to the curl-7.15.5 directory.
+##     cd [path]/curl-7.15.5/
 ## then run this script:
 ##     source buildcurl [ -clean ]
 ##
@@ -36,7 +36,7 @@
 if [ "$1" != "-clean" ]; then
   if [ -f lib/.libs/libcurl_ppc.a ] && [ -f lib/.libs/libcurl_i386.a ] && [ -f lib/.libs/libcurl.a ]; then
     
-    echo "curl-7.15.3 already built"
+    echo "curl-7.15.5 already built"
     return 0
   fi
 fi

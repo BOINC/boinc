@@ -130,7 +130,7 @@ int PROJECT::parse_account(FILE* in) {
         } else {
             if (log_flags.unparsed_xml) {
                 msg_printf(0, MSG_ERROR,
-                    "PROJECT::parse_account(): unrecognized: %s\n", buf
+                    "[unparsed_xml] PROJECT::parse_account(): unrecognized: %s\n", buf
                 );
             }
         }
@@ -186,7 +186,7 @@ int PROJECT::parse_account_file_venue() {
         } else {
             if (log_flags.unparsed_xml) {
                 msg_printf(0, MSG_ERROR,
-                    "parse_account_file_venue(): unrecognized: %s\n", buf
+                    "[unparsed_xml] parse_account_file_venue(): unrecognized: %s\n", buf
                 );
             }
         }
@@ -239,7 +239,7 @@ int CLIENT_STATE::parse_account_files() {
         // true until we read client_state.xml
         //
         project->master_url_fetch_pending = true;
-        project->sched_rpc_pending = REASON_INIT;
+        project->sched_rpc_pending = RPC_REASON_INIT;
         retval = project->parse_account(f);
         fclose(f);
         if (retval) {
@@ -302,7 +302,7 @@ int PROJECT::parse_statistics(FILE* in) {
         else {
             if (log_flags.unparsed_xml) {
                 msg_printf(0, MSG_ERROR,
-                    "PROJECT::parse_statistics(): unrecognized: %s\n", buf
+                    "[unparsed_xml] PROJECT::parse_statistics(): unrecognized: %s\n", buf
                 );
             }
         }
@@ -430,7 +430,6 @@ int CLIENT_STATE::add_project(
     project->attached_via_acct_mgr = attached_via_acct_mgr;
 
     project->tentative = true;
-    gstate.have_tentative_project = true;
     retval = project->write_account_file();
     if (retval) return retval;
 
@@ -454,7 +453,7 @@ int CLIENT_STATE::add_project(
     retval = make_project_dir(*project);
     if (retval) return retval;
     projects.push_back(project);
-    project->sched_rpc_pending = REASON_INIT;
+    project->sched_rpc_pending = RPC_REASON_INIT;
     set_client_state_dirty("Add project");
     return 0;
 }
@@ -463,7 +462,6 @@ int CLIENT_STATE::add_project(
 //
 void PROJECT::attach_failed(int error_num) {
     gstate.project_attach.error_num = error_num;
-    gstate.have_tentative_project = false;
     switch(error_num){
     case ERR_ATTACH_FAIL_INIT:
         msg_printf(this, MSG_ERROR,

@@ -32,15 +32,6 @@
 
 class PROJECT;
 
-// Show a message, preceded by timestamp and project name
-// priorities (this MUST match those in lib/gui_rpc_client.h)
-
-#define MSG_INFO    1
-    // write to stdout
-    // GUI: write to msg window
-#define MSG_ERROR   2
-    // write to stdout
-    // GUI: write to msg window in bold or red
 
 // the following stores a message in memory, where it can be retrieved via RPC
 //
@@ -63,6 +54,8 @@ extern void show_message(class PROJECT *p, char* message, int priority);
 #define __attribute__(x) /*nothing*/
 #endif
 
+// Show a message, preceded by timestamp and project name
+//
 extern void msg_printf(PROJECT *p, int priority, const char *fmt, ...) __attribute__ ((format (printf, 3, 4)));
 
 #endif
