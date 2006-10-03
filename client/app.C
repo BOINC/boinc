@@ -215,10 +215,10 @@ void ACTIVE_TASK_SET::get_memory_usage() {
 			int pf = pi.page_fault_count - last_page_fault_count;
 			pi.page_fault_rate = pf/diff;
             if (log_flags.mem_usage_debug) {
-                msg_printf(NULL, MSG_INFO,
-                    "[mem_usage_debug] %s: RAM %dKB, page %dKB, %f page faults/sec, user CPU %f, kernel CPU %f",
+                msg_printf(atp->result->project, MSG_INFO,
+                    "[mem_usage_debug] %s: RAM %.2fMB, page %.2fMB, %.2f page faults/sec, user CPU %.3f, kernel CPU %.3f",
                     atp->result->name,
-                    (int)(pi.working_set_size/1024), (int)(pi.swap_size/1024),
+                    pi.working_set_size/MEGA, pi.swap_size/MEGA,
 					pi.page_fault_rate,
                     pi.user_time, pi.kernel_time
                 );
@@ -231,8 +231,8 @@ void ACTIVE_TASK_SET::get_memory_usage() {
     // move idle processes out of RAM, so physical memory is always full
     //
     procinfo_other(pi, piv);
-    msg_printf(NULL, MSG_INFO, "All others: RAM %dKB, page %dKB, user %f, kernel %f",
-        (int)(pi.working_set_size/1024), (int)(pi.swap_size/1024),
+    msg_printf(NULL, MSG_INFO, "All others: RAM %.2fMB, page %.2fMB, user %.3f, kernel %.3f",
+        pi.working_set_size/MEGA, pi.swap_size/MEGA,
         pi.user_time, pi.kernel_time
     );
 #endif

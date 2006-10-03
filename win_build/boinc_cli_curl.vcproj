@@ -1801,6 +1801,10 @@
 				>
 			</File>
 			<File
+				RelativePath="..\lib\util.h"
+				>
+			</File>
+			<File
 				RelativePath="..\version.h"
 				>
 			</File>

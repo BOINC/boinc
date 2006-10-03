@@ -510,10 +510,6 @@ bool HTTP_OP::http_op_done() {
 }
 
 HTTP_OP_SET::HTTP_OP_SET() {
-    max_bytes_sec_up = 0;
-    max_bytes_sec_down = 0;
-    bytes_left_up = 0;
-    bytes_left_down = 0;
     bytes_up = 0;
     bytes_down = 0;
 }
@@ -879,23 +875,8 @@ void HTTP_OP_SET::get_fdset(FDSET_GROUP& fg) {
 void HTTP_OP_SET::got_select(FDSET_GROUP&, double timeout) {
     int iNumMsg;
     HTTP_OP* hop = NULL;
-    bool time_passed = false;
+    //bool time_passed = false;
     CURLMsg *pcurlMsg = NULL;
-    static int last_time=0;
-
-    // if a second has gone by, do rate-limit accounting
-    //
-    time_t t = time(0);
-    if (t != last_time) {
-        time_passed = true;
-        last_time = (int)t;
-        if (bytes_left_up < max_bytes_sec_up) {
-            bytes_left_up += max_bytes_sec_up;
-        }
-        if (bytes_left_down < max_bytes_sec_down) {
-            bytes_left_down += max_bytes_sec_down;
-        }
-    }
 
     int iRunning = 0;  // curl flags for max # of fds & # running queries
     CURLMcode curlMErr;

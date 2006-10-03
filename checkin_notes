@@ -10698,3 +10698,26 @@ David  3 Oct 2006
     lib/
         procinfo_unix.C
         procinfo_win.C
+
+David  3 Oct 2006
+	- core client: memory management bug fixes and debug messages
+	- core client: include memory-related info (wss, max_wss)
+		in heartbeat messages to apps
+	- core client: change memory-related messages to use MB notation
+	- core client: remove old bandwidth-limiting code
+
+	Intermediate checkin.  Still to do:
+	- save/restore smoothed WSS
+	- change RR simulator to reflect memory management
+
+	client/
+		app.C
+		app_control.C
+		cpu_sched.C
+		cs_prefs.C
+		http_curl.C,h
+	lib/
+		prefs.C
+		util.h
+	win_build/
+		boinc_cli_curl.vcproj

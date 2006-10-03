@@ -60,8 +60,8 @@ void GLOBAL_PREFS::defaults() {
 	ram_max_used_busy_frac = 0.5;
 	ram_max_used_idle_frac = 0.9;
     idle_time_to_run = 3;
-    max_bytes_sec_up = 1e9;
-    max_bytes_sec_down = 1e9;
+    max_bytes_sec_up = 0;
+    max_bytes_sec_down = 0;
     cpu_usage_limit = 100;
 
     // don't initialize source_project, source_scheduler here

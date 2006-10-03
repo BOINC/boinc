@@ -453,15 +453,24 @@ void CLIENT_STATE::schedule_cpus() {
     while ((int)ordered_scheduled_results.size() < ncpus) {
         rp = earliest_deadline_result();
         if (!rp) break;
+        rp->already_selected = true;
+
+		// see if it fits in available RAM
+		//
 		atp = lookup_active_task_by_result(rp);
 		if (atp) {
-			if (atp->procinfo.working_set_size_smoothed > ram_left) continue;
+			if (atp->procinfo.working_set_size_smoothed > ram_left) {
+				if (log_flags.cpu_sched_debug) {
+					msg_printf(NULL, MSG_INFO,
+						"[cpu_sched_debug]  %s misses deadline but too large: %.2fMB",
+						rp->name, atp->procinfo.working_set_size_smoothed/MEGA
+					);
+				}
+				continue;
+			}
 			ram_left -= atp->procinfo.working_set_size_smoothed;
 		}
 
-        // If such an R exists, decrement P.deadlines_missed 
-        //
-        rp->already_selected = true;
         rp->project->anticipated_debt -= (1 - rp->project->resource_share / rrs) * expected_pay_off;
         rp->project->deadlines_missed--;
         if (log_flags.cpu_sched_debug) {
@@ -478,7 +487,15 @@ void CLIENT_STATE::schedule_cpus() {
         if (!rp) break;
 		atp = lookup_active_task_by_result(rp);
 		if (atp) {
-			if (atp->procinfo.working_set_size_smoothed > ram_left) continue;
+			if (atp->procinfo.working_set_size_smoothed > ram_left) {
+				if (log_flags.cpu_sched_debug) {
+					msg_printf(NULL, MSG_INFO,
+						"[cpu_sched_debug]  %s too large: %.2fMB",
+						rp->name, atp->procinfo.working_set_size_smoothed/MEGA
+					);
+				}
+				continue;
+			}
 			ram_left -= atp->procinfo.working_set_size_smoothed;
 		}
         rp->project->anticipated_debt -= (1 - rp->project->resource_share / rrs) * expected_pay_off;
@@ -580,8 +597,8 @@ bool CLIENT_STATE::enforce_schedule() {
 
     if (log_flags.mem_usage_debug) {
         msg_printf(0, MSG_INFO,
-            "[mem_usage_debug] enforce: max mem used %f",
-            ram_left
+            "[mem_usage_debug] enforce: available RAM %.2fMB",
+            ram_left/MEGA
         );
     }
 
@@ -623,8 +640,8 @@ bool CLIENT_STATE::enforce_schedule() {
                 nrunning--;
                 if (log_flags.mem_usage_debug) {
                     msg_printf(rp->project, MSG_INFO,
-                        "[mem_usage_debug] enforce: result %s mem1 %f %f",
-                        rp->name,  atp->procinfo.working_set_size_smoothed, ram_left
+                        "[mem_usage_debug] enforce: result %s can't continue, too big %.2fMB > %.2fMB",
+                        rp->name,  atp->procinfo.working_set_size_smoothed/MEGA, ram_left/MEGA
                     );
                 }
             } else {
@@ -641,8 +658,8 @@ bool CLIENT_STATE::enforce_schedule() {
             if (atp->procinfo.working_set_size_smoothed > ram_left) {
                 if (log_flags.mem_usage_debug) {
                     msg_printf(rp->project, MSG_INFO,
-                        "[mem_usage_debug] enforce: result %s mem2 %f %f",
-                        rp->name, atp->procinfo.working_set_size_smoothed, ram_left
+                        "[mem_usage_debug] enforce: result %s can't start, too big %.2fMB > %.2fMB",
+                        rp->name, atp->procinfo.working_set_size_smoothed/MEGA, ram_left/MEGA
                     );
                 }
                 continue;
@@ -700,8 +717,8 @@ bool CLIENT_STATE::enforce_schedule() {
             atp->next_scheduler_state = CPU_SCHED_PREEMPTED;
             if (log_flags.mem_usage_debug) {
                 msg_printf(atp->result->project, MSG_INFO,
-                    "[mem_usage_debug] enforce: result %s mem3 %f %f",
-                    atp->result->name, atp->procinfo.working_set_size_smoothed, ram_left
+                    "[mem_usage_debug] enforce: result %s can't keep, too big %.2fMB > %.2fMB",
+                    atp->result->name, atp->procinfo.working_set_size_smoothed/MEGA, ram_left/MEGA
                 );
             }
         } else {
@@ -710,9 +727,10 @@ bool CLIENT_STATE::enforce_schedule() {
     }
 
     if (log_flags.cpu_sched_debug && nrunning < ncpus) {
-        msg_printf(0, MSG_INFO, "[cpu_sched_debug] Too few tasks started (%d<%d)",
+        msg_printf(0, MSG_INFO, "[cpu_sched_debug] Some CPUs idle (%d<%d)",
             nrunning, ncpus
         );
+		request_work_fetch("CPUs idle");
     }
     if (log_flags.cpu_sched_debug && nrunning > ncpus) {
         msg_printf(0, MSG_INFO, "[cpu_sched_debug] Too many tasks started (%d>%d)",
@@ -742,6 +760,11 @@ bool CLIENT_STATE::enforce_schedule() {
             action = true;
             bool preempt_by_quit = !global_prefs.leave_apps_in_memory;
 			if (swap_left < 0) {
+				if (log_flags.mem_usage_debug) {
+					msg_printf(atp->result->project, MSG_INFO,
+						"[mem_usage_debug] out of swap space, will preempt by quit"
+					);
+				}
 				preempt_by_quit = true;
 			}
 

@@ -123,7 +123,6 @@ bool ACTIVE_TASK::has_task_exited() {
         }
     }
 #else
-    // We don't use status
     if (waitpid(pid, 0, WNOHANG) == pid) {
         exited = true;
     }
@@ -343,12 +342,19 @@ void ACTIVE_TASK_SET::send_trickle_downs() {
 void ACTIVE_TASK_SET::send_heartbeats() {
     unsigned int i;
     ACTIVE_TASK* atp;
+	char buf[256];
+	double ar = gstate.available_ram();
 
     for (i=0; i<active_tasks.size(); i++) {
         atp = active_tasks[i];
         if (!atp->process_exists()) continue;
         if (!atp->app_client_shm.shm) continue;
-        atp->app_client_shm.shm->heartbeat.send_msg("<heartbeat/>\n");
+		sprintf(buf, "<heartbeat/>"
+			"<wss>%f</wss>"
+			"<max_wss>%f</max_wss>",
+			atp->procinfo.working_set_size, ar
+		);
+        atp->app_client_shm.shm->heartbeat.send_msg(buf);
     }
 }
 

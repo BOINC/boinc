@@ -158,10 +158,6 @@ public:
     int remove(HTTP_OP*);
     int nops();
 
-    double max_bytes_sec_up, max_bytes_sec_down;
-        // user-specified limits on throughput
-    double bytes_left_up, bytes_left_down;
-        // bytes left to transfer in the current second
     double bytes_up, bytes_down;
         // total bytes transferred
 

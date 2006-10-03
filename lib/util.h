@@ -109,6 +109,7 @@ inline void downcase_string(std::string& w) {
 // NOTE: use #include <functional>   to get max,min
 
 #define SECONDS_PER_DAY 86400
+#define MEGA (1048576.0)
 
 static inline double drand() {
     return (double)rand()/(double)RAND_MAX;
