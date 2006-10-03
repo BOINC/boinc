@@ -57,6 +57,7 @@ HTML_IMAGES=
 # e.g. content_files=running.sgml building.sgml changes-2.0.sgml
 content_files = \
 		boinc.xml \
+		condor.xml \
 		concepts.xml \
 		config.xml \
 		intro.xml \
