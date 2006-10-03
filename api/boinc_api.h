@@ -60,6 +60,8 @@ typedef struct BOINC_STATUS {
     int quit_request;
     int reread_init_data_file;
     int abort_request;
+    double working_set_size;
+    double max_working_set_size;
 } BOINC_STATUS;
 
 struct APP_INIT_DATA;

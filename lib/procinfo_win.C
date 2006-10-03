@@ -125,7 +125,6 @@ void add_proc_totals(PROCINFO& pi, vector<PROCINFO>& piv, int pid, int start) {
 //
 void procinfo_app(PROCINFO& pi, vector<PROCINFO>& piv) {
 	add_proc_totals(pi, piv, pi.id, 0);
-	pi.working_set_size_smoothed = .5*pi.working_set_size_smoothed + pi.working_set_size;
 }
 
 // get totals of all non-BOINC processes
@@ -143,5 +142,4 @@ void procinfo_other(PROCINFO& pi, vector<PROCINFO>& piv) {
 			p.is_boinc_app = true;
 		}
 	}
-	pi.working_set_size_smoothed = .5*pi.working_set_size_smoothed + pi.working_set_size;
 }

@@ -74,18 +74,17 @@ define("WORK_BUF_DESC",
 );
 define("MAX_CPUS_DESC", "On multiprocessors, use at most");
 define("MAX_CPUS_DESC2", "processors");
-define("CPU_USAGE_LIMIT_DESC", "Use at most");
+define("USE_AT_MOST", "Use at most");
 define("CPU_USAGE_LIMIT_DESC2", "percent of CPU time");
 define("DISK_INTERVAL_DESC", "Write to disk at most every");
 define("DISK_LIMIT_DESC", "Disk and memory usage");
-define("DISK_MAX_USED_GB_DESC", "Use no more than");
 define("DISK_MIN_FREE_GB_DESC", "Leave at least");
 define("DISK_SCHED_MIN_FREE_DESC1", "<br><font size=-2>(Values smaller than ");
 define("DISK_SCHED_MIN_FREE_DESC2", " are ignored)</font>");
-define("DISK_MAX_USED_PCT_DESC", "Use no more than");
 define("DISK_MAX_USED_PCT_DESC2", "% of total disk space");
-define("VM_MAX_USED_PCT_DESC", "Use no more than");
-define("VM_MAX_USED_PCT_DESC2", "% of total virtual memory");
+define("VM_MAX_USED_PCT_DESC2", "% of page file (swap space)");
+define("RAM_MAX_USED_BUSY_PCT_DESC2", "% of memory when computer is in use");
+define("RAM_MAX_USED_IDLE_PCT_DESC2", "% of memory when computer is idle");
 define("NETWORK_LIMIT_DESC", "Network usage");
 define("MAX_BYTES_SEC_DOWN_DESC", "Maximum download rate:");
 define("MAX_BYTES_SEC_UP_DESC", "Maximum upload rate:");
@@ -323,6 +322,12 @@ function element_end_global($parser, $name) {
     case "vm_max_used_pct":
         $parse_result->vm_max_used_pct = $text;
         break;
+    case "ram_max_used_busy_pct":
+        $parse_result->ram_max_used_busy_pct = $text;
+        break;
+    case "ram_max_used_idle_pct":
+        $parse_result->ram_max_used_idle_pct = $text;
+        break;
     case "max_bytes_sec_down":
         $parse_result->max_bytes_sec_down = $text;
         break;
@@ -376,6 +381,8 @@ function default_prefs_global() {
     $p->disk_max_used_pct = $dp->disk_max_used_pct;
     $p->disk_min_free_gb = $dp->disk_min_free_gb;
     $p->vm_max_used_pct = 75;
+    $p->ram_max_used_busy_pct = 50;
+    $p->ram_max_used_idle_pct = 90;
     $p->max_bytes_sec_down = 0;
     $p->max_bytes_sec_up = 0;
     $p->net_start_hour = 0;
@@ -589,14 +596,16 @@ function prefs_show_columns_global($prefs) {
     row_defs(LEAVE_APPS_IN_MEMORY_DESC, "leave_apps_in_memory", "", "yesno", $prefs);
     row_defs(CPU_SCHEDULING_DESC, "cpu_scheduling_period_minutes", " minutes", "", $prefs);
     row_defs(MAX_CPUS_DESC, "max_cpus", MAX_CPUS_DESC2, "", $prefs);
-    row_defs(CPU_USAGE_LIMIT_DESC, "cpu_usage_limit", CPU_USAGE_LIMIT_DESC2, "", $prefs);
+    row_defs(USE_AT_MOST, "cpu_usage_limit", CPU_USAGE_LIMIT_DESC2, "", $prefs);
 
     row_top(DISK_LIMIT_DESC);
-    row_defs(DISK_MAX_USED_GB_DESC, "disk_max_used_gb", " GB disk space", "", $prefs);
+    row_defs(USE_AT_MOST, "disk_max_used_gb", " GB disk space", "", $prefs);
     row_defs(DISK_MIN_FREE_GB_DESC, "disk_min_free_gb", " GB disk space free", "", $prefs);
-    row_defs(DISK_MAX_USED_PCT_DESC, "disk_max_used_pct", DISK_MAX_USED_PCT_DESC2, "", $prefs);
+    row_defs(USE_AT_MOST, "disk_max_used_pct", DISK_MAX_USED_PCT_DESC2, "", $prefs);
     row_defs(DISK_INTERVAL_DESC, "disk_interval", " seconds", "", $prefs);
-    row_defs(VM_MAX_USED_PCT_DESC, "vm_max_used_pct", VM_MAX_USED_PCT_DESC2, "", $prefs);
+    row_defs(USE_AT_MOST, "vm_max_used_pct", VM_MAX_USED_PCT_DESC2, "", $prefs);
+    row_defs(USE_AT_MOST, "ram_max_used_busy_pct", RAM_MAX_USED_BUSY_PCT_DESC2, "", $prefs);
+    row_defs(USE_AT_MOST, "ram_max_used_idle_pct", RAM_MAX_USED_IDLE_PCT_DESC2, "", $prefs);
 
     row_top(NETWORK_LIMIT_DESC);
     row_defs(WORK_BUF_DESC, "work_buf_min_days", " days", "", $prefs);
@@ -630,7 +639,7 @@ function prefs_show_global($prefs) {
     row2(MAX_CPUS_DESC, "$prefs->max_cpus ".MAX_CPUS_DESC2);
     row2(CPU_USAGE_LIMIT_DESC, "$prefs->cpu_usage_limit ".CPU_USAGE_LIMIT_DESC2);
     row1(DISK_LIMIT_DESC);
-    row2(DISK_MAX_USED_GB_DESC, "$prefs->disk_max_used_gb GB disk space");
+    row2(USE_AT_MOST, "$prefs->disk_max_used_gb GB disk space");
 
     $dp = get_disk_space_config();
 
@@ -639,9 +648,11 @@ function prefs_show_global($prefs) {
       $msg = DISK_SCHED_MIN_FREE_DESC1.$dp->sched_disk_min_free_gb.DISK_SCHED_MIN_FREE_DESC2;
     }
     row2(DISK_MIN_FREE_GB_DESC.$msg, "$prefs->disk_min_free_gb GB disk space free");
-    row2(DISK_MAX_USED_PCT_DESC, "$prefs->disk_max_used_pct".DISK_MAX_USED_PCT_DESC2);
+    row2(USE_AT_MOST, "$prefs->disk_max_used_pct".DISK_MAX_USED_PCT_DESC2);
     row2(DISK_INTERVAL_DESC, "$prefs->disk_interval seconds");
-    row2(VM_MAX_USED_PCT_DESC, "$prefs->vm_max_used_pct".VM_MAX_USED_PCT_DESC2);
+    row2(USE_AT_MOST, "$prefs->vm_max_used_pct".VM_MAX_USED_PCT_DESC2);
+    row2(USE_AT_MOST, "$prefs->ram_max_used_busy_pct".RAM_MAX_USED_BUSY_PCT_DESC2);
+    row2(USE_AT_MOST, "$prefs->ram_max_used_idle_pct".RAM_MAX_USED_IDLE_PCT_DESC2);
     row1(NETWORK_LIMIT_DESC);
     row2(WORK_BUF_DESC, "$prefs->work_buf_min_days days");
     row2(CONFIRM_BEFORE_CONNECTING_DESC, $prefs->confirm_before_connecting?"yes":"no");
@@ -911,7 +922,7 @@ function prefs_form_global($user, $prefs, $error=false) {
 
     $show_error = false;
     if (isset($error->disk_max_used_gb)) $show_error= true;
-    row2(DISK_MAX_USED_GB_DESC,
+    row2(USE_AT_MOST,
         "<input size=7 name=disk_max_used_gb value='$prefs->disk_max_used_gb'> Gbytes",
         $show_error);
 
@@ -930,7 +941,7 @@ function prefs_form_global($user, $prefs, $error=false) {
 
     $show_error = false;
     if (isset($error->disk_max_used_pct)) $show_error= true;
-    row2(DISK_MAX_USED_PCT_DESC,
+    row2(USE_AT_MOST,
         "<input size=5 name=disk_max_used_pct value='$prefs->disk_max_used_pct'> ".DISK_MAX_USED_PCT_DESC2,
         $show_error);
 
@@ -942,8 +953,20 @@ function prefs_form_global($user, $prefs, $error=false) {
 
     $show_error = false;
     if (isset($error->vm_max_used_pct)) $show_error= true;
-    row2(VM_MAX_USED_PCT_DESC,
+    row2(USE_AT_MOST,
         "<input size=5 name=vm_max_used_pct value='$prefs->vm_max_used_pct'> ".VM_MAX_USED_PCT_DESC2,
+        $show_error);
+
+    $show_error = false;
+    if (isset($error->ram_max_used_busy_pct)) $show_error= true;
+    row2(USE_AT_MOST,
+        "<input size=5 name=ram_max_used_busy_pct value='$prefs->ram_max_used_busy_pct'> ".RAM_MAX_USED_BUSY_PCT_DESC2,
+        $show_error);
+
+    $show_error = false;
+    if (isset($error->ram_max_used_idle_pct)) $show_error= true;
+    row2(USE_AT_MOST,
+        "<input size=5 name=ram_max_used_idle_pct value='$prefs->ram_max_used_idle_pct'> ".RAM_MAX_USED_IDLE_PCT_DESC2,
         $show_error);
 
     row1(NETWORK_LIMIT_DESC);
@@ -1091,6 +1114,8 @@ function prefs_global_parse_form(&$prefs) {
     $disk_max_used_pct = $_GET["disk_max_used_pct"];
     $disk_interval = $_GET["disk_interval"];
     $vm_max_used_pct = $_GET["vm_max_used_pct"];
+    $ram_max_used_busy_pct = $_GET["ram_max_used_busy_pct"];
+    $ram_max_used_idle_pct = $_GET["ram_max_used_idle_pct"];
     $work_buf_min_days = $_GET["work_buf_min_days"];
     $confirm_before_connecting = $_GET["confirm_before_connecting"];
     $hangup_if_dialed = $_GET["hangup_if_dialed"];
@@ -1111,6 +1136,8 @@ function prefs_global_parse_form(&$prefs) {
     if (!verify_numeric($disk_max_used_pct, 0, 100)) $error->disk_max_used_pct = true;
     if (!verify_numeric($disk_interval, 0)) $error->disk_interval = true;
     if (!verify_numeric($vm_max_used_pct, 0, 100)) $error->vm_max_used_pct = true;
+    if (!verify_numeric($ram_max_used_busy_pct, 0, 100)) $error->ram_max_used_busy_pct = true;
+    if (!verify_numeric($ram_max_used_idle_pct, 0, 100)) $error->ram_max_used_idle_pct = true;
     if (!verify_numeric($work_buf_min_days, 0, 10)) $error->work_buf_min_days = true;
     if (!verify_numeric($max_bytes_sec_down, '')) $error->max_bytes_sec_down = true;
     if (!verify_numeric($max_bytes_sec_up, '')) $error->max_bytes_sec_up = true;
@@ -1131,6 +1158,8 @@ function prefs_global_parse_form(&$prefs) {
     $prefs->disk_max_used_pct = $disk_max_used_pct;
     $prefs->disk_interval = $disk_interval;
     $prefs->vm_max_used_pct = $vm_max_used_pct;
+    $prefs->ram_max_used_busy_pct = $ram_max_used_busy_pct;
+    $prefs->ram_max_used_idle_pct = $ram_max_used_idle_pct;
     $prefs->work_buf_min_days = $work_buf_min_days;
     $prefs->confirm_before_connecting = ($confirm_before_connecting == "yes");
     $prefs->hangup_if_dialed = ($hangup_if_dialed == "yes");
@@ -1216,6 +1245,8 @@ function global_prefs_make_xml($prefs, $primary=true) {
         ."<disk_max_used_pct>$prefs->disk_max_used_pct</disk_max_used_pct>\n"
         ."<disk_min_free_gb>$prefs->disk_min_free_gb</disk_min_free_gb>\n"
         ."<vm_max_used_pct>$prefs->vm_max_used_pct</vm_max_used_pct>\n"
+        ."<ram_max_used_busy_pct>$prefs->ram_max_used_busy_pct</ram_max_used_busy_pct>\n"
+        ."<ram_max_used_idle_pct>$prefs->ram_max_used_idle_pct</ram_max_used_idle_pct>\n"
         ."<max_bytes_sec_down>$prefs->max_bytes_sec_down</max_bytes_sec_down>\n"
         ."<max_bytes_sec_up>$prefs->max_bytes_sec_up</max_bytes_sec_up>\n";
     if ($prefs->net_start_hour != $prefs->net_end_hour) {

@@ -210,6 +210,8 @@ void ACTIVE_TASK_SET::get_memory_usage() {
             memset(&pi, 0, sizeof(pi));
             pi.id = atp->pid;
             procinfo_app(pi, piv);
+            pi.working_set_size_smoothed = .5*pi.working_set_size_smoothed + pi.working_set_size;
+
 			int pf = pi.page_fault_count - last_page_fault_count;
 			pi.page_fault_rate = pf/diff;
             if (log_flags.mem_usage_debug) {

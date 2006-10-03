@@ -336,7 +336,10 @@ int boinc_get_status(BOINC_STATUS *s) {
     s->no_heartbeat = boinc_status.no_heartbeat;
     s->suspended = boinc_status.suspended;
     s->quit_request = boinc_status.quit_request;
+    s->reread_init_data_file = boinc_status.reread_init_data_file;
     s->abort_request = boinc_status.abort_request;
+    s->working_set_size = boinc_status.working_set_size;
+    s->max_working_set_size = boinc_status.max_working_set_size;
     return 0;
 }
 
@@ -567,17 +570,25 @@ int restore_activities() {
 
 static void handle_heartbeat_msg() {
     char buf[MSG_CHANNEL_SIZE];
+    double dtemp;
+
     if (app_client_shm->shm->heartbeat.get_msg(buf)) {
         if (match_tag(buf, "<heartbeat/>")) {
             heartbeat_giveup_time = interrupt_count + HEARTBEAT_GIVEUP_PERIOD;
         }
         if (match_tag(buf, "<enable_heartbeat/>")) {
-            BOINCINFO("Enabling Heartbeat");
+            BOINCINFO("Enabling heartbeat");
             heartbeat_active = true;
         }
         if (match_tag(buf, "<disable_heartbeat/>")) {
-            BOINCINFO("Disabling Heartbeat");
+            BOINCINFO("Disabling heartbeat");
             heartbeat_active = false;
+        }
+        if (parse_double(buf, "<working_set_size>", dtemp)) {
+            boinc_status.working_set_size = dtemp;
+        }
+        if (parse_double(buf, "<max_working_set_size>", dtemp)) {
+            boinc_status.max_working_set_size = dtemp;
         }
     }
 }
@@ -640,14 +651,14 @@ static void handle_process_control_msg() {
         }
 
         if (match_tag(buf, "<quit/>")) {
-            BOINCINFO("Received Quit Message");
+            BOINCINFO("Received quit message");
             boinc_status.quit_request = true;
             if (options.direct_process_action) {
                 boinc_exit(0);
             }
         }
         if (match_tag(buf, "<abort/>")) {
-            BOINCINFO("Received Abort Message");
+            BOINCINFO("Received abort message");
             boinc_status.abort_request = true;
             if (options.direct_process_action) {
                 diagnostics_set_aborted_via_gui();
@@ -657,7 +668,7 @@ static void handle_process_control_msg() {
 #elif defined(__APPLE__)
                 PrintBacktrace();
 #endif
-                        boinc_exit(ERR_ABORTED_VIA_GUI);
+                boinc_exit(ERR_ABORTED_VIA_GUI);
             }
         }
         if (match_tag(buf, "<reread_app_info/>")) {

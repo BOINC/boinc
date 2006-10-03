@@ -10680,3 +10680,21 @@ Charlie 2 Oct 2006
         HowToBuildBOINC_XCode.rtf
         boinc.xcodeproj/
             project.pbxproj
+
+David  3 Oct 2006
+    - API: pass working set size and max WSS from core client to app.
+        This lets "memory-aware" applications change their memory usage
+        (e.g. by disabling/enabling graphics) in response to
+        changing requirements.
+    - User web: add preferences for max RAM usage while busy and idle
+    - Do WSS averaging at higher level
+
+    api/
+        boinc_api.C,h
+    client/
+        app.C
+    html/inc/
+        prefs.inc
+    lib/
+        procinfo_unix.C
+        procinfo_win.C

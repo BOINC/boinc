@@ -185,9 +185,9 @@ int procinfo_setup(vector<PROCINFO>& pi) {
 
 }
 
-// Scan the process table adding in CPU time and mem usage. Loop
-// thru entire table as the entries aren't in order.  Recurse at
-// most 4 times to get additional child processes 
+// Scan the process table adding in CPU time and mem usage.
+// Loop thru entire table as the entries aren't in order.
+// Recurse at most 4 times to get additional child processes 
 //
 void add_child_totals(PROCINFO& pi, vector<PROCINFO>& piv, int pid, int rlvl) {
     unsigned int i;
@@ -223,8 +223,10 @@ void procinfo_app(PROCINFO& pi, vector<PROCINFO>& piv) {
             pi.swap_size += p.swap_size;
             pi.working_set_size += p.working_set_size;
             p.is_boinc_app = true;
+
             // look for child processes
- 	    add_child_totals(pi, piv, pi.id, 0);
+            //
+            add_child_totals(pi, piv, pi.id, 0);
             return;
         }
     }
