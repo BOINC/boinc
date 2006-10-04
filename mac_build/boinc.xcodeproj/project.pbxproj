@@ -209,6 +209,12 @@
 		DD431F240A415EE70060585A /* SetupSecurity.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DD7748B40A356D6C0025D05E /* SetupSecurity.cpp */; };
 		DD431FAA0A41660D0060585A /* Carbon.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 20286C33FDCF999611CA2CEA /* Carbon.framework */; };
 		DD48091F081A66F100A174AA /* BOINCSaver.nib in Resources */ = {isa = PBXBuildFile; fileRef = DD48091E081A66F100A174AA /* BOINCSaver.nib */; };
+		DD4C56160AD389A2009E23C6 /* sg_ClientStateIndicator.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DD4C560A0AD389A2009E23C6 /* sg_ClientStateIndicator.cpp */; };
+		DD4C56180AD389A2009E23C6 /* sg_DlgMessages.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DD4C560C0AD389A2009E23C6 /* sg_DlgMessages.cpp */; };
+		DD4C561A0AD389A2009E23C6 /* sg_ImageButton.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DD4C560E0AD389A2009E23C6 /* sg_ImageButton.cpp */; };
+		DD4C561C0AD389A2009E23C6 /* sg_ProgressBar.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DD4C56100AD389A2009E23C6 /* sg_ProgressBar.cpp */; };
+		DD4C561E0AD389A2009E23C6 /* sg_SGUIListControl.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DD4C56120AD389A2009E23C6 /* sg_SGUIListControl.cpp */; };
+		DD4C56200AD389A2009E23C6 /* sg_StaticLine.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DD4C56140AD389A2009E23C6 /* sg_StaticLine.cpp */; };
 		DD4DD0A207EAA648008A6468 /* BOINCTaskBar.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DD81C40307C5D1020098A04D /* BOINCTaskBar.cpp */; };
 		DD4EC61108A0A083009AA08F /* texture.C in Sources */ = {isa = PBXBuildFile; fileRef = DD4EC60F08A0A083009AA08F /* texture.C */; };
 		DD4EC65A08A0A7AF009AA08F /* gui_rpc_client_ops.C in Sources */ = {isa = PBXBuildFile; fileRef = DD73E34E08A0694000656EB1 /* gui_rpc_client_ops.C */; };
@@ -996,6 +1002,18 @@
 		DD40CDFA07F0386B0096C645 /* SystemMenu-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.xml; path = "SystemMenu-Info.plist"; sourceTree = SOURCE_ROOT; };
 		DD40CDFE07F038990096C645 /* SystemMenu.m */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.objc; name = SystemMenu.m; path = ../clientgui/mac/SystemMenu.m; sourceTree = SOURCE_ROOT; };
 		DD48091E081A66F100A174AA /* BOINCSaver.nib */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; name = BOINCSaver.nib; path = ../clientgui/mac/BOINCSaver.nib; sourceTree = SOURCE_ROOT; };
+		DD4C560A0AD389A2009E23C6 /* sg_ClientStateIndicator.cpp */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.cpp.cpp; name = sg_ClientStateIndicator.cpp; path = ../clientgui/sg_ClientStateIndicator.cpp; sourceTree = SOURCE_ROOT; };
+		DD4C560B0AD389A2009E23C6 /* sg_ClientStateIndicator.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = sg_ClientStateIndicator.h; path = ../clientgui/sg_ClientStateIndicator.h; sourceTree = SOURCE_ROOT; };
+		DD4C560C0AD389A2009E23C6 /* sg_DlgMessages.cpp */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.cpp.cpp; name = sg_DlgMessages.cpp; path = ../clientgui/sg_DlgMessages.cpp; sourceTree = SOURCE_ROOT; };
+		DD4C560D0AD389A2009E23C6 /* sg_DlgMessages.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = sg_DlgMessages.h; path = ../clientgui/sg_DlgMessages.h; sourceTree = SOURCE_ROOT; };
+		DD4C560E0AD389A2009E23C6 /* sg_ImageButton.cpp */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.cpp.cpp; name = sg_ImageButton.cpp; path = ../clientgui/sg_ImageButton.cpp; sourceTree = SOURCE_ROOT; };
+		DD4C560F0AD389A2009E23C6 /* sg_ImageButton.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = sg_ImageButton.h; path = ../clientgui/sg_ImageButton.h; sourceTree = SOURCE_ROOT; };
+		DD4C56100AD389A2009E23C6 /* sg_ProgressBar.cpp */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.cpp.cpp; name = sg_ProgressBar.cpp; path = ../clientgui/sg_ProgressBar.cpp; sourceTree = SOURCE_ROOT; };
+		DD4C56110AD389A2009E23C6 /* sg_ProgressBar.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = sg_ProgressBar.h; path = ../clientgui/sg_ProgressBar.h; sourceTree = SOURCE_ROOT; };
+		DD4C56120AD389A2009E23C6 /* sg_SGUIListControl.cpp */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.cpp.cpp; name = sg_SGUIListControl.cpp; path = ../clientgui/sg_SGUIListControl.cpp; sourceTree = SOURCE_ROOT; };
+		DD4C56130AD389A2009E23C6 /* sg_SGUIListControl.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = sg_SGUIListControl.h; path = ../clientgui/sg_SGUIListControl.h; sourceTree = SOURCE_ROOT; };
+		DD4C56140AD389A2009E23C6 /* sg_StaticLine.cpp */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.cpp.cpp; name = sg_StaticLine.cpp; path = ../clientgui/sg_StaticLine.cpp; sourceTree = SOURCE_ROOT; };
+		DD4C56150AD389A2009E23C6 /* sg_StaticLine.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = sg_StaticLine.h; path = ../clientgui/sg_StaticLine.h; sourceTree = SOURCE_ROOT; };
 		DD4EC60F08A0A083009AA08F /* texture.C */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.cpp.cpp; name = texture.C; path = ../api/texture.C; sourceTree = SOURCE_ROOT; };
 		DD4EC61008A0A083009AA08F /* texture.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = texture.h; path = ../api/texture.h; sourceTree = SOURCE_ROOT; };
 		DD58C41808F3343F00C1DF66 /* AccountInfoPage.cpp */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.cpp.cpp; name = AccountInfoPage.cpp; path = ../clientgui/AccountInfoPage.cpp; sourceTree = SOURCE_ROOT; };
@@ -1528,12 +1546,24 @@
 				DD81C41707C5D13E0098A04D /* stdwx.cpp */,
 				DDCAD7D10A6C603A0086C7EE /* sg_BoincSimpleGUI.cpp */,
 				DDCAD7D20A6C603A0086C7EE /* sg_BoincSimpleGUI.h */,
+				DD4C560A0AD389A2009E23C6 /* sg_ClientStateIndicator.cpp */,
+				DD4C560B0AD389A2009E23C6 /* sg_ClientStateIndicator.h */,
+				DD4C560C0AD389A2009E23C6 /* sg_DlgMessages.cpp */,
+				DD4C560D0AD389A2009E23C6 /* sg_DlgMessages.h */,
 				DDCAD7D30A6C603A0086C7EE /* sg_DlgPreferences.cpp */,
 				DDCAD7D40A6C603A0086C7EE /* sg_DlgPreferences.h */,
+				DD4C560E0AD389A2009E23C6 /* sg_ImageButton.cpp */,
+				DD4C560F0AD389A2009E23C6 /* sg_ImageButton.h */,
 				DDCAD7D50A6C603A0086C7EE /* sg_ImageLoader.cpp */,
 				DDCAD7D60A6C603A0086C7EE /* sg_ImageLoader.h */,
+				DD4C56100AD389A2009E23C6 /* sg_ProgressBar.cpp */,
+				DD4C56110AD389A2009E23C6 /* sg_ProgressBar.h */,
 				DDCE783E0A70BF72008218B6 /* sg_ProjectsComponent.cpp */,
 				DDCE783F0A70BF72008218B6 /* sg_ProjectsComponent.h */,
+				DD4C56120AD389A2009E23C6 /* sg_SGUIListControl.cpp */,
+				DD4C56130AD389A2009E23C6 /* sg_SGUIListControl.h */,
+				DD4C56140AD389A2009E23C6 /* sg_StaticLine.cpp */,
+				DD4C56150AD389A2009E23C6 /* sg_StaticLine.h */,
 				DDCAD7D70A6C603A0086C7EE /* sg_SkinClass.cpp */,
 				DDCAD7D80A6C603A0086C7EE /* sg_SkinClass.h */,
 				DDCAD7D90A6C603A0086C7EE /* sg_StatImageLoader.cpp */,
@@ -2659,6 +2689,12 @@
 				DD3E152D0A774397007E0084 /* app_ipc.C in Sources */,
 				DD3E152E0A774397007E0084 /* proxy_info.C in Sources */,
 				DD3E152F0A774397007E0084 /* sg_ProjectsComponent.cpp in Sources */,
+				DD4C56160AD389A2009E23C6 /* sg_ClientStateIndicator.cpp in Sources */,
+				DD4C56180AD389A2009E23C6 /* sg_DlgMessages.cpp in Sources */,
+				DD4C561A0AD389A2009E23C6 /* sg_ImageButton.cpp in Sources */,
+				DD4C561C0AD389A2009E23C6 /* sg_ProgressBar.cpp in Sources */,
+				DD4C561E0AD389A2009E23C6 /* sg_SGUIListControl.cpp in Sources */,
+				DD4C56200AD389A2009E23C6 /* sg_StaticLine.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -3169,7 +3205,7 @@
 					"../../wxMac-2.6.3/include",
 					../clientgui,
 				);
-				INFOPLIST_FILE = "/Volumes/Sage/BOINC_Mac/_boinc_head/mac_build/Info copy.plist";
+				INFOPLIST_FILE = Info.plist;
 				INSTALL_PATH = "$(USER_APPS_DIR)";
 				LIBRARY_SEARCH_PATHS = (
 					"../../wxMac-2.6.3/src/build/Deployment/",
@@ -3230,7 +3266,7 @@
 					"../../wxMac-2.6.3/include",
 					../clientgui,
 				);
-				INFOPLIST_FILE = "/Volumes/Sage/BOINC_Mac/_boinc_head/mac_build/Info copy.plist";
+				INFOPLIST_FILE = Info.plist;
 				INSTALL_PATH = "$(USER_APPS_DIR)";
 				LIBRARY_SEARCH_PATHS = (
 					"../../wxMac-2.6.3/src/build/Deployment/",
@@ -3289,7 +3325,7 @@
 					"../../wxMac-2.6.3/include",
 					../clientgui,
 				);
-				INFOPLIST_FILE = "/Volumes/Sage/BOINC_Mac/_boinc_head/mac_build/Info copy.plist";
+				INFOPLIST_FILE = Info.plist;
 				INSTALL_PATH = "$(USER_APPS_DIR)";
 				LIBRARY_SEARCH_PATHS = (
 					"../../wxMac-2.6.3/src/build/Deployment/",
@@ -3348,7 +3384,7 @@
 					"../../wxMac-2.6.3/include",
 					../clientgui,
 				);
-				INFOPLIST_FILE = "/Volumes/Sage/BOINC_Mac/_boinc_head/mac_build/Info copy.plist";
+				INFOPLIST_FILE = Info.plist;
 				INSTALL_PATH = "$(USER_APPS_DIR)";
 				LIBRARY_SEARCH_PATHS = (
 					"../../wxMac-2.6.3/src/build/Deployment/",
@@ -3367,8 +3403,8 @@
 					"-DHAVE_STRCASECMP_IN_STRING_H",
 					"-DSIMPLEGUI",
 				);
-				OTHER_CFLAGS_i386 = "-DMAC_OS_X_VERSION_MAX_ALLOWED=1040 -DHAVE_CONFIG_H -D_FILE_OFFSET_BITS=64 -D_LARGE_FILES -DNO_GCC_PRAGMA -DNOCLIPBOARD -D_THREAD_SAFE -D__WXMAC__ -DHAVE_STRCASECMP_IN_STRING_H";
-				OTHER_CFLAGS_ppc = "-DMAC_OS_X_VERSION_MAX_ALLOWED=1030 -DHAVE_CONFIG_H -D_FILE_OFFSET_BITS=64 -D_LARGE_FILES -DNO_GCC_PRAGMA -DNOCLIPBOARD -D_THREAD_SAFE -D__WXMAC__ -DHAVE_STRCASECMP_IN_STRING_H";
+				OTHER_CFLAGS_i386 = "-DMAC_OS_X_VERSION_MAX_ALLOWED=1040 -DHAVE_CONFIG_H -D_FILE_OFFSET_BITS=64 -D_LARGE_FILES -DNO_GCC_PRAGMA -DNOCLIPBOARD -D_THREAD_SAFE -D__WXMAC__ -DHAVE_STRCASECMP_IN_STRING_H -DSIMPLEGUI";
+				OTHER_CFLAGS_ppc = "-DMAC_OS_X_VERSION_MAX_ALLOWED=1030 -DHAVE_CONFIG_H -D_FILE_OFFSET_BITS=64 -D_LARGE_FILES -DNO_GCC_PRAGMA -DNOCLIPBOARD -D_THREAD_SAFE -D__WXMAC__ -DHAVE_STRCASECMP_IN_STRING_H -DSIMPLEGUI";
 				OTHER_CPLUSPLUSFLAGS = "$(OTHER_CFLAGS)";
 				OTHER_LDFLAGS = (
 					"-D_THREAD_SAFE",
@@ -4418,7 +4454,7 @@
 					"../../wxMac-2.6.3/include",
 					../clientgui,
 				);
-				INFOPLIST_FILE = "/Volumes/Sage/BOINC_Mac/_boinc_head/mac_build/Info copy.plist";
+				INFOPLIST_FILE = Info.plist;
 				INSTALL_PATH = "$(USER_APPS_DIR)";
 				LIBRARY_SEARCH_PATHS = (
 					"../../wxMac-2.6.3/src/build/Deployment/",
@@ -4478,7 +4514,7 @@
 					"../../wxMac-2.6.3/include",
 					../clientgui,
 				);
-				INFOPLIST_FILE = "/Volumes/Sage/BOINC_Mac/_boinc_head/mac_build/Info copy.plist";
+				INFOPLIST_FILE = Info.plist;
 				INSTALL_PATH = "$(USER_APPS_DIR)";
 				LIBRARY_SEARCH_PATHS = (
 					"../../wxMac-2.6.3/src/build/Deployment/",
@@ -4496,8 +4532,8 @@
 					"-DHAVE_STRCASECMP_IN_STRING_H",
 					"-DSIMPLEGUI",
 				);
-				OTHER_CFLAGS_i386 = "-DMAC_OS_X_VERSION_MAX_ALLOWED=1040 -DHAVE_CONFIG_H -D_FILE_OFFSET_BITS=64 -D_LARGE_FILES -DNO_GCC_PRAGMA -DNOCLIPBOARD -D_THREAD_SAFE -D__WXMAC__ -DHAVE_STRCASECMP_IN_STRING_H";
-				OTHER_CFLAGS_ppc = "-DMAC_OS_X_VERSION_MAX_ALLOWED=1030 -DHAVE_CONFIG_H -D_FILE_OFFSET_BITS=64 -D_LARGE_FILES -DNO_GCC_PRAGMA -DNOCLIPBOARD -D_THREAD_SAFE -D__WXMAC__ -DHAVE_STRCASECMP_IN_STRING_H";
+				OTHER_CFLAGS_i386 = "-DMAC_OS_X_VERSION_MAX_ALLOWED=1040 -DHAVE_CONFIG_H -D_FILE_OFFSET_BITS=64 -D_LARGE_FILES -DNO_GCC_PRAGMA -DNOCLIPBOARD -D_THREAD_SAFE -D__WXMAC__ -DHAVE_STRCASECMP_IN_STRING_H -DSIMPLEGUI";
+				OTHER_CFLAGS_ppc = "-DMAC_OS_X_VERSION_MAX_ALLOWED=1030 -DHAVE_CONFIG_H -D_FILE_OFFSET_BITS=64 -D_LARGE_FILES -DNO_GCC_PRAGMA -DNOCLIPBOARD -D_THREAD_SAFE -D__WXMAC__ -DHAVE_STRCASECMP_IN_STRING_H -DSIMPLEGUI";
 				OTHER_CPLUSPLUSFLAGS = "$(OTHER_CFLAGS)";
 				OTHER_LDFLAGS = (
 					"-D_THREAD_SAFE",
