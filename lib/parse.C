@@ -524,7 +524,12 @@ bool XML_PARSER::parse_str(
     // if it's the end tag, return empty string
     //
     if (is_tag) {
-        return !strcmp(tag, end_tag);
+        if (strcmp(tmp, end_tag)) {
+            return false;
+        } else {
+            strcpy(buf, "");
+            return true;
+        }
     }
 
     eof = get(tag, sizeof(tag), is_tag);

@@ -324,7 +324,7 @@ void write_host(HOST& host, FILE* f, bool detail) {
         "    <p_vendor>%s</p_vendor>\n"
         "    <p_model>%s</p_model>\n"
         "    <os_name>%s</os_name>\n"
-        "    <os_version>%s</os_version>\n",
+        "    <os_version>%s</os_version>\n"
         "    <credit_per_cpu_sec>%f</credit_per_cpu_sec>\n",
         host.total_credit,
         host.expavg_credit,

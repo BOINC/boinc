@@ -10805,3 +10805,12 @@ David  4 Oct 2006
 
 	client/
 		app.C
+
+David  4 Oct 2006
+    - db_dump: fix crashing bug
+    - XML parser: fix yet another bug
+
+    lib/
+        parse.C
+    sched/
+        db_dump.C
