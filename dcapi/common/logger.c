@@ -8,9 +8,9 @@
 #include <stdio.h>
 #include <errno.h>
 #include <time.h>
-#include <unistd.h>
 
 #ifndef _WIN32
+#include <unistd.h>
 #include <sys/syslog.h>
 #endif
 
