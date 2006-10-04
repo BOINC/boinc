@@ -10798,3 +10798,10 @@ David  4 Oct 2006
     sched/
         sched_send.C
         server_types.C,h
+
+David  4 Oct 2006
+	- core client: initialize ACTIVE_TASK::too_large
+		(eliminate spurious "waiting for memory" message)
+
+	client/
+		app.C
