@@ -10783,3 +10783,18 @@ Charlie 4 Oct 2006
     mac_build/
         boinc.xcodeproj/
             project.pbxproj
+
+David  4 Oct 2006
+    - scheduler: if request has RAM usage limits preferences,
+        take them into account in deciding whether to send work.
+        Return appropriate message depending on whether
+        1) machine doesn't have enough RAM period, or
+        2) machine has enough RAM, but limits are too low
+    - XML parser: fix bug where empty string (<foo></foo>)
+        wasn't being parsed correctly
+
+    lib/
+        parse.C
+    sched/
+        sched_send.C
+        server_types.C,h

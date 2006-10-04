@@ -84,6 +84,8 @@ struct GLOBAL_PREFS {
     double disk_max_used_pct;
     double disk_min_free_gb;
     double work_buf_min_days;
+    double ram_max_used_busy_frac;
+    double ram_max_used_idle_frac;
 
     void parse(char* buf, char* venue);
 };

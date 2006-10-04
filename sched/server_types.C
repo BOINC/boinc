@@ -861,17 +861,21 @@ int HOST::parse_disk_usage(FILE* fin) {
 
 void GLOBAL_PREFS::parse(char* buf, char* venue) {
     char buf2[LARGE_BLOB_SIZE];
+    double dtemp;
 
-    disk_max_used_gb = 0;
-    disk_max_used_pct = 0;
-    disk_min_free_gb = 0;
-    work_buf_min_days = 0;
+    memset(this, 0, sizeof(GLOBAL_PREFS));
 
     extract_venue(buf, venue, buf2);
     parse_double(buf2, "<disk_max_used_gb>", disk_max_used_gb);
     parse_double(buf2, "<disk_max_used_pct>", disk_max_used_pct);
     parse_double(buf2, "<disk_min_free_gb>", disk_min_free_gb);
     parse_double(buf2, "<work_buf_min_days>", work_buf_min_days);
+    if (parse_double(buf2, "<ram_max_used_busy_pct>", dtemp)) {
+        ram_max_used_busy_frac = dtemp/100.;
+    }
+    if (parse_double(buf2, "<ram_max_used_idle_pct>", dtemp)) {
+        ram_max_used_idle_frac = dtemp/100.;
+    }
 }
 
 void GUI_URLS::init() {

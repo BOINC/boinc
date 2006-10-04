@@ -56,7 +56,8 @@ using namespace std;
 const int MIN_SECONDS_TO_SEND = 0;
 const int MAX_SECONDS_TO_SEND = (28*SECONDS_IN_DAY);
 
-const double MIN_POSSIBLE_RAM = 64000000;
+const double DEFAULT_RAM_SIZE = 64000000;
+    // if host sends us an impossible RAM size, use this instead
 
 bool anonymous(PLATFORM& platform) {
     return (!strcmp(platform.name, "anonymous"));
@@ -244,7 +245,12 @@ static double estimate_wallclock_duration(
     return ewd;
 }
 
-int find_allowed_projects(SCHEDULER_REPLY& reply, std::vector<int> *app_ids) {
+// scan user's project prefs for elements of the form <app_id>N</app_id>,
+// indicating the apps they want to run.
+//
+static int find_allowed_apps(
+    SCHEDULER_REPLY& reply, std::vector<int> *app_ids
+) {
     char buf[8096];
    	std::string str;
    	extract_venue(reply.user.project_prefs, reply.host.venue, buf);
@@ -264,6 +270,7 @@ int find_allowed_projects(SCHEDULER_REPLY& reply, std::vector<int> *app_ids) {
 // 2) the host doesn't have enough disk space;
 // 3) based on CPU speed, resource share and estimated delay,
 //    the host probably won't get the result done within the delay bound
+// 4) app isn't in user's "approved apps" list
 //
 // NOTE: This is a "fast" check; no DB access allowed.
 // In particular it doesn't enforce the one-result-per-user-per-wu rule
@@ -276,8 +283,10 @@ int wu_is_infeasible(
     
     // Check to see if the user has set application preferences.
     // If they have then only send work for the allowed applications
+    // TODO: call find_allowed_apps() only once, not once for each WU!!
+    //
     std::vector<int> app_ids;
-    find_allowed_projects(reply, &app_ids);
+    find_allowed_apps(reply, &app_ids);
     if (app_ids.size() > 0) {
     	bool app_allowed = false;
     	for(i=0; i<app_ids.size(); i++) {
@@ -289,28 +298,49 @@ int wu_is_infeasible(
     	if (!app_allowed) {
         	reply.wreq.no_allowed_apps_available = true;
     		reason |= INFEASIBLE_APP_SETTING;
-			log_messages.printf(SCHED_MSG_LOG::MSG_DEBUG,"[USER#%d] [WU#%d] workunit infeasable becuase this user doesn't want work for this application\n",reply.user.id, wu.id);
+			log_messages.printf(SCHED_MSG_LOG::MSG_DEBUG,
+                "[USER#%d] [WU#%d] workunit infeasible because user doesn't want work for this application\n",
+                reply.user.id, wu.id
+            );
     	}
     }
     	
+    // see how much RAM we can use on this machine
+    //
+    double ram = reply.host.m_nbytes;
+    if (ram <= 0) ram = DEFAULT_RAM_SIZE;
+    double usable_ram = ram;
+    double busy_frac = request.global_prefs.ram_max_used_busy_frac;
+    double idle_frac = request.global_prefs.ram_max_used_idle_frac;
+    double frac = 1;
+    if (busy_frac>0 && idle_frac>0) {
+        frac = std::max(busy_frac, idle_frac);
+        if (frac > 1) frac = 1;
+        usable_ram *= frac;
+    }
 
-    double m_nbytes = reply.host.m_nbytes;
-    if (m_nbytes < MIN_POSSIBLE_RAM) m_nbytes = MIN_POSSIBLE_RAM;
-
-    if (wu.rsc_memory_bound > m_nbytes) {
+    if (wu.rsc_memory_bound > usable_ram) {
         log_messages.printf(
             SCHED_MSG_LOG::MSG_DEBUG,
-            "[WU#%d %s] needs %f mem; [HOST#%d] has %f\n",
-            wu.id, wu.name, wu.rsc_memory_bound, reply.host.id, m_nbytes
+            "[WU#%d %s] needs %0.2fMB RAM; [HOST#%d] has %0.2fMB, %0.2fMB usable\n",
+            wu.id, wu.name, wu.rsc_memory_bound/MEGA,
+            reply.host.id, ram/MEGA, usable_ram/MEGA
         );
-        char explanation[256];
+        // only add message once
+        //
         if (!reply.wreq.insufficient_mem) {
-            // only add message once
-            //
-            sprintf(explanation,
-                "Your computer has only %.0f bytes of memory; workunit requires %.0f more bytes",
-                m_nbytes, wu.rsc_memory_bound-m_nbytes
-            );
+            char explanation[256];
+            if (wu.rsc_memory_bound > ram) {
+                sprintf(explanation,
+                    "Your computer has %0.2fMB of memory, and a job requires %0.2fMB",
+                    ram/MEGA, wu.rsc_memory_bound/MEGA
+                );
+            } else {
+                sprintf(explanation,
+                    "Your preferences limit memory usage to %0.2fMB, and a job requires %0.2fMB",
+                    usable_ram/MEGA, wu.rsc_memory_bound/MEGA
+                );
+            }
             USER_MESSAGE um(explanation, "high");
             reply.insert_message(um);
         }

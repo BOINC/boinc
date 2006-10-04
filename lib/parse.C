@@ -498,7 +498,7 @@ bool XML_PARSER::parse_str(
     char* parsed_tag, char* start_tag, char* buf, int len
 ) {
     bool is_tag, eof;
-    char end_tag[256], tag[256];
+    char end_tag[256], tag[256], tmp[64000];
 
     // handle the archaic form <tag/>, which means empty string
     //
@@ -509,17 +509,29 @@ bool XML_PARSER::parse_str(
         return true;
     }
 
+    // check for start tag
+    //
     if (strcmp(parsed_tag, start_tag)) return false;
-    eof = get(buf, len, is_tag);
-    if (eof) return false;
-    if (is_tag) return false;
 
     end_tag[0] = '/';
     strcpy(end_tag+1, start_tag);
+
+    // get text after start tag
+    //
+    eof = get(tmp, 64000, is_tag);
+    if (eof) return false;
+
+    // if it's the end tag, return empty string
+    //
+    if (is_tag) {
+        return !strcmp(tag, end_tag);
+    }
+
     eof = get(tag, sizeof(tag), is_tag);
     if (eof) return false;
     if (!is_tag) return false;
     if (strcmp(tag, end_tag)) return false;
+    strlcpy(buf, tmp, len);
     return true;
 }
 
