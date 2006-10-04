@@ -31,9 +31,12 @@
 <p class="p1"><b>Building BOINC Clients and Applications on Macintosh OSX</b></p>
 <p class="p2"><br></p>
 <p class="p3">Written by Charlie Fenton</p>
-<p class="p3">Last updated 9/2/06</p>
+<p class="p3">Last updated 10/3/06</p>
 <p class="p2"><br></p>
-<p class="p4">This document applies to BOINC version 5.5.4 and later.<span class="Apple-converted-space">  </span>It has instructions for building BOINC for Macintosh OSX, plus information for building science project applications to run under BOINC on Macintosh OSX. <span class="Apple-converted-space"> </span></p>
+<p class="p4">This document applies to BOINC version 5.6.5 and later.<span class="Apple-converted-space">  </span>It has instructions for building BOINC for Macintosh OSX, plus information for building science project applications to run under BOINC on Macintosh OSX. <span class="Apple-converted-space"> </span></p>
+<p class="p2"><br></p>
+<p class="p4">Note: the information in this document changes from time to time for different versions of BOINC.<span class="Apple-converted-space">  </span>For any version of BOINC source files, the corresponding version of this document can be found in the source tree at:</p>
+<p class="p5"><span class="Apple-converted-space">                   </span>boinc/mac_build/HowToBuildBOINC_XCode.rtf</p>
 <p class="p2"><br></p>
 <p class="p4">Contents of this document:</p>
 <p class="p4">• Important requirements for building BOINC software for the Mac.</p>
@@ -76,21 +79,21 @@
 <p class="p2"><br></p>
 <p class="p1"><b>Building BOINC Manager with embedded Core Client plus libraries libboinc.a and libboinc_graphics_api.a</b></p>
 <p class="p2"><br></p>
-<p class="p4">BOINC depends on three third-party libraries: wxMac-2.6.3, curl-7.15.3, and jpeg-6b.<span class="Apple-converted-space">  </span>You can obtain these from the following URLs:</p>
+<p class="p4">BOINC depends on three third-party libraries: wxMac-2.6.3, curl-7.5.15, and jpeg-6b.<span class="Apple-converted-space">  </span>You can obtain these from the following URLs:</p>
 <p class="p2"><br></p>
 <p class="p4">wxMac-2.6.3 (needed<span class="Apple-converted-space">  </span>only if you are building the BOINC Manager):</p>
 <p class="p5"><span class="s1"><span class="Apple-tab-span">	</span><a href="http://www.wxwidgets.org"><span class="s2">http://www.wxwidgets.org</span></a></span></p>
 <p class="p5"><span class="s1"><span class="Apple-tab-span">	</span><a href="http://prdownloads.sourceforge.net/wxwindows/wxMac-2.6.3.tar.gz"><span class="s2">http://prdownloads.sourceforge.net/wxwindows/wxMac-2.6.3.tar.gz</span></a></span></p>
 <p class="p2"><br></p>
-<p class="p4">curl-7.15.3:</p>
+<p class="p4">curl-7.5.15:</p>
 <p class="p5"><span class="Apple-tab-span">	</span><a href="http://curl.haxx.se">http://curl.haxx.se</a></p>
-<p class="p5"><span class="Apple-tab-span">	</span><a href="http://curl.haxx.se/download/curl-7.15.3.tar.gz">http://curl.haxx.se/download/curl-7.15.3.tar.gz</a></p>
+<p class="p5"><span class="Apple-tab-span">	</span><a href="http://curl.haxx.se/download/curl-7.15.3.tar.gz">http://curl.haxx.se/download/curl-7.5.15.tar.gz</a></p>
 <p class="p2"><br></p>
 <p class="p4">jpeg-6b (needed<span class="Apple-converted-space">  </span>only if you are building the BOINC libboinc_graphics_api.a library):</p>
 <p class="p5"><span class="Apple-tab-span">	</span><a href="http://www.ijg.org">http://www.ijg.org</a></p>
 <p class="p5"><span class="Apple-tab-span">	</span><a href="ftp://ftp.uu.net/graphics/jpeg/jpegsrc.v6b.tar.gz">ftp://ftp.uu.net/graphics/jpeg/jpegsrc.v6b.tar.gz</a></p>
 <p class="p2"><br></p>
-<p class="p4"><i>XCode 2.2 installs autoconf 2.59 and automake 1.63.</i><span class="Apple-converted-space">  </span><i>To determine the version number, type "autoconf --version" or "automake --version" .<span class="Apple-converted-space">  </span>Building wxMac-2.6.3 and curl-7.15.3 require autoconf 2.59 and automake 1.93 or later. <span class="Apple-converted-space"> </span></i></p>
+<p class="p4"><i>XCode 2.2 installs autoconf 2.59 and automake 1.63.</i><span class="Apple-converted-space">  </span><i>To determine the version number, type "autoconf --version" or "automake --version" .<span class="Apple-converted-space">  </span>Building wxMac-2.6.3 and curl-7.5.15 require autoconf 2.59 and automake 1.93 or later. <span class="Apple-converted-space"> </span></i></p>
 <p class="p2"><i></i><br></p>
 <p class="p4"><i>Upgrades for autoconf and automake are available from www.gnu.org: <span class="Apple-converted-space"> </span></i></p>
 <p class="p5"><a href="http://ftp.gnu.org/gnu/autoconf/autoconf-2.59.tar.gz">http://ftp.gnu.org/gnu/autoconf/autoconf-2.59.tar.gz</a></p>
@@ -100,14 +103,14 @@
 <p class="p2"><br></p>
 <p class="p4">As stated above, all BOINC software for Power PC Macs must be built using GCC 3.3 and MacOS10.3.9 SDK to assure backward compatibility with OS 10.3.<span class="Apple-converted-space">  </span>All BOINC software for Intel Macs must be built using GCC 4.0 and MacOS10.4.u SDK to allow cross-compiling. <span class="Apple-converted-space"> </span></p>
 <p class="p2"><br></p>
-<p class="p4">These are not done by either the XCode projects which come with wxMac-2.6.3, nor<span class="Apple-converted-space">  </span>the AutoMake scripts supplied with wxMac-2.6.3, curl-7.15.3, or jpeg-6b.<span class="Apple-converted-space">  </span>So be sure to use our special scripts to build these packages.</p>
+<p class="p4">These are not done by either the XCode projects which come with wxMac-2.6.3, nor<span class="Apple-converted-space">  </span>the AutoMake scripts supplied with wxMac-2.6.3, curl-7.5.15, or jpeg-6b.<span class="Apple-converted-space">  </span>So be sure to use our special scripts to build these packages.</p>
 <p class="p2"><br></p>
 <p class="p4">Building BOINC and the library packages on which it depends requires OS 10.4.4 and XCode 2.2 (or greater).<span class="Apple-converted-space">  </span>It may be possible to use XCode 2.1 and/or versions of OS X earlier than 10.4.4, but this has not been tested by the authors.</p>
 <p class="p2"><br></p>
 <p class="p4">[1] Create a parent directory within which to work.<span class="Apple-converted-space">  </span>In this description , we will call it BOINC_dev, but you can name it anything you wish.</p>
 <p class="p2"><br></p>
 <p class="p4">[2] Put the following 3 directories inside the BOINC_dev folder (omit any you don't need):</p>
-<p class="p4"><span class="Apple-converted-space">    </span>curl-7.15.3</p>
+<p class="p4"><span class="Apple-converted-space">    </span>curl-7.5.15</p>
 <p class="p4"><span class="Apple-converted-space">    </span>jpeg-6b</p>
 <p class="p4"><span class="Apple-converted-space">    </span>wxMac-2.6.3</p>
 <p class="p2"><br></p>
