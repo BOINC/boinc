@@ -62,6 +62,9 @@ CViewTabPage::CViewTabPage(wxFlatNotebook* parent,RESULT* result,std::string nam
 }
 
 CViewTabPage::~CViewTabPage() {
+	if ( wSlideShow <= NULL ) {
+		delete wSlideShow;
+	}
 }
 
 void CViewTabPage::CreatePage()
@@ -105,9 +108,56 @@ void CViewTabPage::CreatePage()
 	CreateSlideShowWindow();
 }
 
+void CViewTabPage::LoadSlideShow(std::vector<wxBitmap> *vSlideShow) {
+	char urlDirectory[256];
+	CMainDocument* pDoc     = wxGetApp().GetDocument();
+	RESULT* result = pDoc->state.lookup_result(resultWU->project_url, resultWU->name);
+	// If result not found then return
+	if ( result <= 0 ) return;
+	url_to_project_dir((char *) result->project->master_url.c_str() ,urlDirectory);
+	char file[512];
+	char resolvedFile[512];
+	wxBitmap* btmpSlideShow;
+	for(int i=0; i<99; i++) {
+		sprintf(file, "%s/slideshow_%s_%02d", urlDirectory, result->app->name.c_str(), i);
+		if(boinc_resolve_filename(file, resolvedFile, sizeof(resolvedFile)) == 0){
+			btmpSlideShow = new wxBitmap();
+			if ( btmpSlideShow->LoadFile(resolvedFile, wxBITMAP_TYPE_ANY) ) {
+				if (btmpSlideShow->Ok() ) {
+					vSlideShow->push_back(*btmpSlideShow);
+				}
+			}
+			delete btmpSlideShow;
+		} else {
+			break;
+		}
+	}
+	if ( vSlideShow->size() == 0 ) {
+		for(int i=0; i<99; i++) {
+			sprintf(file, "%s/slideshow_%02d", urlDirectory, i);
+			if(boinc_resolve_filename(file, resolvedFile, sizeof(resolvedFile)) == 0){
+				btmpSlideShow = new wxBitmap();
+				if ( btmpSlideShow->LoadFile(resolvedFile, wxBITMAP_TYPE_ANY) ) {
+					if (btmpSlideShow->Ok() ) {
+						vSlideShow->push_back(*btmpSlideShow);
+					}
+				}
+				delete btmpSlideShow;
+			} else {
+				break;
+			}
+		}
+	}
+}
+
+// This function will check to see if application specific images are available from the project.  If not, then
+// it will return the default image from the skin
 std::vector<wxBitmap> CViewTabPage::GetSlideShow() {
 	std::vector<wxBitmap> vSlideShow;
-	vSlideShow.push_back(*(appSkin->GetDefaultWorkunitImage()));
+	LoadSlideShow(&vSlideShow);
+	if ( vSlideShow.size() == 0 ) {
+		vSlideShow.push_back(*(appSkin->GetDefaultWorkunitImage()));
+	}
 	return vSlideShow;
 }
 void CViewTabPage::UpdateInterface()
@@ -150,13 +200,11 @@ void CViewTabPage::UpdateInterface()
 	}
 }
 void CViewTabPage::CreateSlideShowWindow() {
-//	wAnimWk1=new wxWindow(this,-1,wxPoint(98,156),wxSize(148,142),wxNO_BORDER);
 	if ( wSlideShow <= NULL ) {
 		delete wSlideShow;
 	}
-	wSlideShow=new wxWindow(this,-1,wxPoint(32,158),wxSize(286,128),wxNO_BORDER);
-//	m_canvas = new MyCanvas(wAnimWk1, wxPoint(0,0), wxSize(148,142), GetSlideShow());
-	m_canvas = new MyCanvas(wSlideShow, wxPoint(0,0), wxSize(286,128), GetSlideShow());
+	wSlideShow=new wxWindow(this,-1,wxPoint(32,168),wxSize(286,116),wxNO_BORDER);
+	m_canvas = new MyCanvas(wSlideShow, wxPoint(0,0), wxSize(286,116), GetSlideShow());
 }
 void CViewTabPage::ReskinInterface()
 {	
@@ -357,8 +405,11 @@ void CViewTabPage::DrawBackImg(wxEraseEvent& event,wxWindow *win,wxBitmap bitMap
 // MyCanvas
 // ---------------------------------------------------------------------------
 
+#define ID_CHANGE_SLIDE_TIMER  14000
+
 BEGIN_EVENT_TABLE(MyCanvas, wxScrolledWindow)
     EVT_PAINT(MyCanvas::OnPaint)
+	EVT_TIMER(ID_CHANGE_SLIDE_TIMER, MyCanvas::OnChangeSlide)
 END_EVENT_TABLE()
 
 // Define a constructor for my canvas
@@ -394,9 +445,22 @@ MyCanvas::MyCanvas(wxWindow *parent, const wxPoint& pos, const wxSize& size, std
 		if ( ratio < 1.0 ) {
 			delete image;
 		}
-		il->Show(true);
+		il->Show(false);
 		vSlideShow.push_back(il);
 	} 
+	currentImageIndex=0;
+	vSlideShow.at(currentImageIndex)->Show(true);
+	changeSlideTimer = new wxTimer(this, ID_CHANGE_SLIDE_TIMER);
+	if (vSlideShow.size() > 1 ) {
+		changeSlideTimer->Start(5000); 
+	}
+}
+
+MyCanvas::~MyCanvas() {
+	if ( changeSlideTimer->IsRunning() ) {
+		changeSlideTimer->Stop();
+	}
+	delete changeSlideTimer;
 }
 
 void MyCanvas::OnPaint(wxPaintEvent& WXUNUSED(event))
@@ -407,4 +471,17 @@ void MyCanvas::OnPaint(wxPaintEvent& WXUNUSED(event))
 //		dc.DrawBitmap(vSlideShow.at(0),0,0,false);
 //	}
     wxLogTrace(wxT("Function Start/End"), wxT("MyCanvas::OnPaint - End"));
+}
+
+void MyCanvas::OnChangeSlide(wxTimerEvent& WXUNUSED(event)) {
+	if ( currentImageIndex+1 == (int) vSlideShow.size() ) {
+		vSlideShow.at(0)->Show(true);
+		vSlideShow.at(currentImageIndex)->Show(false);
+		currentImageIndex=0;
+	} else {
+		vSlideShow.at(currentImageIndex+1)->Show(true);
+		vSlideShow.at(currentImageIndex)->Show(false);
+		currentImageIndex++;
+	}
+	GetParent()->Update();
 }

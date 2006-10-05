@@ -34,11 +34,14 @@ class MyCanvas : public wxScrolledWindow
 {
 public:
 	MyCanvas(wxWindow *parent, const wxPoint& pos, const wxSize& size, std::vector<wxBitmap> images);
+	~MyCanvas();
     void OnPaint(wxPaintEvent& event);
 
 private:
+	void OnChangeSlide(wxTimerEvent& WXUNUSED(event));
+	wxTimer* changeSlideTimer;
 	std::vector<ImageLoader*> vSlideShow;
-
+	int currentImageIndex;
     DECLARE_EVENT_TABLE()
 };
 
@@ -121,6 +124,7 @@ protected:
 private:
 
 	void CreateSlideShowWindow();
+	void LoadSlideShow(std::vector<wxBitmap> *vSlideShow);
 	std::vector<wxBitmap> GetSlideShow();
 	wxWindow* wSlideShow;
 	MyCanvas* m_canvas;
