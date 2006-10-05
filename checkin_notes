@@ -10814,3 +10814,11 @@ David  4 Oct 2006
         parse.C
     sched/
         db_dump.C
+
+Charlie 4 Oct 2006
+    - Mac: Update XCode project for simple gui.
+
+    mac_build/
+        sg_Info.plist (new)
+        boinc.xcodeproj/
+            project.pbxproj
