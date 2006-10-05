@@ -10822,3 +10822,9 @@ Charlie 4 Oct 2006
         sg_Info.plist (new)
         boinc.xcodeproj/
             project.pbxproj
+
+Charlie & Rom 4 Oct 2006
+    Rom fixed a Mac compiler error in SimpleGUI code.
+
+    clientgui/
+        sg_ViewTabPage.cpp
