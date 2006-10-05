@@ -10828,3 +10828,16 @@ Charlie & Rom 4 Oct 2006
 
     clientgui/
         sg_ViewTabPage.cpp
+        
+Kevin  29 Sept 2006
+    - BSG
+    	- Changed workunit area to use a static image rather then an animiated gif
+    	- Center the image within the space and resize it dyanmically if necessary to fit
+    	  within the allocated space
+    	- These changes should have been checked in with my changes on Sept 29
+ 
+        
+    clientgui/
+        sg_ImageButton.cpp
+        sg_ViewTabPage.cpp/h
+
