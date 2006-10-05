@@ -81,7 +81,7 @@ void CViewTabPage::CreatePage()
 	lnProjName = new CStaticLine(this,wxPoint(20,36),wxSize(316,1));
 	lnProjName->SetLineColor(appSkin->GetStaticLineCol());
 	//TODO - is this line below needed?
-	wxStaticLine spacerLine = new wxStaticLine(this,-1,wxPoint(20,36),wxSize(305,1));
+	wxStaticLine* spacerLine = new wxStaticLine(this,-1,wxPoint(20,36),wxSize(305,1));
 
 	//My Progress
 	wrkUnitName = wxString(resultWU->name.c_str(),wxConvUTF8);
