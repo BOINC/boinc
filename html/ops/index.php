@@ -77,10 +77,12 @@ while ($app = mysql_fetch_object($result)) {
 }
 mysql_free_result($result);
 
+echo "<br>\n";
 echo "
     <a href=\"$stripchart_cgi_url/stripchart.cgi\">Stripcharts</a>
     | <a href=\"show_log.php\">Show/Grep all logs</a>
     | <a href=\"show_log.php?f=mysql*.log&l=-20\">Tail MySQL logs</a>
+    | <a href=\"errorwus.php\">List all-error Workunits</a>
 ";
 
 admin_page_tail();
