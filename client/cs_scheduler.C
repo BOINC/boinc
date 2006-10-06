@@ -310,9 +310,15 @@ int CLIENT_STATE::make_scheduler_request(PROJECT* p) {
         fprintf(f, "    <code_sign_key>\n%s</code_sign_key>\n", p->code_sign_key);
     }
 
-    // insert global preferences if present
+	// send working prefs
+	//
+	fprintf(f, "<working_global_preferences>\n");
+	global_prefs.write(mf);
+	fprintf(f, "</working_global_preferences>\n");
+
+    // send master global preferences if present and not host-specific
     //
-    if (boinc_file_exists(GLOBAL_PREFS_FILE_NAME)) {
+    if (!global_prefs.host_specific && boinc_file_exists(GLOBAL_PREFS_FILE_NAME)) {
         FILE* fprefs = fopen(GLOBAL_PREFS_FILE_NAME, "r");
         if (fprefs) {
             copy_stream(fprefs, f);
@@ -941,13 +947,24 @@ int CLIENT_STATE::handle_scheduler_reply(
     // insert extra elements, write to disk, and parse
     //
     if (sr.global_prefs_xml) {
-        retval = save_global_prefs(
-            sr.global_prefs_xml, project->master_url, scheduler_url
-        );
-        if (retval) {
-            return retval;
-        }
-        update_global_prefs = true;
+		// skip this if we have host-specific prefs
+		// and we're talking to an old scheduler
+		//
+		if (!global_prefs.host_specific || sr.scheduler_version >= 507) {
+			retval = save_global_prefs(
+				sr.global_prefs_xml, project->master_url, scheduler_url
+			);
+			if (retval) {
+				return retval;
+			}
+			update_global_prefs = true;
+		} else {
+			if (log_flags.sched_op_debug) {
+				msg_printf(project, MSG_INFO,
+					"ignoring prefs from old server; we have host-specific prefs"
+				);
+			}
+		}
     }
 
     if (update_global_prefs) {

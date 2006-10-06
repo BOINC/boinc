@@ -447,8 +447,8 @@ bool ACTIVE_TASK::check_max_disk_exceeded() {
         if (disk_usage > max_disk_usage) {
             msg_printf(
                 result->project, MSG_INFO,
-                "Aborting task %s: exceeded disk limit: %f > %f\n",
-                result->name, disk_usage, max_disk_usage
+                "Aborting task %s: exceeded disk limit: %.2fMB > %.2fMB\n",
+                result->name, disk_usage/MEGA, max_disk_usage/MEGA
             );
             abort_task(ERR_RSC_LIMIT_EXCEEDED, "Maximum disk usage exceeded");
             return true;
@@ -492,8 +492,9 @@ bool ACTIVE_TASK_SET::check_rsc_limits_exceeded() {
 		}
 		if (atp->procinfo.working_set_size_smoothed > max_ram) {
 			msg_printf(atp->result->project, MSG_INFO,
-				"Aborting task %s: exceeded memory limit %f %f\n",
-				atp->result->name, atp->procinfo.working_set_size_smoothed, max_ram
+				"Aborting task %s: exceeded memory limit %.2fMB > %.2fMB\n",
+				atp->result->name,
+				atp->procinfo.working_set_size_smoothed/MEGA, max_ram/MEGA
 			);
 			atp->abort_task(ERR_RSC_LIMIT_EXCEEDED, "Maximum memory exceeded");
 			did_anything = true;

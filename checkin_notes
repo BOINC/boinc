@@ -10882,3 +10882,22 @@ David  6 Oct 2006
         handle_request.C
         sched_send.C
         server_types.C,h
+
+David  6 Oct 2006
+	Client-side part of above fix,
+		and support for "host-specific" global preferences
+	- include <working_global_preferences> in scheduler requests.
+		In combination with the above server changes,
+		this will fix the design problem described above.
+	- include <global_preferences> in scheduler requests
+		only if master prefs are not host-specific.
+		When a host with host-specific prefs talks to an old scheduler,
+		the scheduler won't know its current prefs.
+		This problem will go away as projects upgrade their software.
+	- if we get <global_preferences> in a scheduler RPC reply,
+		ignore it if it's from an old server (pre-5.7)
+		and we have host-specific prefs
+
+	client/
+		app_control.C
+		cs_scheduler.C
