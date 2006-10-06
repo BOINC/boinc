@@ -10901,3 +10901,12 @@ David  6 Oct 2006
 	client/
 		app_control.C
 		cs_scheduler.C
+
+David  6 Oct 2006
+	- core client: add the ability to hardwire the host venue.
+		Put <host_venue>X</host_venue> in your
+		global_prefs_override.xml file
+		(outside the <global_preferences> element)
+
+	client/
+		cs_prefs.C

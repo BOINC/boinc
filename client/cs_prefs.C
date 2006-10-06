@@ -344,14 +344,22 @@ int PROJECT::parse_preferences_for_user_files() {
 }
 
 // Get global preferences.
-// 1) read the prefs file to get the source project
-// 2) get the main host venue (venue of source project)
-// 3) read the prefs file again, using that venue
-// 4) read the local "override" file, if any
+// 1) read the override file to get venue
+// 2) read the prefs file
+// 3) read the override file again
 //
 void CLIENT_STATE::read_global_prefs() {
     bool found_venue;
     int retval;
+	FILE* f;
+
+    f = fopen(GLOBAL_PREFS_OVERRIDE_FILE, "r");
+    if (f) {
+		string foo;
+		file_to_str(f, foo);
+		fclose(f);
+		parse_str(foo.c_str(), "<host_venue>", main_host_venue, sizeof(main_host_venue));
+	}
 
     retval = global_prefs.parse_file(
         GLOBAL_PREFS_FILE_NAME, main_host_venue, found_venue
@@ -366,7 +374,7 @@ void CLIENT_STATE::read_global_prefs() {
 
     // read the override file
     //
-    FILE* f = fopen(GLOBAL_PREFS_OVERRIDE_FILE, "r");
+    f = fopen(GLOBAL_PREFS_OVERRIDE_FILE, "r");
     if (f) {
         MIOFILE mf;
         mf.init_file(f);
