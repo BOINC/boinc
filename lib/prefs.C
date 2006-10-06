@@ -64,7 +64,8 @@ void GLOBAL_PREFS::defaults() {
     max_bytes_sec_down = 0;
     cpu_usage_limit = 100;
 
-    // don't initialize source_project, source_scheduler here
+    // don't initialize source_project, source_scheduler,
+    // mod_time, host_specific here
     // since they are outside of <venue> elements,
     // and this is called when find the right venue.
     // Also, don't memset to 0
@@ -95,6 +96,9 @@ int GLOBAL_PREFS::parse(
 
     strcpy(source_project, "");
     strcpy(source_scheduler, "");
+    mod_time = 0;
+    host_specific = false;
+
     return parse_override(xp, host_venue, found_venue);
 }
 
@@ -205,15 +209,17 @@ int GLOBAL_PREFS::parse_override(
         } else if (xp.parse_double(tag, "idle_time_to_run", idle_time_to_run)) {
             continue;
         } else if (xp.parse_double(tag, "max_bytes_sec_up", max_bytes_sec_up)) {
-            if (max_bytes_sec_up <= 0) max_bytes_sec_up = 1e12;
+            if (max_bytes_sec_up < 0) max_bytes_sec_up = 0;
             continue;
         } else if (xp.parse_double(tag, "max_bytes_sec_down", max_bytes_sec_down)) {
-            if (max_bytes_sec_down <= 0) max_bytes_sec_down = 1e12;
+            if (max_bytes_sec_down < 0) max_bytes_sec_down = 0;
             continue;
         } else if (xp.parse_double(tag, "cpu_usage_limit", dtemp)) {
             if (dtemp > 0 && dtemp <= 100) {
                 cpu_usage_limit = dtemp;
             }
+            continue;
+        } else if (xp.parse_bool(tag, "host_specific", host_specific)) {
             continue;
         }
     }
@@ -241,9 +247,13 @@ int GLOBAL_PREFS::parse_file(
     return retval;
 }
 
-// this is used to write
+// Write the global prefs that are actually in force
+// (our particular venue, modified by overwrite file).
+// This is used to write
 // 1) the app init data file
 // 2) GUI RPC get_state reply
+// Not used for scheduler request; there, we just copy the
+// global_prefs.xml file (which includes all venues).
 //
 int GLOBAL_PREFS::write(MIOFILE& f) {
     f.printf(

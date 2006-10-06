@@ -126,13 +126,16 @@ double max_allowable_disk(SCHEDULER_REQUEST& req, SCHEDULER_REPLY& reply) {
     // -default_max_used_pct = 50
     // -default_min_free_gb = .001
     //
-    if (prefs.disk_max_used_gb == 0) 
+    if (prefs.disk_max_used_gb == 0) {
        prefs.disk_max_used_gb = config.default_disk_max_used_gb;
-    if (prefs.disk_max_used_pct == 0) 
+    }
+    if (prefs.disk_max_used_pct == 0) {
        prefs.disk_max_used_pct = config.default_disk_max_used_pct;
+    }
     // Always leave some disk space free
-    if (prefs.disk_min_free_gb < config.default_disk_min_free_gb) 
+    if (prefs.disk_min_free_gb < config.default_disk_min_free_gb) {
        prefs.disk_min_free_gb = config.default_disk_min_free_gb;
+    }
 
     // no defaults for total/free disk space (host.d_total, d_free)
     // if they're zero, client will get no work.

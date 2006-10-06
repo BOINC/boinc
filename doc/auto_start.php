@@ -39,7 +39,8 @@ To automatically run BOINC as a daemon or system service at boot time, or to pre
 automatically when selected users log in, see the <a href=mac_admin_tools.php>Mac administrator tools</a>.
 <p>
 If you install the command-line client and want it to start automatically when each user logs in, see the 
-<a href=mac_yenigun.php>Instructions from Berki Yenigun</a>, deadsmile at minitel.net
+<a href=mac_yenigun.php>Instructions from Berki Yenigun</a>,
+<a mailto=stegozor@gmail.com?Subject=Boinc_automatic_startup>stegozor@gmail.com</a>.
 ";
 
 page_tail();

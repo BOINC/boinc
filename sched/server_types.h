@@ -80,6 +80,7 @@ struct CLIENT_APP_VERSION {
 // subset of global prefs used by scheduler
 //
 struct GLOBAL_PREFS {
+    int mod_time;
     double disk_max_used_gb;
     double disk_max_used_pct;
     double disk_min_free_gb;
@@ -88,6 +89,7 @@ struct GLOBAL_PREFS {
     double ram_max_used_idle_frac;
 
     void parse(char* buf, char* venue);
+    void defaults();
 };
 
 struct GUI_URLS {
@@ -136,6 +138,7 @@ struct SCHEDULER_REQUEST {
         // host will begin any new work for this project
     double duration_correction_factor;
     char global_prefs_xml[LARGE_BLOB_SIZE];
+    char working_global_prefs_xml[LARGE_BLOB_SIZE];
     char code_sign_key[4096];
 
     bool anonymous_platform;
@@ -192,7 +195,7 @@ struct SCHEDULER_REPLY {
         // nonzero only if a new host record was created.
         // this tells client to reset rpc_seqno
     int lockfile_fd; // file descriptor of lockfile, or -1 if no lock.
-    bool send_global_prefs;     // whether to send global preferences
+    bool send_global_prefs;
     bool nucleus_only;          // send only message
     bool probable_user_browser;
     USER user;

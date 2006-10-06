@@ -1,6 +1,15 @@
 <?
 
 $project_news = array(
+array("October 4, 2006",
+    "Eric Korpela and David Anderson were interviewed today
+    by Mike O'Connell of BOINC UK.
+    Many topics were covered, including the question of
+    credit and optimized clients.
+    Download an recording of the conversation (MP3, 13.5 MB) from
+    <a href=http://www.boincuk.com/david_anderson.mp3>BOINC UK</a>
+    or <a href=mp3/boincuk_4_oct_2006.mp3>a mirror at Berkeley</a>."
+),
 array("September 26, 2006",
     "The 2nd Annual Pangalactic BOINC Workshop was held
     in Geneva on 20-21 September.

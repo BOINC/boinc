@@ -62,6 +62,7 @@ struct GLOBAL_PREFS {
     double cpu_usage_limit;
     char source_project[256];
     char source_scheduler[256];
+    bool host_specific;
 
     GLOBAL_PREFS();
     void defaults();

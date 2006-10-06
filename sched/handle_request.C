@@ -484,39 +484,69 @@ static int update_host_record(HOST& initial_host, HOST& xhost, USER& user) {
     return 0;
 }
 
-// Decide which global prefs to use,
-// (from request msg, or if absent then from user record)
+// 1) Decide which global prefs to use for sched decisions: either
+// - <working_global_prefs> from request msg
+// - <global_prefs> from request message
+// - prefs from user DB record
 // and parse them into the request message global_prefs field.
-// Decide whether to send global prefs in reply msg
+// 2) update prefs in user record if needed
+// 2) send global prefs in reply msg if needed
 //
 int handle_global_prefs(SCHEDULER_REQUEST& sreq, SCHEDULER_REPLY& reply) {
     char buf[LARGE_BLOB_SIZE];
     reply.send_global_prefs = false;
+    bool have_working_prefs = (strlen(sreq.working_global_prefs_xml)>0);
+    bool have_master_prefs = (strlen(sreq.global_prefs_xml)>0);
+    bool have_db_prefs = (strlen(reply.user.global_prefs)>0);
+    bool same_account = !strcmp(
+        sreq.global_prefs_source_email_hash, reply.email_hash
+    );
+    unsigned master_mod_time=0, db_mod_time=0;
+    if (have_master_prefs) {
+        parse_int(sreq.global_prefs_xml, "<mod_time>", (int&)master_mod_time);
+    }
+    if (have_db_prefs) {
+        parse_int(reply.user.global_prefs, "<mod_time>", (int&)db_mod_time);
+    }
 
-    if (strlen(sreq.global_prefs_xml)) {
-        unsigned req_mod_time=0, db_mod_time=0;
-        bool same_account = !strcmp(
-            sreq.global_prefs_source_email_hash, reply.email_hash
-        );
-        bool update_prefs = false;
-
-        parse_int(sreq.global_prefs_xml, "<mod_time>", (int&)req_mod_time);
-        if (strlen(reply.user.global_prefs)) {
-            parse_int(reply.user.global_prefs, "<mod_time>", (int&)db_mod_time);
-
-            // if user record has more recent prefs,
-            // use them and arrange to return in reply msg
-            //
-            if (req_mod_time < db_mod_time) {
-                strcpy(sreq.global_prefs_xml, reply.user.global_prefs);
-                reply.send_global_prefs = true;
+    // decide which prefs to use for sched decisions
+    //
+    if (have_working_prefs) {
+        sreq.global_prefs.parse(sreq.working_global_prefs_xml, "");
+        log_messages.printf(SCHED_MSG_LOG::MSG_DEBUG, "using working prefs\n");
+    } else {
+        if (have_master_prefs) {
+            if (have_db_prefs && db_mod_time > master_mod_time) {
+                sreq.global_prefs.parse(reply.user.global_prefs, reply.host.venue);
+                log_messages.printf(SCHED_MSG_LOG::MSG_DEBUG, "using db prefs - more recent\n");
             } else {
-                if (same_account) update_prefs = true;
+                sreq.global_prefs.parse(sreq.global_prefs_xml, reply.host.venue);
+                log_messages.printf(SCHED_MSG_LOG::MSG_DEBUG, "using master prefs\n");
             }
         } else {
-            if (same_account) update_prefs = true;
+            if (have_db_prefs) {
+                sreq.global_prefs.parse(reply.user.global_prefs, reply.host.venue);
+                log_messages.printf(SCHED_MSG_LOG::MSG_DEBUG, "using db prefs\n");
+            } else {
+                sreq.global_prefs.defaults();
+                log_messages.printf(SCHED_MSG_LOG::MSG_DEBUG, "using default prefs\n");
+            }
         }
-        if (update_prefs) {
+    }
+
+    // decide whether to update DB
+    //
+    if (have_master_prefs) {
+        bool update_user_record = false;
+        if (have_db_prefs) {
+            if (master_mod_time < db_mod_time && same_account) {
+                update_user_record = true;
+            }
+        } else {
+            if (same_account) update_user_record = true;
+        }
+        if (update_user_record) {
+            log_messages.printf(SCHED_MSG_LOG::MSG_DEBUG, "updating db prefs\n");
             strcpy(reply.user.global_prefs, sreq.global_prefs_xml);
             DB_USER user;
             user.id = reply.user.id;
@@ -530,16 +560,14 @@ int handle_global_prefs(SCHEDULER_REQUEST& sreq, SCHEDULER_REPLY& reply) {
                 );
             }
         }
-    } else {
-        // request message has no global prefs;
-        // copy from user record, and send them in reply
-        //
-        if (strlen(reply.user.global_prefs)) {
-            strcpy(sreq.global_prefs_xml, reply.user.global_prefs);
-            reply.send_global_prefs = true;
-        }
     }
-    sreq.global_prefs.parse(sreq.global_prefs_xml, reply.host.venue);
+
+    // decide whether to send DB prefs in reply msg
+    //
+    if (have_db_prefs && db_mod_time > sreq.global_prefs.mod_time) {
+        log_messages.printf(SCHED_MSG_LOG::MSG_DEBUG, "sending db prefs in reply\n");
+        reply.send_global_prefs = true;
+    }
     return 0;
 }
 

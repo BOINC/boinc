@@ -10829,15 +10829,56 @@ Charlie & Rom 4 Oct 2006
     clientgui/
         sg_ViewTabPage.cpp
         
-Kevin  29 Sept 2006
-    - BSG
-    	- Changed workunit area to use a static image rather then an animiated gif
-    	- Center the image within the space and resize it dyanmically if necessary to fit
-    	  within the allocated space
-    	- These changes should have been checked in with my changes on Sept 29
- 
-        
-    clientgui/
-        sg_ImageButton.cpp
-        sg_ViewTabPage.cpp/h
+David  6 Oct 2006
+    There's a problem with the current global prefs design:
+    A client has two different forms of global prefs:
+    - the "master prefs", which are stored on disk (in global_prefs.xml),
+        which have a mod time, and which can include <venue> elements.
+    - the "working prefs", which are formed by taking the
+        master prefs (using the venue variant for this host)
+        and then modifying it by the contents of the prefs override file.
+        The working prefs determine what the core client actually does,
+        i.e. how much memory/disk it uses.
+    When the client makes a scheduler RPC, the request message includes
+    global prefs, which are used for two purposes:
+        1) so that the scheduler can take the prefs into account in making
+        scheduling decisions;
+        2) to propagate preferences between projects, so that users
+        see consistent prefs, and can edit them on any project site.
+    The problem is: for 1), the scheduler needs the working prefs.
+    For 2), it needs the master prefs.
+    Currently the client sends the master prefs.
+    So in some cases, scheduling decisions are now based
+    on the wrong information.
 
+    Fix: include both master prefs and working prefs in request msg.
+    New server logic:
+
+    if request message includes <working_global_preferences>
+        P = <working_global_prefs>
+    else
+        if req msg includes <global_preferences>
+            if newer than DB
+                P = <global_prefs>
+            else
+                P = DB prefs
+
+    use P for sched decisions
+
+    If request message includes <global_preferences>,
+        and mod time is later than DB version,
+        and email hash is the same,
+        update DB
+
+    Reply: if DB prefs have later mod time than P
+        send DB prefs in reply
+
+    -----------------------
+    - prefs: bandwidth limits default to zero (unenforced) rather than 1e12
+
+    lib/
+        prefs.C,h
+    sched/
+        handle_request.C
+        sched_send.C
+        server_types.C,h

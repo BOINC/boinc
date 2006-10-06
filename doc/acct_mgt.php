@@ -235,12 +235,15 @@ c8b3217e6cdff938ec0454330c70553fbe3d1f0d0184d8c628db2e093121ee98
     [ ... ]
     [ <error>MSG</error> ]
     [ <repeat_sec>xxx</repeat_sec> ]
+    [
     <global_preferences>
         [ <source_project>http://a.b.c</source_project> ]
         [ <source_scheduler>http://a.b.c</source_scheduler> ]
         <mod_time>1144105331</mod_time>
         ... [ global preferences ]
     </global_preferences>
+    ]
+    [ <host_venue>venue</host_venue> ]
     [ 
     <account>
        <url>URL</url>
@@ -284,6 +287,8 @@ list_item("action",
         is included in the AM URL file (see above).
     <dt> global_preferences
     <dd> The current global preferences.
+    <dt> venue
+    <dd> The host venue
     </dl>
     In addition, a list of projects and their suspended flags is included.
     <p>

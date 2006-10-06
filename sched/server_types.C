@@ -127,6 +127,7 @@ int SCHEDULER_REQUEST::parse(FILE* fin) {
     prrs_fraction = 1.0;
     estimated_delay = 0;
     strcpy(global_prefs_xml, "");
+    strcpy(working_global_prefs_xml, "");
     strcpy(code_sign_key, "");
     anonymous_platform = false;
     memset(&global_prefs, 0, sizeof(global_prefs));
@@ -174,6 +175,12 @@ int SCHEDULER_REQUEST::parse(FILE* fin) {
                 safe_strcat(global_prefs_xml, buf);
             }
             safe_strcat(global_prefs_xml, "</global_preferences>\n");
+        }
+        else if (match_tag(buf, "<working_global_preferences>")) {
+            while (fgets(buf, 256, fin)) {
+                if (strstr(buf, "</working_global_preferences>")) break;
+                safe_strcat(working_global_prefs_xml, buf);
+            }
         }
         else if (parse_str(buf, "<global_prefs_source_email_hash>", global_prefs_source_email_hash, sizeof(global_prefs_source_email_hash))) continue;
         else if (match_tag(buf, "<host_info>")) {
@@ -876,6 +883,11 @@ void GLOBAL_PREFS::parse(char* buf, char* venue) {
     if (parse_double(buf2, "<ram_max_used_idle_pct>", dtemp)) {
         ram_max_used_idle_frac = dtemp/100.;
     }
+    parse_int(buf2, "<mod_time>", mod_time);
+}
+
+void GLOBAL_PREFS::defaults() {
+    memset(this, 0, sizeof(GLOBAL_PREFS));
 }
 
 void GUI_URLS::init() {
