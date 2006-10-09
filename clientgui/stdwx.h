@@ -99,6 +99,7 @@
 #include <wx/wfstream.h>
 #include <wx/gifdecod.h>
 #include <wx/xml/xml.h>
+#include <wx/tokenzr.h>
 
 #ifdef _WIN32
 

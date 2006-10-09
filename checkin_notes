@@ -10942,3 +10942,13 @@ David  9 Oct 2006
 			wxPieCtrl.cpp,h (new)
 	win_build/
 		boincmgr_curl.vcproj
+
+Rom    9 Oct 2006
+    - Prepare for the default skin to be embedded within the BOINC manager.
+    
+    clientgui/res/skins/default
+        <Added Files>
+    clientgui/res/templates/skins
+        <Added Files>
+    clientgui/skins/default
+        <Remove Files>
