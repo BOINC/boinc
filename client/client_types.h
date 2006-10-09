@@ -232,7 +232,7 @@ public:
     std::vector<FILE_REF> project_files;
         // files not specific to apps or work - e.g. icons
     int parse_preferences_for_user_files();
-    int parse_project_files(MIOFILE&);
+    int parse_project_files(MIOFILE&, bool delete_existing_symlinks);
     void write_project_files(MIOFILE&);
     void link_project_files();
     int write_symlink_for_project_file(FILE_INFO*);

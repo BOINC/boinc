@@ -450,21 +450,23 @@ void PROJECT::file_xfer_succeeded(const bool is_upload) {
     }
 }
 
-int PROJECT::parse_project_files(MIOFILE& in) {
+int PROJECT::parse_project_files(MIOFILE& in, bool delete_existing_symlinks) {
     char buf[256];
     unsigned int i;
     char project_dir[256], path[256];
 
     
-    // delete current sym links.
-    // This ensures that we get rid of sym links for
-    // project files no longer in use
-    //
-    get_project_dir(this, project_dir);
-    for (i=0; i<project_files.size(); i++) {
-        FILE_REF& fref = project_files[i];
-        sprintf(path, "%s/%s", project_dir, fref.open_name);
-        boinc_delete_file(path);
+    if (delete_existing_symlinks) {
+        // delete current sym links.
+        // This ensures that we get rid of sym links for
+        // project files no longer in use
+        //
+        get_project_dir(this, project_dir);
+        for (i=0; i<project_files.size(); i++) {
+            FILE_REF& fref = project_files[i];
+            sprintf(path, "%s/%s", project_dir, fref.open_name);
+            boinc_delete_file(path);
+        }
     }
 
     project_files.clear();

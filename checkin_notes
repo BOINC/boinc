@@ -10952,3 +10952,12 @@ Rom    9 Oct 2006
         <Added Files>
     clientgui/skins/default
         <Remove Files>
+
+David  9 Oct 2006
+    - core client: when parsing project files, delete old symlink files
+        only on scheduler RPC (not when read state file)
+
+    client/
+        client_types.C,h
+        cs_statefile.C
+        scheduler_op.C
