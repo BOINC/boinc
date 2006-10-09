@@ -452,7 +452,21 @@ void PROJECT::file_xfer_succeeded(const bool is_upload) {
 
 int PROJECT::parse_project_files(MIOFILE& in) {
     char buf[256];
+    unsigned int i;
+    char project_dir[256], path[256];
+
     
+    // delete current sym links.
+    // This ensures that we get rid of sym links for
+    // project files no longer in use
+    //
+    get_project_dir(this, project_dir);
+    for (i=0; i<project_files.size(); i++) {
+        FILE_REF& fref = project_files[i];
+        sprintf(path, "%s/%s", project_dir, fref.open_name);
+        boinc_delete_file(path);
+    }
+
     project_files.clear();
     while (in.fgets(buf, 256)) {
         if (match_tag(buf, "</project_files>")) return 0;
@@ -471,6 +485,9 @@ int PROJECT::parse_project_files(MIOFILE& in) {
     return ERR_XML_PARSE;
 }
 
+// install pointers from FILE_REFs to FILE_INFOs for project files,
+// and flag FILE_INFOs as being project files
+//
 void PROJECT::link_project_files() {
     vector<FILE_REF>::iterator fref_iter;
     fref_iter = project_files.begin();

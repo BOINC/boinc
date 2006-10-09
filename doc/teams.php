@@ -6,7 +6,6 @@ echo "
 <p>
 Participants in a project can form <b>teams</b>.
 Each participant can belong to at most one team.
-The participant who created the team is called its <b>founder</b>.
 <p>
 A team is local to a project.
 There is currently no provision for teams that span projects.
@@ -24,7 +23,10 @@ A team has the following attributes:
 <li> A textual description.
 <li> An optional URL (e.g., of the team's web site)
 <li> A type (business, school, club, etc.).
-<li> The founder.
+<li> The <b>founder</b>: initially, this is the user who
+created the team, but it may change (see below).
+A team's founder may quit the team,
+but will remain as its founder.
 <li> A list of members.
 </ul>
 

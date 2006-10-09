@@ -4,12 +4,12 @@ require_once("docutil.php");
 page_head("Preferences override file");
 echo "
 By default, <a href=prefs.php>global preferences</a>
-are maintained on a project server,
+and host venue are maintained on a project server,
 edited via a web interface, and downloaded from the server.
 
 <p>
 Some people may want to edit preferences locally,
-or modify preferences on a single host.
+modify preferences on a single host, or hardwire the host venue.
 To accommodate these requirements, BOINC lets you
 create a 'preferences override file'.
 This file is read by the core client after
@@ -23,9 +23,9 @@ Its structure as follows:
     <run_on_batteries>0</run_on_batteries>
     <run_if_user_active>0</run_if_user_active>
     <start_hour>0</start_hour>
-    <start_hour>0</start_hour>
+    <end_hour>0</end_hour>
     <net_start_hour>0</net_start_hour>
-    <net_start_hour>0</net_start_hour>
+    <net_end_hour>0</net_end_hour>
     <leave_apps_in_memory>0</leave_apps_in_memory>
     <confirm_before_connecting>0</confirm_before_connecting>
     <hangup_if_dialed>0</hangup_if_dialed>
@@ -42,6 +42,7 @@ Its structure as follows:
     <max_bytes_sec_up>0</max_bytes_sec_up>
     <cpu_usage_limit>100</cpu_usage_limit>
 </global_preferences>
+[ <host_venue>venue</host_venue> ]
 ")."
 
 <p>

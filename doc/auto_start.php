@@ -40,7 +40,7 @@ automatically when selected users log in, see the <a href=mac_admin_tools.php>Ma
 <p>
 If you install the command-line client and want it to start automatically when each user logs in, see the 
 <a href=mac_yenigun.php>Instructions from Berki Yenigun</a>,
-<a mailto=stegozor@gmail.com?Subject=Boinc_automatic_startup>stegozor@gmail.com</a>.
+<a href=mailto:stegozor@gmail.com?Subject=Boinc_automatic_startup>stegozor@gmail.com</a>.
 ";
 
 page_tail();

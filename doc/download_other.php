@@ -62,8 +62,7 @@ array(
 ),
 array(
     "<a href=http://www.pperry.f2s.com/downloads.htm>SETI-Linux</a>",
-    "Linux i686, linux athlon xp, Linux AMD64,
-    Linux Pentium 3. Some Links to other Platforms",
+    "Linux: i686, Athlon-XP, AMD64, Pentium 3. Some Links to other Platforms",
     "BOINC, SETI@home"
 ),
 array(
@@ -89,13 +88,14 @@ array(
 ),
 array(
     "<a href=http://www.lb.shuttle.de/apastron/boincDown.shtml>Stefan Urbat</a>",
-    "Solaris: SPARC, AMD64 (Opteron) and x86
-    <br> GNU/Linux: AMD64 (Opteron), PowerPC, Itanium, s390
-    <br> HP-UX (PA RISC and Itanium/IA64)
+    "Solaris: SPARC, AMD64 (Opteron), x86, i686
+    <br> Linux: Alpha, SPARC, AMD64 (Opteron), PowerPC, Itanium, s390
+    <br> HP-UX: PA RISC and Itanium/IA64 (includes BOINC Manager)
     <br> Tru64: Alpha
     <br> AIX: Power4 and later
     <br> OpenBSD: x86
     <br> NetBSD: x86
+    <br> FreeBSD: x86, Alpha
     ",
     "BOINC core client, SETI@home"
 ),

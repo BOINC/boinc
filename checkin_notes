@@ -10922,3 +10922,10 @@ David  6 Oct 2006
 
 	client/
 		cs_prefs.C
+
+David  9 Oct 2006
+    - core client: when parsing list of project files in sched reply,
+        delete the old sym link files first
+
+    client/
+        client_types.C

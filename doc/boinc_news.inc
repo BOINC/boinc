@@ -6,7 +6,7 @@ array("October 4, 2006",
     by Mike O'Connell of BOINC UK.
     Many topics were covered, including the question of
     credit and optimized clients.
-    Download an recording of the conversation (MP3, 13.5 MB) from
+    Download a recording of the conversation (MP3, 13.5 MB) from
     <a href=http://www.boincuk.com/david_anderson.mp3>BOINC UK</a>
     or <a href=mp3/boincuk_4_oct_2006.mp3>a mirror at Berkeley</a>."
 ),
