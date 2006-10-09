@@ -1459,6 +1459,14 @@
 					RelativePath="..\clientgui\DlgSelectComputer.h"
 					>
 				</File>
+				<File
+					RelativePath="..\clientgui\common\wxPieCtrl.cpp"
+					>
+				</File>
+				<File
+					RelativePath="..\clientgui\common\wxPieCtrl.h"
+					>
+				</File>
 			</Filter>
 		</Filter>
 		<Filter

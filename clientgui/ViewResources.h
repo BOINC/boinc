@@ -26,17 +26,7 @@
 
 
 #include "BOINCBaseView.h"
-
-
-class CResource : public wxObject
-{
-public:
-	CResource();
-	~CResource();
-
-	wxString m_strProjectName;
-    wxString m_strDiskSpace;
-};
+#include "common/wxPieCtrl.h"
 
 
 class CViewResources : public CBOINCBaseView
@@ -53,24 +43,19 @@ public:
     virtual const char**    GetViewIcon();
 
 protected:
-    std::vector<CResource*> m_ResourceCache;
 
-    virtual wxInt32         GetDocCount();
-
-    virtual wxString        OnListGetItemText( long item, long column ) const;
-
-    virtual wxString        OnDocGetItemText( long item, long column ) const;
-
-    virtual wxInt32         AddCacheElement();
-    virtual wxInt32         EmptyCache();
-    virtual wxInt32         GetCacheCount();
-    virtual wxInt32         RemoveCacheElement();
-    virtual wxInt32         UpdateCache( long item, long column, wxString& strNewData );
+	wxPieCtrl*				m_pieCtrlBOINC;
+	wxPieCtrl*				m_pieCtrlTotal;
 
     virtual void            UpdateSelection();
 
     wxInt32                 FormatProjectName( wxInt32 item, wxString& strBuffer ) const;
     wxInt32                 FormatDiskSpace( wxInt32 item, wxString& strBuffer ) const;
+	wxInt32					FormatDiskSpace2(double bytes, wxString& strBuffer) const;
+
+    virtual bool            OnSaveState( wxConfigBase* pConfig );
+    virtual bool            OnRestoreState( wxConfigBase* pConfig );
+	virtual void            OnListRender( wxTimerEvent& event );
 
 	DECLARE_EVENT_TABLE()
 };

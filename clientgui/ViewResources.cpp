@@ -32,21 +32,6 @@
 
 #include "res/usage.xpm"
 
-
-#define COLUMN_PROJECT              0
-#define COLUMN_DISKSPACE            1
-
-
-CResource::CResource() {
-}
-
-
-CResource::~CResource() {
-    m_strProjectName.Clear();
-    m_strDiskSpace.Clear();
-}
-
-
 IMPLEMENT_DYNAMIC_CLASS(CViewResources, CBOINCBaseView)
 
 BEGIN_EVENT_TABLE (CViewResources, CBOINCBaseView)
@@ -59,29 +44,72 @@ CViewResources::CViewResources()
 {}
 
 
-CViewResources::CViewResources(wxNotebook* pNotebook) :
-    CBOINCBaseView(pNotebook, ID_TASK_RESOURCEUTILIZATIONVIEW, DEFAULT_TASK_FLAGS, ID_LIST_RESOURCEUTILIZATIONVIEW, DEFAULT_LIST_SINGLE_SEL_FLAGS)
+CViewResources::CViewResources(wxNotebook* pNotebook) :  
+	CBOINCBaseView(pNotebook)
 {
+	wxFlexGridSizer* itemFlexGridSizer = new wxFlexGridSizer(3, 0, 0);
+    wxASSERT(itemFlexGridSizer);
+
+	// one row
+    itemFlexGridSizer->AddGrowableRow(0);
+	// two resizable columns for the pie charts
+    itemFlexGridSizer->AddGrowableCol(1);
+	itemFlexGridSizer->AddGrowableCol(2);
+
+	//create a default task pane 
+    m_pTaskPane = new CBOINCTaskCtrl(this, ID_TASK_RESOURCEUTILIZATIONVIEW, DEFAULT_TASK_FLAGS);
     wxASSERT(m_pTaskPane);
-    wxASSERT(m_pListPane);
 
-    //
-    // Setup View
-    //
+	// create pie chart ctrl for total disk usage
+	m_pieCtrlTotal = new wxPieCtrl(this, ID_LIST_RESOURCEUTILIZATIONVIEWTOTAL, wxDefaultPosition, wxSize(-1,-1));
+	wxASSERT(m_pieCtrlTotal);
+	// setup the legend
+	m_pieCtrlTotal->GetLegend()->SetTransparent(true);
+	m_pieCtrlTotal->GetLegend()->SetHorBorder(10);
+	m_pieCtrlTotal->GetLegend()->SetWindowStyle(wxSTATIC_BORDER);
+	m_pieCtrlTotal->GetLegend()->SetLabelFont(*wxSWISS_FONT);
+	m_pieCtrlTotal->GetLegend()->SetLabelColour(wxColour(0,0,127));
+	m_pieCtrlTotal->GetLegend()->SetLabelColour(wxColour(0,0,127));
+	//TODO: respect title localization
+	m_pieCtrlTotal->GetLegend()->SetTitle(wxT("total disk usage"));
+	//set the angle above PI/2 to prevent tilt
+	m_pieCtrlTotal->SetAngle(4);	
+	//disable 3D drawing
+	m_pieCtrlTotal->SetPaint3D(false);
+	//disable elliptic drawing 
+	m_pieCtrlTotal->SetDrawCircle(true);
 
-    // Create Task Pane Items
-    m_pTaskPane->UpdateControls();
+	// create pie chart ctrl for BOINC disk usage
+	m_pieCtrlBOINC = new wxPieCtrl(this, ID_LIST_RESOURCEUTILIZATIONVIEW, wxDefaultPosition, wxSize(-1,-1));
+	wxASSERT(m_pieCtrlBOINC);
+	//setup the legend
+	m_pieCtrlBOINC->GetLegend()->SetTransparent(true);
+	m_pieCtrlBOINC->GetLegend()->SetHorBorder(10);
+	m_pieCtrlBOINC->GetLegend()->SetWindowStyle(wxSTATIC_BORDER);
+	m_pieCtrlBOINC->GetLegend()->SetLabelFont(*wxSWISS_FONT);
+	m_pieCtrlBOINC->GetLegend()->SetLabelColour(wxColour(0,0,127));
+	m_pieCtrlBOINC->GetLegend()->SetLabelColour(wxColour(0,0,127));
+	m_pieCtrlBOINC->GetLegend()->SetTitle(wxT("disk usage by BOINC projects"));
+	m_pieCtrlBOINC->SetAngle(4);
+	m_pieCtrlBOINC->SetPaint3D(false);
+	m_pieCtrlBOINC->SetDrawCircle(true);	
 
-    // Create List Pane Items
-    m_pListPane->InsertColumn(COLUMN_PROJECT, _("Project"), wxLIST_FORMAT_LEFT, -1);
-    m_pListPane->InsertColumn(COLUMN_DISKSPACE, _("Disk Space"), wxLIST_FORMAT_RIGHT, -1);
+	//init the flexGrid
+    itemFlexGridSizer->Add(m_pTaskPane, 1, wxGROW|wxALL, 1);
+	itemFlexGridSizer->Add(m_pieCtrlTotal, 1, wxGROW|wxALL, 1);
+    itemFlexGridSizer->Add(m_pieCtrlBOINC, 1, wxGROW|wxALL, 1);	
+
+    SetSizer(itemFlexGridSizer);
+
+    Layout();
+
+	m_pTaskPane->UpdateControls();
 
     UpdateSelection();
 }
 
 
 CViewResources::~CViewResources() {
-    EmptyCache();
     EmptyTasks();
 }
 
@@ -96,103 +124,8 @@ const char** CViewResources::GetViewIcon() {
     return usage_xpm;
 }
 
-
-wxInt32 CViewResources::GetDocCount() {
-    return wxGetApp().GetDocument()->GetResourceCount();
-}
-
-
-wxString CViewResources::OnListGetItemText(long item, long column) const {
-    CResource* resource   = NULL;
-    wxString   strBuffer  = wxEmptyString;
-
-    try {
-        resource = m_ResourceCache.at(item);
-    } catch ( std::out_of_range ) {
-        resource = NULL;
-    }
-
-    if (resource) {
-        switch(column)
-        {
-            case COLUMN_PROJECT:
-                strBuffer = resource->m_strProjectName;
-                break;
-            case COLUMN_DISKSPACE:
-                strBuffer = resource->m_strDiskSpace;
-                break;
-        }
-    }
-
-    return strBuffer;
-}
-
-
-wxString CViewResources::OnDocGetItemText(long item, long column) const {
-    wxString       strBuffer = wxEmptyString;
-
-    switch(column) {
-    case COLUMN_PROJECT:
-        FormatProjectName(item, strBuffer);
-        break;
-    case COLUMN_DISKSPACE:
-        FormatDiskSpace(item, strBuffer);
-        break;
-    }
-    return strBuffer;
-}
-
-
-wxInt32 CViewResources::AddCacheElement() {
-    CResource* pItem = new CResource();
-    wxASSERT(pItem);
-    if (pItem) {
-        m_ResourceCache.push_back(pItem);
-        return 0;
-    }
-    return -1;
-}
-
-
-wxInt32 CViewResources::EmptyCache()
-{
-    unsigned int i;
-    for (i=0; i<m_ResourceCache.size(); i++) {
-        delete m_ResourceCache[i];
-    }
-    m_ResourceCache.clear();
-    return 0;
-}
-
-
-wxInt32 CViewResources::GetCacheCount() {
-    return (wxInt32)m_ResourceCache.size();
-}
-
-
-wxInt32 CViewResources::RemoveCacheElement() {
-    delete m_ResourceCache.back();
-    m_ResourceCache.erase(m_ResourceCache.end() - 1);
-    return 0;
-}
-
-
-wxInt32 CViewResources::UpdateCache(long item, long column, wxString& strNewData) {
-    CResource* resource   = m_ResourceCache.at(item);
-
-    switch(column) {
-    case COLUMN_PROJECT:
-        resource->m_strProjectName = strNewData;
-        break;
-    case COLUMN_DISKSPACE:
-        resource->m_strDiskSpace = strNewData;
-        break;
-    }
-    return 0;
-}
-
-
 void CViewResources::UpdateSelection() {
+	//TODO: is this needed ? no list ctrl at this view
     CBOINCBaseView::PreUpdateSelection();
     CBOINCBaseView::PostUpdateSelection();
 }
@@ -219,17 +152,129 @@ wxInt32 CViewResources::FormatProjectName(wxInt32 item, wxString& strBuffer) con
 }
 
 
+bool CViewResources::OnSaveState(wxConfigBase* pConfig) {
+    bool bReturnValue = true;
+
+    wxASSERT(pConfig);
+    wxASSERT(m_pTaskPane);
+
+    if (!m_pTaskPane->OnSaveState(pConfig)) {
+        bReturnValue = false;
+    }
+
+    return bReturnValue;
+}
+
+bool CViewResources::OnRestoreState(wxConfigBase* pConfig) {
+    wxASSERT(pConfig);
+    wxASSERT(m_pTaskPane);
+
+    if (!m_pTaskPane->OnRestoreState(pConfig)) {
+        return false;
+    }
+
+    return true;
+}
+
+void CViewResources::OnListRender( wxTimerEvent& WXUNUSED(event) ) {
+	
+	wxString diskspace;
+	double boinctotal=0.0;
+
+	//clear former data
+	m_pieCtrlBOINC->m_Series.Clear();
+	m_pieCtrlTotal->m_Series.Clear();
+
+	//get data for BOINC projects disk usage
+	if (wxGetApp().GetDocument()->GetResourceCount()>0) {
+		CMainDocument* pDoc      = wxGetApp().GetDocument();
+
+		wxASSERT(pDoc);
+		wxASSERT(wxDynamicCast(pDoc, CMainDocument));
+		PROJECTS *proj=&(pDoc->resource_status);
+		wxASSERT(proj);
+		//update data for boinc projects pie chart 
+		wxInt32 count=-1;
+		for (std::vector<PROJECT*>::const_iterator i=proj->projects.begin();i!=proj->projects.end(); ++i) {
+			++count;
+			wxString projectname;			
+			FormatProjectName(count,projectname);
+			FormatDiskSpace(count,diskspace);
+			PROJECT* resource = wxGetApp().GetDocument()->resource(count);
+			double usage = 0.0;
+			if (resource) {
+				usage = resource->disk_usage;
+				boinctotal += usage;
+			}
+			wxPiePart part;
+			part.SetLabel(projectname + wxT(" - ") + diskspace);
+			part.SetValue(usage);
+			part.SetColour(wxColour(50*count,255-(count*50),255-(count*50)));
+			m_pieCtrlBOINC->m_Series.Add(part);
+		}
+		//force a repaint of the legend (doesn't work if not explicitly resized)
+		m_pieCtrlBOINC->GetLegend()->SetSize(wxSize(10,10));
+		m_pieCtrlBOINC->Refresh();
+	}
+	else {
+		//paint an empty black pie
+		wxPiePart part;
+		//TODO: respect localization
+		part.SetLabel(wxT("not attached to any BOINC project - 0 bytes"));
+		part.SetValue(boinctotal);
+		part.SetColour(wxColour(0,0,0));
+		m_pieCtrlBOINC->m_Series.Add(part);		
+		//force a repaint of the legend (doesn't work if not explicitly resized)
+		m_pieCtrlBOINC->GetLegend()->SetSize(wxSize(10,10));
+		m_pieCtrlBOINC->Refresh();
+	}
+	//data for pie chart 2 (total disk usage)
+	wxPiePart part;		
+	wxLongLong llTotal,llFree;	
+	::wxGetDiskSpace(wxGetCwd(),&llTotal,&llFree);
+	double free = llFree.ToDouble();
+	double total = llTotal.ToDouble();			
+	//free disk space
+	FormatDiskSpace2(free,diskspace);		
+	//TODO: respect localization
+	part.SetLabel("free diskspace - " + diskspace);
+	part.SetValue(free);
+	part.SetColour(wxColour(0,255,0));
+	m_pieCtrlTotal->m_Series.Add(part);
+	//used by boinc projects
+	FormatDiskSpace2(boinctotal,diskspace);		
+	//TODO: respect localization
+	part.SetLabel("used by BOINC projects - " + diskspace);
+	part.SetValue(boinctotal);
+	part.SetColour(wxColour(255,0,0));
+	m_pieCtrlTotal->m_Series.Add(part);
+	//used by others
+	FormatDiskSpace2(total-boinctotal-free,diskspace);
+	//TODO: respect localization
+	part.SetLabel("used by others - " + diskspace);
+	part.SetValue(total-boinctotal-free);
+	part.SetColour(wxColour(0,0,255));
+	m_pieCtrlTotal->m_Series.Add(part);
+	//force a repaint of the legend (doesn't work if not explicitly resized)
+	m_pieCtrlTotal->GetLegend()->SetSize(wxSize(10,10));
+	m_pieCtrlTotal->Refresh();
+}
+
 wxInt32 CViewResources::FormatDiskSpace(wxInt32 item, wxString& strBuffer) const {
-    float          fBuffer = 0;
+	double fBuffer = 0.0;
+	PROJECT* resource = wxGetApp().GetDocument()->resource(item);
+    if (resource) {
+        fBuffer = resource->disk_usage;
+    }
+	return FormatDiskSpace2(fBuffer,strBuffer);
+}
+
+wxInt32 CViewResources::FormatDiskSpace2(double bytes, wxString& strBuffer) const {
+    float          fBuffer = bytes;
     double         xTera = 1099511627776.0;
     double         xGiga = 1073741824.0;
     double         xMega = 1048576.0;
     double         xKilo = 1024.0;
-    PROJECT* resource = wxGetApp().GetDocument()->resource(item);
-
-    if (resource) {
-        fBuffer = resource->disk_usage;
-    }
 
     if (fBuffer >= xTera) {
         strBuffer.Printf(wxT("%0.2f TB"), fBuffer/xTera);
@@ -245,6 +290,5 @@ wxInt32 CViewResources::FormatDiskSpace(wxInt32 item, wxString& strBuffer) const
 
     return 0;
 }
-
 
 const char *BOINC_RCSID_5a37b46a6e = "$Id$";

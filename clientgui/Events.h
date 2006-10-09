@@ -62,6 +62,7 @@
 #define ID_LIST_MESSAGESVIEW                    7003
 #define ID_LIST_RESOURCEUTILIZATIONVIEW         7004
 #define ID_LIST_STATISTICSVIEW                  7005
+#define ID_LIST_RESOURCEUTILIZATIONVIEWTOTAL	7006
 #define ID_TASK_BASE                            8000
 #define ID_TASK_PROJECTSVIEW                    8000
 #define ID_TASK_WORKVIEW                        8001

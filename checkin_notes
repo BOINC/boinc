@@ -10929,3 +10929,16 @@ David  9 Oct 2006
 
     client/
         client_types.C
+
+David  9 Oct 2006
+	- Manager: add code that shows disk usage
+		(total and project) as pie chart rather than text.
+		From Frank Weiler
+
+	clientgui/
+		Events.h
+		ViewResources.cpp,h
+		common/
+			wxPieCtrl.cpp,h (new)
+	win_build/
+		boincmgr_curl.vcproj
