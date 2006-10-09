@@ -1,0 +1,46 @@
+--- E:\curl\curl-7.15.5\lib\url-old.c	Wed Aug 02 20:08:06 2006
++++ E:\curl\curl-7.15.5\lib\url.c	Mon Oct 09 17:29:22 2006
+@@ -2097,10 +2097,43 @@
+   ssize_t actualread;
+   ssize_t written;
+   int result;
+   CURLcode code;
+   curl_socket_t sock = conn->sock[FIRSTSOCKET];
++  long timeout = DEFAULT_CONNECT_TIMEOUT;
++
++  /* make sure connect is complete when doing multi */
++  if(conn->data->state.used_interface == Curl_if_multi) {
++      /* get timeout */
++      if(conn->data->set.timeout && conn->data->set.connecttimeout) {
++        if (conn->data->set.timeout < conn->data->set.connecttimeout)
++           timeout = conn->data->set.timeout*1000;
++        else 
++           timeout = conn->data->set.connecttimeout*1000;
++      }
++      else if(conn->data->set.timeout) {
++        timeout = conn->data->set.timeout*1000;
++      }
++      else if(conn->data->set.connecttimeout) {
++        timeout = conn->data->set.connecttimeout*1000;
++      }
++
++      /* verify scoket is connected */
++      result = Curl_select(CURL_SOCKET_BAD, sock, timeout);
++      if(-1 == result)
++         /* select error, no connect here, try next */
++         return -1;
++      else if(0 == result)
++        /* timeout, no connect today */
++        return 1;
++
++      if(result & CSELECT_ERR)
++        /* error condition caught */
++        return 2;
++
++      /* we have a connect! */
++  } /* used_interface == Curl_if_multi */
+ 
+   Curl_nonblock(sock, FALSE);
+ 
+   socksreq[0] = 5; /* version */
+   socksreq[1] = (char)(proxy_name ? 2 : 1); /* number of methods (below) */
