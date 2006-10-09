@@ -10961,3 +10961,10 @@ David  9 Oct 2006
         client_types.C,h
         cs_statefile.C
         scheduler_op.C
+
+David  9 Oct 2006
+	- debug the above
+	client/
+		client_types.C,h
+		cs_scheduler.C
+		cs_statefile.C

@@ -488,14 +488,15 @@ int PROJECT::parse_project_files(MIOFILE& in, bool delete_existing_symlinks) {
 }
 
 // install pointers from FILE_REFs to FILE_INFOs for project files,
-// and flag FILE_INFOs as being project files
+// and flag FILE_INFOs as being project files.
 //
-void PROJECT::link_project_files() {
+void PROJECT::link_project_files(bool recreate_symlink_files) {
+	FILE_INFO* fip;
     vector<FILE_REF>::iterator fref_iter;
     fref_iter = project_files.begin();
     while (fref_iter != project_files.end()) {
         FILE_REF& fref = *fref_iter;
-        FILE_INFO* fip = gstate.lookup_file_info(this, fref.file_name);
+        fip = gstate.lookup_file_info(this, fref.file_name);
         if (!fip) {
             msg_printf(this, MSG_ERROR,
                 "project file refers to non-existent %s", fref.file_name
@@ -507,6 +508,15 @@ void PROJECT::link_project_files() {
         fip->is_project_file = true;
         fref_iter++;
     }
+
+	if (recreate_symlink_files) {
+		for (unsigned i=0; i<gstate.file_infos.size(); i++) {
+			fip = gstate.file_infos[i];
+			if (fip->project == this && fip->is_project_file && fip->status == FILE_PRESENT) {
+				write_symlink_for_project_file(fip);
+			}
+		}
+	}
 }
 
 void PROJECT::write_project_files(MIOFILE& f) {

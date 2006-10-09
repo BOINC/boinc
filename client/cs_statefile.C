@@ -295,7 +295,7 @@ int CLIENT_STATE::parse_state_file() {
                 continue;
             }
             project->parse_project_files(mf, false);
-            project->link_project_files();
+            project->link_project_files(false);
         } else if (match_tag(buf, "<host_info>")) {
             retval = host_info.parse(mf);
             if (retval) {

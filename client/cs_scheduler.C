@@ -1237,7 +1237,7 @@ int CLIENT_STATE::handle_scheduler_reply(
         project->rpc_seqno = 0;
     }
 
-    project->link_project_files();
+    project->link_project_files(true);
 
     set_client_state_dirty("handle_scheduler_reply");
     if (log_flags.state_debug) {

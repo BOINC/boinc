@@ -234,7 +234,7 @@ public:
     int parse_preferences_for_user_files();
     int parse_project_files(MIOFILE&, bool delete_existing_symlinks);
     void write_project_files(MIOFILE&);
-    void link_project_files();
+    void link_project_files(bool recreate_symlink_files);
     int write_symlink_for_project_file(FILE_INFO*);
 
     // Multiply by this when estimating the CPU time of a result
