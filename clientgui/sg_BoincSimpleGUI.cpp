@@ -66,8 +66,8 @@ CSimpleFrame::CSimpleFrame() {
 
 
 CSimpleFrame::CSimpleFrame(wxString title, wxIcon* icon) : 
-    CBOINCBaseFrame((wxFrame *)NULL, ID_SIMPLEFRAME, title, wxDefaultPosition, wxSize(416, 600),
-                    wxDEFAULT_FRAME_STYLE | wxNO_FULL_REPAINT_ON_RESIZE)
+    CBOINCBaseFrame((wxFrame *)NULL, ID_SIMPLEFRAME, title, wxDefaultPosition, wxSize(416, 570),
+                    wxMINIMIZE_BOX | wxSYSTEM_MENU | wxCAPTION | wxCLOSE_BOX | wxCLIP_CHILDREN | wxNO_FULL_REPAINT_ON_RESIZE)
 {
     wxLogTrace(wxT("Function Start/End"), wxT("CSimpleFrame::CSimpleFrame - Overloaded Constructor Function Begin"));
  
@@ -79,10 +79,8 @@ CSimpleFrame::CSimpleFrame(wxString title, wxIcon* icon) :
     //init app skin class
 	appSkin = SkinClass::Instance();
 	appSkin->init_skin(skinName);
-	m_ImageList.push_back(*(appSkin->GetIcnWorkingWkUnit()));
 
 	projectViewInitialized = false;
-	resultViewInitialized = false;
 	emptyViewInitialized = false;
 	notebookViewInitialized = false;
 	dlgOpen = false;
@@ -285,7 +283,7 @@ void CSimpleFrame::OnFrameRender(wxTimerEvent& WXUNUSED(event)) {
 
 	CMainDocument* pDoc     = wxGetApp().GetDocument();
 
-	if (!projectViewInitialized && pDoc->IsConnected()) {
+	if (!projectViewInitialized) {
 		InitProjectView(); 
 	} else if ( pDoc->IsConnected() ) {
 		UpdateProjectView();
@@ -295,32 +293,27 @@ void CSimpleFrame::OnFrameRender(wxTimerEvent& WXUNUSED(event)) {
 	if ( pDoc->GetSimpleGUIWorkCount() > 0 ) {
 		// State changes can cause the BSG to crash if a dialogue is open.
 		// Defer state change until after the dialogue is closed
-		if ( (emptyViewInitialized || !resultViewInitialized) && dlgOpen ) {
+		if ( (emptyViewInitialized || !notebookViewInitialized) && dlgOpen ) {
 			return;
 		}
 
 		// If empty was displayed, remove
 		if ( emptyViewInitialized ) {
-
 			DestroyEmptyView();
 		}
-		// If we hadn't previously shown the results, create them.
-		if ( !resultViewInitialized ) {
-			Freeze();
-			InitResultView();
-			UpdateResultView();
-			Thaw();
-		} else {
-			UpdateResultView();
+		// If we hadn't previously shown the notebook, create it.
+		if ( !notebookViewInitialized ) {
+			InitNotebook();
 		}
+		wrkUnitNB->Update();
 	} else {
 		// State changes can cause the BSG to crash if a dialogue is open.
 		// Defer state change until after the dialogue is closed
-		if ( (!emptyViewInitialized || resultViewInitialized) && dlgOpen ) {
+		if ( (!emptyViewInitialized || notebookViewInitialized) && dlgOpen ) {
 			return;
 		}
 
-		if ( resultViewInitialized ) {
+		if ( notebookViewInitialized ) {
 			DestroyNotebook();
 		}
 		if ( !emptyViewInitialized ) {
@@ -349,7 +342,7 @@ void CSimpleFrame::InitEmptyView()
 	mainSizer = new wxFlexGridSizer(3,2);
 	SetSizer(mainSizer);
 
-	clientState = new ClientStateIndicator(this,wxPoint(31,124));
+	clientState = new ClientStateIndicator(this,wxPoint(31,94));
 	clientState->DisplayState();
 	
 	emptyViewInitialized = true;
@@ -359,27 +352,9 @@ void CSimpleFrame::UpdateProjectView()
 	//update Project Component
     projComponent->UpdateInterface();
 }
-void CSimpleFrame::InitResultView()
-{
-	SetSizer(mainSizer);
-	mainSizer->Add(31, 98,0);
-	mainSizer->Add(343, 98,0);
-	mainSizer->Add(31, 98,0);
-	mainSizer->Add(0, 0,1);
-	mainSizer->Layout();
-	resultViewInitialized=true;
-	//present any results available
-	UpdateResultView();
-	//make sure the first tab is in front
-	if (m_windows.size() > 0 ) {
-		wrkUnitNB->SetSelection(0);
-	}
-}
 void CSimpleFrame::DestroyNotebook() {
 	mainSizer->Detach(wrkUnitNB);
 	delete wrkUnitNB;
-	m_windows.clear();
-	resultViewInitialized = false;
 	notebookViewInitialized = false;
 }
 void CSimpleFrame::InitProjectView()
@@ -387,133 +362,24 @@ void CSimpleFrame::InitProjectView()
 	// Do not update screen at this point
 	Freeze();
 	/////////////// MY PROJECTS COMPONENT /////////////////////
-    projComponent = new CProjectsComponent(this,wxPoint(31,443));
+    projComponent = new CProjectsComponent(this,wxPoint(31,413));
 	///////////////////////////////////////////////////////////
 	Thaw();
 	projectViewInitialized = true;
-}
-void CSimpleFrame::UpdateResultView(){
-	CMainDocument* pDoc     = wxGetApp().GetDocument();
-	//update GUI
-    wxString strBuffer = wxEmptyString;
-	//assume they are all inactive
-	for(int x = 0; x < (int)m_windows.size(); x ++)
-	{
-		CViewTabPage *currTab = m_windows[x];
-		currTab->isAlive = false;
-	}
-    // Update Tabs
-	RESULT* result;
-	for(int i = 0; i < (int) pDoc->results.results.size(); i++){
-		result = pDoc->result(i);
-		if ( result == NULL || !result->active_task ) {
-			continue;
-		}
-		// get tab window
-		bool found = false;
-		for(int j = 0; j < (int)m_windows.size(); j++)
-		{
-			CViewTabPage *currTab = m_windows[j];
-			//std::string curtabname = currTab->GetTabName();
-            //std::string resultname = result->name;
-
-			if(result->name == currTab->GetTabName()){
-				//currTab FOUND;
-				currTab->isAlive = true;
-				currTab->resultWU = result;
-				found = true;
-				//update tab interface
-		        currTab->UpdateInterface();
-				if(result->active_task_state == 1 && wrkUnitNB->GetPageImageIndex(j) != 0){
-					wrkUnitNB->SetPageImageIndex(j, 0); // this is working process
-				} else if ( result->active_task_state != 1 && wrkUnitNB->GetPageImageIndex(j) != -1 ) {
-					wrkUnitNB->SetPageImageIndex(j, -1); // this is working process
-				}
-				//break;
-		    }
-
-		}
-		if(!found){
-
-			// First check to see if the underlying state object contains this data
-			// if not, then force an update and skip this result for now.
-			RESULT* resState = NULL;
-			std::string projUrl = result->project_url;
-			std::string nme = result->name;
-            resState = pDoc->state.lookup_result(projUrl, nme);
-			if(!resState){
-                pDoc->ForceCacheUpdate();
- 				continue;
-			}
- 			wxString appShortName = wxString(resState->app->name.c_str(), wxConvUTF8 );
-
-			bool addNotebookToSizer = false;
-			//stop timer untill we add the page
-			m_pFrameRenderTimer->Stop();
-			// Do not update screen at this point
-	        Freeze();
-			//Check if notebook was initialized
-			if(!notebookViewInitialized){
-				//init nootebok
-				InitNotebook();
-                addNotebookToSizer = true; // since this is first page
-			}
-			// create one and add it to notebook
-			std::string index = " ";
-			//index += i;
-			appShortName += wxString(index.c_str(), wxConvUTF8 );
-			CViewTabPage *wTab = new CViewTabPage(wrkUnitNB,result,nme,projUrl);
-		
-			wrkUnitNB->AddPage(wTab, appShortName, true);	
-			if(result->active_task_state == 1){
-				int pageIndex = wrkUnitNB->GetPageIndex(wTab);
-				wrkUnitNB->SetPageImageIndex(pageIndex, 0); // this is working process
-			}
-			//add page to vector
-			m_windows.push_back(wTab);
-			if(addNotebookToSizer){
-                wrkUnitNB->SetSelection(0);	
-				// Put Grid in the sizer
-				mainSizer->Add(wrkUnitNB);
-			}
-			//Update screen
-			Thaw();
-			mainSizer->Layout();
-			//start the timer
-			m_pFrameRenderTimer->Start();
-		}		
-	}
-	//delete the ones that are not alive
-	//assume they are all inactive
-	int deleteIndex = 0;
-	for(int x = 0; x < (int)m_windows.size(); x ++)
-	{
-		CViewTabPage *currTab = m_windows[x];
-		if(!currTab->isAlive){
-			//delete the notebook page
-			wrkUnitNB->DeletePage(deleteIndex);
-			//delete the page in vector
-			m_windows.erase(m_windows.begin()+x);
-		}else{
-			deleteIndex++;
-		}
-	}
-//	Refresh();
 }
 
 void CSimpleFrame::InitNotebook()
 {
     wxLogTrace(wxT("Function Start/End"), wxT("CAdvancedFrame::InitNotebook - Function Start"));
 	// FlatNotebook
-	wrkUnitNB = new wxFlatNotebook(this, -1, wxDefaultPosition, wxSize(370,330), wxFNB_TABS_BORDER_SIMPLE | wxFNB_NO_X_BUTTON | wxFNB_NO_NAV_BUTTONS | wxFNB_FANCY_TABS);
-	wrkUnitNB->SetUseBackground(true);
-	wrkUnitNB->SetBackgroundColour(appSkin->GetAppBgCol());
-	wrkUnitNB->SetTabAreaColour(appSkin->GetAppBgCol());
-	wrkUnitNB->SetGradientColors(appSkin->GetTabFromColAc(),appSkin->GetTabToColAc(),appSkin->GetTabBrdColAc());
-	wrkUnitNB->SetActiveTabTextColour(wxColour(255,255,255));
-	wrkUnitNB->SetGradientColorsInactive(appSkin->GetTabFromColIn(),appSkin->GetTabToColIn(),appSkin->GetTabBrdColIn());
-	wrkUnitNB->SetNonActiveTabTextColour(wxColour(255,255,255));
-	wrkUnitNB->SetImageList(&m_ImageList);
+	wrkUnitNB = new WorkunitNotebook(this, -1, wxDefaultPosition, wxSize(370,330), wxFNB_TABS_BORDER_SIMPLE | wxFNB_NO_X_BUTTON | wxFNB_NO_NAV_BUTTONS | wxFNB_FANCY_TABS);
+	SetSizer(mainSizer);
+	mainSizer->Add(31, 68,0);
+	mainSizer->Add(343, 68,0);
+	mainSizer->Add(31, 68,0);
+	mainSizer->Add(0, 0,1);
+	mainSizer->Add(wrkUnitNB);
+	mainSizer->Layout();
 	notebookViewInitialized = true;
     wxLogTrace(wxT("Function Start/End"), wxT("CAdvancedFrame::InitNotebook - Function End"));
 }
@@ -521,20 +387,9 @@ void CSimpleFrame::InitNotebook()
 void CSimpleFrame::ReskinAppGUI(){
     wxLogTrace(wxT("Function Start/End"), wxT("CSimpleFrame::ReskinAppGUI - Function Start"));
 	//bg color
-	m_ImageList.push_back(*(appSkin->GetIcnWorkingWkUnit()));
 	SetBackgroundColour(appSkin->GetAppBgCol());
 	if(notebookViewInitialized){
-        // notebook tab color
-		wrkUnitNB->SetTabAreaColour(appSkin->GetAppBgCol());
-		wrkUnitNB->SetUseBackground(true);
-		wrkUnitNB->SetGradientColors(appSkin->GetTabFromColAc(),appSkin->GetTabToColAc(),appSkin->GetTabBrdColAc());
-		wrkUnitNB->SetGradientColorsInactive(appSkin->GetTabFromColIn(),appSkin->GetTabToColIn(),appSkin->GetTabBrdColIn());
-	
-		// notebook pages
-		for(int i = 0; i < (int)m_windows.size(); i++){
-			CViewTabPage *wTab = m_windows.at(i);
-			wTab->ReskinInterface();
-		}
+		wrkUnitNB->ReskinAppGUI();
 	} else {
 		clientState->ReskinInterface();
 	}

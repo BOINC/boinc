@@ -28,6 +28,7 @@
 #include "common/wxFlatNotebook.h"
 #include "BOINCGUIApp.h"
 #include "sg_ImageLoader.h"
+#include "sg_SkinClass.h"
 
 
 class MyCanvas : public wxScrolledWindow
@@ -36,12 +37,15 @@ public:
 	MyCanvas(wxWindow *parent, const wxPoint& pos, const wxSize& size, std::vector<wxBitmap> images);
 	~MyCanvas();
     void OnPaint(wxPaintEvent& event);
+	void AdvanceSlide();
+	void ReloadSlideShow(std::vector<wxBitmap> images);
 
 private:
-	void OnChangeSlide(wxTimerEvent& WXUNUSED(event));
-	wxTimer* changeSlideTimer;
 	std::vector<ImageLoader*> vSlideShow;
 	int currentImageIndex;
+	std::vector<wxBitmap> ssImages;
+	bool reloadSlideShow;
+	void LoadSlideShow();
     DECLARE_EVENT_TABLE()
 };
 
@@ -49,6 +53,7 @@ class CProgressBar;
 class CStaticLine;
 class CStaticLine;
 class CImageButton;
+class WorkunitNotebook;
 
 class CViewTabPage : public wxPanel {
     DECLARE_DYNAMIC_CLASS( CViewTabPage )
@@ -83,7 +88,7 @@ public:
 
     CViewTabPage();
     CViewTabPage(
-		wxFlatNotebook* parent, RESULT* result, std::string name,std::string url
+		WorkunitNotebook* parent, RESULT* result, std::string name,std::string url
     );
     ~CViewTabPage();
 
@@ -125,12 +130,33 @@ private:
 
 	void CreateSlideShowWindow();
 	void LoadSlideShow(std::vector<wxBitmap> *vSlideShow);
+	bool Downloading();
 	std::vector<wxBitmap> GetSlideShow();
 	wxWindow* wSlideShow;
 	MyCanvas* m_canvas;
+	bool scheduler_rpc_in_progress;
 
 };
 
+class WorkunitNotebook : public wxFlatNotebook {
 
+public:
+	WorkunitNotebook(wxWindow* parent, wxWindowID id = wxID_ANY, const wxPoint& pos = wxDefaultPosition, const wxSize& size = wxDefaultSize, long style = 0, const wxString& name = wxT("FlatNotebook"));
+	~WorkunitNotebook();
+	void ReskinAppGUI();
+	void Update();
+	void OnChangeSlide(wxTimerEvent& WXUNUSED(event));
+
+protected:
+
+private:
+    SkinClass *appSkin;
+	wxFlatNotebookImageList m_ImageList;
+	wxTimer* changeSlideTimer;
+	std::vector<CViewTabPage*> m_windows; // vector of all window tabs created for notebook
+	void AddTab(RESULT* result);
+	DECLARE_EVENT_TABLE()
+
+};
 #endif
 

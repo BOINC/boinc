@@ -45,7 +45,7 @@ END_EVENT_TABLE()
 
 CViewTabPage::CViewTabPage() {}
 
-CViewTabPage::CViewTabPage(wxFlatNotebook* parent,RESULT* result,std::string name,std::string url) :
+CViewTabPage::CViewTabPage(WorkunitNotebook* parent,RESULT* result,std::string name,std::string url) :
     wxPanel(parent, -1, wxDefaultPosition, wxSize(370,330), wxNO_BORDER)
 {
     wxASSERT(parent);
@@ -58,7 +58,7 @@ CViewTabPage::CViewTabPage(wxFlatNotebook* parent,RESULT* result,std::string nam
 	appSkin = SkinClass::Instance();
     //create page
 	CreatePage();
-
+	scheduler_rpc_in_progress = false;
 }
 
 CViewTabPage::~CViewTabPage() {
@@ -160,8 +160,35 @@ std::vector<wxBitmap> CViewTabPage::GetSlideShow() {
 	}
 	return vSlideShow;
 }
+
+bool CViewTabPage::Downloading() {
+	CMainDocument* pDoc     = wxGetApp().GetDocument();
+	if ( pDoc->results.results.size() > 0 ) {
+		RESULT* result;
+		for(unsigned int i=0; i < pDoc->results.results.size(); i++ ) {
+			result = pDoc->result(i);
+			if ( result != NULL && result->state == RESULT_FILES_DOWNLOADING ) {
+				return true;
+			}
+		}
+	}
+	return false;
+}
+
 void CViewTabPage::UpdateInterface()
 {
+	// Check to see if the project has been contacted since last cycle.  
+	// If so, reload the slide show
+	CMainDocument* pDoc     = wxGetApp().GetDocument();
+	PROJECT* project = pDoc->state.lookup_project(resultWU->project_url);
+	if ( project > NULL && project->scheduler_rpc_in_progress ) {
+		scheduler_rpc_in_progress = true;
+	} else if ( scheduler_rpc_in_progress && !Downloading() ) {
+		scheduler_rpc_in_progress = false;
+		GetCanvas()->ReloadSlideShow(GetSlideShow());
+	}
+
+
 	wxString strBuffer = wxEmptyString;
 	//Gauge
 	gaugeWUMain->UpdateValue(floor(resultWU->fraction_done * 100000)/1000);
@@ -198,13 +225,14 @@ void CViewTabPage::UpdateInterface()
 		m_canvas->Refresh();
 		m_canvas->Update();
 	}
+
 }
 void CViewTabPage::CreateSlideShowWindow() {
 	if ( wSlideShow <= NULL ) {
 		delete wSlideShow;
 	}
-	wSlideShow=new wxWindow(this,-1,wxPoint(32,168),wxSize(286,116),wxNO_BORDER);
-	m_canvas = new MyCanvas(wSlideShow, wxPoint(0,0), wxSize(286,116), GetSlideShow());
+	wSlideShow=new wxWindow(this,-1,wxPoint(30,156),wxSize(290,126),wxNO_BORDER);
+	m_canvas = new MyCanvas(wSlideShow, wxPoint(0,0), wxSize(290,126), GetSlideShow());
 }
 void CViewTabPage::ReskinInterface()
 {	
@@ -405,11 +433,8 @@ void CViewTabPage::DrawBackImg(wxEraseEvent& event,wxWindow *win,wxBitmap bitMap
 // MyCanvas
 // ---------------------------------------------------------------------------
 
-#define ID_CHANGE_SLIDE_TIMER  14000
-
 BEGIN_EVENT_TABLE(MyCanvas, wxScrolledWindow)
     EVT_PAINT(MyCanvas::OnPaint)
-	EVT_TIMER(ID_CHANGE_SLIDE_TIMER, MyCanvas::OnChangeSlide)
 END_EVENT_TABLE()
 
 // Define a constructor for my canvas
@@ -419,16 +444,32 @@ MyCanvas::MyCanvas(wxWindow *parent, const wxPoint& pos, const wxSize& size, std
                            wxNO_FULL_REPAINT_ON_RESIZE)
 {
     SetBackgroundColour(wxColour(_T("BLACK")));
+	ssImages = images;
+	reloadSlideShow = false;
+	LoadSlideShow();
+}
+
+MyCanvas::~MyCanvas() {
+}
+
+void MyCanvas::LoadSlideShow() {
+	// Clear out any existings data (for when this is reloading)
+//	for(int i=0; i< (int) vSlideShow.size(); i++ ) {
+//		delete vSlideShow.at(0);
+//	}
+	vSlideShow.clear();
+
+	// Now load the new slide show
 	wxBitmap* image;
 	ImageLoader* il;
 	double xRatio, yRatio, ratio;
-	for(unsigned int i=0; i < images.size(); i++) {
-		image = &(images.at(i));
+	for(unsigned int i=0; i < ssImages.size(); i++) {
+		image = &(ssImages.at(i));
 
 		// Check to see if they need to be rescaled to fit in the window
 		ratio = 1.0;
-		xRatio = ((double) size.GetWidth())/((double) image->GetWidth());
-		yRatio = ((double) size.GetHeight())/((double) image->GetHeight());
+		xRatio = ((double) GetSize().GetWidth())/((double) image->GetWidth());
+		yRatio = ((double) GetSize().GetHeight())/((double) image->GetHeight());
 		if ( xRatio < ratio ) {
 			ratio = xRatio;
 		}
@@ -439,7 +480,7 @@ MyCanvas::MyCanvas(wxWindow *parent, const wxPoint& pos, const wxSize& size, std
 			wxImage img = image->ConvertToImage();
 			img.Rescale((int) image->GetWidth()*ratio, (int) image->GetHeight()*ratio);
 			image = new wxBitmap(img);
-		}
+		} 
 		il = new ImageLoader(this, true);
 		il->LoadImage(*image);
 		if ( ratio < 1.0 ) {
@@ -450,17 +491,11 @@ MyCanvas::MyCanvas(wxWindow *parent, const wxPoint& pos, const wxSize& size, std
 	} 
 	currentImageIndex=0;
 	vSlideShow.at(currentImageIndex)->Show(true);
-	changeSlideTimer = new wxTimer(this, ID_CHANGE_SLIDE_TIMER);
-	if (vSlideShow.size() > 1 ) {
-		changeSlideTimer->Start(5000); 
-	}
 }
 
-MyCanvas::~MyCanvas() {
-	if ( changeSlideTimer->IsRunning() ) {
-		changeSlideTimer->Stop();
-	}
-	delete changeSlideTimer;
+void MyCanvas::ReloadSlideShow(std::vector<wxBitmap> images) {
+	ssImages = images;
+	reloadSlideShow = true;
 }
 
 void MyCanvas::OnPaint(wxPaintEvent& WXUNUSED(event))
@@ -473,10 +508,19 @@ void MyCanvas::OnPaint(wxPaintEvent& WXUNUSED(event))
     wxLogTrace(wxT("Function Start/End"), wxT("MyCanvas::OnPaint - End"));
 }
 
-void MyCanvas::OnChangeSlide(wxTimerEvent& WXUNUSED(event)) {
+void MyCanvas::AdvanceSlide() {
 	if ( currentImageIndex+1 == (int) vSlideShow.size() ) {
-		vSlideShow.at(0)->Show(true);
-		vSlideShow.at(currentImageIndex)->Show(false);
+		if ( reloadSlideShow ) {
+			vSlideShow.at(currentImageIndex)->Show(false);
+			LoadSlideShow();
+			vSlideShow.at(0)->Show(true);
+			reloadSlideShow=false;
+		} else {
+			if ( vSlideShow.size() > 1 ) {
+				vSlideShow.at(0)->Show(true);
+				vSlideShow.at(currentImageIndex)->Show(false);
+			}
+		}
 		currentImageIndex=0;
 	} else {
 		vSlideShow.at(currentImageIndex+1)->Show(true);
@@ -485,3 +529,144 @@ void MyCanvas::OnChangeSlide(wxTimerEvent& WXUNUSED(event)) {
 	}
 	GetParent()->Update();
 }
+
+#define ID_CHANGE_SLIDE_TIMER  14000
+
+BEGIN_EVENT_TABLE(WorkunitNotebook, wxFlatNotebook)
+	EVT_TIMER(ID_CHANGE_SLIDE_TIMER, WorkunitNotebook::OnChangeSlide)
+END_EVENT_TABLE()
+
+WorkunitNotebook::WorkunitNotebook(wxWindow* parent, wxWindowID id, const wxPoint& pos, const wxSize& size, long style, const wxString& name) :
+	wxFlatNotebook(parent, id, pos, size, style, name) {
+	appSkin = SkinClass::Instance();
+	SetUseBackground(true);
+	SetBackgroundColour(appSkin->GetAppBgCol());
+	SetTabAreaColour(appSkin->GetAppBgCol());
+	SetGradientColors(appSkin->GetTabFromColAc(),appSkin->GetTabToColAc(),appSkin->GetTabBrdColAc());
+	SetActiveTabTextColour(wxColour(255,255,255));
+	SetGradientColorsInactive(appSkin->GetTabFromColIn(),appSkin->GetTabToColIn(),appSkin->GetTabBrdColIn());
+	SetNonActiveTabTextColour(wxColour(255,255,255));
+	m_ImageList.push_back(*(appSkin->GetIcnWorkingWkUnit()));
+	SetImageList(&m_ImageList);
+	changeSlideTimer = new wxTimer(this, ID_CHANGE_SLIDE_TIMER);
+	changeSlideTimer->Start(5000); 
+}
+
+WorkunitNotebook::~WorkunitNotebook() {
+	m_windows.clear();
+	if ( changeSlideTimer->IsRunning() ) {
+		changeSlideTimer->Stop();
+	}
+	delete changeSlideTimer;
+
+}
+
+void WorkunitNotebook::AddTab(RESULT* result) {
+	CMainDocument* pDoc     = wxGetApp().GetDocument();
+	RESULT* resState = NULL;
+	std::string projUrl = result->project_url;
+	std::string nme = result->name;
+    resState = pDoc->state.lookup_result(projUrl, nme);
+	if(!resState){
+		pDoc->ForceCacheUpdate();
+ 		return;
+	}
+ 	wxString appShortName = wxString(resState->app->name.c_str(), wxConvUTF8 );
+	// Do not update screen at this point
+    Freeze();
+	std::string index = " ";
+	appShortName += wxString(index.c_str(), wxConvUTF8 );
+	CViewTabPage *wTab = new CViewTabPage(this,result,nme,projUrl);
+	
+	AddPage(wTab, appShortName, true);	
+	if(result->active_task_state == 1){
+		int pageIndex = GetPageIndex(wTab);
+		SetPageImageIndex(pageIndex, 0); // this is a running process
+	}
+	m_windows.push_back(wTab);
+	//Update screen
+	if ( m_windows.size() == 1 ) {
+		SetSelection(0);
+	}
+	GetParent()->GetSizer()->Layout();
+	Thaw();
+}
+
+void WorkunitNotebook::ReskinAppGUI() {
+	m_ImageList.clear();
+	m_ImageList.push_back(*(appSkin->GetIcnWorkingWkUnit()));
+	SetImageList(&m_ImageList);
+	SetTabAreaColour(appSkin->GetAppBgCol());
+	SetUseBackground(true);
+	SetGradientColors(appSkin->GetTabFromColAc(),appSkin->GetTabToColAc(),appSkin->GetTabBrdColAc());
+	SetGradientColorsInactive(appSkin->GetTabFromColIn(),appSkin->GetTabToColIn(),appSkin->GetTabBrdColIn());
+ 	for(int i = 0; i < (int)m_windows.size(); i++){
+		CViewTabPage *wTab = m_windows.at(i);
+		wTab->ReskinInterface();
+	}
+}
+
+void WorkunitNotebook::Update() {
+	CMainDocument* pDoc     = wxGetApp().GetDocument();
+
+	// Mark all inactive (this lets us loop only once)
+	for(int x = 0; x < (int)m_windows.size(); x ++)
+	{
+		CViewTabPage *currTab = m_windows[x];
+		currTab->isAlive = false;
+	}
+	// First update existing pages and add new ones
+	RESULT* result;
+	for(int i = 0; i < (int) pDoc->results.results.size(); i++){
+		bool found = false;
+		result = pDoc->result(i);
+		// only check tasks that are active
+		if ( result == NULL || !result->active_task ) {
+			continue;
+		}
+		// loop through the open tabs to find 
+		for(int j = 0; j < (int)m_windows.size(); j++) {
+			CViewTabPage *currTab = m_windows[j];
+			if(result->name == currTab->GetTabName()){
+				currTab->resultWU = result;
+		        currTab->UpdateInterface();
+				if(result->active_task_state == 1 && this->GetPageImageIndex(j) != 0){
+					SetPageImageIndex(j, 0); // this result is current running
+				} else if ( result->active_task_state != 1 && this->GetPageImageIndex(j) != -1 ) {
+					SetPageImageIndex(j, -1); // this result is not running
+				}
+				found = true;
+				currTab->isAlive = true;
+				break; // skip out of this loop
+			}
+		}
+
+		// if it isn't currently one of the tabs then we have a new one!  lets add it
+		if ( !found ) {
+			AddTab(result);
+		}
+
+	}
+
+	int deleteIndex = 0;
+	for(int x = 0; x < (int)m_windows.size(); x ++) {
+		CViewTabPage *currTab = m_windows[x];
+		if(!currTab->isAlive){
+			//delete the notebook page
+			DeletePage(deleteIndex);
+			//delete the page in vector
+			m_windows.erase(m_windows.begin()+x);
+		}else{
+			deleteIndex++;
+		}
+	}
+}
+
+void WorkunitNotebook::OnChangeSlide(wxTimerEvent& WXUNUSED(event)) {
+	for(int x = 0; x < (int)m_windows.size(); x ++) {
+		CViewTabPage *currTab = m_windows[x];
+		currTab->GetCanvas()->AdvanceSlide();
+	}
+}
+
+

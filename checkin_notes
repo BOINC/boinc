@@ -10597,8 +10597,7 @@ Kevin  29 Sept 2006
     	  within the allocated space
    		- Fix bug that makes sure that the BSG will be displayed on the screen if the 
    		  values of the previous location are corrupted for some reason
- 
-        
+    
     clientgui/
         BOINCGUIApp.cpp
         sg_BoincSimpleGUI.cpp
@@ -10836,7 +10835,6 @@ Kevin  5 Oct 2006
     	  within the allocated space
     	- These changes should have been checked in with my changes on Sept 29
  
-        
     clientgui/
         sg_ImageButton.cpp
         sg_ViewTabPage.cpp/h
@@ -10968,3 +10966,20 @@ David  9 Oct 2006
 		client_types.C,h
 		cs_scheduler.C
 		cs_statefile.C
+
+Kevin  29 Sept 2006
+    - BSG
+ 		- Make sure project section renders even if the manager cannot connect to the core client
+		- Eliminate dual timer issue if you change skins and have a slide show running
+		- Extend the wxFlatNotebook and moved all code related to the notebook and workunits into the new class (WorkunitNotebook)
+		- Change the height of the BSG to 570 pixels (from 600)
+		- Change the display area for the slide show to eliminate black border except where required by text for show graphics.  New dimensions are width = 290, height = 126 
+		- Check for updated slideshows after a project RPC and any files finish downloading  
+
+    clientgui/
+        sg_BoincSimpleGUI.cpp/h
+        sg_ClientStateIndicator.cpp
+        sg_ProjectsComponent.cpp
+        sg_StatImageLoader.cpp/h
+        sg_ViewTabPage.cpp/h
+        

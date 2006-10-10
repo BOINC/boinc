@@ -29,6 +29,13 @@ StatImageLoader::StatImageLoader(wxWindow* parent, std::string url) : wxWindow(p
     CreateMenu();
 }
 
+StatImageLoader::~StatImageLoader() {
+	if ( attemptToReloadTimer <= NULL ) {
+		attemptToReloadTimer->Stop();
+		delete attemptToReloadTimer;
+	}
+}
+
 void StatImageLoader::PopUpMenu(wxMouseEvent& WXUNUSED(event)) 
 { 
 	// pop up menu

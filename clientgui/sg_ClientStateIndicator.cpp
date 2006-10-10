@@ -264,10 +264,14 @@ void ClientStateIndicator::DisplayState() {
 		}
 	} else {
 		if ( error_time == 0 ) {
-			error_time = time(NULL) + 15;
+			error_time = time(NULL) + 10;
 			SetActionState(_T("Retrieving current status"));
 		} else if ( error_time < time(NULL) ) {
-			SetNoActionState(_T("No work available to process"));
+			if ( pDoc->IsConnected() ) {
+				SetNoActionState(_T("No work available to process"));
+			} else {
+				SetNoActionState(_T("Unable to connect to the core client"));
+			}
 		} else {
 			SetActionState(_T("Retrieving current status"));
 		}

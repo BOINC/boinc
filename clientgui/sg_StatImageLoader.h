@@ -17,6 +17,7 @@ public:
 		std::string m_prjUrl;
 	    /// Constructors
 		StatImageLoader(wxWindow* parent, std::string url); 
+		~StatImageLoader(); 
         void LoadImage(std::string project_icon, wxBitmap* defaultImage); 
 		void CreateMenu();
 		void OnMenuLinkClicked(wxCommandEvent& event);

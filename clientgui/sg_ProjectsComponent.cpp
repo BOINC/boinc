@@ -92,35 +92,38 @@ void CProjectsComponent::CreateComponent()
 	lnMyProjTop->SetLineColor(appSkin->GetStaticLineCol());
 	/////////////// ICONS /////////////////////
 	CMainDocument* pDoc     = wxGetApp().GetDocument();
-    m_projCnt = pDoc->GetProjectCount();
+	m_projCnt = 0;
 	projectIconName = "stat_icon";
-	defaultIcnPath[256];
-	// url of project directory
-	urlDirectory[256];
+	if ( pDoc->IsConnected() ) {
+		m_projCnt = pDoc->GetProjectCount();
+		defaultIcnPath[256];
+		// url of project directory
+		urlDirectory[256];
 
-	for(int j = 0; j < m_projCnt; j++){
-		PROJECT* project = pDoc->state.projects[j];
-		//user credit text
-		userCredit.Printf(wxT("%0.2f"), project->user_total_credit);
-		toolTipTxt = wxString(project->project_name.c_str(), wxConvUTF8 ) +wxT(". User ") + wxString(project->user_name.c_str(), wxConvUTF8) + wxT(" has ") + userCredit + wxT(" points."); 
-		if(j < m_maxNumOfIcons){
-			// Project button
-			wxToolTip *statToolTip = new wxToolTip(toolTipTxt);
-			StatImageLoader *i_statW = new StatImageLoader(this,project->master_url);
-			i_statW->Move(wxPoint(55 + 40*j,37));
+		for(int j = 0; j < m_projCnt; j++){
+			PROJECT* project = pDoc->state.projects[j];
+			//user credit text
+			userCredit.Printf(wxT("%0.2f"), project->user_total_credit);
+			toolTipTxt = wxString(project->project_name.c_str(), wxConvUTF8 ) +wxT(". User ") + wxString(project->user_name.c_str(), wxConvUTF8) + wxT(" has ") + userCredit + wxT(" points."); 
+			if(j < m_maxNumOfIcons){
+				// Project button
+				wxToolTip *statToolTip = new wxToolTip(toolTipTxt);
+				StatImageLoader *i_statW = new StatImageLoader(this,project->master_url);
+				i_statW->Move(wxPoint(55 + 40*j,37));
 			
-			// resolve the proj image 
-			url_to_project_dir((char*)project->master_url.c_str() ,urlDirectory);
-			dirProjectGraphic = (std::string)urlDirectory + "/" + projectIconName;
-			i_statW->LoadImage(dirProjectGraphic, appSkin->GetDefaultStatIcn());
-			i_statW->SetToolTip(statToolTip);
+				// resolve the proj image 
+				url_to_project_dir((char*)project->master_url.c_str() ,urlDirectory);
+				dirProjectGraphic = (std::string)urlDirectory + "/" + projectIconName;
+				i_statW->LoadImage(dirProjectGraphic, appSkin->GetDefaultStatIcn());
+				i_statW->SetToolTip(statToolTip);
 			
-			// push icon in the vector
-			m_statProjects.push_back(i_statW);
-			//increment left index
-			m_rightIndex ++;
-		}
+				// push icon in the vector
+				m_statProjects.push_back(i_statW);
+				//increment left index
+				m_rightIndex ++;
+			}
 		
+		}
 	}
 	//// Arrow Btns
 	btnArwLeft=new wxBitmapButton(this,-1,*(appSkin->GetBtnLeftArr()),wxPoint(29,47),wxSize(20,20),wxNO_BORDER);

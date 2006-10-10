@@ -34,6 +34,7 @@ class ClientStateIndicator;
 
 #include "common/wxAnimate.h"
 #include "common/wxFlatNotebook.h"
+#include "sg_ViewTabPage.h"
 
 // Define a new frame
 class CSimpleFrame : public CBOINCBaseFrame
@@ -48,9 +49,7 @@ public:
 
 	//
 	// Flat Neotebook
-	std::vector<CViewTabPage*> m_windows; // vector of all window tabs created for notebook
-	wxFlatNotebookImageList m_ImageList;
-	wxFlatNotebook *wrkUnitNB;
+	WorkunitNotebook *wrkUnitNB;
     wxBitmap const workWUico;
 	//Skin Class
     SkinClass *appSkin;
@@ -64,7 +63,6 @@ public:
 	bool btmAppCollapsed;
 	////////////////////////////;
 	bool projectViewInitialized;
-	bool resultViewInitialized;
 	bool emptyViewInitialized;
 	bool notebookViewInitialized;
 
@@ -72,7 +70,6 @@ public:
 	void UpdateEmptyView();
 	void DestroyEmptyView();
     void InitResultView();
-	void UpdateResultView();
 	void InitProjectView();
 	void UpdateProjectView();
 	void ReskinAppGUI();
