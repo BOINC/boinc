@@ -10982,4 +10982,21 @@ Kevin  9 Oct 2006
         sg_ProjectsComponent.cpp
         sg_StatImageLoader.cpp/h
         sg_ViewTabPage.cpp/h
-        
+
+Charlie 10 Oct 2006
+    - Mac: Update XCode project for wxPieCtrl.  NOTE: new ViewResources.cpp 
+        causes very serious crash on Mac (totally crashes system, requires 
+        restarting computer.)  wxPieCtrl web site says it has been tested 
+        only for wxMSW and wxGTK.  So as a temporary workaround I have 
+        added "#ifndef __WXMAC__" in 2 places in ViewResources.cpp
+    - Mac: Update release scripts to include COPYRIGHT and COPYING LGPL 
+        files in distributions.
+
+    clientgui/
+        ViewResources.cpp
+    mac_build/
+        boinc.xcodeproj/
+            project.pbxproj
+    mac_installer/
+        release_boinc.sh
+        Postinstall.cpp

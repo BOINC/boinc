@@ -128,6 +128,12 @@ mkdir -p ../BOINC_Installer/New_Release_$1_$2_$3/boinc_$1.$2.$3_macOSX_SymbolTab
 cp -fp ../BOINC_Installer/Installer\ Resources/ReadMe.rtf ../BOINC_Installer/New_Release_$1_$2_$3/boinc_$1.$2.$3_macOSX_universal
 sudo chown -R 501:admin ../BOINC_Installer/New_Release_$1_$2_$3/boinc_$1.$2.$3_macOSX_universal/ReadMe.rtf
 sudo chmod -R 644 ../BOINC_Installer/New_Release_$1_$2_$3/boinc_$1.$2.$3_macOSX_universal/ReadMe.rtf
+cp -fp COPYING ../BOINC_Installer/New_Release_$1_$2_$3/boinc_$1.$2.$3_macOSX_universal
+sudo chown -R 501:admin ../BOINC_Installer/New_Release_$1_$2_$3/boinc_$1.$2.$3_macOSX_universal/COPYING
+sudo chmod -R 644 ../BOINC_Installer/New_Release_$1_$2_$3/boinc_$1.$2.$3_macOSX_universal/COPYING
+cp -fp COPYRIGHT ../BOINC_Installer/New_Release_$1_$2_$3/boinc_$1.$2.$3_macOSX_universal
+sudo chown -R 501:admin ../BOINC_Installer/New_Release_$1_$2_$3/boinc_$1.$2.$3_macOSX_universal/COPYRIGHT
+sudo chmod -R 644 ../BOINC_Installer/New_Release_$1_$2_$3/boinc_$1.$2.$3_macOSX_universal/COPYRIGHT
 
 # Copy the installer wrapper application "BOINC Installer.app"
 cp -fpR $BUILDPATH/BOINC\ Installer.app ../BOINC_Installer/New_Release_$1_$2_$3/boinc_$1.$2.$3_macOSX_universal/
@@ -139,6 +145,10 @@ sudo chmod u+w,g+w,o+w ../BOINC_Installer/New_Release_$1_$2_$3/boinc_$1.$2.$3_ma
 # Build the stand-alone client distribution
 cp -fpR mac_build/Mac_SA_Insecure.sh ../BOINC_Installer/New_Release_$1_$2_$3/boinc_$1.$2.$3_universal-apple-darwin/
 cp -fpR mac_build/Mac_SA_Secure.sh ../BOINC_Installer/New_Release_$1_$2_$3/boinc_$1.$2.$3_universal-apple-darwin/
+cp -fpR COPYING ../BOINC_Installer/New_Release_$1_$2_$3/boinc_$1.$2.$3_universal-apple-darwin/
+cp -fpR COPYRIGHT ../BOINC_Installer/New_Release_$1_$2_$3/boinc_$1.$2.$3_universal-apple-darwin/
+sudo chown -R 501:admin ../BOINC_Installer/New_Release_$1_$2_$3/boinc_$1.$2.$3_universal-apple-darwin/*
+sudo chmod -R 644 ../BOINC_Installer/New_Release_$1_$2_$3/boinc_$1.$2.$3_universal-apple-darwin/*
 
 mkdir -p ../BOINC_Installer/New_Release_$1_$2_$3/boinc_$1.$2.$3_universal-apple-darwin/move_to_boinc_dir
 cp -fpR $BUILDPATH/boinc ../BOINC_Installer/New_Release_$1_$2_$3/boinc_$1.$2.$3_universal-apple-darwin/move_to_boinc_dir/
@@ -150,8 +160,8 @@ cp -fpR $BUILDPATH/switcher ../BOINC_Installer/New_Release_$1_$2_$3/boinc_$1.$2.
 cp -fpR $BUILDPATH/setprojectgrp ../BOINC_Installer/New_Release_$1_$2_$3/boinc_$1.$2.$3_universal-apple-darwin/move_to_boinc_dir/switcher/
 cp -fpR $BUILDPATH/AppStats ../BOINC_Installer/New_Release_$1_$2_$3/boinc_$1.$2.$3_universal-apple-darwin/move_to_boinc_dir/switcher/
 
-sudo chown -R root:admin ../BOINC_Installer/New_Release_$1_$2_$3/boinc_$1.$2.$3_universal-apple-darwin/*
-sudo chmod -R u+rw-s,g+r-ws,o+r-w ../BOINC_Installer/New_Release_$1_$2_$3/boinc_$1.$2.$3_universal-apple-darwin/*
+sudo chown -R root:admin ../BOINC_Installer/New_Release_$1_$2_$3/boinc_$1.$2.$3_universal-apple-darwin/move_to_boinc_dir/*
+sudo chmod -R u+rw-s,g+r-ws,o+r-w ../BOINC_Installer/New_Release_$1_$2_$3/boinc_$1.$2.$3_universal-apple-darwin/move_to_boinc_dir/*
 
 cp -fpR $BUILDPATH/SymbolTables ../BOINC_Installer/New_Release_$1_$2_$3/boinc_$1.$2.$3_macOSX_SymbolTables/
 

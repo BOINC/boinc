@@ -205,6 +205,8 @@
 		DD40826307D3076400163EF5 /* reduce_main.C in Sources */ = {isa = PBXBuildFile; fileRef = DD40825807D3076400163EF5 /* reduce_main.C */; };
 		DD40826507D3076400163EF5 /* x_opengl.C in Sources */ = {isa = PBXBuildFile; fileRef = DD40825A07D3076400163EF5 /* x_opengl.C */; };
 		DD40D05107F03A030096C645 /* Carbon.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 20286C33FDCF999611CA2CEA /* Carbon.framework */; };
+		DD40E7610ADB87BC00214518 /* wxPieCtrl.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DD40E75D0ADB87BC00214518 /* wxPieCtrl.cpp */; };
+		DD40E7620ADB87BC00214518 /* wxPieCtrl.h in CopyFiles */ = {isa = PBXBuildFile; fileRef = DD40E75E0ADB87BC00214518 /* wxPieCtrl.h */; };
 		DD431F230A415EDF0060585A /* SetupSecurity.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DD7748B40A356D6C0025D05E /* SetupSecurity.cpp */; };
 		DD431F240A415EE70060585A /* SetupSecurity.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DD7748B40A356D6C0025D05E /* SetupSecurity.cpp */; };
 		DD431FAA0A41660D0060585A /* Carbon.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 20286C33FDCF999611CA2CEA /* Carbon.framework */; };
@@ -254,6 +256,7 @@
 		DD65020B09F599B9008E8A3A /* txf_util.C in Sources */ = {isa = PBXBuildFile; fileRef = DD65020809F599B9008E8A3A /* txf_util.C */; };
 		DD6617880A3FFD8C00FFEBEB /* check_security.C in Sources */ = {isa = PBXBuildFile; fileRef = DD6617870A3FFD8C00FFEBEB /* check_security.C */; };
 		DD6617890A3FFD8C00FFEBEB /* check_security.C in Sources */ = {isa = PBXBuildFile; fileRef = DD6617870A3FFD8C00FFEBEB /* check_security.C */; };
+		DD67F8140ADB9DD000B0015E /* wxPieCtrl.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DD40E75D0ADB87BC00214518 /* wxPieCtrl.cpp */; };
 		DD69FEF508416C6B00C01361 /* gui_rpc_client.C in Sources */ = {isa = PBXBuildFile; fileRef = DD81C5CC07C5D7D90098A04D /* gui_rpc_client.C */; };
 		DD69FEF708416C9A00C01361 /* boinc_cmd.C in Sources */ = {isa = PBXBuildFile; fileRef = DD69FEF608416C9A00C01361 /* boinc_cmd.C */; };
 		DD69FF0C084171CF00C01361 /* network.C in Sources */ = {isa = PBXBuildFile; fileRef = DD6D0A8507E9A61B007F882B /* network.C */; };
@@ -886,6 +889,7 @@
 			dstSubfolderSpec = 10;
 			files = (
 				DDD7F08007F0686100BA3B90 /* SystemMenu.bundle in CopyFiles */,
+				DD40E7620ADB87BC00214518 /* wxPieCtrl.h in CopyFiles */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -978,7 +982,7 @@
 		DD344BEE07C5B1770043025C /* proxy_info.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = proxy_info.h; path = ../lib/proxy_info.h; sourceTree = SOURCE_ROOT; };
 		DD344BEF07C5B1770043025C /* proxy_info.C */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.cpp.cpp; name = proxy_info.C; path = ../lib/proxy_info.C; sourceTree = SOURCE_ROOT; };
 		DD35353107E1E05C00C4718D /* libboinc_api.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libboinc_api.a; sourceTree = BUILT_PRODUCTS_DIR; };
-		DD3E15420A774397007E0084 /* sgBOINCManager.app */ = {isa = PBXFileReference; includeInIndex = 0; lastKnownFileType = wrapper.application; path = sgBOINCManager.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		DD3E15420A774397007E0084 /* sgBOINCManager.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = sgBOINCManager.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		DD407A4A07D2FB1200163EF5 /* libboinc.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libboinc.a; sourceTree = BUILT_PRODUCTS_DIR; };
 		DD407AB707D2FC7D00163EF5 /* mem_usage.C */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.cpp.cpp; name = mem_usage.C; path = ../lib/mem_usage.C; sourceTree = SOURCE_ROOT; };
 		DD407AB807D2FC7D00163EF5 /* mem_usage.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = mem_usage.h; path = ../lib/mem_usage.h; sourceTree = SOURCE_ROOT; };
@@ -1001,6 +1005,8 @@
 		DD40CDF907F0386A0096C645 /* SystemMenu.bundle */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = SystemMenu.bundle; sourceTree = BUILT_PRODUCTS_DIR; };
 		DD40CDFA07F0386B0096C645 /* SystemMenu-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.xml; path = "SystemMenu-Info.plist"; sourceTree = SOURCE_ROOT; };
 		DD40CDFE07F038990096C645 /* SystemMenu.m */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.objc; name = SystemMenu.m; path = ../clientgui/mac/SystemMenu.m; sourceTree = SOURCE_ROOT; };
+		DD40E75D0ADB87BC00214518 /* wxPieCtrl.cpp */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.cpp.cpp; name = wxPieCtrl.cpp; path = ../clientgui/common/wxPieCtrl.cpp; sourceTree = SOURCE_ROOT; };
+		DD40E75E0ADB87BC00214518 /* wxPieCtrl.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = wxPieCtrl.h; path = ../clientgui/common/wxPieCtrl.h; sourceTree = SOURCE_ROOT; };
 		DD48091E081A66F100A174AA /* BOINCSaver.nib */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; name = BOINCSaver.nib; path = ../clientgui/mac/BOINCSaver.nib; sourceTree = SOURCE_ROOT; };
 		DD4C560A0AD389A2009E23C6 /* sg_ClientStateIndicator.cpp */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.cpp.cpp; name = sg_ClientStateIndicator.cpp; path = ../clientgui/sg_ClientStateIndicator.cpp; sourceTree = SOURCE_ROOT; };
 		DD4C560B0AD389A2009E23C6 /* sg_ClientStateIndicator.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = sg_ClientStateIndicator.h; path = ../clientgui/sg_ClientStateIndicator.h; sourceTree = SOURCE_ROOT; };
@@ -1613,6 +1619,8 @@
 				DDCE78300A70BD55008218B6 /* wxFlatNotebook.cpp */,
 				DDCE78310A70BD55008218B6 /* wxFlatNotebook.h */,
 				DDCE78320A70BD55008218B6 /* wxFNBDropTarget.h */,
+				DD40E75D0ADB87BC00214518 /* wxPieCtrl.cpp */,
+				DD40E75E0ADB87BC00214518 /* wxPieCtrl.h */,
 			);
 			name = common;
 			sourceTree = "<group>";
@@ -2571,6 +2579,7 @@
 				DD9C94A60A5A3A4100AB0D10 /* BOINCBaseFrame.cpp in Sources */,
 				DDCE78390A70BDC6008218B6 /* app_ipc.C in Sources */,
 				DDCE783B0A70BDFD008218B6 /* proxy_info.C in Sources */,
+				DD40E7610ADB87BC00214518 /* wxPieCtrl.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -2695,6 +2704,7 @@
 				DD4C561C0AD389A2009E23C6 /* sg_ProgressBar.cpp in Sources */,
 				DD4C561E0AD389A2009E23C6 /* sg_SGUIListControl.cpp in Sources */,
 				DD4C56200AD389A2009E23C6 /* sg_StaticLine.cpp in Sources */,
+				DD67F8140ADB9DD000B0015E /* wxPieCtrl.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -5604,6 +5614,8 @@
 				GCC_PFE_FILE_C_DIALECTS = "c++";
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = ../clientgui/mac/MacGUI.pch;
+				GCC_WARN_ABOUT_RETURN_TYPE = NO;
+				GCC_WARN_UNUSED_VARIABLE = YES;
 				HEADER_SEARCH_PATHS = (
 					"../../wxMac-2.6.3/src/build/include/wx/",
 					"../../wxMac-2.6.3/include",
