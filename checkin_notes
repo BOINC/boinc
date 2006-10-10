@@ -10967,7 +10967,7 @@ David  9 Oct 2006
 		cs_scheduler.C
 		cs_statefile.C
 
-Kevin  29 Sept 2006
+Kevin  9 Oct 2006
     - BSG
  		- Make sure project section renders even if the manager cannot connect to the core client
 		- Eliminate dual timer issue if you change skins and have a slide show running
