@@ -189,6 +189,9 @@ language("Polish", array(
 language("Portuguese", array(
     site( "http://portugalathome.pt.vu/", "Portugal@home")
 ));
+language("Romanian", array(
+    site( "http://www.boinc.ro/", "SETI@home Romania")
+));
 language("Russian", array(
     site("http://www.boinc.ru", "BOINC.ru"),
     site("http://distributed.ru", "distributed.ru")

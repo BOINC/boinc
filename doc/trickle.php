@@ -33,6 +33,12 @@ containing a summary of the computational state,
 so that server logic can decide if the computation should be aborted.
 </ul>
 
+<p>
+To create a trickle handler daemon, modify the program
+<code>sched/trickle_handler.C</code>, replacing the function
+<code>handle_trickle()</code> with your own function.
+Add an entry in your <a href=configuration.php>config.xml</a>
+to run this program as a daemon.
 
 <h3>Trickle-down messages</h3>
 <p>

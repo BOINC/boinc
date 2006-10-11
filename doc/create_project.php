@@ -90,6 +90,7 @@ Creating a BOINC project
 <li> <a href=code_signing.php>Code signing</a>
 </ul>
 <li> <a href=tool_upgrade.php>Upgrading a project's server software</a>
+<li> <a href=multi_host.php>Multiple server hosts</a>
 
 </ul>
 

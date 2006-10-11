@@ -11000,3 +11000,21 @@ Charlie 10 Oct 2006
     mac_installer/
         release_boinc.sh
         Postinstall.cpp
+
+David  11 Oct 2006
+    - core client: add project dir to LD_LIBRARY_PATH env var
+        when running apps on Linux.
+        This is a first step towards letting apps dynamically
+        link to .so files without having to use <copy_file/>
+        to put them in the slot dir.
+        NOTE: not quite there yet; need to avoid creating
+        symlink file in slot dir.
+    - core client: bug fix so that output file references
+        with <copy_file/> set are handled correctly.
+    - core client: #ifdef Curl bandwidth-limit calls
+        (workaround until I can get libcurl 7.15.5 installed on isaac)
+    client/
+        app_start.C
+        http_curl.C
+    sched/
+        trickle_handler.C

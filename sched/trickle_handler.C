@@ -17,8 +17,8 @@
 // or write to the Free Software Foundation, Inc.,
 // 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 
+// trickle_handler - framework for trickle-up message handler
 //
-// trickle_handler - process trickle-up messages
 //  -variety variety
 //  [-d debug_level]
 //  [-one_pass]     // make one pass through table, then exit

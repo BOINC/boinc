@@ -236,7 +236,7 @@ int ACTIVE_TASK::write_app_init_file() {
 //
 static int setup_file(
     WORKUNIT* wup, FILE_INFO* fip, FILE_REF& fref,
-    char* file_path, char* slot_dir
+    char* file_path, char* slot_dir, bool input
 ) {
     char link_path[256], buf[256];
     int retval;
@@ -246,27 +246,32 @@ static int setup_file(
         slot_dir, strlen(fref.open_name)?fref.open_name:fip->name
     );
     sprintf(buf, "../../%s", file_path );
+
     if (fref.copy_file) {
-        retval = boinc_copy(file_path, link_path);
-        if (retval) {
-            msg_printf(wup->project, MSG_ERROR,
-                "Can't copy %s to %s", file_path, link_path
-            );
-            return retval;
+        if (input) {
+            retval = boinc_copy(file_path, link_path);
+            if (retval) {
+                msg_printf(wup->project, MSG_ERROR,
+                    "Can't copy %s to %s", file_path, link_path
+                );
+                return retval;
+            }
         }
-    } else {
-        // if anonymous platform, link may already be there
-        //
-        if (wup->project->anonymous_platform && boinc_file_exists(link_path)) {
-            return 0;
-        }
-        retval = make_link(buf, link_path);
-        if (retval) {
-            msg_printf(wup->project, MSG_ERROR,
-                "Can't link %s to %s", file_path, link_path
-            );
-            return retval;
-        }
+        return 0;
+    }
+
+    // if anonymous platform, link may already be there
+    //
+    if (input && wup->project->anonymous_platform && boinc_file_exists(link_path)) {
+        return 0;
+    }
+
+    retval = make_link(buf, link_path);
+    if (retval) {
+        msg_printf(wup->project, MSG_ERROR,
+            "Can't link %s to %s", file_path, link_path
+        );
+        return retval;
     }
     return 0;
 }
@@ -385,7 +390,7 @@ int ACTIVE_TASK::start(bool first_time) {
         // when the result was started
         //
         if (first_time || wup->project->anonymous_platform) {
-            retval = setup_file(wup, fip, fref, file_path, slot_dir);
+            retval = setup_file(wup, fip, fref, file_path, slot_dir, true);
             if (retval) {
                 strcpy(buf, "Can't link input file");
                 goto error;
@@ -405,7 +410,7 @@ int ACTIVE_TASK::start(bool first_time) {
             fref = wup->input_files[i];
             fip = fref.file_info;
             get_pathname(fref.file_info, file_path);
-            retval = setup_file(wup, fip, fref, file_path, slot_dir);
+            retval = setup_file(wup, fip, fref, file_path, slot_dir, true);
             if (retval) {
                 strcpy(buf, "Can't link input file");
                 goto error;
@@ -416,7 +421,7 @@ int ACTIVE_TASK::start(bool first_time) {
             if (fref.copy_file) continue;
             fip = fref.file_info;
             get_pathname(fref.file_info, file_path);
-            retval = setup_file(wup, fip, fref, file_path, slot_dir);
+            retval = setup_file(wup, fip, fref, file_path, slot_dir, false);
             if (retval) {
                 strcpy(buf, "Can't link output file");
                 goto error;
@@ -581,11 +586,16 @@ int ACTIVE_TASK::start(bool first_time) {
     }
     if (pid == 0) {
         // from here on we're running in a new process.
-        // If an error happens, exit nonzero so that the core client
-        // knows there was a problem.
+        // If an error happens,
+        // exit nonzero so that the core client knows there was a problem.
 
-        // chdir() into the slot directory
+        // add project dir to library path
         //
+        char libpath[8192];
+        get_project_dir(wup->project, buf);
+        sprintf(libpath, "%:%s", getenv("LD_LIBRARY_PATH"), buf);
+        setenv("LD_LIBRARY_PATH", libpath, 1);
+
         retval = chdir(slot_dir);
         if (retval) {
             perror("chdir");

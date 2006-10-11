@@ -1,6 +1,20 @@
 <?
 
 $project_news = array(
+array("October 9, 2006",
+    "Interested in getting a one-CPU-month job finished in five minutes?
+    BOINC can potentially help you do this, but
+    <a href=low_latency.php>some work is needed</a>."
+),
+array("October 8, 2006",
+    "Versions of BOINC (and some applications) are now
+    available for
+    Solaris (x86, i686, SPARC),
+    Linux (Alpha, SPARC),
+    FreeBSD (x86, Alpha) and
+    HPUX (including the BOINC Manager) from
+    <a href=http://www.lb.shuttle.de/apastron/boincDown.shtml>www.lb.shuttle.de</a>."
+),
 array("October 4, 2006",
     "Eric Korpela and David Anderson were interviewed today
     by Mike O'Connell of BOINC UK.

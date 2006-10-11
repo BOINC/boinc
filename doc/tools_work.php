@@ -37,6 +37,7 @@ This is useful while testing and debugging the application.
 
 
 <h2>Workunit and result template files</h2>
+<a name=wu_template></a>
 <p>
 A workunit template file has the form
 <pre>",htmlspecialchars("
@@ -93,6 +94,7 @@ Within a &lt;file_ref> element,
 giving the filename.
 </ul>
 
+<a name=result_template></a>
 <p>
 A result template file has the form
 <pre>", htmlspecialchars("
