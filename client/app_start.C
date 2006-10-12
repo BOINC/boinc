@@ -593,7 +593,7 @@ int ACTIVE_TASK::start(bool first_time) {
         //
         char libpath[8192];
         get_project_dir(wup->project, buf);
-        sprintf(libpath, "%:%s", getenv("LD_LIBRARY_PATH"), buf);
+        sprintf(libpath, "%s:%s", getenv("LD_LIBRARY_PATH"), buf);
         setenv("LD_LIBRARY_PATH", libpath, 1);
 
         retval = chdir(slot_dir);

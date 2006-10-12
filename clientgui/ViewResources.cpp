@@ -59,7 +59,7 @@ CViewResources::CViewResources(wxNotebook* pNotebook) :
 	//create a default task pane 
     m_pTaskPane = new CBOINCTaskCtrl(this, ID_TASK_RESOURCEUTILIZATIONVIEW, DEFAULT_TASK_FLAGS);
     wxASSERT(m_pTaskPane);
-#ifndef __WXMAC__       // wxPieCtrl crashes Mac
+
 	// create pie chart ctrl for total disk usage
 	m_pieCtrlTotal = new wxPieCtrl(this, ID_LIST_RESOURCEUTILIZATIONVIEWTOTAL, wxDefaultPosition, wxSize(-1,-1));
 	wxASSERT(m_pieCtrlTotal);
@@ -102,7 +102,7 @@ CViewResources::CViewResources(wxNotebook* pNotebook) :
     SetSizer(itemFlexGridSizer);
 
     Layout();
-#endif      // __WXMAC__       // wxPieCtrl crashes Mac
+
 	m_pTaskPane->UpdateControls();
 
     UpdateSelection();
@@ -181,7 +181,6 @@ void CViewResources::OnListRender( wxTimerEvent& WXUNUSED(event) ) {
 	wxString diskspace;
 	double boinctotal=0.0;
 
-#ifndef __WXMAC__       // wxPieCtrl crashes Mac
 	//clear former data
 	m_pieCtrlBOINC->m_Series.Clear();
 	m_pieCtrlTotal->m_Series.Clear();
@@ -259,7 +258,6 @@ void CViewResources::OnListRender( wxTimerEvent& WXUNUSED(event) ) {
 	//force a repaint of the legend (doesn't work if not explicitly resized)
 	m_pieCtrlTotal->GetLegend()->SetSize(wxSize(10,10));
 	m_pieCtrlTotal->Refresh();
-#endif      // __WXMAC__       // wxPieCtrl crashes Mac
 }
 
 wxInt32 CViewResources::FormatDiskSpace(wxInt32 item, wxString& strBuffer) const {

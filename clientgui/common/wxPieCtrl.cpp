@@ -122,6 +122,10 @@ void wxPieCtrlLegend::OnPaint(wxPaintEvent & event)
 		dy += (th+3);
 		maxwidth = max(maxwidth, (int)(2*m_HorBorder+tw+15));
 	}
+#ifdef __WXMAC__
+        if (maxwidth == 0)
+            return;
+#endif
 	dy += m_VerBorder;
 	if(w != maxwidth || h != dy) SetSize(maxwidth, dy);
 	pdc.Blit(0,0,w,h,&mdc,0,0);
@@ -130,6 +134,9 @@ void wxPieCtrlLegend::OnPaint(wxPaintEvent & event)
 void wxPieCtrlLegend::SetLabelFont(wxFont font)
 {
 	m_LabelFont = font;
+#ifdef __WXMAC__
+	m_TitleFont = font;
+#endif
 	Refresh();
 }
 
@@ -185,8 +192,14 @@ void wxPieCtrl::OnSize(wxSizeEvent & event)
 
 void wxPieCtrl::RecreateCanvas()
 {
-	m_CanvasBitmap.Create(GetSize().GetWidth(), GetSize().GetHeight());
-	m_CanvasDC.SelectObject(m_CanvasBitmap);
+    int x = GetSize().GetWidth();
+    int y = GetSize().GetHeight();
+#ifdef __WXMAC__
+    if ((x < 1) || (y < 1))
+        return;
+#endif
+ 	m_CanvasBitmap.Create(x, y);
+   	m_CanvasDC.SelectObject(m_CanvasBitmap);
 }
 
 void wxPieCtrl::GetPartAngles(wxArrayDouble & angles)
@@ -235,7 +248,7 @@ void wxPieCtrl::SetBackColour(wxColour colour)
 	Refresh();
 }
 
-#ifdef __WXMSW__
+#if defined(__WXMSW__) || defined(__WXMAC__)
 void wxPieCtrl::DrawParts(wxMemoryDC & dc, int cx, int cy, int w, int h)
 {
 	if(m_bDrawCircle) {
@@ -259,8 +272,13 @@ void wxPieCtrl::DrawParts(wxMemoryDC & dc, int cx, int cy, int w, int h)
 		{				
 			if(!m_ShowEdges) dc.SetPen(wxPen(m_Series[i-1].GetColour()));
 			dc.SetBrush(wxBrush(m_Series[i-1].GetColour()));
-			if(angles[i-1] != angles[i])
+			if(angles[i-1] != angles[i]) {
+#ifdef __WXMAC__                // Convert angles to ints and back to doubles to avoid roundoff error which causes gaps between parts
+				dc.DrawEllipticArc(0, (int)((1-sin(m_Angle))*(h/2)+cy), w, (int)(h * sin(m_Angle)), (double)((int)angles[i-1]+m_RotationAngle/M_PI*180), (double)((int)angles[i]+m_RotationAngle/M_PI*180));						
+#else
 				dc.DrawEllipticArc(0, (int)((1-sin(m_Angle))*(h/2)+cy), w, (int)(h * sin(m_Angle)), angles[i-1]+m_RotationAngle/M_PI*180, angles[i]+m_RotationAngle/M_PI*180);						
+#endif
+                        }
 		}
 	}
 	if(m_Series.Count() == 1)
@@ -307,13 +325,13 @@ void wxPieCtrl::Draw(wxPaintDC & pdc)
 		}	
 		if(m_Series.Count())
 		{
-#ifdef __WXMSW__
+#if defined(__WXMSW__) || defined(__WXMAC__)
 			if(m_Angle <= M_PI/2)
 			{	
 				DrawParts(m_CanvasDC, 0, (int)(m_Height*cos(m_Angle)), w,h);				
 			} else DrawParts(m_CanvasDC, 0, 0, w, h);
 #endif
-			wxPoint points[4], triangle[3];	
+			wxPoint points[4];	
 			m_CanvasDC.SetPen(wxPen(*wxBLACK));	
 			wxArrayDouble angles;
 			GetPartAngles(angles);
@@ -325,7 +343,8 @@ void wxPieCtrl::Draw(wxPaintDC & pdc)
 			bool changeangle(false);
 			wxColour curColour;
 			wxPen oldPen;
-#ifndef __WXMSW__
+#if ! (defined(__WXMSW__) || defined(__WXMAC__))
+			wxPoint triangle[3];	
 			for(x = 0; x <= 2 * M_PI; x += 0.05)
 			{
 				changeangle = false;
@@ -451,7 +470,7 @@ void wxPieCtrl::Draw(wxPaintDC & pdc)
 				m_CanvasDC.DrawPolygon(4, points);			
 			}
 //-----------------------------------------------------------------------
-#ifdef __WXMSW__
+#if defined(__WXMSW__) || defined(__WXMAC__)
 			if(m_Angle <= M_PI/2)
 			{		
 				DrawParts(m_CanvasDC, 0, 0, w, h);

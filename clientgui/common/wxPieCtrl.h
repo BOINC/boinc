@@ -128,8 +128,6 @@ public:
 ///	The component for drawing pie diagrams
 class wxPieCtrl : public wxWindow
 {
-	bool m_bPaint3D;
-	bool m_bDrawCircle;
 	double m_Angle;
 	double m_RotationAngle;
 	int m_Height;
@@ -141,12 +139,14 @@ class wxPieCtrl : public wxWindow
 	wxPieCtrlLegend * m_Legend;
 	bool m_ShowEdges;	
 	void GetPartAngles(wxArrayDouble & angles);	
-#ifdef __WXMSW__
+#if defined(__WXMSW__) || defined(__WXMAC__)
 	void DrawParts(wxMemoryDC & dc, int cx, int cy, int w, int h);
 #endif
 	void RecreateCanvas();
 protected:
 	bool m_CanRepaint;
+	bool m_bPaint3D;
+	bool m_bDrawCircle;
 	void Draw(wxPaintDC & pdc);
 public:
 	/// An array of wxPiePart objects for storing information about sectors

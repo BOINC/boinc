@@ -1039,8 +1039,10 @@ void HTTP_OP::update_speed() {
 }
 
 void HTTP_OP::set_speed_limit(bool is_upload, double bytes_sec) {
-	CURLcode cc;
+	CURLcode cc = CURLE_OK;
+#if defined(CURLOPT_MAX_SEND_SPEED_LARGE) || defined(CURLOPT_MAX_RECV_SPEED_LARGE)
     curl_off_t bs = (curl_off_t)bytes_sec;
+#endif
 
     if (is_upload) {
 #ifdef CURLOPT_MAX_SEND_SPEED_LARGE

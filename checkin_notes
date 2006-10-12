@@ -11040,4 +11040,15 @@ Kevin  11 Oct 2006
         sg_SGUIListControl.cpp/h
         sg_StatImageLoader.cpp
         sg_ViewTabPage.cpp/h
-        
+
+Charlie 11 Oct 2006
+    - Fix compiler warnings and errors.
+    - Changes to wxPieCtrl to fix crashes, compiler warnings on Mac.
+
+    client/
+        app_start.C
+        http_curl.C
+    clientgui/
+        ViewResources.cpp
+        common/
+            wxPieCtrl.cpp,h
