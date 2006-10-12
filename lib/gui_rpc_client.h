@@ -83,8 +83,15 @@ public:
     bool dont_request_more_work;
     bool scheduler_rpc_in_progress;
     bool attached_via_acct_mgr;
+    double project_files_downloaded_time;
+        // when the last project file download was finished
+        // (i.e. the time when ALL project files were finished downloading)
+    double last_rpc_time;
+        // when the last successful scheduler RPC finished
+    std::vector<DAILY_STATS> statistics; // credit data over the last x days
 
-    // NOTE: if you add any data items, update copy() to include them
+    // NOTE: if you add any data items above,
+    // update copy() and clear() to include them!!
 
     PROJECT();
     ~PROJECT();
@@ -95,11 +102,8 @@ public:
     void get_name(std::string&);
     void copy(PROJECT&);        // copy to this object
 
-    // used to keep track of whether or not this record needs to be deleted
+    // temp - keep track of whether or not this record needs to be deleted
     bool flag_for_delete;
-
-    // statistic of the last x days
-    std::vector<DAILY_STATS> statistics;
 };
 
 class APP {

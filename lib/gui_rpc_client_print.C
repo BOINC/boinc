@@ -80,6 +80,8 @@ void PROJECT::print() {
     printf("   suspended via GUI: %s\n", suspended_via_gui?"yes":"no");
     printf("   don't request more work: %s\n", dont_request_more_work?"yes":"no");
     printf("   disk usage: %f\n", disk_usage);
+    printf("   last RPC: %f\n", last_rpc_time);
+    printf("   project files downloaded: %f\n", project_files_downloaded_time);
     for (i=0; i<gui_urls.size(); i++) {
         gui_urls[i].print();
     }

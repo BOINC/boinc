@@ -77,6 +77,7 @@ void PROJECT::init() {
     master_url_fetch_pending = false;
     sched_rpc_pending = 0;
     next_rpc_time = 0;
+    last_rpc_time = 0;
     trickle_up_pending = false;
     tentative = false;
     anonymous_platform = false;
@@ -97,6 +98,7 @@ void PROJECT::init() {
     work_request = 0;
     work_request_urgency = WORK_FETCH_DONT_NEED;
     duration_correction_factor = 1;
+    project_files_downloaded_time = 0;
 
     // Initialize scratch variables.
     rrsim_proc_rate = 0.0;
@@ -259,6 +261,12 @@ int PROJECT::write_state(MIOFILE& out, bool gui_rpc) {
     );
     if (gui_rpc) {
         out.printf("%s", gui_urls.c_str());
+        out.printf(
+            "    <last_rpc_time>%f</last_rpc_time>\n"
+            "    <project_files_downloaded_time>%f</project_files_downloaded_time>\n",
+            last_rpc_time,
+            project_files_downloaded_time
+        );
     } else {
        for (i=0; i<scheduler_urls.size(); i++) {
             out.printf(
@@ -550,6 +558,19 @@ int PROJECT::write_symlink_for_project_file(FILE_INFO* fip) {
         fclose(f);
     }
     return 0;
+}
+
+// a project file download just finished.
+// If it's the last one, update project_files_downloaded_time
+//
+void PROJECT::update_project_files_downloaded_time() {
+    unsigned int i;
+    for (i=0; i<project_files.size(); i++) {
+        FILE_REF& fref = project_files[i];
+        FILE_INFO* fip = fref.file_info;
+        if (fip->status != FILE_PRESENT) continue;
+    }
+    project_files_downloaded_time = gstate.now;
 }
 
 int APP::parse(MIOFILE& in) {

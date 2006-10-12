@@ -278,6 +278,7 @@ bool CLIENT_STATE::handle_pers_file_xfers() {
                 if (fip->is_project_file) {
                     PROJECT* p = fip->project;
                     p->write_symlink_for_project_file(fip);
+                    p->update_project_files_downloaded_time();
                 }
             }
             iter = pers_file_xfers->pers_file_xfers.erase(iter);

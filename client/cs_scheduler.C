@@ -827,6 +827,7 @@ int CLIENT_STATE::handle_scheduler_reply(
 
     nresults = 0;
     contacted_sched_server = true;
+    project->last_rpc_time = now;
 
     get_sched_reply_filename(*project, filename);
 

@@ -214,6 +214,10 @@ public:
     bool trickle_up_pending;    // have trickle up to send
     bool tentative;             // we haven't done a scheduler RPC to this project yet
 								// (still need to verify that its name isn't a dup)
+    double last_rpc_time;          // when last RPC finished
+
+    // Other stuff
+
     bool anonymous_platform;    // app_versions.xml file found in project dir;
                             // use those apps rather then getting from server
     bool non_cpu_intensive;
@@ -236,6 +240,11 @@ public:
     void write_project_files(MIOFILE&);
     void link_project_files(bool recreate_symlink_files);
     int write_symlink_for_project_file(FILE_INFO*);
+    double project_files_downloaded_time;
+        // when last project file download finished
+    void update_project_files_downloaded_time();
+        // called when a project file download finishes.
+        // If it's the last one, set project_files_downloaded_time to now
 
     // Multiply by this when estimating the CPU time of a result
     // (based on FLOPs estimated and benchmarks).

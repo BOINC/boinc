@@ -11058,3 +11058,22 @@ David  12 Oct 2006
 
     sched/
         handle_request.C
+
+David  12 Oct 2006
+    - core client: keep track of (per project):
+        - the last time a scheduler RPC finished
+        - the last time the final project file download finished
+        These are not maintained in the state file;
+        i.e. when the core client starts up,
+        they'll be zero until the respective event occurs.
+    - Include these in the GUI RPCs that return projects
+        (i.e. get_simple_gui_info(), get_state(), get_project_status())
+
+    client/
+        client_types.C,h
+        cs_files.C
+        cs_scheduler.C
+    lib/
+        gui_rpc_client.h
+        gui_rpc_client_ops.C
+        gui_rpc_client_print.C

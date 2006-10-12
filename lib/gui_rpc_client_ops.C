@@ -112,13 +112,14 @@ void PROJECT::copy(PROJECT& p) {
     project_name = p.project_name;
     user_name = p.user_name;
     team_name = p.team_name;
+    gui_urls = p.gui_urls;
     user_total_credit = p.user_total_credit;
     user_expavg_credit = p.user_expavg_credit;
     host_total_credit = p.host_total_credit;
     host_expavg_credit = p.host_expavg_credit;
     disk_usage = p.disk_usage;
-    nrpc_failures = p.nrpc_failures;
     master_fetch_failures = p.master_fetch_failures;
+    nrpc_failures = p.nrpc_failures;
     min_rpc_time = p.min_rpc_time;
     master_url_fetch_pending = p.master_url_fetch_pending;
     sched_rpc_pending = p.sched_rpc_pending;
@@ -126,10 +127,10 @@ void PROJECT::copy(PROJECT& p) {
     non_cpu_intensive = p.non_cpu_intensive;
     suspended_via_gui = p.suspended_via_gui;
     dont_request_more_work = p.dont_request_more_work;
-    tentative = p.tentative;
     scheduler_rpc_in_progress = p.scheduler_rpc_in_progress;
     attached_via_acct_mgr = p.attached_via_acct_mgr;
-    gui_urls = p.gui_urls;
+    project_files_downloaded_time = p.project_files_downloaded_time;
+    last_rpc_time = p.last_rpc_time;
 }
 
 int PROJECT::parse(MIOFILE& in) {
@@ -192,6 +193,8 @@ int PROJECT::parse(MIOFILE& in) {
             }
             continue;
         }
+        else if (parse_double(buf, "<project_files_downloaded_time>", project_files_downloaded_time)) continue;
+        else if (parse_double(buf, "<last_rpc_time>", last_rpc_time)) continue;
     }
     return ERR_XML_PARSE;
 }
@@ -218,6 +221,8 @@ void PROJECT::clear() {
     dont_request_more_work = false;
     scheduler_rpc_in_progress = false;
     attached_via_acct_mgr = false;
+    project_files_downloaded_time = 0;
+    last_rpc_time = 0;
     gui_urls.clear();
     statistics.clear();
 }
@@ -1151,6 +1156,7 @@ int RPC_CLIENT::get_simple_gui_info(SIMPLE_GUI_INFO& sgi) {
 
 // Updates the PROJECT array in the CC_STATE in place;
 // flags any projects that don't exist anymore.
+//
 int RPC_CLIENT::get_simple_gui_info(CC_STATE& state, RESULTS& results) {
     int retval;
     SET_LOCALE sl;
@@ -1165,7 +1171,8 @@ int RPC_CLIENT::get_simple_gui_info(CC_STATE& state, RESULTS& results) {
     retval = rpc.do_rpc("<get_simple_gui_info>\n");
     if (!retval) {
 
-        // flag for delete
+        // mark all projects for deletion (undo if client still has them)
+        //
         for (i=0; i<state.projects.size(); i++) {
             state_project = state.projects[i];
             state_project->flag_for_delete = true;
@@ -1193,7 +1200,9 @@ int RPC_CLIENT::get_simple_gui_info(CC_STATE& state, RESULTS& results) {
             }
         }
 
-        // Anything need to be deleted?
+        // Does any project need to be deleted?
+        // return cryptic error code if so
+        //
         if (!retval) {
             for (i=0; i<state.projects.size(); i++) {
                 state_project = state.projects[i];

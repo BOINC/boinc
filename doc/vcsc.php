@@ -68,7 +68,7 @@ The benefits of creating a VCSC include
 <li> It creates a new pool of computing power,
 available at little or no cost to campus researchers.
 This resource enables previously infeasible research,
-and is an attraction to prospective faculty.
+and may attract prospective faculty.
 <li> It creates a path by which computational scientists
 can use distributed computing;
 many of these scientists lack the expertise and resources
@@ -81,7 +81,11 @@ and for the university itself.
 
 <h2>Getting started</h2>
 <p>
-For information about setting up a VCSC,
+Technical information about porting applications
+and setting up a BOINC server is <a href=create_project.php>here</a>.
+Budget at least a few person-months for getting a working system running.
+<p>
+For more information about setting up a VCSC,
 please <a href=contact.php>contact us</a>.
 
 ";
