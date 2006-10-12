@@ -18,8 +18,15 @@ by which we main projects whose tasks must be completed
 in a few minutes or hours.
 Such projects require a <b>minimum connection rate</b>,
 rather than seeking to minimize the connection rate.
-The details are as follows:
 
+<p>
+For example, if you need to get batches of 10,000 jobs
+completed with 5 minute latency,
+and each job takes 2 minutes of computing,
+you'll need to arrange to get 10,000 scheduler requests every 3 minutes
+(and you'll need a server capable to handling this request rate).
+
+<h3>The minimum connection rate</h3>
 <p>
 Suppose that, at a given time, the project has N hosts online,
 and that each host has 1 CPU that computes at X FLOPS.

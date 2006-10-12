@@ -539,7 +539,7 @@ int handle_global_prefs(SCHEDULER_REQUEST& sreq, SCHEDULER_REPLY& reply) {
     if (have_master_prefs) {
         bool update_user_record = false;
         if (have_db_prefs) {
-            if (master_mod_time < db_mod_time && same_account) {
+            if (master_mod_time > db_mod_time && same_account) {
                 update_user_record = true;
             }
         } else {

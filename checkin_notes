@@ -11052,3 +11052,9 @@ Charlie 11 Oct 2006
         ViewResources.cpp
         common/
             wxPieCtrl.cpp,h
+
+David  12 Oct 2006
+    - scheduler: fix bug that prevented prefs propagation
+
+    sched/
+        handle_request.C
