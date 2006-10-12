@@ -54,17 +54,12 @@ ClientStateIndicator::ClientStateIndicator(CSimpleFrame* parent,wxPoint coord) :
 	appSkin = SkinClass::Instance();
 	CreateComponent();
 	error_time = 0;
+	m_connRenderTimer = new wxTimer(this, ID_ANIMATIONRENDERTIMER);
 }
 
 ClientStateIndicator::~ClientStateIndicator()
 {
-	if (m_connRenderTimer) {
-		if ( clientState == CLIENT_STATE_ACTION ) {
-			m_connRenderTimer->Stop();
-			delete m_connRenderTimer;
-		}
-    }
-
+	delete m_connRenderTimer;
 }
 
 void ClientStateIndicator::CreateComponent(){
@@ -94,7 +89,6 @@ void ClientStateIndicator::SetActionState(const char* message)
 			m_connIndV.push_back(i_connInd);
 		}
 		//set animation timer for interface
-		m_connRenderTimer = new wxTimer(this, ID_ANIMATIONRENDERTIMER);
 		wxASSERT(m_connRenderTimer);
 		m_connRenderTimer->Start(500); 
 	}

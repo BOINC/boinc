@@ -50,24 +50,6 @@ CSGUIListCtrl::CSGUIListCtrl(
 }
 
 
-CSGUIListCtrl::~CSGUIListCtrl()
-{
-}
-
-
-bool CSGUIListCtrl::OnSaveState(wxConfigBase* pConfig) {
-    
-
-    return true;
-}
-
-
-bool CSGUIListCtrl::OnRestoreState(wxConfigBase* pConfig) {
-
-    return true;
-}
-
-
 void CSGUIListCtrl::OnClick(wxCommandEvent& event) {
 
 }

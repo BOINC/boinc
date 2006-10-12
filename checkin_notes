@@ -11018,3 +11018,26 @@ David  11 Oct 2006
         http_curl.C
     sched/
         trickle_handler.C
+
+        
+Kevin  11 Oct 2006
+    - BSG
+ 		- Pause slide show for workunits that are not running
+		- Add message to space below slide show images to explain status of the workunit (running, paused)
+		- Fixed bug that sometimes caused slide shows to not load properly when first downloaded
+		  or after they have been updated by the project
+		- Prevent workunit name from overflowing the side of BSG
+		- Play with tabs to make the selected tab stand out
+		- Fixed bug which caused a crash when switching between simple and advanced views
+		- Fixed a significant memory leak 
+		- Eliminate some compiler warnings 
+
+    clientgui/
+        sg_BoincSimpleGUI.cpp/h
+        sg_ClientStateIndicator.cpp
+        sg_ImageButton.cpp/h
+        sg_ProjectsComponent.cpp
+        sg_SGUIListControl.cpp/h
+        sg_StatImageLoader.cpp
+        sg_ViewTabPage.cpp/h
+        

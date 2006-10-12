@@ -39,13 +39,13 @@
       <icons>
          <workingWkUnit>
             <imgsrc>graphic/ico_workWU.png</imgsrc>
-            <frcol>134:179:176</frcol>
-            <tocol>51:102:102</tocol>
-            <brdcol>20:82:82</brdcol>
+            <frcol>51:102:102</frcol>
+            <tocol>134:179:176</tocol>
+            <brdcol>51:102:102</brdcol>
          </workingWkUnit>
          <sleepingWkUnit>
-            <frcol>134:179:176</frcol>
-            <tocol>84:175:175</tocol>
+            <frcol>84:175:175</frcol>
+            <tocol>134:179:176</tocol>
             <brdcol>102:153:153</brdcol>
          </sleepingWkUnit>
          <defaultStatIcon>

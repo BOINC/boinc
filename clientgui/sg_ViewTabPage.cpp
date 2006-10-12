@@ -58,13 +58,10 @@ CViewTabPage::CViewTabPage(WorkunitNotebook* parent,RESULT* result,std::string n
 	appSkin = SkinClass::Instance();
     //create page
 	CreatePage();
-	scheduler_rpc_in_progress = false;
+	scheduler_rpc_in_progress = 5; // defaut to true in case the slide show is loaded before all files are downloaded
 }
 
 CViewTabPage::~CViewTabPage() {
-	if ( wSlideShow <= NULL ) {
-		delete wSlideShow;
-	}
 }
 
 void CViewTabPage::CreatePage()
@@ -83,8 +80,9 @@ void CViewTabPage::CreatePage()
 	//Line Proj Name
 	lnProjName = new CStaticLine(this,wxPoint(20,36),wxSize(316,1));
 	lnProjName->SetLineColor(appSkin->GetStaticLineCol());
-	//TODO - is this line below needed?
-	wxStaticLine* spacerLine = new wxStaticLine(this,-1,wxPoint(20,36),wxSize(305,1));
+	//Create with a two step process to eliminate compiler warning
+	wxStaticLine* spacerLine = new wxStaticLine();
+	spacerLine->Create(this,-1,wxPoint(20,36),wxSize(305,1));
 
 	//My Progress
 	wrkUnitName = wxString(resultWU->name.c_str(),wxConvUTF8);
@@ -102,10 +100,34 @@ void CViewTabPage::CreatePage()
 	if (resultWU->supports_graphics) {
 		m_hasGraphic = true;
 	}
+	int status = ComputeState();
 	// project image behind graphic <><><>
-	btnAminBg = new CImageButton(this,*(appSkin->GetAnimationBg()),wxPoint(28,154),wxSize(294,146),m_hasGraphic);
+	btnAminBg = new CImageButton(this,*(appSkin->GetAnimationBg()),wxPoint(28,154),wxSize(294,146),m_hasGraphic, status);
 
 	CreateSlideShowWindow();
+}
+
+int CViewTabPage::ComputeState() {
+	int status = TAB_STATUS_PREEMPTED;
+	if ( resultWU->active_task_state == 1 ) {
+		status = TAB_STATUS_RUNNING;
+	} else {
+		CMainDocument* pDoc = wxGetApp().GetDocument();
+		CC_STATUS ccStatus;
+		pDoc->GetCoreClientStatus(ccStatus);
+		if ( ccStatus.task_suspend_reason & SUSPEND_REASON_BATTERIES ) {
+			status = TAB_STATUS_PAUSED_POWER;
+		} else if ( ccStatus.task_suspend_reason & SUSPEND_REASON_USER_ACTIVE ) {
+			status = TAB_STATUS_PAUSED_USER_ACTIVE;
+		} else if ( ccStatus.task_suspend_reason & SUSPEND_REASON_USER_REQ ) {
+			status = TAB_STATUS_PAUSED_USER_REQ;
+		} else if ( ccStatus.task_suspend_reason & SUSPEND_REASON_TIME_OF_DAY ) {
+			status = TAB_STATUS_PAUSED_TIME_OF_DAY;
+		} else if ( ccStatus.task_suspend_reason & SUSPEND_REASON_BENCHMARKS ) {
+			status = TAB_STATUS_PAUSED_BENCHMARKS;
+		}
+	}
+	return status;
 }
 
 void CViewTabPage::LoadSlideShow(std::vector<wxBitmap> *vSlideShow) {
@@ -182,10 +204,14 @@ void CViewTabPage::UpdateInterface()
 	CMainDocument* pDoc     = wxGetApp().GetDocument();
 	PROJECT* project = pDoc->state.lookup_project(resultWU->project_url);
 	if ( project > NULL && project->scheduler_rpc_in_progress ) {
-		scheduler_rpc_in_progress = true;
+		// wait a few seconds before reloading in case there is a delay between
+		// the project update and the slide show being available
+		scheduler_rpc_in_progress = 10;
 	} else if ( scheduler_rpc_in_progress && !Downloading() ) {
-		scheduler_rpc_in_progress = false;
-		GetCanvas()->ReloadSlideShow(GetSlideShow());
+		scheduler_rpc_in_progress--;
+		if ( scheduler_rpc_in_progress == 0 ) {
+			GetCanvas()->ReloadSlideShow(GetSlideShow());
+		}
 	}
 
 
@@ -219,18 +245,23 @@ void CViewTabPage::UpdateInterface()
 		}
 		m_hasGraphic = false;
 	}
+	int newStatus = ComputeState();
+	if ( btnAminBg->GetStatus() != newStatus ) {
+		changed = true;
+		btnAminBg->SetStatus(newStatus);
+	}
+
 	btnAminBg->SetShowText(m_hasGraphic);
 	if ( changed ) {
+		btnAminBg->Refresh();
 		btnAminBg->Update();
 		m_canvas->Refresh();
 		m_canvas->Update();
 	}
 
+
 }
 void CViewTabPage::CreateSlideShowWindow() {
-	if ( wSlideShow <= NULL ) {
-		delete wSlideShow;
-	}
 	wSlideShow=new wxWindow(this,-1,wxPoint(30,156),wxSize(290,126),wxNO_BORDER);
 	m_canvas = new MyCanvas(wSlideShow, wxPoint(0,0), wxSize(290,126), GetSlideShow());
 }
@@ -242,6 +273,7 @@ void CViewTabPage::ReskinInterface()
 	lnProjName->SetLineColor(appSkin->GetStaticLineCol());
 	// gauge
 	gaugeWUMain->ReskinInterface();
+	wSlideShow->Destroy();
 	CreateSlideShowWindow();
 }
 
@@ -342,6 +374,20 @@ void CViewTabPage::OnWorkShowGraphics() {
     }
 
 }
+wxString CViewTabPage::FormatText(const wxString& text, wxDC* dc) {
+	wxCoord width, height;
+	dc->GetTextExtent(text, &width, &height);
+	if ( width > 201 ) {
+		int i = (int) text.length();
+		while ( width > 201 ) {
+			i--;
+			dc->GetTextExtent(text.substr(0,i) + _T("..."), &width, &height);
+		}
+		return text.substr(0,i) + _T("...");
+	}
+	return text;
+}
+
 void CViewTabPage::OnPaint(wxPaintEvent& WXUNUSED(event)) 
 { 
     wxLogTrace(wxT("Function Start/End"), wxT("CViewTabPage::OnPaint - Begin"));
@@ -358,7 +404,7 @@ void CViewTabPage::OnPaint(wxPaintEvent& WXUNUSED(event))
     //static: projectFrName,wrkUnitName,gaugePercent,elapsedTimeValue,timeRemainingValue
     dc.SetFont(wxFont(9,74,90,92,0,wxT("Arial")));
 	dc.DrawText(projectFrName, wxPoint(110,49)); 
-    dc.DrawText(wrkUnitName, wxPoint(120,71)); 
+    dc.DrawText(FormatText(wrkUnitName, &dc), wxPoint(120,71)); 
     dc.DrawText(gaugePercent, wxPoint(290,90)); 
     dc.DrawText(elapsedTimeValue, wxPoint(118,115)); 
 	dc.DrawText(timeRemainingValue, wxPoint(130,134)); 	
@@ -390,7 +436,7 @@ void CViewTabPage::DrawText()
     //static: projectFrName,wrkUnitName,gaugePercent,elapsedTimeValue,timeRemainingValue
     dc.SetFont(wxFont(9,74,90,92,0,wxT("Arial")));
 	dc.DrawText(projectFrName, wxPoint(110,49)); 
-    dc.DrawText(wrkUnitName, wxPoint(120,71)); 
+    dc.DrawText(FormatText(wrkUnitName, &dc), wxPoint(120,71)); 
     dc.DrawText(gaugePercent, wxPoint(290,90)); 
     dc.DrawText(elapsedTimeValue, wxPoint(118,115)); 
 	dc.DrawText(timeRemainingValue, wxPoint(130,134)); 
@@ -447,9 +493,6 @@ MyCanvas::MyCanvas(wxWindow *parent, const wxPoint& pos, const wxSize& size, std
 	ssImages = images;
 	reloadSlideShow = false;
 	LoadSlideShow();
-}
-
-MyCanvas::~MyCanvas() {
 }
 
 void MyCanvas::LoadSlideShow() {
@@ -545,7 +588,10 @@ WorkunitNotebook::WorkunitNotebook(wxWindow* parent, wxWindowID id, const wxPoin
 	SetGradientColors(appSkin->GetTabFromColAc(),appSkin->GetTabToColAc(),appSkin->GetTabBrdColAc());
 	SetActiveTabTextColour(wxColour(255,255,255));
 	SetGradientColorsInactive(appSkin->GetTabFromColIn(),appSkin->GetTabToColIn(),appSkin->GetTabBrdColIn());
-	SetNonActiveTabTextColour(wxColour(255,255,255));
+	char red = (char) (( (int) appSkin->GetTabFromColIn().Red() + (int) appSkin->GetTabToColIn().Red() + 255*3)/5);
+	char green = (char) (( (int) appSkin->GetTabFromColIn().Green() + (int) appSkin->GetTabToColIn().Green() + 255*3)/5);
+	char blue = (char) (( (int) appSkin->GetTabFromColIn().Blue() + (int) appSkin->GetTabToColIn().Blue() + 255*3)/5);
+	SetNonActiveTabTextColour(wxColour(red, green, blue));
 	m_ImageList.push_back(*(appSkin->GetIcnWorkingWkUnit()));
 	SetImageList(&m_ImageList);
 	changeSlideTimer = new wxTimer(this, ID_CHANGE_SLIDE_TIMER);
@@ -553,7 +599,6 @@ WorkunitNotebook::WorkunitNotebook(wxWindow* parent, wxWindowID id, const wxPoin
 }
 
 WorkunitNotebook::~WorkunitNotebook() {
-	m_windows.clear();
 	if ( changeSlideTimer->IsRunning() ) {
 		changeSlideTimer->Stop();
 	}
@@ -664,8 +709,10 @@ void WorkunitNotebook::Update() {
 
 void WorkunitNotebook::OnChangeSlide(wxTimerEvent& WXUNUSED(event)) {
 	for(int x = 0; x < (int)m_windows.size(); x ++) {
-		CViewTabPage *currTab = m_windows[x];
-		currTab->GetCanvas()->AdvanceSlide();
+		if ( GetPageImageIndex(x) == 0 ) {
+			CViewTabPage *currTab = m_windows[x];
+			currTab->GetCanvas()->AdvanceSlide();
+		}
 	}
 }
 

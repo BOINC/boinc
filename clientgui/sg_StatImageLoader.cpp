@@ -26,14 +26,13 @@ END_EVENT_TABLE()
 StatImageLoader::StatImageLoader(wxWindow* parent, std::string url) : wxWindow(parent, wxID_ANY, wxDefaultPosition, wxSize(40,40), wxNO_BORDER) 
 {
     m_prjUrl = url;
+	attemptToReloadTimer = new wxTimer(this, ID_CHECKFORPROJECTICONDOWNLOADED);
     CreateMenu();
 }
 
 StatImageLoader::~StatImageLoader() {
-	if ( attemptToReloadTimer <= NULL ) {
-		attemptToReloadTimer->Stop();
-		delete attemptToReloadTimer;
-	}
+	delete attemptToReloadTimer;
+	delete statPopUpMenu;
 }
 
 void StatImageLoader::PopUpMenu(wxMouseEvent& WXUNUSED(event)) 
@@ -58,7 +57,6 @@ void StatImageLoader::CreateMenu()
 
 	PROJECT* project = pDoc->state.lookup_project(m_prjUrl);
 	urlCount = project->gui_urls.size();
-	
 	statPopUpMenu = new wxMenu(wxSIMPLE_BORDER);
 
 	// Add the home page link
@@ -192,7 +190,6 @@ void StatImageLoader::LoadImage(std::string project_icon, wxBitmap* defaultImage
 	if ( defaultUsed ) {
 		projectIcon = project_icon;
 		numReloadTries = 80; // check for 10 minutes
-		attemptToReloadTimer = new wxTimer(this, ID_CHECKFORPROJECTICONDOWNLOADED);
 		attemptToReloadTimer->Start(7500);
 	}
 } 

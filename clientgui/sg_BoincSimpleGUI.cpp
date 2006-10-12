@@ -70,7 +70,6 @@ CSimpleFrame::CSimpleFrame(wxString title, wxIcon* icon) :
                     wxMINIMIZE_BOX | wxSYSTEM_MENU | wxCAPTION | wxCLOSE_BOX | wxCLIP_CHILDREN | wxNO_FULL_REPAINT_ON_RESIZE)
 {
     wxLogTrace(wxT("Function Start/End"), wxT("CSimpleFrame::CSimpleFrame - Overloaded Constructor Function Begin"));
- 
 	RestoreState();
 
     // Initialize Application
@@ -98,7 +97,6 @@ CSimpleFrame::CSimpleFrame(wxString title, wxIcon* icon) :
 CSimpleFrame::~CSimpleFrame()
 {
     wxLogTrace(wxT("Function Start/End"), wxT("CSimpleFrame::CSimpleFrame - Destructor Function Begin"));
-
     wxASSERT(m_pFrameRenderTimer);
 
 	SaveState();
@@ -284,7 +282,8 @@ void CSimpleFrame::OnFrameRender(wxTimerEvent& WXUNUSED(event)) {
 	CMainDocument* pDoc     = wxGetApp().GetDocument();
 
 	if (!projectViewInitialized) {
-		InitProjectView(); 
+		InitProjectView();
+		return;
 	} else if ( pDoc->IsConnected() ) {
 		UpdateProjectView();
 	}
@@ -399,8 +398,7 @@ void CSimpleFrame::ReskinAppGUI(){
     wxLogTrace(wxT("Function Start/End"), wxT("CSimpleFrame::ReskinAppGUI - Function End"));
 }
 
-void CSimpleFrame::OnBtnClick(wxCommandEvent& event){ //init function
-	wxObject *m_wxBtnObj = event.GetEventObject();
+void CSimpleFrame::OnBtnClick(wxCommandEvent& WXUNUSED(event)){ //init function
 }
 //end function
 void CSimpleFrame::OnPageChanged(wxFlatNotebookEvent& WXUNUSED(event))

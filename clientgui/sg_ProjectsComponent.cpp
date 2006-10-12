@@ -520,6 +520,7 @@ void CProjectsComponent::OnBtnClick(wxCommandEvent& event){ //init function
 		wxASSERT(pDlg);
 		if ( pDlg->ShowModal() == wxID_OK ){
 			if(pDlg->GetSkinName() != pFrame->skinName){
+				GetParent()->Freeze();
 				if ( appSkin->change_skin(pDlg->GetSkinName()) ) {
 					pFrame->skinName = pDlg->GetSkinName();
 					pFrame->ReskinAppGUI();
@@ -527,6 +528,7 @@ void CProjectsComponent::OnBtnClick(wxCommandEvent& event){ //init function
 					wxMessageBox("Incompatible skin. Skin will not be changed.");
 					pDlg->SetSkinName(pFrame->skinName);
 				}
+				GetParent()->Thaw();
 		   }
 		}
 		pDlg->Destroy();

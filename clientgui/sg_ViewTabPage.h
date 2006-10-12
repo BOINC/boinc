@@ -35,7 +35,6 @@ class MyCanvas : public wxScrolledWindow
 {
 public:
 	MyCanvas(wxWindow *parent, const wxPoint& pos, const wxSize& size, std::vector<wxBitmap> images);
-	~MyCanvas();
     void OnPaint(wxPaintEvent& event);
 	void AdvanceSlide();
 	void ReloadSlideShow(std::vector<wxBitmap> images);
@@ -131,10 +130,12 @@ private:
 	void CreateSlideShowWindow();
 	void LoadSlideShow(std::vector<wxBitmap> *vSlideShow);
 	bool Downloading();
+	int ComputeState();
+	wxString FormatText(const wxString& text, wxDC* dc);
 	std::vector<wxBitmap> GetSlideShow();
 	wxWindow* wSlideShow;
 	MyCanvas* m_canvas;
-	bool scheduler_rpc_in_progress;
+	int scheduler_rpc_in_progress;
 
 };
 

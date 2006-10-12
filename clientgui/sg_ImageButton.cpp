@@ -31,24 +31,27 @@ BEGIN_EVENT_TABLE(CImageButton, wxPanel)
 		EVT_ERASE_BACKGROUND(CImageButton::OnEraseBackground)
 END_EVENT_TABLE() 
 
-CImageButton::CImageButton(wxWindow* parent,wxBitmap bg, wxPoint coord,wxSize size,bool drawText = false) : wxPanel(parent, wxID_ANY, coord, size, wxNO_BORDER) 
+CImageButton::CImageButton(wxWindow* parent,wxBitmap bg, wxPoint coord,wxSize size,bool drawText, int initStatus) : wxPanel(parent, wxID_ANY, coord, size, wxNO_BORDER) 
 { 
 	btnBG = bg;
 	m_drawText = drawText;
+	status = initStatus;
 }
 
 void CImageButton::OnPaint(wxPaintEvent& WXUNUSED(event)) 
 { 
         wxPaintDC dc(this); 
-		if(m_drawText)
-		{
-			dc.SetTextForeground(wxColour(*wxWHITE));
-			dc.SetFont(wxFont(7,74,90,90,0,wxT("Arial")));
+		dc.SetTextForeground(wxColour(*wxWHITE));
+		dc.SetFont(wxFont(7,74,90,90,0,wxT("Arial")));
+		int x, y;
+		GetSize(&x,&y);
+		wxCoord width, height;
+		dc.GetTextExtent(GetStatusText(), &width, &height);
+		dc.DrawText(GetStatusText(), wxPoint(7, y-height-4));
+		// display show graphics text (if available)
+		if(m_drawText) {
 			wxString text = wxString(wxT("> Show graphics"));
-			wxCoord width, height;
 			dc.GetTextExtent(text, &width, &height);
-			int x, y;
-			GetSize(&x,&y);
 			dc.DrawText(text, wxPoint(x-width-7,y-height-4));
 		}
 } 
@@ -56,6 +59,34 @@ void CImageButton::SetImage(wxBitmap bg)
 { 
       btnBG = bg;  
 } 
+void CImageButton::SetStatus(int newStatus) {
+	status = newStatus;
+}
+int CImageButton::GetStatus() {
+	return status;
+}
+
+wxString CImageButton::GetStatusText() {
+	if ( status == TAB_STATUS_RUNNING ) {
+		return wxString(_T("Running"));
+	} else if ( status == TAB_STATUS_PREEMPTED )  {
+		return wxString(_T("Paused: Other work running"));
+	} else if ( status == TAB_STATUS_PAUSED_USER_REQ )  {
+		return wxString(_T("Paused: User initiatied"));
+	} else if ( status == TAB_STATUS_PAUSED_USER_ACTIVE )  {
+		return wxString(_T("Paused: User active"));
+	} else if ( status == TAB_STATUS_PAUSED_POWER )  {
+		return wxString(_T("Paused: Computer on battery"));
+	} else if ( status == TAB_STATUS_PAUSED_TIME_OF_DAY )  {
+		return wxString(_T("Paused: Time of Day"));
+	} else if ( status == TAB_STATUS_PAUSED_BENCHMARKS )  {
+		return wxString(_T("Paused: Benchmarks running"));
+	} else if ( status == TAB_STATUS_PAUSED )  {
+		return wxString(_T("Paused"));
+	} else {
+		return wxString("");
+	}
+}
 void CImageButton::OnEraseBackground(wxEraseEvent& event){
 
 	event.Skip(false);
@@ -69,7 +100,7 @@ void CImageButton::OnEraseBackground(wxEraseEvent& event){
     } 
 	
 }
-void CImageButton::OnLeftUp(wxMouseEvent& event)
+void CImageButton::OnLeftUp(wxMouseEvent& WXUNUSED(event))
 {
 	CViewTabPage* pView = wxDynamicCast(GetParent(), CViewTabPage);
     wxASSERT(pView);

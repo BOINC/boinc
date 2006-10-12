@@ -24,23 +24,34 @@
 #pragma interface "sg_ImageButton.cpp"
 #endif
 
-
+#define TAB_STATUS_RUNNING 1
+#define TAB_STATUS_PREEMPTED 2 
+#define TAB_STATUS_PAUSED_USER_ACTIVE 3
+#define TAB_STATUS_PAUSED_USER_REQ 4
+#define TAB_STATUS_PAUSED_POWER 5
+#define TAB_STATUS_PAUSED_TIME_OF_DAY 6
+#define TAB_STATUS_PAUSED_BENCHMARKS 7
+#define TAB_STATUS_PAUSED 8
 
 class CImageButton : public wxPanel 
 { 
 public: 
 	    /// Constructors
-	    CImageButton(wxWindow* parent,wxBitmap bg,wxPoint coord, wxSize size, bool drawText); 
+	    CImageButton(wxWindow* parent,wxBitmap bg,wxPoint coord, wxSize size, bool drawText, int initStatus); 
         void SetImage(wxBitmap bg);
 		void OnPaint(wxPaintEvent& event); 
 		void OnLeftUp(wxMouseEvent& event);
 		void OnEraseBackground(wxEraseEvent& event);
 		void SetShowText(bool show);
+		void SetStatus(int status);
+		int GetStatus();
 private: 
         //static const int MaxWidth = 320; 
         //static const int MaxHeight = 240; 
         wxBitmap btnBG; 
 		bool m_drawText;
+		int status;
+		wxString GetStatusText();
         DECLARE_EVENT_TABLE() 
 }; 
 

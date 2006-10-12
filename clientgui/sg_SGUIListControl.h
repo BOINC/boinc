@@ -34,11 +34,6 @@ public:
     CSGUIListCtrl();
     CSGUIListCtrl(CDlgMessages* pView, wxWindowID iListWindowID, int iListWindowFlags);
 
-    ~CSGUIListCtrl();
-
-	virtual bool            OnSaveState(wxConfigBase* pConfig);
-    virtual bool            OnRestoreState(wxConfigBase* pConfig);
-
 private:
     
     virtual void            OnClick(wxCommandEvent& event);
