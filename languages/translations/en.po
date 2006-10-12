@@ -41,259 +41,259 @@ msgstr "Several volunteer computing projects, "
 msgid "POLL_RUN"
 msgstr "Do you run BOINC?"
 
-msgid "POLL_PARTICIPATION",
+msgid "POLL_PARTICIPATION"
 msgstr "Your participation"
 
-msgid "POLL_COMPUTERS",
+msgid "POLL_COMPUTERS"
 msgstr "Your computers"
 
-msgid "POLL_YOU",
+msgid "POLL_YOU"
 msgstr "You"
 
-msgid "POLL_NATIONALITY",
+msgid "POLL_NATIONALITY"
 msgstr "Nationality"
 
-msgid "POLL_COMMENTS",
+msgid "POLL_COMMENTS"
 msgstr "Comments"
 
-msgid "POLL_COMMENTS_QUESTION",
+msgid "POLL_COMMENTS_QUESTION"
 msgstr "Please suggest ways that BOINC, and the projects that use it, could be improved:"
 
-msgid "POLL_OTHER",
+msgid "POLL_OTHER"
 msgstr "Other:"
 
-msgid "POLL_CHECK_ALL",
+msgid "POLL_CHECK_ALL"
 msgstr "[check all that apply]"
 
-msgid "POLL_DONE",
+msgid "POLL_DONE"
 msgstr "When done click:"
 
-msgid "POLL_CURRENT",
+msgid "POLL_CURRENT"
 msgstr "Yes - I have been running BOINC on my computer for..."
 
-msgid "POLL_TWEEK",
+msgid "POLL_TWEEK"
 msgstr "less than a week"
 
-msgid "POLL_TMONTH",
+msgid "POLL_TMONTH"
 msgstr "less than a month"
 
-msgid "POLL_TYEAR",
+msgid "POLL_TYEAR"
 msgstr "less than a year"
 
-msgid "POLL_TMOREYEAR",
+msgid "POLL_TMOREYEAR"
 msgstr "more than a year"
 
-msgid "POLL_LAPSED",
+msgid "POLL_LAPSED"
 msgstr "No - I was running BOINC, but stopped because..."
 
-msgid "POLL_LINTEREST",
+msgid "POLL_LINTEREST"
 msgstr "I lost interest"
 
-msgid "POLL_LCOMPLICATED",
+msgid "POLL_LCOMPLICATED"
 msgstr "it was too complicated"
 
-msgid "POLL_LSTOPPED",
+msgid "POLL_LSTOPPED"
 msgstr "I stopped it and forgot to start again"
 
-msgid "POLL_LPROBLEMS",
+msgid "POLL_LPROBLEMS"
 msgstr "it caused problems on my computer"
 
-msgid "POLL_LPOWER",
+msgid "POLL_LPOWER"
 msgstr "it used too much electricity"
 
-msgid "POLL_LNONBOINC",
+msgid "POLL_LNONBOINC"
 msgstr "I switched to a non-BOINC computing project"
 
-msgid "POLL_FAILED",
+msgid "POLL_FAILED"
 msgstr "No - I tried running BOINC, but..."
 
-msgid "POLL_FINSTALL",
+msgid "POLL_FINSTALL"
 msgstr "the software didn't install correctly"
 
-msgid "POLL_FFIGURE",
+msgid "POLL_FFIGURE"
 msgstr "I couldn't figure out how to use the software"
 
-msgid "POLL_FNETWORK",
+msgid "POLL_FNETWORK"
 msgstr "I had network communication problems"
 
-msgid "POLL_FATTACH",
+msgid "POLL_FATTACH"
 msgstr "I couldn't attach to a project"
 
-msgid "POLL_FWORK",
+msgid "POLL_FWORK"
 msgstr "I attached to a project, but never got any work"
 
-msgid "POLL_NEVER",
+msgid "POLL_NEVER"
 msgstr "No - I never tried running BOINC, because..."
 
-msgid "POLL_NSECURITY",
+msgid "POLL_NSECURITY"
 msgstr "I was concerned about security"
 
-msgid "POLL_NPROJECT",
+msgid "POLL_NPROJECT"
 msgstr "I wasn't interested in any of the projects"
 
-msgid "POLL_NPERMISSION",
+msgid "POLL_NPERMISSION"
 msgstr "I don't have permission to run it on my computer"
 
-msgid "POLL_NVERSION",
+msgid "POLL_NVERSION"
 msgstr "No version was available for my computer"
 
-msgid "POLL_KIND",
+msgid "POLL_KIND"
 msgstr "What kind of computers do you have running BOINC?"
 
-msgid "POLL_WHERE",
+msgid "POLL_WHERE"
 msgstr "Where are they?"
 
-msgid "POLL_HOME",
+msgid "POLL_HOME"
 msgstr "Home"
 
-msgid "POLL_WORK",
+msgid "POLL_WORK"
 msgstr "Work"
 
-msgid "POLL_SCHOOL",
+msgid "POLL_SCHOOL"
 msgstr "School"
 
-msgid "POLL_HOW_MANY",
+msgid "POLL_HOW_MANY"
 msgstr "How many computers?"
 
-msgid "POLL_TURNED_ON",
+msgid "POLL_TURNED_ON"
 msgstr "On average, how many hours per day are they powered on?"
 
-msgid "POLL_AGE",
+msgid "POLL_AGE"
 msgstr "Age"
 
-msgid "POLL_SEX",
+msgid "POLL_SEX"
 msgstr "Sex"
 
-msgid "POLL_MALE",
+msgid "POLL_MALE"
 msgstr "Male"
 
-msgid "POLL_FEMALE",
+msgid "POLL_FEMALE"
 msgstr "Female"
 
-msgid "POLL_EXPERTISE",
+msgid "POLL_EXPERTISE"
 msgstr "Your level of computer expertise"
 
-msgid "POLL_LEVB",
+msgid "POLL_LEVB"
 msgstr "Beginner"
 
-msgid "POLL_LEVI",
+msgid "POLL_LEVI"
 msgstr "Intermediate"
 
-msgid "POLL_LEVA",
+msgid "POLL_LEVA"
 msgstr "Advanced"
 
-msgid "POLL_LEARN_WHERE",
+msgid "POLL_LEARN_WHERE"
 msgstr "Where did you learn about BOINC projects?"
 
-msgid "POLL_WTV",
+msgid "POLL_WTV"
 msgstr "TV/radio/newspaper"
 
-msgid "POLL_WPERS",
+msgid "POLL_WPERS"
 msgstr "From friends, relatives, or coworkers"
 
-msgid "POLL_WTEAM",
+msgid "POLL_WTEAM"
 msgstr "Team message boards or web sites"
 
-msgid "POLL_WBOINC",
+msgid "POLL_WBOINC"
 msgstr "The BOINC web site"
 
-msgid "POLL_WWEB",
+msgid "POLL_WWEB"
 msgstr "Other web sites"
 
-msgid "POLL_FACTOR",
+msgid "POLL_FACTOR"
 msgstr "Which are the most important factors when you decide whether to participate in a BOINC project?"
 
-msgid "POLL_GRAPHICS",
+msgid "POLL_GRAPHICS"
 msgstr "Nice-looking screensaver graphics"
 
-msgid "POLL_CREDIT_FAIR",
+msgid "POLL_CREDIT_FAIR"
 msgstr "Fair and quick granting of credit for work done"
 
-msgid "POLL_CREDIT_MORE",
+msgid "POLL_CREDIT_MORE"
 msgstr "Getting more credit from this project than from others"
 
-msgid "POLL_MB_FRIENDLY",
+msgid "POLL_MB_FRIENDLY"
 msgstr "Helpful and friendly message boards"
 
-msgid "POLL_MB_STAFF",
+msgid "POLL_MB_STAFF"
 msgstr "Participation by project staff on the message boards"
 
-msgid "POLL_WEB_SITE",
+msgid "POLL_WEB_SITE"
 msgstr "Informative project web site"
 
-msgid "POLL_SCIENCE_IMPORTANT",
+msgid "POLL_SCIENCE_IMPORTANT"
 msgstr "The science is important and beneficial"
 
-msgid "POLL_SCIENCE_PUBLIC",
+msgid "POLL_SCIENCE_PUBLIC"
 msgstr "Non-profit, and results are public"
 
-msgid "POLL_RECOGNIZE",
+msgid "POLL_RECOGNIZE"
 msgstr "Personal recognition if my computer finds something"
 
-msgid "POLL_PUBLISH",
+msgid "POLL_PUBLISH"
 msgstr "Publication by the project in scientific journals"
 
-msgid "POLL_EMAIL",
+msgid "POLL_EMAIL"
 msgstr "Periodic email newsletters from the project"
 
-msgid "POLL_NPROJECTS",
+msgid "POLL_NPROJECTS"
 msgstr "How many BOINC projects do you participate in?"
 
-msgid "POLL_SSAVER",
+msgid "POLL_SSAVER"
 msgstr "Do you run BOINC as a screensaver?"
 
-msgid "POLL_YES",
+msgid "POLL_YES"
 msgstr "Yes"
 
-msgid "POLL_NO",
+msgid "POLL_NO"
 msgstr "No"
 
-msgid "POLL_MBOARDS",
+msgid "POLL_MBOARDS"
 msgstr "Your usage of project messages boards:"
 
-msgid "POLL_MBR",
+msgid "POLL_MBR"
 msgstr "to read information"
 
-msgid "POLL_MBRW",
+msgid "POLL_MBRW"
 msgstr "to read and post information"
 
-msgid "POLL_NONE",
+msgid "POLL_NONE"
 msgstr "None"
 
-msgid "POLL_HELP",
+msgid "POLL_HELP"
 msgstr "Where do you get information to help resolve problems with BOINC and/or BOINC projects?"
 
-msgid "POLL_HELP_PMB",
+msgid "POLL_HELP_PMB"
 msgstr "The project message boards"
 
-msgid "POLL_HELP_BMB",
+msgid "POLL_HELP_BMB"
 msgstr "The BOINC message boards"
 
-msgid "POLL_HELP_BDOC",
+msgid "POLL_HELP_BDOC"
 msgstr "The BOINC web site"
 
-msgid "POLL_HELP_BMLIST",
+msgid "POLL_HELP_BMLIST"
 msgstr "BOINC mailing lists"
 
-msgid "POLL_HELP_WIKI",
+msgid "POLL_HELP_WIKI"
 msgstr "The Unofficial BOINC Wiki"
 
-msgid "POLL_HELP_TEAM",
+msgid "POLL_HELP_TEAM"
 msgstr "Team web sites"
 
-msgid "POLL_HELP_GOOGLE",
+msgid "POLL_HELP_GOOGLE"
 msgstr "Google or other search engines"
 
-msgid "POLL_ERROR_TITLE",
+msgid "POLL_ERROR_TITLE"
 msgstr "Error - results not recorded"
 
-msgid "POLL_ERROR_TEXT",
+msgid "POLL_ERROR_TEXT"
 msgstr "An internal error has prevented us from recording your survey response.  Please try again later."
 
-msgid "POLL_RECORDED",
+msgid "POLL_RECORDED"
 msgstr "Survey response recorded"
 
-msgid "POLL_THANKS",
+msgid "POLL_THANKS"
 msgstr "Thank you for completing the BOINC user survey."
 
 msgid "POLL_RESULTS_TITLE"
