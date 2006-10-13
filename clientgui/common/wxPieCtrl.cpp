@@ -31,6 +31,9 @@ wxPieCtrlLegend::wxPieCtrlLegend(wxPieCtrl * parent, wxString title,
 	m_TitleColour = wxColour(0,0,127);
 	m_LabelColour = *wxBLACK;
 	m_BackColour = wxColour(255,255,0);	
+#ifdef __WXMAC__
+	m_TitleFont = *wxNORMAL_FONT;   // Prevent wxDebug assert
+#endif
 }
 
 void wxPieCtrlLegend::SetTransparent(bool value)
@@ -128,15 +131,29 @@ void wxPieCtrlLegend::OnPaint(wxPaintEvent & event)
 #endif
 	dy += m_VerBorder;
 	if(w != maxwidth || h != dy) SetSize(maxwidth, dy);
+
+#ifdef __WXMAC__
+        // SetWindowStyle borders distort the pie circle on Mac so we draw our own
+        int x, y;
+        wxPen savedPen = mdc.GetPen();
+        
+	GetSize(&x,&y);
+        x--;
+        y--;
+        mdc.SetPen(*wxGREY_PEN);
+	mdc.DrawLine(0,0,x,0);      // top
+	mdc.DrawLine(0,y,0,0);      // left
+        mdc.SetPen(*wxWHITE_PEN);
+	mdc.DrawLine(0,y,x,y);      // bottom
+	mdc.DrawLine(x,0,x,y);      // right
+        mdc.SetPen(savedPen);
+#endif
 	pdc.Blit(0,0,w,h,&mdc,0,0);
 }
 
 void wxPieCtrlLegend::SetLabelFont(wxFont font)
 {
 	m_LabelFont = font;
-#ifdef __WXMAC__
-	m_TitleFont = font;
-#endif
 	Refresh();
 }
 

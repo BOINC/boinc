@@ -66,7 +66,9 @@ CViewResources::CViewResources(wxNotebook* pNotebook) :
 	// setup the legend
 	m_pieCtrlTotal->GetLegend()->SetTransparent(true);
 	m_pieCtrlTotal->GetLegend()->SetHorBorder(10);
+#ifndef __WXMAC__
 	m_pieCtrlTotal->GetLegend()->SetWindowStyle(wxSTATIC_BORDER);
+#endif
 	m_pieCtrlTotal->GetLegend()->SetLabelFont(*wxSWISS_FONT);
 	m_pieCtrlTotal->GetLegend()->SetLabelColour(wxColour(0,0,127));
 	m_pieCtrlTotal->GetLegend()->SetLabelColour(wxColour(0,0,127));
@@ -85,7 +87,10 @@ CViewResources::CViewResources(wxNotebook* pNotebook) :
 	//setup the legend
 	m_pieCtrlBOINC->GetLegend()->SetTransparent(true);
 	m_pieCtrlBOINC->GetLegend()->SetHorBorder(10);
+#ifndef __WXMAC__
 	m_pieCtrlBOINC->GetLegend()->SetWindowStyle(wxSTATIC_BORDER);
+#endif
+	m_pieCtrlTotal->GetLegend()->SetLabelFont(*wxSWISS_FONT);
 	m_pieCtrlBOINC->GetLegend()->SetLabelFont(*wxSWISS_FONT);
 	m_pieCtrlBOINC->GetLegend()->SetLabelColour(wxColour(0,0,127));
 	m_pieCtrlBOINC->GetLegend()->SetLabelColour(wxColour(0,0,127));
@@ -213,7 +218,9 @@ void CViewResources::OnListRender( wxTimerEvent& WXUNUSED(event) ) {
 			m_pieCtrlBOINC->m_Series.Add(part);
 		}
 		//force a repaint of the legend (doesn't work if not explicitly resized)
+#ifndef __WXMAC__
 		m_pieCtrlBOINC->GetLegend()->SetSize(wxSize(10,10));
+#endif
 		m_pieCtrlBOINC->Refresh();
 	}
 	else {
@@ -225,7 +232,9 @@ void CViewResources::OnListRender( wxTimerEvent& WXUNUSED(event) ) {
 		part.SetColour(wxColour(0,0,0));
 		m_pieCtrlBOINC->m_Series.Add(part);		
 		//force a repaint of the legend (doesn't work if not explicitly resized)
+#ifndef __WXMAC__
 		m_pieCtrlBOINC->GetLegend()->SetSize(wxSize(10,10));
+#endif
 		m_pieCtrlBOINC->Refresh();
 	}
 	//data for pie chart 2 (total disk usage)
@@ -256,7 +265,9 @@ void CViewResources::OnListRender( wxTimerEvent& WXUNUSED(event) ) {
 	part.SetColour(wxColour(0,0,255));
 	m_pieCtrlTotal->m_Series.Add(part);
 	//force a repaint of the legend (doesn't work if not explicitly resized)
+#ifndef __WXMAC__
 	m_pieCtrlTotal->GetLegend()->SetSize(wxSize(10,10));
+#endif
 	m_pieCtrlTotal->Refresh();
 }
 

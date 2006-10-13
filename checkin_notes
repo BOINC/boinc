@@ -11077,3 +11077,12 @@ David  12 Oct 2006
         gui_rpc_client.h
         gui_rpc_client_ops.C
         gui_rpc_client_print.C
+
+Charlie 12 Oct 2006
+    - More fixes to wxPieCtrl for Mac.
+
+    client/
+    clientgui/
+        ViewResources.cpp
+        common/
+            wxPieCtrl.cpp,h
