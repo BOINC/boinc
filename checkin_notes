@@ -11086,3 +11086,11 @@ Charlie 12 Oct 2006
         ViewResources.cpp
         common/
             wxPieCtrl.cpp,h
+
+Rom    12 Oct 2006
+    - Bug Fix: CURLOPT_MAX_SEND_SPEED_LARGE and CURLOPT_MAX_RECV_SPEED_LARGE
+        are apart of an enum and not a preprocessor define. Check for 
+        compatibility by using LIBCURL_VERSION_NUM instead.
+        
+    client/
+        http_curl.C

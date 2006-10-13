@@ -1039,23 +1039,19 @@ void HTTP_OP::update_speed() {
 }
 
 void HTTP_OP::set_speed_limit(bool is_upload, double bytes_sec) {
+#if LIBCURL_VERSION_NUM >= 0x070f05
 	CURLcode cc = CURLE_OK;
-#if defined(CURLOPT_MAX_SEND_SPEED_LARGE) || defined(CURLOPT_MAX_RECV_SPEED_LARGE)
     curl_off_t bs = (curl_off_t)bytes_sec;
-#endif
 
     if (is_upload) {
-#ifdef CURLOPT_MAX_SEND_SPEED_LARGE
         cc = curl_easy_setopt(curlEasy, CURLOPT_MAX_SEND_SPEED_LARGE, bs);
-#endif
     } else {
-#ifdef CURLOPT_MAX_RECV_SPEED_LARGE
         cc = curl_easy_setopt(curlEasy, CURLOPT_MAX_RECV_SPEED_LARGE, bs);
-#endif
     }
 	if (cc) {
 		msg_printf(NULL, MSG_ERROR, "Curl error: %s", curl_easy_strerror(cc));
 	}
+#endif
 }
 
 const char *BOINC_RCSID_57f273bb60 = "$Id$";
