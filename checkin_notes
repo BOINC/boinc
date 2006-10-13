@@ -11099,3 +11099,12 @@ Rom    12 Oct 2006
     clientgui/
         AdvancedFrame.cpp
 
+Rom    13 Oct 2006
+    - If we have received the authenticator via a setup cookie then run the
+        wizard in a completely automated fashion. Only stop if there was an
+        error.
+        
+    clientgui/
+        BOINCBaseWizard.cpp, .h
+        CompletionPage.cpp
+        WizardAttachProject.cpp

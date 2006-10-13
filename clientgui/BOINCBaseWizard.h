@@ -82,6 +82,7 @@ public:
     ACCOUNT_OUT         account_out;
     bool                account_created_successfully;
     bool                attached_to_project_successfully;
+    bool                close_when_completed;
     wxString            project_name;
     wxString            project_url;
     wxString            project_authenticator;

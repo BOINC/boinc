@@ -46,6 +46,7 @@ CBOINCBaseWizard::CBOINCBaseWizard() :
     IsAccountManagerWizard = false;
     IsAccountManagerUpdateWizard = false;
     IsAccountManagerRemoveWizard = false;
+    close_when_completed = false;
 }
 
 CBOINCBaseWizard::CBOINCBaseWizard(wxWindow *parent, int id, const wxString& title, const wxBitmap& bitmap, const wxPoint& pos, long style) :
@@ -55,6 +56,7 @@ CBOINCBaseWizard::CBOINCBaseWizard(wxWindow *parent, int id, const wxString& tit
     IsAccountManagerWizard = false;
     IsAccountManagerUpdateWizard = false;
     IsAccountManagerRemoveWizard = false;
+    close_when_completed = false;
 }
 
 /*!

@@ -328,6 +328,12 @@ void CCompletionPage::OnPageChanged( wxWizardExEvent& event ) {
     }
 
     Fit();
+
+    // Is this supposed to be completely automated?
+    // If so, then go ahead and close the wizard down now.
+    if (pWAP->close_when_completed) {
+        pWAP->SimulateNextButton();
+    }
 }
   
 /*!

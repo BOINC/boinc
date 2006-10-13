@@ -284,6 +284,7 @@ bool CWizardAttachProject::Run( wxString& WXUNUSED(strName), wxString& strURL, b
 
         if (DetectSetupAuthenticator(strURL.mbc_str(), szAuthenticator, &dwSize)) {
             m_bCredentialsDetected = true;
+            close_when_completed = true;
             m_AccountKeyPage->m_strAccountKey = szAuthenticator;
         }
     }
