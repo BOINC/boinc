@@ -1510,9 +1510,7 @@ void CAdvancedFrame::SetWindowDimensions() {
         wxString        strBaseConfigLocation = wxString(wxT("/"));
         wxConfigBase*   pConfig = wxConfigBase::Get(FALSE);
         bool            bWindowIconized = false;
-#ifdef __WXMSW__ 
         bool            bWindowMaximized = false;
-#endif
 
         wxASSERT(pConfig);
 
@@ -1523,15 +1521,15 @@ void CAdvancedFrame::SetWindowDimensions() {
         pConfig->SetPath(strBaseConfigLocation);
 
         pConfig->Read(wxT("WindowIconized"), &bWindowIconized, false);
+        pConfig->Read(wxT("WindowMaximized"), &bWindowMaximized, false);
         pConfig->Read(wxT("Width"), &m_Width, 800);
         pConfig->Read(wxT("Height"), &m_Height, 600);
-        SetSize(-1, -1, m_Width, m_Height);
 
-#ifdef __WXMSW__ 
-        pConfig->Read(wxT("WindowMaximized"), &bWindowMaximized, false);
+        Iconize(bWindowIconized);
         Maximize(bWindowMaximized);
-#endif
     }
+
+    SetSize(-1, -1, m_Width, m_Height);
 #endif  // ! __WXMAC__
 }
 
