@@ -19,7 +19,6 @@ public:
 		StatImageLoader(wxWindow* parent, std::string url); 
 		~StatImageLoader(); 
         void LoadImage(std::string project_icon, wxBitmap* defaultImage); 
-		void CreateMenu();
 		void OnMenuLinkClicked(wxCommandEvent& event);
 		void OnProjectDetach();
 		void PopUpMenu(wxMouseEvent& event); 
@@ -32,9 +31,12 @@ private:
 		std::string projectIcon;
 		int numReloadTries;
 		size_t urlCount;
-		wxTimer* attemptToReloadTimer;
+		double project_files_downloaded_time;
+		double project_last_rpc_time;
 		void LoadStatIcon(wxBitmap& image);
-		void CheckForProjectIconDownloaded(wxTimerEvent& WXUNUSED(event));
+		void ReloadProjectSpecificIcon();
+		void BuildUserStatToolTip();
+		void AddMenuItems();
         DECLARE_EVENT_TABLE() 
 }; 
 

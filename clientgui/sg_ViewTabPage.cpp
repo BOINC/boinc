@@ -58,7 +58,7 @@ CViewTabPage::CViewTabPage(WorkunitNotebook* parent,RESULT* result,std::string n
 	appSkin = SkinClass::Instance();
     //create page
 	CreatePage();
-	scheduler_rpc_in_progress = 5; // defaut to true in case the slide show is loaded before all files are downloaded
+	project_files_downloaded_time = 0;
 }
 
 CViewTabPage::~CViewTabPage() {
@@ -199,19 +199,13 @@ bool CViewTabPage::Downloading() {
 
 void CViewTabPage::UpdateInterface()
 {
-	// Check to see if the project has been contacted since last cycle.  
+	// Check to see if new files have been downloaded for the project
 	// If so, reload the slide show
 	CMainDocument* pDoc     = wxGetApp().GetDocument();
 	PROJECT* project = pDoc->state.lookup_project(resultWU->project_url);
-	if ( project > NULL && project->scheduler_rpc_in_progress ) {
-		// wait a few seconds before reloading in case there is a delay between
-		// the project update and the slide show being available
-		scheduler_rpc_in_progress = 10;
-	} else if ( scheduler_rpc_in_progress && !Downloading() ) {
-		scheduler_rpc_in_progress--;
-		if ( scheduler_rpc_in_progress == 0 ) {
-			GetCanvas()->ReloadSlideShow(GetSlideShow());
-		}
+	if ( project > NULL && project->project_files_downloaded_time > project_files_downloaded_time) {
+		project_files_downloaded_time = project->project_files_downloaded_time;
+		GetCanvas()->ReloadSlideShow(GetSlideShow());
 	}
 
 

@@ -50,9 +50,6 @@ public:
 	wxStaticText *stMyProj;
 	CStaticLine *lnMyProjTop;
 	CStaticLine *lnMyProjBtm;
-	// proj icon
-	wxString toolTipTxt;
-	wxString userCredit;
 	// default icon
 	// spacer
 	ImageLoader *i_spacer;

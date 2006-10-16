@@ -135,7 +135,7 @@ private:
 	std::vector<wxBitmap> GetSlideShow();
 	wxWindow* wSlideShow;
 	MyCanvas* m_canvas;
-	int scheduler_rpc_in_progress;
+	double project_files_downloaded_time;
 
 };
 

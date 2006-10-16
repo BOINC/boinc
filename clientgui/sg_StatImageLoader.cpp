@@ -6,8 +6,6 @@
 #include "sg_ProjectsComponent.h" 
 #include "app_ipc.h"
 
-#define ID_CHECKFORPROJECTICONDOWNLOADED  13001
-
 enum{
 	WEBSITE_URL_MENU_ID = 34500,
 	WEBSITE_URL_MENU_ID_REMOVE_PROJECT = 34550,
@@ -20,18 +18,20 @@ BEGIN_EVENT_TABLE(StatImageLoader, wxWindow)
 		EVT_LEFT_DOWN(StatImageLoader::PopUpMenu)
 		EVT_MENU(WEBSITE_URL_MENU_ID,StatImageLoader::OnMenuLinkClicked)
 		EVT_MENU(WEBSITE_URL_MENU_ID_REMOVE_PROJECT,StatImageLoader::OnMenuLinkClicked)
-		EVT_TIMER(ID_CHECKFORPROJECTICONDOWNLOADED, StatImageLoader::CheckForProjectIconDownloaded)
 END_EVENT_TABLE() 
 
 StatImageLoader::StatImageLoader(wxWindow* parent, std::string url) : wxWindow(parent, wxID_ANY, wxDefaultPosition, wxSize(40,40), wxNO_BORDER) 
 {
     m_prjUrl = url;
-	attemptToReloadTimer = new wxTimer(this, ID_CHECKFORPROJECTICONDOWNLOADED);
-    CreateMenu();
+	project_files_downloaded_time = 1;
+	project_last_rpc_time = 1;
+	BuildUserStatToolTip();
+	statPopUpMenu = new wxMenu(wxSIMPLE_BORDER);
+    AddMenuItems();
+
 }
 
 StatImageLoader::~StatImageLoader() {
-	delete attemptToReloadTimer;
 	delete statPopUpMenu;
 }
 
@@ -42,13 +42,25 @@ void StatImageLoader::PopUpMenu(wxMouseEvent& WXUNUSED(event))
 }
 
 void StatImageLoader::RebuildMenu() {
-	Freeze();
-	delete statPopUpMenu;
-	CreateMenu();
-	Thaw();
+	for(int i=(int) statPopUpMenu->GetMenuItemCount()-1; i>=0;i--){
+		wxMenuItem* item = statPopUpMenu->FindItemByPosition(i);
+		statPopUpMenu->Delete(item);
+	}
+	AddMenuItems();
 }
 
-void StatImageLoader::CreateMenu() 
+void StatImageLoader::BuildUserStatToolTip() {
+	CMainDocument* pDoc     = wxGetApp().GetDocument();
+	PROJECT* project = pDoc->state.lookup_project(m_prjUrl);
+	//user credit text
+	wxString userCredit;
+	userCredit.Printf(wxT("%0.2f"), project->user_total_credit);
+	wxString toolTipTxt = wxString(project->project_name.c_str(), wxConvUTF8 ) +wxT(". User ") + wxString(project->user_name.c_str(), wxConvUTF8) + wxT(" has ") + userCredit + wxT(" points."); 
+	wxToolTip* userStatToolTip = new wxToolTip(toolTipTxt);
+	SetToolTip(userStatToolTip);
+}
+
+void StatImageLoader::AddMenuItems() 
 { 
 	CMainDocument* pDoc = wxGetApp().GetDocument();
     wxASSERT(pDoc);
@@ -57,7 +69,6 @@ void StatImageLoader::CreateMenu()
 
 	PROJECT* project = pDoc->state.lookup_project(m_prjUrl);
 	urlCount = project->gui_urls.size();
-	statPopUpMenu = new wxMenu(wxSIMPLE_BORDER);
 
 	// Add the home page link
     wxMenuItem *urlItem = new wxMenuItem(statPopUpMenu, WEBSITE_URL_MENU_ID_HOMEPAGE,wxString(project->project_name.c_str(), wxConvUTF8));
@@ -187,41 +198,39 @@ void StatImageLoader::LoadImage(std::string project_icon, wxBitmap* defaultImage
 		LoadStatIcon(*defaultImage);
 	}
 
-	if ( defaultUsed ) {
-		projectIcon = project_icon;
-		numReloadTries = 80; // check for 10 minutes
-		attemptToReloadTimer->Start(7500);
-	}
+	projectIcon = project_icon;
 } 
 
-void StatImageLoader::CheckForProjectIconDownloaded(wxTimerEvent& WXUNUSED(event)) {
+void StatImageLoader::ReloadProjectSpecificIcon() {
 	char defaultIcnPath[256];
-	bool success = false;
-	// Check project icon downloaded
+	// Only update if it is project specific is found
 	if(boinc_resolve_filename(projectIcon.c_str(), defaultIcnPath, sizeof(defaultIcnPath)) == 0){
 		wxBitmap* btmpStatIcn = new wxBitmap();
 		if ( btmpStatIcn->LoadFile(defaultIcnPath, wxBITMAP_TYPE_ANY) ) {
 			LoadStatIcon(*btmpStatIcn);
-			success = true;
+			RebuildMenu();
 			Refresh();
 			Update();
 		}
 	}
-
-	CMainDocument* pDoc = wxGetApp().GetDocument();
-	PROJECT* project = pDoc->state.lookup_project(m_prjUrl);
-	if ( urlCount != project->gui_urls.size() ) {
-		RebuildMenu();
-	}
-
-	// Try numReloadTries times (set in constructor) or until success
-	if ( success || numReloadTries-- <=0 ) {
-		attemptToReloadTimer->Stop();
-	}
 }
 
 void StatImageLoader::UpdateInterface() {
-	// TODO - need to update this so that the gui urls are checked here
+	CMainDocument* pDoc = wxGetApp().GetDocument();
+	PROJECT* project = pDoc->state.lookup_project(m_prjUrl);
+
+	// Check to see if we need to reload the stat icon
+	if ( project > NULL && project->project_files_downloaded_time > project_files_downloaded_time ) {
+		ReloadProjectSpecificIcon();
+		project_files_downloaded_time = project->project_files_downloaded_time;
+	}
+
+	// Check to see if we need to rebuild the hoover and menu
+	if ( project > NULL && project->last_rpc_time > project_last_rpc_time ) {
+		RebuildMenu();
+		BuildUserStatToolTip();
+		project_last_rpc_time = project->last_rpc_time;
+	}
 }
 
 void StatImageLoader::OnPaint(wxPaintEvent& WXUNUSED(event)) 

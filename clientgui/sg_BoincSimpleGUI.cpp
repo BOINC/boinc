@@ -359,11 +359,9 @@ void CSimpleFrame::DestroyNotebook() {
 void CSimpleFrame::InitProjectView()
 {
 	// Do not update screen at this point
-	Freeze();
 	/////////////// MY PROJECTS COMPONENT /////////////////////
     projComponent = new CProjectsComponent(this,wxPoint(31,413));
 	///////////////////////////////////////////////////////////
-	Thaw();
 	projectViewInitialized = true;
 }
 
