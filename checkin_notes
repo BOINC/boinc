@@ -11109,13 +11109,11 @@ Rom    13 Oct 2006
         CompletionPage.cpp
         WizardAttachProject.cpp
 
-Kevin   13 Oct 2006
-
+Kevin   16 Oct 2006
     - BSG
  		- Update Project GUI urls when a rpc has completed with a project
 		- Update User Stats when a rpc has completed with a project
 		- Update project slide show when new downloads have been received from the project
-
 
     clientgui/
         sg_BoincSimpleGUI.cpp

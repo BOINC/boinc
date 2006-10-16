@@ -7,4 +7,4 @@ includedir = ${prefix}/include/BOINC/
 include_HEADERS =  boinc_db.h db_base.h
 
 ## other stuff to go into the distribution
-EXTRA_DIST = constraints.sql schema.sql mysql.h init_db
+EXTRA_DIST = constraints.sql schema.sql init_db
