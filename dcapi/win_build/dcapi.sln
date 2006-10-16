@@ -18,6 +18,8 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "util", "util.vcproj", "{271
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "cfg-client", "cfg-client.vcproj", "{75CDFBC4-6E9B-4DF9-8B57-2B14B96EB4AE}"
 	ProjectSection(ProjectDependencies) = postProject
+		{27121515-FD62-4D36-B513-8FD7D45E3283} = {27121515-FD62-4D36-B513-8FD7D45E3283}
+		{32394A76-744C-4D0E-B7C4-BB9F3E1BF256} = {32394A76-744C-4D0E-B7C4-BB9F3E1BF256}
 	EndProjectSection
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "libboinc", "libboinc.vcproj", "{E8F6BD7E-461A-4733-B7D8-37B09A099ED8}"
@@ -32,6 +34,8 @@ Global
 	GlobalSection(SolutionConfiguration) = preSolution
 		Debug = Debug
 		Release = Release
+	EndGlobalSection
+	GlobalSection(ProjectDependencies) = postSolution
 	EndGlobalSection
 	GlobalSection(ProjectConfiguration) = postSolution
 		{EE96AAE0-7D9F-48AA-8ECD-7EECED30289C}.Debug.ActiveCfg = Debug|Win32

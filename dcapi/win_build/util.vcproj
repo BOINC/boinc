@@ -27,6 +27,7 @@
 				UsePrecompiledHeader="0"
 				PrecompiledHeaderThrough=""
 				PrecompiledHeaderFile=""
+				ProgramDataBaseFileName="$(OutDir)/vc70.pdb"
 				WarningLevel="3"
 				SuppressStartupBanner="TRUE"
 				Detect64BitPortabilityProblems="TRUE"
@@ -36,6 +37,7 @@
 				Name="VCCustomBuildTool"/>
 			<Tool
 				Name="VCLibrarianTool"
+				OutputFile="$(IntDir)/$(ProjectName).lib"
 				SuppressStartupBanner="TRUE"/>
 			<Tool
 				Name="VCMIDLTool"/>
@@ -81,8 +83,9 @@
 				RuntimeLibrary="4"
 				EnableEnhancedInstructionSet="2"
 				UsePrecompiledHeader="0"
-				PrecompiledHeaderThrough="$(TargetName).h"
-				PrecompiledHeaderFile="$(OutDir)/$(TargetName).pch"
+				PrecompiledHeaderThrough=""
+				PrecompiledHeaderFile=""
+				ProgramDataBaseFileName="$(IntDir)/vc70.pdb"
 				WarningLevel="3"
 				Detect64BitPortabilityProblems="TRUE"
 				DebugInformationFormat="3"
@@ -91,7 +94,8 @@
 				Name="VCCustomBuildTool"/>
 			<Tool
 				Name="VCLibrarianTool"
-				AdditionalOptions="/LTCG"/>
+				AdditionalOptions="/LTCG"
+				OutputFile="$(IntDir)/$(ProjectName).lib"/>
 			<Tool
 				Name="VCMIDLTool"/>
 			<Tool
