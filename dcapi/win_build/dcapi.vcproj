@@ -41,8 +41,8 @@
 				EnableFunctionLevelLinking="FALSE"
 				EnableEnhancedInstructionSet="2"
 				UsePrecompiledHeader="0"
-				PrecompiledHeaderThrough="$(TargetName).h"
-				PrecompiledHeaderFile="$(OutDir)/$(TargetName).pch"
+				PrecompiledHeaderThrough=""
+				PrecompiledHeaderFile=""
 				AssemblerListingLocation=".\Build\Release\obj/"
 				ObjectFile=".\Build\Release\obj/"
 				ProgramDataBaseFileName=".\Build\Release\obj/"
@@ -58,7 +58,9 @@
 				Name="VCLibrarianTool"
 				AdditionalOptions="/LTCG"
 				AdditionalDependencies=""
-				AdditionalLibraryDirectories="$(OutDir)/"/>
+				OutputFile="$(OutDir)/$(SolutionName).lib"
+				AdditionalLibraryDirectories="$(OutDir)/"
+				IgnoreAllDefaultLibraries="FALSE"/>
 			<Tool
 				Name="VCMIDLTool"
 				PreprocessorDefinitions="NDEBUG"
@@ -127,6 +129,7 @@
 				Name="VCCustomBuildTool"/>
 			<Tool
 				Name="VCLibrarianTool"
+				OutputFile="$(OutDir)/$(SolutionName)d.lib"
 				SuppressStartupBanner="TRUE"/>
 			<Tool
 				Name="VCMIDLTool"

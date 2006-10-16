@@ -27,6 +27,7 @@
 				UsePrecompiledHeader="0"
 				PrecompiledHeaderThrough=""
 				PrecompiledHeaderFile=""
+				ProgramDataBaseFileName="$(OutDir)/vc70.pdb"
 				BrowseInformation="1"
 				WarningLevel="3"
 				SuppressStartupBanner="TRUE"
@@ -39,7 +40,7 @@
 				Name="VCCustomBuildTool"/>
 			<Tool
 				Name="VCLibrarianTool"
-				OutputFile="$(OutDir)/libboinc.lib"
+				OutputFile="$(IntDir)/libboinc.lib"
 				SuppressStartupBanner="TRUE"/>
 			<Tool
 				Name="VCMIDLTool"/>
@@ -97,7 +98,7 @@
 			<Tool
 				Name="VCLibrarianTool"
 				AdditionalOptions="/LTCG"
-				OutputFile="$(OutDir)/libboinc.lib"/>
+				OutputFile="$(IntDir)/libboinc.lib"/>
 			<Tool
 				Name="VCMIDLTool"/>
 			<Tool
