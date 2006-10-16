@@ -38,7 +38,7 @@ echo "</select></td></tr>";
 list_bar(tr(POLL_COMMENTS));
 list_item2(
     tr(POLL_COMMENTS_QUESTION),
-    "<textarea name=$improved rows=4 cols=60></textarea>"
+    "<textarea name=$improved rows=10 cols=60></textarea>"
 );
 
 list_item("<br>", tr(POLL_DONE)."<input type=submit value=OK>");

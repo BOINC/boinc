@@ -11120,3 +11120,11 @@ Kevin   16 Oct 2006
         sg_ProjectsComponent.cpp/h
         sg_StatImageLoader.cpp/h
         sg_ViewTabPage.cpp/h
+
+David  16 Oct 2006
+    - removed db/mysql.h.  Not sure why it was there,
+        but apparently it caused big problems for projects using MySQL 5
+        (reported by Carl C)
+
+    db/
+        mysql.h (removed)
