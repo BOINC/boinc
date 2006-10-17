@@ -18,7 +18,7 @@
 // 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 
 /* XPM */
-static char *btnAddProject_xpm[] = {
+static char *attach_project_button_xpm[] = {
 /* columns rows colors chars-per-pixel */
 "81 18 235 2",
 "aX c #99B8D2",

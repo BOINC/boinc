@@ -18,27 +18,37 @@
 // 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 
 /* XPM */
-static char *spacer_xpm[] = {
+static char *connecting_indicator_image_xpm[] = {
 /* columns rows colors chars-per-pixel */
-"2 11 8 1",
+"14 15 14 1",
 "  c Black",
-"+ c #293F3F",
-"O c #2A403F",
-"X c #2B4141",
-". c #2C4242",
-"@ c #283F3E",
-"# c #283F3F",
-"o c #2A4140",
+"# c #6080A0",
+"& c #90C0F0",
+"* c #131A20",
+"- c #739AC0",
+"o c #99CCFF",
+"@ c #0A0D10",
+"= c #3A4D60",
+"X c #6A8DB0",
+". c #263340",
+"% c #567390",
+"O c #86B3E0",
+"+ c #4D6680",
+"$ c #7DA6D0",
 /* pixels */
-" .",
-" X",
-" o",
-" O",
-" +",
-" @",
-" #",
-" #",
-" #",
-" #",
-" #"
+"   .XooooO+@  ",
+"  #oooooooo$@ ",
+" %oooooooooo$@",
+".oooooooooooo+",
+"#ooooooooooooO",
+"&ooooooooooooo",
+"oooooooooooooo",
+"oooooooooooooo",
+"oooooooooooooo",
+"Oooooooooooooo",
+"#ooooooooooooO",
+"*oooooooooooo=",
+" +oooooooooo$ ",
+"  %oooooooo-@ ",
+"   .#&oooX=   "
 };

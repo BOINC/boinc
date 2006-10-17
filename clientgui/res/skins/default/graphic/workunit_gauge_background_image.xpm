@@ -18,7 +18,7 @@
 // 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 
 /* XPM */
-static char *gauge_bg_xpm[] = {
+static char *workunit_gauge_background_image_xpm[] = {
 /* columns rows colors chars-per-pixel */
 "258 18 116 2",
 "Q  c #BADDE2",

@@ -18,7 +18,7 @@
 // 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 
 /* XPM */
-static char *arwRight_xpm[] = {
+static char *right_arrow_button_xpm[] = {
 /* columns rows colors chars-per-pixel */
 "20 20 201 2",
 "w  c #578887",

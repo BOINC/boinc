@@ -18,7 +18,7 @@
 // 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 
 /* XPM */
-static char *boinc_black_background_xpm[] = {
+static char *workunit_animation_image_xpm[] = {
 /* columns rows colors chars-per-pixel */
 "260 61 128 2",
 "   c Black",
