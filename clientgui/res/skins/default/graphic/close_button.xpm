@@ -18,7 +18,7 @@
 // 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 
 /* XPM */
-static char *btnClose_xpm[] = {
+static char *close_button_xpm[] = {
 /* columns rows colors chars-per-pixel */
 "57 16 114 2",
 "$  c #3A3A9A",
