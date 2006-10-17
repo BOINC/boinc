@@ -48,22 +48,13 @@ avoid deleting posts until someone complains about them
 
 </ul>
 <p>
-It is possible for an administrator to temporarily banish
+It is possible for a project administrator to temporarily banish
 users by selecting the \"banish author\" link in each post.
 In this case each offending author is sent an e-mail stating
 he/she will be unable to post for two weeks.
-Moderators will also have the \"banish author\" button but
-should only use it in emergency cases, such as:
-<ul>
-<li>spammers suddenly littering the forums with garbage
-at a quick rate, or
-<li>egregious offenders (i.e. highly violent or pornographic
-images not suitable to children under 18 years old). 
-</ul>
-In normal cases, if a moderator wants to banish a specific
-author they must ask the adminstrator first. <b>Any</b>
-user banishment results in an e-mail to the internal
-moderation list describing who got banished and why.
+Moderators will not have access to the \"banish author\" button.
+If they feel a person should be banished, they should request
+that a project administrator do so.
 <p>
 <b>REMEMBER:</b>
 It is impossible to keep any internet forum free of yahoos.

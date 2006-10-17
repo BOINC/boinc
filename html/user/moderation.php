@@ -12,7 +12,8 @@ Message board postings are subject to the following posting rules:
 <p>
 Moderators may delete posts that violate any of these rules.
 The authors of deleted posts will be notified via email.
-Gross offenders may have their accounts disabled to prevent further posting.
+Gross offenders may have their ability to post messages temporarily revoked
+(though to prevent abuse only project administrators have the ability to do so).
 Additional kinds of bad behavior (\"bugging\" posts to trap the
 IP addresses of other participants, excessive thread creation to spam
 the forums, etc.), while not listed in the formal rules, may still
