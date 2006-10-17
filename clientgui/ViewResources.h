@@ -27,7 +27,10 @@
 
 #include "BOINCBaseView.h"
 #include "common/wxPieCtrl.h"
+#include <wx/dynarray.h>
 
+WX_DECLARE_OBJARRAY(wxColour, wxArrayColour);
+#define MAX_PROJECTCOLORINDEX 13
 
 class CViewResources : public CBOINCBaseView
 {
@@ -46,6 +49,8 @@ protected:
 
 	wxPieCtrl*				m_pieCtrlBOINC;
 	wxPieCtrl*				m_pieCtrlTotal;
+
+	wxArrayColour			m_aProjectColours;
 
     virtual void            UpdateSelection();
 

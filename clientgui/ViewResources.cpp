@@ -28,9 +28,10 @@
 #include "BOINCListCtrl.h"
 #include "ViewResources.h"
 #include "Events.h"
-
-
+#include <wx/arrimpl.cpp>
 #include "res/usage.xpm"
+
+WX_DEFINE_OBJARRAY(wxArrayColour);
 
 IMPLEMENT_DYNAMIC_CLASS(CViewResources, CBOINCBaseView)
 
@@ -47,6 +48,23 @@ CViewResources::CViewResources()
 CViewResources::CViewResources(wxNotebook* pNotebook) :  
 	CBOINCBaseView(pNotebook)
 {
+	//add 14 colors for boinc projects (anyone who have more projects attached ?)
+	m_aProjectColours.Add(wxTheColourDatabase->Find("SPRING GREEN"));
+	m_aProjectColours.Add(wxTheColourDatabase->Find("SKY BLUE"));
+	m_aProjectColours.Add(wxTheColourDatabase->Find("ORANGE"));
+	m_aProjectColours.Add(wxTheColourDatabase->Find("VIOLET"));
+	m_aProjectColours.Add(wxTheColourDatabase->Find("GOLD"));
+	m_aProjectColours.Add(wxTheColourDatabase->Find("MAROON"));
+	m_aProjectColours.Add(wxTheColourDatabase->Find("FIREBRICK"));
+	m_aProjectColours.Add(wxTheColourDatabase->Find("LIME GREEN"));
+	m_aProjectColours.Add(wxTheColourDatabase->Find("ORCHID"));	
+	m_aProjectColours.Add(wxTheColourDatabase->Find("SALMON"));
+	m_aProjectColours.Add(wxTheColourDatabase->Find("SIENNA"));
+	m_aProjectColours.Add(wxTheColourDatabase->Find("INDIAN RED"));
+	m_aProjectColours.Add(wxTheColourDatabase->Find("CORAL"));
+	m_aProjectColours.Add(wxTheColourDatabase->Find("GREEN YELLOW"));
+
+
 	wxFlexGridSizer* itemFlexGridSizer = new wxFlexGridSizer(3, 0, 0);
     wxASSERT(itemFlexGridSizer);
 
@@ -103,6 +121,9 @@ CViewResources::CViewResources(wxNotebook* pNotebook) :
     itemFlexGridSizer->Add(m_pTaskPane, 1, wxGROW|wxALL, 1);
 	itemFlexGridSizer->Add(m_pieCtrlTotal, 1, wxGROW|wxALL, 1);
     itemFlexGridSizer->Add(m_pieCtrlBOINC, 1, wxGROW|wxALL, 1);	
+	//force same size for both piectrls
+	itemFlexGridSizer->SetFlexibleDirection(wxVERTICAL);
+	itemFlexGridSizer->SetNonFlexibleGrowMode(wxFLEX_GROWMODE_SPECIFIED);
 
     SetSizer(itemFlexGridSizer);
 
@@ -214,7 +235,8 @@ void CViewResources::OnListRender( wxTimerEvent& WXUNUSED(event) ) {
 			wxPiePart part;
 			part.SetLabel(projectname + wxT(" - ") + diskspace);
 			part.SetValue(usage);
-			part.SetColour(wxColour(50*count,255-(count*50),255-(count*50)));
+			part.SetColour(m_aProjectColours[count>MAX_PROJECTCOLORINDEX ? count % MAX_PROJECTCOLORINDEX : count]);
+			//part.SetColour(wxColour(50*count,255-(count*50),255-(count*50)));
 			m_pieCtrlBOINC->m_Series.Add(part);
 		}
 		//force a repaint of the legend (doesn't work if not explicitly resized)

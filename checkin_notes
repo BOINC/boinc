@@ -11081,7 +11081,6 @@ David  12 Oct 2006
 Charlie 12 Oct 2006
     - More fixes to wxPieCtrl for Mac.
 
-    client/
     clientgui/
         ViewResources.cpp
         common/
@@ -11128,3 +11127,10 @@ David  16 Oct 2006
 
     db/
         mysql.h (removed)
+
+Charlie 16 Oct 2006
+    - New colors for wxPieCtrl from Frank Weiler.
+
+    clientgui/
+        ViewResources.cpp,h
+
