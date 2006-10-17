@@ -11148,3 +11148,14 @@ Charlie 17 Oct 2006
         ViewResources.cpp
         common/
             wxPieCtrl.cpp
+
+Matt 17 Oct 2006
+    - Updated forum code so that only project administrators can banish users, not
+      moderators
+
+    html/
+      user/
+        forum_moderate_post_action.php
+      inc/
+        forum.inc
+        forum_moderators.inc
