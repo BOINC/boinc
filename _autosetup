@@ -86,8 +86,14 @@ check_version()
   if check_version m4 1.4; then
       echo >/dev/null
   else
-      echo "Couldn't find a new-enough version of 'm4', please install one!";
-      exit 1;
+      ## solaris m4 works fine
+      if test -f /usr/ccs/bin/m4
+      then
+         echo >/dev/null
+      else 
+         echo "Couldn't find a new-enough version of 'm4', please install one!";
+         exit 1;
+      fi
       # build_lsc_aux "m4-1.4.1"
   fi
 
