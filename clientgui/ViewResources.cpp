@@ -236,27 +236,17 @@ void CViewResources::OnListRender( wxTimerEvent& WXUNUSED(event) ) {
 			part.SetLabel(projectname + wxT(" - ") + diskspace);
 			part.SetValue(usage);
 			part.SetColour(m_aProjectColours[count>MAX_PROJECTCOLORINDEX ? count % MAX_PROJECTCOLORINDEX : count]);
-			//part.SetColour(wxColour(50*count,255-(count*50),255-(count*50)));
 			m_pieCtrlBOINC->m_Series.Add(part);
 		}
-		//force a repaint of the legend (doesn't work if not explicitly resized)
-#ifndef __WXMAC__
-		m_pieCtrlBOINC->GetLegend()->SetSize(wxSize(10,10));
-#endif
 		m_pieCtrlBOINC->Refresh();
 	}
 	else {
 		//paint an empty black pie
 		wxPiePart part;
-		//TODO: respect localization
-		part.SetLabel(wxT("not attached to any BOINC project - 0 bytes"));
+		part.SetLabel(_("not attached to any BOINC project - 0 bytes"));
 		part.SetValue(boinctotal);
 		part.SetColour(wxColour(0,0,0));
 		m_pieCtrlBOINC->m_Series.Add(part);		
-		//force a repaint of the legend (doesn't work if not explicitly resized)
-#ifndef __WXMAC__
-		m_pieCtrlBOINC->GetLegend()->SetSize(wxSize(10,10));
-#endif
 		m_pieCtrlBOINC->Refresh();
 	}
 	//data for pie chart 2 (total disk usage)
@@ -267,29 +257,22 @@ void CViewResources::OnListRender( wxTimerEvent& WXUNUSED(event) ) {
 	double total = llTotal.ToDouble();			
 	//free disk space
 	FormatDiskSpace2(free,diskspace);		
-	//TODO: respect localization
-	part.SetLabel("free diskspace - " + diskspace);
+	part.SetLabel(_("free diskspace - ") + diskspace);
 	part.SetValue(free);
 	part.SetColour(wxColour(0,255,0));
 	m_pieCtrlTotal->m_Series.Add(part);
 	//used by boinc projects
 	FormatDiskSpace2(boinctotal,diskspace);		
-	//TODO: respect localization
-	part.SetLabel("used by BOINC projects - " + diskspace);
+	part.SetLabel(_("used by BOINC projects - ") + diskspace);
 	part.SetValue(boinctotal);
 	part.SetColour(wxColour(255,0,0));
 	m_pieCtrlTotal->m_Series.Add(part);
 	//used by others
 	FormatDiskSpace2(total-boinctotal-free,diskspace);
-	//TODO: respect localization
-	part.SetLabel("used by others - " + diskspace);
+	part.SetLabel(_("used by others - ") + diskspace);
 	part.SetValue(total-boinctotal-free);
 	part.SetColour(wxColour(0,0,255));
 	m_pieCtrlTotal->m_Series.Add(part);
-	//force a repaint of the legend (doesn't work if not explicitly resized)
-#ifndef __WXMAC__
-	m_pieCtrlTotal->GetLegend()->SetSize(wxSize(10,10));
-#endif
 	m_pieCtrlTotal->Refresh();
 }
 

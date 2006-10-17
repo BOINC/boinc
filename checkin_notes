@@ -11141,3 +11141,10 @@ Rom    16 Oct 2006
     client/
         cs_benchmark.C
 
+Charlie 17 Oct 2006
+    - Additional fixes for wxPieCtrl from Frank Weiler.
+
+    clientgui/
+        ViewResources.cpp
+        common/
+            wxPieCtrl.cpp

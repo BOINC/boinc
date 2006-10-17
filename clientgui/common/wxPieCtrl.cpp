@@ -115,7 +115,7 @@ void wxPieCtrlLegend::OnPaint(wxPaintEvent & event)
 	//draw legend items
 	mdc.SetFont(m_LabelFont);
 	mdc.SetTextForeground(m_LabelColour);
-	int maxwidth(0);
+	int maxwidth(titlew);
 	for(i = 0; i < parent->m_Series.Count(); i++)
 	{
 		mdc.GetTextExtent(parent->m_Series[i].GetLabel(), &tw, &th);
@@ -125,10 +125,6 @@ void wxPieCtrlLegend::OnPaint(wxPaintEvent & event)
 		dy += (th+3);
 		maxwidth = max(maxwidth, (int)(2*m_HorBorder+tw+15));
 	}
-#ifdef __WXMAC__
-        if (maxwidth == 0)
-            return;
-#endif
 	dy += m_VerBorder;
 	if(w != maxwidth || h != dy) SetSize(maxwidth, dy);
 
