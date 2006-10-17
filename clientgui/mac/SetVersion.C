@@ -1,9 +1,27 @@
+// Berkeley Open Infrastructure for Network Computing
+// http://boinc.berkeley.edu
+// Copyright (C) 2005 University of California
+//
+// This is free software; you can redistribute it and/or
+// modify it under the terms of the GNU Lesser General Public
+// License as published by the Free Software Foundation;
+// either version 2.1 of the License, or (at your option) any later version.
+//
+// This software is distributed in the hope that it will be useful,
+// but WITHOUT ANY WARRANTY; without even the implied warranty of
+// MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
+// See the GNU Lesser General Public License for more details.
+//
+// To view the GNU Lesser General Public License visit
+// http://www.gnu.org/copyleft/lesser.html
+// or write to the Free Software Foundation, Inc.,
+// 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
+
 /*
  *  SetVersion.c
  *  boinc
  *
  *  Created by Charlie Fenton on 3/29/05.
- *  Copyright 2005 __MyCompanyName__. All rights reserved.
  *
  */
 
@@ -13,11 +31,8 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
+#include <unistd.h>
 #include "version.h"
-
-#if STAND_ALONE
-#include <unistd.h>     // for getcwd if debugging
-#endif
 
 int IsFileCurrent(char* filePath);
 int FixInfoPlistFile(char* myPath);
@@ -86,7 +101,8 @@ int FixInfoPlist_Strings(char* myPath, char* brand) {
         fprintf(f, "/* Localized versions of Info.plist keys */\n\n");
         fprintf(f, "CFBundleName = \"%s\";\n", brand);
         fprintf(f, "CFBundleShortVersionString = \"%s version %s\";\n", brand, BOINC_VERSION_STRING);
-        fprintf(f, "CFBundleGetInfoString = \"%s version %s, Copyright 2005 University of California.\";\n", brand, BOINC_VERSION_STRING);
+        fprintf(f, "CFBundleGetInfoString = \"%s version %s, Copyright 2006 University of California.\";\n", brand, BOINC_VERSION_STRING);
+        fflush(f);
         retval = fclose(f);
     }
     else {
@@ -106,13 +122,16 @@ int FixInfoPlistFile(char* myPath) {
     if (IsFileCurrent(myPath))
         return 0;
 
-    fin = fopen(myPath, "r");
+    rename(myPath, "./temp");
+//    sprintf(buf, "mv -f %s temp", myPath);
+//    retval = system(buf);
+
+    fin = fopen("temp", "r");
     if (fin == NULL)
         goto bail;
 
-    fout = fopen("temp", "w");
+    fout = fopen(myPath, "w");
     if (fout == NULL) {
-        fclose(fin);
         goto bail;
     }
 
@@ -155,10 +174,10 @@ int FixInfoPlistFile(char* myPath) {
     }
 
     fclose(fin);
+    fflush(fout);
     fclose(fout);
     
-    sprintf(buf, "mv -f temp %s", myPath);
-    retval = system(buf);
+    unlink("temp");
     
     return retval;
 
@@ -168,6 +187,10 @@ bail:
     if (fout)
         fclose(fout);
 
+    rename("./temp", myPath);
+//    sprintf(buf, "mv -f temp %s", myPath);
+//    retval = system(buf);
+    
     printf("Error updating version number in file %s\n", myPath);
     return -1;
 }
@@ -206,6 +229,7 @@ int MakeInstallerInfoPlistFile(char* myPath, char* brand) {
         fprintf(f, "\t<key>IFPkgFormatVersion</key>\n\t<real>0.10000000149011612</real>\n");
         fprintf(f, "</dict>\n</plist>\n");
 
+        fflush(f);
         retval = fclose(f);
     }
     else {

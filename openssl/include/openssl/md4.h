@@ -114,4 +114,3 @@ void MD4_Transform(MD4_CTX *c, const unsigned char *b);
 #endif
 
 #endif
-

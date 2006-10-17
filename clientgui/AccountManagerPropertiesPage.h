@@ -55,14 +55,10 @@ END_DECLARE_EVENT_TYPES()
 #define ACCTMGRPROP_INIT                                   0
 #define ACCTMGRPROP_RETRPROJECTPROPERTIES_BEGIN            1
 #define ACCTMGRPROP_RETRPROJECTPROPERTIES_EXECUTE          2
-#define ACCTMGRPROP_COMMUNICATEYAHOO_BEGIN                 3
-#define ACCTMGRPROP_COMMUNICATEYAHOO_EXECUTE               4
-#define ACCTMGRPROP_COMMUNICATEGOOGLE_BEGIN                5
-#define ACCTMGRPROP_COMMUNICATEGOOGLE_EXECUTE              6
-#define ACCTMGRPROP_DETERMINENETWORKSTATUS_BEGIN           7
-#define ACCTMGRPROP_DETERMINENETWORKSTATUS_EXECUTE         8
-#define ACCTMGRPROP_CLEANUP                                9
-#define ACCTMGRPROP_END                                    10
+#define ACCTMGRPROP_DETERMINENETWORKSTATUS_BEGIN           3
+#define ACCTMGRPROP_DETERMINENETWORKSTATUS_EXECUTE         4
+#define ACCTMGRPROP_CLEANUP                                5
+#define ACCTMGRPROP_END                                    6
 
 /*!
  * CAccountManagerPropertiesPage class declaration

@@ -20,26 +20,23 @@
 # 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 #
 #
-# Script to build the wxMac-2.6.2 library for BOINC as a Universal Binary
-#
-# Script to build Macintosh Universal Binary library of curl-7.15.1 for
+# Script to build Macintosh Universal Binary library of curl-7.15.3 for
 # use in building BOINC.
 #
-# by Charlie Fenton 2/17/06
+# by Charlie Fenton 4/27/06
 #
-## In Terminal, CD to the wxMac-2.6.2 directory.
-##     cd [path]/curl-7.15.1/
+## In Terminal, CD to the curl-7.15.3 directory.
+##     cd [path]/curl-7.15.3/
 ## then run this script:
 ##     source buildcurl [ -clean ]
 ##
 ## the -clean argument will force a full rebuild.
 #
 
-
 if [ "$1" != "-clean" ]; then
   if [ -f lib/.libs/libcurl_ppc.a ] && [ -f lib/.libs/libcurl_i386.a ] && [ -f lib/.libs/libcurl.a ]; then
     
-    echo "curl-7.15.1 already built"
+    echo "curl-7.15.3 already built"
     return 0
   fi
 fi

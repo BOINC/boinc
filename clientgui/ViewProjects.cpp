@@ -389,12 +389,7 @@ void CViewProjects::OnProjectWebsiteClicked( wxEvent& event ) {
 
 
 wxInt32 CViewProjects::GetDocCount() {
-    CMainDocument* pDoc      = wxGetApp().GetDocument();
-
-    wxASSERT(pDoc);
-    wxASSERT(wxDynamicCast(pDoc, CMainDocument));
-
-    return pDoc->GetProjectCount();
+    return wxGetApp().GetDocument()->GetProjectCount();
 }
 
 

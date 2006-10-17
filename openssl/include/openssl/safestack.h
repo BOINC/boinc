@@ -1782,4 +1782,3 @@ STACK_OF(type) \
 /* End of util/mkstack.pl block, you may now edit :-) */
 
 #endif /* !defined HEADER_SAFESTACK_H */
-

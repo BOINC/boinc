@@ -20,14 +20,12 @@
 # 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 #
 #
-# Script to build the wxMac-2.6.2 library for BOINC as a Universal Binary
-#
 # Script to build Macintosh Universal Binary library of jpeg-6b for
 # use in building BOINC.
 #
-# by Charlie Fenton 2/17/06
+# by Charlie Fenton 4/27/06
 #
-## In Terminal, CD to the wxMac-2.6.2 directory.
+## In Terminal, CD to the jpeg-6b directory.
 ##     cd [path]/jpeg-6b/
 ## then run this script:
 ##    source [ path_to_this_script ] [ -clean ]
