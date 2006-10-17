@@ -4310,3 +4310,13 @@ Rom    2 Aug 2006 (boinc_core_release_5_4)
     - Tag for 5.4.11 release, all platforms
       boinc_core_release_5_4_11
 
+Charlie 17 Oct 2006 (boinc_core_release_5_4)
+    - Mac: update Grid Republic release script, release 
+        BOINC Manager 4.11 branded for Grid Republic.
+    - Check in the default certificate CA's so curl can use them.
+    
+    curl/
+        ca-bundle.crt (added)
+    mac_installer/
+        release_GridRepublic.sh
+        
