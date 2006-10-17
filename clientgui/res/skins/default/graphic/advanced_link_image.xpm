@@ -18,7 +18,7 @@
 // 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 
 /* XPM */
-static char *btnAdvancedView_xpm[] = {
+static char *advanced_link_image_xpm[] = {
 /* columns rows colors chars-per-pixel */
 "101 20 108 2",
 "0  c #9CC2D4",

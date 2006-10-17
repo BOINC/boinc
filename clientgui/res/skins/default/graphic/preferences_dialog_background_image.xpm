@@ -18,7 +18,7 @@
 // 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 
 /* XPM */
-static char *dlgPreferences_xpm[] = {
+static char *preferences_dialog_background_image_xpm[] = {
 /* columns rows colors chars-per-pixel */
 "410 372 128 2",
 "!  c #DFEAD2",
