@@ -206,6 +206,10 @@ void CLIENT_STATE::start_cpu_benchmarks() {
             NULL, 0, win_cpu_benchmarks, benchmark_descs+i, 0,
             &benchmark_descs[i].pid
         );
+
+        // lower our priority here
+        //
+        SetThreadPriority(benchmark_descs[i].handle, THREAD_PRIORITY_IDLE);
 #else
         sprintf(benchmark_descs[i].filename, "%s_%d.xml", CPU_BENCHMARKS_FILE_NAME, i);
         PROCESS_ID pid = fork();

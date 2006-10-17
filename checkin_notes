@@ -11134,3 +11134,10 @@ Charlie 16 Oct 2006
     clientgui/
         ViewResources.cpp,h
 
+Rom    16 Oct 2006
+    - Bug Fix: Benchmarks should be run using an idle thread priority instead of the
+        normal thread priority.
+        
+    client/
+        cs_benchmark.C
+
