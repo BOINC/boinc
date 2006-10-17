@@ -42,6 +42,10 @@ if ($action=="hide"){
     $destination_thread = new Thread(post_int('threadid'));
     $result = $post->move($destination_thread);
 } elseif ($action=="banish_user"){
+    if (!$user->isSpecialUser(S_ADMIN)) {
+      // Can't banish without being administrator
+      error_page("You are not authorized to banish this user.");
+    }
     $userid = get_int('userid');
     $user = newUser($userid);
     if (!$user) {

@@ -295,7 +295,7 @@ function show_post($post, $thread, $logged_in_user, $n, $controls=FORUM_CONTROLS
 
     if ($post->getParentPostID()) echo " - in response to <a href=\"forum_thread.php?id=".$thread->getID()."&nowrap=true#".$post->getParentPostID()."\">Message ID ".$post->getParentPostID()."</a>.";
     if ($can_edit && $controls != NO_CONTROLS) echo "&nbsp;<a href=\"forum_edit.php?id=".$post->getID()."\">[Edit this post]</a>";
-    if ($logged_in_user && $logged_in_user->isSpecialUser(S_MODERATOR)) echo post_moderation_links($post); //If user is moderator, show links
+    if ($logged_in_user && $logged_in_user->isSpecialUser(S_MODERATOR)) echo post_moderation_links($post,$logged_in_user->isSpecialUser(S_ADMIN)); //If user is moderator, show links
     if ($post->getModificationTimestamp()) echo "<br>Last modified: ", pretty_time_Str($post->getModificationTimestamp());
     if ($rated_below_threshold && $filter){
         if ($user_is_on_ignorelist) $andtext=" and the user is on your ignore list";
