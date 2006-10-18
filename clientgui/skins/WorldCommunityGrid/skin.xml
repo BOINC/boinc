@@ -34,6 +34,8 @@
       <left_arrow_clicked_button>graphic/arwLeftClick.png</left_arrow_clicked_button>
       <right_arrow_button>graphic/arwRight.png</right_arrow_button>
       <right_arrow_clicked_button>graphic/arwRightClick.png</right_arrow_clicked_button>
+      <change_button>graphic/btnChange.png</right_arrow_button>
+      <change_clicked_button>graphic/btnChangeClick.png</right_arrow_clicked_button>
       <animation_background>graphic/project_image.png</animation_background>
       <default_wu_image>graphic/wcg_black_bacground.gif</default_wu_image>
       <icons>
