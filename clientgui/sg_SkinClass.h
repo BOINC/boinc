@@ -59,6 +59,8 @@ public:
 		wxBitmap* GetBtnRightArr() { return skinImages[wxString(_T("right_arrow_button"))]; }
 		wxBitmap* GetBtnLeftArrClick() { return skinImages[wxString(_T("left_arrow_clicked_button"))]; }
 		wxBitmap* GetBtnRightArrClick() { return skinImages[wxString(_T("right_arrow_clicked_button"))]; }
+		wxBitmap* GetBtnChange() { return skinImages[wxString(_T("change_button"))]; }
+		wxBitmap* GetBtnChangeClick() { return skinImages[wxString(_T("change_clicked_button"))]; }
         
 		wxBitmap* GetDlgPrefBg() { return skinImages[wxString(_T("preferences_dialogue"))]; }
 		wxBitmap* GetDlgMessBg() { return skinImages[wxString(_T("messages_dialogue"))]; }

@@ -500,6 +500,7 @@ void CProjectsComponent::OnBtnClick(wxCommandEvent& event){ //init function
 				} else {
 					wxMessageBox("Incompatible skin. Skin will not be changed.");
 					pDlg->SetSkinName(pFrame->skinName);
+					pFrame->ReskinAppGUI();
 				}
 				GetParent()->Thaw();
 		   }
@@ -555,7 +556,6 @@ void CProjectsComponent::CheckForErrorMessages(wxTimerEvent& WXUNUSED(event)) {
 			if ( message != NULL && message->priority == MSG_ERROR ) {
 				receivedErrorMessage = true;
 				checkForMessagesTimer->Stop();
-				lastMessageId = pDoc->messages.messages.size();
 				break;
 			}
 		}
@@ -564,5 +564,7 @@ void CProjectsComponent::CheckForErrorMessages(wxTimerEvent& WXUNUSED(event)) {
 
 void CProjectsComponent::MessagesViewed() {
 	receivedErrorMessage = false;
+	CMainDocument* pDoc     = wxGetApp().GetDocument();
+	lastMessageId = pDoc->GetMessageCount();
 	checkForMessagesTimer->Start();
 }

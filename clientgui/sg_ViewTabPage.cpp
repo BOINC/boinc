@@ -590,6 +590,13 @@ WorkunitNotebook::WorkunitNotebook(wxWindow* parent, wxWindowID id, const wxPoin
 	SetImageList(&m_ImageList);
 	changeSlideTimer = new wxTimer(this, ID_CHANGE_SLIDE_TIMER);
 	changeSlideTimer->Start(5000); 
+	Update();
+	for (int i=0; i< (int) m_windows.size(); i++) {
+		if ( m_windows.at(i)->resultWU->active_task_state == 1 ) {
+			SetSelection(i);
+			break;
+		}
+	}
 }
 
 WorkunitNotebook::~WorkunitNotebook() {
@@ -618,15 +625,11 @@ void WorkunitNotebook::AddTab(RESULT* result) {
 	CViewTabPage *wTab = new CViewTabPage(this,result,nme,projUrl);
 	
 	AddPage(wTab, appShortName, true);	
-	if(result->active_task_state == 1){
+	if(resState->active_task_state == 1){
 		int pageIndex = GetPageIndex(wTab);
 		SetPageImageIndex(pageIndex, 0); // this is a running process
 	}
 	m_windows.push_back(wTab);
-	//Update screen
-	if ( m_windows.size() == 1 ) {
-		SetSelection(0);
-	}
 	GetParent()->GetSizer()->Layout();
 	Thaw();
 }

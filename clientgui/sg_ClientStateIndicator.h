@@ -62,6 +62,7 @@ private:
 		void SetPausedState(const char* message);
 		bool DownloadingResults();
 		bool Suspended();
+		bool ProjectUpdateScheduled();
 		time_t error_time;
 		
 		void OnEraseBackground(wxEraseEvent& event);

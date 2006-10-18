@@ -60,7 +60,7 @@ bool SkinClass::CheckSkin()
 		return false;//skin xml file is not available
 	} 
 
-	if ( skinImageNames.size() != 36 ) {
+	if ( skinImageNames.size() != 38 ) {
 		return false;
 	}
 	
@@ -173,6 +173,8 @@ int SkinClass::LoadSkinXML(){
 		} else if (GetImageName(buf, "left_arrow_clicked_button")){
 		} else if (GetImageName(buf, "right_arrow_button")){
 		} else if (GetImageName(buf, "right_arrow_clicked_button")){
+		} else if (GetImageName(buf, "change_button")){
+		} else if (GetImageName(buf, "change_clicked_button")){
 		} else if (GetImageName(buf, "animation_background")){
 		} else if (GetImageName(buf, "default_wu_image")){
 		} else if (match_tag(buf, "<icons")) {

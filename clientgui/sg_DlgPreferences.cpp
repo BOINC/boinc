@@ -91,8 +91,8 @@ void CDlgPreferences::CreateDialog()
 	cmbSkinPicker->SetValue(m_SkinName);
 
 	wxToolTip *ttSaveSkin = new wxToolTip(wxT("Change skin"));
-	btnSaveSkin=new wxBitmapButton(this,ID_SAVESKINBUTTON,*(appSkin->GetBtnSave()),wxPoint(187,82),wxSize(57,16),wxNO_BORDER);
-	btnSaveSkin->SetBitmapSelected(*(appSkin->GetBtnSaveClick()));
+	btnSaveSkin=new wxBitmapButton(this,ID_SAVESKINBUTTON,*(appSkin->GetBtnChange()),wxPoint(184,82),wxSize(62,16),wxNO_BORDER);
+	btnSaveSkin->SetBitmapSelected(*(appSkin->GetBtnChangeClick()));
 	btnSaveSkin->SetToolTip(ttSaveSkin);
 
 	lnMyTop = new CStaticLine(this,wxPoint(16,113),wxSize(378,1));

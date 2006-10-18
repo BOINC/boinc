@@ -11159,3 +11159,20 @@ Matt 17 Oct 2006
       inc/
         forum.inc
         forum_moderators.inc
+        
+Kevin 18 Oct 2006
+    - BSG
+ 		- Added a state to inform the user when the client is communicating with a project
+		- Added a 'change' button to the preferences to change just the skin
+		- Fixed bug that caused the skin to crash when a invalid skin was selected
+		- Do not flash the 'messages' between red and black for messages that arrive while
+		  the messages dialogue is open
+		- Set the selected tab when the BSG is first opened to be a workunit that is currently running
+
+    clientgui/
+        sg_ClientStateIndicator.cpp/h
+        sg_DlgPreferences.cpp
+        sg_ProjectsComponent.cpp/h
+        sg_SkinClass.cpp/h
+        sg_ViewTabPage.cpp
+        
