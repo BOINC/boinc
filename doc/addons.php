@@ -1,5 +1,9 @@
 <?php
 require_once("docutil.php");
+
+$strip_headers = $_GET['strip_headers'];
+
+if (!$strip_headers) {
 page_head('BOINC add-on software');
 echo "
 <p>
@@ -22,6 +26,8 @@ To submit an add-on for inclusion in this list, please
 email <a href=contact.php>David Anderson</a>.
 </ul>
 ";
+
+}
 
 function show_group($name, $list) {
 	echo "
@@ -110,5 +116,7 @@ show_group("Linux", $linux);
 show_group("Mac", $mac);
 show_group("Web applications", $web);
 
+if (!$strip_headers) {
 page_tail();
+}
 ?>

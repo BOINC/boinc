@@ -11176,3 +11176,8 @@ Kevin 18 Oct 2006
         sg_SkinClass.cpp/h
         sg_ViewTabPage.cpp
         
+David  18 Oct 2006
+    - let project show addons page with their own header/footer
+
+    html/user/
+        download_network.php

@@ -1,6 +1,10 @@
 <?
 
 $project_news = array(
+array("October 17, 2006",
+    "Issue 3 of
+    <a href=http://www.boincuk.com/newsLetter/bunc-03.pdf>bunc (BOINC UK newsletter)</a> is now online, with articles on a wide range of topics."
+),
 array("October 9, 2006",
     "Interested in getting a one-CPU-month job finished in five minutes?
     BOINC can potentially help you do this, but

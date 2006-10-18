@@ -24,7 +24,8 @@ function page_head($title) {
         header("Content-type: text/html; charset=".tr(CHARSET));
     }
 
-    echo "<html>
+    echo "
+        <html>
         <head>
         <link rel=\"stylesheet\" type=\"text/css\" href=\"white.css\"/>
         <link rel=\"shortcut icon\" href=\"iconsmall.ico\"/>

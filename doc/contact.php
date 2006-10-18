@@ -94,7 +94,9 @@ Each area is managed by an 'owner'.
 
 <h2>Developers</h2>
 The following people have contributed to the development of
-the BOINC software:
+the BOINC software
+(an interesting summary of project activity is
+ <a href=http://www.ohloh.com/projects/3215>here</a>):
 <p>
 ";
 $i = 0;
