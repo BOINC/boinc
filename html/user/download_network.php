@@ -38,5 +38,5 @@ echo "
     <p><p>
 ";
 page_tail();
-end_cache();
+end_cache(3600);
 ?>
