@@ -11193,3 +11193,10 @@ David  18 Oct 2006
 
     clientgui/
         ViewResources.cpp,h
+
+Rom    18 Oct 2006
+    - Bug Fix: Change the regex that validates email addresses in the manager to a 5 star rated
+        expression. See http://regexlib.com/REDetails.aspx?regexp_id=328
+        
+    clientgui/
+        ValidateEmailAddress.cpp
