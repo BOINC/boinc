@@ -1,9 +1,9 @@
 <?php
 require_once("docutil.php");
 
-$strip_headers = $_GET['strip_headers'];
+$strip_header = $_GET['strip_header'];
 
-if (!$strip_headers) {
+if (!$strip_header) {
 page_head('BOINC add-on software');
 echo "
 <p>
@@ -116,7 +116,7 @@ show_group("Linux", $linux);
 show_group("Mac", $mac);
 show_group("Web applications", $web);
 
-if (!$strip_headers) {
+if (!$strip_header) {
 page_tail();
 }
 ?>

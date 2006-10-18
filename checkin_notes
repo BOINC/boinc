@@ -11187,3 +11187,9 @@ Rom    18 Oct 2006
     
     api/
         reduce_main.C
+
+David  18 Oct 2006
+    - fix line endings
+
+    clientgui/
+        ViewResources.cpp,h
