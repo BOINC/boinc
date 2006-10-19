@@ -11242,3 +11242,12 @@ David  19 Oct 2006
         setup_project.py
     tools/
         run_in_ops (new)
+
+Rom    18 Oct 2006
+    - Bug Fix: Last regex didn't work right. I've now used a regex from a commerical
+        software vendor which had a stock email regex and tweaked it a bit to include
+        TLD's with 6 characters and added a '+' sign as a valid character.
+        
+    clientgui/
+        ValidateEmailAddress.cpp
+
