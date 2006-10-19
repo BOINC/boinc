@@ -13,9 +13,16 @@ $retval = db_init_xml();
 if ($retval) xml_error($retval);
 
 $config = get_config();
-if (parse_bool($config, "disable_account_creation") || defined('INVITE_CODES')) {
+if (parse_bool($config, "disable_account_creation")) {
     xml_error(-208);
 }
+
+if(defined('INVITE_CODES')) {
+    $invite_code = process_user_text(get_str("invite_code"));
+    if (!preg_match(INVITE_CODES, $invite_code)) {
+	xml_error(-209);
+    }
+} 
 
 $email_addr = get_str("email_addr");
 $email_addr = process_user_text(strtolower($email_addr));

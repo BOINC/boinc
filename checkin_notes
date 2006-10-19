@@ -11216,3 +11216,13 @@ David  19 Oct 2006
         cs_statefile.C
     html/inc/
         cert.inc
+
+Rytis  19 Oct 2006
+    - user web: allow account creation via an RPC when invitation code is
+        required.
+        
+    html/
+        user/
+            create_account.php
+        inc/
+            xml.inc

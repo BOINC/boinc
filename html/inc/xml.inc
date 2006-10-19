@@ -31,6 +31,7 @@ function xml_error($num, $msg=null) {
         case -206: $msg = "Invalid password"; break;
         case -207: $msg = "Email address is not unique"; break;
         case -208: $msg = "Account creation is disabled"; break;
+        case -209: $msg = "Invalid invitation code"; break;
         default: "Unknown error"; break;
         }
     }
