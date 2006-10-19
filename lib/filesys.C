@@ -457,7 +457,11 @@ int boinc_rename(const char* old, const char* newf) {
     boinc_delete_file(newf);
     for (int i=0; i<5; i++) {
         retval = rename(old, newf);
-        if (!retval) break;
+        if (!retval) {
+            // set retval to the real error code. all rename does is return -1 on error.
+            retval = errno;
+            break;
+        }
         boinc_sleep(drand());       // avoid lockstep
     }
     return retval;

@@ -11243,10 +11243,21 @@ David  19 Oct 2006
     tools/
         run_in_ops (new)
 
-Rom    18 Oct 2006
+Rom    19 Oct 2006
     - Bug Fix: Last regex didn't work right. Reverting back to the regex before yesterday's
         bug fix and just adding in the other valid characters. What a pain in the butt.
         
     clientgui/
         ValidateEmailAddress.cpp
 
+Rom    19 Oct 2006
+    - Bug Fix: When a BOINC rename operation failed we were returning -1 no matter what the
+        real error code was. rename only returns a -1 and then you are supposed to lookup
+        the real error code by using errno.
+    - Add some additional information to the message log in case a state file rename 
+        operation fails.
+
+    client/
+        cs_statefile.C
+    lib/
+        filesys.C

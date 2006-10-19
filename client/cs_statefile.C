@@ -402,9 +402,30 @@ int CLIENT_STATE::write_state_file() {
         );
     }
     if (retval) {
+#ifdef _WIN32
+        if (EACCES == retval) {
+            msg_printf(0, MSG_ERROR,
+                "Can't rename state file; access demied; check file and directory permissions"
+            );
+        } else if (ENOENT == retval) {
+            msg_printf(0, MSG_ERROR,
+                "Can't rename state file; file or path specified by oldname not found"
+            );
+        } else if (EINVAL == retval) {
+            msg_printf(0, MSG_ERROR,
+                "Can't rename state file; name contains invalid characters"
+            );
+        } else {
+            msg_printf(0, MSG_ERROR,
+                "Can't rename state file; unknown error code '%d'",
+                retval
+            );
+        }
+#else
         msg_printf(0, MSG_ERROR,
             "Can't rename state file; check file and directory permissions"
         );
+#endif
         return ERR_RENAME;
     }
     return 0;
