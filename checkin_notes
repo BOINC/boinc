@@ -11208,3 +11208,11 @@ Kevin 18 Oct 2006
     clientgui/
         sg_ProjectsComponent.cpp
 
+David  19 Oct 2006
+    - core client: if can't rename state file, show "check permissions" message
+    - user web: certificate numeric units off by 1000 (from Carl C)
+
+    client/
+        cs_statefile.C
+    html/inc/
+        cert.inc

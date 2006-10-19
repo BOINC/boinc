@@ -6,7 +6,7 @@ msgstr ""
 "Last-Translator: Thierry Drumel <thierry.drumel@tvcablenet.be>\n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
-"Content-Type: text/plain; charset=iso-8859-1\n"
+"Content-Type: text/plain; charset=iso-8859-15\n"
 "Content-Transfer-Encoding: 8bit\n"
 
 ##########################################
@@ -18,7 +18,7 @@ msgstr ""
 ##########################################
 # The charset used for the text in this file (please try to use UTF-8 if possible)
 msgid "CHARSET"
-msgstr "iso-8859-1"
+msgstr "iso-8859-15"
 
 # The name of this language in this language
 msgid "LANG_NAME_NATIVE"
@@ -33,7 +33,17 @@ msgid "POLL_TITLE"
 msgstr "Enquête utilisateurs BOINC"
 
 msgid "POLL_INTRO"
-msgstr "Certians projets de calculs distribués, incluant Climateprediction.net, Einstein@home et SETI@home, utilisent un logiciel appellé BOINC. If you participate in projects like this, we request that you answer the following questions. This will help BOINC-based projects increase participation and achieve greater scientific results. <p> Please answer as many questions as you want, then go to the bottom and click OK. If you previously completed the survey but your answers have changed, please complete it again - your new answers will replace the old ones. <p> La résultat de cette enquête se trouve <a href=poll_results.php>ici</a>. <p> L'enquête est aussi disponible en <a href=http://boinc.oocp.org/poll.php>Anglais</a> et en <a href=http://boinc.oocp.org/poll.php>Japonais</a>. "
+msgstr "Certains projets de calculs distribués, incluant "
+"Climateprediction.net, Einstein@home et SETI@home, utilisent un logiciel "
+"appellé BOINC.  Si vous participez à de tels projets, nous vous prions "
+"de répondre aux questions ci-dessous. Elles aideront les projets basés "
+"sur BOINC à accroître le taux participation et à améliorer leurs "
+"recherches. <p> Répondez à autant de questions que vous le voudrez, et "
+"cliquez sur le bouton OK en bas de page. Si vous avez déjà répondu à "
+"cette enquête mais que vos réponses ont changé entre temps, nous vous "
+"prions d'y répondre à nouveau - vos nouvelles réponses remplaceront les "
+"anciennes. <p> La résultat de cette enquête se trouve <a "
+"href=poll_results.php>ici</a>. <p> "
 
 msgid "POLL_RUN"
 msgstr "Utilisez-vous BOINC?"
@@ -385,7 +395,7 @@ msgid "DL_DOWNLOAD"
 msgstr "Télécharger BOINC"
 
 msgid "DL_VERSION_LNAME_SIZE"
-msgstr "% pour %s (%s Mo)"
+msgstr "%s pour %s (%s Mo)"
 
 msgid "DL_WHATS_BOINC"
 msgstr " BOINC est un logiciel qui vous permet de faire don        du temps inutilisé de votre ordinateur à des projets scientifiques comme        SETI@home, Climateprediction.net, Rosetta@home,        World Community Grid, parmi bien d'autres.        <p>        Après avoir installé BOINC sur votre ordinateur,        vous pouvez l'utiliser pour autant de projets que vous le désirerez.        <p>"
@@ -454,7 +464,7 @@ msgid "SRQ_APPLMAC_REQ_CPU"
 msgstr "Un ordinateur Macintosh avec un processeur Intel x86 ou PowerPC G3, G4, or G5"
 
 msgid "SRQ_APPLMAC_REQ_RAM"
-msgstr "128 Mo de RAM (256 MB RAM ou plus recommandé)"
+msgstr "128 Mo de RAM (256 Mo de RAM ou plus recommandé)"
 
 msgid "SRQ_APPLMAC_REQ_DISK"
 msgstr "200 Mo d'espace disque"

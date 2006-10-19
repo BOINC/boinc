@@ -403,7 +403,7 @@ int CLIENT_STATE::write_state_file() {
     }
     if (retval) {
         msg_printf(0, MSG_ERROR,
-            "Can't rename state file: %s", boincerror(retval)
+            "Can't rename state file; check file and directory permissions"
         );
         return ERR_RENAME;
     }
