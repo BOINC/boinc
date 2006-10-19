@@ -25,10 +25,10 @@ echo html_text("
 list_start();
 list_item("cmd",
     "The command used to start the daemon.
-    This command will be run in the project's bin/ directory."
+    Must be a program in the project's bin/ directory."
 );
 list_item("host",
-    "Specifies where the daemon should run.
+    "Specifies the host on which the daemon should run.
     The default is the project's main host,
     as specified in config.xml."
 );
@@ -36,13 +36,13 @@ list_item("disabled",
     "If nonzero, ignore this entry"
 );
 list_item("output",
-    "Name of output file.
+    "Name of output file (in the log_HOSTNAME directory).
     Defaults to the program name followed by '.log'.
     If you're running multiple instances of a daemon on one host,
     you must specify this."
 );
 list_item("pid_file",
-    "Name of file used to store the process ID.
+    "Name of file used to store the process ID (in the pid_HOSTNAME directory).
     Defaults to the program name followed by '.pid'.
     If you're running multiple instances of a daemon on one host,
     you must specify this."
@@ -55,9 +55,6 @@ Daemons are started when you run the
 <a href=tool_start.php>bin/start</a> script,
 and killed (by a SIGHUP signal) when you run
 <a href=tool_start.php>bin/stop</a>.
-The process ID is recorded in the &lt;pid_dir> directory
-By convention, daemon X running on host Y
-writes it log output to log_Y/X.log.
 
 <p>
 Typically, this mechanism is used to run

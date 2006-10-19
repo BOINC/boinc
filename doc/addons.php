@@ -22,8 +22,8 @@ If this is not enough you should contact the author.
 Instructions for installing and running BOINC are
 <a href=participate.php>here</a>.
 <li>
-To submit an add-on for inclusion in this list, please
-email <a href=contact.php>David Anderson</a>.
+To submit an add-on for inclusion in this list,
+please email <a href=contact.php>David Anderson</a>.
 </ul>
 ";
 
@@ -46,8 +46,13 @@ function show_group($name, $list) {
 		$version = $item[2];
         if (!$version) $version ='<br>';
 		$desc = $item[3];
+        if (strstr($file, 'http://')) {
+            $url = $file;
+        } else {
+            $url = "addons/$file";
+        }
 		echo "
-			<tr><td><a href=addons/$file>$itemname</a></td>
+			<tr><td><a href=$url>$itemname</a></td>
 				<td>$version</td>
 				<td>$desc</td>
 			</tr>
@@ -73,7 +78,8 @@ array('SETITracker_V1.0BETA.zip', 'SETI@Boinc Tracker', '1.0BETA', 'SETI@Boinc T
 array('SetiMapView_Setup_v6.54.exe', 'SETI@home-MapView', '6.54', 'SETI@home-Mapview creates skymaps for the BOINC projects SETI@home-II, Einstein@home and Astropulse.'),
 array('DBSetup.zip', 'SQL Setup for BoincSpy', 'V 0.7', 'Stores Workunits into SQL database'),
 array('spy_pp_v101_setispy_v341.zip', 'Spy++', '', 'Loader for the new version of SetiSpy (3.4.1), the famous SETI addon of Roelof'),
-array('tminst112.zip', 'ThreadMaster', '1.12build128', 'Control max CPU usage and prevent overheat'),
+array('http://threadmaster.tripod.com/', 'ThreadMaster', '', 'Control max CPU usage and prevent overheating (not specific to BOINC)'),
+array('http://mion.faireal.net/BES/', 'BES', '', 'Control max CPU usage and prevent overheating (not specific to BOINC)'),
 array('boinclogger.zip', 'boinc logger', '1.0', 'saves the messages part of boinc so you can track down errors'),
 array('inst_nB_v13.exe', 'nBOiNC', '1.3.x', 'stats picker'),
 );

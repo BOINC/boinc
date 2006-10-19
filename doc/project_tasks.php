@@ -43,7 +43,19 @@ list_start();
 list_item(
     "cmd",
     "The command used to perform the task.
-    This command will be run in the &lt;bin_dir> directory."
+    Must be a program in the project's /bin directory.
+    <p>
+    You can run PHP scripts as periodic tasks.
+    These scripts must be in the html/ops/ directory,
+    and can be run with a command of the form
+    <pre>run_in_ops scriptname</pre>
+    The script should be executable, and should have the form
+    <pre>
+#! /usr/bin/env php
+&lt;?php
+...
+?&gt;
+"
 );
 list_item("host",
     "Specifies where the daemon shoulr run.
@@ -86,7 +98,7 @@ list_item("db_dump",
     Details are <a href=db_dump.php>here</a>.
     Recommended period: 7 days."
 );
-list_item("update_profile_pages",
+list_item("update_profile_pages.php",
     "Generate HTML files with lists of links to user profiles,
     organized alphabetically and by country.
     Recommended period: a few days."
@@ -100,11 +112,11 @@ list_item("update_stats -update_teams -update_users -update_hosts",
     or use recent credit to enable message-board posting.
     Recommended period: every few days."
 );
-list_item("update_uotd",
+list_item("update_uotd.php",
     "Select a new User of the Day.
     Period: 1 day."
 );
-list_item("../html/ops/update_forum_activities.php",
+list_item("update_forum_activities.php",
     "Recompute 'popularity' estimages for threads and posts
     in the Questions and Answers message boards.
     Recommended period: 1 hour."

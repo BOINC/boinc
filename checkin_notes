@@ -11226,3 +11226,19 @@ Rytis  19 Oct 2006
             create_account.php
         inc/
             xml.inc
+
+David  19 Oct 2006
+    - project back end: add mechanism so that PHP scripts can be
+        run from the 'start' script in a way that works
+        with both PHP4 and PHP5.
+        To run html/ops/update_profile_pages.php, for example, put
+            <cmd>run_in_ops update_profile_pages.php</cmd>
+        in your config.xml file <task> entry.
+
+        (run_in_ops is a script that lives in bin/,
+        cds into ../html/ops, and executes its args)
+
+    py/Boinc/
+        setup_project.py
+    tools/
+        run_in_ops (new)
