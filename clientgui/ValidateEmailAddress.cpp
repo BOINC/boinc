@@ -64,20 +64,16 @@ bool CValidateEmailAddress::Validate(wxWindow *parent) {
     bool ok = TRUE;
     wxString val(control->GetValue().Trim().Trim(false));  // trim spaces before and after
 
-    // Okay, this is like the 5th iteration of trying to find a good regular expression
-    //   to validate an email address. This time around I went to a commercial package
-    //   that specializes in Regular Expressions.
-    //
-    // RegexBuddy
-    // http://www.regexbuddy.com/
-    //
-    // I took there 99% compatible email regex and added a '+' as a valid character and changed
-    //   the max length of the TLD to be 6 characters. Per there instructions I also made this regex
-    //   case insensitive.
-    //
-    // The formal RFC 822 regex is 6343 characters unescaped. ick.
-    //
-    wxRegEx reEmail(wxT("^[A-Z0-9.+_%-]+@(?:[A-Z0-9-]+\\.)+[A-Z]{2,6}$"), wxRE_EXTENDED|wxRE_ICASE);
+    // Regular Expression found here:
+    //   http://www.regexlib.com/REDetails.aspx?regexp_id=284
+    // Changes from original:
+    //   Allow additional valid characters in the username area.
+    wxRegEx reEmail(
+        wxT("^([a-zA-Z0-9._%+\\-])+(\\.([a-zA-Z0-9_\\-])+)*@((\\[(((([0-1])?([0-9])?[0-9"
+            "])|(2[0-4][0-9])|(2[0-5][0-5])))\\.(((([0-1])?([0-9])?[0-9])|(2[0-4][0-9])|"
+            "(2[0-5][0-5])))\\.(((([0-1])?([0-9])?[0-9])|(2[0-4][0-9])|(2[0-5][0-5])))\\"
+            ".(((([0-1])?([0-9])?[0-9])|(2[0-4][0-9])|(2[0-5][0-5]))\\]))|((([a-zA-Z0-9]"
+            ")+(([\\-])+([a-zA-Z0-9])+)*\\.)+([a-zA-Z])+(([\\-])+([a-zA-Z0-9])+)*))$"));
 
     if (val.Length() == 0) {
         ok = FALSE;

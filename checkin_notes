@@ -11244,9 +11244,8 @@ David  19 Oct 2006
         run_in_ops (new)
 
 Rom    18 Oct 2006
-    - Bug Fix: Last regex didn't work right. I've now used a regex from a commerical
-        software vendor which had a stock email regex and tweaked it a bit to include
-        TLD's with 6 characters and added a '+' sign as a valid character.
+    - Bug Fix: Last regex didn't work right. Reverting back to the regex before yesterday's
+        bug fix and just adding in the other valid characters. What a pain in the butt.
         
     clientgui/
         ValidateEmailAddress.cpp
