@@ -11200,3 +11200,11 @@ Rom    18 Oct 2006
         
     clientgui/
         ValidateEmailAddress.cpp
+
+Kevin 18 Oct 2006
+    - BSG
+ 		- Modify the pause/resume button to correctly set both execution and network settings
+
+    clientgui/
+        sg_ProjectsComponent.cpp
+

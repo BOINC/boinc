@@ -154,7 +154,17 @@ void CProjectsComponent::CreateComponent()
 	btnResume=new wxBitmapButton(this,-1,*(appSkin->GetBtnResume()),wxPoint(85,86),wxSize(59,20),wxNO_BORDER);
 	btnResume->SetBitmapSelected(*(appSkin->GetBtnResume()));
 	btnResume->SetToolTip(ttResume);
-	btnResume->Show(false);
+	// Show resume or pause as appropriate
+	CC_STATUS status;
+	pDoc->GetCoreClientStatus(status);
+	if ( status.task_mode == RUN_MODE_NEVER ) {
+		btnPause->Show(false);
+		btnResume->Show(true);
+	} else {
+		btnPause->Show(true);
+		btnResume->Show(false);
+	}
+
 	//spacer
 	wxWindow *w_sp2 = new wxWindow(this,-1,wxPoint(144,91),wxSize(2,11));
     i_spacer = new ImageLoader(w_sp2);
@@ -289,6 +299,17 @@ void CProjectsComponent::UpdateInterface()
 			alertMessageDisplayed = false;
 			Thaw();
 		}
+	}
+
+	// Show resume or pause as appropriate
+	CC_STATUS status;
+	pDoc->GetCoreClientStatus(status);
+	if ( status.task_mode == RUN_MODE_NEVER ) {
+		btnPause->Show(false);
+		btnResume->Show(true);
+	} else {
+		btnPause->Show(true);
+		btnResume->Show(false);
 	}
 
 	// Update stat icons
@@ -480,11 +501,13 @@ void CProjectsComponent::OnBtnClick(wxCommandEvent& event){ //init function
 
         clientRunMode = status.task_mode;
 		pDoc->SetActivityRunMode(RUN_MODE_NEVER);
+		pDoc->SetNetworkRunMode(RUN_MODE_NEVER);
 		btnPause->Show(false);
 		btnResume->Show(true);
     }else if(m_wxBtnObj==btnResume) {
 		CMainDocument* pDoc     = wxGetApp().GetDocument();
-		pDoc->SetActivityRunMode(clientRunMode);
+		pDoc->SetActivityRunMode(RUN_MODE_AUTO);
+		pDoc->SetNetworkRunMode(RUN_MODE_AUTO);
 		btnResume->Show(false);
 		btnPause->Show(true);
     }else if(m_wxBtnObj==btnPreferences){

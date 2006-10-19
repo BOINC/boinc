@@ -28,7 +28,6 @@ StatImageLoader::StatImageLoader(wxWindow* parent, std::string url) : wxWindow(p
 	BuildUserStatToolTip();
 	statPopUpMenu = new wxMenu(wxSIMPLE_BORDER);
     AddMenuItems();
-
 }
 
 StatImageLoader::~StatImageLoader() {
@@ -197,7 +196,6 @@ void StatImageLoader::LoadImage(std::string project_icon, wxBitmap* defaultImage
 	}else{
 		LoadStatIcon(*defaultImage);
 	}
-
 	projectIcon = project_icon;
 } 
 

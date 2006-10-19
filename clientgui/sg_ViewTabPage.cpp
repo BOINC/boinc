@@ -490,10 +490,6 @@ MyCanvas::MyCanvas(wxWindow *parent, const wxPoint& pos, const wxSize& size, std
 }
 
 void MyCanvas::LoadSlideShow() {
-	// Clear out any existings data (for when this is reloading)
-//	for(int i=0; i< (int) vSlideShow.size(); i++ ) {
-//		delete vSlideShow.at(0);
-//	}
 	vSlideShow.clear();
 
 	// Now load the new slide show
