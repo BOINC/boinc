@@ -217,7 +217,7 @@
 	    client. <function><link
 	    linkend="DC-resolveFileName">DC_resolveFileName()</link></function>
 	    will resolve <link
-	    linkend="DC_CHECKPOINT_FILE:CAPS">DC_CHECKPOINT_FILE</link>
+	    linkend="DC-CHECKPOINT-FILE:CAPS">DC_CHECKPOINT_FILE</link>
 	    to this name. Default value is
 	    <filename>_dcapi_checkpoint</filename>.
 
