@@ -11256,8 +11256,15 @@ Rom    19 Oct 2006
         the real error code by using errno.
     - Add some additional information to the message log in case a state file rename 
         operation fails.
+    - Tweak boinc_rename, boinc_mkdir, boinc_rmdir, boinc_delete, and boinc_copy so that
+        they return Win32 error codes instead of just -1. We can now use the
+        windows_error_string and windows_format_error_string functions when those fail
+        to give us and the community more useful information about what has gone wrong.
+    - Log additional information in case a rename operation fails for account_*.xml files
+        and stat files.
 
     client/
+        cs_account.C
         cs_statefile.C
     lib/
         filesys.C

@@ -80,6 +80,13 @@ int PROJECT::write_account_file() {
     fprintf(f, "</account>\n");
     fclose(f);
     retval = boinc_rename(TEMP_FILE_NAME, path);
+#ifdef _WIN32
+    char error[4096];
+    msg_printf(0, MSG_ERROR,
+        "Can't rename file %s to %s; %s",
+        TEMP_FILE_NAME, path, windows_error_string(error, sizeof(error))
+    );
+#endif
     if (retval) return ERR_RENAME;
     return 0;
 }
@@ -387,6 +394,13 @@ int PROJECT::write_statistics_file() {
 
     fclose(f);
     retval = boinc_rename(TEMP_FILE_NAME, path);
+#ifdef _WIN32
+    char error[4096];
+    msg_printf(0, MSG_ERROR,
+        "Can't rename file %s to %s; %s",
+        TEMP_FILE_NAME, path, windows_error_string(error, sizeof(error))
+    );
+#endif
     if (retval) return ERR_RENAME;
     return 0;
 }

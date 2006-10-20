@@ -252,8 +252,10 @@ int boinc_delete_file(const char* path) {
     }
 #ifdef _WIN32
     for (int i=0; i<5; i++) {
-        retval = remove(path);
-        if (!retval) break;
+        if (!DeleteFile(path)) {
+            retval = GetLastError();
+            break;
+        }
         boinc_sleep(drand());       // avoid lockstep
     }
 #else
@@ -435,11 +437,10 @@ int boinc_touch_file(const char *path) {
 
 int boinc_copy(const char* orig, const char* newf) {
 #ifdef _WIN32
-    if (CopyFile(orig, newf, FALSE)) {
-        return 0;
-    } else {
+    if (!CopyFile(orig, newf, FALSE)) {
         return GetLastError();
     }
+    return 0;
 #elif defined(__EMX__)
     char cmd[256];
     sprintf(cmd, "copy %s %s", orig, newf);
@@ -456,10 +457,8 @@ int boinc_rename(const char* old, const char* newf) {
     int retval=0;
     boinc_delete_file(newf);
     for (int i=0; i<5; i++) {
-        retval = rename(old, newf);
-        if (!retval) {
-            // set retval to the real error code. all rename does is return -1 on error.
-            retval = errno;
+        if (!MoveFile(old, newf)) {
+            retval = GetLastError();
             break;
         }
         boinc_sleep(drand());       // avoid lockstep
@@ -473,7 +472,10 @@ int boinc_rename(const char* old, const char* newf) {
 int boinc_mkdir(const char* path) {
     if (is_dir(path)) return 0;
 #ifdef _WIN32
-    return !CreateDirectory(path, NULL);
+    if (!CreateDirectory(path, NULL)) {
+        return GetLastError();
+    }
+    return 0;
 #else
     mode_t old_mask = umask(0);
     int retval = mkdir(path, 0771);
@@ -484,7 +486,10 @@ int boinc_mkdir(const char* path) {
 
 int boinc_rmdir(const char* name) {
 #ifdef _WIN32
-    return !RemoveDirectory(name);
+    if (!RemoveDirectory(name)) {
+        return GetLastError();
+    }
+    return 0;
 #else
     int retval;
     retval = rmdir(name);
