@@ -11268,3 +11268,10 @@ Rom    19 Oct 2006
         cs_statefile.C
     lib/
         filesys.C
+
+Rom    20 Oct 2006
+    - MGR: CBrandingScheme is now dead. All references in the advanced GUI have been changed
+        to CSkinManager. Simple GUI to follow.
+        
+    clientgui/
+        <*.cpp>

@@ -22,7 +22,14 @@
 #endif
 
 #include "stdwx.h"
+#include "diagnostics.h"
+#include "util.h"
+#include "mfile.h"
+#include "miofile.h"
+#include "parse.h"
 #include "BOINCGUIApp.h"
+#include "SkinManager.h"
+#include "MainDocument.h"
 #include "BOINCTaskBar.h"
 #include "BOINCBaseFrame.h"
 #include "DlgAbout.h"
@@ -331,7 +338,9 @@ void CTaskBarIcon::OnMouseMove(wxTaskBarIconEvent& WXUNUSED(event)) {
     if ((tsLastHover.GetSeconds() >= 2) && (tsLastBalloon.GetSeconds() >= 10)) {
         m_dtLastBalloonDisplayed = wxDateTime::Now();
 
-        wxString       strTitle             = wxGetApp().GetBrand()->GetApplicationName();
+        CMainDocument* pDoc                 = wxGetApp().GetDocument();
+        CSkinAdvanced* pSkinAdvanced        = wxGetApp().GetSkinManager()->GetAdvanced();
+        wxString       strTitle             = wxEmptyString;
         wxString       strMachineName       = wxEmptyString;
         wxString       strMessage           = wxEmptyString;
         wxString       strBuffer            = wxEmptyString;
@@ -343,11 +352,16 @@ void CTaskBarIcon::OnMouseMove(wxTaskBarIconEvent& WXUNUSED(event)) {
         wxInt32        iResultCount         = 0;
         wxInt32        iIndex               = 0;
         wxIcon         iconIcon             = wxNullIcon;
-        CMainDocument* pDoc           = wxGetApp().GetDocument();
         CC_STATUS      status;
 
         wxASSERT(pDoc);
+        wxASSERT(pSkinAdvanced);
         wxASSERT(wxDynamicCast(pDoc, CMainDocument));
+        wxASSERT(wxDynamicCast(pSkinAdvanced, CSkinAdvanced));
+
+
+        // What should the title of the balloon be?
+        strTitle = pSkinAdvanced->GetApplicationName();
 
         if (pDoc->IsConnected()) {
             pDoc->GetConnectedComputerName(strMachineName);
@@ -360,7 +374,7 @@ void CTaskBarIcon::OnMouseMove(wxTaskBarIconEvent& WXUNUSED(event)) {
                 //    i.e. 'BOINC', 'GridRepublic'
                 strBuffer.Printf(
                     _("%s is currently suspended...\n"),
-                    wxGetApp().GetBrand()->GetProjectName().c_str()
+                    pSkinAdvanced->GetProjectName().c_str()
                 );
                 iconIcon = m_iconTaskBarSnooze;
                 strMessage += strBuffer;
@@ -372,7 +386,7 @@ void CTaskBarIcon::OnMouseMove(wxTaskBarIconEvent& WXUNUSED(event)) {
                 //    i.e. 'BOINC', 'GridRepublic'
                 strBuffer.Printf(
                     _("%s networking is currently suspended...\n"),
-                    wxGetApp().GetBrand()->GetProjectName().c_str()
+                    pSkinAdvanced->GetProjectName().c_str()
                 );
                 strMessage += strBuffer;
             }
@@ -383,7 +397,7 @@ void CTaskBarIcon::OnMouseMove(wxTaskBarIconEvent& WXUNUSED(event)) {
 
             iResultCount = (wxInt32)pDoc->results.results.size();
             for (iIndex = 0; iIndex < iResultCount; iIndex++) {
-                RESULT* result = wxGetApp().GetDocument()->result(iIndex);
+                RESULT* result = pDoc->result(iIndex);
                 RESULT* state_result = NULL;
                 std::string project_name;
 
@@ -412,8 +426,8 @@ void CTaskBarIcon::OnMouseMove(wxTaskBarIconEvent& WXUNUSED(event)) {
             //    i.e. 'BOINC', 'GridRepublic'
             strBuffer.Printf(
                 _("%s is currently reconnecting to a %s client...\n"),
-                wxGetApp().GetBrand()->GetApplicationName().c_str(),
-                wxGetApp().GetBrand()->GetProjectName().c_str()
+                pSkinAdvanced->GetApplicationName().c_str(),
+                pSkinAdvanced->GetProjectName().c_str()
             );
             strMessage += strBuffer;
         } else {
@@ -424,8 +438,8 @@ void CTaskBarIcon::OnMouseMove(wxTaskBarIconEvent& WXUNUSED(event)) {
             //    i.e. 'BOINC', 'GridRepublic'
             strBuffer.Printf(
                 _("%s is not currently connected to a %s client...\n"),
-                wxGetApp().GetBrand()->GetApplicationName().c_str(),
-                wxGetApp().GetBrand()->GetProjectName().c_str()
+                pSkinAdvanced->GetApplicationName().c_str(),
+                pSkinAdvanced->GetProjectName().c_str()
             );
             iconIcon = m_iconTaskBarDisconnected;
             strMessage += strBuffer;
@@ -600,6 +614,7 @@ void CTaskBarIcon::CreateContextMenu() {
 wxMenu *CTaskBarIcon::BuildContextMenu() {
 
     CMainDocument*     pDoc = wxGetApp().GetDocument();
+    CSkinAdvanced*     pSkinAdvanced = wxGetApp().GetSkinManager()->GetAdvanced();
     ACCT_MGR_INFO      ami;
     bool               is_acct_mgr_detected = false;
     wxMenu*            pMenu         = new wxMenu;
@@ -612,7 +627,9 @@ wxMenu *CTaskBarIcon::BuildContextMenu() {
 
     wxASSERT(pMenu);
     wxASSERT(pDoc);
+    wxASSERT(pSkinAdvanced);
     wxASSERT(wxDynamicCast(pDoc, CMainDocument));
+    wxASSERT(wxDynamicCast(pSkinAdvanced, CSkinAdvanced));
 
     // Account managers have a different menu arrangement
     pDoc->rpc.acct_mgr_info(ami);
@@ -621,14 +638,14 @@ wxMenu *CTaskBarIcon::BuildContextMenu() {
     if (is_acct_mgr_detected) {
         menuName.Printf(
             _("Open %s Web..."),
-            wxGetApp().GetBrand()->GetProjectName().c_str()
+            pSkinAdvanced->GetProjectName().c_str()
         );
         pMenu->Append(ID_OPENWEBSITE, menuName, wxEmptyString);
     }
 
     menuName.Printf(
         _("Open %s..."),
-        wxGetApp().GetBrand()->GetApplicationName().c_str()
+        pSkinAdvanced->GetApplicationName().c_str()
     );
     pMenu->Append(wxID_OPEN, menuName, wxEmptyString);
 
@@ -636,7 +653,7 @@ wxMenu *CTaskBarIcon::BuildContextMenu() {
 
     menuName.Printf(
         _("&About %s..."),
-        wxGetApp().GetBrand()->GetApplicationName().c_str()
+        pSkinAdvanced->GetApplicationName().c_str()
     );
 
     pMenu->Append(wxID_ABOUT, menuName, wxEmptyString);

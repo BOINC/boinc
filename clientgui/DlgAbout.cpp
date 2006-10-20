@@ -22,7 +22,14 @@
 #endif
 
 #include "stdwx.h"
+#include "diagnostics.h"
+#include "util.h"
+#include "mfile.h"
+#include "miofile.h"
+#include "parse.h"
+#include "LogBOINC.h"
 #include "BOINCGUIApp.h"
+#include "SkinManager.h"
 
 ////@begin includes
 ////@end includes
@@ -35,10 +42,6 @@
 #include "config.h"
 #endif
 
-
-////@begin XPM images
-#include "res/boincsm.xpm"
-////@end XPM images
 
 /*!
  * CDlgAbout type definition
@@ -79,6 +82,10 @@ bool CDlgAbout::Create(wxWindow* parent, wxWindowID id, const wxString& caption,
     m_AboutBOINCSloganCtrl = NULL;
     m_AboutBOINCURLCtrl = NULL;
 ////@end CDlgAbout member initialisation
+    
+    CSkinAdvanced* pSkinAdvanced = wxGetApp().GetSkinManager()->GetAdvanced();
+    wxASSERT(pSkinAdvanced);
+    wxASSERT(wxDynamicCast(pSkinAdvanced, CSkinAdvanced));
 
     SetExtraStyle(GetExtraStyle()|wxWS_EX_BLOCK_EVENTS);
     wxDialog::Create( parent, id, caption, pos, size, style );
@@ -90,28 +97,22 @@ bool CDlgAbout::Create(wxWindow* parent, wxWindowID id, const wxString& caption,
     wxString buf = wxEmptyString;
     buf.Printf(
         _("About %s"),
-        wxGetApp().GetBrand()->GetApplicationName().c_str()
+        pSkinAdvanced->GetApplicationName().c_str()
     );
     SetTitle(buf);
 
     buf.Printf(
         _("%s"),
-        wxGetApp().GetBrand()->GetApplicationName().c_str()
+        pSkinAdvanced->GetApplicationName().c_str()
     );
     m_AboutBOINCTitleCtrl->SetLabel(buf);
 
-    wxBitmap bmp;
-    if (wxGetApp().GetBrand()->IsBranded()) {
-        bmp = wxBitmap(*(wxGetApp().GetBrand()->GetApplicationLogo()));
-    } else {
-        bmp = wxBitmap(boincsm_xpm);
-    }
-    m_AboutBOINCLogoCtrl->SetBitmap(bmp);
+    m_AboutBOINCLogoCtrl->SetBitmap(wxBitmap(*(pSkinAdvanced->GetApplicationLogo())));
 
     m_AboutBOINCSloganCtrl->SetLabel(wxEmptyString);
 
     m_AboutBOINCURLCtrl->SetLabel(
-        wxGetApp().GetBrand()->GetCompanyWebsite().c_str()
+        pSkinAdvanced->GetCompanyWebsite().c_str()
     );
 
     GetSizer()->Fit(this);

@@ -22,7 +22,16 @@
 #endif
 
 #include "stdwx.h"
+#include "diagnostics.h"
+#include "util.h"
+#include "mfile.h"
+#include "miofile.h"
+#include "parse.h"
+#include "error_numbers.h"
 #include "BOINCGUIApp.h"
+#include "SkinManager.h"
+#include "MainDocument.h"
+#include "BOINCBaseFrame.h"
 #include "sg_BoincSimpleGUI.h"
 #include "sg_SkinClass.h"
 #include "sg_ImageLoader.h"
@@ -41,7 +50,8 @@ END_EVENT_TABLE()
 
 ClientStateIndicator::ClientStateIndicator() {}
 
-ClientStateIndicator::ClientStateIndicator(CSimpleFrame* parent,wxPoint coord) : wxPanel(parent, wxID_ANY, coord, wxSize(343,314), wxNO_BORDER) 
+ClientStateIndicator::ClientStateIndicator(CSimpleFrame* parent,wxPoint coord) : 
+    wxPanel(parent, wxID_ANY, coord, wxSize(343,314), wxNO_BORDER) 
 {
 	connIndicatorWidth = 14;
 	connIndicatorHeight = 15;

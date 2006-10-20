@@ -133,6 +133,45 @@ public:
 
     bool ValidateSkin();
 
+    CSkinImage*         GetBackgroundImage() { return &m_BackgroundImage; }
+    CSkinImage*         GetSpacerImage() { return &m_SpacerImage; }
+    wxColour            GetStaticLineColor() { return m_StaticLineColor; }
+
+    CSkinImage*         GetStateIndicatorBackgroundImage() { return &m_StateIndicatorBackgroundImage; }
+    CSkinImage*         GetConnectingIndicatorImage() { return &m_ConnectingIndicatorImage; }
+    CSkinImage*         GetErrorIndicatorImage() { return &m_ErrorIndicatorImage; }
+
+    CSkinSimpleTab*     GetWorkunitActiveTab() { return &m_WorkunitActiveTab; }
+    CSkinSimpleTab*     GetWorkunitSuspendedTab() { return &m_WorkunitSuspendedTab; }
+    CSkinImage*         GetWorkunitTabAreaBackgroundImage() { return &m_WorkunitTabAreaBackgroundImage; }
+    CSkinImage*         GetWorkunitAreaBackgroundImage() { return &m_WorkunitAreaBackgroundImage; }
+    CSkinImage*         GetWorkunitAnimationBackgroundImage() { return &m_WorkunitAnimationBackgroundImage; }
+    CSkinImage*         GetWorkunitAnimationImage() { return &m_WorkunitAnimationImage; }
+    CSkinImage*         GetWorkunitGaugeBackgroundImage() { return &m_WorkunitGaugeBackgroundImage; }
+    CSkinImage*         GetWorkunitGaugeProgressIndicatorImage() { return &m_WorkunitGaugeProgressIndicatorImage; }
+
+    CSkinImage*         GetProjectAreaBackgroundImage() { return &m_ProjectAreaBackgroundImage; }
+    CSkinImage*         GetProjectImage() { return &m_ProjectImage; }
+
+    CSkinSimpleButton*  GetAttachProjectButton() { return &m_AttachProjectButton; }
+    CSkinSimpleButton*  GetRightArrowButton() { return &m_RightArrowButton; }
+    CSkinSimpleButton*  GetLeftArrowButton() { return &m_LeftArrowButton; }
+    CSkinSimpleButton*  GetSaveButton() { return &m_SaveButton; }
+    CSkinSimpleButton*  GetCancelButton() { return &m_CancelButton; }
+    CSkinSimpleButton*  GetChangeButton() { return &m_ChangeButton; }
+    CSkinSimpleButton*  GetCloseButton() { return &m_CloseButton; }
+    CSkinSimpleButton*  GetClearButton() { return &m_ClearButton; }
+
+    CSkinImage*         GetMessagesLink() { return &m_MessagesLink; }
+    CSkinImage*         GetMessagesAlertLink() { return &m_MessagesAlertLink; }
+    CSkinImage*         GetSuspendLink() { return &m_SuspendLink; }
+    CSkinImage*         GetResumeLink() { return &m_ResumeLink; }
+    CSkinImage*         GetPreferencesLink() { return &m_PreferencesLink; }
+    CSkinImage*         GetAdvancedLink() { return &m_AdvancedLink; }
+
+    CSkinImage*         GetPreferencesDialogBackgroundImage() { return &m_PreferencesDialogBackgroundImage; }
+    CSkinImage*         GetMessagesDialogBackgroundImage() { return &m_MessagesDialogBackgroundImage; }
+
 private:
 	CSkinImage          m_BackgroundImage;
     CSkinImage          m_SpacerImage;
@@ -159,6 +198,7 @@ private:
     CSkinSimpleButton   m_LeftArrowButton;
     CSkinSimpleButton   m_SaveButton;
     CSkinSimpleButton   m_CancelButton;
+    CSkinSimpleButton   m_ChangeButton;
     CSkinSimpleButton   m_CloseButton;
     CSkinSimpleButton   m_ClearButton;
 
@@ -216,6 +256,103 @@ private:
     wxString    m_strExitMessage;
 };
 
+
+class CSkinWizardATP : public CSkinItem
+{
+    DECLARE_DYNAMIC_CLASS( CSkinWizardATP )
+
+public:
+    CSkinWizardATP();
+    ~CSkinWizardATP();
+
+    void Clear();
+    bool Ok();
+    int  Parse(MIOFILE& in);
+
+    bool ValidateSkin();
+
+    wxBitmap*   GetWizardBitmap() { return &m_bitmapWizardBitmap; }
+    wxString    GetWizardTitle() { return m_strTitle; }
+
+private:
+    wxBitmap    m_bitmapWizardBitmap;
+    wxString    m_strTitle;
+};
+
+
+class CSkinWizardATAM : public CSkinItem
+{
+    DECLARE_DYNAMIC_CLASS( CSkinWizardATAM )
+
+public:
+    CSkinWizardATAM();
+    ~CSkinWizardATAM();
+
+    void Clear();
+    bool Ok();
+    int  Parse(MIOFILE& in);
+
+    bool ValidateSkin();
+
+    wxBitmap*   GetWizardBitmap() { return &m_bitmapWizardBitmap; }
+    wxString    GetWizardTitle() { return m_strTitle; }
+    wxString    GetAccountInfoMessage() { return m_strAccountInfoMessage; }
+
+private:
+    wxBitmap    m_bitmapWizardBitmap;
+    wxString    m_strTitle;
+    wxString    m_strAccountInfoMessage;
+};
+
+
+class CSkinWizards : public CSkinItem
+{
+    DECLARE_DYNAMIC_CLASS( CSkinWizards )
+
+public:
+    CSkinWizards();
+    ~CSkinWizards();
+
+    void Clear();
+    bool Ok();
+    int  Parse(MIOFILE& in);
+
+    bool ValidateSkin();
+
+    CSkinWizardATP*     GetWizardATP() { return &m_AttachToProjectWizard; }
+    CSkinWizardATAM*    GetWizardATAM() { return &m_AttachToAccountManagerWizard; }
+
+private:
+    CSkinWizardATP      m_AttachToProjectWizard;
+    CSkinWizardATAM     m_AttachToAccountManagerWizard;
+};
+
+
+class CSkinManager : public CSkinItem
+{
+    DECLARE_DYNAMIC_CLASS( CSkinManager )
+
+public:
+    CSkinManager();
+    ~CSkinManager();
+
+    bool ReloadSkin(wxLocale* pLocale, wxString strSkin);
+
+    CSkinSimple*        GetSimple() { return &m_SimpleSkin; }
+    CSkinAdvanced*      GetAdvanced() { return &m_AdvancedSkin; }
+    CSkinWizards*       GetWizards() { return &m_WizardsSkin; }
+
+private:
+    CSkinSimple         m_SimpleSkin;
+    CSkinAdvanced       m_AdvancedSkin;
+    CSkinWizards        m_WizardsSkin;
+
+    void Clear();
+    bool Ok();
+    int  Parse(MIOFILE& in, wxString strDesiredLocale);
+
+    bool ValidateSkin();
+};
 
 
 #endif

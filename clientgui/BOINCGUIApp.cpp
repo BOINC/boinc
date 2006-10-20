@@ -33,10 +33,18 @@
 #include "stdwx.h"
 #include "diagnostics.h"
 #include "network.h"
-#include "Events.h"
-#include "BOINCGUIApp.h"
-#include "AdvancedFrame.h"
 #include "util.h"
+#include "mfile.h"
+#include "miofile.h"
+#include "parse.h"
+#include "Events.h"
+#include "LogBOINC.h"
+#include "BOINCGUIApp.h"
+#include "SkinManager.h"
+#include "MainDocument.h"
+#include "BOINCTaskBar.h"
+#include "BOINCBaseFrame.h"
+#include "AdvancedFrame.h"
 
 
 #ifdef SIMPLEGUI
@@ -46,29 +54,6 @@
 #include "sg_StatImageLoader.h"
 #include "sg_BoincSimpleGUI.h"
 #endif
-
-
-////@begin XPM images
-#ifdef __APPLE__
-#include "res/boinc_mac.xpm"
-#include "res/gridrepublic_mac.xpm"
-#else
-#include "res/boinc.xpm"
-#include "res/gridrepublic16.xpm"
-#include "res/gridrepublic32.xpm"
-#include "res/cpdnbbc16.xpm"
-#include "res/cpdnbbc32.xpm"
-#include "res/cpdnbbcapwizard.xpm"
-#include "res/seed16.xpm"
-#include "res/seed32.xpm"
-#include "res/seedamwizard.xpm"
-#include "res/seedapwizard.xpm"
-#endif
-#include "res/boincsm.xpm"
-#include "res/gridrepublicamwizard.xpm"
-#include "res/boincdisconnect.xpm"
-#include "res/boincsnooze.xpm"
-////@end XPM images
 
 
 #ifdef __WXMSW__
@@ -90,174 +75,26 @@ IMPLEMENT_APP(CBOINCGUIApp)
 IMPLEMENT_DYNAMIC_CLASS(CBOINCGUIApp, wxApp)
 
 
-bool CBrandingScheme::OnInit( wxConfigBase *pConfig ) {
-    wxString    strBaseConfigLocation = wxEmptyString;
-    wxInt32     iBrandId = 0;
-
-    wxASSERT(pConfig);
-
-#ifdef __WXMAC__
-    wxChar buf[1024];
-    ProcessSerialNumber ourPSN;
-    FSRef ourFSRef;
-    OSErr err;
-
-    iBrandId = 0;   // Default value
-    // Get the full path to core client inside this application's bundle
-    err = GetCurrentProcess (&ourPSN);
-    if (err == noErr) {
-        err = GetProcessBundleLocation(&ourPSN, &ourFSRef);
-    }
-    if (err == noErr) {
-        err = FSRefMakePath (&ourFSRef, (UInt8*)buf, sizeof(buf));
-    }
-    if (err == noErr) {
-        strcat(buf, "/Contents/Resources/Branding");
-        FILE *f = fopen(buf, "r");
-        if (f) {
-            fscanf(f, "BrandId=%d\n", &iBrandId);
-            fclose(f);
-        }
-    }
-#else
-    strBaseConfigLocation = pConfig->GetPath();
-    pConfig->SetPath(strBaseConfigLocation + wxT("Branding"));
-    pConfig->Read(wxT("BrandId"), &iBrandId, 0);
-    pConfig->SetPath(strBaseConfigLocation);
-#endif
-
-    // If the BrandId is greater than 0 then we are running in
-    //   branded mode
-    if (iBrandId) {
-        m_bIsBranded = true;
-    } else {
-        m_bIsBranded = false;  // wxWidgets automatically sets bools to
-                               //   true by default.
-    }
-
-    // Now determine which resources are needed for each BrandId
-    switch (iBrandId) {
-        case 1:
-            // Running as a GridRepublic client.
-            m_strApplicationName = wxT("GridRepublic Desktop");
-#ifdef __APPLE__
-            m_iconApplicationIcon = wxIcon(gridrepublic_xpm);
-            m_bitmapApplicationLogo = wxBitmap(gridrepublic_xpm);
-#else
-            m_iconApplicationIcon = wxIcon(gridrepublic16_xpm);
-            m_bitmapApplicationLogo = wxBitmap(gridrepublic32_xpm);
-#endif
-            m_strCompanyName = wxT("GridRepublic");
-            m_strCompanyWebsite = wxT("http://www.gridrepublic.org/");
-            m_strProjectName = wxT("GridRepublic");
-            m_strAPWizardTitle = wxEmptyString;
-            m_bDefaultTabSpecified = false;
-            m_iDefaultTab = 0;
-            m_bitmapAPWizardLogo = wxBitmap(gridrepublicamwizard_xpm);
-            m_strAPWizardAccountInfoText = wxEmptyString;
-            m_strAPWizardCompletionTitle = wxEmptyString;
-            m_strAPWizardCompletionBrandedMessage = wxEmptyString;
-            m_strAPWizardCompletionMessage = wxEmptyString;
-            m_strAMWizardTitle = wxEmptyString;
-            m_bitmapAMWizardLogo = wxBitmap(gridrepublicamwizard_xpm);
-            m_strAMWizardAccountInfoText = 
-                _("Please provide the email address and password you used to register\n"
-                  "at GridRepublic. (if you have not yet created an account at\n"
-                  "GridRepublic, please do so at http://www.gridrepublic.org)");
-            m_strAMWizardAttachMessage = wxEmptyString;
-            m_strExitMessage = wxEmptyString;
-            break;
-#ifndef __APPLE__
-        case 2:
-            // Running as a CPDNBBC client.
-            m_strApplicationName = wxT("The BOINC Manager for the BBC Climate Change Experiment");
-            m_iconApplicationIcon = wxIcon(cpdnbbc16_xpm);
-            m_bitmapApplicationLogo = wxBitmap(cpdnbbc32_xpm);
-            m_strCompanyName = wxT("ClimatePrediction.net");
-            m_strCompanyWebsite = wxT("http://bbc.cpdn.org/");
-            m_strProjectName = wxT("BBC Climate Change Experiment");
-            m_bDefaultTabSpecified = true;
-            m_iDefaultTab = ID_LIST_WORKVIEW - ID_LIST_BASE;
-            m_strAPWizardTitle = _("Start Project");
-            m_bitmapAPWizardLogo = wxBitmap(cpdnbbcapwizard_xpm);
-            m_strAPWizardAccountInfoText = 
-                _("Please enter an email address and password. You will need your email\n"
-                  "address if you want to change your account options or use our message\n"
-                  "boards.\n"
-                  "\n"
-                  "We will send you occasional emails. You can stop these at any time.\n"
-                  "We will not pass your email address on to others.");
-            m_strAPWizardCompletionTitle = 
-                _("Project Started");
-            m_strAPWizardCompletionBrandedMessage =
-                _("Congratulations, you have now successfully started your Climate\n"
-                  "Change Experiment.");
-            m_strAPWizardCompletionMessage =
-                _("Click finish to exit. You will be taken to a web page which tells\n"
-                  "you more about your model.");
-            m_strAMWizardTitle = wxEmptyString;
-            m_bitmapAMWizardLogo = wxBitmap(cpdnbbcapwizard_xpm);
-            m_strAMWizardAccountInfoText = wxEmptyString;
-            m_strAMWizardAttachMessage = wxEmptyString;
-            m_strExitMessage = 
-                _("This will shut down your experiment until it restarts automatically\n"
-                  "following your user preferences. Close window to close the manager\n"
-                  "without stopping the experiment.");
-            break;
-        case 3:
-            // Running as a Seed client.
-            m_strApplicationName = wxT("seed@home Client");
-            m_iconApplicationIcon = wxIcon(seed16_xpm);
-            m_bitmapApplicationLogo = wxBitmap(seed32_xpm);
-            m_strCompanyName = wxT("Seed");
-            m_strCompanyWebsite = wxT("http://www.seedmagazine.com/");
-            m_strProjectName = wxT("seed@home");
-            m_bDefaultTabSpecified = false;
-            m_iDefaultTab = 0;
-            m_strAPWizardTitle = wxEmptyString;
-            m_bitmapAPWizardLogo = wxBitmap(seedapwizard_xpm);
-            m_strAPWizardCompletionTitle = wxEmptyString;
-            m_strAPWizardCompletionBrandedMessage = wxEmptyString;
-            m_strAPWizardCompletionMessage = wxEmptyString;
-            m_strAMWizardTitle = wxEmptyString;
-            m_strAPWizardAccountInfoText = wxEmptyString;
-            m_bitmapAMWizardLogo = wxBitmap(seedamwizard_xpm);
-            m_strAMWizardAccountInfoText = wxEmptyString;
-            m_strAMWizardAttachMessage = wxEmptyString;
-            m_strExitMessage = wxEmptyString;
-            break;
-#endif  // __APPLE__
-        default:
-            // Running in native mode without any branding
-            m_strApplicationName = wxT("BOINC Manager");
-            m_iconApplicationIcon = wxIcon(boinc_xpm);
-            m_iconApplicationDisconnectedIcon = wxIcon(boincdisconnect_xpm);
-            m_iconApplicationSnoozeIcon = wxIcon(boincsnooze_xpm);
-            m_bitmapApplicationLogo = wxBitmap(boincsm_xpm);
-            m_strCompanyName = wxT("Space Sciences Laboratory, U.C. Berkeley");
-            m_strCompanyWebsite = wxT("http://boinc.berkeley.edu/");
-            m_strProjectName = wxT("BOINC");
-            m_bDefaultTabSpecified = false;
-            m_iDefaultTab = 0;
-            m_strAPWizardTitle = wxEmptyString;
-            m_bitmapAPWizardLogo = wxNullBitmap;
-            m_strAPWizardCompletionTitle = wxEmptyString;
-            m_strAPWizardCompletionBrandedMessage = wxEmptyString;
-            m_strAPWizardCompletionMessage = wxEmptyString;
-            m_strAMWizardTitle = wxEmptyString;
-            m_strAPWizardAccountInfoText = wxEmptyString;
-            m_bitmapAMWizardLogo = wxNullBitmap;
-            m_strAMWizardAccountInfoText = wxEmptyString;
-            m_strAMWizardAttachMessage = wxEmptyString;
-            m_strExitMessage = wxEmptyString;
-            break;
-    }
-
-    return true;
-}
-
-
 bool CBOINCGUIApp::OnInit() {
+
+    // Setup variables with default values
+    m_bBOINCStartedByManager = false;
+    m_pFrame = NULL;
+    m_bGUIVisible = true;
+    m_strDefaultWindowStation = wxT("");
+    m_strDefaultDesktop = wxT("");
+    m_strDefaultDisplay = wxT("");
+    m_lBOINCCoreProcessId = 0;
+#ifdef SIMPLEGUI
+    m_iGUISelected = BOINC_SIMPLEGUI;
+#else
+    m_iGUISelected = BOINC_ADVANCEDGUI;
+#endif
+#ifdef __WXMSW__
+    m_hBOINCCoreProcess = NULL;
+    m_hClientLibraryDll = NULL;
+#endif
+
 #if (defined(SANDBOX) || defined(__WXMAC__))
     int errCode = 0;
 #endif
@@ -268,12 +105,10 @@ bool CBOINCGUIApp::OnInit() {
     g_use_sandbox = false;
 #endif
 
-#ifdef SANDBOX
     // Commandline parsing is done in wxApp::OnInit()
-    if (!wxApp::OnInit()) {     // Command line arg -insecure sets g_use_sandbox to false
+    if (!wxApp::OnInit()) {
         return false;
     }
-#endif
     
 #ifndef _WIN32
     if (g_use_sandbox)
@@ -281,28 +116,9 @@ bool CBOINCGUIApp::OnInit() {
                     // Our umask will be inherited by all our child processes
 #endif
 
-    // Setup variables with default values
-    m_bBOINCStartedByManager = false;
-    m_pFrame = NULL;
-    m_bGUIVisible = true;
-#ifdef SIMPLEGUI
-    m_iGUISelected = BOINC_SIMPLEGUI;
-#else
-    m_iGUISelected = BOINC_ADVANCEDGUI;
-#endif
-    m_lBOINCCoreProcessId = 0;
-#ifdef __WXMSW__
-    m_hBOINCCoreProcess = NULL;
-    m_hClientLibraryDll = NULL;
-#endif
-    m_strDefaultWindowStation = wxT("");
-    m_strDefaultDesktop = wxT("");
-    m_strDefaultDisplay = wxT("");
-
     // Setup application and company information
     SetAppName(wxT("BOINC Manager"));
     SetVendorName(wxT("Space Sciences Laboratory, U.C. Berkeley"));
-
 
     // Initialize the configuration storage module
     m_pConfig = new wxConfig(GetAppName());
@@ -326,15 +142,6 @@ bool CBOINCGUIApp::OnInit() {
 
 #endif
 
-    // Setup the branding scheme
-    // NOTE: SetAppName(), SetVendorName(), and the creation of the m_pConfig
-    //   variable need to be done before the branding object can be used on
-    //   any platform other than the Mac.
-    m_pBranding = new CBrandingScheme;
-    wxASSERT(m_pBranding);
-
-    m_pBranding->OnInit(m_pConfig);
-
 #ifdef __WXMAC__
 
     wxString strDirectory = wxEmptyString;
@@ -342,16 +149,11 @@ bool CBOINCGUIApp::OnInit() {
 
     // Set the current directory ahead of the application launch so the core
     //   client can find its files
-#if 0       // Code for separate data in each user's private directory
-    wxChar buf[1024];
-    wxExpandPath(buf, "~/Library/Application Support");
-    strDirectory = wxT(buf);
-#else       // All users share the same data
+
     // The mac installer sets the "setuid & setgid" bits for the 
     // BOINC Manager and core client so any user can run them and 
     // they can operate on shared data.
     strDirectory = wxT("/Library/Application Support/");
-#endif
 
     success = ::wxSetWorkingDirectory(strDirectory);
     if (success) {
@@ -385,10 +187,12 @@ bool CBOINCGUIApp::OnInit() {
     }
        
     if (errCode) {
-        wxString            strDialogMessage = wxEmptyString;
+        wxString strDialogMessage = wxEmptyString;
         strDialogMessage.Printf(
-            _("BOINC ownership or permissions are not set properly; please reinstall BOINC.\n(Error code %d)"), errCode);
-        wxMessageDialog* pDlg = new wxMessageDialog(m_pFrame, strDialogMessage, wxT(""), wxOK);
+            _("BOINC ownership or permissions are not set properly; please reinstall BOINC.\n(Error code %d)"),
+            errCode
+        );
+        wxMessageDialog* pDlg = new wxMessageDialog(NULL, strDialogMessage, wxT(""), wxOK);
         pDlg->ShowModal();
         if (pDlg)
             pDlg->Destroy();
@@ -443,12 +247,13 @@ bool CBOINCGUIApp::OnInit() {
     // help if you use this help provider:
     wxHelpProvider::Set(new wxHelpControllerHelpProvider());
 
-#ifndef SANDBOX
-    // Commandline parsing is done in wxApp::OnInit()
-    if (!wxApp::OnInit()) {
-        return false;
-    }
-#endif
+    // Initialize the skin manager
+    m_pSkinManager = new CSkinManager();
+    wxASSERT(m_pSkinManager);
+
+    wxString strSkin = m_pConfig->Read(wxT("Skin"), wxT("Default"));
+
+    m_pSkinManager->ReloadSkin(m_pLocale, strSkin);
 
     // Initialize the main document
     m_pDocument = new CMainDocument();
@@ -464,10 +269,10 @@ bool CBOINCGUIApp::OnInit() {
     // Initialize the task bar icon
 #if defined(__WXMSW__) || defined(__WXMAC__)
 	m_pTaskBarIcon = new CTaskBarIcon(
-        m_pBranding->GetApplicationName(), 
-        m_pBranding->GetApplicationIcon(),
-        m_pBranding->GetApplicationDisconnectedIcon(),
-        m_pBranding->GetApplicationSnoozeIcon()
+        m_pSkinManager->GetAdvanced()->GetApplicationName(), 
+        m_pSkinManager->GetAdvanced()->GetApplicationIcon(),
+        m_pSkinManager->GetAdvanced()->GetApplicationDisconnectedIcon(),
+        m_pSkinManager->GetAdvanced()->GetApplicationSnoozeIcon()
     );
     wxASSERT(m_pTaskBarIcon);
 #endif
@@ -483,10 +288,10 @@ bool CBOINCGUIApp::OnInit() {
 
 #ifdef __WXMAC__
     m_pMacSystemMenu = new CMacSystemMenu(
-        m_pBranding->GetApplicationName(), 
-        m_pBranding->GetApplicationIcon(),
-        m_pBranding->GetApplicationDisconnectedIcon(),
-        m_pBranding->GetApplicationSnoozeIcon()
+        m_pSkinManager->GetAdvanced()->GetApplicationName(), 
+        m_pSkinManager->GetAdvanced()->GetApplicationIcon(),
+        m_pSkinManager->GetAdvanced()->GetApplicationDisconnectedIcon(),
+        m_pSkinManager->GetAdvanced()->GetApplicationSnoozeIcon()
     );
     wxASSERT(m_pMacSystemMenu);
 
@@ -553,8 +358,8 @@ int CBOINCGUIApp::OnExit() {
         delete m_pDocument;
     }
 
-    if (m_pBranding) {
-        delete m_pBranding;
+    if (m_pSkinManager) {
+        delete m_pSkinManager;
     }
 
     if (m_pLocale) {
@@ -1097,16 +902,16 @@ bool CBOINCGUIApp::SetActiveGUI(int iGUISelection, bool bShowWindow) {
             case BOINC_SIMPLEGUI:
                 // Initialize the simple gui window
                 pNewFrame = new CSimpleFrame(
-                    m_pBranding->GetApplicationName(), 
-                    m_pBranding->GetApplicationIcon()
+                    m_pSkinManager->GetAdvanced()->GetApplicationName(), 
+                    m_pSkinManager->GetAdvanced()->GetApplicationIcon()
                 );
                 break;
             case BOINC_ADVANCEDGUI:
             default:
                 // Initialize the advanced gui window
                 pNewFrame = new CAdvancedFrame(
-                    m_pBranding->GetApplicationName(), 
-                    m_pBranding->GetApplicationIcon()
+                    m_pSkinManager->GetAdvanced()->GetApplicationName(), 
+                    m_pSkinManager->GetAdvanced()->GetApplicationIcon()
                 );
                 break;
         }
@@ -1126,8 +931,8 @@ bool CBOINCGUIApp::SetActiveGUI(int iGUISelection, bool bShowWindow) {
         // Initialize the advanced gui window
         iGUISelection = BOINC_ADVANCEDGUI;
         m_pFrame = new CAdvancedFrame(
-            m_pBranding->GetApplicationName(), 
-            m_pBranding->GetApplicationIcon()
+            m_pSkinManager->GetAdvanced()->GetApplicationName(), 
+            m_pSkinManager->GetAdvanced()->GetApplicationIcon()
         );
         wxASSERT(m_pFrame);
         SetTopWindow(m_pFrame);

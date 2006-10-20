@@ -22,12 +22,21 @@
 #endif
 
 #include "stdwx.h"
+#include "diagnostics.h"
+#include "util.h"
+#include "mfile.h"
+#include "miofile.h"
+#include "parse.h"
+#include "error_numbers.h"
 #include "wizardex.h"
 #include "error_numbers.h"
+#include "hyperlink.h"
 #include "BOINCGUIApp.h"
+#include "SkinManager.h"
+#include "MainDocument.h"
 #include "BOINCWizards.h"
 #include "BOINCBaseWizard.h"
-#include "hyperlink.h"
+#include "BOINCBaseFrame.h"
 #include "WizardAccountManager.h"
 #include "WelcomePage.h"
 #include "AccountManagerInfoPage.h"
@@ -43,9 +52,6 @@
 #include "ProxyInfoPage.h"
 #include "ProxyPage.h"
 
-////@begin XPM images
-#include "res/attachprojectwizard.xpm"
-////@end XPM images
   
 /*!
  * CWizardAccountManager type definition
@@ -119,23 +125,25 @@ bool CWizardAccountManager::Create( wxWindow* parent, wxWindowID id, const wxPoi
     m_strProjectName.Empty();
     m_bCredentialsCached = false;
 
+
+    CSkinAdvanced*   pSkinAdvanced = wxGetApp().GetSkinManager()->GetAdvanced();
+    CSkinWizardATAM* pSkinWizardATAM = wxGetApp().GetSkinManager()->GetWizards()->GetWizardATAM();
+
+    wxASSERT(pSkinAdvanced);
+    wxASSERT(pSkinWizardATAM);
+    wxASSERT(wxDynamicCast(pSkinAdvanced, CSkinAdvanced));
+    wxASSERT(wxDynamicCast(pSkinWizardATAM, CSkinWizardATAM));
+
+
     wxString strTitle;
-    if (wxGetApp().GetBrand()->IsBranded()) {
-        if (!wxGetApp().GetBrand()->GetAMWizardTitle().IsEmpty()) {
-            strTitle = wxGetApp().GetBrand()->GetAMWizardTitle();
-        } else {
-            strTitle = wxGetApp().GetBrand()->GetApplicationName();
-        }
+    if (!pSkinWizardATAM->GetWizardTitle().IsEmpty()) {
+        strTitle = pSkinWizardATAM->GetWizardTitle();
     } else {
-        strTitle = _("BOINC Manager");
+        strTitle = pSkinAdvanced->GetApplicationName();
     }
 
-    wxBitmap wizardBitmap;
-    if (wxGetApp().GetBrand()->IsBranded()) {
-        wizardBitmap = wxBitmap(*(wxGetApp().GetBrand()->GetAMWizardLogo()));
-    } else {
-        wizardBitmap = wxBitmap(GetBitmapResource(wxT("res/attachprojectwizard.xpm")));
-    }
+    wxBitmap wizardBitmap = wxBitmap(*(pSkinWizardATAM->GetWizardBitmap()));
+
 ////@begin CWizardAccountManager creation
     CBOINCBaseWizard::Create( parent, id, strTitle, wizardBitmap, pos );
 
@@ -281,15 +289,10 @@ bool CWizardAccountManager::ShowToolTips()
  * Get bitmap resources
  */
 
-wxBitmap CWizardAccountManager::GetBitmapResource( const wxString& name )
+wxBitmap CWizardAccountManager::GetBitmapResource( const wxString& WXUNUSED(name) )
 {
     // Bitmap retrieval
 ////@begin CWizardAccountManager bitmap retrieval
-    if (name == wxT("res/attachprojectwizard.xpm"))
-    {
-        wxBitmap bitmap(attachprojectwizard_xpm);
-        return bitmap;
-    }
     return wxNullBitmap;
 ////@end CWizardAccountManager bitmap retrieval
 }

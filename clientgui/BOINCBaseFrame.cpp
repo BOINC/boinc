@@ -22,8 +22,17 @@
 #endif
 
 #include "stdwx.h"
+#include "diagnostics.h"
+#include "util.h"
+#include "mfile.h"
+#include "miofile.h"
+#include "parse.h"
+#include "error_numbers.h"
 #include "hyperlink.h"
 #include "BOINCGUIApp.h"
+#include "SkinManager.h"
+#include "MainDocument.h"
+#include "BOINCTaskBar.h"
 #include "BOINCBaseFrame.h"
 #include "BOINCDialupManager.h"
 #include "Events.h"
@@ -294,7 +303,13 @@ void CBOINCBaseFrame::FireConnect() {
 
 
 void CBOINCBaseFrame::ShowConnectionBadPasswordAlert() {
+    CSkinAdvanced*      pSkinAdvanced = wxGetApp().GetSkinManager()->GetAdvanced();
     wxString            strDialogTitle = wxEmptyString;
+
+
+    wxASSERT(pSkinAdvanced);
+    wxASSERT(wxDynamicCast(pSkinAdvanced, CSkinAdvanced));
+
 
     wxLogTrace(wxT("Function Start/End"), wxT("CBOINCBaseFrame::ShowConnectionBadPasswordAlert - Function Begin"));
 
@@ -302,7 +317,7 @@ void CBOINCBaseFrame::ShowConnectionBadPasswordAlert() {
     //    i.e. 'BOINC Manager', 'GridRepublic Manager'
     strDialogTitle.Printf(
         _("%s - Connection Error"),
-        wxGetApp().GetBrand()->GetApplicationName().c_str()
+        pSkinAdvanced->GetApplicationName().c_str()
     );
 
     ShowAlert(
@@ -316,8 +331,14 @@ void CBOINCBaseFrame::ShowConnectionBadPasswordAlert() {
 
 
 void CBOINCBaseFrame::ShowConnectionFailedAlert() {
+    CSkinAdvanced*      pSkinAdvanced = wxGetApp().GetSkinManager()->GetAdvanced();
     wxString            strDialogTitle = wxEmptyString;
     wxString            strDialogMessage = wxEmptyString;
+
+
+    wxASSERT(pSkinAdvanced);
+    wxASSERT(wxDynamicCast(pSkinAdvanced, CSkinAdvanced));
+
 
     wxLogTrace(wxT("Function Start/End"), wxT("CBOINCBaseFrame::ShowConnectionFailedAlert - Function Begin"));
 
@@ -325,7 +346,7 @@ void CBOINCBaseFrame::ShowConnectionFailedAlert() {
     //    i.e. 'BOINC Manager', 'GridRepublic Manager'
     strDialogTitle.Printf(
         _("%s - Connection Failed"),
-        wxGetApp().GetBrand()->GetApplicationName().c_str()
+        pSkinAdvanced->GetApplicationName().c_str()
     );
 
     // 1st %s is the application name
@@ -335,8 +356,8 @@ void CBOINCBaseFrame::ShowConnectionFailedAlert() {
     strDialogMessage.Printf(
         _("%s is not able to connect to a %s client.\n"
           "Would you like to try to connect again?"),
-        wxGetApp().GetBrand()->GetApplicationName().c_str(),
-        wxGetApp().GetBrand()->GetProjectName().c_str()
+        pSkinAdvanced->GetApplicationName().c_str(),
+        pSkinAdvanced->GetProjectName().c_str()
     );
 
     ShowAlert(
@@ -352,8 +373,14 @@ void CBOINCBaseFrame::ShowConnectionFailedAlert() {
 
 
 void CBOINCBaseFrame::ShowNotCurrentlyConnectedAlert() {
+    CSkinAdvanced*      pSkinAdvanced = wxGetApp().GetSkinManager()->GetAdvanced();
     wxString            strDialogTitle = wxEmptyString;
     wxString            strDialogMessage = wxEmptyString;
+
+
+    wxASSERT(pSkinAdvanced);
+    wxASSERT(wxDynamicCast(pSkinAdvanced, CSkinAdvanced));
+
 
     wxLogTrace(wxT("Function Start/End"), wxT("CBOINCBaseFrame::ShowNotCurrentlyConnectedAlert - Function Begin"));
 
@@ -361,7 +388,7 @@ void CBOINCBaseFrame::ShowNotCurrentlyConnectedAlert() {
     //    i.e. 'BOINC Manager', 'GridRepublic Manager'
     strDialogTitle.Printf(
         _("%s - Connection Status"),
-        wxGetApp().GetBrand()->GetApplicationName().c_str()
+        pSkinAdvanced->GetApplicationName().c_str()
     );
 
     // 1st %s is the application name
@@ -374,9 +401,9 @@ void CBOINCBaseFrame::ShowNotCurrentlyConnectedAlert() {
         _("%s is not currently connected to a %s client.\n"
           "Please use the 'File\\Select Computer...' menu option to connect up to a %s client.\n"
           "To connect up to your local computer please use 'localhost' as the host name."),
-        wxGetApp().GetBrand()->GetApplicationName().c_str(),
-        wxGetApp().GetBrand()->GetProjectName().c_str(),
-        wxGetApp().GetBrand()->GetProjectName().c_str()
+        pSkinAdvanced->GetApplicationName().c_str(),
+        pSkinAdvanced->GetProjectName().c_str(),
+        pSkinAdvanced->GetProjectName().c_str()
     );
     ShowAlert(
         strDialogTitle,

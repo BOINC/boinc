@@ -17,6 +17,7 @@
 #include "stdwx.h"
 #include "BOINCGUIApp.h"
 #include "msw/taskbarex.h"
+#include "BOINCTaskBar.h"
 
 
 LRESULT APIENTRY wxTaskBarIconExWindowProc( HWND hWnd, unsigned msg, UINT wParam, LONG lParam );

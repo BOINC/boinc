@@ -23,6 +23,7 @@
 
 #include "stdwx.h"
 #include "BOINCGUIApp.h"
+#include "BOINCBaseFrame.h"
 #include "MainDocument.h"
 #include "AdvancedFrame.h"
 #include "BOINCTaskCtrl.h"
@@ -162,7 +163,7 @@ static void CheckMinMaxC(wxCoord &min_val, wxCoord &max_val) {
 }
 
 //----Draw Main Head----
-void CPaintStatistics::DrawMainHead(wxPaintDC &dc, const wxString head_name, wxCoord &x_start, wxCoord &x_end, wxCoord &y_start, wxCoord &y_end){
+void CPaintStatistics::DrawMainHead(wxPaintDC &dc, const wxString head_name, wxCoord &x_start, wxCoord &x_end, wxCoord &y_start, wxCoord & /*y_end*/){
 	wxCoord w_temp, h_temp, des_temp, lead_temp;
 	dc.GetTextExtent(head_name, &w_temp, &h_temp, &des_temp, &lead_temp);
 	dc.DrawText (head_name, x_start+((x_end-x_start-w_temp)/2), y_start+1);
@@ -170,7 +171,7 @@ void CPaintStatistics::DrawMainHead(wxPaintDC &dc, const wxString head_name, wxC
 };
 
 //----Draw Legend----
-void CPaintStatistics::DrawLegend(wxPaintDC &dc, PROJECTS * &proj, CMainDocument* &pDoc, wxInt32 SelProj, bool bColour, wxCoord &x_start, wxCoord &x_end, wxCoord &y_start, wxCoord &y_end){
+void CPaintStatistics::DrawLegend(wxPaintDC &dc, PROJECTS * &proj, CMainDocument* &pDoc, wxInt32 SelProj, bool bColour, wxCoord & /*x_start*/, wxCoord &x_end, wxCoord &y_start, wxCoord &y_end){
 	dc.SetFont(m_font_bold);
 	wxString head_name=wxT("");
 	wxCoord project_name_max_width=0;

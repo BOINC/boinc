@@ -22,9 +22,17 @@
 #endif
 
 #include "stdwx.h"
+#include "diagnostics.h"
+#include "util.h"
+#include "mfile.h"
+#include "miofile.h"
+#include "parse.h"
+#include "error_numbers.h"
 #include "wizardex.h"
 #include "error_numbers.h"
 #include "BOINCGUIApp.h"
+#include "SkinManager.h"
+#include "MainDocument.h"
 #include "wx/valgen.h"
 #include "wx/valtext.h"
 #include "ValidateEmailAddress.h"
@@ -252,6 +260,13 @@ wxIcon CAccountInfoPage::GetIconResource( const wxString& WXUNUSED(name) )
 void CAccountInfoPage::OnPageChanged( wxWizardExEvent& event ) {
     if (event.GetDirection() == false) return;
 
+	PROJECT_CONFIG&  pc = ((CBOINCBaseWizard*)GetParent())->project_config;
+    CSkinAdvanced*   pSkinAdvanced = wxGetApp().GetSkinManager()->GetAdvanced();
+    CSkinWizardATAM* pSkinWizardATAM = wxGetApp().GetSkinManager()->GetWizards()->GetWizardATAM();
+
+
+    wxASSERT(pSkinAdvanced);
+    wxASSERT(pSkinWizardATAM);
     wxASSERT(m_pTitleStaticCtrl);
     wxASSERT(m_pAccountQuestionStaticCtrl);
     wxASSERT(m_pAccountInformationStaticCtrl);
@@ -264,8 +279,9 @@ void CAccountInfoPage::OnPageChanged( wxWizardExEvent& event ) {
     wxASSERT(m_pAccountConfirmPasswordStaticCtrl);
     wxASSERT(m_pAccountConfirmPasswordCtrl);
     wxASSERT(m_pAccountPasswordRequirmentsStaticCtrl);
+    wxASSERT(wxDynamicCast(pSkinAdvanced, CSkinAdvanced));
+    wxASSERT(wxDynamicCast(pSkinWizardATAM, CSkinWizardATAM));
 
-	PROJECT_CONFIG& pc = ((CBOINCBaseWizard*)GetParent())->project_config;
 
     static bool bRunOnce = true;
     if (bRunOnce) {
@@ -328,17 +344,11 @@ void CAccountInfoPage::OnPageChanged( wxWizardExEvent& event ) {
         m_pAccountUseExistingCtrl->SetLabel(
             _("&Yes, existing user")
         );
-        if (wxGetApp().GetBrand()->IsBranded() && 
-            !wxGetApp().GetBrand()->GetAPWizardAccountInfoText().IsEmpty()) {
-            m_pAccountInformationStaticCtrl->SetLabel(
-                wxGetApp().GetBrand()->GetAPWizardAccountInfoText()
-            );
-        }
     } else {
-        if (wxGetApp().GetBrand()->IsBranded() && 
-            !wxGetApp().GetBrand()->GetAMWizardAccountInfoText().IsEmpty()) {
+        if (pSkinAdvanced->IsBranded() && 
+            !pSkinWizardATAM->GetAccountInfoMessage().IsEmpty()) {
             m_pAccountInformationStaticCtrl->SetLabel(
-                wxGetApp().GetBrand()->GetAMWizardAccountInfoText()
+                pSkinWizardATAM->GetAccountInfoMessage()
             );
         }
     }
@@ -372,60 +382,29 @@ void CAccountInfoPage::OnPageChanged( wxWizardExEvent& event ) {
     }
 
     if (((CBOINCBaseWizard*)GetParent())->project_config.uses_username) {
-        if (!IS_ACCOUNTMANAGERWIZARD()) {
-            if (wxGetApp().GetBrand()->IsBranded() && 
-                !wxGetApp().GetBrand()->GetAPWizardAccountInfoText().IsEmpty()) {
+        if (IS_ACCOUNTMANAGERWIZARD()) {
+            if (pSkinAdvanced->IsBranded() && 
+                !pSkinWizardATAM->GetAccountInfoMessage().IsEmpty()) {
                 m_pAccountInformationStaticCtrl->SetLabel(
-                    wxGetApp().GetBrand()->GetAPWizardAccountInfoText()
-                );
-            }
-        } else {
-            if (wxGetApp().GetBrand()->IsBranded() && 
-                !wxGetApp().GetBrand()->GetAMWizardAccountInfoText().IsEmpty()) {
-                m_pAccountInformationStaticCtrl->SetLabel(
-                    wxGetApp().GetBrand()->GetAMWizardAccountInfoText()
+                    pSkinWizardATAM->GetAccountInfoMessage()
                 );
             }
         }
-#if 0
-        if (m_pAccountInformationStaticCtrl) {
-            if (m_pAccountInformationStaticCtrl->GetLabel().IsEmpty()) {
-                m_pAccountInformationStaticCtrl->SetLabel(
-                    _("Enter the username and password you used on\n"
-                    "the web site.")
-                );
-            }
-        }
-#endif
+
         m_pAccountEmailAddressStaticCtrl->SetLabel(
             _("&Username:")
         );
         m_pAccountEmailAddressCtrl->SetValidator( wxTextValidator(wxFILTER_ASCII, &m_strAccountEmailAddress) );
     } else {
-        if (!IS_ACCOUNTMANAGERWIZARD()) {
-            if (wxGetApp().GetBrand()->IsBranded() && 
-                !wxGetApp().GetBrand()->GetAPWizardAccountInfoText().IsEmpty()) {
+        if (IS_ACCOUNTMANAGERWIZARD()) {
+            if (pSkinAdvanced->IsBranded() && 
+                !pSkinWizardATAM->GetAccountInfoMessage().IsEmpty()) {
                 m_pAccountInformationStaticCtrl->SetLabel(
-                    wxGetApp().GetBrand()->GetAPWizardAccountInfoText()
-                );
-            }
-        } else {
-            if (wxGetApp().GetBrand()->IsBranded() && 
-                !wxGetApp().GetBrand()->GetAMWizardAccountInfoText().IsEmpty()) {
-                m_pAccountInformationStaticCtrl->SetLabel(
-                    wxGetApp().GetBrand()->GetAMWizardAccountInfoText()
+                    pSkinWizardATAM->GetAccountInfoMessage()
                 );
             }
         }
-#if 0
-        if (m_pAccountInformationStaticCtrl) {
-            if (m_pAccountInformationStaticCtrl->GetLabel().IsEmpty()) {
-                m_pAccountInformationStaticCtrl->SetLabel(
-                    _("Enter the email address and password of your account\n")
-                );
-            }
-        }
-#endif
+
         m_pAccountEmailAddressStaticCtrl->SetLabel(
             _("&Email address:")
         );

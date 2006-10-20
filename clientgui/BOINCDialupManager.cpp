@@ -24,8 +24,15 @@
 #include "stdwx.h"
 #include "network.h"
 #include "diagnostics.h"
+#include "util.h"
+#include "mfile.h"
+#include "miofile.h"
+#include "parse.h"
 #include "error_numbers.h"
 #include "BOINCGUIApp.h"
+#include "SkinManager.h"
+#include "MainDocument.h"
+#include "BOINCTaskbar.h"
 #include "BOINCBaseFrame.h"
 #include "BOINCDialupManager.h"
 #include "DlgOptions.h"
@@ -54,7 +61,7 @@ CBOINCDialUpManager::CBOINCDialUpManager() {
     //    i.e. 'BOINC Manager', 'GridRepublic Manager'
     m_strDialogTitle.Printf(
         _("%s - Network Status"),
-        wxGetApp().GetBrand()->GetApplicationName().c_str()
+        wxGetApp().GetSkinManager()->GetAdvanced()->GetApplicationName().c_str()
     );
 
     wxLogTrace(wxT("Function Start/End"), wxT("CBOINCDialUpManager::CBOINCDialUpManager - Function End"));
@@ -230,10 +237,14 @@ void CBOINCDialUpManager::poll() {
 
 int CBOINCDialUpManager::NotifyUserNeedConnection(bool bNotificationOnly) {
     CBOINCBaseFrame*    pFrame = wxGetApp().GetFrame();
+    CSkinAdvanced*      pSkinAdvanced = wxGetApp().GetSkinManager()->GetAdvanced();
     wxTimeSpan          tsLastDialupAlertSent;
     wxString            strDialogMessage = wxEmptyString;
 
+    wxASSERT(pFrame);
+    wxASSERT(pSkinAdvanced);
     wxASSERT(wxDynamicCast(pFrame, CBOINCBaseFrame));
+    wxASSERT(wxDynamicCast(pSkinAdvanced, CSkinAdvanced));
 
     tsLastDialupAlertSent = wxDateTime::Now() - m_dtLastDialupAlertSent;
     if (tsLastDialupAlertSent.GetMinutes() >= pFrame->GetReminderFrequency()) {
@@ -247,8 +258,8 @@ int CBOINCDialUpManager::NotifyUserNeedConnection(bool bNotificationOnly) {
         //    i.e. 'BOINC Manager', 'GridRepublic Manager'
         strDialogMessage.Printf(
             _("%s needs to connect to the Internet.  Please click to open %s."),
-            wxGetApp().GetBrand()->GetProjectName().c_str(),
-            wxGetApp().GetBrand()->GetApplicationName().c_str()
+            pSkinAdvanced->GetProjectName().c_str(),
+            pSkinAdvanced->GetApplicationName().c_str()
         );
 #else
         // %s is the project name
@@ -257,7 +268,7 @@ int CBOINCDialUpManager::NotifyUserNeedConnection(bool bNotificationOnly) {
             _("%s is unable to communicate with a project and needs an Internet connection.\n"
                 "Please connect to the Internet, then select the 'retry communications' "
                 "item off the advanced menu."),
-            wxGetApp().GetBrand()->GetProjectName().c_str()
+            pSkinAdvanced->GetProjectName().c_str()
         );
 #endif
         pFrame->ShowAlert(
@@ -275,12 +286,19 @@ int CBOINCDialUpManager::NotifyUserNeedConnection(bool bNotificationOnly) {
 int CBOINCDialUpManager::Connect() {
     CMainDocument*      pDoc = wxGetApp().GetDocument();
     CBOINCBaseFrame*    pFrame = wxGetApp().GetFrame();
+    CSkinAdvanced*      pSkinAdvanced = wxGetApp().GetSkinManager()->GetAdvanced();
     wxTimeSpan          tsLastDialupRequest;
     int                 iAnswer;
     wxString            strDialogMessage = wxEmptyString;
 
+
+    wxASSERT(pDoc);
+    wxASSERT(pFrame);
+    wxASSERT(pSkinAdvanced);
     wxASSERT(wxDynamicCast(pDoc, CMainDocument));
     wxASSERT(wxDynamicCast(pFrame, CBOINCBaseFrame));
+    wxASSERT(wxDynamicCast(pSkinAdvanced, CSkinAdvanced));
+
 
     tsLastDialupRequest = wxDateTime::Now() - m_dtLastDialupRequest;
     if (tsLastDialupRequest.GetMinutes() >= pFrame->GetReminderFrequency()) {
@@ -294,7 +312,7 @@ int CBOINCDialUpManager::Connect() {
                 //    i.e. 'BOINC', 'GridRepublic'
                 strDialogMessage.Printf(
                     _("%s needs to connect to the Internet.\nMay it do so now?"),
-                    wxGetApp().GetBrand()->GetProjectName().c_str()
+                    pSkinAdvanced->GetProjectName().c_str()
                 );
                 iAnswer = ::wxMessageBox(
                     strDialogMessage,
@@ -307,7 +325,7 @@ int CBOINCDialUpManager::Connect() {
                 //    i.e. 'BOINC', 'GridRepublic'
                 strDialogMessage.Printf(
                     _("%s is connecting to the Internet."),
-                    wxGetApp().GetBrand()->GetProjectName().c_str()
+                    pSkinAdvanced->GetProjectName().c_str()
                 );
                 pFrame->ShowAlert(
                     m_strDialogTitle,
@@ -340,7 +358,7 @@ int CBOINCDialUpManager::Connect() {
                 _("%s couldn't do Internet communication, and no default connection is selected.\n"
                   "Please connect to the Internet, or select a default connection\n"
                   "using Advanced/Options/Connections."),
-                wxGetApp().GetBrand()->GetProjectName().c_str()
+                pSkinAdvanced->GetProjectName().c_str()
             );
 
             pFrame->ShowAlert(
@@ -358,15 +376,21 @@ int CBOINCDialUpManager::Connect() {
 
 int CBOINCDialUpManager::ConnectionSucceeded() {
     CBOINCBaseFrame*    pFrame = wxGetApp().GetFrame();
+    CSkinAdvanced*      pSkinAdvanced = wxGetApp().GetSkinManager()->GetAdvanced();
     wxString            strDialogMessage = wxEmptyString;
 
+
+    wxASSERT(pFrame);
+    wxASSERT(pSkinAdvanced);
     wxASSERT(wxDynamicCast(pFrame, CBOINCBaseFrame));
+    wxASSERT(wxDynamicCast(pSkinAdvanced, CSkinAdvanced));
+
 
     // %s is the project name
     //    i.e. 'BOINC', 'GridRepublic'
     strDialogMessage.Printf(
         _("%s has successfully connected to the Internet."),
-        wxGetApp().GetBrand()->GetProjectName().c_str()
+        pSkinAdvanced->GetProjectName().c_str()
     );
     pFrame->ShowAlert(
         m_strDialogTitle,
@@ -382,15 +406,19 @@ int CBOINCDialUpManager::ConnectionSucceeded() {
 
 int CBOINCDialUpManager::ConnectionFailed() {
     CBOINCBaseFrame*    pFrame = wxGetApp().GetFrame();
+    CSkinAdvanced*      pSkinAdvanced = wxGetApp().GetSkinManager()->GetAdvanced();
     wxString            strDialogMessage = wxEmptyString;
 
+    wxASSERT(pFrame);
+    wxASSERT(pSkinAdvanced);
     wxASSERT(wxDynamicCast(pFrame, CBOINCBaseFrame));
+    wxASSERT(wxDynamicCast(pSkinAdvanced, CSkinAdvanced));
 
     // %s is the project name
     //    i.e. 'BOINC', 'GridRepublic'
     strDialogMessage.Printf(
         _("%s failed to connect to the Internet."),
-        wxGetApp().GetBrand()->GetProjectName().c_str()
+        pSkinAdvanced->GetProjectName().c_str()
     );
     pFrame->ShowAlert(
         m_strDialogTitle,
@@ -407,10 +435,17 @@ int CBOINCDialUpManager::ConnectionFailed() {
 int CBOINCDialUpManager::NetworkAvailable() {
     CMainDocument*      pDoc = wxGetApp().GetDocument();
     CBOINCBaseFrame*    pFrame = wxGetApp().GetFrame();
+    CSkinAdvanced*      pSkinAdvanced = wxGetApp().GetSkinManager()->GetAdvanced();
     wxString            strDialogMessage = wxEmptyString;
 
+
+    wxASSERT(pDoc);
+    wxASSERT(pFrame);
+    wxASSERT(pSkinAdvanced);
     wxASSERT(wxDynamicCast(pDoc, CMainDocument));
     wxASSERT(wxDynamicCast(pFrame, CBOINCBaseFrame));
+    wxASSERT(wxDynamicCast(pSkinAdvanced, CSkinAdvanced));
+
 
     wxLogTrace(wxT("Function Status"), wxT("CBOINCDialUpManager::NetworkAvailable - Connection Detected, notifing user of update to all projects"));
 
@@ -425,7 +460,7 @@ int CBOINCDialUpManager::NetworkAvailable() {
     strDialogMessage.Printf(
         _("%s has detected it is now connected to the Internet.\n"
           "Updating all projects and retrying all transfers."),
-        wxGetApp().GetBrand()->GetProjectName().c_str()
+        pSkinAdvanced->GetProjectName().c_str()
     );
 
     pFrame->ShowAlert(
@@ -445,10 +480,16 @@ int CBOINCDialUpManager::NetworkAvailable() {
 int CBOINCDialUpManager::Disconnect() {
     CMainDocument*      pDoc = wxGetApp().GetDocument();
     CBOINCBaseFrame*    pFrame = wxGetApp().GetFrame();
+    CSkinAdvanced*      pSkinAdvanced = wxGetApp().GetSkinManager()->GetAdvanced();
     wxString            strDialogMessage = wxEmptyString;
 
+
+    wxASSERT(pDoc);
+    wxASSERT(pFrame);
+    wxASSERT(pSkinAdvanced);
     wxASSERT(wxDynamicCast(pDoc, CMainDocument));
     wxASSERT(wxDynamicCast(pFrame, CBOINCBaseFrame));
+    wxASSERT(wxDynamicCast(pSkinAdvanced, CSkinAdvanced));
 
 
     wxLogTrace(wxT("Function Status"), wxT("CBOINCDialUpManager::Disconnect - Connection Detected, disconnect requested via the CC."));
@@ -461,7 +502,7 @@ int CBOINCDialUpManager::Disconnect() {
             //    i.e. 'BOINC', 'GridRepublic'
             strDialogMessage.Printf(
                 _("%s has successfully disconnected from the Internet."),
-                wxGetApp().GetBrand()->GetProjectName().c_str()
+                pSkinAdvanced->GetProjectName().c_str()
             );
             pFrame->ShowAlert(
                 m_strDialogTitle,
@@ -477,7 +518,7 @@ int CBOINCDialUpManager::Disconnect() {
             //    i.e. 'BOINC', 'GridRepublic'
             strDialogMessage.Printf(
                 _("%s failed to disconnected from the Internet."),
-                wxGetApp().GetBrand()->GetProjectName().c_str()
+                pSkinAdvanced->GetProjectName().c_str()
             );
             pFrame->ShowAlert(
                 m_strDialogTitle,

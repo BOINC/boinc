@@ -22,9 +22,17 @@
 #endif
 
 #include "stdwx.h"
+#include "diagnostics.h"
+#include "util.h"
+#include "mfile.h"
+#include "miofile.h"
+#include "parse.h"
+#include "error_numbers.h"
 #include "wizardex.h"
 #include "error_numbers.h"
 #include "BOINCGUIApp.h"
+#include "SkinManager.h"
+#include "MainDocument.h"
 #include "BOINCWizards.h"
 #include "BOINCBaseWizard.h"
 #include "WizardAttachProject.h"
@@ -183,65 +191,50 @@ void CCompletionPage::OnPageChanged( wxWizardExEvent& event ) {
     if (event.GetDirection() == false) return;
 
     CWizardAttachProject* pWAP = ((CWizardAttachProject*)GetParent());
+    CSkinAdvanced*        pSkinAdvanced = wxGetApp().GetSkinManager()->GetAdvanced();
 
+
+    wxASSERT(pSkinAdvanced);
     wxASSERT(m_pCompletionTitle);
     wxASSERT(m_pCompletionWelcome);
     wxASSERT(m_pCompletionBrandedMessage);
     wxASSERT(m_pCompletionMessage);
+    wxASSERT(wxDynamicCast(pSkinAdvanced, CSkinAdvanced));
+
 
     if (IS_ATTACHTOPROJECTWIZARD()) {
-        wxString strTitle;
-        if (wxGetApp().GetBrand()->IsBranded() && 
-            !wxGetApp().GetBrand()->GetAPWizardCompletionTitle().IsEmpty()) {
-            strTitle = wxGetApp().GetBrand()->GetAPWizardCompletionTitle();
-        } else {
-            strTitle = _("Attached to project");
-        }
-
-        m_pCompletionTitle->SetLabel( strTitle );
+        m_pCompletionTitle->SetLabel(
+            _("Attached to project")
+        );
 
         m_pCompletionWelcome->Hide();
 
-        wxString strBrandedMessage;
-        if (wxGetApp().GetBrand()->IsBranded() && 
-            !wxGetApp().GetBrand()->GetAPWizardCompletionBrandedMessage().IsEmpty()) {
-            strBrandedMessage = wxGetApp().GetBrand()->GetAPWizardCompletionBrandedMessage();
-        } else {
-            strBrandedMessage = _("You are now successfully attached to this project.");
-        }
-
-        m_pCompletionBrandedMessage->SetLabel( strBrandedMessage );
+        m_pCompletionBrandedMessage->SetLabel(
+            _("You are now successfully attached to this project.")
+        );
 
         if (pWAP->m_AccountInfoPage->m_pAccountCreateCtrl->GetValue()) {
-            wxString strMessage;
-            if (wxGetApp().GetBrand()->IsBranded() && 
-                !wxGetApp().GetBrand()->GetAPWizardCompletionMessage().IsEmpty()) {
-                strMessage = wxGetApp().GetBrand()->GetAPWizardCompletionMessage();
-            } else {
-                strMessage = 
-                    _("When you click Finish, your web browser will go to a page where\n"
-                    "you can set your account name and preferences.");
-            }
-
-            m_pCompletionMessage->SetLabel( strMessage );
+            m_pCompletionMessage->SetLabel(
+                _("When you click Finish, your web browser will go to a page where\n"
+                  "you can set your account name and preferences.")
+            );
         } else {
             m_pCompletionMessage->SetLabel(
                 _("Click Finish to close.")
             );
         }
-
     } else if (IS_ACCOUNTMANAGERWIZARD()) {
 
         if (IS_ACCOUNTMANAGERUPDATEWIZARD()) {
             // Update completed
 
             wxString strTitle;
-            if (wxGetApp().GetBrand()->IsBranded()) {
+            if (pSkinAdvanced->IsBranded()) {
                 // %s is the project name
                 //    i.e. 'GridRepublic'
                 strTitle.Printf(
                     _("Update from %s completed."),
-                    wxGetApp().GetBrand()->GetProjectName().c_str()
+                    pSkinAdvanced->GetProjectName().c_str()
                 );
             } else {
                 strTitle = _("Update completed.");
@@ -257,12 +250,12 @@ void CCompletionPage::OnPageChanged( wxWizardExEvent& event ) {
             // Remove Completed
 
             wxString strTitle;
-            if (wxGetApp().GetBrand()->IsBranded()) {
+            if (pSkinAdvanced->IsBranded()) {
                 // %s is the project name
                 //    i.e. 'GridRepublic'
                 strTitle.Printf(
                     _("Removal from %s completed."),
-                    wxGetApp().GetBrand()->GetProjectName().c_str()
+                    pSkinAdvanced->GetProjectName().c_str()
                 );
             } else {
                 strTitle = _("Removal succeeded!");
@@ -278,12 +271,12 @@ void CCompletionPage::OnPageChanged( wxWizardExEvent& event ) {
             // Attach Completed
 
             wxString strTitle;
-            if (wxGetApp().GetBrand()->IsBranded()) {
+            if (pSkinAdvanced->IsBranded()) {
                 // %s is the project name
                 //    i.e. 'GridRepublic'
                 strTitle.Printf(
                     _("Attached to %s"),
-                    wxGetApp().GetBrand()->GetProjectName().c_str()
+                    pSkinAdvanced->GetProjectName().c_str()
                 );
             } else {
                 strTitle = _("Attached to account manager");
@@ -291,13 +284,13 @@ void CCompletionPage::OnPageChanged( wxWizardExEvent& event ) {
 
             m_pCompletionTitle->SetLabel( strTitle );
 
-            if (wxGetApp().GetBrand()->IsBranded()) {
+            if (pSkinAdvanced->IsBranded()) {
                 // %s is the project name
                 //    i.e. 'GridRepublic'
                 wxString strWelcome;
                 strWelcome.Printf(
                     _("Welcome to %s!"),
-                    wxGetApp().GetBrand()->GetProjectName().c_str()
+                    pSkinAdvanced->GetProjectName().c_str()
                 );
 
                 m_pCompletionWelcome->Show();
@@ -305,15 +298,13 @@ void CCompletionPage::OnPageChanged( wxWizardExEvent& event ) {
             }
 
             wxString strBrandedMessage;
-            if (wxGetApp().GetBrand()->IsBranded()) {
+            if (pSkinAdvanced->IsBranded()) {
                 // 1st %s is the project name
                 //    i.e. 'GridRepublic'
                 // 2nd %s is the account manager success message
                 strBrandedMessage.Printf(
-                    _("You are now successfully attached to the %s system.\n"
-                    "%s"),
-                    wxGetApp().GetBrand()->GetProjectName().c_str(),
-                    wxGetApp().GetBrand()->GetAMWizardSuccessMessage().c_str()
+                    _("You are now successfully attached to the %s system."),
+                    pSkinAdvanced->GetProjectName().c_str()
                 );
             } else {
                 strBrandedMessage = _("You are now successfully attached to this account manager.");

@@ -28,66 +28,15 @@
 #include "mac/MacSysMenu.h"     // Must be included before MainDocument.h
 #endif
 
-#include "LogBOINC.h"
-#include "BOINCTaskBar.h"   // Must be included before MainDocument.h
-#include "BOINCBaseFrame.h"
-#include "MainDocument.h"
-
-
 #define BOINC_ADVANCEDGUI                   1
 #define BOINC_SIMPLEGUI                     2
 
-class CBrandingScheme : public wxObject {
-private:
-    bool        m_bIsBranded;
-    wxString    m_strApplicationName;
-    wxIcon      m_iconApplicationIcon;
-    wxIcon      m_iconApplicationDisconnectedIcon;
-    wxIcon      m_iconApplicationSnoozeIcon;
-    wxBitmap    m_bitmapApplicationLogo;
-    wxString    m_strCompanyName;
-    wxString    m_strCompanyWebsite;
-    wxString    m_strProjectName;
-    bool        m_bDefaultTabSpecified;
-    int         m_iDefaultTab;
-    wxString    m_strAPWizardTitle;
-    wxBitmap    m_bitmapAPWizardLogo;
-    wxString    m_strAPWizardAccountInfoText;
-    wxString    m_strAPWizardCompletionTitle;
-    wxString    m_strAPWizardCompletionBrandedMessage;
-    wxString    m_strAPWizardCompletionMessage;
-    wxString    m_strAMWizardTitle;
-    wxBitmap    m_bitmapAMWizardLogo;
-    wxString    m_strAMWizardAccountInfoText;
-    wxString    m_strAMWizardAttachMessage;
-    wxString    m_strExitMessage;
 
-public:
-    bool        IsBranded() { return m_bIsBranded; }
-    wxString    GetApplicationName() { return m_strApplicationName; }
-    wxIcon*     GetApplicationIcon() { return &m_iconApplicationIcon; }
-    wxIcon*     GetApplicationDisconnectedIcon() { return &m_iconApplicationDisconnectedIcon; }
-    wxIcon*     GetApplicationSnoozeIcon() { return &m_iconApplicationSnoozeIcon; }
-    wxBitmap*   GetApplicationLogo() { return &m_bitmapApplicationLogo; }
-    wxString    GetCompanyName() { return m_strCompanyName; }
-    wxString    GetCompanyWebsite() { return m_strCompanyWebsite; }
-    wxString    GetProjectName() { return m_strProjectName; }
-    bool        IsDefaultTabSpecified() { return m_bDefaultTabSpecified; }
-    int         GetDefaultTab() { return m_iDefaultTab; }
-    wxString    GetAPWizardTitle() { return m_strAPWizardTitle; }
-    wxBitmap*   GetAPWizardLogo() { return &m_bitmapAPWizardLogo; }
-    wxString    GetAPWizardAccountInfoText() { return m_strAPWizardAccountInfoText; }
-    wxString    GetAPWizardCompletionTitle() { return m_strAPWizardCompletionTitle; }
-    wxString    GetAPWizardCompletionBrandedMessage() { return m_strAPWizardCompletionBrandedMessage; }
-    wxString    GetAPWizardCompletionMessage() { return m_strAPWizardCompletionMessage; }
-    wxString    GetAMWizardTitle() { return m_strAMWizardTitle; }
-    wxBitmap*   GetAMWizardLogo() { return &m_bitmapAMWizardLogo; }
-    wxString    GetAMWizardAccountInfoText() { return m_strAMWizardAccountInfoText; }
-    wxString    GetAMWizardSuccessMessage() { return m_strAMWizardAttachMessage; }
-    wxString    GetExitMessage() { return m_strExitMessage; }
-
-    bool        OnInit( wxConfigBase* pConfig );
-};
+class wxLogBOINC;
+class CBOINCBaseFrame;
+class CMainDocument;
+class CTaskBarIcon;
+class CSkinManager;
 
 
 class CBOINCGUIApp : public wxApp {
@@ -117,7 +66,7 @@ protected:
     wxLocale*           m_pLocale;
     wxLogBOINC*         m_pLog;
 
-    CBrandingScheme*    m_pBranding;
+    CSkinManager*       m_pSkinManager;
     CBOINCBaseFrame*    m_pFrame;
     CMainDocument*      m_pDocument;
     CTaskBarIcon*       m_pTaskBarIcon;
@@ -155,7 +104,7 @@ public:
 
     int                 StartBOINCScreensaverTest();
 
-    CBrandingScheme*    GetBrand()                  { return m_pBranding; }
+    CSkinManager*       GetSkinManager()            { return m_pSkinManager; }
     CBOINCBaseFrame*    GetFrame()                  { return m_pFrame; }
     CMainDocument*      GetDocument()               { return m_pDocument; }
 #if defined(__WXMSW__) || defined(__WXMAC__)

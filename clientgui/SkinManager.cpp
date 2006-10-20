@@ -57,6 +57,8 @@
 #include "res/skins/default/graphic/save_clicked_button.xpm"
 #include "res/skins/default/graphic/cancel_button.xpm"
 #include "res/skins/default/graphic/cancel_clicked_button.xpm"
+#include "res/skins/default/graphic/change_button.xpm"
+#include "res/skins/default/graphic/change_clicked_button.xpm"
 #include "res/skins/default/graphic/close_button.xpm"
 #include "res/skins/default/graphic/close_clicked_button.xpm"
 #include "res/skins/default/graphic/clear_button.xpm"
@@ -76,7 +78,8 @@
 #endif
 #include "res/boincdisconnect.xpm"
 #include "res/boincsnooze.xpm"
-#include "res/boincsm.xpm"
+#include "res/boinc_logo.xpm"
+#include "res/wizard_bitmap.xpm"
 ////@end XPM images
 
 
@@ -328,6 +331,7 @@ void CSkinSimple::Clear() {
     m_LeftArrowButton.Clear();
     m_SaveButton.Clear();
     m_CancelButton.Clear();
+    m_ChangeButton.Clear();
     m_CloseButton.Clear();
     m_ClearButton.Clear();
 
@@ -366,6 +370,7 @@ bool CSkinSimple::Ok() {
     if (!m_SaveButton.Ok()) return false;
     if (!m_CancelButton.Ok()) return false;
     if (!m_CloseButton.Ok()) return false;
+    if (!m_ChangeButton.Ok()) return false;
     if (!m_ClearButton.Ok()) return false;
     if (!m_MessagesLink.Ok()) return false;
     if (!m_MessagesAlertLink.Ok()) return false;
@@ -447,6 +452,9 @@ int CSkinSimple::Parse(MIOFILE& in) {
             continue;
         } else if (match_tag(buf, "<cancel_button>")) {
             m_CancelButton.Parse(in);
+            continue;
+        } else if (match_tag(buf, "<change_button>")) {
+            m_ChangeButton.Parse(in);
             continue;
         } else if (match_tag(buf, "<close_button>")) {
             m_CloseButton.Parse(in);
@@ -678,6 +686,19 @@ bool CSkinSimple::ValidateSkin() {
         );
         wxASSERT(m_CancelButton.Ok());
     }
+    if (!m_ChangeButton.Ok()) {
+        if (!m_ChangeButton.GetBitmap()->Ok()) {
+            fprintf(stderr, wxT("Skin Manager: Failed to load change button. Using default.\n"));
+        }
+        if (!m_ChangeButton.GetBitmapClicked()->Ok()) {
+            fprintf(stderr, wxT("Skin Manager: Failed to load change clicked button. Using default.\n"));
+        }
+        m_ChangeButton.SetDefaults(
+            (const char**)change_button_xpm,
+            (const char**)change_clicked_button_xpm
+        );
+        wxASSERT(m_ChangeButton.Ok());
+    }
     if (!m_CloseButton.Ok()) {
         if (!m_CloseButton.GetBitmap()->Ok()) {
             fprintf(stderr, wxT("Skin Manager: Failed to load close button. Using default.\n"));
@@ -762,6 +783,7 @@ CSkinAdvanced::~CSkinAdvanced() {
 
 
 void CSkinAdvanced::Clear() {
+    m_bIsBranded = false;
     m_strApplicationName = wxEmptyString;
     m_iconApplicationIcon = wxNullIcon;
     m_iconApplicationDisconnectedIcon = wxNullIcon;
@@ -786,6 +808,7 @@ bool CSkinAdvanced::Ok() {
     if (m_strCompanyWebsite.IsEmpty()) return false;
     if (m_strProjectName.IsEmpty()) return false;
     if (!m_bDefaultTabSpecified) return false;
+    if (m_strExitMessage.IsEmpty()) return false;
     return true;
 }
 
@@ -796,6 +819,7 @@ int CSkinAdvanced::Parse(MIOFILE& in) {
 
     while (in.fgets(buf, 256)) {
         if (match_tag(buf, "</advanced>")) break;
+        else if (parse_bool(buf, "is_branded", m_bIsBranded)) continue;
         else if (parse_str(buf, "<application_name>", strBuffer)) {
             m_strApplicationName = wxString(strBuffer.c_str(), wxConvUTF8);
             continue;
@@ -893,7 +917,7 @@ bool CSkinAdvanced::ValidateSkin() {
     }
     if (!m_bitmapApplicationLogo.Ok()) {
         fprintf(stderr, wxT("Skin Manager: Failed to load application logo. Using default.\n"));
-        m_bitmapApplicationLogo = wxBitmap((const char**)boincsm_xpm);
+        m_bitmapApplicationLogo = wxBitmap((const char**)boinc_logo_xpm);
         wxASSERT(m_bitmapApplicationLogo.Ok());
     }
     if (m_strCompanyName.IsEmpty()) {
@@ -903,7 +927,7 @@ bool CSkinAdvanced::ValidateSkin() {
     }
     if (m_strCompanyWebsite.IsEmpty()) {
         fprintf(stderr, wxT("Skin Manager: Company web site was not defined. Using default.\n"));
-        m_strCompanyWebsite = wxT("Space Sciences Laboratory, U.C. Berkeley");
+        m_strCompanyWebsite = wxT("http://boinc.berkeley.edu");
         wxASSERT(!m_strCompanyWebsite.IsEmpty());
     }
     if (m_strProjectName.IsEmpty()) {
@@ -916,6 +940,307 @@ bool CSkinAdvanced::ValidateSkin() {
         m_bDefaultTabSpecified = true;
         m_iDefaultTab = 0;
     }
+    if (m_strExitMessage.IsEmpty()) {
+        fprintf(stderr, wxT("Skin Manager: Exit message was not defined. Using default.\n"));
+        m_strExitMessage = 
+            _("This will shut down your tasks until it restarts automatically\n"
+              "following your user preferences. Close window to close the manager\n"
+              "without stopping the tasks.");
+        wxASSERT(!m_strExitMessage.IsEmpty());
+    }
+    return true;
+}
+
+
+IMPLEMENT_DYNAMIC_CLASS(CSkinWizardATP, CSkinItem)
+
+
+CSkinWizardATP::CSkinWizardATP() {
+    Clear();
+}
+
+
+CSkinWizardATP::~CSkinWizardATP() {
+    Clear();
+}
+
+
+void CSkinWizardATP::Clear() {
+    m_bitmapWizardBitmap = wxNullBitmap;
+    m_strTitle = wxEmptyString;
+}
+
+
+bool CSkinWizardATP::Ok() {
+    if (!m_bitmapWizardBitmap.Ok()) return false;
+    if (m_strTitle.IsEmpty()) return false;
+    return true;
+}
+
+
+int CSkinWizardATP::Parse(MIOFILE& in) {
+    char buf[256];
+    std::string strBuffer;
+
+    while (in.fgets(buf, 256)) {
+        if (match_tag(buf, "</attach_to_project>")) break;
+        else if (parse_str(buf, "<title>", strBuffer)) {
+            m_strTitle = wxString(strBuffer.c_str(), wxConvUTF8);
+            continue;
+        } else if (parse_str(buf, "<application_logo>", strBuffer)) {
+            m_bitmapWizardBitmap = wxBitmap(wxImage(wxString(strBuffer.c_str(), wxConvUTF8), wxBITMAP_TYPE_ANY));
+            continue;
+        }
+    }
+
+    // Make sure all of our parts and pieces are going to work if not replace them
+    //   with the defaults.
+    ValidateSkin();
+
+    // Check one last time to make sure everything is good to go.
+    //
+    if (Ok()) {
+        return 0;
+    }
+
+    return ERR_XML_PARSE;
+}
+
+
+bool CSkinWizardATP::ValidateSkin() {
+    if (!m_bitmapWizardBitmap.Ok()) {
+        fprintf(stderr, wxT("Skin Manager: Failed to load attach to project wizard bitmap logo. Using default.\n"));
+        m_bitmapWizardBitmap = wxBitmap((const char**)wizard_bitmap_xpm);
+        wxASSERT(m_bitmapWizardBitmap.Ok());
+    }
+    if (m_strTitle.IsEmpty()) {
+        fprintf(stderr, wxT("Skin Manager: Attach to project wizard title was not defined. Using default.\n"));
+        m_strTitle = wxT("BOINC Manager");
+        wxASSERT(!m_strTitle.IsEmpty());
+    }
+    return true;
+}
+
+
+IMPLEMENT_DYNAMIC_CLASS(CSkinWizardATAM, CSkinItem)
+
+
+CSkinWizardATAM::CSkinWizardATAM() {
+    Clear();
+}
+
+
+CSkinWizardATAM::~CSkinWizardATAM() {
+    Clear();
+}
+
+
+void CSkinWizardATAM::Clear() {
+    m_bitmapWizardBitmap = wxNullBitmap;
+    m_strTitle = wxEmptyString;
+    m_strAccountInfoMessage = wxEmptyString;
+}
+
+
+bool CSkinWizardATAM::Ok() {
+    if (!m_bitmapWizardBitmap.Ok()) return false;
+    if (m_strTitle.IsEmpty()) return false;
+    return true;
+}
+
+
+int CSkinWizardATAM::Parse(MIOFILE& in) {
+    char buf[256];
+    std::string strBuffer;
+
+    while (in.fgets(buf, 256)) {
+        if (match_tag(buf, "</attach_to_account_manager>")) break;
+        else if (parse_str(buf, "<title>", strBuffer)) {
+            m_strTitle = wxString(strBuffer.c_str(), wxConvUTF8);
+            continue;
+        } else if (parse_str(buf, "<application_logo>", strBuffer)) {
+            m_bitmapWizardBitmap = wxBitmap(wxImage(wxString(strBuffer.c_str(), wxConvUTF8), wxBITMAP_TYPE_ANY));
+            continue;
+        } else if (parse_str(buf, "<account_info_message>", strBuffer)) {
+            m_strAccountInfoMessage = wxString(strBuffer.c_str(), wxConvUTF8);
+            continue;
+        }
+    }
+
+    // Make sure all of our parts and pieces are going to work if not replace them
+    //   with the defaults.
+    ValidateSkin();
+
+    // Check one last time to make sure everything is good to go.
+    //
+    if (Ok()) {
+        return 0;
+    }
+
+    return ERR_XML_PARSE;
+}
+
+
+bool CSkinWizardATAM::ValidateSkin() {
+    if (!m_bitmapWizardBitmap.Ok()) {
+        fprintf(stderr, wxT("Skin Manager: Failed to load attach to project wizard bitmap logo. Using default.\n"));
+        m_bitmapWizardBitmap = wxBitmap((const char**)wizard_bitmap_xpm);
+        wxASSERT(m_bitmapWizardBitmap.Ok());
+    }
+    if (m_strTitle.IsEmpty()) {
+        fprintf(stderr, wxT("Skin Manager: Attach to project wizard title was not defined. Using default.\n"));
+        m_strTitle = wxT("BOINC Manager");
+        wxASSERT(!m_strTitle.IsEmpty());
+    }
+    return true;
+}
+
+
+IMPLEMENT_DYNAMIC_CLASS(CSkinWizards, CSkinItem)
+
+
+CSkinWizards::CSkinWizards() {
+    Clear();
+}
+
+
+CSkinWizards::~CSkinWizards() {
+    Clear();
+}
+
+
+void CSkinWizards::Clear() {
+    m_AttachToProjectWizard.Clear();
+    m_AttachToAccountManagerWizard.Clear();
+}
+
+
+bool CSkinWizards::Ok() {
+    if (!m_AttachToProjectWizard.Ok()) return false;
+    if (!m_AttachToAccountManagerWizard.Ok()) return false;
+    return true;
+}
+
+
+int CSkinWizards::Parse(MIOFILE& in) {
+    char buf[256];
+
+    while (in.fgets(buf, 256)) {
+        if (match_tag(buf, "</wizards>")) break;
+        else if (match_tag(buf, "<attach_to_project>")) {
+            m_AttachToProjectWizard.Parse(in);
+            continue;
+        } else if (match_tag(buf, "<attach_to_account_manager>")) {
+            m_AttachToAccountManagerWizard.Parse(in);
+            continue;
+        }
+    }
+
+    // Make sure all of our parts and pieces are going to work if not replace them
+    //   with the defaults.
+    ValidateSkin();
+
+    // Check one last time to make sure everything is good to go.
+    //
+    if (Ok()) {
+        return 0;
+    }
+
+    return ERR_XML_PARSE;
+}
+
+
+bool CSkinWizards::ValidateSkin() {
+    m_AttachToProjectWizard.ValidateSkin();
+    m_AttachToAccountManagerWizard.ValidateSkin();
+    return true;
+}
+
+
+IMPLEMENT_DYNAMIC_CLASS(CSkinManager, CSkinItem)
+
+
+CSkinManager::CSkinManager() {
+    Clear();
+}
+
+
+CSkinManager::~CSkinManager() {
+    Clear();
+}
+
+bool CSkinManager::ReloadSkin(wxLocale* pLocale, wxString strSkin) {
+    return ValidateSkin();
+}
+
+
+void CSkinManager::Clear() {
+    m_SimpleSkin.Clear();
+    m_AdvancedSkin.Clear();
+    m_WizardsSkin.Clear();
+}
+
+
+bool CSkinManager::Ok() {
+    if (!m_SimpleSkin.Ok()) return false;
+    if (!m_AdvancedSkin.Ok()) return false;
+    if (!m_WizardsSkin.Ok()) return false;
+    return true;
+}
+
+
+int CSkinManager::Parse(MIOFILE& in, wxString strDesiredLocale) {
+    char     buf[256];
+    wxString strLocaleStartTag;
+    wxString strLocaleEndTag;
+    bool     bLocaleFound = false;
+
+    // Construct the start and end tags for the locale we want.
+    strLocaleStartTag.Printf("<%s>", strDesiredLocale.c_str());
+    strLocaleEndTag.Printf("</%s>", strDesiredLocale.c_str());
+
+    // Look for the begining of the desired locale.
+    while (in.fgets(buf, 256)) {
+        if (match_tag(buf, strLocaleStartTag.c_str())) {
+            bLocaleFound = true;
+            break;
+        }
+    }
+
+    if (!bLocaleFound) return ERR_XML_PARSE;
+
+    while (in.fgets(buf, 256)) {
+        if (match_tag(buf, strLocaleEndTag.c_str())) break;
+        else if (match_tag(buf, "<simple>")) {
+            m_SimpleSkin.Parse(in);
+            continue;
+        } else if (match_tag(buf, "<advanced>")) {
+            m_AdvancedSkin.Parse(in);
+            continue;
+        } else if (match_tag(buf, "<wizards>")) {
+            m_WizardsSkin.Parse(in);
+            continue;
+        }
+    }
+
+    // Make sure all of our parts and pieces are going to work if not replace them
+    //   with the defaults.
+    ValidateSkin();
+
+    // Check one last time to make sure everything is good to go.
+    //
+    if (Ok()) {
+        return 0;
+    }
+
+    return ERR_XML_PARSE;
+}
+
+
+bool CSkinManager::ValidateSkin() {
+    m_SimpleSkin.ValidateSkin();
+    m_AdvancedSkin.ValidateSkin();
+    m_WizardsSkin.ValidateSkin();
     return true;
 }
 

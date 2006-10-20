@@ -26,12 +26,20 @@
 #endif
 
 #include "stdwx.h"
+#include "diagnostics.h"
+#include "util.h"
+#include "mfile.h"
+#include "miofile.h"
+#include "parse.h"
 #include "BOINCGUIApp.h"
 #include "Events.h"
+#include "SkinManager.h"
+#include "MainDocument.h"
 #include "BOINCBaseFrame.h"
-#include "AdvancedFrame.h"
 #include "BOINCBaseView.h"
+#include "BOINCTaskbar.h"
 #include "BOINCDialupManager.h"
+#include "AdvancedFrame.h"
 #include "ViewProjects.h"
 #include "ViewWork.h"
 #include "ViewTransfers.h"
@@ -284,13 +292,16 @@ bool CAdvancedFrame::CreateMenu() {
     wxLogTrace(wxT("Function Start/End"), wxT("CAdvancedFrame::CreateMenu - Function Begin"));
 
     CMainDocument*     pDoc = wxGetApp().GetDocument();
+    CSkinAdvanced*     pSkinAdvanced = wxGetApp().GetSkinManager()->GetAdvanced();
     ACCT_MGR_INFO      ami;
     bool               is_acct_mgr_detected = false;
     wxString           strMenuName;
     wxString           strMenuDescription;
     
     wxASSERT(pDoc);
+    wxASSERT(pSkinAdvanced);
     wxASSERT(wxDynamicCast(pDoc, CMainDocument));
+    wxASSERT(wxDynamicCast(pSkinAdvanced, CSkinAdvanced));
 
     // Account managers have a different menu arrangement
     pDoc->rpc.acct_mgr_info(ami);
@@ -319,7 +330,7 @@ bool CAdvancedFrame::CreateMenu() {
     //    i.e. 'BOINC Manager', 'GridRepublic Manager'
     strMenuDescription.Printf(
         _("Exit the %s"), 
-        wxGetApp().GetBrand()->GetApplicationName().c_str()
+        pSkinAdvanced->GetApplicationName().c_str()
     );
     menuFile->Append(
         wxID_EXIT,
@@ -417,7 +428,7 @@ bool CAdvancedFrame::CreateMenu() {
     //    i.e. 'BOINC', 'GridRepublic'
     strMenuDescription.Printf(
         _("Connect to another computer running %s"), 
-        wxGetApp().GetBrand()->GetProjectName().c_str()
+        pSkinAdvanced->GetProjectName().c_str()
     );
     menuAdvanced->Append(
         ID_FILESELECTCOMPUTER, 
@@ -460,13 +471,13 @@ bool CAdvancedFrame::CreateMenu() {
     //    i.e. 'BOINC Manager', 'GridRepublic Manager'
     strMenuName.Printf(
         _("&%s\tF1"), 
-        wxGetApp().GetBrand()->GetApplicationName().c_str()
+        pSkinAdvanced->GetApplicationName().c_str()
     );
     // %s is the application name
     //    i.e. 'BOINC Manager', 'GridRepublic Manager'
     strMenuDescription.Printf(
         _("Show information about the %s"), 
-        wxGetApp().GetBrand()->GetApplicationName().c_str()
+        pSkinAdvanced->GetApplicationName().c_str()
     );
     menuHelp->Append(
         ID_HELPBOINCMANAGER,
@@ -478,13 +489,13 @@ bool CAdvancedFrame::CreateMenu() {
     //    i.e. 'BOINC', 'GridRepublic'
     strMenuName.Printf(
         _("%s &website"), 
-        wxGetApp().GetBrand()->GetProjectName().c_str()
+        pSkinAdvanced->GetProjectName().c_str()
     );
     // %s is the application name
     //    i.e. 'BOINC Manager', 'GridRepublic Manager'
     strMenuDescription.Printf(
         _("Show information about BOINC and %s"),
-        wxGetApp().GetBrand()->GetApplicationName().c_str()
+        pSkinAdvanced->GetApplicationName().c_str()
     );
     menuHelp->Append(
         ID_HELPBOINC,
@@ -498,7 +509,7 @@ bool CAdvancedFrame::CreateMenu() {
     //    i.e. 'BOINC Manager', 'GridRepublic Manager'
     strMenuName.Printf(
         _("&About %s..."), 
-        wxGetApp().GetBrand()->GetApplicationName().c_str()
+        pSkinAdvanced->GetApplicationName().c_str()
     );
     menuHelp->Append(
         wxID_ABOUT,
@@ -796,9 +807,8 @@ bool CAdvancedFrame::RestoreState() {
     //
     pConfig->SetPath(strBaseConfigLocation);
 
-    if (wxGetApp().GetBrand()->IsBranded() && 
-        wxGetApp().GetBrand()->IsDefaultTabSpecified()) {
-        m_pNotebook->SetSelection(wxGetApp().GetBrand()->GetDefaultTab());
+    if (wxGetApp().GetSkinManager()->GetAdvanced()->GetDefaultTab()) {
+        m_pNotebook->SetSelection(wxGetApp().GetSkinManager()->GetAdvanced()->GetDefaultTab());
     } else {
         pConfig->Read(wxT("CurrentPage"), &iCurrentPage, (ID_LIST_WORKVIEW - ID_LIST_BASE));
         m_pNotebook->SetSelection(iCurrentPage);
@@ -866,7 +876,6 @@ void CAdvancedFrame::OnActivitySelection(wxCommandEvent& event) {
     wxLogTrace(wxT("Function Start/End"), wxT("CAdvancedFrame::OnActivitySelection - Function Begin"));
 
     CMainDocument* pDoc      = wxGetApp().GetDocument();
-
 #if defined(__WXMSW__) || defined(__WXMAC__)
     CTaskBarIcon*  pTaskbar  = wxGetApp().GetTaskBarIcon();
 #endif    
@@ -1039,23 +1048,10 @@ void CAdvancedFrame::OnCloseWindow(wxCommandEvent& WXUNUSED(event)) {
 void CAdvancedFrame::OnExit(wxCommandEvent& WXUNUSED(event)) {
     wxLogTrace(wxT("Function Start/End"), wxT("CAdvancedFrame::OnExit - Function Begin"));
 
-    if (m_iDisplayExitWarning &&
-        wxGetApp().GetBrand()->IsBranded() && 
-        !wxGetApp().GetBrand()->GetExitMessage().IsEmpty()) {
-
+    if (m_iDisplayExitWarning) {
         CDlgGenericMessage* pDlg = new CDlgGenericMessage(this);
+        wxString            strMessage = wxGetApp().GetSkinManager()->GetAdvanced()->GetExitMessage();
         long                lAnswer = 0;
-
-        wxString strMessage;
-        if (wxGetApp().GetBrand()->IsBranded() && 
-            !wxGetApp().GetBrand()->GetExitMessage().IsEmpty()) {
-            strMessage = wxGetApp().GetBrand()->GetExitMessage();
-        } else {
-            strMessage = 
-                _("This will shut down your tasks until it restarts automatically\n"
-                  "following your user preferences. Close window to close the manager\n"
-                  "without stopping the tasks.");
-        }
 
         pDlg->SetTitle(_("Close Confirmation"));
         pDlg->m_DialogMessage->SetLabel(strMessage);
@@ -1292,6 +1288,7 @@ void CAdvancedFrame::OnOptionsOptions(wxCommandEvent& WXUNUSED(event)) {
     wxLogTrace(wxT("Function Start/End"), wxT("CAdvancedFrame::OnOptionsOptions - Function Begin"));
 
     CMainDocument* pDoc = wxGetApp().GetDocument();
+    CSkinAdvanced* pSkinAdvanced = wxGetApp().GetSkinManager()->GetAdvanced();
     CDlgOptions*   pDlg = new CDlgOptions(this);
     int            iAnswer = 0;
     int            iBuffer = 0;
@@ -1300,8 +1297,10 @@ void CAdvancedFrame::OnOptionsOptions(wxCommandEvent& WXUNUSED(event)) {
     bool           bRetrievedProxyConfiguration = false;
 
     wxASSERT(pDoc);
-    wxASSERT(wxDynamicCast(pDoc, CMainDocument));
+    wxASSERT(pSkinAdvanced);
     wxASSERT(pDlg);
+    wxASSERT(wxDynamicCast(pDoc, CMainDocument));
+    wxASSERT(wxDynamicCast(pSkinAdvanced, CSkinAdvanced));
 
 
     // General Tab
@@ -1362,7 +1361,7 @@ void CAdvancedFrame::OnOptionsOptions(wxCommandEvent& WXUNUSED(event)) {
             //    i.e. 'BOINC Manager', 'GridRepublic Manager'
             strDialogTitle.Printf(
                 _("%s - Language Selection"),
-                wxGetApp().GetBrand()->GetApplicationName().c_str()
+                pSkinAdvanced->GetApplicationName().c_str()
             );
 
             // %s is the application name
@@ -1370,8 +1369,8 @@ void CAdvancedFrame::OnOptionsOptions(wxCommandEvent& WXUNUSED(event)) {
             strDialogMessage.Printf(
                 _("The %s's default language has been changed, in order for this "
                   "change to take affect you must restart the %s."),
-                wxGetApp().GetBrand()->GetApplicationName().c_str(),
-                wxGetApp().GetBrand()->GetApplicationName().c_str()
+                pSkinAdvanced->GetApplicationName().c_str(),
+                pSkinAdvanced->GetApplicationName().c_str()
             );
 
             ShowAlert(
@@ -1425,7 +1424,7 @@ void CAdvancedFrame::OnHelp(wxHelpEvent& event) {
 
     if (IsShown()) {
         if (ID_ADVANCEDFRAME == event.GetId()) {
-            wxString url = wxGetApp().GetBrand()->GetCompanyWebsite().c_str();
+            wxString url = wxGetApp().GetSkinManager()->GetAdvanced()->GetCompanyWebsite().c_str();
             url += wxT("manager.php");
             ExecuteBrowserLink(url);
         } else {
@@ -1441,7 +1440,7 @@ void CAdvancedFrame::OnHelpBOINCManager(wxCommandEvent& WXUNUSED(event)) {
     wxLogTrace(wxT("Function Start/End"), wxT("CAdvancedFrame::OnHelpBOINCManager - Function Begin"));
 
     if (IsShown()) {
-        wxString url = wxGetApp().GetBrand()->GetCompanyWebsite().c_str();
+        wxString url = wxGetApp().GetSkinManager()->GetAdvanced()->GetCompanyWebsite().c_str();
         url += wxT("manager.php");
         ExecuteBrowserLink(url);
     }
@@ -1454,7 +1453,7 @@ void CAdvancedFrame::OnHelpBOINCWebsite(wxCommandEvent& WXUNUSED(event)) {
     wxLogTrace(wxT("Function Start/End"), wxT("CAdvancedFrame::OnHelpBOINCWebsite - Function Begin"));
 
     if (IsShown()) {
-        wxString url = wxGetApp().GetBrand()->GetCompanyWebsite().c_str();
+        wxString url = wxGetApp().GetSkinManager()->GetAdvanced()->GetCompanyWebsite().c_str();
         ExecuteBrowserLink(url);
     }
 
@@ -1564,7 +1563,8 @@ void CAdvancedFrame::OnRefreshView(CFrameEvent& WXUNUSED(event)) {
 void CAdvancedFrame::OnConnect(CFrameEvent& WXUNUSED(event)) {
     wxLogTrace(wxT("Function Start/End"), wxT("CAdvancedFrame::OnConnect - Function Begin"));
     
-    CMainDocument*     pDoc = wxGetApp().GetDocument();
+    CMainDocument* pDoc = wxGetApp().GetDocument();
+    CSkinAdvanced* pSkinAdvanced = wxGetApp().GetSkinManager()->GetAdvanced();
     CWizardAccountManager* pAMWizard = NULL;
     CWizardAttachProject* pAPWizard = NULL;
     wxString strComputer = wxEmptyString;
@@ -1578,7 +1578,9 @@ void CAdvancedFrame::OnConnect(CFrameEvent& WXUNUSED(event)) {
 
     wxASSERT(m_pNotebook);
     wxASSERT(pDoc);
+    wxASSERT(pSkinAdvanced);
     wxASSERT(wxDynamicCast(pDoc, CMainDocument));
+    wxASSERT(wxDynamicCast(pSkinAdvanced, CSkinAdvanced));
 
     // Update the menus
     DeleteMenu();
@@ -1615,7 +1617,7 @@ void CAdvancedFrame::OnConnect(CFrameEvent& WXUNUSED(event)) {
             //    i.e. 'BOINC Manager', 'GridRepublic Manager'
             strDialogTitle.Printf(
                 _("%s"),
-                wxGetApp().GetBrand()->GetApplicationName().c_str()
+                pSkinAdvanced->GetApplicationName().c_str()
             );
 
             // %s is the application name
@@ -1624,8 +1626,8 @@ void CAdvancedFrame::OnConnect(CFrameEvent& WXUNUSED(event)) {
             //    i.e. 'BOINC', 'GridRepublic'
             strDialogDescription.Printf(
                 _("%s has successfully attached to %s"),
-                wxGetApp().GetBrand()->GetApplicationName().c_str(),
-                wxGetApp().GetBrand()->GetProjectName().c_str()
+                pSkinAdvanced->GetApplicationName().c_str(),
+                pSkinAdvanced->GetProjectName().c_str()
             );
 
             ShowAlert(

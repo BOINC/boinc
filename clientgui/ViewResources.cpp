@@ -23,6 +23,7 @@
 
 #include "stdwx.h"
 #include "BOINCGUIApp.h"
+#include "BOINCBaseFrame.h"
 #include "MainDocument.h"
 #include "BOINCTaskCtrl.h"
 #include "BOINCListCtrl.h"

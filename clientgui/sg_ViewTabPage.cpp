@@ -22,12 +22,21 @@
 #endif
 
 #include "stdwx.h"
-#include "app_ipc.h"
+#include "diagnostics.h"
+#include "util.h"
+#include "mfile.h"
+#include "miofile.h"
+#include "parse.h"
+#include "error_numbers.h"
+#include "BOINCGUIApp.h"
+#include "SkinManager.h"
+#include "MainDocument.h"
 #include "sg_ViewTabPage.h"
 #include "sg_SkinClass.h"
 #include "sg_StaticLine.h"
 #include "sg_ProgressBar.h"
 #include "sg_ImageButton.h"
+#include "app_ipc.h"
 
 
 IMPLEMENT_DYNAMIC_CLASS(CViewTabPage, wxPanel)
