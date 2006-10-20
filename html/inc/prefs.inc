@@ -75,6 +75,7 @@ define("WORK_BUF_DESC",
 define("MAX_CPUS_DESC", "On multiprocessors, use at most");
 define("MAX_CPUS_DESC2", "processors");
 define("USE_AT_MOST", "Use at most");
+define("USE_AT_MOST2", "Use at most<br><font size=-2>Enforced by versions 5.6 and greater</font>");
 define("CPU_USAGE_LIMIT_DESC2", "percent of CPU time");
 define("DISK_INTERVAL_DESC", "Write to disk at most every");
 define("DISK_LIMIT_DESC", "Disk and memory usage");
@@ -596,7 +597,7 @@ function prefs_show_columns_global($prefs) {
     row_defs(LEAVE_APPS_IN_MEMORY_DESC, "leave_apps_in_memory", "", "yesno", $prefs);
     row_defs(CPU_SCHEDULING_DESC, "cpu_scheduling_period_minutes", " minutes", "", $prefs);
     row_defs(MAX_CPUS_DESC, "max_cpus", MAX_CPUS_DESC2, "", $prefs);
-    row_defs(USE_AT_MOST, "cpu_usage_limit", CPU_USAGE_LIMIT_DESC2, "", $prefs);
+    row_defs(USE_AT_MOST2, "cpu_usage_limit", CPU_USAGE_LIMIT_DESC2, "", $prefs);
 
     row_top(DISK_LIMIT_DESC);
     row_defs(USE_AT_MOST, "disk_max_used_gb", " GB disk space", "", $prefs);
@@ -637,7 +638,7 @@ function prefs_show_global($prefs) {
     row2(LEAVE_APPS_IN_MEMORY_DESC, $prefs->leave_apps_in_memory?"yes":"no");
     row2(CPU_SCHEDULING_DESC, "$prefs->cpu_scheduling_period_minutes minutes");
     row2(MAX_CPUS_DESC, "$prefs->max_cpus ".MAX_CPUS_DESC2);
-    row2(USE_AT_MOST, "$prefs->cpu_usage_limit ".CPU_USAGE_LIMIT_DESC2);
+    row2(USE_AT_MOST2, "$prefs->cpu_usage_limit ".CPU_USAGE_LIMIT_DESC2);
     row1(DISK_LIMIT_DESC);
     row2(USE_AT_MOST, "$prefs->disk_max_used_gb GB disk space");
 
@@ -914,7 +915,7 @@ function prefs_form_global($user, $prefs, $error=false) {
 
     $show_error = false;
     if (isset($error->cpu_usage_limit)) $show_error= true;
-    row2(USE_AT_MOST,
+    row2(USE_AT_MOST2,
         "<input size=4 name=cpu_usage_limit value=$prefs->cpu_usage_limit> ".CPU_USAGE_LIMIT_DESC2,
         $show_error);
 

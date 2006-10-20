@@ -127,20 +127,12 @@ function email_sent_message($email_addr) {
 // a valid email address is of the form A@B.C
 // where A, B, C are nonempty,
 // A and B don't contain @ or .,
-// and C doesn't contain @ (but can contain .)
-// TODO: Replace this with some regex.  Please.
+// and C doesn't contain @ and is at least 2 chars
 //
 function is_valid_email_addr($addr) {
-    $x = strstr($addr, "@");
-    if (!$x) return false;
-    if (strlen($x) == strlen($addr)) return false;
-    $x = substr($x, 1);
-    if (strstr($x, "@")) return false;
-    $y = strstr($x, ".");
-    if (!$y) return false;
-    if (strlen($y) == strlen($x)) return false;
-    if (strlen($y) == 1) return false;
-    return true;
+    $pattern = '/^([^@]+)@([^@\.]+)\.([^@]{2,})$/';
+    $match = preg_match($pattern, $addr);
+    return (bool) $match;
 }
 
 
