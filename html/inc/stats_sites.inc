@@ -3,7 +3,7 @@
 // the following sites generate stats for a given CPID
 //
 $cpid_stats_sites = array(
-    array("BOINCStats",
+    array("BOINCstats",
         "http://www.boincstats.com/stats/boinc_user_graph.php?pr=bo&id=%s"
     ),
     array("BOINC Statistics for the WORLD!",
@@ -46,7 +46,7 @@ $stats_sites = array(
         "developed by Hydnum Repandum."
     ),
     array("http://www.boincstats.com/",
-        "BOINCStats",
+        "BOINCstats",
         "by Willy de Zutter"
     ),
     array("http://www.dc-vault.com",
@@ -108,6 +108,10 @@ $sig_sites = array(
     array("http://www.bigbee.be/comp/boinc/signature.php?id=9",
         "http://www.bigbee.be/comp/boinc/signature.php",
         ""
+    ),
+    array("http://www.boincstats.com/page/faq.php#3",
+        "BOINCstats",
+        "by Willy de Zutter"
     ),
 );
 
