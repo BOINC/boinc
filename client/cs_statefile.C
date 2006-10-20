@@ -394,7 +394,8 @@ int CLIENT_STATE::write_state_file() {
     if (ret1) return ret1;
     if (ret2) return ret2;
 
-    // the following fails if no current file, so don't check
+    // only attempt to rename the current state file if it
+    //   exists.
     //
     if (boinc_file_exists(STATE_FILE_NAME)) {
         if(boinc_file_exists(STATE_FILE_PREV)) {
