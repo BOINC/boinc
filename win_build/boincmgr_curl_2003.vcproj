@@ -595,12 +595,6 @@
 				RelativePath="..\clientgui\sg_SGUIListControl.h">
 			</File>
 			<File
-				RelativePath="..\clientgui\sg_SkinClass.cpp">
-			</File>
-			<File
-				RelativePath="..\clientgui\sg_SkinClass.h">
-			</File>
-			<File
 				RelativePath="..\clientgui\sg_StaticLine.cpp">
 			</File>
 			<File

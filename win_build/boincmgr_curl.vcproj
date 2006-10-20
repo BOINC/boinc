@@ -401,11 +401,11 @@
 			UniqueIdentifier="{08DB1F42-8D4B-491a-870C-2A991D5ED0DB}"
 			>
 			<File
-				RelativePath="..\clientgui\res\attachprojectwizard.xpm"
+				RelativePath="..\clientgui\res\boinc.xpm"
 				>
 			</File>
 			<File
-				RelativePath="..\clientgui\res\boinc.xpm"
+				RelativePath="..\clientgui\res\boinc_logo.xpm"
 				>
 			</File>
 			<File
@@ -438,10 +438,6 @@
 			</File>
 			<File
 				RelativePath="..\clientgui\res\BOINCGUIApp.xpm"
-				>
-			</File>
-			<File
-				RelativePath="..\clientgui\res\boincsm.xpm"
 				>
 			</File>
 			<File
@@ -513,6 +509,10 @@
 				>
 			</File>
 			<File
+				RelativePath="..\clientgui\res\wizard_bitmap.xpm"
+				>
+			</File>
+			<File
 				RelativePath="..\clientgui\res\wizprogress01.xpm"
 				>
 			</File>
@@ -564,6 +564,174 @@
 				RelativePath="..\clientgui\res\xfer.xpm"
 				>
 			</File>
+			<Filter
+				Name="Skins"
+				>
+				<Filter
+					Name="Default"
+					>
+					<Filter
+						Name="Graphic"
+						>
+						<File
+							RelativePath="..\clientgui\res\skins\default\graphic\advanced_link_image.xpm"
+							>
+						</File>
+						<File
+							RelativePath="..\clientgui\res\skins\default\graphic\attach_project_button.xpm"
+							>
+						</File>
+						<File
+							RelativePath="..\clientgui\res\skins\default\graphic\attach_project_clicked_button.xpm"
+							>
+						</File>
+						<File
+							RelativePath="..\clientgui\res\skins\default\graphic\background_image.xpm"
+							>
+						</File>
+						<File
+							RelativePath="..\clientgui\res\skins\default\graphic\cancel_button.xpm"
+							>
+						</File>
+						<File
+							RelativePath="..\clientgui\res\skins\default\graphic\cancel_clicked_button.xpm"
+							>
+						</File>
+						<File
+							RelativePath="..\clientgui\res\skins\default\graphic\change_button.xpm"
+							>
+						</File>
+						<File
+							RelativePath="..\clientgui\res\skins\default\graphic\change_clicked_button.xpm"
+							>
+						</File>
+						<File
+							RelativePath="..\clientgui\res\skins\default\graphic\clear_button.xpm"
+							>
+						</File>
+						<File
+							RelativePath="..\clientgui\res\skins\default\graphic\clear_clicked_button.xpm"
+							>
+						</File>
+						<File
+							RelativePath="..\clientgui\res\skins\default\graphic\close_button.xpm"
+							>
+						</File>
+						<File
+							RelativePath="..\clientgui\res\skins\default\graphic\close_clicked_button.xpm"
+							>
+						</File>
+						<File
+							RelativePath="..\clientgui\res\skins\default\graphic\connecting_indicator_image.xpm"
+							>
+						</File>
+						<File
+							RelativePath="..\clientgui\res\skins\default\graphic\error_indicator_image.xpm"
+							>
+						</File>
+						<File
+							RelativePath="..\clientgui\res\skins\default\graphic\left_arrow_button.xpm"
+							>
+						</File>
+						<File
+							RelativePath="..\clientgui\res\skins\default\graphic\left_arrow_clicked_button.xpm"
+							>
+						</File>
+						<File
+							RelativePath="..\clientgui\res\skins\default\graphic\messages_alert_link_image.xpm"
+							>
+						</File>
+						<File
+							RelativePath="..\clientgui\res\skins\default\graphic\messages_dialog_background_image.xpm"
+							>
+						</File>
+						<File
+							RelativePath="..\clientgui\res\skins\default\graphic\messages_link_image.xpm"
+							>
+						</File>
+						<File
+							RelativePath="..\clientgui\res\skins\default\graphic\preferences_dialog_background_image.xpm"
+							>
+						</File>
+						<File
+							RelativePath="..\clientgui\res\skins\default\graphic\preferences_link_image.xpm"
+							>
+						</File>
+						<File
+							RelativePath="..\clientgui\res\skins\default\graphic\project_area_background_image.xpm"
+							>
+						</File>
+						<File
+							RelativePath="..\clientgui\res\skins\default\graphic\project_image.xpm"
+							>
+						</File>
+						<File
+							RelativePath="..\clientgui\res\skins\default\graphic\resume_link_image.xpm"
+							>
+						</File>
+						<File
+							RelativePath="..\clientgui\res\skins\default\graphic\right_arrow_button.xpm"
+							>
+						</File>
+						<File
+							RelativePath="..\clientgui\res\skins\default\graphic\right_arrow_clicked_button.xpm"
+							>
+						</File>
+						<File
+							RelativePath="..\clientgui\res\skins\default\graphic\save_button.xpm"
+							>
+						</File>
+						<File
+							RelativePath="..\clientgui\res\skins\default\graphic\save_clicked_button.xpm"
+							>
+						</File>
+						<File
+							RelativePath="..\clientgui\res\skins\default\graphic\spacer_image.xpm"
+							>
+						</File>
+						<File
+							RelativePath="..\clientgui\res\skins\default\graphic\state_indicator_background_image.xpm"
+							>
+						</File>
+						<File
+							RelativePath="..\clientgui\res\skins\default\graphic\suspend_link_image.xpm"
+							>
+						</File>
+						<File
+							RelativePath="..\clientgui\res\skins\default\graphic\workunit_active_image.xpm"
+							>
+						</File>
+						<File
+							RelativePath="..\clientgui\res\skins\default\graphic\workunit_animation_background_image.xpm"
+							>
+						</File>
+						<File
+							RelativePath="..\clientgui\res\skins\default\graphic\workunit_animation_image.xpm"
+							>
+						</File>
+						<File
+							RelativePath="..\clientgui\res\skins\default\graphic\workunit_area_background_image.xpm"
+							>
+						</File>
+						<File
+							RelativePath="..\clientgui\res\skins\default\graphic\workunit_gauge_background_image.xpm"
+							>
+						</File>
+						<File
+							RelativePath="..\clientgui\res\skins\default\graphic\workunit_gauge_progress_indicator_image.xpm"
+							>
+						</File>
+						<File
+							RelativePath="..\clientgui\res\skins\default\graphic\workunit_suspended_image.xpm"
+							>
+						</File>
+						<File
+							RelativePath="..\clientgui\res\skins\default\graphic\workunit_tab_area_background_image.xpm"
+							>
+						</File>
+					</Filter>
+				</Filter>
+			</Filter>
 		</Filter>
 		<Filter
 			Name="Simple"
@@ -1274,6 +1442,14 @@
 			</File>
 			<File
 				RelativePath="..\clientgui\LogBOINC.h"
+				>
+			</File>
+			<File
+				RelativePath="..\clientgui\SkinManager.cpp"
+				>
+			</File>
+			<File
+				RelativePath="..\clientgui\SkinManager.h"
 				>
 			</File>
 			<Filter
