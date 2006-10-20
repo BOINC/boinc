@@ -1165,13 +1165,15 @@ int FILE_REF::parse(MIOFILE& in) {
     fd = -1;
     main_program = false;
     copy_file = false;
+	optional = false;
     while (in.fgets(buf, 256)) {
         if (match_tag(buf, "</file_ref>")) return 0;
         else if (parse_str(buf, "<file_name>", file_name, sizeof(file_name))) continue;
         else if (parse_str(buf, "<open_name>", open_name, sizeof(open_name))) continue;
         else if (parse_int(buf, "<fd>", fd)) continue;
-        else if (match_tag(buf, "<main_program/>")) main_program = true;
-        else if (match_tag(buf, "<copy_file/>")) copy_file = true;
+        else if (parse_bool(buf, "main_program", main_program)) continue;
+        else if (parse_bool(buf, "copy_file", copy_file)) continue;
+		else if (parse_bool(buf, "optional", optional)) continue;
         else {
             if (log_flags.unparsed_xml) {
                 msg_printf(0, MSG_ERROR,
@@ -1201,6 +1203,9 @@ int FILE_REF::write(MIOFILE& out) {
     }
     if (copy_file) {
         out.printf("        <copy_file/>\n");
+    }
+    if (optional) {
+        out.printf("        <optional/>\n");
     }
     out.printf("    </file_ref>\n");
     return 0;

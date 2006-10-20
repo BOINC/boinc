@@ -11287,3 +11287,20 @@ David  20 Oct 2006
         gui_rpc_server.C
     lib/
         filesys.C
+
+David  20 Oct 2006
+	- Output files can be tagged as "optional".
+		If the application doesn't generate an optional output file,
+		the client treats it as normal
+		(i.e. doesn't flag it as an error)
+		NOTES:
+		1) to make an output file optional,
+			put <optional/> in its <file_ref>
+			element in the result template file
+		2) clients earlier than 5.8 don't recognize this attribute;
+			they will mark results as "compute error" if
+			any of their output files are missing
+
+	client/
+		client_types.C,h
+		cs_apps.C

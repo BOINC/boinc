@@ -126,7 +126,9 @@ struct FILE_REF {
     bool main_program;
     FILE_INFO* file_info;
     bool copy_file;  // if true, core client will copy the file instead of linking
-
+	bool optional;
+		// for output files: app may not generate file;
+		// don't treat as error if file is missing.
     int parse(MIOFILE&);
     int write(MIOFILE&);
 };

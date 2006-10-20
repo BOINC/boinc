@@ -65,11 +65,17 @@ int CLIENT_STATE::app_finished(ACTIVE_TASK& at) {
 
     if (rp->exit_status != ERR_ABORTED_VIA_GUI) {
         for (i=0; i<rp->output_files.size(); i++) {
-            fip = rp->output_files[i].file_info;
+			FILE_REF& fref = rp->output_files[i];
+            fip = fref.file_info;
             if (fip->uploaded) continue;
             get_pathname(fip, path);
             retval = file_size(path, size);
             if (retval) {
+				if (fref.optional) {
+					fip->upload_when_present = false;
+					continue;
+				}
+
                 // an output file is unexpectedly absent.
                 //
                 fip->status = retval;
