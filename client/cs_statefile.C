@@ -366,6 +366,9 @@ int CLIENT_STATE::parse_state_file() {
 int CLIENT_STATE::write_state_file() {
     MFILE mf;
     int retval, ret1, ret2;
+#ifdef _WIN32
+    char win_error_msg[4096];
+#endif
 
     if (log_flags.state_debug) {
         msg_printf(0, MSG_INFO,
@@ -393,7 +396,29 @@ int CLIENT_STATE::write_state_file() {
 
     // the following fails if no current file, so don't check
     //
-    retval = boinc_rename(STATE_FILE_NAME, STATE_FILE_PREV);
+    if (boinc_file_exists(STATE_FILE_NAME)) {
+        if(boinc_file_exists(STATE_FILE_PREV)) {
+            retval = boinc_delete_file(STATE_FILE_PREV);
+#ifdef _WIN32
+            if (retval) {
+                msg_printf(0, MSG_ERROR,
+                    "Can't delete previous state file; %s",
+                    windows_error_string(win_error_msg, sizeof(win_error_msg))
+                );
+            }
+#endif
+        }
+        
+        retval = boinc_rename(STATE_FILE_NAME, STATE_FILE_PREV);
+#ifdef _WIN32
+        if (retval) {
+            msg_printf(0, MSG_ERROR,
+                "Can't rename current state file to previous state file; %s",
+                windows_error_string(win_error_msg, sizeof(win_error_msg))
+            );
+        }
+#endif
+    }
 
     retval = boinc_rename(STATE_FILE_NEXT, STATE_FILE_NAME);
     if (log_flags.state_debug) {
@@ -403,7 +428,6 @@ int CLIENT_STATE::write_state_file() {
     }
     if (retval) {
 #ifdef _WIN32
-        char error[4096];
         if (ERROR_ACCESS_DENIED == retval) {
             msg_printf(0, MSG_ERROR,
                 "Can't rename state file; access denied; check file and directory permissions"
@@ -411,7 +435,7 @@ int CLIENT_STATE::write_state_file() {
         } else {
             msg_printf(0, MSG_ERROR,
                 "Can't rename state file; %s",
-                windows_error_string(error, sizeof(error))
+                windows_error_string(win_error_msg, sizeof(win_error_msg))
             );
         }
 #else
