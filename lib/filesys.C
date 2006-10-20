@@ -252,10 +252,8 @@ int boinc_delete_file(const char* path) {
     }
 #ifdef _WIN32
     for (int i=0; i<5; i++) {
-        if (!DeleteFile(path)) {
-            retval = GetLastError();
-            break;
-        }
+        if (DeleteFile(path)) break;
+        retval = GetLastError();
         boinc_sleep(drand());       // avoid lockstep
     }
 #else
@@ -457,10 +455,8 @@ int boinc_rename(const char* old, const char* newf) {
     int retval=0;
     boinc_delete_file(newf);
     for (int i=0; i<5; i++) {
-        if (!MoveFile(old, newf)) {
-            retval = GetLastError();
-            break;
-        }
+        if (MoveFile(old, newf)) break;
+        retval = GetLastError();
         boinc_sleep(drand());       // avoid lockstep
     }
     return retval;
