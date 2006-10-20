@@ -11304,3 +11304,13 @@ David  20 Oct 2006
 	client/
 		client_types.C,h
 		cs_apps.C
+
+David  20 Oct 2006
+	- user web: use regexp-based check for email validity
+		(from Frank Thomas)
+	- user web: on CPU throttle preference, say that
+		it works only with 5.6+
+
+	html/inc/
+		email.inc
+		prefs.inc
