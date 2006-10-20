@@ -384,7 +384,6 @@ private:
     double avg_proc_rate();
     bool should_get_work();
     int proj_min_results(PROJECT*, double);
-    void set_work_fetch_mode();
     void generate_new_host_cpid();
 
 // --------------- cs_statefile.C:

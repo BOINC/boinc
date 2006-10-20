@@ -490,8 +490,9 @@ int boinc_rmdir(const char* name) {
     int retval;
     retval = rmdir(name);
     // We may not have permission to read subdirectories created by projects
-    if (retval && g_use_sandbox && (errno == EACCES))
-            retval = remove_project_owned_file_or_dir(name);
+    if (retval && g_use_sandbox && (errno == EACCES)) {
+        retval = remove_project_owned_file_or_dir(name);
+    }
     return retval;
 #endif
 }
@@ -510,9 +511,10 @@ int remove_project_owned_file_or_dir(const char* path) {
 
 #ifndef _WIN32
 int boinc_chown(const char* path, gid_t gid) {
-    if (gid)
+    if (gid) {
         if (chown(path, (uid_t)-1, gid)) {
             return ERR_CHOWN;
+        }
     }
     return 0;
 }

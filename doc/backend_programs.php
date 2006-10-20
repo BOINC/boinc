@@ -72,8 +72,12 @@ list_item("-sleep_interval N",
 list_item("-allapps",
     "Interleave work items from all applications.
     Weight applications according to the value of their 'weight' field;
-    if all weights are zero,
-    results are interleaved uniformly."
+    if all weights are zero, results are interleaved uniformly.
+    Without this option, runnable results are enumerated 
+    in an indeterminate order,
+    and there may be periods when only results from
+    one application are available for sending.
+    "
 );
 list_item("-purge_stale X",
     " remove work items from the shared memory segment

@@ -119,22 +119,24 @@ int GUI_RPC_CONN_SET::get_allowed_hosts() {
     int ipaddr, retval;
     char buf[256], msg[256];
 
+    allowed_remote_ip_addresses.clear();
+
     // open file remote_hosts.cfg and read in the
     // allowed host list and resolve them to an ip address
     //
     FILE* f = fopen(REMOTEHOST_FILE_NAME, "r");
-    if (f != NULL) {    
+    if (f) {    
         if (log_flags.guirpc_debug) {
             msg_printf(0, MSG_INFO,
-                "[guirpc_debug] GUI_RPC_CONN_SET::get_allowed_hosts(): found allowed hosts list\n"
+                "[guirpc_debug] found allowed hosts list"
             );
         }
  
         // read in each line, if it is not a comment
         // then resolve the address and add to our allowed list
-         //
+        //
         memset(buf,0,sizeof(buf));
-        while (fgets(buf, 256, f) != NULL) {
+        while (fgets(buf, 256, f)) {
             strip_whitespace(buf);
             if (!(buf[0] =='#' || buf[0] == ';') && strlen(buf) > 0 ) {
                 retval = resolve_hostname(buf, ipaddr, msg);
@@ -307,15 +309,24 @@ void GUI_RPC_CONN_SET::got_select(FDSET_GROUP& fg) {
 
         int peer_ip = (int) ntohl(addr.sin_addr.s_addr);
 
-        // check list of allowed remote hosts
         bool allowed = false;
-        vector<int>::iterator remote_iter;
 
-        remote_iter = allowed_remote_ip_addresses.begin();
-        while (remote_iter != allowed_remote_ip_addresses.end() ) {
-            int remote_host = *remote_iter;
-            if (peer_ip == remote_host) allowed = true;
-            remote_iter++;
+        // check list of allowed remote hosts.
+        //
+        if (allowed_remote_ip_addresses.size()) {
+            // reread it because IP addresses might have changed
+            //
+            get_allowed_hosts();
+
+            vector<int>::iterator remote_iter = allowed_remote_ip_addresses.begin();
+            while (remote_iter != allowed_remote_ip_addresses.end() ) {
+                int remote_host = *remote_iter;
+                if (peer_ip == remote_host) {
+                    allowed = true;
+                    break;
+                }
+                remote_iter++;
+            }
         }
          
         // accept the connection if:

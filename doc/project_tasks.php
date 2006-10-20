@@ -55,6 +55,8 @@ list_item(
 &lt;?php
 ...
 ?&gt;
+    You must specify the output file for such tasks
+    (otherwise it will go to run_in_ops.out).
 "
 );
 list_item("host",
