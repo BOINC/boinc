@@ -11320,3 +11320,10 @@ David  20 Oct 2006
 
 	sched/
 		db_dump.C
+
+Charlie 21 Oct 2006
+    - Mac: FIx new compile error by including "BOINCBaseFrame.h".
+
+    clientgui/
+        mac/
+            MacSysMenu.cpp

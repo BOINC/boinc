@@ -23,6 +23,7 @@
 
 #include "stdwx.h"
 #include "BOINCGUIApp.h"
+#include "BOINCBaseFrame.h"
 #include "MacSysMenu.h"
 #include "DlgAbout.h"
 #include "Events.h"
