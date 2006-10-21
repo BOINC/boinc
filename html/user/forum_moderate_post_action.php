@@ -41,6 +41,9 @@ if ($action=="hide"){
 } elseif ($action=="move"){
     $destination_thread = new Thread(post_int('threadid'));
     $result = $post->move($destination_thread);
+    if ($thread->getPostCount() == 0) {
+	$thread->hide();
+    }
 } elseif ($action=="banish_user"){
     if (!$user->isSpecialUser(S_ADMIN)) {
       // Can't banish without being administrator
