@@ -11323,7 +11323,11 @@ David  20 Oct 2006
 
 Charlie 21 Oct 2006
     - Mac: FIx new compile error by including "BOINCBaseFrame.h".
+    - Added SkinManager.cpp to XCode project.
 
     clientgui/
         mac/
             MacSysMenu.cpp
+    mac_build/
+        boinc.xcodeproj/
+            project.pbxproj
