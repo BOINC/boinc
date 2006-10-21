@@ -11314,3 +11314,9 @@ David  20 Oct 2006
 	html/inc/
 		email.inc
 		prefs.inc
+
+David  20 Oct 2006
+	- fix potential buffer overrun in db_dump.C (from Carl)
+
+	sched/
+		db_dump.C

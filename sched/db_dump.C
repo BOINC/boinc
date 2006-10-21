@@ -324,16 +324,14 @@ void write_host(HOST& host, FILE* f, bool detail) {
         "    <p_vendor>%s</p_vendor>\n"
         "    <p_model>%s</p_model>\n"
         "    <os_name>%s</os_name>\n"
-        "    <os_version>%s</os_version>\n"
-        "    <credit_per_cpu_sec>%f</credit_per_cpu_sec>\n",
+        "    <os_version>%s</os_version>\n",
         host.total_credit,
         host.expavg_credit,
         host.expavg_time,
         p_vendor,
         p_model,
         os_name,
-        os_version,
-        host.credit_per_cpu_sec
+        os_version
     );
     if (detail) {
         fprintf(f,
@@ -450,8 +448,9 @@ void write_team(TEAM& team, FILE* f, bool detail) {
     DB_USER user;
     char buf[256];
     char name[2048];
-    char url[2048], name_html[2048], description[2048];
+    char url[2048], name_html[2048];
     int retval;
+    char description[8192]; // this should be plenty of room for xml escaping a 1024 string
 
     xml_escape(team.name, name);
 
@@ -505,13 +504,16 @@ void write_team(TEAM& team, FILE* f, bool detail) {
             name_html
         );
     }
+
     if (strlen(team.description)) {
+    	team.description[1024] = 0;		// truncate
         xml_escape(team.description, description);
         fprintf(f,
             "<description>%s</description>\n",
             description
         );
     }
+
     fprintf(f,
         " <country>%s</country>\n",
         team.country
