@@ -49,8 +49,8 @@ extern bool app_core_compatible(WORK_REQ& wreq, APP_VERSION& av);
 #define INFEASIBLE_WORK_BUF 8
 #define INFEASIBLE_APP_SETTING 16
 
-extern int wu_is_infeasible(WORKUNIT&, SCHEDULER_REQUEST&, SCHEDULER_REPLY&);
-
+extern int wu_is_infeasible(WORKUNIT&, SCHEDULER_REQUEST&, SCHEDULER_REPLY&, SCHED_SHMEM&);
+ 
 extern double max_allowable_disk(SCHEDULER_REQUEST&, SCHEDULER_REPLY&);
 
 extern bool wu_already_in_reply(WORKUNIT& wu, SCHEDULER_REPLY& reply);

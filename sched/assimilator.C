@@ -51,6 +51,8 @@ int wu_id_modulus=0, wu_id_remainder=0;
 
 #define SLEEP_INTERVAL 10
 
+int sleep_interval = SLEEP_INTERVAL;
+
 int one_pass_N_WU=0;
 
 // assimilate all WUs that need it
@@ -154,6 +156,8 @@ int main(int argc, char** argv) {
         } else if (!strcmp(argv[i], "-one_pass_N_WU")) {
             one_pass_N_WU = atoi(argv[++i]);
             one_pass = true;
+        } else if (!strcmp(argv[i], "-sleep_interval")) {
+            sleep_interval = atoi(argv[++i]);
         } else if (!strcmp(argv[i], "-one_pass")) {
             one_pass = true;
         } else if (!strcmp(argv[i], "-d")) {
@@ -214,7 +218,7 @@ int main(int argc, char** argv) {
     while (1) {
         if (!do_pass(app)) {
             if (one_pass) break;
-            sleep(SLEEP_INTERVAL);
+            sleep(sleep_interval);
         }
     }
 }

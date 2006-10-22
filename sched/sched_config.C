@@ -120,8 +120,12 @@ int SCHED_CONFIG::parse(FILE* f) {
         else if (xp.parse_bool(tag, "dont_delete_batches", dont_delete_batches)) continue;
         else if (xp.parse_int(tag, "sched_debug_level", sched_debug_level)) continue;
         else if (xp.parse_int(tag, "fuh_debug_level", fuh_debug_level)) continue;
-
-        // tags the scheduler doesn't care about
+        else if (xp.parse_int(tag, "reliable_min_avg_credit", reliable_min_avg_credit)) continue;
+        else if (xp.parse_int(tag, "reliable_min_avg_turnaround", reliable_min_avg_turnaround)) continue;
+        else if (xp.parse_int(tag, "reliable_time", reliable_time)) continue;
+        else if (xp.parse_double(tag, "reliable_reduced_delay_bound", reliable_reduced_delay_bound)) continue;
+		
+        // some tags that scheduler doesn't care about
         //
         else if (xp.parse_str(tag, "cgi_url", temp, sizeof(temp))) continue;
         else if (xp.parse_str(tag, "log_dir", temp, sizeof(temp))) continue;

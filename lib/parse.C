@@ -286,14 +286,19 @@ void extract_venue(char* in, char* venue_name, char* out) {
         q = strstr(out, "</venue");
         if (q) *q = 0;
     } else {
-        strcpy(out, in);
-        while (1) {
-            p = strstr(out, "<venue");
-            if (!p) break;
-            q = strstr(p, "</venue>\n");
-            if (!q) break;
-            strcpy(p, q+strlen("</venue>\n"));
-        }
+        q = in;
+        strcpy(out, "");
+       	while (1) {
+           	p = strstr(q, "<venue");
+           	if (!p) {
+       	        strcat(out, q);
+                break;
+            }
+           	strncat(out, q, p-q);
+           	q = strstr(p, "</venue>");
+           	if (!q) break;
+           	q += strlen("</venue>");
+       	}
     }
 }
 

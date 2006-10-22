@@ -248,23 +248,74 @@ static double estimate_wallclock_duration(
     return ewd;
 }
 
-// scan user's project prefs for elements of the form <app_id>N</app_id>,
-// indicating the apps they want to run.
+// Find or compute various details for the host.
+// These parameters affect how work is sent to the host
 //
-static int find_allowed_apps(
-    SCHEDULER_REPLY& reply, std::vector<int> *app_ids
-) {
+static int get_host_details(SCHEDULER_REPLY& reply) {
     char buf[8096];
    	std::string str;
    	extract_venue(reply.user.project_prefs, reply.host.venue, buf);
    	str = buf;
 	unsigned int pos = 0;
 	int temp_int;
+    USER_APP_DTL* app_dtl;
+
+    // scan user's project prefs for elements of the form <app_id>N</app_id>,
+    // indicating the apps they want to run.
+    //
 	while (parse_int(str.substr(pos,str.length()-pos).c_str(), "<app_id>", temp_int)) {
-		(*app_ids).push_back(temp_int);
+        app_dtl = new USER_APP_DTL();
+        app_dtl->appid = temp_int;
+        app_dtl->work_available=0;
+        reply.wreq.host_dtls.preferred_apps.push_back(app_dtl);
+
 		pos = str.find("<app_id>", pos) + 1;
 	}
+    temp_int = parse_int(buf,"<allow_beta_work>",temp_int);
+    reply.wreq.host_dtls.allow_beta_work = temp_int;
+ 
+    // Decide whether or not this computer is a 'reliable' computer
+    //
+    double expavg_credit = reply.host.expavg_credit;
+    double expavg_time = reply.host.expavg_time;
+    double avg_turnaround = reply.host.avg_turnaround;
+    update_average(0, 0, CREDIT_HALF_LIFE, expavg_credit, expavg_time);
+    if (strstr(reply.host.os_name,"Windows") || strstr(reply.host.os_name,"Linux")
+    ) {
+        if (((expavg_credit/reply.host.p_ncpus) > config.reliable_min_avg_credit || config.reliable_min_avg_credit == 0)
+            && (avg_turnaround < config.reliable_min_avg_turnaround || config.reliable_min_avg_turnaround == 0)
+        ){
+            reply.wreq.host_dtls.reliable = true;
+            log_messages.printf(SCHED_MSG_LOG::MSG_NORMAL,
+                "[HOST#%d] is reliable (OS = %s) expavg_credit = %.0f avg_turnaround(hours) = %.0f \n",
+                reply.host.id, reply.host.os_name, expavg_credit,
+                avg_turnaround/3600
+            );
+        }
+    } else {
+        if (((expavg_credit/reply.host.p_ncpus) > config.reliable_min_avg_credit*.75 || config.reliable_min_avg_credit == 0)
+            && (avg_turnaround < config.reliable_min_avg_turnaround*1.25 || config.reliable_min_avg_turnaround == 0)
+        ){
+            reply.wreq.host_dtls.reliable = true;
+            log_messages.printf(SCHED_MSG_LOG::MSG_NORMAL,
+                "[HOST#%d] is reliable (OS = %s) expavg_credit = %.0f avg_turnaround(hours) = %.0f \n",
+                reply.host.id, reply.host.os_name, expavg_credit,
+                avg_turnaround/3600
+            );
+        }
+    }
 	return 0;
+}
+
+int find_preferred_app_index(SCHEDULER_REPLY& reply, int appid) {
+    int result = -1;
+    for (int i=0; i<reply.wreq.host_dtls.preferred_apps.size(); i++) {
+        if (reply.wreq.host_dtls.preferred_apps[i]->appid == appid ) {
+            result = i;
+            break;
+        }
+    }
+    return result;
 }
 
 // if the WU can't be executed on the host, return a bitmap of reasons why.
@@ -279,7 +330,8 @@ static int find_allowed_apps(
 // In particular it doesn't enforce the one-result-per-user-per-wu rule
 //
 int wu_is_infeasible(
-    WORKUNIT& wu, SCHEDULER_REQUEST& request, SCHEDULER_REPLY& reply
+    WORKUNIT& wu, SCHEDULER_REQUEST& request, SCHEDULER_REPLY& reply,
+    SCHED_SHMEM& ss
 ) {
     int reason = 0;
     unsigned int i;
@@ -288,17 +340,25 @@ int wu_is_infeasible(
     // If they have then only send work for the allowed applications
     // TODO: call find_allowed_apps() only once, not once for each WU!!
     //
-    std::vector<int> app_ids;
-    find_allowed_apps(reply, &app_ids);
-    if (app_ids.size() > 0) {
-    	bool app_allowed = false;
-    	for(i=0; i<app_ids.size(); i++) {
-    		if (wu.appid==app_ids[i]) {
+    bool app_allowed = false;
+    if (reply.wreq.host_dtls.preferred_apps.size() > 0) {
+        for (i=0; i<reply.wreq.host_dtls.preferred_apps.size(); i++) {
+            log_messages.printf(SCHED_MSG_LOG::MSG_DEBUG,
+                "Scanning preferred apps. index=%d, appid=%d, work_avail=%d\n",
+                i, reply.wreq.host_dtls.preferred_apps[i]->appid,
+                reply.wreq.host_dtls.preferred_apps[i]->work_available
+            );
+            if (wu.appid==reply.wreq.host_dtls.preferred_apps[i]->appid) {
+
     			app_allowed = true;
+                reply.wreq.host_dtls.preferred_apps[i]->work_available=1;
     			break;
     		}
     	}
-    	if (!app_allowed) {
+
+        // Only mark infeasible if we are looking at user preferred apps only
+        //
+        if (!app_allowed && !reply.wreq.beta_only) {
         	reply.wreq.no_allowed_apps_available = true;
     		reason |= INFEASIBLE_APP_SETTING;
 			log_messages.printf(SCHED_MSG_LOG::MSG_DEBUG,
@@ -661,10 +721,21 @@ int add_result_to_reply(
     result.sent_time = time(0);
     int old_server_state = result.server_state;
 
+    // If the workunit needs reliable and is being sent to a reliable host,
+    // then shorten the delay bound by the percent specified
+    //
+    int delay_bound = wu.delay_bound;
+    if (config.reliable_time && reply.wreq.host_dtls.reliable && config.reliable_reduced_delay_bound > 0.01) {
+        if ((wu.create_time + config.reliable_time) <= time(0)) {
+            delay_bound = (int) (delay_bound * config.reliable_reduced_delay_bound);
+        }
+    }
+
+
     if (result.server_state != RESULT_SERVER_STATE_IN_PROGRESS) {
         // We are sending this result for the first time
         //
-        result.report_deadline = result.sent_time + wu.delay_bound;
+        result.report_deadline = result.sent_time + delay_bound;
         result.server_state = RESULT_SERVER_STATE_IN_PROGRESS;
     } else {
         // Result was ALREADY sent to this host but never arrived.
@@ -677,8 +748,8 @@ int add_result_to_reply(
         if (result.report_deadline < result.sent_time) {
             result.report_deadline = result.sent_time + 10;
         }
-        if (result.report_deadline > result.sent_time + wu.delay_bound) {
-            result.report_deadline = result.sent_time + wu.delay_bound;
+        if (result.report_deadline > result.sent_time + delay_bound) {
+            result.report_deadline = result.sent_time + delay_bound;
         }
 
         log_messages.printf(
@@ -767,6 +838,8 @@ int send_work(
     reply.wreq.core_client_version = sreq.core_client_major_version*100
         + sreq.core_client_minor_version;
     reply.wreq.nresults = 0;
+    get_host_details(reply); // parse project prefs for app details
+    reply.wreq.beta_only = false;
 
     log_messages.printf(
         SCHED_MSG_LOG::MSG_NORMAL,
@@ -800,16 +873,27 @@ int send_work(
     } else {
     	// give top priority to results that require a 'reliable host'
         //
-        double expavg_credit = reply.host.expavg_credit;
-        double expavg_time = reply.host.expavg_time;
-        update_average(0, 0, CREDIT_HALF_LIFE, expavg_credit, expavg_time);
-        if ((expavg_credit/reply.host.p_ncpus) > 70) {
+        if (reply.wreq.host_dtls.reliable) {
         	reply.wreq.reliable_only = true;
         	reply.wreq.infeasible_only = false;
-            log_messages.printf(SCHED_MSG_LOG::MSG_DEBUG, "[HOST#%d] is reliable\n", reply.host.id);
         	scan_work_array(sreq, reply, platform, ss);
         }
     	reply.wreq.reliable_only = false;
+
+        // give 2nd priority to results that are for a beta app
+        // (projects should load beta work with care
+        // otherwise your users won't get production work done!
+        //
+        if (reply.wreq.host_dtls.allow_beta_work) {
+            reply.wreq.beta_only=true;
+            log_messages.printf(
+                SCHED_MSG_LOG::MSG_DEBUG,
+                "[HOST#%d] will accept beta work.  Scanning for beta work.\n",
+                reply.host.id
+            );
+            scan_work_array(sreq, reply, platform, ss);
+        }
+        reply.wreq.beta_only=false;
     	
         // give next priority to results that were infeasible for some other host
         //
@@ -935,6 +1019,14 @@ int send_work(
             reply.set_delay(delay_time);
         }
     }
+
+    // free memory
+    //
+    for (int i=0; i<reply.wreq.host_dtls.preferred_apps.size(); i++) {
+        delete(reply.wreq.host_dtls.preferred_apps[i]);
+    }
+    reply.wreq.host_dtls.preferred_apps.clear();
+
     return 0;
 }
 

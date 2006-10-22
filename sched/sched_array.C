@@ -79,24 +79,44 @@ void scan_work_array(
             continue;
         }
         
-        // If this is a reliable host and we are checking for results that
-        // need a reliable host, then continue if the result is a normal result
+        // If we are looking for beta results and result is not a beta result
+        // then move on
         //
-        if (reply.wreq.reliable_only && (!wu_result.need_reliable)) {
-        	continue;
+        APP* app = ss.lookup_app(wu_result.workunit.appid);
+        if (app == NULL) continue; // this should never happen
+        if (reply.wreq.beta_only) {
+        	if (!app->beta) {
+        		continue;
+        	}
+            log_messages.printf(SCHED_MSG_LOG::MSG_DEBUG,
+                "[HOST#%d] beta work found.  Result id %d \n",
+                reply.host.id 
+            );
+        } else {
+         	if (app->beta) {
+        		continue;
+        	}
         }
         
+        // If this is a reliable host and we are checking for results that
+        // need a reliable host, then continue if the result is a normal result
+        // skip if the app is beta (beta apps don't use the reliable mechanism)
+        //
+        if (!app->beta) {
+        	if (reply.wreq.reliable_only && (!wu_result.need_reliable)) {
+        		continue;
+        	} else if (!reply.wreq.reliable_only && wu_result.need_reliable) {
+        		continue;
+        	}
+        }
+        
+        // If we are looking for infeasible results and the result is not infeasiable
+        // then move on
+        //
         if (reply.wreq.infeasible_only && (wu_result.infeasible_count==0)) {
             continue;
         }
         
-        // Never send a result that needs a reliable host to one that 
-        // has not earned credit
-        //
-        if (wu_result.need_reliable && reply.host.total_credit == 0) {
-        	continue;
-        }
-
         // don't send if we're already sending a result for same WU
         //
         if (config.one_result_per_user_per_wu) {
@@ -108,7 +128,7 @@ void scan_work_array(
         // don't send if host can't handle it
         //
         wu = wu_result.workunit;
-        if (wu_is_infeasible(wu, sreq, reply)) {
+        if (wu_is_infeasible(wu, sreq, reply, ss)) {
            	log_messages.printf(
                	SCHED_MSG_LOG::MSG_DEBUG, "[HOST#%d] [WU#%d %s] WU is infeasible\n",
                	reply.host.id, wu.id, wu.name

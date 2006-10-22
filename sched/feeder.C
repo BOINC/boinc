@@ -32,7 +32,6 @@
 //  [ -purge_stale x ]    remove work items from the shared memory segment
 //                        that have been there for longer then x minutes
 //                        but haven't been assigned
-//  [ -reliable x ]       flag results for workunits older then x days as "need_reliable"
 //
 // Creates a shared memory segment containing DB info,
 // including the work array (results/workunits to send).
@@ -143,7 +142,6 @@ char select_clause[256];
 double sleep_interval = DEFAULT_SLEEP_INTERVAL;
 bool all_apps = false;
 int purge_stale_time = 0;
-int reliable_time = 0;
 
 void cleanup_shmem() {
     ssp->ready = false;
@@ -406,8 +404,8 @@ static void scan_work_array(
                 // workunits older then the specificed time as needing a reliable
                 // host
                 wu_result.need_reliable = 0;
-                if (reliable_time) {
-                	if ((wu_result.workunit.create_time + reliable_time*86400) <= time(0)) {
+                if (config.reliable_time) {
+                	if ((wu_result.workunit.create_time + config.reliable_time) <= time(0)) {
                 		wu_result.need_reliable = true;
                 	}
                 }
@@ -526,13 +524,11 @@ int main(int argc, char** argv) {
         } else if (!strcmp(argv[i], "-allapps")) {
             all_apps = true;
         } else if (!strcmp(argv[i], "-priority_order")) {
-            order_clause = "order by priority desc ";
+            order_clause = "order by result.priority desc ";
         } else if (!strcmp(argv[i], "-priority_order_create_time")) {
-            order_clause = "order by priority desc, workunit.create_time ";
+            order_clause = "order by result.priority desc, workunit.create_time ";
         } else if (!strcmp(argv[i], "-purge_stale")) {
             purge_stale_time = atoi(argv[++i])*60;
-        } else if (!strcmp(argv[i], "-reliable")) {
-            reliable_time = atoi(argv[++i]);
         } else if (!strcmp(argv[i], "-mod")) {
             int n = atoi(argv[++i]);
             int j = atoi(argv[++i]);

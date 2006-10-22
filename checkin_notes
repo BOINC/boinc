@@ -11331,3 +11331,42 @@ Charlie 21 Oct 2006
     mac_build/
         boinc.xcodeproj/
             project.pbxproj
+
+David  21 Oct 2006
+	- Server: apps can be labeled as "beta",
+		and jobs for them will be sent only to users
+		with "<beta>1</beta>" in their project preferences.
+		This lets you do application testing without
+		creating a separate project,
+		which has advantages both for you (1 projects instead of 2)
+		and for testers (their testing gives them points
+		in your main project)
+	- Scheduler: refined the criteria for "reliable" hosts
+		to which old results are sent,
+		and added a param for reducing delay bound
+		when sending results to reliable hosts
+	- add -sleep_interval option to assimilator
+	- move -reliable flag from feeder
+	- add to sched config:
+		reliable_min_avg_credit
+		reliable_min_avg_turnaround
+		reliable_time
+		reliable_reduced_delay_bound
+
+	(from Kevin Reed)
+
+	NOTES: updating your server software to this version or later requires
+		a small database change (see html/ops/db_update.php)
+
+	db/
+		boinc_db.C,h
+	lib/
+		parse.C
+	sched/
+		assimilator.C
+		feeder.C
+		sched_array.C
+		sched_config.C,h
+		sched_locality.C
+		sched_send.C,h
+		server_types.h

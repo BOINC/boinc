@@ -69,6 +69,7 @@ struct APP {
     bool homogeneous_redundancy;
     double weight;          // tells the feeder what fraction of results
                             // should come from this app
+    int beta;
 
     int write(FILE*);
     void clear();

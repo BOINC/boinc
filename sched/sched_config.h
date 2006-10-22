@@ -76,6 +76,10 @@ public:
     bool dont_delete_batches;
     int sched_debug_level;
     int fuh_debug_level;
+    int reliable_time; // age of workunit before requiring reliable
+    int reliable_min_avg_credit;
+    int reliable_min_avg_turnaround;
+    double reliable_reduced_delay_bound;
 
     int parse(FILE*);
     int parse_file(const char* dir=".");
