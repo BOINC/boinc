@@ -131,7 +131,8 @@ void DB_APP::db_print(char* buf){
         "create_time=%d, name='%s', min_version=%d, "
         "deprecated=%d, user_friendly_name='%s', homogeneous_redundancy=%d, weight=%f, beta=%d",
         create_time, name, min_version,
-        deprecated?1:0, user_friendly_name, homogeneous_redundancy?1:0, weight, beta
+        deprecated?1:0, user_friendly_name, homogeneous_redundancy?1:0, weight,
+        beta?1:0
     );
 }
 

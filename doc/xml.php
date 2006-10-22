@@ -5,6 +5,7 @@ echo "
 BOINC uses XML to describe various entities.
 These XML elements appear in:
 <ul>
+<li> <a href=tools_work.php>Workunit and result templates</a>
 <li> <a href=database.php>The BOINC database</a>
 <li> <a href=protocol.php>Scheduler request and reply messages</a>
 <li> <a href=client_files.php>The client state file</a>
@@ -16,7 +17,7 @@ Some of these XML elements are described here
 <a name=file></a>
 <h3>Files</h3>
 <p>
-A file is described by an XML element of the form 
+A <a href=files.php>file</a> is described by an element of the form 
 ".html_text("
 <file_info>
     <name>foobar</name> *
@@ -133,6 +134,7 @@ Each such association is represented by an XML element of the form
     [ <open_name>input</open_name> ]
     [ <main_program/> ]
     [ <copy_file/> ]
+    [ <optional/> ]
 </file_ref>
 ")."
 The elements are as follows: 
@@ -144,10 +146,9 @@ list_item("open_name",
     Applications access files using
     <a href=api.php>the following functions</a>:
     <pre>
-        char physical_name[256];
-        boinc_resolve_filename(\"input\", physical_name, 256);
-        fopen(physical_name, \"r\")
-    </pre>
+char physical_name[256];
+boinc_resolve_filename(\"input\", physical_name, 256);
+fopen(physical_name, \"r\")</pre>
     In this example, open_name is 'input'.
     It is mapped, at runtime, to a path that includes
     the filename ('foobar' in the example above).
@@ -157,14 +158,19 @@ list_item("main_program",
     It indicates that this file is the application's main program.
 ");
 list_item("copy_file",
-    "Use this when an application doesn't use
+    "Use this if your application doesn't use
     boinc_resolve_filename() to make logical to physical filenames
     (for example, executables without source code).
     If present on an input file,
-    copy the file to the slot directory before starting application.
+    BOINC will copy the file to the slot directory
+    before starting the application.
     If present on an output file,
-    move the file from the slot directory to the project directory
-    after the application."
+    BOINC will move the file from the slot directory to the project directory
+    after the application has finished."
+);
+list_item("optional",
+    "Use this for output files that may not be created by the application.
+    Otherwise, missing output files are treated as an error."
 );
 list_end();
 

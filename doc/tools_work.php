@@ -70,8 +70,8 @@ The components are:
 ";
 list_start();
 list_item(htmlspecialchars("<file_info>, <file_ref>"),
-"Each pair describes an <a href=files.php>input file</a>
-and <a href=files.php#file_ref>the name by which it's referenced</a>.");
+"Each pair describes an <a href=files.php#file>input file</a>
+and <a href=files.php#file_ref>the way it's referenced</a>.");
 list_item(htmlspecialchars("<command_line>"),
 "The command-line arguments to be passed to the main program.");
 list_item("Other elements",

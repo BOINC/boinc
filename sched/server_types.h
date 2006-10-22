@@ -27,18 +27,18 @@
 #include "common_defs.h"
 #include "md5_file.h"
 
-struct USER_APP_DTL {
+struct APP_INFO {
 	int appid;
-	int reason;
-	int work_available;
+	//int reason;
+	bool work_available;
 };
 
 // Details concerning a hosts settings
 //
-struct HOST_DETAILS {
+struct HOST_INFO {
 	int allow_beta_work;
 	bool reliable;
-	std::vector<USER_APP_DTL*> preferred_apps;
+	std::vector<APP_INFO> preferred_apps;
 };
 
 // summary of a client's request for work, and our response to it
@@ -47,7 +47,7 @@ struct WORK_REQ {
     bool infeasible_only;
     bool reliable_only;
     bool beta_only;
-    HOST_DETAILS host_dtls;
+    HOST_INFO host_info;
     double seconds_to_fill;
 		// in "normalized CPU seconds" (see doc/work_req.php)
     double disk_available;

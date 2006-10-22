@@ -60,7 +60,10 @@ class App(DatabaseObject):
                     'min_version',
                     'deprecated',
                     'user_friendly_name',
-                    'homogeneous_redundancy' ])
+                    'homogeneous_redundancy',
+                    'weight',
+                    'beta'
+                    ])
 
 class AppVersion(DatabaseObject):
     _table = DatabaseTable(

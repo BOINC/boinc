@@ -18,22 +18,46 @@ The BOINC core client transfers files to and from project-operated
 <p>
 Once a file is created (on a data server or a participant host) it
 is <b>immutable</b>.
-This means that all replicas of that file are assumed (and required) to be identical.
+This means that all replicas of that file are assumed (and required)
+to be identical.
+If a file is changed, even by a single byte, it becomes a new file,
+and must be given a different name than the original.
 
+<a name=file></a>
 <h3>File properties</h3>
-Files have various <b>properties</b>, including:
+Files have various properties, including:
 <ul>
+<li> <b>Name</b>: unique identifier for the file.
 <li> <b>Sticky</b>: don't delete file on client (see below).
 <li> <b>Report on RPC</b>: include a description of this file
 in scheduler requests.
 <li> <b>Maximum size</b>: if an output file exceeds its maximum size,
 the computation is aborted.
 </ul>
-File properties are specified in XML.
-For example, the properties of input files are described in
-the <a href=tools_work.php>workunit template</a>,
-and XML document describing the task.
-The XML format is described <a href=xml.php>here</a>.
+
+File properties are specified in <a href=xml.php>XML elements</a>
+that appear, for example, in <a href=tools_work.php>workunit templates</a>.
+
+<a name=file_ref></a>
+<h3>File references</h3>
+In addition to the properties of a file itself,
+there are several properties of the way a particular
+application uses a file;
+this is called a <b>file reference</b>.
+<ul>
+<li> <b>open_name</b> (or 'logical name'):
+the name by which the program will refer to the file
+(BOINC provides a mechanism for mapping logical names
+to physical names, so that your applications don't
+have to know the physical names of their input and output files).
+<li> <b>copy file</b>:  use this if your application
+doesn't use BOINC's filename-mapping mechanism.
+<li> <b>optional</b>: Use this for output files, to indicate
+that the application doesn't always generate the file,
+and that its absence should not be treated as an error.
+</ul>
+File reference properties are specified in
+<a href=xml.php#file_ref>XML elements</a>.
 
 <a name=file_ref></a>
 <h3>File management</h3>
@@ -110,7 +134,7 @@ designed for use by BOINC applications on any platform.
 <h3>Compression of output files</h3>
 <p>
 If you include the <code>&lt;gzip_when_done&gt;</code>
-tag in an <a href=xml.php>output file description</a>,
+tag in an <a href=xml.php#file>output file description</a>,
 the file will be gzip-compressed after it has been generated.
 ";
 page_tail();

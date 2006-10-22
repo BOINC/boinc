@@ -332,6 +332,10 @@ function update_8_8_2006() {
     do_query("alter table forum_preferences add banished_until integer not null default 0");
 }
 
-//update_8_8_2006();
+function update_10_21_2006() {
+    do_query("alter table app add beta smallint not null default 0");
+}
+
+//update_10_21_2006();
 
 ?>

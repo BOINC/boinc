@@ -14,6 +14,7 @@ require_once("docutil.php");
 
 $xml = $_GET["xml"];
 $dev = $_GET["dev"];
+$dev=1;
 $pname = $_GET["platform"];
 $min_version = $_GET["min_version"];
 $max_version = $_GET["max_version"];
@@ -200,7 +201,6 @@ if ($xml) {
             We are now using mirrored download servers at partner institutions.
             Your download will come from a randomly-chosen server.
             Thanks to these partners for their help.
-            <p>
             <b>If you have trouble downloading a file,
             please reload this page in your browser and try again.
             This will link to a different download mirror and may

@@ -11370,3 +11370,17 @@ David  21 Oct 2006
 		sched_locality.C
 		sched_send.C,h
 		server_types.h
+
+David  21 Oct 2006
+    - small cleanups to the above
+
+    db/
+        boinc_db.C,h
+        schema.sql
+    html/ops/
+        db_update.php
+    py/Boinc/
+        database.py
+    sched/
+        sched_send.C
+        server_types.h
