@@ -274,6 +274,9 @@ bool FILE_XFER_SET::poll() {
         // deal with various error cases for downloads
         //
         if (!fxp->is_upload) {
+            get_pathname(fxp->fip, pathname);
+            if (file_size(pathname, size)) continue;
+            double diff = size - fxp->starting_size;
             if (fxp->http_op_retval == 0) {
                 // If no HTTP error,
                 // see if we read less than 5 KB and file is incomplete.
@@ -281,10 +284,7 @@ bool FILE_XFER_SET::poll() {
                 // since it may be a proxy error message
                 //
                 if (fxp->fip->nbytes) {
-                    get_pathname(fxp->fip, pathname);
-                    if (file_size(pathname, size)) continue;
                     if (size == fxp->fip->nbytes) continue;
-                    double diff = size - fxp->starting_size;
                     if (diff>0 && diff<MIN_DOWNLOAD_INCREMENT) {
                         msg_printf(fxp->fip->project, MSG_INFO,
                             "Incomplete read of %f < 5KB for %s - truncating",
@@ -294,11 +294,15 @@ bool FILE_XFER_SET::poll() {
                     }
                 }
             } else {
-                // got HTTP error; truncate file, since some
+                // got HTTP error; truncate last 5KB of file, since some
                 // error-reporting HTML may have been appended
                 //
-                get_pathname(fxp->fip, pathname);
-                boinc_truncate(pathname, fxp->starting_size);
+				if (diff < MIN_DOWNLOAD_INCREMENT) {
+					diff = 0;
+				} else {
+					diff -= MIN_DOWNLOAD_INCREMENT;
+				}
+				boinc_truncate(pathname, fxp->starting_size + diff);
             }
         }
 

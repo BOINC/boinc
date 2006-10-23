@@ -565,7 +565,7 @@ size_t libcurl_write(void *ptr, size_t size, size_t nmemb, HTTP_OP* phop) {
     // take the stream param as a FILE* and write to disk
     //CMC TODO: maybe assert stRead == size*nmemb, add exception handling on phop members
     size_t stWrite = fwrite(ptr, size, nmemb, (FILE*) phop->fileOut);
-#if 0
+#if 1
     if (log_flags.http_xfer_debug) {
         msg_printf(NULL, MSG_INFO, "[http_xfer_debug] HTTP: wrote %d bytes", stWrite);
     }

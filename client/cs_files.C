@@ -47,6 +47,8 @@
 #include "file_xfer.h"
 
 #define MAX_TRANSFERS_PER_PROJECT   2
+#define MAX_TRANSFERS_TOTAL			8
+	// kind of arbitrary
 
 using std::vector;
 
@@ -57,6 +59,8 @@ bool CLIENT_STATE::start_new_file_xfer(PERS_FILE_XFER& pfx) {
     int n;
 
     if (network_suspended) return false;
+
+	if (file_xfers->file_xfers.size() >= MAX_TRANSFERS_TOTAL) return false;
 
     // limit the number of file transfers per project
     //

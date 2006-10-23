@@ -11423,3 +11423,21 @@ David  23 Oct 2006
         acct_mgr.C,h
         client_state.C
         client_types.C,h
+
+David  23 Oct 2006
+	- core client: limit # of simultaneous net xfers to 8
+	- core client: if there was an HTTP error on download,
+		we were truncating the file back to its original size
+		because of fear that
+		"error-reporting HTML may have been appended"
+		(I'm not sure if this actually every happens).
+		In any case, I changed to logic so that, on HTTP error,
+		we remove at most 5KB from the end of the file.
+	- removed SkinManager.cpp from VS2005 project file
+
+	client/
+		cs_files.C
+		file_xfer.C
+		http_curl.C
+	win_build/
+		boincmgr_curl.vcproj
