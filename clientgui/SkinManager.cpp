@@ -913,8 +913,8 @@ bool CSkinAdvanced::ValidateSkin() {
     }
     if (!m_iconApplicationSnoozeIcon.Ok()) {
         fprintf(stderr, wxT("Skin Manager: Failed to load application snooze icon. Using default.\n"));
-        m_iconApplicationDisconnectedIcon = wxIcon((const char**)boincsnooze_xpm);
-        wxASSERT(m_iconApplicationDisconnectedIcon.Ok());
+        m_iconApplicationSnoozeIcon = wxIcon((const char**)boincsnooze_xpm);
+        wxASSERT(m_iconApplicationSnoozeIcon.Ok());
     }
     if (!m_bitmapApplicationLogo.Ok()) {
         fprintf(stderr, wxT("Skin Manager: Failed to load application logo. Using default.\n"));

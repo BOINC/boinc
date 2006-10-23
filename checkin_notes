@@ -11392,3 +11392,14 @@ Rom    22 Oct 2006
         
     clientgui/
         <*.cpp>
+
+Charlie 21 Oct 2006
+    - Mac: Removed sg_SkinClass.cpp/h from XCode project.
+    - Fixed incorrect assignments of m_iconApplicationDisconnectedIcon and 
+        m_iconApplicationSnoozeIcon.
+
+    clientgui/
+        SkinManager.cpp
+    mac_build/
+        boinc.xcodeproj/
+            project.pbxproj
