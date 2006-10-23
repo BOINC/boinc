@@ -1,13 +1,15 @@
-<?php {
+<?php
 
-    require_once("../inc/db.inc");
-    require_once("../inc/util.inc");
-    require_once("../inc/team.inc");
+require_once("../inc/db.inc");
+require_once("../inc/util.inc");
+require_once("../inc/team.inc");
 
-    db_init();
-    $user = get_logged_in_user();
+db_init();
+$user = get_logged_in_user();
 
-    $teamid = $_POST["id"];
+$teamid = post_int("id");
+
+if ($user->teamid == $teamid) {
     $team = lookup_team($teamid);
     if (!team) {
         error_page("No such team");
@@ -35,5 +37,8 @@
     }
 
     page_tail();
+} else {
+    error_page("You need to be the member and the founder of the team to edit team information.");
+}
 
-} ?>
+?>

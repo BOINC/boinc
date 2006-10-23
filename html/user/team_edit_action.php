@@ -1,12 +1,14 @@
 <?php
 
-    require_once("../inc/db.inc");
-    require_once("../inc/util.inc");
-    require_once("../inc/team.inc");
+require_once("../inc/db.inc");
+require_once("../inc/util.inc");
+require_once("../inc/team.inc");
 
-    db_init();
-    $user = get_logged_in_user();
-    $teamid = $_POST["teamid"];
+db_init();
+$user = get_logged_in_user();
+$teamid = post_int("teamid");
+
+if ($user->teamid == $teamid) {
 
     $team = lookup_team($teamid);
     require_founder_login($user, $team);
@@ -55,5 +57,8 @@
     } else {
     	error_page("Could not update team - please try later.");
     }
+} else {
+    error_page("You need to be the member and the founder of the team to edit team information.");
+}
 
 ?>
