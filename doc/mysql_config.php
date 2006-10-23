@@ -478,9 +478,20 @@ mysqladmin  extended-status  10
 </h2>Performance Tweaking</h2>
 <h3>General</h3>
 
-An often overlooked area of performance is the requirement for reliable power and air conditioning.  Power failures can eliminate all the benefits accrued by careful planning for hardware and software installations.  Experience is that unreliable power can lead to days of recovery with data loss and subscriber discontent.   Similarly, insufficient cooling accelerates the aging of hardware components and can cause data corruption and downtime more frequently than the one would expect given the hardware specs.
+An often overlooked area of performance is the requirement
+for reliable power and air conditioning.
+Power failures can eliminate all the benefits accrued
+by careful planning for hardware and software installations.
+Experience is that unreliable power can lead to days
+of recovery with data loss and subscriber discontent.
+Similarly, insufficient cooling accelerates the aging of
+hardware components and can cause data corruption and
+downtime more frequently than the one would expect given the hardware specs.
 <pre>
-There are several parameters in my.cnf that can be adjusted (within limits) for better throughput.  Then the distribution of MySQL files to specified disk subsystems, allocation of RAM and   Config: my.cnf options for files, RAM, IO options
+There are several parameters in my.cnf that can be adjusted (within limits)
+for better throughput.
+Then the distribution of MySQL files to specified disk subsystems,
+allocation of RAM and   Config: my.cnf options for files, RAM, IO options
 </pre>
 
  

@@ -24,7 +24,6 @@ echo html_text("
     <upload_url>            http://A/URL          </upload_url>
     <upload_dir>            /path/to/directory    </upload_dir>
     <cgi_url>               http://A/URL          </cgi_url>
-    <stripchart_cgi_url>    http://A/URL          </stripchart_cgi_url>
     <log_dir>               /path/to/directory    </log_dir>
 
     [ <disable_account_creation/> ]
@@ -53,7 +52,6 @@ echo html_text("
     [ <default_disk_max_used_gb> X </default_disk_max_used_gb> ]
     [ <default_disk_max_used_pct> X </default_disk_max_used_pct> ]
     [ <default_disk_min_free_gb> X </default_disk_min_used_pct> ]
-    [ <sched_disk_space_check_hardcoded/> ]
     [ <max_claimed_credit>X</max_claimed_credit ]
     [ <grant_claimed_credit/> ]
     [ <symstore>URL</symstore> ]
@@ -71,8 +69,9 @@ echo html_text("
 ")
 ;
 
-echo "<b>The general project configuration elements are:</b>";
 list_start();
+list_bar("Hosts, directories, and URLs (these are created
+by make_project; normally you don't need to change them)");
 list_item("host",
     "name of project's main host, as given by Python's socket.hostname().
     Daemons and tasks run on this host by default."
@@ -94,7 +93,6 @@ list_item("uldl_dir_fanout", "fan-out factor of upload and download directories
 );
 list_item("upload_dir", "absolute path of upload directory");
 list_item("cgi_url", "URL of scheduling server");
-list_item("stripchart_cgi_url", "URL of stripchart server");
 list_item("log_dir", "Path to the directory where the assimilator, feeder, transitioner and
 cgi output logs are stored.  This allows you to change the default log
 directory path.  If set explicitly, you can also use the 'grep logs'
@@ -107,30 +105,96 @@ list_item("sched_lockfile_dir",
     directory where scheduler lockfiles are stored.
     Must be writable to the Apache user.
 ");
+list_bar("Web site features");
 list_item("profile_screening",
     "If present, don't show profile pictures until they've been
     screened and approved by project admins."
 );
-list_end();
-
-echo "
-    <b>The following control features that you may or may not want
-    available to users.</b>
-";
-list_start();
-list_item("disable_account_creation",
-    "If present, disallow account creation"
-);
 list_item("show_results",
     "Enable web site features that show results (per user, host, etc.)"
 );
-list_end();
 
-echo "
-    <b>The following control the way in which results are scheduled, sent,
-    and assigned to users and hosts.</b>
-";
-list_start();
+list_bar( "Miscellaneous");
+list_item("disable_account_creation",
+    "If present, disallow account creation"
+);
+list_item("min_passwd_length",
+    "Minimum length of user passwords.  Default is 6."
+);
+
+list_bar( "Client control");
+list_item("verify_files_on_app_start",
+    "Before starting or restarting an app,
+    check contents of input files and app version files
+    by either MD5 or digital signature check.
+    Detects user tampering with file
+    (but doesn't really increase security,
+    since user could also change MD5s or signatures in
+    client state file)."
+);
+list_item("symstore",
+    "URL of your project's symbol store,
+    used for debugging Windows applications."
+);
+list_item("min_core_client_version_announced",
+     "Announce a new version of the BOINC core client, which in the future
+      will be the minimum required version.  In conjunction with the next
+      tag, you can warn users with version below this to upgrade by a
+      specified deadline.  Example value: 419."
+);
+list_item("min_core_client_upgrade_deadline",
+    "Use in conjunction with the previous tag.  The value given here is the
+     Unix epoch returned by time(2) until which hosts can update their
+     core client.  After this time, they may be shut out of the project.
+     Before this time, they will receive messages warning them to upgrade."
+);
+list_item("non_cpu_intensive",
+    "If this flag is present,
+    the project will be treated specially by the client:
+    <ul>
+    <li> The client will download one result at a time.
+    <li> This result will be executed whenever computation is enabled
+        (bypassing the normal scheduling mechanism).
+    </ul>
+    This is intended for
+    <a href=non_cpu_intensive.php>applications that use little CPU time</a>,
+    e.g. that do network or host measurements."
+);
+list_bar( "Server logging");
+list_item("sched_debug_level",
+    "Verbosity level for scheduler log output.
+    1=minimal, 2=normal (default), 3=verbose."
+);
+list_item("fuh_debug_level",
+    "Verbosity level for file upload handler log output.
+    1=minimal, 2=normal (default), 3=verbose."
+);
+
+list_bar( "Credit");
+list_item("max_claimed_credit",
+    "If a result claims more credit than this, mark it as invalid."
+);
+list_item("grant_claimed_credit",
+    "If set, grant the claimed credit,
+    regardless of what other results for this workunit claimed.
+    These is useful for projects where
+    different instances of the same job
+    can do much different amounts of work.
+    "
+);
+list_item("fp_benchmark_weight",
+    "The weighting given to the Whetstone benchmark
+    in the calculation of claimed credit.
+    Must be in [0 .. 1].
+    Projects whose applications are floating-point intensive should use 1;
+    pure integer applications, 0.
+    Choosing an appropriate value will reduce the disparity
+    in claimed credit between hosts.
+    The script html/ops/credit_study.php,
+    run against the database of a running project,
+    will suggest what value to use."
+);
+list_bar( "Scheduling options and parameters");
 list_item("one_result_per_user_per_wu",
     "If present, send at most one result of a given workunit to a given user.
     This is useful for checking accuracy/validity of results.
@@ -148,18 +212,6 @@ list_item("max_wus_to_send",
     should set this large enough so that a host which is only connected to
     the net at intervals has enough work to keep it occupied in between
     connections."
-);
-list_item("non_cpu_intensive",
-    "If this flag is present,
-    project will be treated specially by the client:
-    <ul>
-    <li> The client will download one result at a time.
-    <li> This result will be executed whenever computation is enabled
-        (bypassing the normal scheduling mechanism).
-    </ul>
-    This is intended for
-    <a href=non_cpu_intensive.php>applications that use little CPU time</a>,
-    e.g. that do network or host measurements."
 );
 list_item("min_sendwork_interval",
     "Minimum number of seconds to wait after sending results to a given
@@ -233,18 +285,6 @@ list_item("cache_md5_info",
       are re-used, and (2) there are many of these files, and (3) reading
       the files from disk is time-consuming."
 );
-list_item("min_core_client_version_announced",
-     "Announce a new version of the BOINC core client, which in the future
-      will be the minimum required version.  In conjunction with the next
-      tag, you can warn users with version below this to upgrade by a
-      specified deadline.  Example value: 419."
-);
-list_item("min_core_client_upgrade_deadline",
-    "Use in conjunction with the previous tag.  The value given here is the
-     Unix epoch returned by time(2) until which hosts can update their
-     core client.  After this time, they may be shut out of the project.
-     Before this time, they will receive messages warning them to upgrade."
-);
 list_item("nowork_skip",
     "If the scheduling server has no work,
     it replies to RPCs without doing any database access
@@ -272,21 +312,6 @@ list_item("resend_lost_results",
     ALL results which should be present.  If there are missing results on
     client, and this flag is set, then those results are RESENT by the
     scheduler before any new work is sent."
-);
-list_item("min_passwd_length",
-    "Minimum length of user passwords.  Default is 6."
-);
-list_item("fp_benchmark_weight",
-    "The weighting given to the Whetstone benchmark
-    in the calculation of claimed credit.
-    Must be in [0 .. 1].
-    Projects whose applications are floating-point intensive should use 1;
-    pure integer applications, 0.
-    Choosing an appropriate value will reduce the disparity
-    in claimed credit between hosts.
-    The script html/ops/credit_study.php,
-    run against the database of a running project,
-    will suggest what value to use."
 );
 
 list_item("default_disk_max_used_gb", "Sets the default value for
@@ -318,29 +343,23 @@ list_item("default_disk_min_free_gb", "Sets the default value for
     to keep from filling up the drive.  Recommend setting this no
     smaller than .001 (1MB or 1,000,000 bytes).  Default is .001.
 ");
-
-list_item("sched_disk_space_check_hardcoded", "Controls how the
-    above three settings are interpreted by the web page php scripts.
-    This setting is for projects that updated the php scripts to
-    get the default disk space usage settings from config.xml, but
-    haven't updated their scheduler to do the same.    
-");
-
-list_item("max_claimed_credit",
-    "If a result claims more credit than this, mark it as invalid."
-);
-list_item("grant_claimed_credit",
-    "If set, grant the claimed credit,
-    regardless of what other results for this workunit claimed.
-    These is useful for projects where
-    different instances of the same job
-    can do much different amounts of work.
+list_item("reliable_time<br> reliable_min_avg_credit<br>
+    reliable_min_avg_turnaround<br> reliable_reduced_delay_bound",
+    "These parameters control a mechanism that attempts to send
+    old results (e.g. those whose siblings have timed out or failed)
+    to fast, reliable hosts.
+    <p>
+    This mechanism is used when the age of a workunit exceeds
+    <b>reliable_time</b> (typically 2-3X the delay bound).
+    The results are sent to hosts with at least
+    <b>reliable_min_avg_credit</b> and at most
+    <b>reliable_max_avg_turnaround</b>.
+    The delay bound is multiplied by <b>reliable_reduced_delay_bound</b>
+    (typically 0.5 or so).
     "
 );
-list_item("symstore",
-    "URL of your project's symbol store,
-    used for debugging Windows applications."
-);
+
+list_bar( "File deleter options");
 list_item("dont_delete_batches",
     "If this boolean is set,
     the file deleter won't delete any files for which
@@ -353,23 +372,6 @@ list_item("dont_delete_batches",
     (you can do this with a SQL query).
     If you use this option, replace the indices on
     file_delete_state with indices on (file_delete_state, batch)."
-);
-list_item("sched_debug_level",
-    "Verbosity level for scheduler log output.
-    1=minimal, 2=normal (default), 3=verbose."
-);
-list_item("fuh_debug_level",
-    "Verbosity level for file upload handler log output.
-    1=minimal, 2=normal (default), 3=verbose."
-);
-list_item("verify_files_on_app_start",
-    "Before starting or restarting an app,
-    check contents of input files and app version files
-    by either MD5 or digital signature check.
-    Detects user tampering with file
-    (but doesn't really increase security,
-    since user could also change MD5s or signatures in
-    client state file)."
 );
 
 list_end();

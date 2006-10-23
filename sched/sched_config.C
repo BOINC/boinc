@@ -121,7 +121,7 @@ int SCHED_CONFIG::parse(FILE* f) {
         else if (xp.parse_int(tag, "sched_debug_level", sched_debug_level)) continue;
         else if (xp.parse_int(tag, "fuh_debug_level", fuh_debug_level)) continue;
         else if (xp.parse_int(tag, "reliable_min_avg_credit", reliable_min_avg_credit)) continue;
-        else if (xp.parse_int(tag, "reliable_min_avg_turnaround", reliable_min_avg_turnaround)) continue;
+        else if (xp.parse_int(tag, "reliable_max_avg_turnaround", reliable_max_avg_turnaround)) continue;
         else if (xp.parse_int(tag, "reliable_time", reliable_time)) continue;
         else if (xp.parse_double(tag, "reliable_reduced_delay_bound", reliable_reduced_delay_bound)) continue;
 		

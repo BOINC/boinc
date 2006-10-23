@@ -78,7 +78,7 @@ public:
     int fuh_debug_level;
     int reliable_time; // age of workunit before requiring reliable
     int reliable_min_avg_credit;
-    int reliable_min_avg_turnaround;
+    int reliable_max_avg_turnaround;
     double reliable_reduced_delay_bound;
 
     int parse(FILE*);

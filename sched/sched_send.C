@@ -283,7 +283,7 @@ static int get_host_info(SCHEDULER_REPLY& reply) {
     if (strstr(reply.host.os_name,"Windows") || strstr(reply.host.os_name,"Linux")
     ) {
         if (((expavg_credit/reply.host.p_ncpus) > config.reliable_min_avg_credit || config.reliable_min_avg_credit == 0)
-            && (avg_turnaround < config.reliable_min_avg_turnaround || config.reliable_min_avg_turnaround == 0)
+            && (avg_turnaround < config.reliable_max_avg_turnaround || config.reliable_max_avg_turnaround == 0)
         ){
             reply.wreq.host_info.reliable = true;
             log_messages.printf(SCHED_MSG_LOG::MSG_NORMAL,
@@ -294,7 +294,7 @@ static int get_host_info(SCHEDULER_REPLY& reply) {
         }
     } else {
         if (((expavg_credit/reply.host.p_ncpus) > config.reliable_min_avg_credit*.75 || config.reliable_min_avg_credit == 0)
-            && (avg_turnaround < config.reliable_min_avg_turnaround*1.25 || config.reliable_min_avg_turnaround == 0)
+            && (avg_turnaround < config.reliable_max_avg_turnaround*1.25 || config.reliable_max_avg_turnaround == 0)
         ){
             reply.wreq.host_info.reliable = true;
             log_messages.printf(SCHED_MSG_LOG::MSG_NORMAL,

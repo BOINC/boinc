@@ -11386,8 +11386,8 @@ David  21 Oct 2006
         server_types.h
 
 Rom    22 Oct 2006
-    - MGR: CSkinClass is now dead. All references in the simple GUI have been changed
-        to CSkinManager.
+    - MGR: CSkinClass is now dead.
+        All references in the simple GUI have been changed to CSkinManager.
     - Cleaned up a bunch of warnings.
         
     clientgui/
@@ -11403,3 +11403,12 @@ Charlie 21 Oct 2006
     mac_build/
         boinc.xcodeproj/
             project.pbxproj
+
+David  22 Oct 2006
+    - scheduler: rename "reliable_min_avg_turnaround"
+        to "reliable_max_avg_turnaround"
+    - add some doc for new reliable-host scheme
+
+    sched/
+        sched_config.C,h
+        sched_send.C

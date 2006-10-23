@@ -257,6 +257,7 @@ f72103eb0995be77cac54f253c0ba639a814d3293646ae11894e9d1367a98790
        <authenticator>KEY</authenticator>
        [ <update/> ]
        [ <detach/> ]
+       [ <resource_share>X</resource_share> ]
     </account>
     ...
     ]

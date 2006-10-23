@@ -18,7 +18,7 @@ function option($name, $val) {
 function project_specific_prefs_default() {
     return "
         <color_scheme>Tahiti Sunset</color_scheme>
-        <refresh_rate>100</refresh_rate>
+        <max_frames_sec>100</max_frames_sec>
     ";
 }
 
@@ -35,8 +35,8 @@ function project_specific_prefs_edit($prefs, $error=false) {
     ";
     row2("Color scheme", $y);
 
-    $y = "<input size=5 name=refresh_rate value='$prefs->refresh_rate'> Hertz ";
-    row2("Refresh Rate", $y, isset($error->refresh_rate));
+    $y = "<input size=5 name=max_frames_sec value='$prefs->max_frames_sec'>";
+    row2("Max frames/sec", $y, isset($error->max_frames_sec));
 }
 
 // Parse form vars, return XML version of project-specific prefs
@@ -44,18 +44,18 @@ function project_specific_prefs_edit($prefs, $error=false) {
 //
 function project_specific_prefs_parse_form(&$error) {
     $color_scheme = $_GET["color_scheme"];
-    $refresh_rate = $_GET["refresh_rate"];
+    $max_frames_sec = $_GET["max_frames_sec"];
 
     // add and modify this line for other user
     // editable values that should be validated
     //
-    if (!verify_numeric($refresh_rate, 0)) $error->refresh_rate = true;
+    if (!verify_numeric($max_frames_sec, 0)) $error->max_frames_sec = true;
 
     // Please look at util.inc for further information regarding:
     // function verify_numeric(&$value, $low, $high = false)
 
     return "<color_scheme>$color_scheme</color_scheme>
-        <refresh_rate>$refresh_rate</refresh_rate>
+        <max_frames_sec>$max_frames_sec</max_frames_sec>
     ";
 }
 
@@ -67,11 +67,11 @@ function project_specific_prefs_show($prefs, $columns=false) {
     if ($columns) {
         // This is used if columns-view is enabled
         row_defs("Color scheme","color_scheme", "", "", $prefs);
-        row_defs("Refresh rate", "refresh_rate", "Hertz", "", $prefs);
+        row_defs("Max frames/sec", "max_frames_sec", "", "", $prefs);
     } else {
         // This is used if normal-view is enabled
         row2("Color scheme", $prefs->color_scheme);
-        row2("Refresh rate", $prefs->refresh_rate." Hertz");
+        row2("Max frames/sec", $prefs->max_frames_sec);
     }
 }
 
@@ -79,6 +79,6 @@ function project_specific_prefs_show($prefs, $columns=false) {
 //
 function project_specific_prefs_parse($prefs_xml) {
     $prefs->color_scheme = parse_element($prefs_xml, "<color_scheme>");
-    $prefs->refresh_rate = parse_element($prefs_xml, "<refresh_rate>");
+    $prefs->max_frames_sec = parse_element($prefs_xml, "<max_frames_sec>");
     return $prefs;
 }
