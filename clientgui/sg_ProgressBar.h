@@ -29,8 +29,6 @@ class ImageLoader;
 class CProgressBar : public wxPanel
 { 
 public: 
-	    //Skin Class
-        SkinClass *appSkin;
 		int indicatorWidth;
 		int indicatorHeight;
 		double numOfIndic;

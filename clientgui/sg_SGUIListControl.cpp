@@ -50,17 +50,6 @@ CSGUIListCtrl::CSGUIListCtrl(
     m_pParentView = pView;
 
     m_bIsSingleSelection = (iListWindowFlags & wxLC_SINGLE_SEL) ? true : false ;
-
-    Connect(
-        iListWindowID, 
-        wxEVT_COMMAND_LEFT_CLICK, 
-        (wxObjectEventFunction) (wxEventFunction) (wxCommandEventFunction) &CSGUIListCtrl::OnClick
-    );
-}
-
-
-void CSGUIListCtrl::OnClick(wxCommandEvent& event) {
-
 }
 
 
@@ -72,8 +61,7 @@ wxString CSGUIListCtrl::OnGetItemText(long item, long column) const {
 }
 
 
-int CSGUIListCtrl::OnGetItemImage(long item) const {
-
+int CSGUIListCtrl::OnGetItemImage(long /* item */) const {
     return 1;
 }
 

@@ -24,8 +24,8 @@
 #pragma interface "sg_SGUIListControl.cpp"
 #endif
 
+
 class CDlgMessages;
- 
 
 class CSGUIListCtrl : public wxListView {
     DECLARE_DYNAMIC_CLASS(CSGUIListCtrl)
@@ -36,15 +36,13 @@ public:
 
 private:
     
-    virtual void            OnClick(wxCommandEvent& event);
     virtual wxString        OnGetItemText(long item, long column) const;
     virtual int             OnGetItemImage(long item) const;
     virtual wxListItemAttr* OnGetItemAttr(long item) const;
 
     bool                    m_bIsSingleSelection;
 
-    CDlgMessages*         m_pParentView;
-
+    CDlgMessages*           m_pParentView;
 };
 
 #endif

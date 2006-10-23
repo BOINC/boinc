@@ -37,8 +37,6 @@ class CProjectsComponent : public wxPanel {
 public:
 	
 	int clientRunMode;
-	//Skin Class
-    SkinClass *appSkin;
 	char defaultIcnPath[256];
 	char urlDirectory[256];
 	std::string dirProjectGraphic;

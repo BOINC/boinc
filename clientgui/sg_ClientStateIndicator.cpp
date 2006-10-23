@@ -33,7 +33,6 @@
 #include "MainDocument.h"
 #include "BOINCBaseFrame.h"
 #include "sg_BoincSimpleGUI.h"
-#include "sg_SkinClass.h"
 #include "sg_ImageLoader.h"
 #include "sg_ClientStateIndicator.h" 
 #include "time.h"
@@ -61,7 +60,6 @@ ClientStateIndicator::ClientStateIndicator(CSimpleFrame* parent,wxPoint coord) :
 	topPosition = 5;
 	stateMessage = wxString("");
 	clientState = CLIENT_STATE_NONE;
-	appSkin = SkinClass::Instance();
 	CreateComponent();
 	error_time = 0;
 	m_connRenderTimer = new wxTimer(this, ID_ANIMATIONRENDERTIMER);
@@ -73,11 +71,23 @@ ClientStateIndicator::~ClientStateIndicator()
 }
 
 void ClientStateIndicator::CreateComponent(){
+    CSkinSimple* pSkinSimple = wxGetApp().GetSkinManager()->GetSimple();
+
+    wxASSERT(pSkinSimple);
+    wxASSERT(wxDynamicCast(pSkinSimple, CSkinSimple));
+
 	//Set Background color
-	SetBackgroundColour(appSkin->GetAppBgCol());
+    SetBackgroundColour(*pSkinSimple->GetBackgroundImage()->GetBackgroundColor());
 }
+
+
 void ClientStateIndicator::SetActionState(const char* message)
 {
+    CSkinSimple* pSkinSimple = wxGetApp().GetSkinManager()->GetSimple();
+
+    wxASSERT(pSkinSimple);
+    wxASSERT(wxDynamicCast(pSkinSimple, CSkinSimple));
+
 	Freeze();
 	stateMessage = wxString(message);
 	if ( clientState != CLIENT_STATE_ACTION ) {
@@ -87,12 +97,12 @@ void ClientStateIndicator::SetActionState(const char* message)
 		clientState = CLIENT_STATE_ACTION;
 		i_indBg = new ImageLoader(this);
 		i_indBg->Move(wxPoint(42,74));
-		i_indBg->LoadImage(*(appSkin->GetStateIndBg()));
+        i_indBg->LoadImage(*(pSkinSimple->GetStateIndicatorBackgroundImage()->GetBitmap()));
 
 		for(int x = 0; x < numOfIndic; x++){
 			ImageLoader *i_connInd = new ImageLoader(this);
 			i_connInd->Move(wxPoint(rightPosition +(connIndicatorWidth+10) * x,84));
-			i_connInd->LoadImage(*(appSkin->GetConnInd()));
+            i_connInd->LoadImage(*(pSkinSimple->GetConnectingIndicatorImage()->GetBitmap()));
 			if(x !=0){
 				i_connInd->Show(false);
 			}
@@ -107,6 +117,11 @@ void ClientStateIndicator::SetActionState(const char* message)
 
 void ClientStateIndicator::SetPausedState(const char* message)
 {
+    CSkinSimple* pSkinSimple = wxGetApp().GetSkinManager()->GetSimple();
+
+    wxASSERT(pSkinSimple);
+    wxASSERT(wxDynamicCast(pSkinSimple, CSkinSimple));
+
 	Freeze();
 	stateMessage = wxString(message);
 	if ( clientState != CLIENT_STATE_PAUSED ) {
@@ -116,13 +131,13 @@ void ClientStateIndicator::SetPausedState(const char* message)
 		clientState = CLIENT_STATE_PAUSED;
 		i_indBg = new ImageLoader(this);
 		i_indBg->Move(wxPoint(42,74));
-		i_indBg->LoadImage(*(appSkin->GetStateIndBg()));
+        i_indBg->LoadImage(*(pSkinSimple->GetStateIndicatorBackgroundImage()->GetBitmap()));
 
 	
 		for(int x = 0; x < numOfIndic; x++){
 			ImageLoader *i_connInd = new ImageLoader(this);
 			i_connInd->Move(wxPoint(rightPosition +(connIndicatorWidth+10) * x,84));
-			i_connInd->LoadImage(*(appSkin->GetConnInd()));
+            i_connInd->LoadImage(*(pSkinSimple->GetConnectingIndicatorImage()->GetBitmap()));
 			m_connIndV.push_back(i_connInd);
 		}
 	}
@@ -130,6 +145,11 @@ void ClientStateIndicator::SetPausedState(const char* message)
 }
 void ClientStateIndicator::SetNoActionState(const char* message)
 {
+    CSkinSimple* pSkinSimple = wxGetApp().GetSkinManager()->GetSimple();
+
+    wxASSERT(pSkinSimple);
+    wxASSERT(wxDynamicCast(pSkinSimple, CSkinSimple));
+
 	Freeze();
 	stateMessage = wxString(message); 
 
@@ -140,11 +160,11 @@ void ClientStateIndicator::SetNoActionState(const char* message)
 		clientState = CLIENT_STATE_ERROR;
 		i_indBg = new ImageLoader(this);
 		i_indBg->Move(wxPoint(42,74));
-		i_indBg->LoadImage(*(appSkin->GetStateIndBg()));
+        i_indBg->LoadImage(*(pSkinSimple->GetStateIndicatorBackgroundImage()->GetBitmap()));
 
 		i_errorInd = new ImageLoader(this);
 		i_errorInd->Move(wxPoint(rightPosition+24,84));
-		i_errorInd->LoadImage(*(appSkin->GetErrorInd()));
+        i_errorInd->LoadImage(*(pSkinSimple->GetErrorIndicatorImage()->GetBitmap()));
 		i_errorInd->Refresh();
 	}
 	Thaw();	
@@ -203,13 +223,17 @@ void ClientStateIndicator::OnPaint(wxPaintEvent& WXUNUSED(event))
      	
 }
 void ClientStateIndicator::OnEraseBackground(wxEraseEvent& event){
+    CSkinSimple* pSkinSimple = wxGetApp().GetSkinManager()->GetSimple();
+
+    wxASSERT(pSkinSimple);
+    wxASSERT(wxDynamicCast(pSkinSimple, CSkinSimple));
 
 	event.Skip(false);
 	wxDC *dc;
 	dc=event.GetDC();
 	dc->SetBackground(wxBrush(this->GetBackgroundColour(),wxSOLID));
 	dc->Clear();
-	dc->DrawBitmap(*(appSkin->GetWorkunitBg()), 0, 0); 
+    dc->DrawBitmap(*(pSkinSimple->GetWorkunitAreaBackgroundImage()->GetBitmap()), 0, 0); 
 
 }
 
@@ -256,44 +280,44 @@ void ClientStateIndicator::DisplayState() {
 	CMainDocument* pDoc     = wxGetApp().GetDocument();
 	if ( pDoc->IsReconnecting() ) {
 		error_time = 0;
-		SetActionState(_T("Retrieving current status."));
+		SetActionState(_("Retrieving current status."));
 	} else if ( pDoc->IsConnected() && pDoc->state.projects.size() == 0) {
 		error_time = 0;
-		SetPausedState(_T("You don't have any projects.  Please Add a Project."));
+		SetPausedState(_("You don't have any projects.  Please Add a Project."));
 	} else if ( DownloadingResults() ) {
 		error_time = 0;
-		SetActionState(_T("Downloading work from the server."));
+		SetActionState(_("Downloading work from the server."));
 	} else if ( Suspended() ) {
 		CC_STATUS status;
 		pDoc->GetCoreClientStatus(status);
 		if ( status.task_suspend_reason & SUSPEND_REASON_BATTERIES ) {
-			SetActionState(_T("Processing Suspended:  Running On Batteries."));
+			SetActionState(_("Processing Suspended:  Running On Batteries."));
 		} else if ( status.task_suspend_reason & SUSPEND_REASON_USER_ACTIVE ) {
-			SetActionState(_T("Processing Suspended:  User Active."));
+			SetActionState(_("Processing Suspended:  User Active."));
 		} else if ( status.task_suspend_reason & SUSPEND_REASON_USER_REQ ) {
-			SetActionState(_T("Processing Suspended:  User paused processing."));
+			SetActionState(_("Processing Suspended:  User paused processing."));
 		} else if ( status.task_suspend_reason & SUSPEND_REASON_TIME_OF_DAY ) {
-			SetActionState(_T("Processing Suspended:  Time of Day."));
+			SetActionState(_("Processing Suspended:  Time of Day."));
 		} else if ( status.task_suspend_reason & SUSPEND_REASON_BENCHMARKS ) {
-			SetActionState(_T("Processing Suspended:  Benchmarks Running."));
+			SetActionState(_("Processing Suspended:  Benchmarks Running."));
 		} else {
-			SetActionState(_T("Processing Suspended."));
+			SetActionState(_("Processing Suspended."));
 		}
 	} else if ( ProjectUpdateScheduled() ) {
 		error_time = 0;
-		SetActionState(_T("Waiting to contact project servers."));
+		SetActionState(_("Waiting to contact project servers."));
 	} else {
 		if ( error_time == 0 ) {
 			error_time = time(NULL) + 10;
-			SetActionState(_T("Retrieving current status"));
+			SetActionState(_("Retrieving current status"));
 		} else if ( error_time < time(NULL) ) {
 			if ( pDoc->IsConnected() ) {
-				SetNoActionState(_T("No work available to process"));
+				SetNoActionState(_("No work available to process"));
 			} else {
-				SetNoActionState(_T("Unable to connect to the core client"));
+				SetNoActionState(_("Unable to connect to the core client"));
 			}
 		} else {
-			SetActionState(_T("Retrieving current status"));
+			SetActionState(_("Retrieving current status"));
 		}
 	}
 }

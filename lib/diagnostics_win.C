@@ -644,7 +644,7 @@ void SetThreadName( DWORD dwThreadID, LPCSTR szThreadName ) {
     // Pass the thread name off to a debugger where the debugger will read
     //   the exception data block and extract the thread name.  After
     //   processing the thread name the application should resume normally.
-    RaiseException( 0x406D1388, 0, sizeof(info)/sizeof(DWORD), (DWORD*)&info );
+    RaiseException( 0x406D1388, 0, sizeof(info)/sizeof(DWORD_PTR), (DWORD_PTR*)&info );
 
     SetUnhandledExceptionFilter(pPreviousExceptionHandler);
 }

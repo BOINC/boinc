@@ -28,14 +28,16 @@
 #include "miofile.h"
 #include "parse.h"
 #include "error_numbers.h"
+#include "common/wxFlatNotebook.h"
+#include "common/wxAnimate.h"
 #include "BOINCGUIApp.h"
 #include "SkinManager.h"
 #include "MainDocument.h"
-#include "sg_ViewTabPage.h"
-#include "sg_SkinClass.h"
 #include "sg_StaticLine.h"
 #include "sg_ProgressBar.h"
 #include "sg_ImageButton.h"
+#include "sg_ImageLoader.h"
+#include "sg_ViewTabPage.h"
 #include "app_ipc.h"
 
 
@@ -63,8 +65,6 @@ CViewTabPage::CViewTabPage(WorkunitNotebook* parent,RESULT* result,std::string n
 	m_prjUrl = url;
     m_hasGraphic = false;
 	resultWU = result;
-	//load skin images
-	appSkin = SkinClass::Instance();
     //create page
 	CreatePage();
 	project_files_downloaded_time = 0;
@@ -75,6 +75,12 @@ CViewTabPage::~CViewTabPage() {
 
 void CViewTabPage::CreatePage()
 {
+    CSkinSimple* pSkinSimple = wxGetApp().GetSkinManager()->GetSimple();
+
+    wxASSERT(pSkinSimple);
+    wxASSERT(wxDynamicCast(pSkinSimple, CSkinSimple));
+
+
 	// Show or don't show the icon if the WU is running
 	RESULT* resState = NULL;
 	CMainDocument* pDoc     = wxGetApp().GetDocument();
@@ -88,7 +94,7 @@ void CViewTabPage::CreatePage()
 	}
 	//Line Proj Name
 	lnProjName = new CStaticLine(this,wxPoint(20,36),wxSize(316,1));
-	lnProjName->SetLineColor(appSkin->GetStaticLineCol());
+    lnProjName->SetLineColor(pSkinSimple->GetStaticLineColor());
 	//Create with a two step process to eliminate compiler warning
 	wxStaticLine* spacerLine = new wxStaticLine();
 	spacerLine->Create(this,-1,wxPoint(20,36),wxSize(305,1));
@@ -110,8 +116,16 @@ void CViewTabPage::CreatePage()
 		m_hasGraphic = true;
 	}
 	int status = ComputeState();
+
 	// project image behind graphic <><><>
-	btnAminBg = new CImageButton(this,*(appSkin->GetAnimationBg()),wxPoint(28,154),wxSize(294,146),m_hasGraphic, status);
+    btnAminBg = new CImageButton(
+        this,
+        *(pSkinSimple->GetWorkunitAnimationBackgroundImage()->GetBitmap()),
+        wxPoint(28,154),
+        wxSize(294,146),
+        m_hasGraphic,
+        status
+    );
 
 	CreateSlideShowWindow();
 }
@@ -184,11 +198,17 @@ void CViewTabPage::LoadSlideShow(std::vector<wxBitmap> *vSlideShow) {
 // This function will check to see if application specific images are available from the project.  If not, then
 // it will return the default image from the skin
 std::vector<wxBitmap> CViewTabPage::GetSlideShow() {
-	std::vector<wxBitmap> vSlideShow;
+    CSkinSimple* pSkinSimple = wxGetApp().GetSkinManager()->GetSimple();
+
+    wxASSERT(pSkinSimple);
+    wxASSERT(wxDynamicCast(pSkinSimple, CSkinSimple));
+
+    std::vector<wxBitmap> vSlideShow;
 	LoadSlideShow(&vSlideShow);
 	if ( vSlideShow.size() == 0 ) {
-		vSlideShow.push_back(*(appSkin->GetDefaultWorkunitImage()));
+        vSlideShow.push_back(*(pSkinSimple->GetWorkunitAnimationImage()->GetBitmap()));
 	}
+
 	return vSlideShow;
 }
 
@@ -270,10 +290,15 @@ void CViewTabPage::CreateSlideShowWindow() {
 }
 void CViewTabPage::ReskinInterface()
 {	
+    CSkinSimple* pSkinSimple = wxGetApp().GetSkinManager()->GetSimple();
+
+    wxASSERT(pSkinSimple);
+    wxASSERT(wxDynamicCast(pSkinSimple, CSkinSimple));
+
     //animation bg
-	btnAminBg->SetImage(*(appSkin->GetAnimationBg()));
+    btnAminBg->SetImage(*(pSkinSimple->GetWorkunitAnimationBackgroundImage()->GetBitmap()));
     //line
-	lnProjName->SetLineColor(appSkin->GetStaticLineCol());
+    lnProjName->SetLineColor(pSkinSimple->GetStaticLineColor());
 	// gauge
 	gaugeWUMain->ReskinInterface();
 	wSlideShow->Destroy();
@@ -422,20 +447,27 @@ void CViewTabPage::OnImageButton()
 }
 void CViewTabPage::DrawText() 
 { 
+    CSkinSimple* pSkinSimple = wxGetApp().GetSkinManager()->GetSimple();
+
+    wxASSERT(pSkinSimple);
+    wxASSERT(wxDynamicCast(pSkinSimple, CSkinSimple));
+
     wxLogTrace(wxT("Function Start/End"), wxT("CViewTabPage::DrawText - Begin"));
     wxClientDC dcc(this);
 	wxBufferedDC dc(&dcc, wxSize(GetSize().GetWidth(), GetSize().GetHeight())); 
 
     //Project Name
-	dc.DrawBitmap(*(appSkin->GetWorkunitBg()), 0, 0);
+    dc.DrawBitmap(*(pSkinSimple->GetWorkunitAreaBackgroundImage()->GetBitmap()), 0, 0);
 	dc.SetFont(wxFont(16,74,90,90,0,wxT("Arial"))); 
-	dc.DrawText(projName, wxPoint(20,8)); 
+	dc.DrawText(projName, wxPoint(20,8));
+
 	//static: APPLICATION,MY PROGRESS,ELAPSED TIME,TIME REMAINING
 	dc.SetFont(wxFont(9,74,90,90,0,wxT("Arial")));
 	dc.DrawText(wxT("APPLICATION >"), wxPoint(20,49)); 
     dc.DrawText(wxT("MY PROGRESS >"), wxPoint(20,71)); 
 	dc.DrawText(wxT("ELAPSED TIME >"), wxPoint(20,115)); 
     dc.DrawText(wxT("TIME REMAINING >"), wxPoint(20,134)); 
+
     //static: projectFrName,wrkUnitName,gaugePercent,elapsedTimeValue,timeRemainingValue
     dc.SetFont(wxFont(9,74,90,92,0,wxT("Arial")));
 	dc.DrawText(projectFrName, wxPoint(110,49)); 
@@ -443,13 +475,23 @@ void CViewTabPage::DrawText()
     dc.DrawText(gaugePercent, wxPoint(290,90)); 
     dc.DrawText(elapsedTimeValue, wxPoint(118,115)); 
 	dc.DrawText(timeRemainingValue, wxPoint(130,134)); 
+
     wxLogTrace(wxT("Function Start/End"), wxT("CViewTabPage::DrawText - End"));
 }
+
 void CViewTabPage::OnEraseBackground(wxEraseEvent& event){
-  wxObject *m_wxWin = event.GetEventObject();
-  if(m_wxWin==this){event.Skip(true);DrawBackImg(event,this,*(appSkin->GetWorkunitBg()),0);return;}
-  event.Skip(true);
+    CSkinSimple* pSkinSimple = wxGetApp().GetSkinManager()->GetSimple();
+
+    wxASSERT(pSkinSimple);
+    wxASSERT(wxDynamicCast(pSkinSimple, CSkinSimple));
+
+    event.Skip(true);
+    wxObject *m_wxWin = event.GetEventObject();
+    if (m_wxWin==this) {
+        DrawBackImg(event,this,*(pSkinSimple->GetWorkunitAreaBackgroundImage()->GetBitmap()),0);
+    }
 }
+
 void CViewTabPage::DrawBackImg(wxEraseEvent& event,wxWindow *win,wxBitmap bitMap,int opz){
     wxLogTrace(wxT("Function Start/End"), wxT("CViewTabPage::DrawBackImg - Begin"));
 	event.Skip(false);
@@ -579,24 +621,55 @@ BEGIN_EVENT_TABLE(WorkunitNotebook, wxFlatNotebook)
 END_EVENT_TABLE()
 
 WorkunitNotebook::WorkunitNotebook(wxWindow* parent, wxWindowID id, const wxPoint& pos, const wxSize& size, long style, const wxString& name) :
-	wxFlatNotebook(parent, id, pos, size, style, name) {
-	appSkin = SkinClass::Instance();
+	wxFlatNotebook(parent, id, pos, size, style, name)
+{
+    CSkinSimple* pSkinSimple = wxGetApp().GetSkinManager()->GetSimple();
+
+    wxASSERT(pSkinSimple);
+    wxASSERT(wxDynamicCast(pSkinSimple, CSkinSimple));
+
 	SetUseBackground(true);
-	SetBackgroundColour(appSkin->GetAppBgCol());
-	SetTabAreaColour(appSkin->GetAppBgCol());
-	SetGradientColors(appSkin->GetTabFromColAc(),appSkin->GetTabToColAc(),appSkin->GetTabBrdColAc());
-	SetActiveTabTextColour(wxColour(255,255,255));
-	SetGradientColorsInactive(appSkin->GetTabFromColIn(),appSkin->GetTabToColIn(),appSkin->GetTabBrdColIn());
-	char red = (char) (( (int) appSkin->GetTabFromColIn().Red() + (int) appSkin->GetTabToColIn().Red() + 255*3)/5);
-	char green = (char) (( (int) appSkin->GetTabFromColIn().Green() + (int) appSkin->GetTabToColIn().Green() + 255*3)/5);
-	char blue = (char) (( (int) appSkin->GetTabFromColIn().Blue() + (int) appSkin->GetTabToColIn().Blue() + 255*3)/5);
+    SetTabAreaBackgroundImage(
+        pSkinSimple->GetWorkunitTabAreaBackgroundImage()->GetBitmap()
+    );
+    SetBackgroundColour(
+        *pSkinSimple->GetBackgroundImage()->GetBackgroundColor()
+    );
+	SetTabAreaColour(
+        *pSkinSimple->GetBackgroundImage()->GetBackgroundColor()
+    );
+	SetGradientColors(
+        *pSkinSimple->GetWorkunitActiveTab()->GetGradientFromColor(),
+        *pSkinSimple->GetWorkunitActiveTab()->GetGradientToColor(),
+        *pSkinSimple->GetWorkunitActiveTab()->GetBorderColor()
+    );
+	SetGradientColorsInactive(
+        *pSkinSimple->GetWorkunitSuspendedTab()->GetGradientFromColor(),
+        *pSkinSimple->GetWorkunitSuspendedTab()->GetGradientToColor(),
+        *pSkinSimple->GetWorkunitSuspendedTab()->GetBorderColor()
+    );
+
+	char red = (char) 
+        (((int) pSkinSimple->GetWorkunitSuspendedTab()->GetGradientFromColor()->Red() + 
+          (int) pSkinSimple->GetWorkunitSuspendedTab()->GetGradientToColor()->Red() + 255*3)/5);
+	char green = (char) 
+        (((int) pSkinSimple->GetWorkunitSuspendedTab()->GetGradientFromColor()->Green() +
+          (int) pSkinSimple->GetWorkunitSuspendedTab()->GetGradientToColor()->Green() + 255*3)/5);
+	char blue = (char)
+        (((int) pSkinSimple->GetWorkunitSuspendedTab()->GetGradientFromColor()->Blue() +
+          (int) pSkinSimple->GetWorkunitSuspendedTab()->GetGradientToColor()->Blue() + 255*3)/5);
+    SetActiveTabTextColour(wxColour(255,255,255));
 	SetNonActiveTabTextColour(wxColour(red, green, blue));
-	m_ImageList.push_back(*(appSkin->GetIcnWorkingWkUnit()));
+
+    m_ImageList.push_back(*(pSkinSimple->GetWorkunitActiveTab()->GetBitmap()));
 	SetImageList(&m_ImageList);
-	changeSlideTimer = new wxTimer(this, ID_CHANGE_SLIDE_TIMER);
+
+    changeSlideTimer = new wxTimer(this, ID_CHANGE_SLIDE_TIMER);
 	changeSlideTimer->Start(5000); 
-	Update();
-	for (int i=0; i< (int) m_windows.size(); i++) {
+
+    Update();
+
+    for (int i=0; i< (int) m_windows.size(); i++) {
 		if ( m_windows.at(i)->resultWU->active_task_state == 1 ) {
 			SetSelection(i);
 			break;
@@ -640,13 +713,34 @@ void WorkunitNotebook::AddTab(RESULT* result) {
 }
 
 void WorkunitNotebook::ReskinAppGUI() {
-	m_ImageList.clear();
-	m_ImageList.push_back(*(appSkin->GetIcnWorkingWkUnit()));
-	SetImageList(&m_ImageList);
-	SetTabAreaColour(appSkin->GetAppBgCol());
+    CSkinSimple* pSkinSimple = wxGetApp().GetSkinManager()->GetSimple();
+
+    wxASSERT(pSkinSimple);
+    wxASSERT(wxDynamicCast(pSkinSimple, CSkinSimple));
+
 	SetUseBackground(true);
-	SetGradientColors(appSkin->GetTabFromColAc(),appSkin->GetTabToColAc(),appSkin->GetTabBrdColAc());
-	SetGradientColorsInactive(appSkin->GetTabFromColIn(),appSkin->GetTabToColIn(),appSkin->GetTabBrdColIn());
+    SetTabAreaBackgroundImage(
+        pSkinSimple->GetWorkunitTabAreaBackgroundImage()->GetBitmap()
+    );
+	SetTabAreaColour(
+        *pSkinSimple->GetBackgroundImage()->GetBackgroundColor()
+    );
+
+	SetGradientColors(
+        *pSkinSimple->GetWorkunitActiveTab()->GetGradientFromColor(),
+        *pSkinSimple->GetWorkunitActiveTab()->GetGradientToColor(),
+        *pSkinSimple->GetWorkunitActiveTab()->GetBorderColor()
+    );
+	SetGradientColorsInactive(
+        *pSkinSimple->GetWorkunitSuspendedTab()->GetGradientFromColor(),
+        *pSkinSimple->GetWorkunitSuspendedTab()->GetGradientToColor(),
+        *pSkinSimple->GetWorkunitSuspendedTab()->GetBorderColor()
+    );
+
+    m_ImageList.clear();
+	m_ImageList.push_back(*(pSkinSimple->GetWorkunitActiveTab()->GetBitmap()));
+	SetImageList(&m_ImageList);
+
  	for(int i = 0; i < (int)m_windows.size(); i++){
 		CViewTabPage *wTab = m_windows.at(i);
 		wTab->ReskinInterface();

@@ -34,7 +34,6 @@
 #include "MainDocument.h"
 #include "sg_DlgMessages.h"
 #include "sg_SGUIListControl.h"
-#include "sg_SkinClass.h"
 #include "Events.h"
 
 enum 
@@ -53,9 +52,8 @@ BEGIN_EVENT_TABLE( CDlgMessages,wxDialog)
 END_EVENT_TABLE()
 // end events
 
-CDlgMessages::CDlgMessages(wxWindow* parent, wxString dirPref,wxWindowID id,const wxString& title,const wxPoint& pos,const wxSize& size,long style,const wxString& name)
+CDlgMessages::CDlgMessages(wxWindow* parent, wxWindowID id, const wxString& title, const wxPoint& pos, const wxSize& size, long style, const wxString& name)
 {
-	m_SkinDirPrefix = dirPref;
 	m_bProcessingListRenderEvent = false;
 
 	Create(parent,id,title,pos,size,style,name);
@@ -81,7 +79,6 @@ CDlgMessages::CDlgMessages(wxWindow* parent, wxString dirPref,wxWindowID id,cons
     m_pMessageErrorAttr = new wxListItemAttr(*wxRED, *wxWHITE, wxNullFont);
 
 	initBefore();
-	appSkin = SkinClass::Instance();
 	//Create dialog
 	CreateDialog();
 	initAfter();
@@ -107,11 +104,17 @@ CDlgMessages::~CDlgMessages()
 
 void CDlgMessages::CreateDialog()
 {
-	SetBackgroundColour(appSkin->GetAppBgCol());
+    CSkinSimple* pSkinSimple = wxGetApp().GetSkinManager()->GetSimple();
+
+    wxASSERT(pSkinSimple);
+    wxASSERT(wxDynamicCast(pSkinSimple, CSkinSimple));
+
+	//Set Background color
+    SetBackgroundColour(*pSkinSimple->GetBackgroundImage()->GetBackgroundColor());
 	
-	wxToolTip *ttClose = new wxToolTip(wxT("Close message window"));
-	btnClose=new wxBitmapButton(this,ID_CLOSEBUTTON,*(appSkin->GetBtnClose()),wxPoint(472,398),wxSize(57,16),wxNO_BORDER);
-	btnClose->SetBitmapSelected(*(appSkin->GetBtnCloseClick()));
+	wxToolTip *ttClose = new wxToolTip(_("Close message window"));
+    btnClose=new wxBitmapButton(this,ID_CLOSEBUTTON,*(pSkinSimple->GetCloseButton()->GetBitmap()),wxPoint(472,398),wxSize(57,16),wxNO_BORDER);
+    btnClose->SetBitmapSelected(*(pSkinSimple->GetCloseButton()->GetBitmapClicked()));
 	btnClose->SetToolTip(ttClose);
 	
 	Refresh();
@@ -142,29 +145,34 @@ void CDlgMessages::VwXDrawBackImg(wxEraseEvent& event,wxWindow *win,wxBitmap* bi
  }
 }
 void CDlgMessages::OnEraseBackground(wxEraseEvent& event){
+    CSkinSimple* pSkinSimple = wxGetApp().GetSkinManager()->GetSimple();
+
+    wxASSERT(pSkinSimple);
+    wxASSERT(wxDynamicCast(pSkinSimple, CSkinSimple));
  wxObject *m_wxWin = event.GetEventObject();
- if(m_wxWin==this){event.Skip(true);VwXDrawBackImg(event,this,appSkin->GetDlgMessBg(),0);VwXEvOnEraseBackground(event) ;return;}
+
+ if(m_wxWin==this){
+     event.Skip(true);
+     VwXDrawBackImg(
+         event,
+         this,
+         pSkinSimple->GetMessagesDialogBackgroundImage()->GetBitmap(),
+         0
+     );
+     VwXEvOnEraseBackground(event) ;
+     return;
+ }
  event.Skip(true);
 }
 
 void CDlgMessages::OnBtnClick(wxCommandEvent& event){ //init function
-	int btnID =  event.GetId();
-	if(btnID==ID_CLOSEBUTTON || btnID==wxID_CANCEL){
-		//wxMessageBox("OnBtnClick - btnClose");
-		EndModal(wxID_CANCEL);
-	} else {
-		EndModal(wxID_CANCEL);
-	}
+    EndModal(wxID_CANCEL);
 } //end function
 
 void CDlgMessages::VwXEvOnEraseBackground(wxEraseEvent& WXUNUSED(event)){ //init function
- //[29b]Code event VwX...Don't modify[29b]//
- //add your code here
-
 } //end function
 
 void CDlgMessages::initBefore(){
-
 }
 
 void CDlgMessages::initAfter(){

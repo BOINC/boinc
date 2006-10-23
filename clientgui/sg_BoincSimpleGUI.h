@@ -31,10 +31,8 @@ class SkinClass;
 class ImageLoader;
 class CProjectsComponent;
 class ClientStateIndicator;
-
-#include "common/wxAnimate.h"
-#include "common/wxFlatNotebook.h"
-#include "sg_ViewTabPage.h"
+class WorkunitNotebook;
+class wxFlatNotebookEvent;
 
 // Define a new frame
 class CSimpleFrame : public CBOINCBaseFrame
@@ -51,9 +49,6 @@ public:
 	// Flat Neotebook
 	WorkunitNotebook *wrkUnitNB;
     wxBitmap const workWUico;
-	//Skin Class
-    SkinClass *appSkin;
-	wxString skinName;
 	// My projects component
 	CProjectsComponent *projComponent;
 	// Client State Indicator

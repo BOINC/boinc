@@ -262,6 +262,10 @@ public:
 	\param useBg - true if you want to set bg for tab area
 	*/
 	void SetUseBackground(bool useBg);
+	/**	
+	\param pTabAreaBackgroundImage - image you would like to use.
+	*/
+    void SetTabAreaBackgroundImage(wxBitmap* pTabAreaBackgroundImage);
 	/// Sets an image list associated with notebook pages
 	/**	
 	\param imglist - image list object. 
@@ -512,10 +516,6 @@ protected:
 	friend class wxFlatNotebookBase;
 	wxFlatNotebookImageList * m_ImageList;
 
-	//Skin Class
-    SkinClass *appSkin;
-	wxBitmap* m_tabAreaBG; 
-
 public:
 	/// Parametrized constructor
 	/**	
@@ -594,11 +594,18 @@ public:
 	\param imgindex - new image index
 	*/
 	virtual void SetPageImageIndex(size_t page, int imgindex);
+
     /// sets if tabs are using background
 	/**	
 	\param useBg - bool
 	*/
 	virtual void SetUseBackground(bool useBg);
+
+	/// Sets the background area for the tab area
+	/**	
+	\param pTabAreaBackgroundImage - bitmap object. 
+	*/
+	virtual void SetTabAreaBackgroundImage(wxBitmap* pTabAreaBackgroundImage);
 
 	/// Returns an image index of specified page
 	/**	
@@ -642,8 +649,6 @@ protected:
 
 	/// Return the button area space
 	virtual int GetButtonAreaWidth(void);
-
-	virtual void LoadBgImage();
 
 	/// File a tab with gradient color
 	virtual void FillGradientColor(wxBufferedDC& dc, const wxRect& rect);
@@ -750,11 +755,17 @@ protected:
 
 	/// Gradient colors
 	wxColour m_colorFrom, m_colorTo, m_colorBorder, m_colorFromInactive, m_colorToInactive, m_colorBorderInactive, m_activeTextColor, m_nonActiveTextColor, m_tabAreaColor, m_activeTabColor;
+
     /// Use Background
 	bool m_useBg;
-	/// Tab Border width
+
+    /// Tab Area Background Image
+	wxBitmap m_TabAreaBackgroundImage; 
+
+    /// Tab Border width
 	int m_tabBorderWidth;
-	/// X,>,< buttons status, can be one of 
+
+    /// X,>,< buttons status, can be one of 
 	/// - Pressed
 	/// - Hover
 	/// - None
@@ -860,455 +871,5 @@ typedef void (wxEvtHandler::*wxFlatNotebookEventFunction)(wxFlatNotebookEvent&);
 #define EVT_FLATNOTEBOOK_PAGE_CLOSED(winid, fn) \
 	wx__DECLARE_EVT1(wxEVT_COMMAND_FLATNOTEBOOK_PAGE_CLOSED, winid, wxFlatNotebookEventHandler(fn))
 
-
-
-///////////////////////////////////////////////////////////////////////////////
-// 
-// XPM Images required by this control
-//
-///////////////////////////////////////////////////////////////////////////////
-
-namespace FNB
-{
-	////////////////////////////////////////////////////////////
-	// Images used by the control
-	////////////////////////////////////////////////////////////
-	/* XPM */
-	static char *left_arrow_disabled_xpm[] = {
-		/* width height num_colors chars_per_pixel */
-		"    16    16        8            1",
-			/* colors */
-			"` c #008080",
-			". c #555555",
-			"# c #000000",
-			"a c #000000",
-			"b c #000000",
-			"c c #000000",
-			"d c #000000",
-			"e c #000000",
-			/* pixels */
-			"````````````````",
-			"````````````````",
-			"````````````````",
-			"````````.```````",
-			"```````..```````",
-			"``````.`.```````",
-			"`````.``.```````",
-			"````.```.```````",
-			"`````.``.```````",
-			"``````.`.```````",
-			"```````..```````",
-			"````````.```````",
-			"````````````````",
-			"````````````````",
-			"````````````````",
-			"````````````````"
-	};
-
-	/* XPM */
-	static char *x_button_pressed_xpm[] = {
-		/* width height num_colors chars_per_pixel */
-		"    16    16        8            1",
-			/* colors */
-			"` c #008080",
-			". c #4766e0",
-			"# c #9e9ede",
-			"a c #000000",
-			"b c #000000",
-			"c c #000000",
-			"d c #000000",
-			"e c #000000",
-			/* pixels */
-			"````````````````",
-			"`..............`",
-			"`.############.`",
-			"`.############.`",
-			"`.############.`",
-			"`.###aa####aa#.`",
-			"`.####aa##aa##.`",
-			"`.#####aaaa###.`",
-			"`.######aa####.`",
-			"`.#####aaaa###.`",
-			"`.####aa##aa##.`",
-			"`.###aa####aa#.`",
-			"`.############.`",
-			"`..............`",
-			"````````````````",
-			"````````````````"
-	};
-
-
-	/* XPM */
-	static char *left_arrow_xpm[] = {
-		/* width height num_colors chars_per_pixel */
-		"    16    16        8            1",
-			/* colors */
-			"` c #008080",
-			". c #555555",
-			"# c #000000",
-			"a c #000000",
-			"b c #000000",
-			"c c #000000",
-			"d c #000000",
-			"e c #000000",
-			/* pixels */
-			"````````````````",
-			"````````````````",
-			"````````````````",
-			"````````.```````",
-			"```````..```````",
-			"``````...```````",
-			"`````....```````",
-			"````.....```````",
-			"`````....```````",
-			"``````...```````",
-			"```````..```````",
-			"````````.```````",
-			"````````````````",
-			"````````````````",
-			"````````````````",
-			"````````````````"
-	};
-
-	/* XPM */
-	static char *x_button_hilite_xpm[] = {
-		/* width height num_colors chars_per_pixel */
-		"    16    16        8            1",
-			/* colors */
-			"` c #008080",
-			". c #4766e0",
-			"# c #c9dafb",
-			"a c #000000",
-			"b c #000000",
-			"c c #000000",
-			"d c #000000",
-			"e c #000000",
-			/* pixels */
-			"````````````````",
-			"`..............`",
-			"`.############.`",
-			"`.############.`",
-			"`.##aa####aa##.`",
-			"`.###aa##aa###.`",
-			"`.####aaaa####.`",
-			"`.#####aa#####.`",
-			"`.####aaaa####.`",
-			"`.###aa##aa###.`",
-			"`.##aa####aa##.`",
-			"`.############.`",
-			"`.############.`",
-			"`..............`",
-			"````````````````",
-			"````````````````"
-	};
-
-	/* XPM */
-	static char *x_button_xpm[] = {
-		/* width height num_colors chars_per_pixel */
-		"    16    16        8            1",
-			/* colors */
-			"` c #008080",
-			". c #555555",
-			"# c #000000",
-			"a c #000000",
-			"b c #000000",
-			"c c #000000",
-			"d c #000000",
-			"e c #000000",
-			/* pixels */
-			"````````````````",
-			"````````````````",
-			"````````````````",
-			"````````````````",
-			"````..````..````",
-			"`````..``..`````",
-			"``````....``````",
-			"```````..```````",
-			"``````....``````",
-			"`````..``..`````",
-			"````..````..````",
-			"````````````````",
-			"````````````````",
-			"````````````````",
-			"````````````````",
-			"````````````````"
-	};
-
-	/* XPM */
-	static char *left_arrow_pressed_xpm[] = {
-		/* width height num_colors chars_per_pixel */
-		"    16    16        8            1",
-			/* colors */
-			"` c #008080",
-			". c #4766e0",
-			"# c #9e9ede",
-			"a c #000000",
-			"b c #000000",
-			"c c #000000",
-			"d c #000000",
-			"e c #000000",
-			/* pixels */
-			"````````````````",
-			"`..............`",
-			"`.############.`",
-			"`.############.`",
-			"`.#######a####.`",
-			"`.######aa####.`",
-			"`.#####aaa####.`",
-			"`.####aaaa####.`",
-			"`.###aaaaa####.`",
-			"`.####aaaa####.`",
-			"`.#####aaa####.`",
-			"`.######aa####.`",
-			"`.#######a####.`",
-			"`..............`",
-			"````````````````",
-			"````````````````"
-	};
-
-	/* XPM */
-	static char *left_arrow_hilite_xpm[] = {
-		/* width height num_colors chars_per_pixel */
-		"    16    16        8            1",
-			/* colors */
-			"` c #008080",
-			". c #4766e0",
-			"# c #c9dafb",
-			"a c #000000",
-			"b c #000000",
-			"c c #000000",
-			"d c #000000",
-			"e c #000000",
-			/* pixels */
-			"````````````````",
-			"`..............`",
-			"`.############.`",
-			"`.######a#####.`",
-			"`.#####aa#####.`",
-			"`.####aaa#####.`",
-			"`.###aaaa#####.`",
-			"`.##aaaaa#####.`",
-			"`.###aaaa#####.`",
-			"`.####aaa#####.`",
-			"`.#####aa#####.`",
-			"`.######a#####.`",
-			"`.############.`",
-			"`..............`",
-			"````````````````",
-			"````````````````"
-	};
-
-	/* XPM */
-	static char *right_arrow_disabled_xpm[] = {
-		/* width height num_colors chars_per_pixel */
-		"    16    16        8            1",
-			/* colors */
-			"` c #008080",
-			". c #555555",
-			"# c #000000",
-			"a c #000000",
-			"b c #000000",
-			"c c #000000",
-			"d c #000000",
-			"e c #000000",
-			/* pixels */
-			"````````````````",
-			"````````````````",
-			"````````````````",
-			"```````.````````",
-			"```````..```````",
-			"```````.`.``````",
-			"```````.``.`````",
-			"```````.```.````",
-			"```````.``.`````",
-			"```````.`.``````",
-			"```````..```````",
-			"```````.````````",
-			"````````````````",
-			"````````````````",
-			"````````````````",
-			"````````````````"
-	};
-
-	/* XPM */
-	static char *right_arrow_hilite_xpm[] = {
-		/* width height num_colors chars_per_pixel */
-		"    16    16        8            1",
-			/* colors */
-			"` c #008080",
-			". c #4766e0",
-			"# c #c9dafb",
-			"a c #000000",
-			"b c #000000",
-			"c c #000000",
-			"d c #000000",
-			"e c #000000",
-			/* pixels */
-			"````````````````",
-			"`..............`",
-			"`.############.`",
-			"`.####a#######.`",
-			"`.####aa######.`",
-			"`.####aaa#####.`",
-			"`.####aaaa####.`",
-			"`.####aaaaa###.`",
-			"`.####aaaa####.`",
-			"`.####aaa#####.`",
-			"`.####aa######.`",
-			"`.####a#######.`",
-			"`.############.`",
-			"`..............`",
-			"````````````````",
-			"````````````````"
-	};
-
-	/* XPM */
-	static char *right_arrow_pressed_xpm[] = {
-		/* width height num_colors chars_per_pixel */
-		"    16    16        8            1",
-			/* colors */
-			"` c #008080",
-			". c #4766e0",
-			"# c #9e9ede",
-			"a c #000000",
-			"b c #000000",
-			"c c #000000",
-			"d c #000000",
-			"e c #000000",
-			/* pixels */
-			"````````````````",
-			"`..............`",
-			"`.############.`",
-			"`.############.`",
-			"`.#####a######.`",
-			"`.#####aa#####.`",
-			"`.#####aaa####.`",
-			"`.#####aaaa###.`",
-			"`.#####aaaaa##.`",
-			"`.#####aaaa###.`",
-			"`.#####aaa####.`",
-			"`.#####aa#####.`",
-			"`.#####a######.`",
-			"`..............`",
-			"````````````````",
-			"````````````````"
-	};
-
-
-	/* XPM */
-	static char *right_arrow_xpm[] = {
-		/* width height num_colors chars_per_pixel */
-		"    16    16        8            1",
-			/* colors */
-			"` c #008080",
-			". c #555555",
-			"# c #000000",
-			"a c #000000",
-			"b c #000000",
-			"c c #000000",
-			"d c #000000",
-			"e c #000000",
-			/* pixels */
-			"````````````````",
-			"````````````````",
-			"````````````````",
-			"```````.````````",
-			"```````..```````",
-			"```````...``````",
-			"```````....`````",
-			"```````.....````",
-			"```````....`````",
-			"```````...``````",
-			"```````..```````",
-			"```````.````````",
-			"````````````````",
-			"````````````````",
-			"````````````````",
-			"````````````````"
-	};
-
-	const int tab_x_size = 9;
-
-	/* XPM */
-	static char *tab_x_button_pressed_xpm[] = {
-		/* width height num_colors chars_per_pixel */
-		"     9     9        8            1",
-			/* colors */
-			"` c #4766e0",
-			". c #9e9ede",
-			"# c #555555",
-			"a c #000000",
-			"b c #000000",
-			"c c #000000",
-			"d c #000000",
-			"e c #000000",
-			/* pixels */
-			"`````````",
-			"`.......`",
-			"`.......`",
-			"`..#...#`",
-			"`...#.#.`",
-			"`....#..`",
-			"`...#.#.`",
-			"`..#...#`",
-			"`````````"
-	};
-
-	/* XPM */
-	static char *tab_x_button_xpm[] = {
-		/* width height num_colors chars_per_pixel */
-		"     9     9        8            1",
-			/* colors */
-			"` c #555555",
-			". c #FFFFFF",
-			"# c #000000",
-			"a c #000000",
-			"b c #000000",
-			"c c #000000",
-			"d c #000000",
-			"e c #000000",
-			/* pixels */
-			"`````````",
-			"`.......`",
-			"`.`...`.`",
-			"`..`.`..`",
-			"`...`...`",
-			"`..`.`..`",
-			"`.`...`.`",
-			"`.......`",
-			"`````````"
-	};
-
-	/* XPM */
-	static char *tab_x_button_hilite_xpm[] = {
-		/* width height num_colors chars_per_pixel */
-		"     9     9        8            1",
-			/* colors */
-			"` c #4766e0",
-			". c #c9dafb",
-			"# c #000000",
-			"a c #000000",
-			"b c #000000",
-			"c c #000000",
-			"d c #000000",
-			"e c #000000",
-			/* pixels */
-			"`````````",
-			"`.......`",
-			"`.#...#.`",
-			"`..#.#..`",
-			"`...#...`",
-			"`..#.#..`",
-			"`.#...#.`",
-			"`.......`",
-			"`````````"
-	};
-}
-
-//////////////////////////////////////////////////////////////////////////////////////////////////
-//
-// End of XPM Images
-//
-//////////////////////////////////////////////////////////////////////////////////////////////////
 
 #endif // WXFLATNOTEBOOK_H

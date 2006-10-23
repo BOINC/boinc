@@ -95,11 +95,12 @@ CSkinItem::~CSkinItem() {
 
 
 wxColour CSkinItem::ParseColor(wxString strColor) {
+    int red, green, blue;
     wxStringTokenizer tkz(strColor, wxT(":"), wxTOKEN_RET_EMPTY);
-    unsigned char red = (unsigned char)tkz.GetNextToken().mb_str();
-	unsigned char green = (unsigned char)tkz.GetNextToken().mb_str();
-	unsigned char blue = (unsigned char)tkz.GetNextToken().mb_str();
-    return wxColour(red, green, blue);
+    wxString(tkz.GetNextToken().mb_str()).ToLong((long*)&red);
+	wxString(tkz.GetNextToken().mb_str()).ToLong((long*)&green);
+	wxString(tkz.GetNextToken().mb_str()).ToLong((long*)&blue);
+    return wxColour((unsigned char)red, (unsigned char)green, (unsigned char)blue);
 }
 
 
@@ -574,7 +575,7 @@ bool CSkinSimple::ValidateSkin() {
             fprintf(stderr, wxT("Skin Manager: Failed to parse suspended tab gradient to color. Using default.\n"));
         }
         m_WorkunitSuspendedTab.SetDefaults(
-            (const char**)workunit_active_image_xpm,
+            (const char**)workunit_suspended_image_xpm,
             wxString(wxT("102:153:153")),
             wxString(wxT("134:179:176")),
             wxString(wxT("84:175:175"))

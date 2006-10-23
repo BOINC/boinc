@@ -29,14 +29,21 @@
 #include "miofile.h"
 #include "parse.h"
 #include "error_numbers.h"
+#include "common/wxFlatNotebook.h"
+#include "common/wxAnimate.h"
 #include "BOINCGUIApp.h"
 #include "SkinManager.h"
 #include "MainDocument.h"
 #include "Events.h"
 #include "BOINCBaseFrame.h"
+#include "wizardex.h"
+#include "BOINCWizards.h"
+#include "BOINCBaseWizard.h"
+#include "WizardAttachProject.h"
+#include "WizardAccountManager.h"
+#include "error_numbers.h"
 
 #include "sg_BoincSimpleGUI.h"
-#include "sg_SkinClass.h"
 #include "sg_ImageLoader.h"
 #include "sg_ProjectsComponent.h"
 #include "sg_ClientStateIndicator.h"
@@ -44,18 +51,7 @@
 #include "sg_ViewTabPage.h"
 
 
-#include "wizardex.h"
-#include "BOINCWizards.h"
-#include "BOINCBaseWizard.h"
-#include "WizardAttachProject.h"
-#include "WizardAccountManager.h"
-#include "error_numbers.h"
-#include <string>
-
-#include "res/boinc.xpm"
-
 IMPLEMENT_DYNAMIC_CLASS(CSimpleFrame, CBOINCBaseFrame)
-
 
 BEGIN_EVENT_TABLE(CSimpleFrame, CBOINCBaseFrame)
     EVT_BUTTON(-1,CSimpleFrame::OnBtnClick)
@@ -83,10 +79,6 @@ CSimpleFrame::CSimpleFrame(wxString title, wxIcon* icon) :
     // Initialize Application
     SetIcon(*icon);
 	
-    //init app skin class
-	appSkin = SkinClass::Instance();
-	appSkin->init_skin(skinName);
-
 	projectViewInitialized = false;
 	emptyViewInitialized = false;
 	notebookViewInitialized = false;
@@ -123,7 +115,6 @@ bool CSimpleFrame::RestoreState() {
     wxString        strBaseConfigLocation = wxString(wxT("/"));
     wxASSERT(pConfig);
 
-	skinName = wxT("default");
     // An odd case happens every once and awhile where wxWidgets looses
     //   the pointer to the config object, or it is cleaned up before
     //   the window has finished it's cleanup duty.  If we detect a NULL
@@ -134,7 +125,6 @@ bool CSimpleFrame::RestoreState() {
     // Restore Frame State
     //
     pConfig->SetPath(strBaseConfigLocation);
-    pConfig->Read(wxT("Skin"), &skinName, wxT("default"));
 
 	// Read the last coordinates of the BSG
 	int x = pConfig->Read(wxT("X_Position"), ((wxPoint) wxDefaultPosition).x);
@@ -146,8 +136,8 @@ bool CSimpleFrame::RestoreState() {
 	if ( y < 0 ) y = 0;
 
 	// Read the size of the screen
-	int maxX = wxSystemSettings::GetSystemMetric( wxSYS_SCREEN_X );
-	int maxY = wxSystemSettings::GetSystemMetric( wxSYS_SCREEN_Y );
+	int maxX = wxSystemSettings::GetMetric( wxSYS_SCREEN_X );
+	int maxY = wxSystemSettings::GetMetric( wxSYS_SCREEN_Y );
 
 	// Read the size of the BSG
 	int width, height;
@@ -180,7 +170,6 @@ bool CSimpleFrame::SaveState() {
     // Save Frame State
     //
     pConfig->SetPath(strBaseConfigLocation);
-    pConfig->Write(wxT("Skin"), skinName);
 
 	int x,y;
 	GetPosition(&x, &y);
@@ -342,8 +331,13 @@ void CSimpleFrame::DestroyEmptyView() {
 
 void CSimpleFrame::InitEmptyView()
 {
+    CSkinSimple* pSkinSimple = wxGetApp().GetSkinManager()->GetSimple();
+
+    wxASSERT(pSkinSimple);
+    wxASSERT(wxDynamicCast(pSkinSimple, CSkinSimple));
+
 	//Set Background color
-	SetBackgroundColour(appSkin->GetAppBgCol());
+    SetBackgroundColour(!pSkinSimple->GetBackgroundImage()->GetBackgroundColor());
 
 	// Flex Grid Sizer
 	mainSizer = new wxFlexGridSizer(3,2);
@@ -391,8 +385,13 @@ void CSimpleFrame::InitNotebook()
 ///
 void CSimpleFrame::ReskinAppGUI(){
     wxLogTrace(wxT("Function Start/End"), wxT("CSimpleFrame::ReskinAppGUI - Function Start"));
+    CSkinSimple* pSkinSimple = wxGetApp().GetSkinManager()->GetSimple();
+
+    wxASSERT(pSkinSimple);
+    wxASSERT(wxDynamicCast(pSkinSimple, CSkinSimple));
+
 	//bg color
-	SetBackgroundColour(appSkin->GetAppBgCol());
+	SetBackgroundColour(*pSkinSimple->GetBackgroundImage()->GetBackgroundColor());
 	if(notebookViewInitialized){
 		wrkUnitNB->ReskinAppGUI();
 	} else {
@@ -412,8 +411,13 @@ void CSimpleFrame::OnPageChanged(wxFlatNotebookEvent& WXUNUSED(event))
 //	btnCollapse->Refresh();
 }
 void CSimpleFrame::OnEraseBackground(wxEraseEvent& event){
+    CSkinSimple* pSkinSimple = wxGetApp().GetSkinManager()->GetSimple();
+
+    wxASSERT(pSkinSimple);
+    wxASSERT(wxDynamicCast(pSkinSimple, CSkinSimple));
+
   wxObject *m_wxWin = event.GetEventObject();
-  if(m_wxWin==this){event.Skip(true);DrawBackImg(event,this,appSkin->GetAppBg(),0);return;}
+  if(m_wxWin==this){event.Skip(true);DrawBackImg(event,this,pSkinSimple->GetBackgroundImage()->GetBitmap(),0);return;}
   event.Skip(true);
 }
 void CSimpleFrame::DrawBackImg(wxEraseEvent& event,wxWindow *win,wxBitmap* bitMap,int opz){

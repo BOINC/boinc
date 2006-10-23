@@ -1083,6 +1083,9 @@
 					RelativePath="..\clientgui\common\wxFlatNotebook.h">
 				</File>
 				<File
+					RelativePath="..\clientgui\common\wxFlatNotebookImages.h">
+				</File>
+				<File
 					RelativePath="..\clientgui\common\wxFNBDropTarget.h">
 				</File>
 			</Filter>

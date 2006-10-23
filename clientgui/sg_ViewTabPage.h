@@ -24,12 +24,6 @@
 #pragma interface "sg_ViewTabPage.cpp"
 #endif
 
-#include <vector>
-#include "common/wxFlatNotebook.h"
-#include "BOINCGUIApp.h"
-#include "sg_ImageLoader.h"
-#include "sg_SkinClass.h"
-
 
 class MyCanvas : public wxScrolledWindow
 {
@@ -60,8 +54,6 @@ class CViewTabPage : public wxPanel {
 public:
 	
 	bool isAlive;
-	//Skin Class
-    SkinClass *appSkin;
 	// btns ////////////
 	////////////////////
 	// animation

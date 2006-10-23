@@ -11384,3 +11384,11 @@ David  21 Oct 2006
     sched/
         sched_send.C
         server_types.h
+
+Rom    22 Oct 2006
+    - MGR: CSkinClass is now dead. All references in the simple GUI have been changed
+        to CSkinManager.
+    - Cleaned up a bunch of warnings.
+        
+    clientgui/
+        <*.cpp>

@@ -84,7 +84,7 @@ void wxPieCtrlLegend::SetBackColour(wxColour colour)
 	Refresh();
 }
 
-void wxPieCtrlLegend::OnPaint(wxPaintEvent & event)
+void wxPieCtrlLegend::OnPaint(wxPaintEvent & /*event*/)
 {
 	wxPaintDC pdc(this);
 	
@@ -153,7 +153,7 @@ void wxPieCtrlLegend::SetLabelFont(wxFont font)
 	Refresh();
 }
 
-void wxPieCtrlLegend::OnEraseBackground(wxEraseEvent & event)
+void wxPieCtrlLegend::OnEraseBackground(wxEraseEvent & /*event*/)
 {
 }
 
@@ -197,7 +197,7 @@ void wxPieCtrl::SetBackground(wxBitmap bmp)
 	Refresh();
 }
 
-void wxPieCtrl::OnSize(wxSizeEvent & event)
+void wxPieCtrl::OnSize(wxSizeEvent & /*event*/)
 {
 	RecreateCanvas();	
 	Refresh();
@@ -262,7 +262,7 @@ void wxPieCtrl::SetBackColour(wxColour colour)
 }
 
 #if defined(__WXMSW__) || defined(__WXMAC__)
-void wxPieCtrl::DrawParts(wxMemoryDC & dc, int cx, int cy, int w, int h)
+void wxPieCtrl::DrawParts(wxMemoryDC & dc, int /*cx*/, int cy, int w, int h)
 {
 	if(m_bDrawCircle) {
 		//no angle
@@ -500,13 +500,13 @@ void wxPieCtrl::Draw(wxPaintDC & pdc)
 	m_Legend->RecreateBackground(m_CanvasDC);			
 }
 
-void wxPieCtrl::OnPaint(wxPaintEvent & event)
+void wxPieCtrl::OnPaint(wxPaintEvent & /*event*/)
 {
 	wxPaintDC pdc(this);	
 	Draw(pdc);	
 }
 
-void wxPieCtrl::OnEraseBackground(wxEraseEvent & event)
+void wxPieCtrl::OnEraseBackground(wxEraseEvent & /*event*/)
 {
 }
 

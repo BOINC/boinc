@@ -28,10 +28,13 @@
 #include "miofile.h"
 #include "parse.h"
 #include "error_numbers.h"
+#include "common/wxFlatNotebook.h"
+#include "common/wxAnimate.h"
 #include "BOINCGUIApp.h"
 #include "SkinManager.h"
 #include "MainDocument.h"
-#include "sg_ImageButton.h" 
+#include "sg_ImageButton.h"
+#include "sg_ImageLoader.h"
 #include "sg_ViewTabPage.h"
 
 BEGIN_EVENT_TABLE(CImageButton, wxPanel) 

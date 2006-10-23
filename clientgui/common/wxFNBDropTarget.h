@@ -63,7 +63,7 @@ public:
 	\param y - Y-coordinate
 	\param def - Result of drag-n-drop operation
 	*/
-    virtual wxDragResult OnData(wxCoord x, wxCoord y, wxDragResult def)
+    virtual wxDragResult OnData(wxCoord x, wxCoord y, wxDragResult /*def*/)
 	{		
 		GetData();
 		wxFNBDragInfo * draginfo = (wxFNBDragInfo *)m_DataObject->GetData();

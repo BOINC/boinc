@@ -24,7 +24,6 @@
 #pragma interface "sg_StatImageLoader.cpp"
 #endif
 
-#include "sg_SkinClass.h"
 
 class StatImageLoader : public wxWindow 
 { 
@@ -32,7 +31,6 @@ public:
 	    //members
         wxMenu *statPopUpMenu;
         //Skin Class
-        SkinClass *appSkin;
 		std::string m_prjUrl;
 	    /// Constructors
 		StatImageLoader(wxWindow* parent, std::string url); 

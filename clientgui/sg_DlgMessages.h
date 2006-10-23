@@ -27,15 +27,12 @@
 
 #define DEFAULT_LIST_MULTI_SEL_FLAGS   wxLC_REPORT | wxLC_VIRTUAL
 
-class SkinClass;
 class CSGUIListCtrl;
 
 class CDlgMessages:public wxDialog
 {
 public:
-	CDlgMessages(wxWindow* parent, wxString dirPref,wxWindowID id = -1, const wxString& title = wxT(""), const wxPoint& pos = wxDefaultPosition, const wxSize& size = wxDefaultSize, long style = wxDEFAULT_DIALOG_STYLE, const wxString& name = wxT("dialogBox"));
-	//Skin Class
-	SkinClass *appSkin;
+	CDlgMessages(wxWindow* parent, wxWindowID id = -1 , const wxString& title = wxT(""), const wxPoint& pos = wxDefaultPosition, const wxSize& size = wxDefaultSize, long style = wxDEFAULT_DIALOG_STYLE, const wxString& name = wxT("dialogBox"));
 	//btns
 	wxBitmap* btmpClose; 
 	wxBitmap* btmpCloseClick; 
@@ -72,7 +69,6 @@ protected:
     wxInt32                 FormatTime( wxInt32 item, wxString& strBuffer ) const;
     wxInt32                 FormatMessage( wxInt32 item, wxString& strBuffer ) const;
 
-	wxString m_SkinDirPrefix;
 	void OnEraseBackground(wxEraseEvent& event);
 	void OnBtnClick(wxCommandEvent& event);
 	void VwXEvOnEraseBackground(wxEraseEvent& event);

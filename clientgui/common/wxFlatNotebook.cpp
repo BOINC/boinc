@@ -15,8 +15,8 @@
 #endif
 
 #include "stdwx.h"
-#include "sg_SkinClass.h"
 #include "common/wxFlatNotebook.h"
+#include "common/wxFlatNotebookImages.h"
 
 
 IMPLEMENT_DYNAMIC_CLASS(wxFlatNotebookEvent, wxNotifyEvent)
@@ -512,9 +512,15 @@ void wxFlatNotebookBase::SetGradientColorBorder(const wxColour& border)
 {
 	m_pages->m_colorBorder = border;
 }
+
 void wxFlatNotebookBase::SetUseBackground(bool useBg)
 {
 	m_pages->SetUseBackground(useBg);
+}
+
+void wxFlatNotebookBase::SetTabAreaBackgroundImage(wxBitmap* pTabAreaBackgroundImage)
+{
+	m_pages->SetTabAreaBackgroundImage(pTabAreaBackgroundImage);
 }
 
 /// Gets first gradient colour
@@ -646,13 +652,6 @@ wxPageContainerBase::wxPageContainerBase(wxWindow* parent, wxWindowID id, const 
 	m_tabBorderWidth = 1;
 }
 
-void wxPageContainerBase::LoadBgImage()
-{
-	//app skin class
-	appSkin = SkinClass::Instance();
-	m_tabAreaBG = appSkin->GetTabAreaBg();
-}
-
 int wxPageContainerBase::GetButtonAreaWidth(void)
 {
 	int btnareawidth;
@@ -730,15 +729,17 @@ void wxPageContainerBase::OnPaint(wxPaintEvent &event)
 		dc.SetPen(borderPen);
 	else
 		dc.SetPen(*wxTRANSPARENT_PEN);
-	///////////////////////////////////////////////////////////////////////////////
-	if(!m_useBg){
+
+    ///////////////////////////////////////////////////////////////////////////////
+
+    if (!m_useBg) {
         dc.DrawRectangle(0, 0, size.x, size.y); // draws background around the tabs
-	}else{
-		if(m_tabAreaBG->Ok()) 
-		{ 
-			dc.DrawBitmap(*m_tabAreaBG, 0, 0); 
+	} else {
+		if(m_TabAreaBackgroundImage.Ok()) { 
+			dc.DrawBitmap(m_TabAreaBackgroundImage, 0, 0); 
 		}
 	}
+
     ///////////////////////////////////////////////////////////////////////////////
 
 	// We always draw the bottom/upper line of the tabs
@@ -941,7 +942,7 @@ void wxPageContainerBase::OnPaint(wxPaintEvent &event)
 void wxPageContainerBase::DrawFancyTab(wxBufferedPaintDC& dc,
 								   const int& posx, 
 								   const int &tabIdx, 
-								   const bool &hasImage, 
+								   const bool & /*hasImage*/, 
 								   const int &tabWidth, 
 								   const int &tabHeight)
 {
@@ -989,7 +990,7 @@ void wxPageContainerBase::DrawFancyTab(wxBufferedPaintDC& dc,
 void wxPageContainerBase::DrawVC71Tab(wxBufferedPaintDC& dc, 
 								  const int& posx, 
 								  const int &tabIdx, 
-								  const bool &hasImage, 
+								  const bool &/*hasImage*/, 
 								  const int &tabWidth, 
 								  const int &tabHeight)
 {
@@ -1038,7 +1039,7 @@ void wxPageContainerBase::DrawVC71Tab(wxBufferedPaintDC& dc,
 void wxPageContainerBase::DrawStandardTab(wxBufferedPaintDC& dc, 
 									  const int& posx, 
 									  const int &tabIdx, 
-									  const bool &hasImage, 
+									  const bool &/*hasImage*/, 
 									  const int &tabWidth, 
 									  const int &tabHeight)
 {
@@ -2022,11 +2023,13 @@ void wxPageContainerBase::SetPageImageIndex(size_t page, int imgindex)
 void wxPageContainerBase::SetUseBackground(bool useBg)
 {
 	m_useBg = useBg;
-	if(m_useBg){
-		LoadBgImage();	
-	}
-	
 }
+
+void wxPageContainerBase::SetTabAreaBackgroundImage(wxBitmap* pTabAreaBackgroundImage)
+{
+	m_TabAreaBackgroundImage = wxBitmap(*pTabAreaBackgroundImage);
+}
+
 int wxPageContainerBase::GetPageImageIndex(size_t page)
 {
 	if(page < m_pagesInfoVec.size())

@@ -25,10 +25,6 @@
 #pragma interface "sg_DlgPreferences.cpp"
 #endif
 
-#include <wx/dir.h> 
-#include "sg_StaticLine.h"
-
-class SkinClass;
 
 class DirTraverserSkins : public wxDirTraverser
 {
@@ -45,9 +41,7 @@ private:
 class CDlgPreferences:public wxDialog
 {
 public:
- CDlgPreferences(wxWindow* parent, wxString dirPref,wxWindowID id = -1, const wxString& title = wxT(""), const wxPoint& pos = wxDefaultPosition, const wxSize& size = wxDefaultSize, long style = wxDEFAULT_DIALOG_STYLE, const wxString& name = wxT("dialogBox"));
-	//Skin Class
-	SkinClass *appSkin;
+    CDlgPreferences(wxWindow* parent, wxWindowID id = -1, const wxString& title = wxT(""), const wxPoint& pos = wxDefaultPosition, const wxSize& size = wxDefaultSize, long style = wxDEFAULT_DIALOG_STYLE, const wxString& name = wxT("dialogBox"));
 
 	wxBitmapButton *btnSave;
 	wxBitmapButton *btnSaveSkin;
@@ -95,7 +89,6 @@ protected:
 	wxString m_SkinName;
 	wxString m_PrefIndicator;
 	wxArrayString m_skinNames;
-	wxString m_SkinDirPrefix;
 	GLOBAL_PREFS m_prefs;
 	void OnEraseBackground(wxEraseEvent& event);
 	void OnBtnClick(wxCommandEvent& event);

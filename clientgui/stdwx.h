@@ -100,6 +100,7 @@
 #include <wx/gifdecod.h>
 #include <wx/xml/xml.h>
 #include <wx/tokenzr.h>
+#include <wx/dir.h>
 
 #ifdef _WIN32
 

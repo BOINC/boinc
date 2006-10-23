@@ -24,15 +24,12 @@
 #pragma interface "sg_ClientStateIndicator.cpp"
 #endif
 
-#include "time.h"
 
 class ImageLoader;
 
 class ClientStateIndicator : public wxPanel{ 
 	DECLARE_DYNAMIC_CLASS( ClientStateIndicator )
 public: 
-	    //Skin Class
-        SkinClass *appSkin;
 		int connIndicatorWidth;
 		int connIndicatorHeight;
 		double numOfIndic;
