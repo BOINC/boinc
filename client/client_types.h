@@ -192,6 +192,8 @@ public:
     double host_total_credit;
     double host_expavg_credit;
     double host_create_time;
+    double ams_resource_share;
+        // resource share according to AMS; overrides project
 
     // stuff related to scheduler RPCs and master fetch
     //

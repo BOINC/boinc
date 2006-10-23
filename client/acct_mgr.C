@@ -44,7 +44,7 @@ ACCT_MGR_OP::ACCT_MGR_OP() {
 }
 
 // do an account manager RPC;
-// if url is null, detach from current account manager
+// if url is null, defect from current account manager
 //
 int ACCT_MGR_OP::do_rpc(
     std::string url, std::string name, std::string password_hash,
@@ -64,6 +64,8 @@ int ACCT_MGR_OP::do_rpc(
         global_prefs_xml = 0;
     }
 
+    // if null URL, defect from current AMS
+    //
     if (!strlen(buf) && strlen(gstate.acct_mgr_info.acct_mgr_url)) {
         msg_printf(NULL, MSG_INFO, "Removing account manager info");
         gstate.acct_mgr_info.clear();
@@ -73,6 +75,7 @@ int ACCT_MGR_OP::do_rpc(
         for (i=0; i<gstate.projects.size(); i++) {
             PROJECT* p = gstate.projects[i];
             p->attached_via_acct_mgr = false;
+            p->ams_resource_share = 0;
         }
         return 0;
     }
@@ -193,6 +196,7 @@ int AM_ACCOUNT::parse(XML_PARSER& xp) {
     url = "";
     strcpy(url_signature, "");
     authenticator = "";
+    resource_share = 0;
 
     while (!xp.get(tag, sizeof(tag), is_tag)) {
 		if (!is_tag) {
@@ -215,6 +219,7 @@ int AM_ACCOUNT::parse(XML_PARSER& xp) {
         if (xp.parse_string(tag, "authenticator", authenticator)) continue;
         if (xp.parse_bool(tag, "detach", detach)) continue;
         if (xp.parse_bool(tag, "update", update)) continue;
+        if (xp.parse_double(tag, "resource_share", resource_share)) continue;
     }
     return ERR_XML_PARSE;
 }
@@ -379,6 +384,10 @@ void ACCT_MGR_OP::handle_reply(int http_op_retval) {
                         if (acct.update) {
                             pp->sched_rpc_pending = RPC_REASON_ACCT_MGR_REQ;
                             pp->min_rpc_time = 0;
+                        }
+                        if (acct.resource_share) {
+                            pp->ams_resource_share = acct.resource_share;
+                            pp->resource_share = pp->ams_resource_share;
                         }
                     }
                 }

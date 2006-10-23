@@ -11412,3 +11412,14 @@ David  22 Oct 2006
     sched/
         sched_config.C,h
         sched_send.C
+
+David  23 Oct 2006
+    - core client: AMS replies can include <resource_share>
+        elements in <account> elements.
+        These override the resource shares reported by projects.
+        Account managers can thus provide host-level control of resource share.
+
+    client/
+        acct_mgr.C,h
+        client_state.C
+        client_types.C,h

@@ -66,6 +66,7 @@ void PROJECT::init() {
     user_total_credit = 0;
     user_expavg_credit = 0;
     user_create_time = 0;
+    ams_resource_share = 0;
     rpc_seqno = 0;
     hostid = 0;
     host_total_credit = 0;
@@ -174,6 +175,7 @@ int PROJECT::parse_state(MIOFILE& in) {
         else if (parse_double(buf, "<resource_share>", x)) continue;    // not authoritative
         else if (parse_double(buf, "<duration_correction_factor>", duration_correction_factor)) continue;
         else if (match_tag(buf, "<attached_via_acct_mgr/>")) attached_via_acct_mgr = true;
+        else if (parse_double(buf, "<ams_resource_share>", ams_resource_share)) continue;
         else {
             if (log_flags.unparsed_xml) {
                 msg_printf(0, MSG_ERROR,
@@ -259,6 +261,11 @@ int PROJECT::write_state(MIOFILE& out, bool gui_rpc) {
         attached_via_acct_mgr?"    <attached_via_acct_mgr/>\n":"",
         (this == gstate.scheduler_op->cur_proj)?"   <scheduler_rpc_in_progress/>\n":""
     );
+    if (ams_resource_share) {
+        out.printf("    <ams_resource_share>%f</ams_resource_share>\n",
+            ams_resource_share
+        );
+    }
     if (gui_rpc) {
         out.printf("%s", gui_urls.c_str());
         out.printf(
@@ -322,6 +329,10 @@ void PROJECT::copy_state_fields(PROJECT& p) {
     dont_request_more_work = p.dont_request_more_work;
     attached_via_acct_mgr = p.attached_via_acct_mgr;
     duration_correction_factor = p.duration_correction_factor;
+    ams_resource_share = p.ams_resource_share;
+    if (ams_resource_share) {
+        resource_share = ams_resource_share;
+    }
 }
 
 // Write project statistic to project statistics file

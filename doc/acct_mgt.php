@@ -322,6 +322,10 @@ list_item("action",
     <dt>update
     <dd>If present, the client should contact this project
         to get new global preferences.
+    <dt>resource_share
+    <dd>Specifies a resource share for this project.
+        If present, this overrides the resource share reported by the project.
+        Thus, account managers can provide per-host control of resource share.
     </dl>
     NOTE: the XML must be as above, with the &lt;url>
     and &lt;authenticator> elements on a single line,

@@ -67,6 +67,7 @@ struct AM_ACCOUNT {
     char url_signature[MAX_SIGNATURE_LEN];
     bool detach;
     bool update;
+    double resource_share;
 
     int parse(XML_PARSER&);
     AM_ACCOUNT() {}
