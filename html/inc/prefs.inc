@@ -138,13 +138,13 @@ function get_disk_space_config() {
         if (!$disk_prefs->disk_max_used_gb) $disk_prefs->disk_max_used_gb = 100;  // 100 gb
         if (!$disk_prefs->disk_max_used_pct) $disk_prefs->disk_max_used_pct = 50; // 50 percent
         if (!$disk_prefs->disk_min_free_gb) $disk_prefs->disk_min_free_gb=.001;   // 1 megabyte
-	// set mininimum free space scheduler allows 
-	// - depends on which scheduler is running
+        // set mininimum free space scheduler allows 
+        // - depends on which scheduler is running
         $disk_prefs->new_sched_flag = 1;
         $disk_prefs->sched_disk_min_free_gb = $disk_prefs->disk_min_free_gb;
         if (parse_config($config, "scheduler_disk_space_check_hardcoded>")) {
-	  $disk_prefs->new_sched_flag = 0;
-          $disk_prefs->sched_disl_min_free_gb = 0;
+            $disk_prefs->new_sched_flag = 0;
+            $disk_prefs->sched_disk_min_free_gb = 0;
         }    
     }
        
@@ -480,24 +480,24 @@ function hour_range($venue, $type) {
         $s_hour = $venue->net_start_hour;
         $e_hour = $venue->net_end_hour;
     }
-	if ($s_hour == $e_hour) {
+    if ($s_hour == $e_hour) {
         $x = "(no restriction)";
     } else {
         $s = hour_str($s_hour);
         $e = hour_str($e_hour);
         $x = "$s<br>to $e";
     }
-	return $x;
+    return $x;
 }
 
 //
 // row_defs - Display a value for all 4 venues in one row
 //
 function row_defs($pre, $item, $post, $type, $prefs) {
-	$gen = $prefs->$item;
-	$hom  = isset($prefs->home) ? $prefs->home->$item : "--";
-	$schl = isset($prefs->school) ? $prefs->school->$item : "--";
-	$wrk  = isset($prefs->work) ? $prefs->work->$item : "--";
+    $gen = $prefs->$item;
+    $hom  = isset($prefs->home) ? $prefs->home->$item : "--";
+    $schl = isset($prefs->school) ? $prefs->school->$item : "--";
+    $wrk  = isset($prefs->work) ? $prefs->work->$item : "--";
 
     echo "<tr><td class=fieldname>$pre</td>";
     row_field($gen,  $type);
@@ -511,10 +511,10 @@ function row_defs($pre, $item, $post, $type, $prefs) {
 // row_hours - Display start & end hours for all venues in 1 row
 //
 function row_hours($pre, $type, $global_prefs) {
-	$gen = hour_range($global_prefs, $type);
-	$hom  = isset($global_prefs->home)   ? hour_range($global_prefs->home, $type)   : "--";
-	$schl = isset($global_prefs->school) ? hour_range($global_prefs->school, $type) : "--";
-	$wrk  = isset($global_prefs->work)   ? hour_range($global_prefs->work, $type)   : "--";
+    $gen = hour_range($global_prefs, $type);
+    $hom  = isset($global_prefs->home)   ? hour_range($global_prefs->home, $type)   : "--";
+    $schl = isset($global_prefs->school) ? hour_range($global_prefs->school, $type) : "--";
+    $wrk  = isset($global_prefs->work)   ? hour_range($global_prefs->work, $type)   : "--";
 
     echo "<tr><td class=fieldname>$pre</td>";
     row_field($gen,  "");
@@ -530,38 +530,38 @@ function row_hours($pre, $type, $global_prefs) {
 function row_field($value, $type) {
     echo "<td class=f_val>";
     $type = $value === "--" ? "--" : $type;
-    	switch($type) {
-		case "yesno":
-		    echo $value ?"yes":"no";
-			break;
-		case "limit":
-		    $x = max_bytes_display_mode($value);
-		    $y = "$x " . BYTE_ABBR;
-		    echo $x ? "$y" : "no limit";
-		    break;
-		case "--";
-		default:
-			echo $value;
-			break;
-		}
-	echo "</td>";
+    switch($type) {
+    case "yesno":
+        echo $value ?"yes":"no";
+        break;
+    case "limit":
+        $x = max_bytes_display_mode($value);
+        $y = "$x " . BYTE_ABBR;
+        echo $x ? "$y" : "no limit";
+        break;
+    case "--";
+    default:
+        echo $value;
+        break;
+    }
+    echo "</td>";
 }
 
 //
 // row_links - Display Edit/Add/Remove links for all venues in 1 row
 //
 function row_links($subset, $prefs) {
-	$pre_add  = "<a href=add_venue.php?venue=";
-	$pre_edit  = "<a href=prefs_edit.php?venue=";
-	$pre_remove = "<a href=prefs_remove.php?venue=";
-	$post_add = "&subset=$subset&cols=1>Add</a>";
-	$post_edit = "&subset=$subset&cols=1>Edit</a>";
-	$post_remove = "&subset=$subset&cols=1>Remove</a>";
-	$gen = "<a href=prefs_edit.php?subset=$subset&cols=1>Edit</a>";
+    $pre_add  = "<a href=add_venue.php?venue=";
+    $pre_edit  = "<a href=prefs_edit.php?venue=";
+    $pre_remove = "<a href=prefs_remove.php?venue=";
+    $post_add = "&subset=$subset&cols=1>Add</a>";
+    $post_edit = "&subset=$subset&cols=1>Edit</a>";
+    $post_remove = "&subset=$subset&cols=1>Remove</a>";
+    $gen = "<a href=prefs_edit.php?subset=$subset&cols=1>Edit</a>";
 
-	$hom  = isset($prefs->home) ? $pre_edit."home".$post_edit : $pre_add."home".$post_add;
-	$schl = isset($prefs->school) ? $pre_edit."school".$post_edit : $pre_add."school".$post_add;
-	$wrk  = isset($prefs->work) ? $pre_edit."work".$post_edit : $pre_add."work".$post_add;
+    $hom  = isset($prefs->home) ? $pre_edit."home".$post_edit : $pre_add."home".$post_add;
+    $schl = isset($prefs->school) ? $pre_edit."school".$post_edit : $pre_add."school".$post_add;
+    $wrk  = isset($prefs->work) ? $pre_edit."work".$post_edit : $pre_add."work".$post_add;
 
     echo "<tr><td class=fieldname> </td>";
     echo "<td>$gen</td>";
@@ -571,8 +571,8 @@ function row_links($subset, $prefs) {
     echo "<td><br></td></tr>\n";
 
     $hom  = isset($prefs->home) ? $pre_remove."home".$post_remove : "<br>";
-	$schl = isset($prefs->school) ? $pre_remove."school".$post_remove : "<br>";
-	$wrk  = isset($prefs->work) ? $pre_remove."work".$post_remove : "<br>";
+    $schl = isset($prefs->school) ? $pre_remove."school".$post_remove : "<br>";
+    $wrk  = isset($prefs->work) ? $pre_remove."work".$post_remove : "<br>";
 
     echo "<tr><td class=fieldname> </td>";
     echo "<td> </td>";
@@ -617,7 +617,7 @@ function prefs_show_columns_global($prefs) {
     row_hours(NET_START_END_DESC, "net", $prefs);
     row_defs(DONT_VERIFY_IMAGES_DESC, "dont_verify_images", "", "yesno", $prefs);
 
-	row_links("global", $prefs);
+    row_links("global", $prefs);
 }
 
 function prefs_show_global($prefs) {
@@ -644,9 +644,9 @@ function prefs_show_global($prefs) {
 
     $dp = get_disk_space_config();
 
-    $msg=null;
+    $msg = null;
     if ($dp->new_sched_flag) {
-      $msg = DISK_SCHED_MIN_FREE_DESC1.$dp->sched_disk_min_free_gb.DISK_SCHED_MIN_FREE_DESC2;
+        $msg = DISK_SCHED_MIN_FREE_DESC1.$dp->sched_disk_min_free_gb.DISK_SCHED_MIN_FREE_DESC2;
     }
     row2(DISK_MIN_FREE_GB_DESC.$msg, "$prefs->disk_min_free_gb GB disk space free");
     row2(USE_AT_MOST, "$prefs->disk_max_used_pct".DISK_MAX_USED_PCT_DESC2);
@@ -677,8 +677,9 @@ function prefs_show_global($prefs) {
 
 function prefs_show_resource($prefs, $columns=false) {
     $x = "Resource share<br>
-        <font size=-2>If you participate in multiple BOINC projects, this is the proportion of your resources used by ".PROJECT."</font>";
-    if ($columns == true) {
+        <font size=-2>If you participate in multiple BOINC projects,
+        this is the proportion of your resources used by ".PROJECT."</font>";
+    if ($columns) {
         row_defs($x, "resource_share", "", "" ,$prefs);
     } else {
         row2($x, $prefs->resource_share);
@@ -698,7 +699,7 @@ function prefs_show_privacy($user) {
 }
 
 function prefs_show_project($prefs, $columns=false) {
-    if ($columns == true) {
+    if ($columns) {
     $project_specific_prefs = project_specific_prefs_parse($prefs->project_specific);
         $project_specific_prefs->home = isset($prefs->home) ? project_specific_prefs_parse($prefs->home->project_specific) : "";
         $project_specific_prefs->work = isset($prefs->work) ? project_specific_prefs_parse($prefs->work->project_specific) : "";
@@ -742,7 +743,7 @@ function print_prefs_display_project($user, $columns=false) {
 
     start_table();
     $switch_link = " <font size=\"-2\"><a href=prefs.php?subset=project&cols=". (int)!$columns .">(Switch View)</a></font>";
-    if ($columns == true) {
+    if ($columns) {
         row1("Combined preferences".$switch_link, 2, "heading2");
         echo "<tr><td colspan=2>";
         start_table("width=100% border=4");
@@ -757,19 +758,19 @@ function print_prefs_display_project($user, $columns=false) {
     } else {
         if (isset($project_prefs->home) || isset($project_prefs->work) || isset($project_prefs->school)) {
             row1("Primary (default) preferences".$switch_link, 2, "heading2");
-    }
-    echo "<tr><td colspan=2>";
-    start_table("width=100% border=4");
+        }
+        echo "<tr><td colspan=2>";
+        start_table("width=100% border=4");
         prefs_show_resource($project_prefs, false);
-    prefs_show_privacy($user);
-    venue_show($user);
+        prefs_show_privacy($user);
+        venue_show($user);
         prefs_show_project($project_prefs, false);
         row2("", "<a href=prefs_edit.php?subset=project>Edit ".PROJECT." preferences</a>");
-    end_table();
-    echo "</td></tr>\n";
-    prefs_display_venue($project_prefs, "home", "project");
-    prefs_display_venue($project_prefs, "school", "project");
-    prefs_display_venue($project_prefs, "work", "project");
+        end_table();
+        echo "</td></tr>\n";
+        prefs_display_venue($project_prefs, "home", "project");
+        prefs_display_venue($project_prefs, "school", "project");
+        prefs_display_venue($project_prefs, "work", "project");
     }
     end_table();
 }
@@ -789,7 +790,7 @@ function print_prefs_display_global($user, $columns=false) {
     ";
     $switch_link = " <font size=\"-2\"><a href=prefs.php?subset=global&cols=". (int)!$columns .">(Switch View)</a></font>";
     start_table();
-    if ($columns == true) {
+    if ($columns) {
         row1("Combined preferences".$switch_link, 2, "heading2");
         echo "<tr><td colspan=2>";
         start_table("width=100% border=4");
@@ -800,17 +801,17 @@ function print_prefs_display_global($user, $columns=false) {
     } else {
         if (isset($global_prefs->home) || isset($global_prefs->work) || isset($global_prefs->school)) {
             row1("Primary (default) preferences".$switch_link, 2, "heading2");
-    }
-    echo "<tr><td colspan=2>";
-    start_table("width=100% border=4");
-    prefs_show_global($global_prefs);
+        }
+        echo "<tr><td colspan=2>";
+        start_table("width=100% border=4");
+        prefs_show_global($global_prefs);
         row2("<br>", "<a href=prefs_edit.php?subset=global>Edit preferences</a>");
-    end_table();
-    echo "</td></tr>\n";
+        end_table();
+        echo "</td></tr>\n";
 
-    prefs_display_venue($global_prefs, "home", "global");
-    prefs_display_venue($global_prefs, "school", "global");
-    prefs_display_venue($global_prefs, "work", "global");
+        prefs_display_venue($global_prefs, "home", "global");
+        prefs_display_venue($global_prefs, "school", "global");
+        prefs_display_venue($global_prefs, "work", "global");
     }
     end_table();
 }
@@ -835,8 +836,8 @@ function print_prefs_form($action, $subset, $venue, $user, $prefs, $cols, $error
         $script = "prefs_edit.php";
         $submit_value = "Update preferences";
     }
-    echo "<form action=$script>
-    <input type=hidden name=subset value=$subset>\n";
+    echo "<form action=$script><input type=hidden name=subset value=$subset>
+    ";
     if ($venue) {
         echo "<input type=hidden name=venue value=$venue>\n";
     }
@@ -911,13 +912,15 @@ function prefs_form_global($user, $prefs, $error=false) {
     if (isset($error->max_cpus)) $show_error= true;
     row2(MAX_CPUS_DESC,
         "<input size=4 name=max_cpus value=$prefs->max_cpus> ".MAX_CPUS_DESC2,
-        $show_error);
+        $show_error
+    );
 
     $show_error = false;
     if (isset($error->cpu_usage_limit)) $show_error= true;
     row2(USE_AT_MOST2,
         "<input size=4 name=cpu_usage_limit value=$prefs->cpu_usage_limit> ".CPU_USAGE_LIMIT_DESC2,
-        $show_error);
+        $show_error
+    );
 
     row1(DISK_LIMIT_DESC);
 
@@ -925,50 +928,57 @@ function prefs_form_global($user, $prefs, $error=false) {
     if (isset($error->disk_max_used_gb)) $show_error= true;
     row2(USE_AT_MOST,
         "<input size=7 name=disk_max_used_gb value='$prefs->disk_max_used_gb'> Gbytes",
-        $show_error);
+        $show_error
+    );
 
     $dp = get_disk_space_config();
 
     $msg=null;
     if ($dp->new_sched_flag) {
-      $msg = DISK_SCHED_MIN_FREE_DESC1.$dp->sched_disk_min_free_gb.DISK_SCHED_MIN_FREE_DESC2;
+        $msg = DISK_SCHED_MIN_FREE_DESC1.$dp->sched_disk_min_free_gb.DISK_SCHED_MIN_FREE_DESC2;
     } 
 
     $show_error = false;
     if (isset($error->disk_min_free_gb)) $show_error= true;
     row2(DISK_MIN_FREE_GB_DESC.$msg,
         "<input size=7 name=disk_min_free_gb value='$prefs->disk_min_free_gb'> Gbytes free",
-        $show_error);
+        $show_error
+    );
 
     $show_error = false;
     if (isset($error->disk_max_used_pct)) $show_error= true;
     row2(USE_AT_MOST,
         "<input size=5 name=disk_max_used_pct value='$prefs->disk_max_used_pct'> ".DISK_MAX_USED_PCT_DESC2,
-        $show_error);
+        $show_error
+    );
 
     $show_error = false;
     if (isset($error->disk_interval)) $show_error= true;
     row2(DISK_INTERVAL_DESC,
         "<input size=6 name=disk_interval value=$prefs->disk_interval> seconds",
-        $show_error);
+        $show_error
+    );
 
     $show_error = false;
     if (isset($error->vm_max_used_pct)) $show_error= true;
     row2(USE_AT_MOST,
         "<input size=5 name=vm_max_used_pct value='$prefs->vm_max_used_pct'> ".VM_MAX_USED_PCT_DESC2,
-        $show_error);
+        $show_error
+    );
 
     $show_error = false;
     if (isset($error->ram_max_used_busy_pct)) $show_error= true;
     row2(USE_AT_MOST,
         "<input size=5 name=ram_max_used_busy_pct value='$prefs->ram_max_used_busy_pct'> ".RAM_MAX_USED_BUSY_PCT_DESC2,
-        $show_error);
+        $show_error
+    );
 
     $show_error = false;
     if (isset($error->ram_max_used_idle_pct)) $show_error= true;
     row2(USE_AT_MOST,
         "<input size=5 name=ram_max_used_idle_pct value='$prefs->ram_max_used_idle_pct'> ".RAM_MAX_USED_IDLE_PCT_DESC2,
-        $show_error);
+        $show_error
+    );
 
     row1(NETWORK_LIMIT_DESC);
     $x = WORK_BUF_DESC;
@@ -1004,13 +1014,15 @@ function prefs_form_global($user, $prefs, $error=false) {
     if (isset($error->max_bytes_sec_down)) $show_error= true;
     row2(MAX_BYTES_SEC_DOWN_DESC,
         "<input size=7 name=max_bytes_sec_down value='$dt'> " . BYTE_UNITS,
-        $show_error);
+        $show_error
+    );
 
     $show_error = false;
     if (isset($error->max_bytes_sec_up)) $show_error= true;
     row2(MAX_BYTES_SEC_UP_DESC,
         "<input size=7 name=max_bytes_sec_up value='$ut'> " . BYTE_UNITS,
-        $show_error);
+        $show_error
+    );
 
     $x = NET_START_END_DESC.START_END_DESC2;
     $y = hour_select($prefs->net_start_hour, "net_start_hour")."and".hour_select($prefs->net_end_hour, "net_end_hour");

@@ -172,7 +172,6 @@ PROJECT* CLIENT_STATE::next_project_trickle_up_pending() {
 //
 PROJECT* CLIENT_STATE::next_project_need_work() {
     PROJECT *p, *p_prospect = NULL;
-    double work_on_prospect=0;
     unsigned int i;
     double prrs = potentially_runnable_resource_share();
 
@@ -195,7 +194,6 @@ PROJECT* CLIENT_STATE::next_project_need_work() {
             }
         }
 
-        double work_on_current = time_until_work_done (p, 0, prrs);
         if (p_prospect) {
             if (p->work_request_urgency == WORK_FETCH_OK && 
                 p_prospect->work_request_urgency > WORK_FETCH_OK
@@ -203,7 +201,7 @@ PROJECT* CLIENT_STATE::next_project_need_work() {
                 continue;
             }
 
-            if (p->long_term_debt - work_on_current < p_prospect->long_term_debt - work_on_prospect
+            if (p->long_term_debt - p->cpu_shortfall < p_prospect->long_term_debt - p_prospect->cpu_shortfall
                 && !p->non_cpu_intensive
             ) {
                 continue;
@@ -211,7 +209,6 @@ PROJECT* CLIENT_STATE::next_project_need_work() {
         }
 
         p_prospect = p;
-        work_on_prospect = work_on_current;
     }
     if (p_prospect && (p_prospect->work_request <= 0)) {
         p_prospect->work_request = 1.0;
@@ -645,7 +642,6 @@ bool CLIENT_STATE::compute_work_requests() {
     //
     double prrs = potentially_runnable_resource_share();
     PROJECT *pbest = NULL;
-    double best_work = 0;
     for (i=0; i<projects.size(); i++) {
         PROJECT *p = projects[i];
 
@@ -683,7 +679,6 @@ bool CLIENT_STATE::compute_work_requests() {
 
         // see if this project is better than our current best
         //
-        double prospect_work = time_until_work_done(p, 0, prrs);
         if (pbest) {
             // avoid getting work from a project in deadline trouble
             //
@@ -709,7 +704,7 @@ bool CLIENT_STATE::compute_work_requests() {
             }
             // get work from project with highest LTD
             //
-            if (pbest->long_term_debt - best_work > p->long_term_debt - prospect_work) {
+            if (pbest->long_term_debt - pbest->cpu_shortfall > p->long_term_debt - p->cpu_shortfall) {
                 if (log_flags.work_fetch_debug) {
                     msg_printf(p, MSG_INFO,
                         "[work_fetch_debug] project has less LTD than %s",
@@ -720,7 +715,6 @@ bool CLIENT_STATE::compute_work_requests() {
             }
         }
         pbest = p;
-        best_work = prospect_work;
         if (log_flags.work_fetch_debug) {
             msg_printf(pbest, MSG_INFO, "[work_fetch_debug] best project so far");
         }
@@ -732,7 +726,7 @@ bool CLIENT_STATE::compute_work_requests() {
             cpu_shortfall * (prrs ? pbest->resource_share/prrs : 1)
         );
         
-        if (!best_work) {
+        if (!pbest->nearly_runnable()) {
             pbest->work_request_urgency = WORK_FETCH_NEED_IMMEDIATELY;
         } else if (pbest->cpu_shortfall) {
             pbest->work_request_urgency = WORK_FETCH_NEED;

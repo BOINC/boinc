@@ -11441,3 +11441,12 @@ David  23 Oct 2006
 		http_curl.C
 	win_build/
 		boincmgr_curl.vcproj
+
+David  24 Oct 2006
+    - core client: use CPU shortfall instead of time_until_work_done()
+        in a couple of places; should slightly improve work fetch
+
+    client/
+        cs_scheduler.C
+    html/inc/
+        prefs.inc
