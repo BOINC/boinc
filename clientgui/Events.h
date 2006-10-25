@@ -53,6 +53,14 @@
 #define ID_ACTIVITYMENUSEPARATOR                6035
 #define ID_FILECLOSEWINDOW                      6036
 #define ID_SIMPLEFRAME                          6100
+#define ID_SIMPLEMESSAGECHECKTIMER              6101
+#define ID_SIMPLE_MESSAGES                      6500
+#define ID_SIMPLE_MESSAGES_ALERT                6501
+#define ID_SIMPLE_SUSPEND                       6502
+#define ID_SIMPLE_RESUME                        6503
+#define ID_SIMPLE_PREFERENCES                   6504
+#define ID_SIMPLE_MESSAGESVIEW                  6505
+
 #define ID_TB_TIMER                             6800
 #define ID_TB_SUSPEND                           6801
 #define ID_LIST_BASE                            7000
@@ -70,7 +78,6 @@
 #define ID_TASK_MESSAGESVIEW                    8003
 #define ID_TASK_STATISTICSVIEW                  8004
 #define ID_TASK_RESOURCEUTILIZATIONVIEW         8005
-#define ID_TASK_MESSAGESVIEW_SGUI               8006
 #define ID_TASK_PROJECT_UPDATE                  9000
 #define ID_TASK_PROJECT_SUSPEND                 9002
 #define ID_TASK_PROJECT_RESUME                  9003

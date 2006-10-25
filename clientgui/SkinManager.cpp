@@ -22,12 +22,13 @@
 #endif
 
 #include "stdwx.h"
-#include "BOINCGUIApp.h"
 #include "diagnostics.h"
 #include "parse.h"
 #include "util.h"
 #include "error_numbers.h"
 #include "miofile.h"
+#include "BOINCGUIApp.h"
+#include "BOINCBaseFrame.h"
 #include "SkinManager.h"
 
 
@@ -136,7 +137,13 @@ int CSkinImage::Parse(MIOFILE& in) {
     while (in.fgets(buf, 256)) {
         if (match_tag(buf, "</image>")) break;
         else if (parse_str(buf, "<imagesrc>", strBuffer)) {
-            m_bmpBitmap = wxBitmap(wxImage(wxString(strBuffer.c_str(), wxConvUTF8), wxBITMAP_TYPE_ANY));
+            if (strBuffer.length()) {
+                wxString str = wxString(
+                    wxGetApp().GetSkinManager()->ConstructSkinPath() +
+                    wxString(strBuffer.c_str(), wxConvUTF8)
+                );
+                m_bmpBitmap = wxBitmap(wxImage(str.c_str(), wxBITMAP_TYPE_ANY));
+            }
             continue;
         } else if (parse_str(buf, "<background_color>", strBuffer)) {
             m_colBackgroundColor = ParseColor(wxString(strBuffer.c_str(), wxConvUTF8));
@@ -200,11 +207,23 @@ int CSkinSimpleButton::Parse(MIOFILE& in) {
     while (in.fgets(buf, 256)) {
         if (match_tag(buf, "</button>")) break;
         else if (parse_str(buf, "<imagesrc>", strBuffer)) {
-            m_bmpBitmap = wxBitmap(wxImage(wxString(strBuffer.c_str(), wxConvUTF8), wxBITMAP_TYPE_ANY));
+            if (strBuffer.length()) {
+                wxString str = wxString(
+                    wxGetApp().GetSkinManager()->ConstructSkinPath() +
+                    wxString(strBuffer.c_str(), wxConvUTF8)
+                );
+                m_bmpBitmap = wxBitmap(wxImage(str.c_str(), wxBITMAP_TYPE_ANY));
+            }
             continue;
         }
         else if (parse_str(buf, "<imagesrc_clicked>", strBuffer)) {
-            m_bmpBitmapClicked = wxBitmap(wxImage(wxString(strBuffer.c_str(), wxConvUTF8), wxBITMAP_TYPE_ANY));
+            if (strBuffer.length()) {
+                wxString str = wxString(
+                    wxGetApp().GetSkinManager()->ConstructSkinPath() +
+                    wxString(strBuffer.c_str(), wxConvUTF8)
+                );
+                m_bmpBitmapClicked = wxBitmap(wxImage(str.c_str(), wxBITMAP_TYPE_ANY));
+            }
             continue;
         }
     }
@@ -257,7 +276,13 @@ int CSkinSimpleTab::Parse(MIOFILE& in) {
     while (in.fgets(buf, 256)) {
         if (match_tag(buf, "</tab>")) break;
         else if (parse_str(buf, "<imagesrc>", strBuffer)) {
-            m_bmpBitmap = wxBitmap(wxImage(wxString(strBuffer.c_str(), wxConvUTF8), wxBITMAP_TYPE_ANY));
+            if (strBuffer.length()) {
+                wxString str = wxString(
+                    wxGetApp().GetSkinManager()->ConstructSkinPath() +
+                    wxString(strBuffer.c_str(), wxConvUTF8)
+                );
+                m_bmpBitmap = wxBitmap(wxImage(str.c_str(), wxBITMAP_TYPE_ANY));
+            }
             continue;
         }
         else if (parse_str(buf, "<border_color>", strBuffer)) {
@@ -829,39 +854,51 @@ int CSkinAdvanced::Parse(MIOFILE& in) {
             CSkinImage img;
             img.Parse(in);
 
-            // Configure bitmap object with transparency mask
-            wxBitmap bmp = wxBitmap(*img.GetBitmap());
-            bmp.SetMask(new wxMask(*img.GetBitmap(), *img.GetTransparencyMask()));
+            if (img.Ok()) {
+                // Configure bitmap object with transparency mask
+                wxBitmap bmp = wxBitmap(*img.GetBitmap());
+                bmp.SetMask(new wxMask(*img.GetBitmap(), *img.GetTransparencyMask()));
 
-            // Not set the icon object using the newly created bitmap
-            m_iconApplicationIcon.CopyFromBitmap(bmp);
+                // Not set the icon object using the newly created bitmap
+                m_iconApplicationIcon.CopyFromBitmap(bmp);
+            }
             continue;
         } else if (match_tag(buf, "<application_disconnected_icon>")) {
             // Parse out the bitmap information and transparency mask
             CSkinImage img;
             img.Parse(in);
 
-            // Configure bitmap object with transparency mask
-            wxBitmap bmp = wxBitmap(*img.GetBitmap());
-            bmp.SetMask(new wxMask(*img.GetBitmap(), *img.GetTransparencyMask()));
+            if (img.Ok()) {
+                // Configure bitmap object with transparency mask
+                wxBitmap bmp = wxBitmap(*img.GetBitmap());
+                bmp.SetMask(new wxMask(*img.GetBitmap(), *img.GetTransparencyMask()));
 
-            // Not set the icon object using the newly created bitmap
-            m_iconApplicationDisconnectedIcon.CopyFromBitmap(bmp);
+                // Not set the icon object using the newly created bitmap
+                m_iconApplicationDisconnectedIcon.CopyFromBitmap(bmp);
+            }
             continue;
         } else if (match_tag(buf, "<application_snooze_icon>")) {
             // Parse out the bitmap information and transparency mask
             CSkinImage img;
             img.Parse(in);
 
-            // Configure bitmap object with transparency mask
-            wxBitmap bmp = wxBitmap(*img.GetBitmap());
-            bmp.SetMask(new wxMask(*img.GetBitmap(), *img.GetTransparencyMask()));
+            if (img.Ok()) {
+                // Configure bitmap object with transparency mask
+                wxBitmap bmp = wxBitmap(*img.GetBitmap());
+                bmp.SetMask(new wxMask(*img.GetBitmap(), *img.GetTransparencyMask()));
 
-            // Not set the icon object using the newly created bitmap
-            m_iconApplicationSnoozeIcon.CopyFromBitmap(bmp);
+                // Not set the icon object using the newly created bitmap
+                m_iconApplicationSnoozeIcon.CopyFromBitmap(bmp);
+            }
             continue;
         } else if (parse_str(buf, "<application_logo>", strBuffer)) {
-            m_bitmapApplicationLogo = wxBitmap(wxImage(wxString(strBuffer.c_str(), wxConvUTF8), wxBITMAP_TYPE_ANY));
+            if(strBuffer.length()) {
+                wxString str = wxString(
+                    wxGetApp().GetSkinManager()->ConstructSkinPath() +
+                    wxString(strBuffer.c_str(), wxConvUTF8)
+                );
+                m_bitmapApplicationLogo = wxBitmap(wxImage(str.c_str(), wxBITMAP_TYPE_ANY));
+            }
             continue;
         } else if (parse_str(buf, "<company_name>", strBuffer)) {
             m_strCompanyName = wxString(strBuffer.c_str(), wxConvUTF8);
@@ -988,8 +1025,14 @@ int CSkinWizardATP::Parse(MIOFILE& in) {
         else if (parse_str(buf, "<title>", strBuffer)) {
             m_strTitle = wxString(strBuffer.c_str(), wxConvUTF8);
             continue;
-        } else if (parse_str(buf, "<application_logo>", strBuffer)) {
-            m_bitmapWizardBitmap = wxBitmap(wxImage(wxString(strBuffer.c_str(), wxConvUTF8), wxBITMAP_TYPE_ANY));
+        } else if (parse_str(buf, "<logo>", strBuffer)) {
+            if (strBuffer.length()) {
+                wxString str = wxString(
+                    wxGetApp().GetSkinManager()->ConstructSkinPath() +
+                    wxString(strBuffer.c_str(), wxConvUTF8)
+                );
+                m_bitmapWizardBitmap = wxBitmap(wxImage(str.c_str(), wxBITMAP_TYPE_ANY));
+            }
             continue;
         }
     }
@@ -1059,8 +1102,14 @@ int CSkinWizardATAM::Parse(MIOFILE& in) {
         else if (parse_str(buf, "<title>", strBuffer)) {
             m_strTitle = wxString(strBuffer.c_str(), wxConvUTF8);
             continue;
-        } else if (parse_str(buf, "<application_logo>", strBuffer)) {
-            m_bitmapWizardBitmap = wxBitmap(wxImage(wxString(strBuffer.c_str(), wxConvUTF8), wxBITMAP_TYPE_ANY));
+        } else if (parse_str(buf, "<logo>", strBuffer)) {
+            if(strBuffer.length()) {
+                wxString str = wxString(
+                    wxGetApp().GetSkinManager()->ConstructSkinPath() +
+                    wxString(strBuffer.c_str(), wxConvUTF8)
+                );
+                m_bitmapWizardBitmap = wxBitmap(wxImage(str.c_str(), wxBITMAP_TYPE_ANY));
+            }
             continue;
         } else if (parse_str(buf, "<account_info_message>", strBuffer)) {
             m_strAccountInfoMessage = wxString(strBuffer.c_str(), wxConvUTF8);
@@ -1152,9 +1201,7 @@ int CSkinWizards::Parse(MIOFILE& in) {
 
 
 bool CSkinWizards::ValidateSkin() {
-    m_AttachToProjectWizard.ValidateSkin();
-    m_AttachToAccountManagerWizard.ValidateSkin();
-    return true;
+    return m_AttachToProjectWizard.ValidateSkin() && m_AttachToAccountManagerWizard.ValidateSkin();
 }
 
 
@@ -1171,7 +1218,149 @@ CSkinManager::~CSkinManager() {
 }
 
 bool CSkinManager::ReloadSkin(wxLocale* pLocale, wxString strSkin) {
-    return ValidateSkin();
+    m_strSelectedSkin = strSkin;
+
+    // Check to see if the skin we want to change to is the default skin
+    if (GetDefaultSkinName() == m_strSelectedSkin) {
+        // Clear out all the old stuff and just run the skin validation
+        //   code to load up the default resources
+        Clear();
+        ValidateSkin();
+        return true;
+    }
+
+    // Okay, this means we should go hit the disk to actually load up the
+    //   skin and resources.
+    //
+    int      retval;
+    FILE*    p;
+    MIOFILE  mf;
+    wxString strDesiredLocale = pLocale->GetCanonicalName();
+
+    // First we try the users canonical locale resources.
+    //  i.e. en_US
+    retval = ERR_XML_PARSE;
+    p = fopen(ConstructSkinFileName().c_str(), "r");
+    if (p) {
+        mf.init_file(p);
+        retval = Parse(mf, strDesiredLocale);
+        fclose(p);
+    }
+
+    // If we failed the first lookup try the root language of the desired
+    //   locale.
+    //  i.e. en
+    if (ERR_XML_PARSE == retval) {
+        retval = ERR_XML_PARSE;
+        p = fopen(ConstructSkinFileName().c_str(), "r");
+        if (p) {
+            mf.init_file(p);
+            retval = Parse(mf, strDesiredLocale.Left(2));
+            fclose(p);
+        }
+    }
+
+    // If we failed the second lookup try english
+    //  i.e. en
+    if (ERR_XML_PARSE == retval) {
+        retval = ERR_XML_PARSE;
+        p = fopen(ConstructSkinFileName().c_str(), "r");
+        if (p) {
+            mf.init_file(p);
+            retval = Parse(mf, wxT("en"));
+            fclose(p);
+        }
+    }
+
+    if (retval) {
+        fprintf(
+            stderr,
+            wxT("Skin Manager: Failed to load skin '%s'.\n"),
+            ConstructSkinFileName().c_str()
+        );
+    }
+
+
+    // Make sure all the resources are loaded and valid.
+    ValidateSkin();
+
+    // Tell whichever frame is loaded to reload and skinable resources
+    CBOINCBaseFrame* pFrame = wxGetApp().GetFrame();
+    if (pFrame) {
+        pFrame->FireReloadSkin();
+    }
+
+    return true;
+}
+
+wxArrayString& CSkinManager::GetCurrentSkins() {
+    unsigned int i;
+    wxString     strSkinLocation = wxString(GetSkinsLocation() + wxFileName::GetPathSeparator());
+    wxString     strSkinFileName = wxString(wxFileName::GetPathSeparator() + GetSkinFileName());
+
+    // Initialize array
+    m_astrSkins.Clear();
+
+    // Go get all the valid skin directories.
+    wxDir::GetAllFiles(strSkinLocation, &m_astrSkins, wxString(wxT("*") + GetSkinFileName()));
+
+    // Trim out the path information for all the entries
+    for (i = 0; i < m_astrSkins.GetCount(); i++) {
+        m_astrSkins[i] = 
+            m_astrSkins[i].Remove(0, strSkinLocation.Length());
+        m_astrSkins[i] = 
+            m_astrSkins[i].Remove(m_astrSkins[i].Find(strSkinFileName.c_str()), strSkinFileName.Length());
+
+        // Special case: 'Default' to mean the embedded default skin.
+        //   remove any duplicate entries
+        if (GetDefaultSkinName() == m_astrSkins[i]) {
+            m_astrSkins.RemoveAt(i);
+        }
+    }
+
+    // Insert the 'Default' entry into the skins list.
+    m_astrSkins.Insert(GetDefaultSkinName(), 0);
+
+    // return the current list of skins
+    return m_astrSkins;
+}
+
+
+wxString CSkinManager::GetDefaultSkinName() {
+    return wxString(wxT("Default"));
+}
+
+
+wxString CSkinManager::ConstructSkinFileName() {
+    return wxString(
+        GetSkinsLocation() + 
+        wxString(wxFileName::GetPathSeparator()) +
+        m_strSelectedSkin + 
+        wxString(wxFileName::GetPathSeparator()) +
+        GetSkinFileName()
+    );
+}
+
+
+wxString CSkinManager::ConstructSkinPath() {
+    return wxString(
+        GetSkinsLocation() + 
+        wxString(wxFileName::GetPathSeparator()) +
+        m_strSelectedSkin + 
+        wxString(wxFileName::GetPathSeparator())
+    );
+}
+
+
+wxString CSkinManager::GetSkinFileName() {
+    // Construct path to skins directory
+    return wxString(wxT("skin.xml"));
+}
+
+
+wxString CSkinManager::GetSkinsLocation() {
+    // Construct path to skins directory
+    return wxString(wxGetCwd() + wxString(wxFileName::GetPathSeparator()) + wxT("skins"));
 }
 
 
@@ -1179,6 +1368,9 @@ void CSkinManager::Clear() {
     m_SimpleSkin.Clear();
     m_AdvancedSkin.Clear();
     m_WizardsSkin.Clear();
+
+    m_astrSkins.Clear();
+    m_strSelectedSkin.Clear();
 }
 
 
@@ -1239,12 +1431,6 @@ int CSkinManager::Parse(MIOFILE& in, wxString strDesiredLocale) {
 
 
 bool CSkinManager::ValidateSkin() {
-    m_SimpleSkin.ValidateSkin();
-    m_AdvancedSkin.ValidateSkin();
-    m_WizardsSkin.ValidateSkin();
-    return true;
+    return m_SimpleSkin.ValidateSkin() && m_AdvancedSkin.ValidateSkin() && m_WizardsSkin.ValidateSkin();
 }
-
-
-
 

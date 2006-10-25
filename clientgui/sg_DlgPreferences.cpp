@@ -28,57 +28,91 @@
 #include "miofile.h"
 #include "parse.h"
 #include "error_numbers.h"
+#include "Events.h"
 #include "BOINCGUIApp.h"
 #include "SkinManager.h"
 #include "MainDocument.h"
 #include "sg_StaticLine.h"
 #include "sg_DlgPreferences.h"
 
-enum 
-{ 
-    ID_OPENBUTTON = 10001, 
-    ID_SAVEBUTTON = 10002, 
-    ID_SAVESKINBUTTON = 10003, 
-    ID_CANCELBUTTON = 10004,
-	ID_CLEARBUTTON = 10005,
-	ID_SKINPICKERCMBBOX = 10006, 
-	ID_DOWORKONLYBGNCMBBOX = 10007,
-	ID_DOCONNECTONLYBGNCMBBOX = 10008,
-}; 
 
-BEGIN_EVENT_TABLE( CDlgPreferences,wxDialog)
+/*!
+ * CDlgPreferences type definition
+ */
+
+IMPLEMENT_DYNAMIC_CLASS(CDlgPreferences, wxDialog)
+
+/*!
+ * CDlgPreferences event table definition
+ */
+
+BEGIN_EVENT_TABLE(CDlgPreferences, wxDialog)
+
+////@begin CDlgOptions event table entries
+  EVT_BUTTON(-1,CDlgPreferences::OnChange)
   EVT_PAINT(CDlgPreferences::OnPaint)
-  EVT_COMBOBOX(-1,CDlgPreferences::OnCmbSelected)
   EVT_BUTTON(-1,CDlgPreferences::OnBtnClick)
   EVT_ERASE_BACKGROUND(CDlgPreferences::OnEraseBackground)
+////@end CDlgOptions event table entries
+
 END_EVENT_TABLE()
-// end events
 
-CDlgPreferences::CDlgPreferences(wxWindow* parent, wxWindowID id, const wxString& title, const wxPoint& pos, const wxSize& size, long style, const wxString& name)
+/*!
+ * CDlgPreferences constructors
+ */
+
+CDlgPreferences::CDlgPreferences()
 {
-	m_skinNames.Add(wxT("default"));
-	Create(parent,id,title,pos,size,style,name);
+}
 
-	if((pos==wxDefaultPosition)&&(size==wxDefaultSize)){
-		SetSize(0,0,416,403);
-	}
+CDlgPreferences::CDlgPreferences(wxWindow* parent, wxWindowID id, const wxString& title, const wxPoint& pos, const wxSize& size, long style) 
+{
+	Create(parent,id,title,pos,size,style);
+}
 
-	if((pos!=wxDefaultPosition)&&(size==wxDefaultSize)){
+/*!
+ * CDlgPreferences creator
+ */
+
+bool CDlgPreferences::Create(wxWindow* parent, wxWindowID id, const wxString& caption, const wxPoint& pos, const wxSize& size, long style)
+{
+////@begin CDlgOptions member initialisation
+////@end CDlgOptions member initialisation
+
+////@begin CDlgOptions creation
+    SetExtraStyle(GetExtraStyle()|wxWS_EX_BLOCK_EVENTS);
+    wxDialog::Create( parent, id, caption, pos, size, style );
+
+    CreateControls();
+
+////@end CDlgOptions creation
+
+	if(wxDefaultSize == size) {
 		SetSize(416,403);
 	}
-	//
-	m_PrefIndicator = wxT("");
-	initBefore();
-	//Create dialog
-	CreateDialog();
-	initAfter();
-}
-CDlgPreferences::~CDlgPreferences()
-{
+
+    CSkinManager* pSkinManager = wxGetApp().GetSkinManager();
+
+    wxASSERT(pSkinManager);
+    wxASSERT(wxDynamicCast(pSkinManager, CSkinManager));
+
+
+    // Setup the values for all the skins, and then set the default.
+    cmbSkinPicker->Append(pSkinManager->GetCurrentSkins());
+    cmbSkinPicker->SetValue(pSkinManager->GetSelectedSkin());
+
+
+
+    Centre();
+
+    return TRUE;
 }
 
 
-void CDlgPreferences::CreateDialog()
+
+
+
+void CDlgPreferences::CreateControls()
 {
     CSkinSimple* pSkinSimple = wxGetApp().GetSkinManager()->GetSimple();
 	CMainDocument* pDoc = wxGetApp().GetDocument();
@@ -98,11 +132,10 @@ void CDlgPreferences::CreateDialog()
 	//Set Background color
     SetBackgroundColour(*pSkinSimple->GetBackgroundImage()->GetBackgroundColor());
 
-	cmbSkinPicker=new wxComboBox(this,ID_SKINPICKERCMBBOX,wxT(""),wxPoint(206,37),wxSize(140,21),m_skinNames,wxNO_BORDER | wxCB_READONLY);
-	//cmbSkinPicker->SetValue(m_SkinName);
+	cmbSkinPicker = new wxComboBox(this, ID_SKINPICKERCMBBOX, wxT(""), wxPoint(206,37), wxSize(140,21), NULL, wxNO_BORDER | wxCB_READONLY);
 
 	wxToolTip *ttSaveSkin = new wxToolTip(_("Change skin"));
-    btnSaveSkin=new wxBitmapButton(this,ID_SAVESKINBUTTON,*(pSkinSimple->GetChangeButton()->GetBitmap()),wxPoint(184,82),wxSize(62,16),wxNO_BORDER);
+    btnSaveSkin=new wxBitmapButton(this,ID_CHANGEBUTTON,*(pSkinSimple->GetChangeButton()->GetBitmap()),wxPoint(184,82),wxSize(62,16),wxNO_BORDER);
     btnSaveSkin->SetBitmapSelected(*(pSkinSimple->GetChangeButton()->GetBitmapClicked()));
 	btnSaveSkin->SetToolTip(ttSaveSkin);
 
@@ -177,58 +210,70 @@ void CDlgPreferences::CreateDialog()
 	Refresh();
 }
 
-void CDlgPreferences::VwXDrawBackImg(wxEraseEvent& event,wxWindow *win,wxBitmap* bitMap,int opz){
- event.Skip(false);wxDC *dc;
- dc=event.GetDC();
- dc->SetBackground(wxBrush(win->GetBackgroundColour(),wxSOLID));
- dc->Clear();
- switch (opz) {
-  case 0:{
-         dc->DrawBitmap(*bitMap, 0, 0);
-         break;}
-  case 1:{
-         wxRect rec=win->GetClientRect();
-         rec.SetLeft((rec.GetWidth()-bitMap->GetWidth())   / 2);
-         rec.SetTop ((rec.GetHeight()-bitMap->GetHeight()) / 2);
-         dc->DrawBitmap(*bitMap,rec.GetLeft(),rec.GetTop(),0);
-         break;}
-  case 2:{
-         wxRect rec=win->GetClientRect();
-         for(int y=0;y < rec.GetHeight();y+=bitMap->GetHeight()){
-           for(int x=0;x < rec.GetWidth();x+=bitMap->GetWidth()){
-             dc->DrawBitmap(*bitMap,x,y,0);
-           }
-         }
-         break;}
- }
+
+void CDlgPreferences::VwXDrawBackImg(wxEraseEvent& event, wxWindow *win, wxBitmap* bitMap, int opz) {
+    wxRect rec;
+    wxDC* dc;
+    dc=event.GetDC();
+    dc->SetBackground(wxBrush(win->GetBackgroundColour(),wxSOLID));
+    dc->Clear();
+    switch (opz) {
+        case 0:
+            dc->DrawBitmap(*bitMap, 0, 0);
+            break;
+        case 1:
+            rec=win->GetClientRect();
+            rec.SetLeft((rec.GetWidth()-bitMap->GetWidth())   / 2);
+            rec.SetTop ((rec.GetHeight()-bitMap->GetHeight()) / 2);
+            dc->DrawBitmap(*bitMap,rec.GetLeft(),rec.GetTop(),0);
+            break;
+        case 2:
+            rec=win->GetClientRect();
+            for(int y=0;y < rec.GetHeight();y+=bitMap->GetHeight()){
+                for(int x=0;x < rec.GetWidth();x+=bitMap->GetWidth()){
+                    dc->DrawBitmap(*bitMap,x,y,0);
+                }
+            }
+            break;
+    }
 }
+
+
 void CDlgPreferences::OnEraseBackground(wxEraseEvent& event){
     CSkinSimple* pSkinSimple = wxGetApp().GetSkinManager()->GetSimple();
 
     wxASSERT(pSkinSimple);
     wxASSERT(wxDynamicCast(pSkinSimple, CSkinSimple));
 
- wxObject *m_wxWin = event.GetEventObject();
- if(m_wxWin==this){
-     event.Skip(true);
-     VwXDrawBackImg(
-         event,
-         this,
-         pSkinSimple->GetPreferencesDialogBackgroundImage()->GetBitmap(),
-         0
-     );
-     VwXEvOnEraseBackground(event);
-     return;
- }
- event.Skip(true);
+    VwXDrawBackImg (
+        event,
+        this,
+        pSkinSimple->GetPreferencesDialogBackgroundImage()->GetBitmap(),
+        0
+    );
 }
+
+
+void CDlgPreferences::OnChange(wxCommandEvent& /*event*/){
+    CSkinManager* pSkinManager = wxGetApp().GetSkinManager();
+    wxLocale* pLocale = wxGetApp().GetLocale();
+
+    wxASSERT(pSkinManager);
+    wxASSERT(pLocale);
+    wxASSERT(wxDynamicCast(pSkinManager, CSkinManager));
+
+    pSkinManager->ReloadSkin(pLocale, cmbSkinPicker->GetValue());
+    
+    EndModal(wxID_OK);
+}
+
 
 void CDlgPreferences::OnBtnClick(wxCommandEvent& event){ //init function
 	int btnID =  event.GetId();
 	if(btnID==ID_SAVEBUTTON){
         WriteSettings();
 		EndModal(wxID_OK);
-	} else if(btnID==ID_SAVESKINBUTTON){
+	} else if(btnID==ID_CHANGEBUTTON){
 	    EndModal(wxID_OK);
 	} else if(btnID==ID_CLEARBUTTON){
 		CMainDocument* pDoc = wxGetApp().GetDocument();
@@ -243,15 +288,6 @@ void CDlgPreferences::OnBtnClick(wxCommandEvent& event){ //init function
 	}
 } //end function
 
-void CDlgPreferences::OnCmbSelected(wxCommandEvent& event){ //init function
-} //end function
-
-void CDlgPreferences::VwXEvOnEraseBackground(wxEraseEvent& WXUNUSED(event)){ //init function
-} //end function
-
-void CDlgPreferences::initBefore(){
-}
-
 bool CDlgPreferences::CheckIfInArray(wxString valArray[],wxString value,int size){
 	
 	for(int x=0; x<size; x++){
@@ -263,6 +299,7 @@ bool CDlgPreferences::CheckIfInArray(wxString valArray[],wxString value,int size
 	}
 	return false;
 }
+
 void CDlgPreferences::WriteSettings(){
 
 	CMainDocument* pDoc = wxGetApp().GetDocument();
@@ -310,6 +347,7 @@ void CDlgPreferences::WriteSettings(){
 	pDoc->rpc.read_global_prefs_override();
 
 }
+
 void CDlgPreferences::ReadSettings(GLOBAL_PREFS prefs){
 	wxString hoursStrVal[]={wxT("0:00"),wxT("1:00"),wxT("2:00"),wxT("3:00"),wxT("4:00"),wxT("5:00"),wxT("6:00"),wxT("7:00"),wxT("8:00"),wxT("9:00"),wxT("10:00"),wxT("11:00"),wxT("12:00"),
 		wxT("13:00"),wxT("14:00"),wxT("15:00"),wxT("16:00"),wxT("17:00"),wxT("18:00"),wxT("19:00"),wxT("20:00"),wxT("21:00"),wxT("22:00"),wxT("23:00")};
@@ -324,6 +362,7 @@ void CDlgPreferences::ReadSettings(GLOBAL_PREFS prefs){
 	//
 
 }
+
 int CDlgPreferences::ConvertToNumber(wxString num){
 	wxString hoursStrVal[]={wxT("0:00"),wxT("1:00"),wxT("2:00"),wxT("3:00"),wxT("4:00"),wxT("5:00"),wxT("6:00"),wxT("7:00"),wxT("8:00"),wxT("9:00"),wxT("10:00"),wxT("11:00"),wxT("12:00"),
 		wxT("13:00"),wxT("14:00"),wxT("15:00"),wxT("16:00"),wxT("17:00"),wxT("18:00"),wxT("19:00"),wxT("20:00"),wxT("21:00"),wxT("22:00"),wxT("23:00")};
@@ -334,10 +373,6 @@ int CDlgPreferences::ConvertToNumber(wxString num){
 		}
 	}
 	return -1;
-}
-void CDlgPreferences::initAfter(){
- //add your code here
-    Centre();
 }
 
 void CDlgPreferences::OnPaint(wxPaintEvent& WXUNUSED(event)) 
@@ -362,17 +397,4 @@ void CDlgPreferences::OnPaint(wxPaintEvent& WXUNUSED(event))
     dc.DrawText(_("Do work after computer is idle for:"), wxPoint(22,298));
     dc.DrawText(_("minutes"), wxPoint(284,298));
 }
-//[evtFunc]end your code
-wxDirTraverseResult DirTraverserSkins::OnFile(const wxString& filename){
-    return wxDIR_CONTINUE;
-}
-wxDirTraverseResult DirTraverserSkins::OnDir(const wxString& dirname){
-    //wxString skinName = dirname.AfterLast(wxFileName::GetPathSeparator());
-	//if(skinName != wxT("default")){
-	//	m_skins.Add(skinName);
-	//}
-	
-    return wxDIR_IGNORE;
-}
-
 

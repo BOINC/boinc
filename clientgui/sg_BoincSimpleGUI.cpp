@@ -58,6 +58,7 @@ BEGIN_EVENT_TABLE(CSimpleFrame, CBOINCBaseFrame)
     EVT_SIZE(CSimpleFrame::OnSize)
 	EVT_ERASE_BACKGROUND(CSimpleFrame::OnEraseBackground)
     EVT_FRAME_CONNECT(CSimpleFrame::OnConnect)
+    EVT_FRAME_RELOADSKIN(CSimpleFrame::OnReloadSkin)
 	EVT_TIMER(ID_SIMPLEFRAMERENDERTIMER, CSimpleFrame::OnFrameRender)
 	EVT_FLATNOTEBOOK_PAGE_CHANGED(-1, CSimpleFrame::OnPageChanged)
 END_EVENT_TABLE()
@@ -239,6 +240,10 @@ void CSimpleFrame::OnConnect(CFrameEvent& WXUNUSED(event)) {
 	}
 
     wxLogTrace(wxT("Function Start/End"), wxT("CSimpleFrame::OnConnect - Function End"));
+}
+
+void CSimpleFrame::OnReloadSkin(CFrameEvent& WXUNUSED(event)) {
+    ReskinAppGUI();
 }
 
 void CSimpleFrame::OnProjectsAttachToProject() {

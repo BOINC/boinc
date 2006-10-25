@@ -28,6 +28,7 @@
 #include "miofile.h"
 #include "parse.h"
 #include "error_numbers.h"
+#include "Events.h"
 #include "BOINCGUIApp.h"
 #include "SkinManager.h"
 #include "MainDocument.h"
@@ -41,16 +42,15 @@
 #include "sg_ProjectsComponent.h"
 #include "app_ipc.h"
 
-#define ID_CHECKFORERRORMESSAGETIMER  13000
 
 IMPLEMENT_DYNAMIC_CLASS(CProjectsComponent, wxPanel)
 
-
 BEGIN_EVENT_TABLE(CProjectsComponent, wxPanel)
+    EVT_BUTTON(ID_SIMPLE_PREFERENCES, CProjectsComponent::OnPreferences)
     EVT_PAINT(CProjectsComponent::OnPaint)
     EVT_BUTTON(-1,CProjectsComponent::OnBtnClick)
 	EVT_ERASE_BACKGROUND(CProjectsComponent::OnEraseBackground)
-	EVT_TIMER(ID_CHECKFORERRORMESSAGETIMER, CProjectsComponent::CheckForErrorMessages)
+	EVT_TIMER(ID_SIMPLEMESSAGECHECKTIMER, CProjectsComponent::OnMessageCheck)
 END_EVENT_TABLE()
 
 size_t CProjectsComponent::lastMessageId = 0;
@@ -71,7 +71,7 @@ CProjectsComponent::CProjectsComponent(CSimpleFrame* parent,wxPoint coord) :
 
 	receivedErrorMessage = false;
 	alertMessageDisplayed = false;
-	checkForMessagesTimer = new wxTimer(this, ID_CHECKFORERRORMESSAGETIMER);
+	checkForMessagesTimer = new wxTimer(this, ID_SIMPLEMESSAGECHECKTIMER);
 	checkForMessagesTimer->Start(5000); 
 
 }
@@ -248,7 +248,7 @@ void CProjectsComponent::CreateComponent()
 	wxToolTip *ttPreferences = new wxToolTip(_("Preferences"));
 	btnPreferences = new wxBitmapButton(
         this,
-        -1,
+        ID_SIMPLE_PREFERENCES,
         *(pSkinSimple->GetPreferencesLink()->GetBitmap()),
         wxPoint(149,86),
         wxSize(81,20),
@@ -287,6 +287,30 @@ void CProjectsComponent::OnPaint(wxPaintEvent& WXUNUSED(event))
 	dc.SetFont(wxFont(10,74,90,92,0,wxT("Arial"))); 
 	dc.DrawText(wxT("My Projects:"), wxPoint(32,9)); 
 }
+
+
+void CProjectsComponent::OnPreferences(wxCommandEvent& /*event*/) {
+    wxLogTrace(wxT("Function Start/End"), wxT("CProjectsComponent::OnPreferences - Function Begin"));
+
+	CSimpleFrame* pFrame = wxDynamicCast(GetParent(), CSimpleFrame);
+
+    wxASSERT(pFrame);
+
+	pFrame->SetDlgOpen(true);
+
+	CDlgPreferences* pDlg = new CDlgPreferences(GetParent());
+    wxASSERT(pDlg);
+
+    pDlg->ShowModal();
+
+    if (pDlg)
+        pDlg->Destroy();
+
+    pFrame->SetDlgOpen(false);
+
+    wxLogTrace(wxT("Function Start/End"), wxT("CProjectsComponent::OnPreferences - Function End"));
+}
+
 
 void CProjectsComponent::RemoveProject(std::string prjUrl)
 {	
@@ -531,7 +555,7 @@ void CProjectsComponent::OnBtnClick(wxCommandEvent& event){ //init function
     wxASSERT(wxDynamicCast(pSkinSimple, CSkinSimple));
 
 
-	if(m_wxBtnObj==btnArwLeft){
+	if (m_wxBtnObj==btnArwLeft){
 		//delete proj icon at position max number  - 1(5)
 		delete m_statProjects.at(m_maxNumOfIcons-1);
         //remove last element from vector
@@ -569,7 +593,7 @@ void CProjectsComponent::OnBtnClick(wxCommandEvent& event){ //init function
 		}
 		Refresh();
 
-	}else if(m_wxBtnObj==btnArwRight){
+	} else if(m_wxBtnObj==btnArwRight){
 		//delete proj icon at position 1(0)
 		delete m_statProjects.at(0);
 		//shift the vector
@@ -608,10 +632,10 @@ void CProjectsComponent::OnBtnClick(wxCommandEvent& event){ //init function
 			btnArwRight->Show(false);
 		}
 		Refresh();
-	}else if(m_wxBtnObj==btnAddProj){
+	} else if(m_wxBtnObj==btnAddProj){
 		pFrame->OnProjectsAttachToProject();
 		btnAddProj->Refresh();
-	}else if(m_wxBtnObj==btnMessages || m_wxBtnObj==btnAlertMessages){
+	} else if(m_wxBtnObj==btnMessages || m_wxBtnObj==btnAlertMessages){
 		MessagesViewed();
 		pFrame->SetDlgOpen(true);
 		CDlgMessages* pDlg = new CDlgMessages(NULL);
@@ -619,7 +643,7 @@ void CProjectsComponent::OnBtnClick(wxCommandEvent& event){ //init function
 		pDlg->ShowModal();
 		pDlg->Destroy();
 		pFrame->SetDlgOpen(false);
-    }else if(m_wxBtnObj==btnPause) {
+    } else if(m_wxBtnObj==btnPause) {
 		CMainDocument* pDoc     = wxGetApp().GetDocument();
         CC_STATUS      status;
 
@@ -630,38 +654,18 @@ void CProjectsComponent::OnBtnClick(wxCommandEvent& event){ //init function
 		pDoc->SetNetworkRunMode(RUN_MODE_NEVER);
 		btnPause->Show(false);
 		btnResume->Show(true);
-    }else if(m_wxBtnObj==btnResume) {
+    } else if(m_wxBtnObj==btnResume) {
 		CMainDocument* pDoc     = wxGetApp().GetDocument();
 		pDoc->SetActivityRunMode(RUN_MODE_AUTO);
 		pDoc->SetNetworkRunMode(RUN_MODE_AUTO);
 		btnResume->Show(false);
 		btnPause->Show(true);
-    }else if(m_wxBtnObj==btnPreferences){
-/*
-		pFrame->SetDlgOpen(true);
-		CDlgPreferences* pDlg = new CDlgPreferences(NULL);
-		wxASSERT(pDlg);
-		if ( pDlg->ShowModal() == wxID_OK ){
-			if(pDlg->GetSkinName() != pFrame->skinName){
-				GetParent()->Freeze();
-				if ( appSkin->change_skin(pDlg->GetSkinName()) ) {
-					pFrame->skinName = pDlg->GetSkinName();
-					pFrame->ReskinAppGUI();
-				} else {
-					wxMessageBox("Incompatible skin. Skin will not be changed.");
-					pDlg->SetSkinName(pFrame->skinName);
-					pFrame->ReskinAppGUI();
-				}
-				GetParent()->Thaw();
-		   }
-		}
-		pDlg->Destroy();
-		pFrame->SetDlgOpen(false);
-*/
-    }else if(m_wxBtnObj==btnAdvancedView) {
+    } else if(m_wxBtnObj==btnAdvancedView) {
         wxGetApp().SetActiveGUI(BOINC_ADVANCEDGUI, true);
     }
 }
+
+
 void CProjectsComponent::OnEraseBackground(wxEraseEvent& event){
     CSkinSimple* pSkinSimple = wxGetApp().GetSkinManager()->GetSimple();
 
@@ -681,35 +685,40 @@ void CProjectsComponent::OnEraseBackground(wxEraseEvent& event){
   }
   event.Skip(true);
 }
-void CProjectsComponent::DrawBackImg(wxEraseEvent& event,wxWindow *win,wxBitmap* bitMap,int opz){
 
-	event.Skip(false);
+
+void CProjectsComponent::DrawBackImg(wxEraseEvent& event,wxWindow *win,wxBitmap* bitMap,int opz){
+    wxRect rec;
 	wxDC *dc;
+
 	dc=event.GetDC();
 	dc->SetBackground(wxBrush(win->GetBackgroundColour(),wxSOLID));
 	dc->Clear();
-	switch (opz) {
-	case 0:{
-			dc->DrawBitmap(*bitMap, 0, 0);
-			break;}
-	case 1:{
-			wxRect rec=win->GetClientRect();
-			rec.SetLeft((rec.GetWidth()-bitMap->GetWidth())   / 2);
-			rec.SetTop ((rec.GetHeight()-bitMap->GetHeight()) / 2);
-			dc->DrawBitmap(*bitMap,rec.GetLeft(),rec.GetTop(),0);
-			break;}
-	case 2:{
-			wxRect rec=win->GetClientRect();
-			for(int y=0;y < rec.GetHeight();y+=bitMap->GetHeight()){
-			for(int x=0;x < rec.GetWidth();x+=bitMap->GetWidth()){
-				dc->DrawBitmap(*bitMap,x,y,0);
-			}
-			}
-			break;}
-	}
+    switch (opz) {
+        case 0:
+            dc->DrawBitmap(*bitMap, 0, 0);
+            break;
+	    case 1:
+            rec=win->GetClientRect();
+            rec.SetLeft((rec.GetWidth()-bitMap->GetWidth())   / 2);
+            rec.SetTop ((rec.GetHeight()-bitMap->GetHeight()) / 2);
+            dc->DrawBitmap(*bitMap,rec.GetLeft(),rec.GetTop(),0);
+            break;
+        case 2:
+            rec=win->GetClientRect();
+            for(int y=0;y < rec.GetHeight();y+=bitMap->GetHeight()){
+                for(int x=0;x < rec.GetWidth();x+=bitMap->GetWidth()){
+                    dc->DrawBitmap(*bitMap,x,y,0);
+            	}
+            }
+            break;
+    }
+
+    event.Skip(false);
 }
 
-void CProjectsComponent::CheckForErrorMessages(wxTimerEvent& WXUNUSED(event)) {
+
+void CProjectsComponent::OnMessageCheck(wxTimerEvent& WXUNUSED(event)) {
 	CMainDocument* pDoc     = wxGetApp().GetDocument();
 	MESSAGE* message;
 	// Only look at the messages recieved since the last time we looked
@@ -726,6 +735,7 @@ void CProjectsComponent::CheckForErrorMessages(wxTimerEvent& WXUNUSED(event)) {
 		}
 	}
 }
+
 
 void CProjectsComponent::MessagesViewed() {
 	receivedErrorMessage = false;

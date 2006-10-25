@@ -25,23 +25,71 @@
 #pragma interface "sg_DlgPreferences.cpp"
 #endif
 
+/*!
+ * Includes
+ */
 
-class DirTraverserSkins : public wxDirTraverser
+////@begin includes
+////@end includes
+
+/*!
+ * Forward declarations
+ */
+
+////@begin forward declarations
+////@end forward declarations
+
+/*!
+ * Control identifiers
+ */
+
+////@begin control identifiers
+#define ID_DIALOG 10000
+#define SYMBOL_CDLGPREFERENCES_STYLE wxDEFAULT_DIALOG_STYLE
+#define SYMBOL_CDLGPREFERENCES_TITLE _("BOINC Manager - Preferences")
+#define SYMBOL_CDLGPREFERENCES_IDNAME ID_DIALOG
+#define SYMBOL_CDLGPREFERENCES_SIZE wxDefaultSize
+#define SYMBOL_CDLGPREFERENCES_POSITION wxDefaultPosition
+#define ID_CANCELBUTTON 10001
+#define ID_CHANGEBUTTON 10002
+#define ID_CLEARBUTTON 10003
+#define ID_SAVEBUTTON 10004 
+#define ID_SKINPICKERCMBBOX 10005 
+#define ID_DOWORKONLYBGNCMBBOX 10006
+#define ID_DOCONNECTONLYBGNCMBBOX 10007
+////@end control identifiers
+
+/*!
+ * Compatibility
+ */
+
+#ifndef wxCLOSE_BOX
+#define wxCLOSE_BOX 0x1000
+#endif
+#ifndef wxFIXED_MINSIZE
+#define wxFIXED_MINSIZE 0
+#endif
+
+/*!
+ * CDlgPreferences class declaration
+ */
+
+class CDlgPreferences : public wxDialog
 {
+    DECLARE_DYNAMIC_CLASS( CDlgPreferences )
+    DECLARE_EVENT_TABLE()
+
 public:
-    DirTraverserSkins(wxArrayString& skins) : m_skins(skins) { }
+    /// Constructors
+    CDlgPreferences();
+    CDlgPreferences( wxWindow* parent, wxWindowID id = SYMBOL_CDLGPREFERENCES_IDNAME, const wxString& caption = SYMBOL_CDLGPREFERENCES_TITLE, const wxPoint& pos = SYMBOL_CDLGPREFERENCES_POSITION, const wxSize& size = SYMBOL_CDLGPREFERENCES_SIZE, long style = SYMBOL_CDLGPREFERENCES_STYLE );
 
-    virtual wxDirTraverseResult OnFile(const wxString& filename);
-    virtual wxDirTraverseResult OnDir(const wxString& WXUNUSED(dirname));
+    /// Creation
+    bool Create( wxWindow* parent, wxWindowID id = SYMBOL_CDLGPREFERENCES_IDNAME, const wxString& caption = SYMBOL_CDLGPREFERENCES_TITLE, const wxPoint& pos = SYMBOL_CDLGPREFERENCES_POSITION, const wxSize& size = SYMBOL_CDLGPREFERENCES_SIZE, long style = SYMBOL_CDLGPREFERENCES_STYLE );
 
-private:
-    wxArrayString& m_skins;
-};
+    /// Creates the controls and sizers
+    void CreateControls();
 
-class CDlgPreferences:public wxDialog
-{
-public:
-    CDlgPreferences(wxWindow* parent, wxWindowID id = -1, const wxString& title = wxT(""), const wxPoint& pos = wxDefaultPosition, const wxSize& size = wxDefaultSize, long style = wxDEFAULT_DIALOG_STYLE, const wxString& name = wxT("dialogBox"));
 
 	wxBitmapButton *btnSave;
 	wxBitmapButton *btnSaveSkin;
@@ -69,21 +117,14 @@ public:
 	
 	wxStaticText *lblSkinXML;
 	wxComboBox *cmbSkinPicker;
-	//wxTextCtrl *tx30c;
 
-	virtual ~CDlgPreferences();
-	void initBefore();
 	void WriteSettings();
 	bool CheckIfInArray(wxString valArray[],wxString value,int size);
 	void ReadSettings(GLOBAL_PREFS prefs);
-	void CreateDialog();
 	int ConvertToNumber(wxString num);
 	wxString GetSkinName() const { return m_SkinName; }
 	void SetSkinName(const wxString& skinName) { m_SkinName = skinName; }
 	void OnPaint(wxPaintEvent& event); 
-	void initAfter();
-
-	DECLARE_EVENT_TABLE()
 
 protected:
 	wxString m_SkinName;
@@ -91,15 +132,15 @@ protected:
 	wxArrayString m_skinNames;
 	GLOBAL_PREFS m_prefs;
 	void OnEraseBackground(wxEraseEvent& event);
+
+    void OnChange(wxCommandEvent& event);
+
 	void OnBtnClick(wxCommandEvent& event);
-	void OnCmbSelected(wxCommandEvent& event);
-	void VwXEvOnEraseBackground(wxEraseEvent& event);
 	void VwXDrawBackImg(wxEraseEvent& event,wxWindow *win,wxBitmap* bitMap,int opz);
 
 private: 
 	CStaticLine *lnMyTop;
 
-//[win]end your code 
 };
 
 #endif  // end CDlgPreferences

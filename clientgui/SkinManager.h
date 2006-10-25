@@ -336,16 +336,29 @@ public:
     CSkinManager();
     ~CSkinManager();
 
-    bool ReloadSkin(wxLocale* pLocale, wxString strSkin);
+    bool                ReloadSkin(wxLocale* pLocale, wxString strSkin);
+
+    wxArrayString&      GetCurrentSkins();
+    wxString            GetDefaultSkinName();
+    wxString            GetSelectedSkin() { return m_strSelectedSkin; }
+
+    wxString            ConstructSkinFileName();
+    wxString            ConstructSkinPath();
+    wxString            GetSkinFileName();
+    wxString            GetSkinsLocation();
 
     CSkinSimple*        GetSimple() { return &m_SimpleSkin; }
     CSkinAdvanced*      GetAdvanced() { return &m_AdvancedSkin; }
     CSkinWizards*       GetWizards() { return &m_WizardsSkin; }
 
+
 private:
     CSkinSimple         m_SimpleSkin;
     CSkinAdvanced       m_AdvancedSkin;
     CSkinWizards        m_WizardsSkin;
+
+    wxArrayString       m_astrSkins;
+    wxString            m_strSelectedSkin;
 
     void Clear();
     bool Ok();

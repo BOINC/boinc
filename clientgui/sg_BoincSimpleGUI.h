@@ -97,8 +97,10 @@ protected:
 	void OnEraseBackground(wxEraseEvent& event);
 	void OnBtnClick(wxCommandEvent& event);
 	void OnConnect(CFrameEvent& event );
+    void OnReloadSkin( CFrameEvent& event );
     void OnFrameRender(wxTimerEvent& event );
 	void OnPageChanged(wxFlatNotebookEvent& event);
+
     void DrawBackImg(wxEraseEvent& event,wxWindow *win,wxBitmap* bitMap,int opz);
 
 private:

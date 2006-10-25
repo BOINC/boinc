@@ -117,6 +117,12 @@
 					<imagesrc_clicked>graphic/btnCancelClick.png</imagesrc_clicked>
 				</button>
 			</cancel_button>
+			<change_button>
+				<button>
+					<imagesrc>graphic/btnChange.png</imagesrc>
+					<imagesrc_clicked>graphic/btnChangeClick.png</imagesrc_clicked>
+				</button>
+			</change_button>
 			<close_button>
 				<button>
 					<imagesrc>graphic/btnClose.png</imagesrc>
@@ -213,13 +219,13 @@
 				<!-- title displayed on the attach to project wizard -->
 				<title></title> 
 				<!-- logo displayed on the attach to project wizard -->
-				<logo></logo>  
+				<logo>graphic/wcg_wizard_bar.png</logo>  
 			</attach_to_project>
 			<attach_to_account_manager>
 				<!-- title displayed on the attach to account manager wizard -->
 				<title></title>  
 				<!-- logo displayed on the attach to account manager wizard -->
-				<logo></logo>  
+				<logo>graphic/wcg_wizard_bar.png</logo>  
 				<!-- additional message to user about attaching to an account manager -->
 				<account_info_message></account_info_message>  
 			</attach_to_account_manager>

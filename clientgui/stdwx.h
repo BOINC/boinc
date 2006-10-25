@@ -101,6 +101,7 @@
 #include <wx/xml/xml.h>
 #include <wx/tokenzr.h>
 #include <wx/dir.h>
+#include <wx/filename.h>
 
 #ifdef _WIN32
 

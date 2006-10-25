@@ -23,10 +23,6 @@
 
 #include "stdwx.h"
 #include "BOINCGUIApp.h"
-
-////@begin includes
-////@end includes
-
 #include "DlgOptions.h"
 
 ////@begin includes

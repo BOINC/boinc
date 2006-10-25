@@ -251,9 +251,10 @@ bool CBOINCGUIApp::OnInit() {
     m_pSkinManager = new CSkinManager();
     wxASSERT(m_pSkinManager);
 
-    wxString strSkin = m_pConfig->Read(wxT("Skin"), wxT("Default"));
-
-    m_pSkinManager->ReloadSkin(m_pLocale, strSkin);
+    m_pSkinManager->ReloadSkin(
+        m_pLocale, 
+        m_pConfig->Read(wxT("Skin"), m_pSkinManager->GetDefaultSkinName())
+    );
 
     // Initialize the main document
     m_pDocument = new CMainDocument();
@@ -359,6 +360,7 @@ int CBOINCGUIApp::OnExit() {
     }
 
     if (m_pSkinManager) {
+        m_pConfig->Write(wxT("Skin"), m_pSkinManager->GetSelectedSkin());
         delete m_pSkinManager;
     }
 

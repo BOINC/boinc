@@ -11457,3 +11457,24 @@ David  24 Oct 2006
 
 	client/
 		cs_prefs.C
+
+Rom    25 Oct 2006
+    - MGR: Both the simple GUI and advanced GUI respond to skin changes
+    - MGR: Skins can now include different languages. Searches for the
+        canonical locale id first (pt_BR) and then will fall back to the
+        root language (pt). If both fail it'll try english before loading
+        the default resources.
+    - MGR: Wizards can now use skinned resources
+            
+    clientgui/
+        BOINCBaseFrame.cpp, .h
+        BOINCGUIApp.cpp, .h
+        DlgOptions.cpp
+        Events.h
+        sg_BoincSimpleGUI.cpp, .h
+        sg_DlgMessages.cpp
+        sg_DlgPreferences.cpp, .h
+        sg_ProjectsComponent.cpp, .h
+        sg_SGUIListControl.cpp
+        SkinManager.cpp, .h
+        stdwx.h

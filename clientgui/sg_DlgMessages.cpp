@@ -66,9 +66,8 @@ CDlgMessages::CDlgMessages(wxWindow* parent, wxWindowID id, const wxString& titl
 		SetSize(545,450);
 	}
 
-    m_pList = new CSGUIListCtrl(this, ID_TASK_MESSAGESVIEW_SGUI, DEFAULT_LIST_MULTI_SEL_FLAGS);
+    m_pList = new CSGUIListCtrl(this, ID_SIMPLE_MESSAGESVIEW, DEFAULT_LIST_MULTI_SEL_FLAGS);
     wxASSERT(m_pList);
-	//m_pList->OnGetItemText = this->OnListGetItemText(
 
 	// Create List Pane Items
     m_pList->InsertColumn(COLUMN_PROJECT, _("Project"), wxLIST_FORMAT_LEFT, 109);
@@ -165,7 +164,7 @@ void CDlgMessages::OnEraseBackground(wxEraseEvent& event){
  event.Skip(true);
 }
 
-void CDlgMessages::OnBtnClick(wxCommandEvent& event){ //init function
+void CDlgMessages::OnBtnClick(wxCommandEvent& /*event*/){ //init function
     EndModal(wxID_CANCEL);
 } //end function
 

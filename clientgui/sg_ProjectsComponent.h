@@ -73,6 +73,9 @@ public:
     void OnBtnClick(wxCommandEvent& event);
 	void OnPaint(wxPaintEvent& event); 
 
+    void OnPreferences(wxCommandEvent& event);
+
+
 	DECLARE_EVENT_TABLE()
 
 protected:
@@ -89,7 +92,7 @@ private:
 	bool receivedErrorMessage;
 	bool alertMessageDisplayed;
 	static size_t lastMessageId;
-	void CheckForErrorMessages(wxTimerEvent& WXUNUSED(event));
+	void OnMessageCheck(wxTimerEvent& WXUNUSED(event));
    	void MessagesViewed();
 };
 

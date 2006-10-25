@@ -104,6 +104,7 @@ public:
 
     int                 StartBOINCScreensaverTest();
 
+    wxLocale*           GetLocale()                 { return m_pLocale; }
     CSkinManager*       GetSkinManager()            { return m_pSkinManager; }
     CBOINCBaseFrame*    GetFrame()                  { return m_pFrame; }
     CMainDocument*      GetDocument()               { return m_pDocument; }
