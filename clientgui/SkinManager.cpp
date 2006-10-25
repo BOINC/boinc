@@ -1251,7 +1251,6 @@ bool CSkinManager::ReloadSkin(wxLocale* pLocale, wxString strSkin) {
     //   locale.
     //  i.e. en
     if (ERR_XML_PARSE == retval) {
-        retval = ERR_XML_PARSE;
         p = fopen(ConstructSkinFileName().c_str(), "r");
         if (p) {
             mf.init_file(p);
@@ -1263,7 +1262,6 @@ bool CSkinManager::ReloadSkin(wxLocale* pLocale, wxString strSkin) {
     // If we failed the second lookup try english
     //  i.e. en
     if (ERR_XML_PARSE == retval) {
-        retval = ERR_XML_PARSE;
         p = fopen(ConstructSkinFileName().c_str(), "r");
         if (p) {
             mf.init_file(p);
@@ -1279,7 +1277,6 @@ bool CSkinManager::ReloadSkin(wxLocale* pLocale, wxString strSkin) {
             ConstructSkinFileName().c_str()
         );
     }
-
 
     // Make sure all the resources are loaded and valid.
     ValidateSkin();

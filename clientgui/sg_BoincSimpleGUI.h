@@ -65,7 +65,6 @@ public:
     void InitResultView();
 	void InitProjectView();
 	void UpdateProjectView();
-	void ReskinAppGUI();
 	void InitNotebook();
 	void DestroyNotebook();
 	void OnProjectsAttachToProject();
@@ -96,8 +95,6 @@ protected:
 	void OnConnect(CFrameEvent& event );
     void OnReloadSkin( CFrameEvent& event );
     void OnFrameRender(wxTimerEvent& event );
-
-    void DrawBackImg(wxEraseEvent& event,wxWindow *win,wxBitmap* bitMap,int opz);
 
 private:
 	bool SaveState();

@@ -58,7 +58,7 @@ ClientStateIndicator::ClientStateIndicator(CSimpleFrame* parent,wxPoint coord) :
 	indexIndVis = 1;//first will be visible on start
 	rightPosition = 118;
 	topPosition = 5;
-	stateMessage = wxString("");
+	stateMessage = wxEmptyString;
 	clientState = CLIENT_STATE_NONE;
 	CreateComponent();
 	error_time = 0;
@@ -67,7 +67,10 @@ ClientStateIndicator::ClientStateIndicator(CSimpleFrame* parent,wxPoint coord) :
 
 ClientStateIndicator::~ClientStateIndicator()
 {
-	delete m_connRenderTimer;
+    if (m_connRenderTimer) {
+        m_connRenderTimer->Stop();
+        delete m_connRenderTimer;
+    }
 }
 
 void ClientStateIndicator::CreateComponent(){

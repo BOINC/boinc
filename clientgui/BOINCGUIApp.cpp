@@ -90,9 +90,9 @@ bool CBOINCGUIApp::OnInit() {
     m_pMacSystemMenu = NULL;
 #endif
     m_bGUIVisible = true;
-    m_strDefaultWindowStation = wxT("");
-    m_strDefaultDesktop = wxT("");
-    m_strDefaultDisplay = wxT("");
+    m_strDefaultWindowStation = wxEmptyString;
+    m_strDefaultDesktop = wxEmptyString;
+    m_strDefaultDisplay = wxEmptyString;
     m_lBOINCCoreProcessId = 0;
 #ifdef SIMPLEGUI
     m_iGUISelected = BOINC_SIMPLEGUI;

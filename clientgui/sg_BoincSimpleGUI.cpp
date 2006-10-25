@@ -249,7 +249,28 @@ void CSimpleFrame::OnConnect(CFrameEvent& WXUNUSED(event)) {
 
 
 void CSimpleFrame::OnReloadSkin(CFrameEvent& WXUNUSED(event)) {
-    ReskinAppGUI();
+    wxLogTrace(wxT("Function Start/End"), wxT("CSimpleFrame::OnReloadSkin - Function Start"));
+
+    CSkinSimple* pSkinSimple = wxGetApp().GetSkinManager()->GetSimple();
+
+    wxASSERT(pSkinSimple);
+    wxASSERT(wxDynamicCast(pSkinSimple, CSkinSimple));
+
+	//bg color
+	SetBackgroundColour(*pSkinSimple->GetBackgroundImage()->GetBackgroundColor());
+
+    if(notebookViewInitialized){
+		if (wrkUnitNB) wrkUnitNB->ReskinAppGUI();
+	} else {
+		if (clientState) clientState->ReskinInterface();
+	}
+
+    //reskin component 
+	if (projComponent) projComponent->ReskinInterface();
+
+    Refresh();
+
+    wxLogTrace(wxT("Function Start/End"), wxT("CSimpleFrame::OnReloadSkin - Function End"));
 }
 
 
@@ -404,69 +425,15 @@ void CSimpleFrame::InitNotebook()
 }
 
 
-void CSimpleFrame::ReskinAppGUI(){
-    wxLogTrace(wxT("Function Start/End"), wxT("CSimpleFrame::ReskinAppGUI - Function Start"));
-
-    CSkinSimple* pSkinSimple = wxGetApp().GetSkinManager()->GetSimple();
-
-    wxASSERT(pSkinSimple);
-    wxASSERT(wxDynamicCast(pSkinSimple, CSkinSimple));
-
-	//bg color
-	SetBackgroundColour(*pSkinSimple->GetBackgroundImage()->GetBackgroundColor());
-
-    if(notebookViewInitialized){
-		if (wrkUnitNB) wrkUnitNB->ReskinAppGUI();
-	} else {
-		if (clientState) clientState->ReskinInterface();
-	}
-
-    //reskin component 
-	if (projComponent) projComponent->ReskinInterface();
-
-    Refresh();
-
-    wxLogTrace(wxT("Function Start/End"), wxT("CSimpleFrame::ReskinAppGUI - Function End"));
-}
-
-
 void CSimpleFrame::OnEraseBackground(wxEraseEvent& event){
     CSkinSimple* pSkinSimple = wxGetApp().GetSkinManager()->GetSimple();
 
     wxASSERT(pSkinSimple);
     wxASSERT(wxDynamicCast(pSkinSimple, CSkinSimple));
 
-  wxObject *m_wxWin = event.GetEventObject();
-  if(m_wxWin==this){event.Skip(true);DrawBackImg(event,this,pSkinSimple->GetBackgroundImage()->GetBitmap(),0);return;}
-  event.Skip(true);
-}
-
-
-void CSimpleFrame::DrawBackImg(wxEraseEvent& event,wxWindow *win,wxBitmap* bitMap,int opz){
-
-	event.Skip(false);
-	wxDC *dc;
-	dc=event.GetDC();
-	dc->SetBackground(wxBrush(win->GetBackgroundColour(),wxSOLID));
-	dc->Clear();
-	switch (opz) {
-	case 0:{
-			dc->DrawBitmap(*bitMap, 0, 0);
-			break;}
-	case 1:{
-			wxRect rec=win->GetClientRect();
-			rec.SetLeft((rec.GetWidth()-bitMap->GetWidth())   / 2);
-			rec.SetTop ((rec.GetHeight()-bitMap->GetHeight()) / 2);
-			dc->DrawBitmap(*bitMap,rec.GetLeft(),rec.GetTop(),0);
-			break;}
-	case 2:{
-			wxRect rec=win->GetClientRect();
-			for(int y=0;y < rec.GetHeight();y+=bitMap->GetHeight()){
-			for(int x=0;x < rec.GetWidth();x+=bitMap->GetWidth()){
-				dc->DrawBitmap(*bitMap,x,y,0);
-			}
-			}
-			break;}
-	}
+    wxDC *dc = event.GetDC();
+    dc->Clear();
+    dc->SetBackground(wxBrush(GetBackgroundColour(),wxSOLID));
+    dc->DrawBitmap(*pSkinSimple->GetBackgroundImage()->GetBitmap(), 0, 0);
 }
 

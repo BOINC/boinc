@@ -11512,3 +11512,12 @@ David  25 Oct 2006
             project_specific_prefs.inc.sample
     sched/
         sched_send.C
+
+Rom    25 Oct 2006
+    - MGR: Check to see if the clientindictor timer pointer is valid before 
+        stopping and deleting it.
+        
+    clientgui/
+        BOINCGUIApp.cpp
+        sg_BoincSimpleGUI.cpp, .h
+        sg_ClientStateIndicator.cpp
