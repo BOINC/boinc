@@ -11521,3 +11521,11 @@ Rom    25 Oct 2006
         BOINCGUIApp.cpp
         sg_BoincSimpleGUI.cpp, .h
         sg_ClientStateIndicator.cpp
+
+Kevin	25 Oct 2006
+     - MSG: Fixed issues with BSG (pointer issues)
+     
+     clientgui/
+        sg_BoincSimpleGUI.cpp/h
+        sg_ClientStateIndicator.cpp
+        

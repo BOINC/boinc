@@ -359,6 +359,7 @@ void CSimpleFrame::UpdateEmptyView() {
 
 void CSimpleFrame::DestroyEmptyView() {
 	delete clientState;
+	clientState = NULL;
 	emptyViewInitialized = false;
 }
 
@@ -394,6 +395,7 @@ void CSimpleFrame::UpdateProjectView()
 void CSimpleFrame::DestroyNotebook() {
 	mainSizer->Detach(wrkUnitNB);
 	delete wrkUnitNB;
+	wrkUnitNB = NULL;
 	notebookViewInitialized = false;
 }
 

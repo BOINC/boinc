@@ -52,6 +52,7 @@ ClientStateIndicator::ClientStateIndicator() {}
 ClientStateIndicator::ClientStateIndicator(CSimpleFrame* parent,wxPoint coord) : 
     wxPanel(parent, wxID_ANY, coord, wxSize(343,314), wxNO_BORDER) 
 {
+	m_connRenderTimer = NULL;
 	connIndicatorWidth = 14;
 	connIndicatorHeight = 15;
 	numOfIndic = 5;
@@ -62,12 +63,11 @@ ClientStateIndicator::ClientStateIndicator(CSimpleFrame* parent,wxPoint coord) :
 	clientState = CLIENT_STATE_NONE;
 	CreateComponent();
 	error_time = 0;
-	m_connRenderTimer = new wxTimer(this, ID_ANIMATIONRENDERTIMER);
 }
 
 ClientStateIndicator::~ClientStateIndicator()
 {
-    if (m_connRenderTimer) {
+   if (m_connRenderTimer) {
         m_connRenderTimer->Stop();
         delete m_connRenderTimer;
     }
@@ -112,7 +112,9 @@ void ClientStateIndicator::SetActionState(const char* message)
 			m_connIndV.push_back(i_connInd);
 		}
 		//set animation timer for interface
-		wxASSERT(m_connRenderTimer);
+		if ( !m_connRenderTimer ) {
+			m_connRenderTimer = new wxTimer(this, ID_ANIMATIONRENDERTIMER);
+		}
 		m_connRenderTimer->Start(500); 
 	}
     Thaw();
@@ -178,6 +180,7 @@ void ClientStateIndicator::DeletePreviousState()
 		if (m_connRenderTimer && clientState == CLIENT_STATE_ACTION) {
 			m_connRenderTimer->Stop();
 			delete m_connRenderTimer;
+			m_connRenderTimer = NULL;
 		}
 		for(int indIndex = 0; indIndex < numOfIndic; indIndex++){
 			delete m_connIndV.at(indIndex);

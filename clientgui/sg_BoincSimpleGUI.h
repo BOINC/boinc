@@ -81,11 +81,6 @@ public:
 
 	wxBitmap *btmpIcnSleeping;
 	
-#if 0
-    wxAnimationPlayer& GetPlayer() { return m_player; }
-    wxAnimationBase& GetAnimation() { return m_animation; }
-#endif
-
     wxTimer*        m_pFrameRenderTimer;
 
     DECLARE_EVENT_TABLE()
