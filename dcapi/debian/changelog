@@ -1,3 +1,9 @@
+dcapi (0.9-9) unstable; urgency=low
+
+  * Condor backend is complete.
+
+ -- Gábor Gombás <gombasg@sztaki.hu>  Wed, 25 Oct 2006 13:42:28 +0200
+
 dcapi (0.9-8) unstable; urgency=low
 
   * Bugzilla bugs fixed:
