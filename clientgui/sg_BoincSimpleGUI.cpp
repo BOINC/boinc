@@ -54,13 +54,11 @@
 IMPLEMENT_DYNAMIC_CLASS(CSimpleFrame, CBOINCBaseFrame)
 
 BEGIN_EVENT_TABLE(CSimpleFrame, CBOINCBaseFrame)
-    EVT_BUTTON(-1,CSimpleFrame::OnBtnClick)
     EVT_SIZE(CSimpleFrame::OnSize)
 	EVT_ERASE_BACKGROUND(CSimpleFrame::OnEraseBackground)
     EVT_FRAME_CONNECT(CSimpleFrame::OnConnect)
     EVT_FRAME_RELOADSKIN(CSimpleFrame::OnReloadSkin)
 	EVT_TIMER(ID_SIMPLEFRAMERENDERTIMER, CSimpleFrame::OnFrameRender)
-	EVT_FLATNOTEBOOK_PAGE_CHANGED(-1, CSimpleFrame::OnPageChanged)
 END_EVENT_TABLE()
 
 
@@ -75,25 +73,30 @@ CSimpleFrame::CSimpleFrame(wxString title, wxIcon* icon) :
                     wxMINIMIZE_BOX | wxSYSTEM_MENU | wxCAPTION | wxCLOSE_BOX | wxCLIP_CHILDREN | wxNO_FULL_REPAINT_ON_RESIZE)
 {
     wxLogTrace(wxT("Function Start/End"), wxT("CSimpleFrame::CSimpleFrame - Overloaded Constructor Function Begin"));
-	RestoreState();
 
-    // Initialize Application
-    SetIcon(*icon);
-	
+    wrkUnitNB = NULL;
+    clientState = NULL;
+    projComponent = NULL;
+
 	projectViewInitialized = false;
 	emptyViewInitialized = false;
 	notebookViewInitialized = false;
 	dlgOpen = false;
 
+	RestoreState();
+
+    // Initialize Application
+    SetIcon(*icon);
+	
 	//set polling timer for interface
 	m_pFrameRenderTimer = new wxTimer(this, ID_SIMPLEFRAMERENDERTIMER);
     wxASSERT(m_pFrameRenderTimer);
     m_pFrameRenderTimer->Start(1000);                // Send event every 1 second
 
-
 	InitEmptyView();
     wxLogTrace(wxT("Function Start/End"), wxT("CSimpleFrame::CSimpleFrame - Overloaded Constructor Function End"));
- }
+}
+
 
 CSimpleFrame::~CSimpleFrame()
 {
@@ -109,6 +112,7 @@ CSimpleFrame::~CSimpleFrame()
 
     wxLogTrace(wxT("Function Start/End"), wxT("CSimpleFrame::CSimpleFrame - Destructor Function End"));
 }
+
 
 bool CSimpleFrame::RestoreState() {
 	CBOINCBaseFrame::RestoreState();
@@ -153,6 +157,7 @@ bool CSimpleFrame::RestoreState() {
 
 	return true;
 }
+
 
 bool CSimpleFrame::SaveState() {
 	CBOINCBaseFrame::SaveState();
@@ -242,9 +247,11 @@ void CSimpleFrame::OnConnect(CFrameEvent& WXUNUSED(event)) {
     wxLogTrace(wxT("Function Start/End"), wxT("CSimpleFrame::OnConnect - Function End"));
 }
 
+
 void CSimpleFrame::OnReloadSkin(CFrameEvent& WXUNUSED(event)) {
     ReskinAppGUI();
 }
+
 
 void CSimpleFrame::OnProjectsAttachToProject() {
     wxLogTrace(wxT("Function Start/End"), wxT("CSimpleFrame::OnProjectsAttachToProject - Function Begin"));
@@ -278,9 +285,8 @@ void CSimpleFrame::OnProjectsAttachToProject() {
     wxLogTrace(wxT("Function Start/End"), wxT("CAdvancedFrame::OnProjectsAttachToProject - Function End"));
 }
 
+
 void CSimpleFrame::OnFrameRender(wxTimerEvent& WXUNUSED(event)) {
-
-
 	CMainDocument* pDoc     = wxGetApp().GetDocument();
 
 	if (!projectViewInitialized) {
@@ -324,9 +330,11 @@ void CSimpleFrame::OnFrameRender(wxTimerEvent& WXUNUSED(event)) {
 	}
 }
 
+
 void CSimpleFrame::UpdateEmptyView() {
 	clientState->DisplayState();
 }
+
 
 void CSimpleFrame::DestroyEmptyView() {
 	delete clientState;
@@ -353,16 +361,22 @@ void CSimpleFrame::InitEmptyView()
 	
 	emptyViewInitialized = true;
 }
+
+
 void CSimpleFrame::UpdateProjectView()
 {
 	//update Project Component
     projComponent->UpdateInterface();
 }
+
+
 void CSimpleFrame::DestroyNotebook() {
 	mainSizer->Detach(wrkUnitNB);
 	delete wrkUnitNB;
 	notebookViewInitialized = false;
 }
+
+
 void CSimpleFrame::InitProjectView()
 {
 	// Do not update screen at this point
@@ -371,6 +385,7 @@ void CSimpleFrame::InitProjectView()
 	///////////////////////////////////////////////////////////
 	projectViewInitialized = true;
 }
+
 
 void CSimpleFrame::InitNotebook()
 {
@@ -387,9 +402,11 @@ void CSimpleFrame::InitNotebook()
 	notebookViewInitialized = true;
     wxLogTrace(wxT("Function Start/End"), wxT("CAdvancedFrame::InitNotebook - Function End"));
 }
-///
+
+
 void CSimpleFrame::ReskinAppGUI(){
     wxLogTrace(wxT("Function Start/End"), wxT("CSimpleFrame::ReskinAppGUI - Function Start"));
+
     CSkinSimple* pSkinSimple = wxGetApp().GetSkinManager()->GetSimple();
 
     wxASSERT(pSkinSimple);
@@ -397,24 +414,22 @@ void CSimpleFrame::ReskinAppGUI(){
 
 	//bg color
 	SetBackgroundColour(*pSkinSimple->GetBackgroundImage()->GetBackgroundColor());
-	if(notebookViewInitialized){
-		wrkUnitNB->ReskinAppGUI();
+
+    if(notebookViewInitialized){
+		if (wrkUnitNB) wrkUnitNB->ReskinAppGUI();
 	} else {
-		clientState->ReskinInterface();
+		if (clientState) clientState->ReskinInterface();
 	}
-	//reskin component 
-	projComponent->ReskinInterface();
-	Refresh();
+
+    //reskin component 
+	if (projComponent) projComponent->ReskinInterface();
+
+    Refresh();
+
     wxLogTrace(wxT("Function Start/End"), wxT("CSimpleFrame::ReskinAppGUI - Function End"));
 }
 
-void CSimpleFrame::OnBtnClick(wxCommandEvent& WXUNUSED(event)){ //init function
-}
-//end function
-void CSimpleFrame::OnPageChanged(wxFlatNotebookEvent& WXUNUSED(event))
-{
-//	btnCollapse->Refresh();
-}
+
 void CSimpleFrame::OnEraseBackground(wxEraseEvent& event){
     CSkinSimple* pSkinSimple = wxGetApp().GetSkinManager()->GetSimple();
 
@@ -425,6 +440,8 @@ void CSimpleFrame::OnEraseBackground(wxEraseEvent& event){
   if(m_wxWin==this){event.Skip(true);DrawBackImg(event,this,pSkinSimple->GetBackgroundImage()->GetBitmap(),0);return;}
   event.Skip(true);
 }
+
+
 void CSimpleFrame::DrawBackImg(wxEraseEvent& event,wxWindow *win,wxBitmap* bitMap,int opz){
 
 	event.Skip(false);

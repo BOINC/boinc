@@ -11487,3 +11487,12 @@ David  25 Oct 2006
         cs_files.C
         file_xfer.h
         log_flags.C,h
+
+Rom    25 Oct 2006
+    - MGR: Fix crashing bug where the simple GUI is the initial state and
+        the skin just finished loading. After a new skin is loaded the
+        ReloadSkin event is fired so each frame needs to make sure it
+        doesn't try to deref it's own null pointers.
+        
+    clientgui/
+        sg_BoincSimpleGUI.cpp, .h

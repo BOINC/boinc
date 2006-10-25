@@ -27,12 +27,10 @@
 
 class CViewTabPage;
 class StatImageLoader;
-class SkinClass;
 class ImageLoader;
 class CProjectsComponent;
 class ClientStateIndicator;
 class WorkunitNotebook;
-class wxFlatNotebookEvent;
 
 // Define a new frame
 class CSimpleFrame : public CBOINCBaseFrame
@@ -95,11 +93,9 @@ public:
 
 protected:
 	void OnEraseBackground(wxEraseEvent& event);
-	void OnBtnClick(wxCommandEvent& event);
 	void OnConnect(CFrameEvent& event );
     void OnReloadSkin( CFrameEvent& event );
     void OnFrameRender(wxTimerEvent& event );
-	void OnPageChanged(wxFlatNotebookEvent& event);
 
     void DrawBackImg(wxEraseEvent& event,wxWindow *win,wxBitmap* bitMap,int opz);
 
