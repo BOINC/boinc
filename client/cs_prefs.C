@@ -384,9 +384,11 @@ void CLIENT_STATE::read_global_prefs() {
         fclose(f);
     }
 
-    // max_cpus may have changed, so update ncpus
+    // max_cpus, bandwidth limits may have changed
     //
     set_ncpus();
+	file_xfers->set_bandwidth_limits(true);
+	file_xfers->set_bandwidth_limits(false);
 }
 
 int CLIENT_STATE::save_global_prefs(

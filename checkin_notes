@@ -11450,3 +11450,10 @@ David  24 Oct 2006
         cs_scheduler.C
     html/inc/
         prefs.inc
+
+David  24 Oct 2006
+	- core client: when get new global prefs, enforce
+		network bandwidth limits (in case they changed)
+
+	client/
+		cs_prefs.C
