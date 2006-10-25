@@ -79,7 +79,16 @@ bool CBOINCGUIApp::OnInit() {
 
     // Setup variables with default values
     m_bBOINCStartedByManager = false;
+    m_pLocale = NULL;
+    m_pSkinManager = NULL;
     m_pFrame = NULL;
+    m_pDocument = NULL;
+#if defined(__WXMSW__) || defined(__WXMAC__)
+    m_pTaskBarIcon = NULL;
+#endif
+#ifdef __WXMAC__
+    m_pMacSystemMenu = NULL;
+#endif
     m_bGUIVisible = true;
     m_strDefaultWindowStation = wxT("");
     m_strDefaultDesktop = wxT("");
