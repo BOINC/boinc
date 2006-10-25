@@ -351,7 +351,6 @@ public:
     CSkinAdvanced*      GetAdvanced() { return &m_AdvancedSkin; }
     CSkinWizards*       GetWizards() { return &m_WizardsSkin; }
 
-
 private:
     CSkinSimple         m_SimpleSkin;
     CSkinAdvanced       m_AdvancedSkin;

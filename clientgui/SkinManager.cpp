@@ -1225,7 +1225,13 @@ bool CSkinManager::ReloadSkin(wxLocale* pLocale, wxString strSkin) {
         // Clear out all the old stuff and just run the skin validation
         //   code to load up the default resources
         Clear();
+
+        // Set the default skin back to Default
+        m_strSelectedSkin = strSkin;
+
+        // Validate settings
         ValidateSkin();
+
         return true;
     }
 

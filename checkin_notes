@@ -11529,3 +11529,11 @@ Kevin	25 Oct 2006
         sg_BoincSimpleGUI.cpp/h
         sg_ClientStateIndicator.cpp
         
+Rom    25 Oct 2006
+    - MGR: Make sure that after we clear out all the old skin resources we at
+        least reset the skin name back to the one the user wants, otherwise
+        we'll end up with a blank combo box item.
+        
+    clientgui/
+        sg_BoincSimpleGUI.cpp
+        SkinManager.cpp, .h

@@ -94,6 +94,7 @@ CSimpleFrame::CSimpleFrame(wxString title, wxIcon* icon) :
     m_pFrameRenderTimer->Start(1000);                // Send event every 1 second
 
 	InitEmptyView();
+
     wxLogTrace(wxT("Function Start/End"), wxT("CSimpleFrame::CSimpleFrame - Overloaded Constructor Function End"));
 }
 
