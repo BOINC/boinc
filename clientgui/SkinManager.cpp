@@ -1218,30 +1218,24 @@ CSkinManager::~CSkinManager() {
 }
 
 bool CSkinManager::ReloadSkin(wxLocale* pLocale, wxString strSkin) {
-    m_strSelectedSkin = strSkin;
-
-    // Check to see if the skin we want to change to is the default skin
-    if (GetDefaultSkinName() == m_strSelectedSkin) {
-        // Clear out all the old stuff and just run the skin validation
-        //   code to load up the default resources
-        Clear();
-
-        // Set the default skin back to Default
-        m_strSelectedSkin = strSkin;
-
-        // Validate settings
-        ValidateSkin();
-
-        return true;
-    }
-
-    // Okay, this means we should go hit the disk to actually load up the
-    //   skin and resources.
-    //
     int      retval;
     FILE*    p;
     MIOFILE  mf;
     wxString strDesiredLocale = pLocale->GetCanonicalName();
+
+
+    // Clear out all the old stuff 
+    Clear();
+
+    // Set the default skin back to Default
+    m_strSelectedSkin = strSkin;
+
+    // Check to see if the skin we want to change to is the default skin
+    if (GetDefaultSkinName() == m_strSelectedSkin) {
+        // Validate settings
+        ValidateSkin();
+        return true;
+    }
 
     // First we try the users canonical locale resources.
     //  i.e. en_US
