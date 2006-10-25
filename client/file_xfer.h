@@ -28,6 +28,10 @@
 #include "client_types.h"
 #include "http_curl.h"
 
+#define MAX_FILE_XFERS_PER_PROJECT      2
+#define MAX_FILE_XFERS                  8
+    // kind of arbitrary
+
 #define MIN_DOWNLOAD_INCREMENT  5000
 
 class FILE_XFER : public HTTP_OP {

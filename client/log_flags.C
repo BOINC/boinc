@@ -33,6 +33,7 @@
 #include "common_defs.h"
 #include "file_names.h"
 #include "client_msgs.h"
+#include "file_xfer.h"
 #include "parse.h"
 #include "filesys.h"
 
@@ -149,6 +150,8 @@ CONFIG::CONFIG() {
     memset(this, 0, sizeof(CONFIG));
     dont_check_file_sizes = false;
     save_stats_days = 30;
+    max_file_xfers = MAX_FILE_XFERS;
+    max_file_xfers_per_project = MAX_FILE_XFERS_PER_PROJECT;
 }
 
 int CONFIG::parse_options(XML_PARSER& xp) {
@@ -168,6 +171,8 @@ int CONFIG::parse_options(XML_PARSER& xp) {
         else if (xp.parse_int(tag, "save_stats_days", save_stats_days)) continue;
         else if (xp.parse_bool(tag, "dont_check_file_sizes", dont_check_file_sizes)) continue;
         else if (xp.parse_int(tag, "ncpus", ncpus)) continue;
+        else if (xp.parse_int(tag, "max_file_xfers", max_file_xfers)) continue;
+        else if (xp.parse_int(tag, "max_file_xfers_per_project", max_file_xfers_per_project)) continue;
         else {
             msg_printf(NULL, MSG_ERROR, "Unparsed tag in %s: <%s>\n",
                 CONFIG_FILE, tag

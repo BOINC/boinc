@@ -77,6 +77,9 @@ struct CONFIG {
     bool dont_check_file_sizes;
     int save_stats_days;
     int ncpus;
+    int max_file_xfers;
+    int max_file_xfers_per_project;
+
     CONFIG();
     int parse(FILE*);
     int parse_options(XML_PARSER&);

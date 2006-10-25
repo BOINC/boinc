@@ -12,6 +12,8 @@ This file has the following format:
         [ <save_stats_days>N</save_stats_days> ]
         [ <dont_check_file_sizes>0|1</dont_check_file_sizes> ]
         [ <ncpus>N</ncpus> ]
+        [ <max_file_xfers>N</max_file_xfers> ]
+        [ <max_file_xfers_per_project>N</max_file_xfers_per_project> ]
     </options>
     <log_flags>
         [ flags ]
@@ -40,6 +42,12 @@ list_item_func("<ncpus>",
     on a machine that has only 1.
     Don't use it to limit the number of CPUs used by BOINC;
     use general preferences instead."
+);
+list_item_func("<max_file_xfers>",
+    "Maximum number of simultaneous file transfers (default 8)."
+);
+list_item_func("<max_file_xfers_per_project>",
+    "Maximum number of simultaneous file transfers per project (default 2)."
 );
 list_end();
 echo "

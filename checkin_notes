@@ -11478,3 +11478,12 @@ Rom    25 Oct 2006
         sg_SGUIListControl.cpp
         SkinManager.cpp, .h
         stdwx.h
+
+David  25 Oct 2006
+    - core client: added config options for
+        max # file transfers, global and per_project
+
+    client/
+        cs_files.C
+        file_xfer.h
+        log_flags.C,h
