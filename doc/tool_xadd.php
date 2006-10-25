@@ -21,6 +21,7 @@ The contents of <b>project.xml</b> should look like this:
     <app>
         <name>setiathome</name>
         <user_friendly_name>SETI@home</user_friendly_name>
+        [ <beta>1</beta> ]
     </app>
     ...
     <platform>

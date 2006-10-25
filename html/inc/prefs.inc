@@ -24,6 +24,7 @@ $cvs_version_tracker[]="\$Id$";  //Generated automatically - do not edit
 //
 // <project_preferences>
 //    <resource_share>4</resource_share>
+//    [ <allow_beta_work>0|1</allow_beta_work> ]
 //    <project-specific>
 //            ... (arbitrary project-specific XML)
 //    </project-specific>
@@ -103,6 +104,11 @@ define("DONT_VERIFY_IMAGES_DESC",
 define("BYTE_CONVERSION", 1000.0);
 define("BYTE_UNITS", "Kbytes/sec");
 define("BYTE_ABBR", "KB/s");
+define("ALLOW_BETA_WORK",
+    "Run test applications?<br>
+    <font size=-2>This helps us develop applications,
+    but may cause jobs to fail on your computer</font>"
+);
 
 // These texts are used in multiple places in prefs_edit.php and add_venue.php
 define("PREFS_FORM_DESC1", "These preferences apply to all the BOINC projects in which you participate.<br><br>");
@@ -199,7 +205,7 @@ function element_start_project($parser, $name, $attrs) {
     case "venue":
         $venue_name = $attrs["name"];
         $top_parse_result = $parse_result;
-        $parse_result = null;
+        $parse_result = default_prefs_project();
         break;
     case "project_specific":
         $in_project_specific = 1;
@@ -248,6 +254,10 @@ function element_end_project($parser, $name) {
         break;
     case "resource_share":
         $parse_result->resource_share = $text;
+        break;
+    case "allow_beta_work":
+        $parse_result->allow_beta_work = $text;
+        $parse_result->allow_beta_work_text = $parse_result->allow_beta_work?"yes":"no";
         break;
     case "project_preferences":
         break;
@@ -395,6 +405,8 @@ function default_prefs_global() {
 function default_prefs_project() {
     $p = null;
     $p->resource_share = 100;
+    $p->allow_beta_work = false;
+    $p->allow_beta_work_text = "no";
     $p->project_specific = project_specific_prefs_default();
     return $p;
 }
@@ -686,6 +698,14 @@ function prefs_show_resource($prefs, $columns=false) {
     }
 }
 
+function prefs_show_beta($prefs, $columns=false) {
+    if ($columns) {
+        row_defs(ALLOW_BETA_WORK, "allow_beta_work_text", "", "" ,$prefs);
+    } else {
+        row2(ALLOW_BETA_WORK, $prefs->allow_beta_work_text);
+    }
+}
+
 function prefs_show_privacy($user) {
     $x = "";
     if (defined('EMAIL_FROM')) {
@@ -716,6 +736,7 @@ function subset_name($subset) {
 }
 
 function prefs_display_venue($prefs, $venue, $subset) {
+    global $project_has_beta;
     $x = false;
     if (isset($prefs->$venue)) $x = $prefs->$venue;
 
@@ -727,6 +748,7 @@ function prefs_display_venue($prefs, $venue, $subset) {
             prefs_show_global($x);
         } else {
             prefs_show_resource($x);
+            if ($project_has_beta) prefs_show_beta($x);
             prefs_show_project($x);
         }
         row2("<br>", "<a href=prefs_edit.php?venue=$venue&subset=$subset>Edit preferences</a> | <a href=prefs_remove.php?venue=$venue&subset=$subset>Remove</a>");
@@ -739,6 +761,7 @@ function prefs_display_venue($prefs, $venue, $subset) {
 }
 
 function print_prefs_display_project($user, $columns=false) {
+    global $project_has_beta;
     $project_prefs = prefs_parse_project($user->project_prefs);
 
     start_table();
@@ -751,6 +774,7 @@ function print_prefs_display_project($user, $columns=false) {
         venue_show($user);
         row_top("Project specific settings");
         prefs_show_resource($project_prefs, true);
+        if ($project_has_beta) prefs_show_beta($project_prefs, true);
         prefs_show_project($project_prefs, true);
         row_links("project", $project_prefs);
         end_table();
@@ -762,6 +786,7 @@ function print_prefs_display_project($user, $columns=false) {
         echo "<tr><td colspan=2>";
         start_table("width=100% border=4");
         prefs_show_resource($project_prefs, false);
+        if ($project_has_beta) prefs_show_beta($project_prefs, false);
         prefs_show_privacy($user);
         venue_show($user);
         prefs_show_project($project_prefs, false);
@@ -827,7 +852,12 @@ function print_prefs_display($user) {
 // $error and $project_error should be an object of the form:
 // $error->idle_time_to_run=true if an error occured
 // otherwise false
-function print_prefs_form($action, $subset, $venue, $user, $prefs, $cols, $error=false, $project_error=false){
+function print_prefs_form(
+    $action, $subset, $venue, $user, $prefs, $cols, $error=false,
+    $project_error=false
+){
+    global $project_has_beta;
+
     if ($action == "add") {
         $script = "add_venue.php";
         $submit_value = "Add preferences";
@@ -850,6 +880,7 @@ function print_prefs_form($action, $subset, $venue, $user, $prefs, $cols, $error
         prefs_form_global($user, $prefs, $error);
     } else {
         prefs_form_resource($prefs, $error);
+        if ($project_has_beta) prefs_form_beta($prefs, $error);
         if (!$venue) {
             prefs_form_privacy($user);
             venue_form($user);
@@ -1062,16 +1093,24 @@ function prefs_form_resource($prefs, $error=false) {
     row2(
         "<b>Resource share:</b>
         <font size=-2><br>The proportion of your computer's resources
-        (processing time and disk space)
         allocated to ".PROJECT."
         relative to the other BOINC projects in which you participate.
-        The default is 100.
         For example, if you participate in two projects and
         give them resource shares of 100 and 200,
         the first will get 1/3 of your resources and the second will get 2/3.
         </font>",
         "<input name=resource_share value='$prefs->resource_share'",
         $show_error
+    );
+}
+
+function prefs_form_beta($prefs, $error=false) {
+    $ychecked = $prefs->allow_beta_work?"checked":"";
+    $nchecked = $prefs->allow_beta_work?"":"checked";
+    row2(
+        ALLOW_BETA_WORK,
+        "yes <input type=radio checkbox name=allow_beta_work value=1 $ychecked>
+        no <input type=radio checkbox name=allow_beta_work value=0 $nchecked>"
     );
 }
 
@@ -1197,6 +1236,16 @@ function prefs_resource_parse_form(&$prefs) {
     return $error;
 }
 
+function prefs_beta_parse_form(&$prefs) {
+    $prefs->allow_beta_work = false;
+    $prefs->allow_beta_work_text = "no";
+    $x = $_GET['allow_beta_work'];
+    if ($x) {
+        $prefs->allow_beta_work = true;
+        $prefs->allow_beta_work_text = "yes";
+    }
+}
+
 function prefs_privacy_parse_form(&$user) {
     $user->send_email = ($_GET['send_email'] == "yes")?1:0;
     $user->show_hosts = ($_GET['show_hosts'] == "yes")?1:0;
@@ -1294,6 +1343,9 @@ function project_prefs_make_xml($prefs, $primary=true) {
     if ($prefs->resource_share) {
         $xml = $xml
             ."<resource_share>$prefs->resource_share</resource_share>\n";
+    }
+    if ($prefs->allow_beta_work) {
+        $xml = $xml . "<allow_beta_work>1</allow_beta_work>\n";
     }
     if ($prefs->project_specific) {
         $x = trim($prefs->project_specific);

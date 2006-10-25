@@ -879,12 +879,12 @@ int send_work(
         }
     	reply.wreq.reliable_only = false;
 
-        // give 2nd priority to results that are for a beta app
-        // (projects should load beta work with care
+        // give 2nd priority to results for a beta app
+        // (projects should load beta work with care,
         // otherwise your users won't get production work done!
         //
         if (reply.wreq.host_info.allow_beta_work) {
-            reply.wreq.beta_only=true;
+            reply.wreq.beta_only = true;
             log_messages.printf(
                 SCHED_MSG_LOG::MSG_DEBUG,
                 "[HOST#%d] will accept beta work.  Scanning for beta work.\n",

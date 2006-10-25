@@ -11334,8 +11334,8 @@ Charlie 21 Oct 2006
 
 David  21 Oct 2006
 	- Server: apps can be labeled as "beta",
-		and jobs for them will be sent only to users
-		with "<beta>1</beta>" in their project preferences.
+		and jobs for them will be sent only to users with
+        "<allow_beta_work>1</allow_beta_work>" in their project preferences.
 		This lets you do application testing without
 		creating a separate project,
 		which has advantages both for you (1 projects instead of 2)
@@ -11496,3 +11496,19 @@ Rom    25 Oct 2006
         
     clientgui/
         sg_BoincSimpleGUI.cpp, .h
+
+David  25 Oct 2006
+    - User web: added support for "run beta applications" preference.
+        This is enabled if project has
+            $project_has_beta = true;
+        in its html/project/project_specific_prefs.inc file.
+
+    html/
+        inc/
+            prefs.inc
+        user/
+            add_venue.php
+            prefs_edit.php
+            project_specific_prefs.inc.sample
+    sched/
+        sched_send.C

@@ -201,7 +201,7 @@ PROJECT* CLIENT_STATE::next_project_need_work() {
                 continue;
             }
 
-            if (p->long_term_debt - p->cpu_shortfall < p_prospect->long_term_debt - p_prospect->cpu_shortfall
+            if (p->long_term_debt + p->cpu_shortfall < p_prospect->long_term_debt + p_prospect->cpu_shortfall
                 && !p->non_cpu_intensive
             ) {
                 continue;
@@ -704,7 +704,7 @@ bool CLIENT_STATE::compute_work_requests() {
             }
             // get work from project with highest LTD
             //
-            if (pbest->long_term_debt - pbest->cpu_shortfall > p->long_term_debt - p->cpu_shortfall) {
+            if (pbest->long_term_debt + pbest->cpu_shortfall > p->long_term_debt + p->cpu_shortfall) {
                 if (log_flags.work_fetch_debug) {
                     msg_printf(p, MSG_INFO,
                         "[work_fetch_debug] project has less LTD than %s",
