@@ -344,7 +344,7 @@ int PROJECT::parse_preferences_for_user_files() {
 }
 
 // Get global preferences.
-// 1) read the override file to get venue
+// 1) read the override file to get venue in case it's there
 // 2) read the prefs file
 // 3) read the override file again
 //
@@ -369,6 +369,15 @@ void CLIENT_STATE::read_global_prefs() {
             "No general preferences found - using BOINC defaults"
         );
     } else {
+		// check that the source project's venue matches main_host_venue.
+		// If not, read file again.
+		// This is a fix for cases where main_host_venue is out of synch
+		//
+		PROJECT* p = global_prefs_source_project();
+		if (p && strcmp(main_host_venue, p->host_venue)) {
+			strcpy(main_host_venue, p->host_venue);
+			global_prefs.parse_file(GLOBAL_PREFS_FILE_NAME, main_host_venue, found_venue);
+		}
         show_global_prefs_source(found_venue);
     }
 

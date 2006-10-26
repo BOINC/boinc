@@ -11537,3 +11537,11 @@ Rom    25 Oct 2006
     clientgui/
         sg_BoincSimpleGUI.cpp
         SkinManager.cpp, .h
+
+David  26 Oct 2006
+	- core client: fix a couple of bugs that could cause
+		the host to use the wrong venue when reading prefs
+
+	client/
+		cs_prefs.C
+		cs_scheduler.C

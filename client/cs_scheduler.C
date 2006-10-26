@@ -173,7 +173,6 @@ PROJECT* CLIENT_STATE::next_project_trickle_up_pending() {
 PROJECT* CLIENT_STATE::next_project_need_work() {
     PROJECT *p, *p_prospect = NULL;
     unsigned int i;
-    double prrs = potentially_runnable_resource_share();
 
     for (i=0; i<projects.size(); i++) {
         p = projects[i];
@@ -926,18 +925,6 @@ int CLIENT_STATE::handle_scheduler_reply(
         return ERR_PROJECT_DOWN;
     }
 
-    // see if we have a new venue from this project
-    //
-    if (strcmp(project->host_venue, sr.host_venue)) {
-        safe_strcpy(project->host_venue, sr.host_venue);
-        msg_printf(project, MSG_INFO, "New host venue: %s", sr.host_venue);
-        update_project_prefs = true;
-        if (project == global_prefs_source_project()) {
-            strcpy(main_host_venue, sr.host_venue);
-            update_global_prefs = true;
-        }
-    }
-
     // if the scheduler reply includes global preferences,
     // insert extra elements, write to disk, and parse
     //
@@ -960,6 +947,20 @@ int CLIENT_STATE::handle_scheduler_reply(
 				);
 			}
 		}
+    }
+
+    // see if we have a new venue from this project
+    // (this must go AFTER the above, since otherwise
+    // global_prefs_source_project() is meaningless)
+    //
+    if (strcmp(project->host_venue, sr.host_venue)) {
+        safe_strcpy(project->host_venue, sr.host_venue);
+        msg_printf(project, MSG_INFO, "New host venue: %s", sr.host_venue);
+        update_project_prefs = true;
+        if (project == global_prefs_source_project()) {
+            strcpy(main_host_venue, sr.host_venue);
+            update_global_prefs = true;
+        }
     }
 
     if (update_global_prefs) {
