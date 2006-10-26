@@ -11541,6 +11541,7 @@ Rom    25 Oct 2006
 David  26 Oct 2006
 	- core client: fix a couple of bugs that could cause
 		the host to use the wrong venue when reading prefs
+		Also, print log message showing host location
 
 	client/
 		cs_prefs.C
