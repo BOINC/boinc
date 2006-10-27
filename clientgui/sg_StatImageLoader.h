@@ -35,7 +35,7 @@ public:
 	    /// Constructors
 		StatImageLoader(wxWindow* parent, std::string url); 
 		~StatImageLoader(); 
-        void LoadImage(std::string project_icon, wxBitmap* defaultImage); 
+		void LoadImage();
 		void OnMenuLinkClicked(wxCommandEvent& event);
 		void OnProjectDetach();
 		void PopUpMenu(wxMouseEvent& event); 

@@ -113,13 +113,11 @@ void CProjectsComponent::CreateComponent()
 	/////////////// ICONS /////////////////////
 	CMainDocument* pDoc     = wxGetApp().GetDocument();
 	m_projCnt = 0;
-	projectIconName = wxT("stat_icon");
 
 	if ( pDoc->IsConnected() ) {
 		m_projCnt = pDoc->GetProjectCount();
 		defaultIcnPath[256];
 		// url of project directory
-		urlDirectory[256];
 
 		for(int j = 0; j < m_projCnt; j++){
 			PROJECT* project = pDoc->state.projects[j];
@@ -128,11 +126,7 @@ void CProjectsComponent::CreateComponent()
 				// Project button
 				StatImageLoader *i_statW = new StatImageLoader(this,project->master_url);
 				i_statW->Move(wxPoint(55 + 40*j,37));
-			
-				// resolve the proj image 
-				url_to_project_dir((char*)project->master_url.c_str() ,urlDirectory);
-				dirProjectGraphic = (std::string)urlDirectory + "/" + projectIconName;
-                i_statW->LoadImage(dirProjectGraphic, pSkinSimple->GetProjectImage()->GetBitmap());
+				i_statW->LoadImage();
 			
 				// push icon in the vector
 				m_statProjects.push_back(i_statW);
@@ -348,10 +342,7 @@ void CProjectsComponent::RemoveProject(std::string prjUrl)
 			PROJECT* project = pDoc->state.projects.at(m_leftIndex-1);
 			StatImageLoader *i_statW = new StatImageLoader(this,project->master_url);
 		    i_statW->Move(wxPoint(55,37));
-			// resolve the proj image 
-			url_to_project_dir((char*)project->master_url.c_str() ,urlDirectory);
-			dirProjectGraphic = (std::string)urlDirectory + "/" + projectIconName;
-            i_statW->LoadImage(dirProjectGraphic, pSkinSimple->GetProjectImage()->GetBitmap());
+			i_statW->LoadImage();
 			
 		    // push icon in the vector
 		    m_statProjects.insert(m_statProjects.begin(),i_statW);
@@ -372,10 +363,7 @@ void CProjectsComponent::RemoveProject(std::string prjUrl)
 			PROJECT* project = pDoc->state.projects.at(m_rightIndex-1);
 			StatImageLoader *i_statW = new StatImageLoader(this,project->master_url);
 			i_statW->Move(wxPoint(55 + 40*(m_maxNumOfIcons-1),37));
-			// resolve the proj image 
-			url_to_project_dir((char*)project->master_url.c_str() ,urlDirectory);
-			dirProjectGraphic = (std::string)urlDirectory + "/" + projectIconName;
-			i_statW->LoadImage(dirProjectGraphic, pSkinSimple->GetProjectImage()->GetBitmap());
+			i_statW->LoadImage();
 			
 			// push icon in the vector
 			m_statProjects.push_back(i_statW);
@@ -461,10 +449,7 @@ void CProjectsComponent::UpdateInterface()
 		PROJECT* project = pDoc->state.projects.at(m_projCnt-1);
 		StatImageLoader *i_statW = new StatImageLoader(this,project->master_url);
 		i_statW->Move(wxPoint(55 + 40*(m_projCnt-1),37));
-		// resolve the proj image 
-		url_to_project_dir((char*)project->master_url.c_str() ,urlDirectory);
-		dirProjectGraphic = (std::string)urlDirectory + "/" + projectIconName;
-		i_statW->LoadImage(dirProjectGraphic, pSkinSimple->GetProjectImage()->GetBitmap());
+		i_statW->LoadImage();
 		
 		// push icon in the vector
 		m_statProjects.push_back(i_statW);
@@ -537,10 +522,11 @@ void CProjectsComponent::ReskinInterface()
     lnMyProjTop->SetLineColor(pSkinSimple->GetStaticLineColor());
 	lnMyProjBtm->SetLineColor(pSkinSimple->GetStaticLineColor());
 
-	// Rebuild menus for the stat icons
+	// Rebuild stat menus and reload icons
 	for(int m = 0; m < (int)m_statProjects.size(); m++){
-		StatImageLoader *i_statWShifting = m_statProjects.at(m);
-		i_statWShifting->RebuildMenu();
+		StatImageLoader *i_statImage = m_statProjects.at(m);
+		i_statImage->LoadImage();
+		i_statImage->RebuildMenu();
 	}
 }
 
@@ -572,10 +558,7 @@ void CProjectsComponent::OnBtnClick(wxCommandEvent& event){ //init function
 			PROJECT* project = pDoc->state.projects.at(m_leftIndex-1);
 			StatImageLoader *i_statW = new StatImageLoader(this,project->master_url);
 		    i_statW->Move(wxPoint(55,37));
-			// resolve the proj image 
-			url_to_project_dir((char*)project->master_url.c_str() ,urlDirectory);
-			dirProjectGraphic = (std::string)urlDirectory + "/" + projectIconName;
-			i_statW->LoadImage(dirProjectGraphic, pSkinSimple->GetProjectImage()->GetBitmap());
+			i_statW->LoadImage();
 			
 		    // push icon in the vector
 		    m_statProjects.insert(m_statProjects.begin(),i_statW);
@@ -612,10 +595,7 @@ void CProjectsComponent::OnBtnClick(wxCommandEvent& event){ //init function
 			PROJECT* project = pDoc->state.projects.at(m_rightIndex);
 			StatImageLoader *i_statW = new StatImageLoader(this,project->master_url);
 		    i_statW->Move(wxPoint(55 + 40*(m_maxNumOfIcons-1),37));
-			// resolve the proj image 
-			url_to_project_dir((char*)project->master_url.c_str() ,urlDirectory);
-			dirProjectGraphic = (std::string)urlDirectory + "/" + projectIconName;
-			i_statW->LoadImage(dirProjectGraphic, pSkinSimple->GetProjectImage()->GetBitmap());
+			i_statW->LoadImage();
 			
 		    // push icon in the vector
 		    m_statProjects.push_back(i_statW);

@@ -11546,3 +11546,14 @@ David  26 Oct 2006
 	client/
 		cs_prefs.C
 		cs_scheduler.C
+
+Kevin    26 Oct 2006
+    - MGR:
+        * Fire ReloadSkin after changing to the default skin (this properly redraws the 
+        * Move all logic for reloading a project/stat icon into the StatImageLoader class
+        * Fix bug that prevented the default stat icons from being updated with reskining
+        
+    clientgui/
+        sg_ProjectsComponent.cpp/h
+        sg_StatImageLoader.cpp/h
+        SkinManager.cpp, .h

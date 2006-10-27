@@ -38,9 +38,6 @@ public:
 	
 	int clientRunMode;
 	char defaultIcnPath[256];
-	char urlDirectory[256];
-	std::string dirProjectGraphic;
-	std::string projectIconName;
 	// projects vector
 	std::vector<StatImageLoader*> m_statProjects; // vector of all project icons created for GUI
 	wxImage *g_statIcn;

@@ -212,24 +212,30 @@ void StatImageLoader::LoadStatIcon(wxBitmap& image) {
 	SetSize(width, height); 
 }
 
+void StatImageLoader::LoadImage() {
+	char urlDirectory[256];
+	std::string dirProjectGraphic;
 
-void StatImageLoader::LoadImage(std::string project_icon, wxBitmap* defaultImage) 
-{ 
+    CSkinSimple* pSkinSimple = wxGetApp().GetSkinManager()->GetSimple();
+	CMainDocument* pDoc = wxGetApp().GetDocument();
+	PROJECT* project = pDoc->state.lookup_project(m_prjUrl);
+	url_to_project_dir((char*)project->master_url.c_str() ,urlDirectory);
+	dirProjectGraphic = (std::string)urlDirectory + "/" + wxT("stat_icon");
+
 	char defaultIcnPath[256];
-	bool defaultUsed = true;
-	if(boinc_resolve_filename(project_icon.c_str(), defaultIcnPath, sizeof(defaultIcnPath)) == 0){
+	if(boinc_resolve_filename(dirProjectGraphic.c_str(), defaultIcnPath, sizeof(defaultIcnPath)) == 0){
 		wxBitmap* btmpStatIcn = new wxBitmap();
 		if ( btmpStatIcn->LoadFile(defaultIcnPath, wxBITMAP_TYPE_ANY) ) {
 			LoadStatIcon(*btmpStatIcn);
-			defaultUsed = false;
 		} else {
-			LoadStatIcon(*defaultImage);
+			LoadStatIcon(*pSkinSimple->GetProjectImage()->GetBitmap());
 		}
+		delete btmpStatIcn;
 	}else{
-		LoadStatIcon(*defaultImage);
+		LoadStatIcon(*pSkinSimple->GetProjectImage()->GetBitmap());
 	}
-	projectIcon = project_icon;
-} 
+}
+
 
 void StatImageLoader::ReloadProjectSpecificIcon() {
 	char defaultIcnPath[256];
@@ -242,6 +248,7 @@ void StatImageLoader::ReloadProjectSpecificIcon() {
 			Refresh();
 			Update();
 		}
+		delete btmpStatIcn;
 	}
 }
 
