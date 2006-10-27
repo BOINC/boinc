@@ -11623,3 +11623,18 @@ Charlie 27 Oct 2006
     mac_build/
         boinc.xcodeproj/
             project.pbxproj
+
+Rom    27 Oct 2006
+    - MGR: Adjust the preferences dialog so that the change and clear buttons can
+        be removed. People are just pre-programmed to look for buttons on the right-hand
+        side or bottom of the dialog to save changes. With the new scheme their will
+        just be a save and cancel button.
+        
+        NOTE: The dialog looks a little funky right now, but that should be cleared up
+          soon.
+    - MGR: Make sure we don't try and load the skin we have already loaded.
+
+    clientgui/
+        sg_DlgPreferences.cpp, .h
+        sg_StaticLine.cpp
+        SkinManager.cpp

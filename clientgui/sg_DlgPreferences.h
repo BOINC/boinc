@@ -32,7 +32,6 @@
 ////@begin includes
 #include "wx/valtext.h"
 #include "wx/valgen.h"
-#include "wx/statline.h"
 ////@end includes
 
 /*!
@@ -40,8 +39,6 @@
  */
 
 ////@begin forward declarations
-class CStaticLine;
-class CTransparentStaticText;
 ////@end forward declarations
 
 /*!
@@ -50,23 +47,22 @@ class CTransparentStaticText;
 
 ////@begin control identifiers
 #define ID_DLGPREFERENCES 10000
-#define SYMBOL_CDLGPREFERENCES_STYLE wxDEFAULT_DIALOG_STYLE | wxCLIP_CHILDREN
+#define SYMBOL_CDLGPREFERENCES_STYLE wxDEFAULT_DIALOG_STYLE|wxCLIP_CHILDREN
 #define SYMBOL_CDLGPREFERENCES_TITLE _("BOINC Manager - Preferences")
 #define SYMBOL_CDLGPREFERENCES_IDNAME ID_DLGPREFERENCES
 #define SYMBOL_CDLGPREFERENCES_SIZE wxDefaultSize
 #define SYMBOL_CDLGPREFERENCES_POSITION wxDefaultPosition
 #define ID_SKINSELECTOR 10001
-#define ID_CHANGEBUTTON 10002
-#define ID_WORKBETWEENBEGIN 10006
-#define ID_WORKBETWEENEND 10007
-#define ID_CONNECTBETWEENBEGIN 10008
+#define ID_CUSTOMIZEPREFERENCES 10002
+#define ID_WORKBETWEENBEGIN 10004
+#define ID_WORKBETWEENEND 10006
+#define ID_CONNECTBETWEENBEGIN 10007
 #define ID_CONNECTBETWEENEND 10009
 #define ID_MAXDISKUSAGE 10010
-#define ID_MAXCPUUSAGE 10014
+#define ID_MAXCPUUSAGE 10011
 #define ID_WORKWHILEINUSE 10003
 #define ID_WORKWHILEONBATTERY 10005
-#define ID_WORKWHENIDLE 10013
-#define ID_CLEARBUTTON 10004
+#define ID_WORKWHENIDLE 10012
 ////@end control identifiers
 
 /*!
@@ -101,17 +97,14 @@ public:
     void CreateControls();
 
 ////@begin CDlgPreferences event handler declarations
-    /// wxEVT_COMMAND_BUTTON_CLICKED event handler for ID_CHANGEBUTTON
-    void OnChange( wxCommandEvent& event );
+    /// wxEVT_ERASE_BACKGROUND event handler for ID_DLGPREFERENCES
+    void OnEraseBackground( wxEraseEvent& event );
+
+    /// wxEVT_COMMAND_CHECKBOX_CLICKED event handler for ID_CUSTOMIZEPREFERENCES
+    void OnCustomizePreferencesClick( wxCommandEvent& event );
 
     /// wxEVT_COMMAND_BUTTON_CLICKED event handler for wxID_OK
     void OnOK( wxCommandEvent& event );
-
-    /// wxEVT_COMMAND_BUTTON_CLICKED event handler for ID_CLEARBUTTON
-    void OnClear( wxCommandEvent& event );
-
-    /// wxEVT_ERASE_BACKGROUND event handler for ID_DLGPREFERENCES
-    void OnEraseBackground( wxEraseEvent& event );
 
 ////@end CDlgPreferences event handler declarations
 
@@ -145,7 +138,13 @@ public:
 
     wxString GetWorkWhenIdle() const { return m_strWorkWhenIdle ; }
     void SetWorkWhenIdle(wxString value) { m_strWorkWhenIdle = value ; }
+
+    bool GetCustomizedPreferences() const { return m_bCustomizedPreferences ; }
+    void SetCustomizedPreferences(bool value) { m_bCustomizedPreferences = value ; }
 ////@end CDlgPreferences member function declarations
+
+
+    bool UpdateControlStates(bool bChecked);
 
     bool ClearPreferenceSettings();
     bool ReadPreferenceSettings();
@@ -156,7 +155,7 @@ public:
 private:
 ////@begin CDlgPreferences member variables
     wxComboBox* m_SkinSelectorCtrl;
-    CTransparentStaticText* m_PreferenceIndicatorCtrl;
+    wxCheckBox* m_CustomizePreferencesCtrl;
     wxComboBox* m_WorkBetweenBeginCtrl;
     wxComboBox* m_WorkBetweenEndCtrl;
     wxComboBox* m_ConnectBetweenBeginCtrl;
@@ -167,7 +166,6 @@ private:
     wxCheckBox* m_WorkWhileOnBatteryCtrl;
     wxComboBox* m_WorkWhenIdleCtrl;
     wxString m_strSkinSelector;
-    wxString m_strPreferenceIndicator;
     wxString m_strWorkBetweenBegin;
     wxString m_strWorkBetweenEnd;
     wxString m_strConnectBetweenBegin;
@@ -177,6 +175,7 @@ private:
     bool m_bWorkWhileInUse;
     bool m_bWorkWhileOnBattery;
     wxString m_strWorkWhenIdle;
+    bool m_bCustomizedPreferences;
 ////@end CDlgPreferences member variables
 	GLOBAL_PREFS m_prefs;
 };
