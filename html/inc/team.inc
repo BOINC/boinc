@@ -44,14 +44,21 @@ function display_team_page($team, $offset, $sort_by) {
         row2("Web site", "<a href=$x>$x</a>");
     }
     row2("Members (with AND without Credit)", $team->nusers);
+    
+    $founder = lookup_user_id($team->userid);
+    $user = get_logged_in_user(false);
 
     row2("Total credit", format_credit($team->total_credit));
     row2("Recent average credit", format_credit($team->expavg_credit));
-    $user = lookup_user_id($team->userid);
-    row2("Founder", user_links($user));
+    row2("Founder", user_links($founder));
     row2("Country", $team->country);
     row2("Type", team_type_name($team->type));
-    row2("Join this team", "<a href=team_join_form.php?id=$team->id>Join</a>");
+    if ($user->teamid != $team->id) {
+	row2("Join this team", "<a href='team_join_form.php?id=$team->id'>Join</a>");
+    }
+    if (($user->teamid == $team->id) && ($user->id != $founder->id)) {
+	row2("Initiate team founder transfer", "<a href=\"team_founder_transfer_form.php\">Initiate transfer</a>");
+    }
     show_team_create_account_url($team);
     echo "</table>";
     echo "<p>";
@@ -185,6 +192,7 @@ function user_quit_team($user) {
     $team = lookup_team($user->teamid);
     if (!$team) return;
     mysql_query("update user set teamid=0 where id=$user->id");
+    mysql_query("UPDATE team SET ping_user=0 WHERE id=".$user->teamid." AND ping_user=".$user->id);
     team_update_nusers($team);
 
 }
@@ -243,7 +251,7 @@ function team_edit_form($team, $label, $url) {
         "<select name=country>"
     );
     print_country_select($team->country);
-
+    
     echo "</select></b></td></tr>\n";
     row2("",
         "<input type=submit name=new value='$label'>"

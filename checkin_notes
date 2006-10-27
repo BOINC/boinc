@@ -11580,3 +11580,26 @@ Rom    27 Oct 2006
         stdwx.h
     win_build/
         boincmgr_curl_2003.vcproj
+
+Rytis  27 Oct 2006
+    - user web: allow team founder position to be transfered to another team member
+        in case the original founder is missing. Also updating "your account" page
+        to show multiple teams if the user is the founder of more than one.
+        
+        NOTE: requires DB update (html/ops/db_update.php).
+        
+    html/
+        user/
+            team_change_founder_action.php
+            team_change_founder_form.php
+            team_founder_transfer_action.php (new)
+            team_founder_transfer_form.php (new)
+        inc/
+            inc/email.inc
+            inc/team.inc
+            inc/user.inc
+        ops/
+            db_update.php
+    db/
+        schema.sql
+        constraints.sql

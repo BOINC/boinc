@@ -22,8 +22,9 @@ alter table team
     add unique(name),
     add index team_avg (expavg_credit desc),
         -- db_dump.C
-    add index team_tot (total_credit desc);
+    add index team_tot (total_credit desc),
         -- db_dump.C
+    add index team_userid (userid);
 
 alter table workunit
     add unique(name),

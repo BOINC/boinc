@@ -218,4 +218,34 @@ function salted_key($key) {
     return md5($key.'oogabooga');
 }
 
+function send_founder_transfer_email($team, $user) {
+    $body = "Team member ".$user->name." has requested you to hand over
+the privileges and responsibilities of team founder to him in ".PROJECT.".
+    
+Visit ".URL_BASE."team_change_founder_form.php?teamid=".$team->id."
+to change team founder or decline user's request.
+    
+If you do not respond to this request within two months, ".$user->name." will
+be given the option to become the founder himself.
+    
+Please do not respond to this email. The mailbox is not monitored and the email
+was sent using an automated system.";
+    
+    $founder = lookup_user_id($team->userid);
+
+    return send_email($founder, PROJECT." team founder transfer", $body);
+}
+
+function send_founder_transfer_decline_email($team, $user) {
+    $body = "The team founder of ".$team->name." has declined your request
+to become the new team founder in ".PROJECT.". You may wish to discuss 
+the matter with him directly or apply to become a founder after three
+months have passed since the initial request.
+    
+Please do not respond to this email. The mailbox is not monitored and the email
+was sent using an automated system.";
+    
+    return send_email($user, PROJECT." team founder transfer declined", $body);
+}
+
 ?>

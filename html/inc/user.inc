@@ -91,7 +91,12 @@ function show_user_info_private($user) {
         $x = "<a href=create_profile.php>Create</a>";
     }
     row2("Profile", $x);
+    $tot = total_posts($user);
+    if ($tot) {
+        row2("Message boards", "<a href=".URL_BASE."forum_user_posts.php?userid=$user->id>$tot posts</a>");
+    }
 
+    row1("Teams");
     if ($user->teamid) {
         $team = lookup_team($user->teamid);
         $x = "<a href=team_display.php?teamid=$team->id>$team->name</a>
@@ -103,9 +108,14 @@ function show_user_info_private($user) {
     } else {
         row2("Team", "None (<a href=team.php>find a team</a>)");
     }
-    $tot = total_posts($user);
-    if ($tot) {
-        row2("Message boards", "<a href=".URL_BASE."forum_user_posts.php?userid=$user->id>$tot posts</a>");
+    
+    $team_founder = lookup_team_founder($user->id);
+    if ($team_founder) {
+	while ($res = mysql_fetch_object($team_founder)) {
+	    if ($res->id != $user->teamid) {
+		row2("", $res->name." <a href=\"team_change_founder_form.php?teamid=".$res->id."\">Change team founder</a>");
+	    }
+	}
     }
 
     row1("<a name=prefs>Preferences");

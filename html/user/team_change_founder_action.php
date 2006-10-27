@@ -23,7 +23,7 @@ for ($i=0; $i<$n; $i++) {
         if ($user->teamid != $team->id) {
             echo "<br>$user->name is not a member of $team->name";
         } else {
-            $query = "update team set userid=$userid where id=$team->id";
+            $query = "update team set userid=$userid, ping_user=0 where id=$team->id";
             $result_user_table = mysql_query($query);
             echo "<br>$user->name is now Founder of $team->name";
         }
