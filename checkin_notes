@@ -11612,4 +11612,10 @@ Kevin    27 Oct 2006
     clientgui/
         sg_ViewTabPage.cpp
 
-        
+Charlie 27 Oct 2006
+    - Mac: Fix bug that prevented screensaver from launching BOINC client 
+        properly under sandbox security if manager is not running.
+    
+    clientgui/
+        mac/
+            mac_saver_module.cpp

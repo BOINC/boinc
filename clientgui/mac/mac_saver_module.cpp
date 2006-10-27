@@ -257,7 +257,7 @@ OSStatus initBOINCApp() {
             _exit(status);
         }
 
-        status = execl(boincPath, "boinc", "-redirectio", (char *) 0);
+        status = execl(boincPath, boincPath, "-redirectio", (char *) 0);
         fflush(NULL);
         _exit(127);         // execl error (execl should never return)
     } else {
