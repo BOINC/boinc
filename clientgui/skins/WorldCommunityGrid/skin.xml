@@ -184,21 +184,21 @@
 				<image>
 					<!-- Taskbar Icon -->
 					<imagesrc>graphic/wcg_setup.png</imagesrc> 
-					<transparency_mask></transparency_mask>
+					<transparency_mask>255:0:255</transparency_mask>
 				</image>
 			</application_icon>
 			<application_disconnected_icon>
 				<image>
 					<!-- Taskbar Icon when disconnected -->
-					<imagesrc></imagesrc> 
-					<transparency_mask></transparency_mask>
+					<imagesrc>graphic/wcg_stop.png</imagesrc> 
+					<transparency_mask>255:0:255</transparency_mask>
 				</image>
 			</application_disconnected_icon>
 			<application_snooze_icon>
 				<image>
 					<!-- Taskbar Icon when snoozing -->
-					<imagesrc></imagesrc> 
-					<transparency_mask></transparency_mask>
+					<imagesrc>graphic/wcg_pause.png</imagesrc> 
+					<transparency_mask>255:0:255</transparency_mask>
 				</image>
 			</application_snooze_icon> 
 			<!-- logo displayed in about box -->
