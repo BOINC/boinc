@@ -30,6 +30,9 @@
  */
 
 ////@begin includes
+#include "wx/valtext.h"
+#include "wx/valgen.h"
+#include "wx/statline.h"
 ////@end includes
 
 /*!
@@ -37,6 +40,8 @@
  */
 
 ////@begin forward declarations
+class CStaticLine;
+class CTransparentStaticText;
 ////@end forward declarations
 
 /*!
@@ -44,19 +49,24 @@
  */
 
 ////@begin control identifiers
-#define ID_DIALOG 10000
-#define SYMBOL_CDLGPREFERENCES_STYLE wxDEFAULT_DIALOG_STYLE
+#define ID_DLGPREFERENCES 10000
+#define SYMBOL_CDLGPREFERENCES_STYLE wxDEFAULT_DIALOG_STYLE | wxCLIP_CHILDREN
 #define SYMBOL_CDLGPREFERENCES_TITLE _("BOINC Manager - Preferences")
-#define SYMBOL_CDLGPREFERENCES_IDNAME ID_DIALOG
+#define SYMBOL_CDLGPREFERENCES_IDNAME ID_DLGPREFERENCES
 #define SYMBOL_CDLGPREFERENCES_SIZE wxDefaultSize
 #define SYMBOL_CDLGPREFERENCES_POSITION wxDefaultPosition
-#define ID_CANCELBUTTON 10001
+#define ID_SKINSELECTOR 10001
 #define ID_CHANGEBUTTON 10002
-#define ID_CLEARBUTTON 10003
-#define ID_SAVEBUTTON 10004 
-#define ID_SKINPICKERCMBBOX 10005 
-#define ID_DOWORKONLYBGNCMBBOX 10006
-#define ID_DOCONNECTONLYBGNCMBBOX 10007
+#define ID_WORKBETWEENBEGIN 10006
+#define ID_WORKBETWEENEND 10007
+#define ID_CONNECTBETWEENBEGIN 10008
+#define ID_CONNECTBETWEENEND 10009
+#define ID_MAXDISKUSAGE 10010
+#define ID_MAXCPUUSAGE 10014
+#define ID_WORKWHILEINUSE 10003
+#define ID_WORKWHILEONBATTERY 10005
+#define ID_WORKWHENIDLE 10013
+#define ID_CLEARBUTTON 10004
 ////@end control identifiers
 
 /*!
@@ -74,14 +84,14 @@
  * CDlgPreferences class declaration
  */
 
-class CDlgPreferences : public wxDialog
-{
+class CDlgPreferences: public wxDialog
+{    
     DECLARE_DYNAMIC_CLASS( CDlgPreferences )
     DECLARE_EVENT_TABLE()
 
 public:
     /// Constructors
-    CDlgPreferences();
+    CDlgPreferences( );
     CDlgPreferences( wxWindow* parent, wxWindowID id = SYMBOL_CDLGPREFERENCES_IDNAME, const wxString& caption = SYMBOL_CDLGPREFERENCES_TITLE, const wxPoint& pos = SYMBOL_CDLGPREFERENCES_POSITION, const wxSize& size = SYMBOL_CDLGPREFERENCES_SIZE, long style = SYMBOL_CDLGPREFERENCES_STYLE );
 
     /// Creation
@@ -90,57 +100,87 @@ public:
     /// Creates the controls and sizers
     void CreateControls();
 
+////@begin CDlgPreferences event handler declarations
+    /// wxEVT_COMMAND_BUTTON_CLICKED event handler for ID_CHANGEBUTTON
+    void OnChange( wxCommandEvent& event );
 
-	wxBitmapButton *btnSave;
-	wxBitmapButton *btnSaveSkin;
-	wxBitmapButton *btnCancel;
-	wxBitmapButton *btnClear;
-	// Pointer control
-	wxStaticText *lblPref;
-	wxStaticText *lblModifySett;
-	wxStaticText *lblDoWorkBtwn;
-	wxStaticText *lblAnd1;
-	wxStaticText *lblConnToIntBtwn;
-	wxComboBox *cmbDWBtwnBgn;
-	wxComboBox *cmbDWBtwnEnd;
-	wxComboBox *cmbCTIBtwnBgn;
-	wxComboBox *cmbCTIBtwnEnd;
-	wxStaticText *lblAnd2;
-	wxStaticText *lblUseNoMoreGB;
-	wxComboBox *cmbUseNoMoreGB;
-	wxStaticText *lblGB;
-	wxStaticText *lblDWWCInUse;
-	wxStaticText *lblDWACIdleFor;
-	wxComboBox *cmbDWACIdleFor;
-	wxStaticText *lblMinutes;
-	wxComboBox *cmbDWWCInUse;
-	
-	wxStaticText *lblSkinXML;
-	wxComboBox *cmbSkinPicker;
+    /// wxEVT_COMMAND_BUTTON_CLICKED event handler for wxID_OK
+    void OnOK( wxCommandEvent& event );
 
-	void WriteSettings();
-	bool CheckIfInArray(wxString valArray[],wxString value,int size);
-	void ReadSettings(GLOBAL_PREFS prefs);
-	int ConvertToNumber(wxString num);
-	wxString GetSkinName() const { return m_SkinName; }
-	void SetSkinName(const wxString& skinName) { m_SkinName = skinName; }
-	void OnPaint(wxPaintEvent& event); 
+    /// wxEVT_COMMAND_BUTTON_CLICKED event handler for ID_CLEARBUTTON
+    void OnClear( wxCommandEvent& event );
 
-protected:
-	wxString m_SkinName;
-	wxString m_PrefIndicator;
-	wxArrayString m_skinNames;
+    /// wxEVT_ERASE_BACKGROUND event handler for ID_DLGPREFERENCES
+    void OnEraseBackground( wxEraseEvent& event );
+
+////@end CDlgPreferences event handler declarations
+
+////@begin CDlgPreferences member function declarations
+    wxString GetSkinSelector() const { return m_strSkinSelector ; }
+    void SetSkinSelector(wxString value) { m_strSkinSelector = value ; }
+
+    wxString GetWorkBetweenBegin() const { return m_strWorkBetweenBegin ; }
+    void SetWorkBetweenBegin(wxString value) { m_strWorkBetweenBegin = value ; }
+
+    wxString GetWorkBetweenEnd() const { return m_strWorkBetweenEnd ; }
+    void SetWorkBetweenEnd(wxString value) { m_strWorkBetweenEnd = value ; }
+
+    wxString GetConnectBetweenBegin() const { return m_strConnectBetweenBegin ; }
+    void SetConnectBetweenBegin(wxString value) { m_strConnectBetweenBegin = value ; }
+
+    wxString GetConnectBetweenEnd() const { return m_strConnectBetweenEnd ; }
+    void SetConnectBetweenEnd(wxString value) { m_strConnectBetweenEnd = value ; }
+
+    wxString GetMaxDiskUsage() const { return m_strMaxDiskUsage ; }
+    void SetMaxDiskUsage(wxString value) { m_strMaxDiskUsage = value ; }
+
+    wxString GetMaxCPUUsage() const { return m_strMaxCPUUsage ; }
+    void SetMaxCPUUsage(wxString value) { m_strMaxCPUUsage = value ; }
+
+    bool GetWorkWhileInUse() const { return m_bWorkWhileInUse ; }
+    void SetWorkWhileInUse(bool value) { m_bWorkWhileInUse = value ; }
+
+    bool GetWorkWhileOnBattery() const { return m_bWorkWhileOnBattery ; }
+    void SetWorkWhileOnBattery(bool value) { m_bWorkWhileOnBattery = value ; }
+
+    wxString GetWorkWhenIdle() const { return m_strWorkWhenIdle ; }
+    void SetWorkWhenIdle(wxString value) { m_strWorkWhenIdle = value ; }
+////@end CDlgPreferences member function declarations
+
+    bool ClearPreferenceSettings();
+    bool ReadPreferenceSettings();
+    bool ReadSkinSettings();
+    bool SavePreferenceSettings();
+    bool SaveSkinSettings();
+
+private:
+////@begin CDlgPreferences member variables
+    wxComboBox* m_SkinSelectorCtrl;
+    CTransparentStaticText* m_PreferenceIndicatorCtrl;
+    wxComboBox* m_WorkBetweenBeginCtrl;
+    wxComboBox* m_WorkBetweenEndCtrl;
+    wxComboBox* m_ConnectBetweenBeginCtrl;
+    wxComboBox* m_ConnectBetweenEndCtrl;
+    wxComboBox* m_MaxDiskUsageCtrl;
+    wxComboBox* m_MaxCPUUsageCtrl;
+    wxCheckBox* m_WorkWhileInUseCtrl;
+    wxCheckBox* m_WorkWhileOnBatteryCtrl;
+    wxComboBox* m_WorkWhenIdleCtrl;
+    wxString m_strSkinSelector;
+    wxString m_strPreferenceIndicator;
+    wxString m_strWorkBetweenBegin;
+    wxString m_strWorkBetweenEnd;
+    wxString m_strConnectBetweenBegin;
+    wxString m_strConnectBetweenEnd;
+    wxString m_strMaxDiskUsage;
+    wxString m_strMaxCPUUsage;
+    bool m_bWorkWhileInUse;
+    bool m_bWorkWhileOnBattery;
+    wxString m_strWorkWhenIdle;
+////@end CDlgPreferences member variables
 	GLOBAL_PREFS m_prefs;
-	void OnEraseBackground(wxEraseEvent& event);
-
-    void OnChange(wxCommandEvent& event);
-
-	void OnBtnClick(wxCommandEvent& event);
-	void VwXDrawBackImg(wxEraseEvent& event,wxWindow *win,wxBitmap* bitMap,int opz);
-
-private: 
-	CStaticLine *lnMyTop;
-
 };
+
+
 
 #endif  // end CDlgPreferences

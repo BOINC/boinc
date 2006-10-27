@@ -1234,11 +1234,13 @@ bool CSkinManager::ReloadSkin(wxLocale* pLocale, wxString strSkin) {
     if (GetDefaultSkinName() == m_strSelectedSkin) {
         // Validate settings
         ValidateSkin();
-		// Tell whichever frame is loaded to reload and skinable resources
-		CBOINCBaseFrame* pFrame = wxGetApp().GetFrame();
-		if (pFrame) {
-			pFrame->FireReloadSkin();
-		}
+
+        // Tell whichever frame is loaded to reload and skinable resources
+        CBOINCBaseFrame* pFrame = wxGetApp().GetFrame();
+        if (pFrame) {
+	        pFrame->FireReloadSkin();
+        }
+
         return true;
     }
 

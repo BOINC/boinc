@@ -601,6 +601,12 @@
 				RelativePath="..\clientgui\sg_StaticLine.h">
 			</File>
 			<File
+				RelativePath="..\clientgui\sg_StaticText.cpp">
+			</File>
+			<File
+				RelativePath="..\clientgui\sg_StaticText.h">
+			</File>
+			<File
 				RelativePath="..\clientgui\sg_StatImageLoader.cpp">
 			</File>
 			<File

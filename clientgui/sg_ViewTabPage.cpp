@@ -93,7 +93,7 @@ void CViewTabPage::CreatePage()
 		projectFrName = wxString("Not Available", wxConvUTF8);
 	}
 	//Line Proj Name
-	lnProjName = new CStaticLine(this,wxPoint(20,36),wxSize(316,1));
+	lnProjName = new CStaticLine(this, wxID_ANY, wxPoint(20,36), wxSize(316,1));
     lnProjName->SetLineColor(pSkinSimple->GetStaticLineColor());
 	//Create with a two step process to eliminate compiler warning
 	wxStaticLine* spacerLine = new wxStaticLine();

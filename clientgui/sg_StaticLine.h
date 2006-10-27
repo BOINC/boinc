@@ -27,10 +27,19 @@
 class CStaticLine : public wxPanel 
 { 
 public: 
-	    /// Constructors
-	    CStaticLine(wxWindow* parent,wxPoint coord,wxSize size); 
-        void OnPaint(wxPaintEvent& event); 
-		void SetLineColor(wxColour col);
+    /// Constructors
+    CStaticLine(
+        wxWindow* parent, 
+        wxWindowID id, 
+        const wxPoint& pos = wxDefaultPosition, 
+        const wxSize& size = wxDefaultSize,
+        long style = 0, 
+        const wxString& name= "staticLine"
+    ); 
+    
+    void OnPaint(wxPaintEvent& event); 
+    void SetLineColor(wxColour col);
+
 private: 
         wxColour m_lineCol; 
         DECLARE_EVENT_TABLE() 

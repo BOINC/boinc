@@ -102,6 +102,7 @@
 #include <wx/tokenzr.h>
 #include <wx/dir.h>
 #include <wx/filename.h>
+#include <wx/sysopt.h>
 
 #ifdef _WIN32
 

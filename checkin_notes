@@ -11557,3 +11557,26 @@ Kevin    26 Oct 2006
         sg_ProjectsComponent.cpp/h
         sg_StatImageLoader.cpp/h
         SkinManager.cpp, .h
+
+Rom    27 Oct 2006
+    - MGR: Use the new (2.6) ::wxLaunchDefaultBrowser API to launch the users default web
+        browser, we should get better results with it.
+    - MGR: Add 'CPU throttle' to the preferences dialog.
+    - MGR: Add 'run on battery' to the preferences dialog.
+    - MGR: Fix reading and storing all preference values
+    - MGR: Add web customized values to the list of selections for any of the user 
+        configurable settings.
+    - MGR: Partial Fix for Large Font/High DPI issues. Now we just have to figure out
+        if we want the dialog to grow or the text to shrink.
+        
+    clientgui/
+        hyperlink.cpp
+        sg_DlgPreferences.cpp, .h
+        sg_ProjectsComponent.cpp
+        sg_StaticLine.cpp, .h
+        sg_StaticText.cpp, .h (Added)
+        sg_ViewTabPage.cpp
+        SkinManager.cpp
+        stdwx.h
+    win_build/
+        boincmgr_curl_2003.vcproj

@@ -107,7 +107,7 @@ void CProjectsComponent::CreateComponent()
 	btnAddProj->SetToolTip(ttAddProject);
 	
     /// Line
-	lnMyProjTop = new CStaticLine(this,wxPoint(29,29),wxSize(292,1));
+	lnMyProjTop = new CStaticLine(this, wxID_ANY, wxPoint(29,29),wxSize(292,1));
     lnMyProjTop->SetLineColor(pSkinSimple->GetStaticLineColor());
 
 	/////////////// ICONS /////////////////////
@@ -270,7 +270,7 @@ void CProjectsComponent::CreateComponent()
 	btnAdvancedView->SetToolTip(ttAdvView);
 
     /// Line
-	lnMyProjBtm = new CStaticLine(this,wxPoint(29,83),wxSize(292,1));
+	lnMyProjBtm = new CStaticLine(this, wxID_ANY, wxPoint(29,83),wxSize(292,1));
     lnMyProjBtm->SetLineColor(pSkinSimple->GetStaticLineColor());
 }
 

@@ -18,7 +18,15 @@
 //----------------------------------------------------------------------------
 
 #include "stdwx.h"
+#include "diagnostics.h"
+#include "util.h"
+#include "mfile.h"
+#include "miofile.h"
+#include "parse.h"
+#include "error_numbers.h"
+#include "Events.h"
 #include "BOINCGUIApp.h"
+#include "SkinManager.h"
 #include "hyperlink.h"   // wxHyperLink control
 
 //----------------------------------------------------------------------------
@@ -162,110 +170,42 @@ void wxHyperLink::SetURL (const wxString &url) {
     m_URL = url;
 }
 
-//----------------------------------------------------------------------------
-// private functions
-
 void wxHyperLink::ExecuteLink (const wxString &strLink) {
-    wxString cmd;
-    wxString strMimeType = wxEmptyString;
-    bool mime_type_found = false;
+    if (!wxLaunchDefaultBrowser(strLink)) {
+        wxString strDialogTitle = wxEmptyString;
+        wxString strDialogMessage = wxEmptyString;
 
-    if      (strLink.StartsWith(wxT("http://")))
-        strMimeType = wxT("text/html");
-    else if (strLink.StartsWith(wxT("ftp://")))
-        strMimeType = wxT("text/html");
-    else if (strLink.StartsWith(wxT("mailto:")))
-        strMimeType = wxT("message/rfc822");
-    else
-        return;
+        // %s is the application name
+        //    i.e. 'BOINC Manager', 'GridRepublic Manager'
+        strDialogTitle.Printf(
+            _("%s - Can't find web browser"),
+            wxGetApp().GetSkinManager()->GetAdvanced()->GetApplicationName().c_str()
+        );
 
-    wxFileType* ft = wxTheMimeTypesManager->GetFileTypeFromMimeType(strMimeType);
-    if (ft) {
-        if (ft->GetOpenCommand(&cmd, wxFileType::MessageParameters(strLink))) {
-#ifdef __WXMAC__
-#if wxABI_VERSION < 20603   // These are needed for wxMac-2.6.2 but don't work with wxMac-2.6.3
-            cmd.Replace(wxT(" <"), "\'");
-            cmd.Prepend(wxT("open \'"));
-#endif
-#else
-            cmd.Replace(wxT("file://"), wxEmptyString);
-#endif
-#if defined(__WXMSW__) || defined(__WXMAC__)
-            if (::wxExecute(cmd, wxEXEC_ASYNC)) {
-                mime_type_found = true;
-            }
-#endif
-        }
-        delete ft;
+        // 1st %s is the application name
+        //    i.e. 'BOINC Manager', 'GridRepublic Manager'
+        // 2nd %s is the URL that the browser is supposed to
+        //    open.
+        // 3rd %s is the application name
+        //    i.e. 'BOINC Manager', 'GridRepublic Manager'
+        strDialogMessage.Printf(
+            _("%s tried to display the web page\n"
+            "\t%s\n"
+            "but couldn't find a web browser.\n"
+            "To fix this, set the environment variable\n"
+            "BROWSER to the path of your web browser,\n"
+            "then restart the %s."),
+            wxGetApp().GetSkinManager()->GetAdvanced()->GetApplicationName().c_str(),
+            strLink.c_str(),
+            wxGetApp().GetSkinManager()->GetAdvanced()->GetApplicationName().c_str()
+        );
+
+        ::wxMessageBox(
+            strDialogMessage,
+            strDialogTitle,
+            wxOK | wxICON_INFORMATION
+        );
     }
-
-#if defined(__WXGTK__) || defined(__WXMOTIF__)
-    if (!mime_type_found) {
-        // Linux still doesn't have a standard method for default browser detection.
-        //
-        // Worse yet, some Linux distro's have a mime types database which point to
-        // a non-existant browser executable in the basic distro.
-        //
-        // The worst case scenario is that no browser comes up when a hyperlink is
-        // executed, so lets check to see if we can find something to use.
-        //
-        // 1. Use whatever default the user has specified via an environment
-        //      variable.
-        // 2. Try to find something to use.
-
-        cmd = ::wxGetenv(wxT("BROWSER"));
-        if(cmd.IsEmpty()) {
-            fprintf(stderr, "User defined browser not found...\n");
-            if (       wxFile::Exists(wxT("/usr/bin/firefox"))) {
-		fprintf(stderr, "Firefox found...\n");
-                cmd = wxT("/usr/bin/firefox");
-            } else if (wxFile::Exists(wxT("/usr/bin/konqueror"))) {
-		fprintf(stderr, "Konqueror found...\n");
-                cmd = wxT("/usr/bin/konqueror");
-            } else if (wxFile::Exists(wxT("/usr/bin/mozilla"))) {
-		fprintf(stderr, "Mozilla found...\n");
-                cmd = wxT("/usr/bin/mozilla");
-            }
-        }
-
-        cmd += wxT(" ") + strLink;
-        if (!::wxExecute(cmd, wxEXEC_ASYNC)) {
-            wxString strDialogTitle = wxEmptyString;
-            wxString strDialogMessage = wxEmptyString;
-
-            // %s is the application name
-            //    i.e. 'BOINC Manager', 'GridRepublic Manager'
-            strDialogTitle.Printf(
-                _("%s - Can't find web browser"),
-                wxGetApp().GetBrand()->GetApplicationName().c_str()
-            );
-
-            // 1st %s is the application name
-            //    i.e. 'BOINC Manager', 'GridRepublic Manager'
-            // 2nd %s is the URL that the browser is supposed to
-            //    open.
-            // 3rd %s is the application name
-            //    i.e. 'BOINC Manager', 'GridRepublic Manager'
-            strDialogMessage.Printf(
-                _("%s tried to display the web page\n"
-                "\t%s\n"
-                "but couldn't find a web browser.\n"
-                "To fix this, set the environment variable\n"
-                "BROWSER to the path of your web browser,\n"
-                "then restart the %s."),
-                wxGetApp().GetBrand()->GetApplicationName().c_str(),
-                strLink.c_str(),
-                wxGetApp().GetBrand()->GetApplicationName().c_str()
-            );
-
-            ::wxMessageBox(
-                strDialogMessage,
-                strDialogTitle,
-                wxOK | wxICON_INFORMATION
-            );
-        }
-    }
-#endif
 }
 
 const char *BOINC_RCSID_d587835b7e="$Id$";

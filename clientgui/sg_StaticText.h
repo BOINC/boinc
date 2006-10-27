@@ -17,35 +17,45 @@
 // or write to the Free Software Foundation, Inc.,
 // 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 
+#ifndef _STATICTEXT_H_
+#define _STATICTEXT_H_ 
+
 #if defined(__GNUG__) && !defined(__APPLE__)
-#pragma implementation "sg_StaticLine.h"
+#pragma interface "sg_StaticText.cpp"
 #endif
 
-#include "stdwx.h"
-#include "sg_StaticLine.h" 
 
-
-BEGIN_EVENT_TABLE(CStaticLine, wxWindow) 
-        EVT_PAINT(CStaticLine::OnPaint) 
-END_EVENT_TABLE() 
-
-
-CStaticLine::CStaticLine(wxWindow* parent, wxWindowID id, const wxPoint& pos, const wxSize& size, long style, const wxString& name) : 
-    wxPanel(parent, id, pos, size, style, name) 
+class CTransparentStaticText : public wxStaticText
 { 
-	m_lineCol = wxColour(255,255,255);
-}
+    DECLARE_DYNAMIC_CLASS (CTransparentStaticText)
+
+public:
+    CTransparentStaticText();
+    CTransparentStaticText(
+        wxWindow* parent, 
+        wxWindowID id, 
+        const wxString& label, 
+        const wxPoint& pos = wxDefaultPosition, 
+        const wxSize& size = wxDefaultSize,
+        long style = 0, 
+        const wxString& name= wxStaticTextNameStr
+    );
+
+    bool Create(
+        wxWindow* parent, 
+        wxWindowID id, 
+        const wxString& label, 
+        const wxPoint& pos = wxDefaultPosition, 
+        const wxSize& size = wxDefaultSize,
+        long style = 0, 
+        const wxString& name= wxStaticTextNameStr
+    );
+
+    virtual void OnPaint(wxPaintEvent& event);
+
+    DECLARE_EVENT_TABLE()
+}; 
 
 
-void CStaticLine::SetLineColor(wxColour col) {
-	m_lineCol = col;
-}
+#endif 
 
-
-void CStaticLine::OnPaint(wxPaintEvent& WXUNUSED(event)) { 
-    wxPaintDC dc(this); 
-    wxPen pen = wxPen(m_lineCol);
-    pen.SetWidth(1);
-    dc.SetPen(pen);
-    dc.DrawLine(0, 0, GetSize().GetWidth(), 0); 
-} 
