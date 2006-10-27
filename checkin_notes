@@ -11603,3 +11603,13 @@ Rytis  27 Oct 2006
     db/
         schema.sql
         constraints.sql
+        
+        
+Kevin    27 Oct 2006
+    - MGR:
+        * Fix bug that caused the workunit icon to flash when the cpu throttle is utilized 
+        
+    clientgui/
+        sg_ViewTabPage.cpp
+
+        
