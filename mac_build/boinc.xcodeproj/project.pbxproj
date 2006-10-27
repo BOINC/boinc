@@ -65,6 +65,7 @@
 		DD0C595B0816573E00CEC5D7 /* mac_saver_module.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DD0C59580816573E00CEC5D7 /* mac_saver_module.cpp */; };
 		DD0C595D0816573E00CEC5D7 /* Mac_Saver_ModuleView.m in Sources */ = {isa = PBXBuildFile; fileRef = DD0C595A0816573E00CEC5D7 /* Mac_Saver_ModuleView.m */; };
 		DD0C5A8B0816711400CEC5D7 /* boinc.tiff in Resources */ = {isa = PBXBuildFile; fileRef = DD0C5A8A0816711400CEC5D7 /* boinc.tiff */; };
+		DD0FB5C90AF2CCE7000CFFF9 /* sg_StaticText.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DD0FB5C70AF2CCE7000CFFF9 /* sg_StaticText.cpp */; };
 		DD1277C2081F3E73007B5DE1 /* LoginItemAPI.c in Sources */ = {isa = PBXBuildFile; fileRef = DD1277BE081F3E73007B5DE1 /* LoginItemAPI.c */; };
 		DD1277C4081F3E73007B5DE1 /* PostInstall.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DD1277C0081F3E73007B5DE1 /* PostInstall.cpp */; };
 		DD1277E6081F44C1007B5DE1 /* Carbon.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 20286C33FDCF999611CA2CEA /* Carbon.framework */; };
@@ -911,6 +912,8 @@
 		DD0C59590816573E00CEC5D7 /* Mac_Saver_ModuleView.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = Mac_Saver_ModuleView.h; path = ../clientgui/mac/Mac_Saver_ModuleView.h; sourceTree = SOURCE_ROOT; };
 		DD0C595A0816573E00CEC5D7 /* Mac_Saver_ModuleView.m */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.objc; name = Mac_Saver_ModuleView.m; path = ../clientgui/mac/Mac_Saver_ModuleView.m; sourceTree = SOURCE_ROOT; };
 		DD0C5A8A0816711400CEC5D7 /* boinc.tiff */ = {isa = PBXFileReference; lastKnownFileType = image.tiff; name = boinc.tiff; path = ../clientgui/mac/boinc.tiff; sourceTree = SOURCE_ROOT; };
+		DD0FB5C70AF2CCE7000CFFF9 /* sg_StaticText.cpp */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.cpp.cpp; name = sg_StaticText.cpp; path = ../clientgui/sg_StaticText.cpp; sourceTree = SOURCE_ROOT; };
+		DD0FB5C80AF2CCE7000CFFF9 /* sg_StaticText.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = sg_StaticText.h; path = ../clientgui/sg_StaticText.h; sourceTree = SOURCE_ROOT; };
 		DD1277B3081F3D67007B5DE1 /* Postinstall.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Postinstall.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		DD1277B5081F3D67007B5DE1 /* PostInstall-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.xml; path = "PostInstall-Info.plist"; sourceTree = "<group>"; };
 		DD1277BE081F3E73007B5DE1 /* LoginItemAPI.c */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.c; name = LoginItemAPI.c; path = ../mac_installer/LoginItemAPI.c; sourceTree = SOURCE_ROOT; };
@@ -1571,6 +1574,8 @@
 				DD4C56130AD389A2009E23C6 /* sg_SGUIListControl.h */,
 				DD4C56140AD389A2009E23C6 /* sg_StaticLine.cpp */,
 				DD4C56150AD389A2009E23C6 /* sg_StaticLine.h */,
+				DD0FB5C70AF2CCE7000CFFF9 /* sg_StaticText.cpp */,
+				DD0FB5C80AF2CCE7000CFFF9 /* sg_StaticText.h */,
 				DDCAD7D90A6C603A0086C7EE /* sg_StatImageLoader.cpp */,
 				DDCAD7DA0A6C603A0086C7EE /* sg_StatImageLoader.h */,
 				DDCAD7DB0A6C603A0086C7EE /* sg_ViewTabPage.cpp */,
@@ -2707,6 +2712,7 @@
 				DD4C56200AD389A2009E23C6 /* sg_StaticLine.cpp in Sources */,
 				DD67F8140ADB9DD000B0015E /* wxPieCtrl.cpp in Sources */,
 				DD247AF90AEA308A0034104A /* SkinManager.cpp in Sources */,
+				DD0FB5C90AF2CCE7000CFFF9 /* sg_StaticText.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

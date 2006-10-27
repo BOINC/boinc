@@ -11615,7 +11615,11 @@ Kevin    27 Oct 2006
 Charlie 27 Oct 2006
     - Mac: Fix bug that prevented screensaver from launching BOINC client 
         properly under sandbox security if manager is not running.
+    - Mac: added sg_StaticText.cpp,.h to XCode project.
     
     clientgui/
         mac/
             mac_saver_module.cpp
+    mac_build/
+        boinc.xcodeproj/
+            project.pbxproj
