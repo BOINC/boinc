@@ -111,6 +111,8 @@ mkdir -p "${PR_PATH}/Library/Application Support"
 mkdir -p "${PR_PATH}/Library/Application Support/BOINC Data"
 mkdir -p "${PR_PATH}/Library/Application Support/ BOINC Data/locale"
 
+## Put Branding file into BOINC Data folder to make it available to screensaver 
+cp -fp "${BRANDING_FILE}" "${PR_PATH}/Library/Application Support/BOINC Data/Branding"
 cp -fpR curl/ca-bundle.crt  "${PR_PATH}/Library/Application Support/BOINC Data/"
 
 cp -fpR "$BUILDPATH/BOINCManager.app" "${PR_PATH}/Applications/"

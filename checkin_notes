@@ -4319,4 +4319,15 @@ Charlie 17 Oct 2006 (boinc_core_release_5_4)
         ca-bundle.crt (added)
     mac_installer/
         release_GridRepublic.sh
-        
+
+Charlie 28 Oct 2006 (boinc_core_release_5_4)
+    - Mac: Fix bugs in screensaver when launching BOINC Client with branding:
+        - BOINC Data directory name does not change with branding.
+        - If screensaver can't locate BOINC Manager bundle using creator and 
+            bundle ID, get branding file from BOINC Data directory.
+        - Branded (Grid Republic) installer places a copy of Branding file in 
+            BOINC Data directory for use by screensaver
+    - Change version to 5.4.12
+    - Tag for 5.4.12 release, all platforms
+            
+
