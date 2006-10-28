@@ -43,8 +43,7 @@ private:
 };
 
 class CProgressBar;
-class CStaticLine;
-class CStaticLine;
+class CTransparentStaticLine;
 class CImageButton;
 class WorkunitNotebook;
 
@@ -60,7 +59,7 @@ public:
 	wxBitmap* btmpBgAnim;
 	CImageButton * btnAminBg;
     //line
-	CStaticLine *lnProjName;
+	CTransparentStaticLine *lnProjName;
 	//strings
 	wxString projName;
 	wxString projectFrName;
@@ -143,7 +142,6 @@ public:
 protected:
 
 private:
-    SkinClass *appSkin;
 	wxFlatNotebookImageList m_ImageList;
 	wxTimer* changeSlideTimer;
 	std::vector<CViewTabPage*> m_windows; // vector of all window tabs created for notebook

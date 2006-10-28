@@ -29,7 +29,7 @@ class SkinClass;
 class StatImageLoader;
 class CSimpleFrame;
 class ImageLoader;
-class CStaticLine;
+class CTransparentStaticLine;
 
 class CProjectsComponent : public wxPanel {
     DECLARE_DYNAMIC_CLASS( CProjectsComponent )
@@ -43,8 +43,8 @@ public:
 	wxImage *g_statIcn;
 	//static content
 	wxStaticText *stMyProj;
-	CStaticLine *lnMyProjTop;
-	CStaticLine *lnMyProjBtm;
+	CTransparentStaticLine *lnMyProjTop;
+	CTransparentStaticLine *lnMyProjBtm;
 	// default icon
 	// spacer
 	ImageLoader *i_spacer;

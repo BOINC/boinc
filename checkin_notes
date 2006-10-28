@@ -11643,3 +11643,27 @@ Rom    27 Oct 2006
     - Tag for 5.7.0 release, all platforms
       boinc_core_release_5_7_0
 
+Rom    27 Oct 2006
+    - MGR: 
+        Okay, last fixup to the preferences dialog. 
+        
+        Had to change the static group box into just a regular static text control 
+        with a larger font since I couldn't figure out a way to make the text area
+        transparent.
+        
+        The "Use custom preferences" check box is kind of a fake check box, the
+        check box itself is real, but the text off to the right is a static text
+        control. Trying to make the check box transparent was like beating your
+        head against the wall, I got as far as initial display being transparent
+        and a complete redraw cased it to be transparent, but moving the mouse over
+        the label caused a 1 pixel shift in the display of text which caused it
+        to blur.
+        
+    clientgui/
+        BOINCGUI.pjd
+        sg_CustomControls.cpp, .h (Added)
+        sg_DlgPreferences.cpp, .h
+        sg_ProjectsComponent.cpp, .h
+        sg_ViewTabPage.cpp, .h
+        sg_StaticLine.cpp, .h (Removed)
+        sg_StaticText.cpp, .h (Removed)

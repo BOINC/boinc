@@ -39,6 +39,7 @@
  */
 
 ////@begin forward declarations
+class CTransparentCheckBox;
 ////@end forward declarations
 
 /*!
@@ -47,7 +48,7 @@
 
 ////@begin control identifiers
 #define ID_DLGPREFERENCES 10000
-#define SYMBOL_CDLGPREFERENCES_STYLE wxDEFAULT_DIALOG_STYLE|wxCLIP_CHILDREN
+#define SYMBOL_CDLGPREFERENCES_STYLE wxDEFAULT_DIALOG_STYLE
 #define SYMBOL_CDLGPREFERENCES_TITLE _("BOINC Manager - Preferences")
 #define SYMBOL_CDLGPREFERENCES_IDNAME ID_DLGPREFERENCES
 #define SYMBOL_CDLGPREFERENCES_SIZE wxDefaultSize

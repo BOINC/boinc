@@ -33,7 +33,7 @@
 #include "BOINCGUIApp.h"
 #include "SkinManager.h"
 #include "MainDocument.h"
-#include "sg_StaticLine.h"
+#include "sg_CustomControls.h" 
 #include "sg_ProgressBar.h"
 #include "sg_ImageButton.h"
 #include "sg_ImageLoader.h"
@@ -93,7 +93,7 @@ void CViewTabPage::CreatePage()
 		projectFrName = wxString("Not Available", wxConvUTF8);
 	}
 	//Line Proj Name
-	lnProjName = new CStaticLine(this, wxID_ANY, wxPoint(20,36), wxSize(316,1));
+	lnProjName = new CTransparentStaticLine(this, wxID_ANY, wxPoint(20,36), wxSize(316,1));
     lnProjName->SetLineColor(pSkinSimple->GetStaticLineColor());
 	//Create with a two step process to eliminate compiler warning
 	wxStaticLine* spacerLine = new wxStaticLine();

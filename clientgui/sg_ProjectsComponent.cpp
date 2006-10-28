@@ -35,7 +35,7 @@
 #include "BOINCBaseFrame.h"
 #include "sg_BoincSimpleGUI.h"
 #include "sg_ImageLoader.h"
-#include "sg_StaticLine.h"
+#include "sg_CustomControls.h" 
 #include "sg_StatImageLoader.h" 
 #include "sg_DlgMessages.h"
 #include "sg_DlgPreferences.h"
@@ -107,7 +107,7 @@ void CProjectsComponent::CreateComponent()
 	btnAddProj->SetToolTip(ttAddProject);
 	
     /// Line
-	lnMyProjTop = new CStaticLine(this, wxID_ANY, wxPoint(29,29),wxSize(292,1));
+	lnMyProjTop = new CTransparentStaticLine(this, wxID_ANY, wxPoint(29,29),wxSize(292,1));
     lnMyProjTop->SetLineColor(pSkinSimple->GetStaticLineColor());
 
 	/////////////// ICONS /////////////////////
@@ -270,7 +270,7 @@ void CProjectsComponent::CreateComponent()
 	btnAdvancedView->SetToolTip(ttAdvView);
 
     /// Line
-	lnMyProjBtm = new CStaticLine(this, wxID_ANY, wxPoint(29,83),wxSize(292,1));
+	lnMyProjBtm = new CTransparentStaticLine(this, wxID_ANY, wxPoint(29,83),wxSize(292,1));
     lnMyProjBtm->SetLineColor(pSkinSimple->GetStaticLineColor());
 }
 

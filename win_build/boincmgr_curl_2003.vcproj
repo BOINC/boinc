@@ -553,6 +553,12 @@
 				RelativePath="..\clientgui\sg_ClientStateIndicator.h">
 			</File>
 			<File
+				RelativePath="..\clientgui\sg_CustomControls.cpp">
+			</File>
+			<File
+				RelativePath="..\clientgui\sg_CustomControls.h">
+			</File>
+			<File
 				RelativePath="..\clientgui\sg_DlgMessages.cpp">
 			</File>
 			<File
@@ -593,18 +599,6 @@
 			</File>
 			<File
 				RelativePath="..\clientgui\sg_SGUIListControl.h">
-			</File>
-			<File
-				RelativePath="..\clientgui\sg_StaticLine.cpp">
-			</File>
-			<File
-				RelativePath="..\clientgui\sg_StaticLine.h">
-			</File>
-			<File
-				RelativePath="..\clientgui\sg_StaticText.cpp">
-			</File>
-			<File
-				RelativePath="..\clientgui\sg_StaticText.h">
 			</File>
 			<File
 				RelativePath="..\clientgui\sg_StatImageLoader.cpp">

@@ -32,8 +32,7 @@
 #include "BOINCGUIApp.h"
 #include "SkinManager.h"
 #include "MainDocument.h"
-#include "sg_StaticLine.h"
-#include "sg_StaticText.h"
+#include "sg_CustomControls.h"
 #include "sg_DlgPreferences.h"
 
 
@@ -229,9 +228,13 @@ bool CDlgPreferences::Create( wxWindow* parent, wxWindowID id, const wxString& c
     m_WorkWhenIdleCtrl = NULL;
 ////@end CDlgPreferences member initialisation
 
+    SetBackgroundColour(wxColour(255, 0, 255));
     SetBackgroundStyle(wxBG_STYLE_CUSTOM);
+    SetForegroundColour(*wxBLACK);
     SetExtraStyle(GetExtraStyle()|wxWS_EX_BLOCK_EVENTS);
     wxDialog::Create( parent, id, caption, pos, size, style );
+
+    Freeze();
 
     CreateControls();
     GetSizer()->Fit(this);
@@ -242,6 +245,8 @@ bool CDlgPreferences::Create( wxWindow* parent, wxWindowID id, const wxString& c
     ReadSkinSettings();
 
     TransferDataToWindow();
+
+    Thaw();
 
     return true;
 }
@@ -266,14 +271,14 @@ void CDlgPreferences::CreateControls()
     wxFlexGridSizer* itemFlexGridSizer3 = new wxFlexGridSizer(1, 1, 0, 0);
     itemBoxSizer2->Add(itemFlexGridSizer3, 0, wxGROW|wxALL, 5);
 
-    CTransparentStaticText* itemStaticText4 = new CTransparentStaticText( itemDialog1, wxID_STATIC, _("Skin"), wxDefaultPosition, wxDefaultSize, 0 );
+    CTransparentStaticText* itemStaticText4 = new CTransparentStaticText( itemDialog1, wxID_ANY, _("Skin"), wxDefaultPosition, wxDefaultSize, 0 );
     itemStaticText4->SetFont(wxFont(16, wxSWISS, wxNORMAL, wxBOLD, false, _T("Arial")));
     itemFlexGridSizer3->Add(itemStaticText4, 0, wxALIGN_CENTER_HORIZONTAL|wxALIGN_CENTER_VERTICAL|wxALL, 5);
 
     wxBoxSizer* itemBoxSizer5 = new wxBoxSizer(wxHORIZONTAL);
     itemBoxSizer2->Add(itemBoxSizer5, 0, wxALIGN_LEFT|wxLEFT|wxBOTTOM, 20);
 
-    CTransparentStaticText* itemStaticText6 = new CTransparentStaticText( itemDialog1, wxID_STATIC, _("Skin:"), wxDefaultPosition, wxDefaultSize, 0 );
+    CTransparentStaticText* itemStaticText6 = new CTransparentStaticText( itemDialog1, wxID_ANY, _("Skin:"), wxDefaultPosition, wxDefaultSize, 0 );
     itemStaticText6->SetFont(wxFont(8, wxSWISS, wxNORMAL, wxNORMAL, false, _T("Arial")));
     itemBoxSizer5->Add(itemStaticText6, 0, wxALIGN_CENTER_VERTICAL|wxLEFT|wxRIGHT|wxADJUST_MINSIZE, 5);
 
@@ -281,7 +286,7 @@ void CDlgPreferences::CreateControls()
     m_SkinSelectorCtrl = new wxComboBox( itemDialog1, ID_SKINSELECTOR, _T(""), wxDefaultPosition, wxSize(175, -1), 0, m_SkinSelectorCtrlStrings, wxCB_READONLY );
     itemBoxSizer5->Add(m_SkinSelectorCtrl, 0, wxALIGN_CENTER_VERTICAL|wxLEFT|wxRIGHT, 5);
 
-    CStaticLine* itemStaticLine8 = new CStaticLine( itemDialog1, wxID_STATIC, wxDefaultPosition, wxSize(300, 1), wxLI_HORIZONTAL|wxNO_BORDER );
+    CTransparentStaticLine* itemStaticLine8 = new CTransparentStaticLine( itemDialog1, wxID_ANY, wxDefaultPosition, wxSize(300, 1), wxLI_HORIZONTAL|wxNO_BORDER );
     itemStaticLine8->SetLineColor(pSkinSimple->GetStaticLineColor());
     itemBoxSizer2->Add(itemStaticLine8, 0, wxALIGN_CENTER_HORIZONTAL|wxLEFT|wxRIGHT, 20);
 
@@ -289,7 +294,7 @@ void CDlgPreferences::CreateControls()
     itemFlexGridSizer9->AddGrowableCol(0);
     itemBoxSizer2->Add(itemFlexGridSizer9, 0, wxGROW|wxALL, 5);
 
-    CTransparentStaticText* itemStaticText10 = new CTransparentStaticText( itemDialog1, wxID_STATIC, _("Preferences"), wxDefaultPosition, wxDefaultSize, wxALIGN_LEFT );
+    CTransparentStaticText* itemStaticText10 = new CTransparentStaticText( itemDialog1, wxID_ANY, _("Preferences"), wxDefaultPosition, wxDefaultSize, wxALIGN_LEFT );
     itemStaticText10->SetFont(wxFont(16, wxSWISS, wxNORMAL, wxBOLD, false, _T("Arial")));
     itemFlexGridSizer9->Add(itemStaticText10, 0, wxALIGN_LEFT|wxALIGN_CENTER_VERTICAL|wxALL|wxADJUST_MINSIZE, 5);
 
@@ -299,13 +304,17 @@ void CDlgPreferences::CreateControls()
     wxBoxSizer* itemBoxSizer12 = new wxBoxSizer(wxHORIZONTAL);
     itemBoxSizer11->Add(itemBoxSizer12, 0, wxALIGN_LEFT|wxALL, 0);
 
-    m_CustomizePreferencesCtrl = new wxCheckBox( itemDialog1, ID_CUSTOMIZEPREFERENCES, _("I want to customize my preferences for this computer."), wxDefaultPosition, wxDefaultSize, wxCHK_2STATE );
+    m_CustomizePreferencesCtrl = new wxCheckBox( itemDialog1, ID_CUSTOMIZEPREFERENCES, _(""), wxDefaultPosition, wxDefaultSize, wxCHK_2STATE );
     m_CustomizePreferencesCtrl->SetValue(false);
     itemBoxSizer12->Add(m_CustomizePreferencesCtrl, 0, wxALIGN_CENTER_VERTICAL|wxALL, 5);
 
-    wxStaticBox* itemStaticBoxSizer14Static = new wxStaticBox(itemDialog1, wxID_ANY, _("Customized Preferences"));
-    wxStaticBoxSizer* itemStaticBoxSizer14 = new wxStaticBoxSizer(itemStaticBoxSizer14Static, wxVERTICAL);
-    itemBoxSizer11->Add(itemStaticBoxSizer14, 0, wxALIGN_CENTER_HORIZONTAL|wxRIGHT, 10);
+    CTransparentStaticText* itemStaticText14 = new CTransparentStaticText( itemDialog1, wxID_ANY, _("I want to customize my preferences for this computer."), wxDefaultPosition, wxDefaultSize, 0 );
+    itemStaticText14->SetFont(wxFont(9, wxSWISS, wxNORMAL, wxNORMAL, false, _T("Arial")));
+    itemBoxSizer12->Add(itemStaticText14, 0, wxALIGN_CENTER_VERTICAL|wxRIGHT|wxTOP|wxBOTTOM, 5);
+
+    CTransparentStaticText* itemStaticText15 = new CTransparentStaticText( itemDialog1, wxID_ANY, _("Customized Preferences"), wxDefaultPosition, wxDefaultSize, 0 );
+    itemStaticText15->SetFont(wxFont(12, wxSWISS, wxNORMAL, wxBOLD, false, _T("Arial")));
+    itemBoxSizer11->Add(itemStaticText15, 0, wxALIGN_LEFT|wxALL|wxADJUST_MINSIZE, 5);
 
     wxFlexGridSizer* itemFlexGridSizer15 = new wxFlexGridSizer(7, 2, 0, 0);
     itemFlexGridSizer15->AddGrowableRow(0);
@@ -317,10 +326,11 @@ void CDlgPreferences::CreateControls()
     itemFlexGridSizer15->AddGrowableRow(6);
     itemFlexGridSizer15->AddGrowableCol(0);
     itemFlexGridSizer15->AddGrowableCol(1);
-    itemStaticBoxSizer14->Add(itemFlexGridSizer15, 0, wxALIGN_CENTER_HORIZONTAL|wxALL, 0);
+    itemBoxSizer11->Add(itemFlexGridSizer15, 0, wxALIGN_CENTER_HORIZONTAL|wxALL, 0);
 
-    CTransparentStaticText* itemStaticText16 = new CTransparentStaticText( itemDialog1, wxID_STATIC, _("Do work only between:"), wxDefaultPosition, wxDefaultSize, wxALIGN_RIGHT );
+    CTransparentStaticText* itemStaticText16 = new CTransparentStaticText( itemDialog1, wxID_ANY, _("Do work only between:"), wxDefaultPosition, wxDefaultSize, wxALIGN_RIGHT );
     itemStaticText16->SetFont(wxFont(9, wxSWISS, wxNORMAL, wxNORMAL, false, _T("Arial")));
+    itemStaticText16->Wrap(250);
     itemFlexGridSizer15->Add(itemStaticText16, 0, wxALIGN_RIGHT|wxALIGN_CENTER_VERTICAL|wxALL|wxADJUST_MINSIZE, 5);
 
     wxBoxSizer* itemBoxSizer17 = new wxBoxSizer(wxHORIZONTAL);
@@ -331,7 +341,7 @@ void CDlgPreferences::CreateControls()
     m_WorkBetweenBeginCtrl->Enable(false);
     itemBoxSizer17->Add(m_WorkBetweenBeginCtrl, 0, wxALIGN_CENTER_VERTICAL|wxTOP|wxBOTTOM, 5);
 
-    CTransparentStaticText* itemStaticText19 = new CTransparentStaticText( itemDialog1, wxID_STATIC, _("and"), wxDefaultPosition, wxDefaultSize, 0 );
+    CTransparentStaticText* itemStaticText19 = new CTransparentStaticText( itemDialog1, wxID_ANY, _("and"), wxDefaultPosition, wxDefaultSize, 0 );
     itemStaticText19->SetFont(wxFont(9, wxSWISS, wxNORMAL, wxNORMAL, false, _T("Arial")));
     itemBoxSizer17->Add(itemStaticText19, 0, wxALIGN_CENTER_VERTICAL|wxALL|wxADJUST_MINSIZE, 5);
 
@@ -340,8 +350,9 @@ void CDlgPreferences::CreateControls()
     m_WorkBetweenEndCtrl->Enable(false);
     itemBoxSizer17->Add(m_WorkBetweenEndCtrl, 0, wxALIGN_CENTER_VERTICAL|wxRIGHT|wxTOP|wxBOTTOM, 5);
 
-    CTransparentStaticText* itemStaticText21 = new CTransparentStaticText( itemDialog1, wxID_STATIC, _("Connect to internet only between:"), wxDefaultPosition, wxDefaultSize, wxALIGN_RIGHT );
+    CTransparentStaticText* itemStaticText21 = new CTransparentStaticText( itemDialog1, wxID_ANY, _("Connect to internet only between:"), wxDefaultPosition, wxDefaultSize, wxALIGN_RIGHT );
     itemStaticText21->SetFont(wxFont(9, wxSWISS, wxNORMAL, wxNORMAL, false, _T("Arial")));
+    itemStaticText21->Wrap(250);
     itemFlexGridSizer15->Add(itemStaticText21, 0, wxALIGN_RIGHT|wxALIGN_CENTER_VERTICAL|wxALL|wxADJUST_MINSIZE, 5);
 
     wxBoxSizer* itemBoxSizer22 = new wxBoxSizer(wxHORIZONTAL);
@@ -352,7 +363,7 @@ void CDlgPreferences::CreateControls()
     m_ConnectBetweenBeginCtrl->Enable(false);
     itemBoxSizer22->Add(m_ConnectBetweenBeginCtrl, 0, wxALIGN_CENTER_VERTICAL|wxTOP|wxBOTTOM, 5);
 
-    CTransparentStaticText* itemStaticText24 = new CTransparentStaticText( itemDialog1, wxID_STATIC, _("and"), wxDefaultPosition, wxDefaultSize, 0 );
+    CTransparentStaticText* itemStaticText24 = new CTransparentStaticText( itemDialog1, wxID_ANY, _("and"), wxDefaultPosition, wxDefaultSize, 0 );
     itemStaticText24->SetFont(wxFont(9, wxSWISS, wxNORMAL, wxNORMAL, false, _T("Arial")));
     itemBoxSizer22->Add(itemStaticText24, 0, wxALIGN_CENTER_VERTICAL|wxALL|wxADJUST_MINSIZE, 5);
 
@@ -361,8 +372,9 @@ void CDlgPreferences::CreateControls()
     m_ConnectBetweenEndCtrl->Enable(false);
     itemBoxSizer22->Add(m_ConnectBetweenEndCtrl, 0, wxALIGN_CENTER_VERTICAL|wxRIGHT|wxTOP|wxBOTTOM, 5);
 
-    CTransparentStaticText* itemStaticText26 = new CTransparentStaticText( itemDialog1, wxID_STATIC, _("Use no more than:"), wxDefaultPosition, wxDefaultSize, wxALIGN_RIGHT );
+    CTransparentStaticText* itemStaticText26 = new CTransparentStaticText( itemDialog1, wxID_ANY, _("Use no more than:"), wxDefaultPosition, wxDefaultSize, wxALIGN_RIGHT );
     itemStaticText26->SetFont(wxFont(9, wxSWISS, wxNORMAL, wxNORMAL, false, _T("Arial")));
+    itemStaticText26->Wrap(250);
     itemFlexGridSizer15->Add(itemStaticText26, 0, wxALIGN_RIGHT|wxALIGN_CENTER_VERTICAL|wxALL|wxADJUST_MINSIZE, 5);
 
     wxBoxSizer* itemBoxSizer27 = new wxBoxSizer(wxHORIZONTAL);
@@ -373,12 +385,13 @@ void CDlgPreferences::CreateControls()
     m_MaxDiskUsageCtrl->Enable(false);
     itemBoxSizer27->Add(m_MaxDiskUsageCtrl, 0, wxALIGN_CENTER_VERTICAL|wxTOP|wxBOTTOM, 5);
 
-    CTransparentStaticText* itemStaticText29 = new CTransparentStaticText( itemDialog1, wxID_STATIC, _("of disk space"), wxDefaultPosition, wxDefaultSize, 0 );
+    CTransparentStaticText* itemStaticText29 = new CTransparentStaticText( itemDialog1, wxID_ANY, _("of disk space"), wxDefaultPosition, wxDefaultSize, 0 );
     itemStaticText29->SetFont(wxFont(9, wxSWISS, wxNORMAL, wxNORMAL, false, _T("Arial")));
     itemBoxSizer27->Add(itemStaticText29, 0, wxALIGN_CENTER_VERTICAL|wxALL|wxADJUST_MINSIZE, 5);
 
-    CTransparentStaticText* itemStaticText30 = new CTransparentStaticText( itemDialog1, wxID_STATIC, _("Use no more than:"), wxDefaultPosition, wxDefaultSize, wxALIGN_RIGHT );
+    CTransparentStaticText* itemStaticText30 = new CTransparentStaticText( itemDialog1, wxID_ANY, _("Use no more than:"), wxDefaultPosition, wxDefaultSize, wxALIGN_RIGHT );
     itemStaticText30->SetFont(wxFont(9, wxSWISS, wxNORMAL, wxNORMAL, false, _T("Arial")));
+    itemStaticText30->Wrap(250);
     itemFlexGridSizer15->Add(itemStaticText30, 0, wxALIGN_RIGHT|wxALIGN_CENTER_VERTICAL|wxALL|wxADJUST_MINSIZE, 5);
 
     wxBoxSizer* itemBoxSizer31 = new wxBoxSizer(wxHORIZONTAL);
@@ -389,12 +402,13 @@ void CDlgPreferences::CreateControls()
     m_MaxCPUUsageCtrl->Enable(false);
     itemBoxSizer31->Add(m_MaxCPUUsageCtrl, 0, wxALIGN_CENTER_VERTICAL|wxTOP|wxBOTTOM, 5);
 
-    CTransparentStaticText* itemStaticText33 = new CTransparentStaticText( itemDialog1, wxID_STATIC, _("of the processor"), wxDefaultPosition, wxDefaultSize, 0 );
+    CTransparentStaticText* itemStaticText33 = new CTransparentStaticText( itemDialog1, wxID_ANY, _("of the processor"), wxDefaultPosition, wxDefaultSize, 0 );
     itemStaticText33->SetFont(wxFont(9, wxSWISS, wxNORMAL, wxNORMAL, false, _T("Arial")));
     itemBoxSizer31->Add(itemStaticText33, 0, wxALIGN_CENTER_VERTICAL|wxALL|wxADJUST_MINSIZE, 5);
 
-    CTransparentStaticText* itemStaticText34 = new CTransparentStaticText( itemDialog1, wxID_STATIC, _("Do work while in use?"), wxDefaultPosition, wxDefaultSize, wxALIGN_RIGHT );
+    CTransparentStaticText* itemStaticText34 = new CTransparentStaticText( itemDialog1, wxID_ANY, _("Do work while in use?"), wxDefaultPosition, wxDefaultSize, wxALIGN_RIGHT );
     itemStaticText34->SetFont(wxFont(9, wxSWISS, wxNORMAL, wxNORMAL, false, _T("Arial")));
+    itemStaticText34->Wrap(250);
     itemFlexGridSizer15->Add(itemStaticText34, 0, wxALIGN_RIGHT|wxALIGN_CENTER_VERTICAL|wxALL|wxADJUST_MINSIZE, 5);
 
     wxBoxSizer* itemBoxSizer35 = new wxBoxSizer(wxHORIZONTAL);
@@ -405,8 +419,9 @@ void CDlgPreferences::CreateControls()
     m_WorkWhileInUseCtrl->Enable(false);
     itemBoxSizer35->Add(m_WorkWhileInUseCtrl, 0, wxALIGN_CENTER_VERTICAL|wxTOP|wxBOTTOM, 5);
 
-    CTransparentStaticText* itemStaticText37 = new CTransparentStaticText( itemDialog1, wxID_STATIC, _("Do work while on battery?"), wxDefaultPosition, wxDefaultSize, wxALIGN_RIGHT );
+    CTransparentStaticText* itemStaticText37 = new CTransparentStaticText( itemDialog1, wxID_ANY, _("Do work while on battery?"), wxDefaultPosition, wxDefaultSize, wxALIGN_RIGHT );
     itemStaticText37->SetFont(wxFont(9, wxSWISS, wxNORMAL, wxNORMAL, false, _T("Arial")));
+    itemStaticText37->Wrap(250);
     itemFlexGridSizer15->Add(itemStaticText37, 0, wxALIGN_RIGHT|wxALIGN_CENTER_VERTICAL|wxALL|wxADJUST_MINSIZE, 5);
 
     wxBoxSizer* itemBoxSizer38 = new wxBoxSizer(wxHORIZONTAL);
@@ -417,8 +432,9 @@ void CDlgPreferences::CreateControls()
     m_WorkWhileOnBatteryCtrl->Enable(false);
     itemBoxSizer38->Add(m_WorkWhileOnBatteryCtrl, 0, wxALIGN_CENTER_VERTICAL|wxTOP|wxBOTTOM, 5);
 
-    CTransparentStaticText* itemStaticText40 = new CTransparentStaticText( itemDialog1, wxID_STATIC, _("Do work after computer is idle for:"), wxDefaultPosition, wxDefaultSize, wxALIGN_RIGHT );
+    CTransparentStaticText* itemStaticText40 = new CTransparentStaticText( itemDialog1, wxID_ANY, _("Do work after idle for:"), wxDefaultPosition, wxDefaultSize, wxALIGN_RIGHT );
     itemStaticText40->SetFont(wxFont(9, wxSWISS, wxNORMAL, wxNORMAL, false, _T("Arial")));
+    itemStaticText40->Wrap(250);
     itemFlexGridSizer15->Add(itemStaticText40, 0, wxALIGN_RIGHT|wxALIGN_CENTER_VERTICAL|wxALL|wxADJUST_MINSIZE, 5);
 
     wxBoxSizer* itemBoxSizer41 = new wxBoxSizer(wxHORIZONTAL);
@@ -429,7 +445,7 @@ void CDlgPreferences::CreateControls()
     m_WorkWhenIdleCtrl->Enable(false);
     itemBoxSizer41->Add(m_WorkWhenIdleCtrl, 0, wxALIGN_CENTER_VERTICAL|wxTOP|wxBOTTOM, 5);
 
-    CTransparentStaticText* itemStaticText43 = new CTransparentStaticText( itemDialog1, wxID_STATIC, _("minutes"), wxDefaultPosition, wxDefaultSize, 0 );
+    CTransparentStaticText* itemStaticText43 = new CTransparentStaticText( itemDialog1, wxID_ANY, _("minutes"), wxDefaultPosition, wxDefaultSize, 0 );
     itemStaticText43->SetFont(wxFont(9, wxSWISS, wxNORMAL, wxNORMAL, false, _T("Arial")));
     itemBoxSizer41->Add(itemStaticText43, 0, wxALIGN_CENTER_VERTICAL|wxALL|wxADJUST_MINSIZE, 5);
 
