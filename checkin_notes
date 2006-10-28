@@ -11638,3 +11638,8 @@ Rom    27 Oct 2006
         sg_DlgPreferences.cpp, .h
         sg_StaticLine.cpp
         SkinManager.cpp
+
+Rom    27 Oct 2006
+    - Tag for 5.7.0 release, all platforms
+      boinc_core_release_5_7_0
+
