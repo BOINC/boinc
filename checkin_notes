@@ -4329,7 +4329,8 @@ Charlie 28 Oct 2006 (boinc_core_release_5_4)
             BOINC Data directory for use by screensaver
     - Change version to 5.4.12
     - Tag for 5.4.12 release, all platforms
-            
+      boinc_core_release_5_4_12
+
     client/
         version.h
     clientgui/
