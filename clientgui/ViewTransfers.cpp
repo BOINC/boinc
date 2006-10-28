@@ -188,7 +188,7 @@ void CViewTransfers::OnTransfersAbort( wxCommandEvent& WXUNUSED(event) ) {
         _("Are you sure you want to abort this file transfer '%s'?\n"
           "NOTE: Aborting a transfer will invalidate a task and you\n"
           "will not receive credit for it."), 
-        pDoc->file_transfer(m_pListPane->GetFirstSelected())->name.c_str()
+        wxString(pDoc->file_transfer(m_pListPane->GetFirstSelected())->name.c_str(), wxConvUTF8).c_str()
     );
 
     iAnswer = ::wxMessageBox(
@@ -212,12 +212,7 @@ void CViewTransfers::OnTransfersAbort( wxCommandEvent& WXUNUSED(event) ) {
 
 
 wxInt32 CViewTransfers::GetDocCount() {
-    CMainDocument* pDoc      = wxGetApp().GetDocument();
-
-    wxASSERT(pDoc);
-    wxASSERT(wxDynamicCast(pDoc, CMainDocument));
-
-    return pDoc->GetTransferCount();
+    return wxGetApp().GetDocument()->GetTransferCount();
 }
 
 

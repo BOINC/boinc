@@ -133,6 +133,7 @@
 				ProgramDatabaseFile=".\Build\Release/GridRepublic_scr.pdb"
 				SubSystem="2"
 				OptimizeReferences="2"
+				SetChecksum="TRUE"
 				TargetMachine="1"/>
 			<Tool
 				Name="VCMIDLTool"

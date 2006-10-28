@@ -210,7 +210,7 @@ int initBOINCSaver(Boolean ispreview) {
 
 
 OSStatus initBOINCApp() {
-    char boincPath[2048], buf[256];
+    char boincPath[2048];
     pid_t myPid;
     int status;
     OSStatus err;
@@ -240,22 +240,22 @@ OSStatus initBOINCApp() {
         return -1;
     else if (myPid == 0)			// child
     {
+      // We don't customize BOINC Data directory name for branding
 #if 0   // Code for separate data in each user's private directory
+        char buf[256];
         strcpy(buf, getenv("HOME"));
-        strcat(buf, "/Library/Application Support/");
-#else   // All users share the same data
-        strcpy(buf, "/Library/Application Support/");
-#endif
-        strcat(buf, gBrandText);
-        strcat(buf, " Data");
+        strcat(buf, "/Library/Application Support/BOINC Data");
         status = chdir(buf);
+#else   // All users share the same data
+        status = chdir("/Library/Application Support/BOINC Data");
+#endif
         if (status) {
             perror("chdir");
             fflush(NULL);
             _exit(status);
         }
 
-        status = execl(boincPath, "boinc", "-redirectio", (char *) 0);
+        status = execl(boincPath, boincPath, "-redirectio", (char *) 0);
         fflush(NULL);
         _exit(127);         // execl error (execl should never return)
     } else {
@@ -687,15 +687,11 @@ int GetBrandID()
     iBrandId = 0;   // Default value
     
     err = GetpathToBOINCManagerApp(buf, sizeof(buf));
-    if (err) {     // If we couldn't find our application bundle, try default path
-        strcpy(buf, "/Applications/");
-        if (gBrandId)
-            strcat(buf, gBrandText);
-        else
-            strcat(buf, "BOINCManager");
-        strcat(buf, ".app");
-    }
-        
+    if (err) {     
+        // If we couldn't find our application bundle, look in BOINC Data Directory 
+        // (the installer put a copy there for us)
+        strcpy(buf, "/Library/Application Support/BOINC Data/Branding");
+    } else
     strcat(buf, "/Contents/Resources/Branding");
 
     FILE *f = fopen(buf, "r");

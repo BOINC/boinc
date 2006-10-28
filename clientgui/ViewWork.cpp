@@ -336,12 +336,7 @@ void CViewWork::OnProjectWebsiteClicked( wxEvent& event ) {
 
 
 wxInt32 CViewWork::GetDocCount() {
-    CMainDocument* pDoc      = wxGetApp().GetDocument();
-
-    wxASSERT(pDoc);
-    wxASSERT(wxDynamicCast(pDoc, CMainDocument));
-
-    return pDoc->GetWorkCount();
+    return wxGetApp().GetDocument()->GetWorkCount();
 }
 
 
@@ -732,7 +727,6 @@ wxInt32 CViewWork::FormatStatus(wxInt32 item, wxString& strBuffer) const {
     bool           bNetworkSuspended = false;
     CMainDocument* doc = wxGetApp().GetDocument();
     RESULT*        result = wxGetApp().GetDocument()->result(item);
-    PROJECT* project;
 
     wxASSERT(doc);
     wxASSERT(wxDynamicCast(doc, CMainDocument));
@@ -753,10 +747,9 @@ wxInt32 CViewWork::FormatStatus(wxInt32 item, wxString& strBuffer) const {
                 }
                 break;
             case RESULT_FILES_DOWNLOADED:
-                project = doc->state.lookup_project(result->project_url);
                 if (result->aborted_via_gui) {
                     strBuffer = _("Aborted by user");
-                } else if (project && project->suspended_via_gui) {
+                } else if (result->project_suspended_via_gui) {
                     strBuffer = _("Project suspended by user");
                 } else if (result->suspended_via_gui) {
                     strBuffer = _("Suspended by user");

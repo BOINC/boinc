@@ -275,7 +275,7 @@ void CAccountInfoPage::OnPageChanged( wxWizardExEvent& event ) {
         }
     }
 
-    if (IS_ACCOUNTMANAGERWIZARD() && IS_ACCOUNTMANAGERUPDATEWIZARD()) {
+    if (IS_ACCOUNTMANAGERWIZARD()) {
         m_pAccountQuestionStaticCtrl->Hide();
         m_pAccountCreateCtrl->SetValue(false);
         m_pAccountCreateCtrl->Hide();
@@ -296,7 +296,6 @@ void CAccountInfoPage::OnPageChanged( wxWizardExEvent& event ) {
             m_pAccountPasswordRequirmentsStaticCtrl->Hide();
         }
     }
-
 
     m_pTitleStaticCtrl->SetLabel(
         _("User information")

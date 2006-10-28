@@ -188,9 +188,8 @@ bool CLIENT_STATE::handle_finished_apps() {
     return action;
 }
 
-// Returns true if all the input files for a result are present
+// Returns true iff all the input files for a result are present
 // (both WU and app version)
-// false otherwise
 //
 bool CLIENT_STATE::input_files_available(RESULT* rp) {
     WORKUNIT* wup = rp->wup;
@@ -215,6 +214,7 @@ bool CLIENT_STATE::input_files_available(RESULT* rp) {
 
     for (i=0; i<wup->input_files.size(); i++) {
         fip = wup->input_files[i].file_info;
+        if (fip->generated_locally) continue;
         if (fip->status != FILE_PRESENT) return false;
         if (fip->verify_file(false)) return false;
     }
