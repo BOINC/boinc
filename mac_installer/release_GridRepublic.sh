@@ -116,7 +116,9 @@ cp -fpR "$BUILDPATH/switcher" "${PR_PATH}/Library/Application Support/BOINC Data
 cp -fpR "$BUILDPATH/setprojectgrp" "${PR_PATH}/Library/Application Support/BOINC Data/switcher/"
 cp -fpR "$BUILDPATH/AppStats" "${PR_PATH}/Library/Application Support/BOINC Data/switcher/"
 
-cp -fpR curl/ca-bundle.crt  "${PR_PATH}/Library/Application Support/BOINC Data/"
+## Put Branding file into BOINC Data folder to make it available to screensaver 
+cp -fp "${BRANDING_FILE}" "${PR_PATH}/Library/Application Support/BOINC Data/Branding"
+cp -fp curl/ca-bundle.crt  "${PR_PATH}/Library/Application Support/BOINC Data/"
 
 cp -fpR "$BUILDPATH/BOINCManager.app" "${PR_PATH}/Applications/"
 
@@ -149,7 +151,7 @@ sed -i "" s/BOINC/"${BRAND_NAME}"/g "${PR_PATH}/Applications/${MANAGER_NAME}.app
 cp -fp "clientgui/res/${ICNS_FILE}" "${PR_PATH}/Applications/${MANAGER_NAME}.app/Contents/Resources/${ICNS_FILE}"
 rm -f "${PR_PATH}/Applications/${MANAGER_NAME}.app/Contents/Resources/BOINCMgr.icns"
 
-# Copy Branding file into both Application Bundle and Installer Package
+# Copy Branding file into both Application Bundle and Installer Package\
 cp -fp "${BRANDING_FILE}" "${PR_PATH}/Applications/${MANAGER_NAME}.app/Contents/Resources/Branding"
 cp -fp "${BRANDING_FILE}" "${IR_PATH}/Branding"
 
