@@ -11688,3 +11688,12 @@ Charlie 28 Oct 2006
     mac_installer/
         PostInstall.cpp
         release_GridRepublic.sh
+
+David  28 Oct 2006
+    - back end: add function get_output_file_paths()
+        for getting the paths of multiple output files.
+
+    lib/
+        common_defs.h
+    sched/
+        validate_util.C,h

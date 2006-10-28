@@ -26,6 +26,7 @@
 #include "boinc_db.h"
 
 extern int get_output_file_path(RESULT const& result, std::string& path);
+extern int get_output_file_paths(RESULT const& result, std::vector<std::string>&);
 extern double median_mean_credit(std::vector<RESULT>& results);
 
 #endif

@@ -4,24 +4,16 @@ page_head("Participating in multiple projects");
 echo "
 <p>
 
-You can join a second and subsequent projects as follows.
-<ol>
-<li> Visit the second project's web site and create an account.
+You can join a second and subsequent projects as follows:
+Run the BOINC client, and select the <b>Attach to Project</b> command.
+Enter the project's URL and your email address and password.
 You don't have to use the same email address,
 but if you do so the accounts will be 'coupled'
 in terms of preferences and statistics.
-<li> Receive an email containing an account key.
-<li> Paste the account key into the project's web site
-to complete the account creation.
-<li> Run the BOINC client, and select the <b>Attach to Project</b> command.
-Enter the project's URL and your account key.
-
-</ol>
 
 <h2>General preferences</h2> 
 <p>
-Each BOINC project has its own database and servers.
-Each account has its own copy of your
+Each BOINC project has its own copy of your
 <a href=prefs.php>general preferences</a>.
 When you edit your general preferences on a particular project,
 initially it changes only that one account.
@@ -36,7 +28,7 @@ and have at least one computer attached to both accounts).
 </ol>
 
 This propagation is 'piggybacked' onto the
-scheduler requests between your computers and project servers.
+regular communication between your computers and project servers.
 You can accelerate the propagation by using
 the Update command in the BOINC Manager.
 

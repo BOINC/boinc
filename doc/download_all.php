@@ -14,7 +14,7 @@ require_once("docutil.php");
 
 $xml = $_GET["xml"];
 $dev = $_GET["dev"];
-$dev=1;
+if (!$xml) $dev=1;
 $pname = $_GET["platform"];
 $min_version = $_GET["min_version"];
 $max_version = $_GET["max_version"];

@@ -351,8 +351,9 @@ list_item("reliable_time<br> reliable_min_avg_credit<br>
     <p>
     This mechanism is used when the age of a workunit exceeds
     <b>reliable_time</b> (typically 2-3X the delay bound).
-    The results are sent to hosts with at least
-    <b>reliable_min_avg_credit</b> and at most
+    The results are sent to hosts for which
+    expavg_credit/ncpus is at least <b>reliable_min_avg_credit</b>
+    and whose average turnaround is at most
     <b>reliable_max_avg_turnaround</b>.
     The delay bound is multiplied by <b>reliable_reduced_delay_bound</b>
     (typically 0.5 or so).

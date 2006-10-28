@@ -38,10 +38,11 @@
 using std::vector;
 using std::string;
 
+#if 0
 // get the name of a result's (first) output file
 //
 int get_output_file_path(RESULT const& result, string& path_str) {
-    char buf[256], path[256];
+    char buf[256], path[1024];
 
     if (!parse_str(result.xml_doc_out, "<name>", buf, sizeof(buf))) {
         return ERR_XML_PARSE;
@@ -50,7 +51,62 @@ int get_output_file_path(RESULT const& result, string& path_str) {
     path_str = path;
     return 0;
 }
+#endif
 
+static int parse_filename(XML_PARSER& xp, string& name) {
+    char tag[256];
+    bool is_tag, found=false;
+    while (!xp.get(tag, sizeof(tag), is_tag)) {
+        if (!is_tag) continue;
+        if (!strcmp(tag, "/file")) {
+            return found?0:ERR_XML_PARSE;
+        }
+        if (xp.parse_string(tag, "name", name)) {
+            found = true;
+        }
+    }
+    return ERR_XML_PARSE;
+}
+
+int get_output_file_path(RESULT const& result, string& path_str) {
+    char tag[256], path[1024];
+    bool is_tag;
+    string name;
+    MIOFILE mf;
+    mf.init_buf((char*)(result.xml_doc_out));
+    XML_PARSER xp(&mf);
+    while (!xp.get(tag, sizeof(tag), is_tag)) {
+        if (!is_tag) continue;
+        if (!strcmp(tag, "file")) {
+            int retval = parse_filename(xp, name);
+            if (retval) return retval;
+            dir_hier_path(name.c_str(), config.upload_dir, config.uldl_dir_fanout, path);
+            path_str = path;
+            return 0;
+        }
+    }
+    return ERR_XML_PARSE;
+}
+
+int get_output_file_paths(RESULT const& result, vector<string>& paths) {
+    char tag[256], path[1024];
+    bool is_tag;
+    MIOFILE mf;
+    string name;
+    mf.init_buf((char*)(result.xml_doc_out));
+    XML_PARSER xp(&mf);
+    paths.clear();
+    while (!xp.get(tag, sizeof(tag), is_tag)) {
+        if (!is_tag) continue;
+        if (!strcmp(tag, "file")) {
+            int retval =  parse_filename(xp, name);
+            if (retval) return retval;
+            dir_hier_path(name.c_str(), config.upload_dir, config.uldl_dir_fanout, path);
+            paths.push_back(path);
+        }
+    }
+    return 0;
+}
 
 #define CREDIT_EPSILON .001
 

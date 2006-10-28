@@ -91,6 +91,7 @@ Creating a BOINC project
 </ul>
 <li> <a href=tool_upgrade.php>Upgrading a project's server software</a>
 <li> <a href=multi_host.php>Multiple server hosts</a>
+<li> <a href=beta.php>Beta-test applications</a>
 
 </ul>
 
