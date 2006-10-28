@@ -172,6 +172,7 @@ int main(int argc, char *argv[])
 	system ("rm -rf /Applications/GridRepublic\\ Desktop.app");     // Installing BOINC over GridRepublic
 	system ("rm -rf /Library/Screen\\ Savers/GridRepublic.saver");  // Installing BOINC over GridRepublic
 	system ("chmod -R a+s /Applications/BOINCManager.app");
+	system ("rm -f /Library/Application\\ Support/BOINC\\ Data/Branding");  // Installing BOINC over GridRepublic
 
         err_fsref = FSPathMakeRef((StringPtr)"/Applications/BOINCManager.app", &fileRef, NULL);
     }

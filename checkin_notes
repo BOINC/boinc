@@ -4326,7 +4326,9 @@ Charlie 28 Oct 2006 (boinc_core_release_5_4)
         - If screensaver can't locate BOINC Manager bundle using creator and 
             bundle ID, get branding file from BOINC Data directory.
         - Branded (Grid Republic) installer places a copy of Branding file in 
-            BOINC Data directory for use by screensaver
+            BOINC Data directory for use by screensaver.
+        - PostInstall app removes Branding file from BOINC Data directory if 
+            performing an unbranded intall.
     - Change version to 5.4.12
     - Tag for 5.4.12 release, all platforms
       boinc_core_release_5_4_12
@@ -4337,5 +4339,6 @@ Charlie 28 Oct 2006 (boinc_core_release_5_4)
         mac/
             mac_saver_module.cpp
     mac_installer/
+       PostInstall.cpp
         release_GridRepublic.sh
 
