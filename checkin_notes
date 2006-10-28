@@ -4330,4 +4330,11 @@ Charlie 28 Oct 2006 (boinc_core_release_5_4)
     - Change version to 5.4.12
     - Tag for 5.4.12 release, all platforms
             
+    client/
+        version.h
+    clientgui/
+        mac/
+            mac_saver_module.cpp
+    mac_installer/
+        release_GridRepublic.sh
 
