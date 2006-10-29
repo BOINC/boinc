@@ -11725,3 +11725,10 @@ Rom    29 Oct 2006
         
     clientgui/
         sg_DlgPreferences.cpp
+
+Charlie 29 Oct 2006
+    - Added link to Mac Installer page under "Installing BOINC" on 
+        "Participating" page.
+
+    doc/
+        participate.php

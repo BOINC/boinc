@@ -11,6 +11,7 @@ echo "
 <li> Installing BOINC
 <ul>
 <li> <a href=win_install.php>The Windows installer</a>
+<li> <a href=mac_advanced.php>The Macintosh installer</a>
 <li> <a href=sea.php>Self-extracting archive</a>
 <li> <a href=bare_core.php>Core client executable</a>
 </ul>
