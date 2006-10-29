@@ -119,6 +119,8 @@ CSkinImage::~CSkinImage() {
 
 
 void CSkinImage::Clear() {
+    m_strDesiredBitmap.Clear();
+    m_strDesiredBackgroundColor.Clear();
     m_bmpBitmap = wxNullBitmap;
     m_colBackgroundColor = wxNullColour;
 }
@@ -179,15 +181,19 @@ bool CSkinImage::SetDefaults(wxString strComponentName, const char** ppDefaultBi
 
 bool CSkinImage::Validate() {
     if (!m_bmpBitmap.Ok()) {
-        m_bmpBitmap = wxBitmap(wxImage(m_strDesiredBitmap, wxBITMAP_TYPE_ANY));
+        if (!m_strDesiredBitmap.IsEmpty()) {
+            m_bmpBitmap = wxBitmap(wxImage(m_strDesiredBitmap, wxBITMAP_TYPE_ANY));
+        }
         if (!m_bmpBitmap.Ok()) {
             fprintf(stderr, wxT("Skin Manager: Failed to load '%s' image. Using default.\n"), m_strComponentName.c_str());
             m_bmpBitmap = wxBitmap(m_ppDefaultBitmap);
             wxASSERT(m_bmpBitmap.Ok());
         }
     }
-    if (!m_colBackgroundColor.Ok() && !m_strDefaultBackgroundColor.IsEmpty()) {
-        m_colBackgroundColor = ParseColor(m_strDesiredBackgroundColor);
+    if (!m_colBackgroundColor.Ok()) {
+        if (!m_strDesiredBackgroundColor.IsEmpty()) {
+            m_colBackgroundColor = ParseColor(m_strDesiredBackgroundColor);
+        }
         if (!m_colBackgroundColor.Ok()) {
             fprintf(stderr, wxT("Skin Manager: Failed to load '%s' background color. Using default.\n"), m_strComponentName.c_str());
             m_colBackgroundColor = ParseColor(m_strDefaultBackgroundColor);
@@ -212,6 +218,8 @@ CSkinIcon::~CSkinIcon() {
 
 
 void CSkinIcon::Clear() {
+    m_strDesiredIcon.Clear();
+    m_strDesiredTransparencyMask.Clear();
     m_icoIcon = wxNullIcon;
 }
 
@@ -257,14 +265,15 @@ bool CSkinIcon::SetDefaults(wxString strComponentName, const char** ppDefaultIco
 
 bool CSkinIcon::Validate() {
     if (!m_icoIcon.Ok()) {
-        // Configure bitmap object with optional transparency mask
-        wxBitmap bmp = wxBitmap(wxImage(m_strDesiredIcon, wxBITMAP_TYPE_ANY));
-        if (!m_strDesiredTransparencyMask.IsEmpty()) {
-            bmp.SetMask(new wxMask(bmp, ParseColor(m_strDesiredTransparencyMask)));
+        if (!m_strDesiredIcon.IsEmpty()) {
+            // Configure bitmap object with optional transparency mask
+            wxBitmap bmp = wxBitmap(wxImage(m_strDesiredIcon, wxBITMAP_TYPE_ANY));
+            if (!m_strDesiredTransparencyMask.IsEmpty()) {
+                bmp.SetMask(new wxMask(bmp, ParseColor(m_strDesiredTransparencyMask)));
+            }
+            // Now set the icon object using the newly created bitmap with optional transparency mask
+            m_icoIcon.CopyFromBitmap(bmp);
         }
-
-        // Now set the icon object using the newly created bitmap with optional transparency mask
-        m_icoIcon.CopyFromBitmap(bmp);
         if (!m_icoIcon.Ok()) {
             fprintf(stderr, wxT("Skin Manager: Failed to load '%s' icon. Using default.\n"), m_strComponentName.c_str());
             m_icoIcon = wxIcon(m_ppDefaultIcon);
@@ -289,6 +298,8 @@ CSkinSimpleButton::~CSkinSimpleButton() {
 
 
 void CSkinSimpleButton::Clear() {
+    m_strDesiredBitmap.Clear();
+    m_strDesiredBitmapClicked.Clear();
     m_bmpBitmap = wxNullBitmap;
     m_bmpBitmapClicked = wxNullBitmap;
 }
@@ -346,7 +357,9 @@ bool CSkinSimpleButton::SetDefaults(wxString strComponentName, const char** ppDe
 
 bool CSkinSimpleButton::Validate() {
     if (!m_bmpBitmap.Ok()) {
-        m_bmpBitmap = wxBitmap(wxImage(m_strDesiredBitmap, wxBITMAP_TYPE_ANY));
+        if (!m_strDesiredBitmap.IsEmpty()) {
+            m_bmpBitmap = wxBitmap(wxImage(m_strDesiredBitmap, wxBITMAP_TYPE_ANY));
+        }
         if (!m_bmpBitmap.Ok()) {
             fprintf(stderr, wxT("Skin Manager: Failed to load '%s' image. Using default.\n"), m_strComponentName.c_str());
             m_bmpBitmap = wxBitmap(m_ppDefaultBitmap);
@@ -354,7 +367,9 @@ bool CSkinSimpleButton::Validate() {
         }
     }
     if (!m_bmpBitmapClicked.Ok()) {
-        m_bmpBitmapClicked = wxBitmap(wxImage(m_strDesiredBitmap, wxBITMAP_TYPE_ANY));
+        if (!m_strDesiredBitmapClicked.IsEmpty()) {
+            m_bmpBitmapClicked = wxBitmap(wxImage(m_strDesiredBitmapClicked, wxBITMAP_TYPE_ANY));
+        }
         if (!m_bmpBitmapClicked.Ok()) {
             fprintf(stderr, wxT("Skin Manager: Failed to load '%s' clicked image. Using default.\n"), m_strComponentName.c_str());
             m_bmpBitmapClicked = wxBitmap(m_ppDefaultBitmapClicked);
@@ -379,6 +394,10 @@ CSkinSimpleTab::~CSkinSimpleTab() {
 
 
 void CSkinSimpleTab::Clear() {
+    m_strDesiredBitmap.Clear();
+    m_strDesiredBorderColor.Clear();
+    m_strDesiredGradientFromColor.Clear();
+    m_strDesiredGradientToColor.Clear();
     m_bmpBitmap = wxNullBitmap;
     m_colBorderColor = wxNullColour;
     m_colGradientFromColor = wxNullColour;
@@ -463,31 +482,39 @@ bool CSkinSimpleTab::SetDefaults(
 
 bool CSkinSimpleTab::Validate() {
     if (!m_bmpBitmap.Ok()) {
-        m_bmpBitmap = wxBitmap(wxImage(m_strDesiredBitmap, wxBITMAP_TYPE_ANY));
+        if (!m_strDesiredBitmap.IsEmpty()) {
+            m_bmpBitmap = wxBitmap(wxImage(m_strDesiredBitmap, wxBITMAP_TYPE_ANY));
+        }
         if (!m_bmpBitmap.Ok()) {
             fprintf(stderr, wxT("Skin Manager: Failed to load '%s' tab image. Using default.\n"), m_strComponentName.c_str());
             m_bmpBitmap = wxBitmap(m_ppDefaultBitmap);
             wxASSERT(m_bmpBitmap.Ok());
         }
     }
-    if (!m_colBorderColor.Ok() && !m_strDefaultBorderColor.IsEmpty()) {
-        m_colBorderColor = ParseColor(m_strDesiredBorderColor);
+    if (!m_colBorderColor.Ok()) {
+        if (!m_strDesiredBorderColor.IsEmpty()) {
+            m_colBorderColor = ParseColor(m_strDesiredBorderColor);
+        }
         if (!m_colBorderColor.Ok()) {
             fprintf(stderr, wxT("Skin Manager: Failed to load '%s' tab border color. Using default.\n"), m_strComponentName.c_str());
             m_colBorderColor = ParseColor(m_strDefaultBorderColor);
             wxASSERT(m_colBorderColor.Ok());
         }
     }
-    if (!m_colGradientFromColor.Ok() && m_strDefaultGradientFromColor.IsEmpty()) {
-        m_colGradientFromColor = ParseColor(m_strDesiredGradientFromColor);
+    if (!m_colGradientFromColor.Ok()) {
+        if (!m_strDesiredGradientFromColor.IsEmpty()) {
+            m_colGradientFromColor = ParseColor(m_strDesiredGradientFromColor);
+        }
         if (!m_colGradientFromColor.Ok()) {
             fprintf(stderr, wxT("Skin Manager: Failed to load '%s' tab gradient from color. Using default.\n"), m_strComponentName.c_str());
             m_colGradientFromColor = ParseColor(m_strDefaultGradientFromColor);
             wxASSERT(m_colGradientFromColor.Ok());
         }
     }
-    if (!m_colGradientToColor.Ok() && m_strDefaultGradientToColor.IsEmpty()) {
-        m_colGradientToColor = ParseColor(m_strDesiredGradientToColor);
+    if (!m_colGradientToColor.Ok()) {
+        if (!m_strDesiredGradientToColor.IsEmpty()) {
+            m_colGradientToColor = ParseColor(m_strDesiredGradientToColor);
+        }
         if (!m_colGradientToColor.Ok()) {
             fprintf(stderr, wxT("Skin Manager: Failed to load '%s' tab gradient to color. Using default.\n"), m_strComponentName.c_str());
             m_colGradientToColor = ParseColor(m_strDefaultGradientToColor);
