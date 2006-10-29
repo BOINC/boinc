@@ -11710,3 +11710,9 @@ Rom    28 Oct 2006
         sg_CustomControls.cpp, .h
         sg_DlgPreferences.cpp, .h
         sg_ProjectsComponent.cpp
+
+Rom    28 Oct 2006
+    - MGR: Implement lazy loads for Simple GUI resources to try and speed things up.
+    
+    clientgui/
+        SkinManager.cpp, .h

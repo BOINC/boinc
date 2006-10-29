@@ -46,20 +46,61 @@ public:
     ~CSkinImage();
 
     void Clear();
-    bool Ok();
     int  Parse(MIOFILE& in);
 
-    wxBitmap* GetBitmap() { return &m_bmpBitmap; };
-    wxColour* GetBackgroundColor() { return &m_colBackgroundColor; };
-    wxColour* GetTransparencyMask() { return &m_colTransparencyMask; };
+    wxBitmap* GetBitmap();
+    wxColour* GetBackgroundColor();
 
-    bool      SetDefaults(const char** default_image);
-    bool      SetDefaults(const char** default_image, wxString strBackgroundColor, wxString strTransparenyMask);
+    bool SetDefaults(
+        wxString strComponentName, 
+        const char** ppDefaultImage
+    );
+
+    bool SetDefaults(
+        wxString strComponentName,
+        const char** ppDefaultImage,
+        wxString strBackgroundColor
+    );
+
+    bool Validate();
 
 private:
-    wxBitmap  m_bmpBitmap;
-    wxColour  m_colBackgroundColor;
-    wxColor   m_colTransparencyMask;
+    wxString     m_strComponentName;
+    wxString     m_strDesiredBitmap;
+    wxString     m_strDesiredBackgroundColor;
+    const char** m_ppDefaultBitmap;
+    wxString     m_strDefaultBackgroundColor;
+    wxBitmap     m_bmpBitmap;
+    wxColour     m_colBackgroundColor;
+};
+
+
+class CSkinIcon : public CSkinItem
+{
+    DECLARE_DYNAMIC_CLASS( CSkinIcon )
+
+public:
+    CSkinIcon();
+    ~CSkinIcon();
+
+    void Clear();
+    int  Parse(MIOFILE& in);
+
+    wxIcon* GetIcon();
+
+    bool SetDefaults(
+        wxString strComponentName,
+        const char** ppDefaultIcon
+    );
+
+    bool Validate();
+
+private:
+    wxString     m_strComponentName;
+    wxString     m_strDesiredIcon;
+    wxString     m_strDesiredTransparencyMask;
+    const char** m_ppDefaultIcon;
+    wxIcon       m_icoIcon;
 };
 
 
@@ -72,17 +113,27 @@ public:
     ~CSkinSimpleButton();
 
     void Clear();
-    bool Ok();
     int  Parse(MIOFILE& in);
 
-    wxBitmap* GetBitmap() { return &m_bmpBitmap; };
-    wxBitmap* GetBitmapClicked() { return &m_bmpBitmapClicked; };
+    wxBitmap* GetBitmap();
+    wxBitmap* GetBitmapClicked();
 
-    bool      SetDefaults(const char** default_image, const char** default_clicked_image);
+    bool SetDefaults(
+        wxString strComponentName,
+        const char** ppDefaultImage, 
+        const char** ppDefaultClickedImage
+    );
+
+    bool Validate();
 
 private:
-    wxBitmap  m_bmpBitmap;
-    wxBitmap  m_bmpBitmapClicked;
+    wxString     m_strComponentName;
+    wxString     m_strDesiredBitmap;
+    wxString     m_strDesiredBitmapClicked;
+    const char** m_ppDefaultBitmap;
+    const char** m_ppDefaultBitmapClicked;
+    wxBitmap     m_bmpBitmap;
+    wxBitmap     m_bmpBitmapClicked;
 };
 
 
@@ -95,26 +146,37 @@ public:
     ~CSkinSimpleTab();
 
     void Clear();
-    bool Ok();
     int  Parse(MIOFILE& in);
 
-    wxBitmap* GetBitmap() { return &m_bmpBitmap; };
-    wxColour* GetBorderColor() { return &m_colBorderColor; };
-    wxColour* GetGradientFromColor() { return &m_colGradientFromColor; };
-    wxColour* GetGradientToColor() { return &m_colGradientToColor; };
+    wxBitmap* GetBitmap();
+    wxColour* GetBorderColor();
+    wxColour* GetGradientFromColor();
+    wxColour* GetGradientToColor();
 
     bool SetDefaults(
-        const char** default_image,
+        wxString strComponentName,
+        const char** ppDefaultImage,
         wxString strBorderColor,
         wxString strGradientFromColor,
         wxString strGradientToColor
     );
 
+    bool Validate();
+
 private:
-    wxBitmap  m_bmpBitmap;
-    wxColour  m_colBorderColor;
-    wxColour  m_colGradientFromColor;
-    wxColour  m_colGradientToColor;
+    wxString     m_strComponentName;
+    wxString     m_strDesiredBitmap;
+    wxString     m_strDesiredBorderColor;
+    wxString     m_strDesiredGradientFromColor;
+    wxString     m_strDesiredGradientToColor;
+    const char** m_ppDefaultBitmap;
+    wxString     m_strDefaultBorderColor;
+    wxString     m_strDefaultGradientFromColor;
+    wxString     m_strDefaultGradientToColor;
+    wxBitmap     m_bmpBitmap;
+    wxColour     m_colBorderColor;
+    wxColour     m_colGradientFromColor;
+    wxColour     m_colGradientToColor;
 };
 
 
@@ -129,9 +191,7 @@ public:
     void Clear();
     int  Parse(MIOFILE& in);
 
-    bool Ok();
-
-    bool ValidateSkin();
+    bool InitializeDelayedValidation();
 
     CSkinImage*         GetBackgroundImage() { return &m_BackgroundImage; }
     CSkinImage*         GetSpacerImage() { return &m_SpacerImage; }
@@ -223,30 +283,29 @@ public:
     ~CSkinAdvanced();
 
     void Clear();
-    bool Ok();
     int  Parse(MIOFILE& in);
 
-    bool ValidateSkin();
+    bool InitializeDelayedValidation();
 
-    wxString    GetApplicationName() { return m_strApplicationName; }
-    wxIcon*     GetApplicationIcon() { return &m_iconApplicationIcon; }
-    wxIcon*     GetApplicationDisconnectedIcon() { return &m_iconApplicationDisconnectedIcon; }
-    wxIcon*     GetApplicationSnoozeIcon() { return &m_iconApplicationSnoozeIcon; }
-    wxBitmap*   GetApplicationLogo() { return &m_bitmapApplicationLogo; }
-    wxString    GetCompanyName() { return m_strCompanyName; }
-    wxString    GetCompanyWebsite() { return m_strCompanyWebsite; }
-    wxString    GetProjectName() { return m_strProjectName; }
-    int         GetDefaultTab() { return m_iDefaultTab; }
-    wxString    GetExitMessage() { return m_strExitMessage; }
-    bool        IsBranded() { return m_bIsBranded; }
-    bool        IsDefaultTabSpecified() { return m_bDefaultTabSpecified; }
+    wxString    GetApplicationName();
+    wxIcon*     GetApplicationIcon();
+    wxIcon*     GetApplicationDisconnectedIcon();
+    wxIcon*     GetApplicationSnoozeIcon();
+    wxBitmap*   GetApplicationLogo();
+    wxString    GetCompanyName();
+    wxString    GetCompanyWebsite();
+    wxString    GetProjectName();
+    int         GetDefaultTab();
+    wxString    GetExitMessage();
+    bool        IsBranded();
+    bool        IsDefaultTabSpecified();
 
 private:
     bool        m_bIsBranded;
     wxString    m_strApplicationName;
-    wxIcon      m_iconApplicationIcon;
-    wxIcon      m_iconApplicationDisconnectedIcon;
-    wxIcon      m_iconApplicationSnoozeIcon;
+    CSkinIcon   m_iconApplicationIcon;
+    CSkinIcon   m_iconApplicationDisconnectedIcon;
+    CSkinIcon   m_iconApplicationSnoozeIcon;
     wxBitmap    m_bitmapApplicationLogo;
     wxString    m_strCompanyName;
     wxString    m_strCompanyWebsite;
@@ -266,10 +325,9 @@ public:
     ~CSkinWizardATP();
 
     void Clear();
-    bool Ok();
     int  Parse(MIOFILE& in);
 
-    bool ValidateSkin();
+    bool InitializeDelayedValidation();
 
     wxBitmap*   GetWizardBitmap() { return &m_bitmapWizardBitmap; }
     wxString    GetWizardTitle() { return m_strTitle; }
@@ -289,10 +347,9 @@ public:
     ~CSkinWizardATAM();
 
     void Clear();
-    bool Ok();
     int  Parse(MIOFILE& in);
 
-    bool ValidateSkin();
+    bool InitializeDelayedValidation();
 
     wxBitmap*   GetWizardBitmap() { return &m_bitmapWizardBitmap; }
     wxString    GetWizardTitle() { return m_strTitle; }
@@ -314,10 +371,9 @@ public:
     ~CSkinWizards();
 
     void Clear();
-    bool Ok();
     int  Parse(MIOFILE& in);
 
-    bool ValidateSkin();
+    bool InitializeDelayedValidation();
 
     CSkinWizardATP*     GetWizardATP() { return &m_AttachToProjectWizard; }
     CSkinWizardATAM*    GetWizardATAM() { return &m_AttachToAccountManagerWizard; }
@@ -360,10 +416,9 @@ private:
     wxString            m_strSelectedSkin;
 
     void Clear();
-    bool Ok();
     int  Parse(MIOFILE& in, wxString strDesiredLocale);
 
-    bool ValidateSkin();
+    bool InitializeDelayedValidation();
 };
 
 

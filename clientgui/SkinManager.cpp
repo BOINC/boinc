@@ -121,12 +121,6 @@ CSkinImage::~CSkinImage() {
 void CSkinImage::Clear() {
     m_bmpBitmap = wxNullBitmap;
     m_colBackgroundColor = wxNullColour;
-    m_colTransparencyMask = wxNullColour;
-}
-
-
-bool CSkinImage::Ok() {
-    return m_bmpBitmap.Ok();
 }
 
 
@@ -138,40 +132,145 @@ int CSkinImage::Parse(MIOFILE& in) {
         if (match_tag(buf, "</image>")) break;
         else if (parse_str(buf, "<imagesrc>", strBuffer)) {
             if (strBuffer.length()) {
-                wxString str = wxString(
+                m_strDesiredBitmap = wxString(
                     wxGetApp().GetSkinManager()->ConstructSkinPath() +
                     wxString(strBuffer.c_str(), wxConvUTF8)
                 );
-                m_bmpBitmap = wxBitmap(wxImage(str.c_str(), wxBITMAP_TYPE_ANY));
             }
             continue;
         } else if (parse_str(buf, "<background_color>", strBuffer)) {
-            m_colBackgroundColor = ParseColor(wxString(strBuffer.c_str(), wxConvUTF8));
-            continue;
-        } else if (parse_str(buf, "<transparency_mask>", strBuffer)) {
-            m_colTransparencyMask = ParseColor(wxString(strBuffer.c_str(), wxConvUTF8));
+            if (strBuffer.length()) {
+                m_strDesiredBackgroundColor = wxString(strBuffer.c_str(), wxConvUTF8);
+            }
             continue;
         }
     }
 
-    if (Ok()) {
-        return 0;
-    }
-
-    return ERR_XML_PARSE;
+    return BOINC_SUCCESS;
 }
 
 
-bool CSkinImage::SetDefaults(const char** default_image) {
-    m_bmpBitmap = wxBitmap(default_image);
+wxBitmap* CSkinImage::GetBitmap() {
+    Validate();
+    return &m_bmpBitmap; 
+}
+
+
+wxColour* CSkinImage::GetBackgroundColor() {
+    Validate();
+    return &m_colBackgroundColor;
+}
+
+
+bool CSkinImage::SetDefaults(wxString strComponentName, const char** ppDefaultBitmap) {
+    m_strComponentName = strComponentName;
+    m_ppDefaultBitmap = ppDefaultBitmap;
     return true;
 }
 
 
-bool CSkinImage::SetDefaults(const char** default_image, wxString strBackgroundColor, wxString strTransparenyMask) {
-    m_bmpBitmap = wxBitmap(default_image);
-    m_colBackgroundColor = ParseColor(strBackgroundColor);
-    m_colTransparencyMask = ParseColor(strTransparenyMask);
+bool CSkinImage::SetDefaults(wxString strComponentName, const char** ppDefaultBitmap, wxString strBackgroundColor) {
+    m_strComponentName = strComponentName;
+    m_ppDefaultBitmap = ppDefaultBitmap;
+    m_strDefaultBackgroundColor = strBackgroundColor;
+    return true;
+}
+
+
+bool CSkinImage::Validate() {
+    if (!m_bmpBitmap.Ok()) {
+        m_bmpBitmap = wxBitmap(wxImage(m_strDesiredBitmap, wxBITMAP_TYPE_ANY));
+        if (!m_bmpBitmap.Ok()) {
+            fprintf(stderr, wxT("Skin Manager: Failed to load '%s' image. Using default.\n"), m_strComponentName.c_str());
+            m_bmpBitmap = wxBitmap(m_ppDefaultBitmap);
+            wxASSERT(m_bmpBitmap.Ok());
+        }
+    }
+    if (!m_colBackgroundColor.Ok() && !m_strDefaultBackgroundColor.IsEmpty()) {
+        m_colBackgroundColor = ParseColor(m_strDesiredBackgroundColor);
+        if (!m_colBackgroundColor.Ok()) {
+            fprintf(stderr, wxT("Skin Manager: Failed to load '%s' background color. Using default.\n"), m_strComponentName.c_str());
+            m_colBackgroundColor = ParseColor(m_strDefaultBackgroundColor);
+            wxASSERT(m_colBackgroundColor.Ok());
+        }
+    }
+    return true;
+}
+
+
+IMPLEMENT_DYNAMIC_CLASS(CSkinIcon, CSkinItem)
+
+
+CSkinIcon::CSkinIcon() {
+    Clear();
+}
+
+
+CSkinIcon::~CSkinIcon() {
+    Clear();
+}
+
+
+void CSkinIcon::Clear() {
+    m_icoIcon = wxNullIcon;
+}
+
+
+int CSkinIcon::Parse(MIOFILE& in) {
+    char buf[256];
+    std::string strBuffer;
+
+    while (in.fgets(buf, 256)) {
+        if (match_tag(buf, "</image>")) break;
+        else if (parse_str(buf, "<imagesrc>", strBuffer)) {
+            if (strBuffer.length()) {
+                m_strDesiredIcon = wxString(
+                    wxGetApp().GetSkinManager()->ConstructSkinPath() +
+                    wxString(strBuffer.c_str(), wxConvUTF8)
+                );
+            }
+            continue;
+        } else if (parse_str(buf, "<transparency_mask>", strBuffer)) {
+            if (strBuffer.length()) {
+                m_strDesiredTransparencyMask = wxString(strBuffer.c_str(), wxConvUTF8);
+            }
+            continue;
+        }
+    }
+
+    return BOINC_SUCCESS;
+}
+
+
+wxIcon* CSkinIcon::GetIcon() {
+    Validate();
+    return &m_icoIcon;
+}
+
+
+bool CSkinIcon::SetDefaults(wxString strComponentName, const char** ppDefaultIcon) {
+    m_strComponentName = strComponentName;
+    m_ppDefaultIcon = ppDefaultIcon;
+    return true;
+}
+
+
+bool CSkinIcon::Validate() {
+    if (!m_icoIcon.Ok()) {
+        // Configure bitmap object with optional transparency mask
+        wxBitmap bmp = wxBitmap(wxImage(m_strDesiredIcon, wxBITMAP_TYPE_ANY));
+        if (!m_strDesiredTransparencyMask.IsEmpty()) {
+            bmp.SetMask(new wxMask(bmp, ParseColor(m_strDesiredTransparencyMask)));
+        }
+
+        // Now set the icon object using the newly created bitmap with optional transparency mask
+        m_icoIcon.CopyFromBitmap(bmp);
+        if (!m_icoIcon.Ok()) {
+            fprintf(stderr, wxT("Skin Manager: Failed to load '%s' icon. Using default.\n"), m_strComponentName.c_str());
+            m_icoIcon = wxIcon(m_ppDefaultIcon);
+            wxASSERT(m_icoIcon.Ok());
+        }
+    }
     return true;
 }
 
@@ -195,11 +294,6 @@ void CSkinSimpleButton::Clear() {
 }
 
 
-bool CSkinSimpleButton::Ok() {
-    return m_bmpBitmap.Ok() && m_bmpBitmapClicked.Ok();
-}
-
-
 int CSkinSimpleButton::Parse(MIOFILE& in) {
     char buf[256];
     std::string strBuffer;
@@ -208,37 +302,65 @@ int CSkinSimpleButton::Parse(MIOFILE& in) {
         if (match_tag(buf, "</button>")) break;
         else if (parse_str(buf, "<imagesrc>", strBuffer)) {
             if (strBuffer.length()) {
-                wxString str = wxString(
+                m_strDesiredBitmap = wxString(
                     wxGetApp().GetSkinManager()->ConstructSkinPath() +
                     wxString(strBuffer.c_str(), wxConvUTF8)
                 );
-                m_bmpBitmap = wxBitmap(wxImage(str.c_str(), wxBITMAP_TYPE_ANY));
             }
             continue;
         }
         else if (parse_str(buf, "<imagesrc_clicked>", strBuffer)) {
             if (strBuffer.length()) {
-                wxString str = wxString(
+                m_strDesiredBitmapClicked = wxString(
                     wxGetApp().GetSkinManager()->ConstructSkinPath() +
                     wxString(strBuffer.c_str(), wxConvUTF8)
                 );
-                m_bmpBitmapClicked = wxBitmap(wxImage(str.c_str(), wxBITMAP_TYPE_ANY));
             }
             continue;
         }
     }
 
-    if (Ok()) {
-        return 0;
-    }
-
-    return ERR_XML_PARSE;
+    return 0;
 }
 
 
-bool CSkinSimpleButton::SetDefaults(const char** default_image, const char** default_clicked_image) {
-    m_bmpBitmap = wxBitmap(default_image);
-    m_bmpBitmapClicked = wxBitmap(default_clicked_image);
+wxBitmap* CSkinSimpleButton::GetBitmap() {
+    Validate();
+    return &m_bmpBitmap;
+}
+
+
+wxBitmap* CSkinSimpleButton::GetBitmapClicked() {
+    Validate();
+    return &m_bmpBitmapClicked;
+}
+
+
+bool CSkinSimpleButton::SetDefaults(wxString strComponentName, const char** ppDefaultImage, const char** ppDefaultClickedImage) {
+    m_strComponentName = strComponentName;
+    m_ppDefaultBitmap = ppDefaultImage;
+    m_ppDefaultBitmapClicked = ppDefaultClickedImage;
+    return true;
+}
+
+
+bool CSkinSimpleButton::Validate() {
+    if (!m_bmpBitmap.Ok()) {
+        m_bmpBitmap = wxBitmap(wxImage(m_strDesiredBitmap, wxBITMAP_TYPE_ANY));
+        if (!m_bmpBitmap.Ok()) {
+            fprintf(stderr, wxT("Skin Manager: Failed to load '%s' image. Using default.\n"), m_strComponentName.c_str());
+            m_bmpBitmap = wxBitmap(m_ppDefaultBitmap);
+            wxASSERT(m_bmpBitmap.Ok());
+        }
+    }
+    if (!m_bmpBitmapClicked.Ok()) {
+        m_bmpBitmapClicked = wxBitmap(wxImage(m_strDesiredBitmap, wxBITMAP_TYPE_ANY));
+        if (!m_bmpBitmapClicked.Ok()) {
+            fprintf(stderr, wxT("Skin Manager: Failed to load '%s' clicked image. Using default.\n"), m_strComponentName.c_str());
+            m_bmpBitmapClicked = wxBitmap(m_ppDefaultBitmapClicked);
+            wxASSERT(m_bmpBitmapClicked.Ok());
+        }
+    }
     return true;
 }
 
@@ -264,11 +386,6 @@ void CSkinSimpleTab::Clear() {
 }
 
 
-bool CSkinSimpleTab::Ok() {
-    return m_bmpBitmap.Ok() && m_colBorderColor.Ok() && m_colGradientFromColor.Ok() && m_colGradientToColor.Ok();
-}
-
-
 int CSkinSimpleTab::Parse(MIOFILE& in) {
     char buf[256];
     std::string strBuffer;
@@ -277,43 +394,106 @@ int CSkinSimpleTab::Parse(MIOFILE& in) {
         if (match_tag(buf, "</tab>")) break;
         else if (parse_str(buf, "<imagesrc>", strBuffer)) {
             if (strBuffer.length()) {
-                wxString str = wxString(
+                m_strDesiredBitmap = wxString(
                     wxGetApp().GetSkinManager()->ConstructSkinPath() +
                     wxString(strBuffer.c_str(), wxConvUTF8)
                 );
-                m_bmpBitmap = wxBitmap(wxImage(str.c_str(), wxBITMAP_TYPE_ANY));
             }
             continue;
         }
         else if (parse_str(buf, "<border_color>", strBuffer)) {
-            m_colBorderColor = ParseColor(wxString(strBuffer.c_str(), wxConvUTF8));
+            if (strBuffer.length()) {
+                m_strDesiredBorderColor = wxString(strBuffer.c_str(), wxConvUTF8);
+            }
             continue;
         }
         else if (parse_str(buf, "<gradient_from_color>", strBuffer)) {
-            m_colGradientFromColor = ParseColor(wxString(strBuffer.c_str(), wxConvUTF8));
+            if (strBuffer.length()) {
+                m_strDesiredGradientFromColor = wxString(strBuffer.c_str(), wxConvUTF8);
+            }
             continue;
         }
         else if (parse_str(buf, "<gradient_to_color>", strBuffer)) {
-            m_colGradientToColor = ParseColor(wxString(strBuffer.c_str(), wxConvUTF8));
+            if (strBuffer.length()) {
+                m_strDesiredGradientToColor = wxString(strBuffer.c_str(), wxConvUTF8);
+            }
             continue;
         }
     }
 
-    if (Ok()) {
-        return 0;
-    }
-
-    return ERR_XML_PARSE;
+    return 0;
 }
 
 
+wxBitmap* CSkinSimpleTab::GetBitmap() {
+    Validate();
+    return &m_bmpBitmap;
+}
+
+
+wxColour* CSkinSimpleTab::GetBorderColor() {
+    Validate();
+    return &m_colBorderColor;
+}
+
+
+wxColour* CSkinSimpleTab::GetGradientFromColor() {
+    Validate();
+    return &m_colGradientFromColor;
+}
+
+
+wxColour* CSkinSimpleTab::GetGradientToColor() {
+    Validate();
+    return &m_colGradientToColor;
+}
+
+   
 bool CSkinSimpleTab::SetDefaults(
-    const char** default_image, wxString strBorderColor, wxString strGradientFromColor, wxString strGradientToColor
+    wxString strComponentName, const char** ppDefaultImage, wxString strBorderColor, wxString strGradientFromColor, wxString strGradientToColor
 ) {
-    m_bmpBitmap = wxBitmap(default_image);
-    m_colBorderColor = ParseColor(strBorderColor);
-    m_colGradientFromColor = ParseColor(strGradientFromColor);
-    m_colGradientToColor = ParseColor(strGradientToColor);
+    m_strComponentName = strComponentName;
+    m_ppDefaultBitmap = ppDefaultImage;
+    m_strDefaultBorderColor = strBorderColor;
+    m_strDefaultGradientFromColor = strGradientFromColor;
+    m_strDefaultGradientToColor = strGradientToColor;
+    return true;
+}
+
+
+bool CSkinSimpleTab::Validate() {
+    if (!m_bmpBitmap.Ok()) {
+        m_bmpBitmap = wxBitmap(wxImage(m_strDesiredBitmap, wxBITMAP_TYPE_ANY));
+        if (!m_bmpBitmap.Ok()) {
+            fprintf(stderr, wxT("Skin Manager: Failed to load '%s' tab image. Using default.\n"), m_strComponentName.c_str());
+            m_bmpBitmap = wxBitmap(m_ppDefaultBitmap);
+            wxASSERT(m_bmpBitmap.Ok());
+        }
+    }
+    if (!m_colBorderColor.Ok() && !m_strDefaultBorderColor.IsEmpty()) {
+        m_colBorderColor = ParseColor(m_strDesiredBorderColor);
+        if (!m_colBorderColor.Ok()) {
+            fprintf(stderr, wxT("Skin Manager: Failed to load '%s' tab border color. Using default.\n"), m_strComponentName.c_str());
+            m_colBorderColor = ParseColor(m_strDefaultBorderColor);
+            wxASSERT(m_colBorderColor.Ok());
+        }
+    }
+    if (!m_colGradientFromColor.Ok() && m_strDefaultGradientFromColor.IsEmpty()) {
+        m_colGradientFromColor = ParseColor(m_strDesiredGradientFromColor);
+        if (!m_colGradientFromColor.Ok()) {
+            fprintf(stderr, wxT("Skin Manager: Failed to load '%s' tab gradient from color. Using default.\n"), m_strComponentName.c_str());
+            m_colGradientFromColor = ParseColor(m_strDefaultGradientFromColor);
+            wxASSERT(m_colGradientFromColor.Ok());
+        }
+    }
+    if (!m_colGradientToColor.Ok() && m_strDefaultGradientToColor.IsEmpty()) {
+        m_colGradientToColor = ParseColor(m_strDesiredGradientToColor);
+        if (!m_colGradientToColor.Ok()) {
+            fprintf(stderr, wxT("Skin Manager: Failed to load '%s' tab gradient to color. Using default.\n"), m_strComponentName.c_str());
+            m_colGradientToColor = ParseColor(m_strDefaultGradientToColor);
+            wxASSERT(m_colGradientToColor.Ok());
+        }
+    }
     return true;
 }
 
@@ -370,43 +550,6 @@ void CSkinSimple::Clear() {
     m_ResumeLink.Clear();
     m_PreferencesLink.Clear();
     m_AdvancedLink.Clear();
-}
-
-
-bool CSkinSimple::Ok() {
-    if (!m_BackgroundImage.Ok()) return false;
-    if (!m_SpacerImage.Ok()) return false;
-    if (!m_StaticLineColor.Ok()) return false;
-    if (!m_StateIndicatorBackgroundImage.Ok()) return false;
-    if (!m_ConnectingIndicatorImage.Ok()) return false;
-    if (!m_ErrorIndicatorImage.Ok()) return false;
-    if (!m_WorkunitActiveTab.Ok()) return false;
-    if (!m_WorkunitSuspendedTab.Ok()) return false;
-    if (!m_WorkunitTabAreaBackgroundImage.Ok()) return false;
-    if (!m_WorkunitAreaBackgroundImage.Ok()) return false;
-    if (!m_WorkunitAnimationBackgroundImage.Ok()) return false;
-    if (!m_WorkunitAnimationImage.Ok()) return false;
-    if (!m_WorkunitGaugeBackgroundImage.Ok()) return false;
-    if (!m_WorkunitGaugeProgressIndicatorImage.Ok()) return false;
-    if (!m_ProjectAreaBackgroundImage.Ok()) return false;
-    if (!m_ProjectImage.Ok()) return false;
-    if (!m_AttachProjectButton.Ok()) return false;
-    if (!m_RightArrowButton.Ok()) return false;
-    if (!m_LeftArrowButton.Ok()) return false;
-    if (!m_SaveButton.Ok()) return false;
-    if (!m_CancelButton.Ok()) return false;
-    if (!m_CloseButton.Ok()) return false;
-    if (!m_ChangeButton.Ok()) return false;
-    if (!m_ClearButton.Ok()) return false;
-    if (!m_MessagesLink.Ok()) return false;
-    if (!m_MessagesAlertLink.Ok()) return false;
-    if (!m_SuspendLink.Ok()) return false;
-    if (!m_ResumeLink.Ok()) return false;
-    if (!m_PreferencesLink.Ok()) return false;
-    if (!m_AdvancedLink.Ok()) return false;
-    if (!m_PreferencesDialogBackgroundImage.Ok()) return false;
-    if (!m_MessagesDialogBackgroundImage.Ok()) return false;
-    return true;
 }
 
 
@@ -515,282 +658,109 @@ int CSkinSimple::Parse(MIOFILE& in) {
         }
     }
 
-    // Make sure all of our parts and pieces are going to work if not replace them
-    //   with the defaults.
-    ValidateSkin();
+    InitializeDelayedValidation();
 
-    // Check one last time to make sure everything is good to go.
-    //
-    if (Ok()) {
-        return 0;
-    }
-
-    return ERR_XML_PARSE;
+    return 0;
 }
 
 
-bool CSkinSimple::ValidateSkin() {
-    if (!m_BackgroundImage.Ok()) {
-        if (!m_BackgroundImage.GetBitmap()->Ok()) {
-            fprintf(stderr, wxT("Skin Manager: Failed to load background image. Using default.\n"));
-        }
-        if (!m_BackgroundImage.GetBackgroundColor()->Ok()) {
-            fprintf(stderr, wxT("Skin Manager: Failed to parse background color. Using default.\n"));
-        }
-        m_BackgroundImage.SetDefaults((const char**)background_image_xpm, wxString(wxT("133:181:178")), wxEmptyString);
-        wxASSERT(m_BackgroundImage.Ok());
-    }
-    if (!m_SpacerImage.Ok()) {
-        fprintf(stderr, wxT("Skin Manager: Failed to load spacer image. Using default.\n"));
-        m_SpacerImage.SetDefaults((const char**)spacer_image_xpm);
-        wxASSERT(m_SpacerImage.Ok());
-    }
+bool CSkinSimple::InitializeDelayedValidation() {
+    m_BackgroundImage.SetDefaults(
+        wxT("background"), (const char**)background_image_xpm, wxT("133:181:178")
+    );
+    m_SpacerImage.SetDefaults(wxT("spacer"), (const char**)spacer_image_xpm);
     if (!m_StaticLineColor.Ok()) {
         fprintf(stderr, wxT("Skin Manager: Failed to parse static line color. Using default.\n"));
         m_StaticLineColor = ParseColor(wxString(wxT("204:102:51")));
         wxASSERT(m_StaticLineColor.Ok());
     }
-    if (!m_StateIndicatorBackgroundImage.Ok()) {
-        fprintf(stderr, wxT("Skin Manager: Failed to load state indicator background image. Using default.\n"));
-        m_StateIndicatorBackgroundImage.SetDefaults((const char**)state_indicator_background_image_xpm);
-        wxASSERT(m_StateIndicatorBackgroundImage.Ok());
-    }
-    if (!m_ConnectingIndicatorImage.Ok()) {
-        fprintf(stderr, wxT("Skin Manager: Failed to load connecting indicator image. Using default.\n"));
-        m_ConnectingIndicatorImage.SetDefaults((const char**)connecting_indicator_image_xpm);
-        wxASSERT(m_ConnectingIndicatorImage.Ok());
-    }
-    if (!m_ErrorIndicatorImage.Ok()) {
-        fprintf(stderr, wxT("Skin Manager: Failed to load error indicator image. Using default.\n"));
-        m_ErrorIndicatorImage.SetDefaults((const char**)error_indicator_image_xpm);
-        wxASSERT(m_ErrorIndicatorImage.Ok());
-    }
-    if (!m_WorkunitActiveTab.Ok()) {
-        if (!m_WorkunitActiveTab.GetBitmap()->Ok()) {
-            fprintf(stderr, wxT("Skin Manager: Failed to load active tab image. Using default.\n"));
-        }
-        if (!m_WorkunitActiveTab.GetBorderColor()->Ok()) {
-            fprintf(stderr, wxT("Skin Manager: Failed to parse active tab border color. Using default.\n"));
-        }
-        if (!m_WorkunitActiveTab.GetGradientFromColor()->Ok()) {
-            fprintf(stderr, wxT("Skin Manager: Failed to parse active tab gradient from color. Using default.\n"));
-        }
-        if (!m_WorkunitActiveTab.GetGradientToColor()->Ok()) {
-            fprintf(stderr, wxT("Skin Manager: Failed to parse active tab gradient to color. Using default.\n"));
-        }
-        m_WorkunitActiveTab.SetDefaults(
-            (const char**)workunit_active_image_xpm,
-            wxString(wxT("20:82:82")),
-            wxString(wxT("134:179:176")),
-            wxString(wxT("51:102:102"))
-        );
-        wxASSERT(m_WorkunitActiveTab.Ok());
-    }
-    if (!m_WorkunitSuspendedTab.Ok()) {
-        if (!m_WorkunitSuspendedTab.GetBitmap()->Ok()) {
-            fprintf(stderr, wxT("Skin Manager: Failed to load suspended tab image. Using default.\n"));
-        }
-        if (!m_WorkunitSuspendedTab.GetBorderColor()->Ok()) {
-            fprintf(stderr, wxT("Skin Manager: Failed to parse suspended tab border color. Using default.\n"));
-        }
-        if (!m_WorkunitSuspendedTab.GetGradientFromColor()->Ok()) {
-            fprintf(stderr, wxT("Skin Manager: Failed to parse suspended tab gradient from color. Using default.\n"));
-        }
-        if (!m_WorkunitSuspendedTab.GetGradientToColor()->Ok()) {
-            fprintf(stderr, wxT("Skin Manager: Failed to parse suspended tab gradient to color. Using default.\n"));
-        }
-        m_WorkunitSuspendedTab.SetDefaults(
-            (const char**)workunit_suspended_image_xpm,
-            wxString(wxT("102:153:153")),
-            wxString(wxT("134:179:176")),
-            wxString(wxT("84:175:175"))
-        );
-        wxASSERT(m_WorkunitSuspendedTab.Ok());
-    }
-    if (!m_WorkunitTabAreaBackgroundImage.Ok()) {
-        fprintf(stderr, wxT("Skin Manager: Failed to load workunit tab area background image. Using default.\n"));
-        m_WorkunitTabAreaBackgroundImage.SetDefaults((const char**)workunit_tab_area_background_image_xpm);
-        wxASSERT(m_WorkunitTabAreaBackgroundImage.Ok());
-    }
-    if (!m_WorkunitAreaBackgroundImage.Ok()) {
-        fprintf(stderr, wxT("Skin Manager: Failed to load workunit area background image. Using default.\n"));
-        m_WorkunitAreaBackgroundImage.SetDefaults((const char**)workunit_area_background_image_xpm);
-        wxASSERT(m_WorkunitAreaBackgroundImage.Ok());
-    }
-    if (!m_WorkunitAnimationBackgroundImage.Ok()) {
-        fprintf(stderr, wxT("Skin Manager: Failed to load workunit animation background image. Using default.\n"));
-        m_WorkunitAnimationBackgroundImage.SetDefaults((const char**)workunit_animation_background_image_xpm);
-        wxASSERT(m_WorkunitAnimationBackgroundImage.Ok());
-    }
-    if (!m_WorkunitAnimationImage.Ok()) {
-        fprintf(stderr, wxT("Skin Manager: Failed to load workunit animation image. Using default.\n"));
-        m_WorkunitAnimationImage.SetDefaults((const char**)workunit_animation_image_xpm);
-        wxASSERT(m_WorkunitAnimationImage.Ok());
-    }
-    if (!m_WorkunitGaugeBackgroundImage.Ok()) {
-        fprintf(stderr, wxT("Skin Manager: Failed to load gauge background image. Using default.\n"));
-        m_WorkunitGaugeBackgroundImage.SetDefaults((const char**)workunit_gauge_background_image_xpm);
-        wxASSERT(m_WorkunitGaugeBackgroundImage.Ok());
-    }
-    if (!m_WorkunitGaugeProgressIndicatorImage.Ok()) {
-        fprintf(stderr, wxT("Skin Manager: Failed to load gauge progress indicator image. Using default.\n"));
-        m_WorkunitGaugeProgressIndicatorImage.SetDefaults((const char**)workunit_gauge_progress_indicator_image_xpm);
-        wxASSERT(m_WorkunitGaugeProgressIndicatorImage.Ok());
-    }
-    if (!m_ProjectAreaBackgroundImage.Ok()) {
-        fprintf(stderr, wxT("Skin Manager: Failed to load project area background image. Using default.\n"));
-        m_ProjectAreaBackgroundImage.SetDefaults((const char**)project_area_background_image_xpm);
-        wxASSERT(m_ProjectAreaBackgroundImage.Ok());
-    }
-    if (!m_ProjectImage.Ok()) {
-        fprintf(stderr, wxT("Skin Manager: Failed to load project image. Using default.\n"));
-        m_ProjectImage.SetDefaults((const char**)project_image_xpm);
-        wxASSERT(m_ProjectImage.Ok());
-    }
-    if (!m_AttachProjectButton.Ok()) {
-        if (!m_AttachProjectButton.GetBitmap()->Ok()) {
-            fprintf(stderr, wxT("Skin Manager: Failed to load attach project button. Using default.\n"));
-        }
-        if (!m_AttachProjectButton.GetBitmapClicked()->Ok()) {
-            fprintf(stderr, wxT("Skin Manager: Failed to load attach project clicked button. Using default.\n"));
-        }
-        m_AttachProjectButton.SetDefaults(
-            (const char**)attach_project_button_xpm,
-            (const char**)attach_project_clicked_button_xpm
-        );
-        wxASSERT(m_AttachProjectButton.Ok());
-    }
-    if (!m_RightArrowButton.Ok()) {
-        if (!m_RightArrowButton.GetBitmap()->Ok()) {
-            fprintf(stderr, wxT("Skin Manager: Failed to load right arrow button. Using default.\n"));
-        }
-        if (!m_RightArrowButton.GetBitmapClicked()->Ok()) {
-            fprintf(stderr, wxT("Skin Manager: Failed to load right arrow clicked button. Using default.\n"));
-        }
-        m_RightArrowButton.SetDefaults(
-            (const char**)right_arrow_button_xpm,
-            (const char**)right_arrow_clicked_button_xpm
-        );
-        wxASSERT(m_RightArrowButton.Ok());
-    }
-    if (!m_LeftArrowButton.Ok()) {
-        if (!m_LeftArrowButton.GetBitmap()->Ok()) {
-            fprintf(stderr, wxT("Skin Manager: Failed to load left arrow button. Using default.\n"));
-        }
-        if (!m_LeftArrowButton.GetBitmapClicked()->Ok()) {
-            fprintf(stderr, wxT("Skin Manager: Failed to load left arrow clicked button. Using default.\n"));
-        }
-        m_LeftArrowButton.SetDefaults(
-            (const char**)left_arrow_button_xpm,
-            (const char**)left_arrow_clicked_button_xpm
-        );
-        wxASSERT(m_LeftArrowButton.Ok());
-    }
-    if (!m_SaveButton.Ok()) {
-        if (!m_SaveButton.GetBitmap()->Ok()) {
-            fprintf(stderr, wxT("Skin Manager: Failed to load save button. Using default.\n"));
-        }
-        if (!m_SaveButton.GetBitmapClicked()->Ok()) {
-            fprintf(stderr, wxT("Skin Manager: Failed to load save clicked button. Using default.\n"));
-        }
-        m_SaveButton.SetDefaults(
-            (const char**)save_button_xpm,
-            (const char**)save_clicked_button_xpm
-        );
-        wxASSERT(m_SaveButton.Ok());
-    }
-    if (!m_CancelButton.Ok()) {
-        if (!m_CancelButton.GetBitmap()->Ok()) {
-            fprintf(stderr, wxT("Skin Manager: Failed to load cancel button. Using default.\n"));
-        }
-        if (!m_CancelButton.GetBitmapClicked()->Ok()) {
-            fprintf(stderr, wxT("Skin Manager: Failed to load cancel clicked button. Using default.\n"));
-        }
-        m_CancelButton.SetDefaults(
-            (const char**)cancel_button_xpm,
-            (const char**)cancel_clicked_button_xpm
-        );
-        wxASSERT(m_CancelButton.Ok());
-    }
-    if (!m_ChangeButton.Ok()) {
-        if (!m_ChangeButton.GetBitmap()->Ok()) {
-            fprintf(stderr, wxT("Skin Manager: Failed to load change button. Using default.\n"));
-        }
-        if (!m_ChangeButton.GetBitmapClicked()->Ok()) {
-            fprintf(stderr, wxT("Skin Manager: Failed to load change clicked button. Using default.\n"));
-        }
-        m_ChangeButton.SetDefaults(
-            (const char**)change_button_xpm,
-            (const char**)change_clicked_button_xpm
-        );
-        wxASSERT(m_ChangeButton.Ok());
-    }
-    if (!m_CloseButton.Ok()) {
-        if (!m_CloseButton.GetBitmap()->Ok()) {
-            fprintf(stderr, wxT("Skin Manager: Failed to load close button. Using default.\n"));
-        }
-        if (!m_CloseButton.GetBitmapClicked()->Ok()) {
-            fprintf(stderr, wxT("Skin Manager: Failed to load close clicked button. Using default.\n"));
-        }
-        m_CloseButton.SetDefaults(
-            (const char**)close_button_xpm,
-            (const char**)close_clicked_button_xpm
-        );
-        wxASSERT(m_CloseButton.Ok());
-    }
-    if (!m_ClearButton.Ok()) {
-        if (!m_ClearButton.GetBitmap()->Ok()) {
-            fprintf(stderr, wxT("Skin Manager: Failed to load clear button. Using default.\n"));
-        }
-        if (!m_ClearButton.GetBitmapClicked()->Ok()) {
-            fprintf(stderr, wxT("Skin Manager: Failed to load clear clicked button. Using default.\n"));
-        }
-        m_ClearButton.SetDefaults(
-            (const char**)clear_button_xpm,
-            (const char**)clear_clicked_button_xpm
-        );
-        wxASSERT(m_ClearButton.Ok());
-    }
-    if (!m_MessagesLink.Ok()) {
-        fprintf(stderr, wxT("Skin Manager: Failed to load messages link image. Using default.\n"));
-        m_MessagesLink.SetDefaults((const char**)messages_link_image_xpm);
-        wxASSERT(m_MessagesLink.Ok());
-    }
-    if (!m_MessagesAlertLink.Ok()) {
-        fprintf(stderr, wxT("Skin Manager: Failed to load messages alert link image. Using default.\n"));
-        m_MessagesAlertLink.SetDefaults((const char**)messages_alert_link_image_xpm);
-        wxASSERT(m_MessagesAlertLink.Ok());
-    }
-    if (!m_SuspendLink.Ok()) {
-        fprintf(stderr, wxT("Skin Manager: Failed to load suspend link image. Using default.\n"));
-        m_SuspendLink.SetDefaults((const char**)suspend_link_image_xpm);
-        wxASSERT(m_SuspendLink.Ok());
-    }
-    if (!m_ResumeLink.Ok()) {
-        fprintf(stderr, wxT("Skin Manager: Failed to load resume link image. Using default.\n"));
-        m_ResumeLink.SetDefaults((const char**)resume_link_image_xpm);
-        wxASSERT(m_ResumeLink.Ok());
-    }
-    if (!m_PreferencesLink.Ok()) {
-        fprintf(stderr, wxT("Skin Manager: Failed to load preferences link image. Using default.\n"));
-        m_PreferencesLink.SetDefaults((const char**)preferences_link_image_xpm);
-        wxASSERT(m_PreferencesLink.Ok());
-    }
-    if (!m_AdvancedLink.Ok()) {
-        fprintf(stderr, wxT("Skin Manager: Failed to load advanced link image. Using default.\n"));
-        m_AdvancedLink.SetDefaults((const char**)advanced_link_image_xpm);
-        wxASSERT(m_AdvancedLink.Ok());
-    }
-    if (!m_PreferencesDialogBackgroundImage.Ok()) {
-        fprintf(stderr, wxT("Skin Manager: Failed to load preferences dialog background image. Using default.\n"));
-        m_PreferencesDialogBackgroundImage.SetDefaults((const char**)preferences_dialog_background_image_xpm);
-        wxASSERT(m_PreferencesDialogBackgroundImage.Ok());
-    }
-    if (!m_MessagesDialogBackgroundImage.Ok()) {
-        fprintf(stderr, wxT("Skin Manager: Failed to load messages dialog background image. Using default.\n"));
-        m_MessagesDialogBackgroundImage.SetDefaults((const char**)messages_dialog_background_image_xpm);
-        wxASSERT(m_MessagesDialogBackgroundImage.Ok());
-    }
+    m_StateIndicatorBackgroundImage.SetDefaults(
+        wxT("state indicator background"), (const char**)state_indicator_background_image_xpm
+    );
+    m_ConnectingIndicatorImage.SetDefaults(
+        wxT("connecting indicator"), (const char**)connecting_indicator_image_xpm
+    );
+    m_ErrorIndicatorImage.SetDefaults(
+        wxT("error indicator"), (const char**)error_indicator_image_xpm
+    );
+    m_WorkunitActiveTab.SetDefaults(
+        wxT("active"), (const char**)workunit_active_image_xpm, wxString(wxT("20:82:82")), wxString(wxT("134:179:176")), wxString(wxT("51:102:102"))
+    );
+    m_WorkunitSuspendedTab.SetDefaults(
+        wxT("suspended"), (const char**)workunit_suspended_image_xpm, wxString(wxT("102:153:153")), wxString(wxT("134:179:176")), wxString(wxT("84:175:175"))
+    );
+    m_WorkunitTabAreaBackgroundImage.SetDefaults(
+        wxT("workunit tab area background"), (const char**)workunit_tab_area_background_image_xpm
+    );
+    m_WorkunitAreaBackgroundImage.SetDefaults(
+        wxT("workunit area background"), (const char**)workunit_area_background_image_xpm
+    );
+    m_WorkunitAnimationBackgroundImage.SetDefaults(
+        wxT("workunit animation background"), (const char**)workunit_animation_background_image_xpm
+    );
+    m_WorkunitAnimationImage.SetDefaults(
+        wxT("workunit animation"), (const char**)workunit_animation_image_xpm
+    );
+    m_WorkunitGaugeBackgroundImage.SetDefaults(
+        wxT("gauge background"), (const char**)workunit_gauge_background_image_xpm
+    );
+    m_WorkunitGaugeProgressIndicatorImage.SetDefaults(
+        wxT("gauge progress indicator"), (const char**)workunit_gauge_progress_indicator_image_xpm
+    );
+    m_ProjectAreaBackgroundImage.SetDefaults(
+        wxT("project area background"), (const char**)project_area_background_image_xpm
+    );
+    m_ProjectImage.SetDefaults(
+        wxT("project"), (const char**)project_image_xpm
+    );
+    m_AttachProjectButton.SetDefaults(
+        wxT("attach project"), (const char**)attach_project_button_xpm, (const char**)attach_project_clicked_button_xpm
+    );
+    m_RightArrowButton.SetDefaults(
+        wxT("right arrow"), (const char**)right_arrow_button_xpm, (const char**)right_arrow_clicked_button_xpm
+    );
+    m_LeftArrowButton.SetDefaults(
+        wxT("left arrow"), (const char**)left_arrow_button_xpm, (const char**)left_arrow_clicked_button_xpm
+    );
+    m_SaveButton.SetDefaults(
+        wxT("save"), (const char**)save_button_xpm, (const char**)save_clicked_button_xpm
+    );
+    m_CancelButton.SetDefaults(
+        wxT("cancel"), (const char**)cancel_button_xpm, (const char**)cancel_clicked_button_xpm
+    );
+    m_ChangeButton.SetDefaults(
+        wxT("change"), (const char**)change_button_xpm, (const char**)change_clicked_button_xpm
+    );
+    m_CloseButton.SetDefaults(
+        wxT("close"), (const char**)close_button_xpm, (const char**)close_clicked_button_xpm
+    );
+    m_ClearButton.SetDefaults(
+        wxT("clear"), (const char**)clear_button_xpm, (const char**)clear_clicked_button_xpm
+    );
+    m_MessagesLink.SetDefaults(
+        wxT("messages link"), (const char**)messages_link_image_xpm
+    );
+    m_MessagesAlertLink.SetDefaults(
+        wxT("messages alert link"), (const char**)messages_alert_link_image_xpm
+    );
+    m_SuspendLink.SetDefaults(
+        wxT("suspend link"), (const char**)suspend_link_image_xpm
+    );
+    m_ResumeLink.SetDefaults(
+        wxT("resume link"), (const char**)resume_link_image_xpm
+    );
+    m_PreferencesLink.SetDefaults(
+        wxT("preferences link"), (const char**)preferences_link_image_xpm
+    );
+    m_AdvancedLink.SetDefaults(
+        wxT("advanced link"), (const char**)advanced_link_image_xpm
+    );
+    m_PreferencesDialogBackgroundImage.SetDefaults(
+        wxT("preferences dialog background"), (const char**)preferences_dialog_background_image_xpm
+    );
+    m_MessagesDialogBackgroundImage.SetDefaults(
+        wxT("messages dialog background"), (const char**)messages_dialog_background_image_xpm
+    );
     return true;
 }
 
@@ -811,9 +781,9 @@ CSkinAdvanced::~CSkinAdvanced() {
 void CSkinAdvanced::Clear() {
     m_bIsBranded = false;
     m_strApplicationName = wxEmptyString;
-    m_iconApplicationIcon = wxNullIcon;
-    m_iconApplicationDisconnectedIcon = wxNullIcon;
-    m_iconApplicationSnoozeIcon = wxNullIcon;
+    m_iconApplicationIcon.Clear();
+    m_iconApplicationDisconnectedIcon.Clear();
+    m_iconApplicationSnoozeIcon.Clear();
     m_bitmapApplicationLogo = wxNullBitmap;
     m_strCompanyName = wxEmptyString;
     m_strCompanyWebsite = wxEmptyString;
@@ -821,21 +791,6 @@ void CSkinAdvanced::Clear() {
     m_bDefaultTabSpecified = false;
     m_iDefaultTab = 0;
     m_strExitMessage = wxEmptyString;
-}
-
-
-bool CSkinAdvanced::Ok() {
-    if (m_strApplicationName.IsEmpty()) return false;
-    if (!m_iconApplicationIcon.Ok()) return false;
-    if (!m_iconApplicationDisconnectedIcon.Ok()) return false;
-    if (!m_iconApplicationSnoozeIcon.Ok()) return false;
-    if (!m_bitmapApplicationLogo.Ok()) return false;
-    if (m_strCompanyName.IsEmpty()) return false;
-    if (m_strCompanyWebsite.IsEmpty()) return false;
-    if (m_strProjectName.IsEmpty()) return false;
-    if (!m_bDefaultTabSpecified) return false;
-    if (m_strExitMessage.IsEmpty()) return false;
-    return true;
 }
 
 
@@ -850,46 +805,13 @@ int CSkinAdvanced::Parse(MIOFILE& in) {
             m_strApplicationName = wxString(strBuffer.c_str(), wxConvUTF8);
             continue;
         } else if (match_tag(buf, "<application_icon>")) {
-            // Parse out the bitmap information and transparency mask
-            CSkinImage img;
-            img.Parse(in);
-
-            if (img.Ok()) {
-                // Configure bitmap object with transparency mask
-                wxBitmap bmp = wxBitmap(*img.GetBitmap());
-                bmp.SetMask(new wxMask(*img.GetBitmap(), *img.GetTransparencyMask()));
-
-                // Not set the icon object using the newly created bitmap
-                m_iconApplicationIcon.CopyFromBitmap(bmp);
-            }
+            m_iconApplicationIcon.Parse(in);
             continue;
         } else if (match_tag(buf, "<application_disconnected_icon>")) {
-            // Parse out the bitmap information and transparency mask
-            CSkinImage img;
-            img.Parse(in);
-
-            if (img.Ok()) {
-                // Configure bitmap object with transparency mask
-                wxBitmap bmp = wxBitmap(*img.GetBitmap());
-                bmp.SetMask(new wxMask(*img.GetBitmap(), *img.GetTransparencyMask()));
-
-                // Not set the icon object using the newly created bitmap
-                m_iconApplicationDisconnectedIcon.CopyFromBitmap(bmp);
-            }
+            m_iconApplicationDisconnectedIcon.Parse(in);
             continue;
         } else if (match_tag(buf, "<application_snooze_icon>")) {
-            // Parse out the bitmap information and transparency mask
-            CSkinImage img;
-            img.Parse(in);
-
-            if (img.Ok()) {
-                // Configure bitmap object with transparency mask
-                wxBitmap bmp = wxBitmap(*img.GetBitmap());
-                bmp.SetMask(new wxMask(*img.GetBitmap(), *img.GetTransparencyMask()));
-
-                // Not set the icon object using the newly created bitmap
-                m_iconApplicationSnoozeIcon.CopyFromBitmap(bmp);
-            }
+            m_iconApplicationSnoozeIcon.Parse(in);
             continue;
         } else if (parse_str(buf, "<application_logo>", strBuffer)) {
             if(strBuffer.length()) {
@@ -918,41 +840,81 @@ int CSkinAdvanced::Parse(MIOFILE& in) {
         }
     }
 
-    // Make sure all of our parts and pieces are going to work if not replace them
-    //   with the defaults.
-    ValidateSkin();
+    InitializeDelayedValidation();
 
-    // Check one last time to make sure everything is good to go.
-    //
-    if (Ok()) {
-        return 0;
-    }
-
-    return ERR_XML_PARSE;
+    return 0;
 }
 
 
-bool CSkinAdvanced::ValidateSkin() {
+wxString CSkinAdvanced::GetApplicationName() {
+    return m_strApplicationName;
+}
+
+
+wxIcon* CSkinAdvanced::GetApplicationIcon() {
+    return m_iconApplicationIcon.GetIcon();
+}
+
+
+wxIcon* CSkinAdvanced::GetApplicationDisconnectedIcon() { 
+    return m_iconApplicationDisconnectedIcon.GetIcon();
+}
+
+
+wxIcon* CSkinAdvanced::GetApplicationSnoozeIcon() {
+    return m_iconApplicationSnoozeIcon.GetIcon();
+}
+
+
+wxBitmap* CSkinAdvanced::GetApplicationLogo() {
+    return &m_bitmapApplicationLogo;
+}
+
+
+wxString CSkinAdvanced::GetCompanyName() { 
+    return m_strCompanyName;
+}
+
+
+wxString CSkinAdvanced::GetCompanyWebsite() {
+    return m_strCompanyWebsite;
+}
+
+
+wxString CSkinAdvanced::GetProjectName() {
+    return m_strProjectName;
+}
+
+
+int CSkinAdvanced::GetDefaultTab() { 
+    return m_iDefaultTab;
+}
+
+
+wxString CSkinAdvanced::GetExitMessage() { 
+    return m_strExitMessage;
+}
+
+
+bool CSkinAdvanced::IsBranded() { 
+    return m_bIsBranded;
+}
+
+
+bool CSkinAdvanced::IsDefaultTabSpecified() { 
+    return m_bDefaultTabSpecified;
+}
+
+
+bool CSkinAdvanced::InitializeDelayedValidation() {
     if (m_strApplicationName.IsEmpty()) {
         fprintf(stderr, wxT("Skin Manager: Application name was not defined. Using default.\n"));
         m_strApplicationName = wxT("BOINC Manager");
         wxASSERT(!m_strApplicationName.IsEmpty());
     }
-    if (!m_iconApplicationIcon.Ok()) {
-        fprintf(stderr, wxT("Skin Manager: Failed to load application icon. Using default.\n"));
-        m_iconApplicationIcon = wxIcon((const char**)boinc_xpm);
-        wxASSERT(m_iconApplicationIcon.Ok());
-    }
-    if (!m_iconApplicationDisconnectedIcon.Ok()) {
-        fprintf(stderr, wxT("Skin Manager: Failed to load application disconnected icon. Using default.\n"));
-        m_iconApplicationDisconnectedIcon = wxIcon((const char**)boincdisconnect_xpm);
-        wxASSERT(m_iconApplicationDisconnectedIcon.Ok());
-    }
-    if (!m_iconApplicationSnoozeIcon.Ok()) {
-        fprintf(stderr, wxT("Skin Manager: Failed to load application snooze icon. Using default.\n"));
-        m_iconApplicationSnoozeIcon = wxIcon((const char**)boincsnooze_xpm);
-        wxASSERT(m_iconApplicationSnoozeIcon.Ok());
-    }
+    m_iconApplicationIcon.SetDefaults(wxT("application"), (const char**)boinc_xpm);
+    m_iconApplicationDisconnectedIcon.SetDefaults(wxT("application disconnected"), (const char**)boincdisconnect_xpm);
+    m_iconApplicationSnoozeIcon.SetDefaults(wxT("application snooze"), (const char**)boincsnooze_xpm);
     if (!m_bitmapApplicationLogo.Ok()) {
         fprintf(stderr, wxT("Skin Manager: Failed to load application logo. Using default.\n"));
         m_bitmapApplicationLogo = wxBitmap((const char**)boinc_logo_xpm);
@@ -1009,13 +971,6 @@ void CSkinWizardATP::Clear() {
 }
 
 
-bool CSkinWizardATP::Ok() {
-    if (!m_bitmapWizardBitmap.Ok()) return false;
-    if (m_strTitle.IsEmpty()) return false;
-    return true;
-}
-
-
 int CSkinWizardATP::Parse(MIOFILE& in) {
     char buf[256];
     std::string strBuffer;
@@ -1037,21 +992,13 @@ int CSkinWizardATP::Parse(MIOFILE& in) {
         }
     }
 
-    // Make sure all of our parts and pieces are going to work if not replace them
-    //   with the defaults.
-    ValidateSkin();
+    InitializeDelayedValidation();
 
-    // Check one last time to make sure everything is good to go.
-    //
-    if (Ok()) {
-        return 0;
-    }
-
-    return ERR_XML_PARSE;
+    return 0;
 }
 
 
-bool CSkinWizardATP::ValidateSkin() {
+bool CSkinWizardATP::InitializeDelayedValidation() {
     if (!m_bitmapWizardBitmap.Ok()) {
         fprintf(stderr, wxT("Skin Manager: Failed to load attach to project wizard bitmap logo. Using default.\n"));
         m_bitmapWizardBitmap = wxBitmap((const char**)wizard_bitmap_xpm);
@@ -1086,13 +1033,6 @@ void CSkinWizardATAM::Clear() {
 }
 
 
-bool CSkinWizardATAM::Ok() {
-    if (!m_bitmapWizardBitmap.Ok()) return false;
-    if (m_strTitle.IsEmpty()) return false;
-    return true;
-}
-
-
 int CSkinWizardATAM::Parse(MIOFILE& in) {
     char buf[256];
     std::string strBuffer;
@@ -1117,21 +1057,13 @@ int CSkinWizardATAM::Parse(MIOFILE& in) {
         }
     }
 
-    // Make sure all of our parts and pieces are going to work if not replace them
-    //   with the defaults.
-    ValidateSkin();
+    InitializeDelayedValidation();
 
-    // Check one last time to make sure everything is good to go.
-    //
-    if (Ok()) {
-        return 0;
-    }
-
-    return ERR_XML_PARSE;
+    return 0;
 }
 
 
-bool CSkinWizardATAM::ValidateSkin() {
+bool CSkinWizardATAM::InitializeDelayedValidation() {
     if (!m_bitmapWizardBitmap.Ok()) {
         fprintf(stderr, wxT("Skin Manager: Failed to load attach to project wizard bitmap logo. Using default.\n"));
         m_bitmapWizardBitmap = wxBitmap((const char**)wizard_bitmap_xpm);
@@ -1165,13 +1097,6 @@ void CSkinWizards::Clear() {
 }
 
 
-bool CSkinWizards::Ok() {
-    if (!m_AttachToProjectWizard.Ok()) return false;
-    if (!m_AttachToAccountManagerWizard.Ok()) return false;
-    return true;
-}
-
-
 int CSkinWizards::Parse(MIOFILE& in) {
     char buf[256];
 
@@ -1186,22 +1111,15 @@ int CSkinWizards::Parse(MIOFILE& in) {
         }
     }
 
-    // Make sure all of our parts and pieces are going to work if not replace them
-    //   with the defaults.
-    ValidateSkin();
+    InitializeDelayedValidation();
 
-    // Check one last time to make sure everything is good to go.
-    //
-    if (Ok()) {
-        return 0;
-    }
-
-    return ERR_XML_PARSE;
+    return 0;
 }
 
 
-bool CSkinWizards::ValidateSkin() {
-    return m_AttachToProjectWizard.ValidateSkin() && m_AttachToAccountManagerWizard.ValidateSkin();
+bool CSkinWizards::InitializeDelayedValidation() {
+    return m_AttachToProjectWizard.InitializeDelayedValidation() && 
+           m_AttachToAccountManagerWizard.InitializeDelayedValidation();
 }
 
 
@@ -1236,7 +1154,7 @@ bool CSkinManager::ReloadSkin(wxLocale* pLocale, wxString strSkin) {
     // Check to see if the skin we want to change to is the default skin
     if (GetDefaultSkinName() == m_strSelectedSkin) {
         // Validate settings
-        ValidateSkin();
+        InitializeDelayedValidation();
 
         // Tell whichever frame is loaded to reload and skinable resources
         CBOINCBaseFrame* pFrame = wxGetApp().GetFrame();
@@ -1288,8 +1206,7 @@ bool CSkinManager::ReloadSkin(wxLocale* pLocale, wxString strSkin) {
         );
     }
 
-    // Make sure all the resources are loaded and valid.
-    ValidateSkin();
+    InitializeDelayedValidation();
 
     // Tell whichever frame is loaded to reload and skinable resources
     CBOINCBaseFrame* pFrame = wxGetApp().GetFrame();
@@ -1381,14 +1298,6 @@ void CSkinManager::Clear() {
 }
 
 
-bool CSkinManager::Ok() {
-    if (!m_SimpleSkin.Ok()) return false;
-    if (!m_AdvancedSkin.Ok()) return false;
-    if (!m_WizardsSkin.Ok()) return false;
-    return true;
-}
-
-
 int CSkinManager::Parse(MIOFILE& in, wxString strDesiredLocale) {
     char     buf[256];
     wxString strLocaleStartTag;
@@ -1423,21 +1332,15 @@ int CSkinManager::Parse(MIOFILE& in, wxString strDesiredLocale) {
         }
     }
 
-    // Make sure all of our parts and pieces are going to work if not replace them
-    //   with the defaults.
-    ValidateSkin();
+    InitializeDelayedValidation();
 
-    // Check one last time to make sure everything is good to go.
-    //
-    if (Ok()) {
-        return 0;
-    }
-
-    return ERR_XML_PARSE;
+    return 0;
 }
 
 
-bool CSkinManager::ValidateSkin() {
-    return m_SimpleSkin.ValidateSkin() && m_AdvancedSkin.ValidateSkin() && m_WizardsSkin.ValidateSkin();
+bool CSkinManager::InitializeDelayedValidation() {
+    return m_SimpleSkin.InitializeDelayedValidation() && 
+           m_AdvancedSkin.InitializeDelayedValidation() && 
+           m_WizardsSkin.InitializeDelayedValidation();
 }
 

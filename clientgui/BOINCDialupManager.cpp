@@ -96,7 +96,7 @@ void CBOINCDialUpManager::poll() {
     CMainDocument*      pDoc = wxGetApp().GetDocument();
     CBOINCBaseFrame*    pFrame = wxGetApp().GetFrame();
 #if defined(__WXMSW__)
-    CTaskBarIcon*       pTaskbar = wxGetApp().GetTaskBarIcon();
+//    CTaskBarIcon*       pTaskbar = wxGetApp().GetTaskBarIcon();
 #endif
     wxTimeSpan          tsLastDialupAlertSent;
     bool                bIsOnline = false;
@@ -111,7 +111,7 @@ void CBOINCDialUpManager::poll() {
         wxASSERT(wxDynamicCast(pDoc, CMainDocument));
         wxASSERT(wxDynamicCast(pFrame, CBOINCBaseFrame));
 #if defined(__WXMSW__)
-        wxASSERT(wxDynamicCast(pTaskbar, CTaskBarIcon));
+//        wxASSERT(wxDynamicCast(pTaskbar, CTaskBarIcon));
 #endif
 
         // cache the various states
