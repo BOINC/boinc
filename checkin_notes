@@ -11716,3 +11716,12 @@ Rom    28 Oct 2006
     
     clientgui/
         SkinManager.cpp, .h
+
+Rom    29 Oct 2006
+    - MGR: If the background image is smaller than the perferences dialog it'll
+        center the background image on the dialog. If the background image is larger
+        than the dialog it'll take a chunk out of the center of the bitmap and
+        paint that on the dialog.
+        
+    clientgui/
+        sg_DlgPreferences.cpp

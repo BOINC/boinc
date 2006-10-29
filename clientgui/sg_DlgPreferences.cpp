@@ -511,21 +511,53 @@ void CDlgPreferences::OnOK( wxCommandEvent& event ) {
 
 void CDlgPreferences::OnEraseBackground( wxEraseEvent& event ) {
     CSkinSimple* pSkinSimple = wxGetApp().GetSkinManager()->GetSimple();
-    wxDC* dc = event.GetDC();
     
     wxASSERT(pSkinSimple);
     wxASSERT(wxDynamicCast(pSkinSimple, CSkinSimple));
+
+    wxDC* dc = event.GetDC();
+    wxSize sz = GetClientSize();
+    wxBitmap bmp(*pSkinSimple->GetPreferencesDialogBackgroundImage()->GetBitmap());
+    wxMemoryDC memDC;
+    wxCoord w, h, x, y;
 
 #ifdef __WXDEBUG__
     // Fill the dialog with a magenta color so people can detect when something
     //   is wrong
     dc->SetBrush(wxBrush(wxColour(255,0,255)));
     dc->SetPen(wxPen(wxColour(255,0,255)));
-    dc->DrawRectangle(0, 0, GetSize().GetWidth(), GetSize().GetHeight());
+    dc->DrawRectangle(0, 0, sz.GetWidth(), sz.GetHeight());
 #endif
 
-    // Draw our cool background
-    dc->DrawBitmap(*pSkinSimple->GetPreferencesDialogBackgroundImage()->GetBitmap(), 0, 0);
+    // Our bitmap dimensions
+    w = bmp.GetWidth();
+    h = bmp.GetHeight();
+
+    // Is the bitmap smaller than the window?
+    if ( (w < sz.x) || (h < sz.y) ) {
+        // Center the bitmap on the window, but never
+        //   draw at a negative position.
+        x = wxMax(0, (sz.x - w)/2);
+        y = wxMax(0, (sz.y - h)/2);
+
+        // Draw our cool background (centered)
+        dc->DrawBitmap(bmp, x, y);
+    } else {
+        // Snag the center of the bitmap and use it
+        //   for the background image
+        x = wxMax(0, (w - sz.x)/2);
+        y = wxMax(0, (h - sz.y)/2);
+
+        // Select the desired bitmap into the memory DC so we can take
+        //   the center chunk of it.
+        memDC.SelectObject(bmp);
+
+        // Draw the center chunk on the window
+        dc->Blit(0, 0, w, h, &memDC, x, y, wxCOPY);
+
+        // Drop the bitmap
+        memDC.SelectObject(wxNullBitmap);
+    }
 }
 
 
