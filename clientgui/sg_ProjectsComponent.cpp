@@ -308,13 +308,10 @@ void CProjectsComponent::OnPreferences(wxCommandEvent& /*event*/) {
 
 void CProjectsComponent::RemoveProject(std::string prjUrl)
 {	
-    CSkinSimple* pSkinSimple = wxGetApp().GetSkinManager()->GetSimple();
 	CMainDocument* pDoc = wxGetApp().GetDocument();
 
     wxASSERT(pDoc);
     wxASSERT(wxDynamicCast(pDoc, CMainDocument));
-    wxASSERT(pSkinSimple);
-    wxASSERT(wxDynamicCast(pSkinSimple, CSkinSimple));
 
 	//update project count
 	m_projCnt = pDoc->GetProjectCount();
@@ -390,13 +387,10 @@ void CProjectsComponent::RemoveProject(std::string prjUrl)
 
 void CProjectsComponent::UpdateInterface()
 {
-    CSkinSimple* pSkinSimple = wxGetApp().GetSkinManager()->GetSimple();
 	CMainDocument* pDoc = wxGetApp().GetDocument();
 
     wxASSERT(pDoc);
     wxASSERT(wxDynamicCast(pDoc, CMainDocument));
-    wxASSERT(pSkinSimple);
-    wxASSERT(wxDynamicCast(pSkinSimple, CSkinSimple));
 
 	// Check to see if error messages have been received
 	if ( receivedErrorMessage ) {
@@ -533,12 +527,8 @@ void CProjectsComponent::ReskinInterface()
 void CProjectsComponent::OnBtnClick(wxCommandEvent& event){ //init function
 	wxObject *m_wxBtnObj = event.GetEventObject();
 
-    CSkinSimple* pSkinSimple = wxGetApp().GetSkinManager()->GetSimple();
 	CSimpleFrame* pFrame      = wxDynamicCast(GetParent(), CSimpleFrame);
-
-    wxASSERT(pSkinSimple);
     wxASSERT(pFrame);
-    wxASSERT(wxDynamicCast(pSkinSimple, CSkinSimple));
 
 
 	if (m_wxBtnObj==btnArwLeft){

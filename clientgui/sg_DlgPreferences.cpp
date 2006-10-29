@@ -228,7 +228,9 @@ bool CDlgPreferences::Create( wxWindow* parent, wxWindowID id, const wxString& c
     m_WorkWhenIdleCtrl = NULL;
 ////@end CDlgPreferences member initialisation
 
+#ifdef __WXDEBUG__
     SetBackgroundColour(wxColour(255, 0, 255));
+#endif
     SetBackgroundStyle(wxBG_STYLE_CUSTOM);
     SetForegroundColour(*wxBLACK);
     SetExtraStyle(GetExtraStyle()|wxWS_EX_BLOCK_EVENTS);
@@ -308,8 +310,9 @@ void CDlgPreferences::CreateControls()
     m_CustomizePreferencesCtrl->SetValue(false);
     itemBoxSizer12->Add(m_CustomizePreferencesCtrl, 0, wxALIGN_CENTER_VERTICAL|wxALL, 5);
 
-    CTransparentStaticText* itemStaticText14 = new CTransparentStaticText( itemDialog1, wxID_ANY, _("I want to customize my preferences for this computer."), wxDefaultPosition, wxDefaultSize, 0 );
+    CTransparentStaticTextAssociate* itemStaticText14 = new CTransparentStaticTextAssociate( itemDialog1, wxID_ANY, _("I want to customize my preferences for this computer."), wxDefaultPosition, wxDefaultSize, 0 );
     itemStaticText14->SetFont(wxFont(9, wxSWISS, wxNORMAL, wxNORMAL, false, _T("Arial")));
+    itemStaticText14->AssociateWindow(m_CustomizePreferencesCtrl);
     itemBoxSizer12->Add(itemStaticText14, 0, wxALIGN_CENTER_VERTICAL|wxRIGHT|wxTOP|wxBOTTOM, 5);
 
     CTransparentStaticText* itemStaticText15 = new CTransparentStaticText( itemDialog1, wxID_ANY, _("Customized Preferences"), wxDefaultPosition, wxDefaultSize, 0 );
@@ -337,7 +340,7 @@ void CDlgPreferences::CreateControls()
     itemFlexGridSizer15->Add(itemBoxSizer17, 0, wxALIGN_CENTER_HORIZONTAL|wxALIGN_CENTER_VERTICAL|wxALL, 0);
 
     wxString* m_WorkBetweenBeginCtrlStrings = NULL;
-    m_WorkBetweenBeginCtrl = new wxComboBox( itemDialog1, ID_WORKBETWEENBEGIN, _T(""), wxDefaultPosition, wxSize(75, -1), 0, m_WorkBetweenBeginCtrlStrings, wxCB_READONLY|wxCB_SORT );
+    m_WorkBetweenBeginCtrl = new wxComboBox( itemDialog1, ID_WORKBETWEENBEGIN, _T(""), wxDefaultPosition, wxSize(100, -1), 0, m_WorkBetweenBeginCtrlStrings, wxCB_READONLY|wxCB_SORT );
     m_WorkBetweenBeginCtrl->Enable(false);
     itemBoxSizer17->Add(m_WorkBetweenBeginCtrl, 0, wxALIGN_CENTER_VERTICAL|wxTOP|wxBOTTOM, 5);
 
@@ -346,7 +349,7 @@ void CDlgPreferences::CreateControls()
     itemBoxSizer17->Add(itemStaticText19, 0, wxALIGN_CENTER_VERTICAL|wxALL|wxADJUST_MINSIZE, 5);
 
     wxString* m_WorkBetweenEndCtrlStrings = NULL;
-    m_WorkBetweenEndCtrl = new wxComboBox( itemDialog1, ID_WORKBETWEENEND, _T(""), wxDefaultPosition, wxSize(75, -1), 0, m_WorkBetweenEndCtrlStrings, wxCB_READONLY );
+    m_WorkBetweenEndCtrl = new wxComboBox( itemDialog1, ID_WORKBETWEENEND, _T(""), wxDefaultPosition, wxSize(100, -1), 0, m_WorkBetweenEndCtrlStrings, wxCB_READONLY );
     m_WorkBetweenEndCtrl->Enable(false);
     itemBoxSizer17->Add(m_WorkBetweenEndCtrl, 0, wxALIGN_CENTER_VERTICAL|wxRIGHT|wxTOP|wxBOTTOM, 5);
 
@@ -359,7 +362,7 @@ void CDlgPreferences::CreateControls()
     itemFlexGridSizer15->Add(itemBoxSizer22, 0, wxALIGN_CENTER_HORIZONTAL|wxALIGN_CENTER_VERTICAL|wxALL, 0);
 
     wxString* m_ConnectBetweenBeginCtrlStrings = NULL;
-    m_ConnectBetweenBeginCtrl = new wxComboBox( itemDialog1, ID_CONNECTBETWEENBEGIN, _T(""), wxDefaultPosition, wxSize(75, -1), 0, m_ConnectBetweenBeginCtrlStrings, wxCB_READONLY );
+    m_ConnectBetweenBeginCtrl = new wxComboBox( itemDialog1, ID_CONNECTBETWEENBEGIN, _T(""), wxDefaultPosition, wxSize(100, -1), 0, m_ConnectBetweenBeginCtrlStrings, wxCB_READONLY );
     m_ConnectBetweenBeginCtrl->Enable(false);
     itemBoxSizer22->Add(m_ConnectBetweenBeginCtrl, 0, wxALIGN_CENTER_VERTICAL|wxTOP|wxBOTTOM, 5);
 
@@ -368,7 +371,7 @@ void CDlgPreferences::CreateControls()
     itemBoxSizer22->Add(itemStaticText24, 0, wxALIGN_CENTER_VERTICAL|wxALL|wxADJUST_MINSIZE, 5);
 
     wxString* m_ConnectBetweenEndCtrlStrings = NULL;
-    m_ConnectBetweenEndCtrl = new wxComboBox( itemDialog1, ID_CONNECTBETWEENEND, _T(""), wxDefaultPosition, wxSize(75, -1), 0, m_ConnectBetweenEndCtrlStrings, wxCB_READONLY );
+    m_ConnectBetweenEndCtrl = new wxComboBox( itemDialog1, ID_CONNECTBETWEENEND, _T(""), wxDefaultPosition, wxSize(100, -1), 0, m_ConnectBetweenEndCtrlStrings, wxCB_READONLY );
     m_ConnectBetweenEndCtrl->Enable(false);
     itemBoxSizer22->Add(m_ConnectBetweenEndCtrl, 0, wxALIGN_CENTER_VERTICAL|wxRIGHT|wxTOP|wxBOTTOM, 5);
 
@@ -381,7 +384,7 @@ void CDlgPreferences::CreateControls()
     itemFlexGridSizer15->Add(itemBoxSizer27, 0, wxALIGN_LEFT|wxALIGN_CENTER_VERTICAL|wxALL, 0);
 
     wxString* m_MaxDiskUsageCtrlStrings = NULL;
-    m_MaxDiskUsageCtrl = new wxComboBox( itemDialog1, ID_MAXDISKUSAGE, _T(""), wxDefaultPosition, wxSize(75, -1), 0, m_MaxDiskUsageCtrlStrings, wxCB_READONLY );
+    m_MaxDiskUsageCtrl = new wxComboBox( itemDialog1, ID_MAXDISKUSAGE, _T(""), wxDefaultPosition, wxSize(100, -1), 0, m_MaxDiskUsageCtrlStrings, wxCB_READONLY );
     m_MaxDiskUsageCtrl->Enable(false);
     itemBoxSizer27->Add(m_MaxDiskUsageCtrl, 0, wxALIGN_CENTER_VERTICAL|wxTOP|wxBOTTOM, 5);
 
@@ -398,7 +401,7 @@ void CDlgPreferences::CreateControls()
     itemFlexGridSizer15->Add(itemBoxSizer31, 0, wxALIGN_LEFT|wxALIGN_CENTER_VERTICAL|wxALL, 0);
 
     wxString* m_MaxCPUUsageCtrlStrings = NULL;
-    m_MaxCPUUsageCtrl = new wxComboBox( itemDialog1, ID_MAXCPUUSAGE, _T(""), wxDefaultPosition, wxSize(55, -1), 0, m_MaxCPUUsageCtrlStrings, wxCB_READONLY );
+    m_MaxCPUUsageCtrl = new wxComboBox( itemDialog1, ID_MAXCPUUSAGE, _T(""), wxDefaultPosition, wxSize(100, -1), 0, m_MaxCPUUsageCtrlStrings, wxCB_READONLY );
     m_MaxCPUUsageCtrl->Enable(false);
     itemBoxSizer31->Add(m_MaxCPUUsageCtrl, 0, wxALIGN_CENTER_VERTICAL|wxTOP|wxBOTTOM, 5);
 
@@ -441,7 +444,7 @@ void CDlgPreferences::CreateControls()
     itemFlexGridSizer15->Add(itemBoxSizer41, 0, wxALIGN_LEFT|wxALIGN_CENTER_VERTICAL|wxALL, 0);
 
     wxString* m_WorkWhenIdleCtrlStrings = NULL;
-    m_WorkWhenIdleCtrl = new wxComboBox( itemDialog1, ID_WORKWHENIDLE, _T(""), wxDefaultPosition, wxSize(55, -1), 0, m_WorkWhenIdleCtrlStrings, wxCB_READONLY );
+    m_WorkWhenIdleCtrl = new wxComboBox( itemDialog1, ID_WORKWHENIDLE, _T(""), wxDefaultPosition, wxSize(100, -1), 0, m_WorkWhenIdleCtrlStrings, wxCB_READONLY );
     m_WorkWhenIdleCtrl->Enable(false);
     itemBoxSizer41->Add(m_WorkWhenIdleCtrl, 0, wxALIGN_CENTER_VERTICAL|wxTOP|wxBOTTOM, 5);
 
@@ -513,11 +516,13 @@ void CDlgPreferences::OnEraseBackground( wxEraseEvent& event ) {
     wxASSERT(pSkinSimple);
     wxASSERT(wxDynamicCast(pSkinSimple, CSkinSimple));
 
+#ifdef __WXDEBUG__
     // Fill the dialog with a magenta color so people can detect when something
     //   is wrong
     dc->SetBrush(wxBrush(wxColour(255,0,255)));
     dc->SetPen(wxPen(wxColour(255,0,255)));
     dc->DrawRectangle(0, 0, GetSize().GetWidth(), GetSize().GetHeight());
+#endif
 
     // Draw our cool background
     dc->DrawBitmap(*pSkinSimple->GetPreferencesDialogBackgroundImage()->GetBitmap(), 0, 0);

@@ -11697,3 +11697,16 @@ David  28 Oct 2006
         common_defs.h
     sched/
         validate_util.C,h
+
+Rom    28 Oct 2006
+    - MGR: Enlarge the combo boxes on the preferences on the preferences dialog
+        so that they'll be able to contain the right text even on David's notebook.
+    - MGR: Fix the static text box associcated with the "Use custom preferences"
+        checkbox so that clicking on it checks/unchecks the the checkbox.
+    - MGR: Only change the background color to Magenta in debug builds so that
+        we don't flicker during control repaints on release builds.
+        
+    clientgui/
+        sg_CustomControls.cpp, .h
+        sg_DlgPreferences.cpp, .h
+        sg_ProjectsComponent.cpp

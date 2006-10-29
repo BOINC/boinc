@@ -63,12 +63,6 @@ IMPLEMENT_DYNAMIC_CLASS (CTransparentStaticText, wxStaticText)
 
 BEGIN_EVENT_TABLE(CTransparentStaticText, wxStaticText)
     EVT_PAINT(CTransparentStaticText::OnPaint)
-    EVT_ENTER_WINDOW(CTransparentStaticText::OnMouse)
-    EVT_LEAVE_WINDOW(CTransparentStaticText::OnMouse)
-    EVT_LEFT_DOWN(CTransparentStaticText::OnMouse)
-    EVT_LEFT_UP(CTransparentStaticText::OnMouse)
-    EVT_SET_FOCUS(CTransparentStaticText::OnFocus)
-    EVT_KILL_FOCUS(CTransparentStaticText::OnFocus)
 END_EVENT_TABLE()
 
 
@@ -81,8 +75,6 @@ CTransparentStaticText::CTransparentStaticText(wxWindow* parent, wxWindowID id, 
 
 bool CTransparentStaticText::Create(wxWindow* parent, wxWindowID id, const wxString& label, const wxPoint& pos, const wxSize& size, long style, const wxString& name ) { 
     bool bRetVal = wxStaticText::Create(parent, id, label, pos, size, style|wxTRANSPARENT_WINDOW, name);
-
-    m_pWnd = NULL;
 
     SetBackgroundColour(parent->GetBackgroundColour());
     SetBackgroundStyle(wxBG_STYLE_COLOUR);
@@ -99,21 +91,52 @@ void CTransparentStaticText::OnPaint(wxPaintEvent& /*event*/) {
 }
 
 
-void CTransparentStaticText::OnMouse(wxMouseEvent& event) {
-    if (m_pWnd) {
-        wxMouseEvent evtAssociate(event);
-        evtAssociate.SetId(m_pWnd->GetId());
-        m_pWnd->ProcessEvent(event);
-    }
+IMPLEMENT_DYNAMIC_CLASS (CTransparentStaticTextAssociate, wxPanel)
+
+BEGIN_EVENT_TABLE(CTransparentStaticTextAssociate, wxPanel)
+    EVT_ERASE_BACKGROUND(CTransparentStaticTextAssociate::OnEraseBackground)
+    EVT_PAINT(CTransparentStaticTextAssociate::OnPaint)
+    EVT_MOUSE_EVENTS(CTransparentStaticTextAssociate::OnMouse)
+END_EVENT_TABLE()
+
+
+CTransparentStaticTextAssociate::CTransparentStaticTextAssociate() {}
+
+CTransparentStaticTextAssociate::CTransparentStaticTextAssociate(wxWindow* parent, wxWindowID id, const wxString& label, const wxPoint& pos, const wxSize& size, long style, const wxString& name ) {
+    Create(parent, id, label, pos, size, style, name);
 }
 
 
-void CTransparentStaticText::OnFocus(wxFocusEvent& event) {
-    if (m_pWnd) {
-        wxFocusEvent evtAssociate(event);
-        evtAssociate.SetId(m_pWnd->GetId());
-        m_pWnd->ProcessEvent(event);
-    }
+bool CTransparentStaticTextAssociate::Create(wxWindow* parent, wxWindowID id, const wxString& label, const wxPoint& pos, const wxSize& size, long style, const wxString& name ) { 
+    bool bRetVal = wxPanel::Create(parent, id, pos, size, style|wxTRANSPARENT_WINDOW, name);
+
+    m_pWnd = NULL;
+
+    SetLabel(label);
+    SetFont(GetFont());
+
+    SetBackgroundColour(parent->GetBackgroundColour());
+    SetBackgroundStyle(wxBG_STYLE_COLOUR);
+    SetForegroundColour(parent->GetForegroundColour());
+
+    return bRetVal;
+}
+
+
+bool CTransparentStaticTextAssociate::SetFont(const wxFont& font) {
+
+    bool ret = wxPanel::SetFont(font);
+
+    InvalidateBestSize();
+
+    wxCoord width, height;
+    wxClientDC dc(this);
+    dc.SetFont(font);
+    dc.GetMultiLineTextExtent(GetLabel(), &width, &height);
+
+    CacheBestSize(wxSize(width, height));
+
+    return ret;
 }
 
 
@@ -122,9 +145,43 @@ void CTransparentStaticText::OnFocus(wxFocusEvent& event) {
 //   RadioButton by linking two windows together. So when a mouse event
 //   happens with this window it forwards the event to the associated
 //   window.
-bool CTransparentStaticText::AssociateWindow(wxWindow* pWnd) {
+bool CTransparentStaticTextAssociate::AssociateWindow(wxWindow* pWnd) {
     m_pWnd = pWnd;
     return true;
 }
 
+
+void CTransparentStaticTextAssociate::OnPaint(wxPaintEvent& /*event*/) {
+    wxPaintDC dc(this);
+    dc.SetFont(GetFont());
+    dc.DrawText(GetLabel(), 1, 1);
+}
+
+
+void CTransparentStaticTextAssociate::OnMouse(wxMouseEvent& event) {
+    if (m_pWnd) {
+        wxMouseEvent evtAssociate(event);
+        evtAssociate.SetId(m_pWnd->GetId());
+        m_pWnd->ProcessEvent(event);
+    }
+
+    // If we get the left button up event and we already had focus, that must
+    //   mean the user clicked on the static text, So change the associated
+    //   control so that it has been clicked.
+    if (event.GetEventType() == wxEVT_LEFT_UP) {
+        wxCheckBox* pCheckBox = wxDynamicCast(m_pWnd, wxCheckBox);
+        if (pCheckBox) {
+            // Send the updated click event
+            wxCommandEvent evtCheckBox(wxEVT_COMMAND_CHECKBOX_CLICKED, pCheckBox->GetId());
+            evtCheckBox.SetEventObject(pCheckBox);
+            if (pCheckBox->IsChecked()) {
+                evtCheckBox.SetInt(wxCHK_UNCHECKED);
+            } else {
+                evtCheckBox.SetInt(wxCHK_CHECKED);
+            }
+            pCheckBox->Command(evtCheckBox);
+        }
+    }
+    event.Skip();
+}
 

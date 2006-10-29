@@ -90,12 +90,47 @@ public:
     );
 
     virtual bool HasTransparentBackground() { return true; };
-    virtual bool AssociateWindow(wxWindow* pWnd);
 
     virtual void OnPaint(wxPaintEvent& event);
+
+    DECLARE_EVENT_TABLE()
+}; 
+
+
+class CTransparentStaticTextAssociate : public wxPanel
+{ 
+    DECLARE_DYNAMIC_CLASS (CTransparentStaticTextAssociate)
+
+public:
+    CTransparentStaticTextAssociate();
+    CTransparentStaticTextAssociate(
+        wxWindow* parent, 
+        wxWindowID id, 
+        const wxString& label, 
+        const wxPoint& pos = wxDefaultPosition, 
+        const wxSize& size = wxDefaultSize,
+        long style = 0, 
+        const wxString& name= wxStaticTextNameStr
+    );
+
+    bool Create(
+        wxWindow* parent, 
+        wxWindowID id, 
+        const wxString& label, 
+        const wxPoint& pos = wxDefaultPosition, 
+        const wxSize& size = wxDefaultSize,
+        long style = 0, 
+        const wxString& name= wxStaticTextNameStr
+    );
+
+    virtual bool HasTransparentBackground() { return true; };
+    virtual bool SetFont(const wxFont& font);
+
+    virtual bool AssociateWindow(wxWindow* pWnd);
+
+    virtual void OnEarseBackground(wxEraseEvent& /*event*/) {};
+    virtual void OnPaint(wxPaintEvent& event);
     virtual void OnMouse(wxMouseEvent& event);
-    virtual void OnFocus(wxFocusEvent& event);
-    // event handlers used by owner-drawn checkbox
 
     DECLARE_EVENT_TABLE()
 private:
