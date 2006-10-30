@@ -165,6 +165,15 @@ void	SetUpSystemMenu(MenuRef menuToCopy, PicHandle theIcon)
 
 void SetSystemMenuIcon(PicHandle theIcon)
 {
+    if (theIcon == NULL)
+    {
+        [[gStatusItem statusBar] removeStatusItem:gStatusItem];
+        [gStatusItem release];
+        [gSystemMenu release];
+        
+        return;
+    }
+        
     unsigned theLength  = GetHandleSize((Handle)theIcon);
     NSData* theData = [[NSData alloc] initWithBytes:*theIcon length:theLength];
     NSImage* theImage = [[NSImage alloc] initWithData:theData];

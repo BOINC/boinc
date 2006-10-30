@@ -87,6 +87,9 @@ CMacSystemMenu::CMacSystemMenu(wxString title, wxIcon* icon, wxIcon* iconDisconn
 
 
 CMacSystemMenu::~CMacSystemMenu() {
+    // Remove the System Menu (StatusItem) from menu bar
+    if (SetSystemMenuIcon != NULL )
+        SetSystemMenuIcon(NULL);
 }
 
 

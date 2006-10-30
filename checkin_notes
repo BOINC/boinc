@@ -11775,3 +11775,6 @@ Charlie 29 Oct 2006
         sg_DlgMessages.cpp
         sg_DlgPreferences.cpp
         sg_ProjectsComponent.cpp
+        mac/
+            MacSysMenu.cpp
+            SystemMenu.m
