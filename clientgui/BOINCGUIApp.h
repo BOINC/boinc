@@ -72,6 +72,7 @@ protected:
     CTaskBarIcon*       m_pTaskBarIcon;
 #ifdef __WXMAC__
     CMacSystemMenu*     m_pMacSystemMenu;
+    static OSErr        QuitAppleEventHandler( const AppleEvent *appleEvt, AppleEvent* reply, UInt32 refcon );
 #endif
 
     bool                m_bBOINCStartedByManager;
@@ -114,6 +115,7 @@ public:
 #ifdef __WXMAC__
     CMacSystemMenu*     GetMacSystemMenu()          { return m_pMacSystemMenu; }
     int                 GetCurrentGUISelection()    { return m_iGUISelected; }
+    bool                GetQuittingByAppleEvent();
 #endif
 
     wxArrayString&      GetSupportedLanguages()     { return m_astrLanguages; }

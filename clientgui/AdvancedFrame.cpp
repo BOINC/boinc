@@ -1048,6 +1048,14 @@ void CAdvancedFrame::OnCloseWindow(wxCommandEvent& WXUNUSED(event)) {
 void CAdvancedFrame::OnExit(wxCommandEvent& WXUNUSED(event)) {
     wxLogTrace(wxT("Function Start/End"), wxT("CAdvancedFrame::OnExit - Function Begin"));
 
+#ifdef __WXMAC__
+    // Don't run confirmation dialog if logging out or shutting down
+    if (wxGetApp().GetQuittingByAppleEvent()) {
+        Close(true);
+        return;
+    }
+#endif
+
     if (m_iDisplayExitWarning) {
         CDlgGenericMessage* pDlg = new CDlgGenericMessage(this);
         wxString            strMessage = wxGetApp().GetSkinManager()->GetAdvanced()->GetExitMessage();

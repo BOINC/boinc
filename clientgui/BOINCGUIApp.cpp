@@ -55,6 +55,7 @@
 #include "sg_BoincSimpleGUI.h"
 #endif
 
+static bool s_bQuittingByAppleEvent;
 
 #ifdef __WXMSW__
 EXTERN_C BOOL  IsBOINCServiceInstalled();
@@ -297,6 +298,9 @@ bool CBOINCGUIApp::OnInit() {
     StartupBOINCCore();
 
 #ifdef __WXMAC__
+    s_bQuittingByAppleEvent = false;
+    AEInstallEventHandler( kCoreEventClass, kAEQuitApplication, NewAEEventHandlerUPP((AEEventHandlerProcPtr)QuitAppleEventHandler), 0, false );
+
     m_pMacSystemMenu = new CMacSystemMenu(
         m_pSkinManager->GetAdvanced()->GetApplicationName(), 
         m_pSkinManager->GetAdvanced()->GetApplicationIcon(),
@@ -791,6 +795,16 @@ void CBOINCGUIApp::ShutdownBOINCCore() {
     }
 }
 
+
+OSErr CBOINCGUIApp::QuitAppleEventHandler( const AppleEvent *appleEvt, AppleEvent* reply, UInt32 refcon ) {
+    s_bQuittingByAppleEvent = true;
+    return wxGetApp().MacHandleAEQuit((AppleEvent*)appleEvt, reply);
+}
+
+bool CBOINCGUIApp::GetQuittingByAppleEvent() {
+    return s_bQuittingByAppleEvent;
+}
+
 #else
 
 void CBOINCGUIApp::ShutdownBOINCCore() {
@@ -944,7 +958,7 @@ bool CBOINCGUIApp::SetActiveGUI(int iGUISelection, bool bShowWindow) {
 
 #ifdef __WXMAC__
             // So closing old view doesn't hide application
-            pNewFrame->m_windowType = iGUISelection;
+            pNewFrame->m_iWindowType = iGUISelection;
             m_iGUISelected = iGUISelection;
 #endif
             // Delete the old one if it exists

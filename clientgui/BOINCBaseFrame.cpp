@@ -563,7 +563,7 @@ bool CBOINCBaseFrame::Show(bool show) {
         SetFrontProcess(&psn);  // Shows process if hidden
     } else {
 //        GetWindowDimensions();
-        if (wxGetApp().GetCurrentGUISelection() == m_windowType)
+        if (wxGetApp().GetCurrentGUISelection() == m_iWindowType)
             if (IsProcessVisible(&psn))
                 ShowHideProcess(&psn, false);
     }

@@ -11760,6 +11760,8 @@ Rom    29 Oct 2006
 
 Charlie 29 Oct 2006
     - Mac: fix some Mac-specific Simple GUI bugs. 
+    - Mac: Don't run confirmation dialog on QUIT AppleEvent so dialog 
+        doesn't prevent logout / shutdown.
 
     clientgui/
         AdvancedFrame.cpp, h
