@@ -373,7 +373,7 @@ void CSimpleFrame::InitEmptyView()
     wxASSERT(wxDynamicCast(pSkinSimple, CSkinSimple));
 
 	//Set Background color
-    SetBackgroundColour(!pSkinSimple->GetBackgroundImage()->GetBackgroundColor());
+    SetBackgroundColour(*pSkinSimple->GetBackgroundImage()->GetBackgroundColor());
 
 	// Flex Grid Sizer
 	mainSizer = new wxFlexGridSizer(3,2);

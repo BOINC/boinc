@@ -903,6 +903,18 @@ int CBOINCGUIApp::StartBOINCScreensaverTest() {
 }
 
 
+// The skin has changed and all UI elements need to reload their bitmaps.
+//
+void CBOINCGUIApp::FireReloadSkin() {
+    if (m_pFrame) {
+	    m_pFrame->FireReloadSkin();
+    }
+    if (m_pTaskBarIcon) {
+	    m_pTaskBarIcon->FireReloadSkin();
+    }
+}
+
+
 bool CBOINCGUIApp::SetActiveGUI(int iGUISelection, bool bShowWindow) {
 #ifdef SIMPLEGUI
     CBOINCBaseFrame* pNewFrame = NULL;

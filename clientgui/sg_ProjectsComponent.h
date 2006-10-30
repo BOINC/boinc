@@ -82,7 +82,6 @@ protected:
 	int m_rightIndex;
 
 	void OnEraseBackground(wxEraseEvent& event);
-    void DrawBackImg(wxEraseEvent& event,wxWindow *win,wxBitmap* bitMap,int opz);
 
 private:
 	wxTimer* checkForMessagesTimer;

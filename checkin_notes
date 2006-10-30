@@ -11745,4 +11745,15 @@ Rom    29 Oct 2006
         sg_CustomControls.cpp, .h
         sg_ViewTabPage.cpp, .h
         SkinManager.cpp, .h
-        
+
+Rom    29 Oct 2006
+    - MGR: When the skin changes, have the taskbar update its icon set.
+    - MGR: Code cleanup for various Simple GUI classes.
+    
+    clientgui/
+        BOINCGUIApp.cpp, .h
+        BOINCTaskBar.cpp, .h
+        sg_BoincSimpleGUI.cpp
+        sg_ProjectsComponent.cpp, .h
+        sg_StatImageLoader.cpp, .h
+        SkinManager.cpp

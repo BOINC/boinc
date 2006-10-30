@@ -117,6 +117,8 @@ public:
 
     wxArrayString&      GetSupportedLanguages()     { return m_astrLanguages; }
 
+    void                FireReloadSkin();
+
     bool                SetActiveGUI(int iGUISelection, bool bShowWindow = true);
 };
 

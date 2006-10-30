@@ -41,6 +41,10 @@
 #include "res/macbadgemask.xpm"
 #endif
 
+
+DEFINE_EVENT_TYPE(wxEVT_TASKBAR_RELOADSKIN)
+
+
 BEGIN_EVENT_TABLE (CTaskBarIcon, wxTaskBarIconEx)
     EVT_IDLE(CTaskBarIcon::OnIdle)
     EVT_CLOSE(CTaskBarIcon::OnClose)
@@ -64,6 +68,8 @@ BEGIN_EVENT_TABLE (CTaskBarIcon, wxTaskBarIconEx)
     EVT_TASKBAR_RIGHT_DOWN(CTaskBarIcon::OnRButtonDown)
     EVT_TASKBAR_RIGHT_UP(CTaskBarIcon::OnRButtonUp)
 #endif
+
+    EVT_TASKBAR_RELOADSKIN(CTaskBarIcon::OnReloadSkin)
 END_EVENT_TABLE ()
 
 
@@ -306,9 +312,7 @@ void CTaskBarIcon::OnExit(wxCommandEvent& event) {
     wxLogTrace(wxT("Function Start/End"), wxT("CTaskBarIcon::OnExit - Function Begin"));
 
     wxCloseEvent eventClose;
-
     OnClose(eventClose);
-
     if (eventClose.GetSkipped()) event.Skip();
 
     wxLogTrace(wxT("Function Start/End"), wxT("CTaskBarIcon::OnExit - Function End"));
@@ -482,6 +486,24 @@ void CTaskBarIcon::OnRButtonUp(wxTaskBarIconEvent& WXUNUSED(event)) {
 }
 #endif
 #endif  // !__WXMAC__
+
+
+void CTaskBarIcon::OnReloadSkin(CTaskbarEvent& /*event*/) {
+    CSkinAdvanced* pSkinAdvanced = wxGetApp().GetSkinManager()->GetAdvanced();
+
+    wxASSERT(pSkinAdvanced);
+    wxASSERT(wxDynamicCast(pSkinAdvanced, CSkinAdvanced));
+
+    m_iconTaskBarNormal = *pSkinAdvanced->GetApplicationIcon();
+    m_iconTaskBarDisconnected = *pSkinAdvanced->GetApplicationDisconnectedIcon();
+    m_iconTaskBarSnooze = *pSkinAdvanced->GetApplicationSnoozeIcon();
+}
+
+
+void CTaskBarIcon::FireReloadSkin() {
+    CTaskbarEvent event(wxEVT_TASKBAR_RELOADSKIN, this);
+    AddPendingEvent(event);
+}
 
 
 void CTaskBarIcon::ResetSnoozeState() {

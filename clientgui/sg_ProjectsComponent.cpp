@@ -642,49 +642,8 @@ void CProjectsComponent::OnEraseBackground(wxEraseEvent& event){
     wxASSERT(pSkinSimple);
     wxASSERT(wxDynamicCast(pSkinSimple, CSkinSimple));
 
-  wxObject *m_wxWin = event.GetEventObject();
-  if(m_wxWin==this){
-      event.Skip(true);
-      DrawBackImg(
-          event,
-          this,
-          pSkinSimple->GetProjectAreaBackgroundImage()->GetBitmap(),
-          0
-      );
-      return;
-  }
-  event.Skip(true);
-}
-
-
-void CProjectsComponent::DrawBackImg(wxEraseEvent& event,wxWindow *win,wxBitmap* bitMap,int opz){
-    wxRect rec;
-	wxDC *dc;
-
-	dc=event.GetDC();
-	dc->SetBackground(wxBrush(win->GetBackgroundColour(),wxSOLID));
-	dc->Clear();
-    switch (opz) {
-        case 0:
-            dc->DrawBitmap(*bitMap, 0, 0);
-            break;
-	    case 1:
-            rec=win->GetClientRect();
-            rec.SetLeft((rec.GetWidth()-bitMap->GetWidth())   / 2);
-            rec.SetTop ((rec.GetHeight()-bitMap->GetHeight()) / 2);
-            dc->DrawBitmap(*bitMap,rec.GetLeft(),rec.GetTop(),0);
-            break;
-        case 2:
-            rec=win->GetClientRect();
-            for(int y=0;y < rec.GetHeight();y+=bitMap->GetHeight()){
-                for(int x=0;x < rec.GetWidth();x+=bitMap->GetWidth()){
-                    dc->DrawBitmap(*bitMap,x,y,0);
-            	}
-            }
-            break;
-    }
-
-    event.Skip(false);
+	wxDC* dc = event.GetDC();
+    dc->DrawBitmap(*pSkinSimple->GetProjectAreaBackgroundImage()->GetBitmap(), 0, 0);
 }
 
 

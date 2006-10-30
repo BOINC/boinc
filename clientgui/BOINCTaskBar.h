@@ -34,6 +34,8 @@
 #define wxTaskBarIconEx     wxTaskBarIcon
 #endif
 
+class CTaskbarEvent;
+
 
 class CTaskBarIcon : public wxTaskBarIconEx {
 public:
@@ -67,6 +69,10 @@ public:
 
     void OnRButtonDown(wxTaskBarIconEvent& event);
     void OnRButtonUp(wxTaskBarIconEvent& event);
+
+    void OnReloadSkin(CTaskbarEvent& event);
+
+    void FireReloadSkin();
 
     wxMenu *BuildContextMenu();
     void AdjustMenuItems(wxMenu* menu);
@@ -107,6 +113,34 @@ private:
     DECLARE_EVENT_TABLE()
 
 };
+
+
+class CTaskbarEvent : public wxEvent
+{
+public:
+    CTaskbarEvent(wxEventType evtType, CTaskBarIcon *taskbar)
+        : wxEvent(-1, evtType)
+        {
+            SetEventObject(taskbar);
+        }
+
+    CTaskbarEvent(wxEventType evtType, CTaskBarIcon *taskbar, wxString message)
+        : wxEvent(-1, evtType), m_message(message)
+        {
+            SetEventObject(taskbar);
+        }
+
+    virtual wxEvent *Clone() const { return new CTaskbarEvent(*this); }
+
+    wxString                m_message;
+};
+
+
+BEGIN_DECLARE_EVENT_TYPES()
+DECLARE_EVENT_TYPE( wxEVT_TASKBAR_RELOADSKIN, 10100 )
+END_DECLARE_EVENT_TYPES()
+
+#define EVT_TASKBAR_RELOADSKIN(fn) DECLARE_EVENT_TABLE_ENTRY(wxEVT_TASKBAR_RELOADSKIN, -1, -1, (wxObjectEventFunction) (wxEventFunction) &fn, NULL),
 
 
 #endif

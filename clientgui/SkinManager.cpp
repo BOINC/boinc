@@ -1165,11 +1165,9 @@ bool CSkinManager::ReloadSkin(wxLocale* pLocale, wxString strSkin) {
         // Validate settings
         InitializeDelayedValidation();
 
-        // Tell whichever frame is loaded to reload and skinable resources
-        CBOINCBaseFrame* pFrame = wxGetApp().GetFrame();
-        if (pFrame) {
-	        pFrame->FireReloadSkin();
-        }
+        // Tell whichever UI elements that are loaded to reload the
+        //   skinable resources they use.
+        wxGetApp().FireReloadSkin();
 
         return true;
     }
@@ -1217,11 +1215,9 @@ bool CSkinManager::ReloadSkin(wxLocale* pLocale, wxString strSkin) {
 
     InitializeDelayedValidation();
 
-    // Tell whichever frame is loaded to reload and skinable resources
-    CBOINCBaseFrame* pFrame = wxGetApp().GetFrame();
-    if (pFrame) {
-        pFrame->FireReloadSkin();
-    }
+    // Tell whichever UI elements that are loaded to reload the
+    //   skinable resources they use.
+    wxGetApp().FireReloadSkin();
 
     return true;
 }

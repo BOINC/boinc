@@ -44,13 +44,15 @@ enum{
 
 
 BEGIN_EVENT_TABLE(StatImageLoader, wxWindow) 
-        EVT_PAINT(StatImageLoader::OnPaint) 
-		EVT_LEFT_DOWN(StatImageLoader::PopUpMenu)
-		EVT_MENU(WEBSITE_URL_MENU_ID,StatImageLoader::OnMenuLinkClicked)
-		EVT_MENU(WEBSITE_URL_MENU_ID_REMOVE_PROJECT,StatImageLoader::OnMenuLinkClicked)
+	EVT_ERASE_BACKGROUND(StatImageLoader::OnEraseBackground)
+    EVT_PAINT(StatImageLoader::OnPaint) 
+    EVT_LEFT_DOWN(StatImageLoader::PopUpMenu)
+	EVT_MENU(WEBSITE_URL_MENU_ID,StatImageLoader::OnMenuLinkClicked)
+	EVT_MENU(WEBSITE_URL_MENU_ID_REMOVE_PROJECT,StatImageLoader::OnMenuLinkClicked)
 END_EVENT_TABLE() 
 
-StatImageLoader::StatImageLoader(wxWindow* parent, std::string url) : wxWindow(parent, wxID_ANY, wxDefaultPosition, wxSize(40,40), wxNO_BORDER) 
+StatImageLoader::StatImageLoader(wxWindow* parent, std::string url) : 
+    wxWindow(parent, wxID_ANY, wxDefaultPosition, wxSize(40,40), wxNO_BORDER) 
 {
     m_prjUrl = url;
 	project_files_downloaded_time = 1;
@@ -60,15 +62,18 @@ StatImageLoader::StatImageLoader(wxWindow* parent, std::string url) : wxWindow(p
     AddMenuItems();
 }
 
+
 StatImageLoader::~StatImageLoader() {
 	delete statPopUpMenu;
 }
+
 
 void StatImageLoader::PopUpMenu(wxMouseEvent& WXUNUSED(event)) 
 { 
 	// pop up menu
 	PopupMenu(statPopUpMenu);
 }
+
 
 void StatImageLoader::RebuildMenu() {
 	for(int i=(int) statPopUpMenu->GetMenuItemCount()-1; i>=0;i--){
@@ -77,6 +82,7 @@ void StatImageLoader::RebuildMenu() {
 	}
 	AddMenuItems();
 }
+
 
 void StatImageLoader::BuildUserStatToolTip() {
 	CMainDocument* pDoc     = wxGetApp().GetDocument();
@@ -88,6 +94,7 @@ void StatImageLoader::BuildUserStatToolTip() {
 	wxToolTip* userStatToolTip = new wxToolTip(toolTipTxt);
 	SetToolTip(userStatToolTip);
 }
+
 
 void StatImageLoader::AddMenuItems() 
 { 
@@ -124,9 +131,9 @@ void StatImageLoader::AddMenuItems()
 	//  Add the 'remove project' option
 	statPopUpMenu->AppendSeparator();
 	wxMenuItemList menuList = statPopUpMenu->GetMenuItems();
-	#ifdef __WXMSW__
-		menuList[statPopUpMenu->GetMenuItemCount()-1]->SetBackgroundColour(wxColour("RED"));
-	#endif
+#ifdef __WXMSW__
+	menuList[statPopUpMenu->GetMenuItemCount()-1]->SetBackgroundColour(wxColour("RED"));
+#endif
 
 	urlItem = new wxMenuItem(statPopUpMenu, WEBSITE_URL_MENU_ID_REMOVE_PROJECT,wxT("Remove Project"));
 #ifdef __WXMSW__
@@ -136,6 +143,8 @@ void StatImageLoader::AddMenuItems()
 	statPopUpMenu->Append(urlItem);
 
 }
+
+
 void StatImageLoader::OnMenuLinkClicked(wxCommandEvent& event) 
 { 
 	 CMainDocument* pDoc = wxGetApp().GetDocument();
@@ -160,8 +169,9 @@ void StatImageLoader::OnMenuLinkClicked(wxCommandEvent& event)
          wxASSERT(wxDynamicCast(pFrame, CBOINCBaseFrame));
 	     pFrame->ExecuteBrowserLink(project->gui_urls[menuId].url.c_str());
 	 }
-  
 } 
+
+
 void StatImageLoader::OnProjectDetach() {
     wxInt32  iAnswer        = 0; 
     std::string strProjectName;
@@ -205,12 +215,14 @@ void StatImageLoader::OnProjectDetach() {
     }
 }
 
+
 void StatImageLoader::LoadStatIcon(wxBitmap& image) {
 	int width = image.GetWidth(); 
 	int height = image.GetHeight(); 
-	Bitmap = image; 
+	Bitmap = wxBitmap(image); 
 	SetSize(width, height); 
 }
+
 
 void StatImageLoader::LoadImage() {
 	char urlDirectory[256];
@@ -252,6 +264,7 @@ void StatImageLoader::ReloadProjectSpecificIcon() {
 	}
 }
 
+
 void StatImageLoader::UpdateInterface() {
 	CMainDocument* pDoc = wxGetApp().GetDocument();
 	PROJECT* project = pDoc->state.lookup_project(m_prjUrl);
@@ -270,11 +283,12 @@ void StatImageLoader::UpdateInterface() {
 	}
 }
 
+
 void StatImageLoader::OnPaint(wxPaintEvent& WXUNUSED(event)) 
 { 
-        wxPaintDC dc(this); 
-        if(Bitmap.Ok()) 
-        { 
-                dc.DrawBitmap(Bitmap, 0, 0); 
-        } 
+    wxPaintDC dc(this);
+    dc.SetBackgroundMode(wxTRANSPARENT);
+    if(Bitmap.Ok()) { 
+        dc.DrawBitmap(Bitmap, 0, 0);
+    } 
 } 

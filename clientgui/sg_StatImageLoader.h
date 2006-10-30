@@ -28,33 +28,36 @@
 class StatImageLoader : public wxWindow 
 { 
 public: 
-	    //members
-        wxMenu *statPopUpMenu;
-        //Skin Class
-		std::string m_prjUrl;
-	    /// Constructors
-		StatImageLoader(wxWindow* parent, std::string url); 
-		~StatImageLoader(); 
-		void LoadImage();
-		void OnMenuLinkClicked(wxCommandEvent& event);
-		void OnProjectDetach();
-		void PopUpMenu(wxMouseEvent& event); 
-        void OnPaint(wxPaintEvent& event);
-		void RebuildMenu();
-		void UpdateInterface();
+	//members
+    wxMenu *statPopUpMenu;
+    //Skin Class
+	std::string m_prjUrl;
+	/// Constructors
+	StatImageLoader(wxWindow* parent, std::string url); 
+	~StatImageLoader(); 
+	void LoadImage();
+    void OnEraseBackground(wxEraseEvent& /*event*/) {};
+	void OnMenuLinkClicked(wxCommandEvent& event);
+	void OnProjectDetach();
+	void PopUpMenu(wxMouseEvent& event); 
+    void OnPaint(wxPaintEvent& event);
+	void RebuildMenu();
+	void UpdateInterface();
+
 private: 
-        //private memb 
-        wxBitmap Bitmap; 
-		std::string projectIcon;
-		int numReloadTries;
-		size_t urlCount;
-		double project_files_downloaded_time;
-		double project_last_rpc_time;
-		void LoadStatIcon(wxBitmap& image);
-		void ReloadProjectSpecificIcon();
-		void BuildUserStatToolTip();
-		void AddMenuItems();
-        DECLARE_EVENT_TABLE() 
+
+    //private memb 
+    wxBitmap Bitmap; 
+	std::string projectIcon;
+	int numReloadTries;
+	size_t urlCount;
+	double project_files_downloaded_time;
+	double project_last_rpc_time;
+	void LoadStatIcon(wxBitmap& image);
+	void ReloadProjectSpecificIcon();
+	void BuildUserStatToolTip();
+	void AddMenuItems();
+    DECLARE_EVENT_TABLE() 
 }; 
 
 #endif 
