@@ -11732,3 +11732,17 @@ Charlie 29 Oct 2006
 
     doc/
         participate.php
+
+Rom    29 Oct 2006
+    - MGR: Remove the change and clear buttons from the SkinManager.
+    - MGR: Fix the transparency problem for the Cancel, Close, and Save buttons.
+    - MGR: Fix the transparency problem for the active task icon.
+    - MGR: Fix a problem with a full repaint of the preferences dialog, it would paint
+        part of the dialog with the default grey color.
+        
+    clientgui/
+        sg_BoincSimpleGUI.cpp
+        sg_CustomControls.cpp, .h
+        sg_ViewTabPage.cpp, .h
+        SkinManager.cpp, .h
+        

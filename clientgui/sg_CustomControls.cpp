@@ -40,12 +40,11 @@ CTransparentStaticLine::CTransparentStaticLine(wxWindow* parent, wxWindowID id, 
 
 
 bool CTransparentStaticLine::Create(wxWindow* parent, wxWindowID id, const wxPoint& pos, const wxSize& size, long style, const wxString& name ) { 
-    bool bRetVal = wxPanel::Create(parent, id, pos, size, style, name);
+    bool bRetVal = wxPanel::Create(parent, id, pos, size, style|wxTRANSPARENT_WINDOW, name);
 
     SetBackgroundColour(parent->GetBackgroundColour());
     SetBackgroundStyle(wxBG_STYLE_COLOUR);
     SetForegroundColour(parent->GetForegroundColour());
-    SetWindowStyle(GetWindowStyle()|wxTRANSPARENT_WINDOW);
 
     return bRetVal;
 }

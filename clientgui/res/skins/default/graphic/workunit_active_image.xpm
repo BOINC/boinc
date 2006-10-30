@@ -33,7 +33,7 @@ static char *workunit_active_image_xpm[] = {
 "k  c #B1F6B2",
 "O  c #ECFCEC",
 "x  c #C4F9C4",
-"   c #FFFFFF",
+"   c None",
 "@  c #E5FBE5",
 "v  c #B6F7B7",
 "i  c #D7F9D5",

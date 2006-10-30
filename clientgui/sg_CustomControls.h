@@ -128,7 +128,7 @@ public:
 
     virtual bool AssociateWindow(wxWindow* pWnd);
 
-    virtual void OnEarseBackground(wxEraseEvent& /*event*/) {};
+    virtual void OnEraseBackground(wxEraseEvent& /*event*/) {};
     virtual void OnPaint(wxPaintEvent& event);
     virtual void OnMouse(wxMouseEvent& event);
 

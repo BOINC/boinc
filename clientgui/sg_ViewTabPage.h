@@ -113,8 +113,6 @@ protected:
 	void SGUITimeFormat( float fBuffer, wxString& strBuffer) const;
 
 	void OnEraseBackground(wxEraseEvent& event);
-    void DrawBackImg(wxEraseEvent& event,wxWindow *win,wxBitmap bitMap,int opz);
-    
 
 private:
 

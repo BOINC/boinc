@@ -58,12 +58,8 @@
 #include "res/skins/default/graphic/save_clicked_button.xpm"
 #include "res/skins/default/graphic/cancel_button.xpm"
 #include "res/skins/default/graphic/cancel_clicked_button.xpm"
-#include "res/skins/default/graphic/change_button.xpm"
-#include "res/skins/default/graphic/change_clicked_button.xpm"
 #include "res/skins/default/graphic/close_button.xpm"
 #include "res/skins/default/graphic/close_clicked_button.xpm"
-#include "res/skins/default/graphic/clear_button.xpm"
-#include "res/skins/default/graphic/clear_clicked_button.xpm"
 #include "res/skins/default/graphic/messages_link_image.xpm"
 #include "res/skins/default/graphic/messages_alert_link_image.xpm"
 #include "res/skins/default/graphic/suspend_link_image.xpm"
@@ -564,9 +560,7 @@ void CSkinSimple::Clear() {
     m_LeftArrowButton.Clear();
     m_SaveButton.Clear();
     m_CancelButton.Clear();
-    m_ChangeButton.Clear();
     m_CloseButton.Clear();
-    m_ClearButton.Clear();
 
     m_PreferencesDialogBackgroundImage.Clear();
     m_MessagesDialogBackgroundImage.Clear();
@@ -649,14 +643,8 @@ int CSkinSimple::Parse(MIOFILE& in) {
         } else if (match_tag(buf, "<cancel_button>")) {
             m_CancelButton.Parse(in);
             continue;
-        } else if (match_tag(buf, "<change_button>")) {
-            m_ChangeButton.Parse(in);
-            continue;
         } else if (match_tag(buf, "<close_button>")) {
             m_CloseButton.Parse(in);
-            continue;
-        } else if (match_tag(buf, "<clear_button>")) {
-            m_ClearButton.Parse(in);
             continue;
         } else if (match_tag(buf, "<messages_link_image>")) {
             m_MessagesLink.Parse(in);
@@ -755,14 +743,8 @@ bool CSkinSimple::InitializeDelayedValidation() {
     m_CancelButton.SetDefaults(
         wxT("cancel"), (const char**)cancel_button_xpm, (const char**)cancel_clicked_button_xpm
     );
-    m_ChangeButton.SetDefaults(
-        wxT("change"), (const char**)change_button_xpm, (const char**)change_clicked_button_xpm
-    );
     m_CloseButton.SetDefaults(
         wxT("close"), (const char**)close_button_xpm, (const char**)close_clicked_button_xpm
-    );
-    m_ClearButton.SetDefaults(
-        wxT("clear"), (const char**)clear_button_xpm, (const char**)clear_clicked_button_xpm
     );
     m_MessagesLink.SetDefaults(
         wxT("messages link"), (const char**)messages_link_image_xpm

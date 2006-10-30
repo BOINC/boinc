@@ -218,9 +218,7 @@ public:
     CSkinSimpleButton*  GetLeftArrowButton() { return &m_LeftArrowButton; }
     CSkinSimpleButton*  GetSaveButton() { return &m_SaveButton; }
     CSkinSimpleButton*  GetCancelButton() { return &m_CancelButton; }
-    CSkinSimpleButton*  GetChangeButton() { return &m_ChangeButton; }
     CSkinSimpleButton*  GetCloseButton() { return &m_CloseButton; }
-    CSkinSimpleButton*  GetClearButton() { return &m_ClearButton; }
 
     CSkinImage*         GetMessagesLink() { return &m_MessagesLink; }
     CSkinImage*         GetMessagesAlertLink() { return &m_MessagesAlertLink; }
@@ -258,9 +256,7 @@ private:
     CSkinSimpleButton   m_LeftArrowButton;
     CSkinSimpleButton   m_SaveButton;
     CSkinSimpleButton   m_CancelButton;
-    CSkinSimpleButton   m_ChangeButton;
     CSkinSimpleButton   m_CloseButton;
-    CSkinSimpleButton   m_ClearButton;
 
     CSkinImage          m_MessagesLink;
     CSkinImage          m_MessagesAlertLink;

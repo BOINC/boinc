@@ -435,8 +435,6 @@ void CSimpleFrame::OnEraseBackground(wxEraseEvent& event){
     wxASSERT(wxDynamicCast(pSkinSimple, CSkinSimple));
 
     wxDC *dc = event.GetDC();
-    dc->Clear();
-    dc->SetBackground(wxBrush(GetBackgroundColour(),wxSOLID));
     dc->DrawBitmap(*pSkinSimple->GetBackgroundImage()->GetBitmap(), 0, 0);
 }
 
