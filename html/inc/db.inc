@@ -75,6 +75,11 @@ function lookup_team($id) {
     return null;
 }
 
+function lookup_team_founder($id) {
+    $result = mysql_query("select * from team where userid=$id");
+    return $result;
+}
+
 function lookup_wu($id) {
     $result = mysql_query("select * from workunit where id=$id");
     if ($result) {
