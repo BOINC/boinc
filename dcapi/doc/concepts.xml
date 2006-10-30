@@ -45,7 +45,7 @@
 	<listitem>
 	  <para>
 	    Calls the <function><link
-		linkend="DC-setResultCb">DC_setResultCB()</link></function>
+		linkend="DC-setResultCb">DC_setResultCb()</link></function>
 	    function and optionally some of the <function><link
 		linkend="DC-setSubresultCb">DC_setSubresultCb()</link></function>,
 	    <function><link
