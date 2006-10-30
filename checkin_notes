@@ -11760,11 +11760,18 @@ Rom    29 Oct 2006
 
 Charlie 29 Oct 2006
     - Mac: fix some Mac-specific Simple GUI bugs. 
+    - NOTE: wxNO_BORDER is not a valid style argument for wxBitmapButton 
+        constructors; use wxBU_NOAUTODRAW instead.
     - Mac: Don't run confirmation dialog on QUIT AppleEvent so dialog 
         doesn't prevent logout / shutdown.
+    - Mac: fix crash on Mac when creating SG preferences dialog: create 
+        window before setting background color. 
 
     clientgui/
         AdvancedFrame.cpp, h
         BOINCBaseFrame.cpp, .h
         BOINCGUIApp.cpp, .h
         sg_BoincSimpleGUI.cpp
+        sg_DlgMessages.cpp
+        sg_DlgPreferences.cpp
+        sg_ProjectsComponent.cpp

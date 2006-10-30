@@ -228,13 +228,13 @@ bool CDlgPreferences::Create( wxWindow* parent, wxWindowID id, const wxString& c
     m_WorkWhenIdleCtrl = NULL;
 ////@end CDlgPreferences member initialisation
 
+    wxDialog::Create( parent, id, caption, pos, size, style );
 #ifdef __WXDEBUG__
     SetBackgroundColour(wxColour(255, 0, 255));
 #endif
     SetBackgroundStyle(wxBG_STYLE_CUSTOM);
     SetForegroundColour(*wxBLACK);
     SetExtraStyle(GetExtraStyle()|wxWS_EX_BLOCK_EVENTS);
-    wxDialog::Create( parent, id, caption, pos, size, style );
 
     Freeze();
 
@@ -455,11 +455,11 @@ void CDlgPreferences::CreateControls()
     wxBoxSizer* itemBoxSizer44 = new wxBoxSizer(wxHORIZONTAL);
     itemBoxSizer2->Add(itemBoxSizer44, 0, wxALIGN_RIGHT|wxALL, 5);
 
-    wxBitmapButton* itemBitmapButton44 = new wxBitmapButton( itemDialog1, wxID_OK, *pSkinSimple->GetSaveButton()->GetBitmap(), wxDefaultPosition, wxDefaultSize, wxNO_BORDER );
+    wxBitmapButton* itemBitmapButton44 = new wxBitmapButton( itemDialog1, wxID_OK, *pSkinSimple->GetSaveButton()->GetBitmap(), wxDefaultPosition, wxDefaultSize, wxBU_NOAUTODRAW );
     itemBitmapButton44->SetBitmapSelected(*pSkinSimple->GetSaveButton()->GetBitmapClicked());
     itemBoxSizer44->Add(itemBitmapButton44, 0, wxALIGN_CENTER_VERTICAL|wxALL, 5);
 
-    wxBitmapButton* itemBitmapButton45 = new wxBitmapButton( itemDialog1, wxID_CANCEL, *pSkinSimple->GetCancelButton()->GetBitmap(), wxDefaultPosition, wxDefaultSize, wxNO_BORDER );
+    wxBitmapButton* itemBitmapButton45 = new wxBitmapButton( itemDialog1, wxID_CANCEL, *pSkinSimple->GetCancelButton()->GetBitmap(), wxDefaultPosition, wxDefaultSize, wxBU_NOAUTODRAW );
     itemBitmapButton45->SetBitmapSelected(*pSkinSimple->GetCancelButton()->GetBitmapClicked());
     itemBoxSizer44->Add(itemBitmapButton45, 0, wxALIGN_CENTER_VERTICAL|wxALL, 5);
 

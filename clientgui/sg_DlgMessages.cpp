@@ -112,7 +112,7 @@ void CDlgMessages::CreateDialog()
     SetBackgroundColour(*pSkinSimple->GetBackgroundImage()->GetBackgroundColor());
 	
 	wxToolTip *ttClose = new wxToolTip(_("Close message window"));
-    btnClose=new wxBitmapButton(this,ID_CLOSEBUTTON,*(pSkinSimple->GetCloseButton()->GetBitmap()),wxPoint(472,398),wxSize(57,16),wxNO_BORDER);
+    btnClose=new wxBitmapButton(this,ID_CLOSEBUTTON,*(pSkinSimple->GetCloseButton()->GetBitmap()),wxPoint(472,398),wxSize(57,16),wxBU_NOAUTODRAW);
     btnClose->SetBitmapSelected(*(pSkinSimple->GetCloseButton()->GetBitmapClicked()));
 	btnClose->SetToolTip(ttClose);
 	
