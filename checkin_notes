@@ -11757,3 +11757,12 @@ Rom    29 Oct 2006
         sg_ProjectsComponent.cpp, .h
         sg_StatImageLoader.cpp, .h
         SkinManager.cpp
+
+Charlie 29 Oct 2006
+    - Mac: fix some Mac-specific Simple GUI bugs. 
+
+    clientgui/
+        AdvancedFrame.cpp, h
+        BOINCBaseFrame.cpp, .h
+        BOINCGUIApp.cpp, .h
+        sg_BoincSimpleGUI.cpp

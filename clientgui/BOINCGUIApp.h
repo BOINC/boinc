@@ -113,6 +113,7 @@ public:
 #endif
 #ifdef __WXMAC__
     CMacSystemMenu*     GetMacSystemMenu()          { return m_pMacSystemMenu; }
+    int                 GetCurrentGUISelection()    { return m_iGUISelected; }
 #endif
 
     wxArrayString&      GetSupportedLanguages()     { return m_astrLanguages; }

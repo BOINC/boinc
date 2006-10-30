@@ -100,10 +100,6 @@ public:
                                               //   relevent code in OnPageChanged function
                                               //   and the base/statistics view.
 
-#ifdef __WXMAC__
-    bool Show( bool show = true );
-#endif
-
     wxTimer*        m_pRefreshStateTimer;
     wxTimer*        m_pFrameRenderTimer;
     wxTimer*        m_pFrameListPanelRenderTimer;

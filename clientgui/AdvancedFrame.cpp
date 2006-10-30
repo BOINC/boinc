@@ -1927,24 +1927,4 @@ void CAdvancedFrame::UpdateNetworkModeControls( CC_STATUS& status ) {
 }
 
 
-#ifdef __WXMAC__
-
-bool CAdvancedFrame::Show(bool show) {
-    ProcessSerialNumber psn;
-
-    GetCurrentProcess(&psn);
-    if (show) {
-        SetFrontProcess(&psn);  // Shows process if hidden
-    } else {
-        GetWindowDimensions();
-        if (IsProcessVisible(&psn))
-            ShowHideProcess(&psn, false);
-    }
-    
-    return wxFrame::Show(show);
-}
-
-#endif // __WXMAC__
-
-
 const char *BOINC_RCSID_d881a56dc5 = "$Id$";

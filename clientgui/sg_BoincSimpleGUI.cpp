@@ -136,6 +136,30 @@ bool CSimpleFrame::RestoreState() {
 	int x = pConfig->Read(wxT("X_Position"), ((wxPoint) wxDefaultPosition).x);
 	int y = pConfig->Read(wxT("Y_Position"), ((wxPoint) wxDefaultPosition).y);
 	
+	// Read the size of the BSG
+	int width, height;
+	GetSize(&width, &height);
+
+#ifdef __WXMAC__
+
+        // If the user has changed the arrangement of multiple 
+        // displays, make sure the window title bar is still on-screen.
+        Rect titleRect = {y, x, y+22, x+width };
+        InsetRect(&titleRect, 5, 5);    // Make sure at least a 5X5 piece visible
+        RgnHandle displayRgn = NewRgn();
+        CopyRgn(GetGrayRgn(), displayRgn);  // Region encompassing all displays
+        Rect menuRect = ((**GetMainDevice())).gdRect;
+        menuRect.bottom = GetMBarHeight() + menuRect.top;
+        RgnHandle menuRgn = NewRgn();
+        RectRgn(menuRgn, &menuRect);                // Region hidden by menu bar
+        DiffRgn(displayRgn, menuRgn, displayRgn);   // Subtract menu bar retion
+        if (!RectInRgn(&titleRect, displayRgn))
+            x = y = 30;
+        DisposeRgn(menuRgn);
+        DisposeRgn(displayRgn);
+    
+#else
+
 	// If either co-ordinate is less then 0 then set it equal to 0 to ensure
 	// it displays on the screen.
 	if ( x < 0 ) x = 0;
@@ -145,16 +169,12 @@ bool CSimpleFrame::RestoreState() {
 	int maxX = wxSystemSettings::GetMetric( wxSYS_SCREEN_X );
 	int maxY = wxSystemSettings::GetMetric( wxSYS_SCREEN_Y );
 
-	// Read the size of the BSG
-	int width, height;
-	GetSize(&width, &height);
-
 	// Max sure that it doesn't go off to the right or bottom
 	if ( x + width > maxX ) x=maxX-width;
 	if ( y + height > maxY ) y=maxY-height;
+#endif
 
 	Move(x,y);
-	
 
 	return true;
 }

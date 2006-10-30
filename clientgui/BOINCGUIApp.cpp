@@ -942,6 +942,11 @@ bool CBOINCGUIApp::SetActiveGUI(int iGUISelection, bool bShowWindow) {
         if (pNewFrame) {
             SetTopWindow(pNewFrame);
 
+#ifdef __WXMAC__
+            // So closing old view doesn't hide application
+            pNewFrame->m_windowType = iGUISelection;
+            m_iGUISelected = iGUISelection;
+#endif
             // Delete the old one if it exists
             if (m_pFrame) m_pFrame->Destroy();
 
@@ -949,7 +954,7 @@ bool CBOINCGUIApp::SetActiveGUI(int iGUISelection, bool bShowWindow) {
             m_pFrame = pNewFrame;
         }
     }
-#else
+#else       // ifndef SIMPLEGUI
     if (!m_pFrame) {
         // Initialize the advanced gui window
         iGUISelection = BOINC_ADVANCEDGUI;

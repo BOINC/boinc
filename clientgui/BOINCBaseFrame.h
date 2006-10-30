@@ -82,6 +82,11 @@ public:
 
     void                ExecuteBrowserLink( const wxString& strLink );
 
+#ifdef __WXMAC__
+    bool                Show( bool show = true );
+    int                 m_windowType;              // BOINC_SIMPLEGUI or BOINC_ADVANCEDGUI
+#endif
+
 protected:
 
     CBOINCDialUpManager* m_pDialupManager;

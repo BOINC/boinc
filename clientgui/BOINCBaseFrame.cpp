@@ -554,6 +554,26 @@ bool CBOINCBaseFrame::RestoreState() {
 }
 
 
+#ifdef __WXMAC__
+bool CBOINCBaseFrame::Show(bool show) {
+    ProcessSerialNumber psn;
+
+    GetCurrentProcess(&psn);
+    if (show) {
+        SetFrontProcess(&psn);  // Shows process if hidden
+    } else {
+//        GetWindowDimensions();
+        if (wxGetApp().GetCurrentGUISelection() == m_windowType)
+            if (IsProcessVisible(&psn))
+                ShowHideProcess(&psn, false);
+    }
+    
+    return wxFrame::Show(show);
+}
+
+#endif // __WXMAC__
+
+
 void CFrameAlertEvent::ProcessResponse(const int response) const {
     CMainDocument*      pDoc = wxGetApp().GetDocument();
    
