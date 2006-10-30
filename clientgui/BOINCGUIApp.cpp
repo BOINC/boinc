@@ -927,16 +927,9 @@ void CBOINCGUIApp::FireReloadSkin() {
 	    m_pTaskBarIcon->FireReloadSkin();
     }
 #ifdef __WXMAC__
-    if (m_pMacSystemMenu) {
-        delete m_pMacSystemMenu;
-        m_pMacSystemMenu = new CMacSystemMenu(
-            m_pSkinManager->GetAdvanced()->GetApplicationName(), 
-            m_pSkinManager->GetAdvanced()->GetApplicationIcon(),
-            m_pSkinManager->GetAdvanced()->GetApplicationDisconnectedIcon(),
-            m_pSkinManager->GetAdvanced()->GetApplicationSnoozeIcon()
-    );
-    wxASSERT(m_pMacSystemMenu);
-    }
+//    if (m_pMacSystemMenu) {
+//	    m_pMacSystemMenu->BuildMenu();
+//    }
 #endif
 }
 

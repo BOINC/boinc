@@ -40,8 +40,8 @@
 
 
 
-SystemMenu *gSystemMenu;
-NSStatusItem *gStatusItem;
+SystemMenu *gSystemMenu = NULL;
+NSStatusItem *gStatusItem = NULL;
 
 void SetSystemMenuIcon(PicHandle theIcon);
 static OSStatus LoadFrameworkBundle(CFStringRef framework, CFBundleRef *bundlePtr);
@@ -60,8 +60,7 @@ static OSStatus LoadFrameworkBundle(CFStringRef framework, CFBundleRef *bundlePt
 */
 typedef BOOL (*NSApplicationLoadFuncPtr)( void );
 
-void	InitializeCocoa()
-{
+void	InitializeCocoa() {
 	CFBundleRef 				appKitBundleRef;
 	NSApplicationLoadFuncPtr                myNSApplicationLoad;
 	OSStatus				err;
@@ -85,14 +84,17 @@ FallbackMethod:
 
 /*
 */
-void	SetUpSystemMenu(MenuRef menuToCopy, PicHandle theIcon)
-{
+void	SetUpSystemMenu(MenuRef menuToCopy, PicHandle theIcon) {
     NSAutoreleasePool* pool;
     
-    InitializeCocoa();
+    if (gSystemMenu == NULL)
+        InitializeCocoa();
         
     pool	= [[NSAutoreleasePool alloc] init];
     
+    if (gSystemMenu)
+        [gSystemMenu release];
+        
     gSystemMenu = [[SystemMenu alloc] init];
     [gSystemMenu retain];
     
@@ -119,11 +121,13 @@ void	SetUpSystemMenu(MenuRef menuToCopy, PicHandle theIcon)
     sysMenu = [[NSMenu allocWithZone:[NSMenu menuZone]] initWithTitle:@"BOINC!"];
     [newItem setSubmenu:sysMenu];
 
-    bar = [NSStatusBar systemStatusBar];
+    if (gStatusItem == NULL) {
+        bar = [NSStatusBar systemStatusBar];
 
-    gStatusItem = [bar statusItemWithLength:NSSquareStatusItemLength];
-    [gStatusItem retain];
-
+        gStatusItem = [bar statusItemWithLength:NSSquareStatusItemLength];
+        [gStatusItem retain];
+    }
+    
     [gStatusItem setTitle: NSLocalizedString(@"",@"")];
     [gStatusItem setHighlightMode:YES];
     [gStatusItem setMenu:sysMenu];
@@ -165,11 +169,14 @@ void	SetUpSystemMenu(MenuRef menuToCopy, PicHandle theIcon)
 
 void SetSystemMenuIcon(PicHandle theIcon)
 {
-    if (theIcon == NULL)
+    if (theIcon == NULL) 
     {
+        // A NULL icon handle is a request to remove the status item from the menu bar
         [[gStatusItem statusBar] removeStatusItem:gStatusItem];
         [gStatusItem release];
         [gSystemMenu release];
+        gStatusItem = NULL;
+        gSystemMenu = NULL;
         
         return;
     }

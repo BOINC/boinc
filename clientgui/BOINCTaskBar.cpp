@@ -497,6 +497,10 @@ void CTaskBarIcon::OnReloadSkin(CTaskbarEvent& /*event*/) {
     m_iconTaskBarNormal = *pSkinAdvanced->GetApplicationIcon();
     m_iconTaskBarDisconnected = *pSkinAdvanced->GetApplicationDisconnectedIcon();
     m_iconTaskBarSnooze = *pSkinAdvanced->GetApplicationSnoozeIcon();
+
+#ifdef __WXMAC__
+    wxGetApp().GetMacSystemMenu()->BuildMenu();
+#endif
 }
 
 

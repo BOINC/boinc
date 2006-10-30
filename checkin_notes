@@ -11771,10 +11771,11 @@ Charlie 29 Oct 2006
         AdvancedFrame.cpp, h
         BOINCBaseFrame.cpp, .h
         BOINCGUIApp.cpp, .h
+        BOINCTaskBar.cpp
         sg_BoincSimpleGUI.cpp
         sg_DlgMessages.cpp
         sg_DlgPreferences.cpp
         sg_ProjectsComponent.cpp
         mac/
-            MacSysMenu.cpp
+            MacSysMenu.cpp, h
             SystemMenu.m

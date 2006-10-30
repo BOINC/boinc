@@ -46,6 +46,7 @@ public:
     
     bool                        IsOpeningAboutDlg() { return m_OpeningAboutDlg; }
     void                        SetOpeningAboutDlg(bool b) { m_OpeningAboutDlg = b; }
+    void                        BuildMenu(void);
 private:
     
     bool                        m_OpeningAboutDlg;

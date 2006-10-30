@@ -27,6 +27,8 @@
 #include "MacSysMenu.h"
 #include "DlgAbout.h"
 #include "Events.h"
+#include "miofile.h"
+#include "SkinManager.h"
 #include "wx/mac/private.h"     // for wxBitmapRefData::GetPictHandle
 
 pascal OSStatus SysMenuEventHandler( EventHandlerCallRef inHandlerCallRef,
@@ -37,16 +39,12 @@ pascal OSStatus SysMenuEventHandler( EventHandlerCallRef inHandlerCallRef,
                                     { kEventClassApplication, kEventAppShown},
                                     {kEventClassMenu, kEventMenuOpening} };
 
+static const wxIcon* currentIcon = NULL;
+
+
 CMacSystemMenu::CMacSystemMenu(wxString title, wxIcon* icon, wxIcon* iconDisconnected, wxIcon* iconSnooze)
                                 : CTaskBarIcon(title, icon, iconDisconnected, iconSnooze) {
     CFBundleRef	SysMenuBundle	= NULL;
-    wxBitmapRefData * theBitsRefData;
-    PicHandle thePICT;
-    wxBitmap theBits;
-
-    theBits.CopyFromIcon(*icon);
-    theBitsRefData = theBits.GetBitmapData();
-    thePICT = theBitsRefData->GetPictHandle();
 
     m_OpeningAboutDlg = false;
     
@@ -57,22 +55,8 @@ CMacSystemMenu::CMacSystemMenu(wxString title, wxIcon* icon, wxIcon* iconDisconn
                             CFBundleGetFunctionPointerForName( SysMenuBundle, CFSTR("SetUpSystemMenu") );
         SetSystemMenuIcon = (SetSystemMenuIconProc) 
                             CFBundleGetFunctionPointerForName( SysMenuBundle, CFSTR("SetSystemMenuIcon") );
-        if ( (SetUpSystemMenu != NULL ) && (thePICT != NULL) )
-        {
-            // Currently, the system menu is the same as the Dock menu with the addition of 
-            // the Quit menu item.  If in the future you wish to make the system menu different 
-            // from the Dock menu, override CTaskBarIcon::BuildContextMenu() and 
-            // CTaskBarIcon::AdjustMenuItems().
-            delete m_pMenu;
-            m_pMenu = BuildContextMenu();
-            
-            // These should appear in the Mac System Menu but not the Dock
-            m_pMenu->AppendSeparator();
-            m_pMenu->Append( wxID_EXIT, _("E&xit"), wxEmptyString );
-            
-            m_pMenu->SetEventHandler(this);
-            SetUpSystemMenu((MenuRef)(m_pMenu->GetHMenu()), thePICT);
-        }
+        
+        BuildMenu();
 
         // The base class wxTaskBarIcon will install the wxDockEventHandler for 
         // each instance of the derived classes CTaskBarIcon and CMacSystemMenu.
@@ -94,12 +78,10 @@ CMacSystemMenu::~CMacSystemMenu() {
 
 
 // Set the System Menu Icon from XPM data
-// Warning - this code has not been tested
 bool CMacSystemMenu::SetIcon(const wxIcon& icon, const wxString&) {
     wxBitmapRefData * theBitsRefData;
     PicHandle thePICT;
     wxBitmap theBits;
-    static const wxIcon* currentIcon = NULL;
 
     if (&icon == currentIcon)
         return true;
@@ -114,6 +96,44 @@ bool CMacSystemMenu::SetIcon(const wxIcon& icon, const wxString&) {
         return true;
     }
     return false;
+}
+
+
+void CMacSystemMenu::BuildMenu() {
+    wxBitmapRefData * theBitsRefData;
+    PicHandle thePICT;
+    wxBitmap theBits;
+    CSkinAdvanced* pSkinAdvanced = wxGetApp().GetSkinManager()->GetAdvanced();
+
+    wxASSERT(pSkinAdvanced);
+    wxASSERT(wxDynamicCast(pSkinAdvanced, CSkinAdvanced));
+
+    m_iconTaskBarNormal = *pSkinAdvanced->GetApplicationIcon();
+    m_iconTaskBarDisconnected = *pSkinAdvanced->GetApplicationDisconnectedIcon();
+    m_iconTaskBarSnooze = *pSkinAdvanced->GetApplicationSnoozeIcon();
+
+    theBits.CopyFromIcon(m_iconTaskBarNormal);
+    theBitsRefData = theBits.GetBitmapData();
+    thePICT = theBitsRefData->GetPictHandle();
+
+    if ( (SetUpSystemMenu != NULL ) && (thePICT != NULL) ) {
+        // Currently, the system menu is the same as the Dock menu with the addition of 
+        // the Quit menu item.  If in the future you wish to make the system menu different 
+        // from the Dock menu, override CTaskBarIcon::BuildContextMenu() and 
+        // CTaskBarIcon::AdjustMenuItems().
+        delete m_pMenu;
+        m_pMenu = BuildContextMenu();
+        
+        // These should appear in the Mac System Menu but not the Dock
+        m_pMenu->AppendSeparator();
+        m_pMenu->Append( wxID_EXIT, _("E&xit"), wxEmptyString );
+        
+        m_pMenu->SetEventHandler(this);
+
+        SetUpSystemMenu((MenuRef)(m_pMenu->GetHMenu()), thePICT);
+        
+        currentIcon = NULL;
+    }
 }
 
 
