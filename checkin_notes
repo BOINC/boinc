@@ -11779,3 +11779,6 @@ Charlie 29 Oct 2006
         mac/
             MacSysMenu.cpp, h
             SystemMenu.m
+    mac_build/
+        boinc.xcodeproj/
+            project.pbxproj

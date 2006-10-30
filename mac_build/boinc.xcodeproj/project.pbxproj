@@ -987,7 +987,7 @@
 		DD344BEE07C5B1770043025C /* proxy_info.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = proxy_info.h; path = ../lib/proxy_info.h; sourceTree = SOURCE_ROOT; };
 		DD344BEF07C5B1770043025C /* proxy_info.C */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.cpp.cpp; name = proxy_info.C; path = ../lib/proxy_info.C; sourceTree = SOURCE_ROOT; };
 		DD35353107E1E05C00C4718D /* libboinc_api.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libboinc_api.a; sourceTree = BUILT_PRODUCTS_DIR; };
-		DD3E15420A774397007E0084 /* sgBOINCManager.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = sgBOINCManager.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		DD3E15420A774397007E0084 /* sgBOINCManager.app */ = {isa = PBXFileReference; includeInIndex = 0; lastKnownFileType = wrapper.application; path = sgBOINCManager.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		DD407A4A07D2FB1200163EF5 /* libboinc.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libboinc.a; sourceTree = BUILT_PRODUCTS_DIR; };
 		DD407AB707D2FC7D00163EF5 /* mem_usage.C */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.cpp.cpp; name = mem_usage.C; path = ../lib/mem_usage.C; sourceTree = SOURCE_ROOT; };
 		DD407AB807D2FC7D00163EF5 /* mem_usage.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = mem_usage.h; path = ../lib/mem_usage.h; sourceTree = SOURCE_ROOT; };
@@ -1931,6 +1931,7 @@
 				DD3E15370A774397007E0084 /* ShellScript */,
 				DD3E15380A774397007E0084 /* ShellScript */,
 				DD3E15390A774397007E0084 /* ShellScript */,
+				DD49A5280AF651BB001FAF7D /* ShellScript */,
 			);
 			buildRules = (
 				DD3E153A0A774397007E0084 /* PBXBuildRule */,
@@ -2301,14 +2302,14 @@
 			files = (
 			);
 			inputPaths = (
-				"${BUILT_PRODUCTS_DIR}/BOINCManager.app/Contents/MacOS/BOINCManager",
+				"${BUILT_PRODUCTS_DIR}/sgBOINCManager.app/Contents/MacOS/sgBOINCManager",
 			);
 			outputPaths = (
-				"${BUILT_PRODUCTS_DIR}/SymbolTables/BOINCManager",
+				"${BUILT_PRODUCTS_DIR}/SymbolTables/sgBOINCManager",
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "if [ \"$BUILD_STYLE\" = \"i386_Deployment\" ] || [ \"$BUILD_STYLE\" = \"ppc_Deployment\" ] || [ \"$BUILD_STYLE\" = \"Deployment\" ]; then\n  mkdir \"${BUILT_PRODUCTS_DIR}/SymbolTables\"\n  lipo \"${BUILT_PRODUCTS_DIR}/BOINCManager.app/Contents/MacOS/BOINCManager\" -thin i386 -output \"$TARGET_BUILD_DIR/SymbolTables/BOINCManager_i386\"\n  lipo \"${BUILT_PRODUCTS_DIR}/BOINCManager.app/Contents/MacOS/BOINCManager\" -thin ppc -output \"$TARGET_BUILD_DIR/SymbolTables/BOINCManager_ppc\"\n  /usr/bin/strip \"${BUILT_PRODUCTS_DIR}/BOINCManager.app/Contents/MacOS/BOINCManager\"\nfi\n";
+			shellScript = "mv \"${BUILT_PRODUCTS_DIR}/sgBOINCManager.app/Contents/MacOS/sgBOINCManager\" \"${BUILT_PRODUCTS_DIR}/sgBOINCManager.app/Contents/MacOS/BOINCManager\"\n\nif [ \"$BUILD_STYLE\" = \"i386_Deployment\" ] || [ \"$BUILD_STYLE\" = \"ppc_Deployment\" ] || [ \"$BUILD_STYLE\" = \"Deployment\" ]; then\n  mkdir \"${BUILT_PRODUCTS_DIR}/SymbolTables\"\n  lipo \"${BUILT_PRODUCTS_DIR}/sgBOINCManager.app/Contents/MacOS/BOINCManager\" -thin i386 -output \"$TARGET_BUILD_DIR/SymbolTables/sgBOINCManager_i386\"\n  lipo \"${BUILT_PRODUCTS_DIR}/sgBOINCManager.app/Contents/MacOS/BOINCManager\" -thin ppc -output \"$TARGET_BUILD_DIR/SymbolTables/sgBOINCManager_ppc\"\n  /usr/bin/strip \"${BUILT_PRODUCTS_DIR}/sgBOINCManager.app/Contents/MacOS/BOINCManager\"\nfi\n";
 		};
 		DD3E15380A774397007E0084 /* ShellScript */ = {
 			isa = PBXShellScriptBuildPhase;
@@ -2336,7 +2337,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "chown -R ${USER}:${GROUP} \"${BUILT_PRODUCTS_DIR}/BOINCManager.app\"\nchmod g+s \"${BUILT_PRODUCTS_DIR}/BOINCManager.app/Contents/MacOS/BOINCManager\"\nchmod u+s,g+s \"${BUILT_PRODUCTS_DIR}/BOINCManager.app/Contents/Resources/boinc\"\n";
+			shellScript = "chown -R ${USER}:${GROUP} \"${BUILT_PRODUCTS_DIR}/sgBOINCManager.app\"\nchmod g+s \"${BUILT_PRODUCTS_DIR}/sgBOINCManager.app/Contents/MacOS/BOINCManager\"\nchmod u+s,g+s \"${BUILT_PRODUCTS_DIR}/sgBOINCManager.app/Contents/Resources/boinc\"\n";
 		};
 		DD46A43A088D1BEE00052C57 /* ShellScript */ = {
 			isa = PBXShellScriptBuildPhase;
@@ -2352,6 +2353,21 @@
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
 			shellScript = "if [ \"$BUILD_STYLE\" = \"i386_Deployment\" ] || [ \"$BUILD_STYLE\" = \"ppc_Deployment\" ] || [ \"$BUILD_STYLE\" = \"Deployment\" ]; then\n  mkdir \"${BUILT_PRODUCTS_DIR}/SymbolTables\"\n  if [ \"${BUILT_PRODUCTS_DIR}/$PRODUCT_NAME\" -nt \"$TARGET_BUILD_DIR/SymbolTables/${PRODUCT_NAME}_i386\" ]; then\n    lipo \"${BUILT_PRODUCTS_DIR}/$PRODUCT_NAME\" -thin i386 -output \"$TARGET_BUILD_DIR/SymbolTables/${PRODUCT_NAME}_i386\"\n    lipo \"${BUILT_PRODUCTS_DIR}/$PRODUCT_NAME\" -thin ppc -output \"$TARGET_BUILD_DIR/SymbolTables/${PRODUCT_NAME}_ppc\"\n    /usr/bin/strip \"${BUILT_PRODUCTS_DIR}/$PRODUCT_NAME\"\n  fi\nfi";
+		};
+		DD49A5280AF651BB001FAF7D /* ShellScript */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+				"${BUILT_PRODUCTS_DIR}/sgBOINCManager.app/Contents/MacOS/BOINCManager",
+			);
+			outputPaths = (
+				"${BUILT_PRODUCTS_DIR}/SymbolTables/BOINCManager_i386",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "if [ \"$BUILD_STYLE\" = \"i386_Deployment\" ] || [ \"$BUILD_STYLE\" = \"ppc_Deployment\" ] || [ \"$BUILD_STYLE\" = \"Deployment\" ]; then\n  touch \"$TARGET_BUILD_DIR/SymbolTables/sgBOINCManager_i386\"\n  touch \"$TARGET_BUILD_DIR/SymbolTables/sgBOINCManager_ppc\"\nfi";
 		};
 		DD5FD5830A0232F30093C19F /* ShellScript */ = {
 			isa = PBXShellScriptBuildPhase;
@@ -3217,7 +3233,7 @@
 					"../../wxMac-2.6.3/include",
 					../clientgui,
 				);
-				INFOPLIST_FILE = sg_Info.plist;
+				INFOPLIST_FILE = Info.plist;
 				INSTALL_PATH = "$(USER_APPS_DIR)";
 				LIBRARY_SEARCH_PATHS = (
 					"../../wxMac-2.6.3/src/build/Deployment/",
@@ -3278,7 +3294,7 @@
 					"../../wxMac-2.6.3/include",
 					../clientgui,
 				);
-				INFOPLIST_FILE = sg_Info.plist;
+				INFOPLIST_FILE = Info.plist;
 				INSTALL_PATH = "$(USER_APPS_DIR)";
 				LIBRARY_SEARCH_PATHS = (
 					"../../wxMac-2.6.3/src/build/Deployment/",
@@ -3337,7 +3353,7 @@
 					"../../wxMac-2.6.3/include",
 					../clientgui,
 				);
-				INFOPLIST_FILE = sg_Info.plist;
+				INFOPLIST_FILE = Info.plist;
 				INSTALL_PATH = "$(USER_APPS_DIR)";
 				LIBRARY_SEARCH_PATHS = (
 					"../../wxMac-2.6.3/src/build/Deployment/",
@@ -3396,7 +3412,7 @@
 					"../../wxMac-2.6.3/include",
 					../clientgui,
 				);
-				INFOPLIST_FILE = sg_Info.plist;
+				INFOPLIST_FILE = Info.plist;
 				INSTALL_PATH = "$(USER_APPS_DIR)";
 				LIBRARY_SEARCH_PATHS = (
 					"../../wxMac-2.6.3/src/build/Deployment/",
@@ -4466,7 +4482,7 @@
 					"../../wxMac-2.6.3/include",
 					../clientgui,
 				);
-				INFOPLIST_FILE = sg_Info.plist;
+				INFOPLIST_FILE = Info.plist;
 				INSTALL_PATH = "$(USER_APPS_DIR)";
 				LIBRARY_SEARCH_PATHS = (
 					"../../wxMac-2.6.3/src/build/Deployment/",
@@ -4526,7 +4542,7 @@
 					"../../wxMac-2.6.3/include",
 					../clientgui,
 				);
-				INFOPLIST_FILE = sg_Info.plist;
+				INFOPLIST_FILE = Info.plist;
 				INSTALL_PATH = "$(USER_APPS_DIR)";
 				LIBRARY_SEARCH_PATHS = (
 					"../../wxMac-2.6.3/src/build/Deployment/",
