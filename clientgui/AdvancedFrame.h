@@ -81,8 +81,6 @@ public:
     void OnHelpAbout( wxCommandEvent& event );
 
     void OnShow( wxShowEvent& event );
-    void SetWindowDimensions();
-    void GetWindowDimensions();
 
     void OnRefreshState( wxTimerEvent& event );
     void OnFrameRender( wxTimerEvent& event );
@@ -112,11 +110,6 @@ private:
 
     wxString        m_strBaseTitle;
 
-    long            m_Top;
-    long            m_Left;
-    long            m_Height;
-    long            m_Width;
-
     bool            CreateMenu();
     bool            DeleteMenu();
 
@@ -130,6 +123,9 @@ private:
 
     bool            SaveState();
     bool            RestoreState();
+
+    void            SaveWindowDimensions();
+    void            RestoreWindowDimensions();
 
     void            UpdateActivityModeControls( CC_STATUS& status );
     void            UpdateNetworkModeControls( CC_STATUS& status );

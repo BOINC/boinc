@@ -11782,3 +11782,15 @@ Charlie 29 Oct 2006
     mac_build/
         boinc.xcodeproj/
             project.pbxproj
+
+Rom    30 Oct 2006
+    - MGR: Fix another round of window height, width, top, left, maximize, minimize
+        issues on Windows.
+    - MGR: Consolidate all window save and restore state to two functions instead
+        of four, for all platforms.
+        
+        NOTE: Charlie, could you look over the changes for the Mac? I think I got them
+          right.
+
+    clientgui/
+        AdvancedFrame.cpp, .h

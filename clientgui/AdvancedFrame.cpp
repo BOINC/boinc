@@ -203,13 +203,6 @@ CAdvancedFrame::CAdvancedFrame(wxString title, wxIcon* icon) :
     m_pNotebook = NULL;
     m_pStatusbar = NULL;
 
-    // Configuration Settings
-    m_Top = 30;
-    m_Left = 30;
-    m_Width = 800;
-    m_Height = 600;
-
-
     // Working Variables
     m_strBaseTitle = title;
 
@@ -397,9 +390,6 @@ bool CAdvancedFrame::CreateMenu() {
         wxITEM_SEPARATOR
     );
 #endif
-
-
-
 
     menuActivity->AppendRadioItem(
         ID_FILENETWORKRUNALWAYS,
@@ -726,20 +716,10 @@ bool CAdvancedFrame::SaveState() {
 
     pConfig->Write(wxT("CurrentPage"), m_pNotebook->GetSelection());
 
-    pConfig->Write(wxT("WindowIconized"), IsIconized());
-#if defined(__WXMSW__) || defined(__WXMAC__)
-    pConfig->Write(wxT("WindowMaximized"), IsMaximized());
-#endif
 
-    if (!IsIconized() && !IsMaximized()) {
-        GetWindowDimensions();
-    }
-
-    pConfig->Write(wxT("Width"), m_Width);
-    pConfig->Write(wxT("Height"), m_Height);
 #ifdef __WXMAC__
-    pConfig->Write(wxT("XPos"), m_Left);
-    pConfig->Write(wxT("YPos"), m_Top);
+    // Reterieve and store the latest window dimensions.
+    SaveWindowDimensions();
 #endif
 
 
@@ -814,32 +794,11 @@ bool CAdvancedFrame::RestoreState() {
         m_pNotebook->SetSelection(iCurrentPage);
     }
 
-    // Read window dimensions now, so SaveState can write them even if we never open the window
-    pConfig->Read(wxT("Width"), &m_Width, 800);
-    pConfig->Read(wxT("Height"), &m_Height, 600);
 
 #ifdef __WXMAC__
-    pConfig->Read(wxT("YPos"), &m_Top, 30);
-    pConfig->Read(wxT("XPos"), &m_Left, 30);
-
-    // If the user has changed the arrangement of multiple 
-    // displays, make sure the window title bar is still on-screen.
-    Rect titleRect = {m_Top, m_Left, m_Top+22, m_Left+m_Width };
-    InsetRect(&titleRect, 5, 5);    // Make sure at least a 5X5 piece visible
-    RgnHandle displayRgn = NewRgn();
-    CopyRgn(GetGrayRgn(), displayRgn);  // Region encompassing all displays
-    Rect menuRect = ((**GetMainDevice())).gdRect;
-    menuRect.bottom = GetMBarHeight() + menuRect.top;
-    RgnHandle menuRgn = NewRgn();
-    RectRgn(menuRgn, &menuRect);                // Region hidden by menu bar
-    DiffRgn(displayRgn, menuRgn, displayRgn);   // Subtract menu bar retion
-    if (!RectInRgn(&titleRect, displayRgn))
-        m_Top = m_Left = 30;
-    DisposeRgn(menuRgn);
-    DisposeRgn(displayRgn);
-
-    SetSize(m_Left, m_Top, m_Width, m_Height);
+    RestoreWindowDimensions();
 #endif
+
 
     //
     // Restore Page(s) State
@@ -869,6 +828,79 @@ bool CAdvancedFrame::RestoreState() {
 
     wxLogTrace(wxT("Function Start/End"), wxT("CAdvancedFrame::RestoreState - Function End"));
     return true;
+}
+
+
+void CAdvancedFrame::SaveWindowDimensions() {
+    wxString        strBaseConfigLocation = wxString(wxT("/"));
+    wxConfigBase*   pConfig = wxConfigBase::Get(FALSE);
+
+    wxASSERT(pConfig);
+
+    pConfig->SetPath(strBaseConfigLocation);
+
+    pConfig->Write(wxT("WindowIconized"), IsIconized());
+    pConfig->Write(wxT("WindowMaximized"), IsMaximized());
+    pConfig->Write(wxT("Width"), GetSize().GetWidth());
+    pConfig->Write(wxT("Height"), GetSize().GetHeight());
+
+#ifdef __WXMAC__
+    pConfig->Write(wxT("XPos"), GetPosition().x);
+    pConfig->Write(wxT("YPos"), GetPosition().y);
+#endif  // ! __WXMAC__
+}
+    
+
+void CAdvancedFrame::RestoreWindowDimensions() {
+    wxString        strBaseConfigLocation = wxString(wxT("/"));
+    wxConfigBase*   pConfig = wxConfigBase::Get(FALSE);
+    bool            bWindowIconized = false;
+    bool            bWindowMaximized = false;
+    int             iHeight = 0;
+    int             iWidth = 0;
+    int             iTop = 0;
+    int             iLeft = 0;
+
+    wxASSERT(pConfig);
+
+    pConfig->SetPath(strBaseConfigLocation);
+
+    pConfig->Read(wxT("YPos"), &iTop, 30);
+    pConfig->Read(wxT("XPos"), &iLeft, 30);
+    pConfig->Read(wxT("Width"), &iWidth, 800);
+    pConfig->Read(wxT("Height"), &iHeight, 600);
+    pConfig->Read(wxT("WindowIconized"), &bWindowIconized, false);
+    pConfig->Read(wxT("WindowMaximized"), &bWindowMaximized, false);
+
+#ifndef __WXMAC__
+
+    Iconize(bWindowIconized);
+    Maximize(bWindowMaximized);
+    if (!IsIconized() && !IsMaximized()) {
+        SetSize(-1, -1, iWidth, iHeight);
+    }
+
+#else   // ! __WXMAC__
+
+    // If the user has changed the arrangement of multiple 
+    // displays, make sure the window title bar is still on-screen.
+    Rect titleRect = {iTop, iLeft, iTop+22, iLeft+iWidth };
+    InsetRect(&titleRect, 5, 5);    // Make sure at least a 5X5 piece visible
+    RgnHandle displayRgn = NewRgn();
+    CopyRgn(GetGrayRgn(), displayRgn);  // Region encompassing all displays
+    Rect menuRect = ((**GetMainDevice())).gdRect;
+    menuRect.bottom = GetMBarHeight() + menuRect.top;
+    RgnHandle menuRgn = NewRgn();
+    RectRgn(menuRgn, &menuRect);                // Region hidden by menu bar
+    DiffRgn(displayRgn, menuRgn, displayRgn);   // Subtract menu bar retion
+    if (!RectInRgn(&titleRect, displayRgn))
+        iTop = iLeft = 30;
+    DisposeRgn(menuRgn);
+    DisposeRgn(displayRgn);
+
+    SetSize(iLeft, iTop, iWidth, iHeight);
+
+#endif  // ! __WXMAC__
 }
 
 
@@ -1486,58 +1518,24 @@ void CAdvancedFrame::OnHelpAbout(wxCommandEvent& WXUNUSED(event)) {
 
 void CAdvancedFrame::OnShow(wxShowEvent& event) {
     wxLogTrace(wxT("Function Start/End"), wxT("CAdvancedFrame::OnShow - Function Begin"));
+    static bool bAlreadyRunning = false;
 
-    if (event.GetShow())
-        SetWindowDimensions();
-    else
-        GetWindowDimensions();
-    
-    event.Skip();
+    if ((event.GetEventObject() == this) && !bAlreadyRunning) {
+        bAlreadyRunning = true;
+
+        wxLogTrace(wxT("Function Start/End"), wxT("CAdvancedFrame::OnShow - Show/Hide Event for CAdvancedFrame detected"));
+        if (event.GetShow()) {
+            RestoreWindowDimensions();
+        } else {
+            SaveWindowDimensions();
+        }
+
+        bAlreadyRunning = false;
+    } else {
+        event.Skip();
+    }
+
     wxLogTrace(wxT("Function Start/End"), wxT("CAdvancedFrame::OnShow - Function End"));
-}
-
-
-void CAdvancedFrame::GetWindowDimensions() {
-    if (!IsIconized() && !IsMaximized()) {
-        m_Top = GetPosition().y;
-        m_Left = GetPosition().x;
-        m_Width = GetSize().GetWidth();
-        m_Height = GetSize().GetHeight();
-    }
-}
-    
-
-void CAdvancedFrame::SetWindowDimensions() {
-#ifndef __WXMAC__
-    static bool bFirstTime = true;
-
-    if (bFirstTime) {
-        bFirstTime = false;
-
-        wxString        strBaseConfigLocation = wxString(wxT("/"));
-        wxConfigBase*   pConfig = wxConfigBase::Get(FALSE);
-        bool            bWindowIconized = false;
-        bool            bWindowMaximized = false;
-
-        wxASSERT(pConfig);
-
-        //
-        // Restore Frame State
-        //
-
-        pConfig->SetPath(strBaseConfigLocation);
-
-        pConfig->Read(wxT("WindowIconized"), &bWindowIconized, false);
-        pConfig->Read(wxT("WindowMaximized"), &bWindowMaximized, false);
-        pConfig->Read(wxT("Width"), &m_Width, 800);
-        pConfig->Read(wxT("Height"), &m_Height, 600);
-
-        Iconize(bWindowIconized);
-        Maximize(bWindowMaximized);
-    }
-
-    SetSize(-1, -1, m_Width, m_Height);
-#endif  // ! __WXMAC__
 }
 
 
