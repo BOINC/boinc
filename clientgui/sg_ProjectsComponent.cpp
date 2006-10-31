@@ -98,11 +98,13 @@ void CProjectsComponent::CreateComponent()
         *pSkinSimple->GetAttachProjectButton()->GetBitmap(),
         wxPoint(235,7),
         wxSize(81,18),
-        wxBU_NOAUTODRAW
+        wxBU_AUTODRAW
     );
-	btnAddProj->SetBitmapSelected(
-        *pSkinSimple->GetAttachProjectButton()->GetBitmapClicked()
-    );
+	if ( pSkinSimple->GetAttachProjectButton()->GetBitmapClicked() != NULL ) {
+		btnAddProj->SetBitmapSelected(
+			*pSkinSimple->GetAttachProjectButton()->GetBitmapClicked()
+		);
+	}
 	btnAddProj->SetToolTip(ttAddProject);
 	
     /// Line
@@ -113,27 +115,28 @@ void CProjectsComponent::CreateComponent()
 	btnArwLeft = new wxBitmapButton(
         this,
         -1,
-        *(pSkinSimple->GetLeftArrowButton()->GetBitmap()),
+        *pSkinSimple->GetLeftArrowButton()->GetBitmap(),
         wxPoint(29,47),
         wxSize(20,20),
-        wxBU_NOAUTODRAW
+        wxBU_AUTODRAW
     );
-    btnArwLeft->SetBitmapSelected(*(pSkinSimple->GetLeftArrowButton()->GetBitmapClicked()));
+	if ( pSkinSimple->GetLeftArrowButton()->GetBitmapClicked() != NULL ) {
+		btnArwLeft->SetBitmapSelected(*pSkinSimple->GetLeftArrowButton()->GetBitmapClicked());
+	}
     btnArwLeft->Show(false);//on creation this one is always false
 
 	btnArwRight = new wxBitmapButton(
         this,
         -1,
-        *(pSkinSimple->GetRightArrowButton()->GetBitmap()),
+        *pSkinSimple->GetRightArrowButton()->GetBitmap(),
         wxPoint(301,47),
         wxSize(20,20),
-        wxBU_NOAUTODRAW
+        wxBU_AUTODRAW
     );
-    btnArwRight->SetBitmapSelected(*(pSkinSimple->GetRightArrowButton()->GetBitmapClicked()));
+	if ( pSkinSimple->GetRightArrowButton()->GetBitmapClicked() != NULL ) {
+		btnArwRight->SetBitmapSelected(*pSkinSimple->GetRightArrowButton()->GetBitmapClicked());
+	}
     btnArwRight->Show(false);
-
-	// load stat icons and put them in the proper position
-//	UpdateProjectArray();
 
     //
 	//// Messages Play Pause Btns
@@ -141,12 +144,11 @@ void CProjectsComponent::CreateComponent()
 	btnMessages = new wxBitmapButton(
         this,
         -1,
-        *(pSkinSimple->GetMessagesLink()->GetBitmap()),
+        *pSkinSimple->GetMessagesLink()->GetBitmap(),
         wxPoint(11,86),
         wxSize(70,20),
-        wxBU_NOAUTODRAW
+        wxBU_AUTODRAW
     );
-	btnMessages->SetBitmapSelected(*(pSkinSimple->GetMessagesLink()->GetBitmap()));
 	btnMessages->SetToolTip(ttMessages);
 
 	wxToolTip *ttAlertMessages = new wxToolTip(_("Messages"));
@@ -156,9 +158,8 @@ void CProjectsComponent::CreateComponent()
         *(pSkinSimple->GetMessagesAlertLink()->GetBitmap()),
         wxPoint(11,86),
         wxSize(70,20),
-        wxBU_NOAUTODRAW
+        wxBU_AUTODRAW
     );
-	btnAlertMessages->SetBitmapSelected(*(pSkinSimple->GetMessagesAlertLink()->GetBitmap()));
 	btnAlertMessages->SetToolTip(ttAlertMessages);
 	btnAlertMessages->Show(false);
 
@@ -172,12 +173,11 @@ void CProjectsComponent::CreateComponent()
 	btnPause = new wxBitmapButton(
         this,
         -1,
-        *(pSkinSimple->GetSuspendLink()->GetBitmap()),
+        *pSkinSimple->GetSuspendLink()->GetBitmap(),
         wxPoint(85,86),
         wxSize(59,20),
-        wxBU_NOAUTODRAW
+        wxBU_AUTODRAW
     );
-	btnPause->SetBitmapSelected(*(pSkinSimple->GetSuspendLink()->GetBitmap()));
 	btnPause->SetToolTip(ttPause);
 
     // resume btn   
@@ -188,9 +188,8 @@ void CProjectsComponent::CreateComponent()
         *(pSkinSimple->GetResumeLink()->GetBitmap()),
         wxPoint(85,86),
         wxSize(59,20),
-        wxBU_NOAUTODRAW
+        wxBU_AUTODRAW
     );
-	btnResume->SetBitmapSelected(*(pSkinSimple->GetResumeLink()->GetBitmap()));
 	btnResume->SetToolTip(ttResume);
 
     // Show resume or pause as appropriate
@@ -220,9 +219,8 @@ void CProjectsComponent::CreateComponent()
         *(pSkinSimple->GetPreferencesLink()->GetBitmap()),
         wxPoint(149,86),
         wxSize(81,20),
-        wxBU_NOAUTODRAW
+        wxBU_AUTODRAW
     );
-	btnPreferences->SetBitmapSelected(*(pSkinSimple->GetPreferencesLink()->GetBitmap()));
 	btnPreferences->SetToolTip(ttPreferences);
 
     //spacer
@@ -238,9 +236,8 @@ void CProjectsComponent::CreateComponent()
         *(pSkinSimple->GetAdvancedLink()->GetBitmap()),
         wxPoint(233,86),
         wxSize(101,20),
-        wxBU_NOAUTODRAW
+        wxBU_AUTODRAW
     );
-    btnAdvancedView->SetBitmapSelected(*(pSkinSimple->GetAdvancedLink()->GetBitmap()));
 	btnAdvancedView->SetToolTip(ttAdvView);
 
     /// Line

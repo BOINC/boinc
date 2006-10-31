@@ -11856,3 +11856,12 @@ Kevin    31 Oct 2006 (Boo!)
     clientgui/
         sg_ProjectsComponent.cpp/h
         sg_StatImageLoader.cpp/h
+        
+Kevin    31 Oct 2006 (Spooky!)
+    - MGR: Change button behavior so that it uses the wxBU_AUTODRAW setting.
+           This causes buttons to look more 'button' like when clicked.
+        
+    clientgui/
+        sg_ProjectsComponent.cpp/h
+        sg_StatImageLoader.cpp/h
+        
