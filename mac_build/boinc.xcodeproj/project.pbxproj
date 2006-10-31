@@ -207,8 +207,6 @@
 		DD40826307D3076400163EF5 /* reduce_main.C in Sources */ = {isa = PBXBuildFile; fileRef = DD40825807D3076400163EF5 /* reduce_main.C */; };
 		DD40826507D3076400163EF5 /* x_opengl.C in Sources */ = {isa = PBXBuildFile; fileRef = DD40825A07D3076400163EF5 /* x_opengl.C */; };
 		DD40D05107F03A030096C645 /* Carbon.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 20286C33FDCF999611CA2CEA /* Carbon.framework */; };
-		DD40E7610ADB87BC00214518 /* wxPieCtrl.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DD40E75D0ADB87BC00214518 /* wxPieCtrl.cpp */; };
-		DD40E7620ADB87BC00214518 /* wxPieCtrl.h in CopyFiles */ = {isa = PBXBuildFile; fileRef = DD40E75E0ADB87BC00214518 /* wxPieCtrl.h */; };
 		DD431F230A415EDF0060585A /* SetupSecurity.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DD7748B40A356D6C0025D05E /* SetupSecurity.cpp */; };
 		DD431F240A415EE70060585A /* SetupSecurity.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DD7748B40A356D6C0025D05E /* SetupSecurity.cpp */; };
 		DD431FAA0A41660D0060585A /* Carbon.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 20286C33FDCF999611CA2CEA /* Carbon.framework */; };
@@ -276,6 +274,7 @@
 		DD7749680A3596380025D05E /* Security.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DD1929D80918A2F100C31BCF /* Security.framework */; };
 		DD7E49CD080F9B09002716F9 /* network.C in Sources */ = {isa = PBXBuildFile; fileRef = DD6D0A8507E9A61B007F882B /* network.C */; };
 		DD8DD4A709D9432F0043019E /* BOINCDialupManager.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DD8DD4A509D9432F0043019E /* BOINCDialupManager.cpp */; };
+		DD966F390AF6D103008A9B01 /* wxPieCtrl.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DD40E75D0ADB87BC00214518 /* wxPieCtrl.cpp */; };
 		DD9B6AAF0890DD71003A8E83 /* IOKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DDE2552B07C62F3E008E7D6E /* IOKit.framework */; };
 		DD9C94A40A5A3A4100AB0D10 /* AdvancedFrame.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DD9C94A00A5A3A4100AB0D10 /* AdvancedFrame.cpp */; };
 		DD9C94A60A5A3A4100AB0D10 /* BOINCBaseFrame.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DD9C94A20A5A3A4100AB0D10 /* BOINCBaseFrame.cpp */; };
@@ -890,7 +889,6 @@
 			dstSubfolderSpec = 10;
 			files = (
 				DDD7F08007F0686100BA3B90 /* SystemMenu.bundle in CopyFiles */,
-				DD40E7620ADB87BC00214518 /* wxPieCtrl.h in CopyFiles */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -987,7 +985,7 @@
 		DD344BEE07C5B1770043025C /* proxy_info.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = proxy_info.h; path = ../lib/proxy_info.h; sourceTree = SOURCE_ROOT; };
 		DD344BEF07C5B1770043025C /* proxy_info.C */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.cpp.cpp; name = proxy_info.C; path = ../lib/proxy_info.C; sourceTree = SOURCE_ROOT; };
 		DD35353107E1E05C00C4718D /* libboinc_api.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libboinc_api.a; sourceTree = BUILT_PRODUCTS_DIR; };
-		DD3E15420A774397007E0084 /* sgBOINCManager.app */ = {isa = PBXFileReference; includeInIndex = 0; lastKnownFileType = wrapper.application; path = sgBOINCManager.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		DD3E15420A774397007E0084 /* sgBOINCManager.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = sgBOINCManager.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		DD407A4A07D2FB1200163EF5 /* libboinc.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libboinc.a; sourceTree = BUILT_PRODUCTS_DIR; };
 		DD407AB707D2FC7D00163EF5 /* mem_usage.C */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.cpp.cpp; name = mem_usage.C; path = ../lib/mem_usage.C; sourceTree = SOURCE_ROOT; };
 		DD407AB807D2FC7D00163EF5 /* mem_usage.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = mem_usage.h; path = ../lib/mem_usage.h; sourceTree = SOURCE_ROOT; };
@@ -2596,8 +2594,8 @@
 				DD9C94A60A5A3A4100AB0D10 /* BOINCBaseFrame.cpp in Sources */,
 				DDCE78390A70BDC6008218B6 /* app_ipc.C in Sources */,
 				DDCE783B0A70BDFD008218B6 /* proxy_info.C in Sources */,
-				DD40E7610ADB87BC00214518 /* wxPieCtrl.cpp in Sources */,
 				DD247AFB0AEA308A0034104A /* SkinManager.cpp in Sources */,
+				DD966F390AF6D103008A9B01 /* wxPieCtrl.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
