@@ -132,7 +132,7 @@ void CViewTabPage::CreatePage()
 
 int CViewTabPage::ComputeState() {
 	int status = TAB_STATUS_PREEMPTED;
-	if ( resultWU->active_task_state ) {
+	if ( resultWU->active_task_state == 1 ) {
 		status = TAB_STATUS_RUNNING;
 	} else {
 		CMainDocument* pDoc = wxGetApp().GetDocument();
@@ -257,7 +257,7 @@ void CViewTabPage::UpdateInterface()
 
 	// check to see if we can display graphics
 	bool changed = false;
-	if (resultWU->supports_graphics && resultWU->active_task_state) {
+	if (resultWU->supports_graphics && resultWU->active_task_state == 1) {
 		if ( !m_hasGraphic ) {
 			changed = true;
 		}
@@ -650,7 +650,7 @@ WorkunitNotebook::WorkunitNotebook(wxWindow* parent, wxWindowID id, const wxPoin
     Update();
 
     for (int i=0; i< (int) m_windows.size(); i++) {
-		if ( m_windows.at(i)->resultWU->active_task_state ) {
+		if ( m_windows.at(i)->resultWU->active_task_state == 1) {
 			SetSelection(i);
 			break;
 		}
@@ -683,7 +683,7 @@ void WorkunitNotebook::AddTab(RESULT* result) {
 	CViewTabPage *wTab = new CViewTabPage(this,result,nme,projUrl);
 	
 	AddPage(wTab, appShortName, true);	
-	if(resState->active_task_state){
+	if(resState->active_task_state == 1){
 		int pageIndex = GetPageIndex(wTab);
 		SetPageImageIndex(pageIndex, 0); // this is a running process
 	}
@@ -751,9 +751,9 @@ void WorkunitNotebook::Update() {
 			if(result->name == currTab->GetTabName()){
 				currTab->resultWU = result;
 		        currTab->UpdateInterface();
-				if(result->active_task_state && this->GetPageImageIndex(j) != 0){
+				if(result->active_task_state == 1 && this->GetPageImageIndex(j) != 0){
 					SetPageImageIndex(j, 0); // this result is current running
-				} else if ( result->active_task_state == 0 && this->GetPageImageIndex(j) != -1 ) {
+				} else if ( result->active_task_state != 1 && this->GetPageImageIndex(j) != -1 ) {
 					SetPageImageIndex(j, -1); // this result is not running
 				}
 				found = true;

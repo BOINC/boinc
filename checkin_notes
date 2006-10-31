@@ -11920,3 +11920,10 @@ David  31 Oct 2006
 
     db/
         db_base.C
+
+Kevin    31 Oct 2006
+    - MGR: Changed the way that active_task_state
+        
+    clientgui/
+        sg_ViewTabPage.cpp
+        
