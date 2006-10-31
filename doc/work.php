@@ -98,7 +98,9 @@ list_item(
 );
 list_item(
     "min_quorum",
-    "The minimum size of a quorum.
+    "The minimum size of a 'quorum'.
+    The validator is run when there are this many successful results.
+    If a strict majority agree, they are considered correct.
     Set this to two or more if you want redundant computing."
 );
 list_item(

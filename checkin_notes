@@ -11908,3 +11908,9 @@ Rom    31 Oct 2006
         
     clientgui/
         sg_DlgPreferences.cpp
+
+David  31 Oct 2006
+    - user web: use existing DB init function for forums too
+
+    html/inc/
+        forum_mysql_dbh.inc

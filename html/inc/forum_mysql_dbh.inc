@@ -1,33 +1,19 @@
 <?php
 
+require_once("../inc/db.inc");
 /**
  * This is the MySQL implementation of the database handler interface
  **/
 
 class MySQLDatabaseHandler extends DatabaseHandler {
-    // The real database handle used to talk to the MySQL database
-    var $handle;
     var $print_debug;
     
     /**
      * Construct a database handler object
      **/
     function MySQLDatabaseHandler(){
-        $this->connect();
+        db_init_aux();
         $this->print_debug = true;
-    }
-    
-    /**
-     * Connect to the database using the configuration found in
-     * the configuration file
-     **/
-    function connect(){
-        $config = get_config();
-        $user = parse_config($config, "<db_user>");
-        $pass = parse_config($config, "<db_passwd>");
-        $host = parse_config($config, "<db_host>");
-        $this->handle = mysql_pconnect($host, $user, $pass);
-        mysql_select_db(parse_config($config, "<db_name>"));
     }
     
     function microtime_float() {
