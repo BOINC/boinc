@@ -56,6 +56,7 @@ private:
 	void ReloadProjectSpecificIcon();
 	void BuildUserStatToolTip();
 	void AddMenuItems();
+	std::string GetProjectIconLoc();
     DECLARE_EVENT_TABLE() 
 }; 
 

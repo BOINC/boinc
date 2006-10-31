@@ -222,19 +222,22 @@ void StatImageLoader::LoadStatIcon(wxBitmap& image) {
 	SetSize(width, height); 
 }
 
-
-void StatImageLoader::LoadImage() {
+std::string StatImageLoader::GetProjectIconLoc() {
 	char urlDirectory[256];
-	std::string dirProjectGraphic;
-
-    CSkinSimple* pSkinSimple = wxGetApp().GetSkinManager()->GetSimple();
 	CMainDocument* pDoc = wxGetApp().GetDocument();
 	PROJECT* project = pDoc->state.lookup_project(m_prjUrl);
 	url_to_project_dir((char*)project->master_url.c_str() ,urlDirectory);
-	dirProjectGraphic = (std::string)urlDirectory + "/" + wxT("stat_icon");
+	return (std::string)urlDirectory + "/" + wxT("stat_icon");
+}
+
+
+void StatImageLoader::LoadImage() {
+	std::string dirProjectGraphic;
+
+    CSkinSimple* pSkinSimple = wxGetApp().GetSkinManager()->GetSimple();
 
 	char defaultIcnPath[256];
-	if(boinc_resolve_filename(dirProjectGraphic.c_str(), defaultIcnPath, sizeof(defaultIcnPath)) == 0){
+	if(boinc_resolve_filename(GetProjectIconLoc().c_str(), defaultIcnPath, sizeof(defaultIcnPath)) == 0){
 		wxBitmap* btmpStatIcn = new wxBitmap();
 		if ( btmpStatIcn->LoadFile(defaultIcnPath, wxBITMAP_TYPE_ANY) ) {
 			LoadStatIcon(*btmpStatIcn);
@@ -251,7 +254,7 @@ void StatImageLoader::LoadImage() {
 void StatImageLoader::ReloadProjectSpecificIcon() {
 	char defaultIcnPath[256];
 	// Only update if it is project specific is found
-	if(boinc_resolve_filename(projectIcon.c_str(), defaultIcnPath, sizeof(defaultIcnPath)) == 0){
+	if(boinc_resolve_filename(GetProjectIconLoc().c_str(), defaultIcnPath, sizeof(defaultIcnPath)) == 0){
 		wxBitmap* btmpStatIcn = new wxBitmap();
 		if ( btmpStatIcn->LoadFile(defaultIcnPath, wxBITMAP_TYPE_ANY) ) {
 			LoadStatIcon(*btmpStatIcn);

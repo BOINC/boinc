@@ -11896,4 +11896,10 @@ Kevin    31 Oct 2006
     clientgui/
         sg_ViewTabPage.cpp
         
+Kevin    31 Oct 2006
+    - MGR: Fixed bug that prevented recently downloaded stat icons from being displayed
+        
+    clientgui/
+        sg_StatImageLoader.cpp/h
+        
         
