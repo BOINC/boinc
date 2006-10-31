@@ -152,7 +152,7 @@ void CAccountInfoPage::CreateControls()
 
     wxFlexGridSizer* itemFlexGridSizer64 = new wxFlexGridSizer(4, 2, 0, 0);
     itemFlexGridSizer64->AddGrowableCol(1);
-    itemBoxSizer57->Add(itemFlexGridSizer64, 0, wxGROW|wxALL, 0);
+    itemBoxSizer57->Add(itemFlexGridSizer64, 0, wxEXPAND|wxALL, 0);
 
     m_pAccountEmailAddressStaticCtrl = new wxStaticText;
     m_pAccountEmailAddressStaticCtrl->Create( itemWizardPage56, ID_ACCOUNTEMAILADDRESSSTATICCTRL, wxEmptyString, wxDefaultPosition, wxDefaultSize, 0 );
@@ -160,7 +160,7 @@ void CAccountInfoPage::CreateControls()
 
     m_pAccountEmailAddressCtrl = new wxTextCtrl;
     m_pAccountEmailAddressCtrl->Create( itemWizardPage56, ID_ACCOUNTEMAILADDRESSCTRL, wxEmptyString, wxDefaultPosition, wxDefaultSize, 0 );
-    itemFlexGridSizer64->Add(m_pAccountEmailAddressCtrl, 0, wxGROW|wxALIGN_CENTER_VERTICAL|wxALL, 5);
+    itemFlexGridSizer64->Add(m_pAccountEmailAddressCtrl, 0, wxEXPAND|wxALIGN_CENTER_VERTICAL|wxALL, 5);
 
     m_pAccountPasswordStaticCtrl = new wxStaticText;
     m_pAccountPasswordStaticCtrl->Create( itemWizardPage56, ID_ACCOUNTPASSWORDSTATICCTRL, wxEmptyString, wxDefaultPosition, wxDefaultSize, 0 );
@@ -168,7 +168,7 @@ void CAccountInfoPage::CreateControls()
 
     m_pAccountPasswordCtrl = new wxTextCtrl;
     m_pAccountPasswordCtrl->Create( itemWizardPage56, ID_ACCOUNTPASSWORDCTRL, wxEmptyString, wxDefaultPosition, wxDefaultSize, wxTE_PASSWORD );
-    itemFlexGridSizer64->Add(m_pAccountPasswordCtrl, 0, wxGROW|wxALIGN_CENTER_VERTICAL|wxALL, 5);
+    itemFlexGridSizer64->Add(m_pAccountPasswordCtrl, 0, wxEXPAND|wxALIGN_CENTER_VERTICAL|wxALL, 5);
 
     m_pAccountConfirmPasswordStaticCtrl = new wxStaticText;
     m_pAccountConfirmPasswordStaticCtrl->Create( itemWizardPage56, ID_ACCOUNTCONFIRMPASSWORDSTATICCTRL, wxEmptyString, wxDefaultPosition, wxDefaultSize, 0 );
@@ -176,7 +176,7 @@ void CAccountInfoPage::CreateControls()
 
     m_pAccountConfirmPasswordCtrl = new wxTextCtrl;
     m_pAccountConfirmPasswordCtrl->Create( itemWizardPage56, ID_ACCOUNTCONFIRMPASSWORDCTRL, wxEmptyString, wxDefaultPosition, wxDefaultSize, wxTE_PASSWORD );
-    itemFlexGridSizer64->Add(m_pAccountConfirmPasswordCtrl, 0, wxGROW|wxALIGN_CENTER_VERTICAL|wxALL, 5);
+    itemFlexGridSizer64->Add(m_pAccountConfirmPasswordCtrl, 0, wxEXPAND|wxALIGN_CENTER_VERTICAL|wxALL, 5);
 
     itemFlexGridSizer64->Add( 0, 0 );
 
@@ -501,7 +501,7 @@ void CAccountInfoPage::OnAccountUseExistingCtrlSelected( wxCommandEvent& WXUNUSE
     m_pAccountConfirmPasswordCtrl->Hide();
     m_pAccountPasswordRequirmentsStaticCtrl->Hide();
     m_pAccountEmailAddressCtrl->SetFocus();
-    Fit();
+    Layout();
 }
   
 /*!
@@ -516,6 +516,6 @@ void CAccountInfoPage::OnAccountCreateCtrlSelected( wxCommandEvent& WXUNUSED(eve
     m_pAccountConfirmPasswordCtrl->Show();
     m_pAccountPasswordRequirmentsStaticCtrl->Show();
     m_pAccountEmailAddressCtrl->SetFocus();
-    Fit();
+    Layout();
 }
 

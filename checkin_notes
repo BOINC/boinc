@@ -11816,3 +11816,12 @@ David  30 Oct 2006
         x_opengl.C
     html/inc/
         team.inc
+
+Rom    30 Oct 2006
+    - MGR: Wizard "Account Info" page, fix the control sizing problems when changing
+        between new account vs. existing account.
+        
+        In the future use Layout() instead of Fit().
+        
+    clientgui/
+        AccountInfoPage.cpp
