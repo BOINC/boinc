@@ -11914,3 +11914,9 @@ David  31 Oct 2006
 
     html/inc/
         forum_mysql_dbh.inc
+
+David  31 Oct 2006
+    - compile fix: include mysql.h, not mysql/mysql.h
+
+    db/
+        db_base.C

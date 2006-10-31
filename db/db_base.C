@@ -21,7 +21,7 @@
 #include <cstdio>
 #include <cstring>
 #include <cstdlib>
-#include <mysql/mysql.h>
+#include <mysql.h>
 
 #include "error_numbers.h"
 #include "util.h"
