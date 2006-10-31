@@ -11902,4 +11902,9 @@ Kevin    31 Oct 2006
     clientgui/
         sg_StatImageLoader.cpp/h
         
+Rom    31 Oct 2006
+    - MGR: When the background skinned image is too small in the preferences dialog,
+        scale it up.
         
+    clientgui/
+        sg_DlgPreferences.cpp

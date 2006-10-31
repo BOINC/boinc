@@ -541,23 +541,20 @@ void CDlgPreferences::OnEraseBackground( wxEraseEvent& event ) {
     w = bmp.GetWidth();
     h = bmp.GetHeight();
 
-#ifdef __WXDEBUG__
     // Fill the dialog with a magenta color so people can detect when something
     //   is wrong
     dc.SetBrush(wxBrush(wxColour(255,0,255)));
     dc.SetPen(wxPen(wxColour(255,0,255)));
     dc.DrawRectangle(0, 0, sz.GetWidth(), sz.GetHeight());
-#endif
 
     // Is the bitmap smaller than the window?
     if ( (w < sz.x) || (h < sz.y) ) {
-        // Center the bitmap on the window, but never
-        //   draw at a negative position.
-        x = wxMax(0, (sz.x - w)/2);
-        y = wxMax(0, (sz.y - h)/2);
+        // Check to see if they need to be rescaled to fit in the window
+        wxImage img = bmp.ConvertToImage();
+        img.Rescale((int) sz.x, (int) sz.y);
 
         // Draw our cool background (centered)
-        dc.DrawBitmap(bmp, x, y);
+        dc.DrawBitmap(wxBitmap(img), 0, 0);
     } else {
         // Snag the center of the bitmap and use it
         //   for the background image
