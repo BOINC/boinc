@@ -11865,3 +11865,10 @@ Kevin    31 Oct 2006 (Spooky!)
         sg_ProjectsComponent.cpp/h
         sg_StatImageLoader.cpp/h
         
+David  31 Oct 2006
+	- Win compile fixes
+
+	client/
+		cs_files.C
+	win_build/
+		boincmgr_curl.vcproj
