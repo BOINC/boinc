@@ -12,7 +12,8 @@ $threadid = get_int('id');
 $thread = new Thread($threadid);
 $logged_in_user = re_get_logged_in_user();
 
-if ($logged_in_user->getID()==$thread->getOwner()->getID()){
+$owner = $thread->getOwner();
+if ($logged_in_user->getID()==$owner->getID()){ 
     if (!$thread->setStatus(THREAD_SOLVED)){
 	error_page("Could not update the status of the thread: ".$thread->getID());
     }
