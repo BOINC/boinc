@@ -120,7 +120,7 @@ private:
 	void LoadSlideShow(std::vector<wxBitmap> *vSlideShow);
 	bool Downloading();
 	int ComputeState();
-	wxString FormatText(const wxString& text, wxDC* dc);
+	void FormatText(const wxString& title, const wxString& text, wxDC* dc, wxPoint pos);
 	std::vector<wxBitmap> GetSlideShow();
 	wxWindow* wSlideShow;
 	MyCanvas* m_canvas;

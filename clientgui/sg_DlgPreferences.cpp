@@ -515,23 +515,29 @@ void CDlgPreferences::OnEraseBackground( wxEraseEvent& event ) {
     wxASSERT(pSkinSimple);
     wxASSERT(wxDynamicCast(pSkinSimple, CSkinSimple));
 
-    wxDC* dc = event.GetDC();
-    wxSize sz = GetClientSize();
-    wxBitmap bmp(*pSkinSimple->GetPreferencesDialogBackgroundImage()->GetBitmap());
     wxMemoryDC memDC;
     wxCoord w, h, x, y;
+
+    // Get the desired background bitmap
+    wxBitmap bmp(*pSkinSimple->GetPreferencesDialogBackgroundImage()->GetBitmap());
+
+    // Dialog dimensions
+    wxSize sz = GetClientSize();
+
+    // Create a buffered device context to reduce flicker
+    wxBufferedDC dc(event.GetDC(), sz, wxBUFFER_CLIENT_AREA);
+
+    // bitmap dimensions
+    w = bmp.GetWidth();
+    h = bmp.GetHeight();
 
 #ifdef __WXDEBUG__
     // Fill the dialog with a magenta color so people can detect when something
     //   is wrong
-    dc->SetBrush(wxBrush(wxColour(255,0,255)));
-    dc->SetPen(wxPen(wxColour(255,0,255)));
-    dc->DrawRectangle(0, 0, sz.GetWidth(), sz.GetHeight());
+    dc.SetBrush(wxBrush(wxColour(255,0,255)));
+    dc.SetPen(wxPen(wxColour(255,0,255)));
+    dc.DrawRectangle(0, 0, sz.GetWidth(), sz.GetHeight());
 #endif
-
-    // Our bitmap dimensions
-    w = bmp.GetWidth();
-    h = bmp.GetHeight();
 
     // Is the bitmap smaller than the window?
     if ( (w < sz.x) || (h < sz.y) ) {
@@ -541,7 +547,7 @@ void CDlgPreferences::OnEraseBackground( wxEraseEvent& event ) {
         y = wxMax(0, (sz.y - h)/2);
 
         // Draw our cool background (centered)
-        dc->DrawBitmap(bmp, x, y);
+        dc.DrawBitmap(bmp, x, y);
     } else {
         // Snag the center of the bitmap and use it
         //   for the background image
@@ -553,7 +559,7 @@ void CDlgPreferences::OnEraseBackground( wxEraseEvent& event ) {
         memDC.SelectObject(bmp);
 
         // Draw the center chunk on the window
-        dc->Blit(0, 0, w, h, &memDC, x, y, wxCOPY);
+        dc.Blit(0, 0, w, h, &memDC, x, y, wxCOPY);
 
         // Drop the bitmap
         memDC.SelectObject(wxNullBitmap);

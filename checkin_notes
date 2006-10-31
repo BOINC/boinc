@@ -11825,3 +11825,14 @@ Rom    30 Oct 2006
         
     clientgui/
         AccountInfoPage.cpp
+
+Rom    20 Oct 2006
+    - MGR: Use a buffered device context to draw the background on the preferences
+        dialog which reduces the amount of flicker even further.
+    - MGR: Make sure the workunit text does not exceed the tab area when using
+        large fonts.
+        
+    clientgui/
+        sg_DlgPreferences.cpp
+        sg_ViewTabPage.cpp, .h
+

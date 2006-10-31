@@ -281,13 +281,15 @@ void CViewTabPage::UpdateInterface()
 		m_canvas->Refresh();
 		m_canvas->Update();
 	}
-
-
 }
+
+
 void CViewTabPage::CreateSlideShowWindow() {
 	wSlideShow=new wxWindow(this,-1,wxPoint(30,156),wxSize(290,126),wxNO_BORDER);
 	m_canvas = new MyCanvas(wSlideShow, wxPoint(0,0), wxSize(290,126), GetSlideShow());
 }
+
+
 void CViewTabPage::ReskinInterface()
 {	
     CSkinSimple* pSkinSimple = wxGetApp().GetSkinManager()->GetSimple();
@@ -400,53 +402,69 @@ void CViewTabPage::OnWorkShowGraphics() {
             strDefaultDisplay
         );
     }
-
 }
-wxString CViewTabPage::FormatText(const wxString& text, wxDC* dc) {
-	wxCoord width, height;
+
+
+void CViewTabPage::FormatText(const wxString& title, const wxString& text, wxDC* dc, wxPoint pos) {
+    wxCoord width, height;
+    wxCoord col = pos.x;
+    wxCoord max_col = 330;
+    wxString translated_text;
+
+    // Title
+    dc->SetFont(wxFont(9,74,90,90,0,wxT("Arial")));
+	dc->GetTextExtent(title, &width, &height);
+	dc->DrawText(title, pos);
+
+    // How wide was the title? Add 5 pixel buffer before drawing the next piece of text.
+    col += width + 5;
+
+    // Text
+    dc->SetFont(wxFont(9,74,90,92,0,wxT("Arial")));
 	dc->GetTextExtent(text, &width, &height);
-	if ( width > 201 ) {
+    if ( width > (max_col - col) ) {
 		int i = (int) text.length();
-		while ( width > 201 ) {
+		while ( width > (max_col - col) ) {
 			i--;
 			dc->GetTextExtent(text.substr(0,i) + _T("..."), &width, &height);
 		}
-		return text.substr(0,i) + _T("...");
-	}
-	return text;
+		translated_text = text.substr(0,i) + _T("...");
+    } else {
+        translated_text = text;
+    }
+	dc->DrawText(translated_text, wxPoint(col, pos.y));
 }
+
 
 void CViewTabPage::OnPaint(wxPaintEvent& WXUNUSED(event)) 
 { 
     wxLogTrace(wxT("Function Start/End"), wxT("CViewTabPage::OnPaint - Begin"));
-    wxPaintDC dc(this);
+    wxBufferedPaintDC dc(this);
+
     //Project Name
 	dc.SetFont(wxFont(16,74,90,90,0,wxT("Arial"))); 
 	dc.DrawText(projName, wxPoint(20,8)); 
-	//static: APPLICATION,MY PROGRESS,ELAPSED TIME,TIME REMAINING
-	dc.SetFont(wxFont(9,74,90,90,0,wxT("Arial")));
-	dc.DrawText(wxT("APPLICATION >"), wxPoint(20,49)); 
-    dc.DrawText(wxT("MY PROGRESS >"), wxPoint(20,71)); 
-	dc.DrawText(wxT("ELAPSED TIME >"), wxPoint(20,115)); 
-    dc.DrawText(wxT("TIME REMAINING >"), wxPoint(20,134)); 
-    //static: projectFrName,wrkUnitName,gaugePercent,elapsedTimeValue,timeRemainingValue
+
+    FormatText(wxT("APPLICATION >"), projectFrName, &dc, wxPoint(20,49));
+    FormatText(wxT("MY PROGRESS >"), wrkUnitName, &dc, wxPoint(20,71));
+    FormatText(wxT("ELAPSED TIME >"), elapsedTimeValue, &dc, wxPoint(20,115));
+    FormatText(wxT("TIME REMAINING >"), timeRemainingValue, &dc, wxPoint(20,134));
+
     dc.SetFont(wxFont(9,74,90,92,0,wxT("Arial")));
-	dc.DrawText(projectFrName, wxPoint(110,49)); 
-    dc.DrawText(FormatText(wrkUnitName, &dc), wxPoint(120,71)); 
     dc.DrawText(gaugePercent, wxPoint(290,90)); 
-    dc.DrawText(elapsedTimeValue, wxPoint(118,115)); 
-	dc.DrawText(timeRemainingValue, wxPoint(130,134)); 	
+
     wxLogTrace(wxT("Function Start/End"), wxT("CViewTabPage::OnPaint - End"));
 }
-void CViewTabPage::OnImageButton() 
-{ 
-	if(m_hasGraphic){
+
+
+void CViewTabPage::OnImageButton() { 
+	if (m_hasGraphic) {
 		OnWorkShowGraphics();
 	}
-
 }
-void CViewTabPage::DrawText() 
-{ 
+
+
+void CViewTabPage::DrawText() { 
     CSkinSimple* pSkinSimple = wxGetApp().GetSkinManager()->GetSimple();
 
     wxASSERT(pSkinSimple);
@@ -461,20 +479,13 @@ void CViewTabPage::DrawText()
 	dc.SetFont(wxFont(16,74,90,90,0,wxT("Arial"))); 
 	dc.DrawText(projName, wxPoint(20,8));
 
-	//static: APPLICATION,MY PROGRESS,ELAPSED TIME,TIME REMAINING
-	dc.SetFont(wxFont(9,74,90,90,0,wxT("Arial")));
-	dc.DrawText(wxT("APPLICATION >"), wxPoint(20,49)); 
-    dc.DrawText(wxT("MY PROGRESS >"), wxPoint(20,71)); 
-	dc.DrawText(wxT("ELAPSED TIME >"), wxPoint(20,115)); 
-    dc.DrawText(wxT("TIME REMAINING >"), wxPoint(20,134)); 
+    FormatText(wxT("APPLICATION >"), projectFrName, &dc, wxPoint(20,49));
+    FormatText(wxT("MY PROGRESS >"), wrkUnitName, &dc, wxPoint(20,71));
+    FormatText(wxT("ELAPSED TIME >"), elapsedTimeValue, &dc, wxPoint(20,115));
+    FormatText(wxT("TIME REMAINING >"), timeRemainingValue, &dc, wxPoint(20,134));
 
-    //static: projectFrName,wrkUnitName,gaugePercent,elapsedTimeValue,timeRemainingValue
     dc.SetFont(wxFont(9,74,90,92,0,wxT("Arial")));
-	dc.DrawText(projectFrName, wxPoint(110,49)); 
-    dc.DrawText(FormatText(wrkUnitName, &dc), wxPoint(120,71)); 
     dc.DrawText(gaugePercent, wxPoint(290,90)); 
-    dc.DrawText(elapsedTimeValue, wxPoint(118,115)); 
-	dc.DrawText(timeRemainingValue, wxPoint(130,134)); 
 
     wxLogTrace(wxT("Function Start/End"), wxT("CViewTabPage::DrawText - End"));
 }
