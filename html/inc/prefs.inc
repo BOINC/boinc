@@ -384,7 +384,7 @@ function default_prefs_global() {
     $p->confirm_before_connecting = false;
     $p->hangup_if_dialed = true;
     $p->work_buf_min_days = .1;
-    $p->max_cpus = 0;
+    $p->max_cpus = 16;
     $p->cpu_usage_limit = 100;
     $p->disk_interval = 60;
     $dp = get_disk_space_config();

@@ -11872,3 +11872,13 @@ David  31 Oct 2006
 		cs_files.C
 	win_build/
 		boincmgr_curl.vcproj
+
+David  31 Oct 2006
+    - scheduler: parse mod_time correctly from global prefs
+    - user web: max CPUs defaults to 16
+
+    html/inc/
+        prefs.inc
+        util.inc
+    sched/
+        server_types.C

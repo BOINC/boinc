@@ -616,8 +616,10 @@ function verify_numeric(&$value, $low, $high = false) {
     $number = str_replace(',', '.', $number); // replace the german decimal separator
     // if no value was entered and this is ok
     if ($number=='' && $low=='') return true;
+
     // the supplied value contains alphabetic characters
     if (!is_numeric($number)) return false;
+
     if ($number < $low) $number = $low;
     if ($high) {
         if ($number > $high) $number = $high;

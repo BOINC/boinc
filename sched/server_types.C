@@ -870,8 +870,9 @@ void GLOBAL_PREFS::parse(char* buf, char* venue) {
     char buf2[LARGE_BLOB_SIZE];
     double dtemp;
 
-    memset(this, 0, sizeof(GLOBAL_PREFS));
+    defaults();
 
+    parse_int(buf, "<mod_time>", mod_time);     // mod_time is outside of venue
     extract_venue(buf, venue, buf2);
     parse_double(buf2, "<disk_max_used_gb>", disk_max_used_gb);
     parse_double(buf2, "<disk_max_used_pct>", disk_max_used_pct);
@@ -883,7 +884,6 @@ void GLOBAL_PREFS::parse(char* buf, char* venue) {
     if (parse_double(buf2, "<ram_max_used_idle_pct>", dtemp)) {
         ram_max_used_idle_frac = dtemp/100.;
     }
-    parse_int(buf2, "<mod_time>", mod_time);
 }
 
 void GLOBAL_PREFS::defaults() {
