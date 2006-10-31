@@ -11882,3 +11882,9 @@ David  31 Oct 2006
         util.inc
     sched/
         server_types.C
+
+Rom    31 Oct 2006
+    - MGR: Remove CB_SORT style bit for first combo box.
+    
+    clientgui/
+        sg_DlgPreferences.cpp

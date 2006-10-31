@@ -346,7 +346,7 @@ void CDlgPreferences::CreateControls()
     itemFlexGridSizer15->Add(itemBoxSizer17, 0, wxALIGN_CENTER_HORIZONTAL|wxALIGN_CENTER_VERTICAL|wxALL, 0);
 
     wxString* m_WorkBetweenBeginCtrlStrings = NULL;
-    m_WorkBetweenBeginCtrl = new wxComboBox( itemDialog1, ID_WORKBETWEENBEGIN, _T(""), wxDefaultPosition, wxSize(100, -1), 0, m_WorkBetweenBeginCtrlStrings, wxCB_READONLY|wxCB_SORT );
+    m_WorkBetweenBeginCtrl = new wxComboBox( itemDialog1, ID_WORKBETWEENBEGIN, _T(""), wxDefaultPosition, wxSize(100, -1), 0, m_WorkBetweenBeginCtrlStrings, wxCB_READONLY );
     m_WorkBetweenBeginCtrl->Enable(false);
     itemBoxSizer17->Add(m_WorkBetweenBeginCtrl, 0, wxALIGN_CENTER_VERTICAL|wxTOP|wxBOTTOM, 5);
 
