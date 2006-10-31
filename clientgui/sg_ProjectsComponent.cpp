@@ -64,9 +64,7 @@ CProjectsComponent::CProjectsComponent(CSimpleFrame* parent,wxPoint coord) :
 {
     wxASSERT(parent);
 	m_maxNumOfIcons = 6; // max number of icons in component
-	m_rightIndex = 0;
 	m_leftIndex = 0;
-	m_projCnt = 0;
 	CreateComponent();
 
 	receivedErrorMessage = false;
@@ -82,6 +80,7 @@ CProjectsComponent::~CProjectsComponent() {
 
 void CProjectsComponent::CreateComponent()
 {
+	Freeze();
     CSkinSimple* pSkinSimple = wxGetApp().GetSkinManager()->GetSimple();
 
     wxASSERT(pSkinSimple);
@@ -110,32 +109,6 @@ void CProjectsComponent::CreateComponent()
 	lnMyProjTop = new CTransparentStaticLine(this, wxID_ANY, wxPoint(29,29),wxSize(292,1));
     lnMyProjTop->SetLineColor(pSkinSimple->GetStaticLineColor());
 
-	/////////////// ICONS /////////////////////
-	CMainDocument* pDoc     = wxGetApp().GetDocument();
-	m_projCnt = 0;
-
-	if ( pDoc->IsConnected() ) {
-		m_projCnt = pDoc->GetProjectCount();
-		defaultIcnPath[256];
-		// url of project directory
-
-		for(int j = 0; j < m_projCnt; j++){
-			PROJECT* project = pDoc->state.projects[j];
-			//user credit text
-			if(j < m_maxNumOfIcons){
-				// Project button
-				StatImageLoader *i_statW = new StatImageLoader(this,project->master_url);
-				i_statW->Move(wxPoint(55 + 40*j,37));
-				i_statW->LoadImage();
-			
-				// push icon in the vector
-				m_statProjects.push_back(i_statW);
-				//increment left index
-				m_rightIndex ++;
-			}
-		}
-	} 
-
 	//// Arrow Btns
 	btnArwLeft = new wxBitmapButton(
         this,
@@ -157,12 +130,10 @@ void CProjectsComponent::CreateComponent()
         wxBU_NOAUTODRAW
     );
     btnArwRight->SetBitmapSelected(*(pSkinSimple->GetRightArrowButton()->GetBitmapClicked()));
+    btnArwRight->Show(false);
 
-	if(m_projCnt > m_maxNumOfIcons){//right shows up only if there is more than max num of icons
-		btnArwRight->Show(true);
-	}else{
-        btnArwRight->Show(false);
-	}
+	// load stat icons and put them in the proper position
+//	UpdateProjectArray();
 
     //
 	//// Messages Play Pause Btns
@@ -223,14 +194,17 @@ void CProjectsComponent::CreateComponent()
 	btnResume->SetToolTip(ttResume);
 
     // Show resume or pause as appropriate
+	btnPause->Show(true);
+	btnResume->Show(false);
+
 	CC_STATUS status;
-	pDoc->GetCoreClientStatus(status);
-	if ( status.task_mode == RUN_MODE_NEVER ) {
-		btnPause->Show(false);
-		btnResume->Show(true);
-	} else {
-		btnPause->Show(true);
-		btnResume->Show(false);
+	CMainDocument* pDoc     = wxGetApp().GetDocument();
+	if ( pDoc->IsConnected() ) {
+		pDoc->GetCoreClientStatus(status);
+		if ( status.task_mode == RUN_MODE_NEVER ) {
+			btnPause->Show(false);
+			btnResume->Show(true);
+		}
 	}
 
 	//spacer
@@ -272,6 +246,8 @@ void CProjectsComponent::CreateComponent()
     /// Line
 	lnMyProjBtm = new CTransparentStaticLine(this, wxID_ANY, wxPoint(29,83),wxSize(292,1));
     lnMyProjBtm->SetLineColor(pSkinSimple->GetStaticLineColor());
+
+	Thaw();
 }
 
 void CProjectsComponent::OnPaint(wxPaintEvent& WXUNUSED(event)) 
@@ -282,6 +258,102 @@ void CProjectsComponent::OnPaint(wxPaintEvent& WXUNUSED(event))
 	dc.DrawText(wxT("My Projects:"), wxPoint(32,9)); 
 }
 
+// Check to see if the # of projects 
+void CProjectsComponent::UpdateProjectArray() {
+	CMainDocument* pDoc = wxGetApp().GetDocument();
+
+	if ( pDoc->IsConnected() ) {
+		int m_projCnt = pDoc->GetProjectCount();
+		defaultIcnPath[256]; // url of project directory
+
+		// If a new project has been added, figure out which one and then add it;
+		if ( m_projCnt > (int) m_statProjects.size() ) {
+			PROJECT* project;
+			for(int i=0; i < m_projCnt; i++) {
+				project = pDoc->state.projects[i];
+				bool found = false;
+				std::vector<StatImageLoader*>::iterator j;
+				for(j=m_statProjects.begin(); j < m_statProjects.end(); j++) {
+					if ( project->master_url == (*j)->m_prjUrl ) {
+						found = true;
+						break;
+					}
+				}
+				if ( !found ) {
+					StatImageLoader *i_statW = new StatImageLoader(this,project->master_url);
+					i_statW->LoadImage();
+					m_statProjects.push_back(i_statW);
+					// recurse in case there is more then one change
+					UpdateProjectArray();
+				}
+			}
+		} else if ( m_projCnt < (int) m_statProjects.size() ) {
+			PROJECT* project = NULL;
+			std::vector<StatImageLoader*>::iterator i;
+			for(i=m_statProjects.begin(); i < m_statProjects.end(); i++) {
+				project = pDoc->state.lookup_project((*i)->m_prjUrl);
+				if ( project == NULL ) {
+					(*i)->Show(false);
+					delete (*i);
+					m_statProjects.erase(i);
+					break;
+				}
+			}
+		} else {
+			return;
+		}
+		UpdateDisplayedProjects();
+	} else {
+		std::vector<StatImageLoader*>::iterator i;
+		for(i=m_statProjects.end(); i >= m_statProjects.begin(); i--) {
+			(*i)->Show(false);
+			delete (*i);
+		}
+		m_statProjects.clear();
+	}
+}
+
+void CProjectsComponent::UpdateDisplayedProjects() {
+	int size = 7; 
+	if ( (int) m_statProjects.size() > size ) {
+		size = 6;
+		if ( m_leftIndex + size >= (int) m_statProjects.size() ) {
+			m_leftIndex = (int) m_statProjects.size() - size;
+		}
+		if ( m_leftIndex == 0 ) {
+			btnArwLeft->Show(false);
+			btnArwRight->Show(true);
+		} else {
+			btnArwLeft->Show(true);
+			if ( m_leftIndex + size < (int) m_statProjects.size() ) {
+				btnArwRight->Show(true);
+			} else {
+				btnArwRight->Show(false);
+			}
+		}
+	} else {
+		m_leftIndex = 0;
+		btnArwLeft->Show(false);
+		btnArwRight->Show(false);
+	}
+
+	int numProjects = (int) m_statProjects.size();
+	for(int i=0; i < numProjects; i++) {
+		if ( i < m_leftIndex || i >= m_leftIndex + size) {
+			m_statProjects.at(i)->Show(false);
+		} else {
+			StatImageLoader* projIcon = m_statProjects.at(i);
+			projIcon->Show(true);
+			int base = -5;
+			if ( size == 6 ) {
+				base = 15;
+			}
+			projIcon->Move(wxPoint(base + 40*(i+1-m_leftIndex),37));
+		}
+	}
+	Refresh(true);
+	Update();
+}
 
 void CProjectsComponent::OnPreferences(wxCommandEvent& /*event*/) {
     wxLogTrace(wxT("Function Start/End"), wxT("CProjectsComponent::OnPreferences - Function Begin"));
@@ -305,85 +377,6 @@ void CProjectsComponent::OnPreferences(wxCommandEvent& /*event*/) {
     wxLogTrace(wxT("Function Start/End"), wxT("CProjectsComponent::OnPreferences - Function End"));
 }
 
-
-void CProjectsComponent::RemoveProject(std::string prjUrl)
-{	
-	CMainDocument* pDoc = wxGetApp().GetDocument();
-
-    wxASSERT(pDoc);
-    wxASSERT(wxDynamicCast(pDoc, CMainDocument));
-
-	//update project count
-	m_projCnt = pDoc->GetProjectCount();
-		
-	int indexOfIcon = -1;
-	
-	for(int m = 0; m < (int)m_statProjects.size(); m++){
-		StatImageLoader *i_statWShifting = m_statProjects.at(m);
-		if(i_statWShifting->m_prjUrl == prjUrl){
-			delete m_statProjects.at(m);
-			m_statProjects.erase(m_statProjects.begin()+m);
-			indexOfIcon = m;
-			break;
-		}
-	}
-	// if last icon is removed but there is still hidden icons on left shifting to right
-	if((m_leftIndex > 0) && (m_rightIndex-1 == m_projCnt)){
-		//shift icons right
-		for(int m = 0; m < indexOfIcon; m++){
-			StatImageLoader *i_statWShifting = m_statProjects.at(m);
-			i_statWShifting->Move(wxPoint(55 + 40*(m+1),37));
-		}
-		// create the icon on left
-		if(m_leftIndex-1 >= 0){
-			PROJECT* project = pDoc->state.projects.at(m_leftIndex-1);
-			StatImageLoader *i_statW = new StatImageLoader(this,project->master_url);
-		    i_statW->Move(wxPoint(55,37));
-			i_statW->LoadImage();
-			
-		    // push icon in the vector
-		    m_statProjects.insert(m_statProjects.begin(),i_statW);
-			//decrement left index
-			m_leftIndex --;
-			//decrement right index since project was removed at last slot
-			m_rightIndex --;
-		}
-
-	}else{
-		//shift icons to the left. Nothing will be shifted if last icon is removed
-		for(int k = indexOfIcon; k < (int)m_statProjects.size(); k++){
-			StatImageLoader *i_statWShifting = m_statProjects.at(k);
-			i_statWShifting->Move(wxPoint(55 + 40*k,37));
-		}
-	    // create the icon on right
-		if(m_rightIndex <= m_projCnt){
-			PROJECT* project = pDoc->state.projects.at(m_rightIndex-1);
-			StatImageLoader *i_statW = new StatImageLoader(this,project->master_url);
-			i_statW->Move(wxPoint(55 + 40*(m_maxNumOfIcons-1),37));
-			i_statW->LoadImage();
-			
-			// push icon in the vector
-			m_statProjects.push_back(i_statW);
-		}else{//if nothing can be shifted in place of last icon
-			//decrement right index
-			m_rightIndex --;
-		}
-	}
-
-	////////////hide or show arrows///////////
-	if(m_leftIndex == 0){
-		btnArwLeft->Show(false);
-	}else{
-		btnArwLeft->Show(true);
-	}
-	//
-	if(m_rightIndex < m_projCnt){
-		btnArwRight->Show(true);
-	}else{
-		btnArwRight->Show(false);
-	}
-	///////////////////////////////////////////
-}
 
 void CProjectsComponent::UpdateInterface()
 {
@@ -426,35 +419,15 @@ void CProjectsComponent::UpdateInterface()
 		btnResume->Show(false);
 	}
 
+	// Check number of projects
+	UpdateProjectArray();
+
 	// Update stat icons
 	for(int m = 0; m < (int)m_statProjects.size(); m++){
 		StatImageLoader *i_statIcon = m_statProjects.at(m);
 		i_statIcon->UpdateInterface();
 	}
 	
-	// Check number of projects
-	int oldProjCnt = m_projCnt;
-	m_projCnt = pDoc->GetProjectCount();
-	if(m_projCnt == oldProjCnt){
-		return;
-	}
-
-	if(m_projCnt <= m_maxNumOfIcons){
-		PROJECT* project = pDoc->state.projects.at(m_projCnt-1);
-		StatImageLoader *i_statW = new StatImageLoader(this,project->master_url);
-		i_statW->Move(wxPoint(55 + 40*(m_projCnt-1),37));
-		i_statW->LoadImage();
-		
-		// push icon in the vector
-		m_statProjects.push_back(i_statW);
-		//increment left index
-		m_rightIndex ++;
-	}
-	//show arrow if we are at the over max number of projects
-	if(m_projCnt > m_maxNumOfIcons){
-		btnArwRight->Show(true);
-	}
-
 }
 
 void CProjectsComponent::ReskinInterface()
@@ -532,75 +505,12 @@ void CProjectsComponent::OnBtnClick(wxCommandEvent& event){ //init function
 
 
 	if (m_wxBtnObj==btnArwLeft){
-		//delete proj icon at position max number  - 1(5)
-		delete m_statProjects.at(m_maxNumOfIcons-1);
-        //remove last element from vector
-		m_statProjects.pop_back();
-		//shift icons right
-		for(int m = 0; m < (int)m_statProjects.size(); m++){
-			StatImageLoader *i_statWShifting = m_statProjects.at(m);
-			i_statWShifting->Move(wxPoint(55 + 40*(m+1),37));
-		}
-
-		CMainDocument* pDoc     = wxGetApp().GetDocument();
-		
-		if(m_leftIndex-1 >= 0){
-			PROJECT* project = pDoc->state.projects.at(m_leftIndex-1);
-			StatImageLoader *i_statW = new StatImageLoader(this,project->master_url);
-		    i_statW->Move(wxPoint(55,37));
-			i_statW->LoadImage();
-			
-		    // push icon in the vector
-		    m_statProjects.insert(m_statProjects.begin(),i_statW);
-			//decrement left index
-			m_leftIndex --;
-			//decrement right index
-			m_rightIndex --;
-			//now show left button
-			btnArwRight->Show(true);
-
-		}
-		//hide right arrow if we got to the end of the list
-		if(m_leftIndex <= 0){
-			btnArwLeft->Show(false);
-		}
+		m_leftIndex--;
+		UpdateDisplayedProjects();
 		Refresh();
-
 	} else if(m_wxBtnObj==btnArwRight){
-		//delete proj icon at position 1(0)
-		delete m_statProjects.at(0);
-		//shift the vector
-		m_statProjects.assign(m_statProjects.begin()+1,m_statProjects.end());
-		//shift icons left
-		for(int m = 0; m < (int)m_statProjects.size(); m++){
-			StatImageLoader *i_statWShifting = m_statProjects.at(m);
-			wxPoint currPoint = i_statWShifting->GetPosition();
-			i_statWShifting->Move(wxPoint(55 + 40*m,37));
-		}
-       
-        CMainDocument* pDoc     = wxGetApp().GetDocument();
-		//update project count
-		m_projCnt = (int)pDoc->state.projects.size();
-		if(m_rightIndex+1 <= m_projCnt){
-			PROJECT* project = pDoc->state.projects.at(m_rightIndex);
-			StatImageLoader *i_statW = new StatImageLoader(this,project->master_url);
-		    i_statW->Move(wxPoint(55 + 40*(m_maxNumOfIcons-1),37));
-			i_statW->LoadImage();
-			
-		    // push icon in the vector
-		    m_statProjects.push_back(i_statW);
-			//increment left index
-			m_leftIndex ++;
-			//increment right index
-			m_rightIndex ++;
-			//now show left button
-			btnArwLeft->Show(true);
-
-		}
-		//hide right arrow if we got to the end of the list
-		if(m_rightIndex >= m_projCnt){
-			btnArwRight->Show(false);
-		}
+		m_leftIndex++;
+		UpdateDisplayedProjects();
 		Refresh();
 	} else if(m_wxBtnObj==btnAddProj){
 		pFrame->OnProjectsAttachToProject();

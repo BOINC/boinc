@@ -64,11 +64,11 @@ public:
     ~CProjectsComponent();
 
     void CreateComponent();
-	void RemoveProject(std::string prjUrl);
 	void UpdateInterface();
 	void ReskinInterface();
     void OnBtnClick(wxCommandEvent& event);
 	void OnPaint(wxPaintEvent& event); 
+	void UpdateProjectArray();
 
     void OnPreferences(wxCommandEvent& event);
 
@@ -76,20 +76,18 @@ public:
 	DECLARE_EVENT_TABLE()
 
 protected:
-	int m_maxNumOfIcons;
-	int m_projCnt;
-	int m_leftIndex;
-	int m_rightIndex;
-
 	void OnEraseBackground(wxEraseEvent& event);
 
 private:
 	wxTimer* checkForMessagesTimer;
+	int m_maxNumOfIcons;
+	int m_leftIndex;
 	bool receivedErrorMessage;
 	bool alertMessageDisplayed;
 	static size_t lastMessageId;
 	void OnMessageCheck(wxTimerEvent& WXUNUSED(event));
    	void MessagesViewed();
+	void UpdateDisplayedProjects();
 };
 
 #endif

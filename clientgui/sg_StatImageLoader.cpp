@@ -44,7 +44,6 @@ enum{
 
 
 BEGIN_EVENT_TABLE(StatImageLoader, wxWindow) 
-	EVT_ERASE_BACKGROUND(StatImageLoader::OnEraseBackground)
     EVT_PAINT(StatImageLoader::OnPaint) 
     EVT_LEFT_DOWN(StatImageLoader::PopUpMenu)
 	EVT_MENU(WEBSITE_URL_MENU_ID,StatImageLoader::OnMenuLinkClicked)
@@ -211,7 +210,7 @@ void StatImageLoader::OnProjectDetach() {
 
     if (wxYES == iAnswer) {
         pDoc->ProjectDetach(indexOfProj);
-		pComp->RemoveProject(m_prjUrl);
+		pComp->UpdateProjectArray();
     }
 }
 

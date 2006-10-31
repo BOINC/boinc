@@ -11848,3 +11848,11 @@ Charlie 29 Oct 2006
     mac_build/
         boinc.xcodeproj/
             project.pbxproj
+
+Kevin    31 Oct 2006 (Boo!)
+    - MGR: Modify how the project icons are displayed. Fix multiple bugs and only 
+           allocate space for the arrows if they are needed.
+        
+    clientgui/
+        sg_ProjectsComponent.cpp/h
+        sg_StatImageLoader.cpp/h
