@@ -143,7 +143,7 @@ int xwin_glut_is_initialized() {
     return glut_is_initialized;
 }
 
-void app_debug_msg (const char *fmt, ...);
+bool debug = true;
 
 // This callback is invoked when a user presses a key.
 //
@@ -241,7 +241,7 @@ static void make_new_window(int mode) {
         boinc_glut_init();
     }
 
-    app_debug_msg("make_new_window(): now calling glutCreateWindow(%s)...\n", aid.app_name);
+    if (debug) fprintf(stderr, "make_new_window(): now calling glutCreateWindow(%s)...\n", aid.app_name);
     char window_title[256];
     get_window_title(aid, window_title, 256);
 
@@ -269,7 +269,7 @@ static void make_new_window(int mode) {
 
     if (!have_window) {
         win = glutCreateWindow(window_title); 
-        app_debug_msg("glutCreateWindow() succeeded. win = %d\n", win);
+        if (debug) fprintf(stderr, "glutCreateWindow() succeeded. win = %d\n", win);
 
         glutReshapeFunc(app_graphics_resize);
         glutKeyboardFunc(keyboardD);
@@ -298,8 +298,9 @@ static void make_new_window(int mode) {
     return;
 }
 
-// Initialize glut and screensaver-graphics.  Using GLUT, 
-// this should only called once, even if restarted by user-exit.
+// Initialize GLUT.
+// Using GLUT, this should only called once,
+// even if the window is closed and opened.
 // Using freeGLUT, its called to reinit freeglut and
 // the graphics window as freeglut 'deinitialized' itself
 // when the window is destroyed
@@ -313,9 +314,9 @@ static void boinc_glut_init() {
     static bool first = true;
     
     win = 0;
-    app_debug_msg("Calling glutInit()... \n");
+    if (debug) fprintf(stderr, "Calling glutInit()... \n");
     glutInit (&one, (char**)args);
-    app_debug_msg("...survived glutInit(). \n");
+    if (debug) fprintf(stderr, "survived glutInit(). \n");
 
     // figure out whether we're running GLUT or freeglut.
     // 
@@ -335,7 +336,7 @@ static void boinc_glut_init() {
                int major = glut_version/10000;
                int minor = (glut_version -(major*10000))/100;
                int maint = glut_version - (major*10000) - (minor * 100);
-               app_debug_msg("Running freeGLUT %d.%d.%d.\n", major, minor, maint);
+               if (debug) fprintf(stderr, "Running freeGLUT %d.%d.%d.\n", major, minor, maint);
            }
        }
     }
@@ -415,17 +416,17 @@ void set_mode(int mode) {
         return;
     }
 
-    app_debug_msg("set_mode(%d): current_mode = %d.\n", mode, current_graphics_mode);
+    if (debug) fprintf(stderr, "set_mode(%d): current_mode = %d.\n", mode, current_graphics_mode);
     if (glut_is_initialized) {
-        app_debug_msg("Calling KillWindow(): win = %d\n", win);
+        if (debug) fprintf(stderr, "Calling KillWindow(): win = %d\n", win);
         KillWindow();
-        app_debug_msg("...KillWindow() survived.\n");
+        if (debug) fprintf(stderr, "KillWindow() survived.\n");
     }
     
     if (mode != MODE_HIDE_GRAPHICS) {
-        app_debug_msg("set_mode(): Calling make_new_window(%d)\n", mode); 
+        if (debug) fprintf(stderr, "set_mode(): Calling make_new_window(%d)\n", mode); 
         make_new_window(mode);
-        app_debug_msg("...make_new_window() survived.\n");
+        if (debug) fprintf(stderr, "make_new_window() survived.\n");
     }
 #ifdef __APPLE__
     else
@@ -499,10 +500,10 @@ static void timer_handler(int) {
 void restart() {
     // don't do anything except when exit is called from the graphics-thread
     if (!pthread_equal(pthread_self(), graphics_thread))  {
-        app_debug_msg ("exit() was called from worker-thread\n");
+        if (debug) fprintf(stderr, "exit() was called from worker-thread\n");
         return;
     }
-    app_debug_msg ("restart: exit() called from graphics-thread.\n");
+    if (debug) fprintf(stderr, "restart: exit() called from graphics-thread.\n");
 
     // if we are standalone and glut was initialized,
     // we assume user pressed 'close', and we exit the app
@@ -510,7 +511,7 @@ void restart() {
     // 
     if (glut_is_initialized ) {
         if (boinc_is_standalone()) {
-            app_debug_msg(
+            if (debug) fprintf(stderr,
                 "Assuming user pressed 'close'... means we're exiting now.\n"
             );
             if (boinc_delete_file(LOCKFILE) != 0) {
@@ -526,7 +527,7 @@ void restart() {
 
     // jump back to entry-point in xwin_graphics_event_loop();
     //
-    app_debug_msg( "restart: Jumping back to event_loop.\n");
+    if (debug) fprintf(stderr, "restart: Jumping back to event_loop.\n");
     longjmp(jbuf, JUMP_EXIT);
 }
 
@@ -539,14 +540,14 @@ void restart_sig(int /*signal_number*/) {
     if (pthread_equal(pthread_self(), graphics_thread)) {
         // alternative approach is for the signal hander to call exit().
         fprintf(stderr, "Caught SIGABRT in graphics thread\n");
-        app_debug_msg ("Caught SIGABRT in graphics thread. Jumping back to xwin_graphics_event_loop()...\n");
+        if (debug) fprintf(stderr, "Caught SIGABRT in graphics thread. Jumping back to xwin_graphics_event_loop()...\n");
         // jump back to entry-point in xwin_graphics_event_loop()
         longjmp(jbuf, JUMP_ABORT);
     } else {
         // In non-graphics thread: use original signal handler
         //
         fprintf(stderr, "Caught SIGABRT in non-graphics thread\n");
-        app_debug_msg("Caught SIGABRT in non-graphics thread. Trying to call previous ABRT-handler...\n");
+        if (debug) fprintf(stderr, "Caught SIGABRT in non-graphics thread. Trying to call previous ABRT-handler...\n");
         if (sigaction(SIGABRT, &original_signal_handler, NULL)) {
             perror("Unable to restore SIGABRT signal handler in non-graphics thread\n");
             // what to do? call abort(3)??  call exit(nonzero)???
@@ -571,7 +572,7 @@ void restart_sig(int /*signal_number*/) {
 void xwin_graphics_event_loop() {
     int restarted = 0;
 
-    app_debug_msg ("Direct call to xwin_graphics_event_loop()\n");
+    if (debug) fprintf(stderr, "Direct call to xwin_graphics_event_loop()\n");
 
     struct sigaction sa;
     sa.sa_handler = restart_sig;
@@ -630,11 +631,11 @@ void xwin_graphics_event_loop() {
 #endif
             set_mode(MODE_HIDE_GRAPHICS);
             while ( current_graphics_mode == MODE_HIDE_GRAPHICS ) {
-                app_debug_msg(
+                if (debug) fprintf(stderr,
                     "Graphics-thread now waiting for client-message...\n"
                 );
                 wait_for_initial_message();
-                app_debug_msg ("got a graphics-message from client... \n");
+                if (debug) fprintf(stderr, "got a graphics-message from client... \n");
                 timer_handler(0);
             }
         } else
@@ -646,50 +647,10 @@ void xwin_graphics_event_loop() {
 
     // ok we should be ready & initialized by now to call glutMainLoop()
     //
-    app_debug_msg ("now calling glutMainLoop()...\n");
+    if (debug) fprintf(stderr, "now calling glutMainLoop()...\n");
     glutMainLoop();
-    app_debug_msg("...glutMainLoop() returned!! This should never happen...\n");
+    if (debug) fprintf(stderr, "glutMainLoop() returned!! This should never happen...\n");
 }
-
-#ifndef _DEBUG
-void app_debug_msg (const char* /*fmt*/, ...) {
-    return;
-}
-#else
-void app_debug_msg (const char* fmt, ...) {
-    va_list args;
-    char buffer[5000+1];
-    static char *boinc_slotdir = NULL;
-    va_start (args, fmt);
-
-    if (boinc_slotdir == NULL) {
-        char *tmp, *ptr;
-        if ((tmp = getcwd(NULL, 0)) == NULL) {
-            perror ("failed to get working directory using getcwd()");
-            boinc_slotdir = (char*)calloc(1, 20);
-            strcpy( boinc_slotdir, "[unknown]");
-        } else {
-            if ( (ptr = strrchr(tmp, '/')) == NULL) {
-                ptr = tmp;
-            } else {
-                ptr ++;
-            }
-            boinc_slotdir = (char*)calloc(1, strlen(ptr)+1);
-            strcpy(boinc_slotdir, ptr);
-            free(tmp);
-        }
-    }
-
-    vsnprintf (buffer, 5000, fmt, args);
-    fprintf (stdout, "APP '%s' DEBUG: ", boinc_slotdir);
-    fprintf (stdout, buffer);
-    fflush (stdout);
-  
-    va_end (args);
-}
-#endif
-
-
 
 
 const char *BOINC_RCSID_c457a14644 = "$Id$";

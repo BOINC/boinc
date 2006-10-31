@@ -11794,3 +11794,25 @@ Rom    30 Oct 2006
 
     clientgui/
         AdvancedFrame.cpp, .h
+
+David  30 Oct 2006
+    - API: moved the __HrLoadAllImportsForDll() calls out of
+        boinc_samples/uppercase/uppercase.C
+        (what were they doing there??)
+        and put them into a function boinc_graphics_possible().
+        Applications that can potentially do graphics should call this,
+        and if it returns false don't try to do graphics
+        (this means the needed DLLs are not there (Win)
+        or the DISPLAY env var is not set (Unix))
+    - API: make the graphics callbacks (e.g. mouse movement)
+        C++ rather than C functions.
+        This was breaking the example applications (upper_case).
+        Bruce et al: if this causes problems, let me know.
+    - API, X graphics: use fprintf(stderr) instead of app_debug_msg(0
+
+    api/
+        boinc_api.C
+        graphics_api.h
+        x_opengl.C
+    html/inc/
+        team.inc

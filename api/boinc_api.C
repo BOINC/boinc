@@ -308,7 +308,11 @@ int boinc_init_options_general(BOINC_OPTIONS& opt) {
     } else {
         retval = setup_shared_mem();
         if (retval) {
-            fprintf(stderr, "Can't set up shared mem: %d\n", retval);
+            fprintf(stderr,
+                "Can't set up shared mem: %d\n"
+                "Will run in standalone mode.\n",
+                retval
+            );
             standalone = true;
         }
     }
@@ -1019,5 +1023,28 @@ void block_sigalrm() {
     pthread_sigmask(SIG_BLOCK, &mask, NULL);
 }
 #endif
+
+bool boinc_graphics_possible() {
+#ifdef _WIN32
+    // Attempt to load the dlls that are required to display graphics, if
+    // any of them fail do not start the application in graphics mode.
+    if (FAILED(__HrLoadAllImportsForDll("GDI32.dll"))) {
+       fprintf(stderr, "Failed to load GDI32.DLL\n" );
+       return false;
+    }
+    if (FAILED(__HrLoadAllImportsForDll("OPENGL32.dll"))) {
+       fprintf( stderr, "Failed to load OPENGL32.DLL\n" );
+       return false;
+    }
+    if (FAILED(__HrLoadAllImportsForDll("GLU32.dll"))) {
+       fprintf( stderr, "Failed to load GLU32.DLL\n" );
+       return false;
+    }
+#elif defined(__APPLE__)
+#else
+    if (!getenv("DISPLAY")) return false;
+#endif
+    return true;
+}
 
 const char *BOINC_RCSID_0fa0410386 = "$Id$";

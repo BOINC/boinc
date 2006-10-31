@@ -16,7 +16,7 @@ function display_team_page($team, $offset, $sort_by) {
     $n = 20;
 
 // there aren't indices to support sorting by credit.
-// set the following to turn off sorted output.
+// set the following variable to disable sorted output.
 // (though since caching is generally used this shouldn't needed)
 //
     $nosort = false;
@@ -43,7 +43,7 @@ function display_team_page($team, $offset, $sort_by) {
         }
         row2("Web site", "<a href=$x>$x</a>");
     }
-    row2("Members (with AND without Credit)", $team->nusers);
+    row2("Members (with and without credit)", $team->nusers);
     
     $founder = lookup_user_id($team->userid);
     $user = get_logged_in_user(false);
@@ -63,7 +63,7 @@ function display_team_page($team, $offset, $sort_by) {
     echo "</table>";
     echo "<p>";
     start_table();
-    row1("Active members (have gotten Credit)", 4);
+    row1("Active members (with nonzero total credit)", 4);
     echo "<tr>
         <th>Name</th>
     ";
