@@ -43,7 +43,7 @@ function display_team_page($team, $offset, $sort_by) {
         }
         row2("Web site", "<a href=$x>$x</a>");
     }
-    row2("Members (with and without credit)", $team->nusers);
+    row2("Members (with credit)", team_count_nusers($team->id));
     
     $founder = lookup_user_id($team->userid);
     $user = get_logged_in_user(false);
@@ -169,7 +169,7 @@ function show_team_row($team, $i) {
     echo"<tr class=row1>
         <td>$i</td>
         <td><a href=team_display.php?teamid=$team->id>$team->name</a></td>
-        <td>$team->nusers</td>
+        <td>".team_count_nusers($team->id)."</td>
         <td>$team_expavg_credit</td>
         <td>$team_total_credit</td>
         <td>$team->country</td>
@@ -179,11 +179,6 @@ function show_team_row($team, $i) {
 function user_join_team($team, $user) {
     $old_teamid = $user->teamid;
     $res = mysql_query("update user set teamid=$team->id where id=$user->id");
-    if ($old_teamid != 0) {
-        $old_team = lookup_team($old_teamid);
-        team_update_nusers($old_team);
-    }
-    team_update_nusers($team);
     if ($res) return true;
     return false;
 }
@@ -193,8 +188,6 @@ function user_quit_team($user) {
     if (!$team) return;
     mysql_query("update user set teamid=0 where id=$user->id");
     mysql_query("UPDATE team SET ping_user=0 WHERE id=".$user->teamid." AND ping_user=".$user->id);
-    team_update_nusers($team);
-
 }
 
 function team_edit_form($team, $label, $url) {
@@ -282,17 +275,14 @@ function team_inactive_ndays($team, $ndays) {
     return false;
 }
 
-function team_update_nusers($team) {
-    $res = mysql_query("select count(*) as total from user where teamid=$team->id");
-    $comp = mysql_fetch_object($res);
-    if (!$comp) return;
-    $n = $comp->total;
-    mysql_query("update team set nusers=$n where id=$team->id");
-
-    //if ($n == 0) {
-    //    echo "<br>Team is empty - deleting team.\n";
-    //    mysql_query("delete from team where id=$team->id");
-    //}
+function team_count_nusers($teamid) {
+    $res = mysql_query("select count(*) as total from user where teamid=$teamid and total_credit>0");
+    $cnt = mysql_fetch_object($res);
+    if ($cnt) {
+	return $cnt->total;
+    } else {
+	return null;
+    }
 }
 
 ?>

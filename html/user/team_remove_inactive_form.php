@@ -12,7 +12,6 @@ if ($user->teamid == $teamid) {
 
     $team = lookup_team($teamid);
     require_founder_login($user, $team);
-    $nusers = $team->nusers;
     page_head("Remove Members from $team->name");
     echo "
 	<form method=\"post\" action=\"team_remove_inactive_action.php\">

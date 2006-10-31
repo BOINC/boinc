@@ -32,9 +32,6 @@ if ($user->teamid == $teamid) {
              }
          }
     }
-    if ($ndel) {
-        team_update_nusers($team);
-    }
 
     page_tail();
 } else {
