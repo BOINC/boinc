@@ -55,7 +55,9 @@ IMPLEMENT_DYNAMIC_CLASS(CSimpleFrame, CBOINCBaseFrame)
 
 BEGIN_EVENT_TABLE(CSimpleFrame, CBOINCBaseFrame)
     EVT_SIZE(CSimpleFrame::OnSize)
-	EVT_ERASE_BACKGROUND(CSimpleFrame::OnEraseBackground)
+#ifndef __WXMAC__
+    EVT_ERASE_BACKGROUND(CSimpleFrame::OnEraseBackground)
+#endif
     EVT_FRAME_CONNECT(CSimpleFrame::OnConnect)
     EVT_FRAME_RELOADSKIN(CSimpleFrame::OnReloadSkin)
 	EVT_TIMER(ID_SIMPLEFRAMERENDERTIMER, CSimpleFrame::OnFrameRender)
@@ -69,7 +71,12 @@ CSimpleFrame::CSimpleFrame() {
 
 
 CSimpleFrame::CSimpleFrame(wxString title, wxIcon* icon) : 
-    CBOINCBaseFrame((wxFrame *)NULL, ID_SIMPLEFRAME, title, wxDefaultPosition, wxSize(416, 570),
+    CBOINCBaseFrame((wxFrame *)NULL, ID_SIMPLEFRAME, title, wxDefaultPosition, 
+#ifdef __WXMAC__
+                    wxSize(409, 561),
+#else
+                    wxSize(416, 570),
+#endif
                     wxMINIMIZE_BOX | wxSYSTEM_MENU | wxCAPTION | wxCLOSE_BOX | wxCLIP_CHILDREN | wxNO_FULL_REPAINT_ON_RESIZE)
 {
     wxLogTrace(wxT("Function Start/End"), wxT("CSimpleFrame::CSimpleFrame - Overloaded Constructor Function Begin"));
@@ -273,6 +280,9 @@ void CSimpleFrame::OnReloadSkin(CFrameEvent& WXUNUSED(event)) {
     wxLogTrace(wxT("Function Start/End"), wxT("CSimpleFrame::OnReloadSkin - Function Start"));
 
     CSkinSimple* pSkinSimple = wxGetApp().GetSkinManager()->GetSimple();
+#ifdef __WXMAC__
+        m_pBackground_Bmp->SetBitmap(*pSkinSimple->GetBackgroundImage()->GetBitmap());
+#endif
 
     wxASSERT(pSkinSimple);
     wxASSERT(wxDynamicCast(pSkinSimple, CSkinSimple));
@@ -394,6 +404,10 @@ void CSimpleFrame::InitEmptyView()
 
 	//Set Background color
     SetBackgroundColour(*pSkinSimple->GetBackgroundImage()->GetBackgroundColor());
+
+#ifdef __WXMAC__
+        m_pBackground_Bmp = new wxStaticBitmap(this, wxID_ANY, *pSkinSimple->GetBackgroundImage()->GetBitmap());
+#endif
 
 	// Flex Grid Sizer
 	mainSizer = new wxFlexGridSizer(3,2);

@@ -926,11 +926,6 @@ void CBOINCGUIApp::FireReloadSkin() {
     if (m_pTaskBarIcon) {
 	    m_pTaskBarIcon->FireReloadSkin();
     }
-#ifdef __WXMAC__
-//    if (m_pMacSystemMenu) {
-//	    m_pMacSystemMenu->BuildMenu();
-//    }
-#endif
 }
 
 

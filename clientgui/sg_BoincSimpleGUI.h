@@ -80,7 +80,9 @@ public:
 	wxBitmap *bm39cImg0;
 
 	wxBitmap *btmpIcnSleeping;
-	
+ #ifdef __WXMAC__       
+        wxStaticBitmap* m_pBackground_Bmp;
+#endif	
     wxTimer*        m_pFrameRenderTimer;
 
     DECLARE_EVENT_TABLE()

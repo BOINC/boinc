@@ -11836,3 +11836,15 @@ Rom    20 Oct 2006
         sg_DlgPreferences.cpp
         sg_ViewTabPage.cpp, .h
 
+Charlie 29 Oct 2006
+    - Mac: Work around Simple GUI problem drawing background bitmaps on 
+        Erase events; use a wxStaticBitmap instead. 
+    - Mac: more changes to XCode project to better build Simple GUI.
+    
+    clientgui/
+        BOINCGUIApp.cpp
+        sg_BoincSimpleGUI.cpp, h
+        sg_DlgPreferences.cpp, h
+    mac_build/
+        boinc.xcodeproj/
+            project.pbxproj

@@ -186,7 +186,9 @@ IMPLEMENT_DYNAMIC_CLASS( CDlgPreferences, wxDialog )
 
 BEGIN_EVENT_TABLE( CDlgPreferences, wxDialog )
 ////@begin CDlgPreferences event table entries
+#ifndef __WXMAC__
     EVT_ERASE_BACKGROUND( CDlgPreferences::OnEraseBackground )
+#endif
     EVT_CHECKBOX( ID_CUSTOMIZEPREFERENCES, CDlgPreferences::OnCustomizePreferencesClick )
     EVT_BUTTON( wxID_OK, CDlgPreferences::OnOK )
 ////@end CDlgPreferences event table entries
@@ -267,6 +269,10 @@ void CDlgPreferences::CreateControls()
 
     CDlgPreferences* itemDialog1 = this;
 
+#ifdef __WXMAC__
+    //    wxStaticBitmap* background_bmp = 
+        new wxStaticBitmap( itemDialog1, wxID_ANY, *pSkinSimple->GetPreferencesDialogBackgroundImage()->GetBitmap() );
+#endif
     wxBoxSizer* itemBoxSizer2 = new wxBoxSizer(wxVERTICAL);
     itemDialog1->SetSizer(itemBoxSizer2);
 
