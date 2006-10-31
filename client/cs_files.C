@@ -60,7 +60,7 @@ bool CLIENT_STATE::start_new_file_xfer(PERS_FILE_XFER& pfx) {
 
     if (network_suspended) return false;
 
-	if (file_xfers->file_xfers.size() >= config.max_file_xfers) return false;
+	if ((int)file_xfers->file_xfers.size() >= config.max_file_xfers) return false;
 
     // limit the number of file transfers per project
     //
