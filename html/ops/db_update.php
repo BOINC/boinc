@@ -336,6 +336,12 @@ function update_10_21_2006() {
     do_query("alter table app add beta smallint not null default 0");
 }
 
-//update_10_21_2006();
+function update_10_26_2006() {
+    do_query("ALTER TABLE `team` ADD `ping_user` INT UNSIGNED NOT NULL DEFAULT '0',
+        ADD `ping_time` INT UNSIGNED NOT NULL DEFAULT '0'");
+    do_query("ALTER TABLE team ADD INDEX team_userid (userid)");
+}
+
+//update_10_26_2006();
 
 ?>
