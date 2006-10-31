@@ -439,7 +439,7 @@ void CViewTabPage::FormatText(const wxString& title, const wxString& text, wxDC*
 void CViewTabPage::OnPaint(wxPaintEvent& WXUNUSED(event)) 
 { 
     wxLogTrace(wxT("Function Start/End"), wxT("CViewTabPage::OnPaint - Begin"));
-    wxBufferedPaintDC dc(this);
+	wxPaintDC dc(this);
 
     //Project Name
 	dc.SetFont(wxFont(16,74,90,90,0,wxT("Arial"))); 

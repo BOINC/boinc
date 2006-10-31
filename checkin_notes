@@ -11888,3 +11888,12 @@ Rom    31 Oct 2006
     
     clientgui/
         sg_DlgPreferences.cpp
+        
+Kevin    31 Oct 2006
+    - MGR: Changed the wu tab back to using wxPaintDC from wxBufferedPaintDC.  The
+           buffered version caused a noticable delay in rendering the display.
+        
+    clientgui/
+        sg_ViewTabPage.cpp
+        
+        
