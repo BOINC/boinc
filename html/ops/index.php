@@ -13,6 +13,25 @@ db_init();
 $title = "Project Management";
 admin_page_head($title);
 
+// Notification area
+echo "<ul>\n";
+
+if (!file_exists(".htaccess")) {
+    echo "<li><span style='color: #ff0000'>The Project Management directory is not
+        protected from public access by a .htaccess file.</span></li>\n";
+}
+
+if (parse_bool($config, "disable_account_creation")) {
+    echo "<li><span style='color: #ff9900'>Account creation is disabled.</span></li>\n";
+}
+
+if (defined('INVITE_CODES')) {
+    echo "<li><span style='color: #ff9900'>Account creation is restricted by the use of
+	invitation codes.</span></li>\n";
+}
+
+echo "</ul>\n";
+
 echo "
     <p><table><tr valign=\"top\"><td width=\"30%\">
     Browse database:
