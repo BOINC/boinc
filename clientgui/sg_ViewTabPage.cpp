@@ -471,9 +471,12 @@ void CViewTabPage::DrawText() {
     wxASSERT(wxDynamicCast(pSkinSimple, CSkinSimple));
 
     wxLogTrace(wxT("Function Start/End"), wxT("CViewTabPage::DrawText - Begin"));
+#ifdef __WXMAC__    // wxBufferedDC.GetTextExtent() fails on Mac, causing Manager to hang
+    wxClientDC dc(this);
+#else
     wxClientDC dcc(this);
-	wxBufferedDC dc(&dcc, wxSize(GetSize().GetWidth(), GetSize().GetHeight())); 
-
+	wxBufferedDC dc(&dcc); 
+#endif
     //Project Name
     dc.DrawBitmap(*(pSkinSimple->GetWorkunitAreaBackgroundImage()->GetBitmap()), 0, 0);
 	dc.SetFont(wxFont(16,74,90,90,0,wxT("Arial"))); 
