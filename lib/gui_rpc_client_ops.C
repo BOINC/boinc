@@ -2085,7 +2085,6 @@ int RPC_CLIENT::get_global_prefs_override(string& s) {
 
 int RPC_CLIENT::set_global_prefs_override(string& s) {
     int retval;
-    SET_LOCALE sl;
     RPC rpc(this);
     char buf[64000];
 
@@ -2101,6 +2100,7 @@ int RPC_CLIENT::set_global_prefs_override(string& s) {
 
 int RPC_CLIENT::get_global_prefs_override_struct(GLOBAL_PREFS& prefs) {
     int retval;
+    SET_LOCALE sl;
     string s;
     MIOFILE mf;
     char buf[64000];
@@ -2116,6 +2116,7 @@ int RPC_CLIENT::get_global_prefs_override_struct(GLOBAL_PREFS& prefs) {
 }
 
 int RPC_CLIENT::set_global_prefs_override_struct(GLOBAL_PREFS& prefs) {
+    SET_LOCALE sl;
     char buf[64000];
     MIOFILE mf;
     string s;

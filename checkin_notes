@@ -11958,3 +11958,9 @@ Kevin    1 Nov 2006
         
     clientgui/
         sg_ViewTabPage.cpp
+
+Rom    1 Nov 2006
+    - MGR: The preferences override struct feature should observe locale conventions.
+    
+    lib/
+        gui_rpc_client_ops.C
