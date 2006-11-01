@@ -11926,4 +11926,10 @@ Kevin    31 Oct 2006
         
     clientgui/
         sg_ViewTabPage.cpp
-        
+
+Rom    31 Oct 2006
+    - Update the curl distro for windows to include the SOCKS 5 Auth path Walt put together.
+    
+    curl/
+        <Numerious files>
+
