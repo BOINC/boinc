@@ -66,6 +66,12 @@ CDlgMessages::CDlgMessages(wxWindow* parent, wxWindowID id, const wxString& titl
 		SetSize(545,450);
 	}
 
+#ifdef __WXMAC__
+    SetSize(544,450);
+    CSkinSimple* pSkinSimple = wxGetApp().GetSkinManager()->GetSimple();
+    new wxStaticBitmap(this, wxID_ANY, *pSkinSimple->GetMessagesDialogBackgroundImage()->GetBitmap());
+#endif
+
     m_pList = new CSGUIListCtrl(this, ID_SIMPLE_MESSAGESVIEW, DEFAULT_LIST_MULTI_SEL_FLAGS);
     wxASSERT(m_pList);
 
@@ -120,6 +126,7 @@ void CDlgMessages::CreateDialog()
 	
 	Refresh();
 }
+
 void CDlgMessages::VwXDrawBackImg(wxEraseEvent& event,wxWindow *win,wxBitmap* bitMap,int opz){
  event.Skip(false);wxDC *dc;
  dc=event.GetDC();

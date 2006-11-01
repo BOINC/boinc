@@ -11940,11 +11940,13 @@ Rom    31 Oct 2006
 Charlie 1 Nov 2006
     - Mac: Work around Simple GUI hang due to bug in Mac version of 
         wxBufferedDC.GetTextExtent().
-    -Mac: Fix transparent text.
+    - Mac: Fix transparent text.
+    - Mac: Fix Message dialog background.
     - Mac: more changes to XCode project to better build Simple GUI.
     
     clientgui/
         sg_CustomControls.cpp, .h
+        sg_DlgMessages.cpp
         sg_ViewTabPage.cpp
     mac_build/
         boinc.xcodeproj/
