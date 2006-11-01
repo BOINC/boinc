@@ -54,6 +54,27 @@ BEGIN_EVENT_TABLE(CViewTabPage, wxPanel)
 	EVT_ERASE_BACKGROUND(CViewTabPage::OnEraseBackground)
 END_EVENT_TABLE()
 
+bool isRunning(RESULT* result) {
+	bool outcome = false;
+
+	// It must be scheduled to be running
+	if ( result->scheduler_state == CPU_SCHED_SCHEDULED ) {
+		// If either the project or task have been suspended, then it cannot be running
+		if ( !result->suspended_via_gui && !result->project_suspended_via_gui ) {
+			CMainDocument* pDoc     = wxGetApp().GetDocument();
+			CC_STATUS status;
+			pDoc->GetCoreClientStatus(status);
+			// Make sure that the core client isn't global suspended for some reason
+			if ( status.task_suspend_reason == 0 || status.task_suspend_reason == SUSPEND_REASON_CPU_USAGE_LIMIT ) {
+				outcome = true;
+			}
+		}
+	}
+
+	return outcome;
+}
+
+
 CViewTabPage::CViewTabPage() {}
 
 CViewTabPage::CViewTabPage(WorkunitNotebook* parent,RESULT* result,std::string name,std::string url) :
@@ -132,7 +153,7 @@ void CViewTabPage::CreatePage()
 
 int CViewTabPage::ComputeState() {
 	int status = TAB_STATUS_PREEMPTED;
-	if ( resultWU->active_task_state == 1 ) {
+	if ( isRunning(resultWU) ) {
 		status = TAB_STATUS_RUNNING;
 	} else {
 		CMainDocument* pDoc = wxGetApp().GetDocument();
@@ -257,7 +278,7 @@ void CViewTabPage::UpdateInterface()
 
 	// check to see if we can display graphics
 	bool changed = false;
-	if (resultWU->supports_graphics && resultWU->active_task_state == 1) {
+	if (resultWU->supports_graphics && isRunning(resultWU) ) {
 		if ( !m_hasGraphic ) {
 			changed = true;
 		}
@@ -653,7 +674,7 @@ WorkunitNotebook::WorkunitNotebook(wxWindow* parent, wxWindowID id, const wxPoin
     Update();
 
     for (int i=0; i< (int) m_windows.size(); i++) {
-		if ( m_windows.at(i)->resultWU->active_task_state == 1) {
+		if ( isRunning(m_windows.at(i)->resultWU) ) {
 			SetSelection(i);
 			break;
 		}
@@ -686,7 +707,7 @@ void WorkunitNotebook::AddTab(RESULT* result) {
 	CViewTabPage *wTab = new CViewTabPage(this,result,nme,projUrl);
 	
 	AddPage(wTab, appShortName, true);	
-	if(resState->active_task_state == 1){
+	if(isRunning(resState) ){
 		int pageIndex = GetPageIndex(wTab);
 		SetPageImageIndex(pageIndex, 0); // this is a running process
 	}
@@ -754,9 +775,9 @@ void WorkunitNotebook::Update() {
 			if(result->name == currTab->GetTabName()){
 				currTab->resultWU = result;
 		        currTab->UpdateInterface();
-				if(result->active_task_state == 1 && this->GetPageImageIndex(j) != 0){
+				if(isRunning(result) && this->GetPageImageIndex(j) != 0){
 					SetPageImageIndex(j, 0); // this result is current running
-				} else if ( result->active_task_state != 1 && this->GetPageImageIndex(j) != -1 ) {
+				} else if ( !isRunning(result) && this->GetPageImageIndex(j) != -1 ) {
 					SetPageImageIndex(j, -1); // this result is not running
 				}
 				found = true;

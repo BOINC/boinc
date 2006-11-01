@@ -11951,3 +11951,10 @@ Charlie 1 Nov 2006
     mac_build/
         boinc.xcodeproj/
             project.pbxproj
+
+Kevin    1 Nov 2006
+    - MGR: Finally fixed the problems with the active task icon displaying properly when the
+           cpu throttle is being utilized
+        
+    clientgui/
+        sg_ViewTabPage.cpp
