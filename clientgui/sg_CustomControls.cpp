@@ -61,6 +61,9 @@ void CTransparentStaticLine::OnPaint(wxPaintEvent& /*event*/) {
 IMPLEMENT_DYNAMIC_CLASS (CTransparentStaticText, wxStaticText)
 
 BEGIN_EVENT_TABLE(CTransparentStaticText, wxStaticText)
+#ifdef __WXMAC__
+    EVT_ERASE_BACKGROUND(CTransparentStaticText::OnEraseBackground)
+#endif
     EVT_PAINT(CTransparentStaticText::OnPaint)
 END_EVENT_TABLE()
 
@@ -184,3 +187,15 @@ void CTransparentStaticTextAssociate::OnMouse(wxMouseEvent& event) {
     event.Skip();
 }
 
+
+#if 0
+void CTransparentStaticTextAssociate::OnEraseBackground(wxEraseEvent& event){
+    CSkinSimple* pSkinSimple = wxGetApp().GetSkinManager()->GetSimple();
+
+    wxASSERT(pSkinSimple);
+    wxASSERT(wxDynamicCast(pSkinSimple, CSkinSimple));
+
+    wxDC *dc = event.GetDC();
+    dc->DrawBitmap(*pSkinSimple->GetPreferencesDialogBackgroundImage()->GetBitmap(), 0, 0);
+}
+#endif

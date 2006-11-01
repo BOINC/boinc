@@ -11937,12 +11937,14 @@ Rom    31 Oct 2006
     - Tag for 5.7.1 release, all platforms
       boinc_core_release_5_7_1
 
-Charlie 31 Oct 2006
+Charlie 1 Nov 2006
     - Mac: Work around Simple GUI hang due to bug in Mac version of 
-        wxBufferedDC.GetTextExtent(). 
+        wxBufferedDC.GetTextExtent().
+    -Mac: Fix transparent text.
     - Mac: more changes to XCode project to better build Simple GUI.
     
     clientgui/
+        sg_CustomControls.cpp, .h
         sg_ViewTabPage.cpp
     mac_build/
         boinc.xcodeproj/
