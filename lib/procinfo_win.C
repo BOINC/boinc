@@ -1,3 +1,4 @@
+#include "error_numbers.h"
 #include "diagnostics_win.h"
 #include "procinfo.h"
 
@@ -12,7 +13,6 @@ typedef NTSTATUS (WINAPI *tNTQSI)(
 );
 
 static int get_process_information(PVOID* ppBuffer, PULONG pcbBuffer) {
-    int      retval = 0;
     NTSTATUS Status = STATUS_INFO_LENGTH_MISMATCH;
     HANDLE   hHeap  = GetProcessHeap();
     HMODULE  hNTDllLib = NULL;
@@ -21,10 +21,10 @@ static int get_process_information(PVOID* ppBuffer, PULONG pcbBuffer) {
     hNTDllLib = GetModuleHandle("ntdll.dll");
     pNTQSI = (tNTQSI)GetProcAddress(hNTDllLib, "NtQuerySystemInformation");
 
-    do {
+    while (1) {
         *ppBuffer = HeapAlloc(hHeap, HEAP_ZERO_MEMORY, *pcbBuffer);
         if (ppBuffer == NULL) {
-            retval = ERROR_NOT_ENOUGH_MEMORY;
+            return ERR_MALLOC;
         }
 
         Status = pNTQSI(
@@ -39,11 +39,12 @@ static int get_process_information(PVOID* ppBuffer, PULONG pcbBuffer) {
             *pcbBuffer *= 2;
         } else if (!NT_SUCCESS(Status)) {
             HeapFree(hHeap, NULL, *ppBuffer);
-            retval = Status;
-        }
-    } while (Status == STATUS_INFO_LENGTH_MISMATCH);
-
-    return retval;
+            return ERR_GETRUSAGE;
+		} else {
+			return 0;
+		}
+    }
+    return 0;	// never reached
 }
 
 // Note: the following will work on both NT and XP,

@@ -11964,3 +11964,12 @@ Rom    1 Nov 2006
     
     lib/
         gui_rpc_client_ops.C
+
+David  1 Nov 2006
+	- core client: check error returns in Win code to
+		find app memory usage.
+
+	client/
+		app.C
+	lib/
+		procinfo_win.C

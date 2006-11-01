@@ -196,13 +196,22 @@ void ACTIVE_TASK_SET::free_mem() {
 void ACTIVE_TASK_SET::get_memory_usage() {
     static double last_mem_time=0;
 	unsigned int i;
+	int retval;
 
 	double diff = gstate.now - last_mem_time;
     if (diff < 10) return;
 
     last_mem_time = gstate.now;
     vector<PROCINFO> piv;
-    procinfo_setup(piv);
+    retval = procinfo_setup(piv);
+	if (retval) {
+		if (log_flags.mem_usage_debug) {
+			msg_printf(0, MSG_ERROR,
+				"[mem_usage_debug] procinfo_setup() returned %d", retval
+			);
+		}
+		return;
+	}
     for (i=0; i<active_tasks.size(); i++) {
         ACTIVE_TASK* atp = active_tasks[i];
         if (atp->task_state == PROCESS_EXECUTING) {
