@@ -11973,3 +11973,14 @@ David  1 Nov 2006
 		app.C
 	lib/
 		procinfo_win.C
+
+David  1 Nov 2006
+    - core client: attempt to fix bug where core client locks up
+        when aborting jobs.
+        If a job is aborted, and its 5-second grace period elapses,
+        mark it as PROCESS_ABORTED so that we'll remove its ACTIVE_TASK record.
+        Also, if a GetExitCodeProcess() call fails, mark it as PROCESS_ABORTED.
+
+    client/
+        app.C
+        app_control.C

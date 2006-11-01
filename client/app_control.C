@@ -394,11 +394,19 @@ bool ACTIVE_TASK_SET::check_app_exited() {
             if (log_flags.task_debug) {
                 char errmsg[1024];
                 msg_printf(0, MSG_INFO,
-                    "[task_debug] ACTIVE_TASK_SET::check_app_exited(): task %s GetExitCodeProcess Failed - GLE %d (0x%x)",
-                    windows_format_error_string(GetLastError(), errmsg, sizeof(errmsg)),
+                    "[task_debug] task %s GetExitCodeProcess() failed - %s GLE %d (0x%x)",
+                    atp->result->name,
+                    windows_format_error_string(
+                        GetLastError(), errmsg, sizeof(errmsg)
+                    ),
                     GetLastError(), GetLastError()
                 );
             }
+
+            // The process doesn't seem to be there.
+            // Mark task as aborted so we don't check it again.
+            //
+            atp->task_state = PROCESS_ABORTED;
         }
     }
 #else
@@ -417,10 +425,7 @@ bool ACTIVE_TASK_SET::check_app_exited() {
             // is probably a benchmark process; don't show error
             //
             if (!gstate.are_cpu_benchmarks_running()) {
-                msg_printf(NULL, MSG_ERROR,
-                    "Process %d not found\n",
-                    pid
-                );
+                msg_printf(NULL, MSG_ERROR, "Process %d not found\n", pid);
             }
             return false;
         }
@@ -714,8 +719,8 @@ ACTIVE_TASK* ACTIVE_TASK_SET::lookup_result(RESULT* result) {
 }
 
 // suspend all currently running tasks
-// called only from CLIENT_STATE::suspend_activities(),
-// e.g. because on batteries, time of day, benchmarking, etc.
+// called only from CLIENT_STATE::suspend_tasks(),
+// e.g. because on batteries, time of day, benchmarking, CPU throttle, etc.
 //
 void ACTIVE_TASK_SET::suspend_all(bool leave_apps_in_memory) {
     unsigned int i;
@@ -845,7 +850,9 @@ bool ACTIVE_TASK::get_app_status_msg() {
         return false;
     }
     if (log_flags.app_msg_debug) {
-        msg_printf(NULL, MSG_INFO, "[app_msg_debug] slot %d msg: %s", slot, msg_buf);
+        msg_printf(NULL, MSG_INFO,
+            "[app_msg_debug] slot %d msg: %s", slot, msg_buf
+        );
     }
     want_network = 0;
     current_cpu_time = checkpoint_cpu_time = 0.0;

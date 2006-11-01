@@ -98,9 +98,9 @@ ACTIVE_TASK::ACTIVE_TASK() {
     have_trickle_down = false;
     send_upload_file_status = false;
     pending_suspend_via_quit = false;
-	too_large = false;
+    too_large = false;
     want_network = 0;
-	memset(&procinfo, 0, sizeof(procinfo));
+    memset(&procinfo, 0, sizeof(procinfo));
 #ifdef _WIN32
     pid_handle = 0;
     thread_handle = 0;
@@ -195,10 +195,10 @@ void ACTIVE_TASK_SET::free_mem() {
 
 void ACTIVE_TASK_SET::get_memory_usage() {
     static double last_mem_time=0;
-	unsigned int i;
+    unsigned int i;
 	int retval;
 
-	double diff = gstate.now - last_mem_time;
+    double diff = gstate.now - last_mem_time;
     if (diff < 10) return;
 
     last_mem_time = gstate.now;
@@ -215,21 +215,21 @@ void ACTIVE_TASK_SET::get_memory_usage() {
     for (i=0; i<active_tasks.size(); i++) {
         ACTIVE_TASK* atp = active_tasks[i];
         if (atp->task_state == PROCESS_EXECUTING) {
-			PROCINFO& pi = atp->procinfo;
-			unsigned long last_page_fault_count = pi.page_fault_count;
+            PROCINFO& pi = atp->procinfo;
+            unsigned long last_page_fault_count = pi.page_fault_count;
             memset(&pi, 0, sizeof(pi));
             pi.id = atp->pid;
             procinfo_app(pi, piv);
             pi.working_set_size_smoothed = .5*pi.working_set_size_smoothed + pi.working_set_size;
 
-			int pf = pi.page_fault_count - last_page_fault_count;
-			pi.page_fault_rate = pf/diff;
+            int pf = pi.page_fault_count - last_page_fault_count;
+            pi.page_fault_rate = pf/diff;
             if (log_flags.mem_usage_debug) {
                 msg_printf(atp->result->project, MSG_INFO,
                     "[mem_usage_debug] %s: RAM %.2fMB, page %.2fMB, %.2f page faults/sec, user CPU %.3f, kernel CPU %.3f",
                     atp->result->name,
                     pi.working_set_size/MEGA, pi.swap_size/MEGA,
-					pi.page_fault_rate,
+                    pi.page_fault_rate,
                     pi.user_time, pi.kernel_time
                 );
             }
@@ -255,7 +255,7 @@ void ACTIVE_TASK_SET::get_memory_usage() {
 //
 bool ACTIVE_TASK_SET::poll() {
     bool action;
-	unsigned int i;
+    unsigned int i;
     static double last_time = 0;
     if (gstate.now - last_time < 1.0) return false;
     last_time = gstate.now;
@@ -273,6 +273,7 @@ bool ACTIVE_TASK_SET::poll() {
         if (atp->task_state == PROCESS_ABORT_PENDING) {
             if (gstate.now > atp->abort_time + 5.0) {
                 atp->kill_task();
+                atp->task_state = PROCESS_ABORTED;
             }
         }
     }
@@ -280,7 +281,6 @@ bool ACTIVE_TASK_SET::poll() {
     if (action) {
         gstate.set_client_state_dirty("ACTIVE_TASK_SET::poll");
     }
-
 
     return action;
 }
@@ -404,7 +404,7 @@ int ACTIVE_TASK::write(MIOFILE& fout) {
         "    <swap_size>%f</swap_size>\n"
         "    <working_set_size>%f</working_set_size>\n"
         "    <working_set_size_smoothed>%f</working_set_size_smoothed>\n"
-		"    <page_fault_rate>%f</page_fault_rate>\n"
+        "    <page_fault_rate>%f</page_fault_rate>\n"
         "%s",
         result->project->master_url,
         result->name,
@@ -418,7 +418,7 @@ int ACTIVE_TASK::write(MIOFILE& fout) {
         procinfo.swap_size,
         procinfo.working_set_size,
         procinfo.working_set_size_smoothed,
-		procinfo.page_fault_rate,
+        procinfo.page_fault_rate,
         too_large?"   <too_large/>\n":""
     );
     if (supports_graphics() && !gstate.disable_graphics) {
