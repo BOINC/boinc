@@ -31,6 +31,10 @@ function type_text($type) {
     }
 }
 
+$features_57 = "
+    <li> BOINC Simple GUI.
+";
+
 $features_55 = "
     <li> New CPU Scheduler.
     <li> New Work Fetch Policy.
@@ -84,6 +88,9 @@ $features_52 = "
     you must delete gui_rpc_auth.cfg from your BOINC directory.
     <li> Alert boxes now provide feedback when certain errors occur.
     <li> BOINC supports 'Account Management Systems' (to be announced).
+";
+
+$changes_57 = "
 ";
 
 $changes_55 = "
@@ -350,15 +357,15 @@ $linux_libs_56= "
       </ul>
 ";
 
-$w565= array(
-    "num"=>"5.6.5",
+$w571= array(
+    "num"=>"5.7.1",
     "status"=>"Development version",
-    "file"=>"boinc_5.6.5_windows_intelx86.exe",
-    "date"=>"2 Oct 2006",
+    "file"=>"boinc_5.7.1_windows_intelx86.exe",
+    "date"=>"31 Oct 2006",
     "type"=>"win_new",
     "features"=>"<ul>
-".$features_55."
-".$changes_55."
+".$features_57."
+".$changes_57."
     </ul>
     ",
     "bugs"=>""
@@ -691,7 +698,7 @@ $windows = array(
     "name"=>"Windows",
     "dbname" => "windows_intelx86",
     "versions"=>array(
-        $w565,
+        $w571,
         $w5411,
         $w5213,
         $w445,
