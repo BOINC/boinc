@@ -7,6 +7,9 @@ require_once("../inc/email.inc");
 
 db_init();
 $user = get_logged_in_user(true);
+if (!$user->teamid) {
+    error_page("You need to be a member of the team to access this page.");
+}
 
 $action = post_str("action");
 

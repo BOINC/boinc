@@ -6,6 +6,9 @@ require_once("../inc/team.inc");
 
 db_init();
 $user = get_logged_in_user(true);
+if (!$user->teamid) {
+    error_page("You need to be a member of the team to access this page.");
+}
 $team = lookup_team($user->teamid);
 
 page_head("Transfer founder position of $team->name");
