@@ -25,7 +25,12 @@
 #endif
 
 
-class MyCanvas : public wxScrolledWindow
+class MyCanvas : 
+#ifdef __WXMAC__
+                public wxWindow
+#else
+                public wxScrolledWindow
+#endif
 {
 public:
 	MyCanvas(wxWindow *parent, const wxPoint& pos, const wxSize& size, std::vector<wxBitmap> images);

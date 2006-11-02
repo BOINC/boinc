@@ -54,7 +54,11 @@ void CImageButton::OnPaint(wxPaintEvent& WXUNUSED(event))
 { 
         wxPaintDC dc(this); 
 		dc.SetTextForeground(wxColour(*wxWHITE));
+#ifdef __WXMAC__
+		dc.SetFont(wxFont(10,74,90,90,0,wxT("Arial")));
+#else
 		dc.SetFont(wxFont(7,74,90,90,0,wxT("Arial")));
+#endif
 		int x, y;
 		GetSize(&x,&y);
 		wxCoord width, height;

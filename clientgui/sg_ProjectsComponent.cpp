@@ -251,7 +251,11 @@ void CProjectsComponent::OnPaint(wxPaintEvent& WXUNUSED(event))
 { 
     wxPaintDC dc(this);
     //My Projects
+#ifdef __WXMAC__
+	dc.SetFont(wxFont(12,74,90,92,0,wxT("Arial"))); 
+#else
 	dc.SetFont(wxFont(10,74,90,92,0,wxT("Arial"))); 
+#endif
 	dc.DrawText(wxT("My Projects:"), wxPoint(32,9)); 
 }
 

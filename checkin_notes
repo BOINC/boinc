@@ -12012,3 +12012,11 @@ Rom    1 Nov 2006
 Rom    31 Oct 2006
     - Tag for 5.7.2 release, all platforms
       boinc_core_release_5_7_2
+
+Charlie 2 Nov 2006
+    - Mac: Fix more bugs on Main SimpleGUI window.  
+    
+    clientgui/
+        sg_ImageButton.cpp
+        sg_ProjectsComponent.cpp
+        sg_ViewTabPage.cpp, h

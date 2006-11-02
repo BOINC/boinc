@@ -41,6 +41,14 @@
 #include "app_ipc.h"
 
 
+#ifdef __WXMAC__
+#define SMALL_FONT 12
+#define LARGE_FONT 20
+#else
+#define SMALL_FONT 9
+#define LARGE_FONT 16
+#endif
+
 IMPLEMENT_DYNAMIC_CLASS(CViewTabPage, wxPanel)
 
 enum{
@@ -302,6 +310,15 @@ void CViewTabPage::UpdateInterface()
 		m_canvas->Refresh();
 		m_canvas->Update();
 	}
+#ifdef __WXMAC__
+        else {
+		btnAminBg->Refresh();
+		m_canvas->Refresh();
+                lnProjName->Refresh();
+        }
+        gaugeWUMain->Refresh();
+#endif
+
 }
 
 
@@ -433,7 +450,7 @@ void CViewTabPage::FormatText(const wxString& title, const wxString& text, wxDC*
     wxString translated_text;
 
     // Title
-    dc->SetFont(wxFont(9,74,90,90,0,wxT("Arial")));
+    dc->SetFont(wxFont(SMALL_FONT,74,90,90,0,wxT("Arial")));
 	dc->GetTextExtent(title, &width, &height);
 	dc->DrawText(title, pos);
 
@@ -441,7 +458,7 @@ void CViewTabPage::FormatText(const wxString& title, const wxString& text, wxDC*
     col += width + 5;
 
     // Text
-    dc->SetFont(wxFont(9,74,90,92,0,wxT("Arial")));
+    dc->SetFont(wxFont(SMALL_FONT,74,90,92,0,wxT("Arial")));
 	dc->GetTextExtent(text, &width, &height);
     if ( width > (max_col - col) ) {
 		int i = (int) text.length();
@@ -463,7 +480,7 @@ void CViewTabPage::OnPaint(wxPaintEvent& WXUNUSED(event))
 	wxPaintDC dc(this);
 
     //Project Name
-	dc.SetFont(wxFont(16,74,90,90,0,wxT("Arial"))); 
+	dc.SetFont(wxFont(LARGE_FONT,74,90,90,0,wxT("Arial"))); 
 	dc.DrawText(projName, wxPoint(20,8)); 
 
     FormatText(wxT("APPLICATION >"), projectFrName, &dc, wxPoint(20,49));
@@ -471,7 +488,7 @@ void CViewTabPage::OnPaint(wxPaintEvent& WXUNUSED(event))
     FormatText(wxT("ELAPSED TIME >"), elapsedTimeValue, &dc, wxPoint(20,115));
     FormatText(wxT("TIME REMAINING >"), timeRemainingValue, &dc, wxPoint(20,134));
 
-    dc.SetFont(wxFont(9,74,90,92,0,wxT("Arial")));
+    dc.SetFont(wxFont(SMALL_FONT,74,90,92,0,wxT("Arial")));
     dc.DrawText(gaugePercent, wxPoint(290,90)); 
 
     wxLogTrace(wxT("Function Start/End"), wxT("CViewTabPage::OnPaint - End"));
@@ -486,7 +503,7 @@ void CViewTabPage::OnImageButton() {
 
 
 void CViewTabPage::DrawText() { 
-    CSkinSimple* pSkinSimple = wxGetApp().GetSkinManager()->GetSimple();
+CSkinSimple* pSkinSimple = wxGetApp().GetSkinManager()->GetSimple();
 
     wxASSERT(pSkinSimple);
     wxASSERT(wxDynamicCast(pSkinSimple, CSkinSimple));
@@ -500,7 +517,7 @@ void CViewTabPage::DrawText() {
 #endif
     //Project Name
     dc.DrawBitmap(*(pSkinSimple->GetWorkunitAreaBackgroundImage()->GetBitmap()), 0, 0);
-	dc.SetFont(wxFont(16,74,90,90,0,wxT("Arial"))); 
+	dc.SetFont(wxFont(LARGE_FONT,74,90,90,0,wxT("Arial"))); 
 	dc.DrawText(projName, wxPoint(20,8));
 
     FormatText(wxT("APPLICATION >"), projectFrName, &dc, wxPoint(20,49));
@@ -508,9 +525,11 @@ void CViewTabPage::DrawText() {
     FormatText(wxT("ELAPSED TIME >"), elapsedTimeValue, &dc, wxPoint(20,115));
     FormatText(wxT("TIME REMAINING >"), timeRemainingValue, &dc, wxPoint(20,134));
 
-    dc.SetFont(wxFont(9,74,90,92,0,wxT("Arial")));
+    dc.SetFont(wxFont(SMALL_FONT,74,90,92,0,wxT("Arial")));
     dc.DrawText(gaugePercent, wxPoint(290,90)); 
 
+#ifdef __WXMAC__    // wDrawBitMap of GetWorkunitAreaBackgroundImage erased gauge and animation area
+#endif
     wxLogTrace(wxT("Function Start/End"), wxT("CViewTabPage::DrawText - End"));
 }
 
@@ -528,13 +547,20 @@ void CViewTabPage::OnEraseBackground(wxEraseEvent& event){
 // MyCanvas
 // ---------------------------------------------------------------------------
 
+#ifdef __WXMAC__
+BEGIN_EVENT_TABLE(MyCanvas, wxWindow)
+#else
 BEGIN_EVENT_TABLE(MyCanvas, wxScrolledWindow)
+#endif
     EVT_PAINT(MyCanvas::OnPaint)
 END_EVENT_TABLE()
 
-// Define a constructor for my canvas
 MyCanvas::MyCanvas(wxWindow *parent, const wxPoint& pos, const wxSize& size, std::vector<wxBitmap> images)
+#ifdef __WXMAC__
+        : wxWindow(parent, -1, pos, size,
+#else
         : wxScrolledWindow(parent, -1, pos, size,
+#endif
                            wxNO_BORDER |
                            wxNO_FULL_REPAINT_ON_RESIZE)
 {
