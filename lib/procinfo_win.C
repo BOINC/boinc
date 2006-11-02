@@ -15,13 +15,15 @@ typedef NTSTATUS (WINAPI *tNTQSI)(
 static int get_process_information(PVOID* ppBuffer, PULONG pcbBuffer) {
     NTSTATUS Status = STATUS_INFO_LENGTH_MISMATCH;
     HANDLE   hHeap  = GetProcessHeap();
-    HMODULE  hNTDllLib = NULL;
-    tNTQSI   pNTQSI = NULL;
-
-    hNTDllLib = GetModuleHandle("ntdll.dll");
-    pNTQSI = (tNTQSI)GetProcAddress(hNTDllLib, "NtQuerySystemInformation");
+    HMODULE  hNTDllLib = GetModuleHandle("ntdll.dll");
+    tNTQSI   pNTQSI = (tNTQSI)GetProcAddress(hNTDllLib, "NtQuerySystemInformation");
+    ULONG    cbBuffer = 0;
 
     while (1) {
+        // Store the buffer size since it appears that somebody is monkeying around
+        //   with the return values on some systems.
+        cbBuffer = *pcbBuffer;
+
         *ppBuffer = HeapAlloc(hHeap, HEAP_ZERO_MEMORY, *pcbBuffer);
         if (ppBuffer == NULL) {
             return ERR_MALLOC;
@@ -33,6 +35,12 @@ static int get_process_information(PVOID* ppBuffer, PULONG pcbBuffer) {
             *pcbBuffer,
             pcbBuffer
         );
+
+        if (*pcbBuffer < cbBuffer) {
+            // Somebody is trying to screw us up, so set the value back to the cached
+            //   size so we can do something smart like increase the buffer size.
+            *pcbBuffer = cbBuffer;
+        }
 
         if (Status == STATUS_INFO_LENGTH_MISMATCH) {
             HeapFree(hHeap, NULL, *ppBuffer);
@@ -51,7 +59,7 @@ static int get_process_information(PVOID* ppBuffer, PULONG pcbBuffer) {
 // because the NT process structure differs only at the end
 //
 int get_procinfo_XP(vector<PROCINFO>& pi) {
-    ULONG                   cbBuffer = 32*1024;    // 32k initial buffer
+    ULONG                   cbBuffer = 128*1024;    // 128k initial buffer
     PVOID                   pBuffer = NULL;
     PSYSTEM_PROCESSES       pProcesses = NULL;
 

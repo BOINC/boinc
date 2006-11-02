@@ -11990,3 +11990,15 @@ David  1 Nov 2006
 
 	client/
 		acct_mgr.C
+
+Rom    1 Nov 2006
+    - CC: Somebody kernel side is fooling around with return values from
+        NtQuerySystemInformation, this caused us to get stuck in a loop.
+        
+        Cache the buffer size and restore it if the API zeros it out. That
+        way we'll be able to double it correctly before the next call.
+    - CC: Set the initial buffer size for NtQuerySystemInformation to
+        128k from the original 32k.
+        
+    lib/
+        procinfo_win.C
