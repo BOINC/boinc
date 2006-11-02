@@ -45,7 +45,16 @@ function display_team_page($team, $offset, $sort_by) {
     }
     row2("Members (with credit)", team_count_nusers($team->id));
     
-    $founder = lookup_user_id($team->userid);
+    // Founder object cache
+    $cache_args = "teamid=".$team->id."&founderid=".$team->userid;
+    $cached_data = get_cached_data(TEAM_PAGE_TTL, $cache_args);
+    if ($cached_data){
+	$founder = unserialize($cached_data);
+    } else {
+	$founder = lookup_user_id($team->userid);
+	set_cache_data(serialize($founder),$cache_args);
+    }
+    
     $user = get_logged_in_user(false);
 
     row2("Total credit", format_credit($team->total_credit));
