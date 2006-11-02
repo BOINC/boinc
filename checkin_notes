@@ -12002,3 +12002,9 @@ Rom    1 Nov 2006
         
     lib/
         procinfo_win.C
+
+Rom    1 Nov 2006
+    - MGR: Fix the MB -> GB translation bug for disk usage.
+    
+    clientgui/
+        sg_DlgPreferences.cpp

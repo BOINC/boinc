@@ -791,7 +791,7 @@ bool CDlgPreferences::SavePreferenceSettings() {
 
     // Use no more than %s of disk space
     m_strMaxDiskUsage.ToDouble((double*)&m_prefs.disk_max_used_gb);
-    if (m_strMaxDiskUsage.Find(wxT("GB")) != -1) {
+    if (m_strMaxDiskUsage.Find(wxT("GB")) == -1) {
         m_prefs.disk_max_used_gb /= 1000;
     }
 
