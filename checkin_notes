@@ -12034,3 +12034,14 @@ David  2 Nov 2006
 
     lib/
         prefs.C,h
+
+David  2 Nov 2006
+    - core client: get rid of attempts to keep track of
+        network connected fraction,
+        since we don't have a reliable way of seeing
+        if there's a physical connection
+
+    client/
+        time_stats.C
+    lib/
+        network.C

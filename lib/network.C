@@ -182,7 +182,10 @@ int get_socket_error(int fd) {
 typedef BOOL (WINAPI *GetStateProc)( OUT LPDWORD lpdwFlags, IN DWORD dwReserved);
 typedef int  (*pfnBOINCIsNetworkAlive)(LPDWORD lpdwFlags);
 
-int get_connected_state( ) {
+int get_connected_state() {
+    // The following is commented out because it causes
+    // hangs in some situations.
+#if 0
     int online = 0;
     static bool first=true;
     static HMODULE lib_wininet_module;
@@ -217,6 +220,7 @@ int get_connected_state( ) {
             return CONNECTED_STATE_NOT_CONNECTED;
         }
     }
+#endif
     return CONNECTED_STATE_UNKNOWN;
 }
 

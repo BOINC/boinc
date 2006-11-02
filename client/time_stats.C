@@ -85,7 +85,12 @@ void TIME_STATS::update(bool is_active) {
         w1 = 1 - exp(-dt/ALPHA);    // weight for recent period
         w2 = 1 - w1;                // weight for everything before that
                                     // (close to zero if long gap)
+
+        // the following always returns UNKNOWN,
+        // but leave it here for now
+        //
         int connected_state = get_connected_state();
+
         if (first) {
             // the client has just started; this is the first call.
             //
@@ -141,7 +146,7 @@ void TIME_STATS::update_cpu_efficiency(double cpu_wall_time, double cpu_time) {
     double w = exp(-cpu_wall_time/SECONDS_PER_DAY);
     double e = cpu_time/cpu_wall_time;
     if (e<0) {
-    	return;
+        return;
     }
     cpu_efficiency = w*cpu_efficiency + (1-w)*e;
     if (log_flags.cpu_sched_debug){
