@@ -21,8 +21,10 @@ The 'fuzzy comparison' approach does not work for such applications.
 <h2>Eliminating discrepancies</h2>
 <p>
 One approach is to eliminate numerical discrepancies.
-Some notes on how to do this for Fortran programs
-are <a href=fortran_numerics.txt>here</a>
+Some notes on how to do this for Fortran programs are given in a paper,
+<a href=MOM1MP01.pdf>Massive Tracking on Heterogeneous Platforms</a>
+and in an earlier <a href=fortran_numerics.txt>text document</a>,
+both courtesy of Eric McIntosh,
 
 <h2>Homogeneous redundancy</h2>
 <p>

@@ -12026,3 +12026,11 @@ David  2 Nov 2006
 
 	clientgui/
 		ViewResources.cpp
+
+David  2 Nov 2006
+    - Added a function GLOBAL_PREFS::write_subset()
+        that writes XML for a selected subset of prefs
+        (for simple GUI prefs dialog)
+
+    lib/
+        prefs.C,h

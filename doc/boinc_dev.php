@@ -13,20 +13,19 @@ Examples include:
 ";
 list_start();
 list_item("<a href=gui_rpc.php>Client GUIs</a>",
-    "These allow an application to control a local
-    or remove core client."
+    "Application that control a local or remote core client."
 );
 list_item("<a href=stats.php>Credit statistics web sites</a>",
-    "Daily feeds of statistics data from BOINC projects
-    let you create web sites showing leaderboards."
+    "Web sites showing credit information
+    (project totals, user/team/country leaderboards)
+    based on daily XML feeds of statistics data from BOINC projects."
 );
 list_item("<a href=acct_mgt.php>Account managers</a>",
-    "These interfaces support web sites that
-    let BOINC users manage their accounts."
+    "Web sites that let BOINC users create and manage accounts
+    on multiple projects."
 );
 list_item("<a href=server_status.php>Server status web sites</a>",
-    "These interfaces support web sites showing the
-    server status of BOINC projects."
+    "Web sites showing the server status of BOINC projects."
 );
 list_item("<a href=web_rpc.php>Web RPCs</a>",
     "These interfaces let a program or web site
@@ -84,10 +83,11 @@ The following medium-to-large development projects are available:
 </ul>
 <li> Core client:
 <ul>
-<li> Rewrite the CPU scheduler and work fetch policies
-to match the design document (John McLeod is working on this).
-<li> After the above is done,
-write a simulator for the CPU scheduler and work fetch policies.
+<li> Extend general preferences to allow users to
+specify different time-of-day restrictions for different days of the week.
+<li> 
+Write a simulator for the CPU scheduler and work fetch policies
+(Derrick Kondo is working on this).
 
 <li> Log result start/ends (for use by 3rd-party software like BoincView).
 
@@ -101,10 +101,10 @@ with file deletion according to project policy.
 Change the Statistics tab to use a single graph
 with lines of different colors or styles for different projects.
 
-<li> Show progress bars for file transfers and in-progress results.
+<li> Show progress bars for file transfers and in-progress results
+(this requires changing the container class from Spreadsheet to Grid).
 
-<li> Show pie charts for disk usage
-<li> Sortable columns in Work tab.
+<li> Sortable columns in the Work tab.
 </ul>
 
 

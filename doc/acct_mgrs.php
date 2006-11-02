@@ -21,9 +21,9 @@ An <b>account manager</b> is a web site that simplifies
 participating in BOINC, especially if you are new to BOINC,
 or if you have several computers,
 participate in several projects, or like to learn about new projects.
-The account manager concept was conceived by
-<a href=http://gridrepublic.org>GridRepublic</a>,
-and developed jointly by GridRepublic and BOINC.
+The account manager concept was conceived and
+developed jointly by <a href=http://gridrepublic.org>GridRepublic</a>
+and BOINC.
 The following account managers are available:
 <ul>
 ";
@@ -55,7 +55,7 @@ echo "
 </tr>
 <tr>
     <td valign=top>
-        Attach to a project with a mouse click.
+        Attach to a project with one mouse click.
         If you have multiple computers,
         all of them will be attached.
     </td>
@@ -63,7 +63,7 @@ echo "
         Attach to a project by bringing up the 'Attach Project Wizard'
         in the BOINC Manager, and entering the URL and
         your email address and password.
-        You must do this separately at each or your computers.
+        You must do this separately at each of your computers.
     </td>
 </tr>
 <tr>

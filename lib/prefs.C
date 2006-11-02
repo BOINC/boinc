@@ -309,4 +309,96 @@ int GLOBAL_PREFS::write(MIOFILE& f) {
     return 0;
 }
 
+// write a subset of the global preferences,
+// as selected by the mask of bools
+//
+int GLOBAL_PREFS::write_subset(MIOFILE& f, GLOBAL_PREFS_MASK& mask) {
+    f.printf("<global_preferences>\n");
+    if (mask.run_on_batteries) {
+        f.printf("   <run_on_batteries>%d</run_on_batteries>\n",
+            run_on_batteries?1:0
+        );
+    }
+    if (mask.run_if_user_active) {
+        f.printf("   <run_if_user_active>%d</run_if_user_active>\n",
+            run_if_user_active?1:0
+        );
+    }
+    if (mask.start_hour) {
+        f.printf("   <start_hour>%d</start_hour>\n", start_hour);
+    }
+    if (mask.end_hour) {
+        f.printf("   <end_hour>%d</end_hour>\n", end_hour);
+    }
+    if (mask.net_start_hour) {
+        f.printf("   <net_start_hour>%d</net_start_hour>\n", net_start_hour);
+    }
+    if (mask.net_end_hour) {
+        f.printf("   <net_end_hour>%d</net_end_hour>\n", net_end_hour);
+    }
+    if (mask.leave_apps_in_memory) {
+        f.printf("   <leave_apps_in_memory>%d</leave_apps_in_memory>\n",
+            leave_apps_in_memory?1:0
+        );
+    }
+    if (mask.confirm_before_connecting) {
+        f.printf("   <confirm_before_connecting>%d</confirm_before_connecting>\n",
+            confirm_before_connecting?1:0
+        );
+    }
+    if (mask.hangup_if_dialed) {
+        f.printf("   <hangup_if_dialed>%d</hangup_if_dialed>\n",
+            hangup_if_dialed?1:0
+        );
+    }
+    if (mask.dont_verify_images) {
+        f.printf("   <dont_verify_images>%d</dont_verify_images>\n",
+            dont_verify_images?1:0
+        );
+    }
+    if (mask.work_buf_min_days) {
+        f.printf("   <work_buf_min_days>%f</work_buf_min_days>\n", work_buf_min_days);
+    }
+    if (mask.max_cpus) {
+        f.printf("   <max_cpus>%d</max_cpus>\n", max_cpus);
+    }
+    if (mask.cpu_scheduling_period_minutes) {
+        f.printf("   <cpu_scheduling_period_minutes>%f</cpu_scheduling_period_minutes>\n", cpu_scheduling_period_minutes);
+    }
+    if (mask.disk_interval) {
+        f.printf("   <disk_interval>%f</disk_interval>\n", disk_interval);
+    }
+    if (mask.disk_max_used_gb) {
+        f.printf("   <disk_max_used_gb>%f</disk_max_used_gb>\n", disk_max_used_gb);
+    }
+    if (mask.disk_max_used_pct) {
+        f.printf("   <disk_max_used_pct>%f</disk_max_used_pct>\n", disk_max_used_pct);
+    }
+    if (mask.disk_min_free_gb) {
+        f.printf("   <disk_min_free_gb>%f</disk_min_free_gb>\n", disk_min_free_gb);
+    }
+    if (mask.vm_max_used_frac) {
+        f.printf("   <vm_max_used_pct>%f</vm_max_used_pct>\n", vm_max_used_frac*100);
+    }
+    if (mask.ram_max_used_busy_frac) {
+        f.printf("   <ram_max_used_busy_pct>%f</ram_max_used_busy_pct>\n", ram_max_used_busy_frac*100);
+    }
+    if (mask.ram_max_used_idle_frac) {
+        f.printf("   <ram_max_used_idle_pct>%f</ram_max_used_idle_pct>\n", ram_max_used_idle_frac*100);
+    }
+    if (mask.idle_time_to_run) {
+        f.printf("   <idle_time_to_run>%f</idle_time_to_run>\n", idle_time_to_run);
+    }
+    if (mask.max_bytes_sec_up) {
+        f.printf("   <max_bytes_sec_up>%f</max_bytes_sec_up>\n", max_bytes_sec_up);
+    }
+    if (mask.max_bytes_sec_down) {
+        f.printf("   <max_bytes_sec_down>%f</max_bytes_sec_down>\n", max_bytes_sec_down);
+    }
+    if (mask.cpu_usage_limit) {
+        f.printf("   <cpu_usage_limit>%f</cpu_usage_limit>\n", cpu_usage_limit);
+    }
+    f.printf("</global_preferences>\n");
+}
+
 const char *BOINC_RCSID_3fb442bb02 = "$Id$";

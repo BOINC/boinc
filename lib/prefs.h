@@ -32,6 +32,35 @@
 // A scheduler reply message may contain a more recent set of preferences.
 //
 
+// A struct with one bool per GLOBAL_PREFS field
+//
+struct GLOBAL_PREFS_MASK {
+    bool run_on_batteries;
+    bool run_if_user_active;
+    bool start_hour;     // 0..23; no restriction if start==end
+    bool end_hour;
+    bool net_start_hour;     // 0..23; no restriction if start==end
+    bool net_end_hour;
+    bool leave_apps_in_memory;
+    bool confirm_before_connecting;
+    bool hangup_if_dialed;
+    bool dont_verify_images;
+    bool work_buf_min_days;
+    bool max_cpus;
+    bool cpu_scheduling_period_minutes;
+    bool disk_interval;
+    bool disk_max_used_gb;
+    bool disk_max_used_pct;
+    bool disk_min_free_gb;
+    bool vm_max_used_frac;
+	bool ram_max_used_busy_frac;
+	bool ram_max_used_idle_frac;
+    bool idle_time_to_run;
+    bool max_bytes_sec_up;
+    bool max_bytes_sec_down;
+    bool cpu_usage_limit;
+};
+
 // The following structure is a parsed version of the prefs file
 //
 struct GLOBAL_PREFS {
@@ -71,6 +100,7 @@ struct GLOBAL_PREFS {
     int parse_override(XML_PARSER&, const char* venue, bool& found_venue);
     int parse_file(const char* filename, const char* venue, bool& found_venue);
     int write(MIOFILE&);
+    int write_subset(MIOFILE&, GLOBAL_PREFS_MASK&);
 };
 
 #endif
