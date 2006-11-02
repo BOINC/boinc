@@ -12020,3 +12020,9 @@ Charlie 2 Nov 2006
         sg_ImageButton.cpp
         sg_ProjectsComponent.cpp
         sg_ViewTabPage.cpp, h
+
+David  2 Nov 2006
+	- manager: tone down colors in disk display
+
+	clientgui/
+		ViewResources.cpp

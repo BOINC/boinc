@@ -50,21 +50,27 @@ CViewResources::CViewResources(wxNotebook* pNotebook) :
 	CBOINCBaseView(pNotebook)
 {
 	//add 14 colors for boinc projects (anyone who have more projects attached ?)
-	m_aProjectColours.Add(wxTheColourDatabase->Find("SPRING GREEN"));
-	m_aProjectColours.Add(wxTheColourDatabase->Find("SKY BLUE"));
-	m_aProjectColours.Add(wxTheColourDatabase->Find("ORANGE"));
-	m_aProjectColours.Add(wxTheColourDatabase->Find("VIOLET"));
-	m_aProjectColours.Add(wxTheColourDatabase->Find("GOLD"));
-	m_aProjectColours.Add(wxTheColourDatabase->Find("MAROON"));
-	m_aProjectColours.Add(wxTheColourDatabase->Find("FIREBRICK"));
-	m_aProjectColours.Add(wxTheColourDatabase->Find("LIME GREEN"));
-	m_aProjectColours.Add(wxTheColourDatabase->Find("ORCHID"));	
-	m_aProjectColours.Add(wxTheColourDatabase->Find("SALMON"));
-	m_aProjectColours.Add(wxTheColourDatabase->Find("SIENNA"));
-	m_aProjectColours.Add(wxTheColourDatabase->Find("INDIAN RED"));
-	m_aProjectColours.Add(wxTheColourDatabase->Find("CORAL"));
-	m_aProjectColours.Add(wxTheColourDatabase->Find("GREEN YELLOW"));
-
+	// m_aProjectColours.Add(wxColour(0,139,69));
+	m_aProjectColours.Add(wxColour(135,206,235));
+	m_aProjectColours.Add(wxColour(65,105,225));
+	m_aProjectColours.Add(wxColour(255,165,0));
+	m_aProjectColours.Add(wxColour(238,130,238));
+	m_aProjectColours.Add(wxColour(205,197,191));
+	m_aProjectColours.Add(wxColour(255,127,80));
+	m_aProjectColours.Add(wxColour(250,128,114));
+	m_aProjectColours.Add(wxColour(0,255,127));
+	m_aProjectColours.Add(wxColour(205,79,57));
+	m_aProjectColours.Add(wxColour(143,188,143));
+	m_aProjectColours.Add(wxColour(153,50,204));
+	m_aProjectColours.Add(wxColour(30,144,255));
+	m_aProjectColours.Add(wxColour(0,100,0));
+	m_aProjectColours.Add(wxColour(127,255,0));
+	m_aProjectColours.Add(wxColour(205,173,0));
+	m_aProjectColours.Add(wxColour(140,34,34));
+	m_aProjectColours.Add(wxColour(152,245,255));
+	m_aProjectColours.Add(wxColour(250,240,230));
+	m_aProjectColours.Add(wxColour(144,238,144));
+	m_aProjectColours.Add(wxColour(255,105,180));
 
 	wxFlexGridSizer* itemFlexGridSizer = new wxFlexGridSizer(3, 0, 0);
     wxASSERT(itemFlexGridSizer);
@@ -258,21 +264,21 @@ void CViewResources::OnListRender( wxTimerEvent& WXUNUSED(event) ) {
 	double total = llTotal.ToDouble();			
 	//free disk space
 	FormatDiskSpace2(free,diskspace);		
-	part.SetLabel(_("free diskspace - ") + diskspace);
+	part.SetLabel(_("free disk space - ") + diskspace);
 	part.SetValue(free);
-	part.SetColour(wxColour(0,255,0));
+	part.SetColour(m_aProjectColours[4]);
 	m_pieCtrlTotal->m_Series.Add(part);
 	//used by boinc projects
 	FormatDiskSpace2(boinctotal,diskspace);		
 	part.SetLabel(_("used by BOINC projects - ") + diskspace);
 	part.SetValue(boinctotal);
-	part.SetColour(wxColour(255,0,0));
+	part.SetColour(m_aProjectColours[2]);
 	m_pieCtrlTotal->m_Series.Add(part);
 	//used by others
 	FormatDiskSpace2(total-boinctotal-free,diskspace);
 	part.SetLabel(_("used by others - ") + diskspace);
 	part.SetValue(total-boinctotal-free);
-	part.SetColour(wxColour(0,0,255));
+	part.SetColour(m_aProjectColours[3]);
 	m_pieCtrlTotal->m_Series.Add(part);
 	m_pieCtrlTotal->Refresh();
 }
