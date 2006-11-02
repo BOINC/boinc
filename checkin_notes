@@ -11984,3 +11984,9 @@ David  1 Nov 2006
     client/
         app.C
         app_control.C
+
+David  1 Nov 2006
+	- core client: account manager reply parsing was broken
+
+	client/
+		acct_mgr.C

@@ -266,13 +266,13 @@ int ACCT_MGR_OP::parse(FILE* f) {
             if (retval) return retval;
             continue;
         }
-        if (!strcmp(tag, "<account>")) {
+        if (!strcmp(tag, "account")) {
             AM_ACCOUNT account;
             retval = account.parse(xp);
             if (!retval) accounts.push_back(account);
             continue;
         }
-        if (!strcmp(tag, "<global_preferences>")) {
+        if (!strcmp(tag, "global_preferences")) {
             retval = dup_element_contents(
                 f,
                 "</global_preferences>",
@@ -287,7 +287,7 @@ int ACCT_MGR_OP::parse(FILE* f) {
             }
             continue;
         }
-        if (xp.parse_str(tag, "<host_venue>", host_venue, sizeof(host_venue))) continue;
+        if (xp.parse_str(tag, "host_venue", host_venue, sizeof(host_venue))) continue;
     }
     return ERR_XML_PARSE;
 }
