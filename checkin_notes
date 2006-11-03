@@ -12164,3 +12164,21 @@ David  3 Nov 2006
 
 	clientgui/
 		ViewStatistics.cpp,h
+
+David  3 Nov 2006
+    - server tools: change a few programs to support the convention
+        that any programs intended to be run manually
+        (e.g., start, get_file, create_work, dir_hier_path)
+        are to be run in the project root directory
+        (i.e., they look for config.xml in the current directory)
+    - update_versions: create the reread_db trigger file
+        in current dir, not parent
+
+    sched/
+        delete_file.C
+        get_file.C
+        request_file_list.C
+        send_file.C
+        show_shmem.C
+    tools/
+        update_versions

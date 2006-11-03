@@ -7,7 +7,7 @@ use the function
 <pre>
 request_file_list(int host_id)
 </pre>
-or the command line program
+or the command line program (run from the project root directory)
 <pre>
 request_file_list [ -host_id X ]
 </pre>
@@ -18,7 +18,8 @@ A message is created for the specific host (or all hosts) and added to the
 msg_to_host table in the database.
 The upload message included in the next RPC reply to the host.
 <p>
-???? how do you tell it where to upload the list???
+The file list will be included in the next scheduler RPC request.
+You must modify the scheduler to parse and store it.
 ";
 page_tail();
 ?>

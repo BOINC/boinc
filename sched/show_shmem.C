@@ -33,7 +33,7 @@ int main() {
     void* p;
     SCHED_CONFIG config;
 
-    retval = config.parse_file("..");
+    retval = config.parse_file(".");
     if (retval) {
         printf("can't parse config: %d\n", retval);
         exit(1);

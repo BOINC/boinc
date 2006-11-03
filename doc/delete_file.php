@@ -6,7 +6,7 @@ To delete a file from a host, use the function
 <pre>
 delete_file(int host_id, const char* file_name)
 </pre>
-or the command line program
+or the command line program (run from the project root dir)
 <pre>
 delete_file -host_id X -file_name Y
 </pre>

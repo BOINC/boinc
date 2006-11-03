@@ -85,7 +85,9 @@ int create_download_result(DB_RESULT& result, int host_id) {
     return 0;
 }
 
-int create_download_message(DB_RESULT& result, int host_id, const char* file_name, int priority, long int exp_days) {;
+int create_download_message(
+    DB_RESULT& result, int host_id, const char* file_name
+) {;
     DB_MSG_TO_HOST mth;
     int retval;
     double nbytes;
@@ -118,8 +120,6 @@ int create_download_message(DB_RESULT& result, int host_id, const char* file_nam
         "    <md5_cksum>%s</md5_cksum>\n"
         "    <nbytes>%.0f</nbytes>\n"
         "    <sticky/>\n"
-        "    <priority>%d</priority>\n"
-        "    <exp_days>%ld</exp_days>\n"
         "</file_info>\n"
         "<workunit>\n"
         "    <name>%s</name>\n"
@@ -130,7 +130,7 @@ int create_download_message(DB_RESULT& result, int host_id, const char* file_nam
         "</workunit>",
         FILE_MOVER, FILE_MOVER, BOINC_MAJOR_VERSION, result.xml_doc_in,
         file_name, urlpath, file_name, md5,
-        nbytes, priority, exp_days, result.name, FILE_MOVER, file_name
+        nbytes, result.name, FILE_MOVER, file_name
     );
     retval = mth.insert();
     if (retval) {
@@ -140,9 +140,7 @@ int create_download_message(DB_RESULT& result, int host_id, const char* file_nam
     return 0;
 }
 
-int send_file(
-    int host_id, const char* file_name, int priority, long int exp_days
-) {
+int send_file(int host_id, const char* file_name) {
     DB_RESULT result;
     int retval;
     result.clear();
@@ -151,7 +149,7 @@ int send_file(
     sprintf(result.name, "send_%s_%d_%ld", file_name, host_id, my_time);
     result.hostid = host_id;
     retval = create_download_result(result, host_id);
-    retval = create_download_message(result, host_id, file_name, priority, exp_days);
+    retval = create_download_message(result, host_id, file_name);
     return retval;
 }
 
@@ -160,16 +158,12 @@ int main(int argc, char** argv) {
     int i, retval;
     char file_name[256];
     int host_id;
-    int priority = 1;
-    unsigned long exp_days;
     int num_copies;
 
     // initialize argument strings to empty
     strcpy(file_name, "");
     host_id = 0;
     num_copies = 0;
-    priority = 1;
-    exp_days = 60;
 
     check_stop_daemons();
 
@@ -179,18 +173,13 @@ int main(int argc, char** argv) {
             host_id = atoi(argv[++i]);
         } else if (!strcmp(argv[i], "-file_name")) {
             strcpy(file_name, argv[++i]);
-        } else if (!strcmp(argv[i], "-priority")) {
-            priority = atoi(argv[++i]);
-        } else if (!strcmp(argv[i], "-exp_days")) {
-            exp_days = atoi(argv[++i]);
         } else if (!strcmp(argv[i], "-help")) {
             fprintf(stdout,
                     "send_file: sends a file to a specific host\n\n"
                     "It takes the following arguments and types:\n"
                     "-hostid (int); the number of the host\n"
                     "-file_name (string); the name of the file to send\n"
-                    "-priority (int); the priority of the file, (low=1, high=5)\n"
-                    "-exp_days (int); the number of days until the file should expire\n");
+            );
             exit(0);
         } else {
             if (!strncmp("-",argv[i],1)) {
@@ -202,10 +191,12 @@ int main(int argc, char** argv) {
     }
 
     if (!strlen(file_name)) {
-        fprintf(stderr, "send_file: bad command line, requires a valid host_id and file_name\n");
+        fprintf(stderr,
+            "send_file: bad command line, requires a valid host_id and file_name\n"
+        );
         exit(1);
     }
-    retval = config.parse_file("..");
+    retval = config.parse_file(".");
     if (retval) {
         fprintf(stderr, "Can't parse config file: %d\n", retval);
         exit(1);
@@ -217,7 +208,7 @@ int main(int argc, char** argv) {
         exit(1);
     }
 
-    retval = send_file(host_id, file_name, priority, exp_days);
+    retval = send_file(host_id, file_name);
 
     boinc_db.close();
     return retval;

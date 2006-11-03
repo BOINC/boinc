@@ -255,6 +255,6 @@ for object in objects_to_commit:
     object.commit()
     print "   ", object
 
-touch_file('../reread_db')
+touch_file('reread_db')
 print "Touched trigger file to make feeder re-read app_version table from database"
 print "Done"

@@ -9,7 +9,7 @@ This can be done using the function
 get_file(int host_id, const char* file_name)
 </pre>
 <p>
-or the command line program
+or the command line program (run in the project root dir)
 <pre>
 get_file -host_id X -file_name Y
 </pre>

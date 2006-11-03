@@ -17,14 +17,14 @@
 // or write to the Free Software Foundation, Inc.,
 // 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 
-//------------------------------------
-//
 // get_file [-host_id host_id] [-file_name file_name]
 // -host_id            name of host to upload from
 // -file_name          name of specific file, dominates workunit
 //
 // Create a result entries, initialized to sent, and corresponding
 // messages to the host that is assumed to have the file.
+//
+// Run from the project root dir.
 
 #include "config.h"
 
@@ -144,13 +144,11 @@ int main(int argc, char** argv) {
     char file_name[256];
     int host_id;
 
-    // initialize argument strings to empty
     strcpy(file_name, "");
     host_id = 0;
 
     check_stop_daemons();
 
-    // get arguments
     for(i=1; i<argc; i++) {
         if (!strcmp(argv[i], "-host_id")) {
             host_id = atoi(argv[++i]);
@@ -172,31 +170,29 @@ int main(int argc, char** argv) {
         }
     }
 
-    // if no arguments are given, error and exit
     if (!strlen(file_name) || host_id == 0) {
-        fprintf(stderr, "get_file: bad command line, requires a valid host_id and file_name\n");
+        fprintf(stderr,
+            "get_file: bad command line, requires a valid host_id and file_name\n"
+        );
         exit(1);
     }
 
-    // parse the configuration file to get database information
-    retval = config.parse_file("..");
+    retval = config.parse_file(".");
     if (retval) {
         fprintf(stderr, "Can't parse config file: %d\n", retval);
         exit(1);
     }
 
-    // open the database
-    retval = boinc_db.open(config.db_name, config.db_host, config.db_user, config.db_passwd);
+    retval = boinc_db.open(
+        config.db_name, config.db_host, config.db_user, config.db_passwd
+    );
     if (retval) {
         fprintf(stderr, "boinc_db.open failed: %d\n", retval);
         exit(1);
     }
 
-    // run the get file routine
     retval = get_file(host_id, file_name);
-    // close the database
     boinc_db.close();
-    // return with error code if any
     return retval;
 }
 

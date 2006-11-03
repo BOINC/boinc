@@ -4,17 +4,12 @@ page_head("Sending files");
 echo "
 To send a file to a specific host, use the function
 <pre>
-send_file(int host_id, const char* file_name, int priority, long int exp_date) 
+send_file(int host_id, const char* file_name) 
 </pre>
-or the command line program
+or the command line program (run from the project root directory)
 <pre>
-send_file -host_id X -file_name Y -priority Z -days_exp N
+send_file -host_id X -file_name Y
 </pre>
-<ul>
-<li> priority is the relative importance of the file (default = 1)
-<li> days_exp is the number of days the file should stay on the 
-host (default = 100)
-</ul>
 <p>
 send_file creates a result and initializes it with a name of the form
 send_FILENAME_HOSTID_TIME.
@@ -42,8 +37,6 @@ The message has the form:
 	<md5_cksum>md5</md5_cksum>
 	<nbytes>file->nbytes</nbytes>
 	<sticky/>
-	<priority>priority</priority>
-	<exp_date>exp_date</exp_date>
 </file_info>
 <workunit>
 	<name>result.name</name>

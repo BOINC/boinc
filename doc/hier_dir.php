@@ -63,7 +63,8 @@ int get_output_file_paths(RESULT const& result, vector<string>& );
 to get the paths of output files in the hierarchy.
 
 <p>
-A couple of utility programs are available:
+A couple of utility programs are available
+(run this in the project root directory):
 ".html_text("
 dir_hier_move src_dir dst_dir fanout
 dir_hier_path filename

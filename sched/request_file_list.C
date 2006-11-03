@@ -17,14 +17,14 @@
 // or write to the Free Software Foundation, Inc.,
 // 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 
-//------------------------------------
-//
 // request_file_list [-host_id host_id]
 // -host_id            number of host to upload from
 //                     or 'all' if for all active hosts
 //
 // Create a msg_to_host_that requests the list of permanant files
 // associated with the project
+//
+// Run this in the project root dir
 
 #include "config.h"
 #include <unistd.h>
@@ -80,24 +80,30 @@ int main(int argc, char** argv) {
             }
         } else {
             if (!strncmp("-",argv[i],1)) {
-                fprintf(stderr, "request_file_list: bad argument '%s'\n", argv[i]);
+                fprintf(stderr,
+                    "request_file_list: bad argument '%s'\n", argv[i]
+                );
                 exit(1);
             }
         }
     }
 
     if (host_id == 0) {
-        fprintf(stderr, "request_file_list: bad command line, requires a valid host_id\n");
+        fprintf(stderr,
+            "request_file_list: bad command line, requires a valid host_id\n"
+        );
         exit(1);
     }
 
-    retval = config.parse_file("..");
+    retval = config.parse_file(".");
     if (retval) {
         fprintf(stderr, "Can't parse config file: %d\n", retval);
         exit(1);
     }
 
-    retval = boinc_db.open(config.db_name, config.db_host, config.db_user, config.db_passwd);
+    retval = boinc_db.open(
+        config.db_name, config.db_host, config.db_user, config.db_passwd
+    );
     if (retval) {
         fprintf(stderr, "boinc_db.open failed: %d\n", retval);
         exit(1);

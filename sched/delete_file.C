@@ -17,8 +17,6 @@
 // or write to the Free Software Foundation, Inc.,
 // 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 
-//------------------------------------
-//
 // delete_file         [-host_id host_id -file_name file_name]
 // -host_id            number of host to upload from
 //                     or 'all' if for all active hosts
@@ -26,6 +24,8 @@
 //
 // Create a msg_to_host_that requests that the host delete the
 // given file from the client
+//
+// Run from the project root dir
 
 #include "config.h"
 #include <ctime>
@@ -101,7 +101,7 @@ int main(int argc, char** argv) {
     }
 
     // parse the configuration file to get database information
-    retval = config.parse_file("..");
+    retval = config.parse_file(".");
     if (retval) {
         fprintf(stderr, "Can't parse config file: %d\n", retval);
         exit(1);
