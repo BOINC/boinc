@@ -12182,3 +12182,18 @@ David  3 Nov 2006
         show_shmem.C
     tools/
         update_versions
+
+Rom    3 Nov 2006
+    - MGR: Fixup the exit message and get rid of the call to sprintf, our
+        xml parsing technologies keep track of their buffers and don't
+        overflow. If somebody does try to overflow the buffer a null
+        string is the result.
+    - MGR: The new skin manager does know how to deal with localization.
+    - MGR: Bring the email validator inline with the php email validation
+        regular expression. (From Frank S. Thomas)
+    
+    clientgui/
+        BOINCGUIApp.cpp
+        SkinManager.cpp, .h
+        ValidateEmailAddress.cpp
+        

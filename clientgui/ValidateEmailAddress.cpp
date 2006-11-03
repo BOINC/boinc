@@ -64,16 +64,9 @@ bool CValidateEmailAddress::Validate(wxWindow *parent) {
     bool ok = TRUE;
     wxString val(control->GetValue().Trim().Trim(false));  // trim spaces before and after
 
-    // Regular Expression found here:
-    //   http://www.regexlib.com/REDetails.aspx?regexp_id=284
-    // Changes from original:
-    //   Allow additional valid characters in the username area.
+    // Regular Expression from Frank S. Thomas
     wxRegEx reEmail(
-        wxT("^([a-zA-Z0-9._%+\\-])+(\\.([a-zA-Z0-9_\\-])+)*@((\\[(((([0-1])?([0-9])?[0-9"
-            "])|(2[0-4][0-9])|(2[0-5][0-5])))\\.(((([0-1])?([0-9])?[0-9])|(2[0-4][0-9])|"
-            "(2[0-5][0-5])))\\.(((([0-1])?([0-9])?[0-9])|(2[0-4][0-9])|(2[0-5][0-5])))\\"
-            ".(((([0-1])?([0-9])?[0-9])|(2[0-4][0-9])|(2[0-5][0-5]))\\]))|((([a-zA-Z0-9]"
-            ")+(([\\-])+([a-zA-Z0-9])+)*\\.)+([a-zA-Z])+(([\\-])+([a-zA-Z0-9])+)*))$"));
+        wxT("/^([^@]+)@([^@\\.]+)\\.([^@]{2,})$/"));
 
     if (val.Length() == 0) {
         ok = FALSE;

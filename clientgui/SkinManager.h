@@ -308,9 +308,7 @@ private:
     wxString    m_strProjectName;
     bool        m_bDefaultTabSpecified;
     int         m_iDefaultTab;
-#if 0   // No longer used
     wxString    m_strExitMessage;
-#endif
 };
 
 

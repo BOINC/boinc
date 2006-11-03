@@ -1024,10 +1024,10 @@ bool CBOINCGUIApp::SetActiveGUI(int iGUISelection, bool bShowWindow) {
 
 
 int CBOINCGUIApp::ConfirmExit() {
-    if (! m_bBOINCStartedByManager)
+    if (!m_bBOINCStartedByManager)
         return 1;   // Don't run dialog if exiting manager won't shut down Client or its tasks
         
-    if (! m_iDisplayExitWarning)
+    if (!m_iDisplayExitWarning)
         return 1;
 
 #ifdef __WXMAC__
@@ -1040,41 +1040,43 @@ int CBOINCGUIApp::ConfirmExit() {
     GetCurrentProcess(&psn);
     SetFrontProcess(&psn);  // Shows process if hidden
 #endif
+    CSkinAdvanced* pSkinAdvanced = wxGetApp().GetSkinManager()->GetAdvanced();
+    long lAnswer = 0;
+    
+    wxASSERT(pSkinAdvanced);
+    wxASSERT(wxDynamicCast(pSkinAdvanced, CSkinAdvanced));
+
+
+    wxString strTitle.Printf(
+        _("%s - Exit Confirmation"), 
+        pSkinAdvanced->GetApplicationName().c_str()
+    );
+
+    wxString strMessage.Printf(
+        pSkinAdvanced->GetExitMessage().c_str(),
+        pSkinAdvanced->GetProjectName().c_str(),
+        pSkinAdvanced->GetApplicationName().c_str(),
+        pSkinAdvanced->GetProjectName().c_str(),
+        pSkinAdvanced->GetApplicationName().c_str(),
+        pSkinAdvanced->GetProjectName().c_str()
+    );
+
 
     CDlgGenericMessage* pDlg = new CDlgGenericMessage(NULL);
-    wxString strBaseMessage = _("This will shut down %s and its tasks entirely until either the\n"
-                    "%s application or the %s screen saver is run again.\n\n"
-                  "In most cases, it is better just to close the %s window\n"
-                  "rather than to exit the application; that will allow %s to run its\n"
-                  "tasks at the times you selected in your preferences.");
-    long lAnswer = 0;
-    char msgBuf[1024];
 
-    const char *appName = m_pSkinManager->GetAdvanced()->GetApplicationName().c_str();
-    const char *projName = m_pSkinManager->GetAdvanced()->GetProjectName().c_str();
-
-    if (strlen(appName) > 100)      // Safety tests to prevent buffer overrun
-        appName = "BOINC Manager";
-    if (strlen(projName) > 100) 
-        projName = "BOINC";
-
-    sprintf(msgBuf, strBaseMessage.c_str(), projName, appName, projName, appName, projName);
-    wxString strFullMessage = wxString(msgBuf);
-
-    pDlg->SetTitle(_("Exit Confirmation"));
-    pDlg->m_DialogMessage->SetLabel(strFullMessage);
-    pDlg->Fit();
+    pDlg->SetTitle(strTitle);
+    pDlg->m_DialogMessage->SetLabel(strMessage);
+    pDlg->Layout();
     pDlg->Centre();
 
     lAnswer = pDlg->ShowModal();
-    if (pDlg) {
-        pDlg->Destroy();
-        if (wxID_OK == lAnswer) {
-            if (pDlg->m_DialogDisableMessage->GetValue()) {
-                m_iDisplayExitWarning = 0;
-            }
-            return 1;
+    pDlg->Destroy();
+
+    if (wxID_OK == lAnswer) {
+        if (pDlg->m_DialogDisableMessage->GetValue()) {
+            m_iDisplayExitWarning = 0;
         }
+        return 1;
     }
     return 0;       // User cancelled exit
 }
