@@ -293,7 +293,7 @@ CMainDocument::CMainDocument() {
     m_dtProjecStatusTimestamp = wxDateTime((time_t)0);
     m_dtResultsTimestamp = wxDateTime((time_t)0);
     m_dtFileTransfersTimestamp = wxDateTime((time_t)0);
-    m_dtResourceStatusTimestamp = wxDateTime((time_t)0);
+    m_dtDiskUsageTimestamp = wxDateTime((time_t)0);
     m_dtStatisticsStatusTimestamp = wxDateTime((time_t)0);
 	m_dtCachedSimpleGUITimestamp = wxDateTime((time_t)0);
 }
@@ -392,7 +392,7 @@ int CMainDocument::ResetState() {
     results.clear();
     messages.clear();
     ft.clear();
-    resource_status.clear();
+    disk_usage.clear();
     proxy_info.clear();
     
     ForceCacheUpdate();
@@ -1034,8 +1034,8 @@ PROJECT* CMainDocument::DiskUsageProject(unsigned int i) {
     //   which will cause an exception which can be trapped and return a NULL
     //   pointer when the exception is thrown.
     try {
-        if (!resource_status.projects.empty()) {
-            pProject = resource_status.projects.at(i);
+        if (!disk_usage.projects.empty()) {
+            pProject = disk_usage.projects.at(i);
         }
     }
     catch (std::out_of_range e) {

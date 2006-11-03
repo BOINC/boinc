@@ -12131,3 +12131,9 @@ David  3 Nov 2006
         gui_rpc_client_ops.C
         gui_rpc_client_print.C
 
+David  3 Nov 2006
+	- debug the above
+
+	clientgui/
+		MainDocument.cpp,h
+		ViewResources.cpp,h

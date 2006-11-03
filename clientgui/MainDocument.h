@@ -82,9 +82,9 @@ private:
 
     wxDateTime                  m_dtCachedCCStatusTimestamp;
 
-    int                         CachedStateUpdate();
 
 public:
+    int                         CachedStateUpdate();
 
     CNetworkConnection*         m_pNetworkConnection;
 
@@ -228,12 +228,12 @@ public:
     // Disk Tab
     //
 private:
-    int                         CachedDiskUsageUpdate();
     wxDateTime                  m_dtDiskUsageTimestamp;
 
 public:
     DISK_USAGE                  disk_usage;
     PROJECT*                    DiskUsageProject(unsigned int);
+    int                         CachedDiskUsageUpdate();
 
 	//
 	// Statistics Tab

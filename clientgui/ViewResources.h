@@ -30,7 +30,6 @@
 #include <wx/dynarray.h>
 
 WX_DECLARE_OBJARRAY(wxColour, wxArrayColour);
-#define MAX_PROJECTCOLORINDEX 13
 
 class CViewResources : public CBOINCBaseView
 {
@@ -54,9 +53,8 @@ protected:
 
     virtual void            UpdateSelection();
 
-    wxInt32                 FormatProjectName( wxInt32 item, wxString& strBuffer ) const;
-    wxInt32                 FormatDiskSpace( wxInt32 item, wxString& strBuffer ) const;
-	wxInt32					FormatDiskSpace2(double bytes, wxString& strBuffer) const;
+    wxInt32                 FormatProjectName(PROJECT*, wxString& strBuffer ) const;
+	wxInt32					FormatDiskSpace(double bytes, wxString& strBuffer) const;
 
     virtual bool            OnSaveState( wxConfigBase* pConfig );
     virtual bool            OnRestoreState( wxConfigBase* pConfig );

@@ -164,17 +164,15 @@ void CViewResources::UpdateSelection() {
 }
 
 
-wxInt32 CViewResources::FormatProjectName(wxInt32 item, wxString& strBuffer) const {
+wxInt32 CViewResources::FormatProjectName(PROJECT* project, wxString& strBuffer) const {
     CMainDocument* doc = wxGetApp().GetDocument();
-    PROJECT* project = doc->DiskUsageProject(item);
-    PROJECT* state_project = NULL;
     std::string project_name;
 
     wxASSERT(doc);
     wxASSERT(wxDynamicCast(doc, CMainDocument));
 
     if (project) {
-        state_project = doc->state.lookup_project(project->master_url);
+        PROJECT* state_project = doc->state.lookup_project(project->master_url);
         if (state_project) {
             state_project->get_name(project_name);
             strBuffer = wxString(project_name.c_str(), wxConvUTF8);
@@ -213,6 +211,7 @@ void CViewResources::OnListRender( wxTimerEvent& WXUNUSED(event) ) {
     CMainDocument* pDoc = wxGetApp().GetDocument();
     wxString diskspace;
 	double boinctotal=0.0;
+	unsigned int i;
 
     wxASSERT(pDoc);
     wxASSERT(wxDynamicCast(pDoc, CMainDocument));
@@ -224,19 +223,19 @@ void CViewResources::OnListRender( wxTimerEvent& WXUNUSED(event) ) {
 	//get data for BOINC projects disk usage
     pDoc->CachedDiskUsageUpdate();
     pDoc->CachedStateUpdate();
-	if (disk_usage.projects.size()>0) {
-        for (i=0; i<disk_usage.projects.size(); i++) {
+	if (pDoc->disk_usage.projects.size()>0) {
+        for (i=0; i<pDoc->disk_usage.projects.size(); i++) {
             //update data for boinc projects pie chart 
-			PROJECT* project = pDoc->DiskUsageProject(count);
+			PROJECT* project = pDoc->DiskUsageProject(i);
 			wxString projectname;			
 			FormatProjectName(project, projectname);
-			FormatDiskSpace(project, diskspace);
+			FormatDiskSpace(project->disk_usage, diskspace);
 			double usage = project->disk_usage;
             boinctotal += usage;
 			wxPiePart part;
 			part.SetLabel(projectname + wxT(" - ") + diskspace);
 			part.SetValue(usage);
-			part.SetColour(m_aProjectColours[count>MAX_PROJECTCOLORINDEX ? count % MAX_PROJECTCOLORINDEX : count]);
+			part.SetColour(m_aProjectColours[i % m_aProjectColours.size()]);
 			m_pieCtrlBOINC->m_Series.Add(part);
 		}
 		m_pieCtrlBOINC->Refresh();
@@ -251,22 +250,22 @@ void CViewResources::OnListRender( wxTimerEvent& WXUNUSED(event) ) {
 	}
 	//data for pie chart 2 (total disk usage)
 	wxPiePart part;		
-	double free = pDoc->host.d_free;
-	double total = pDoc->host.d_total;			
+	double free = pDoc->disk_usage.d_free;
+	double total = pDoc->disk_usage.d_total;			
 	//free disk space
-	FormatDiskSpace2(free,diskspace);		
+	FormatDiskSpace(free,diskspace);		
 	part.SetLabel(_("free disk space - ") + diskspace);
 	part.SetValue(free);
 	part.SetColour(m_aProjectColours[4]);
 	m_pieCtrlTotal->m_Series.Add(part);
 	//used by boinc projects
-	FormatDiskSpace2(boinctotal,diskspace);		
+	FormatDiskSpace(boinctotal,diskspace);		
 	part.SetLabel(_("used by BOINC projects - ") + diskspace);
 	part.SetValue(boinctotal);
 	part.SetColour(m_aProjectColours[2]);
 	m_pieCtrlTotal->m_Series.Add(part);
 	//used by others
-	FormatDiskSpace2(total-boinctotal-free,diskspace);
+	FormatDiskSpace(total-boinctotal-free,diskspace);
 	part.SetLabel(_("used by others - ") + diskspace);
 	part.SetValue(total-boinctotal-free);
 	part.SetColour(m_aProjectColours[3]);
@@ -274,16 +273,7 @@ void CViewResources::OnListRender( wxTimerEvent& WXUNUSED(event) ) {
 	m_pieCtrlTotal->Refresh();
 }
 
-wxInt32 CViewResources::FormatDiskSpace(wxInt32 item, wxString& strBuffer) const {
-	double fBuffer = 0.0;
-	PROJECT* resource = wxGetApp().GetDocument()->resource(item);
-    if (resource) {
-        fBuffer = resource->disk_usage;
-    }
-	return FormatDiskSpace2(fBuffer,strBuffer);
-}
-
-wxInt32 CViewResources::FormatDiskSpace2(double bytes, wxString& strBuffer) const {
+wxInt32 CViewResources::FormatDiskSpace(double bytes, wxString& strBuffer) const {
     float          fBuffer = bytes;
     double         xTera = 1099511627776.0;
     double         xGiga = 1073741824.0;
