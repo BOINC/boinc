@@ -799,7 +799,9 @@ void CSkinAdvanced::Clear() {
     m_strProjectName = wxEmptyString;
     m_bDefaultTabSpecified = false;
     m_iDefaultTab = 0;
+#if 0   // No longer used
     m_strExitMessage = wxEmptyString;
+#endif
 }
 
 
@@ -843,9 +845,11 @@ int CSkinAdvanced::Parse(MIOFILE& in) {
         } else if (parse_int(buf, "<open_tab>", m_iDefaultTab)) {
             m_bDefaultTabSpecified = true;
             continue;
+#if 0   // No longer used
         } else if (parse_str(buf, "<exit_message>", strBuffer)) {
             m_strExitMessage = wxString(strBuffer.c_str(), wxConvUTF8);
             continue;
+#endif
         }
     }
 
@@ -900,10 +904,11 @@ int CSkinAdvanced::GetDefaultTab() {
 }
 
 
+#if 0   // No longer used
 wxString CSkinAdvanced::GetExitMessage() { 
     return m_strExitMessage;
 }
-
+#endif
 
 bool CSkinAdvanced::IsBranded() { 
     return m_bIsBranded;
@@ -949,6 +954,7 @@ bool CSkinAdvanced::InitializeDelayedValidation() {
         m_bDefaultTabSpecified = true;
         m_iDefaultTab = 0;
     }
+#if 0   // No longer used
     if (m_strExitMessage.IsEmpty()) {
         fprintf(stderr, wxT("Skin Manager: Exit message was not defined. Using default.\n"));
         m_strExitMessage = 
@@ -957,6 +963,7 @@ bool CSkinAdvanced::InitializeDelayedValidation() {
               "without stopping the tasks.");
         wxASSERT(!m_strExitMessage.IsEmpty());
     }
+#endif
     return true;
 }
 

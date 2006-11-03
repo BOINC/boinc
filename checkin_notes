@@ -12100,9 +12100,15 @@ Charlie 3 Nov 2006
         not easily localized.  The project and application names are 
         still read from skins.xml and inserted in dialog text.
 
+        Note to Rom: I guarded al references to m_strExitMessage with "
+        #if 0" rather than removing them so you can easily restore them 
+        if you feel it is important to have it customizable for branding 
+        at the expense of easier localization.
+
     clientgui/
         AdvancedFrame.cpp, h
         BOINCBaseFrame.cpp, h
         BOINCGUIApp.cpp, h
         BOINCTaskBar.cpp
         sg_BoincSimpleGUI.cpp
+        SkinManager.cpp, .h
