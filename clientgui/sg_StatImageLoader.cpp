@@ -108,6 +108,12 @@ void StatImageLoader::AddMenuItems()
     wxASSERT(pDoc);
     wxASSERT(wxDynamicCast(pDoc, CMainDocument));
 
+#ifndef __WXMAC__
+    CSkinSimple* pSkinSimple = wxGetApp().GetSkinManager()->GetSimple();
+
+    wxASSERT(pSkinSimple);
+    wxASSERT(wxDynamicCast(pSkinSimple, CSkinSimple));
+#endif
 	PROJECT* project = pDoc->state.lookup_project(m_prjUrl);
 	urlCount = project->gui_urls.size();
 
