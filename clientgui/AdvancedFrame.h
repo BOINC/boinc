@@ -64,7 +64,6 @@ public:
 #ifdef __WXMAC__
     void OnCloseWindow( wxCommandEvent& event );
 #endif
-    void OnExit( wxCommandEvent& event );
 
     void OnCommandsRetryCommunications( wxCommandEvent& event );
 

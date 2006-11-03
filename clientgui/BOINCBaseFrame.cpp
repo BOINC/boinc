@@ -72,7 +72,7 @@ CBOINCBaseFrame::CBOINCBaseFrame(wxWindow* parent, const wxWindowID id, const wx
     // Configuration Settings
     m_iSelectedLanguage = 0;
     m_iReminderFrequency = 0;
-    m_iDisplayExitWarning = 1;
+    wxGetApp().SetDisplayExitWarning(1);
 
     m_strNetworkDialupConnectionName = wxEmptyString;
 
@@ -285,6 +285,16 @@ void CBOINCBaseFrame::OnClose(wxCloseEvent& event) {
 }
 
 
+void CBOINCBaseFrame::OnExit(wxCommandEvent& WXUNUSED(event)) {
+    wxLogTrace(wxT("Function Start/End"), wxT("CAdvancedFrame::OnExit - Function Begin"));
+
+    if (wxGetApp().ConfirmExit())
+        Close(true);
+
+    wxLogTrace(wxT("Function Start/End"), wxT("CAdvancedFrame::OnExit - Function End"));
+}
+
+
 void CBOINCBaseFrame::FireInitialize() {
     CFrameEvent event(wxEVT_FRAME_INITIALIZED, this);
     AddPendingEvent(event);
@@ -466,7 +476,7 @@ bool CBOINCBaseFrame::SaveState() {
 
     pConfig->Write(wxT("Language"), m_iSelectedLanguage);
     pConfig->Write(wxT("ReminderFrequency"), m_iReminderFrequency);
-    pConfig->Write(wxT("DisplayExitWarning"), m_iDisplayExitWarning);
+    pConfig->Write(wxT("DisplayExitWarning"), wxGetApp().GetDisplayExitWarning());
 
     pConfig->Write(wxT("NetworkDialupConnectionName"), m_strNetworkDialupConnectionName);
 
@@ -507,6 +517,7 @@ bool CBOINCBaseFrame::RestoreState() {
     wxString        strValue;
     long            iIndex;
     bool            bKeepEnumerating = false;
+    int             iDisplayExitWarning;
 
 
     wxASSERT(pConfig);
@@ -524,7 +535,8 @@ bool CBOINCBaseFrame::RestoreState() {
 
     pConfig->Read(wxT("Language"), &m_iSelectedLanguage, 0L);
     pConfig->Read(wxT("ReminderFrequency"), &m_iReminderFrequency, 60L);
-    pConfig->Read(wxT("DisplayExitWarning"), &m_iDisplayExitWarning, 1L);
+    pConfig->Read(wxT("DisplayExitWarning"), &iDisplayExitWarning, 1L);
+    wxGetApp().SetDisplayExitWarning(iDisplayExitWarning);
 
     pConfig->Read(wxT("NetworkDialupConnectionName"), &m_strNetworkDialupConnectionName, wxEmptyString);
 

@@ -47,7 +47,6 @@
 #include "ViewStatistics.h"
 #include "ViewResources.h"
 #include "DlgAbout.h"
-#include "DlgGenericMessage.h"
 #include "DlgOptions.h"
 #include "DlgSelectComputer.h"
 #include "wizardex.h"
@@ -549,7 +548,7 @@ bool CAdvancedFrame::CreateMenu() {
     MenuRef prefsMenuRef;
     MenuItemIndex prefsMenuItemIndex;
 
-    // Hide Mac OS X's standard Preferences menu ite, since we don't use it
+    // Hide Mac OS X's standard Preferences menu item, since we don't use it
     if (GetIndMenuItemWithCommandID(NULL, kHICommandPreferences, 1, &prefsMenuRef, &prefsMenuItemIndex) == noErr)
         ChangeMenuItemAttributes(prefsMenuRef, prefsMenuItemIndex, kMenuItemAttrHidden, 0);
  #endif
@@ -1076,45 +1075,6 @@ void CAdvancedFrame::OnCloseWindow(wxCommandEvent& WXUNUSED(event)) {
 }
 #endif
 
-
-void CAdvancedFrame::OnExit(wxCommandEvent& WXUNUSED(event)) {
-    wxLogTrace(wxT("Function Start/End"), wxT("CAdvancedFrame::OnExit - Function Begin"));
-
-#ifdef __WXMAC__
-    // Don't run confirmation dialog if logging out or shutting down
-    if (wxGetApp().GetQuittingByAppleEvent()) {
-        Close(true);
-        return;
-    }
-#endif
-
-    if (m_iDisplayExitWarning) {
-        CDlgGenericMessage* pDlg = new CDlgGenericMessage(this);
-        wxString            strMessage = wxGetApp().GetSkinManager()->GetAdvanced()->GetExitMessage();
-        long                lAnswer = 0;
-
-        pDlg->SetTitle(_("Close Confirmation"));
-        pDlg->m_DialogMessage->SetLabel(strMessage);
-        pDlg->Fit();
-        pDlg->Centre();
-
-        lAnswer = pDlg->ShowModal();
-        if (wxID_OK == lAnswer) {
-            if (pDlg->m_DialogDisableMessage->GetValue()) {
-                m_iDisplayExitWarning = 0;
-            }
-            Close(true);
-        }
-
-        if (pDlg)
-            pDlg->Destroy();
-
-    } else {
-        Close(true);
-    }
-
-    wxLogTrace(wxT("Function Start/End"), wxT("CAdvancedFrame::OnExit - Function End"));
-}
 
 
 void CAdvancedFrame::OnProjectsAttachToAccountManager(wxCommandEvent& WXUNUSED(event)) {

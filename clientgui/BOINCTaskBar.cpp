@@ -311,10 +311,12 @@ void CTaskBarIcon::OnAbout(wxCommandEvent& WXUNUSED(event)) {
 void CTaskBarIcon::OnExit(wxCommandEvent& event) {
     wxLogTrace(wxT("Function Start/End"), wxT("CTaskBarIcon::OnExit - Function Begin"));
 
-    wxCloseEvent eventClose;
-    OnClose(eventClose);
-    if (eventClose.GetSkipped()) event.Skip();
-
+    if (wxGetApp().ConfirmExit()) {
+        wxCloseEvent eventClose;
+        OnClose(eventClose);
+        if (eventClose.GetSkipped()) event.Skip();
+    }
+    
     wxLogTrace(wxT("Function Start/End"), wxT("CTaskBarIcon::OnExit - Function End"));
 }
 

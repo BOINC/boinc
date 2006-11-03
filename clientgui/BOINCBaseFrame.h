@@ -59,7 +59,8 @@ public:
 
     virtual void        OnAlert( CFrameAlertEvent& event );
     virtual void        OnClose( wxCloseEvent& event );
-
+    void                OnExit( wxCommandEvent& event );
+    
     int                 GetReminderFrequency() { return m_iReminderFrequency; }
     wxString            GetDialupConnectionName() { return m_strNetworkDialupConnectionName; }
 
@@ -96,7 +97,6 @@ protected:
 
     int                 m_iSelectedLanguage;
     int                 m_iReminderFrequency;
-    int                 m_iDisplayExitWarning;
 
     wxString            m_strNetworkDialupConnectionName;
 

@@ -12091,3 +12091,18 @@ Rom   3 Nov 2006
         boinc_cmd.C
         gui_rpc_client.h
         gui_rpc_client_ops.C
+
+Charlie 3 Nov 2006
+    - Mac: Rework Exit Confirmation logic so dialog is presented when 
+        user exits Manager from system tray icon or any other means.
+        Rewrote dialog text to be more clear, and changed it back to a 
+        fixed string because strings read in from skins.xml file are 
+        not easily localized.  The project and application names are 
+        still read from skins.xml and inserted in dialog text.
+
+    clientgui/
+        AdvancedFrame.cpp, h
+        BOINCBaseFrame.cpp, h
+        BOINCGUIApp.cpp, h
+        BOINCTaskBar.cpp
+        sg_BoincSimpleGUI.cpp

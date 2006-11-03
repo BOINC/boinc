@@ -58,6 +58,7 @@ BEGIN_EVENT_TABLE(CSimpleFrame, CBOINCBaseFrame)
 #ifndef __WXMAC__
     EVT_ERASE_BACKGROUND(CSimpleFrame::OnEraseBackground)
 #endif
+    EVT_MENU(wxID_EXIT, CSimpleFrame::OnExit)   // In case we add a menu with EXIT to Simple GUI
     EVT_FRAME_CONNECT(CSimpleFrame::OnConnect)
     EVT_FRAME_RELOADSKIN(CSimpleFrame::OnReloadSkin)
 	EVT_TIMER(ID_SIMPLEFRAMERENDERTIMER, CSimpleFrame::OnFrameRender)

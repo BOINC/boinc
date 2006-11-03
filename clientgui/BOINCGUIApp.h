@@ -76,6 +76,7 @@ protected:
 #endif
 
     bool                m_bBOINCStartedByManager;
+    int                 m_iDisplayExitWarning;
 
     bool                m_bGUIVisible;
     int                 m_iGUISelected;
@@ -115,14 +116,18 @@ public:
 #ifdef __WXMAC__
     CMacSystemMenu*     GetMacSystemMenu()          { return m_pMacSystemMenu; }
     int                 GetCurrentGUISelection()    { return m_iGUISelected; }
-    bool                GetQuittingByAppleEvent();
 #endif
 
     wxArrayString&      GetSupportedLanguages()     { return m_astrLanguages; }
 
+    int                 GetDisplayExitWarning() { return m_iDisplayExitWarning; }
+    void                SetDisplayExitWarning(int display) { m_iDisplayExitWarning = display; }
+
     void                FireReloadSkin();
 
     bool                SetActiveGUI(int iGUISelection, bool bShowWindow = true);
+    
+    int                 ConfirmExit();
 };
 
 

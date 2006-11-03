@@ -45,6 +45,7 @@
 #include "BOINCTaskBar.h"
 #include "BOINCBaseFrame.h"
 #include "AdvancedFrame.h"
+#include "DlgGenericMessage.h"
 
 
 #ifdef SIMPLEGUI
@@ -55,7 +56,7 @@
 #include "sg_BoincSimpleGUI.h"
 #endif
 
-static bool s_bQuittingByAppleEvent;
+static bool s_bSkipExitConfirmation;
 
 #ifdef __WXMSW__
 EXTERN_C BOOL  IsBOINCServiceInstalled();
@@ -298,7 +299,7 @@ bool CBOINCGUIApp::OnInit() {
     StartupBOINCCore();
 
 #ifdef __WXMAC__
-    s_bQuittingByAppleEvent = false;
+    s_bSkipExitConfirmation = false;
     AEInstallEventHandler( kCoreEventClass, kAEQuitApplication, NewAEEventHandlerUPP((AEEventHandlerProcPtr)QuitAppleEventHandler), 0, false );
 
     m_pMacSystemMenu = new CMacSystemMenu(
@@ -796,13 +797,44 @@ void CBOINCGUIApp::ShutdownBOINCCore() {
 }
 
 
+// Set s_bSkipExitConfirmation to true if cancelled because of logging out or shutting down
 OSErr CBOINCGUIApp::QuitAppleEventHandler( const AppleEvent *appleEvt, AppleEvent* reply, UInt32 refcon ) {
-    s_bQuittingByAppleEvent = true;
-    return wxGetApp().MacHandleAEQuit((AppleEvent*)appleEvt, reply);
-}
+        DescType		senderType;
+        Size			actualSize;
+        ProcessSerialNumber	SenderPSN, ourPSN;
+        Boolean			isSame;
+        ProcessInfoRec		pInfo;
+        FSSpec			fileSpec;
+ 	OSStatus		anErr;
 
-bool CBOINCGUIApp::GetQuittingByAppleEvent() {
-    return s_bQuittingByAppleEvent;
+        anErr = AEGetAttributePtr(appleEvt, keyAddressAttr, typeProcessSerialNumber,
+                                    &senderType, &SenderPSN, sizeof(SenderPSN), &actualSize);
+
+        if (anErr == noErr) {
+             
+            GetCurrentProcess(&ourPSN);
+
+            anErr = SameProcess(&SenderPSN, &ourPSN, &isSame);
+
+            if (anErr == noErr) {
+                if (!isSame) {
+
+                pInfo.processInfoLength = sizeof( ProcessInfoRec );
+                pInfo.processName = NULL;
+                pInfo.processAppSpec = &fileSpec;
+
+                anErr = GetProcessInformation(&SenderPSN, &pInfo);
+                
+                // Consider a Quit command from our Dock menu as coming from this application
+                if (pInfo.processSignature != 'dock') {
+                    s_bSkipExitConfirmation = true; // Not from our app, our dock icon or our taskbar icon
+                    wxGetApp().ExitMainLoop();  // Prevents wxMac from issuing events to closed frames
+                }
+            }
+        }
+    }
+    
+    return wxGetApp().MacHandleAEQuit((AppleEvent*)appleEvt, reply);
 }
 
 #else
@@ -988,6 +1020,63 @@ bool CBOINCGUIApp::SetActiveGUI(int iGUISelection, bool bShowWindow) {
     m_pConfig->Write(wxT("GUISelection"), iGUISelection);
 
     return true;
+}
+
+
+int CBOINCGUIApp::ConfirmExit() {
+    if (! m_bBOINCStartedByManager)
+        return 1;   // Don't run dialog if exiting manager won't shut down Client or its tasks
+        
+    if (! m_iDisplayExitWarning)
+        return 1;
+
+#ifdef __WXMAC__
+    // Don't run confirmation dialog if logging out or shutting down
+    if (s_bSkipExitConfirmation)
+        return 1;
+
+    ProcessSerialNumber psn;
+
+    GetCurrentProcess(&psn);
+    SetFrontProcess(&psn);  // Shows process if hidden
+#endif
+
+    CDlgGenericMessage* pDlg = new CDlgGenericMessage(NULL);
+    wxString strBaseMessage = _("This will shut down %s and its tasks entirely until either the\n"
+                    "%s application or the %s screen saver is run again.\n\n"
+                  "In most cases, it is better just to close the %s window\n"
+                  "rather than to exit the application; that will allow %s to run its\n"
+                  "tasks at the times you selected in your preferences.");
+    long lAnswer = 0;
+    char msgBuf[1024];
+
+    const char *appName = m_pSkinManager->GetAdvanced()->GetApplicationName().c_str();
+    const char *projName = m_pSkinManager->GetAdvanced()->GetProjectName().c_str();
+
+    if (strlen(appName) > 100)      // Safety tests to prevent buffer overrun
+        appName = "BOINC Manager";
+    if (strlen(projName) > 100) 
+        projName = "BOINC";
+
+    sprintf(msgBuf, strBaseMessage.c_str(), projName, appName, projName, appName, projName);
+    wxString strFullMessage = wxString(msgBuf);
+
+    pDlg->SetTitle(_("Exit Confirmation"));
+    pDlg->m_DialogMessage->SetLabel(strFullMessage);
+    pDlg->Fit();
+    pDlg->Centre();
+
+    lAnswer = pDlg->ShowModal();
+    if (pDlg) {
+        pDlg->Destroy();
+        if (wxID_OK == lAnswer) {
+            if (pDlg->m_DialogDisableMessage->GetValue()) {
+                m_iDisplayExitWarning = 0;
+            }
+            return 1;
+        }
+    }
+    return 0;       // User cancelled exit
 }
 
 
