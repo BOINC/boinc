@@ -43,12 +43,12 @@ class XML_PARSER {
 public:
     XML_PARSER(MIOFILE*);
     bool get(char*, int, bool&);
-    bool parse_start(char*);
-    bool parse_str(char*, char*, char*, int);
-    bool parse_string(char*, char*, std::string&);
-    bool parse_int(char*, char*, int&);
-    bool parse_double(char*, char*, double&);
-    bool parse_bool(char*, char*, bool&);
+    bool parse_start(const char*);
+    bool parse_str(char*, const char*, char*, int);
+    bool parse_string(char*, const char*, std::string&);
+    bool parse_int(char*, const char*, int&);
+    bool parse_double(char*, const char*, double&);
+    bool parse_bool(char*, const char*, bool&);
 	int element_contents(const char*, char*, int);
 };
 

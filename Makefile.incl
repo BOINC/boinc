@@ -25,7 +25,7 @@ AM_CPPFLAGS =					\
 
 AM_CFLAGS = $(AM_CPPFLAGS)
 AM_CXXFLAGS = $(AM_CPPFLAGS)
-AM_LDFLAGS =
+AM_LDFLAGS = -L../lib
 
 # dependencies to make sure libs gets compiled before
 # programs linking to them:

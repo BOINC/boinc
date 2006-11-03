@@ -7,12 +7,12 @@ echo "
 <ul>
 <li> <a href=build.php>Software prerequisites</a>
 <li> <a href=source_code.php>Getting source code</a>
-<li> <a href=build_system.php>Building BOINC on Unix</a>
 <li> <a href=road_map.php>Source code road map</a>
 </ul>
 
 <h3>Platform-specific cookbooks</h3>
 <ul>
+<li> <a href=build_system.php>Building BOINC on Unix</a>
 <li> <a href=mac_build.html>Building BOINC and BOINC applications on Mac OS X</a>
 <li> <a href=http://www.spy-hill.net/~myers/help/boinc/boinc-on-windows.html>Building BOINC applications on Windows</a>
 <li> <a href=http://www.spy-hill.net/~myers/help/boinc/boinc-on-linux.html>Building BOINC and BOINC Applications on Linux</a>

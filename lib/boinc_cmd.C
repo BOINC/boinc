@@ -448,16 +448,16 @@ int main(int argc, char** argv) {
         retval = rpc.set_global_prefs_override(s);
         printf("retval: %d\n", retval);
     } else if (!strcmp(cmd, "--test3")) {
-        GLOBAL_PREFS p;
-        memset(&p, 0, sizeof(p));
-        retval = rpc.get_global_prefs_override_struct(p);
-        printf("retval %d max %d\n", retval, p.max_cpus);
+        GLOBAL_PREFS gp;
+        memset(&gp, 0, sizeof(gp));
+        retval = rpc.get_global_prefs_override_struct(gp);
+        printf("retval %d max %d\n", retval, gp.max_cpus);
     } else if (!strcmp(cmd, "--test4")) {
-        GLOBAL_PREFS p;
+        GLOBAL_PREFS gp;
         GLOBAL_PREFS_MASK m;
-        p.max_cpus = 2;
+        gp.max_cpus = 2;
         m.max_cpus = true;
-        retval = rpc.set_global_prefs_override_struct(p, m);
+        retval = rpc.set_global_prefs_override_struct(gp, m);
         printf("retval %d\n", retval);
     } else if (!strcmp(cmd, "--quit")) {
         retval = rpc.quit();

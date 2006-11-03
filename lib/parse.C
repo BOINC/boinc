@@ -500,7 +500,7 @@ bool XML_PARSER::get(char* buf, int len, bool& is_tag) {
 // and return true.
 //
 bool XML_PARSER::parse_str(
-    char* parsed_tag, char* start_tag, char* buf, int len
+    char* parsed_tag, const char* start_tag, char* buf, int len
 ) {
     bool is_tag, eof;
     char end_tag[256], tag[256], tmp[64000];
@@ -546,7 +546,7 @@ bool XML_PARSER::parse_str(
 }
 
 bool XML_PARSER::parse_string(
-    char* parsed_tag, char* start_tag, string& str
+    char* parsed_tag, const char* start_tag, string& str
 ) {
     char buf[8192];
     bool flag = parse_str(parsed_tag, start_tag, buf, sizeof(buf));
@@ -557,7 +557,7 @@ bool XML_PARSER::parse_string(
 
 // Same, for integers
 //
-bool XML_PARSER::parse_int(char* parsed_tag, char* start_tag, int& i) {
+bool XML_PARSER::parse_int(char* parsed_tag, const char* start_tag, int& i) {
     char buf[256], *end;
     bool is_tag, eof;
     char end_tag[256], tag[256];
@@ -581,7 +581,7 @@ bool XML_PARSER::parse_int(char* parsed_tag, char* start_tag, int& i) {
 
 // Same, for doubles
 //
-bool XML_PARSER::parse_double(char* parsed_tag, char* start_tag, double& x) {
+bool XML_PARSER::parse_double(char* parsed_tag, const char* start_tag, double& x) {
     char buf[256], *end;
     bool is_tag, eof;
     char end_tag[256], tag[256];
@@ -605,7 +605,7 @@ bool XML_PARSER::parse_double(char* parsed_tag, char* start_tag, double& x) {
 
 // Same, for bools
 //
-bool XML_PARSER::parse_bool(char* parsed_tag, char* start_tag, bool& b) {
+bool XML_PARSER::parse_bool(char* parsed_tag, const char* start_tag, bool& b) {
     char buf[256], *end;
     bool is_tag, eof;
     char end_tag[256], tag[256];
@@ -640,7 +640,7 @@ bool XML_PARSER::parse_bool(char* parsed_tag, char* start_tag, bool& b) {
 
 // parse a start tag (optionally preceded by <?xml>)
 //
-bool XML_PARSER::parse_start(char* start_tag) {
+bool XML_PARSER::parse_start(const char* start_tag) {
     char tag[256];
     bool eof, is_tag;
 

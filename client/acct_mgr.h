@@ -51,8 +51,7 @@ struct ACCT_MGR_INFO {
     bool password_error;
 
     ACCT_MGR_INFO();
-    int parse_url(MIOFILE&);
-    int parse_login(MIOFILE&);
+    int parse_login_file(FILE*);
     int write_info();
     int init();
     void clear();

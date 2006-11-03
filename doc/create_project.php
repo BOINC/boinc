@@ -49,7 +49,7 @@ Developing a BOINC application
 </ul>
 <li> Application development
 <ul>
-<li><a href=example.php>Example application</a>
+<li><a href=example.php>Example applications</a>
 <li><a href=app_dev.php>Application development tips</a>
 <li> <a href=app_debug.php>Application debugging</a>
 </ul>

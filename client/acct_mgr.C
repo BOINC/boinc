@@ -506,6 +506,35 @@ ACCT_MGR_INFO::ACCT_MGR_INFO() {
     clear();
 }
 
+int ACCT_MGR_INFO::parse_login_file(FILE* p) {
+	char tag[1024];
+	bool is_tag;
+    MIOFILE mf;
+    int retval;
+
+    mf.init_file(p);
+    XML_PARSER xp(&mf);
+    if (!xp.parse_start("acct_mgr_login")) {
+        //
+    }
+    while (!xp.get(tag, sizeof(tag), is_tag)) {
+        if (!is_tag) {
+            printf("unexpected text: %s\n", tag);
+            continue;
+        }
+        if (!strcmp(tag, "/acct_mgr_login")) break;
+        else if (xp.parse_str(tag, "login", login_name, 256)) continue;
+        else if (xp.parse_str(tag, "password_hash", password_hash, 256)) continue;
+        else if (xp.parse_str(tag, "previous_host_cpid", previous_host_cpid, sizeof(previous_host_cpid))) continue;
+        else if (xp.parse_double(tag, "next_rpc_time", next_rpc_time)) continue;
+        else if (!strcmp(tag, "opaque")) {
+            retval = xp.element_contents("</opaque>", opaque, sizeof(opaque));
+            continue;
+        }
+    }
+    return 0;
+}
+
 int ACCT_MGR_INFO::init() {
 	char tag[1024];
 	bool is_tag;
@@ -539,26 +568,7 @@ int ACCT_MGR_INFO::init() {
 
     p = fopen(ACCT_MGR_LOGIN_FILENAME, "r");
     if (p) {
-        mf.init_file(p);
-		XML_PARSER xp(&mf);
-		if (!xp.parse_start("acct_mgr_login")) {
-			//
-		}
-		while (!xp.get(tag, sizeof(tag), is_tag)) {
-			if (!is_tag) {
-				printf("unexpected text: %s\n", tag);
-				continue;
-			}
-            if (!strcmp(tag, "/acct_mgr_login")) break;
-            else if (xp.parse_str(tag, "login", login_name, 256)) continue;
-            else if (xp.parse_str(tag, "password_hash", password_hash, 256)) continue;
-            else if (xp.parse_str(tag, "previous_host_cpid", previous_host_cpid, sizeof(previous_host_cpid))) continue;
-            else if (xp.parse_double(tag, "next_rpc_time", next_rpc_time)) continue;
-			else if (!strcmp(tag, "opaque")) {
-				retval = xp.element_contents("</opaque>", opaque, sizeof(opaque));
-				continue;
-			}
-        }
+        parse_login_file(p);
         fclose(p);
     }
     return 0;

@@ -12137,3 +12137,17 @@ David  3 Nov 2006
 	clientgui/
 		MainDocument.cpp,h
 		ViewResources.cpp,h
+
+David  3 Nov 2006
+    - build fix for Gentoo
+
+    Makefile.incl
+
+David  3 Nov 2006
+    - fix gcc compile warnings
+
+    client/
+        acct_mgr.C,h
+    lib/
+        boinc_cmd.C
+        parse.C,h
