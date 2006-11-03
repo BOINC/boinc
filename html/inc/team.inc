@@ -43,9 +43,8 @@ function display_team_page($team, $offset, $sort_by) {
         }
         row2("Web site", "<a href=$x>$x</a>");
     }
-    row2("Members (with credit)", team_count_nusers($team->id));
+    row2("Members (with credit)", $team->nusers);
     
-    // Founder object cache
     $cache_args = "teamid=".$team->id."&founderid=".$team->userid;
     $cached_data = get_cached_data(TEAM_PAGE_TTL, $cache_args);
     if ($cached_data){
@@ -178,7 +177,7 @@ function show_team_row($team, $i) {
     echo"<tr class=row1>
         <td>$i</td>
         <td><a href=team_display.php?teamid=$team->id>$team->name</a></td>
-        <td>".team_count_nusers($team->id)."</td>
+        <td>".$team->nusers."</td>
         <td>$team_expavg_credit</td>
         <td>$team_total_credit</td>
         <td>$team->country</td>

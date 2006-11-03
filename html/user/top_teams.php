@@ -64,8 +64,15 @@ if ($offset < ITEM_LIMIT) {
     } else { //if not do queries etc to generate new data
         db_init();
         $data = get_top_teams($offset,$sort_by,$type);
+        
+        // We need to calculate nusers before storing into the cache
+        $o = 0;
+        while ($team = $data[$o]) {
+            $data[$o]->nusers = team_count_nusers($team->id);
+            $o++;
+        }
         set_cache_data(teams_to_store($data),$cache_args); //save data in cache
-    };
+    }
 } else {
     error_page("Limit exceeded - Sorry, first ".ITEM_LIMIT." items only");
 }
@@ -93,6 +100,5 @@ if ($o==ITEMS_PER_PAGE){ //If we aren't on the last page
     echo "<a href=top_teams.php?sort_by=$sort_by&offset=$new_offset".$type_url.">Next ".ITEMS_PER_PAGE."</a>";
 }
 page_tail();
-
 
 ?>

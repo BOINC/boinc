@@ -15,20 +15,22 @@ if (!$offset) $offset=0;
 $teamid = get_int("teamid");
 
 if ($offset > 1000) {
-    error_page("Limit exceeded: Only displaying the first 1000 members.");
+    error_page("Limit exceeded:  Only displaying the first 1000 members.");
 }
 
 db_init();
 
-// We can only cache team object, as the page is customised to the current user
 $user = get_logged_in_user(false);
-
+// We can only cache team object, as the page is customised to the current user
 $cache_args = "teamid=$teamid&sort_by=$sort_by&offset=$offset";
 $cached_data = get_cached_data(TEAM_PAGE_TTL, $cache_args);
 if ($cached_data) {
+    // We found some old but non-stale data, let's use it
     $team = unserialize($cached_data);
 } else {
+    // No data was found, generate new data for the cache and store it
     $team = lookup_team($teamid);
+    $team->nusers = team_count_nusers($team->id);
     set_cache_data(serialize($team), $cache_args);
 }
 
