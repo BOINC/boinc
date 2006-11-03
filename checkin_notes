@@ -12065,3 +12065,14 @@ Charlie 2 Nov 2006
         sg_ProgressBar.cpp
         sg_ProjectsComponent.cpp
         sg_ViewTabPage.cpp
+
+David  2 Nov 2006
+    - core client: don't print errors in prefs venues
+
+    html/
+        inc/
+            team.inc
+        user/
+            top_teams.php
+    lib/
+        prefs.C

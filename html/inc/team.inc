@@ -49,10 +49,10 @@ function display_team_page($team, $offset, $sort_by) {
     $cache_args = "teamid=".$team->id."&founderid=".$team->userid;
     $cached_data = get_cached_data(TEAM_PAGE_TTL, $cache_args);
     if ($cached_data){
-	$founder = unserialize($cached_data);
+        $founder = unserialize($cached_data);
     } else {
-	$founder = lookup_user_id($team->userid);
-	set_cache_data(serialize($founder),$cache_args);
+        $founder = lookup_user_id($team->userid);
+        set_cache_data(serialize($founder),$cache_args);
     }
     
     $user = get_logged_in_user(false);
@@ -63,10 +63,10 @@ function display_team_page($team, $offset, $sort_by) {
     row2("Country", $team->country);
     row2("Type", team_type_name($team->type));
     if ($user->teamid != $team->id) {
-	row2("Join this team", "<a href='team_join_form.php?id=$team->id'>Join</a>");
+        row2("Join this team", "<a href='team_join_form.php?id=$team->id'>Join</a>");
     }
     if (($user->teamid == $team->id) && ($user->id != $founder->id)) {
-	row2("Initiate team founder transfer", "<a href=\"team_founder_transfer_form.php\">Initiate transfer</a>");
+        row2("Initiate team founder transfer", "<a href=\"team_founder_transfer_form.php\">Initiate transfer</a>");
     }
     show_team_create_account_url($team);
     echo "</table>";
@@ -288,9 +288,9 @@ function team_count_nusers($teamid) {
     $res = mysql_query("select count(*) as total from user where teamid=$teamid and total_credit>0");
     $cnt = mysql_fetch_object($res);
     if ($cnt) {
-	return $cnt->total;
+        return $cnt->total;
     } else {
-	return null;
+        return null;
     }
 }
 

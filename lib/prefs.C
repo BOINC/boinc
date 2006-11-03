@@ -122,10 +122,6 @@ int GLOBAL_PREFS::parse_override(
 
     found_venue = false;
     while (!xp.get(tag, sizeof(tag), is_tag)) {
-        if (!is_tag) {
-            printf("unexpected text: %s\n", tag);
-            continue;
-        }
         if (in_venue) {
             if (!strcmp(tag, "/venue")) {
                 if (in_correct_venue) {

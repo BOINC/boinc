@@ -13,10 +13,10 @@ define (ITEM_LIMIT,10000);
 
 function get_top_teams($offset,$sort_by,$type=""){ //Possibly move this to db.inc at some point...
     if ($type){
-	$type_sql = "where type=".(int)$type;
+        $type_sql = "where type=".(int)$type;
     }
     if ($sort_by == "total_credit") {
-	$sort_order = "total_credit desc";
+        $sort_order = "total_credit desc";
     } else {
         $sort_order = "expavg_credit desc";
     }
@@ -25,8 +25,11 @@ function get_top_teams($offset,$sort_by,$type=""){ //Possibly move this to db.in
     return $arr;
 }
 
-function teams_to_store($participants){ //These converter functions are here in case we later decide to use something 
-    return serialize($participants);	       //else than serializing to save temp data
+// These converter functions are here in case we later decide to use something 
+// else than serializing to save temp data
+//
+function teams_to_store($participants){
+    return serialize($participants);
 }
 function store_to_teams($data){
     return unserialize($data);
@@ -55,20 +58,20 @@ if ($offset % ITEMS_PER_PAGE) $offset = 0;
 
 if ($offset < ITEM_LIMIT) {
     $cache_args = "sort_by=$sort_by&offset=$offset&type=$type";
-    $cacheddata=get_cached_data(TOP_PAGES_TTL,$cache_args);
+    $cacheddata = get_cached_data(TOP_PAGES_TTL,$cache_args);
     if ($cacheddata){ //If we have got the data in cache
-	$data = store_to_teams($cacheddata); // use the cached data
+        $data = store_to_teams($cacheddata); // use the cached data
     } else { //if not do queries etc to generate new data
-	db_init();
-	$data = get_top_teams($offset,$sort_by,$type);
-	set_cache_data(teams_to_store($data),$cache_args); //save data in cache
+        db_init();
+        $data = get_top_teams($offset,$sort_by,$type);
+        set_cache_data(teams_to_store($data),$cache_args); //save data in cache
     };
 } else {
     error_page("Limit exceeded - Sorry, first ".ITEM_LIMIT." items only");
 }
 
 
-//Now display what we've got (either gotten from cache or from DB)
+// Now display what we've got (either gotten from cache or from DB)
 page_head(sprintf(tr(TOP_TEAMS_TITLE),$type_name));
 start_table();
 team_table_start($sort_by,$type_url);
