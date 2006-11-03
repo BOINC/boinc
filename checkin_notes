@@ -12049,6 +12049,12 @@ David  2 Nov 2006
 Charlie 2 Nov 2006
     - Mac SimpleGUI: Move project icon popup menus down 40 pixels 
         so they are not obscured by tooltip (Mac only.)
+    - Mac SimpleGUI: Don't select each tab as it is added.  This caused 
+        problems at launch if there were more tabs than fit at once and 
+        BOINC was suspended, because tab was not visible for currently 
+        displayed page.  The result was that tabs did not respond to 
+        mouse clicks until after arrow key was pressed to refresh the  
+        tabs.
     - Fix Mac compiler warnings.
     
     client/

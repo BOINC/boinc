@@ -732,7 +732,15 @@ void WorkunitNotebook::AddTab(RESULT* result) {
 	appShortName += wxString(index.c_str(), wxConvUTF8 );
 	CViewTabPage *wTab = new CViewTabPage(this,result,nme,projUrl);
 	
+#ifdef __WXMAC__
+        // Setting "selected" arg true causes the page corresponding to the last tab 
+        // to be displayed intially, but that tab itself is not visible if there are 
+        // more tabss than fit on page, causing problems.  
+        // By setting it false, the page corresponding to the first tab is displayed.
+	AddPage(wTab, appShortName, false);	
+#else
 	AddPage(wTab, appShortName, true);	
+#endif
 	if(isRunning(resState) ){
 		int pageIndex = GetPageIndex(wTab);
 		SetPageImageIndex(pageIndex, 0); // this is a running process
