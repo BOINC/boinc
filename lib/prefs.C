@@ -399,6 +399,8 @@ int GLOBAL_PREFS::write_subset(MIOFILE& f, GLOBAL_PREFS_MASK& mask) {
         f.printf("   <cpu_usage_limit>%f</cpu_usage_limit>\n", cpu_usage_limit);
     }
     f.printf("</global_preferences>\n");
+    
+    return 0;
 }
 
 const char *BOINC_RCSID_3fb442bb02 = "$Id$";

@@ -265,7 +265,6 @@ void CProjectsComponent::UpdateProjectArray() {
 
 	if ( pDoc->IsConnected() ) {
 		int m_projCnt = pDoc->GetProjectCount();
-		defaultIcnPath[256]; // url of project directory
 
 		// If a new project has been added, figure out which one and then add it;
 		if ( m_projCnt > (int) m_statProjects.size() ) {

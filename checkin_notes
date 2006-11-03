@@ -12045,3 +12045,17 @@ David  2 Nov 2006
         time_stats.C
     lib/
         network.C
+
+Charlie 2 Nov 2006
+    - Mac SimpleGUI: Move project icon popup menus down 40 pixels 
+        so they are not obscured by tooltip (Mac only.)
+    - Fix Mac compiler warnings.
+    
+    client/
+        http_curl.C
+        prefs.C
+    clientgui/
+        sg_StatImageLoader.cpp
+        sg_ProgressBar.cpp
+        sg_ProjectsComponent.cpp
+        sg_ViewTabPage.cpp

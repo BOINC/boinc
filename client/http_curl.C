@@ -567,7 +567,7 @@ size_t libcurl_write(void *ptr, size_t size, size_t nmemb, HTTP_OP* phop) {
     size_t stWrite = fwrite(ptr, size, nmemb, (FILE*) phop->fileOut);
 #if 1
     if (log_flags.http_xfer_debug) {
-        msg_printf(NULL, MSG_INFO, "[http_xfer_debug] HTTP: wrote %d bytes", stWrite);
+        msg_printf(NULL, MSG_INFO, "[http_xfer_debug] HTTP: wrote %d bytes", (int)stWrite);
     }
 #endif
     phop->bytes_xferred += (double)(stWrite);

@@ -67,12 +67,19 @@ StatImageLoader::~StatImageLoader() {
 }
 
 
+#ifdef __WXMAC__
+void StatImageLoader::PopUpMenu(wxMouseEvent& event) 
+{ 
+	// pop up menu: move menu down a bit so tooltip does not obscure it
+	PopupMenu(statPopUpMenu, event.m_x-10, event.m_y+40);
+}
+#else
 void StatImageLoader::PopUpMenu(wxMouseEvent& WXUNUSED(event)) 
 { 
 	// pop up menu
 	PopupMenu(statPopUpMenu);
 }
-
+#endif
 
 void StatImageLoader::RebuildMenu() {
 	for(int i=(int) statPopUpMenu->GetMenuItemCount()-1; i>=0;i--){
@@ -97,12 +104,9 @@ void StatImageLoader::BuildUserStatToolTip() {
 
 void StatImageLoader::AddMenuItems() 
 { 
-    CSkinSimple*   pSkinSimple = wxGetApp().GetSkinManager()->GetSimple();
-	CMainDocument* pDoc = wxGetApp().GetDocument();
+    CMainDocument* pDoc = wxGetApp().GetDocument();
     wxASSERT(pDoc);
     wxASSERT(wxDynamicCast(pDoc, CMainDocument));
-    wxASSERT(pSkinSimple);
-    wxASSERT(wxDynamicCast(pSkinSimple, CSkinSimple));
 
 	PROJECT* project = pDoc->state.lookup_project(m_prjUrl);
 	urlCount = project->gui_urls.size();

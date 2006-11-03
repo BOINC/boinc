@@ -592,7 +592,7 @@ void MyCanvas::LoadSlideShow() {
 		}
 		if ( ratio < 1.0 ) {
 			wxImage img = image->ConvertToImage();
-			img.Rescale((int) image->GetWidth()*ratio, (int) image->GetHeight()*ratio);
+			img.Rescale((int) (image->GetWidth()*ratio), (int) (image->GetHeight()*ratio));
 			image = new wxBitmap(img);
 		} 
 		il = new ImageLoader(this, true);

@@ -79,7 +79,7 @@ void CProgressBar::LoadIndicators() {
 }
 void CProgressBar::SetValue(double progress)
 {
-	int numOfProgressInd = progress /(100/numOfIndic);
+	int numOfProgressInd = (int)(progress /(100/numOfIndic));
 	int indIndex = 0;
 	
 	for(indIndex = 0; indIndex < numOfIndic; indIndex++){
@@ -97,7 +97,7 @@ void CProgressBar::SetValue(double progress)
 void CProgressBar::UpdateValue(double progress)
 {	
 	int indIndex = 0;
-	int numOfProgressInd = progress /(100/numOfIndic);
+	int numOfProgressInd = (int)(progress /(100./(double)numOfIndic));
 
 	if ( numOfProgressInd > m_numOfProgressInd ) {
 		for(indIndex=m_numOfProgressInd; indIndex < numOfProgressInd; indIndex++) {
