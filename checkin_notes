@@ -12151,3 +12151,16 @@ David  3 Nov 2006
     lib/
         boinc_cmd.C
         parse.C,h
+
+David  3 Nov 2006
+	- Manager: improvements to Statistics tab
+		1) wxPaintDC changed on wxBufferedPaintDC - no flicker when redraw 
+		2) CPaintStatistics::OnLeftMouseDown() -
+		   select project (now it work only in "One project" mode)
+		3) save/read "last" settings (Mode View, Type Statistic ,Project).
+			I used CViewStatistics::OnSaveState(wxConfigBase* pConfig)
+			and CViewStatistics::OnRestoreState(wxConfigBase* pConfig)
+		(from Mifistor)
+
+	clientgui/
+		ViewStatistics.cpp,h
