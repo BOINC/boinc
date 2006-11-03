@@ -221,6 +221,17 @@ void PROJECTS::print() {
     }
 }
 
+void DISK_USAGE::print() {
+    unsigned int i;
+    printf("======== Disk usage ========\n");
+    printf("total: %f\n", d_total);
+    printf("free: %f\n", d_free);
+    for (i=0; i<projects.size(); i++) {
+        printf("%d) -----------\n", i+1);
+        projects[i]->print();
+    }
+}
+
 void RESULTS::print() {
     unsigned int i;
     printf("\n======== Results ========\n");

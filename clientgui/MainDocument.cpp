@@ -1002,17 +1002,17 @@ int CMainDocument::TransferAbort(int iIndex) {
 }
 
 
-int CMainDocument::CachedResourceStatusUpdate() {
+int CMainDocument::CachedDiskUsageUpdate() {
     int     iRetVal = 0;
 
     if (IsConnected()) {
-        wxTimeSpan ts(wxDateTime::Now() - m_dtResourceStatusTimestamp);
+        wxTimeSpan ts(wxDateTime::Now() - m_dtDiskUsageTimestamp);
         if (ts.GetSeconds() > 0) {
-            m_dtResourceStatusTimestamp = wxDateTime::Now();
+            m_dtDiskUsageTimestamp = wxDateTime::Now();
 
-            iRetVal = rpc.get_disk_usage(resource_status);
+            iRetVal = rpc.get_disk_usage(disk_usage);
             if (iRetVal) {
-                wxLogTrace(wxT("Function Status"), wxT("CMainDocument::CachedResourceStatusUpdate - Get Disk Usage Failed '%d'"), iRetVal);
+                wxLogTrace(wxT("Function Status"), wxT("Get Disk Usage Failed '%d'"), iRetVal);
                 ForceCacheUpdate();
             }
         }
@@ -1024,7 +1024,7 @@ int CMainDocument::CachedResourceStatusUpdate() {
 }
 
 
-PROJECT* CMainDocument::resource(unsigned int i) {
+PROJECT* CMainDocument::DiskUsageProject(unsigned int i) {
     PROJECT* pProject = NULL;
 
     // It is not safe to assume that the vector actually contains the data,
@@ -1044,20 +1044,6 @@ PROJECT* CMainDocument::resource(unsigned int i) {
 
     return pProject;
 }
-
-
-int CMainDocument::GetResourceCount() {
-    int iCount = -1;
-
-    CachedResourceStatusUpdate();
-    CachedStateUpdate();
-
-    if (!resource_status.projects.empty())
-        iCount = (int)resource_status.projects.size();
-
-    return iCount;
-}
-
 
 int CMainDocument::CachedStatisticsStatusUpdate() {
     int     iRetVal = 0;

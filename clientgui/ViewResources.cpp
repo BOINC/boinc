@@ -166,15 +166,15 @@ void CViewResources::UpdateSelection() {
 
 wxInt32 CViewResources::FormatProjectName(wxInt32 item, wxString& strBuffer) const {
     CMainDocument* doc = wxGetApp().GetDocument();
-    PROJECT* resource = wxGetApp().GetDocument()->resource(item);
+    PROJECT* project = doc->DiskUsageProject(item);
     PROJECT* state_project = NULL;
     std::string project_name;
 
     wxASSERT(doc);
     wxASSERT(wxDynamicCast(doc, CMainDocument));
 
-    if (resource) {
-        state_project = doc->state.lookup_project(resource->master_url);
+    if (project) {
+        state_project = doc->state.lookup_project(project->master_url);
         if (state_project) {
             state_project->get_name(project_name);
             strBuffer = wxString(project_name.c_str(), wxConvUTF8);
@@ -210,34 +210,29 @@ bool CViewResources::OnRestoreState(wxConfigBase* pConfig) {
 }
 
 void CViewResources::OnListRender( wxTimerEvent& WXUNUSED(event) ) {
-	CMainDocument* pDoc      = wxGetApp().GetDocument();
+    CMainDocument* pDoc = wxGetApp().GetDocument();
     wxString diskspace;
 	double boinctotal=0.0;
 
     wxASSERT(pDoc);
-	wxASSERT(wxDynamicCast(pDoc, CMainDocument));
+    wxASSERT(wxDynamicCast(pDoc, CMainDocument));
 
 	//clear former data
 	m_pieCtrlBOINC->m_Series.Clear();
 	m_pieCtrlTotal->m_Series.Clear();
 
 	//get data for BOINC projects disk usage
-	if (pDoc->GetResourceCount() > 0) {
-		PROJECTS *proj=&(pDoc->resource_status);
-		wxASSERT(proj);
-		//update data for boinc projects pie chart 
-		wxInt32 count=-1;
-		for (std::vector<PROJECT*>::const_iterator i=proj->projects.begin();i!=proj->projects.end(); ++i) {
-			++count;
+    pDoc->CachedDiskUsageUpdate();
+    pDoc->CachedStateUpdate();
+	if (disk_usage.projects.size()>0) {
+        for (i=0; i<disk_usage.projects.size(); i++) {
+            //update data for boinc projects pie chart 
+			PROJECT* project = pDoc->DiskUsageProject(count);
 			wxString projectname;			
-			FormatProjectName(count,projectname);
-			FormatDiskSpace(count,diskspace);
-			PROJECT* resource = wxGetApp().GetDocument()->resource(count);
-			double usage = 0.0;
-			if (resource) {
-				usage = resource->disk_usage;
-				boinctotal += usage;
-			}
+			FormatProjectName(project, projectname);
+			FormatDiskSpace(project, diskspace);
+			double usage = project->disk_usage;
+            boinctotal += usage;
 			wxPiePart part;
 			part.SetLabel(projectname + wxT(" - ") + diskspace);
 			part.SetValue(usage);
@@ -245,8 +240,7 @@ void CViewResources::OnListRender( wxTimerEvent& WXUNUSED(event) ) {
 			m_pieCtrlBOINC->m_Series.Add(part);
 		}
 		m_pieCtrlBOINC->Refresh();
-	}
-	else {
+	} else {
 		//paint an empty black pie
 		wxPiePart part;
 		part.SetLabel(_("not attached to any BOINC project - 0 bytes"));

@@ -699,10 +699,6 @@ RESULT* CC_STATE::lookup_result(PROJECT* project, string& str) {
     return 0;
 }
 
-PROJECTS::PROJECTS() {
-    clear();
-}
-
 PROJECTS::~PROJECTS() {
     clear();
 }
@@ -715,8 +711,16 @@ void PROJECTS::clear() {
     projects.clear();
 }
 
-RESULTS::RESULTS() {
+DISK_USAGE::~DISK_USAGE() {
     clear();
+}
+
+void DISK_USAGE::clear() {
+    unsigned int i;
+    for (i=0; i<projects.size(); i++) {
+        delete projects[i];
+    }
+    projects.clear();
 }
 
 RESULTS::~RESULTS() {
@@ -1291,24 +1295,26 @@ int RPC_CLIENT::get_project_status(CC_STATE& state) {
     return retval;
 }
 
-int RPC_CLIENT::get_disk_usage(PROJECTS& p) {
+int RPC_CLIENT::get_disk_usage(DISK_USAGE& du) {
     int retval;
     SET_LOCALE sl;
     char buf[256];
     RPC rpc(this);
 
-    p.clear();
+    du.clear();
 
     retval = rpc.do_rpc("<get_disk_usage/>\n");
     if (!retval) {
         while (rpc.fin.fgets(buf, 256)) {
-            if (match_tag(buf, "</projects>")) break;
+            if (match_tag(buf, "</disk_usage_summary>")) break;
             else if (match_tag(buf, "<project>")) {
                 PROJECT* project = new PROJECT();
                 project->parse(rpc.fin);
-                p.projects.push_back(project);
+                du.projects.push_back(project);
                 continue;
             }
+            else if (parse_double(buf, "<d_total>", du.d_total)) continue;
+            else if (parse_double(buf, "<d_free>", du.d_free)) continue;
         }
     }
     return retval;

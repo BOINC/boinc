@@ -307,8 +307,20 @@ class PROJECTS {
 public:
     std::vector<PROJECT*> projects;
 
-    PROJECTS();
+    PROJECTS(){}
     ~PROJECTS();
+
+    void print();
+    void clear();
+};
+
+struct DISK_USAGE {
+    std::vector<PROJECT*> projects;
+    double d_total;
+    double d_free;
+
+    DISK_USAGE(){}
+    ~DISK_USAGE();
 
     void print();
     void clear();
@@ -318,7 +330,7 @@ class RESULTS {
 public:
     std::vector<RESULT*> results;
 
-    RESULTS();
+    RESULTS(){}
     ~RESULTS();
 
     void print();
@@ -513,7 +525,7 @@ public:
     int get_simple_gui_info(CC_STATE&, RESULTS&);
     int get_project_status(CC_STATE&);
     int get_project_status(PROJECTS&);
-    int get_disk_usage(PROJECTS&);
+    int get_disk_usage(DISK_USAGE&);
     int show_graphics(
         const char* project, const char* result_name, int graphics_mode,
         DISPLAY_INFO&

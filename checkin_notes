@@ -12112,3 +12112,22 @@ Charlie 3 Nov 2006
         BOINCTaskBar.cpp
         sg_BoincSimpleGUI.cpp
         SkinManager.cpp, .h
+
+David  3 Nov 2006
+    - GUI RPC: change <get_disk_usage> RPC so it returns
+        the total and free disk space, as well as per-project usage.
+        This allows GUIs to display total/free disk for remote systems
+    - Manager: get total/free disk from RPC info, not WxWidgets calls
+    - Manager: change function names to make more sense
+
+    client/
+        gui_rpc_server_ops.C
+    clientgui/
+        MainDocument.cpp,h
+        ViewResources.cpp
+    lib/
+        boinc_cmd.C
+        gui_rpc_client.h
+        gui_rpc_client_ops.C
+        gui_rpc_client_print.C
+

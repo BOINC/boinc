@@ -238,9 +238,9 @@ int main(int argc, char** argv) {
         retval = rpc.get_simple_gui_info(sgi);
         if (!retval) sgi.print();
     } else if (!strcmp(cmd, "--get_disk_usage")) {
-        PROJECTS ps;
-        retval = rpc.get_disk_usage(ps);
-        if (!retval) ps.print();
+        DISK_USAGE du;
+        retval = rpc.get_disk_usage(du);
+        if (!retval) du.print();
     } else if (!strcmp(cmd, "--result")) {
         RESULT result;
         char* project_url = next_arg(argc, argv, i);

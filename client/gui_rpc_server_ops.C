@@ -116,9 +116,15 @@ static void handle_get_project_status(MIOFILE& fout) {
 
 static void handle_get_disk_usage(MIOFILE& fout) {
     unsigned int i;
-    double size;
+    double size, d_total, d_free;
 
-    fout.printf("<projects>\n");
+    fout.printf("<disk_usage_summary>\n");
+    get_filesystem_info(d_total, d_free);
+    fout.printf(
+        "<d_total>%f</d_total>\n"
+        "<d_free>%f</d_free>\n",
+        d_total, d_free
+    );
     for (i=0; i<gstate.projects.size(); i++) {
         PROJECT* p = gstate.projects[i];
         gstate.project_disk_usage(p, size);
@@ -130,7 +136,7 @@ static void handle_get_disk_usage(MIOFILE& fout) {
             p->master_url, size
         );
     }
-    fout.printf("</projects>\n");
+    fout.printf("</disk_usage_summary>\n");
 }
 
 static PROJECT* get_project(char* buf, MIOFILE& fout) {

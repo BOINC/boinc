@@ -225,18 +225,15 @@ public:
 
 
     //
-    // Resources Tab
+    // Disk Tab
     //
 private:
-    int                         CachedResourceStatusUpdate();
-    wxDateTime                  m_dtResourceStatusTimestamp;
+    int                         CachedDiskUsageUpdate();
+    wxDateTime                  m_dtDiskUsageTimestamp;
 
 public:
-    PROJECTS                    resource_status;
-    PROJECT*                    resource(unsigned int);
-
-    int                         GetResourceCount();
-
+    DISK_USAGE                  disk_usage;
+    PROJECT*                    DiskUsageProject(unsigned int);
 
 	//
 	// Statistics Tab
