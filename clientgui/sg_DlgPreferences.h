@@ -178,7 +178,7 @@ private:
     wxString m_strWorkWhenIdle;
     bool m_bCustomizedPreferences;
 ////@end CDlgPreferences member variables
-	GLOBAL_PREFS m_prefs;
+    GLOBAL_PREFS current_global_preferences;
 };
 
 

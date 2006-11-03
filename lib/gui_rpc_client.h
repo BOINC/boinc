@@ -568,7 +568,7 @@ public:
     int get_global_prefs_override(std::string&);
     int set_global_prefs_override(std::string&);
     int get_global_prefs_override_struct(GLOBAL_PREFS&);
-    int set_global_prefs_override_struct(GLOBAL_PREFS&);
+    int set_global_prefs_override_struct(GLOBAL_PREFS&, GLOBAL_PREFS_MASK&);
 };
 
 struct RPC {

@@ -210,20 +210,19 @@ bool CViewResources::OnRestoreState(wxConfigBase* pConfig) {
 }
 
 void CViewResources::OnListRender( wxTimerEvent& WXUNUSED(event) ) {
-	
-	wxString diskspace;
+	CMainDocument* pDoc      = wxGetApp().GetDocument();
+    wxString diskspace;
 	double boinctotal=0.0;
+
+    wxASSERT(pDoc);
+	wxASSERT(wxDynamicCast(pDoc, CMainDocument));
 
 	//clear former data
 	m_pieCtrlBOINC->m_Series.Clear();
 	m_pieCtrlTotal->m_Series.Clear();
 
 	//get data for BOINC projects disk usage
-	if (wxGetApp().GetDocument()->GetResourceCount()>0) {
-		CMainDocument* pDoc      = wxGetApp().GetDocument();
-
-		wxASSERT(pDoc);
-		wxASSERT(wxDynamicCast(pDoc, CMainDocument));
+	if (pDoc->GetResourceCount() > 0) {
 		PROJECTS *proj=&(pDoc->resource_status);
 		wxASSERT(proj);
 		//update data for boinc projects pie chart 
@@ -258,10 +257,8 @@ void CViewResources::OnListRender( wxTimerEvent& WXUNUSED(event) ) {
 	}
 	//data for pie chart 2 (total disk usage)
 	wxPiePart part;		
-	wxLongLong llTotal,llFree;	
-	::wxGetDiskSpace(wxGetCwd(),&llTotal,&llFree);
-	double free = llFree.ToDouble();
-	double total = llTotal.ToDouble();			
+	double free = pDoc->host.d_free;
+	double total = pDoc->host.d_total;			
 	//free disk space
 	FormatDiskSpace2(free,diskspace);		
 	part.SetLabel(_("free disk space - ") + diskspace);

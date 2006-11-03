@@ -2115,14 +2115,14 @@ int RPC_CLIENT::get_global_prefs_override_struct(GLOBAL_PREFS& prefs) {
     return 0;
 }
 
-int RPC_CLIENT::set_global_prefs_override_struct(GLOBAL_PREFS& prefs) {
+int RPC_CLIENT::set_global_prefs_override_struct(GLOBAL_PREFS& prefs, GLOBAL_PREFS_MASK& mask) {
     SET_LOCALE sl;
     char buf[64000];
     MIOFILE mf;
     string s;
 
     mf.init_buf(buf);
-    prefs.write(mf);
+    prefs.write_subset(mf, mask);
     s = buf;
     return set_global_prefs_override(s);
 }

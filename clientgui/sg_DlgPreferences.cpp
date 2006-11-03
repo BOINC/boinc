@@ -618,6 +618,8 @@ bool CDlgPreferences::ClearPreferenceSettings() {
 
 bool CDlgPreferences::ReadPreferenceSettings() {
     CMainDocument* pDoc = wxGetApp().GetDocument();
+    GLOBAL_PREFS   current_global_preferences;
+
     unsigned int i;
 
     wxASSERT(pDoc);
@@ -625,40 +627,40 @@ bool CDlgPreferences::ReadPreferenceSettings() {
 
 
     // Populate values and arrays from preferences
-    if (pDoc->rpc.get_global_prefs_override_struct(m_prefs) == 0) {
+    if (pDoc->rpc.get_global_prefs_override_struct(current_global_preferences) == 0) {
         m_bCustomizedPreferences = true;
     } else {
         m_bCustomizedPreferences = false;
-        m_prefs = pDoc->state.global_prefs;
+        current_global_preferences = pDoc->state.global_prefs;
     }
 
 
     // Do work only between:
     //   Start:
     m_WorkBetweenBeginCtrl->Append(wxArrayString(iTimeOfDayArraySize, astrTimeOfDayStrings));
-    m_strWorkBetweenBegin = astrTimeOfDayStrings[m_prefs.start_hour];
+    m_strWorkBetweenBegin = astrTimeOfDayStrings[current_global_preferences.start_hour];
     //   End:
     m_WorkBetweenEndCtrl->Append(wxArrayString(iTimeOfDayArraySize, astrTimeOfDayStrings));
-    m_strWorkBetweenEnd = astrTimeOfDayStrings[m_prefs.end_hour];
+    m_strWorkBetweenEnd = astrTimeOfDayStrings[current_global_preferences.end_hour];
 
     // Connect to internet only between:
     //   Start:
     m_ConnectBetweenBeginCtrl->Append(wxArrayString(iTimeOfDayArraySize, astrTimeOfDayStrings));
-    m_strConnectBetweenBegin = astrTimeOfDayStrings[m_prefs.net_start_hour];
+    m_strConnectBetweenBegin = astrTimeOfDayStrings[current_global_preferences.net_start_hour];
     //   End:
     m_ConnectBetweenEndCtrl->Append(wxArrayString(iTimeOfDayArraySize, astrTimeOfDayStrings));
-    m_strConnectBetweenEnd = astrTimeOfDayStrings[m_prefs.net_end_hour];
+    m_strConnectBetweenEnd = astrTimeOfDayStrings[current_global_preferences.net_end_hour];
 
     // Use no more than %s of disk space
     wxArrayString aDiskUsage = wxArrayString(iDiskUsageArraySize, astrDiskUsageStrings);
     wxString strDiskUsage = wxEmptyString;
     int iDiskUsageIndex = iDiskUsageArraySize;
 
-    if (m_prefs.disk_max_used_gb > 0) {
-        if (m_prefs.disk_max_used_gb < 1) {
-            strDiskUsage.Printf(_("%d MB"), (int)(m_prefs.disk_max_used_gb * 1000));  
+    if (current_global_preferences.disk_max_used_gb > 0) {
+        if (current_global_preferences.disk_max_used_gb < 1) {
+            strDiskUsage.Printf(_("%d MB"), (int)(current_global_preferences.disk_max_used_gb * 1000));  
 	    } else {
-            strDiskUsage.Printf(_("%4.2f GB"), m_prefs.disk_max_used_gb); 
+            strDiskUsage.Printf(_("%4.2f GB"), current_global_preferences.disk_max_used_gb); 
 	    }
 
         // Null out strDiskUsage if it is a duplicate
@@ -688,8 +690,8 @@ bool CDlgPreferences::ReadPreferenceSettings() {
     wxString strCPUUsage = wxEmptyString;
     int iCPUUsageIndex = iCPUUsageArraySize - 4;
 
-    if (m_prefs.cpu_usage_limit > 0) {
-        strCPUUsage.Printf(_("%d%%"), (int)m_prefs.cpu_usage_limit); 
+    if (current_global_preferences.cpu_usage_limit > 0) {
+        strCPUUsage.Printf(_("%d%%"), (int)current_global_preferences.cpu_usage_limit); 
 
         // Null out strCPUUsage if it is a duplicate
         for (i=0; i < aCPUUsage.Count(); i++) {
@@ -714,18 +716,18 @@ bool CDlgPreferences::ReadPreferenceSettings() {
     }
 
     // Do work while computer is in use?
-    m_bWorkWhileInUse = m_prefs.run_if_user_active;
+    m_bWorkWhileInUse = current_global_preferences.run_if_user_active;
 
     // Do work while computer is on battery?
-    m_bWorkWhileOnBattery = m_prefs.run_on_batteries;
+    m_bWorkWhileOnBattery = current_global_preferences.run_on_batteries;
 
     // Do work after computer is idle for:
     wxArrayString aWorkWhenIdle = wxArrayString(iWorkWhenIdleArraySize, astrWorkWhenIdleStrings);
     wxString strWorkWhenIdle = wxEmptyString;
     int iWorkWhenIdleIndex = 2;
 
-    if (m_prefs.idle_time_to_run > 0) {
-        strWorkWhenIdle.Printf(_("%d"), (int)m_prefs.idle_time_to_run); 
+    if (current_global_preferences.idle_time_to_run > 0) {
+        strWorkWhenIdle.Printf(_("%d"), (int)current_global_preferences.idle_time_to_run); 
 
         // Null out strWorkWhenIdle if it is a duplicate
         for (i=0; i < aWorkWhenIdle.Count(); i++) {
@@ -772,42 +774,79 @@ bool CDlgPreferences::ReadSkinSettings() {
 
 
 bool CDlgPreferences::SavePreferenceSettings() {
-    CMainDocument* pDoc = wxGetApp().GetDocument();
+    CMainDocument*    pDoc = wxGetApp().GetDocument();
+    GLOBAL_PREFS      global_preferences_override;
+    GLOBAL_PREFS_MASK global_preferences_mask;
+    int               iTest = 0;
+    double            dTest = 0.0;
 
     wxASSERT(pDoc);
     wxASSERT(wxDynamicCast(pDoc, CMainDocument));
 
 
-    // Copy all the defaults from global_prefs
-    m_prefs = pDoc->state.global_prefs;
-
     // Do work only between:
-    m_strWorkBetweenBegin.ToLong((long*)&m_prefs.start_hour);
-    m_strWorkBetweenEnd.ToLong((long*)&m_prefs.end_hour);
+    m_strWorkBetweenBegin.ToLong((long*)&iTest);
+    if (iTest != current_global_preferences.start_hour) {
+        global_preferences_override.start_hour = iTest;
+        global_preferences_mask.start_hour = true;        
+    }
+
+    m_strWorkBetweenEnd.ToLong((long*)&iTest);
+    if (iTest != current_global_preferences.end_hour) {
+        global_preferences_override.end_hour = iTest;
+        global_preferences_mask.end_hour = true;        
+    }
 
     // Connect to internet only between:
-    m_strConnectBetweenBegin.ToLong((long*)&m_prefs.net_start_hour);
-    m_strConnectBetweenEnd.ToLong((long*)&m_prefs.net_end_hour);
+    m_strConnectBetweenBegin.ToLong((long*)&iTest);
+    if (iTest != current_global_preferences.net_start_hour) {
+        global_preferences_override.net_start_hour = iTest;
+        global_preferences_mask.net_start_hour = true;        
+    }
+
+    m_strConnectBetweenEnd.ToLong((long*)&iTest);
+    if (iTest != current_global_preferences.net_end_hour) {
+        global_preferences_override.net_end_hour = iTest;
+        global_preferences_mask.net_end_hour = true;        
+    }
 
     // Use no more than %s of disk space
-    m_strMaxDiskUsage.ToDouble((double*)&m_prefs.disk_max_used_gb);
+    m_strMaxDiskUsage.ToDouble((double*)&dTest);
     if (m_strMaxDiskUsage.Find(wxT("GB")) == -1) {
-        m_prefs.disk_max_used_gb /= 1000;
+        dTest /= 1000;
+    }
+    if (dTest != current_global_preferences.disk_max_used_gb) {
+        global_preferences_override.disk_max_used_gb = dTest;
+        global_preferences_mask.disk_max_used_gb = true;        
     }
 
     // Use no more than %s of the processor
-    m_strMaxCPUUsage.ToDouble((double*)&m_prefs.cpu_usage_limit);
+    m_strMaxCPUUsage.ToDouble((double*)&dTest);
+    if (dTest != current_global_preferences.cpu_usage_limit) {
+        global_preferences_override.cpu_usage_limit = dTest;
+        global_preferences_mask.cpu_usage_limit = true;        
+    }
 
     // Do work while computer is in use?
-    m_prefs.run_if_user_active = m_bWorkWhileInUse;
+    if (m_bWorkWhileInUse != current_global_preferences.run_if_user_active) {
+        global_preferences_override.run_if_user_active = m_bWorkWhileInUse;
+        global_preferences_mask.run_if_user_active = true;        
+    }
 
     // Do work while computer is on battery?
-    m_prefs.run_on_batteries = m_bWorkWhileOnBattery;
+    if (m_bWorkWhileOnBattery != current_global_preferences.run_on_batteries) {
+        global_preferences_override.run_on_batteries = m_bWorkWhileOnBattery;
+        global_preferences_mask.run_on_batteries = true;        
+    }
 
     // Do work after computer is idle for:
-    m_strWorkWhenIdle.ToDouble((double*)&m_prefs.idle_time_to_run);
+    m_strWorkWhenIdle.ToDouble((double*)&dTest);
+    if (dTest != current_global_preferences.idle_time_to_run) {
+        global_preferences_override.idle_time_to_run = dTest;
+        global_preferences_mask.idle_time_to_run = true;        
+    }
 
-	pDoc->rpc.set_global_prefs_override_struct(m_prefs);
+	pDoc->rpc.set_global_prefs_override_struct(global_preferences_override, global_preferences_mask);
 	pDoc->rpc.read_global_prefs_override();
     return true;
 }

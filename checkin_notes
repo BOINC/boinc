@@ -12076,3 +12076,18 @@ David  2 Nov 2006
             top_teams.php
     lib/
         prefs.C
+
+Rom   3 Nov 2006
+    - MGR: The preferences dialog should only allow somebody to override
+       settings that they have changed.
+    - MGR: Adjust the advanced view resources tab so that it'll use the
+       free and total space on a remote pc instead of calling the wxWidget
+       GetFreeDiskSpace API.
+       
+    clientgui/
+        sg_DlgPreferences.cpp, .h
+        ViewResources.cpp
+    lib/
+        boinc_cmd.C
+        gui_rpc_client.h
+        gui_rpc_client_ops.C
