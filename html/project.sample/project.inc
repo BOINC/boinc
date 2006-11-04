@@ -17,9 +17,10 @@ define("LANGUAGE_FILE", "languages.txt");
 define("STYLESHEET", "white.css");
 define("COPYRIGHT_HOLDER", "Test Group");
 define("SYS_ADMIN_EMAIL", "admin@$master_url");
-$forum_post_reporting_admin->email_addr="admin@$master_url";
-    //The email/mailinglist that will receive user reported forum posts
-    // (offensive etc.)
+
+// Email addresses separated by pipe ( | ) that will receive user reported 
+// offensive forum posts.
+define("POST_REPORT_EMAILS", "moderator1@$master_url|moderator2@$master_url");
 
 function project_banner($title) {
     // Put your project title and logo here

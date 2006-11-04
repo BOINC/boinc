@@ -1,6 +1,7 @@
 <?php
 
 require_once("../inc/util.inc");
+require_once("../inc/email.inc");
 require_once("../project/project.inc");
 
 // Determine if phpmailer is installed and to be used (defined in project.inc)
@@ -112,8 +113,6 @@ function send_reply_notification_email($thread, $user){
  * it.
  **/
 function send_report_post_email($user, $thread,  $post, $message) {
-    $forum_post_reporting_admin = newUser(FORUM_MODERATION_EMAIL_USER_ID);
-    
     $body = "";
 
     $subject = PROJECT." post in '".$thread->getTitle()."' reported as offensive";
@@ -132,9 +131,18 @@ This was the contents of the post:
 ".$post->getContent()."
 
 For further information and assistance with ".PROJECT." go to ".MASTER_URL;
+
     //Security check, do we have an admin?
-    if (!$forum_post_reporting_admin) error_page("This project has not yet defined an administrator to handle this kind of forum reports. Please contact the project and tell them to add this information in their html/project/project.inc file");
-    return re_send_email($forum_post_reporting_admin, $subject, $body);
+    if (!defined("POST_REPORT_EMAILS")) error_page("This project has not yet defined an administrator to handle this kind of forum reports. Please contact the project and tell them to add this information in their html/project/project.inc file");
+    $emails = explode("|", POST_REPORT_EMAILS);
+    $success = true;
+    foreach ($emails as $email) {
+        $admin->email_addr = $email;
+        if (!send_email($admin, $subject, $body)) {
+            $success = false;
+        }
+    }
+    return success;
 }
 
 function send_banish_email($user) {

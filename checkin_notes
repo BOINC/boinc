@@ -12208,3 +12208,15 @@ David  3 Nov 2006
         user/
             clone.php (removed)
             team.php
+            
+Rytis  4 Nov 2006
+    - User web: allow emails to be sent to multiple moderators when a post is
+        reported in the forums.
+        
+        NOTE: requires project.inc update with a new moderator email list value.
+
+    html/
+        inc/
+            forum_email.inc
+        project.sample/
+            project.inc
