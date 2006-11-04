@@ -22,21 +22,24 @@ you should check out these modules in the same parent directory.
 
 <h2>CVS tags</h2>
 <p>
-In the <b>boinc</b> module,
-the trunk is the development version;
-it may not compile or run.
-Other versions are tagged as follows:
+<b>We maintain tags for the client software (core client and manager)
+in the boinc module.
+For other parts of the software (e.g., server and API),
+use the current version.
+</b>
 <dl>
 <dt>
 stable
 <dd>
-The latest publicly-released version,
+The latest publicly-released version of the client software,
 generally well-tested.
+<b>DO NOT USE THE STABLE VERSION OF SERVER AND API SOFTWARE.
+IF YOU DO, IT WILL BE FAR OUT OF DATE.
+USE THE CURRENT VERSION INSTEAD.</b>
 <dt>
 staging
 <dd>
-The version currently being alpha-tested
-(so at least it compiles).
+The version currently being alpha-tested (so at least it compiles).
 <dt>
 boinc_core_release_x_y_z
 <dd>

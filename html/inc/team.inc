@@ -7,18 +7,13 @@ require_once("../inc/countries.inc");
 require_once("../inc/credit.inc");
 require_once("../inc/team_types.inc");
 
-function show_team_create_account_url($team) {
-    $url = URL_BASE."create_account_form.php?teamid=$team->id";
-    row2("Create team account URL<br><font size=-2>Accounts created via this URL will belong to this team and will have the project preferences of its founder</font>", "<a href=$url>$url</a>");
-}
-
 function display_team_page($team, $offset, $sort_by) {
     $n = 20;
 
-// there aren't indices to support sorting by credit.
-// set the following variable to disable sorted output.
-// (though since caching is generally used this shouldn't needed)
-//
+    // there aren't indices to support sorting by credit.
+    // set the following variable to disable sorted output.
+    // (though since caching is generally used this shouldn't needed)
+    //
     $nosort = false;
 
     if ($sort_by == "total_credit") {
@@ -67,11 +62,10 @@ function display_team_page($team, $offset, $sort_by) {
     if (($user->teamid == $team->id) && ($user->id != $founder->id)) {
         row2("Initiate team founder transfer", "<a href=\"team_founder_transfer_form.php\">Initiate transfer</a>");
     }
-    show_team_create_account_url($team);
     echo "</table>";
     echo "<p>";
     start_table();
-    row1("Active members (with nonzero total credit)", 4);
+    row1("Active members (with credit)", 4);
     echo "<tr>
         <th>Name</th>
     ";

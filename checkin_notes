@@ -12197,3 +12197,14 @@ Rom    3 Nov 2006
         SkinManager.cpp, .h
         ValidateEmailAddress.cpp
         
+David  3 Nov 2006
+    - User web: remove "team account create" mechanism;
+        Since accounts are created via GUI,
+        this is no longer relevant.
+
+    html/
+        inc/
+            team.inc
+        user/
+            clone.php (removed)
+            team.php

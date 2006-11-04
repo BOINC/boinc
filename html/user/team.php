@@ -23,10 +23,6 @@ echo "<p>".PROJECT." participants may form <b>teams</b>.
     </ul>
     <p>
     To join a team, visit its team page and click Join.
-    <p>
-    Each team has a <a href=clone.php>Create team account URL</a>;
-    accounts created through this URL will belong to the team,
-    and will have the project preferences of its founder.
     <hr>
     <ul>
     <li> <form method=get action=team_lookup.php>

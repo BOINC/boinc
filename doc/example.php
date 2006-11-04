@@ -12,8 +12,11 @@ To build these applications:
 for both boinc and boinc_samples.
 Put them in the same parent directory;
 otherwise relative paths won't work.
-<li> <a href=compile.php>Build the BOINC software</a>
+<li> If you're working on Unix,
+<a href=compile.php>Build the BOINC software</a>
 (you only need the api/ and lib/ parts of it).
+On Windows, this will be done automatically
+as part of building the application.
 </ul>
 
 The example applications are:
@@ -49,7 +52,7 @@ The boinc_samples tree includes project files for the following platforms:
 <li> <b>Windows</b>:
 includes project files for Microsoft Visual Studio 2003 and 2005.
 Also includes a project file samples.dev
-for <a href=http://www.bloodshed.net/>Bloodshed<a>,
+for <a href=http://www.bloodshed.net/>Dev-C++</a>,
 a free development environment for Windows
 (this project file doesn't work yet).
 These are in the win_build/ directory.
