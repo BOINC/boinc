@@ -185,3 +185,11 @@ David  26 Sept 2006
 
     uppercase/
         upper_case.C
+
+David  4 Nov 2006
+    - uppercase: call boinc_graphics_possible() instead of
+        using a bunch of mysterious inline code.
+        This is supposed to be a good example, not a bad one.
+
+    uppercase/
+        upper_case.C
