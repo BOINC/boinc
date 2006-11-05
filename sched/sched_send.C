@@ -408,7 +408,7 @@ int wu_is_infeasible(
         }
         reply.wreq.insufficient_mem = true;
         reason |= INFEASIBLE_MEM;
-        reply.set_delay(24*3600);
+        reply.set_delay(DELAY_NO_WORK_TEMP);
     }
 
     if (wu.rsc_disk_bound > reply.wreq.disk_available) {
@@ -427,7 +427,6 @@ int wu_is_infeasible(
                 "[WU#%d %s] needs %d seconds on [HOST#%d]; delay_bound is %d (request.estimated_delay is %f)\n",
                 wu.id, wu.name, (int)ewd, reply.host.id, wu.delay_bound, request.estimated_delay
             );
-            reply.set_delay(0.2*request.estimated_delay);
             reply.wreq.insufficient_speed = true;
             reason |= INFEASIBLE_CPU;
         }
@@ -910,13 +909,13 @@ int send_work(
     );
 
     if (reply.wreq.nresults == 0) {
-        reply.set_delay(3600);
+        reply.set_delay(DELAY_NO_WORK_TEMP);
         USER_MESSAGE um2("No work sent", "high");
         reply.insert_message(um2);
         if (reply.wreq.no_app_version) {
             USER_MESSAGE um("(there was work for other platforms)", "high");
             reply.insert_message(um);
-            reply.set_delay(3600*24);
+            reply.set_delay(DELAY_NO_WORK_PERM);
         }
         if (reply.wreq.no_allowed_apps_available) {
             USER_MESSAGE um(
@@ -937,7 +936,6 @@ int send_work(
                 "(there was work but your computer doesn't have enough memory)",
                 "high"
             );
-            reply.set_delay(24*3600);
             reply.insert_message(um);
         }
         if (reply.wreq.insufficient_speed) {
@@ -979,7 +977,7 @@ int send_work(
                 "high"
             );
             reply.insert_message(um);
-            reply.set_delay(3600*24);
+            reply.set_delay(DELAY_NO_WORK_PERM);
             log_messages.printf(
                 SCHED_MSG_LOG::MSG_NORMAL,
                 "Not sending work because core client is outdated\n"

@@ -22,6 +22,36 @@
 #include "synch.h"
 #include "server_types.h"
 
+// various delay params.
+// Any of these could be moved into SCHED_CONFIG, if projects need control.
+
+#define DELAY_MISSING_KEY           3600
+    // account key missing or invalid
+#define DELAY_UNACCEPTABLE_OS       3600*24
+    // Darwin 5.x or 6.x (E@h only)
+#define DELAY_BAD_CLIENT_VERSION    3600*24
+    // client version < config.min_core_client_version
+#define DELAY_NO_WORK_SKIP          0
+    // no work, config.nowork_skip is set
+    // Rely on the client's exponential backoff in this case
+#define DELAY_PLATFORM_UNSUPPORTED  3600*24
+    // platform not in our DB
+#define DELAY_DISK_SPACE            3600
+    // too little disk space or prefs (locality scheduling)
+#define DELAY_DELETE_FILE           3600*4
+    // wait for client to delete a file (locality scheduling)
+#define DELAY_ANONYMOUS             3600*4
+    // anonymous platform client doesn't have version
+#define DELAY_NO_WORK_TEMP          0
+    // client asked for work but we didn't send any,
+    // because of a reason that could be fixed by user
+    // (e.g. prefs, or run BOINC more)
+    // Rely on the client's exponential backoff in this case
+#define DELAY_NO_WORK_PERM          3600*24
+    // client asked for work but we didn't send any,
+    // because of a reason not easily changed
+    // (like wrong kind of computer)
+
 extern SCHED_CONFIG config;
 extern GUI_URLS gui_urls;
 extern PROJECT_FILES project_files;

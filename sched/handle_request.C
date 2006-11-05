@@ -230,7 +230,7 @@ int authenticate_user(SCHEDULER_REQUEST& sreq, SCHEDULER_REPLY& reply) {
                 "high"
             );
             reply.insert_message(um);
-            reply.set_delay(3600);
+            reply.set_delay(DELAY_MISSING_KEY);
             reply.nucleus_only = true;
             log_messages.printf(
                 SCHED_MSG_LOG::MSG_CRITICAL,
@@ -286,7 +286,7 @@ lookup_user_and_make_new_host:
                 "low"
             );
             reply.insert_message(um);
-            reply.set_delay(3600);
+            reply.set_delay(DELAY_MISSING_KEY);
             log_messages.printf(
                 SCHED_MSG_LOG::MSG_CRITICAL,
                 "[HOST#<none>] Bad authenticator '%s'\n",
@@ -1026,10 +1026,12 @@ bool unacceptable_os(
             "Unacceptable OS %s %s\n",
             sreq.host.os_name, sreq.host.os_version
         );
-        USER_MESSAGE um("Project only supports MacOS Darwin versions 7.X and above",
-                        "low");
+        USER_MESSAGE um(
+            "Project only supports MacOS Darwin versions 7.X and above",
+            "low"
+        );
         reply.insert_message(um);
-        reply.set_delay(3600*24);
+        reply.set_delay(DELAY_UNACCEPTABLE_OS);
         return true;
     }
     return false;
@@ -1069,7 +1071,7 @@ bool wrong_core_client_version(
     if (wrong_version) {
         USER_MESSAGE um(msg, "low");
         reply.insert_message(um);
-        reply.set_delay(3600*24);
+        reply.set_delay(DELAY_BAD_CLIENT_VERSION);
         return true;
     }
     return false;
@@ -1175,7 +1177,7 @@ void process_request(
     ) {
         USER_MESSAGE um("No work available", "low");
         reply.insert_message(um);
-        reply.set_delay(3600);
+        reply.set_delay(DELAY_NO_WORK_SKIP);
         if (!config.msg_to_host) {
             log_messages.printf(
                 SCHED_MSG_LOG::MSG_NORMAL, "No work - skipping DB access\n"
@@ -1270,7 +1272,7 @@ void process_request(
             SCHED_MSG_LOG::MSG_CRITICAL, "[HOST#%d] platform '%s' not found\n",
             reply.host.id, sreq.platform_name
         );
-        reply.set_delay(3600*24);
+        reply.set_delay(DELAY_PLATFORM_UNSUPPORTED);
         goto leave;
     }
     

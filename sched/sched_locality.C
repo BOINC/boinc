@@ -87,7 +87,7 @@ int delete_file_from_host(SCHEDULER_REQUEST& sreq, SCHEDULER_REPLY& sreply) {
         }
         USER_MESSAGE um(buf, "high");
         sreply.insert_message(um);
-        sreply.set_delay(24*3600);
+        sreply.set_delay(DELAY_DISK_SPACE);
         return 1;
     }
     
@@ -116,7 +116,7 @@ int delete_file_from_host(SCHEDULER_REQUEST& sreq, SCHEDULER_REPLY& sreply) {
     sprintf(buf, "BOINC will delete file %s when no longer needed", fi.name);
     USER_MESSAGE um(buf, "low");
     sreply.insert_message(um);
-    sreply.set_delay(4*3600);
+    sreply.set_delay(DELAY_DELETE_FILE);
     return 0;
 }   
 
@@ -307,7 +307,7 @@ static int possibly_send_result(
         sprintf(help_msg_buf, "To get more %s work, finish current work, stop BOINC, remove app_info.xml file, and restart.", config.long_name);
         USER_MESSAGE um(help_msg_buf, "high");
         reply.insert_message(um);
-        reply.set_delay(4*3600);
+        reply.set_delay(DELAY_ANONYMOUS);
     }
 
     if (retval) return ERR_NO_APP_VERSION;

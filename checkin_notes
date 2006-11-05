@@ -12220,3 +12220,39 @@ Rytis  4 Nov 2006
             forum_email.inc
         project.sample/
             project.inc
+
+David  4 Nov 2006
+    - Fix systemic bug where clean-install client requests work
+        before doing benchmarks, and uses default benchmarks,
+        which are extremely low (1e7 flops).
+        The scheduler says "you're not fast enough" and
+        tells it to back off for an extremely long time
+        (20% of its estimated_delay, as calculated based on the low benchmarks).
+        Fixed this by:
+        1) client: change default benchmarks to 1e9 (1 GFLOPS)
+        2) server: don't request backoff in this case
+    - This led to an examination of server-requested backoff.
+        In some cases the server was requesting ridiculous backoff.
+        E.g. if a client didn't have enough available RAM
+        (a function of both actual RAM and RAM-related prefs)
+        it would always request a 48-hour backoff.
+        The naive user changes their prefs, and then waits for 47.9 hours.
+        I think it's better to err on the side of not requesting backoff,
+        and relying on the client's exponential backoff
+        in situations where it asks for work and doesn't get any.
+
+        Also, the backoff values were hardwired throughout the
+        scheduler source code - bad programming practice.
+        So, I collected all the backoff values as #defines in main.h.
+        Mostly these are the same, but for the case where
+        we didn't send work because of CPU/disk/mem inadequacy,
+        the server now doesn't request additional backoff
+        (i.e., rely on the client's backoff mechanism)
+
+    client/
+        cs_benchmark.C
+    sched/
+        handle_request.C
+        main.h
+        sched_locality.C
+        sched_send.C

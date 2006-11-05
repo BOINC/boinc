@@ -49,7 +49,7 @@ function show_group($name, $list) {
         if (strstr($file, 'http://')) {
             $url = $file;
         } else {
-            $url = "addons/$file";
+            $url = "http://boinc.berkeley.edu/addons/$file";
         }
 		echo "
 			<tr><td><a href=$url>$itemname</a></td>
@@ -70,7 +70,7 @@ array('BoincLogX_Setup_v1.51.exe', 'BoincLogX', '1.51', 'BoincLogX creates detai
 array('BoincSpy_455.zip', 'BoincSpy', '1.0 (RC1)', 'Views BOINC project statistics'),
 array('boincview.zip', 'BoincView', '1.2.5', 'Advanced BOINC manager for networks'),
 array('setup.exe', 'CPDNSpy', '', 'Stats/Benchmarkprogram. Only for CPDN!!!'),
-array('sahuserstats.xpi', 'SAH User Statistics', '', 'An externsion for Firefox (may work under Mozilla) that will display your stats for SAH'),
+array('sahuserstats.xpi', 'SAH User Statistics', '', 'An extension for Firefox (may work under Mozilla) that will display your stats for SAH'),
 array('SETI_at_BOINCWatch_1.10.15.exe', 'SETI@BOINCWatch', '1.10.15', 'A SETI@Home/BOINC client watcher! User statistics powered by BOINCStats'),
 array('SETIatBOINCWatch(.NET2.0).exe', 'SETI@BOINCWatch(.NET 2.0)', '3.0.24 BETA', 'A SETI@Home/BOINC client watcher! User statistics powered by BOINCStats. But now built with the .NET environment.'),
 array('SETIatBOINCWatch(.NET).exe', 'SETI@BOINCWatch(.NET)', '2.0.24 BETA', 'A SETI@Home/BOINC client watcher! User statistics powered by BOINCStats. But now built with the .NET environment.'),

@@ -69,9 +69,9 @@
 // defaults in case benchmarks fail or time out.
 // better to err on the low side so hosts don't get too much work
 
-#define DEFAULT_FPOPS   1e7
-#define DEFAULT_IOPS    1e7
-#define DEFAULT_MEMBW   1e8
+#define DEFAULT_FPOPS   1e9
+#define DEFAULT_IOPS    1e9
+#define DEFAULT_MEMBW   1e9
 #define DEFAULT_CACHE   1e6
 
 #define FP_START    2
