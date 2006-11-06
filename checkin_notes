@@ -12282,3 +12282,12 @@ Charlie 5 Nov 2006
         skins/
             World Community Grid/
                 skin.xml
+
+David  6 Nov 2006
+    - BOINC web site: change the way the add-ons page works
+
+    doc/
+        addons.php
+        addon_data.php
+    html/inc/
+        team.inc

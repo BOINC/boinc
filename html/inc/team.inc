@@ -60,7 +60,7 @@ function display_team_page($team, $offset, $sort_by) {
         row2("Join this team", "<a href='team_join_form.php?id=$team->id'>Join</a>");
     }
     if (($user->teamid == $team->id) && ($user->id != $founder->id)) {
-        row2("Initiate team founder transfer", "<a href=\"team_founder_transfer_form.php\">Initiate transfer</a>");
+        row2("Request team founder transfer", "<a href=\"team_founder_transfer_form.php\">Initiate transfer</a>");
     }
     echo "</table>";
     echo "<p>";

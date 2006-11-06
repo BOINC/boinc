@@ -1,0 +1,448 @@
+<?php
+
+// 0 filename or URL
+// 1 name
+// 2 version
+// 3 short desc
+// 4 origin URL
+// 5 platform
+// 6 long desc
+// 7 unix date
+
+$win = array(
+array('boinc-irc.exe',
+    'Boinc mIRC',
+    '1.0',
+    'A ready setup mIRC to take you straight there',
+    'http://comatosed.net/boinc/boinc-irc.exe',
+    'Windows',
+    'Built in security systems for DCC and MSG systems and some other nice toys 2.00MB',
+    1089651337
+),
+array('boinc.mrc',
+    'Boinc mircstats',
+    '0.4',
+    'Script to show your Boinc stats on IRC (with mIRC)',
+    'http://sqreal.no-ip.org/boinc.mrc',
+    'Windows',
+    'This addon shows your boinc details to IRC like Credits, current progress , pulse, gaussian, spike, team ...
+    <br>
+    Put the .mrc on your mIRC main dir and type',
+    1162833635
+),
+array('boincdv_v0306.zip',
+    'BoincDV',
+    '',
+    'A small util to view current project debts for your v4.4x BOINC cc.',
+    'http://home.austin.rr.com/skipsjunk/',
+    'Tested on XP Pro/Home only',
+    'see included readme.txt',
+    1121326440
+),
+array('BoincLogX_Setup_v1.51.exe',
+    'BoincLogX',
+    '1.51',
+    'BoincLogX creates detailed logfiles for all BOINC projects.',
+    'http://www.bjoernhenke.de',
+    '',
+    'BoincLogX makes it possible to log and show information about your processed WUs. In addition to a general log file which supports all BOINC projects, it will create project specific log files with detailed information about the WUs and results of some projects like SETI@home, Einstein@Home and AstroPulse. Additionally, it can backup the most important files for later analyses. BoincLogX can monitor an unlimited number of BOINC clients in a windows or SAMBA network. It will show basic state information like current progress, cache status or time left for all BOINC projects and project specific state information (like Spikes, Gaussians, Pulses or Triplets for SETI@home-WUs) for some projects. The overall view makes it possible to get an overview of all WUs which are currently in the caches of the monitored clients. You can see the time left for all projects and all clients and you\'ll be able to see the estimated finish time for all of your WUs regarding the current resource share and the clients activity fraction.',
+    1140114583
+
+),
+array('BoincSpy_455.zip',
+    'BoincSpy',
+    '1.0 (RC1)',
+    'Views BOINC project statistics',
+    'http://www3.telus.net/BoincSpy',
+    '',
+    '',
+    1107731239
+),
+array('boincview.zip',
+    'BoincView',
+    '1.2.5',
+    'Advanced BOINC manager for networks',
+    'http://boincview.amanheis.de',
+    '',
+    'BoincView can monitor and control all your BOINC clients throughout your network. Every client can be managed via the client\'s remote control feature.',
+    1149517167
+),
+array('setup.exe',
+    'CPDNSpy',
+    '',
+    'Stats/Benchmarkprogram. Only for CPDN!!!',
+    'http://www.oliver-kliebisch.de/setup.exe',
+    'Java JRE 1.4',
+    'After the installation of the program, it will ask you after the CPDN WU XML.',
+    1092395090
+),
+array('SETI_at_BOINCWatch_1.10.15.exe',
+    'SETI@BOINCWatch',
+    '1.10.15',
+    'A SETI@Home/BOINC client watcher! User statistics powered by BOINCStats',
+    'http://setiwatch.hit.bg/',
+    '',
+    'Logging finished results which you can review in details later, builtin; starmap whish shows the position of the current WU and all the logged results; user, team and country statistics powered by BOINCStats and many more features included...',
+    1115657242
+),
+array('SETIatBOINCWatch(.NET2.0).exe',
+    'SETI@BOINCWatch(.NET 2.0)',
+    '3.0.24 BETA',
+    'A SETI@Home/BOINC client watcher! User statistics powered by BOINCStats. But now built with the .NET environment.',
+    'http://setiwatch.hit.bg/',
+    '2000/XP family/2003 Server family',
+    'Logging finished results which you can review in details later, builtin; starmap whish shows the position of the current WU and all the logged results; user, team and country statistics powered by BOINCStats and many more features included...',
+    1145198333
+),
+array('SETIatBOINCWatch(.NET).exe',
+    'SETI@BOINCWatch(.NET)',
+    '2.0.24 BETA',
+    'A SETI@Home/BOINC client watcher! User statistics powered by BOINCStats. But now built with the .NET environment.',
+    'http://setiwatch.hit.bg/',
+    '2000/XP family/2003 Server family',
+    'Logging finished results which you can review in details later, builtin; starmap whish shows the position of the current WU and all the logged results; user, team and country statistics powered by BOINCStats and many more features included...',
+    1145198264
+),
+array('SetiMapView_Setup_v6.54.exe',
+    'SETI@home-MapView',
+    '6.54',
+    'SETI@home-Mapview creates skymaps for the BOINC projects SETI@home-II, Einstein@home and Astropulse.',
+    'http://www.bjoernhenke.de',
+    '',
+    'SETI@home-Mapview creates skymaps for the BOINC projects SETI@home-II, Einstein@home and Astropulse.SETI@home-MapView reads the logfiles, which can be created with BoincLogX or other utilities, and creates skymaps which show the positions of all processed WUs and the quality of the found signals, calendars or other graphics.',
+    1137618532
+),
+array('DBSetup.zip',
+    'SQL Setup for BoincSpy',
+    'V 0.7',
+    'Stores Workunits into SQL database',
+    'http://www3.telus.net/BoincSpy',
+    '',
+    'Stores Workunits into SQL database',
+    1107731376
+),
+array('spy_pp_v101_setispy_v341.zip',
+    'Spy++',
+    '',
+    'Loader for the new version of SetiSpy (3.4.1), the famous SETI addon of Roelof',
+    'http://boinc.altervista.org/',
+    '',
+    'Loader for the new version of SetiSpy (3.4.1), the famous SETI addon of Roelof
+    For more information about Spy++ project visit the web site',
+    1114982539
+),
+array('http://threadmaster.tripod.com/',
+    'ThreadMaster',
+    '',
+    'Control max CPU usage and prevent overheating (not specific to BOINC)',
+    'http://threadmaster.tripod.com/',
+    '2000 and XP',
+    'The Seti client runs at low priority in order not to interfere with other programs. It however uses all CPU power you have left at any time, which results in a constant 100% CPU load. This may result in overheating problems. It would however be a waste of CPU power if this would stop you from running the Seti client!<br><br>Using ThreadMaster you are able to influence the amount of CPU the Seti client uses.For more information about this great tool, please see: http://threadmaster.tripod.com/
+    This will let you run Seti without any problems!
+    Installation: follow the instructions in the readme.txt file.',
+    1095977832
+
+),
+array('http://mion.faireal.net/BES/',
+    'BES',
+    '',
+    'Control max CPU usage and prevent overheating (not specific to BOINC)',
+    'http://mion.faireal.net/BES/',
+    '',
+    '',
+    1162833635
+),
+array('boinclogger.zip',
+    'boinc logger',
+    '1.0',
+    'saves the messages part of boinc so you can track down errors',
+    'http://www.geocities.com/karlos9992000/boinclogger/boinclogger.zip',
+    'Win 98/200/NT/XP',
+    'This program saves the messages part of boinc so you can look at the mesages from days or weeks or any amount of time ago so you can track down errors.
+    I  recommend you put a shortcut to the program in the startup folder and the actual program in a folder in the program files.',
+    1106878118
+),
+array('inst_nB_v13.exe',
+    'nBOiNC',
+    '1.3.x',
+    'stats picker',
+    'http://boinc.nuchill.de',
+    'requires .NET-Framework 2',
+    'get your information from the projects from which you do work
+    exe-installer',
+    1151998190
+),
+);
+
+$linux = array(
+array('http://www.helsinki.fi/~earajarv/programs/boinctray/',
+    'Boinctray',
+    '',
+    'A system tray application for monitoring the BOINC client',
+    'http://www.helsinki.fi/~earajarv/programs/boinctray/',
+    '',
+    'The Boinctray is a TCl program for displaying statistics
+    of the BOINC volunteer distributed computing system. The
+    BOINC uses the idle time of your computer for doing
+    scientific calculations. This program creates an icon to
+    your system tray and displays the progress of the BOINC
+    computation in a window next to the icon. The user can
+    control whether the statistics window is shown all the
+    time or only when the mouse cursor is above the icon. It
+    is also possible to choose what statistics are shown. The
+    tray attachment works currently only in Linux.',
+    1162833635
+),
+array('boincstat-2.02.tar',
+    'BOINCSTAT',
+    '2.02',
+    'Command line view of BOINC status',
+    'http://www.davidzilch.co.uk/boincstat',
+    '',
+    'This is the source file for my program to display the status of BOINC from a command line. To run this app you will need libxml2 and ncurses.',
+    1083694115
+),
+array('boincprog-1.1.5.tar.gz',
+    'BOINCprog',
+    '',
+    'A BOINC project progress monitor',
+    'http://www2.gol.com/users/trane/programming/programming.html',
+    '',
+    'BOINCprog keeps track of the progress of the current WU being crunched. Updates are made every 5 seconds. Supports multiple projects and can act as a KDE/Gnome tray applet. For single-CPU-used systems only. This works nicely for local installations and NFS mounts. Using this with an SMB mount will likely result in the dreaded state -109 error due to the way Samba handles the mount. Version 1.1.5 fixes incorrect termination of the app when not operating as a KDE applet. Also added ability to disable BOINCprog splash screen. For more information, see the ChangeLog.Unpack archive and follow README file.',
+    1135765894
+),
+array('boinctool.tar.gz',
+    'Boinc Tool - Bash Script',
+    '',
+    'Bash Scripts for Seti@Boinc',
+    'http://people.freenet.de/seti_boinctool/boinctool.tar.gz',
+    'SuSE 9.2',
+    '',
+    1110378627
+),
+array('boinc-2.0.tar.bz2',
+    'Boinc bash script',
+    '',
+    'Boinc state displayer',
+    'http://phileimer.9online.fr',
+    'Linux or any OS with bash shell',
+    'Can be used as a console tool to display information about BOINC projects and working units. It can also be used to start or stop BOINC.',
+    1139694462
+
+
+),
+array('CPDNSpy.rar',
+    'CPDNSpy Linux/Mac',
+    '1.3',
+    'Stats/Benchmarkprogram. Only for CPDN!!!',
+    'http://www.oliver-kliebisch.de/CPDNSpy.rar',
+    'Java JRE 1.4',
+    '',
+    1092395191
+),
+array('cpulimit-1.1.tar.gz',
+    'CPU limiter',
+    '1.1',
+    'Limits the CPU usage (good for laptops)',
+    'http://marlon80.interfree.it/cpulimit/index.html',
+    '',
+    'cpulimit is a simple program that attempts to limit the cpu usage of a process (expressed in percentage, not in cpu time). This is useful to control batch jobs, when you don\'t want they eat too much cpu. It does not act on the nice value or other priority stuff, but on the real cpu usage. Besides it is able to adapt itself to the overall system load, dynamically and quickly.
+    <p>
+    Extract the source and compile:
+    <pre>
+    $tar zxf cpulimit-1.0.tar.gz
+    $cd cpulimit-1.0
+    $make
+    </pre>
+    Executable file name is cpulimit.
+
+    <p>
+    Examples of useLimiting the program \'make\' (think to a kernel compilation) by executable name to 40% CPU:
+    <pre>
+    $./cpulimit make 40
+    </pre>
+
+    Limiting a program by executable path name to 55% CPU:
+    <pre>
+    $./cpulimit /path/of/the/exe/file 55
+    </pre>',
+    1119944777
+),
+array('SETITracker_V1.0BETA.zip',
+    'SETI@Boinc Tracker',
+    '1.0BETA',
+    'SETI@Boinc Tracker is a GUI Client for Tracking Boinc CLI Client!'
+),
+array('boinc-suse-1.1.1.tar.gz',
+    'boinc-suse',
+    '',
+    'Init script for SuSE 9.2 and 9.3',
+    'http://rigo.altervista.org/_altervista_ht/boinc-suse-1.1.1.tar.gz',
+    'SuSE and others (?)',
+    'This file is an initscript for running BOINC in a SuSE Linux 9.2 system. It doesn\'t contain scripts for other distros, but... you could contribute! :-)',
+    1126651191
+),
+array('boincctl',
+    'boincctl',
+    '1.2',
+    'Script to start boinc at boot time.',
+    'http://www.dennett.org/boincctl',
+    '',
+    'Script to start/stop/restart Boinc.  Can be used at boot time or any time thereafter.',
+    1113056672
+
+),
+array('boinctop-0.5.16.tar.gz',
+    'boinctop',
+    '0.5.16',
+    'top like view of boinc status',
+    'http://sourceforge.net/project/showfiles.php?group_id=106084',
+    '',
+    'boinctop gives a statistical overview of all crunched WUs with the Boinc-Software (tested with the following projects: Seti@Home and climateprediction.net)Resetting the configuration of boinctop is easy. Just delete the file .boinctoprc in your home-directory',
+    1137526334
+
+
+),
+array('rc.boinc-slackware-linux-latest.txt',
+    'rc.boinc (Slackware)',
+    '1.4',
+    'rc.boinc - Slackware Startup Script',
+    'http://markhill.me.uk',
+    'Slackware',
+    'rc.boinc is a script to start BOINC automatically on Slackware Linux. It is written for Slackware Linux but may work on similar Linux distributions',
+    1111810676
+),
+);
+
+$mac = array(
+array('boinc_stat_viewer_1.3.2.zip',
+    'Boinc Stat Viewer',
+    '',
+    'This small Cocoa application shows current state of your BOINC client.',
+    'http://boinc.silski.net/',
+    '10.3.x',
+    'Boinc Stat Viewer shows your BOINC state summary in a more favorable way - a neat table on screen. See it\'s home page: http://boinc.silski.net/  It features a watchdog to live update your views and CPU Share value to make you less CPU troubling thus more BOINC participating :)
+Just unarchive the file. To unistall simply trash the Boinc Stat Viewer folder',
+    '1118579106'
+
+
+),
+array('CPDNSpy.rar',
+    'CPDNSpy Linux/Mac',
+    '1.3',
+    'Stats/Benchmarkprogram. Only for CPDN!!!'
+),
+array('SETIControl.hqx',
+    'SETI Control',
+    '3.2',
+    'REALbasic application which allows you to control the Darwin (Unix) version of setiathome-BOINC',
+    'http://homepage.mac.com/delaneyrm/SETIControl.html',
+    '',
+    'REALbasic application which allows you to control the Darwin (Unix) version of setiathome-BOINCThis version of SETI Control is not compatible with the earlier version of setiathome, which will soon be replaced by the BOINC version.',
+    1106264867
+),
+array('SETITracker_V1.0BETA.zip',
+    'SETI@Boinc Tracker',
+    '1.0BETA',
+    'SETI@Boinc Tracker is a GUI Client for Tracking Boinc CLI Client!',
+    'http://setiinds.mybesthost.com',
+    '',
+    '',
+    1105122828
+),
+array('scr0.9.dmg',
+    'Seti Check Revolutions',
+    'v0.9',
+    'Boinc state displayer. Only for seti@home!',
+    'http://web.ticino.com/galliva/scr/',
+    'OS X',
+    'Seti Check Revolutions is a small program that shows the progress of the boinc-based seti@home program. It also shows user\'s total and average credits, user name, team name and account id. Seti Check Revolutions is written in Cocoa and is only for Mac OS X.',
+    1093374045
+),
+);
+
+$browser = array(
+array('http://setihometoolbar.ourtoolbar.com/',
+    'SETI@home Toolbar',
+    '',
+    'Toolbar for Firefox and IE (Windows);
+    includes search, links, radio, RSS',
+    'http://setihometoolbar.ourtoolbar.com/',
+    '',
+    '',
+    1162833635
+),
+array('sahuserstats.xpi',
+    'SAH User Statistics',
+    '',
+    'An extension for Firefox (works only with 1.0 to 1.5;
+    may work under Mozilla)
+    that displays your stats for SAH',
+    'http://sahuserstats.mozdev.org/index.html',
+    'FireFox v1.5 or earlier',
+    'An externsion for Firefox (may work under Mozilla) that will display your stats for SAH',
+    1138110002
+),
+array('BOINC_User_Statistics_Widget.widget',
+    'BOINC User Statistics Widget',
+    '2.2',
+    'Widget displays statistics for BOINC projects
+    (requires the <a href=http://widgets.yahoo.com/>Yahoo! widget engine</a>)',
+    'http://widgets.yahoo.com/gallery/view.php?widget=39505',
+    'Yahoo! Widget Engine - http://widgets.yahoo.com/',
+    'The BOINC User Statistics Widget is highly configurable and displays your choice of statistics from almost any BOINC project.',
+    1149646406
+),
+);
+
+$web = array(
+array('boinc_lcs_2.1.tar.gz',
+    'Boinc LCS',
+    '',
+    'Live Client State for an unlimited number of clients (needs a webserver)',
+    'http://conmunich.dyndns.org/cm/development/boinc2/',
+    'Mysql, Perl and PHP',
+    'Shows the current status from up to 4 clients on a webserver. Files will be transported by a small Perl server within the network that runs on each client. You can configure all options over a Mysql backend.',
+    '1139033692'
+),
+array('boincphpgui-2.3.tar.gz',
+    'BoincPHP5-GUI',
+    '2.3',
+    'Monitor and control Boinc from a web browser',
+    'http://www.dennett.org/Projects/',
+    'PHP5',
+    'A PHP based web application that allows you to monitor and control your boinc installations from as web browser.  It has functionality similar to Boinc Mgr.
+    Installation instructions included',
+    1154384372
+
+),
+array('goinc.zip',
+    'GOINC',
+    '',
+    'GOINC: A Google homepage module for keeping tabs on BOINC.',
+    'http://stegic.net/goinc',
+    '',
+    '',
+    1141445701
+),
+array('SetiathomeBoincProgressStatus-1.0.0.tar.gz',
+    'SETI@home/BOINC progress status',
+    '1.0.0',
+    'Show your SETI@home/BOINC progress on your homepage',
+    'http://wiz.homelinux.net/',
+    '',
+    'This is the source code of the tool to show your SETI@home/BOINC statistics into your homepage. If the server that host your web site doesn\'t allow you to execute PHP script, you can use the tool I provide from my web site: just look at http://wiz.homelinux.net/ to see how to do that!Just insert the url image into your homepage to show your current SETI@home/BOINC progress',
+    1116404902
+),
+array('phpboinc10.zip',
+    'phpBOINC',
+    '1.0',
+    'Script to display BOINC stats on a webpage.',
+    'http://one.zer0x.net/~rjsilvers',
+    'Windows, *nix',
+    'This is a PHP script that will interpret your client statistics and display it on a webpage. By default it points to client_state.xml, but can be changed to point to any location. It includes an example output at the bottom of the script.',
+    1110197681
+),
+);
+
+?>
