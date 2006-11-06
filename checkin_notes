@@ -12264,7 +12264,10 @@ Charlie 5 Nov 2006
             exit message; custom exit messages neither want nor need it.
         - Remove bogus test Exit Confirmation Message from WCG skin.xml file.
         - Modal dialogs should not be resizable on Mac.
-    - MGR: Use a wxPanel for background of SG Dialogs because using EraseBackground events to paint background directly to a window doesn't work on the Mac.  The extra panel allows the same centering logic to work on both Windows and Mac.  Adjusted font sizes in Preferences dialog for Mac.
+    - MGR: Use a wxPanel for background of SG Dialogs because using EraseBackground 
+        events to paint background directly to a window doesn't work on the Mac.  
+        The extra panel allows the same centering logic to work on both Windows and 
+        Mac.  Adjusted font sizes in Preferences dialog for Mac.
 
     clientgui/
         BOINCGUIApp.cpp
