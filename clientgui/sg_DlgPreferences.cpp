@@ -263,7 +263,7 @@ void CDlgPreferences::OnOK( wxCommandEvent& event ) {
  * CPanelPreferences type definition
  */
 
-IMPLEMENT_DYNAMIC_CLASS( CPanelPreferences, wxDialog )
+IMPLEMENT_DYNAMIC_CLASS( CPanelPreferences, wxPanel )
 
 /*!
  * CPanelPreferences event table definition
