@@ -12291,3 +12291,10 @@ David  6 Nov 2006
         addon_data.php
     html/inc/
         team.inc
+
+Rom    6 Nov 2006
+    - MGR: Fix build breaks on Windows.
+    
+    clientgui/
+        sg_BoincSimpleGUI.cpp
+        sg_ProjectsComponent.cpp

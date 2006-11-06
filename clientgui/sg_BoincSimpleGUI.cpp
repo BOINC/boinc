@@ -86,10 +86,8 @@ CSimpleFrame::CSimpleFrame(wxString title, wxIcon* icon) :
 }
 
 
-CSimpleFrame::~CSimpleFrame()
-{
+CSimpleFrame::~CSimpleFrame() {
     wxLogTrace(wxT("Function Start/End"), wxT("CSimpleFrame::CSimpleFrame - Destructor Function Begin"));
-    wxASSERT(m_pFrameRenderTimer);
 
 	SaveState();
 

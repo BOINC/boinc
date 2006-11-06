@@ -501,10 +501,7 @@ void CProjectsComponent::OnBtnClick(wxCommandEvent& event){ //init function
 	wxObject *m_wxBtnObj = event.GetEventObject();
 
 	CSimplePanel* pPanel      = wxDynamicCast(GetParent(), CSimplePanel);
-
-    wxASSERT(pFrame);
     wxASSERT(pPanel);
-
 
 	if (m_wxBtnObj==btnArwLeft){
 		m_leftIndex--;
