@@ -78,8 +78,11 @@ CSimpleFrame::CSimpleFrame(wxString title, wxIcon* icon) :
     wxLogTrace(wxT("Function Start/End"), wxT("CSimpleFrame::CSimpleFrame - Overloaded Constructor Function Begin"));
 
     RestoreState();
-    
-    m_pBackgroundPanel = new CSimplePanel(this, icon);
+
+    // Initialize Application
+    SetIcon(*icon);
+	    
+    m_pBackgroundPanel = new CSimplePanel(this);
 }
 
 
@@ -305,7 +308,7 @@ CSimplePanel::CSimplePanel() {
 }
 
 
-CSimplePanel::CSimplePanel(wxWindow* parent, wxIcon* icon) : 
+CSimplePanel::CSimplePanel(wxWindow* parent) : 
     wxPanel(parent, -1, wxDefaultPosition, wxDefaultSize, wxNO_BORDER)
 {
     wxLogTrace(wxT("Function Start/End"), wxT("CSimplePanel::CSimplePanel - Overloaded Constructor Function Begin"));
@@ -345,7 +348,7 @@ CSimplePanel::~CSimplePanel()
 
 
 void CSimplePanel::ReskinInterface() {
-    wxLogTrace(wxT("Function Start/End"), wxT("CSimplePanel::OnReloadSkin - Function Start"));
+    wxLogTrace(wxT("Function Start/End"), wxT("CSimplePanel::ReskinInterface - Function Start"));
 
     CSkinSimple* pSkinSimple = wxGetApp().GetSkinManager()->GetSimple();
 
@@ -368,7 +371,7 @@ void CSimplePanel::ReskinInterface() {
     Thaw();
     Refresh();
 
-    wxLogTrace(wxT("Function Start/End"), wxT("CSimplePanel::OnReloadSkin - Function End"));
+    wxLogTrace(wxT("Function Start/End"), wxT("CSimplePanel::ReskinInterface - Function End"));
 }
 
 

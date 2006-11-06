@@ -38,7 +38,7 @@ class CSimplePanel : public wxPanel
 
 public:
     CSimplePanel();
-    CSimplePanel(wxWindow* parent, wxIcon* icon);
+    CSimplePanel(wxWindow* parent);
 
    ~CSimplePanel();
 	//
