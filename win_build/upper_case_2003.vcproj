@@ -44,7 +44,7 @@
 				Name="VCCustomBuildTool"/>
 			<Tool
 				Name="VCLinkerTool"
-				AdditionalDependencies="opengl32.lib glu32.lib glaux.lib odbc32.lib odbccp32.lib libcmt.lib libcpmt.lib"
+				AdditionalDependencies="opengl32.lib glu32.lib glaux.lib odbc32.lib odbccp32.lib libcmt.lib libcpmt.lib delayimp.lib"
 				OutputFile="Release/uppercase_5.10_windows_intelx86.exe"
 				LinkIncremental="0"
 				SuppressStartupBanner="TRUE"
