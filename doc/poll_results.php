@@ -5,9 +5,11 @@ require_once('../html/inc/translation.inc');
 
 $cachefile = "cache/poll_results_$language_in_use.html";
 
+$cache_time = 0;
+//$cache_time = 3600;
 if (file_exists($cachefile)) {
     $age = time() - filemtime($cachefile);
-    if ($age < 3600) {
+    if ($age < $cache_time) {
         readfile($cachefile);
         exit();
     }
@@ -21,7 +23,11 @@ require_once('poll_data.inc');
 mysql_pconnect("localhost", "boincadm", null);
 mysql_select_db("poll");
 
-function parse_xml($xml, &$sums) {
+$last_time = 0;
+
+function parse_xml($resp, &$sums) {
+    global $last_time;
+    $xml = $resp->xml;
     $lines = explode("\n", $xml);
     foreach ($lines as $line) {
         $matches = array();
@@ -30,7 +36,10 @@ function parse_xml($xml, &$sums) {
         $val = $matches[2];
         if (strstr($tag, 'text')) {
             if ($val) {
-                $sums[$tag][] = str_replace("\\r\\n", "\n", urldecode($val));
+                $val = str_replace("\\r\\n", "\n", urldecode($val));
+                $val = str_replace('\\\\\\', '', $val);
+                $d = gmdate("g:i A \U\T\C, F d Y", $resp->update_time);
+                $sums[$tag][] = "<font size=-2>$d</font><br>$val";
             }
         } else {
             if ($val) {
@@ -146,9 +155,9 @@ function display_countries($sums) {
     list_item2("Nationality", $y);
 }
 $sums = array();
-$result = mysql_query("select * from response");
+$result = mysql_query("select * from response order by update_time");
 while ($resp = mysql_fetch_object($result)) {
-    parse_xml($resp->xml, $sums);
+    parse_xml($resp, $sums);
 }
 //print_r($sums);
 

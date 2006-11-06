@@ -44,14 +44,9 @@ function show_group($name, $list, $short_name) {
 		$file = $item[0];
 		$itemname = $item[1];
 		$desc = $item[3];
-        if (strstr($file, 'http://')) {
-            $url = $file;
-        } else {
-            $url = "http://boinc.berkeley.edu/addons/$file";
-        }
         $iname = urlencode($file);
 		echo "
-			<tr><td><a href=addon_item.php?platform=$short_name&item=$iname>$itemname</a></td>
+			<tr><td><a href=http://boinc.berkeley.edu/addon_item.php?platform=$short_name&item=$iname>$itemname</a></td>
 				<td>$desc</td>
 			</tr>
 		";

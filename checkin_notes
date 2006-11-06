@@ -12298,3 +12298,13 @@ Rom    6 Nov 2006
     clientgui/
         sg_BoincSimpleGUI.cpp
         sg_ProjectsComponent.cpp
+
+David  6 Nov 2006
+    - core client: if sched_op_debug flag is set,
+        show delay requests from server
+    - core client: set too_large flag whenever job is too big to run now
+        (so "Waiting for memory" will be shown in manager)
+
+    client/
+        cpu_sched.C
+        cs_scheduler.C

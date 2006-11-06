@@ -466,8 +466,11 @@ void CLIENT_STATE::schedule_cpus() {
 						rp->name, atp->procinfo.working_set_size_smoothed/MEGA
 					);
 				}
+                atp->too_large = true;
 				continue;
-			}
+			} else {
+                atp->too_large = false;
+            }
 			ram_left -= atp->procinfo.working_set_size_smoothed;
 		}
 
@@ -497,8 +500,11 @@ void CLIENT_STATE::schedule_cpus() {
 						rp->name, atp->procinfo.working_set_size_smoothed/MEGA
 					);
 				}
+                atp->too_large = true;
 				continue;
-			}
+			} else {
+                atp->too_large = false;
+            }
 			ram_left -= atp->procinfo.working_set_size_smoothed;
 		}
         rp->project->anticipated_debt -= (1 - rp->project->resource_share / rrs) * expected_pay_off;
@@ -572,7 +578,6 @@ bool CLIENT_STATE::enforce_schedule() {
     }
     for (i=0; i< active_tasks.active_tasks.size(); i++) {
         atp = active_tasks.active_tasks[i];
-        atp->too_large = false;
         if (atp->result->runnable()) {
             atp->next_scheduler_state = atp->scheduler_state;
         } else {
@@ -651,6 +656,7 @@ bool CLIENT_STATE::enforce_schedule() {
                 }
             } else {
                 ram_left -= atp->procinfo.working_set_size_smoothed;
+                atp->too_large = false;
                 continue;
             }
         }
@@ -669,6 +675,8 @@ bool CLIENT_STATE::enforce_schedule() {
                     );
                 }
                 continue;
+            } else {
+                atp->too_large = false;
             }
         }
 
@@ -729,6 +737,7 @@ bool CLIENT_STATE::enforce_schedule() {
                 );
             }
         } else {
+            atp->too_large = false;
             ram_left -= atp->procinfo.working_set_size_smoothed;
         }
     }

@@ -914,6 +914,12 @@ int CLIENT_STATE::handle_scheduler_reply(
         gstate.project_attach.messages.push_back(um.message);
     }
 
+    if (log_flags.sched_op_debug && sr.request_delay) {
+        msg_printf(project, MSG_INFO,
+            "Project requested delay of %f seconds", sr.request_delay
+        );
+    }
+
     // if project is down, return error (so that we back off)
     // and don't do anything else
     //
