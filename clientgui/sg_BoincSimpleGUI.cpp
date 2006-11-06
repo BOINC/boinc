@@ -55,15 +55,10 @@ IMPLEMENT_DYNAMIC_CLASS(CSimpleFrame, CBOINCBaseFrame)
 
 BEGIN_EVENT_TABLE(CSimpleFrame, CBOINCBaseFrame)
     EVT_SIZE(CSimpleFrame::OnSize)
-#ifndef __WXMAC__
-    EVT_ERASE_BACKGROUND(CSimpleFrame::OnEraseBackground)
-#endif
     EVT_MENU(wxID_EXIT, CSimpleFrame::OnExit)   // In case we add a menu with EXIT to Simple GUI
     EVT_FRAME_CONNECT(CSimpleFrame::OnConnect)
     EVT_FRAME_RELOADSKIN(CSimpleFrame::OnReloadSkin)
-	EVT_TIMER(ID_SIMPLEFRAMERENDERTIMER, CSimpleFrame::OnFrameRender)
 END_EVENT_TABLE()
-
 
 CSimpleFrame::CSimpleFrame() {
     wxLogTrace(wxT("Function Start/End"), wxT("CSimpleFrame::CSimpleFrame - Default Constructor Function Begin"));
@@ -82,28 +77,9 @@ CSimpleFrame::CSimpleFrame(wxString title, wxIcon* icon) :
 {
     wxLogTrace(wxT("Function Start/End"), wxT("CSimpleFrame::CSimpleFrame - Overloaded Constructor Function Begin"));
 
-    wrkUnitNB = NULL;
-    clientState = NULL;
-    projComponent = NULL;
-
-	projectViewInitialized = false;
-	emptyViewInitialized = false;
-	notebookViewInitialized = false;
-	dlgOpen = false;
-
-	RestoreState();
-
-    // Initialize Application
-    SetIcon(*icon);
-	
-	//set polling timer for interface
-	m_pFrameRenderTimer = new wxTimer(this, ID_SIMPLEFRAMERENDERTIMER);
-    wxASSERT(m_pFrameRenderTimer);
-    m_pFrameRenderTimer->Start(1000);                // Send event every 1 second
-
-	InitEmptyView();
-
-    wxLogTrace(wxT("Function Start/End"), wxT("CSimpleFrame::CSimpleFrame - Overloaded Constructor Function End"));
+    RestoreState();
+    
+    m_pBackgroundPanel = new CSimplePanel(this, icon);
 }
 
 
@@ -114,17 +90,12 @@ CSimpleFrame::~CSimpleFrame()
 
 	SaveState();
 
-	if (m_pFrameRenderTimer) {
-        m_pFrameRenderTimer->Stop();
-        delete m_pFrameRenderTimer;
-    }
-
     wxLogTrace(wxT("Function Start/End"), wxT("CSimpleFrame::CSimpleFrame - Destructor Function End"));
 }
 
 
 bool CSimpleFrame::RestoreState() {
-	CBOINCBaseFrame::RestoreState();
+    CBOINCBaseFrame::RestoreState();
     wxConfigBase*   pConfig = wxConfigBase::Get(FALSE);
     wxString        strBaseConfigLocation = wxString(wxT("/"));
     wxASSERT(pConfig);
@@ -214,6 +185,48 @@ bool CSimpleFrame::SaveState() {
 }
 
 
+void CSimpleFrame::OnReloadSkin(CFrameEvent& WXUNUSED(event)) {
+    wxLogTrace(wxT("Function Start/End"), wxT("CSimpleFrame::OnReloadSkin - Function Start"));
+    
+    m_pBackgroundPanel-> ReskinInterface();
+
+    wxLogTrace(wxT("Function Start/End"), wxT("CSimpleFrame::OnReloadSkin - Function End"));
+}
+
+
+void CSimpleFrame::OnProjectsAttachToProject() {
+    wxLogTrace(wxT("Function Start/End"), wxT("CSimpleFrame::OnProjectsAttachToProject - Function Begin"));
+
+    CMainDocument* pDoc     = wxGetApp().GetDocument();
+
+    wxASSERT(pDoc);
+    wxASSERT(wxDynamicCast(pDoc, CMainDocument));
+
+    if (!pDoc->IsUserAuthorized())
+        return;
+
+    if (pDoc->IsConnected()) {
+        
+        m_pBackgroundPanel->m_pFrameRenderTimer->Stop();
+
+        CWizardAttachProject* pWizard = new CWizardAttachProject(this);
+
+        wxString strName = wxEmptyString;
+        wxString strURL = wxEmptyString;
+        pWizard->Run( strName, strURL, false );
+
+        if (pWizard)
+            pWizard->Destroy();
+
+        m_pBackgroundPanel->m_pFrameRenderTimer->Start();
+    } else {
+        ShowNotCurrentlyConnectedAlert();
+    }
+
+    wxLogTrace(wxT("Function Start/End"), wxT("CSimpleFrame::OnProjectsAttachToProject - Function End"));
+}
+
+
 void CSimpleFrame::OnConnect(CFrameEvent& WXUNUSED(event)) {
     wxLogTrace(wxT("Function Start/End"), wxT("CSimpleFrame::OnConnect - Function Begin"));
     
@@ -268,22 +281,73 @@ void CSimpleFrame::OnConnect(CFrameEvent& WXUNUSED(event)) {
     if (pAMWizard)
         pAMWizard->Destroy();
 	if (pAPWizard){
-        pAPWizard->Destroy();
-		//update Project Component
-		projComponent->UpdateInterface();
+            pAPWizard->Destroy();
+            //update Project Component
+            m_pBackgroundPanel->UpdateProjectView();
 	}
 
     wxLogTrace(wxT("Function Start/End"), wxT("CSimpleFrame::OnConnect - Function End"));
 }
 
 
-void CSimpleFrame::OnReloadSkin(CFrameEvent& WXUNUSED(event)) {
-    wxLogTrace(wxT("Function Start/End"), wxT("CSimpleFrame::OnReloadSkin - Function Start"));
+IMPLEMENT_DYNAMIC_CLASS(CSimplePanel, wxPanel)
+
+BEGIN_EVENT_TABLE(CSimplePanel, wxPanel)
+    EVT_SIZE(CSimplePanel::OnSize)
+    EVT_ERASE_BACKGROUND(CSimplePanel::OnEraseBackground)
+    EVT_TIMER(ID_SIMPLEFRAMERENDERTIMER, CSimplePanel::OnFrameRender)
+END_EVENT_TABLE()
+
+
+CSimplePanel::CSimplePanel() {
+    wxLogTrace(wxT("Function Start/End"), wxT("CSimplePanel::CSimplePanel - Default Constructor Function Begin"));
+    wxLogTrace(wxT("Function Start/End"), wxT("CSimplePanels::CSimplePanel - Default Constructor Function End"));
+}
+
+
+CSimplePanel::CSimplePanel(wxWindow* parent, wxIcon* icon) : 
+    wxPanel(parent, -1, wxDefaultPosition, wxDefaultSize, wxNO_BORDER)
+{
+    wxLogTrace(wxT("Function Start/End"), wxT("CSimplePanel::CSimplePanel - Overloaded Constructor Function Begin"));
+
+    wrkUnitNB = NULL;
+    clientState = NULL;
+    projComponent = NULL;
+
+	projectViewInitialized = false;
+	emptyViewInitialized = false;
+	notebookViewInitialized = false;
+	dlgOpen = false;
+
+	//set polling timer for interface
+	m_pFrameRenderTimer = new wxTimer(this, ID_SIMPLEFRAMERENDERTIMER);
+    wxASSERT(m_pFrameRenderTimer);
+    m_pFrameRenderTimer->Start(1000);                // Send event every 1 second
+
+	InitEmptyView();
+
+    wxLogTrace(wxT("Function Start/End"), wxT("CSimplePanel::CSimplePanel - Overloaded Constructor Function End"));
+}
+
+
+CSimplePanel::~CSimplePanel()
+{
+    wxLogTrace(wxT("Function Start/End"), wxT("CSimplePanel::CSimplePanel - Destructor Function Begin"));
+    wxASSERT(m_pFrameRenderTimer);
+
+	if (m_pFrameRenderTimer) {
+        m_pFrameRenderTimer->Stop();
+        delete m_pFrameRenderTimer;
+    }
+
+    wxLogTrace(wxT("Function Start/End"), wxT("CSimplePanel::CSimplePanel - Destructor Function End"));
+}
+
+
+void CSimplePanel::ReskinInterface() {
+    wxLogTrace(wxT("Function Start/End"), wxT("CSimplePanel::OnReloadSkin - Function Start"));
 
     CSkinSimple* pSkinSimple = wxGetApp().GetSkinManager()->GetSimple();
-#ifdef __WXMAC__
-        m_pBackground_Bmp->SetBitmap(*pSkinSimple->GetBackgroundImage()->GetBitmap());
-#endif
 
     wxASSERT(pSkinSimple);
     wxASSERT(wxDynamicCast(pSkinSimple, CSkinSimple));
@@ -302,44 +366,23 @@ void CSimpleFrame::OnReloadSkin(CFrameEvent& WXUNUSED(event)) {
 
     Refresh();
 
-    wxLogTrace(wxT("Function Start/End"), wxT("CSimpleFrame::OnReloadSkin - Function End"));
+    wxLogTrace(wxT("Function Start/End"), wxT("CSimplePanel::OnReloadSkin - Function End"));
 }
 
 
-void CSimpleFrame::OnProjectsAttachToProject() {
-    wxLogTrace(wxT("Function Start/End"), wxT("CSimpleFrame::OnProjectsAttachToProject - Function Begin"));
+void CSimplePanel::OnProjectsAttachToProject() {
+    wxLogTrace(wxT("Function Start/End"), wxT("CSimplePanel::OnProjectsAttachToProject - Function Begin"));
+	
+    CSimpleFrame* pFrame = wxDynamicCast(GetParent(), CSimpleFrame);
+    wxASSERT(pFrame);
 
-    CMainDocument* pDoc     = wxGetApp().GetDocument();
+    pFrame->OnProjectsAttachToProject();
 
-    wxASSERT(pDoc);
-    wxASSERT(wxDynamicCast(pDoc, CMainDocument));
-
-    if (!pDoc->IsUserAuthorized())
-        return;
-
-    if (pDoc->IsConnected()) {
-        
-        m_pFrameRenderTimer->Stop();
-
-        CWizardAttachProject* pWizard = new CWizardAttachProject(this);
-
-        wxString strName = wxEmptyString;
-        wxString strURL = wxEmptyString;
-        pWizard->Run( strName, strURL, false );
-
-        if (pWizard)
-            pWizard->Destroy();
-
-        m_pFrameRenderTimer->Start();
-    } else {
-        ShowNotCurrentlyConnectedAlert();
-    }
-
-    wxLogTrace(wxT("Function Start/End"), wxT("CAdvancedFrame::OnProjectsAttachToProject - Function End"));
+    wxLogTrace(wxT("Function Start/End"), wxT("CSimpleFrame::OnProjectsAttachToProject - Function End"));
 }
 
 
-void CSimpleFrame::OnFrameRender(wxTimerEvent& WXUNUSED(event)) {
+void CSimplePanel::OnFrameRender(wxTimerEvent& WXUNUSED(event)) {
 	CMainDocument* pDoc     = wxGetApp().GetDocument();
 
 	if (!projectViewInitialized) {
@@ -384,19 +427,19 @@ void CSimpleFrame::OnFrameRender(wxTimerEvent& WXUNUSED(event)) {
 }
 
 
-void CSimpleFrame::UpdateEmptyView() {
+void CSimplePanel::UpdateEmptyView() {
 	clientState->DisplayState();
 }
 
 
-void CSimpleFrame::DestroyEmptyView() {
+void CSimplePanel::DestroyEmptyView() {
 	delete clientState;
 	clientState = NULL;
 	emptyViewInitialized = false;
 }
 
 
-void CSimpleFrame::InitEmptyView()
+void CSimplePanel::InitEmptyView()
 {
     CSkinSimple* pSkinSimple = wxGetApp().GetSkinManager()->GetSimple();
 
@@ -405,10 +448,6 @@ void CSimpleFrame::InitEmptyView()
 
 	//Set Background color
     SetBackgroundColour(*pSkinSimple->GetBackgroundImage()->GetBackgroundColor());
-
-#ifdef __WXMAC__
-        m_pBackground_Bmp = new wxStaticBitmap(this, wxID_ANY, *pSkinSimple->GetBackgroundImage()->GetBitmap());
-#endif
 
 	// Flex Grid Sizer
 	mainSizer = new wxFlexGridSizer(3,2);
@@ -421,14 +460,14 @@ void CSimpleFrame::InitEmptyView()
 }
 
 
-void CSimpleFrame::UpdateProjectView()
+void CSimplePanel::UpdateProjectView()
 {
 	//update Project Component
     projComponent->UpdateInterface();
 }
 
 
-void CSimpleFrame::DestroyNotebook() {
+void CSimplePanel::DestroyNotebook() {
 	mainSizer->Detach(wrkUnitNB);
 	delete wrkUnitNB;
 	wrkUnitNB = NULL;
@@ -436,7 +475,7 @@ void CSimpleFrame::DestroyNotebook() {
 }
 
 
-void CSimpleFrame::InitProjectView()
+void CSimplePanel::InitProjectView()
 {
 	// Do not update screen at this point
 	/////////////// MY PROJECTS COMPONENT /////////////////////
@@ -446,7 +485,7 @@ void CSimpleFrame::InitProjectView()
 }
 
 
-void CSimpleFrame::InitNotebook()
+void CSimplePanel::InitNotebook()
 {
     wxLogTrace(wxT("Function Start/End"), wxT("CAdvancedFrame::InitNotebook - Function Start"));
 	// FlatNotebook
@@ -463,7 +502,7 @@ void CSimpleFrame::InitNotebook()
 }
 
 
-void CSimpleFrame::OnEraseBackground(wxEraseEvent& event){
+void CSimplePanel::OnEraseBackground(wxEraseEvent& event){
     CSkinSimple* pSkinSimple = wxGetApp().GetSkinManager()->GetSimple();
 
     wxASSERT(pSkinSimple);

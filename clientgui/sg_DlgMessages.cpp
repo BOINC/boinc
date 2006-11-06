@@ -45,17 +45,13 @@ enum
 #define COLUMN_TIME                 1
 #define COLUMN_MESSAGE              2
 
-BEGIN_EVENT_TABLE( CDlgMessages,wxDialog)
+BEGIN_EVENT_TABLE( CDlgMessages,wxWindow)
   EVT_BUTTON(-1,CDlgMessages::OnBtnClick)
-  EVT_TIMER(ID_REFRESHMESSAGESTIMER, CDlgMessages::OnListRender)
-  EVT_ERASE_BACKGROUND(CDlgMessages::OnEraseBackground)
 END_EVENT_TABLE()
 // end events
 
 CDlgMessages::CDlgMessages(wxWindow* parent, wxWindowID id, const wxString& title, const wxPoint& pos, const wxSize& size, long style, const wxString& name)
 {
-	m_bProcessingListRenderEvent = false;
-
 	Create(parent,id,title,pos,size,style,name);
 
 	if((pos==wxDefaultPosition)&&(size==wxDefaultSize)){
@@ -68,9 +64,36 @@ CDlgMessages::CDlgMessages(wxWindow* parent, wxWindowID id, const wxString& titl
 
 #ifdef __WXMAC__
     SetSize(544,450);
-    CSkinSimple* pSkinSimple = wxGetApp().GetSkinManager()->GetSimple();
-    new wxStaticBitmap(this, wxID_ANY, *pSkinSimple->GetMessagesDialogBackgroundImage()->GetBitmap());
 #endif
+
+    m_pBackgroundPanel = new CPanelMessages(this);
+    Centre();
+}
+
+CDlgMessages::~CDlgMessages()
+{
+}
+
+void CDlgMessages::OnBtnClick(wxCommandEvent& /*event*/){ //init function
+    EndModal(wxID_CANCEL);
+} //end function
+
+
+BEGIN_EVENT_TABLE( CPanelMessages,wxPanel)
+  EVT_TIMER(ID_REFRESHMESSAGESTIMER, CPanelMessages::OnListRender)
+  EVT_ERASE_BACKGROUND(CPanelMessages::OnEraseBackground)
+END_EVENT_TABLE()
+// end events
+
+CPanelMessages::CPanelMessages(wxWindow* parent) : 
+    wxPanel(parent, -1, wxDefaultPosition, wxDefaultSize, wxNO_BORDER)
+{
+	m_bProcessingListRenderEvent = false;
+
+    wxWindow* pWin = wxDynamicCast(GetParent(), wxWindow);
+    wxASSERT(pWin);
+
+    SetSize(pWin->GetSize());
 
     m_pList = new CSGUIListCtrl(this, ID_SIMPLE_MESSAGESVIEW, DEFAULT_LIST_MULTI_SEL_FLAGS);
     wxASSERT(m_pList);
@@ -88,7 +111,8 @@ CDlgMessages::CDlgMessages(wxWindow* parent, wxWindowID id, const wxString& titl
 	CreateDialog();
 	initAfter();
 }
-CDlgMessages::~CDlgMessages()
+
+CPanelMessages::~CPanelMessages()
 {
 	if (m_pRefreshMessagesTimer) {
         m_pRefreshMessagesTimer->Stop();
@@ -107,7 +131,7 @@ CDlgMessages::~CDlgMessages()
 }
 
 
-void CDlgMessages::CreateDialog()
+void CPanelMessages::CreateDialog()
 {
     CSkinSimple* pSkinSimple = wxGetApp().GetSkinManager()->GetSimple();
 
@@ -127,7 +151,7 @@ void CDlgMessages::CreateDialog()
 	Refresh();
 }
 
-void CDlgMessages::VwXDrawBackImg(wxEraseEvent& event,wxWindow *win,wxBitmap* bitMap,int opz){
+void CPanelMessages::VwXDrawBackImg(wxEraseEvent& event,wxWindow *win,wxBitmap* bitMap,int opz){
  event.Skip(false);wxDC *dc;
  dc=event.GetDC();
  dc->SetBackground(wxBrush(win->GetBackgroundColour(),wxSOLID));
@@ -152,7 +176,7 @@ void CDlgMessages::VwXDrawBackImg(wxEraseEvent& event,wxWindow *win,wxBitmap* bi
          break;}
  }
 }
-void CDlgMessages::OnEraseBackground(wxEraseEvent& event){
+void CPanelMessages::OnEraseBackground(wxEraseEvent& event){
     CSkinSimple* pSkinSimple = wxGetApp().GetSkinManager()->GetSimple();
 
     wxASSERT(pSkinSimple);
@@ -173,29 +197,24 @@ void CDlgMessages::OnEraseBackground(wxEraseEvent& event){
  event.Skip(true);
 }
 
-void CDlgMessages::OnBtnClick(wxCommandEvent& /*event*/){ //init function
-    EndModal(wxID_CANCEL);
+void CPanelMessages::VwXEvOnEraseBackground(wxEraseEvent& WXUNUSED(event)){ //init function
 } //end function
 
-void CDlgMessages::VwXEvOnEraseBackground(wxEraseEvent& WXUNUSED(event)){ //init function
-} //end function
-
-void CDlgMessages::initBefore(){
+void CPanelMessages::initBefore(){
 }
 
-void CDlgMessages::initAfter(){
+void CPanelMessages::initAfter(){
     //add your code here
-    Centre();
 	//set polling timer for interface
 	m_pRefreshMessagesTimer = new wxTimer(this, ID_REFRESHMESSAGESTIMER);
     wxASSERT(m_pRefreshMessagesTimer);
     m_pRefreshMessagesTimer->Start(1000);  
 }
 
-wxInt32 CDlgMessages::GetDocCount() {
+wxInt32 CPanelMessages::GetDocCount() {
     return wxGetApp().GetDocument()->GetMessageCount();
 }
-void CDlgMessages::OnListRender (wxTimerEvent& event) {
+void CPanelMessages::OnListRender (wxTimerEvent& event) {
     if (!m_bProcessingListRenderEvent) {
         m_bProcessingListRenderEvent = true;
 
@@ -223,7 +242,7 @@ void CDlgMessages::OnListRender (wxTimerEvent& event) {
     event.Skip();
 }
 
-wxString CDlgMessages::OnListGetItemText(long item, long column) const {
+wxString CPanelMessages::OnListGetItemText(long item, long column) const {
     wxString        strBuffer   = wxEmptyString;
 
     switch(column) {
@@ -240,7 +259,7 @@ wxString CDlgMessages::OnListGetItemText(long item, long column) const {
 
     return strBuffer;
 }
-wxListItemAttr* CDlgMessages::OnListGetItemAttr(long item) const {
+wxListItemAttr* CPanelMessages::OnListGetItemAttr(long item) const {
     wxListItemAttr* pAttribute  = NULL;
     wxString        strBuffer   = wxEmptyString;
 
@@ -255,13 +274,13 @@ wxListItemAttr* CDlgMessages::OnListGetItemAttr(long item) const {
     return pAttribute;
 	
 }
-bool CDlgMessages::_EnsureLastItemVisible() {
+bool CPanelMessages::_EnsureLastItemVisible() {
     return EnsureLastItemVisible();
 }
-bool CDlgMessages::EnsureLastItemVisible() {
+bool CPanelMessages::EnsureLastItemVisible() {
     return true;
 }
-wxInt32 CDlgMessages::FormatProjectName(wxInt32 item, wxString& strBuffer) const {
+wxInt32 CPanelMessages::FormatProjectName(wxInt32 item, wxString& strBuffer) const {
     MESSAGE* message = wxGetApp().GetDocument()->message(item);
 
     if (message) {
@@ -272,7 +291,7 @@ wxInt32 CDlgMessages::FormatProjectName(wxInt32 item, wxString& strBuffer) const
 }
 
 
-wxInt32 CDlgMessages::FormatPriority(wxInt32 item, wxString& strBuffer) const {
+wxInt32 CPanelMessages::FormatPriority(wxInt32 item, wxString& strBuffer) const {
     MESSAGE* message = wxGetApp().GetDocument()->message(item);
 
     if (message) {
@@ -290,7 +309,7 @@ wxInt32 CDlgMessages::FormatPriority(wxInt32 item, wxString& strBuffer) const {
 }
 
 
-wxInt32 CDlgMessages::FormatTime(wxInt32 item, wxString& strBuffer) const {
+wxInt32 CPanelMessages::FormatTime(wxInt32 item, wxString& strBuffer) const {
     wxDateTime dtBuffer;
     MESSAGE*   message = wxGetApp().GetDocument()->message(item);
 
@@ -301,7 +320,7 @@ wxInt32 CDlgMessages::FormatTime(wxInt32 item, wxString& strBuffer) const {
 
     return 0;
 }
-wxInt32 CDlgMessages::FormatMessage(wxInt32 item, wxString& strBuffer) const {
+wxInt32 CPanelMessages::FormatMessage(wxInt32 item, wxString& strBuffer) const {
     MESSAGE*   message = wxGetApp().GetDocument()->message(item);
 
     if (message) {

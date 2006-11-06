@@ -32,17 +32,15 @@ class CProjectsComponent;
 class ClientStateIndicator;
 class WorkunitNotebook;
 
-// Define a new frame
-class CSimpleFrame : public CBOINCBaseFrame
+class CSimplePanel : public wxPanel
 {
-    DECLARE_DYNAMIC_CLASS(CSimpleFrame)
+    DECLARE_DYNAMIC_CLASS(CSimplePanel)
 
 public:
-    CSimpleFrame();
-    CSimpleFrame(wxString title, wxIcon* icon);
+    CSimplePanel();
+    CSimplePanel(wxWindow* parent, wxIcon* icon);
 
-   ~CSimpleFrame();
-
+   ~CSimplePanel();
 	//
 	// Flat Neotebook
 	WorkunitNotebook *wrkUnitNB;
@@ -59,10 +57,11 @@ public:
 	bool emptyViewInitialized;
 	bool notebookViewInitialized;
 
+        void ReskinInterface();
 	void InitEmptyView();
 	void UpdateEmptyView();
 	void DestroyEmptyView();
-    void InitResultView();
+	void InitResultView();
 	void InitProjectView();
 	void UpdateProjectView();
 	void InitNotebook();
@@ -88,16 +87,37 @@ public:
     DECLARE_EVENT_TABLE()
 
 protected:
-	void OnEraseBackground(wxEraseEvent& event);
-	void OnConnect(CFrameEvent& event );
-    void OnReloadSkin( CFrameEvent& event );
     void OnFrameRender(wxTimerEvent& event );
+    void OnEraseBackground(wxEraseEvent& event);
 
 private:
-	bool SaveState();
-	bool RestoreState();
-	bool dlgOpen;
+    bool dlgOpen;
+};
 
+
+// Define a new frame
+class CSimpleFrame : public CBOINCBaseFrame
+{
+    DECLARE_DYNAMIC_CLASS(CSimpleFrame)
+
+public:
+    CSimpleFrame();
+    CSimpleFrame(wxString title, wxIcon* icon);
+
+   ~CSimpleFrame();
+
+    void OnConnect(CFrameEvent& event );
+    void OnProjectsAttachToProject();
+
+private:
+    bool SaveState();
+    bool RestoreState();
+
+protected:
+    void OnReloadSkin( CFrameEvent& event );
+    CSimplePanel* m_pBackgroundPanel;
+
+    DECLARE_EVENT_TABLE()
 };
 
 #endif

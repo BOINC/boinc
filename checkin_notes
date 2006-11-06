@@ -12256,3 +12256,26 @@ David  4 Nov 2006
         main.h
         sched_locality.C
         sched_send.C
+
+Charlie 5 Nov 2006
+    - MGR: Fix new Exit Confirmation Dialog bugs:
+        - Use Fit() not Layout(), which did not work on Windows or Mac.
+        - Use printf project & application name substitution only for default 
+            exit message; custom exit messages neither want nor need it.
+        - Remove bogus test Exit Confirmation Message from WCG skin.xml file.
+        - Modal dialogs should not be resizable on Mac.
+    - MGR: Use a wxPanel for background of SG Dialogs because using EraseBackground events to paint background directly to a window doesn't work on the Mac.  The extra panel allows the same centering logic to work on both Windows and Mac.  Adjusted font sizes in Preferences dialog for Mac.
+
+    clientgui/
+        BOINCGUIApp.cpp
+        DlgGenericMessage.h
+        sg_BoincSimpleGUI.cpp, h
+        sg_ClientStateIndicator.cpp, h
+        sg_DlgMessages.cpp, h
+        sg_DlgPreferences.cpp, h
+        sg_ProjectsComponent.cpp, h
+        sg_SGUIListControl.cpp, h
+        SkinManager.cpp
+        skins/
+            World Community Grid/
+                skin.xml

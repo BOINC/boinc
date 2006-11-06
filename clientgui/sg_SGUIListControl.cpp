@@ -40,7 +40,7 @@ IMPLEMENT_DYNAMIC_CLASS(CSGUIListCtrl, wxListView)
 
 CSGUIListCtrl::CSGUIListCtrl() {}
 
-CSGUIListCtrl::CSGUIListCtrl(CDlgMessages* pView, wxWindowID iListWindowID, wxInt32 iListWindowFlags)
+CSGUIListCtrl::CSGUIListCtrl(CPanelMessages* pView, wxWindowID iListWindowID, wxInt32 iListWindowFlags)
     :wxListView(pView, iListWindowID,  wxPoint(15,15), wxSize(510, 378), iListWindowFlags) 
 {
     m_pParentView = pView;
@@ -51,7 +51,7 @@ CSGUIListCtrl::CSGUIListCtrl(CDlgMessages* pView, wxWindowID iListWindowID, wxIn
 
 wxString CSGUIListCtrl::OnGetItemText(long item, long column) const {
     wxASSERT(m_pParentView);
-	wxASSERT(wxDynamicCast(m_pParentView, CDlgMessages));
+	wxASSERT(wxDynamicCast(m_pParentView, CPanelMessages));
 
     return m_pParentView->OnListGetItemText(item, column);
 }
@@ -64,7 +64,7 @@ int CSGUIListCtrl::OnGetItemImage(long /* item */) const {
 
 wxListItemAttr* CSGUIListCtrl::OnGetItemAttr(long item) const {
     wxASSERT(m_pParentView);
-    wxASSERT(wxDynamicCast(m_pParentView, CDlgMessages));
+    wxASSERT(wxDynamicCast(m_pParentView, CPanelMessages));
 
     return m_pParentView->OnListGetItemAttr(item);
 }

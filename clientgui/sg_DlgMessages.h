@@ -29,10 +29,10 @@
 
 class CSGUIListCtrl;
 
-class CDlgMessages:public wxDialog
+class CPanelMessages:public wxPanel
 {
 public:
-	CDlgMessages(wxWindow* parent, wxWindowID id = -1 , const wxString& title = wxT(""), const wxPoint& pos = wxDefaultPosition, const wxSize& size = wxDefaultSize, long style = wxDEFAULT_DIALOG_STYLE, const wxString& name = wxT("dialogBox"));
+	CPanelMessages(wxWindow* parent);
 	//btns
 	wxBitmap* btmpClose; 
 	wxBitmap* btmpCloseClick; 
@@ -40,7 +40,7 @@ public:
 	wxBitmapButton *btnClose;
 
 	// Pointer control
-	virtual ~CDlgMessages();
+	virtual ~CPanelMessages();
 	void initBefore();
 	void CreateDialog();
 	void initAfter();
@@ -70,7 +70,6 @@ protected:
     wxInt32                 FormatMessage( wxInt32 item, wxString& strBuffer ) const;
 
 	void OnEraseBackground(wxEraseEvent& event);
-	void OnBtnClick(wxCommandEvent& event);
 	void VwXEvOnEraseBackground(wxEraseEvent& event);
 	void VwXDrawBackImg(wxEraseEvent& event,wxWindow *win,wxBitmap* bitMap,int opz);
     //
@@ -78,6 +77,22 @@ protected:
 	virtual wxInt32         GetDocCount();
 	//
 	CSGUIListCtrl *m_pList;
+};
+
+
+class CDlgMessages:public wxDialog
+{
+public:
+	CDlgMessages(wxWindow* parent, wxWindowID id = -1 , const wxString& title = wxT(""), const wxPoint& pos = wxDefaultPosition, const wxSize& size = wxDefaultSize, long style = wxDEFAULT_DIALOG_STYLE, const wxString& name = wxT("dialogBox"));
+	virtual ~CDlgMessages();
+
+	DECLARE_EVENT_TABLE()
+
+protected:
+	void OnBtnClick(wxCommandEvent& event);
+
+private:
+        CPanelMessages* m_pBackgroundPanel;
 };
 
 

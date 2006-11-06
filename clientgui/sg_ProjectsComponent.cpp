@@ -59,7 +59,7 @@ CProjectsComponent::CProjectsComponent() {
 }
 
 
-CProjectsComponent::CProjectsComponent(CSimpleFrame* parent,wxPoint coord) :
+CProjectsComponent::CProjectsComponent(CSimplePanel* parent,wxPoint coord) :
     wxPanel(parent, -1, coord, wxSize(343,113), wxNO_BORDER)
 {
     wxASSERT(parent);
@@ -358,11 +358,11 @@ void CProjectsComponent::UpdateDisplayedProjects() {
 void CProjectsComponent::OnPreferences(wxCommandEvent& /*event*/) {
     wxLogTrace(wxT("Function Start/End"), wxT("CProjectsComponent::OnPreferences - Function Begin"));
 
-	CSimpleFrame* pFrame = wxDynamicCast(GetParent(), CSimpleFrame);
+	CSimplePanel* pPanel = wxDynamicCast(GetParent(), CSimplePanel);
 
-    wxASSERT(pFrame);
+    wxASSERT(pPanel);
 
-	pFrame->SetDlgOpen(true);
+	pPanel->SetDlgOpen(true);
 
 	CDlgPreferences* pDlg = new CDlgPreferences(GetParent());
     wxASSERT(pDlg);
@@ -372,7 +372,7 @@ void CProjectsComponent::OnPreferences(wxCommandEvent& /*event*/) {
     if (pDlg)
         pDlg->Destroy();
 
-    pFrame->SetDlgOpen(false);
+    pPanel->SetDlgOpen(false);
 
     wxLogTrace(wxT("Function Start/End"), wxT("CProjectsComponent::OnPreferences - Function End"));
 }
@@ -500,8 +500,10 @@ void CProjectsComponent::ReskinInterface()
 void CProjectsComponent::OnBtnClick(wxCommandEvent& event){ //init function
 	wxObject *m_wxBtnObj = event.GetEventObject();
 
-	CSimpleFrame* pFrame      = wxDynamicCast(GetParent(), CSimpleFrame);
+	CSimplePanel* pPanel      = wxDynamicCast(GetParent(), CSimplePanel);
+
     wxASSERT(pFrame);
+    wxASSERT(pPanel);
 
 
 	if (m_wxBtnObj==btnArwLeft){
@@ -513,16 +515,16 @@ void CProjectsComponent::OnBtnClick(wxCommandEvent& event){ //init function
 		UpdateDisplayedProjects();
 		Refresh();
 	} else if(m_wxBtnObj==btnAddProj){
-		pFrame->OnProjectsAttachToProject();
+		pPanel->OnProjectsAttachToProject();
 		btnAddProj->Refresh();
 	} else if(m_wxBtnObj==btnMessages || m_wxBtnObj==btnAlertMessages){
 		MessagesViewed();
-		pFrame->SetDlgOpen(true);
+		pPanel->SetDlgOpen(true);
 		CDlgMessages* pDlg = new CDlgMessages(NULL);
 		wxASSERT(pDlg);
 		pDlg->ShowModal();
 		pDlg->Destroy();
-		pFrame->SetDlgOpen(false);
+		pPanel->SetDlgOpen(false);
     } else if(m_wxBtnObj==btnPause) {
 		CMainDocument* pDoc     = wxGetApp().GetDocument();
         CC_STATUS      status;

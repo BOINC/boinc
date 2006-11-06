@@ -78,38 +78,35 @@ class CTransparentCheckBox;
 #endif
 
 /*!
- * CDlgPreferences class declaration
+ * CPanelPreferences class declaration
  */
 
-class CDlgPreferences: public wxDialog
+class CPanelPreferences: public wxPanel
 {    
-    DECLARE_DYNAMIC_CLASS( CDlgPreferences )
+    DECLARE_DYNAMIC_CLASS( CPanelPreferences )
     DECLARE_EVENT_TABLE()
 
 public:
     /// Constructors
-    CDlgPreferences( );
-    CDlgPreferences( wxWindow* parent, wxWindowID id = SYMBOL_CDLGPREFERENCES_IDNAME, const wxString& caption = SYMBOL_CDLGPREFERENCES_TITLE, const wxPoint& pos = SYMBOL_CDLGPREFERENCES_POSITION, const wxSize& size = SYMBOL_CDLGPREFERENCES_SIZE, long style = SYMBOL_CDLGPREFERENCES_STYLE );
+    CPanelPreferences( );
+    CPanelPreferences( wxWindow* parent );
 
     /// Creation
-    bool Create( wxWindow* parent, wxWindowID id = SYMBOL_CDLGPREFERENCES_IDNAME, const wxString& caption = SYMBOL_CDLGPREFERENCES_TITLE, const wxPoint& pos = SYMBOL_CDLGPREFERENCES_POSITION, const wxSize& size = SYMBOL_CDLGPREFERENCES_SIZE, long style = SYMBOL_CDLGPREFERENCES_STYLE );
+    bool Create();
 
     /// Creates the controls and sizers
     void CreateControls();
 
-////@begin CDlgPreferences event handler declarations
+////@begin CPanelPreferences event handler declarations
     /// wxEVT_ERASE_BACKGROUND event handler for ID_DLGPREFERENCES
     void OnEraseBackground( wxEraseEvent& event );
 
     /// wxEVT_COMMAND_CHECKBOX_CLICKED event handler for ID_CUSTOMIZEPREFERENCES
     void OnCustomizePreferencesClick( wxCommandEvent& event );
 
-    /// wxEVT_COMMAND_BUTTON_CLICKED event handler for wxID_OK
-    void OnOK( wxCommandEvent& event );
+////@end CPanelPreferences event handler declarations
 
-////@end CDlgPreferences event handler declarations
-
-////@begin CDlgPreferences member function declarations
+////@begin CPanelPreferences member function declarations
     wxString GetSkinSelector() const { return m_strSkinSelector ; }
     void SetSkinSelector(wxString value) { m_strSkinSelector = value ; }
 
@@ -142,9 +139,10 @@ public:
 
     bool GetCustomizedPreferences() const { return m_bCustomizedPreferences ; }
     void SetCustomizedPreferences(bool value) { m_bCustomizedPreferences = value ; }
-////@end CDlgPreferences member function declarations
+////@end CPanelPreferences member function declarations
 
 
+    void OnOK();
     bool UpdateControlStates(bool bChecked);
 
     bool ClearPreferenceSettings();
@@ -154,7 +152,7 @@ public:
     bool SaveSkinSettings();
 
 private:
-////@begin CDlgPreferences member variables
+////@begin CPanelPreferences member variables
     wxComboBox* m_SkinSelectorCtrl;
     wxCheckBox* m_CustomizePreferencesCtrl;
     wxComboBox* m_WorkBetweenBeginCtrl;
@@ -176,9 +174,38 @@ private:
     bool m_bWorkWhileInUse;
     bool m_bWorkWhileOnBattery;
     wxString m_strWorkWhenIdle;
-    bool m_bCustomizedPreferences;
-////@end CDlgPreferences member variables
+////@end CPanelPreferences member variables
     GLOBAL_PREFS current_global_preferences;
+public:    
+    bool m_bCustomizedPreferences;
+
+};
+
+
+/*!
+ * CDlgPreferences class declaration
+ */
+
+class CDlgPreferences: public wxDialog
+{    
+    DECLARE_DYNAMIC_CLASS( CDlgPreferences )
+    DECLARE_EVENT_TABLE()
+
+public:
+    /// Constructors
+    CDlgPreferences( );
+    CDlgPreferences( wxWindow* parent, wxWindowID id = SYMBOL_CDLGPREFERENCES_IDNAME, const wxString& caption = SYMBOL_CDLGPREFERENCES_TITLE, const wxPoint& pos = SYMBOL_CDLGPREFERENCES_POSITION, const wxSize& size = SYMBOL_CDLGPREFERENCES_SIZE, long style = SYMBOL_CDLGPREFERENCES_STYLE );
+
+    /// Creation
+    bool Create( wxWindow* parent, wxWindowID id = SYMBOL_CDLGPREFERENCES_IDNAME, const wxString& caption = SYMBOL_CDLGPREFERENCES_TITLE, const wxPoint& pos = SYMBOL_CDLGPREFERENCES_POSITION, const wxSize& size = SYMBOL_CDLGPREFERENCES_SIZE, long style = SYMBOL_CDLGPREFERENCES_STYLE );
+
+    /// wxEVT_COMMAND_BUTTON_CLICKED event handler for wxID_OK
+    void OnOK( wxCommandEvent& event );
+
+private:
+////@begin CDlgPreferences member variables
+
+    CPanelPreferences* m_pBackgroundPanel;
 };
 
 

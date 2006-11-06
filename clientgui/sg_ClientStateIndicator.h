@@ -45,7 +45,7 @@ public:
 		int clientState;
 	    /// Constructors
 		ClientStateIndicator();
-	    ClientStateIndicator(CSimpleFrame* parent, wxPoint coord);
+	    ClientStateIndicator(CSimplePanel* parent, wxPoint coord);
 		~ClientStateIndicator();
 		void CreateComponent();
 		void ReskinInterface();

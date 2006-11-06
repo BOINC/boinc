@@ -27,7 +27,7 @@
 
 class SkinClass;
 class StatImageLoader;
-class CSimpleFrame;
+class CSimplePanel;
 class ImageLoader;
 class CTransparentStaticLine;
 
@@ -60,7 +60,7 @@ public:
 	wxBitmapButton *btnAdvancedView;
 	
     CProjectsComponent();
-    CProjectsComponent(CSimpleFrame* parent,wxPoint coord);
+    CProjectsComponent(CSimplePanel* parent,wxPoint coord);
     ~CProjectsComponent();
 
     void CreateComponent();

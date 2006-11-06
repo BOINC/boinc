@@ -25,14 +25,14 @@
 #endif
 
 
-class CDlgMessages;
+class CPanelMessages;
 
 class CSGUIListCtrl : public wxListView {
     DECLARE_DYNAMIC_CLASS(CSGUIListCtrl)
 
 public:
     CSGUIListCtrl();
-    CSGUIListCtrl(CDlgMessages* pView, wxWindowID iListWindowID, int iListWindowFlags);
+    CSGUIListCtrl(CPanelMessages* pView, wxWindowID iListWindowID, int iListWindowFlags);
 
 private:
     
@@ -42,7 +42,7 @@ private:
 
     bool                    m_bIsSingleSelection;
 
-    CDlgMessages*           m_pParentView;
+    CPanelMessages*         m_pParentView;
 };
 
 #endif

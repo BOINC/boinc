@@ -49,7 +49,7 @@ END_EVENT_TABLE()
 
 ClientStateIndicator::ClientStateIndicator() {}
 
-ClientStateIndicator::ClientStateIndicator(CSimpleFrame* parent,wxPoint coord) : 
+ClientStateIndicator::ClientStateIndicator(CSimplePanel* parent,wxPoint coord) : 
     wxPanel(parent, wxID_ANY, coord, wxSize(343,314), wxNO_BORDER) 
 {
 	m_connRenderTimer = NULL;

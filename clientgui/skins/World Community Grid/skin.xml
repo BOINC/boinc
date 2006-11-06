@@ -211,7 +211,7 @@
 			<!-- this setting makes the BOINC manager automatically open to a particular tab on the -->
 			<!-- advanced view, overriding a users last displayed view.  0 means use users last open tab -->
 			<open_tab>0</open_tab>  
-			<exit_message>Bye Bye</exit_message>
+			<exit_message></exit_message>
 		</advanced>
 		<!-- this section can be omitted in which case it will use the BOINC defaults (shown below) -->
 		<wizards>  

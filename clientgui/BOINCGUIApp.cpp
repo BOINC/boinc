@@ -1024,6 +1024,8 @@ bool CBOINCGUIApp::SetActiveGUI(int iGUISelection, bool bShowWindow) {
 
 
 int CBOINCGUIApp::ConfirmExit() {
+    wxString strTitle;
+    
     if (!m_bBOINCStartedByManager)
         return 1;   // Don't run dialog if exiting manager won't shut down Client or its tasks
         
@@ -1047,26 +1049,16 @@ int CBOINCGUIApp::ConfirmExit() {
     wxASSERT(wxDynamicCast(pSkinAdvanced, CSkinAdvanced));
 
 
-    wxString strTitle.Printf(
+    strTitle.Printf(
         _("%s - Exit Confirmation"), 
         pSkinAdvanced->GetApplicationName().c_str()
     );
 
-    wxString strMessage.Printf(
-        pSkinAdvanced->GetExitMessage().c_str(),
-        pSkinAdvanced->GetProjectName().c_str(),
-        pSkinAdvanced->GetApplicationName().c_str(),
-        pSkinAdvanced->GetProjectName().c_str(),
-        pSkinAdvanced->GetApplicationName().c_str(),
-        pSkinAdvanced->GetProjectName().c_str()
-    );
-
-
     CDlgGenericMessage* pDlg = new CDlgGenericMessage(NULL);
 
     pDlg->SetTitle(strTitle);
-    pDlg->m_DialogMessage->SetLabel(strMessage);
-    pDlg->Layout();
+    pDlg->m_DialogMessage->SetLabel(pSkinAdvanced->GetExitMessage());
+    pDlg->Fit();
     pDlg->Centre();
 
     lAnswer = pDlg->ShowModal();
