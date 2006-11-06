@@ -352,8 +352,9 @@ void CSimplePanel::ReskinInterface() {
     wxASSERT(pSkinSimple);
     wxASSERT(wxDynamicCast(pSkinSimple, CSkinSimple));
 
-	//bg color
-	SetBackgroundColour(*pSkinSimple->GetBackgroundImage()->GetBackgroundColor());
+    Freeze();
+    //bg color
+    SetBackgroundColour(*pSkinSimple->GetBackgroundImage()->GetBackgroundColor());
 
     if(notebookViewInitialized){
 		if (wrkUnitNB) wrkUnitNB->ReskinAppGUI();
@@ -364,6 +365,7 @@ void CSimplePanel::ReskinInterface() {
     //reskin component 
 	if (projComponent) projComponent->ReskinInterface();
 
+    Thaw();
     Refresh();
 
     wxLogTrace(wxT("Function Start/End"), wxT("CSimplePanel::OnReloadSkin - Function End"));
