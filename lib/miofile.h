@@ -48,13 +48,15 @@
 class MIOFILE {
     MFILE* mf;
     FILE* f;
-    char* buf;
+    char* wbuf;
+	char* buf;
 public:
     MIOFILE();
     ~MIOFILE();
     void init_mfile(MFILE*);
     void init_file(FILE*);
-    void init_buf(char*);
+    void init_buf_read(char*);
+	void init_buf_write(char*);
     int printf(const char* format, ...);
     char* fgets(char*, int);
     int _ungetc(int);

@@ -50,8 +50,13 @@ void MIOFILE::init_file(FILE* _f) {
     f = _f;
 }
 
-void MIOFILE::init_buf(char* _buf) {
+void MIOFILE::init_buf_read(char* _buf) {
     buf = _buf;
+}
+
+void MIOFILE::init_buf_write(char* _buf) {
+    wbuf = _buf;
+	wbuf[0] = 0;
 }
 
 int MIOFILE::printf(const char* format, ...) {
@@ -64,7 +69,7 @@ int MIOFILE::printf(const char* format, ...) {
     } else if (f) {
         retval = vfprintf(f, format, ap);
     } else {
-        retval = vsprintf(buf, format, ap);
+        retval = vsprintf(wbuf+strlen(wbuf), format, ap);
     }
     va_end(ap);
     return retval;

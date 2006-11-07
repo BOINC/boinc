@@ -12317,3 +12317,15 @@ Rom    6 Nov 2006
         
     lib/
         prefs.C, .h
+
+David  6 Nov 2006
+	- MIOFILE buffer variant wasn't doing output correctly;
+		would overwrite instead of appending.
+		Caused simple GUI prefs dialog to not work.
+
+	client/
+		gui_rpc_server_ops.C
+	lib/
+		gui_rpc_client.C
+		gui_rpc_client_ops.C
+		miofile.C,h

@@ -285,7 +285,7 @@ int RPC::do_rpc(const char* req) {
     if (retval) return retval;
     retval = rpc_client->get_reply(mbuf);
     if (retval) return retval;
-    fin.init_buf(mbuf);
+    fin.init_buf_read(mbuf);
 #ifdef DEBUG
     puts(mbuf);
 #endif

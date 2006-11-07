@@ -2109,13 +2109,11 @@ int RPC_CLIENT::get_global_prefs_override_struct(GLOBAL_PREFS& prefs) {
     SET_LOCALE sl;
     string s;
     MIOFILE mf;
-    char buf[64000];
     bool found_venue;
 
     retval = get_global_prefs_override(s);
     if (retval) return retval;
-    strcpy(buf, s.c_str());
-    mf.init_buf(buf);
+    mf.init_buf_read((char*)s.c_str());
     XML_PARSER xp(&mf);
     prefs.parse(xp, "", found_venue);
     return 0;
@@ -2127,7 +2125,7 @@ int RPC_CLIENT::set_global_prefs_override_struct(GLOBAL_PREFS& prefs, GLOBAL_PRE
     MIOFILE mf;
     string s;
 
-    mf.init_buf(buf);
+    mf.init_buf_write(buf);
     prefs.write_subset(mf, mask);
     s = buf;
     return set_global_prefs_override(s);
