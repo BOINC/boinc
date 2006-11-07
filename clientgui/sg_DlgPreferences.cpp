@@ -86,14 +86,18 @@ wxString astrTimeOfDayStrings[] = {
 };
 
 
-int iDiskUsageArraySize = 6;
+int iDiskUsageArraySize = 10;
 wxString astrDiskUsageStrings[] = {
     _("100 MB"),
     _("200 MB"),
     _("500 MB"),
     _("1 GB"),
     _("2 GB"),
-    _("5 GB")
+    _("5 GB"),
+    _("10 GB"),
+    _("20 GB"),
+    _("50 GB"),
+    _("100 GB")
 };
 
 // Used for sorting disk usage values
@@ -680,6 +684,8 @@ bool CPanelPreferences::ClearPreferenceSettings() {
 bool CPanelPreferences::ReadPreferenceSettings() {
     CMainDocument* pDoc = wxGetApp().GetDocument();
     GLOBAL_PREFS   current_global_preferences;
+    double         dTempValue1 = 0.0;
+    double         dTempValue2 = 0.0;
 
     unsigned int i;
 
@@ -726,8 +732,18 @@ bool CPanelPreferences::ReadPreferenceSettings() {
 
         // Null out strDiskUsage if it is a duplicate
         for (i = 0; i < aDiskUsage.Count(); i++) {
-            if (strDiskUsage == aDiskUsage[i]) {
+            strDiskUsage.ToDouble(&dTempValue1);
+            if (strDiskUsage.Find(wxT("MB")) != -1) {
+                dTempValue1 /= 1000;
+            }
+            aDiskUsage[i].ToDouble(&dTempValue2);
+            if (aDiskUsage[i].Find(wxT("MB")) != -1) {
+                dTempValue2 /= 1000;
+            }
+            if ((strDiskUsage == aDiskUsage[i]) || (dTempValue1 == dTempValue2)) {
                 strDiskUsage = wxEmptyString;
+                // Store this value so we know what to set the selection too in the
+                //   combo box.
                 iDiskUsageIndex = i;
                 break;
             }
@@ -756,8 +772,12 @@ bool CPanelPreferences::ReadPreferenceSettings() {
 
         // Null out strCPUUsage if it is a duplicate
         for (i=0; i < aCPUUsage.Count(); i++) {
-            if (strCPUUsage == aCPUUsage[i]) {
+            strCPUUsage.ToDouble(&dTempValue1);
+            aCPUUsage[i].ToDouble(&dTempValue2);
+            if ((strCPUUsage == aCPUUsage[i]) || (dTempValue1 == dTempValue2)) {
                 strCPUUsage = wxEmptyString;
+                // Store this value so we know what to set the selection too in the
+                //   combo box.
                 iCPUUsageIndex = i;
                 break;
             }
@@ -792,8 +812,12 @@ bool CPanelPreferences::ReadPreferenceSettings() {
 
         // Null out strWorkWhenIdle if it is a duplicate
         for (i=0; i < aWorkWhenIdle.Count(); i++) {
-            if (strWorkWhenIdle == aWorkWhenIdle[i]) {
+            strWorkWhenIdle.ToDouble(&dTempValue1);
+            aWorkWhenIdle[i].ToDouble(&dTempValue2);
+            if ((strWorkWhenIdle == aWorkWhenIdle[i]) || (dTempValue1 == dTempValue2)) {
                 strWorkWhenIdle = wxEmptyString;
+                // Store this value so we know what to set the selection too in the
+                //   combo box.
                 iWorkWhenIdleIndex = i;
                 break;
             }
@@ -873,7 +897,7 @@ bool CPanelPreferences::SavePreferenceSettings() {
 
     // Use no more than %s of disk space
     m_strMaxDiskUsage.ToDouble((double*)&dTest);
-    if (m_strMaxDiskUsage.Find(wxT("GB")) == -1) {
+    if (m_strMaxDiskUsage.Find(wxT("MB")) != -1) {
         dTest /= 1000;
     }
     if (dTest != current_global_preferences.disk_max_used_gb) {

@@ -12329,3 +12329,11 @@ David  6 Nov 2006
 		gui_rpc_client.C
 		gui_rpc_client_ops.C
 		miofile.C,h
+
+Rom    6 Nov 2006
+    - MGR: When deciding if two combo box's values are the same convert them to
+        there native data type and compare those as well. Sometimes comparing
+        just the strings isn't enough.
+        
+    clientgi/
+        sg_DlgPreferences.cpp
