@@ -42,7 +42,7 @@ Run <a href=tool_update_versions.php>update_versions</a>
 to create an app version.
 
 <li>
-Create your workunit and result templates;
+Create your <a href=tools_work.php>workunit and result templates</a>;
 add the &lt;copy_file> element to all file references.
 
 </ul>

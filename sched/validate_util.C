@@ -73,7 +73,7 @@ int get_output_file_path(RESULT const& result, string& path_str) {
     bool is_tag;
     string name;
     MIOFILE mf;
-    mf.init_buf((char*)(result.xml_doc_out));
+    mf.init_buf_read((char*)(result.xml_doc_out));
     XML_PARSER xp(&mf);
     while (!xp.get(tag, sizeof(tag), is_tag)) {
         if (!is_tag) continue;
@@ -93,7 +93,7 @@ int get_output_file_paths(RESULT const& result, vector<string>& paths) {
     bool is_tag;
     MIOFILE mf;
     string name;
-    mf.init_buf((char*)(result.xml_doc_out));
+    mf.init_buf_read((char*)(result.xml_doc_out));
     XML_PARSER xp(&mf);
     paths.clear();
     while (!xp.get(tag, sizeof(tag), is_tag)) {

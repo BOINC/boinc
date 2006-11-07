@@ -12343,3 +12343,9 @@ Rom    6 Nov 2006
     
     clientgui/
         sg_DlgPreferences.cpp, .h
+
+David  6 Nov 2006
+    - compile fix
+
+    sched/
+        validate_util.C
