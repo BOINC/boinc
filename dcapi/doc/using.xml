@@ -1,7 +1,7 @@
 <?xml version="1.0"?>
 <!DOCTYPE sect1 PUBLIC "-//OASIS//DTD DocBook XML V4.1.2//EN" 
                "http://www.oasis-open.org/docbook/xml/4.1.2/docbookx.dtd">
-<sect1 id="using-for-applications">
+<sect1 id="using-for-applications" xmlns:xi="http://www.w3.org/2003/XInclude">
   <title>Using the library to build applications</title>
 
   <sect2 id="build-unix">
@@ -41,6 +41,8 @@
       to <command>pkg-config</command> to find them.
     </para>
   </sect2>
+
+  <xi:include href="windows.xml"/>
 
 </sect1>
 <!-- vim: set ai sw=2 tw=80: -->
