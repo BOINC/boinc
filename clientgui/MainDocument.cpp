@@ -323,10 +323,6 @@ int CMainDocument::CachedStateUpdate() {
             wxLogTrace(wxT("Function Status"), wxT("CMainDocument::CachedStateUpdate - Get State Failed '%d'"), retval);
             m_pNetworkConnection->SetStateDisconnected();
         }
-        wxTimeSpan tsStateParseDuration(wxDateTime::Now() - m_dtCachedStateTimestamp);
-// This causes a crash on Macintosh
-//        wxLogTrace(wxT("Function Status"), wxT("CMainDocument::CachedStateUpdate - State Update Time (Milliseconds) '%d'"), tsStateParseDuration.GetMilliseconds());
-
         pFrame->UpdateStatusText(_("Retrieving host information; please wait..."));
 
         retval = rpc.get_host_info(host);

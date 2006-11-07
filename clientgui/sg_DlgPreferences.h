@@ -165,6 +165,7 @@ private:
     wxCheckBox* m_WorkWhileOnBatteryCtrl;
     wxComboBox* m_WorkWhenIdleCtrl;
     wxString m_strSkinSelector;
+    bool m_bCustomizedPreferences;
     wxString m_strWorkBetweenBegin;
     wxString m_strWorkBetweenEnd;
     wxString m_strConnectBetweenBegin;
@@ -175,9 +176,6 @@ private:
     bool m_bWorkWhileOnBattery;
     wxString m_strWorkWhenIdle;
 ////@end CPanelPreferences member variables
-    GLOBAL_PREFS current_global_preferences;
-    bool m_bCustomizedPreferences;
-
 };
 
 

@@ -12383,3 +12383,13 @@ David  7 Nov 2006
         sched_send.C,h
         server_types.C,h
         validate_util.C
+
+Rom    7 Nov 2006
+    - MGR: David and I got our wires cross, the global prefs mask is now set for all
+        values in the preferences dialog when the selection has been made to override
+        anything.
+        
+    clientgui/
+        sg_DlgPreferences.cpp, .h
+
+

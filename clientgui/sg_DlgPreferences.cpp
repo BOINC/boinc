@@ -694,12 +694,11 @@ bool CPanelPreferences::ReadPreferenceSettings() {
 
 
     // Populate values and arrays from preferences
-    current_global_preferences = pDoc->state.global_prefs;
     if (pDoc->rpc.get_global_prefs_override_struct(display_global_preferences) == 0) {
         m_bCustomizedPreferences = true;
     } else {
         m_bCustomizedPreferences = false;
-        display_global_preferences = current_global_preferences;
+        display_global_preferences = pDoc->state.global_prefs;
     }
 
 
@@ -863,74 +862,47 @@ bool CPanelPreferences::SavePreferenceSettings() {
     CMainDocument*    pDoc = wxGetApp().GetDocument();
     GLOBAL_PREFS      global_preferences_override;
     GLOBAL_PREFS_MASK global_preferences_mask;
-    int               iTest = 0;
-    double            dTest = 0.0;
 
     wxASSERT(pDoc);
     wxASSERT(wxDynamicCast(pDoc, CMainDocument));
 
 
     // Do work only between:
-    m_strWorkBetweenBegin.ToLong((long*)&iTest);
-    if (iTest != current_global_preferences.start_hour) {
-        global_preferences_override.start_hour = iTest;
-        global_preferences_mask.start_hour = true;        
-    }
+    m_strWorkBetweenBegin.ToLong((long*)&global_preferences_override.start_hour);
+    global_preferences_mask.start_hour = true;        
 
-    m_strWorkBetweenEnd.ToLong((long*)&iTest);
-    if (iTest != current_global_preferences.end_hour) {
-        global_preferences_override.end_hour = iTest;
-        global_preferences_mask.end_hour = true;        
-    }
+    m_strWorkBetweenEnd.ToLong((long*)&global_preferences_override.end_hour);
+    global_preferences_mask.end_hour = true;        
 
     // Connect to internet only between:
-    m_strConnectBetweenBegin.ToLong((long*)&iTest);
-    if (iTest != current_global_preferences.net_start_hour) {
-        global_preferences_override.net_start_hour = iTest;
-        global_preferences_mask.net_start_hour = true;        
-    }
+    m_strConnectBetweenBegin.ToLong((long*)&global_preferences_override.net_start_hour);
+    global_preferences_mask.net_start_hour = true;        
 
-    m_strConnectBetweenEnd.ToLong((long*)&iTest);
-    if (iTest != current_global_preferences.net_end_hour) {
-        global_preferences_override.net_end_hour = iTest;
-        global_preferences_mask.net_end_hour = true;        
-    }
+    m_strConnectBetweenEnd.ToLong((long*)&global_preferences_override.net_end_hour);
+    global_preferences_mask.net_end_hour = true;        
 
     // Use no more than %s of disk space
-    m_strMaxDiskUsage.ToDouble((double*)&dTest);
+    m_strMaxDiskUsage.ToDouble((double*)&global_preferences_override.disk_max_used_gb);
     if (m_strMaxDiskUsage.Find(wxT("MB")) != -1) {
-        dTest /= 1000;
+        global_preferences_override.disk_max_used_gb /= 1000;
     }
-    if (dTest != current_global_preferences.disk_max_used_gb) {
-        global_preferences_override.disk_max_used_gb = dTest;
-        global_preferences_mask.disk_max_used_gb = true;        
-    }
+    global_preferences_mask.disk_max_used_gb = true;        
 
     // Use no more than %s of the processor
-    m_strMaxCPUUsage.ToDouble((double*)&dTest);
-    if (dTest != current_global_preferences.cpu_usage_limit) {
-        global_preferences_override.cpu_usage_limit = dTest;
-        global_preferences_mask.cpu_usage_limit = true;        
-    }
+    m_strMaxCPUUsage.ToDouble((double*)&global_preferences_override.cpu_usage_limit);
+    global_preferences_mask.cpu_usage_limit = true;        
 
     // Do work while computer is in use?
-    if (m_bWorkWhileInUse != current_global_preferences.run_if_user_active) {
-        global_preferences_override.run_if_user_active = m_bWorkWhileInUse;
-        global_preferences_mask.run_if_user_active = true;        
-    }
+    global_preferences_override.run_if_user_active = m_bWorkWhileInUse;
+    global_preferences_mask.run_if_user_active = true;        
 
     // Do work while computer is on battery?
-    if (m_bWorkWhileOnBattery != current_global_preferences.run_on_batteries) {
-        global_preferences_override.run_on_batteries = m_bWorkWhileOnBattery;
-        global_preferences_mask.run_on_batteries = true;        
-    }
+    global_preferences_override.run_on_batteries = m_bWorkWhileOnBattery;
+    global_preferences_mask.run_on_batteries = true;        
 
     // Do work after computer is idle for:
-    m_strWorkWhenIdle.ToDouble((double*)&dTest);
-    if (dTest != current_global_preferences.idle_time_to_run) {
-        global_preferences_override.idle_time_to_run = dTest;
-        global_preferences_mask.idle_time_to_run = true;        
-    }
+    m_strWorkWhenIdle.ToDouble((double*)&global_preferences_override.idle_time_to_run);
+    global_preferences_mask.idle_time_to_run = true;        
 
 	pDoc->rpc.set_global_prefs_override_struct(global_preferences_override, global_preferences_mask);
 	pDoc->rpc.read_global_prefs_override();
