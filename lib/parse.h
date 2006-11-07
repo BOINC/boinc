@@ -116,7 +116,7 @@ extern bool str_replace(char* str, const char* old, const char* neww);
 extern char* sgets(char* buf, int len, char* &in);
 extern void xml_escape(const char*, char*);
 extern void xml_unescape(const char*, char*);
-extern void extract_venue(char*, char*, char*);
+extern void extract_venue(const char*, const char*, char*);
 extern int skip_unrecognized(char* buf, FILE*);
 
 #endif

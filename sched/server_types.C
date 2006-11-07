@@ -866,7 +866,7 @@ int HOST::parse_disk_usage(FILE* fin) {
     return ERR_XML_PARSE;
 }
 
-void GLOBAL_PREFS::parse(char* buf, char* venue) {
+void GLOBAL_PREFS::parse(const char* buf, const char* venue) {
     char buf2[LARGE_BLOB_SIZE];
     double dtemp;
 

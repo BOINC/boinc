@@ -82,15 +82,15 @@ void scan_work_array(
         // If we are looking for beta results and result is not a beta result
         // then move on
         //
-        APP* app = ss.lookup_app(wu_result.workunit.appid);
+        app = ss.lookup_app(wu_result.workunit.appid);
         if (app == NULL) continue; // this should never happen
         if (reply.wreq.beta_only) {
         	if (!app->beta) {
         		continue;
         	}
             log_messages.printf(SCHED_MSG_LOG::MSG_DEBUG,
-                "[HOST#%d] beta work found.  Result id %d \n",
-                reply.host.id 
+                "[HOST#%d] beta work found.  [RESULT#%d]\n",
+                reply.host.id, wu_result.resultid
             );
         } else {
          	if (app->beta) {
@@ -128,7 +128,7 @@ void scan_work_array(
         // don't send if host can't handle it
         //
         wu = wu_result.workunit;
-        if (wu_is_infeasible(wu, sreq, reply, ss)) {
+        if (wu_is_infeasible(wu, sreq, reply)) {
            	log_messages.printf(
                	SCHED_MSG_LOG::MSG_DEBUG, "[HOST#%d] [WU#%d %s] WU is infeasible\n",
                	reply.host.id, wu.id, wu.name

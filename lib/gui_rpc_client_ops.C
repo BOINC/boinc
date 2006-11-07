@@ -2113,7 +2113,7 @@ int RPC_CLIENT::get_global_prefs_override_struct(GLOBAL_PREFS& prefs) {
 
     retval = get_global_prefs_override(s);
     if (retval) return retval;
-    mf.init_buf_read((char*)s.c_str());
+    mf.init_buf_read(s.c_str());
     XML_PARSER xp(&mf);
     prefs.parse(xp, "", found_venue);
     return 0;

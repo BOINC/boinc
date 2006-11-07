@@ -287,7 +287,7 @@ static int possibly_send_result(
     // why the WU is not feasible.  These are defined in sched_send.h.
     // INFEASIBLE_MEM, INFEASIBLE_DISK, INFEASIBLE_CPU.
     // 
-    if (wu_is_infeasible(wu, sreq, reply, ss)) {
+    if (wu_is_infeasible(wu, sreq, reply)) {
         return ERR_INSUFFICIENT_RESOURCE;
     }
 

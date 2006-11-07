@@ -104,7 +104,7 @@ struct GLOBAL_PREFS {
     double ram_max_used_busy_frac;
     double ram_max_used_idle_frac;
 
-    void parse(char* buf, char* venue);
+    void parse(const char* buf, const char* venue);
     void defaults();
 };
 

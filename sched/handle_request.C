@@ -501,12 +501,12 @@ int handle_global_prefs(SCHEDULER_REQUEST& sreq, SCHEDULER_REPLY& reply) {
     bool same_account = !strcmp(
         sreq.global_prefs_source_email_hash, reply.email_hash
     );
-    unsigned master_mod_time=0, db_mod_time=0;
+    int master_mod_time=0, db_mod_time=0;
     if (have_master_prefs) {
-        parse_int(sreq.global_prefs_xml, "<mod_time>", (int&)master_mod_time);
+        parse_int(sreq.global_prefs_xml, "<mod_time>", master_mod_time);
     }
     if (have_db_prefs) {
-        parse_int(reply.user.global_prefs, "<mod_time>", (int&)db_mod_time);
+        parse_int(reply.user.global_prefs, "<mod_time>", db_mod_time);
     }
 
     // decide which prefs to use for sched decisions

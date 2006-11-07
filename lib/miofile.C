@@ -50,7 +50,7 @@ void MIOFILE::init_file(FILE* _f) {
     f = _f;
 }
 
-void MIOFILE::init_buf_read(char* _buf) {
+void MIOFILE::init_buf_read(const char* _buf) {
     buf = _buf;
 }
 
@@ -99,9 +99,12 @@ int MIOFILE::_ungetc(int c) {
 #else
         return ungetc(c, f);
 #endif
+    } else {
+        buf--;
+        // NOTE: we assume that the char being pushed
+        // is what's already there
+        //*buf = c;
     }
-    buf--;
-    *buf = c;
     return c;
 }
 

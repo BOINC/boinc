@@ -12362,3 +12362,24 @@ Rom    6 Nov 2006
         
     clientgui/
         sg_DlgPreferences.cpp
+
+David  7 Nov 2006
+    - validate_util.C: fix tag ("file_info", not "file")
+    - MIOFILE: when we're reading from a buffer,
+        make it a const char* instead of char*.
+        Doing this requires limiting ungetc() to push only
+        the character that was previously read (which is OK).
+    - scheduler: removed SCHED_SHMEM& arg from wu_is_infeasible()
+    - fix compile warnings
+
+    lib/
+        gui_rpc_client_ops.C
+        miofile.C,h
+        parse.C,h
+    sched/
+        handle_request.C
+        sched_array.C
+        sched_locality.C
+        sched_send.C,h
+        server_types.C,h
+        validate_util.C

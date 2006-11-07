@@ -275,17 +275,22 @@ bool str_replace(char* str, const char* substr, const char* replacement) {
 // then return the contents of that element.
 // Otherwise strip out all <venue> elements
 //
-void extract_venue(char* in, char* venue_name, char* out) {
-    char* p, *q;
+void extract_venue(const char* in, const char* venue_name, char* out) {
+    const char* p, *q;
+    char* wp;
     char buf[256];
     sprintf(buf, "<venue name=\"%s\">", venue_name);
     p = strstr(in, buf);
     if (p) {
+        // prefs contain the specified venue
+        //
         p += strlen(buf);
         strcpy(out, p);
-        q = strstr(out, "</venue");
-        if (q) *q = 0;
+        wp = strstr(out, "</venue");
+        if (wp) *wp = 0;
     } else {
+        // prefs don't contain the specified venue
+        //
         q = in;
         strcpy(out, "");
        	while (1) {

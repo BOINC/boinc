@@ -38,27 +38,12 @@
 using std::vector;
 using std::string;
 
-#if 0
-// get the name of a result's (first) output file
-//
-int get_output_file_path(RESULT const& result, string& path_str) {
-    char buf[256], path[1024];
-
-    if (!parse_str(result.xml_doc_out, "<name>", buf, sizeof(buf))) {
-        return ERR_XML_PARSE;
-    }
-    dir_hier_path(buf, config.upload_dir, config.uldl_dir_fanout, path);
-    path_str = path;
-    return 0;
-}
-#endif
-
 static int parse_filename(XML_PARSER& xp, string& name) {
     char tag[256];
     bool is_tag, found=false;
     while (!xp.get(tag, sizeof(tag), is_tag)) {
         if (!is_tag) continue;
-        if (!strcmp(tag, "/file")) {
+        if (!strcmp(tag, "/file_info")) {
             return found?0:ERR_XML_PARSE;
         }
         if (xp.parse_string(tag, "name", name)) {
@@ -73,11 +58,11 @@ int get_output_file_path(RESULT const& result, string& path_str) {
     bool is_tag;
     string name;
     MIOFILE mf;
-    mf.init_buf_read((char*)(result.xml_doc_out));
+    mf.init_buf_read(result.xml_doc_out);
     XML_PARSER xp(&mf);
     while (!xp.get(tag, sizeof(tag), is_tag)) {
         if (!is_tag) continue;
-        if (!strcmp(tag, "file")) {
+        if (!strcmp(tag, "file_info")) {
             int retval = parse_filename(xp, name);
             if (retval) return retval;
             dir_hier_path(name.c_str(), config.upload_dir, config.uldl_dir_fanout, path);
@@ -93,12 +78,12 @@ int get_output_file_paths(RESULT const& result, vector<string>& paths) {
     bool is_tag;
     MIOFILE mf;
     string name;
-    mf.init_buf_read((char*)(result.xml_doc_out));
+    mf.init_buf_read(result.xml_doc_out);
     XML_PARSER xp(&mf);
     paths.clear();
     while (!xp.get(tag, sizeof(tag), is_tag)) {
         if (!is_tag) continue;
-        if (!strcmp(tag, "file")) {
+        if (!strcmp(tag, "file_info")) {
             int retval =  parse_filename(xp, name);
             if (retval) return retval;
             dir_hier_path(name.c_str(), config.upload_dir, config.uldl_dir_fanout, path);

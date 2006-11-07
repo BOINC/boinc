@@ -237,14 +237,11 @@ static double estimate_wallclock_duration(
     if (reply.host.cpu_efficiency) {
         ewd /= reply.host.cpu_efficiency;
     }
-#ifdef EINSTEIN_AT_HOME
     log_messages.printf(
         SCHED_MSG_LOG::MSG_DEBUG,
         "est cpu dur %f; running_frac %f; rsf %f; est %f\n",
         ecd, running_frac, request.resource_share_fraction, ewd
     );
-#endif
-
     return ewd;
 }
 
@@ -309,9 +306,10 @@ static int get_host_info(SCHEDULER_REPLY& reply) {
 
 int find_preferred_app_index(SCHEDULER_REPLY& reply, int appid) {
     int result = -1;
-    for (int i=0; i<reply.wreq.host_info.preferred_apps.size(); i++) {
+    unsigned int i;
+    for (i=0; i<reply.wreq.host_info.preferred_apps.size(); i++) {
         if (reply.wreq.host_info.preferred_apps[i].appid == appid ) {
-            result = i;
+            result = (int)i;
             break;
         }
     }
@@ -330,8 +328,7 @@ int find_preferred_app_index(SCHEDULER_REPLY& reply, int appid) {
 // In particular it doesn't enforce the one-result-per-user-per-wu rule
 //
 int wu_is_infeasible(
-    WORKUNIT& wu, SCHEDULER_REQUEST& request, SCHEDULER_REPLY& reply,
-    SCHED_SHMEM& ss
+    WORKUNIT& wu, SCHEDULER_REQUEST& request, SCHEDULER_REPLY& reply
 ) {
     int reason = 0;
     unsigned int i;
