@@ -683,7 +683,6 @@ bool CPanelPreferences::ClearPreferenceSettings() {
 
 bool CPanelPreferences::ReadPreferenceSettings() {
     CMainDocument* pDoc = wxGetApp().GetDocument();
-    GLOBAL_PREFS   current_global_preferences;
     double         dTempValue1 = 0.0;
     double         dTempValue2 = 0.0;
 

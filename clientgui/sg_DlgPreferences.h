@@ -176,7 +176,6 @@ private:
     wxString m_strWorkWhenIdle;
 ////@end CPanelPreferences member variables
     GLOBAL_PREFS current_global_preferences;
-public:    
     bool m_bCustomizedPreferences;
 
 };

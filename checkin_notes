@@ -12337,3 +12337,9 @@ Rom    6 Nov 2006
         
     clientgi/
         sg_DlgPreferences.cpp
+
+Rom    6 Nov 2006
+    - MGR: when caching data, make sure it is cached to the right location.
+    
+    clientgui/
+        sg_DlgPreferences.cpp, .h
