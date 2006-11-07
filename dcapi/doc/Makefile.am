@@ -61,7 +61,8 @@ content_files = \
 		concepts.xml \
 		config.xml \
 		intro.xml \
-		using.xml
+		using.xml \
+		windows.xml
 
 # SGML files where gtk-doc abbrevations (#GtkWidget) are expanded
 # These files must be listed here *and* in content_files
