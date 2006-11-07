@@ -59,6 +59,9 @@ struct GLOBAL_PREFS_MASK {
     bool max_bytes_sec_up;
     bool max_bytes_sec_down;
     bool cpu_usage_limit;
+
+    GLOBAL_PREFS_MASK();
+    void clear();
 };
 
 // The following structure is a parsed version of the prefs file

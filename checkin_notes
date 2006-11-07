@@ -12308,3 +12308,12 @@ David  6 Nov 2006
     client/
         cpu_sched.C
         cs_scheduler.C
+
+Rom    6 Nov 2006
+    - Initialize the default values for GLOBAL_PREFS_MASK to false.
+        Object's without constructors are initialized to the default values
+        defined/redefined in the environment. wxWidgets redefines bools' default
+        to value to true when running under a debug build.
+        
+    lib/
+        prefs.C, .h

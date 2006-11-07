@@ -33,6 +33,17 @@
 #include "error_numbers.h"
 #include "prefs.h"
 
+
+GLOBAL_PREFS_MASK::GLOBAL_PREFS_MASK() {
+    clear();
+}
+
+
+void GLOBAL_PREFS_MASK::clear() {
+    memset(this, 0, sizeof(GLOBAL_PREFS_MASK));
+}
+
+
 // The following values determine how the client behaves
 // if there are no global prefs (e.g. on our very first RPC).
 // These should impose minimal restrictions,
