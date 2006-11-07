@@ -67,12 +67,12 @@ The skin.xml file is described as follows:
         [ &lt;<a href=\"#Wizards\">wizards</a> /&gt; ]
     &lt;/pt_BR&gt;
     &lt;pt&gt;
-        &lt;<a href=\"#Simple\">Simple</a> /&gt;
+        &lt;<a href=\"#Simple\">simple</a> /&gt;
         [ &lt;<a href=\"#Advanced\">advanced</a> /&gt; ]
         [ &lt;<a href=\"#Wizards\">wizards</a> /&gt; ]
     &lt;/pt&gt;
     &lt;en&gt;
-        &lt;<a href=\"#Simple\">Simple</a> /&gt;
+        &lt;<a href=\"#Simple\">simple</a> /&gt;
         [ &lt;<a href=\"#Advanced\">advanced</a> /&gt; ]
         [ &lt;<a href=\"#Wizards\">wizards</a> /&gt; ]
     &lt;/en&gt;
