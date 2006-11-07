@@ -12339,7 +12339,7 @@ Rom    6 Nov 2006
         sg_DlgPreferences.cpp
 
 Rom    6 Nov 2006
-    - MGR: when caching data, make sure it is cached to the right location.
+    - MGR: When caching data, make sure it is cached to the right location.
     
     clientgui/
         sg_DlgPreferences.cpp, .h
@@ -12349,3 +12349,16 @@ David  6 Nov 2006
 
     sched/
         validate_util.C
+
+Rom    6 Nov 2006
+    - MGR: After implementing preference masking we ended up in a situation where
+        we were comparing what values to override against the values specified in
+        a previous override. If only one value was changed on the second interation
+        all other values were forgotten.
+        
+        The new logic is to compare the current selected dialog values against the 
+        current global preferences to decide what is stored in the preferences
+        override file.
+        
+    clientgui/
+        sg_DlgPreferences.cpp

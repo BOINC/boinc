@@ -683,6 +683,7 @@ bool CPanelPreferences::ClearPreferenceSettings() {
 
 bool CPanelPreferences::ReadPreferenceSettings() {
     CMainDocument* pDoc = wxGetApp().GetDocument();
+    GLOBAL_PREFS   display_global_preferences;
     double         dTempValue1 = 0.0;
     double         dTempValue2 = 0.0;
 
@@ -693,40 +694,41 @@ bool CPanelPreferences::ReadPreferenceSettings() {
 
 
     // Populate values and arrays from preferences
-    if (pDoc->rpc.get_global_prefs_override_struct(current_global_preferences) == 0) {
+    current_global_preferences = pDoc->state.global_prefs;
+    if (pDoc->rpc.get_global_prefs_override_struct(display_global_preferences) == 0) {
         m_bCustomizedPreferences = true;
     } else {
         m_bCustomizedPreferences = false;
-        current_global_preferences = pDoc->state.global_prefs;
+        display_global_preferences = current_global_preferences;
     }
 
 
     // Do work only between:
     //   Start:
     m_WorkBetweenBeginCtrl->Append(wxArrayString(iTimeOfDayArraySize, astrTimeOfDayStrings));
-    m_strWorkBetweenBegin = astrTimeOfDayStrings[current_global_preferences.start_hour];
+    m_strWorkBetweenBegin = astrTimeOfDayStrings[display_global_preferences.start_hour];
     //   End:
     m_WorkBetweenEndCtrl->Append(wxArrayString(iTimeOfDayArraySize, astrTimeOfDayStrings));
-    m_strWorkBetweenEnd = astrTimeOfDayStrings[current_global_preferences.end_hour];
+    m_strWorkBetweenEnd = astrTimeOfDayStrings[display_global_preferences.end_hour];
 
     // Connect to internet only between:
     //   Start:
     m_ConnectBetweenBeginCtrl->Append(wxArrayString(iTimeOfDayArraySize, astrTimeOfDayStrings));
-    m_strConnectBetweenBegin = astrTimeOfDayStrings[current_global_preferences.net_start_hour];
+    m_strConnectBetweenBegin = astrTimeOfDayStrings[display_global_preferences.net_start_hour];
     //   End:
     m_ConnectBetweenEndCtrl->Append(wxArrayString(iTimeOfDayArraySize, astrTimeOfDayStrings));
-    m_strConnectBetweenEnd = astrTimeOfDayStrings[current_global_preferences.net_end_hour];
+    m_strConnectBetweenEnd = astrTimeOfDayStrings[display_global_preferences.net_end_hour];
 
     // Use no more than %s of disk space
     wxArrayString aDiskUsage = wxArrayString(iDiskUsageArraySize, astrDiskUsageStrings);
     wxString strDiskUsage = wxEmptyString;
     int iDiskUsageIndex = iDiskUsageArraySize;
 
-    if (current_global_preferences.disk_max_used_gb > 0) {
-        if (current_global_preferences.disk_max_used_gb < 1) {
-            strDiskUsage.Printf(_("%d MB"), (int)(current_global_preferences.disk_max_used_gb * 1000));  
+    if (display_global_preferences.disk_max_used_gb > 0) {
+        if (display_global_preferences.disk_max_used_gb < 1) {
+            strDiskUsage.Printf(_("%d MB"), (int)(display_global_preferences.disk_max_used_gb * 1000));  
 	    } else {
-            strDiskUsage.Printf(_("%4.2f GB"), current_global_preferences.disk_max_used_gb); 
+            strDiskUsage.Printf(_("%4.2f GB"), display_global_preferences.disk_max_used_gb); 
 	    }
 
         // Null out strDiskUsage if it is a duplicate
@@ -766,8 +768,8 @@ bool CPanelPreferences::ReadPreferenceSettings() {
     wxString strCPUUsage = wxEmptyString;
     int iCPUUsageIndex = iCPUUsageArraySize - 4;
 
-    if (current_global_preferences.cpu_usage_limit > 0) {
-        strCPUUsage.Printf(_("%d%%"), (int)current_global_preferences.cpu_usage_limit); 
+    if (display_global_preferences.cpu_usage_limit > 0) {
+        strCPUUsage.Printf(_("%d%%"), (int)display_global_preferences.cpu_usage_limit); 
 
         // Null out strCPUUsage if it is a duplicate
         for (i=0; i < aCPUUsage.Count(); i++) {
@@ -796,18 +798,18 @@ bool CPanelPreferences::ReadPreferenceSettings() {
     }
 
     // Do work while computer is in use?
-    m_bWorkWhileInUse = current_global_preferences.run_if_user_active;
+    m_bWorkWhileInUse = display_global_preferences.run_if_user_active;
 
     // Do work while computer is on battery?
-    m_bWorkWhileOnBattery = current_global_preferences.run_on_batteries;
+    m_bWorkWhileOnBattery = display_global_preferences.run_on_batteries;
 
     // Do work after computer is idle for:
     wxArrayString aWorkWhenIdle = wxArrayString(iWorkWhenIdleArraySize, astrWorkWhenIdleStrings);
     wxString strWorkWhenIdle = wxEmptyString;
     int iWorkWhenIdleIndex = 2;
 
-    if (current_global_preferences.idle_time_to_run > 0) {
-        strWorkWhenIdle.Printf(_("%d"), (int)current_global_preferences.idle_time_to_run); 
+    if (display_global_preferences.idle_time_to_run > 0) {
+        strWorkWhenIdle.Printf(_("%d"), (int)display_global_preferences.idle_time_to_run); 
 
         // Null out strWorkWhenIdle if it is a duplicate
         for (i=0; i < aWorkWhenIdle.Count(); i++) {
