@@ -196,3 +196,12 @@ David  4 Nov 2006
 
 Rom    6 Nov 2006
     - Checkin VS 2003 project files.
+
+David  8 Nov 2006
+	- The upper_case project file (but not the others)
+		needs GDI32.DLL;OPENGL32.DLL;GLU32.DLL in its list
+		of Delay Loaded DLLs (Linker properties),
+		and delayimp.lib in its Additional Dependencies
+
+	uppercase/
+		logo.jpg (new)

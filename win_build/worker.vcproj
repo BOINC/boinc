@@ -178,7 +178,7 @@
 				LinkIncremental="0"
 				SuppressStartupBanner="true"
 				IgnoreAllDefaultLibraries="true"
-				DelayLoadDLLs="GDI32.DLL;OPENGL32.DLL;GLU32.DLL"
+				DelayLoadDLLs=""
 				GenerateDebugInformation="true"
 				ProgramDatabaseFile="Debug/worker_5.10_windows_intelx86.pdb"
 				SubSystem="2"
