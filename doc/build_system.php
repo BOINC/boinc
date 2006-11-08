@@ -14,26 +14,36 @@ The BOINC software consists of several components:
 <li> <b>Client</b>: the core client and Manager.
 <li> <b>Server</b>: the scheduler, file upload handler, daemons, and tools.
 </ul>
-Which components you need depends on what you're doing:
+On UNIX systems, the BOINC software can be built by typing
+<pre>
+./_autosetup
+./configure [see options below]
+make
+</pre>
+in the top directory.
 <ul>
 <li> If you're creating a project, you need to build the server
 and miscellaneous software
 (you <b>don't</b> need to build the client software;
 participants can get that from the BOINC web site).
+Use
+<pre>
+./configure --disable_client
+</pre>
 <li> If you're porting the BOINC client software to a new platform,
 you need the client and miscellaneous components.
+Use
+<pre>
+./configure --disable_server
+</pre>
 <li> If you're developing or porting a BOINC application,
 you need only the miscellaneous component.
+Use
+<pre>
+./configure --disable_server --disable_client
+</pre>
 </ul>
 
-On UNIX systems, the entire BOINC software can be built by typing
-<pre>
-./_autosetup
-./configure [see options below]
-make
-make install  [optional: installs libraries and header files useful for building apps]
-</pre>
-in the top directory.
 
 <h3>Configuration</h3>
 
@@ -60,6 +70,11 @@ list_start();
 list_bar("Configuration");
 list_item("-h, --help",
     "display this help and exit"
+);
+list_item("--host=HOST",
+    "Use HOST to identify platforms in executable names.
+    For Linux/x86 builds, use
+    --build=i686-pc-linux-gnu"
 );
 list_bar("Installation directories");
 list_item("--prefix=PREFIX",
@@ -215,12 +230,6 @@ in the BOINC top-level source directory.  This updates
 the <code>AC_INIT</code> line in
 <code>configure.ac</code> and regenerates files that use the version numbers
 (config.h, py/version.py, test/version.inc, client/win/win_config.h, Makefiles)
-
-<h2>Archival/source distribution</h2>
-To make source distributions:
-<pre>
-  gmake dist
-</pre>
 
 ";
 page_tail();

@@ -49,6 +49,7 @@ Developing a BOINC application
 </ul>
 <li> Application development
 <ul>
+<li><a href=compile_app.php>Building BOINC applications</a>
 <li><a href=example.php>Example applications</a>
 <li><a href=app_dev.php>Application development tips</a>
 <li> <a href=app_debug.php>Application debugging</a>
@@ -62,6 +63,7 @@ Developing a BOINC application
 Creating a BOINC project
 </b></font>
 <ul>
+<li> <a href=server.php>Setting up a BOINC server</a>
 <li> <a href=server_components.php>What is a project?</a>
 <ul>
 <li> <a href=database.php>The BOINC database</a>
@@ -73,8 +75,6 @@ Creating a BOINC project
         <li> <a href=project_tasks.php>Periodic tasks</a>
     </ul>
 </ul>
-<li> <a href=compile.php>Compile BOINC software</a>
-<li> <a href=groups.php>Groups and permissions</a>
 <li> How to create a project
 <ul>
 <li> <a href=make_project.php>The make_project script</a>

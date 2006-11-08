@@ -45,7 +45,7 @@ You can get the BOINC client software in any of three ways:
 <ul>
 <li> <a href=download.php>Download an executable</a> it from this web site.
 <li>
-<a href=compile.php>Download the source code and compile it yourself</a>
+<a href=compile_client.php>Download the source code and compile it yourself</a>
 on your computer.
 <li>
 Download BOINC executables for your

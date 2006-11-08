@@ -42,7 +42,15 @@ Check the
 before writing anything (it may already exist).
 The index has instructions for submitting new add-ons.
 
-<h2>Developing BOINC itself</h2>
+<h2>Get and build BOINC software</h2>
+    <ul> 
+    <li> <a href=source_code.php>Get BOINC source code</a>
+    <li> <a href=server.php>Building server software</a>
+    <li> <a href=compile_app.php>Building applications</a>
+    <li> <a href=compile_client.php>Building BOINC client software</a>
+    </ul>
+
+<h2>BOINC development</h2>
 <p>
 <ul>
 <li> <a href=contact.php>Personnel and contributors</a>
@@ -50,9 +58,9 @@ The index has instructions for submitting new add-ons.
 <li> The <a href=http://bbugs.axpr.net/index.php>BOINCzilla bug database</a>.
 <li> <a href=email_lists.php>boinc_dev</a>,
 an email list for BOINC developers.
-<li> <a href=compile.php>Get and compile BOINC software</a>
 <li> <a href=impl_notes.php>Implementation notes</a>
 <li> <a href=coding.php>BOINC coding style</a>
+<li> <a href=test.php>The BOINC testing framework</a>
 </ul>
 <p>
 BOINC is free software, distributed under the Lesser GNU Public License (LGPL).

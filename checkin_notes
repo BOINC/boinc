@@ -12428,3 +12428,9 @@ Kevin  8 Nov 2006
    lib/
     parse.C
     
+David  8 Nov 2006
+    - API: move is_graphics_possible() from boinc_api.C to graphics_lib.C
+
+    api/
+        boinc_api.C
+        graphics_lib.C

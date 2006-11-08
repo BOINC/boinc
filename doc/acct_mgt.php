@@ -80,7 +80,7 @@ non-connected host that is used to sign URLs.
 To sign URLs, compile <a href=key_setup.php>crypt_prog</a>,
 BOINC's encryption utility program.
 (Instructions for downloading and compiling code
-are <a href=compile.php>here</a>.)
+are <a href=server.php>here</a>.)
 Generate a key pair and generate signatures for your URLs.
 At some point you'll need to commit to a permanent key pair,
 at which point you should move the private key to

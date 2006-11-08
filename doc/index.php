@@ -99,11 +99,10 @@ function show_create() {
         programming, web, sysadmin, and hardware resources,
         you can create your own BOINC project.
         Otherwise, organizations such as World Community Grid may be able
-        to host your project.
-        Please <a href=contact.php>contact us</a> for information.
-        <li> <b>Universities</b>: create a
-            <a href=vcsc.php>Virtual Campus Supercomputing Center</a> (VCSC)
-            using BOINC.
+        to host your project
+        (please <a href=contact.php>contact us</a> for information).
+        <li> <b>Universities</b>: use BOINC to create a
+            <a href=vcsc.php>Virtual Campus Supercomputing Center</a>.
         <li> <b>Companies</b>:
             use BOINC for <a href=dg.php>Desktop Grid Computing</a>.
         </ul>
@@ -117,16 +116,15 @@ function show_other() {
         <tr><td bgcolor=$light_blue><font size=4>Other info</font></td></tr>
         <tr><td>
             <ul>
+            <li> <a href=intro.php>Overview</a>
             <li> <a href=boinc_dev.php>Software development</a>
             <li> <a href=translation.php>Translation</a> of web and GUI text
-            <li> <a href=intro.php>Overview</a>
             <li> <a href=contact.php>Personnel and contributors</a>
             <li> BOINC <a href=email_lists.php>email lists</a>
             <li> BOINC <a href=dev/>message boards</a>
             <li> <a href=papers.php>Papers related to BOINC</a>
             <li> <a href=logo.php>Logos and graphics</a>
-            <li> The <a href=workshop_06.php>2nd Pan-Galactic BOINC Workshop</a>
-    will be held 20-21 September at the University of Geneva, Switzerland.
+            <li> <a href=events.php>Events</a>
             </ul>
             <br>
         </td></tr>

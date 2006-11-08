@@ -5,17 +5,8 @@ echo "
 <p>
 The <code>make_project</code> script creates
 the server components of a BOINC project.
-To use it:
-<ol>
-<li>
-Install all components listed in the
-<a href=build.php>Software Prerequisites</a> page.
-<li>
-<a href=compile.php>Get and build</a> the BOINC software.
-<li>
-Run the <code>make_project</code> script.
-</ol>
-For example:
+To use it, <a href=server.php>set up a BOINC server</a>.
+Then, for example, type:
 <pre>
     cd tools/
     ./make_project cplan

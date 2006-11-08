@@ -3,6 +3,7 @@ require_once("docutil.php");
 
 page_head("Getting and building  BOINC software");
 echo "
+THIS FILE IS DEPRECATED. DON'T LINK TO IT.
 <h3>Basics</h3>
 <ul>
 <li> <a href=build.php>Software prerequisites</a>
