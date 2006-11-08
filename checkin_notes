@@ -12418,3 +12418,13 @@ David  8 Nov 2006
 
    lib/
     parse.C
+    
+Kevin  8 Nov 2006
+    - BSG:  Add tool tip to slide show when graphics are available
+    - BSG:  Remove workunit name
+    - BSG:  Formatting changes to text on main screen
+    - BSG:  Re-arrange the layout on the main screen
+
+   lib/
+    parse.C
+    

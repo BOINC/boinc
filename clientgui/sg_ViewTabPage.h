@@ -24,13 +24,17 @@
 #pragma interface "sg_ViewTabPage.cpp"
 #endif
 
-
-class MyCanvas : 
 #ifdef __WXMAC__
-                public wxWindow
+#define SMALL_FONT 12
+#define MEDIUM_FONT 16
+#define LARGE_FONT 20
 #else
-                public wxScrolledWindow
+#define SMALL_FONT 9
+#define MEDIUM_FONT 12
+#define LARGE_FONT 16
 #endif
+
+class MyCanvas : public wxWindow
 {
 public:
 	MyCanvas(wxWindow *parent, const wxPoint& pos, const wxSize& size, std::vector<wxBitmap> images);
@@ -125,7 +129,8 @@ private:
 	void LoadSlideShow(std::vector<wxBitmap> *vSlideShow);
 	bool Downloading();
 	int ComputeState();
-	void FormatText(const wxString& title, const wxString& text, wxDC* dc, wxPoint pos);
+	void WriteText(wxDC* dc);
+	void FormatText(const wxString& title, const wxString& text, wxDC* dc, wxPoint pos, int col_width = 0, wxFont font = wxFont(SMALL_FONT,74,90,90,0,wxT("Arial")));
 	std::vector<wxBitmap> GetSlideShow();
 	wxWindow* wSlideShow;
 	MyCanvas* m_canvas;

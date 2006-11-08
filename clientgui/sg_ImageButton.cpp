@@ -43,11 +43,15 @@ BEGIN_EVENT_TABLE(CImageButton, wxPanel)
 		EVT_ERASE_BACKGROUND(CImageButton::OnEraseBackground)
 END_EVENT_TABLE() 
 
-CImageButton::CImageButton(wxWindow* parent,wxBitmap bg, wxPoint coord,wxSize size,bool drawText, int initStatus) : wxPanel(parent, wxID_ANY, coord, size, wxNO_BORDER) 
+CImageButton::CImageButton(wxWindow* parent,wxBitmap bg, wxPoint coord,wxSize size,bool enableShowGraphics, int initStatus) : wxPanel(parent, wxID_ANY, coord, size, wxNO_BORDER) 
 { 
 	btnBG = bg;
-	m_drawText = drawText;
+	m_enableShowGraphics = enableShowGraphics;
 	status = initStatus;
+	SetToolTip();
+}
+
+CImageButton::~CImageButton() {
 }
 
 void CImageButton::OnPaint(wxPaintEvent& WXUNUSED(event)) 
@@ -65,8 +69,8 @@ void CImageButton::OnPaint(wxPaintEvent& WXUNUSED(event))
 		dc.GetTextExtent(GetStatusText(), &width, &height);
 		dc.DrawText(GetStatusText(), wxPoint(7, y-height-4));
 		// display show graphics text (if available)
-		if(m_drawText) {
-			wxString text = wxString(wxT("> Show graphics"));
+		if(m_enableShowGraphics) {
+			wxString text = wxString(wxT("Graphics Available"));
 			dc.GetTextExtent(text, &width, &height);
 			dc.DrawText(text, wxPoint(x-width-7,y-height-4));
 		}
@@ -124,9 +128,18 @@ void CImageButton::OnLeftUp(wxMouseEvent& WXUNUSED(event))
 	
 }
 
-void CImageButton::SetShowText(bool show) {
-	if ( show != m_drawText )  {
-		m_drawText = show;
+void CImageButton::SetToolTip() {
+	if ( m_enableShowGraphics ) {
+		wxPanel::SetToolTip(new wxToolTip(_T("Click to show project graphics")));
+	} else {
+		wxPanel::SetToolTip(NULL);
+	}
+}
+
+void CImageButton::SetEnableShowGraphics(bool show) {
+	if ( show != m_enableShowGraphics )  {
+		m_enableShowGraphics = show;
+		SetToolTip();
 		Refresh();
 	}
 }

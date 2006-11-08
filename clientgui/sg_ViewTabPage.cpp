@@ -41,14 +41,6 @@
 #include "app_ipc.h"
 
 
-#ifdef __WXMAC__
-#define SMALL_FONT 12
-#define LARGE_FONT 20
-#else
-#define SMALL_FONT 9
-#define LARGE_FONT 16
-#endif
-
 IMPLEMENT_DYNAMIC_CLASS(CViewTabPage, wxPanel)
 
 enum{
@@ -131,7 +123,7 @@ void CViewTabPage::CreatePage()
 	//My Progress
 	wrkUnitName = wxString(resultWU->name.c_str(),wxConvUTF8);
 	//Main Gauge
-    gaugeWUMain=new CProgressBar(this,wxPoint(20,89));
+    gaugeWUMain=new CProgressBar(this,wxPoint(20,282));
 	gaugeWUMain->SetValue(floor(resultWU->fraction_done * 100000)/1000);
 	//percent
 	percNum = (wxFloat64)(floor(resultWU->fraction_done * 100000)/1000);
@@ -150,13 +142,14 @@ void CViewTabPage::CreatePage()
     btnAminBg = new CImageButton(
         this,
         *(pSkinSimple->GetWorkunitAnimationBackgroundImage()->GetBitmap()),
-        wxPoint(28,154),
+        wxPoint(24,72),
         wxSize(294,146),
         m_hasGraphic,
         status
     );
 
 	CreateSlideShowWindow();
+	Update();
 }
 
 int CViewTabPage::ComputeState() {
@@ -303,7 +296,7 @@ void CViewTabPage::UpdateInterface()
 		btnAminBg->SetStatus(newStatus);
 	}
 
-	btnAminBg->SetShowText(m_hasGraphic);
+	btnAminBg->SetEnableShowGraphics(m_hasGraphic);
 	if ( changed ) {
 		btnAminBg->Refresh();
 		btnAminBg->Update();
@@ -323,7 +316,7 @@ void CViewTabPage::UpdateInterface()
 
 
 void CViewTabPage::CreateSlideShowWindow() {
-	wSlideShow=new wxWindow(this,-1,wxPoint(30,156),wxSize(290,126),wxNO_BORDER);
+	wSlideShow=new wxWindow(this,-1,wxPoint(26,74),wxSize(290,126),wxNO_BORDER);
 	m_canvas = new MyCanvas(wSlideShow, wxPoint(0,0), wxSize(290,126), GetSlideShow());
 }
 
@@ -442,24 +435,47 @@ void CViewTabPage::OnWorkShowGraphics() {
     }
 }
 
+void CViewTabPage::WriteText(wxDC* dc) {
+    //Project Name
+	dc->SetFont(wxFont(LARGE_FONT,74,90,90,0,wxT("Arial"))); 
+	dc->DrawText(projName, wxPoint(20,8)); 
 
-void CViewTabPage::FormatText(const wxString& title, const wxString& text, wxDC* dc, wxPoint pos) {
+    dc->SetFont(wxFont(SMALL_FONT,74,90,90,0,wxT("Arial")));
+	FormatText(wxT("Application: "), projectFrName, dc, wxPoint(20,47));
+
+	int height, width;
+	dc->GetTextExtent(wxT("Time Remaining: "), &width, &height);
+	width = width + 20; // add the starting x position
+
+	FormatText(wxT("Elapsed Time: "), elapsedTimeValue, dc, wxPoint(20,230), width);
+	FormatText(wxT("Time Remaining: "), timeRemainingValue, dc, wxPoint(20,255), width);
+
+    dc->DrawText(gaugePercent, wxPoint(290,283)); 
+
+}
+
+void CViewTabPage::FormatText(const wxString& title, const wxString& text, wxDC* dc, wxPoint pos, int col_width, wxFont font) {
     wxCoord width, height;
     wxCoord col = pos.x;
     wxCoord max_col = 330;
     wxString translated_text;
 
     // Title
-    dc->SetFont(wxFont(SMALL_FONT,74,90,90,0,wxT("Arial")));
+    dc->SetFont(font);
 	dc->GetTextExtent(title, &width, &height);
+	if ( col_width == 0 ) {
+		pos.x = 20;
+		col_width = width + pos.x;
+	} else {
+		pos.x = col_width - width;
+	}
 	dc->DrawText(title, pos);
 
     // How wide was the title? Add 5 pixel buffer before drawing the next piece of text.
-    col += width + 5;
+    col = col_width + 3;
 
     // Text
-    dc->SetFont(wxFont(SMALL_FONT,74,90,92,0,wxT("Arial")));
-	dc->GetTextExtent(text, &width, &height);
+ 	dc->GetTextExtent(text, &width, &height);
     if ( width > (max_col - col) ) {
 		int i = (int) text.length();
 		while ( width > (max_col - col) ) {
@@ -478,19 +494,7 @@ void CViewTabPage::OnPaint(wxPaintEvent& WXUNUSED(event))
 { 
     wxLogTrace(wxT("Function Start/End"), wxT("CViewTabPage::OnPaint - Begin"));
 	wxPaintDC dc(this);
-
-    //Project Name
-	dc.SetFont(wxFont(LARGE_FONT,74,90,90,0,wxT("Arial"))); 
-	dc.DrawText(projName, wxPoint(20,8)); 
-
-    FormatText(wxT("APPLICATION >"), projectFrName, &dc, wxPoint(20,49));
-    FormatText(wxT("MY PROGRESS >"), wrkUnitName, &dc, wxPoint(20,71));
-    FormatText(wxT("ELAPSED TIME >"), elapsedTimeValue, &dc, wxPoint(20,115));
-    FormatText(wxT("TIME REMAINING >"), timeRemainingValue, &dc, wxPoint(20,134));
-
-    dc.SetFont(wxFont(SMALL_FONT,74,90,92,0,wxT("Arial")));
-    dc.DrawText(gaugePercent, wxPoint(290,90)); 
-
+	WriteText(&dc);
     wxLogTrace(wxT("Function Start/End"), wxT("CViewTabPage::OnPaint - End"));
 }
 
@@ -500,7 +504,6 @@ void CViewTabPage::OnImageButton() {
 		OnWorkShowGraphics();
 	}
 }
-
 
 void CViewTabPage::DrawText() { 
 CSkinSimple* pSkinSimple = wxGetApp().GetSkinManager()->GetSimple();
@@ -517,16 +520,7 @@ CSkinSimple* pSkinSimple = wxGetApp().GetSkinManager()->GetSimple();
 #endif
     //Project Name
     dc.DrawBitmap(*(pSkinSimple->GetWorkunitAreaBackgroundImage()->GetBitmap()), 0, 0);
-	dc.SetFont(wxFont(LARGE_FONT,74,90,90,0,wxT("Arial"))); 
-	dc.DrawText(projName, wxPoint(20,8));
-
-    FormatText(wxT("APPLICATION >"), projectFrName, &dc, wxPoint(20,49));
-    FormatText(wxT("MY PROGRESS >"), wrkUnitName, &dc, wxPoint(20,71));
-    FormatText(wxT("ELAPSED TIME >"), elapsedTimeValue, &dc, wxPoint(20,115));
-    FormatText(wxT("TIME REMAINING >"), timeRemainingValue, &dc, wxPoint(20,134));
-
-    dc.SetFont(wxFont(SMALL_FONT,74,90,92,0,wxT("Arial")));
-    dc.DrawText(gaugePercent, wxPoint(290,90)); 
+	WriteText(&dc);
 
 #ifdef __WXMAC__    // wDrawBitMap of GetWorkunitAreaBackgroundImage erased gauge and animation area
 #endif
@@ -547,22 +541,12 @@ void CViewTabPage::OnEraseBackground(wxEraseEvent& event){
 // MyCanvas
 // ---------------------------------------------------------------------------
 
-#ifdef __WXMAC__
 BEGIN_EVENT_TABLE(MyCanvas, wxWindow)
-#else
-BEGIN_EVENT_TABLE(MyCanvas, wxScrolledWindow)
-#endif
     EVT_PAINT(MyCanvas::OnPaint)
 END_EVENT_TABLE()
 
 MyCanvas::MyCanvas(wxWindow *parent, const wxPoint& pos, const wxSize& size, std::vector<wxBitmap> images)
-#ifdef __WXMAC__
-        : wxWindow(parent, -1, pos, size,
-#else
-        : wxScrolledWindow(parent, -1, pos, size,
-#endif
-                           wxNO_BORDER |
-                           wxNO_FULL_REPAINT_ON_RESIZE)
+        : wxWindow(parent, -1, pos, size, wxNO_BORDER | wxNO_FULL_REPAINT_ON_RESIZE)
 {
     SetBackgroundColour(wxColour(_T("BLACK")));
 	ssImages = images;

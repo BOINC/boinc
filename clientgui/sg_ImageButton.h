@@ -38,20 +38,22 @@ class CImageButton : public wxPanel
 public: 
 	    /// Constructors
 	    CImageButton(wxWindow* parent,wxBitmap bg,wxPoint coord, wxSize size, bool drawText, int initStatus); 
+		~CImageButton();
         void SetImage(wxBitmap bg);
 		void OnPaint(wxPaintEvent& event); 
 		void OnLeftUp(wxMouseEvent& event);
 		void OnEraseBackground(wxEraseEvent& event);
-		void SetShowText(bool show);
+		void SetEnableShowGraphics(bool show);
 		void SetStatus(int status);
 		int GetStatus();
 private: 
         //static const int MaxWidth = 320; 
         //static const int MaxHeight = 240; 
         wxBitmap btnBG; 
-		bool m_drawText;
+		bool m_enableShowGraphics;
 		int status;
 		wxString GetStatusText();
+		void SetToolTip();
         DECLARE_EVENT_TABLE() 
 }; 
 
