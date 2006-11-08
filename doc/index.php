@@ -18,7 +18,7 @@ function show_participant() {
         <br>
         <center>
         <a href=chart_list.php><b>Top 100</a> |
-        <a href=http://boinc.netsoft-online.com/rankings.php?list=r_p_1_e><b>Single-computer</a> |
+        <a href=http://boinc.netsoft-online.com/rankings.php?list=rac_p1c1><b>Single-computer</a> |
         <a href=http://boinc.netsoft-online.com/rankings.php><b>Other lists</a>
         </center>
         </td></tr></table>

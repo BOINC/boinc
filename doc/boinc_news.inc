@@ -1,6 +1,25 @@
 <?
 
 $project_news = array(
+array("November 7, 2006",
+    "Check out new add-on software:
+    the <a href=http://boinc.berkeley.edu/addon_item.php?platform=browser&item=http%3A%2F%2Fsetihometoolbar.ourtoolbar.com%2F>SETI@home Toolbar</a>
+    for Firefox and IE on Windows (SETI@home-specific), and
+    <a href=http://www.helsinki.fi/~earajarv/programs/boinctray/>Boinctray</a>,
+    a system tray application for Linux."
+),
+array("November 7, 2006",
+    "We are preparing to release client software with
+    a new GUI that is simpler, smaller, and more graphical
+    than the current BOINC manager.
+    Projects can supply their own graphics
+    (icons, application-specific slideshows) for use in this GUI;
+    see <a href=http://boinc.berkeley.edu/project_skin.php>instructions for how to do this</a>.
+    In addition, the GUI itself is skinnable;
+    a skin consists of
+    <a href=http://boinc.berkeley.edu/manager_skin.php>an XML
+    file and a collection of images</a>."
+),
 array("October 17, 2006",
     "Issue 3 of
     <a href=http://www.boincuk.com/newsLetter/bunc-03.pdf>bunc (BOINC UK newsletter)</a> is now online, with articles on a wide range of topics."

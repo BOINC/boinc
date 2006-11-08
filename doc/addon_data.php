@@ -175,11 +175,11 @@ array('inst_nB_v13.exe',
 );
 
 $linux = array(
-array('http://www.helsinki.fi/~earajarv/programs/boinctray/',
+array('http://www.iki.fi/edu/programs/boinctray/',
     'Boinctray',
     '',
     'A system tray application for monitoring the BOINC client',
-    'http://www.helsinki.fi/~earajarv/programs/boinctray/',
+    'http://www.iki.fi/edu/programs/boinctray/',
     '',
     'The Boinctray is a TCl program for displaying statistics
     of the BOINC volunteer distributed computing system. The

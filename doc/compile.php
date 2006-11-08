@@ -13,7 +13,7 @@ echo "
 <h3>Platform-specific cookbooks</h3>
 <ul>
 <li> <a href=build_system.php>Building BOINC on Unix</a>
-<li> <a href=mac_build.html>Building BOINC and BOINC applications on Mac OS X</a>
+<li> <a href=mac_build.php>Building BOINC and BOINC applications on Mac OS X</a>
 <li> <a href=http://www.spy-hill.net/~myers/help/boinc/boinc-on-windows.html>Building BOINC applications on Windows</a>
 <li> <a href=http://www.spy-hill.net/~myers/help/boinc/boinc-on-linux.html>Building BOINC and BOINC Applications on Linux</a>
 <li> <a href=http://torque.oncloud8.com/archives/000124.html>Linux install notes</a> (out of date).

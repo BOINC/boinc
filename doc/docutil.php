@@ -177,4 +177,8 @@ function get_str($name) {
     return null;
 }
 
+function show_link($url) {
+    echo "<br><a href=$url>$url</a>";
+}
+
 ?>

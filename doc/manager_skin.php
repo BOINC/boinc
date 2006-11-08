@@ -1,7 +1,10 @@
 <?php
 require_once("docutil.php");
-page_head("Customizing the BOINC Manager Skin");
+page_head("Creating a skin for the BOINC Manager");
 echo "
+This document describes how to customize the appearance
+of the BOINC Manager simple GUI (available in 5.8+).
+
 <h3>Contents</h3>
 <ul>
     <li><a href=\"#Skin\">Skin</a>
@@ -28,12 +31,13 @@ echo "
 
 <h3><a name=\"Skin\">Skin</a></h3>
 <p>
-Skins allow you to customize how an interface looks to suite your personal tastes.
+Skins allow you to customize how an interface looks.
 <p>
-A skin.xml file needs to be created for any customized skin, this document describes the
-layout of the skin.xml file.
+A skin.xml file needs to be created for any customized skin.
+This document describes the layout of the skin.xml file.
 <p>
-A skin.xml file should be contained within it's own directory under the 'skins' directory.
+A skin.xml file should be contained within its
+own directory under the 'skins' directory.
 <p>
 An example would look like this:
 "; block_start(); echo "
@@ -49,12 +53,14 @@ An example would look like this:
 
 <h4><a name=\"Localization\">Localization</a></h4>
 <p>
-BOINC Manager attempts to find and use localized skin references. It gracefully falls back
-to a suiteable language and if none can be found it'll fall back to english. Overriding the
+BOINC Manager attempts to find and use localized skin references.
+It falls back to a suitable language
+and if none can be found it'll fall back to English.
+Overriding the
 language being searched for can be done in the Advanced GUI's option dialog.
 <p>
-If the preffered language is 'pt_BR' and it cannot be found then the next language searched for
-is 'pt'. If 'pt cannot be found then the manager resorts to 'en'.
+If the prefered language is 'pt_BR' and it cannot be found then the next language searched for is 'pt'.
+If 'pt cannot be found then the manager resorts to 'en'.
 
 <h4><a name=\"Layout\">Layout</a></h4>
 <p>
