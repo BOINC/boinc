@@ -21,6 +21,8 @@
 // the graphics code lives in a separate shared library.
 // This lets you make applications that work whether or not
 // the host has X11 and OpenGL libraries.
+//
+// This file is the code that's part of the main program
 
 #ifdef _WIN32
 #include "boinc_win.h"
@@ -166,21 +168,9 @@ no_graphics:
 
 bool boinc_graphics_possible() {
 #ifdef _WIN32
-    // Attempt to load the dlls that are required to display graphics, if
-    // any of them fail do not start the application in graphics mode.
-    if (FAILED(__HrLoadAllImportsForDll("GDI32.dll"))) {
-       fprintf(stderr, "Failed to load GDI32.DLL\n" );
-       return false;
-    }
-    if (FAILED(__HrLoadAllImportsForDll("OPENGL32.dll"))) {
-       fprintf( stderr, "Failed to load OPENGL32.DLL\n" );
-       return false;
-    }
-    if (FAILED(__HrLoadAllImportsForDll("GLU32.dll"))) {
-       fprintf( stderr, "Failed to load GLU32.DLL\n" );
-       return false;
-    }
+    ???? should not be here
 #elif defined(__APPLE__)
+    ???? should not be here
 #else
     if (!getenv("DISPLAY")) return false;
 #endif

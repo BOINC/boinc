@@ -61,4 +61,27 @@ int boinc_init_options_graphics(BOINC_OPTIONS& opt, void (*worker)()) {
     return boinc_init_options_graphics_impl(opt, worker, &boinc_main_state);
 }
 
+bool boinc_graphics_possible() {
+#ifdef _WIN32
+    // Attempt to load the dlls that are required to display graphics, if
+    // any of them fail do not start the application in graphics mode.
+    if (FAILED(__HrLoadAllImportsForDll("GDI32.dll"))) {
+       fprintf(stderr, "Failed to load GDI32.DLL\n" );
+       return false;
+    }
+    if (FAILED(__HrLoadAllImportsForDll("OPENGL32.dll"))) {
+       fprintf( stderr, "Failed to load OPENGL32.DLL\n" );
+       return false;
+    }
+    if (FAILED(__HrLoadAllImportsForDll("GLU32.dll"))) {
+       fprintf( stderr, "Failed to load GLU32.DLL\n" );
+       return false;
+    }
+#elif defined(__APPLE__)
+#else
+    if (!getenv("DISPLAY")) return false;
+#endif
+    return true;
+}
+
 const char *BOINC_RCSID_b2ceed0813 = "$Id$";
