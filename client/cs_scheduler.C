@@ -58,11 +58,6 @@ using std::string;
 //
 #define EXP_DECAY_RATE  (1./(SECONDS_PER_DAY*7))
 
-// how often to show user "backing off" messages
-//
-const int SECONDS_BEFORE_REPORTING_MIN_RPC_TIME_AGAIN = 60*60;
-
-
 // try to report results this much before their deadline
 //
 #define REPORT_DEADLINE_CUSHION ((double)SECONDS_PER_DAY)
@@ -88,9 +83,21 @@ int CLIENT_STATE::proj_min_results(PROJECT* p, double subset_resource_share) {
     return (int)(ceil(ncpus*p->resource_share/subset_resource_share));
 }
 
+void CLIENT_STATE::check_project_timeout() {
+	unsigned int i;
+	for (i=0; i<projects.size(); i++) {
+		PROJECT* p = projects[i];
+		if (p->possibly_backed_off && now > p->min_rpc_time) {
+			p->possibly_backed_off = false;
+			request_work_fetch("Project backoff ended");
+		}
+	}
+}
+
 void PROJECT::set_min_rpc_time(double future_time) {
     if (future_time > min_rpc_time) {
         min_rpc_time = future_time;
+		possibly_backed_off = true;
         msg_printf(this, MSG_INFO,
             "Deferring scheduler requests for %s\n",
             timediff_format(min_rpc_time - gstate.now).c_str()
@@ -926,7 +933,7 @@ int CLIENT_STATE::handle_scheduler_reply(
     if (sr.project_is_down) {
         if (sr.request_delay) {
             double x = gstate.now + sr.request_delay;
-            if (x > project->min_rpc_time) project->min_rpc_time = x;
+			project->set_min_rpc_time(x);
         }
         return ERR_PROJECT_DOWN;
     }
@@ -1208,7 +1215,7 @@ int CLIENT_STATE::handle_scheduler_reply(
     //
     if (sr.request_delay) {
         double x = gstate.now + sr.request_delay;
-        if (x > project->min_rpc_time) project->min_rpc_time = x;
+		project->set_min_rpc_time(x);
     } else {
         project->min_rpc_time = 0;
     }
@@ -1284,7 +1291,7 @@ void CLIENT_STATE::generate_new_host_cpid() {
     for (unsigned int i=0; i<projects.size(); i++) {
         if (projects[i]->attached_via_acct_mgr) {
             projects[i]->sched_rpc_pending = RPC_REASON_ACCT_MGR_REQ;
-            projects[i]->min_rpc_time = now + 15;
+            projects[i]->set_min_rpc_time(now + 15);
         }
     }
 }

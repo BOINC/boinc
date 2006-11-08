@@ -79,7 +79,7 @@ char* MIOFILE::fgets(char* dst, int len) {
     if (f) {
         return ::fgets(dst, len, f);
     }
-    char* q = strchr(buf, '\n');
+    const char* q = strchr(buf, '\n');
     if (!q) return 0;
 
     q++;

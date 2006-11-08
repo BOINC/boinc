@@ -12385,11 +12385,29 @@ David  7 Nov 2006
         validate_util.C
 
 Rom    7 Nov 2006
-    - MGR: David and I got our wires cross, the global prefs mask is now set for all
-        values in the preferences dialog when the selection has been made to override
-        anything.
+    - MGR: David and I got our wires cross,
+		the global prefs mask is now set for all
+        values in the preferences dialog when the selection
+		has been made to override anything.
         
     clientgui/
         sg_DlgPreferences.cpp, .h
 
+David  7 Nov 2006
+	- core client: call request_work_fetch() whenever a
+		process becomes contactable
+		(i.e. when its min_rpc_time times out).
+		This can avoid 10-minute periods of waiting
+		for the work fetch function to get called
 
+		Implementation: add bool PROJECT::possibly_backed_off;
+		set to true in set_min_rpc_time();
+		check for timeout in check_project_timeout()
+
+	client/
+		client_state.C,h
+		client_types.C,h
+		cpu_sched.C
+		cs_scheduler.C
+	lib/
+		miofile.C

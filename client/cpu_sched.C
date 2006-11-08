@@ -441,6 +441,9 @@ void CLIENT_STATE::schedule_cpus() {
             fxp->fip->project->nactive_uploads++;
         }
     }
+	for (i=0; i<active_tasks.active_tasks.size(); i++) {
+		active_tasks.active_tasks[i]->too_large = false;
+	}
 
     adjust_debts();
 

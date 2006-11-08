@@ -215,6 +215,7 @@ public:
     double next_rpc_time;
         // if nonzero, specifies a time when another scheduler RPC
         // should be done (as requested by server)
+	bool possibly_backed_off;
     bool trickle_up_pending;    // have trickle up to send
     bool tentative;             // we haven't done a scheduler RPC to this project yet
 								// (still need to verify that its name isn't a dup)

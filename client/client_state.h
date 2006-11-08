@@ -385,6 +385,7 @@ private:
     bool should_get_work();
     int proj_min_results(PROJECT*, double);
     void generate_new_host_cpid();
+	void check_project_timeout();
 
 // --------------- cs_statefile.C:
 public:

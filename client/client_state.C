@@ -481,6 +481,7 @@ bool CLIENT_STATE::poll_slow_events() {
     // and handle_finished_apps() must be done before possibly_schedule_cpus()
 
     ss_logic.poll();
+	check_project_timeout();
     POLL_ACTION(active_tasks           , active_tasks.poll      );
     POLL_ACTION(garbage_collect        , garbage_collect        );
     POLL_ACTION(update_results         , update_results         );

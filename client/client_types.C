@@ -75,6 +75,7 @@ void PROJECT::init() {
     nrpc_failures = 0;
     master_fetch_failures = 0;
     min_rpc_time = 0;
+	possibly_backed_off = true;
     master_url_fetch_pending = false;
     sched_rpc_pending = 0;
     next_rpc_time = 0;
