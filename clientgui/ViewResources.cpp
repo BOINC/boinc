@@ -274,22 +274,21 @@ void CViewResources::OnListRender( wxTimerEvent& WXUNUSED(event) ) {
 }
 
 wxInt32 CViewResources::FormatDiskSpace(double bytes, wxString& strBuffer) const {
-    float          fBuffer = bytes;
     double         xTera = 1099511627776.0;
     double         xGiga = 1073741824.0;
     double         xMega = 1048576.0;
     double         xKilo = 1024.0;
 
-    if (fBuffer >= xTera) {
-        strBuffer.Printf(wxT("%0.2f TB"), fBuffer/xTera);
-    } else if (fBuffer >= xGiga) {
-        strBuffer.Printf(wxT("%0.2f GB"), fBuffer/xGiga);
-    } else if (fBuffer >= xMega) {
-        strBuffer.Printf(wxT("%0.2f MB"), fBuffer/xMega);
-    } else if (fBuffer >= xKilo) {
-        strBuffer.Printf(wxT("%0.2f KB"), fBuffer/xKilo);
+    if (bytes >= xTera) {
+        strBuffer.Printf(wxT("%0.2f TB"), bytes/xTera);
+    } else if (bytes >= xGiga) {
+        strBuffer.Printf(wxT("%0.2f GB"), bytes/xGiga);
+    } else if (bytes >= xMega) {
+        strBuffer.Printf(wxT("%0.2f MB"), bytes/xMega);
+    } else if (bytes >= xKilo) {
+        strBuffer.Printf(wxT("%0.2f KB"), bytes/xKilo);
     } else {
-        strBuffer.Printf(wxT("%0.0f bytes"), fBuffer);
+        strBuffer.Printf(wxT("%0.0f bytes"), bytes);
     }
 
     return 0;

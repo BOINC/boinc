@@ -1425,7 +1425,7 @@ void CAdvancedFrame::OnHelp(wxHelpEvent& event) {
     if (IsShown()) {
         if (ID_ADVANCEDFRAME == event.GetId()) {
             wxString url = wxGetApp().GetSkinManager()->GetAdvanced()->GetCompanyWebsite().c_str();
-            url += wxT("manager.php");
+            url += wxT("/manager.php");
             ExecuteBrowserLink(url);
         } else {
             event.Skip();
@@ -1441,7 +1441,7 @@ void CAdvancedFrame::OnHelpBOINCManager(wxCommandEvent& WXUNUSED(event)) {
 
     if (IsShown()) {
         wxString url = wxGetApp().GetSkinManager()->GetAdvanced()->GetCompanyWebsite().c_str();
-        url += wxT("manager.php");
+        url += wxT("/manager.php");
         ExecuteBrowserLink(url);
     }
 

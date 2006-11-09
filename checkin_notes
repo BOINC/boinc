@@ -12464,3 +12464,10 @@ David  9 Nov 2006
     client/
         client_state.h
         cs_benchmark.C
+
+David  9 Nov 2006
+	- manager: fix URL for help
+
+	clientgui/
+		AdvancedFrame.cpp
+		ViewResources.cpp
