@@ -12471,3 +12471,10 @@ David  9 Nov 2006
 	clientgui/
 		AdvancedFrame.cpp
 		ViewResources.cpp
+
+David  9 Nov 2006
+	- manager: fix regexp for email address check
+		(remove / at start and end).
+
+	clientgui/
+		ValidateEmailAddress.cpp

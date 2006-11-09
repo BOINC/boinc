@@ -66,7 +66,7 @@ bool CValidateEmailAddress::Validate(wxWindow *parent) {
 
     // Regular Expression from Frank S. Thomas
     wxRegEx reEmail(
-        wxT("/^([^@]+)@([^@\\.]+)\\.([^@]{2,})$/"));
+        wxT("^([^@]+)@([^@\\.]+)\\.([^@]{2,})$"));
 
     if (val.Length() == 0) {
         ok = FALSE;
