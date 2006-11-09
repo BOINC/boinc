@@ -77,7 +77,7 @@ int wu_delete_files(WORKUNIT& wu) {
     bool no_delete=false;
     int count_deleted = 0, retval, mthd_retval = 0;
 
-    if (strstr(wu.name, "nodelete")) return mthd_retval;
+    if (strstr(wu.name, "nodelete")) return 0;
 
     safe_strcpy(buf, wu.xml_doc);
     

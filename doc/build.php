@@ -92,6 +92,15 @@ you don't need to build the Core client or BOINC Manager.</b>
 </tr>
 <tr>
     <td><a href=http://www.wxwidgets.org/>WxWidgets</a> 2.6.3
+    <p>
+<ul>
+<li>Configure with the <code>--with-gtk --disable-shared</code> options
+(BOINC needs a static library).
+<li>If you have an older WxWidgets installed,
+uninstall it (make uninstall), then install 2.6.
+<li> Make sure you have the 'development' version installed
+</ul>
+
     </td>
     <td><br></td>
     <td><br></td>
@@ -100,7 +109,14 @@ you don't need to build the Core client or BOINC Manager.</b>
     <td><br></td>
 </tr>
 <tr>
-    <td>Graphics libraries: GL, GLU, GLUT (or Freeglut)</td>
+    <td>Graphics libraries: GL, GLU, GLUT (or freeglut)
+    <p>
+    <ul>
+    <li> You'll need a static (.a) version of GLUT or freeglgut
+    (some Linux distributions come with only a dynamic version).
+    <li> Use the 'development' version of GLUT or freeglut.
+    </ul>
+    </td>
     <td><br></td>
     <td><br></td>
     <td><br></td>

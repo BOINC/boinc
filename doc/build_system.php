@@ -69,7 +69,7 @@ Defaults for the options are specified in brackets.
 list_start();
 list_bar("Configuration");
 list_item("-h, --help",
-    "display this help and exit"
+    "display configuration options and exit"
 );
 list_item("--host=HOST",
     "Use HOST to identify platforms in executable names.

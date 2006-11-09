@@ -12434,3 +12434,19 @@ David  8 Nov 2006
     api/
         boinc_api.C
         graphics_lib.C
+
+David  8 Nov 2006
+    - make_work: when duplicating a WU, don't bother creating hard links
+        to 'duplicate' its input files on the server.
+        Send different file names to the client (so they'll download again)
+        but use the same URL.
+        This fixes a bug where, on some filesystems,
+        there's a limit of 32K hard links to a file.
+
+        Only use make_work to duplicate a WU with "nodelete"
+        in its name; this ensures that neither the WU nor its
+        input files will get deleted out from under you.
+
+    sched/
+        file_deleter.C
+        make_work.C

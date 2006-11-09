@@ -60,17 +60,12 @@ bool one_pass = false;
 
 // edit a WU XML doc, replacing one filename by another
 // (should appear twice, within <file_info> and <file_ref>)
-// Also patch the download URL (redundant)
+// Don't patch the URL; we'll download the same file
 //
-void replace_file_name(
-    char* xml_doc, char* filename, char* new_filename, char* download_url
-) {
-    char buf[LARGE_BLOB_SIZE], temp[256], download_path[256],
-    new_download_path[256];
+void replace_file_name(char* xml_doc, char* filename, char* new_filename) {
+    char buf[LARGE_BLOB_SIZE], temp[256];
     char * p;
 
-    sprintf(download_path,"%s/%s", download_url, filename);
-    sprintf(new_download_path,"%s/%s", download_url, new_filename);
     strcpy(buf, xml_doc);
     p = strtok(buf,"\n");
     while (p) {
@@ -84,12 +79,6 @@ void replace_file_name(
             if(!strcmp(filename, temp)) {
                 replace_element_contents(
                     xml_doc+(p-buf), "<file_name>","</file_name>", new_filename
-                );
-            }
-        } else if (parse_str(p, "<url>", temp, sizeof(temp))) {
-            if(!strcmp(temp, download_path)) {
-                replace_element_contents(
-                    xml_doc + (p - buf),"<url>","</url>", new_download_path
                 );
             }
         }
@@ -119,12 +108,8 @@ int count_workunits(const char* query="") {
     return n;
 }
 
-void make_new_wu(
-    DB_WORKUNIT& original_wu, char* starting_xml, int start_time,
-    SCHED_CONFIG& config
-) {
-    char file_name[256], buf[LARGE_BLOB_SIZE], pathname[256];
-    char new_file_name[256], new_pathname[256];
+void make_new_wu(DB_WORKUNIT& original_wu, char* starting_xml, int start_time) {
+    char file_name[256], buf[LARGE_BLOB_SIZE], new_file_name[256];
     char new_buf[LARGE_BLOB_SIZE];
     char * p;
     int retval;
@@ -135,35 +120,17 @@ void make_new_wu(
     p = strtok(buf, "\n");
     strcpy(file_name, "");
 
-    // make new hard links to the WU's input files
-    // (don't actually copy files)
+    // make new names for the WU's input files,
+    // so clients will download them.
+    // (don't actually copy files; URL stays the same)
     //
     while (p) {
         if (parse_str(p, "<name>", file_name, sizeof(file_name))) {
             sprintf(
                 new_file_name, "%s__%d_%d", file_name, start_time, file_seqno++
             );
-            dir_hier_path(
-                file_name, config.download_dir, config.uldl_dir_fanout,
-                pathname
-            );
-            dir_hier_path(
-                new_file_name, config.download_dir, config.uldl_dir_fanout,
-                new_pathname, true
-            );
-            retval = link(pathname, new_pathname);
-            if (retval) {
-                log_messages.printf(
-                    SCHED_MSG_LOG::MSG_CRITICAL, "link() error %d\n", retval
-                );
-                fprintf(stderr, "link: %d %d\n", errno, retval);
-                perror("link");
-                exit(1);
-            }
             strcpy(new_buf, starting_xml);
-            replace_file_name(
-                new_buf, file_name, new_file_name, config.download_url
-            );
+            replace_file_name(new_buf, file_name, new_file_name);
             strcpy(wu.xml_doc, new_buf);
         }
         p = strtok(0, "\n");
@@ -269,7 +236,7 @@ void make_work(vector<string> &wu_names) {
                 );
                 exit(0);
             }
-            make_new_wu(wu, wu.xml_doc, start_time, config);
+            make_new_wu(wu, wu.xml_doc, start_time);
             total_wus++;
             results_needed -= wu.target_nresults;
             if (results_needed <= 0) break;

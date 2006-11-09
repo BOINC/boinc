@@ -20,9 +20,14 @@ You can use it as a template for your own BOINC application;
 just rip out the computation part
 (which is trivial) and replace it with your code.
 <p>
+You can run the application standalone.
+Create a file 'in' in the directory where you run it;
+it will convert it to upper case and write it to 'out',
+and use 20 seconds of CPU time.
 The graphics show a bouncing 3D ball.
-If you copy the files boinc/txf/Helvetica.txf and logo.jpg in the directory
-where it runs, you'll also see an image and some nice-looking text
+If you copy the files boinc/txf/Helvetica.txf
+and boinc_samples/uppercase/logo.jpg to the directory where it runs,
+you'll also see an image and some nice-looking text
 (thanks to Tolu Aina for the latter).
 <li>
 <b>wrapper</b>: used to support <a href=wrapper.php>legacy applications</a>.
