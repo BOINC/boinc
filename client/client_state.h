@@ -325,6 +325,7 @@ public:
     bool are_cpu_benchmarks_running();
 	bool cpu_benchmarks_done();
 	void cpu_benchmarks_set_defaults();
+    void print_benchmark_results();
 
 // --------------- cs_cmdline.C:
 public:

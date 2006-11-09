@@ -356,6 +356,7 @@ bool CLIENT_STATE::cpu_benchmarks_poll() {
         benchmarks_running = false;
         set_client_state_dirty("CPU benchmarks");
     }
+
     int ndone = 0;
     bool had_error = false;
     for (i=0; i<ncpus; i++) {
@@ -373,37 +374,34 @@ bool CLIENT_STATE::cpu_benchmarks_poll() {
             msg_printf(NULL, MSG_ERROR, "CPU benchmarks error");
 			cpu_benchmarks_set_defaults();
         } else {
-            host_info.p_fpops = 0;
-            host_info.p_iops = 0;
-            host_info.p_membw = 0;
-            host_info.m_cache = 0;
+            double p_fpops = 0;
+            double p_iops = 0;
+            double p_membw = 0;
+            double m_cache = 0;
             for (i=0; i<ncpus; i++) {
-                host_info.p_fpops += benchmark_descs[i].host_info.p_fpops;
-                host_info.p_iops += benchmark_descs[i].host_info.p_iops;
-                host_info.p_membw += benchmark_descs[i].host_info.p_membw;
-                host_info.m_cache += benchmark_descs[i].host_info.m_cache;
+                p_fpops += benchmark_descs[i].host_info.p_fpops;
+                p_iops += benchmark_descs[i].host_info.p_iops;
+                p_membw += benchmark_descs[i].host_info.p_membw;
+                m_cache += benchmark_descs[i].host_info.m_cache;
             }
-            host_info.p_fpops /= ncpus;
-            host_info.p_iops /= ncpus;
-            host_info.p_membw /= ncpus;
-            host_info.m_cache /= ncpus;
+            p_fpops /= ncpus;
+            p_iops /= ncpus;
+            p_membw /= ncpus;
+            m_cache /= ncpus;
+            if (p_fpops > 0) {
+                host_info.p_fpops = p_fpops;
+            } else {
+                msg_printf(NULL, MSG_ERROR, "Benchmark: FP unexpectedly zero; ignoring");
+            }
+            if (p_iops > 0) {
+                host_info.p_iops = p_iops;
+            } else {
+                msg_printf(NULL, MSG_ERROR, "Benchmark: int unexpectedly zero; ignoring");
+            }
+            host_info.p_membw = p_membw;
+            host_info.m_cache = m_cache;
         }
-        msg_printf(NULL, MSG_INFO, "Benchmark results:");
-        msg_printf(NULL, MSG_INFO, "   Number of CPUs: %d", ncpus);
-        msg_printf(
-            NULL, MSG_INFO, "   %.0f floating point MIPS (Whetstone) per CPU",
-            host_info.p_fpops/1e6
-        );
-        msg_printf(
-            NULL, MSG_INFO, "   %.0f integer MIPS (Dhrystone) per CPU",
-            host_info.p_iops/1e6
-        );
-#if 0
-        msg_printf(
-            NULL, MSG_INFO, "Benchmark results: %.0f million bytes/sec memory bandwidth%s",
-        host_info.p_membw/1e6, (host_info.p_membw_err?" [ERROR]":"")
-        );
-#endif
+        print_benchmark_results();
 
         // scale duration correction factor according to change in benchmarks.
         //
@@ -412,21 +410,41 @@ bool CLIENT_STATE::cpu_benchmarks_poll() {
         }
         host_info.p_calculated = now;
         benchmarks_running = false;
-        msg_printf(NULL, MSG_INFO, "Finished CPU benchmarks");
         set_client_state_dirty("CPU benchmarks");
     }
     return false;
+}
+
+void CLIENT_STATE::print_benchmark_results() {
+    msg_printf(NULL, MSG_INFO, "Benchmark results:");
+    msg_printf(NULL, MSG_INFO, "   Number of CPUs: %d", ncpus);
+    msg_printf(
+        NULL, MSG_INFO, "   %.0f floating point MIPS (Whetstone) per CPU",
+        host_info.p_fpops/1e6
+    );
+    msg_printf(
+        NULL, MSG_INFO, "   %.0f integer MIPS (Dhrystone) per CPU",
+        host_info.p_iops/1e6
+    );
+#if 0
+    msg_printf(
+        NULL, MSG_INFO, "Benchmark results: %.0f million bytes/sec memory bandwidth%s",
+    host_info.p_membw/1e6, (host_info.p_membw_err?" [ERROR]":"")
+    );
+#endif
 }
 
 bool CLIENT_STATE::cpu_benchmarks_done() {
 	return (host_info.p_calculated != 0);
 }
 
+// If a benchmark is nonzero, keep it.  Otherwise use default value
+//
 void CLIENT_STATE::cpu_benchmarks_set_defaults() {
-    host_info.p_fpops = DEFAULT_FPOPS;
-    host_info.p_iops = DEFAULT_IOPS;
-    host_info.p_membw = DEFAULT_MEMBW;
-    host_info.m_cache = DEFAULT_CACHE;
+    if (!host_info.p_fpops) host_info.p_fpops = DEFAULT_FPOPS;
+    if (!host_info.p_iops) host_info.p_iops = DEFAULT_IOPS;
+    if (!host_info.p_membw) host_info.p_membw = DEFAULT_MEMBW;
+    if (!host_info.m_cache) host_info.m_cache = DEFAULT_CACHE;
 }
 
 // return true if any CPU benchmark thread/process is running

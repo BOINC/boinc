@@ -12457,3 +12457,10 @@ David  8 Nov 2006
 
     client/
         cs_scheduler.C
+
+David  9 Nov 2006
+    - core client: ignore zero benchmark results
+
+    client/
+        client_state.h
+        cs_benchmark.C
