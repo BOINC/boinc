@@ -45,7 +45,7 @@ enum
 #define COLUMN_TIME                 1
 #define COLUMN_MESSAGE              2
 
-BEGIN_EVENT_TABLE( CDlgMessages,wxWindow)
+BEGIN_EVENT_TABLE( CDlgMessages,wxDialog)
   EVT_BUTTON(-1,CDlgMessages::OnBtnClick)
 END_EVENT_TABLE()
 // end events

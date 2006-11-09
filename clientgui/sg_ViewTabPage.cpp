@@ -679,7 +679,7 @@ WorkunitNotebook::WorkunitNotebook(wxWindow* parent, wxWindowID id, const wxPoin
 	SetImageList(&m_ImageList);
 
     changeSlideTimer = new wxTimer(this, ID_CHANGE_SLIDE_TIMER);
-	changeSlideTimer->Start(5000); 
+	changeSlideTimer->Start(10000); 
 
     Update();
 

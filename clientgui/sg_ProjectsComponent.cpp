@@ -91,7 +91,7 @@ void CProjectsComponent::CreateComponent()
 
 	//Static content in my Projects section
 	// add project button
-	wxToolTip *ttAddProject = new wxToolTip(_("Add Project"));
+	wxToolTip *ttAddProject = new wxToolTip(_("Attach to an additional project"));
 	btnAddProj=new wxBitmapButton(
         this,
         -1,
@@ -140,7 +140,7 @@ void CProjectsComponent::CreateComponent()
 
     //
 	//// Messages Play Pause Btns
-	wxToolTip *ttMessages = new wxToolTip(_("Messages"));
+	wxToolTip *ttMessages = new wxToolTip(_("Open a window to view messages"));
 	btnMessages = new wxBitmapButton(
         this,
         -1,
@@ -151,7 +151,7 @@ void CProjectsComponent::CreateComponent()
     );
 	btnMessages->SetToolTip(ttMessages);
 
-	wxToolTip *ttAlertMessages = new wxToolTip(_("Messages"));
+	wxToolTip *ttAlertMessages = new wxToolTip(_("Open a window to view messages"));
 	btnAlertMessages = new wxBitmapButton(
         this,
         -1,
@@ -169,7 +169,7 @@ void CProjectsComponent::CreateComponent()
     i_spacer->LoadImage(*(pSkinSimple->GetSpacerImage()->GetBitmap()));
 
     // pause btn
-	wxToolTip *ttPause = new wxToolTip(_("Pause all processing"));
+	wxToolTip *ttPause = new wxToolTip(_("Stop all activity"));
 	btnPause = new wxBitmapButton(
         this,
         -1,
@@ -181,7 +181,7 @@ void CProjectsComponent::CreateComponent()
 	btnPause->SetToolTip(ttPause);
 
     // resume btn   
-	wxToolTip *ttResume = new wxToolTip(_("Resume all Processing"));
+	wxToolTip *ttResume = new wxToolTip(_("Resume activity"));
 	btnResume = new wxBitmapButton(
         this,
         -1,
@@ -212,7 +212,7 @@ void CProjectsComponent::CreateComponent()
     i_spacer->LoadImage(*(pSkinSimple->GetSpacerImage()->GetBitmap()));
 
     // Pref Btn
-	wxToolTip *ttPreferences = new wxToolTip(_("Preferences"));
+	wxToolTip *ttPreferences = new wxToolTip(_("Open a window to set your preferences"));
 	btnPreferences = new wxBitmapButton(
         this,
         ID_SIMPLE_PREFERENCES,
@@ -229,7 +229,7 @@ void CProjectsComponent::CreateComponent()
     i_spacer->LoadImage(*(pSkinSimple->GetSpacerImage()->GetBitmap()));
 
     // Advanced View
-	wxToolTip *ttAdvView = new wxToolTip(_("Advanced View"));
+	wxToolTip *ttAdvView = new wxToolTip(_("Switch to the BOINC advanced view"));
 	btnAdvancedView = new wxBitmapButton(
         this,
         -1,

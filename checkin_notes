@@ -12424,9 +12424,6 @@ Kevin  8 Nov 2006
     - BSG:  Remove workunit name
     - BSG:  Formatting changes to text on main screen
     - BSG:  Re-arrange the layout on the main screen
-
-   lib/
-    parse.C
     
 David  8 Nov 2006
     - API: move is_graphics_possible() from boinc_api.C to graphics_lib.C
@@ -12478,3 +12475,16 @@ David  9 Nov 2006
 
 	clientgui/
 		ValidateEmailAddress.cpp
+
+Kevin  9 Nov 2006
+    - BSG:  Fix bug that didn't allow the messages window
+            to close when the red X was clicked
+    - BSG:  Added better text to status messages and tooltips
+    - BSG:  Increased slide show timer to 10 seconds
+
+	clientgui/
+		sg_DlgMessages.cpp
+		sg_ImageButton.cpp
+		sg_ProjectsComponent.cpp
+		sg_ViewTabPage.cpp
+
