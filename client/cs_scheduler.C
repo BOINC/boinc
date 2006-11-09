@@ -596,6 +596,7 @@ bool CLIENT_STATE::compute_work_requests() {
     //
     bool possible_deadline_miss = false;
     bool project_shortfall = false;
+    bool non_cpu_intensive_needs_work = false;
     for (i=0; i< projects.size(); i++) {
         PROJECT* p = projects[i];
         if (p->non_cpu_intensive) {
@@ -605,7 +606,7 @@ bool CLIENT_STATE::compute_work_requests() {
             } else {
                 p->work_request = 1.0;
                 p->work_request_urgency = WORK_FETCH_NEED_IMMEDIATELY;
-				overall_work_fetch_urgency = WORK_FETCH_NEED_IMMEDIATELY;
+				non_cpu_intensive_needs_work = true;
 				if (log_flags.work_fetch_debug) {
 					msg_printf(p, MSG_INFO,
 						"[work_fetch_debug] non-CPU-intensive project needs work"
@@ -641,6 +642,9 @@ bool CLIENT_STATE::compute_work_requests() {
         );
     }
     if (overall_work_fetch_urgency == WORK_FETCH_DONT_NEED) {
+        if (non_cpu_intensive_needs_work) {
+            overall_work_fetch_urgency = WORK_FETCH_NEED_IMMEDIATELY;
+        }
         return false;
     }
 
@@ -653,6 +657,7 @@ bool CLIENT_STATE::compute_work_requests() {
 
         // see if this project can be ruled out completely
         //
+        if (p->non_cpu_intensive) continue;
         if (!p->contactable()) {
             if (log_flags.work_fetch_debug) {
                 msg_printf(p, MSG_INFO, "[work_fetch_debug] work fetch: project not contactable");
@@ -747,7 +752,10 @@ bool CLIENT_STATE::compute_work_requests() {
                 urgency_name(pbest->work_request_urgency)
             );
         }
+    } else if (non_cpu_intensive_needs_work) {
+        overall_work_fetch_urgency = WORK_FETCH_NEED_IMMEDIATELY;
     }
+
 
     return false;
 }

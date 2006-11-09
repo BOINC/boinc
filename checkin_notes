@@ -12450,3 +12450,10 @@ David  8 Nov 2006
     sched/
         file_deleter.C
         make_work.C
+
+David  8 Nov 2006
+    - core client: work fetch fixes for non-CPU-intensive projects
+        (from John McLeod)
+
+    client/
+        cs_scheduler.C
