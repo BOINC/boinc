@@ -19,6 +19,8 @@ echo "
 <li> <a href=#team_lookup_id>Lookup team by ID</a>
 <li> <a href=#team_email_list>Get team member list</a>
 <li> <a href=#edit_forum_preferences_action>Set forum preferences</a>
+<li> <a href=#forum_get_user_posts>Get last user's posts from the forum</a>
+<li> <a href=#forum_get_user_threads>Get last user's threads from the forum</a>
 </ul>
 
 <a name=overview></a>
@@ -477,6 +479,77 @@ list_item('action',
 );
 list_end();
 
+
+echo "
+<a name=\"forum_get_user_posts\"></a>
+<h3>Get last user's posts from the forum</h3>
+";
+
+list_start();
+list_item('URL',
+    'project/forum_get_data.php?method=user_posts&amp;userid=N&amp;count=N
+    '
+);
+list_item('input',
+    'userid: numeric user ID in the database
+    <br />count <i>(optional)</i>: number of entries to return. Maximum 50, default 10.
+'
+);
+list_item('output',
+    html_text("<rpc_response>
+    <count>1</count>
+    <posts>
+        <post>
+        <id>4157</id>
+        <threadid>76</threadid>
+        <timestamp>1162847905</timestamp>
+        <content><![CDATA[Example post content (truncated to 100 characters).]]></content>
+        </post>
+        [ ... ]
+    </posts>
+</rpc_response>")
+);
+list_item('action',
+    'Get last user\'s posts from the forum.'
+);
+list_end();
+
+
+echo "
+<a name=\"forum_get_user_threads\"></a>
+<h3>Get last user's threads from the forum</h3>
+";
+
+list_start();
+list_item('URL',
+    'project/forum_get_data.php?method=user_threads&amp;userid=N&amp;count=N
+    '
+);
+list_item('input',
+    'userid: numeric user ID in the database
+    <br />count <i>(optional)</i>: number of entries to return. Maximum 50, default 10.
+'
+);
+list_item('output',
+    html_text("<rpc_response>
+    <count>1</count>
+    <threads>
+        <thread>
+            <id>356</id>
+            <forumid>2</forumid>
+            <replies>11</replies>
+            <views>612</views>
+            <timestamp>1159062318</timestamp>
+            <title><![CDATA[Example forum thread title]]></title>
+        </thread>
+        [...]
+    </threads>
+</rpc_response>")
+);
+list_item('action',
+    'Get last user\'s threads from the forums.'
+);
+list_end();
 
 page_tail();
 ?>
