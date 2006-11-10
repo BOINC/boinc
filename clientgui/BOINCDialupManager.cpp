@@ -32,7 +32,7 @@
 #include "BOINCGUIApp.h"
 #include "SkinManager.h"
 #include "MainDocument.h"
-#include "BOINCTaskbar.h"
+#include "BOINCTaskBar.h"
 #include "BOINCBaseFrame.h"
 #include "BOINCDialupManager.h"
 #include "DlgOptions.h"

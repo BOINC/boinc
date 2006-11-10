@@ -37,7 +37,7 @@
 #include "MainDocument.h"
 #include "BOINCBaseFrame.h"
 #include "BOINCBaseView.h"
-#include "BOINCTaskbar.h"
+#include "BOINCTaskBar.h"
 #include "BOINCDialupManager.h"
 #include "AdvancedFrame.h"
 #include "ViewProjects.h"
