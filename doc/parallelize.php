@@ -41,7 +41,7 @@ rather than volunteer computing.
 <dt>
 <b>Fault tolerance</b>
 <dd>
-A result returned from a public-resource computer
+A result returned from a volunteered computer
 cannot be assumed to be correct.
 Redundant computing can be used to reduce the error probability,
 but not all the way to zero.

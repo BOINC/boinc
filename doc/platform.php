@@ -2,89 +2,72 @@
 require_once("docutil.php");
 page_head("Platforms");
 echo "
-<h3>Goals</h3>
 <p>
-The computers available to a public-resource computing project
+The computers available to a volunteer computing project
 have a wide range of operating systems and hardware architectures.
 For example, they may run many versions of Windows
 (95, 98, ME, 2000, XP) on many processors variants (486, Pentium, AMD).
 Hosts may have multiple processors and/or graphics coprocessors.
-<p>
-BOINC addresses the following goals:
-<ul>
-<li> <b>Resource heterogeneity.</b>
-It should be easy for projects to allow many types
-of hosts to participate.
-<li> <b>Simplicity</b>.
-The combinatorial explosion of versions and architectures should be
-excluded from the internals of BOINC.
-<li>
-<b>Accounting.</b>
-Enough architectural information should be stored on the server
-so that statistics can be broken down according to specific features.
-</ul>
 
-<h3>Design</h3>
 <p>
-A <b>platform</b> is a compilation target.
-A set of platforms is maintained in the BOINC database of each project.
+A <b>platform</b> is a compilation target -
+typically a combination of a CPU architecture and an operating system.
+The BOINC database of each project includes a set of platforms.
 Each platform has a <b>name</b> and a <b>description</b> of
-the range of architectures it can handle.
-Each BOINC program (core client and application) is linked to a platform.
+the range of computers it can handle.
+Each <a href=app.php>application version</a>
+is associated with a particular platform.
+
 <p>
-At the minimum, a platform is a combination
-of a CPU architecture and an operating system.
-Examples might include:
+For coherence between projects,
+you should use only the following platforms:
+If you want to add a different platform,
+please <a href=contact.php>contact us</a>.
 ";
 
 list_start();
 list_heading("name", "description");
-list_item("windows_intelx86", "Microsoft Windows (95 or later) running on an Intel x86-compatible processor");
-list_item("i686-pc-linux-gnu", "Linux running on an Intel x86-compatible processor");
-list_item("powerpc-apple-darwin", "Mac OS 10.3 or later running on Motorola PowerPC");
+list_item("windows_intelx86", "Microsoft Windows (98 or later) running on an Intel x86-compatible CPU");
+list_item("i686-pc-linux-gnu", "Linux running on an Intel x86-compatible CPU");
+list_item("x86_64-pc-linux-gnu", "Linux running on an AMD x86_64 or Intel EM64T CPU");
+list_item("powerpc-apple-darwin", "Mac OS X 10.3 or later running on Motorola PowerPC");
 list_item("i686-apple-darwin", "Mac OS 10.4 or later running on Intel");
-list_item("sparc-sun-solaris2.7", "Solaris 2.7 or later running on a SPARC-compatible processor");
+list_item("sparc-sun-solaris2.7", "Solaris 2.7 running on a SPARC-compatible CPU");
+list_item("sparc-sun-solaris", "Solaris 2.8 or later running on a SPARC-compatible CPU");
+list_item("sparc64-sun-solaris", "Solaris 2.8 or later running on a SPARC 64-bitCPU");
 list_end();
 echo"
 
 <p>
-
-The name of a platform should specify a particular version (e.g. of an OS)
-only if it uses features new to that version.
-For example, the platform <b>sparc_solaris2.8</b> should apply
-to SPARC machines running Solaris 2.8 or greater.
-
-<p>
-For simplicity, platforms are assumed to be mutually exclusive:
-i.e. an application for platform X is not assumed to work
-on a host running core client platform Y if X &ne; Y.
-The BOINC scheduling server will send work to a host only
+A platform name is compiled into the BOINC client.
+The client reports its platform to the scheduling server,
+and the scheduling server sends work to a host only
 if there is an application version for the same platform.
-
 <p>
-There should be as few platforms as possible.
-For example, suppose that there are both Solaris2.6
-and Solaris2.7 platforms.
-Then any host running the Solaris2.6 core client will
-only be able to run Solaris2.6 applications.
-Application developers will have to create versions
-for both 2.6 and 2.7, even if they're identical.
+In some cases, you may want to associate the a single executable
+with multiple platforms.
+For example, a Mac/Intel host is able to run Mac/PPC applications
+in emulation mode.
+If you are unable to compile your application for Mac/Intel,
+you can take your Mac/PPC binary and add it as a Mac/Intel app version;
+this will allow Mac/Intel hosts to participate in your project.
 
-<p>
+
 <h3>Application optimization for specific architectures</h3>
 
 <p>
 BOINC allows applications to exploit specific architectures,
 but places the burden of recognizing the architecture
 on the application.
-
-<p>
 In other words, if you want to make a version of your application
 that can use the AMD 3DNow instruction set,
-<i>don't</i> create a new <b>windows_amd_3dnow</b> platform.
+don't create a new <b>windows_amd_3dnow</b> platform.
 Instead, make a version for the <b>windows_intelx86</b> platform
 that recognizes when it's running on a 3DNow machine,
 and branches to the appropriate code.
+<p>
+This excludes the combinatorial explosion of versions and architectures
+from the internals of BOINC.
 
 <p>
 <h3>Web-site statistics breakdown by architecture</h3>
@@ -116,15 +99,6 @@ For example, the application might pass a description like
 This makes it possible, for example, to report average or total
 performance statistics for 3DNow hosts contrasted
 with other Intel-compatible hosts.
-
-
-<h3>Avoiding platform anarchy</h3>
-<p>
-Each BOINC project is free to create its own platforms.
-To avoid anarchy, however, we recommend that
-platform creation and naming be coordinated by a single group
-(currently the SETI@home project at UCB).
-
 
 <h3>Tools</h3>
 <p>

@@ -12572,3 +12572,9 @@ David  10 Nov 2006
 	clientgui/
 		MainDocument.cpp
 		ViewStatistics.cpp
+
+David  10 Nov 2006
+    - core client: condition Curl speed-limit error message on http_debug
+
+    client/
+        http_curl.C

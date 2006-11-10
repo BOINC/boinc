@@ -1048,8 +1048,8 @@ void HTTP_OP::set_speed_limit(bool is_upload, double bytes_sec) {
     } else {
         cc = curl_easy_setopt(curlEasy, CURLOPT_MAX_RECV_SPEED_LARGE, bs);
     }
-	if (cc) {
-		msg_printf(NULL, MSG_ERROR, "Curl error: %s", curl_easy_strerror(cc));
+	if (cc && log_flags.http_debug) {
+		msg_printf(NULL, MSG_ERROR, "[http_debug] Curl error in set_speed_limit(): %s", curl_easy_strerror(cc));
 	}
 #endif
 }

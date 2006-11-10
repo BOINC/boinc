@@ -51,62 +51,63 @@ If you have an opinion, or think you can do better,
 <p>
 <table cellpadding=8 border=1>
 <tr><th>Artist</th><th>Images (click for hi-res version)</th></tr>
-<tr><td><a href=http://www.boincproject.org/>Invisible Design</a></td>
-<td>
-<img src=logos/logo.boinc.240x80-01.jpg>
-... and <a href=logos/>many variants</a> in different sizes and colors,
-and for specific countries.
-</td></tr>
-<tr>
-<td>
-Dario Arnaez
-</td>
-<td>
-    <img src=logos/Boinc-Iso2.jpg>
-</td>
-</tr>
-<tr>
-<td>Rebirther</td>
-<td>
-    <img src=logo/rebirther/boincanderson7b-3.png>
-    <img src=logo/rebirther/blackbackground.png>
-</td>
-</tr>
-<td>Michal Krakowiak</td>
-<td>
-    <img src=logos/boinc_krakowiak.jpg>
-    <br>
-    16x16 icon: <img src=logos/boinc_small_icon_krakowiak.jpg>
-</td>
-</tr>
-<tr> <td>Jim Paulis</td><td>
-<a href=images/BOINC_logo.jpg><img src=images/BOINC_logo_240.jpg></a>
-... and several variants
-</td></tr>
-<tr> <td>Eduardo Ascarrunz</td>
-<td>
-<a href=images/BOINC_01.png><img height=90 src=images/BOINC_01.png></a>
-<a href=images/BOINC_02.png><img height=90 src=images/BOINC_02.png></a>
-<a href=images/BOINC_03.png><img height=90 src=images/BOINC_03.png></a>
-<a href=images/BOINC_04.png><img height=90 src=images/BOINC_04.png></a>
-<br>
-<a href=images/BOINC.ai>Adobe Illustrator source</a>
-</td></tr>
-<tr>
-<td >Michael Peele</td>
-<td>
-<a href=images/NewBOiNC.gif><img src=images/NewBOiNC_120.png></a>,
-<a href=images/BOiNC3.jpg><img src=images/BOiNC3_120.png></a>
-<a href=images/BOiNC2.png><img src=images/BOiNC2_120.png></a>
-</td>
-<tr><td> Yopi at sympatico.ca</td>
-<td>
-<a href=images/boincb6.png><img src=images/boincb6_120.png>
-<a href=images/boincb7.png><img src=images/boincb7_120.png>
-</td>
-</tr>
-<tr>
-</tr>
+";
+$logos = array(
+    array("Markus Beck",
+        "<img src=logos/markus/Logo3/BoincNeu2.jpg>
+        <img src=logos/markus/Logo2/MarkusBoinc.jpg>
+        ... and <a href=logos/markus>various others</a>"
+    ),
+    array("<a href=http://www.boincproject.org/>Invisible Design</a>",
+        "<img src=logos/logo.boinc.240x80-01.jpg>
+        ... and <a href=logos/>many variants</a> in different sizes and colors,
+        and for specific countries."
+    ),
+    array("Dario Arnaez",
+        "<img src=logos/Boinc-Iso2.jpg>"
+    ),
+    array("Rebirther",
+        "<img src=logo/rebirther/boincanderson7b-3.png>
+        <img src=logo/rebirther/blackbackground.png>"
+    ),
+    array("Michal Krakowiak",
+        "<img src=logos/boinc_krakowiak.jpg>
+        <br>
+        16x16 icon: <img src=logos/boinc_small_icon_krakowiak.jpg>"
+    ),
+    array("Jim Paulis",
+        "<a href=images/BOINC_logo.jpg><img src=images/BOINC_logo_240.jpg></a>
+        ... and several variants"
+    ),
+    array("Eduardo Ascarrunz",
+        "<a href=images/BOINC_01.png><img height=90 src=images/BOINC_01.png></a>
+        <a href=images/BOINC_02.png><img height=90 src=images/BOINC_02.png></a>
+        <a href=images/BOINC_03.png><img height=90 src=images/BOINC_03.png></a>
+        <a href=images/BOINC_04.png><img height=90 src=images/BOINC_04.png></a>
+        <br>
+        <a href=images/BOINC.ai>Adobe Illustrator source</a>"
+    ),
+    array("Michael Peele",
+        "<a href=images/NewBOiNC.gif><img src=images/NewBOiNC_120.png></a>,
+        <a href=images/BOiNC3.jpg><img src=images/BOiNC3_120.png></a>
+        <a href=images/BOiNC2.png><img src=images/BOiNC2_120.png></a>"
+    ),
+    array("Yopi at sympatico.ca",
+        "<a href=images/boincb6.png><img src=images/boincb6_120.png>
+        <a href=images/boincb7.png><img src=images/boincb7_120.png>"
+    ),
+);
+shuffle($logos);
+foreach($logos as $logo) {
+    $x0 = $logo[0];
+    $x1 = $logo[1];
+    echo "<tr>
+        <td>$x0</td>
+        <td>$x1</td>
+        </tr>
+    ";
+}
+echo "
 </table>
 
 <h2>Banners for BOINC projects</h2>
