@@ -247,7 +247,10 @@ static void CheckMinMaxC(wxCoord &min_val, wxCoord &max_val) {
 	if (max_val==min_val) max_val+=1;
 }
 //----Draw Main Head----
-void CPaintStatistics::DrawMainHead(wxBufferedPaintDC &dc, const wxString head_name, wxCoord &x_start, wxCoord &x_end, wxCoord &y_start, wxCoord & /*y_end*/){
+void CPaintStatistics::DrawMainHead(
+	wxBufferedPaintDC &dc, const wxString head_name, wxCoord &x_start,
+	wxCoord &x_end, wxCoord &y_start, wxCoord & /*y_end*/
+){
 	wxCoord w_temp, h_temp, des_temp, lead_temp;
 	dc.GetTextExtent(head_name, &w_temp, &h_temp, &des_temp, &lead_temp);
 	dc.SetTextForeground (m_pen_HeadTextColour);
@@ -255,7 +258,10 @@ void CPaintStatistics::DrawMainHead(wxBufferedPaintDC &dc, const wxString head_n
 	y_start+=(h_temp+2);
 };
 //----Draw Project Head----
-void CPaintStatistics::DrawProjectHead(wxBufferedPaintDC &dc, PROJECT * &project1, const wxString head_name_last, wxCoord &x_start, wxCoord &x_end, wxCoord &y_start, wxCoord &y_end){
+void CPaintStatistics::DrawProjectHead(
+	wxBufferedPaintDC &dc, PROJECT * &project1, const wxString head_name_last,
+	wxCoord & x_start, wxCoord &x_end, wxCoord &y_start, wxCoord & /*y_end*/
+){
 	wxCoord w_temp, h_temp, des_temp, lead_temp;
 	wxString head_name=wxT("");
 

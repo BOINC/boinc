@@ -98,7 +98,7 @@ int get_timezone(int& timezone) {
 //
 int get_memory_info(double& bytes, double& swap) {
     HMODULE hKernel32Lib;
-    MYGLOBALMEMORYSTATUSEX myGlobalMemoryStatusEx;
+    MYGLOBALMEMORYSTATUSEX myGlobalMemoryStatusEx=0;
     hKernel32Lib = GetModuleHandle("kernel32.dll");
     if (hKernel32Lib) {
         myGlobalMemoryStatusEx = (MYGLOBALMEMORYSTATUSEX) GetProcAddress(hKernel32Lib, "GlobalMemoryStatusEx");
@@ -127,7 +127,7 @@ int get_memory_info(double& bytes, double& swap) {
 // Returns the OS name and version
 //
 int get_os_information(
-    char* os_name, int os_name_size, char* os_version, int os_version_size
+    char* os_name, int /*os_name_size*/, char* os_version, int os_version_size
 )
 {
     // This code snip-it was copied straight out of the MSDN Platform SDK
@@ -143,12 +143,11 @@ int get_os_information(
     ZeroMemory(&osvi, sizeof(OSVERSIONINFOEX));
     osvi.dwOSVersionInfoSize = sizeof(OSVERSIONINFOEX);
 
-    if( !(bOsVersionInfoEx = GetVersionEx ((OSVERSIONINFO *) &osvi)) )
-    {
+	bOsVersionInfoEx = GetVersionEx ((OSVERSIONINFO *) &osvi);
+    if(!bOsVersionInfoEx) {
         osvi.dwOSVersionInfoSize = sizeof (OSVERSIONINFO);
         GetVersionEx ( (OSVERSIONINFO *) &osvi );
     }
-
 
     switch (osvi.dwPlatformId)
     {
@@ -649,7 +648,7 @@ bool HOST_INFO::host_is_running_on_batteries() {
 	return (bIsOnBatteryPower && !bIsBatteryCharging && !bIsBatteryMissing);
 }
 
-bool HOST_INFO::users_idle(bool check_all_logins, double idle_time_to_run) {
+bool HOST_INFO::users_idle(bool /*check_all_logins*/, double idle_time_to_run) {
     typedef DWORD (CALLBACK* GetFn)();
     static GetFn fn = (GetFn)GetProcAddress(g_hClientLibraryDll, "BOINCGetIdleTickCount");
 

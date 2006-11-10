@@ -475,7 +475,7 @@ int CMainDocument::SetActivityRunMode(int iMode) {
     int     iRetVal = 0;
 
     if (IsConnected()) {
-        iRetVal = rpc.set_run_mode(iMode);
+        iRetVal = rpc.set_run_mode(iMode, 0);
         if (0 == iRetVal) {
             status.task_mode = iMode;
         }
@@ -489,7 +489,7 @@ int CMainDocument::SetNetworkRunMode(int iMode) {
     int     iRetVal = 0;
 
     if (IsConnected()) {
-        iRetVal = rpc.set_network_mode(iMode);
+        iRetVal = rpc.set_network_mode(iMode, 0);
         if (0 == iRetVal) {
             status.network_mode = iMode;
         }

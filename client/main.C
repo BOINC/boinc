@@ -167,7 +167,7 @@ LRESULT CALLBACK Win9xMonitorSystemWndProc(HWND hWnd, UINT uMsg, WPARAM wParam, 
     return (DefWindowProc(hWnd, uMsg, wParam, lParam));
 }
 
-DWORD WINAPI Win9xMonitorSystemThread( LPVOID lpParam ) {
+DWORD WINAPI Win9xMonitorSystemThread( LPVOID  ) {
     HWND hwndMain;
     WNDCLASS wc;
     MSG msg;
@@ -543,13 +543,13 @@ int boinc_main_loop() {
         }
 #ifdef _WIN32
         if (requested_suspend) {
-            gstate.user_run_request = RUN_MODE_NEVER;
-            gstate.user_network_request = RUN_MODE_NEVER;
+            gstate.run_mode.set(RUN_MODE_NEVER, 0);
+            gstate.network_mode.set(RUN_MODE_NEVER, 0);
             requested_suspend = false;
         }
         if (requested_resume) {
-            gstate.user_run_request = RUN_MODE_AUTO;
-            gstate.user_network_request = RUN_MODE_AUTO;
+            gstate.run_mode.set(RUN_MODE_AUTO, 0);
+            gstate.network_mode.set(RUN_MODE_AUTO, 0);
             requested_resume = false;
         }
 #endif

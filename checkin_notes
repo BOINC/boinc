@@ -12560,3 +12560,15 @@ David  10 Nov 2006
         common_defs.h
         gui_rpc_client.h
         gui_rpc_client_ops.C
+
+David  10 Nov 2006
+	- Get the above to work on Win; fix compile warnings
+
+	client/
+		app_control.C
+		main.C
+		win/
+			hostinfo_win.cpp
+	clientgui/
+		MainDocument.cpp
+		ViewStatistics.cpp

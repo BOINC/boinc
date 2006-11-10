@@ -98,7 +98,7 @@ int ACTIVE_TASK::request_abort() {
 //
 int ACTIVE_TASK::kill_task() {
 #ifdef _WIN32
-    TerminateProcess(pid_handle, -1);
+    TerminateProcess(pid_handle, (UINT)-1);
 #else
     kill(pid, SIGKILL);
 #endif
