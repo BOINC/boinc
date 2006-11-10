@@ -35,6 +35,7 @@ boinc_gui_SOURCES = \
     DlgOptions.cpp \
     DlgSelectComputer.cpp \
     LogBOINC.cpp \
+    SkinManager.cpp \
     MainDocument.cpp \
     AdvancedFrame.cpp \
     stdwx.cpp \
