@@ -33,7 +33,11 @@ define("EXCERPT_LENGTH", "120");
 
 define('NEW_IMAGE', 'img/unread_post.png');
 define('NEW_IMAGE_STICKY', 'img/unread_sticky.png');
-define('STICKY_IMAGE', 'img/sticky_post.png');
+define('NEW_IMAGE_LOCKED', 'img/unread_locked.png');
+define('NEW_IMAGE_STICKY_LOCKED', 'img/unread_sticky_locked.png');
+define('IMAGE_STICKY', 'img/sticky_post.png');
+define('IMAGE_LOCKED', 'img/locked_post.png');
+define('IMAGE_STICKY_LOCKED', 'img/sticky_locked_post.png');
 define('NEW_IMAGE_HEIGHT','15');
 define('EMPHASIZE_IMAGE', 'img/emphasized_post.png');
 define('EMPHASIZE_IMAGE_HEIGHT','15');

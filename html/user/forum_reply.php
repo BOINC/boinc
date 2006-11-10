@@ -14,6 +14,12 @@ $logged_in_user = re_get_logged_in_user(true);
 check_banished($logged_in_user);
 
 $thread = new Thread (get_int('thread'));
+
+if ($thread->isLocked() && !$logged_in_user->isSpecialUser(S_MODERATOR)
+    && !$logged_in_user->isSpecialUser(S_ADMIN)) {
+    error_page("This thread is locked. Only forum moderators and administrators are allowed to post there.");
+}
+
 $forum = $thread->getForum();
 $category = $forum->getCategory();
 

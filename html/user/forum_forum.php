@@ -26,7 +26,7 @@ if (!$sort_style) {
 } else {
     // set the sort style
     if ($user){
-	$user->setForumSortStyle($sort_style);
+        $user->setForumSortStyle($sort_style);
     } else {
         list($old_style,$thread_style)=explode("|",$_COOKIE['sorting']);
         setcookie('sorting', implode("|",array($sort_style,$thread_style)), time()+3600*24*365);
@@ -115,15 +115,33 @@ function show_forum($forum, $start, $sort_style, $user) {
         if ($thread->isHidden()) {
             echo "X";
         }
-        if ($unread && !$thread->isSticky()) {
-            echo "<img src=\"".NEW_IMAGE."\" alt=\"Unread post(s)\">";
-        }
-        elseif($unread) {
-            echo "<img src=\"".NEW_IMAGE_STICKY."\" alt=\"Unread post(s)\">";
-        }
-        elseif($thread->isSticky()) {
-            echo "<img src=\"".STICKY_IMAGE."\" alt=\"Sticky\">";
-        }
+	if ($unread) {
+	    if ($thread->isSticky()) {
+		if ($thread->isLocked()) {
+        	    echo "<img src=\"".NEW_IMAGE_STICKY_LOCKED."\" alt=\"Unread post(s), sticky, thread locked\">";
+		} else {
+        	    echo "<img src=\"".NEW_IMAGE_STICKY."\" alt=\"Unread post(s), sticky\">";
+		}
+	    } else {
+		if ($thread->isLocked()) {
+        	    echo "<img src=\"".NEW_IMAGE_LOCKED."\" alt=\"Unread post(s), thread locked\">";
+		} else {
+        	    echo "<img src=\"".NEW_IMAGE."\" alt=\"Unread post(s)\">";
+		}
+	    }
+	} else {
+	    if ($thread->isSticky()) {
+		if ($thread->isLocked()) {
+        	    echo "<img src=\"".IMAGE_STICKY_LOCKED."\" alt=\"Sticky, thread locked\">";
+		} else {
+        	    echo "<img src=\"".IMAGE_STICKY."\" alt=\"Sticky\">";
+		}
+	    } else {
+		if ($thread->isLocked()) {
+        	    echo "<img src=\"".IMAGE_LOCKED."\" alt=\"Thread locked\">";
+		}
+	    }
+	}
         echo "</nobr></td>";
 
         $titlelength = 48;

@@ -38,6 +38,10 @@ if ($action=="hide"){
     $result = $thread->setSticky(true);
 } elseif ($action=="desticky"){
     $result = $thread->setSticky(false);
+} elseif ($action == "lock") {
+    $result = $thread->setLocked(true);
+} elseif ($action == "unlock") {
+    $result = $thread->setLocked(false);
 } elseif ($action=="move"){
     $forum = new Forum(post_int('forumid'));
     $result = $thread->moveTo($forum);

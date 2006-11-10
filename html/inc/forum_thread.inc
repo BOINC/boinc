@@ -125,6 +125,21 @@ class Thread {
     }
     
     /**
+     * Return thread lock state.
+     **/
+    function isLocked(){
+        return $this->dbObj->locked;
+    }
+    
+    /**
+     * Update thread lock state.
+     **/
+    function setLocked($bool){
+        $result = $this->dbhandler->updateThread($this, "locked", $bool?1:0);
+        return $result;
+    }
+    
+    /**
      * Return even more fields from the thread
      **/
     function getForum(){

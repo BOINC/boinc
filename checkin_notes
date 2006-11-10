@@ -12506,3 +12506,20 @@ David  9 Nov 2006
 		cpu_sched.C
 		cs_prefs.C
 		cs_scheduler.C
+            
+Rytis  10 Nov 2006
+    - User web: forum thread locking.
+        
+        NOTE: requires DB update.
+
+    html/
+        inc/
+            forum.inc
+            forum_thread.inc
+        user/
+            forum_forum.php
+            forum_reply.php
+            forum_moderate_thread_action.php
+            forum_thread.php
+        ops/
+            db_update.php

@@ -92,7 +92,10 @@ if (($thread->isHidden()) && $logged_in_user && (!$logged_in_user->isSpecialUser
         <table width=\"100%\" cellspacing=0 cellpadding=0>
         <tr>
         <td align=\"left\">";
-    echo $reply_text = "<a href=\"forum_reply.php?thread=".$thread->getID()."#input\">".tr(FORUM_THREAD_REPLY)."</a><br>";
+        
+    if (!$thread->isLocked() || ($logged_in_user && $logged_in_user->isSpecialUser(S_MODERATOR))) {
+        echo $reply_text = "<a href=\"forum_reply.php?thread=".$thread->getID()."#input\">".tr(FORUM_THREAD_REPLY)."</a><br>";
+    }
 
     if ($is_subscribed) {
         echo tr(FORUM_THREAD_SUBSCRIBED)." ";
@@ -103,16 +106,21 @@ if (($thread->isHidden()) && $logged_in_user && (!$logged_in_user->isSpecialUser
 
     //If the logged in user is moderator enable some extra features
     if ($logged_in_user && $logged_in_user->isSpecialUser(S_MODERATOR)){
-	if ($thread->isHidden()){
-	    echo "<br /><a href=\"forum_moderate_thread_action.php?action=unhide&amp;thread=".$thread->getID()."\">Un-Delete this thread</a>";
-	} else {
-	    echo "<br /><a href=\"forum_moderate_thread.php?action=hide&amp;thread=".$thread->getID()."\">Delete this thread</a>";
-	}
-	if($thread->isSticky()){
-	    echo "<br /><a href=\"forum_moderate_thread_action.php?action=desticky&amp;thread=".$thread->getID()."\">De-sticky this thread</a>"; 
-	} else {
-	    echo "<br /><a href=\"forum_moderate_thread_action.php?action=sticky&amp;thread=".$thread->getID()."\">Make this thread sticky</a>";
-	}	
+	    if ($thread->isHidden()){
+	        echo "<br /><a href=\"forum_moderate_thread_action.php?action=unhide&amp;thread=".$thread->getID()."\">Un-Delete this thread</a>";
+	    } else {
+	        echo "<br /><a href=\"forum_moderate_thread.php?action=hide&amp;thread=".$thread->getID()."\">Delete this thread</a>";
+	    }
+	    if ($thread->isSticky()){
+	        echo "<br /><a href=\"forum_moderate_thread_action.php?action=desticky&amp;thread=".$thread->getID()."\">De-sticky this thread</a>"; 
+	    } else {
+	        echo "<br /><a href=\"forum_moderate_thread_action.php?action=sticky&amp;thread=".$thread->getID()."\">Make this thread sticky</a>";
+	    }
+        if ($thread->isLocked()) {
+            echo "<br /><a href=\"forum_moderate_thread_action.php?action=unlock&amp;thread=".$thread->getID()."\">Unlock thread</a>";
+        } else {
+            echo "<br /><a href=\"forum_moderate_thread_action.php?action=lock&amp;thread=".$thread->getID()."\">Lock thread</a>";
+        }
         echo "<br /><a href=\"forum_moderate_thread.php?action=move&amp;thread=".$thread->getID()."\">Move this thread</a>";
         echo "<br /><a href=\"forum_moderate_thread.php?action=title&amp;thread=".$thread->getID()."\">Edit thread title</a>";
     }
