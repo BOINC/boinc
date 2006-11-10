@@ -557,6 +557,8 @@ int ACTIVE_TASK::start(bool first_time) {
     }
 
 #else
+    // Unix/Linux/Mac case
+
     char* argv[100];
 
     // Set up core/app shared memory seg if needed

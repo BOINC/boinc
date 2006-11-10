@@ -465,10 +465,12 @@ struct ACCOUNT_OUT {
 struct CC_STATUS {
     int network_status;
     bool ams_password_error;
-    int task_suspend_reason;
+    int task_suspend_reason;    // bitmap, see common_defs.h
     int network_suspend_reason;
-    int task_mode;
+    int task_mode;              // always/auto/never; see common_defs.h
     int network_mode;
+    int task_mode_perm;
+    int network_mode_perm;
 
     CC_STATUS();
     ~CC_STATUS();
@@ -482,12 +484,6 @@ struct SIMPLE_GUI_INFO {
     std::vector<PROJECT*> projects;
     std::vector<RESULT*> results;
     void print();
-};
-
-// DEPRECATED - REMOVE 12/06
-struct ACTIVITY_STATE {
-    int task_suspend_reason;
-    int network_suspend_reason;
 };
 
 class RPC_CLIENT {
@@ -511,8 +507,7 @@ public:
         //    If connecting to a remote client, it should be large enough
         //    for the user to deal with a "personal firewall" popup
         //    (e.g. 60 sec)
-        // retry: if true, keep retrying
-        //    until succeed or timeout.
+        // retry: if true, keep retrying until succeed or timeout.
         //    Use this if just launched the core client.
     int init_poll();
     void close();
@@ -531,11 +526,11 @@ public:
         DISPLAY_INFO&
     );
     int project_op(PROJECT&, const char* op);
-    int set_run_mode(int mode);
-    int get_run_mode(int& mode);    // DEPRECATED
-    int set_network_mode(int mode);
-    int get_network_mode(int& mode);    // DEPRECATED
-    int get_activity_state(ACTIVITY_STATE&);	// DEPRECATED
+    int set_run_mode(int mode, double duration);
+        // if duration is zero, change is permanent.
+        // otherwise, after duration expires,
+        // restore last permanent mode
+    int set_network_mode(int mode, double duration);
     int get_screensaver_mode(int& status);
     int set_screensaver_mode(
         bool enabled, double blank_time, DISPLAY_INFO&
@@ -551,7 +546,6 @@ public:
     int acct_mgr_info(ACCT_MGR_INFO&);
     const char* mode_name(int mode);
     int get_statistics(PROJECTS&);
-    int network_status(int&);	// DEPRECATED
     int network_available();
     int get_project_init_status(PROJECT_INIT_STATUS& pis);
 

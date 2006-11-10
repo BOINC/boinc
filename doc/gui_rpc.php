@@ -130,14 +130,6 @@ list_item_func(
     "Get a list of projects, with disk usage fields filled in."
 );
 list_item_func(
-    "get_run_mode(int& mode)",
-	"Get the run mode (never/auto/always)."
-);
-list_item_func(
-    "get_network_mode(int& mode)",
-	"Get the network mode (never/auto/always)."
-);
-list_item_func(
     "get_proxy_settings(PROXY_INFO&)",
 	"Get proxy settings"
 );
@@ -210,11 +202,14 @@ list_item_func(
 	<a href=client_startup.php>project_init.xml</a> file."
 );
 list_item_func(
-    "set_run_mode(int mode)",
-	"Set the run mode (never/auto/always)."
+    "set_run_mode(int mode, double duration)",
+	"Set the run mode (never/auto/always).
+    If duration is zero, mode is permanent.
+    Otherwise revert to last permanent mode
+    after duration seconds elapse."
 );
 list_item_func(
-    "set_network_mode(int mode)",
+    "set_network_mode(int mode, double duration)",
 	"Set the network mode (never/auto/always)."
 );
 list_item_func(

@@ -141,10 +141,12 @@ void CLIENT_STATE::check_suspend_activities(int& reason) {
     user_active = !host_info.users_idle(
         check_all_logins, global_prefs.idle_time_to_run
     );
+
 	if (user_active != old_user_active) {
 		request_schedule_cpus("Idle state change");
 	}
-    switch(user_run_request) {
+
+    switch(run_mode.get_current()) {
     case RUN_MODE_ALWAYS: break;
     case RUN_MODE_NEVER:
         reason = SUSPEND_REASON_USER_REQ;
@@ -240,9 +242,9 @@ int CLIENT_STATE::resume_tasks(int reason) {
 void CLIENT_STATE::check_suspend_network(int& reason) {
     reason = 0;
 
-    if (user_network_request == RUN_MODE_ALWAYS) return;
-
-    if (user_network_request == RUN_MODE_NEVER) {
+    switch(network_mode.get_current()) {
+    case RUN_MODE_ALWAYS: return;
+    case RUN_MODE_NEVER:
         reason |= SUSPEND_REASON_USER_REQ;
         return;
     }

@@ -72,9 +72,7 @@ Commands:\n\
  --project url {reset | detach | update | suspend | resume | nomorework | allowmorework}\n\
  --project_attach url auth\n\
  --file_transfer url filename {retry | abort}\n\
- --get_run_mode\n\
  --set_run_mode {always | auto | never}\n\
- --get_network_mode\n\
  --set_network_mode {always | auto | never}\n\
  --get_proxy_settings\n\
  --set_proxy_settings\n\
@@ -307,37 +305,27 @@ int main(int argc, char** argv) {
         } else {
             fprintf(stderr, "Unknown op %s\n", op);
         }
-    } else if (!strcmp(cmd, "--get_run_mode")) {
-        int mode;
-        retval = rpc.get_run_mode(mode);
-        if (!retval) {
-            printf("run mode: %s\n", rpc.mode_name(mode));
-        }
     } else if (!strcmp(cmd, "--set_run_mode")) {
         char* op = next_arg(argc, argv, i);
+        double duration = atof(next_arg(argc, argv, i));
         if (!strcmp(op, "always")) {
-            retval = rpc.set_run_mode(RUN_MODE_ALWAYS);
+            retval = rpc.set_run_mode(RUN_MODE_ALWAYS, duration);
         } else if (!strcmp(op, "auto")) {
-            retval = rpc.set_run_mode(RUN_MODE_AUTO);
+            retval = rpc.set_run_mode(RUN_MODE_AUTO, duration);
         } else if (!strcmp(op, "never")) {
-            retval = rpc.set_run_mode(RUN_MODE_NEVER);
+            retval = rpc.set_run_mode(RUN_MODE_NEVER, duration);
         } else {
             fprintf(stderr, "Unknown op %s\n", op);
         }
-    } else if (!strcmp(cmd, "--get_network_mode")) {
-        int mode;
-        retval = rpc.get_network_mode(mode);
-        if (!retval) {
-            printf("network mode: %s\n", rpc.mode_name(mode));
-        }
     } else if (!strcmp(cmd, "--set_network_mode")) {
         char* op = next_arg(argc, argv, i);
+        double duration = atof(next_arg(argc, argv, i));
         if (!strcmp(op, "always")) {
-            retval = rpc.set_network_mode(RUN_MODE_ALWAYS);
+            retval = rpc.set_network_mode(RUN_MODE_ALWAYS, duration);
         } else if (!strcmp(op, "auto")) {
-            retval = rpc.set_network_mode(RUN_MODE_AUTO);
+            retval = rpc.set_network_mode(RUN_MODE_AUTO, duration);
         } else if (!strcmp(op, "never")) {
-            retval = rpc.set_network_mode(RUN_MODE_NEVER);
+            retval = rpc.set_network_mode(RUN_MODE_NEVER, duration);
         } else {
             fprintf(stderr, "Unknown op %s\n", op);
         }

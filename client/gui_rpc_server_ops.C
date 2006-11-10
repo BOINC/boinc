@@ -266,71 +266,39 @@ static void handle_project_op(char* buf, MIOFILE& fout, const char* op) {
 }
 
 static void handle_set_run_mode(char* buf, MIOFILE& fout) {
+    double duration = 0;
+    int mode;
+    parse_double(buf, "<duration>", duration);
     if (match_tag(buf, "<always")) {
-        gstate.user_run_request = RUN_MODE_ALWAYS;
+        mode = RUN_MODE_ALWAYS;
     } else if (match_tag(buf, "<never")) {
-        gstate.user_run_request = RUN_MODE_NEVER;
+        mode = RUN_MODE_NEVER;
     } else if (match_tag(buf, "<auto")) {
-        gstate.user_run_request = RUN_MODE_AUTO;
+        mode = RUN_MODE_AUTO;
     } else {
         fout.printf("<error>Missing mode</error>\n");
         return;
     }
-    gstate.set_client_state_dirty("Set run mode RPC");
+    gstate.run_mode.set(mode, duration);
     fout.printf("<success/>\n");
-}
-
-// DEPRECATED - REMOVE 12/06
-static void handle_get_run_mode(char* , MIOFILE& fout) {
-    fout.printf("<run_mode>\n");
-    switch (gstate.user_run_request) {
-    case RUN_MODE_ALWAYS:
-        fout.printf("<always/>\n");
-        break;
-    case RUN_MODE_NEVER:
-        fout.printf("<never/>\n");
-        break;
-    case RUN_MODE_AUTO:
-        fout.printf("<auto/>\n");
-        break;
-    default:
-        fout.printf("<error>Unknown run mode</error>\n");
-    }
-    fout.printf("</run_mode>\n");
 }
 
 static void handle_set_network_mode(char* buf, MIOFILE& fout) {
+    double duration = 0;
+    int mode;
+    parse_double(buf, "<duration>", duration);
     if (match_tag(buf, "<always")) {
-        gstate.user_network_request = RUN_MODE_ALWAYS;
+        mode = RUN_MODE_ALWAYS;
     } else if (match_tag(buf, "<never")) {
-        gstate.user_network_request = RUN_MODE_NEVER;
+        mode = RUN_MODE_NEVER;
     } else if (match_tag(buf, "<auto")) {
-        gstate.user_network_request = RUN_MODE_AUTO;
+        mode = RUN_MODE_AUTO;
     } else {
         fout.printf("<error>Missing mode</error>\n");
         return;
     }
-    gstate.set_client_state_dirty("Set network mode RPC");
+    gstate.network_mode.set(mode, duration);
     fout.printf("<success/>\n");
-}
-
-// DEPRECATED - REMOVE 12/06
-static void handle_get_network_mode(char* , MIOFILE& fout) {
-    fout.printf("<network_mode>\n");
-    switch (gstate.user_network_request) {
-    case RUN_MODE_ALWAYS:
-        fout.printf("<always/>\n");
-        break;
-    case RUN_MODE_NEVER:
-        fout.printf("<never/>\n");
-        break;
-    case RUN_MODE_AUTO:
-        fout.printf("<auto/>\n");
-        break;
-    default:
-        fout.printf("<error>Unknown network mode</error>\n");
-    }
-    fout.printf("</network_mode>\n");
 }
 
 static void handle_run_benchmarks(char* , MIOFILE& fout) {
@@ -352,18 +320,6 @@ static void handle_set_proxy_settings(char* buf, MIOFILE& fout) {
 
 static void handle_get_proxy_settings(char* , MIOFILE& fout) {
     gstate.proxy_info.write(fout);
-}
-
-// DEPRECATED - REMOVE 12/06
-static void handle_get_activity_state(char* , MIOFILE& fout) {
-    fout.printf(
-        "<activity_state>\n"
-        "   <task_suspend_reason>%d</task_suspend_reason>\n"
-        "   <network_suspend_reason>%d</network_suspend_reason>\n"
-        "</activity_state>\n",
-        gstate.suspend_reason,
-        gstate.network_suspend_reason
-    );
 }
 
 // params:
@@ -560,11 +516,6 @@ static void handle_get_statistics(char*, MIOFILE& fout) {
     fout.printf("</statistics>\n");
 }
 
-// DEPRECATED - REMOVE 12/06
-static void handle_network_status(char*, MIOFILE& fout) {
-    fout.printf("<status>%d</status>\n", net_status.network_status());
-}
-
 static void handle_get_cc_status(MIOFILE& fout) {
     fout.printf(
         "<cc_status>\n"
@@ -574,13 +525,17 @@ static void handle_get_cc_status(MIOFILE& fout) {
         "   <network_suspend_reason>%d</network_suspend_reason>\n"
         "   <task_mode>%d</task_mode>\n"
         "   <network_mode>%d</network_mode>\n"
+        "   <task_mode_perm>%d</task_mode_perm>\n"
+        "   <network_mode_perm>%d</network_mode_perm>\n"
         "</cc_status>\n",
         net_status.network_status(),
         gstate.acct_mgr_info.password_error?1:0,
         gstate.suspend_reason,
         gstate.network_suspend_reason,
-        gstate.user_run_request,
-        gstate.user_network_request
+        gstate.run_mode.get_current(),
+        gstate.network_mode.get_current(),
+        gstate.run_mode.get_perm(),
+        gstate.network_mode.get_perm()
     );
 }
 
@@ -901,22 +856,14 @@ int GUI_RPC_CONN::handle_rpc() {
         handle_get_project_status(mf);
     } else if (match_tag(request_msg, "<get_disk_usage")) {
         handle_get_disk_usage(mf);
-    } else if (match_tag(request_msg, "<get_run_mode")) {
-        handle_get_run_mode(request_msg, mf);
-    } else if (match_tag(request_msg, "<get_network_mode")) {
-        handle_get_network_mode(request_msg, mf);
     } else if (match_tag(request_msg, "<get_proxy_settings")) {
         handle_get_proxy_settings(request_msg, mf);
-    } else if (match_tag(request_msg, "<get_activity_state")) {	// DEPRECATED
-        handle_get_activity_state(request_msg, mf);
     } else if (match_tag(request_msg, "<get_messages")) {
         handle_get_messages(request_msg, mf);
     } else if (match_tag(request_msg, "<get_host_info")) {
         handle_get_host_info(request_msg, mf);
     } else if (match_tag(request_msg, "<get_statistics")) {
         handle_get_statistics(request_msg, mf);
-    } else if (match_tag(request_msg, "<network_status")) {	// DEPRECATED
-        handle_network_status(request_msg, mf);
     } else if (match_tag(request_msg, "<get_newer_version>")) {
         handle_get_newer_version(mf);
     } else if (match_tag(request_msg, "<get_cc_status")) {

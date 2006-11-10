@@ -107,7 +107,7 @@ int ACCT_MGR_OP::do_rpc(
         gstate.core_client_major_version,
         gstate.core_client_minor_version,
         gstate.core_client_release,
-        run_mode_name[gstate.user_run_request]
+        run_mode_name[gstate.run_mode.get_perm()]
     );
     if (strlen(gstate.acct_mgr_info.previous_host_cpid)) {
         fprintf(f,

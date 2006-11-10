@@ -66,18 +66,19 @@ list_item("--file_transfer URL filename
         ",
     "Do operation on a file transfer"
 );
-list_item("--get_run_mode","Get current run mode");
-list_item("--set_run_mode {always | auto | never}",
+list_item("--set_run_mode {always | auto | never} duration",
     "Set run mode.
-    <br>always: do work (network + CPU) always
+    <br>always: do CPU work always
     <br>auto: do work only when allowed by preferences
-    <br>never: don't do work (same as suspending all projects)
+    <br>never: don't do work
+    <p>
+    If duration is zero, this mode is permanent.
+    Otherwise, after 'duration' seconds elapse, revert to last permanent mode.
     "
 );
-list_item("--get_network_mode","Get current network mode");
-list_item("--set_network_mode {always | auto | never}",
+list_item("--set_network_mode {always | auto | never} duration",
     "Set network mode
-    <br> Like set_run_mode but applies only to network transfers
+    <br> Like set_run_mode but applies to network transfers
     "
 );
 list_item("--get_proxy_settings", "Get proxy settings");

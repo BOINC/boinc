@@ -230,7 +230,10 @@ function languagesNeedsRebuild($langdir,$transdir,$prjtransdir, $compdir){
         //and force an update since we need it
     }
 
-//    return false;                //Uncomment this to speed up things when you know that you will manually recompile the languages when updated...
+// Uncomment the following to speed up things when you know
+// that you will manually recompile the languages when updated...
+//
+//    return false;
     
     $last_compile = 0;
     if (file_exists($langdir."last_compile_timer")) {
@@ -260,7 +263,10 @@ function languagesNeedsRebuild($langdir,$transdir,$prjtransdir, $compdir){
                 if ($file==".." or $file==".") continue;
                 if (substr($file,-3)==".po"){
                     //only files ending in .po
-                    if (filemtime($langdir.$prjtransdir.$file)>$last_compile) return true;
+                    if (filemtime($langdir.$prjtransdir.$file)>$last_compile) {
+                        closedir($dh);
+                        return true;
+                    }
                 }
             }
             closedir($dh);
@@ -299,7 +305,7 @@ function parseLanguage($file, $interface){
             $current_token = getPOLineContent($entry);
             $current_token_text="";
             $first_entry=false;
-            //Now it is no longer the first entry
+            // Now it is no longer the first entry
         } elseif (substr($translation_file[$i],0,1)!="#") {
             //echo "Else";
             $current_token_text.=getPOLineContent($entry);

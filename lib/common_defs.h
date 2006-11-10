@@ -85,6 +85,8 @@
     // write to stdout
     // GUI: write to msg window in bold or red
 
+// bitmap defs for task_suspend_reason, network_suspend_reason
+//
 enum SUSPEND_REASON {
     SUSPEND_REASON_BATTERIES = 1,
     SUSPEND_REASON_USER_ACTIVE = 2,

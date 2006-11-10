@@ -962,6 +962,8 @@ int CC_STATUS::parse(MIOFILE& in) {
         else if (parse_int(buf, "<network_suspend_reason>", network_suspend_reason)) continue;
         else if (parse_int(buf, "<task_mode>", task_mode)) continue;
         else if (parse_int(buf, "<network_mode>", network_mode)) continue;
+        else if (parse_int(buf, "<task_mode_perm>", task_mode_perm)) continue;
+        else if (parse_int(buf, "<network_mode_perm>", network_mode_perm)) continue;
     }
     return ERR_XML_PARSE;
 }
@@ -973,6 +975,8 @@ void CC_STATUS::clear() {
     network_suspend_reason = -1;
     task_mode = -1;
     network_mode = -1;
+    task_mode_perm = -1;
+    network_mode_perm = -1;
 }
 
 /////////// END OF PARSING FUNCTIONS.  RPCS START HERE ////////////////
@@ -1383,26 +1387,6 @@ int RPC_CLIENT::get_cc_status(CC_STATUS& status) {
     return retval;
 }
 
-// DEPRECATED - REMOVE 12/06
-//
-int RPC_CLIENT::network_status(int& status) {
-    int retval;
-    SET_LOCALE sl;
-    char buf[256];
-    RPC rpc(this);
-
-    retval = rpc.do_rpc("<network_status/>\n");
-    if (!retval) {
-        retval = ERR_XML_PARSE;
-        while (rpc.fin.fgets(buf, 256)) {
-            if (parse_int(buf, "<status>", status)) {
-                retval = 0;
-            }
-        }
-    }
-    return retval;
-}
-
 int RPC_CLIENT::network_available() {
     int retval;
     SET_LOCALE sl;
@@ -1553,7 +1537,7 @@ const char* RPC_CLIENT::mode_name(int mode) {
     return p;
 }
 
-int RPC_CLIENT::set_run_mode(int mode) {
+int RPC_CLIENT::set_run_mode(int mode, double duration) {
     int retval;
     SET_LOCALE sl;
     char buf[256];
@@ -1562,36 +1546,16 @@ int RPC_CLIENT::set_run_mode(int mode) {
     sprintf(buf, 
         "<set_run_mode>\n"
         "%s\n"
+        "  <duration>%f</duration>\n"
         "</set_run_mode>\n",
-        mode_name(mode)
+        mode_name(mode), duration
     );
 
     retval = rpc.do_rpc(buf);
     return retval;
 }
 
-// DEPRECATED - REMOVE 12/06
-//
-int RPC_CLIENT::get_run_mode(int& mode) {
-    int retval;
-    SET_LOCALE sl;
-    char buf[256];
-    RPC rpc(this);
-
-    retval = rpc.do_rpc("<get_run_mode/>\n");
-    if (!retval) {
-        mode = -1;
-        while (rpc.fin.fgets(buf, 256)) {
-            if (match_tag(buf, "</run_mode>")) break;
-            else if (match_tag(buf, mode_name(RUN_MODE_ALWAYS))) mode = RUN_MODE_ALWAYS;
-            else if (match_tag(buf, mode_name(RUN_MODE_NEVER))) mode = RUN_MODE_NEVER;
-            else if (match_tag(buf, mode_name(RUN_MODE_AUTO))) mode = RUN_MODE_AUTO;
-        }
-    }
-    return retval;
-}
-
-int RPC_CLIENT::set_network_mode(int mode) {
+int RPC_CLIENT::set_network_mode(int mode, double duration) {
     int retval;
     SET_LOCALE sl;
     char buf[256];
@@ -1600,54 +1564,11 @@ int RPC_CLIENT::set_network_mode(int mode) {
     sprintf(buf,
         "<set_network_mode>\n"
         "%s\n"
+        "  <duration>%f</duration>\n"
         "</set_network_mode>\n",
-        mode_name(mode)
+        mode_name(mode), duration
     );
     retval = rpc.do_rpc(buf);
-    return retval;
-}
-
-// DEPRECATED - REMOVE 12/06
-//
-int RPC_CLIENT::get_network_mode(int& mode) {
-    int retval;
-    SET_LOCALE sl;
-    char buf[256];
-    RPC rpc(this);
-
-    retval = rpc.do_rpc("<get_network_mode/>\n");
-    if (!retval) {
-        mode = -1;
-        while (rpc.fin.fgets(buf, 256)) {
-            if (match_tag(buf, "</network_mode>")) break;
-            if (match_tag(buf, mode_name(RUN_MODE_ALWAYS))) mode = RUN_MODE_ALWAYS;
-            if (match_tag(buf, mode_name(RUN_MODE_NEVER))) mode = RUN_MODE_NEVER;
-            if (match_tag(buf, mode_name(RUN_MODE_AUTO))) mode = RUN_MODE_AUTO;
-        }
-    }
-    return retval;
-}
-
-// DEPRECATED - REMOVE 12/06
-int RPC_CLIENT::get_activity_state(ACTIVITY_STATE& as) {
-    int retval;
-    SET_LOCALE sl;
-    char buf[256];
-    RPC rpc(this);
-
-    memset(&as, 0, sizeof(as));
-
-    retval = rpc.do_rpc("<get_activity_state/>\n");
-    if (!retval) {
-        while (rpc.fin.fgets(buf, 256)) {
-            if (match_tag(buf, "</activity_state>")) break;
-            else if (parse_int(buf, "<task_suspend_reason>", as.task_suspend_reason)) {
-                continue;
-            } else if (parse_int(buf, "<network_suspend_reason>", as.network_suspend_reason)) {
-                continue;
-            }
-        }
-    }
     return retval;
 }
 

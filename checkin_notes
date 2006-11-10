@@ -12523,3 +12523,40 @@ Rytis  10 Nov 2006
             forum_thread.php
         ops/
             db_update.php
+
+David  10 Nov 2006
+    - GUI RPC: extended set_run_mode() and set_network_mode()
+        to take an additional "duration" argument.
+        If duration is zero, the mode becomes permanent.
+        Otherwise, the mode takes effect but after "duration" seconds
+        the client reverts to the last permanent mode.
+
+        By moving the timeout into the core client,
+        the Manager (or other GUIs) can provide a "snooze"
+        feature without the danger of perma-snooze
+        if the Manager crashes or exits.
+    - core client: added MODE class which encapsulates the above logic.
+        Also fixed names, e.g. "MODE run_mode" replaces "int user_run_request".
+    - GUI RPC: added task_mode_perm and network_mode_perm fields to CC_STATUS.
+        This lets the GUI see if core client is snoozing
+        (i.e. if task_mode != task_mode_perm)
+    - GUI RPC: removed deprecated get_run_mode(), get_network_mode(),
+        network_status(), and get_activity_state() RPCs
+
+    client/
+        acct_mgr.C
+        app_start.C
+        client_state.C,h
+        client_types.C,h
+        cs_cmdline/C
+        cs_prefs.C
+        cs_statefile.C
+        gui_rpc_server_ops.C
+        main.C
+    html/inc/
+        translation.inc
+    lib/
+        boinc_cmd.C
+        common_defs.h
+        gui_rpc_client.h
+        gui_rpc_client_ops.C

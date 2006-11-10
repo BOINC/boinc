@@ -82,8 +82,8 @@ CLIENT_STATE::CLIENT_STATE() {
     strcpy(main_host_venue, "");
     strcpy(attach_project_url, "");
     strcpy(attach_project_auth, "");
-    user_run_request = RUN_MODE_AUTO;
-    user_network_request = RUN_MODE_AUTO;
+    run_mode.set(RUN_MODE_AUTO, 0);
+    network_mode.set(RUN_MODE_AUTO, 0);
     started_by_screensaver = false;
     requested_exit = false;
     master_fetch_period = MASTER_FETCH_PERIOD;

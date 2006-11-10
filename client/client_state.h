@@ -88,10 +88,8 @@ public:
     int core_client_release;
     string statefile_platform_name;
     int file_xfer_giveup_period;
-    int user_run_request;
-        // values above (USER_RUN_REQUEST_*)
-    int user_network_request;
-        // same, just for network
+    MODE run_mode;
+    MODE network_mode;
     bool started_by_screensaver;
     bool exit_when_idle;
     bool check_all_logins;

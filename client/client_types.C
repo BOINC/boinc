@@ -1767,4 +1767,33 @@ void RESULT::abort_inactive(int status) {
     exit_status = status;
 }
 
+MODE::MODE() {
+    perm_mode = 0;
+    temp_mode = 0;
+    temp_timeout = 0;
+}
+
+void MODE::set(int mode, double duration) {
+    if (duration) {
+        temp_mode = mode;
+        temp_timeout = gstate.now + duration;
+    } else {
+        temp_timeout = 0;
+        perm_mode = mode;
+        gstate.set_client_state_dirty("Set mode");
+    }
+}
+
+int MODE::get_perm() {
+    return perm_mode;
+}
+
+int MODE::get_current() {
+    if (temp_timeout > gstate.now) {
+        return temp_mode;
+    } else {
+        return perm_mode;
+    }
+}
+
 const char *BOINC_RCSID_b81ff9a584 = "$Id$";

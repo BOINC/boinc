@@ -268,10 +268,10 @@ static void signal_handler(int signum) {
 #endif
         break;
     case SIGTSTP:
-        gstate.user_run_request = RUN_MODE_NEVER;
+        gstate.run_mode.set(RUN_MODE_NEVER, 0);
         break;
     case SIGCONT:
-        gstate.user_run_request = RUN_MODE_AUTO;
+        gstate.run_mode.set(RUN_MODE_AUTO, 0);
         break;
     default:
         msg_printf(NULL, MSG_ERROR, "Signal not handled");

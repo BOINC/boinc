@@ -499,4 +499,18 @@ struct RESULT {
     bool last_rr_sim_missed_deadline;
 };
 
+// represents a always/auto/never value, possibly temporarily overridden
+//
+class MODE {
+private:
+    int perm_mode;
+    int temp_mode;
+    double temp_timeout;
+public:
+    MODE();
+    void set(int mode, double duration);
+    int get_perm();
+    int get_current();
+};
+
 #endif

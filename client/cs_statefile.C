@@ -326,9 +326,11 @@ int CLIENT_STATE::parse_state_file() {
             }
         } else if (parse_str(buf, "<platform_name>", statefile_platform_name)) {
             continue;
-        } else if (parse_int(buf, "<user_run_request>", user_run_request)) {
+        } else if (parse_int(buf, "<user_run_request>", retval)) {
+            run_mode.set(retval, 0);
             continue;
-        } else if (parse_int(buf, "<user_network_request>", user_network_request)) {
+        } else if (parse_int(buf, "<user_network_request>", retval)) {
+            network_mode.set(retval, 0);
             continue;
         } else if (parse_int(buf, "<core_client_major_version>", old_major_version)) {
         } else if (parse_int(buf, "<core_client_minor_version>", old_minor_version)) {
@@ -344,7 +346,6 @@ int CLIENT_STATE::parse_state_file() {
                     "Can't parse proxy info in state file"
                 );
             }
-        // } else if (parse_int(buf, "<user_run_request/>")) {
         } else if (parse_str(buf, "<host_venue>", main_host_venue, sizeof(main_host_venue))) {
         } else if (parse_double(buf, "<new_version_check_time>", new_version_check_time)) {
         } else if (parse_str(buf, "<newer_version>", newer_version)) {
@@ -501,8 +502,8 @@ int CLIENT_STATE::write_state(MIOFILE& f) {
         core_client_major_version,
         core_client_minor_version,
         core_client_release,
-        user_run_request,
-        user_network_request,
+        run_mode.get_perm(),
+        network_mode.get_perm(),
         cpu_benchmarks_pending?"<cpu_benchmarks_pending/>\n":"",
         new_version_check_time
     );
