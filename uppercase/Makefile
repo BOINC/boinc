@@ -19,7 +19,7 @@ CXXFLAGS = -g \
     -L.
 
 # the following should be freeglut; use nm to check
-LIBGLUT = /usr/local/lib/libglut.a
+LIBGLUT = /usr/lib/libglut.a
 LIBGLU = /usr/X11R6/lib/libGLU.a
 LIBJPEG = /usr/lib/libjpeg.a
 
@@ -34,10 +34,10 @@ clean:
 # to be exported to the graphics library
 
 upper_case: upper_case.o $(BOINC_API_DIR)/libboinc_api.a $(BOINC_API_DIR)/libboinc_graphics_lib.a $(BOINC_LIB_DIR)/libboinc.a
-	g++ $(CXXFLAGS) -Wl,--export-dynamic -o upper_case upper_case.o libstdc++.a -pthread -lboinc_api -lboinc -lboinc_graphics_lib -ldl
+	$(CXX) $(CXXFLAGS) -Wl,--export-dynamic -o upper_case upper_case.o libstdc++.a -pthread -lboinc_api -lboinc -lboinc_graphics_lib -ldl
 
 upper_case.so: uc_graphics.o $(BOINC_LIB_DIR)/libboinc.a $(BOINC_API_DIR)/libboinc_graphics_impl.a
-	g++ $(CXXFLAGS) -o upper_case.so \
+	$(CXX) $(CXXFLAGS) -o upper_case.so \
     -shared -fPIC -pthread \
     uc_graphics.o \
     libstdc++.a \
