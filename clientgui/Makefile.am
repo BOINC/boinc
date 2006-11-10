@@ -23,6 +23,7 @@ endif
 bin_PROGRAMS = boinc_gui
 
 boinc_gui_SOURCES = \
+    common/wxPieCtrl.cpp \
     BOINCBaseFrame.cpp \
     BOINCBaseView.cpp \
     BOINCDialupManager.cpp \
