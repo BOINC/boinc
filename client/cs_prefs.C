@@ -137,9 +137,13 @@ void CLIENT_STATE::check_suspend_activities(int& reason) {
         return;
     }
 
+	bool old_user_active = user_active;
     user_active = !host_info.users_idle(
         check_all_logins, global_prefs.idle_time_to_run
     );
+	if (user_active != old_user_active) {
+		request_schedule_cpus("Idle state change");
+	}
     switch(user_run_request) {
     case RUN_MODE_ALWAYS: break;
     case RUN_MODE_NEVER:
@@ -390,7 +394,7 @@ void CLIENT_STATE::read_global_prefs() {
         MIOFILE mf;
         mf.init_file(f);
         XML_PARSER xp(&mf);
-        global_prefs.parse_override(xp, main_host_venue, found_venue);
+        global_prefs.parse_override(xp, "", found_venue);
         msg_printf(NULL, MSG_INFO, "Reading preferences override file");
         fclose(f);
     }
@@ -400,6 +404,8 @@ void CLIENT_STATE::read_global_prefs() {
     set_ncpus();
 	file_xfers->set_bandwidth_limits(true);
 	file_xfers->set_bandwidth_limits(false);
+	request_schedule_cpus("Prefs update");
+	request_work_fetch("Prefs update");
 }
 
 int CLIENT_STATE::save_global_prefs(

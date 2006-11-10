@@ -12488,3 +12488,21 @@ Kevin  9 Nov 2006
 		sg_ProjectsComponent.cpp
 		sg_ViewTabPage.cpp
 
+
+David  9 Nov 2006
+	Core client:
+	- request CPU reschedule and work fetch when global prefs change,
+		since RAM limits may have changed,
+		work_buf_min_days might have changed, etc.
+		This fixes (I hope) a bug reported by Heinrich Feldmueller
+	- do enforce_schedule() and compute_work_requests() every 60 seconds,
+		as a safety net in case we forgot to trigger it in some case.
+		Doesn't hurt - should be a fraction of a millisecond.
+	- do a CPU reschedule on transitions from host busy
+		to host idle, since RAM usage limits might have changed
+	- a few more log messages for cpu_sched_debug
+
+	client/
+		cpu_sched.C
+		cs_prefs.C
+		cs_scheduler.C

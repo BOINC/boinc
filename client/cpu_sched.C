@@ -415,7 +415,11 @@ void CLIENT_STATE::schedule_cpus() {
     unsigned int i;
     double rrs = runnable_resource_share();
 
-    // do round-robin simulation to find what results miss deadline,
+    if (log_flags.cpu_sched_debug) {
+		msg_printf(0, MSG_INFO, "[cpu_sched_debug] schedule_cpus(): start");
+    }
+
+	// do round-robin simulation to find what results miss deadline,
     //
     rr_simulation();
     if (log_flags.cpu_sched_debug) {
@@ -563,15 +567,20 @@ bool CLIENT_STATE::enforce_schedule() {
     unsigned int i;
     ACTIVE_TASK* atp;
     vector<ACTIVE_TASK*> running_tasks;
+	static double last_time = 0;
 
-    // Do this only when requested, not once per second.
+    // Do this when requested, and once a minute as a safety net
     //
+	if (now - last_time > 60) {
+		must_enforce_cpu_schedule = true;
+	}
     if (!must_enforce_cpu_schedule) return false;
     must_enforce_cpu_schedule = false;
+	last_time = now;
     bool action = false;
 
     if (log_flags.cpu_sched_debug) {
-        msg_printf(0, MSG_INFO, "[cpu_sched_debug] Enforcing schedule");
+		msg_printf(0, MSG_INFO, "[cpu_sched_debug] enforce_schedule(): start");
     }
 
     // set temporary variables
@@ -901,8 +910,8 @@ void CLIENT_STATE::rr_simulation() {
 
 	if (log_flags.rr_simulation) {
 		msg_printf(0, MSG_INFO,
-            "[rr_sim] rr_sim start: work_buf_min %f rrs %f trs %f",
-            work_buf_min(), rrs, trs
+            "[rr_sim] rr_sim start: work_buf_min %f rrs %f trs %f ncpus %d",
+            work_buf_min(), rrs, trs, ncpus
         );
 	}
 

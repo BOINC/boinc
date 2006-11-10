@@ -579,13 +579,15 @@ double CLIENT_STATE::time_until_work_done(
 //
 bool CLIENT_STATE::compute_work_requests() {
     unsigned int i;
-    static double last_work_request_calc = 0;
-    if (gstate.now - last_work_request_calc >= 600) {
+    static double last_time = 0;
+
+    if (gstate.now - last_time >= 60) {
         gstate.request_work_fetch("timer");
     }
-
     if (!must_check_work_fetch) return 0;
-    last_work_request_calc = gstate.now;
+
+	msg_printf(0, MSG_INFO, "compute_work_requests(): start");
+    last_time = gstate.now;
     must_check_work_fetch = false;
 
     adjust_debts();
