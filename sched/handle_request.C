@@ -488,7 +488,7 @@ static int update_host_record(HOST& initial_host, HOST& xhost, USER& user) {
 // - <working_global_prefs> from request msg
 // - <global_prefs> from request message
 // - prefs from user DB record
-// and parse them into the request message global_prefs field.
+// and parse them into sreq.global_prefs.
 // 2) update prefs in user record if needed
 // 2) send global prefs in reply msg if needed
 //
@@ -509,7 +509,10 @@ int handle_global_prefs(SCHEDULER_REQUEST& sreq, SCHEDULER_REPLY& reply) {
         parse_int(reply.user.global_prefs, "<mod_time>", db_mod_time);
     }
 
-    // decide which prefs to use for sched decisions
+    //log_messages.printf(SCHED_MSG_LOG::MSG_DEBUG, "have_master:%d have_working: %d have_db: %d\n", have_master_prefs, have_working_prefs, have_db_prefs);
+
+    // decide which prefs to use for sched decisions,
+    // and parse them into sreq.global_prefs
     //
     if (have_working_prefs) {
         sreq.global_prefs.parse(sreq.working_global_prefs_xml, "");
@@ -564,7 +567,8 @@ int handle_global_prefs(SCHEDULER_REQUEST& sreq, SCHEDULER_REPLY& reply) {
 
     // decide whether to send DB prefs in reply msg
     //
-    if (have_db_prefs && db_mod_time > sreq.global_prefs.mod_time) {
+    //log_messages.printf(SCHED_MSG_LOG::MSG_DEBUG, "have db %d; dbmod %d; global mod %d\n", have_db_prefs, db_mod_time, sreq.global_prefs.mod_time);
+    if (have_db_prefs && db_mod_time > master_mod_time) {
         log_messages.printf(SCHED_MSG_LOG::MSG_DEBUG, "sending db prefs in reply\n");
         reply.send_global_prefs = true;
     }

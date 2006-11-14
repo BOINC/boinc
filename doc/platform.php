@@ -34,7 +34,7 @@ list_item("powerpc-apple-darwin", "Mac OS X 10.3 or later running on Motorola Po
 list_item("i686-apple-darwin", "Mac OS 10.4 or later running on Intel");
 list_item("sparc-sun-solaris2.7", "Solaris 2.7 running on a SPARC-compatible CPU");
 list_item("sparc-sun-solaris", "Solaris 2.8 or later running on a SPARC-compatible CPU");
-list_item("sparc64-sun-solaris", "Solaris 2.8 or later running on a SPARC 64-bitCPU");
+list_item("sparc64-sun-solaris", "Solaris 2.8 or later running on a SPARC 64-bit CPU");
 list_end();
 echo"
 

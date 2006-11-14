@@ -4,10 +4,6 @@ require_once("docutil.php");
 
 include("../html/inc/stats_sites.inc");
 
-function show_link($language, $name, $url) {
-    list_item($language, "<a href=$url>$name</a>");
-}
-
 function language($lang, $sites) {
     echo "<tr><td bgcolor=eeeeee valign=top>$lang</td><td>\n";
     shuffle($sites);
@@ -99,7 +95,7 @@ language("Czech", array(
     site("http://www.boinc.cz/", "www.boinc.cz")
 ));
 language("Danish", array(
-    site("http://setiboinc.dk", "setiboinc.dk"),
+    site("http://boincdenmark.dk", "BOINC@Denmark"),
     site("http://www.boinc.dk", "www.boinc.dk"),
     site("http://www.setihome.dk", "www.setihome.dk")
 ));
@@ -196,11 +192,6 @@ language("Russian", array(
     site("http://www.boinc.ru", "BOINC.ru"),
     site("http://distributed.ru", "distributed.ru")
 ));
-//show_link(
-//    "Serbian",
-//    "BOINC@Serbia",
-//    "http://www.boincatserbia.co.sr/"
-//);
 language("Slovak", array(
     site("http://www.boinc.sk/", "www.boinc.sk")
 ));

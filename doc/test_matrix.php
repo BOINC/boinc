@@ -57,14 +57,18 @@ do it only if you know what you're doing.</i>
 <ul>
 <li> Remove BOINC
     (Windows: go add/remove programs control panel and uninstall BOINC).
-    Then rename BOINC directory to a temporary name.
+    Then rename the BOINC directory to a temporary name.
 <li> Install new BOINC.
 <li> Verify that client and manager run,
     and manager brings up the Attach Project wizard.
-<li> Attach to the Alpha test project
-    and make sure work is downloaded and started
-    (don't attach to other projects,
-     since any work you download will be lost).
+<li> Attach to SETI@home or other projects,
+    and make sure work is downloaded and started.
+<li> <b>From the time of installation to the time that work is begun
+    there should be no long delays,
+    errors, confusing messages,
+    or anything else that might bother a naive,
+    non-technical computer owner.
+    If there is, report it as a a bug.</b>
 <li> Exit BOINC, delete the BOINC directory,
     and rename temporary directory back to BOINC.
 <li> Reinstall BOINC.
@@ -76,7 +80,10 @@ do it only if you know what you're doing.</i>
 Note the fraction done.
 Restart BOINC.
 Verify that download resumes from the same point.
-<li> Same, upload.
+Use the BOINC Alpha project for this.
+<li> Same, but disconnect your network cable in
+the middle of the transfer.
+<li> Same as above two, but upload instead of download.
 </ul>
 
 <h3> Preferences tests</h3>
@@ -88,6 +95,7 @@ Verify that download resumes from the same point.
 <li> Test 'use network between hours' preference.
 <li> Test 'do work between hours' preference.
 <li> Test 'CPU usage limit' preference.
+<li> Test RAM usage limit preferences (both of them).
 <li> Test venue mechanism (e.g., create preferences for 'Home',
     change your computer's location to 'Home',
     make sure it gets the right preferences).
@@ -240,7 +248,7 @@ not to BOINC Alpha.
 <h3>Trickle message and intermediate file uploads</h3>
 <ul>
 <li> Let CPDN run long enough so that it does
-a trickly-up request and an intermediate file upload.
+a trickle-up request and an intermediate file upload.
 Make sure that these succeed.
 </ul>
 ";

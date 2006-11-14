@@ -12600,3 +12600,13 @@ Rom    14 Nov 2006
 Rom    14 Nov 2006
     - Tag for 5.7.3 release, all platforms
       boinc_core_release_5_7_3
+
+David  14 Nov 2006
+    - scheduler: fix bug that caused global prefs not to get sent
+    - changed user friendly platform names in default project.xml
+
+    sched/
+        handle_request.C
+    tools/
+        projects.xml
+

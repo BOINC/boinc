@@ -179,6 +179,7 @@ show_participate();
 show_participant();
 show_create();
 show_other();
+show_nsf();
 echo "
 </table>
 </td>
@@ -188,7 +189,6 @@ echo " <td valign=top width=390>
 
 show_news_items();
 echo "<table>";
-show_nsf();
 echo "</table>";
 
 echo "
