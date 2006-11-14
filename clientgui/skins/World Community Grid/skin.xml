@@ -165,16 +165,11 @@
 					<imagesrc>graphic/btnAdvancedView.png</imagesrc>
 				</image>
 			</advanced_link_image>
-			<preferences_dialog_background_image>
+			<dialog_background_image>
 				<image>
-					<imagesrc>graphic/dlgPreferences.png</imagesrc>
+					<imagesrc>graphic/dlgBackground.png</imagesrc>
 				</image>
-			</preferences_dialog_background_image>
-			<messages_dialog_background_image>
-				<image>
-					<imagesrc>graphic/dlgMessages.png</imagesrc>
-				</image>
-			</messages_dialog_background_image>
+			</dialog_background_image>
 		</simple>
 		<!-- this section can be omitted in which case it will use the BOINC defaults (shown below) -->
 		<advanced>  

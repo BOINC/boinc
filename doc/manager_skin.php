@@ -308,17 +308,7 @@ The Simple collection contains the following elements:
     <td></td>
   <tr>
   <tr>
-    <td>preferences_dialog_background_image</td>
-    <td><a href=\"#Image\">Image</a></td>
-    <td>600px</td>
-    <td>800px</td>
-    <td>
-      The dialogs height and width change according to the configuraton of the computer 
-      so the center of the image is what is drawn on to the dialog.
-    </td>
-  <tr>
-  <tr>
-    <td>messages_dialog_background_image</td>
+    <td>dialog_background_image</td>
     <td><a href=\"#Image\">Image</a></td>
     <td>600px</td>
     <td>800px</td>

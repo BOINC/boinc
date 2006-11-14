@@ -1,3 +1,4 @@
+/* XPM */
 // Berkeley Open Infrastructure for Network Computing
 // http://boinc.berkeley.edu
 // Copyright (C) 2005 University of California
@@ -18,7 +19,7 @@
 // 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 
 /* XPM */
-static char *messages_dialog_background_image_xpm[] = {
+static char *dialog_background_image_xpm[] = {
 /* columns rows colors chars-per-pixel */
 "545 450 64 1",
 "s c #E5FBC4",

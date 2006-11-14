@@ -573,7 +573,7 @@ public:
     int get_cc_status(CC_STATUS&);
     int get_global_prefs_override(std::string&);
     int set_global_prefs_override(std::string&);
-    int get_global_prefs_override_struct(GLOBAL_PREFS&);
+    int get_global_prefs_override_struct(GLOBAL_PREFS&, GLOBAL_PREFS_MASK&);
     int set_global_prefs_override_struct(GLOBAL_PREFS&, GLOBAL_PREFS_MASK&);
 };
 

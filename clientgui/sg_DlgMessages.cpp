@@ -188,7 +188,7 @@ void CPanelMessages::OnEraseBackground(wxEraseEvent& event){
      VwXDrawBackImg(
          event,
          this,
-         pSkinSimple->GetMessagesDialogBackgroundImage()->GetBitmap(),
+         pSkinSimple->GetDialogBackgroundImage()->GetBitmap(),
          0
      );
      VwXEvOnEraseBackground(event) ;

@@ -456,6 +456,9 @@
 							RelativePath="..\clientgui\res\skins\default\graphic\connecting_indicator_image.xpm">
 						</File>
 						<File
+							RelativePath="..\clientgui\res\skins\default\graphic\dialog_background_image.xpm">
+						</File>
+						<File
 							RelativePath="..\clientgui\res\skins\default\graphic\error_indicator_image.xpm">
 						</File>
 						<File
@@ -468,13 +471,7 @@
 							RelativePath="..\clientgui\res\skins\default\graphic\messages_alert_link_image.xpm">
 						</File>
 						<File
-							RelativePath="..\clientgui\res\skins\default\graphic\messages_dialog_background_image.xpm">
-						</File>
-						<File
 							RelativePath="..\clientgui\res\skins\default\graphic\messages_link_image.xpm">
-						</File>
-						<File
-							RelativePath="..\clientgui\res\skins\default\graphic\preferences_dialog_background_image.xpm">
 						</File>
 						<File
 							RelativePath="..\clientgui\res\skins\default\graphic\preferences_link_image.xpm">

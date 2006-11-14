@@ -99,8 +99,8 @@ struct GLOBAL_PREFS {
     GLOBAL_PREFS();
     void defaults();
     void clear_bools();
-    int parse(XML_PARSER&, const char* venue, bool& found_venue);
-    int parse_override(XML_PARSER&, const char* venue, bool& found_venue);
+    int parse(XML_PARSER&, const char* venue, bool& found_venue, GLOBAL_PREFS_MASK& mask);
+    int parse_override(XML_PARSER&, const char* venue, bool& found_venue, GLOBAL_PREFS_MASK& mask);
     int parse_file(const char* filename, const char* venue, bool& found_venue);
     int write(MIOFILE&);
     int write_subset(MIOFILE&, GLOBAL_PREFS_MASK&);

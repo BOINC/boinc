@@ -240,7 +240,7 @@ bool CDlgPreferences::Create( wxWindow* parent, wxWindowID id, const wxString& c
     m_pBackgroundPanel = new CPanelPreferences(this);
     wxBoxSizer* itemBoxSizer = new wxBoxSizer(wxVERTICAL);
     SetSizer(itemBoxSizer);
-    itemBoxSizer->Add(m_pBackgroundPanel, 0, wxGROW|wxALL, 5);
+    itemBoxSizer->Add(m_pBackgroundPanel, 0, wxGROW, 0);
     
     GetSizer()->Fit(this);
     GetSizer()->SetSizeHints(this);
@@ -583,7 +583,7 @@ void CPanelPreferences::OnEraseBackground( wxEraseEvent& event ) {
     wxCoord w, h, x, y;
 
     // Get the desired background bitmap
-    wxBitmap bmp(*pSkinSimple->GetPreferencesDialogBackgroundImage()->GetBitmap());
+    wxBitmap bmp(*pSkinSimple->GetDialogBackgroundImage()->GetBitmap());
 
     // Dialog dimensions
     wxSize sz = GetClientSize();
@@ -694,8 +694,9 @@ bool CPanelPreferences::ReadPreferenceSettings() {
 
 
     // Populate values and arrays from preferences
-    if (pDoc->rpc.get_global_prefs_override_struct(display_global_preferences) == 0) {
+    if (pDoc->rpc.get_global_prefs_override_struct(global_preferences_override, global_preferences_mask) == 0) {
         m_bCustomizedPreferences = true;
+        display_global_preferences = global_preferences_override;
     } else {
         m_bCustomizedPreferences = false;
         display_global_preferences = pDoc->state.global_prefs;
@@ -860,8 +861,6 @@ bool CPanelPreferences::ReadSkinSettings() {
 
 bool CPanelPreferences::SavePreferenceSettings() {
     CMainDocument*    pDoc = wxGetApp().GetDocument();
-    GLOBAL_PREFS      global_preferences_override;
-    GLOBAL_PREFS_MASK global_preferences_mask;
 
     wxASSERT(pDoc);
     wxASSERT(wxDynamicCast(pDoc, CMainDocument));

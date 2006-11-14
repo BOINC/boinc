@@ -437,8 +437,10 @@ int main(int argc, char** argv) {
         printf("retval: %d\n", retval);
     } else if (!strcmp(cmd, "--test3")) {
         GLOBAL_PREFS gp;
+        GLOBAL_PREFS_MASK mask;
         memset(&gp, 0, sizeof(gp));
-        retval = rpc.get_global_prefs_override_struct(gp);
+        mask.clear();
+        retval = rpc.get_global_prefs_override_struct(gp, mask);
         printf("retval %d max %d\n", retval, gp.max_cpus);
     } else if (!strcmp(cmd, "--test4")) {
         GLOBAL_PREFS gp;

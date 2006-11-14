@@ -227,8 +227,7 @@ public:
     CSkinImage*         GetPreferencesLink() { return &m_PreferencesLink; }
     CSkinImage*         GetAdvancedLink() { return &m_AdvancedLink; }
 
-    CSkinImage*         GetPreferencesDialogBackgroundImage() { return &m_PreferencesDialogBackgroundImage; }
-    CSkinImage*         GetMessagesDialogBackgroundImage() { return &m_MessagesDialogBackgroundImage; }
+    CSkinImage*         GetDialogBackgroundImage() { return &m_DialogBackgroundImage; }
 
 private:
 	CSkinImage          m_BackgroundImage;
@@ -251,7 +250,7 @@ private:
     CSkinImage          m_ProjectAreaBackgroundImage;
     CSkinImage          m_ProjectImage;
 
-    CSkinSimpleButton   m_AttachProjectButton;
+   CSkinSimpleButton   m_AttachProjectButton;
     CSkinSimpleButton   m_RightArrowButton;
     CSkinSimpleButton   m_LeftArrowButton;
     CSkinSimpleButton   m_SaveButton;
@@ -265,8 +264,7 @@ private:
     CSkinImage          m_PreferencesLink;
     CSkinImage          m_AdvancedLink;
 
-    CSkinImage          m_PreferencesDialogBackgroundImage;
-    CSkinImage          m_MessagesDialogBackgroundImage;
+    CSkinImage          m_DialogBackgroundImage;
 };
 
 

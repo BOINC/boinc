@@ -83,7 +83,7 @@ protected:
 class CDlgMessages:public wxDialog
 {
 public:
-	CDlgMessages(wxWindow* parent, wxWindowID id = -1 , const wxString& title = wxT(""), const wxPoint& pos = wxDefaultPosition, const wxSize& size = wxDefaultSize, long style = wxDEFAULT_DIALOG_STYLE, const wxString& name = wxT("dialogBox"));
+	CDlgMessages(wxWindow* parent, wxWindowID id = -1 , const wxString& title = wxT("BOINC Manager - Messages"), const wxPoint& pos = wxDefaultPosition, const wxSize& size = wxDefaultSize, long style = wxDEFAULT_DIALOG_STYLE, const wxString& name = wxT("dialogBox"));
 	virtual ~CDlgMessages();
 
 	DECLARE_EVENT_TABLE()

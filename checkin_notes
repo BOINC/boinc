@@ -12578,3 +12578,21 @@ David  10 Nov 2006
 
     client/
         http_curl.C
+
+Rom    14 Nov 2006
+    - MGR: Get rid of the transparent 5px gap around the background image.
+    - MGR: Store the preferences override and mask for later use.
+    - MGR: Fix message dialog title.
+    - MGR: Incorporate new default background image and adjust the WCG skin
+             file to match.
+             
+    clientgui/
+        sg_DlgMessages.cpp, .h
+        sg_DlgPreferences.cpp, .h
+        SkinManager.cpp, .h
+    lib/
+        app_ipc.C
+        boinc_cmd.C
+        gui_rpc_client.h
+        gui_rpc_client_ops.C
+        prefs.C, .h

@@ -66,8 +66,7 @@
 #include "res/skins/default/graphic/resume_link_image.xpm"
 #include "res/skins/default/graphic/preferences_link_image.xpm"
 #include "res/skins/default/graphic/advanced_link_image.xpm"
-#include "res/skins/default/graphic/preferences_dialog_background_image.xpm"
-#include "res/skins/default/graphic/messages_dialog_background_image.xpm"
+#include "res/skins/default/graphic/dialog_background_image.xpm"
 #ifdef __APPLE__
 #include "res/boinc_mac.xpm"
 #else
@@ -562,8 +561,7 @@ void CSkinSimple::Clear() {
     m_CancelButton.Clear();
     m_CloseButton.Clear();
 
-    m_PreferencesDialogBackgroundImage.Clear();
-    m_MessagesDialogBackgroundImage.Clear();
+    m_DialogBackgroundImage.Clear();
 
     m_MessagesLink.Clear();
     m_MessagesAlertLink.Clear();
@@ -664,11 +662,8 @@ int CSkinSimple::Parse(MIOFILE& in) {
         } else if (match_tag(buf, "<advanced_link_image>")) {
             m_AdvancedLink.Parse(in);
             continue;
-        } else if (match_tag(buf, "<preferences_dialog_background_image>")) {
-            m_PreferencesDialogBackgroundImage.Parse(in);
-            continue;
-        } else if (match_tag(buf, "<messages_dialog_background_image>")) {
-            m_MessagesDialogBackgroundImage.Parse(in);
+        } else if (match_tag(buf, "<dialog_background_image>")) {
+            m_DialogBackgroundImage.Parse(in);
             continue;
         }
     }
@@ -764,11 +759,8 @@ bool CSkinSimple::InitializeDelayedValidation() {
     m_AdvancedLink.SetDefaults(
         wxT("advanced link"), (const char**)advanced_link_image_xpm
     );
-    m_PreferencesDialogBackgroundImage.SetDefaults(
-        wxT("preferences dialog background"), (const char**)preferences_dialog_background_image_xpm
-    );
-    m_MessagesDialogBackgroundImage.SetDefaults(
-        wxT("messages dialog background"), (const char**)messages_dialog_background_image_xpm
+    m_DialogBackgroundImage.SetDefaults(
+        wxT("dialog background"), (const char**)dialog_background_image_xpm
     );
     return true;
 }

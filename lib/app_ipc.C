@@ -196,7 +196,8 @@ int parse_init_data_file(FILE* f, APP_INIT_DATA& ai) {
             continue;
         }
         if (!strcmp(tag, "global_preferences")) {
-            retval = ai.global_prefs.parse(xp, "", flag);
+            GLOBAL_PREFS_MASK mask;
+            retval = ai.global_prefs.parse(xp, "", flag, mask);
             if (retval) return retval;
             continue;
         }
