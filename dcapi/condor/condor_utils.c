@@ -186,7 +186,7 @@ _DC_nuof_messages(char *box, char *name)
 		return(0);
 	if ((d= opendir(box)) == NULL)
 		return(0);
-	s= malloc(100+name?strlen(name):strlen(_DCAPI_MSG_MESSAGE));
+	s= malloc(100 + (name?strlen(name):strlen(_DCAPI_MSG_MESSAGE)));
 	strcpy(s, name?name:_DCAPI_MSG_MESSAGE);
 	strcat(s, ".");
 	while ((de= readdir(d)) != NULL)
@@ -195,8 +195,9 @@ _DC_nuof_messages(char *box, char *name)
 		if (found == de->d_name)
 			nuof++;
 	}
+	if (d)
+		closedir(d);
 	free(s);
-	closedir(d);
 	return(nuof);
 }
 
