@@ -12610,3 +12610,8 @@ David  14 Nov 2006
     tools/
         projects.xml
 
+David  14 Nov 2006
+    - core client: put if() around "compute_work_request(): start" msg
+
+    client/
+        cs_scheduler.C
