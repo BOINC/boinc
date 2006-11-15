@@ -708,7 +708,7 @@ DC_deserializeWU(const char *buf)
 	char *tok, *s, *b;
 	char sep[2]= "\0\0";
 	DC_Workunit *wu;
-	int argv_i;
+	int argv_i= 0;
 	GString *dn;
 
 	wu= g_new0(DC_Workunit ,1);
