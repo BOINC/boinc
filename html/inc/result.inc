@@ -189,7 +189,7 @@ function show_result_row(
         echo "<tr>";
     }
     if ($show_result_link) {
-        echo "<td><a href=\"result.php?resultid=$result->id\">$result->id</a></td>\n";
+        echo "<td><a href=\"result.php?resultid=$result->id\" title=\"Name: ".$result->name."\">$result->id</a></td>\n";
     }
     if ($show_wu_link) {
         echo "<td><a href=\"workunit.php?wuid=$result->workunitid\">$result->workunitid</a></td>\n";
