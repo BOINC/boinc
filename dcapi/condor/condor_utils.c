@@ -212,6 +212,9 @@ _DC_message_name(char *box, char *name)
 	if (!box ||
 	    !name)
 		return(NULL);
+	if (!*box ||
+	    !*name)
+		return(NULL);
 	/*DC_log(LOG_DEBUG, "_DC_message_name(%s,%s)", box, name);*/
 	dn= strdup(box);
 	n= malloc(strlen(name)+10);
@@ -253,7 +256,7 @@ _DC_message_name(char *box, char *name)
 		closedir(d);
 	if (min_id >= 0)
 	{
-		dn= realloc(dn, 100);
+		dn= realloc(dn, strlen(box)+strlen(name)+100);
 		sprintf(dn, "%s/%s.%d", box, name, min_id);
 		free(n);
 		/*DC_log(LOG_DEBUG, "return: %s", dn);*/
@@ -275,7 +278,7 @@ _DC_read_message(char *box, char *name, int del_msg)
 	char *fn= _DC_message_name(box, name);
 	char *buf= NULL;
 
-	if (!fn)
+	if (fn==NULL)
 		return(NULL);
 	/*DC_log(LOG_DEBUG, "Reading message from %s", fn);*/
 	if ((f= fopen(fn, "r")) != NULL)
@@ -301,7 +304,7 @@ _DC_read_message(char *box, char *name, int del_msg)
 		if (del_msg)
 			unlink(fn);
 	}
-	if (fn)
+	if (fn!=NULL)
 		free(fn);
 	return(buf);
 }
