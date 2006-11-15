@@ -12617,7 +12617,8 @@ David  14 Nov 2006
         cs_scheduler.C
 
 Rom    15 Nov 2006
-    - MGR: Add "Anytime" to the list of start times.
+    - MGR: Add "Anytime" to the list of start times for the simple preferences
+        dialog.
     
     clientgui/
         sg_DlgPreferences.cpp, .h
