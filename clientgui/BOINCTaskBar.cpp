@@ -89,10 +89,8 @@ CTaskBarIcon::CTaskBarIcon(wxString title, wxIcon* icon, wxIcon* iconDisconnecte
 
     m_dtLastHoverDetected = wxDateTime((time_t)0);
     m_dtLastBalloonDisplayed = wxDateTime((time_t)0);
-    m_dtSnoozeStartTime = wxDateTime((time_t)0);
 
     m_bMouseButtonPressed = false;
-//    m_bResetSnooze = false;
 
     m_iPreviousActivityMode = RUN_MODE_AUTO;
     m_iPreviousNetworkMode = RUN_MODE_AUTO;
@@ -147,18 +145,6 @@ void CTaskBarIcon::OnRefresh(wxTimerEvent& WXUNUSED(event)) {
 
     wxASSERT(pDoc);
     wxASSERT(wxDynamicCast(pDoc, CMainDocument));
-
-
-    // If we are done snoozing, change our settings back to their original settings
-    if (wxDateTime((time_t)0) != m_dtSnoozeStartTime) {
-        wxTimeSpan ts(wxDateTime::Now() - m_dtSnoozeStartTime);
-        if (ts.GetMinutes() >= 60) {
-            pDoc->SetActivityRunMode(m_iPreviousActivityMode);
-            pDoc->SetNetworkRunMode(m_iPreviousNetworkMode);
-
-            ResetSnoozeState();
-        }
-    }
 
 
     // What is the current status of the client?
@@ -253,14 +239,10 @@ void CTaskBarIcon::OnSuspend(wxCommandEvent& WXUNUSED(event)) {
     if ((RUN_MODE_NEVER == status.task_mode) && (RUN_MODE_NEVER == status.network_mode) &&
         (RUN_MODE_NEVER == m_iPreviousActivityMode) && (RUN_MODE_NEVER == m_iPreviousActivityMode)) {
 
-        ResetSnoozeState();
-
         pDoc->SetActivityRunMode(RUN_MODE_AUTO);
         pDoc->SetNetworkRunMode(RUN_MODE_AUTO);
 
     } else if ((RUN_MODE_NEVER == status.task_mode) && (RUN_MODE_NEVER == status.network_mode)) {
-
-        ResetSnoozeState();
 
         pDoc->SetActivityRunMode(m_iPreviousActivityMode);
         pDoc->SetNetworkRunMode(m_iPreviousNetworkMode);
@@ -270,10 +252,8 @@ void CTaskBarIcon::OnSuspend(wxCommandEvent& WXUNUSED(event)) {
         m_iPreviousActivityMode = status.task_mode;
         m_iPreviousNetworkMode = status.network_mode;
 
-        m_dtSnoozeStartTime = wxDateTime::Now();
-
-        pDoc->SetActivityRunMode(RUN_MODE_NEVER);
-        pDoc->SetNetworkRunMode(RUN_MODE_NEVER);
+        pDoc->SetActivityRunMode(RUN_MODE_NEVER, 60);
+        pDoc->SetNetworkRunMode(RUN_MODE_NEVER, 60);
 
     }
 
@@ -509,11 +489,6 @@ void CTaskBarIcon::OnReloadSkin(CTaskbarEvent& /*event*/) {
 void CTaskBarIcon::FireReloadSkin() {
     CTaskbarEvent event(wxEVT_TASKBAR_RELOADSKIN, this);
     AddPendingEvent(event);
-}
-
-
-void CTaskBarIcon::ResetSnoozeState() {
-    m_dtSnoozeStartTime = wxDateTime((time_t)0);
 }
 
 

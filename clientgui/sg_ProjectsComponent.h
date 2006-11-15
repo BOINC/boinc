@@ -37,6 +37,7 @@ class CProjectsComponent : public wxPanel {
 public:
 	
 	int clientRunMode;
+	int clientNetworkMode;
 	char defaultIcnPath[256];
 	// projects vector
 	std::vector<StatImageLoader*> m_statProjects; // vector of all project icons created for GUI

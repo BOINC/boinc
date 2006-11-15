@@ -529,14 +529,15 @@ void CProjectsComponent::OnBtnClick(wxCommandEvent& event){ //init function
         pDoc->GetCoreClientStatus(status);
 
         clientRunMode = status.task_mode;
-		pDoc->SetActivityRunMode(RUN_MODE_NEVER);
-		pDoc->SetNetworkRunMode(RUN_MODE_NEVER);
+        clientNetworkMode = status.network_mode;
+		pDoc->SetActivityRunMode(RUN_MODE_NEVER, 60);
+		pDoc->SetNetworkRunMode(RUN_MODE_NEVER, 60);
 		btnPause->Show(false);
 		btnResume->Show(true);
     } else if(m_wxBtnObj==btnResume) {
 		CMainDocument* pDoc     = wxGetApp().GetDocument();
-		pDoc->SetActivityRunMode(RUN_MODE_AUTO);
-		pDoc->SetNetworkRunMode(RUN_MODE_AUTO);
+		pDoc->SetActivityRunMode(clientRunMode);
+		pDoc->SetNetworkRunMode(clientNetworkMode);
 		btnResume->Show(false);
 		btnPause->Show(true);
     } else if(m_wxBtnObj==btnAdvancedView) {

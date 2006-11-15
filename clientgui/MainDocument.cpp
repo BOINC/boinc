@@ -472,10 +472,15 @@ int CMainDocument::GetCoreClientStatus(CC_STATUS& ccs) {
 
 
 int CMainDocument::SetActivityRunMode(int iMode) {
+    return SetActivityRunMode(iMode, 0);
+}
+
+
+int CMainDocument::SetActivityRunMode(int iMode, int iTimeout) {
     int     iRetVal = 0;
 
     if (IsConnected()) {
-        iRetVal = rpc.set_run_mode(iMode, 0);
+        iRetVal = rpc.set_run_mode(iMode, iTimeout);
         if (0 == iRetVal) {
             status.task_mode = iMode;
         }
@@ -486,10 +491,15 @@ int CMainDocument::SetActivityRunMode(int iMode) {
 
 
 int CMainDocument::SetNetworkRunMode(int iMode) {
+    return SetNetworkRunMode(iMode, 0);
+}
+
+
+int CMainDocument::SetNetworkRunMode(int iMode, int iTimeout) {
     int     iRetVal = 0;
 
     if (IsConnected()) {
-        iRetVal = rpc.set_network_mode(iMode, 0);
+        iRetVal = rpc.set_network_mode(iMode, iTimeout);
         if (0 == iRetVal) {
             status.network_mode = iMode;
         }

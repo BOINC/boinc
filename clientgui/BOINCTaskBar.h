@@ -76,7 +76,6 @@ public:
 
     wxMenu *BuildContextMenu();
     void AdjustMenuItems(wxMenu* menu);
-    void ResetSnoozeState();
 
 #ifdef __APPLE__
     wxMenu *CreatePopupMenu();
@@ -97,7 +96,6 @@ public:
 private:
     wxDateTime m_dtLastHoverDetected;
     wxDateTime m_dtLastBalloonDisplayed;
-    wxDateTime m_dtSnoozeStartTime;
 
     wxTimer*   m_pRefreshTimer;
 

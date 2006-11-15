@@ -12620,8 +12620,13 @@ Rom    15 Nov 2006
     - MGR: Add "Anytime" to the list of start times for the simple preferences
         dialog.
     - MGR: Fix instructions when a connection failure happens.
+    - MGR: Let the core client manage the snooze timer. Changes for both the
+        advanced gui and simple gui.
     
     clientgui/
-        sg_DlgPreferences.cpp, .h
+        AdvancedFrame.cpp
         BOINCBaseFrame.cpp
-
+        BOINCTaskBar.cpp, .h
+        MainDocument.cpp, .h
+        sg_DlgPreferences.cpp, .h
+        sg_ProjectsComponent.cpp, .h
