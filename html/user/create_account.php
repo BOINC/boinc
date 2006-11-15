@@ -53,6 +53,10 @@ if ($user) {
     if (!$result) {
         xml_error(-137);
     }
+    
+    if(defined('INVITE_CODES')) {
+        error_log("New account '$new_name' created using invitation code '$invite_code'");
+    }
 }
 
 echo " <account_out>\n";

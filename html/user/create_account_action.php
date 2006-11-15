@@ -121,6 +121,10 @@ $user->email_addr = $new_email_addr;
 $user->authenticator = $authenticator;
 send_auth_email($user, true, false);
 
+if(defined('INVITE_CODES')) {
+    error_log("New account '$new_name' created using invitation code '$invite_code'");
+}
+
 session_start();
 $_SESSION["authenticator"] = $authenticator;
 Header("Location: home.php?new_acct=1&via_web=1");
