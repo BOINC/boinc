@@ -12619,6 +12619,9 @@ David  14 Nov 2006
 Rom    15 Nov 2006
     - MGR: Add "Anytime" to the list of start times for the simple preferences
         dialog.
+    - MGR: Fix instructions when a connection failure happens.
     
     clientgui/
         sg_DlgPreferences.cpp, .h
+        BOINCBaseFrame.cpp
+
