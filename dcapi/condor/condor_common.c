@@ -6,7 +6,9 @@
  * (c) Daniel Drotos, 2006
  */
 
-#include <glib.h>
+/*#include <glib.h>*/
+
+/*
 #include <stdio.h>
 #include <stdlib.h>
 #include <unistd.h>
@@ -15,6 +17,7 @@
 #include <fcntl.h>
 #include <string.h>
 #include <errno.h>
+*/
 
 #include "dc_common.h"
 
@@ -46,7 +49,7 @@ _DC_init_common(void)
 	_DC_params[cfg_submit_file].def= "_dcapi_condor_submit.txt";
 
 	_DC_params[cfg_executable].name= "Executable";
-	_DC_params[cfg_executable].def= NULL;
+	_DC_params[cfg_executable].def= 0/*NULL*/;
 	
 	_DC_params[cfg_leave_files].name= "LeaveFiles";
 	_DC_params[cfg_leave_files].def= "0";
