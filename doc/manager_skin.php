@@ -375,7 +375,7 @@ The Advanced collection contains the following elements:
     <td>application_logo</td>
     <td>String</td>
     <td>50px</td>
-    <td>47px</td>
+    <td>50px</td>
     <td>Application logo that appears in the about box.</td>
   <tr>
   <tr>

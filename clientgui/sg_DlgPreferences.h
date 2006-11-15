@@ -104,6 +104,12 @@ public:
     /// wxEVT_COMMAND_CHECKBOX_CLICKED event handler for ID_CUSTOMIZEPREFERENCES
     void OnCustomizePreferencesClick( wxCommandEvent& event );
 
+    /// wxEVT_COMMAND_COMBOBOX_SELECTED event handler for ID_WORKBETWEENBEGIN
+    void OnWorkBetweenBeginSelected( wxCommandEvent& event );
+
+    /// wxEVT_COMMAND_COMBOBOX_SELECTED event handler for ID_CONNECTBETWEENBEGIN
+    void OnConnectBetweenBeginSelected( wxCommandEvent& event );
+
 ////@end CPanelPreferences event handler declarations
 
 ////@begin CPanelPreferences member function declarations
@@ -143,7 +149,8 @@ public:
 
 
     void OnOK();
-    bool UpdateControlStates(bool bChecked);
+
+    bool UpdateControlStates();
 
     bool ClearPreferenceSettings();
     bool ReadPreferenceSettings();

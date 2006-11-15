@@ -416,7 +416,7 @@ void CBOINCBaseFrame::ShowNotCurrentlyConnectedAlert() {
     //    i.e. 'BOINC', 'GridRepublic'
     strDialogMessage.Printf(
         _("%s is not currently connected to a %s client.\n"
-          "Please use the 'File\\Select Computer...' menu option to connect up to a %s client.\n"
+          "Please use the 'Advanced\\Select Computer...' menu option to connect up to a %s client.\n"
           "To connect up to your local computer please use 'localhost' as the host name."),
         pSkinAdvanced->GetApplicationName().c_str(),
         pSkinAdvanced->GetProjectName().c_str(),

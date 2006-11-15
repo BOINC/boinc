@@ -277,6 +277,8 @@ BEGIN_EVENT_TABLE( CPanelPreferences, wxPanel )
 ////@begin CPanelPreferences event table entries
     EVT_ERASE_BACKGROUND( CPanelPreferences::OnEraseBackground )
     EVT_CHECKBOX( ID_CUSTOMIZEPREFERENCES, CPanelPreferences::OnCustomizePreferencesClick )
+    EVT_COMBOBOX( ID_WORKBETWEENBEGIN, CPanelPreferences::OnWorkBetweenBeginSelected )
+    EVT_COMBOBOX( ID_CONNECTBETWEENBEGIN, CPanelPreferences::OnConnectBetweenBeginSelected )
 ////@end CPanelPreferences event table entries
 END_EVENT_TABLE()
 
@@ -323,8 +325,6 @@ bool CPanelPreferences::Create()
 
     ReadPreferenceSettings();
     ReadSkinSettings();
-
-    TransferDataToWindow();
 
     return true;
 }
@@ -386,7 +386,14 @@ void CPanelPreferences::CreateControls()
     m_CustomizePreferencesCtrl->SetValue(false);
     itemBoxSizer12->Add(m_CustomizePreferencesCtrl, 0, wxALIGN_CENTER_VERTICAL|wxALL, 5);
 
-    CTransparentStaticTextAssociate* itemStaticText14 = new CTransparentStaticTextAssociate( itemDialog1, wxID_ANY, _("I want to customize my preferences for this computer."), wxDefaultPosition, wxDefaultSize, 0 );
+    CTransparentStaticTextAssociate* itemStaticText14 = new CTransparentStaticTextAssociate( 
+        itemDialog1, 
+        wxID_ANY, 
+        _("I want to customize my preferences for this computer only."), 
+        wxDefaultPosition, 
+        wxDefaultSize, 
+        0
+    );
     itemStaticText14->SetFont(wxFont(SMALL_FONT, wxSWISS, wxNORMAL, wxNORMAL, false, _T("Arial")));
     itemStaticText14->AssociateWindow(m_CustomizePreferencesCtrl);
     itemBoxSizer12->Add(itemStaticText14, 0, wxALIGN_CENTER_VERTICAL|wxRIGHT|wxTOP|wxBOTTOM, 5);
@@ -564,8 +571,26 @@ void CPanelPreferences::CreateControls()
  * wxEVT_COMMAND_CHECKBOX_CLICKED event handler for ID_CUSTOMIZEPREFERENCES
  */
 
-void CPanelPreferences::OnCustomizePreferencesClick( wxCommandEvent& event ) {
-    UpdateControlStates(event.IsChecked());
+void CPanelPreferences::OnCustomizePreferencesClick( wxCommandEvent& /*event*/ ) {
+    UpdateControlStates();
+}
+
+
+/*!
+ * wxEVT_COMMAND_COMBOBOX_SELECTED event handler for ID_WORKBETWEENBEGIN
+ */
+
+void CPanelPreferences::OnWorkBetweenBeginSelected( wxCommandEvent& /*event*/ ) {
+    UpdateControlStates();
+}
+
+
+/*!
+ * wxEVT_COMMAND_COMBOBOX_SELECTED event handler for ID_CONNECTBETWEENBEGIN
+ */
+
+void CPanelPreferences::OnConnectBetweenBeginSelected( wxCommandEvent& /*event*/ ) {
+    UpdateControlStates();
 }
 
 
@@ -639,8 +664,8 @@ void CPanelPreferences::OnOK() {
 }
 
 
-bool CPanelPreferences::UpdateControlStates(bool bChecked) {
-    if (bChecked) {
+bool CPanelPreferences::UpdateControlStates() {
+    if (m_CustomizePreferencesCtrl->IsChecked()) {
         m_WorkBetweenBeginCtrl->Enable();
         m_WorkBetweenEndCtrl->Enable();
         m_ConnectBetweenBeginCtrl->Enable();
@@ -650,6 +675,14 @@ bool CPanelPreferences::UpdateControlStates(bool bChecked) {
         m_WorkWhileInUseCtrl->Enable();
         m_WorkWhileOnBatteryCtrl->Enable();
         m_WorkWhenIdleCtrl->Enable();
+
+        if (m_WorkBetweenBeginCtrl->GetValue() == _("Anytime")) {
+            m_WorkBetweenEndCtrl->Disable();
+        }
+        if (m_ConnectBetweenBeginCtrl->GetValue() == _("Anytime")) {
+            m_ConnectBetweenEndCtrl->Disable();
+        }
+
     } else {
         m_WorkBetweenBeginCtrl->Disable();
         m_WorkBetweenEndCtrl->Disable();
@@ -705,16 +738,32 @@ bool CPanelPreferences::ReadPreferenceSettings() {
 
     // Do work only between:
     //   Start:
-    m_WorkBetweenBeginCtrl->Append(wxArrayString(iTimeOfDayArraySize, astrTimeOfDayStrings));
-    m_strWorkBetweenBegin = astrTimeOfDayStrings[display_global_preferences.start_hour];
+    wxArrayString aWorkBetweenBegin = wxArrayString(iTimeOfDayArraySize, astrTimeOfDayStrings);
+    aWorkBetweenBegin.Insert(_("Anytime"), 0);
+
+    m_WorkBetweenBeginCtrl->Append(aWorkBetweenBegin);
+    if (display_global_preferences.start_hour == display_global_preferences.end_hour) {
+        m_strWorkBetweenBegin = _("Anytime");
+    } else {
+        m_strWorkBetweenBegin = astrTimeOfDayStrings[display_global_preferences.start_hour];
+    }
+
     //   End:
     m_WorkBetweenEndCtrl->Append(wxArrayString(iTimeOfDayArraySize, astrTimeOfDayStrings));
     m_strWorkBetweenEnd = astrTimeOfDayStrings[display_global_preferences.end_hour];
 
     // Connect to internet only between:
     //   Start:
-    m_ConnectBetweenBeginCtrl->Append(wxArrayString(iTimeOfDayArraySize, astrTimeOfDayStrings));
-    m_strConnectBetweenBegin = astrTimeOfDayStrings[display_global_preferences.net_start_hour];
+    wxArrayString aConnectBetweenBegin = wxArrayString(iTimeOfDayArraySize, astrTimeOfDayStrings);
+    aConnectBetweenBegin.Insert(_("Anytime"), 0);
+
+    m_ConnectBetweenBeginCtrl->Append(aConnectBetweenBegin);
+    if (display_global_preferences.net_start_hour == display_global_preferences.net_end_hour) {
+        m_strConnectBetweenBegin = _("Anytime");
+    } else {
+        m_strConnectBetweenBegin = astrTimeOfDayStrings[display_global_preferences.net_start_hour];
+    }
+
     //   End:
     m_ConnectBetweenEndCtrl->Append(wxArrayString(iTimeOfDayArraySize, astrTimeOfDayStrings));
     m_strConnectBetweenEnd = astrTimeOfDayStrings[display_global_preferences.net_end_hour];
@@ -838,7 +887,8 @@ bool CPanelPreferences::ReadPreferenceSettings() {
     }
 
     // Now make sure the UI is in sync with the settings
-    UpdateControlStates(m_bCustomizedPreferences);
+    TransferDataToWindow();
+    UpdateControlStates();
 
     return true;
 }
@@ -867,17 +917,25 @@ bool CPanelPreferences::SavePreferenceSettings() {
 
 
     // Do work only between:
-    m_strWorkBetweenBegin.ToLong((long*)&global_preferences_override.start_hour);
+    if (_("Anytime") == m_strWorkBetweenBegin) {
+        global_preferences_override.start_hour = 0;
+        global_preferences_override.end_hour = 0;
+    } else {
+        m_strWorkBetweenBegin.ToLong((long*)&global_preferences_override.start_hour);
+        m_strWorkBetweenEnd.ToLong((long*)&global_preferences_override.end_hour);
+    }
     global_preferences_mask.start_hour = true;        
-
-    m_strWorkBetweenEnd.ToLong((long*)&global_preferences_override.end_hour);
-    global_preferences_mask.end_hour = true;        
+    global_preferences_mask.end_hour = true;
 
     // Connect to internet only between:
-    m_strConnectBetweenBegin.ToLong((long*)&global_preferences_override.net_start_hour);
+    if (_("Anytime") == m_strConnectBetweenBegin) {
+        global_preferences_override.net_start_hour = 0;
+        global_preferences_override.net_end_hour = 0;
+    } else {
+        m_strConnectBetweenBegin.ToLong((long*)&global_preferences_override.net_start_hour);
+        m_strConnectBetweenEnd.ToLong((long*)&global_preferences_override.net_end_hour);
+    }
     global_preferences_mask.net_start_hour = true;        
-
-    m_strConnectBetweenEnd.ToLong((long*)&global_preferences_override.net_end_hour);
     global_preferences_mask.net_end_hour = true;        
 
     // Use no more than %s of disk space
