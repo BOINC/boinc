@@ -10,11 +10,12 @@
 #include <config.h>
 #endif
 
+#include <stdio.h>
+#include <string>
+
 #include <sched_config.h>
 #include <boinc_db.h>
 #include <parse.h>
-
-#include <string>
 
 #include "dc_boinc.h"
 
@@ -183,17 +184,25 @@ int DC_sendWUMessage(DC_Workunit *wu, const char *message)
 	while (!result.enumerate(query))
 	{
 		DB_MSG_TO_HOST msg;
+		char *xmlout;
 
 		msg.clear();
 		msg.create_time = time(NULL);
 		msg.hostid = result.hostid;
 		msg.handled = false;
 
-		std::string xmlin, xmlout;
-		xmlin = message;
-		xml_escape(xmlin, xmlout);
-		snprintf(msg.xml, sizeof(msg.xml), "<message>%s</message>",
-			xmlout.c_str());
+		/* BOINC tells output buffer should be 6x input size */
+		xmlout = g_new(char, 6 * strlen(message) + 1);
+		if (!xmlout)
+		{
+			DC_log(LOG_WARNING, "Failed to send message because "
+				"ran out of memory");
+			break;
+		}
+
+		xml_escape(message, xmlout);
+		snprintf(msg.xml, sizeof(msg.xml), "<message>%s</message>", xmlout);
+		g_free(xmlout);
 
 		snprintf(msg.variety, sizeof(msg.variety), "%s", name);
 

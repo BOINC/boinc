@@ -387,8 +387,8 @@ int DC_sendResult(const char *logicalFileName, const char *path,
 
 int DC_sendMessage(const char *message)
 {
-	std::string xml, msg;
-	int ret;
+	char *xml, *msg;
+	int ret, len;
 
 	if (!message)
 	{
@@ -402,11 +402,28 @@ int DC_sendMessage(const char *message)
 		return DC_ERR_NOTIMPL;
 	}
 
-	msg = message;
-	xml_escape(msg, xml);
-	xml = "<message>" + xml + "</message>";
+	xml = (char *)malloc(6 * strlen(message) + 1);
+	if (!xml)
+	{
+		DC_log(LOG_ERR, "Sending message: Out of memory");
+		return DC_ERR_INTERNAL;
+	}
+
+	xml_escape(message, xml);
+	len = strlen(xml) + 24;
+	msg = (char *)malloc(len);
+	if (!msg)
+	{
+		DC_log(LOG_ERR, "Sending message: Out of memory");
+		free(xml);
+		return DC_ERR_INTERNAL;
+	}
+	snprintf(msg, len, "<message>%s</message>", xml);
+
 	/* We use the WU's name as the variety */
-	ret = boinc_send_trickle_up(wu_name, (char *)xml.c_str());
+	ret = boinc_send_trickle_up(wu_name, msg);
+	free(msg);
+	free(xml);
 	if (ret)
 	{
 		DC_log(LOG_ERR, "Failed to send trickle-up message");
