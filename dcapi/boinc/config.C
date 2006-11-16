@@ -10,6 +10,8 @@
 #include <config.h>
 #endif
 
+#include <stdio.h>
+
 #include <sched_config.h>
 #include <sched_util.h>
 
