@@ -4,7 +4,13 @@ AUTOMAKE_OPTIONS = 1.7
 
 appdir = ${libdir}/boinc/apps/uppercase-example
 app_PROGRAMS =
-app_DATA =
+app_DATA = dc-api.conf input.txt
+
+EXTRA_DIST = \
+	dc-api.conf \
+	input.txt \
+	uppercase-example-client.xml.in \
+	uppercase-example-master.xml.in
 
 if BUILD_CLIENT
 app_PROGRAMS += uppercase-example-client
