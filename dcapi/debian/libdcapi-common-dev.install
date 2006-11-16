@@ -1,1 +1,2 @@
 debian/tmp/usr/include/*.h
+usr/share/aclocal/dcapi.m4

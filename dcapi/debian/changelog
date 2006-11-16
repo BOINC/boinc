@@ -1,3 +1,15 @@
+dcapi (0.9-10) unstable; urgency=low
+
+  * Depend on BOINC 5.6
+  * Bugzilla bugs fixed:
+     #889: Ismeretlen fajl (fixed earlier)
+     #923: trunk/examples/uppercase-with-callback configure-ja nem latja dc.h
+           -t es aprobb configure eszrevetelek
+     #924: trunk/examples/uppercase-with-callback: make install nem telepiti a
+           dc-api.conf -ot
+
+ -- Gábor Gombás <gombasg@sztaki.hu>  Thu, 16 Nov 2006 12:12:13 +0100
+
 dcapi (0.9-9) unstable; urgency=low
 
   * Condor backend is complete.
