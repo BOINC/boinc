@@ -43,7 +43,8 @@ typedef enum
 	WU_SUBMITTED,
 	WU_SERIALIZED,
 	WU_SUSPENDED,
-	WU_NOSUSPEND
+	WU_NOSUSPEND,
+	WU_PRIORITY
 } wu_tag;
 
 #define WU_DESC_FILE		"wu_desc.xml"
@@ -120,6 +121,7 @@ static const struct tag_desc tags[] =
 	{ WU_SUSPENDED,		"suspended" },
 	{ WU_SERIALIZED,	"serialized" },
 	{ WU_NOSUSPEND,		"nosuspend" },
+	{ WU_PRIORITY,		"priority" }
 };
 
 static const GMarkupParser wudesc_parser =
@@ -372,6 +374,11 @@ static void wudesc_text(GMarkupParseContext *ctx, const char *text,
 			pctx->wu->subresults = atoi(tmp);
 			g_free(tmp);
 			break;
+		case WU_PRIORITY:
+			tmp = g_strndup(text, text_len);
+			pctx->wu->priority = atoi(tmp);
+			g_free(tmp);
+			break;
 		case WU_WUDESC:
 			break;
 		case WU_SUSPENDED:
@@ -422,6 +429,7 @@ static int write_wudesc(const DC_Workunit *wu)
 		fprintf(f, "\t<output_label>%s</output_label>\n", (char *)l->data);
 
 	fprintf(f, "\t<subresults>%d</subresults>\n", wu->subresults);
+	fprintf(f, "\t<priority>%d</priority>\n", wu->priority);
 
 	fprintf(f, "</wudesc>\n");
 	fclose(f);
@@ -498,6 +506,9 @@ DC_Workunit *DC_createWU(const char *clientName, const char *arguments[],
 		DC_destroyWU(wu);
 		return NULL;
 	}
+
+	/* Set the default priority */
+	wu->priority = DC_getClientCfgInt(clientName, CFG_DEFAULTPRIO, 0, TRUE);
 
 	/* Add the client config as an internal input file */
 	ret = generate_client_config(wu);
@@ -818,12 +829,6 @@ static void fill_wu_params(const DC_Workunit *wu, struct wu_params *params)
 		CFG_REDUNDANCY, 1, TRUE);
 	if (params->min_quorum < 1)
 		params->min_quorum = 1;
-	if (params->min_quorum == 2)
-	{
-		DC_log(LOG_NOTICE, "Quorum of 2 does not make sense for "
-			"application %s, increasing to 3", wu->client_name);
-		params->min_quorum++;
-	}
 
 	/* Calculate with logarithmic error */
 	if (params->min_quorum == 1)
@@ -1507,6 +1512,8 @@ int DC_setWUPriority(DC_Workunit *wu, int priority)
 	}
 
 	wu->priority = priority;
+	if (wu->serialized)
+		write_wudesc(wu);
 	return 0;
 }
 
@@ -1545,6 +1552,13 @@ int DC_resumeWU(DC_Workunit *wu)
 	if (!wu)
 	{
 		DC_log(LOG_ERR, "%s: Missing WU", __func__);
+		return DC_ERR_BADPARAM;
+	}
+	if (!wu->suspended)
+	{
+		char *name = _DC_getWUName(wu);
+		DC_log(LOG_ERR, "Work unit %s is not suspended, cannot resume", name);
+		g_free(name);
 		return DC_ERR_BADPARAM;
 	}
 

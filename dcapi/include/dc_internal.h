@@ -35,6 +35,8 @@ extern "C" {
 #define CFG_LOGFILE		"LogFile"
 /* Configuration items to send to clients */
 #define CFG_SENDKEYS		"SendCfgKeys"
+/* Default WU priority */
+#define CFG_DEFAULTPRIO		"DefaultPriority"
 
 
 /********************************************************************
