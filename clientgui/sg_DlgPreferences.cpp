@@ -227,13 +227,20 @@ CDlgPreferences::CDlgPreferences( wxWindow* parent, wxWindowID id, const wxStrin
 
 bool CDlgPreferences::Create( wxWindow* parent, wxWindowID id, const wxString& caption, const wxPoint& pos, const wxSize& size, long style )
 {
-    wxDialog::Create( parent, id, caption, pos, size, style );
+    wxString strCaption = caption;
+    if (strCaption.IsEmpty()) {
+        strCaption = _("BOINC Manager - Preferences");
+    }
+    wxDialog::Create( parent, id, strCaption, pos, size, style );
+
+
 #ifdef __WXDEBUG__
     SetBackgroundColour(wxColour(255, 0, 255));
 #endif
     SetBackgroundStyle(wxBG_STYLE_CUSTOM);
     SetForegroundColour(*wxBLACK);
     SetExtraStyle(GetExtraStyle()|wxWS_EX_BLOCK_EVENTS);
+
 
     Freeze();
 
@@ -654,13 +661,26 @@ void CPanelPreferences::OnEraseBackground( wxEraseEvent& event ) {
 
 
 void CPanelPreferences::OnOK() {
+    CMainDocument*    pDoc = wxGetApp().GetDocument();
+
+    wxASSERT(pDoc);
+    wxASSERT(wxDynamicCast(pDoc, CMainDocument));
+
+
     TransferDataFromWindow();
+
+    SaveSkinSettings();
+
+
     if (m_bCustomizedPreferences) {
         SavePreferenceSettings();
     } else {
         ClearPreferenceSettings();
     }
-    SaveSkinSettings();
+
+
+	pDoc->rpc.set_global_prefs_override_struct(global_preferences_override, global_preferences_mask);
+	pDoc->rpc.read_global_prefs_override();
 }
 
 
@@ -699,17 +719,15 @@ bool CPanelPreferences::UpdateControlStates() {
 
 
 bool CPanelPreferences::ClearPreferenceSettings() {
-    CMainDocument* pDoc = wxGetApp().GetDocument();
-
-    wxASSERT(pDoc);
-    wxASSERT(wxDynamicCast(pDoc, CMainDocument));
-
-
-    std::string str;
-    str.clear();
-
-	pDoc->rpc.set_global_prefs_override(str);
-
+    global_preferences_mask.start_hour = false;
+    global_preferences_mask.end_hour = false;
+    global_preferences_mask.net_start_hour = false;
+    global_preferences_mask.net_end_hour = false;
+    global_preferences_mask.disk_max_used_gb = false;
+    global_preferences_mask.cpu_usage_limit = false;
+    global_preferences_mask.run_if_user_active = false;
+    global_preferences_mask.run_on_batteries = false;
+    global_preferences_mask.idle_time_to_run = false;
     return true;
 }
 
@@ -910,12 +928,6 @@ bool CPanelPreferences::ReadSkinSettings() {
 
 
 bool CPanelPreferences::SavePreferenceSettings() {
-    CMainDocument*    pDoc = wxGetApp().GetDocument();
-
-    wxASSERT(pDoc);
-    wxASSERT(wxDynamicCast(pDoc, CMainDocument));
-
-
     // Do work only between:
     if (_("Anytime") == m_strWorkBetweenBegin) {
         global_preferences_override.start_hour = 0;
@@ -961,8 +973,6 @@ bool CPanelPreferences::SavePreferenceSettings() {
     m_strWorkWhenIdle.ToDouble((double*)&global_preferences_override.idle_time_to_run);
     global_preferences_mask.idle_time_to_run = true;        
 
-	pDoc->rpc.set_global_prefs_override_struct(global_preferences_override, global_preferences_mask);
-	pDoc->rpc.read_global_prefs_override();
     return true;
 }
 

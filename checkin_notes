@@ -12630,3 +12630,12 @@ Rom    15 Nov 2006
         MainDocument.cpp, .h
         sg_DlgPreferences.cpp, .h
         sg_ProjectsComponent.cpp, .h
+
+Rom    16 Nov 2006
+    - MGR: Handle the clear preferences case better by setting the mask flags to
+        false instead of just calling set preferences override with an empty
+        string.
+    - MGR: Make sure we grab the correct localized dialog name during construction.
+    
+    clientgui/
+        sg_DlgPreferences.cpp, .h
