@@ -16,3 +16,6 @@ endif
 if WITH_LOCAL
 SUBDIRS += local
 endif
+
+aclocaldir = $(datadir)/aclocal
+dist_aclocal_DATA = cf/dcapi.m4
