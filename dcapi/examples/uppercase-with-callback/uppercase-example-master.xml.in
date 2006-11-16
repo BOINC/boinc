@@ -30,7 +30,7 @@
 
 	<!-- Validator daemon definition -->
 	<daemon>
-		<name>validator_for_textfiles</name>
+		<name>sample_trivial_validator</name>
 		<arguments>
 			<arg>-d</arg>
 			<arg>3</arg>
