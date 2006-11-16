@@ -3,6 +3,7 @@ $cvs_version_tracker[]="\$Id$";  //Generated automatically - do not edit
 
 require_once("../inc/db_ops.inc");
 require_once("../inc/util_ops.inc");
+require_once("../inc/uotd.inc");
 
 $config = get_config();
 $cgi_url = parse_config($config, "<cgi_url>");
@@ -28,6 +29,19 @@ if (parse_bool($config, "disable_account_creation")) {
 if (defined('INVITE_CODES')) {
     echo "<li><span style='color: #ff9900'>Account creation is restricted by the use of
 	invitation codes.</span></li>\n";
+}
+
+$uotd_candidates = count_uotd_candidates();
+if ($uotd_candidates > 0) {
+    if ($uotd_candidates >= UOTD_THRESHOLD*2) {
+        $color = "#00aa00";
+    } elseif ($uotd_candidates < UOTD_THRESHOLD) {
+        $color = "#ff0000";
+    } else {
+        $color = "#ff9900";
+    }
+    echo "<li><span style='color: ".$color."'>There are ".$uotd_candidates." remaining
+    candidates for User of the Day.</span></li>\n";
 }
 
 echo "</ul>\n";

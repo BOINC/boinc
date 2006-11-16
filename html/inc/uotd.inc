@@ -58,17 +58,8 @@ function build_uotd_page() {
     //
     if (function_exists('uotd_candidates_query')) {
         $query = uotd_candidates_query();
-    } else if (profile_screening()) {
-        $query = "SELECT * FROM profile,user WHERE profile.userid=user.id ";
-        $query .= " AND verification=1 ";
-        $query .= " AND expavg_credit>1 ";
-        $query .= " AND uotd_time IS NULL ";
-        $query .= "ORDER BY RAND()";
     } else {
-        $query = "SELECT * FROM profile,user WHERE profile.userid=user.id ";
-        $query .= " AND verification=1 ";
-        $query .= " AND uotd_time IS NULL ";
-        $query .= "ORDER BY RAND()";
+        $query = default_uotd_candidates_query();
     }
     $result = mysql_query($query);
 
@@ -111,6 +102,44 @@ function build_uotd_page() {
         Your profile will be featured on the " . PROJECT . " website for the next 24 hours."
     );
     echo "Chose user $user->id as UOTD\n";
+}
+
+// This is the default policy for choosing the UOTD on any BOINC project.
+// To override this with your own policy, create a similar function in
+// your own project.inc called uotd_candidates_query()
+function default_uotd_candidates_query(){
+    if (profile_screening()) {
+        $query = "SELECT * FROM profile,user WHERE profile.userid=user.id ";
+        $query .= " AND verification=1 ";
+        $query .= " AND expavg_credit>1 ";
+        $query .= " AND uotd_time IS NULL ";
+        $query .= "ORDER BY RAND()";
+    } else {
+        $query = "SELECT * FROM profile,user WHERE profile.userid=user.id ";
+        $query .= " AND verification=1 ";
+        $query .= " AND uotd_time IS NULL ";
+        $query .= "ORDER BY RAND()";
+    }
+    return $query;
+}
+
+// get a list of profiles that have been 'approved' for UOTD,
+// using a project-specific query if supplied in project.inc
+function count_uotd_candidates(){
+    $n = -1;                    // negative value returned on error
+    if (function_exists('uotd_candidates_query')) {
+        $query = uotd_candidates_query();
+    } else {
+        $query = default_uotd_candidates_query();
+    }
+                                                
+    $result = mysql_query($query);
+    if($result) {
+        $n = mysql_num_rows($result);
+    }
+    mysql_free_result($result);
+                                                                        
+    return $n;
 }
 
 ?>
