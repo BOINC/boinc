@@ -4,7 +4,13 @@ AUTOMAKE_OPTIONS = 1.7
 
 appdir = ${libdir}/boinc/apps/message-example
 app_PROGRAMS =
-app_DATA =
+app_DATA = dc-api.conf input.txt
+
+EXTRA_DIST = \
+	dc-api.conf \
+	input.txt \
+	message-example-client.xml.in \
+	message-example-master.xml.in
 
 if BUILD_CLIENT
 app_PROGRAMS += message-example-client
