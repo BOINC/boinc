@@ -12642,10 +12642,10 @@ Rom    16 Nov 2006
 
 Rom    16 Nov 2006
     - MGR: Revamp the messages dialog so that it is resizeable.
-    - MGR: Remember the size of the various message columns
-    - MGR: Remember the size of the dialog
-    - MGR: Add Clipboard functionality to the messages dialog
-    - MGR: Cleanup code in various other places
+    - MGR: Remember the size of the various message columns.
+    - MGR: Remember the size of the dialog.
+    - MGR: Add clipboard functionality.
+    - MGR: Cleanup code in various other places.
     
     clientgui/
         AdvancedFrame.cpp
@@ -12653,3 +12653,9 @@ Rom    16 Nov 2006
         sg_DlgPreferences.cpp, .h
         sg_ProjectsComponent.cpp
         sg_SGUIListControl.cpp, .h
+
+Rom    16 Nov 2006
+    - MGR: Change points to credits.
+    
+    clientgui/
+        sg_StatImageLoader.cpp

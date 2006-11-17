@@ -96,7 +96,7 @@ void StatImageLoader::BuildUserStatToolTip() {
 	//user credit text
 	wxString userCredit;
 	userCredit.Printf(wxT("%0.2f"), project->user_total_credit);
-	wxString toolTipTxt = wxString(project->project_name.c_str(), wxConvUTF8 ) +wxT(". User ") + wxString(project->user_name.c_str(), wxConvUTF8) + wxT(" has ") + userCredit + wxT(" points."); 
+	wxString toolTipTxt = wxString(project->project_name.c_str(), wxConvUTF8 ) +wxT(". User ") + wxString(project->user_name.c_str(), wxConvUTF8) + wxT(" has ") + userCredit + wxT(" credits."); 
 	wxToolTip* userStatToolTip = new wxToolTip(toolTipTxt);
 	SetToolTip(userStatToolTip);
 }
