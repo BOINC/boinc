@@ -12641,7 +12641,7 @@ Rom    16 Nov 2006
         sg_DlgPreferences.cpp, .h
 
 Rom    16 Nov 2006
-    - MGR: Revamp the messages dialog so that it is resizeable.
+    - MGR: Revamp the messages dialog so that it is resizable.
     - MGR: Remember the size of the various message columns.
     - MGR: Remember the size of the dialog.
     - MGR: Add clipboard functionality.
