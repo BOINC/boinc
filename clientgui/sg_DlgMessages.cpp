@@ -636,6 +636,16 @@ CDlgMessages::CDlgMessages( wxWindow* parent, wxWindowID id, const wxString& cap
 }
 
 
+CDlgMessages::~CDlgMessages() {
+    wxLogTrace(wxT("Function Start/End"), wxT("CDlgMessages::CDlgMessages - Destructor Function Begin"));
+
+	SaveState();    // Save state if close box on window frame clicked
+
+    wxLogTrace(wxT("Function Start/End"), wxT("CDlgMessages::CDlgMessages - Destructor Function End"));
+}
+
+
+
 /*!
  * CDlgMessages creator
  */

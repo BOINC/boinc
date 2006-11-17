@@ -12672,7 +12672,8 @@ Charlie 17 Nov 2006
         doesn't overlap window's grow icon
     - Mac MGR: Fix ToolTip / Help Message for Mac: substitute "command key" for 
         "control key".
+    - MGR: Save state if close box on SG Message Dialog window frame clicked.
 
     clientgui/
-        sg_DlgMessages.cpp
+        sg_DlgMessages.cpp, h
         ViewMessages.cpp
