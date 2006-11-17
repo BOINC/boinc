@@ -12670,10 +12670,13 @@ Charlie 17 Nov 2006
         and Center().
     - Mac MGR: Adjust position of SG Message Dialog buttons on Mac so Close button 
         doesn't overlap window's grow icon
+    - MGR: Save state if close box on SG Message Dialog window frame clicked.
+    - MGR: Fix crashing bug if Exit selected from System Tray icon (Quit on Mac)
+        while SG Message Dialog is open.
     - Mac MGR: Fix ToolTip / Help Message for Mac: substitute "command key" for 
         "control key".
-    - MGR: Save state if close box on SG Message Dialog window frame clicked.
 
     clientgui/
         sg_DlgMessages.cpp, h
+        sg_ProjectsComponent.cpp
         ViewMessages.cpp

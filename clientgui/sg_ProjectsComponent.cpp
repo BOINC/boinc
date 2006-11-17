@@ -516,7 +516,7 @@ void CProjectsComponent::OnBtnClick(wxCommandEvent& event){ //init function
 		btnAddProj->Refresh();
 	} else if(m_wxBtnObj==btnMessages || m_wxBtnObj==btnAlertMessages){
 		MessagesViewed();
-		CDlgMessages* pDlg = new CDlgMessages(NULL);
+		CDlgMessages* pDlg = new CDlgMessages(this);
 		wxASSERT(pDlg);
 		pDlg->Show();
     } else if(m_wxBtnObj==btnPause) {
