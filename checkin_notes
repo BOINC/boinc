@@ -12659,3 +12659,7 @@ Rom    16 Nov 2006
     
     clientgui/
         sg_StatImageLoader.cpp
+
+Rom    16 Nov 2006
+    - Tag for 5.7.4 release, all platforms
+      boinc_core_release_5_7_4
