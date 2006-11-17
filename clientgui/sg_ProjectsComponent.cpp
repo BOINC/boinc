@@ -516,12 +516,9 @@ void CProjectsComponent::OnBtnClick(wxCommandEvent& event){ //init function
 		btnAddProj->Refresh();
 	} else if(m_wxBtnObj==btnMessages || m_wxBtnObj==btnAlertMessages){
 		MessagesViewed();
-		pPanel->SetDlgOpen(true);
 		CDlgMessages* pDlg = new CDlgMessages(NULL);
 		wxASSERT(pDlg);
-		pDlg->ShowModal();
-		pDlg->Destroy();
-		pPanel->SetDlgOpen(false);
+		pDlg->Show();
     } else if(m_wxBtnObj==btnPause) {
 		CMainDocument* pDoc     = wxGetApp().GetDocument();
         CC_STATUS      status;

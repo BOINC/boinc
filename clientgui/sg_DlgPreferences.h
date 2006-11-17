@@ -147,7 +147,6 @@ public:
     void SetCustomizedPreferences(bool value) { m_bCustomizedPreferences = value ; }
 ////@end CPanelPreferences member function declarations
 
-
     void OnOK();
 
     bool UpdateControlStates();

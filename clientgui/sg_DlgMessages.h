@@ -24,35 +24,103 @@
 #if defined(__GNUG__) && !defined(__APPLE__)
 #pragma interface "sg_DlgMessages.cpp"
 #endif
+/*!
+ * Includes
+ */
 
-#define DEFAULT_LIST_MULTI_SEL_FLAGS   wxLC_REPORT | wxLC_VIRTUAL
+////@begin includes
+////@end includes
 
+/*!
+ * Forward declarations
+ */
+
+////@begin forward declarations
 class CSGUIListCtrl;
+////@end forward declarations
 
-class CPanelMessages:public wxPanel
+/*!
+ * Control identifiers
+ */
+
+////@begin control identifiers
+#define ID_DLGMESSAGES 10000
+#define SYMBOL_CDLGMESSAGES_STYLE wxRESIZE_BORDER|wxCLOSE_BOX|wxCAPTION|wxCLIP_CHILDREN 
+#define SYMBOL_CDLGMESSAGES_TITLE wxT("")
+#define SYMBOL_CDLGMESSAGES_IDNAME ID_DLGMESSAGES
+#define SYMBOL_CDLGMESSAGES_SIZE wxDefaultSize
+#define SYMBOL_CDLGMESSAGES_POSITION wxDefaultPosition
+#define ID_COPYSELECTED 10001
+#define ID_COPYAll 10002
+////@end control identifiers
+
+/*!
+ * Compatibility
+ */
+
+#ifndef wxCLOSE_BOX
+#define wxCLOSE_BOX 0x1000
+#endif
+#ifndef wxFIXED_MINSIZE
+#define wxFIXED_MINSIZE 0
+#endif
+
+/*!
+ * CPanelPreferences class declaration
+ */
+
+class CPanelMessages : public wxPanel
 {
-public:
-	CPanelMessages(wxWindow* parent);
-	//btns
-	wxBitmap* btmpClose; 
-	wxBitmap* btmpCloseClick; 
-	wxBitmap* btmpWindowBg;
-	wxBitmapButton *btnClose;
+    DECLARE_DYNAMIC_CLASS( CPanelMessages )
+    DECLARE_EVENT_TABLE()
 
-	// Pointer control
-	virtual ~CPanelMessages();
-	void initBefore();
-	void CreateDialog();
-	void initAfter();
-	//
-	virtual wxString        OnListGetItemText( long item, long column ) const;
+public:
+    /// Constructors
+    CPanelMessages( );
+    CPanelMessages( wxWindow* parent );
+
+    /// Destructors
+    ~CPanelMessages( );
+
+    /// Creation
+    bool Create();
+
+    /// Creates the controls and sizers
+    void CreateControls();
+
+////@begin CPanelMessages event handler declarations
+    /// wxEVT_ERASE_BACKGROUND event handler for ID_DLGMESSAGES
+    void OnEraseBackground( wxEraseEvent& event );
+
+    /// wxEVT_TIMER event handler for ID_REFRESHMESSAGESTIMER
+    void OnListRender( wxTimerEvent& event );
+
+    /// wxEVT_COMMAND_BUTTON_CLICKED event handler for wxID_OK
+    void OnOK( wxCommandEvent& event );
+
+    /// wxEVT_COMMAND_BUTTON_CLICKED event handler for ID_COPYAll
+    void OnMessagesCopyAll( wxCommandEvent& event );
+
+    /// wxEVT_COMMAND_BUTTON_CLICKED event handler for ID_COPYSELECTED
+    void OnMessagesCopySelected( wxCommandEvent& event );
+
+////@end CPanelMessages event handler declarations
+
+////@begin CPanelMessages member function declarations
+////@end CPanelMessages member function declarations
+
+
+
+    virtual wxString        OnListGetItemText( long item, long column ) const;
 	virtual wxListItemAttr* OnListGetItemAttr( long item ) const;
 
-	DECLARE_EVENT_TABLE()
+    bool                    OnSaveState(wxConfigBase* pConfig);
+    bool                    OnRestoreState(wxConfigBase* pConfig);
 
-protected:
+private:
 	wxInt32                 m_iPreviousDocCount;
 
+    CSGUIListCtrl*          m_pList;
     wxListItemAttr*         m_pMessageInfoAttr;
     wxListItemAttr*         m_pMessageErrorAttr;
 
@@ -62,37 +130,56 @@ protected:
 
 	wxTimer*                m_pRefreshMessagesTimer;
 
-	bool                    _EnsureLastItemVisible();
-    virtual bool            EnsureLastItemVisible();
+    bool                    EnsureLastItemVisible();
 	wxInt32                 FormatProjectName( wxInt32 item, wxString& strBuffer ) const;
     wxInt32                 FormatPriority( wxInt32 item, wxString& strBuffer ) const;
     wxInt32                 FormatTime( wxInt32 item, wxString& strBuffer ) const;
     wxInt32                 FormatMessage( wxInt32 item, wxString& strBuffer ) const;
 
-	void OnEraseBackground(wxEraseEvent& event);
-	void VwXEvOnEraseBackground(wxEraseEvent& event);
-	void VwXDrawBackImg(wxEraseEvent& event,wxWindow *win,wxBitmap* bitMap,int opz);
-    //
-	virtual void            OnListRender( wxTimerEvent& event );
-	virtual wxInt32         GetDocCount();
-	//
-	CSGUIListCtrl *m_pList;
+#ifdef wxUSE_CLIPBOARD
+    bool                    m_bClipboardOpen;
+    wxString                m_strClipboardData;
+    bool                    OpenClipboard();
+    wxInt32                 CopyToClipboard( wxInt32 item );
+    bool                    CloseClipboard();
+#endif
+
+    wxInt32                 GetDocCount();
 };
 
 
-class CDlgMessages:public wxDialog
+class CDlgMessages : public wxFrame
 {
+    DECLARE_DYNAMIC_CLASS( CDlgMessages )
+    DECLARE_EVENT_TABLE()
+
 public:
-	CDlgMessages(wxWindow* parent, wxWindowID id = -1 , const wxString& title = wxT("BOINC Manager - Messages"), const wxPoint& pos = wxDefaultPosition, const wxSize& size = wxDefaultSize, long style = wxDEFAULT_DIALOG_STYLE, const wxString& name = wxT("dialogBox"));
-	virtual ~CDlgMessages();
+    /// Constructors
+    CDlgMessages( );
+    CDlgMessages( wxWindow* parent, wxWindowID id = SYMBOL_CDLGMESSAGES_IDNAME, const wxString& caption = SYMBOL_CDLGMESSAGES_TITLE, const wxPoint& pos = SYMBOL_CDLGMESSAGES_POSITION, const wxSize& size = SYMBOL_CDLGMESSAGES_SIZE, long style = SYMBOL_CDLGMESSAGES_STYLE );
 
-	DECLARE_EVENT_TABLE()
+    /// Creation
+    bool Create( wxWindow* parent, wxWindowID id = SYMBOL_CDLGMESSAGES_IDNAME, const wxString& caption = SYMBOL_CDLGMESSAGES_TITLE, const wxPoint& pos = SYMBOL_CDLGMESSAGES_POSITION, const wxSize& size = SYMBOL_CDLGMESSAGES_SIZE, long style = SYMBOL_CDLGMESSAGES_STYLE );
 
-protected:
-	void OnBtnClick(wxCommandEvent& event);
+    /// Creates the controls and sizers
+    void CreateControls();
+
+    /// wxEVT_SHOW event handler for ID_DLGMESSAGES
+    void OnShow( wxShowEvent& event );
+
+    /// wxEVT_COMMAND_BUTTON_CLICKED event handler for wxID_OK
+    void OnOK( wxCommandEvent& event );
 
 private:
-        CPanelMessages* m_pBackgroundPanel;
+
+    bool SaveState();
+    void SaveWindowDimensions();
+    bool RestoreState();
+    void RestoreWindowDimensions();
+
+////@begin CDlgMessages member variables
+    CPanelMessages* m_pBackgroundPanel;
+////@end CDlgMessages member variables
 };
 
 

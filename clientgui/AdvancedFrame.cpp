@@ -1466,7 +1466,7 @@ void CAdvancedFrame::OnShow(wxShowEvent& event) {
     if ((event.GetEventObject() == this) && !bAlreadyRunning) {
         bAlreadyRunning = true;
 
-        wxLogTrace(wxT("Function Start/End"), wxT("CAdvancedFrame::OnShow - Show/Hide Event for CAdvancedFrame detected"));
+        wxLogTrace(wxT("Function Status"), wxT("CAdvancedFrame::OnShow - Show/Hide Event for CAdvancedFrame detected"));
         if (event.GetShow()) {
             RestoreWindowDimensions();
         } else {

@@ -24,6 +24,7 @@
 #pragma interface "sg_SGUIListControl.cpp"
 #endif
 
+#define DEFAULT_LIST_MULTI_SEL_FLAGS   wxLC_REPORT | wxLC_VIRTUAL
 
 class CPanelMessages;
 

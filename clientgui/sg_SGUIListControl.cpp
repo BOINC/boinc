@@ -41,7 +41,7 @@ IMPLEMENT_DYNAMIC_CLASS(CSGUIListCtrl, wxListView)
 CSGUIListCtrl::CSGUIListCtrl() {}
 
 CSGUIListCtrl::CSGUIListCtrl(CPanelMessages* pView, wxWindowID iListWindowID, wxInt32 iListWindowFlags)
-    :wxListView(pView, iListWindowID,  wxPoint(15,15), wxSize(510, 378), iListWindowFlags) 
+    :wxListView(pView, iListWindowID, wxDefaultPosition, wxSize(640,480), iListWindowFlags) 
 {
     m_pParentView = pView;
 

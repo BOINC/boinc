@@ -29,88 +29,93 @@
 #include "miofile.h"
 #include "parse.h"
 #include "error_numbers.h"
+#include "Events.h"
 #include "BOINCGUIApp.h"
 #include "SkinManager.h"
 #include "MainDocument.h"
 #include "sg_DlgMessages.h"
 #include "sg_SGUIListControl.h"
-#include "Events.h"
 
-enum 
-{ 
-    ID_CLOSEBUTTON = 20001,
-}; 
+
+
+////@begin includes
+////@end includes
+
+////@begin XPM images
+////@end XPM images
+
 
 #define COLUMN_PROJECT              0
 #define COLUMN_TIME                 1
 #define COLUMN_MESSAGE              2
 
-BEGIN_EVENT_TABLE( CDlgMessages,wxDialog)
-  EVT_BUTTON(-1,CDlgMessages::OnBtnClick)
+/*!
+ * CPanelPreferences type definition
+ */
+
+IMPLEMENT_DYNAMIC_CLASS( CPanelMessages, wxPanel )
+
+/*!
+ * CPanelPreferences event table definition
+ */
+
+BEGIN_EVENT_TABLE( CPanelMessages, wxPanel )
+////@begin CPanelPreferences event table entries
+    EVT_ERASE_BACKGROUND( CPanelMessages::OnEraseBackground )
+    EVT_TIMER(ID_REFRESHMESSAGESTIMER, CPanelMessages::OnListRender)
+    EVT_BUTTON( wxID_OK, CPanelMessages::OnOK )
+    EVT_BUTTON(ID_COPYAll, CPanelMessages::OnMessagesCopyAll)
+    EVT_BUTTON(ID_COPYSELECTED, CPanelMessages::OnMessagesCopySelected)
+////@end CPanelPreferences event table entries
 END_EVENT_TABLE()
-// end events
 
-CDlgMessages::CDlgMessages(wxWindow* parent, wxWindowID id, const wxString& title, const wxPoint& pos, const wxSize& size, long style, const wxString& name)
+/*!
+ * CPanelMessages constructors
+ */
+
+CPanelMessages::CPanelMessages( )
 {
-	Create(parent,id,title,pos,size,style,name);
-
-	if((pos==wxDefaultPosition)&&(size==wxDefaultSize)){
-		SetSize(0,0,545,450);
-	}
-
-	if((pos!=wxDefaultPosition)&&(size==wxDefaultSize)){
-		SetSize(545,450);
-	}
-
-#ifdef __WXMAC__
-    SetSize(544,450);
-#endif
-
-    m_pBackgroundPanel = new CPanelMessages(this);
-    Centre();
 }
 
-CDlgMessages::~CDlgMessages()
+
+CPanelMessages::CPanelMessages( wxWindow* parent ) :  
+    wxPanel(parent, wxID_ANY, wxDefaultPosition, wxDefaultSize, wxNO_BORDER)
 {
+    Create();
 }
 
-void CDlgMessages::OnBtnClick(wxCommandEvent& /*event*/){ //init function
-    EndModal(wxID_CANCEL);
-} //end function
 
+/*!
+ * CPanelMessages creator
+ */
 
-BEGIN_EVENT_TABLE( CPanelMessages,wxPanel)
-  EVT_TIMER(ID_REFRESHMESSAGESTIMER, CPanelMessages::OnListRender)
-  EVT_ERASE_BACKGROUND(CPanelMessages::OnEraseBackground)
-END_EVENT_TABLE()
-// end events
-
-CPanelMessages::CPanelMessages(wxWindow* parent) : 
-    wxPanel(parent, -1, wxDefaultPosition, wxDefaultSize, wxNO_BORDER)
+bool CPanelMessages::Create()
 {
+////@begin CPanelMessages member initialisation
 	m_bProcessingListRenderEvent = false;
+////@end CPanelMessages member initialisation
 
-    wxWindow* pWin = wxDynamicCast(GetParent(), wxWindow);
-    wxASSERT(pWin);
+    CreateControls();
 
-    SetSize(pWin->GetSize());
-
-    m_pList = new CSGUIListCtrl(this, ID_SIMPLE_MESSAGESVIEW, DEFAULT_LIST_MULTI_SEL_FLAGS);
-    wxASSERT(m_pList);
+    GetSizer()->Fit(this);
+    GetSizer()->SetSizeHints(this);
 
 	// Create List Pane Items
     m_pList->InsertColumn(COLUMN_PROJECT, _("Project"), wxLIST_FORMAT_LEFT, 109);
     m_pList->InsertColumn(COLUMN_TIME, _("Time"), wxLIST_FORMAT_LEFT, 130);
-    m_pList->InsertColumn(COLUMN_MESSAGE, _("Message"), wxLIST_FORMAT_LEFT, 250);
+    m_pList->InsertColumn(COLUMN_MESSAGE, _("Message"), wxLIST_FORMAT_LEFT, 378);
 
 	m_pMessageInfoAttr = new wxListItemAttr(*wxBLACK, *wxWHITE, wxNullFont);
     m_pMessageErrorAttr = new wxListItemAttr(*wxRED, *wxWHITE, wxNullFont);
 
-	initBefore();
-	//Create dialog
-	CreateDialog();
-	initAfter();
+	m_pRefreshMessagesTimer = new wxTimer(this, ID_REFRESHMESSAGESTIMER);
+    wxASSERT(m_pRefreshMessagesTimer);
+
+    m_pRefreshMessagesTimer->Start(1000);  
+
+    return true;
 }
+
 
 CPanelMessages::~CPanelMessages()
 {
@@ -131,89 +136,276 @@ CPanelMessages::~CPanelMessages()
 }
 
 
-void CPanelMessages::CreateDialog()
+/*!
+ * Control creation for CPanelPreferences
+ */
+
+void CPanelMessages::CreateControls()
 {
+    CPanelMessages* itemDialog1 = this;
     CSkinSimple* pSkinSimple = wxGetApp().GetSkinManager()->GetSimple();
 
     wxASSERT(pSkinSimple);
     wxASSERT(wxDynamicCast(pSkinSimple, CSkinSimple));
 
-	//Set Background color
-    SetBackgroundColour(*pSkinSimple->GetBackgroundImage()->GetBackgroundColor());
-	
-	wxToolTip *ttClose = new wxToolTip(_("Close message window"));
-    btnClose=new wxBitmapButton(this,ID_CLOSEBUTTON,*pSkinSimple->GetCloseButton()->GetBitmap(),wxPoint(472,398),wxSize(57,16),wxBU_AUTODRAW);
+    wxFlexGridSizer* itemFlexGridSizer2 = new wxFlexGridSizer(2, 1, 0, 0);
+    itemFlexGridSizer2->AddGrowableRow(0);
+    itemFlexGridSizer2->AddGrowableCol(0);
+    itemDialog1->SetSizer(itemFlexGridSizer2);
+
+    m_pList = new CSGUIListCtrl(this, ID_SIMPLE_MESSAGESVIEW, DEFAULT_LIST_MULTI_SEL_FLAGS);
+    itemFlexGridSizer2->Add(m_pList, 0, wxGROW|wxALL, 5);
+
+    wxBoxSizer* itemBoxSizer4 = new wxBoxSizer(wxHORIZONTAL);
+    itemFlexGridSizer2->Add(itemBoxSizer4, 0, wxALIGN_RIGHT|wxALIGN_CENTER_VERTICAL|wxALL, 5);
+
+#ifdef wxUSE_CLIPBOARD
+    wxButton* itemButton1 = new wxButton;
+    itemButton1->Create(this, ID_COPYAll, _("Copy all messages"), wxDefaultPosition, wxDefaultSize, 0);
+    itemButton1->SetHelpText(
+        _("Copy all the messages to the clipboard.")
+    );
+#if wxUSE_TOOLTIPS
+    itemButton1->SetToolTip(
+        _("Copy all the messages to the clipboard.")
+    );
+#endif
+    itemBoxSizer4->Add(itemButton1, 0, wxALIGN_CENTER_VERTICAL|wxALL, 5);
+
+    wxButton* itemButton2 = new wxButton;
+    itemButton2->Create(this, ID_COPYSELECTED, _("Copy selected messages"), wxDefaultPosition, wxDefaultSize, 0);
+    itemButton2->SetHelpText(
+        _("Copy the selected messages to the clipboard. "
+          "You can select multiple messages by holding down the shift "
+          "or control key while clicking on messages.")
+    );
+#if wxUSE_TOOLTIPS
+    itemButton2->SetToolTip(
+        _("Copy the selected messages to the clipboard. "
+          "You can select multiple messages by holding down the shift "
+          "or control key while clicking on messages.")
+    );
+#endif
+    itemBoxSizer4->Add(itemButton2, 0, wxALIGN_CENTER_VERTICAL|wxALL, 5);
+#endif
+
+    wxBitmapButton* itemBitmapButton44 = new wxBitmapButton(this, wxID_OK, *pSkinSimple->GetCloseButton()->GetBitmap(), wxPoint(472,398), wxSize(57,16), wxBU_AUTODRAW);
 	if ( pSkinSimple->GetCloseButton()->GetBitmapClicked() != NULL ) {
-		btnClose->SetBitmapSelected(*pSkinSimple->GetCloseButton()->GetBitmapClicked());
+		itemBitmapButton44->SetBitmapSelected(*pSkinSimple->GetCloseButton()->GetBitmapClicked());
 	}
-	btnClose->SetToolTip(ttClose);
-	
-	Refresh();
+    itemBoxSizer4->Add(itemBitmapButton44, 0, wxALIGN_CENTER_VERTICAL|wxALL, 5);
 }
 
-void CPanelMessages::VwXDrawBackImg(wxEraseEvent& event,wxWindow *win,wxBitmap* bitMap,int opz){
- event.Skip(false);wxDC *dc;
- dc=event.GetDC();
- dc->SetBackground(wxBrush(win->GetBackgroundColour(),wxSOLID));
- dc->Clear();
- switch (opz) {
-  case 0:{
-         dc->DrawBitmap(*bitMap, 0, 0);
-         break;}
-  case 1:{
-         wxRect rec=win->GetClientRect();
-         rec.SetLeft((rec.GetWidth()-bitMap->GetWidth())   / 2);
-         rec.SetTop ((rec.GetHeight()-bitMap->GetHeight()) / 2);
-         dc->DrawBitmap(*bitMap,rec.GetLeft(),rec.GetTop(),0);
-         break;}
-  case 2:{
-         wxRect rec=win->GetClientRect();
-         for(int y=0;y < rec.GetHeight();y+=bitMap->GetHeight()){
-           for(int x=0;x < rec.GetWidth();x+=bitMap->GetWidth()){
-             dc->DrawBitmap(*bitMap,x,y,0);
-           }
-         }
-         break;}
- }
-}
+
+/*!
+ * wxEVT_ERASE_BACKGROUND event handler for ID_DLGMESSAGES
+ */
+
 void CPanelMessages::OnEraseBackground(wxEraseEvent& event){
     CSkinSimple* pSkinSimple = wxGetApp().GetSkinManager()->GetSimple();
-
+    
     wxASSERT(pSkinSimple);
     wxASSERT(wxDynamicCast(pSkinSimple, CSkinSimple));
- wxObject *m_wxWin = event.GetEventObject();
 
- if(m_wxWin==this){
-     event.Skip(true);
-     VwXDrawBackImg(
-         event,
-         this,
-         pSkinSimple->GetDialogBackgroundImage()->GetBitmap(),
-         0
-     );
-     VwXEvOnEraseBackground(event) ;
-     return;
- }
- event.Skip(true);
+    wxMemoryDC memDC;
+    wxCoord w, h, x, y;
+
+    // Get the desired background bitmap
+    wxBitmap bmp(*pSkinSimple->GetDialogBackgroundImage()->GetBitmap());
+
+    // Dialog dimensions
+    wxSize sz = GetClientSize();
+
+    // Create a buffered device context to reduce flicker
+    wxBufferedDC dc(event.GetDC(), sz, wxBUFFER_CLIENT_AREA);
+
+    // bitmap dimensions
+    w = bmp.GetWidth();
+    h = bmp.GetHeight();
+
+    // Fill the dialog with a magenta color so people can detect when something
+    //   is wrong
+    dc.SetBrush(wxBrush(wxColour(255,0,255)));
+    dc.SetPen(wxPen(wxColour(255,0,255)));
+    dc.DrawRectangle(0, 0, sz.GetWidth(), sz.GetHeight());
+
+    // Is the bitmap smaller than the window?
+    if ( (w < sz.x) || (h < sz.y) ) {
+        // Check to see if they need to be rescaled to fit in the window
+        wxImage img = bmp.ConvertToImage();
+        img.Rescale((int) sz.x, (int) sz.y);
+
+        // Draw our cool background (centered)
+        dc.DrawBitmap(wxBitmap(img), 0, 0);
+    } else {
+        // Snag the center of the bitmap and use it
+        //   for the background image
+        x = wxMax(0, (w - sz.x)/2);
+        y = wxMax(0, (h - sz.y)/2);
+
+        // Select the desired bitmap into the memory DC so we can take
+        //   the center chunk of it.
+        memDC.SelectObject(bmp);
+
+        // Draw the center chunk on the window
+        dc.Blit(0, 0, w, h, &memDC, x, y, wxCOPY);
+
+        // Drop the bitmap
+        memDC.SelectObject(wxNullBitmap);
+    }
 }
 
-void CPanelMessages::VwXEvOnEraseBackground(wxEraseEvent& WXUNUSED(event)){ //init function
-} //end function
 
-void CPanelMessages::initBefore(){
+/*!
+ * wxEVT_COMMAND_BUTTON_CLICKED event handler for wxID_OK
+ */
+
+void CPanelMessages::OnOK( wxCommandEvent& event ) {
+    event.Skip();
 }
 
-void CPanelMessages::initAfter(){
-    //add your code here
-	//set polling timer for interface
-	m_pRefreshMessagesTimer = new wxTimer(this, ID_REFRESHMESSAGESTIMER);
-    wxASSERT(m_pRefreshMessagesTimer);
-    m_pRefreshMessagesTimer->Start(1000);  
+
+/*!
+ * wxEVT_COMMAND_BUTTON_CLICKED event handler for ID_COPYAll
+ */
+
+void CPanelMessages::OnMessagesCopyAll( wxCommandEvent& WXUNUSED(event) ) {
+    wxLogTrace(wxT("Function Start/End"), wxT("CPanelMessages::OnMessagesCopyAll - Function Begin"));
+
+#ifdef wxUSE_CLIPBOARD
+    wxInt32 iIndex          = -1;
+    wxInt32 iRowCount       = 0;
+    OpenClipboard();
+
+    iRowCount = m_pList->GetItemCount();
+    for (iIndex = 0; iIndex < iRowCount; iIndex++) {
+        CopyToClipboard(iIndex);            
+    }
+
+    CloseClipboard();
+#endif
+
+    wxLogTrace(wxT("Function Start/End"), wxT("CPanelMessages::OnMessagesCopyAll - Function End"));
 }
+
+
+/*!
+ * wxEVT_COMMAND_BUTTON_CLICKED event handler for ID_COPYSELECTED
+ */
+
+void CPanelMessages::OnMessagesCopySelected( wxCommandEvent& WXUNUSED(event) ) {
+    wxLogTrace(wxT("Function Start/End"), wxT("CPanelMessages::OnMessagesCopySelected - Function Begin"));
+
+#ifdef wxUSE_CLIPBOARD
+    wxInt32 iIndex = -1;
+
+    OpenClipboard();
+
+    for (;;) {
+        iIndex = m_pList->GetNextItem(
+            iIndex, wxLIST_NEXT_ALL, wxLIST_STATE_SELECTED
+        );
+        if (iIndex == -1) break;
+
+        CopyToClipboard(iIndex);            
+    }
+
+    CloseClipboard();
+#endif
+
+    wxLogTrace(wxT("Function Start/End"), wxT("CPanelMessages::OnMessagesCopySelected - Function End"));
+}
+
+
+bool CPanelMessages::OnSaveState(wxConfigBase* pConfig) {
+    wxString    strBaseConfigLocation = wxEmptyString;
+    wxListItem  liColumnInfo;
+    wxInt32     iIndex = 0;
+    wxInt32     iColumnCount = 0;
+
+
+    wxASSERT(pConfig);
+
+
+    // Retrieve the base location to store configuration information
+    // Should be in the following form: "/Projects/"
+    strBaseConfigLocation = pConfig->GetPath() + wxT("/");
+
+    // Convert to a zero based index
+    iColumnCount = m_pList->GetColumnCount() - 1;
+
+    // Which fields are we interested in?
+    liColumnInfo.SetMask(
+        wxLIST_MASK_TEXT |
+        wxLIST_MASK_WIDTH |
+        wxLIST_MASK_FORMAT
+    );
+
+    // Cycle through the columns recording anything interesting
+    for (iIndex = 0; iIndex <= iColumnCount; iIndex++) {
+        m_pList->GetColumn(iIndex, liColumnInfo);
+
+        pConfig->SetPath(strBaseConfigLocation + liColumnInfo.GetText());
+
+        pConfig->Write(wxT("Width"), liColumnInfo.GetWidth());
+    }
+
+
+    return true;
+}
+
+
+bool CPanelMessages::OnRestoreState(wxConfigBase* pConfig) {
+    wxString    strBaseConfigLocation = wxEmptyString;
+    wxListItem  liColumnInfo;
+    wxInt32     iIndex = 0;
+    wxInt32     iColumnCount = 0;
+    wxInt32     iTempValue = 0;
+
+
+    wxASSERT(pConfig);
+
+
+    // Retrieve the base location to store configuration information
+    // Should be in the following form: "/Projects/"
+    strBaseConfigLocation = pConfig->GetPath() + wxT("/");
+
+    // Convert to a zero based index
+    iColumnCount = m_pList->GetColumnCount() - 1;
+
+    // Which fields are we interested in?
+    liColumnInfo.SetMask(
+        wxLIST_MASK_TEXT | wxLIST_MASK_WIDTH | wxLIST_MASK_FORMAT
+    );
+
+    // Cycle through the columns recording anything interesting
+    for (iIndex = 0; iIndex <= iColumnCount; iIndex++) {
+        m_pList->GetColumn(iIndex, liColumnInfo);
+
+        pConfig->SetPath(strBaseConfigLocation + liColumnInfo.GetText());
+
+        pConfig->Read(wxT("Width"), &iTempValue, -1);
+        if (-1 != iTempValue) {
+            liColumnInfo.SetWidth(iTempValue);
+        }
+
+        pConfig->Read(wxT("Format"), &iTempValue, -1);
+        if (-1 != iTempValue) {
+            liColumnInfo.SetAlign((wxListColumnFormat)iTempValue);
+        }
+
+        m_pList->SetColumn(iIndex, liColumnInfo);
+    }
+
+    return true;
+}
+
 
 wxInt32 CPanelMessages::GetDocCount() {
     return wxGetApp().GetDocument()->GetMessageCount();
 }
+
+
 void CPanelMessages::OnListRender (wxTimerEvent& event) {
     if (!m_bProcessingListRenderEvent) {
         m_bProcessingListRenderEvent = true;
@@ -228,7 +420,7 @@ void CPanelMessages::OnListRender (wxTimerEvent& event) {
                 m_pList->SetItemCount(iDocCount);
         }
 
-        if ((iDocCount) && (_EnsureLastItemVisible()) && (m_iPreviousDocCount != iDocCount)) {
+        if ((iDocCount) && (EnsureLastItemVisible()) && (m_iPreviousDocCount != iDocCount)) {
             m_pList->EnsureVisible(iDocCount - 1);
         }
 
@@ -241,6 +433,7 @@ void CPanelMessages::OnListRender (wxTimerEvent& event) {
 
     event.Skip();
 }
+
 
 wxString CPanelMessages::OnListGetItemText(long item, long column) const {
     wxString        strBuffer   = wxEmptyString;
@@ -259,6 +452,8 @@ wxString CPanelMessages::OnListGetItemText(long item, long column) const {
 
     return strBuffer;
 }
+
+
 wxListItemAttr* CPanelMessages::OnListGetItemAttr(long item) const {
     wxListItemAttr* pAttribute  = NULL;
     wxString        strBuffer   = wxEmptyString;
@@ -274,12 +469,13 @@ wxListItemAttr* CPanelMessages::OnListGetItemAttr(long item) const {
     return pAttribute;
 	
 }
-bool CPanelMessages::_EnsureLastItemVisible() {
-    return EnsureLastItemVisible();
-}
+
+
 bool CPanelMessages::EnsureLastItemVisible() {
     return true;
 }
+
+
 wxInt32 CPanelMessages::FormatProjectName(wxInt32 item, wxString& strBuffer) const {
     MESSAGE* message = wxGetApp().GetDocument()->message(item);
 
@@ -320,6 +516,8 @@ wxInt32 CPanelMessages::FormatTime(wxInt32 item, wxString& strBuffer) const {
 
     return 0;
 }
+
+
 wxInt32 CPanelMessages::FormatMessage(wxInt32 item, wxString& strBuffer) const {
     MESSAGE*   message = wxGetApp().GetDocument()->message(item);
 
@@ -331,3 +529,323 @@ wxInt32 CPanelMessages::FormatMessage(wxInt32 item, wxString& strBuffer) const {
 
     return 0;
 }
+
+
+#ifdef wxUSE_CLIPBOARD
+bool CPanelMessages::OpenClipboard() {
+    bool bRetVal = false;
+
+    bRetVal = wxTheClipboard->Open();
+    if (bRetVal) {
+        m_bClipboardOpen = true;
+        m_strClipboardData = wxEmptyString;
+        wxTheClipboard->Clear();
+    }
+
+    return bRetVal;
+}
+
+
+wxInt32 CPanelMessages::CopyToClipboard(wxInt32 item) {
+    wxInt32        iRetVal = -1;
+
+    if (m_bClipboardOpen) {
+        wxString       strBuffer = wxEmptyString;
+        wxString       strTimeStamp = wxEmptyString;
+        wxString       strProject = wxEmptyString;
+        wxString       strMessage = wxEmptyString;
+
+        FormatTime(item, strTimeStamp);
+        FormatProjectName(item, strProject);
+        FormatMessage(item, strMessage);
+
+#ifdef __WXMSW__
+        strBuffer.Printf(wxT("%s|%s|%s\r\n"), strTimeStamp.c_str(), strProject.c_str(), strMessage.c_str());
+#else
+        strBuffer.Printf(wxT("%s|%s|%s\n"), strTimeStamp.c_str(), strProject.c_str(), strMessage.c_str());
+#endif
+
+        m_strClipboardData += strBuffer;
+
+        iRetVal = 0;
+    }
+
+    return iRetVal;
+}
+
+
+bool CPanelMessages::CloseClipboard() {
+    bool bRetVal = false;
+
+    if (m_bClipboardOpen) {
+        wxTheClipboard->SetData(new wxTextDataObject(m_strClipboardData));
+        wxTheClipboard->Close();
+
+        m_bClipboardOpen = false;
+        m_strClipboardData = wxEmptyString;
+    }
+
+    return bRetVal;
+}
+
+#endif
+
+
+/*!
+ * CDlgMessages type definition
+ */
+
+IMPLEMENT_DYNAMIC_CLASS( CDlgMessages, wxWindow )
+
+/*!
+ * CDlgMessages event table definition
+ */
+
+BEGIN_EVENT_TABLE( CDlgMessages, wxFrame )
+////@begin CDlgMessages event table entries
+    EVT_SHOW( CDlgMessages::OnShow )
+    EVT_BUTTON( wxID_OK, CDlgMessages::OnOK )
+////@end CDlgMessages event table entries
+END_EVENT_TABLE()
+
+/*!
+ * CDlgMessages constructors
+ */
+
+CDlgMessages::CDlgMessages( )
+{
+}
+
+
+CDlgMessages::CDlgMessages( wxWindow* parent, wxWindowID id, const wxString& caption, const wxPoint& pos, const wxSize& size, long style )
+{
+    Create(parent, id, caption, pos, size, style);
+}
+
+
+/*!
+ * CDlgMessages creator
+ */
+
+bool CDlgMessages::Create( wxWindow* parent, wxWindowID id, const wxString& caption, const wxPoint& pos, const wxSize& size, long style )
+{
+    wxString strCaption = caption;
+    if (strCaption.IsEmpty()) {
+        strCaption = _("BOINC Manager - Messages");
+    }
+    wxFrame::Create( parent, id, strCaption, pos, size, style );
+
+    Freeze();
+
+
+    CreateControls();
+
+#ifdef __WXDEBUG__
+    SetBackgroundColour(wxColour(255, 0, 255));
+#endif
+    SetBackgroundStyle(wxBG_STYLE_CUSTOM);
+    SetForegroundColour(*wxBLACK);
+    SetExtraStyle(GetExtraStyle()|wxWS_EX_BLOCK_EVENTS);
+
+    RestoreState();
+
+    GetSizer()->Fit(this);
+    GetSizer()->SetSizeHints(this);
+    Center();
+
+
+    Thaw();
+
+    return true;
+}
+
+
+/*!
+ * Control creation for CDlgMessages
+ */
+
+void CDlgMessages::CreateControls(){
+    wxFlexGridSizer* itemFlexGridSizer2 = new wxFlexGridSizer(1, 1, 0, 0);
+    itemFlexGridSizer2->AddGrowableRow(0);
+    itemFlexGridSizer2->AddGrowableCol(0);
+    SetSizer(itemFlexGridSizer2);
+
+    m_pBackgroundPanel = new CPanelMessages(this);
+    itemFlexGridSizer2->Add(m_pBackgroundPanel, 0, wxGROW, 0);
+
+    SetSizer(itemFlexGridSizer2);
+}
+
+
+/*!
+ * wxEVT_SHOW event handler for ID_DLGMESSAGES
+ */
+
+void CDlgMessages::OnShow(wxShowEvent& event) {
+    wxLogTrace(wxT("Function Start/End"), wxT("CDlgMessages::OnShow - Function Begin"));
+    static bool bAlreadyRunning = false;
+
+    if ((event.GetEventObject() == this) && !bAlreadyRunning) {
+        bAlreadyRunning = true;
+
+        wxLogTrace(wxT("Function Status"), wxT("CDlgMessages::OnShow - Show/Hide Event for CAdvancedFrame detected"));
+        if (event.GetShow()) {
+            RestoreWindowDimensions();
+        } else {
+            SaveWindowDimensions();
+        }
+
+        bAlreadyRunning = false;
+    } else {
+        event.Skip();
+    }
+
+    wxLogTrace(wxT("Function Start/End"), wxT("CDlgMessages::OnShow - Function End"));
+}
+
+
+/*!
+ * wxEVT_COMMAND_BUTTON_CLICKED event handler for wxID_OK
+ */
+
+void CDlgMessages::OnOK( wxCommandEvent& /*event*/ ) {
+    SaveState();
+    Close();
+}
+
+
+bool CDlgMessages::SaveState() {
+    wxLogTrace(wxT("Function Start/End"), wxT("CDlgMessages::SaveState - Function Begin"));
+
+    wxString        strBaseConfigLocation = wxString(wxT("/Simple/Messages"));
+    wxConfigBase*   pConfig = wxConfigBase::Get(FALSE);
+
+    wxASSERT(pConfig);
+
+    // An odd case happens every once and awhile where wxWidgets looses
+    //   the pointer to the config object, or it is cleaned up before
+    //   the window has finished it's cleanup duty.  If we detect a NULL
+    //   pointer, return false.
+    if (!pConfig) return false;
+
+    //
+    // Save Frame State
+    //
+    pConfig->SetPath(strBaseConfigLocation);
+
+#ifdef __WXMAC__
+    // Reterieve and store the latest window dimensions.
+    SaveWindowDimensions();
+#endif
+
+    // Save the list ctrl state
+    m_pBackgroundPanel->OnSaveState(pConfig);
+
+    wxLogTrace(wxT("Function Start/End"), wxT("CDlgMessages::SaveState - Function End"));
+    return true;
+}
+
+
+void CDlgMessages::SaveWindowDimensions() {
+    wxString        strBaseConfigLocation = wxString(wxT("/Simple/Messages"));
+    wxConfigBase*   pConfig = wxConfigBase::Get(FALSE);
+
+    wxASSERT(pConfig);
+
+    pConfig->SetPath(strBaseConfigLocation);
+
+    pConfig->Write(wxT("WindowIconized"), IsIconized());
+    pConfig->Write(wxT("WindowMaximized"), IsMaximized());
+    pConfig->Write(wxT("Width"), GetSize().GetWidth());
+    pConfig->Write(wxT("Height"), GetSize().GetHeight());
+
+#ifdef __WXMAC__
+    pConfig->Write(wxT("XPos"), GetPosition().x);
+    pConfig->Write(wxT("YPos"), GetPosition().y);
+#endif  // ! __WXMAC__
+}
+    
+
+bool CDlgMessages::RestoreState() {
+    wxLogTrace(wxT("Function Start/End"), wxT("CDlgMessages::RestoreState - Function Begin"));
+
+    wxString        strBaseConfigLocation = wxString(wxT("/Simple/Messages"));
+    wxConfigBase*   pConfig = wxConfigBase::Get(FALSE);
+
+    wxASSERT(pConfig);
+
+    // An odd case happens every once and awhile where wxWidgets looses
+    //   the pointer to the config object, or it is cleaned up before
+    //   the window has finished it's cleanup duty.  If we detect a NULL
+    //   pointer, return false.
+    if (!pConfig) return false;
+
+    //
+    // Restore Frame State
+    //
+    pConfig->SetPath(strBaseConfigLocation);
+
+#ifdef __WXMAC__
+    RestoreWindowDimensions();
+#endif
+
+    // Restore the list ctrl state
+    m_pBackgroundPanel->OnRestoreState(pConfig);
+
+    wxLogTrace(wxT("Function Start/End"), wxT("CDlgMessages::RestoreState - Function End"));
+    return true;
+}
+
+
+void CDlgMessages::RestoreWindowDimensions() {
+    wxString        strBaseConfigLocation = wxString(wxT("/Simple/Messages"));
+    wxConfigBase*   pConfig = wxConfigBase::Get(FALSE);
+    bool            bWindowIconized = false;
+    bool            bWindowMaximized = false;
+    int             iHeight = 0;
+    int             iWidth = 0;
+    int             iTop = 0;
+    int             iLeft = 0;
+
+    wxASSERT(pConfig);
+
+    pConfig->SetPath(strBaseConfigLocation);
+
+    pConfig->Read(wxT("YPos"), &iTop, 30);
+    pConfig->Read(wxT("XPos"), &iLeft, 30);
+    pConfig->Read(wxT("Width"), &iWidth, 640);
+    pConfig->Read(wxT("Height"), &iHeight, 480);
+    pConfig->Read(wxT("WindowIconized"), &bWindowIconized, false);
+    pConfig->Read(wxT("WindowMaximized"), &bWindowMaximized, false);
+
+#ifndef __WXMAC__
+
+    Iconize(bWindowIconized);
+    Maximize(bWindowMaximized);
+    if (!IsIconized() && !IsMaximized()) {
+        SetSize(-1, -1, iWidth, iHeight);
+    }
+
+#else   // ! __WXMAC__
+
+    // If the user has changed the arrangement of multiple 
+    // displays, make sure the window title bar is still on-screen.
+    Rect titleRect = {iTop, iLeft, iTop+22, iLeft+iWidth };
+    InsetRect(&titleRect, 5, 5);    // Make sure at least a 5X5 piece visible
+    RgnHandle displayRgn = NewRgn();
+    CopyRgn(GetGrayRgn(), displayRgn);  // Region encompassing all displays
+    Rect menuRect = ((**GetMainDevice())).gdRect;
+    menuRect.bottom = GetMBarHeight() + menuRect.top;
+    RgnHandle menuRgn = NewRgn();
+    RectRgn(menuRgn, &menuRect);                // Region hidden by menu bar
+    DiffRgn(displayRgn, menuRgn, displayRgn);   // Subtract menu bar retion
+    if (!RectInRgn(&titleRect, displayRgn))
+        iTop = iLeft = 30;
+    DisposeRgn(menuRgn);
+    DisposeRgn(displayRgn);
+
+    SetSize(iLeft, iTop, iWidth, iHeight);
+
+#endif  // ! __WXMAC__
+}
+

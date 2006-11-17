@@ -191,86 +191,6 @@ static int CompareWorkWhenIdle(const wxString& strFirst, const wxString& strSeco
 
 
 /*!
- * CDlgPreferences type definition
- */
-
-IMPLEMENT_DYNAMIC_CLASS( CDlgPreferences, wxDialog )
-
-/*!
- * CDlgPreferences event table definition
- */
-
-BEGIN_EVENT_TABLE( CDlgPreferences, wxDialog )
-////@begin CDlgPreferences event table entries
-    EVT_BUTTON( wxID_OK, CDlgPreferences::OnOK )
-////@end CDlgPreferences event table entries
-END_EVENT_TABLE()
-
-/*!
- * CDlgPreferences constructors
- */
-
-CDlgPreferences::CDlgPreferences( )
-{
-}
-
-
-CDlgPreferences::CDlgPreferences( wxWindow* parent, wxWindowID id, const wxString& caption, const wxPoint& pos, const wxSize& size, long style )
-{
-    Create(parent, id, caption, pos, size, style);
-}
-
-
-/*!
- * CDlgPreferences creator
- */
-
-bool CDlgPreferences::Create( wxWindow* parent, wxWindowID id, const wxString& caption, const wxPoint& pos, const wxSize& size, long style )
-{
-    wxString strCaption = caption;
-    if (strCaption.IsEmpty()) {
-        strCaption = _("BOINC Manager - Preferences");
-    }
-    wxDialog::Create( parent, id, strCaption, pos, size, style );
-
-
-#ifdef __WXDEBUG__
-    SetBackgroundColour(wxColour(255, 0, 255));
-#endif
-    SetBackgroundStyle(wxBG_STYLE_CUSTOM);
-    SetForegroundColour(*wxBLACK);
-    SetExtraStyle(GetExtraStyle()|wxWS_EX_BLOCK_EVENTS);
-
-
-    Freeze();
-
-    m_pBackgroundPanel = new CPanelPreferences(this);
-    wxBoxSizer* itemBoxSizer = new wxBoxSizer(wxVERTICAL);
-    SetSizer(itemBoxSizer);
-    itemBoxSizer->Add(m_pBackgroundPanel, 0, wxGROW, 0);
-    
-    GetSizer()->Fit(this);
-    GetSizer()->SetSizeHints(this);
-    Centre();
-
-    Thaw();
-
-    return true;
-}
-
-
-/*!
- * wxEVT_COMMAND_BUTTON_CLICKED event handler for wxID_OK
- */
-
-void CDlgPreferences::OnOK( wxCommandEvent& event ) {
-    wxDialog::OnOK(event);
-    m_pBackgroundPanel->OnOK();
-    EndModal(wxID_OK);
-}
-
-
-/*!
  * CPanelPreferences type definition
  */
 
@@ -299,7 +219,7 @@ CPanelPreferences::CPanelPreferences( )
 
 
 CPanelPreferences::CPanelPreferences( wxWindow* parent ) :  
-    wxPanel(parent, -1, wxDefaultPosition, wxDefaultSize, wxNO_BORDER)
+    wxPanel(parent, wxID_ANY, wxDefaultPosition, wxDefaultSize, wxNO_BORDER)
 {
     Create();
 }
@@ -988,5 +908,85 @@ bool CPanelPreferences::SaveSkinSettings() {
     pSkinManager->ReloadSkin(pLocale, m_strSkinSelector);
 
     return true;
+}
+
+
+/*!
+ * CDlgPreferences type definition
+ */
+
+IMPLEMENT_DYNAMIC_CLASS( CDlgPreferences, wxDialog )
+
+/*!
+ * CDlgPreferences event table definition
+ */
+
+BEGIN_EVENT_TABLE( CDlgPreferences, wxDialog )
+////@begin CDlgPreferences event table entries
+    EVT_BUTTON( wxID_OK, CDlgPreferences::OnOK )
+////@end CDlgPreferences event table entries
+END_EVENT_TABLE()
+
+/*!
+ * CDlgPreferences constructors
+ */
+
+CDlgPreferences::CDlgPreferences( )
+{
+}
+
+
+CDlgPreferences::CDlgPreferences( wxWindow* parent, wxWindowID id, const wxString& caption, const wxPoint& pos, const wxSize& size, long style )
+{
+    Create(parent, id, caption, pos, size, style);
+}
+
+
+/*!
+ * CDlgPreferences creator
+ */
+
+bool CDlgPreferences::Create( wxWindow* parent, wxWindowID id, const wxString& caption, const wxPoint& pos, const wxSize& size, long style )
+{
+    wxString strCaption = caption;
+    if (strCaption.IsEmpty()) {
+        strCaption = _("BOINC Manager - Preferences");
+    }
+    wxDialog::Create( parent, id, strCaption, pos, size, style );
+
+
+#ifdef __WXDEBUG__
+    SetBackgroundColour(wxColour(255, 0, 255));
+#endif
+    SetBackgroundStyle(wxBG_STYLE_CUSTOM);
+    SetForegroundColour(*wxBLACK);
+    SetExtraStyle(GetExtraStyle()|wxWS_EX_BLOCK_EVENTS);
+
+
+    Freeze();
+
+    m_pBackgroundPanel = new CPanelPreferences(this);
+    wxBoxSizer* itemBoxSizer = new wxBoxSizer(wxVERTICAL);
+    SetSizer(itemBoxSizer);
+    itemBoxSizer->Add(m_pBackgroundPanel, 0, wxGROW, 0);
+    
+    GetSizer()->Fit(this);
+    GetSizer()->SetSizeHints(this);
+    Centre();
+
+    Thaw();
+
+    return true;
+}
+
+
+/*!
+ * wxEVT_COMMAND_BUTTON_CLICKED event handler for wxID_OK
+ */
+
+void CDlgPreferences::OnOK( wxCommandEvent& event ) {
+    wxDialog::OnOK(event);
+    m_pBackgroundPanel->OnOK();
+    EndModal(wxID_OK);
 }
 
