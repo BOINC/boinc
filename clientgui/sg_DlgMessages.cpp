@@ -647,12 +647,13 @@ bool CDlgMessages::Create( wxWindow* parent, wxWindowID id, const wxString& capt
     SetForegroundColour(*wxBLACK);
     SetExtraStyle(GetExtraStyle()|wxWS_EX_BLOCK_EVENTS);
 
-    RestoreState();
-
     GetSizer()->Fit(this);
     GetSizer()->SetSizeHints(this);
     Center();
 
+    // To work properly on Mac, RestoreState() must be called _after_ 
+    //  calling GetSizer()->Fit(), GetSizer()->SetSizeHints() and Center()
+    RestoreState();   
 
     Thaw();
 

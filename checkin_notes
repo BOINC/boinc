@@ -12663,3 +12663,11 @@ Rom    16 Nov 2006
 Rom    16 Nov 2006
     - Tag for 5.7.4 release, all platforms
       boinc_core_release_5_7_4
+
+Charlie 17 Nov 2006
+    - MGR: Fix restore of SG Message Dialog size and position on Mac: call 
+        RestoreState() _after_ calling GetSizer()->Fit(), GetSizer()->SetSizeHints() 
+        and Center().
+
+    clientgui/
+        sg_DlgMessages.cpp
