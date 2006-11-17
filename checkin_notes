@@ -12670,6 +12670,9 @@ Charlie 17 Nov 2006
         and Center().
     - Mac MGR: Adjust position of SG Message Dialog buttons on Mac so Close button 
         doesn't overlap window's grow icon
+    - Mac MGR: Fix ToolTip / Help Message for Mac: substitute "command key" for 
+        "control key".
 
     clientgui/
         sg_DlgMessages.cpp
+        ViewMessages.cpp

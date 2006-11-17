@@ -182,13 +182,21 @@ void CPanelMessages::CreateControls()
     itemButton2->SetHelpText(
         _("Copy the selected messages to the clipboard. "
           "You can select multiple messages by holding down the shift "
+#ifdef __WXMAC__
+          "or command key while clicking on messages.")
+#else
           "or control key while clicking on messages.")
+#endif
     );
 #if wxUSE_TOOLTIPS
     itemButton2->SetToolTip(
         _("Copy the selected messages to the clipboard. "
           "You can select multiple messages by holding down the shift "
+#ifdef __WXMAC__
+          "or command key while clicking on messages.")
+#else
           "or control key while clicking on messages.")
+#endif
     );
 #endif
     itemBoxSizer4->Add(itemButton2, 0, wxALIGN_CENTER_VERTICAL|wxALL, 5);

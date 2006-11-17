@@ -91,7 +91,11 @@ CViewMessages::CViewMessages(wxNotebook* pNotebook) :
         _("Copy selected messages"),
         _("Copy the selected messages to the clipboard. "
           "You can select multiple messages by holding down the shift "
+ #ifdef __WXMAC__
+          "or command key while clicking on messages."),
+#else
           "or control key while clicking on messages."),
+#endif
         ID_TASK_MESSAGES_COPYSELECTED 
     );
     pGroup->m_Tasks.push_back( pItem );
