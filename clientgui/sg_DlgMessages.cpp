@@ -157,7 +157,12 @@ void CPanelMessages::CreateControls()
     itemFlexGridSizer2->Add(m_pList, 0, wxGROW|wxALL, 5);
 
     wxBoxSizer* itemBoxSizer4 = new wxBoxSizer(wxHORIZONTAL);
+    
+#ifdef __WXMAC__            // Don't let Close button overlap window's grow icon
+    itemFlexGridSizer2->Add(itemBoxSizer4, 0, wxALIGN_RIGHT|wxALIGN_CENTER_VERTICAL|wxALL, 12);
+#else
     itemFlexGridSizer2->Add(itemBoxSizer4, 0, wxALIGN_RIGHT|wxALIGN_CENTER_VERTICAL|wxALL, 5);
+#endif
 
 #ifdef wxUSE_CLIPBOARD
     wxButton* itemButton1 = new wxButton;
