@@ -406,7 +406,7 @@ int add_antiques_to_list(int days) {
         int nchars=strlen(single_line);
         struct stat statbuf;
         const char *err=NULL;
-        FILE_RECORD fr;        
+        FILE_RECORD fr;
 
         // We can interrupt this at any point.
         // pclose() is called when process exits.
@@ -427,6 +427,16 @@ int add_antiques_to_list(int days) {
         if (!err && !(fname_at_end=rindex(single_line+dirlen, '/'))) err="no trailing filename";
         if (!err) fname_at_end++;
         if (!err && !strlen(fname_at_end)) err="trailing filename too short";
+
+        // skip NFS file system markers of form .nfs*
+        //
+        if (!err && !strncmp(fname_at_end, ".nfs", 4)) {
+            log_messages.printf(SCHED_MSG_LOG::MSG_CRITICAL,
+                "Ignoring antique (stale) NFS lockfile %s\n", single_line
+            );
+            continue;
+        }
+
         if (!err && get_file_path(fname_at_end, config.upload_dir, config.uldl_dir_fanout, pathname)) err="get_file_path() failed";
         if (!err && strcmp(pathname, single_line)) err="file in wrong hierarchical upload subdirectory";
 
@@ -499,12 +509,20 @@ bool do_antique_pass(bool& delete_antiques) {
     //
     int howmany = find_antique_files();
     if (howmany < 0) {
+        log_messages.printf(SCHED_MSG_LOG::MSG_CRITICAL,
+            "Problem 1 [%d] in antique file deletion: turning OFF -delete_antiques switch\n", howmany
+        );
         delete_antiques=false;
         return did_something;
     }
 
     howmany = delete_antique_files(10);
-    if (howmany < 0) delete_antiques=false;
+    if (howmany < 0) {
+        log_messages.printf(SCHED_MSG_LOG::MSG_CRITICAL,
+            "Problem 2 [%d] in antique file deletion: turning OFF -delete_antiques switch\n", howmany
+        );
+        delete_antiques=false;
+    }
     if (howmany > 0) did_something=true;   
 
     return did_something;

@@ -12680,3 +12680,13 @@ Charlie 17 Nov 2006
         sg_DlgMessages.cpp, h
         sg_ProjectsComponent.cpp
         ViewMessages.cpp
+
+Bruce 19 Nov 2006
+    - server: file_deleter would turn off -delete_antiques if it encountered a
+      stale .nfs* lockfile which was more than 60 days older than the oldest WU.
+      This should not happen! After these modifications, antique deletion
+      will not be turned off, but a CRITICAL error message will be logged.
+
+    sched/
+        file_deleter.C
+
