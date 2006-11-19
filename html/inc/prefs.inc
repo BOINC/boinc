@@ -1099,7 +1099,7 @@ function prefs_form_resource($prefs, $error=false) {
         give them resource shares of 100 and 200,
         the first will get 1/3 of your resources and the second will get 2/3.
         </font>",
-        "<input name=resource_share value='$prefs->resource_share'",
+        "<input name=resource_share value='$prefs->resource_share'>",
         $show_error
     );
 }
