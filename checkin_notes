@@ -12690,3 +12690,9 @@ Bruce 19 Nov 2006
     sched/
         file_deleter.C
 
+Charlie 19 Nov 2006
+    - MGR: Fix windows compile errors.
+
+    clientgui/
+        sg_ProjectsComponent.cpp
+        ViewMessages.cpp
