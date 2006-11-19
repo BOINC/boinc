@@ -805,6 +805,8 @@ OSErr CBOINCGUIApp::QuitAppleEventHandler( const AppleEvent *appleEvt, AppleEven
         Boolean			isSame;
         ProcessInfoRec		pInfo;
         FSSpec			fileSpec;
+        WindowRef               win;
+        WindowModality          modality;
  	OSStatus		anErr;
 
         anErr = AEGetAttributePtr(appleEvt, keyAddressAttr, typeProcessSerialNumber,
@@ -824,6 +826,16 @@ OSErr CBOINCGUIApp::QuitAppleEventHandler( const AppleEvent *appleEvt, AppleEven
                 pInfo.processAppSpec = &fileSpec;
 
                 anErr = GetProcessInformation(&SenderPSN, &pInfo);
+
+                // Refuse to quit if a modal dialog is open
+                win = FrontWindow();
+                if (win) {
+                    GetWindowModality(win, &modality, NULL);
+                    if (modality == kWindowModalityAppModal) {
+                        SysBeep(4);
+                        return userCanceledErr;
+                    }
+                }
                 
                 // Consider a Quit command from our Dock menu as coming from this application
                 if (pInfo.processSignature != 'dock') {

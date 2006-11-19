@@ -12692,7 +12692,10 @@ Bruce 19 Nov 2006
 
 Charlie 19 Nov 2006
     - MGR: Fix windows compile errors.
+    - Mac: Ignore Quit AppleEvents if a modal dialog is open (to prevent 
+        crashes if the user selects Quit from the Manager's Dock menu.)
 
     clientgui/
+        BOINCGUIApp.cpp
         sg_ProjectsComponent.cpp
         ViewMessages.cpp
