@@ -49,7 +49,7 @@ TCHAR                   szErr[1024];
 //    the user defined main() routine to perform majority
 //    of the work.
 //
-void WINAPI service_main(DWORD dwArgc, LPTSTR *lpszArgv)
+void WINAPI service_main(DWORD /*dwArgc*/, LPTSTR * /*lpszArgv*/)
 {
     // SERVICE_STATUS members that don't change in example
     //
@@ -71,7 +71,6 @@ void WINAPI service_main(DWORD dwArgc, LPTSTR *lpszArgv)
         goto cleanup;
 
     dwErr = boinc_main_loop();
-
 
 cleanup:
 
@@ -192,7 +191,8 @@ BOOL ReportStatus(DWORD dwCurrentState,
 
     // Report the status of the service to the service control manager.
     //
-    if (!(fResult = SetServiceStatus( sshStatusHandle, &ssStatus))) {
+	fResult = SetServiceStatus( sshStatusHandle, &ssStatus);
+    if (!fResult) {
         LogEventErrorMessage(TEXT("SetServiceStatus"));
     }
     return fResult;

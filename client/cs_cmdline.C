@@ -212,23 +212,26 @@ void CLIENT_STATE::parse_env_vars() {
         SOCKS_VERSION_5;
 
     p = getenv("SOCKS4_SERVER");
-    if (p && strlen(p) > 0) {
+    if (p && strlen(p)) {
         proxy_info.use_socks_proxy = true;
         parse_url(p, proxy_info.socks_server_name, proxy_info.socks_server_port, temp);
     }
 
-    if ((p = getenv("SOCKS_SERVER")) || (p = getenv("SOCKS5_SERVER"))) {
-        if (strlen(p) > 0) {
-            proxy_info.use_socks_proxy = true;
-            parse_url(p, proxy_info.socks_server_name, proxy_info.socks_server_port, temp);
-        }
+	p = getenv("SOCKS_SERVER");
+	if (!p) p = getenv("SOCKS5_SERVER");
+    if (p && strlen(p)) {
+        proxy_info.use_socks_proxy = true;
+        parse_url(p, proxy_info.socks_server_name, proxy_info.socks_server_port, temp);
     }
 
-    if ((p = getenv("SOCKS5_USER")) || (p = getenv("SOCKS_USER"))) {
+	p = getenv("SOCKS5_USER");
+	if (!p) p = getenv("SOCKS_USER");
+    if (p) {
         safe_strcpy(proxy_info.socks5_user_name, p);
     }
 
-    if ((p = getenv("SOCKS5_PASSWD"))) {
+	p = getenv("SOCKS5_PASSWD");
+    if (p) {
         safe_strcpy(proxy_info.socks5_user_passwd, p);
     }
 }

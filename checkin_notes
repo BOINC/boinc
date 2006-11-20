@@ -12726,3 +12726,12 @@ David  20 Nov 2006
 	lib/
 		gui_rpc_client.h
 		gui_rpc_client_ops.C
+
+David  20 Nov 2006
+	- core client: fix win compile warnings
+
+	client/
+		app_start.C
+		cs_cmdline.C
+		win/
+			win_service.cpp

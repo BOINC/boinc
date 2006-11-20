@@ -69,6 +69,7 @@ static const int PROCESS_IDLE_PRIORITY = 19;
 
 // Goes through an array of strings, and prints each string
 //
+#ifndef _WIN32
 static void debug_print_argv(char** argv) {
     int i;
 
@@ -79,6 +80,7 @@ static void debug_print_argv(char** argv) {
         );
     }
 }
+#endif
 
 // create a file (new_link) which contains an XML
 // reference to existing file.
