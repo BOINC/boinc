@@ -116,6 +116,53 @@ _DC_rm(char *name)
 }
 
 
+int
+_DC_create_file(char *fn, char *what)
+{
+	FILE *f= fopen(fn, "w");
+	if (f)
+	{
+		if (what)
+			fprintf(f, "%s", what);
+		fclose(f);
+		return(DC_OK);
+	}
+	else
+		return(DC_ERR_SYSTEM);
+}
+
+
+char *
+_DC_get_file(char *fn)
+{
+	FILE *f;
+	char *buf= NULL;
+
+	if ((f= fopen(fn, "r")) != NULL)
+	{
+		int bs= 100, i;
+		char c;
+
+		buf= malloc(bs);
+		i= 0;
+		buf[i]= '\0';
+		while ((c= fgetc(f)) != EOF)
+		{
+			if (i > bs-2)
+			{
+				bs+= 100;
+				buf= realloc(buf, bs);
+			}
+			buf[i]= c;
+			i++;
+			buf[i]= '\0';
+		}
+		fclose(f);
+	}
+	return(buf);
+}
+
+
 static int _DC_message_id= 0;
 
 int

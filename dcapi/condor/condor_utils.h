@@ -23,6 +23,8 @@ extern void _DC_init_utils(void);
 /* Usefull funcs */
 extern int _DC_mkdir_with_parents(char *dn, mode_t mode);
 extern int _DC_rm(char *name);
+extern int _DC_create_file(char *fn, char *what);
+extern char *_DC_get_file(char *fn);
 
 /* Message passing utilities */
 extern int _DC_create_message(char *box,
