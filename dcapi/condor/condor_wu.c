@@ -13,6 +13,7 @@
 #include <stdlib.h>
 #include <unistd.h>
 #include <ctype.h>
+#include <time.h>
 
 #include "dc.h"
 #include "dc_common.h"
@@ -218,13 +219,158 @@ _DC_wu_get_workdir_path(DC_Workunit *wu,
 }
 
 
+static char *_DC_condor_submit_template=
+"# Built-in template\n"
+"# Date: %d\n"
+"# WU name: %n\n"
+"# WU id: %i\n"
+"# WU workdir: %w\n"
+"# Client name: %c\n"
+"# Nr of args: %r\n"
+"\n"
+"Executable = %x\n"
+"arguments = %a\n"
+"Universe = %u\n"
+"output = %o\n"
+"error = %e\n"
+"log = %l\n"
+"Queue\n"
+;
+
+static int
+_DC_wu_process_template(DC_Workunit *wu, char *tmpl, FILE *f)
+{
+	char *cfgarch;
+	char *cfgexec, *cfglog;
+	char *c= tmpl;
+
+	cfgarch= _DC_acfg(cfg_architectures);
+	cfgexec= _DC_wu_cfg(wu, cfg_executable);
+	if (!cfgexec)
+		cfgexec= wu->data.client_name;
+	cfglog= _DC_wu_cfg(wu, cfg_condor_log);
+
+	if (!_DC_wu_check(wu))
+		return(DC_ERR_UNKNOWN_WU);
+
+	if (!tmpl ||
+	    !f)
+		return(DC_ERR_INTERNAL);
+
+	while (*c)
+	{
+		if (*c == '%')
+		{
+			c++;
+			if (*c == '\0')
+				break;
+			switch (*c)
+			{
+			case 'n':
+			{
+				fprintf(f, "%s", wu->data.name);
+				break;
+			}
+			case 'r':
+			{
+				fprintf(f, "%d", wu->data.argc);
+				break;
+			}
+			case 'i':
+			{
+				fprintf(f, "%s", wu->data.uuid_str);
+				break;
+			}
+			case 'w':
+			{
+				fprintf(f, "%s", wu->data.workdir);
+				break;
+			}
+			case 'c':
+			{
+				fprintf(f, "%s", wu->data.client_name);
+				break;
+			}
+			case 'd':
+			{
+				time_t t;
+				char *ft;
+				t= time(NULL);
+				ft= ctime(&t);
+				ft[strlen(ft)-1]= '\0';
+				fprintf(f, "%s", ft);
+				break;
+			}
+			case 'x':
+			{
+				fprintf(f, "%s", cfgexec);
+				break;
+			}
+			case 'a':
+			{
+				int i;
+				for (i= 0; wu->data.argc > 0 &&
+					     wu->argv[i]; i++)
+				{
+					char *p= wu->argv[i];
+					if (!(*(wu->argv[i])))
+						fprintf(f, " ''");
+					else
+					{
+						while (*p && !isspace(*p))
+							p++;
+						if (*p)
+							fprintf(f, " '%s'", wu->argv[i]);
+						else
+							fprintf(f, " %s", wu->argv[i]);
+					}
+				}
+				break;
+			}
+			case 'u':
+			{
+				fprintf(f, "vanilla");
+				break;
+			}
+			case 'o':
+			{
+				fprintf(f, "%s", DC_LABEL_STDOUT);
+				break;
+			}
+			case 'e':
+			{
+				fprintf(f, "%s", DC_LABEL_STDERR);
+				break;
+			}
+			case 'l':
+			{
+				fprintf(f, "%s", cfglog);
+				break;
+			}
+			default:
+			{
+				fprintf(f, "%c", *c);
+				break;
+			}
+			}
+		}
+		else
+		{
+			fprintf(f, "%c", *c);
+		}
+		c++;
+	}
+	return(DC_OK);
+}
+
 int
 _DC_wu_gen_condor_submit(DC_Workunit *wu)
 {
 	FILE *f= NULL;
 	GString *fn;
-	char *cfgarch;
-	char *cfgexec;
+	char *cfgtmpl;
+	char *tmpl= 0;
+	int ret;
 
 	if (!_DC_wu_check(wu))
 		return(DC_ERR_UNKNOWN_WU);
@@ -241,54 +387,25 @@ _DC_wu_gen_condor_submit(DC_Workunit *wu)
 	}
 	g_string_free(fn, TRUE);
 
-	cfgarch= _DC_acfg(cfg_architectures);
-	cfgexec= _DC_wu_cfg(wu, cfg_executable);
-	if (!cfgexec)
-		cfgexec= wu->data.client_name;
-	fprintf(f, "Executable = %s\n", cfgexec);
-	if (wu->data.argc > 0)
+	cfgtmpl= _DC_wu_cfg(wu, cfg_condor_submit_template);
+	if (!cfgtmpl)
+		tmpl= _DC_condor_submit_template;
+	else
 	{
-		int i;
-		fprintf(f, "arguments =");
-		for (i= 0; wu->argv[i]; i++)
-		{
-			char *p= wu->argv[i];
-			if (!(*(wu->argv[i])))
-				fprintf(f, " ''");
-			else
-			{
-				while (*p && !isspace(*p))
-				p++;
-				if (*p)
-				{
-					fprintf(f, " '%s'", wu->argv[i]);
-				}
-				else
-				{
-					fprintf(f, " %s", wu->argv[i]);
-				}
-			}
-		}
-		fprintf(f, "\n");
+		tmpl= _DC_get_file(cfgtmpl);
 	}
-	fprintf(f, "Universe = vanilla\n");
-	fprintf(f, "output = %s\n", DC_LABEL_STDOUT);
-	fprintf(f, "error = %s\n", DC_LABEL_STDERR);
-	fprintf(f, "log = %s\n", _DC_wu_cfg(wu, cfg_condor_log));
-	/* Dosn't work with NFS
-	   fprintf(f, "should_transfer_files = YES\n");
-	   fprintf(f, "when_to_transfer_output = ON_EXIT_OR_EVICT\n");
-	*/
-	/* According to debug, it has no effect
-	   fprintf(f, "ENABLE_USERLOG_LOCKING = FALSE\n");
-	   fprintf(f, "IGNORE_NFS_LOCK_ERRORS = TRUE\n");
-	*/
-	fprintf(f, "\n");
-	fprintf(f, "Queue\n");
+	ret= DC_OK;
+	if (tmpl)
+	{
+		ret= _DC_wu_process_template(wu, tmpl, f);
+	}
+	else
+	{
+	}
 
 	if (f)
 		fclose(f);
-	return(DC_OK);
+	return(ret);
 }
 
 
