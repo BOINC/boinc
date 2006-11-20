@@ -186,3 +186,36 @@ void CTransparentStaticTextAssociate::OnMouse(wxMouseEvent& event) {
     }
     event.Skip();
 }
+
+
+IMPLEMENT_DYNAMIC_CLASS (CLinkButton, wxBitmapButton)
+
+BEGIN_EVENT_TABLE(CLinkButton, wxBitmapButton)
+    EVT_MOUSE_EVENTS(CLinkButton::OnMouse)
+END_EVENT_TABLE()
+
+
+CLinkButton::CLinkButton() {}
+
+CLinkButton::CLinkButton(wxWindow* parent, wxWindowID id, const wxBitmap& bitmap, const wxPoint& pos, const wxSize& size, long style, const wxValidator& validator, const wxString& name ) {
+    Create(parent, id, bitmap, pos, size, style, validator, name);
+}
+
+
+bool CLinkButton::Create(wxWindow* parent, wxWindowID id, const wxBitmap& bitmap, const wxPoint& pos, const wxSize& size, long style, const wxValidator& validator, const wxString& name ) { 
+    bool bRetVal = wxBitmapButton::Create(parent, id, bitmap, pos, size, style, validator, name);
+
+    m_HandCursor = wxCursor(wxCURSOR_HAND);
+
+    return bRetVal;
+}
+
+
+void CLinkButton::OnMouse(wxMouseEvent& event) {
+    if (event.Entering()) {
+        SetCursor(m_HandCursor);
+    } else if (event.Leaving()) {
+        SetCursor(*wxSTANDARD_CURSOR);
+    }
+    event.Skip();
+}

@@ -403,6 +403,9 @@
 				RelativePath="..\lib\boinc_win.h">
 			</File>
 			<File
+				RelativePath="..\lib\common_defs.h">
+			</File>
+			<File
 				RelativePath="..\lib\crypt.h">
 			</File>
 			<File

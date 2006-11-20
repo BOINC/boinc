@@ -141,5 +141,41 @@ private:
 }; 
 
 
+class CLinkButton : public wxBitmapButton
+{ 
+    DECLARE_DYNAMIC_CLASS (CLinkButton)
+
+public:
+    CLinkButton();
+    CLinkButton(
+        wxWindow* parent, 
+        wxWindowID id, 
+        const wxBitmap& bitmap,
+        const wxPoint& pos = wxDefaultPosition, 
+        const wxSize& size = wxDefaultSize,
+        long style = 0, 
+        const wxValidator& validator = wxDefaultValidator,
+        const wxString& name= wxButtonNameStr
+    );
+
+    bool Create(
+        wxWindow* parent, 
+        wxWindowID id, 
+        const wxBitmap& bitmap,
+        const wxPoint& pos = wxDefaultPosition, 
+        const wxSize& size = wxDefaultSize,
+        long style = 0, 
+        const wxValidator& validator = wxDefaultValidator,
+        const wxString& name= wxButtonNameStr
+    );
+
+    virtual void OnMouse(wxMouseEvent& event);
+
+    DECLARE_EVENT_TABLE()
+private:
+    wxCursor m_HandCursor;
+}; 
+
+
 #endif 
 

@@ -354,7 +354,7 @@ void CTaskBarIcon::OnMouseMove(wxTaskBarIconEvent& WXUNUSED(event)) {
             strTitle = strTitle + wxT(" - (") + strMachineName + wxT(")");
 
             pDoc->GetCoreClientStatus(status);
-            if (status.task_suspend_reason) {
+            if (status.task_suspend_reason && !(status.task_suspend_reason & SUSPEND_REASON_CPU_USAGE_LIMIT)) {
                 // 1st %s is the previous instance of the message
                 // 2nd %s is the project name
                 //    i.e. 'BOINC', 'GridRepublic'
@@ -366,7 +366,7 @@ void CTaskBarIcon::OnMouseMove(wxTaskBarIconEvent& WXUNUSED(event)) {
                 strMessage += strBuffer;
             }
 
-            if (status.network_suspend_reason) {
+            if (status.network_suspend_reason && !(status.network_suspend_reason & SUSPEND_REASON_CPU_USAGE_LIMIT)) {
                 // 1st %s is the previous instance of the message
                 // 2nd %s is the project name
                 //    i.e. 'BOINC', 'GridRepublic'

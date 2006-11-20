@@ -141,7 +141,7 @@ void CProjectsComponent::CreateComponent()
     //
 	//// Messages Play Pause Btns
 	wxToolTip *ttMessages = new wxToolTip(_("Open a window to view messages"));
-	btnMessages = new wxBitmapButton(
+	btnMessages = new CLinkButton(
         this,
         -1,
         *pSkinSimple->GetMessagesLink()->GetBitmap(),
@@ -152,7 +152,7 @@ void CProjectsComponent::CreateComponent()
 	btnMessages->SetToolTip(ttMessages);
 
 	wxToolTip *ttAlertMessages = new wxToolTip(_("Open a window to view messages"));
-	btnAlertMessages = new wxBitmapButton(
+	btnAlertMessages = new CLinkButton(
         this,
         -1,
         *(pSkinSimple->GetMessagesAlertLink()->GetBitmap()),
@@ -170,7 +170,7 @@ void CProjectsComponent::CreateComponent()
 
     // pause btn
 	wxToolTip *ttPause = new wxToolTip(_("Stop all activity"));
-	btnPause = new wxBitmapButton(
+	btnPause = new CLinkButton(
         this,
         -1,
         *pSkinSimple->GetSuspendLink()->GetBitmap(),
@@ -182,7 +182,7 @@ void CProjectsComponent::CreateComponent()
 
     // resume btn   
 	wxToolTip *ttResume = new wxToolTip(_("Resume activity"));
-	btnResume = new wxBitmapButton(
+	btnResume = new CLinkButton(
         this,
         -1,
         *(pSkinSimple->GetResumeLink()->GetBitmap()),
@@ -213,7 +213,7 @@ void CProjectsComponent::CreateComponent()
 
     // Pref Btn
 	wxToolTip *ttPreferences = new wxToolTip(_("Open a window to set your preferences"));
-	btnPreferences = new wxBitmapButton(
+	btnPreferences = new CLinkButton(
         this,
         ID_SIMPLE_PREFERENCES,
         *(pSkinSimple->GetPreferencesLink()->GetBitmap()),
@@ -230,7 +230,7 @@ void CProjectsComponent::CreateComponent()
 
     // Advanced View
 	wxToolTip *ttAdvView = new wxToolTip(_("Switch to the BOINC advanced view"));
-	btnAdvancedView = new wxBitmapButton(
+	btnAdvancedView = new CLinkButton(
         this,
         -1,
         *(pSkinSimple->GetAdvancedLink()->GetBitmap()),

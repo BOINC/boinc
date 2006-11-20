@@ -12741,3 +12741,14 @@ Rom    20 Nov 2006
     
     clientgui/
         AdvancedFrame.cpp
+
+Rom    20 Nov 2006
+    - MGR: Display the hand cursor when the mouse hovers over the BSG link
+        bitmaps.
+    - MGR: When the suspend reason is becuase of CPU throttling do not
+        display a balloon showing that we are suspended.
+        
+    clientgui/
+        BOINCTaskBar.cpp
+        sg_CustomControls.cpp, .h
+        sg_ProjectsComponent.cpp
