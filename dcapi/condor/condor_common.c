@@ -62,6 +62,9 @@ _DC_init_common(void)
 
 	_DC_params[cfg_output_cache].name= "SavedOutputs";
 	_DC_params[cfg_output_cache].def= "_dcapi_saved_output";
+
+	_DC_params[cfg_condor_submit_template].name= "CondorSubmitTemplate";
+	_DC_params[cfg_condor_submit_template].def= 0;
 }
 
 

@@ -30,6 +30,7 @@ enum _DC_e_param {
 	cfg_condor_log,
 	cfg_checkpoint_file,
 	cfg_output_cache,
+	cfg_condor_submit_template,
 	cfg_nuof
 };
 
