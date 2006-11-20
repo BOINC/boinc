@@ -258,6 +258,140 @@
 	  </listitem>
 	</varlistentry>
 
+	<varlistentry>
+	  <term>CondorSubmitTemplate</term>
+	  <listitem>
+	    <para>
+
+	    Name of the file which is used as template when generating
+	    Condor submit file. If not specified then a built-in template
+	    will be used. % character can be used to include variable data
+	    into the generated file. Recorgnized % instructions:
+
+	    <variablelist>
+	      <varlistentry>
+	        <term>%%</term>
+	        <listitem>
+	          <para>
+		  Literal %.
+		  </para>
+	        </listitem>
+	      </varlistentry>
+
+	      <varlistentry>
+	        <term>%d</term>
+	        <listitem>
+	          <para>
+		  Current date and time
+		  </para>
+	        </listitem>
+	      </varlistentry>
+
+	      <varlistentry>
+	        <term>%n</term>
+	        <listitem>
+	          <para>
+		  Name of the workunit.
+		  </para>
+	        </listitem>
+	      </varlistentry>
+
+	      <varlistentry>
+	        <term>%i</term>
+	        <listitem>
+	          <para>
+		  Internal ID of the workunit.
+		  </para>
+	        </listitem>
+	      </varlistentry>
+
+	      <varlistentry>
+	        <term>%w</term>
+	        <listitem>
+	          <para>
+		  Name of working directory of the workunit.
+		  </para>
+	        </listitem>
+	      </varlistentry>
+
+	      <varlistentry>
+	        <term>%c</term>
+	        <listitem>
+	          <para>
+		  Client name.
+		  </para>
+	        </listitem>
+	      </varlistentry>
+
+	      <varlistentry>
+	        <term>%r</term>
+	        <listitem>
+	          <para>
+		  Number of the arguments.
+		  </para>
+	        </listitem>
+	      </varlistentry>
+
+	      <varlistentry>
+	        <term>%x</term>
+	        <listitem>
+	          <para>
+		  Name of the executable.
+		  </para>
+	        </listitem>
+	      </varlistentry>
+
+	      <varlistentry>
+	        <term>%a</term>
+	        <listitem>
+	          <para>
+		  Argument list.
+		  </para>
+	        </listitem>
+	      </varlistentry>
+
+	      <varlistentry>
+	        <term>%u</term>
+	        <listitem>
+	          <para>
+		  Condor universe (always vanilla).
+		  </para>
+	        </listitem>
+	      </varlistentry>
+
+	      <varlistentry>
+	        <term>%o</term>
+	        <listitem>
+	          <para>
+		  File for standard output of the job.
+		  </para>
+	        </listitem>
+	      </varlistentry>
+
+	      <varlistentry>
+	        <term>%e</term>
+	        <listitem>
+	          <para>
+		  File for standard error of the job.
+		  </para>
+	        </listitem>
+	      </varlistentry>
+
+	      <varlistentry>
+	        <term>%l</term>
+	        <listitem>
+	          <para>
+		  File for Condor user log.
+		  </para>
+	        </listitem>
+	      </varlistentry>
+	    </variablelist>
+
+	</para>
+	</listitem>
+
+	</varlistentry>
+
       </variablelist>
 
   </sect2>
