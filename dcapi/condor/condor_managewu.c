@@ -128,10 +128,10 @@ DC_cancelWU(DC_Workunit *wu)
 
 	DC_log(LOG_DEBUG, "DC_cancelWU(%p-\"%s\")", wu, wu->data.name);
 
-	if (wu->data.state != DC_WU_RUNNING ||
+	if (wu->data.state != DC_WU_RUNNING &&
 	    wu->data.state != DC_WU_SUSPENDED)
 	{
-		DC_log(LOG_NOTICE, "Can not cancel a non-running/suspended wu");
+		DC_log(LOG_NOTICE, "Can not cancel a non-running/non-suspended wu");
 		return(DC_ERR_INTERNAL);
 	}
 	ret= _DC_stop_condor_job(wu);
