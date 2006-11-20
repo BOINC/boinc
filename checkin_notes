@@ -12715,3 +12715,14 @@ Rom    20 Nov 2006
         NetworkTracker.cpp
     lib/
         network.C
+
+David  20 Nov 2006
+	- GUI RPC: return task and network mode delays in get_cc_status().
+		This tells the GUI how long the current snooze is going to last.
+
+	client/
+		client_types.C,h
+		gui_rpc_server_ops.C
+	lib/
+		gui_rpc_client.h
+		gui_rpc_client_ops.C

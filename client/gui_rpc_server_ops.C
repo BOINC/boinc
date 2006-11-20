@@ -527,6 +527,8 @@ static void handle_get_cc_status(MIOFILE& fout) {
         "   <network_mode>%d</network_mode>\n"
         "   <task_mode_perm>%d</task_mode_perm>\n"
         "   <network_mode_perm>%d</network_mode_perm>\n"
+        "   <task_mode_delay>%f</task_mode_delay>\n"
+        "   <network_mode_delay>%f</network_mode_delay>\n"
         "</cc_status>\n",
         net_status.network_status(),
         gstate.acct_mgr_info.password_error?1:0,
@@ -535,7 +537,9 @@ static void handle_get_cc_status(MIOFILE& fout) {
         gstate.run_mode.get_current(),
         gstate.network_mode.get_current(),
         gstate.run_mode.get_perm(),
-        gstate.network_mode.get_perm()
+        gstate.network_mode.get_perm(),
+		gstate.run_mode.delay(),
+		gstate.network_mode.delay()
     );
 }
 

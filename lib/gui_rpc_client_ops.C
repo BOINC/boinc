@@ -964,6 +964,8 @@ int CC_STATUS::parse(MIOFILE& in) {
         else if (parse_int(buf, "<network_mode>", network_mode)) continue;
         else if (parse_int(buf, "<task_mode_perm>", task_mode_perm)) continue;
         else if (parse_int(buf, "<network_mode_perm>", network_mode_perm)) continue;
+		else if (parse_double(buf, "<task_mode_delay>", task_mode_delay)) continue;
+		else if (parse_double(buf, "<network_mode_delay>", network_mode_delay)) continue;
     }
     return ERR_XML_PARSE;
 }
@@ -977,6 +979,8 @@ void CC_STATUS::clear() {
     network_mode = -1;
     task_mode_perm = -1;
     network_mode_perm = -1;
+	task_mode_delay = 0;
+	network_mode_delay = 0;
 }
 
 /////////// END OF PARSING FUNCTIONS.  RPCS START HERE ////////////////

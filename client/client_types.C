@@ -1796,4 +1796,12 @@ int MODE::get_current() {
     }
 }
 
+double MODE::delay() {
+	if (temp_timeout > gstate.now) {
+		return temp_timeout - gstate.now;
+	} else {
+		return 0;
+	}
+}
+
 const char *BOINC_RCSID_b81ff9a584 = "$Id$";

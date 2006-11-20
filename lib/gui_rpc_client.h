@@ -469,8 +469,10 @@ struct CC_STATUS {
     int network_suspend_reason;
     int task_mode;              // always/auto/never; see common_defs.h
     int network_mode;
-    int task_mode_perm;
+    int task_mode_perm;			// same, but permanent version
     int network_mode_perm;
+	double task_mode_delay;		// time until perm becomes actual
+	double network_mode_delay;
 
     CC_STATUS();
     ~CC_STATUS();

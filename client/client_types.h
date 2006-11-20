@@ -511,6 +511,7 @@ public:
     void set(int mode, double duration);
     int get_perm();
     int get_current();
+	double delay();
 };
 
 #endif
