@@ -12735,3 +12735,9 @@ David  20 Nov 2006
 		cs_cmdline.C
 		win/
 			win_service.cpp
+
+Rom    20 Nov 2006
+    - MGR: Move the switch to simple GUI menu item to the View menu.
+    
+    clientgui/
+        AdvancedFrame.cpp

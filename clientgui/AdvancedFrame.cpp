@@ -302,14 +302,6 @@ bool CAdvancedFrame::CreateMenu() {
     // File menu
     wxMenu *menuFile = new wxMenu;
 
-#ifdef SIMPLEGUI
-    menuFile->Append(
-        ID_FILESWITCHGUI,
-        _("&Switch to Simple View"),
-        _("Display the simple BOINC graphical interface.")
-    );
-#endif
-
 #ifdef __WXMAC__
     menuFile->Append(
         ID_FILECLOSEWINDOW,
@@ -329,6 +321,17 @@ bool CAdvancedFrame::CreateMenu() {
         _("E&xit"),
         strMenuDescription
     );
+
+    // View menu
+    wxMenu *menuView = new wxMenu;
+
+#ifdef SIMPLEGUI
+    menuView->Append(
+        ID_FILESWITCHGUI,
+        _("&Simple View"),
+        _("Display the simple BOINC graphical interface.")
+    );
+#endif
 
     // Tools menu
     wxMenu *menuTools = new wxMenu;
@@ -508,16 +511,14 @@ bool CAdvancedFrame::CreateMenu() {
 
     // construct menu
     m_pMenubar = new wxMenuBar;
-#ifdef __WXMAC__
-// WxWidgets automatically prevents the Exit item from showing in the File menu
-// because Mac OSX has its Quit item in "BOINCManager" menu, not in File menu.  
-// Don't show File menu on the Mac unless it has additional items.
-    if (menuFile->GetMenuItemCount() > 1)
-#endif
-        m_pMenubar->Append(
-            menuFile,
-            _("&File")
-        );
+    m_pMenubar->Append(
+        menuFile,
+        _("&File")
+    );
+    m_pMenubar->Append(
+        menuView,
+        _("&View")
+    );
     m_pMenubar->Append(
         menuTools,
         _("&Tools")
