@@ -12699,3 +12699,19 @@ Charlie 19 Nov 2006
         BOINCGUIApp.cpp
         sg_ProjectsComponent.cpp
         ViewMessages.cpp
+
+Rom    20 Nov 2006
+    - Update the Windows SKU detection code so that it can identify Win2k3 R2,
+        tell the difference between Vista and Longhorn Server, IA32/IA64, and 
+        AMD64
+    - MGR: Remove the last code path which might still call
+        InternetGetConnectedState.
+    - Reenable the network detection stuff if the newer IsNetworkAlive API
+        can be found.
+        
+    client/win/
+        hostinfo_win.cpp
+    clientlib/win/
+        NetworkTracker.cpp
+    lib/
+        network.C

@@ -179,26 +179,18 @@ int get_socket_error(int fd) {
 
 #if defined(_WIN32) && defined(USE_WINSOCK)
 
-typedef BOOL (WINAPI *GetStateProc)( OUT LPDWORD lpdwFlags, IN DWORD dwReserved);
 typedef int  (*pfnBOINCIsNetworkAlive)(LPDWORD lpdwFlags);
 
 int get_connected_state() {
     // The following is commented out because it causes
     // hangs in some situations.
-#if 0
     int online = 0;
     static bool first=true;
-    static HMODULE lib_wininet_module;
-    static GetStateProc GetState;
     static HMODULE lib_boinc_module;
     static pfnBOINCIsNetworkAlive BOINCIsNetworkAlive;
     DWORD connectionFlags;
 
     if (first) {
-        lib_wininet_module = LoadLibrary("wininet.dll");
-        if (lib_wininet_module) {
-            GetState = (GetStateProc) GetProcAddress(lib_wininet_module, "InternetGetConnectedState");
-        }
         lib_boinc_module = LoadLibrary("boinc.dll");
         if (lib_boinc_module) {
             BOINCIsNetworkAlive = (pfnBOINCIsNetworkAlive) GetProcAddress(lib_boinc_module, "BOINCIsNetworkAlive");
@@ -212,15 +204,6 @@ int get_connected_state() {
             return CONNECTED_STATE_CONNECTED;
         }
     }
-    if (lib_wininet_module && GetState) {
-        online = GetState(&connectionFlags, 0);
-        if (online) {
-            return CONNECTED_STATE_CONNECTED;
-        } else {
-            return CONNECTED_STATE_NOT_CONNECTED;
-        }
-    }
-#endif
     return CONNECTED_STATE_UNKNOWN;
 }
 

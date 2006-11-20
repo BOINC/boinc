@@ -56,28 +56,6 @@ EXTERN_C __declspec(dllexport) BOOL BOINCIsNetworkAlive( LPDWORD lpdwFlags )
     //   methods
     if (!bCachePopulated) {
         bReturnValue = IsNetworkAlive( lpdwFlags );
-        if (!bReturnValue) {
-            DWORD current_flags = NULL;
-            DWORD desired_flags = NULL;
-
-            if (NETWORK_ALIVE_LAN & *lpdwFlags)
-                desired_flags |= INTERNET_CONNECTION_LAN;
-
-            if (NETWORK_ALIVE_WAN & *lpdwFlags)
-                desired_flags |= INTERNET_CONNECTION_MODEM;
-
-            // TODO: Find out if AOL is registered as a LAN or WAN connection.
-            //   Until then, assume both are okay.
-            if (NETWORK_ALIVE_AOL & *lpdwFlags)
-                desired_flags |= INTERNET_CONNECTION_LAN | INTERNET_CONNECTION_MODEM;
-
-            BOOL retval = InternetGetConnectedState(&current_flags, 0);
-            if (retval && (current_flags & desired_flags)) {
-                bReturnValue = TRUE;
-            } else {
-                bReturnValue = FALSE;
-            }
-        }
     }
 
     return bReturnValue;

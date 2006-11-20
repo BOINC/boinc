@@ -31,6 +31,12 @@
 HINSTANCE g_hClientLibraryDll;
 
 
+// Newer system metrics values
+#ifndef SM_SERVERR2
+#define SM_SERVERR2 89   
+#endif
+
+
 // Newer processor features than what is currently defined in
 //   Visual Studio 2003
 #ifndef PF_SSE_DAZ_MODE_AVAILABLE
@@ -126,6 +132,9 @@ int get_memory_info(double& bytes, double& swap) {
 
 // Returns the OS name and version
 //
+
+typedef void (WINAPI *PGNSI)(LPSYSTEM_INFO);
+
 int get_os_information(
     char* os_name, int /*os_name_size*/, char* os_version, int os_version_size
 )
@@ -133,31 +142,63 @@ int get_os_information(
     // This code snip-it was copied straight out of the MSDN Platform SDK
     //   Getting the System Version example and modified to dump the output
     //   into os_name.
-
+    char szVersion[128];
+    char szSKU[128];
+    char szServicePack[128];
     OSVERSIONINFOEX osvi;
+    SYSTEM_INFO si;
+    PGNSI pGNSI;
     BOOL bOsVersionInfoEx;
 
-    // Try calling GetVersionEx using the OSVERSIONINFOEX structure.
-    // If that fails, try using the OSVERSIONINFO structure.
-
+    ZeroMemory(szVersion, sizeof(szVersion));
+    ZeroMemory(szSKU, sizeof(szSKU));
+    ZeroMemory(szServicePack, sizeof(szServicePack));
+    ZeroMemory(&si, sizeof(SYSTEM_INFO));
     ZeroMemory(&osvi, sizeof(OSVERSIONINFOEX));
     osvi.dwOSVersionInfoSize = sizeof(OSVERSIONINFOEX);
 
+
+    // Try calling GetVersionEx using the OSVERSIONINFOEX structure.
+    // If that fails, try using the OSVERSIONINFO structure.
 	bOsVersionInfoEx = GetVersionEx ((OSVERSIONINFO *) &osvi);
     if(!bOsVersionInfoEx) {
         osvi.dwOSVersionInfoSize = sizeof (OSVERSIONINFO);
         GetVersionEx ( (OSVERSIONINFO *) &osvi );
     }
 
+
+    // Call GetNativeSystemInfo if supported or GetSystemInfo otherwise.
+    pGNSI = (PGNSI) GetProcAddress(GetModuleHandle(_T("kernel32.dll")), "GetNativeSystemInfo");
+    if(NULL != pGNSI) {
+        pGNSI(&si);
+    } else {
+        GetSystemInfo(&si);
+    }
+
+
     switch (osvi.dwPlatformId)
     {
         case VER_PLATFORM_WIN32_NT:
 
-            if ( osvi.dwMajorVersion >= 6 )
-                strcpy(os_name, "Microsoft Windows Longhorn" );
+            if ( osvi.dwMajorVersion == 6 && osvi.dwMinorVersion == 0 )
+            {
+                if( osvi.wProductType == VER_NT_WORKSTATION ) {
+                    strcpy(os_name, "Microsoft Windows Vista");
+                } else {
+                    strcpy(os_name, "Microsoft Windows Server \"Longhorn\"");
+                }
+            }
 
             if ( osvi.dwMajorVersion == 5 && osvi.dwMinorVersion == 2 )
-                strcpy(os_name, "Microsoft Windows 2003" );
+            {
+                if( GetSystemMetrics(SM_SERVERR2) ) {
+                    strcpy(os_name, "Microsoft Windows Server 2003 \"R2\"");
+                } else if( osvi.wProductType == VER_NT_WORKSTATION && si.wProcessorArchitecture == PROCESSOR_ARCHITECTURE_AMD64) {
+                    strcpy(os_name, "Microsoft Windows XP Professional x64 Edition");
+                } else {
+                    strcpy(os_name, "Microsoft Windows Server 2003");
+                }
+            }
 
             if ( osvi.dwMajorVersion == 5 && osvi.dwMinorVersion == 1 )
                 strcpy(os_name, "Microsoft Windows XP" );
@@ -190,16 +231,6 @@ int get_os_information(
     }
 
 
-    char szVersion[128];
-    char szSKU[128];
-    char szServicePack[128];
-
-
-    ZeroMemory( szVersion, sizeof(szVersion) );
-    ZeroMemory( szSKU, sizeof(szSKU) );
-    ZeroMemory( szServicePack, sizeof(szServicePack) );
-
-
     snprintf( szVersion, sizeof(szVersion), ", (%.2u.%.2u.%.4u.%.2u)",
         osvi.dwMajorVersion, osvi.dwMinorVersion, (osvi.dwBuildNumber & 0xFFFF), 0 );
 
@@ -210,64 +241,70 @@ int get_os_information(
         case VER_PLATFORM_WIN32_NT:
 
             // Test for specific product on Windows NT 4.0 SP6 and later.
-            if( bOsVersionInfoEx )
-            {
+            if( bOsVersionInfoEx ) {
+
                 // Test for the workstation type.
-                if ( osvi.wProductType == VER_NT_WORKSTATION )
-                {
-                    if( osvi.dwMajorVersion == 4 )
+                if ( osvi.wProductType == VER_NT_WORKSTATION && si.wProcessorArchitecture != PROCESSOR_ARCHITECTURE_AMD64) {
+                    if( osvi.dwMajorVersion == 4 ) {
                         strcpy( szSKU, "Workstation Edition" );
-                    else if( osvi.wSuiteMask & VER_SUITE_PERSONAL )
+                    } else if( osvi.wSuiteMask & VER_SUITE_PERSONAL ) {
                         strcpy( szSKU, "Home Edition" );
-                    else
+                    } else {
                         strcpy( szSKU, "Professional Edition" );
+                    }
                 }
             
                 // Test for the server type.
-                else if ( (osvi.wProductType == VER_NT_SERVER) || (osvi.wProductType == VER_NT_DOMAIN_CONTROLLER) )
-                {
-                    if( osvi.dwMajorVersion == 6 && osvi.dwMinorVersion == 0 )
-                    {
-                        if( osvi.wSuiteMask & VER_SUITE_DATACENTER )
+                else if ( (osvi.wProductType == VER_NT_SERVER) || (osvi.wProductType == VER_NT_DOMAIN_CONTROLLER) ) {
+                    if( (osvi.dwMajorVersion == 6 && osvi.dwMinorVersion == 0) || (osvi.dwMajorVersion == 5 && osvi.dwMinorVersion == 2) ) {
+
+                        if ( si.wProcessorArchitecture==PROCESSOR_ARCHITECTURE_IA64 ) {
+                            if( osvi.wSuiteMask & VER_SUITE_DATACENTER ) {
+                                strcpy( szSKU, "Datacenter Edition for Itanium-based Systems" );
+                            } else if( osvi.wSuiteMask & VER_SUITE_ENTERPRISE ) {
+                                strcpy( szSKU, "Enterprise Edition for Itanium-based Systems" );
+                            }
+                        } else if ( si.wProcessorArchitecture==PROCESSOR_ARCHITECTURE_AMD64 ) {
+                            if( osvi.wSuiteMask & VER_SUITE_DATACENTER ) {
+                                strcpy( szSKU, "Datacenter x64 Edition" );
+                            } else if( osvi.wSuiteMask & VER_SUITE_ENTERPRISE ) {
+                                strcpy( szSKU, "Enterprise x64 Edition" );
+                            } else {
+                                strcpy( szSKU, "Standard x64 Edition" );
+                            }
+                        } else {
+                            if( osvi.wSuiteMask & VER_SUITE_DATACENTER ) {
+                                strcpy( szSKU, "Datacenter Server Edition" );
+                            } else if( osvi.wSuiteMask & VER_SUITE_ENTERPRISE ) {
+                                strcpy( szSKU, "Enterprise Server Edition" );
+                            } else if ( osvi.wSuiteMask == VER_SUITE_BLADE ) {
+                                strcpy( szSKU, "Web Server Edition" );
+                            } else {
+                                strcpy( szSKU, "Standard Server Edition" );
+                            }
+                        }
+
+                    } else if( osvi.dwMajorVersion == 5 && osvi.dwMinorVersion == 0 ) {
+
+                        if( osvi.wSuiteMask & VER_SUITE_DATACENTER ) {
                             strcpy( szSKU, "Datacenter Server Edition" );
-                        else if( osvi.wSuiteMask & VER_SUITE_ENTERPRISE )
-                            strcpy( szSKU, "Enterprise Server Edition" );
-                        else if ( osvi.wSuiteMask == VER_SUITE_BLADE )
-                            strcpy( szSKU, "Web Server Edition" );
-                        else
-                            strcpy( szSKU, "Standard Server Edition" );
-                    }
-                    else if( osvi.dwMajorVersion == 5 && osvi.dwMinorVersion == 2 )
-                    {
-                        if( osvi.wSuiteMask & VER_SUITE_DATACENTER )
-                            strcpy( szSKU, "Datacenter Server Edition" );
-                        else if( osvi.wSuiteMask & VER_SUITE_ENTERPRISE )
-                            strcpy( szSKU, "Enterprise Server Edition" );
-                        else if ( osvi.wSuiteMask == VER_SUITE_BLADE )
-                            strcpy( szSKU, "Web Server Edition" );
-                        else
-                            strcpy( szSKU, "Standard Server Edition" );
-                    }
-                    else if( osvi.dwMajorVersion == 5 && osvi.dwMinorVersion == 0 )
-                    {
-                        if( osvi.wSuiteMask & VER_SUITE_DATACENTER )
-                            strcpy( szSKU, "Datacenter Server Edition" );
-                        else if( osvi.wSuiteMask & VER_SUITE_ENTERPRISE )
+                        } else if( osvi.wSuiteMask & VER_SUITE_ENTERPRISE ) {
                             strcpy( szSKU, "Advanced Server Edition" );
-                        else
+                        } else {
                             strcpy( szSKU, "Standard Server Edition" );
-                    }
-                    else  // Windows NT 4.0 
-                    {
-                        if( osvi.wSuiteMask & VER_SUITE_ENTERPRISE )
+                        }
+
+                    } else { // Windows NT 4.0 
+                        if( osvi.wSuiteMask & VER_SUITE_ENTERPRISE ) {
                             strcpy( szSKU, "Enterprise Server Edition" );
-                        else
+                        } else {
                             strcpy( szSKU, "Server Edition" );
+                        }
                     }
                 }
-            }
-            else  // Test for specific product on Windows NT 4.0 SP5 and earlier
-            {
+
+            } else { // Test for specific product on Windows NT 4.0 SP5 and earlier
+
                 HKEY hKey;
                 char szProductType[80];
                 DWORD dwBufLen=sizeof(szProductType);
@@ -286,17 +323,17 @@ int get_os_information(
 
                 RegCloseKey( hKey );
 
-                if ( lstrcmpi( "WINNT", szProductType) == 0 )
+                if ( lstrcmpi( "WINNT", szProductType) == 0 ) {
                     strcpy( szSKU, "Workstation Edition" );
-                if ( lstrcmpi( "LANMANNT", szProductType) == 0 )
+                } if ( lstrcmpi( "LANMANNT", szProductType) == 0 ) {
                     strcpy( szSKU, "Server Edition" );
-                if ( lstrcmpi( "SERVERNT", szProductType) == 0 )
+                } if ( lstrcmpi( "SERVERNT", szProductType) == 0 ) {
                     strcpy( szSKU, "Advanced Server Edition" );
+                }
 
             }
 
             // Display service pack (if any) and build number.
-
             if( osvi.dwMajorVersion == 4 && lstrcmpi( osvi.szCSDVersion, "Service Pack 6" ) == 0 )
             {
                 HKEY hKey;
@@ -306,26 +343,21 @@ int get_os_information(
                 lRet = RegOpenKeyEx( HKEY_LOCAL_MACHINE,
                     "SOFTWARE\\Microsoft\\Windows NT\\CurrentVersion\\Hotfix\\Q246009",
                     0, KEY_QUERY_VALUE, &hKey );
-                if( lRet == ERROR_SUCCESS )
-                {
+
+                if( lRet == ERROR_SUCCESS ) {
                     strcpy( szServicePack, ", " );
                     strcat( szServicePack, "Service Pack 6a" );
-                }
-                else // Windows NT 4.0 prior to SP6a
-                {
-                    if ( strlen(osvi.szCSDVersion) > 0 )
-                    {
+                } else {// Windows NT 4.0 prior to SP6a
+                    if ( strlen(osvi.szCSDVersion) > 0 ) {
                         strcpy( szServicePack, ", " );
                         strcat( szServicePack, osvi.szCSDVersion );
                     }
                 }
 
                 RegCloseKey( hKey );
-            }
-            else // Windows NT 3.51 and earlier or Windows 2000 and later
-            {
-                if ( strlen(osvi.szCSDVersion) > 0 )
-                {
+
+            } else { // Windows NT 3.51 and earlier or Windows 2000 and later
+                if ( strlen(osvi.szCSDVersion) > 0 ) {
                     strcpy( szServicePack, ", " );
                     strcat( szServicePack, osvi.szCSDVersion );
                 }
@@ -336,14 +368,12 @@ int get_os_information(
         // Test for the Windows 95 product family.
         case VER_PLATFORM_WIN32_WINDOWS:
 
-            if (osvi.dwMajorVersion == 4 && osvi.dwMinorVersion == 0)
-            {
+            if (osvi.dwMajorVersion == 4 && osvi.dwMinorVersion == 0) {
                 if ( osvi.szCSDVersion[1] == 'C' || osvi.szCSDVersion[1] == 'B' )
                     strcpy( szServicePack, "OSR2" );
             } 
 
-            if (osvi.dwMajorVersion == 4 && osvi.dwMinorVersion == 10)
-            {
+            if (osvi.dwMajorVersion == 4 && osvi.dwMinorVersion == 10) {
                 if ( osvi.szCSDVersion[1] == 'A' )
                     strcpy( szServicePack, "SE" );
             } 
@@ -365,9 +395,9 @@ int get_processor_info(
 {
 	// gets processor vendor name and model name from registry, works for intel
 	char vendorName[256], processorName[256], identifierName[256];
-	HKEY hKey;
-	LONG retval;
-	DWORD nameSize, procSpeed;
+	HKEY hKey = NULL;
+	LONG retval = 0;
+	DWORD nameSize = 0, procSpeed = 0;
 	bool gotIdent = false, gotProcName = false, gotMHz = false, gotVendIdent = false;
 
 	retval = RegOpenKeyEx(HKEY_LOCAL_MACHINE, "Hardware\\Description\\System\\CentralProcessor\\0", 0, KEY_QUERY_VALUE, &hKey);
