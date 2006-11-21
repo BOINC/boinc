@@ -1,6 +1,12 @@
 <?
 
 $project_news = array(
+array("November 15, 2006",
+    "BOINCstats is now available in Spanish.
+    Thanks to Miquel Pericas for the translation.
+    BOINCstats in Spanish can be visited at
+    <a href=http://es.boincstats.com>http://es.boincstats.com</a>."
+),
 array("November 7, 2006",
     "Check out new add-on software:
     the <a href=http://boinc.berkeley.edu/addon_item.php?platform=browser&item=http%3A%2F%2Fsetihometoolbar.ourtoolbar.com%2F>SETI@home Toolbar</a>

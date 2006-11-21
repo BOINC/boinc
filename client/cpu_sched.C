@@ -795,6 +795,14 @@ bool CLIENT_STATE::enforce_schedule() {
 				}
 				preempt_by_quit = true;
 			}
+            if (atp->too_large) {
+				if (log_flags.mem_usage_debug) {
+					msg_printf(atp->result->project, MSG_INFO,
+						"[mem_usage_debug] job using too much memory, will preempt by quit"
+					);
+				}
+				preempt_by_quit = true;
+            }
 
             atp->preempt(preempt_by_quit);
             atp->scheduler_state = CPU_SCHED_PREEMPTED;

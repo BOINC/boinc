@@ -121,7 +121,7 @@ array('DBSetup.zip',
     'Stores Workunits into SQL database',
     1107731376
 ),
-array('spy_pp_v101_setispy_v341.zip',
+array('http://boinc.altervista.org/stats/download.php?id=9',
     'Spy++',
     '',
     'Loader for the new version of SetiSpy (3.4.1), the famous SETI addon of Roelof',
@@ -129,7 +129,7 @@ array('spy_pp_v101_setispy_v341.zip',
     '',
     'Loader for the new version of SetiSpy (3.4.1), the famous SETI addon of Roelof
     For more information about Spy++ project visit the web site',
-    1114982539
+    1163903033
 ),
 array('http://threadmaster.tripod.com/',
     'ThreadMaster',
@@ -220,16 +220,14 @@ array('boinctool.tar.gz',
     '',
     1110378627
 ),
-array('boinc-2.0.tar.bz2',
+array('boinc-2.7.tar.bz2',
     'Boinc bash script',
-    '',
+    '2.7',
     'Boinc state displayer',
     'http://phileimer.9online.fr',
     'Linux or any OS with bash shell',
     'Can be used as a console tool to display information about BOINC projects and working units. It can also be used to start or stop BOINC.',
-    1139694462
-
-
+    1163903033
 ),
 array('CPDNSpy.rar',
     'CPDNSpy Linux/Mac',

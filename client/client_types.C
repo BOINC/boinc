@@ -1734,10 +1734,23 @@ bool RESULT::nearly_runnable() {
     return runnable() || downloading();
 }
 
+// Return true if the result is waiting for its files to download,
+// and nothing prevents this from happening soon
+//
 bool RESULT::downloading() {
     if (suspended_via_gui) return false;
     if (project->suspended_via_gui) return false;
     if (state > RESULT_FILES_DOWNLOADING) return false;
+
+    // if we're in the downloading stage and all of this project's
+    // file xfers are backed off, return false
+    //
+#if 0
+    if (state == RESULT_FILES_DOWNLOADING) {
+        if (gstate.has_active_xfer(project)) return true;
+        return false;
+    }
+#endif
     return true;
 }
 

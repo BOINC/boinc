@@ -12796,7 +12796,7 @@ David  20 Nov 2006
 		only if the counter is then zero.
 		This makes the process-control message-passing scheme fragile.
 		If for some reason you send two <suspend/>s and a <resume/>,
-		the net result is suspended.
+		the result is that the job is suspended.
 		At some point we should change to API to do the right thing.
 
 	api/
@@ -12816,3 +12816,21 @@ Charlie 21 Nov 2006
         AdvancedFrame.cpp
     client/
         app.C
+
+David  21 Nov 2006
+    - core client: if we're preempting a job because total RAM
+        usage is too high, preempt by quitting.
+        
+        This has a downside: it wastes CPU time for apps that
+        don't checkpoint often.
+        However, if we don't do it, the core client might
+        try running dozens of queued apps, looking for one that fits in RAM.
+        That might use too much swap space.
+
+    client/
+        client_state.h
+        client_types.C
+        cpu_sched.C
+        cs_files.C
+    lib/
+        gui_rpc_client.h

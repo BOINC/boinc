@@ -80,11 +80,23 @@ list_item_func(
     The core client's version info is returned."
 );
 list_item_func(
-    "get_cc_status(CC_STATUS&)",
+    "get_cc_status(CC_STATUS&);
+struct CC_STATUS {
+    int network_status;
+    bool ams_password_error;
+    int task_suspend_reason;
+    int network_suspend_reason;
+    int task_mode;
+    int network_mode;
+    int task_mode_perm;
+    int network_mode_perm;
+    double task_mode_delay;
+    double network_mode_delay;
+};
+    ",
     "Return a structure containing the network status,
-    and a flag if there was an account manager password error.
-    In versions 5.13 and later, also includes
-    the task and network suspend reasons bitmaps."
+    a flag if there was an account manager password error,
+    and data about task and network suspension."
 );
 list_item_func(
     "get_results(RESULTS&)",

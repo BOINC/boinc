@@ -11,7 +11,7 @@ to authenticate executable files.
 <p>
 <b>
 It is important that you use a proper
-code-signing procedure for publicly-accessable projects.
+code-signing procedure for publicly-accessible projects.
 If you don't, and your server is broken into,
 hackers will be able to use your BOINC project to distribute
 whatever malicious code they want.

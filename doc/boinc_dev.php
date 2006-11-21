@@ -64,8 +64,7 @@ an email list for BOINC developers.
 </ul>
 <p>
 BOINC is free software, distributed under the Lesser GNU Public License (LGPL).
-We are in constant need of volunteers to
-help with software testing and development.
+We need volunteers to help with software testing and development.
 If you have one or more of the relevant technical skills
 (C++ system programming, PHP/MySQL web development,
 WxWidgets programming, autoconf/automake expertise, etc.)
@@ -80,8 +79,13 @@ and <a href=create_project.php>projects</a>)
 before getting into the source code.
 
 <p>
-To get started, look at the BOINC bug database, fix a bug or two,
-and send your patches to the appropriate area owner.
+To get started, find a small bug fix or enhancement to do
+(look at the BOINC bug database, the email lists, or message boards for ideas).
+Look at the source code and think about how you would implement it.
+Then communicate with the <a href=contact.php>area owner</a>,
+sketching what you want to do and how.
+Work the the area owner to carry out and check in the work.
+<p>
 The following medium-to-large development projects are available:
 <ul>
 <li> Applications

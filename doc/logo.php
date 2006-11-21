@@ -56,7 +56,7 @@ $logos = array(
     array("Markus Beck",
         "<img src=logos/markus/Logo3/BoincNeu2.jpg>
         <img src=logos/markus/Logo2/MarkusBoinc.jpg>
-        ... and <a href=logos/markus>various others</a>"
+        <br>... and <a href=logos/markus>various others</a>"
     ),
     array("<a href=http://www.boincproject.org/>Invisible Design</a>",
         "<img src=logos/logo.boinc.240x80-01.jpg>
@@ -67,8 +67,9 @@ $logos = array(
         "<img src=logos/Boinc-Iso2.jpg>"
     ),
     array("Rebirther",
-        "<img src=logo/rebirther/boincanderson7b-3.png>
-        <img src=logo/rebirther/blackbackground.png>"
+        "<img src=logo/rebirther/bluew.png>
+        <img src=logo/rebirther/blackbackground.png>
+        <br><a href=logo/rebirther>... and several others</a>."
     ),
     array("Michal Krakowiak",
         "<img src=logos/boinc_krakowiak.jpg>

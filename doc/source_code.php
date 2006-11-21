@@ -14,11 +14,11 @@ The BOINC source code consists of two CVS modules:
 <a href=example.php>several example applications</a>
 together with Windows and Mac project files and a Linux makefile
 for building the applications.
-It also includes some libraries (GLUT, jpeglib, etc.)
+It also includes Windows versions of some libraries (GLUT, jpeglib, etc.)
 that many applications will need, but which are not part of BOINC.
 Check out this module in the same parent directory as <b>boinc</b>.
 </ul>
-The modules are accessable as follows:
+The modules are accessible as follows:
 <p>
 Protocol: pserver
 <br>

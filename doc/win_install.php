@@ -110,7 +110,7 @@ Otherwise it runs as the installing user.
 The manager checks mouse/keyboard input
 and conveys idle state to the core client.
 Only the installing user can run the BOINC manager.
-Files are accessable only to the installing user.
+Files are accessible only to the installing user.
 
 
 

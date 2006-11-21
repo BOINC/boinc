@@ -463,7 +463,7 @@ struct ACCOUNT_OUT {
 };
 
 struct CC_STATUS {
-    int network_status;
+    int network_status;         // values: NETWORK_STATUS_*
     bool ams_password_error;
     int task_suspend_reason;    // bitmap, see common_defs.h
     int network_suspend_reason;
