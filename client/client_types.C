@@ -404,6 +404,17 @@ bool PROJECT::downloading() {
     return false;
 }
 
+bool PROJECT::some_download_stalled() {
+    unsigned int i;
+    for (i=0; i<gstate.pers_file_xfers->pers_file_xfers.size(); i++) {
+        PERS_FILE_XFER* pfx = gstate.pers_file_xfers->pers_file_xfers[i];
+        if (pfx->fip->project != this) continue;
+        if (pfx->is_upload) continue;
+        if (pfx->next_request_time < gstate.now) return true;
+    }
+    return false;
+}
+
 
 bool PROJECT::contactable() {
     if (suspended_via_gui) return false;

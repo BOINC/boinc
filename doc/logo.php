@@ -68,8 +68,7 @@ $logos = array(
     ),
     array("Rebirther",
         "<img src=logo/rebirther/bluew.png>
-        <img src=logo/rebirther/blackbackground.png>
-        <br><a href=logo/rebirther>... and several others</a>."
+        <img src=logo/rebirther/blackbackground.png>"
     ),
     array("Michal Krakowiak",
         "<img src=logos/boinc_krakowiak.jpg>

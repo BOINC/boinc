@@ -12834,3 +12834,11 @@ David  21 Nov 2006
         cs_files.C
     lib/
         gui_rpc_client.h
+
+David  21 Nov 2006
+    - core client: don't get work from a project with a backed-off download
+        (from John McLeod)
+
+    client/
+        client_types.C,h
+        cs_scheduler.h

@@ -275,6 +275,8 @@ public:
         // runnable or downloading
     bool overworked();
         // the project has used too much CPU time recently
+    bool some_download_stalled();
+        // a download is backed off
 
     // temps used in CLIENT_STATE::rr_simulation();
     std::vector<RESULT*>active;
@@ -499,7 +501,7 @@ struct RESULT {
     bool last_rr_sim_missed_deadline;
 };
 
-// represents a always/auto/never value, possibly temporarily overridden
+// represents an always/auto/never value, possibly temporarily overridden
 //
 class MODE {
 private:

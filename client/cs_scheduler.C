@@ -679,6 +679,15 @@ bool CLIENT_STATE::compute_work_requests() {
             }
             continue;
         }
+        if (p->some_download_stalled()) {
+            if (log_flags.work_fetch_debug) {
+                msg_printf(p, MSG_INFO,
+                    "[work_fetch_debug] project has stalled download"
+                );
+            }
+            continue;
+        }
+
         if (p->overworked() && overall_work_fetch_urgency < WORK_FETCH_NEED) {
             if (log_flags.work_fetch_debug) {
                 msg_printf(p, MSG_INFO, "[work_fetch_debug] project is overworked");
