@@ -43,18 +43,14 @@ libdc_client_condor_la_SOURCES = condor_slave.c \
 
 libdc_client_condor_la_LIBADD = ../common/libdc-common-client.la
 
-appdir		= $(libdir)/dcapi/condor
-app_PROGRAMS	= tss tm
+#appdir		= $(libdir)/dcapi/condor
+#app_PROGRAMS	= tss tm
 
-tss_SOURCES	= tss.c tc.c
-tss_LDADD	= ../common/libdc-common-client.la \
-		  libdc-client-condor.la
+#tss_SOURCES	= tss.c tc.c
+#tss_LDADD	= ../common/libdc-common-client.la libdc-client-condor.la
 
-tm_SOURCES 	= tm.c tc.c
-tm_LDADD	= ../common/libdc-common-master.la \
-		  libdc-condor.la -L. -ldl \
-		  -luuid -lstdc++
-
+#tm_SOURCES 	= tm.c tc.c
+#tm_LDADD	= ../common/libdc-common-master.la libdc-condor.la -L. -ldl -luuid -lstdc++
 
 dd: all
 	ssh root@emma 'make -C /home/staff/drdani/prj/szdg/dcapi/trunk/condor install'
