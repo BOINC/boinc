@@ -322,10 +322,10 @@ bool CAdvancedFrame::CreateMenu() {
         strMenuDescription
     );
 
+#ifdef SIMPLEGUI
     // View menu
     wxMenu *menuView = new wxMenu;
 
-#ifdef SIMPLEGUI
     menuView->Append(
         ID_FILESWITCHGUI,
         _("&Simple View"),
@@ -515,10 +515,12 @@ bool CAdvancedFrame::CreateMenu() {
         menuFile,
         _("&File")
     );
+#ifdef SIMPLEGUI
     m_pMenubar->Append(
         menuView,
         _("&View")
     );
+#endif
     m_pMenubar->Append(
         menuTools,
         _("&Tools")

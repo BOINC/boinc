@@ -12807,3 +12807,12 @@ David  20 Nov 2006
 		log_flags.C,h
 	lib/
 		app_ipc.h
+
+Charlie 21 Nov 2006
+    - Mac: Fix compiler warning.
+    - MGR: Don't put an empty View menu in menu bar if not SimpleGUI.
+    
+    clientgui/
+        AdvancedFrame.cpp
+    client/
+        app.C

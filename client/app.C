@@ -592,7 +592,7 @@ void MSG_QUEUE::msg_queue_send(const char* msg, MSG_CHANNEL& channel) {
 void MSG_QUEUE::msg_queue_poll(MSG_CHANNEL& channel) {
     if (msgs.size() > 0) {
 		if (log_flags.app_msg_send) {
-			msg_printf(NULL, MSG_INFO, "[app_msg_send] poll: %d msgs queued", msgs.size());
+			msg_printf(NULL, MSG_INFO, "[app_msg_send] poll: %d msgs queued", (int)msgs.size());
 		}
         if (channel.send_msg(msgs[0].c_str())) {
 			if (log_flags.app_msg_send) {
