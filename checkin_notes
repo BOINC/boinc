@@ -12752,3 +12752,58 @@ Rom    20 Nov 2006
         BOINCTaskBar.cpp
         sg_CustomControls.cpp, .h
         sg_ProjectsComponent.cpp
+
+David  20 Nov 2006
+	- core client: fix a bug in the shared-memory message passing code.
+		Each message channel has a one-message buffer in shared mem.
+		The send_msg() function checks if this is full.
+		If not it puts the message there.
+		If so it stores the message in a queue.
+		Once a second, a poll function moves a message
+		from the queue to the buffer (if it's empty).
+
+		What's wrong with this? (let's not always see the same hands).
+		Well, the send_msg() needs to handle the situation
+		where there's a message in the queue but none in the buffer.
+
+		This results in a bug in the CPU throttling mechanism
+		that can cause a task to sleep forever.
+	- core client: a SECOND significant bug in the shmem msg passing code.
+		In general, the API library consumes at most one message per second
+		from a given channel.
+		That means that if you write more than one message/sec
+		(even for a short period) it creates a queue that never goes away.
+		If you write more than one message/sec indefinitely,
+		it creates an unbounded queue.
+
+		At this point, the only channel that uses queuing and can
+		have more than one msg/sec is process control
+		(because of CPU throttling).
+		I put in kludge that handles this case:
+		if we want to send a <resume/> and there's already
+		a <suspend/> in the queue,
+		remove the <suspend/> and don't send anything.
+		And conversely.
+	- core client: to debug all the above, added <app_msg_send>
+		and <app_msg_receive> log flags.
+		Also added some commented-out printfs in the API library.
+
+	NOTE: in the course of debugging this I realized that, in the Windows
+		version of the API, <suspend/> and <resume/> message result
+		in calls to SuspendThread() and ResumeThread(),
+		which inc and dec a "suspend counter".
+		ResumeThread() decrements the counter, and resumes the thread
+		only if the counter is then zero.
+		This makes the process-control message-passing scheme fragile.
+		If for some reason you send two <suspend/>s and a <resume/>,
+		the net result is suspended.
+		At some point we should change to API to do the right thing.
+
+	api/
+		boinc_api.C
+	client/
+		app.C
+		app_control.C
+		log_flags.C,h
+	lib/
+		app_ipc.h

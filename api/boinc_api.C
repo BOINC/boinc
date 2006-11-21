@@ -534,6 +534,7 @@ int boinc_wu_cpu_time(double& cpu_t) {
 //
 int suspend_activities() {
     BOINCINFO("Received Suspend Message");
+	//fprintf(stderr, "suspending; %f %d\n", last_wu_cpu_time, options.direct_process_action);
 #ifdef _WIN32
     if (options.direct_process_action) {
         // in Windows this is called from a separate "timer thread",
@@ -550,6 +551,7 @@ int suspend_activities() {
 int resume_activities() {
     BOINCINFO("Received Resume Message");
 #ifdef _WIN32
+	//fprintf(stderr, "resuming; %f %d\n", last_wu_cpu_time, options.direct_process_action);
     if (options.direct_process_action) {
         // in Windows this is called from a separate "timer thread",
         // and Windows lets us resume the worker thread
@@ -644,6 +646,7 @@ static void handle_trickle_down_msg() {
 static void handle_process_control_msg() {
     char buf[MSG_CHANNEL_SIZE];
     if (app_client_shm->shm->process_control_request.get_msg(buf)) {
+		//fprintf(stderr, "%f: got %s\n", dtime(), buf);
         if (match_tag(buf, "<suspend/>")) {
             boinc_status.suspended = true;
             suspend_activities();
@@ -693,6 +696,7 @@ static void worker_timer(int /*a*/) {
         }
     }
 
+	//fprintf(stderr, "worker_timer: in_critical_section %d\n", in_critical_section);
     // handle messages from the core client
     //
     if (app_client_shm) {

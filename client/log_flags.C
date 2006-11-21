@@ -87,7 +87,8 @@ int LOG_FLAGS::parse(XML_PARSER& xp) {
         else if (xp.parse_bool(tag, "poll_debug", poll_debug)) continue;
         else if (xp.parse_bool(tag, "guirpc_debug", guirpc_debug)) continue;
         else if (xp.parse_bool(tag, "scrsave_debug", scrsave_debug)) continue;
-        else if (xp.parse_bool(tag, "app_msg_debug", app_msg_debug)) continue;
+        else if (xp.parse_bool(tag, "app_msg_send", app_msg_send)) continue;
+        else if (xp.parse_bool(tag, "app_msg_receive", app_msg_receive)) continue;
         else if (xp.parse_bool(tag, "mem_usage_debug", mem_usage_debug)) continue;
         else if (xp.parse_bool(tag, "network_status_debug", network_status_debug)) continue;
         else {
@@ -138,7 +139,8 @@ void LOG_FLAGS::show() {
     show_flag(buf, poll_debug, "poll_debug");
     show_flag(buf, guirpc_debug, "guirpc_debug");
     show_flag(buf, scrsave_debug, "scrsave_debug");
-    show_flag(buf, app_msg_debug, "app_msg_debug");
+    show_flag(buf, app_msg_send, "app_msg_send");
+    show_flag(buf, app_msg_receive, "app_msg_receive");
     show_flag(buf, mem_usage_debug, "mem_usage_debug");
     show_flag(buf, network_status_debug, "network_status_debug");
     if (strlen(buf)) {

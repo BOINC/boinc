@@ -109,6 +109,7 @@ struct MSG_QUEUE {
     char name[256];
     void msg_queue_send(const char*, MSG_CHANNEL& channel);
     void msg_queue_poll(MSG_CHANNEL& channel);
+	int msg_queue_purge(const char*);
 };
 
 #define DEFAULT_FRACTION_DONE_UPDATE_PERIOD     1

@@ -800,10 +800,16 @@ void ACTIVE_TASK_SET::kill_tasks(PROJECT* proj) {
 //
 int ACTIVE_TASK::suspend() {
     if (!app_client_shm.shm) return 0;
-    process_control_queue.msg_queue_send(
-        "<suspend/>",
-        app_client_shm.shm->process_control_request
-    );
+	if (task_state != PROCESS_EXECUTING) {
+		msg_printf(0, MSG_INFO, "Internal error: expected process to be executing");
+	}
+	int n = process_control_queue.msg_queue_purge("<resume/>");
+	if (n == 0) {
+		process_control_queue.msg_queue_send(
+			"<suspend/>",
+			app_client_shm.shm->process_control_request
+		);
+	}
     task_state = PROCESS_SUSPENDED;
     return 0;
 }
@@ -812,13 +818,19 @@ int ACTIVE_TASK::suspend() {
 //
 int ACTIVE_TASK::unsuspend() {
     if (!app_client_shm.shm) return 0;
+	if (task_state != PROCESS_SUSPENDED) {
+		msg_printf(0, MSG_INFO, "Internal error: expected process to be suspended");
+	}
     if (log_flags.cpu_sched) {
         msg_printf(0, MSG_INFO, "[cpu_sched] Resuming %s", result->name);
     }
-    process_control_queue.msg_queue_send(
-        "<resume/>",
-        app_client_shm.shm->process_control_request
-    );
+	int n = process_control_queue.msg_queue_purge("<suspend/>");
+	if (n == 0) {
+		process_control_queue.msg_queue_send(
+			"<resume/>",
+			app_client_shm.shm->process_control_request
+		);
+	}
     task_state = PROCESS_EXECUTING;
     return 0;
 }
@@ -849,9 +861,9 @@ bool ACTIVE_TASK::get_app_status_msg() {
     if (!app_client_shm.shm->app_status.get_msg(msg_buf)) {
         return false;
     }
-    if (log_flags.app_msg_debug) {
+    if (log_flags.app_msg_receive) {
         msg_printf(NULL, MSG_INFO,
-            "[app_msg_debug] slot %d msg: %s", slot, msg_buf
+            "[app_msg_receive] got msg from slot %d: %s", slot, msg_buf
         );
     }
     want_network = 0;

@@ -577,21 +577,55 @@ int ACTIVE_TASK_SET::parse(MIOFILE& fin) {
 }
 
 void MSG_QUEUE::msg_queue_send(const char* msg, MSG_CHANNEL& channel) {
-    if (channel.send_msg(msg)) {
-        //msg_printf(NULL, MSG_INFO, "sent %s to %s", msg, name);
+    if ((msgs.size()==0) && channel.send_msg(msg)) {
+		if (log_flags.app_msg_send) {
+            msg_printf(NULL, MSG_INFO, "[app_msg_send] sent %s to %s", msg, name);
+		}
         return;
     }
+	if (log_flags.app_msg_send) {
+        msg_printf(NULL, MSG_INFO, "[app_msg_send] deferred %s to %s", msg, name);
+	}
     msgs.push_back(std::string(msg));
 }
 
 void MSG_QUEUE::msg_queue_poll(MSG_CHANNEL& channel) {
     if (msgs.size() > 0) {
+		if (log_flags.app_msg_send) {
+			msg_printf(NULL, MSG_INFO, "[app_msg_send] poll: %d msgs queued", msgs.size());
+		}
         if (channel.send_msg(msgs[0].c_str())) {
-            //msg_printf(NULL, MSG_INFO, "sent %s to %s (delayed)", (msgs[0].c_str()), name);
+			if (log_flags.app_msg_send) {
+				msg_printf(NULL, MSG_INFO, "[app_msg_send] poll: delayed sent %s to %s", (msgs[0].c_str()), name);
+			}
             msgs.erase(msgs.begin());
-        }
+		} else {
+			if (log_flags.app_msg_send) {
+				msg_printf(NULL, MSG_INFO, "[app_msg_send] poll: still deferred: %s to %s", (msgs[0].c_str()), name);
+			}
+		}
     }
 }
+
+// delete any queued messages with the given string
+//
+int MSG_QUEUE::msg_queue_purge(const char* msg) {
+	vector<string>::iterator iter = msgs.begin();
+	int count = 0;
+	while (iter != msgs.end()) {
+		if (!strcmp(msg, iter->c_str())) {
+			if (log_flags.app_msg_send) {
+				msg_printf(NULL, MSG_INFO, "[app_msg_send] purged %s", msg);
+			}
+			iter = msgs.erase(iter);
+			count++;
+		} else {
+			iter++;
+		}
+	}
+	return count;
+}
+
 
 void ACTIVE_TASK_SET::report_overdue() {
     unsigned int i;
