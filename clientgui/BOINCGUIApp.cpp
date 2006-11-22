@@ -805,11 +805,17 @@ OSErr CBOINCGUIApp::QuitAppleEventHandler( const AppleEvent *appleEvt, AppleEven
         Boolean			isSame;
         ProcessInfoRec		pInfo;
         FSSpec			fileSpec;
-        WindowRef               win;
-        WindowModality          modality;
  	OSStatus		anErr;
 
-        anErr = AEGetAttributePtr(appleEvt, keyAddressAttr, typeProcessSerialNumber,
+        // Refuse to quit if a modal dialog is open.  Search for the dialog 
+        // by ID since all of BOINC Manager's dialog IDs are 10000.
+        // Unfortunately, I know of no way to disable the Quit item in our Dock menu
+        if (wxDynamicCast(wxWindow::FindWindowById(ID_ANYDIALOG), wxDialog)) {
+            SysBeep(4);
+            return userCanceledErr;
+        }
+                
+       anErr = AEGetAttributePtr(appleEvt, keyAddressAttr, typeProcessSerialNumber,
                                     &senderType, &SenderPSN, sizeof(SenderPSN), &actualSize);
 
         if (anErr == noErr) {
@@ -827,16 +833,6 @@ OSErr CBOINCGUIApp::QuitAppleEventHandler( const AppleEvent *appleEvt, AppleEven
 
                 anErr = GetProcessInformation(&SenderPSN, &pInfo);
 
-                // Refuse to quit if a modal dialog is open
-                win = FrontWindow();
-                if (win) {
-                    GetWindowModality(win, &modality, NULL);
-                    if (modality == kWindowModalityAppModal) {
-                        SysBeep(4);
-                        return userCanceledErr;
-                    }
-                }
-                
                 // Consider a Quit command from our Dock menu as coming from this application
                 if (pInfo.processSignature != 'dock') {
                     s_bSkipExitConfirmation = true; // Not from our app, our dock icon or our taskbar icon

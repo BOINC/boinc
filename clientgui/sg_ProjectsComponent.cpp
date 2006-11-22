@@ -147,7 +147,7 @@ void CProjectsComponent::CreateComponent()
 	wxToolTip *ttMessages = new wxToolTip(_("Open a window to view messages"));
 	btnMessages = new CLinkButton(
         this,
-        -1,
+        ID_SIMPLE_MESSAGES,
         *pSkinSimple->GetMessagesLink()->GetBitmap(),
         wxPoint(11,86),
         wxSize(70,20),
@@ -158,7 +158,7 @@ void CProjectsComponent::CreateComponent()
 	wxToolTip *ttAlertMessages = new wxToolTip(_("Open a window to view messages"));
 	btnAlertMessages = new CLinkButton(
         this,
-        -1,
+        ID_SIMPLE_MESSAGES_ALERT,
         *(pSkinSimple->GetMessagesAlertLink()->GetBitmap()),
         wxPoint(11,86),
         wxSize(70,20),
@@ -176,7 +176,7 @@ void CProjectsComponent::CreateComponent()
 	wxToolTip *ttPause = new wxToolTip(_("Stop all activity"));
 	btnPause = new CLinkButton(
         this,
-        -1,
+        ID_SIMPLE_SUSPEND,
         *pSkinSimple->GetSuspendLink()->GetBitmap(),
         wxPoint(85,86),
         wxSize(59,20),
@@ -188,7 +188,7 @@ void CProjectsComponent::CreateComponent()
 	wxToolTip *ttResume = new wxToolTip(_("Resume activity"));
 	btnResume = new CLinkButton(
         this,
-        -1,
+        ID_SIMPLE_RESUME,
         *(pSkinSimple->GetResumeLink()->GetBitmap()),
         wxPoint(85,86),
         wxSize(59,20),

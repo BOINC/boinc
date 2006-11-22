@@ -12887,3 +12887,18 @@ Rom    22 Nov 2006
         sg_ProjectsComponent.cpp, .h
         sg_StatImageLoader.cpp
         SkinManager.cpp
+
+Charlie 22 Nov 2006
+    - MGR: Fix bugs in adjusting taskbar menu items when modal dialog open:
+        - Disable wxID_ABOUT item to prevent opening multiple copies of 
+            About dialog (a problem on the Mac, not on Windows.)
+        - Re-enable items when modal dialog is closed.
+    - MGR: Fix broken messages, Pause, Resume buttons on Simple GUI.
+    - Mac: Fix compiler errors and warnings.
+    - Mac: Use new modal dialog detection logic to block Quit from Dock.
+
+    clientgui/
+        BOINCGUIApp.cpp
+        BOINCTaskBar.cpp
+        Events.h
+        sg_ProjectsComponent.cpp

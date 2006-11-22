@@ -281,6 +281,7 @@ void CTaskBarIcon::OnExit(wxCommandEvent& event) {
 }
 
 
+#ifdef __WXMSW__
 void CTaskBarIcon::OnShutdown(wxTaskBarIconExEvent& event) {
     wxLogTrace(wxT("Function Start/End"), wxT("CTaskBarIcon::OnShutdown - Function Begin"));
 
@@ -435,6 +436,7 @@ void CTaskBarIcon::OnRButtonUp(wxTaskBarIconEvent& WXUNUSED(event)) {
         }
     }
 }
+#endif
 
 
 void CTaskBarIcon::OnReloadSkin(CTaskbarEvent& /*event*/) {
@@ -571,7 +573,6 @@ wxMenu *CTaskBarIcon::BuildContextMenu() {
     wxString           menuName = wxEmptyString;
     ACCT_MGR_INFO      ami;
     bool               is_acct_mgr_detected = false;
-    bool               is_dialog_detected = false;
 
     wxASSERT(pMenu);
     wxASSERT(pDoc);
@@ -629,6 +630,7 @@ void CTaskBarIcon::AdjustMenuItems(wxMenu* pMenu) {
     wxMenuItem*    pMenuItem = NULL;
     wxFont         font = wxNullFont;
     size_t         loc = 0;
+    bool           is_dialog_detected = false;
 
     wxASSERT(pDoc);
     wxASSERT(wxDynamicCast(pDoc, CMainDocument));
@@ -645,12 +647,18 @@ void CTaskBarIcon::AdjustMenuItems(wxMenu* pMenu) {
     // If a dialog is detected, we cannot allow the "Exit" menu item to be
     //   enabled. So lets search for the dialog by ID since all of BOINC
     //   Manager's dialog IDs are 10000.
-    if (wxDynamicCast(wxWindow::FindWindowById(ID_ANYDIALOG), wxDialog)) {
-        for (loc = 0; loc < pMenu->GetMenuItemCount(); loc++) {
-            pMenuItem = pMenu->FindItemByPosition(loc);
-            if (pMenuItem->GetId() == ID_TB_EXIT) {
-                pMenuItem->Enable(false);
-            }
+    if (wxDynamicCast(wxWindow::FindWindowById(ID_ANYDIALOG), wxDialog))
+        is_dialog_detected = true;
+        
+    for (loc = 0; loc < pMenu->GetMenuItemCount(); loc++) {
+        pMenuItem = pMenu->FindItemByPosition(loc);
+        if (pMenuItem->GetId() == ID_TB_EXIT) {
+            pMenuItem->Enable(!is_dialog_detected);
+        }
+        // Prevent opening multiple instances of About Dialog 
+        // (This is a problem on the Mac but not on Windows)
+        if (pMenuItem->GetId() == wxID_ABOUT) {
+            pMenuItem->Enable(!is_dialog_detected);
         }
     }
 

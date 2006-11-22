@@ -63,7 +63,11 @@
 
 #define ID_TB_TIMER                             6800
 #define ID_TB_SUSPEND                           6801
+#ifdef __WXMAC__
+#define ID_TB_EXIT                              wxID_EXIT
+#else
 #define ID_TB_EXIT                              6802
+#endif
 #define ID_LIST_BASE                            7000
 #define ID_LIST_PROJECTSVIEW                    7000
 #define ID_LIST_WORKVIEW                        7001
