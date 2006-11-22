@@ -572,7 +572,6 @@ wxMenu *CTaskBarIcon::BuildContextMenu() {
     wxMenu*            pMenu = new wxMenu;
     wxString           menuName = wxEmptyString;
     ACCT_MGR_INFO      ami;
-    bool               is_acct_mgr_detected = false;
 
     wxASSERT(pMenu);
     wxASSERT(pDoc);
@@ -647,8 +646,9 @@ void CTaskBarIcon::AdjustMenuItems(wxMenu* pMenu) {
     // If a dialog is detected, we cannot allow the "Exit" menu item to be
     //   enabled. So lets search for the dialog by ID since all of BOINC
     //   Manager's dialog IDs are 10000.
-    if (wxDynamicCast(wxWindow::FindWindowById(ID_ANYDIALOG), wxDialog))
+    if (wxDynamicCast(wxWindow::FindWindowById(ID_ANYDIALOG), wxDialog)) {
         is_dialog_detected = true;
+    }
         
     for (loc = 0; loc < pMenu->GetMenuItemCount(); loc++) {
         pMenuItem = pMenu->FindItemByPosition(loc);
