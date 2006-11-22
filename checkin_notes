@@ -208,6 +208,7 @@ David  8 Nov 2006
 
 David  23 Nov 2006
     - don't include util.h in worker.C!
+	- fix win compile
 
     worker/
         worker.C
