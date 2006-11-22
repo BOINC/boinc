@@ -64,6 +64,16 @@ bool random_exit;
 bool random_crash;
 double cpu_time=20;
 
+static void use_some_cpu() {
+    double j = 3.14159;
+    int i, n = 0;
+    for (i=0; i<20000000; i++) {
+        n++;
+        j *= n+j-3.14159;
+        j /= (float)n;
+    }
+}
+
 int do_checkpoint(MFILE& mf, int nchars) {
     int retval;
     string resolved_name;
@@ -81,18 +91,11 @@ int do_checkpoint(MFILE& mf, int nchars) {
     retval = boinc_rename("temp", resolved_name.c_str());
     if (retval) return retval;
 
+	//use_some_cpu();
+    fprintf(stderr, "APP: upper_case checkpoint done\n");
     return 0;
 }
 
-static void use_some_cpu() {
-    double j = 3.14159;
-    int i, n = 0;
-    for (i=0; i<20000000; i++) {
-        n++;
-        j *= n+j-3.14159;
-        j /= (float)n;
-    }
-}
 
 void worker() {
     int c, nchars = 0, retval;
@@ -187,6 +190,16 @@ void worker() {
             double e = dtime()-start;
             if (e > cpu_time) break;
             boinc_fraction_done(e/cpu_time);
+
+			if (boinc_time_to_checkpoint()) {
+				retval = do_checkpoint(out, nchars);
+				if (retval) {
+					fprintf(stderr, "APP: upper_case checkpoint failed %d\n", retval);
+					exit(1);
+				}
+				boinc_checkpoint_completed();
+			}
+
             use_some_cpu();
         }
     }
