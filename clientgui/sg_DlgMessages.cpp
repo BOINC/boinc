@@ -62,7 +62,7 @@ IMPLEMENT_DYNAMIC_CLASS( CPanelMessages, wxPanel )
 BEGIN_EVENT_TABLE( CPanelMessages, wxPanel )
 ////@begin CPanelPreferences event table entries
     EVT_ERASE_BACKGROUND( CPanelMessages::OnEraseBackground )
-    EVT_TIMER(ID_REFRESHMESSAGESTIMER, CPanelMessages::OnListRender)
+    EVT_TIMER(ID_REFRESHMESSAGESTIMER, CPanelMessages::OnRefresh)
     EVT_BUTTON( wxID_OK, CPanelMessages::OnOK )
     EVT_BUTTON(ID_COPYAll, CPanelMessages::OnMessagesCopyAll)
     EVT_BUTTON(ID_COPYSELECTED, CPanelMessages::OnMessagesCopySelected)
@@ -92,7 +92,7 @@ CPanelMessages::CPanelMessages( wxWindow* parent ) :
 bool CPanelMessages::Create()
 {
 ////@begin CPanelMessages member initialisation
-	m_bProcessingListRenderEvent = false;
+	m_bProcessingRefreshEvent = false;
 ////@end CPanelMessages member initialisation
 
     CreateControls();
@@ -274,6 +274,39 @@ void CPanelMessages::OnEraseBackground(wxEraseEvent& event){
 
 
 /*!
+ * wxEVT_TIMER event handler for ID_REFRESHMESSAGESTIMER
+ */
+
+void CPanelMessages::OnRefresh(wxTimerEvent& event) {
+    if (!m_bProcessingRefreshEvent) {
+        m_bProcessingRefreshEvent = true;
+
+        wxASSERT(m_pList);
+
+        wxInt32 iDocCount = GetDocCount();
+        if (0 >= iDocCount) {
+            m_pList->DeleteAllItems();
+        } else {
+            if (m_iPreviousDocCount != iDocCount)
+                m_pList->SetItemCount(iDocCount);
+        }
+
+        if ((iDocCount) && (EnsureLastItemVisible()) && (m_iPreviousDocCount != iDocCount)) {
+            m_pList->EnsureVisible(iDocCount - 1);
+        }
+
+        if (m_iPreviousDocCount != iDocCount) {
+            m_iPreviousDocCount = iDocCount;
+        }
+
+        m_bProcessingRefreshEvent = false;
+    }
+
+    event.Skip();
+}
+
+
+/*!
  * wxEVT_COMMAND_BUTTON_CLICKED event handler for wxID_OK
  */
 
@@ -420,35 +453,6 @@ bool CPanelMessages::OnRestoreState(wxConfigBase* pConfig) {
 
 wxInt32 CPanelMessages::GetDocCount() {
     return wxGetApp().GetDocument()->GetMessageCount();
-}
-
-
-void CPanelMessages::OnListRender (wxTimerEvent& event) {
-    if (!m_bProcessingListRenderEvent) {
-        m_bProcessingListRenderEvent = true;
-
-        wxASSERT(m_pList);
-
-        wxInt32 iDocCount = GetDocCount();
-        if (0 >= iDocCount) {
-            m_pList->DeleteAllItems();
-        } else {
-            if (m_iPreviousDocCount != iDocCount)
-                m_pList->SetItemCount(iDocCount);
-        }
-
-        if ((iDocCount) && (EnsureLastItemVisible()) && (m_iPreviousDocCount != iDocCount)) {
-            m_pList->EnsureVisible(iDocCount - 1);
-        }
-
-        if (m_iPreviousDocCount != iDocCount) {
-            m_iPreviousDocCount = iDocCount;
-        }
-
-        m_bProcessingListRenderEvent = false;
-    }
-
-    event.Skip();
 }
 
 
@@ -612,13 +616,13 @@ bool CPanelMessages::CloseClipboard() {
  * CDlgMessages type definition
  */
 
-IMPLEMENT_DYNAMIC_CLASS( CDlgMessages, wxWindow )
+IMPLEMENT_DYNAMIC_CLASS( CDlgMessages, wxDialog )
 
 /*!
  * CDlgMessages event table definition
  */
 
-BEGIN_EVENT_TABLE( CDlgMessages, wxFrame )
+BEGIN_EVENT_TABLE( CDlgMessages, wxDialog )
 ////@begin CDlgMessages event table entries
     EVT_SHOW( CDlgMessages::OnShow )
     EVT_BUTTON( wxID_OK, CDlgMessages::OnOK )
@@ -649,7 +653,6 @@ CDlgMessages::~CDlgMessages() {
 }
 
 
-
 /*!
  * CDlgMessages creator
  */
@@ -660,7 +663,7 @@ bool CDlgMessages::Create( wxWindow* parent, wxWindowID id, const wxString& capt
     if (strCaption.IsEmpty()) {
         strCaption = _("BOINC Manager - Messages");
     }
-    wxFrame::Create( parent, id, strCaption, pos, size, style );
+    wxDialog::Create( parent, id, strCaption, pos, size, style );
 
     Freeze();
 
@@ -738,7 +741,7 @@ void CDlgMessages::OnShow(wxShowEvent& event) {
 
 void CDlgMessages::OnOK( wxCommandEvent& /*event*/ ) {
     SaveState();
-    Close();
+    EndModal(wxID_OK);
 }
 
 

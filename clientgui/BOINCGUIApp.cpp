@@ -1036,7 +1036,11 @@ bool CBOINCGUIApp::SetActiveGUI(int iGUISelection, bool bShowWindow) {
 
 
 int CBOINCGUIApp::ConfirmExit() {
+    CSkinAdvanced* pSkinAdvanced = wxGetApp().GetSkinManager()->GetAdvanced();
     wxString strTitle;
+    
+    wxASSERT(pSkinAdvanced);
+    wxASSERT(wxDynamicCast(pSkinAdvanced, CSkinAdvanced));
     
     if (!m_bBOINCStartedByManager)
         return 1;   // Don't run dialog if exiting manager won't shut down Client or its tasks
@@ -1054,30 +1058,21 @@ int CBOINCGUIApp::ConfirmExit() {
     GetCurrentProcess(&psn);
     SetFrontProcess(&psn);  // Shows process if hidden
 #endif
-    CSkinAdvanced* pSkinAdvanced = wxGetApp().GetSkinManager()->GetAdvanced();
-    long lAnswer = 0;
-    
-    wxASSERT(pSkinAdvanced);
-    wxASSERT(wxDynamicCast(pSkinAdvanced, CSkinAdvanced));
-
 
     strTitle.Printf(
         _("%s - Exit Confirmation"), 
         pSkinAdvanced->GetApplicationName().c_str()
     );
 
-    CDlgGenericMessage* pDlg = new CDlgGenericMessage(NULL);
+    CDlgGenericMessage dlg(NULL);
 
-    pDlg->SetTitle(strTitle);
-    pDlg->m_DialogMessage->SetLabel(pSkinAdvanced->GetExitMessage());
-    pDlg->Fit();
-    pDlg->Centre();
+    dlg.SetTitle(strTitle);
+    dlg.m_DialogMessage->SetLabel(pSkinAdvanced->GetExitMessage());
+    dlg.Fit();
+    dlg.Centre();
 
-    lAnswer = pDlg->ShowModal();
-    pDlg->Destroy();
-
-    if (wxID_OK == lAnswer) {
-        if (pDlg->m_DialogDisableMessage->GetValue()) {
+    if (wxID_OK == dlg.ShowModal()) {
+        if (dlg.m_DialogDisableMessage->GetValue()) {
             m_iDisplayExitWarning = 0;
         }
         return 1;

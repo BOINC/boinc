@@ -45,21 +45,17 @@
 DEFINE_EVENT_TYPE(wxEVT_TASKBAR_RELOADSKIN)
 
 
-BEGIN_EVENT_TABLE (CTaskBarIcon, wxTaskBarIconEx)
+BEGIN_EVENT_TABLE(CTaskBarIcon, wxTaskBarIconEx)
     EVT_IDLE(CTaskBarIcon::OnIdle)
     EVT_CLOSE(CTaskBarIcon::OnClose)
     EVT_TIMER(ID_TB_TIMER, CTaskBarIcon::OnRefresh)
+    EVT_TASKBAR_RELOADSKIN(CTaskBarIcon::OnReloadSkin)
     EVT_TASKBAR_LEFT_DCLICK(CTaskBarIcon::OnLButtonDClick)
     EVT_MENU(wxID_OPEN, CTaskBarIcon::OnOpen)
     EVT_MENU(ID_OPENWEBSITE, CTaskBarIcon::OnOpenWebsite)
-    EVT_MENU(ID_TB_SUSPEND, CTaskBarIcon::OnSuspend)
+    EVT_MENU(ID_TB_SUSPEND, CTaskBarIcon::OnSuspendResume)
     EVT_MENU(wxID_ABOUT, CTaskBarIcon::OnAbout)
-#if   defined(__WXMAC__)
-    // wxMac-2.6.3 "helpfully" converts wxID_ABOUT to kHICommandAbout, wxID_EXIT to kHICommandQuit, 
-    //  wxID_PREFERENCES to kHICommandPreferences
-    EVT_MENU(kHICommandAbout, CTaskBarIcon::OnAbout)
-#endif
-    EVT_MENU(wxID_EXIT, CTaskBarIcon::OnExit)
+    EVT_MENU(ID_TB_EXIT, CTaskBarIcon::OnExit)
 
 #ifdef __WXMSW__
     EVT_TASKBAR_SHUTDOWN(CTaskBarIcon::OnShutdown)
@@ -68,9 +64,12 @@ BEGIN_EVENT_TABLE (CTaskBarIcon, wxTaskBarIconEx)
     EVT_TASKBAR_RIGHT_DOWN(CTaskBarIcon::OnRButtonDown)
     EVT_TASKBAR_RIGHT_UP(CTaskBarIcon::OnRButtonUp)
 #endif
-
-    EVT_TASKBAR_RELOADSKIN(CTaskBarIcon::OnReloadSkin)
-END_EVENT_TABLE ()
+#ifdef __WXMAC__
+    // wxMac-2.6.3 "helpfully" converts wxID_ABOUT to kHICommandAbout, wxID_EXIT to kHICommandQuit, 
+    //  wxID_PREFERENCES to kHICommandPreferences
+    EVT_MENU(kHICommandAbout, CTaskBarIcon::OnAbout)
+#endif
+END_EVENT_TABLE()
 
 
 CTaskBarIcon::CTaskBarIcon(wxString title, wxIcon* icon, wxIcon* iconDisconnected, wxIcon* iconSnooze) : 
@@ -91,9 +90,6 @@ CTaskBarIcon::CTaskBarIcon(wxString title, wxIcon* icon, wxIcon* iconDisconnecte
     m_dtLastBalloonDisplayed = wxDateTime((time_t)0);
 
     m_bMouseButtonPressed = false;
-
-    m_iPreviousActivityMode = RUN_MODE_AUTO;
-    m_iPreviousNetworkMode = RUN_MODE_AUTO;
 
     m_pRefreshTimer = new wxTimer(this, ID_TB_TIMER);
     m_pRefreshTimer->Start(1000);  // Send event every second
@@ -146,10 +142,8 @@ void CTaskBarIcon::OnRefresh(wxTimerEvent& WXUNUSED(event)) {
     wxASSERT(pDoc);
     wxASSERT(wxDynamicCast(pDoc, CMainDocument));
 
-
     // What is the current status of the client?
     pDoc->GetCoreClientStatus(status);
-
 
     // Which icon should be displayed?
     if (!pDoc->IsConnected()) {
@@ -186,6 +180,7 @@ void CTaskBarIcon::OnOpen(wxCommandEvent& WXUNUSED(event)) {
 
     if (pFrame) {
         pFrame->Show();
+
 #ifndef __WXMAC__
         if (pFrame->IsMaximized()) {
             pFrame->Maximize(true);
@@ -223,41 +218,31 @@ void CTaskBarIcon::OnOpenWebsite(wxCommandEvent& WXUNUSED(event)) {
 }
 
 
-void CTaskBarIcon::OnSuspend(wxCommandEvent& WXUNUSED(event)) {
-    wxLogTrace(wxT("Function Start/End"), wxT("CTaskBarIcon::OnSuspend - Function Begin"));
+void CTaskBarIcon::OnSuspendResume(wxCommandEvent& WXUNUSED(event)) {
+    wxLogTrace(wxT("Function Start/End"), wxT("CTaskBarIcon::OnSuspendResume - Function Begin"));
+
     CMainDocument* pDoc      = wxGetApp().GetDocument();
     CC_STATUS      status;
 
     wxASSERT(pDoc);
     wxASSERT(wxDynamicCast(pDoc, CMainDocument));
 
-
     ResetTaskBar();
 
     pDoc->GetCoreClientStatus(status);
-
-    if ((RUN_MODE_NEVER == status.task_mode) && (RUN_MODE_NEVER == status.network_mode) &&
-        (RUN_MODE_NEVER == m_iPreviousActivityMode) && (RUN_MODE_NEVER == m_iPreviousActivityMode)) {
-
-        pDoc->SetActivityRunMode(RUN_MODE_AUTO);
-        pDoc->SetNetworkRunMode(RUN_MODE_AUTO);
-
-    } else if ((RUN_MODE_NEVER == status.task_mode) && (RUN_MODE_NEVER == status.network_mode)) {
-
-        pDoc->SetActivityRunMode(m_iPreviousActivityMode);
-        pDoc->SetNetworkRunMode(m_iPreviousNetworkMode);
-
+    if ((status.task_mode_perm != status.task_mode) || (status.network_mode_perm != status.network_mode)) {
+        if (status.task_mode_perm != status.task_mode) {
+            pDoc->SetActivityRunMode(RUN_MODE_RESTORE, 0);
+        }
+        if (status.network_mode_perm != status.network_mode) {
+            pDoc->SetNetworkRunMode(RUN_MODE_RESTORE, 0);
+        }
     } else {
-
-        m_iPreviousActivityMode = status.task_mode;
-        m_iPreviousNetworkMode = status.network_mode;
-
         pDoc->SetActivityRunMode(RUN_MODE_NEVER, 60);
         pDoc->SetNetworkRunMode(RUN_MODE_NEVER, 60);
-
     }
 
-    wxLogTrace(wxT("Function Start/End"), wxT("CTaskBarIcon::OnSuspend - Function End"));
+    wxLogTrace(wxT("Function Start/End"), wxT("CTaskBarIcon::OnSuspendResume - Function End"));
 }
 
 
@@ -272,19 +257,14 @@ void CTaskBarIcon::OnAbout(wxCommandEvent& WXUNUSED(event)) {
 
     ResetTaskBar();
 
-    CDlgAbout* pDlg = new CDlgAbout(NULL);
-    wxASSERT(pDlg);
-
-    pDlg->ShowModal();
-
-    if (pDlg) {
-        pDlg->Destroy();
+    CDlgAbout dlg(NULL);
+    dlg.ShowModal();
 
 #ifdef __WXMAC__
-    if (! wasVisible)
+    if (!wasVisible) {
         ShowHideProcess(&psn, false);
-#endif
     }
+#endif
 }
 
 
@@ -300,7 +280,6 @@ void CTaskBarIcon::OnExit(wxCommandEvent& event) {
     wxLogTrace(wxT("Function Start/End"), wxT("CTaskBarIcon::OnExit - Function End"));
 }
 
-#ifdef __WXMSW__
 
 void CTaskBarIcon::OnShutdown(wxTaskBarIconExEvent& event) {
     wxLogTrace(wxT("Function Start/End"), wxT("CTaskBarIcon::OnShutdown - Function Begin"));
@@ -435,22 +414,12 @@ void CTaskBarIcon::OnMouseMove(wxTaskBarIconEvent& WXUNUSED(event)) {
     }
 }
 
-#endif // __WXMSW__
 
-
-#ifndef __WXMAC__
-#ifdef __WXMSW__
 void CTaskBarIcon::OnContextMenu(wxTaskBarIconExEvent& WXUNUSED(event)) {
-    CreateContextMenu();
+    DisplayContextMenu();
 }
-#else
-void CTaskBarIcon::OnContextMenu(wxTaskBarIconEvent& WXUNUSED(event)) {
-    CreateContextMenu();
-}
-#endif
 
 
-#ifdef __WXMSW__
 void CTaskBarIcon::OnRButtonDown(wxTaskBarIconEvent& WXUNUSED(event)) {
     if (!IsBalloonsSupported()) {
         m_bMouseButtonPressed = true;
@@ -461,13 +430,11 @@ void CTaskBarIcon::OnRButtonDown(wxTaskBarIconEvent& WXUNUSED(event)) {
 void CTaskBarIcon::OnRButtonUp(wxTaskBarIconEvent& WXUNUSED(event)) {
     if (!IsBalloonsSupported()) {
         if (m_bMouseButtonPressed) {
-            CreateContextMenu();
+            DisplayContextMenu();
             m_bMouseButtonPressed = false;
         }
     }
 }
-#endif
-#endif  // !__WXMAC__
 
 
 void CTaskBarIcon::OnReloadSkin(CTaskbarEvent& /*event*/) {
@@ -515,6 +482,7 @@ wxMenu *CTaskBarIcon::CreatePopupMenu() {
     wxMenu *menu = BuildContextMenu();
     return menu;
 }
+
 
 // Override the standard wxTaskBarIcon::SetIcon() because we are only providing a 
 // 16x16 icon for the menubar, while the Dock needs a 128x128 icon.
@@ -584,49 +552,26 @@ bool CTaskBarIcon::SetIcon(const wxIcon& icon, const wxString& tooltip) {
     return result;
 }
 
-#else  // ! __WXMAC__
-
-void CTaskBarIcon::CreateContextMenu() {
-    ResetTaskBar();
-
-    wxMenu*     menu     = BuildContextMenu();
-    wxMenuItem* menuItem = NULL;
-    wxFont      font     = wxNullFont;
-
-    // These should be in Windows Task Bar Menu but not in Mac's Dock menu
-    menu->AppendSeparator();
-    menu->Append(wxID_EXIT, _("E&xit"), wxEmptyString);
-
-#ifdef __WXMSW__
-    menuItem = menu->FindItem(wxID_EXIT);
-    menu->Remove(menuItem);
-
-    font = menuItem->GetFont();
-    font.SetWeight(wxFONTWEIGHT_NORMAL);
-    menuItem->SetFont(font);
-
-    menu->Append(menuItem);
-#endif
-
-    PopupMenu(menu);
-    delete menu;
-}
-
 #endif  // ! __WXMAC__
 
-wxMenu *CTaskBarIcon::BuildContextMenu() {
 
+void CTaskBarIcon::DisplayContextMenu() {
+    ResetTaskBar();
+
+    wxMenu* pMenu = BuildContextMenu();
+    PopupMenu(pMenu);
+    delete pMenu;
+}
+
+
+wxMenu *CTaskBarIcon::BuildContextMenu() {
     CMainDocument*     pDoc = wxGetApp().GetDocument();
     CSkinAdvanced*     pSkinAdvanced = wxGetApp().GetSkinManager()->GetAdvanced();
+    wxMenu*            pMenu = new wxMenu;
+    wxString           menuName = wxEmptyString;
     ACCT_MGR_INFO      ami;
     bool               is_acct_mgr_detected = false;
-    wxMenu*            pMenu         = new wxMenu;
-    wxString           menuName      = wxEmptyString;
-    wxFont             font          = wxNullFont;
-#ifdef __WXMSW__
-    wxMenuItem*        pMenuItem     = NULL;
-    size_t             loc = 0;
-#endif
+    bool               is_dialog_detected = false;
 
     wxASSERT(pMenu);
     wxASSERT(pDoc);
@@ -652,7 +597,11 @@ wxMenu *CTaskBarIcon::BuildContextMenu() {
     );
     pMenu->Append(wxID_OPEN, menuName, wxEmptyString);
 
+    pMenu->AppendSeparator();
+
     pMenu->AppendCheckItem(ID_TB_SUSPEND, _("Snooze"), wxEmptyString);
+
+    pMenu->AppendSeparator();
 
     menuName.Printf(
         _("&About %s..."),
@@ -661,68 +610,72 @@ wxMenu *CTaskBarIcon::BuildContextMenu() {
 
     pMenu->Append(wxID_ABOUT, menuName, wxEmptyString);
 
-#ifdef __WXMSW__
-    for (loc = 0; loc < pMenu->GetMenuItemCount(); loc++) {
-        pMenuItem = pMenu->FindItemByPosition(loc);
-        pMenu->Remove(pMenuItem);
+#ifndef __WXMAC__
+    // These should be in Windows Task Bar Menu but not in Mac's Dock menu
+    pMenu->AppendSeparator();
 
-        font = pMenuItem->GetFont();
-        if (pMenuItem->GetId() != wxID_OPEN) {
-            font.SetWeight(wxFONTWEIGHT_NORMAL);
-        } else {
-            font.SetWeight(wxFONTWEIGHT_BOLD);
-        }
-        pMenuItem->SetFont(font);
-
-        pMenu->Insert(loc, pMenuItem);
-    }
+    pMenu->Append(ID_TB_EXIT, _("E&xit"), wxEmptyString);
 #endif
-
-    if (is_acct_mgr_detected) {
-        pMenu->InsertSeparator(3);
-        pMenu->InsertSeparator(2);
-    } else {
-        pMenu->InsertSeparator(2);
-        pMenu->InsertSeparator(1);
-    }
 
     AdjustMenuItems(pMenu);
 
     return pMenu;
 }
 
-void CTaskBarIcon::AdjustMenuItems(wxMenu* menu) {
-    CMainDocument* pDoc          = wxGetApp().GetDocument();
+
+void CTaskBarIcon::AdjustMenuItems(wxMenu* pMenu) {
     CC_STATUS      status;
+    CMainDocument* pDoc = wxGetApp().GetDocument();
+    wxMenuItem*    pMenuItem = NULL;
+    wxFont         font = wxNullFont;
+    size_t         loc = 0;
 
     wxASSERT(pDoc);
     wxASSERT(wxDynamicCast(pDoc, CMainDocument));
 
-    pDoc->GetCoreClientStatus(status);
 
+    pDoc->GetCoreClientStatus(status);
     if ((RUN_MODE_NEVER == status.task_mode) && (RUN_MODE_NEVER == status.network_mode)) {
-        menu->Check(ID_TB_SUSPEND, true);
+        pMenu->Check(ID_TB_SUSPEND, true);
     } else {
-        menu->Check(ID_TB_SUSPEND, false);
+        pMenu->Check(ID_TB_SUSPEND, false);
     }
-    
-#ifdef __WXMAC__
-//    WindowRef win = ActiveNonFloatingWindow();
-    WindowRef win = FrontWindow();
-    WindowModality modality = kWindowModalityNone;
-    wxMenuItem *item;
-    unsigned int i;
-    
-    if (win)
-        GetWindowModality(win, &modality, NULL);
-    for (i = 0; i <menu->GetMenuItemCount() ; i++) {
-        item = menu->FindItemByPosition(i);
-        if (modality == kWindowModalityAppModal)
-            item->Enable(false);
-        else
-            item->Enable(!(item->IsSeparator()));
+
+
+    // If a dialog is detected, we cannot allow the "Exit" menu item to be
+    //   enabled. So lets search for the dialog by ID since all of BOINC
+    //   Manager's dialog IDs are 10000.
+    if (wxDynamicCast(wxWindow::FindWindowById(ID_ANYDIALOG), wxDialog)) {
+        for (loc = 0; loc < pMenu->GetMenuItemCount(); loc++) {
+            pMenuItem = pMenu->FindItemByPosition(loc);
+            if (pMenuItem->GetId() == ID_TB_EXIT) {
+                pMenuItem->Enable(false);
+            }
+        }
     }
-#endif // __WXMAC__
+
+
+#ifdef __WXMSW__
+    // Wierd things happen with menus and wxWidgets on Windows when you try
+    //   to change the font, so instead of fighting the system get the original
+    //   font and tweak it a bit. It shouldn't hurt other platforms.
+    for (loc = 0; loc < pMenu->GetMenuItemCount(); loc++) {
+        pMenuItem = pMenu->FindItemByPosition(loc);
+        if (!pMenuItem->IsSeparator() && pMenuItem->IsEnabled()) {
+            pMenu->Remove(pMenuItem);
+
+            font = pMenuItem->GetFont();
+            if (pMenuItem->GetId() != wxID_OPEN) {
+                font.SetWeight(wxFONTWEIGHT_NORMAL);
+            } else {
+                font.SetWeight(wxFONTWEIGHT_BOLD);
+            }
+            pMenuItem->SetFont(font);
+
+            pMenu->Insert(loc, pMenuItem);
+        }
+    }
+#endif
 }
 
 const char *BOINC_RCSID_531575eeaa = "$Id$";

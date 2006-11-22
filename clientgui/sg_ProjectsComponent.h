@@ -72,7 +72,9 @@ public:
 	void UpdateProjectArray();
 
     void OnPreferences(wxCommandEvent& event);
-
+    void OnMessages(wxCommandEvent& event);
+    void OnSuspend(wxCommandEvent& event);
+    void OnResume(wxCommandEvent& event);
 
 	DECLARE_EVENT_TABLE()
 

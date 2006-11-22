@@ -116,9 +116,7 @@ public:
     bool                        IsReconnecting();
 
     int                         GetCoreClientStatus(CC_STATUS&);
-    int                         SetActivityRunMode(int iMode);
     int                         SetActivityRunMode(int iMode, int iTimeout);
-    int                         SetNetworkRunMode(int iMode);
     int                         SetNetworkRunMode(int iMode, int iTimeout);
 
     int                         ForceCacheUpdate();

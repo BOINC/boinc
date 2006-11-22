@@ -57,6 +57,7 @@ protected:
     void                ShutdownBOINCCore();
 #ifdef __WXMAC__
     bool                ProcessExists(pid_t thePID);
+    static OSErr        QuitAppleEventHandler( const AppleEvent *appleEvt, AppleEvent* reply, UInt32 refcon );
 #endif
 
     int                 ClientLibraryStartup();
@@ -72,7 +73,6 @@ protected:
     CTaskBarIcon*       m_pTaskBarIcon;
 #ifdef __WXMAC__
     CMacSystemMenu*     m_pMacSystemMenu;
-    static OSErr        QuitAppleEventHandler( const AppleEvent *appleEvt, AppleEvent* reply, UInt32 refcon );
 #endif
 
     bool                m_bBOINCStartedByManager;

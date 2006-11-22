@@ -917,13 +917,13 @@ void CAdvancedFrame::OnActivitySelection(wxCommandEvent& event) {
 
     switch(event.GetId()) {
     case ID_FILEACTIVITYRUNALWAYS:
-        pDoc->SetActivityRunMode(RUN_MODE_ALWAYS);
+        pDoc->SetActivityRunMode(RUN_MODE_ALWAYS, 0);
         break;
     case ID_FILEACTIVITYSUSPEND:
-        pDoc->SetActivityRunMode(RUN_MODE_NEVER);
+        pDoc->SetActivityRunMode(RUN_MODE_NEVER, 0);
         break;
     case ID_FILEACTIVITYRUNBASEDONPREPERENCES:
-        pDoc->SetActivityRunMode(RUN_MODE_AUTO);
+        pDoc->SetActivityRunMode(RUN_MODE_AUTO, 0);
         break;
     }
 
@@ -942,13 +942,13 @@ void CAdvancedFrame::OnNetworkSelection(wxCommandEvent& event) {
 
     switch(event.GetId()) {
     case ID_FILENETWORKRUNALWAYS:
-        pDoc->SetNetworkRunMode(RUN_MODE_ALWAYS);
+        pDoc->SetNetworkRunMode(RUN_MODE_ALWAYS, 0);
         break;
     case ID_FILENETWORKSUSPEND:
-        pDoc->SetNetworkRunMode(RUN_MODE_NEVER);
+        pDoc->SetNetworkRunMode(RUN_MODE_NEVER, 0);
         break;
     case ID_FILENETWORKRUNBASEDONPREPERENCES:
-        pDoc->SetNetworkRunMode(RUN_MODE_AUTO);
+        pDoc->SetNetworkRunMode(RUN_MODE_AUTO, 0);
         break;
     }
 
@@ -975,31 +975,28 @@ void CAdvancedFrame::OnSelectComputer(wxCommandEvent& WXUNUSED(event)) {
     wxLogTrace(wxT("Function Start/End"), wxT("CAdvancedFrame::OnSelectComputer - Function Begin"));
 
     CMainDocument*      pDoc = wxGetApp().GetDocument();
-    CDlgSelectComputer* pDlg = new CDlgSelectComputer(this);
-    long                lAnswer = 0;
+    CDlgSelectComputer  dlg(this);
     size_t              lIndex = 0;
     long                lRetVal = -1;
     wxArrayString       aComputerNames;
 
     wxASSERT(pDoc);
     wxASSERT(wxDynamicCast(pDoc, CMainDocument));
-    wxASSERT(pDlg);
 
 
     // Lets copy the template store in the system state
     aComputerNames = m_aSelectedComputerMRU;
 
     // Lets populate the combo control with the MRU list
-    pDlg->m_ComputerNameCtrl->Clear();
+    dlg.m_ComputerNameCtrl->Clear();
     for (lIndex = 0; lIndex < aComputerNames.Count(); lIndex++) {
-        pDlg->m_ComputerNameCtrl->Append(aComputerNames.Item(lIndex));
+        dlg.m_ComputerNameCtrl->Append(aComputerNames.Item(lIndex));
     }
 
-    lAnswer = pDlg->ShowModal();
-    if (wxID_OK == lAnswer) {
+    if (wxID_OK == dlg.ShowModal()) {
 
         // Make a null hostname be the same thing as localhost
-        if (wxEmptyString == pDlg->m_ComputerNameCtrl->GetValue()) {
+        if (wxEmptyString == dlg.m_ComputerNameCtrl->GetValue()) {
             lRetVal = pDoc->Connect(
                 wxT("localhost"),
                 wxEmptyString,
@@ -1009,8 +1006,8 @@ void CAdvancedFrame::OnSelectComputer(wxCommandEvent& WXUNUSED(event)) {
         } else {
             // Connect up to the remote machine
             lRetVal = pDoc->Connect(
-                pDlg->m_ComputerNameCtrl->GetValue(), 
-                pDlg->m_ComputerPasswordCtrl->GetValue(),
+                dlg.m_ComputerNameCtrl->GetValue(), 
+                dlg.m_ComputerPasswordCtrl->GetValue(),
                 TRUE,
                 FALSE
             );
@@ -1021,8 +1018,8 @@ void CAdvancedFrame::OnSelectComputer(wxCommandEvent& WXUNUSED(event)) {
 
         // Insert a copy of the current combo box value to the head of the
         //   computer names string array
-        if (wxEmptyString != pDlg->m_ComputerNameCtrl->GetValue()) {
-            aComputerNames.Insert(pDlg->m_ComputerNameCtrl->GetValue(), 0);
+        if (wxEmptyString != dlg.m_ComputerNameCtrl->GetValue()) {
+            aComputerNames.Insert(dlg.m_ComputerNameCtrl->GetValue(), 0);
         }
 
         // Loops through the computer names and remove any duplicates that
@@ -1035,9 +1032,6 @@ void CAdvancedFrame::OnSelectComputer(wxCommandEvent& WXUNUSED(event)) {
         // Store the modified computer name MRU list back to the system state
         m_aSelectedComputerMRU = aComputerNames;
     }
-
-    if (pDlg)
-        pDlg->Destroy();
 
     wxLogTrace(wxT("Function Start/End"), wxT("CAdvancedFrame::OnSelectComputer - Function End"));
 }
@@ -1275,8 +1269,7 @@ void CAdvancedFrame::OnOptionsOptions(wxCommandEvent& WXUNUSED(event)) {
 
     CMainDocument* pDoc = wxGetApp().GetDocument();
     CSkinAdvanced* pSkinAdvanced = wxGetApp().GetSkinManager()->GetAdvanced();
-    CDlgOptions*   pDlg = new CDlgOptions(this);
-    int            iAnswer = 0;
+    CDlgOptions    dlg(this);
     int            iBuffer = 0;
     wxString       strBuffer = wxEmptyString;
     wxArrayString  astrDialupConnections;
@@ -1284,27 +1277,26 @@ void CAdvancedFrame::OnOptionsOptions(wxCommandEvent& WXUNUSED(event)) {
 
     wxASSERT(pDoc);
     wxASSERT(pSkinAdvanced);
-    wxASSERT(pDlg);
     wxASSERT(wxDynamicCast(pDoc, CMainDocument));
     wxASSERT(wxDynamicCast(pSkinAdvanced, CSkinAdvanced));
 
 
     // General Tab
-    pDlg->m_LanguageSelectionCtrl->Append(wxGetApp().GetSupportedLanguages());
+    dlg.m_LanguageSelectionCtrl->Append(wxGetApp().GetSupportedLanguages());
 
-    pDlg->m_LanguageSelectionCtrl->SetSelection(m_iSelectedLanguage);
-    pDlg->m_ReminderFrequencyCtrl->SetValue(m_iReminderFrequency);
+    dlg.m_LanguageSelectionCtrl->SetSelection(m_iSelectedLanguage);
+    dlg.m_ReminderFrequencyCtrl->SetValue(m_iReminderFrequency);
 
 #ifdef __WXMSW__
     // Connection Tab
     if (m_pDialupManager) {
         m_pDialupManager->GetISPNames(astrDialupConnections);
 
-        pDlg->m_DialupConnectionsCtrl->Append(astrDialupConnections);
-        pDlg->SetDefaultDialupConnection(m_strNetworkDialupConnectionName);
+        dlg.m_DialupConnectionsCtrl->Append(astrDialupConnections);
+        dlg.SetDefaultDialupConnection(m_strNetworkDialupConnectionName);
     } else {
-        pDlg->m_DialupSetDefaultCtrl->Disable();
-        pDlg->m_DialupClearDefaultCtrl->Disable();
+        dlg.m_DialupSetDefaultCtrl->Disable();
+        dlg.m_DialupClearDefaultCtrl->Disable();
     }
 #endif
 
@@ -1313,33 +1305,32 @@ void CAdvancedFrame::OnOptionsOptions(wxCommandEvent& WXUNUSED(event)) {
     if(!bRetrievedProxyConfiguration) {
         // We were unable to get the proxy configuration, so disable
         //   the controls
-        pDlg->m_EnableHTTPProxyCtrl->Enable(false);
-        pDlg->m_EnableSOCKSProxyCtrl->Enable(false);
+        dlg.m_EnableHTTPProxyCtrl->Enable(false);
+        dlg.m_EnableSOCKSProxyCtrl->Enable(false);
     } else {
-        pDlg->m_EnableHTTPProxyCtrl->Enable(true);
-        pDlg->m_EnableSOCKSProxyCtrl->Enable(true);
+        dlg.m_EnableHTTPProxyCtrl->Enable(true);
+        dlg.m_EnableSOCKSProxyCtrl->Enable(true);
     }
 
-    pDlg->m_EnableHTTPProxyCtrl->SetValue(pDoc->proxy_info.use_http_proxy);
-    pDlg->m_HTTPAddressCtrl->SetValue(wxString(pDoc->proxy_info.http_server_name.c_str(), wxConvUTF8));
-    pDlg->m_HTTPUsernameCtrl->SetValue(wxString(pDoc->proxy_info.http_user_name.c_str(), wxConvUTF8));
-    pDlg->m_HTTPPasswordCtrl->SetValue(wxString(pDoc->proxy_info.http_user_passwd.c_str(), wxConvUTF8));
+    dlg.m_EnableHTTPProxyCtrl->SetValue(pDoc->proxy_info.use_http_proxy);
+    dlg.m_HTTPAddressCtrl->SetValue(wxString(pDoc->proxy_info.http_server_name.c_str(), wxConvUTF8));
+    dlg.m_HTTPUsernameCtrl->SetValue(wxString(pDoc->proxy_info.http_user_name.c_str(), wxConvUTF8));
+    dlg.m_HTTPPasswordCtrl->SetValue(wxString(pDoc->proxy_info.http_user_passwd.c_str(), wxConvUTF8));
 
     strBuffer.Printf(wxT("%d"), pDoc->proxy_info.http_server_port);
-    pDlg->m_HTTPPortCtrl->SetValue(strBuffer);
+    dlg.m_HTTPPortCtrl->SetValue(strBuffer);
 
-    pDlg->m_EnableSOCKSProxyCtrl->SetValue(pDoc->proxy_info.use_socks_proxy);
-    pDlg->m_SOCKSAddressCtrl->SetValue(wxString(pDoc->proxy_info.socks_server_name.c_str(), wxConvUTF8));
-    pDlg->m_SOCKSUsernameCtrl->SetValue(wxString(pDoc->proxy_info.socks5_user_name.c_str(), wxConvUTF8));
-    pDlg->m_SOCKSPasswordCtrl->SetValue(wxString(pDoc->proxy_info.socks5_user_passwd.c_str(), wxConvUTF8));
+    dlg.m_EnableSOCKSProxyCtrl->SetValue(pDoc->proxy_info.use_socks_proxy);
+    dlg.m_SOCKSAddressCtrl->SetValue(wxString(pDoc->proxy_info.socks_server_name.c_str(), wxConvUTF8));
+    dlg.m_SOCKSUsernameCtrl->SetValue(wxString(pDoc->proxy_info.socks5_user_name.c_str(), wxConvUTF8));
+    dlg.m_SOCKSPasswordCtrl->SetValue(wxString(pDoc->proxy_info.socks5_user_passwd.c_str(), wxConvUTF8));
 
     strBuffer.Printf(wxT("%d"), pDoc->proxy_info.socks_server_port);
-    pDlg->m_SOCKSPortCtrl->SetValue(strBuffer);
+    dlg.m_SOCKSPortCtrl->SetValue(strBuffer);
 
-    iAnswer = pDlg->ShowModal();
-    if (wxID_OK == iAnswer) {
+    if (wxID_OK == dlg.ShowModal()) {
         // General Tab
-        if (m_iSelectedLanguage != pDlg->m_LanguageSelectionCtrl->GetSelection()) {
+        if (m_iSelectedLanguage != dlg.m_LanguageSelectionCtrl->GetSelection()) {
             wxString strDialogTitle;
             wxString strDialogMessage;
 
@@ -1366,40 +1357,37 @@ void CAdvancedFrame::OnOptionsOptions(wxCommandEvent& WXUNUSED(event)) {
            );
         }
 
-        m_iSelectedLanguage = pDlg->m_LanguageSelectionCtrl->GetSelection();
-        m_iReminderFrequency = pDlg->m_ReminderFrequencyCtrl->GetValue();
+        m_iSelectedLanguage = dlg.m_LanguageSelectionCtrl->GetSelection();
+        m_iReminderFrequency = dlg.m_ReminderFrequencyCtrl->GetValue();
 
 #ifdef __WXMSW__
         // Connection Tab
-        m_strNetworkDialupConnectionName = pDlg->GetDefaultDialupConnection();
+        m_strNetworkDialupConnectionName = dlg.GetDefaultDialupConnection();
 #endif
 
         // Proxy Tabs
         if (bRetrievedProxyConfiguration) {
-            pDoc->proxy_info.use_http_proxy = pDlg->m_EnableHTTPProxyCtrl->GetValue();
-            pDoc->proxy_info.http_server_name = (const char*)pDlg->m_HTTPAddressCtrl->GetValue().mb_str();
-            pDoc->proxy_info.http_user_name = (const char*)pDlg->m_HTTPUsernameCtrl->GetValue().mb_str();
-            pDoc->proxy_info.http_user_passwd = (const char*)pDlg->m_HTTPPasswordCtrl->GetValue().mb_str();
+            pDoc->proxy_info.use_http_proxy = dlg.m_EnableHTTPProxyCtrl->GetValue();
+            pDoc->proxy_info.http_server_name = (const char*)dlg.m_HTTPAddressCtrl->GetValue().mb_str();
+            pDoc->proxy_info.http_user_name = (const char*)dlg.m_HTTPUsernameCtrl->GetValue().mb_str();
+            pDoc->proxy_info.http_user_passwd = (const char*)dlg.m_HTTPPasswordCtrl->GetValue().mb_str();
 
-            strBuffer = pDlg->m_HTTPPortCtrl->GetValue();
+            strBuffer = dlg.m_HTTPPortCtrl->GetValue();
             strBuffer.ToLong((long*)&iBuffer);
             pDoc->proxy_info.http_server_port = iBuffer;
 
-            pDoc->proxy_info.use_socks_proxy = pDlg->m_EnableSOCKSProxyCtrl->GetValue();
-            pDoc->proxy_info.socks_server_name = (const char*)pDlg->m_SOCKSAddressCtrl->GetValue().mb_str();
-            pDoc->proxy_info.socks5_user_name = (const char*)pDlg->m_SOCKSUsernameCtrl->GetValue().mb_str();
-            pDoc->proxy_info.socks5_user_passwd = (const char*)pDlg->m_SOCKSPasswordCtrl->GetValue().mb_str();
+            pDoc->proxy_info.use_socks_proxy = dlg.m_EnableSOCKSProxyCtrl->GetValue();
+            pDoc->proxy_info.socks_server_name = (const char*)dlg.m_SOCKSAddressCtrl->GetValue().mb_str();
+            pDoc->proxy_info.socks5_user_name = (const char*)dlg.m_SOCKSUsernameCtrl->GetValue().mb_str();
+            pDoc->proxy_info.socks5_user_passwd = (const char*)dlg.m_SOCKSPasswordCtrl->GetValue().mb_str();
 
-            strBuffer = pDlg->m_SOCKSPortCtrl->GetValue();
+            strBuffer = dlg.m_SOCKSPortCtrl->GetValue();
             strBuffer.ToLong((long*)&iBuffer);
             pDoc->proxy_info.socks_server_port = iBuffer;
 
             pDoc->SetProxyConfiguration();
         }
     }
-
-    if (pDlg)
-        pDlg->Destroy();
 
     wxLogTrace(wxT("Function Start/End"), wxT("CAdvancedFrame::OnOptionsOptions - Function End"));
 }
@@ -1450,13 +1438,8 @@ void CAdvancedFrame::OnHelpBOINCWebsite(wxCommandEvent& WXUNUSED(event)) {
 void CAdvancedFrame::OnHelpAbout(wxCommandEvent& WXUNUSED(event)) {
     wxLogTrace(wxT("Function Start/End"), wxT("CAdvancedFrame::OnHelpAbout - Function Begin"));
 
-    CDlgAbout* pDlg = new CDlgAbout(this);
-    wxASSERT(pDlg);
-
-    pDlg->ShowModal();
-
-    if (pDlg)
-        pDlg->Destroy();
+    CDlgAbout dlg(this);
+    dlg.ShowModal();
 
     wxLogTrace(wxT("Function Start/End"), wxT("CAdvancedFrame::OnHelpAbout - Function End"));
 }

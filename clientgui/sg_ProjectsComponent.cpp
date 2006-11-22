@@ -46,6 +46,10 @@
 IMPLEMENT_DYNAMIC_CLASS(CProjectsComponent, wxPanel)
 
 BEGIN_EVENT_TABLE(CProjectsComponent, wxPanel)
+    EVT_BUTTON(ID_SIMPLE_MESSAGES, CProjectsComponent::OnMessages)
+    EVT_BUTTON(ID_SIMPLE_MESSAGES_ALERT, CProjectsComponent::OnMessages)
+    EVT_BUTTON(ID_SIMPLE_SUSPEND, CProjectsComponent::OnSuspend)
+    EVT_BUTTON(ID_SIMPLE_RESUME, CProjectsComponent::OnResume)
     EVT_BUTTON(ID_SIMPLE_PREFERENCES, CProjectsComponent::OnPreferences)
     EVT_PAINT(CProjectsComponent::OnPaint)
     EVT_BUTTON(-1,CProjectsComponent::OnBtnClick)
@@ -355,6 +359,69 @@ void CProjectsComponent::UpdateDisplayedProjects() {
 	Update();
 }
 
+
+void CProjectsComponent::OnMessages(wxCommandEvent& /*event*/) {
+    wxLogTrace(wxT("Function Start/End"), wxT("CProjectsComponent::OnMessages - Function Begin"));
+
+	CSimplePanel* pPanel = wxDynamicCast(GetParent(), CSimplePanel);
+    wxASSERT(pPanel);
+
+    MessagesViewed();
+
+    pPanel->SetDlgOpen(true);
+
+	CDlgMessages dlg(GetParent());
+    dlg.ShowModal();
+
+    pPanel->SetDlgOpen(false);
+
+    wxLogTrace(wxT("Function Start/End"), wxT("CProjectsComponent::OnMessages - Function End"));
+}
+
+
+void CProjectsComponent::OnSuspend(wxCommandEvent& /*event*/) {
+    wxLogTrace(wxT("Function Start/End"), wxT("CProjectsComponent::OnSuspend - Function Begin"));
+
+    CMainDocument* pDoc = wxGetApp().GetDocument();
+    wxASSERT(pDoc);
+    wxASSERT(wxDynamicCast(pDoc, CMainDocument));
+
+    pDoc->SetActivityRunMode(RUN_MODE_NEVER, 60);
+    pDoc->SetNetworkRunMode(RUN_MODE_NEVER, 60);
+
+    btnPause->Show(false);
+    btnResume->Show(true);
+
+    wxLogTrace(wxT("Function Start/End"), wxT("CProjectsComponent::OnSuspend - Function End"));
+}
+
+
+void CProjectsComponent::OnResume(wxCommandEvent& /*event*/) {
+    wxLogTrace(wxT("Function Start/End"), wxT("CProjectsComponent::OnResume - Function Begin"));
+
+    CMainDocument* pDoc      = wxGetApp().GetDocument();
+    CC_STATUS      status;
+
+    wxASSERT(pDoc);
+    wxASSERT(wxDynamicCast(pDoc, CMainDocument));
+
+    pDoc->GetCoreClientStatus(status);
+    if ((status.task_mode_perm != status.task_mode) || (status.network_mode_perm != status.network_mode)) {
+        if (status.task_mode_perm != status.task_mode) {
+            pDoc->SetActivityRunMode(RUN_MODE_RESTORE, 0);
+        }
+        if (status.network_mode_perm != status.network_mode) {
+            pDoc->SetNetworkRunMode(RUN_MODE_RESTORE, 0);
+        }
+    }
+
+    btnResume->Show(false);
+    btnPause->Show(true);
+
+    wxLogTrace(wxT("Function Start/End"), wxT("CProjectsComponent::OnResume - Function End"));
+}
+
+
 void CProjectsComponent::OnPreferences(wxCommandEvent& /*event*/) {
     wxLogTrace(wxT("Function Start/End"), wxT("CProjectsComponent::OnPreferences - Function Begin"));
 
@@ -364,13 +431,8 @@ void CProjectsComponent::OnPreferences(wxCommandEvent& /*event*/) {
 
 	pPanel->SetDlgOpen(true);
 
-	CDlgPreferences* pDlg = new CDlgPreferences(GetParent());
-    wxASSERT(pDlg);
-
-    pDlg->ShowModal();
-
-    if (pDlg)
-        pDlg->Destroy();
+	CDlgPreferences dlg(GetParent());
+    dlg.ShowModal();
 
     pPanel->SetDlgOpen(false);
 
@@ -381,9 +443,6 @@ void CProjectsComponent::OnPreferences(wxCommandEvent& /*event*/) {
 void CProjectsComponent::UpdateInterface()
 {
 	CMainDocument* pDoc = wxGetApp().GetDocument();
-
-    wxASSERT(pDoc);
-    wxASSERT(wxDynamicCast(pDoc, CMainDocument));
 
 	// Check to see if error messages have been received
 	if ( receivedErrorMessage ) {
@@ -411,7 +470,7 @@ void CProjectsComponent::UpdateInterface()
 	// Show resume or pause as appropriate
 	CC_STATUS status;
 	pDoc->GetCoreClientStatus(status);
-	if ( status.task_mode == RUN_MODE_NEVER ) {
+    if ((RUN_MODE_NEVER == status.task_mode) && (RUN_MODE_NEVER == status.network_mode)) {
 		btnPause->Show(false);
 		btnResume->Show(true);
 	} else {
@@ -514,30 +573,7 @@ void CProjectsComponent::OnBtnClick(wxCommandEvent& event){ //init function
 	} else if(m_wxBtnObj==btnAddProj){
 		pPanel->OnProjectsAttachToProject();
 		btnAddProj->Refresh();
-	} else if(m_wxBtnObj==btnMessages || m_wxBtnObj==btnAlertMessages){
-		MessagesViewed();
-		CDlgMessages* pDlg = new CDlgMessages(this);
-		wxASSERT(pDlg);
-		pDlg->Show();
-    } else if(m_wxBtnObj==btnPause) {
-		CMainDocument* pDoc     = wxGetApp().GetDocument();
-        CC_STATUS      status;
-
-        pDoc->GetCoreClientStatus(status);
-
-        clientRunMode = status.task_mode;
-        clientNetworkMode = status.network_mode;
-		pDoc->SetActivityRunMode(RUN_MODE_NEVER, 60);
-		pDoc->SetNetworkRunMode(RUN_MODE_NEVER, 60);
-		btnPause->Show(false);
-		btnResume->Show(true);
-    } else if(m_wxBtnObj==btnResume) {
-		CMainDocument* pDoc     = wxGetApp().GetDocument();
-		pDoc->SetActivityRunMode(clientRunMode);
-		pDoc->SetNetworkRunMode(clientNetworkMode);
-		btnResume->Show(false);
-		btnPause->Show(true);
-    } else if(m_wxBtnObj==btnAdvancedView) {
+	} else if(m_wxBtnObj==btnAdvancedView) {
         wxGetApp().SetActiveGUI(BOINC_ADVANCEDGUI, true);
     }
 }

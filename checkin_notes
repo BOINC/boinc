@@ -12856,3 +12856,34 @@ David  21 Nov 2006
         common_defs.h
         gui_rpc_client_ops.C
         util.C
+
+Rom    22 Nov 2006
+    - MGR: It turns out that wxWidgets exposes searching for a window by ID and
+        by default dialogs all have an id of 10000, so if we can find a window
+        with an ID of 10000 and it is of wxDialog type then disable the "Exit" 
+        menu item.
+    - MGR: Clean out a bunch of the #ifdef's that were littered across the
+        taskbar implementation, the compiler can take care of removing the dead 
+        code during the optimization phase. It is just to cluttered otherwise.
+    - MGR: Change the BSG static project icon tooltip to read 
+        "%s. Work done by %s: %0.2f" and make it localizable.
+    - MGR: Change CDlgMessages to be a regular wxDialog derived class.
+    - MGR: Change all dialogs so that they are declared as stack based items
+        instead of heap based items.
+    - MGR: Use the snooze restore feature that was just introduced into the
+        core client.
+    - MGR: Commit Frank's changes to properly support Unicode in the SkinManager
+        for Debian based distros.
+
+    client/
+        client_types.C
+    clientgui/
+        AdvancedFrame.cpp
+        BOINCGUIApp.cpp, .h
+        BOINCTaskBar.cpp, .h
+        Events.h
+        MainDocument.cpp, .h
+        sg_DlgMessages.cpp, .h
+        sg_ProjectsComponent.cpp, .h
+        sg_StatImageLoader.cpp
+        SkinManager.cpp

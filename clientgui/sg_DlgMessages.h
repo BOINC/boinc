@@ -24,6 +24,8 @@
 #if defined(__GNUG__) && !defined(__APPLE__)
 #pragma interface "sg_DlgMessages.cpp"
 #endif
+
+
 /*!
  * Includes
  */
@@ -65,6 +67,7 @@ class CSGUIListCtrl;
 #define wxFIXED_MINSIZE 0
 #endif
 
+
 /*!
  * CPanelPreferences class declaration
  */
@@ -93,7 +96,7 @@ public:
     void OnEraseBackground( wxEraseEvent& event );
 
     /// wxEVT_TIMER event handler for ID_REFRESHMESSAGESTIMER
-    void OnListRender( wxTimerEvent& event );
+    void OnRefresh( wxTimerEvent& event );
 
     /// wxEVT_COMMAND_BUTTON_CLICKED event handler for wxID_OK
     void OnOK( wxCommandEvent& event );
@@ -109,8 +112,6 @@ public:
 ////@begin CPanelMessages member function declarations
 ////@end CPanelMessages member function declarations
 
-
-
     virtual wxString        OnListGetItemText( long item, long column ) const;
 	virtual wxListItemAttr* OnListGetItemAttr( long item ) const;
 
@@ -124,8 +125,7 @@ private:
     wxListItemAttr*         m_pMessageInfoAttr;
     wxListItemAttr*         m_pMessageErrorAttr;
 
-	bool                    m_bProcessingTaskRenderEvent;
-    bool                    m_bProcessingListRenderEvent;
+    bool                    m_bProcessingRefreshEvent;
     bool                    m_bForceUpdateSelection;
 
 	wxTimer*                m_pRefreshMessagesTimer;
@@ -148,7 +148,7 @@ private:
 };
 
 
-class CDlgMessages : public wxFrame
+class CDlgMessages : public wxDialog
 {
     DECLARE_DYNAMIC_CLASS( CDlgMessages )
     DECLARE_EVENT_TABLE()

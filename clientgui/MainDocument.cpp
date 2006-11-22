@@ -471,11 +471,6 @@ int CMainDocument::GetCoreClientStatus(CC_STATUS& ccs) {
 }
 
 
-int CMainDocument::SetActivityRunMode(int iMode) {
-    return SetActivityRunMode(iMode, 0);
-}
-
-
 int CMainDocument::SetActivityRunMode(int iMode, int iTimeout) {
     int     iRetVal = 0;
 
@@ -487,11 +482,6 @@ int CMainDocument::SetActivityRunMode(int iMode, int iTimeout) {
     }
 
     return iRetVal;
-}
-
-
-int CMainDocument::SetNetworkRunMode(int iMode) {
-    return SetNetworkRunMode(iMode, 0);
 }
 
 

@@ -63,6 +63,7 @@
 
 #define ID_TB_TIMER                             6800
 #define ID_TB_SUSPEND                           6801
+#define ID_TB_EXIT                              6802
 #define ID_LIST_BASE                            7000
 #define ID_LIST_PROJECTSVIEW                    7000
 #define ID_LIST_WORKVIEW                        7001
@@ -103,7 +104,8 @@
 #define ID_TASK_STATISTICS_PREVPROJECT          9602 
 #define ID_TASK_STATISTICS_MODEVIEW0            9610 
 #define ID_TASK_STATISTICS_MODEVIEW1            9611 
-#define ID_TASK_STATISTICS_MODEVIEW2            9612 
+#define ID_TASK_STATISTICS_MODEVIEW2            9612
+#define ID_ANYDIALOG                            10000
 
 #endif
 

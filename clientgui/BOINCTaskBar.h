@@ -24,18 +24,15 @@
 #pragma interface "BOINCTaskBar.cpp"
 #endif
 
-#ifdef __APPLE__
-#include <Carbon/Carbon.h>
-#endif
 
 #ifdef __WXMSW__
 #include "msw/taskbarex.h"
 #else
-#define wxTaskBarIconEx     wxTaskBarIcon
+#define wxTaskBarIconEx         wxTaskBarIcon
+#define wxTaskBarIconExEvent    wxTaskBarIconEvent
 #endif
 
 class CTaskbarEvent;
-
 
 class CTaskBarIcon : public wxTaskBarIconEx {
 public:
@@ -44,33 +41,21 @@ public:
 
     void OnOpenWebsite(wxCommandEvent& event);
     void OnOpen(wxCommandEvent& event);
-    void OnSuspend(wxCommandEvent& event);
+    void OnSuspendResume(wxCommandEvent& event);
     void OnAbout(wxCommandEvent& event);
     void OnExit(wxCommandEvent& event);
-
-#ifdef __WXMSW__
     void OnShutdown(wxTaskBarIconExEvent& event);
-#endif
 
     void OnIdle(wxIdleEvent& event);
     void OnClose(wxCloseEvent& event);
     void OnRefresh(wxTimerEvent& event);
+    void OnReloadSkin(CTaskbarEvent& event);
 
-#ifdef __WXMSW__
     void OnMouseMove(wxTaskBarIconEvent& event);
-#endif
     void OnLButtonDClick(wxTaskBarIconEvent& event);
-
-#ifdef __WXMSW__
     void OnContextMenu(wxTaskBarIconExEvent& event);
-#else
-    void OnContextMenu(wxTaskBarIconEvent& event);
-#endif
-
     void OnRButtonDown(wxTaskBarIconEvent& event);
     void OnRButtonUp(wxTaskBarIconEvent& event);
-
-    void OnReloadSkin(CTaskbarEvent& event);
 
     void FireReloadSkin();
 
@@ -101,12 +86,9 @@ private:
 
     bool       m_bMouseButtonPressed;
 
-    int        m_iPreviousActivityMode;
-    int        m_iPreviousNetworkMode;
-
     void       ResetTaskBar();
 
-    void       CreateContextMenu();
+    void       DisplayContextMenu();
     
     DECLARE_EVENT_TABLE()
 

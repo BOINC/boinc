@@ -91,14 +91,22 @@ void StatImageLoader::RebuildMenu() {
 
 
 void StatImageLoader::BuildUserStatToolTip() {
-	CMainDocument* pDoc     = wxGetApp().GetDocument();
-	PROJECT* project = pDoc->state.lookup_project(m_prjUrl);
-	//user credit text
-	wxString userCredit;
-	userCredit.Printf(wxT("%0.2f"), project->user_total_credit);
-	wxString toolTipTxt = wxString(project->project_name.c_str(), wxConvUTF8 ) +wxT(". User ") + wxString(project->user_name.c_str(), wxConvUTF8) + wxT(" has ") + userCredit + wxT(" credits."); 
-	wxToolTip* userStatToolTip = new wxToolTip(toolTipTxt);
-	SetToolTip(userStatToolTip);
+    wxString strBuffer = wxEmptyString;
+	CMainDocument* pDoc = wxGetApp().GetDocument();
+
+    wxASSERT(pDoc);
+    wxASSERT(wxDynamicCast(pDoc, CMainDocument));
+
+    PROJECT* project = pDoc->state.lookup_project(m_prjUrl);
+
+    strBuffer.Printf(
+        _("%s. Work done for %s: %0.2f"),
+        wxString(project->project_name.c_str(), wxConvUTF8).c_str(),
+        wxString(project->user_name.c_str(), wxConvUTF8).c_str(),
+        project->user_total_credit
+    );
+
+    SetToolTip(new wxToolTip(strBuffer));
 }
 
 

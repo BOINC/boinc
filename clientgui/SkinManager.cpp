@@ -93,9 +93,9 @@ CSkinItem::~CSkinItem() {
 wxColour CSkinItem::ParseColor(wxString strColor) {
     int red, green, blue;
     wxStringTokenizer tkz(strColor, wxT(":"), wxTOKEN_RET_EMPTY);
-    wxString(tkz.GetNextToken().mb_str()).ToLong((long*)&red);
-	wxString(tkz.GetNextToken().mb_str()).ToLong((long*)&green);
-	wxString(tkz.GetNextToken().mb_str()).ToLong((long*)&blue);
+    wxString(tkz.GetNextToken()).ToLong((long*)&red);
+	wxString(tkz.GetNextToken()).ToLong((long*)&green);
+	wxString(tkz.GetNextToken()).ToLong((long*)&blue);
     return wxColour((unsigned char)red, (unsigned char)green, (unsigned char)blue);
 }
 
@@ -180,7 +180,7 @@ bool CSkinImage::Validate() {
             m_bmpBitmap = wxBitmap(wxImage(m_strDesiredBitmap, wxBITMAP_TYPE_ANY));
         }
         if (!m_bmpBitmap.Ok()) {
-            fprintf(stderr, wxT("Skin Manager: Failed to load '%s' image. Using default.\n"), m_strComponentName.c_str());
+            fprintf(stderr, "Skin Manager: Failed to load '%s' image. Using default.\n", m_strComponentName.c_str());
             m_bmpBitmap = wxBitmap(m_ppDefaultBitmap);
             wxASSERT(m_bmpBitmap.Ok());
         }
@@ -190,7 +190,7 @@ bool CSkinImage::Validate() {
             m_colBackgroundColor = ParseColor(m_strDesiredBackgroundColor);
         }
         if (!m_colBackgroundColor.Ok()) {
-            fprintf(stderr, wxT("Skin Manager: Failed to load '%s' background color. Using default.\n"), m_strComponentName.c_str());
+            fprintf(stderr, "Skin Manager: Failed to load '%s' background color. Using default.\n", m_strComponentName.c_str());
             m_colBackgroundColor = ParseColor(m_strDefaultBackgroundColor);
             wxASSERT(m_colBackgroundColor.Ok());
         }
@@ -270,7 +270,7 @@ bool CSkinIcon::Validate() {
             m_icoIcon.CopyFromBitmap(bmp);
         }
         if (!m_icoIcon.Ok()) {
-            fprintf(stderr, wxT("Skin Manager: Failed to load '%s' icon. Using default.\n"), m_strComponentName.c_str());
+            fprintf(stderr, "Skin Manager: Failed to load '%s' icon. Using default.\n", m_strComponentName.c_str());
             m_icoIcon = wxIcon(m_ppDefaultIcon);
             wxASSERT(m_icoIcon.Ok());
         }
@@ -356,7 +356,7 @@ bool CSkinSimpleButton::Validate() {
             m_bmpBitmap = wxBitmap(wxImage(m_strDesiredBitmap, wxBITMAP_TYPE_ANY));
         }
         if (!m_bmpBitmap.Ok()) {
-            fprintf(stderr, wxT("Skin Manager: Failed to load '%s' image. Using default.\n"), m_strComponentName.c_str());
+            fprintf(stderr, "Skin Manager: Failed to load '%s' image. Using default.\n", m_strComponentName.c_str());
             m_bmpBitmap = wxBitmap(m_ppDefaultBitmap);
             wxASSERT(m_bmpBitmap.Ok());
         }
@@ -366,7 +366,7 @@ bool CSkinSimpleButton::Validate() {
             m_bmpBitmapClicked = wxBitmap(wxImage(m_strDesiredBitmapClicked, wxBITMAP_TYPE_ANY));
         }
         if (!m_bmpBitmapClicked.Ok()) {
-            fprintf(stderr, wxT("Skin Manager: Failed to load '%s' clicked image. Using default.\n"), m_strComponentName.c_str());
+            fprintf(stderr, "Skin Manager: Failed to load '%s' clicked image. Using default.\n", m_strComponentName.c_str());
             m_bmpBitmapClicked = wxBitmap(m_ppDefaultBitmapClicked);
             wxASSERT(m_bmpBitmapClicked.Ok());
         }
@@ -481,7 +481,7 @@ bool CSkinSimpleTab::Validate() {
             m_bmpBitmap = wxBitmap(wxImage(m_strDesiredBitmap, wxBITMAP_TYPE_ANY));
         }
         if (!m_bmpBitmap.Ok()) {
-            fprintf(stderr, wxT("Skin Manager: Failed to load '%s' tab image. Using default.\n"), m_strComponentName.c_str());
+            fprintf(stderr, "Skin Manager: Failed to load '%s' tab image. Using default.\n", m_strComponentName.c_str());
             m_bmpBitmap = wxBitmap(m_ppDefaultBitmap);
             wxASSERT(m_bmpBitmap.Ok());
         }
@@ -491,7 +491,7 @@ bool CSkinSimpleTab::Validate() {
             m_colBorderColor = ParseColor(m_strDesiredBorderColor);
         }
         if (!m_colBorderColor.Ok()) {
-            fprintf(stderr, wxT("Skin Manager: Failed to load '%s' tab border color. Using default.\n"), m_strComponentName.c_str());
+            fprintf(stderr, "Skin Manager: Failed to load '%s' tab border color. Using default.\n", m_strComponentName.c_str());
             m_colBorderColor = ParseColor(m_strDefaultBorderColor);
             wxASSERT(m_colBorderColor.Ok());
         }
@@ -501,7 +501,7 @@ bool CSkinSimpleTab::Validate() {
             m_colGradientFromColor = ParseColor(m_strDesiredGradientFromColor);
         }
         if (!m_colGradientFromColor.Ok()) {
-            fprintf(stderr, wxT("Skin Manager: Failed to load '%s' tab gradient from color. Using default.\n"), m_strComponentName.c_str());
+            fprintf(stderr, "Skin Manager: Failed to load '%s' tab gradient from color. Using default.\n", m_strComponentName.c_str());
             m_colGradientFromColor = ParseColor(m_strDefaultGradientFromColor);
             wxASSERT(m_colGradientFromColor.Ok());
         }
@@ -511,7 +511,7 @@ bool CSkinSimpleTab::Validate() {
             m_colGradientToColor = ParseColor(m_strDesiredGradientToColor);
         }
         if (!m_colGradientToColor.Ok()) {
-            fprintf(stderr, wxT("Skin Manager: Failed to load '%s' tab gradient to color. Using default.\n"), m_strComponentName.c_str());
+            fprintf(stderr, "Skin Manager: Failed to load '%s' tab gradient to color. Using default.\n", m_strComponentName.c_str());
             m_colGradientToColor = ParseColor(m_strDefaultGradientToColor);
             wxASSERT(m_colGradientToColor.Ok());
         }
@@ -680,7 +680,7 @@ bool CSkinSimple::InitializeDelayedValidation() {
     );
     m_SpacerImage.SetDefaults(wxT("spacer"), (const char**)spacer_image_xpm);
     if (!m_StaticLineColor.Ok()) {
-        fprintf(stderr, wxT("Skin Manager: Failed to parse static line color. Using default.\n"));
+        fprintf(stderr, "Skin Manager: Failed to parse static line color. Using default.\n");
         m_StaticLineColor = ParseColor(wxString(wxT("204:102:51")));
         wxASSERT(m_StaticLineColor.Ok());
     }
@@ -909,7 +909,7 @@ bool CSkinAdvanced::IsDefaultTabSpecified() {
 
 bool CSkinAdvanced::InitializeDelayedValidation() {
     if (m_strApplicationName.IsEmpty()) {
-        fprintf(stderr, wxT("Skin Manager: Application name was not defined. Using default.\n"));
+        fprintf(stderr, "Skin Manager: Application name was not defined. Using default.\n");
         m_strApplicationName = wxT("BOINC Manager");
         wxASSERT(!m_strApplicationName.IsEmpty());
     }
@@ -917,32 +917,32 @@ bool CSkinAdvanced::InitializeDelayedValidation() {
     m_iconApplicationDisconnectedIcon.SetDefaults(wxT("application disconnected"), (const char**)boincdisconnect_xpm);
     m_iconApplicationSnoozeIcon.SetDefaults(wxT("application snooze"), (const char**)boincsnooze_xpm);
     if (!m_bitmapApplicationLogo.Ok()) {
-        fprintf(stderr, wxT("Skin Manager: Failed to load application logo. Using default.\n"));
+        fprintf(stderr, "Skin Manager: Failed to load application logo. Using default.\n");
         m_bitmapApplicationLogo = wxBitmap((const char**)boinc_logo_xpm);
         wxASSERT(m_bitmapApplicationLogo.Ok());
     }
     if (m_strCompanyName.IsEmpty()) {
-        fprintf(stderr, wxT("Skin Manager: Company name was not defined. Using default.\n"));
+        fprintf(stderr, "Skin Manager: Company name was not defined. Using default.\n");
         m_strCompanyName = wxT("Space Sciences Laboratory, U.C. Berkeley");
         wxASSERT(!m_strCompanyName.IsEmpty());
     }
     if (m_strCompanyWebsite.IsEmpty()) {
-        fprintf(stderr, wxT("Skin Manager: Company web site was not defined. Using default.\n"));
+        fprintf(stderr, "Skin Manager: Company web site was not defined. Using default.\n");
         m_strCompanyWebsite = wxT("http://boinc.berkeley.edu");
         wxASSERT(!m_strCompanyWebsite.IsEmpty());
     }
     if (m_strProjectName.IsEmpty()) {
-        fprintf(stderr, wxT("Skin Manager: Project name was not defined. Using default.\n"));
+        fprintf(stderr, "Skin Manager: Project name was not defined. Using default.\n");
         m_strProjectName = wxT("BOINC");
         wxASSERT(!m_strProjectName.IsEmpty());
     }
     if (!m_bDefaultTabSpecified) {
-        fprintf(stderr, wxT("Skin Manager: Default tab was not defined. Using default.\n"));
+        fprintf(stderr, "Skin Manager: Default tab was not defined. Using default.\n");
         m_bDefaultTabSpecified = true;
         m_iDefaultTab = 0;
     }
     if (m_strExitMessage.IsEmpty()) {
-        fprintf(stderr, wxT("Skin Manager: Exit message was not defined. Using default.\n"));
+        fprintf(stderr, "Skin Manager: Exit message was not defined. Using default.\n");
         // NOTE: Must be called after filling in m_strProjectName and m_strApplicationName
         m_strExitMessage.Printf(
             _("This will shut down %s and its tasks entirely until either the\n"
@@ -1011,12 +1011,12 @@ int CSkinWizardATP::Parse(MIOFILE& in) {
 
 bool CSkinWizardATP::InitializeDelayedValidation() {
     if (!m_bitmapWizardBitmap.Ok()) {
-        fprintf(stderr, wxT("Skin Manager: Failed to load attach to project wizard bitmap logo. Using default.\n"));
+        fprintf(stderr, "Skin Manager: Failed to load attach to project wizard bitmap logo. Using default.\n");
         m_bitmapWizardBitmap = wxBitmap((const char**)wizard_bitmap_xpm);
         wxASSERT(m_bitmapWizardBitmap.Ok());
     }
     if (m_strTitle.IsEmpty()) {
-        fprintf(stderr, wxT("Skin Manager: Attach to project wizard title was not defined. Using default.\n"));
+        fprintf(stderr, "Skin Manager: Attach to project wizard title was not defined. Using default.\n");
         m_strTitle = wxT("BOINC Manager");
         wxASSERT(!m_strTitle.IsEmpty());
     }
@@ -1076,12 +1076,12 @@ int CSkinWizardATAM::Parse(MIOFILE& in) {
 
 bool CSkinWizardATAM::InitializeDelayedValidation() {
     if (!m_bitmapWizardBitmap.Ok()) {
-        fprintf(stderr, wxT("Skin Manager: Failed to load attach to project wizard bitmap logo. Using default.\n"));
+        fprintf(stderr, "Skin Manager: Failed to load attach to project wizard bitmap logo. Using default.\n");
         m_bitmapWizardBitmap = wxBitmap((const char**)wizard_bitmap_xpm);
         wxASSERT(m_bitmapWizardBitmap.Ok());
     }
     if (m_strTitle.IsEmpty()) {
-        fprintf(stderr, wxT("Skin Manager: Attach to project wizard title was not defined. Using default.\n"));
+        fprintf(stderr, "Skin Manager: Attach to project wizard title was not defined. Using default.\n");
         m_strTitle = wxT("BOINC Manager");
         wxASSERT(!m_strTitle.IsEmpty());
     }
@@ -1177,7 +1177,7 @@ bool CSkinManager::ReloadSkin(wxLocale* pLocale, wxString strSkin) {
     // First we try the users canonical locale resources.
     //  i.e. en_US
     retval = ERR_XML_PARSE;
-    p = fopen(ConstructSkinFileName().c_str(), "r");
+    p = fopen(ConstructSkinFileName().mb_str(), "r");
     if (p) {
         mf.init_file(p);
         retval = Parse(mf, strDesiredLocale);
@@ -1188,7 +1188,7 @@ bool CSkinManager::ReloadSkin(wxLocale* pLocale, wxString strSkin) {
     //   locale.
     //  i.e. en
     if (ERR_XML_PARSE == retval) {
-        p = fopen(ConstructSkinFileName().c_str(), "r");
+        p = fopen(ConstructSkinFileName().mb_str(), "r");
         if (p) {
             mf.init_file(p);
             retval = Parse(mf, strDesiredLocale.Left(2));
@@ -1199,7 +1199,7 @@ bool CSkinManager::ReloadSkin(wxLocale* pLocale, wxString strSkin) {
     // If we failed the second lookup try english
     //  i.e. en
     if (ERR_XML_PARSE == retval) {
-        p = fopen(ConstructSkinFileName().c_str(), "r");
+        p = fopen(ConstructSkinFileName().mb_str(), "r");
         if (p) {
             mf.init_file(p);
             retval = Parse(mf, wxT("en"));
@@ -1208,11 +1208,7 @@ bool CSkinManager::ReloadSkin(wxLocale* pLocale, wxString strSkin) {
     }
 
     if (retval) {
-        fprintf(
-            stderr,
-            wxT("Skin Manager: Failed to load skin '%s'.\n"),
-            ConstructSkinFileName().c_str()
-        );
+        fprintf(stderr, "Skin Manager: Failed to load skin '%s'.\n", ConstructSkinFileName().c_str());
     }
 
     InitializeDelayedValidation();
@@ -1312,12 +1308,12 @@ int CSkinManager::Parse(MIOFILE& in, wxString strDesiredLocale) {
     bool     bLocaleFound = false;
 
     // Construct the start and end tags for the locale we want.
-    strLocaleStartTag.Printf("<%s>", strDesiredLocale.c_str());
-    strLocaleEndTag.Printf("</%s>", strDesiredLocale.c_str());
+    strLocaleStartTag.Printf(wxT("<%s>"), strDesiredLocale.c_str());
+    strLocaleEndTag.Printf(wxT("</%s>"), strDesiredLocale.c_str());
 
     // Look for the begining of the desired locale.
     while (in.fgets(buf, 256)) {
-        if (match_tag(buf, strLocaleStartTag.c_str())) {
+        if (match_tag(buf, strLocaleStartTag.mb_str())) {
             bLocaleFound = true;
             break;
         }
@@ -1326,7 +1322,7 @@ int CSkinManager::Parse(MIOFILE& in, wxString strDesiredLocale) {
     if (!bLocaleFound) return ERR_XML_PARSE;
 
     while (in.fgets(buf, 256)) {
-        if (match_tag(buf, strLocaleEndTag.c_str())) break;
+        if (match_tag(buf, strLocaleEndTag.mb_str())) break;
         else if (match_tag(buf, "<simple>")) {
             m_SimpleSkin.Parse(in);
             continue;

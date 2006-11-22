@@ -1800,6 +1800,7 @@ MODE::MODE() {
 void MODE::set(int mode, double duration) {
     if (mode == RUN_MODE_RESTORE) {
         temp_timeout = 0;
+        temp_mode = perm_mode;
         return;
     }
     if (duration) {
@@ -1807,6 +1808,7 @@ void MODE::set(int mode, double duration) {
         temp_timeout = gstate.now + duration;
     } else {
         temp_timeout = 0;
+        temp_mode = mode;
         perm_mode = mode;
         gstate.set_client_state_dirty("Set mode");
     }
