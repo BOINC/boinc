@@ -23,9 +23,8 @@
 // THIS PROGRAM SHOULDN'T USE ANY BOINC CODE.  That's the whole point.
 
 #include <stdio.h>
+#include <stdlib.h>
 #include <time.h>
-
-#include "util.h"
 
 int main(int, char**) {
     FILE* in = fopen("in", "r");

@@ -205,3 +205,9 @@ David  8 Nov 2006
 
 	uppercase/
 		logo.jpg (new)
+
+David  23 Nov 2006
+    - don't include util.h in worker.C!
+
+    worker/
+        worker.C
