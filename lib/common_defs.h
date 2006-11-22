@@ -28,6 +28,8 @@
 #define RUN_MODE_ALWAYS 1
 #define RUN_MODE_AUTO   2
 #define RUN_MODE_NEVER  3
+#define RUN_MODE_RESTORE    4
+    // restore permanent mode - used only in set_X_mode() GUI RPC
 
 // values of ACTIVE_TASK::scheduler_state and ACTIVE_TASK::next_scheduler_state
 #define CPU_SCHED_UNINITIALIZED   0

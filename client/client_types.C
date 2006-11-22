@@ -1798,6 +1798,10 @@ MODE::MODE() {
 }
 
 void MODE::set(int mode, double duration) {
+    if (mode == RUN_MODE_RESTORE) {
+        temp_timeout = 0;
+        return;
+    }
     if (duration) {
         temp_mode = mode;
         temp_timeout = gstate.now + duration;

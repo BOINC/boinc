@@ -275,6 +275,8 @@ static void handle_set_run_mode(char* buf, MIOFILE& fout) {
         mode = RUN_MODE_NEVER;
     } else if (match_tag(buf, "<auto")) {
         mode = RUN_MODE_AUTO;
+    } else if (match_tag(buf, "<restore")) {
+        mode = RUN_MODE_RESTORE;
     } else {
         fout.printf("<error>Missing mode</error>\n");
         return;
@@ -293,6 +295,8 @@ static void handle_set_network_mode(char* buf, MIOFILE& fout) {
         mode = RUN_MODE_NEVER;
     } else if (match_tag(buf, "<auto")) {
         mode = RUN_MODE_AUTO;
+    } else if (match_tag(buf, "<restore")) {
+        mode = RUN_MODE_RESTORE;
     } else {
         fout.printf("<error>Missing mode</error>\n");
         return;

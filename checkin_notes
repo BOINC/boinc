@@ -12842,3 +12842,17 @@ David  21 Nov 2006
     client/
         client_types.C,h
         cs_scheduler.h
+
+David  21 Nov 2006
+    - GUI RPC: add a run mode, RUN_MODE_RESTORE,
+        whose function is to set the mode back to its permanent value
+        (i.e. to end a "snooze").
+        The GUI now doesn't have to remember the original value.
+
+    client/
+        client_types.C
+        gui_rpc_server_ops.C
+    lib/
+        common_defs.h
+        gui_rpc_client_ops.C
+        util.C

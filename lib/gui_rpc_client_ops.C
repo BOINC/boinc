@@ -1538,6 +1538,7 @@ const char* RPC_CLIENT::mode_name(int mode) {
     case RUN_MODE_ALWAYS: p="<always/>"; break;
     case RUN_MODE_NEVER: p="<never/>"; break;
     case RUN_MODE_AUTO: p="<auto/>"; break;
+    case RUN_MODE_RESTORE: p="<restore/>"; break;
     }
     return p;
 }
