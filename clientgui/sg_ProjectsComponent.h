@@ -87,7 +87,7 @@ private:
 	int m_leftIndex;
 	bool receivedErrorMessage;
 	bool alertMessageDisplayed;
-	static size_t lastMessageId;
+	size_t lastMessageId;
 	void OnMessageCheck(wxTimerEvent& WXUNUSED(event));
    	void MessagesViewed();
 	void UpdateDisplayedProjects();

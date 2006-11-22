@@ -57,8 +57,6 @@ BEGIN_EVENT_TABLE(CProjectsComponent, wxPanel)
 	EVT_TIMER(ID_SIMPLEMESSAGECHECKTIMER, CProjectsComponent::OnMessageCheck)
 END_EVENT_TABLE()
 
-size_t CProjectsComponent::lastMessageId = 0;
-
 CProjectsComponent::CProjectsComponent() {
 }
 
@@ -69,6 +67,7 @@ CProjectsComponent::CProjectsComponent(CSimplePanel* parent,wxPoint coord) :
     wxASSERT(parent);
 	m_maxNumOfIcons = 6; // max number of icons in component
 	m_leftIndex = 0;
+    lastMessageId = 0;
 	CreateComponent();
 
 	receivedErrorMessage = false;
@@ -195,20 +194,6 @@ void CProjectsComponent::CreateComponent()
         wxBU_AUTODRAW
     );
 	btnResume->SetToolTip(ttResume);
-
-    // Show resume or pause as appropriate
-	btnPause->Show(true);
-	btnResume->Show(false);
-
-	CC_STATUS status;
-	CMainDocument* pDoc     = wxGetApp().GetDocument();
-	if ( pDoc->IsConnected() ) {
-		pDoc->GetCoreClientStatus(status);
-		if ( status.task_mode == RUN_MODE_NEVER ) {
-			btnPause->Show(false);
-			btnResume->Show(true);
-		}
-	}
 
 	//spacer
 	wxWindow *w_sp2 = new wxWindow(this,-1,wxPoint(144,91),wxSize(2,11));
@@ -611,7 +596,7 @@ void CProjectsComponent::OnMessageCheck(wxTimerEvent& WXUNUSED(event)) {
 
 void CProjectsComponent::MessagesViewed() {
 	receivedErrorMessage = false;
-	CMainDocument* pDoc     = wxGetApp().GetDocument();
+	CMainDocument* pDoc = wxGetApp().GetDocument();
 	lastMessageId = pDoc->GetMessageCount();
 	checkForMessagesTimer->Start();
 }

@@ -12902,3 +12902,13 @@ Charlie 22 Nov 2006
         BOINCTaskBar.cpp
         Events.h
         sg_ProjectsComponent.cpp
+
+Rom    22 Nov 2006
+    - MGR: A little bit more cleanup work.
+    - MGR: Use the shorthand "%d hr %d min %d sec" on the BSG for people
+        who use large fonts.
+        
+    clientgui/
+        BOINCTaskBar.cpp
+        sg_ProjectsComponent.cpp, .h
+        sg_ViewTabPage.cpp

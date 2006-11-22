@@ -394,7 +394,7 @@ void CViewTabPage::SGUITimeFormat(float fBuffer, wxString& strBuffer) const {
 	iMin  = (wxInt32)(fBuffer / 60) % 60;
 	iSec  = (wxInt32)(fBuffer) % 60;
 	
-	strBuffer.Printf(_("%d hours %d minutes %d seconds"), iHour, iMin, iSec);
+	strBuffer.Printf(_("%d hr %d min %d sec"), iHour, iMin, iSec);
 
 }
 

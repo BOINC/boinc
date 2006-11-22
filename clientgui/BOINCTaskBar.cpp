@@ -439,7 +439,7 @@ void CTaskBarIcon::OnRButtonUp(wxTaskBarIconEvent& WXUNUSED(event)) {
 #endif
 
 
-void CTaskBarIcon::OnReloadSkin(CTaskbarEvent& /*event*/) {
+void CTaskBarIcon::OnReloadSkin(CTaskbarEvent& WXUNUSED(event)) {
     CSkinAdvanced* pSkinAdvanced = wxGetApp().GetSkinManager()->GetAdvanced();
 
     wxASSERT(pSkinAdvanced);
@@ -572,6 +572,7 @@ wxMenu *CTaskBarIcon::BuildContextMenu() {
     wxMenu*            pMenu = new wxMenu;
     wxString           menuName = wxEmptyString;
     ACCT_MGR_INFO      ami;
+    bool               is_acct_mgr_detected = false;
 
     wxASSERT(pMenu);
     wxASSERT(pDoc);
@@ -665,8 +666,9 @@ void CTaskBarIcon::AdjustMenuItems(wxMenu* pMenu) {
 
 #ifdef __WXMSW__
     // Wierd things happen with menus and wxWidgets on Windows when you try
-    //   to change the font, so instead of fighting the system get the original
-    //   font and tweak it a bit. It shouldn't hurt other platforms.
+    //   to change the font and use the system default as the baseline, so 
+    //   instead of fighting the system get the original font and tweak it 
+    //   a bit. It shouldn't hurt other platforms.
     for (loc = 0; loc < pMenu->GetMenuItemCount(); loc++) {
         pMenuItem = pMenu->FindItemByPosition(loc);
         if (!pMenuItem->IsSeparator() && pMenuItem->IsEnabled()) {
