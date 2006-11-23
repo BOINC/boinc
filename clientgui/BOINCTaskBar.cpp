@@ -238,8 +238,8 @@ void CTaskBarIcon::OnSuspendResume(wxCommandEvent& WXUNUSED(event)) {
             pDoc->SetNetworkRunMode(RUN_MODE_RESTORE, 0);
         }
     } else {
-        pDoc->SetActivityRunMode(RUN_MODE_NEVER, 60);
-        pDoc->SetNetworkRunMode(RUN_MODE_NEVER, 60);
+        pDoc->SetActivityRunMode(RUN_MODE_NEVER, 3600);
+        pDoc->SetNetworkRunMode(RUN_MODE_NEVER, 3600);
     }
 
     wxLogTrace(wxT("Function Start/End"), wxT("CTaskBarIcon::OnSuspendResume - Function End"));

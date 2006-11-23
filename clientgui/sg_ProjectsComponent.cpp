@@ -371,8 +371,8 @@ void CProjectsComponent::OnSuspend(wxCommandEvent& /*event*/) {
     wxASSERT(pDoc);
     wxASSERT(wxDynamicCast(pDoc, CMainDocument));
 
-    pDoc->SetActivityRunMode(RUN_MODE_NEVER, 60);
-    pDoc->SetNetworkRunMode(RUN_MODE_NEVER, 60);
+    pDoc->SetActivityRunMode(RUN_MODE_NEVER, 3600);
+    pDoc->SetNetworkRunMode(RUN_MODE_NEVER, 3600);
 
     btnPause->Show(false);
     btnResume->Show(true);

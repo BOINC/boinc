@@ -12934,3 +12934,10 @@ David  23 Nov 2006
 
     lib/
         prefs.C
+
+Rom    23 Nov 2006
+    - MGR: Snooze timeout is in seconds, not minutes, what was I thinking?
+    
+    clientgui/
+        BOINCTaskBar.cpp
+        sg_ProjectsComponent.cpp
