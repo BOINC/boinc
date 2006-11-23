@@ -1,6 +1,12 @@
 <?
 
 $project_news = array(
+array("November 23, 2006",
+    "<b>Docking@home participants</b>:
+    the project is unreachable because of a campus-wide network
+    connection failure at Univ. of Texas - El Paso.
+    Please check back periodically."
+),
 array("November 15, 2006",
     "BOINCstats is now available in Spanish.
     Thanks to Miquel Pericas for the translation.

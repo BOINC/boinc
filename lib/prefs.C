@@ -200,6 +200,7 @@ int GLOBAL_PREFS::parse_override(
             mask.dont_verify_images = true;
             continue;
         } else if (xp.parse_double(tag, "work_buf_min_days", work_buf_min_days)) {
+            if (work_buf_min_days < 0.1) work_buf_min_days = 0.1;
             mask.work_buf_min_days = true;
             continue;
         } else if (xp.parse_int(tag, "max_cpus", max_cpus)) {

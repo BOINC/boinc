@@ -12928,3 +12928,9 @@ Charlie 22 Nov 2006
 Rom    22 Nov 2006
     - Tag for 5.7.5 release, all platforms
       boinc_core_release_5_7_5
+
+David  23 Nov 2006
+    - don't allow work_buf_min_days less than 0.1
+
+    lib/
+        prefs.C
