@@ -12925,3 +12925,6 @@ Charlie 22 Nov 2006
         Events.h
         sg_BoincSimpleGUI.cpp, h
 
+Rom    22 Nov 2006
+    - Tag for 5.7.5 release, all platforms
+      boinc_core_release_5_7_5
