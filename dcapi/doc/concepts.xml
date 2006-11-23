@@ -115,10 +115,12 @@
 		linkend="DC-resolveFileName">DC_resolveFileName()</link></function>
 	    function.
 	    <note>
-	      The client application may not assume that it can
-	      read/create/write any files other than the names returned by
-	      <function><link
-		  linkend="DC-resolveFileName">DC_resolveFileName()</link></function>.
+	      <para>
+		The client application may not assume that it can
+		read/create/write any files other than the names returned by
+		<function><link
+		    linkend="DC-resolveFileName">DC_resolveFileName()</link></function>.
+	      </para>
 	    </note>
 	  </para>
 	</listitem>
@@ -194,10 +196,6 @@
       messages about long-running operations, or for sending control messages
       like a command to cancel a given computation.
     </para>
-  </sect2>
-
-  <sect2>
-    <title>Checkpointing</title>
   </sect2>
 
 </sect1>
