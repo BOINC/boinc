@@ -90,13 +90,11 @@ CSimpleFrame::CSimpleFrame(wxString title, wxIcon* icon) :
     m_pAccelTable = new wxAcceleratorTable(1, m_pShortCuts);
     SetAcceleratorTable(m_pAccelTable);
     
-#if 1
     // Clear menubar
     m_pMenubar = new wxMenuBar;
     SetMenuBar(m_pMenubar);
     m_pMenubar->MacInstallMenuBar();
-
-#endif    
+    ::ClearMenuBar();
 #endif
     m_pBackgroundPanel = new CSimplePanel(this);
 }
