@@ -55,7 +55,7 @@ BEGIN_EVENT_TABLE(CTaskBarIcon, wxTaskBarIconEx)
     EVT_MENU(ID_OPENWEBSITE, CTaskBarIcon::OnOpenWebsite)
     EVT_MENU(ID_TB_SUSPEND, CTaskBarIcon::OnSuspendResume)
     EVT_MENU(wxID_ABOUT, CTaskBarIcon::OnAbout)
-    EVT_MENU(ID_TB_EXIT, CTaskBarIcon::OnExit)
+    EVT_MENU(wxID_EXIT, CTaskBarIcon::OnExit)
 
 #ifdef __WXMSW__
     EVT_TASKBAR_SHUTDOWN(CTaskBarIcon::OnShutdown)
@@ -615,7 +615,7 @@ wxMenu *CTaskBarIcon::BuildContextMenu() {
     // These should be in Windows Task Bar Menu but not in Mac's Dock menu
     pMenu->AppendSeparator();
 
-    pMenu->Append(ID_TB_EXIT, _("E&xit"), wxEmptyString);
+    pMenu->Append(wxID_EXIT, _("E&xit"), wxEmptyString);
 #endif
 
     AdjustMenuItems(pMenu);
@@ -635,7 +635,6 @@ void CTaskBarIcon::AdjustMenuItems(wxMenu* pMenu) {
     wxASSERT(pDoc);
     wxASSERT(wxDynamicCast(pDoc, CMainDocument));
 
-
     pDoc->GetCoreClientStatus(status);
     if ((RUN_MODE_NEVER == status.task_mode) && (RUN_MODE_NEVER == status.network_mode)) {
         pMenu->Check(ID_TB_SUSPEND, true);
@@ -643,26 +642,26 @@ void CTaskBarIcon::AdjustMenuItems(wxMenu* pMenu) {
         pMenu->Check(ID_TB_SUSPEND, false);
     }
 
-
-    // If a dialog is detected, we cannot allow the "Exit" menu item to be
-    //   enabled. So lets search for the dialog by ID since all of BOINC
+    // BOINC Manager crashes if user selects "Exit" from taskbar menu while 
+    //  a dialog is open, so we must disable the "Exit" menu item if a dialog 
+    //  is open. So lets search for the dialog by ID since all of BOINC
     //   Manager's dialog IDs are 10000.
+    // On the Mac, the user can open multiple instances of the About dialog 
+    //  by repeatedly selecting "About" menu item from the taskbar, so we 
+    //  must also disable that item.  For consistency with the Mac standard, 
+    //  we disable the entire taskbar menu when a modal dialog is open.
     if (wxDynamicCast(wxWindow::FindWindowById(ID_ANYDIALOG), wxDialog)) {
         is_dialog_detected = true;
     }
         
     for (loc = 0; loc < pMenu->GetMenuItemCount(); loc++) {
         pMenuItem = pMenu->FindItemByPosition(loc);
-        if (pMenuItem->GetId() == ID_TB_EXIT) {
-            pMenuItem->Enable(!is_dialog_detected);
-        }
-        // Prevent opening multiple instances of About Dialog 
-        // (This is a problem on the Mac but not on Windows)
-        if (pMenuItem->GetId() == wxID_ABOUT) {
-            pMenuItem->Enable(!is_dialog_detected);
+        if (is_dialog_detected) {
+            pMenuItem->Enable(false);
+        } else {
+            pMenuItem->Enable(!(pMenuItem->IsSeparator()));
         }
     }
-
 
 #ifdef __WXMSW__
     // Wierd things happen with menus and wxWidgets on Windows when you try

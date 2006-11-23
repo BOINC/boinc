@@ -12912,3 +12912,11 @@ Rom    22 Nov 2006
         BOINCTaskBar.cpp
         sg_ProjectsComponent.cpp, .h
         sg_ViewTabPage.cpp
+
+Charlie 22 Nov 2006
+    - MGR: Change extra event ID ID_TB_EXIT back to wxID_EXIT.
+    - MGR: Disable all items in taskbar menu when modal dialog open.
+
+    clientgui/
+        BOINCTaskBar.cpp
+        Events.h
