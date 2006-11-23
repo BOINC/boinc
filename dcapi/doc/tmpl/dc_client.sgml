@@ -69,12 +69,16 @@ any other DC-API functions.
 
 <!-- ##### FUNCTION DC_resolveFileName ##### -->
 <para>
-Resolves the local name of input/output files. The real name (and path) of an
-input/output file may be different from what the client expects. This function
-performs the translation from the logical names used by the client to the real
-names used by the infrastructure.
-<note>The client must not assume that it can read/write/create any files other than
-the names returned by this function.</note>
+  Resolves the local name of input/output files. The real name (and path) of an
+  input/output file may be different from what the client expects. This
+  function performs the translation from the logical names used by the client
+  to the real names used by the infrastructure.
+  <note>
+    <para>
+      The client must not assume that it can read/write/create any files other
+      than the names returned by this function.
+    </para>
+  </note>
 </para>
 
 <para>
@@ -112,31 +116,34 @@ When @logicalFileName is %DC_CHECKPOINT_FILE, @type is interpreted as follows:
   </itemizedlist>
 </para>
 
+<para>
+When @logicalFileName is not %DC_CHECKPOINT_FILE, the following rules apply:
+<itemizedlist>
+  <listitem>
+    <para>
+      If @type is %DC_FILE_IN, then @logicalFileName must be one of the
+      names the master registered using DC_addWUInput() when the work
+      unit was created.
+    </para>
+  </listitem>
+  <listitem>
+    <para>
+      If @type is %DC_FILE_OUT, then @logicalFileName must be one of
+      the names the master registered using DC_addWUOutput() when the
+      work unit was created.
+    </para>
+  </listitem>
+  <listitem>
+    <para>
+      If @type is %DC_FILE_TMP, then @logicalFileName must not match
+      any registered input or output logical names.
+    </para>
+  </listitem>
+</itemizedlist>
+</para>
+
 @type: the tpe of the file.
-@logicalFileName: the logical name of the file used by the client. Except
-	for %DC_CHECKPOINT_FILE described above, the following rules apply:
-	<itemizedlist>
-	  <listitem>
-	    <para>
-	      If @type is %DC_FILE_IN, then @logicalFileName must be one of the
-	      names the master registered using DC_addWUInput() when the work
-	      unit was created.
-	    </para>
-	  </listitem>
-	  <listitem>
-	    <para>
-	      If @type is %DC_FILE_OUT, then @logicalFileName must be one of
-	      the names the master registered using DC_addWUOutput() when the
-	      work unit was created.
-	    </para>
-	  </listitem>
-	  <listitem>
-	    <para>
-	      If @type is %DC_FILE_TMP, then @logicalFileName must not match
-	      any registered input or output logical names.
-	    </para>
-	  </listitem>
-	</itemizedlist>
+@logicalFileName: the logical name of the file used by the client.
 @Returns: the real path name of the file. The value should be deallocated using
 	free() when it is no longer needed. %NULL is returned if @type is
 	invalid or @logicalFileName is not known to the infrastructure.

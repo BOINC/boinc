@@ -31,12 +31,12 @@
     <para>
       Unzip the contents of the attached zip file. Copy the following three
       header files of the DC-API in the <filename
-	class='directory'>include</filename> directory:
-      <filename class='headerfile'>dc_client.h</filename>, <filename
+	class='directory'>include</filename> directory: <filename
+	class='headerfile'>dc_client.h</filename>, <filename
 	class='headerfile'>dc_common.h</filename>, <filename
 	class='headerfile'>dc_win32.h</filename>. Copy the following library
       file of the DC-API in the <filename class='directory'>lib</filename>
-      directory: <filename class='library'>dc_client.lib</filename>.
+      directory: <filename class='libraryfile'>dc_client.lib</filename>.
     </para>
     <para>
       The source code of the application goes into the <filename
@@ -59,12 +59,10 @@
     </para>
     <para>
       Open up the <filename class='directory'>Source Files</filename>
-      subdirectory to check that <filename
-	class='source'>application.c</filename> is already added to the
-      solution. Double click on <filename
-	class='source'>application.c</filename> to open it up in MVS.
-      Similarily, the header files are located in the <filename
-	class='directory'>Header Files</filename> subdirectory.
+      subdirectory to check that <filename>application.c</filename> is already
+      added to the solution. Double click on <filename>application.c</filename>
+      to open it up in MVS. Similarily, the header files are located in the
+      <filename class='directory'>Header Files</filename> subdirectory.
     </para>
 
     <sect4>
@@ -91,12 +89,12 @@
       <title>Developing the application</title>
 
       <para>
-	The source file <filename class='source'>application.c</filename>
-	already contains the neccessary include files and some basic functions
-	for an application utilizing the DC-API to compile. The source is
-	structured in an intuitive way. You can use these functions to realize
-	the several functions of a BOINC application (like checkpointing) or you
-	can clear these and develop your own methods.
+	The source file <filename>application.c</filename> already contains the
+	neccessary include files and some basic functions for an application
+	utilizing the DC-API to compile. The source is structured in an
+	intuitive way. You can use these functions to realize the several
+	functions of a BOINC application (like checkpointing) or you can clear
+	these and develop your own methods.
       </para>
     </sect4>
 
@@ -171,8 +169,7 @@ Build: 1 succeeded, 0 failed, 0 skipped
 	directory of the repository having the same name as the current
 	configuration (Debug or Release) You will find the compiled executable
 	in these subdirectories with the name
-	<filename
-	  class='application'>application_1.00_windows_intelx86.exe</filename>.
+	<application>application_1.00_windows_intelx86.exe</application>.
       </para>
 
     </sect4>

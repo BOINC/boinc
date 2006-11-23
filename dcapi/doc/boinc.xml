@@ -43,14 +43,19 @@
     <sect3>
       <title>Master side</title>
 
-      <warning>
-	Important note: the directories specified by
-	<literal>WorkingDirectory</literal>, <literal>ProjectRootDir</literal>
-	and the upload &amp; download directories specified in BOINC's
-	<filename>config.xml</filename> must all reside on the same filesystem
-	since the DC-API uses the <function>link()</function> and
-	<function>rename()</function> system calls.
-      </warning>
+      <para>
+	<warning>
+	  <para>
+	    Important note: the directories specified by
+	    <literal>WorkingDirectory</literal>,
+	    <literal>ProjectRootDir</literal> and the upload &amp; download
+	    directories specified in BOINC's <filename>config.xml</filename>
+	    must all reside on the same filesystem since the DC-API uses the
+	    <function>link()</function> and <function>rename()</function> system
+	    calls.
+	  </para>
+	</warning>
+      </para>
 
       <variablelist>
 	<varlistentry>
@@ -131,9 +136,11 @@
 		</listitem>
 	      </itemizedlist>
 	      <note>
-		When the redundancy is greater than 1, the work unit can not be
-		suspended using <function><link
-		    linkend="DC-suspendWU">DC_suspendWU()</link></function>.
+		<para>
+		  When the redundancy is greater than 1, the work unit can not
+		  be suspended using <function><link
+		      linkend="DC-suspendWU">DC_suspendWU()</link></function>.
+		</para>
 	      </note>
 	    </para>
 	  </listitem>
@@ -191,17 +198,19 @@
 	  <term>MaxFPOps</term>
 	  <listitem>
 	    <para>
-	      OPTIONAL. Max. CPU usage of the client application, expressed in the number
-	      of floating point operations. The default is
+	      OPTIONAL. Max. CPU usage of the client application, expressed in
+	      the number of floating point operations. The default is
 	      10<superscript>15</superscript>. If the application uses more CPU
 	      time than this value divided by the CPU's speed, then the BOINC
 	      core client aborts the application and reports the BOINC result as
 	      failed.
 	    </para>
 	    <note>
-	      As per recommendations in the BOINC documentation, the value of
-	      <literal>MaxFPOps</literal> should be several times larger than
-	      the expected run time of a work unit on an avarage host.
+	      <para>
+		As per recommendations in the BOINC documentation, the value of
+		<literal>MaxFPOps</literal> should be several times larger than
+		the expected run time of a work unit on an avarage host.
+	      </para>
 	    </note>
 	  </listitem>
 	</varlistentry>
@@ -215,13 +224,16 @@
 	      generated.
 	    </para>
 	    <note>
-	      If <literal>DelayBound</literal> is smaller than the estimated run
-	      time of the application on a given host (calculated by dividing
-	      <literal>EstimatedFPOps</literal> by the host's speed), then the
-	      BOINC result will not be offered for download. If no host is fast
-	      enough to complete the application within the specified time
-	      limit, the result will remain unsent for an unspecified amount of
-	      time and DC-API will receive no feedback for it.
+	      <para>
+		If <literal>DelayBound</literal> is smaller than the estimated
+		run time of the application on a given host (calculated by
+		dividing <literal>EstimatedFPOps</literal> by the host's speed),
+		then the BOINC result will not be offered for download. If no
+		host is fast enough to complete the application within the
+		specified time limit, the result will remain unsent for an
+		unspecified amount of time and DC-API will receive no feedback
+		for it.
+	      </para>
 	    </note>
 	  </listitem>
 	</varlistentry>
@@ -234,10 +246,12 @@
 		  linkend="DC-suspendWU">DC_suspendWU()</link></function> or
 	      not. The default value is true.
 	      <note>
-		When the redundancy is greater than 1, the work unit can not be
-		suspended using <function><link
-		    linkend="DC-suspendWU">DC_suspendWU()</link></function>,
-		regardless of the value of this configuration option.
+		<para>
+		  When the redundancy is greater than 1, the work unit can not
+		  be suspended using <function><link
+		      linkend="DC-suspendWU">DC_suspendWU()</link></function>,
+		  regardless of the value of this configuration option.
+		</para>
 	      </note>
 	    </para>
 	  </listitem>
@@ -246,9 +260,7 @@
     </sect3>
 
     <sect3>
-      <anchor id="Boinc-Config">
-	<title>Considerations for BOINC configuration</title>
-      </anchor>
+      <title><anchor id="Boinc-Config"/>Considerations for BOINC configuration</title>
 
       <para>
 	If you want to use master-to-client messaging, you must enable it in the
@@ -329,13 +341,15 @@
 	comparison of the first output file.
       </para>
       <warning>
-	If you are running multiple master applications under the same BOINC
-	project, and you want to use
-	<filename>sample_trivial_validator</filename> for any of them, then
-	you must use it for all of them. This restricition exists for any
-	other validator that is not DC-API aware, since it can not determine
-	which work unit belongs to which master and therefore which results
-	should it validate and which ones should it leave alone.
+	<para>
+	  If you are running multiple master applications under the same BOINC
+	  project, and you want to use
+	  <filename>sample_trivial_validator</filename> for any of them, then
+	  you must use it for all of them. This restricition exists for any
+	  other validator that is not DC-API aware, since it can not determine
+	  which work unit belongs to which master and therefore which results
+	  should it validate and which ones should it leave alone.
+	</para>
       </warning>
     </sect3>
 
@@ -389,8 +403,10 @@
 	    linkend="DC-sendMessage">DC_sendMessage()</link></function>
 	functions on the master and client side, respectively.
 	<note>
-	  See the note about <link linkend="Boinc-Config">configuration</link>
-	  requirements for master-to-client messaging.
+	  <para>
+	    See the note about <link linkend="Boinc-Config">configuration</link>
+	    requirements for master-to-client messaging.
+	  </para>
 	</note>
       </para>
       <para>
@@ -458,9 +474,7 @@
     </sect3>
 
     <sect3>
-      <anchor id="Boinc-Result">
-	<title>When is a result reported</title>
-      </anchor>
+      <title><anchor id="Boinc-Result"/>When is a result reported</title>
 
       <!-- XXX Rework when the validator API is merged -->
       <para>

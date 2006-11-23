@@ -50,7 +50,7 @@
   <para>
   To compile the application using Condor version of the DC-API
   library you need an additional library <filename
-  class="library">libcondorapi.a</filename> which is included in the
+  class="libraryfile">libcondorapi.a</filename> which is included in the
   Condor installation. This library must be linked to the application
   besides the DC-API library.
 
@@ -66,7 +66,7 @@
     </example>
     
     Instead, copy out the <filename
-    class="library">libcondorapi.a</filename> file to somewhere else
+    class="libraryfile">libcondorapi.a</filename> file to somewhere else
     and use that directory after the linker's -L option.
     </para>
     </caution>

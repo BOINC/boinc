@@ -6,8 +6,8 @@ functionality specific to the master-side of DC-API.
 
 <!-- ##### SECTION Long_Description ##### -->
 <para>
-This section describes the functions and definitions available for DC-API
-master applications.
+  This section describes the functions and definitions available for DC-API
+  master applications.
 </para>
 
 <!-- ##### SECTION See_Also ##### -->
@@ -190,11 +190,13 @@ simply rename the files therefore preventing DC-API from deleting them.
 
 <!-- ##### FUNCTION DC_waitMasterEvent ##### -->
 <para>
-Checks for events and returns them directly. This function does not invoke any
-event-processing callbacks.
+  Checks for events and returns them directly. This function does not invoke any
+  event-processing callbacks.
   <note>
-    Contrary to DC_processMasterEvents(), the application is responsible for
-    destroying the returned event when it is no longer needed.
+    <para>
+      Contrary to DC_processMasterEvents(), the application is responsible for
+      destroying the returned event when it is no longer needed.
+    </para>
   </note>
 </para>
 
@@ -209,11 +211,13 @@ event-processing callbacks.
 
 <!-- ##### FUNCTION DC_waitWUEvent ##### -->
 <para>
-Checks for events for a particular work unit. This function does not invoke any
-event-processing callbacks.
+  Checks for events for a particular work unit. This function does not invoke any
+  event-processing callbacks.
   <note>
-    Contrary to DC_processMasterEvents(), the application is responsible for
-    destroying the returned event when it is no longer needed.
+    <para>
+      Contrary to DC_processMasterEvents(), the application is responsible for
+      destroying the returned event when it is no longer needed.
+    </para>
   </note>
 </para>
 
@@ -381,10 +385,12 @@ Returns the user-specified tag of a work unit.
 
 <!-- ##### FUNCTION DC_cancelWU ##### -->
 <para>
-Cancels all computation for a given work unit.
+  Cancels all computation for a given work unit.
   <note>
-    Depending on the infrastructure and the client implementation, it may take
-    a long time till all running clients are really stopped.
+    <para>
+      Depending on the infrastructure and the client implementation, it may take
+      a long time till all running clients are really stopped.
+    </para>
   </note>
 </para>
 
@@ -394,19 +400,22 @@ Cancels all computation for a given work unit.
 
 <!-- ##### FUNCTION DC_suspendWU ##### -->
 <para>
-Suspends the execution of a work unit. If the client is running, it is
-instructed to perform a checkpoint; the checkpoint image is then
-transferred back to the master so it can be restarted later using
-DC_resumeWU().
+  Suspends the execution of a work unit. If the client is running, it is
+  instructed to perform a checkpoint; the checkpoint image is then transferred
+  back to the master so it can be restarted later using DC_resumeWU().
   <note>
-    Explicit support is required from both the grid infrastructure and from
-    the client application implementation in order suspend to work.
+    <para>
+      Explicit support is required from both the grid infrastructure and from
+      the client application implementation in order suspend to work.
+    </para>
   </note>
   <note>
-    Suspend is not compatible with redundant computing. If the infrastructure
-    supports redundant computing, you must disable it if you want to use
-    suspend. Suspending a work unit when redundant computation is enabled can
-    have undefined effects, including silent corruption of the result.
+    <para>
+      Suspend is not compatible with redundant computing. If the infrastructure
+      supports redundant computing, you must disable it if you want to use
+      suspend. Suspending a work unit when redundant computation is enabled can
+      have undefined effects, including silent corruption of the result.
+    </para>
   </note>
 </para>
 
@@ -436,19 +445,23 @@ de-allocated. If the work unit is still running, it will be cancelled.
 
 <!-- ##### FUNCTION DC_sendWUMessage ##### -->
 <para>
-Sends a message to a running work unit. The message is sent asynchronously
-and this function does not wait for the message to be delivered. Delivery
-of the message will happen only when the client explicitely checks for it
-which can take an arbitrary long time, depending on the infrastructure and
-on the client implementation. The maximum allowed length of messages can
-be determined with the DC_getMaxMessageSize() function.
+  Sends a message to a running work unit. The message is sent asynchronously
+  and this function does not wait for the message to be delivered. Delivery of
+  the message will happen only when the client explicitely checks for it which
+  can take an arbitrary long time, depending on the infrastructure and on the
+  client implementation. The maximum allowed length of messages can be
+  determined with the DC_getMaxMessageSize() function.
   <note>
-    If redundant computing is in effect, the same message is sent to all
-    currently running client instances.
+    <para>
+      If redundant computing is in effect, the same message is sent to all
+      currently running client instances.
+    </para>
   </note>
   <note>
-    The message may be lost if the client is not running but it queued by
-    the infrastructure's scheduler.
+    <para>
+      The message may be lost if the client is not running but it queued by the
+      infrastructure's scheduler.
+    </para>
   </note>
 </para>
 
