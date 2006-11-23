@@ -306,6 +306,18 @@ $changes_52 = "
       </ul>
 ";
 
+$mac_changes_57= "
+    <li>Macintosh only:
+      <ul>
+        <li> Version 5.5.4 BOINC Manager for the Mac introduces new, stricter 
+            security measures.  If you experience problems with this software, 
+            you can re-install a version of BOINC prior to 5.5.4; this will 
+            automatically revert ownership and permissions to the earlier 
+            implementation.  For details, please see the ReadMe file.
+        <li> New <a href=mac_admin_tools.php>tools</a> for Macintosh system administrators are available.  
+      </ul>
+";
+
 $mac_changes_55= "
     <li>Macintosh only:
       <ul>
@@ -496,16 +508,16 @@ $w419 = array(
     "
 );
 
-$m564 = array(
-    "num"=>"5.6.4",
+$m575 = array(
+    "num"=>"5.7.5",
     "status"=>"Development version (standard GUI)",
-    "file"=>"boinc_5.6.4_macOSX_universal.zip",
-    "date"=>"18 Sep 2006",
+    "file"=>"boinc_5.7.5_macOSX_universal.zip",
+    "date"=>"23 Nov 2006",
     "type"=>"mac_advanced",
      "features"=>"<ul>
-".$mac_changes_55."
-".$features_55."
-".$changes_55."
+".$mac_changes_57."
+".$features_57."
+".$changes_57."
      </ul>
     ",
     "bugs"=>"
@@ -560,16 +572,16 @@ $m5213 = array(
     "
 );
 
-$m564c = array(
-    "num"=>"5.6.4",
+$m575c = array(
+    "num"=>"5.7.5",
     "status"=>"Development version (Unix command-line version)",
-    "file"=>"boinc_5.6.4_universal-apple-darwin.zip",
+    "file"=>"boinc_5.7.5_universal-apple-darwin.zip",
     "date"=>"18 Sep 2006",
     "type"=>"bare_core",
     "features"=>"<ul>
-".$mac_changes_55."
-".$features_55."
-".$changes_55."
+".$mac_changes_57."
+".$features_57."
+".$changes_57."
      </ul>
     ",
     "bugs"=>"
@@ -708,8 +720,8 @@ $mac = array(
     "name"=>"Mac OS X",
     "dbname" => "powerpc-apple-darwin",
     "versions"=>array(
-        $m564,
-        $m564c,
+        $m575,
+        $m575c,
         $m549,
         $m549c,
         $m5213,
