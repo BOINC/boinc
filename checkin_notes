@@ -12916,7 +12916,12 @@ Rom    22 Nov 2006
 Charlie 22 Nov 2006
     - MGR: Change extra event ID ID_TB_EXIT back to wxID_EXIT.
     - MGR: Disable all items in taskbar menu when modal dialog open.
+    - Mac MGR: Clear Help Menu when switching from Advanced GUI to  
+        Simple GUI.
+    - Mac MGR: Enable keyboard shortcut to close main SG window.        
 
     clientgui/
         BOINCTaskBar.cpp
         Events.h
+        sg_BoincSimpleGUI.cpp, h
+

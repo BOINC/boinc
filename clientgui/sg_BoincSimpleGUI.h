@@ -79,10 +79,7 @@ public:
 	wxBitmap *bm39cImg0;
 
 	wxBitmap *btmpIcnSleeping;
- #ifdef __WXMAC__       
-        wxStaticBitmap* m_pBackground_Bmp;
-#endif	
-    wxTimer*        m_pFrameRenderTimer;
+	wxTimer*        m_pFrameRenderTimer;
 
     DECLARE_EVENT_TABLE()
 
@@ -108,6 +105,13 @@ public:
 
     void OnConnect(CFrameEvent& event );
     void OnProjectsAttachToProject();
+#ifdef __WXMAC__
+    void OnCloseWindow( wxCommandEvent& event );
+
+    wxMenuBar* m_pMenubar;
+    wxAcceleratorEntry m_pShortCuts[1];
+    wxAcceleratorTable* m_pAccelTable;
+#endif
 
 private:
     bool SaveState();

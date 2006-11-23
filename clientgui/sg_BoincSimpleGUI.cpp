@@ -58,6 +58,9 @@ BEGIN_EVENT_TABLE(CSimpleFrame, CBOINCBaseFrame)
     EVT_MENU(wxID_EXIT, CSimpleFrame::OnExit)   // In case we add a menu with EXIT to Simple GUI
     EVT_FRAME_CONNECT(CSimpleFrame::OnConnect)
     EVT_FRAME_RELOADSKIN(CSimpleFrame::OnReloadSkin)
+#ifdef __WXMAC__
+    EVT_MENU(ID_FILECLOSEWINDOW, CSimpleFrame::OnCloseWindow)
+#endif
 END_EVENT_TABLE()
 
 CSimpleFrame::CSimpleFrame() {
@@ -81,7 +84,20 @@ CSimpleFrame::CSimpleFrame(wxString title, wxIcon* icon) :
 
     // Initialize Application
     SetIcon(*icon);
-	    
+    
+#ifdef __WXMAC__
+    m_pShortCuts[0].Set(wxACCEL_ALT, (int) 'W', ID_FILECLOSEWINDOW);
+    m_pAccelTable = new wxAcceleratorTable(1, m_pShortCuts);
+    SetAcceleratorTable(m_pAccelTable);
+    
+#if 1
+    // Clear menubar
+    m_pMenubar = new wxMenuBar;
+    SetMenuBar(m_pMenubar);
+    m_pMenubar->MacInstallMenuBar();
+
+#endif    
+#endif
     m_pBackgroundPanel = new CSimplePanel(this);
 }
 
@@ -90,6 +106,11 @@ CSimpleFrame::~CSimpleFrame() {
     wxLogTrace(wxT("Function Start/End"), wxT("CSimpleFrame::CSimpleFrame - Destructor Function Begin"));
 
 	SaveState();
+
+#ifdef __WXMAC__
+    if (m_pAccelTable)
+        delete m_pAccelTable;
+#endif
 
     wxLogTrace(wxT("Function Start/End"), wxT("CSimpleFrame::CSimpleFrame - Destructor Function End"));
 }
@@ -289,6 +310,14 @@ void CSimpleFrame::OnConnect(CFrameEvent& WXUNUSED(event)) {
 
     wxLogTrace(wxT("Function Start/End"), wxT("CSimpleFrame::OnConnect - Function End"));
 }
+
+#ifdef __WXMAC__
+// Accept the standard Command-W Mac shortcut to close window
+void CSimpleFrame::OnCloseWindow(wxCommandEvent& WXUNUSED(event)) {
+    Close();
+}
+#endif
+
 
 
 IMPLEMENT_DYNAMIC_CLASS(CSimplePanel, wxPanel)
