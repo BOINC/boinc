@@ -12941,3 +12941,13 @@ Rom    23 Nov 2006
     clientgui/
         BOINCTaskBar.cpp
         sg_ProjectsComponent.cpp
+
+Rom    24 Nov 2006
+    - MGR: Fix another preference bug. get_global_prefs_override_struct should
+        not return success unless one of the preference values in the preference
+        mask are true.
+        
+    lib/
+        gui_rpc_client_ops.C
+        prefs.C, .h
+

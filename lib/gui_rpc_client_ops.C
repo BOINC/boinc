@@ -2043,6 +2043,9 @@ int RPC_CLIENT::get_global_prefs_override_struct(GLOBAL_PREFS& prefs, GLOBAL_PRE
     mf.init_buf_read(s.c_str());
     XML_PARSER xp(&mf);
     prefs.parse(xp, "", found_venue, mask);
+
+    if (!mask.are_prefs_set()) {
+        return ERR_FILE_NOT_FOUND;
     return 0;
 }
 

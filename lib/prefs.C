@@ -43,6 +43,33 @@ void GLOBAL_PREFS_MASK::clear() {
     memset(this, 0, sizeof(GLOBAL_PREFS_MASK));
 }
 
+bool GLOBAL_PREFS_MASK::are_prefs_set() {
+    if (run_on_batteries) return true;
+    if (run_if_user_active) return true;
+    if (start_hour) return true;         // 0..23; no restriction if start==end
+    if (end_hour) return true;
+    if (net_start_hour) return true;     // 0..23; no restriction if start==end
+    if (net_end_hour) return true;
+    if (leave_apps_in_memory) return true;
+    if (confirm_before_connecting) return true;
+    if (hangup_if_dialed) return true;
+    if (dont_verify_images) return true;
+    if (work_buf_min_days) return true;
+    if (max_cpus) return true;
+    if (cpu_scheduling_period_minutes) return true;
+    if (disk_interval) return true;
+    if (disk_max_used_gb) return true;
+    if (disk_max_used_pct) return true;
+    if (disk_min_free_gb) return true;
+    if (vm_max_used_frac) return true;
+	if (ram_max_used_busy_frac) return true;
+	if (ram_max_used_idle_frac) return true;
+    if (idle_time_to_run) return true;
+    if (max_bytes_sec_up) return true;
+    if (max_bytes_sec_down) return true;
+    if (cpu_usage_limit) return true;
+    return false;
+}
 
 // The following values determine how the client behaves
 // if there are no global prefs (e.g. on our very first RPC).
