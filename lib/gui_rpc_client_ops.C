@@ -2046,6 +2046,7 @@ int RPC_CLIENT::get_global_prefs_override_struct(GLOBAL_PREFS& prefs, GLOBAL_PRE
 
     if (!mask.are_prefs_set()) {
         return ERR_FILE_NOT_FOUND;
+    }
     return 0;
 }
 
