@@ -18,7 +18,13 @@
 // 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 
 // worker - application without BOINC runtime system;
-// used for testing wrapper
+// used for testing wrapper.
+// What this does:
+//
+// copies one line of stdin to stdout
+// copies one line of "in" to "out"
+// uses 10 sec of CPU time
+// (or as specified by a command-line arg)
 //
 // THIS PROGRAM SHOULDN'T USE ANY BOINC CODE.  That's the whole point.
 
@@ -28,10 +34,21 @@
 
 int main(int argc, char** argv) {
     char buf[256];
+    FILE* in, *out;
 
     fprintf(stderr, "worker starting\n");
+    in = fopen("in", "r");
+    out = fopen("out", "w");
+    if (!in || !out) {
+        fprintf(stderr, "missing file\n");
+        exit(1);
+    } 
+    fgets(buf, 256, in);
+    fputs(buf, out);
+
     fgets(buf, 256, stdin);
     fputs(buf, stdout);
+
     int start = time(0);
     int nsec = 10;
     if (argc > 1) nsec = atoi(argv[1]);
