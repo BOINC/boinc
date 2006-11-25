@@ -362,6 +362,9 @@ int main(int argc, char** argv) {
     while(1) {
         int status;
         if (task.poll(status)) {
+            if (status) {
+                fprintf(stderr, "app error: 0x%x\n", status);
+            }
             boinc_finish(status);
         }
         poll_boinc_messages(task);
