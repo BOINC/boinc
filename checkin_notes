@@ -223,3 +223,12 @@ David  24 Nov 2006
     wrapper/
         job.xml
 
+David  25 Nov 2006
+	- wrapper: redirection of stdin/stdout wasn't
+		working correctly on Windows.
+		Need to open files with CreateFile().
+
+	win_build/
+		samples.sln
+	wrapper/
+		wrapper.C

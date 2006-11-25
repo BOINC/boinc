@@ -129,6 +129,49 @@ int parse_job_file() {
     return ERR_XML_PARSE;
 }
 
+#ifdef _WIN32
+// CreateProcess() takes HANDLEs for the stdin/stdout.
+// We need to use CreateFile() to get them.  Ugh.
+//
+HANDLE win_fopen(const char* path, const char* mode) {
+	SECURITY_ATTRIBUTES sa;
+	memset(&sa, 0, sizeof(sa));
+	sa.nLength = sizeof(sa);
+	sa.bInheritHandle = TRUE;
+
+	if (!strcmp(mode, "r")) {
+		return CreateFile(
+			path,
+			GENERIC_READ,
+			FILE_SHARE_READ,
+			&sa,
+			OPEN_EXISTING,
+			0, 0
+		);
+	} else if (!strcmp(mode, "w")) {
+		return CreateFile(
+			path,
+			GENERIC_WRITE,
+			FILE_SHARE_WRITE,
+			&sa,
+			OPEN_ALWAYS,
+			0, 0
+		);
+	} else if (!strcmp(mode, "a")) {
+		return CreateFile(
+			path,
+			GENERIC_WRITE,
+			FILE_SHARE_WRITE,
+			&sa,
+			OPEN_ALWAYS,
+			0, 0
+		);
+	} else {
+		return 0;
+	}
+}
+#endif
+
 // the "state file" might tell us which app we're in the middle of,
 // what the starting CPU time is, etc.
 //
@@ -136,24 +179,11 @@ void parse_state_file() {
 }
 
 int TASK::run() {
-	FILE* stdout_file;
-	FILE* stdin_file;
-    string app_path;
+    string app_path, stdout_path, stdin_path;
 
     boinc_resolve_filename_s(application.c_str(), app_path);
 
-	// open stdout, stdin if file names are given
-    // NOTE: if the application is restartable, the following
-    // should use "a" instead of "w".
-	//
-	if (stdout_filename != "") {
-		stdout_file = freopen(stdout_filename.c_str(), "w", stdout);
-		if (!stdout_file) return ERR_FOPEN;
-	}
-	if (stdin_filename != "") {
-		stdin_file = freopen(stdin_filename.c_str(), "r", stdin);
-		if (!stdin_file) return ERR_FOPEN;
-	}
+
 #ifdef _WIN32
     PROCESS_INFORMATION process_info;
     STARTUPINFO startup_info;
@@ -166,9 +196,15 @@ int TASK::run() {
     // pass std handles to app
     //
     startup_info.dwFlags = STARTF_USESTDHANDLES;
-    startup_info.hStdInput = GetStdHandle(STD_INPUT_HANDLE);
-    startup_info.hStdOutput = GetStdHandle(STD_OUTPUT_HANDLE);
-    startup_info.hStdError = GetStdHandle(STD_ERROR_HANDLE);
+	if (stdout_filename != "") {
+		boinc_resolve_filename_s(stdout_filename.c_str(), stdout_path);
+		startup_info.hStdOutput = win_fopen(stdout_path.c_str(), "w");
+	}
+	if (stdin_filename != "") {
+		boinc_resolve_filename_s(stdin_filename.c_str(), stdin_path);
+		startup_info.hStdInput = win_fopen(stdin_path.c_str(), "r");
+	}
+    startup_info.hStdError = win_fopen(STDERR_FILE, "a");
              
     if (!CreateProcess(
         app_path.c_str(),
@@ -191,13 +227,31 @@ int TASK::run() {
     char progname[256], buf[256];
     char* argv[256];
     char arglist[4000];
+	FILE* stdout_file;
+	FILE* stdin_file;
 
     pid = fork();
     if (pid == -1) {
         boinc_finish(ERR_FORK);
     }
     if (pid == 0) {
-        // construct argv
+		// we're in the child process here
+		//
+		// open stdout, stdin if file names are given
+		// NOTE: if the application is restartable,
+		// we should deal with atomicity somehow
+		//
+		if (stdout_filename != "") {
+			boinc_resolve_filename_s(stdout_filename.c_str(), stdout_path);
+			stdout_file = freopen(stdout_path.c_str(), "w", stdout);
+			if (!stdout_file) return ERR_FOPEN;
+		}
+		if (stdin_filename != "") {
+			boinc_resolve_filename_s(stdin_filename.c_str(), stdin_path);
+			stdin_file = freopen(stdin_path.c_str(), "r", stdin);
+			if (!stdin_file) return ERR_FOPEN;
+		}
+		// construct argv
         //
         strcpy(buf, app_path.c_str());
         argv[0] = buf;
