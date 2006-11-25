@@ -3,6 +3,6 @@
         <application>worker</application>
         <stdin_filename>in</stdin_filename>
         <stdout_filename>out</stdout_filename>
-        <command_line>-foo</command_line>
+        <command_line>10</command_line>
     </task>
 </job_desc>

@@ -30,11 +30,13 @@ int main(int argc, char** argv) {
     char buf[256];
 
     fprintf(stderr, "worker starting\n");
-    printf("%s\n", argv[1]);
     fgets(buf, 256, stdin);
     fputs(buf, stdout);
     int start = time(0);
-    while (time(0) < start+10) {
+    int nsec = 10;
+    if (argc > 1) nsec = atoi(argv[1]);
+
+    while (time(0) < start+nsec) {
         double x=5;
         for (int i=0; i<10000000; i++) {
             x /= 2.1;

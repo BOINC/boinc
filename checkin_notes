@@ -215,6 +215,7 @@ David  23 Nov 2006
 
 David  24 Nov 2006
     - change "worker" to use stdin/stdout
+    - change "worker" to take nsec CPU arg
     - add example job file
 
     worker/
