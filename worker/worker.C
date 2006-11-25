@@ -26,25 +26,13 @@
 #include <stdlib.h>
 #include <time.h>
 
-int main(int, char**) {
-    FILE* in = fopen("in", "r");
-    FILE* out = fopen("out", "w");
+int main(int argc, char** argv) {
     char buf[256];
 
     fprintf(stderr, "worker starting\n");
-    fflush(stderr);
-    if (!in) {
-        fprintf(stderr, "no input file\n");
-        exit(1);
-    }
-    if (!out) {
-        fprintf(stderr, "no output file\n");
-        exit(1);
-    }
-    fgets(buf, 256, in);
-    fputs(buf, out);
-    fflush(out);
-    fclose(in);
+    printf("%s\n", argv[1]);
+    fgets(buf, 256, stdin);
+    fputs(buf, stdout);
     int start = time(0);
     while (time(0) < start+10) {
         double x=5;
@@ -53,8 +41,7 @@ int main(int, char**) {
             x += 1.5;
         }
     }
-    fputs("done!\n", out);
-    fclose(out);
+    fputs("done!\n", stdout);
     return 0;
 }
 

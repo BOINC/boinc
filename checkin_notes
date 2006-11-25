@@ -212,3 +212,13 @@ David  23 Nov 2006
 
     worker/
         worker.C
+
+David  24 Nov 2006
+    - change "worker" to use stdin/stdout
+    - add example job file
+
+    worker/
+        worker.C
+    wrapper/
+        job.xml
+
