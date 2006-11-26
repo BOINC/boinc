@@ -12966,3 +12966,10 @@ David  25 Nov 2006
         cs_scheduler.C
     lib/
         prefs.C
+
+David  25 Nov 2006
+    - simple validator framework: bug fix, prevent crash
+        if output file missing
+
+    sched/
+        validate_util2.C

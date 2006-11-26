@@ -81,6 +81,7 @@ int check_set(
             );
             results[i].outcome = RESULT_OUTCOME_VALIDATE_ERROR;
             results[i].validate_state = VALIDATE_STATE_INVALID;
+            had_error[i] = true;
         } else  {
             good_results++;
         }
