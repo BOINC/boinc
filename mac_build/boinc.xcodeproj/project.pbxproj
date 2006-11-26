@@ -17,7 +17,7 @@
 				DDBD681307FA830E0082C20D /* PBXTargetDependency */,
 				DDBD681507FA830E0082C20D /* PBXTargetDependency */,
 				DD791FF10819063C00BE2906 /* PBXTargetDependency */,
-				DDBD681707FA830E0082C20D /* PBXTargetDependency */,
+				DD58247D0B198BDD003B6A2F /* PBXTargetDependency */,
 				DD127877081F44E5007B5DE1 /* PBXTargetDependency */,
 				DD664F19084321A2009BFB11 /* PBXTargetDependency */,
 				DD6D35F40871509300BBCDEE /* PBXTargetDependency */,
@@ -764,6 +764,13 @@
 			remoteGlobalIDString = DDFF2ACA0A53D4AE002BC19D;
 			remoteInfo = setprojectgrp;
 		};
+		DD58247C0B198BDD003B6A2F /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 20286C28FDCF999611CA2CEA /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = DD3E14D30A774397007E0084;
+			remoteInfo = mgr_boinc;
+		};
 		DD58E60C0AC7D69F0049DBB6 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = 20286C28FDCF999611CA2CEA /* Project object */;
@@ -854,13 +861,6 @@
 			proxyType = 1;
 			remoteGlobalIDString = DD35353007E1E05C00C4718D;
 			remoteInfo = api_libboinc;
-		};
-		DDBD681607FA830E0082C20D /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = 20286C28FDCF999611CA2CEA /* Project object */;
-			proxyType = 1;
-			remoteGlobalIDString = DD095EF007D87AE900362260;
-			remoteInfo = mgr_boinc;
 		};
 		DDD095500A3EE09900C95BA4 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
@@ -1827,9 +1827,9 @@
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
-		DD095EF007D87AE900362260 /* mgr_boinc */ = {
+		DD095EF007D87AE900362260 /* noSG_mgr_boinc */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = DD9E236D091CBDAE0048316E /* Build configuration list for PBXNativeTarget "mgr_boinc" */;
+			buildConfigurationList = DD9E236D091CBDAE0048316E /* Build configuration list for PBXNativeTarget "noSG_mgr_boinc" */;
 			buildPhases = (
 				DD095EED07D87AE900362260 /* Resources */,
 				DD095EEE07D87AE900362260 /* Sources */,
@@ -1850,7 +1850,7 @@
 				DD095EF607D87B1E00362260 /* PBXTargetDependency */,
 				DD40D36107F03B600096C645 /* PBXTargetDependency */,
 			);
-			name = mgr_boinc;
+			name = noSG_mgr_boinc;
 			productName = mgr_boinc;
 			productReference = DD095EF107D87AE900362260 /* BOINCManager.app */;
 			productType = "com.apple.product-type.application";
@@ -1918,9 +1918,9 @@
 			productReference = DD35353107E1E05C00C4718D /* libboinc_api.a */;
 			productType = "com.apple.product-type.library.static";
 		};
-		DD3E14D30A774397007E0084 /* sg_mgr_boinc */ = {
+		DD3E14D30A774397007E0084 /* mgr_boinc */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = DD3E153D0A774397007E0084 /* Build configuration list for PBXNativeTarget "sg_mgr_boinc" */;
+			buildConfigurationList = DD3E153D0A774397007E0084 /* Build configuration list for PBXNativeTarget "mgr_boinc" */;
 			buildPhases = (
 				DD3E14DA0A774397007E0084 /* Resources */,
 				DD3E14DE0A774397007E0084 /* Sources */,
@@ -1941,7 +1941,7 @@
 				DD3E14D60A774397007E0084 /* PBXTargetDependency */,
 				DD3E14D80A774397007E0084 /* PBXTargetDependency */,
 			);
-			name = sg_mgr_boinc;
+			name = mgr_boinc;
 			productName = mgr_boinc;
 			productReference = DD3E15420A774397007E0084 /* BOINCManager.app */;
 			productType = "com.apple.product-type.application";
@@ -2193,7 +2193,7 @@
 				DD407A4907D2FB1200163EF5 /* libboinc */,
 				DD40823907D304F000163EF5 /* gfxlibboinc */,
 				DD35353007E1E05C00C4718D /* api_libboinc */,
-				DD095EF007D87AE900362260 /* mgr_boinc */,
+				DD095EF007D87AE900362260 /* noSG_mgr_boinc */,
 				DD40CDF807F0386A0096C645 /* SystemMenu */,
 				DDAEC9E007FA583B00A7BC36 /* SetVersion */,
 				DD96AFF80811075000A06F22 /* ScreenSaver */,
@@ -2203,7 +2203,7 @@
 				DDD0953E0A3EDD2500C95BA4 /* switcher */,
 				DD1AFEA40A512D8700EE5B82 /* Install_BOINC */,
 				DDFF2ACA0A53D4AE002BC19D /* setprojectgrp */,
-				DD3E14D30A774397007E0084 /* sg_mgr_boinc */,
+				DD3E14D30A774397007E0084 /* mgr_boinc */,
 				DDD997D70AC3D1DD00D0DACF /* AppStats */,
 			);
 		};
@@ -2307,7 +2307,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "if [ \"$BUILD_STYLE\" = \"i386_Deployment\" ] || [ \"$BUILD_STYLE\" = \"ppc_Deployment\" ] || [ \"$BUILD_STYLE\" = \"Deployment\" ]; then\n  mkdir \"${BUILT_PRODUCTS_DIR}/SymbolTables\"\n  lipo \"${BUILT_PRODUCTS_DIR}/BOINCManager.app/Contents/MacOS/BOINCManager\" -thin i386 -output \"$TARGET_BUILD_DIR/SymbolTables/sgBOINCManager_i386\"\n  lipo \"${BUILT_PRODUCTS_DIR}/BOINCManager.app/Contents/MacOS/BOINCManager\" -thin ppc -output \"$TARGET_BUILD_DIR/SymbolTables/sgBOINCManager_ppc\"\n  /usr/bin/strip \"${BUILT_PRODUCTS_DIR}/BOINCManager.app/Contents/MacOS/BOINCManager\"\nfi\n";
+			shellScript = "if [ \"$BUILD_STYLE\" = \"i386_Deployment\" ] || [ \"$BUILD_STYLE\" = \"ppc_Deployment\" ] || [ \"$BUILD_STYLE\" = \"Deployment\" ]; then\n  mkdir \"${BUILT_PRODUCTS_DIR}/SymbolTables\"\n  if [ \"${BUILT_PRODUCTS_DIR}/BOINCManager.app/Contents/MacOS/BOINCManager\" -nt \"$TARGET_BUILD_DIR/SymbolTables/BOINCManager_i386\" ]; then\n    lipo \"${BUILT_PRODUCTS_DIR}/BOINCManager.app/Contents/MacOS/BOINCManager\" -thin i386 -output \"$TARGET_BUILD_DIR/SymbolTables/BOINCManager_i386\"\n    lipo \"${BUILT_PRODUCTS_DIR}/BOINCManager.app/Contents/MacOS/BOINCManager\" -thin ppc -output \"$TARGET_BUILD_DIR/SymbolTables/BOINCManager_ppc\"\n    /usr/bin/strip \"${BUILT_PRODUCTS_DIR}/BOINCManager.app/Contents/MacOS/BOINCManager\"\n  fi\nfi\n";
 		};
 		DD3E15380A774397007E0084 /* ShellScript */ = {
 			isa = PBXShellScriptBuildPhase;
@@ -2981,6 +2981,11 @@
 			target = DDFF2ACA0A53D4AE002BC19D /* setprojectgrp */;
 			targetProxy = DD45C4A00A53E73500E923D1 /* PBXContainerItemProxy */;
 		};
+		DD58247D0B198BDD003B6A2F /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = DD3E14D30A774397007E0084 /* mgr_boinc */;
+			targetProxy = DD58247C0B198BDD003B6A2F /* PBXContainerItemProxy */;
+		};
 		DD58E60D0AC7D69F0049DBB6 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
 			target = DDD997D70AC3D1DD00D0DACF /* AppStats */;
@@ -3045,11 +3050,6 @@
 			isa = PBXTargetDependency;
 			target = DD35353007E1E05C00C4718D /* api_libboinc */;
 			targetProxy = DDBD681407FA830E0082C20D /* PBXContainerItemProxy */;
-		};
-		DDBD681707FA830E0082C20D /* PBXTargetDependency */ = {
-			isa = PBXTargetDependency;
-			target = DD095EF007D87AE900362260 /* mgr_boinc */;
-			targetProxy = DDBD681607FA830E0082C20D /* PBXContainerItemProxy */;
 		};
 		DDD095510A3EE09900C95BA4 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
@@ -6649,7 +6649,7 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = ppc_Deployment;
 		};
-		DD3E153D0A774397007E0084 /* Build configuration list for PBXNativeTarget "sg_mgr_boinc" */ = {
+		DD3E153D0A774397007E0084 /* Build configuration list for PBXNativeTarget "mgr_boinc" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				DD3E153E0A774397007E0084 /* Development */,
@@ -6766,7 +6766,7 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = ppc_Deployment;
 		};
-		DD9E236D091CBDAE0048316E /* Build configuration list for PBXNativeTarget "mgr_boinc" */ = {
+		DD9E236D091CBDAE0048316E /* Build configuration list for PBXNativeTarget "noSG_mgr_boinc" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				DD9E236E091CBDAE0048316E /* Development */,

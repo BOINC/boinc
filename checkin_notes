@@ -12973,3 +12973,12 @@ David  25 Nov 2006
 
     sched/
         validate_util2.C
+
+Charlie 26 Nov 2006
+    - Mac MGR: Modify XCode Project so default Manager build is 
+        SimpleGUI(i.e., targets Build_All and mgr_boinc now build 
+        Manager with Simple GUI).
+
+    mac_build/
+        boinc.xcodeproj/
+            project.pbxproj
