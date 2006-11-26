@@ -335,7 +335,6 @@ public:
 public:
     void check_file_existence();
     bool start_new_file_xfer(PERS_FILE_XFER&);
-    bool has_active_xfer(PROJECT*);
 private:
     int make_project_dirs();
     bool handle_pers_file_xfers();

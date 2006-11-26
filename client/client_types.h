@@ -74,7 +74,8 @@ public:
     bool is_project_file;
     bool gzip_when_done;
         // for output files: gzip file when done, and append .gz to its name
-    class PERS_FILE_XFER* pers_file_xfer;   // nonzero if in the process of being up/downloaded
+    class PERS_FILE_XFER* pers_file_xfer;
+        // nonzero if in the process of being up/downloaded
     struct RESULT* result;         // for upload files (to authenticate)
     class PROJECT* project;
     int ref_cnt;
@@ -277,6 +278,7 @@ public:
         // the project has used too much CPU time recently
     bool some_download_stalled();
         // a download is backed off
+    bool some_result_suspended();
 
     // temps used in CLIENT_STATE::rr_simulation();
     std::vector<RESULT*>active;
@@ -488,6 +490,9 @@ struct RESULT {
         // not finished, suspended, project not suspended
     bool downloading();
         // downloading, not downloaded, not suspended, project not suspended
+    bool some_download_stalled();
+        // some input or app file is downloading, and backed off
+        // i.e. it may be a long time before we can run this result
     // temporaries used in CLIENT_STATE::rr_misses_deadline():
     double rrsim_cpu_left;
     double rrsim_finish_delay;

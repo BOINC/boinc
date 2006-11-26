@@ -24,7 +24,6 @@ echo html_text("
     <upload_url>            http://A/URL          </upload_url>
     <upload_dir>            /path/to/directory    </upload_dir>
     <cgi_url>               http://A/URL          </cgi_url>
-    <log_dir>               /path/to/directory    </log_dir>
 
     [ <disable_account_creation/> ]
     [ <profile_screening/> ]
@@ -93,13 +92,6 @@ list_item("uldl_dir_fanout", "fan-out factor of upload and download directories
 );
 list_item("upload_dir", "absolute path of upload directory");
 list_item("cgi_url", "URL of scheduling server");
-list_item("log_dir", "Path to the directory where the assimilator, feeder, transitioner and
-cgi output logs are stored.  This allows you to change the default log
-directory path.  If set explicitly, you can also use the 'grep logs'
-features on the administrative pages.  Note: enabling 'grep logs' with
-very long log files can hang your server, since grepping GB files can
-take a long time.  If you enable this feature, be sure to rotate the
-logs so that they are not too big.");
 list_item("sched_lockfile_dir",
     "Enables scheduler locking (recommended) and specifies
     directory where scheduler lockfiles are stored.

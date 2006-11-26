@@ -12951,3 +12951,18 @@ Rom    24 Nov 2006
         gui_rpc_client_ops.C
         prefs.C, .h
 
+David  25 Nov 2006
+    - core client: if the user has suspended a result for a project,
+        don't fetch more work from it.
+    - core client: in work fetch and CPU sched policies,
+        if a result has a stalled download,
+        don't treat it as nearly runnable
+    - core client: don't allow work_buf_min_days less than 0.01.
+        The scheduler and work fetch policies demand that it be > 0
+
+    client/
+        client_types.C,h
+        cpu_sched.C
+        cs_scheduler.C
+    lib/
+        prefs.C

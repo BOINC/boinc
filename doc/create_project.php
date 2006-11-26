@@ -113,9 +113,12 @@ Monitoring a BOINC project
 <ul>
 <li> <a href=html_ops.php>Administrative web interface</a>
 <li> <a href=server_debug.php>Debugging server components</a>
-<li> <a href=watchdog.php>Watchdogs</a>
-<li> <a href=stripchart.php>Stripcharts: a tool for viewing time-varying data </a>
-<li> <a href=stripchart_data.php>Recording data for Stripcharts</a>
+<li> <a href=log_rotate.php>Log rotation</a>
+";
+//<li> <a href=watchdog.php>Watchdogs</a>
+//<li> <a href=stripchart.php>Stripcharts: a tool for viewing time-varying data </a>
+//<li> <a href=stripchart_data.php>Recording data for Stripcharts</a>
+echo "
 </ul>
 
 <font size=+1><b>

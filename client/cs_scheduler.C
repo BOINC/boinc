@@ -688,6 +688,13 @@ bool CLIENT_STATE::compute_work_requests() {
             continue;
         }
 
+        if (p->some_result_suspended()) {
+            if (log_flags.work_fetch_debug) {
+                msg_printf(p, MSG_INFO, "[work_fetch_debug] project has suspended result");
+            }
+            continue;
+        }
+
         if (p->overworked() && overall_work_fetch_urgency < WORK_FETCH_NEED) {
             if (log_flags.work_fetch_debug) {
                 msg_printf(p, MSG_INFO, "[work_fetch_debug] project is overworked");

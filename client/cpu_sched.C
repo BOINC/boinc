@@ -938,6 +938,7 @@ void CLIENT_STATE::rr_simulation() {
     for (i=0; i<results.size(); i++) {
         rp = results[i];
         if (!rp->nearly_runnable()) continue;
+        if (rp->some_download_stalled()) continue;
         if (rp->project->non_cpu_intensive) continue;
         rp->rrsim_cpu_left = rp->estimated_cpu_time_remaining();
         p = rp->project;

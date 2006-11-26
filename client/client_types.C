@@ -415,6 +415,15 @@ bool PROJECT::some_download_stalled() {
     return false;
 }
 
+bool PROJECT::some_result_suspended() {
+    unsigned int i;
+    for (i=0; i<gstate.results.size(); i++) {
+         RESULT *rp = gstate.results[i];
+         if (rp->project != this) continue;
+         if (rp->suspended_via_gui) return true;
+     }
+    return false;
+}
 
 bool PROJECT::contactable() {
     if (suspended_via_gui) return false;
@@ -1752,17 +1761,32 @@ bool RESULT::downloading() {
     if (suspended_via_gui) return false;
     if (project->suspended_via_gui) return false;
     if (state > RESULT_FILES_DOWNLOADING) return false;
-
-    // if we're in the downloading stage and all of this project's
-    // file xfers are backed off, return false
-    //
-#if 0
-    if (state == RESULT_FILES_DOWNLOADING) {
-        if (gstate.has_active_xfer(project)) return true;
-        return false;
-    }
-#endif
     return true;
+}
+
+// return true if some file needed by this result (input or application)
+// is downloading and backed off
+//
+bool RESULT::some_download_stalled() {
+    unsigned int i;
+    FILE_INFO* fip;
+    PERS_FILE_XFER* pfx;
+
+    for (i=0; i<wup->input_files.size(); i++) {
+        fip = wup->input_files[i].file_info;
+        pfx = fip->pers_file_xfer;
+        if (pfx && pfx->next_request_time > gstate.now) {
+            return true;
+        }
+    }
+    for (i=0; i<wup->avp->app_files.size(); i++) {
+        fip = wup->avp->app_files[i].file_info;
+        pfx = fip->pers_file_xfer;
+        if (pfx && pfx->next_request_time > gstate.now) {
+            return true;
+        }
+    }
+    return false;
 }
 
 FILE_REF* RESULT::lookup_file(FILE_INFO* fip) {

@@ -319,14 +319,4 @@ void CLIENT_STATE::check_file_existence() {
     }
 }
 
-bool CLIENT_STATE::has_active_xfer(PROJECT* p) {
-    unsigned int i;
-    for (i=0; i<gstate.pers_file_xfers->pers_file_xfers.size(); i++) {
-        PERS_FILE_XFER* pfx = gstate.pers_file_xfers->pers_file_xfers[i];
-        if (pfx->fip->project != p) continue;
-        if (pfx->next_request_time < gstate.now) return true;
-    }
-    return false;
-}
-
 const char *BOINC_RCSID_66410b3cab = "$Id$";
