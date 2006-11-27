@@ -63,6 +63,7 @@ struct GLOBAL_PREFS_MASK {
     GLOBAL_PREFS_MASK();
     void clear();
     bool are_prefs_set();
+    bool are_simple_prefs_set();
 };
 
 // The following structure is a parsed version of the prefs file

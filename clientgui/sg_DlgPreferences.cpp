@@ -163,7 +163,6 @@ static int CompareCPUUsage(const wxString& strFirst, const wxString& strSecond) 
 int iWorkWhenIdleArraySize = 7;
 wxString astrWorkWhenIdleStrings[] = {
     _("1"),
-    _("3"),
     _("5"),
     _("10"),
     _("15"),
@@ -658,22 +657,24 @@ bool CPanelPreferences::ReadPreferenceSettings() {
     GLOBAL_PREFS   display_global_preferences;
     double         dTempValue1 = 0.0;
     double         dTempValue2 = 0.0;
-
-    unsigned int i;
+    int            retval;
+	unsigned int   i;
 
     wxASSERT(pDoc);
     wxASSERT(wxDynamicCast(pDoc, CMainDocument));
 
 
     // Populate values and arrays from preferences
-    pDoc->rpc.get_global_prefs_override_struct(global_preferences_override, global_preferences_mask);
-    if (are_prefs_set()) {
+	global_preferences_override = pDoc->state.global_prefs;
+	retval = pDoc->rpc.get_global_prefs_override_struct(global_preferences_override, global_preferences_mask);
+	if (!retval && global_preferences_mask.are_simple_prefs_set()) {
         m_bCustomizedPreferences = true;
-        display_global_preferences = global_preferences_override;
     } else {
         m_bCustomizedPreferences = false;
-        display_global_preferences = pDoc->state.global_prefs;
     }
+	
+	// Allow this structure to be modified for display purposes
+    display_global_preferences = global_preferences_override;
 
 
     // Do work only between:
@@ -832,22 +833,6 @@ bool CPanelPreferences::ReadPreferenceSettings() {
 
     return true;
 }
-
-
-// Like GLOBAL_PREFS_MASK::are_prefs_set() but checks only the items on dialog
-bool CPanelPreferences::are_prefs_set() {
-    if (global_preferences_mask.start_hour) return true;         // 0..23; no restriction if start==end
-    if (global_preferences_mask.end_hour) return true;
-    if (global_preferences_mask.net_start_hour) return true;     // 0..23; no restriction if start==end
-    if (global_preferences_mask.net_end_hour) return true;
-    if (global_preferences_mask.disk_max_used_gb) return true;
-    if (global_preferences_mask.cpu_usage_limit) return true;
-    if (global_preferences_mask.run_on_batteries) return true;
-    if (global_preferences_mask.run_if_user_active) return true;
-    if (global_preferences_mask.idle_time_to_run) return true;
-    return false;
-}
-
 
 
 bool CPanelPreferences::ReadSkinSettings() {

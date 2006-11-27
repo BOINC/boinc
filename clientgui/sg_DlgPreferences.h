@@ -156,7 +156,6 @@ public:
     bool ReadSkinSettings();
     bool SavePreferenceSettings();
     bool SaveSkinSettings();
-    bool are_prefs_set();
 
 private:
 ////@begin CPanelPreferences member variables
