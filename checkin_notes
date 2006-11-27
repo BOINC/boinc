@@ -12999,3 +12999,14 @@ David  26 Nov 2006
         validate_util.C
         validate_util2.C
         validator.C
+
+Charlie 26 Nov 2006
+    - MGR: Fix 2 preferences dialog bugs:
+        - Set checkbox only if mask is set for one or more items on the 
+            dialog (i.e., ignore masks for items not on dialog).
+        - Add the value 3 to the idle time choices.  This makes the dialog's 
+            default value the same as the web-based preferences default.
+            
+    clientgui/
+        sg_DlgPreferences.cpp, h
+    
