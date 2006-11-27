@@ -138,7 +138,9 @@ cleanup:
     return 0;
 }
 
-int check_pair(RESULT & r1, RESULT const& r2, bool& retry) {
+// r1 is the new result; r2 is canonical result
+//
+void check_pair(RESULT& r1, RESULT const& r2, bool& retry) {
     void* data1;
     void* data2;
     int retval;
@@ -146,24 +148,45 @@ int check_pair(RESULT & r1, RESULT const& r2, bool& retry) {
 
     retry = false;
     retval = init_result(r1, data1);
-    if (retval) {
+    if (retval == ERR_OPENDIR) {
         log_messages.printf(
             SCHED_MSG_LOG::MSG_CRITICAL,
-            "[RESULT#%d %s] [RESULT#%d %s] Couldn't initialize result 1\n",
-            r1.id, r1.name, r2.id, r2.name
+            "check_pair: init_result([RESULT#%d %s]) transient failure 1\n",
+            r1.id, r1.name
         );
-        return retval;
+        retry = true;
+        return;
+    } else if (retval) {
+        log_messages.printf(
+            SCHED_MSG_LOG::MSG_CRITICAL,
+            "check_pair: init_result([RESULT#%d %s]) perm failure 1\n",
+            r1.id, r1.name
+        );
+        r1.outcome = RESULT_OUTCOME_VALIDATE_ERROR;
+        r1.validate_state = VALIDATE_STATE_INVALID;
+        return;
     }
 
     retval = init_result(r2, data2);
-    if (retval) {
+    if (retval == ERR_OPENDIR) {
         log_messages.printf(
             SCHED_MSG_LOG::MSG_CRITICAL,
-            "[RESULT#%d %s] [RESULT#%d %s] Couldn't initialize result 2\n",
-            r1.id, r1.name, r2.id, r2.name
+            "check_pair: init_result([RESULT#%d %s]) transient failure 2\n",
+            r2.id, r2.name
         );
         cleanup_result(r1, data1);
-        return retval;
+        retry = true;
+        return;
+    } else if (retval) {
+        log_messages.printf(
+            SCHED_MSG_LOG::MSG_CRITICAL,
+            "check_pair: init_result([RESULT#%d %s]) perm failure2\n",
+            r2.id, r2.name
+        );
+        cleanup_result(r1, data1);
+        r1.outcome = RESULT_OUTCOME_VALIDATE_ERROR;
+        r1.validate_state = VALIDATE_STATE_INVALID;
+        return;
     }
 
     retval = compare_results(r1, data1, r2, data2, match);
@@ -174,6 +197,4 @@ int check_pair(RESULT & r1, RESULT const& r2, bool& retry) {
     }
     cleanup_result(r1, data1);
     cleanup_result(r2, data2);
-
-    return retval;
 }

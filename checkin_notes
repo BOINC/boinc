@@ -12970,6 +12970,7 @@ David  25 Nov 2006
 David  25 Nov 2006
     - simple validator framework: bug fix, prevent crash
         if output file missing
+        (from Hendrik Verhoek)
 
     sched/
         validate_util2.C
@@ -12982,3 +12983,19 @@ Charlie 26 Nov 2006
     mac_build/
         boinc.xcodeproj/
             project.pbxproj
+
+David  26 Nov 2006
+    - validator: clean up check_pair() (from validate_util2.C) a little:
+        The function now returns void.
+        Either it returns with retry == true (in case of a transient error)
+        or it sets r1.validate_state to either VALID or INVALID.
+    - validator.C: handle_wu() now returns zero if the WU
+        was actually handled (i.e. there wasn't a transient error)
+        Sleep if nothing was actually handled
+        (i.e. either there were none, or they all had transient errors)
+    (from M.F. Somers, much belated)
+
+    sched/
+        validate_util.C
+        validate_util2.C
+        validator.C

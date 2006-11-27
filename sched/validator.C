@@ -175,7 +175,9 @@ int grant_credit(RESULT& result, double credit) {
     return 0;
 }
 
-void handle_wu(
+// Return zero iff we resolved the WU
+//
+int handle_wu(
     DB_VALIDATOR_ITEM_SET& validator, std::vector<VALIDATOR_ITEM>& items
 ) { 
     int canonical_result_index = -1;
@@ -217,7 +219,7 @@ void handle_wu(
                 "[WU#%d %s] Can't find canonical result %d\n",
                 wu.id, wu.name, wu.canonical_resultid
             );
-            return;
+            return 0;
         }
 
         RESULT& canonical_result = items[canonical_result_index].res;
@@ -237,15 +239,7 @@ void handle_wu(
                 continue;
             }
 
-            retval = check_pair(result, canonical_result, retry);
-            if (retval) {
-                log_messages.printf(
-                    SCHED_MSG_LOG::MSG_DEBUG,
-                    "[RESULT#%d %s]: pair_check() failed for result: %d\n",
-                    result.id, result.name, retval
-                );
-                exit(retval);
-            }
+            check_pair(result, canonical_result, retry);
             if (retry) transition_time = DELAYED;
             update_result = false;
 
@@ -346,7 +340,7 @@ void handle_wu(
                     "[WU#%d %s] check_set returned %d, exiting\n",
                     wu.id, wu.name, retval
                 );
-                exit(retval);
+                return retval;
             }
             if (retry) transition_time = DELAYED;
 
@@ -492,8 +486,9 @@ void handle_wu(
             "[WU#%d %s] update_workunit() failed: %d; exiting\n",
             wu.id, wu.name, retval
         );
-        exit(1);
+        return retval;
     }
+    return 0;
 }
 
 // make one pass through the workunits with need_validate set.
@@ -514,8 +509,8 @@ bool do_validate_scan(APP& app) {
             items
         );
         if (retval) break;
-        handle_wu(validator, items);
-        found = true;
+        retval = handle_wu(validator, items);
+        if (!retval) found = true;
     }
     return found;
 }

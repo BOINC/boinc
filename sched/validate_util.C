@@ -19,8 +19,9 @@
 
 // Code to facilitate writing validators.
 // Can be used as the basis for a validator that accepts everything
-// (see validate_trivial.C),
-// or that requires strict or fuzzy equality.
+// (see sample_trivial_validator.C),
+// or that requires strict equality (see sample_bitwise_validator.C)
+// or that uses fuzzy comparison.
 
 #include "config.h"
 
