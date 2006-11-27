@@ -389,6 +389,8 @@ int GLOBAL_PREFS::write(MIOFILE& f) {
 // as selected by the mask of bools
 //
 int GLOBAL_PREFS::write_subset(MIOFILE& f, GLOBAL_PREFS_MASK& mask) {
+    if (!mask.are_prefs_set()) return 0;
+    
     f.printf("<global_preferences>\n");
     if (mask.run_on_batteries) {
         f.printf("   <run_on_batteries>%d</run_on_batteries>\n",

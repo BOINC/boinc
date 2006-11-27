@@ -13006,7 +13006,10 @@ Charlie 26 Nov 2006
             dialog (i.e., ignore masks for items not on dialog).
         - Add the value 3 to the idle time choices.  This makes the dialog's 
             default value the same as the web-based preferences default.
+        - Fix logic to properly delete empty override file.
             
     clientgui/
         sg_DlgPreferences.cpp, h
+    lib/
+        prefs.C
     

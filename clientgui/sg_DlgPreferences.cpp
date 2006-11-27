@@ -163,6 +163,7 @@ static int CompareCPUUsage(const wxString& strFirst, const wxString& strSecond) 
 int iWorkWhenIdleArraySize = 7;
 wxString astrWorkWhenIdleStrings[] = {
     _("1"),
+    _("3"),
     _("5"),
     _("10"),
     _("15"),
