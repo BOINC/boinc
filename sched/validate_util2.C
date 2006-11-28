@@ -118,7 +118,7 @@ int check_set(
             //
             for (j=0; j!=n; j++) {
                 if (had_error[j]) continue;
-                if (config.max_claimed_credit && results[j].claimed_credit > config.max_claimed_credit) {
+                if (max_claimed_credit && results[j].claimed_credit > max_claimed_credit) {
                     results[j].validate_state = VALIDATE_STATE_INVALID;
                 } else {
                     results[j].validate_state = matches[j] ? VALIDATE_STATE_VALID : VALIDATE_STATE_INVALID;
@@ -190,7 +190,7 @@ void check_pair(RESULT& r1, RESULT const& r2, bool& retry) {
     }
 
     retval = compare_results(r1, data1, r2, data2, match);
-    if (config.max_claimed_credit && r1.claimed_credit > config.max_claimed_credit) {
+    if (max_claimed_credit && r1.claimed_credit > max_claimed_credit) {
         r1.validate_state = VALIDATE_STATE_INVALID;
     } else {
         r1.validate_state = match?VALIDATE_STATE_VALID:VALIDATE_STATE_INVALID;

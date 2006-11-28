@@ -72,6 +72,9 @@ int wu_id_modulus=0;
 int wu_id_remainder=0;
 int one_pass_N_WU=0;
 bool one_pass = false;
+double max_granted_credit = 0;
+double max_claimed_credit = 0;
+bool grant_claimed_credit = false;
 
 
 // here when a result has been validated;
@@ -255,7 +258,10 @@ int handle_wu(
             switch (result.validate_state) {
             case VALIDATE_STATE_VALID:
                 update_result = true;
-                result.granted_credit = (config.grant_claimed_credit) ? result.claimed_credit : wu.canonical_credit;
+                result.granted_credit = grant_claimed_credit ? result.claimed_credit : wu.canonical_credit;
+                if (max_granted_credit && result.granted_credit > max_granted_credit) {
+                    result.granted_credit = max_granted_credit;
+                }
                 log_messages.printf(
                     SCHED_MSG_LOG::MSG_NORMAL,
                     "[RESULT#%d %s] pair_check() matched: setting result to valid; credit %f\n",
@@ -365,7 +371,10 @@ int handle_wu(
                     // grant credit for valid results
                     //
                     update_result = true;
-                    granted_credit = (config.grant_claimed_credit) ? result.claimed_credit : credit;
+                    granted_credit = grant_claimed_credit ? result.claimed_credit : credit;
+                    if (max_granted_credit && result.granted_credit > max_granted_credit) {
+                        result.granted_credit = max_granted_credit;
+                    }
                     retval = grant_credit(result, granted_credit);
                     if (retval) {
                         log_messages.printf(
@@ -581,6 +590,12 @@ int main(int argc, char** argv) {
         } else if (!strcmp(argv[i], "-mod")) {
             wu_id_modulus = atoi(argv[++i]);
             wu_id_remainder = atoi(argv[++i]);
+        } else if (!strcmp(argv[i], "-max_granted_credit")) {
+            max_granted_credit = atof(argv[++i]);
+        } else if (!strcmp(argv[i], "-max_claimed_credit")) {
+            max_claimed_credit = atof(argv[++i]);
+        } else if (!strcmp(argv[i], "-grant_claimed_credit")) {
+            grant_claimed_credit = true;
         } else {
             log_messages.printf(SCHED_MSG_LOG::MSG_CRITICAL, "unrecognized arg: %s\n", argv[i]);
             exit(1);

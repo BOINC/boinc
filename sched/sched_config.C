@@ -97,12 +97,10 @@ int SCHED_CONFIG::parse(FILE* f) {
         else if (xp.parse_int(tag, "min_core_client_version", min_core_client_version)) continue;
         else if (xp.parse_int(tag, "min_core_client_version_announced", min_core_client_version_announced)) continue;
         else if (xp.parse_int(tag, "min_core_client_upgrade_deadline", min_core_client_upgrade_deadline)) continue;
-        else if (xp.parse_int(tag, "max_claimed_credit", max_claimed_credit)) continue;
         else if (xp.parse_bool(tag, "choose_download_url_by_timezone", choose_download_url_by_timezone)) continue;
         else if (xp.parse_bool(tag, "cache_md5_info", cache_md5_info)) continue;
         else if (xp.parse_bool(tag, "nowork_skip", nowork_skip)) continue;
         else if (xp.parse_bool(tag, "resend_lost_results", resend_lost_results)) continue;
-        else if (xp.parse_bool(tag, "grant_claimed_credit", grant_claimed_credit)) continue;
         else if (xp.parse_double(tag, "fp_benchmark_weight", fp_benchmark_weight)) {
             if (fp_benchmark_weight < 0 || fp_benchmark_weight > 1) {
                 fprintf(stderr,

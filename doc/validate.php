@@ -63,6 +63,20 @@ list_item("[ -mod n i ]",
     This option lets you run multiple instances of the validator
     for increased performance."
 );
+list_item("[ -max_claimed_credit X ]",
+    "If a result claims more credit than this, mark it as invalid."
+);
+list_item("<nobr>[ -max_granted_credit X ]</nobr>",
+    "Grant no more than this amount of credit to a result."
+);
+list_item("[ -grant_claimed_credit ]",
+    "If set, grant the claimed credit,
+    regardless of what other results for this workunit claimed.
+    These is useful for projects where
+    different instances of the same job
+    can do much different amounts of work."
+);
+
 list_end();
 page_tail();
 ?>

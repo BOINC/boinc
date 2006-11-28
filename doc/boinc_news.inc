@@ -1,6 +1,13 @@
 <?
 
 $project_news = array(
+array("November 27, 2006",
+    "Jean-Michel Penasse of L'Alliance Francophone
+    has create a web site,
+    <a href=http://www.myboinc.com/>www.myboinc.com</a>,
+    showing the User of the Day of all BOINC projects
+    going back to October 8 2006.  Check it out!"
+),
 array("November 23, 2006",
     "<b>Docking@home participants</b>:
     the project is unreachable because of a campus-wide network

@@ -163,17 +163,6 @@ list_item("fuh_debug_level",
 );
 
 list_bar( "Credit");
-list_item("max_claimed_credit",
-    "If a result claims more credit than this, mark it as invalid."
-);
-list_item("grant_claimed_credit",
-    "If set, grant the claimed credit,
-    regardless of what other results for this workunit claimed.
-    These is useful for projects where
-    different instances of the same job
-    can do much different amounts of work.
-    "
-);
 list_item("fp_benchmark_weight",
     "The weighting given to the Whetstone benchmark
     in the calculation of claimed credit.

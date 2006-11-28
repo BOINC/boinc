@@ -62,6 +62,11 @@ Show if the servers of various projects are up or down.
 <li> <a href=http://www.esea.dk/esea/bos.asp>BOS (BOINC Online Schedulers></a>
 <li> <a href=http://boincprojectstatus.ath.cx/>BOINC Project Status</a>
 </ul>
+<h2>Users of the Day</h2>
+
+<ul>
+<li> <a href=http://www.myboinc.com/>BOINC Users of the Day</a>
+</ul>
 </td><td valign=top>
 <h2>Credit statistics</h2>
 ";
