@@ -119,7 +119,7 @@ CViewResources::CViewResources(wxNotebook* pNotebook) :
 	m_pieCtrlBOINC->GetLegend()->SetLabelFont(*wxSWISS_FONT);
 	m_pieCtrlBOINC->GetLegend()->SetLabelColour(wxColour(0,0,127));
 	m_pieCtrlBOINC->GetLegend()->SetLabelColour(wxColour(0,0,127));
-	m_pieCtrlBOINC->GetLegend()->SetTitle(wxT("disk usage by BOINC projects"));
+	m_pieCtrlBOINC->GetLegend()->SetTitle(wxT("disk usage by BOINC projects     "));
 	m_pieCtrlBOINC->SetAngle(4);
 	m_pieCtrlBOINC->SetPaint3D(false);
 	m_pieCtrlBOINC->SetDrawCircle(true);	
@@ -249,6 +249,10 @@ void CViewResources::OnListRender( wxTimerEvent& WXUNUSED(event) ) {
 		m_pieCtrlBOINC->Refresh();
 	}
 	//data for pie chart 2 (total disk usage)
+	//
+	// good source of color palettes:
+	// http://www.siteprocentral.com/cgi-bin/feed/feed.cgi
+	//
 	wxPiePart part;		
 	double free = pDoc->disk_usage.d_free;
 	double total = pDoc->disk_usage.d_total;			
@@ -256,19 +260,19 @@ void CViewResources::OnListRender( wxTimerEvent& WXUNUSED(event) ) {
 	FormatDiskSpace(free,diskspace);		
 	part.SetLabel(_("free disk space - ") + diskspace);
 	part.SetValue(free);
-	part.SetColour(m_aProjectColours[4]);
+	part.SetColour(wxColour(0xe1, 0xfc, 0xac));
 	m_pieCtrlTotal->m_Series.Add(part);
 	//used by boinc projects
 	FormatDiskSpace(boinctotal,diskspace);		
-	part.SetLabel(_("used by BOINC projects - ") + diskspace);
+	part.SetLabel(_("used by BOINC - ") + diskspace);
 	part.SetValue(boinctotal);
-	part.SetColour(m_aProjectColours[2]);
+	part.SetColour(wxColour(0xe8, 0x55, 0x6b));
 	m_pieCtrlTotal->m_Series.Add(part);
 	//used by others
 	FormatDiskSpace(total-boinctotal-free,diskspace);
-	part.SetLabel(_("used by others - ") + diskspace);
+	part.SetLabel(_("used by other programs - ") + diskspace);
 	part.SetValue(total-boinctotal-free);
-	part.SetColour(m_aProjectColours[3]);
+	part.SetColour(wxColour(0x3a, 0x9e, 0x8d));
 	m_pieCtrlTotal->m_Series.Add(part);
 	m_pieCtrlTotal->Refresh();
 }

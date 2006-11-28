@@ -13012,4 +13012,9 @@ Charlie 26 Nov 2006
         sg_DlgPreferences.cpp, h
     lib/
         prefs.C
-    
+
+David  27 Nov 2006
+	- manager: improve appearance of disk tab
+
+	clientgui/
+		ViewResources.cpp
