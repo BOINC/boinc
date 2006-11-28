@@ -129,6 +129,18 @@
 					<imagesrc_clicked>graphic/btnCloseClick.png</imagesrc_clicked>
 				</button>
 			</close_button>
+			<copy_button>
+				<button>
+					<imagesrc>graphic/wcg_copy.png</imagesrc>
+					<imagesrc_clicked>graphic/wcg_copy.png</imagesrc_clicked>
+				</button>
+			</copy_button>
+			<copy_all_button>
+				<button>
+					<imagesrc>graphic/wcg_copy_all.png</imagesrc>
+					<imagesrc_clicked>graphic/wcg_copy_all.png</imagesrc_clicked>
+				</button>
+			</copy_all_button>
 			<clear_button>
 				<button>
 					<imagesrc>graphic/btnClear.png</imagesrc>
