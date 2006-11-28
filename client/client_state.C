@@ -904,7 +904,7 @@ bool CLIENT_STATE::garbage_collect_always() {
             rp->output_files[i].file_info->ref_cnt++;
         }
         if (found_error) {
-            report_result_error(*rp, error_str.c_str());
+            report_result_error(*rp, "%s", error_str.c_str());
         }
         rp->wup->ref_cnt++;
         result_iter++;
