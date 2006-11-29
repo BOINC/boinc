@@ -13033,3 +13033,9 @@ David  27 Nov 2006
         sched_config.C,h
         validate_util2.C
         validator.C,h
+
+David  28 Nov 2006
+	- Manager: ask for disk usage at most every 60 sec
+
+	clientgui/
+		ViewResources.cpp

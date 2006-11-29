@@ -1003,7 +1003,10 @@ int CMainDocument::CachedDiskUsageUpdate() {
 
     if (IsConnected()) {
         wxTimeSpan ts(wxDateTime::Now() - m_dtDiskUsageTimestamp);
-        if (ts.GetSeconds() > 0) {
+
+		// don't get disk usage more than once per minute
+		//
+        if (ts.GetSeconds() > 60) {
             m_dtDiskUsageTimestamp = wxDateTime::Now();
 
             iRetVal = rpc.get_disk_usage(disk_usage);
