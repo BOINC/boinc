@@ -1,3 +1,9 @@
+dcapi (0.9-11) unstable; urgency=low
+
+  * Add the license text to debian/copyright
+
+ -- Gábor Gombás <gombasg@sztaki.hu>  Wed, 29 Nov 2006 14:53:25 +0100
+
 dcapi (0.9-10) unstable; urgency=low
 
   * Depend on BOINC 5.6
