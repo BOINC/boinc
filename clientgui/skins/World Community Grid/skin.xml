@@ -64,7 +64,7 @@
 			</workunit_animation_background_image>
 			<workunit_animation_image>
 				<image>
-					<imagesrc>graphic/wcg_black_bacground.gif</imagesrc>
+					<imagesrc>graphic/wcg_black_background.gif</imagesrc>
 				</image>
 			</workunit_animation_image>
 			<workunit_gauge_background_image>
@@ -132,13 +132,11 @@
 			<copy_button>
 				<button>
 					<imagesrc>graphic/wcg_copy.png</imagesrc>
-					<imagesrc_clicked>graphic/wcg_copy.png</imagesrc_clicked>
 				</button>
 			</copy_button>
 			<copy_all_button>
 				<button>
 					<imagesrc>graphic/wcg_copy_all.png</imagesrc>
-					<imagesrc_clicked>graphic/wcg_copy_all.png</imagesrc_clicked>
 				</button>
 			</copy_all_button>
 			<clear_button>
@@ -159,7 +157,7 @@
 			</messages_alert_link_image>
 			<suspend_link_image>
 				<image>
-					<imagesrc>graphic/btnPause.png</imagesrc>
+					<imagesrc>graphic/wcg_snooze.png</imagesrc>
 				</image>
 			</suspend_link_image>
 			<resume_link_image>
@@ -190,26 +188,23 @@
 			<application_icon>
 				<image>
 					<!-- Taskbar Icon -->
-					<imagesrc>graphic/wcg_setup.png</imagesrc> 
-					<transparency_mask>255:0:255</transparency_mask>
+					<imagesrc>graphic/wcg_play.ico</imagesrc> 
 				</image>
 			</application_icon>
 			<application_disconnected_icon>
 				<image>
 					<!-- Taskbar Icon when disconnected -->
-					<imagesrc>graphic/wcg_stop.png</imagesrc> 
-					<transparency_mask>255:0:255</transparency_mask>
+					<imagesrc>graphic/wcg_stop.ico</imagesrc> 
 				</image>
 			</application_disconnected_icon>
 			<application_snooze_icon>
 				<image>
 					<!-- Taskbar Icon when snoozing -->
-					<imagesrc>graphic/wcg_pause.png</imagesrc> 
-					<transparency_mask>255:0:255</transparency_mask>
+					<imagesrc>graphic/wcg_pause.ico</imagesrc> 
 				</image>
 			</application_snooze_icon> 
 			<!-- logo displayed in about box -->
-			<application_logo>graphic/wcg_about_logo.png</application_logo> 
+			<application_logo>graphic/wcg_about.ico</application_logo> 
 			<!-- name displayed in about box -->
 			<company_name>World Community Grid</company_name> 
 			<!-- web site displsyed in about box -->
