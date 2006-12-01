@@ -45,7 +45,8 @@ echo "   source [path_to_this_script] major_version minor_version revision_numbe
 return 1
 fi
 
-pushd ./
+#pushd ./
+BOINCPath=$PWD
 
 ## XCode 2.x has separate directories for Development and Deployment build products
 if [ "$4" = "-dev" ]; then
@@ -73,8 +74,8 @@ cp -fp mac_installer/ReadMe.rtf ../BOINC_Installer/Installer\ Resources/
 sed -i "" s/"<VER_NUM>"/"$1.$2.$3"/g ../BOINC_Installer/Installer\ Resources/ReadMe.rtf
 
 #### We don't customize BOINC Data directory name for branding
-#### cp -fp mac_installer/preinstall ../BOINC_Installer/Installer\ Resources/
-#### cp -fp mac_installer/preinstall ../BOINC_Installer/Installer\ Resources/preupgrade
+cp -fp mac_installer/preinstall ../BOINC_Installer/Installer\ Resources/
+cp -fp mac_installer/preinstall ../BOINC_Installer/Installer\ Resources/preupgrade
 cp -fp mac_installer/postinstall ../BOINC_Installer/Installer\ Resources/
 cp -fp mac_installer/postupgrade ../BOINC_Installer/Installer\ Resources/
 
@@ -92,6 +93,14 @@ mkdir -p ../BOINC_Installer/Pkg_Root/Library/Application\ Support/BOINC\ Data/sw
 cp -fpR $BUILDPATH/switcher ../BOINC_Installer/Pkg_Root/Library/Application\ Support/BOINC\ Data/switcher/
 cp -fpR $BUILDPATH/setprojectgrp ../BOINC_Installer/Pkg_Root/Library/Application\ Support/BOINC\ Data/switcher/
 cp -fpR $BUILDPATH/AppStats ../BOINC_Installer/Pkg_Root/Library/Application\ Support/BOINC\ Data/switcher/
+
+## Copy the World Community Grid skins into the installer tree, minus the CVS files
+mkdir -p ../BOINC_Installer/Pkg_Root/Library/Application\ Support/BOINC\ Data/skins
+cd "${BOINCPath}/clientgui/skins"
+cp -fpR World\ Community\ Grid ../../../BOINC_Installer/Pkg_Root/Library/Application\ Support/BOINC\ Data/skins/
+cd "${BOINCPath}"
+sudo rm -dfR ../BOINC_Installer/Pkg_Root/Library/Application\ Support/BOINC\ Data/skins/World\ Community\ Grid/CVS
+sudo rm -dfR ../BOINC_Installer/Pkg_Root/Library/Application\ Support/BOINC\ Data/skins/World\ Community\ Grid/graphic/CVS
 
 cp -fpR curl/ca-bundle.crt ../BOINC_Installer/Pkg_Root/Library/Application\ Support/BOINC\ Data/
 
@@ -170,5 +179,7 @@ zip -rqy boinc_$1.$2.$3_macOSX_universal.zip boinc_$1.$2.$3_macOSX_universal
 zip -rqy boinc_$1.$2.$3_universal-apple-darwin.zip boinc_$1.$2.$3_universal-apple-darwin
 zip -rqy boinc_$1.$2.$3_macOSX_SymbolTables.zip boinc_$1.$2.$3_macOSX_SymbolTables
 
-popd
+#popd
+cd "${BOINCPath}"
+
 return 0

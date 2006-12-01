@@ -13041,3 +13041,10 @@ David  28 Nov 2006
 
 	clientgui/
 		ViewResources.cpp
+
+Charlie 30 Nov 2006
+    - Mac: Add WCG skin to Mac installer.
+    
+    mac_installer/
+        release_boinc.sh
+        preinstall
