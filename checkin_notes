@@ -10167,40 +10167,40 @@ Rom    11 Sept 2006
         
 Kevin    12 Sept 2006
     - BSG
-    	- Modify skin.xml format to be more readable
-    	- Add additional check to a skin.xml file to ensure that it is valid before attempting to display
+        - Modify skin.xml format to be more readable
+        - Add additional check to a skin.xml file to ensure that it is valid before attempting to display
         
     clientgui/
         sg_SkinClass.cpp
  
 David  12 Sept 2006
-	- Core client and account manager protocol:
-		account manager replies can include a
-		<opaque>
-		   ...
-		</opaque>
-		element.  It is stored in the acct_mgr_login.xml file,
-		and returned verbatim in subsequent account manager RPCs.
-		This is intended to allow account managers to send a
-		string analogous to BOINC's account key,
-		identifying the user and/or host on subsequent RPCs.
-		This overrides the name/password, and allows RPCs to
-		continue working even if the user changes name/password
-		on the AMS site.
+    - Core client and account manager protocol:
+        account manager replies can include a
+        <opaque>
+           ...
+        </opaque>
+        element.  It is stored in the acct_mgr_login.xml file,
+        and returned verbatim in subsequent account manager RPCs.
+        This is intended to allow account managers to send a
+        string analogous to BOINC's account key,
+        identifying the user and/or host on subsequent RPCs.
+        This overrides the name/password, and allows RPCs to
+        continue working even if the user changes name/password
+        on the AMS site.
 
-		NOTE: the contents of <opaque> are arbitrary XML.
-		Can contain other elements, and can have newlines.
-		Doing this required switching all AMS-related XML parsing
-		to use the new XML parser.
-		So now AMS replies don't have any XML formatting restrictions.
-		Woo-hoo!
-	- XML_PARSER: added element_contents() method to parse
-		stuff that may contain tags (like <opaque>)
+        NOTE: the contents of <opaque> are arbitrary XML.
+        Can contain other elements, and can have newlines.
+        Doing this required switching all AMS-related XML parsing
+        to use the new XML parser.
+        So now AMS replies don't have any XML formatting restrictions.
+        Woo-hoo!
+    - XML_PARSER: added element_contents() method to parse
+        stuff that may contain tags (like <opaque>)
 
-	client/
-		acct_mgr.C,h
-	lib/
-		parse.C,h
+    client/
+        acct_mgr.C,h
+    lib/
+        parse.C,h
 
 David  12 Sept 2006
     - user web: $n -> ITEMS_PER_PAGE
@@ -10228,11 +10228,11 @@ David  12 Sept 2006
 
 Kevin    14 Sept 2006
     - BSG
-    	- Modify the way the the skin.xml is read and stored
-    	- Added a bit of trace logging
-    	- Modified the preferences dialogue so that changing the skin is a seperate action 
-    	  from changing local settings
-    	- Fixed some bugs that were causing the BSG to crash
+        - Modify the way the the skin.xml is read and stored
+        - Added a bit of trace logging
+        - Modified the preferences dialogue so that changing the skin is a seperate action 
+          from changing local settings
+        - Fixed some bugs that were causing the BSG to crash
          
     clientgui/
         sg_BoincSimpleGUI.cpp
@@ -10244,8 +10244,8 @@ Kevin    14 Sept 2006
         
 Kevin    14 Sept 2006
     - BSG
-    	- Fixed issue with connection failure dialogue being repeatedly displayed
-    	- BSG now calls CBOINCBaseFrame::RestoreState() and CBOINCBaseFrame::SaveState()
+        - Fixed issue with connection failure dialogue being repeatedly displayed
+        - BSG now calls CBOINCBaseFrame::RestoreState() and CBOINCBaseFrame::SaveState()
          
     clientgui/
         sg_BoincSimpleGUI.cpp/h
@@ -10258,7 +10258,7 @@ Walt   14 Sept 2006
 
 Kevin    15 Sept 2006
     - BSG
-    	- Changed skin file so that most images are obtained from the skin class
+        - Changed skin file so that most images are obtained from the skin class
          
     clientgui/
         sg_BoincSimpleGUI.cpp/h
@@ -10273,12 +10273,12 @@ Kevin    15 Sept 2006
         sg_StatImageLoader.cpp/h
         sg_ViewTabPage.cpp/h
      clientgui/common
-     	wxFlatNotebook.cpp/h
+         wxFlatNotebook.cpp/h
         
 Kevin    15 Sept 2006
     - BSG
-    	- Changed references to bitmaps to refer to the skin object
-    	- Fixed a bug that caused the BSG to crash when switching from Work Display -> No Work -> Work Display
+        - Changed references to bitmaps to refer to the skin object
+        - Fixed a bug that caused the BSG to crash when switching from Work Display -> No Work -> Work Display
          
     clientgui/
         sg_BoincSimpleGUI.cpp/h
@@ -10310,7 +10310,7 @@ David  18 Sept 2006
     client/
         log_flags.C
 
-Eric K	18 Sept 2006
+Eric K    18 Sept 2006
     - Fixed stack corruption that occurs if stderr contains a c format 
       code.  Bug reported by Nicolas Alvarez.
 
@@ -10463,13 +10463,13 @@ David  26 Sept 2006
 
 Kevin  25 Sept 2006
     - BSG
-    	- Fixed an bug that prevented the message dialogue from closing when the X button was clicked.
-		- Add a link to the home page for all projects in the drop down
+        - Fixed an bug that prevented the message dialogue from closing when the X button was clicked.
+        - Add a link to the home page for all projects in the drop down
         - Change label in menu in the advanced view read 'Switch to Simple View'
         - Fix bug that occurs when the notebook is rendered while a dialogue box is open         
         
     clientgui/
-    	AdvancedFrame.cpp
+        AdvancedFrame.cpp
         sg_BoincSimpleGUI.cpp/h
         sg_DlgMessages.cpp
         sg_ProjectsComponent.cpp
@@ -10502,7 +10502,7 @@ David  27 Sept 2006
 
 Kevin  27 Sept 2006
     - BSG
-    	- Fix bug that caused an occasional error in the BSG when switching skins
+        - Fix bug that caused an occasional error in the BSG when switching skins
         
     clientgui/
         sg_BoincSimpleGUI.cpp
@@ -10525,13 +10525,13 @@ Charlie 27 Sept 2006
         
 Kevin  27 Sept 2006
     - BSG
-    	- Add support for additional file types for the skin
-    	  (GIF and ICO - in addition to the BMP, XPM and PNG 
-    	  that were already available)
-   		- Remember where the BSG was positioned last time it was open
-   		- Position the messages dialogue so that the most recent message is displayed
-   		- Add text to the preferences dialogue
-   		- Reduce size of some of the skin images
+        - Add support for additional file types for the skin
+          (GIF and ICO - in addition to the BMP, XPM and PNG 
+          that were already available)
+           - Remember where the BSG was positioned last time it was open
+           - Position the messages dialogue so that the most recent message is displayed
+           - Add text to the preferences dialogue
+           - Reduce size of some of the skin images
         
     clientgui/
         BOINCGUIApp.cpp
@@ -10592,11 +10592,11 @@ David  28 Sept 2006
 
 Kevin  29 Sept 2006
     - BSG
-    	- Changed workunit area to use a static image rather then an animiated gif
-    	- Center the image within the space and resize it dyanmically if necessary to fit
-    	  within the allocated space
-   		- Fix bug that makes sure that the BSG will be displayed on the screen if the 
-   		  values of the previous location are corrupted for some reason
+        - Changed workunit area to use a static image rather then an animiated gif
+        - Center the image within the space and resize it dyanmically if necessary to fit
+          within the allocated space
+           - Fix bug that makes sure that the BSG will be displayed on the screen if the 
+             values of the previous location are corrupted for some reason
     
     clientgui/
         BOINCGUIApp.cpp
@@ -10633,43 +10633,43 @@ David  2 Oct 2006
         http_curl.C,h
 
 David  2 Oct 2006
-	- core client: bug fix in bandwidth-limiting code
-	- core client bug fix: when reset or detach a project,
-		sometimes would get a crash when deleting FILE_INFOs.
-		This is because instead of
-			iter = foo.erase(iter);
-		we just had
-			foo.erase(iter);
-		Clean up all code to always use the former.
-	client/
-		app.C
-		client_state.C
-		cpu_sched.C
-		file_xfer.C
-		http_curl.C,h
-		pers_file_xfer.C
+    - core client: bug fix in bandwidth-limiting code
+    - core client bug fix: when reset or detach a project,
+        sometimes would get a crash when deleting FILE_INFOs.
+        This is because instead of
+            iter = foo.erase(iter);
+        we just had
+            foo.erase(iter);
+        Clean up all code to always use the former.
+    client/
+        app.C
+        client_state.C
+        cpu_sched.C
+        file_xfer.C
+        http_curl.C,h
+        pers_file_xfer.C
 
 David  2 Oct 2006
-	- core client: implement memory management system, as described in
-		http://boinc.berkeley.edu/memory.h
-	- core client: fix erroneous speed calculation
-		when a file xfer is resumed
+    - core client: implement memory management system, as described in
+        http://boinc.berkeley.edu/memory.h
+    - core client: fix erroneous speed calculation
+        when a file xfer is resumed
 
-	TODO:
-		- export memory usage into to apps
-		- change scheduler to use memory prefs
+    TODO:
+        - export memory usage into to apps
+        - change scheduler to use memory prefs
 
-	client/
-		app.h
-		app_control.C
-		client_state.h
-		cpu_sched.C
-		cs_prefs.C
-		http_curl.C,h
-	lib/
-		prefs.C,h
-		procinfo.h
-		procinfo_win.C
+    client/
+        app.h
+        app_control.C
+        client_state.h
+        cpu_sched.C
+        cs_prefs.C
+        http_curl.C,h
+    lib/
+        prefs.C,h
+        procinfo.h
+        procinfo_win.C
 
 Charlie 2 Oct 2006
     - Mac: Changes for libcurl 7.15.5.
@@ -10699,27 +10699,27 @@ David  3 Oct 2006
         procinfo_win.C
 
 David  3 Oct 2006
-	- core client: memory management bug fixes and debug messages
-	- core client: include memory-related info (wss, max_wss)
-		in heartbeat messages to apps
-	- core client: change memory-related messages to use MB notation
-	- core client: remove old bandwidth-limiting code
+    - core client: memory management bug fixes and debug messages
+    - core client: include memory-related info (wss, max_wss)
+        in heartbeat messages to apps
+    - core client: change memory-related messages to use MB notation
+    - core client: remove old bandwidth-limiting code
 
-	Intermediate checkin.  Still to do:
-	- save/restore smoothed WSS
-	- change RR simulator to reflect memory management
+    Intermediate checkin.  Still to do:
+    - save/restore smoothed WSS
+    - change RR simulator to reflect memory management
 
-	client/
-		app.C
-		app_control.C
-		cpu_sched.C
-		cs_prefs.C
-		http_curl.C,h
-	lib/
-		prefs.C
-		util.h
-	win_build/
-		boinc_cli_curl.vcproj
+    client/
+        app.C
+        app_control.C
+        cpu_sched.C
+        cs_prefs.C
+        http_curl.C,h
+    lib/
+        prefs.C
+        util.h
+    win_build/
+        boinc_cli_curl.vcproj
 
 David  3 Oct 2006
     - core client: save/restore smoothed WSS
@@ -10732,33 +10732,33 @@ David  3 Oct 2006
         prefs.inc
 
 David  3 Oct 2006
-	- In a situation where project A as a result that uses too
-		much RAM to run right now, and is in deadline trouble,
-		the work-fetch policy wouldn't get more work,
-		even if project B has small-RAM jobs.  This is bad.
+    - In a situation where project A as a result that uses too
+        much RAM to run right now, and is in deadline trouble,
+        the work-fetch policy wouldn't get more work,
+        even if project B has small-RAM jobs.  This is bad.
 
-		Fix (kludge): rr_simulator() doesn't count a result
-		as being a deadline miss if it uses too much RAM
-		to run right now.
-	- Changes to compute_work_requests():
-		- if a contactable non-CPU-intensive project needs work,
-			return immediately
-		- use p->rr_sim_deadlines_missed, NOT p->deadlines_missed
-			(the latter is a temp variable,
-			with no defined value at this point)
+        Fix (kludge): rr_simulator() doesn't count a result
+        as being a deadline miss if it uses too much RAM
+        to run right now.
+    - Changes to compute_work_requests():
+        - if a contactable non-CPU-intensive project needs work,
+            return immediately
+        - use p->rr_sim_deadlines_missed, NOT p->deadlines_missed
+            (the latter is a temp variable,
+            with no defined value at this point)
 
-	client/
-		client_state.h
-		cpu_sched.C
-		cs_scheduler.C
+    client/
+        client_state.h
+        cpu_sched.C
+        cs_scheduler.C
 
 David  3 Oct 2006
-	- core client: fixed bug that could cause Curl to be
-		passed a null pointer (bandwidth limiting)
+    - core client: fixed bug that could cause Curl to be
+        passed a null pointer (bandwidth limiting)
 
-	client/
-		file_xfer.C
-		http_curl.C,h
+    client/
+        file_xfer.C
+        http_curl.C,h
 
 David  3 Oct 2006
     - core client and manager: set things up so that if
@@ -10799,11 +10799,11 @@ David  4 Oct 2006
         server_types.C,h
 
 David  4 Oct 2006
-	- core client: initialize ACTIVE_TASK::too_large
-		(eliminate spurious "waiting for memory" message)
+    - core client: initialize ACTIVE_TASK::too_large
+        (eliminate spurious "waiting for memory" message)
 
-	client/
-		app.C
+    client/
+        app.C
 
 David  4 Oct 2006
     - db_dump: fix crashing bug
@@ -10830,10 +10830,10 @@ Charlie & Rom 4 Oct 2006
         
 Kevin  5 Oct 2006
     - BSG
-    	- Changed workunit area to use a static image rather then an animiated gif
-    	- Center the image within the space and resize it dyanmically if necessary to fit
-    	  within the allocated space
-    	- These changes should have been checked in with my changes on Sept 29
+        - Changed workunit area to use a static image rather then an animiated gif
+        - Center the image within the space and resize it dyanmically if necessary to fit
+          within the allocated space
+        - These changes should have been checked in with my changes on Sept 29
  
     clientgui/
         sg_ImageButton.cpp
@@ -10894,32 +10894,32 @@ David  6 Oct 2006
         server_types.C,h
 
 David  6 Oct 2006
-	Client-side part of above fix,
-		and support for "host-specific" global preferences
-	- include <working_global_preferences> in scheduler requests.
-		In combination with the above server changes,
-		this will fix the design problem described above.
-	- include <global_preferences> in scheduler requests
-		only if master prefs are not host-specific.
-		When a host with host-specific prefs talks to an old scheduler,
-		the scheduler won't know its current prefs.
-		This problem will go away as projects upgrade their software.
-	- if we get <global_preferences> in a scheduler RPC reply,
-		ignore it if it's from an old server (pre-5.7)
-		and we have host-specific prefs
+    Client-side part of above fix,
+        and support for "host-specific" global preferences
+    - include <working_global_preferences> in scheduler requests.
+        In combination with the above server changes,
+        this will fix the design problem described above.
+    - include <global_preferences> in scheduler requests
+        only if master prefs are not host-specific.
+        When a host with host-specific prefs talks to an old scheduler,
+        the scheduler won't know its current prefs.
+        This problem will go away as projects upgrade their software.
+    - if we get <global_preferences> in a scheduler RPC reply,
+        ignore it if it's from an old server (pre-5.7)
+        and we have host-specific prefs
 
-	client/
-		app_control.C
-		cs_scheduler.C
+    client/
+        app_control.C
+        cs_scheduler.C
 
 David  6 Oct 2006
-	- core client: add the ability to hardwire the host venue.
-		Put <host_venue>X</host_venue> in your
-		global_prefs_override.xml file
-		(outside the <global_preferences> element)
+    - core client: add the ability to hardwire the host venue.
+        Put <host_venue>X</host_venue> in your
+        global_prefs_override.xml file
+        (outside the <global_preferences> element)
 
-	client/
-		cs_prefs.C
+    client/
+        cs_prefs.C
 
 David  9 Oct 2006
     - core client: when parsing list of project files in sched reply,
@@ -10929,17 +10929,17 @@ David  9 Oct 2006
         client_types.C
 
 David  9 Oct 2006
-	- Manager: add code that shows disk usage
-		(total and project) as pie chart rather than text.
-		From Frank Weiler
+    - Manager: add code that shows disk usage
+        (total and project) as pie chart rather than text.
+        From Frank Weiler
 
-	clientgui/
-		Events.h
-		ViewResources.cpp,h
-		common/
-			wxPieCtrl.cpp,h (new)
-	win_build/
-		boincmgr_curl.vcproj
+    clientgui/
+        Events.h
+        ViewResources.cpp,h
+        common/
+            wxPieCtrl.cpp,h (new)
+    win_build/
+        boincmgr_curl.vcproj
 
 Rom    9 Oct 2006
     - Prepare for the default skin to be embedded within the BOINC manager.
@@ -10961,20 +10961,20 @@ David  9 Oct 2006
         scheduler_op.C
 
 David  9 Oct 2006
-	- debug the above
-	client/
-		client_types.C,h
-		cs_scheduler.C
-		cs_statefile.C
+    - debug the above
+    client/
+        client_types.C,h
+        cs_scheduler.C
+        cs_statefile.C
 
 Kevin  9 Oct 2006
     - BSG
- 		- Make sure project section renders even if the manager cannot connect to the core client
-		- Eliminate dual timer issue if you change skins and have a slide show running
-		- Extend the wxFlatNotebook and moved all code related to the notebook and workunits into the new class (WorkunitNotebook)
-		- Change the height of the BSG to 570 pixels (from 600)
-		- Change the display area for the slide show to eliminate black border except where required by text for show graphics.  New dimensions are width = 290, height = 126 
-		- Check for updated slideshows after a project RPC and any files finish downloading  
+         - Make sure project section renders even if the manager cannot connect to the core client
+        - Eliminate dual timer issue if you change skins and have a slide show running
+        - Extend the wxFlatNotebook and moved all code related to the notebook and workunits into the new class (WorkunitNotebook)
+        - Change the height of the BSG to 570 pixels (from 600)
+        - Change the display area for the slide show to eliminate black border except where required by text for show graphics.  New dimensions are width = 290, height = 126 
+        - Check for updated slideshows after a project RPC and any files finish downloading  
 
     clientgui/
         sg_BoincSimpleGUI.cpp/h
@@ -11022,15 +11022,15 @@ David  11 Oct 2006
         
 Kevin  11 Oct 2006
     - BSG
- 		- Pause slide show for workunits that are not running
-		- Add message to space below slide show images to explain status of the workunit (running, paused)
-		- Fixed bug that sometimes caused slide shows to not load properly when first downloaded
-		  or after they have been updated by the project
-		- Prevent workunit name from overflowing the side of BSG
-		- Play with tabs to make the selected tab stand out
-		- Fixed bug which caused a crash when switching between simple and advanced views
-		- Fixed a significant memory leak 
-		- Eliminate some compiler warnings 
+         - Pause slide show for workunits that are not running
+        - Add message to space below slide show images to explain status of the workunit (running, paused)
+        - Fixed bug that sometimes caused slide shows to not load properly when first downloaded
+          or after they have been updated by the project
+        - Prevent workunit name from overflowing the side of BSG
+        - Play with tabs to make the selected tab stand out
+        - Fixed bug which caused a crash when switching between simple and advanced views
+        - Fixed a significant memory leak 
+        - Eliminate some compiler warnings 
 
     clientgui/
         sg_BoincSimpleGUI.cpp/h
@@ -11110,9 +11110,9 @@ Rom    13 Oct 2006
 
 Kevin   16 Oct 2006
     - BSG
- 		- Update Project GUI urls when a rpc has completed with a project
-		- Update User Stats when a rpc has completed with a project
-		- Update project slide show when new downloads have been received from the project
+         - Update Project GUI urls when a rpc has completed with a project
+        - Update User Stats when a rpc has completed with a project
+        - Update project slide show when new downloads have been received from the project
 
     clientgui/
         sg_BoincSimpleGUI.cpp
@@ -11162,12 +11162,12 @@ Matt 17 Oct 2006
         
 Kevin 18 Oct 2006
     - BSG
- 		- Added a state to inform the user when the client is communicating with a project
-		- Added a 'change' button to the preferences to change just the skin
-		- Fixed bug that caused the skin to crash when a invalid skin was selected
-		- Do not flash the 'messages' between red and black for messages that arrive while
-		  the messages dialogue is open
-		- Set the selected tab when the BSG is first opened to be a workunit that is currently running
+         - Added a state to inform the user when the client is communicating with a project
+        - Added a 'change' button to the preferences to change just the skin
+        - Fixed bug that caused the skin to crash when a invalid skin was selected
+        - Do not flash the 'messages' between red and black for messages that arrive while
+          the messages dialogue is open
+        - Set the selected tab when the BSG is first opened to be a workunit that is currently running
 
     clientgui/
         sg_ClientStateIndicator.cpp/h
@@ -11203,7 +11203,7 @@ Rom    18 Oct 2006
 
 Kevin 18 Oct 2006
     - BSG
- 		- Modify the pause/resume button to correctly set both execution and network settings
+         - Modify the pause/resume button to correctly set both execution and network settings
 
     clientgui/
         sg_ProjectsComponent.cpp
@@ -11289,37 +11289,37 @@ David  20 Oct 2006
         filesys.C
 
 David  20 Oct 2006
-	- Output files can be tagged as "optional".
-		If the application doesn't generate an optional output file,
-		the client treats it as normal
-		(i.e. doesn't flag it as an error)
-		NOTES:
-		1) to make an output file optional,
-			put <optional/> in its <file_ref>
-			element in the result template file
-		2) clients earlier than 5.8 don't recognize this attribute;
-			they will mark results as "compute error" if
-			any of their output files are missing
+    - Output files can be tagged as "optional".
+        If the application doesn't generate an optional output file,
+        the client treats it as normal
+        (i.e. doesn't flag it as an error)
+        NOTES:
+        1) to make an output file optional,
+            put <optional/> in its <file_ref>
+            element in the result template file
+        2) clients earlier than 5.8 don't recognize this attribute;
+            they will mark results as "compute error" if
+            any of their output files are missing
 
-	client/
-		client_types.C,h
-		cs_apps.C
-
-David  20 Oct 2006
-	- user web: use regexp-based check for email validity
-		(from Frank Thomas)
-	- user web: on CPU throttle preference, say that
-		it works only with 5.6+
-
-	html/inc/
-		email.inc
-		prefs.inc
+    client/
+        client_types.C,h
+        cs_apps.C
 
 David  20 Oct 2006
-	- fix potential buffer overrun in db_dump.C (from Carl)
+    - user web: use regexp-based check for email validity
+        (from Frank Thomas)
+    - user web: on CPU throttle preference, say that
+        it works only with 5.6+
 
-	sched/
-		db_dump.C
+    html/inc/
+        email.inc
+        prefs.inc
+
+David  20 Oct 2006
+    - fix potential buffer overrun in db_dump.C (from Carl)
+
+    sched/
+        db_dump.C
 
 Charlie 21 Oct 2006
     - Mac: FIx new compile error by including "BOINCBaseFrame.h".
@@ -11333,43 +11333,43 @@ Charlie 21 Oct 2006
             project.pbxproj
 
 David  21 Oct 2006
-	- Server: apps can be labeled as "beta",
-		and jobs for them will be sent only to users with
+    - Server: apps can be labeled as "beta",
+        and jobs for them will be sent only to users with
         "<allow_beta_work>1</allow_beta_work>" in their project preferences.
-		This lets you do application testing without
-		creating a separate project,
-		which has advantages both for you (1 projects instead of 2)
-		and for testers (their testing gives them points
-		in your main project)
-	- Scheduler: refined the criteria for "reliable" hosts
-		to which old results are sent,
-		and added a param for reducing delay bound
-		when sending results to reliable hosts
-	- add -sleep_interval option to assimilator
-	- move -reliable flag from feeder
-	- add to sched config:
-		reliable_min_avg_credit
-		reliable_min_avg_turnaround
-		reliable_time
-		reliable_reduced_delay_bound
+        This lets you do application testing without
+        creating a separate project,
+        which has advantages both for you (1 projects instead of 2)
+        and for testers (their testing gives them points
+        in your main project)
+    - Scheduler: refined the criteria for "reliable" hosts
+        to which old results are sent,
+        and added a param for reducing delay bound
+        when sending results to reliable hosts
+    - add -sleep_interval option to assimilator
+    - move -reliable flag from feeder
+    - add to sched config:
+        reliable_min_avg_credit
+        reliable_min_avg_turnaround
+        reliable_time
+        reliable_reduced_delay_bound
 
-	(from Kevin Reed)
+    (from Kevin Reed)
 
-	NOTES: updating your server software to this version or later requires
-		a small database change (see html/ops/db_update.php)
+    NOTES: updating your server software to this version or later requires
+        a small database change (see html/ops/db_update.php)
 
-	db/
-		boinc_db.C,h
-	lib/
-		parse.C
-	sched/
-		assimilator.C
-		feeder.C
-		sched_array.C
-		sched_config.C,h
-		sched_locality.C
-		sched_send.C,h
-		server_types.h
+    db/
+        boinc_db.C,h
+    lib/
+        parse.C
+    sched/
+        assimilator.C
+        feeder.C
+        sched_array.C
+        sched_config.C,h
+        sched_locality.C
+        sched_send.C,h
+        server_types.h
 
 David  21 Oct 2006
     - small cleanups to the above
@@ -11425,22 +11425,22 @@ David  23 Oct 2006
         client_types.C,h
 
 David  23 Oct 2006
-	- core client: limit # of simultaneous net xfers to 8
-	- core client: if there was an HTTP error on download,
-		we were truncating the file back to its original size
-		because of fear that
-		"error-reporting HTML may have been appended"
-		(I'm not sure if this actually every happens).
-		In any case, I changed to logic so that, on HTTP error,
-		we remove at most 5KB from the end of the file.
-	- removed SkinManager.cpp from VS2005 project file
+    - core client: limit # of simultaneous net xfers to 8
+    - core client: if there was an HTTP error on download,
+        we were truncating the file back to its original size
+        because of fear that
+        "error-reporting HTML may have been appended"
+        (I'm not sure if this actually every happens).
+        In any case, I changed to logic so that, on HTTP error,
+        we remove at most 5KB from the end of the file.
+    - removed SkinManager.cpp from VS2005 project file
 
-	client/
-		cs_files.C
-		file_xfer.C
-		http_curl.C
-	win_build/
-		boincmgr_curl.vcproj
+    client/
+        cs_files.C
+        file_xfer.C
+        http_curl.C
+    win_build/
+        boincmgr_curl.vcproj
 
 David  24 Oct 2006
     - core client: use CPU shortfall instead of time_until_work_done()
@@ -11452,11 +11452,11 @@ David  24 Oct 2006
         prefs.inc
 
 David  24 Oct 2006
-	- core client: when get new global prefs, enforce
-		network bandwidth limits (in case they changed)
+    - core client: when get new global prefs, enforce
+        network bandwidth limits (in case they changed)
 
-	client/
-		cs_prefs.C
+    client/
+        cs_prefs.C
 
 Rom    25 Oct 2006
     - MGR: Both the simple GUI and advanced GUI respond to skin changes
@@ -11522,7 +11522,7 @@ Rom    25 Oct 2006
         sg_BoincSimpleGUI.cpp, .h
         sg_ClientStateIndicator.cpp
 
-Kevin	25 Oct 2006
+Kevin    25 Oct 2006
      - MSG: Fixed issues with BSG (pointer issues)
      
      clientgui/
@@ -11539,13 +11539,13 @@ Rom    25 Oct 2006
         SkinManager.cpp, .h
 
 David  26 Oct 2006
-	- core client: fix a couple of bugs that could cause
-		the host to use the wrong venue when reading prefs
-		Also, print log message showing host location
+    - core client: fix a couple of bugs that could cause
+        the host to use the wrong venue when reading prefs
+        Also, print log message showing host location
 
-	client/
-		cs_prefs.C
-		cs_scheduler.C
+    client/
+        cs_prefs.C
+        cs_scheduler.C
 
 Kevin    26 Oct 2006
     - MGR:
@@ -11866,12 +11866,12 @@ Kevin    31 Oct 2006 (Spooky!)
         sg_StatImageLoader.cpp/h
         
 David  31 Oct 2006
-	- Win compile fixes
+    - Win compile fixes
 
-	client/
-		cs_files.C
-	win_build/
-		boincmgr_curl.vcproj
+    client/
+        cs_files.C
+    win_build/
+        boincmgr_curl.vcproj
 
 David  31 Oct 2006
     - scheduler: parse mod_time correctly from global prefs
@@ -11966,13 +11966,13 @@ Rom    1 Nov 2006
         gui_rpc_client_ops.C
 
 David  1 Nov 2006
-	- core client: check error returns in Win code to
-		find app memory usage.
+    - core client: check error returns in Win code to
+        find app memory usage.
 
-	client/
-		app.C
-	lib/
-		procinfo_win.C
+    client/
+        app.C
+    lib/
+        procinfo_win.C
 
 David  1 Nov 2006
     - core client: attempt to fix bug where core client locks up
@@ -11986,10 +11986,10 @@ David  1 Nov 2006
         app_control.C
 
 David  1 Nov 2006
-	- core client: account manager reply parsing was broken
+    - core client: account manager reply parsing was broken
 
-	client/
-		acct_mgr.C
+    client/
+        acct_mgr.C
 
 Rom    1 Nov 2006
     - CC: Somebody kernel side is fooling around with return values from
@@ -12022,10 +12022,10 @@ Charlie 2 Nov 2006
         sg_ViewTabPage.cpp, h
 
 David  2 Nov 2006
-	- manager: tone down colors in disk display
+    - manager: tone down colors in disk display
 
-	clientgui/
-		ViewResources.cpp
+    clientgui/
+        ViewResources.cpp
 
 David  2 Nov 2006
     - Added a function GLOBAL_PREFS::write_subset()
@@ -12132,11 +12132,11 @@ David  3 Nov 2006
         gui_rpc_client_print.C
 
 David  3 Nov 2006
-	- debug the above
+    - debug the above
 
-	clientgui/
-		MainDocument.cpp,h
-		ViewResources.cpp,h
+    clientgui/
+        MainDocument.cpp,h
+        ViewResources.cpp,h
 
 David  3 Nov 2006
     - build fix for Gentoo
@@ -12153,17 +12153,17 @@ David  3 Nov 2006
         parse.C,h
 
 David  3 Nov 2006
-	- Manager: improvements to Statistics tab
-		1) wxPaintDC changed on wxBufferedPaintDC - no flicker when redraw 
-		2) CPaintStatistics::OnLeftMouseDown() -
-		   select project (now it work only in "One project" mode)
-		3) save/read "last" settings (Mode View, Type Statistic ,Project).
-			I used CViewStatistics::OnSaveState(wxConfigBase* pConfig)
-			and CViewStatistics::OnRestoreState(wxConfigBase* pConfig)
-		(from Mifistor)
+    - Manager: improvements to Statistics tab
+        1) wxPaintDC changed on wxBufferedPaintDC - no flicker when redraw 
+        2) CPaintStatistics::OnLeftMouseDown() -
+           select project (now it work only in "One project" mode)
+        3) save/read "last" settings (Mode View, Type Statistic ,Project).
+            I used CViewStatistics::OnSaveState(wxConfigBase* pConfig)
+            and CViewStatistics::OnRestoreState(wxConfigBase* pConfig)
+        (from Mifistor)
 
-	clientgui/
-		ViewStatistics.cpp,h
+    clientgui/
+        ViewStatistics.cpp,h
 
 David  3 Nov 2006
     - server tools: change a few programs to support the convention
@@ -12319,16 +12319,16 @@ Rom    6 Nov 2006
         prefs.C, .h
 
 David  6 Nov 2006
-	- MIOFILE buffer variant wasn't doing output correctly;
-		would overwrite instead of appending.
-		Caused simple GUI prefs dialog to not work.
+    - MIOFILE buffer variant wasn't doing output correctly;
+        would overwrite instead of appending.
+        Caused simple GUI prefs dialog to not work.
 
-	client/
-		gui_rpc_server_ops.C
-	lib/
-		gui_rpc_client.C
-		gui_rpc_client_ops.C
-		miofile.C,h
+    client/
+        gui_rpc_server_ops.C
+    lib/
+        gui_rpc_client.C
+        gui_rpc_client_ops.C
+        miofile.C,h
 
 Rom    6 Nov 2006
     - MGR: When deciding if two combo box's values are the same convert them to
@@ -12386,31 +12386,31 @@ David  7 Nov 2006
 
 Rom    7 Nov 2006
     - MGR: David and I got our wires cross,
-		the global prefs mask is now set for all
+        the global prefs mask is now set for all
         values in the preferences dialog when the selection
-		has been made to override anything.
+        has been made to override anything.
         
     clientgui/
         sg_DlgPreferences.cpp, .h
 
 David  7 Nov 2006
-	- core client: call request_work_fetch() whenever a
-		process becomes contactable
-		(i.e. when its min_rpc_time times out).
-		This can avoid 10-minute periods of waiting
-		for the work fetch function to get called
+    - core client: call request_work_fetch() whenever a
+        process becomes contactable
+        (i.e. when its min_rpc_time times out).
+        This can avoid 10-minute periods of waiting
+        for the work fetch function to get called
 
-		Implementation: add bool PROJECT::possibly_backed_off;
-		set to true in set_min_rpc_time();
-		check for timeout in check_project_timeout()
+        Implementation: add bool PROJECT::possibly_backed_off;
+        set to true in set_min_rpc_time();
+        check for timeout in check_project_timeout()
 
-	client/
-		client_state.C,h
-		client_types.C,h
-		cpu_sched.C
-		cs_scheduler.C
-	lib/
-		miofile.C
+    client/
+        client_state.C,h
+        client_types.C,h
+        cpu_sched.C
+        cs_scheduler.C
+    lib/
+        miofile.C
 
 David  8 Nov 2006
     - core client: change XML parser to handle tags of the form <foo />,
@@ -12463,18 +12463,18 @@ David  9 Nov 2006
         cs_benchmark.C
 
 David  9 Nov 2006
-	- manager: fix URL for help
+    - manager: fix URL for help
 
-	clientgui/
-		AdvancedFrame.cpp
-		ViewResources.cpp
+    clientgui/
+        AdvancedFrame.cpp
+        ViewResources.cpp
 
 David  9 Nov 2006
-	- manager: fix regexp for email address check
-		(remove / at start and end).
+    - manager: fix regexp for email address check
+        (remove / at start and end).
 
-	clientgui/
-		ValidateEmailAddress.cpp
+    clientgui/
+        ValidateEmailAddress.cpp
 
 Kevin  9 Nov 2006
     - BSG:  Fix bug that didn't allow the messages window
@@ -12482,30 +12482,30 @@ Kevin  9 Nov 2006
     - BSG:  Added better text to status messages and tooltips
     - BSG:  Increased slide show timer to 10 seconds
 
-	clientgui/
-		sg_DlgMessages.cpp
-		sg_ImageButton.cpp
-		sg_ProjectsComponent.cpp
-		sg_ViewTabPage.cpp
+    clientgui/
+        sg_DlgMessages.cpp
+        sg_ImageButton.cpp
+        sg_ProjectsComponent.cpp
+        sg_ViewTabPage.cpp
 
 
 David  9 Nov 2006
-	Core client:
-	- request CPU reschedule and work fetch when global prefs change,
-		since RAM limits may have changed,
-		work_buf_min_days might have changed, etc.
-		This fixes (I hope) a bug reported by Heinrich Feldmueller
-	- do enforce_schedule() and compute_work_requests() every 60 seconds,
-		as a safety net in case we forgot to trigger it in some case.
-		Doesn't hurt - should be a fraction of a millisecond.
-	- do a CPU reschedule on transitions from host busy
-		to host idle, since RAM usage limits might have changed
-	- a few more log messages for cpu_sched_debug
+    Core client:
+    - request CPU reschedule and work fetch when global prefs change,
+        since RAM limits may have changed,
+        work_buf_min_days might have changed, etc.
+        This fixes (I hope) a bug reported by Heinrich Feldmueller
+    - do enforce_schedule() and compute_work_requests() every 60 seconds,
+        as a safety net in case we forgot to trigger it in some case.
+        Doesn't hurt - should be a fraction of a millisecond.
+    - do a CPU reschedule on transitions from host busy
+        to host idle, since RAM usage limits might have changed
+    - a few more log messages for cpu_sched_debug
 
-	client/
-		cpu_sched.C
-		cs_prefs.C
-		cs_scheduler.C
+    client/
+        cpu_sched.C
+        cs_prefs.C
+        cs_scheduler.C
             
 Rytis  10 Nov 2006
     - User web: forum thread locking.
@@ -12562,16 +12562,16 @@ David  10 Nov 2006
         gui_rpc_client_ops.C
 
 David  10 Nov 2006
-	- Get the above to work on Win; fix compile warnings
+    - Get the above to work on Win; fix compile warnings
 
-	client/
-		app_control.C
-		main.C
-		win/
-			hostinfo_win.cpp
-	clientgui/
-		MainDocument.cpp
-		ViewStatistics.cpp
+    client/
+        app_control.C
+        main.C
+        win/
+            hostinfo_win.cpp
+    clientgui/
+        MainDocument.cpp
+        ViewStatistics.cpp
 
 David  10 Nov 2006
     - core client: condition Curl speed-limit error message on http_debug
@@ -12717,24 +12717,24 @@ Rom    20 Nov 2006
         network.C
 
 David  20 Nov 2006
-	- GUI RPC: return task and network mode delays in get_cc_status().
-		This tells the GUI how long the current snooze is going to last.
+    - GUI RPC: return task and network mode delays in get_cc_status().
+        This tells the GUI how long the current snooze is going to last.
 
-	client/
-		client_types.C,h
-		gui_rpc_server_ops.C
-	lib/
-		gui_rpc_client.h
-		gui_rpc_client_ops.C
+    client/
+        client_types.C,h
+        gui_rpc_server_ops.C
+    lib/
+        gui_rpc_client.h
+        gui_rpc_client_ops.C
 
 David  20 Nov 2006
-	- core client: fix win compile warnings
+    - core client: fix win compile warnings
 
-	client/
-		app_start.C
-		cs_cmdline.C
-		win/
-			win_service.cpp
+    client/
+        app_start.C
+        cs_cmdline.C
+        win/
+            win_service.cpp
 
 Rom    20 Nov 2006
     - MGR: Move the switch to simple GUI menu item to the View menu.
@@ -12754,59 +12754,59 @@ Rom    20 Nov 2006
         sg_ProjectsComponent.cpp
 
 David  20 Nov 2006
-	- core client: fix a bug in the shared-memory message passing code.
-		Each message channel has a one-message buffer in shared mem.
-		The send_msg() function checks if this is full.
-		If not it puts the message there.
-		If so it stores the message in a queue.
-		Once a second, a poll function moves a message
-		from the queue to the buffer (if it's empty).
+    - core client: fix a bug in the shared-memory message passing code.
+        Each message channel has a one-message buffer in shared mem.
+        The send_msg() function checks if this is full.
+        If not it puts the message there.
+        If so it stores the message in a queue.
+        Once a second, a poll function moves a message
+        from the queue to the buffer (if it's empty).
 
-		What's wrong with this? (let's not always see the same hands).
-		Well, the send_msg() needs to handle the situation
-		where there's a message in the queue but none in the buffer.
+        What's wrong with this? (let's not always see the same hands).
+        Well, the send_msg() needs to handle the situation
+        where there's a message in the queue but none in the buffer.
 
-		This results in a bug in the CPU throttling mechanism
-		that can cause a task to sleep forever.
-	- core client: a SECOND significant bug in the shmem msg passing code.
-		In general, the API library consumes at most one message per second
-		from a given channel.
-		That means that if you write more than one message/sec
-		(even for a short period) it creates a queue that never goes away.
-		If you write more than one message/sec indefinitely,
-		it creates an unbounded queue.
+        This results in a bug in the CPU throttling mechanism
+        that can cause a task to sleep forever.
+    - core client: a SECOND significant bug in the shmem msg passing code.
+        In general, the API library consumes at most one message per second
+        from a given channel.
+        That means that if you write more than one message/sec
+        (even for a short period) it creates a queue that never goes away.
+        If you write more than one message/sec indefinitely,
+        it creates an unbounded queue.
 
-		At this point, the only channel that uses queuing and can
-		have more than one msg/sec is process control
-		(because of CPU throttling).
-		I put in kludge that handles this case:
-		if we want to send a <resume/> and there's already
-		a <suspend/> in the queue,
-		remove the <suspend/> and don't send anything.
-		And conversely.
-	- core client: to debug all the above, added <app_msg_send>
-		and <app_msg_receive> log flags.
-		Also added some commented-out printfs in the API library.
+        At this point, the only channel that uses queuing and can
+        have more than one msg/sec is process control
+        (because of CPU throttling).
+        I put in kludge that handles this case:
+        if we want to send a <resume/> and there's already
+        a <suspend/> in the queue,
+        remove the <suspend/> and don't send anything.
+        And conversely.
+    - core client: to debug all the above, added <app_msg_send>
+        and <app_msg_receive> log flags.
+        Also added some commented-out printfs in the API library.
 
-	NOTE: in the course of debugging this I realized that, in the Windows
-		version of the API, <suspend/> and <resume/> message result
-		in calls to SuspendThread() and ResumeThread(),
-		which inc and dec a "suspend counter".
-		ResumeThread() decrements the counter, and resumes the thread
-		only if the counter is then zero.
-		This makes the process-control message-passing scheme fragile.
-		If for some reason you send two <suspend/>s and a <resume/>,
-		the result is that the job is suspended.
-		At some point we should change to API to do the right thing.
+    NOTE: in the course of debugging this I realized that, in the Windows
+        version of the API, <suspend/> and <resume/> message result
+        in calls to SuspendThread() and ResumeThread(),
+        which inc and dec a "suspend counter".
+        ResumeThread() decrements the counter, and resumes the thread
+        only if the counter is then zero.
+        This makes the process-control message-passing scheme fragile.
+        If for some reason you send two <suspend/>s and a <resume/>,
+        the result is that the job is suspended.
+        At some point we should change to API to do the right thing.
 
-	api/
-		boinc_api.C
-	client/
-		app.C
-		app_control.C
-		log_flags.C,h
-	lib/
-		app_ipc.h
+    api/
+        boinc_api.C
+    client/
+        app.C
+        app_control.C
+        log_flags.C,h
+    lib/
+        app_ipc.h
 
 Charlie 21 Nov 2006
     - Mac: Fix compiler warning.
@@ -13014,10 +13014,10 @@ Charlie 26 Nov 2006
         prefs.C
 
 David  27 Nov 2006
-	- manager: improve appearance of disk tab
+    - manager: improve appearance of disk tab
 
-	clientgui/
-		ViewResources.cpp
+    clientgui/
+        ViewResources.cpp
 
 David  27 Nov 2006
     - validator: removed <max_claimed_credit> and <grant_claimed_credit>
@@ -13037,10 +13037,10 @@ David  27 Nov 2006
         validator.C,h
 
 David  28 Nov 2006
-	- Manager: ask for disk usage at most every 60 sec
+    - Manager: ask for disk usage at most every 60 sec
 
-	clientgui/
-		ViewResources.cpp
+    clientgui/
+        ViewResources.cpp
 
 Charlie 30 Nov 2006
     - Mac: Add WCG skin to Mac installer.
@@ -13048,3 +13048,18 @@ Charlie 30 Nov 2006
     mac_installer/
         release_boinc.sh
         preinstall
+
+David  1 Dec 2006
+    - New features for Statistics tab:
+        1) Zoom (LeftMouseDown + Move Mouse) 
+           "AutoZoom" - Rigth Mouse Click or change "Project", "ModeView"...
+           + Marker (LeftMouseClick)
+        2) "Legend" scroll  (button "< Next project" "Prev project >").
+			When very many projects and 15" monitor
+		(from Mifistor)
+
+		COMMENT: the zoom features are not obvious.
+		Can we document them in the interface somehow?
+
+    clientgui/
+        ViewStatistics.cpp,h

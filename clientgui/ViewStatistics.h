@@ -28,45 +28,117 @@
 #include "BOINCBaseView.h"
 
 
-class CPaintStatistics : public wxPanel
+class CPaintStatistics : public wxWindow
 {
 public:
 	CPaintStatistics();
 	CPaintStatistics(wxWindow* parent, wxWindowID id = -1, const wxPoint& pos = wxDefaultPosition, const wxSize& size = wxDefaultSize, long style = wxTAB_TRAVERSAL, const wxString& name = wxT("panel"));
 	
-	void DrawMainHead(wxBufferedPaintDC &dc, const wxString head_name, wxCoord &x_start, wxCoord &x_end, wxCoord &y_start, wxCoord &y_end);
+	void DrawMainHead(wxDC &dc, const wxString head_name);
 	
-	void DrawProjectHead(wxBufferedPaintDC &dc, PROJECT * &project1, const wxString head_name_last, wxCoord &x_start, wxCoord &x_end, wxCoord &y_start, wxCoord &y_end);
+	void DrawProjectHead(wxDC &dc, PROJECT * &project1, const wxString head_name_last);
 
-	void DrawLegend(wxBufferedPaintDC &dc, PROJECTS * &proj, CMainDocument* &pDoc, wxInt32 SelProj, bool bColour, wxCoord &x_start, wxCoord &x_end, wxCoord &y_start, wxCoord &y_end);
+	void DrawLegend(wxDC &dc, PROJECTS * &proj, CMainDocument* &pDoc, int SelProj, bool bColour, int &m_Legend_Shift);
 	
-	void DrawAxis(wxBufferedPaintDC &dc, const double max_val_y, const double min_val_y, const double max_val_x, const double min_val_x, wxCoord &x_start, wxCoord &x_end, wxCoord &y_start, wxCoord &y_end);
+	void DrawAxis(wxDC &dc, const double max_val_y, const double min_val_y, const double max_val_x, const double min_val_x);
 	
-	void DrawGraph(wxBufferedPaintDC &dc, std::vector<PROJECT*>::const_iterator &i, const wxCoord x_start, const wxCoord x_end, const wxCoord y_start, const wxCoord y_end, const wxColour graphColour, const wxInt32 typePoint, const wxInt32 m_SelectedStatistic, const double max_val_y, const double min_val_y, const double max_val_x, const double min_val_x);
+	void DrawGraph(wxDC &dc, std::vector<PROJECT*>::const_iterator &i, const wxColour graphColour, const int typePoint, const int m_SelectedStatistic);
+	
+	void DrawMarker(wxDC &dc);
 
-	void getDrawColour(wxColour &graphColour, wxInt32 number);
+	void getDrawColour(wxColour &graphColour, int number);
 
+	void ClearXY();
+	
+	void AB(const double x_coord1, const double y_coord1, const double x_coord2, const double y_coord2, const double x_val1, const double y_val1, const double x_val2, const double y_val2);
+//--------------------------
+	void DrawAll(wxDC &dc);
+//--------------------------
+    wxBitmap				m_dc_bmp;
+	bool					m_full_repaint;
+	bool                    m_bmp_OK;
+//
+    int                     m_SelectedStatistic;
+    int                     m_ModeViewStatistic;
+    int                     m_NextProjectStatistic;
+
+	double                  m_Legend_dY;
+// Marker
+	double                  m_GraphMarker_X1;
+    double                  m_GraphMarker_Y1;
+    bool                    m_GraphMarker1;
+// Zoom
+	wxCoord                  m_GraphZoom_X1;
+	wxCoord                  m_GraphZoom_Y1;
+	wxCoord                  m_GraphZoom_X2;
+	wxCoord                  m_GraphZoom_Y2;
+	wxCoord                  m_GraphZoom_X2_old;
+	wxCoord                  m_GraphZoom_Y2_old;
+	bool                    m_GraphZoomStart;
+
+	double                  m_Zoom_max_val_X;
+	double                  m_Zoom_min_val_X;
+	double                  m_Zoom_max_val_Y;
+	double                  m_Zoom_min_val_Y;
+	bool                    m_Zoom_Auto;
+// Shift Legend
+	int                     m_Legend_Shift_Mode1;
+	int                     m_Legend_Shift_Mode2;
+// old
     wxString                heading;
-    
-    wxInt32                 m_SelectedStatistic;
-    wxInt32                 m_ModeViewStatistic;
-    wxInt32                 m_NextProjectStatistic;
+// X'=AX+B; Y'=AY+B;
+    double                  m_Ax_ValToCoord;
+    double                  m_Bx_ValToCoord;
+    double                  m_Ay_ValToCoord;
+    double                  m_By_ValToCoord;
 
-    double                  m_Legend_dY;
-    double                  m_Legend_Y1;
-    double                  m_Legend_Y2;
-    double                  m_Legend_X1;
-    double                  m_Legend_X2;
-    
-    wxInt32                 m_GraphLineWidth;
-    wxInt32                 m_GraphPointWidth;
+	double                  m_Ax_CoordToVal;
+    double                  m_Bx_CoordToVal;
+    double                  m_Ay_CoordToVal;
+    double                  m_By_CoordToVal;
+// XY
+    double                  m_WorkSpace_X_start;
+    double                  m_WorkSpace_X_end;
+	double                  m_WorkSpace_Y_start;
+    double                  m_WorkSpace_Y_end;
+//
+	double                  m_main_X_start;
+    double                  m_main_X_end;
+	double                  m_main_Y_start;
+    double                  m_main_Y_end;
+
+    double                  m_Legend_X_start;
+	double                  m_Legend_X_end;
+    double                  m_Legend_Y_start;
+    double                  m_Legend_Y_end;
+
+    double                  m_Legend_select_X_start;
+	double                  m_Legend_select_X_end;
+    double                  m_Legend_select_Y_start;
+    double                  m_Legend_select_Y_end;
+
+    double                  m_Graph_X_start;
+	double                  m_Graph_X_end;
+    double                  m_Graph_Y_start;
+    double                  m_Graph_Y_end;
+
+    double                  m_Graph_draw_X_start;
+	double                  m_Graph_draw_X_end;
+    double                  m_Graph_draw_Y_start;
+    double                  m_Graph_draw_Y_end;
+// View
+	int					    m_GraphLineWidth;
+    int                     m_GraphPointWidth;
 
     wxFont                  m_font_standart;
     wxFont                  m_font_bold;
     wxFont                  m_font_standart_italic;
-
 // colour
-    wxColour                m_brush_AxisColour;
+    wxColour                m_pen_MarkerLineColour;
+    wxColour                m_pen_ZoomRectColour;
+    wxColour                m_brush_ZoomRectColour;
+
+	wxColour                m_brush_AxisColour;
     wxColour                m_pen_AxisColour;
     wxColour                m_pen_AxisXColour;
     wxColour                m_pen_AxisYColour;
@@ -101,12 +173,15 @@ public:
     wxColour                m_pen_GraphColour07;
     wxColour                m_pen_GraphColour08;
     wxColour                m_pen_GraphColour09;
-    wxColour                m_pen_GraphColourDef;
-
 protected:
     void OnPaint(wxPaintEvent& event);
+	void OnEraseBackground(wxEraseEvent & /*event*/){};
     void OnSize(wxSizeEvent& event);
     void OnLeftMouseDown(wxMouseEvent& event);
+    void OnLeftMouseUp(wxMouseEvent& event);
+	void OnMouseMotion(wxMouseEvent& event);
+    void OnRightMouseDown(wxMouseEvent& event);
+	void OnMouseLeaveWindows(wxMouseEvent& event);
 
 	DECLARE_EVENT_TABLE()
 };
