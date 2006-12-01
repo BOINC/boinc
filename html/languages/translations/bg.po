@@ -1,20 +1,23 @@
 ##########################################
-# Language: Bulgarian
+# Language: Bulgarian [translated by MasterAIP@gmail.com]
 # FileID  : $Id$
-# Author  : Petko Stoianov
+# Author  : MasterAIP
 # Email   : MasterAIP@gmail.com
 ##########################################
 # For more information please see:
 # http://boinc.berkeley.edu/web_translation.php
 ##########################################
+
+# The charset used for the text in this file (please try to use UTF-8 if possible)
 msgid "CHARSET"
 msgstr "windows-1251"
 # The name of this language in this language
 msgid "LANG_NAME_NATIVE"
-msgstr "Bulgarian"
+msgstr "Български"
 # The name of this language in an international language (English)
 msgid "LANG_NAME_INTERNATIONAL"
 msgstr "Bulgarian"
+
 
 #########################################
 # Apps page (apps.php)
@@ -23,11 +26,11 @@ msgid "APPS_TITLE"
 msgstr "Програми"
 
 msgid "APPS_DESCRIPTION"
-msgstr "$PROJECT currently has the following applications. "
-"Когато участвате в $PROJECT, работа за една или повече "
+msgstr "$PROJECT в момента разполага със следните приложения. "
+"Когато участвате в $PROJECT, определена работа за една или повече "
 "от тези програми ще бъде предназначена за вашия компютър. "
 "Текущата версия на програмата ще бъде записана "
-"на компютъра ви. Това става автоматично; не трябва да правите нищо. "
+"на компютъра Ви. Това става автоматично; Вие не трябва да правите нищо. "
 
 msgid "APPS_PLATFORM"
 msgstr "Платформа"
@@ -42,10 +45,10 @@ msgstr "Инсталирано"
 # Rules and Policies page (info.php)
 #########################################
 msgid "RULES_TITLE"
-msgstr "Правила и Политика"
+msgstr "Прочетете нашите Правила и Политика"
 
 msgid "RULES_ONLY_AUTH"
-msgstr "Стартирайте $PROJECT само на компютри, на които имате право"
+msgstr "Използвайте $PROJECT само на компютри, на които имате право"
 
 msgid "RULES_ONLY_AUTH_TEXT"
 msgstr "Стартирайте $PROJECT само на компютри, които притежавате, "
@@ -54,11 +57,11 @@ msgstr "Стартирайте $PROJECT само на компютри, които притежавате, "
 "за проекти като $PROJECT"
 
 msgid "RULES_COMPUTER_USE"
-msgstr "Как $PROJECT ще използва компютъра ви"
+msgstr "Как $PROJECT ще използва компютъра Ви"
 
 msgid "RULES_COMPUTER_USE_TEXT_A"
-msgstr "Когато стартирате $PROJECT на вашия компютър, "
-"той ще използва част от процесорното време, дисковото пространство и мрежовите ресурси на компютъра. "
+msgstr "Когато стартирате $PROJECT на Вашият компютър, "
+"той ще използва част от процесорното време, дисковото пространство и мрежовите ресурси. "
 "Можете да контролирате колко от ресурсите да бъдат използвани от $PROJECT, "
 "както и кога да бъдат използвани."
 
@@ -68,43 +71,43 @@ msgstr "Работата, извършена от вашия компютър, допринася за постигане на "
 "Приложните програми могат да бъдат променяни от време на време."
 
 msgid "RULES_PRIVACY"
-msgstr "Личностна политика"
+msgstr "Защита на личните данни"
 
 msgid "RULES_PRIVACY_TEXT_A"
-msgstr "Вашият акаунт в $PROJECT се идентифицира с име, което вие избирате. "
+msgstr "Вашият акаунт в $PROJECT се идентифицира с име, което Вие избирате. "
 "Това име може да бъде показвано на  сайта на $PROJECT, наред с информация за "
 "работата, извършена от компютъра ви, за $PROJECT. "
 "Ако искате да сте анонимни, изберете име, което не разкрива самоличността ви."
 
 msgid "RULES_PRIVACY_TEXT_B"
-msgstr "Ако участвате в $PROJECT, информация за компютъра ви "
+msgstr "Ако участвате в $PROJECT, информация за компютъра Ви "
 "(като тип на процесора, количество памет, и др.) "
-"ще бъде записана от $PROJECT и използвана за определяне какъв тип работа да бъде "
-"определена за вашия компютър. Тази информация ще бъде показана и на "
-"$PROJECT web-сайта. "
-"Нищо, разкриващо местоположението на компютъра ви (напр. името на домейна или "
+"ще бъде записвана от $PROJECT и използвана за определяне какъв тип работа да бъде "
+"определена за вашия компютър. Тази информация ще бъде показвана и на "
+"уеб-сайта на $PROJECT. "
+"Нищо, разкриващо местоположението на компютъра Ви (напр. името на домейна или "
 "мрежовия адрес), няма да бъде показвано."
 
 msgid "RULES_PRIVACY_TEXT_C"
-msgstr "За да участвате в $PROJECT, трябва да дадете валиден email адрес. "
-"Този адрес няма да бъде показван на web-сайта на $PROJECT или предоставян на други организации. "
-"$PROJECT периодично може да ви изпраща писма с новини; това може да бъде променено по всяко време."
+msgstr "За да участвате в $PROJECT, трябва да въведете валиден e-mail адрес. "
+"Този адрес няма да бъде показван на уеб-сайта на $PROJECT или предоставян на други организации. "
+"$PROJECT периодично може да Ви изпраща писма с новини; това може да бъде променено по всяко време."
 
 msgid "RULES_SAFE"
-msgstr "Безопасно ли е да стартирам $PROJECT ?"
+msgstr "Безопасно ли е да използването на $PROJECT ?"
 
 msgid "RULES_SAFE_TEXT_A"
-msgstr "Всеки път, когато теглите програма през Интернет, поемате риска: "
+msgstr "Всеки път, когато теглите програма от Интернет, има възможност: "
 "програмата може да има опасни грешки, "
 "или сървъра,от който теглите, да е бил хакнат. "
-"$PROJECT положи и полага усилия да намали тези рискове. "
-"Тествали сме нашите програми много внимателно. "
-"Сървърите ни са зад firewall и са конфигурирани за максимална защита. "
+"$PROJECT положи и полага усилия да намали тези рискове до минимум. "
+"Нашите програми са тествани много внимателно. "
+"Сървърите ни са зад firewall-и и са конфигурирани за максимална защита. "
 "За да осигурим интегритета на използваните програми, всички изпълними файлове са цифрово "
 "маркирани на защитен компютър, НЕсвързан с Интернет."
 
 msgid "RULES_SAFE_TEXT_B"
-msgstr "Програмите, използвани от $PROJECT , може да причинят прегряване на някой компютри. "
+msgstr "Програмите, използвани от $PROJECT, може да причинят прегряване при някой компютри. "
 "Ако това се случи, спрете използването на $PROJECT или изпозвайте %s, която ограничава натоварването на процесора."
 
 msgid "RULES_UTILITY_PROGRAM"
@@ -115,10 +118,10 @@ msgstr "$PROJECT е разработен от %s. BOINC е разработен в Калифорнииския Универс
 "(University Of California)."
 
 msgid "RULES_LIABILITY"
-msgstr "Отговорности"
+msgstr "Поемане на отговорност"
 
 msgid "RULES_LIABILITY_TEXT"
-msgstr "$PROJECT и %s не е отговорен за нанесени щети на компютри, "
+msgstr "$PROJECT и %s не могат да бъдат отговорни за нанесени щети на компютри, "
 "загуба на данни, или каквито и да било други събития или условия, които могат да възникнат като резултат от "
 "участието в $PROJECT."
 
@@ -134,16 +137,16 @@ msgstr "Други проекти използват същата платформа, BOINC, като $PROJECT. Може да 
 msgid "RULES_OTHER_TEXT_B"
 msgstr "Тези други проекти не са свързани със $PROJECT, и ние не можем "
 "да гарантираме за техните процедури за сигурност или естеството на тяхната научно-изследователска работа. Изпозвайте ги "
-"на ваша отговорност."
+"на Ваша отговорност."
 
 #########################################
 # Create account form (create_account_form.php)
 #########################################
 msgid "CREATE_AC_TITLE"
-msgstr "Създай акаунт"
+msgstr "Направете си акаунт"
 
 msgid "CREATE_AC_READ_RULES"
-msgstr "Прочети %s преди да си създадеш акаунт."
+msgstr "Прочетете %s преди да си създадете акаунт."
 
 msgid "CREATE_AC_ALREADY_GOT"
 msgstr "Ако вече сте получили акаунт ключ, не попълвайте тази форма. "
@@ -153,7 +156,7 @@ msgid "CREATE_AC_NAME"
 msgstr "Име"
 
 msgid "CREATE_AC_NAME_DESC"
-msgstr "Идентифицира ви в нашия web-сайт. Използвайте истинското си име или псевдоним."
+msgstr "Идентифицира ви в нашия уеб-сайт. Използвайте истинското си име или псевдоним."
 
 msgid "CREATE_AC_EMAIL"
 msgstr "Email Адрес"
@@ -165,7 +168,7 @@ msgid "CREATE_AC_COUNTRY"
 msgstr "Държава"
 
 msgid "CREATE_AC_COUNTRY_DESC"
-msgstr "Изберете държавата, която искате да представяте."
+msgstr "Изберете държавата, в която живеете или която искате да представяте."
 
 msgid "CREATE_AC_ZIP"
 msgstr "Пощенски или ZIP код"
@@ -174,145 +177,207 @@ msgid "CREATE_AC_CREATE"
 msgstr "Създай акаунт"
 
 msgid "CREATE_AC_DISABLED"
-msgstr "Създаването на акаунти е забранено"
+msgstr "Създаването на акаунти временно е забранено."
 
 msgid "CREATE_AC_DISABLED_TEXT"
-msgstr "Създаването на акаунти е забранено за $PROJECT в момента. "
-"Моля, опитайте пак по-късно."
+msgstr "Създаването на акаунти за $PROJECT временно е забранено. "
+"Моля, опитайте по-късно."
 
 msgid "CREATE_AC_TEAM"
 msgstr "Този акаунт ще принадлежи на отбор %s и ще има настройките на проекта на неговия основател."
 
+msgid "CREATE_AC_USE_CLIENT"
+msgstr "Забележка: Ако използвате BOINC версия 5.2+ с BOINC мениджър, "
+"не използвайте тази форма. "
+"Просто стартирайте BOINC, изберете Attach Project, "
+"и въведете email адрес и парола. "
 
-#########################################
-# Account created page (account_created.php)
-#########################################
-msgid "AC_READY_TITLE"
-msgstr "Акаунтът е създаден"
+msgid "CREATE_AC_PASSWORD"
+msgstr "Парола"
 
-msgid "AC_READY_WELCOME"
-msgstr "Поздравления - вашият $PROJECT акаунт беше създаден"
+msgid "CREATE_AC_PASSWORD_DESC"
+msgstr "Трябва да бъде минимум %s символа"
 
-msgid "AC_READY_PASTE"
-msgstr "За да продължите, въведете вашият акаунт ключ тук:"
+msgid "CREATE_AC_CONFIRM_PASSWORD"
+msgstr "Потвърдете паролата"
 
-msgid "AC_READY_CLICK"
-msgstr "и натиснете"
+msgid  "AC_INVITE_CODE"
+msgstr "Код на покана"
 
+msgid  "AC_INVITE_CODE_DESC"
+msgstr "Валиден код на покана се изисква за да създадете акаунт"
 
-#########################################
-# Account setup page (account_setuo.php)
-#########################################
-#also used in account_setup_nonfirst.php:
-msgid "AC_SETUP_TITLE"
-msgstr "Обща настройка на акаунта"
+msgid "AC_INVITE_REQUIRED"
+msgstr "Трябва да въведете кода на поканата за да създадете акаунт."
 
-msgid "AC_SETUP_USES_BOINC"
-msgstr "$PROJECT използва BOINC софтуерна система."
-
-msgid "AC_SETUP_DIVISION"
-msgstr "BOINC ви позволява да разделите вашето компютърно време между няколко проекта за разпределено изчисление."
-
-msgid "AC_SETUP_ISFIRST"
-msgstr "Това вашият първи BOINC проект ли е?"
-
-msgid "AC_SETUP_FIRST"
-msgstr "Да - това е моят първи BOINC проект"
-
-msgid "AC_SETUP_NONFIRST"
-msgstr "Не - в момента участвам в най-малко още един друг BOINC проект"
+msgid "AC_INVITE_INVALID"
+msgstr "Въведения код на поканата е невалиден."
 
 
 #########################################
-# First Account setup page (account_setup_first.php)
-#########################################
-msgid "AC_FIRST_TITLE"
-msgstr "Настройка на акаунта"
-
-msgid "AC_FIRST_CONTROL"
-msgstr "Може да контролирате кога и как вашият компютър се използва от $PROJECT"
-
-msgid "AC_FIRST_DEFAULT"
-msgstr "За да използвате настройките по подразбиране, отидете най-отдолу на страницата и натиснете OK."
-
-
-#########################################
-# First Account setup done page (account_setup_first_done.php)
-# and (account_setup_nonfirst_done.php
-#########################################
-msgid "AC_DONE_TITLE"
-msgstr "Настройка на акаунта : извършена"
-
-msgid "AC_DONE_COMPLETE"
-msgstr "Настройката на акаунта ви е завършена."
-
-msgid "AC_DONE_BOINC"
-msgstr "Сега трябва да изтеглите и инсталирате BOINC сафтуера и да кажете на компютъра(компютрите) си "
-"да използват този акаунт."
-
-msgid "AC_DONE_URL"
-msgstr "Когато BOINC софтуера се стартира за първи път, ще ви поиска <b>Адрес на Проекта</b> и "
-"a <b>Ключ за акаунта</b>."
-
-msgid "AC_DONE_COPYPASTE"
-msgstr "Копирайте ги и ги вмъкнете от тук:"
-
-msgid "AC_DONE_GETDOWNLOAD"
-msgstr "Сега можете %s да завършите $PROJECT инсталацията."
-
-msgid "AC_DONE_DL_BOINC"
-msgstr "изтегли BOINC софтуера"
-
-msgid "AC_DONE_THANKS"
-msgstr "Благодарим ви, че участвате в $PROJECT"
-
-
-#########################################
-# Non-first Account setup page (account_setup_nonfirst.php)
-#########################################
-msgid "AC_NONFIRST_TITLE"
-msgstr "Настройка на акаунта: подялба на ресурси"
-
-
-#########################################
-# Non-first Account setup done page (account_setup_nonfirst_done.php)
-#########################################
-msgid "AC_DONE_MUST_USE"
-msgstr "Сега трябва да кажете на компютъра(компютрите) си да използват този акаунт."
-
-msgid "AC_DONE_WIN"
-msgstr "Потребители на Windows:"
-
-msgid "AC_DONE_WIN_TEXT"
-msgstr "Отворете прозореца на BOINC програмата, като щракнете двукратно на иконката на BOINC до часовника. "
-"Изберете 'Добави Проект' от меню Настройки. Ще бъдете попитани за Адрес на Проекта "
-"и за Ключа за Акаунта ви."
-
-msgid "AC_DONE_UNIX"
-msgstr "Mac, Unix и Linux потребители:"
-
-msgid "AC_DONE_UNIX_TEXT"
-msgstr "Затворете BOINC клиента. След това го стартирайте с -attach_project параметър. "
-"Ще бъдете попитани за Адрес на Проекта и за Ключа за Акаунта ви."
-
-msgid "AC_DONE_ANYCASE"
-msgstr "Във всеки от случаите, копираите и вмъкнете следното:"
-
-msgid "AC_DONE_INSTALLED"
-msgstr "Така завършва инсталацията на $PROJECT."
-
-
-#########################################
-# Different strange places:
+# Forum sample index page
 #########################################
 
-# account_created.php
-msgid "AC_CREATED_TITLE"
-msgstr "Конфигурирай акаунта си"
+msgid "FORUM_TITLE"
+msgstr "$PROJECT Форуми"
+
+msgid "FORUM_TITLE_SHORT"
+msgstr "Форуми"
 
 
 #########################################
 # General stuff (create_account_form.php and others)
 #########################################
 msgid "OPTIONAL"
-msgstr "НЕзадължително"
+msgstr "Незадължително"
+
+#########################################
+# Various top table pages (top users, computers, teams)
+#########################################
+
+msgid "TOP_PARTICIPANT_TITLE"
+msgstr "ТОП участници"
+
+msgid "USER_TABLE_RANK"
+msgstr "Ранг"
+
+msgid "USER_TABLE_NAME"
+msgstr "Име"
+
+msgid "TOTAL_CREDIT"
+msgstr "Общ кредит"
+
+msgid "EXPAVG_CREDIT"
+msgstr "Среден кредит"
+
+msgid "USER_TABLE_COUNTRY"
+msgstr "Държава"
+
+msgid "USER_TABLE_PTIME"
+msgstr "Участник от"
+
+msgid "TOP_TEAMS_TITLE"
+msgstr "ТОП %s отбори"
+
+msgid "TEAM_TABLE_MEMBERS"
+msgstr "Членове"
+
+
+#########################################
+# Forum
+#########################################
+msgid "FORUM_POSTS"
+msgstr "Съобщения"
+msgid "FORUM_TOPIC"
+msgstr "Тема"
+msgid "FORUM_THREADS"
+msgstr "Раздели"
+msgid "FORUM_LAST_POST"
+msgstr "Последно съобщение"
+msgid "FORUM_AUTHOR"
+msgstr "Автор"
+msgid "FORUM_VIEWS"
+msgstr "Разглеждания"
+
+msgid "FORUM_ERR_NOT_FOUND"
+msgstr "Не съществува такъв форум"
+
+msgid "FORUM_ERR_EXPAVG"
+msgstr "За да създадете нов раздел в %s трябва да имате определено количество кредит."
+"Това се налага за да се предотврати и защити системата от злоупотреби."
+
+msgid "FORUM_ERR_INTERVAL"
+msgstr "В момента не можете да създавате повече нови раздели. Моля изчакайте малко преди да опитате отново."
+"Забавянето е с цел да се защити системата от злоупотреби."
+
+msgid "FORUM_QA_POST_MESSAGE"
+msgstr "Полето %s Ви позволява да получите помощ от останалите потребители. Ако имате въпрос или проблем:"
+msgid "FORUM_QA_POST_MESSAGE2"
+msgstr "Прочетете вече съществуващият списък с въпроси (проблеми). Ако Вашият въпрос фигурира там, "
+"натиснете %s бутона. Ако има отговори на въпроса Ви, прочетете ги. "
+"Ако един от отговорите отговаря на въпроса Ви, натиснете %s бутона."
+msgid "FORUM_QA_POST_MESSAGE3"
+msgstr "Ако Вашият въпрос (проблем) все още не е задаван, попълнете и изпратете тази форма."
+msgid "FORUM_QA_POST_MESSAGE4"
+msgstr "Това ще предотврати задаването на едни и същи въпроси по няколко пъти."
+
+msgid "FORUM_QA_SUBMIT_NEW"
+msgstr "Изпратете нов въпрос/проблем"
+
+msgid "FORUM_SUBMIT_NEW"
+msgstr "Създайте нова тема"
+
+msgid "FORUM_SUBMIT_NEW_TITLE"
+msgstr "Заглавие"
+
+msgid "FORUM_QA_SUBMIT_NEW_HELP"
+msgstr "Опишете проблема (въпроса) си с няколко думи. "
+"Краткото и ясно описание ще помогне на останалите със същия "
+"въпрос (или отговор) да го намерят."
+
+msgid "FORUM_QA_SUBMIT_NEW_BODY_HELP"
+msgstr "Ако имате проблеми с определена програма, "
+"напишете версията й, "
+"Вашият тип компютър и операционна система."
+
+msgid "FORUM_ADD_MY_SIG"
+msgstr "Добавете подписа ми към това съобщение"
+
+msgid "FORUM_MESSAGE"
+msgstr "Съобщение"
+
+msgid "FORUM_QA_GOT_PROBLEM_TOO"
+msgstr "Аз също имам този проблем"
+
+msgid "FORUM_QA_QUESTION_ANSWERED"
+msgstr "Това е отговорът на въпроса ми"
+
+msgid "FORUM_HTML_INFO"
+msgstr "Използвайте BBCode тагове за да форматирате текста си"
+
+
+#########################################
+# Forum thread
+#########################################
+
+msgid "FORUM_THREAD_HIDDEN"
+msgstr "Този раздел е скрит поради административни нужди"
+
+msgid "FORUM_THREAD_REPLY"
+msgstr "Отговорете на този раздел"
+
+msgid "FORUM_THREAD_SUBSCRIBED"
+msgstr "Вие сте абонирани за този раздел."
+
+msgid "FORUM_THREAD_UNSUBSCRIBE"
+msgstr "Щракнете тук за да се отпишете"
+
+msgid "FORUM_THREAD_SUBSCRIBE"
+msgstr "Абонирайте се за този раздел"
+
+
+#########################################
+# Forum search features
+#########################################
+msgid "FORUM_SEARCH"
+msgstr "Търсене във форума"
+
+msgid "FORUM_SEARCH_TITLES"
+msgstr "Заглавия, съдържащи '%s'"
+
+msgid "FORUM_SEARCH_BODIES"
+msgstr "Съобщения, съдържащи '%s'"
+
+msgid "FORUM_SEARCH_TITLES_NO"
+msgstr "Не са намерени заглавия, съдържащи '%s'."
+
+msgid "FORUM_SEARCH_BODIES_NO"
+msgstr "Не са намерени съобщения, съдържащи '%s'."
+
+
+#########################################
+# Links from the main page
+#########################################
+msgid "LINKS_QA"
+msgstr "Въпроси и Отговори"
+
