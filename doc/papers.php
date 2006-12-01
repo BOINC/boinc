@@ -3,84 +3,84 @@ require_once("docutil.php");
 page_head("Papers related to BOINC");
 echo"
 
-<a href=http://boinc.berkeley.edu/boinc_papers/api/text.pdf>Designing a Runtime System for Volunteer Computing</a>
-<br>
+<h2>Popular articles</h2>
+<ul>
+<li>
+<a href=boinc2.pdf>Public Computing: Reconnecting People to Science<a>.
+David P. Anderson.
+Conference on Shared Knowledge and the Web.
+Residencia de Estudiantes, Madrid, Spain, Nov. 17-19 2003.
+(A paper about BOINC's goals.
+Also available in
+<a href=madrid.html>HTML</a>
+<a href=http://boinc.de/madrid_de.htm>HTML/German</a>
+<a href=http://www.seti.nl/content.php?c=boinc_berkeley_madrid>HTML/Dutch</a>
+<a href=http://boinc.oocp.org/madrid.html>Japanese</a>).
+
+<li>
+<a href=distributing_science_final.pdf>Distributing Science</a>,
+by D. Carroll, C. Rahmlow, T. Psiaki, and G. Wojtaszczyk, July 2005.
+</ul>
+
+<h2>Computer science papers</h2>
+
+<ul>
+<li>
+<a href=http://boinc.berkeley.edu/boinc_papers/api/text.pdf>Designing a Runtime System for Volunteer Computing</a>.
 David P. Anderson, Carl Christensen and Bruce Allen.
-<br> To appear in SC06 (the International Conference for
-High Performance Computing, Networking, Storage and Analysis), November 2006.
-<hr>
-<a href=http://boinc.berkeley.edu/boinc_papers/internet/paper.pdf>The Computational and Storage Potential of Volunteer Computing</a>
-<br> David P. Anderson and Gilles Fedak
-<br> IEEE/ACM International Symposium on Cluster Computing and the Grid,
-    Singapore, May 16-19, 2006.
+Supercomputing '06 (The International Conference for
+High Performance Computing, Networking, Storage and Analysis), Tampa, November 2006.
 
-<hr>
-<a href=http://www.climateprediction.net/science/pubs/cpdn-computing.pdf>The Challenge of Volunteer Computing With Lengthy Climate Model Simulations</a>
-<br>
+<li>
+<a href=http://boinc.berkeley.edu/boinc_papers/internet/paper.pdf>The Computational and Storage Potential of Volunteer Computing</a>.
+David P. Anderson and Gilles Fedak
+IEEE/ACM International Symposium on Cluster Computing and the Grid,
+Singapore, May 16-19, 2006.
+
+<li>
+<a href=http://www.climateprediction.net/science/pubs/cpdn-computing.pdf>The Challenge of Volunteer Computing With Lengthy Climate Model Simulations</a>.
 Carl Christensen, Tolu Aina and David Stainforth.
-<br> First IEEE International Conference on e-Science and Grid Technologies
-<br>5-8 December 2005, Melbourne
+First IEEE International Conference on e-Science and Grid Technologies.
+5-8 December 2005, Melbourne
 
-
-<hr>
-<a href=server_perf.pdf>High-Performance Task Distribution for Volunteer Computing</a>
-<br>
+<li>
+<a href=server_perf.pdf>High-Performance Task Distribution for Volunteer Computing</a>.
 David P. Anderson, Eric Korpela, Rom Walton
-<br> First IEEE International Conference on e-Science and Grid Technologies
-<br>5-8 December 2005, Melbourne
+First IEEE International Conference on e-Science and Grid Technologies.
+5-8 December 2005, Melbourne
 
-<hr>
-<a href=https://uimon.cern.ch/twiki/pub/LHCAtHome/LinksAndDocs/boincciemat06.pdf>A BOINC seminar by Juan Antonio Lopez Perez of CERN</a>,
-presented at CIEMAT in Madrid, November 2005.
-Also available in a
-<a href=https://uimon.cern.ch/twiki/pub/LHCAtHome/LinksAndDocs/boincciematprint06.pdf>print version</a>.
-<hr>
-<a href=http://csdl2.computer.org/persagen/DLAbsToc.jsp?resourcePath=/dl/proceedings/ipdps/&toc=comp/proceedings/ipdps/2005/2312/02/2312toc.xml&DOI=10.1109/IPDPS.2005.247>Homogeneous Redundancy: a Technique to Ensure Integrity of Molecular Simulation Results Using Public Computing</a>
-<br>
+<li>
+<a href=http://csdl2.computer.org/persagen/DLAbsToc.jsp?resourcePath=/dl/proceedings/ipdps/&toc=comp/proceedings/ipdps/2005/2312/02/2312toc.xml&DOI=10.1109/IPDPS.2005.247>Homogeneous Redundancy: a Technique to Ensure Integrity of Molecular Simulation Results Using Public Computing</a>.
 M. Taufer, D. Anderson, P. Cicotti, C.L. Brooks III.
-<br> from 19th IEEE International Parallel and Distributed Processing Symposium (IPDPS'05) Heterogeneous Computing Workshop.
-<br>
+From 19th IEEE International Parallel and Distributed Processing Symposium (IPDPS'05) Heterogeneous Computing Workshop.
 April 4 2005, Denver CO.
-<hr>
+<li>
 <a href=http://www.fatbat.dk/thesis/>
 Developing Distributed Computing Solutions Combining Grid Computing and
 Public Computing</a>.
-<br> Jakob Gregor Pedersen & Christian Ulrik S&oslash;ttrup.
-<br> Master's thesis from University of Copenhagen.
-<br> March 2005.
+Jakob Gregor Pedersen & Christian Ulrik S&oslash;ttrup.
+Master's thesis from University of Copenhagen.
+March 2005.
+(Describes tools for transparently moving jobs between Condor and BOINC.)
 
-<p>
-Describes tools for transparently moving jobs between Condor and BOINC.
-<hr>
+<li>
+<a href=grid_paper_04.pdf>BOINC: A System for Public-Resource Computing and Storage</a>.
+David P. Anderson.
+5th IEEE/ACM International Workshop on Grid Computing.
+November 8, 2004, Pittsburgh, USA.
+<br>
+(Also available in
+<a href=http://boinc.oocp.org/grid_paper_04.html>Japanese</a>)
 
-<a href=grid_paper_04.pdf>BOINC: A System for Public-Resource Computing and Storage</a>
-<br>David P. Anderson.
-<br>5th IEEE/ACM International Workshop on Grid Computing,
-<br>November 8, 2004, Pittsburgh, USA.
-<p>
-A more technical paper.
-Also available in
-<ul>
-<li> <a href=http://boinc.oocp.org/grid_paper_04.html>Japanese</a>
 </ul>
-<hr>
-<p>
-<a href=boinc2.pdf>Public Computing: Reconnecting People to Science<a>
-<br>David P. Anderson.
-<br>Conference on Shared Knowledge and the Web,
-<br>Residencia de Estudiantes, Madrid, Spain, Nov. 17-19 2003.
-
-<p>
-A paper about BOINC's goals.
-Also available in
+<h2>Powerpoint</h2>
 <ul>
-<li> <a href=madrid.html>HTML</a>
-<li> <a href=http://boinc.de/madrid_de.htm>HTML/German</a>
-<li> <a href=http://www.seti.nl/content.php?c=boinc_berkeley_madrid>HTML/Dutch</a>
-<li> <a href=http://boinc.oocp.org/madrid.html>Japanese</a>
+<li> <a href=https://uimon.cern.ch/twiki/pub/LHCAtHome/LinksAndDocs/boincciemat06.pdf>A BOINC seminar by Juan Antonio Lopez Perez of CERN</a>,
+presented at CIEMAT in Madrid, November 2005.
+Also available in a
+<a href=https://uimon.cern.ch/twiki/pub/LHCAtHome/LinksAndDocs/boincciematprint06.pdf>print version</a>.
+
 </ul>
-
-
 ";
 page_tail();
 ?>

@@ -2,7 +2,7 @@
 
 require_once("docutil.php");
 require_once("../html/inc/news.inc");
-require_once("boinc_news.inc");
+require_once("boinc_news.php");
 
 page_head("News archive");
 

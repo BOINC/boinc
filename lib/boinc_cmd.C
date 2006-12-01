@@ -65,7 +65,7 @@ Commands:\n\
  --get_state                   show entire state\n\
  --get_results                 show results\n\
  --get_file_transfers            show file transfers\n\
- --get_project_status            show status of all projects\n\
+ --get_project_status            show status of all attached projects\n\
  --get_simple_gui_info           show status of projects and active results\n\
  --get_disk_usage\n\
  --result url result_name {suspend | resume | abort | graphics_window | graphics_fullscreen}\n\

@@ -33,7 +33,7 @@ echo "
         <td bgcolor=$light_blue valign=top>".tr(POLL_NATIONALITY)."</td>
         <td><select name=$country>
 ";
-print_country_select();
+echo country_select();
 echo "</select></td></tr>";
 list_bar(tr(POLL_COMMENTS));
 list_item2(

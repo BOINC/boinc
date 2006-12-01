@@ -28,7 +28,7 @@ function show_participant() {
 
 function show_news_items() {
     global $light_blue;
-    require_once("boinc_news.inc");
+    require_once("boinc_news.php");
     require_once("../html/inc/news.inc");
     echo "
         <table border=2 cellpadding=8><tr><td bgcolor=$light_blue>

@@ -26,13 +26,22 @@ function download_link($pname) {
     $dlink = "<a href=$url>$file</a>";
     $s = number_format(filesize($path)/1000000, 2);
 
-    return "
+    echo "
         <table border=4 cellpadding=10><tr><td bgcolor=ccccff>
         <a href=$url><font size=4><u>".tr(DL_DOWNLOAD)."</u></font></a>
         <br>".
         sprintf(tr(DL_VERSION_LNAME_SIZE), $num, $long_name, $s )."
         </td></tr> </table>
     ";
+    if ($pname == 'linux') {
+        echo "
+            <p>
+            Note: BOINC may be available as a package for
+            for your particular Linux distribution
+            (Gentoo, Fedora, Debian, Ubuntu);
+            check this first before downloading from this page.
+        ";
+    }
 }
 
 function link_row($pname) {
@@ -45,7 +54,7 @@ function link_row($pname) {
         echo "<img src=images/ico-tux.png> <b>Linux/x86</b>";
     }
     echo "</td><td>";
-    echo download_link($pname);
+    download_link($pname);
     echo "</td></tr>
     ";
 }
@@ -84,7 +93,7 @@ function show_download($pname) {
         ".tr(DL_WHATS_BOINC)
     ;
     if ($pname) {
-        echo download_link($pname);
+        download_link($pname);
     } else {
         echo "<table cellpadding=8>
         ";

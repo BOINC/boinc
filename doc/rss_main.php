@@ -25,7 +25,7 @@ if (!$news) {
 
 // inclue project constants and news file
 //
-require_once("boinc_news.inc");
+require_once("boinc_news.php");
 
 // Create channel header and open XML content
 //
