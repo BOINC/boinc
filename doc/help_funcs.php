@@ -70,26 +70,27 @@ function checkbox($name, $val) {
 function yesno($name, $val) {
     if ($val) {
         return "
-            yes<input type=radio name=$name checked>
-            no<input type=radio name=$name>
+            yes<input type=radio name=$name value=1 checked>
+            no<input type=radio name=$name value=0>
         ";
     } else {
         return "
-            yes<input type=radio name=$name>
-            no<input type=radio name=$name checked>
+            yes<input type=radio name=$name value=1>
+            no<input type=radio name=$name value=0 checked>
         ";
     }
 }
 
-function star_select($name) {
+function star_select($name, $val) {
     $x = "";
     for ($i=0; $i<6; $i++) {
         $text = "";
         if ($i==0) $text="No";
         if ($i==5) $text="Yes";
 
+        $selected = ($val==$i)?"selected":"";
         $x .= "
-            <br><input name=$name value=$i type=radio>
+            <br><input name=$name value=$i type=radio $selected>
             <img src=images/help/stars-$i-0.gif> $text
         ";
     }

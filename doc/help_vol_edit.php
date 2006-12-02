@@ -74,24 +74,24 @@ function print_form($vol, $action_name) {
 }
 
 function get_form_data() {
-    $vol->name = mysql_real_escape_string($_GET['volname']);
+    $vol->name = stripslashes($_GET['volname']);
     if (!$vol->name) error_page("Name must not be blank");
-    $vol->password = mysql_real_escape_string($_GET['password']);
+    $vol->password = stripslashes($_GET['password']);
     if (!$vol->password) error_page("Password must not be blank");
-    $vol->email_addr = mysql_real_escape_string($_GET['email_addr']);
+    $vol->email_addr = stripslashes($_GET['email_addr']);
     if (!$vol->email_addr) error_page("Email address must not be blank");
-    $vol->skypeid = mysql_real_escape_string($_GET['skypeid']);
+    $vol->skypeid = stripslashes($_GET['skypeid']);
     if (!$vol->skypeid) error_page("Skype ID must not be blank");
-    $vol->lang1 = mysql_real_escape_string($_GET['lang1']);
+    $vol->lang1 = stripslashes($_GET['lang1']);
     if (!$vol->lang1) error_page("Primary language must not be blank");
     if (!is_spoken_language($vol->lang1)) error_page("Not a language");
-    $vol->lang2 = mysql_real_escape_string($_GET['lang2']);
+    $vol->lang2 = stripslashes($_GET['lang2']);
     if (!is_spoken_language($vol->lang2)) error_page("Not a language");
-    $vol->country = mysql_real_escape_string($_GET['country']);
+    $vol->country = stripslashes($_GET['country']);
     if (!is_valid_country($vol->country)) error_page("Bad country");
-    $vol->specialties = mysql_real_escape_string($_GET['specialties']);
-    $vol->projects = mysql_real_escape_string($_GET['projects']);
-    $vol->availability = mysql_real_escape_string($_GET['availability']);
+    $vol->specialties = stripslashes($_GET['specialties']);
+    $vol->projects = stripslashes($_GET['projects']);
+    $vol->availability = stripslashes($_GET['availability']);
     $vol->voice_ok = $_GET['voice_ok']?1:0;
     $vol->text_ok = $_GET['text_ok']?1:0;
     return $vol;
@@ -130,6 +130,10 @@ if ($create == 'OK') {
         page_head("Registration finished");
         echo "
             Thanks - you're now registered as a BOINC Help Volunteer.
+            <p>
+            If later you want to change your account information,
+            go to the <a href=help.php>Help page</a>
+            and click on the link at the bottom of the page.
         ";
     }
     page_tail();
@@ -151,8 +155,8 @@ if ($create == 'OK') {
     echo "</form>\n";
     page_tail();
 } else if ($edit_form == "OK") {
-    $email_addr = mysql_real_escape_string($_GET['email_addr']);
-    $password = mysql_real_escape_string($_GET['password']);
+    $email_addr = stripslashes($_GET['email_addr']);
+    $password = stripslashes($_GET['password']);
     $vol = vol_lookup_email($email_addr);
     if (!$vol) {
         error_page("Bad email address $email_addr");
@@ -174,8 +178,8 @@ if ($create == 'OK') {
     echo "</form>\n";
     page_tail();
 } else if ($edit_action) {
-    $old_email_addr = mysql_real_escape_string($_GET['old_email_addr']);
-    $old_password = mysql_real_escape_string($_GET['old_password']);
+    $old_email_addr = stripslashes($_GET['old_email_addr']);
+    $old_password = stripslashes($_GET['old_password']);
     $vol = vol_lookup_email($old_email_addr);
     if (!$vol) {
         error_page("Bad email address $old_email_addr");

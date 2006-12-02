@@ -13063,3 +13063,9 @@ David  1 Dec 2006
 
     clientgui/
         ViewStatistics.cpp,h
+
+David  1 Dec 2006
+    - a bunch of changes to BOINC Help
+
+    doc/
+        help_*

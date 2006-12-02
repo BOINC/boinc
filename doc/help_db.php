@@ -4,17 +4,67 @@ mysql_pconnect("localhost", "boincadm", null);
 mysql_select_db("support");
 
 function rating_insert($r) {
-    $query = "insert into rating (volunteerid, rating, timestamp, comment) values ($r->volunteerid, $r->rating, $r->timestamp, '$r->comment')";
+    $auth = mysql_real_escape_string($r->auth);
+    $comment = mysql_real_escape_string($r->comment);
+    $query = "insert into rating (volunteerid, rating, timestamp, auth, comment) values ($r->volunteerid, $r->rating, $r->timestamp, '$auth', '$comment')";
     return mysql_query($query);
 }
 
+function rating_update($r) {
+    $auth = mysql_real_escape_string($r->auth);
+    $comment = mysql_real_escape_string($r->comment);
+    $query = "update rating set rating=$r->rating, timestamp=$r->timestamp, comment='$comment' where volunteerid=$r->volunteerid and auth='$auth'";
+    return mysql_query($query);
+}
+
+function ratings_get($volid) {
+    $ratings = array();
+    $query = "select * from rating where volunteerid=$volid order by timestamp desc";
+    $result = mysql_query($query);
+    while ($r = mysql_fetch_object($result)) {
+        $ratings[] = $r;
+    }
+    mysql_free_result($result);
+    return $ratings;
+}
+
+function rating_vol_auth($volid, $auth) {
+    $auth = mysql_real_escape_string($auth);
+    mysql_query("select * from rating where volunteerid=$vold and auth='$auth'");
+}
+
 function vol_insert($vol) {
+    $password = mysql_real_escape_string($vol->password);
+    $email_addr = mysql_real_escape_string($vol->email_addr);
+    $country = mysql_real_escape_string($vol->country);
+    $skypeid = mysql_real_escape_string($vol->skypeid);
+    $lang1 = mysql_real_escape_string($vol->lang1);
+    $lang2 = mysql_real_escape_string($vol->lang2);
+    $specialties = mysql_real_escape_string($vol->specialties);
+    $projects = mysql_real_escape_string($vol->projects);
+    $availability = mysql_real_escape_string($vol->availability);
+
     $query = "insert into volunteer (id, create_time, name, password, email_addr, country, skypeid, lang1, lang2, specialties, projects, availability, voice_ok, text_ok, timezone) values (0, $vol->create_time, '$vol->name', '$vol->password', '$vol->email_addr', '$vol->country', '$vol->skypeid', '$vol->lang1', '$vol->lang2', '$vol->specialties', '$vol->projects', '$vol->availability', $vol->voice_ok, $vol->text_ok, $vol->timezone)";
     return mysql_query($query);
 }
 
 function vol_update($vol) {
-    $query = "update volunteer set name='$vol->name', password='$vol->password', email_addr='$vol->email_addr', country='$vol->country', skypeid='$vol->skypeid', lang1='$vol->lang1', lang2='$vol->lang2', specialties='$vol->specialties', projects='$vol->projects', availability='$vol->availability', voice_ok=$vol->voice_ok, text_ok=$vol->text_ok, timezone=$vol->timezone where id=$vol->id";
+    $password = mysql_real_escape_string($vol->password);
+    $email_addr = mysql_real_escape_string($vol->email_addr);
+    $country = mysql_real_escape_string($vol->country);
+    $skypeid = mysql_real_escape_string($vol->skypeid);
+    $lang1 = mysql_real_escape_string($vol->lang1);
+    $lang2 = mysql_real_escape_string($vol->lang2);
+    $specialties = mysql_real_escape_string($vol->specialties);
+    $projects = mysql_real_escape_string($vol->projects);
+    $availability = mysql_real_escape_string($vol->availability);
+
+    $query = "update volunteer set name='$vol->name', password='$vol->password', email_addr='$vol->email_addr', country='$vol->country', skypeid='$vol->skypeid', lang1='$vol->lang1', lang2='$vol->lang2', specialties='$vol->specialties', projects='$vol->projects', availability='$availability', voice_ok=$vol->voice_ok, text_ok=$vol->text_ok, timezone=$vol->timezone where id=$vol->id";
+    return mysql_query($query);
+}
+
+function vol_update_rating($vol, $rating) {
+    $query = "update volunteer set nratings=nratings+1, rating_sum=rating_sum+$rating where id=$vol->id";
     return mysql_query($query);
 }
 
@@ -59,7 +109,7 @@ function get_languages() {
         $langs[] = $lang->lang1;
     }
     mysql_free_result($result);
-    $result = mysql_query("select lang2 from volunteer");
+    $result = mysql_query("select lang2 from volunteer where lang2<>''");
     while ($lang = mysql_fetch_object($result)) {
         $langs[] = $lang->lang2;
     }

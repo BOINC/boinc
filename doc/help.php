@@ -3,7 +3,7 @@ require_once("docutil.php");
 require_once("spoken_languages.php");
 require_once("help_db.php");
 
-page_head("BOINC Online Help");
+page_head("BOINC Online Help (Beta)");
 
 echo "
 <h2>Need help?</h2>
@@ -21,7 +21,8 @@ BOINC Online Help is based on
 an Internet-based telephone system.
 Skype is free (both the software and the calls).
 If you don't already have Skype, please
-<a href=http://www.skype.com>download and install it</a>.
+<a href=http://www.skype.com>download and install it now</a>.
+When you're finished, return to this page.
 <p>
 The best way to get help is by voice,
 for which you need either built-in microphone and speakers

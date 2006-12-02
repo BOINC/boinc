@@ -16,6 +16,11 @@ Read <a href=bare_core.php>Installing the command-line client</a>.
 ";
 $site_list = array(
 array(
+    "<a href=http://www.mikrocomp.hu/seti/>SETI@SummoneR.mikrocomp.hu</a>",
+    "OpenBSD: amd64 (x86_64)",
+    "BOINC core client and SETI@home Enhanced non-graphical"
+),
+array(
     "<a href=http://lunatics.at>lunatics.at</a>",
     "Linux and Windows/x86",
     "BOINC and SETI@home.

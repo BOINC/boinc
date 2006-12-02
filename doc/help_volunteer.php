@@ -23,11 +23,11 @@ There are many reasons why such people would
 resist, or have difficulty, participating in volunteer computing:
 <ul>
 <li>
-Many of these people are unfamiliar or uncomfortable with tasks such as
-download and installing a new program on their PC,
-typing a URL into their web browser,
-and copying and pasting text,
-that experienced computer users view as routine.
+Many nontechnical people are unfamiliar or uncomfortable with tasks
+(such as downloading and installing programs,
+typing a URL into a web browser,
+and copying and pasting text)
+that are routine for experienced computer users.
 As a result, the process of installing and using BOINC seems daunting to them.
 
 <li>
@@ -40,7 +40,7 @@ how BOINC prevents the obvious attacks.
 The basic function of BOINC - a single
 program that automatically downloads other programs
 from the Internet, and switches back and forth between them -
-is unusual, and needs to be explained.
+is unusual, and may need to be explained.
 </ul>
 
 Web-based support for BOINC - FAQs, message boards, web pages -
@@ -48,10 +48,9 @@ is ineffective for many people.
 Inevitably, we write in a technical language that not everyone understands.
 By providing one-on-one, real-time interactive support,
 preferably by voice,
-we can assess the knowledge and experience of the user,
-we can give advice at the right level
-and in the right language,
-and we can make their experience with BOINC successful and happy.
+we can assess the knowledge and experience of an individual user,
+we can give advice at the right level and in the right language,
+and we can make their experience with BOINC successful and enjoyable.
 <p>
 In this way we can start to reach the remaining 99.9% of
 the world's computer users,
@@ -68,9 +67,10 @@ on the Q&A message boards of a BOINC-based project.
 <li> Have a computer with Skype
 (preferably with a headset for voice communication,
 though text-only is OK too).
-<li> Be willing to answer questions patiently and courteously.
-<li> Be available for help calls on a regular basis
+Install the current version (2.0 or later) of Skype.
+<li> Be available to handle calls on a regular basis
 (a few hours a week, or whatever you can spare).
+<li> Be willing to answer questions patiently and courteously.
 <li> Be willing to spend some additional time researching
 problems that you can't solve immediately.
 <li> Handle help emails in a timely manner.
@@ -86,12 +86,18 @@ When you're 'on call', run Skype under your Help account
 (you can switch accounts using the File/Sign Out menu).
 
 <p>
-<b>IMPORTANT: your Skype 'Help account' must allow its status
-to be visible on the web.</b>
-To do this: log on in Skype.
-Select to Tools/Options menu.
+<b>IMPORTANT: your Skype 'Help account' must make its status
+visible on the web.</b>
+To do this: run Skype and log in to your Help account.
+<ul>
+<li> Windows: Select to Tools/Options menu.
 Click on Privacy.
 Check the box labeled 'Allow my status to be shown on the web'.
+
+<li> Mac: go to Skype/Preferences.
+Select the 'privacy' tab.
+Check the box labeled 'Allow my status to be shown on the web'.
+</ul>
 
 <p>
 What if you want to accept calls from either your regular
@@ -128,12 +134,12 @@ but users will be able to post to it through a web interface).
 For each call:
 <ul>
 <li> Tell the customer your name, and get their name.
-<li> Find out why they're calling -
-to get information about BOINC or about a particular project,
-for hand-holding while installing BOINC,
-or to resolve a problem.
+<li> Find out what they need -
+information about BOINC or about a particular project,
+hand-holding while installing BOINC,
+or help resolving a problem.
 
-<li> If it's a problem, get the background info:
+<li> If they're calling with a problem, get the background info:
 what kind of computer, what version of the OS,
 what kind of Internet connection.
 If they already have BOINC,
@@ -147,9 +153,12 @@ have them install the current version.
 <li> Ask them to describe the problem step-by-step.
 Walk them through the problem scenario if possible.
 
-<li> If they become frustrated or angry, remain calm and polite.
+<li> If they become frustrated, angry or abusive,
+try to remain calm and polite.
 Suggest that they contact another volunteer,
 or consult message boards for help.
+As a last resort, just hang up.
+You can 'block' a user using Contacts/Advanced/Manage Blocked Users.
 
 <li> Stay 'on task' - don't get sucked into solving general PC problems.
 There may be other BOINC help calls waiting.
@@ -158,13 +167,13 @@ After you've solved their problem,
 take the opportunity to inform the caller on topics such as:
 <ul>
 <li> The value of participating in more than one project
-(tell them about a few of the projects).
+(tell them about one of the projects other than SETI@home).
 <li> How to get their friends and family interested in BOINC.
 </ul>
 
 <h2>What to do if you can't solve a problem</h2>
 <p>
-If you get a call with a problem that's completely outside your range,
+If you get a call with a problem that's completely outside your sphere,
 tell the caller that,
 and suggest that they call another volunteer
 or try the message boards.
@@ -190,7 +199,10 @@ preferably withing 2-3 days.
 <p>
 <b>Please read everything above here carefully.</b>
 If you've done so and want to continue, then
-<a href=help_vol_edit.php>create a Help Volunteer account</a>.
+<ul>
+<li> Create a Skype account for handling Help calls
+<li> <a href=help_vol_edit.php>Create a Help Volunteer account</a>.
+</ul>
 ";
 page_tail();
 ?>
