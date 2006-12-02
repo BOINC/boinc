@@ -9,7 +9,7 @@ require_once('../inc/forum_std.inc');
 
 
 db_init();
-$logged_in_user = re_get_logged_in_user(true);
+$logged_in_user = re_get_logged_in_user(false);
 
 page_head(tr(FORUM_SEARCH));
 
