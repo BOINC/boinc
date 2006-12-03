@@ -82,11 +82,11 @@ BEGIN
         BLOCK "040904b0"
         BEGIN
             VALUE "CompanyName", "GridRepublic"
-            VALUE "FileDescription", "GridRepublic client"
+            VALUE "FileDescription", "BOINC client"
             VALUE "FileVersion", BOINC_VERSION_STRING "\0"
             VALUE "InternalName", "boinc_cli"
-            VALUE "LegalCopyright", "© 2003-2006 University of California"
-            VALUE "OriginalFilename", "boinc_cli.exe"
+            VALUE "LegalCopyright", "© 2003-2007 University of California"
+            VALUE "OriginalFilename", "boinc.exe"
             VALUE "ProductName", "BOINC core client"
             VALUE "ProductVersion", BOINC_VERSION_STRING "\0"
         END
@@ -97,7 +97,7 @@ BEGIN
     END
 END
 
-#elif defined(_CPDNBBC)
+#elif defined(_WCG)
 
 VS_VERSION_INFO VERSIONINFO
  FILEVERSION BOINC_MAJOR_VERSION,BOINC_MINOR_VERSION,BOINC_RELEASE,0
@@ -116,13 +116,13 @@ BEGIN
     BEGIN
         BLOCK "040904b0"
         BEGIN
-            VALUE "CompanyName", "ClimatePrediction.net"
-            VALUE "FileDescription", "ClimatePrediction.net client"
+            VALUE "CompanyName", "World Community Grid"
+            VALUE "FileDescription", "BOINC client"
             VALUE "FileVersion", BOINC_VERSION_STRING "\0"
             VALUE "InternalName", "boinc_cli"
-            VALUE "LegalCopyright", "© 2003-2006 University of California"
-            VALUE "OriginalFilename", "boinc_cli.exe"
-            VALUE "ProductName", "CPDNBBC core client"
+            VALUE "LegalCopyright", "© 2003-2007 University of California"
+            VALUE "OriginalFilename", "boinc.exe"
+            VALUE "ProductName", "BOINC core client"
             VALUE "ProductVersion", BOINC_VERSION_STRING "\0"
         END
     END
@@ -152,12 +152,12 @@ BEGIN
         BLOCK "040904b0"
         BEGIN
             VALUE "CompanyName", "seedmagazine.com"
-            VALUE "FileDescription", "seedmagazine client"
+            VALUE "FileDescription", "BOINC client"
             VALUE "FileVersion", BOINC_VERSION_STRING "\0"
             VALUE "InternalName", "boinc_cli"
-            VALUE "LegalCopyright", "© 2003-2006 University of California"
-            VALUE "OriginalFilename", "boinc_cli.exe"
-            VALUE "ProductName", "seedmagazine core client"
+            VALUE "LegalCopyright", "© 2003-2007 University of California"
+            VALUE "OriginalFilename", "boinc.exe"
+            VALUE "ProductName", "BOINC core client"
             VALUE "ProductVersion", BOINC_VERSION_STRING "\0"
         END
     END
@@ -190,8 +190,8 @@ BEGIN
             VALUE "FileDescription", "BOINC client"
             VALUE "FileVersion", BOINC_VERSION_STRING "\0"
             VALUE "InternalName", "boinc_cli"
-            VALUE "LegalCopyright", "© 2003-2006 University of California"
-            VALUE "OriginalFilename", "boinc_cli.exe"
+            VALUE "LegalCopyright", "© 2003-2007 University of California"
+            VALUE "OriginalFilename", "boinc.exe"
             VALUE "ProductName", "BOINC client"
             VALUE "ProductVersion", BOINC_VERSION_STRING "\0"
         END
@@ -215,7 +215,6 @@ END
 // Icon with lowest ID value placed first to ensure application icon
 // remains consistent on all systems.
 #ifdef _GRIDREPUBLIC
-#elif defined(_CPDNBBC)
 #else
 IDI_MAIN_ICON           ICON                    "res\\icon.ico"
 #endif

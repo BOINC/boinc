@@ -29,13 +29,13 @@ LANGUAGE LANG_NEUTRAL, SUBLANG_NEUTRAL
 
 // Icon with lowest ID value placed first to ensure application icon
 // remains consistent on all systems.
-#ifdef _GRIDREPUBLIC
+#if   defined(_GRIDREPUBLIC)
 
 APP_ICON                ICON                    "res\\gridrepublic.ico"
 
-#elif defined(_CPDNBBC)
+#elif defined(_WCG)
 
-APP_ICON                ICON                    "res\\cpdnbbc.ico"
+APP_ICON                ICON                    "res\\wcg.ico"
 
 #else
 
@@ -131,8 +131,8 @@ BEGIN
             VALUE "CompanyName", "GridRepublic"
             VALUE "FileDescription", "GridRepublic for Windows"
             VALUE "FileVersion", BOINC_VERSION_STRING "\0"
-            VALUE "InternalName", "gridrepublic"
-            VALUE "LegalCopyright", "© 2003-2006 University of California"
+            VALUE "InternalName", "boincmgr"
+            VALUE "LegalCopyright", "© 2003-2007 University of California"
             VALUE "OriginalFilename", "gridrepublic.exe"
             VALUE "ProductName", "BOINC core client"
             VALUE "ProductVersion", BOINC_VERSION_STRING "\0"
@@ -144,7 +144,7 @@ BEGIN
     END
 END
 
-#elif defined(_CPDNBBC)
+#elif defined(_WCG)
 
 
 VS_VERSION_INFO VERSIONINFO
@@ -164,13 +164,13 @@ BEGIN
     BEGIN
         BLOCK "040904b0"
         BEGIN
-            VALUE "CompanyName", "ClimatePrediction.net"
-            VALUE "FileDescription", "CPDNBBC Manager for Windows"
+            VALUE "CompanyName", "World Community Grid"
+            VALUE "FileDescription", "World Community Grid for Windows"
             VALUE "FileVersion", BOINC_VERSION_STRING "\0"
             VALUE "InternalName", "boincmgr"
-            VALUE "LegalCopyright", "© 2003-2006 University of California"
-            VALUE "OriginalFilename", "boincmgr.exe"
-            VALUE "ProductName", "CPDNBBC core client"
+            VALUE "LegalCopyright", "© 2003-2007 University of California"
+            VALUE "OriginalFilename", "worldcommunitygrid.exe"
+            VALUE "ProductName", "BOINC core client"
             VALUE "ProductVersion", BOINC_VERSION_STRING "\0"
         END
     END
@@ -204,9 +204,9 @@ BEGIN
             VALUE "FileDescription", "seedmagazine Manager for Windows"
             VALUE "FileVersion", BOINC_VERSION_STRING "\0"
             VALUE "InternalName", "boincmgr"
-            VALUE "LegalCopyright", "© 2003-2006 University of California"
+            VALUE "LegalCopyright", "© 2003-2007 University of California"
             VALUE "OriginalFilename", "boincmgr.exe"
-            VALUE "ProductName", "seedmagazine core client"
+            VALUE "ProductName", "BOINC core client"
             VALUE "ProductVersion", BOINC_VERSION_STRING "\0"
         END
     END
@@ -239,9 +239,9 @@ BEGIN
             VALUE "FileDescription", "BOINC Manager for Windows"
             VALUE "FileVersion", BOINC_VERSION_STRING "\0"
             VALUE "InternalName", "boincmgr"
-            VALUE "LegalCopyright", "© 2003-2006 University of California"
+            VALUE "LegalCopyright", "© 2003-2007 University of California"
             VALUE "OriginalFilename", "boincmgr.exe"
-            VALUE "ProductName", "CPDNBBC core client"
+            VALUE "ProductName", "BOINC core client"
             VALUE "ProductVersion", BOINC_VERSION_STRING "\0"
         END
     END

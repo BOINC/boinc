@@ -13069,3 +13069,14 @@ David  1 Dec 2006
 
     doc/
         help_*
+
+Rom    2 Dec 2006
+    - Check in WCG project files.
+    
+    client/win/
+        *.rc
+    clientgui/
+        *.rc
+    win_build/
+        wcg_*.sln
+        wcg_*.vcproj

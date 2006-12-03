@@ -81,10 +81,10 @@ BEGIN
         BLOCK "040904b0"
         BEGIN
             VALUE "CompanyName", "GridRepublic"
-            VALUE "FileDescription", "GridRepublic Screensaver"
+            VALUE "FileDescription", "BOINC Screensaver"
             VALUE "FileVersion", BOINC_VERSION_STRING "\0"
             VALUE "InternalName", "boinc_ss"
-            VALUE "LegalCopyright", "Copyright © 2003-2005 University of California"
+            VALUE "LegalCopyright", "Copyright © 2003-2007 University of California"
             VALUE "OriginalFilename", "boinc.scr"
             VALUE "ProductName", "BOINC Core Client"
             VALUE "ProductVersion", BOINC_VERSION_STRING "\0"
@@ -96,7 +96,7 @@ BEGIN
     END
 END
 
-#elif defined(_CPDNBBC)
+#elif defined(_WCG)
 
 VS_VERSION_INFO VERSIONINFO
  FILEVERSION BOINC_MAJOR_VERSION,BOINC_MINOR_VERSION,BOINC_RELEASE,0
@@ -115,13 +115,13 @@ BEGIN
     BEGIN
         BLOCK "040904b0"
         BEGIN
-            VALUE "CompanyName", "ClimatePrediction.net"
-            VALUE "FileDescription", "CPDNBBC Screensaver"
+            VALUE "CompanyName", "World Community Grid"
+            VALUE "FileDescription", "BOINC Screensaver"
             VALUE "FileVersion", BOINC_VERSION_STRING "\0"
             VALUE "InternalName", "boinc_ss"
-            VALUE "LegalCopyright", "© 2003-2006 University of California"
+            VALUE "LegalCopyright", "© 2003-2007 University of California"
             VALUE "OriginalFilename", "boinc.scr"
-            VALUE "ProductName", "CPDNBBC Core Client"
+            VALUE "ProductName", "BOINC Core Client"
             VALUE "ProductVersion", BOINC_VERSION_STRING "\0"
         END
     END
@@ -151,12 +151,12 @@ BEGIN
         BLOCK "040904b0"
         BEGIN
             VALUE "CompanyName", "seedmagazine.com"
-            VALUE "FileDescription", "seedmagazine screensaver"
+            VALUE "FileDescription", "BOINC Screensaver"
             VALUE "FileVersion", BOINC_VERSION_STRING "\0"
             VALUE "InternalName", "boinc_ss"
-            VALUE "LegalCopyright", "© 2003-2006 University of California"
+            VALUE "LegalCopyright", "© 2003-2007 University of California"
             VALUE "OriginalFilename", "boinc.scr"
-            VALUE "ProductName", "seedmagazine Core Client"
+            VALUE "ProductName", "BOINC Core Client"
             VALUE "ProductVersion", BOINC_VERSION_STRING "\0"
         END
     END
@@ -189,7 +189,7 @@ BEGIN
             VALUE "FileDescription", "BOINC Screensaver"
             VALUE "FileVersion", BOINC_VERSION_STRING "\0"
             VALUE "InternalName", "boinc_ss"
-            VALUE "LegalCopyright", "Copyright © 2003-2005 University of California"
+            VALUE "LegalCopyright", "© 2003-2007 University of California"
             VALUE "OriginalFilename", "boinc.scr"
             VALUE "ProductName", "BOINC Core Client"
             VALUE "ProductVersion", BOINC_VERSION_STRING "\0"
@@ -230,9 +230,18 @@ END
 
 // Icon with lowest ID value placed first to ensure application icon
 // remains consistent on all systems.
-#ifdef _GRIDREPUBLIC
+#if defined(_GRIDREPUBLIC)
+
+IDI_MAIN_ICON           ICON                    "res\\gridrepublic.ico"
+
+#elif defined(_WCG)
+
+IDI_MAIN_ICON           ICON                    "res\\wcg.ico"
+
 #else
-IDI_MAIN_ICON           ICON                    "res\\Scricon3.ico"
+
+IDI_MAIN_ICON           ICON                    "res\\icon.ico"
+
 #endif
 
 /////////////////////////////////////////////////////////////////////////////
@@ -244,11 +253,11 @@ IDI_MAIN_ICON           ICON                    "res\\Scricon3.ico"
 
 IDB_BOINCSPLAT          BITMAP                  "res\\gridrepublic.bmp"
 
-#elif defined(_CPDNBBC)
+#elif defined(_WCG)
 
-IDB_BOINCSPLAT          BITMAP                  "res\\cpdnbbc.bmp"
+IDB_BOINCSPLAT          BITMAP                  "res\\boinc.bmp"
 
-#elif defined(_CPDNBBC)
+#elif defined(_SEED)
 
 IDB_BOINCSPLAT          BITMAP                  "res\\seed.bmp"
 
@@ -289,28 +298,28 @@ BEGIN
                             "Gridrepublic screensaver graphics\ndisabled.\n\nGraphics cannot be displayed when configured to run\nas a Windows service."
 END
 
-#elif defined(_CPDNBBC)
+#elif defined(_WCG)
 
 STRINGTABLE 
 BEGIN
-    IDS_ERR_GENERIC         "There was an unspecified problem\nwith the Climate Change Experiment screensaver."
+    IDS_ERR_GENERIC         "There was an unspecified problem\nwith the World Community Grid screensaver."
     IDS_ERR_BOINCNOTDETECTED 
-                            "Climate Change Experiment is not running.\n\nPlease launch Climate Change Experiment\nto display graphics."
+                            "World Community Grid is not running.\n\nPlease launch Climate Change Experiment\nto display graphics."
     IDS_ERR_BOINCNOTDETECTEDSTARTUP 
-                            "Climate Change Experiment is not running.\n(Automatic Startup not detected)\n\nWe recommend running Climate Change Experiment at startup;\nplease reinstall Climate Change Experiment and select this option."
-    IDS_ERR_BOINCSUSPENDED  "Climate Change Experiment is currently suspended."
+                            "World Community Grid is not running.\n(Automatic Startup not detected)\n\nWe recommend running Climate Change Experiment at startup;\nplease reinstall Climate Change Experiment and select this option."
+    IDS_ERR_BOINCSUSPENDED  "World Community Grid is currently suspended."
     IDS_ERR_BOINCNOAPPSEXECUTING
-                            "Climate Change Experiment is currently idle."
+                            "World Community Grid is currently idle."
     IDS_ERR_BOINCNOAPPSEXECUTINGNOPROJECTSDETECTED
-                            "Climate Change Experiment is not attached\nto any projects.\nYou can attach to projects using\nthe Attach to project wizard\nin the tools menu."
+                            "World Community Grid is not attached\nto any projects.\nYou can attach to projects using\nthe Attach to project wizard\nin the tools menu."
     IDS_ERR_BOINCNOGRAPHICSAPPSEXECUTING
-                            "Climate Change Experiment system status:\n\n"
+                            "World Community Grid system status:\n\n"
     IDS_ERR_BOINCSCREENSAVERLOADING
-                            "Climate Change Experiment screensaver loading"
+                            "World Community Grid screensaver loading"
     IDS_ERR_BOINCAPPFOUNDGRAPHICSLOADING
                             "Application found, graphics loading...\n\nPlease wait..."
     IDS_ERR_BOINCSHUTDOWNEVENT
-                            "Climate Change Experiment\nscreensaver shutting down."
+                            "World Community Grid\nscreensaver shutting down."
 END
 
 #elif defined(_SEED)
@@ -381,12 +390,12 @@ BEGIN
     IDS_SHORTCUTNAME        "GridRepublic Manager.lnk"
 END
 
-#elif defined(_CPDNBBC)
+#elif defined(_WCG)
 
 STRINGTABLE 
 BEGIN
-    IDS_DESCRIPTION         "Climate Change Experiment"
-    IDS_SHORTCUTNAME        "Climate Change Experiment Manager.lnk"
+    IDS_DESCRIPTION         "World Community Grid"
+    IDS_SHORTCUTNAME        "World Community Grid Manager.lnk"
 END
 
 #elif defined(_CPDNBBC)
