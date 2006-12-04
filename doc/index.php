@@ -74,7 +74,8 @@ function show_participate() {
         such as <a href=http://gridrepublic.org>GridRepublic</a>
         or <a href=http://bam.boincstats.com/>BAM!</a>.
         <center>
-        <a href=participate.php><b><nobr>Details</nobr></b></a> 
+        <a href=participate.php><b><nobr>More info</nobr></b></a> 
+        | <a href=help.php><b>Help</b></a>
         | <a href=download.php><b>Download</b></a>
         | <a href=links.php><b><nobr>Web sites</nobr></b></a>
         | <a href=addons.php><b>Add-ons</b></a>

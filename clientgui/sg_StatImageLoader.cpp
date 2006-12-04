@@ -100,7 +100,7 @@ void StatImageLoader::BuildUserStatToolTip() {
     PROJECT* project = pDoc->state.lookup_project(m_prjUrl);
 
     strBuffer.Printf(
-        _("%s. Work done for %s: %0.2f"),
+        _("%s. Work done by %s: %0.2f"),
         wxString(project->project_name.c_str(), wxConvUTF8).c_str(),
         wxString(project->user_name.c_str(), wxConvUTF8).c_str(),
         project->user_total_credit

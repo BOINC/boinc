@@ -415,24 +415,9 @@ int SCHEDULER_REPLY::write(FILE* fout) {
     unsigned int i, j;
     char buf[LARGE_BLOB_SIZE];
 
-    if (probable_user_browser) {
-        // User is probably trying to look at cgi output with a browser.
-        // Redirect them to the project home page.
-
-        fprintf(fout,
-            "Content-type: text/html\n\n"
-            "<HTML><BODY>\n\n"
-            "This is a BOINC project scheduler, and is not "
-            "intended for viewing in a web browser."
-            " Visit the project's <a href=\"%s\">main page</a> instead.\n\n"
-            "</BODY></HTML>\n",
-            config.master_url
-        );
-        return 0;
-    }
-
     fprintf(fout,
-        "Content-type: text/plain\n\n"
+        "Content-type: text/xml\n\n"
+        "<?xml version=\"1.0\" encoding=\"ISO-8859-1\" ?>\n"
         "<scheduler_reply>\n"
         "<scheduler_version>%d</scheduler_version>\n",
         BOINC_MAJOR_VERSION*100+BOINC_MINOR_VERSION

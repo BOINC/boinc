@@ -13093,3 +13093,13 @@ David  4 Dec 2006
     sched/
         main.C
         server_types.C
+
+David  4 Dec 2006
+    - scheduler: don't send anything special to browsers.
+        Send reply as XML.
+    - simple GUI: work is done by a user, not for a user
+
+    sched/
+        server_types.C
+    clientgui/
+        sg_StatImageLoader.cpp

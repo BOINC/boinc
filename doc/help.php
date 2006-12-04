@@ -3,7 +3,7 @@ require_once("docutil.php");
 require_once("spoken_languages.php");
 require_once("help_db.php");
 
-page_head("BOINC Online Help (Beta)");
+page_head("BOINC Online Help");
 
 echo "
 <h2>Need help?</h2>
@@ -33,13 +33,19 @@ to communicate with Help Volunteers.
 <p>
 Volunteers speaking several languages are available.
 Please select a language:
-<br>
+<p>
 ";
 
 $langs = get_languages();
+$first = true;
 foreach ($langs as $lang) {
     $lang_enc = urlencode($lang);
-    echo "<br><a href=help_lang.php?lang=$lang_enc>Get help in $lang</a>";
+    if ($first) {
+        $first = false;
+    } else {
+        echo " | ";
+    }
+    echo "<a href=help_lang.php?lang=$lang_enc><b>$lang</b></a>";
 }
 echo "
 <h2>Other sources of help</h2>

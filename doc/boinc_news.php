@@ -1,6 +1,12 @@
 <?
 
 $project_news = array(
+array("December 4, 2006",
+    "A recent article in the Bulletin of the Howard Hughes Medical Institute,
+    <a href=http://www.hhmi.org/bulletin/nov2006/pdf/Cast.pdf>A Cast of Thousands<a/>, discusses the
+    <a href=http://boinc.bakerlab.org/rosetta/>Rosetta@home</a> project
+    and its army of dedicated volunteers."
+),
 array("November 27, 2006",
     "Jean-Michel Penasse of L'Alliance Francophone
     has create a web site,
