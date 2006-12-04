@@ -13080,3 +13080,10 @@ Rom    2 Dec 2006
     win_build/
         wcg_*.sln
         wcg_*.vcproj
+
+Bruce 4 Dec 2006
+    - If browser contacts scheduler CGI, redirect to project home page
+
+    sched/
+        server_types.C
+

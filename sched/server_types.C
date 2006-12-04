@@ -415,6 +415,23 @@ int SCHEDULER_REPLY::write(FILE* fout) {
     unsigned int i, j;
     char buf[LARGE_BLOB_SIZE];
 
+    if (probable_user_browser) {
+
+        // User is probably trying to look at cgi output with a browser.
+        // Redirect them to the project home page.
+        // Have a seven second delay before the redirect
+
+        int delay_secs = 7;
+
+        fprintf(fout,
+            "<HTML><HEAD><META HTTP-EQUIV=Refresh CONTENT=\"%d;URL=%s\"></HEAD><BODY>\n\n"
+            "You seem to be viewing this page in a WWW browser.  Visit the <a href=\"%s\">main page</a>.\n\n"
+            "(We will redirect your browser there in %d seconds).\n\n"
+            "</BODY></HTML>\n",
+            delay_secs, "../", "../", delay_secs
+        );
+    }
+
     fprintf(fout,
         "<scheduler_reply>\n"
         "<scheduler_version>%d</scheduler_version>\n",
@@ -639,17 +656,6 @@ end:
     fprintf(fout,
         "</scheduler_reply>\n"
     );
-    if (probable_user_browser) {
-        // User is probably trying to look at cgi output with a browser.
-        // Redirect them to the project home page.
-
-        fprintf(fout,
-            "<HTML><HEAD><META HTTP-EQUIV=Refresh CONTENT=\"0;URL=%s\"></HEAD><BODY>\n\n"
-            "You seem to be viewing this page in a WWW browser.  Visit the <a href=\"%s\">main page</a>.\n\n"
-            "</BODY></HTML>\n",
-            "../", "../"
-        );
-    }
     return 0;
 }
 
