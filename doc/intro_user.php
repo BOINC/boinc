@@ -81,6 +81,35 @@ or uploading the output files).
 In rare cases (e.g. if errors occur on one or more computers)
 you may never receive credit for a computation.
 </ul>
+
+<a name=software></a>
+<h2>How the software works</h3>
+<p>
+The BOINC client software looks and acts like a single program,
+but it's actually made up of several separate programs :
+<br>
+<center>
+<img src=client.png>
+</center>
+<br>
+<ul>
+<li> The <b>core client</b> (named boinc.exe on Windows) communicates
+with external servers to get and report work.
+It runs and controls applications.
+<li> <b>Applications</b> are the programs that do scientific computing.
+Several of them may run at the same time on a computer
+with more than one CPU.
+<li> The BOINC Manager, or <b>GUI</b>, (named boincmgr.exe on Windows)
+provides a graphical interface that lets you control the core client -
+for example, by telling it to suspend and resume applications.
+The GUI communicates with the core client by a TCP connection.
+Normally this is a local connection;
+however, it's possible to control a core client remotely.
+<li> The <b>screensaver</b> runs when you're away from the computer.
+It communicates with the core client by local TCP,
+instructing it to tell one of the applications to generate
+screensaver graphics.
+</ul>
 ";
 page_tail();
 

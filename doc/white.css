@@ -38,6 +38,11 @@ body , table , input , select {
 #font-size: small;
 }
 
+table.box {
+    border: solid lightblue;
+    padding: 8;
+}
+
 body {
 	background-color: white;
     color: black;

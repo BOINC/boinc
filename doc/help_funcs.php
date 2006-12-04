@@ -1,6 +1,7 @@
 <?php
 
 // info is at: http://www.skype.com/share/buttons/advanced.html
+// and https://developer.skype.com/Docs/Web?action=AttachFile&do=get&target=2006-06-06skypewebdevnotes.pdf
 // and http://cvs.drupal.org/viewcvs/drupal/contributions/modules/skypesupport/skypesupport.inc?rev=1.2
 
 function skype_status($skypeid) {
@@ -83,14 +84,14 @@ function yesno($name, $val) {
 
 function star_select($name, $val) {
     $x = "";
-    for ($i=0; $i<6; $i++) {
+    for ($i=5; $i>=0; $i--) {
         $text = "";
         if ($i==0) $text="No";
         if ($i==5) $text="Yes";
 
-        $selected = ($val==$i)?"selected":"";
+        $checked = ($val==$i)?"checked":"";
         $x .= "
-            <br><input name=$name value=$i type=radio $selected>
+            <br><input name=$name value=$i type=radio $checked>
             <img src=images/help/stars-$i-0.gif> $text
         ";
     }

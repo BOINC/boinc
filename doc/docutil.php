@@ -89,7 +89,7 @@ function html_text($x) {
 }
 
 function list_start($attrs = 'width=100%') {
-    echo "<p><table $attrs border=1 cellpadding=6>\n";
+    echo "<p><table $attrs border=0 cellpadding=6>\n";
 }
 
 function list_heading($x, $y, $z=null) {
@@ -114,6 +114,7 @@ function list_heading_array($x) {
 
 function list_item($x, $y, $z=null) {
     global $light_blue;
+    if (!$x) $x = "<br>";
     echo "
         <tr>
             <td bgcolor=$light_blue valign=top><b>$x</b></td>

@@ -28,19 +28,19 @@ and miscellaneous software
 participants can get that from the BOINC web site).
 Use
 <pre>
-./configure --disable_client
+./configure --disable-client
 </pre>
 <li> If you're porting the BOINC client software to a new platform,
 you need the client and miscellaneous components.
 Use
 <pre>
-./configure --disable_server
+./configure --disable-server
 </pre>
 <li> If you're developing or porting a BOINC application,
 you need only the miscellaneous component.
 Use
 <pre>
-./configure --disable_server --disable_client
+./configure --disable-server --disable-client
 </pre>
 </ul>
 

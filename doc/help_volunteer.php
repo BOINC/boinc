@@ -178,9 +178,11 @@ tell the caller that,
 and suggest that they call another volunteer
 or try the message boards.
 <p>
+If another Help Volunteer is online, you can try adding
+them to the call using skype's 'conference' feature.
+<p>
 If you get a call with a problem that you think you can solve
-but need to do some research,
-tell the caller that.
+but need to do some research, tell the caller that.
 Ask them to send you an email using the
 web page they're looking at,
 and to include their email address so that you can get back to them.

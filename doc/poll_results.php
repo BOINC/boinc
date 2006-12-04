@@ -5,8 +5,8 @@ require_once('../html/inc/translation.inc');
 
 $cachefile = "cache/poll_results_$language_in_use.html";
 
-$cache_time = 0;
-//$cache_time = 3600;
+//$cache_time = 0;
+$cache_time = 3600*24;
 if (file_exists($cachefile)) {
     $age = time() - filemtime($cachefile);
     if ($age < $cache_time) {

@@ -48,38 +48,70 @@ $wiki_sites = array(
 page_head("Web resources for BOINC participants");
 
 echo "
-<table cellpadding=8><tr><td valign=top>
-<h2>Wikis</h2>
+<h3>Contents</h3>
+<ul>
+<li> <a href=#stats>Credit statistics</a>
+<li> <a href=#sigs>Credit-based signatures</a>
+<li> <a href=#team_stats>Team statistics</a>
+<li> <a href=#wiki>Wikis</a>
+<li> <a href=#status>Project status</a>
+<li> <a href=#uotd>User of the Day status</a>
+<li> <a href=#sites>Other BOINC-related sites</a>
+(Information, message boards, and teams)
+</ul>
+<a name=stats></a>
+<h3>Credit statistics</h3>
+<p>
+The following web sites show statistics for one or more BOINC projects.
+These sites use XML-format data exported by BOINC projects.
+The format is described
+<a href=http://boinc.berkeley.edu/stats.php>here</a>.
+If you're interested in running your own site or
+participating in the development efforts,
+please contact the people listed below.
+";
+shuffle($stats_sites);
+site_list($stats_sites);
+echo "
+<a name=sigs></a>
+<h3>Statistics signature images</h3>
+<p>
+The following sites offer dynamically-generated
+images showing your statistics in BOINC projects.
+Use these in your email or message-board signature.
+";
+shuffle($sig_sites);
+site_list($sig_sites);
+echo "
+<a name=team_stats></a>
+<h3>Team statistics</h3>
+";
+shuffle($team_stats_sites);
+site_list($team_stats_sites);
+echo "
+<a name=wiki></a>
+<h3>Wikis</h3>
 User-editable sites with information and documentation about BOINC.
 ";
 shuffle($wiki_sites);
 site_list($wiki_sites);
 echo "
 
-<h2>Project status sites</h2>
+<a name=status></a>
+<h3>Project status sites</h3>
 Show if the servers of various projects are up or down.
 <ul>
 <li> <a href=http://www.esea.dk/esea/bos.asp>BOS (BOINC Online Schedulers></a>
 <li> <a href=http://boincprojectstatus.ath.cx/>BOINC Project Status</a>
 </ul>
-<h2>Users of the Day</h2>
+<a name=uotd></a>
+<h3>Users of the Day</h3>
 
 <ul>
 <li> <a href=http://www.myboinc.com/>BOINC Users of the Day</a>
 </ul>
-</td><td valign=top>
-<h2>Credit statistics</h2>
-";
-shuffle($stats_sites);
-site_list($stats_sites);
-echo "
-<h2>Team statistics</h2>
-";
-shuffle($team_stats_sites);
-site_list($team_stats_sites);
-echo "
-</td></tr></table>
-<h2>Information, message boards, and teams</h2>
+<a name=sites></a>
+<h3>Other BOINC-related web sites</h3>
 ";
 list_start();
 echo "
@@ -163,7 +195,7 @@ language("German", array(
     site("http://www.bc-team.org/", "BOINC Confederation"),
     site("http://www.boincfun.tk/", "BOINCfun"),
     site("http://www.setigermany.de", "SETI.Germany"),
-    site("http://www.sar-hessen.de", "Team Science and Research Hessen"),
+    site("http://www.sar-hessen.org", "Team Science and Research Hessen"),
     site("http://www.boinc.de/", "www.boinc.de"),
     site( "http://www.boinc-lubeca.de/", "BOINC - LUBECA (L&uuml;beck, Germany)"),
     site( "http://www.boinc-forum.de/", "www.boinc-forum.de"),

@@ -327,7 +327,6 @@ int main(int argc, char** argv) {
         goto done;
     }
     log_request_info(length);
-    fprintf(stdout,"Content-type: text/plain\n\n");
 
     if (use_files) {
         struct stat statbuf;

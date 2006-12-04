@@ -8,22 +8,54 @@ $volid = $_GET['volid'];
 
 $vol = vol_lookup($volid);
 
+function show_info($vol) {
+    $x = "<font size=-1> Country: $vol->country\n";
+    if ($vol->availability) {
+        $x .= "<br>Usual hours: $vol->availability";
+    }
+    if ($vol->specialties) {
+        $x .= "<br>Specialties: $vol->specialties";
+    }
+    if ($vol->projects) {
+        $x .= "<br>Projects: $vol->projects";
+    }
+    if ($vol->lang2) {
+        $x .= "<br>Primary language: $vol->lang1";
+        $x .= "<br>Secondary language: $vol->lang2";
+    }
+    $x .= "</font><p>";
+    return $x;
+}
+
 function live_contact($vol, $rating) {
     $skypeid = $vol->skypeid;
     echo "
-    <h2>Contact $vol->name live using Skype</h2>
+        <table class=box cellpadding=8 width=100%><tr><td>
+    <font size=+2><b>Contact $vol->name on Skype</b></font>
+    <script>
+        if (navigator.userAgent.indexOf('MSIE') != -1) {
+            document.write(
+                \"<br>If requested, please enable ActiveX controls for this site.<br>\"
+            );
+        }
+    </script>
+    <p>
     <script type=\"text/javascript\" src=\"http://download.skype.com/share/skypebuttons/js/skypeCheck.js\"></script>
     ";
     if ($vol->voice_ok) {
-        echo "<a href=skype:$skypeid?call onclick=\"return skypeCheck();\"><img align=top border=0 src=images/help/phone_icon_green.gif> Call $vol->name on Skype</a>
+        echo "<a href=skype:$skypeid?call onclick=\"return skypeCheck();\"><img align=top border=0 src=images/help/phone_icon_green.gif> Call (voice)</a>
         ";
     }
     if ($vol->text_ok) {
-        echo "<p><a href=skype:$skypeid?chat onclick=\"return skypeCheck();\"><img align=top border=0 src=images/help/skype_chat_icon.png> Chat with $vol->name on Skype</a>
+        echo "<p><a href=skype:$skypeid?chat onclick=\"return skypeCheck();\"><img align=top border=0 src=images/help/skype_chat_icon.png> Chat (text)</a>
         ";
     }
 
     echo "
+    <p>
+    <font size=-1>Note: BOINC helpers are unpaid volunteers.
+    Their advise is not endorsed by BOINC
+    or the University of California.</font>
     <hr>
     After the conversation is over, please give us your
     feedback:
@@ -42,11 +74,13 @@ function live_contact($vol, $rating) {
     list_end();
     echo "
     </form>
+    </td></tr></table>
     ";
 }
 
 function email_contact($vol) {
     echo "
+        <p><table class=box width=100%><tr><td>
         <h2>Contact $vol->name by email</h2>
         <form action=help_vol.php>
         <input type=hidden name=volid value=\"$vol->id\">
@@ -60,7 +94,9 @@ function email_contact($vol) {
     list_item("Message", textarea("message", ""));
     list_item("", "<input type=submit name=send_email value=OK>");
     list_end();
-    echo "</form>\n";
+    echo "</form>
+        </td></tr></table>
+    ";
 }
 
 $send_email = $_GET['send_email'];
@@ -94,7 +130,7 @@ if ($send_email) {
         error_page("No such volunteer $volid");
     }
     $x = $_GET['rating'];
-    if (!$x) {
+    if ($x==null) {
         error_page("no rating given");
     }
     $rating = (int) $x;
@@ -109,18 +145,22 @@ if ($send_email) {
     $r->comment = $comment;
     $r->auth = $uid;
     if ($uid) {
-        $retval = rating_update($r);
-        if (!$retval) {
+        $oldr = rating_lookup($r);
+        if ($oldr) {
+            $retval = rating_update($r);
+            if ($retval) vol_update_rating($vol, $oldr, $r);
+        } else {
             $retval = rating_insert($r);
+            if ($retval) vol_new_rating($vol, $rating);
         }
     } else {
         $retval = rating_insert($r);
+        if ($retval) vol_new_rating($vol, $rating);
     }
     if (!$retval) {
         echo mysql_error();
         error_page("database error");
     }
-    vol_update_rating($vol, $rating);
     page_head("Feedback recorded");
     echo "Your feedback has been recorded.  Thanks.
         <p>
@@ -128,15 +168,24 @@ if ($send_email) {
     ";
     page_tail();
 } else {
-    page_head("Contact $vol->name");
+    page_head("Help Volunteer: $vol->name");
+    echo show_info($vol);
     $status = skype_status($vol->skypeid);
+    if ($status != $vol->status) {
+        $vol->status = $status;
+        $vol->last_check = time();
+        if (online($vol->status)) {
+            $vol->last_online = time();
+        }
+        vol_update_status($vol);
+    }
     $image = button_image($status);
     echo "
         <script type=\"text/javascript\" src=\"http://download.skype.com/share/skypebuttons/js/skypeCheck.js\"></script>
         <img src=images/help/$image><p>
     ";
     if (online($status)) {
-        $rating = rating_vol_auth($vol, $uid);
+        $rating = rating_vol_auth($vol->id, $uid);
         if (!$rating) $rating->rating = -1;
         live_contact($vol, $rating);
     }

@@ -13087,3 +13087,9 @@ Bruce 4 Dec 2006
     sched/
         server_types.C
 
+David  4 Dec 2006
+    - if browser contacts scheduler, link to homepage but don't redirect
+
+    sched/
+        main.C
+        server_types.C

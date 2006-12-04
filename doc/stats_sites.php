@@ -1,12 +1,3 @@
-<?php
-
-require_once("docutil.php");
-
-include("../html/inc/stats_sites.inc");
-
-page_head("Web sites for BOINC statistics");
-echo "
-<p>
 The following web sites show statistics for one or more BOINC projects:
 ";
 shuffle($stats_sites);
@@ -27,7 +18,3 @@ Use these in your email or message-board signature.
 ";
 shuffle($sig_sites);
 site_list($sig_sites);
-
-page_tail();
-
-?>

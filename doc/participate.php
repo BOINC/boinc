@@ -39,12 +39,6 @@ echo "
 <li> <a href=proxy_server.php>Proxy servers</a> (why BOINC doesn't have them).
 </ul>
 <p>
-<h3>Web sites</h3>
-<ul>
-<li> <a href=links.php>Web sites related to BOINC</a>
-<li> <a href=stats_sites.php>BOINC statistics sites</a>
-</ul>
-<p>
 <h3>Related projects</h3>
 If you're interested in donating your time (rather than computing power),
 check out

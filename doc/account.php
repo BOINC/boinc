@@ -45,15 +45,14 @@ To participate in a BOINC project:
 <li> <a href=download.php>Download</a>,
 install and run the BOINC client software.
 <li>
-When requested, enter the project's URL.
+Click Join Project, or select the Attach Project menu item.
+Enter the project's URL.
 This is the address of the project's web site.
 If you like, you can copy and paste it from your web browser.
 <li>
-When requested, enter your email address
-and a password of your choosing.
+Enter your email address and a password of your choosing.
 <li>
-BOINC will open a web page that allows you
-to set other account data,
+BOINC will open a web page that allows you to set other account data,
 such as name, country, and preferences.
 </ol>
 <p>

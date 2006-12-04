@@ -147,7 +147,7 @@ if ($create == 'OK') {
     list_item("Email address", input("email_addr", ""));
     list_item("Password<br><font size=-2>If you forgot your password,
         leave this blank, and we'll email it to you.</font>",
-        input("password", "")
+        password("password", "")
     );
     list_item("", "<input type=submit name=edit_form value=OK>"
     );

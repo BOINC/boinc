@@ -12,6 +12,20 @@ function vol_info($vol) {
     return $x;
 }
 
+function order_vols($vols) {
+    $online = array();
+    $offline = array();
+    foreach ($vols as $vol) {
+        if (online($vol->status)) {
+            $online[] = $vol;
+        } else {
+            $offline[] = $vol;
+        }
+    }
+    shuffle($online);
+    return array_merge($online, $offline);
+}
+
 function vol_modes($vol) {
     $x = "";
     if ($vol->voice_ok && $vol->text_ok) {
@@ -42,19 +56,19 @@ function rating_info($vol) {
     else if ($x > 0.0) $img = "stars-0-5.gif";
     else $img = "stars-0-0.gif";
     return "
-        <a href=help_ratings.php?volid=$vol->id>
+        <nobr><a href=help_ratings.php?volid=$vol->id>
         <img border=0 src=images/help/$img>
         <font size=-2>
-        $vol->nratings ratings</font></a>
+        $vol->nratings ratings</font></a></nobr>
     ";
 }
 
 function info($vol) {
-    $x = "<font size=-2> Country: $vol->country\n";
+    $x = "<font size=-1> Country: $vol->country\n";
     if ($vol->availability) {
         $x .= "<br>Usual hours: $vol->availability";
     }
-    if ($vol->specialities) {
+    if ($vol->specialties) {
         $x .= "<br>Specialties: $vol->specialties";
     }
     if ($vol->projects) {
@@ -65,7 +79,7 @@ function info($vol) {
 }
 
 function show_vol($vol) {
-    $status = skype_status($vol->skypeid);
+    $status = $vol->status;
     $image = button_image($status);
     list_item_array(array(
         vol_info($vol),
@@ -93,6 +107,7 @@ function show_vols($vols) {
 
 page_head("Online Help in $lang");
 $vols = get_vols($lang);
+$vols = order_vols($vols);
 show_vols($vols);
 page_tail();
 ?>

@@ -10,6 +10,15 @@ function rating_insert($r) {
     return mysql_query($query);
 }
 
+function rating_lookup($r) {
+    $auth = mysql_real_escape_string($r->auth);
+    $query = "select * from rating where volunteerid=$r->volunteerid and auth='$auth'";
+    $result = mysql_query($query);
+    $rating = mysql_fetch_object($result);
+    mysql_free_result($result);
+    return $rating;
+}
+
 function rating_update($r) {
     $auth = mysql_real_escape_string($r->auth);
     $comment = mysql_real_escape_string($r->comment);
@@ -30,7 +39,10 @@ function ratings_get($volid) {
 
 function rating_vol_auth($volid, $auth) {
     $auth = mysql_real_escape_string($auth);
-    mysql_query("select * from rating where volunteerid=$vold and auth='$auth'");
+    $result = mysql_query("select * from rating where volunteerid=$volid and auth='$auth'");
+    $rating = mysql_fetch_object($result);
+    mysql_free_result($result);
+    return $rating;
 }
 
 function vol_insert($vol) {
@@ -63,8 +75,19 @@ function vol_update($vol) {
     return mysql_query($query);
 }
 
-function vol_update_rating($vol, $rating) {
+function vol_update_rating($vol, $old_rating, $rating) {
+    $diff = $rating->rating - $old_rating->rating;
+    $query = "update volunteer set rating_sum=rating_sum+$diff where id=$vol->id";
+    return mysql_query($query);
+}
+
+function vol_new_rating($vol, $rating) {
     $query = "update volunteer set nratings=nratings+1, rating_sum=rating_sum+$rating where id=$vol->id";
+    return mysql_query($query);
+}
+
+function vol_update_status($vol) {
+    $query = "update volunteer set last_check=$vol->last_check, last_online=$vol->last_online, status=$vol->status where id=$vol->id";
     return mysql_query($query);
 }
 
@@ -72,7 +95,13 @@ function get_vols($lang) {
     $vols = array();
     $result = mysql_query("select * from volunteer");
     while ($vol = mysql_fetch_object($result)) {
-        $vols[] = $vol;
+        if ($lang) {
+            if ($vol->lang1 == $lang || $vol->lang2 == $lang) {
+                $vols[] = $vol;
+            }
+        } else {
+            $vols[] = $vol;
+        }
     }
     mysql_free_result($result);
     return $vols;
