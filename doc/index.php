@@ -69,13 +69,15 @@ function show_participate() {
         <li> <font size=+1>Enter</font> the project URLs, your email address, and password.
         </ol>
         <p>
-        Or, for simplicity and convenience,
+        Alternatively, if you run several projects, it may be easier to
         use an <a href=acct_mgrs.php>account manager</a>
         such as <a href=http://gridrepublic.org>GridRepublic</a>
         or <a href=http://bam.boincstats.com/>BAM!</a>.
+        <p>
+        If you have any questions, or need help getting started, you can
+        <a href=help.php>talk to a Volunteer Helper</a>.
         <center>
         <a href=participate.php><b><nobr>More info</nobr></b></a> 
-        | <a href=help.php><b>Help</b></a>
         | <a href=download.php><b>Download</b></a>
         | <a href=links.php><b><nobr>Web sites</nobr></b></a>
         | <a href=addons.php><b>Add-ons</b></a>

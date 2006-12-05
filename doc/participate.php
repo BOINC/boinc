@@ -2,11 +2,20 @@
 require_once("docutil.php");
 page_head("Participating in BOINC projects");
 echo "
-<h3>Beginning</h3>
-    You've
+<h3>Beginners</h3>
+<p>
+BOINC lets you use your PC to help scientific research.
+BOINC is a 'platform' that is used by a number of <i>projects</i>,
+located at various universities around the world,
+and doing research in a variety of areas.
+<br><center>
+<img src=projects.png>
+</center><br>
+Each project has its own web site.
+You can do work for multiple projects.
     <a href=help.php>Talk or chat with a BOINC volunteer</a>
         for information about BOINC or for help installing BOINC.
-<h3>Intermediate</h3>
+<h3>Intermediate users</h3>
 <ul>
 <li> <a href=intro_user.php>Getting started</a>
 <li> <a href=info.php>Usage rules and privacy policy</a>
@@ -34,7 +43,7 @@ echo "
 <li> <a href=teams.php>Teams</a>
 <li> <a href=acct_mgrs.php>Account managers</a>
 </ul>
-<h3>Advanced</h3>
+<h3>Advanced users</h3>
 <ul>
 <li> <a href=client_unix.php>Core client options and configuration</a>
 <li> <a href=anonymous_platform.php>Make your own client software</a>

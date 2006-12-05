@@ -143,7 +143,7 @@ int xwin_glut_is_initialized() {
     return glut_is_initialized;
 }
 
-bool debug = true;
+bool debug = false;
 
 // This callback is invoked when a user presses a key.
 //

@@ -71,7 +71,7 @@ function vol_update($vol) {
     $projects = mysql_real_escape_string($vol->projects);
     $availability = mysql_real_escape_string($vol->availability);
 
-    $query = "update volunteer set name='$vol->name', password='$vol->password', email_addr='$vol->email_addr', country='$vol->country', skypeid='$vol->skypeid', lang1='$vol->lang1', lang2='$vol->lang2', specialties='$vol->specialties', projects='$vol->projects', availability='$availability', voice_ok=$vol->voice_ok, text_ok=$vol->text_ok, timezone=$vol->timezone where id=$vol->id";
+    $query = "update volunteer set name='$vol->name', password='$vol->password', email_addr='$vol->email_addr', country='$vol->country', skypeid='$vol->skypeid', lang1='$vol->lang1', lang2='$vol->lang2', specialties='$vol->specialties', projects='$vol->projects', availability='$availability', voice_ok=$vol->voice_ok, text_ok=$vol->text_ok, timezone=$vol->timezone, hide=$vol->hide where id=$vol->id";
     return mysql_query($query);
 }
 
@@ -93,7 +93,7 @@ function vol_update_status($vol) {
 
 function get_vols($lang) {
     $vols = array();
-    $result = mysql_query("select * from volunteer");
+    $result = mysql_query("select * from volunteer where hide=0");
     while ($vol = mysql_fetch_object($result)) {
         if ($lang) {
             if ($vol->lang1 == $lang || $vol->lang2 == $lang) {

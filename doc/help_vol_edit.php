@@ -67,6 +67,10 @@ function print_form($vol, $action_name) {
         yesno("text_ok", $vol->text_ok)
     );
     list_item(
+        "Hide your account?",
+        yesno("hide", $vol->hide)
+    );
+    list_item(
         "",
         "<input type=submit name=$action_name value=OK>"
     );
@@ -76,6 +80,7 @@ function print_form($vol, $action_name) {
 function get_form_data() {
     $vol->name = stripslashes($_GET['volname']);
     if (!$vol->name) error_page("Name must not be blank");
+    if (strstr($vol->name, "<")) error_page("No &lt; allowed");
     $vol->password = stripslashes($_GET['password']);
     if (!$vol->password) error_page("Password must not be blank");
     $vol->email_addr = stripslashes($_GET['email_addr']);
@@ -90,10 +95,14 @@ function get_form_data() {
     $vol->country = stripslashes($_GET['country']);
     if (!is_valid_country($vol->country)) error_page("Bad country");
     $vol->specialties = stripslashes($_GET['specialties']);
+    if (strstr($vol->specialties, "<")) error_page("No &lt; allowed");
     $vol->projects = stripslashes($_GET['projects']);
+    if (strstr($vol->projects, "<")) error_page("No &lt; allowed");
     $vol->availability = stripslashes($_GET['availability']);
+    if (strstr($vol->availability, "<")) error_page("No &lt; allowed");
     $vol->voice_ok = $_GET['voice_ok']?1:0;
     $vol->text_ok = $_GET['text_ok']?1:0;
+    $vol->hide = $_GET['hide']?1:0;
     return $vol;
 }
 

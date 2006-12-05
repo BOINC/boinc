@@ -19,6 +19,7 @@ create table volunteer (
     last_online     integer     not null,
     last_check      integer     not null,
     status          integer     not null,
+    hide            tinyint not null,
     primary key(id)
 );
 

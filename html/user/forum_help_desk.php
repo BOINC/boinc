@@ -10,9 +10,15 @@ db_init();
 page_head("Questions and answers");
 
 echo "
-        <p>
-        Select a topic or do a <br /><a href=forum_search.php>keyword search</a> to find what you are looking for.
-        <p>";
+    Talk live via Skype with a volunteer, in any of several languages.
+    Go to
+    <a href=http://boinc.berkeley.edu/help.php>BOINC Online Help</a>.
+    <p>
+    Select a topic or do a
+    <br><a href=forum_search.php>keyword search</a>
+    to find what you're looking for.
+    <p>
+";
 
 start_forum_table(array("Topic", "# Questions", "Last post"));
 

@@ -74,6 +74,8 @@ Install the current version (2.0 or later) of Skype.
 <li> Be willing to spend some additional time researching
 problems that you can't solve immediately.
 <li> Handle help emails in a timely manner.
+<li> Subscribe to (and read) the
+<a href=http://www.ssl.berkeley.edu/mailman/listinfo/boinc_helpers>boinc_helpers@ssl.berkeley.edu</a> email list.
 </ul>
 If this sounds OK, read on!
 
@@ -166,8 +168,10 @@ There may be other BOINC help calls waiting.
 After you've solved their problem,
 take the opportunity to inform the caller on topics such as:
 <ul>
+<li> BOINC is not SETI@home!
+Make sure the understand the basic architecture.
 <li> The value of participating in more than one project
-(tell them about one of the projects other than SETI@home).
+(tell them about some of the projects).
 <li> How to get their friends and family interested in BOINC.
 </ul>
 
@@ -190,7 +194,7 @@ Then research the problem, using
 <ul>
 <li> Your own trial and error;
 <li> Research on the BOINC web site or message boards;
-<li> Post to the boinc_helpers@ssl.berkeley.edu email list;
+<li> Post to the <a href=http://www.ssl.berkeley.edu/mailman/listinfo/boinc_helpers>boinc_helpers@ssl.berkeley.edu email list</a>;
 <li> If the above fail, post to the boinc_dev@ssl.berkeley.edu email list.
 </ul>
 Reply to the caller with the results of your inquiry,

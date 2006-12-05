@@ -22,7 +22,7 @@ echo "
     Instructions for installing and running BOINC are
     <a href=http://boinc.berkeley.edu/participate.php>here</a>.
     <li>
-    This list is managed centrally at <a href='http://boinc.berkeley.edu'>the BOINC website</a>.
+    This list is managed centrally at <a href='http://boinc.berkeley.edu/addons.php'>the BOINC website</a>.
     </ul>
 ";
 

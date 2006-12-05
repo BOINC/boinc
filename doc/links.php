@@ -56,6 +56,7 @@ echo "
 <li> <a href=#wiki>Wikis</a>
 <li> <a href=#status>Project status</a>
 <li> <a href=#uotd>User of the Day status</a>
+<li> <a href=#skins>Skins for the BOINC Manager</a>
 <li> <a href=#sites>Other BOINC-related sites</a>
 (Information, message boards, and teams)
 </ul>
@@ -109,6 +110,11 @@ Show if the servers of various projects are up or down.
 
 <ul>
 <li> <a href=http://www.myboinc.com/>BOINC Users of the Day</a>
+</ul>
+<a name=skins></a>
+<h3>Skins for the BOINC Manager</h3>
+<ul>
+<li> <a href=http://www.crunching-family.at/download-center/>Crunching Family Skin Download</a>
 </ul>
 <a name=sites></a>
 <h3>Other BOINC-related web sites</h3>

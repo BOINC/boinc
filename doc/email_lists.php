@@ -57,6 +57,10 @@ list_item("<a href=http://ssl.berkeley.edu/mailman/listinfo/boinc_cvs>boinc_cvs<
 list_item("<a href=http://www.ssl.berkeley.edu/mailman/listinfo/boinc_opt>boinc_opt</a>",
     "For people porting and optimizing BOINC applications."
 );
+list_item("<a href=http://www.ssl.berkeley.edu/mailman/listinfo/boinc_helpers>boinc_helpers</a>",
+    "For BOINC <a href=help.php>Help Volunteers</a>,
+    to discuss policies and user problems."
+);
 list_end();
 
 echo "

@@ -2,6 +2,18 @@
 
 $project_news = array(
 array("December 4, 2006",
+    "BOINC's new <a href=help.php>Online Help system</a>
+    lets you get help from volunteers
+    by talking with them using <a href=http://www.skype.com>Skype</a>.
+    Volunteers speak several languages."
+),
+array("December 4, 2006",
+    "It hasn't been released yet,
+    but already several skins are available for BOINC Manager version 5.8
+    (currently under test as version 5.7.x).
+    Check out <a href=http://www.crunching-family.at/download-center/>Crunching Family Skin Downloads</a>."
+),
+array("December 4, 2006",
     "A recent article in the Bulletin of the Howard Hughes Medical Institute,
     <a href=http://www.hhmi.org/bulletin/nov2006/pdf/Cast.pdf>A Cast of Thousands<a/>, discusses the
     <a href=http://boinc.bakerlab.org/rosetta/>Rosetta@home</a> project
