@@ -15,7 +15,7 @@ echo "
     <a href=http://boinc.berkeley.edu/help.php>BOINC Online Help</a>.
     <p>
     Select a topic or do a
-    <br><a href=forum_search.php>keyword search</a>
+    <a href=forum_search.php>keyword search</a>
     to find what you're looking for.
     <p>
 ";
