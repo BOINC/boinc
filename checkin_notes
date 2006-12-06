@@ -13103,3 +13103,9 @@ David  4 Dec 2006
         server_types.C
     clientgui/
         sg_StatImageLoader.cpp
+
+Reinhard 6 Dec 2006
+    configure.ac
+	increased transparancy for glut-test: added extra tests for libXmu and
+	libXi which are prerequisites to the glut-test 
+	==> if glut-test fails because of one of these libs missing, give a warning.

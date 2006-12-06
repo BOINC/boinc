@@ -334,12 +334,26 @@ AC_PATH_XTRA
 dnl check for GL library
 AX_CHECK_GL
 AX_CHECK_GLU
+
+dnl check for glut and prerequesites to the glut-test: libXmu and libXi
+AC_CHECK_LIB([Xmu], [main], [have_Xmu="yes"], [have_Xmu="no"])
+AC_CHECK_LIB([Xi], [main], [have_Xi="yes"], [have_Xi="no"])
+
 AX_CHECK_GLUT
+if test "$no_glut" = yes; then
+   if test "$have_Xmu" = no; then
+   	AC_MSG_WARN([Test for glut-dev failed because of missing libXmu-dev!])
+   fi
+   if test "$have_Xi" = no; then
+   	AC_MSG_WARN([Test for glut-dev failed because of missing libXi-dev!])
+   fi
+fi	
+
 if test "$no_gl" = yes -o "$no_glu" = yes -o "$no_glut" = yes; then
    have_glut=no
    AC_MSG_WARN([
 ================================================================================
-WARNING: openGL/GLU/glut not found.
+WARNING: Development libraries and headers ("-dev") of {openGL, GLU, glut} needed!
 
 The GL, GLU and glut libraries are required in order to build the graphical parts
 of the BOINC application API library.
