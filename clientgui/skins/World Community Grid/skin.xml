@@ -129,6 +129,12 @@
 					<imagesrc_clicked>graphic/btnCloseClick.png</imagesrc_clicked>
 				</button>
 			</close_button>
+			<help_button>
+				<button>
+					<imagesrc>graphic/btnHelp.png</imagesrc>
+					<imagesrc_clicked>graphic/btnHelpClicked.png</imagesrc_clicked>
+				</button>
+			</help_button>
 			<copy_button>
 				<button>
 					<imagesrc>graphic/wcg_copy.png</imagesrc>
@@ -159,7 +165,7 @@
 			</messages_alert_link_image>
 			<suspend_link_image>
 				<image>
-					<imagesrc>graphic/wcg_snooze.png</imagesrc>
+					<imagesrc>graphic/btnSnooze.png</imagesrc>
 				</image>
 			</suspend_link_image>
 			<resume_link_image>
