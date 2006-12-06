@@ -340,12 +340,12 @@ AC_CHECK_LIB([Xmu], [main], [have_Xmu="yes"], [have_Xmu="no"])
 AC_CHECK_LIB([Xi], [main], [have_Xi="yes"], [have_Xi="no"])
 
 AX_CHECK_GLUT
-if test "$no_glut" = yes; then
+if test "X${no_x}" != "Xyes" -a "$no_glut" = yes; then
    if test "$have_Xmu" = no; then
-   	AC_MSG_WARN([Test for glut-dev failed because of missing libXmu-dev!])
+   	AC_MSG_WARN([Test for glut-dev might have failed because of missing libXmu-dev!])
    fi
    if test "$have_Xi" = no; then
-   	AC_MSG_WARN([Test for glut-dev failed because of missing libXi-dev!])
+   	AC_MSG_WARN([Test for glut-dev might have failed because of missing libXi-dev!])
    fi
 fi	
 
