@@ -132,11 +132,13 @@
 			<copy_button>
 				<button>
 					<imagesrc>graphic/wcg_copy.png</imagesrc>
+					<imagesrc_clicked>graphic/wcg_copy_clicked.png</imagesrc_clicked>
 				</button>
 			</copy_button>
 			<copy_all_button>
 				<button>
 					<imagesrc>graphic/wcg_copy_all.png</imagesrc>
+					<imagesrc_clicked>graphic/wcg_copy_all_clicked.png</imagesrc_clicked>
 				</button>
 			</copy_all_button>
 			<clear_button>
