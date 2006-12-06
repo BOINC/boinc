@@ -175,6 +175,17 @@ array('inst_nB_v13.exe',
 );
 
 $linux = array(
+array(
+    'http://www.vanheusden.com/boinctail/',
+    'BOINCTail',
+    '0.1',
+    'BOINCTail displays the status of jobs running in the BOINC environment in a \'tail-like\' way.',
+    'http://www.vanheusden.com/boinctail/',
+    '',
+    'BOINCTail displays the status of jobs running in the BOINC environment in a \'tail-like\' way.  That way one doesn\'t need an X-server to be able to monitor for example setiathome or lhcathome.',
+    1165431648
+),
+
 array('http://www.iki.fi/edu/programs/boinctray/',
     'Boinctray',
     '',

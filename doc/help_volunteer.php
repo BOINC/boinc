@@ -61,8 +61,10 @@ and take volunteer computing (and scientific research) to a new level.
 To be a BOINC Help Volunteer, you must:
 <ul>
 <li> Be familiar with using BOINC, preferably with several projects.
-It helps if you've spent some time answering questions
+Spend some time answering (or at least reading) questions
 on the Q&A message boards of a BOINC-based project.
+Be familiar with all the 'Intermediate user' material at
+<a href=http://boinc.berkeley.edu/participate.php>http://boinc.berkeley.edu/participate.php</a>
 
 <li> Have a computer with Skype
 (preferably with a headset for voice communication,

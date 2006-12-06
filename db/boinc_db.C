@@ -263,7 +263,7 @@ void DB_TEAM::db_print(char* buf){
         "type=%d, name_html='%s', description='%s', nusers=%d, "
         "country='%s', "
         "total_credit=%.15e, expavg_credit=%.15e, expavg_time=%.15e, "
-        "seti_id=%d",
+        "seti_id=%d, ping_user=%d, ping_time=%d",
         create_time,
         userid,
         name,
@@ -277,7 +277,9 @@ void DB_TEAM::db_print(char* buf){
         total_credit,
         expavg_credit,
         expavg_time,
-        seti_id
+        seti_id,
+        ping_user,
+        ping_time
     );
     UNESCAPE(name);
     UNESCAPE(name_lc);
@@ -304,6 +306,8 @@ void DB_TEAM::db_parse(MYSQL_ROW &r) {
     expavg_credit = atof(r[i++]);
     expavg_time = atof(r[i++]);
     seti_id = safe_atoi(r[i++]);
+    ping_user = safe_atoi(r[i++]);
+    ping_time = safe_atoi(r[i++]);
 }
 
 // set NaNs and infs to zeroes

@@ -1,6 +1,10 @@
 <?
 
 $project_news = array(
+array("December 6, 2006",
+    "Linux users: check out the new
+    <a href=http://www.vanheusden.com/boinctail/>BOINCTail</a> add-on."
+),
 array("December 4, 2006",
     "BOINC's new <a href=help.php>Online Help system</a>
     lets you get help from volunteers

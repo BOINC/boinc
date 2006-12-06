@@ -13116,3 +13116,31 @@ Rom    5 Dec 2006
     clientgui/
         sg_DlgMessages.cpp
         SkinManager.cpp, .h
+
+David  6 Dec 2006
+    - maybe fixed crash bug in core client:
+        If an app was doing screensaver graphics
+        and didn't respond for 4 seconds to message to hide graphics,
+        we were calling kill_task() but not setting
+        ACTIVE_TASK::task_state = PROCESS_ABORTED.
+        As a result, the ACTIVE_TASK wasn't getting removed.
+        Further attempts to reference its shared-mem segment
+        or its handle would produce errors;
+        eventually the core client crashes.
+        Solution: set task_state to ABORTED in kill_task();
+        Note: actually we don't want to kill the task in this case.
+        I'll do this later.
+    - core client: print separate message when killing non-responding
+        screensaver app
+    - core client: prepend [file_xfer] to messages where needed
+    - server DB code: add ping_user, ping_time fields to TEAM
+        (not used in C++ code, but should be here for good form)
+
+    client/
+        app.C,h
+        app_control.C
+        app_graphics.C
+        pers_file_xfer.C
+        ss_logic.C
+    db/
+        boinc_db.C,h

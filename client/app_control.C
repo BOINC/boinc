@@ -103,6 +103,7 @@ int ACTIVE_TASK::kill_task() {
     kill(pid, SIGKILL);
 #endif
     cleanup_task();
+    task_state = PROCESS_ABORTED;
     return 0;
 }
 

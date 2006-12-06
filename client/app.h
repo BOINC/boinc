@@ -131,7 +131,8 @@ public:
     int graphics_mode_acked;            // mode acked by app
     int graphics_mode_before_ss;        // mode before last screensaver request
     bool is_ss_app;
-    double graphics_mode_ack_timeout;   // safety timeout for Mac screensaver
+    double graphics_mode_ack_timeout;
+        // 
     bool exit_requested;
 #if (defined (__APPLE__) && defined(__i386__))
     // PowerPC apps emulated on i386 Macs crash if running graphics

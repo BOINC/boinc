@@ -4,17 +4,21 @@ page_head("Participating in BOINC projects");
 echo "
 <h3>Beginners</h3>
 <p>
-BOINC lets you use your PC to help scientific research.
+BOINC lets you use your PC to do scientific research.
 BOINC is a 'platform' that is used by a number of <i>projects</i>,
 located at various universities around the world,
-and doing research in a variety of areas.
+doing research in many areas.
 <br><center>
 <img src=projects.png>
 </center><br>
 Each project has its own web site.
 You can do work for multiple projects.
-    <a href=help.php>Talk or chat with a BOINC volunteer</a>
-        for information about BOINC or for help installing BOINC.
+It's easy to do, even if you have no computer experience.
+Just <a href=index.php>follow the directions on the BOINC home page</a>.
+<p>
+If you'd like more information about BOINC,
+or need help installing BOINC, you can
+<a href=help.php>talk or chat with a BOINC volunteer</a>.
 <h3>Intermediate users</h3>
 <ul>
 <li> <a href=intro_user.php>Getting started</a>
@@ -42,10 +46,11 @@ You can do work for multiple projects.
 <li> <a href=credit.php>Computation credit</a>
 <li> <a href=teams.php>Teams</a>
 <li> <a href=acct_mgrs.php>Account managers</a>
+<li> <a href=client_msgs.php>Core client configuration</a>
 </ul>
 <h3>Advanced users</h3>
 <ul>
-<li> <a href=client_unix.php>Core client options and configuration</a>
+<li> <a href=client_unix.php>More core client configuration and options</a>
 <li> <a href=anonymous_platform.php>Make your own client software</a>
     <br>Run BOINC on uncommon platforms,
         or inspect the source code before you run it.

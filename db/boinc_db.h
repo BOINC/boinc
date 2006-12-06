@@ -191,6 +191,9 @@ struct TEAM {
 
     // The following is specific to SETI@home
     int seti_id;            // ID in old DB
+    int ping_user;          // user who asked to become founder
+    int ping_time;          // when they asked
+
     void clear();
 };
 

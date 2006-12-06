@@ -64,6 +64,7 @@ function rating_info($vol) {
 }
 
 function info($vol) {
+    global $lang;
     $x = "<font size=-1> Country: $vol->country\n";
     if ($vol->availability) {
         $x .= "<br>Usual hours: $vol->availability";
@@ -73,6 +74,12 @@ function info($vol) {
     }
     if ($vol->projects) {
         $x .= "<br>Projects: $vol->projects";
+    }
+    if (!$lang) {
+        $x .= "<br> Primary language: $vol->lang1";
+        if (!$vol->lang2) {
+            $x .= "<br> Secondary language: $vol->lang2";
+        }
     }
     $x .= "</font>";
     return $x;
@@ -105,7 +112,11 @@ function show_vols($vols) {
     list_end();
 }
 
-page_head("Online Help in $lang");
+if ($lang) {
+    page_head("Online Help in $lang");
+} else {
+    page_head("Online Help in all languages");
+}
 $vols = get_vols($lang);
 $vols = order_vols($vols);
 show_vols($vols);

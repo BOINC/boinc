@@ -66,9 +66,10 @@ void SS_LOGIC::start_ss(GRAPHICS_MSG& m, double new_blank_time) {
     saved_graphics_msg = m;
 }
 
-// called in response to a set_screensaver_mode RPC without <enabled>
-// or ACTIVE_TASK::check_graphics_mode_ack() when mode == MODE_QUIT
 // Stop providing screensaver graphics
+// called:
+// 1) in response to a set_screensaver_mode RPC without <enabled>
+// 2) from ACTIVE_TASK::check_graphics_mode_ack() when mode == MODE_QUIT
 //
 void SS_LOGIC::stop_ss() {
     if (!do_ss) return;
@@ -99,7 +100,7 @@ void SS_LOGIC::reset() {
         }
         atp->request_graphics_mode(m);
         atp->is_ss_app = false;
-        atp->graphics_mode_ack_timeout = gstate.now;    // Set Mac screensaver safety timer
+        atp->graphics_mode_ack_timeout = gstate.now;
     }
 }
 

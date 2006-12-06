@@ -1,6 +1,6 @@
 <?php
 require_once("docutil.php");
-page_head("Core client command-line options, configuration files, and environment variables");
+page_head("Core client configuration files, command-line options, and environment variables");
 echo "
 The BOINC core client can be controlled by command-line options,
 configuration files, and environment variables.
@@ -12,20 +12,35 @@ advanced users.</b>
 <p>
 BOINC uses the following configuration files.
 You can pre-populate these files to control BOINC in various ways.
-<ul>
-<li> <a href=client_files.php>Account files</a>: each one
-describes an attached project.
-<li> <a href=prefs_override.php>global_prefs_override.xml</a>:
-override global preferences
-<li> <a href=client_msgs.php>cc_config.xml</a>:
-turn log messages on/off by category,
- and other core client configuration options.
-<li> <a href=gui_rpc.php>remote_hosts.cfg</a>: hosts from which remote GUI RPCs is allowed
-<li> <a href=gui_rpc.php>gui_rpc_auth.cfg</a>: GUI RPC password
-<li> <a href=client_startup.php>project_init.xml</a>: startup project
-<li> <a href=client_startup.php>acct_mgr_url.xml</a>: account manager URL
-<li> <a href=client_startup.php>acct_mgr_login.xml</a>: account manager login
-</ul>
+";
+list_start();
+list_item("<a href=client_files.php>Account files</a>",
+    "each one describes an attached project."
+);
+list_item("<a href=prefs_override.php>global_prefs_override.xml</a>",
+    "override global preferences"
+);
+list_item("<a href=client_msgs.php>cc_config.xml</a>",
+    "turn log messages on/off by category,
+    and other core client configuration options."
+);
+list_item("<a href=gui_rpc.php>remote_hosts.cfg</a>",
+    "hosts from which remote GUI RPCs is allowed"
+);
+list_item("<a href=gui_rpc.php>gui_rpc_auth.cfg</a>",
+    "GUI RPC password"
+);
+list_item("<a href=client_startup.php>project_init.xml</a>",
+    "startup project"
+);
+list_item("<a href=client_startup.php>acct_mgr_url.xml</a>",
+    "account manager URL"
+);
+list_item("<a href=client_startup.php>acct_mgr_login.xml</a>",
+    "account manager login"
+);
+list_end();
+echo "
 <h3>Command-line options</h3>
 <p>
 The core client has

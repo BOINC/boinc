@@ -69,6 +69,8 @@ void ACTIVE_TASK::request_graphics_mode(GRAPHICS_MSG& m) {
 }
 
 
+// handle messages on the "graphics_reply" channel
+//
 void ACTIVE_TASK::check_graphics_mode_ack() {
     GRAPHICS_MSG gm;
     char buf[MSG_CHANNEL_SIZE];
@@ -92,15 +94,18 @@ void ACTIVE_TASK::check_graphics_mode_ack() {
 
         // if we receive MODE_HIDE_GRAPHICS from an application acting as the
         // screensaver it can be for one of two reasons:
-        //   1) application shut down because it was done processing.
-        //   2) user input was detected.
+        // 1) application shut down because it was done processing.
+        // 2) user input was detected.
         //
-        // in the first condition we should promote another application to be
-        // screensaver in the SS_LOGIC::poll function.  In the second condition
+        // in the first case we should choose another application to be
+        // screensaver in the SS_LOGIC::poll function.
+        // In the second condition
         // we should inform the various screensaver components to shutdown.
+        //
         if (is_ss_app && (graphics_mode_acked == MODE_FULLSCREEN) &&
             (gm.mode != MODE_FULLSCREEN) && (gm.mode != MODE_REREAD_PREFS) &&
-            !gstate.host_info.users_idle(true, 0.5)) {
+            !gstate.host_info.users_idle(true, 0.5)
+        ) {
             gstate.ss_logic.stop_ss();
             if (log_flags.scrsave_debug) {
                 msg_printf(0, MSG_INFO,
@@ -198,30 +203,39 @@ void ACTIVE_TASK_SET::graphics_poll() {
         // so it doesn't block access to the computer.
         // First try an exit request.
         // If it has not exit after 2 more seconds, kill it.
-        if (atp->graphics_mode_ack_timeout)     // If we are waiting for app to stop screensaver mode 
-            if ( atp->is_ss_app  || (atp->graphics_mode_acked != MODE_FULLSCREEN) ) {
+        //
+        if (atp->graphics_mode_ack_timeout) {
+            if (atp->is_ss_app || (atp->graphics_mode_acked != MODE_FULLSCREEN)) {
                 atp->exit_requested = false;
-                atp->graphics_mode_ack_timeout = 0.0;   // Reset Mac screensaver safety timer
+                atp->graphics_mode_ack_timeout = 0.0;
             }
-            
+        }
         if (atp->graphics_mode_ack_timeout) {
             if (gstate.now > atp->graphics_mode_ack_timeout + 2.0) {
-                if (atp->has_task_exited()) {                           // Successfully exited
+                if (atp->has_task_exited()) {
                     atp->exit_requested = false;
-                    atp->graphics_mode_ack_timeout = 0.0;               // Reset safety timer
+                    atp->graphics_mode_ack_timeout = 0.0;
                 } else {
-                    if (! atp->exit_requested) {
+                    if (!atp->exit_requested) {
                         atp->exit_requested = true;
-                        atp->request_exit();                            // Request exit after 2 seconds
-                        atp->graphics_mode_ack_timeout = gstate.now;    // Wait 2 more seconds for app to exit
+                        atp->request_exit();
+
+                        // Wait 2 more seconds for app to exit
+                        //
+                        atp->graphics_mode_ack_timeout = gstate.now;
+
                         msg_printf(atp->wup->project, MSG_ERROR,
-                            "%s not responding to screensaver, exiting",
+                            "%s not responding to screensaver, requesting exit",
                             atp->app_version->app_name
                         );
                     } else {
                         atp->exit_requested = false;
-                        atp->graphics_mode_ack_timeout = 0.0;           // Reset safety timer
-                        atp->kill_task();                   // Kill app if exit request failed after 2 seconds
+                        atp->graphics_mode_ack_timeout = 0.0;
+                        msg_printf(atp->wup->project, MSG_ERROR,
+                            "%s not responding to screensaver, killing it",
+                            atp->app_version->app_name
+                        );
+                        atp->kill_task();
                     }
                 }
             }

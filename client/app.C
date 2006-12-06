@@ -273,7 +273,6 @@ bool ACTIVE_TASK_SET::poll() {
         if (atp->task_state == PROCESS_ABORT_PENDING) {
             if (gstate.now > atp->abort_time + 5.0) {
                 atp->kill_task();
-                atp->task_state = PROCESS_ABORTED;
             }
         }
     }

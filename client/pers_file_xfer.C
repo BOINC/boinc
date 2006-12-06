@@ -98,10 +98,12 @@ int PERS_FILE_XFER::start_xfer() {
             fip->status = FILE_PRESENT;
             pers_xfer_done = true;
 
-            msg_printf(
-                fip->project, MSG_INFO,
-                "File %s exists already, skipping download", fip->name
-            );
+            if (log_flags.file_xfer) {
+                msg_printf(
+                    fip->project, MSG_INFO,
+                    "File %s exists already, skipping download", fip->name
+                );
+            }
 
             return 0;
         } else {
@@ -142,7 +144,7 @@ int PERS_FILE_XFER::start_xfer() {
     }
     if (log_flags.file_xfer) {
         msg_printf(
-            fip->project, MSG_INFO, "Started %s of file %s",
+            fip->project, MSG_INFO, "[file_xfer] Started %s of file %s",
             (is_upload ? "upload" : "download"), fip->name
         );
     }
@@ -210,14 +212,14 @@ bool PERS_FILE_XFER::poll() {
             fip->project->file_xfer_succeeded(is_upload);
             if (log_flags.file_xfer) {
                 msg_printf(
-                    fip->project, MSG_INFO, "Finished %s of file %s",
+                    fip->project, MSG_INFO, "[file_xfer] Finished %s of file %s",
                     is_upload?"upload":"download", fip->name
                 );
                 if (fxp->xfer_speed < 0) {
-                    msg_printf(fip->project, MSG_INFO, "No data transferred");
+                    msg_printf(fip->project, MSG_INFO, "[file_xfer] No data transferred");
                 } else {
                     msg_printf(
-                        fip->project, MSG_INFO, "Throughput %d bytes/sec",
+                        fip->project, MSG_INFO, "[file_xfer] Throughput %d bytes/sec",
                         (int)fxp->xfer_speed
                     );
                 }
@@ -226,7 +228,7 @@ bool PERS_FILE_XFER::poll() {
         } else if (fxp->file_xfer_retval == ERR_UPLOAD_PERMANENT) {
             if (log_flags.file_xfer) {
                 msg_printf(
-                    fip->project, MSG_INFO, "Permanently failed %s of %s",
+                    fip->project, MSG_INFO, "[file_xfer] Permanently failed %s of %s",
                     is_upload?"upload":"download", fip->name
                 );
             }
@@ -234,7 +236,7 @@ bool PERS_FILE_XFER::poll() {
         } else if (fxp->file_xfer_retval == ERR_NOT_FOUND) {
             if (log_flags.file_xfer) {
                 msg_printf(
-                    fip->project, MSG_INFO, "Permanently failed %s of %s",
+                    fip->project, MSG_INFO, "[file_xfer] Permanently failed %s of %s",
                     is_upload?"upload":"download", fip->name
                 );
             }
@@ -242,7 +244,7 @@ bool PERS_FILE_XFER::poll() {
         } else {
             if (log_flags.file_xfer) {
                 msg_printf(
-                    fip->project, MSG_INFO, "Temporarily failed %s of %s: %s",
+                    fip->project, MSG_INFO, "[file_xfer] Temporarily failed %s of %s: %s",
                     is_upload?"upload":"download", fip->name,
                     boincerror(fxp->file_xfer_retval)
                 );
@@ -416,9 +418,11 @@ int PERS_FILE_XFER::parse(MIOFILE& fin) {
         else if (parse_double(buf, "<time_so_far>", time_so_far)) continue;
         else if (parse_double(buf, "<last_bytes_xferred>", last_bytes_xferred)) continue;
         else {
-            msg_printf(NULL, MSG_ERROR,
-                "Unparsed line in file transfer info: %s", buf
-            );
+            if (log_flags.unparsed_xml) {
+                msg_printf(NULL, MSG_ERROR,
+                    "Unparsed line in file transfer info: %s", buf
+                );
+            }
         }
     }
     return ERR_XML_PARSE;
