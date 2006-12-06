@@ -165,8 +165,10 @@ void CPanelMessages::CreateControls()
 #endif
 
 #ifdef wxUSE_CLIPBOARD
-    wxButton* itemButton1 = new wxButton;
-    itemButton1->Create(this, ID_COPYAll, _("Copy all messages"), wxDefaultPosition, wxDefaultSize, 0);
+    wxBitmapButton* itemButton1 = new wxBitmapButton(this, ID_COPYAll, *pSkinSimple->GetCopyAllButton()->GetBitmap(), wxDefaultPosition, wxDefaultSize, wxBU_AUTODRAW);
+	if ( pSkinSimple->GetCopyAllButton()->GetBitmapClicked() != NULL ) {
+		itemButton1->SetBitmapSelected(*pSkinSimple->GetCopyAllButton()->GetBitmapClicked());
+	}
     itemButton1->SetHelpText(
         _("Copy all the messages to the clipboard.")
     );
@@ -177,8 +179,10 @@ void CPanelMessages::CreateControls()
 #endif
     itemBoxSizer4->Add(itemButton1, 0, wxALIGN_CENTER_VERTICAL|wxALL, 5);
 
-    wxButton* itemButton2 = new wxButton;
-    itemButton2->Create(this, ID_COPYSELECTED, _("Copy selected messages"), wxDefaultPosition, wxDefaultSize, 0);
+    wxBitmapButton* itemButton2 = new wxBitmapButton(this, ID_COPYSELECTED, *pSkinSimple->GetCopyButton()->GetBitmap(), wxDefaultPosition, wxDefaultSize, wxBU_AUTODRAW);
+	if ( pSkinSimple->GetCopyButton()->GetBitmapClicked() != NULL ) {
+		itemButton2->SetBitmapSelected(*pSkinSimple->GetCopyButton()->GetBitmapClicked());
+	}
     itemButton2->SetHelpText(
 #ifdef __WXMAC__
         _("Copy the selected messages to the clipboard. "
@@ -206,7 +210,7 @@ void CPanelMessages::CreateControls()
     itemBoxSizer4->Add(itemButton2, 0, wxALIGN_CENTER_VERTICAL|wxALL, 5);
 #endif
 
-    wxBitmapButton* itemBitmapButton44 = new wxBitmapButton(this, wxID_OK, *pSkinSimple->GetCloseButton()->GetBitmap(), wxPoint(472,398), wxSize(57,16), wxBU_AUTODRAW);
+    wxBitmapButton* itemBitmapButton44 = new wxBitmapButton(this, wxID_OK, *pSkinSimple->GetCloseButton()->GetBitmap(), wxDefaultPosition, wxDefaultSize, wxBU_AUTODRAW);
 	if ( pSkinSimple->GetCloseButton()->GetBitmapClicked() != NULL ) {
 		itemBitmapButton44->SetBitmapSelected(*pSkinSimple->GetCloseButton()->GetBitmapClicked());
 	}

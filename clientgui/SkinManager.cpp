@@ -60,6 +60,8 @@
 #include "res/skins/default/graphic/cancel_clicked_button.xpm"
 #include "res/skins/default/graphic/close_button.xpm"
 #include "res/skins/default/graphic/close_clicked_button.xpm"
+#include "res/skins/default/graphic/copy_all_button.xpm"
+#include "res/skins/default/graphic/copy_button.xpm"
 #include "res/skins/default/graphic/messages_link_image.xpm"
 #include "res/skins/default/graphic/messages_alert_link_image.xpm"
 #include "res/skins/default/graphic/suspend_link_image.xpm"
@@ -560,6 +562,8 @@ void CSkinSimple::Clear() {
     m_SaveButton.Clear();
     m_CancelButton.Clear();
     m_CloseButton.Clear();
+    m_CopyAllButton.Clear();
+    m_CopyButton.Clear();
 
     m_DialogBackgroundImage.Clear();
 
@@ -643,6 +647,12 @@ int CSkinSimple::Parse(MIOFILE& in) {
             continue;
         } else if (match_tag(buf, "<close_button>")) {
             m_CloseButton.Parse(in);
+            continue;
+        } else if (match_tag(buf, "<copy_all_button>")) {
+            m_CopyAllButton.Parse(in);
+            continue;
+        } else if (match_tag(buf, "<copy_button>")) {
+            m_CopyButton.Parse(in);
             continue;
         } else if (match_tag(buf, "<messages_link_image>")) {
             m_MessagesLink.Parse(in);

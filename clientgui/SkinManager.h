@@ -219,6 +219,8 @@ public:
     CSkinSimpleButton*  GetSaveButton() { return &m_SaveButton; }
     CSkinSimpleButton*  GetCancelButton() { return &m_CancelButton; }
     CSkinSimpleButton*  GetCloseButton() { return &m_CloseButton; }
+    CSkinSimpleButton*  GetCopyAllButton() { return &m_CopyAllButton; }
+    CSkinSimpleButton*  GetCopyButton() { return &m_CopyButton; }
 
     CSkinImage*         GetMessagesLink() { return &m_MessagesLink; }
     CSkinImage*         GetMessagesAlertLink() { return &m_MessagesAlertLink; }
@@ -250,12 +252,14 @@ private:
     CSkinImage          m_ProjectAreaBackgroundImage;
     CSkinImage          m_ProjectImage;
 
-   CSkinSimpleButton   m_AttachProjectButton;
+    CSkinSimpleButton   m_AttachProjectButton;
     CSkinSimpleButton   m_RightArrowButton;
     CSkinSimpleButton   m_LeftArrowButton;
     CSkinSimpleButton   m_SaveButton;
     CSkinSimpleButton   m_CancelButton;
     CSkinSimpleButton   m_CloseButton;
+    CSkinSimpleButton   m_CopyAllButton;
+    CSkinSimpleButton   m_CopyButton;
 
     CSkinImage          m_MessagesLink;
     CSkinImage          m_MessagesAlertLink;

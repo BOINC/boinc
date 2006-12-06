@@ -13109,3 +13109,10 @@ Reinhard 6 Dec 2006
 	increased transparancy for glut-test: added extra tests for libXmu and
 	libXi which are prerequisites to the glut-test 
 	==> if glut-test fails because of one of these libs missing, give a warning.
+
+Rom    5 Dec 2006
+    - BSG: Change the copy and copy all buttons to bitmaps.
+    
+    clientgui/
+        sg_DlgMessages.cpp
+        SkinManager.cpp, .h
