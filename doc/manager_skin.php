@@ -266,6 +266,20 @@ The Simple collection contains the following elements:
     <td></td>
   <tr>
   <tr>
+    <td>copy_all_button</td>
+    <td><a href=\"#SimpleButton\">Simple Button</a></td>
+    <td>18pxpx</td>
+    <td>85px</td>
+    <td></td>
+  <tr>
+  <tr>
+    <td>copy_button</td>
+    <td><a href=\"#SimpleButton\">Simple Button</a></td>
+    <td>18px</td>
+    <td>85px</td>
+    <td></td>
+  <tr>
+  <tr>
     <td>messages_link_image</td>
     <td><a href=\"#SimpleLink\">Simple Link</a></td>
     <td>20px</td>
