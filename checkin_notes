@@ -232,3 +232,10 @@ David  25 Nov 2006
 		samples.sln
 	wrapper/
 		wrapper.C
+
+David  5 Dec 2006
+	- changed upper_case options to -early_crash
+		-early_exit
+
+	uppercase/
+		upper_case.C

@@ -17,10 +17,16 @@
 // or write to the Free Software Foundation, Inc.,
 // 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 
-// read "in", convert to UC, write to "out"
-// command line options:
-// -run_slow: sleep 1 second after each character, useful for debugging
+// This is the primary sample BOINC application;
+// it shows most of the features of the BOINC API.
+//
+// read "in", convert to upper case, write to "out"
+//
+// command line options (use for debugging various scenarios):
+// -run_slow: sleep 1 second after each character; useful for debugging
 // -cpu_time N: use about N CPU seconds after copying files
+// -early_exit: exit(10) after 30 chars
+// -early_crash: crash after 30 chars
 //
 
 #ifdef _WIN32
@@ -58,11 +64,10 @@ using std::string;
 #define INPUT_FILENAME "in"
 #define OUTPUT_FILENAME "out"
 
-bool run_slow;
-bool raise_signal;
-bool random_exit;
-bool random_crash;
-double cpu_time=20;
+bool run_slow = false;
+bool early_exit = false;
+bool early_crash = false;
+double cpu_time = 20;
 
 static void use_some_cpu() {
     double j = 3.14159;
@@ -147,32 +152,28 @@ void worker() {
             boinc_sleep(1.);
         }
 
-#ifdef HAVE_SIGNAL_H
-        if (raise_signal) {
-            raise(SIGHUP);
-        }
-#endif
-        if (random_exit) {
-            if (drand() < 0.05) {
+        if (early_exit) {
+            if (nchars>30) {
                 exit(-10);
             }
         }
 
-        if (random_crash) {
-            if (drand() < 0.05) {
-                boinc_sleep(5.0);
+        if (early_crash) {
+            if (nchars>30) {
 #ifdef _WIN32
                 DebugBreak();
+#else
+				*(int*)0 = 0;
 #endif
+
             }
         }
 
-        int flag = boinc_time_to_checkpoint();
-        if (flag) {
+        if (boinc_time_to_checkpoint()) {
             retval = do_checkpoint(out, nchars);
             if (retval) {
                 fprintf(stderr, "APP: upper_case checkpoint failed %d\n", retval);
-                exit(1);
+                exit(retval);
             }
             boinc_checkpoint_completed();
         }
@@ -219,8 +220,8 @@ int main(int argc, char **argv) {
     );
 
     for (i=0; i<argc; i++) {
-        if (!strcmp(argv[i], "-exit")) random_exit = true;
-        if (!strcmp(argv[i], "-crash")) random_crash = true;
+        if (!strcmp(argv[i], "-early_exit")) early_exit = true;
+        if (!strcmp(argv[i], "-early_crash")) early_crash = true;
         if (!strcmp(argv[i], "-run_slow")) run_slow = true;
         if (!strcmp(argv[i], "-cpu_time")) {
             cpu_time = atof(argv[++i]);
