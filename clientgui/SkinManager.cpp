@@ -751,6 +751,12 @@ bool CSkinSimple::InitializeDelayedValidation() {
     m_CloseButton.SetDefaults(
         wxT("close"), (const char**)close_button_xpm, (const char**)close_clicked_button_xpm
     );
+    m_CopyAllButton.SetDefaults(
+        wxT("copy all"), (const char**)copy_all_button_xpm
+    );
+    m_CopyButton.SetDefaults(
+        wxT("copy"), (const char**)copy_button_xpm
+    );
     m_MessagesLink.SetDefaults(
         wxT("messages link"), (const char**)messages_link_image_xpm
     );
