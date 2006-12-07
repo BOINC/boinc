@@ -390,9 +390,7 @@ bool CPanelMessages::OnSaveState(wxConfigBase* pConfig) {
 
     // Which fields are we interested in?
     liColumnInfo.SetMask(
-        wxLIST_MASK_TEXT |
-        wxLIST_MASK_WIDTH |
-        wxLIST_MASK_FORMAT
+        wxLIST_MASK_WIDTH
     );
 
     // Cycle through the columns recording anything interesting
@@ -429,7 +427,7 @@ bool CPanelMessages::OnRestoreState(wxConfigBase* pConfig) {
 
     // Which fields are we interested in?
     liColumnInfo.SetMask(
-        wxLIST_MASK_TEXT | wxLIST_MASK_WIDTH | wxLIST_MASK_FORMAT
+        wxLIST_MASK_WIDTH
     );
 
     // Cycle through the columns recording anything interesting
@@ -441,11 +439,6 @@ bool CPanelMessages::OnRestoreState(wxConfigBase* pConfig) {
         pConfig->Read(wxT("Width"), &iTempValue, -1);
         if (-1 != iTempValue) {
             liColumnInfo.SetWidth(iTempValue);
-        }
-
-        pConfig->Read(wxT("Format"), &iTempValue, -1);
-        if (-1 != iTempValue) {
-            liColumnInfo.SetAlign((wxListColumnFormat)iTempValue);
         }
 
         m_pList->SetColumn(iIndex, liColumnInfo);

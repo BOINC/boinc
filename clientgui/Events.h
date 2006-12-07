@@ -54,12 +54,12 @@
 #define ID_FILECLOSEWINDOW                      6036
 #define ID_SIMPLEFRAME                          6100
 #define ID_SIMPLEMESSAGECHECKTIMER              6101
-#define ID_SIMPLE_MESSAGES                      6500
-#define ID_SIMPLE_MESSAGES_ALERT                6501
-#define ID_SIMPLE_SUSPEND                       6502
-#define ID_SIMPLE_RESUME                        6503
-#define ID_SIMPLE_PREFERENCES                   6504
-#define ID_SIMPLE_MESSAGESVIEW                  6505
+#define ID_SIMPLE_MESSAGES                      6600
+#define ID_SIMPLE_MESSAGES_ALERT                6601
+#define ID_SIMPLE_SUSPEND                       6602
+#define ID_SIMPLE_RESUME                        6603
+#define ID_SIMPLE_PREFERENCES                   6604
+#define ID_SIMPLE_MESSAGESVIEW                  6605
 
 #define ID_TB_TIMER                             6800
 #define ID_TB_SUSPEND                           6801
