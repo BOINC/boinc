@@ -64,6 +64,8 @@
 #include "res/skins/default/graphic/copy_all_clicked_button.xpm"
 #include "res/skins/default/graphic/copy_button.xpm"
 #include "res/skins/default/graphic/copy_clicked_button.xpm"
+#include "res/skins/default/graphic/help_button.xpm"
+#include "res/skins/default/graphic/help_clicked_button.xpm"
 #include "res/skins/default/graphic/messages_link_image.xpm"
 #include "res/skins/default/graphic/messages_alert_link_image.xpm"
 #include "res/skins/default/graphic/suspend_link_image.xpm"
@@ -566,6 +568,7 @@ void CSkinSimple::Clear() {
     m_CloseButton.Clear();
     m_CopyAllButton.Clear();
     m_CopyButton.Clear();
+    m_HelpButton.Clear();
 
     m_DialogBackgroundImage.Clear();
 
@@ -655,6 +658,9 @@ int CSkinSimple::Parse(MIOFILE& in) {
             continue;
         } else if (match_tag(buf, "<copy_button>")) {
             m_CopyButton.Parse(in);
+            continue;
+        } else if (match_tag(buf, "<help_button>")) {
+            m_HelpButton.Parse(in);
             continue;
         } else if (match_tag(buf, "<messages_link_image>")) {
             m_MessagesLink.Parse(in);
@@ -758,6 +764,9 @@ bool CSkinSimple::InitializeDelayedValidation() {
     );
     m_CopyButton.SetDefaults(
         wxT("copy"), (const char**)copy_button_xpm, (const char**)copy_clicked_button_xpm
+    );
+    m_HelpButton.SetDefaults(
+        wxT("help"), (const char**)help_button_xpm, (const char**)help_clicked_button_xpm
     );
     m_MessagesLink.SetDefaults(
         wxT("messages link"), (const char**)messages_link_image_xpm

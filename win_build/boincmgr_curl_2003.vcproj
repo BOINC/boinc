@@ -474,6 +474,12 @@
 							RelativePath="..\clientgui\res\skins\default\graphic\error_indicator_image.xpm">
 						</File>
 						<File
+							RelativePath="..\clientgui\res\skins\default\graphic\help_button.xpm">
+						</File>
+						<File
+							RelativePath="..\clientgui\res\skins\default\graphic\help_clicked_button.xpm">
+						</File>
+						<File
 							RelativePath="..\clientgui\res\skins\default\graphic\left_arrow_button.xpm">
 						</File>
 						<File

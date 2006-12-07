@@ -13174,3 +13174,9 @@ David  7 Dec 2006
         app_control.C
         app_graphics.C
         gui_rpc_server_ops.C
+
+Rom    7 Dec 2006
+    - MGR: Add support for the help button to the skin manager.
+    
+    clientgui/
+        SkinManager.cpp, .h
