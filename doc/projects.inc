@@ -73,14 +73,6 @@ $earth = array(
 
             "cpn_logo_world_1.jpg"
         ),
-        array(
-            "Seasonal Attribution Project",
-            "http://attribution.cpdn.org/",
-            "Oxford University",
-            "Earth sciences",
-            "To determine the extent to which extreme weather events like the United Kingdom floods of Autumn 2000 are attributable to human-induced climate change. We invite you to download and run high-resolution model simulations of the world\'s climate on your own computer. By comparing the results of these simulations, half of which will include the effects of human-induced climate change, and half of which will not, we will investigate the possible impact of human activity on extreme weather risk. This project has fairly high computing requirements, including 1GB RAM.",
-            "cpn_logo_world_1.jpg"
-        ),
     ),
 );
 $astro_phys_chem = array(

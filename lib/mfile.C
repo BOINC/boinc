@@ -57,11 +57,17 @@ int MFILE::open(const char* path, const char* mode) {
     return 0;
 }
 
+#define BUFSIZE 100000
+
 int MFILE::vprintf(const char* format, va_list ap) {
-    char buf2[65536];
+    char buf2[BUFSIZE];
     int n, k;
 
-    k = vsprintf(buf2, format, ap);
+    k = vsnprintf(buf2, BUFSIZE, format, ap);
+    if (k<1 || k>=BUFSIZE) {
+        fprintf(stderr, "ERROR: buffer too small in MFILE::vprintf()\n");
+        return -1;
+    }
     n = (int)strlen(buf2);
     buf = (char*)realloc(buf, len+n+1);
     if (!buf) {

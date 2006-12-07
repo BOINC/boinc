@@ -13180,3 +13180,29 @@ Rom    7 Dec 2006
     
     clientgui/
         SkinManager.cpp, .h
+
+David  7 Dec 2006
+    - change sample_get_project_config.php so that it can be used
+        to get project status.  Its reply will have
+        <sched_stopped>1</sched_stopped>
+            if the scheduler is disabled
+            (note: the project may have no work; no API tells you that)
+        <web_stopped>1</web_stopped>
+            if web access to the DB is disabled
+        (renamed project_is_stopped() to web_stopped() in util.inc;
+        some projects may need to update their home pages accordingly)
+    - core client: use vsnprintf() instead of vsprintf()
+        to protect against buffer overrun
+
+    COPYRIGHT
+    client/
+        cs_scheduler.C
+    html/
+        inc/
+            util.inc
+            xml.inc
+        user/
+            sample_get_project_config.phhp
+            sample_index.php
+    lib/
+        mfile.C

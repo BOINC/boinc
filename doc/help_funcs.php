@@ -25,7 +25,7 @@ function button_image($status) {
 function status_string($status) {
     if ($status==1) return "Offline";
     if ($status==2) return "<font color=00aa00><b>Online</b></font>";
-    if ($status==7) return "Skype Me!";
+    if ($status==7) return "<font color=00aa00><b>Skype Me!</b></font>";
     if ($status==3) return "Away";
     if ($status==4) return "Not available";
     if ($status==5) return "Do not disturb";

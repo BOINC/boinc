@@ -9,7 +9,7 @@ require_once("../inc/translation.inc");
 $generating_xml = false;
 
 function db_init() {
-    if (project_is_stopped()) {
+    if (web_stopped()) {
         page_head("Not available");
         echo "This page requires database access.
             Our database server is temporarily shut down for maintenance.
@@ -458,9 +458,12 @@ function format_credit($x) {
     return number_format($x, 2);
 }
 
-function project_is_stopped() {
-    if (file_exists("../../stop_web")) return true;
-    return false;
+function web_stopped() {
+    return file_exists("../../stop_web");
+}
+
+function sched_stopped() {
+    return file_exists("../../stop_sched");
 }
 
 function user_links($user) {

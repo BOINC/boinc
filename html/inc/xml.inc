@@ -4,7 +4,7 @@ require_once("../inc/db.inc");
 require_once("../inc/util.inc");
 
 function db_init_xml() {
-    if (project_is_stopped()) {
+    if (web_stopped()) {
         return -183;
     }
     $retval = db_init_aux();

@@ -53,7 +53,7 @@ if ($caching) {
     start_cache(INDEX_PAGE_TTL);
 }
 
-$stopped = project_is_stopped();
+$stopped = web_stopped();
 $rssname = PROJECT . " RSS 2.0" ;
 $rsslink = URL_BASE . "rss_main.php";
 

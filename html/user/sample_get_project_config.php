@@ -17,9 +17,10 @@ echo "<project_config>
     <name>$long_name</name>
 ";
 
-if (project_is_stopped()) {
+if (web_stopped()) {
     echo "
         <error_num>-183</error_num>
+        <web_stopped>1</web_stopped>
     ";
 } else {
     if ($disable_account_creation || defined('INVITE_CODES')) {
@@ -32,6 +33,11 @@ if (project_is_stopped()) {
     if ($forum_version) {
         echo "    <forum_version>$forum_version</forum_version>\n";
     }
+}
+if (sched_stopped()) {
+    echo "
+        <sched_stopped>1</sched_stopped>
+    ";
 }
 echo "
 </project_config>
