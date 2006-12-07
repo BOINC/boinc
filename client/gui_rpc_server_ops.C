@@ -485,8 +485,14 @@ static void handle_set_screensaver_mode(char* buf, MIOFILE& fout) {
     parse_str(buf, "<window_station>", gm.window_station, sizeof(gm.window_station));
     parse_str(buf, "<display>", gm.display, sizeof(gm.display));
     if (match_tag(buf, "<enabled")) {
+    	if (log_flags.scrsave_debug) {
+		    msg_printf(NULL, MSG_INFO, "Got start msg from screensaver");
+        }
         gstate.ss_logic.start_ss(gm, blank_time );
     } else {
+    	if (log_flags.scrsave_debug) {
+		    msg_printf(NULL, MSG_INFO, "Got stop msg from screensaver");
+        }
         gstate.ss_logic.stop_ss();
     }
     fout.printf("<success/>\n");

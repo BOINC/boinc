@@ -115,7 +115,8 @@ static double intops_per_cpu_sec = 0;
 static double intops_cumulative = 0;
 static int want_network = 0;
 static int have_network = 1;
-
+bool g_sleep = false;
+	// simulate unresponsive app by setting to true (debugging)
 
 #define TIMER_PERIOD 1
     // period of worker-thread timer interrupts.
@@ -688,6 +689,7 @@ static void handle_process_control_msg() {
 }
 
 static void worker_timer(int /*a*/) {
+	if (g_sleep) return;
     interrupt_count++;
     if (!ready_to_checkpoint) {
         time_until_checkpoint -= TIMER_PERIOD;

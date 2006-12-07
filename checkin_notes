@@ -13055,11 +13055,11 @@ David  1 Dec 2006
            "AutoZoom" - Rigth Mouse Click or change "Project", "ModeView"...
            + Marker (LeftMouseClick)
         2) "Legend" scroll  (button "< Next project" "Prev project >").
-			When very many projects and 15" monitor
-		(from Mifistor)
+            When very many projects and 15" monitor
+        (from Mifistor)
 
-		COMMENT: the zoom features are not obvious.
-		Can we document them in the interface somehow?
+        COMMENT: the zoom features are not obvious.
+        Can we document them in the interface somehow?
 
     clientgui/
         ViewStatistics.cpp,h
@@ -13106,9 +13106,9 @@ David  4 Dec 2006
 
 Reinhard 6 Dec 2006
     configure.ac
-	increased transparancy for glut-test: added extra tests for libXmu and
-	libXi which are prerequisites to the glut-test 
-	==> if glut-test fails because of one of these libs missing, give a warning.
+    increased transparancy for glut-test: added extra tests for libXmu and
+    libXi which are prerequisites to the glut-test 
+    ==> if glut-test fails because of one of these libs missing, give a warning.
 
 Rom    5 Dec 2006
     - BSG: Change the copy and copy all buttons to bitmaps.
@@ -13152,3 +13152,25 @@ Rom    7 Dec 2006
         
     clientgui/
         SkinManager.cpp
+
+David  7 Dec 2006
+    - core client: add "bool restart" arg to kill_task.
+        If true, the process is killed but we arrange to
+        restart it again, instead of erroring out the result.
+        (used when the app is killed because it doesn't respond
+        to stop-screensaver-graphics message)
+        This completes the fix from yesterday.
+    - core client: changed screensaver-mode ack timeout
+        from 2 sec to 3 sec;
+        added some debug messages
+    - API: add bool g_sleep: if you set this to true,
+        timer activities stop (simulate application freezing up).
+
+    api/
+        boinc_api.C,h
+        windows_opengl.C
+    client/
+        app.C,h
+        app_control.C
+        app_graphics.C
+        gui_rpc_server_ops.C

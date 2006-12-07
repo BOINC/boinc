@@ -16,7 +16,6 @@
 #include "config.h"
 #endif
 
-
 #include "diagnostics.h"
 #include "boinc_api.h"
 #include "graphics_api.h"
@@ -24,14 +23,12 @@
 #include "util.h"
 #include "graphics_impl.h"
 
-
 #define BOINC_WINDOW_CLASS_NAME     "BOINC_app"
 #define WM_SHUTDOWNGFX              WM_USER+1
 
 const UINT WM_BOINCSFW = RegisterWindowMessage(TEXT("BOINCSetForegroundWindow"));
 
 static BOOL is_windows_9x = FALSE;
-
 static HDC hDC = NULL;
 static HGLRC hRC = NULL;
 static HWND hWnd = NULL;        // Holds Our Window Handle
@@ -46,7 +43,6 @@ static HWINSTA hOriginalWindowStation = NULL;
 static HDESK hOriginalDesktop = NULL;
 static HWINSTA hInteractiveWindowStation = NULL;
 static HDESK hInteractiveDesktop = NULL;
-
 static bool visible = true;
 static bool window_ready=false;
 static UINT_PTR gfx_timer_id = 0;
@@ -446,6 +442,7 @@ static VOID CALLBACK timer_handler(HWND, UINT, UINT, DWORD) {
     RECT rt;
     int width, height;
     char buf[MSG_CHANNEL_SIZE];
+	if (g_sleep) return;
 
     // check for graphics-related message from core client
     //

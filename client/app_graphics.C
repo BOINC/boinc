@@ -205,13 +205,18 @@ void ACTIVE_TASK_SET::graphics_poll() {
         // If it has not exit after 2 more seconds, kill it.
         //
         if (atp->graphics_mode_ack_timeout) {
+        	if (log_flags.scrsave_debug) {
+				msg_printf(NULL, MSG_INFO, "ack_timeout %f is_ss_app %d acked %d",
+					gstate.now-atp->graphics_mode_acked, atp->is_ss_app, atp->graphics_mode_acked
+				);
+	        }
             if (atp->is_ss_app || (atp->graphics_mode_acked != MODE_FULLSCREEN)) {
                 atp->exit_requested = false;
                 atp->graphics_mode_ack_timeout = 0.0;
             }
         }
         if (atp->graphics_mode_ack_timeout) {
-            if (gstate.now > atp->graphics_mode_ack_timeout + 2.0) {
+            if (gstate.now > atp->graphics_mode_ack_timeout + 3.0) {
                 if (atp->has_task_exited()) {
                     atp->exit_requested = false;
                     atp->graphics_mode_ack_timeout = 0.0;
@@ -235,7 +240,7 @@ void ACTIVE_TASK_SET::graphics_poll() {
                             "%s not responding to screensaver, killing it",
                             atp->app_version->app_name
                         );
-                        atp->kill_task();
+                        atp->kill_task(true);
                     }
                 }
             }

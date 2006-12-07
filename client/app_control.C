@@ -96,14 +96,20 @@ int ACTIVE_TASK::request_abort() {
 
 // Kill the task by OS-specific means.
 //
-int ACTIVE_TASK::kill_task() {
+int ACTIVE_TASK::kill_task(bool restart) {
 #ifdef _WIN32
     TerminateProcess(pid_handle, (UINT)-1);
 #else
     kill(pid, SIGKILL);
 #endif
-    cleanup_task();
-    task_state = PROCESS_ABORTED;
+	if (restart) {
+		task_state = PROCESS_UNINITIALIZED;
+		scheduler_state = CPU_SCHED_PREEMPTED;
+		gstate.request_enforce_schedule("Task restart");
+	} else {
+		cleanup_task();
+		task_state = PROCESS_ABORTED;
+	}
     return 0;
 }
 
@@ -201,6 +207,13 @@ void ACTIVE_TASK::handle_exited_app(int stat) {
                 windows_format_error_string(exit_code, szError, sizeof(szError)),
                 exit_code, exit_code
             );
+			if (log_flags.task_debug) {
+				msg_printf(NULL, MSG_INFO,
+					"Process ended: %s - exit code %d (0x%x)",
+					windows_format_error_string(exit_code, szError, sizeof(szError)),
+					exit_code, exit_code
+				);
+			}
         } else {
             if (pending_suspend_via_quit) {
                 pending_suspend_via_quit = false;
@@ -793,7 +806,7 @@ void ACTIVE_TASK_SET::kill_tasks(PROJECT* proj) {
         atp = active_tasks[i];
         if (proj && atp->wup->project != proj) continue;
         if (!atp->process_exists()) continue;
-        atp->kill_task();
+        atp->kill_task(false);
     }
 }
 

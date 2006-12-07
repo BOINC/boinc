@@ -159,9 +159,11 @@ public:
         // i.e. by sending a <quit> message
     int request_abort();                // send "abort" message
     bool process_exists();
-    int kill_task();
+    int kill_task(bool restart);
         // Kill process forcibly,
         // Unix: send a SIGKILL signal, Windows: TerminateProcess()
+		// if restart is true, arrange for resulted to get restarted;
+		// otherwise it ends with an error
     int suspend();
         // ask a process to stop executing (but stay in mem)
         // Done by sending it a <suspend> message
