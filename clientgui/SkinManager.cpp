@@ -61,7 +61,9 @@
 #include "res/skins/default/graphic/close_button.xpm"
 #include "res/skins/default/graphic/close_clicked_button.xpm"
 #include "res/skins/default/graphic/copy_all_button.xpm"
+#include "res/skins/default/graphic/copy_all_clicked_button.xpm"
 #include "res/skins/default/graphic/copy_button.xpm"
+#include "res/skins/default/graphic/copy_clicked_button.xpm"
 #include "res/skins/default/graphic/messages_link_image.xpm"
 #include "res/skins/default/graphic/messages_alert_link_image.xpm"
 #include "res/skins/default/graphic/suspend_link_image.xpm"
@@ -752,10 +754,10 @@ bool CSkinSimple::InitializeDelayedValidation() {
         wxT("close"), (const char**)close_button_xpm, (const char**)close_clicked_button_xpm
     );
     m_CopyAllButton.SetDefaults(
-        wxT("copy all"), (const char**)copy_all_button_xpm, (const char**)copy_all_button_xpm
+        wxT("copy all"), (const char**)copy_all_button_xpm, (const char**)copy_all_clicked_button_xpm
     );
     m_CopyButton.SetDefaults(
-        wxT("copy"), (const char**)copy_button_xpm, (const char**)copy_button_xpm
+        wxT("copy"), (const char**)copy_button_xpm, (const char**)copy_clicked_button_xpm
     );
     m_MessagesLink.SetDefaults(
         wxT("messages link"), (const char**)messages_link_image_xpm

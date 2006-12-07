@@ -459,7 +459,13 @@
 							RelativePath="..\clientgui\res\skins\default\graphic\copy_all_button.xpm">
 						</File>
 						<File
+							RelativePath="..\clientgui\res\skins\default\graphic\copy_all_clicked_button.xpm">
+						</File>
+						<File
 							RelativePath="..\clientgui\res\skins\default\graphic\copy_button.xpm">
+						</File>
+						<File
+							RelativePath="..\clientgui\res\skins\default\graphic\copy_clicked_button.xpm">
 						</File>
 						<File
 							RelativePath="..\clientgui\res\skins\default\graphic\dialog_background_image.xpm">
