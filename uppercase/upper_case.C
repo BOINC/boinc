@@ -67,7 +67,9 @@ using std::string;
 bool run_slow = false;
 bool early_exit = false;
 bool early_crash = false;
+bool early_sleep = false;
 double cpu_time = 20;
+
 
 static void use_some_cpu() {
     double j = 3.14159;
@@ -140,34 +142,32 @@ void worker() {
         perror("open");
         exit(1);
     }
-    while (1) {
+    for (int i=0; ; i++) {
         c = fgetc(infile);
 
         if (c == EOF) break;
         c = toupper(c);
         out._putchar(c);
         nchars++;
-
         if (run_slow) {
             boinc_sleep(1.);
         }
 
-        if (early_exit) {
-            if (nchars>30) {
-                exit(-10);
-            }
+        if (early_exit && i>30) {
+            exit(-10);
         }
 
-        if (early_crash) {
-            if (nchars>30) {
+        if (early_crash && i>30) {
 #ifdef _WIN32
-                DebugBreak();
+            DebugBreak();
 #else
-				*(int*)0 = 0;
+	        *(int*)0 = 0;
 #endif
-
-            }
         }
+        if (early_sleep && i>30) {
+			g_sleep = true;
+			while (1) boinc_sleep(1);
+		}
 
         if (boinc_time_to_checkpoint()) {
             retval = do_checkpoint(out, nchars);
@@ -222,6 +222,7 @@ int main(int argc, char **argv) {
     for (i=0; i<argc; i++) {
         if (!strcmp(argv[i], "-early_exit")) early_exit = true;
         if (!strcmp(argv[i], "-early_crash")) early_crash = true;
+        if (!strcmp(argv[i], "-early_sleep")) early_sleep = true;
         if (!strcmp(argv[i], "-run_slow")) run_slow = true;
         if (!strcmp(argv[i], "-cpu_time")) {
             cpu_time = atof(argv[++i]);

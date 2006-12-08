@@ -158,7 +158,6 @@ static void app_init_camera(double dist) {
 
 void app_graphics_render(int xs, int ys, double time_of_day) {
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-
     mode_unshaded();
     mode_ortho();
     draw_logo();

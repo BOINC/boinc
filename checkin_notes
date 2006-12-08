@@ -239,3 +239,11 @@ David  5 Dec 2006
 
 	uppercase/
 		upper_case.C
+
+David  8 Dec 2006
+	- added -early_sleep option to upper_case
+		(for debugging core client)
+
+	uppercase/
+		uc_graphics.C
+		upper_case.C
