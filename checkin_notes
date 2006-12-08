@@ -13206,3 +13206,9 @@ David  7 Dec 2006
             sample_index.php
     lib/
         mfile.C
+
+Rom    7 Dec 2006
+    - MGR: Merge the run_if_user_active and idle_time_to_run prefernces.
+    
+    clientgui/
+        sg_DlgPreferences.cpp, .h

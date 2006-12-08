@@ -61,7 +61,6 @@ class CTransparentCheckBox;
 #define ID_CONNECTBETWEENEND 10009
 #define ID_MAXDISKUSAGE 10010
 #define ID_MAXCPUUSAGE 10011
-#define ID_WORKWHILEINUSE 10003
 #define ID_WORKWHILEONBATTERY 10005
 #define ID_WORKWHENIDLE 10012
 ////@end control identifiers
@@ -134,9 +133,6 @@ public:
     wxString GetMaxCPUUsage() const { return m_strMaxCPUUsage ; }
     void SetMaxCPUUsage(wxString value) { m_strMaxCPUUsage = value ; }
 
-    bool GetWorkWhileInUse() const { return m_bWorkWhileInUse ; }
-    void SetWorkWhileInUse(bool value) { m_bWorkWhileInUse = value ; }
-
     bool GetWorkWhileOnBattery() const { return m_bWorkWhileOnBattery ; }
     void SetWorkWhileOnBattery(bool value) { m_bWorkWhileOnBattery = value ; }
 
@@ -167,7 +163,6 @@ private:
     wxComboBox* m_ConnectBetweenEndCtrl;
     wxComboBox* m_MaxDiskUsageCtrl;
     wxComboBox* m_MaxCPUUsageCtrl;
-    wxCheckBox* m_WorkWhileInUseCtrl;
     wxCheckBox* m_WorkWhileOnBatteryCtrl;
     wxComboBox* m_WorkWhenIdleCtrl;
     wxString m_strSkinSelector;
@@ -178,7 +173,6 @@ private:
     wxString m_strConnectBetweenEnd;
     wxString m_strMaxDiskUsage;
     wxString m_strMaxCPUUsage;
-    bool m_bWorkWhileInUse;
     bool m_bWorkWhileOnBattery;
     wxString m_strWorkWhenIdle;
 ////@end CPanelPreferences member variables

@@ -241,7 +241,6 @@ bool CPanelPreferences::Create()
     m_ConnectBetweenEndCtrl = NULL;
     m_MaxDiskUsageCtrl = NULL;
     m_MaxCPUUsageCtrl = NULL;
-    m_WorkWhileInUseCtrl = NULL;
     m_WorkWhileOnBatteryCtrl = NULL;
     m_WorkWhenIdleCtrl = NULL;
 ////@end CPanelPreferences member initialisation
@@ -420,19 +419,6 @@ void CPanelPreferences::CreateControls()
     itemStaticText33->SetFont(wxFont(SMALL_FONT, wxSWISS, wxNORMAL, wxNORMAL, false, _T("Arial")));
     itemBoxSizer31->Add(itemStaticText33, 0, wxALIGN_CENTER_VERTICAL|wxALL|wxADJUST_MINSIZE, 5);
 
-    CTransparentStaticText* itemStaticText34 = new CTransparentStaticText( itemDialog1, wxID_ANY, _("Do work while in use?"), wxDefaultPosition, wxDefaultSize, wxALIGN_RIGHT );
-    itemStaticText34->SetFont(wxFont(SMALL_FONT, wxSWISS, wxNORMAL, wxNORMAL, false, _T("Arial")));
-    itemStaticText34->Wrap(250);
-    itemFlexGridSizer15->Add(itemStaticText34, 0, wxALIGN_RIGHT|wxALIGN_CENTER_VERTICAL|wxALL|wxADJUST_MINSIZE, 5);
-
-    wxBoxSizer* itemBoxSizer35 = new wxBoxSizer(wxHORIZONTAL);
-    itemFlexGridSizer15->Add(itemBoxSizer35, 0, wxALIGN_LEFT|wxALIGN_CENTER_VERTICAL|wxALL, 0);
-
-    m_WorkWhileInUseCtrl = new wxCheckBox( itemDialog1, ID_WORKWHILEINUSE, _T(""), wxDefaultPosition, wxDefaultSize, wxCHK_2STATE );
-    m_WorkWhileInUseCtrl->SetValue(false);
-    m_WorkWhileInUseCtrl->Enable(false);
-    itemBoxSizer35->Add(m_WorkWhileInUseCtrl, 0, wxALIGN_CENTER_VERTICAL|wxTOP|wxBOTTOM, 5);
-
     CTransparentStaticText* itemStaticText37 = new CTransparentStaticText( itemDialog1, wxID_ANY, _("Do work while on battery?"), wxDefaultPosition, wxDefaultSize, wxALIGN_RIGHT );
     itemStaticText37->SetFont(wxFont(SMALL_FONT, wxSWISS, wxNORMAL, wxNORMAL, false, _T("Arial")));
     itemStaticText37->Wrap(250);
@@ -488,7 +474,6 @@ void CPanelPreferences::CreateControls()
     m_ConnectBetweenEndCtrl->SetValidator( wxGenericValidator(& m_strConnectBetweenEnd) );
     m_MaxDiskUsageCtrl->SetValidator( wxGenericValidator(& m_strMaxDiskUsage) );
     m_MaxCPUUsageCtrl->SetValidator( wxGenericValidator(& m_strMaxCPUUsage) );
-    m_WorkWhileInUseCtrl->SetValidator( wxGenericValidator(& m_bWorkWhileInUse) );
     m_WorkWhileOnBatteryCtrl->SetValidator( wxGenericValidator(& m_bWorkWhileOnBattery) );
     m_WorkWhenIdleCtrl->SetValidator( wxGenericValidator(& m_strWorkWhenIdle) );
 ////@end CPanelPreferences content construction
@@ -613,7 +598,6 @@ bool CPanelPreferences::UpdateControlStates() {
         m_ConnectBetweenEndCtrl->Enable();
         m_MaxDiskUsageCtrl->Enable();
         m_MaxCPUUsageCtrl->Enable();
-        m_WorkWhileInUseCtrl->Enable();
         m_WorkWhileOnBatteryCtrl->Enable();
         m_WorkWhenIdleCtrl->Enable();
 
@@ -631,7 +615,6 @@ bool CPanelPreferences::UpdateControlStates() {
         m_ConnectBetweenEndCtrl->Disable();
         m_MaxDiskUsageCtrl->Disable();
         m_MaxCPUUsageCtrl->Disable();
-        m_WorkWhileInUseCtrl->Disable();
         m_WorkWhileOnBatteryCtrl->Disable();
         m_WorkWhenIdleCtrl->Disable();
     }
@@ -788,9 +771,6 @@ bool CPanelPreferences::ReadPreferenceSettings() {
         m_strMaxCPUUsage = astrCPUUsageStrings[iCPUUsageIndex];
     }
 
-    // Do work while computer is in use?
-    m_bWorkWhileInUse = display_global_preferences.run_if_user_active;
-
     // Do work while computer is on battery?
     m_bWorkWhileOnBattery = display_global_preferences.run_on_batteries;
 
@@ -799,7 +779,9 @@ bool CPanelPreferences::ReadPreferenceSettings() {
     wxString strWorkWhenIdle = wxEmptyString;
     int iWorkWhenIdleIndex = 2;
 
-    if (display_global_preferences.idle_time_to_run > 0) {
+    aWorkWhenIdle.Insert(_("0 (Run Always)"), 0);
+
+	if (display_global_preferences.idle_time_to_run > 0) {
         strWorkWhenIdle.Printf(_("%d"), (int)display_global_preferences.idle_time_to_run); 
 
         // Null out strWorkWhenIdle if it is a duplicate
@@ -822,11 +804,18 @@ bool CPanelPreferences::ReadPreferenceSettings() {
     }
 
     m_WorkWhenIdleCtrl->Append(aWorkWhenIdle);
-    if (!strWorkWhenIdle.IsEmpty()) {
-        m_strWorkWhenIdle = strWorkWhenIdle;
-    } else {
-        m_strWorkWhenIdle = aWorkWhenIdle[iWorkWhenIdleIndex];
-    }
+
+	if (display_global_preferences.run_if_user_active) {
+		// run_if_user_active and idle_time_to_run were merged into a single combo
+		//   box. 0 = run if active.
+		m_strWorkWhenIdle = aWorkWhenIdle[0];
+	} else {	
+		if (strWorkWhenIdle.IsEmpty()) {
+			m_strWorkWhenIdle = aWorkWhenIdle[iWorkWhenIdleIndex];
+		} else {
+			m_strWorkWhenIdle = strWorkWhenIdle;
+		}
+	}
 
     // Now make sure the UI is in sync with the settings
     TransferDataToWindow();
@@ -885,17 +874,18 @@ bool CPanelPreferences::SavePreferenceSettings() {
     m_strMaxCPUUsage.ToDouble((double*)&global_preferences_override.cpu_usage_limit);
     global_preferences_mask.cpu_usage_limit = true;        
 
-    // Do work while computer is in use?
-    global_preferences_override.run_if_user_active = m_bWorkWhileInUse;
-    global_preferences_mask.run_if_user_active = true;        
-
     // Do work while computer is on battery?
     global_preferences_override.run_on_batteries = m_bWorkWhileOnBattery;
     global_preferences_mask.run_on_batteries = true;        
 
     // Do work after computer is idle for:
     m_strWorkWhenIdle.ToDouble((double*)&global_preferences_override.idle_time_to_run);
-    global_preferences_mask.idle_time_to_run = true;        
+	if (0 == global_preferences_override.idle_time_to_run) {
+		global_preferences_override.run_if_user_active = true;
+		global_preferences_mask.run_if_user_active = true;        
+	} else {
+		global_preferences_mask.idle_time_to_run = true;
+	}
 
     return true;
 }
