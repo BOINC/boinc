@@ -171,8 +171,6 @@ int ACTIVE_TASK::init(RESULT* rp) {
     max_cpu_time = rp->wup->rsc_fpops_bound/gstate.host_info.p_fpops;
     max_disk_usage = rp->wup->rsc_disk_bound;
     max_mem_usage = rp->wup->rsc_memory_bound;
-    strcpy(process_control_queue.name, rp->name);
-    strcpy(graphics_request_queue.name, rp->name);
     get_slot_dir(slot, slot_dir);
     return 0;
 }
@@ -575,56 +573,82 @@ int ACTIVE_TASK_SET::parse(MIOFILE& fin) {
     return ERR_XML_PARSE;
 }
 
+void MSG_QUEUE::init(char* n) {
+	strcpy(name, n);
+	last_block = 0;
+	msgs.clear();
+}
+
 void MSG_QUEUE::msg_queue_send(const char* msg, MSG_CHANNEL& channel) {
     if ((msgs.size()==0) && channel.send_msg(msg)) {
 		if (log_flags.app_msg_send) {
             msg_printf(NULL, MSG_INFO, "[app_msg_send] sent %s to %s", msg, name);
 		}
-        return;
+        last_block = 0;
+		return;
     }
 	if (log_flags.app_msg_send) {
         msg_printf(NULL, MSG_INFO, "[app_msg_send] deferred %s to %s", msg, name);
 	}
     msgs.push_back(std::string(msg));
+	if (!last_block) last_block = gstate.now;
 }
 
 void MSG_QUEUE::msg_queue_poll(MSG_CHANNEL& channel) {
     if (msgs.size() > 0) {
 		if (log_flags.app_msg_send) {
-			msg_printf(NULL, MSG_INFO, "[app_msg_send] poll: %d msgs queued", (int)msgs.size());
+			msg_printf(NULL, MSG_INFO,
+				"[app_msg_send] poll: %d msgs queued for %s:",
+				(int)msgs.size(), name
+			);
 		}
         if (channel.send_msg(msgs[0].c_str())) {
 			if (log_flags.app_msg_send) {
-				msg_printf(NULL, MSG_INFO, "[app_msg_send] poll: delayed sent %s to %s", (msgs[0].c_str()), name);
+				msg_printf(NULL, MSG_INFO, "[app_msg_send] poll: delayed sent %s", (msgs[0].c_str()));
 			}
             msgs.erase(msgs.begin());
-		} else {
+			last_block = 0;
+		}
+		for (unsigned int i=0; i<msgs.size(); i++) {
 			if (log_flags.app_msg_send) {
-				msg_printf(NULL, MSG_INFO, "[app_msg_send] poll: still deferred: %s to %s", (msgs[0].c_str()), name);
+				msg_printf(NULL, MSG_INFO, "[app_msg_send] poll:  deferred: %s", (msgs[0].c_str()));
 			}
 		}
     }
 }
 
-// delete any queued messages with the given string
+// if the last message in the buffer is "msg", remove it and return 1
 //
 int MSG_QUEUE::msg_queue_purge(const char* msg) {
+	int count = msgs.size();
+	if (!count) return 0;
 	vector<string>::iterator iter = msgs.begin();
-	int count = 0;
-	while (iter != msgs.end()) {
-		if (!strcmp(msg, iter->c_str())) {
-			if (log_flags.app_msg_send) {
-				msg_printf(NULL, MSG_INFO, "[app_msg_send] purged %s", msg);
-			}
-			iter = msgs.erase(iter);
-			count++;
-		} else {
-			iter++;
-		}
+	for (int i=0; i<count-1; i++) {
+		iter++;
 	}
-	return count;
+	if (log_flags.app_msg_send) {
+		msg_printf(NULL, MSG_INFO,
+		    "[app_msg_send] purge: wanted  %s last msg is %s in %s",
+		    msg, iter->c_str(), name
+	    );
+    }
+	if (!strcmp(msg, iter->c_str())) {
+		if (log_flags.app_msg_send) {
+			msg_printf(NULL, MSG_INFO, "[app_msg_send] purged %s from %s", msg, name);
+		}
+		iter = msgs.erase(iter);
+		return 1;
+	}
+	return 0;
 }
 
+bool MSG_QUEUE::timeout(double diff) {
+	if (!last_block) return false;
+	if (gstate.now - last_block > diff) {
+		return true;
+	}
+	return false;
+}
 
 void ACTIVE_TASK_SET::report_overdue() {
     unsigned int i;

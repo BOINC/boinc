@@ -107,9 +107,12 @@ struct SHARED_MEM {
 struct MSG_QUEUE {
     std::vector<std::string> msgs;
     char name[256];
+	double last_block;	// last time we found message channel full
+	void init(char*);
     void msg_queue_send(const char*, MSG_CHANNEL& channel);
     void msg_queue_poll(MSG_CHANNEL& channel);
 	int msg_queue_purge(const char*);
+	bool timeout(double);
 };
 
 #define DEFAULT_FRACTION_DONE_UPDATE_PERIOD     1

@@ -152,22 +152,22 @@ int ACTIVE_TASK::preempt(bool quit_task) {
     // (accommodate apps that never checkpoint)
     //
     if (quit_task && (checkpoint_cpu_time>0)) {
-        pending_suspend_via_quit = true;
-        retval = request_exit();
         if (log_flags.cpu_sched) {
             msg_printf(result->project, MSG_INFO,
                 "[cpu_sched] Preempting %s (removed from memory)",
                 result->name
             );
         }
+        pending_suspend_via_quit = true;
+        retval = request_exit();
     } else {
-        retval = suspend();
         if (log_flags.cpu_sched) {
             msg_printf(result->project, MSG_INFO,
                 "[cpu_sched] Preempting %s (left in memory)",
                 result->name
             );
         }
+        retval = suspend();
     }
     return 0;
 }
@@ -380,9 +380,18 @@ void ACTIVE_TASK_SET::process_control_poll() {
         atp = active_tasks[i];
         if (!atp->process_exists()) continue;
         if (!atp->app_client_shm.shm) continue;
-        atp->process_control_queue.msg_queue_poll(
-            atp->app_client_shm.shm->process_control_request
-        );
+
+		// if app has had the same message in its send buffer for 10 sec,
+		// assume it's hung and restart it
+		//
+		if (atp->process_control_queue.timeout(180)) {
+			msg_printf(NULL, MSG_INFO, "Restarting %s - message timeout", atp->result->name);
+			atp->kill_task(true);
+		} else {
+			atp->process_control_queue.msg_queue_poll(
+				atp->app_client_shm.shm->process_control_request
+			);
+		}
     }
 }
 

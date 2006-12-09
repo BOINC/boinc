@@ -80,6 +80,9 @@ using namespace std;
 // Unless otherwise noted, "CPU time" refers to the sum over all episodes
 // (not counting the part after the last checkpoint in an episode).
 
+// All variables that are accessed by two threads (i.e. worker and timer)
+// MUST be declared volatile.
+
 static APP_INIT_DATA aid;
 static FILE_LOCK file_lock;
 APP_CLIENT_SHM* app_client_shm = 0;
@@ -87,13 +90,13 @@ static volatile int time_until_checkpoint;
     // time until enable checkpoint
 static volatile int time_until_fraction_done_update;
     // time until report fraction done to core client
-static double fraction_done;
-static double last_checkpoint_cpu_time;
-static bool ready_to_checkpoint = false;
-static bool in_critical_section = false;
+static volatile double fraction_done;
+static volatile double last_checkpoint_cpu_time;
+static volatile bool ready_to_checkpoint = false;
+static volatile bool in_critical_section = false;
 static volatile double last_wu_cpu_time;
-static bool standalone          = false;
-static double initial_wu_cpu_time;
+static volatile bool standalone          = false;
+static volatile double initial_wu_cpu_time;
 static volatile bool have_new_trickle_up = false;
 static volatile bool have_trickle_down = true;
     // on first call, scan slot dir for msgs

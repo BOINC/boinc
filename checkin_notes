@@ -13212,3 +13212,39 @@ Rom    7 Dec 2006
     
     clientgui/
         sg_DlgPreferences.cpp, .h
+
+David  8 Dec 2006
+    - API: fixed nasty bug that can result in application
+        being both suspended (worker thread not running)
+        and in a critical section (timer thread
+        ignores messages to wake up worker thread).
+        This is a deadlock; the app will never progress.
+        The problem: bool in_critical_section
+        needs to be declared volatile because it's used by both threads.
+        Why didn't I listen to Bruce Allen when
+        he told me to do this a long time ago?
+    - Core client: deal with apps that stop accepting
+        process control messages (due to the above bug).
+        Several parts to this:
+        - Add a timeout to process control message queue.
+            If 180 seconds elapse with an unread process control
+            message in the send buffer, kill and restart the app.
+            Note: when a process is checkpointing it doesn't
+            handle process control messages,
+            so this timeout needs to be large enough to handle
+            the longest possible checkpoint.
+            I think 180 should be large enough.
+        - Initialize message queues on app (re)start.
+        - MSG_QUEUE::msg_queue_purge() was conceptually messed up.
+            We don't want to purge ALL the messages of the opposite type,
+            just the one at the tail of the queue.
+    Whew!  This one was exhausting.
+
+    api/
+        boinc_api.C
+    client/
+        app.C
+        app_control.C
+        app_start.C
+    lib/
+        app_ipc.h
