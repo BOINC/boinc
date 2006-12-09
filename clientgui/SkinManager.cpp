@@ -1179,6 +1179,9 @@ bool CSkinManager::ReloadSkin(wxLocale* pLocale, wxString strSkin) {
     MIOFILE  mf;
     wxString strDesiredLocale = pLocale->GetCanonicalName();
 
+    // This fixes a (rare) crash bug
+    if (strSkin.IsEmpty()) strSkin = GetDefaultSkinName();
+    
     // Check to make sure that we are not trying to load the skin we
     //   are already using.
     if (m_strSelectedSkin == strSkin) return true;
