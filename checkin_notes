@@ -13248,3 +13248,10 @@ David  8 Dec 2006
         app_start.C
     lib/
         app_ipc.h
+
+Charlie  8 Dec 2006
+    MGR: Make width of preferences dialog combo boxes size automatically 
+        to fit menu items on different platforms.
+        
+    clientgui/
+        sg_DlgPreferences.cpp
