@@ -324,6 +324,17 @@ array('rc.boinc-slackware-linux-latest.txt',
 );
 
 $mac = array(
+array(
+    'http://michaelsprogramming.home.dyndns.org/',
+    'BOINC Statistics',
+    '',
+    'Lets you check BOINC stats from the Mac OS X Dashboard',
+    'http://michaelsprogramming.home.dyndns.org/',
+    '',
+    'Lets you check BOINC stats from the Mac OS X Dashboard;
+    based on the SetiStats widget from UnitedMacs',
+    1165861333
+),
 array('boinc_stat_viewer_1.3.2.zip',
     'Boinc Stat Viewer',
     '',

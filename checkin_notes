@@ -13261,3 +13261,21 @@ Charlie  9 Dec 2006
 
     clientgui/
         SkinManager.cpp
+
+David 11 Dec 2006
+    - core client: preliminary checkin for auto-update functionality.
+        (Note: this will not be enabled by default)
+
+    client/
+        client_state.C,h
+        client_types.C
+        cs_scheduler.C
+        cs_statefile.C
+        file_names.C,h
+        scheduler_op.C,h
+    html/user/
+        language_select.php
+        sample_get_project_config.php
+    lib/
+        common_defs.h
+        gui_rpc_client.h

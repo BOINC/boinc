@@ -819,6 +819,8 @@ int SCHEDULER_REPLY::parse(FILE* in, PROJECT* project) {
             continue;
         } else if (match_tag(buf, "<project_files>")) {
             retval = project->parse_project_files(mf, true);
+        } else if (match_tag(buf, "<auto_update>")) {
+            auto_update.parse(mf);
         } else if (strlen(buf)>1){
             if (log_flags.unparsed_xml) {
                 msg_printf(0, MSG_ERROR,

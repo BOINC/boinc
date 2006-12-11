@@ -30,7 +30,7 @@ echo "
     which is: <b>$prefs</b>.
     You can change this setting using:
     <ul>
-    <li>Mozilla: Tools/Options/General
+    <li>Firefox: Tools/Options/General
     <li>Microsoft IE: Tools/Internet Options/Languages
     </ul>
     <p>

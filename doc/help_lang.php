@@ -98,6 +98,10 @@ function show_vol($vol) {
 }
 
 function show_vols($vols) {
+    echo "<p><font size=-1>
+        You can send email to a volunteer even if they're offline.
+        To do so, click their name.</font>
+    ";
     list_start("border=0");
     list_heading_array(array(
         "Volunteer name<br><font size=2>click to contact</font>",

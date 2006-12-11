@@ -34,6 +34,7 @@
 #include "miofile.h"
 #include "prefs.h"
 #include "hostinfo.h"
+#include "common_defs.h"
 
 struct GUI_URL {
     std::string name;
@@ -267,12 +268,6 @@ public:
     int parse(MIOFILE&);
     void print();
     void clear();
-};
-
-struct VERSION_INFO {
-    int major;
-    int minor;
-    int release;
 };
 
 class CC_STATE {

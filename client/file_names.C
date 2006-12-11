@@ -279,4 +279,13 @@ int set_to_project_group(const char* path) {
         return 0;
 }
 
+void boinc_version_dir(VERSION_INFO& vi, char* buf) {
+    sprintf(buf, "boinc_version_%d_%d_%d", vi.major, vi.minor, vi.release);
+}
+
+bool is_version_dir(char* buf, VERSION_INFO& vi) {
+    int n = sscanf(buf, "boinc_version_%d_%d_%d", &vi.major, &vi.minor, &vi.release);
+    return (n==3);
+}
+
 const char *BOINC_RCSID_7d362a6a52 = "$Id$";

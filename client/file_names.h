@@ -21,6 +21,7 @@
 #define _FILE_NAMES_
 
 #include "client_types.h"
+#include "common_defs.h"
 #include "prefs.h"
 
 // get the pathname (relative to client home dir) of a project file
@@ -48,7 +49,8 @@ extern void get_sched_request_filename(PROJECT&, char*);
 extern void get_sched_reply_filename(PROJECT&, char*);
 extern void get_master_filename(PROJECT&, char*);
 extern int set_to_project_group(const char* path);
-
+extern void boinc_version_dir(VERSION_INFO&, char*);
+extern bool is_version_dir(char*, VERSION_INFO&);
 
 #define PROJECTS_DIR                "projects"
 #define SLOTS_DIR                   "slots"

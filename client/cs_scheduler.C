@@ -1274,6 +1274,10 @@ int CLIENT_STATE::handle_scheduler_reply(
         project->rpc_seqno = 0;
     }
 
+    if (sr.auto_update.present) {
+        sr.auto_update.handle_in_reply(project);
+    }
+
     project->link_project_files(true);
 
     set_client_state_dirty("handle_scheduler_reply");

@@ -1,12 +1,25 @@
 <?
 
 $project_news = array(
+array("December 8, 2006",
+    "<a href=http://boinc.berkeley.edu/images/boinccast.gif><img align=right src=images/boinccast_small.png></a>
+    Olaf Bornack of
+    <a href=http://www.boinc-halle-saale.de/>Team BOINC@Halle/Saale</a>
+    has supplied
+    <a href=http://boinc.berkeley.edu/manager_skin.php#stencils>stencils</a>
+    for creating skins for the new BOINC GUI.
+    These have been used to make skins with
+    <a href=http://boinc.berkeley.edu/images/boinccast.gif>BOINCcast</a>
+    and <a href=http://boinc.berkeley.edu/images/skin_halle_saale.gif>BOINC@Halle/Saale</a> themes.
+    <br clear=all>
+    "
+),
 array("December 6, 2006",
     "Linux users: check out the new
     <a href=http://www.vanheusden.com/boinctail/>BOINCTail</a> add-on."
 ),
 array("December 4, 2006",
-    "BOINC's new <a href=help.php>Online Help system</a>
+    "BOINC's new <a href=http://boinc.berkeley.edu/help.php>Online Help system</a>
     lets you get help from volunteers
     by talking with them using <a href=http://www.skype.com>Skype</a>.
     Volunteers speak several languages."

@@ -498,7 +498,8 @@ int PROJECT::parse_project_files(MIOFILE& in, bool delete_existing_symlinks) {
     
     if (delete_existing_symlinks) {
         // delete current sym links.
-        // This ensures that we get rid of sym links for
+        // This is done when parsing scheduler reply,
+        // to ensure that we get rid of sym links for
         // project files no longer in use
         //
         get_project_dir(this, project_dir);

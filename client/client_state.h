@@ -194,6 +194,10 @@ public:
     double new_version_check_time;
     string newer_version;
 
+// --------------- auto_update.C:
+public:
+    AUTO_UPDATE auto_update;
+
 // --------------- client_state.C:
 public:
     CLIENT_STATE();

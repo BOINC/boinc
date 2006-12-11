@@ -20,6 +20,8 @@
 #ifndef _COMMON_DEFS_
 #define _COMMON_DEFS_
 
+#include "miofile.h"
+
 // #defines or enums that are shared by more than one BOINC component
 // (e.g. client, server, Manager, etc.)
 
@@ -135,5 +137,14 @@ enum SUSPEND_REASON {
 #define RPC_REASON_ACCT_MGR_REQ     5
 #define RPC_REASON_INIT             6
 #define RPC_REASON_PROJECT_REQ      7
+
+struct VERSION_INFO {
+    int major;
+    int minor;
+    int release;
+    int parse(MIOFILE&); 
+    void write(MIOFILE&); 
+    bool greater_than(VERSION_INFO&);
+};
 
 #endif

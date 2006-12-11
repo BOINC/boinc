@@ -7,7 +7,7 @@ of the BOINC Manager simple GUI (available in 5.8+).
 
 <h3>Contents</h3>
 <ul>
-    <li><a href=\"#Skin\">Skin</a>
+    <li><a href=#Skin>Skins</a>
         <ul>
             <li><a href=\"#Localization\">Localization</a>
             <li><a href=\"#Layout\">Layout</a>
@@ -27,11 +27,12 @@ of the BOINC Manager simple GUI (available in 5.8+).
             <li><a href=\"#SimpleLink\">Simple Link</a>
             <li><a href=\"#SimpleButton\">Simple Button</a>
         </ul>
+    <li> <a href=#stencils>Stencils</a>
 </ul>
 
-<h3><a name=\"Skin\">Skin</a></h3>
+<h3><a name=Skin>Skins</a></h3>
 <p>
-Skins allow you to customize how an interface looks.
+Skins allow you to customize how the BOINC Manager looks.
 <p>
 A skin.xml file needs to be created for any customized skin.
 This document describes the layout of the skin.xml file.
@@ -611,6 +612,44 @@ can be any of the following types: PNG, JPG, GIF, and BMP. The image location
 should be specified as a path relative to the skin.xml description file. The
 path seperator should be a '/' for all platforms.
 <p>
+
+<h3><a name=stencils>Stencils</a></h3>
+
+Making skins is simplified with the use of the following 3
+'stencils' (these are transparent GIFs).
+
+<ul>
+<li> To use the templates,
+use a graphical application such as Photoimpact
+that supports objects in multiple layers,
+allowing you to move the templates
+above the appropriate (background-) image to the desired position.
+
+<li> The meaning of the template colours is as follows:
+The green lines / edges serve the positioning of the template
+above the respective (background-) image.
+The area tagged with red lines corresponds to the space
+to cut / paste for sequential images.
+<li> The source for the creation of a skin is an existing,
+complete background image with the size of 410 x 540 pixels.
+<li> Beginning with template_1 (to be moved,
+positioned and copied across the background_image)
+the creation of the workunit_area_background_image
+and the project_area_background_image takes place.
+<li> Now, if desired, the workunit_area_background_image and
+the project_area_background_image can be designed separately
+depending on the desired effects (i.e. transparency).
+
+<li> Subsequently template_2 (by copying, moving or positioning)
+can be used on the background_image, workunit_background_image
+or project_background_image  to achieve the desired effects
+(i.e. transparency) in order to create further desired images
+(i.e. workunit_tab_area_background_image,
+ workunit_gauge_background_image etc.)
+</ul> 
+<p> <img src=images/Stencil_1.gif>
+<p><img src=images/Stencil_2.gif>
+<p><img src=images/Stencil_3.gif>
 
 ";
 page_tail();

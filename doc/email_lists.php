@@ -21,9 +21,7 @@ These email lists do not provide tech support
 for SETI@home or other BOINC projects.
 Help for SETI@home is available on the
 <a href=http://setiathome.berkeley.edu/forum_help_desk.php>SETI@home message boards</a>
-and help for BOINC is available at the
-<a href=dev/>BOINC message boards</a> or the
-<a href=http://boinc-wiki.ath.cx/>BOINC Wiki</a>.
+and help for BOINC is available <a href=help.php>here</a>.
 
 </font></b>
 ";

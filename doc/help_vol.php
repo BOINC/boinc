@@ -91,7 +91,11 @@ function email_contact($vol) {
         won't be able to reply unless you include it</font>",
         input("email_addr", "")
     );
-    list_item("Message", textarea("message", ""));
+    list_item("Subject", input("subject", ""));
+    list_item("Message<br><font size=1>Please including
+        a detailed description of the problem you're experiencing.",
+        textarea("message", "")
+    );
     list_item("", "<input type=submit name=send_email value=OK>");
     list_end();
     echo "</form>
@@ -107,6 +111,7 @@ $uid = session_id();
 
 if ($send_email) {
     $volid = $_GET['volid'];
+    $subject = stripslashes($_GET['subject']);
     $vol = vol_lookup($volid);
     if (!$vol) {
         error_page("No such volunteer $volid");
@@ -119,7 +124,8 @@ if ($send_email) {
     }
     $body .= "\n\n";
     $body .= $msg;
-    mail($vol->email_addr, "BOINC Help request", $body, "From: BOINC");
+    if (!$subject) $subject = "BOINC Help request";
+    mail($vol->email_addr, $subject, $body, "From: BOINC");
     page_head("Message sent");
     echo "Your message has been sent to $vol->name";
     page_tail();

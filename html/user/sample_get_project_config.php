@@ -23,6 +23,7 @@ if (web_stopped()) {
         <web_stopped>1</web_stopped>
     ";
 } else {
+    echo "<web_stopped>0</web_stopped>\n";
     if ($disable_account_creation || defined('INVITE_CODES')) {
         echo "    <account_creation_disabled/>\n";
     }
@@ -35,9 +36,9 @@ if (web_stopped()) {
     }
 }
 if (sched_stopped()) {
-    echo "
-        <sched_stopped>1</sched_stopped>
-    ";
+    echo "<sched_stopped>1</sched_stopped>\n";
+} else {
+    echo "<sched_stopped>0</sched_stopped>\n";
 }
 echo "
 </project_config>

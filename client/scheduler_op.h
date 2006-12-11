@@ -23,6 +23,7 @@
 #include <vector>
 
 #include "client_types.h"
+#include "auto_update.h"
 #include "http_curl.h"
 #include "prefs.h"
 
@@ -120,6 +121,7 @@ struct SCHEDULER_REPLY {
     bool project_is_down;
     bool send_file_list;      
     int scheduler_version;
+    AUTO_UPDATE auto_update;
 
     SCHEDULER_REPLY();
     ~SCHEDULER_REPLY();
