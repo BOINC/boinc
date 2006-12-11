@@ -13267,6 +13267,8 @@ David 11 Dec 2006
         (Note: this will not be enabled by default)
 
     client/
+        Makefile.am
+        auto_update.C,h (new)
         client_state.C,h
         client_types.C
         cs_scheduler.C
