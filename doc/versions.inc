@@ -752,7 +752,8 @@ $linux = array(
     "dbname" => "i686-pc-linux-gnu",
     "url"=>"linux.php",
     "versions"=>array(
-        $l564,
+        $l575,
+        $l5411,
         $l549,
         $l5213,
         $l443,
