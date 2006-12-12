@@ -648,16 +648,33 @@ $m443c = array(
     "
 );
 
-$l564 = array(
-    "num"=>"5.6.4",
+$l575 = array(
+    "num"=>"5.7.5",
     "status"=>"Development version (standard GUI)",
-    "file"=>"boinc_5.6.4_i686-pc-linux-gnu.sh",
-    "date"=>"18 September 2006",
+    "file"=>"boinc_5.7.5_i686-pc-linux-gnu.sh",
+    "date"=>"12 December 2006",
     "type"=>"sea",
     "features"=>"<ul>
-".$features_55."
-".$linux_libs_56."
-".$changes_55."
+    <li>
+     Advanced GUI only
+     </ul>
+".$linux_libs_57."
+".$changes_57."
+    </ul>
+    "
+);
+
+$l5411 = array(
+    "num"=>"5.4.11",
+    "status"=>"Development version (standard GUI)",
+    "file"=>"boinc_5.4.11_i686-pc-linux-gnu.sh",
+    "date"=>"12 December 2006",
+    "type"=>"sea",
+    "features"=>"<ul>
+    <li>
+     Better optimization for benchmarks
+".$features_54."
+".$changes_54."
     </ul>
     "
 );
