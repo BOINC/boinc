@@ -83,20 +83,23 @@ CSimpleFrame::CSimpleFrame(wxString title, wxIcon* icon) :
     // Initialize Application
     SetIcon(*icon);
     
-    m_Shortcuts[0].Set(wxACCEL_ALT, (int)'W', ID_FILECLOSEWINDOW);
-
-	m_pAccelTable = new wxAcceleratorTable(1, m_Shortcuts);
-    SetAcceleratorTable(*m_pAccelTable);
-    
 #ifdef __WXMAC__
     // Clear menubar
     m_pMenubar = new wxMenuBar;
     SetMenuBar(m_pMenubar);
     m_pMenubar->MacInstallMenuBar();
     ::ClearMenuBar();
+    
+    // wxMac maps Command key to wxACCEL_ALT for wxAcceleratorTable but CTRL for wxMenu.
+    m_Shortcuts[0].Set(wxACCEL_ALT, (int)'W', ID_FILECLOSEWINDOW);
+#else
+    m_Shortcuts[0].Set(wxACCEL_CTRL, (int)'W', ID_FILECLOSEWINDOW);
 #endif
 
-	m_pBackgroundPanel = new CSimplePanel(this);
+    m_pAccelTable = new wxAcceleratorTable(1, m_Shortcuts);
+    SetAcceleratorTable(*m_pAccelTable);
+
+    m_pBackgroundPanel = new CSimplePanel(this);
 }
 
 

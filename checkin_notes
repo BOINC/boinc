@@ -13300,7 +13300,10 @@ Rom    11 Dec 2006
 
 Charlie 11 Dec 2006
     - Mac: update XCode project for new auto_update source files.
+    - MGR: fix anomaly in wxMac handling of accelerator table.
 
+    clientgui/
+        sg_BoincSimpleGUI.cpp
     mac_build/
         boinc.xcodeproj/
             project.pbxproj
