@@ -13297,4 +13297,10 @@ Rom    11 Dec 2006
         BOINCBaseFrame.cpp, .h
         sg_BoincSimpleGUI.cpp, .h
         sg_DlgPreferences.cpp
-        
+
+Charlie 11 Dec 2006
+    - Mac: update XCode project for new auto_update source files.
+
+    mac_build/
+        boinc.xcodeproj/
+            project.pbxproj
