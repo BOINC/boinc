@@ -44,8 +44,8 @@ Use the client version number to decide what subsequent RPCs to make
 
 <h2>Authorization</h2>
 <p>
-The RPC protocol allows the GUI program to authenticate itself
-using a password; this is described below.
+GUI RPC authorization is described <a href=gui_rpc_auth.php>here</a>.
+The RPC protocol allows the GUI program to authenticate itself using a password.
 Some of the RPC operations can be done without authentication;
 others can be done without authentication, but only by a GUI program
 running on the same machine.
@@ -325,48 +325,6 @@ They can then do repeated RPCs over this connection.
 Each reply message ends with the character '\\003.
 
 
-<h2>Access control for GUI RPC</h2>
-<p>
-Since GUI RPCs can control the BOINC client
-(e.g. attaching/detaching projects)
-it is important to protect your BOINC client from unauthorized control.
-There are two levels of protection:
-<ul>
-<li> You can associate a password with the client.
-If a password is used,
-GUI RPCs must be authenticated with this password.
-<li> You can restrict RPCs to a limited set of hosts.
-</ul>
-A GUI RPC is handled only if it passes both levels of protection.
-
-<h2>Password protection</h2>
-<p>
-If you place a password in a file <b>gui_rpc_auth.cfg</b>
-in your BOINC directory,
-GUI RPCs must be authenticated using the password.
-<p>
-If this file is not present, there is no password protection.
-
-<h2>Remote host restriction</h2>
-<p>
-By default the core client accepts GUI RPCs only from the same host.
-
-<p>
-You can allow remote hosts to control a core client in two ways:
-<ul>
-<li> If you run the client with the
--allow_remote_gui_rpc command line option,
-it will accept connections from any host.
-This is not recommended unless the host is behind a firewall
-that blocks the GUI RPC port (1043).
-<li>
-You can create
-a file remote_hosts.cfg in your BOINC directory containing 
-a list of allowed DNS host names or IP addresses (one per line).
-Those hosts will be able to connect.
-The remote_hosts.cfg file can have comment lines that start with either a # 
-or a ; character as well.
-</ul>
 ";
 
 page_tail();

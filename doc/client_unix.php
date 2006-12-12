@@ -24,10 +24,10 @@ list_item("<a href=client_msgs.php>cc_config.xml</a>",
     "turn log messages on/off by category,
     and other core client configuration options."
 );
-list_item("<a href=gui_rpc.php>remote_hosts.cfg</a>",
+list_item("<a href=gui_rpc_auth.php>remote_hosts.cfg</a>",
     "hosts from which remote GUI RPCs is allowed"
 );
-list_item("<a href=gui_rpc.php>gui_rpc_auth.cfg</a>",
+list_item("<a href=gui_rpc_auth.php>gui_rpc_auth.cfg</a>",
     "GUI RPC password"
 );
 list_item("<a href=client_startup.php>project_init.xml</a>",

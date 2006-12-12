@@ -7,13 +7,13 @@ include $(top_srcdir)/Makefile.incl
 nslprogs=boinc_cmd$(EXEEXT)
 #endif
 
-bin_PROGRAMS = crypt_prog$(EXEEXT) $(nslprogs)
+bin_PROGRAMS = crypt_prog$(EXEEXT) $(nslprogs) updater$(EXEEXT)
 
 EXTRA_PROGRAMS = md5_test$(EXEEXT) shmem_test$(EXEEXT) msg_test$(EXEEXT)
 
 all-local: client-bin
 
-client-bin: @CLIENT_CMD_BIN_FILENAME@
+client-bin: @CLIENT_CMD_BIN_FILENAME@ @UPDATER_BIN_FILENAME@
 
 boinc_cmd_SOURCES = \
     boinc_cmd.C \
@@ -21,8 +21,20 @@ boinc_cmd_SOURCES = \
 
 boinc_cmd_LDADD = $(lib_LIBRARIES) $(PTHREAD_LIBS)
 
+updater_SOURCES = \
+    updater.C
+
+updater_LDADD = $(lib_LIBRARIES)
+
 # make a hard link to the client name.
 @CLIENT_CMD_BIN_FILENAME@: boinc_cmd$(EXEEXT)
+	rm -f $@
+	rm -f $@.unmodified
+	cp $? $@.unmodified
+	@LN@ $? $@
+	@STRIP@ $@
+
+@UPDATER_BIN_FILENAME@: updater$(EXEEXT)
 	rm -f $@
 	rm -f $@.unmodified
 	cp $? $@.unmodified

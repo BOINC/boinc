@@ -13311,3 +13311,10 @@ Charlie 11 Dec 2006
 Rom    12 Dec 2006 (Forked from HEAD)
     - Branch boinc_core_release_5_8 created for the BOINC 5.8 client release.
 
+David  12 Dec 2006
+    - add updater program
+
+    configure.ac
+    lib/
+        Makefile.am
+        updater.C (new)
