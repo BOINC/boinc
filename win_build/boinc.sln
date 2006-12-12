@@ -24,6 +24,8 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "boincmgr", "boincmgr_curl.v
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "libboinc", "libboinc.vcproj", "{E8F6BD7E-461A-4733-B7D8-37B09A099ED8}"
 EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "updater", "updater.vcproj", "{B865A797-36AF-4059-9D52-8FF4F9B132D5}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug (SimpleGUI)|Win32 = Debug (SimpleGUI)|Win32
@@ -80,6 +82,14 @@ Global
 		{E8F6BD7E-461A-4733-B7D8-37B09A099ED8}.Release (SimpleGUI)|Win32.Build.0 = Release (SimpleGUI)|Win32
 		{E8F6BD7E-461A-4733-B7D8-37B09A099ED8}.Release|Win32.ActiveCfg = Release|Win32
 		{E8F6BD7E-461A-4733-B7D8-37B09A099ED8}.Release|Win32.Build.0 = Release|Win32
+		{B865A797-36AF-4059-9D52-8FF4F9B132D5}.Debug (SimpleGUI)|Win32.ActiveCfg = Debug (SimpleGUI)|Win32
+		{B865A797-36AF-4059-9D52-8FF4F9B132D5}.Debug (SimpleGUI)|Win32.Build.0 = Debug (SimpleGUI)|Win32
+		{B865A797-36AF-4059-9D52-8FF4F9B132D5}.Debug|Win32.ActiveCfg = Debug|Win32
+		{B865A797-36AF-4059-9D52-8FF4F9B132D5}.Debug|Win32.Build.0 = Debug|Win32
+		{B865A797-36AF-4059-9D52-8FF4F9B132D5}.Release (SimpleGUI)|Win32.ActiveCfg = Release (SimpleGUI)|Win32
+		{B865A797-36AF-4059-9D52-8FF4F9B132D5}.Release (SimpleGUI)|Win32.Build.0 = Release (SimpleGUI)|Win32
+		{B865A797-36AF-4059-9D52-8FF4F9B132D5}.Release|Win32.ActiveCfg = Release|Win32
+		{B865A797-36AF-4059-9D52-8FF4F9B132D5}.Release|Win32.Build.0 = Release|Win32
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

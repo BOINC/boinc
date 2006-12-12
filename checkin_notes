@@ -13330,3 +13330,6 @@ David  12 Dec 2006
 		scheduler_op.C
 	lib/
 		mfile.C
+	win_build/
+		updater.vcproj (new)
+		boinc.sln
