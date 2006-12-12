@@ -666,24 +666,9 @@ $l575 = array(
 
 $l5411 = array(
     "num"=>"5.4.11",
-    "status"=>"Development version (standard GUI)",
+    "status"=>"Recommended version",
     "file"=>"boinc_5.4.11_i686-pc-linux-gnu.sh",
     "date"=>"12 December 2006",
-    "type"=>"sea",
-    "features"=>"<ul>
-    <li>
-     Better optimization for benchmarks
-".$features_54."
-".$changes_54."
-    </ul>
-    "
-);
-
-$l549 = array(
-    "num"=>"5.4.9",
-    "status"=>"Recommended version",
-    "file"=>"boinc_5.4.9_i686-pc-linux-gnu.sh",
-    "date"=>"5 May 2006",
     "type"=>"sea",
     "features"=>"<ul>
 ".$features_54."
@@ -754,7 +739,6 @@ $linux = array(
     "versions"=>array(
         $l575,
         $l5411,
-        $l549,
         $l5213,
         $l443,
     )
