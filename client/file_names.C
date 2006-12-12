@@ -54,9 +54,13 @@ void get_pathname(FILE_INFO* fip, char* path) {
     // an associated PROJECT.
     //
     if (p) {
-        get_project_dir(p, buf);
-        sprintf(path, "%s/%s", buf, fip->name);
-    } else {
+		if (fip->is_auto_update_file) {
+			boinc_version_dir(*p, gstate.auto_update.version, buf);
+		} else {
+            get_project_dir(p, buf);
+		}
+	    sprintf(path, "%s/%s", buf, fip->name);
+	} else {
         strcpy(path, fip->name);
     }
 }
@@ -279,8 +283,10 @@ int set_to_project_group(const char* path) {
         return 0;
 }
 
-void boinc_version_dir(VERSION_INFO& vi, char* buf) {
-    sprintf(buf, "boinc_version_%d_%d_%d", vi.major, vi.minor, vi.release);
+void boinc_version_dir(PROJECT& p, VERSION_INFO& vi, char* buf) {
+	char projdir[256];
+	get_project_dir(&p, projdir);
+    sprintf(buf, "%s/boinc_version_%d_%d_%d", projdir, vi.major, vi.minor, vi.release);
 }
 
 bool is_version_dir(char* buf, VERSION_INFO& vi) {

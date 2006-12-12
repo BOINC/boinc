@@ -49,7 +49,7 @@ extern void get_sched_request_filename(PROJECT&, char*);
 extern void get_sched_reply_filename(PROJECT&, char*);
 extern void get_master_filename(PROJECT&, char*);
 extern int set_to_project_group(const char* path);
-extern void boinc_version_dir(VERSION_INFO&, char*);
+extern void boinc_version_dir(PROJECT&, VERSION_INFO&, char*);
 extern bool is_version_dir(char*, VERSION_INFO&);
 
 #define PROJECTS_DIR                "projects"

@@ -44,7 +44,7 @@ int AUTO_UPDATE::parse(MIOFILE& in) {
     int retval;
 
     while (in.fgets(buf, 256)) {
-        if (match_tag(buf, "</boinc_update>")) {
+        if (match_tag(buf, "</auto_update>")) {
             return 0;
         } else if (match_tag(buf, "<version>")) {
             version.parse(in);
@@ -80,6 +80,8 @@ void AUTO_UPDATE::write(MIOFILE& out) {
 void AUTO_UPDATE::handle_in_reply(PROJECT* proj) {
     char dir[256], buf[256];
     int retval;
+	unsigned int i;
+	FILE_INFO* fip;
 
     if (gstate.auto_update.present) {
         if (!version.greater_than(gstate.auto_update.version)) {
@@ -96,17 +98,26 @@ void AUTO_UPDATE::handle_in_reply(PROJECT* proj) {
     }
     project = proj;
 
-    // create version directory and prepend to file names
-    //
-    boinc_version_dir(version, dir);
-    retval = boinc_mkdir(dir);
-    if (retval) return;
-    gstate.auto_update = *this;
-    for (unsigned int i=0; i<file_refs.size(); i++) {
+    for (i=0; i<file_refs.size(); i++) {
         FILE_REF& fref = file_refs[i];
-        FILE_INFO* fip = fref.file_info;
-        sprintf(buf, "%s/%s", dir, fip->name);
-    }
+        fip = gstate.lookup_file_info(project, fref.file_name);
+		if (!fip) {
+			msg_printf(project, MSG_ERROR, "missing update file %s", fref.file_name);
+			return;
+		}
+		fref.file_info = fip;
+		fip->is_auto_update_file = true;
+	}
+
+    // create version directory
+    //
+    boinc_version_dir(*project, version, dir);
+    retval = boinc_mkdir(dir);
+	if (retval) {
+		msg_printf(project, MSG_ERROR, "Couldn't make version dir %s", dir);
+		return;
+	}
+    gstate.auto_update = *this;
 }
 
 void AUTO_UPDATE::install() {

@@ -13318,3 +13318,15 @@ David  12 Dec 2006
     lib/
         Makefile.am
         updater.C (new)
+
+David  12 Dec 2006
+	- bug fixes to auto-update
+	- don't print spurious error message in mfile.C
+
+	client/
+		auto_update.C
+		client_types.C,h
+		file_names.C,h
+		scheduler_op.C
+	lib/
+		mfile.C
