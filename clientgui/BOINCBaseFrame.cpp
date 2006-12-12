@@ -54,6 +54,7 @@ BEGIN_EVENT_TABLE (CBOINCBaseFrame, wxFrame)
     EVT_FRAME_INITIALIZED(CBOINCBaseFrame::OnInitialized)
     EVT_FRAME_ALERT(CBOINCBaseFrame::OnAlert)
     EVT_CLOSE(CBOINCBaseFrame::OnClose)
+    EVT_MENU(ID_FILECLOSEWINDOW, CBOINCBaseFrame::OnCloseWindow)
 END_EVENT_TABLE ()
 
 
@@ -282,6 +283,15 @@ void CBOINCBaseFrame::OnClose(wxCloseEvent& event) {
 #endif
 
     wxLogTrace(wxT("Function Start/End"), wxT("CBOINCBaseFrame::OnClose - Function End"));
+}
+
+
+void CBOINCBaseFrame::OnCloseWindow(wxCommandEvent& WXUNUSED(event)) {
+    wxLogTrace(wxT("Function Start/End"), wxT("CBOINCBaseFrame::OnCloseWindow - Function Begin"));
+
+	Close();
+
+	wxLogTrace(wxT("Function Start/End"), wxT("CBOINCBaseFrame::OnCloseWindow - Function End"));
 }
 
 

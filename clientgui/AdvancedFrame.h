@@ -61,9 +61,6 @@ public:
     void OnRunBenchmarks( wxCommandEvent& event );
     void OnSelectComputer( wxCommandEvent& event );
     void OnSwitchGUI( wxCommandEvent& event );
-#ifdef __WXMAC__
-    void OnCloseWindow( wxCommandEvent& event );
-#endif
 
     void OnCommandsRetryCommunications( wxCommandEvent& event );
 

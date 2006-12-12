@@ -57,7 +57,7 @@ public:
 	bool emptyViewInitialized;
 	bool notebookViewInitialized;
 
-        void ReskinInterface();
+    void ReskinInterface();
 	void InitEmptyView();
 	void UpdateEmptyView();
 	void DestroyEmptyView();
@@ -79,7 +79,7 @@ public:
 	wxBitmap *bm39cImg0;
 
 	wxBitmap *btmpIcnSleeping;
-	wxTimer*        m_pFrameRenderTimer;
+	wxTimer* m_pFrameRenderTimer;
 
     DECLARE_EVENT_TABLE()
 
@@ -103,23 +103,26 @@ public:
 
    ~CSimpleFrame();
 
-    void OnConnect(CFrameEvent& event );
-    void OnProjectsAttachToProject();
-#ifdef __WXMAC__
-    void OnCloseWindow( wxCommandEvent& event );
+    void OnHelp( wxHelpEvent& event );
 
-    wxMenuBar* m_pMenubar;
-    wxAcceleratorEntry m_pShortCuts[1];
-    wxAcceleratorTable* m_pAccelTable;
-#endif
+	void OnConnect(CFrameEvent& event );
+    void OnProjectsAttachToProject();
+    void OnReloadSkin( CFrameEvent& event );
 
 private:
     bool SaveState();
     bool RestoreState();
 
 protected:
-    void OnReloadSkin( CFrameEvent& event );
-    CSimplePanel* m_pBackgroundPanel;
+
+#ifdef __WXMAC__
+	wxMenuBar* m_pMenubar;
+#endif
+
+	wxAcceleratorEntry  m_Shortcuts[1];
+    wxAcceleratorTable* m_pAccelTable;
+
+	CSimplePanel* m_pBackgroundPanel;
 
     DECLARE_EVENT_TABLE()
 };

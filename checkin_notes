@@ -13283,3 +13283,18 @@ David 11 Dec 2006
         gui_rpc_client.h
 	win_build/
 		boinc_cli_curl.vcproj
+
+Rom    11 Dec 2006
+    - MGR: Setup 'Help' so that it'll go to a 'manager_links.php' page which
+        can redirect the browser to the correct page based on which view is
+        requested.
+    - MGR: Use wxDefaultSize instead of wxSize(-1, -1) to future proof the
+        code against future versions of wxWidgets.
+    - MGR: Enable the accelerator table in the Simple GUI for all platforms.
+    
+    clientgui/
+        AdvancedFrame.cpp, .h
+        BOINCBaseFrame.cpp, .h
+        sg_BoincSimpleGUI.cpp, .h
+        sg_DlgPreferences.cpp
+        

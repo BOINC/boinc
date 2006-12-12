@@ -159,9 +159,6 @@ BEGIN_EVENT_TABLE (CAdvancedFrame, CBOINCBaseFrame)
     EVT_MENU(ID_FILERUNBENCHMARKS, CAdvancedFrame::OnRunBenchmarks)
     EVT_MENU(ID_FILESELECTCOMPUTER, CAdvancedFrame::OnSelectComputer)
     EVT_MENU(ID_FILESWITCHGUI, CAdvancedFrame::OnSwitchGUI)
-#ifdef __WXMAC__
-    EVT_MENU(ID_FILECLOSEWINDOW, CAdvancedFrame::OnCloseWindow)
-#endif
     EVT_MENU(wxID_EXIT, CAdvancedFrame::OnExit)
     EVT_MENU_RANGE(ID_FILEACTIVITYRUNALWAYS, ID_FILEACTIVITYSUSPEND, CAdvancedFrame::OnActivitySelection)
     EVT_MENU_RANGE(ID_FILENETWORKRUNALWAYS, ID_FILENETWORKSUSPEND, CAdvancedFrame::OnNetworkSelection)
@@ -171,7 +168,7 @@ BEGIN_EVENT_TABLE (CAdvancedFrame, CBOINCBaseFrame)
     EVT_MENU(ID_PROJECTSATTACHPROJECT, CAdvancedFrame::OnProjectsAttachToProject)
     EVT_MENU(ID_COMMANDSRETRYCOMMUNICATIONS, CAdvancedFrame::OnCommandsRetryCommunications)
     EVT_MENU(ID_OPTIONSOPTIONS, CAdvancedFrame::OnOptionsOptions)
-    EVT_HELP(ID_ADVANCEDFRAME, CAdvancedFrame::OnHelp)
+    EVT_HELP(wxID_ANY, CAdvancedFrame::OnHelp)
     EVT_MENU(ID_HELPBOINCMANAGER, CAdvancedFrame::OnHelpBOINCManager)
     EVT_MENU(ID_HELPBOINC, CAdvancedFrame::OnHelpBOINCWebsite)
     EVT_MENU(wxID_ABOUT, CAdvancedFrame::OnHelpAbout)
@@ -302,13 +299,11 @@ bool CAdvancedFrame::CreateMenu() {
     // File menu
     wxMenu *menuFile = new wxMenu;
 
-#ifdef __WXMAC__
     menuFile->Append(
         ID_FILECLOSEWINDOW,
-        _("&Close Window\tCTRL+W"),            // Enable the standard Command-W Mac shortcut to close window
-        _("Close BOINC Manager Window.")
+        _("&Close Window\tCTRL+W"),
+		_("Close BOINC Manager Window.")
     );
-#endif
 
     // %s is the application name
     //    i.e. 'BOINC Manager', 'GridRepublic Manager'
@@ -462,7 +457,7 @@ bool CAdvancedFrame::CreateMenu() {
     // %s is the application name
     //    i.e. 'BOINC Manager', 'GridRepublic Manager'
     strMenuName.Printf(
-        _("&%s\tF1"), 
+        _("&%s"), 
         pSkinAdvanced->GetApplicationName().c_str()
     );
     // %s is the application name
@@ -1048,15 +1043,6 @@ void CAdvancedFrame::OnSwitchGUI(wxCommandEvent& WXUNUSED(event)) {
 }
 
 
-#ifdef __WXMAC__
-// Accept the standard Command-W Mac shortcut to close window
-void CAdvancedFrame::OnCloseWindow(wxCommandEvent& WXUNUSED(event)) {
-    Hide();
-}
-#endif
-
-
-
 void CAdvancedFrame::OnProjectsAttachToAccountManager(wxCommandEvent& WXUNUSED(event)) {
     wxLogTrace(wxT("Function Start/End"), wxT("CAdvancedFrame::OnProjectsAttachToAccountManager - Function Begin"));
 
@@ -1397,13 +1383,12 @@ void CAdvancedFrame::OnHelp(wxHelpEvent& event) {
     wxLogTrace(wxT("Function Start/End"), wxT("CAdvancedFrame::OnHelpBOINCManager - Function Begin"));
 
     if (IsShown()) {
-        if (ID_ADVANCEDFRAME == event.GetId()) {
-            wxString url = wxGetApp().GetSkinManager()->GetAdvanced()->GetCompanyWebsite().c_str();
-            url += wxT("/manager.php");
-            ExecuteBrowserLink(url);
-        } else {
-            event.Skip();
-        }
+		std::string url = wxGetApp().GetSkinManager()->GetAdvanced()->GetCompanyWebsite().c_str();
+		canonicalize_master_url(url);
+
+		wxString wxurl;
+		wxurl.Printf(wxT("%smanager_links.php?target=advanced&controlid=%d"), url.c_str(), event.GetId());
+        ExecuteBrowserLink(wxurl);
     }
 
     wxLogTrace(wxT("Function Start/End"), wxT("CAdvancedFrame::OnHelpBOINCManager - Function End"));
@@ -1414,9 +1399,12 @@ void CAdvancedFrame::OnHelpBOINCManager(wxCommandEvent& WXUNUSED(event)) {
     wxLogTrace(wxT("Function Start/End"), wxT("CAdvancedFrame::OnHelpBOINCManager - Function Begin"));
 
     if (IsShown()) {
-        wxString url = wxGetApp().GetSkinManager()->GetAdvanced()->GetCompanyWebsite().c_str();
-        url += wxT("/manager.php");
-        ExecuteBrowserLink(url);
+		std::string url = wxGetApp().GetSkinManager()->GetAdvanced()->GetCompanyWebsite().c_str();
+		canonicalize_master_url(url);
+
+		wxString wxurl = url.c_str();
+		wxurl += wxT("manager_links.php?target=advanced");
+		ExecuteBrowserLink(wxurl);
     }
 
     wxLogTrace(wxT("Function Start/End"), wxT("CAdvancedFrame::OnHelpBOINCManager - Function End"));

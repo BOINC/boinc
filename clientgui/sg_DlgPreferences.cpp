@@ -350,7 +350,7 @@ void CPanelPreferences::CreateControls()
     itemFlexGridSizer15->Add(itemBoxSizer17, 0, wxALIGN_CENTER_HORIZONTAL|wxALIGN_CENTER_VERTICAL|wxALL, 0);
 
     wxString* m_WorkBetweenBeginCtrlStrings = NULL;
-    m_WorkBetweenBeginCtrl = new wxComboBox( itemDialog1, ID_WORKBETWEENBEGIN, _T(""), wxDefaultPosition, wxSize(-1, -1), 0, m_WorkBetweenBeginCtrlStrings, wxCB_READONLY );
+    m_WorkBetweenBeginCtrl = new wxComboBox( itemDialog1, ID_WORKBETWEENBEGIN, _T(""), wxDefaultPosition, wxDefaultSize, 0, m_WorkBetweenBeginCtrlStrings, wxCB_READONLY );
     m_WorkBetweenBeginCtrl->Enable(false);
     itemBoxSizer17->Add(m_WorkBetweenBeginCtrl, 0, wxALIGN_CENTER_VERTICAL|wxTOP|wxBOTTOM, 5);
 
@@ -359,7 +359,7 @@ void CPanelPreferences::CreateControls()
     itemBoxSizer17->Add(itemStaticText19, 0, wxALIGN_CENTER_VERTICAL|wxALL|wxADJUST_MINSIZE, 5);
 
     wxString* m_WorkBetweenEndCtrlStrings = NULL;
-    m_WorkBetweenEndCtrl = new wxComboBox( itemDialog1, ID_WORKBETWEENEND, _T(""), wxDefaultPosition, wxSize(-1, -1), 0, m_WorkBetweenEndCtrlStrings, wxCB_READONLY );
+    m_WorkBetweenEndCtrl = new wxComboBox( itemDialog1, ID_WORKBETWEENEND, _T(""), wxDefaultPosition, wxDefaultSize, 0, m_WorkBetweenEndCtrlStrings, wxCB_READONLY );
     m_WorkBetweenEndCtrl->Enable(false);
     itemBoxSizer17->Add(m_WorkBetweenEndCtrl, 0, wxALIGN_CENTER_VERTICAL|wxRIGHT|wxTOP|wxBOTTOM, 5);
 
@@ -372,7 +372,7 @@ void CPanelPreferences::CreateControls()
     itemFlexGridSizer15->Add(itemBoxSizer22, 0, wxALIGN_CENTER_HORIZONTAL|wxALIGN_CENTER_VERTICAL|wxALL, 0);
 
     wxString* m_ConnectBetweenBeginCtrlStrings = NULL;
-    m_ConnectBetweenBeginCtrl = new wxComboBox( itemDialog1, ID_CONNECTBETWEENBEGIN, _T(""), wxDefaultPosition, wxSize(-1, -1), 0, m_ConnectBetweenBeginCtrlStrings, wxCB_READONLY );
+    m_ConnectBetweenBeginCtrl = new wxComboBox( itemDialog1, ID_CONNECTBETWEENBEGIN, _T(""), wxDefaultPosition, wxDefaultSize, 0, m_ConnectBetweenBeginCtrlStrings, wxCB_READONLY );
     m_ConnectBetweenBeginCtrl->Enable(false);
     itemBoxSizer22->Add(m_ConnectBetweenBeginCtrl, 0, wxALIGN_CENTER_VERTICAL|wxTOP|wxBOTTOM, 5);
 
@@ -381,7 +381,7 @@ void CPanelPreferences::CreateControls()
     itemBoxSizer22->Add(itemStaticText24, 0, wxALIGN_CENTER_VERTICAL|wxALL|wxADJUST_MINSIZE, 5);
 
     wxString* m_ConnectBetweenEndCtrlStrings = NULL;
-    m_ConnectBetweenEndCtrl = new wxComboBox( itemDialog1, ID_CONNECTBETWEENEND, _T(""), wxDefaultPosition, wxSize(-1, -1), 0, m_ConnectBetweenEndCtrlStrings, wxCB_READONLY );
+    m_ConnectBetweenEndCtrl = new wxComboBox( itemDialog1, ID_CONNECTBETWEENEND, _T(""), wxDefaultPosition, wxDefaultSize, 0, m_ConnectBetweenEndCtrlStrings, wxCB_READONLY );
     m_ConnectBetweenEndCtrl->Enable(false);
     itemBoxSizer22->Add(m_ConnectBetweenEndCtrl, 0, wxALIGN_CENTER_VERTICAL|wxRIGHT|wxTOP|wxBOTTOM, 5);
 
@@ -411,7 +411,7 @@ void CPanelPreferences::CreateControls()
     itemFlexGridSizer15->Add(itemBoxSizer31, 0, wxALIGN_LEFT|wxALIGN_CENTER_VERTICAL|wxALL, 0);
 
     wxString* m_MaxCPUUsageCtrlStrings = NULL;
-    m_MaxCPUUsageCtrl = new wxComboBox( itemDialog1, ID_MAXCPUUSAGE, _T(""), wxDefaultPosition, wxSize(-1, -1), 0, m_MaxCPUUsageCtrlStrings, wxCB_READONLY );
+    m_MaxCPUUsageCtrl = new wxComboBox( itemDialog1, ID_MAXCPUUSAGE, _T(""), wxDefaultPosition, wxDefaultSize, 0, m_MaxCPUUsageCtrlStrings, wxCB_READONLY );
     m_MaxCPUUsageCtrl->Enable(false);
     itemBoxSizer31->Add(m_MaxCPUUsageCtrl, 0, wxALIGN_CENTER_VERTICAL|wxTOP|wxBOTTOM, 5);
 
@@ -452,13 +452,13 @@ void CPanelPreferences::CreateControls()
     wxBoxSizer* itemBoxSizer44 = new wxBoxSizer(wxHORIZONTAL);
     itemBoxSizer2->Add(itemBoxSizer44, 0, wxALIGN_RIGHT|wxALL, 5);
 
-    wxBitmapButton* itemBitmapButton44 = new wxBitmapButton( itemDialog1, wxID_OK, *pSkinSimple->GetSaveButton()->GetBitmap(), wxPoint(120,340),wxSize(57,16), wxBU_AUTODRAW );
+    wxBitmapButton* itemBitmapButton44 = new wxBitmapButton( itemDialog1, wxID_OK, *pSkinSimple->GetSaveButton()->GetBitmap(), wxDefaultPosition, wxDefaultSize, wxBU_AUTODRAW );
 	if ( pSkinSimple->GetSaveButton()->GetBitmapClicked() != NULL ) {
 		itemBitmapButton44->SetBitmapSelected(*pSkinSimple->GetSaveButton()->GetBitmapClicked());
 	}
     itemBoxSizer44->Add(itemBitmapButton44, 0, wxALIGN_CENTER_VERTICAL|wxALL, 5);
 
-    wxBitmapButton* itemBitmapButton45 = new wxBitmapButton( itemDialog1, wxID_CANCEL, *pSkinSimple->GetCancelButton()->GetBitmap(), wxPoint(187,340),wxSize(57,16), wxBU_AUTODRAW );
+    wxBitmapButton* itemBitmapButton45 = new wxBitmapButton( itemDialog1, wxID_CANCEL, *pSkinSimple->GetCancelButton()->GetBitmap(), wxDefaultPosition, wxDefaultSize, wxBU_AUTODRAW );
 	if ( pSkinSimple->GetCancelButton()->GetBitmapClicked() != NULL ) {
 		itemBitmapButton45->SetBitmapSelected(*pSkinSimple->GetCancelButton()->GetBitmapClicked());
 	}

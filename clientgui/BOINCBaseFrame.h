@@ -59,7 +59,8 @@ public:
 
     virtual void        OnAlert( CFrameAlertEvent& event );
     virtual void        OnClose( wxCloseEvent& event );
-    void                OnExit( wxCommandEvent& event );
+    virtual void        OnCloseWindow( wxCommandEvent& event );
+    virtual void        OnExit( wxCommandEvent& event );
     
     int                 GetReminderFrequency() { return m_iReminderFrequency; }
     wxString            GetDialupConnectionName() { return m_strNetworkDialupConnectionName; }

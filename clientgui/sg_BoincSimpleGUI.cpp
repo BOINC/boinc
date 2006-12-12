@@ -55,12 +55,10 @@ IMPLEMENT_DYNAMIC_CLASS(CSimpleFrame, CBOINCBaseFrame)
 
 BEGIN_EVENT_TABLE(CSimpleFrame, CBOINCBaseFrame)
     EVT_SIZE(CSimpleFrame::OnSize)
-    EVT_MENU(wxID_EXIT, CSimpleFrame::OnExit)   // In case we add a menu with EXIT to Simple GUI
+    EVT_MENU(wxID_EXIT, CSimpleFrame::OnExit)
     EVT_FRAME_CONNECT(CSimpleFrame::OnConnect)
+    EVT_HELP(wxID_ANY, CSimpleFrame::OnHelp)
     EVT_FRAME_RELOADSKIN(CSimpleFrame::OnReloadSkin)
-#ifdef __WXMAC__
-    EVT_MENU(ID_FILECLOSEWINDOW, CSimpleFrame::OnCloseWindow)
-#endif
 END_EVENT_TABLE()
 
 CSimpleFrame::CSimpleFrame() {
@@ -85,18 +83,20 @@ CSimpleFrame::CSimpleFrame(wxString title, wxIcon* icon) :
     // Initialize Application
     SetIcon(*icon);
     
-#ifdef __WXMAC__
-    m_pShortCuts[0].Set(wxACCEL_ALT, (int) 'W', ID_FILECLOSEWINDOW);
-    m_pAccelTable = new wxAcceleratorTable(1, m_pShortCuts);
-    SetAcceleratorTable(m_pAccelTable);
+    m_Shortcuts[0].Set(wxACCEL_ALT, (int)'W', ID_FILECLOSEWINDOW);
+
+	m_pAccelTable = new wxAcceleratorTable(1, m_Shortcuts);
+    SetAcceleratorTable(*m_pAccelTable);
     
+#ifdef __WXMAC__
     // Clear menubar
     m_pMenubar = new wxMenuBar;
     SetMenuBar(m_pMenubar);
     m_pMenubar->MacInstallMenuBar();
     ::ClearMenuBar();
 #endif
-    m_pBackgroundPanel = new CSimplePanel(this);
+
+	m_pBackgroundPanel = new CSimplePanel(this);
 }
 
 
@@ -105,10 +105,8 @@ CSimpleFrame::~CSimpleFrame() {
 
 	SaveState();
 
-#ifdef __WXMAC__
     if (m_pAccelTable)
         delete m_pAccelTable;
-#endif
 
     wxLogTrace(wxT("Function Start/End"), wxT("CSimpleFrame::CSimpleFrame - Destructor Function End"));
 }
@@ -205,10 +203,26 @@ bool CSimpleFrame::SaveState() {
 }
 
 
+void CSimpleFrame::OnHelp(wxHelpEvent& event) {
+    wxLogTrace(wxT("Function Start/End"), wxT("CSimpleFrame::OnHelp - Function Begin"));
+
+    if (IsShown()) {
+		std::string url = wxGetApp().GetSkinManager()->GetAdvanced()->GetCompanyWebsite().c_str();
+		canonicalize_master_url(url);
+
+		wxString wxurl;
+		wxurl.Printf(wxT("%smanager_links.php?target=simple&controlid=%d"), url.c_str(), event.GetId());
+        ExecuteBrowserLink(wxurl);
+    }
+
+    wxLogTrace(wxT("Function Start/End"), wxT("CSimpleFrame::OnHelp - Function End"));
+}
+
+
 void CSimpleFrame::OnReloadSkin(CFrameEvent& WXUNUSED(event)) {
     wxLogTrace(wxT("Function Start/End"), wxT("CSimpleFrame::OnReloadSkin - Function Start"));
     
-    m_pBackgroundPanel-> ReskinInterface();
+    m_pBackgroundPanel->ReskinInterface();
 
     wxLogTrace(wxT("Function Start/End"), wxT("CSimpleFrame::OnReloadSkin - Function End"));
 }
@@ -308,14 +322,6 @@ void CSimpleFrame::OnConnect(CFrameEvent& WXUNUSED(event)) {
 
     wxLogTrace(wxT("Function Start/End"), wxT("CSimpleFrame::OnConnect - Function End"));
 }
-
-#ifdef __WXMAC__
-// Accept the standard Command-W Mac shortcut to close window
-void CSimpleFrame::OnCloseWindow(wxCommandEvent& WXUNUSED(event)) {
-    Close();
-}
-#endif
-
 
 
 IMPLEMENT_DYNAMIC_CLASS(CSimplePanel, wxPanel)
