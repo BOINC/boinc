@@ -13264,10 +13264,10 @@ Charlie  9 Dec 2006
 
 David 11 Dec 2006
     - core client: preliminary checkin for auto-update functionality.
-        (Note: this will not be enabled by default)
+        (Note: this feature will not be enabled by default)
 
     client/
-        Makefile.am
+		Makefile.am
         auto_update.C,h (new)
         client_state.C,h
         client_types.C
@@ -13281,3 +13281,5 @@ David 11 Dec 2006
     lib/
         common_defs.h
         gui_rpc_client.h
+	win_build/
+		boinc_cli_curl.vcproj

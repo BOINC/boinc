@@ -528,6 +528,10 @@
 				>
 			</File>
 			<File
+				RelativePath="..\client\auto_update.C"
+				>
+			</File>
+			<File
 				RelativePath="..\client\check_state.C"
 				>
 			</File>
@@ -1694,6 +1698,10 @@
 			</File>
 			<File
 				RelativePath="..\client\app.h"
+				>
+			</File>
+			<File
+				RelativePath="..\client\auto_update.h"
 				>
 			</File>
 			<File
