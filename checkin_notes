@@ -13355,12 +13355,16 @@ David  12 Dec 2006
 
 Charlie 13 Dec 2006
     - MGR: Fix Compiler warnings.
-    - Mac: Add user preferences file to ReadMe's list of BOINC files.
+    - Mac: Add user preferences file to list of BOINC files in 
+        documentation.
 
     client/
         auto_update.C
     clientgui/
         ViewStatistics.cpp
+    doc/
+        mac_advanced.php
+        release_notes.php
     mac_installer/
         GR-ReadMe.rtf
         ReadMe.rtf
