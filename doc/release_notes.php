@@ -100,8 +100,8 @@ To completely remove (<b>uninstall</b>) BOINC from your Macintosh:
     <ul>
     <li> Move the following files to the trash:
         <ul>
-        <li> <b>BOINCManager.app/</b> (from your <b>/Applications/</b> folder)
-        <li> <b>BOINCSaver.saver/</b> (from your <b>/Library/Screen Savers/</b> folder)  
+        <li> <b>BOINCManager.app</b> (from your <b>/Applications/</b> folder)
+        <li> <b>BOINCSaver.saver</b> (from your <b>/Library/Screen Savers/</b> folder)  
         <li> the <b>BOINC Data/</b> folder (from your<b>/Library/Applications Support/</b> folder.)
         <li> <b>[username]/Library/Preferences/BOINC Manager Preferences</b>) 
         </ul>
