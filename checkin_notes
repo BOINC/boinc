@@ -13378,3 +13378,7 @@ David  13 Dec 2006
     tools/
         Makefile.am
         updater.C (moved from lib/)
+
+David  13 Dec 2006
+	win_build/
+		updater.vcproj
