@@ -57,16 +57,16 @@ $stopped = web_stopped();
 $rssname = PROJECT . " RSS 2.0" ;
 $rsslink = URL_BASE . "rss_main.php";
 
-echo "
+echo '<html>
     <head>
-    <title>".PROJECT."</title>
-    <link rel=stylesheet type=text/css href=white.css>
-    <link rel=alternate type=text/xml title=\"$rssname\" href=\"$rsslink\" />
+    <title>'.PROJECT.'</title>
+    <link rel="stylesheet" type="text/css" href="white.css">
+    <link rel="alternate" type="text/xml" title="'.$rssname.'" href="'.$rsslink.'" />
     </head><body>
-    <h1>".PROJECT."</h1>
-    <table cellpadding=8 cellspacing=4>
-    <tr><td rowspan=2 valign=top width=40%>
-";
+    <h1>'.PROJECT.'</h1>
+    <table cellpadding="8" cellspacing="4">
+    <tr><td rowspan="2" valign="top" width="40%">
+';
 
 if ($stopped) {
     echo "
