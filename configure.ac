@@ -147,7 +147,6 @@ SAH_LINKS
 AC_SUBST([CLIENT_BIN_FILENAME],[boinc${EXEEXT}])
 AC_SUBST([CLIENT_CMD_BIN_FILENAME],[boinccmd${EXEEXT}])
 AC_SUBST([CLIENT_GUI_BIN_FILENAME],[boincmgr${EXEEXT}])
-AC_SUBST([UPDATER_BIN_FILENAME],[_updater${EXEEXT}])
 
 dnl If we're running under cygwin, check whether we want to use X11 or WIN32
 dnl GUI

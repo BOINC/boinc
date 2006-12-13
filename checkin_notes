@@ -13368,3 +13368,13 @@ Charlie 13 Dec 2006
     mac_installer/
         GR-ReadMe.rtf
         ReadMe.rtf
+
+David  13 Dec 2006
+    - moved updater from lib/ to tools/
+
+    configure.ac
+    lib/
+        Makefile.am
+    tools/
+        Makefile.am
+        updater.C (moved from lib/)
