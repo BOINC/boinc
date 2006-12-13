@@ -13329,10 +13329,14 @@ Rom    13 Dec 2006
 Charlie 13 Dec 2006
     - MGR: Fix Compiler warnings.
     - Mac: Undo the XCode project changes checked in on the 11th.
-    - Mac: Add user preferences file to ReadMe's list of BOINC files.
+    - Mac: Add user preferences file to list of BOINC files in 
+        documentation.
 
     clientgui/
         ViewStatistics.cpp
+    doc/
+        mac_advanced.php
+        release_notes.php
     mac_build/
         boinc.xcodeproj/
             project.pbxproj
