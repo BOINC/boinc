@@ -13311,3 +13311,18 @@ Charlie 11 Dec 2006
 Rom    12 Dec 2006 (Forked from HEAD)
     - Branch boinc_core_release_5_8 created for the BOINC 5.8 client release.
 
+Rom    13 Dec 2006
+    - Undue the Auto-Update code David checked in on the 11th.
+    
+    client/
+        client_state.C,h
+        client_types.C
+        cs_scheduler.C
+        cs_statefile.C
+        file_names.C,h
+        scheduler_op.C,h
+
+Rom    22 Nov 2006
+    - Tag for 5.8.0 release, all platforms
+      boinc_core_release_5_8_0
+

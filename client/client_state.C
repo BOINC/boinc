@@ -482,7 +482,6 @@ bool CLIENT_STATE::poll_slow_events() {
 
     ss_logic.poll();
 	check_project_timeout();
-    auto_update.poll();
     POLL_ACTION(active_tasks           , active_tasks.poll      );
     POLL_ACTION(garbage_collect        , garbage_collect        );
     POLL_ACTION(update_results         , update_results         );
@@ -845,15 +844,6 @@ bool CLIENT_STATE::garbage_collect_always() {
         }
     }
 
-    // reference-count auto update files
-    //
-    if (auto_update.present) {
-        for (i=0; i<auto_update.file_refs.size(); i++) {
-            auto_update.file_refs[i].file_info->ref_cnt++;
-        }
-    }
-
-    // Scan through RESULTs.
     // delete RESULTs that have been reported and acked.
     // Check for results whose WUs had download failures
     // Check for results that had upload failures

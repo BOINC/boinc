@@ -196,7 +196,6 @@ public:
 
 // --------------- auto_update.C:
 public:
-    AUTO_UPDATE auto_update;
 
 // --------------- client_state.C:
 public:
