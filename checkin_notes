@@ -13312,7 +13312,7 @@ Rom    12 Dec 2006 (Forked from HEAD)
     - Branch boinc_core_release_5_8 created for the BOINC 5.8 client release.
 
 Rom    13 Dec 2006
-    - Undue the Auto-Update code David checked in on the 11th.
+    - Undo the Auto-Update code David checked in on the 11th.
     
     client/
         client_state.C,h
@@ -13322,7 +13322,20 @@ Rom    13 Dec 2006
         file_names.C,h
         scheduler_op.C,h
 
-Rom    22 Nov 2006
+Rom    13 Dec 2006
     - Tag for 5.8.0 release, all platforms
       boinc_core_release_5_8_0
 
+Charlie 13 Dec 2006
+    - MGR: Fix Compiler warnings.
+    - Mac: Undo the XCode project changes checked in on the 11th.
+    - Mac: Add user preferences file to ReadMe's list of BOINC files.
+
+    clientgui/
+        ViewStatistics.cpp
+    mac_build/
+        boinc.xcodeproj/
+            project.pbxproj
+    mac_installer/
+        GR-ReadMe.rtf
+        ReadMe.rtf

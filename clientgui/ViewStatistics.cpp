@@ -730,7 +730,7 @@ void CPaintStatistics::DrawAxis(wxDC &dc, const double max_val_y, const double m
 			if (y1 < 0) y1 = 0;
 		    dc.DrawLine(x0, y0, x0, y1);
 			x0 = wxCoord(m_Ax_ValToCoord * (x_start_val + nx * d_ox_val) + m_Bx_ValToCoord - (double(w_temp) / 2.0));
-			y0 = m_Graph_Y_end;
+			y0 = (wxCoord)m_Graph_Y_end;
 			if (x0 < 0) x0 = 0;
 			if (y0 < 0) y0 = 0;
 			dc.DrawText(strBuffer1, x0, y0);
@@ -971,13 +971,13 @@ void CPaintStatistics::DrawGraph(wxDC &dc, std::vector<PROJECT*>::const_iterator
 				last_y = wxCoord(d_y1);
 				xpos = wxCoord(d_x2);
 				ypos = wxCoord(d_y2);
-				if (last_x > m_Graph_X_end) last_x = m_Graph_X_end;
+				if (last_x > m_Graph_X_end) last_x = (wxCoord)m_Graph_X_end;
 				if (last_x < 0) last_x = 0;
-				if (last_y > m_Graph_Y_end) last_y = m_Graph_Y_end;
+				if (last_y > m_Graph_Y_end) last_y = (wxCoord)m_Graph_Y_end;
 				if (last_y < 0) last_y = 0;
-				if (xpos > m_Graph_X_end) xpos = m_Graph_X_end;
+				if (xpos > m_Graph_X_end) xpos = (wxCoord)m_Graph_X_end;
 				if (xpos < 0) xpos = 0;
-				if (ypos > m_Graph_Y_end) ypos = m_Graph_Y_end;
+				if (ypos > m_Graph_Y_end) ypos = (wxCoord)m_Graph_Y_end;
 				if (ypos < 0) ypos = 0;
 
 				dc.DrawLine(last_x, last_y, xpos, ypos);
@@ -997,9 +997,9 @@ void CPaintStatistics::DrawGraph(wxDC &dc, std::vector<PROJECT*>::const_iterator
 	if (end_point){
 		xpos = wxCoord(d_end_point_x);
 		ypos = wxCoord(d_end_point_y);
-		if (xpos > m_Graph_X_end) xpos = m_Graph_X_end;
+		if (xpos > m_Graph_X_end) xpos = (wxCoord)m_Graph_X_end;
 		if (xpos < 0) xpos = 0;
-		if (ypos > m_Graph_Y_end) ypos = m_Graph_Y_end;
+		if (ypos > m_Graph_Y_end) ypos = (wxCoord)m_Graph_Y_end;
 		if (ypos < 0) ypos = 0;
 		myDrawPoint(dc, xpos, ypos, graphColour, typePoint ,m_GraphPointWidth);
 	}
