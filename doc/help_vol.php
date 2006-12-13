@@ -9,7 +9,7 @@ $volid = $_GET['volid'];
 $vol = vol_lookup($volid);
 
 function show_info($vol) {
-    $x = "<font size=-1> Country: $vol->country\n";
+    $x = "<span class=note> Country: $vol->country\n";
     if ($vol->availability) {
         $x .= "<br>Usual hours: $vol->availability";
     }
@@ -23,7 +23,7 @@ function show_info($vol) {
         $x .= "<br>Primary language: $vol->lang1";
         $x .= "<br>Secondary language: $vol->lang2";
     }
-    $x .= "</font><p>";
+    $x .= "</span><p>";
     return $x;
 }
 
@@ -53,9 +53,9 @@ function live_contact($vol, $rating) {
 
     echo "
     <p>
-    <font size=-1>Note: BOINC helpers are unpaid volunteers.
+    <span class=note>Note: BOINC helpers are unpaid volunteers.
     Their advise is not endorsed by BOINC
-    or the University of California.</font>
+    or the University of California.</span>
     <hr>
     After the conversation is over, please give us your
     feedback:
@@ -66,7 +66,7 @@ function live_contact($vol, $rating) {
     ";
     list_start();
     list_item(
-        "Rating<br><font size=-2>Would you recommend $vol->name to people seeking help with BOINC?</font>",
+        "Rating<br><span class=note>Would you recommend $vol->name to people seeking help with BOINC?</span>",
         star_select("rating", $rating->rating)
     );
     list_item("Comments", textarea("comment", $rating->comment));
@@ -87,13 +87,13 @@ function email_contact($vol) {
     ";
     list_start();
     list_item(
-        "Your email address<br><font size=-2>Optional, but $vol->name
-        won't be able to reply unless you include it</font>",
+        "Your email address<br><span class=note>Optional, but $vol->name
+        won't be able to reply unless you include it</span>",
         input("email_addr", "")
     );
-    list_item("Subject", input("subject", ""));
-    list_item("Message<br><font size=1>Please including
-        a detailed description of the problem you're experiencing.",
+    list_item("Subject<br><span class=note>Include 'BOINC' in the subject so $vol->name will know it's not spam</span>", input("subject", ""));
+    list_item("Message<br><span class=note>Please including
+        a detailed description of the problem you're experiencing.</span>",
         textarea("message", "")
     );
     list_item("", "<input type=submit name=send_email value=OK>");

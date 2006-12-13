@@ -48,6 +48,11 @@ body {
     color: black;
 }
 
+span.note{
+	font-weight: normal;
+    font-size: 0.9em;
+}
+
 pre {
 	background-color: #d8e8ff;
 }

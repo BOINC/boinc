@@ -24,6 +24,7 @@
 #ifdef _WIN32
 #else
 #include <unistd.h>
+#include <errno.h>
 #endif
 
 #include "filesys.h"
@@ -37,7 +38,7 @@
 #define MANAGER_NAME "boinc_mgr"
 #endif
 
-int launch(char* file) {
+int run_program(char* file, char** argv) {
 #ifdef _WIN32
     PROCESS_INFORMATION process_info;
     STARTUPINFO startup_info;
@@ -59,10 +60,10 @@ int launch(char* file) {
     );
 #else
     int pid = fork();
-    char* argv[1];
     if (pid == 0) {
         chdir(MAIN_DIR);
         execv(file, argv);
+        perror("execv");
     }
 #endif
 }
@@ -89,22 +90,26 @@ int move_to_prev(char* file) {
     return boinc_rename(oldname, newname);
 }
 
-int move_to_main(char* file) {
+int copy_to_main(char* file) {
     char newname[1024];
     sprintf(newname, "%s/%s", MAIN_DIR, file);
-    return boinc_rename(file, newname);
+    return boinc_copy(file, newname);
 }
 
 int main(int argc, char** argv) {
     int i, retval;
     bool run_as_service = false;
+    bool run_core = false;
     bool run_manager = false;
+    char* argv2[10];
 
     for (i=1; i<argc; i++) {
         if (!strcmp(argv[i], "--run_as_service")) {
             run_as_service = true;
         } else if (!strcmp(argv[i], "--run_manager")) {
             run_manager = true;
+        } else if (!strcmp(argv[i], "--run_core")) {
+            run_core = true;
         }
     }
 
@@ -112,8 +117,16 @@ int main(int argc, char** argv) {
     if (retval) exit(retval);
     move_to_prev(CORE_NAME);
     move_to_prev(MANAGER_NAME);
-    move_to_main(CORE_NAME);
-    move_to_main(MANAGER_NAME);
-
-
+    copy_to_main(CORE_NAME);
+    copy_to_main(MANAGER_NAME);
+    if (run_core) {
+        argv2[0] = CORE_NAME;
+        argv2[1] = 0;
+        run_program(CORE_NAME, argv2);
+    }
+    if (run_manager) {
+        argv2[0] = MANAGER_NAME;
+        argv2[1] = 0;
+        run_program(MANAGER_NAME, argv2);
+    }
 }
