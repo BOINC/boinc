@@ -13352,3 +13352,15 @@ David  12 Dec 2006
     lib/
         gui_rpc_client.h
         gui_rpc_client_ops.C
+
+Charlie 13 Dec 2006
+    - MGR: Fix Compiler warnings.
+    - Mac: Add user preferences file to ReadMe's list of BOINC files.
+
+    client/
+        auto_update.C
+    clientgui/
+        ViewStatistics.cpp
+    mac_installer/
+        GR-ReadMe.rtf
+        ReadMe.rtf

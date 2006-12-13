@@ -78,7 +78,7 @@ void AUTO_UPDATE::write(MIOFILE& out) {
 // a scheduler reply included an <auto_update>.  Deal with it.
 //
 void AUTO_UPDATE::handle_in_reply(PROJECT* proj) {
-    char dir[256], buf[256];
+    char dir[256];
     int retval;
 	unsigned int i;
 	FILE_INFO* fip;
