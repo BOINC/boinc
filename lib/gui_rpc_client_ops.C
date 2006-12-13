@@ -958,6 +958,7 @@ int CC_STATUS::parse(MIOFILE& in) {
         if (match_tag(buf, "</cc_status>")) return 0; 
         else if (parse_int(buf, "<network_status>", network_status)) continue;
         else if (parse_bool(buf, "ams_password_error", ams_password_error)) continue;
+        else if (parse_bool(buf, "manager_must_quit", manager_must_quit)) continue;
         else if (parse_int(buf, "<task_suspend_reason>", task_suspend_reason)) continue;
         else if (parse_int(buf, "<network_suspend_reason>", network_suspend_reason)) continue;
         else if (parse_int(buf, "<task_mode>", task_mode)) continue;
@@ -973,6 +974,7 @@ int CC_STATUS::parse(MIOFILE& in) {
 void CC_STATUS::clear() {
     network_status = -1;
     ams_password_error = false;
+    manager_must_quit = false;
     task_suspend_reason = -1;
     network_suspend_reason = -1;
     task_mode = -1;

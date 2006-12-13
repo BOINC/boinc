@@ -13333,3 +13333,22 @@ David  12 Dec 2006
 	win_build/
 		updater.vcproj (new)
 		boinc.sln
+
+David  12 Dec 2006
+    auto-update stuff:
+    - core client: add -launched_by_manager option
+        (so that it knows what to do after auto-update)
+    - GUI RPC: add bool CC_STATUS::manager_must_quit
+        so core client can tell manager to quit
+    - Manager: quit if get the above
+        Note: quit by exit(0); should probably show the user something
+
+    client/
+        client_state.C,h
+        cs_cmdline.C
+    clientgui/
+        BOINCGUIApp.cpp
+        MainDocument.cpp
+    lib/
+        gui_rpc_client.h
+        gui_rpc_client_ops.C

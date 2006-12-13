@@ -54,6 +54,7 @@ static void print_options(char* prog) {
         "    -no_gui_rpc                    don't allow GUI RPC, don't make socket\n"
         "    -daemon                        run as daemon (Unix)\n"
         "    -insecure                      disable BOINC security users and permissions (Unix, Linux)\n"
+        "    -launched_by_manager           core client was launched by Manager\n"
         ,
         prog
     );
@@ -173,6 +174,8 @@ void CLIENT_STATE::parse_cmdline(int argc, char** argv) {
             no_gui_rpc = true;
         } else if (ARG(insecure)) {
             g_use_sandbox = false;
+        } else if (ARG(launched_by_manager)) {
+            launched_by_manager = true;
         } else {
             printf("Unknown option: %s\n", argv[i]);
             show_options = true;

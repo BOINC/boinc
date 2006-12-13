@@ -149,11 +149,12 @@ public:
     bool redirect_io;
         // redirect stdout, stderr to log files
     bool disable_graphics;
-        // a condition has ocurred in which we know graphics will
-        // not be able to be displayed for the user.  So the
-        // manager and any other application should disable the
-        // ability to request graphics in the UI.
+        // a condition has occurred in which we know graphics will
+        // not be displayable.
+        // So GUIs shouldn't offer graphics.
     bool detach_console;
+    bool launched_by_manager;
+        // this affects auto-update
     double now;
     const char* platform_name;
     bool initialized;

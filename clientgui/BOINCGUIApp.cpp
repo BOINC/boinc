@@ -599,7 +599,7 @@ void CBOINCGUIApp::StartupBOINCCore() {
 #ifdef __WXMSW__
 
         // Append boinc.exe to the end of the strExecute string and get ready to rock
-        strExecute = wxT("\"") + strDirectory + wxT("\\boinc.exe\" -redirectio");
+        strExecute = wxT("\"") + strDirectory + wxT("\\boinc.exe\" -redirectio -launched_by_manager");
 
         PROCESS_INFORMATION pi;
         STARTUPINFO         si;
@@ -634,7 +634,7 @@ void CBOINCGUIApp::StartupBOINCCore() {
 #ifndef __WXMAC__
 
         // Append boinc.exe to the end of the strExecute string and get ready to rock
-        strExecute = wxT("./boinc -redirectio");
+        strExecute = wxT("./boinc -redirectio -launched_by_manager");
         if (! g_use_sandbox)
             strExecute += wxT(" -insecure");
         m_lBOINCCoreProcessId = ::wxExecute(strExecute);

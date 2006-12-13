@@ -459,6 +459,11 @@ int CMainDocument::GetCoreClientStatus(CC_STATUS& ccs) {
             iRetVal = rpc.get_cc_status(ccs);
             if (0 == iRetVal) {
                 status = ccs;
+
+                if (ccs.manager_must_quit) {
+                    // should notify user here
+                    exit(0);
+                }
             }
         } else {
             ccs = status;

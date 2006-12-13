@@ -112,6 +112,7 @@ CLIENT_STATE::CLIENT_STATE() {
 #else
     g_use_sandbox = false;
 #endif
+    launched_by_manager = false;
     initialized = false;
 }
 
