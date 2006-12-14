@@ -13408,3 +13408,9 @@ David  13 Dec 2006
 		updater.vcproj
     tools/
         updater.C
+
+Charlie 13 Dec 2006
+    - Mac: remove WCG skin from Mac installer (undo change of 30 Nov.)
+
+    mac_installer/
+        release_boinc.sh
