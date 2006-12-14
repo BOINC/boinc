@@ -1,6 +1,6 @@
 // Berkeley Open Infrastructure for Network Computing
 // http://boinc.berkeley.edu
-// Copyright (C) 2005 University of California
+// Copyright (C) 2006 University of California
 //
 // This is free software; you can redistribute it and/or
 // modify it under the terms of the GNU Lesser General Public
@@ -25,8 +25,7 @@
 /**
  * Find out if we are on a Windows 2000 compatible system
  **/
-EXTERN_C __declspec(dllexport) BOOL IsWindows2000Compatible()
-{
+BOOL IsWindows2000Compatible() {
    OSVERSIONINFO osvi;
    ZeroMemory(&osvi, sizeof(OSVERSIONINFO));
    osvi.dwOSVersionInfoSize = sizeof(OSVERSIONINFO);
@@ -45,8 +44,7 @@ EXTERN_C __declspec(dllexport) BOOL IsWindows2000Compatible()
  * we perform a "lazy" bind to the new product suite
  * APIs that were first introduced on that platform.
  **/
-EXTERN_C __declspec(dllexport) BOOL IsTerminalServicesEnabled()
-{
+BOOL IsTerminalServicesEnabled() {
     BOOL    bResult = FALSE;    // assume Terminal Services is not enabled
 
     DWORD   dwVersion;
@@ -109,8 +107,7 @@ EXTERN_C __declspec(dllexport) BOOL IsTerminalServicesEnabled()
  * to the product suite information stored in the registry.
  * This only works on the Terminal Server 4.0 platform.
  **/
-EXTERN_C __declspec(dllexport) BOOL ValidateProductSuite (LPSTR SuiteName)
-{
+BOOL ValidateProductSuite (LPSTR SuiteName) {
     BOOL rVal = FALSE;
     LONG Rslt;
     HKEY hKey = NULL;

@@ -13414,3 +13414,6 @@ Charlie 13 Dec 2006
 
     mac_installer/
         release_boinc.sh
+
+David  14 Dec 2006
+    - moved clientlib/win/Identification.cpp to lib/win_util.C

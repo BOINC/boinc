@@ -34,6 +34,14 @@ in C/C++ 'Compile As' project properties.
 The BOINC API is implemented in C++.
 Information about using it from C and FORTRAN is
 <a href=fortran.php>here</a>.
+
+<h2>Compression</h2>
+If you release new versions frequently,
+have a large executable,
+and want to conserve server bandwidth,
+you may want to compress your executable.
+The best way to do this is with
+<a href=http://upx.sourceforge.net/>Ultimate Packer for eXecutables (UPX)</a>.
 ";
 page_tail();
 ?>
