@@ -546,6 +546,17 @@ int boinc_make_dirs(const char* dirpath, const char* filepath) {
 }
 
 
+FILE_LOCK::FILE_LOCK() {
+#ifndef _WIN32
+    fd = -1;
+#endif
+}
+FILE_LOCK::~FILE_LOCK() {
+#ifndef _WIN32
+    if (fd >= 0) close(fd);
+#endif
+}
+
 int FILE_LOCK::lock(const char* filename) {
 #if defined(_WIN32) && !defined(__CYGWIN32__)
     handle = CreateFile(
@@ -558,9 +569,11 @@ int FILE_LOCK::lock(const char* filename) {
     return 0;
 
 #else
-    fd = open(
-        filename, O_WRONLY|O_CREAT, S_IRUSR|S_IWUSR|S_IRGRP|S_IROTH
-    );
+    if (fd<0) {
+        fd = open(
+            filename, O_WRONLY|O_CREAT, S_IRUSR|S_IWUSR|S_IRGRP|S_IROTH
+        );
+    }
     if (fd<0) {
         return -1;
     }
@@ -585,10 +598,16 @@ int FILE_LOCK::unlock(const char* filename) {
         perror("FILE_LOCK::unlock(): close failed.");
     }
 #endif
-    if (boinc_delete_file(filename) != 0) {
-        perror("FILE_LOCK::unlock: delete failed.");
-    }
+    boinc_delete_file(filename);
     return 0;
+}
+
+void boinc_getcwd(char* path) {
+#if defined(_WIN32) && !defined(__CYGWIN32__)
+    _getcwd(path, 256);
+#else
+    getcwd(path, 256);
+#endif
 }
 
 void relative_to_absolute(const char* relname, char* path) {

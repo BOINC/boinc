@@ -386,7 +386,7 @@ int initialize() {
     }
 #endif
 
-    retval = wait_client_mutex(10);
+    retval = wait_client_mutex(".", 10);
     if (retval) {
         fprintf(stderr, 
             "Another instance of BOINC is running\n"

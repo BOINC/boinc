@@ -144,6 +144,7 @@ void AUTO_UPDATE::install() {
     unsigned int i;
     FILE_INFO* fip=0;
     char version_dir[1024];
+    char cwd[256];
     char* argv[10];
     int argc;
 
@@ -162,27 +163,54 @@ void AUTO_UPDATE::install() {
         return;
     }
     boinc_version_dir(*project, version, version_dir);
+    boinc_getcwd(cwd);
     argv[0] = fip->name;
-    argv[1] = "--run_core";
-    argv[2] = 0;
-    argc = 2;
+    argv[1] = "--install_dir";
+    argv[2] = cwd;
+    argv[3] = "--run_core";
+    argv[4] = 0;
+    argc = 4;
     run_program(version_dir, fip->name, argc, argv);
     gstate.requested_exit = true;
 }
 
+// When an update is ready to install, we may need to wait a little:
+// 1) If there's a GUI RPC connection from a local screensaver
+//    (i.e. that has done a get_screensaver_mode())
+//    wait for the next get_screensaver_mode() and send it SS_STATUS_QUIT
+// 2) If there's a GUI RPC connection from a GUI
+//    (i.e. that has done a get_cc_status())
+//    wait for the next get_cc_status() and return manager_must_quit = true.
+// Wait an additional 10 seconds in any case
+
 void AUTO_UPDATE::poll() {
     if (!present) return;
     static double last_time = 0;
+    static bool ready_to_install = false;
+    static double quits_sent = 0;
 
     if (gstate.now - last_time < 10) return;
     last_time = gstate.now;
 
-    for (unsigned int i=0; i<file_refs.size(); i++) {
-        FILE_REF& fref = file_refs[i];
-        FILE_INFO* fip = fref.file_info;
-        if (fip->status != FILE_PRESENT) return;
+    if (ready_to_install) {
+        if (quits_sent) {
+            if (gstate.now - quits_sent >= 10) {
+                install();
+            }
+        } else {
+            if (gstate.gui_rpcs.quits_sent()) {
+                quits_sent = gstate.now;
+            }
+        }
+    } else {
+        for (unsigned int i=0; i<file_refs.size(); i++) {
+            FILE_REF& fref = file_refs[i];
+            FILE_INFO* fip = fref.file_info;
+            if (fip->status != FILE_PRESENT) return;
+        }
+        ready_to_install = true;
+        gstate.gui_rpcs.send_quits();
     }
-    install();
 }
 
 int VERSION_INFO::parse(MIOFILE& in) {

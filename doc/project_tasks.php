@@ -98,7 +98,7 @@ list_start();
 list_item("db_dump",
     "Write statistics data to XML files for export.
     Details are <a href=db_dump.php>here</a>.
-    Recommended period: 7 days."
+    Recommended period: 1 day."
 );
 list_item("update_profile_pages.php",
     "Generate HTML files with lists of links to user profiles,

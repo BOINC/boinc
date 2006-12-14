@@ -1281,7 +1281,7 @@ int run_program(char* dir, char* file, int argc, char** argv) {
 #endif
 }
 
-static int get_client_mutex() {
+static int get_client_mutex(char* dir) {
 #ifdef _WIN32
     char buf[MAX_PATH] = "";
     
@@ -1297,18 +1297,21 @@ static int get_client_mutex() {
         return ERR_ALREADY_RUNNING;
     }
 #else
+    char path[1024];
     static FILE_LOCK file_lock;
-    if (file_lock.lock(LOCK_FILE_NAME)) {
+
+    sprintf(path, "%s/%s", dir, LOCK_FILE_NAME);
+    if (file_lock.lock(path)) {
         return ERR_ALREADY_RUNNING;
     }
 #endif
     return 0;
 }
 
-int wait_client_mutex(double timeout) {
+int wait_client_mutex(char* dir, double timeout) {
     double start = dtime();
     while (1) {
-        int retval = get_client_mutex();
+        int retval = get_client_mutex(dir);
         if (!retval) return 0;
         boinc_sleep(1);
         if (dtime() - start > timeout) break;

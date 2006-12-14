@@ -466,8 +466,12 @@ static void handle_get_host_info(char*, MIOFILE& fout) {
     gstate.host_info.write(fout);
 }
 
-static void handle_get_screensaver_mode(char*, MIOFILE& fout) {
+static void handle_get_screensaver_mode(GUI_RPC_CONN* gr, char*, MIOFILE& fout) {
     int ss_result = gstate.ss_logic.get_ss_status();
+    if (gr->au_ss_state = AU_SS_QUIT_REQ) {
+        ss_result = SS_STATUS_QUIT;
+        gr->au_ss_state = AU_SS_QUIT_SENT;
+    }
     fout.printf(
         "<screensaver_mode>\n"
         "    <status>%d</status>\n"
@@ -526,7 +530,7 @@ static void handle_get_statistics(char*, MIOFILE& fout) {
     fout.printf("</statistics>\n");
 }
 
-static void handle_get_cc_status(MIOFILE& fout) {
+static void handle_get_cc_status(GUI_RPC_CONN* gr, MIOFILE& fout) {
     fout.printf(
         "<cc_status>\n"
         "   <network_status>%d</network_status>\n"
@@ -538,8 +542,7 @@ static void handle_get_cc_status(MIOFILE& fout) {
         "   <task_mode_perm>%d</task_mode_perm>\n"
         "   <network_mode_perm>%d</network_mode_perm>\n"
         "   <task_mode_delay>%f</task_mode_delay>\n"
-        "   <network_mode_delay>%f</network_mode_delay>\n"
-        "</cc_status>\n",
+        "   <network_mode_delay>%f</network_mode_delay>\n",
         net_status.network_status(),
         gstate.acct_mgr_info.password_error?1:0,
         gstate.suspend_reason,
@@ -550,6 +553,15 @@ static void handle_get_cc_status(MIOFILE& fout) {
         gstate.network_mode.get_perm(),
 		gstate.run_mode.delay(),
 		gstate.network_mode.delay()
+    );
+    if (gr->au_mgr_state == AU_MGR_QUIT_REQ) {
+        fout.printf(
+            "   <manager_must_quit>1</manager_must_quit>\n"
+        );
+        gr->au_mgr_state = AU_MGR_QUIT_SENT;
+    }
+    fout.printf(
+        "</cc_status>\n"
     );
 }
 
@@ -859,7 +871,7 @@ int GUI_RPC_CONN::handle_rpc() {
         gstate.write_tasks_gui(mf);
         mf.printf("</results>\n");
     } else if (match_tag(request_msg, "<get_screensaver_mode")) {
-        handle_get_screensaver_mode(request_msg, mf);
+        handle_get_screensaver_mode(this, request_msg, mf);
     } else if (match_tag(request_msg, "<set_screensaver_mode")) {
         handle_set_screensaver_mode(request_msg, mf);
     } else if (match_tag(request_msg, "<get_file_transfers")) {
@@ -881,7 +893,7 @@ int GUI_RPC_CONN::handle_rpc() {
     } else if (match_tag(request_msg, "<get_newer_version>")) {
         handle_get_newer_version(mf);
     } else if (match_tag(request_msg, "<get_cc_status")) {
-        handle_get_cc_status(mf);
+        handle_get_cc_status(this, mf);
 
     // Operations that require authentication start here
 

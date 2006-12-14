@@ -13435,3 +13435,34 @@ David  14 Dec 2006
 		boinc_ss.vcproj
 		boincmgr_curl.vcproj
 		libboinc.vcproj
+
+David  14 Dec 2006
+    Further work on auto-update:
+    - add synchronization so that the core client,
+        when it's ready to do an auto-update,
+        arranges for any local Manager and screensaver to exit first.
+        This is done in a slighly kludgy way:
+        any GUI RPC connection that has done a get_screensaver_mode()
+        is assumed to be a screensaver,
+        and we send it a SS_STATUS_QUIT on its next request.
+        Any connection that has done a get_cc_status() is assumed to
+        be a Manager, and we set <manager_must_quit> on the next request.
+        The core client waits until these have been sent,
+        and waits an additional 10 seconds to let the other program exit.
+    - updater: add a mandatory --install_dir argument (don't assume ../../..)
+    - wait_client_mutex(): add a directory argument;
+        the updater needs to acquire the mutex while it's
+        running in a different directory
+    - FILE_LOCK: don't use lots of file descriptors if called repeatedly
+    - util.C: add boinc_getcwd()
+
+    client/
+        auto_update.C
+        gui_rpc_server.C,h
+        gui_rpc_server_ops.C
+        main.C
+    lib/
+        filesys.C,h
+        util.C
+    tools/
+        updater.C

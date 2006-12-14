@@ -19,6 +19,22 @@
 
 #include "network.h"
 
+// FSM states for auto-update
+
+#define AU_SS_INIT          0
+    // no get_screensaver_mode() yet
+#define AU_SS_GOT           1
+    // got a get_screensaver_mode()
+#define AU_SS_QUIT_REQ      2
+    // send a QUIT next time
+#define AU_SS_QUIT_SENT     3
+    // QUIT sent
+
+#define AU_MGR_INIT         0
+#define AU_MGR_GOT          1
+#define AU_MGR_QUIT_REQ     2
+#define AU_MGR_QUIT_SENT    3
+    
 class GUI_RPC_CONN {
 public:
     int sock;
@@ -27,6 +43,9 @@ public:
         // if true, don't allow operations other than authentication
     bool is_local;
         // connection is from local host
+    int au_ss_state;
+    int au_mgr_state;
+
     GUI_RPC_CONN(int);
     ~GUI_RPC_CONN();
     int handle_rpc();
@@ -56,4 +75,6 @@ public:
     int init();
     void close();
     bool recent_rpc_needs_network(double interval);
+    void send_quits();
+    bool quits_sent();
 };
