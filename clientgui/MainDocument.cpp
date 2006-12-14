@@ -461,7 +461,9 @@ int CMainDocument::GetCoreClientStatus(CC_STATUS& ccs) {
                 status = ccs;
 
                 if (ccs.manager_must_quit) {
-                    // should notify user here
+                    // TODO:
+                    // if client is remote, don't do anything
+                    // otherwise notify user and exit
                     exit(0);
                 }
             }
