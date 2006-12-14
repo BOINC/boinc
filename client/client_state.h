@@ -83,9 +83,7 @@ public:
     PROXY_INFO proxy_info;
     GUI_HTTP gui_http;
 
-    int core_client_major_version;
-    int core_client_minor_version;
-    int core_client_release;
+    VERSION_INFO core_client_version;
     string statefile_platform_name;
     int file_xfer_giveup_period;
     MODE run_mode;

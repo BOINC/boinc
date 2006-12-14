@@ -13,7 +13,7 @@ EXTRA_PROGRAMS = md5_test$(EXEEXT) shmem_test$(EXEEXT) msg_test$(EXEEXT)
 
 all-local: client-bin
 
-client-bin: @CLIENT_CMD_BIN_FILENAME@ @UPDATER_BIN_FILENAME@
+client-bin: @CLIENT_CMD_BIN_FILENAME@
 
 boinc_cmd_SOURCES = \
     boinc_cmd.C \

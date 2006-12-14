@@ -357,10 +357,8 @@ int CLIENT_STATE::parse_state_file() {
                 skip_unrecognized(buf, f);
                 continue;
             }
-            retval = auto_update.parse(mf);
-            if (!retval) {
+            if (!auto_update.parse(mf) && !auto_update.validate_and_link(project)) {
                 auto_update.present = true;
-                auto_update.project = project;
             }
         } else {
             if (log_flags.unparsed_xml) {
@@ -396,7 +394,7 @@ int CLIENT_STATE::write_state_file() {
 #endif
     if (retval) {
         msg_printf(0, MSG_ERROR,
-            "Can't open temporary state file: %s %s",
+            "Can't open %s: %s",
             STATE_FILE_NEXT, boincerror(retval)
         );
         return ERR_FOPEN;
@@ -408,11 +406,10 @@ int CLIENT_STATE::write_state_file() {
     if (ret1) return ret1;
     if (ret2) return ret2;
 
-    // only attempt to rename the current state file if it
-    //   exists.
+    // only attempt to rename the current state file if it exists.
     //
     if (boinc_file_exists(STATE_FILE_NAME)) {
-        if(boinc_file_exists(STATE_FILE_PREV)) {
+        if (boinc_file_exists(STATE_FILE_PREV)) {
             retval = boinc_delete_file(STATE_FILE_PREV);
 #ifdef _WIN32
             if (retval) {
@@ -443,7 +440,7 @@ int CLIENT_STATE::write_state_file() {
     }
     if (retval) {
 #ifdef _WIN32
-        if (ERROR_ACCESS_DENIED == retval) {
+        if (retval == ERROR_ACCESS_DENIED) {
             msg_printf(0, MSG_ERROR,
                 "Can't rename state file; access denied; check file and directory permissions"
             );
@@ -455,7 +452,8 @@ int CLIENT_STATE::write_state_file() {
         }
 #else
         msg_printf(0, MSG_ERROR,
-            "Can't rename state file; check file and directory permissions"
+            "Can't rename %s to %s; check file and directory permissions",
+            STATE_FILE_NEXT, STATE_FILE_NAME
         );
 #endif
         return ERR_RENAME;
@@ -515,9 +513,9 @@ int CLIENT_STATE::write_state(MIOFILE& f) {
         "%s"
         "<new_version_check_time>%f</new_version_check_time>\n",
         platform_name,
-        core_client_major_version,
-        core_client_minor_version,
-        core_client_release,
+        core_client_version.major,
+        core_client_version.minor,
+        core_client_version.release,
         run_mode.get_perm(),
         network_mode.get_perm(),
         cpu_benchmarks_pending?"<cpu_benchmarks_pending/>\n":"",
@@ -670,9 +668,9 @@ int CLIENT_STATE::write_state_gui(MIOFILE& f) {
         "<core_client_release>%d</core_client_release>\n"
         "%s",
         platform_name,
-        core_client_major_version,
-        core_client_minor_version,
-        core_client_release,
+        core_client_version.major,
+        core_client_version.minor,
+        core_client_version.release,
         work_fetch_no_new_work?"<work_fetch_no_new_work/>\n":""
     );
 

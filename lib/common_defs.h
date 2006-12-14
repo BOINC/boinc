@@ -147,4 +147,13 @@ struct VERSION_INFO {
     bool greater_than(VERSION_INFO&);
 };
 
+#ifdef _WIN32
+#define RUN_MUTEX           "BoincSingleInstance"
+#define REG_BLANK_NAME      "Blank"
+#define REG_BLANK_TIME      "Blank Time"
+#define REG_STARTUP_NAME    "BOINC"
+#else
+#define LOCK_FILE_NAME              "lockfile"
+#endif
+
 #endif

@@ -279,44 +279,6 @@ static void signal_handler(int signum) {
 }
 #endif
 
-static FILE_LOCK file_lock;
-
-int check_unique_instance() {
-#ifdef _WIN32
-
-    // on Windows, we set a mutex so that only one copy
-    // of the core client can run at a time
-    //
-    BOOL bIsWin2k = FALSE;
-    char buf[MAX_PATH] = "";
-
-    if (g_hClientLibraryDll) {   
-        pfnIsWindows2000Compatible fn;
-        fn = (pfnIsWindows2000Compatible)GetProcAddress(g_hClientLibraryDll, _T("IsWindows2000Compatible"));
-        if (fn) {
-            bIsWin2k = fn();
-        }
-    }
-    
-    // Global mutex on Win2k and later
-    //
-    if (bIsWin2k) {
-        strcpy(buf, "Global\\");
-    }
-    strcat( buf, RUN_MUTEX);
-
-    HANDLE h = CreateMutex(NULL, true, buf);
-    if ((h==0) || (GetLastError() == ERROR_ALREADY_EXISTS)) {
-        return ERR_ALREADY_RUNNING;
-    }
-#else
-    if (file_lock.lock(LOCK_FILE_NAME)) {
-        return ERR_ALREADY_RUNNING;
-    }
-#endif
-    return 0;
-}
-
 static void init_core_client(int argc, char** argv) {
     setbuf(stdout, 0);
     setbuf(stderr, 0);
@@ -425,7 +387,7 @@ int initialize() {
     }
 #endif
 
-    retval = check_unique_instance();
+    retval = wait_client_mutex(10);
     if (retval) {
         fprintf(stderr, 
             "Another instance of BOINC is running\n"

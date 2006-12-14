@@ -1578,9 +1578,9 @@ int RESULT::write(MIOFILE& out, bool to_server) {
         if (to_server) {
             out.printf(
                 "<core_client_version>%d.%d.%d</core_client_version>\n",
-                gstate.core_client_major_version,
-                gstate.core_client_minor_version,
-                gstate.core_client_release
+                gstate.core_client_version.major,
+                gstate.core_client_version.minor,
+                gstate.core_client_version.release
             );
         }
         if (n) {

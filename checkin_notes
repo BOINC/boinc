@@ -13380,5 +13380,31 @@ David  13 Dec 2006
         updater.C (moved from lib/)
 
 David  13 Dec 2006
+    - more debugging of auto-update
+        WOO HOO!  It works in a basic way on Linux.
+    - moved check_unique_instance() (client/main.C)
+        to wait_client_mutex() (lib/util.C)
+        and gave it a timeout argument.
+        Updater needs mutex to wait for client to exit and vice-versa.
+    - added run_program() to util.C.
+    - core client: changed version number vars to VERSION_INFO
+        
+    client/
+        acct_mgr.C
+        acct_setup.C
+        auto_update.C
+        client_state.C,h
+        client_types.C
+        cs_scheduler.C
+        cs_statefile.C
+        main.C
+    lib/
+        Makefile.am
+        common_defs.h
+        util.C,h
+    tools/
+        updater.C
 	win_build/
 		updater.vcproj
+    tools/
+        updater.C

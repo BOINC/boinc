@@ -69,9 +69,9 @@ CLIENT_STATE::CLIENT_STATE() {
     network_suspended = false;
     suspend_reason = 0;
     network_suspend_reason = 0;
-    core_client_major_version = BOINC_MAJOR_VERSION;
-    core_client_minor_version = BOINC_MINOR_VERSION;
-    core_client_release = BOINC_RELEASE;
+    core_client_version.major = BOINC_MAJOR_VERSION;
+    core_client_version.minor = BOINC_MINOR_VERSION;
+    core_client_version.release = BOINC_RELEASE;
     platform_name = HOSTTYPE;
     exit_after_app_start_secs = 0;
     app_started = 0;
@@ -151,8 +151,10 @@ int CLIENT_STATE::init() {
 #endif
     msg_printf(
         NULL, MSG_INFO, "Starting BOINC client version %d.%d.%d for %s%s",
-        core_client_major_version, core_client_minor_version,
-        core_client_release, platform_name, debug_str
+        core_client_version.major,
+        core_client_version.minor,
+        core_client_version.release,
+        platform_name, debug_str
     );
     log_flags.show();
 
@@ -235,15 +237,16 @@ int CLIENT_STATE::init() {
     print_summary();
     do_cmdline_actions();
 
-    if ((core_client_major_version != old_major_version)
-        || (core_client_minor_version != old_minor_version)
-        || (core_client_release != old_release)
+    if ((core_client_version.major != old_major_version)
+        || (core_client_version.minor != old_minor_version)
+        || (core_client_version.release != old_release)
     ) {
         msg_printf(NULL, MSG_INFO,
             "Version change (%d.%d.%d -> %d.%d.%d); running CPU benchmarks\n",
             old_major_version, old_minor_version, old_release,
-            core_client_major_version, core_client_minor_version,
-            core_client_release
+            core_client_version.major,
+            core_client_version.minor,
+            core_client_version.release
         );
         run_cpu_benchmarks = true;
     }

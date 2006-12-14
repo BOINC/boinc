@@ -119,17 +119,6 @@ static inline double drand() {
 
 #include <windows.h>
 
-#define START_SS_MSG		"BOINC_SS_START"
-#define STOP_SS_MSG			"BOINC_SS_END"
-#define SHOW_WIN_MSG		"BOINC_SHOW_MESSAGE"
-#define NET_ACTIVITY_MSG    "BOINC_NET_ACTIVITY"
-
-#define RUN_MUTEX			"BoincSingleInstance"
-#define REG_BLANK_NAME		"Blank"
-#define REG_BLANK_TIME      "Blank Time"
-#define REG_GRID_REPUBLIC   "Grid Republic"
-#define	REG_STARTUP_NAME	"BOINC"
-
 extern char* windows_error_string(char* pszBuf, int iSize);
 extern char* windows_format_error_string(
     unsigned long dwError, char* pszBuf, int iSize
@@ -163,5 +152,8 @@ extern pthread_mutex_t getrusage_mutex;
 extern int lookup_group(char*, gid_t& gid);
 extern int check_security(int use_sandbox, int isManager);
 #endif
+
+extern int run_program(char* path, char* cdir, int argc, char** argv);
+extern int wait_client_mutex(double timeout);
 
 #endif

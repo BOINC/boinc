@@ -104,9 +104,9 @@ int ACCT_MGR_OP::do_rpc(
         name.c_str(), password_hash.c_str(),
         gstate.host_info.host_cpid,
         gstate.host_info.domain_name,
-        gstate.core_client_major_version,
-        gstate.core_client_minor_version,
-        gstate.core_client_release,
+        gstate.core_client_version.major,
+        gstate.core_client_version.minor,
+        gstate.core_client_version.release,
         run_mode_name[gstate.run_mode.get_perm()]
     );
     if (strlen(gstate.acct_mgr_info.previous_host_cpid)) {

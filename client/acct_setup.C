@@ -269,11 +269,11 @@ static bool is_version_newer(char* p) {
     int maj=0, min=0, rel=0;
 
     sscanf(p, "%d.%d.%d", &maj, &min, &rel);
-    if (maj > gstate.core_client_major_version) return true;
-    if (maj < gstate.core_client_major_version) return false;
-    if (min > gstate.core_client_minor_version) return true;
-    if (min < gstate.core_client_minor_version) return false;
-    if (rel > gstate.core_client_release) return true;
+    if (maj > gstate.core_client_version.major) return true;
+    if (maj < gstate.core_client_version.major) return false;
+    if (min > gstate.core_client_version.minor) return true;
+    if (min < gstate.core_client_version.minor) return false;
+    if (rel > gstate.core_client_version.release) return true;
     return false;
 }
 

@@ -1236,4 +1236,89 @@ int lookup_group(char* name, gid_t& gid) {
 }
 #endif
 
+// chdir into the given directory, and run a program there
+// argv is set up Unix-style, i.e. argv[0] is the program name
+//
+int run_program(char* dir, char* file, int argc, char** argv) {
+#ifdef _WIN32
+    PROCESS_INFORMATION process_info;
+    STARTUPINFO startup_info;
+    char cmdline[1024];
+
+    memset(&process_info, 0, sizeof(process_info));
+    memset(&startup_info, 0, sizeof(startup_info));
+             
+    strcpy(cmdline, "");
+    for (i=1; i<argc; i++) {
+        strcat(cmdline, argv[i]);
+        strcat(cmdline, " ");
+    }
+
+    int retval = CreateProcess(
+        path,
+        cmdline,
+        NULL,
+        NULL,
+        FALSE,
+        CREATE_NEW_PROCESS_GROUP,
+        NULL,
+        cdir,
+        &startup_info,
+        &process_info
+    );
+    return retval;
+#else
+    int pid = fork();
+    if (pid == 0) {
+        chdir(dir);
+        execv(file, argv);
+        perror("execv");
+    }
+#endif
+}
+
+static int get_client_mutex() {
+#ifdef _WIN32
+    BOOL bIsWin2k = FALSE;
+    char buf[MAX_PATH] = "";
+
+    if (g_hClientLibraryDll) {   
+        pfnIsWindows2000Compatible fn;
+        fn = (pfnIsWindows2000Compatible)GetProcAddress(g_hClientLibraryDll, _T("IsWindows2000Compatible"));
+        if (fn) {
+            bIsWin2k = fn();
+        }
+    }
+    
+    // Global mutex on Win2k and later
+    //
+    if (bIsWin2k) {
+        strcpy(buf, "Global\\");
+    }
+    strcat( buf, RUN_MUTEX);
+
+    HANDLE h = CreateMutex(NULL, true, buf);
+    if ((h==0) || (GetLastError() == ERROR_ALREADY_EXISTS)) {
+        return ERR_ALREADY_RUNNING;
+    }
+#else
+    static FILE_LOCK file_lock;
+    if (file_lock.lock(LOCK_FILE_NAME)) {
+        return ERR_ALREADY_RUNNING;
+    }
+#endif
+    return 0;
+}
+
+int wait_client_mutex(double timeout) {
+    double start = dtime();
+    while (1) {
+        int retval = get_client_mutex();
+        if (!retval) return 0;
+        boinc_sleep(1);
+        if (dtime() - start > timeout) break;
+    }
+    return ERR_ALREADY_RUNNING;
+}
+
 const char *BOINC_RCSID_ab65c90e1e = "$Id$";

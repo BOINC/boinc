@@ -38,7 +38,7 @@ public:
     AUTO_UPDATE();
     int parse(MIOFILE&);
     void write(MIOFILE&);
-    void handle_in_reply(PROJECT*);
+    int validate_and_link(PROJECT*);
     void install();
     void poll();
 };

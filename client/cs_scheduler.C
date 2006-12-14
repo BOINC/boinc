@@ -290,9 +290,9 @@ int CLIENT_STATE::make_scheduler_request(PROJECT* p) {
         p->hostid,
         p->rpc_seqno,
         p->anonymous_platform?"anonymous":platform_name,
-        core_client_major_version,
-        core_client_minor_version,
-        core_client_release,
+        core_client_version.major,
+        core_client_version.minor,
+        core_client_version.release,
         p->work_request,
         resource_share_fraction,
         rrs_fraction,
@@ -1275,7 +1275,9 @@ int CLIENT_STATE::handle_scheduler_reply(
     }
 
     if (sr.auto_update.present) {
-        sr.auto_update.handle_in_reply(project);
+        if (!sr.auto_update.validate_and_link(project)) {
+            auto_update = sr.auto_update;
+        }
     }
 
     project->link_project_files(true);
