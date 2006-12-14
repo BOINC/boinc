@@ -13331,7 +13331,8 @@ Charlie 13 Dec 2006
     - Mac: Undo the XCode project changes checked in on the 11th.
     - Mac: Add user preferences file to list of BOINC files in 
         documentation.
-
+    - Mac: remove WCG skin from Mac installer (undo change of 30 Nov.)
+    
     clientgui/
         ViewStatistics.cpp
     doc/
@@ -13341,5 +13342,6 @@ Charlie 13 Dec 2006
         boinc.xcodeproj/
             project.pbxproj
     mac_installer/
+        release_boinc.sh
         GR-ReadMe.rtf
         ReadMe.rtf
