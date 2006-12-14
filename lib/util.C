@@ -20,6 +20,9 @@
 #if defined(_WIN32) && !defined(__STDWX_H__) && !defined(_BOINC_WIN_) && !defined(_AFX_STDAFX_H_)
 #include "boinc_win.h"
 #endif
+#ifdef _WIN32
+#include "win_util.h"
+#endif
 
 #ifndef M_LN2
 #define M_LN2      0.693147180559945309417
@@ -1243,17 +1246,18 @@ int run_program(char* dir, char* file, int argc, char** argv) {
 #ifdef _WIN32
     PROCESS_INFORMATION process_info;
     STARTUPINFO startup_info;
-    char cmdline[1024];
+    char cmdline[1024], path[1024];
 
     memset(&process_info, 0, sizeof(process_info));
     memset(&startup_info, 0, sizeof(startup_info));
              
     strcpy(cmdline, "");
-    for (i=1; i<argc; i++) {
+    for (int i=1; i<argc; i++) {
         strcat(cmdline, argv[i]);
         strcat(cmdline, " ");
     }
 
+	sprintf(path, "%s/%s", dir, file);
     int retval = CreateProcess(
         path,
         cmdline,
@@ -1262,7 +1266,7 @@ int run_program(char* dir, char* file, int argc, char** argv) {
         FALSE,
         CREATE_NEW_PROCESS_GROUP,
         NULL,
-        cdir,
+        dir,
         &startup_info,
         &process_info
     );
@@ -1279,20 +1283,11 @@ int run_program(char* dir, char* file, int argc, char** argv) {
 
 static int get_client_mutex() {
 #ifdef _WIN32
-    BOOL bIsWin2k = FALSE;
     char buf[MAX_PATH] = "";
-
-    if (g_hClientLibraryDll) {   
-        pfnIsWindows2000Compatible fn;
-        fn = (pfnIsWindows2000Compatible)GetProcAddress(g_hClientLibraryDll, _T("IsWindows2000Compatible"));
-        if (fn) {
-            bIsWin2k = fn();
-        }
-    }
     
     // Global mutex on Win2k and later
     //
-    if (bIsWin2k) {
+    if (IsWindows2000Compatible()) {
         strcpy(buf, "Global\\");
     }
     strcat( buf, RUN_MUTEX);

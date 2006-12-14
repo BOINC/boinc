@@ -33,7 +33,6 @@ static BOOL g_bIsWin9x = FALSE;
 static bool requested_suspend = false;
 static bool requested_resume = false;
 
-typedef BOOL (*pfnIsWindows2000Compatible)();
 typedef BOOL (CALLBACK* ClientLibraryStartup)();
 typedef void (CALLBACK* ClientLibraryShutdown)();
 #ifndef _T

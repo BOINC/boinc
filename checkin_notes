@@ -13417,3 +13417,21 @@ Charlie 13 Dec 2006
 
 David  14 Dec 2006
     - moved clientlib/win/Identification.cpp to lib/win_util.C
+
+David  14 Dec 2006
+	- got stuff to compile on Windows again
+
+	client/
+		main.C
+	clientlib/win/
+		AuthenticatorDetection.cpp
+		IdleTracker.cpp
+		boinc_dll.cpp
+	lib/
+		util.C
+		win_util.C
+	win_build/
+		boinc_dll.vcproj
+		boinc_ss.vcproj
+		boincmgr_curl.vcproj
+		libboinc.vcproj

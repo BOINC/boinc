@@ -559,6 +559,10 @@
 					/>
 				</FileConfiguration>
 			</File>
+			<File
+				RelativePath="..\lib\win_util.C"
+				>
+			</File>
 		</Filter>
 		<Filter
 			Name="Header Files"

@@ -18,8 +18,13 @@
 // 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 
 
+#ifdef _BOINC_DLL
 #include "stdafx.h"
-#include "Identification.h"
+#else
+#include "boinc_win.h"
+#endif
+#include "win_util.h"
+
 
 
 /**

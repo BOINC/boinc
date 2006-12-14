@@ -20,7 +20,7 @@
 
 #include "stdafx.h"
 #include "resource.h"
-#include "Identification.h"
+#include "win_util.h"
 #include "IdleTracker.h"
 #include "NetworkTracker.h"
 
