@@ -13466,3 +13466,9 @@ David  14 Dec 2006
         util.C
     tools/
         updater.C
+
+Charlie  14 Dec 2006
+    - Fix compiler warning.
+
+    lib/
+        util.C

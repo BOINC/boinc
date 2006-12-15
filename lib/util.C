@@ -1279,6 +1279,7 @@ int run_program(char* dir, char* file, int argc, char** argv) {
         perror("execv");
     }
 #endif
+    return 0;
 }
 
 static int get_client_mutex(char* dir) {
