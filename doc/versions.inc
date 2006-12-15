@@ -33,6 +33,7 @@ function type_text($type) {
 
 $features_57 = "
     <li> BOINC Simple GUI.
+    <li> Added memory usage limits for BOINC applications. (Check preferences for new settings)
 ";
 
 $features_55 = "
@@ -376,7 +377,7 @@ $w580= array(
     "date"=>"13 Dec 2006",
     "type"=>"win_new",
     "features"=>"<ul>
-".$features_57."
+".$features_55.$features_57."
 ".$changes_57."
     </ul>
     ",
