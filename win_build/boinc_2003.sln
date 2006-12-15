@@ -7,6 +7,7 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "boinc", "boinc_cli_curl_200
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "boinc_dll", "boinc_dll_2003.vcproj", "{B06280CB-82A4-46DE-8956-602643078BDF}"
 	ProjectSection(ProjectDependencies) = postProject
+		{E8F6BD7E-461A-4733-B7D8-37B09A099ED8} = {E8F6BD7E-461A-4733-B7D8-37B09A099ED8}
 	EndProjectSection
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "boinc_ss", "boinc_ss_2003.vcproj", "{4A2C5963-6A8D-4CA1-A312-C3D749B2EA81}"
@@ -35,6 +36,8 @@ Global
 		Debug (SimpleGUI) = Debug (SimpleGUI)
 		Release = Release
 		Release (SimpleGUI) = Release (SimpleGUI)
+	EndGlobalSection
+	GlobalSection(ProjectDependencies) = postSolution
 	EndGlobalSection
 	GlobalSection(ProjectConfiguration) = postSolution
 		{C04F0FCC-BB5D-4627-8656-6173B28BD69E}.Debug.ActiveCfg = Debug|Win32

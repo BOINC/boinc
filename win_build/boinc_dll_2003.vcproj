@@ -225,9 +225,10 @@
 			CharacterSet="2">
 			<Tool
 				Name="VCCLCompilerTool"
+				AdditionalIncludeDirectories="../lib"
 				PreprocessorDefinitions="WIN32;_WINDOWS;NDEBUG;_USRDLL;_ATL_ATTRIBUTES"
 				RuntimeLibrary="2"
-				UsePrecompiledHeader="3"
+				UsePrecompiledHeader="0"
 				WarningLevel="4"
 				Detect64BitPortabilityProblems="TRUE"
 				DebugInformationFormat="3"
@@ -301,9 +302,6 @@
 				RelativePath="..\clientlib\win\BOINCSENSSink.cpp">
 			</File>
 			<File
-				RelativePath="..\clientlib\win\Identification.cpp">
-			</File>
-			<File
 				RelativePath="..\clientlib\win\IdleTracker.cpp">
 			</File>
 			<File
@@ -352,9 +350,6 @@
 			</File>
 			<File
 				RelativePath="..\clientlib\win\BOINCSENSSink.h">
-			</File>
-			<File
-				RelativePath="..\clientlib\win\Identification.h">
 			</File>
 			<File
 				RelativePath="..\clientlib\win\IdleTracker.h">

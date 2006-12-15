@@ -388,6 +388,9 @@
 						CompileAs="2"/>
 				</FileConfiguration>
 			</File>
+			<File
+				RelativePath="..\lib\win_util.C">
+			</File>
 		</Filter>
 		<Filter
 			Name="Header Files"
@@ -467,6 +470,9 @@
 			</File>
 			<File
 				RelativePath="..\lib\util.h">
+			</File>
+			<File
+				RelativePath="..\lib\win_util.h">
 			</File>
 		</Filter>
 		<Filter
