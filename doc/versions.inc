@@ -517,6 +517,7 @@ $m580 = array(
     "type"=>"mac_advanced",
      "features"=>"<ul>
 ".$mac_changes_57."
+".$features_55."
 ".$features_57."
 ".$changes_57."
      </ul>
@@ -581,6 +582,7 @@ $m580c = array(
     "type"=>"bare_core",
     "features"=>"<ul>
 ".$mac_changes_57."
+".$features_55."
 ".$features_57."
 ".$changes_57."
      </ul>
