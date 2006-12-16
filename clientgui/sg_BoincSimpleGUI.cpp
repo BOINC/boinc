@@ -59,6 +59,9 @@ BEGIN_EVENT_TABLE(CSimpleFrame, CBOINCBaseFrame)
     EVT_FRAME_CONNECT(CSimpleFrame::OnConnect)
     EVT_HELP(wxID_ANY, CSimpleFrame::OnHelp)
     EVT_FRAME_RELOADSKIN(CSimpleFrame::OnReloadSkin)
+    // We can't eliminate the Mac Help menu, so we might as well make it useful.
+    EVT_MENU(ID_HELPBOINCMANAGER, CSimpleFrame::OnHelpBOINCManager)
+    EVT_MENU(ID_HELPBOINC, CSimpleFrame::OnHelpBOINCWebsite)
 END_EVENT_TABLE()
 
 CSimpleFrame::CSimpleFrame() {
@@ -84,14 +87,81 @@ CSimpleFrame::CSimpleFrame(wxString title, wxIcon* icon) :
     SetIcon(*icon);
     
 #ifdef __WXMAC__
+    // We can't eliminate the Mac menu bar or the Help menu, so we 
+    // might as well make them useful.
+    CSkinAdvanced*     pSkinAdvanced = wxGetApp().GetSkinManager()->GetAdvanced();
+    wxString           strMenuName;
+    wxString           strMenuDescription;
+
+    wxASSERT(wxDynamicCast(pSkinAdvanced, CSkinAdvanced));
+
+    // File menu
+    wxMenu *menuFile = new wxMenu;
+
+    menuFile->Append(
+        ID_FILECLOSEWINDOW,
+        _("&Close Window\tCTRL+W"),
+		_("Close BOINC Manager Window.")
+    );
+
+    // Help menu
+    wxMenu *menuHelp = new wxMenu;
+
+    // %s is the application name
+    //    i.e. 'BOINC Manager', 'GridRepublic Manager'
+    strMenuName.Printf(
+        _("&%s"), 
+        pSkinAdvanced->GetApplicationName().c_str()
+    );
+    // %s is the application name
+    //    i.e. 'BOINC Manager', 'GridRepublic Manager'
+    strMenuDescription.Printf(
+        _("Show information about the %s"), 
+        pSkinAdvanced->GetApplicationName().c_str()
+    );
+    menuHelp->Append(
+        ID_HELPBOINCMANAGER,
+        strMenuName, 
+        strMenuDescription
+    );
+
+    // %s is the project name
+    //    i.e. 'BOINC', 'GridRepublic'
+    strMenuName.Printf(
+        _("%s &website"), 
+        pSkinAdvanced->GetProjectName().c_str()
+    );
+    // %s is the application name
+    //    i.e. 'BOINC Manager', 'GridRepublic Manager'
+    strMenuDescription.Printf(
+        _("Show information about BOINC and %s"),
+        pSkinAdvanced->GetApplicationName().c_str()
+    );
+    menuHelp->Append(
+        ID_HELPBOINC,
+        strMenuName, 
+        strMenuDescription
+    );
+
     // Clear menubar
     m_pMenubar = new wxMenuBar;
+    m_pMenubar->Append(
+        menuHelp,
+        _("&Help")
+    );
+    
     SetMenuBar(m_pMenubar);
     m_pMenubar->MacInstallMenuBar();
-    ::ClearMenuBar();
+    ::ClearMenuBar();       // Remove everything we can from the Mac menu bar
+    
+    m_pMenubar->Insert(     // Must be done after ClearMenuBar()
+        0,
+        menuFile,
+        _("&File")
+    );
     
     // wxMac maps Command key to wxACCEL_ALT for wxAcceleratorTable but CTRL for wxMenu.
-    m_Shortcuts[0].Set(wxACCEL_ALT, (int)'W', ID_FILECLOSEWINDOW);
+    m_Shortcuts[0].Set(wxACCEL_NORMAL, WXK_HELP, ID_HELPBOINCMANAGER);
 #else
     m_Shortcuts[0].Set(wxACCEL_CTRL, (int)'W', ID_FILECLOSEWINDOW);
 #endif
@@ -219,6 +289,34 @@ void CSimpleFrame::OnHelp(wxHelpEvent& event) {
     }
 
     wxLogTrace(wxT("Function Start/End"), wxT("CSimpleFrame::OnHelp - Function End"));
+}
+
+
+void CSimpleFrame::OnHelpBOINCManager(wxCommandEvent& WXUNUSED(event)) {
+    wxLogTrace(wxT("Function Start/End"), wxT("CAdvancedFrame::OnHelpBOINCManager - Function Begin"));
+
+    if (IsShown()) {
+		std::string url = wxGetApp().GetSkinManager()->GetAdvanced()->GetCompanyWebsite().c_str();
+		canonicalize_master_url(url);
+
+		wxString wxurl = url.c_str();
+		wxurl += wxT("manager_links.php?target=simple");
+		ExecuteBrowserLink(wxurl);
+    }
+
+    wxLogTrace(wxT("Function Start/End"), wxT("CAdvancedFrame::OnHelpBOINCManager - Function End"));
+}
+
+
+void CSimpleFrame::OnHelpBOINCWebsite(wxCommandEvent& WXUNUSED(event)) {
+    wxLogTrace(wxT("Function Start/End"), wxT("CAdvancedFrame::OnHelpBOINCWebsite - Function Begin"));
+
+    if (IsShown()) {
+        wxString url = wxGetApp().GetSkinManager()->GetAdvanced()->GetCompanyWebsite().c_str();
+        ExecuteBrowserLink(url);
+    }
+
+    wxLogTrace(wxT("Function Start/End"), wxT("CAdvancedFrame::OnHelpBOINCWebsite - Function End"));
 }
 
 

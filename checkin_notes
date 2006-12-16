@@ -13345,3 +13345,12 @@ Charlie 13 Dec 2006
         release_boinc.sh
         GR-ReadMe.rtf
         ReadMe.rtf
+
+Charlie 15 Dec 2006
+    - Mac BSG: We can't completely eliminate the Mac menu bar or 
+        the Help menu, so we might as well make them useful.
+    - Mac MGR: implement the Mac's Help keyboard shortcut.
+    
+    clientgui/
+        AdvancedFrame.cpp, .h
+        sg_BoincSimpleGUI.cpp, .h

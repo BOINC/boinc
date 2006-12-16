@@ -490,7 +490,9 @@ bool CAdvancedFrame::CreateMenu() {
         strMenuDescription
     );
 
+#ifndef __WXMAC__
     menuHelp->AppendSeparator();
+#endif
 
     // %s is the project name
     //    i.e. 'BOINC Manager', 'GridRepublic Manager'
@@ -549,6 +551,11 @@ bool CAdvancedFrame::CreateMenu() {
     // Hide Mac OS X's standard Preferences menu item, since we don't use it
     if (GetIndMenuItemWithCommandID(NULL, kHICommandPreferences, 1, &prefsMenuRef, &prefsMenuItemIndex) == noErr)
         ChangeMenuItemAttributes(prefsMenuRef, prefsMenuItemIndex, kMenuItemAttrHidden, 0);
+    
+    // Set HELP key as keyboard shortcut
+    m_Shortcuts[0].Set(wxACCEL_NORMAL, WXK_HELP, ID_HELPBOINCMANAGER);
+    m_pAccelTable = new wxAcceleratorTable(1, m_Shortcuts);
+    SetAcceleratorTable(*m_pAccelTable);
  #endif
 
     wxLogTrace(wxT("Function Start/End"), wxT("CAdvancedFrame::CreateMenu - Function End"));
