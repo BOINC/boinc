@@ -126,6 +126,13 @@ private:
     void            UpdateActivityModeControls( CC_STATUS& status );
     void            UpdateNetworkModeControls( CC_STATUS& status );
 
+#ifdef __WXMAC__
+protected:
+
+    wxAcceleratorEntry  m_Shortcuts[1];     // For HELP keyboard shortcut
+    wxAcceleratorTable* m_pAccelTable;
+#endif
+
     DECLARE_EVENT_TABLE()
 };
 
