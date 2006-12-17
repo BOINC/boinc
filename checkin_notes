@@ -13481,3 +13481,16 @@ Charlie 15 Dec 2006
     clientgui/
         AdvancedFrame.cpp, .h
         sg_BoincSimpleGUI.cpp, .h
+
+David  15 Dec 2006
+    - core client: add GUI RPCs to get/set/read cc_config.xml
+    - boinc_cmd: add command to read cc_config.xml
+    (from Sebastian Masch)
+
+    client/
+        gui_rpc_server_ops.C
+        log_flags.C,h
+    lib/
+        boinc_cmd.C
+        gui_rpc_client.h
+        gui_rpc_client_ops.C

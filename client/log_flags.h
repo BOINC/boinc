@@ -88,6 +88,6 @@ struct CONFIG {
 
 extern LOG_FLAGS log_flags;
 extern CONFIG config;
-extern void read_config_file();
+extern int read_config_file();
 
 #endif

@@ -427,6 +427,8 @@ int main(int argc, char** argv) {
         }
     } else if (!strcmp(cmd, "--read_global_prefs_override")) {
         retval = rpc.read_global_prefs_override();
+    } else if (!strcmp(cmd, "--read_cc_config")) {
+        retval = rpc.read_cc_config();
     } else if (!strcmp(cmd, "--test1")) {
         string s;
         retval = rpc.get_global_prefs_override(s);

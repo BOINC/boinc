@@ -218,13 +218,14 @@ int CONFIG::parse(FILE* f) {
     return ERR_XML_PARSE;
 }
 
-void read_config_file() {
+int read_config_file() {
     FILE* f;
 
     f = boinc_fopen(CONFIG_FILE, "r");
-    if (!f) return;
+    if (!f) return ERR_FOPEN;
     config.parse(f);
     fclose(f);
+    return 0;
 }
 
 const char *BOINC_RCSID_5f23de6652 = "$Id$";

@@ -468,7 +468,7 @@ static void handle_get_host_info(char*, MIOFILE& fout) {
 
 static void handle_get_screensaver_mode(GUI_RPC_CONN* gr, char*, MIOFILE& fout) {
     int ss_result = gstate.ss_logic.get_ss_status();
-    if (gr->au_ss_state = AU_SS_QUIT_REQ) {
+    if (gr->au_ss_state == AU_SS_QUIT_REQ) {
         ss_result = SS_STATUS_QUIT;
         gr->au_ss_state = AU_SS_QUIT_SENT;
     }
@@ -825,6 +825,50 @@ static void handle_set_global_prefs_override(char* buf, MIOFILE& fout) {
     );
 }
 
+static void handle_get_cc_config(MIOFILE& fout) {
+    string s;
+    int retval = read_file_string(CONFIG_FILE, s);
+    if (!retval) {
+        strip_whitespace(s);
+        fout.printf("%s\n", s.c_str());
+    }
+}
+
+static void handle_set_cc_config(char* buf, MIOFILE& fout) {
+    char *p, *q=0;
+    int retval = ERR_XML_PARSE;
+
+    // strip off outer tags
+    //
+    p = strstr(buf, "<set_cc_config>\n");
+    if (p) {
+        p += strlen("<set_cc_config>\n");
+        q = strstr(p, "</set_cc_config");
+    }
+    if (q) {
+        *q = 0;
+        strip_whitespace(p);
+        if (strlen(p)) {
+            FILE* f = boinc_fopen(CONFIG_FILE, "w");
+            if (f) {
+                fprintf(f, "%s\n", p);
+                fclose(f);
+                retval = 0;
+            } else {
+                retval = ERR_FOPEN;
+            }
+        } else {
+            retval = boinc_delete_file(CONFIG_FILE);
+        }
+    }
+    fout.printf(
+        "<set_cc_config_reply>\n"
+        "    <status>%d</status>\n"
+        "</set_cc_config_reply>\n",
+        retval
+    );
+}
+
 int GUI_RPC_CONN::handle_rpc() {
     char request_msg[4096];
     int n;
@@ -943,6 +987,14 @@ int GUI_RPC_CONN::handle_rpc() {
         handle_get_global_prefs_override(mf);
     } else if (match_tag(request_msg, "<set_global_prefs_override")) {
         handle_set_global_prefs_override(request_msg, mf);
+    } else if (match_tag(request_msg, "<get_cc_config")) {
+        handle_get_cc_config(mf);
+    } else if (match_tag(request_msg, "<set_cc_config")) {
+        handle_set_cc_config(request_msg, mf);
+    } else if (match_tag(request_msg, "<read_cc_config/>")) {
+        read_config_file();
+        gstate.request_schedule_cpus("Core client configuration");
+        gstate.request_work_fetch("Core client configuration");
     } else {
 
         // RPCs after this point enable network communication

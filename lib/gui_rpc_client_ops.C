@@ -2064,4 +2064,13 @@ int RPC_CLIENT::set_global_prefs_override_struct(GLOBAL_PREFS& prefs, GLOBAL_PRE
     return set_global_prefs_override(s);
 }
 
+int RPC_CLIENT::read_cc_config() {
+    int retval;
+    SET_LOCALE sl;
+    RPC rpc(this);
+
+    retval = rpc.do_rpc("<read_cc_config/>");
+    return retval;
+}
+
 const char *BOINC_RCSID_90e8b8d168="$Id$";
