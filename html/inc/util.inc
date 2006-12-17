@@ -291,11 +291,11 @@ function print_login_form_aux($next_url, $user) {
     ";
     start_table();
     row1("Log in with email/password");
-    row2("Email address:", "<input name=email_addr size=40>");
+    row2("Email address:", '<input name="email_addr" size="40" tabindex="1">');
     row2("Password:<br><font size=-2><a href=edit_passwd_form.php>Forgot password?</a>",
-        "<input type=password name=passwd size=40>"
+        '<input type="password" name="passwd" size="40" tabindex="2">'
     );
-    row2("", "<input type=submit name=mode value='Log in with email/password'>");
+    row2("", '<input type="submit" name="mode" value="Log in with email/password" tabindex="3">');
     row1("Log in with account key");
     row2("Your account key:
         <br><font size=-2>
