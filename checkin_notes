@@ -13502,3 +13502,9 @@ David  15 Dec 2006
 	clientgui/
 		AdvancedFrame.cpp,h
 		Events.h
+
+David  15 Dec 2006
+	- core client: disable auto update with compile flag
+
+	client/
+		cs_scheduler.C

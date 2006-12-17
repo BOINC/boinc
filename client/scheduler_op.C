@@ -42,6 +42,8 @@
 #include "main.h"
 #include "scheduler_op.h"
 
+//#define ENABLE_AUTO_UPDATE
+
 using std::vector;
 
 SCHEDULER_OP::SCHEDULER_OP(HTTP_OP_SET* h) {
@@ -819,8 +821,10 @@ int SCHEDULER_REPLY::parse(FILE* in, PROJECT* project) {
             continue;
         } else if (match_tag(buf, "<project_files>")) {
             retval = project->parse_project_files(mf, true);
+#ifdef ENABLE_AUTO_UPDATE
         } else if (match_tag(buf, "<auto_update>")) {
             retval = auto_update.parse(mf);
+#endif
 			if (!retval) auto_update.present = true;
         } else if (strlen(buf)>1){
             if (log_flags.unparsed_xml) {
