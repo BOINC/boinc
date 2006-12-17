@@ -60,6 +60,8 @@
 #define ID_SIMPLE_RESUME                        6603
 #define ID_SIMPLE_PREFERENCES                   6604
 #define ID_SIMPLE_MESSAGESVIEW                  6605
+#define ID_READ_PREFS							6606
+#define ID_READ_CONFIG							6607
 
 #define ID_TB_TIMER                             6800
 #define ID_TB_SUSPEND                           6801

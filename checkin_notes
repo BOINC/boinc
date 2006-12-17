@@ -13494,3 +13494,11 @@ David  15 Dec 2006
         boinc_cmd.C
         gui_rpc_client.h
         gui_rpc_client_ops.C
+
+David  15 Dec 2006
+	- Manager: add "read prefs file", "read config file"
+		entries to Advanced menu
+
+	clientgui/
+		AdvancedFrame.cpp,h
+		Events.h

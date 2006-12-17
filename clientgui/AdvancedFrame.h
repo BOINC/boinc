@@ -61,6 +61,8 @@ public:
     void OnRunBenchmarks( wxCommandEvent& event );
     void OnSelectComputer( wxCommandEvent& event );
     void OnSwitchGUI( wxCommandEvent& event );
+    void Onread_prefs( wxCommandEvent& event );
+    void Onread_config( wxCommandEvent& event );
 
     void OnCommandsRetryCommunications( wxCommandEvent& event );
 

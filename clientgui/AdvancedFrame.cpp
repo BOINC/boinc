@@ -159,6 +159,8 @@ BEGIN_EVENT_TABLE (CAdvancedFrame, CBOINCBaseFrame)
     EVT_MENU(ID_FILERUNBENCHMARKS, CAdvancedFrame::OnRunBenchmarks)
     EVT_MENU(ID_FILESELECTCOMPUTER, CAdvancedFrame::OnSelectComputer)
     EVT_MENU(ID_FILESWITCHGUI, CAdvancedFrame::OnSwitchGUI)
+	EVT_MENU(ID_READ_PREFS, CAdvancedFrame::Onread_prefs)
+	EVT_MENU(ID_READ_CONFIG, CAdvancedFrame::Onread_config)
     EVT_MENU(wxID_EXIT, CAdvancedFrame::OnExit)
     EVT_MENU_RANGE(ID_FILEACTIVITYRUNALWAYS, ID_FILEACTIVITYSUSPEND, CAdvancedFrame::OnActivitySelection)
     EVT_MENU_RANGE(ID_FILENETWORKRUNALWAYS, ID_FILENETWORKSUSPEND, CAdvancedFrame::OnNetworkSelection)
@@ -432,6 +434,16 @@ bool CAdvancedFrame::CreateMenu() {
         _("Retry &communications"),
         _("Report completed work, get latest credit, "
           "get latest preferences, and possibly get more work.")
+    );
+    menuAdvanced->Append(
+        ID_READ_CONFIG, 
+        _("Read config file"),
+        _("Read configuration info from cc-config.xml.")
+    );
+    menuAdvanced->Append(
+        ID_READ_PREFS, 
+        _("Read local prefs file"),
+        _("Read preferences from global_prefs_override.xml.")
     );
     if (is_acct_mgr_detected) {
         strMenuName.Printf(
@@ -1038,6 +1050,15 @@ void CAdvancedFrame::OnSelectComputer(wxCommandEvent& WXUNUSED(event)) {
     wxLogTrace(wxT("Function Start/End"), wxT("CAdvancedFrame::OnSelectComputer - Function End"));
 }
 
+void CAdvancedFrame::Onread_prefs(wxCommandEvent& WXUNUSED(event)) {
+	CMainDocument* pDoc = wxGetApp().GetDocument();
+	pDoc->rpc.read_global_prefs_override();
+}
+
+void CAdvancedFrame::Onread_config(wxCommandEvent& WXUNUSED(event)) {
+	CMainDocument* pDoc = wxGetApp().GetDocument();
+	pDoc->rpc.read_cc_config();
+}
 
 void CAdvancedFrame::OnSwitchGUI(wxCommandEvent& WXUNUSED(event)) {
     wxLogTrace(wxT("Function Start/End"), wxT("CAdvancedFrame::OnSwitchGUI - Function Begin"));
