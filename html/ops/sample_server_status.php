@@ -212,7 +212,7 @@ show_status($sched_host, "scheduler", $sched_running);
 // parse through config.xml to get all daemons running
 //
 $cursor = 0;
-while ($thisxml = trim(parse_next_element($config_xml,"<daemon>",&$cursor))) {
+while ($thisxml = trim(parse_next_element($config_xml,"<daemon>",$cursor))) {
     $host = parse_element($thisxml,"<host>");
     if ($host == "") { $host = $project_host; }
     $cmd = parse_element($thisxml,"<cmd>");

@@ -353,7 +353,7 @@ function parse_element($xml, $tag) {
     return trim($element);
 }
 
-function parse_next_element($xml, $tag, $cursor) {
+function parse_next_element($xml, $tag, &$cursor) {
     $element = null;
     $closetag = "</" . substr($tag,1);
     $pos = substr($xml,$cursor);
