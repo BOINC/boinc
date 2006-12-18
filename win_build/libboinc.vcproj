@@ -316,6 +316,10 @@
 					/>
 				</FileConfiguration>
 			</File>
+			<File
+				RelativePath="..\..\boinc\lib\win_util.C"
+				>
+			</File>
 		</Filter>
 		<Filter
 			Name="Header Files"
@@ -380,6 +384,10 @@
 			</File>
 			<File
 				RelativePath="..\..\boinc\lib\util.h"
+				>
+			</File>
+			<File
+				RelativePath="..\..\boinc\lib\win_util.h"
 				>
 			</File>
 		</Filter>

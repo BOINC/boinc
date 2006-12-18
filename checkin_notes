@@ -247,3 +247,9 @@ David  8 Dec 2006
 	uppercase/
 		uc_graphics.C
 		upper_case.C
+
+David  18 Dec 2006
+	- compile fix
+
+	win_build/
+		libboinc_vcproj
