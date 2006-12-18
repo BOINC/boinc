@@ -25,7 +25,7 @@ mysql_free_result($r2);
 page_head(tr(APPS_TITLE));
 echo tr(APPS_DESCRIPTION)."<br><br>
 ";
-$result = mysql_query("select * from app");
+$result = mysql_query("select * from app where deprecated=0");
 start_table();
 
 
