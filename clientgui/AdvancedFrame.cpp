@@ -1411,7 +1411,7 @@ void CAdvancedFrame::OnHelp(wxHelpEvent& event) {
     wxLogTrace(wxT("Function Start/End"), wxT("CAdvancedFrame::OnHelpBOINCManager - Function Begin"));
 
     if (IsShown()) {
-		std::string url = wxGetApp().GetSkinManager()->GetAdvanced()->GetCompanyWebsite().c_str();
+		std::string url = wxGetApp().GetSkinManager()->GetAdvanced()->GetCompanyWebsite().mb_str();
 		canonicalize_master_url(url);
 
 		wxString wxurl;
@@ -1427,10 +1427,10 @@ void CAdvancedFrame::OnHelpBOINCManager(wxCommandEvent& WXUNUSED(event)) {
     wxLogTrace(wxT("Function Start/End"), wxT("CAdvancedFrame::OnHelpBOINCManager - Function Begin"));
 
     if (IsShown()) {
-		std::string url = wxGetApp().GetSkinManager()->GetAdvanced()->GetCompanyWebsite().c_str();
+		std::string url = wxGetApp().GetSkinManager()->GetAdvanced()->GetCompanyWebsite().mb_str();
 		canonicalize_master_url(url);
 
-		wxString wxurl = url.c_str();
+		wxString wxurl(url.c_str(), wxConvUTF8);
 		wxurl += wxT("manager_links.php?target=advanced");
 		ExecuteBrowserLink(wxurl);
     }

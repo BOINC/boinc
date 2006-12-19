@@ -13508,3 +13508,10 @@ David  15 Dec 2006
 
 	client/
 		cs_scheduler.C
+
+Rom    18 Dec 2006
+    - MGR: Make the advanced gui build in Unicode again.
+    
+    clientgui/
+        AdvancedFrame.cpp
+        

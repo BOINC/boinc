@@ -173,6 +173,7 @@ show_name("Nikos Ntarmos");
 show_name("Rob Ogilvie");
 show_name("J.R. Oldroyd");
 show_name("Carlos Orellana");
+show_name("Ron Parker");
 show_name("Jakob Pedersen");
 show_name("Stephen Pellicer");
 show_name("Reinhard Prix");
