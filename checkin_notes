@@ -13549,3 +13549,15 @@ David  19 Dec 2006
 
     lib/
         boinc_cmd.C
+
+David  19 Dec 2006
+    - API: change boinc_write_init_data_file()
+        to take a APP_INIT_DATA& argument.
+        This makes it usable to compound applications.
+    - API: change defaults to zero and empty strings
+        when parsing app init data.
+
+    api/
+        boinc_api.C,h
+    lib/
+        app_ipc.h

@@ -201,12 +201,21 @@ The following functions get information from the core client;
 this information may be useful for graphics.
 ",
 html_text("
+int boinc_get_init_data_p(APP_INIT_DATA*);
 int boinc_get_init_data(APP_INIT_DATA&);
 
 struct APP_INIT_DATA {
-    int core_version;
+    int major_version;
+    int minor_version;
+    int release;
+    int app_version;
     char app_name[256];
-    char project_preferences[65536];
+    char symstore[256];
+    char acct_mgr_url[256];
+    char* project_preferences;
+    int userid;
+    int teamid;
+    int hostid;
     char user_name[256];
     char team_name[256];
     char project_dir[256];
@@ -216,9 +225,24 @@ struct APP_INIT_DATA {
     int slot;
     double user_total_credit;
     double user_expavg_credit;
-    double team_total_credit;
-    double team_expavg_credit;
+    double host_total_credit;
+    double host_expavg_credit;
+    double resource_share_fraction;
     HOST_INFO host_info;
+    PROXY_INFO proxy_info;  // in case app wants to use network
+    GLOBAL_PREFS global_prefs;
+
+    // info about the WU
+    double rsc_fpops_est;
+    double rsc_fpops_bound;
+    double rsc_memory_bound;
+    double rsc_disk_bound;
+
+    // the following are used for compound apps,
+    // where each stage of the computation is a fixed
+    // fraction of the total.
+    double fraction_done_start;
+    double fraction_done_end;
 };
 "), "
 to get the following information:

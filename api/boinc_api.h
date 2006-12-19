@@ -71,7 +71,6 @@ extern int boinc_finish(int status);
 extern int boinc_resolve_filename(const char*, char*, int len);
 extern int boinc_get_init_data_p(struct APP_INIT_DATA*);
 extern int boinc_parse_init_data_file(void);
-extern int boinc_write_init_data_file(void);
 extern int boinc_send_trickle_up(char* variety, char* text);
 extern int boinc_checkpoint_completed(void);
 extern int boinc_fraction_done(double);
@@ -111,6 +110,7 @@ extern int boinc_get_init_data(APP_INIT_DATA&);
 extern int boinc_wu_cpu_time(double&);
 extern int boinc_upload_file(std::string& name);
 extern int boinc_upload_status(std::string& name);
+extern int boinc_write_init_data_file(APP_INIT_DATA&);
 
 /////////// API ENDS HERE
 

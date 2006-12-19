@@ -402,7 +402,7 @@ int boinc_finish(int status) {
     }
     if (options.send_status_msgs) {
         aid.wu_cpu_time = last_checkpoint_cpu_time;
-        boinc_write_init_data_file();
+        boinc_write_init_data_file(aid);
     }
 
     boinc_exit(status);
@@ -459,14 +459,16 @@ int boinc_parse_init_data_file() {
     FILE* f;
     int retval;
 
+    // in principle should free project_preferences here if it's nonzero
+
     memset(&aid, 0, sizeof(aid));
-    strlcpy(aid.user_name, "Unknown user", sizeof(aid.user_name));
-    strlcpy(aid.team_name, "Unknown team", sizeof(aid.team_name));
-    aid.wu_cpu_time = 1000;
-    aid.user_total_credit = 1000;
-    aid.user_expavg_credit = 500;
-    aid.host_total_credit = 1000;
-    aid.host_expavg_credit = 500;
+    strcpy(aid.user_name, "");
+    strcpy(aid.team_name, "");
+    aid.wu_cpu_time = 0;
+    aid.user_total_credit = 0;
+    aid.user_expavg_credit = 0;
+    aid.host_total_credit = 0;
+    aid.host_expavg_credit = 0;
     aid.checkpoint_period = DEFAULT_CHECKPOINT_PERIOD;
     aid.fraction_done_update_period = DEFAULT_FRACTION_DONE_UPDATE_PERIOD;
 
@@ -488,10 +490,10 @@ int boinc_parse_init_data_file() {
     return 0;
 }
 
-int boinc_write_init_data_file() {
+int boinc_write_init_data_file(APP_INIT_DATA& x) {
     FILE* f = boinc_fopen(INIT_DATA_FILE, "w");
     if (!f) return ERR_FOPEN;
-    int retval = write_init_data_file(f, aid);
+    int retval = write_init_data_file(f, x);
     fclose(f);
     return retval;
 }

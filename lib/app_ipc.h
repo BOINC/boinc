@@ -182,6 +182,12 @@ struct APP_INIT_DATA {
     double rsc_memory_bound;
     double rsc_disk_bound;
 
+    // the following are used for compound apps,
+    // where each stage of the computation is a fixed
+    // fraction of the total.
+    double fraction_done_start;
+    double fraction_done_end;
+
     // Items below here are for implementation only
     // (not used by app developers)
     //
@@ -189,11 +195,6 @@ struct APP_INIT_DATA {
     SHMEM_SEG_NAME shmem_seg_name;
     double wu_cpu_time;       // cpu time from previous episodes
     double fraction_done_update_period;
-        // the following 2 are used for compound apps,
-        // where each stage of the computation is a fixed
-        // fraction of the total.
-    double fraction_done_start;
-    double fraction_done_end;
 
     APP_INIT_DATA();
     APP_INIT_DATA(const APP_INIT_DATA&);  // copy constructor

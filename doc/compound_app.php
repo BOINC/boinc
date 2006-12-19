@@ -88,9 +88,11 @@ options.main_program = true;
 boinc_init_options(&amp;options)
 read main state file
 for each remaining worker program:
+    APP_INIT_DATA aid;
+    boinc_get_init_data(aid);
     aid.fraction_done_start = x
     aid.fraction_done_end = y
-    boinc_write_init_data_file()
+    boinc_write_init_data_file(aid)
     run the app
     wait for the app to finish
         poll
