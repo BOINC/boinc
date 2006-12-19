@@ -12,70 +12,34 @@ echo "
 The following elements in the &lt;config&gt; section
 of your <a href=configuration.php>config.xml</a> file
 control various aspects of your project.
+
+<h3>Hosts, directories, and URLs</h3>
+<p>
+(These are created by make_project; normally you don't need to change them.)
 ";
 echo html_text("
-    <master_url>            URL                     </master_url>
-    <long_name>             name                    </long_name>
-    <host>                  project.hostname.ip   </host>
-    <db_name>               databasename          </db_name>
-    <db_host>               database.host.ip      </db_host>
-    <db_user>               database_user_name    </db_user>
-    <db_passwd>             database_password     </db_passwd>
-    <shmem_key>             shared_memory_key     </shmem_key>
-    <download_url>          http://A/URL          </download_url>
-    <download_dir>          /path/to/directory    </download_dir>
-    <download_dir_alt>      /path/to/directory    </download_dir_alt>
-    <uldl_dir_fanout>       N                     </uldl_dir_fanout>
-    <upload_url>            http://A/URL          </upload_url>
-    <upload_dir>            /path/to/directory    </upload_dir>
-    <cgi_url>               http://A/URL          </cgi_url>
-
-    [ <disable_account_creation/> ]
-    [ <profile_screening/> ]
-    [ <show_results/> ]
-    [ <one_result_per_user_per_wu/> ]
-    [ <max_wus_to_send> N </max_wus_to_send> ]
-    [ <non_cpu_intensive> 0|1 </non_cpu_intensive> ]
-    [ <min_sendwork_interval> N </min_sendwork_interval> ]
-    [ <daily_result_quota> N </daily_result_quota> ]
-    [ <ignore_delay_bound/> ]
-    [ <dont_generate_upload_certificates/> ]
-    [ <locality_scheduling/> ]
-    [ <locality_scheduling_wait_period> N </locality_scheduling_wait_period> ]
-    [ <min_core_client_version> N </min_core_client_version ]
-    [ <choose_download_url_by_timezone/> ]
-    [ <min_core_client_version_announced> N </min_core_client_version_announced> ]
-    [ <min_core_client_upgrade_deadline> N </min_core_client_upgrade_deadline> ]
-    [ <choose_download_url_by_timezone> N </choose_download_url_by_timezone> ]
-    [ <cache_md5_info> 0|1 </cache_md5_info> ]
-    [ <nowork_skip> 0|1 </nowork_skip> ]
-    [ <resend_lost_results> 0|1 </resend_lost_results> ]
-    [ <sched_lockfile_dir> path </sched_lockfile_dir> ]
-    [ <min_passwd_length> N </min_passwd_length> ]
-    [ <fp_benchmark_weight> X </fp_benchmark_weight> ]
-    [ <default_disk_max_used_gb> X </default_disk_max_used_gb> ]
-    [ <default_disk_max_used_pct> X </default_disk_max_used_pct> ]
-    [ <default_disk_min_free_gb> X </default_disk_min_used_pct> ]
-    [ <max_claimed_credit>X</max_claimed_credit ]
-    [ <grant_claimed_credit/> ]
-    [ <symstore>URL</symstore> ]
-    [ <dont_delete_batches/> ]
-    [ <sched_debug_level> N </sched_debug_level> ]
-    [ <fuh_debug_level> N </fuh_debug_level> ]
-    [ <verify_files_on_app_start/> ]
-
-
-    <!-- optional; defaults as indicated: -->
-    <project_dir>  ../      </project_dir>  <!-- relative to location of 'start' -->
+<master_url>            URL                     </master_url>
+<long_name>             name                    </long_name>
+<host>                  project.hostname.ip   </host>
+<db_name>               databasename          </db_name>
+<db_host>               database.host.ip      </db_host>
+<db_user>               database_user_name    </db_user>
+<db_passwd>             database_password     </db_passwd>
+<shmem_key>             shared_memory_key     </shmem_key>
+<download_url>          http://A/URL          </download_url>
+<download_dir>          /path/to/directory    </download_dir>
+<download_dir_alt>      /path/to/directory    </download_dir_alt>
+<uldl_dir_fanout>       N                     </uldl_dir_fanout>
+<upload_url>            http://A/URL          </upload_url>
+<upload_dir>            /path/to/directory    </upload_dir>
+<cgi_url>               http://A/URL          </cgi_url>
+<!-- optional; defaults as indicated: -->
+<project_dir>  ../      </project_dir>  <!-- relative to location of 'start' -->
     <bin_dir>      bin      </bin_dir>      <!-- relative to project_dir -->
     <cgi_bin_dir>  cgi-bin  </cgi_dir>      <!-- relative to project_dir -->
-  </config>
-")
-;
-
+[ <sched_lockfile_dir> path </sched_lockfile_dir> ]
+");
 list_start();
-list_bar("Hosts, directories, and URLs (these are created
-by make_project; normally you don't need to change them)");
 list_option("host",
     "name of project's main host, as given by Python's socket.hostname().
     Daemons and tasks run on this host by default."
@@ -102,7 +66,15 @@ list_option("sched_lockfile_dir",
     directory where scheduler lockfiles are stored.
     Must be writable to the Apache user.
 ");
-list_bar("Web site features");
+list_end();
+echo "
+<h3>Web site features</h3>
+";
+echo html_text("
+[ <profile_screening/> ]
+[ <show_results/> ]
+");
+list_start();
 list_option("profile_screening",
     "If present, don't show profile pictures until they've been
     screened and approved by project admins."
@@ -110,16 +82,35 @@ list_option("profile_screening",
 list_option("show_results",
     "Enable web site features that show results (per user, host, etc.)"
 );
+list_end();
 
-list_bar( "Miscellaneous");
+echo "
+<h3>Miscellaneous</h3>
+";
+echo html_text("
+[ <disable_account_creation/> ]
+[ <min_passwd_length> N </min_passwd_length> ]
+");
+list_start();
 list_option("disable_account_creation",
     "If present, disallow account creation"
 );
 list_option("min_passwd_length",
     "Minimum length of user passwords.  Default is 6."
 );
+list_end();
 
-list_bar( "Client control");
+echo "
+<h3>Client control</h3>
+";
+echo html_text("
+[ <verify_files_on_app_start/> ]
+[ <symstore>URL</symstore> ]
+[ <min_core_client_version_announced> N </min_core_client_version_announced> ]
+[ <min_core_client_upgrade_deadline> N </min_core_client_upgrade_deadline> ]
+[ <non_cpu_intensive> 0|1 </non_cpu_intensive> ]
+");
+list_start();
 list_option("verify_files_on_app_start",
     "Before starting or restarting an app,
     check contents of input files and app version files
@@ -157,7 +148,15 @@ list_option("non_cpu_intensive",
     <a href=non_cpu_intensive.php>applications that use little CPU time</a>,
     e.g. that do network or host measurements."
 );
-list_bar( "Server logging");
+list_end();
+echo "
+<h3>Server logging</h3>
+";
+echo html_text("
+[ <sched_debug_level> N </sched_debug_level> ]
+[ <fuh_debug_level> N </fuh_debug_level> ]
+");
+list_start();
 list_option("sched_debug_level",
     "Verbosity level for scheduler log output.
     1=minimal, 2=normal (default), 3=verbose."
@@ -167,7 +166,16 @@ list_option("fuh_debug_level",
     1=minimal, 2=normal (default), 3=verbose."
 );
 
-list_bar( "Credit");
+list_end();
+echo "
+<h3>Credit</h3>
+";
+echo html_text("
+[ <fp_benchmark_weight> X </fp_benchmark_weight> ]
+[ <max_claimed_credit>X</max_claimed_credit ]
+[ <grant_claimed_credit/> ]
+");
+list_start();
 list_option("fp_benchmark_weight",
     "The weighting given to the Whetstone benchmark
     in the calculation of claimed credit.
@@ -180,7 +188,29 @@ list_option("fp_benchmark_weight",
     run against the database of a running project,
     will suggest what value to use."
 );
-list_bar( "Scheduling options and parameters");
+list_end();
+echo "
+<h3>Scheduling options and parameters</h3>
+";
+echo html_text("
+[ <one_result_per_user_per_wu/> ]
+[ <max_wus_to_send> N </max_wus_to_send> ]
+[ <min_sendwork_interval> N </min_sendwork_interval> ]
+[ <daily_result_quota> N </daily_result_quota> ]
+[ <ignore_delay_bound/> ]
+[ <dont_generate_upload_certificates/> ]
+[ <locality_scheduling/> ]
+[ <locality_scheduling_wait_period> N </locality_scheduling_wait_period> ]
+[ <min_core_client_version> N </min_core_client_version ]
+[ <choose_download_url_by_timezone> 0|1 </choose_download_url_by_timezone> ]
+[ <cache_md5_info> 0|1 </cache_md5_info> ]
+[ <nowork_skip> 0|1 </nowork_skip> ]
+[ <resend_lost_results> 0|1 </resend_lost_results> ]
+[ <default_disk_max_used_gb> X </default_disk_max_used_gb> ]
+[ <default_disk_max_used_pct> X </default_disk_max_used_pct> ]
+[ <default_disk_min_free_gb> X </default_disk_min_used_pct> ]
+");
+list_start();
 list_option("one_result_per_user_per_wu",
     "If present, send at most one result of a given workunit to a given user.
     This is useful for checking accuracy/validity of results.
@@ -345,8 +375,15 @@ list_item("reliable_time<br> reliable_min_avg_credit<br>
     (typically 0.5 or so).
     "
 );
+list_end();
 
-list_bar( "File deleter options");
+echo "
+<h3>File deleter options</h3>
+";
+echo html_text("
+[ <dont_delete_batches/> ]
+");
+list_start();
 list_option("dont_delete_batches",
     "If this boolean is set,
     the file deleter won't delete any files for which
@@ -360,6 +397,31 @@ list_option("dont_delete_batches",
     If you use this option, replace the indices on
     file_delete_state with indices on (file_delete_state, batch)."
 );
+list_end();
+echo "
+<h3>Server status page options</h3>
+";
+echo html_text("
+[ <www_host>hostname</www_host> ]
+[ <sched_host>hostname</sched_host> ]
+[ <sched_pid>path</sched_pid> ]
+[ <uldl_host>hostname</uldl_host> ]
+[ <uldl_pid>path</uldl_pid> ]
+[ <ssh_exe>path</ssh_exe> ]
+[ <ps_exe>path</ps_exe> ]
+");
+list_start();
+list_option("www_host", "Host name of web server");
+list_option("sched_host", "Host name of scheduling server");
+list_option("sched_pid",
+    "pid file of scheduling server (default: /etc/httpd/run/httpd.pid)"
+);
+list_option("uldl_host", "Host name of upload/download server");
+list_option("sched_pid",
+    "pid file of upload/download server (default: /etc/httpd/run/httpd.pid)"
+);
+list_option("ssh_exe", "path to ssh (default: /usr/bin/ssh)");
+list_option("ps_exe", "path to ps (which supports \"w\" flag) (default: /bin/ps)");
 
 list_end();
 

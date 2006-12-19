@@ -13532,3 +13532,13 @@ David  19 Dec 2006
 		http_curl.C
 		log_flags.C,h
 		scheduler_op.C
+
+David  19 Dec 2006
+    - boinc_cmd: fix help()
+    - get rid of some unused error codes
+
+    lib/
+        boinc_cmd.C
+        crypt.C
+        error_numbers.h
+        util.C

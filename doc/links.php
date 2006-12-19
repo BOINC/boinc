@@ -219,6 +219,10 @@ language("Japanese", array(
     "http://boinc.oocp.org/",
         "translation by Komori Hitoshi")
 ));
+language("Korean", array(
+    site("http://boincatkorea.xo.st/", "BOINC@KOREA"),
+));
+
 language("Polish", array(
     site("http://www.boinc.org.pl/", "Team boinc.pl"),
     site("http://www.boinc.prv.pl", "BOINC@Kolobrzeg"),

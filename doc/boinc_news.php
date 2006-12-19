@@ -2,15 +2,15 @@
 
 $project_news = array(
 array("December 8, 2006",
-    "<a href=http://boinc.berkeley.edu/images/boinccast.gif><img align=right src=images/boinccast_small.png></a>
+    "<a href=http://boinc.berkeley.edu/skins.php><img align=right src=images/boinccast_small.png></a>
     Olaf Bornack of
     <a href=http://www.boinc-halle-saale.de/>Team BOINC@Halle/Saale</a>
     has supplied
     <a href=http://boinc.berkeley.edu/manager_skin.php#stencils>stencils</a>
     for creating skins for the new BOINC GUI.
     These have been used to make skins with
-    <a href=http://boinc.berkeley.edu/images/boinccast.gif>BOINCcast</a>
-    and <a href=http://boinc.berkeley.edu/images/skin_halle_saale.gif>BOINC@Halle/Saale</a> themes.
+    <a href=http://boinc.berkeley.edu/skins.php>BOINCcast,
+    BOINC@Halle/Saale, and BOINCmas!</a> themes.
     <br clear=all>
     "
 ),

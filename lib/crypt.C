@@ -196,9 +196,9 @@ int sscan_key_hex(const char* buf, KEY* key, int size) {
     key->bits = num_bits; //key->bits is a short
     //fprintf(stderr, "key->bits = %d\n", key->bits);
 
-    if (n != 1) return ERR_SCANF;
+    if (n != 1) return ERR_XML_PARSE;
     buf = strchr(buf, '\n');
-    if (!buf) return ERR_STRCHR;
+    if (!buf) return ERR_XML_PARSE;
     buf += 1;
     db.data = key->data;
     db.len = size - sizeof(key->bits); //huh???

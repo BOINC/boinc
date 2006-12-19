@@ -1111,14 +1111,11 @@ const char* boincerror(int which_error) {
         case ERR_GETRUSAGE: return "system getrusage";
         case ERR_BENCHMARK_FAILED: return "benchmark failed";
         case ERR_BAD_HEX_FORMAT: return "hex format key data bad";
-        case ERR_USER_REJECTED: return "user rejected executable file";
         case ERR_DB_NOT_FOUND: return "no database rows found in lookup/enumerate";
         case ERR_DB_NOT_UNIQUE: return "database lookup not unique";
         case ERR_DB_CANT_CONNECT: return "can't connect to datbase";
         case ERR_GETS: return "system gets/fgets";
         case ERR_SCANF: return "system scanf/fscanf";
-        case ERR_STRCHR: return "system strchr";
-        case ERR_STRSTR: return "system strstr";
         case ERR_READDIR: return "system readdir";
         case ERR_SHMGET: return "system shmget";
         case ERR_SHMCTL: return "system shmctl";

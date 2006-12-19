@@ -59,7 +59,7 @@ void version(){
 }
 
 void help() {
-    printf("\n\n\
+    fprintf(stderr, "\n\n\
     usage: boinc_cmd [--host hostname] [--passwd passwd] command\n\n\
 Commands:\n\
  --get_state                   show entire state\n\
@@ -72,8 +72,8 @@ Commands:\n\
  --project url {reset | detach | update | suspend | resume | nomorework | allowmorework}\n\
  --project_attach url auth\n\
  --file_transfer url filename {retry | abort}\n\
- --set_run_mode {always | auto | never}\n\
- --set_network_mode {always | auto | never}\n\
+ --set_run_mode {always | auto | never} duration\n\
+ --set_network_mode {always | auto | never} duration\n\
  --get_proxy_settings\n\
  --set_proxy_settings\n\
  --get_messages seqno            show messages > seqno\n\
@@ -116,6 +116,7 @@ void show_error(int retval) {
 char* next_arg(int argc, char** argv, int& i) {
     if (i >= argc) {
         fprintf(stderr, "Missing command-line argument\n");
+        help();
         exit(1);
     }
     return argv[i++];

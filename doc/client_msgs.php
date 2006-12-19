@@ -25,6 +25,7 @@ This file has the following format:
     <options>
         [ <save_stats_days>N</save_stats_days> ]
         [ <dont_check_file_sizes>0|1</dont_check_file_sizes> ]
+        [ <http_1_0>0|1</http_1_0> ]
         [ <ncpus>N</ncpus> ]
         [ <max_file_xfers>N</max_file_xfers> ]
         [ <max_file_xfers_per_project>N</max_file_xfers_per_project> ]
@@ -154,6 +155,10 @@ list_item_func("<dont_check_file_sizes>",
     If this flag is set, this check is skipped.
     Use it if you need to modify files locally for some reason."
 ); 
+list_item_func("<http_1_0>",
+    "Set this flag to use HTTP 1.0 instead of 1.1
+    (this may be needed with some proxies)."
+);
 list_item_func("<ncpus>",
     "Act as if there were N CPUs: run N tasks at once.
     This is for debugging, i.e. to simulate 2 CPUs
