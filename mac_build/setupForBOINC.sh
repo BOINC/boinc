@@ -39,6 +39,13 @@
 # This script will work even if you have renamed the boinc/ directory
 #
 
+if [ "$1" = "-clean" ]; then
+  doclean="-clean"
+else
+  doclean=""
+fi
+
+
 echo ""
 echo "----------------------------------"
 echo "------- BUILD CURL-7.15.3 --------"
@@ -55,7 +62,7 @@ fi
 
 cd ../../curl-7.15.3/
 if [  $? -ne 0 ]; then return 1; fi
-source "${SCRIPT_DIR}/buildcurl.sh"
+source "${SCRIPT_DIR}/buildcurl.sh" ${doclean}
 if [  $? -ne 0 ]; then return 1; fi
 
 echo ""
@@ -68,7 +75,7 @@ cd "${SCRIPT_DIR}"
 
 cd ../../jpeg-6b/
 if [  $? -ne 0 ]; then return 1; fi
-source "${SCRIPT_DIR}/buildjpeg.sh"
+source "${SCRIPT_DIR}/buildjpeg.sh" ${doclean}
 if [  $? -ne 0 ]; then return 1; fi
 
 echo ""
@@ -83,7 +90,7 @@ cp -fpR wxMac-BOINC.xcodeproj ../../wxMac-2.6.3/src/
 
 cd ../../wxMac-2.6.3/
 if [  $? -ne 0 ]; then return 1; fi
-source "${SCRIPT_DIR}/buildWxMac.sh"
+source "${SCRIPT_DIR}/buildWxMac.sh" ${doclean}
 if [  $? -ne 0 ]; then return 1; fi
 
 cd "${SCRIPT_DIR}"

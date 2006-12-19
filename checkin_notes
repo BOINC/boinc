@@ -13516,3 +13516,9 @@ Rom    18 Dec 2006
     clientgui/
         AdvancedFrame.cpp
         
+
+Charlie 19 Dec 2006
+    - Mac: Fix bug in setupForBOINC build script handling of -clean 
+        option.
+    mac_build/
+        setupForBOINC.sh
