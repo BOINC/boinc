@@ -824,8 +824,8 @@ int SCHEDULER_REPLY::parse(FILE* in, PROJECT* project) {
 #ifdef ENABLE_AUTO_UPDATE
         } else if (match_tag(buf, "<auto_update>")) {
             retval = auto_update.parse(mf);
-#endif
 			if (!retval) auto_update.present = true;
+#endif
         } else if (strlen(buf)>1){
             if (log_flags.unparsed_xml) {
                 msg_printf(0, MSG_ERROR,

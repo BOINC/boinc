@@ -13522,3 +13522,13 @@ Charlie 19 Dec 2006
         option.
     mac_build/
         setupForBOINC.sh
+
+David  19 Dec 2006
+	- core client: add "<http_1_0/>" config flag for
+		people with proxies that require HTTP 1.0.
+		Curl's default is 1.1
+
+	client/
+		http_curl.C
+		log_flags.C,h
+		scheduler_op.C

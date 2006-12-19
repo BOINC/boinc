@@ -151,6 +151,7 @@ void LOG_FLAGS::show() {
 CONFIG::CONFIG() {
     memset(this, 0, sizeof(CONFIG));
     dont_check_file_sizes = false;
+	http_1_0 = false;
     save_stats_days = 30;
     max_file_xfers = MAX_FILE_XFERS;
     max_file_xfers_per_project = MAX_FILE_XFERS_PER_PROJECT;
@@ -172,6 +173,7 @@ int CONFIG::parse_options(XML_PARSER& xp) {
         }
         else if (xp.parse_int(tag, "save_stats_days", save_stats_days)) continue;
         else if (xp.parse_bool(tag, "dont_check_file_sizes", dont_check_file_sizes)) continue;
+        else if (xp.parse_bool(tag, "http_1_0", http_1_0)) continue;
         else if (xp.parse_int(tag, "ncpus", ncpus)) continue;
         else if (xp.parse_int(tag, "max_file_xfers", max_file_xfers)) continue;
         else if (xp.parse_int(tag, "max_file_xfers_per_project", max_file_xfers_per_project)) continue;

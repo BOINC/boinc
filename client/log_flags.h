@@ -76,6 +76,7 @@ struct LOG_FLAGS {
 
 struct CONFIG {
     bool dont_check_file_sizes;
+	bool http_1_0;
     int save_stats_days;
     int ncpus;
     int max_file_xfers;
