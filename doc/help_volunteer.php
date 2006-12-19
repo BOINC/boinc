@@ -180,12 +180,14 @@ Make sure the understand the basic architecture.
 <h2>What to do if you can't solve a problem</h2>
 <p>
 If you get a call with a problem that's completely outside your sphere,
-tell the caller that,
-and suggest that they call another volunteer
+tell the caller that, and suggest that they call another volunteer
 or try the message boards.
 <p>
 If another Help Volunteer is online, you can try adding
 them to the call using skype's 'conference' feature.
+<p>
+Try checking the <a href=http://boincfaq.mundayweb.com/>BOINC FAQ service</a>
+(and make entries there if you like).
 <p>
 If you get a call with a problem that you think you can solve
 but need to do some research, tell the caller that.

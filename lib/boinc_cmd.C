@@ -308,7 +308,12 @@ int main(int argc, char** argv) {
         }
     } else if (!strcmp(cmd, "--set_run_mode")) {
         char* op = next_arg(argc, argv, i);
-        double duration = atof(next_arg(argc, argv, i));
+        double duration;
+        if (i >= argc || (argv[i][0] == '-')) {
+            duration = 0;
+        } else {
+            duration = atof(next_arg(argc, argv, i));
+        }
         if (!strcmp(op, "always")) {
             retval = rpc.set_run_mode(RUN_MODE_ALWAYS, duration);
         } else if (!strcmp(op, "auto")) {
@@ -320,7 +325,12 @@ int main(int argc, char** argv) {
         }
     } else if (!strcmp(cmd, "--set_network_mode")) {
         char* op = next_arg(argc, argv, i);
-        double duration = atof(next_arg(argc, argv, i));
+        double duration;
+        if (i >= argc || (argv[i][0] == '-')) {
+            duration = 0;
+        } else {
+            duration = atof(next_arg(argc, argv, i));
+        }
         if (!strcmp(op, "always")) {
             retval = rpc.set_network_mode(RUN_MODE_ALWAYS, duration);
         } else if (!strcmp(op, "auto")) {

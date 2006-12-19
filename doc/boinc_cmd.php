@@ -66,17 +66,17 @@ list_item("--file_transfer URL filename
         ",
     "Do operation on a file transfer"
 );
-list_item("--set_run_mode {always | auto | never} duration",
+list_item("--set_run_mode {always | auto | never} [ duration ]",
     "Set run mode.
     <br>always: do CPU work always
     <br>auto: do work only when allowed by preferences
     <br>never: don't do work
     <p>
-    If duration is zero, this mode is permanent.
+    If duration is zero or absent, this mode is permanent.
     Otherwise, after 'duration' seconds elapse, revert to last permanent mode.
     "
 );
-list_item("--set_network_mode {always | auto | never} duration",
+list_item("--set_network_mode {always | auto | never} [ duration ]",
     "Set network mode
     <br> Like set_run_mode but applies to network transfers
     "

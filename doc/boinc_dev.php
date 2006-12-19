@@ -95,6 +95,7 @@ The following medium-to-large development projects are available:
 </ul>
 <li> Core client:
 <ul>
+<li> Do per-project disk-space measurements asynchronously (in a thread).
 <li> Extend general preferences to allow users to
 specify different time-of-day restrictions for different days of the week.
 <li> 
@@ -110,8 +111,7 @@ with file deletion according to project policy.
 
 <li> BOINC Manager:
 <ul>
-Change the Statistics tab to use a single graph
-with lines of different colors or styles for different projects.
+<li> Advanced prefs dialog
 
 <li> Show progress bars for file transfers and in-progress results
 (this requires changing the container class from Spreadsheet to Grid).

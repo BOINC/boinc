@@ -13542,3 +13542,10 @@ David  19 Dec 2006
         crypt.C
         error_numbers.h
         util.C
+
+David  19 Dec 2006
+    - boinc_cmd: make "duration" argument optional in
+        --set_run_mode and --set_network_mode
+
+    lib/
+        boinc_cmd.C

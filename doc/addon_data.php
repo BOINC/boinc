@@ -249,13 +249,23 @@ array('CPDNSpy.rar',
     '',
     1092395191
 ),
+array('http://home.twcny.rr.com/setiatease/cpulimit-1.1c.tar.gz',
+    'Temperature-based CPU limit',
+    '1.1c',
+    'Like CPU limiter, but based on CPU temperature',
+    'http://home.twcny.rr.com/setiatease/cpulimit-1.1c.tar.gz',
+    '',
+    '',
+    '1166562285'
+),
+
 array('cpulimit-1.1.tar.gz',
     'CPU limiter',
     '1.1',
     'Limits the CPU usage (good for laptops)',
     'http://marlon80.interfree.it/cpulimit/index.html',
     '',
-    'cpulimit is a simple program that attempts to limit the cpu usage of a process (expressed in percentage, not in cpu time). This is useful to control batch jobs, when you don\'t want they eat too much cpu. It does not act on the nice value or other priority stuff, but on the real cpu usage. Besides it is able to adapt itself to the overall system load, dynamically and quickly.
+    'cpulimit is a simple program that attempts to limit the CPU usage of a process (expressed in percentage, not in cpu time). This is useful to control batch jobs, when you don\'t want they eat too much cpu. It does not act on the nice value or other priority stuff, but on the real cpu usage. Besides it is able to adapt itself to the overall system load, dynamically and quickly.
     <p>
     Extract the source and compile:
     <pre>
@@ -277,6 +287,7 @@ array('cpulimit-1.1.tar.gz',
     </pre>',
     1119944777
 ),
+
 array('SETITracker_V1.0BETA.zip',
     'SETI@Boinc Tracker',
     '1.0BETA',

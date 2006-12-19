@@ -19,6 +19,10 @@ function site($url, $name) {
 
 $wiki_sites = array(
     array(
+        "http://boincfaq.mundayweb.com/",
+        "The BOINC FAQ Service"
+    ),
+    array(
         "http://boinc-wiki.ath.cx/",
         "The Unofficial BOINC Wiki",
         "(in English)",
@@ -50,16 +54,23 @@ page_head("Web resources for BOINC participants");
 echo "
 <h3>Contents</h3>
 <ul>
+<li> <a href=#info>Help and Information</a>
 <li> <a href=#stats>Credit statistics</a>
 <li> <a href=#sigs>Credit-based signatures</a>
 <li> <a href=#team_stats>Team statistics</a>
-<li> <a href=#wiki>Wikis</a>
 <li> <a href=#status>Project status</a>
 <li> <a href=#uotd>User of the Day status</a>
 <li> <a href=#skins>Skins for the BOINC Manager</a>
 <li> <a href=#sites>Other BOINC-related sites</a>
 (Information, message boards, and teams)
 </ul>
+<a name=wiki></a>
+<h3>Help and Information</h3>
+Sites with information and documentation about BOINC.
+";
+shuffle($wiki_sites);
+site_list($wiki_sites);
+echo "
 <a name=stats></a>
 <h3>Credit statistics</h3>
 <p>
@@ -89,13 +100,6 @@ echo "
 ";
 shuffle($team_stats_sites);
 site_list($team_stats_sites);
-echo "
-<a name=wiki></a>
-<h3>Wikis</h3>
-User-editable sites with information and documentation about BOINC.
-";
-shuffle($wiki_sites);
-site_list($wiki_sites);
 echo "
 
 <a name=status></a>
