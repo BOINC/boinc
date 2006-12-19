@@ -13354,3 +13354,9 @@ Charlie 15 Dec 2006
     clientgui/
         AdvancedFrame.cpp, .h
         sg_BoincSimpleGUI.cpp, .h
+
+Charlie 19 Dec 2006
+    - Mac: Fix bug in setupForBOINC build script handling of -clean 
+        option.
+    mac_build/
+        setupForBOINC.sh
