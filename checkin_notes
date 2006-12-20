@@ -13380,3 +13380,10 @@ Walt   19 Dec 2006
         Makefile.am
     clientgui/
         Makefile.am
+
+Charlie 20 Dec 2006
+    - MGR: Fix compile errors.
+    
+    clientgui/
+        AdvancedFrame.cpp
+        sg_BoincSimpleGUI.cpp

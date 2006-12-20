@@ -1412,7 +1412,7 @@ void CAdvancedFrame::OnHelpBOINCManager(wxCommandEvent& WXUNUSED(event)) {
 		canonicalize_master_url(url);
 
 		wxString wxurl;
-		wxurl.Printf(wxT("%smanager_links.php?target=advanced",url.c_str()));
+		wxurl.Printf(wxT("%smanager_links.php?target=advanced"),url.c_str());
 		ExecuteBrowserLink(wxurl);
     }
 
