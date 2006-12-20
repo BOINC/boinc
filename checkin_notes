@@ -13572,3 +13572,10 @@ Walt   19 Dec 2006
         sg_ImageButton.cpp
         sg_StatImageLoader.cpp
         sg_ViewTabPage.cpp
+
+
+Walt   19 Dec 2006
+    - MGR: Add simple GUI files to makefile
+
+    clientgui/
+        Makefile.am
