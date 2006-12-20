@@ -1432,7 +1432,8 @@ void CAdvancedFrame::OnHelpBOINCManager(wxCommandEvent& WXUNUSED(event)) {
 		url = wxGetApp().GetSkinManager()->GetAdvanced()->GetCompanyWebsite().c_str();
 		canonicalize_master_url(url);
 
-		wxString wxurl(url.c_str(), wxConvUTF8);
+		wxString wxurl;
+		wxurl = wxString(url.c_str(), wxConvUTF8);
 		wxurl += wxT("manager_links.php?target=advanced");
 		ExecuteBrowserLink(wxurl);
     }
