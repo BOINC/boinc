@@ -13371,3 +13371,12 @@ Walt   19 Dec 2006
         sg_ImageButton.cpp
         sg_StatImageLoader.cpp
         sg_ViewTabPage.cpp
+
+Walt   19 Dec 2006
+    - core client: Remove auto_update.C from makefile
+    - MGR: Add simple GUI files to makefile
+
+    client/
+        Makefile.am
+    clientgui/
+        Makefile.am
