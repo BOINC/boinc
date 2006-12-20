@@ -13579,3 +13579,9 @@ Walt   19 Dec 2006
 
     clientgui/
         Makefile.am
+
+Charlie 20 Dec 2006
+    - MGR: Fix compile warning due to a coding error.
+    
+    clientgui/
+        sg_BoincSimpleGUI.cpp

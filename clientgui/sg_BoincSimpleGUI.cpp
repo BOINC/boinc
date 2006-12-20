@@ -302,7 +302,7 @@ void CSimpleFrame::OnHelpBOINCManager(wxCommandEvent& WXUNUSED(event)) {
 		canonicalize_master_url(url);
 
 		wxString wxurl;
-		wxurl.Printf(wxT("manager_links.php?target=simple"),url.c_str());
+		wxurl.Printf(wxT("%smanager_links.php?target=simple"),url.c_str());
 		ExecuteBrowserLink(wxurl);
     }
 
