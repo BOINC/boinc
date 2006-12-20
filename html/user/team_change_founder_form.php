@@ -50,21 +50,30 @@ while ($user = mysql_fetch_object($result)) {
     if($user->id!=$team->userid) {       //don't show current founder
         $user_total_credit = format_credit($user->total_credit);
         $user_expavg_credit = format_credit($user->expavg_credit);
-        echo "
+        echo '
             <tr>
-            <td align=center><input type=radio name=change_$navailable_users value=$user->id>
-            <td>$user->name</td>
-            <td>$user_total_credit</td>
-            <td>$user_expavg_credit</td>
-        ";
+            <td align="center"><input type="radio" name="change_'.$navailable_users.'" value="'.$user->id.'">
+            <td>'.$user->name.'</td>
+            <td>'.$user_total_credit.'</td>
+            <td>'.$user_expavg_credit.'</td>
+            </tr>
+        ';
         $navailable_users++;
     }
 }
-echo "<input type=hidden name=navailable_users value=$navailable_users>";
-mysql_free_result($result);
-end_table();
-echo "<input type=submit value=\"Change founder\">";
+if ($navailable_users > 0) {
+    echo "<input type=hidden name=navailable_users value=$navailable_users>";
+    end_table();
+    echo "<input type=submit value=\"Change founder\">";
+} else {
+    echo '<tr>
+        <td colspan="4">There are no users to transfer team to.</td>
+        </tr>
+    ';
+    end_table();
+}
 echo "</form>";
+mysql_free_result($result);
 page_tail();
 
 ?>
