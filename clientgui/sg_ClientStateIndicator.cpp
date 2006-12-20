@@ -84,7 +84,7 @@ void ClientStateIndicator::CreateComponent(){
 }
 
 
-void ClientStateIndicator::SetActionState(const char* message)
+void ClientStateIndicator::SetActionState(wxString message)
 {
     CSkinSimple* pSkinSimple = wxGetApp().GetSkinManager()->GetSimple();
 
@@ -92,7 +92,7 @@ void ClientStateIndicator::SetActionState(const char* message)
     wxASSERT(wxDynamicCast(pSkinSimple, CSkinSimple));
 
 	Freeze();
-	stateMessage = wxString(message);
+	stateMessage = message;
 	if ( clientState != CLIENT_STATE_ACTION ) {
 		//Delete Previous state
 		DeletePreviousState();
@@ -120,7 +120,7 @@ void ClientStateIndicator::SetActionState(const char* message)
     Thaw();
 }
 
-void ClientStateIndicator::SetPausedState(const char* message)
+void ClientStateIndicator::SetPausedState(wxString message)
 {
     CSkinSimple* pSkinSimple = wxGetApp().GetSkinManager()->GetSimple();
 
@@ -128,7 +128,7 @@ void ClientStateIndicator::SetPausedState(const char* message)
     wxASSERT(wxDynamicCast(pSkinSimple, CSkinSimple));
 
 	Freeze();
-	stateMessage = wxString(message);
+	stateMessage = message;
 	if ( clientState != CLIENT_STATE_PAUSED ) {
 		//Delete Previous state
 		DeletePreviousState();
@@ -148,7 +148,7 @@ void ClientStateIndicator::SetPausedState(const char* message)
 	}
     Thaw();
 }
-void ClientStateIndicator::SetNoActionState(const char* message)
+void ClientStateIndicator::SetNoActionState(wxString message)
 {
     CSkinSimple* pSkinSimple = wxGetApp().GetSkinManager()->GetSimple();
 
@@ -156,7 +156,7 @@ void ClientStateIndicator::SetNoActionState(const char* message)
     wxASSERT(wxDynamicCast(pSkinSimple, CSkinSimple));
 
 	Freeze();
-	stateMessage = wxString(message); 
+	stateMessage = message; 
 
 	if ( clientState != CLIENT_STATE_ERROR ) {
 		//Delete Previous state

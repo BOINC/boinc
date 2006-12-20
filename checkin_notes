@@ -13561,3 +13561,14 @@ David  19 Dec 2006
         boinc_api.C,h
     lib/
         app_ipc.h
+
+Walt   19 Dec 2006
+    - MGR: Fix compile errors with Unicode builds
+
+    clientgui/
+        AdvancedFrame.cpp
+        sg_BoincSimpleGUI.cpp
+        sg_ClientStateIndicator.cpp, h
+        sg_ImageButton.cpp
+        sg_StatImageLoader.cpp
+        sg_ViewTabPage.cpp

@@ -54,9 +54,9 @@ public:
 
 private: 
         
-		void SetActionState(const char* message);
-		void SetNoActionState(const char* message);
-		void SetPausedState(const char* message);
+		void SetActionState(wxString message);
+		void SetNoActionState(wxString message);
+		void SetPausedState(wxString message);
 		bool DownloadingResults();
 		bool Suspended();
 		bool ProjectUpdateScheduled();
