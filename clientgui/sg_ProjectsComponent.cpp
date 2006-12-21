@@ -368,11 +368,11 @@ void CProjectsComponent::OnSuspend(wxCommandEvent& /*event*/) {
     wxLogTrace(wxT("Function Start/End"), wxT("CProjectsComponent::OnSuspend - Function Begin"));
 
     CMainDocument* pDoc = wxGetApp().GetDocument();
+
     wxASSERT(pDoc);
     wxASSERT(wxDynamicCast(pDoc, CMainDocument));
 
     pDoc->SetActivityRunMode(RUN_MODE_NEVER, 3600);
-    pDoc->SetNetworkRunMode(RUN_MODE_NEVER, 3600);
 
     btnPause->Show(false);
     btnResume->Show(true);
@@ -385,19 +385,16 @@ void CProjectsComponent::OnResume(wxCommandEvent& /*event*/) {
     wxLogTrace(wxT("Function Start/End"), wxT("CProjectsComponent::OnResume - Function Begin"));
 
     CMainDocument* pDoc      = wxGetApp().GetDocument();
-    CC_STATUS      status;
+    CC_STATUS ccs;
 
     wxASSERT(pDoc);
     wxASSERT(wxDynamicCast(pDoc, CMainDocument));
 
-    pDoc->GetCoreClientStatus(status);
-    if ((status.task_mode_perm != status.task_mode) || (status.network_mode_perm != status.network_mode)) {
-        if (status.task_mode_perm != status.task_mode) {
-            pDoc->SetActivityRunMode(RUN_MODE_RESTORE, 0);
-        }
-        if (status.network_mode_perm != status.network_mode) {
-            pDoc->SetNetworkRunMode(RUN_MODE_RESTORE, 0);
-        }
+    pDoc->GetCoreClientStatus(ccs);
+    if ((RUN_MODE_NEVER == ccs.task_mode) && (0 >= ccs.task_mode_delay)) {
+        pDoc->SetActivityRunMode(RUN_MODE_AUTO, 0);
+    } else {
+        pDoc->SetActivityRunMode(RUN_MODE_RESTORE, 0);
     }
 
     btnResume->Show(false);
@@ -455,7 +452,7 @@ void CProjectsComponent::UpdateInterface()
 	// Show resume or pause as appropriate
 	CC_STATUS status;
 	pDoc->GetCoreClientStatus(status);
-    if ((RUN_MODE_NEVER == status.task_mode) && (RUN_MODE_NEVER == status.network_mode)) {
+    if (RUN_MODE_NEVER == status.task_mode) {
 		btnPause->Show(false);
 		btnResume->Show(true);
 	} else {

@@ -448,12 +448,12 @@ int CMainDocument::FrameShutdownDetected() {
 }
 
 
-int CMainDocument::GetCoreClientStatus(CC_STATUS& ccs) {
+int CMainDocument::GetCoreClientStatus(CC_STATUS& ccs, bool bForce) {
     int     iRetVal = 0;
 
     if (IsConnected()) {
         wxTimeSpan ts(wxDateTime::Now() - m_dtCachedCCStatusTimestamp);
-        if (ts.GetSeconds() > 0) {
+        if ((ts.GetSeconds() > 0) || bForce) {
             m_dtCachedCCStatusTimestamp = wxDateTime::Now();
 
             iRetVal = rpc.get_cc_status(ccs);
@@ -479,12 +479,17 @@ int CMainDocument::GetCoreClientStatus(CC_STATUS& ccs) {
 
 
 int CMainDocument::SetActivityRunMode(int iMode, int iTimeout) {
-    int     iRetVal = 0;
+    int       iRetVal = 0;
+    CC_STATUS ccs;
 
     if (IsConnected()) {
         iRetVal = rpc.set_run_mode(iMode, iTimeout);
         if (0 == iRetVal) {
-            status.task_mode = iMode;
+            if (RUN_MODE_RESTORE == iMode) {
+                GetCoreClientStatus(ccs, true);
+            } else {
+                status.task_mode = iMode;
+            }
         }
     }
 
@@ -493,12 +498,17 @@ int CMainDocument::SetActivityRunMode(int iMode, int iTimeout) {
 
 
 int CMainDocument::SetNetworkRunMode(int iMode, int iTimeout) {
-    int     iRetVal = 0;
+    int       iRetVal = 0;
+    CC_STATUS ccs;
 
     if (IsConnected()) {
         iRetVal = rpc.set_network_mode(iMode, iTimeout);
         if (0 == iRetVal) {
-            status.network_mode = iMode;
+            if (RUN_MODE_RESTORE == iMode) {
+                GetCoreClientStatus(ccs, true);
+            } else {
+                status.network_mode = iMode;
+            }
         }
     }
 

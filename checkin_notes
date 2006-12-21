@@ -13597,3 +13597,27 @@ David  21 Dec 2006
         stats_sites.inc
     lib/
         util.C
+
+Rom    21 Dec 2006
+    - MGR: Simplify snooze so that it only applies to CPU usage.
+    - MGR: Remember message dialog size and list view column widths
+        for all platforms.
+    - MGR: Fix an annoying bug when the advanced gui suspended all
+        tasks and then you tried to resume from the simple gui.
+        
+        Restore didn't work when the task_mode_perm was equal to
+        never and their was no timeout.
+        
+        We should probably move this logic down into the CC.
+    - LIB: Don't display foreground window information unless the
+        user has agreed to allow it to happen via the registry.
+        
+        Their was concern about privacy issues with window titles.
+        
+    clientgui/
+        BOINCTaskBar.cpp
+        MainDocument.cpp, .h
+        sg_DlgMessages.cpp
+    lib/
+        diagnostics_win.C
+

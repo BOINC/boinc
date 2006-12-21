@@ -390,7 +390,9 @@ bool CPanelMessages::OnSaveState(wxConfigBase* pConfig) {
 
     // Which fields are we interested in?
     liColumnInfo.SetMask(
-        wxLIST_MASK_WIDTH
+        wxLIST_MASK_TEXT |
+        wxLIST_MASK_WIDTH |
+        wxLIST_MASK_FORMAT
     );
 
     // Cycle through the columns recording anything interesting
@@ -427,7 +429,9 @@ bool CPanelMessages::OnRestoreState(wxConfigBase* pConfig) {
 
     // Which fields are we interested in?
     liColumnInfo.SetMask(
-        wxLIST_MASK_WIDTH
+        wxLIST_MASK_TEXT |
+        wxLIST_MASK_WIDTH |
+        wxLIST_MASK_FORMAT
     );
 
     // Cycle through the columns recording anything interesting
@@ -761,10 +765,8 @@ bool CDlgMessages::SaveState() {
     //
     pConfig->SetPath(strBaseConfigLocation);
 
-#ifdef __WXMAC__
     // Reterieve and store the latest window dimensions.
     SaveWindowDimensions();
-#endif
 
     // Save the list ctrl state
     m_pBackgroundPanel->OnSaveState(pConfig);
@@ -813,9 +815,8 @@ bool CDlgMessages::RestoreState() {
     //
     pConfig->SetPath(strBaseConfigLocation);
 
-#ifdef __WXMAC__
+    // Restore the windows properties
     RestoreWindowDimensions();
-#endif
 
     // Restore the list ctrl state
     m_pBackgroundPanel->OnRestoreState(pConfig);

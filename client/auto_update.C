@@ -138,6 +138,7 @@ int AUTO_UPDATE::validate_and_link(PROJECT* proj) {
 		return retval;
 	}
     gstate.auto_update = *this;
+    return 0;
 }
 
 void AUTO_UPDATE::install() {

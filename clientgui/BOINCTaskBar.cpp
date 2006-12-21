@@ -198,7 +198,7 @@ void CTaskBarIcon::OnOpen(wxCommandEvent& WXUNUSED(event)) {
 
 
 void CTaskBarIcon::OnOpenWebsite(wxCommandEvent& WXUNUSED(event)) {
-    ResetTaskBar();
+    wxLogTrace(wxT("Function Start/End"), wxT("CTaskBarIcon::OnOpenWebsite - Function Begin"));
 
     CMainDocument*     pDoc = wxGetApp().GetDocument();
     CBOINCBaseFrame*   pFrame = wxGetApp().GetFrame();
@@ -210,11 +210,13 @@ void CTaskBarIcon::OnOpenWebsite(wxCommandEvent& WXUNUSED(event)) {
     wxASSERT(pFrame);
     wxASSERT(wxDynamicCast(pFrame, CBOINCBaseFrame));
 
+    ResetTaskBar();
+
     pDoc->rpc.acct_mgr_info(ami);
-
     url = wxString(ami.acct_mgr_url.c_str(), wxConvUTF8);
-
     pFrame->ExecuteBrowserLink(url);
+
+    wxLogTrace(wxT("Function Start/End"), wxT("CTaskBarIcon::OnOpenWebsite - Function End"));
 }
 
 
@@ -230,16 +232,10 @@ void CTaskBarIcon::OnSuspendResume(wxCommandEvent& WXUNUSED(event)) {
     ResetTaskBar();
 
     pDoc->GetCoreClientStatus(status);
-    if ((status.task_mode_perm != status.task_mode) || (status.network_mode_perm != status.network_mode)) {
-        if (status.task_mode_perm != status.task_mode) {
-            pDoc->SetActivityRunMode(RUN_MODE_RESTORE, 0);
-        }
-        if (status.network_mode_perm != status.network_mode) {
-            pDoc->SetNetworkRunMode(RUN_MODE_RESTORE, 0);
-        }
+    if (status.task_mode_perm != status.task_mode) {
+        pDoc->SetActivityRunMode(RUN_MODE_RESTORE, 0);
     } else {
         pDoc->SetActivityRunMode(RUN_MODE_NEVER, 3600);
-        pDoc->SetNetworkRunMode(RUN_MODE_NEVER, 3600);
     }
 
     wxLogTrace(wxT("Function Start/End"), wxT("CTaskBarIcon::OnSuspendResume - Function End"));
@@ -636,7 +632,7 @@ void CTaskBarIcon::AdjustMenuItems(wxMenu* pMenu) {
     wxASSERT(wxDynamicCast(pDoc, CMainDocument));
 
     pDoc->GetCoreClientStatus(status);
-    if ((RUN_MODE_NEVER == status.task_mode) && (RUN_MODE_NEVER == status.network_mode)) {
+    if (RUN_MODE_NEVER == status.task_mode) {
         pMenu->Check(ID_TB_SUSPEND, true);
     } else {
         pMenu->Check(ID_TB_SUSPEND, false);
