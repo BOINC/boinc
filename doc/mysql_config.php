@@ -4,6 +4,12 @@ require_once("docutil.php");
 
 page_head("Configuring MySQL for BOINC");
 echo "
+
+A fast-and-easy script that makes recommendations
+for tuning server variables is
+<a href=http://www.day32.com/MySQL/>here</a>.
+
+<hr>
 <h2>Introduction</h2>
 
 The note discusses how MySQL may be configured for BOINC Projects.
@@ -179,132 +185,72 @@ of the hardware resources that are available.
 <p> 
 Here are some other file directory assignments for the SETI@home environment:
 <pre>
- 
-
 innodb_data_home_dir = /mydisks/a/apps/mysql/data/
-
 innodb_data_file_path = ibdata1:16G;ibdata2:16G;ibdata3:16G; ibdata4:16G;ibdata5:16G; ibdata6:16G;ibdata7:16G;ibdata8:16G;ibdata9:16G;ibdata10:16G;ibdata11:16G;ibdata12:16G;
-
 innodb_log_group_home_dir = /mydisks/a/apps/mysql/mysql_logs/innodb_logs/
-
 innodb_log_arch_dir = /mydisks/a/apps/mysql/mysql_logs/innodb_logs/
 </pre>
  
 
 Example of a MySQL config file:
 <pre>
- 
-
 [mysqld]
-
 #datadir=/var/lib/mysql
-
 #datadir=/home/mysql/data/
-
 datadir=/mydisks/a/apps/mysql/data/
-
 #log-bin      ##/// this comment line disables replication
-
 log-slow-queries = /mydisks/a/apps/mysql/jocelyn_slow.log
-
 server-id       =       13
-
 socket=/tmp/mysql.sock
-
 skip-locking
-
 set-variable    = delay_key_write=all
-
 set-variable    = key_buffer= 750M
-
 set-variable    = max_allowed_packet=2M
-
 set-variable    = table_cache=256
-
 set-variable    = sort_buffer=2M
-
 set-variable    = record_buffer=2M
-
 set-variable    = myisam_sort_buffer_size=512M
-
 set-variable    = query_cache_limit=2M
-
 set-variable    = query_cache_size=16M
-
 set-variable    = thread_cache=128
 
 # Try number of CPU's*2 for thread_concurrency
-
 set-variable    = thread_concurrency=8
-
 set-variable    = max_connections=256
-
 set-variable    = max_connect_errors=1000
 
- 
-
 ## more changes for slave replicant
-
 #master-host     = xxx.ssl.berkeley.edu
-
 #master-user     = slavexxx11
-
 #master-password = masterpwxxx11
-
 #replicate-do-db        =       SETI_BOINC
-
 #replicate-ignore-db    =       mysql
 
- 
-
 # Uncomment the following if you are using Innobase tables
-
 innodb_data_home_dir = /mydisks/a/apps/mysql/data/
-
 innodb_data_file_path = ibdata1:16G;ibdata2:16G;ibdata3:16G; ibdata4:16G;ibdata5:16G; ibdata6:16G;ibdata7:16G;ibdata8:16G;ibdata9:16G;ibdata10:16G;ibdata11:16G;ibdata12:16G;
-
 innodb_log_group_home_dir = /mydisks/a/apps/mysql/mysql_logs/innodb_logs/
-
 innodb_log_arch_dir = /mydisks/a/apps/mysql/mysql_logs/innodb_logs/
-
 set-variable = innodb_mirrored_log_groups=1
-
 set-variable = innodb_log_files_in_group=4
-
 set-variable = innodb_log_file_size=1000M
-
 set-variable = innodb_log_buffer_size=16M
-
 set-variable = innodb_flush_method=O_DIRECT
-
 set_variable = innodb_fast_shutdown=1
-
 innodb_flush_log_at_trx_commit=0
-
 innodb_log_archive=0
-
 set-variable = innodb_buffer_pool_size=4584M
-
 set-variable = innodb_additional_mem_pool_size=8M
-
 set-variable = innodb_file_io_threads=64
-
 set-variable = innodb_lock_wait_timeout=50
 
 [mysql.server]
-
 user=mysql
-
 basedir=/mydisks/a/apps/mysql
 
- 
-
 [safe_mysqld]
-
 err-log=/mydisks/a/apps/mysql/jocelyn.err
-
 pid-file=/mydisks/a/apps/mysql/jocelyn.pid
-
 </pre>
 
 
@@ -317,19 +263,12 @@ memory usage and connection activity to various client applications.
 Mytop application script give useful realtime status for the MySQL engine.
 Here is a sample of the first lines of its output:
 <pre>
- 
-
 MySQL on localhost (4.0.23-max-log)
  up 18+00:32:55 [10:50:21]
-
  Queries: 641.7M  qps:  432 Slow:   71.4k         Se/In/Up/De(%):    51/01/43/03
-
              qps now:  382 Slow qps: 0.0  Threads:  413 (   2/  28) 43/01/46/09
-
  Cache Hits: 58.2M Hits/s: 39.2 Hits now:  17.3  Ratio: 17.9% Ratio now: 10.6%
-
  Key Efficiency: 99.4%  Bps in/out:  1.7k/ 1.6k   Now in/out: 63.5k/338.1k
-
 </pre> 
 
 It shows the historic queries/sec is 432 qps and the current
@@ -345,109 +284,57 @@ The buffer pools information in given in number
 of pages that are 16KB in size.  See example below:
 <pre>
  
-
 --------
-
 FILE I/O
-
 --------
-
 I/O thread 0 state: waiting for i/o request (insert buffer thread)
-
 I/O thread 1 state: waiting for i/o request (log thread)
-
 I/O thread 2 state: waiting for i/o request (read thread)
-
 I/O thread 3 state: waiting for i/o request (write thread)
-
 Pending normal aio reads: 0, aio writes: 0,
-
  ibuf aio reads: 0, log i/o's: 0, sync i/o's: 0
-
 Pending flushes (fsync) log: 0; buffer pool: 0
-
 1470930 OS file reads, 543461 OS file writes, 53800 OS fsyncs
-
 1 pending preads, 0 pending pwrites
-
 228.88 reads/s, 21594 avg bytes/read, 185.98 writes/s, 13.50 fsyncs/s
-
 -------------------------------------
-
 INSERT BUFFER AND ADAPTIVE HASH INDEX
-
 -------------------------------------
-
 Ibuf for space 0: size 335, free list len 283, seg size 619,
-
 219535 inserts, 211776 merged recs, 45660 merges
-
 Hash table size 9097667, used cells 2711301, node heap has 4751 buffer(s)
-
 1573.54 hash searches/s, 5752.12 non-hash searches/s
-
 ---
-
 LOG
-
 ---
-
 Log sequence number 557 540674217
-
 Log flushed up to   557 540451369
-
 Last checkpoint at  556 4020363027
-
 0 pending log writes, 0 pending chkp writes
-
 39114 log i/o's done, 0.70 log i/o's/second
-
 ----------------------
-
 BUFFER POOL AND MEMORY
-
 ----------------------
-
 Total memory allocated 5032392104; in additional pool allocated 8386560
-
 Buffer pool size   280576
-
 Free buffers       0
-
 Database pages     275825
-
 Modified db pages  186393
-
 Pending reads 1
-
 Pending writes: LRU 129, flush list 0, single page 0
-
 Pages read 2143598, created 23058, written 694488
-
 301.17 reads/s, 4.40 creates/s, 216.68 writes/s
-
 Buffer pool hit rate 991 / 1000
-
 --------------
-
 ROW OPERATIONS
-
 --------------
-
 6 queries inside InnoDB, 0 queries in queue
-
 Main thread process no. 12155, id 1147140464, state: sleeping
-
 Number of rows inserted 9780, updated 1039701, deleted 60084, read 159846476
-
 0.10 inserts/s, 374.56 updates/s, 63.69 deletes/s, 1116.99 reads/s
-
 ----------------------------
-
 END OF INNODB MONITOR OUTPUT
-
 ============================
-
 </pre> 
 
 <h3>IOSTAT:</h3>

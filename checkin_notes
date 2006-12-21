@@ -13585,3 +13585,15 @@ Charlie 20 Dec 2006
     
     clientgui/
         sg_BoincSimpleGUI.cpp
+
+David  21 Dec 2006
+    - core client: improve error messages on RPC deferral
+
+    client/
+        client_types.h
+        cs_scheduler.C
+        scheduler_op.C
+    html/inc/
+        stats_sites.inc
+    lib/
+        util.C

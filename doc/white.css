@@ -54,11 +54,11 @@ span.note{
 }
 
 pre {
-	background-color: #d8e8ff;
+	background-color: rgb(216, 232, 255);
 }
 
 th {
-	background-color: #c8c8ff;
+	background-color: rgb(140,160,230);
 	color: black;
 	font-weight: bold;
 }
@@ -92,10 +92,6 @@ tr.subtitle {
 	background-color: white;
 	color: black;
 	font-weight: bold;
-}
-
-tr.message {
-           background-color:#E0E0EF;
 }
 
 input , select {

@@ -4,7 +4,7 @@ page_head("Creating BOINC projects");
 
 echo "
 <font size=+1><b>
-Designing distributed computations with BOINC
+Distributed computation with BOINC
 </b></font>
 <ul>
 <li> <a href=intro.php>Overview of BOINC</a>

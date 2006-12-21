@@ -10,9 +10,11 @@ you can find others using <a href=http://google.com>Google</a>.
 Mouse over a project for details.
     <ul>
 ";
+list_start("cellpadding=2, width=100%");
+list_heading("Project name<br><span class=note>Mouse over for details; click to visit web site</span>", "Project URL<br><span class=note>Copy and paste into BOINC client</span>");
 shuffle($areas);
 foreach ($areas as $area) {
-    echo "<li> ".$area[0]."<ul>\n";
+    list_bar($area[0]);
     $projects = $area[1];
     shuffle($projects);
     foreach ($projects as $p) {
@@ -20,11 +22,12 @@ foreach ($areas as $area) {
         if ($p[5]) {
             $img= "<img align=right vspace=4 hspace=4 src=images/$p[5]>";
         }
-        echo "<li> <a href=$p[1] onmouseover=\"return escape('$img <b>Home:</b> $p[2]<hr><b>Area:</b> $p[3]<hr><b>Goal:</b> $p[4]')\">$p[0]</a>
-        ";
+        $x = "<a href=$p[1] onmouseover=\"return escape('$img <b>Home:</b> $p[2]<hr><b>Area:</b> $p[3]<hr><b>Goal:</b> $p[4]')\">$p[0]</a>";
+        $y = $p[1];
+        list_item($x, $y);
     }
-    echo "</ul>\n";
 }
+list_end();
 echo "
 </ul>
 <p>

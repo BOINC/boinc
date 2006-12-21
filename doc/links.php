@@ -19,6 +19,10 @@ function site($url, $name) {
 
 $wiki_sites = array(
     array(
+        "http://www.kazlev.karoo.net/noob_help.htm",
+        "BOINC mini-FAQ"
+    ),
+    array(
         "http://boincfaq.mundayweb.com/",
         "The BOINC FAQ Service"
     ),

@@ -205,7 +205,7 @@ public:
     int master_fetch_failures;
     double min_rpc_time;           // earliest time to contact any server
                                    // of this project (or zero)
-    void set_min_rpc_time(double future_time);
+    void set_min_rpc_time(double future_time, const char* reason);
     bool waiting_until_min_rpc_time();
         // returns true if min_rpc_time > now
     bool master_url_fetch_pending;

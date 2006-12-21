@@ -70,7 +70,7 @@ bool SCHEDULER_OP::check_master_fetch_start() {
             p->attach_failed(ERR_ATTACH_FAIL_PARSE);
         } else {
             p->master_fetch_failures++;
-            backoff(p, "Scheduler list fetch failed\n");
+            backoff(p, "scheduler list fetch failed\n");
         }
         return false;
     }
@@ -127,12 +127,12 @@ int SCHEDULER_OP::init_op_project(PROJECT* p, int r) {
         return retval;
     }
 
-	if (reason == RPC_REASON_INIT) {
-		p->work_request = 1;
-		if (!gstate.cpu_benchmarks_done()) {
-			gstate.cpu_benchmarks_set_defaults();
-		}
-	}
+    if (reason == RPC_REASON_INIT) {
+        p->work_request = 1;
+        if (!gstate.cpu_benchmarks_done()) {
+            gstate.cpu_benchmarks_set_defaults();
+        }
+    }
 
     url_index = 0;
     retval = gstate.make_scheduler_request(p);
@@ -141,7 +141,7 @@ int SCHEDULER_OP::init_op_project(PROJECT* p, int r) {
     }
     if (retval) {
         sprintf(err_msg,
-            "Scheduler request to %s failed: %s\n",
+            "scheduler request to %s failed: %s\n",
             p->get_scheduler_url(url_index, url_random), boincerror(retval)
         );
         backoff(p, err_msg);
@@ -167,16 +167,16 @@ int SCHEDULER_OP::init_op_project(PROJECT* p, int r) {
 // Master-file fetch errors for tentative (new) projects
 // are handled elsewhere; no need to detach from projects here.
 //
-void SCHEDULER_OP::backoff(PROJECT* p, const char *error_msg ) {
-    if (error_msg) msg_printf(p, MSG_ERROR, error_msg);
+void SCHEDULER_OP::backoff(PROJECT* p, const char *reason ) {
+    char buf[1024];
 
     if (p->master_fetch_failures >= gstate.master_fetch_retry_cap) {
-        msg_printf(p, MSG_ERROR,
-            "%d consecutive failures fetching scheduler list - deferring %d seconds",
-            p->master_fetch_failures, gstate.master_fetch_interval
+        sprintf(buf,
+            "%d consecutive failures fetching scheduler list",
+            p->master_fetch_failures
         );
         p->master_url_fetch_pending = true;
-        p->set_min_rpc_time(gstate.now + gstate.master_fetch_interval);
+        p->set_min_rpc_time(gstate.now + gstate.master_fetch_interval, buf);
         return;
     }
 
@@ -203,7 +203,7 @@ void SCHEDULER_OP::backoff(PROJECT* p, const char *error_msg ) {
         n, gstate.sched_retry_delay_min, gstate.sched_retry_delay_max
     );
     //msg_printf(p, MSG_INFO, "simulating backoff of %f", exp_backoff);
-    p->set_min_rpc_time(gstate.now + exp_backoff);
+    p->set_min_rpc_time(gstate.now + exp_backoff, reason);
 }
 
 // low-level routine to initiate an RPC
@@ -469,7 +469,7 @@ bool SCHEDULER_OP::poll() {
                     if (!retval) return true;
                 }
                 if (url_index == (int) cur_proj->scheduler_urls.size()) {
-                    backoff(cur_proj, 0);
+                    backoff(cur_proj, "scheduler request failed");
                     scheduler_op_done = true;
 
                     // if project suspended, don't retry failed RPC
@@ -488,34 +488,34 @@ bool SCHEDULER_OP::poll() {
                         retval = cur_proj->write_account_file();
                         if (retval) {
                             cur_proj->attach_failed(ERR_ATTACH_FAIL_FILE_WRITE);
-						} else {
-							gstate.project_attach.error_num = 0;
-							msg_printf(cur_proj, MSG_INFO,
-								"Successfully attached to %s",
-								cur_proj->get_project_name()
-							);
-						}
+                        } else {
+                            gstate.project_attach.error_num = 0;
+                            msg_printf(cur_proj, MSG_INFO,
+                                "Successfully attached to %s",
+                                cur_proj->get_project_name()
+                            );
+                        }
                     }
                 } else {
-					cur_proj->work_request = 0;		// don't ask again right away
                     switch (retval) {
                     case 0:
                         // if we asked for work and didn't get any,
                         // back off this project
                         //
-                        if (reason==RPC_REASON_NEED_WORK && nresults==0) {
+                        if (cur_proj->work_request && nresults==0) {
                             backoff(cur_proj, "No work from project\n");
                         } else {
                             cur_proj->nrpc_failures = 0;
                         }
                         break;
                     case ERR_PROJECT_DOWN:
-                        backoff(cur_proj, "Project is down");
+                        backoff(cur_proj, "project is down");
                         break;
                     default:
-                        backoff(cur_proj, "Can't parse scheduler reply");
+                        backoff(cur_proj, "can't parse scheduler reply");
                         break;
                     }
+                    cur_proj->work_request = 0;    // don't ask again right away
                 }
             }
             cur_proj = NULL;
@@ -824,7 +824,7 @@ int SCHEDULER_REPLY::parse(FILE* in, PROJECT* project) {
 #ifdef ENABLE_AUTO_UPDATE
         } else if (match_tag(buf, "<auto_update>")) {
             retval = auto_update.parse(mf);
-			if (!retval) auto_update.present = true;
+            if (!retval) auto_update.present = true;
 #endif
         } else if (strlen(buf)>1){
             if (log_flags.unparsed_xml) {

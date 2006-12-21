@@ -646,32 +646,32 @@ string timediff_format(double diff) {
     int sex = tdiff % 60;
     tdiff /= 60;
     if (!tdiff) {
-        sprintf(buf, "%d seconds", sex);
+        sprintf(buf, "%d sec", sex);
         return buf;
     }
 
     int min = tdiff % 60;
     tdiff /= 60;
     if (!tdiff) {
-        sprintf(buf, "%d minutes and %d seconds", min, sex);
+        sprintf(buf, "%d min %d sec", min, sex);
         return buf;
     }
 
     int hours = tdiff % 24;
     tdiff /= 24;
     if (!tdiff) {
-        sprintf(buf, "%d hours, %d minutes and %d seconds", hours, min, sex);
+        sprintf(buf, "%d hr %d min %d sec", hours, min, sex);
         return buf;
     }
 
     int days = tdiff % 7;
     tdiff /= 7;
     if (!tdiff) {
-        sprintf(buf, "%d days, %d hours, %d minutes and %d seconds", days, hours, min, sex);
+        sprintf(buf, "%d days %d hr %d min %d sec", days, hours, min, sex);
         return buf;
     }
 
-    sprintf(buf, "%d weeks, %d days, %d hours, %d minutes and %d seconds", (int)tdiff, days, hours, min, sex);
+    sprintf(buf, "%d weeks %d days %d hrs %d min %d sec", (int)tdiff, days, hours, min, sex);
     return buf;
 }
 
