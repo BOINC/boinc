@@ -1,6 +1,11 @@
 <?
 
 $project_news = array(
+array("December 21, 2006",
+    "Some AOL users are unable to attach to some projects.
+    A work-around for this problem is described
+    <a href=http://boinc.berkeley.edu/aol.php>here</a>."
+),
 array("December 8, 2006",
     "<a href=http://boinc.berkeley.edu/skins.php><img align=right src=images/boinccast_small.png></a>
     Olaf Bornack of

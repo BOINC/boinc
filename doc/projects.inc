@@ -124,6 +124,14 @@ $math = array(
     "Mathematics and strategy games",
     array(
         array(
+            "PrimeGrid",
+            "http://primegrid.com",
+            "Private",
+            "Cryptography",
+            "Primegrid is generating a public sequential prime number database, and is searching for large twin primes of the form k*2<sup>n</sup>+1 and k*2<sup>n</sup>-1",
+            "primegrid_logo.png"
+        ),
+        array(
             "SZTAKI Desktop Grid",
             "http://szdg.lpds.sztaki.hu/szdg/",
             "MTA-SZTAKI Laboratory of Parallel and Distributed Systems (Budapest)",

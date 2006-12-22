@@ -343,7 +343,7 @@ function update_10_26_2006() {
 }
 
 function update_11_10_2006() {
-    do_query("ALTER TABLE `thread` ADD `locked` SMALLINT NOT NULL DEFAULT '0'");
+    do_query("ALTER TABLE thread ADD locked TINYINT NOT NULL DEFAULT 0");
 }
 
 //update_11_10_2006();

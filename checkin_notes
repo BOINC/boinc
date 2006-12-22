@@ -13638,3 +13638,14 @@ Charlie 22 Dec 2006
         sg_DlgMessages.cpp
         sg_DlgPreferences.cpp
         
+David  23 Dec 2006
+    - core client: add missing error message case on attach failure
+    - DB: user "tinyint not null default 0" for bools;
+        no need to single-quote table and column names in queries
+
+    client/
+        cs_account.C
+    db/
+        schema.sql
+    html/ops/
+        db_update.php

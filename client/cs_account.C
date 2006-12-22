@@ -499,6 +499,14 @@ void PROJECT::attach_failed(int error_num) {
             master_url
         );
         break;
+    case ERR_ATTACH_FAIL_SERVER_ERROR:
+        msg_printf(this, MSG_ERROR, "Can't attach - server error");
+        break;
+    default:
+        msg_printf(this, MSG_ERROR,
+            "Can't attach - unknown error", error_num
+        );
+        break;
     }
     gstate.detach_project(this);
 }

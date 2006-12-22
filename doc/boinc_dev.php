@@ -119,6 +119,27 @@ with file deletion according to project policy.
 <li> Sortable columns in the Work tab.
 </ul>
 
+<li> Server/Back End:
+    <ul>
+    <li> Implement a mechanism so that server
+        software detects incompatible database format
+    <li> 
+        Scheduler: implement mechanisms so that server:
+        <ul>
+        <li> Sends only results likely to finish by their deadline
+        <li> Sends commands to abort results that can't get credit
+        <li> Sends commands to recommend abort of results
+            that may get credit, but are not useful
+            (i.e. canonical result already found)
+        <li> Attempts to send results from the same WU to
+            hosts with similar speed,
+            so that a fast host doesn't have to wait weeks to get credit.
+        </ul>
+    <li> Implement a 'benchmark result' mechanism:
+        every host runs a benchmark result per app version,
+        and the CPU time determines credit/CPU for future results
+    </ul>
+
 
 </ul>
 Please check with <a href=contact.php>David Anderson</a>
