@@ -103,6 +103,7 @@
 #include <wx/dir.h>
 #include <wx/filename.h>
 #include <wx/sysopt.h>
+#include <wx/cshelp.h>
 
 #ifdef _WIN32
 

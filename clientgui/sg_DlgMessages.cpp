@@ -215,6 +215,12 @@ void CPanelMessages::CreateControls()
 		itemBitmapButton44->SetBitmapSelected(*pSkinSimple->GetCloseButton()->GetBitmapClicked());
 	}
     itemBoxSizer4->Add(itemBitmapButton44, 0, wxALIGN_CENTER_VERTICAL|wxALL, 5);
+
+#ifndef __WXMSW__
+    wxContextHelpButton* itemButton45 = new wxContextHelpButton(this);
+    itemBoxSizer4->Add(itemButton45, 0, wxALIGN_CENTER_VERTICAL|wxALL, 5);
+#endif
+
 }
 
 
@@ -664,19 +670,19 @@ bool CDlgMessages::Create( wxWindow* parent, wxWindowID id, const wxString& capt
     if (strCaption.IsEmpty()) {
         strCaption = _("BOINC Manager - Messages");
     }
-    wxDialog::Create( parent, id, strCaption, pos, size, style );
-
-    Freeze();
-
-
-    CreateControls();
 
 #ifdef __WXDEBUG__
     SetBackgroundColour(wxColour(255, 0, 255));
 #endif
     SetBackgroundStyle(wxBG_STYLE_CUSTOM);
     SetForegroundColour(*wxBLACK);
-    SetExtraStyle(GetExtraStyle()|wxWS_EX_BLOCK_EVENTS);
+    SetExtraStyle(GetExtraStyle()|wxDIALOG_EX_CONTEXTHELP|wxWS_EX_BLOCK_EVENTS);
+
+    wxDialog::Create( parent, id, strCaption, pos, size, style );
+
+    Freeze();
+
+    CreateControls();
 
     GetSizer()->Fit(this);
     GetSizer()->SetSizeHints(this);

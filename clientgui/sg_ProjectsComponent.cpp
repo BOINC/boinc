@@ -99,7 +99,7 @@ void CProjectsComponent::CreateComponent()
         this,
         -1,
         *pSkinSimple->GetAttachProjectButton()->GetBitmap(),
-        wxPoint(235,7),
+        wxPoint(214,7),
         wxSize(81,18),
         wxBU_AUTODRAW
     );
@@ -109,6 +109,16 @@ void CProjectsComponent::CreateComponent()
 		);
 	}
 	btnAddProj->SetToolTip(ttAddProject);
+
+    /// Help
+	btnHelp=new wxContextHelpButton(
+        this,
+        wxID_CONTEXT_HELP,
+        wxPoint(300,7),
+        wxDefaultSize,
+        wxBU_AUTODRAW
+    );
+
 	
     /// Line
 	lnMyProjTop = new CTransparentStaticLine(this, wxID_ANY, wxPoint(29,29),wxSize(292,1));

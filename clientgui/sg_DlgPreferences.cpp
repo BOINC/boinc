@@ -464,6 +464,10 @@ void CPanelPreferences::CreateControls()
 	}
     itemBoxSizer44->Add(itemBitmapButton45, 0, wxALIGN_CENTER_VERTICAL|wxALL, 5);
 
+#ifndef __WXMSW__
+    wxContextHelpButton* itemButton46 = new wxContextHelpButton(this);
+    itemBoxSizer44->Add(itemButton46, 0, wxALIGN_CENTER_VERTICAL|wxALL, 5);
+#endif
 
     // Set validators
     m_SkinSelectorCtrl->SetValidator( wxGenericValidator(& m_strSkinSelector) );
@@ -946,15 +950,15 @@ bool CDlgPreferences::Create( wxWindow* parent, wxWindowID id, const wxString& c
     if (strCaption.IsEmpty()) {
         strCaption = _("BOINC Manager - Preferences");
     }
-    wxDialog::Create( parent, id, strCaption, pos, size, style );
-
 
 #ifdef __WXDEBUG__
     SetBackgroundColour(wxColour(255, 0, 255));
 #endif
     SetBackgroundStyle(wxBG_STYLE_CUSTOM);
     SetForegroundColour(*wxBLACK);
-    SetExtraStyle(GetExtraStyle()|wxWS_EX_BLOCK_EVENTS);
+    SetExtraStyle(GetExtraStyle()|wxDIALOG_EX_CONTEXTHELP|wxWS_EX_BLOCK_EVENTS);
+
+    wxDialog::Create( parent, id, strCaption, pos, size, style );
 
 
     Freeze();

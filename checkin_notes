@@ -13621,3 +13621,11 @@ Rom    21 Dec 2006
     lib/
         diagnostics_win.C
 
+Rom    21 Dec 2006
+    - MGR: Add context help to the BSG.
+    
+    clientgui/
+        sg_DlgMessages.cpp, .h
+        sg_DlgPreferences.cpp
+        sg_ProjectsComponent.cpp, .h
+        stdwx.h

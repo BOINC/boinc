@@ -53,6 +53,7 @@ public:
 	wxBitmapButton *btnArwLeft;
 	wxBitmapButton *btnArwRight;
 	wxBitmapButton *btnAddProj;
+	wxContextHelpButton *btnHelp;
 	wxBitmapButton *btnMessages;
 	wxBitmapButton *btnAlertMessages;
 	wxBitmapButton *btnPause;
