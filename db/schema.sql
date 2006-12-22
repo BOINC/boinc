@@ -373,6 +373,7 @@ create table thread (
     hidden              integer     not null,
         -- nonzero if hidden by moderators
     sticky              tinyint unsigned not null default 0,
+    locked              tinyint unsigned not null default 0,
     primary key (id)
 );
 
