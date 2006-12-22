@@ -951,17 +951,17 @@ bool CDlgPreferences::Create( wxWindow* parent, wxWindowID id, const wxString& c
         strCaption = _("BOINC Manager - Preferences");
     }
 
-#ifdef __WXDEBUG__
-    SetBackgroundColour(wxColour(255, 0, 255));
-#endif
-    SetBackgroundStyle(wxBG_STYLE_CUSTOM);
-    SetForegroundColour(*wxBLACK);
     SetExtraStyle(GetExtraStyle()|wxDIALOG_EX_CONTEXTHELP|wxWS_EX_BLOCK_EVENTS);
 
     wxDialog::Create( parent, id, strCaption, pos, size, style );
 
-
     Freeze();
+
+    SetForegroundColour(*wxBLACK);
+#ifdef __WXDEBUG__
+    SetBackgroundColour(wxColour(255, 0, 255));
+#endif
+    SetBackgroundStyle(wxBG_STYLE_CUSTOM);
 
     m_pBackgroundPanel = new CPanelPreferences(this);
     wxBoxSizer* itemBoxSizer = new wxBoxSizer(wxVERTICAL);

@@ -13629,3 +13629,12 @@ Rom    21 Dec 2006
         sg_DlgPreferences.cpp
         sg_ProjectsComponent.cpp, .h
         stdwx.h
+
+Charlie 22 Dec 2006
+    -MGR: Fix crash bugs: don't call SetBackgroundColour() or 
+        SetForegroundColour() before wxDialog::Create().
+        
+    clientgui/
+        sg_DlgMessages.cpp
+        sg_DlgPreferences.cpp
+        
