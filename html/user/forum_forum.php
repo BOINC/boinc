@@ -145,10 +145,11 @@ function show_forum($forum, $start, $sort_style, $user) {
         echo "</nobr></td>";
 
         $titlelength = 48;
-        $title = cleanup_title($thread->getTitle());
+        $title = $thread->getTitle();
         if (strlen($title) > $titlelength) {
                 $title = substr($title,0,$titlelength)."...";
         }
+        $title = cleanup_title($title);
         echo '<td class="threadline"><a href="forum_thread.php?id='.$thread->getID().'"><b>'.$title.'</b></a><br></td>';
         $n = ($n+1)%2;
 

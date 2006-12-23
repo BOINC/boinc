@@ -62,13 +62,13 @@ if ($can_edit_title) {
     //If this is the user can edit the thread title display a way of doing so
     row2(
 	    tr(FORUM_SUBMIT_NEW_TITLE).html_info(),
-	    "<input type=text name=title value=\"".stripslashes($thread->getTitle())."\">"
+	    '<input type="text" name="title" value="'.stripslashes(htmlspecialchars($thread->getTitle())).'">'
     );
 };
 
 row2(
     tr(FORUM_MESSAGE).html_info().post_warning(),
-    "<textarea name=\"content\" rows=12 cols=80>".cleanTextBox(stripslashes($post->getContent()))."</textarea>"
+    '<textarea name="content" rows="12" cols="80">'.stripslashes(htmlspecialchars($post->getContent())).'</textarea>'
 );
 row2(
     "",

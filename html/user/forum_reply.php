@@ -101,7 +101,7 @@ function show_message_row($thread, $parent_post) {
 
     $x2 .= " method=post><textarea name=content rows=18 cols=80>";
 
-    if ($parent_post) $x2 .= cleanTextBox(quote_text(stripslashes($parent_post->getContent()), 80));
+    if ($parent_post) $x2 .= quote_text(stripslashes(htmlspecialchars($parent_post->getContent())), 80);
     if ($logged_in_user->hasSignatureByDefault()){
         $enable_signature="checked=\"true\"";
     } else {

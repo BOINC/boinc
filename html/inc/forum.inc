@@ -88,7 +88,7 @@ $no_forum_rating = parse_element($config,"<no_forum_rating/>");
  *  Process a user-supplied title to remove HTML stuff
  **/
 function cleanup_title($title) {
-    $x = trim(htmlspecialchars(strip_tags($title)));
+    $x = trim(htmlspecialchars($title));
     $x = stripslashes($x);      // clean up funky old titles in DB
     if (strlen($x)==0) return "(no title)";
     else return $x;

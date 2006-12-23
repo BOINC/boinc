@@ -50,7 +50,7 @@ if (get_str('action')=="hide") {
 } elseif (get_str('action')=="title") {
 
     echo "<input type=hidden name=action value=title>";
-    row2("New title:", "<input name=\"newtitle\" value=\"".$thread->getTitle()."\">");
+    row2("New title:", "<input name=\"newtitle\" value=\"".stripslashes(htmlspecialchars($thread->getTitle()))."\">");
 } else {
     error_page("Unknown action");
 }
