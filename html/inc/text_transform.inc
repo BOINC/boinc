@@ -68,9 +68,9 @@ function output_transform($text, $options = NULL) {
 		//$text = htmlentities($text);
 		$text = htmlspecialchars($text);
 	}
-	if ($options->htmlscrub) {
-		$text = sanitize_html($text);
-	}
+//	if ($options->htmlscrub) {
+//		$text = sanitize_html($text);
+//	}
 	if ($options->nl2br) {
 		$text = nl2br($text);
 	}

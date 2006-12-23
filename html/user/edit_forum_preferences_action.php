@@ -82,7 +82,7 @@ $user->setLowRatingThreshold($low_rating_threshold);
 $user->setHighRatingThreshold($high_rating_threshold);
 
 // Update the signature for this user
-$signature = sanitize_html(stripslashes($_POST["signature"]));
+$signature = stripslashes($_POST["signature"]);
 if (strlen($signature)>250) {
     error_page("Your signature was too long, please keep it less than 250 chars");
 }
