@@ -13649,3 +13649,18 @@ David  23 Dec 2006
         schema.sql
     html/ops/
         db_update.php
+
+Rytis  23 Dec 2006
+    - User web: fix loophole where users could put
+        arbitrary HTML in forum messages
+        
+    html/
+        inc/
+            forum.inc
+            text_transform.inc
+        user/
+            edit_forum_preferences_action.php
+            forum_edit.php
+            forum_forum.php
+            forum_moderate_thread.php
+            forum_reply.php
