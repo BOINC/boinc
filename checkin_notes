@@ -13685,9 +13685,12 @@ David  25 Dec 2006
         client_state.h
         cs_account.C
         cs_cmdline.C
+		cs_scheduler.C
+		scheduler_op.C
     clientgui/
         MainDocument.cpp
         ProjectProcessingPage.cpp
+		ProjectPropertiesPage.cpp
     lib/
         boinc_cmd.C
         gui_rpc_client.h

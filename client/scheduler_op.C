@@ -481,20 +481,16 @@ bool SCHEDULER_OP::poll() {
             } else {
                 retval = gstate.handle_scheduler_reply(cur_proj, scheduler_url, nresults);
                 if (cur_proj->tentative) {
-                    if (retval || strlen(cur_proj->user_name)==0) {
-                        cur_proj->attach_failed(ERR_ATTACH_FAIL_SERVER_ERROR);
+                    cur_proj->tentative = false;
+                    retval = cur_proj->write_account_file();
+                    if (retval) {
+                        cur_proj->attach_failed(ERR_ATTACH_FAIL_FILE_WRITE);
                     } else {
-                        cur_proj->tentative = false;
-                        retval = cur_proj->write_account_file();
-                        if (retval) {
-                            cur_proj->attach_failed(ERR_ATTACH_FAIL_FILE_WRITE);
-                        } else {
-                            gstate.project_attach.error_num = 0;
-                            msg_printf(cur_proj, MSG_INFO,
-                                "Successfully attached to %s",
-                                cur_proj->get_project_name()
-                            );
-                        }
+                        gstate.project_attach.error_num = 0;
+                        msg_printf(cur_proj, MSG_INFO,
+                            "Successfully attached to %s",
+                            cur_proj->get_project_name()
+                        );
                     }
                 } else {
                     switch (retval) {
@@ -503,7 +499,7 @@ bool SCHEDULER_OP::poll() {
                         // back off this project
                         //
                         if (cur_proj->work_request && nresults==0) {
-                            backoff(cur_proj, "No work from project\n");
+                            backoff(cur_proj, "no work from project\n");
                         } else {
                             cur_proj->nrpc_failures = 0;
                         }

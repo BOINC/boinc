@@ -1511,7 +1511,7 @@ int RPC_CLIENT::project_attach_from_file() {
     return retval;
 }
 
-int RPC_CLIENT::project_attach(const char* url, const char* auth, char* name) {
+int RPC_CLIENT::project_attach(const char* url, const char* auth, const char* name) {
     int retval;
     SET_LOCALE sl;
     char buf[768];

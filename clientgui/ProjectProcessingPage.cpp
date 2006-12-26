@@ -496,7 +496,7 @@ void CProjectProcessingPage::OnStateChange( CProjectProcessingPageEvent& WXUNUSE
         case ATTACHPROJECT_ATTACHPROJECT_EXECUTE:
             if (GetProjectCommunitcationsSucceeded()) {
                 if (pWAP->m_bCredentialsCached) {
-                    pDoc->rpc.project_attach_from_file(
+                    pDoc->rpc.project_attach_from_file();
                 } else {
                     pDoc->rpc.project_attach(
                         ai->url.c_str(),

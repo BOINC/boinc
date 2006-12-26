@@ -426,7 +426,7 @@ void CProjectPropertiesPage::OnStateChange( CProjectPropertiesPageEvent& WXUNUSE
                 bSuccessfulCondition = 
                     (ERR_ALREADY_ATTACHED == pDoc->rpc.project_attach(
                         (const char*)pWAP->m_ProjectInfoPage->GetProjectURL().mb_str(),
-                        "")
+                        "", "")
                     );
                 if (bSuccessfulCondition || CHECK_DEBUG_FLAG(WIZDEBUG_ERRPROJECTALREADYATTACHED)) {
                     SetProjectAlreadyAttached(true);
