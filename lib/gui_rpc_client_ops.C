@@ -1493,27 +1493,38 @@ int RPC_CLIENT::project_op(PROJECT& project, const char* op) {
     return retval;
 }
 
-int RPC_CLIENT::project_attach(const char* url, const char* auth, bool use_config_file) {
+int RPC_CLIENT::project_attach_from_file() {
     int retval;
     SET_LOCALE sl;
     char buf[768];
     RPC rpc(this);
 
-    if (use_config_file) {
-        sprintf(buf,
-            "<project_attach>\n"
-            "  <use_config_file/>\n"
-            "</project_attach>\n"
-        );
-    } else {
-        sprintf(buf,
-            "<project_attach>\n"
-            "  <project_url>%s</project_url>\n"
-            "  <authenticator>%s</authenticator>\n"
-            "</project_attach>\n",
-            url, auth
-        );
+    sprintf(buf,
+        "<project_attach>\n"
+        "  <use_config_file/>\n"
+        "</project_attach>\n"
+    );
+    retval = rpc.do_rpc(buf);
+    if (!retval) {
+        retval = rpc.parse_reply();
     }
+    return retval;
+}
+
+int RPC_CLIENT::project_attach(const char* url, const char* auth, char* name) {
+    int retval;
+    SET_LOCALE sl;
+    char buf[768];
+    RPC rpc(this);
+
+    sprintf(buf,
+        "<project_attach>\n"
+        "  <project_url>%s</project_url>\n"
+        "  <authenticator>%s</authenticator>\n"
+        "  <project_name>%s</project_name>\n"
+        "</project_attach>\n",
+        url, auth, name
+    );
 
     retval = rpc.do_rpc(buf);
     if (!retval) {

@@ -650,20 +650,23 @@ static void handle_create_account_poll(char*, MIOFILE& fout) {
 }
 
 static void handle_project_attach(char* buf, MIOFILE& fout) {
-    string url, authenticator;
-    PROJECT* p = NULL;
+    string url, authenticator, project_name;
     bool use_config_file = false;
     bool already_attached = false;
     unsigned int i;
 
+    // check whether to the URL in project_init.xml
+    //
     if (!parse_bool(buf, "use_config_file", use_config_file)) {
+        // no
+        //
         if (!parse_str(buf, "<project_url>", url)) {
             fout.printf("<error>Missing URL</error>\n");
             return;
         }
 
         for (i=0; i<gstate.projects.size(); i++) {
-            p = gstate.projects[i];
+            PROJECT* p = gstate.projects[i];
             if (url == p->master_url) already_attached = true;
         }
 
@@ -681,7 +684,10 @@ static void handle_project_attach(char* buf, MIOFILE& fout) {
             fout.printf("<error>Missing authenticator</error>\n");
             return;
         }
+        parse_str(buf, "<project_name>", project_name);
     } else {
+        // yes
+        //
         if (!strlen(gstate.project_init.url)) {
             fout.printf("<error>Missing URL</error>\n");
             return;
@@ -696,11 +702,12 @@ static void handle_project_attach(char* buf, MIOFILE& fout) {
         authenticator = gstate.project_init.account_key;
     }
 
-    // clear out any previous messages from any previous attach
-    //   to project.
+    // clear messages from previous attach to project.
     //
     gstate.project_attach.messages.clear();
-    gstate.add_project(url.c_str(), authenticator.c_str());
+    gstate.add_project(
+        url.c_str(), authenticator.c_str(), project_name.c_str(), false
+    );
     gstate.project_attach.error_num = ERR_IN_PROGRESS;
     fout.printf("<success/>\n");
 }

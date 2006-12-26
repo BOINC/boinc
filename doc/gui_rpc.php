@@ -208,9 +208,11 @@ list_item_func(
     "project_attach(
     char* url,
     char* account_id,
-    bool use_cached_credentials
+    bool use_config_file
 )",
-	"Attach to the given project. Cached credentials are defined in the 
+	"Attach to the given project.
+    If 'use_config_file' is true,
+    use the project URL (and account key, if present) in the 
 	<a href=client_startup.php>project_init.xml</a> file."
 );
 list_item_func(

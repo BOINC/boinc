@@ -292,7 +292,7 @@ int main(int argc, char** argv) {
     } else if (!strcmp(cmd, "--project_attach")) {
         char* url = next_arg(argc, argv, i);
         char* auth = next_arg(argc, argv, i);
-        retval = rpc.project_attach(url, auth);
+        retval = rpc.project_attach(url, auth, "");
     } else if (!strcmp(cmd, "--file_transfer")) {
         FILE_TRANSFER ft;
 

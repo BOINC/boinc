@@ -653,12 +653,6 @@ int CMainDocument::GetProjectCount() {
     return iCount;
 }
 
-
-int CMainDocument::ProjectAttach(const wxString& strURL, const wxString& strAccountKey) {
-    return rpc.project_attach((const char*)strURL.mb_str(), (const char*)strAccountKey.mb_str());
-}
-
-
 int CMainDocument::ProjectDetach(int iIndex) {
     PROJECT* pProject = NULL;
     int iRetVal = -1;

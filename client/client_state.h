@@ -276,7 +276,7 @@ public:
 public:
     int add_project(
         const char* master_url, const char* authenticator,
-        bool attached_via_acct_mgr=false
+        const char* project_name, bool attached_via_acct_mgr
     );
 private:
     int parse_account_files();

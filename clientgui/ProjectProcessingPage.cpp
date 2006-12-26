@@ -495,17 +495,13 @@ void CProjectProcessingPage::OnStateChange( CProjectProcessingPageEvent& WXUNUSE
             break;
         case ATTACHPROJECT_ATTACHPROJECT_EXECUTE:
             if (GetProjectCommunitcationsSucceeded()) {
-                // Attempt to attach to the project.
                 if (pWAP->m_bCredentialsCached) {
-                    pDoc->rpc.project_attach(
-                        ai->url.c_str(),
-                        ao->authenticator.c_str(),
-                        true
-                    );
+                    pDoc->rpc.project_attach_from_file(
                 } else {
                     pDoc->rpc.project_attach(
                         ai->url.c_str(),
-                        ao->authenticator.c_str()
+                        ao->authenticator.c_str(),
+                        pWAP->project_config.name.c_str()
                     );
                 }
      

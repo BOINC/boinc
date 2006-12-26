@@ -13664,3 +13664,31 @@ Rytis  23 Dec 2006
             forum_forum.php
             forum_moderate_thread.php
             forum_reply.php
+
+David  25 Dec 2006
+    - Various changes to deal with the situation where someone
+        attaches to a project while its scheduler is down.
+        Currently the attach fails.
+        This is a relic of the attach-using-account-key era.
+        Change it so that:
+        1) the project_attach GUI RPC has a project_name argument
+            (so that we can show the project name even before
+            we've done a scheduler RPC)
+        2) the attach succeeds even if the initial RPC fails
+        Note: we can probably get rid of the PROJECT::tentative flag.
+    Note: the logic for attaching to a project with an init file
+    (or with "cached credentials", as confusingly described in the Manager
+    code) is messed up, or at least poorly documented.
+
+    client/
+        acct_mgr.C
+        client_state.h
+        cs_account.C
+        cs_cmdline.C
+    clientgui/
+        MainDocument.cpp
+        ProjectProcessingPage.cpp
+    lib/
+        boinc_cmd.C
+        gui_rpc_client.h
+        gui_rpc_client_ops.C

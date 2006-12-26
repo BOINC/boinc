@@ -558,7 +558,10 @@ public:
     int lookup_account_poll(ACCOUNT_OUT&);
     int create_account(ACCOUNT_IN&);
     int create_account_poll(ACCOUNT_OUT&);
-    int project_attach(const char* url, const char* auth, bool use_config_file=false);
+    int project_attach(
+        const char* url, const char* auth, char* project_name
+    );
+    int project_attach_from_file();
     int project_attach_poll(PROJECT_ATTACH_REPLY&);
     int acct_mgr_rpc(
         const char* url, const char* name, const char* passwd,
