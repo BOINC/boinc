@@ -201,6 +201,7 @@ void delete_old_slot_dirs() {
             boinc_rmdir(path);
         }
     }
+    dir_close(dirp);
 }
 
 void get_account_filename(char* master_url, char* path) {

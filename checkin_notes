@@ -13738,3 +13738,9 @@ David  27 Dec 2006
 
     api/
         graphics_api.C
+
+David  27 Dec 2006
+    - core client: remove handle leak in extremely rare case
+
+    client/
+        file_name.C
