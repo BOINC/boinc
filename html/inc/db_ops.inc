@@ -1244,7 +1244,6 @@ function show_user($user) {
     row("Hosts", "<a href=\"db_action.php?table=host&userid=$user->id&detail=low\">click</a>");
     row("Cross project ID", $user->cross_project_id);
     row("Password Hash", $user->passwd_hash);
-    row("Email Validated", $user->email_validated);
     row("Donated", $user->donated);
     end_table();
 }

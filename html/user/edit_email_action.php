@@ -35,18 +35,12 @@ if (!is_valid_email_addr($email_addr)) {
             echo "Invalid password.";
         } else {
             $passwd_hash = md5($passwd.$email_addr);
-            $query = "update user set email_addr='$email_addr', passwd_hash='$passwd_hash', email_validated=0 where id=$user->id";
+            $query = "update user set email_addr='$email_addr', passwd_hash='$passwd_hash' where id=$user->id";
             $result = mysql_query($query);
             if ($result) {
                 echo "
-                    The email address of your account is now
-                    $email_addr.
-                    <p>
-                    We have sent an email message to that address.
-                    <p>
-                    To validate the new address, visit the link in the email.
+                    The email address of your account is now $email_addr.
                 ";
-                send_verify_email($user->email_addr, $email_addr, $user);
             } else {
                 echo "
                     We can't update your email address

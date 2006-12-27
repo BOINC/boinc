@@ -13695,3 +13695,18 @@ David  25 Dec 2006
         boinc_cmd.C
         gui_rpc_client.h
         gui_rpc_client_ops.C
+
+David  27 Dec 2006
+    - deprecate the email_validated field of user table.
+        This isn't used for anything, and confuses users.
+
+    db/
+        boinc_db.h
+    html/
+        inc/
+            db_ops.inc
+            email.inc
+        user/
+            am_set_info.php
+            edit_email_action.php
+            validate_email.php (removed)

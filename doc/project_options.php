@@ -169,11 +169,10 @@ list_option("fuh_debug_level",
 list_end();
 echo "
 <h3>Credit</h3>
+(See also the command-line options of the <a href=validate.php>validator</a>).
 ";
 echo html_text("
 [ <fp_benchmark_weight> X </fp_benchmark_weight> ]
-[ <max_claimed_credit>X</max_claimed_credit ]
-[ <grant_claimed_credit/> ]
 ");
 list_start();
 list_option("fp_benchmark_weight",

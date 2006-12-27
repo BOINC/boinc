@@ -124,9 +124,6 @@ if (strlen($query)) {
     $query = "update user set $query seti_id=seti_id where id=$user->id";
     $result = mysql_query($query);
     if ($result) {
-        if ($old_email_addr) {
-            send_verify_email($old_email_addr, $email_addr, $user);
-        }
         success("");
     } else {
         xml_error(-1, "database error: ".mysql_error());
