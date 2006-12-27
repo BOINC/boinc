@@ -19,13 +19,14 @@
 
 // db_dump: dump database views in XML format
 //
-// usage: [-d n] db_dump -dump_spec file
+// usage: db_dump [-d n] -dump_spec file
 // -d   debug level (1,2,3)
 //
 // dump_spec file:
 // <boinc_db_dump_spec>
 //   <output_dir>x</output_dir>
 //   <final_output_dir>x</final_output_dir>
+//   [ <archive_dir>X</archive_dir> ]
 //   <enumeration>
 //     <table>user</table>
 //     <filename>x</filename>
@@ -39,6 +40,17 @@
 //   </enumeration>
 // ...
 // </boinc_db_dump_spec>
+
+// output_dir is temp directory (usually ../html/stats_tmp)
+// final_out_dir is what to rename this to when done (usually ../html/stats)
+//   (this is to avoid exporting incomplete stats)
+// archive_dir: if present, when done, move old final_out_dir
+//   to archive_dir/stats_DATE
+//   Otherwise rename old final_out_dir to final_out_dir_DATE
+
+// Note: this program is way more configurable than it needs to be.
+// All projects export stats in the same format,
+// as described in the default db_dump_spec.xml that is created for you.
 
 #include "config.h"
 #include <cstdio>
@@ -107,6 +119,7 @@ struct ENUMERATION {
 struct DUMP_SPEC {
     char output_dir[256];
     char final_output_dir[256];
+    char archive_dir[256];
     vector<ENUMERATION> enumerations;
     int parse(FILE*);
 };
@@ -190,8 +203,15 @@ int DUMP_SPEC::parse(FILE* in) {
     char buf[256];
     int retval;
 
+    strcpy(output_dir, "");
+    strcpy(final_output_dir, "");
+    strcpy(archive_dir, "");
     while (fgets(buf, 256, in)) {
-        if (match_tag(buf, "</boinc_db_dump_spec>")) return 0;
+        if (match_tag(buf, "</boinc_db_dump_spec>")) {
+            if (!strlen(output_dir)) return ERR_XML_PARSE;
+            if (!strlen(final_output_dir)) return ERR_XML_PARSE;
+            return 0;
+        }
         if (match_tag(buf, "<enumeration>")) {
             ENUMERATION e;
             retval = e.parse(in);
@@ -201,6 +221,9 @@ int DUMP_SPEC::parse(FILE* in) {
             continue;
         }
         if (parse_str(buf, "<final_output_dir", final_output_dir, sizeof(final_output_dir))) {
+            continue;
+        }
+        if (parse_str(buf, "<archive_dir", archive_dir, sizeof(archive_dir))) {
             continue;
         }
     }
@@ -807,9 +830,16 @@ int main(int argc, char** argv) {
     struct tm* tmp;
     time_t now = time(0);
     tmp = localtime(&now);
+    char base[256];
+    if (strlen(spec.archive_dir)) {
+        strcpy(base, spec.archive_dir);
+        strcat(base, "/stats");
+    } else {
+        strcpy(base, spec.final_output_dir);
+    }
     sprintf(buf, "mv %s %s_%d_%d_%d_%d_%d_%d",
         spec.final_output_dir,
-        spec.final_output_dir,
+        base,
         1900+tmp->tm_year,
         tmp->tm_mon+1,
         tmp->tm_mday,
@@ -823,7 +853,11 @@ int main(int argc, char** argv) {
         exit(1);
     }
     sprintf(buf, "mv %s %s", spec.output_dir, spec.final_output_dir);
-    system(buf);
+    retval = system(buf);
+    if (retval) {
+        log_messages.printf(SCHED_MSG_LOG::MSG_CRITICAL, "Can't rename new stats\n");
+        exit(1);
+    }
     log_messages.printf(SCHED_MSG_LOG::MSG_NORMAL, "db_dump finished\n");
 }
 

@@ -13724,3 +13724,10 @@ David  27 Dec 2006
 		stdwx.h
 	win_build/
 		boincmgr_curl.vcproj
+
+David  27 Dec 2006
+    - db_dump: add <archive_dir> option in config file;
+        check for existence of output_dir, final_output_dir in config file
+
+    sched/
+        db_dump.C

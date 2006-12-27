@@ -41,7 +41,7 @@ with the goal of enabling new display applications.
 Each BOINC project provides data in two forms:
 <ul>
 <li> As
-<a href=db_dump.php>a set of downloadable files</a>
+<a href=xml_stats.php>a set of downloadable files</a>
 (in a compressed XML format)
 that contain the project's complete current statistics.
 These files are typically updated once every 24 hours.
