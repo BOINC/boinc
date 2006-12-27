@@ -13731,3 +13731,10 @@ David  27 Dec 2006
 
     sched/
         db_dump.C
+
+David  27 Dec 2006
+    - comment out Windows logic in graphics_possible.C
+        (as implemented, requires MS linker)
+
+    api/
+        graphics_api.C

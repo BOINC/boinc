@@ -63,6 +63,7 @@ int boinc_init_options_graphics(BOINC_OPTIONS& opt, void (*worker)()) {
 
 bool boinc_graphics_possible() {
 #ifdef _WIN32
+#if 0
     // Attempt to load the dlls that are required to display graphics, if
     // any of them fail do not start the application in graphics mode.
     if (FAILED(__HrLoadAllImportsForDll("GDI32.dll"))) {
@@ -77,6 +78,7 @@ bool boinc_graphics_possible() {
        fprintf( stderr, "Failed to load GLU32.DLL\n" );
        return false;
     }
+#endif
 #elif defined(__APPLE__)
 #else
     if (!getenv("DISPLAY")) return false;
