@@ -13710,3 +13710,17 @@ David  27 Dec 2006
             am_set_info.php
             edit_email_action.php
             validate_email.php (removed)
+
+David  27 Dec 2006
+	- Manager: new version of Work tab with progress bar.
+		This is a work in progress; for now, include both old and new tabs.
+		(from Frank Weiler)
+
+	clientgui/
+		AdvancedFrame.cpp
+		BOINCGridCtrl.cpp,h (new)
+		Events.h
+		ViewWorkGrid.cpp,h (new)
+		stdwx.h
+	win_build/
+		boincmgr_curl.vcproj

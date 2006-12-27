@@ -104,6 +104,7 @@
 #include <wx/filename.h>
 #include <wx/sysopt.h>
 #include <wx/cshelp.h>
+#include <wx/grid.h>
 
 #ifdef _WIN32
 
@@ -217,17 +218,17 @@
 
 #define DEBUG_NEW                             new(_NORMAL_BLOCK, __FILE__, __LINE__)
 
-// The following macros set and clear, respectively, given bits 
-// of the C runtime library debug flag, as specified by a bitmask. 
-#define SET_CRT_DEBUG_FIELD(a)                _CrtSetDbgFlag((a) | _CrtSetDbgFlag(_CRTDBG_REPORT_FLAG)) 
-#define CLEAR_CRT_DEBUG_FIELD(a)              _CrtSetDbgFlag(~(a) & _CrtSetDbgFlag(_CRTDBG_REPORT_FLAG)) 
+// The following macros set and clear, respectively, given bits
+// of the C runtime library debug flag, as specified by a bitmask.
+#define SET_CRT_DEBUG_FIELD(a)                _CrtSetDbgFlag((a) | _CrtSetDbgFlag(_CRTDBG_REPORT_FLAG))
+#define CLEAR_CRT_DEBUG_FIELD(a)              _CrtSetDbgFlag(~(a) & _CrtSetDbgFlag(_CRTDBG_REPORT_FLAG))
 
 #else //_DEBUG
 
 #define DEBUG_NEW                             new
 
-#define SET_CRT_DEBUG_FIELD(a)                ((void) 0) 
-#define CLEAR_CRT_DEBUG_FIELD(a)              ((void) 0) 
+#define SET_CRT_DEBUG_FIELD(a)                ((void) 0)
+#define CLEAR_CRT_DEBUG_FIELD(a)              ((void) 0)
 
 #endif //_DEBUG
 
