@@ -230,14 +230,14 @@ int main(int argc, char **argv) {
     }
 
 #ifdef BOINC_APP_GRAPHICS
-    if (boinc_graphics_possible()) {
+    //if (boinc_graphics_possible()) {
 #if defined(_WIN32) || defined(__APPLE__)
         retval = boinc_init_graphics(worker);
 #else
         retval = boinc_init_graphics_lib(worker, argv[0]);
 #endif
         if (retval) exit(retval);
-    }
+    //}
 #endif
 
     retval = boinc_init();

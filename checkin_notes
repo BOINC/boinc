@@ -253,3 +253,9 @@ David  18 Dec 2006
 
 	win_build/
 		libboinc_vcproj
+
+David  27 Dec 2006
+    - comment out boinc_graphics_possible() call
+    
+	uppercase/
+		upper_case.C
