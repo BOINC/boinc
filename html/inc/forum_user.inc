@@ -376,7 +376,7 @@ function re_user_links($user) {
     }
     # Does this project accept donations?
     # If so, do you want to have a link next to user name as it appears on the web site?
-    if ($user->hasDonated()) {
+    if ($user->hasDonated() == 1) {
         @require_once("../project/donations.inc");
         $x .= DONATION_LINK;
     }
