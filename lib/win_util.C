@@ -42,6 +42,22 @@ BOOL IsWindows2000Compatible() {
 }
 
 /**
+ * Define these if they aren't defined.  They are normally found in
+ * winnt.h, but some compilers don't have them.
+ **/
+#ifndef VER_AND
+#define VER_AND 6
+#endif
+
+#ifndef VER_SUITENAME
+#define VER_SUITENAME 0x0000040
+#endif
+
+#ifndef VER_SUITE_SINGLEUSERTS
+#define VER_SUITE_SINGLEUSERTS              0x00000100
+#endif
+
+/**
  * This function performs the basic check to see if
  * the platform on which it is running is Terminal
  * services enabled.  Note, this code is compatible on
