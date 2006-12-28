@@ -13756,3 +13756,12 @@ David  28 Dec 2006
 	clientgui/
 		AdvancedFrame.cpp
 		ProxyInfoPage.cpp
+
+Rom    28 Dec 2006
+    - SCRSAV: Use RegisterSystemMessage instead of using WM_USER for the
+        WM_INTERRUPTSAVER and WM_SETTIMER events.
+    - SCRSAV: Clarify which window is receiving the WM_INTERRUPTSAVER
+        event from the DataProc Thread.
+        
+    client/win/
+        win_screensaver.cpp, .h

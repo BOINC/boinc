@@ -53,6 +53,8 @@ static MYISHUNGAPPWINDOW        gspfnMyIsHungAppWindow = NULL;
 static MYBROADCASTSYSTEMMESSAGE gspfnMyBroadcastSystemMessage = NULL;
 static CScreensaver*            gspScreensaver = NULL;
 
+const UINT                      WM_SETTIMER = RegisterWindowMessage(TEXT("BOINCSetTimer"));
+const UINT                      WM_INTERRUPTSAVER = RegisterWindowMessage(TEXT("BOINCInterruptScreensaver"));
 const UINT                      WM_BOINCSFW = RegisterWindowMessage(TEXT("BOINCSetForegroundWindow"));
 
 
@@ -1135,7 +1137,7 @@ DWORD WINAPI CScreensaver::DataManagementProc() {
                                 //   screensaver mode.
                                 BOINCTRACE(_T("CScreensaver::DataManagementProc - Unknown foreground window detected, shutdown the screensaver.\n"));
                                 SetError(TRUE, SCRAPPERR_BOINCSHUTDOWNEVENT);
-                                SendMessage(m_Monitors[iMonitor].hWnd, WM_INTERRUPTSAVER, NULL, NULL);
+                                SendMessage(m_Monitors[0].hWnd, WM_INTERRUPTSAVER, NULL, NULL);
                             }
                         }
                         break;
@@ -1163,7 +1165,7 @@ DWORD WINAPI CScreensaver::DataManagementProc() {
         GetError(bErrorMode, hrError, NULL, 0);
         if (SS_STATUS_QUIT == m_iStatus && m_bCoreNotified) {
             BOINCTRACE(_T("CScreensaver::DataManagementProc - Shutdown BOINC Screensaver\n"));
-            SendMessage(m_Monitors[iMonitor].hWnd, WM_INTERRUPTSAVER, NULL, NULL);
+            SendMessage(m_Monitors[0].hWnd, WM_INTERRUPTSAVER, NULL, NULL);
         } else {
             if (!bErrorMode && !m_bCoreNotified) {
                 BOINCTRACE(_T("CScreensaver::DataManagementProc - Startup BOINC Screensaver\n"));

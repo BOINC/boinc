@@ -218,8 +218,8 @@
 			CharacterSet="2">
 			<Tool
 				Name="VCCLCompilerTool"
-				Optimization="2"
-				GlobalOptimizations="TRUE"
+				Optimization="3"
+				GlobalOptimizations="FALSE"
 				AdditionalIncludeDirectories="..;&quot;$(WXWIN)\include&quot;;&quot;$(WXWIN)\contrib\include&quot;;&quot;$(WXWIN)\lib\vc_lib\msw&quot;;..\lib;..\api;..\clientgui;..\client\win"
 				PreprocessorDefinitions="WIN32;_WIN32;_NDEBUG;_WINDOWS;_MT;_DLL;__WXNDEBUG__;WXNDEBUG;SIMPLEGUI"
 				StringPooling="TRUE"
@@ -1228,6 +1228,12 @@
 					RelativePath="..\clientgui\BOINCBaseView.h">
 				</File>
 				<File
+					RelativePath="..\clientgui\BOINCGridCtrl.cpp">
+				</File>
+				<File
+					RelativePath="..\clientgui\BOINCGridCtrl.h">
+				</File>
+				<File
 					RelativePath="..\clientgui\BOINCListCtrl.cpp">
 				</File>
 				<File
@@ -1256,6 +1262,12 @@
 				</File>
 				<File
 					RelativePath="..\clientgui\DlgSelectComputer.h">
+				</File>
+				<File
+					RelativePath="..\clientgui\ViewWorkGrid.cpp">
+				</File>
+				<File
+					RelativePath="..\clientgui\ViewWorkGrid.h">
 				</File>
 			</Filter>
 		</Filter>
