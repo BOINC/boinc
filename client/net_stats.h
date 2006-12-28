@@ -75,6 +75,7 @@ public:
 	bool need_to_contact_reference_site;
 		// contact the reference site as soon as GUI_HTTP is idle
 		// polled from NET_STATS::poll(), for want of a better place
+	double last_comm_time;
     int network_status();
     void network_available();
     void got_http_error();
@@ -83,6 +84,22 @@ public:
         need_physical_connection = false;
         have_sporadic_connection = false;
 		need_to_contact_reference_site = false;
+		last_comm_time = 0;
+    }
+};
+
+// This is used to access a reference website (like yahoo or google)
+// that is assumed to be 100% available.
+// It is used ONLY from the HTTP code, when a transaction fails
+//
+struct LOOKUP_WEBSITE_OP: public GUI_HTTP_OP {
+    int error_num;
+
+    virtual ~LOOKUP_WEBSITE_OP(){}
+    int do_rpc(std::string&);
+    virtual void handle_reply(int http_op_retval);
+    LOOKUP_WEBSITE_OP(){
+        error_num = BOINC_SUCCESS;
     }
 };
 

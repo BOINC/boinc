@@ -212,43 +212,6 @@ void CREATE_ACCOUNT_OP::handle_reply(int http_op_retval) {
     }
 }
 
-int LOOKUP_WEBSITE_OP::do_rpc(string& url) {
-    int retval;
-
-    msg_printf(0, MSG_INFO, "Project communication failed: attempting access to reference site");
-    retval = gstate.gui_http.do_rpc(this, url, LOOKUP_WEBSITE_FILENAME);
-    if (retval) {
-        error_num = retval;
-        net_status.need_physical_connection = true;
-        msg_printf(0, MSG_ERROR,
-            "Access to reference web site failed - check network connection or proxy configuration."
-        );
-    } else {
-        error_num = ERR_IN_PROGRESS;
-    }
-    return retval;
-}
-
-void LOOKUP_WEBSITE_OP::handle_reply(int http_op_retval) {
-    error_num = http_op_retval;
-
-    // if we couldn't contact a reference web site,
-    // we can assume there's a problem that requires user attention
-    // (usually no physical network connection).
-    // Set a flag that will signal the Manager to that effect
-    //
-    if (http_op_retval) {
-        net_status.need_physical_connection = true;
-        msg_printf(0, MSG_ERROR,
-            "Access to reference site failed - check network connection or proxy configuration."
-        );
-    } else {
-        msg_printf(0, MSG_INFO,
-            "Access to reference site succeeded - project servers may be temporarily down."
-        );
-    }
-}
-
 int GET_CURRENT_VERSION_OP::do_rpc() {
     int retval;
     char buf[256];

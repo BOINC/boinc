@@ -38,11 +38,12 @@
 
 #include "parse.h"
 #include "time.h"
-
 #include "util.h"
 #include "error_numbers.h"
+
 #include "client_msgs.h"
 #include "client_state.h"
+#include "file_names.h"
 
 #include "net_stats.h"
 
@@ -156,20 +157,20 @@ int NET_STATS::parse(MIOFILE& in) {
 // There's a 10-second slop factor;
 // if we've done network comm in the last 10 seconds,
 // we act as if we're doing it now.
-// (so that polling mechanisms have a change to trigger)
+// (so that polling mechanisms have a chance to start other xfers,
+// in the case of a modem connection waiting to be closed by the mgr)
 //
 int NET_STATUS::network_status() {
-    static double last_comm_time=0;
 	int retval;
 
     if (gstate.http_ops->nops()) {
         last_comm_time = gstate.now;
     }
-    if (gstate.now - last_comm_time < 10) {
+	if (gstate.lookup_website_op.error_num == ERR_IN_PROGRESS) {
+        retval = NETWORK_STATUS_LOOKUP_PENDING;
+	} else if (gstate.now - last_comm_time < 10) {
         //msg_printf(0, MSG_INFO, "nops %d; return 0", http_ops->nops());
         retval = NETWORK_STATUS_ONLINE;
-    } else if (gstate.lookup_website_op.error_num == ERR_IN_PROGRESS) {
-        retval = NETWORK_STATUS_LOOKUP_PENDING;
     } else if (need_physical_connection) {
         //msg_printf(0, MSG_INFO, "need phys conn; return 1");
         retval = NETWORK_STATUS_WANT_CONNECTION;
@@ -228,6 +229,45 @@ void NET_STATUS::contact_reference_site() {
 	}
     gstate.lookup_website_op.do_rpc(url);
 	need_to_contact_reference_site = false;
+}
+
+int LOOKUP_WEBSITE_OP::do_rpc(string& url) {
+    int retval;
+
+    msg_printf(0, MSG_INFO, "Project communication failed: attempting access to reference site");
+    retval = gstate.gui_http.do_rpc(this, url, LOOKUP_WEBSITE_FILENAME);
+    if (retval) {
+        error_num = retval;
+        net_status.need_physical_connection = true;
+		net_status.last_comm_time = 0;
+        msg_printf(0, MSG_ERROR,
+            "Access to reference web site failed - check network connection or proxy configuration."
+        );
+    } else {
+        error_num = ERR_IN_PROGRESS;
+    }
+    return retval;
+}
+
+void LOOKUP_WEBSITE_OP::handle_reply(int http_op_retval) {
+    error_num = http_op_retval;
+
+    // if we couldn't contact a reference web site,
+    // we can assume there's a problem that requires user attention
+    // (usually no physical network connection).
+    // Set a flag that will signal the Manager to that effect
+    //
+    if (http_op_retval) {
+        net_status.need_physical_connection = true;
+		net_status.last_comm_time = 0;
+        msg_printf(0, MSG_ERROR,
+            "Access to reference site failed - check network connection or proxy configuration."
+        );
+    } else {
+        msg_printf(0, MSG_INFO,
+            "Access to reference site succeeded - project servers may be temporarily down."
+        );
+    }
 }
 
 const char *BOINC_RCSID_733b4006f5 = "$Id$";

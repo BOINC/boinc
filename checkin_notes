@@ -13744,3 +13744,15 @@ David  27 Dec 2006
 
     client/
         file_name.C
+
+David  28 Dec 2006
+	- core client: fix bugs in calculation of network status
+	- Manager: add ellipses to menu items that bring up dialogs,
+		tweak wizard text
+
+	client/
+		acct_setup.C,h
+		net_stats.C,h
+	clientgui/
+		AdvancedFrame.cpp
+		ProxyInfoPage.cpp

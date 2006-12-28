@@ -337,12 +337,12 @@ bool CAdvancedFrame::CreateMenu() {
     if (!is_acct_mgr_detected) {
         menuTools->Append(
             ID_PROJECTSATTACHPROJECT, 
-            _("Attach to &project"),
+            _("Attach to &project..."),
             _("Attach to a project")
         );
         menuTools->Append(
             ID_PROJECTSATTACHACCOUNTMANAGER, 
-            _("Attach to &account manager"),
+            _("Attach to &account manager..."),
             _("Attach to an account manager")
         );
     } else {
@@ -411,7 +411,7 @@ bool CAdvancedFrame::CreateMenu() {
     wxMenu *menuAdvanced = new wxMenu;
     menuAdvanced->Append(
         ID_OPTIONSOPTIONS, 
-        _("&Options"),
+        _("&Options..."),
         _("Configure GUI options and proxy settings")
     );
     // %s is the project name
