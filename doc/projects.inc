@@ -4,6 +4,14 @@ $biomed = array(
     "Biology and Medicine",
     array(
         array(
+            "Proteins@Home",
+            "http://biology.polytechnique.fr/proteinsathome",
+            "&Eacute;cole Polytechnique, Paris",
+            "Protein structure prediction",
+            "By joining Proteins@Home, you will be part of a large-scale protein structure prediction project and help to advance an important area of science. By increasing our knowledge of proteins, you will contribute to a better understanding of many diseases and pathologies, and to progress in both medicine and technology. Proteins@Home is not for profit.",
+            "proteinsathome.gif"
+        ),
+        array(
             "Malariacontrol.net",
             "http://www.malariacontrol.net",
             "The Swiss Tropical Institute",
@@ -78,6 +86,22 @@ $earth = array(
 $astro_phys_chem = array(
     "Astronomy/Physics/Chemistry",
     array(
+        array(
+            "Leiden Classical",
+            "http://boinc.gorlaeus.net/",
+            "Leiden University, The Netherlands",
+            "Chemistry",
+            "Surface science calculations using Classical Dynamics.  In contrast to other projects, Leiden Classical allows volunteers, students and other scientist to submit their personal calculations to the grid. Each user has his own personal queue for Classical Dynamics jobs. In this way students have used the grid to simulate liquid argon, or to test the validity of the ideal gas law by actually doing the simulations through the grid.",
+            "leiden_classical.png"
+        ),
+        array(
+            "&micro;Fluids@home",
+            "http://www.ufluids.net/",
+            "Purdue University",
+            "Physics/Aeronautics",
+            "The &micro;Fluids project simulates two-phase fluid behavior in microgravity and microfluidics problems. Our goal is to design better satellite propellant management devices and address two-phase flow in microchannel and MEMS devices.",
+            "ufluids.gif"
+        ),
         array(
             "Einstein@home",
             "http://einstein.phys.uwm.edu/",
@@ -157,7 +181,7 @@ $math = array(
         ),
         array(
             "Chess960@home",
-            "http://www.chess960athome.org/",
+            "http://www.chess960athome.org/alpha/",
             "Chess-960.org",
             "Game-playing",
             "This project studies Chess 960, a variant of orthodox chess. In classical chess the starting position of the game never changes.  In Chess 960, just before the start of every game, the initial configuration of the chess pieces is determined randomly.",

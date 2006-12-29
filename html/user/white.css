@@ -230,6 +230,11 @@ td.threadline {
     text-align:left;
 }
 
+span.note{
+    font-weight: normal;
+    font-size: 0.9em;
+}
+
 .code {
     font-family: System, Fixed, sans-serif;
     color: #000000;

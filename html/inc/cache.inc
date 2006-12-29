@@ -86,7 +86,8 @@ function cache_check_diskspace(){
     if (!(rand() % CACHE_SIZE_CHECK_FREQ)) {
        $too_old=86400;
        while ((disk_free_space("../cache") < MIN_FREE_SPACE) ||
-           (disk_usage("../cache") > MAX_CACHE_USAGE)) {
+           (disk_usage("../cache") > MAX_CACHE_USAGE)
+        ) {
            clean_cache($too_old, "../cache");
            $too_old/=2;
        }
@@ -95,52 +96,51 @@ function cache_check_diskspace(){
 
 function cache_need_to_regenerate($path, $max_age){
     $regenerate = false;
-        $request = apache_request_headers();
+    $request = apache_request_headers();
 
-        clearstatcache();
-        $lastmodified = @filemtime($path);
-        if ($lastmodified) {
+    clearstatcache();
+    $lastmodified = @filemtime($path);
+    if ($lastmodified) {
 
-            // Check to see if this is a conditional fetch.
-            //
-            $if_modified_since = isset($request['If-Modified-Since']) ?
-                (explode(';',$request['If-Modified-Since'])) :
-                false;
+        // Check to see if this is a conditional fetch.
+        //
+        $if_modified_since = isset($request['If-Modified-Since']) ?
+            (explode(';',$request['If-Modified-Since'])) : false;
 
-            if ($if_modified_since) {
-                $if_modified_since=strtotime($if_modified_since[0]);
-            }
-
-            if ($if_modified_since && ($if_modified_since == $lastmodified)) {
-                Header("Last-Modified: " . gmdate("D, d M Y H:i:s",$lastmodified) . " GMT");
-                Header('HTTP/1.0 304 Not Modified');
-                exit;
-            }
-
-            // See if cached copy is too old.
-            // If so regenerate,
-            // and touch the cached copy so other processes
-            // don't regenerate at the same time
-            //
-            if ($lastmodified<time()-$max_age) {
-                $regenerate = true;
-                @touch($path);
-            }
-        } else {
-            $regenerate = true;
+        if ($if_modified_since) {
+            $if_modified_since=strtotime($if_modified_since[0]);
         }
+
+        if ($if_modified_since && ($if_modified_since == $lastmodified)) {
+            Header("Last-Modified: " . gmdate("D, d M Y H:i:s",$lastmodified) . " GMT");
+            Header('HTTP/1.0 304 Not Modified');
+            exit;
+        }
+
+        // See if cached copy is too old.
+        // If so regenerate,
+        // and touch the cached copy so other processes
+        // don't regenerate at the same time
+        //
+        if ($lastmodified<time()-$max_age) {
+            $regenerate = true;
+            @touch($path);
+        }
+    } else {
+        $regenerate = true;
+    }
     return $regenerate;
 }
 
 // Returns cached data or false if nothing was found
-function get_cached_data($max_age,$params=""){
+function get_cached_data($max_age, $params=""){
     $path = get_path($params);
     cache_check_diskspace();
     if ($max_age) {
-	$regenerate=cache_need_to_regenerate($path, $max_age);
-	if (!$regenerate){
-	    return file_get_contents($path);
-	}
+        $regenerate=cache_need_to_regenerate($path, $max_age);
+        if (!$regenerate) {
+            return file_get_contents($path);
+        }
     }
     return false; //No data was cached, just return
 }
@@ -154,7 +154,7 @@ function start_cache($max_age, $params=""){
     cache_check_diskspace(); //Check free disk space once in a while
 
     if ($max_age) {
-	$regenerate = cache_need_to_regenerate($path, $max_age); //Is the stored version too old, do we need to regenerate it?
+        $regenerate = cache_need_to_regenerate($path, $max_age); //Is the stored version too old, do we need to regenerate it?
         if ($regenerate){
             // If cached version is too old (or non-existent)
             // generate the page and write to cache
@@ -180,11 +180,11 @@ function start_cache($max_age, $params=""){
             Header("Cache-Control: public, max-age=" . $max_age );
             if (!@readfile($path)) {
                 //echo "can't read $path; lastmod $lastmodified\n";
-		@unlink($path);
-		//Proceed to regenerate content
+                @unlink($path);
+                //Proceed to regenerate content
             } else {
-        	exit;	    
-	    }
+                exit;
+            }
         }
     }
 }

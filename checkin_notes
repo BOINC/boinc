@@ -13765,3 +13765,15 @@ Rom    28 Dec 2006
         
     client/win/
         win_screensaver.cpp, .h
+
+David  28 Dec 2006
+    - User web: on user page, show list of their other projects.
+        This uses the XML RPC being exported by James Drews.
+
+    html/
+        user/
+            show_user.php
+            white.css
+        inc/
+            cache.inc
+            util.inc

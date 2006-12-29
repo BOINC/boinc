@@ -1,6 +1,11 @@
 <?
 
 $project_news = array(
+array("December 28, 2006",
+    "The <a href=http://biology.polytechnique.fr/proteinsathome>Proteins@Home</a> project is now open.
+    Proteins@Home is a large-scale protein structure prediction project,
+    and is based at the &Eacute;cole Polytechnique in Paris."
+),
 array("December 21, 2006",
     "Some AOL users are unable to attach to some projects.
     A work-around for this problem is described
