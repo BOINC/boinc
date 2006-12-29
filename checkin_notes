@@ -13790,3 +13790,18 @@ Rom    29 Dec 2006
         BOINCBaseView.cpp, .h
         BOINCDialupManager.cpp, .h
         ViewStatistics.cpp, .h
+
+David  29 Dec 2006
+    - user web: add project list to private use page also;
+        sort projects by descending avg credit;
+        don't link to user page on WCG (they don't have them)
+    - start script: say "not running", not "not found"
+
+    html/
+        inc/
+            user.inc
+        user/
+            home.php
+            show_user.php
+    sched/
+        start

@@ -10,6 +10,7 @@ require_once("../inc/forum.inc");
 db_init();
 $user = get_logged_in_user();
 $user = getForumPreferences($user);
+$user = get_other_projects($user);
 page_head("Your account");
 
 if (get_str("new_acct", true)) {
@@ -29,6 +30,7 @@ if (get_str("via_web", true)) {
 echo "<p>\n";
 
 show_user_page_private($user);
+show_other_projects($user, true);
 project_user_page_private($user);
 
 page_tail();

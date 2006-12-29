@@ -4,6 +4,109 @@ require_once("../inc/credit.inc");
 require_once("../inc/email.inc");
 require_once("../inc/util.inc");
 
+function parse_project($f) {
+    $p->total_credit = 0.0;
+    $p->expavg_credit = 0.0;
+    while (!feof($f)) {
+        $buf = fgets($f);
+        if (strstr($buf, "</project>")) break;
+        if ($x = parse_element($buf, "<name>")) {
+            $p->name = $x;
+        }
+        if ($x = parse_element($buf, "<name>")) {
+            $p->name = $x;
+        }
+        if ($x = parse_element($buf, "<url>")) {
+            $p->url = $x;
+        }
+        if ($x = parse_element($buf, "<total_credit>")) {
+            $p->total_credit = $x;
+        }
+        if ($x = parse_element($buf, "<expavg_credit>")) {
+            $p->expavg_credit = $x;
+        }
+        if ($x = parse_element($buf, "<id>")) {
+            $p->id = $x;
+        }
+        if ($x = parse_element($buf, "<country>")) {
+            $p->country = $x;
+        }
+        if ($x = parse_element($buf, "<team_id>")) {
+            $p->team_id = $x;
+        }
+        if ($x = parse_element($buf, "<team_name>")) {
+            $p->team_name = $x;
+        }
+        if ($x = parse_element($buf, "<create_time>")) {
+            $p->create_time = $x;
+        }
+    }
+    return $p;
+}
+
+function parse_user($f, $user) {
+    $user->projects = array();
+    while (!feof($f)) {
+        $buf = fgets($f);
+        if (strstr($buf, "</user>")) break;
+        if (strstr($buf, "<project>")) {
+            $user->projects[] = parse_project($f);
+        }
+    }
+    return $user;
+}
+
+function get_other_projects($user) {
+    $cpid = md5($user->cross_project_id . $user->email_addr);
+    $url = "http://boinc.netsoft-online.com/get_user.php?cpid=$cpid";
+    $f = fopen($url, "r");
+    if (!$f) {
+        return $user;
+    }
+    $u = parse_user($f, $user);
+    fclose($f);
+    return $u;
+}
+
+function show_project($project) {
+    if ($project->url == "http://www.worldcommunitygrid.org/") {
+        $x = $project->name;
+    } else {
+        $x = "<a href=$project->url/show_user.php?userid=$project->id>$project->name</a>";
+    }
+    echo "<tr>
+        <td>$x</td>
+        <td align=right>".number_format($project->total_credit, 0)."</td>
+        <td align=right>".number_format($project->expavg_credit, 0)."</td>
+        <td align=right>".date_str($project->create_time)."</td>
+        </tr>
+    ";
+}
+
+function cmp($a, $b) {
+    if ($a->expavg_credit == $b->expavg_credit) return 0;
+    return ($a->expavg_credit < $b->expavg_credit)? 1 : -1;
+}
+
+function show_other_projects($user, $personal) {
+    if (count($user->projects) > 1) {
+        usort($user->projects, "cmp");
+        if ($personal) {
+            echo "<h3>Projects in which you are participating</h3>";
+        } else {
+            echo "<h3>Projects in which $user->name is participating</h3>";
+        }
+        start_table();
+        row_heading_array(array(
+            "Project<br><span class=note>Click for user page</span>", "Total credit", "Average credit", "Since"
+        ));
+        foreach($user->projects as $project) {
+            show_project($project);
+        }
+        end_table();
+    }
+}
+
 function pending_credit($user) {
     $result = mysql_query("select sum(claimed_credit) as total from result where userid=$user->id and (validate_state=0 or validate_state=4)");
     $foobar = mysql_fetch_object($result);

@@ -541,7 +541,7 @@ def command_status():
         print "BOINC is DISABLED"
     if verbose:
         print
-        print "DAEMON  pid  status    lockfile disabled  commandline"
+        print "DAEMON  pid  status      lockfile disabled  commandline"
         n = 0
         for task in config.daemons:
             if task.host != local_hostname:
@@ -549,11 +549,11 @@ def command_status():
             n += 1
             pid = safe_read_int(get_daemon_pid_name(task)) or 0
             if not pid:
-                rs = "         "
+                rs = "           "
             elif is_pid_running(pid):
-                rs = " running "
+                rs = " running   "
             else:
-                rs = "NOT FOUND"
+                rs = "NOT RUNNING"
             if is_lock_file_locked(get_task_lock_name(task)):
                 lu = " locked "
             else:
@@ -566,7 +566,7 @@ def command_status():
 
             print "  %2d"%n, " %5d"%pid, rs, lu, d, " ", task.cmd
         print
-        print "TASK       last run       period          next run        lock file   disabled  commandline"
+        print "TASK       last run       period          next run        lock file disabled  commandline"
         n = 0
         for task in config.tasks:
             if task.host != local_hostname:
