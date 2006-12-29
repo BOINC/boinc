@@ -77,10 +77,10 @@ double max_claimed_credit = 0;
 bool grant_claimed_credit = false;
 
 
-// here when a result has been validated;
+// here when a result has been validated and its granted_credit as been set.
 // grant credit to host, user and team
 //
-int grant_credit(RESULT& result, double credit) {
+int grant_credit(RESULT& result) {
     DB_USER user;
     DB_HOST host;
     DB_TEAM team;
@@ -106,10 +106,10 @@ int grant_credit(RESULT& result, double credit) {
         return retval;
     }
 
-    update_average(result.sent_time, credit, CREDIT_HALF_LIFE, user.expavg_credit, user.expavg_time);
+    update_average(result.sent_time, result.granted_credit, CREDIT_HALF_LIFE, user.expavg_credit, user.expavg_time);
     sprintf(
         buf, "total_credit=total_credit+%f, expavg_credit=%f, expavg_time=%f",
-        credit,  user.expavg_credit, user.expavg_time
+        result.granted_credit,  user.expavg_credit, user.expavg_time
     ); 
     retval = user.update_field(buf);
     if (retval) {
@@ -120,18 +120,21 @@ int grant_credit(RESULT& result, double credit) {
         );
     }
 
-    update_average(result.sent_time, credit, CREDIT_HALF_LIFE, host.expavg_credit, host.expavg_time);
+    update_average(
+        result.sent_time, result.granted_credit, CREDIT_HALF_LIFE,
+        host.expavg_credit, host.expavg_time
+    );
 
     double turnaround = result.received_time - result.sent_time;
     compute_avg_turnaround(host, turnaround);
 
 #ifdef TEST_CREDIT_PER_CPU_SEC
-    int err = update_credit_per_cpu_sec(credit, result.cpu_time, host.credit_per_cpu_sec);
+    int err = update_credit_per_cpu_sec(result.granted_credit, result.cpu_time, host.credit_per_cpu_sec);
     if (err) {
         log_messages.printf(
             SCHED_MSG_LOG::MSG_CRITICAL,
             "[RESULT#%d][HOST#%d] claimed too much credit (%f) in too little CPU time (%f)\n",
-            result.id, result.hostid, credit, result.cpu_time
+            result.id, result.hostid, result.granted_credit, result.cpu_time
         );
     }
 #endif
@@ -139,7 +142,7 @@ int grant_credit(RESULT& result, double credit) {
     sprintf(
         buf,
         "total_credit=total_credit+%f, expavg_credit=%f, expavg_time=%f, avg_turnaround=%f, credit_per_cpu_sec=%f",
-        credit,  host.expavg_credit, host.expavg_time, host.avg_turnaround, host.credit_per_cpu_sec
+        result.granted_credit,  host.expavg_credit, host.expavg_time, host.avg_turnaround, host.credit_per_cpu_sec
     );
     retval = host.update_field(buf);
     if (retval) {
@@ -160,10 +163,10 @@ int grant_credit(RESULT& result, double credit) {
             );
             return retval;
         }
-        update_average(result.sent_time, credit, CREDIT_HALF_LIFE, team.expavg_credit, team.expavg_time);
+        update_average(result.sent_time, result.granted_credit, CREDIT_HALF_LIFE, team.expavg_credit, team.expavg_time);
         sprintf(
             buf, "total_credit=total_credit+%f, expavg_credit=%f, expavg_time=%f",
-            credit,  team.expavg_credit, team.expavg_time
+            result.granted_credit,  team.expavg_credit, team.expavg_time
         );
         retval = team.update_field(buf);
         if (retval) {
@@ -188,7 +191,6 @@ int handle_wu(
     TRANSITION_TIME transition_time = NO_CHANGE;
     int retval = 0, canonicalid = 0, x;
     double credit = 0;
-    double granted_credit = 0;
     unsigned int i;
 
     WORKUNIT& wu = items[0].wu;
@@ -267,7 +269,7 @@ int handle_wu(
                     "[RESULT#%d %s] pair_check() matched: setting result to valid; credit %f\n",
                     result.id, result.name, result.granted_credit
                 );
-                retval = grant_credit(result, result.granted_credit);
+                retval = grant_credit(result);
                 if (retval) {
                     log_messages.printf(
                         SCHED_MSG_LOG::MSG_NORMAL,
@@ -371,11 +373,11 @@ int handle_wu(
                     // grant credit for valid results
                     //
                     update_result = true;
-                    granted_credit = grant_claimed_credit ? result.claimed_credit : credit;
+                    result.granted_credit = grant_claimed_credit ? result.claimed_credit : credit;
                     if (max_granted_credit && result.granted_credit > max_granted_credit) {
                         result.granted_credit = max_granted_credit;
                     }
-                    retval = grant_credit(result, granted_credit);
+                    retval = grant_credit(result);
                     if (retval) {
                         log_messages.printf(
                             SCHED_MSG_LOG::MSG_DEBUG,
@@ -383,7 +385,6 @@ int handle_wu(
                             result.id, result.name, retval
                         );
                     }
-                    result.granted_credit = granted_credit;
                     log_messages.printf(
                         SCHED_MSG_LOG::MSG_NORMAL,
                         "[RESULT#%d %s] Granted %f credit to valid result [HOST#%d]\n",

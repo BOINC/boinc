@@ -13847,3 +13847,11 @@ David  29 Dec 2006
 		ViewWorkGrid.cpp
 	win_build/
 		boincmgr_curl.vcproj
+
+David   29 Dec 2006
+    - validator: fixed bug that caused max_granted_credit
+        to not be enforced in some cases
+        (from Hendrik Vorhoek)
+
+    sched/
+        validator.C
