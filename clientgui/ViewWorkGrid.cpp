@@ -130,23 +130,31 @@ CViewWorkGrid::CViewWorkGrid(wxNotebook* pNotebook) :
 
 	// Create Grid
 	m_pGridPane->CreateGrid(0,8,wxGrid::wxGridSelectRows);	
-	m_pGridPane->SetRowLabelSize(1);
-	m_pGridPane->SetColLabelSize(20);	
+	m_pGridPane->SetRowLabelSize(1);//hide row labels
+	m_pGridPane->SetColLabelSize(20); //smaller as default
+	m_pGridPane->EnableGridLines(false);
+	m_pGridPane->EnableDragRowSize(false);//prevent the user from changing the row height with the mouse
+	m_pGridPane->EnableDragCell(false);
+	m_pGridPane->EnableEditing(false);
+	m_pGridPane->SetColLabelAlignment(wxALIGN_LEFT,wxALIGN_CENTER);
+	m_pGridPane->SetLabelFont(*wxNORMAL_FONT);
+
 	// init grid columns
-	m_pGridPane->SetColLabelValue(COLUMN_PROJECT, _("Project"));
-	m_pGridPane->SetColLabelValue(COLUMN_APPLICATION, _("Application"));
-	m_pGridPane->SetColLabelValue(COLUMN_NAME, _("Name"));
-	m_pGridPane->SetColLabelValue(COLUMN_CPUTIME, _("CPU time"));
-	m_pGridPane->SetColLabelValue(COLUMN_PROGRESS, _("Progress"));	
-	m_pGridPane->SetColLabelValue(COLUMN_TOCOMPLETION, _("To completion"));
-	m_pGridPane->SetColLabelValue(COLUMN_REPORTDEADLINE, _("Report deadline"));
-	m_pGridPane->SetColLabelValue(COLUMN_STATUS, _("Status"));
+	wxInt32 colSizes[] = {125,95,285,80,60,100,150,135};
+	wxString colTitles[] = {_("Project"),_("Application"),_("Name"),_("CPU time"),_("Progress"),_("To completion"),_("Report deadline"),_("Status")};
+	for(int i=0; i<= COLUMN_STATUS;i++){
+		m_pGridPane->SetColLabelValue(i,colTitles[i]);
+		m_pGridPane->SetColSize(i,colSizes[i]);
+	}
+	// set alignment for cpu time column to right
+	m_pGridPane->SetColAlignment(COLUMN_CPUTIME,wxALIGN_RIGHT,wxALIGN_CENTER);
+	// set alignment for completion column to right
+	m_pGridPane->SetColAlignment(COLUMN_TOCOMPLETION,wxALIGN_RIGHT,wxALIGN_CENTER);
 	//change the default cell renderer
 	m_pGridPane->SetDefaultRenderer(new CBOINCGridCellProgressRenderer(COLUMN_PROGRESS));
 	//
     UpdateSelection();
 }
-
 
 CViewWorkGrid::~CViewWorkGrid() {
     EmptyTasks();
@@ -464,7 +472,7 @@ wxInt32 CViewWorkGrid::FormatProjectName(wxInt32 item, wxString& strBuffer) cons
         state_project = doc->state.lookup_project(result->project_url);
         if (state_project) {
             state_project->get_name(project_name);
-            strBuffer = wxString(project_name.c_str(), wxConvUTF8);
+            strBuffer = wxString(" ") + wxString(project_name.c_str(), wxConvUTF8);
         } else {
             doc->ForceCacheUpdate();
         }
@@ -492,7 +500,7 @@ wxInt32 CViewWorkGrid::FormatApplicationName(wxInt32 item, wxString& strBuffer) 
         wxString strLocale = wxString(setlocale(LC_NUMERIC, NULL), wxConvUTF8);
         setlocale(LC_NUMERIC, "C");
         strBuffer.Printf(
-            wxT("%s %.2f"), 
+            wxT(" %s %.2f"), 
             wxString(state_result->wup->avp->app_name.c_str(), wxConvUTF8).c_str(),
             state_result->wup->avp->version_num/100.0
         );
@@ -510,7 +518,7 @@ wxInt32 CViewWorkGrid::FormatName(wxInt32 item, wxString& strBuffer) const {
     wxASSERT(result);
 
     if (result) {
-        strBuffer = wxString(result->name.c_str(), wxConvUTF8);
+        strBuffer = wxString(" ") + wxString(result->name.c_str(), wxConvUTF8);
     }
 
     return 0;
@@ -546,7 +554,7 @@ wxInt32 CViewWorkGrid::FormatCPUTime(wxInt32 item, wxString& strBuffer) const {
 
         ts = wxTimeSpan(iHour, iMin, iSec);
 
-        strBuffer = ts.Format();
+        strBuffer = wxString(" ") + ts.Format();
     }
 
     return 0;
@@ -596,7 +604,7 @@ wxInt32 CViewWorkGrid::FormatTimeToCompletion(wxInt32 item, wxString& strBuffer)
 
         ts = wxTimeSpan(iHour, iMin, iSec);
 
-        strBuffer = ts.Format();
+        strBuffer = wxString(" ") + ts.Format();
     }
 
     return 0;
@@ -609,7 +617,7 @@ wxInt32 CViewWorkGrid::FormatReportDeadline(wxInt32 item, wxString& strBuffer) c
 
     if (result) {
         dtTemp.Set((time_t)result->report_deadline);
-        strBuffer = dtTemp.Format();
+        strBuffer = wxString(" ") + dtTemp.Format();
     }
 
     return 0;
@@ -719,6 +727,8 @@ wxInt32 CViewWorkGrid::FormatStatus(wxInt32 item, wxString& strBuffer) const {
         strBuffer = _("Activities suspended by user") + strBuffer;
     }
 
+	strBuffer = wxString(" ") + strBuffer;
+
     return 0;
 }
 
@@ -727,19 +737,30 @@ bool CViewWorkGrid::OnSaveState(wxConfigBase* pConfig) {
 
     wxASSERT(pConfig);
     wxASSERT(m_pTaskPane);
+    wxASSERT(m_pGridPane);
 
     if (!m_pTaskPane->OnSaveState(pConfig)) {
+        bReturnValue = false;
+    }
+
+    if (!m_pGridPane->OnSaveState(pConfig)) {
         bReturnValue = false;
     }
 
     return bReturnValue;
 }
 
+
 bool CViewWorkGrid::OnRestoreState(wxConfigBase* pConfig) {
     wxASSERT(pConfig);
     wxASSERT(m_pTaskPane);
+	wxASSERT(m_pGridPane);
 
     if (!m_pTaskPane->OnRestoreState(pConfig)) {
+        return false;
+    }
+
+    if (!m_pGridPane->OnRestoreState(pConfig)) {
         return false;
     }
 

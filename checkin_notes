@@ -13830,3 +13830,20 @@ David  29 Dec 2006
 
     languages/
         translations/en.po
+
+David  29 Dec 2006
+	- Manager: grid-based variant of Transfers tab
+		(from Frank Weiler)
+		Note: for this to work correctly,
+		you need to modify grid.h in the wxWidgets source,
+		and recompile it.
+		We'll try to figure out how to get around this.
+
+	clientgui/
+		AdvancedFrame.cpp
+		BOINCGridCtrl.cpp,h
+		Events.h
+		ViewTransfersGrid.cpp,h (new)
+		ViewWorkGrid.cpp
+	win_build/
+		boincmgr_curl.vcproj

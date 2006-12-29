@@ -44,6 +44,7 @@
 #include "ViewWork.h"
 #include "ViewWorkGrid.h"
 #include "ViewTransfers.h"
+#include "ViewTransfersGrid.h"
 #include "ViewMessages.h"
 #include "ViewStatistics.h"
 #include "ViewResources.h"
@@ -604,6 +605,7 @@ bool CAdvancedFrame::CreateNotebook() {
 	CreateNotebookPage(new CViewStatistics(m_pNotebook));
     CreateNotebookPage(new CViewResources(m_pNotebook));
 	CreateNotebookPage(new CViewWorkGrid(m_pNotebook));
+	CreateNotebookPage(new CViewTransfersGrid(m_pNotebook));
 
 
     pPanel->SetSizer(pPanelSizer);

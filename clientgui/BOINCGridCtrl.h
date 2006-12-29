@@ -31,7 +31,7 @@ public:
 	CBOINCGridCellProgressRenderer(int col);
 	void Draw(wxGrid& grid, wxGridCellAttr& attr, wxDC& dc, const wxRect& rect, int row, int col, bool isSelected);	
 protected:
-	void DoDrawing(wxGrid& grid, wxGridCellAttr& attr, wxDC& dc, const wxRect& rectCell, int row, int col, bool isSelected);
+	void DoProgressDrawing(wxGrid& grid, wxGridCellAttr& attr, wxDC& dc, const wxRect& rectCell, int row, int col, bool isSelected);
 };
 
 /* grid ctrl */
@@ -41,8 +41,17 @@ public:
 	CBOINCGridCtrl(wxWindow* parent, wxWindowID iGridWindowID);
 public:
 	~CBOINCGridCtrl();
-	bool isReadOnly(int row, int col) const;
 	int GetFirstSelectedRow();
+	bool OnSaveState(wxConfigBase* pConfig);
+	bool OnRestoreState(wxConfigBase* pConfig);
+	void SetColAlignment(int col,int hAlign,int vAlign);
+
+    void DrawTextRectangle( wxDC& dc, const wxArrayString& lines, const wxRect&,
+                            int horizontalAlignment = wxALIGN_LEFT,
+                            int verticalAlignment = wxALIGN_TOP,
+                            int textOrientation = wxHORIZONTAL );
+
+	wxString FormatTextWithEllipses(wxDC& dc,const wxString &text,int width);
 };
 
 

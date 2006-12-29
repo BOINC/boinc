@@ -74,6 +74,7 @@
 #define ID_LIST_STATISTICSVIEW                  7005
 #define ID_LIST_RESOURCEUTILIZATIONVIEWTOTAL	7006
 #define ID_LIST_WORKGRIDVIEW                    7007
+#define ID_LIST_TRANSFERSGRIDVIEW               7008
 #define ID_TASK_BASE                            8000
 #define ID_TASK_PROJECTSVIEW                    8000
 #define ID_TASK_WORKVIEW                        8001
@@ -82,6 +83,7 @@
 #define ID_TASK_STATISTICSVIEW                  8004
 #define ID_TASK_RESOURCEUTILIZATIONVIEW         8005
 #define ID_TASK_WORKGRIDVIEW                    8006
+#define ID_TASK_TRANSFERSGRIDVIEW               8007
 #define ID_TASK_PROJECT_UPDATE                  9000
 #define ID_TASK_PROJECT_SUSPEND                 9002
 #define ID_TASK_PROJECT_RESUME                  9003
@@ -103,10 +105,10 @@
 #define ID_TASK_STATISTICS_USERAVERAGE          9501
 #define ID_TASK_STATISTICS_HOSTTOTAL            9502
 #define ID_TASK_STATISTICS_HOSTAVERAGE          9503
-#define ID_TASK_STATISTICS_NEXTPROJECT          9601 
-#define ID_TASK_STATISTICS_PREVPROJECT          9602 
-#define ID_TASK_STATISTICS_MODEVIEW0            9610 
-#define ID_TASK_STATISTICS_MODEVIEW1            9611 
+#define ID_TASK_STATISTICS_NEXTPROJECT          9601
+#define ID_TASK_STATISTICS_PREVPROJECT          9602
+#define ID_TASK_STATISTICS_MODEVIEW0            9610
+#define ID_TASK_STATISTICS_MODEVIEW1            9611
 #define ID_TASK_STATISTICS_MODEVIEW2            9612
 #define ID_ANYDIALOG                            10000
 

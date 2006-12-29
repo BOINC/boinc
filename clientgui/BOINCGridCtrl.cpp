@@ -35,11 +35,6 @@ CBOINCGridCtrl::CBOINCGridCtrl(
 CBOINCGridCtrl::~CBOINCGridCtrl() {
 }
 
-#pragma warning( disable : 4100)
-bool CBOINCGridCtrl::isReadOnly(int row,int col) const {
-	return true;
-}
-
 int CBOINCGridCtrl::GetFirstSelectedRow() {
 	int ret= -1;
 	//Row mode ?
@@ -61,6 +56,207 @@ int CBOINCGridCtrl::GetFirstSelectedRow() {
 	return ret;
 }
 
+bool CBOINCGridCtrl::OnSaveState(wxConfigBase* pConfig) {
+    wxString    strBaseConfigLocation = wxEmptyString;
+    wxInt32     iIndex = 0;
+    wxInt32     iColumnCount = this->GetCols();
+
+    wxASSERT(pConfig);
+
+
+    // Retrieve the base location to store configuration information
+    // Should be in the following form: "/Projects/"
+    strBaseConfigLocation = pConfig->GetPath() + wxT("/");
+
+    // Cycle through the columns recording anything interesting
+    for (iIndex = 0; iIndex < iColumnCount; iIndex++) {
+		wxString label = this->GetColLabelValue(iIndex);
+        pConfig->SetPath(strBaseConfigLocation + label);
+		pConfig->Write(wxT("Width"), this->GetColumnWidth(iIndex));
+    }
+    return true;
+}
+
+
+bool CBOINCGridCtrl::OnRestoreState(wxConfigBase* pConfig) {
+    wxString    strBaseConfigLocation = wxEmptyString;
+    wxInt32     iIndex = 0;
+    wxInt32     iTempValue = 0;
+	wxInt32		iColumnCount = this->GetCols();
+
+    wxASSERT(pConfig);
+
+    // Retrieve the base location to store configuration information
+    // Should be in the following form: "/Projects/"
+    strBaseConfigLocation = pConfig->GetPath() + wxT("/");
+
+    // Cycle through the columns recording anything interesting
+    for (iIndex = 0; iIndex < iColumnCount; iIndex++) {
+		wxString label = this->GetColLabelValue(iIndex);
+        pConfig->SetPath(strBaseConfigLocation + label);
+
+        pConfig->Read(wxT("Width"), &iTempValue, -1);
+        if (-1 != iTempValue) {
+			this->SetColumnWidth(iIndex,iTempValue);
+        }
+    }
+
+    return true;
+}
+
+void CBOINCGridCtrl::SetColAlignment(int col,int hAlign,int vAlign) {
+    wxGridCellAttr *attr = m_table->GetAttr(-1, col, wxGridCellAttr::Col );
+	if(!attr) {
+		attr = new wxGridCellAttr;    
+	}
+	attr->SetAlignment(hAlign,vAlign);
+    SetColAttr(col, attr);
+}
+
+
+void CBOINCGridCtrl::DrawTextRectangle( wxDC& dc,
+                               const wxArrayString& lines,
+                               const wxRect& rect,
+                               int horizAlign,
+                               int vertAlign,
+                               int textOrientation )
+{
+    long textWidth, textHeight;
+    long lineWidth, lineHeight;
+    int nLines;
+
+    dc.SetClippingRegion( rect );
+
+    nLines = lines.GetCount();
+    if( nLines > 0 )
+    {
+        int l;
+        float x = 0.0, y = 0.0;
+
+        if( textOrientation == wxHORIZONTAL )
+            GetTextBoxSize(dc, lines, &textWidth, &textHeight);
+        else
+            GetTextBoxSize( dc, lines, &textHeight, &textWidth );
+
+        switch( vertAlign )
+        {
+        case wxALIGN_BOTTOM:
+            if( textOrientation == wxHORIZONTAL )
+                y = rect.y + (rect.height - textHeight - 1);
+            else
+                x = rect.x + rect.width - textWidth;
+            break;
+
+        case wxALIGN_CENTRE:
+            if( textOrientation == wxHORIZONTAL )
+                y = rect.y + ((rect.height - textHeight)/2);
+            else
+                x = rect.x + ((rect.width - textWidth)/2);
+            break;
+
+        case wxALIGN_TOP:
+        default:
+            if( textOrientation == wxHORIZONTAL )
+                y = rect.y + 1;
+            else
+                x = rect.x + 1;
+            break;
+        }
+
+        // Align each line of a multi-line label
+        for( l = 0; l < nLines; l++ )
+        {
+            dc.GetTextExtent(lines[l], &lineWidth, &lineHeight);
+
+            switch( horizAlign )
+            {
+            case wxALIGN_RIGHT:
+                if( textOrientation == wxHORIZONTAL )
+                    x = rect.x + (rect.width - lineWidth - 1);
+                else
+                    y = rect.y + lineWidth + 1;
+                break;
+
+            case wxALIGN_CENTRE:
+                if( textOrientation == wxHORIZONTAL )
+                    x = rect.x + ((rect.width - lineWidth)/2);
+                else
+                    y = rect.y + rect.height - ((rect.height - lineWidth)/2);
+                break;
+
+            case wxALIGN_LEFT:
+            default:
+                if( textOrientation == wxHORIZONTAL )
+                    x = rect.x + 1;
+                else
+                    y = rect.y + rect.height - 1;
+                break;
+            }
+
+            if( textOrientation == wxHORIZONTAL )
+            {
+				wxString formattedText = FormatTextWithEllipses(dc,lines[l],rect.width);
+                dc.DrawText( formattedText, (int)x, (int)y );
+                y += lineHeight;
+            }
+            else
+            {
+                dc.DrawRotatedText( lines[l], (int)x, (int)y, 90.0 );
+                x += lineHeight;
+            }
+        }
+    }
+    dc.DestroyClippingRegion();
+}
+
+wxString CBOINCGridCtrl::FormatTextWithEllipses(wxDC& dc,const wxString &text,int width)
+{
+	wxString retText;
+    wxString drawntext, ellipsis;
+    wxCoord w, h, base_w;
+    wxListItem item;
+
+    // determine if the string can fit inside the current width
+    dc.GetTextExtent(text, &w, &h);
+    if (w <= width)
+    {
+		retText = text;
+    }
+    else // otherwise, truncate and add an ellipsis if possible
+    {
+        // determine the base width
+        ellipsis = wxString(wxT("..."));
+        dc.GetTextExtent(ellipsis, &base_w, &h);
+
+        // continue until we have enough space or only one character left
+        wxCoord w_c, h_c;
+        size_t len = text.Length();
+        drawntext = text.Left(len);
+        while (len > 1)
+        {
+            dc.GetTextExtent(drawntext.Last(), &w_c, &h_c);
+            drawntext.RemoveLast();
+            len--;
+            w -= w_c;
+            if (w + base_w <= width)
+                break;
+        }
+
+        // if still not enough space, remove ellipsis characters
+        while (ellipsis.Length() > 0 && w + base_w > width)
+        {
+            ellipsis = ellipsis.Left(ellipsis.Length() - 1);
+            dc.GetTextExtent(ellipsis, &base_w, &h);
+        }
+
+        // now draw the text
+		retText = drawntext + ellipsis;
+    }
+
+	return retText;
+}
+
+
 /* ############# */
 CBOINCGridCellProgressRenderer::CBOINCGridCellProgressRenderer(int col) : wxGridCellStringRenderer()
 {
@@ -69,14 +265,14 @@ CBOINCGridCellProgressRenderer::CBOINCGridCellProgressRenderer(int col) : wxGrid
 
 void CBOINCGridCellProgressRenderer::Draw(wxGrid& grid, wxGridCellAttr& attr, wxDC& dc, const wxRect& rect, int row, int col, bool isSelected) {
 	if(col==column) {
-		DoDrawing(grid,attr,dc,rect,row,col,isSelected);
+		DoProgressDrawing(grid,attr,dc,rect,row,col,isSelected);
 	}
-	else {
+	else {		
 		wxGridCellStringRenderer::Draw(grid,attr,dc,rect,row,col,isSelected);
 	}
 }
 
-void CBOINCGridCellProgressRenderer::DoDrawing(wxGrid& grid, wxGridCellAttr& attr, wxDC& dc, const wxRect& rectCell, int row, int col, bool isSelected) {
+void CBOINCGridCellProgressRenderer::DoProgressDrawing(wxGrid& grid, wxGridCellAttr& attr, wxDC& dc, const wxRect& rectCell, int row, int col, bool isSelected) {
     wxRect rect = rectCell;
     rect.Inflate(-1);
 
@@ -99,7 +295,7 @@ void CBOINCGridCellProgressRenderer::DoDrawing(wxGrid& grid, wxGridCellAttr& att
 	p2.SetLeft(rect.GetLeft()+r+1);
 	dc.SetClippingRegion(rect);
 	wxBrush old = dc.GetBrush();
-	dc.SetBrush(*wxBLUE_BRUSH);
+	dc.SetBrush(*wxLIGHT_GREY_BRUSH);
 	dc.DrawRectangle(p1);
 	dc.SetBrush(old);
 	dc.DrawRectangle(p2);	

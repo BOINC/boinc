@@ -1592,6 +1592,14 @@
 					>
 				</File>
 				<File
+					RelativePath="..\clientgui\ViewTransfersGrid.cpp"
+					>
+				</File>
+				<File
+					RelativePath="..\clientgui\ViewTransfersGrid.h"
+					>
+				</File>
+				<File
 					RelativePath="..\clientgui\ViewWork.cpp"
 					>
 				</File>
