@@ -13823,3 +13823,10 @@ Rytis  29 Dec 2006
             forum_edit.php
             forum_rate.php
             forum_thread.php
+
+David  29 Dec 2006
+    - web site: made the help page and the "Volunteer" part
+        of the front page translatable.
+
+    languages/
+        translations/en.po

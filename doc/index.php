@@ -1,5 +1,7 @@
 <?php
 require_once("docutil.php");
+require_once("../html/inc/translation.inc");
+
 
 function show_participant() {
     global $light_blue;
@@ -53,35 +55,22 @@ function show_participate() {
     global $light_blue;
     echo "
         <tr><td bgcolor=$light_blue>
-            <font size=4>&nbsp;Volunteer</font>
+            <font size=4>&nbsp;".tr(HOME_HEADING1)."</font>
         </td></tr>
         <tr><td>
         <p>
-        Use the idle time on your computer
-        (Windows, Mac, or Linux)
-        to cure diseases, study global warming,
-        discover pulsars,
-        and do many other types of scientific research.
-        It's safe, secure, and easy:
-        <ol>
-        <li> <a href=projects.php><font size=+1>Choose</font></a> projects
-        <li> <a href=download.php><font size=+1>Download</font></a> and run BOINC software
-        <li> <font size=+1>Enter</font> the project URLs, your email address, and password.
+        ".sprintf(tr(HOME_P1), "<ol> <li> <a href=projects.php><font size=+1>", "</font></a>", "<li> <a href=download.php><font size=+1>", "</font></a>", "<li> <font size=+1>", "</font>")."
         </ol>
         <p>
-        Alternatively, if you run several projects, it may be easier to
-        use an <a href=acct_mgrs.php>account manager</a>
-        such as <a href=http://gridrepublic.org>GridRepublic</a>
-        or <a href=http://bam.boincstats.com/>BAM!</a>.
+        ".sprintf(tr(HOME_P2), "<a href=acct_mgrs.php>", "</a>", "<a href=http://gridrepublic.org>", "</a>", "<a href=http://bam.boincstats.com/>", "</a>")."
         <p>
-        If you have any questions, or need help getting started, you can
-        <a href=help.php>talk to a Volunteer Helper</a>.
+        ".sprintf(tr(HOME_P3), "<a href=help.php>", "</a>")."
         <center>
-        <a href=participate.php><b><nobr>More info</nobr></b></a> 
-        | <a href=download.php><b>Download</b></a>
-        | <a href=links.php><b><nobr>Web sites</nobr></b></a>
-        | <a href=addons.php><b>Add-ons</b></a>
-        | <a href=poll.php><b><nobr>Survey</nobr></b></a>
+        <a href=participate.php><b><nobr>".tr(HOME_MORE_INFO)."</nobr></b></a> 
+        | <a href=download.php><b>".tr(HOME_DOWNLOAD)."</b></a>
+        | <a href=links.php><b><nobr>".tr(HOME_WEB_SITES)."</nobr></b></a>
+        | <a href=addons.php><b>".tr(HOME_ADD_ONS)."</b></a>
+        | <a href=poll.php><b><nobr>".tr(HOME_SURVEY)."</nobr></b></a>
         </center>
         </td></tr>
     ";

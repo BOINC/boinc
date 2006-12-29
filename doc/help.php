@@ -2,37 +2,22 @@
 require_once("docutil.php");
 require_once("spoken_languages.php");
 require_once("help_db.php");
+require_once("../html/inc/translation.inc");
 
-page_head("BOINC Online Help");
+page_head(tr(HELP_TITLE));
 
 echo "
-<h2>Need help?</h2>
+<h2>".tr(HELP_HEADING1)."</h2>
 <p>
-BOINC Online Help lets you talk one-on-one
-with experienced BOINC users, who can:
-<ul>
-<li> answer questions about BOINC and volunteer computing;
-<li> walk you through the process of installing and using BOINC;
-<li> troubleshoot any problems you might have.
+".sprintf(tr(HELP_P1_1), "<ul>", "<li>", "<li>", "<li>")."
 </ul>
 <p>
-BOINC Online Help is based on
-<a href=http://www.skype.com>Skype</a>,
-an Internet-based telephone system.
-Skype is free (both the software and the calls).
-If you don't already have Skype, please
-<a href=http://www.skype.com>download and install it now</a>.
-When you're finished, return to this page.
+".sprintf(tr(HELP_P1_2), "<a href=http://www.skype.com>", "</a>", "<a href=http://www.skype.com>", "</a>")."
 <p>
-The best way to get help is by voice,
-for which you need either built-in microphone and speakers
-or an external headset for your computer.
-Alternatively, you can use Skype's text-based chat system
-to communicate with Help Volunteers.
+".tr(HELP_P1_3),"
 
 <p>
-Volunteers speaking several languages are available.
-Please select a language:
+".tr(HELP_P1_4),"
 <p>
 ";
 
@@ -48,25 +33,15 @@ foreach ($langs as $lang) {
     echo "<a href=help_lang.php?lang=$lang_enc><b>$lang</b></a>";
 }
 echo "
-<h2>Other sources of help</h2>
+<h2>".tr(HELP_HEADING2)."</h2>
 <p>
-You can also get information and advice from:
-<ul>
-<li> <a href=http://boinc.berkeley.edu/>The BOINC web site</a>.
-<li> <a href=http://boinc.berkeley.edu/links.php>BOINC-related web sites</a>.
-<li> <a href=http://boinc.berkeley.edu/dev/>The BOINC message boards</a>.
-<li> The message boards on any BOINC-based project.
+".sprintf(tr(HELP_P2_1), "<ul><li> <a href=http://boinc.berkeley.edu/>", "</a>", "<li> <a href=http://boinc.berkeley.edu/links.php>", "</a>", "<li> <a href=http://boinc.berkeley.edu/dev/>", "</a>", "<li>")."
 </ul>
-<h2>Be a Help Volunteer</h2>
+<h2>".tr(HELP_HEADING3)."</h2>
 <p>
-If you are an experienced BOINC user, we encourage you to
-<a href=help_volunteer.php>become a Help Volunteer</a>.
-It's a great way to help the cause of scientific research
-and volunteer computing -
-and it's fun!
+".sprintf(tr(HELP_P3_1), "<a href=help_volunteer.php>", "</a>")."
 <p>
-If you're already a Help Volunteer: to edit your settings,
-<a href=help_vol_edit.php?edit_login=1>click here</a>.
+".sprintf(tr(HELP_P3_2), "<a href=help_vol_edit.php?edit_login=1>", "</a>")."
 ";
 page_tail();
 ?>
