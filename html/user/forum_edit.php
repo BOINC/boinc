@@ -27,7 +27,7 @@ if (!$is_spec && (time() > $post->getTimestamp() + MAXIMUM_EDIT_TIME)){
     error_page ("You can no longer edit this post.<br />Posts can only be edited at most ".(MAXIMUM_EDIT_TIME/60)." minutes after they have been created.");
 }
 $post_owner = $post->getOwner();
-if ($logged_in_user->getID() != $post_owner->getID()) {
+if (($logged_in_user->getID() != $post_owner->getID()) || (can_reply($thread, $logged_in_user) == false)) {
     error_page ("You are not authorized to edit this post.");
 }
 

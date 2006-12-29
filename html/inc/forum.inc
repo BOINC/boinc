@@ -233,9 +233,11 @@ function show_post($post, $thread, $logged_in_user, $n, $controls=FORUM_CONTROLS
         if ($user->getID() == $logged_in_user->getID()) {
             if ($logged_in_user->isSpecialUser(S_MODERATOR)) {
                 $can_edit = true;
-            } else {
+            } else if (can_reply($thread, $logged_in_user)) {
                 $time_limit = $post->getTimestamp()+MAXIMUM_EDIT_TIME;
                 $can_edit = time()<$time_limit;
+            } else {
+                $can_edit = false;
             }
         }
     }
@@ -335,7 +337,7 @@ function show_post($post, $thread, $logged_in_user, $n, $controls=FORUM_CONTROLS
         $rating = $post->getRating();
         echo " | Rating: ", $rating, "</i> | rate: <a href=\"forum_rate.php?post=".$post->getID()."&amp;choice=p\"><img src=\"".RATE_POSITIVE_IMAGE."\" alt=\"+\" height=\"".RATE_POSITIVE_IMAGE_HEIGHT."\" border=0></a> / <a href=\"forum_rate.php?post=".$post->getID()."&amp;choice=n\"><img src=\"".RATE_NEGATIVE_IMAGE."\" alt=\"-\" height=\"".RATE_NEGATIVE_IMAGE_HEIGHT."\" border=0></a> - <a href=\"forum_report_post.php?post=".$post->getID()."\"><img src=\"".REPORT_POST_IMAGE."\" alt=\"Report this post as offensive\" height=\"".REPORT_POST_IMAGE_HEIGHT."\" border=0></a></td>";
         }
-        if ($controls == FORUM_CONTROLS) {
+        if (($controls == FORUM_CONTROLS) && (can_reply($thread, $logged_in_user))) {
             echo "<td align=right class=\"postfooter\">[<a href=\"forum_reply.php?thread=" . $thread->getID() . "&amp;post=" . $post->getID() . "#input\">Reply to this post</a>]</td>";
         } else {
             echo "<td class=\"postfooter\"></td>";
@@ -544,6 +546,14 @@ function check_banished($user) {
         error_page(
             "You may not post or rate messages until ".gmdate('M j, Y', $x)
         );
+    }
+}
+
+function can_reply($thread, $user) {
+    if (!$thread->isLocked() || ($user && $user->isSpecialUser(S_MODERATOR))) {
+        return true;
+    } else {
+        return false;
     }
 }
 

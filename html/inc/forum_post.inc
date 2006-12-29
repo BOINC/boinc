@@ -80,7 +80,7 @@ class Post {
      * Determine if a particular user has rated this post
      **/
     function hasRated($user){
-        return ($this->dbhandler->getPostRatingByUser($this, $user)!=0);
+        return ($this->dbhandler->getPostRatingByUser($this, $user) == true);
     }
     
     /**

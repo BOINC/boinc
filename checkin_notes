@@ -13805,3 +13805,21 @@ David  29 Dec 2006
             show_user.php
     sched/
         start
+
+Rytis  29 Dec 2006
+    User web:
+    - Fix forum thread locking notification issues.
+    - Disallow post editing if the thread is locked.
+    - Fix post_str to remove PHP notices.
+    - Fix post ratings (who put exit(0) in the code?)
+        
+    html/
+        inc/
+            forum.inc
+            forum_forum.inc
+            forum_post.inc
+            util.inc
+        user/
+            forum_edit.php
+            forum_rate.php
+            forum_thread.php

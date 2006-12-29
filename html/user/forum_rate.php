@@ -12,9 +12,7 @@ if (parse_element($config,"<no_forum_rating/>")) {
         echo "This function is turned off by the project";
         page_tail();
         exit(0);
-        }
-
-exit(0);
+}
 
 db_init();
 
@@ -29,7 +27,6 @@ if (!empty($_GET['post'])) {
     } else {
         $rating = -1;
     }
-
 
     $user = re_get_logged_in_user(true);
 

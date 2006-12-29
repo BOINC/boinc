@@ -61,7 +61,6 @@ if (($thread->isHidden()) && $logged_in_user && (!$logged_in_user->isSpecialUser
     */
     error_page(tr(FORUM_THREAD_HIDDEN));
 } else {    
-
     if ($thread->getType()!=0 && $thread->getStatus()==0){
         $thread_owner = $thread->getOwner();
 	if ($logged_in_user){
@@ -92,8 +91,8 @@ if (($thread->isHidden()) && $logged_in_user && (!$logged_in_user->isSpecialUser
         <table width=\"100%\" cellspacing=0 cellpadding=0>
         <tr>
         <td align=\"left\">";
-        
-    if (!$thread->isLocked() || ($logged_in_user && $logged_in_user->isSpecialUser(S_MODERATOR))) {
+
+    if (can_reply($thread, $logged_in_user)) {        
         echo $reply_text = "<a href=\"forum_reply.php?thread=".$thread->getID()."#input\">".tr(FORUM_THREAD_REPLY)."</a><br>";
     }
 

@@ -67,10 +67,10 @@ class Forum {
         return $this->dbObj->post_min_interval;
     }
     function getRateMinTotalCredit(){
-        return $this->dbObj->reate_min_total_credit;
+        return $this->dbObj->rate_min_total_credit;
     }
     function getRateMinExpavgCredit(){
-        return $this->dbObj->reate_min_expavg_credit;
+        return $this->dbObj->rate_min_expavg_credit;
     }
     function getCategory(){
         return new Category($this->dbObj->category);
