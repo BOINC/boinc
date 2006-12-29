@@ -92,7 +92,7 @@ size_t CBOINCDialUpManager::GetISPNames(wxArrayString& names) {
 }
 
 
-void CBOINCDialUpManager::poll() {
+void CBOINCDialUpManager::OnPoll() {
     CMainDocument*      pDoc = wxGetApp().GetDocument();
     CBOINCBaseFrame*    pFrame = wxGetApp().GetFrame();
 #if defined(__WXMSW__)

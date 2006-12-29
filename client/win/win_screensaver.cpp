@@ -1541,21 +1541,24 @@ LRESULT CScreensaver::SaverProc(
             if (wParam == PBT_APMQUERYSUSPEND && gspfnMyVerifyPwdProc == NULL)
                 InterruptSaver();
             break;
-
-        case WM_SETTIMER:
-            BOINCTRACE(_T("CScreensaver::SaverProc Received WM_SETTIMER\n"));
-            // All initialization messages have gone through.  Allow
-            // 500ms of idle time, then proceed with initialization.
-            SetTimer(hWnd, 1, 500, NULL);
-            break;
-
-        case WM_INTERRUPTSAVER:
-            BOINCTRACE(_T("CScreensaver::SaverProc Received WM_INTERRUPTSAVER\n"));
-            if (hWnd == m_Monitors[0].hWnd) {
-                InterruptSaver();
-            }
-            break;
     }
+
+    if (WM_SETTIMER == uMsg) {
+
+        BOINCTRACE(_T("CScreensaver::SaverProc Received WM_SETTIMER\n"));
+        // All initialization messages have gone through.  Allow
+        // 500ms of idle time, then proceed with initialization.
+        SetTimer(hWnd, 1, 500, NULL);
+
+    } else if (WM_INTERRUPTSAVER == uMsg) {
+
+        BOINCTRACE(_T("CScreensaver::SaverProc Received WM_INTERRUPTSAVER\n"));
+        if (hWnd == m_Monitors[0].hWnd) {
+            InterruptSaver();
+        }
+
+    }
+
     return DefWindowProc(hWnd, uMsg, wParam, lParam);
 }
 

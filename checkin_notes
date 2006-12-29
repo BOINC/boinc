@@ -13777,3 +13777,16 @@ David  28 Dec 2006
         inc/
             cache.inc
             util.inc
+
+Rom    29 Dec 2006
+    - SCRSAV: Fix build break.
+    - MGR: Refactor the timer management code whithin the advanced frame.
+
+    client/win/
+        win_screensaver.cpp
+    clientgui/
+        AdvancedFrame.cpp, .h
+        BOINCBaseFrame.cpp, .h
+        BOINCBaseView.cpp, .h
+        BOINCDialupManager.cpp, .h
+        ViewStatistics.cpp, .h

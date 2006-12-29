@@ -92,6 +92,7 @@ public:
 
     virtual wxString&       GetViewName();
     virtual const char**    GetViewIcon();
+    virtual const int       GetViewRefreshRate();
 
     bool                    FireOnSaveState( wxConfigBase* pConfig );
     bool                    FireOnRestoreState( wxConfigBase* pConfig );

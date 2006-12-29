@@ -1635,17 +1635,25 @@ CViewStatistics::CViewStatistics(wxNotebook* pNotebook) :
     UpdateSelection();
 }
 
+
 CViewStatistics::~CViewStatistics() {
     EmptyTasks();
 }
+
 
 wxString& CViewStatistics::GetViewName() {
     static wxString strViewName(_("Statistics"));
     return strViewName;
 }
 
+
 const char** CViewStatistics::GetViewIcon() {
     return stats_xpm;
+}
+
+
+const int CViewStatistics::GetViewRefreshRate() {
+    return 60;
 }
 
 

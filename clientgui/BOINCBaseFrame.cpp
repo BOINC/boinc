@@ -141,7 +141,7 @@ void CBOINCBaseFrame::OnDocumentPoll(wxTimerEvent& WXUNUSED(event)) {
     wxASSERT(pDoc);
     wxASSERT(wxDynamicCast(pDoc, CMainDocument));
 
-    if (!bAlreadyRunOnce) {
+    if (!bAlreadyRunOnce && m_pDocumentPollTimer->IsRunning()) {
         // Complete any remaining initialization that has to happen after we are up
         //   and running
         FireInitialize();
@@ -156,7 +156,7 @@ void CBOINCBaseFrame::OnAlertPoll(wxTimerEvent& WXUNUSED(event)) {
     static bool       bAlreadyRunningLoop = false;
     CMainDocument*    pDoc = wxGetApp().GetDocument();
 
-    if (!bAlreadyRunningLoop) {
+    if (!bAlreadyRunningLoop && m_pAlertPollTimer->IsRunning()) {
         bAlreadyRunningLoop = true;
 
         // Update idle detection if needed.
@@ -166,7 +166,7 @@ void CBOINCBaseFrame::OnAlertPoll(wxTimerEvent& WXUNUSED(event)) {
         //   dial up user perspective.
         if (pDoc && m_pDialupManager) {
             if (pDoc->IsConnected()) {
-                m_pDialupManager->poll();
+                m_pDialupManager->OnPoll();
             }
         }
 
@@ -439,6 +439,18 @@ void CBOINCBaseFrame::ShowNotCurrentlyConnectedAlert() {
     );
 
     wxLogTrace(wxT("Function Start/End"), wxT("CBOINCBaseFrame::ShowNotCurrentlyConnectedAlert - Function End"));
+}
+
+
+void CBOINCBaseFrame::StartTimers() {
+    wxASSERT(m_pAlertPollTimer);
+    m_pAlertPollTimer->Start();
+}
+
+
+void CBOINCBaseFrame::StopTimers() {
+    wxASSERT(m_pAlertPollTimer);
+    m_pAlertPollTimer->Stop();
 }
 
 

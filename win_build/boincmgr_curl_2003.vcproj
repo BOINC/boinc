@@ -1217,6 +1217,12 @@
 				<File
 					RelativePath="..\clientgui\ViewWork.h">
 				</File>
+				<File
+					RelativePath="..\clientgui\ViewWorkGrid.cpp">
+				</File>
+				<File
+					RelativePath="..\clientgui\ViewWorkGrid.h">
+				</File>
 			</Filter>
 			<Filter
 				Name="Support"
@@ -1262,12 +1268,6 @@
 				</File>
 				<File
 					RelativePath="..\clientgui\DlgSelectComputer.h">
-				</File>
-				<File
-					RelativePath="..\clientgui\ViewWorkGrid.cpp">
-				</File>
-				<File
-					RelativePath="..\clientgui\ViewWorkGrid.h">
 				</File>
 			</Filter>
 		</Filter>

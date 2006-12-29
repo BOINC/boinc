@@ -92,10 +92,6 @@ public:
 
     void ResetReminderTimers();
 
-    void SetFrameListPanelRenderTimerRate();  // TODO: refactor out of the frame and put the
-                                              //   relevent code in OnPageChanged function
-                                              //   and the base/statistics view.
-
     wxTimer*        m_pRefreshStateTimer;
     wxTimer*        m_pFrameRenderTimer;
     wxTimer*        m_pFrameListPanelRenderTimer;
@@ -127,6 +123,9 @@ private:
 
     void            UpdateActivityModeControls( CC_STATUS& status );
     void            UpdateNetworkModeControls( CC_STATUS& status );
+
+    void            StartTimers();
+    void            StopTimers();
 
 #ifdef __WXMAC__
 protected:
