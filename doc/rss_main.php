@@ -63,7 +63,7 @@ for( $item=0; $item < $news; $item++ ) {
             <title>Project News ".strip_tags($project_news[$item][0])."</title>
             <link>http://boinc.berkeley.edu/all_news.php#$j</link>
             <guid isPermaLink=\"true\">$unique_url</guid>
-            <description>".strip_tags($project_news[$item][1])."</description>
+            <description><![CDATA[".strip_tags($project_news[$item][1])."]]></description>
             <pubDate>$news_date</pubDate>
             </item>
         ";
