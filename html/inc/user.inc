@@ -214,11 +214,11 @@ function show_user_info_private($user) {
     
     $team_founder = lookup_team_founder($user->id);
     if ($team_founder) {
-	while ($res = mysql_fetch_object($team_founder)) {
-	    if ($res->id != $user->teamid) {
-		row2("", $res->name." <a href=\"team_change_founder_form.php?teamid=".$res->id."\">Change team founder</a>");
-	    }
-	}
+        while ($res = mysql_fetch_object($team_founder)) {
+            if ($res->id != $user->teamid) {
+                row2("founder of", "<a href=team_display.php?teamid=$res->id>$res->name</a> | <a href=\"team_change_founder_form.php?teamid=".$res->id."\">Change team founder</a>");
+            }
+        }
     }
 
     row1("<a name=prefs>Preferences");

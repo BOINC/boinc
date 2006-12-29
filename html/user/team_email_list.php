@@ -37,22 +37,33 @@ db_init();
 
 $user = get_logged_in_user();
 $teamid = get_int("teamid");
+$plain = get_int("plain", true);
 if ($user->teamid == $teamid) {
     $team = lookup_team($teamid);
     require_founder_login($user, $team);
 
-    page_head("$team->name Email List");
-    start_table();
-    row1("Member list of $team->name");
-    row2_plain("<b>Name</b>", "<b>Email address</b>");
+    if ($plain) {
+        header("Content-type: text/plain");
+    } else {
+        page_head("$team->name Email List");
+        start_table();
+        row1("Member list of $team->name");
+        row2_plain("<b>Name</b>", "<b>Email address</b>");
+    }
     $result = mysql_query("select * from user where teamid=$team->id");
     while ($user = mysql_fetch_object($result)) {
-	row2_plain($user->name, $user->email_addr);
+        if ($plain) {
+            echo "$user->name <$user->email_addr>\n";
+        } else {
+            row2_plain($user->name, $user->email_addr);
+        }
     } 
-    mysql_free_result($result);
-    end_table();
-
-    page_tail();
+    if (!$plain) {
+        mysql_free_result($result);
+        end_table();
+        echo "<p><a href=team_email_list.php?teamid=$teamid&plain=1>Show as plain text</a>";
+        page_tail();
+    }
 } else {
     error_page("You need to be the member and the founder of the team to edit team information.");
 }

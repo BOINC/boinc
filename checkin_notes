@@ -13855,3 +13855,14 @@ David   29 Dec 2006
 
     sched/
         validator.C
+
+David   29 Dec 2006
+    - user web: when showing team email list,
+        add option (&plain=1) to show it as plain text
+        that you can copy and paste into an email client
+
+    html/
+        inc/
+            user.inc
+        user/
+            team_email_list.php

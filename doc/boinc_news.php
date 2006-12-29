@@ -1,6 +1,10 @@
 <?
 
 $project_news = array(
+array("December 29, 2006",
+    "A <a href=http://boinc.berkeley.edu/boinc_papers/sched/paper.pdf>paper about BOINC client scheduling</a> will appear in the
+    Workshop on Large-Scale, Volatile Desktop Grids held in conjunction with the IEEE International Parallel & Distributed Processing Symposium (IPDPS), March 30, 2007, Long Beach."
+),
 array("December 28, 2006",
     "The <a href=http://biology.polytechnique.fr/proteinsathome>Proteins@Home</a> project is now open.
     Proteins@Home is a large-scale protein structure prediction project,

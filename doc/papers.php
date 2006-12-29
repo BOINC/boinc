@@ -26,6 +26,11 @@ by D. Carroll, C. Rahmlow, T. Psiaki, and G. Wojtaszczyk, July 2005.
 
 <ul>
 <li>
+<a href=http://boinc.berkeley.edu/boinc_papers/sched/paper.pdf>Local Scheduling for Volunteer Computing</a>.
+David P. Anderson and John McLeod VII.
+Workshop on Large-Scale, Volatile Desktop Grids (PCGrid 2007)
+held in conjunction with the IEEE International Parallel & Distributed Processing Symposium (IPDPS), March 30, 2007, Long Beach.
+<li>
 <a href=http://boinc.berkeley.edu/boinc_papers/api/text.pdf>Designing a Runtime System for Volunteer Computing</a>.
 David P. Anderson, Carl Christensen and Bruce Allen.
 Supercomputing '06 (The International Conference for
