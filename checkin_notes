@@ -13882,3 +13882,9 @@ Rom    29 Dec 2006
     clientgui/
         sg_DlgMessages.cpp, .h
         sg_DlgPreferences.cpp, .h
+
+David   30 Dec 2006
+    - Manager: forgot to add new files to Makefile.am
+
+    clientgui/
+        Makefile.am

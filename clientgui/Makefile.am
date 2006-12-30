@@ -49,7 +49,9 @@ boinc_gui_SOURCES = \
     ViewResources.cpp \
     ViewStatistics.cpp \
     ViewTransfers.cpp \
+    ViewTransfersGrid.cpp \
     ViewWork.cpp \
+    ViewWorkGrid.cpp \
     AccountInfoPage.cpp \
     AccountKeyPage.cpp \
     AccountManagerInfoPage.cpp \

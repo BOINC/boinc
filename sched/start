@@ -295,7 +295,7 @@ def lock_file(filename):
     file = open(filename,'w')
     locks.append(file)
     try:
-        return fcntl.flock(file.fileno(), fcntl.LOCK_EX|fcntl.LOCK_NB)
+        return fcntl.lockf(file.fileno(), fcntl.LOCK_EX|fcntl.LOCK_NB)
     except IOError:
         return -1
 
