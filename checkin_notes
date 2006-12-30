@@ -13888,3 +13888,11 @@ David   30 Dec 2006
 
     clientgui/
         Makefile.am
+
+David   30 Dec 2006
+    - start script: use lockf() instead of flock()
+        see http://www.python.org/doc/2.3/lib/module-fcntl.html
+        (from Eric Myers)
+
+    sched/
+        start
