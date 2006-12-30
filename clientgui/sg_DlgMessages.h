@@ -166,6 +166,9 @@ public:
     /// Creates the controls and sizers
     void CreateControls();
 
+    /// wxEVT_HELP event handler for ID_DLGMESSAGES
+    void OnHelp( wxHelpEvent& event );
+
     /// wxEVT_SHOW event handler for ID_DLGMESSAGES
     void OnShow( wxShowEvent& event );
 

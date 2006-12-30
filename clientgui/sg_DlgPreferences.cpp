@@ -32,6 +32,7 @@
 #include "BOINCGUIApp.h"
 #include "SkinManager.h"
 #include "MainDocument.h"
+#include "hyperlink.h"
 #include "sg_CustomControls.h"
 #include "sg_DlgPreferences.h"
 
@@ -921,6 +922,7 @@ IMPLEMENT_DYNAMIC_CLASS( CDlgPreferences, wxDialog )
 
 BEGIN_EVENT_TABLE( CDlgPreferences, wxDialog )
 ////@begin CDlgPreferences event table entries
+    EVT_HELP(wxID_ANY, CDlgPreferences::OnHelp)
     EVT_BUTTON( wxID_OK, CDlgPreferences::OnOK )
 ////@end CDlgPreferences event table entries
 END_EVENT_TABLE()
@@ -975,6 +977,27 @@ bool CDlgPreferences::Create( wxWindow* parent, wxWindowID id, const wxString& c
     Thaw();
 
     return true;
+}
+
+
+/*!
+ * wxEVT_HELP event handler for ID_DLGPREFERENCES
+ */
+
+void CDlgPreferences::OnHelp(wxHelpEvent& event) {
+    wxLogTrace(wxT("Function Start/End"), wxT("CDlgPreferences::OnHelp - Function Begin"));
+
+    if (IsShown()) {
+		std::string url;
+		url = wxGetApp().GetSkinManager()->GetAdvanced()->GetCompanyWebsite().mb_str();
+		canonicalize_master_url(url);
+
+		wxString wxurl;
+		wxurl.Printf(wxT("%smanager_links.php?target=simple_preferences&controlid=%d"), url.c_str(), event.GetId());
+        wxHyperLink::ExecuteLink(wxurl);
+    }
+
+    wxLogTrace(wxT("Function Start/End"), wxT("CDlgPreferences::OnHelp - Function End"));
 }
 
 

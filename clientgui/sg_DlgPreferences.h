@@ -198,6 +198,9 @@ public:
     /// Creation
     bool Create( wxWindow* parent, wxWindowID id = SYMBOL_CDLGPREFERENCES_IDNAME, const wxString& caption = SYMBOL_CDLGPREFERENCES_TITLE, const wxPoint& pos = SYMBOL_CDLGPREFERENCES_POSITION, const wxSize& size = SYMBOL_CDLGPREFERENCES_SIZE, long style = SYMBOL_CDLGPREFERENCES_STYLE );
 
+    /// wxEVT_HELP event handler for ID_DLGPREFERENCES
+    void OnHelp( wxHelpEvent& event );
+
     /// wxEVT_COMMAND_BUTTON_CLICKED event handler for wxID_OK
     void OnOK( wxCommandEvent& event );
 

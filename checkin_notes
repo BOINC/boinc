@@ -13872,3 +13872,13 @@ David   29 Dec 2006
 
     db/
         db_base.h
+
+Rom    29 Dec 2006
+    - MGR: Make the simple preferences and messages dialogs have their
+        own help handler, apparently when the event bubbles up to the
+        frame the control ID's were being remapped to the frame window
+        ID.
+        
+    clientgui/
+        sg_DlgMessages.cpp, .h
+        sg_DlgPreferences.cpp, .h

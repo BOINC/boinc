@@ -33,6 +33,7 @@
 #include "BOINCGUIApp.h"
 #include "SkinManager.h"
 #include "MainDocument.h"
+#include "hyperlink.h"
 #include "sg_DlgMessages.h"
 #include "sg_SGUIListControl.h"
 
@@ -631,6 +632,7 @@ IMPLEMENT_DYNAMIC_CLASS( CDlgMessages, wxDialog )
 
 BEGIN_EVENT_TABLE( CDlgMessages, wxDialog )
 ////@begin CDlgMessages event table entries
+    EVT_HELP(wxID_ANY, CDlgMessages::OnHelp)
     EVT_SHOW( CDlgMessages::OnShow )
     EVT_BUTTON( wxID_OK, CDlgMessages::OnOK )
 ////@end CDlgMessages event table entries
@@ -740,6 +742,27 @@ void CDlgMessages::OnShow(wxShowEvent& event) {
     }
 
     wxLogTrace(wxT("Function Start/End"), wxT("CDlgMessages::OnShow - Function End"));
+}
+
+
+/*!
+ * wxEVT_HELP event handler for ID_DLGMESSAGES
+ */
+
+void CDlgMessages::OnHelp(wxHelpEvent& event) {
+    wxLogTrace(wxT("Function Start/End"), wxT("CDlgMessages::OnHelp - Function Begin"));
+
+    if (IsShown()) {
+		std::string url;
+		url = wxGetApp().GetSkinManager()->GetAdvanced()->GetCompanyWebsite().mb_str();
+		canonicalize_master_url(url);
+
+		wxString wxurl;
+		wxurl.Printf(wxT("%smanager_links.php?target=simple_messages&controlid=%d"), url.c_str(), event.GetId());
+        wxHyperLink::ExecuteLink(wxurl);
+    }
+
+    wxLogTrace(wxT("Function Start/End"), wxT("CDlgMessages::OnHelp - Function End"));
 }
 
 
