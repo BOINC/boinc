@@ -79,6 +79,7 @@ public:
 class DB_BASE {
 public:
     DB_BASE(const char *table_name, DB_CONN*);
+    virtual ~DB_BASE(){}
     int insert();
     int insert_batch(std::string&);
     int update();
