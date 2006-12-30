@@ -13896,3 +13896,9 @@ David   30 Dec 2006
 
     sched/
         start
+
+Rytis   30 Dec 2006
+    - Forum: do not show hidden threads when the user is logged out.
+    
+    html/user/
+        forum_thread.php
