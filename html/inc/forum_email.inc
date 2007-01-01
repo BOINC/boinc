@@ -48,16 +48,20 @@ function re_send_email($user, $subject, $body) {
  * If a post is hidden, this function emails the author
  * to let them know what happened.
  **/
-function send_moderation_email($post, $message) {
+function send_moderation_email($post, $message, $action) {
+    $moderator=re_get_logged_in_user();
     $body = "";
     $thread = $post->getThread();
     $user = $post->getOwner();
-    $subject = PROJECT." forum moderation notice";
+    $subject = PROJECT." forum ".$action." notice";
     $body = PROJECT." notification:
 
 This email is to inform you that one of your posts in the forum has been affected by moderation in ".PROJECT.":
-    Thread:         ".$thread->getTitle()."
+    Thread:         ".$thread->getTitle()." 
+    Post:           ".$post->getID()." by ".$post->getOwner()->getID()." (".$post->getOwner()->getName().")
     Link:           ".URL_BASE."/forum_thread.php?id=".$thread->getID()."
+    Moderator:      ".$moderator->getName()." (".$moderator->getID().")
+    Action:         ".$action."
 
 The moderator gave this explanation to why your post was moderated:
 ".$message;
@@ -67,15 +71,23 @@ This was the content of your post:
 ".$post->getContent()."
 
 For further information and assistance with ".PROJECT." go to ".MASTER_URL;
+    $emails = explode("|", POST_REPORT_EMAILS);
+    $success = true;
+    foreach ($emails as $email) {
+        $admin->email_addr = $email;
+        if (!send_email($admin, "POST ".$action." REPORT: ".$thread->getTitle(), $body)) {
+            $success = false;
+        }
+    }
     return re_send_email($user, $subject, $body);
-
 }
 
 /**
  * If an entire thread is hidden, this function emails the owner
  * to let them know what happened.
  */
-function send_thread_moderation_email($thread, $message) {
+function send_thread_moderation_email($thread, $message, $action) {
+    $moderator=re_get_logged_in_user();
     $user = $thread->getOwner();
     $body = "";
 
@@ -85,14 +97,22 @@ function send_thread_moderation_email($thread, $message) {
 This email is sent to inform you that one of your threads in the forum has been affected by moderation in ".PROJECT.":
     Thread:         ".$thread->getTitle()."
     Link:           ".MASTER_URL."/forum_thread.php?id=".$thread->getID()."
+    Moderator:      ".$moderator->getName()." (".$moderator->getID().")
+    Action:         ".$action."
 
 The moderator gave this explanation to why your thread was moderated:
 ".$message;
 $body .= "
 
 For further information and assistance with ".PROJECT." go to ".MASTER_URL;
+    $emails = explode("|", POST_REPORT_EMAILS);
+    foreach ($emails as $email) {
+        $admin->email_addr = $email;
+        if (!send_email($admin, "THREAD ".$action." REPORT: ".$thread->getTitle(), $body)) {
+            $success = false;
+        }
+    }
     return re_send_email($user, $subject, $body);
-
 }
 
 /**
@@ -120,8 +140,8 @@ function send_report_post_email($user, $thread,  $post, $message) {
 
 This email is sent to inform you that one of the posts in the forum was reported as offensive in ".PROJECT.":
     Thread:         ".$thread->getTitle()."
-    Post:           ".$post->getID()."
-    Reporting User: ".$user->getID()."
+    Post:           ".$post->getID()." by ".$post->getOwner()->getID()." (".$post->getOwner()->getName().")
+    Reporting User: ".$user->getID()." (".$user->getName().")
     Link:           ".URL_BASE."/forum_thread.php?id=".$thread->getID()."#".$post->getID()."
     
 The reporting user gave this explanation to why the post was reported:
@@ -152,6 +172,14 @@ This email is to inform you that you will not be able to
 post to the ".PROJECT." message boards for two weeks,
 because your postings have not followed our guidelines.
     ";
+    $emails = explode("|", POST_REPORT_EMAILS);
+    $success = true;
+    foreach ($emails as $email) {
+        $admin->email_addr = $email;
+        if (!send_email($admin, $user->getName()." has been banished.", $body)) {
+            $success = false;
+        }
+    }
     return re_send_email($user, $subject, $body);
 }
 

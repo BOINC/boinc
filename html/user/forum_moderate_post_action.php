@@ -73,7 +73,9 @@ if ($action=="hide"){
 
 if ($result) {
     if (post_str('reason', true)){
-        send_moderation_email($post, post_str("reason"));
+        send_moderation_email($post, post_str("reason"), $action);
+    } else { 
+        send_moderation_email($post, "None given", $action);
     }
     header('Location: forum_thread.php?id='.$thread->getID());
 } else {
