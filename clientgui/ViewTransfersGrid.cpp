@@ -258,7 +258,7 @@ wxInt32 CViewTransfersGrid::FormatProjectName(wxInt32 item, wxString& strBuffer)
     FILE_TRANSFER* transfer = wxGetApp().GetDocument()->file_transfer(item);
 
     if (transfer) {
-        strBuffer = wxString(" ") + wxString(transfer->project_name.c_str(), wxConvUTF8);
+        strBuffer = wxString(" ", wxConvUTF8) + wxString(transfer->project_name.c_str(), wxConvUTF8);
     }
     return 0;
 }
@@ -268,7 +268,7 @@ wxInt32 CViewTransfersGrid::FormatFileName(wxInt32 item, wxString& strBuffer) co
     FILE_TRANSFER* transfer = wxGetApp().GetDocument()->file_transfer(item);
 
     if (transfer) {
-        strBuffer = wxString(" ") + wxString(transfer->name.c_str(), wxConvUTF8);
+        strBuffer = wxString(" ", wxConvUTF8) + wxString(transfer->name.c_str(), wxConvUTF8);
     }
     return 0;
 }
@@ -341,7 +341,7 @@ wxInt32 CViewTransfersGrid::FormatSize(wxInt32 item, wxString& strBuffer) const 
         }
     }
 
-	strBuffer = wxString(" ") + strBuffer;
+	strBuffer = wxString(" ", wxConvUTF8) + strBuffer;
 
     return 0;
 }
@@ -365,7 +365,7 @@ wxInt32 CViewTransfersGrid::FormatTime(wxInt32 item, wxString& strBuffer) const 
 
     ts = wxTimeSpan(iHour, iMin, iSec);
 
-    strBuffer = wxString(" ") + ts.Format();
+    strBuffer = wxString(" ", wxConvUTF8) + ts.Format();
 
     return 0;
 }
@@ -427,7 +427,7 @@ wxInt32 CViewTransfersGrid::FormatStatus(wxInt32 item, wxString& strBuffer) cons
         strBuffer = _("Suspended") + strBuffer;
     }
 
-	strBuffer = wxString(" ") + strBuffer;
+	strBuffer = wxString(" ", wxConvUTF8) + strBuffer;
 
     return 0;
 }

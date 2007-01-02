@@ -472,7 +472,7 @@ wxInt32 CViewWorkGrid::FormatProjectName(wxInt32 item, wxString& strBuffer) cons
         state_project = doc->state.lookup_project(result->project_url);
         if (state_project) {
             state_project->get_name(project_name);
-            strBuffer = wxString(" ") + wxString(project_name.c_str(), wxConvUTF8);
+            strBuffer = wxString(" ", wxConvUTF8) + wxString(project_name.c_str(), wxConvUTF8);
         } else {
             doc->ForceCacheUpdate();
         }
@@ -518,7 +518,7 @@ wxInt32 CViewWorkGrid::FormatName(wxInt32 item, wxString& strBuffer) const {
     wxASSERT(result);
 
     if (result) {
-        strBuffer = wxString(" ") + wxString(result->name.c_str(), wxConvUTF8);
+        strBuffer = wxString(" ", wxConvUTF8) + wxString(result->name.c_str(), wxConvUTF8);
     }
 
     return 0;
@@ -554,7 +554,7 @@ wxInt32 CViewWorkGrid::FormatCPUTime(wxInt32 item, wxString& strBuffer) const {
 
         ts = wxTimeSpan(iHour, iMin, iSec);
 
-        strBuffer = wxString(" ") + ts.Format();
+        strBuffer = wxString(" ", wxConvUTF8) + ts.Format();
     }
 
     return 0;
@@ -604,7 +604,7 @@ wxInt32 CViewWorkGrid::FormatTimeToCompletion(wxInt32 item, wxString& strBuffer)
 
         ts = wxTimeSpan(iHour, iMin, iSec);
 
-        strBuffer = wxString(" ") + ts.Format();
+        strBuffer = wxString(" ", wxConvUTF8) + ts.Format();
     }
 
     return 0;
@@ -617,7 +617,7 @@ wxInt32 CViewWorkGrid::FormatReportDeadline(wxInt32 item, wxString& strBuffer) c
 
     if (result) {
         dtTemp.Set((time_t)result->report_deadline);
-        strBuffer = wxString(" ") + dtTemp.Format();
+        strBuffer = wxString(" ", wxConvUTF8) + dtTemp.Format();
     }
 
     return 0;
@@ -727,7 +727,7 @@ wxInt32 CViewWorkGrid::FormatStatus(wxInt32 item, wxString& strBuffer) const {
         strBuffer = _("Activities suspended by user") + strBuffer;
     }
 
-	strBuffer = wxString(" ") + strBuffer;
+	strBuffer = wxString(" ", wxConvUTF8) + strBuffer;
 
     return 0;
 }
