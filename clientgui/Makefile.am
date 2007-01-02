@@ -32,7 +32,9 @@ boinc_gui_SOURCES = \
     BOINCListCtrl.cpp \
     BOINCTaskBar.cpp \
     BOINCTaskCtrl.cpp \
-    DlgAbout.cpp \
+	BOINCGridCtrl.cpp	\
+	BOINCGridCtrl.h		\
+    DlgAbout.cpp 		\
     DlgGenericMessage.cpp \
     DlgOptions.cpp \
     DlgSelectComputer.cpp \
