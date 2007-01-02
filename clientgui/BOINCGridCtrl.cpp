@@ -286,8 +286,9 @@ void CBOINCGridCellProgressRenderer::DoProgressDrawing(wxGrid& grid, wxGridCellA
     SetTextColoursAndFont(grid, attr, dc, isSelected);
 
 	wxString value = grid.GetCellValue(row,col);
-	wxString strValue = value + " %"; 
-	double dv = atof(value);
+	wxString strValue = value + wxString (" %", wxConvUTF8 ); 
+	double dv;
+	value.ToDouble ( &dv );	 // NOTE: we should do error-checking/reporting here!!
 	wxRect p1(rect);
 	wxRect p2(rect);
 	int r = (int)((rect.GetRight()-rect.GetLeft())*dv / 100.0);
