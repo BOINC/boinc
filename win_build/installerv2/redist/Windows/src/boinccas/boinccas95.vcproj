@@ -133,7 +133,7 @@
 				RelativePath="boinccas.cpp">
 			</File>
 			<File
-				RelativePath=".\CADetectOldInstaller.cpp">
+				RelativePath=".\CAMigrateCPDNBBC.cpp">
 			</File>
 			<File
 				RelativePath=".\CAShutdownBOINC.cpp">
@@ -170,7 +170,7 @@
 				RelativePath=".\boinccas.h">
 			</File>
 			<File
-				RelativePath=".\CADetectOldInstaller.h">
+				RelativePath=".\CAMigrateCPDNBBC.h">
 			</File>
 			<File
 				RelativePath=".\CAShutdownBOINC.h">

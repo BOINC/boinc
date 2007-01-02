@@ -20,10 +20,10 @@
 
 #include "stdafx.h"
 #include "boinccas.h"
-#include "CADetectOldInstaller.h"
+#include "CAMigrateCPDNBBC.h"
 
-#define CUSTOMACTION_NAME               _T("CADetectOldInstaller")
-#define CUSTOMACTION_PROGRESSTITLE      _T("")
+#define CUSTOMACTION_NAME               _T("CAMigrateCPDNBBC")
+#define CUSTOMACTION_PROGRESSTITLE      _T("Attempt to rename CPDNBBC installation directory to the default BOINC directory.")
 
 
 /////////////////////////////////////////////////////////////////////
@@ -33,7 +33,7 @@
 // Description: 
 //
 /////////////////////////////////////////////////////////////////////
-CADetectOldInstall::CADetectOldInstall(MSIHANDLE hMSIHandle) :
+CAMigrateCPDNBBC::CAMigrateCPDNBBC(MSIHANDLE hMSIHandle) :
     BOINCCABase(hMSIHandle, CUSTOMACTION_NAME, CUSTOMACTION_PROGRESSTITLE)
 {}
 
@@ -45,7 +45,7 @@ CADetectOldInstall::CADetectOldInstall(MSIHANDLE hMSIHandle) :
 // Description: 
 //
 /////////////////////////////////////////////////////////////////////
-CADetectOldInstall::~CADetectOldInstall()
+CAMigrateCPDNBBC::~CAMigrateCPDNBBC()
 {
     BOINCCABase::~BOINCCABase();
 }
@@ -58,40 +58,23 @@ CADetectOldInstall::~CADetectOldInstall()
 // Description: 
 //
 /////////////////////////////////////////////////////////////////////
-UINT CADetectOldInstall::OnExecution()
+
+
+UINT CAMigrateCPDNBBC::OnExecution()
 {
-    UINT    uiReturnValue = 0;
-    HKEY    hKey;
-    LONG    lRet;
+    tstring     strInstallDirectory;
+    UINT        uiReturnValue = -1;
+    BOOL        bReturnValue = FALSE;
 
-    lRet = RegOpenKeyEx(
-        HKEY_LOCAL_MACHINE,
-        _T("SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\Uninstall\\BOINC"),
-        0,
-        KEY_QUERY_VALUE,
-        &hKey
+    uiReturnValue = GetProperty( _T("INSTALLDIR"), strInstallDirectory );
+    if ( uiReturnValue ) return uiReturnValue;
+
+    bReturnValue = MoveFileEx(
+        _T("C:\\Program Files\\Climate Change Experiment"),
+        strInstallDirectory.c_str(),
+        MOVEFILE_COPY_ALLOWED|MOVEFILE_WRITE_THROUGH 
     );
-
-    if ( lRet == ERROR_SUCCESS )
-    {
-        DisplayMessage(
-            MB_OK,
-            MB_ICONERROR,
-            _T("Setup has detected an older version of BOINC which must be uninstalled before this version of BOINC can be installed.")
-            );
-
-        LogMessage(
-            INSTALLMESSAGE_INFO,
-            NULL, 
-            NULL,
-            NULL,
-            NULL,
-            _T("Setup has detected an older version of BOINC which must be uninstalled before this version of BOINC can be installed.")
-            );
-
-        uiReturnValue = ERROR_INSTALL_FAILURE;
-    }
-    else
+    if ( bReturnValue )
     {
         LogMessage(
             INSTALLMESSAGE_INFO,
@@ -99,33 +82,30 @@ UINT CADetectOldInstall::OnExecution()
             NULL,
             NULL,
             NULL,
-            _T("Setup did NOT detect a previous version of the BOINC installer on the system.")
-            );
-        uiReturnValue = ERROR_SUCCESS;
+            _T("Climate Change Experiment files have been migrated to the installation directory.")
+        );
     }
-
-    RegCloseKey( hKey );
-
-    return uiReturnValue;
+    return ERROR_SUCCESS;
 }
 
 
 /////////////////////////////////////////////////////////////////////
 // 
-// Function:    DetectOldInstaller
+// Function:    MigrateCPDNBBC
 //
 // Description: 
 //
 /////////////////////////////////////////////////////////////////////
-UINT __stdcall DetectOldInstaller(MSIHANDLE hInstall)
+UINT __stdcall MigrateCPDNBBC(MSIHANDLE hInstall)
 {
     UINT uiReturnValue = 0;
 
-    CADetectOldInstall* pCA = new CADetectOldInstall(hInstall);
+    CAMigrateCPDNBBC* pCA = new CAMigrateCPDNBBC(hInstall);
     uiReturnValue = pCA->Execute();
     delete pCA;
 
     return uiReturnValue;
 }
 
-const char *BOINC_RCSID_9bbe764317="$Id$";
+
+const char *BOINC_RCSID_7bca879ada="$Id$";

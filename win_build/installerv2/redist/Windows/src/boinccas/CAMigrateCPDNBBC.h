@@ -18,16 +18,16 @@
 // 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 //
 
-#ifndef _CADETECTOLDINSTALLER_H_
-#define _CADETECTOLDINSTALLER_H_
+#ifndef _CAMIGRATECPDNBBC_H_
+#define _CAMIGRATECPDNBBC_H_
 
 
-class CADetectOldInstall : public BOINCCABase
+class CAMigrateCPDNBBC : public BOINCCABase
 {
 public:
 
-    CADetectOldInstall(MSIHANDLE hMSIHandle);
-    ~CADetectOldInstall();
+    CAMigrateCPDNBBC(MSIHANDLE hMSIHandle);
+    ~CAMigrateCPDNBBC();
     virtual UINT OnExecution();
 
 };

@@ -13914,3 +13914,19 @@ Reinhard  2 Jan 2007
 	BOINCGridCtrl.cpp
 	ViewTransfersGrid.cpp
 	ViewWorkGrid.cpp
+
+Rom    2 Jan 2007
+    - Win SETUP: Incorporate a custom action to migrate CPDNBBC data files to the
+        destination BOINC directory.
+        
+    win_build/installerv2/
+        BOINC.ism
+    win_build/installerv2/redist/Windows/src/boinccas/
+        CADetectOldInstaller.cpp, .h (Removed)
+        CAMigrateCPDNBBC.cpp, .h (Added)
+        boinccas.rc
+        boinccas95.def
+        boinccas95.vcproj
+    win_build/installerv2/redist/Windows/x86/
+        boinccas.dll
+        boinccas95.dll
