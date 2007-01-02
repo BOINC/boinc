@@ -72,6 +72,7 @@ libboinc_a_SOURCES = \
 include_HEADERS = \
     app_ipc.h \
     boinc_win.h \
+	common_defs.h	\
     crypt.h \
     diagnostics.h \
     error_numbers.h \
