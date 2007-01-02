@@ -89,6 +89,10 @@
 		DD2B9CB2099C9BAD00136663 /* MoreBacktrace.c in Sources */ = {isa = PBXBuildFile; fileRef = DD2B9B3E099C78D700136663 /* MoreBacktrace.c */; };
 		DD2B9CB3099C9BAE00136663 /* MoreAddrToSym.c in Sources */ = {isa = PBXBuildFile; fileRef = DD2B9B3C099C78D700136663 /* MoreAddrToSym.c */; };
 		DD2D25CD07FAB41700151141 /* DlgSelectComputer.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DD2D25CB07FAB41700151141 /* DlgSelectComputer.cpp */; };
+		DD2EA06D0B4B20570073B1AA /* ViewTransfersGrid.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DD2EA0690B4B20570073B1AA /* ViewTransfersGrid.cpp */; };
+		DD2EA06F0B4B20570073B1AA /* ViewWorkGrid.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DD2EA06B0B4B20570073B1AA /* ViewWorkGrid.cpp */; };
+		DD2EA0850B4B22010073B1AA /* BOINCGridCtrl.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DD2EA0830B4B22010073B1AA /* BOINCGridCtrl.cpp */; };
+		DD2EA0860B4B22010073B1AA /* BOINCGridCtrl.h in CopyFiles */ = {isa = PBXBuildFile; fileRef = DD2EA0840B4B22010073B1AA /* BOINCGridCtrl.h */; };
 		DD2F32F807F2A88B00645DDC /* MacSysMenu.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DD2F32F707F2A88B00645DDC /* MacSysMenu.cpp */; };
 		DD33C6F308B5BAF500768630 /* gui_http.C in Sources */ = {isa = PBXBuildFile; fileRef = DD33C6F108B5BAF500768630 /* gui_http.C */; };
 		DD33C6F808B5BB4500768630 /* acct_setup.C in Sources */ = {isa = PBXBuildFile; fileRef = DD33C6F708B5BB4500768630 /* acct_setup.C */; };
@@ -880,6 +884,7 @@
 			dstSubfolderSpec = 10;
 			files = (
 				DD3E15360A774397007E0084 /* SystemMenu.bundle in CopyFiles */,
+				DD2EA0860B4B22010073B1AA /* BOINCGridCtrl.h in CopyFiles */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -934,6 +939,12 @@
 		DD2B9B3F099C78D700136663 /* MoreBacktrace.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = MoreBacktrace.h; sourceTree = "<group>"; };
 		DD2D25CB07FAB41700151141 /* DlgSelectComputer.cpp */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.cpp.cpp; name = DlgSelectComputer.cpp; path = ../clientgui/DlgSelectComputer.cpp; sourceTree = SOURCE_ROOT; };
 		DD2D25CC07FAB41700151141 /* DlgSelectComputer.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = DlgSelectComputer.h; path = ../clientgui/DlgSelectComputer.h; sourceTree = SOURCE_ROOT; };
+		DD2EA0690B4B20570073B1AA /* ViewTransfersGrid.cpp */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.cpp.cpp; name = ViewTransfersGrid.cpp; path = ../clientgui/ViewTransfersGrid.cpp; sourceTree = SOURCE_ROOT; };
+		DD2EA06A0B4B20570073B1AA /* ViewTransfersGrid.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = ViewTransfersGrid.h; path = ../clientgui/ViewTransfersGrid.h; sourceTree = SOURCE_ROOT; };
+		DD2EA06B0B4B20570073B1AA /* ViewWorkGrid.cpp */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.cpp.cpp; name = ViewWorkGrid.cpp; path = ../clientgui/ViewWorkGrid.cpp; sourceTree = SOURCE_ROOT; };
+		DD2EA06C0B4B20570073B1AA /* ViewWorkGrid.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = ViewWorkGrid.h; path = ../clientgui/ViewWorkGrid.h; sourceTree = SOURCE_ROOT; };
+		DD2EA0830B4B22010073B1AA /* BOINCGridCtrl.cpp */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.cpp.cpp; name = BOINCGridCtrl.cpp; path = ../clientgui/BOINCGridCtrl.cpp; sourceTree = SOURCE_ROOT; };
+		DD2EA0840B4B22010073B1AA /* BOINCGridCtrl.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = BOINCGridCtrl.h; path = ../clientgui/BOINCGridCtrl.h; sourceTree = SOURCE_ROOT; };
 		DD2F32EF07F2A83E00645DDC /* MacSysMenu.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = MacSysMenu.h; path = ../clientgui/mac/MacSysMenu.h; sourceTree = SOURCE_ROOT; };
 		DD2F32F707F2A88B00645DDC /* MacSysMenu.cpp */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.cpp.cpp; name = MacSysMenu.cpp; path = ../clientgui/mac/MacSysMenu.cpp; sourceTree = SOURCE_ROOT; };
 		DD30446A0864332D00D73756 /* config.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = config.h; path = ../clientgui/mac/config.h; sourceTree = SOURCE_ROOT; };
@@ -1502,6 +1513,8 @@
 				DD58C43508F3347D00C1DF66 /* BOINCBaseWizard.h */,
 				DD8DD4A509D9432F0043019E /* BOINCDialupManager.cpp */,
 				DD8DD4A609D9432F0043019E /* BOINCDialupManager.h */,
+				DD2EA0830B4B22010073B1AA /* BOINCGridCtrl.cpp */,
+				DD2EA0840B4B22010073B1AA /* BOINCGridCtrl.h */,
 				DD81C40507C5D1020098A04D /* BOINCGUIApp.cpp */,
 				DD81C43B07C5D2240098A04D /* BOINCGUIApp.h */,
 				DD81C40407C5D1020098A04D /* BOINCListCtrl.cpp */,
@@ -1597,8 +1610,12 @@
 				DDEF388F0802B73500E87552 /* ViewStatistics.h */,
 				DD81C42207C5D1D70098A04D /* ViewTransfers.cpp */,
 				DD81C47107C5D2BF0098A04D /* ViewTransfers.h */,
+				DD2EA0690B4B20570073B1AA /* ViewTransfersGrid.cpp */,
+				DD2EA06A0B4B20570073B1AA /* ViewTransfersGrid.h */,
 				DD81C42107C5D1D70098A04D /* ViewWork.cpp */,
 				DD81C47007C5D2BF0098A04D /* ViewWork.h */,
+				DD2EA06B0B4B20570073B1AA /* ViewWorkGrid.cpp */,
+				DD2EA06C0B4B20570073B1AA /* ViewWorkGrid.h */,
 				DD58C46308F334EA00C1DF66 /* WelcomePage.cpp */,
 				DD58C46408F334EA00C1DF66 /* WelcomePage.h */,
 				DD58C46508F334EA00C1DF66 /* WizardAccountManager.cpp */,
@@ -2726,6 +2743,9 @@
 				DD67F8140ADB9DD000B0015E /* wxPieCtrl.cpp in Sources */,
 				DD247AF90AEA308A0034104A /* SkinManager.cpp in Sources */,
 				DD1C82310AF372D900F709AC /* sg_CustomControls.cpp in Sources */,
+				DD2EA06D0B4B20570073B1AA /* ViewTransfersGrid.cpp in Sources */,
+				DD2EA06F0B4B20570073B1AA /* ViewWorkGrid.cpp in Sources */,
+				DD2EA0850B4B22010073B1AA /* BOINCGridCtrl.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

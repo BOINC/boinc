@@ -294,7 +294,7 @@ wxInt32 CViewTransfersGrid::FormatProgress(wxInt32 item, wxString& strBuffer) co
     if ( 0.0 == fFileSize ) {
         strBuffer = wxT("0%");
     } else {
-        strBuffer.Printf(wxT("%.2f%"), floor((fBytesSent / fFileSize) * 10000)/100);
+        strBuffer.Printf(wxT("%.2f%%"), floor((fBytesSent / fFileSize) * 10000)/100);
     }
 
     return 0;

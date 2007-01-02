@@ -11,3 +11,15 @@ Reinhard 2 Jan 2007
 
 	lib/
 		Makefile.am
+
+Charlie 2 Jan 2007
+    - MGR: Fix 2 compiler warnings caused by to actual coding errors.
+    - Mac: Add new files BOINCGridCtrl.cpp,.h, ViewTransfersGrid.cpp,.h, 
+        ViewWorkGrid.cpp,.h to XCode project.
+
+    clientgui/
+        cs_account.C
+        ViewTransfersGrid.cpp
+    mac_build/
+        boinc.xcodeproj/
+            project.pbxproj

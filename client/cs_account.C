@@ -505,7 +505,7 @@ void PROJECT::attach_failed(int error_num) {
         break;
     default:
         msg_printf(this, MSG_ERROR,
-            "Can't attach - unknown error", error_num
+            "Can't attach - unknown error %d", error_num
         );
         break;
     }
