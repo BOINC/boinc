@@ -4,3 +4,10 @@ David  2 Jan 2007
 
 	clientgui/
 		wxPieCtrl.cpp
+
+
+Reinhard 2 Jan 2007
+	- install lib/common_defs.h
+
+	lib/
+		Makefile.am
