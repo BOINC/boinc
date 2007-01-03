@@ -107,15 +107,17 @@ function page_head($title, $java_onload=null, $title_plain=null, $prefix="") {
         header("Content-type: text/html; charset=".tr(CHARSET));
     }
 
+//    echo '<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/1999/REC-html401-19991224/loose.dtd">';
+
     if (!$title_plain) {
         echo "<html><head><title>".strip_tags($title)."</title>
             <link rel=stylesheet type=text/css href=\"$styleSheet\">
-            <link rel='alternate' type='text/xml' title=\"$rssname\" href=\"$rsslink\" />
+            <link rel='alternate' type='text/xml' title=\"$rssname\" href=\"$rsslink\">
             </head>";
     } else {
         echo "<html><head><title>".strip_tags($title_plain)."</title>
         <link rel=stylesheet type=text/css href=\"$styleSheet\">
-        <link rel='alternate' type='text/xml' title=\"$rssname\" href=\"$rsslink\" />
+        <link rel='alternate' type='text/xml' title=\"$rssname\" href=\"$rsslink\">
         </head>";
     }
     if ($java_onload){
@@ -466,9 +468,9 @@ function sched_stopped() {
 }
 
 function user_links($user) {
-    $x = "<a href=show_user.php?userid=$user->id>$user->name</a>";
+    $x = '<a href="show_user.php?userid='.$user->id.'">'.$user->name.'</a>';
     if ($user->has_profile) {
-        $x .= " <a href=view_profile.php?userid=$user->id><img border=0 src=img/head_20.png></a>";
+        $x .= ' <a href="view_profile.php?userid='.$user->id.'"><img border="0" src="img/head_20.png" alt="User profile image"></a>';
     }
     # Does this project accept donations?
     # If so, do you want to have a link next to user name as it appears on the web site?

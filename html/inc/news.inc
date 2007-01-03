@@ -1,11 +1,9 @@
 <?php
 
-function news_item($date, $text) {
-    echo "<font color=666666>$date</font>
-        <br />
-        $text
-        <br /><br />
-    ";
+function news_item($date, $text, $title) {
+    echo '<h3>'.$date.' '.$title.'</h3>
+        <p>'.$text.'</p>
+    ';
 }
 
 function show_news($items, $n) {
@@ -13,7 +11,7 @@ function show_news($items, $n) {
         $n = count($items);
     }
     for ($i=0; $i<$n; $i++) {
-        news_item($items[$i][0], $items[$i][1]);
+        news_item($items[$i][0], $items[$i][1], $items[$i][2]);
     }
 }
 

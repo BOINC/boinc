@@ -63,12 +63,17 @@ $tot = count($project_news);
 $news = min( $tot, $news);
 for( $item=0; $item < $news; $item++ ) {
     $j = $tot - $item;
-    if( count($project_news[$item]) == 2) {
+    if( count($project_news[$item]) >= 2) {
         $d = strtotime($project_news[$item][0]);
         $news_date=gmdate('D, d M Y H:i:s',$d) . ' GMT';
         $unique_url=URL_BASE."all_news.php#$j";
+        if (isset($project_news[$item][2])) {
+            $title = strip_tags($project_news[$item][2]);
+        } else {
+            $title = "Project News ".strip_tags($project_news[$item][0]);
+        }
         echo "<item>
-            <title>Project News ".strip_tags($project_news[$item][0])."</title>
+            <title>".$title."</title>
             <link>$unique_url</link>
             <guid isPermaLink=\"true\">$unique_url</guid>
             <description><![CDATA[".strip_tags($project_news[$item][1])."]]></description>

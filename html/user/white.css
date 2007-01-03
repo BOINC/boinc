@@ -226,7 +226,6 @@ tr.postseperator td{
 }
 
 td.threadline {
-#font-size:10pt;
     text-align:left;
 }
 
@@ -238,4 +237,33 @@ span.note{
 .code {
     font-family: System, Fixed, sans-serif;
     color: #000000;
+}
+
+#news {
+    background-color: #dddddd;
+    vertical-align: top;
+}
+
+#news h2, #uotd h2, #mainnav h2 {
+    font-size: 1.2em;
+    font-weight: bold;
+}
+
+#news h3 {
+    color: #666666;
+    font-size: 1em;
+    margin-bottom: 2px;
+}
+
+#news p {
+    margin-top: 0px;
+}
+
+#uotd {
+    background-color: #ffeeff;
+    vertical-align: top;
+}
+
+.smalltext {
+    font-size: 0.8em;
 }

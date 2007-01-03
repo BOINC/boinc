@@ -37,9 +37,9 @@ $user->name
 
 <font face=\"Lucida Bright,Times New Roman\" style=\"font-size:16\">
 <p>
-has participated in PROJECT_NAME since $join,
+has participated in ".PROJECT." since $join,
 and has contributed $credit
-to PROJECT_NAME.
+to ".PROJECT.".
 
 <br><br><br>
 </td><tr></table>
@@ -50,7 +50,7 @@ to PROJECT_NAME.
 <img src=images/SIGNATURE>
 <br>
 PROJECT DIRECTOR NAME
-<br>Director, PROJECT
+<br>Director, ".PROJECT."
 <br><br>
 $today
 </td>
