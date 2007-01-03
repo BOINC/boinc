@@ -633,4 +633,21 @@ function verify_numeric(&$value, $low, $high = false) {
     return true;
 }
 
+// Generate a "select" HTML element from an array of values
+function select_from_array($name, $array, $selection) {
+    $out = "<select name=\"$name\">";
+
+    foreach ($array as $key => $value) {
+        if ($value) {
+            $out .= "<option ";
+            if ($key == $selection) {
+                $out .= "selected ";
+            }
+            $out .= "value=\"".$key."\">".$value."</option>";
+        }
+    }
+    $out.= "</select>";
+    return $out;
+}
+
 ?>

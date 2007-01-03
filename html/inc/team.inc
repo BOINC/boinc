@@ -225,23 +225,9 @@ function team_edit_form($team, $label, $url) {
     row2("Description of team:",
         "<textarea name=description cols=60 rows=10>$team->description</textarea>"
     );
-    $x1 = $team->type==1?"checked":"";
-    $x2 = $team->type==2?"checked":"";
-    $x3 = $team->type==3?"checked":"";
-    $x4 = $team->type==4?"checked":"";
-    $x5 = $team->type==5?"checked":"";
-    $x6 = $team->type==6?"checked":"";
-    $x7 = $team->type==7?"checked":"";
-    if ($team==null) $x1 = "checked";
-    row2("Type of team:",
-        "    <input type=radio name=type value=1 $x1>".$team_types[1]."
-        <br> <input type=radio name=type value=2 $x2>".$team_types[2]."
-        <br> <input type=radio name=type value=3 $x3>".$team_types[3]."
-        <br> <input type=radio name=type value=4 $x4>".$team_types[4]."
-        <br> <input type=radio name=type value=5 $x5>".$team_types[5]."
-        <br> <input type=radio name=type value=6 $x6>".$team_types[6]."
-        <br> <input type=radio name=type value=7 $x7>".$team_types[7]
-    );
+
+    row2("Type of team:", team_type_select($team));
+
     row2_init("Country",
         "<select name=country>"
     );

@@ -64,16 +64,13 @@ echo "[Create a new thread]</a><br><br></td>";
 echo '    <form action="forum_forum.php" method="get">
     <input type="hidden" name="id" value="'.$forum->getID().'">';
 echo '<td align="right">';
-show_select_from_array("sort", $forum_sort_styles, $sort_style);
+echo select_from_array("sort", $forum_sort_styles, $sort_style);
 echo '<input type="submit" value="OK"><br><br></td>';
 echo "</tr>\n</table>\n</form>";
 
 show_forum($forum, $start, $sort_style, $user);
 
 page_tail();
-
-
-
 
 /**
  * This function shows the threadlist for the given forum

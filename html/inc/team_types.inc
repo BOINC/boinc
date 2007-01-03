@@ -1,7 +1,7 @@
 <?php
 
 $team_types = array(
-    "None",
+    "",
     "Unclassified",
     "Company",
     "Primary school",
@@ -25,6 +25,18 @@ function is_valid_team_type($name) {
         if ($name == $type) return true;
     }
     return false;
+}
+
+function team_type_select($team){
+    global $team_types;
+
+    if (!empty($team)) {
+        $type = $team->type;
+    } else {
+        $type = 1;
+    }
+
+    return select_from_array('type', $team_types, $type);
 }
 
 ?>
