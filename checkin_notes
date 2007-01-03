@@ -41,3 +41,13 @@ Rytis   3 Jan 2007
             util.inc
         project.sample/
             project_news.inc
+
+Matt 3 Jan 2007
+    - added separate UOTD_ADMIN_EMAIL address in project.inc
+      so user of the day running low messages don't go to moderators
+
+    html
+        inc/
+             uotd.inc
+        project.sample/
+             project.inc

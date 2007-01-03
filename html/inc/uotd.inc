@@ -67,7 +67,7 @@ function build_uotd_page() {
     // email the sys admin every time we pick a new one.
     //
     if ($result && mysql_num_rows($result) < UOTD_THRESHOLD) {
-        mail(SYS_ADMIN_EMAIL,
+        mail(UOTD_ADMIN_EMAIL,
             PROJECT . ": User of the Day pool is running low!",
             "The pool of approved candidates for User of the Day has".
             " reached your assigned threshold: there are now only " . mysql_num_rows($result) . " approved users.\n\n".

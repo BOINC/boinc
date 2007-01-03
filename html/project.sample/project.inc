@@ -17,6 +17,7 @@ define("LANGUAGE_FILE", "languages.txt");
 define("STYLESHEET", "white.css");
 define("COPYRIGHT_HOLDER", "Test Group");
 define("SYS_ADMIN_EMAIL", "admin@$master_url");
+define("UOTD_ADMIN_EMAIL", "admin@$master_url"); # who gets user of the day pool running low e-mails?
 
 // Email addresses separated by pipe ( | ) that will receive user reported 
 // offensive forum posts.
