@@ -51,3 +51,14 @@ Matt 3 Jan 2007
              uotd.inc
         project.sample/
              project.inc
+
+Reinhard 4 Jan 2007
+	- applied Bernd's patch:
+	* restore extern "C" protection to graphics_api.h, for ANSI-C projects
+	* include boinc_api.h in graphics_impl.C to declare worker_thread_handle()
+	* remove garbage from graphics_lib.C to allow compilation under _WIN32 and __APPLE__
+
+	api/
+		graphics_api.h
+		graphics_impl.C
+		graphics_lib.C
