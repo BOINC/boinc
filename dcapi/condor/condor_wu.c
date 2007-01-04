@@ -459,6 +459,7 @@ _DC_wu_make_client_config(DC_Workunit *wu)
 {
 	GString *fn;
 	FILE *f;
+	char *s;
 
 	if (!_DC_wu_check(wu))
 		return(DC_ERR_UNKNOWN_WU);
@@ -473,10 +474,19 @@ _DC_wu_make_client_config(DC_Workunit *wu)
 			fclose(f);
 			return(DC_ERR_BADPARAM);
 		}
-		fprintf(f, "LogFile = %s\n",
-			DC_getClientCfgStr(wu->data.client_name,
-					   "LogFile",
-					   TRUE));
+		/* Fix #1107 */
+		s= DC_getClientCfgStr(wu->data.client_name,
+				      "LogFile",
+				      FALSE);
+		if (s)
+		{
+			fprintf(f, "LogFile = %s\n", s);
+			free(s);
+		}
+		else
+		{
+			fprintf(f, "LogFile = %s\n", DC_LABEL_CLIENTLOG);
+		}
 		
 		fclose(f);
 	}
