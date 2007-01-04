@@ -1094,7 +1094,22 @@ DC_getResultOutput(const DC_Result *result, const char *logicalFileName)
 		return(NULL);
 	fn= g_string_new(result->wu->data.workdir);
 	fn= g_string_append(fn, "/");
-	fn= g_string_append(fn, logicalFileName);
+	if (strcmp(logicalFileName, DC_LABEL_CLIENTLOG) == 0)
+	{
+		/* Fix #1107 */
+		char *s= DC_getClientCfgStr(result->wu->data.client_name,
+					    "LogFile",
+					    FALSE);
+		if (s)
+		{
+			fn= g_string_append(fn, s);
+			free(s);
+		}
+		else
+			fn= g_string_append(fn, DC_LABEL_CLIENTLOG);
+	}
+	else
+		fn= g_string_append(fn, logicalFileName);
 	return(g_string_free(fn, FALSE));
 }
 
