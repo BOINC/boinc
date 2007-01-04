@@ -52,7 +52,7 @@ int
 DC_submitWU(DC_Workunit *wu)
 {
 	int ret;
-	//GString *fn;
+	/*GString *fn;*/
 	char *id;
 
 	if (!_DC_wu_check(wu))
@@ -73,11 +73,13 @@ DC_submitWU(DC_Workunit *wu)
 		return(ret);
 	}
 
-	//fn= g_string_new(wu->workdir);
-	//fn= g_string_append(fn, "/condor_submit.txt");
+	/*fn= g_string_new(wu->workdir);*/
+	/*fn= g_string_append(fn, "/condor_submit.txt");*/
 	ret= _DC_start_condor_job(wu);
 	if (ret == 0)
 	{
+		/* Fix #1105 */
+		_DC_wu_set_state(wu, DC_WU_RUNNING);
 		_DC_wu_update_condor_events(wu);
 		while (wu->condor_events->len == 0)
 		{

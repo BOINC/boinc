@@ -188,7 +188,8 @@ _DC_wu_condor2api_event(DC_Workunit *wu)
 		}
 		if (ce->event == ULOG_EXECUTE)
 		{
-			_DC_wu_set_state(wu, DC_WU_RUNNING);
+			/* Fix #1105 */
+			/*_DC_wu_set_state(wu, DC_WU_RUNNING);*/
 		}
 	}
 	return(NULL);
