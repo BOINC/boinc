@@ -1037,10 +1037,20 @@ unsigned
 DC_getResultCapabilities(const DC_Result *result)
 {
 	int cap;
-
-	cap= DC_GC_STDOUT | DC_GC_STDERR;
-	cap|= DC_GC_MESSAGING | DC_GC_LOG | DC_GC_SUBRESULT;
-	cap|= DC_GC_EXITCODE;
+	char *fn;
+	
+	/* Fix #1106 */
+	cap= DC_GC_EXITCODE | DC_GC_LOG;
+	/*cap|= DC_GC_STDOUT | DC_GC_STDERR;*/
+	fn= DC_getResultOutput(result, DC_LABEL_STDERR);
+	if (_DC_file_exists(fn) &&
+	    !_DC_file_empty(fn))
+		cap|= DC_GC_STDERR;
+	free(fn);
+	fn= DC_getResultOutput(result, DC_LABEL_STDOUT);
+	if (_DC_file_exists(fn))
+		cap|= DC_GC_STDOUT;
+	free(fn);
 
 	return(cap);
 }
