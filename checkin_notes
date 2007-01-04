@@ -71,3 +71,9 @@ David  4 Jan 2007
         ViewWorkGrid.cpp
     html/inc/
         user.inc
+
+David  4 Jan 2007
+    - removed PICFLAGS from AM_CPP_FLAGS.
+        Compiling everything position-independent slows it down.
+
+    Makefile.incl
