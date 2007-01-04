@@ -117,6 +117,24 @@ _DC_rm(char *name)
 
 
 int
+_DC_file_exists(char *fn)
+{
+	return(access(fn, F_OK) == 0);
+}
+
+
+int
+_DC_file_empty(char *fn)
+{
+	struct stat s;
+	
+	if (stat(fn, &s))
+		return(1);
+	return(s.st_size == 0);
+}
+
+
+int
 _DC_create_file(char *fn, char *what)
 {
 	FILE *f= fopen(fn, "w");
