@@ -168,9 +168,9 @@ no_graphics:
 
 bool boinc_graphics_possible() {
 #ifdef _WIN32
-    ???? should not be here
+  // ???? should not be here
 #elif defined(__APPLE__)
-    ???? should not be here
+  // ???? should not be here
 #else
     if (!getenv("DISPLAY")) return false;
 #endif
