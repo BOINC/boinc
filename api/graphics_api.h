@@ -20,9 +20,12 @@
 #ifndef BOINC_GRAPHICS_API_H
 #define BOINC_GRAPHICS_API_H
 
+#ifdef __cplusplus
+extern "C" {
+#endif
+
 typedef void (*WORKER_FUNC_PTR)();
 
-extern bool boinc_graphics_possible();
 extern int boinc_init_graphics(WORKER_FUNC_PTR);
 
 // Functions that must be supplied by the app
@@ -41,11 +44,13 @@ extern void boinc_app_key_press(int, int);
 extern void boinc_app_key_release(int, int);
 
 // C++ API follows here 
+#ifdef __cplusplus
+} // end extern "C"
 
-#if defined __cplusplus
 #include "boinc_api.h"
 
 extern int boinc_init_options_graphics(BOINC_OPTIONS&, WORKER_FUNC_PTR);
+extern bool boinc_graphics_possible();
 
 // Implementation stuff
 //
