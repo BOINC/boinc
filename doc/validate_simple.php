@@ -23,7 +23,7 @@ The result will be marked as invalid.
 </ul>
 "; block_start(); echo "
 extern int compare_results(
-    RESULT& r1, void* data`, RESULT& r2, void* data2, bool& match
+    RESULT& r1, void* data1, RESULT& r2, void* data2, bool& match
 );
 "; block_end(); echo "
 This takes two results and their associated memory structures.

@@ -62,3 +62,12 @@ Reinhard 4 Jan 2007
 		graphics_api.h
 		graphics_impl.C
 		graphics_lib.C
+
+David  4 Jan 2007
+    - change "Preempted" to "Waiting" in GUI ("preempted" is geek-speak)
+
+    clientgui/
+        ViewWork.cpp
+        ViewWorkGrid.cpp
+    html/inc/
+        user.inc

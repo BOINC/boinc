@@ -72,7 +72,7 @@ function show_project($project) {
     if ($project->url == "http://www.worldcommunitygrid.org/") {
         $x = $project->name;
     } else {
-        $x = "<a href=$project->url/show_user.php?userid=$project->id>$project->name</a>";
+        $x = "<a href=\"$project->url"."show_user.php?userid=$project->id\">$project->name</a>";
     }
     echo "<tr>
         <td>$x</td>
