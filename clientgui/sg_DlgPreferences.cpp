@@ -453,13 +453,13 @@ void CPanelPreferences::CreateControls()
     wxBoxSizer* itemBoxSizer44 = new wxBoxSizer(wxHORIZONTAL);
     itemBoxSizer2->Add(itemBoxSizer44, 0, wxALIGN_RIGHT|wxALL, 5);
 
-    wxBitmapButton* itemBitmapButton44 = new wxBitmapButton( itemDialog1, wxID_OK, *pSkinSimple->GetSaveButton()->GetBitmap(), wxDefaultPosition, wxDefaultSize, wxBU_AUTODRAW );
+    wxBitmapButton* itemBitmapButton44 = new wxBitmapButton( itemDialog1, wxID_OK, *pSkinSimple->GetSaveButton()->GetBitmap(), wxDefaultPosition,  wxSize((*pSkinSimple->GetSaveButton()->GetBitmap()).GetWidth(),(*pSkinSimple->GetSaveButton()->GetBitmap()).GetHeight()), wxBU_AUTODRAW );
 	if ( pSkinSimple->GetSaveButton()->GetBitmapClicked() != NULL ) {
 		itemBitmapButton44->SetBitmapSelected(*pSkinSimple->GetSaveButton()->GetBitmapClicked());
 	}
     itemBoxSizer44->Add(itemBitmapButton44, 0, wxALIGN_CENTER_VERTICAL|wxALL, 5);
 
-    wxBitmapButton* itemBitmapButton45 = new wxBitmapButton( itemDialog1, wxID_CANCEL, *pSkinSimple->GetCancelButton()->GetBitmap(), wxDefaultPosition, wxDefaultSize, wxBU_AUTODRAW );
+    wxBitmapButton* itemBitmapButton45 = new wxBitmapButton( itemDialog1, wxID_CANCEL, *pSkinSimple->GetCancelButton()->GetBitmap(), wxDefaultPosition,  wxSize((*pSkinSimple->GetCancelButton()->GetBitmap()).GetWidth(),(*pSkinSimple->GetCancelButton()->GetBitmap()).GetHeight()), wxBU_AUTODRAW );
 	if ( pSkinSimple->GetCancelButton()->GetBitmapClicked() != NULL ) {
 		itemBitmapButton45->SetBitmapSelected(*pSkinSimple->GetCancelButton()->GetBitmapClicked());
 	}

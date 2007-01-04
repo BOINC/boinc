@@ -84,3 +84,10 @@ Rom    4 Jan 2007
         
     lib/
         stackwalker_win.cpp
+    
+Kevin  4 Jan 2007
+    - Changed the way the buttons on the simple gui preferences and messages screens are sized
+
+    clientgui/sg_DlgMessages.cpp
+    clientgui/sg_DlgPreferences.cpp
+    
