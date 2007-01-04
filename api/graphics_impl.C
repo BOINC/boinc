@@ -40,6 +40,7 @@ extern void win_graphics_event_loop();
 #include "x_opengl.h"
 #endif
 
+#include "boinc_api.h"
 #include "diagnostics.h"
 #include "parse.h"
 #include "util.h"
