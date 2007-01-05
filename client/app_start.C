@@ -660,6 +660,10 @@ int ACTIVE_TASK::start(bool first_time) {
     // go here on error; "buf" contains error message, "retval" is nonzero
     //
 error:
+	// if something failed, it's possible that the executable was munged.
+	// Verify it to trigger another download.
+	//
+	gstate.input_files_available(result, true);
     gstate.report_result_error(*result, buf);
     task_state = PROCESS_COULDNT_START;
     return retval;

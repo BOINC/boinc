@@ -91,3 +91,18 @@ Kevin  4 Jan 2007
     clientgui/sg_DlgMessages.cpp
     clientgui/sg_DlgPreferences.cpp
     
+David   4 Jan 2007
+	- core client: if an app fails to start,
+		it could be that the executable has been munged.
+		So verify the files; this will find the bad file
+		and download it again.
+	- Manager: in Attach to Account Manager wizard, add some text saying
+		if they want to just attach to a single project,
+		use the Attach to Project wizard instead.
+		Some users tried to attach SETI@home using the acct mgr wizard
+		and got all bent outta shape when it didn't work.
+
+	client/
+		app_start.C
+	clientgui/
+		WelcomePage.cpp

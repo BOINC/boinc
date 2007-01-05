@@ -21,6 +21,8 @@
 #pragma implementation "WelcomePage.h"
 #endif
 
+//#define __WIZ_DEBUG__
+
 #include "stdwx.h"
 #include "diagnostics.h"
 #include "util.h"
@@ -88,7 +90,7 @@ bool CWelcomePage::Create( CBOINCBaseWizard* parent )
     m_pTitleStaticCtrl = NULL;
     m_pDescriptionStaticCtrl = NULL;
     m_pDirectionsStaticCtrl = NULL;
-#if defined(__WXDEBUG__)
+#if defined(__WIZ_DEBUG__)
     m_pErrDescriptionCtrl = NULL;
     m_pErrProjectPropertiesCtrl = NULL;
     m_pErrProjectCommCtrl = NULL;
@@ -138,7 +140,7 @@ void CWelcomePage::CreateControls()
 
     itemBoxSizer3->Add(5, 5, 0, wxALIGN_LEFT|wxALL, 5);
 
-#if defined(__WXDEBUG__)
+#if defined(__WIZ_DEBUG__)
     m_pErrDescriptionCtrl = new wxStaticBox(itemWizardPage2, wxID_ANY, wxEmptyString);
     wxStaticBoxSizer* itemStaticBoxSizer7 = new wxStaticBoxSizer(m_pErrDescriptionCtrl, wxVERTICAL);
     itemBoxSizer3->Add(itemStaticBoxSizer7, 0, wxGROW|wxALL, 5);
@@ -292,7 +294,7 @@ void CWelcomePage::OnPageChanged( wxWizardExEvent& event ) {
     wxASSERT(m_pTitleStaticCtrl);
     wxASSERT(m_pDescriptionStaticCtrl);
     wxASSERT(m_pDirectionsStaticCtrl);
-#if defined(__WXDEBUG__)
+#if defined(__WIZ_DEBUG__)
     wxASSERT(m_pErrDescriptionCtrl);
     wxASSERT(m_pErrProjectPropertiesCtrl);
     wxASSERT(m_pErrProjectCommCtrl);
@@ -337,14 +339,17 @@ void CWelcomePage::OnPageChanged( wxWizardExEvent& event ) {
             _("Account manager")
         );
         m_pDescriptionStaticCtrl->SetLabel(
-            _("We'll now guide you through the process of adding\n"
-              "an account manager.")
+            _("We'll now guide you through the process of attaching\n"
+              "to an account manager.\n\n"
+			  "If you want to attach to a single project, click Cancel,\n"
+			  "then select the 'Attach to project' menu item instead."
+			)
         );
     } else {
         wxASSERT(FALSE);
     }
 
-#if defined(__WXDEBUG__)
+#if defined(__WIZ_DEBUG__)
     m_pErrDescriptionCtrl->SetLabel(
         _("Debug Flags")
     );
@@ -399,7 +404,7 @@ void CWelcomePage::OnPageChanging( wxWizardExEvent& event ) {
  
     unsigned long ulFlags = 0;
  
-#if defined(__WXDEBUG__)
+#if defined(__WIZ_DEBUG__)
     if (m_pErrProjectPropertiesCtrl->GetValue()) {
         ulFlags |= WIZDEBUG_ERRPROJECTPROPERTIES;
     }
