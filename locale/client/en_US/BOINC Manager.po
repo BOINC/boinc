@@ -2,7 +2,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: BOINC Manager 4.x\n"
 "POT-Creation-Date: \n"
-"PO-Revision-Date: 2007-01-05 14:29-0500\n"
+"PO-Revision-Date: 2007-01-05 18:04-0500\n"
 "Last-Translator: Rom Walton <rwalton@ssl.berkeley.edu>\n"
 "Language-Team: BOINC Development Team <rwalton@ssl.berkeley.edu>\n"
 "MIME-Version: 1.0\n"
@@ -1318,25 +1318,25 @@ msgstr ""
 msgid "Message"
 msgstr ""
 
-#: clientgui/sg_DlgMessages.cpp:174
-#: clientgui/sg_DlgMessages.cpp:178
+#: clientgui/sg_DlgMessages.cpp:184
+#: clientgui/sg_DlgMessages.cpp:188
 #: clientgui/ViewMessages.cpp:85
 msgid "Copy all the messages to the clipboard."
 msgstr ""
 
-#: clientgui/sg_DlgMessages.cpp:189
-#: clientgui/sg_DlgMessages.cpp:201
+#: clientgui/sg_DlgMessages.cpp:209
+#: clientgui/sg_DlgMessages.cpp:221
 #: clientgui/ViewMessages.cpp:93
 msgid "Copy the selected messages to the clipboard. You can select multiple messages by holding down the shift or command key while clicking on messages."
 msgstr ""
 
-#: clientgui/sg_DlgMessages.cpp:193
-#: clientgui/sg_DlgMessages.cpp:205
+#: clientgui/sg_DlgMessages.cpp:213
+#: clientgui/sg_DlgMessages.cpp:225
 #: clientgui/ViewMessages.cpp:97
 msgid "Copy the selected messages to the clipboard. You can select multiple messages by holding down the shift or control key while clicking on messages."
 msgstr ""
 
-#: clientgui/sg_DlgMessages.cpp:673
+#: clientgui/sg_DlgMessages.cpp:703
 msgid "BOINC Manager - Messages"
 msgstr ""
 
@@ -1506,67 +1506,71 @@ msgstr ""
 msgid "minutes"
 msgstr ""
 
-#: clientgui/sg_DlgPreferences.cpp:609
-#: clientgui/sg_DlgPreferences.cpp:612
-#: clientgui/sg_DlgPreferences.cpp:672
-#: clientgui/sg_DlgPreferences.cpp:676
-#: clientgui/sg_DlgPreferences.cpp:688
+#: clientgui/sg_DlgPreferences.cpp:629
+#: clientgui/sg_DlgPreferences.cpp:632
 #: clientgui/sg_DlgPreferences.cpp:692
-#: clientgui/sg_DlgPreferences.cpp:850
-#: clientgui/sg_DlgPreferences.cpp:861
+#: clientgui/sg_DlgPreferences.cpp:696
+#: clientgui/sg_DlgPreferences.cpp:708
+#: clientgui/sg_DlgPreferences.cpp:712
+#: clientgui/sg_DlgPreferences.cpp:870
+#: clientgui/sg_DlgPreferences.cpp:881
 msgid "Anytime"
 msgstr ""
 
-#: clientgui/sg_DlgPreferences.cpp:708
+#: clientgui/sg_DlgPreferences.cpp:728
 #, c-format
 msgid "%d MB"
 msgstr ""
 
-#: clientgui/sg_DlgPreferences.cpp:710
+#: clientgui/sg_DlgPreferences.cpp:730
 #, c-format
 msgid "%4.2f GB"
 msgstr ""
 
-#: clientgui/sg_DlgPreferences.cpp:751
+#: clientgui/sg_DlgPreferences.cpp:771
 #, c-format
 msgid "%d%%"
 msgstr ""
 
-#: clientgui/sg_DlgPreferences.cpp:787
+#: clientgui/sg_DlgPreferences.cpp:807
 msgid "0 (Run Always)"
 msgstr ""
 
-#: clientgui/sg_DlgPreferences.cpp:790
+#: clientgui/sg_DlgPreferences.cpp:810
 #, c-format
 msgid "%d"
 msgstr ""
 
-#: clientgui/sg_DlgPreferences.cpp:953
+#: clientgui/sg_DlgPreferences.cpp:973
 msgid "BOINC Manager - Preferences"
 msgstr ""
 
-#: clientgui/sg_ProjectsComponent.cpp:97
+#: clientgui/sg_ProjectsComponent.cpp:99
 msgid "Attach to an additional project"
 msgstr ""
 
-#: clientgui/sg_ProjectsComponent.cpp:156
-#: clientgui/sg_ProjectsComponent.cpp:167
+#: clientgui/sg_ProjectsComponent.cpp:116
+msgid "Get help with BOINC"
+msgstr ""
+
+#: clientgui/sg_ProjectsComponent.cpp:169
+#: clientgui/sg_ProjectsComponent.cpp:180
 msgid "Open a window to view messages"
 msgstr ""
 
-#: clientgui/sg_ProjectsComponent.cpp:185
+#: clientgui/sg_ProjectsComponent.cpp:198
 msgid "Stop all activity"
 msgstr ""
 
-#: clientgui/sg_ProjectsComponent.cpp:197
+#: clientgui/sg_ProjectsComponent.cpp:210
 msgid "Resume activity"
 msgstr ""
 
-#: clientgui/sg_ProjectsComponent.cpp:214
+#: clientgui/sg_ProjectsComponent.cpp:227
 msgid "Open a window to set your preferences"
 msgstr ""
 
-#: clientgui/sg_ProjectsComponent.cpp:231
+#: clientgui/sg_ProjectsComponent.cpp:244
 msgid "Switch to the BOINC advanced view"
 msgstr ""
 
