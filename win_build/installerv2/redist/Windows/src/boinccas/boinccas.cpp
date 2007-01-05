@@ -492,7 +492,6 @@ UINT BOINCCABase::GetRegistryValue(
 {
 	LONG lReturnValue;
 	HKEY hkSetupHive;
-	DWORD dwType = REG_SZ;
 	DWORD dwSize = 0;
     LPTSTR lpszRegistryValue = NULL;
     tstring strMessage;
@@ -517,7 +516,7 @@ UINT BOINCCABase::GetRegistryValue(
     );
 
     // Allocate the buffer space.
-    lpszRegistryValue = (LPTSTR)HeapAlloc(GetProcessHeap(), HEAP_ZERO_MEMORY, dwSize);
+    lpszRegistryValue = (LPTSTR)HeapAlloc(GetProcessHeap(), NULL, dwSize);
     if ( NULL == lpszRegistryValue ) {
     	RegCloseKey(hkSetupHive);
         return ERROR_INSTALL_FAILURE;
@@ -528,10 +527,13 @@ UINT BOINCCABase::GetRegistryValue(
         hkSetupHive,
         strName.c_str(),
         NULL,
-        &dwType,
+        NULL,
         (LPBYTE)lpszRegistryValue,
         &dwSize
     );
+
+    // Send up the returned value.
+    if (lReturnValue == ERROR_SUCCESS) strValue = tstring(lpszRegistryValue);
 
     // Cleanup
 	RegCloseKey(hkSetupHive);
@@ -540,8 +542,6 @@ UINT BOINCCABase::GetRegistryValue(
     // One last check to make sure everything is on the up and up.
     if (lReturnValue != ERROR_SUCCESS) return ERROR_INSTALL_FAILURE;
 
-    // Send up the returned value.
-    strValue = lpszRegistryValue;
 
     strMessage  = _T("Successfully retrieved registry value '") + strName;
     strMessage += _T("' with a value of '");
