@@ -166,7 +166,17 @@ void CPanelMessages::CreateControls()
 #endif
 
 #ifdef wxUSE_CLIPBOARD
-    wxBitmapButton* itemButton1 = new wxBitmapButton(this, ID_COPYAll, *pSkinSimple->GetCopyAllButton()->GetBitmap(), wxDefaultPosition, wxSize((*pSkinSimple->GetCopyAllButton()->GetBitmap()).GetWidth(),(*pSkinSimple->GetCopyAllButton()->GetBitmap()).GetHeight()), wxBU_AUTODRAW);
+    wxBitmapButton* itemButton1 = new wxBitmapButton(
+        this,
+        ID_COPYAll,
+        *pSkinSimple->GetCopyAllButton()->GetBitmap(),
+        wxDefaultPosition,
+        wxSize(
+            (*pSkinSimple->GetCopyAllButton()->GetBitmap()).GetWidth(),
+            (*pSkinSimple->GetCopyAllButton()->GetBitmap()).GetHeight()
+        ),
+        wxBU_AUTODRAW
+    );
 	if ( pSkinSimple->GetCopyAllButton()->GetBitmapClicked() != NULL ) {
 		itemButton1->SetBitmapSelected(*pSkinSimple->GetCopyAllButton()->GetBitmapClicked());
 	}
@@ -180,7 +190,17 @@ void CPanelMessages::CreateControls()
 #endif
     itemBoxSizer4->Add(itemButton1, 0, wxALIGN_CENTER_VERTICAL|wxALL, 5);
 
-    wxBitmapButton* itemButton2 = new wxBitmapButton(this, ID_COPYSELECTED, *pSkinSimple->GetCopyButton()->GetBitmap(), wxDefaultPosition, wxSize((*pSkinSimple->GetCopyButton()->GetBitmap()).GetWidth(),(*pSkinSimple->GetCopyButton()->GetBitmap()).GetHeight()), wxBU_AUTODRAW);
+    wxBitmapButton* itemButton2 = new wxBitmapButton(
+        this,
+        ID_COPYSELECTED,
+        *pSkinSimple->GetCopyButton()->GetBitmap(),
+        wxDefaultPosition,
+        wxSize(
+            (*pSkinSimple->GetCopyButton()->GetBitmap()).GetWidth(),
+            (*pSkinSimple->GetCopyButton()->GetBitmap()).GetHeight()
+        ),
+        wxBU_AUTODRAW
+    );
 	if ( pSkinSimple->GetCopyButton()->GetBitmapClicked() != NULL ) {
 		itemButton2->SetBitmapSelected(*pSkinSimple->GetCopyButton()->GetBitmapClicked());
 	}
@@ -211,7 +231,17 @@ void CPanelMessages::CreateControls()
     itemBoxSizer4->Add(itemButton2, 0, wxALIGN_CENTER_VERTICAL|wxALL, 5);
 #endif
 
-    wxBitmapButton* itemBitmapButton44 = new wxBitmapButton(this, wxID_OK, *pSkinSimple->GetCloseButton()->GetBitmap(), wxDefaultPosition,  wxSize((*pSkinSimple->GetCloseButton()->GetBitmap()).GetWidth(),(*pSkinSimple->GetCloseButton()->GetBitmap()).GetHeight()), wxBU_AUTODRAW);
+    wxBitmapButton* itemBitmapButton44 = new wxBitmapButton(
+        this,
+        wxID_OK,
+        *pSkinSimple->GetCloseButton()->GetBitmap(),
+        wxDefaultPosition,
+        wxSize(
+            (*pSkinSimple->GetCloseButton()->GetBitmap()).GetWidth(),
+            (*pSkinSimple->GetCloseButton()->GetBitmap()).GetHeight()
+        ),
+        wxBU_AUTODRAW
+    );
 	if ( pSkinSimple->GetCloseButton()->GetBitmapClicked() != NULL ) {
 		itemBitmapButton44->SetBitmapSelected(*pSkinSimple->GetCloseButton()->GetBitmapClicked());
 	}

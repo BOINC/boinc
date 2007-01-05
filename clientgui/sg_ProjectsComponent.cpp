@@ -29,6 +29,7 @@
 #include "parse.h"
 #include "error_numbers.h"
 #include "Events.h"
+#include "hyperlink.h"
 #include "BOINCGUIApp.h"
 #include "SkinManager.h"
 #include "MainDocument.h"
@@ -46,6 +47,7 @@
 IMPLEMENT_DYNAMIC_CLASS(CProjectsComponent, wxPanel)
 
 BEGIN_EVENT_TABLE(CProjectsComponent, wxPanel)
+    EVT_BUTTON(ID_SIMPLE_HELP, CProjectsComponent::OnHelp)
     EVT_BUTTON(ID_SIMPLE_MESSAGES, CProjectsComponent::OnMessages)
     EVT_BUTTON(ID_SIMPLE_MESSAGES_ALERT, CProjectsComponent::OnMessages)
     EVT_BUTTON(ID_SIMPLE_SUSPEND, CProjectsComponent::OnSuspend)
@@ -111,13 +113,24 @@ void CProjectsComponent::CreateComponent()
 	btnAddProj->SetToolTip(ttAddProject);
 
     /// Help
-	btnHelp=new wxContextHelpButton(
+	wxToolTip *ttHelp = new wxToolTip(_("Get help with BOINC"));
+	btnHelp=new wxBitmapButton(
         this,
-        wxID_CONTEXT_HELP,
+        ID_SIMPLE_HELP,
+        *pSkinSimple->GetHelpButton()->GetBitmap(),
         wxPoint(300,7),
-        wxDefaultSize,
+        wxSize(
+            (*pSkinSimple->GetHelpButton()->GetBitmap()).GetWidth(),
+            (*pSkinSimple->GetHelpButton()->GetBitmap()).GetHeight()
+        ),
         wxBU_AUTODRAW
     );
+	if ( pSkinSimple->GetHelpButton()->GetBitmapClicked() != NULL ) {
+		btnHelp->SetBitmapSelected(
+			*pSkinSimple->GetHelpButton()->GetBitmapClicked()
+		);
+	}
+	btnHelp->SetToolTip(ttHelp);
 
 	
     /// Line
@@ -352,6 +365,21 @@ void CProjectsComponent::UpdateDisplayedProjects() {
 	}
 	Refresh(true);
 	Update();
+}
+
+
+void CProjectsComponent::OnHelp(wxCommandEvent& /*event*/) {
+    wxLogTrace(wxT("Function Start/End"), wxT("CProjectsComponent::OnHelp - Function Begin"));
+
+	std::string url;
+	url = wxGetApp().GetSkinManager()->GetAdvanced()->GetCompanyWebsite().mb_str();
+	canonicalize_master_url(url);
+
+	wxString wxurl;
+	wxurl.Printf(wxT("%smanager_links.php?target=simple"), url.c_str());
+    wxHyperLink::ExecuteLink(wxurl);
+
+    wxLogTrace(wxT("Function Start/End"), wxT("CProjectsComponent::OnHelp - Function End"));
 }
 
 

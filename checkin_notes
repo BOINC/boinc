@@ -155,3 +155,14 @@ Rom    5 Jan 2007
     
     locale/en_US/
         BOINC Manager.mo, .po
+
+Rom    5 Jan 2007
+    - MGR: Replace the context sensitive help button on the main simple gui window
+        with a standard bitmap button and use the bitmaps WCG gave us.
+        
+    clientgui/
+        Events.h
+        sg_DlgMessages.cpp
+        sg_DlgPreferences.cpp
+        sg_ProjectsComponent.cpp, .h
+        SkinManager.cpp, .h
