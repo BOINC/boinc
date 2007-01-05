@@ -136,6 +136,12 @@
 				RelativePath=".\CAMigrateCPDNBBC.cpp">
 			</File>
 			<File
+				RelativePath=".\CARestoreSetupState.cpp">
+			</File>
+			<File
+				RelativePath=".\CASaveSetupState.cpp">
+			</File>
+			<File
 				RelativePath=".\CAShutdownBOINC.cpp">
 			</File>
 			<File
@@ -171,6 +177,12 @@
 			</File>
 			<File
 				RelativePath=".\CAMigrateCPDNBBC.h">
+			</File>
+			<File
+				RelativePath=".\CARestoreSetupState.h">
+			</File>
+			<File
+				RelativePath=".\CASaveSetupState.h">
 			</File>
 			<File
 				RelativePath=".\CAShutdownBOINC.h">

@@ -106,3 +106,27 @@ David   4 Jan 2007
 		app_start.C
 	clientgui/
 		WelcomePage.cpp
+
+Rom    5 Jan 2007
+    - Win SETUP: Add custom actions for saving and restoring user preferences
+        to the registry
+    - Win SETUP: MoveFileEx isn't spported on the Win9x platform, so dynamically
+        load and execute it on Windows 2000 or better.
+    - Win SETUP: Remove some dead code from the custom action list.
+    - Win SETUP: On Windows XP systems or better, we no longer require the
+       service account to have a password, Microsoft has taken care of the
+       problem by not allowing incomming network connections for accounts with
+       no passwords.
+
+    win_build/installerv2/redist/Windows/src/boinccas/
+        CAMigrateCPDNBBC.cpp
+        CARestoreSetupState.cpp, .h
+        CASaveSetupState.cpp, .h
+        CASoftwareNeedsUpgrade.cpp, .h (Removed)
+        CAVerifyServicePassword.cpp
+        boinccas.cpp, .h
+        boinccas.rc
+        boinccas95.def
+    win_build/installerv2/redist/Windows/x86/
+        boinccas.dll
+        boinccas95.dll

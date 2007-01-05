@@ -18,24 +18,19 @@
 // 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 //
 
-#ifndef _CASOFTWARENEEDSUPGRADE_H_
-#define _CASOFTWARENEEDSUPGRADE_H_
+#ifndef _CASAVESETUPSTATE_H_
+#define _CASAVESETUPSTATE_H_
 
 
-class CASoftwareNeedsUpgrade : public BOINCCABase
+class CASaveSetupState : public BOINCCABase
 {
 public:
 
-    CASoftwareNeedsUpgrade(MSIHANDLE hMSIHandle);
-    ~CASoftwareNeedsUpgrade();
+    CASaveSetupState(MSIHANDLE hMSIHandle);
+    ~CASaveSetupState();
     virtual UINT OnExecution();
 
-    void VersionCheck(
-        const tstring strPackage,
-        const tstring strPackageLocation,
-        const tstring strPackageProperty
-    );
-}
+};
 
 
 #endif

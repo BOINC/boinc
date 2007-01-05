@@ -479,6 +479,156 @@ UINT BOINCCABase::SetProperty(
 
 /////////////////////////////////////////////////////////////////////
 // 
+// Function:    GetRegistryValue
+//
+// Description: 
+//
+/////////////////////////////////////////////////////////////////////
+UINT BOINCCABase::GetRegistryValue( 
+    const tstring strName, 
+    tstring&      strValue,
+    bool          bDisplayValue
+    )
+{
+	LONG lReturnValue;
+	HKEY hkSetupHive;
+	DWORD dwType = REG_SZ;
+	DWORD dwSize = 0;
+    LPTSTR lpszRegistryValue = NULL;
+    tstring strMessage;
+
+	lReturnValue = RegOpenKeyEx(
+        HKEY_LOCAL_MACHINE, 
+        _T("SOFTWARE\\Space Sciences Laboratory, U.C. Berkeley\\BOINC Setup"),  
+		0, 
+        KEY_READ,
+        &hkSetupHive
+    );
+	if (lReturnValue != ERROR_SUCCESS) return ERROR_INSTALL_FAILURE;
+
+    // How large does our buffer need to be?
+    RegQueryValueEx(
+        hkSetupHive,
+        strName.c_str(),
+        NULL,
+        NULL,
+        NULL,
+        &dwSize
+    );
+
+    // Allocate the buffer space.
+    lpszRegistryValue = (LPTSTR)HeapAlloc(GetProcessHeap(), HEAP_ZERO_MEMORY, dwSize);
+    if ( NULL == lpszRegistryValue ) {
+    	RegCloseKey(hkSetupHive);
+        return ERROR_INSTALL_FAILURE;
+    }
+
+    // Now get the data
+    lReturnValue = RegQueryValueEx( 
+        hkSetupHive,
+        strName.c_str(),
+        NULL,
+        &dwType,
+        (LPBYTE)lpszRegistryValue,
+        &dwSize
+    );
+
+    // Cleanup
+	RegCloseKey(hkSetupHive);
+    HeapFree(GetProcessHeap(), NULL, lpszRegistryValue);
+
+    // One last check to make sure everything is on the up and up.
+    if (lReturnValue != ERROR_SUCCESS) return ERROR_INSTALL_FAILURE;
+
+    // Send up the returned value.
+    strValue = lpszRegistryValue;
+
+    strMessage  = _T("Successfully retrieved registry value '") + strName;
+    strMessage += _T("' with a value of '");
+    if (bDisplayValue)
+        strMessage += strValue;
+    else
+        strMessage += _T("<Value Hidden>");
+    strMessage += _T("'");
+
+    LogMessage(
+        INSTALLMESSAGE_INFO,
+        NULL, 
+        NULL,
+        NULL,
+        NULL,
+        strMessage.c_str()
+    );
+
+    return ERROR_SUCCESS;
+}
+
+
+/////////////////////////////////////////////////////////////////////
+// 
+// Function:    SetRegistryValue
+//
+// Description: 
+//
+/////////////////////////////////////////////////////////////////////
+UINT BOINCCABase::SetRegistryValue( 
+    const tstring strName, 
+    const tstring strValue,
+    bool          bDisplayValue
+    )
+{
+	LONG lReturnValue;
+	HKEY hkSetupHive;
+    tstring strMessage;
+
+	lReturnValue = RegCreateKeyEx(
+        HKEY_LOCAL_MACHINE, 
+        _T("SOFTWARE\\Space Sciences Laboratory, U.C. Berkeley\\BOINC Setup"),  
+		0,
+        NULL,
+        REG_OPTION_NON_VOLATILE,
+        KEY_READ | KEY_WRITE,
+        NULL,
+        &hkSetupHive,
+        NULL
+    );
+	if (lReturnValue != ERROR_SUCCESS) return ERROR_INSTALL_FAILURE;
+
+    lReturnValue = RegSetValueEx(
+        hkSetupHive, 
+        strName.c_str(),
+        0,
+        REG_SZ,
+        (CONST BYTE *)strValue.c_str(),
+        (DWORD)(strValue.size()*sizeof(TCHAR))
+    );
+
+	RegCloseKey(hkSetupHive);
+	if (lReturnValue != ERROR_SUCCESS) return ERROR_INSTALL_FAILURE;
+
+    strMessage  = _T("Successfully set registry value '") + strName;
+    strMessage += _T("' to a value of '");
+    if (bDisplayValue)
+        strMessage += strValue;
+    else
+        strMessage += _T("<Value Hidden>");
+    strMessage += _T("'");
+
+    LogMessage(
+        INSTALLMESSAGE_INFO,
+        NULL, 
+        NULL,
+        NULL,
+        NULL,
+        strMessage.c_str()
+    );
+
+    return ERROR_SUCCESS;
+}
+
+
+/////////////////////////////////////////////////////////////////////
+// 
 // Function:    DisplayMessage
 //
 // Description: 

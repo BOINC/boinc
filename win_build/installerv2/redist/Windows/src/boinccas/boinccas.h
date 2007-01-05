@@ -63,8 +63,21 @@ public:
         );
 
     UINT SetProperty( 
-        const tstring      pszPropertyName, 
-        const tstring      pszPropertyValue,
+        const tstring      strPropertyName, 
+        const tstring      strPropertyValue,
+        bool               bDisplayValue = true
+        );
+
+    // Registry Property Management
+    UINT GetRegistryValue( 
+        const tstring      strName, 
+        tstring&           strValue,
+        bool               bDisplayValue = true
+        );
+
+    UINT SetRegistryValue( 
+        const tstring      strName, 
+        const tstring      strValue,
         bool               bDisplayValue = true
         );
 

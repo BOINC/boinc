@@ -20,9 +20,9 @@
 
 #include "stdafx.h"
 #include "boinccas.h"
-#include "CAMigrateCPDNBBC.h"
+#include "CASaveSetupState.h"
 
-#define CUSTOMACTION_NAME               _T("CAMigrateCPDNBBC")
+#define CUSTOMACTION_NAME               _T("CASaveSetupState")
 #define CUSTOMACTION_PROGRESSTITLE      _T("Attempt to rename CPDNBBC installation directory to the default BOINC directory.")
 
 
@@ -33,7 +33,7 @@
 // Description: 
 //
 /////////////////////////////////////////////////////////////////////
-CAMigrateCPDNBBC::CAMigrateCPDNBBC(MSIHANDLE hMSIHandle) :
+CASaveSetupState::CASaveSetupState(MSIHANDLE hMSIHandle) :
     BOINCCABase(hMSIHandle, CUSTOMACTION_NAME, CUSTOMACTION_PROGRESSTITLE)
 {}
 
@@ -45,7 +45,7 @@ CAMigrateCPDNBBC::CAMigrateCPDNBBC(MSIHANDLE hMSIHandle) :
 // Description: 
 //
 /////////////////////////////////////////////////////////////////////
-CAMigrateCPDNBBC::~CAMigrateCPDNBBC()
+CASaveSetupState::~CASaveSetupState()
 {
     BOINCCABase::~BOINCCABase();
 }
@@ -58,62 +58,48 @@ CAMigrateCPDNBBC::~CAMigrateCPDNBBC()
 // Description: 
 //
 /////////////////////////////////////////////////////////////////////
-UINT CAMigrateCPDNBBC::OnExecution()
+UINT CASaveSetupState::OnExecution()
 {
-    typedef BOOL (WINAPI *tMFE)( LPCTSTR lpExistingFileName, LPCTSTR lpNewFileName, DWORD dwFlags );
-
     tstring     strInstallDirectory;
-    UINT        uiReturnValue = -1;
-    BOOL        bReturnValue = FALSE;
-    HMODULE     hKernel32Lib = NULL;
-    tMFE        pMFE = NULL;
+    tstring     strSetupType;
+    tstring     strLaunchProgram;
+    tstring     strEnableLaunchAtLogon;
+    tstring     strEnableScreensaver;
+    tstring     strServiceDomain;
+    tstring     strServiceUsername;
 
+    GetProperty( _T("INSTALLDIR"), strInstallDirectory );
+    GetProperty( _T("SETUPTYPE"), strSetupType );
+    GetProperty( _T("LAUNCHPROGRAM"), strLaunchProgram );
+    GetProperty( _T("ENABLELAUNCHATLOGON"), strEnableLaunchAtLogon );
+    GetProperty( _T("ENABLESCREENSAVER"), strEnableScreensaver );
+    GetProperty( _T("SERVICE_DOMAIN"), strServiceDomain );
+    GetProperty( _T("SERVICE_USERNAME"), strServiceUsername );
 
-    // Dynamically link to the proper function pointers.
-    hKernel32Lib = GetModuleHandle("kernel32.dll");
-#ifdef _UNICODE
-    pMFE = (tMFE) GetProcAddress( hKernel32Lib, "MoveFileExW" );
-#else
-    pMFE = (tMFE) GetProcAddress( hKernel32Lib, "MoveFileExA" );
-#endif
+    SetRegistryValue( _T("INSTALLDIR"), strInstallDirectory );
+    SetRegistryValue( _T("SETUPTYPE"), strSetupType );
+    SetRegistryValue( _T("LAUNCHPROGRAM"), strLaunchProgram );
+    SetRegistryValue( _T("ENABLELAUNCHATLOGON"), strEnableLaunchAtLogon );
+    SetRegistryValue( _T("ENABLESCREENSAVER"), strEnableScreensaver );
+    SetRegistryValue( _T("SERVICE_DOMAIN"), strServiceDomain );
+    SetRegistryValue( _T("SERVICE_USERNAME"), strServiceUsername );
 
-    if (pMFE) {
-        uiReturnValue = GetProperty( _T("INSTALLDIR"), strInstallDirectory );
-        if ( uiReturnValue ) return uiReturnValue;
-
-        bReturnValue = pMFE(
-            _T("C:\\Program Files\\Climate Change Experiment"),
-            strInstallDirectory.c_str(),
-            MOVEFILE_COPY_ALLOWED|MOVEFILE_WRITE_THROUGH 
-        );
-        if ( bReturnValue )
-        {
-            LogMessage(
-                INSTALLMESSAGE_INFO,
-                NULL, 
-                NULL,
-                NULL,
-                NULL,
-                _T("Climate Change Experiment files have been migrated to the installation directory.")
-            );
-        }
-    }
     return ERROR_SUCCESS;
 }
 
 
 /////////////////////////////////////////////////////////////////////
 // 
-// Function:    MigrateCPDNBBC
+// Function:    SaveSetupState
 //
 // Description: 
 //
 /////////////////////////////////////////////////////////////////////
-UINT __stdcall MigrateCPDNBBC(MSIHANDLE hInstall)
+UINT __stdcall SaveSetupState(MSIHANDLE hInstall)
 {
     UINT uiReturnValue = 0;
 
-    CAMigrateCPDNBBC* pCA = new CAMigrateCPDNBBC(hInstall);
+    CASaveSetupState* pCA = new CASaveSetupState(hInstall);
     uiReturnValue = pCA->Execute();
     delete pCA;
 
@@ -121,4 +107,4 @@ UINT __stdcall MigrateCPDNBBC(MSIHANDLE hInstall)
 }
 
 
-const char *BOINC_RCSID_7bca879ada="$Id$";
+const char *BOINC_RCSID_7bca879adc="$Id$";
