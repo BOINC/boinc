@@ -1,10 +1,16 @@
-﻿##########################################
-# Language: Russian (Russian Federation)
-# FileID  : $Id$
-# ########################################
-# For more information please see:
-# http://boinc.berkeley.edu/web_translation.php
-# ########################################
+msgid ""
+msgstr ""
+"Project-Id-Version: \n"
+"POT-Creation-Date: \n"
+"PO-Revision-Date: 2006-12-30 14:27+0500\n"
+"Last-Translator: \n"
+"Language-Team:  <mifistor_x@yahoo.com>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=utf-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"X-Poedit-Language: Russian\n"
+"X-Poedit-Country: RUSSIAN FEDERATION\n"
+
 # The charset used for the text in this file (please try to use UTF-8 if possible)
 msgid "CHARSET"
 msgstr "UTF-8"
@@ -681,4 +687,87 @@ msgstr "Если не удаётся решить проблемы связан�
 # If you have problems with BOINC itself, get help from the %s BOINC message boards %s.
 msgid "RLN_TROUBLESHOOT_BOINC_ITSELF"
 msgstr "Если проблема заключается в работе самого программного обеспечения BOINC, попробуйте получить помощь на %sфоруме BOINC%s"
+
+# Getting help with BOINC
+msgid "HELP_TITLE"
+msgstr "Помощь по использованию BOINC"
+
+# Online Help
+msgid "HELP_HEADING1"
+msgstr "Задать вопрос в реальном времени"
+
+# BOINC Online Help lets you talk one-on-one with experienced BOINC users, who can: %s answer questions about BOINC and volunteer computing; %s walk you through the process of installing and using BOINC; %s troubleshoot any problems you might have.
+msgid "HELP_P1_1"
+msgstr "С помощью данной горячей линии BOINC, вы можете задать вопросы опытным пользователям BOINC лично: %sо том, что такое BOINC и распределённые вычисления;%sоб установке программного обеспечения BOINC и процессе подключения к проектам; %sо возникших проблемах, связанных с работой BOINC."
+
+# BOINC Online Help is based on %sSkype%s, an Internet-based telephone system. Skype is free (both the software and the calls). If you don't already have Skype, please %sdownload and install it now%s. When you're finished, return to this page.
+msgid "HELP_P1_2"
+msgstr "Горячая линия техподдержки BOINC построена на использовании интернет-телефона %sSkype%s. Skype - это бесплатная программа, позволяющая бесплатно звонить по всему миру. Если у вас ещё не установлен Skype, вы можете %sзагрузить и установить%s его, а затем вернуться на данную страницу для выбора помощника."
+
+# The best way to get help is by voice, for which you need either built-in microphone and speakers or an external headset for your computer. Alternatively, you can use Skype's text-based chat system to communicate with Help Volunteers.
+msgid "HELP_P1_3"
+msgstr "Лучше всего задать вопрос помощнику лично в режиме телефонного разговора, но для этого потребуются микрофон и наушники. В качестве альтернативы, в Skype можно воспользоваться текстовым чатом, в крайнем случае оставьте ваш вопрос и адрес электронной почты (чтобы можно было на него ответить)."
+
+# Volunteers speaking several languages are available. Please select a language:
+msgid "HELP_P1_4"
+msgstr "Помощники разговаривают на разных языках. Вы можете выбрать понятный вам:"
+
+# Other sources of help
+msgid "HELP_HEADING2"
+msgstr "Другие источники информации о BOINC"
+
+# You can also get information and advice from: %sThe BOINC web site%s. %sBOINC-related web sites%s. %sThe BOINC message boards%s. %sThe message boards on any BOINC-based project.
+msgid "HELP_P2_1"
+msgstr "Помощь и дополнительную информацию по BOINC можно получить на следующих сайтах: %sДомашняя страница BOINC%s. %sНеофициальные сайты, посвященные BOINC%s. %sФорум BOINC%s. %sФорумы проектов, использующие BOINC."
+
+# Be a Help Volunteer
+msgid "HELP_HEADING3"
+msgstr "Станьте добровольным помощником"
+
+# If you're an experienced BOINC user, we encourage you to %sbecome a Help Volunteer%s. It's a great way to help the cause of scientific research and volunteer computing - and it's fun!
+msgid "HELP_P3_1"
+msgstr "Если вы достаточно хорошо понимаете что такое BOINC и как оно работает, вы сами %sможете стать добровольным помощником%s. Этим вы поможете как новым участникам BOINC, так и развитию BOINC и распределённым вычислениям."
+
+# If you're already a Help Volunteer: to edit your settings, %sclick here%s.
+msgid "HELP_P3_2"
+msgstr "Если вы уже являетесь добровольным помощником: для изменения ваших настроек, %sзайдите сюда%s."
+
+# #############################################
+# index.php
+# #############################################
+# Volunteer
+msgid "HOME_HEADING1"
+msgstr "Информация для участников"
+
+#  Use the idle time on your computer  (Windows, Mac, or Linux)  to cure diseases, study global warming,  discover pulsars, and do many other types of scientific research.  It's safe, secure, and easy:  %sChoose%s projects  %sDownload%s and run BOINC software  %sEnter%s the project URLs, your email address, and password.
+msgid "HOME_P1"
+msgstr "Предоставьте неиспользуемое время вашего компьютера (с ОС: Windows, Mac, или Linux) для поиска лекарств и методов лечения, изучения глобального изменения климата, пульсаров, а также для множества других научных исследований. Сделать это достаточно просто и относительно безопасно:  %sВыберите%s понравившиеся проекты %sЗагрузите%s и установите программное обеспечение BOINC  %sПри подключении к проекту, укажите:%s адрес (URL) выбранного проекта, ваш адрес электронной почты, а также придумайте пароль для вашей учётной записи в проекте (или укажите существующий пароль, если вы уже зарегистрировались в проекте)."
+
+# Alternatively, if you run several projects, it may be easier to use an %saccount manager%s such as %sGridRepublic%s or %sBAM!%s.
+msgid "HOME_P2"
+msgstr "При желании участвовать одновременно в нескольких проектах, в качестве альтернативы можно воспользоваться сайтами %sменеджеров проектов%s, такими как %sGridRepublic%s или %sBAM!%s."
+
+# If you have any questions, or need help getting started, you can %stalk to a Volunteer Helper%s.
+msgid "HOME_P3"
+msgstr "Если у вас есть вопросы по установке, настройке и работе программ BOINC, вы можете задать их %sдобровольным помощникам%s."
+
+# More info
+msgid "HOME_MORE_INFO"
+msgstr "Подробнее о BOINC"
+
+# Download
+msgid "HOME_DOWNLOAD"
+msgstr "Страница загрузки"
+
+# Web sites
+msgid "HOME_WEB_SITES"
+msgstr "Сайты"
+
+# Add-ons
+msgid "HOME_ADD_ONS"
+msgstr "Дополнения"
+
+# Survey
+msgid "HOME_SURVEY"
+msgstr "Опрос"
 

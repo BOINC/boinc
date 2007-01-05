@@ -1,0 +1,596 @@
+msgid ""
+msgstr ""
+"Project-Id-Version: 1.10\n"
+"POT-Creation-Date: \n"
+"PO-Revision-Date: 2007-01-03 20:15+0800\n"
+"Last-Translator: Yin Gang <zenith.yin@gmail.com>\n"
+"Language-Team: www.EQUN.com <zenith.yin@gmail.com>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=utf-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"X-Poedit-Language: Chinese\n"
+"X-Poedit-Country: CHINA\n"
+
+##########################################
+# Language: English (International)
+# FileID  : $Id$
+##########################################
+# For more information please see:
+# http://boinc.berkeley.edu/web_translation.php
+##########################################
+# The charset used for the text in this file (please try to use UTF-8 if possible)
+msgid "CHARSET"
+msgstr "UTF-8"
+
+# The name of this language in this language
+msgid "LANG_NAME_NATIVE"
+msgstr "简体中文"
+
+# The name of this language in an international language (English)
+msgid "LANG_NAME_INTERNATIONAL"
+msgstr "Simplified Chinese"
+
+########################################
+# poll-related stuff
+########################################
+msgid "POLL_TITLE"
+msgstr "BOINC用户调查"
+
+msgid "POLL_INTRO"
+msgstr "包括Climateprediction.net、Einstein@home和SETI@home在内的几个志愿计算项目都使用一个称之为BOINC的软件。如果您参加了这些项目，我们希望您能回答下面的问题。这将能帮助所有基于BOINC的项目提高它们的用户参与度并得到更好的科研成果。<p>请尽可能多回答一些问题，然后点击页面最底部的确定按钮。如果您之前完成过这个调查，但现在有了不同的回答，请重新填写调查 － 您的新回答将会取代旧的。<p>要查看当前的调查结果请点击<a href=poll_results.php>这里</a>。"
+
+msgid "POLL_RUN"
+msgstr "您使用BOINC吗？"
+
+msgid "POLL_PARTICIPATION"
+msgstr "您的参与情况"
+
+msgid "POLL_COMPUTERS"
+msgstr "您的计算机"
+
+msgid "POLL_YOU"
+msgstr "关于您自己"
+
+msgid "POLL_NATIONALITY"
+msgstr "国家或地区"
+
+msgid "POLL_COMMENTS"
+msgstr "备注"
+
+msgid "POLL_COMMENTS_QUESTION"
+msgstr "请对BOINC及使用BOINC的项目提出您的改进意见："
+
+msgid "POLL_OTHER"
+msgstr "其它："
+
+msgid "POLL_CHECK_ALL"
+msgstr "[请选择所有符合的项目]"
+
+msgid "POLL_DONE"
+msgstr "已完成调查，请点击："
+
+msgid "POLL_CURRENT"
+msgstr "是的 － 我已经在我的计算机上运行BOINC..."
+
+msgid "POLL_TWEEK"
+msgstr "不到一个星期"
+
+msgid "POLL_TMONTH"
+msgstr "不到一个月"
+
+msgid "POLL_TYEAR"
+msgstr "不到一年"
+
+msgid "POLL_TMOREYEAR"
+msgstr "超过一年"
+
+msgid "POLL_LAPSED"
+msgstr "没有 － 我曾经运行过，但已经停止了，因为..."
+
+msgid "POLL_LINTEREST"
+msgstr "没兴趣了"
+
+msgid "POLL_LCOMPLICATED"
+msgstr "软件太复杂"
+
+msgid "POLL_LSTOPPED"
+msgstr "我暂停了软件之后忘记重新启动了"
+
+msgid "POLL_LPROBLEMS"
+msgstr "软件让我的机器出毛病了"
+
+msgid "POLL_LPOWER"
+msgstr "它太浪费电"
+
+msgid "POLL_LNONBOINC"
+msgstr "我转向了一个非BOINC的计算项目"
+
+msgid "POLL_FAILED"
+msgstr "没有 － 我试图运行BOINC，但是..."
+
+msgid "POLL_FINSTALL"
+msgstr "软件安装不正确"
+
+msgid "POLL_FFIGURE"
+msgstr "我不知道怎么使用这个软件"
+
+msgid "POLL_FNETWORK"
+msgstr "我的网络通讯有问题"
+
+msgid "POLL_FATTACH"
+msgstr "我没法加入项目"
+
+msgid "POLL_FWORK"
+msgstr "我加入了项目，但总是下载不到任何任务包"
+
+msgid "POLL_NEVER"
+msgstr "没有 － 我还从来没用过，因为..."
+
+msgid "POLL_NSECURITY"
+msgstr "我担心它的安全性"
+
+msgid "POLL_NPROJECT"
+msgstr "没有一个项目能引起我的兴趣"
+
+msgid "POLL_NPERMISSION"
+msgstr "我没有获准在我机器上运行这个软件"
+
+msgid "POLL_NVERSION"
+msgstr "没有适合我的计算机的版本"
+
+msgid "POLL_KIND"
+msgstr "您在什么计算机上运行BOINC？"
+
+msgid "POLL_WHERE"
+msgstr "您使用的计算机在哪里？"
+
+msgid "POLL_HOME"
+msgstr "家里"
+
+msgid "POLL_WORK"
+msgstr "公司"
+
+msgid "POLL_SCHOOL"
+msgstr "学校"
+
+msgid "POLL_HOW_MANY"
+msgstr "总共有多少台计算机？"
+
+msgid "POLL_TURNED_ON"
+msgstr "平均来说，这些计算机一天开机多少小时？"
+
+msgid "POLL_AGE"
+msgstr "年龄"
+
+msgid "POLL_SEX"
+msgstr "性别"
+
+msgid "POLL_MALE"
+msgstr "男"
+
+msgid "POLL_FEMALE"
+msgstr "女"
+
+msgid "POLL_EXPERTISE"
+msgstr "您使用计算机的水平"
+
+msgid "POLL_LEVB"
+msgstr "初学"
+
+msgid "POLL_LEVI"
+msgstr "中等"
+
+msgid "POLL_LEVA"
+msgstr "熟练"
+
+msgid "POLL_LEARN_WHERE"
+msgstr "您从哪里了解BOINC平台上的项目？"
+
+msgid "POLL_WTV"
+msgstr "电视/广播/报纸"
+
+msgid "POLL_WPERS"
+msgstr "朋友、亲戚或同事"
+
+msgid "POLL_WTEAM"
+msgstr "团队的留言板或网站"
+
+msgid "POLL_WBOINC"
+msgstr "BOINC官方网站"
+
+msgid "POLL_WWEB"
+msgstr "其它网站"
+
+msgid "POLL_FACTOR"
+msgstr "在您决定参加某个BOINC项目时，哪些因素在您看来最为重要？"
+
+msgid "POLL_GRAPHICS"
+msgstr "好看的屏保"
+
+msgid "POLL_CREDIT_FAIR"
+msgstr "任务完成后能够公平而且快速地得到积分"
+
+msgid "POLL_CREDIT_MORE"
+msgstr "从这个项目可以得到比其它项目更多的积分"
+
+msgid "POLL_MB_FRIENDLY"
+msgstr "有帮助的并且友好的项目留言板"
+
+msgid "POLL_MB_STAFF"
+msgstr "项目人员积极参与到留言板的讨论中"
+
+msgid "POLL_WEB_SITE"
+msgstr "内容丰富的项目网站"
+
+msgid "POLL_SCIENCE_IMPORTANT"
+msgstr "研究内容重要而且有实用价值"
+
+msgid "POLL_SCIENCE_PUBLIC"
+msgstr "非赢利，研究成果公开"
+
+msgid "POLL_RECOGNIZE"
+msgstr "如果用户的计算机发现了什么，能对其功劳进行认可"
+
+msgid "POLL_PUBLISH"
+msgstr "项目能在科学刊物上发表文章"
+
+msgid "POLL_EMAIL"
+msgstr "能定期从项目收到新闻邮件"
+
+msgid "POLL_NPROJECTS"
+msgstr "您参加了多少个BOINC项目？"
+
+msgid "POLL_SSAVER"
+msgstr "您是通过屏保方式运行BOINC吗？"
+
+msgid "POLL_YES"
+msgstr "是的"
+
+msgid "POLL_NO"
+msgstr "不是"
+
+msgid "POLL_MBOARDS"
+msgstr "您如何使用项目的留言板："
+
+msgid "POLL_MBR"
+msgstr "只是阅读消息"
+
+msgid "POLL_MBRW"
+msgstr "阅读并发表消息"
+
+msgid "POLL_NONE"
+msgstr "不使用"
+
+msgid "POLL_HELP"
+msgstr "如果碰到BOINC的或基于BOINC的项目的问题，您会去哪寻求帮助？"
+
+msgid "POLL_HELP_PMB"
+msgstr "项目留言板"
+
+msgid "POLL_HELP_BMB"
+msgstr "BOINC官方网站的留言板"
+
+msgid "POLL_HELP_BDOC"
+msgstr "BOINC官方网站"
+
+msgid "POLL_HELP_BMLIST"
+msgstr "BOINC邮件列表"
+
+msgid "POLL_HELP_WIKI"
+msgstr "非官方的BOINC维基"
+
+msgid "POLL_HELP_TEAM"
+msgstr "团队网站"
+
+msgid "POLL_HELP_GOOGLE"
+msgstr "Google或其它搜索引擎"
+
+msgid "POLL_ERROR_TITLE"
+msgstr "错误 － 调查结果未保存"
+
+msgid "POLL_ERROR_TEXT"
+msgstr "一个内部错误导致我们无法保存您的调查结果，请稍后重试。"
+
+msgid "POLL_RECORDED"
+msgstr "调查结果已保存"
+
+msgid "POLL_THANKS"
+msgstr "感谢您完成了BOINC用户调查。"
+
+msgid "POLL_RESULTS_TITLE"
+msgstr "调查结果"
+
+msgid "POLL_RESULTS_TEXT"
+msgstr "下面是<a href=poll.php>BOINC用户调查</a>的当前统计结果，该页面每小时更新一次。"
+
+########################################
+# download.php 2006/08/03 by je2bwm
+########################################
+msgid "DL_DOWNLOAD"
+msgstr "下载BOINC"
+
+msgid "DL_VERSION_LNAME_SIZE"
+msgstr "%s 用于 %s (%s兆字节)"
+
+msgid "DL_WHATS_BOINC"
+msgstr " BOINC使得您可以把计算机的闲置时间捐献给如SETI@home、Einstein@home、Climateprediction.net、Rosetta@home、World Commnunity Grid等等许多科研项目。<p>在将BOINC安装到您的计算机上之后，您可以加入任意多个您喜欢的项目。<p>"
+
+msgid "DL_SYSTEMREQ"
+msgstr "系统需求"
+
+msgid "DL_RELNOTES"
+msgstr "发行说明"
+
+msgid "DL_OTHERSYS"
+msgstr "其它系统"
+
+msgid "DL_ALLVERSIONS"
+msgstr "所有版本"
+
+msgid "DL_IF_OTHERTYPES"
+msgstr "如果您的计算机不属于上面任何一种类型，您可以"
+
+msgid "DL_MAKEYOUROWN"
+msgstr "%s 制作您自己的客户端软件 %s 或者"
+
+msgid "DL_DL_FROM3RDP"
+msgstr "%s 从第三方网站下载相应的可执行文件 %s (包括Solaris/Opteron、Linux/Opteron、 Linux/PPC、HP-UX以及FreeBSD等等)。"
+
+msgid "DL_DOWNLOAD_TITLE"
+msgstr "BOINC：为科学而计算"
+
+##############################################
+# system_requirements.php by je2bwm 2006/08/07
+##############################################
+msgid "SRQ_PAGE_TITLE"
+msgstr "系统需求"
+
+msgid "SRQ_INTRO"
+msgstr "要运行BOINC，您的计算机必须满足如下需求。基于BOINC的计算项目可能会有额外的配置需求。"
+
+msgid "SRQ_MSWIN"
+msgstr "Windows"
+
+msgid "SRQ_OS"
+msgstr "操作系统"
+
+msgid "SRQ_MSWIN_REQ_OS"
+msgstr "Windows 98以及之后的所有版本"
+
+msgid "SRQ_MIN_HARDWARE"
+msgstr "最低硬件配置"
+
+msgid "SRQ_MSWIN_REQ_CPU"
+msgstr "主频233MHz的处理器（推荐使用主频为500MHz以上的处理器）"
+
+msgid "SRQ_MSWIN_REQ_RAM"
+msgstr "64兆内存（推荐具备128兆以上的内存）"
+
+msgid "SRQ_MSWIN_REQ_DISK"
+msgstr "20兆硬盘空间"
+
+msgid "SRQ_APPLMAC"
+msgstr "Macintosh"
+
+msgid "SRQ_APPLMAC_REQ_OS"
+msgstr "10.3或更新版本的Mac OS X"
+
+msgid "SRQ_APPLMAC_REQ_CPU"
+msgstr "配备有Intel x86处理器或PowerPC G3、G4、G5处理器的Macintosh计算机"
+
+msgid "SRQ_APPLMAC_REQ_RAM"
+msgstr "128兆内存（推荐具备256兆以上的内存）"
+
+msgid "SRQ_APPLMAC_REQ_DISK"
+msgstr "200兆硬盘空间"
+
+msgid "SRQ_LINUX"
+msgstr "Linux"
+
+msgid "SRQ_LINUX_REQ_KERNEL"
+msgstr "2.2.14或更新版本的Linux内核"
+
+msgid "SRQ_LINUX_REQ_GLIBC"
+msgstr "glibc 2.3.2 or higher"
+
+msgid "SRQ_LINUX_REQ_XFREE86"
+msgstr "3.3.6或更新版本的XFree86"
+
+msgid "SRQ_LINUX_REQ_GTKPLUS"
+msgstr "2.0或更新版本的gtk+"
+
+msgid "SRQ_LINUX_REQ_CPU"
+msgstr "主频500MHz以上的处理器"
+
+msgid "SRQ_LINUX_REQ_RAM"
+msgstr "64兆内存"
+
+msgid "SRQ_LINUX_REQ_DISK"
+msgstr "50兆硬盘空间"
+
+##############################################
+# release notes by je2bwm 2006/08/09
+##############################################
+msgid "RLN_PAGE_TITLE"
+msgstr "发行说明"
+
+msgid "RLN_WHATS_NEW"
+msgstr "%s的新特性"
+
+msgid "RLN_INSTALLING"
+msgstr "安装"
+
+msgid "RLN_UNINSTALLING"
+msgstr "卸载"
+
+msgid "RLN_KNOWN_ISSUES"
+msgstr "已知问题"
+
+msgid "RLN_TROUBLESHOOT"
+msgstr "疑难解答"
+
+msgid "RLN_NEWF_5_4_AM"
+msgstr "支持“帐号管理器” － 通过相应的网站，您将只需几次点击即可完成浏览BOINC项目、加入或退出BOINC项目、调整资源分享率及修改其它参数等各种操作。如果您拥有多台计算机，帐号管理器也是相当有用的 － 很多操作您将只需要修改一次就可以了。"
+
+msgid "RLN_NEWF_5_4_PREF_OVERRIDE"
+msgstr "可以通过在本地设置一个文件来替代通用的参数设置，详细信息请看%s这里%s。"
+
+msgid "RLN_NEWF_5_4_ALERTS_CONNECT"
+msgstr "BOINC在需要网络连接时会通知用户。"
+
+msgid "RLN_RECOMMEND_LATEST_VERSION"
+msgstr "我们推荐所有BOINC用户都升级到%s。"
+
+msgid "RLN_LINK2_VERSION_HISTORY"
+msgstr "详细的版本更新历史请看%s这里%s。"
+
+msgid "RLN_MSWIN"
+msgstr "Windows"
+
+msgid "RLN_APPLMAC"
+msgstr "Macintosh"
+
+msgid "RLN_LINUX"
+msgstr "Linux"
+
+msgid "RLN_MSWIN_INSTALL_MODES"
+msgstr "BOINC可以使用下面任何一种安装模式："
+
+msgid "RLN_SINGLE_USER_INSTALL"
+msgstr "单用户安装模式"
+
+msgid "RLN_MSWIN_INSTALL_SINGLE_USER_DESC"
+msgstr "推荐模式。BOINC将在您（也就是运行安装程序的用户）登录时运行。BOINC只会被显示在您的开始菜单中。BOINC管理器中“显示图形”的操作也只对您有效。BOINC屏保也只会为您显示计算程序的图形（其它用户也能运行屏保，但只会看到一些文本信息）。"
+
+msgid "RLN_SHARED_INSTALL"
+msgstr "共享安装模式"
+
+msgid "RLN_MSWIN_INSTALL_SHARED_DESC"
+msgstr "BOINC将在任何用户登录之后运行。BOINC会显示在所有用户的开始菜单中。BOINC会运行在某个特定的用户帐号下（第一位登录的用户，或者第一位运行BOINC的用户）。BOINC管理器中的“显示图形”操作只对该用户有效。BOINC屏保也只会为该用户显示计算程序的图形（其它用户也能运行屏保，但只会看到一些文本信息）。"
+
+msgid "RLN_WIN_SERVICE_INSTALL"
+msgstr "系统服务安装模式"
+
+msgid "RLN_MSWIN_INSTALL_WINSERVICE_DESC"
+msgstr "BOINC会一直运行（即使用户没有登录）。BOINC只会显示在安装用户的开始菜单中。BOINC管理器中的“显示图形”操作对所有用户有效。BOINC屏保将只显示文本信息。"
+
+msgid "RLN_LINUX_INSTALL_SEA_DESC"
+msgstr "Linux平台上的BOINC是作为一个自解压档案来发布的。这将需要您对UNIX的命令行操作界面有一定了解。"
+
+msgid "RLN_LINUX_DL_FILENAME"
+msgstr "安装文件的文件名类似于<code>%s</code>。"
+
+msgid "RLN_LINUX_RUN_SEA"
+msgstr "下载完成后，输入<pre>%s</pre>"
+
+msgid "RLN_LINUX_RESULTOF_SEA"
+msgstr "该操作将创建一个包含如下文件的BOINC目录："
+
+msgid "RLN_BOINC_CORE_CL"
+msgstr "BOINC核心客户端"
+
+msgid "RLN_BOINC_MANAGER"
+msgstr "BOINC管理器"
+
+msgid "RLN_SCRIPT_RUN_CLIENT_DESC"
+msgstr "一个脚本，运行后进入BOINC目录并运行核心客户端。"
+
+msgid "RLN_SCRIPT_RUN_MANAGER_DESC"
+msgstr "一个脚本，运行后进入BOINC目录并运行BOINC管理器。"
+
+msgid "RLN_LINUX_AUTOSTART"
+msgstr "您也许会想要在启动时%s自动运行核心客户端%s。"
+
+msgid "RLN_MSWIN_UNINSTALL_DESC"
+msgstr "在开始菜单中依次选择“程序 / BOINC / Uninstall”，或者在控制面板的“添加删除程序”中进行卸载。"
+
+msgid "RLN_ISSUE_PROXY_NTLMAUTH"
+msgstr "如果您使用代理服务器，请暂时不要升级。我们已经修正了对使用NTLM认证的代理服务器的使用。"
+
+msgid "RLN_ISSUE_MSWIN_LATEST_DIRECTX"
+msgstr "如果BOINC程序在您的计算机上反复出错，有可能您需要%s升级至最新版本的DirectX%s。"
+
+msgid "RLN_ISSUE_MSWIN_SCREENSAVER_XP3D"
+msgstr "如果BOINC运行时也启动了Windows XP的3D屏保，系统将变得很慢，可能失去响应。"
+
+msgid "RLN_ISSUE_MSWIN_NO_SCREENSAVER"
+msgstr "2004年10月前生成的应用程序在系统服务安装模式或共享安装模式下将无法显示屏保图形，如果在基于NT的计算机上使用了带密码保护的屏保，那在单用户安装模式下也将无法显示图形。"
+
+msgid "RLN_TROUBLESHOOT_INTRO"
+msgstr "如果您在使用BOINC的过程中碰到问题，可以采取如下解决方法："
+
+msgid "RLN_TROUBLESHOOT_PRJ_SPECIFIC"
+msgstr "如果该问题是针对特定项目，请访问该项目网站的“疑难解答”区域。也许可以找到问题的解决方法，如果没有，请将问题张贴上去， 您将会得到其它用户的帮助。"
+
+msgid "RLN_TROUBLESHOOT_PROBLEM_PERSIST"
+msgstr "如果项目特定的问题一直存在，请在BOINC管理器中“重置”该项目。该操作将清除该项目所有运行中的工作，从头开始。"
+
+msgid "RLN_TROUBLESHOOT_BOINC_ITSELF"
+msgstr "如果您的问题是关于BOINC本身，请访问%sBOINC官方网站的留言板%s以寻求帮助。"
+
+##############################################
+# help.php
+##############################################
+msgid "HELP_TITLE"
+msgstr "从BOINC得到帮助"
+
+msgid "HELP_HEADING1"
+msgstr "在线帮助"
+
+msgid "HELP_P1_1"
+msgstr "BOINC的在线帮助让您可以一对一地与有经验的BOINC用户进行交谈，他们可以：%s回答您关于BOINC以及志愿计算的问题；%s带您完成安装及使用BOINC的过程；%s解决您可能有的任何问题。"
+
+msgid "HELP_P1_2"
+msgstr "BOINC的在线帮助基于%sSkype%s，一个基于互联网的电话系统。Skype可以免费使用（包括软件本身及使用该软件进行通话）。如果您还没没有Skype，请%s现在就下载并安装它%s。当您完成后再回到这个页面。"
+
+msgid "HELP_P1_3"
+msgstr "得到帮助的最好途径是通过声音，您的计算机必须拥有一个内置的麦克和扬声器或处接的耳麦。另外，您也可以使用Skype的文本聊天系统和志愿帮助者进行交流。"
+
+msgid "HELP_P1_4"
+msgstr "志愿帮助者们使用的语言有如下几种，请选择一种："
+
+msgid "HELP_HEADING2"
+msgstr "其它获取帮助的来源"
+
+msgid "HELP_P2_1"
+msgstr "您还可以从如下地方获取帮助：%sBOINC官方网站%s；%sBOINC相关网站%s；%sBOINC官方网站的留言板%s；%s任何基于BOINC的计算项目的留言板。"
+
+msgid "HELP_HEADING3"
+msgstr "成为一位志愿帮助者"
+
+msgid "HELP_P3_1"
+msgstr "如果您是一位有经验的BOINC用户，我们鼓励您%s成为一位志愿帮助者%s。这对于科学研究和志愿计算都大有益处 － 而且还很有趣！"
+
+msgid "HELP_P3_2"
+msgstr "如果您已经是一位志愿帮助者并且想要编辑您的参数设置，请%s点击这里%s。"
+
+##############################################
+# index.php
+##############################################
+msgid "HOME_HEADING1"
+msgstr "志愿者"
+
+msgid "HOME_P1"
+msgstr "只需要简单并且安全的几个操作，就可以将计算机（包括Windows、Mac以及Linux）的闲置时间用来帮助治疗疾病、研究全球变暖、发现脉冲星以及其它多种类型的科学研究：%s选择%s项目  %s下载%s并运行BOINC软件  %s输入%s项目网址、您的电子邮件地址以及项目密码。"
+
+msgid "HOME_P2"
+msgstr "如果参加了多个项目，您可以使用%s帐号管理器%s来简化您的日常操作，比如%sGridRepublic%s或者%sBAM!%s。"
+
+msgid "HOME_P3"
+msgstr "如果有任何相关问题，或者需要一些帮助，您还可以%s和很乐意帮忙的志愿者们进行交谈%s。"
+
+msgid "HOME_MORE_INFO"
+msgstr "更多信息"
+
+msgid "HOME_DOWNLOAD"
+msgstr "下载"
+
+msgid "HOME_WEB_SITES"
+msgstr "网站"
+
+msgid "HOME_ADD_ONS"
+msgstr "辅助工具"
+
+msgid "HOME_SURVEY"
+msgstr "调查"
+
