@@ -67,22 +67,28 @@ UINT CARestoreSetupState::OnExecution()
     tstring     strEnableScreensaver;
     tstring     strServiceDomain;
     tstring     strServiceUsername;
+    tstring     strSetupStateStored;
 
-    GetRegistryValue( _T("INSTALLDIR"), strInstallDirectory );
-    GetRegistryValue( _T("SETUPTYPE"), strSetupType );
-    GetRegistryValue( _T("LAUNCHPROGRAM"), strLaunchProgram );
-    GetRegistryValue( _T("ENABLELAUNCHATLOGON"), strEnableLaunchAtLogon );
-    GetRegistryValue( _T("ENABLESCREENSAVER"), strEnableScreensaver );
-    GetRegistryValue( _T("SERVICE_DOMAIN"), strServiceDomain );
-    GetRegistryValue( _T("SERVICE_USERNAME"), strServiceUsername );
+    GetRegistryValue( _T("SETUPSTATESTORED"), strSetupStateStored );
+    if (strSetupStateStored == _T("TRUE")) {
 
-    SetProperty( _T("INSTALLDIR"), strInstallDirectory );
-    SetProperty( _T("SETUPTYPE"), strSetupType );
-    SetProperty( _T("LAUNCHPROGRAM"), strLaunchProgram );
-    SetProperty( _T("ENABLELAUNCHATLOGON"), strEnableLaunchAtLogon );
-    SetProperty( _T("ENABLESCREENSAVER"), strEnableScreensaver );
-    SetProperty( _T("SERVICE_DOMAIN"), strServiceDomain );
-    SetProperty( _T("SERVICE_USERNAME"), strServiceUsername );
+        GetRegistryValue( _T("INSTALLDIR"), strInstallDirectory );
+        GetRegistryValue( _T("SETUPTYPE"), strSetupType );
+        GetRegistryValue( _T("LAUNCHPROGRAM"), strLaunchProgram );
+        GetRegistryValue( _T("ENABLELAUNCHATLOGON"), strEnableLaunchAtLogon );
+        GetRegistryValue( _T("ENABLESCREENSAVER"), strEnableScreensaver );
+        GetRegistryValue( _T("SERVICE_DOMAIN"), strServiceDomain );
+        GetRegistryValue( _T("SERVICE_USERNAME"), strServiceUsername );
+
+        SetProperty( _T("INSTALLDIR"), strInstallDirectory );
+        SetProperty( _T("SETUPTYPE"), strSetupType );
+        SetProperty( _T("LAUNCHPROGRAM"), strLaunchProgram );
+        SetProperty( _T("ENABLELAUNCHATLOGON"), strEnableLaunchAtLogon );
+        SetProperty( _T("ENABLESCREENSAVER"), strEnableScreensaver );
+        SetProperty( _T("SERVICE_DOMAIN"), strServiceDomain );
+        SetProperty( _T("SERVICE_USERNAME"), strServiceUsername );
+
+    }
 
     return ERROR_SUCCESS;
 }

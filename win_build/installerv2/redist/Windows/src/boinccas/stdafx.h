@@ -70,11 +70,14 @@
 #include <cstdio>
 #include <string>
 #include <iostream>
+#include <sstream>
 
 #ifdef _UNICODE
 #define tstring std::wstring
+#define tostringstream std::wostringstream
 #else
 #define tstring std::string
+#define tostringstream std::ostringstream
 #endif
 
 

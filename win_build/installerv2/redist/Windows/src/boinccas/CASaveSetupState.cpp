@@ -67,6 +67,9 @@ UINT CASaveSetupState::OnExecution()
     tstring     strEnableScreensaver;
     tstring     strServiceDomain;
     tstring     strServiceUsername;
+    tstring     strSetupStateStored;
+
+    strSetupStateStored = _T("TRUE");
 
     GetProperty( _T("INSTALLDIR"), strInstallDirectory );
     GetProperty( _T("SETUPTYPE"), strSetupType );
@@ -83,6 +86,7 @@ UINT CASaveSetupState::OnExecution()
     SetRegistryValue( _T("ENABLESCREENSAVER"), strEnableScreensaver );
     SetRegistryValue( _T("SERVICE_DOMAIN"), strServiceDomain );
     SetRegistryValue( _T("SERVICE_USERNAME"), strServiceUsername );
+    SetRegistryValue( _T("SETUPSTATESTORED"), strSetupStateStored );
 
     return ERROR_SUCCESS;
 }

@@ -516,11 +516,8 @@ UINT BOINCCABase::GetRegistryValue(
     );
 
     // Allocate the buffer space.
-    lpszRegistryValue = (LPTSTR)HeapAlloc(GetProcessHeap(), NULL, dwSize);
-    if ( NULL == lpszRegistryValue ) {
-    	RegCloseKey(hkSetupHive);
-        return ERROR_INSTALL_FAILURE;
-    }
+    lpszRegistryValue = (LPTSTR) malloc(dwSize);
+    (*lpszRegistryValue) = NULL;
 
     // Now get the data
     lReturnValue = RegQueryValueEx( 
@@ -533,11 +530,11 @@ UINT BOINCCABase::GetRegistryValue(
     );
 
     // Send up the returned value.
-    if (lReturnValue == ERROR_SUCCESS) strValue = tstring(lpszRegistryValue);
+    if (lReturnValue == ERROR_SUCCESS) strValue = lpszRegistryValue;
 
     // Cleanup
 	RegCloseKey(hkSetupHive);
-    HeapFree(GetProcessHeap(), NULL, lpszRegistryValue);
+    free(lpszRegistryValue);
 
     // One last check to make sure everything is on the up and up.
     if (lReturnValue != ERROR_SUCCESS) return ERROR_INSTALL_FAILURE;
