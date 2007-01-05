@@ -310,7 +310,7 @@ void CPanelPreferences::CreateControls()
     wxBoxSizer* itemBoxSizer12 = new wxBoxSizer(wxHORIZONTAL);
     itemBoxSizer11->Add(itemBoxSizer12, 0, wxALIGN_LEFT|wxALL, 0);
 
-    m_CustomizePreferencesCtrl = new wxCheckBox( itemDialog1, ID_CUSTOMIZEPREFERENCES, _(""), wxDefaultPosition, wxDefaultSize, wxCHK_2STATE );
+    m_CustomizePreferencesCtrl = new wxCheckBox( itemDialog1, ID_CUSTOMIZEPREFERENCES, wxT(""), wxDefaultPosition, wxDefaultSize, wxCHK_2STATE );
     m_CustomizePreferencesCtrl->SetValue(false);
     itemBoxSizer12->Add(m_CustomizePreferencesCtrl, 0, wxALIGN_CENTER_VERTICAL|wxALL, 5);
 
