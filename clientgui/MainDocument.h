@@ -115,7 +115,7 @@ public:
     bool                        IsConnected();
     bool                        IsReconnecting();
 
-    int                         GetCoreClientStatus(CC_STATUS&);
+    int                         GetCoreClientStatus(CC_STATUS&, bool bForce = false);
     int                         SetActivityRunMode(int iMode, int iTimeout);
     int                         SetNetworkRunMode(int iMode, int iTimeout);
 

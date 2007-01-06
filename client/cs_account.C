@@ -392,7 +392,7 @@ int PROJECT::write_statistics_file() {
 }
 
 int CLIENT_STATE::add_project(
-    const char* master_url, const char* _auth,
+    const char* master_url, const char* _auth, const char* project_name,
     bool attached_via_acct_mgr
 ) {
     char path[256], canonical_master_url[256], auth[256], dir[256];
@@ -427,6 +427,7 @@ int CLIENT_STATE::add_project(
     project = new PROJECT;
     strcpy(project->master_url, canonical_master_url);
     strcpy(project->authenticator, auth);
+    strcpy(project->project_name, project_name);
     project->attached_via_acct_mgr = attached_via_acct_mgr;
 
     project->tentative = true;
@@ -497,6 +498,14 @@ void PROJECT::attach_failed(int error_num) {
             "BOINC was unable to create an account file for %s on your disk.\n"
             "Please check file system permissions and try again.",
             master_url
+        );
+        break;
+    case ERR_ATTACH_FAIL_SERVER_ERROR:
+        msg_printf(this, MSG_ERROR, "Can't attach - server error");
+        break;
+    default:
+        msg_printf(this, MSG_ERROR,
+            "Can't attach - unknown error %d", error_num
         );
         break;
     }

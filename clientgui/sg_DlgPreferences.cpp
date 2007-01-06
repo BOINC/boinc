@@ -32,6 +32,7 @@
 #include "BOINCGUIApp.h"
 #include "SkinManager.h"
 #include "MainDocument.h"
+#include "hyperlink.h"
 #include "sg_CustomControls.h"
 #include "sg_DlgPreferences.h"
 
@@ -207,6 +208,7 @@ BEGIN_EVENT_TABLE( CPanelPreferences, wxPanel )
     EVT_CHECKBOX( ID_CUSTOMIZEPREFERENCES, CPanelPreferences::OnCustomizePreferencesClick )
     EVT_COMBOBOX( ID_WORKBETWEENBEGIN, CPanelPreferences::OnWorkBetweenBeginSelected )
     EVT_COMBOBOX( ID_CONNECTBETWEENBEGIN, CPanelPreferences::OnConnectBetweenBeginSelected )
+    EVT_BUTTON(ID_SIMPLE_HELP, CPanelPreferences::OnButtonHelp)
 ////@end CPanelPreferences event table entries
 END_EVENT_TABLE()
 
@@ -309,7 +311,7 @@ void CPanelPreferences::CreateControls()
     wxBoxSizer* itemBoxSizer12 = new wxBoxSizer(wxHORIZONTAL);
     itemBoxSizer11->Add(itemBoxSizer12, 0, wxALIGN_LEFT|wxALL, 0);
 
-    m_CustomizePreferencesCtrl = new wxCheckBox( itemDialog1, ID_CUSTOMIZEPREFERENCES, _(""), wxDefaultPosition, wxDefaultSize, wxCHK_2STATE );
+    m_CustomizePreferencesCtrl = new wxCheckBox( itemDialog1, ID_CUSTOMIZEPREFERENCES, wxT(""), wxDefaultPosition, wxDefaultSize, wxCHK_2STATE );
     m_CustomizePreferencesCtrl->SetValue(false);
     itemBoxSizer12->Add(m_CustomizePreferencesCtrl, 0, wxALIGN_CENTER_VERTICAL|wxALL, 5);
 
@@ -452,18 +454,63 @@ void CPanelPreferences::CreateControls()
     wxBoxSizer* itemBoxSizer44 = new wxBoxSizer(wxHORIZONTAL);
     itemBoxSizer2->Add(itemBoxSizer44, 0, wxALIGN_RIGHT|wxALL, 5);
 
-    wxBitmapButton* itemBitmapButton44 = new wxBitmapButton( itemDialog1, wxID_OK, *pSkinSimple->GetSaveButton()->GetBitmap(), wxDefaultPosition, wxDefaultSize, wxBU_AUTODRAW );
+    wxBitmapButton* itemBitmapButton44 = new wxBitmapButton(
+        itemDialog1,
+        wxID_OK,
+        *pSkinSimple->GetSaveButton()->GetBitmap(),
+        wxDefaultPosition,
+        wxSize(
+            (*pSkinSimple->GetSaveButton()->GetBitmap()).GetWidth(),
+            (*pSkinSimple->GetSaveButton()->GetBitmap()).GetHeight()
+        ),
+        wxBU_AUTODRAW
+    );
 	if ( pSkinSimple->GetSaveButton()->GetBitmapClicked() != NULL ) {
 		itemBitmapButton44->SetBitmapSelected(*pSkinSimple->GetSaveButton()->GetBitmapClicked());
 	}
     itemBoxSizer44->Add(itemBitmapButton44, 0, wxALIGN_CENTER_VERTICAL|wxALL, 5);
 
-    wxBitmapButton* itemBitmapButton45 = new wxBitmapButton( itemDialog1, wxID_CANCEL, *pSkinSimple->GetCancelButton()->GetBitmap(), wxDefaultPosition, wxDefaultSize, wxBU_AUTODRAW );
+    wxBitmapButton* itemBitmapButton45 = new wxBitmapButton(
+        itemDialog1,
+        wxID_CANCEL,
+        *pSkinSimple->GetCancelButton()->GetBitmap(),
+        wxDefaultPosition,
+        wxSize(
+            (*pSkinSimple->GetCancelButton()->GetBitmap()).GetWidth(),
+            (*pSkinSimple->GetCancelButton()->GetBitmap()).GetHeight()
+        ),
+        wxBU_AUTODRAW
+    );
 	if ( pSkinSimple->GetCancelButton()->GetBitmapClicked() != NULL ) {
 		itemBitmapButton45->SetBitmapSelected(*pSkinSimple->GetCancelButton()->GetBitmapClicked());
 	}
     itemBoxSizer44->Add(itemBitmapButton45, 0, wxALIGN_CENTER_VERTICAL|wxALL, 5);
 
+#ifndef __WXMSW__
+#ifdef __WXMAC__
+	wxBitmapButton* itemButton46 = new wxBitmapButton(
+        this,
+        ID_SIMPLE_HELP,
+        *pSkinSimple->GetHelpButton()->GetBitmap(),
+        wxDefaultPosition,
+        wxSize(
+            (*pSkinSimple->GetHelpButton()->GetBitmap()).GetWidth(),
+            (*pSkinSimple->GetHelpButton()->GetBitmap()).GetHeight()
+        ),
+        wxBU_AUTODRAW
+    );
+	if ( pSkinSimple->GetHelpButton()->GetBitmapClicked() != NULL ) {
+		itemButton46->SetBitmapSelected(*pSkinSimple->GetHelpButton()->GetBitmapClicked());
+	}
+#ifdef wxUSE_TOOLTIPS
+	itemButton46->SetToolTip(new wxToolTip(_("Get help with BOINC")));
+#endif
+    itemBoxSizer44->Add(itemButton46, 0, wxALIGN_CENTER_VERTICAL|wxALL, 5);
+#else
+    wxContextHelpButton* itemButton45 = new wxContextHelpButton(this);
+    itemBoxSizer44->Add(itemButton45, 0, wxALIGN_CENTER_VERTICAL|wxALL, 5);
+#endif
+#endif
 
     // Set validators
     m_SkinSelectorCtrl->SetValidator( wxGenericValidator(& m_strSkinSelector) );
@@ -504,6 +551,25 @@ void CPanelPreferences::OnWorkBetweenBeginSelected( wxCommandEvent& /*event*/ ) 
 
 void CPanelPreferences::OnConnectBetweenBeginSelected( wxCommandEvent& /*event*/ ) {
     UpdateControlStates();
+}
+
+
+/*!
+ * wxEVT_COMMAND_BUTTON_CLICKED event handler for ID_SIMPLE_HELP
+ */
+
+void CPanelPreferences::OnButtonHelp( wxCommandEvent& WXUNUSED(event) ) {
+    wxLogTrace(wxT("Function Start/End"), wxT("CPanelPreferences::OnHelp - Function Begin"));
+
+	std::string url;
+	url = wxGetApp().GetSkinManager()->GetAdvanced()->GetCompanyWebsite().mb_str();
+	canonicalize_master_url(url);
+
+	wxString wxurl;
+	wxurl.Printf(wxT("%smanager_links.php?target=simple"), url.c_str());
+    wxHyperLink::ExecuteLink(wxurl);
+
+    wxLogTrace(wxT("Function Start/End"), wxT("CPanelPreferences::OnHelp - Function End"));
 }
 
 
@@ -917,6 +983,7 @@ IMPLEMENT_DYNAMIC_CLASS( CDlgPreferences, wxDialog )
 
 BEGIN_EVENT_TABLE( CDlgPreferences, wxDialog )
 ////@begin CDlgPreferences event table entries
+    EVT_HELP(wxID_ANY, CDlgPreferences::OnHelp)
     EVT_BUTTON( wxID_OK, CDlgPreferences::OnOK )
 ////@end CDlgPreferences event table entries
 END_EVENT_TABLE()
@@ -946,18 +1013,18 @@ bool CDlgPreferences::Create( wxWindow* parent, wxWindowID id, const wxString& c
     if (strCaption.IsEmpty()) {
         strCaption = _("BOINC Manager - Preferences");
     }
+
+    SetExtraStyle(GetExtraStyle()|wxDIALOG_EX_CONTEXTHELP|wxWS_EX_BLOCK_EVENTS);
+
     wxDialog::Create( parent, id, strCaption, pos, size, style );
 
+    Freeze();
 
+    SetForegroundColour(*wxBLACK);
 #ifdef __WXDEBUG__
     SetBackgroundColour(wxColour(255, 0, 255));
 #endif
     SetBackgroundStyle(wxBG_STYLE_CUSTOM);
-    SetForegroundColour(*wxBLACK);
-    SetExtraStyle(GetExtraStyle()|wxWS_EX_BLOCK_EVENTS);
-
-
-    Freeze();
 
     m_pBackgroundPanel = new CPanelPreferences(this);
     wxBoxSizer* itemBoxSizer = new wxBoxSizer(wxVERTICAL);
@@ -971,6 +1038,27 @@ bool CDlgPreferences::Create( wxWindow* parent, wxWindowID id, const wxString& c
     Thaw();
 
     return true;
+}
+
+
+/*!
+ * wxEVT_HELP event handler for ID_DLGPREFERENCES
+ */
+
+void CDlgPreferences::OnHelp(wxHelpEvent& event) {
+    wxLogTrace(wxT("Function Start/End"), wxT("CDlgPreferences::OnHelp - Function Begin"));
+
+    if (IsShown()) {
+		std::string url;
+		url = wxGetApp().GetSkinManager()->GetAdvanced()->GetCompanyWebsite().mb_str();
+		canonicalize_master_url(url);
+
+		wxString wxurl;
+		wxurl.Printf(wxT("%smanager_links.php?target=simple_preferences&controlid=%d"), url.c_str(), event.GetId());
+        wxHyperLink::ExecuteLink(wxurl);
+    }
+
+    wxLogTrace(wxT("Function Start/End"), wxT("CDlgPreferences::OnHelp - Function End"));
 }
 
 

@@ -72,6 +72,10 @@ public:
     void                ShowConnectionBadPasswordAlert();
     void                ShowConnectionFailedAlert();
     void                ShowNotCurrentlyConnectedAlert();
+
+    virtual void        StartTimers();
+    virtual void        StopTimers();
+
     void                UpdateStatusText( const wxChar* szStatus );
 
     void                ShowAlert( 

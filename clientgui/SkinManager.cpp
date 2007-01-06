@@ -50,6 +50,8 @@
 #include "res/skins/default/graphic/project_image.xpm"
 #include "res/skins/default/graphic/attach_project_button.xpm"
 #include "res/skins/default/graphic/attach_project_clicked_button.xpm"
+#include "res/skins/default/graphic/help_button.xpm"
+#include "res/skins/default/graphic/help_clicked_button.xpm"
 #include "res/skins/default/graphic/right_arrow_button.xpm"
 #include "res/skins/default/graphic/right_arrow_clicked_button.xpm"
 #include "res/skins/default/graphic/left_arrow_button.xpm"
@@ -64,8 +66,6 @@
 #include "res/skins/default/graphic/copy_all_clicked_button.xpm"
 #include "res/skins/default/graphic/copy_button.xpm"
 #include "res/skins/default/graphic/copy_clicked_button.xpm"
-#include "res/skins/default/graphic/help_button.xpm"
-#include "res/skins/default/graphic/help_clicked_button.xpm"
 #include "res/skins/default/graphic/messages_link_image.xpm"
 #include "res/skins/default/graphic/messages_alert_link_image.xpm"
 #include "res/skins/default/graphic/suspend_link_image.xpm"
@@ -638,6 +638,9 @@ int CSkinSimple::Parse(MIOFILE& in) {
         } else if (match_tag(buf, "<attach_project_button>")) {
             m_AttachProjectButton.Parse(in);
             continue;
+        } else if (match_tag(buf, "<help_button>")) {
+            m_HelpButton.Parse(in);
+            continue;
         } else if (match_tag(buf, "<right_arrow_button>")) {
             m_RightArrowButton.Parse(in);
             continue;
@@ -658,9 +661,6 @@ int CSkinSimple::Parse(MIOFILE& in) {
             continue;
         } else if (match_tag(buf, "<copy_button>")) {
             m_CopyButton.Parse(in);
-            continue;
-        } else if (match_tag(buf, "<help_button>")) {
-            m_HelpButton.Parse(in);
             continue;
         } else if (match_tag(buf, "<messages_link_image>")) {
             m_MessagesLink.Parse(in);
@@ -744,6 +744,9 @@ bool CSkinSimple::InitializeDelayedValidation() {
     m_AttachProjectButton.SetDefaults(
         wxT("attach project"), (const char**)attach_project_button_xpm, (const char**)attach_project_clicked_button_xpm
     );
+    m_HelpButton.SetDefaults(
+        wxT("help"), (const char**)help_button_xpm, (const char**)help_clicked_button_xpm
+    );
     m_RightArrowButton.SetDefaults(
         wxT("right arrow"), (const char**)right_arrow_button_xpm, (const char**)right_arrow_clicked_button_xpm
     );
@@ -764,9 +767,6 @@ bool CSkinSimple::InitializeDelayedValidation() {
     );
     m_CopyButton.SetDefaults(
         wxT("copy"), (const char**)copy_button_xpm, (const char**)copy_clicked_button_xpm
-    );
-    m_HelpButton.SetDefaults(
-        wxT("help"), (const char**)help_button_xpm, (const char**)help_clicked_button_xpm
     );
     m_MessagesLink.SetDefaults(
         wxT("messages link"), (const char**)messages_link_image_xpm

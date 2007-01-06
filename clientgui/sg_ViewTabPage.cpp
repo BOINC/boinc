@@ -189,7 +189,7 @@ void CViewTabPage::LoadSlideShow(std::vector<wxBitmap> *vSlideShow) {
 		sprintf(file, "%s/slideshow_%s_%02d", urlDirectory, result->app->name.c_str(), i);
 		if(boinc_resolve_filename(file, resolvedFile, sizeof(resolvedFile)) == 0){
 			btmpSlideShow = new wxBitmap();
-			if ( btmpSlideShow->LoadFile(resolvedFile, wxBITMAP_TYPE_ANY) ) {
+			if ( btmpSlideShow->LoadFile(wxString(resolvedFile,wxConvUTF8), wxBITMAP_TYPE_ANY) ) {
 				if (btmpSlideShow->Ok() ) {
 					vSlideShow->push_back(*btmpSlideShow);
 				}
@@ -204,7 +204,7 @@ void CViewTabPage::LoadSlideShow(std::vector<wxBitmap> *vSlideShow) {
 			sprintf(file, "%s/slideshow_%02d", urlDirectory, i);
 			if(boinc_resolve_filename(file, resolvedFile, sizeof(resolvedFile)) == 0){
 				btmpSlideShow = new wxBitmap();
-				if ( btmpSlideShow->LoadFile(resolvedFile, wxBITMAP_TYPE_ANY) ) {
+				if ( btmpSlideShow->LoadFile(wxString(resolvedFile,wxConvUTF8), wxBITMAP_TYPE_ANY) ) {
 					if (btmpSlideShow->Ok() ) {
 						vSlideShow->push_back(*btmpSlideShow);
 					}

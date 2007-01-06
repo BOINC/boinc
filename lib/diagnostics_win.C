@@ -1450,34 +1450,56 @@ int diagnostics_unhandled_exception_dump_banner() {
 // Capture the foreground window details for future use.
 //
 int diagnostics_capture_foreground_window(PBOINC_WINDOWCAPTURE window_info) {
+    DWORD dwType;
+    DWORD dwSize;
+    DWORD dwCaptureForegroundWindow;
 
-    window_info->hwnd = GetForegroundWindow();
-
-    window_info->window_thread_id = GetWindowThreadProcessId(
-        window_info->hwnd,
-        &window_info->window_process_id
+    // Check the registry to see if we are aloud to capture the foreground
+    //   window data. Many people were concerned about privacy issues.
+    //
+    // We'll turn it off by default, but keep it around just in case we need
+    //   it.
+    //
+    dwCaptureForegroundWindow = 0;
+    dwType = REG_DWORD;
+    dwSize = sizeof(dwCaptureForegroundWindow);
+    diagnostics_get_registry_value(
+        "CaptureForegroundWindow",
+        &dwType,
+        &dwSize,
+        (LPBYTE)&dwCaptureForegroundWindow
     );
 
-	// Only query the window text from windows in a different process space.
-	//   All threads that might have windows are suspended in this process
-	//   space and attempting to get the window text will deadlock the exception
-	//   handler.
-	if (window_info->window_process_id != GetCurrentProcessId()) {
-		GetWindowText(
-			window_info->hwnd, 
-			window_info->window_name,
-			sizeof(window_info->window_name)
-		);
 
-		GetClassName(
-			window_info->hwnd,
-			window_info->window_class,
-			sizeof(window_info->window_class)
-		);
-	} else {
-		strcpy(window_info->window_name, "");
-		strcpy(window_info->window_class, "");
-	}
+    if (dwCaptureForegroundWindow) {
+        window_info->hwnd = GetForegroundWindow();
+
+        window_info->window_thread_id = GetWindowThreadProcessId(
+            window_info->hwnd,
+            &window_info->window_process_id
+        );
+
+	    // Only query the window text from windows in a different process space.
+	    //   All threads that might have windows are suspended in this process
+	    //   space and attempting to get the window text will deadlock the exception
+	    //   handler.
+	    if (window_info->window_process_id != GetCurrentProcessId()) {
+		    GetWindowText(
+			    window_info->hwnd, 
+			    window_info->window_name,
+			    sizeof(window_info->window_name)
+		    );
+
+		    GetClassName(
+			    window_info->hwnd,
+			    window_info->window_class,
+			    sizeof(window_info->window_class)
+		    );
+	    } else {
+		    strcpy(window_info->window_name, "");
+		    strcpy(window_info->window_class, "");
+	    }
+    }
 
     return 0;
 }

@@ -122,6 +122,14 @@ const char** CBOINCBaseView::GetViewIcon() {
 }
 
 
+// The rate at which the view is refreshed.
+//   If it has not been defined by the view 1 second is retrned.
+//
+const int CBOINCBaseView::GetViewRefreshRate() {
+    return 1;
+}
+
+
 bool CBOINCBaseView::FireOnSaveState(wxConfigBase* pConfig) {
     return OnSaveState(pConfig);
 }

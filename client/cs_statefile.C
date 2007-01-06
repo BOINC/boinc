@@ -349,19 +349,6 @@ int CLIENT_STATE::parse_state_file() {
         } else if (parse_str(buf, "<host_venue>", main_host_venue, sizeof(main_host_venue))) {
         } else if (parse_double(buf, "<new_version_check_time>", new_version_check_time)) {
         } else if (parse_str(buf, "<newer_version>", newer_version)) {
-        } else if (match_tag(buf, "<auto_update>")) {
-            if (!project) {
-                msg_printf(NULL, MSG_ERROR,
-                    "auto update outside project in state file"
-                );
-                skip_unrecognized(buf, f);
-                continue;
-            }
-            retval = auto_update.parse(mf);
-            if (!retval) {
-                auto_update.present = true;
-                auto_update.project = project;
-            }
         } else {
             if (log_flags.unparsed_xml) {
                 msg_printf(0, MSG_ERROR,
@@ -500,9 +487,6 @@ int CLIENT_STATE::write_state(MIOFILE& f) {
             if (results[i]->project == p) results[i]->write(f, false);
         }
         p->write_project_files(f);
-        if (auto_update.present && auto_update.project==p) {
-            auto_update.write(f);
-        }
     }
     active_tasks.write(f);
     f.printf(
@@ -515,9 +499,9 @@ int CLIENT_STATE::write_state(MIOFILE& f) {
         "%s"
         "<new_version_check_time>%f</new_version_check_time>\n",
         platform_name,
-        core_client_major_version,
-        core_client_minor_version,
-        core_client_release,
+        core_client_version.major,
+        core_client_version.minor,
+        core_client_version.release,
         run_mode.get_perm(),
         network_mode.get_perm(),
         cpu_benchmarks_pending?"<cpu_benchmarks_pending/>\n":"",
@@ -670,9 +654,9 @@ int CLIENT_STATE::write_state_gui(MIOFILE& f) {
         "<core_client_release>%d</core_client_release>\n"
         "%s",
         platform_name,
-        core_client_major_version,
-        core_client_minor_version,
-        core_client_release,
+        core_client_version.major,
+        core_client_version.minor,
+        core_client_version.release,
         work_fetch_no_new_work?"<work_fetch_no_new_work/>\n":""
     );
 

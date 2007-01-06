@@ -94,13 +94,13 @@ void CLIENT_STATE::check_project_timeout() {
 	}
 }
 
-void PROJECT::set_min_rpc_time(double future_time) {
+void PROJECT::set_min_rpc_time(double future_time, const char* reason) {
     if (future_time > min_rpc_time) {
         min_rpc_time = future_time;
 		possibly_backed_off = true;
         msg_printf(this, MSG_INFO,
-            "Deferring scheduler requests for %s\n",
-            timediff_format(min_rpc_time - gstate.now).c_str()
+            "Deferring communication %s, because %s\n",
+            timediff_format(min_rpc_time - gstate.now).c_str(), reason
         );
     }
 }
@@ -290,9 +290,9 @@ int CLIENT_STATE::make_scheduler_request(PROJECT* p) {
         p->hostid,
         p->rpc_seqno,
         p->anonymous_platform?"anonymous":platform_name,
-        core_client_major_version,
-        core_client_minor_version,
-        core_client_release,
+        core_client_version.major,
+        core_client_version.minor,
+        core_client_version.release,
         p->work_request,
         resource_share_fraction,
         rrs_fraction,
@@ -961,7 +961,7 @@ int CLIENT_STATE::handle_scheduler_reply(
     if (sr.project_is_down) {
         if (sr.request_delay) {
             double x = gstate.now + sr.request_delay;
-			project->set_min_rpc_time(x);
+			project->set_min_rpc_time(x, "project is down");
         }
         return ERR_PROJECT_DOWN;
     }
@@ -1243,7 +1243,7 @@ int CLIENT_STATE::handle_scheduler_reply(
     //
     if (sr.request_delay) {
         double x = gstate.now + sr.request_delay;
-		project->set_min_rpc_time(x);
+		project->set_min_rpc_time(x, "requested by project");
     } else {
         project->min_rpc_time = 0;
     }
@@ -1272,10 +1272,6 @@ int CLIENT_STATE::handle_scheduler_reply(
         //msg_printf(project, MSG_INFO, "Changing host ID from %d to %d", project->hostid, sr.hostid);
         project->hostid = sr.hostid;
         project->rpc_seqno = 0;
-    }
-
-    if (sr.auto_update.present) {
-        sr.auto_update.handle_in_reply(project);
     }
 
     project->link_project_files(true);
@@ -1323,7 +1319,7 @@ void CLIENT_STATE::generate_new_host_cpid() {
     for (unsigned int i=0; i<projects.size(); i++) {
         if (projects[i]->attached_via_acct_mgr) {
             projects[i]->sched_rpc_pending = RPC_REASON_ACCT_MGR_REQ;
-            projects[i]->set_min_rpc_time(now + 15);
+            projects[i]->set_min_rpc_time(now + 15, "Sending new host CPID");
         }
     }
 }
