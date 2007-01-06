@@ -326,9 +326,9 @@ void CWelcomePage::OnPageChanged( wxWizardExEvent& event ) {
             strBuffer
         );
         strBuffer.Printf(
-            _("We'll now remove this computer from %s.  You will\n"
-              "be responsible for managing the BOINC client software from\n"
-              "now on."), 
+            _("We'll now remove this computer from %s.  From now on,\n"
+              "attach and detach projects directly from this computer.\n"
+              ), 
             pWAM->m_strProjectName.c_str()
         );
         m_pDescriptionStaticCtrl->SetLabel(

@@ -52,7 +52,7 @@ int CBOINCGridCtrl::GetFirstSelectedRow() {
 	if(selCells.size()>0) {
 		return selCells[0].GetRow();
 	}
-	
+
 	return ret;
 }
 
@@ -107,12 +107,33 @@ bool CBOINCGridCtrl::OnRestoreState(wxConfigBase* pConfig) {
 void CBOINCGridCtrl::SetColAlignment(int col,int hAlign,int vAlign) {
     wxGridCellAttr *attr = m_table->GetAttr(-1, col, wxGridCellAttr::Col );
 	if(!attr) {
-		attr = new wxGridCellAttr;    
+		attr = new wxGridCellAttr;
 	}
 	attr->SetAlignment(hAlign,vAlign);
     SetColAttr(col, attr);
 }
 
+void CBOINCGridCtrl::DrawTextRectangle( wxDC& dc,
+                                const wxString& value,
+                                const wxRect& rect,
+                                int horizAlign,
+                                int vertAlign,
+                                int textOrientation )
+{
+    wxArrayString lines;
+
+    StringToLines( value, lines );
+
+
+    //Forward to new API.
+    DrawTextRectangle(  dc,
+        lines,
+        rect,
+        horizAlign,
+        vertAlign,
+        textOrientation );
+
+}
 
 void CBOINCGridCtrl::DrawTextRectangle( wxDC& dc,
                                const wxArrayString& lines,
@@ -195,6 +216,7 @@ void CBOINCGridCtrl::DrawTextRectangle( wxDC& dc,
 
             if( textOrientation == wxHORIZONTAL )
             {
+				//changes applies here
 				wxString formattedText = FormatTextWithEllipses(dc,lines[l],rect.width);
                 dc.DrawText( formattedText, (int)x, (int)y );
                 y += lineHeight;
@@ -256,6 +278,42 @@ wxString CBOINCGridCtrl::FormatTextWithEllipses(wxDC& dc,const wxString &text,in
 	return retText;
 }
 
+void CBOINCGridCtrl::DrawColLabel( wxDC& dc, int col )
+{
+    if ( GetColWidth(col) <= 0 || m_colLabelHeight <= 0 )
+        return;
+
+    int colLeft = GetColLeft(col);
+
+    wxRect rect;
+    int colRight = GetColRight(col) - 1;
+
+    dc.SetPen( wxPen(wxSystemSettings::GetColour(wxSYS_COLOUR_3DDKSHADOW),1, wxSOLID) );
+    dc.DrawLine( colRight, 0,
+                 colRight, m_colLabelHeight-1 );
+
+    dc.DrawLine( colLeft, 0, colRight, 0 );
+
+    dc.DrawLine( colLeft, m_colLabelHeight-1,
+                 colRight+1, m_colLabelHeight-1 );
+
+    dc.SetPen( *wxWHITE_PEN );
+    dc.DrawLine( colLeft, 1, colLeft, m_colLabelHeight-1 );
+    dc.DrawLine( colLeft, 1, colRight, 1 );
+    dc.SetBackgroundMode( wxTRANSPARENT );
+    dc.SetTextForeground( GetLabelTextColour() );
+    dc.SetFont( GetLabelFont() );
+
+    int hAlign, vAlign, orient;
+    GetColLabelAlignment( &hAlign, &vAlign );
+    orient = GetColLabelTextOrientation();
+
+    rect.SetX( colLeft + 2 );
+    rect.SetY( 2 );
+    rect.SetWidth( GetColWidth(col) - 4 );
+    rect.SetHeight( m_colLabelHeight - 4 );
+    DrawTextRectangle( dc, GetColLabelValue( col ), rect, hAlign, vAlign, orient );
+}
 
 /* ############# */
 CBOINCGridCellProgressRenderer::CBOINCGridCellProgressRenderer(int col) : wxGridCellStringRenderer()
@@ -267,26 +325,150 @@ void CBOINCGridCellProgressRenderer::Draw(wxGrid& grid, wxGridCellAttr& attr, wx
 	if(col==column) {
 		DoProgressDrawing(grid,attr,dc,rect,row,col,isSelected);
 	}
-	else {		
-		wxGridCellStringRenderer::Draw(grid,attr,dc,rect,row,col,isSelected);
+	else {
+		DoNormalTextDrawing(grid,attr,dc,rect,row,col,isSelected);
 	}
 }
+
+void CBOINCGridCellProgressRenderer::DrawBackground(wxGrid& grid,
+                              wxGridCellAttr& attr,
+                              wxDC& dc,
+                              const wxRect& rect,
+                              int row, int col,
+                              bool isSelected)
+{
+    dc.SetBackgroundMode( wxSOLID );
+
+    // grey out fields if the grid is disabled
+    if( grid.IsEnabled() )
+    {
+        if ( isSelected )
+        {
+            dc.SetBrush( wxBrush(grid.GetSelectionBackground(), wxSOLID) );
+        }
+        else
+        {
+			if(row % 2 == 0) {
+				dc.SetBrush(wxBrush(wxColour(240,240,240)));
+			}
+			else {
+				dc.SetBrush(*wxWHITE_BRUSH);
+			}
+        }
+    }
+    else
+    {
+        dc.SetBrush(wxBrush(wxSystemSettings::GetColour(wxSYS_COLOUR_BTNFACE), wxSOLID));
+    }
+
+    dc.SetPen( *wxTRANSPARENT_PEN );
+    dc.DrawRectangle(rect);
+}
+
+void CBOINCGridCellProgressRenderer::DoNormalTextDrawing(wxGrid& grid, wxGridCellAttr& attr, wxDC& dc, const wxRect& rectCell, int row, int col, bool isSelected) {
+    wxRect rect = rectCell;
+    rect.Inflate(-1);
+
+    // erase only this cells background, overflow cells should have been erased
+	this->DrawBackground(grid, attr, dc, rectCell, row, col, isSelected);
+
+    int hAlign, vAlign;
+    attr.GetAlignment(&hAlign, &vAlign);
+
+    int overflowCols = 0;
+
+    if (attr.GetOverflow())
+    {
+        int cols = grid.GetNumberCols();
+        int best_width = GetBestSize(grid,attr,dc,row,col).GetWidth();
+        int cell_rows, cell_cols;
+        attr.GetSize( &cell_rows, &cell_cols ); // shouldn't get here if <=0
+        if ((best_width > rectCell.width) && (col < cols) && grid.GetTable())
+        {
+            int i, c_cols, c_rows;
+            for (i = col+cell_cols; i < cols; i++)
+            {
+                bool is_empty = true;
+                for (int j=row; j<row+cell_rows; j++)
+                {
+                    // check w/ anchor cell for multicell block
+                    grid.GetCellSize(j, i, &c_rows, &c_cols);
+                    if (c_rows > 0) c_rows = 0;
+                    if (!grid.GetTable()->IsEmptyCell(j+c_rows, i))
+                    {
+                        is_empty = false;
+                        break;
+                    }
+                }
+                if (is_empty)
+                    rect.width += grid.GetColSize(i);
+                else
+                {
+                    i--;
+                    break;
+                }
+                if (rect.width >= best_width) break;
+            }
+            overflowCols = i - col - cell_cols + 1;
+            if (overflowCols >= cols) overflowCols = cols - 1;
+        }
+
+        if (overflowCols > 0) // redraw overflow cells w/ proper hilight
+        {
+            hAlign = wxALIGN_LEFT; // if oveflowed then it's left aligned
+            wxRect clip = rect;
+            clip.x += rectCell.width;
+            // draw each overflow cell individually
+            int col_end = col+cell_cols+overflowCols;
+            if (col_end >= grid.GetNumberCols())
+                col_end = grid.GetNumberCols() - 1;
+            for (int i = col+cell_cols; i <= col_end; i++)
+            {
+                clip.width = grid.GetColSize(i) - 1;
+                dc.DestroyClippingRegion();
+                dc.SetClippingRegion(clip);
+
+                SetTextColoursAndFont(grid, attr, dc,
+                        grid.IsInSelection(row,i));
+
+                grid.DrawTextRectangle(dc, grid.GetCellValue(row, col),
+                        rect, hAlign, vAlign);
+                clip.x += grid.GetColSize(i) - 1;
+            }
+
+            rect = rectCell;
+            rect.Inflate(-1);
+            rect.width++;
+            dc.DestroyClippingRegion();
+        }
+    }
+
+    // now we only have to draw the text
+    SetTextColoursAndFont(grid, attr, dc, isSelected);
+
+	//get a real grid class pointer
+    CBOINCGridCtrl* bgrid = dynamic_cast<CBOINCGridCtrl*> (&grid);
+	//use the overloaded method here
+	bgrid->DrawTextRectangle(dc, grid.GetCellValue(row, col),
+                           rect, hAlign, vAlign);
+
+}
+
 
 void CBOINCGridCellProgressRenderer::DoProgressDrawing(wxGrid& grid, wxGridCellAttr& attr, wxDC& dc, const wxRect& rectCell, int row, int col, bool isSelected) {
     wxRect rect = rectCell;
     rect.Inflate(-1);
 
     // erase only this cells background, overflow cells should have been erased
-    wxGridCellRenderer::Draw(grid, attr, dc, rectCell, row, col, isSelected);
-
+	this->DrawBackground(grid, attr, dc, rectCell, row, col, isSelected);
+	// set text attributes
     int hAlign, vAlign;
-    attr.GetAlignment(&hAlign, &vAlign);
-
-    // now we only have to draw the text
+	attr.GetAlignment(&hAlign, &vAlign);
     SetTextColoursAndFont(grid, attr, dc, isSelected);
 
+	//calculate the two parts of the progress rect
 	wxString value = grid.GetCellValue(row,col);
-	wxString strValue = value + wxString (" %", wxConvUTF8 ); 
+	wxString strValue = value + wxString (" %", wxConvUTF8 );
 	double dv;
 	value.ToDouble ( &dv );	 // NOTE: we should do error-checking/reporting here!!
 	wxRect p1(rect);
@@ -294,12 +476,26 @@ void CBOINCGridCellProgressRenderer::DoProgressDrawing(wxGrid& grid, wxGridCellA
 	int r = (int)((rect.GetRight()-rect.GetLeft())*dv / 100.0);
 	p1.SetRight(rect.GetLeft()+r);
 	p2.SetLeft(rect.GetLeft()+r+1);
+	p2.SetRight(rect.GetRight()-1);
+	//start drawing
 	dc.SetClippingRegion(rect);
 	wxBrush old = dc.GetBrush();
-	dc.SetBrush(*wxLIGHT_GREY_BRUSH);
+	wxColour progressColour = wxTheColourDatabase->Find(wxString("LIGHT BLUE",wxConvUTF8));
+	wxBrush* progressBrush = wxTheBrushList->FindOrCreateBrush(progressColour);
+	wxPen* progressPen = wxThePenList->FindOrCreatePen(progressColour,1,wxSOLID);
+	//draw the outline rectangle
+	dc.SetBrush(*wxTRANSPARENT_BRUSH);
+	dc.SetPen(*progressPen);
+	dc.DrawRectangle(rect);
+	// Draw the left part
+	dc.SetBrush(*progressBrush);
 	dc.DrawRectangle(p1);
+	//draw the right part
 	dc.SetBrush(old);
-	dc.DrawRectangle(p2);	
+	dc.DrawRectangle(p2);
+	//
 	dc.DestroyClippingRegion();
+	// draw the text
 	grid.DrawTextRectangle(dc, strValue, rect, hAlign, vAlign);
 }
+

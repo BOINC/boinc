@@ -166,3 +166,11 @@ Rom    5 Jan 2007
         sg_DlgPreferences.cpp
         sg_ProjectsComponent.cpp, .h
         SkinManager.cpp, .h
+
+David  5 Jan 2007
+	- manager: improved grid views from Frank Weiler;
+		improved message when detach from project mgr
+
+	clientgui/
+		BOINCGridCtrl.cpp,h
+		WelcomPage.cpp

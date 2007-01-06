@@ -32,6 +32,8 @@ public:
 	void Draw(wxGrid& grid, wxGridCellAttr& attr, wxDC& dc, const wxRect& rect, int row, int col, bool isSelected);	
 protected:
 	void DoProgressDrawing(wxGrid& grid, wxGridCellAttr& attr, wxDC& dc, const wxRect& rectCell, int row, int col, bool isSelected);
+	void DoNormalTextDrawing(wxGrid& grid, wxGridCellAttr& attr, wxDC& dc, const wxRect& rectCell, int row, int col, bool isSelected);
+	void DrawBackground(wxGrid& grid,wxGridCellAttr& attr,wxDC& dc,const wxRect& rect,int row, int col,bool isSelected);
 };
 
 /* grid ctrl */
@@ -39,18 +41,21 @@ class CBOINCGridCtrl :	public wxGrid
 {
 public:
 	CBOINCGridCtrl(wxWindow* parent, wxWindowID iGridWindowID);
-public:
 	~CBOINCGridCtrl();
 	int GetFirstSelectedRow();
 	bool OnSaveState(wxConfigBase* pConfig);
 	bool OnRestoreState(wxConfigBase* pConfig);
 	void SetColAlignment(int col,int hAlign,int vAlign);
-
     void DrawTextRectangle( wxDC& dc, const wxArrayString& lines, const wxRect&,
                             int horizontalAlignment = wxALIGN_LEFT,
                             int verticalAlignment = wxALIGN_TOP,
                             int textOrientation = wxHORIZONTAL );
-
+    void DrawTextRectangle( wxDC& dc, const wxString&, const wxRect&,
+                            int horizontalAlignment = wxALIGN_LEFT,
+                            int verticalAlignment = wxALIGN_TOP,
+	                        int textOrientation = wxHORIZONTAL );
+	virtual void DrawColLabel( wxDC& dc, int col );
+private:
 	wxString FormatTextWithEllipses(wxDC& dc,const wxString &text,int width);
 };
 
