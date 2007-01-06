@@ -107,6 +107,9 @@ public:
     /// wxEVT_COMMAND_BUTTON_CLICKED event handler for ID_COPYSELECTED
     void OnMessagesCopySelected( wxCommandEvent& event );
 
+    /// wxEVT_COMMAND_BUTTON_CLICKED event handler for ID_SIMPLE_HELP
+    void OnButtonHelp( wxCommandEvent& event );
+
 ////@end CPanelMessages event handler declarations
 
 ////@begin CPanelMessages member function declarations

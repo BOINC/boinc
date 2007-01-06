@@ -67,6 +67,7 @@ BEGIN_EVENT_TABLE( CPanelMessages, wxPanel )
     EVT_BUTTON( wxID_OK, CPanelMessages::OnOK )
     EVT_BUTTON(ID_COPYAll, CPanelMessages::OnMessagesCopyAll)
     EVT_BUTTON(ID_COPYSELECTED, CPanelMessages::OnMessagesCopySelected)
+    EVT_BUTTON(ID_SIMPLE_HELP, CPanelMessages::OnButtonHelp)
 ////@end CPanelPreferences event table entries
 END_EVENT_TABLE()
 
@@ -248,8 +249,29 @@ void CPanelMessages::CreateControls()
     itemBoxSizer4->Add(itemBitmapButton44, 0, wxALIGN_CENTER_VERTICAL|wxALL, 5);
 
 #ifndef __WXMSW__
+#ifdef __WXMAC__
+	wxBitmapButton* itemButton45 = new wxBitmapButton(
+        this,
+        ID_SIMPLE_HELP,
+        *pSkinSimple->GetHelpButton()->GetBitmap(),
+        wxDefaultPosition,
+        wxSize(
+            (*pSkinSimple->GetHelpButton()->GetBitmap()).GetWidth(),
+            (*pSkinSimple->GetHelpButton()->GetBitmap()).GetHeight()
+        ),
+        wxBU_AUTODRAW
+    );
+	if ( pSkinSimple->GetHelpButton()->GetBitmapClicked() != NULL ) {
+		itemButton45->SetBitmapSelected(*pSkinSimple->GetHelpButton()->GetBitmapClicked());
+	}
+#ifdef wxUSE_TOOLTIPS
+	itemButton45->SetToolTip(new wxToolTip(_("Get help with BOINC")););
+#endif
+    itemBoxSizer4->Add(itemButton45, 0, wxALIGN_CENTER_VERTICAL|wxALL, 5);
+#else
     wxContextHelpButton* itemButton45 = new wxContextHelpButton(this);
     itemBoxSizer4->Add(itemButton45, 0, wxALIGN_CENTER_VERTICAL|wxALL, 5);
+#endif
 #endif
 
 }
@@ -405,6 +427,25 @@ void CPanelMessages::OnMessagesCopySelected( wxCommandEvent& WXUNUSED(event) ) {
 #endif
 
     wxLogTrace(wxT("Function Start/End"), wxT("CPanelMessages::OnMessagesCopySelected - Function End"));
+}
+
+
+/*!
+ * wxEVT_COMMAND_BUTTON_CLICKED event handler for ID_SIMPLE_HELP
+ */
+
+void CPanelMessages::OnButtonHelp( wxCommandEvent& WXUNUSED(event) ) {
+    wxLogTrace(wxT("Function Start/End"), wxT("CPanelMessages::OnHelp - Function Begin"));
+
+	std::string url;
+	url = wxGetApp().GetSkinManager()->GetAdvanced()->GetCompanyWebsite().mb_str();
+	canonicalize_master_url(url);
+
+	wxString wxurl;
+	wxurl.Printf(wxT("%smanager_links.php?target=simple"), url.c_str());
+    wxHyperLink::ExecuteLink(wxurl);
+
+    wxLogTrace(wxT("Function Start/End"), wxT("CPanelMessages::OnHelp - Function End"));
 }
 
 
