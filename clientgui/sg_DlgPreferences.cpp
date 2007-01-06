@@ -503,12 +503,12 @@ void CPanelPreferences::CreateControls()
 		itemButton46->SetBitmapSelected(*pSkinSimple->GetHelpButton()->GetBitmapClicked());
 	}
 #ifdef wxUSE_TOOLTIPS
-	itemButton45->SetToolTip(new wxToolTip(_("Get help with BOINC")););
+	itemButton46->SetToolTip(new wxToolTip(_("Get help with BOINC")));
 #endif
-    itemBoxSizer4->Add(itemButton45, 0, wxALIGN_CENTER_VERTICAL|wxALL, 5);
+    itemBoxSizer44->Add(itemButton46, 0, wxALIGN_CENTER_VERTICAL|wxALL, 5);
 #else
     wxContextHelpButton* itemButton45 = new wxContextHelpButton(this);
-    itemBoxSizer4->Add(itemButton45, 0, wxALIGN_CENTER_VERTICAL|wxALL, 5);
+    itemBoxSizer44->Add(itemButton45, 0, wxALIGN_CENTER_VERTICAL|wxALL, 5);
 #endif
 #endif
 

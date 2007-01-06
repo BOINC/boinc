@@ -183,6 +183,13 @@ Rom    5 Jan 2007
         sg_DlgPreferences.cpp, .h
 
 Charlie 5 Jan 2007
+    - MGR: Fix build breaks.
+    
+    clientgui/
+        sg_DlgMessages.cpp
+        sg_DlgPreferences.cpp
+
+Charlie 5 Jan 2007
     - MGR: Fix cosmetic bugs on Mac.
         NOTE: I believe my changes will work on Windows, but I couldn't test 
         this because of crashes on Windows.  So my changes are temporarily 
