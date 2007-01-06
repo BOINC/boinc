@@ -265,7 +265,7 @@ void CPanelMessages::CreateControls()
 		itemButton45->SetBitmapSelected(*pSkinSimple->GetHelpButton()->GetBitmapClicked());
 	}
 #ifdef wxUSE_TOOLTIPS
-	itemButton45->SetToolTip(new wxToolTip(_("Get help with BOINC")););
+	itemButton45->SetToolTip(new wxToolTip(_("Get help with BOINC")));
 #endif
     itemBoxSizer4->Add(itemButton45, 0, wxALIGN_CENTER_VERTICAL|wxALL, 5);
 #else
