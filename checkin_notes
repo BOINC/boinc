@@ -13632,4 +13632,7 @@ David  5 Jan 2007
 	clientgui/
 		WelcomPage.cpp
 
+Rom    5 Jan 2007
+    - Tag for 5.8.1 release, all platforms
+      boinc_core_release_5_8_1
 
