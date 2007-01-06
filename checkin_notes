@@ -174,3 +174,10 @@ David  5 Jan 2007
 	clientgui/
 		BOINCGridCtrl.cpp,h
 		WelcomPage.cpp
+
+Rom    5 Jan 2007
+    - MGR: Fix the help handling code for the Mac UI conventions.
+    
+    clientgui/
+        sg_DlgMessages.cpp, .h
+        sg_DlgPreferences.cpp, .h

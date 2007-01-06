@@ -109,6 +109,9 @@ public:
     /// wxEVT_COMMAND_COMBOBOX_SELECTED event handler for ID_CONNECTBETWEENBEGIN
     void OnConnectBetweenBeginSelected( wxCommandEvent& event );
 
+    /// wxEVT_COMMAND_BUTTON_CLICKED event handler for ID_SIMPLE_HELP
+    void OnButtonHelp( wxCommandEvent& event );
+
 ////@end CPanelPreferences event handler declarations
 
 ////@begin CPanelPreferences member function declarations
