@@ -181,3 +181,13 @@ Rom    5 Jan 2007
     clientgui/
         sg_DlgMessages.cpp, .h
         sg_DlgPreferences.cpp, .h
+
+Charlie 5 Jan 2007
+    - MGR: Fix cosmetic bugs on Mac.
+        NOTE: I believe my changes will work on Windows, but I couldn't test 
+        this because of crashes on Windows.  So my changes are temporarily 
+        guarded by #ifdef __WXMAC__ #else #endif.
+
+    clientgui/
+        ViewTransfersGrid.cpp
+        ViewWorkGrid.cpp

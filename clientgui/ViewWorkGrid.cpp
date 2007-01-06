@@ -137,7 +137,14 @@ CViewWorkGrid::CViewWorkGrid(wxNotebook* pNotebook) :
 	m_pGridPane->EnableDragCell(false);
 	m_pGridPane->EnableEditing(false);
 	m_pGridPane->SetColLabelAlignment(wxALIGN_LEFT,wxALIGN_CENTER);
+#ifdef __WXMAC__        // This will probably be OK for non-Mac systems
+	m_pGridPane->SetLabelFont(wxSystemSettings::GetFont(wxSYS_DEFAULT_GUI_FONT));
+	m_pGridPane->SetDefaultCellFont(wxFont(12, wxSWISS, wxNORMAL, wxNORMAL, FALSE));
+	m_pGridPane->SetDefaultCellBackgroundColour(*wxWHITE);
+#else
 	m_pGridPane->SetLabelFont(*wxNORMAL_FONT);
+#endif
+        
 
 	// init grid columns
 	wxInt32 colSizes[] = {125,95,285,80,60,100,150,135};
