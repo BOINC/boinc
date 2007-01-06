@@ -360,7 +360,7 @@ $mac_changes_54= "
       </ul>
 ";
 
-$linux_libs_56= "
+$linux_libs_58= "
     <li>Boincmgr requires GTK++2.0 or higher, which is included in most
         Linux distributions.  Its been tested on:
       <ul>
@@ -659,7 +659,7 @@ $l581 = array(
     "type"=>"sea",
     "features"=>"<ul>
 ".$features_55.$features_57."
-".$linux_libs_57." 
+".$linux_libs_58." 
 ".$changes_57."
     </ul>
     "
