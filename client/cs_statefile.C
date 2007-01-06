@@ -499,9 +499,9 @@ int CLIENT_STATE::write_state(MIOFILE& f) {
         "%s"
         "<new_version_check_time>%f</new_version_check_time>\n",
         platform_name,
-        core_client_major_version,
-        core_client_minor_version,
-        core_client_release,
+        core_client_version.major,
+        core_client_version.minor,
+        core_client_version.release,
         run_mode.get_perm(),
         network_mode.get_perm(),
         cpu_benchmarks_pending?"<cpu_benchmarks_pending/>\n":"",
@@ -654,9 +654,9 @@ int CLIENT_STATE::write_state_gui(MIOFILE& f) {
         "<core_client_release>%d</core_client_release>\n"
         "%s",
         platform_name,
-        core_client_major_version,
-        core_client_minor_version,
-        core_client_release,
+        core_client_version.major,
+        core_client_version.minor,
+        core_client_version.release,
         work_fetch_no_new_work?"<work_fetch_no_new_work/>\n":""
     );
 

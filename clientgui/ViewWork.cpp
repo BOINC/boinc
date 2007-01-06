@@ -777,7 +777,7 @@ wxInt32 CViewWork::FormatStatus(wxInt32 item, wxString& strBuffer) const {
                     } else if (result->scheduler_state == CPU_SCHED_SCHEDULED) {
                         strBuffer = _("Running");
                     } else if (result->scheduler_state == CPU_SCHED_PREEMPTED) {
-                        strBuffer = _("Preempted");
+                        strBuffer = _("Waiting");
                     } else if (result->scheduler_state == CPU_SCHED_UNINITIALIZED) {
                         strBuffer = _("Ready to run");
                     }

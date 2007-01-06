@@ -254,6 +254,7 @@ private:
     CSkinImage          m_ProjectImage;
 
     CSkinSimpleButton   m_AttachProjectButton;
+    CSkinSimpleButton   m_HelpButton;
     CSkinSimpleButton   m_RightArrowButton;
     CSkinSimpleButton   m_LeftArrowButton;
     CSkinSimpleButton   m_SaveButton;
@@ -261,7 +262,6 @@ private:
     CSkinSimpleButton   m_CloseButton;
     CSkinSimpleButton   m_CopyAllButton;
     CSkinSimpleButton   m_CopyButton;
-    CSkinSimpleButton   m_HelpButton;
 
     CSkinImage          m_MessagesLink;
     CSkinImage          m_MessagesAlertLink;

@@ -13387,3 +13387,249 @@ Charlie 20 Dec 2006
     clientgui/
         AdvancedFrame.cpp
         sg_BoincSimpleGUI.cpp
+
+David  21 Dec 2006
+    - core client: improve error messages on RPC deferral
+
+    client/
+        client_types.h
+        cs_scheduler.C
+        scheduler_op.C
+    html/inc/
+        stats_sites.inc
+    lib/
+        util.C
+
+Rom    21 Dec 2006
+    - MGR: Simplify snooze so that it only applies to CPU usage.
+    - MGR: Remember message dialog size and list view column widths
+        for all platforms.
+    - MGR: Fix an annoying bug when the advanced gui suspended all
+        tasks and then you tried to resume from the simple gui.
+        
+        Restore didn't work when the task_mode_perm was equal to
+        never and their was no timeout.
+        
+        We should probably move this logic down into the CC.
+    - LIB: Don't display foreground window information unless the
+        user has agreed to allow it to happen via the registry.
+        
+        Their was concern about privacy issues with window titles.
+        
+    clientgui/
+        BOINCTaskBar.cpp
+        MainDocument.cpp, .h
+        sg_DlgMessages.cpp
+    lib/
+        diagnostics_win.C
+
+Rom    21 Dec 2006
+    - MGR: Add context help to the BSG.
+    
+    clientgui/
+        sg_DlgMessages.cpp, .h
+        sg_DlgPreferences.cpp
+        sg_ProjectsComponent.cpp, .h
+        stdwx.h
+
+Charlie 22 Dec 2006
+    -MGR: Fix crash bugs: don't call SetBackgroundColour() or 
+        SetForegroundColour() before wxDialog::Create().
+        
+    clientgui/
+        sg_DlgMessages.cpp
+        sg_DlgPreferences.cpp
+        
+David  23 Dec 2006
+    - core client: add missing error message case on attach failure
+
+    client/
+        cs_account.C
+
+David  25 Dec 2006
+    - Various changes to deal with the situation where someone
+        attaches to a project while its scheduler is down.
+        Currently the attach fails.
+        This is a relic of the attach-using-account-key era.
+        Change it so that:
+        1) the project_attach GUI RPC has a project_name argument
+            (so that we can show the project name even before
+            we've done a scheduler RPC)
+        2) the attach succeeds even if the initial RPC fails
+        Note: we can probably get rid of the PROJECT::tentative flag.
+    Note: the logic for attaching to a project with an init file
+    (or with "cached credentials", as confusingly described in the Manager
+    code) is messed up, or at least poorly documented.
+
+    client/
+        acct_mgr.C
+        client_state.h
+        cs_account.C
+        cs_cmdline.C
+		cs_scheduler.C
+		scheduler_op.C
+    clientgui/
+        MainDocument.cpp
+        ProjectProcessingPage.cpp
+		ProjectPropertiesPage.cpp
+    lib/
+        boinc_cmd.C
+        gui_rpc_client.h
+        gui_rpc_client_ops.C
+
+David  27 Dec 2006
+    - core client: remove handle leak in extremely rare case
+
+    client/
+        file_name.C
+
+David  28 Dec 2006
+	- core client: fix bugs in calculation of network status
+	- Manager: add ellipses to menu items that bring up dialogs,
+		tweak wizard text
+
+	client/
+		acct_setup.C,h
+		net_stats.C,h
+	clientgui/
+		AdvancedFrame.cpp
+		ProxyInfoPage.cpp
+
+Rom    28 Dec 2006
+    - SCRSAV: Use RegisterSystemMessage instead of using WM_USER for the
+        WM_INTERRUPTSAVER and WM_SETTIMER events.
+    - SCRSAV: Clarify which window is receiving the WM_INTERRUPTSAVER
+        event from the DataProc Thread.
+        
+    client/win/
+        win_screensaver.cpp, .h
+
+Rom    29 Dec 2006
+    - SCRSAV: Fix build break.
+    - MGR: Refactor the timer management code whithin the advanced frame.
+
+    client/win/
+        win_screensaver.cpp
+    clientgui/
+        AdvancedFrame.cpp, .h
+        BOINCBaseFrame.cpp, .h
+        BOINCBaseView.cpp, .h
+        BOINCDialupManager.cpp, .h
+        ViewStatistics.cpp, .h
+
+Rom    29 Dec 2006
+    - MGR: Make the simple preferences and messages dialogs have their
+        own help handler, apparently when the event bubbles up to the
+        frame the control ID's were being remapped to the frame window
+        ID.
+        
+    clientgui/
+        sg_DlgMessages.cpp, .h
+        sg_DlgPreferences.cpp, .h
+
+Rom    2 Jan 2007
+    - Win SETUP: Incorporate a custom action to migrate CPDNBBC data files to the
+        destination BOINC directory.
+        
+    win_build/installerv2/
+        BOINC.ism
+    win_build/installerv2/redist/Windows/x86/
+        boinccas.dll
+        boinccas95.dll
+
+David  2 Jan 2007
+	- make disk pie charts work on Linux
+		(from Frank Weiler)
+
+	clientgui/
+		wxPieCtrl.cpp
+
+David  4 Jan 2007
+    - change "Preempted" to "Waiting" in GUI ("preempted" is geek-speak)
+
+    clientgui/
+        ViewWork.cpp
+
+Rom    4 Jan 2007
+    - DIAG: Don't check for the BOINC symstore if it is a science application that
+        has crashed.
+        
+    lib/
+        stackwalker_win.cpp
+    
+Kevin  4 Jan 2007
+    - Changed the way the buttons on the simple gui preferences and messages screens are sized
+
+    clientgui/sg_DlgMessages.cpp
+    clientgui/sg_DlgPreferences.cpp
+    
+David   4 Jan 2007
+	- core client: if an app fails to start,
+		it could be that the executable has been munged.
+		So verify the files; this will find the bad file
+		and download it again.
+	- Manager: in Attach to Account Manager wizard, add some text saying
+		if they want to just attach to a single project,
+		use the Attach to Project wizard instead.
+		Some users tried to attach SETI@home using the acct mgr wizard
+		and got all bent outta shape when it didn't work.
+
+	client/
+		app_start.C
+	clientgui/
+		WelcomePage.cpp
+
+Rom    5 Jan 2007
+    - Win SETUP: Add custom actions for saving and restoring user preferences
+        to the registry
+    - Win SETUP: MoveFileEx isn't spported on the Win9x platform, so dynamically
+        load and execute it on Windows 2000 or better.
+    - Win SETUP: Remove some dead code from the custom action list.
+    - Win SETUP: On Windows XP systems or better, we no longer require the
+       service account to have a password, Microsoft has taken care of the
+       problem by not allowing incomming network connections for accounts with
+       no passwords.
+
+    win_build/installerv2/redist/Windows/x86/
+        boinccas.dll
+        boinccas95.dll
+
+Rom    5 Jan 2007
+    - Win SETUP: Fix an issue when restoring saved properties where junk was
+        being introduced into properties where no value was defined.
+    - Win SETUP: Don't attemp to restore any properties until we have actually
+        stored some from a previous iteration of setup, otherwise our defaults
+        don't kick in.
+    - Win SETUP: Saving and Restoring properties is now only enabled for those
+        using the UI deployment method, we don't want to throw anything
+        in the registry when the MSI package is being deployed through AD or
+        some other deployment mechinism.
+
+    win_build/installerv2/redist/Windows/x86/
+        boinccas.dll
+        boinccas95.dll
+
+Rom    5 Jan 2007
+    - Update localization template.
+    
+    locale/en_US/
+        BOINC Manager.mo, .po
+
+Rom    5 Jan 2007
+    - MGR: Replace the context sensitive help button on the main simple gui window
+        with a standard bitmap button and use the bitmaps WCG gave us.
+        
+    clientgui/
+        Events.h
+        sg_DlgMessages.cpp
+        sg_DlgPreferences.cpp
+        sg_ProjectsComponent.cpp, .h
+        SkinManager.cpp, .h
+
+David  5 Jan 2007
+	- improved message when detach from project mgr
+
+	clientgui/
+		WelcomPage.cpp
+
+
