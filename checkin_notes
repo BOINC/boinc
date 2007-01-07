@@ -198,3 +198,11 @@ Charlie 5 Jan 2007
     clientgui/
         ViewTransfersGrid.cpp
         ViewWorkGrid.cpp
+
+Walt   6 Jan 2007
+    - MGR: Fix segfault in simple gui when message button is clicked.
+        SetBackgroundStyle() needs to be called after the window
+        is created.
+    
+    clientgui/
+        sg_DlgMessages.cpp

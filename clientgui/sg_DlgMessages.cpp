@@ -744,10 +744,11 @@ bool CDlgMessages::Create( wxWindow* parent, wxWindowID id, const wxString& capt
         strCaption = _("BOINC Manager - Messages");
     }
 
-    SetBackgroundStyle(wxBG_STYLE_CUSTOM);
     SetExtraStyle(GetExtraStyle()|wxDIALOG_EX_CONTEXTHELP|wxWS_EX_BLOCK_EVENTS);
 
     wxDialog::Create( parent, id, strCaption, pos, size, style );
+
+	SetBackgroundStyle(wxBG_STYLE_CUSTOM);
 
     Freeze();
 
