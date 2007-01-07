@@ -62,7 +62,10 @@ protected:
     wxInt32                 FormatSpeed( wxInt32 item, wxString& strBuffer ) const;
     wxInt32                 FormatStatus( wxInt32 item, wxString& strBuffer ) const;
 
+	void					OnSelectCell( wxGridEvent& );
     DECLARE_EVENT_TABLE()
+private: 
+	bool					m_bIgnoreSelectionEvents;
 };
 
 

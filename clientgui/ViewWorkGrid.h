@@ -71,6 +71,8 @@ protected:
 	
 	void					OnSelectCell( wxGridEvent& );
     DECLARE_EVENT_TABLE()
+private: 
+	bool					m_bIgnoreSelectionEvents;
 };
 
 

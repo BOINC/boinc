@@ -66,7 +66,8 @@ END_EVENT_TABLE ()
 
 
 CViewWorkGrid::CViewWorkGrid()
-{}
+{
+}
 
 
 CViewWorkGrid::CViewWorkGrid(wxNotebook* pNotebook) :
@@ -128,30 +129,17 @@ CViewWorkGrid::CViewWorkGrid(wxNotebook* pNotebook) :
     // Create Task Pane Items
     m_pTaskPane->UpdateControls();
 
-	// Create Grid
-	m_pGridPane->CreateGrid(0,8,wxGrid::wxGridSelectRows);	
-	m_pGridPane->SetRowLabelSize(1);//hide row labels
-	m_pGridPane->SetColLabelSize(20); //smaller as default
-	m_pGridPane->EnableGridLines(false);
-	m_pGridPane->EnableDragRowSize(false);//prevent the user from changing the row height with the mouse
-	m_pGridPane->EnableDragCell(false);
-	m_pGridPane->EnableEditing(false);
-	m_pGridPane->SetColLabelAlignment(wxALIGN_LEFT,wxALIGN_CENTER);
-#ifdef __WXMAC__        // This will probably be OK for non-Mac systems
-	m_pGridPane->SetLabelFont(wxSystemSettings::GetFont(wxSYS_DEFAULT_GUI_FONT));
-	m_pGridPane->SetDefaultCellFont(wxFont(12, wxSWISS, wxNORMAL, wxNORMAL, FALSE));
-	m_pGridPane->SetDefaultCellBackgroundColour(*wxWHITE);
-#else
-	m_pGridPane->SetLabelFont(*wxNORMAL_FONT);
-#endif
-        
+	// Create Grid (one dummy row is needed)
+	m_pGridPane->SetTable(new CBOINCGridTable(1,8));
+	//don't use wxGrid->Create() here !!!!
+	m_pGridPane->SetSelectionMode(wxGrid::wxGridSelectRows);
 
 	// init grid columns
 	wxInt32 colSizes[] = {125,95,285,80,60,100,150,135};
 	wxString colTitles[] = {_("Project"),_("Application"),_("Name"),_("CPU time"),_("Progress"),_("To completion"),_("Report deadline"),_("Status")};
 	for(int i=0; i<= COLUMN_STATUS;i++){
 		m_pGridPane->SetColLabelValue(i,colTitles[i]);
-		m_pGridPane->SetColSize(i,colSizes[i]);
+		m_pGridPane->SetColSize(i,colSizes[i]);		
 	}
 	// set alignment for cpu time column to right
 	m_pGridPane->SetColAlignment(COLUMN_CPUTIME,wxALIGN_RIGHT,wxALIGN_CENTER);
@@ -159,6 +147,11 @@ CViewWorkGrid::CViewWorkGrid(wxNotebook* pNotebook) :
 	m_pGridPane->SetColAlignment(COLUMN_TOCOMPLETION,wxALIGN_RIGHT,wxALIGN_CENTER);
 	//change the default cell renderer
 	m_pGridPane->SetDefaultRenderer(new CBOINCGridCellProgressRenderer(COLUMN_PROGRESS));
+	//set column sort types
+	m_pGridPane->SetColumnSortType(COLUMN_PROGRESS,CST_FLOAT);
+	m_pGridPane->SetColumnSortType(COLUMN_CPUTIME,CST_TIME);
+	m_pGridPane->SetColumnSortType(COLUMN_TOCOMPLETION,CST_TIME);
+	m_pGridPane->SetColumnSortType(COLUMN_REPORTDEADLINE,CST_DATETIME);
 	//
     UpdateSelection();
 }
@@ -192,7 +185,8 @@ void CViewWorkGrid::OnWorkSuspend( wxCommandEvent& WXUNUSED(event) ) {
     wxASSERT(m_pTaskPane);
     wxASSERT(m_pGridPane);
 
-    RESULT* result = pDoc->result(m_pGridPane->GetFirstSelectedRow());
+	wxString searchName = m_pGridPane->GetCellValue(m_pGridPane->GetFirstSelectedRow(),COLUMN_NAME).Trim(false);
+    RESULT* result = pDoc->result(searchName);
     if (result->suspended_via_gui) {
         pFrame->UpdateStatusText(_("Resuming task..."));
         pDoc->WorkResume(result->project_url, result->name);
@@ -244,7 +238,8 @@ void CViewWorkGrid::OnWorkShowGraphics( wxCommandEvent& WXUNUSED(event) ) {
 #endif
 
     if (wxYES == iAnswer) {
-        RESULT* result = pDoc->result(m_pGridPane->GetFirstSelectedRow());
+		wxString searchName = m_pGridPane->GetCellValue(m_pGridPane->GetFirstSelectedRow(),COLUMN_NAME).Trim(false);
+        RESULT* result = pDoc->result(searchName);
 		std::string strDefaultWindowStation = std::string((const char*)wxGetApp().m_strDefaultWindowStation.mb_str());
 		std::string strDefaultDesktop = std::string((const char*)wxGetApp().m_strDefaultDesktop.mb_str());
 		std::string strDefaultDisplay = std::string((const char*)wxGetApp().m_strDefaultDisplay.mb_str());
@@ -271,7 +266,7 @@ void CViewWorkGrid::OnWorkAbort( wxCommandEvent& WXUNUSED(event) ) {
     wxLogTrace(wxT("Function Start/End"), wxT("CViewWorkGrid::OnWorkAbort - Function Begin"));
 
     wxInt32  iAnswer        = 0;
-    wxInt32  iResult        = 0;
+    //wxInt32  iResult        = 0;
     wxString strMessage     = wxEmptyString;
     wxString strName        = wxEmptyString;
     wxString strProgress    = wxEmptyString;
@@ -291,10 +286,13 @@ void CViewWorkGrid::OnWorkAbort( wxCommandEvent& WXUNUSED(event) ) {
 
     pFrame->UpdateStatusText(_("Aborting result..."));
 
-    iResult = m_pGridPane->GetFirstSelectedRow();
-    FormatName(iResult, strName);
-    FormatProgress(iResult, strProgress);
-    FormatStatus(iResult, strStatus);
+	strName = m_pGridPane->GetCellValue(m_pGridPane->GetFirstSelectedRow(),COLUMN_NAME).Trim(false);
+	strProgress = m_pGridPane->GetCellValue(m_pGridPane->GetFirstSelectedRow(),COLUMN_PROGRESS).Trim(false);
+	strStatus = m_pGridPane->GetCellValue(m_pGridPane->GetFirstSelectedRow(),COLUMN_STATUS).Trim(false);
+	
+    //FormatName(iResult, strName);
+    //FormatProgress(iResult, strProgress);
+    //FormatStatus(iResult, strStatus);
 
     strMessage.Printf(
         _("Are you sure you want to abort this task '%s'?\n"
@@ -312,7 +310,7 @@ void CViewWorkGrid::OnWorkAbort( wxCommandEvent& WXUNUSED(event) ) {
     );
 
     if (wxYES == iAnswer) {
-        RESULT* result = pDoc->result(m_pGridPane->GetFirstSelectedRow());
+        RESULT* result = pDoc->result(strName);
         pDoc->WorkAbort(result->project_url, result->name);
     }
 
@@ -363,10 +361,10 @@ void CViewWorkGrid::UpdateSelection() {
 
     CBOINCBaseView::PreUpdateSelection();
 
-
     pGroup = m_TaskGroups[0];
     if (m_pGridPane->GetFirstSelectedRow() >= 0) {
-        result = pDoc->result(m_pGridPane->GetFirstSelectedRow());
+		wxString searchName = m_pGridPane->GetCellValue(m_pGridPane->GetFirstSelectedRow(),COLUMN_NAME).Trim(false);
+		result = pDoc->result(searchName);
         m_pTaskPane->EnableTask(pGroup->m_Tasks[BTN_SUSPEND]);
         if (result) {
             if (result->suspended_via_gui) {
@@ -400,6 +398,7 @@ void CViewWorkGrid::UpdateSelection() {
     }
 
     CBOINCBaseView::PostUpdateSelection();
+
 }
 
 void CViewWorkGrid::UpdateWebsiteSelection(long lControlGroup, PROJECT* project){
@@ -624,7 +623,8 @@ wxInt32 CViewWorkGrid::FormatReportDeadline(wxInt32 item, wxString& strBuffer) c
 
     if (result) {
         dtTemp.Set((time_t)result->report_deadline);
-        strBuffer = wxString(" ", wxConvUTF8) + dtTemp.Format();
+		//don't trust default date string representation, this could prevent correct sorting 
+        strBuffer = dtTemp.Format(wxT(" %x %X"));
     }
 
     return 0;
@@ -687,7 +687,7 @@ wxInt32 CViewWorkGrid::FormatStatus(wxInt32 item, wxString& strBuffer) const {
                     } else if (result->scheduler_state == CPU_SCHED_SCHEDULED) {
                         strBuffer = _("Running");
                     } else if (result->scheduler_state == CPU_SCHED_PREEMPTED) {
-                        strBuffer = _("Waiting");
+                        strBuffer = _("Preempted");
                     } else if (result->scheduler_state == CPU_SCHED_UNINITIALIZED) {
                         strBuffer = _("Ready to run");
                     }
@@ -775,14 +775,26 @@ bool CViewWorkGrid::OnRestoreState(wxConfigBase* pConfig) {
 }
 
 wxInt32 CViewWorkGrid::GetDocCount() {
-    return wxGetApp().GetDocument()->GetWorkCount();
+	return wxGetApp().GetDocument()->GetWorkCount();
 }
 
 void CViewWorkGrid::OnListRender( wxTimerEvent& WXUNUSED(event) ) {
 	//prevent grid from flicker
 	m_pGridPane->BeginBatch();
-	//remember selected rows
-	wxArrayInt arrSelRows = m_pGridPane->GetSelectedRows();
+	//remember selected rows 
+	wxArrayInt arrSelRows = m_pGridPane->GetSelectedRows2();
+	wxArrayString arrSelNames;
+	for(unsigned int i=0; i< arrSelRows.GetCount();i++) {
+		arrSelNames.Add(m_pGridPane->GetCellValue(arrSelRows[i],COLUMN_NAME));
+	}
+	//remember grid cursor position
+	int ccol = m_pGridPane->GetGridCursorCol();
+	int crow = m_pGridPane->GetGridCursorRow();
+	wxString cursorName;
+	if(crow>=0 && ccol >=0) {
+		cursorName = m_pGridPane->GetCellValue(crow,COLUMN_NAME);
+	}
+
 	//(re)create rows, if necessary
 	if(this->GetDocCount()!= m_pGridPane->GetRows()) {
 		//at first, delet all current rows
@@ -795,7 +807,7 @@ void CViewWorkGrid::OnListRender( wxTimerEvent& WXUNUSED(event) ) {
 		}
 	}
 
-	//update cell values
+	//update cell values	
 	wxString buffer;
 	for(int rownum=0; rownum < this->GetDocCount();rownum++) {				
 		this->FormatProjectName(rownum,buffer);
@@ -822,11 +834,22 @@ void CViewWorkGrid::OnListRender( wxTimerEvent& WXUNUSED(event) ) {
 		
 		this->FormatStatus(rownum,buffer);
 		m_pGridPane->SetCellValue(rownum,COLUMN_STATUS,buffer);
-	}
 
+	}
+	m_pGridPane->SortData();
+	// restore grid cursor position
+	int index = m_pGridPane->GetTable()->FindRowIndexByColValue(COLUMN_NAME,cursorName);
+	if(index >=0) {
+		m_bIgnoreSelectionEvents =true;
+		m_pGridPane->SetGridCursor(index,ccol);		
+		m_bIgnoreSelectionEvents =false;
+	}
 	//restore selection
-	for(unsigned int i=0;i < arrSelRows.size();i++) {
-		m_pGridPane->SelectRow(arrSelRows[i]);
+	for(unsigned int i=0;i < arrSelNames.size();i++) {		
+		int index = m_pGridPane->GetTable()->FindRowIndexByColValue(COLUMN_NAME,arrSelNames[i]);
+		if(index >=0) {
+			m_pGridPane->SelectRow(index);
+		}
 	}
 	m_pGridPane->EndBatch();	
 	//
@@ -841,8 +864,7 @@ void CViewWorkGrid::OnSelectCell( wxGridEvent& ev )
     // you must call Skip() if you want the default processing
     // to occur in wxGrid
     ev.Skip();
-	m_bForceUpdateSelection = true;
+	if(!m_bIgnoreSelectionEvents) {
+		m_bForceUpdateSelection = true;
+	}
 }
-
-
-

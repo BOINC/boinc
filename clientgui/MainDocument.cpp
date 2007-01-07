@@ -784,6 +784,34 @@ RESULT* CMainDocument::result(unsigned int i) {
     return pResult;
 }
 
+/* get the result not by index, but by name */
+RESULT* CMainDocument::result(const wxString& name) {
+    RESULT* pResult = NULL;
+
+    // It is not safe to assume that the vector actually contains the data,
+    //   doing so will lead to those annoying dialogs about the list control
+    //   not being able to find list item such and such.  In the worst case
+    //   scenario it'll lead to a crash, so for now we'll use the at() function
+    //   which will cause an exception which can be trapped and return a NULL
+    //   pointer when the exception is thrown.
+    try {
+        if (!results.results.empty())
+			//iterating over the vector and find the right result
+			for(unsigned int i=0; i< results.results.size();i++) {
+				RESULT* tResult = results.results.at(i);
+				wxString resname(tResult->name.c_str(),wxConvUTF8);
+				if(resname.IsSameAs(name)){
+					pResult = tResult;
+					break;
+				}
+			}			
+    }
+    catch (std::out_of_range e) {
+        pResult = NULL;
+    }
+
+    return pResult;
+}
 
 int CMainDocument::GetWorkCount() {
     int iCount = -1;
@@ -969,6 +997,34 @@ FILE_TRANSFER* CMainDocument::file_transfer(unsigned int i) {
     return pFT;
 }
 
+FILE_TRANSFER* CMainDocument::file_transfer(const wxString& fileName) {
+    FILE_TRANSFER* pFT = NULL;
+
+    // It is not safe to assume that the vector actually contains the data,
+    //   doing so will lead to those annoying dialogs about the list control
+    //   not being able to find list item such and such.  In the worst case
+    //   scenario it'll lead to a crash, so for now we'll use the at() function
+    //   which will cause an exception which can be trapped and return a NULL
+    //   pointer when the exception is thrown.
+    try {
+		if (!ft.file_transfers.empty()) {
+			for(unsigned int i=0; i< ft.file_transfers.size();i++) {
+				FILE_TRANSFER* tFT = ft.file_transfers.at(i);
+				wxString fname(tFT->name.c_str(),wxConvUTF8);
+				if(fname.IsSameAs(fileName)) {
+					pFT = tFT;
+					break;
+				}
+			}            
+		}
+    }
+    catch (std::out_of_range e) {
+        pFT = NULL;
+    }
+
+    return pFT;
+}
+
 
 int CMainDocument::GetTransferCount() {
     int iCount = 0;
@@ -995,12 +1051,36 @@ int CMainDocument::TransferRetryNow(int iIndex) {
     return iRetVal;
 }
 
+int CMainDocument::TransferRetryNow(const wxString& fileName) {
+    FILE_TRANSFER* pFT = NULL;
+    int iRetVal = 0;
+
+    pFT = file_transfer(fileName);
+
+    if (pFT)
+        iRetVal = rpc.file_transfer_op((*pFT), "retry");
+
+    return iRetVal;
+}
+
 
 int CMainDocument::TransferAbort(int iIndex) {
     FILE_TRANSFER* pFT = NULL;
     int iRetVal = 0;
 
     pFT = file_transfer(iIndex);
+
+    if (pFT)
+        iRetVal = rpc.file_transfer_op((*pFT), "abort");
+
+    return iRetVal;
+}
+
+int CMainDocument::TransferAbort(const wxString& fileName) {
+    FILE_TRANSFER* pFT = NULL;
+    int iRetVal = 0;
+
+    pFT = file_transfer(fileName);
 
     if (pFT)
         iRetVal = rpc.file_transfer_op((*pFT), "abort");

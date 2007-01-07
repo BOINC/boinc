@@ -54,6 +54,7 @@ IMPLEMENT_DYNAMIC_CLASS(CViewTransfersGrid, CBOINCBaseView)
 BEGIN_EVENT_TABLE (CViewTransfersGrid, CBOINCBaseView)
     EVT_BUTTON(ID_TASK_TRANSFERS_RETRYNOW, CViewTransfersGrid::OnTransfersRetryNow)
     EVT_BUTTON(ID_TASK_TRANSFERS_ABORT, CViewTransfersGrid::OnTransfersAbort)
+	EVT_GRID_SELECT_CELL( CViewTransfersGrid::OnSelectCell )
 END_EVENT_TABLE ()
 
 
@@ -120,22 +121,8 @@ CViewTransfersGrid::CViewTransfersGrid(wxNotebook* pNotebook) :
     m_pTaskPane->UpdateControls();
 
 	// Create Grid
-	m_pGridPane->CreateGrid(0,7,wxGrid::wxGridSelectRows);	
-	m_pGridPane->SetRowLabelSize(1);//hide row labels
-	m_pGridPane->SetColLabelSize(20); //smaller as default
-	m_pGridPane->EnableGridLines(false);
-	m_pGridPane->EnableDragRowSize(false);//prevent the user from changing the row height with the mouse
-	m_pGridPane->EnableDragCell(false);
-	m_pGridPane->EnableEditing(false);
-	m_pGridPane->SetColLabelAlignment(wxALIGN_LEFT,wxALIGN_CENTER);
-#ifdef __WXMAC__        // This will probably be OK for non-Mac systems
-	m_pGridPane->SetLabelFont(wxSystemSettings::GetFont(wxSYS_DEFAULT_GUI_FONT));
-	m_pGridPane->SetDefaultCellFont(wxFont(12, wxSWISS, wxNORMAL, wxNORMAL, FALSE));
-	m_pGridPane->SetDefaultCellBackgroundColour(*wxWHITE);
-#else
-	m_pGridPane->SetLabelFont(*wxNORMAL_FONT);
-#endif
-
+	m_pGridPane->SetTable(new CBOINCGridTable(1,7));
+	m_pGridPane->SetSelectionMode(wxGrid::wxGridSelectRows);
 	// init grid columns
 	wxInt32 colSizes[] = {125,205,60,80,80,80,150};
 	wxString colTitles[] = {_("Project"),_("File"),_("Progress"),_("Size"),_("Elapsed Time"),_("Speed"),_("Status")};
@@ -145,6 +132,11 @@ CViewTransfersGrid::CViewTransfersGrid(wxNotebook* pNotebook) :
 	}
 	//change the default cell renderer
 	m_pGridPane->SetDefaultRenderer(new CBOINCGridCellProgressRenderer(COLUMN_PROGRESS));
+	//set column sort types
+	m_pGridPane->SetColumnSortType(COLUMN_PROGRESS,CST_FLOAT);
+	m_pGridPane->SetColumnSortType(COLUMN_TIME,CST_TIME);
+	//m_pGridPane->SetColumnSortType(COLUMN_SIZE,CST_FLOAT);
+	m_pGridPane->SetColumnSortType(COLUMN_SPEED,CST_FLOAT);
 	//
     UpdateSelection();
 }
@@ -180,7 +172,9 @@ void CViewTransfersGrid::OnTransfersRetryNow( wxCommandEvent& WXUNUSED(event) ) 
     wxASSERT(m_pGridPane);
 
     pFrame->UpdateStatusText(_("Retrying transfer now..."));
-    pDoc->TransferRetryNow(m_pGridPane->GetFirstSelectedRow());
+    //pDoc->TransferRetryNow(m_pGridPane->GetFirstSelectedRow());
+	wxString searchName = m_pGridPane->GetCellValue(m_pGridPane->GetFirstSelectedRow(),COLUMN_FILE).Trim(false);
+	pDoc->TransferRetryNow(searchName);
     pFrame->UpdateStatusText(wxT(""));
 
     UpdateSelection();
@@ -212,11 +206,12 @@ void CViewTransfersGrid::OnTransfersAbort( wxCommandEvent& WXUNUSED(event) ) {
 
     pFrame->UpdateStatusText(_("Aborting transfer..."));
 
+	wxString searchName = m_pGridPane->GetCellValue(m_pGridPane->GetFirstSelectedRow(),COLUMN_FILE).Trim(false);
     strMessage.Printf(
         _("Are you sure you want to abort this file transfer '%s'?\n"
           "NOTE: Aborting a transfer will invalidate a task and you\n"
           "will not receive credit for it."), 
-        wxString(pDoc->file_transfer(m_pGridPane->GetFirstSelectedRow())->name.c_str(), wxConvUTF8).c_str()
+        wxString(searchName, wxConvUTF8).c_str()
     );
 
     iAnswer = ::wxMessageBox(
@@ -227,7 +222,7 @@ void CViewTransfersGrid::OnTransfersAbort( wxCommandEvent& WXUNUSED(event) ) {
     );
 
     if (wxYES == iAnswer) {
-        pDoc->TransferAbort(m_pGridPane->GetFirstSelectedRow());
+        pDoc->TransferAbort(searchName);
     }
 
     pFrame->UpdateStatusText(wxT(""));
@@ -300,7 +295,7 @@ wxInt32 CViewTransfersGrid::FormatProgress(wxInt32 item, wxString& strBuffer) co
     if ( 0.0 == fFileSize ) {
         strBuffer = wxT("0%");
     } else {
-        strBuffer.Printf(wxT("%.2f%%"), floor((fBytesSent / fFileSize) * 10000)/100);
+        strBuffer.Printf(wxT("%.2f%"), floor((fBytesSent / fFileSize) * 10000)/100);
     }
 
     return 0;
@@ -476,8 +471,19 @@ bool CViewTransfersGrid::OnRestoreState(wxConfigBase* pConfig) {
 void CViewTransfersGrid::OnListRender( wxTimerEvent& WXUNUSED(event) ) {
 	//prevent grid from flicker
 	m_pGridPane->BeginBatch();
-	//remember selected rows
-	wxArrayInt arrSelRows = m_pGridPane->GetSelectedRows();
+	//remember selected rows 
+	wxArrayInt arrSelRows = m_pGridPane->GetSelectedRows2();
+	wxArrayString arrSelNames;
+	for(unsigned int i=0; i< arrSelRows.GetCount();i++) {
+		arrSelNames.Add(m_pGridPane->GetCellValue(arrSelRows[i],COLUMN_FILE));
+	}
+	//remember grid cursor position
+	int ccol = m_pGridPane->GetGridCursorCol();
+	int crow = m_pGridPane->GetGridCursorRow();
+	wxString cursorName;
+	if(crow>=0 && ccol >=0) {
+		cursorName = m_pGridPane->GetCellValue(crow,COLUMN_FILE);
+	}
 	//(re)create rows, if necessary
 	if(this->GetDocCount()!= m_pGridPane->GetRows()) {
 		//at first, delet all current rows
@@ -515,13 +521,35 @@ void CViewTransfersGrid::OnListRender( wxTimerEvent& WXUNUSED(event) ) {
 		this->FormatStatus(rownum,buffer);
 		m_pGridPane->SetCellValue(rownum,COLUMN_STATUS,buffer);
 	}
-
+	m_pGridPane->SortData();
+	// restore grid cursor position
+	int index = m_pGridPane->GetTable()->FindRowIndexByColValue(COLUMN_FILE,cursorName);
+	if(index >=0) {
+		m_bIgnoreSelectionEvents =true;
+		m_pGridPane->SetGridCursor(index,ccol);		
+		m_bIgnoreSelectionEvents =false;
+	}
 	//restore selection
-	for(unsigned int i=0;i < arrSelRows.size();i++) {
-		m_pGridPane->SelectRow(arrSelRows[i]);
+	for(unsigned int i=0;i < arrSelNames.size();i++) {		
+		int index = m_pGridPane->GetTable()->FindRowIndexByColValue(COLUMN_FILE,arrSelNames[i]);
+		if(index >=0) {
+			m_pGridPane->SelectRow(index);
+		}
 	}
 	m_pGridPane->EndBatch();	
 	//
 	UpdateSelection();
 }
 
+/**
+	handle selection events
+*/
+void CViewTransfersGrid::OnSelectCell( wxGridEvent& ev )
+{
+    // you must call Skip() if you want the default processing
+    // to occur in wxGrid
+    ev.Skip();
+	if(!m_bIgnoreSelectionEvents) {
+		m_bForceUpdateSelection = true;
+	}
+}

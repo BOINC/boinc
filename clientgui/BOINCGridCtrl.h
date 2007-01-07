@@ -24,6 +24,14 @@
 #pragma interface "BOINCGridCtrl.cpp"
 #endif
 
+class CBOINCGridTable;
+
+#define CST_STRING		0
+#define CST_TIME	    1
+#define CST_LONG		2
+#define CST_FLOAT		3
+#define CST_DATETIME	4
+
 /* default progress renderer */
 class CBOINCGridCellProgressRenderer : public wxGridCellStringRenderer {
 	int column;
@@ -55,10 +63,33 @@ public:
                             int verticalAlignment = wxALIGN_TOP,
 	                        int textOrientation = wxHORIZONTAL );
 	virtual void DrawColLabel( wxDC& dc, int col );
+	void OnLabelLClick(wxGridEvent& ev);
+	void SortData();
+	void SetColumnSortType(int col,int sortType=CST_STRING);
+	wxArrayInt GetSelectedRows2();
+	CBOINCGridTable* GetTable();
+protected:
+	DECLARE_EVENT_TABLE()
 private:
 	wxString FormatTextWithEllipses(wxDC& dc,const wxString &text,int width);
+	int sortColumn;
+	bool sortAscending;
+	int ccollast,crowlast;
+	wxBitmap ascBitmap;
+	wxBitmap descBitmap;
 };
 
+/* grid table */
+class CBOINCGridTable : public wxGridStringTable {
+public:
+	CBOINCGridTable(int rows,int cols);
+	virtual ~CBOINCGridTable();	
+	void SortData(int col,bool ascending);
+	int FindRowIndexByColValue(int col,wxString& value);
+	void SetColumnSortType(int col,int sortType=CST_STRING);
+private:
+	wxArrayInt arrColumnSortTypes;
+};
 
 
 #endif //_BOINCGRIDCTRL_H_

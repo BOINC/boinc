@@ -206,3 +206,16 @@ Walt   6 Jan 2007
     
     clientgui/
         sg_DlgMessages.cpp
+
+David  7 Jan 2007
+	- manager: fixes for new task/transfer tabs
+		(from Frank Weiler)
+
+	clientgui/
+		BOINCGridCtrl.cpp,h
+		MainDocument.cpp,h
+		ViewTransfersGrid.cpp,h
+		ViewWorkGrid.cpp,h
+		res/
+			sortascending.xpm
+			sortdescending.xpm
