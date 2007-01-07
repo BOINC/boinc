@@ -219,3 +219,13 @@ David  7 Jan 2007
 		res/
 			sortascending.xpm
 			sortdescending.xpm
+
+David  7 Jan 2007
+    - core client: if swap space is zero, it must not have been
+        measured on this host; don't use it in process scheduling
+    - user web: don't use font colors this way
+
+    client/
+        cpu_sched.C
+    html/user/
+        forum_forum.php

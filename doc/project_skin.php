@@ -4,12 +4,12 @@ page_head("Project graphics in the BOINC simple GUI");
 echo "
 <p>
 The 'simple GUI' available in versions 5.8+ of the BOINC Manager
-uses graphical representations of projects and applications.
+uses graphical representations of projects and applications:
 <ul>
 <li> The project is represented by a 40x40 pixel icon.
 <li> Each application is represented by a sequence of images,
-each up to 290x126 pixels,
-which are shown as a slideshow, changing once every few seconds.
+each up to 290x126 pixels.
+These are shown as a slideshow, changing once every few seconds.
 </ul>
 For example, in the following screenshot of the simple GUI,
 the two icons at the bottom represent CPDN and SETI@home,
@@ -33,6 +33,7 @@ The format of 'project_files.xml' is:
 <file_info>
     <name>X</name>
     <url>X</url>
+    <md5_cksum>X</md5_cksum>
 </file_info>
 ...
 <project_files>
@@ -44,12 +45,13 @@ The format of 'project_files.xml' is:
 </project_files>
 ")."
 <p>
-The each file, this specifies:
+For each file, this specifies:
 <ul>
-<li> Its URL (where to download it from)
-<li> Its physical name; it will be stored in the project
+<li> its URL (where to download it from)
+<li> its physical name; it will be stored in the project
 directory on the client under this name.
-<li> Its logical name; a 'soft link' file will be created
+<li> its MD5 checksum (use 'openssl dgst' to get this).
+<li> its logical name; a 'soft link' file will be created
 with this name, linking to the physical name.
 </ul>
 All file_info records must appear before the project_files record.
@@ -70,6 +72,7 @@ An example would look like this:
 <file_info>
     <name>stat_icon_01.png</name>
     <url>http://www.example.com/download/stat_icon_01.png</url>
+    <md5_cksum>186c5385c8f2a48ccc7e4f64251fcda1</md5_cksum>
 </file_info>
 <project_files>
     <file_ref>
@@ -92,7 +95,7 @@ Two things to note here:
 <p>
 You can have one or more images displayed in the Simple GUI
 when BOINC is running one of your apps.
-Each image can have a height of 126px and a width of 290px,
+Each image can have a height up to 126px and a width up to 290px,
 and can be any of the following image types: PNG, JPG, GIF, and BMP.
 <p>
 An example would look like this:
@@ -100,10 +103,13 @@ An example would look like this:
 <file_info>
     <name>slideshow_exampleapp_01_01.png</name>
     <url>http://www.example.com/download/slideshow_exampleapp_01_01.png</url>
+    <md5_cksum>186c5385c8f2a48ccc7e4f64251fcda1</md5_cksum>
 </file_info>
 <file_info>
     <name>slideshow_exampleapp_02_01.png</name>
     <url>http://www.example.com/download/slideshow_exampleapp_02_01.png</url>
+    <md5_cksum>3b262da3d69d6b9eb55add88b66cdab4</md5_cksum>
+</file_info>
 </file_info>
 <project_files>
     <file_ref>
@@ -135,18 +141,22 @@ Here is the 'project_files.xml' file SETI@home is using:
 <file_info>
     <name>arecibo_181.png</name>
     <url>http://setiathome.berkeley.edu/sg_images/arecibo_181.png</url>
+    <md5_cksum>f9b65230a594098d183d2266511bc648</md5_cksum>
 </file_info>
 <file_info>
     <name>sah_40.png</name>
     <url>http://setiathome.berkeley.edu/sg_images/sah_40.png</url>
+    <md5_cksum>5791ba1be2d33eaa5f90ecf5de89a53d</md5_cksum>
 </file_info>
 <file_info>
     <name>sah_banner_290.png</name>
     <url>http://setiathome.berkeley.edu/sg_images/sah_banner_290.png</url>
+    <md5_cksum>39839286db7f580bef5377322d15ed35</md5_cksum>
 </file_info>
 <file_info>
     <name>sah_ss_290.png</name>
     <url>http://setiathome.berkeley.edu/sg_images/sah_ss_290.png</url>
+    <md5_cksum>caf95504208aedd6ac6d82201e2fd8b1</md5_cksum>
 </file_info>
 <project_files>
     <file_ref>

@@ -1,9 +1,7 @@
 <?php
 require_once("docutil.php");
-page_head("Project-specific items in the client GUI");
+page_head("GUI URLs");
 echo "
-<h2>Web links</h2>
-<p>
 <b>GUI URLs</b> is a mechanism that projects to pass URLs to the client,
 for display as hyperlinks in the GUI.
 These links will be shown
@@ -61,35 +59,5 @@ list_item(htmlspecialchars("<team_name/>"), "The team name");
 list_item(htmlspecialchars("<hostid/>"), "The host ID");
 list_item(htmlspecialchars("<authenticator/>"), "The user's account key");
 list_end();
-echo "
-<h2>Project files</h2>
-<p>
-<b>Project files</b> are associated with a project
-but not with any application or work item.
-Typically they are graphics files used by the BOINC Manager.
-Project files are described by a file <b>project_files.xml</b>
-in the server project directory, with the following format:
-".html_text("
-<file_info>
-  <name>icon32_54.png</name>
-  <url>http://a.b.c/icon_54.png</url>
-  <md5_cksum>1f122d39b0f7e3d264a7ed4becf33b77</md5_cksum>
-</file_info>
-<project_files>
-    <file_ref>
-      <open_name>icon32.png</open_name>
-      <file_name>icon32_54.png</file_name>
-    </file_ref>
-    ...
-</project_files>
-")."
-<p>
-This file is included verbatim in all scheduler RPC replies.
-<p>
-The semantics are: after a scheduler RPC, the client downloads any
-project files that it doesn't already have, and creates symbolic links
-to them (in the project directory) with the given name.
-It garbage-collects old files that aren't listed anymore.
-";
 page_tail();
 ?>

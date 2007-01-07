@@ -63,7 +63,7 @@ echo "
 <li> <a href=#sigs>Credit-based signatures</a>
 <li> <a href=#team_stats>Team statistics</a>
 <li> <a href=#status>Project status</a>
-<li> <a href=#uotd>User of the Day status</a>
+<li> <a href=#misc>Miscellaneous</a>
 <li> <a href=#skins>Skins for the BOINC Manager</a>
 <li> <a href=#sites>Other BOINC-related sites</a>
 (Information, message boards, and teams)
@@ -113,11 +113,12 @@ Show if the servers of various projects are up or down.
 <li> <a href=http://www.esea.dk/esea/bos.asp>BOS (BOINC Online Schedulers></a>
 <li> <a href=http://boincprojectstatus.ath.cx/>BOINC Project Status</a>
 </ul>
-<a name=uotd></a>
-<h3>Users of the Day</h3>
+<a name=misc></a>
+<h3>Miscellaneous</h3>
 
 <ul>
 <li> <a href=http://www.myboinc.com/>BOINC Users of the Day</a>
+<li> <a href=http://groups.myspace.com/BOINConMYSPACE>BOINC on MySpace</a>
 </ul>
 <a name=skins></a>
 <h3>Skins for the BOINC Manager</h3>

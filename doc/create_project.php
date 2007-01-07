@@ -147,7 +147,8 @@ Miscellaneous
 </b></font>
 <ul>
 <li> <a href=recruit.php>Recruiting and retaining volunteers</a>
-<li> <a href=gui_urls.php>Project-specific items in the client GUI</a>
+<li> <a href=gui_urls.php>GUI URLs</a>
+<li> <a href=project_skin.php>Creating a 'project skin'</a>
 <li> <a href=db_dump.php>Export credit data as XML</a>
 <li> <a href=grid.php>Integrating BOINC projects with Grids</a>
 <li> <a href=boinc_version.php>Versions of BOINC</a>

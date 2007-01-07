@@ -148,6 +148,14 @@ $math = array(
     "Mathematics and strategy games",
     array(
         array(
+            "ABC@home",
+            "http://abcathome.com/",
+            "Mathematical Institute of Leiden University / Kennislink",
+            "Mathematics",
+            "Search for \'abc-triples\': positive integers a,b,c such that a+b=c, a &lt; b &lt; c, a,b,c have no common divisors and c > rad(abc), where rad(n) is the product of the distinct prime factors of n. The ABC conjecture says that there are only finitely many a,b,c such that log(c)/log(rad(abc)) > h for any real h > 1. The ABC conjecture is currently one of the greatest open problems in mathematics. If it is proven to be true, a lot of other open problems can be answered directly from it.",
+            ""
+        ),
+        array(
             "PrimeGrid",
             "http://primegrid.com",
             "Private",
