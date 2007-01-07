@@ -238,3 +238,11 @@ David  7 Jan 2007
             news.inc
         user/
             white.css
+
+Rom    7 Jan 2007
+    - DIAG: Clean up some warnings and add a new exception type to the list
+        of known exceptions.
+    
+    lib/
+        diagnostics.C
+        diagnostics_win.C

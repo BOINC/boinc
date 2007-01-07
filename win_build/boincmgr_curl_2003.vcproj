@@ -34,7 +34,6 @@
 				PrecompiledHeaderThrough="stdwx.h"
 				WarningLevel="4"
 				WarnAsError="FALSE"
-				Detect64BitPortabilityProblems="TRUE"
 				DebugInformationFormat="3"
 				DisableSpecificWarnings="4127;4702;4244"
 				ForcedIncludeFiles="stdwx.h"/>
@@ -102,7 +101,6 @@
 				PrecompiledHeaderThrough="stdwx.h"
 				PrecompiledHeaderFile="$(IntDir)/$(TargetName).pch"
 				WarningLevel="4"
-				Detect64BitPortabilityProblems="TRUE"
 				DebugInformationFormat="4"
 				CompileAs="2"
 				DisableSpecificWarnings="4127;4702;4244"
@@ -168,7 +166,6 @@
 				PrecompiledHeaderThrough="stdwx.h"
 				PrecompiledHeaderFile="$(IntDir)/$(TargetName).pch"
 				WarningLevel="4"
-				Detect64BitPortabilityProblems="TRUE"
 				DebugInformationFormat="4"
 				CompileAs="2"
 				DisableSpecificWarnings="4127;4702;4244"
@@ -230,7 +227,6 @@
 				PrecompiledHeaderThrough="stdwx.h"
 				WarningLevel="4"
 				WarnAsError="FALSE"
-				Detect64BitPortabilityProblems="TRUE"
 				DebugInformationFormat="3"
 				DisableSpecificWarnings="4127;4702;4244"
 				ForcedIncludeFiles="stdwx.h"/>
