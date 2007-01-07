@@ -748,7 +748,7 @@ bool CDlgMessages::Create( wxWindow* parent, wxWindowID id, const wxString& capt
 
     wxDialog::Create( parent, id, strCaption, pos, size, style );
 
-	SetBackgroundStyle(wxBG_STYLE_CUSTOM);
+    SetBackgroundStyle(wxBG_STYLE_CUSTOM);
 
     Freeze();
 
