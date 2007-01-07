@@ -233,6 +233,11 @@ span.note{
     font-weight: normal;
     font-size: 0.9em;
 }
+span.news_date {
+    color: rgb(100,100,100);
+    font-size: 0.9em;
+}
+
 
 .code {
     font-family: System, Fixed, sans-serif;

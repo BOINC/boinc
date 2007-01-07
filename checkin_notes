@@ -229,3 +229,12 @@ David  7 Jan 2007
         cpu_sched.C
     html/user/
         forum_forum.php
+
+David  7 Jan 2007
+    - user web: don't show news dates as <h3>.  Use a style instead.
+
+    html/
+        inc/
+            news.inc
+        user/
+            white.css
