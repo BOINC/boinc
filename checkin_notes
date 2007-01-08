@@ -269,3 +269,12 @@ David  8 Jan 2007
 		ViewProjectsGrid.cpp,h
 		ViewTransfersGrid.pp
 		ViewWOrkGrid.cpp
+
+Rom    8 Jan 2007
+    - Win SETUP: Make Windows XP or better require passwords for the
+        service accounts again.
+    - Win SETUP: Fix a spelling mistake that JM7 found.
+    
+    boinc/win_build/installerv2/redist/Windows/src/boinccas
+        CAGrantServiceExecutionRight.cpp
+        CAVerifyServicePassword.cpp

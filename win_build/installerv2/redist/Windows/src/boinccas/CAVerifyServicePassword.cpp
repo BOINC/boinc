@@ -88,7 +88,7 @@ UINT CAVerifyServicePassword::OnExecution()
     }
     else
     {
-        if ( strServicePassword.empty() && ( strWindowsVersion.empty() || (strWindowsVersion < _T("501")) ))
+        if ( strServicePassword.empty() )
         {
             DisplayMessage(
                 MB_OK, 
