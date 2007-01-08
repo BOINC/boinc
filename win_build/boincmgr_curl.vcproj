@@ -1560,11 +1560,27 @@
 					>
 				</File>
 				<File
+					RelativePath="..\clientgui\ViewMessagesGrid.cpp"
+					>
+				</File>
+				<File
+					RelativePath="..\clientgui\ViewMessagesGrid.h"
+					>
+				</File>
+				<File
 					RelativePath="..\clientgui\ViewProjects.cpp"
 					>
 				</File>
 				<File
 					RelativePath="..\clientgui\ViewProjects.h"
+					>
+				</File>
+				<File
+					RelativePath="..\clientgui\ViewProjectsGrid.cpp"
+					>
+				</File>
+				<File
+					RelativePath="..\clientgui\ViewProjectsGrid.h"
 					>
 				</File>
 				<File
