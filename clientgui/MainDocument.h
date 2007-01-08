@@ -140,18 +140,26 @@ private:
 
 public:
     PROJECT*                    project(unsigned int);
+	PROJECT*                    project(const wxString& projectname);
     float                       m_fProjectTotalResourceShare;
 
     int                         GetProjectCount();
 
     int                         ProjectNoMoreWork(int iIndex);
+	int                         ProjectNoMoreWork(const wxString& projectname);
     int                         ProjectAllowMoreWork(int iIndex);
+	int                         ProjectAllowMoreWork(const wxString& projectname);
     int                         ProjectAttach(const wxString& strURL, const wxString& strAccountKey);
     int                         ProjectDetach(int iIndex);
+	int                         ProjectDetach(const wxString& projectname);
     int                         ProjectUpdate(int iIndex);
+	int                         ProjectUpdate(const wxString& projectname);
     int                         ProjectReset(int iIndex);
+	int                         ProjectReset(const wxString& projectname);
     int                         ProjectSuspend(int iIndex);
+	int                         ProjectSuspend(const wxString& projectname);
     int                         ProjectResume(int iIndex);
+	int                         ProjectResume(const wxString& projectname);
 
 
     //

@@ -255,3 +255,17 @@ Charlie 8 Jan 2007
     clientgui/
         BOINCGridCtrl.cpp
         ViewTransfersGrid.cpp
+
+David  8 Jan 2007
+	- manager: performance enhancement to grid views
+		(from Frank Weiler)
+
+	clientgui/
+		AdvancedFrame.cpp
+		BOINCGridCtrl.cpp,h
+		Events.h
+		MainDocument.cpp,h
+		ViewMessagesGrid.cpp, h (new)
+		ViewProjectsGrid.cpp,h
+		ViewTransfersGrid.pp
+		ViewWOrkGrid.cpp

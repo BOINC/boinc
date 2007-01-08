@@ -42,6 +42,13 @@ static int CompareFloatString(const wxString& first,const wxString& second) {
 	}
 	return 0;
 }
+
+/* compare Strings case insensitive */
+static int CompareStringStringNoCase(const wxString& first,const wxString& second) {
+	int ret = first.CmpNoCase(second);
+	return reverseCompareOrder ? ret * (-1) : ret;
+}
+
 /* compare Strings that contains int/long numbers */
 static int CompareLongString(const wxString& first,const wxString& second) {
 	long lFirst;
@@ -86,7 +93,7 @@ static int CompareTimeString(const wxString& first,const wxString& second) {
 	}
 	if(dtSecond < dtFirst) {
 		return reverseCompareOrder ? -1 : 1 ;
-	}	
+	}
 	return 0;
 }
 
@@ -104,7 +111,7 @@ static int CompareDateString(const wxString& first,const wxString& second) {
 	}
 	if(dtSecond < dtFirst) {
 		return reverseCompareOrder ? -1 : 1 ;
-	}	
+	}
 	return 0;
 }
 
@@ -115,11 +122,11 @@ END_EVENT_TABLE ()
 
 CBOINCGridCtrl::CBOINCGridCtrl(wxWindow* parent, wxWindowID iGridWindowID) : wxGrid(parent, iGridWindowID) {
 	sortColumn=-1;
-	sortAscending=true;	
+	sortAscending=true;
 	//load sorting bitmaps
 	ascBitmap = wxBitmap(sortascending_xpm);
 	descBitmap = wxBitmap(sortdescending_xpm);
-	//make grid cursor inivisible
+	//make grid cursor invisible
 	SetCellHighlightPenWidth(0);
 	SetCellHighlightROPenWidth(0);
 	//change default selection colours
@@ -128,13 +135,14 @@ CBOINCGridCtrl::CBOINCGridCtrl(wxWindow* parent, wxWindowID iGridWindowID) : wxG
 	//
 	SetRowLabelSize(1);//hide row labels
 	SetColLabelSize(20); //smaller as default
+	SetColLabelAlignment(wxALIGN_LEFT,wxALIGN_CENTER);
 	EnableGridLines(false);
 	EnableDragRowSize(false);//prevent the user from changing the row height with the mouse
 	EnableDragCell(false);
 	EnableEditing(false);
 	DisableCellEditControl();
 	SetDefaultCellBackgroundColour(*wxWHITE);
-#ifdef __WXMAC__        
+#ifdef __WXMAC__
 	SetLabelFont(wxSystemSettings::GetFont(wxSYS_DEFAULT_GUI_FONT));
 	SetDefaultCellFont(wxFont(12, wxSWISS, wxNORMAL, wxNORMAL, FALSE));
 #else
@@ -156,7 +164,7 @@ wxArrayInt CBOINCGridCtrl::GetSelectedRows2() {
 				break;
 			}
 		}
-	}	
+	}
 	return ret;
 }
 
@@ -196,9 +204,9 @@ bool CBOINCGridCtrl::OnSaveState(wxConfigBase* pConfig) {
     for (iIndex = 0; iIndex < iColumnCount; iIndex++) {
 		wxString label = this->GetColLabelValue(iIndex);
         pConfig->SetPath(strBaseConfigLocation + label);
-		pConfig->Write(wxT("Width"), this->GetColumnWidth(iIndex));		
+		pConfig->Write(wxT("Width"), this->GetColumnWidth(iIndex));
     }
-	//save sorting column	
+	//save sorting column
 	pConfig->SetPath(strBaseConfigLocation);
 	pConfig->Write(wxT("SortColumn"),this->sortColumn);
 	pConfig->Write(wxT("SortAscending"),this->sortAscending);
@@ -228,7 +236,7 @@ bool CBOINCGridCtrl::OnRestoreState(wxConfigBase* pConfig) {
 			this->SetColumnWidth(iIndex,iTempValue);
         }
     }
-	//read sorting 
+	//read sorting
 	pConfig->SetPath(strBaseConfigLocation);
 	pConfig->Read(wxT("SortColumn"),&iTempValue,-1);
 	if(-1 != iTempValue) {
@@ -236,7 +244,7 @@ bool CBOINCGridCtrl::OnRestoreState(wxConfigBase* pConfig) {
 	}
 	pConfig->Read(wxT("SortAscending"),&iTempValue,-1);
 	if(-1 != iTempValue) {
-		this->sortAscending = iTempValue;
+		this->sortAscending = iTempValue != 0 ? true : false;
 	}
 
     return true;
@@ -287,7 +295,7 @@ void CBOINCGridCtrl::DrawTextRectangle( wxDC& dc,
 
     dc.SetClippingRegion( rect );
 
-    nLines = lines.GetCount();
+    nLines = (unsigned int)lines.GetCount();
     if( nLines > 0 )
     {
         unsigned int l;
@@ -456,7 +464,7 @@ void CBOINCGridCtrl::DrawColLabel( wxDC& dc, int col )
 	//paint sorting indicators, if needed
 	if(col == this->sortColumn) {
 		int x = rect.GetRight() - ascBitmap.GetWidth() - 2;
-		int y = rect.GetY();		
+		int y = rect.GetY();
 		dc.DrawBitmap(this->sortAscending ? ascBitmap : descBitmap,x,y,true);
 	}
 }
@@ -485,27 +493,19 @@ void CBOINCGridCtrl::SetColumnSortType(int col,int sortType/*=CST_STRING*/) {
 	this->GetTable()->SetColumnSortType(col,sortType);
 }
 
-/* ############# cell renderer */
-CBOINCGridCellProgressRenderer::CBOINCGridCellProgressRenderer(int col) : wxGridCellStringRenderer()
-{
-	column = col;
+/* generic grid cell renderer */
+CBOINCGridCellRenderer::CBOINCGridCellRenderer() : wxGridCellStringRenderer() {
 }
 
-void CBOINCGridCellProgressRenderer::Draw(wxGrid& grid, wxGridCellAttr& attr, wxDC& dc, const wxRect& rect, int row, int col, bool isSelected) {
-	if(col==column) {
-		DoProgressDrawing(grid,attr,dc,rect,row,col,isSelected);
-	}
-	else {
-		DoNormalTextDrawing(grid,attr,dc,rect,row,col,isSelected);
-	}
+void CBOINCGridCellRenderer::Draw(wxGrid& grid, wxGridCellAttr& attr, wxDC& dc, const wxRect& rect, int row, int col, bool isSelected) {
+	DoNormalTextDrawing(grid,attr,dc,rect,row,col,isSelected);
 }
 
 /* draws alternating background colours */
-void CBOINCGridCellProgressRenderer::DrawBackground(wxGrid& grid,
-                              wxGridCellAttr& attr,
+void CBOINCGridCellRenderer::DrawBackground(wxGrid& grid,
                               wxDC& dc,
                               const wxRect& rect,
-                              int row, int col,
+                              int row,
                               bool isSelected)
 {
     dc.SetBackgroundMode( wxSOLID );
@@ -537,12 +537,12 @@ void CBOINCGridCellProgressRenderer::DrawBackground(wxGrid& grid,
     dc.DrawRectangle(rect);
 }
 
-void CBOINCGridCellProgressRenderer::DoNormalTextDrawing(wxGrid& grid, wxGridCellAttr& attr, wxDC& dc, const wxRect& rectCell, int row, int col, bool isSelected) {
+void CBOINCGridCellRenderer::DoNormalTextDrawing(wxGrid& grid, wxGridCellAttr& attr, wxDC& dc, const wxRect& rectCell, int row, int col, bool isSelected) {
     wxRect rect = rectCell;
     rect.Inflate(-1);
 
     // erase only this cells background, overflow cells should have been erased
-	this->DrawBackground(grid, attr, dc, rectCell, row, col, isSelected);
+	this->DrawBackground(grid, dc, rectCell, row, isSelected);
 
     int hAlign, vAlign;
     attr.GetAlignment(&hAlign, &vAlign);
@@ -626,13 +626,42 @@ void CBOINCGridCellProgressRenderer::DoNormalTextDrawing(wxGrid& grid, wxGridCel
 
 }
 
+/* ############# message cell renderer */
+CBOINCGridCellMessageRenderer::CBOINCGridCellMessageRenderer(int priocol){
+	column = priocol;
+}
+
+void CBOINCGridCellMessageRenderer::Draw(wxGrid& grid, wxGridCellAttr& attr, wxDC& dc, const wxRect& rect, int row, int col, bool isSelected) {
+	wxString szError("Error",wxConvUTF8);
+	if(grid.GetCellValue(row,column).Trim(false).IsSameAs(szError)) {
+		attr.SetTextColour(*wxRED);
+	}
+	CBOINCGridCellRenderer::Draw(grid,attr,dc,rect,row,col,isSelected);
+}
+
+/* ############# progress cell renderer */
+CBOINCGridCellProgressRenderer::CBOINCGridCellProgressRenderer(int col,bool percentAppending/*=true*/) : CBOINCGridCellRenderer()
+{
+	column = col;
+	m_bDoPercentAppending = percentAppending;
+}
+
+void CBOINCGridCellProgressRenderer::Draw(wxGrid& grid, wxGridCellAttr& attr, wxDC& dc, const wxRect& rect, int row, int col, bool isSelected) {
+	if(col==column) {
+		DoProgressDrawing(grid,attr,dc,rect,row,col,isSelected);
+	}
+	else {
+		DoNormalTextDrawing(grid,attr,dc,rect,row,col,isSelected);
+	}
+}
+
 
 void CBOINCGridCellProgressRenderer::DoProgressDrawing(wxGrid& grid, wxGridCellAttr& attr, wxDC& dc, const wxRect& rectCell, int row, int col, bool isSelected) {
     wxRect rect = rectCell;
     rect.Inflate(-1);
 
     // erase only this cells background, overflow cells should have been erased
-	this->DrawBackground(grid, attr, dc, rectCell, row, col, isSelected);
+	this->DrawBackground(grid, dc, rectCell, row, isSelected);
 	// set text attributes
     int hAlign, vAlign;
 	attr.GetAlignment(&hAlign, &vAlign);
@@ -640,7 +669,10 @@ void CBOINCGridCellProgressRenderer::DoProgressDrawing(wxGrid& grid, wxGridCellA
 
 	//calculate the two parts of the progress rect
 	wxString value = grid.GetCellValue(row,col);
-	wxString strValue = value + wxString (" %", wxConvUTF8 );
+	wxString strValue = value;
+	if(m_bDoPercentAppending) {
+		strValue = strValue + wxString(" %",wxConvUTF8);
+	}
 	double dv;
 	value.ToDouble ( &dv );	 // NOTE: we should do error-checking/reporting here!!
 	wxRect p1(rect);
@@ -671,6 +703,11 @@ void CBOINCGridCellProgressRenderer::DoProgressDrawing(wxGrid& grid, wxGridCellA
 	grid.DrawTextRectangle(dc, strValue, rect, hAlign, vAlign);
 }
 
+/* enables or disbale the appendign of the percent sign to the progress text */
+void CBOINCGridCellProgressRenderer::SetPercentAppending(bool enable/*=true*/) {
+	m_bDoPercentAppending = enable;
+}
+
 
 /* ############ GridTable class ############ */
 CBOINCGridTable::CBOINCGridTable(int rows, int cols) : wxGridStringTable(rows,cols) {
@@ -683,8 +720,9 @@ CBOINCGridTable::CBOINCGridTable(int rows, int cols) : wxGridStringTable(rows,co
 CBOINCGridTable::~CBOINCGridTable() {
 }
 
+
 void CBOINCGridTable::SetColumnSortType(int col,int sortType/*=CST_STRING*/) {
-	if(col>=0 && col < (int)arrColumnSortTypes.GetCount()) {
+	if(col>=0 && col < ((int)arrColumnSortTypes.GetCount())) {
 		arrColumnSortTypes[col] = sortType;
 	}
 }
@@ -694,39 +732,39 @@ void CBOINCGridTable::SortData(int col,bool ascending) {
 	if(col<0) {
 		return;
 	}
-	wxArrayString arColValues;	
+	wxArrayString arColValues;
 	//get the values of the sorting column
-	for(int i=0; i < this->GetNumberRows(); i++) {				
+	for(int i=0; i < this->GetNumberRows(); i++) {
 		arColValues.Add(this->GetValue(i,col));
 	}
-	//sort the sorting column values 
+	//sort the sorting column values
 	reverseCompareOrder = !ascending;
 	switch(arrColumnSortTypes[col]) {
-		case CST_FLOAT: 
+		case CST_FLOAT:
 			arColValues.Sort(CompareFloatString);
 			break;
-		case CST_LONG: 
+		case CST_LONG:
 			arColValues.Sort(CompareLongString);
 			break;
-		case CST_TIME: 
+		case CST_TIME:
 			arColValues.Sort(CompareTimeString);
 			break;
 		case CST_DATETIME:
 			arColValues.Sort(CompareDateString);
 			break;
 		default:
-			arColValues.Sort(!ascending);
+			arColValues.Sort(CompareStringStringNoCase);
 			break;
 	}
-	//rebuild the underlaying 2-dimensional string array 
+	//rebuild the underlaying 2-dimensional string array
 	wxGridStringArray newArray;
-	for(unsigned int i=0; i< arColValues.GetCount();i++) {		
+	for(unsigned int i=0; i< arColValues.GetCount();i++) {
 		//find the original row index
 		int indexold = FindRowIndexByColValue(col,arColValues[i]);
 		wxArrayString rowArray;
 		for(int j=0; j < this->GetNumberCols(); j++) {
 			rowArray.Add(this->GetValue(indexold,j));
-			//delete the value in the original string array 
+			//delete the value in the original string array
 			//to prevent finding the wrong index in case of identical values
 			//f.e. the project name is the same for multiple work units or transfers
 			this->SetValue(indexold,j,wxEmptyString);
@@ -741,13 +779,13 @@ void CBOINCGridTable::SortData(int col,bool ascending) {
 	}
 }
 
-/* finds the first row index for the cell value value in column col 
+/* finds the first row index for the cell value value in column col
    !! only use this (outside sorting method) with a column, that has unique values !!
 */
 int CBOINCGridTable::FindRowIndexByColValue(int col,wxString& value) {
-	
+
 	for(int i=0; i < this->GetNumberRows(); i++) {
-		wxString curr = GetValue(i,col);		
+		wxString curr = GetValue(i,col);
 		if(this->GetValue(i,col).IsSameAs(value)) {
 			return i;
 		}

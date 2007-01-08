@@ -779,6 +779,7 @@ wxInt32 CViewWorkGrid::GetDocCount() {
 }
 
 void CViewWorkGrid::OnListRender( wxTimerEvent& WXUNUSED(event) ) {
+	int tdoccount= this->GetDocCount();
 	//prevent grid from flicker
 	m_pGridPane->BeginBatch();
 	//remember selected rows 
@@ -796,20 +797,20 @@ void CViewWorkGrid::OnListRender( wxTimerEvent& WXUNUSED(event) ) {
 	}
 
 	//(re)create rows, if necessary
-	if(this->GetDocCount()!= m_pGridPane->GetRows()) {
+	if(tdoccount!= m_pGridPane->GetRows()) {
 		//at first, delet all current rows
 		if(m_pGridPane->GetRows()>0) {
 			m_pGridPane->DeleteRows(0,m_pGridPane->GetRows());
 		}
 		//insert new rows
-		for(int rownum=0; rownum < this->GetDocCount();rownum++) {		
+		for(int rownum=0; rownum < tdoccount;rownum++) {		
 			m_pGridPane->AppendRows();
 		}
 	}
 
 	//update cell values	
 	wxString buffer;
-	for(int rownum=0; rownum < this->GetDocCount();rownum++) {				
+	for(int rownum=0; rownum < tdoccount;rownum++) {				
 		this->FormatProjectName(rownum,buffer);
 		m_pGridPane->SetCellValue(rownum,COLUMN_PROJECT,buffer);
 

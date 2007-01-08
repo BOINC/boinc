@@ -76,6 +76,8 @@
 #define ID_LIST_RESOURCEUTILIZATIONVIEWTOTAL	7006
 #define ID_LIST_WORKGRIDVIEW                    7007
 #define ID_LIST_TRANSFERSGRIDVIEW               7008
+#define ID_LIST_PROJECTSGRIDVIEW                7009
+#define ID_LIST_MESSAGESGRIDVIEW                7010
 #define ID_TASK_BASE                            8000
 #define ID_TASK_PROJECTSVIEW                    8000
 #define ID_TASK_WORKVIEW                        8001
@@ -85,6 +87,8 @@
 #define ID_TASK_RESOURCEUTILIZATIONVIEW         8005
 #define ID_TASK_WORKGRIDVIEW                    8006
 #define ID_TASK_TRANSFERSGRIDVIEW               8007
+#define ID_TASK_PROJECTSGRIDVIEW                8008
+#define ID_TASK_MESSAGESGRIDVIEW                8009
 #define ID_TASK_PROJECT_UPDATE                  9000
 #define ID_TASK_PROJECT_SUSPEND                 9002
 #define ID_TASK_PROJECT_RESUME                  9003

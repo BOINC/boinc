@@ -131,7 +131,7 @@ CViewTransfersGrid::CViewTransfersGrid(wxNotebook* pNotebook) :
 		m_pGridPane->SetColSize(i,colSizes[i]);
 	}
 	//change the default cell renderer
-	m_pGridPane->SetDefaultRenderer(new CBOINCGridCellProgressRenderer(COLUMN_PROGRESS));
+	m_pGridPane->SetDefaultRenderer(new CBOINCGridCellProgressRenderer(COLUMN_PROGRESS,false));
 	//set column sort types
 	m_pGridPane->SetColumnSortType(COLUMN_PROGRESS,CST_FLOAT);
 	m_pGridPane->SetColumnSortType(COLUMN_TIME,CST_TIME);
@@ -237,8 +237,6 @@ void CViewTransfersGrid::OnTransfersAbort( wxCommandEvent& WXUNUSED(event) ) {
 wxInt32 CViewTransfersGrid::GetDocCount() {
     return wxGetApp().GetDocument()->GetTransferCount();
 }
-
-
 
 void CViewTransfersGrid::UpdateSelection() {
     CTaskItemGroup* pGroup = m_TaskGroups[0];
@@ -471,6 +469,7 @@ bool CViewTransfersGrid::OnRestoreState(wxConfigBase* pConfig) {
 void CViewTransfersGrid::OnListRender( wxTimerEvent& WXUNUSED(event) ) {
 	//prevent grid from flicker
 	m_pGridPane->BeginBatch();
+	int tdoccount = this->GetDocCount();
 	//remember selected rows 
 	wxArrayInt arrSelRows = m_pGridPane->GetSelectedRows2();
 	wxArrayString arrSelNames;
@@ -485,20 +484,21 @@ void CViewTransfersGrid::OnListRender( wxTimerEvent& WXUNUSED(event) ) {
 		cursorName = m_pGridPane->GetCellValue(crow,COLUMN_FILE);
 	}
 	//(re)create rows, if necessary
-	if(this->GetDocCount()!= m_pGridPane->GetRows()) {
+	if(tdoccount != m_pGridPane->GetRows()) {
 		//at first, delet all current rows
 		if(m_pGridPane->GetRows()>0) {
 			m_pGridPane->DeleteRows(0,m_pGridPane->GetRows());
 		}
 		//insert new rows
-		for(int rownum=0; rownum < this->GetDocCount();rownum++) {		
+		for(int rownum=0; rownum < tdoccount;rownum++) {		
 			m_pGridPane->AppendRows();
 		}
 	}
 
 	//update cell values
 	wxString buffer;
-	for(int rownum=0; rownum < this->GetDocCount();rownum++) {				
+	bool forceRPC=true;
+	for(int rownum=0; rownum < tdoccount;rownum++) {						
 		this->FormatProjectName(rownum,buffer);
 		m_pGridPane->SetCellValue(rownum,COLUMN_PROJECT,buffer);
 
@@ -520,6 +520,8 @@ void CViewTransfersGrid::OnListRender( wxTimerEvent& WXUNUSED(event) ) {
 
 		this->FormatStatus(rownum,buffer);
 		m_pGridPane->SetCellValue(rownum,COLUMN_STATUS,buffer);
+		//
+		forceRPC=false;
 	}
 	m_pGridPane->SortData();
 	// restore grid cursor position

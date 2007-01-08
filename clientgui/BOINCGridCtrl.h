@@ -32,16 +32,35 @@ class CBOINCGridTable;
 #define CST_FLOAT		3
 #define CST_DATETIME	4
 
-/* default progress renderer */
-class CBOINCGridCellProgressRenderer : public wxGridCellStringRenderer {
-	int column;
+/* generic boinc grid cell renderer */
+class CBOINCGridCellRenderer : public wxGridCellStringRenderer {
 public:
-	CBOINCGridCellProgressRenderer(int col);
+	CBOINCGridCellRenderer();
+	void Draw(wxGrid& grid, wxGridCellAttr& attr, wxDC& dc, const wxRect& rect, int row, int col, bool isSelected);
+protected:
+	void DoNormalTextDrawing(wxGrid& grid, wxGridCellAttr& attr, wxDC& dc, const wxRect& rectCell, int row, int col, bool isSelected);
+	void DrawBackground(wxGrid& grid,wxDC& dc,const wxRect& rect,int row,bool isSelected);
+};
+
+/* progress renderer */
+class CBOINCGridCellProgressRenderer : public CBOINCGridCellRenderer {
+	int column;
+	bool m_bDoPercentAppending;
+public:
+	CBOINCGridCellProgressRenderer(int col,bool percentAppending=true);
 	void Draw(wxGrid& grid, wxGridCellAttr& attr, wxDC& dc, const wxRect& rect, int row, int col, bool isSelected);	
+	void SetPercentAppending(bool enable=true);
 protected:
 	void DoProgressDrawing(wxGrid& grid, wxGridCellAttr& attr, wxDC& dc, const wxRect& rectCell, int row, int col, bool isSelected);
-	void DoNormalTextDrawing(wxGrid& grid, wxGridCellAttr& attr, wxDC& dc, const wxRect& rectCell, int row, int col, bool isSelected);
-	void DrawBackground(wxGrid& grid,wxGridCellAttr& attr,wxDC& dc,const wxRect& rect,int row, int col,bool isSelected);
+};
+
+
+/* message renderer */
+class CBOINCGridCellMessageRenderer : public CBOINCGridCellRenderer {
+	int column;
+public:
+	CBOINCGridCellMessageRenderer(int priocol);
+	void Draw(wxGrid& grid, wxGridCellAttr& attr, wxDC& dc, const wxRect& rect, int row, int col, bool isSelected);	
 };
 
 /* grid ctrl */

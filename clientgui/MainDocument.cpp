@@ -390,7 +390,7 @@ int CMainDocument::ResetState() {
     ft.clear();
     disk_usage.clear();
     proxy_info.clear();
-    
+
     ForceCacheUpdate();
 
     m_iMessageSequenceNumber = 0;
@@ -549,7 +549,7 @@ bool CMainDocument::IsUserAuthorized() {
     int                 i;
 
     if (g_use_sandbox) {
-            
+
         grp = getgrnam(BOINC_MASTER_GROUP_NAME);
         if (grp) {
             boinc_master_gid = grp->gr_gid;
@@ -583,7 +583,7 @@ bool CMainDocument::IsUserAuthorized() {
         return true;
     }
 #endif      // __WXMAC__
-    
+
 #ifdef SANDBOX
     return false;
 #else
@@ -640,6 +640,34 @@ PROJECT* CMainDocument::project(unsigned int i) {
     return pProject;
 }
 
+PROJECT* CMainDocument::project(const wxString& projectname) {
+    PROJECT* pProject = NULL;
+
+    // It is not safe to assume that the vector actually contains the data,
+    //   doing so will lead to those annoying dialogs about the list control
+    //   not being able to find list item such and such.  In the worst case
+    //   scenario it'll lead to a crash, so for now we'll use the at() function
+    //   which will cause an exception which can be trapped and return a NULL
+    //   pointer when the exception is thrown.
+    try {
+		if (!state.projects.empty()) {
+			for(unsigned int i=0; i< state.projects.size();i++) {
+				PROJECT* tp = state.projects.at(i);
+				wxString tname(tp->project_name.c_str(),wxConvUTF8);
+				if(tname.IsSameAs(projectname)) {
+					pProject = tp;
+					break;
+				}
+			}
+		}
+    }
+    catch (std::out_of_range e) {
+        pProject = NULL;
+    }
+
+    return pProject;
+}
+
 
 int CMainDocument::GetProjectCount() {
     int iCount = -1;
@@ -666,11 +694,36 @@ int CMainDocument::ProjectDetach(int iIndex) {
 }
 
 
+int CMainDocument::ProjectDetach(const wxString& projectname) {
+    PROJECT* pProject = NULL;
+    int iRetVal = -1;
+
+    pProject = project(projectname);
+
+    if (pProject)
+        iRetVal = rpc.project_op((*pProject), "detach");
+
+    return iRetVal;
+}
+
+
 int CMainDocument::ProjectUpdate(int iIndex) {
     PROJECT* pProject = NULL;
     int iRetVal = -1;
 
     pProject = project(iIndex);
+
+    if (pProject)
+        iRetVal = rpc.project_op((*pProject), "update");
+
+    return iRetVal;
+}
+
+int CMainDocument::ProjectUpdate(const wxString& projectname) {
+    PROJECT* pProject = NULL;
+    int iRetVal = -1;
+
+    pProject = project(projectname);
 
     if (pProject)
         iRetVal = rpc.project_op((*pProject), "update");
@@ -691,6 +744,18 @@ int CMainDocument::ProjectReset(int iIndex) {
     return iRetVal;
 }
 
+int CMainDocument::ProjectReset(const wxString& projectname) {
+    PROJECT* pProject = NULL;
+    int iRetVal = -1;
+
+    pProject = project(projectname);
+
+    if (pProject)
+        iRetVal = rpc.project_op((*pProject), "reset");
+
+    return iRetVal;
+}
+
 
 int CMainDocument::ProjectSuspend(int iIndex) {
     PROJECT* pProject = NULL;
@@ -704,12 +769,35 @@ int CMainDocument::ProjectSuspend(int iIndex) {
     return iRetVal;
 }
 
+int CMainDocument::ProjectSuspend(const wxString& projectname) {
+    PROJECT* pProject = NULL;
+    int iRetVal = -1;
+
+    pProject = project(projectname);
+
+    if (pProject)
+        iRetVal = rpc.project_op((*pProject), "suspend");
+
+    return iRetVal;
+}
 
 int CMainDocument::ProjectResume(int iIndex) {
     PROJECT* pProject = NULL;
     int iRetVal = -1;
 
     pProject = project(iIndex);
+
+    if (pProject)
+        iRetVal = rpc.project_op((*pProject), "resume");
+
+    return iRetVal;
+}
+
+int CMainDocument::ProjectResume(const wxString& projectname) {
+    PROJECT* pProject = NULL;
+    int iRetVal = -1;
+
+    pProject = project(projectname);
 
     if (pProject)
         iRetVal = rpc.project_op((*pProject), "resume");
@@ -729,11 +817,35 @@ int CMainDocument::ProjectNoMoreWork(int iIndex) {
     return iRetVal;
 }
 
+int CMainDocument::ProjectNoMoreWork(const wxString& projectname) {
+    PROJECT* pProject = NULL;
+    int iRetVal = -1;
+
+    pProject = project(projectname);
+
+    if (pProject)
+        iRetVal = rpc.project_op((*pProject), "nomorework");
+
+    return iRetVal;
+}
+
 int CMainDocument::ProjectAllowMoreWork(int iIndex) {
     PROJECT* pProject = NULL;
     int iRetVal = -1;
 
     pProject = project(iIndex);
+
+    if (pProject)
+        iRetVal = rpc.project_op((*pProject), "allowmorework");
+
+    return iRetVal;
+}
+
+int CMainDocument::ProjectAllowMoreWork(const wxString& projectname) {
+    PROJECT* pProject = NULL;
+    int iRetVal = -1;
+
+    pProject = project(projectname);
 
     if (pProject)
         iRetVal = rpc.project_op((*pProject), "allowmorework");
@@ -804,7 +916,7 @@ RESULT* CMainDocument::result(const wxString& name) {
 					pResult = tResult;
 					break;
 				}
-			}			
+			}
     }
     catch (std::out_of_range e) {
         pResult = NULL;
@@ -1015,7 +1127,7 @@ FILE_TRANSFER* CMainDocument::file_transfer(const wxString& fileName) {
 					pFT = tFT;
 					break;
 				}
-			}            
+			}
 		}
     }
     catch (std::out_of_range e) {

@@ -41,11 +41,13 @@
 #include "BOINCDialupManager.h"
 #include "AdvancedFrame.h"
 #include "ViewProjects.h"
+#include "ViewProjectsGrid.h"
 #include "ViewWork.h"
 #include "ViewWorkGrid.h"
 #include "ViewTransfers.h"
 #include "ViewTransfersGrid.h"
 #include "ViewMessages.h"
+#include "ViewMessagesGrid.h"
 #include "ViewStatistics.h"
 #include "ViewResources.h"
 #include "DlgAbout.h"
@@ -606,6 +608,8 @@ bool CAdvancedFrame::CreateNotebook() {
     CreateNotebookPage(new CViewResources(m_pNotebook));
 	CreateNotebookPage(new CViewWorkGrid(m_pNotebook));
 	CreateNotebookPage(new CViewTransfersGrid(m_pNotebook));
+	CreateNotebookPage(new CViewProjectsGrid(m_pNotebook));
+	CreateNotebookPage(new CViewMessagesGrid(m_pNotebook));
 
 
     pPanel->SetSizer(pPanelSizer);
