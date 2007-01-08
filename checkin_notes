@@ -278,3 +278,10 @@ Rom    8 Jan 2007
     boinc/win_build/installerv2/redist/Windows/src/boinccas
         CAGrantServiceExecutionRight.cpp
         CAVerifyServicePassword.cpp
+
+David  8 Jan 2007
+    - user web: say RAM limits enforced in 5.8+;
+        use "class=note" instead of "font size=-2"
+
+    html/inc/
+        prefs.inc

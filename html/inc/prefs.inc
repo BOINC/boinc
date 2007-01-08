@@ -46,43 +46,44 @@ include_once("../project/project_specific_prefs.inc");
 define("CPU_LIMIT_DESC", "Processor usage");
 define("RUN_ON_BATTERIES_DESC",
     "Do work while computer is running on batteries?
-    <br><font size=-2>(matters only for portable computers)</font>"
+    <br><span class=note>(matters only for portable computers)</span>"
 );
 define("RUN_IF_USER_ACTIVE_DESC",
     "Do work while computer is in use?"
 );
 define("IDLE_TIME_TO_RUN_DESC", "Do work only after computer is idle for");
-define("IDLE_TIME_TO_RUN_DESC2", "<br><font size=-2>(applies only if above is 'no')</font>");
+define("IDLE_TIME_TO_RUN_DESC2", "<br><span class=note>(applies only if above is 'no')</span>");
 define("START_END_DESC", "Do work only between the hours of");
-define("START_END_DESC2", "<br><font size=-2>(no restriction if equal)</font>");
+define("START_END_DESC2", "<br><span class=note>(no restriction if equal)</span>");
 define("LEAVE_APPS_IN_MEMORY_DESC",
     "Leave applications in memory while suspended?
-    <br><font size=-2>(suspended applications will consume swap space if 'yes')</font>");
+    <br><span class=note>(suspended applications will consume swap space if 'yes')</span>");
 define("CPU_SCHEDULING_DESC", "Switch between applications every
-    <br><font size=-2>(recommended: 60 minutes)</font>");
+    <br><span class=note>(recommended: 60 minutes)</span>");
 define("CONFIRM_BEFORE_CONNECTING_DESC",
     "Confirm before connecting to Internet?
-    <br><font size=-2>(matters only if you have a modem, ISDN or VPN connection)</font>"
+    <br><span class=note>(matters only if you have a modem, ISDN or VPN connection)</span>"
 );
 define("HANGUP_IF_DIALED_DESC",
     "Disconnect when done?
-    <br><font size=-2>(matters only if you have a modem, ISDN or VPN connection)</font>"
+    <br><span class=note>(matters only if you have a modem, ISDN or VPN connection)</span>"
 );
 define("WORK_BUF_DESC",
     "Connect to network about every
-    <br><font size=-2>(determines size of work cache; maximum 10 days)</font>
+    <br><span class=note>(determines size of work cache; maximum 10 days)</span>
     "
 );
 define("MAX_CPUS_DESC", "On multiprocessors, use at most");
 define("MAX_CPUS_DESC2", "processors");
 define("USE_AT_MOST", "Use at most");
-define("USE_AT_MOST2", "Use at most<br><font size=-2>Enforced by versions 5.6 and greater</font>");
+define("USE_AT_MOST2", "Use at most<br><span class=note>Enforced by version 5.6 and greater</span>");
+define("USE_AT_MOST3", "Use at most<br><span class=note>Enforced by version 5.8 and greater</span>");
 define("CPU_USAGE_LIMIT_DESC2", "percent of CPU time");
 define("DISK_INTERVAL_DESC", "Write to disk at most every");
 define("DISK_LIMIT_DESC", "Disk and memory usage");
 define("DISK_MIN_FREE_GB_DESC", "Leave at least");
-define("DISK_SCHED_MIN_FREE_DESC1", "<br><font size=-2>(Values smaller than ");
-define("DISK_SCHED_MIN_FREE_DESC2", " are ignored)</font>");
+define("DISK_SCHED_MIN_FREE_DESC1", "<br><span class=note>(Values smaller than ");
+define("DISK_SCHED_MIN_FREE_DESC2", " are ignored)</span>");
 define("DISK_MAX_USED_PCT_DESC2", "% of total disk space");
 define("VM_MAX_USED_PCT_DESC2", "% of page file (swap space)");
 define("RAM_MAX_USED_BUSY_PCT_DESC2", "% of memory when computer is in use");
@@ -92,13 +93,13 @@ define("MAX_BYTES_SEC_DOWN_DESC", "Maximum download rate:");
 define("MAX_BYTES_SEC_UP_DESC", "Maximum upload rate:");
 define("NET_START_END_DESC",
     "Use network only between the hours of
-    <br><font size=-2>Enforced by versions 4.46 and greater</font>"
+    <br><span class=note>Enforced by versions 4.46 and greater</span>"
 );
 define("DONT_VERIFY_IMAGES_DESC",
     "Skip image file verification?
-    <br><font size=-2>Check this ONLY if your Internet provider
+    <br><span class=note>Check this ONLY if your Internet provider
     modifies image files (UMTS does this, for example).
-    <br>Skipping verification reduces the security of BOINC."
+    <br>Skipping verification reduces the security of BOINC.</span>"
 );
 
 define("BYTE_CONVERSION", 1000.0);
@@ -106,8 +107,8 @@ define("BYTE_UNITS", "Kbytes/sec");
 define("BYTE_ABBR", "KB/s");
 define("ALLOW_BETA_WORK",
     "Run test applications?<br>
-    <font size=-2>This helps us develop applications,
-    but may cause jobs to fail on your computer</font>"
+    <span class=note>This helps us develop applications,
+    but may cause jobs to fail on your computer</span>"
 );
 
 // These texts are used in multiple places in prefs_edit.php and add_venue.php
@@ -617,8 +618,8 @@ function prefs_show_columns_global($prefs) {
     row_defs(USE_AT_MOST, "disk_max_used_pct", DISK_MAX_USED_PCT_DESC2, "", $prefs);
     row_defs(DISK_INTERVAL_DESC, "disk_interval", " seconds", "", $prefs);
     row_defs(USE_AT_MOST, "vm_max_used_pct", VM_MAX_USED_PCT_DESC2, "", $prefs);
-    row_defs(USE_AT_MOST, "ram_max_used_busy_pct", RAM_MAX_USED_BUSY_PCT_DESC2, "", $prefs);
-    row_defs(USE_AT_MOST, "ram_max_used_idle_pct", RAM_MAX_USED_IDLE_PCT_DESC2, "", $prefs);
+    row_defs(USE_AT_MOST3, "ram_max_used_busy_pct", RAM_MAX_USED_BUSY_PCT_DESC2, "", $prefs);
+    row_defs(USE_AT_MOST3, "ram_max_used_idle_pct", RAM_MAX_USED_IDLE_PCT_DESC2, "", $prefs);
 
     row_top(NETWORK_LIMIT_DESC);
     row_defs(WORK_BUF_DESC, "work_buf_min_days", " days", "", $prefs);
@@ -664,8 +665,8 @@ function prefs_show_global($prefs) {
     row2(USE_AT_MOST, "$prefs->disk_max_used_pct".DISK_MAX_USED_PCT_DESC2);
     row2(DISK_INTERVAL_DESC, "$prefs->disk_interval seconds");
     row2(USE_AT_MOST, "$prefs->vm_max_used_pct".VM_MAX_USED_PCT_DESC2);
-    row2(USE_AT_MOST, "$prefs->ram_max_used_busy_pct".RAM_MAX_USED_BUSY_PCT_DESC2);
-    row2(USE_AT_MOST, "$prefs->ram_max_used_idle_pct".RAM_MAX_USED_IDLE_PCT_DESC2);
+    row2(USE_AT_MOST3, "$prefs->ram_max_used_busy_pct".RAM_MAX_USED_BUSY_PCT_DESC2);
+    row2(USE_AT_MOST3, "$prefs->ram_max_used_idle_pct".RAM_MAX_USED_IDLE_PCT_DESC2);
     row1(NETWORK_LIMIT_DESC);
     row2(WORK_BUF_DESC, "$prefs->work_buf_min_days days");
     row2(CONFIRM_BEFORE_CONNECTING_DESC, $prefs->confirm_before_connecting?"yes":"no");
@@ -689,8 +690,8 @@ function prefs_show_global($prefs) {
 
 function prefs_show_resource($prefs, $columns=false) {
     $x = "Resource share<br>
-        <font size=-2>If you participate in multiple BOINC projects,
-        this is the proportion of your resources used by ".PROJECT."</font>";
+        <span class=note>If you participate in multiple BOINC projects,
+        this is the proportion of your resources used by ".PROJECT."</span>";
     if ($columns) {
         row_defs($x, "resource_share", "", "" ,$prefs);
     } else {
@@ -709,8 +710,8 @@ function prefs_show_beta($prefs, $columns=false) {
 function prefs_show_privacy($user) {
     $x = "";
     if (defined('EMAIL_FROM')) {
-        $x = "<br><font size=-2>Emails will be sent from ".EMAIL_FROM.";
-            make sure your spam filter accepts this address.</font>";
+        $x = "<br><span class=note>Emails will be sent from ".EMAIL_FROM.";
+            make sure your spam filter accepts this address.</span>";
     }
     row2("Should ".PROJECT." send you email newsletters? $x",
         $user->send_email?"yes":"no"
@@ -803,12 +804,12 @@ function print_prefs_display_project($user, $columns=false) {
 function print_prefs_display_global($user, $columns=false) {
     $global_prefs = prefs_parse_global($user->global_prefs);
 
-    echo "<font size=-2>
+    echo "<span class=note>
         These apply to all BOINC projects in which you participate.
         <br>
         On computers attached to multiple projects,
         the most recently modified preferences will be used.
-        </font>
+        </span>
         <br><br>
         Preferences last modified: ", pretty_time_str($global_prefs->mod_time), "
         <br><br>
@@ -999,14 +1000,14 @@ function prefs_form_global($user, $prefs, $error=false) {
 
     $show_error = false;
     if (isset($error->ram_max_used_busy_pct)) $show_error= true;
-    row2(USE_AT_MOST,
+    row2(USE_AT_MOST3,
         "<input size=5 name=ram_max_used_busy_pct value='$prefs->ram_max_used_busy_pct'> ".RAM_MAX_USED_BUSY_PCT_DESC2,
         $show_error
     );
 
     $show_error = false;
     if (isset($error->ram_max_used_idle_pct)) $show_error= true;
-    row2(USE_AT_MOST,
+    row2(USE_AT_MOST3,
         "<input size=5 name=ram_max_used_idle_pct value='$prefs->ram_max_used_idle_pct'> ".RAM_MAX_USED_IDLE_PCT_DESC2,
         $show_error
     );
@@ -1092,13 +1093,13 @@ function prefs_form_resource($prefs, $error=false) {
     if (isset($error->resource_share)) $show_error= true;
     row2(
         "<b>Resource share:</b>
-        <font size=-2><br>The proportion of your computer's resources
+        <span class=note><br>The proportion of your computer's resources
         allocated to ".PROJECT."
         relative to the other BOINC projects in which you participate.
         For example, if you participate in two projects and
         give them resource shares of 100 and 200,
         the first will get 1/3 of your resources and the second will get 2/3.
-        </font>",
+        </span>",
         "<input name=resource_share value='$prefs->resource_share'>",
         $show_error
     );

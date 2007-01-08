@@ -1,6 +1,13 @@
 <?
 
 $project_news = array(
+array("January 7, 2007",
+    "The <a href=http://abcathome.com>ABC@home</a> project,
+    based at <a href=http://www.math.leidenuniv.nl/>Leiden University</a>
+    in Holland, is now open.
+    ABC@home is studying the <a href=http://en.wikipedia.org/wiki/Abc_conjecture>ABC conjecture</a>,
+    a major open problem in mathematics."
+),
 array("January 6, 2007",
     "MySpace users: check out the
     <a href=http://groups.myspace.com/BOINConMYSPACE>BOINC on MySpace</a> group."
