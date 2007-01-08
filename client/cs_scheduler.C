@@ -882,14 +882,11 @@ int CLIENT_STATE::handle_scheduler_reply(
         canonicalize_master_url(sr.master_url);
         if (strcmp(sr.master_url, project->master_url)) {
             msg_printf(project, MSG_ERROR,
-                "You are using the wrong URL for this project"
+                "You used the wrong URL for this project"
             );
             msg_printf(project, MSG_ERROR,
                 "The correct URL is %s", sr.master_url
             );
-            if (project->tentative) {
-                return ERR_WRONG_URL;
-            }
             p2 = gstate.lookup_project(sr.master_url);
             if (p2) {
                 msg_printf(project, MSG_INFO,
@@ -934,7 +931,6 @@ int CLIENT_STATE::handle_scheduler_reply(
             msg_printf(project, MSG_ERROR,
                 "Consider detaching this project, then trying again"
             );
-            return ERR_DUP_NAME;
         }
     }
 

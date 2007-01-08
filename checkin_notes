@@ -285,3 +285,15 @@ David  8 Jan 2007
 
     html/inc/
         prefs.inc
+
+David  8 Jan 2007
+	- core client: fixed crashing bug that happens when attaching
+		to a project with wrong URL (e.g. setiathome.ssl.berkeley.edu).
+		The fix allows the project to attach but prints a warning.
+		It would be better to not allow the attach;
+		I'll get back to this later
+
+	client/
+		client_types.h
+		cs_scheduler.C
+		scheduler_op.C
