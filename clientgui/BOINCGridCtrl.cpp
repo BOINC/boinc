@@ -684,7 +684,7 @@ CBOINCGridTable::~CBOINCGridTable() {
 }
 
 void CBOINCGridTable::SetColumnSortType(int col,int sortType/*=CST_STRING*/) {
-	if(col>=0 && col < arrColumnSortTypes.GetCount()) {
+	if(col>=0 && col < (int)arrColumnSortTypes.GetCount()) {
 		arrColumnSortTypes[col] = sortType;
 	}
 }

@@ -13,7 +13,7 @@ Reinhard 2 Jan 2007
 		Makefile.am
 
 Charlie 2 Jan 2007
-    - MGR: Fix 2 compiler warnings caused by to actual coding errors.
+    - MGR: Fix 2 compiler warnings caused by actual coding errors.
     - Mac: Add new files BOINCGridCtrl.cpp,.h, ViewTransfersGrid.cpp,.h, 
         ViewWorkGrid.cpp,.h to XCode project.
 
@@ -246,3 +246,12 @@ Rom    7 Jan 2007
     lib/
         diagnostics.C
         diagnostics_win.C
+
+Charlie 8 Jan 2007
+    - MGR: Fix 2 compiler warnings, 1 caused by an actual coding error.
+        NOTE: to printf a "%", you need to use "%%" in the format; for 
+        example: ("%.2f%%").
+
+    clientgui/
+        BOINCGridCtrl.cpp
+        ViewTransfersGrid.cpp
