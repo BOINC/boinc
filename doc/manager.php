@@ -342,7 +342,7 @@ cancels <b>Snooze</b>.
 
 <p>
 Menu names and other text in the BOINC manager can be displayed in
-<a href=language.php>languages other than English</a>.
+<a href=translation.php>languages other than English</a>.
 <p>
 To select the <b>BOINC screensaver</b>:
     <ul>

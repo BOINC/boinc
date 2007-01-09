@@ -1,9 +1,9 @@
 <?php
 
-function news_item($date, $text, $title) {
-    echo '<p><span class=news_date>'.$date.' '.$title.'</span>
-        <br>'.$text.'
-    ';
+function news_item($date, $text, $title="") {
+    echo "<p><span class=news_date>$date</span> $title
+        <br>$text.
+    ";
 }
 
 function show_news($items, $n) {

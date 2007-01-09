@@ -19,8 +19,7 @@ An application version can consist of multiple files: for example, a
 controller script, pre- and post-processing programs, and a primary program.
 
 <p>
-Each application version has an integer
-<a href=boinc_version>version number</a>.
+Each application version has an integer version number.
 Version numbers should be used consistently across platforms;
 Windows version 304 should be computationally identical to Mac version 304. 
 

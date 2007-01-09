@@ -119,6 +119,7 @@ Show if the servers of various projects are up or down.
 <ul>
 <li> <a href=http://www.myboinc.com/>BOINC Users of the Day</a>
 <li> <a href=http://groups.myspace.com/BOINConMYSPACE>BOINC on MySpace</a>
+<li> <a href=http://www.boincuk.com/repository.php>bunc</a> (excellent newsletter produced by BOINC UK)
 </ul>
 <a name=skins></a>
 <h3>Skins for the BOINC Manager</h3>
@@ -264,6 +265,10 @@ language("Turkish", array(
     site("http://www.turksetiteam.org/",
         "www.turksetiteam.org")
 ));
+language("Ukrainian", array(
+    site("http://distributed.org.ua/", "Ukraine - Distributed Computing"),
+));
+
 echo "
 </table>
 <p>

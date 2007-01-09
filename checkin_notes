@@ -351,3 +351,12 @@ David  9 Jan 2007
 		ViewWork.cpp
 		ViewWorkGrid.cpp
 		stdwx.h
+
+David  9 Jan 2007
+    - user web: "old news" was broken
+        Note to Rytis: when possible, use "foo $var blah",
+        not 'foo '.$var.' blah'
+
+
+    html/inc/
+        news.inc
