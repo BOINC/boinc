@@ -162,11 +162,18 @@ int ACTIVE_TASK::preempt(bool quit_task) {
         retval = request_exit();
     } else {
         if (log_flags.cpu_sched) {
-            msg_printf(result->project, MSG_INFO,
-                "[cpu_sched] Preempting %s (left in memory)",
-                result->name
-            );
-        }
+			if (quit_task) {
+				msg_printf(result->project, MSG_INFO,
+					"[cpu_sched] Preempting %s (left in memory because no checkpoint yet)",
+					result->name
+				);
+			} else {
+				msg_printf(result->project, MSG_INFO,
+					"[cpu_sched] Preempting %s (left in memory)",
+					result->name
+				);
+			}
+		}
         retval = suspend();
     }
     return 0;
