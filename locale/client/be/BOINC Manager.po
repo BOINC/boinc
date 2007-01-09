@@ -2,436 +2,441 @@ msgid ""
 msgstr ""
 "Project-Id-Version: BOINC Manager 5.x.x\n"
 "POT-Creation-Date: \n"
-"PO-Revision-Date: 2007-01-02 18:51+0200\n"
+"PO-Revision-Date: 2007-01-07 17:42+0200\n"
 "Last-Translator: Drive DRKA <drka2003@mail.ru>\n"
-"Language-Team: \n"
+"Language-Team: <Drive DRKA<drka2003@mail.ru>> <drka2003@mail.ru>\n"
 "MIME-Version: 1.0\n"
-"Content-Type: text/plain; charset=koi8-r\n"
+"Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "X-Poedit-Language: Belarusian\n"
-"X-Poedit-Country: Belarus Republic\n"
-"X-Poedit-SourceCharset: iso-8859-1\n"
+"X-Poedit-Country: BELARUS\n"
+"X-Poedit-SourceCharset: utf-8\n"
 "X-Poedit-Basepath: F:\\boinc_public\n"
 "X-Poedit-SearchPath-0: clientgui\n"
 
-#: clientgui/AccountInfoPage.cpp:304
+#: clientgui/AccountInfoPage.cpp:320
 msgid "User information"
-msgstr "?нфармацыя аб удзельн?ку"
+msgstr "п├п╫я└п╟я─п╪п╟я├я▀я▐ п╟п╠ я┐п╢п╥п╣п╩я▄п╫я√п╨я┐"
 
 # ???
-#: clientgui/AccountInfoPage.cpp:310
+#: clientgui/AccountInfoPage.cpp:326
 msgid ""
 "Please enter your account information\n"
 "(to create an account, visit the project's web site)"
 msgstr ""
-"Кал? ласка,?вядз?це данныя вашага  зап?су\n"
-"(ул?ковы зап?с ствараецца на сайце праекту)"
+"п п╟п╩я√ п╩п╟я│п╨п╟ я┐п╡я▐п╢п╥я√я├п╣ я√п╫я└п╟я─п╪п╟я├я▀я▌ п╡п╟я┬п╟пЁп╟ п╟п╨п╟я·п╫я┌п╟ \n"
+"(я┐п╩я√п╨п╬п╡я▀ п╥п╟п©я√я│ я│я┌п╡п╟я─п╟п╣я├я├п╟ п╫п╟ я│п╟п╧я├п╣ п©я─п╟п╣п╨я┌я┐)"
 
-# крииииво
-#: clientgui/AccountInfoPage.cpp:316
+# п╨я─я▀п╡п╟
+#: clientgui/AccountInfoPage.cpp:332
 msgid ""
 "This project is not currently accepting new accounts.\n"
 "You can attach only if you already have an account."
 msgstr ""
-"Стварэнне новых ул?ковых зап?са? забаронена.\n"
-"Падлучэнне тольк? для ?жо зарэг?страваных."
+"п║я┌п╡п╟я─я█п╫п╫п╣ п╫п╬п╡я▀я┘ я┐п╩я√п╨п╬п╡я▀я┘ п╥п╟п©я√я│п╟я· п╥п╟п╠п╟я─п╬п╫п╣п╫п╟п╣.\n"
+"п÷п╟п╢п╩я┐я┤я█п╫п╫п╣ я┌п╬п╩я▄п╨я√ п╢п╩я▐ я·п╤п╬ п╥п╟я─я█пЁя√я│я┌я─п╟п╡п╟п╫я▀я┘."
 
-#: clientgui/AccountInfoPage.cpp:322
+#: clientgui/AccountInfoPage.cpp:338
 msgid "Are you already running this project?"
-msgstr "Вы ?жо зарэг?страваныя ? праекце?"
+msgstr "п▓я▀ я·п╤п╬ п╥п╟я─я█пЁя√я│я┌я─п╟п╡п╟п╫я▀я▐ я· п©я─п╟п╣п╨я├п╣?"
 
-#: clientgui/AccountInfoPage.cpp:326
+#: clientgui/AccountInfoPage.cpp:342
 msgid "&No, new user"
-msgstr "Не, новы ?дзельн?к"
+msgstr "п²п╣, п╫п╬п╡я▀ я·п╢п╥п╣п╩я▄п╫я√п╨"
 
-#: clientgui/AccountInfoPage.cpp:329
+#: clientgui/AccountInfoPage.cpp:345
 msgid "&Yes, existing user"
-msgstr "Так, ужо зарэг?страваны"
-
-#: clientgui/AccountInfoPage.cpp:351
-#: clientgui/AccountInfoPage.cpp:519
-msgid "&Password:"
-msgstr "Пароль:"
-
-#: clientgui/AccountInfoPage.cpp:358
-#: clientgui/AccountInfoPage.cpp:534
-msgid "Choose a &password:"
-msgstr "Увядз?це пароль:"
+msgstr "п╒п╟п╨, я┐п╤п╬ п╥п╟я─я█пЁя√я│я┌я─п╟п╡п╟п╫я▀"
 
 #: clientgui/AccountInfoPage.cpp:361
+#: clientgui/AccountInfoPage.cpp:498
+msgid "&Password:"
+msgstr "п÷п╟я─п╬п╩я▄:"
+
+#: clientgui/AccountInfoPage.cpp:368
+#: clientgui/AccountInfoPage.cpp:513
+msgid "Choose a &password:"
+msgstr "пёп╡я▐п╢п╥я√я├п╣ п©п╟я─п╬п╩я▄:"
+
+#: clientgui/AccountInfoPage.cpp:371
 msgid "C&onfirm password:"
-msgstr "Пацверджэнне пароля:"
+msgstr "п÷п╟я├п╡п╣я─п╢п╤п╟п╫п╫п╣ п©п╟я─п╬п╩я▐:"
 
-#: clientgui/AccountInfoPage.cpp:394
-msgid ""
-"Enter the username and password you used on\n"
-"the web site."
-msgstr ""
-"Увядз?це ?мя ?дзельн?ка ? пароль як?я\n"
-"вы паказал? пры рэг?страцы? на сайце."
-
-#: clientgui/AccountInfoPage.cpp:401
+#: clientgui/AccountInfoPage.cpp:395
 msgid "&Username:"
-msgstr "?мя ?дзельн?ка:"
+msgstr "п├п╪я▐ я·п╢п╥п╣п╩я▄п╫я√п╨п╟:"
 
-# ???
-#: clientgui/AccountInfoPage.cpp:424
-msgid "Enter the email address and password of your account\n"
-msgstr "Увядз?це адрас эл. пошты ? пароль вашага  зап?су\n"
-
-#: clientgui/AccountInfoPage.cpp:430
+#: clientgui/AccountInfoPage.cpp:409
 msgid "&Email address:"
-msgstr "Адрас электроннае пошты:"
+msgstr "п░п╢я─п╟я│ я█п╩п╣п╨я┌я─п╬п╫п╫п╟п╣ п©п╬я┬я┌я▀:"
 
-#: clientgui/AccountInfoPage.cpp:437
+#: clientgui/AccountInfoPage.cpp:416
 #, c-format
 msgid "minimum length %d"
-msgstr "м?н?мум %d знака?"
+msgstr "п╪я√п╫я√п╪я┐п╪ %d п╥п╫п╟п╨п╟я·"
 
-#: clientgui/AccountInfoPage.cpp:456
-#: clientgui/WelcomePage.cpp:304
+#: clientgui/AccountInfoPage.cpp:435
+#: clientgui/WelcomePage.cpp:314
 msgid "Attach to project"
-msgstr "Падлучэнне да праекту"
+msgstr "п÷п╟п╢п╩я┐я┤я█п╫п╫п╣ п╢п╟ п©я─п╟п╣п╨я┌я┐"
 
-#  адкуль усе гэтыя фразы бяруцца - сапра?ды не адгада? сэнс
-#: clientgui/AccountInfoPage.cpp:458
+#  п╟п╢п╨я┐п╩я▄ я┐я│п╣ пЁя█я┌я▀я▐ я└я─п╟п╥я▀ п╠я▐я─я┐я├я├п╟ - я│п╟п©я─п╟я·п╢я▀ п╫п╣ п╟п╢пЁп╟п╢п╟я· я│я█п╫я│
+#: clientgui/AccountInfoPage.cpp:437
 msgid "Update account manager"
-msgstr "Абна?ленне мэнэджэра праекта?"
+msgstr "п░п╠п╫п╟я·п╩п╣п╫п╫п╣ п╪я█п╫я█п╢п╤я█я─п╟ п©я─п╟п╣п╨я┌п╟я·"
 
-#: clientgui/AccountInfoPage.cpp:460
+#: clientgui/AccountInfoPage.cpp:439
 msgid "Attach to account manager"
-msgstr "Злучэнне з мэнэджэрам праекта?"
+msgstr "п≈п╩я┐я┤я█п╫п╫п╣ п╥ п╪я█п╫я█п╢п╤я█я─п╟п╪ п©я─п╟п╣п╨я┌п╟я·"
 
-# не адпаведнасць колькасц? радко? у перакладзе
-#: clientgui/AccountInfoPage.cpp:471
+# п╫п╣ п╟п╢п©п╟п╡п╣п╢п╫п╟я│я├я▄ п╨п╬п╩я▄п╨п╟я│я├я√ я─п╟п╢п╨п╬я· я┐ п©п╣я─п╟п╨п╩п╟п╢п╥п╣
+#: clientgui/AccountInfoPage.cpp:450
 #, c-format
 msgid "The minimum password length for this project is %d. Please enter a different password."
-msgstr "М?н?мальная да?жыня пароля для дадзенага праекту %d знака?. Змен?це пароль у адпаведнасць з дадзеным крытэрам."
+msgstr "п°я√п╫я√п╪п╟п╩я▄п╫п╟я▐ п╢п╟я·п╤я▀п╫я▐ п©п╟я─п╬п╩я▐ п╢п╩я▐ п╢п╟п╢п╥п╣п╫п╟пЁп╟ п©я─п╟п╣п╨я┌я┐ %d п╥п╫п╟п╨п╟я·. п≈п╪п╣п╫я√я├п╣ п©п╟я─п╬п╩я▄ я┐ п╟п╢п©п╟п╡п╣п╢п╫п╟я│я├я▄ п╥ п╢п╟п╢п╥п╣п╫я▀п╪ п╨я─я▀я┌я█я─п╟п╪."
 
-# не адпаведнасць колькасц? радко? у перакладзе
-#: clientgui/AccountInfoPage.cpp:477
+# п╫п╣ п╟п╢п©п╟п╡п╣п╢п╫п╟я│я├я▄ п╨п╬п╩я▄п╨п╟я│я├я√ я─п╟п╢п╨п╬я· я┐ п©п╣я─п╟п╨п╩п╟п╢п╥п╣
+#: clientgui/AccountInfoPage.cpp:456
 #, c-format
 msgid "The minimum password length for this account manager is %d. Please enter a different password."
-msgstr "М?н?мальная да?жыня пароля для дадзенага мэнэджэра праекта? %d знака?. Змен?це пароль у адпаведнасць з дадзеным крытэрам."
+msgstr "п°я√п╫я√п╪п╟п╩я▄п╫п╟я▐ п╢п╟я·п╤я▀п╫я▐ п©п╟я─п╬п╩я▐ п╢п╩я▐ п╢п╟п╢п╥п╣п╫п╟пЁп╟ п╪я█п╫я█п╢п╤я█я─п╟ п©я─п╟п╣п╨я┌п╟я· %d п╥п╫п╟п╨п╟я·. п≈п╪п╣п╫я√я├п╣ п©п╟я─п╬п╩я▄ я┐ п╟п╢п©п╟п╡п╣п╢п╫п╟я│я├я▄ п╥ п╢п╟п╢п╥п╣п╫я▀п╪ п╨я─я▀я┌я█я─п╟п╪."
 
-#: clientgui/AccountInfoPage.cpp:488
+#: clientgui/AccountInfoPage.cpp:467
 msgid "The password and confirmation password do not match. Please type them again."
-msgstr "\"Пароль\" ? \"Пацвярджэнне пароля\" не супадаюць. Па?тарыце ?вод пароля."
+msgstr "\"п÷п╟я─п╬п╩я▄\" я√ \"п÷п╟я├п╡п╣я─п╢п╤п╟п╫п╫п╣ п©п╟я─п╬п╩я▐\" п╫п╣ я│я┐п©п╟п╢п╟я▌я├я▄. п÷п╟я·я┌п╬я─я▀я├п╣ я·п╡п╬п╢ п©п╟я─п╬п╩я▐."
 
-#: clientgui/AccountKeyPage.cpp:217
+#: clientgui/AccountKeyPage.cpp:225
 msgid "Enter account key"
-msgstr "Увядз?це код доступу"
+msgstr "пёп╡я▐п╢п╥я√я├п╣ п╨п╬п╢ п╢п╬я│я┌я┐п©я┐"
 
-#: clientgui/AccountKeyPage.cpp:220
+#: clientgui/AccountKeyPage.cpp:228
 msgid ""
 "This project uses an \"account key\" to identify you.\n"
 "\n"
 "Go to the project's web site to create an account. Your account\n"
 "key will be emailed to you."
 msgstr ""
-"Дадзены праект выкарыстае код доступу для ?дэнтыф?кацы?\n"
-"удзельн?ка?. Наведаеце хатнюю старонку праекту для\n"
-"стварэнн?  зап?су ?дзельн?ка.\n"
-"Пасля гэтага вам дашлюць код доступу па электроннай пошце."
+"п■п╟п╢п╥п╣п╫я▀ п©я─п╟п╣п╨я┌ п╡я▀п╨п╟я─я▀я│я┌п╟п╣ п╨п╬п╢ п╢п╬я│я┌я┐п©я┐ п╢п╩я▐ я√п╢я█п╫я┌я▀я└я√п╨п╟я├я▀я√\n"
+"я┐п╢п╥п╣п╩я▄п╫я√п╨п╟я·. п²п╟п╡п╣п╢п╟п╣я├п╣ я┘п╟я┌п╫я▌я▌ я│я┌п╟я─п╬п╫п╨я┐ п©я─п╟п╣п╨я┌я┐ п╢п╩я▐\n"
+"я│я┌п╡п╟я─я█п╫п╫я√  п╥п╟п©я√я│я┐ я·п╢п╥п╣п╩я▄п╫я√п╨п╟.\n"
+"п÷п╟я│п╩я▐ пЁя█я┌п╟пЁп╟ п╡п╟п╪ п╢п╟я┬п╩я▌я├я▄ п╨п╬п╢ п╢п╬я│я┌я┐п©я┐ п©п╟ я█п╩п╣п╨я┌я─п╬п╫п╫п╟п╧ п©п╬я┬я├п╣."
 
-#: clientgui/AccountKeyPage.cpp:226
+#: clientgui/AccountKeyPage.cpp:234
 msgid "An account key looks like:"
-msgstr "Прыклад кода доступу:"
+msgstr "п÷я─я▀п╨п╩п╟п╢ п╨п╬п╢п╟ п╢п╬я│я┌я┐п©я┐:"
 
-#: clientgui/AccountKeyPage.cpp:229
+#: clientgui/AccountKeyPage.cpp:237
 msgid "82412313ac88e9a3638f66ea82186948"
 msgstr "82412313ac88e9a3638f66ea82186948"
 
-#: clientgui/AccountKeyPage.cpp:232
+#: clientgui/AccountKeyPage.cpp:240
 msgid "Account key:"
-msgstr "Код доступу:"
+msgstr "п п╬п╢ п╢п╬я│я┌я┐п©я┐:"
 
-#: clientgui/AccountManagerInfoPage.cpp:167
+#: clientgui/AccountManagerInfoPage.cpp:175
 msgid "Account Manager URL"
-msgstr "Адрас мэнэджэра праекта?"
+msgstr "п░п╢я─п╟я│ п╪я█п╫я█п╢п╤я█я─п╟ п©я─п╟п╣п╨я┌п╟я·"
 
-#: clientgui/AccountManagerInfoPage.cpp:170
+#: clientgui/AccountManagerInfoPage.cpp:178
 msgid "Enter the URL of the account manager's web site."
-msgstr "Увядз?це адрас вылучанага мэнэджэра праекта?"
+msgstr "пёп╡я▐п╢п╥я√я├п╣ п╟п╢я─п╟я│ п╡я▀п╩я┐я┤п╟п╫п╟пЁп╟ п╪я█п╫я█п╢п╤я█я─п╟ п©я─п╟п╣п╨я┌п╟я·"
 
-#: clientgui/AccountManagerInfoPage.cpp:173
-#: clientgui/ProjectInfoPage.cpp:229
+#: clientgui/AccountManagerInfoPage.cpp:181
+#: clientgui/ProjectInfoPage.cpp:237
 msgid ""
 "You can copy and paste the URL from your browser's\n"
 "address bar."
 msgstr ""
-"Можна скап?яваць дадзены адрас\n"
-"з  радка бра?зэра."
+"п°п╬п╤п╫п╟ я│п╨п╟п©я√я▐п╡п╟я├я▄ п╢п╟п╢п╥п╣п╫я▀ п╟п╢я─п╟я│\n"
+"п╥  я─п╟п╢п╨п╟ п╠я─п╟я·п╥я█я─п╟."
 
-#: clientgui/AccountManagerInfoPage.cpp:177
+#: clientgui/AccountManagerInfoPage.cpp:185
 msgid "Account Manager &URL:"
-msgstr "Адрас (URL):"
+msgstr "п░п╢я─п╟я│ (URL):"
 
-#: clientgui/AccountManagerInfoPage.cpp:180
+#: clientgui/AccountManagerInfoPage.cpp:188
 msgid "For a list of BOINC-based account managers go to:"
 msgstr ""
-"Для прагляду сп?су даступных мэнэджэра?\n"
-"праекта? на базе BOINC наведаеце старонку:"
+"п■п╩я▐ п©я─п╟пЁп╩я▐п╢я┐ я│п©я√я│я┐ п╢п╟я│я┌я┐п©п╫я▀я┘ п╪я█п╫я█п╢п╤я█я─п╟я·\n"
+"п©я─п╟п╣п╨я┌п╟я· п╫п╟ п╠п╟п╥п╣ BOINC п╫п╟п╡п╣п╢п╟п╣я├п╣ я│я┌п╟я─п╬п╫п╨я┐:"
 
 # ???
-#: clientgui/AccountManagerProcessingPage.cpp:182
-#: clientgui/AccountManagerPropertiesPage.cpp:183
+#: clientgui/AccountManagerProcessingPage.cpp:190
+#: clientgui/AccountManagerPropertiesPage.cpp:191
 #, c-format
 msgid "Communicating with %s."
-msgstr "Усталё?ка сувяз? з %s."
+msgstr "пёя│я┌п╟п╩я▒я·п╨п╟ я│я┐п╡я▐п╥я√ п╥ %s."
 
 # ???
-#: clientgui/AccountManagerProcessingPage.cpp:189
-#: clientgui/AccountManagerPropertiesPage.cpp:190
+#: clientgui/AccountManagerProcessingPage.cpp:197
+#: clientgui/AccountManagerPropertiesPage.cpp:198
 msgid "Communicating with server."
-msgstr "Усталё?ка сувяз? з серверам."
+msgstr "пёя│я┌п╟п╩я▒я·п╨п╟ я│я┐п╡я▐п╥я√ п╥ я│п╣я─п╡п╣я─п╟п╪."
 
-#: clientgui/AccountManagerProcessingPage.cpp:194
-#: clientgui/AccountManagerPropertiesPage.cpp:195
+#: clientgui/AccountManagerProcessingPage.cpp:202
+#: clientgui/AccountManagerPropertiesPage.cpp:203
 msgid "Please wait..."
-msgstr "Кал? ласка пачакайце..."
+msgstr "п п╟п╩я√ п╩п╟я│п╨п╟ п©п╟я┤п╟п╨п╟п╧я├п╣..."
 
-# што бы гэта значыла???
-#: clientgui/AccountManagerProcessingPage.cpp:305
-#: clientgui/ProjectProcessingPage.cpp:474
-#: clientgui/ProjectProcessingPage.cpp:536
+# я┬я┌п╬ п╠я▀ пЁя█я┌п╟ п╥п╫п╟я┤я▀п╩п╟???
+# п╞ п╢я┐п╪п╟я▌ я┌я┐я┌ я┘п╟п╨п╣я─я▀ п©п╟я│я┌п╟я─п╟п╩я√я│я▐
+#: clientgui/AccountManagerProcessingPage.cpp:313
+#: clientgui/ProjectProcessingPage.cpp:482
+#: clientgui/ProjectProcessingPage.cpp:540
 msgid "An internal server error has occurred.\n"
-msgstr "Адбылася ?нутраная памылка сервера.\n"
+msgstr "п░п╢п╠я▀п╩п╟я│я▐ я·п╫я┐я┌я─п╟п╫п╟я▐ п©п╟п╪я▀п╩п╨п╟ я│п╣я─п╡п╣я─п╟.\n"
 
-#: clientgui/AdvancedFrame.cpp:89
+#: clientgui/AdvancedFrame.cpp:98
 msgid "Connected"
-msgstr "Злучэнне ?сталявана"
+msgstr "п≈п╩я┐я┤я█п╫п╫п╣ я·я│я┌п╟п╩я▐п╡п╟п╫п╟"
 
-#: clientgui/AdvancedFrame.cpp:97
+#: clientgui/AdvancedFrame.cpp:106
 msgid "Disconnected"
-msgstr "Адсутн?чае злучэнне"
+msgstr "п░п╢я│я┐я┌п╫я√я┤п╟п╣ п╥п╩я┐я┤я█п╫п╫п╣"
 
-#: clientgui/AdvancedFrame.cpp:305
-msgid "&Switch to Simple GUI"
-msgstr "Скарочаны(просты) выгляд"
-
-#: clientgui/AdvancedFrame.cpp:306
-msgid "Display the simple BOINC graphical interface."
-msgstr "Змян?ць знешн? выгляд BOINC мэнэджэра на больш зразумелы"
-
-#: clientgui/AdvancedFrame.cpp:313
+#: clientgui/AdvancedFrame.cpp:308
+#: clientgui/sg_BoincSimpleGUI.cpp:103
 msgid "&Close Window\tCTRL+W"
-msgstr "Зачын?ць акно\tCTRL+W"
+msgstr "п≈п╟я┤я▀п╫я√я├я▄ п╟п╨п╫п╬\tCTRL+W"
 
-#: clientgui/AdvancedFrame.cpp:314
+#: clientgui/AdvancedFrame.cpp:309
+#: clientgui/sg_BoincSimpleGUI.cpp:104
 msgid "Close BOINC Manager Window."
-msgstr "Зачын?ць акно BOINC мэнэджэра."
+msgstr "п≈п╟я┤я▀п╫я√я├я▄ п╟п╨п╫п╬ BOINC п╪я█п╫я█п╢п╤я█я─п╟."
 
-# ?
-#: clientgui/AdvancedFrame.cpp:321
+# ???
+# п²п╟ п╤п╟п╩я▄ я┐я│я▒ п╩п╣п©п╨п╟п╣ п╨п╟п╩я√я│я├я√ п╥п╟п╨п╟п╫я┤п╡п╟п╣я├я├п╟ :-)
+#: clientgui/AdvancedFrame.cpp:315
 #, c-format
 msgid "Exit the %s"
-msgstr "Завяршыць працу праграмы %s"
+msgstr "п≈п╟п╡я▐я─я┬я▀я├я▄ п©я─п╟я├я┐ п©я─п╟пЁя─п╟п╪я▀ %s"
 
-#: clientgui/AdvancedFrame.cpp:326
-#: clientgui/BOINCTaskBar.cpp:581
-#: clientgui/mac/MacSysMenu.cpp:70
+#: clientgui/AdvancedFrame.cpp:320
+#: clientgui/BOINCTaskBar.cpp:614
+#: clientgui/mac/MacSysMenu.cpp:129
 msgid "E&xit"
-msgstr "Выхад"
+msgstr "п▓я▀я┘п╟п╢"
 
-#: clientgui/AdvancedFrame.cpp:336
-#: clientgui/AdvancedFrame.cpp:450
-msgid "Attach to &project"
-msgstr "Дадаць праект"
+#: clientgui/AdvancedFrame.cpp:330
+msgid "&Simple View"
+msgstr "п║п╨п╟я─п╬я┤п╟п╫я▀ п╡я▀пЁп╩я▐п╢"
 
-# дубль (перакладу)
-#: clientgui/AdvancedFrame.cpp:337
-msgid "Attach to a project"
-msgstr "Падлучыцца да яшчэ адному праекту размеркаваных выл?чэння?"
+#: clientgui/AdvancedFrame.cpp:331
+msgid "Display the simple BOINC graphical interface."
+msgstr "п≈п╪я▐п╫я√я├я▄ п╥п╫п╣я┬п╫я√ п╡я▀пЁп╩я▐п╢ BOINC п╪я█п╫я█п╢п╤я█я─п╟ п╫п╟ п╠п╬п╩я▄я┬ п╥я─п╟п╥я┐п╪п╣п╩я▀"
 
 #: clientgui/AdvancedFrame.cpp:341
-msgid "Attach to &account manager"
-msgstr "Злучыцца з мэнэджэрам праекта?"
+msgid "Attach to &project..."
+msgstr "п■п╟п╢п╟я├я▄ п©я─п╟п╣п╨я┌..."
 
+# п╢я┐п╠п╩я▄ (п©п╣я─п╟п╨п╩п╟п╢я┐)
 #: clientgui/AdvancedFrame.cpp:342
-msgid "Attach to an account manager"
-msgstr "Злучыцца з мэнэджэрам праекта?"
+msgid "Attach to a project"
+msgstr "п÷п╟п╢п╩я┐я┤я▀я├я├п╟ п╢п╟ я▐я┬я┤я█ п╟п╢п╫п╬п╪я┐ п©я─п╟п╣п╨я┌я┐ я─п╟п╥п╪п╣я─п╨п╟п╡п╟п╫я▀я┘ п╡я▀п╩я√я┤я█п╫п╫я▐я·"
 
-# абнав?ць дадзеныя
 #: clientgui/AdvancedFrame.cpp:346
+msgid "Attach to &account manager..."
+msgstr "п≈п╩я┐я┤я▀я├я├п╟ п╥ п╪я█п╫я█п╢п╤я█я─п╟п╪ п©я─п╟п╣п╨я┌п╟я·..."
+
+#: clientgui/AdvancedFrame.cpp:347
+msgid "Attach to an account manager"
+msgstr "п≈п╩я┐я┤я▀я├я├п╟ п╥ п╪я█п╫я█п╢п╤я█я─п╟п╪ п©я─п╟п╣п╨я┌п╟я·"
+
+# п╟п╠п╫п╟п╡я√я├я▄ п╢п╟п╫п╫я▀я▐
+#: clientgui/AdvancedFrame.cpp:351
 #, c-format
 msgid "&Synchronize with %s"
-msgstr "С?нхран?завацца з %s"
+msgstr "п║я√п╫я┘я─п╟п╫я√п╥п╟п╡п╟я├я├п╟ п╥ %s"
 
-#: clientgui/AdvancedFrame.cpp:350
+#: clientgui/AdvancedFrame.cpp:355
 #, c-format
 msgid "Get current settings from %s"
-msgstr "Абнав?ць налады з %s"
-
-#: clientgui/AdvancedFrame.cpp:365
-msgid "&Run always"
-msgstr "Апрацо?ка за?седы"
-
-#: clientgui/AdvancedFrame.cpp:366
-msgid "Allow work regardless of preferences"
-msgstr "Апрацо?ка задання? запушчаная за?сёды"
+msgstr "п░п╠п╫п╟п╡я√я├я▄ п╫п╟п╩п╟п╢я▀ п╥ %s"
 
 #: clientgui/AdvancedFrame.cpp:370
-msgid "Run based on &preferences"
-msgstr "Граф?к працы вызначаецца наладам?"
+msgid "&Run always"
+msgstr "п░п©я─п╟я├п╬я·п╨п╟ п╥п╟я·я│п╣п╢я▀"
 
 #: clientgui/AdvancedFrame.cpp:371
-msgid "Allow work according to your preferences"
-msgstr "Апрацо?ка адбываецца ? моманты часу ? адпаведнасць з наладам?"
+msgid "Allow work regardless of preferences"
+msgstr "п░п©я─п╟я├п╬я·п╨п╟ п╥п╟п╢п╟п╫п╫я▐я· п╥п╟п©я┐я┬я┤п╟п╫п╟я▐ п╥п╟я·я│я▒п╢я▀"
 
 #: clientgui/AdvancedFrame.cpp:375
-msgid "&Suspend"
-msgstr "Прыпын?ць апрацо?ку"
+msgid "Run based on &preferences"
+msgstr "п⌠я─п╟я└я√п╨ п©я─п╟я├я▀ п╡я▀п╥п╫п╟я┤п╟п╣я├я├п╟ п╫п╟п╩п╟п╢п╟п╪я√"
 
 #: clientgui/AdvancedFrame.cpp:376
+msgid "Allow work according to your preferences"
+msgstr "п░п©я─п╟я├п╬я·п╨п╟ п╟п╢п╠я▀п╡п╟п╣я├я├п╟ я· п╪п╬п╪п╟п╫я┌я▀ я┤п╟я│я┐ я· п╟п╢п©п╟п╡п╣п╢п╫п╟я│я├я▄ п╥ п╫п╟п╩п╟п╢п╟п╪я√"
+
+#: clientgui/AdvancedFrame.cpp:380
+msgid "&Suspend"
+msgstr "п÷я─я▀п©я▀п╫я√я├я▄ п╟п©я─п╟я├п╬я·п╨я┐"
+
+#: clientgui/AdvancedFrame.cpp:381
 msgid "Stop work regardless of preferences"
-msgstr "Прыпыняецца апрацо?ка ?с?х задання? ва ?с?х праектах"
+msgstr "п÷я─я▀п©я▀п╫я▐п╣я├я├п╟ п╟п©я─п╟я├п╬я·п╨п╟ я·я│я√я┘ п╥п╟п╢п╟п╫п╫я▐я· п╡п╟ я·я│я√я┘ п©я─п╟п╣п╨я┌п╟я┘"
 
-#: clientgui/AdvancedFrame.cpp:395
+#: clientgui/AdvancedFrame.cpp:397
 msgid "&Network activity always available"
-msgstr "Падлучаны да ?нтэрнэту"
+msgstr "п÷п╟п╢п╩я┐я┤п╟п╫я▀ п╢п╟ я√п╫я┌я█я─п╫я█я┌я┐"
 
-#: clientgui/AdvancedFrame.cpp:396
+#: clientgui/AdvancedFrame.cpp:398
 msgid "Allow network activity regardless of preferences"
-msgstr "Дазваляецца абмен дадзеным? праз ?нтэрнэт у любы момант часу, незалежна ад налада?."
+msgstr "п■п╟п╥п╡п╟п╩я▐п╣я├я├п╟ п╟п╠п╪п╣п╫ п╢п╟п╢п╥п╣п╫я▀п╪я√ п©я─п╟п╥ я√п╫я┌я█я─п╫я█я┌ я┐ п╩я▌п╠я▀ п╪п╬п╪п╟п╫я┌ я┤п╟я│я┐, п╫п╣п╥п╟п╩п╣п╤п╫п╟ п╟п╢ п╫п╟п╩п╟п╢п╟я·."
 
-#: clientgui/AdvancedFrame.cpp:400
+#: clientgui/AdvancedFrame.cpp:402
 msgid "Network activity based on &preferences"
-msgstr "Доступ у ?нтэрнэт вызначаецца наладам?"
+msgstr "п■п╬я│я┌я┐п© я┐ я√п╫я┌я█я─п╫я█я┌ п╡я▀п╥п╫п╟я┤п╟п╣я├я├п╟ п╫п╟п╩п╟п╢п╟п╪я√"
 
-#: clientgui/AdvancedFrame.cpp:401
+#: clientgui/AdvancedFrame.cpp:403
 msgid "Allow network activity according to your preferences"
-msgstr "Абмен дадзеным? праз ?нтэрнэт здзяйсняецца ? адпаведнасць з наладам?."
+msgstr "п░п╠п╪п╣п╫ п╢п╟п╢п╥п╣п╫я▀п╪я√ п©я─п╟п╥ я√п╫я┌я█я─п╫я█я┌ п╥п╢п╥я▐п╧я│п╫я▐п╣я├я├п╟ я· п╟п╢п©п╟п╡п╣п╢п╫п╟я│я├я▄ п╥ п╫п╟п╩п╟п╢п╟п╪я√."
 
-#: clientgui/AdvancedFrame.cpp:405
+#: clientgui/AdvancedFrame.cpp:407
 msgid "&Network activity suspended"
-msgstr "Працаваць а?таномна"
+msgstr "п÷я─п╟я├п╟п╡п╟я├я▄ п╟я·я┌п╟п╫п╬п╪п╫п╟"
 
-#: clientgui/AdvancedFrame.cpp:406
+#: clientgui/AdvancedFrame.cpp:408
 msgid "Stop BOINC network activity"
-msgstr "Забараняецца абмен дадзеным? праз ?нтэрнэт пам?ж BOINC ? серверам? праекта?"
+msgstr "п≈п╟п╠п╟я─п╟п╫я▐п╣я├я├п╟ п╟п╠п╪п╣п╫ п╢п╟п╢п╥п╣п╫я▀п╪я√ п©я─п╟п╥ я√п╫я┌я█я─п╫я█я┌ п©п╟п╪я√п╤ BOINC я√ я│п╣я─п╡п╣я─п╟п╪я√ п©я─п╟п╣п╨я┌п╟я·"
 
-#: clientgui/AdvancedFrame.cpp:413
-msgid "&Options"
-msgstr "Налады"
+#: clientgui/AdvancedFrame.cpp:415
+msgid "&Options..."
+msgstr "п²п╟п╩п╟п╢я▀..."
 
-#: clientgui/AdvancedFrame.cpp:414
+#: clientgui/AdvancedFrame.cpp:416
 msgid "Configure GUI options and proxy settings"
-msgstr "Налады граф?чнага ?нтэрфейсу праграмы ? прокс? сервера?"
+msgstr "п²п╟п╩п╟п╢я▀ пЁя─п╟я└я√я┤п╫п╟пЁп╟ я√п╫я┌я█я─я└п╣п╧я│я┐ п©я─п╟пЁя─п╟п╪я▀ я√ п©я─п╬п╨я│я√ я│п╣я─п╡п╣я─п╟я·"
 
-#: clientgui/AdvancedFrame.cpp:419
+#: clientgui/AdvancedFrame.cpp:421
 #, c-format
 msgid "Connect to another computer running %s"
-msgstr "Падлучыць ?ншы кампутар з %s"
+msgstr "п÷п╟п╢п╩я┐я┤я▀я├я▄ я√п╫я┬я▀ п╨п╟п╪п©я┐я┌п╟я─ п╥ %s"
 
-#: clientgui/AdvancedFrame.cpp:424
+#: clientgui/AdvancedFrame.cpp:426
 msgid "Select computer..."
-msgstr "Змян?ць кампутар..."
+msgstr "п≈п╪я▐п╫я√я├я▄ п╨п╟п╪п©я┐я┌п╟я─..."
 
-#: clientgui/AdvancedFrame.cpp:429
+#: clientgui/AdvancedFrame.cpp:431
 msgid "Run CPU &benchmarks"
-msgstr "Запусц?ць тэст прадукцыйнасц?"
+msgstr "п≈п╟п©я┐я│я├я√я├я▄ я┌я█я│я┌ п©я─п╟п╢я┐п╨я├я▀п╧п╫п╟я│я├я√"
 
-#: clientgui/AdvancedFrame.cpp:430
+#: clientgui/AdvancedFrame.cpp:432
 msgid "Runs BOINC CPU benchmarks"
-msgstr "Запусц?ць тэст прадукцыйнасц? працэсара"
+msgstr "п≈п╟п©я┐я│я├я√я├я▄ я┌я█я│я┌ п©я─п╟п╢я┐п╨я├я▀п╧п╫п╟я│я├я√ п©я─п╟я├я█я│п╟я─п╟"
 
-#: clientgui/AdvancedFrame.cpp:434
+#: clientgui/AdvancedFrame.cpp:436
 msgid "Retry &communications"
-msgstr "Па?тарыць абмен дадзеным? з серверам? праекта?"
+msgstr "п÷п╟я·я┌п╟я─я▀я├я▄ п╟п╠п╪п╣п╫ п╢п╟п╢п╥п╣п╫я▀п╪я√ п╥ я│п╣я─п╡п╣я─п╟п╪я√ п©я─п╟п╣п╨я┌п╟я·"
 
-#: clientgui/AdvancedFrame.cpp:435
+#: clientgui/AdvancedFrame.cpp:437
 msgid "Report completed work, get latest credit, get latest preferences, and possibly get more work."
-msgstr "Пацверджанне завершаных задання? ? запыт новых, атрыманне ?нфармацы? аб наладах ? колькасц? ачко?."
+msgstr "п÷п╟я├п╡п╣я─п╢п╤п╟п╫п╫п╣ п╥п╟п╡п╣я─я┬п╟п╫я▀я┘ п╥п╟п╢п╟п╫п╫я▐я· я√ п╥п╟п©я▀я┌ п╫п╬п╡я▀я┘, п╟я┌я─я▀п╪п╟п╫п╫п╣ я√п╫я└п╟я─п╪п╟я├я▀я√ п╟п╠ п╫п╟п╩п╟п╢п╟я┘ я√ п╨п╬п╩я▄п╨п╟я│я├я√ п╟я┤п╨п╬я·."
 
-#: clientgui/AdvancedFrame.cpp:440
-#: clientgui/WelcomePage.cpp:312
+#: clientgui/AdvancedFrame.cpp:442
+msgid "Read config file"
+msgstr "п÷п╣я─п╟п╥п╟пЁя─я┐п╥я√я├я▄ я└п╟п╧п╩ я│п©п╣я├п╫п╟я│я┌я─п╬п╣п╨ "
+
+#: clientgui/AdvancedFrame.cpp:443
+msgid "Read configuration info from cc-config.xml."
+msgstr "п÷п╣я─п╟п╥п╟пЁя─я┐п╥я√я├я▄ я└п╟п╧п╩ я│п©п╣я├п╫п╟я│я┌я─п╬п╣п╨ cc-config.xml."
+
+#: clientgui/AdvancedFrame.cpp:447
+msgid "Read local prefs file"
+msgstr "п÷п╣я─п╟п╥п╟пЁя─я┐п╥я√я├я▄ п╩п╟п╨п╟п╩я▄п╫я▀ я└п╟п╧п╩ п╟пЁя┐п╩я▄п╫я▀я┘ п╫п╟п╩п╟п╢п╟я·"
+
+#: clientgui/AdvancedFrame.cpp:448
+msgid "Read preferences from global_prefs_override.xml."
+msgstr "п÷п╣я─п╟п╥п╟пЁя─я┐п╥я√я├я▄ п╩п╟п╨п╟п╩я▄п╫я▀ я└п╟п╧п╩ п╟пЁя┐п╩я▄п╫я▀я┘ п╫п╟п╩п╟п╢п╟я· global_prefs_override.xml."
+
+#: clientgui/AdvancedFrame.cpp:452
+#: clientgui/WelcomePage.cpp:322
 #, c-format
 msgid "&Defect from %s"
-msgstr "Адлучыцца ад %s"
+msgstr "п░п╢п╩я┐я┤я▀я├я├п╟ п╟п╢ %s"
 
-#: clientgui/AdvancedFrame.cpp:446
+#: clientgui/AdvancedFrame.cpp:458
 msgid "Remove client from account manager control."
-msgstr "Адлучыць кл?ент ад мэнэджэра праекта?."
-
-#: clientgui/AdvancedFrame.cpp:451
-msgid "Attach to a project to begin processing work"
-msgstr "Падлучыцца да яшчэ адному праекту размеркаваных выл?чэння?"
+msgstr "п░п╢п╩я┐я┤я▀я├я▄ п╨п╩я√п╣п╫я┌ п╟п╢ п╪я█п╫я█п╢п╤я█я─п╟ п©я─п╟п╣п╨я┌п╟я·."
 
 #: clientgui/AdvancedFrame.cpp:462
-#, c-format
-msgid "&%s\tF1"
-msgstr "&%s\tF1"
+msgid "Attach to &project"
+msgstr "п■п╟п╢п╟я├я▄ п©я─п╟п╣п╨я┌"
 
-#: clientgui/AdvancedFrame.cpp:468
+#: clientgui/AdvancedFrame.cpp:463
+msgid "Attach to a project to begin processing work"
+msgstr "п÷п╟п╢п╩я┐я┤я▀я├я├п╟ п╢п╟ я▐я┬я┤я█ п╟п╢п╫п╬п╪я┐ п©я─п╟п╣п╨я┌я┐ я─п╟п╥п╪п╣я─п╨п╟п╡п╟п╫я▀я┘ п╡я▀п╩я√я┤я█п╫п╫я▐я·"
+
+#: clientgui/AdvancedFrame.cpp:474
+#: clientgui/sg_BoincSimpleGUI.cpp:113
 #, c-format
-msgid "Show information about the %s"
-msgstr "Паказаць даведку па праграме %s"
+msgid "&%s"
+msgstr "&%s"
 
 #: clientgui/AdvancedFrame.cpp:480
+#: clientgui/sg_BoincSimpleGUI.cpp:119
+#, c-format
+msgid "Show information about the %s"
+msgstr "п÷п╟п╨п╟п╥п╟я├я▄ п╢п╟п╡п╣п╢п╨я┐ п©п╟ п©я─п╟пЁя─п╟п╪п╣ %s"
+
+#: clientgui/AdvancedFrame.cpp:492
+#: clientgui/sg_BoincSimpleGUI.cpp:131
 #, c-format
 msgid "%s &website"
-msgstr "Хатняя старонка %s"
+msgstr "п╔п╟я┌п╫я▐я▐ я│я┌п╟я─п╬п╫п╨п╟ %s"
 
-#: clientgui/AdvancedFrame.cpp:486
+#: clientgui/AdvancedFrame.cpp:498
+#: clientgui/sg_BoincSimpleGUI.cpp:137
 #, c-format
 msgid "Show information about BOINC and %s"
-msgstr "Паказаць ?нфармацыю аб BOINC ? %s"
+msgstr "п÷п╟п╨п╟п╥п╟я├я▄ я√п╫я└п╟я─п╪п╟я├я▀я▌ п╟п╠ BOINC я√ %s"
 
-#: clientgui/AdvancedFrame.cpp:500
-#: clientgui/BOINCTaskBar.cpp:638
+#: clientgui/AdvancedFrame.cpp:514
+#: clientgui/BOINCTaskBar.cpp:604
 #, c-format
 msgid "&About %s..."
-msgstr "Аб %s..."
+msgstr "п░п╠ %s..."
 
-#: clientgui/AdvancedFrame.cpp:506
+#: clientgui/AdvancedFrame.cpp:520
 msgid "Licensing and copyright information."
-msgstr "Паказаць звестк? аб верс?? праграмы ? а?тарск?х правах  "
-
-#: clientgui/AdvancedFrame.cpp:519
-msgid "&File"
-msgstr "Файл"
-
-# old version 1.14
-#: clientgui/AdvancedFrame.cpp:523
-msgid "&Tools"
-msgstr "Сэрв?с"
+msgstr "п÷п╟п╨п╟п╥п╟я├я▄ п╥п╡п╣я│я┌п╨я√ п╟п╠ п╡п╣я─я│я√я√ п©я─п╟пЁя─п╟п╪я▀ я√ п╟я·я┌п╟я─я│п╨я√я┘ п©я─п╟п╡п╟я┘  "
 
 #: clientgui/AdvancedFrame.cpp:527
+#: clientgui/sg_BoincSimpleGUI.cpp:160
+msgid "&File"
+msgstr "п╓п╟п╧п╩"
+
+#: clientgui/AdvancedFrame.cpp:532
+msgid "&View"
+msgstr "п▓я▀пЁп╩я▐п╢"
+
+# old version 1.14
+#: clientgui/AdvancedFrame.cpp:537
+msgid "&Tools"
+msgstr "п║я█я─п╡я√я│"
+
+#: clientgui/AdvancedFrame.cpp:541
 msgid "&Activity"
-msgstr "К?раванне"
+msgstr "п я√я─п╟п╡п╟п╫п╫п╣"
 
-#: clientgui/AdvancedFrame.cpp:531
+#: clientgui/AdvancedFrame.cpp:545
 msgid "A&dvanced"
-msgstr "Дадаткова"
+msgstr "п■п╟п╢п╟я┌п╨п╬п╡п╟"
 
-#: clientgui/AdvancedFrame.cpp:535
+#: clientgui/AdvancedFrame.cpp:549
+#: clientgui/sg_BoincSimpleGUI.cpp:150
 #: clientgui/wizardex.cpp:356
 #: clientgui/wizardex.cpp:363
 msgid "&Help"
-msgstr "Даведка"
+msgstr "п■п╟п╡п╣п╢п╨п╟"
 
-# (працяг)...ды ? л?тра падобна не хоп?ць
-#: clientgui/AdvancedFrame.cpp:1055
-msgid ""
-"This will shut down your tasks until it restarts automatically\n"
-"following your user preferences. Close window to close the manager\n"
-"without stopping the tasks."
-msgstr ""
-"Апрацо?ка задання? будзе спыненая пакуль не адбудзецца\n"
-"а?таматычны перазапуск у адпаведнасць з наладам?. Зачын?це\n"
-"акно для зачынення мэнэджэра без прыпынку апрацо?к?."
-
-#: clientgui/AdvancedFrame.cpp:1060
-msgid "Close Confirmation"
-msgstr "Пацверджанне выхаду"
-
-#: clientgui/AdvancedFrame.cpp:1185
+#: clientgui/AdvancedFrame.cpp:1171
 #, c-format
 msgid "BOINC Manager - Detach from %s"
-msgstr "BOINC мэнэджэр - адлучэнне ад %s"
+msgstr "BOINC п╪я█п╫я█п╢п╤я█я─ - п╟п╢п╩я┐я┤я█п╫п╫п╣ п╟п╢ %s"
 
-#: clientgui/AdvancedFrame.cpp:1189
+#: clientgui/AdvancedFrame.cpp:1175
 #, c-format
 msgid ""
 "If you defect from %s,\n"
@@ -440,636 +445,571 @@ msgid ""
 "\n"
 "Do you want to defect from %s?"
 msgstr ""
-"Кал? вы адлучыцеся ад %s,\n"
-"усе вашы бягучыя праекты захаваюцца,\n"
-"але вы пав?нны будзеце к?раваць ?м? ?ручную.\n"
+"п п╟п╩я√ п╡я▀ п╟п╢п╩я┐я┤я▀я├п╣я│я▐ п╟п╢ %s,\n"
+"я┐я│п╣ п╡п╟я┬я▀ п╠я▐пЁя┐я┤я▀я▐ п©я─п╟п╣п╨я┌я▀ п╥п╟я┘п╟п╡п╟я▌я├я├п╟,\n"
+"п╟п╩п╣ п╡я▀ п©п╟п╡я√п╫п╫я▀ п╠я┐п╢п╥п╣я├п╣ п╨я√я─п╟п╡п╟я├я▄ я√п╪я√ я·я─я┐я┤п╫я┐я▌.\n"
 "\n"
-"Адлучыцца ад %s?"
+"п░п╢п╩я┐я┤я▀я├я├п╟ п╟п╢ %s?"
 
-#: clientgui/AdvancedFrame.cpp:1239
+#: clientgui/AdvancedFrame.cpp:1225
 msgid "Attaching to project..."
-msgstr "Падлучэнне да праекту..."
+msgstr "п÷п╟п╢п╩я┐я┤я█п╫п╫п╣ п╢п╟ п©я─п╟п╣п╨я┌я┐..."
 
-#: clientgui/AdvancedFrame.cpp:1281
+#: clientgui/AdvancedFrame.cpp:1263
 msgid "Retrying communications for project(s)..."
-msgstr "Па?торны абмен дадзеным? для ?с?х падлучаных праекта?..."
+msgstr "п÷п╟я·я┌п╬я─п╫я▀ п╟п╠п╪п╣п╫ п╢п╟п╢п╥п╣п╫я▀п╪я√ п╢п╩я▐ я·я│я√я┘ п©п╟п╢п╩я┐я┤п╟п╫я▀я┘ п©я─п╟п╣п╨я┌п╟я·..."
 
-#: clientgui/AdvancedFrame.cpp:1364
+#: clientgui/AdvancedFrame.cpp:1346
 #, c-format
 msgid "%s - Language Selection"
-msgstr "%s - змена мовы"
+msgstr "%s - п╥п╪п╣п╫п╟ п╪п╬п╡я▀"
 
-#: clientgui/AdvancedFrame.cpp:1371
+#: clientgui/AdvancedFrame.cpp:1353
 #, c-format
 msgid "The %s's default language has been changed, in order for this change to take affect you must restart the %s."
 msgstr ""
-"Мова ?нтэрфейсу праграмы %s бы? зменены,\n"
-"для ?ступа ? с?лу змена? патрабуецца перазапусц?ць праграму %s."
+"п°п╬п╡п╟ я√п╫я┌я█я─я└п╣п╧я│я┐ п©я─п╟пЁя─п╟п╪я▀ %s п╠я▀я· п╥п╪п╣п╫п╣п╫я▀,\n"
+"п╢п╩я▐ я·я│я┌я┐п©п╟ я· я│я√п╩я┐ п╥п╪п╣п╫п╟я· п©п╟я┌я─п╟п╠я┐п╣я├я├п╟ п©п╣я─п╟п╥п╟п©я┐я│я├я√я├я▄ п©я─п╟пЁя─п╟п╪я┐ %s."
 
-#: clientgui/AdvancedFrame.cpp:1619
-#: clientgui/DlgAbout.cpp:98
+#: clientgui/AdvancedFrame.cpp:1562
+#: clientgui/DlgAbout.cpp:105
 #, c-format
 msgid "%s"
 msgstr "%s"
 
-#: clientgui/AdvancedFrame.cpp:1628
+#: clientgui/AdvancedFrame.cpp:1571
 #, c-format
 msgid "%s has successfully attached to %s"
-msgstr "Падлучэнне %s да праекту %s прайшло паспяхова"
+msgstr "п÷п╟п╢п╩я┐я┤я█п╫п╫п╣ %s п╢п╟ п©я─п╟п╣п╨я┌я┐ %s п©я─п╟п╧я┬п╩п╬ п©п╟я│п©я▐я┘п╬п╡п╟"
 
-#: clientgui/AdvancedFrame.cpp:1753
-#: clientgui/AdvancedFrame.cpp:1756
+#: clientgui/AdvancedFrame.cpp:1696
+#: clientgui/AdvancedFrame.cpp:1699
 #, c-format
 msgid "%s - (%s)"
 msgstr "%s - (%s)"
 
-#: clientgui/AdvancedFrame.cpp:1754
+#: clientgui/AdvancedFrame.cpp:1697
 #, c-format
 msgid "Connecting to %s"
-msgstr "?дзе падлучэнне да %s"
+msgstr "п├п╢п╥п╣ п©п╟п╢п╩я┐я┤я█п╫п╫п╣ п╢п╟ %s"
 
-#: clientgui/AdvancedFrame.cpp:1757
+#: clientgui/AdvancedFrame.cpp:1700
 #, c-format
 msgid "Connected to %s"
-msgstr "Падлучаны да %s"
+msgstr "п÷п╟п╢п╩я┐я┤п╟п╫я▀ п╢п╟ %s"
 
-#: clientgui/AlreadyAttachedPage.cpp:174
+#: clientgui/AlreadyAttachedPage.cpp:182
 msgid "Already attached to project"
-msgstr "Праект ужо прысутн?чае"
+msgstr "п÷я─п╟п╣п╨я┌ я┐п╤п╬ п©я─я▀я│я┐я┌п╫я√я┤п╟п╣"
 
-#: clientgui/AlreadyAttachedPage.cpp:177
+#: clientgui/AlreadyAttachedPage.cpp:185
 msgid "You are already attached to this project."
-msgstr "Запушчаны BOINC кл?ент ужо падлучаны да дадзенага праекту"
+msgstr "п≈п╟п©я┐я┬я┤п╟п╫я▀ BOINC п╨п╩я√п╣п╫я┌ я┐п╤п╬ п©п╟п╢п╩я┐я┤п╟п╫я▀ п╢п╟ п╢п╟п╢п╥п╣п╫п╟пЁп╟ п©я─п╟п╣п╨я┌я┐"
 
-#: clientgui/AlreadyExistsPage.cpp:177
+#: clientgui/AlreadyExistsPage.cpp:185
 msgid "Username already in use"
-msgstr "Дадзенае ?мя ?дзельн?ка ?жо выкарысто?ваецца"
+msgstr "п■п╟п╢п╥п╣п╫п╟п╣ я√п╪я▐ я·п╢п╥п╣п╩я▄п╫я√п╨п╟ я·п╤п╬ п╡я▀п╨п╟я─я▀я│я┌п╬я·п╡п╟п╣я├я├п╟"
 
-#: clientgui/AlreadyExistsPage.cpp:180
+#: clientgui/AlreadyExistsPage.cpp:188
 msgid ""
 "An account with that username already exists and has a\n"
 "different password than the one you entered.\n"
 "\n"
 "Please visit the project's web site and follow the instructions there."
 msgstr ""
-"Ул?ковы зап?с з так?м ?мем удзельн?ка ?жо\n"
-"?снуе ? яе пароль адрозн?ваецца ад уведзенага вам?.\n"
+"пёп╩я√п╨п╬п╡я▀ п╥п╟п©я√я│ п╥ я┌п╟п╨я√п╪ я√п╪п╣п╪ я┐п╢п╥п╣п╩я▄п╫я√п╨п╟ я·п╤п╬\n"
+"я√я│п╫я┐п╣ я√ я▐п╣ п©п╟я─п╬п╩я▄ п╟п╢я─п╬п╥п╫я√п╡п╟п╣я├я├п╟ п╟п╢ я┐п╡п╣п╢п╥п╣п╫п╟пЁп╟ п╡п╟п╪я√.\n"
 "\n"
-"Наведаеце хатнюю старонку праекту для атрымання ?нструкцыя?."
+"п²п╟п╡п╣п╢п╟п╣я├п╣ я┘п╟я┌п╫я▌я▌ я│я┌п╟я─п╬п╫п╨я┐ п©я─п╟п╣п╨я┌я┐ п╢п╩я▐ п╟я┌я─я▀п╪п╟п╫п╫я▐ я√п╫я│я┌я─я┐п╨я├я▀я▐я·."
 
-# не ?лаз?ць цалкам
-#: clientgui/AlreadyExistsPage.cpp:187
+# п╫п╣ я·п╩п╟п╥я√я├я▄ я├п╟п╩п╨п╟п╪
+#: clientgui/AlreadyExistsPage.cpp:195
 msgid "Email address already in use"
-msgstr "Дадзены адрас эл. пошты ?жо выкарысто?ваецца"
+msgstr "п■п╟п╢п╥п╣п╫я▀ п╟п╢я─п╟я│ я█п╩. п©п╬я┬я┌я▀ я·п╤п╬ п╡я▀п╨п╟я─я▀я│я┌п╬я·п╡п╟п╣я├я├п╟"
 
-#: clientgui/AlreadyExistsPage.cpp:190
+#: clientgui/AlreadyExistsPage.cpp:198
 msgid ""
 "An account with that email address already exists and has a\n"
 "different password than the one you entered.\n"
 "\n"
 "Please visit the project's web site and follow the instructions there."
 msgstr ""
-"Ул?ковы зап?с з так?м адрасам электроннае пошты ?жо\n"
-"?снуе ? яе пароль адрозн?ваецца ад уведзенага вам?.\n"
+"пёп╩я√п╨п╬п╡я▀ п╥п╟п©я√я│ п╥ я┌п╟п╨я√п╪ п╟п╢я─п╟я│п╟п╪ я█п╩п╣п╨я┌я─п╬п╫п╫п╟п╣ п©п╬я┬я┌я▀ я·п╤п╬\n"
+"я√я│п╫я┐п╣ я√ я▐п╣ п©п╟я─п╬п╩я▄ п╟п╢я─п╬п╥п╫я√п╡п╟п╣я├я├п╟ п╟п╢ я┐п╡п╣п╢п╥п╣п╫п╟пЁп╟ п╡п╟п╪я√.\n"
 "\n"
-"Наведаеце хатнюю старонку праекту для атрымання ?нструкцыя?."
+"п²п╟п╡п╣п╢п╟п╣я├п╣ я┘п╟я┌п╫я▌я▌ я│я┌п╟я─п╬п╫п╨я┐ п©я─п╟п╣п╨я┌я┐ п╢п╩я▐ п╟я┌я─я▀п╪п╟п╫п╫я▐ я√п╫я│я┌я─я┐п╨я├я▀я▐я·."
 
-#: clientgui/BOINCBaseFrame.cpp:304
+#: clientgui/BOINCBaseFrame.cpp:346
 #, c-format
 msgid "%s - Connection Error"
-msgstr "%s - памылка злучэння"
+msgstr "%s - п©п╟п╪я▀п╩п╨п╟ п╥п╩я┐я┤я█п╫п╫я▐"
 
-#: clientgui/BOINCBaseFrame.cpp:310
+#: clientgui/BOINCBaseFrame.cpp:352
 msgid "The password you have provided is incorrect, please try again."
-msgstr "Уведзены не прав?льны пароль, паспрабуйце падлучыцца яшчэ раз"
+msgstr "пёп╡п╣п╢п╥п╣п╫я▀ п╫п╣ п©я─п╟п╡я√п╩я▄п╫я▀ п©п╟я─п╬п╩я▄, п©п╟я│п©я─п╟п╠я┐п╧я├п╣ п©п╟п╢п╩я┐я┤я▀я├я├п╟ я▐я┬я┤я█ я─п╟п╥"
 
-#: clientgui/BOINCBaseFrame.cpp:327
+#: clientgui/BOINCBaseFrame.cpp:375
 #, c-format
 msgid "%s - Connection Failed"
-msgstr "%s - памылка падлучэння"
+msgstr "%s - п©п╟п╪я▀п╩п╨п╟ п©п╟п╢п╩я┐я┤я█п╫п╫я▐"
 
-#: clientgui/BOINCBaseFrame.cpp:336
+#: clientgui/BOINCBaseFrame.cpp:384
 #, c-format
 msgid ""
 "%s is not able to connect to a %s client.\n"
 "Would you like to try to connect again?"
 msgstr ""
-"%s не можа падлучыцца да %s кл?енту.\n"
-"Паспрабаваць па?тарыць падлучэнне?"
+"%s п╫п╣ п╪п╬п╤п╟ п©п╟п╢п╩я┐я┤я▀я├я├п╟ п╢п╟ %s п╨п╩я√п╣п╫я┌я┐.\n"
+"п÷п╟я│п©я─п╟п╠п╟п╡п╟я├я▄ п©п╟я·я┌п╟я─я▀я├я▄ п©п╟п╢п╩я┐я┤я█п╫п╫п╣?"
 
-#: clientgui/BOINCBaseFrame.cpp:363
+#: clientgui/BOINCBaseFrame.cpp:417
 #, c-format
 msgid "%s - Connection Status"
-msgstr "%s - стан падлучэння"
+msgstr "%s - я│я┌п╟п╫ п©п╟п╢п╩я┐я┤я█п╫п╫я▐"
 
-#: clientgui/BOINCBaseFrame.cpp:374
+#: clientgui/BOINCBaseFrame.cpp:428
 #, c-format
 msgid ""
 "%s is not currently connected to a %s client.\n"
-"Please use the 'File\\Select Computer...' menu option to connect up to a %s client.\n"
+"Please use the 'Advanced\\Select Computer...' menu option to connect up to a %s client.\n"
 "To connect up to your local computer please use 'localhost' as the host name."
 msgstr ""
-"%s не падлучаны да кл?ента %s.\n"
-"Для падлучэння да кл?ента %s скарыстайцеся меню 'Файл\\Змян?ць кампутар'.\n"
-"Для лакальнага кампутара выкарыстайце 'localhost' у якасц? ?мя кампутара."
+"%s п╫п╣ п©п╟п╢п╩я┐я┤п╟п╫я▀ п╢п╟ п╨п╩я√п╣п╫я┌п╟ %s.\n"
+"п■п╩я▐ п©п╟п╢п╩я┐я┤я█п╫п╫я▐ п╢п╟ п╨п╩я√п╣п╫я┌п╟ %s я│п╨п╟я─я▀я│я┌п╟п╧я├п╣я│я▐ п╪п╣п╫я▌ 'п■п╟п╢п╟я┌п╨п╬п╡п╟\\п≈п╪я▐п╫я√я├я▄ п╨п╟п╪п©я┐я┌п╟я─'.\n"
+"п■п╩я▐ п╩п╟п╨п╟п╩я▄п╫п╟пЁп╟ п╨п╟п╪п©я┐я┌п╟я─п╟ п╡я▀п╨п╟я─я▀я│я┌п╟п╧я├п╣ 'localhost' я┐ я▐п╨п╟я│я├я√ я√п╪я▐ п╨п╟п╪п©я┐я┌п╟я─п╟."
 
-#: clientgui/BOINCBaseView.cpp:457
+#: clientgui/BOINCBaseView.cpp:465
+#: clientgui/ViewWorkGrid.cpp:430
 msgid "Web sites"
-msgstr "Спасылк?"
+msgstr "п║п©п╟я│я▀п╩п╨я√"
 
-#: clientgui/BOINCDialupManager.cpp:56
+#: clientgui/BOINCDialupManager.cpp:63
 #, c-format
 msgid "%s - Network Status"
-msgstr "%s - стан сеткавага падлучэння"
+msgstr "%s - я│я┌п╟п╫ я│п╣я┌п╨п╟п╡п╟пЁп╟ п©п╟п╢п╩я┐я┤я█п╫п╫я▐"
 
-#: clientgui/BOINCDialupManager.cpp:245
+#: clientgui/BOINCDialupManager.cpp:260
 #, c-format
 msgid "%s needs to connect to the Internet.  Please click to open %s."
-msgstr "%s неабходна падлучыцца да ?нтэрнэту. Пстрыкн?це каб адкрыць %s"
+msgstr "%s п╫п╣п╟п╠я┘п╬п╢п╫п╟ п©п╟п╢п╩я┐я┤я▀я├я├п╟ п╢п╟ я√п╫я┌я█я─п╫я█я┌я┐. п÷я│я┌я─я▀п╨п╫я√я├п╣ п╨п╟п╠ п╟п╢п╨я─я▀я├я▄ %s"
 
-#: clientgui/BOINCDialupManager.cpp:253
+#: clientgui/BOINCDialupManager.cpp:268
 #, c-format
 msgid ""
 "%s is unable to communicate with a project and needs an Internet connection.\n"
 "Please connect to the Internet, then select the 'retry communications' item off the advanced menu."
 msgstr ""
-"%s не змог звязацца з праектам - неабходна падлучыцца да ?нтэрнэту. \n"
-"Падлучыцеся да ?нтэрнэту ? нац?сн?це \"Па?тарыць абмен дадзеным? з серверам? праекта?\"."
+"%s п╫п╣ п╥п╪п╬пЁ п╥п╡я▐п╥п╟я├я├п╟ п╥ п©я─п╟п╣п╨я┌п╟п╪ - п╫п╣п╟п╠я┘п╬п╢п╫п╟ п©п╟п╢п╩я┐я┤я▀я├я├п╟ п╢п╟ я√п╫я┌я█я─п╫я█я┌я┐. \n"
+"п÷п╟п╢п╩я┐я┤я▀я├п╣я│я▐ п╢п╟ я√п╫я┌я█я─п╫я█я┌я┐ я√ п╫п╟я├я√я│п╫я√я├п╣ \"п÷п╟я·я┌п╟я─я▀я├я▄ п╟п╠п╪п╣п╫ п╢п╟п╢п╥п╣п╫я▀п╪я√ п╥ я│п╣я─п╡п╣я─п╟п╪я√ п©я─п╟п╣п╨я┌п╟я·\"."
 
-#: clientgui/BOINCDialupManager.cpp:292
+#: clientgui/BOINCDialupManager.cpp:314
 #, c-format
 msgid ""
 "%s needs to connect to the Internet.\n"
 "May it do so now?"
 msgstr ""
-"%s неабходна падлучыцца да ?нтэрнэту\n"
-"Выраб?ць злучэнне зараз?"
+"%s п╫п╣п╟п╠я┘п╬п╢п╫п╟ п©п╟п╢п╩я┐я┤я▀я├я├п╟ п╢п╟ я√п╫я┌я█я─п╫я█я┌я┐\n"
+"п▓я▀я─п╟п╠я√я├я▄ п╥п╩я┐я┤я█п╫п╫п╣ п╥п╟я─п╟п╥?"
 
-#: clientgui/BOINCDialupManager.cpp:305
+#: clientgui/BOINCDialupManager.cpp:327
 #, c-format
 msgid "%s is connecting to the Internet."
-msgstr "%s вырабляе падлучэнне  да ?нтэрнэту."
+msgstr "%s п╡я▀я─п╟п╠п╩я▐п╣ п©п╟п╢п╩я┐я┤я█п╫п╫п╣  п╢п╟ я√п╫я┌я█я─п╫я█я┌я┐."
 
-#: clientgui/BOINCDialupManager.cpp:336
+#: clientgui/BOINCDialupManager.cpp:358
 #, c-format
 msgid ""
 "%s couldn't do Internet communication, and no default connection is selected.\n"
 "Please connect to the Internet, or select a default connection\n"
 "using Advanced/Options/Connections."
 msgstr ""
-"%s не змог звязацца з праектам ? не знайшо? падлучэнн? па зма?чанн?.\n"
-"Падлучыцеся да ?нтэрнэту або задайце падлучэнне па зма?чанн?\n"
-"у меню Дадаткова/Налады/Параметры падлучэння"
+"%s п╫п╣ п╥п╪п╬пЁ п╥п╡я▐п╥п╟я├я├п╟ п╥ п©я─п╟п╣п╨я┌п╟п╪ я√ п╫п╣ п╥п╫п╟п╧я┬п╬я· п©п╟п╢п╩я┐я┤я█п╫п╫я√ п©п╟ п╥п╪п╟я·я┤п╟п╫п╫я√.\n"
+"п÷п╟п╢п╩я┐я┤я▀я├п╣я│я▐ п╢п╟ я√п╫я┌я█я─п╫я█я┌я┐ п╟п╠п╬ п╥п╟п╢п╟п╧я├п╣ п©п╟п╢п╩я┐я┤я█п╫п╫п╣ п©п╟ п╥п╪п╟я·я┤п╟п╫п╫я√\n"
+"я┐ п╪п╣п╫я▌ п■п╟п╢п╟я┌п╨п╬п╡п╟/п²п╟п╩п╟п╢я▀/п÷п╟я─п╟п╪п╣я┌я─я▀ п©п╟п╢п╩я┐я┤я█п╫п╫я▐"
 
-#: clientgui/BOINCDialupManager.cpp:364
+#: clientgui/BOINCDialupManager.cpp:392
 #, c-format
 msgid "%s has successfully connected to the Internet."
-msgstr "%s усталява? падлучэнне да ?нтэрнэту."
+msgstr "%s я┐я│я┌п╟п╩я▐п╡п╟я· п©п╟п╢п╩я┐я┤я█п╫п╫п╣ п╢п╟ я√п╫я┌я█я─п╫я█я┌я┐."
 
-#: clientgui/BOINCDialupManager.cpp:388
+#: clientgui/BOINCDialupManager.cpp:420
 #, c-format
 msgid "%s failed to connect to the Internet."
-msgstr "%s не атрымалася падлучыцца да ?нтэрнэту."
+msgstr "%s п╫п╣ п╟я┌я─я▀п╪п╟п╩п╟я│я▐ п©п╟п╢п╩я┐я┤я▀я├я├п╟ п╢п╟ я√п╫я┌я█я─п╫я█я┌я┐."
 
-#: clientgui/BOINCDialupManager.cpp:422
+#: clientgui/BOINCDialupManager.cpp:461
 #, c-format
 msgid ""
 "%s has detected it is now connected to the Internet.\n"
 "Updating all projects and retrying all transfers."
 msgstr ""
-"%s выяв?? усталяванае падлучэнне да ?нтэрнэту.\n"
-"?дзе абмен файлам? дадзеных ? абна?ленне ?нфармацы? аб праектах."
+"%s п╡я▀я▐п╡я√я· я┐я│я┌п╟п╩я▐п╡п╟п╫п╟п╣ п©п╟п╢п╩я┐я┤я█п╫п╫п╣ п╢п╟ я√п╫я┌я█я─п╫я█я┌я┐.\n"
+"п├п╢п╥п╣ п╟п╠п╪п╣п╫ я└п╟п╧п╩п╟п╪я√ п╢п╟п╫п╫я▀я┘ я√ п╟п╠п╫п╟я·п╩п╣п╫п╫п╣ я√п╫я└п╟я─п╪п╟я├я▀я√ п╟п╠ п©я─п╟п╣п╨я┌п╟я┘."
 
-#: clientgui/BOINCDialupManager.cpp:459
+#: clientgui/BOINCDialupManager.cpp:504
 #, c-format
 msgid "%s has successfully disconnected from the Internet."
-msgstr "%s разарва? падлучэнне да ?нтэрнэту."
+msgstr "%s я─п╟п╥п╟я─п╡п╟я· п©п╟п╢п╩я┐я┤я█п╫п╫п╣ п╢п╟ я√п╫я┌я█я─п╫я█я┌я┐."
 
-#: clientgui/BOINCDialupManager.cpp:475
+#: clientgui/BOINCDialupManager.cpp:520
 #, c-format
 msgid "%s failed to disconnected from the Internet."
-msgstr "%s не атрымалася разарваць падлучэнне да ?нтэрнэту."
+msgstr "%s п╫п╣ п╟я┌я─я▀п╪п╟п╩п╟я│я▐ я─п╟п╥п╟я─п╡п╟я├я▄ п©п╟п╢п╩я┐я┤я█п╫п╫п╣ п╢п╟ я√п╫я┌я█я─п╫я█я┌я┐."
 
-# ледзь ледзь не ?кла?ся ? адведзеныя рамк?
-#: clientgui/BOINCGUIApp.cpp:164
-msgid ""
-"Please provide the email address and password you used to register\n"
-"at GridRepublic. (if you have not yet created an account at\n"
-"GridRepublic, please do so at http://www.gridrepublic.org)"
-msgstr ""
-"Увядз?це адрас электроннае пошты ? пароль як?я вы паказал? пры\n"
-"рэг?страцы? на сайце GridRepublic. Кал? вы яшчэ не зарэг?страваныя\n"
-"у GridRepublic, наведаеце вэб-старонку http://www.gridrepublic.org"
-
-# РВСН...
-#: clientgui/BOINCGUIApp.cpp:181
-msgid "Start Project"
-msgstr "Запуск праекту"
-
-# эл.
-#: clientgui/BOINCGUIApp.cpp:184
-msgid ""
-"Please enter an email address and password. You will need your email\n"
-"address if you want to change your account options or use our message\n"
-"boards.\n"
-"\n"
-"We will send you occasional emails. You can stop these at any time.\n"
-"We will not pass your email address on to others."
-msgstr ""
-"Пакажыце ваш адрас электроннае пошты ? прыдумайце пароль.\n"
-"Гэтыя дадзеныя спатрэбяцца пры змене параметра?  зап?су\n"
-"? для знос?на? на нашым форуме.\n"
-"\n"
-"На ваш адрас эл. пошты будзе высылацца розная ?нфармацыя.\n"
-"Але вы можаце адмов?цца ад  рассылання ? любы час.\n"
-"Уведзены адрас электроннае пошты н?кому не выдаецца."
-
-# ...да выхаду на арб?ту засталося 60 сек
-#: clientgui/BOINCGUIApp.cpp:191
-msgid "Project Started"
-msgstr "Праект запушчаны"
-
-# CPDN
-#: clientgui/BOINCGUIApp.cpp:193
-msgid ""
-"Congratulations, you have now successfully started your Climate\n"
-"Change Experiment."
-msgstr ""
-"В?ншуем, вы паспяхова далучыл?ся да Climate\n"
-"Change Experiment."
-
-# сц?сласць - прыкмета майстэрства
-#: clientgui/BOINCGUIApp.cpp:196
-msgid ""
-"Click finish to exit. You will be taken to a web page which tells\n"
-"you more about your model."
-msgstr ""
-"Нац?сн?це кнопку \"Гатова\" для  выхаду. Вы зможаце пазнаць\n"
-"падрабязнасц? аб вашай мадэл? на якая адчын?лася вэб-старонцы."
-
-# без поллитра не разбярэшся...(працяг варта)
 #: clientgui/BOINCGUIApp.cpp:203
-msgid ""
-"This will shut down your experiment until it restarts automatically\n"
-"following your user preferences. Close window to close the manager\n"
-"without stopping the experiment."
-msgstr ""
-"Эксперымент будзе спынены пакуль а?таматычна не\n"
-"перазапусц?цца ? адпаведнасць з наладам?. Зачын?це акно\n"
-"для зачынення мэнэджэра без прыпынку эксперыменту."
-
-#: clientgui/BOINCGUIApp.cpp:390
 #, c-format
 msgid ""
 "BOINC ownership or permissions are not set properly; please reinstall BOINC.\n"
 "(Error code %d)"
 msgstr ""
-"BOINC або налады бяспек? наладжаныя не прав?льна; пера?сталюеце BOINC.\n"
-"(Код памылк? %d)"
+"BOINC п╟п╠п╬ п╫п╟п╩п╟п╢я▀ п╠я▐я│п©п╣п╨я√ п╫п╟п╩п╟п╢п╤п╟п╫я▀я▐ п╫п╣ п©я─п╟п╡я√п╩я▄п╫п╟; п©п╣я─п╟я·я│я┌п╟п╩я▌п╣я├п╣ BOINC.\n"
+"(п п╬п╢ п©п╟п╪я▀п╩п╨я√ %d)"
 
-#: clientgui/BOINCGUIApp.cpp:569
+#: clientgui/BOINCGUIApp.cpp:392
 msgid "Startup BOINC so only the system tray icon is visible"
-msgstr "Згортваць BOINC мэнэджэр у значок на панэл? задача? пры запуску"
+msgstr "п≈пЁп╬я─я┌п╡п╟я├я▄ BOINC п╪я█п╫я█п╢п╤я█я─ я┐ п╥п╫п╟я┤п╬п╨ п╫п╟ п©п╟п╫я█п╩я√ п╥п╟п╢п╟я┤п╟я· п©я─я▀ п╥п╟п©я┐я│п╨я┐"
 
-#: clientgui/BOINCGUIApp.cpp:570
+#: clientgui/BOINCGUIApp.cpp:393
 msgid "disable BOINC security users and permissions"
-msgstr "адключыць пал?тыку бяспек? доступу карыстачо? да BOINC"
+msgstr "п╟п╢п╨п╩я▌я┤я▀я├я▄ п©п╟п╩я√я┌я▀п╨я┐ п╠я▐я│п©п╣п╨я√ п╢п╬я│я┌я┐п©я┐ п╨п╟я─я▀я│я┌п╟я┤п╬я· п╢п╟ BOINC"
 
-#: clientgui/BOINCGUIApp.cpp:633
+#: clientgui/BOINCGUIApp.cpp:456
 msgid "(Automatic Detection)"
-msgstr "(А?тавызначэнне)"
+msgstr "(п░я·я┌п╟п╡я▀п╥п╫п╟я┤я█п╫п╫п╣)"
 
-#: clientgui/BOINCGUIApp.cpp:634
+#: clientgui/BOINCGUIApp.cpp:457
 msgid "(Unknown)"
-msgstr "(Невядомы)"
+msgstr "(п²п╣п╡я▐п╢п╬п╪я▀)"
 
-#: clientgui/BOINCGUIApp.cpp:635
+#: clientgui/BOINCGUIApp.cpp:458
 msgid "(User Defined)"
-msgstr "(Карыстацк?)"
+msgstr "(п п╟я─я▀я│я┌п╟я├п╨я√)"
 
-# Апрацо?ка прыпыненая...
-#: clientgui/BOINCTaskBar.cpp:362
+#: clientgui/BOINCGUIApp.cpp:1059
+#, c-format
+msgid "%s - Exit Confirmation"
+msgstr "%s - п÷п╟я├п╡п╣я─п╢п╤п╟п╫п╫п╣ п╡я▀я┘п╟п╢я┐"
+
+# п░п©я─п╟я├п╬я·п╨п╟ п©я─я▀п©я▀п╫п╣п╫п╟...
+#: clientgui/BOINCTaskBar.cpp:338
 #, c-format
 msgid "%s is currently suspended...\n"
-msgstr "%s - па?за ...\n"
+msgstr "%s - п©п╟я·п╥п╟ ...\n"
 
-#: clientgui/BOINCTaskBar.cpp:374
+#: clientgui/BOINCTaskBar.cpp:350
 #, c-format
 msgid "%s networking is currently suspended...\n"
-msgstr "А?таномная праца %s ...\n"
+msgstr "п░я·я┌п╟п╫п╬п╪п╫п╟я▐ п©я─п╟я├п╟ %s ...\n"
 
-#: clientgui/BOINCTaskBar.cpp:414
+#: clientgui/BOINCTaskBar.cpp:390
 #, c-format
 msgid "%s is currently reconnecting to a %s client...\n"
-msgstr "%s спрабуе па?торна падлучыцца да %s кл?енту...\n"
+msgstr "%s я│п©я─п╟п╠я┐п╣ п©п╟я·я┌п╬я─п╫п╟ п©п╟п╢п╩я┐я┤я▀я├я├п╟ п╢п╟ %s п╨п╩я√п╣п╫я┌я┐...\n"
 
-#: clientgui/BOINCTaskBar.cpp:426
+#: clientgui/BOINCTaskBar.cpp:402
 #, c-format
 msgid "%s is not currently connected to a %s client...\n"
-msgstr "%s не падлучаны да  %s кл?енту...\n"
+msgstr "%s п╫п╣ п©п╟п╢п╩я┐я┤п╟п╫я▀ п╢п╟  %s п╨п╩я√п╣п╫я┌я┐...\n"
 
-# не адпавядае рэальнасц? - рэальна пры фразе "Open BOINC Web..." - адчыняецца GridRepublic
-#: clientgui/BOINCTaskBar.cpp:623
+# п╫п╣ п╟п╢п©п╟п╡я▐п╢п╟п╣ я─я█я┤п╟я√я│я┌п╫п╟я│я├я√ - я─я█п╟п╩я▄п╫п╟ п©я─я▀ я└я─п╟п╥п╣ "Open BOINC Web..." - п╟п╢я┤я▀п╫я▐п╣я├я├п╟ GridRepublic
+#: clientgui/BOINCTaskBar.cpp:585
 #, c-format
 msgid "Open %s Web..."
-msgstr "Наведаць вэб-старонку %s..."
+msgstr "п²п╟п╡п╣п╢п╟я├я▄ п╡я█п╠-я│я┌п╟я─п╬п╫п╨я┐ %s..."
 
-#: clientgui/BOINCTaskBar.cpp:630
+#: clientgui/BOINCTaskBar.cpp:592
 #, c-format
 msgid "Open %s..."
-msgstr "Адкрыць %s..."
+msgstr "п░п╢п╨я─я▀я├я▄ %s..."
 
-# Сончас
-#: clientgui/BOINCTaskBar.cpp:635
+# п╖п╟я│ я│п╫п╬я·
+#: clientgui/BOINCTaskBar.cpp:599
 msgid "Snooze"
-msgstr "Па?за"
+msgstr "п÷п╟я·п╥п╟"
 
-#: clientgui/CompletionErrorPage.cpp:194
+#: clientgui/CompletionErrorPage.cpp:202
 msgid "Failed to attach to project"
-msgstr "Не атрымалася дадаць праект"
+msgstr "п²п╣ п╟я┌я─я▀п╪п╟п╩п╟я│я▐ п╢п╟п╢п╟я├я▄ п©я─п╟п╣п╨я┌"
 
 # ???
-#: clientgui/CompletionErrorPage.cpp:199
+#: clientgui/CompletionErrorPage.cpp:207
 msgid "Failed to update account manager"
 msgstr ""
-"Не атрымалася абнав?ць дадзеныя\n"
-"з мэнэджэра праекта?"
+"п²п╣ п╟я┌я─я▀п╪п╟п╩п╟я│я▐ п╟п╠п╫п╟п╡я√я├я▄ п╢п╟п╢п╥п╣п╫я▀я▐\n"
+"п╥ п╪я█п╫я█п╢п╤я█я─п╟ п©я─п╟п╣п╨я┌п╟я·"
 
 # ???
-#: clientgui/CompletionErrorPage.cpp:203
+#: clientgui/CompletionErrorPage.cpp:211
 msgid "Failed to remove account manager"
 msgstr ""
-"Не атрымалася адлучыцца\n"
-"ад мэнэджэра праекта?"
+"п²п╣ п╟я┌я─я▀п╪п╟п╩п╟я│я▐ п╟п╢п╩я┐я┤я▀я├я├п╟\n"
+"п╟п╢ п╪я█п╫я█п╢п╤я█я─п╟ п©я─п╟п╣п╨я┌п╟я·"
 
-#: clientgui/CompletionErrorPage.cpp:207
+#: clientgui/CompletionErrorPage.cpp:215
 msgid "Failed to attach to account manager"
 msgstr ""
-"Не атрымалася злучыцца\n"
-"з мэнэджэрам праекта?"
+"п²п╣ п╟я┌я─я▀п╪п╟п╩п╟я│я▐ п╥п╩я┐я┤я▀я├я├п╟\n"
+"п╥ п╪я█п╫я█п╢п╤я█я─п╟п╪ п©я─п╟п╣п╨я┌п╟я·"
 
-#: clientgui/CompletionErrorPage.cpp:216
+#: clientgui/CompletionErrorPage.cpp:224
 msgid ""
 "An error has occurred;\n"
 "check Messages for details.\n"
 "\n"
 "Click Finish to close."
 msgstr ""
-"Адбылася памылка, падрабязнасц? можна паглядзець\n"
-"на старонцы паведамлення?.\n"
+"п░п╢п╠я▀п╩п╟я│я▐ п©п╟п╪я▀п╩п╨п╟, п©п╟п╢я─п╟п╠я▐п╥п╫п╟я│я├я√ п╪п╬п╤п╫п╟ п©п╟пЁп╩я▐п╢п╥п╣я├я▄\n"
+"п╫п╟ я│я┌п╟я─п╬п╫я├я▀ п©п╟п╡п╣п╢п╟п╪п╩п╣п╫п╫я▐я·.\n"
 "\n"
-"Для завяршэння нац?сн?це кнопку \"Гатова\"."
+"п■п╩я▐ п╥п╟п╡я▐я─я┬я█п╫п╫я▐ п╫п╟я├я√я│п╫я√я├п╣ п╨п╫п╬п©п╨я┐ \"п⌠п╟я┌п╬п╡п╟\"."
 
-#: clientgui/CompletionErrorPage.cpp:223
-#: clientgui/CompletionPage.cpp:229
-#: clientgui/CompletionPage.cpp:253
-#: clientgui/CompletionPage.cpp:274
-#: clientgui/CompletionPage.cpp:325
+#: clientgui/CompletionErrorPage.cpp:231
+#: clientgui/CompletionPage.cpp:223
+#: clientgui/CompletionPage.cpp:246
+#: clientgui/CompletionPage.cpp:267
+#: clientgui/CompletionPage.cpp:316
 msgid "Click Finish to close."
-msgstr "Нац?сн?це кнопку \"Гатова\" для выхаду з майстра."
+msgstr "п²п╟я├я√я│п╫я√я├п╣ п╨п╫п╬п©п╨я┐ \"п⌠п╟я┌п╬п╡п╟\" п╢п╩я▐ п╡я▀я┘п╟п╢я┐ п╥ п╪п╟п╧я│я┌я─п╟."
 
-#: clientgui/CompletionErrorPage.cpp:232
+#: clientgui/CompletionErrorPage.cpp:240
 msgid "Messages from server:"
-msgstr "Паведамленн? ад сервера:"
+msgstr "п÷п╟п╡п╣п╢п╟п╪п╩п╣п╫п╫я√ п╟п╢ я│п╣я─п╡п╣я─п╟:"
 
-#: clientgui/CompletionPage.cpp:198
+#: clientgui/CompletionPage.cpp:207
 msgid "Attached to project"
-msgstr "Праект дададзены"
+msgstr "п÷я─п╟п╣п╨я┌ п╢п╟п╢п╟п╢п╥п╣п╫я▀"
 
-#: clientgui/CompletionPage.cpp:210
+#: clientgui/CompletionPage.cpp:213
 msgid "You are now successfully attached to this project."
-msgstr "Падлучэнне да праекту прайшло паспяхова."
+msgstr "п÷п╟п╢п╩я┐я┤я█п╫п╫п╣ п╢п╟ п©я─п╟п╣п╨я┌я┐ п©я─п╟п╧я┬п╩п╬ п©п╟я│п©я▐я┘п╬п╡п╟."
 
 # ...
-#: clientgui/CompletionPage.cpp:222
+#: clientgui/CompletionPage.cpp:218
 msgid ""
 "When you click Finish, your web browser will go to a page where\n"
 "you can set your account name and preferences."
 msgstr ""
-"Пасля нац?ску кнопк? \"Гатова\", у вашым бра?зэры\n"
-"а?таматычна адкрыецца старонка, дзе вы зможаце паказаць\n"
-"?мя вашага  зап?су ? змян?ць яе налады."
+"п÷п╟я│п╩я▐ п╫п╟я├я√я│п╨я┐ п╨п╫п╬п©п╨я√ \"п⌠п╟я┌п╬п╡п╟\", я┐ п╡п╟я┬я▀п╪ п╠я─п╟я·п╥я█я─я▀\n"
+"п╟я·я┌п╟п╪п╟я┌я▀я┤п╫п╟ п╟п╢п╨я─я▀п╣я├я├п╟ я│я┌п╟я─п╬п╫п╨п╟, п╢п╥п╣ п╡я▀ п╥п╪п╬п╤п╟я├п╣ п©п╟п╨п╟п╥п╟я├я▄\n"
+"я√п╪я▐ п╡п╟я┬п╟пЁп╟  п╥п╟п©я√я│я┐ я√ п╥п╪я▐п╫я√я├я▄ я▐п╣ п╫п╟п╩п╟п╢я▀."
 
-#: clientgui/CompletionPage.cpp:243
+#: clientgui/CompletionPage.cpp:236
 #, c-format
 msgid "Update from %s completed."
-msgstr "Абна?ленне %s завершанае."
+msgstr "п░п╠п╫п╟я·п╩п╣п╫п╫п╣ %s п╥п╟п╡п╣я─я┬п╟п╫п╟п╣."
 
-# ???
-#: clientgui/CompletionPage.cpp:247
+# п║п╩п╟я·п╫п╟ п©п╟п©я─п╟я├п╟п╡п╟п╩я√
+#: clientgui/CompletionPage.cpp:240
 msgid "Update completed."
-msgstr "Абна?ленне завершанае."
+msgstr "п░п╠п╫п╟я·п╩п╣п╫п╫п╣ п╥п╟п╡п╣я─я┬п╟п╫п╟п╣."
 
-# ёсць некаторыя сумненн? ? прав?льнасц? перакладу :)
-#: clientgui/CompletionPage.cpp:264
+# я▒я│я├я▄ п╫п╣п╨п╟я┌п╬я─я▀я▐ я│я┐п╪п╫п╣п╫п╫я√ я· п©я─п╟п╡я√п╩я▄п╫п╟я│я├я√ п©п╣я─п╟п╨п╩п╟п╢я┐ :)
+#: clientgui/CompletionPage.cpp:257
 #, c-format
 msgid "Removal from %s completed."
-msgstr "Выдаленне %s завершанае."
+msgstr "п▓я▀п╢п╟п╩п╣п╫п╫п╣ %s п╥п╟п╡п╣я─я┬п╟п╫п╟п╣."
 
 # Goblin forever
-#: clientgui/CompletionPage.cpp:268
+#: clientgui/CompletionPage.cpp:261
 msgid "Removal succeeded!"
-msgstr "Ура, усё выдаленае!"
+msgstr "пёя─п╟, я┐я│я▒ п╡я▀п╢п╟п╩п╣п╫п╟!"
 
 # ???
-#: clientgui/CompletionPage.cpp:285
+#: clientgui/CompletionPage.cpp:278
 #, c-format
 msgid "Attached to %s"
-msgstr "Праект %s дададзены"
+msgstr "п÷я─п╟п╣п╨я┌ %s п╢п╟п╢п╟п╫"
 
 # ?
-#: clientgui/CompletionPage.cpp:289
+#: clientgui/CompletionPage.cpp:282
 msgid "Attached to account manager"
-msgstr "Злучэнне з мэнэджэрам праекта? усталявана"
+msgstr "п≈п╩я┐я┤я█п╫п╫п╣ п╥ п╪я█п╫я█п╢п╤я█я─п╟п╪ п©я─п╟п╣п╨я┌п╟я· я┐я│я┌п╟п╩я▐п╡п╟п╫п╟"
 
-# Хоць "у" хоць "на" - усё ро?на неяк крыва
-#: clientgui/CompletionPage.cpp:299
+# п╔п╬я├я▄ "я┐" я┘п╬я├я▄ "п╫п╟" - я┐я│я▒ я─п╬я·п╫п╟ п╫п╣я▐п╨ п╨я─я▀п╡п╟
+#: clientgui/CompletionPage.cpp:292
 #, c-format
 msgid "Welcome to %s!"
-msgstr "Сардэчна запрашаем у %s!"
+msgstr "п║п╟я─п╢я█я┤п╫п╟ п╥п╟п©я─п╟я┬п╟п╣п╪ я┐ %s!"
 
 # ??
-#: clientgui/CompletionPage.cpp:313
+#: clientgui/CompletionPage.cpp:306
 #, c-format
-msgid ""
-"You are now successfully attached to the %s system.\n"
-"%s"
-msgstr ""
-"Падлучэнне да %s прайшло паспяхова.\n"
-"%s"
+msgid "You are now successfully attached to the %s system."
+msgstr "п÷п╟п╢п╩я┐я┤я█п╫п╫п╣ п╢п╟ %s п©я─п╟п╧я┬п╩п╬ п©п╟я│п©я▐я┘п╬п╡п╟."
 
 # ?
-#: clientgui/CompletionPage.cpp:319
+#: clientgui/CompletionPage.cpp:310
 msgid "You are now successfully attached to this account manager."
 msgstr ""
-"Злучэнне з паказаным мэнэджэрам праекта?\n"
-"паспяхова ?сталявана."
+"п≈п╩я┐я┤я█п╫п╫п╣ п╥ п©п╟п╨п╟п╥п╟п╫я▀п╪ п╪я█п╫я█п╢п╤я█я─п╟п╪ п©я─п╟п╣п╨я┌п╟я·\n"
+"п©п╟я│п©я▐я┘п╬п╡п╟ я·я│я┌п╟п╩я▐п╡п╟п╫п╟."
 
-#: clientgui/DlgAbout.cpp:92
+#: clientgui/DlgAbout.cpp:99
 #, c-format
 msgid "About %s"
-msgstr "Аб %s"
+msgstr "п░п╠ %s"
 
-#: clientgui/DlgAbout.cpp:136
-#: clientgui/WizardAccountManager.cpp:130
-#: clientgui/WizardAttachProject.cpp:146
+#: clientgui/DlgAbout.cpp:137
 msgid "BOINC Manager"
-msgstr "BOINC мэнэджэр"
+msgstr "BOINC п╪я█п╫я█п╢п╤я█я─"
 
-#: clientgui/DlgAbout.cpp:155
+#: clientgui/DlgAbout.cpp:156
 msgid "Version:"
-msgstr "Верс?я:"
+msgstr "п▓п╣я─я│я√я▐:"
 
-#: clientgui/DlgAbout.cpp:163
+#: clientgui/DlgAbout.cpp:164
 msgid "Copyright:"
-msgstr "А?тарск?я правы:"
+msgstr "п░я·я┌п╟я─я│п╨я√я▐ п©я─п╟п╡я▀:"
 
-#: clientgui/DlgAbout.cpp:167
+# п≈ п╪п╟я▒п╧ я│я┌п╟я─п╟п╫я▀ :
+# ///п÷п╣я─п╟п╨п╩п╟п╢ п╥я─п╬п╠п╩п╣п╫я▀ Drive DRKA drka2003@mail.ru 
+#: clientgui/DlgAbout.cpp:168
 msgid ""
 "(C) 2003-2006 University of California at Berkeley.\n"
 "All Rights Reserved."
 msgstr ""
-"(C) 2003-2006 Кал?фарн?йск? ?н?верс?тэт, Беркл? \n"
-"Усё правы абароненыя."
+"(C) 2003-2006 п п╟п╩я√я└п╟я─п╫я√п╧я│п╨я√ я·п╫я√п╡п╣я─я│я√я┌я█я┌, п▒п╣я─п╨п╩я√ \n"
+"пёя│я▒ п©я─п╟п╡я▀ п╟п╠п╟я─п╬п╫п╣п╫я▀я▐."
 
-#: clientgui/DlgAbout.cpp:171
+#: clientgui/DlgAbout.cpp:172
 msgid "Berkeley Open Infrastructure for Network Computing"
 msgstr ""
 "BOINC - Berkeley Open Infrastructure for Network Computing\n"
-"Адчыненая ?нфраструктура для Размеркаваных Выл?чэння? ун?верс?тэта Беркл?"
+"п░п╢я┤я▀п╫п╣п╫п╟я▐ п├п╫я└я─п╟я│я┌я─я┐п╨я┌я┐я─п╟ п╢п╩я▐ п═п╟п╥п╪п╣я─п╨п╟п╡п╟п╫я▀я┘ п▓я▀п╩я√я┤я█п╫п╫я▐я· я┐п╫я√п╡п╣я─я│я√я┌я█я┌п╟ п▒п╣я─п╨п╩я√"
 
-#: clientgui/DlgAbout.cpp:175
+#: clientgui/DlgAbout.cpp:176
 msgid "A software platform for distributed computing using volunteered computer resources"
 msgstr ""
-"Праграмная платформа для арган?зацы? размеркаваных выл?чэння?\n"
-" з выкарыстаннем кампутара? добраахвотн?ка?"
+"п÷я─п╟пЁя─п╟п╪п╫п╟я▐ п©п╩п╟я┌я└п╬я─п╪п╟ п╢п╩я▐ п╟я─пЁп╟п╫я√п╥п╟я├я▀я√ я─п╟п╥п╪п╣я─п╨п╟п╡п╟п╫я▀я┘ п╡я▀п╩я√я┤я█п╫п╫я▐я·\n"
+" п╥ п╡я▀п╨п╟я─я▀я│я┌п╟п╫п╫п╣п╪ п╨п╟п╪п©я┐я┌п╟я─п╟я· п╢п╬п╠я─п╟п╟я┘п╡п╬я┌п╫я√п╨п╟я·"
 
-#: clientgui/DlgAbout.cpp:187
+#: clientgui/DlgAbout.cpp:188
 #: clientgui/DlgGenericMessage.cpp:122
-#: clientgui/DlgOptions.cpp:324
+#: clientgui/DlgOptions.cpp:320
 #: clientgui/DlgSelectComputer.cpp:133
 msgid "&OK"
 msgstr "OK"
 
 #: clientgui/DlgGenericMessage.cpp:114
 msgid "Click here to disable displaying this message in the future."
-msgstr "Больш не паказваць дадзенае паведамленне."
+msgstr "п▒п╬п╩я▄я┬ п╫п╣ п©п╟п╨п╟п╥п╡п╟я├я▄ п╢п╟п╢п╥п╣п╫п╟п╣ п©п╟п╡п╣п╢п╟п╪п╩п╣п╫п╫п╣."
 
 #: clientgui/DlgGenericMessage.cpp:127
-#: clientgui/DlgOptions.cpp:329
+#: clientgui/DlgOptions.cpp:325
 #: clientgui/DlgSelectComputer.cpp:138
 #: clientgui/wizardex.cpp:360
 msgid "&Cancel"
-msgstr "Адмена"
+msgstr "п░п╢п╪п╣п╫п╟"
 
-#: clientgui/DlgOptions.cpp:142
+#: clientgui/DlgOptions.cpp:138
 msgid "Language Selection:"
-msgstr "Мова (language):"
+msgstr "п°п╬п╡п╟ (language):"
+
+#: clientgui/DlgOptions.cpp:145
+msgid "What language should the manager display by default."
+msgstr "п▓я▀п╠п╟я─ п╪п╬п╡я▀ я√п╫я┌я█я─я└п╣п╧я│я┐ п©я─п╟пЁя─п╟п╪я▀ BOINC п╪я█п╫я█п╢п╤я█я─."
 
 #: clientgui/DlgOptions.cpp:149
-msgid "What language should the manager display by default."
-msgstr "Выбар мовы ?нтэрфейсу праграмы BOINC мэнэджэр."
-
-#: clientgui/DlgOptions.cpp:153
 msgid "Reminder Frequency:"
-msgstr "?нтэрвал пам?ж па?торам?:"
+msgstr "п├п╫я┌я█я─п╡п╟п╩ п©п╟п╪я√п╤ п©п╟я·я┌п╬я─п╟п╪я√:"
 
-#: clientgui/DlgOptions.cpp:159
+#: clientgui/DlgOptions.cpp:155
 msgid "How often, in minutes, should the manager remind you of possible connection events."
-msgstr "?нтэрвал, у хв?л?нах, пам?ж напам?нкам? аб неабходнасц? злучэння з ?нтэрнэтам."
+msgstr "п├п╫я┌я█я─п╡п╟п╩, я┐ я┘п╡я√п╩я√п╫п╟я┘, п©п╟п╪я√п╤ п╫п╟п©п╟п╪я√п╫п╨п╟п╪я√ п╟п╠ п╫п╣п╟п╠я┘п╬п╢п╫п╟я│я├я√ п╥п╩я┐я┤я█п╫п╫я▐ п╥ я√п╫я┌я█я─п╫я█я┌п╟п╪."
 
-#: clientgui/DlgOptions.cpp:162
+#: clientgui/DlgOptions.cpp:158
 msgid "General"
-msgstr "Агульныя"
+msgstr "п░пЁя┐п╩я▄п╫я▀я▐"
 
-#: clientgui/DlgOptions.cpp:170
+#: clientgui/DlgOptions.cpp:166
 msgid "Dial-up and Virtual Private Network settings"
-msgstr "Налады мадэмнага злучэння ? VPN"
+msgstr "п²п╟п╩п╟п╢я▀ п╪п╟п╢я█п╪п╫п╟пЁп╟ п╥п╩я┐я┤я█п╫п╫я▐ я√ VPN"
 
-#: clientgui/DlgOptions.cpp:184
+#: clientgui/DlgOptions.cpp:180
 msgid "&Set Default"
-msgstr "Падлучэнне па зма?чанн?"
+msgstr "п÷п╟п╢п╩я┐я┤я█п╫п╫п╣ п©п╟ п╥п╪п╟я·я┤п╟п╫п╫я√"
 
-#: clientgui/DlgOptions.cpp:189
+#: clientgui/DlgOptions.cpp:185
 msgid "&Clear Default"
-msgstr "Няма падлучэння па зма?чанн?"
+msgstr "п²я▐п╪п╟ п©п╟п╢п╩я┐я┤я█п╫п╫я▐ п©п╟ п╥п╪п╟я·я┤п╟п╫п╫я√"
 
-#: clientgui/DlgOptions.cpp:196
+#: clientgui/DlgOptions.cpp:192
 msgid "Default Connection:"
-msgstr "Падлучэнне па зма?чанн?:"
+msgstr "п÷п╟п╢п╩я┐я┤я█п╫п╫п╣ п©п╟ п╥п╪п╟я·я┤п╟п╫п╫я√:"
 
-#: clientgui/DlgOptions.cpp:203
+#: clientgui/DlgOptions.cpp:199
 msgid "Connections"
-msgstr "Параметры падлучэння"
+msgstr "п÷п╟я─п╟п╪п╣я┌я─я▀ п©п╟п╢п╩я┐я┤я█п╫п╫я▐"
+
+#: clientgui/DlgOptions.cpp:208
+msgid "Connect via HTTP proxy server"
+msgstr "п≈п╩я┐я┤п╟я├я├п╟ п©я─п╟п╥ HTTP п©я─п╬п╨я│я√ я│п╣я─п╡п╣я─"
 
 #: clientgui/DlgOptions.cpp:212
-msgid "Connect via HTTP proxy server"
-msgstr "Злучацца праз HTTP прокс? сервер"
-
-#: clientgui/DlgOptions.cpp:216
 msgid "HTTP Proxy Server Configuration"
-msgstr "Параметры  HTTP прокс? сервера"
+msgstr "п÷п╟я─п╟п╪п╣я┌я─я▀  HTTP п©я─п╬п╨я│я√ я│п╣я─п╡п╣я─п╟"
 
-#: clientgui/DlgOptions.cpp:224
-#: clientgui/DlgOptions.cpp:280
+#: clientgui/DlgOptions.cpp:220
+#: clientgui/DlgOptions.cpp:276
 msgid "Address:"
-msgstr "Адрас:"
+msgstr "п░п╢я─п╟я│:"
 
-#: clientgui/DlgOptions.cpp:232
-#: clientgui/DlgOptions.cpp:288
-#: clientgui/ProxyPage.cpp:338
-#: clientgui/ProxyPage.cpp:358
+#: clientgui/DlgOptions.cpp:228
+#: clientgui/DlgOptions.cpp:284
+#: clientgui/ProxyPage.cpp:346
+#: clientgui/ProxyPage.cpp:366
 msgid "Port:"
-msgstr "Порт:"
+msgstr "п÷п╬я─я┌:"
 
-#: clientgui/DlgOptions.cpp:239
-#: clientgui/DlgOptions.cpp:295
+#: clientgui/DlgOptions.cpp:235
+#: clientgui/DlgOptions.cpp:291
 msgid "Leave these blank if not needed"
-msgstr "Пак?нуць пал? пустым? кал? не выкарысто?ваюцца"
+msgstr "п÷п╟п╨я√п╫я┐я├я▄ п©п╟п╩я√ п©я┐я│я┌я▀п╪я√ ,п╨п╟п╩я√ п╫п╣ п╡я▀п╨п╟я─я▀я│я┌п╬я·п╡п╟я▌я├я├п╟"
 
-#: clientgui/DlgOptions.cpp:245
-#: clientgui/DlgOptions.cpp:301
-#: clientgui/ProxyPage.cpp:341
-#: clientgui/ProxyPage.cpp:361
+#: clientgui/DlgOptions.cpp:241
+#: clientgui/DlgOptions.cpp:297
+#: clientgui/ProxyPage.cpp:349
+#: clientgui/ProxyPage.cpp:369
 msgid "User Name:"
-msgstr "?мя карыстача:"
+msgstr "п├п╪я▐ п╨п╟я─я▀я│я┌п╟я┤п╟:"
 
-#: clientgui/DlgOptions.cpp:253
-#: clientgui/DlgOptions.cpp:309
+#: clientgui/DlgOptions.cpp:249
+#: clientgui/DlgOptions.cpp:305
 #: clientgui/DlgSelectComputer.cpp:122
-#: clientgui/ProxyPage.cpp:344
-#: clientgui/ProxyPage.cpp:364
+#: clientgui/ProxyPage.cpp:352
+#: clientgui/ProxyPage.cpp:372
 msgid "Password:"
-msgstr "Пароль:"
+msgstr "п÷п╟я─п╬п╩я▄:"
 
-#: clientgui/DlgOptions.cpp:260
+#: clientgui/DlgOptions.cpp:256
 msgid "HTTP Proxy"
-msgstr "HTTP прокс?"
+msgstr "HTTP п©я─п╬п╨я│я√"
+
+#: clientgui/DlgOptions.cpp:264
+msgid "Connect via SOCKS proxy server"
+msgstr "п≈п╩я┐я┤п╟я├я├п╟ п©я─п╟п╥ SOCKS п©я─п╬п╨я│я√ я│п╣я─п╡п╣я─"
 
 #: clientgui/DlgOptions.cpp:268
-msgid "Connect via SOCKS proxy server"
-msgstr "Злучацца праз SOCKS прокс? сервер"
-
-#: clientgui/DlgOptions.cpp:272
 msgid "SOCKS Proxy Server Configuration"
-msgstr "Параметры SOCKS прокс? сервера"
+msgstr "п÷п╟я─п╟п╪п╣я┌я─я▀ SOCKS п©я─п╬п╨я│я√ я│п╣я─п╡п╣я─п╟"
 
-#: clientgui/DlgOptions.cpp:316
+#: clientgui/DlgOptions.cpp:312
 msgid "SOCKS Proxy"
-msgstr "SOCKS прокс?"
+msgstr "SOCKS п©я─п╬п╨я│я√"
 
 #: clientgui/DlgSelectComputer.cpp:113
 msgid "Host name:"
-msgstr "?мя кампутара ? сетк? або IP:"
+msgstr "п├п╪я▐ п╨п╟п╪п©я┐я┌п╟я─п╟ я· я│п╣я┌п╨я√ п╟п╠п╬ IP:"
 
-#: clientgui/hyperlink.cpp:239
+#: clientgui/hyperlink.cpp:181
 #, c-format
 msgid "%s - Can't find web browser"
-msgstr "%s - не знойдзены вэб-бра?зэр"
+msgstr "%s - п╫п╣ п╥п╫п╬п╧п╢п╥п╣п╫я▀ п╡я█п╠-п╠я─п╟я·п╥я█я─"
 
 # ?
-# пошук? бра?зэра працягваюцца...
-#: clientgui/hyperlink.cpp:250
+# п©п╬я┬я┐п╨я√ п╠я─п╟я·п╥я█я─п╟ п©я─п╟я├я▐пЁп╡п╟я▌я├я├п╟...
+# п░п╠п╬ я· п▓п╟я│ п╫я▐п╪п╟ Internet Explorera
+#: clientgui/hyperlink.cpp:192
 #, c-format
 msgid ""
 "%s tried to display the web page\n"
@@ -1079,142 +1019,142 @@ msgid ""
 "BROWSER to the path of your web browser,\n"
 "then restart the %s."
 msgstr ""
-"%s паспрабава? адкрыць старонку:\n"
+"%s п©п╟я│п©я─п╟п╠п╟п╡п╟я· п╟п╢п╨я─я▀я├я▄ я│я┌п╟я─п╬п╫п╨я┐:\n"
 "\t%s\n"
-"але не змог знайсц? бра?зэр.\n"
-"Наладзьце хоць бы адз?н з бра?зэра?\n"
-"як бра?зэр па зма?чанн?\n"
-"? перазапусц?це %s."
+"п╟п╩п╣ п╫п╣ п╥п╪п╬пЁ п╥п╫п╟п╧я│я├я√ п╠я─п╟я·п╥я█я─.\n"
+"п²п╟п╩п╟п╢п╥я▄я├п╣ я┘п╬я├я▄ п╠я▀ п╟п╢п╥я√п╫ п╥ п╠я─п╟я·п╥я█я─п╟я·\n"
+"я▐п╨ п╠я─п╟я·п╥я█я─ п©п╟ п╥п╪п╟я·я┤п╟п╫п╫я√\n"
+"я√ п©п╣я─п╟п╥п╟п©я┐я│я├я√я├п╣ %s."
 
 #: clientgui/Localization.cpp:33
 #: clientgui/Localization.cpp:71
 msgid "Message boards"
-msgstr "Дошка паведамлення?"
+msgstr "п■п╬я┬п╨п╟ п©п╟п╡п╣п╢п╟п╪п╩п╣п╫п╫я▐я·"
 
 # seti
 #: clientgui/Localization.cpp:35
 msgid "Correspond with other users on the SETI@home message boards"
-msgstr "Форум для знос?на? з ?ншым? ?дзельн?кам? праекту SETI@home"
+msgstr "п╓п╬я─я┐п╪ п╢п╩я▐ п╥п╫п╬я│я√п╫п╟я· п╥ я√п╫я┬я▀п╪я√ я·п╢п╥п╣п╩я▄п╫я√п╨п╟п╪я√ п©я─п╟п╣п╨я┌я┐ SETI@home"
 
-# было 'Пытанн? ? адказы'-для SETI
+# п п╟п╩я√ я· п▓п╟я│ я┐п╥п╫я√п╨п╩я√ п©я▀я┌п╟п╫п╫я√,я┌п╬ п▓п╟п╪ я│я▌п╢я▀
 #: clientgui/Localization.cpp:37
 #: clientgui/Localization.cpp:123
 #: clientgui/Localization.cpp:141
 msgid "Help"
-msgstr "Дапамога"
+msgstr "п■п╟п©п╟п╪п╬пЁп╟"
 
 #: clientgui/Localization.cpp:39
 msgid "Ask questions and report problems"
-msgstr "Форум, дзе можна задаць пытанн? ? паведам?ць аб памылках"
+msgstr "п╓п╬я─я┐п╪, п╢п╥п╣ п╪п╬п╤п╫п╟ п╥п╟п╢п╟я├я▄ п©я▀я┌п╟п╫п╫я√ я√ п©п╟п╡п╣п╢п╟п╪я√я├я▄ п╟п╠ п©п╟п╪я▀п╩п╨п╟я┘"
 
 #: clientgui/Localization.cpp:41
 #: clientgui/Localization.cpp:83
 #: clientgui/Localization.cpp:113
 #: clientgui/Localization.cpp:131
 msgid "Your account"
-msgstr "Ваш ул?ковы зап?с"
+msgstr "п▓п╟я┬ я┐п╩я√п╨п╬п╡я▀ п╥п╟п©я√я│"
 
 #: clientgui/Localization.cpp:43
 #: clientgui/Localization.cpp:89
 #: clientgui/Localization.cpp:115
 msgid "View your account information and credit totals"
-msgstr "Прагляд ?нфармацы? аб вашым ул?ковым зап?се ? набраных ачках"
+msgstr "п÷я─п╟пЁп╩я▐п╢ я√п╫я└п╟я─п╪п╟я├я▀я√ п╟п╠ п╡п╟я┬я▀п╪ я┐п╩я√п╨п╬п╡я▀п╪ п╥п╟п©я√я│п╣ я√ п╫п╟п╠я─п╟п╫я▀я┘ п╟я┤п╨п╟я┘"
 
 #: clientgui/Localization.cpp:45
 msgid "Your preferences"
-msgstr "Вашы налады"
+msgstr "п▓п╟я┬я▀ п╫п╟п╩п╟п╢я▀"
 
 # seti
 #: clientgui/Localization.cpp:47
 msgid "View and modify your SETI@home account profile and preferences"
-msgstr "Прагляд ? змена налада? вашага  зап?су ? вашага проф?ля ? праекце SETI@home"
+msgstr "п÷я─п╟пЁп╩я▐п╢ я√ п╥п╪п╣п╫п╟ п╫п╟п╩п╟п╢п╟я· п╡п╟я┬п╟пЁп╟  п╥п╟п©я√я│я┐ я√ п╡п╟я┬п╟пЁп╟ п©я─п╬я└я√п╩я▐ я· п©я─п╟п╣п╨я├п╣ SETI@home"
 
 #: clientgui/Localization.cpp:49
 #: clientgui/Localization.cpp:91
 msgid "Your results"
-msgstr "Вашы вын?к?"
+msgstr "п▓п╟я┬я▀ п╡я▀п╫я√п╨я√"
 
 #: clientgui/Localization.cpp:51
 #: clientgui/Localization.cpp:93
 msgid "View your last week (or more) of computational results and work"
-msgstr "Прагляд ?нфармацы? аб выдадзеных заданнях (за апошн?я некальк? тыдня?)"
+msgstr "п÷я─п╟пЁп╩я▐п╢ я√п╫я└п╟я─п╪п╟я├я▀я√ п╟п╠ п╡я▀п╢п╟п╢п╥п╣п╫я▀я┘ п╥п╟п╢п╟п╫п╫я▐я┘ (п╥п╟ п╟п©п╬я┬п╫я√я▐ п╫п╣п╨п╟п╩я▄п╨я√ я┌я▀п╢п╫я▐я·)"
 
 #: clientgui/Localization.cpp:53
 #: clientgui/Localization.cpp:95
 msgid "Your computers"
-msgstr "Вашы кампутары"
+msgstr "п▓п╟я┬я▀ п╨п╟п╪п©я┐я┌п╟я─я▀"
 
 # seti
 #: clientgui/Localization.cpp:55
 msgid "View a listing of all the computers on which you are running SETI@Home"
-msgstr "Прагляд ?нфармацы? аб вашых кампутарах, як?я ?дзельн?чаюць у апрацо?цы задання? праекту SETI@Home"
+msgstr "п÷я─п╟пЁп╩я▐п╢ я√п╫я└п╟я─п╪п╟я├я▀я√ п╟п╠ п╡п╟я┬я▀я┘ п╨п╟п╪п©я┐я┌п╟я─п╟я┘, я▐п╨я√я▐ я·п╢п╥п╣п╩я▄п╫я√я┤п╟я▌я├я▄ я┐ п╟п©я─п╟я├п╬я·я├я▀ п╥п╟п╢п╟п╫п╫я▐я· п©я─п╟п╣п╨я┌я┐ SETI@Home"
 
 #: clientgui/Localization.cpp:57
 #: clientgui/Localization.cpp:99
 msgid "Your team"
-msgstr "Каманда"
+msgstr "п п╟п╪п╟п╫п╢п╟"
 
 #: clientgui/Localization.cpp:59
 #: clientgui/Localization.cpp:101
 msgid "View information about your team"
-msgstr "Прагляд ?нфармацы? аб камандзе, да якой вы далучыл?ся"
+msgstr "п÷я─п╟пЁп╩я▐п╢ я√п╫я└п╟я─п╪п╟я├я▀я√ п╟п╠ п╨п╟п╪п╟п╫п╢п╥п╣, п╢п╟ я▐п╨п╬п╧ п╡я▀ п╢п╟п╩я┐я┤я▀п╩я√я│я▐"
 
 #: clientgui/Localization.cpp:63
 msgid "Common questions"
-msgstr "Частыя пытанн?"
+msgstr "п╖п╟я│я┌я▀я▐ п©я▀я┌п╟п╫п╫я√"
 
 # einstein
 #: clientgui/Localization.cpp:65
 msgid "Read the Einstein@Home Frequently Asked Question list"
-msgstr "Часта зададзеныя пытанн? па праекце Einstein@Home"
+msgstr "п╖п╟я│я┌п╟ п╥п╟п╢п╟п╢п╥п╣п╫я▀я▐ п©я▀я┌п╟п╫п╫я√ п©п╟ п©я─п╟п╣п╨я├п╣ Einstein@Home"
 
 #: clientgui/Localization.cpp:67
 msgid "Screensaver info"
-msgstr "Экранная заста?ка"
+msgstr "п╜п╨я─п╟п╫п╫п╟я▐ п╥п╟я│я┌п╟я·п╨п╟"
 
 # einstein
 #: clientgui/Localization.cpp:69
 msgid "Read a detailed description of the Einstein@Home screensaver"
-msgstr "Падрабязнае ап?санне экраннае заста?к? праекту Einstein@Home"
+msgstr "п÷п╟п╢я─п╟п╠я▐п╥п╫п╟п╣ п╟п©я√я│п╟п╫п╫п╣ я█п╨я─п╟п╫п╫п╟п╣ п╥п╟я│я┌п╟я·п╨я√ п©я─п╟п╣п╨я┌я┐ Einstein@Home"
 
 # einstein
 #: clientgui/Localization.cpp:73
 msgid "Correspond with admins and other users on the Einstein@Home message boards"
-msgstr "Форум для знос?на? з распрацо?н?кам? ? ?ншым? ?дзельн?кам? праекту Einstein@Home"
+msgstr "п╓п╬я─я┐п╪ п╢п╩я▐ п╥п╫п╬я│я√п╫п╟я· п╥ я─п╟я│п©я─п╟я├п╬я·п╫я√п╨п╟п╪я√ я√ я√п╫я┬я▀п╪я√ я·п╢п╥п╣п╩я▄п╫я√п╨п╟п╪я√ п©я─п╟п╣п╨я┌я┐ Einstein@Home"
 
 # einstein
 #: clientgui/Localization.cpp:75
 msgid "Einstein status"
-msgstr "Стан сервера?"
+msgstr "п║я┌п╟п╫ я│п╣я─п╡п╣я─п╟я·"
 
 # einstein
 #: clientgui/Localization.cpp:77
 msgid "Current status of the Einstein@Home server"
-msgstr "?нфармацыя аб бягучым стане сервера? праекту Einstein@Home"
+msgstr "п├п╫я└п╟я─п╪п╟я├я▀я▐ п╟п╠ п╠я▐пЁя┐я┤я▀п╪ я│я┌п╟п╫п╣ я│п╣я─п╡п╣я─п╟я· п©я─п╟п╣п╨я┌я┐ Einstein@Home"
 
 # ?
 #: clientgui/Localization.cpp:79
 msgid "Report problems"
-msgstr "Праблемы ? памылк?"
+msgstr "п÷я─п╟п╠п╩п╣п╪я▀ я√ п©п╟п╪я▀п╩п╨я√"
 
 # einstein
 #: clientgui/Localization.cpp:81
 msgid "A link to the Einstein@Home problems and bug reports message board"
-msgstr "Форум для абмеркавання праблема? ? памылка? у працы праграма? праекту Einstein@Home"
+msgstr "п╓п╬я─я┐п╪ п╢п╩я▐ п╟п╠п╪п╣я─п╨п╟п╡п╟п╫п╫я▐ п©я─п╟п╠п╩п╣п╪п╟я· я√ п©п╟п╪я▀п╩п╨п╟я· я┐ п©я─п╟я├я▀ п©я─п╟пЁя─п╟п╪п╟я· п©я─п╟п╣п╨я┌я┐ Einstein@Home"
 
 # einstein
 #: clientgui/Localization.cpp:85
 msgid "View and modify your Einstein@Home account profile and preferences"
-msgstr "Прагляд ? змена налада? вашага  зап?су ? вашага проф?ля ? праекце Einstein@Home"
+msgstr "п÷я─п╟пЁп╩я▐п╢ я√ п╥п╪п╣п╫п╟ п╫п╟п╩п╟п╢п╟я· п╡п╟я┬п╟пЁп╟  п╥п╟п©я√я│я┐ я√ п╡п╟я┬п╟пЁп╟ п©я─п╬я└я√п╩я▐ я· п©я─п╟п╣п╨я├п╣ Einstein@Home"
 
 #: clientgui/Localization.cpp:87
 msgid "Account summary"
-msgstr "Ул?ковы зап?с (?нфа.)"
+msgstr "пёп╩я√п╨п╬п╡я▀ п╥п╟п©я√я│ (я√п╫я└п╟.)"
 
 # einstein
 #: clientgui/Localization.cpp:97
 msgid "View a listing of all the computers on which you are running Einstein@Home"
-msgstr "Прагляд ?нфармацы? аб вашых кампутарах, як?я ?дзельн?чаюць у апрацо?цы задання? праекту Einstein@Home"
+msgstr "п÷я─п╟пЁп╩я▐п╢ я√п╫я└п╟я─п╪п╟я├я▀я√ п╟п╠ п╡п╟я┬я▀я┘ п╨п╟п╪п©я┐я┌п╟я─п╟я┘, я▐п╨я√я▐ я·п╢п╥п╣п╩я▄п╫я√я┤п╟я▌я├я▄ я┐ п╟п©я─п╟я├п╬я·я├я▀ п╥п╟п╢п╟п╫п╫я▐я· п©я─п╟п╣п╨я┌я┐ Einstein@Home"
 
 # einstein
 #: clientgui/Localization.cpp:103
@@ -1224,7 +1164,7 @@ msgstr "LIGO"
 # einstein ?
 #: clientgui/Localization.cpp:105
 msgid "The home page of the Laser Interferometer Gravitational-wave Observatory (LIGO) project"
-msgstr "Хатняя старонка праекту LIGO (лазерны ?нтэрферометр абсерваторы? грав?тацыйных хваля?)"
+msgstr "п╔п╟я┌п╫я▐я▐ я│я┌п╟я─п╬п╫п╨п╟ п©я─п╟п╣п╨я┌я┐ LIGO (п╩п╟п╥п╣я─п╫я▀ я√п╫я┌я█я─я└п╣я─п╬п╪п╣я┌я─ п╟п╠я│п╣я─п╡п╟я┌п╬я─я▀я√ пЁя─п╟п╡я√я┌п╟я├я▀п╧п╫я▀я┘ я┘п╡п╟п╩я▐я·)"
 
 # einstein
 #: clientgui/Localization.cpp:107
@@ -1234,373 +1174,701 @@ msgstr "GEO-600"
 # einstein
 #: clientgui/Localization.cpp:109
 msgid "The home page of the GEO-600 project"
-msgstr "Хатняя старонка праекту GEO-600"
+msgstr "п╔п╟я┌п╫я▐я▐ я│я┌п╟я─п╬п╫п╨п╟ п©я─п╟п╣п╨я┌я┐ GEO-600"
 
 #: clientgui/Localization.cpp:117
 #: clientgui/Localization.cpp:135
-#: clientgui/ViewProjects.cpp:154
+#: clientgui/ViewProjects.cpp:155
+#: clientgui/ViewStatistics.cpp:398
 msgid "Team"
-msgstr "Каманда"
+msgstr "п п╟п╪п╟п╫п╢п╟"
 
 #: clientgui/Localization.cpp:119
 msgid "Info about your Team"
-msgstr "Прагляд ?нфармацы? аб камандзе, да якой вы далучыл?ся"
+msgstr "п÷я─п╟пЁп╩я▐п╢ я√п╫я└п╟я─п╪п╟я├я▀я√ п╟п╠ п╨п╟п╪п╟п╫п╢п╥п╣, п╢п╟ я▐п╨п╬п╧ п╡я▀ п╢п╟п╩я┐я┤я▀п╩я√я│я▐"
 
 # cpdn ???
 #: clientgui/Localization.cpp:125
 msgid "Get help for climateprediction.net"
-msgstr "Дапамога па праекце climateprediction.net"
+msgstr "п■п╟п©п╟п╪п╬пЁп╟ п©п╟ п©я─п╟п╣п╨я├п╣ climateprediction.net"
 
 #: clientgui/Localization.cpp:127
 msgid "News"
-msgstr "Нав?ны"
+msgstr "п²п╟п╡я√п╫я▀"
 
 # cpdn
 #: clientgui/Localization.cpp:129
 msgid "climateprediction.net News"
-msgstr "Нав?ны праекту climateprediction.net"
+msgstr "п²п╟п╡я√п╫я▀ п©я─п╟п╣п╨я┌я┐ climateprediction.net"
 
 #: clientgui/Localization.cpp:133
 msgid "View your account information, credits, and trickles"
-msgstr "Прагляд ?нфармацы? аб вашым ул?ковым зап?се ? набраных ачках"
+msgstr "п÷я─п╟пЁп╩я▐п╢ я√п╫я└п╟я─п╪п╟я├я▀я√ п╟п╠ п╡п╟я┬я▀п╪ я┐п╩я√п╨п╬п╡я▀п╪ п╥п╟п©я√я│п╣ я√ п╫п╟п╠я─п╟п╫я▀я┘ п╟я┤п╨п╟я┘"
 
 #: clientgui/Localization.cpp:137
 msgid "Info about your team"
-msgstr "Прагляд ?нфармацы? аб камандзе, да якой вы далучыл?ся"
+msgstr "п÷я─п╟пЁп╩я▐п╢ я√п╫я└п╟я─п╪п╟я├я▀я√ п╟п╠ п╨п╟п╪п╟п╫п╢п╥п╣, п╢п╟ я▐п╨п╬п╧ п╡я▀ п╢п╟п╩я┐я┤я▀п╩я√я│я▐"
 
 #  WCG
 #: clientgui/Localization.cpp:143
 msgid "Search for help in our help system"
-msgstr "С?стэма дапамог? па працы праграма? ? ?дзеле ? размеркаваных выл?чэннях на базе WCG."
+msgstr "п║я√я│я┌я█п╪п╟ п╢п╟п©п╟п╪п╬пЁя√ п©п╟ п©я─п╟я├я▀ п©я─п╟пЁя─п╟п╪п╟я· я√ я·п╢п╥п╣п╩п╣ я· я─п╟п╥п╪п╣я─п╨п╟п╡п╟п╫я▀я┘ п╡я▀п╩я√я┤я█п╫п╫я▐я┘ п╫п╟ п╠п╟п╥п╣ WCG."
 
 # WCG
 #: clientgui/Localization.cpp:145
 msgid "Global Statistics"
-msgstr "Агульная статыстыка"
+msgstr "п░пЁя┐п╩я▄п╫п╟я▐ я│я┌п╟я┌я▀я│я┌я▀п╨п╟"
 
 # WCG
 #: clientgui/Localization.cpp:147
 msgid "Summary statistics for World Community Grid"
-msgstr "Зводная статыстыка па праектах WCG"
+msgstr "п≈п╡п╬п╢п╫п╟я▐ я│я┌п╟я┌я▀я│я┌я▀п╨п╟ п©п╟ п©я─п╟п╣п╨я┌п╟я┘ WCG"
 
 # WCG
 #: clientgui/Localization.cpp:149
 msgid "My Grid"
-msgstr "Ваш ул?ковы зап?с"
+msgstr "п▓п╟я┬ я┐п╩я√п╨п╬п╡я▀ п╥п╟п©я√я│"
 
 # WCG
 #: clientgui/Localization.cpp:151
 msgid "Your statistics and settings"
-msgstr "Ваша ?ндыв?дуальная статыстыка па праектах ? налады  зап?су"
+msgstr "п▓п╟я┬п╟ я√п╫п╢я▀п╡я√п╢я┐п╟п╩я▄п╫п╟я▐ я│я┌п╟я┌я▀я│я┌я▀п╨п╟ п©п╟ п©я─п╟п╣п╨я┌п╟я┘ я√ п╫п╟п╩п╟п╢я▀  п╥п╟п©я√я│я┐"
 
 # WCG
 #: clientgui/Localization.cpp:153
 msgid "Device Profiles"
-msgstr "Налады кампутара"
+msgstr "п²п╟п╩п╟п╢я▀ п╨п╟п╪п©я┐я┌п╟я─п╟"
 
 # WCG
 #: clientgui/Localization.cpp:155
 msgid "Update your device settings"
-msgstr "Змена налада? вашых кампутара?"
+msgstr "п≈п╪п╣п╫п╟ п╫п╟п╩п╟п╢п╟я· п╡п╟я┬я▀я┘ п╨п╟п╪п©я┐я┌п╟я─п╟я·"
 
 # WCG
 #: clientgui/Localization.cpp:157
 msgid "Research"
-msgstr "Ап?санн? праекта?"
+msgstr "п░п©я√я│п╟п╫п╫я√ п©я─п╟п╣п╨я┌п╟я·"
 
 # WCG
 #: clientgui/Localization.cpp:159
 msgid "Learn about the projects hosted at World Community Grid"
-msgstr "Падрабязныя ап?санн? праекта? запушчаных у рамках WCG"
+msgstr "п÷п╟п╢я─п╟п╠я▐п╥п╫я▀я▐ п╟п©я√я│п╟п╫п╫я√ п©я─п╟п╣п╨я┌п╟я· п╥п╟п©я┐я┬я┤п╟п╫я▀я┘ я┐ я─п╟п╪п╨п╟я┘ WCG"
 
 #: clientgui/MainDocument.cpp:318
 msgid "Retrieving system state; please wait..."
-msgstr "Абна?ляецца ?нфармацыя аб стан с?стэмы; кал? ласка пачакайце..."
+msgstr "п░п╠п╫п╟я·п╩я▐п╣я├я├п╟ я√п╫я└п╟я─п╪п╟я├я▀я▐ п╟п╠ я│я┌п╟п╫ я│я√я│я┌я█п╪я▀; п╨п╟п╩я√ п╩п╟я│п╨п╟ п©п╟я┤п╟п╨п╟п╧я├п╣..."
 
-#: clientgui/MainDocument.cpp:330
+#: clientgui/MainDocument.cpp:326
 msgid "Retrieving host information; please wait..."
-msgstr "Абна?ляецца ?нфармацыя аб хасце; кал? ласка пачакайце..."
+msgstr "п░п╠п╫п╟я·п╩я▐п╣я├я├п╟ я√п╫я└п╟я─п╪п╟я├я▀я▐ п╟п╠ я┘п╟я│я├п╣; п╨п╟п╩я√ п╩п╟я│п╨п╟ п©п╟я┤п╟п╨п╟п╧я├п╣..."
 
 # ?
-#: clientgui/NoInternetConnectionPage.cpp:174
+#: clientgui/NoInternetConnectionPage.cpp:182
 msgid "No Internet connection"
-msgstr "Адсутн?чае сувязь з ?нтэрнэтам."
+msgstr "п░п╢я│я┐я┌п╫я√я┤п╟п╣ я│я┐п╡я▐п╥я▄ п╥ я√п╫я┌я█я─п╫я█я┌п╟п╪."
 
 # ?
-#: clientgui/NoInternetConnectionPage.cpp:177
+#: clientgui/NoInternetConnectionPage.cpp:185
 msgid "Please connect to the Internet and try again."
-msgstr "Выраб?це падлучэнне да ?нтэрнэту ? па?торыце."
+msgstr "п▓я▀я─п╟п╠я√я├п╣ п©п╟п╢п╩я┐я┤я█п╫п╫п╣ п╢п╟ я√п╫я┌я█я─п╫я█я┌я┐ я√ п©п╟я·я┌п╬я─я▀я├п╣."
 
-#: clientgui/NotDetectedPage.cpp:176
+#: clientgui/NotDetectedPage.cpp:184
 msgid "Project not found"
-msgstr "Праект не знойдзены"
+msgstr "п÷я─п╟п╣п╨я┌ п╫п╣ п╥п╫п╬п╧п╢п╥п╣п╫я▀"
 
-#: clientgui/NotDetectedPage.cpp:179
+#: clientgui/NotDetectedPage.cpp:187
 msgid ""
 "The URL you supplied is not that of a BOINC-based project.\n"
 "\n"
 "Please check the URL and try again."
 msgstr ""
-"Паказаны адрас (URL) не з'я?ляецца адрасам праекту\n"
-"на базе BOINC.\n"
-"Удакладн?це адрас (URL) ? па?торыце спробу."
+"п÷п╟п╨п╟п╥п╟п╫я▀ п╟п╢я─п╟я│ (URL) п╫п╣ п╥'я▐я·п╩я▐п╣я├я├п╟ п╟п╢я─п╟я│п╟п╪ п©я─п╟п╣п╨я┌я┐\n"
+"п╫п╟ п╠п╟п╥п╣ BOINC.\n"
+"пёп╢п╟п╨п╩п╟п╢п╫я√я├п╣ п╟п╢я─п╟я│ (URL) я√ п©п╟я·я┌п╬я─я▀я├п╣ я│п©я─п╬п╠я┐."
 
-#: clientgui/NotDetectedPage.cpp:185
+#: clientgui/NotDetectedPage.cpp:193
 msgid "Account manager not found"
-msgstr "Мэнэджэр праекта? не знойдзены"
+msgstr "п°я█п╫я█п╢п╤я█я─ п©я─п╟п╣п╨я┌п╟я· п╫п╣ п╥п╫п╬п╧п╢п╥п╣п╫я▀"
 
-#: clientgui/NotDetectedPage.cpp:188
+#: clientgui/NotDetectedPage.cpp:196
 msgid ""
 "The URL you supplied is not that of a BOINC-based account\n"
 "manager.\n"
 "\n"
 "Please check the URL and try again."
 msgstr ""
-"Паказаны адрас (URL) не з'я?ляецца адрасам мэнэджэра\n"
-"праекта? на базе BOINC.\n"
+"п÷п╟п╨п╟п╥п╟п╫я▀ п╟п╢я─п╟я│ (URL) п╫п╣ п╥'я▐я·п╩я▐п╣я├я├п╟ п╟п╢я─п╟я│п╟п╪ п╪я█п╫я█п╢п╤я█я─п╟\n"
+"п©я─п╟п╣п╨я┌п╟я· п╫п╟ п╠п╟п╥п╣ BOINC.\n"
 "\n"
-"Удакладн?це адрас (URL) ? па?торыце спробу."
+"пёп╢п╟п╨п╩п╟п╢п╫я√я├п╣ п╟п╢я─п╟я│ (URL) я√ п©п╟я·я┌п╬я─я▀я├п╣ я│п©я─п╬п╠я┐."
 
-# ???? хто так? Login
-#: clientgui/NotFoundPage.cpp:176
+# ???? я┘я┌п╬ я┌п╟п╨я√ Login
+#: clientgui/NotFoundPage.cpp:184
 msgid "Login Failed."
-msgstr "Ня?дача"
+msgstr "п²я▐я·п╢п╟я┤п╟"
 
-# карыстача
-#: clientgui/NotFoundPage.cpp:180
+# п╨п╟я─я▀я│я┌п╟я┤п╟
+#: clientgui/NotFoundPage.cpp:188
 msgid "Check the username and password, and try again."
 msgstr ""
-"Праверце прав?льнасць нап?сання ?мя\n"
-"удзельн?ка ? пароля ? па?торыце ?вод."
+"п÷я─п╟п╡п╣я─я├п╣ п©я─п╟п╡я√п╩я▄п╫п╟я│я├я▄ п╫п╟п©я√я│п╟п╫п╫я▐ я√п╪я▐\n"
+"я┐п╢п╥п╣п╩я▄п╫я√п╨п╟ я√ п©п╟я─п╬п╩я▐ я√ п©п╟я·я┌п╬я─я▀я├п╣ я·п╡п╬п╢."
 
-#: clientgui/NotFoundPage.cpp:184
+#: clientgui/NotFoundPage.cpp:192
 msgid "Check the email address and password, and try again."
 msgstr ""
-"Праверце прав?льнасць нап?сання адрасу\n"
-"электроннае пошты ? пароля ? па?торыце ?вод."
+"п÷я─п╟п╡п╣я─я├п╣ п©я─п╟п╡я√п╩я▄п╫п╟я│я├я▄ п╫п╟п©я√я│п╟п╫п╫я▐ п╟п╢я─п╟я│я┐\n"
+"я█п╩п╣п╨я┌я─п╬п╫п╫п╟п╣ п©п╬я┬я┌я▀ я√ п©п╟я─п╬п╩я▐ я√ п©п╟я·я┌п╬я─я▀я├п╣ я·п╡п╬п╢."
 
-#: clientgui/ProjectInfoPage.cpp:223
+#: clientgui/ProjectInfoPage.cpp:231
 msgid "Project URL"
-msgstr "Адрас праекту"
+msgstr "п░п╢я─п╟я│ п©я─п╟п╣п╨я┌я┐"
 
-#: clientgui/ProjectInfoPage.cpp:226
+#: clientgui/ProjectInfoPage.cpp:234
 msgid "Enter the URL of the project's web site."
-msgstr "Увядз?це адрас сайта вылучанага праекту."
+msgstr "пёп╡я▐п╢п╥я√я├п╣ п╟п╢я─п╟я│ я│п╟п╧я┌п╟ п╡я▀п╩я┐я┤п╟п╫п╟пЁп╟ п©я─п╟п╣п╨я┌я┐."
 
-#: clientgui/ProjectInfoPage.cpp:233
+#: clientgui/ProjectInfoPage.cpp:241
 msgid "Project &URL:"
-msgstr "Адрас (URL):"
+msgstr "п░п╢я─п╟я│ (URL):"
 
-#: clientgui/ProjectInfoPage.cpp:236
+#: clientgui/ProjectInfoPage.cpp:244
 msgid "For a list of BOINC-based projects go to:"
 msgstr ""
-"Для прагляду сп?су даступных\n"
-"BOINC праекта? наведаеце старонку:"
+"п■п╩я▐ п©я─п╟пЁп╩я▐п╢я┐ я│п©я√я│я┐ п╢п╟я│я┌я┐п©п╫я▀я┘\n"
+"BOINC п©я─п╟п╣п╨я┌п╟я· п╫п╟п╡п╣п╢п╟п╣я├п╣ я│я┌п╟я─п╬п╫п╨я┐:"
 
-#: clientgui/ProjectProcessingPage.cpp:318
-#: clientgui/ProjectPropertiesPage.cpp:319
+#: clientgui/ProjectProcessingPage.cpp:326
+#: clientgui/ProjectPropertiesPage.cpp:327
 msgid ""
 "Communicating with project\n"
 "Please wait..."
 msgstr ""
-"Усталё?ваецца сувязь з серверам праекту\n"
-"Кал? ласка пачакайце..."
+"пёя│я┌п╟п╩я▒я·п╡п╟п╣я├я├п╟ я│я┐п╡я▐п╥я▄ п╥ я│п╣я─п╡п╣я─п╟п╪ п©я─п╟п╣п╨я┌я┐\n"
+"п п╟п╩я√ п╩п╟я│п╨п╟ п©п╟я┤п╟п╨п╟п╧я├п╣..."
 
-# штучны ?нтэлект нейк?
-#: clientgui/ProjectProcessingPage.cpp:470
+# я┬я┌я┐я┤п╫я▀ я√п╫я┌я█п╩п╣п╨я┌ п╫п╣п╧п╨я√
+#: clientgui/ProjectProcessingPage.cpp:478
 msgid ""
 "Required wizard file(s) are missing from the target server.\n"
 "(lookup_account.php/create_account.php)\n"
 msgstr ""
-"На серверы адсутн?чае запытаны майстрам файл.\n"
+"п²п╟ я│п╣я─п╡п╣я─я▀ п╟п╢я│я┐я┌п╫я√я┤п╟п╣ п╥п╟п©я▀я┌п╟п╫я▀ п╪п╟п╧я│я┌я─п╟п╪ я└п╟п╧п╩.\n"
 "(lookup_account.php/create_account.php)\n"
 
-# Ня?дача пры спробе ?сталяваць злучэнне
-#: clientgui/ProxyInfoPage.cpp:190
+# п²я▐я·п╢п╟я┤п╟ п©я─я▀ я│п©я─п╬п╠п╣ я·я│я┌п╟п╩я▐п╡п╟я├я▄ п╥п╩я┐я┤я█п╫п╫п╣
+#: clientgui/ProxyInfoPage.cpp:198
 msgid "Network communication failure"
-msgstr "Ня?дача пры ?сталяванн? злучэння"
+msgstr "п²я▐я·п╢п╟я┤п╟ п©я─я▀ я·я│я┌п╟п╩я▐п╡п╟п╫п╫я√ п╥п╩я┐я┤я█п╫п╫я▐"
 
-#: clientgui/ProxyInfoPage.cpp:193
+# п╒п╟п╨я√я┘ п╢п╬я·пЁя√я┘ я┌я█п╨я│я┌п╟я· я▐ я▐я·я█ п╫п╣ п╠п╟я┤я▀я·
+#: clientgui/ProxyInfoPage.cpp:201
 msgid ""
 "BOINC failed to communicate on the Internet. The most likely\n"
 "reasons are:\n"
 "\n"
-"1) Connectivity problem.  Please check your network or modem\n"
-"connection and hit the back button to retry the previous\n"
-"operation.\n"
+"1) Connectivity problem.  Check your network\n"
+"or modem connection and click Back to try again.\n"
 "\n"
-"2) Personal firewall software is blocking BOINC. You must\n"
-"configure your personal firewall to let BOINC communicate\n"
-"on port 80. Once this is fixed, click Back to try again.\n"
+"2) Personal firewall software is blocking BOINC.\n"
+"Configure your personal firewall to let BOINC\n"
+"communicate on port 80, then click Back to try again.\n"
 "\n"
-"3) You are using a proxy server and BOINC needs to know\n"
-"about it."
+"3) You are using a proxy server.\n"
+"Click Next to configure BOINC's proxy settings."
 msgstr ""
-"BOINC не можа падлучыцца да ?нтэрнэту.\n"
-"Магчымыя чынн?к? гэтага:\n"
+"BOINC п╫п╣ п╪п╬п╤п╟ п©п╟п╢п╩я┐я┤я▀я├я├п╟ п╢п╟ я√п╫я┌я█я─п╫я█я┌я┐.\n"
+"п°п╟пЁя┤я▀п╪я▀я▐ я┤я▀п╫п╫я√п╨я√ пЁя█я┌п╟пЁп╟:\n"
 "\n"
-"1) Праблемы злучэння. Праверце мадэм або параметры\n"
-"падлучэнн? да сетк? ? кал? сувязь з ?нтэрнэтам будзе\n"
-"усталяваная нац?сн?це \"< Назад\" ? па?торыце спробу.\n"
+"1) п÷я─п╟п╠п╩п╣п╪я▀ п╥п╩я┐я┤я█п╫п╫я▐. п÷я─п╟п╡п╣я─я├п╣ п╪п╟п╢я█п╪ п╟п╠п╬ п©п╟я─п╟п╪п╣я┌я─я▀\n"
+"п©п╟п╢п╩я┐я┤я█п╫п╫я√ п╢п╟ я│п╣я┌п╨я√ я√ п╨п╟п╩я√ я│я┐п╡я▐п╥я▄ п╥ я√п╫я┌я█я─п╫я█я┌п╟п╪ п╠я┐п╢п╥п╣\n"
+"я┐я│я┌п╟п╩я▐п╡п╟п╫п╟я▐ п╫п╟я├я√я│п╫я√я├п╣ \"< п²п╟п╥п╟п╢\" я√ п©п╟я·я┌п╬я─я▀я├п╣ я│п©я─п╬п╠я┐.\n"
 "\n"
-"2) Ваш брандма?эр блакуе выхад BOINC у ?нтэрнэт.\n"
-"Дадайце ? наладах вашага брандма?эра дазвол\n"
-"на доступ BOINC у ?нтэрнэт праз порт 80.\n"
-"Пасля гэтага нац?сн?це \"< Назад\" ? па?торыце спробу.\n"
+"2) п▓п╟я┬ п╠я─п╟п╫п╢п╪п╟я·я█я─ п╠п╩п╟п╨я┐п╣ п╡я▀я┘п╟п╢ BOINC я┐ я√п╫я┌я█я─п╫я█я┌.\n"
+"п■п╟п╢п╟п╧я├п╣ я· п╫п╟п╩п╟п╢п╟я┘ п╡п╟я┬п╟пЁп╟ п╠я─п╟п╫п╢п╪п╟я·я█я─п╟ п╢п╟п╥п╡п╬п╩\n"
+"п╫п╟ п╢п╬я│я┌я┐п© BOINC я┐ я√п╫я┌я█я─п╫я█я┌ п©я─п╟п╥ п©п╬я─я┌ 80.\n"
+"п÷п╟я│п╩я▐ пЁя█я┌п╟пЁп╟ п╫п╟я├я√я│п╫я√я├п╣ \"< п²п╟п╥п╟п╢\" я√ п©п╟я·я┌п╬я─я▀я├п╣ я│п©я─п╬п╠я┐.\n"
 "\n"
-"3) Вы выкарыстаеце прокс? сервер для выхаду ? ?нтэрнэт,\n"
-"а BOINC не ведае аб гэтым."
+"3) п▓я▀ п╡я▀п╨п╟я─я▀я│я┌п╟п╣я├п╣ п©я─п╬п╨я│я√ я│п╣я─п╡п╣я─ п╢п╩я▐ п╡я▀я┘п╟п╢я┐ я· я√п╫я┌я█я─п╫я█я┌,\n"
+"п╟ BOINC п╫п╣ п╡п╣п╢п╟п╣ п╟п╠ пЁя█я┌я▀п╪."
 
-#: clientgui/ProxyInfoPage.cpp:208
-msgid "Click Next to configure BOINC's proxy settings."
-msgstr "Нац?сн?це \"Далей >\" для налады прокс? сервера."
-
-#: clientgui/ProxyPage.cpp:329
+#: clientgui/ProxyPage.cpp:337
 msgid "Proxy configuration"
-msgstr "Параметры прокс? сервера"
+msgstr "п÷п╟я─п╟п╪п╣я┌я─я▀ п©я─п╬п╨я│я√ я│п╣я─п╡п╣я─п╟"
 
-#: clientgui/ProxyPage.cpp:332
+#: clientgui/ProxyPage.cpp:340
 msgid "HTTP proxy"
-msgstr "HTTP прокс?"
+msgstr "HTTP п©я─п╬п╨я│я√"
 
-#: clientgui/ProxyPage.cpp:335
-#: clientgui/ProxyPage.cpp:355
+#: clientgui/ProxyPage.cpp:343
+#: clientgui/ProxyPage.cpp:363
 msgid "Server:"
-msgstr "Сервер:"
+msgstr "п║п╣я─п╡п╣я─:"
 
-#: clientgui/ProxyPage.cpp:348
+#: clientgui/ProxyPage.cpp:356
 msgid "Autodetect"
-msgstr "А?тавызначэнне"
+msgstr "п░я·я┌п╟п╡я▀п╥п╫п╟я┤я█п╫п╫п╣"
 
-#: clientgui/ProxyPage.cpp:352
+#: clientgui/ProxyPage.cpp:360
 msgid "SOCKS proxy"
-msgstr "SOCKS прокс?"
+msgstr "SOCKS п©я─п╬п╨я│я√"
 
-#: clientgui/sg_DlgMessages.cpp:68
-#: clientgui/ViewMessages.cpp:103
-#: clientgui/ViewProjects.cpp:152
-#: clientgui/ViewResources.cpp:76
-#: clientgui/ViewStatistics.cpp:698
-#: clientgui/ViewTransfers.cpp:116
-#: clientgui/ViewWork.cpp:131
+# ?????? пЁя█я┌п╟ п╟п╠ я┤я▀п╪
+#: clientgui/sg_ClientStateIndicator.cpp:289
+msgid "Retrieving current status."
+msgstr "п÷я─п╟п╡п╣я─п╨п╟ п╠я▐пЁя┐я┤п╟пЁп╟ я│я┌п╟п╫я┐."
+
+# ?
+#: clientgui/sg_ClientStateIndicator.cpp:292
+msgid "You don't have any projects.  Please Add a Project."
+msgstr "BOINC п╫п╣ п©п╟п╢п╩я┐я┤п╟п╫я▀ п╫я√ п╢п╟ п╟п╢п╫п╬пЁп╟ п©я─п╟п╣п╨я┌я┐."
+
+#: clientgui/sg_ClientStateIndicator.cpp:295
+msgid "Downloading work from the server."
+msgstr "п≈п╟пЁя─я┐п╥п╨п╟ п╥п╟п╢п╟п╫п╫я▐я· п╥ я│п╣я─п╡п╣я─п╟ п©я─п╟п╣п╨я┌я┐."
+
+# п╫п╟я·я┌п╠я┐п╨
+#: clientgui/sg_ClientStateIndicator.cpp:300
+msgid "Processing Suspended:  Running On Batteries."
+msgstr "п░п©я─п╟я├п╬я·п╨п╟ п©я─я▀п©я▀п╫п╣п╫п╟я▐: п©я─п╟я├п╟ п╨п╟п╪п©я┐я┌п╟я─п╟ п╟п╢ п╠п╟я┌п╟я─я█я▐я·."
+
+#: clientgui/sg_ClientStateIndicator.cpp:302
+msgid "Processing Suspended:  User Active."
+msgstr "п░п©я─п╟я├п╬я·п╨п╟ п©я─я▀п©я▀п╫п╣п╫п╟я▐: п╨п╟я─я▀я│я┌п╟я┤ п©я─п╟я├я┐п╣."
+
+#: clientgui/sg_ClientStateIndicator.cpp:304
+msgid "Processing Suspended:  User paused processing."
+msgstr "п░п©я─п╟я├п╬я·п╨п╟ п©я─я▀п©я▀п╫п╣п╫п╟я▐ п╨п╟я─я▀я│я┌п╟я┤п╬п╪."
+
+#: clientgui/sg_ClientStateIndicator.cpp:306
+msgid "Processing Suspended:  Time of Day."
+msgstr "п░п©я─п╟я├п╬я·п╨п╟ п©я─я▀п©я▀п╫п╣п╫п╟я▐: п╥п╟п╠п╟я─п╬п╫п╣п╫я▀ я┤п╟я│ я│я┐я┌п╨п╟я·."
+
+#: clientgui/sg_ClientStateIndicator.cpp:308
+msgid "Processing Suspended:  Benchmarks Running."
+msgstr "п░п©я─п╟я├п╬я·п╨п╟ п©я─я▀п©я▀п╫п╣п╫п╟я▐: п╥п╟п©я┐я┬я┤п╟п╫я▀ я┌я█я│я┌ п©я─п╟п╢я┐п╨я├я▀п╧п╫п╟я│я├я√."
+
+#: clientgui/sg_ClientStateIndicator.cpp:310
+msgid "Processing Suspended."
+msgstr "п░п©я─п╟я├п╬я·п╨п╟ п©я─я▀п©я▀п╫п╣п╫п╟я▐."
+
+# п░я─я▀пЁя√п╫п╟п╩я▄п╫п╟я▐ я└я─п╟п╥п╟ п╫п╣ я│п╬п╬я│я┌п╡п╣я┌я│я┌п╡я┐п╣я┌ я│я█п╫я│я┐ я┌п╟пЁп╬ п╪п╣я│я├п╟ п╢п╥п╣ п╥'я▐я·п╩я▐п╣я├я├п╟.
+#: clientgui/sg_ClientStateIndicator.cpp:314
+msgid "Waiting to contact project servers."
+msgstr "п÷п╟я┤п╟п╨п╟п╧я├п╣ п╨п╟п╩я√ п╩п╟я│п╨п╟."
+
+# ??? п╢п╩я▐ я┌я▀я┘ я┘я┌п╬ п╫п╣ п╥п╟п╥п╫п╟я┤я▀я·, я┐ п©п╟п©я▐я─я█п╢п╫я▐п╧ п╟п╫п╟п╩п╟пЁя√я┤п╫п╟п╧ я└я─п╟п╥п╣ я▒я│я├я▄ п╨я─п╬п©п╨п╟
+#: clientgui/sg_ClientStateIndicator.cpp:318
+#: clientgui/sg_ClientStateIndicator.cpp:326
+msgid "Retrieving current status"
+msgstr "п÷я─п╟п╡п╣я─п╨п╟ п╠я▐пЁя┐я┤п╟пЁп╟ я│я┌п╟п╫я┐"
+
+#: clientgui/sg_ClientStateIndicator.cpp:321
+msgid "No work available to process"
+msgstr "п²я▐п╪п╟ п╥п╟п╢п╟п╫п╫я▐я· п╢п╩я▐ п╟п©я─п╟я├п╬я·п╨я√"
+
+#: clientgui/sg_ClientStateIndicator.cpp:323
+msgid "Unable to connect to the core client"
+msgstr "п²п╣ п╟я┌я─я▀п╪п╟п╩п╟я│я▐ п©п╟п╢п╩я┐я┤я▀я├я├п╟ п╢п╟ BOINC п╨п╩я√п╣п╫я┌я┐."
+
+#: clientgui/sg_DlgMessages.cpp:105
+#: clientgui/ViewMessages.cpp:110
+#: clientgui/ViewProjects.cpp:153
+#: clientgui/ViewStatistics.cpp:368
+#: clientgui/ViewStatistics.cpp:1592
+#: clientgui/ViewTransfers.cpp:117
+#: clientgui/ViewTransfersGrid.cpp:135
+#: clientgui/ViewWork.cpp:132
+#: clientgui/ViewWorkGrid.cpp:144
 msgid "Project"
-msgstr "Праект"
+msgstr "п÷я─п╟п╣п╨я┌"
 
-#: clientgui/sg_DlgMessages.cpp:69
-#: clientgui/ViewMessages.cpp:104
+#: clientgui/sg_DlgMessages.cpp:106
+#: clientgui/ViewMessages.cpp:111
 msgid "Time"
-msgstr "Час"
+msgstr "п╖п╟я│"
 
-#: clientgui/sg_DlgMessages.cpp:70
-#: clientgui/ViewMessages.cpp:105
+#: clientgui/sg_DlgMessages.cpp:107
+#: clientgui/ViewMessages.cpp:112
 msgid "Message"
-msgstr "Паведамленне"
+msgstr "п÷п╟п╡п╣п╢п╟п╪п╩п╣п╫п╫п╣"
 
-#: clientgui/sg_DlgPreferences.cpp:114
-#, c-format
-msgid "%d MB"
-msgstr "%d МБ"
+#: clientgui/sg_DlgMessages.cpp:184
+#: clientgui/sg_DlgMessages.cpp:188
+#: clientgui/ViewMessages.cpp:85
+msgid "Copy all the messages to the clipboard."
+msgstr "п п╟п©я√я▐п╡п╟я├я▄ я┐я│п╣ п©п╟п╡п╣п╢п╟п╪п╩п╣п╫п╫я√ я· п╠я┐я└п╣я─ п╟п╠п╪п╣п╫я┐"
 
-#: clientgui/sg_DlgPreferences.cpp:116
-#, c-format
-msgid "%4.2f GB"
-msgstr "%4.2f ГБ"
+#: clientgui/sg_DlgMessages.cpp:209
+#: clientgui/sg_DlgMessages.cpp:221
+#: clientgui/ViewMessages.cpp:93
+msgid "Copy the selected messages to the clipboard. You can select multiple messages by holding down the shift or command key while clicking on messages."
+msgstr "п п╟п©я√я▐п╡п╟я├я▄ п╡я▀п╩я┐я┤п╟п╫я▀я▐ п©п╟п╡п╣п╢п╟п╪п╩п╣п╫п╫я√ я· п╠я┐я└п╣я─ п╟п╠п╪п╣п╫я┐. п°п╬п╤п╫п╟ п╡я▀п╨п╟я─я▀я│я┌п╟я├я▄ SHIFT я√ CTRL п╢п╩я▐ п╡я▀п╩я┐я┤я█п╫п╫я▐ п╫п╣п╨п╟п╩я▄п╨я√я┘ п©п╟п╡п╣п╢п╟п╪п╩п╣п╫п╫я▐я·."
+
+#: clientgui/sg_DlgMessages.cpp:213
+#: clientgui/sg_DlgMessages.cpp:225
+#: clientgui/ViewMessages.cpp:97
+msgid "Copy the selected messages to the clipboard. You can select multiple messages by holding down the shift or control key while clicking on messages."
+msgstr "п п╟п©я√я▐п╡п╟я├я▄ п╡я▀п╩я┐я┤п╟п╫я▀я▐ п©п╟п╡п╣п╢п╟п╪п╩п╣п╫п╫я√ я· п╠я┐я└п╣я─ п╟п╠п╪п╣п╫я┐. п°п╬п╤п╫п╟ п╡я▀п╨п╟я─я▀я│я┌п╟я├я▄ SHIFT я√ CTRL п╢п╩я▐ п╡я▀п╩я┐я┤я█п╫п╫я▐ п╫п╣п╨п╟п╩я▄п╨я√я┘ п©п╟п╡п╣п╢п╟п╪п╩п╣п╫п╫я▐я·."
+
+#: clientgui/sg_DlgMessages.cpp:703
+msgid "BOINC Manager - Messages"
+msgstr "BOINC п╪я█п╫я█п╢п╤я█я─ - п©п╟п╡п╣п╢п╟п╪п╩п╣п╫п╫я√"
+
+#: clientgui/sg_DlgPreferences.cpp:92
+msgid "100 MB"
+msgstr "100 п°п╠"
+
+#: clientgui/sg_DlgPreferences.cpp:93
+msgid "200 MB"
+msgstr "200 п°п╠"
+
+#: clientgui/sg_DlgPreferences.cpp:94
+msgid "500 MB"
+msgstr "500 п°п╠"
+
+#: clientgui/sg_DlgPreferences.cpp:95
+msgid "1 GB"
+msgstr "1 п⌠п╠"
+
+#: clientgui/sg_DlgPreferences.cpp:96
+msgid "2 GB"
+msgstr "2 п⌠п╠"
+
+#: clientgui/sg_DlgPreferences.cpp:97
+msgid "5 GB"
+msgstr "5 п⌠п╠"
+
+#: clientgui/sg_DlgPreferences.cpp:98
+msgid "10 GB"
+msgstr "10 п⌠п╠"
+
+#: clientgui/sg_DlgPreferences.cpp:99
+msgid "20 GB"
+msgstr "20 п⌠п╠"
+
+#: clientgui/sg_DlgPreferences.cpp:100
+msgid "50 GB"
+msgstr "50 п⌠п╠"
+
+#: clientgui/sg_DlgPreferences.cpp:101
+msgid "100 GB"
+msgstr "100 п⌠п╠"
+
+#: clientgui/sg_DlgPreferences.cpp:132
+msgid "10%"
+msgstr "10%"
+
+#: clientgui/sg_DlgPreferences.cpp:133
+msgid "20%"
+msgstr "20%"
+
+#: clientgui/sg_DlgPreferences.cpp:134
+msgid "30%"
+msgstr "30%"
+
+#: clientgui/sg_DlgPreferences.cpp:135
+msgid "40%"
+msgstr "40%"
+
+#: clientgui/sg_DlgPreferences.cpp:136
+msgid "50%"
+msgstr "50%"
 
 #: clientgui/sg_DlgPreferences.cpp:137
+msgid "60%"
+msgstr "60%"
+
+#: clientgui/sg_DlgPreferences.cpp:138
+msgid "70%"
+msgstr "70%"
+
+#: clientgui/sg_DlgPreferences.cpp:139
+msgid "80%"
+msgstr "80%"
+
+#: clientgui/sg_DlgPreferences.cpp:140
+msgid "90%"
+msgstr "90%"
+
+#: clientgui/sg_DlgPreferences.cpp:141
+msgid "100%"
+msgstr "100%"
+
+#: clientgui/sg_DlgPreferences.cpp:166
+msgid "1"
+msgstr "1"
+
+#: clientgui/sg_DlgPreferences.cpp:167
+msgid "3"
+msgstr "3"
+
+#: clientgui/sg_DlgPreferences.cpp:168
+msgid "5"
+msgstr "5"
+
+#: clientgui/sg_DlgPreferences.cpp:169
+msgid "10"
+msgstr "10"
+
+#: clientgui/sg_DlgPreferences.cpp:170
+msgid "15"
+msgstr "15"
+
+#: clientgui/sg_DlgPreferences.cpp:171
+msgid "30"
+msgstr "30"
+
+#: clientgui/sg_DlgPreferences.cpp:172
+msgid "60"
+msgstr "60"
+
+#: clientgui/sg_DlgPreferences.cpp:280
+msgid "Skin"
+msgstr "п▓п╬п╨п╩п╟п╢п╨п╟"
+
+#: clientgui/sg_DlgPreferences.cpp:287
+msgid "Skin:"
+msgstr "п▓п╬п╨п╩п╟п╢п╨п╟:"
+
+#: clientgui/sg_DlgPreferences.cpp:303
+msgid "Preferences"
+msgstr "п░пЁя┐п╩я▄п╫я▀я▐ п╫п╟п╩п╟п╢я▀"
+
+#: clientgui/sg_DlgPreferences.cpp:320
+msgid "I want to customize my preferences for this computer only."
+msgstr "п≈п╪я▐п╫я√я├я▄ п©п╟я─п╟п╪п╣я┌я─я▀ я┌п╬п╩я▄п╨я√ п╢п╩я▐ п╢п╟п╢п╥п╣п╫п╟пЁп╟ п╨п╟п╪п©я┐я┌п╟я─п╟."
+
+#: clientgui/sg_DlgPreferences.cpp:329
+msgid "Customized Preferences"
+msgstr "п≈п╪я▐п╫я▐п╫я▀я▐ п©п╟я─п╟п╪п╣я┌я─я▀"
+
+#: clientgui/sg_DlgPreferences.cpp:345
+msgid "Do work only between:"
+msgstr "п░п©я─п╟я├п╬я·п╡п╟я├я▄ я┌п╬п╩я▄п╨я√ п╥"
+
+# я√
+#: clientgui/sg_DlgPreferences.cpp:358
+#: clientgui/sg_DlgPreferences.cpp:380
+msgid "and"
+msgstr "п╢п╟"
+
+#: clientgui/sg_DlgPreferences.cpp:367
+msgid "Connect to internet only between:"
+msgstr "п■п╬я│я┌я┐п© я┐ я√п╫я┌я█я─п╫я█я┌ я┌п╬п╩я▄п╨я√ п╥"
+
+#: clientgui/sg_DlgPreferences.cpp:389
+#: clientgui/sg_DlgPreferences.cpp:406
+msgid "Use no more than:"
+msgstr "п▓я▀п╨п╟я─я▀я│я┌п╟я├я▄ п╫п╣ п╠п╬п╩я▄я┬:"
+
+#: clientgui/sg_DlgPreferences.cpp:402
+msgid "of disk space"
+msgstr "п╪п╣я│я├я▀ п╫п╟ п╢я▀я│п╨я┐"
+
+#: clientgui/sg_DlgPreferences.cpp:419
+msgid "of the processor"
+msgstr "п©я─п╟я├я█я│п╟я─п╟"
+
+# ...п╟п©п╟п╩я▀
+#: clientgui/sg_DlgPreferences.cpp:423
+msgid "Do work while on battery?"
+msgstr "п÷я─п╟я├п╟п╡п╟я├я▄ п╫п╟ п╠п╟я┌п╟я─я█я▐я┘?"
+
+#: clientgui/sg_DlgPreferences.cpp:436
+msgid "Do work after idle for:"
+msgstr "п≈п╟п©я┐я│п╨ п╟п©я─п╟я├п╬я·п╨я√ п©я─я▀ п©я─п╟я│я┌п╬я▌:"
+
+#: clientgui/sg_DlgPreferences.cpp:449
+msgid "minutes"
+msgstr "я┘п╡я√п╩я√п╫п╟я·"
+
+# ?
+#: clientgui/sg_DlgPreferences.cpp:629
+#: clientgui/sg_DlgPreferences.cpp:632
+#: clientgui/sg_DlgPreferences.cpp:692
+#: clientgui/sg_DlgPreferences.cpp:696
+#: clientgui/sg_DlgPreferences.cpp:708
+#: clientgui/sg_DlgPreferences.cpp:712
+#: clientgui/sg_DlgPreferences.cpp:870
+#: clientgui/sg_DlgPreferences.cpp:881
+msgid "Anytime"
+msgstr "п╥п╟я·я│я▒п╢я▀"
+
+#: clientgui/sg_DlgPreferences.cpp:728
+#, c-format
+msgid "%d MB"
+msgstr "%d п°п▒"
+
+#: clientgui/sg_DlgPreferences.cpp:730
+#, c-format
+msgid "%4.2f GB"
+msgstr "%4.2f п⌠п▒"
+
+#: clientgui/sg_DlgPreferences.cpp:771
+#, c-format
+msgid "%d%%"
+msgstr "%d%%"
+
+#: clientgui/sg_DlgPreferences.cpp:807
+msgid "0 (Run Always)"
+msgstr "п©я─п╟я├п╟п╡п╟я├я▄ п╥п╟я·я│я▒п╢я▀"
+
+#: clientgui/sg_DlgPreferences.cpp:810
 #, c-format
 msgid "%d"
 msgstr "%d"
 
-#: clientgui/sg_StatImageLoader.cpp:127
-#: clientgui/ViewProjects.cpp:348
+# ?
+#: clientgui/sg_DlgPreferences.cpp:973
+msgid "BOINC Manager - Preferences"
+msgstr "BOINC п╪я█п╫я█п╢п╤я█я─ - п©п╣я─я│п╟п╫п╟п╩я▄п╫я▀я▐ п╫п╟п╩п╟п╢я▀"
+
+#: clientgui/sg_ProjectsComponent.cpp:99
+msgid "Attach to an additional project"
+msgstr "п÷п╟п╢п╩я┐я┤я▀я├я├п╟ п╢п╟ я▐я┬я┤я█ п╟п╢п╫п╬п╪я┐ п©я─п╟п╣п╨я┌я┐ я─п╟п╥п╪п╣я─п╨п╟п╡п╟п╫я▀я┘ п╡я▀п╩я√я┤я█п╫п╫я▐я·"
+
+#: clientgui/sg_ProjectsComponent.cpp:116
+msgid "Get help with BOINC"
+msgstr "п■п╟п©п╟п╪п╬пЁп╟ п©п╟ п©я─п╟я├я▀ п╥ п©я─п╟пЁя─п╟п╪п╟я▌ BOINC"
+
+#: clientgui/sg_ProjectsComponent.cpp:169
+#: clientgui/sg_ProjectsComponent.cpp:180
+msgid "Open a window to view messages"
+msgstr "п░п╢п╨я─я▀я├я▄ п╟п╨п╫п╬ п╥ п©п╟п╡п╣п╢п╟п╪п╩п╣п╫п╫я▐п╪я√."
+
+#: clientgui/sg_ProjectsComponent.cpp:198
+msgid "Stop all activity"
+msgstr "п÷я─я▀п©я▀п╫я√я├я▄ я┐я│я▌ п╟п©я─п╟я├п╬я·п╨я┐ я√ я│п╣я┌п╨п╟п╡я┐я▌ п╟п╨я┌я▀я·п╫п╟я│я├я▄"
+
+#: clientgui/sg_ProjectsComponent.cpp:210
+msgid "Resume activity"
+msgstr "п░п╢п╫п╟п╡я√я├я▄ п╟п©я─п╟я├п╬я·п╨я┐"
+
+#: clientgui/sg_ProjectsComponent.cpp:227
+msgid "Open a window to set your preferences"
+msgstr "п░п╢п╨я─я▀я├я▄ п╟п╨п╫п╬ п╥ п©п╣я─я│п╟п╫п╟п╩я▄п╫я▀п╪я√ п╫п╟п╩п╟п╢п╟п╪я√ п╨п╩я√п╣п╫я┌п╟"
+
+#: clientgui/sg_ProjectsComponent.cpp:244
+msgid "Switch to the BOINC advanced view"
+msgstr "п≤п╥п╪п╣п╣п╫п╦я┌я▄ п╥п╫п╣я┬п╫я√ п╡я▀пЁп╩я▐п╢ п©я─п╟пЁя─п╟п╪я▀ п╫п╟ п╠п╬п╩я▄я┬ п©п╟п╢я─п╟п╠я▐п╥п╫я▀"
+
+#: clientgui/sg_StatImageLoader.cpp:103
+#, c-format
+msgid "%s. Work done by %s: %0.2f"
+msgstr "%s. пёп╢п╥п╣п╩я▄п╫я√п╨п╟п╪ %s п╥п╟я─п╬п╠п╩п╣п╫п╟: %0.2f п╟я┤п╨п╬я·."
+
+#: clientgui/sg_StatImageLoader.cpp:218
+#: clientgui/ViewProjects.cpp:349
 #, c-format
 msgid "Are you sure you want to detach from project '%s'?"
-msgstr "Вы сапра?ды жадаеце адлучыцца ад праекту \"%s\"?"
+msgstr "п▓я▀ я│п╟п©я─п╟я·п╢я▀ п╤п╟п╢п╟п╣я├п╣ п╟п╢п╩я┐я┤я▀я├я├п╟ п╟п╢ п©я─п╟п╣п╨я┌я┐ \"%s\"?"
 
-#: clientgui/sg_StatImageLoader.cpp:133
-#: clientgui/ViewProjects.cpp:354
+#: clientgui/sg_StatImageLoader.cpp:224
+#: clientgui/ViewProjects.cpp:355
 msgid "Detach from Project"
-msgstr "Адлучэнне ад праекту"
+msgstr "п░п╢п╩я┐я┤я█п╫п╫п╣ п╟п╢ п©я─п╟п╣п╨я┌я┐"
 
-#: clientgui/sg_ViewTabPage.cpp:93
-#: clientgui/sg_ViewTabPage.cpp:135
+#: clientgui/sg_ViewTabPage.cpp:130
+#: clientgui/sg_ViewTabPage.cpp:268
 #, c-format
 msgid "%.1lf"
 msgstr "%.1lf"
 
-#: clientgui/sg_ViewTabPage.cpp:222
+#: clientgui/sg_ViewTabPage.cpp:397
 #, c-format
-msgid "%d hours %d minutes %d seconds"
-msgstr "%d гадз?на? %d хв?л?на? %d секунда?"
+msgid "%d hr %d min %d sec"
+msgstr "%d пЁп╟п╢п╥я√п╫п╟я· %d я┘п╡я√п╩я√п╫п╟я· %d я│п╣п╨я┐п╫п╢п╟я·"
 
-#: clientgui/sg_ViewTabPage.cpp:236
-#: clientgui/ViewWork.cpp:213
-msgid "Are you sure you want to display graphics on a remote machine?"
-msgstr "Вы ?пэ?неныя, што жадаеце паказаць граф?чнае акно для прыкладання на выдаленым кампутары?"
-
-#: clientgui/sg_ViewTabPage.cpp:237
-#: clientgui/ViewWork.cpp:105
+#: clientgui/sg_ViewTabPage.cpp:411
 #: clientgui/ViewWork.cpp:214
+#: clientgui/ViewWorkGrid.cpp:227
+msgid "Are you sure you want to display graphics on a remote machine?"
+msgstr "п▓я▀ я·п©я█я·п╫п╣п╫я▀я▐, я┬я┌п╬ п╤п╟п╢п╟п╣я├п╣ п©п╟п╨п╟п╥п╟я├я▄ пЁя─п╟я└я√я┤п╫п╟п╣ п╟п╨п╫п╬ п╢п╩я▐ п©я─я▀п╨п╩п╟п╢п╟п╫п╫я▐ п╫п╟ п╡я▀п╢п╟п╩п╣п╫я▀п╪ п╨п╟п╪п©я┐я┌п╟я─я▀?"
+
+#: clientgui/sg_ViewTabPage.cpp:412
+#: clientgui/ViewWork.cpp:106
+#: clientgui/ViewWork.cpp:215
+#: clientgui/ViewWorkGrid.cpp:106
+#: clientgui/ViewWorkGrid.cpp:228
 msgid "Show graphics"
-msgstr "Паказаць граф?ку"
+msgstr "п÷п╟п╨п╟п╥п╟я├я▄ пЁя─п╟я└я√п╨я┐"
 
-#: clientgui/UnavailablePage.cpp:178
+# ???
+#: clientgui/SkinManager.cpp:975
+#, c-format
+msgid ""
+"This will shut down %s and its tasks entirely until either the\n"
+"%s application or the %s screen saver is run again.\n"
+"\n"
+"In most cases, it is better just to close the %s window\n"
+"rather than to exit the application; that will allow %s to run its\n"
+"tasks at the times you selected in your preferences."
+msgstr ""
+"п≈п╟п╡я▐я─я┬я█п╫п╫п╣ п©я─п╟я├я▀ %s, п╟п©я─п╟я├п╬я·п╨п╟ п╥п╟п╢п╟п╫п╫я▐я· п╠я┐п╢п╥п╣ я│п©я▀п╫п╣п╫п╟я▐\n"
+"п╢п╟ п╫п╟я│я┌я┐п©п╫п╟пЁп╟ п╥п╟п©я┐я│п╨я┐ %s п╟п╠п╬ я█п╨я─п╟п╫п╫п╟п╣ п╥п╟я│я┌п╟я·п╨я√ %s.\n"
+"\n"
+"п п╟п╩я√ п╡я▀ п╥п╟п╪п╣я│я┌ пЁя█я┌п╟пЁп╟ п╥п╟я┤я▀п╫я√я├п╣ п╟п╨п╫п╬ %s\n"
+"я┌п╬ %s п©я─п╟я├я▐пЁп╫п╣ п╨я√я─п╟п╡п╟я├я▄ п╟п©я─п╟я├п╬я·п╨п╟я▌ п╥п╟п╢п╟п╫п╫я▐я·\n"
+"я┐ п╟п╢п©п╟п╡п╣п╢п╫п╟я│я├я√ п╥ п╡я▀п╥п╫п╟я┤п╟п╫я▀п╪я√ п╡п╟п╪я√ п╫п╟п╩п╟п╢п╟п╪я√."
+
+#: clientgui/UnavailablePage.cpp:186
 msgid "Project temporarily unavailable"
-msgstr "Праект часова недаступны"
+msgstr "п÷я─п╟п╣п╨я┌ я┤п╟я│п╬п╡п╟ п╫п╣п╢п╟я│я┌я┐п©п╫я▀"
 
-#: clientgui/UnavailablePage.cpp:181
+#: clientgui/UnavailablePage.cpp:189
 msgid ""
 "The project is temporarily unavailable.\n"
 "\n"
 "Please try again later."
 msgstr ""
-"Праект у дадзены момант недаступны.\n"
+"п÷я─п╟п╣п╨я┌ я┐ п╢п╟п╢п╥п╣п╫я▀ п╪п╬п╪п╟п╫я┌ п╫п╣п╢п╟я│я┌я┐п©п╫я▀.\n"
 "\n"
-"Паспрабуйце падлучыцца пазней."
+"п÷п╟я│п©я─п╟п╠я┐п╧я├п╣ п©п╟п╢п╩я┐я┤я▀я├я├п╟ п©п╟п╥п╫п╣п╧."
 
 # ?
-#: clientgui/UnavailablePage.cpp:185
+#: clientgui/UnavailablePage.cpp:193
 msgid "Account manager temporarily unavailable"
-msgstr "Мэнэджэр праекта? часова недаступны"
+msgstr "п°я█п╫я█п╢п╤я█я─ п©я─п╟п╣п╨я┌п╟я· я┤п╟я│п╬п╡п╟ п╫п╣п╢п╟я│я┌я┐п©п╫я▀"
 
-#: clientgui/UnavailablePage.cpp:188
+#: clientgui/UnavailablePage.cpp:196
 msgid ""
 "The account manager is temporarily unavailable.\n"
 "\n"
 "Please try again later."
 msgstr ""
-"Мэнэджэр праекта? у дадзены момант недаступны.\n"
+"п°я█п╫я█п╢п╤я█я─ п©я─п╟п╣п╨я┌п╟я· я┐ п╢п╟п╢п╥п╣п╫я▀ п╪п╬п╪п╟п╫я┌ п╫п╣п╢п╟я│я┌я┐п©п╫я▀.\n"
 "\n"
-"Паспрабуйце падлучыцца пазней."
+"п÷п╟я│п©я─п╟п╠я┐п╧я├п╣ п©п╟п╢п╩я┐я┤я▀я├я├п╟ п©п╟п╥п╫п╣п╧."
 
 #: clientgui/ValidateAccountKey.cpp:69
 msgid "Please specify an account key to continue."
-msgstr "Увядз?це код доступу для працягу."
+msgstr "пёп╡я▐п╢п╥я√я├п╣ п╨п╬п╢ п╢п╬я│я┌я┐п©я┐ п╢п╩я▐ п©я─п╟я├я▐пЁя┐."
 
 #: clientgui/ValidateAccountKey.cpp:72
 msgid "Invalid Account Key; please enter a valid Account Key"
-msgstr "Уведзены не прав?льны код доступу, па?торыце ?вод кода доступу"
+msgstr "пёп╡п╣п╢п╥п╣п╫я▀ п╫п╣ п©я─п╟п╡я√п╩я▄п╫я▀ п╨п╬п╢ п╢п╬я│я┌я┐п©я┐, п©п╟я·я┌п╬я─я▀я├п╣ я·п╡п╬п╢ п╨п╬п╢п╟ п╢п╬я│я┌я┐п©я┐"
 
 #: clientgui/ValidateAccountKey.cpp:83
-#: clientgui/ValidateEmailAddress.cpp:92
+#: clientgui/ValidateEmailAddress.cpp:87
 msgid "Validation conflict"
-msgstr "Праверка прав?льнасц? ?воду дадзеных"
+msgstr "п÷я─п╟п╡п╣я─п╨п╟ п©я─п╟п╡я√п╩я▄п╫п╟я│я├я√ я·п╡п╬п╢я┐ п╢п╟п╫п╫я▀я┘"
 
 # ???
-#: clientgui/ValidateEmailAddress.cpp:78
+#: clientgui/ValidateEmailAddress.cpp:73
 msgid "Please specify an email address"
-msgstr "Пакажыце адрас электроннае пошты"
+msgstr "п÷п╟п╨п╟п╤я▀я├п╣ п╟п╢я─п╟я│ я█п╩п╣п╨я┌я─п╬п╫п╫п╟п╣ п©п╬я┬я┌я▀"
 
-#: clientgui/ValidateEmailAddress.cpp:81
+#: clientgui/ValidateEmailAddress.cpp:76
 msgid "Invalid email address; please enter a valid email address"
 msgstr ""
-"Уведзены не прав?льны адрас электроннае пошты,\n"
-"па?торыце ?вод адрасу электроннае пошты."
+"пёп╡п╣п╢п╥п╣п╫я▀ п╫п╣ п©я─п╟п╡я√п╩я▄п╫я▀ п╟п╢я─п╟я│ я█п╩п╣п╨я┌я─п╬п╫п╫п╟п╣ п©п╬я┬я┌я▀,\n"
+"п©п╟я·я┌п╬я─я▀я├п╣ я·п╡п╬п╢ п╟п╢я─п╟я│я┐ я█п╩п╣п╨я┌я─п╬п╫п╫п╟п╣ п©п╬я┬я┌я▀."
 
 # ?
 #: clientgui/ValidateURL.cpp:70
 msgid "Missing URL"
-msgstr "Не паказаны адрас (URL)"
+msgstr "п²п╣ п©п╟п╨п╟п╥п╟п╫я▀ п╟п╢я─п╟я│ (URL)"
 
 # ?
 #: clientgui/ValidateURL.cpp:71
@@ -1609,8 +1877,8 @@ msgid ""
 "For example:\n"
 "http://www.example.com/"
 msgstr ""
-"Увядз?це адрас (URL).\n"
-"Прыклад:\n"
+"пёп╡я▐п╢п╥я√я├п╣ п╟п╢я─п╟я│ (URL).\n"
+"п÷я─я▀п╨п╩п╟п╢:\n"
 "http://www.example.com/"
 
 #: clientgui/ValidateURL.cpp:84
@@ -1620,7 +1888,7 @@ msgstr ""
 #: clientgui/ValidateURL.cpp:108
 #: clientgui/ValidateURL.cpp:111
 msgid "Invalid URL"
-msgstr "Не карэктны адрас (URL)"
+msgstr "п²п╣ п╨п╟я─я█п╨я┌п╫я▀ п╟п╢я─п╟я│ (URL)"
 
 #: clientgui/ValidateURL.cpp:85
 #: clientgui/ValidateURL.cpp:89
@@ -1630,8 +1898,8 @@ msgid ""
 "For example:\n"
 "http://boincproject.example.com"
 msgstr ""
-"Увядз?це карэктны адрас (URL).\n"
-"Прыклад:\n"
+"пёп╡я▐п╢п╥я√я├п╣ п╨п╟я─я█п╨я┌п╫я▀ п╟п╢я─п╟я│ (URL).\n"
+"п÷я─я▀п╨п╩п╟п╢:\n"
 "http://boincproject.example.com"
 
 # ?
@@ -1639,720 +1907,831 @@ msgstr ""
 #: clientgui/ValidateURL.cpp:109
 #, c-format
 msgid "'%s' does not contain a valid host name."
-msgstr "Кампутар (хост) з ?мем: \"%s\" не знойдзены."
+msgstr "п п╟п╪п©я┐я┌п╟я─ (я┘п╬я│я┌) п╥ я√п╪п╣п╪: \"%s\" п╫п╣ п╥п╫п╬п╧п╢п╥п╣п╫я▀."
 
 # ?
 #: clientgui/ValidateURL.cpp:112
 #, c-format
 msgid "'%s' does not contain a valid path."
-msgstr "Паказаны шлях: \"%s\" не ?снуе."
+msgstr "п÷п╟п╨п╟п╥п╟п╫я▀ я┬п╩я▐я┘: \"%s\" п╫п╣ я√я│п╫я┐п╣."
 
-#: clientgui/ViewMessages.cpp:79
-#: clientgui/ViewProjects.cpp:104
-#: clientgui/ViewStatistics.cpp:667
-#: clientgui/ViewTransfers.cpp:93
-#: clientgui/ViewWork.cpp:101
+#: clientgui/ViewMessages.cpp:80
+#: clientgui/ViewProjects.cpp:105
+#: clientgui/ViewStatistics.cpp:1561
+#: clientgui/ViewTransfers.cpp:94
+#: clientgui/ViewTransfersGrid.cpp:100
+#: clientgui/ViewWork.cpp:102
+#: clientgui/ViewWorkGrid.cpp:102
 msgid "Commands"
-msgstr "Дзеянн?"
-
-#: clientgui/ViewMessages.cpp:83
-msgid "Copy all messages"
-msgstr "Кап?яваць усё"
+msgstr "п■п╥п╣я▐п╫п╫я√"
 
 #: clientgui/ViewMessages.cpp:84
-msgid "Copy all the messages to the clipboard."
-msgstr "Кап?яваць усе паведамленн? ? буфер абмену"
-
-#: clientgui/ViewMessages.cpp:90
-msgid "Copy selected messages"
-msgstr "Кап?яваць вылучанае"
+msgid "Copy all messages"
+msgstr "п п╟п©я√я▐п╡п╟я├я▄ я┐я│я▒"
 
 #: clientgui/ViewMessages.cpp:91
-msgid "Copy the selected messages to the clipboard. You can select multiple messages by holding down the shift or control key while clicking on messages."
-msgstr "Кап?яваць вылучаныя паведамленн? ? буфер абмену. Можна выкарыстаць SHIFT ? CTRL для вылучэння некальк?х паведамлення?."
+msgid "Copy selected messages"
+msgstr "п п╟п©я√я▐п╡п╟я├я▄ п╡я▀п╩я┐я┤п╟п╫п╟п╣"
 
-#: clientgui/ViewMessages.cpp:129
+#: clientgui/ViewMessages.cpp:136
 msgid "Messages"
-msgstr "Паведамленн?"
+msgstr "п÷п╟п╡п╣п╢п╟п╪п╩п╣п╫п╫я√"
 
-#: clientgui/ViewMessages.cpp:151
+#: clientgui/ViewMessages.cpp:158
 msgid "Copying all messages to the clipboard..."
-msgstr "Кап?ююцца ?сё паведамленн? ? буфер абмену..."
+msgstr "п п╟п©я√я▌я▌я├я├п╟ я·я│я▒ п©п╟п╡п╣п╢п╟п╪п╩п╣п╫п╫я√ я· п╠я┐я└п╣я─ п╟п╠п╪п╣п╫я┐..."
 
-#: clientgui/ViewMessages.cpp:183
-#: clientgui/ViewTransfers.cpp:189
+#: clientgui/ViewMessages.cpp:190
+#: clientgui/ViewTransfers.cpp:190
+#: clientgui/ViewTransfersGrid.cpp:207
 msgid "Aborting transfer..."
-msgstr "Перапыненне перадачы дадзеных з наступным выдаленнем перадаванага файла..."
-
-#: clientgui/ViewProjects.cpp:108
-msgid "Update"
-msgstr "Абнав?ць"
+msgstr "п÷п╣я─п╟п©я▀п╫п╣п╫п╫п╣ п©п╣я─п╟п╢п╟я┤я▀ п╢п╟п╫п╫я▀я┘ п╥ п╫п╟я│я┌я┐п©п╫я▀п╪ п╡я▀п╢п╟п╩п╣п╫п╫п╣п╪ п©п╣я─п╟п╢п╟п╡п╟п╫п╟пЁп╟ я└п╟п╧п╩п╟..."
 
 #: clientgui/ViewProjects.cpp:109
-msgid "Report all completed tasks, get latest credit, get latest preferences, and possibly get more tasks."
-msgstr "Атрымаць ?нфармацыю з сервера праекту: аб пацверджанн? перадачы завершаных задання?, аб колькасц? набраных ачко?, аб наладах  зап?су ? (магчыма) запампо?цы новых задання?."
+msgid "Update"
+msgstr "п░п╠п╫п╟п╡я√я├я▄"
 
-#: clientgui/ViewProjects.cpp:116
-#: clientgui/ViewProjects.cpp:567
-#: clientgui/ViewWork.cpp:112
-#: clientgui/ViewWork.cpp:510
-msgid "Suspend"
-msgstr "Прыпын?ць"
+#: clientgui/ViewProjects.cpp:110
+msgid "Report all completed tasks, get latest credit, get latest preferences, and possibly get more tasks."
+msgstr "п░я┌я─я▀п╪п╟я├я▄ я√п╫я└п╟я─п╪п╟я├я▀я▌ п╥ я│п╣я─п╡п╣я─п╟ п©я─п╟п╣п╨я┌я┐: п╟п╠ п©п╟я├п╡п╣я─п╢п╤п╟п╫п╫я√ п©п╣я─п╟п╢п╟я┤я▀ п╥п╟п╡п╣я─я┬п╟п╫я▀я┘ п╥п╟п╢п╟п╫п╫я▐я·, п╟п╠ п╨п╬п╩я▄п╨п╟я│я├я√ п╫п╟п╠я─п╟п╫я▀я┘ п╟я┤п╨п╬я·, п╟п╠ п╫п╟п╩п╟п╢п╟я┘  п╥п╟п©я√я│я┐ я√ (п╪п╟пЁя┤я▀п╪п╟) п╥п╟п©п╟п╪п©п╬я·я├я▀ п╫п╬п╡я▀я┘ п╥п╟п╢п╟п╫п╫я▐я·."
 
 #: clientgui/ViewProjects.cpp:117
-#: clientgui/ViewProjects.cpp:567
-msgid "Suspend tasks for this project."
-msgstr "Прыпын?ць апрацо?ку вылучанага праекту"
+#: clientgui/ViewProjects.cpp:568
+#: clientgui/ViewWork.cpp:113
+#: clientgui/ViewWork.cpp:511
+#: clientgui/ViewWorkGrid.cpp:113
+#: clientgui/ViewWorkGrid.cpp:374
+msgid "Suspend"
+msgstr "п÷я─я▀п©я▀п╫я√я├я▄"
 
-#: clientgui/ViewProjects.cpp:123
-#: clientgui/ViewProjects.cpp:579
+#: clientgui/ViewProjects.cpp:118
+#: clientgui/ViewProjects.cpp:568
+msgid "Suspend tasks for this project."
+msgstr "п÷я─я▀п©я▀п╫я√я├я▄ п╟п©я─п╟я├п╬я·п╨я┐ п╡я▀п╩я┐я┤п╟п╫п╟пЁп╟ п©я─п╟п╣п╨я┌я┐"
+
+#: clientgui/ViewProjects.cpp:124
+#: clientgui/ViewProjects.cpp:580
 msgid "No new tasks"
-msgstr "Не запытваць заданн?"
+msgstr "п²п╣ п╥п╟п©я▀я┌п╡п╟я├я▄ п╥п╟п╢п╟п╫п╫я√"
 
 # ?
-# дубль???
-#: clientgui/ViewProjects.cpp:124
+# п╢я┐п╠п╩я▄???
+#: clientgui/ViewProjects.cpp:125
 msgid "Don't get new tasks for this project."
-msgstr "Не запытваць новыя заданн? з сервера праекту."
-
-#: clientgui/ViewProjects.cpp:130
-msgid "Reset project"
-msgstr "Перазапусц?ць праект"
+msgstr "п²п╣ п╥п╟п©я▀я┌п╡п╟я├я▄ п╫п╬п╡я▀я▐ п╥п╟п╢п╟п╫п╫я√ п╥ я│п╣я─п╡п╣я─п╟ п©я─п╟п╣п╨я┌я┐."
 
 #: clientgui/ViewProjects.cpp:131
+msgid "Reset project"
+msgstr "п÷п╣я─п╟п╥п╟п©я┐я│я├я√я├я▄ п©я─п╟п╣п╨я┌"
+
+#: clientgui/ViewProjects.cpp:132
 msgid "Delete all files and tasks associated with this project, and get new tasks.  You can update the project first to report any completed tasks."
 msgstr ""
-"Выдал?ць УСЕ файлы ? заданн? вылучанага праекту ? запампаваць новыя.\n"
-"УВАГА: не забудзьце перад дадзенаю аперацыяю адправ?ць усе завершаныя заданн? для дадзенага праекту :-)"
-
-#: clientgui/ViewProjects.cpp:140
-msgid "Detach"
-msgstr "Выдал?ць праект"
+"п▓я▀п╢п╟п╩я√я├я▄ пёп║п∙ я└п╟п╧п╩я▀ я√ п╥п╟п╢п╟п╫п╫я√ п╡я▀п╩я┐я┤п╟п╫п╟пЁп╟ п©я─п╟п╣п╨я┌я┐ я√ п╥п╟п©п╟п╪п©п╟п╡п╟я├я▄ п╫п╬п╡я▀я▐.\n"
+"пёп▓п░п⌠п░: п╫п╣ п╥п╟п╠я┐п╢п╥я▄я├п╣ п©п╣я─п╟п╢ п╢п╟п╢п╥п╣п╫п╟я▌ п╟п©п╣я─п╟я├я▀я▐я▌ п╟п╢п©я─п╟п╡я√я├я▄ я┐я│п╣ п╥п╟п╡п╣я─я┬п╟п╫я▀я▐ п╥п╟п╢п╟п╫п╫я√ п╢п╩я▐ п╢п╟п╢п╥п╣п╫п╟пЁп╟ п©я─п╟п╣п╨я┌я┐ :-)"
 
 #: clientgui/ViewProjects.cpp:141
+msgid "Detach"
+msgstr "п▓я▀п╢п╟п╩я√я├я▄ п©я─п╟п╣п╨я┌"
+
+#: clientgui/ViewProjects.cpp:142
 msgid "Detach computer from this project.  Tasks in progress will be lost (use 'Update' first to report any completed tasks)."
 msgstr ""
-"Адлучыць дадзены кампутар ад вылучанага праекту. Апрацо?ваемыя ? дадзены момант задання будуць страчаныя.\n"
-"УВАГА: не забудзьце перад дадзенаю аперацыяю адправ?ць усе завершаныя заданн? для дадзенага праекту :-)"
+"п░п╢п╩я┐я┤я▀я├я▄ п╢п╟п╢п╥п╣п╫я▀ п╨п╟п╪п©я┐я┌п╟я─ п╟п╢ п╡я▀п╩я┐я┤п╟п╫п╟пЁп╟ п©я─п╟п╣п╨я┌я┐. п░п©я─п╟я├п╬я·п╡п╟п╣п╪я▀я▐ я· п╢п╟п╢п╥п╣п╫я▀ п╪п╬п╪п╟п╫я┌ п╥п╟п╢п╟п╫п╫я▐ п╠я┐п╢я┐я├я▄ я│я┌я─п╟я┤п╟п╫я▀я▐.\n"
+"пёп▓п░п⌠п░: п╫п╣ п╥п╟п╠я┐п╢п╥я▄я├п╣ п©п╣я─п╟п╢ п╢п╟п╢п╥п╣п╫п╟я▌ п╟п©п╣я─п╟я├я▀я▐я▌ п╟п╢п©я─п╟п╡я√я├я▄ я┐я│п╣ п╥п╟п╡п╣я─я┬п╟п╫я▀я▐ п╥п╟п╢п╟п╫п╫я√ п╢п╩я▐ п╢п╟п╢п╥п╣п╫п╟пЁп╟ п©я─п╟п╣п╨я┌я┐ :-)"
 
-#: clientgui/ViewProjects.cpp:153
+#: clientgui/ViewProjects.cpp:154
+#: clientgui/ViewStatistics.cpp:383
 msgid "Account"
-msgstr "Ул?ковы зап?с"
+msgstr "пёп╩я√п╨п╬п╡я▀ п╥п╟п©я√я│"
 
 # ??
-#: clientgui/ViewProjects.cpp:155
-msgid "Work done"
-msgstr "Заробленыя ачк?"
-
+# п²п╟п╢п©я√я│ п╫п╟ п╨п╟п╠я√п╫п╣я├п╣ п©я─п╟п╨я┌п╬п╩п╟пЁп╟ "я─п╟п╪п╬п╫я┌ п╟п╨я┐п╩я▐я─п╟я·"
 #: clientgui/ViewProjects.cpp:156
-msgid "Avg. work done"
-msgstr "У сярэдн?м за дзень"
+msgid "Work done"
+msgstr "п≈п╟я─п╬п╠п╩п╣п╫я▀я▐ п╟я┤п╨я√"
 
 #: clientgui/ViewProjects.cpp:157
-msgid "Resource share"
-msgstr "Вылучана рэсурса?"
+msgid "Avg. work done"
+msgstr "пё я│я▐я─я█п╢п╫я√п╪ п╥п╟ п╢п╥п╣п╫я▄"
 
 #: clientgui/ViewProjects.cpp:158
-#: clientgui/ViewTransfers.cpp:122
-#: clientgui/ViewWork.cpp:138
+msgid "Resource share"
+msgstr "п▓я▀п╩я┐я┤п╟п╫п╟ я─я█я│я┐я─я│п╟я·"
+
+#: clientgui/ViewProjects.cpp:159
+#: clientgui/ViewTransfers.cpp:123
+#: clientgui/ViewTransfersGrid.cpp:135
+#: clientgui/ViewWork.cpp:139
+#: clientgui/ViewWorkGrid.cpp:144
 msgid "Status"
-msgstr "Стан"
+msgstr "п║я┌п╟п╫"
 
-#: clientgui/ViewProjects.cpp:171
+#: clientgui/ViewProjects.cpp:172
 msgid "Projects"
-msgstr "Праекты"
+msgstr "п÷я─п╟п╣п╨я┌я▀"
 
-#: clientgui/ViewProjects.cpp:194
+#: clientgui/ViewProjects.cpp:195
 msgid "Updating project..."
-msgstr "Абна?ляецца ?нфармацыя аб праекце..."
+msgstr "п░п╠п╫п╟я·п╩я▐п╣я├я├п╟ я√п╫я└п╟я─п╪п╟я├я▀я▐ п╟п╠ п©я─п╟п╣п╨я├п╣..."
 
-#: clientgui/ViewProjects.cpp:222
+#: clientgui/ViewProjects.cpp:223
 msgid "Resuming project..."
-msgstr "Праект запускаецца..."
+msgstr "п÷я─п╟п╣п╨я┌ п╥п╟п©я┐я│п╨п╟п╣я├я├п╟..."
 
-#: clientgui/ViewProjects.cpp:226
+#: clientgui/ViewProjects.cpp:227
 msgid "Suspending project..."
-msgstr "Прыпыняецца выкананне праекту..."
+msgstr "п÷я─я▀п©я▀п╫я▐п╣я├я├п╟ п╡я▀п╨п╟п╫п╟п╫п╫п╣ п©я─п╟п╣п╨я┌я┐..."
 
-#: clientgui/ViewProjects.cpp:254
+#: clientgui/ViewProjects.cpp:255
 msgid "Telling project to allow additional task downloads..."
-msgstr "Перадаецца запыт на дазвол атрымання новых задання? для апрацо?к?..."
+msgstr "п÷п╣я─п╟п╢п╟п╣я├я├п╟ п╥п╟п©я▀я┌ п╫п╟ п╢п╟п╥п╡п╬п╩ п╟я┌я─я▀п╪п╟п╫п╫я▐ п╫п╬п╡я▀я┘ п╥п╟п╢п╟п╫п╫я▐я· п╢п╩я▐ п╟п©я─п╟я├п╬я·п╨я√..."
 
-#: clientgui/ViewProjects.cpp:258
+#: clientgui/ViewProjects.cpp:259
 msgid "Telling project to not fetch any additional tasks..."
-msgstr "Перадаецца запыт на забарону атрымання новых задання? для апрацо?к?..."
+msgstr "п÷п╣я─п╟п╢п╟п╣я├я├п╟ п╥п╟п©я▀я┌ п╫п╟ п╥п╟п╠п╟я─п╬п╫я┐ п╟я┌я─я▀п╪п╟п╫п╫я▐ п╫п╬п╡я▀я┘ п╥п╟п╢п╟п╫п╫я▐я· п╢п╩я▐ п╟п©я─п╟я├п╬я·п╨я√..."
 
-#: clientgui/ViewProjects.cpp:292
+#: clientgui/ViewProjects.cpp:293
 msgid "Resetting project..."
-msgstr "Праект перазапускаецца..."
+msgstr "п÷я─п╟п╣п╨я┌ п©п╣я─п╟п╥п╟п©я┐я│п╨п╟п╣я├я├п╟..."
 
-#: clientgui/ViewProjects.cpp:298
+#: clientgui/ViewProjects.cpp:299
 #, c-format
 msgid "Are you sure you want to reset project '%s'?"
-msgstr "Вы сапра?ды жадаеце перазапусц?ць праект \"%s\"?"
+msgstr "п▓я▀ я│п╟п©я─п╟я·п╢я▀ п╤п╟п╢п╟п╣я├п╣ п©п╣я─п╟п╥п╟п©я┐я│я├я√я├я▄ п©я─п╟п╣п╨я┌ \"%s\"?"
 
-#: clientgui/ViewProjects.cpp:304
+#: clientgui/ViewProjects.cpp:305
 msgid "Reset Project"
-msgstr "Перазапуск праекту"
+msgstr "п÷п╣я─п╟п╥п╟п©я┐я│п╨ п©я─п╟п╣п╨я┌я┐"
 
-#: clientgui/ViewProjects.cpp:342
+#: clientgui/ViewProjects.cpp:343
 msgid "Detaching from project..."
-msgstr "Адлучэнне ад праекту..."
+msgstr "п░п╢п╩я┐я┤я█п╫п╫п╣ п╟п╢ п©я─п╟п╣п╨я┌я┐..."
 
-#: clientgui/ViewProjects.cpp:383
-#: clientgui/ViewWork.cpp:317
+#: clientgui/ViewProjects.cpp:384
+#: clientgui/ViewWork.cpp:318
+#: clientgui/ViewWorkGrid.cpp:331
 msgid "Launching browser..."
-msgstr "Загружаецца бра?зэр..."
+msgstr "п≈п╟пЁя─я┐п╤п╟п╣я├я├п╟ п╠я─п╟я·п╥я█я─..."
 
-#: clientgui/ViewProjects.cpp:563
-#: clientgui/ViewWork.cpp:504
+#: clientgui/ViewProjects.cpp:564
+#: clientgui/ViewWork.cpp:505
+#: clientgui/ViewWorkGrid.cpp:368
 msgid "Resume"
-msgstr "Запусц?ць"
+msgstr "п≈п╟п©я┐я│я├я√я├я▄"
 
-#: clientgui/ViewProjects.cpp:563
+#: clientgui/ViewProjects.cpp:564
 msgid "Resume tasks for this project."
-msgstr "Працягнуць апрацо?ку вылучанага праекту"
+msgstr "п÷я─п╟я├я▐пЁп╫я┐я├я▄ п╟п©я─п╟я├п╬я·п╨я┐ п╡я▀п╩я┐я┤п╟п╫п╟пЁп╟ п©я─п╟п╣п╨я┌я┐"
 
-#: clientgui/ViewProjects.cpp:575
+#: clientgui/ViewProjects.cpp:576
 msgid "Allow new tasks"
-msgstr "Атрымо?ваць новыя заданн?"
+msgstr "п░я┌я─я▀п╪п╬я·п╡п╟я├я▄ п╫п╬п╡я▀я▐ п╥п╟п╢п╟п╫п╫я√"
 
-#: clientgui/ViewProjects.cpp:575
+#: clientgui/ViewProjects.cpp:576
 msgid "Allow fetching new tasks for this project."
-msgstr "Запытваць новыя заданн? з сервера праекту"
+msgstr "п≈п╟п©я▀я┌п╡п╟я├я▄ п╫п╬п╡я▀я▐ п╥п╟п╢п╟п╫п╫я√ п╥ я│п╣я─п╡п╣я─п╟ п©я─п╟п╣п╨я┌я┐"
 
 # ???
-#: clientgui/ViewProjects.cpp:579
+#: clientgui/ViewProjects.cpp:580
 msgid "Don't fetch new tasks for this project."
-msgstr "Не запытваць новыя заданн? з сервера праекту"
+msgstr "п²п╣ п╥п╟п©я▀я┌п╡п╟я├я▄ п╫п╬п╡я▀я▐ п╥п╟п╢п╟п╫п╫я√ п╥ я│п╣я─п╡п╣я─п╟ п©я─п╟п╣п╨я┌я┐"
 
-#: clientgui/ViewProjects.cpp:681
+#: clientgui/ViewProjects.cpp:682
 msgid "Suspended by user"
-msgstr "Прыпынена карыстачом"
+msgstr "п÷я─я▀п©я▀п╫п╣п╫п╟ п╨п╟я─я▀я│я┌п╟я┤п╬п╪"
 
 # ???
-#: clientgui/ViewProjects.cpp:684
+#: clientgui/ViewProjects.cpp:685
 msgid "Won't get new tasks"
-msgstr "Не запытваць новыя заданн?"
+msgstr "п²п╣ п╥п╟п©я▀я┌п╡п╟я├я▄ п╫п╬п╡я▀я▐ п╥п╟п╢п╟п╫п╫я√"
 
-#: clientgui/ViewProjects.cpp:687
+#: clientgui/ViewProjects.cpp:688
 msgid "Scheduler request pending"
-msgstr "Запыт ?нфармацы? ? план?ро?н?ка"
+msgstr "п≈п╟п©я▀я┌ я√п╫я└п╟я─п╪п╟я├я▀я√ я· п©п╩п╟п╫я√я─п╬я·п╫я√п╨п╟"
 
-#: clientgui/ViewProjects.cpp:694
+#: clientgui/ViewProjects.cpp:695
 msgid "Communication deferred "
-msgstr "Па?тор праз "
+msgstr "п÷п╟я·я┌п╬я─ п©я─п╟п╥ "
 
-#: clientgui/ViewResources.cpp:77
-msgid "Disk Space"
-msgstr "Займае на дыску"
-
-#: clientgui/ViewResources.cpp:90
+#: clientgui/ViewResources.cpp:151
 msgid "Disk"
-msgstr "Дыск"
+msgstr "п■я▀я│п╨"
 
-# Агульная колькасць ачко? набраных удзельн?кам
-#: clientgui/ViewStatistics.cpp:45
-#: clientgui/ViewStatistics.cpp:63
-#: clientgui/ViewStatistics.cpp:767
+#: clientgui/ViewResources.cpp:245
+msgid "not attached to any BOINC project - 0 bytes"
+msgstr "BOINC п╫п╣ п©п╟п╢п╩я┐я┤п╟п╫я▀ п╫я√ п╢п╟ п╟п╢п╫п╬пЁп╟ п©я─п╟п╣п╨я┌я┐"
+
+#: clientgui/ViewResources.cpp:261
+msgid "free disk space - "
+msgstr "п╡п╬п╩я▄п╫п╟ - "
+
+#: clientgui/ViewResources.cpp:267
+msgid "used by BOINC - "
+msgstr "п╥п╟п╫я▐я┌п╟ BOINC - "
+
+#: clientgui/ViewResources.cpp:273
+msgid "used by other programs - "
+msgstr "п╥п╟п╫я▐я┌п╟ я√п╫я┬я▀п╪я√ п╢п╟п╢п╥п╣п╫я▀п╪я√ - "
+
+# п░пЁя┐п╩я▄п╫п╟я▐ п╨п╬п╩я▄п╨п╟я│я├я▄ п╟я┤п╨п╬я· п╫п╟п╠я─п╟п╫я▀я┘ я┐п╢п╥п╣п╩я▄п╫я√п╨п╟п╪
+#: clientgui/ViewStatistics.cpp:1115
 msgid "User Total"
-msgstr "Агульная колькасць ачко? удзельн?ка"
+msgstr "п░пЁя┐п╩я▄п╫п╟я▐ п╨п╬п╩я▄п╨п╟я│я├я▄ п╟я┤п╨п╬я· я┐п╢п╥п╣п╩я▄п╫я√п╨п╟"
 
-#: clientgui/ViewStatistics.cpp:671
-msgid "Show user total"
-msgstr "Усяго ачко?"
-
-#: clientgui/ViewStatistics.cpp:672
-msgid "Show total credit for user"
-msgstr "Паказаць агульную колькасць ачко? набраных удзельн?кам"
-
-#: clientgui/ViewStatistics.cpp:678
-msgid "Show user average"
-msgstr "У сярэдн?м за дзень"
-
-#: clientgui/ViewStatistics.cpp:679
-msgid "Show average credit for user"
-msgstr "Паказаць сярэднюю колькасць ачко? як?я наб?раюцца ?дзельн?кам за дзень"
-
-#: clientgui/ViewStatistics.cpp:685
-msgid "Show host total"
-msgstr "Усяго ачко? для хаста"
-
-#: clientgui/ViewStatistics.cpp:686
-msgid "Show total credit for host"
-msgstr "Паказаць агульную колькасць ачко? набраных на дадзеным хасце"
-
-#: clientgui/ViewStatistics.cpp:692
-msgid "Show host average"
-msgstr "У сярэдн?м для хаста"
-
-#: clientgui/ViewStatistics.cpp:693
-msgid "Show average credit for host"
-msgstr "Паказаць сярэднюю колькасць ачко? як?я наб?раюцца дадзеным хастом за дзень"
-
-#: clientgui/ViewStatistics.cpp:702
-msgid "< &Previous project"
-msgstr "< Папярэдн?"
-
-#: clientgui/ViewStatistics.cpp:703
-msgid "Show chart for previous project"
-msgstr "Паказаць папярэдн? праект (уверх)"
-
-#: clientgui/ViewStatistics.cpp:708
-msgid "&Next project >"
-msgstr "Наступны >"
-
-#: clientgui/ViewStatistics.cpp:709
-msgid "Show chart for next project"
-msgstr "Паказаць наступны праект (ун?з)"
-
-#: clientgui/ViewStatistics.cpp:714
-msgid "Mode view"
-msgstr "Выгляд граф?ка?"
-
-#: clientgui/ViewStatistics.cpp:717
-msgid "All projects"
-msgstr "Усе праекты"
-
-#: clientgui/ViewStatistics.cpp:718
-msgid "Show all projects, one chart per project"
-msgstr "Паказаць усе праекты, кожны праект на асобным граф?ку"
-
-#: clientgui/ViewStatistics.cpp:724
-msgid "One project"
-msgstr "Адз?н праект"
-
-#: clientgui/ViewStatistics.cpp:725
-msgid "Show one chart with selected project"
-msgstr "Паказаць адз?н вылучаны праект"
-
-#: clientgui/ViewStatistics.cpp:731
-msgid "All projects(sum)"
-msgstr "Усе праекты разам"
-
-#: clientgui/ViewStatistics.cpp:732
-msgid "Show one chart with all projects"
-msgstr "Паказаць усе праекты на адным граф?цы"
-
-#: clientgui/ViewStatistics.cpp:749
-msgid "Statistics"
-msgstr "Статыстыка"
-
-#: clientgui/ViewStatistics.cpp:766
-#: clientgui/ViewStatistics.cpp:785
-#: clientgui/ViewStatistics.cpp:804
-#: clientgui/ViewStatistics.cpp:824
-#: clientgui/ViewStatistics.cpp:843
-#: clientgui/ViewStatistics.cpp:863
-#: clientgui/ViewStatistics.cpp:883
-#: clientgui/ViewStatistics.cpp:903
-#: clientgui/ViewStatistics.cpp:921
-msgid "Updating charts..."
-msgstr "Абна?ляецца граф?к..."
-
-# Сярэдняя колькасць ачко? як?я наб?раюцца ?дзельн?кам за дзень
-#: clientgui/ViewStatistics.cpp:786
+# п║я▐я─я█п╢п╫я▐я▐ п╨п╬п╩я▄п╨п╟я│я├я▄ п╟я┤п╨п╬я· я▐п╨я√я▐ п╫п╟п╠я√я─п╟я▌я├я├п╟ я·п╢п╥п╣п╩я▄п╫я√п╨п╟п╪ п╥п╟ п╢п╥п╣п╫я▄
+#: clientgui/ViewStatistics.cpp:1116
 msgid "User Average"
-msgstr "Сярэдняя колькасць ачко? за дзень"
+msgstr "п║я▐я─я█п╢п╫я▐я▐ п╨п╬п╩я▄п╨п╟я│я├я▄ п╟я┤п╨п╬я· п╥п╟ п╢п╥п╣п╫я▄"
 
-# Агульная колькасць ачко? набраных на дадзеным хасце
-#: clientgui/ViewStatistics.cpp:805
+# п░пЁя┐п╩я▄п╫п╟я▐ п╨п╬п╩я▄п╨п╟я│я├я▄ п╟я┤п╨п╬я· п╫п╟п╠я─п╟п╫я▀я┘ п╫п╟ п╢п╟п╢п╥п╣п╫я▀п╪ я┘п╟я│я├п╣
+#: clientgui/ViewStatistics.cpp:1117
 msgid "Host Total"
-msgstr "Агульная колькасць ачко? для хаста"
+msgstr "п░пЁя┐п╩я▄п╫п╟я▐ п╨п╬п╩я▄п╨п╟я│я├я▄ п╟я┤п╨п╬я· п╢п╩я▐ я┘п╟я│я┌п╟"
 
-# Сярэдняя колькасць ачко? як?я наб?раюцца дадзеным хастом за дзень
-#: clientgui/ViewStatistics.cpp:825
+# п║я▐я─я█п╢п╫я▐я▐ п╨п╬п╩я▄п╨п╟я│я├я▄ п╟я┤п╨п╬я· я▐п╨я√я▐ п╫п╟п╠я√я─п╟я▌я├я├п╟ п╢п╟п╢п╥п╣п╫я▀п╪ я┘п╟я│я┌п╬п╪ п╥п╟ п╢п╥п╣п╫я▄
+#: clientgui/ViewStatistics.cpp:1118
 msgid "Host Average"
-msgstr "Сярэдняя колькасць ачко? за дзень для хаста"
+msgstr "п║я▐я─я█п╢п╫я▐я▐ п╨п╬п╩я▄п╨п╟я│я├я▄ п╟я┤п╨п╬я· п╥п╟ п╢п╥п╣п╫я▄ п╢п╩я▐ я┘п╟я│я┌п╟"
 
-#: clientgui/ViewTransfers.cpp:97
-msgid "Retry Now"
-msgstr "Па?тарыць"
+#: clientgui/ViewStatistics.cpp:1223
+#, c-format
+msgid "Last update: %.0f days ago"
+msgstr "п├п╫я└п╟я─п╪п╟я├я▀я▐ п╟п╠п╫п╟я·п╩я▐п╩п╟я│я▐: %.0f п╢п╫. п╫п╟п╥п╟п╢"
+
+#: clientgui/ViewStatistics.cpp:1565
+msgid "Show user total"
+msgstr "пёя│я▐пЁп╬ п╟я┤п╨п╬я·"
+
+#: clientgui/ViewStatistics.cpp:1566
+msgid "Show total credit for user"
+msgstr "п÷п╟п╨п╟п╥п╟я├я▄ п╟пЁя┐п╩я▄п╫я┐я▌ п╨п╬п╩я▄п╨п╟я│я├я▄ п╟я┤п╨п╬я· п╫п╟п╠я─п╟п╫я▀я┘ я┐п╢п╥п╣п╩я▄п╫я√п╨п╟п╪"
+
+#: clientgui/ViewStatistics.cpp:1572
+msgid "Show user average"
+msgstr "пё я│я▐я─я█п╢п╫я√п╪ п╥п╟ п╢п╥п╣п╫я▄"
+
+#: clientgui/ViewStatistics.cpp:1573
+msgid "Show average credit for user"
+msgstr "п÷п╟п╨п╟п╥п╟я├я▄ я│я▐я─я█п╢п╫я▌я▌ п╨п╬п╩я▄п╨п╟я│я├я▄ п╟я┤п╨п╬я· я▐п╨я√я▐ п╫п╟п╠я√я─п╟я▌я├я├п╟ я·п╢п╥п╣п╩я▄п╫я√п╨п╟п╪ п╥п╟ п╢п╥п╣п╫я▄"
+
+#: clientgui/ViewStatistics.cpp:1579
+msgid "Show host total"
+msgstr "пёя│я▐пЁп╬ п╟я┤п╨п╬я· п╢п╩я▐ я┘п╟я│я┌п╟"
+
+#: clientgui/ViewStatistics.cpp:1580
+msgid "Show total credit for host"
+msgstr "п÷п╟п╨п╟п╥п╟я├я▄ п╟пЁя┐п╩я▄п╫я┐я▌ п╨п╬п╩я▄п╨п╟я│я├я▄ п╟я┤п╨п╬я· п╫п╟п╠я─п╟п╫я▀я┘ п╫п╟ п╢п╟п╢п╥п╣п╫я▀п╪ я┘п╟я│я├п╣"
+
+#: clientgui/ViewStatistics.cpp:1586
+msgid "Show host average"
+msgstr "пё я│я▐я─я█п╢п╫я√п╪ п╢п╩я▐ я┘п╟я│я┌п╟"
+
+#: clientgui/ViewStatistics.cpp:1587
+msgid "Show average credit for host"
+msgstr "п÷п╟п╨п╟п╥п╟я├я▄ я│я▐я─я█п╢п╫я▌я▌ п╨п╬п╩я▄п╨п╟я│я├я▄ п╟я┤п╨п╬я· я▐п╨я√я▐ п╫п╟п╠я√я─п╟я▌я├я├п╟ п╢п╟п╢п╥п╣п╫я▀п╪ я┘п╟я│я┌п╬п╪ п╥п╟ п╢п╥п╣п╫я▄"
+
+#: clientgui/ViewStatistics.cpp:1596
+msgid "< &Previous project"
+msgstr "< п÷п╟п©я▐я─я█п╢п╫я√"
+
+#: clientgui/ViewStatistics.cpp:1597
+msgid "Show chart for previous project"
+msgstr "п÷п╟п╨п╟п╥п╟я├я▄ п©п╟п©я▐я─я█п╢п╫я√ п©я─п╟п╣п╨я┌ (я┐п╡п╣я─я┘)"
+
+#: clientgui/ViewStatistics.cpp:1602
+msgid "&Next project >"
+msgstr "п²п╟я│я┌я┐п©п╫я▀ >"
+
+#: clientgui/ViewStatistics.cpp:1603
+msgid "Show chart for next project"
+msgstr "п÷п╟п╨п╟п╥п╟я├я▄ п╫п╟я│я┌я┐п©п╫я▀ п©я─п╟п╣п╨я┌ (я┐п╫я√п╥)"
+
+#: clientgui/ViewStatistics.cpp:1608
+msgid "Mode view"
+msgstr "п▓я▀пЁп╩я▐п╢ пЁя─п╟я└я√п╨п╟я·"
+
+#: clientgui/ViewStatistics.cpp:1611
+msgid "All projects"
+msgstr "пёя│п╣ п©я─п╟п╣п╨я┌я▀"
+
+#: clientgui/ViewStatistics.cpp:1612
+msgid "Show all projects, one chart per project"
+msgstr "п÷п╟п╨п╟п╥п╟я├я▄ я┐я│п╣ п©я─п╟п╣п╨я┌я▀, п╨п╬п╤п╫я▀ п©я─п╟п╣п╨я┌ п╫п╟ п╟я│п╬п╠п╫я▀п╪ пЁя─п╟я└я√п╨я┐"
+
+#: clientgui/ViewStatistics.cpp:1618
+msgid "One project"
+msgstr "п░п╢п╥я√п╫ п©я─п╟п╣п╨я┌"
+
+#: clientgui/ViewStatistics.cpp:1619
+msgid "Show one chart with selected project"
+msgstr "п÷п╟п╨п╟п╥п╟я├я▄ п╟п╢п╥я√п╫ п╡я▀п╩я┐я┤п╟п╫я▀ п©я─п╟п╣п╨я┌"
+
+#: clientgui/ViewStatistics.cpp:1625
+msgid "All projects(sum)"
+msgstr "пёя│п╣ п©я─п╟п╣п╨я┌я▀ я─п╟п╥п╟п╪"
+
+#: clientgui/ViewStatistics.cpp:1626
+msgid "Show one chart with all projects"
+msgstr "п÷п╟п╨п╟п╥п╟я├я▄ я┐я│п╣ п©я─п╟п╣п╨я┌я▀ п╫п╟ п╟п╢п╫я▀п╪ пЁя─п╟я└я√я├я▀"
+
+#: clientgui/ViewStatistics.cpp:1645
+msgid "Statistics"
+msgstr "п║я┌п╟я┌я▀я│я┌я▀п╨п╟"
+
+#: clientgui/ViewStatistics.cpp:1668
+#: clientgui/ViewStatistics.cpp:1689
+#: clientgui/ViewStatistics.cpp:1710
+#: clientgui/ViewStatistics.cpp:1732
+#: clientgui/ViewStatistics.cpp:1753
+#: clientgui/ViewStatistics.cpp:1776
+#: clientgui/ViewStatistics.cpp:1799
+#: clientgui/ViewStatistics.cpp:1822
+#: clientgui/ViewStatistics.cpp:1844
+msgid "Updating charts..."
+msgstr "п░п╠п╫п╟я·п╩я▐п╣я├я├п╟ пЁя─п╟я└я√п╨..."
 
 #: clientgui/ViewTransfers.cpp:98
-msgid "Click 'Retry now' to transfer the file now"
-msgstr "Запусц?ць па?торную перадачу дадзеных"
+#: clientgui/ViewTransfersGrid.cpp:104
+msgid "Retry Now"
+msgstr "п÷п╟я·я┌п╟я─я▀я├я▄"
 
-#: clientgui/ViewTransfers.cpp:104
-msgid "Abort Transfer"
-msgstr "Выдал?ць"
+#: clientgui/ViewTransfers.cpp:99
+#: clientgui/ViewTransfersGrid.cpp:105
+msgid "Click 'Retry now' to transfer the file now"
+msgstr "п≈п╟п©я┐я│я├я√я├я▄ п©п╟я·я┌п╬я─п╫я┐я▌ п©п╣я─п╟п╢п╟я┤я┐ п╢п╟п╫п╫я▀я┘"
 
 #: clientgui/ViewTransfers.cpp:105
-msgid "Click 'Abort transfer' to delete the file from the transfer queue. This will prevent you from being granted credit for this result."
-msgstr "Выдал?ць вылучаны перадаваны файл дадзеных. УВАГА ачк? за выдалены файл могуць быць страчаныя."
+#: clientgui/ViewTransfersGrid.cpp:111
+msgid "Abort Transfer"
+msgstr "п▓я▀п╢п╟п╩я√я├я▄"
 
-#: clientgui/ViewTransfers.cpp:117
-msgid "File"
-msgstr "Файл"
+#: clientgui/ViewTransfers.cpp:106
+#: clientgui/ViewTransfersGrid.cpp:112
+msgid "Click 'Abort transfer' to delete the file from the transfer queue. This will prevent you from being granted credit for this result."
+msgstr "п▓я▀п╢п╟п╩я√я├я▄ п╡я▀п╩я┐я┤п╟п╫я▀ п©п╣я─п╟п╢п╟п╡п╟п╫я▀ я└п╟п╧п╩ п╢п╟п╫п╫я▀я┘. пёп▓п░п⌠п░ п╟я┤п╨я√ п╥п╟ п╡я▀п╢п╟п╩п╣п╫я▀ я└п╟п╧п╩ п╪п╬пЁя┐я├я▄ п╠я▀я├я▄ я│я┌я─п╟я┤п╟п╫я▀я▐."
 
 #: clientgui/ViewTransfers.cpp:118
-#: clientgui/ViewWork.cpp:135
-msgid "Progress"
-msgstr "Прагрэс"
+#: clientgui/ViewTransfersGrid.cpp:135
+msgid "File"
+msgstr "п╓п╟п╧п╩"
 
 #: clientgui/ViewTransfers.cpp:119
-msgid "Size"
-msgstr "Памер"
+#: clientgui/ViewTransfersGrid.cpp:135
+#: clientgui/ViewWork.cpp:136
+#: clientgui/ViewWorkGrid.cpp:144
+msgid "Progress"
+msgstr "п÷я─п╟пЁя─я█я│"
 
 #: clientgui/ViewTransfers.cpp:120
-msgid "Elapsed Time"
-msgstr "Час перадачы"
+#: clientgui/ViewTransfersGrid.cpp:135
+msgid "Size"
+msgstr "п÷п╟п╪п╣я─"
 
 #: clientgui/ViewTransfers.cpp:121
+#: clientgui/ViewTransfersGrid.cpp:135
+msgid "Elapsed Time"
+msgstr "п╖п╟я│ п©п╣я─п╟п╢п╟я┤я▀"
+
+#: clientgui/ViewTransfers.cpp:122
+#: clientgui/ViewTransfersGrid.cpp:135
 msgid "Speed"
-msgstr "Хуткасць"
+msgstr "п╔я┐я┌п╨п╟я│я├я▄"
 
-#: clientgui/ViewTransfers.cpp:135
+#: clientgui/ViewTransfers.cpp:136
 msgid "Transfers"
-msgstr "Перадача"
+msgstr "п÷п╣я─п╟п╢п╟я┤п╟"
 
-#: clientgui/ViewTransfers.cpp:158
+#: clientgui/ViewTransfers.cpp:159
+#: clientgui/ViewTransfersGrid.cpp:176
 msgid "Retrying transfer now..."
-msgstr "Па?торная спроба перадачы дадзеных..."
+msgstr "п÷п╟я·я┌п╬я─п╫п╟я▐ я│п©я─п╬п╠п╟ п©п╣я─п╟п╢п╟я┤я▀ п╢п╟п╫п╫я▀я┘..."
 
-#: clientgui/ViewTransfers.cpp:192
+#: clientgui/ViewTransfers.cpp:193
+#: clientgui/ViewTransfersGrid.cpp:210
 #, c-format
 msgid ""
 "Are you sure you want to abort this file transfer '%s'?\n"
 "NOTE: Aborting a transfer will invalidate a task and you\n"
 "will not receive credit for it."
 msgstr ""
-"Вы ?пэ?неныя, што жадаеце перапын?ць перадачу ? выдал?ць\n"
-"перадаваны файл \"%s\"?\n"
-"УВАГА: ачк? за выдалены файл не нал?чаюцца."
+"п▓я▀ я·п©я█я·п╫п╣п╫я▀я▐, я┬я┌п╬ п╤п╟п╢п╟п╣я├п╣ п©п╣я─п╟п©я▀п╫я√я├я▄ п©п╣я─п╟п╢п╟я┤я┐ я√ п╡я▀п╢п╟п╩я√я├я▄\n"
+"п©п╣я─п╟п╢п╟п╡п╟п╫я▀ я└п╟п╧п╩ \"%s\"?\n"
+"пёп▓п░п⌠п░: п╟я┤п╨я√ п╥п╟ п╡я▀п╢п╟п╩п╣п╫я▀ я└п╟п╧п╩ п╫п╣ п╫п╟п╩я√я┤п╟я▌я├я├п╟."
 
-#: clientgui/ViewTransfers.cpp:200
+#: clientgui/ViewTransfers.cpp:201
+#: clientgui/ViewTransfersGrid.cpp:218
 msgid "Abort File Transfer"
-msgstr "Перапыненне перадачы файла"
+msgstr "п÷п╣я─п╟п©я▀п╫п╣п╫п╫п╣ п©п╣я─п╟п╢п╟я┤я▀ я└п╟п╧п╩п╟"
 
-#: clientgui/ViewTransfers.cpp:521
+#: clientgui/ViewTransfers.cpp:522
+#: clientgui/ViewTransfersGrid.cpp:407
 msgid "Retry in "
-msgstr "Па?тор праз "
+msgstr "п÷п╟я·я┌п╬я─ п©я─п╟п╥ "
 
-#: clientgui/ViewTransfers.cpp:523
-#: clientgui/ViewWork.cpp:740
+#: clientgui/ViewTransfers.cpp:524
+#: clientgui/ViewTransfersGrid.cpp:409
+#: clientgui/ViewWork.cpp:741
+#: clientgui/ViewWorkGrid.cpp:644
 msgid "Download failed"
-msgstr "Памылка загрузк? дадзеных"
+msgstr "п÷п╟п╪я▀п╩п╨п╟ п╥п╟пЁя─я┐п╥п╨я√ п╢п╟п╫п╫я▀я┘"
 
-#: clientgui/ViewTransfers.cpp:525
-#: clientgui/ViewWork.cpp:790
+#: clientgui/ViewTransfers.cpp:526
+#: clientgui/ViewTransfersGrid.cpp:411
+#: clientgui/ViewWork.cpp:793
+#: clientgui/ViewWorkGrid.cpp:696
 msgid "Upload failed"
-msgstr "Памылка адпра?к? дадзеных"
+msgstr "п÷п╟п╪я▀п╩п╨п╟ п╟п╢п©я─п╟я·п╨я√ п╢п╟п╫п╫я▀я┘"
 
-#: clientgui/ViewTransfers.cpp:528
-#: clientgui/ViewTransfers.cpp:541
-#: clientgui/ViewWork.cpp:751
+#: clientgui/ViewTransfers.cpp:529
+#: clientgui/ViewTransfers.cpp:542
+#: clientgui/ViewTransfersGrid.cpp:414
+#: clientgui/ViewTransfersGrid.cpp:427
+#: clientgui/ViewWork.cpp:752
+#: clientgui/ViewWorkGrid.cpp:655
 msgid "Suspended"
-msgstr "Прыпыненая"
+msgstr "п÷я─я▀п©я▀п╫п╣п╫п╟я▐"
 
-#: clientgui/ViewTransfers.cpp:531
-#: clientgui/ViewWork.cpp:792
+#: clientgui/ViewTransfers.cpp:532
+#: clientgui/ViewTransfersGrid.cpp:417
+#: clientgui/ViewWork.cpp:795
+#: clientgui/ViewWorkGrid.cpp:698
 msgid "Uploading"
-msgstr "Адпра?ка дадзеных"
+msgstr "п░п╢п©я─п╟я·п╨п╟ п╢п╟п╫п╫я▀я┘"
 
-#: clientgui/ViewTransfers.cpp:531
-#: clientgui/ViewWork.cpp:742
+#: clientgui/ViewTransfers.cpp:532
+#: clientgui/ViewTransfersGrid.cpp:417
+#: clientgui/ViewWork.cpp:743
+#: clientgui/ViewWorkGrid.cpp:646
 msgid "Downloading"
-msgstr "Загрузка дадзеных"
+msgstr "п≈п╟пЁя─я┐п╥п╨п╟ п╢п╟п╫п╫я▀я┘"
 
-# не вельм?
-#: clientgui/ViewTransfers.cpp:533
+# п╫п╣ п╡п╣п╩я▄п╪я√
+#: clientgui/ViewTransfers.cpp:534
+#: clientgui/ViewTransfersGrid.cpp:419
 msgid "Upload pending"
-msgstr "Чаканне адпра?к? дадзеных"
+msgstr "п╖п╟п╨п╟п╫п╫п╣ п╟п╢п©я─п╟я·п╨я√ п╢п╟п╫п╫я▀я┘"
 
-# не вельм?
-#: clientgui/ViewTransfers.cpp:533
+# п╫п╣ п╡п╣п╩я▄п╪я√
+#: clientgui/ViewTransfers.cpp:534
+#: clientgui/ViewTransfersGrid.cpp:419
 msgid "Download pending"
-msgstr "Чаканне загрузк? дадзеных"
+msgstr "п╖п╟п╨п╟п╫п╫п╣ п╥п╟пЁя─я┐п╥п╨я√ п╢п╟п╫п╫я▀я┘"
 
-#: clientgui/ViewWork.cpp:106
+#: clientgui/ViewTransfersGrid.cpp:153
+msgid "TransfersGrid"
+msgstr "п÷п╣я─п╟п╢п╟я┤п╟"
+
+#: clientgui/ViewWork.cpp:107
+#: clientgui/ViewWorkGrid.cpp:107
 msgid "Show application graphics in a window."
-msgstr "Паказаць акно прыкладання з граф?чнаю ?нфармацыяю"
+msgstr "п÷п╟п╨п╟п╥п╟я├я▄ п╟п╨п╫п╬ п©я─я▀п╨п╩п╟п╢п╟п╫п╫я▐ п╥ пЁя─п╟я└я√я┤п╫п╟я▌ я√п╫я└п╟я─п╪п╟я├я▀я▐я▌"
 
-#: clientgui/ViewWork.cpp:113
+#: clientgui/ViewWork.cpp:114
+#: clientgui/ViewWorkGrid.cpp:114
 msgid "Suspend work for this result."
-msgstr "Прыпын?ць апрацо?ку вылучанага задання"
-
-#: clientgui/ViewWork.cpp:119
-msgid "Abort"
-msgstr "Перапын?ць апрацо?ку"
+msgstr "п÷я─я▀п©я▀п╫я√я├я▄ п╟п©я─п╟я├п╬я·п╨я┐ п╡я▀п╩я┐я┤п╟п╫п╟пЁп╟ п╥п╟п╢п╟п╫п╫я▐"
 
 #: clientgui/ViewWork.cpp:120
+#: clientgui/ViewWorkGrid.cpp:120
+msgid "Abort"
+msgstr "п÷п╣я─п╟п©я▀п╫я√я├я▄ п╟п©я─п╟я├п╬я·п╨я┐"
+
+#: clientgui/ViewWork.cpp:121
+#: clientgui/ViewWorkGrid.cpp:121
 msgid "Abandon work on the result. You will get no credit for it."
-msgstr "Перапын?ць апрацо?ку вылучанага задання (выдал?ць заданне). Ачк? за перарваныя заданн? не нал?чаюцца."
+msgstr "п÷п╣я─п╟п©я▀п╫я√я├я▄ п╟п©я─п╟я├п╬я·п╨я┐ п╡я▀п╩я┐я┤п╟п╫п╟пЁп╟ п╥п╟п╢п╟п╫п╫я▐ (п╡я▀п╢п╟п╩я√я├я▄ п╥п╟п╢п╟п╫п╫п╣). п░я┤п╨я√ п╥п╟ п©п╣я─п╟я─п╡п╟п╫я▀я▐ п╥п╟п╢п╟п╫п╫я√ п╫п╣ п╫п╟п╩я√я┤п╟я▌я├я├п╟."
 
-#: clientgui/ViewWork.cpp:132
-msgid "Application"
-msgstr "Прыкладанне"
-
-# ?мя
 #: clientgui/ViewWork.cpp:133
-msgid "Name"
-msgstr "Заданне"
+#: clientgui/ViewWorkGrid.cpp:144
+msgid "Application"
+msgstr "п÷я─я▀п╨п╩п╟п╢п╟п╫п╫п╣"
 
+# п├п╪я▐
 #: clientgui/ViewWork.cpp:134
-msgid "CPU time"
-msgstr "Час ЦП"
+#: clientgui/ViewWorkGrid.cpp:144
+msgid "Name"
+msgstr "п≈п╟п╢п╟п╫п╫п╣"
 
-#: clientgui/ViewWork.cpp:136
-msgid "To completion"
-msgstr "Засталося"
+#: clientgui/ViewWork.cpp:135
+#: clientgui/ViewWorkGrid.cpp:144
+msgid "CPU time"
+msgstr "п╖п╟я│ п╕п÷"
 
 #: clientgui/ViewWork.cpp:137
+#: clientgui/ViewWorkGrid.cpp:144
+msgid "To completion"
+msgstr "п≈п╟я│я┌п╟п╩п╬я│я▐"
+
+#: clientgui/ViewWork.cpp:138
+#: clientgui/ViewWorkGrid.cpp:144
 msgid "Report deadline"
-msgstr "Адправ?ць да"
+msgstr "п░п╢п©я─п╟п╡я√я├я▄ п╢п╟"
 
-#: clientgui/ViewWork.cpp:151
+#: clientgui/ViewWork.cpp:152
 msgid "Tasks"
-msgstr "Заданн?"
+msgstr "п≈п╟п╢п╟п╫п╫я√"
 
-#: clientgui/ViewWork.cpp:176
+#: clientgui/ViewWork.cpp:177
+#: clientgui/ViewWorkGrid.cpp:190
 msgid "Resuming task..."
-msgstr "Адна?ляецца апрацо?ка раней прыпыненага задання..."
+msgstr "п░п╢п╫п╟я·п╩я▐п╣я├я├п╟ п╟п©я─п╟я├п╬я·п╨п╟ я─п╟п╫п╣п╧ п©я─я▀п©я▀п╫п╣п╫п╟пЁп╟ п╥п╟п╢п╟п╫п╫я▐..."
 
-#: clientgui/ViewWork.cpp:180
+#: clientgui/ViewWork.cpp:181
+#: clientgui/ViewWorkGrid.cpp:194
 msgid "Suspending task..."
-msgstr "Прыпыняецца апрацо?ка вылучанага задання..."
+msgstr "п÷я─я▀п©я▀п╫я▐п╣я├я├п╟ п╟п©я─п╟я├п╬я·п╨п╟ п╡я▀п╩я┐я┤п╟п╫п╟пЁп╟ п╥п╟п╢п╟п╫п╫я▐..."
 
-#: clientgui/ViewWork.cpp:206
+#: clientgui/ViewWork.cpp:207
+#: clientgui/ViewWorkGrid.cpp:220
 msgid "Showing graphics for task..."
-msgstr "Адчыняецца акно прыкладання з граф?чнаю ?нфармацыяю..."
+msgstr "п░п╢я┤я▀п╫я▐п╣я├я├п╟ п╟п╨п╫п╬ п©я─я▀п╨п╩п╟п╢п╟п╫п╫я▐ п╥ пЁя─п╟я└я√я┤п╫п╟я▌ я√п╫я└п╟я─п╪п╟я├я▀я▐я▌..."
 
-#: clientgui/ViewWork.cpp:271
+#: clientgui/ViewWork.cpp:272
+#: clientgui/ViewWorkGrid.cpp:285
 msgid "Aborting result..."
-msgstr "Перарываецца апрацо?ка вылучанага задання..."
+msgstr "п÷п╣я─п╟я─я▀п╡п╟п╣я├я├п╟ п╟п©я─п╟я├п╬я·п╨п╟ п╡я▀п╩я┐я┤п╟п╫п╟пЁп╟ п╥п╟п╢п╟п╫п╫я▐..."
 
-#: clientgui/ViewWork.cpp:279
+#: clientgui/ViewWork.cpp:280
 #, c-format
 msgid ""
 "Are you sure you want to abort this task '%s'?\n"
 "(Progress: %s, Status: %s)"
 msgstr ""
-"Вы ?пэ?неныя, што жадаеце перапын?ць апрацо?ку вылучанага задання \"%s\"?\n"
-"(Прагрэс: %s, Стан: %s)"
+"п▓я▀ я·п©я█я·п╫п╣п╫я▀я▐, я┬я┌п╬ п╤п╟п╢п╟п╣я├п╣ п©п╣я─п╟п©я▀п╫я√я├я▄ п╟п©я─п╟я├п╬я·п╨я┐ п╡я▀п╩я┐я┤п╟п╫п╟пЁп╟ п╥п╟п╢п╟п╫п╫я▐ \"%s\"?\n"
+"(п÷я─п╟пЁя─я█я│: %s, п║я┌п╟п╫: %s)"
 
-#: clientgui/ViewWork.cpp:288
+#: clientgui/ViewWork.cpp:289
+#: clientgui/ViewWorkGrid.cpp:302
 msgid "Abort task"
-msgstr "Перапыненне апрацо?к? задання"
+msgstr "п÷п╣я─п╟п©я▀п╫п╣п╫п╫п╣ п╟п©я─п╟я├п╬я·п╨я√ п╥п╟п╢п╟п╫п╫я▐"
 
-#: clientgui/ViewWork.cpp:505
+#: clientgui/ViewWork.cpp:506
+#: clientgui/ViewWorkGrid.cpp:369
 msgid "Resume work for this task."
-msgstr "Працягнуць апрацо?ку вылучанага задання."
+msgstr "п÷я─п╟я├я▐пЁп╫я┐я├я▄ п╟п©я─п╟я├п╬я·п╨я┐ п╡я▀п╩я┐я┤п╟п╫п╟пЁп╟ п╥п╟п╢п╟п╫п╫я▐."
 
-#: clientgui/ViewWork.cpp:511
+#: clientgui/ViewWork.cpp:512
+#: clientgui/ViewWorkGrid.cpp:375
 msgid "Suspend work for this task."
-msgstr "Прыпын?ць апрацо?ку вылучанага задання"
+msgstr "п÷я─я▀п©я▀п╫я√я├я▄ п╟п©я─п╟я├п╬я·п╨я┐ п╡я▀п╩я┐я┤п╟п╫п╟пЁп╟ п╥п╟п╢п╟п╫п╫я▐"
 
-#: clientgui/ViewWork.cpp:736
+#: clientgui/ViewWork.cpp:737
+#: clientgui/ViewWorkGrid.cpp:640
 msgid "New"
-msgstr "Новае"
+msgstr "п²п╬п╡п╟п╣"
 
-#: clientgui/ViewWork.cpp:747
+#: clientgui/ViewWork.cpp:748
+#: clientgui/ViewWorkGrid.cpp:651
 msgid "Project suspended by user"
-msgstr "Праект прыпынены карыстачом"
+msgstr "п÷я─п╟п╣п╨я┌ п©я─я▀п©я▀п╫п╣п╫я▀ п╨п╟я─я▀я│я┌п╟я┤п╬п╪"
 
-# до?га
-#: clientgui/ViewWork.cpp:749
+# п╢п╬я·пЁп╟
+#: clientgui/ViewWork.cpp:750
+#: clientgui/ViewWorkGrid.cpp:653
 msgid "Task suspended by user"
-msgstr "Апрацо?ка задання прыпыненая карыстачом"
+msgstr "п░п©я─п╟я├п╬я·п╨п╟ п╥п╟п╢п╟п╫п╫я▐ п©я─я▀п©я▀п╫п╣п╫п╟я▐ п╨п╟я─я▀я│я┌п╟я┤п╬п╪"
 
-#: clientgui/ViewWork.cpp:753
+#: clientgui/ViewWork.cpp:754
+#: clientgui/ViewWorkGrid.cpp:657
 msgid " - on batteries"
-msgstr " - с?лкаванне ад акумулятара?"
+msgstr " - я│я√п╩п╨п╟п╡п╟п╫п╫п╣ п╟п╢ п╟п╨я┐п╪я┐п╩я▐я┌п╟я─п╟я·"
 
-#: clientgui/ViewWork.cpp:756
+#: clientgui/ViewWork.cpp:757
+#: clientgui/ViewWorkGrid.cpp:660
 msgid " - user active"
-msgstr " - карыстач працуе"
+msgstr " - п╨п╟я─я▀я│я┌п╟я┤ п©я─п╟я├я┐п╣"
 
-# па?за
-#: clientgui/ViewWork.cpp:759
+# п©п╟я·п╥п╟
+#: clientgui/ViewWork.cpp:760
+#: clientgui/ViewWorkGrid.cpp:663
 msgid " - computation suspended"
-msgstr " - апрацо?ка прыпыненая"
+msgstr " - п╟п©я─п╟я├п╬я·п╨п╟ п©я─я▀п©я▀п╫п╣п╫п╟я▐"
 
-#: clientgui/ViewWork.cpp:762
+#: clientgui/ViewWork.cpp:763
+#: clientgui/ViewWorkGrid.cpp:666
 msgid " - time of day"
-msgstr " - у залежнасц? ад часу сутка?"
+msgstr " - я┐ п╥п╟п╩п╣п╤п╫п╟я│я├я√ п╟п╢ я┤п╟я│я┐ я│я┐я┌п╨п╟я·"
 
-#: clientgui/ViewWork.cpp:765
+#: clientgui/ViewWork.cpp:766
+#: clientgui/ViewWorkGrid.cpp:669
 msgid " - CPU benchmarks"
-msgstr " - запушчаны тэст прадукцыйнасц?"
+msgstr " - п╥п╟п©я┐я┬я┤п╟п╫я▀ я┌я█я│я┌ п©я─п╟п╢я┐п╨я├я▀п╧п╫п╟я│я├я√"
 
-#: clientgui/ViewWork.cpp:768
+#: clientgui/ViewWork.cpp:769
+#: clientgui/ViewWorkGrid.cpp:672
 msgid " - need disk space"
-msgstr " - бракуе месцы на дыску"
+msgstr " - п╠я─п╟п╨я┐п╣ п╪п╣я│я├я▀ п╫п╟ п╢я▀я│п╨я┐"
 
-# эээээээээ, пэ?на ?сётк? працэсар перагружаны або абмежаванне загрузк? працэсара
-#: clientgui/ViewWork.cpp:771
+# я█я█я█я█я█я█я█я█я█, п©я█я·п╫п╟ я·я│я▒я┌п╨я√ п©я─п╟я├я█я│п╟я─ п©п╣я─п╟пЁя─я┐п╤п╟п╫я▀ п╟п╠п╬ п╟п╠п╪п╣п╤п╟п╡п╟п╫п╫п╣ п╥п╟пЁя─я┐п╥п╨я√ п©я─п╟я├я█я│п╟я─п╟
+#: clientgui/ViewWork.cpp:772
+#: clientgui/ViewWorkGrid.cpp:675
 msgid " - CPU throttled"
-msgstr " - абмежаванне загрузк? працэсара"
+msgstr " - п╟п╠п╪п╣п╤п╟п╡п╟п╫п╫п╣ п╥п╟пЁя─я┐п╥п╨я√ п©я─п╟я├я█я│п╟я─п╟"
 
-#: clientgui/ViewWork.cpp:775
+#: clientgui/ViewWork.cpp:776
+#: clientgui/ViewWorkGrid.cpp:679
+msgid "Waiting for memory"
+msgstr "п╖п╟п╨п╟п╫п╫п╣ п╡я▀п╥п╡п╟п╩п╣п╫п╫я▐ п╟п©п╣я─п╟я┌я▀я·п╫п╟п╣ п©п╟п╪я▐я├я√"
+
+#: clientgui/ViewWork.cpp:778
+#: clientgui/ViewWorkGrid.cpp:681
 msgid "Running"
-msgstr "Працуе"
+msgstr "п÷я─п╟я├я┐п╣"
 
-#: clientgui/ViewWork.cpp:777
-msgid "Preempted"
-msgstr "Прыпынена з наступным працягам апрацо?к?"
+#: clientgui/ViewWork.cpp:780
+#: clientgui/ViewWorkGrid.cpp:683
+msgid "Waiting"
+msgstr "п╖п╟п╨п╟п╫п╫п╣"
 
-#: clientgui/ViewWork.cpp:779
 #: clientgui/ViewWork.cpp:782
+#: clientgui/ViewWork.cpp:785
+#: clientgui/ViewWorkGrid.cpp:685
+#: clientgui/ViewWorkGrid.cpp:688
 msgid "Ready to run"
-msgstr "Гатова да запуску"
+msgstr "п⌠п╟я┌п╬п╡п╟ п╢п╟ п╥п╟п©я┐я│п╨я┐"
 
-#: clientgui/ViewWork.cpp:786
+#: clientgui/ViewWork.cpp:789
+#: clientgui/ViewWorkGrid.cpp:692
 msgid "Computation error"
-msgstr "Памылка выл?чэння?"
+msgstr "п÷п╟п╪я▀п╩п╨п╟ п╡я▀п╩я√я┤я█п╫п╫я▐я·"
 
-#: clientgui/ViewWork.cpp:798
-msgid "Aborted by user"
-msgstr "Перарвана карыстачом"
-
-# ???? удакладн?ць
 #: clientgui/ViewWork.cpp:801
+#: clientgui/ViewWorkGrid.cpp:704
+msgid "Aborted by user"
+msgstr "п÷п╣я─п╟я─п╡п╟п╫п╟ п╨п╟я─я▀я│я┌п╟я┤п╬п╪"
+
+# ???? я┐п╢п╟п╨п╩п╟п╢п╫я√я├я▄
+#: clientgui/ViewWork.cpp:804
+#: clientgui/ViewWorkGrid.cpp:707
 msgid "Aborted by project"
-msgstr "Перарвана праектам"
+msgstr "п÷п╣я─п╟я─п╡п╟п╫п╟ п©я─п╟п╣п╨я┌п╟п╪"
 
 # ???
-#: clientgui/ViewWork.cpp:804
+#: clientgui/ViewWork.cpp:807
+#: clientgui/ViewWorkGrid.cpp:710
 msgid "Aborted"
-msgstr "Перарвана"
+msgstr "п÷п╣я─п╟я─п╡п╟п╫п╟"
 
-#: clientgui/ViewWork.cpp:809
+#: clientgui/ViewWork.cpp:812
+#: clientgui/ViewWorkGrid.cpp:715
 msgid "Acknowledged"
-msgstr "Прызнана"
+msgstr "п÷я─я▀п╥п╫п╟п╫п╟"
 
-#: clientgui/ViewWork.cpp:811
+#: clientgui/ViewWork.cpp:814
+#: clientgui/ViewWorkGrid.cpp:717
 msgid "Ready to report"
-msgstr "Чакаецца пацверджанне аб прыёме дадзеных"
+msgstr "п╖п╟п╨п╟п╣я├я├п╟ п©п╟я├п╡п╣я─п╢п╤п╟п╫п╫п╣ п╟п╠ п©я─я▀я▒п╪п╣ п╢п╟п╫п╫я▀я┘"
 
-#: clientgui/ViewWork.cpp:813
+#: clientgui/ViewWork.cpp:816
+#: clientgui/ViewWorkGrid.cpp:719
 #, c-format
 msgid "Error: invalid state '%d'"
-msgstr "Памылка: invalid state \"%d\""
+msgstr "п÷п╟п╪я▀п╩п╨п╟: invalid state \"%d\""
 
-#: clientgui/ViewWork.cpp:821
+#: clientgui/ViewWork.cpp:824
+#: clientgui/ViewWorkGrid.cpp:727
 msgid "Activities suspended by user"
-msgstr "Прыпынена карыстачом"
+msgstr "п÷я─я▀п©я▀п╫п╣п╫п╟ п╨п╟я─я▀я│я┌п╟я┤п╬п╪"
 
-#: clientgui/WelcomePage.cpp:307
+#: clientgui/ViewWorkGrid.cpp:165
+msgid "TasksGrid"
+msgstr "п≈п╟п╢п╟п╫п╫я√"
+
+#: clientgui/ViewWorkGrid.cpp:293
+#, c-format
+msgid ""
+"Are you sure you want to abort this task '%s'?\n"
+"(Progress: %s %%, Status: %s)"
+msgstr ""
+"п▓я▀ я·п©я█я·п╫п╣п╫я▀я▐, я┬я┌п╬ п╤п╟п╢п╟п╣я├п╣ п©п╣я─п╟п©я▀п╫я√я├я▄ п╟п©я─п╟я├п╬я·п╨я┐ п╡я▀п╩я┐я┤п╟п╫п╟пЁп╟ п╥п╟п╢п╟п╫п╫я▐ \"%s\"?\n"
+"(п÷я─п╟пЁя─я█я│: %s, п║я┌п╟п╫: %s)"
+
+#: clientgui/WelcomePage.cpp:317
 msgid ""
 "We'll now guide you through the process of attaching\n"
 "to a project."
 msgstr ""
-"Дадзены майстар дапаможа вам падлучыцца\n"
-" да праекту размеркаваных выл?чэння?."
+"п■п╟п╢п╥п╣п╫я▀ п╪п╟п╧я│я┌п╟я─ п╢п╟п©п╟п╪п╬п╤п╟ п╡п╟п╪ п©п╟п╢п╩я┐я┤я▀я├я├п╟\n"
+" п╢п╟ п©я─п╟п╣п╨я┌я┐ я─п╟п╥п╪п╣я─п╨п╟п╡п╟п╫я▀я┘ п╡я▀п╩я√я┤я█п╫п╫я▐я·."
 
-# ууууууууу як?я канцэпты пайшл?, у амерыканцы даюць - пераход на ручное к?раванне ?жо прыдумал?.
-# думка - рухав?к Прагрэсу
-#: clientgui/WelcomePage.cpp:319
+# я┐я┐я┐я┐я┐я┐я┐я┐я┐ я▐п╨я√я▐ п╨п╟п╫я├я█п©я┌я▀ п©п╟п╧я┬п╩я√, я┐ п╟п╪п╣я─я▀п╨п╟п╫я├я▀ п╢п╟я▌я├я▄ - п©п╣я─п╟я┘п╬п╢ п╫п╟ я─я┐я┤п╫п╬п╣ п╨я√я─п╟п╡п╟п╫п╫п╣ я·п╤п╬ п©я─я▀п╢я┐п╪п╟п╩я√.
+# п╢я┐п╪п╨п╟ - я─я┐я┘п╟п╡я√п╨ п÷я─п╟пЁя─я█я│я┐
+#: clientgui/WelcomePage.cpp:329
 #, c-format
 msgid ""
 "We'll now remove this computer from %s.  You will\n"
 "be responsible for managing the BOINC client software from\n"
 "now on."
 msgstr ""
-"Кампутар адключаны ад %s. Зараз тольк? вы\n"
-"сам? адказваеце за к?раванне BOINC кл?ентам\n"
+"п п╟п╪п©я┐я┌п╟я─ п╟п╢п╨п╩я▌я┤п╟п╫я▀ п╟п╢ %s. п≈п╟я─п╟п╥ я┌п╬п╩я▄п╨я√ п╡я▀\n"
+"я│п╟п╪я√ п╟п╢п╨п╟п╥п╡п╟п╣я├п╣ п╥п╟ п╨я√я─п╟п╡п╟п╫п╫п╣ BOINC п╨п╩я√п╣п╫я┌п╟п╪\n"
 " "
 
-#: clientgui/WelcomePage.cpp:329
+#: clientgui/WelcomePage.cpp:339
 msgid "Account manager"
-msgstr "Мэнэджэр праекта?"
+msgstr "п°я█п╫я█п╢п╤я█я─ п©я─п╟п╣п╨я┌п╟я·"
 
-#: clientgui/WelcomePage.cpp:332
+#: clientgui/WelcomePage.cpp:342
 msgid ""
-"We'll now guide you through the process of adding\n"
-"an account manager."
+"We'll now guide you through the process of attaching\n"
+"to an account manager.\n"
+"\n"
+"If you want to attach to a single project, click Cancel,\n"
+"then select the 'Attach to project' menu item instead."
 msgstr ""
-"Дадзены майстар дапаможа вам падлучыцца\n"
-"да мэнэджэра праекта?."
+"п■п╟п╢п╥п╣п╫я▀ п╪п╟п╧я│я┌п╟я─ п╢п╟п©п╟п╪п╬п╤п╟ п╡п╟п╪ п©п╟п╢п╩я┐я┤я▀я├я├п╟\n"
+"п╢п╟ п╪я█п╫я█п╢п╤я█я─п╟ п©я─п╟п╣п╨я┌п╟я·.\n"
+"п п╟п╩я√ п╡я▀ п╤п╟п╢п╟п╣я├п╣ п©п╟п╢п╩я┐я┤я▀я├я├п╟ п╢п╟ п©я─п╟п╣п╨я┌я┐,\n"
+"п╫п╟я├я√я│п╫я√я├п╣ \"п░п╢п╪п╣п╫п╟\" я√ п╡я▀п╩я┐я┤я▀я├п╣ я· п╪п╣п╫я▌\n"
+"\"п║я█я─п╡я√я│/п■п╟п╢п╟я├я▄ п©я─п╟п╣п╨я┌\"."
 
 # if defined(__WXDEBUG__)
-#: clientgui/WelcomePage.cpp:341
+#: clientgui/WelcomePage.cpp:354
 msgid "Debug Flags"
 msgstr ""
 
 # if defined(__WXDEBUG__)
-#: clientgui/WelcomePage.cpp:344
+#: clientgui/WelcomePage.cpp:357
 msgid "Project Properties Failure"
 msgstr ""
 
 # if defined(__WXDEBUG__)
-#: clientgui/WelcomePage.cpp:347
+#: clientgui/WelcomePage.cpp:360
 msgid "Project Comm Failure"
 msgstr ""
 
 # if defined(__WXDEBUG__)
-#: clientgui/WelcomePage.cpp:350
+#: clientgui/WelcomePage.cpp:363
 msgid "Project Properties URL Failure"
 msgstr ""
 
 # if defined(__WXDEBUG__)
-#: clientgui/WelcomePage.cpp:353
+#: clientgui/WelcomePage.cpp:366
 msgid "Account Creation Disabled"
 msgstr ""
 
 # if defined(__WXDEBUG__)
-#: clientgui/WelcomePage.cpp:356
+#: clientgui/WelcomePage.cpp:369
 msgid "Client Account Creation Disabled"
 msgstr ""
 
 # if defined(__WXDEBUG__)
-#: clientgui/WelcomePage.cpp:359
+#: clientgui/WelcomePage.cpp:372
 msgid "Account Already Exists"
 msgstr ""
 
 # if defined(__WXDEBUG__)
-#: clientgui/WelcomePage.cpp:362
+#: clientgui/WelcomePage.cpp:375
 msgid "Project Already Attached"
 msgstr ""
 
 # if defined(__WXDEBUG__)
-#: clientgui/WelcomePage.cpp:365
+#: clientgui/WelcomePage.cpp:378
 msgid "Project Attach Failure"
 msgstr ""
 
 # if defined(__WXDEBUG__)
-#: clientgui/WelcomePage.cpp:368
+#: clientgui/WelcomePage.cpp:381
 msgid "Google Comm Failure"
 msgstr ""
 
 # if defined(__WXDEBUG__)
-#: clientgui/WelcomePage.cpp:371
+#: clientgui/WelcomePage.cpp:384
 msgid "Yahoo Comm Failure"
 msgstr ""
 
 # if defined(__WXDEBUG__)
-#: clientgui/WelcomePage.cpp:374
+#: clientgui/WelcomePage.cpp:387
 msgid "Net Detection Failure"
 msgstr ""
 
-#: clientgui/WelcomePage.cpp:379
+#: clientgui/WelcomePage.cpp:392
 msgid "To continue, click Next."
-msgstr "Для працягу нац?сн?це кнопку \"Далей\"."
+msgstr "п■п╩я▐ п©я─п╟я├я▐пЁя┐ п╫п╟я├я√я│п╫я√я├п╣ п╨п╫п╬п©п╨я┐ \"п■п╟п╩п╣п╧\"."
 
-#: clientgui/WizardAccountManager.cpp:434
-#: clientgui/WizardAttachProject.cpp:470
+#: clientgui/WizardAccountManager.cpp:437
+#: clientgui/WizardAttachProject.cpp:474
 msgid "Do you really want to cancel?"
-msgstr "Перапын?ць працэс падлучэння ?"
+msgstr "п÷п╣я─п╟п©я▀п╫я√я├я▄ п©я─п╟я├я█я│ п©п╟п╢п╩я┐я┤я█п╫п╫я▐ ?"
 
-#: clientgui/WizardAccountManager.cpp:435
-#: clientgui/WizardAttachProject.cpp:471
+#: clientgui/WizardAccountManager.cpp:438
+#: clientgui/WizardAttachProject.cpp:475
 msgid "Question"
-msgstr "Пытанне"
+msgstr "п÷я▀я┌п╟п╫п╫п╣"
 
 #: clientgui/wizardex.cpp:359
 #: clientgui/wizardex.cpp:548
 msgid "&Next >"
-msgstr "Далей >"
+msgstr "п■п╟п╩п╣п╧ >"
 
 #: clientgui/wizardex.cpp:365
 msgid "< &Back"
-msgstr "< Назад"
+msgstr "< п²п╟п╥п╟п╢"
 
 #: clientgui/wizardex.cpp:546
 msgid "&Finish"
-msgstr "Гатова"
+msgstr "п⌠п╟я┌п╬п╡п╟"
 
 # wxLogTrace
 #: clientgui/common/wxFlatNotebook.cpp:182
@@ -2367,359 +2746,213 @@ msgid "New page appended. Index = %i"
 msgstr ""
 
 # wxLogTrace
-#: clientgui/common/wxFlatNotebook.cpp:2045
+#: clientgui/common/wxFlatNotebook.cpp:2048
 #, c-format
 msgid "Old Page Index = %i"
 msgstr ""
 
 # wxLogTrace
-#: clientgui/common/wxFlatNotebook.cpp:2050
+#: clientgui/common/wxFlatNotebook.cpp:2053
 #, c-format
 msgid "OnDropTarget: index by HitTest = %i"
 msgstr ""
 
+#: clientgui/common/wxPieCtrl.cpp:191
+msgid "Pie Ctrl"
+msgstr ""
+
 #: clientgui/DlgAbout.h:52
 msgid "About BOINC Manager"
-msgstr "Аб праграме BOINC мэнэджэр..."
+msgstr "п░п╠ п©я─п╟пЁя─п╟п╪п╣ BOINC п╪я█п╫я█п╢п╤я█я─..."
 
 #: clientgui/DlgOptions.h:49
 msgid "BOINC Manager - Options"
-msgstr "BOINC мэнэджэр - налады"
+msgstr "BOINC п╪я█п╫я█п╢п╤я█я─ - п╫п╟п╩п╟п╢я▀ п©я─п╟пЁя─п╟п╪я▀"
 
 #: clientgui/DlgSelectComputer.h:49
 msgid "BOINC Manager - Select Computer"
-msgstr "BOINC мэнэджэр - падлучэнне да кампутара"
+msgstr "BOINC п╪я█п╫я█п╢п╤я█я─ - п©п╟п╢п╩я┐я┤я█п╫п╫п╣ п╢п╟ п╨п╟п╪п©я┐я┌п╟я─п╟"
 
 # //-------------------------my-------------------------------
 # my
 msgid "Requested by user"
-msgstr "Запыт ?н?цыяваны карыстачом"
+msgstr "п≈п╟п©я▀я┌ я√п╫я√я├я▀я▐п╡п╟п╫я▀ п╨п╟я─я▀я│я┌п╟я┤п╬п╪"
 
 # my Spinhenge@home
 msgid "Correspond with other users on the Spinhenge@home message boards"
-msgstr "Форум для знос?на? з ?ншым? ?дзельн?кам? праекту Spinhenge@home"
+msgstr "п╓п╬я─я┐п╪ п╢п╩я▐ п╥п╫п╬я│я√п╫п╟я· п╥ я√п╫я┬я▀п╪я√ я·п╢п╥п╣п╩я▄п╫я√п╨п╟п╪я√ п©я─п╟п╣п╨я┌я┐ Spinhenge@home"
 
 # my Spinhenge@home
 msgid "View and modify your Spinhenge@home account profile and preferences"
-msgstr "Прагляд ? змена налада? вашага  зап?су ? вашага проф?ля ? праекце Spinhenge@home"
+msgstr "п÷я─п╟пЁп╩я▐п╢ я√ п╥п╪п╣п╫п╟ п╫п╟п╩п╟п╢п╟я· п╡п╟я┬п╟пЁп╟  п╥п╟п©я√я│я┐ я√ п╡п╟я┬п╟пЁп╟ п©я─п╬я└я√п╩я▐ я· п©я─п╟п╣п╨я├п╣ Spinhenge@home"
 
 # my Spinhenge@home
 msgid "View a listing of all the computers on which you are running Spinhenge@Home"
-msgstr "Прагляд ?нфармацы? аб вашых кампутарах, як?я ?дзельн?чаюць у апрацо?цы задання? праекту Spinhenge@Home"
+msgstr "п÷я─п╟пЁп╩я▐п╢ я√п╫я└п╟я─п╪п╟я├я▀я√ п╟п╠ п╡п╟я┬я▀я┘ п╨п╟п╪п©я┐я┌п╟я─п╟я┘, я▐п╨я√я▐ я·п╢п╥п╣п╩я▄п╫я√я┤п╟я▌я├я▄ я┐ п╟п©я─п╟я├п╬я·я├я▀ п╥п╟п╢п╟п╫п╫я▐я· п©я─п╟п╣п╨я┌я┐ Spinhenge@Home"
 
 # my Spinhenge@home
 msgid "View information about your team:"
-msgstr "Прагляд ?нфармацы? аб камандзе, да якой вы далучыл?ся: "
+msgstr "п÷я─п╟пЁп╩я▐п╢ я√п╫я└п╟я─п╪п╟я├я▀я√ п╟п╠ п╨п╟п╪п╟п╫п╢п╥п╣, п╢п╟ я▐п╨п╬п╧ п╡я▀ п╢п╟п╩я┐я┤я▀п╩я√я│я▐: "
 
 # my Spinhenge@home
 msgid "Spinhenge status"
-msgstr "Стан сервера?"
+msgstr "п║я┌п╟п╫ я│п╣я─п╡п╣я─п╟я·"
 
 # my Spinhenge@home
 msgid "Current status of the Spinhenge@home server"
-msgstr "?нфармацыя аб бягучым стане сервера? праекту Spinhenge@home"
+msgstr "п├п╫я└п╟я─п╪п╟я├я▀я▐ п╟п╠ п╠я▐пЁя┐я┤я▀п╪ я│я┌п╟п╫п╣ я│п╣я─п╡п╣я─п╟я· п©я─п╟п╣п╨я┌я┐ Spinhenge@home"
 
 # my SIMAP
 msgid "Homepage of SIMAP"
-msgstr "Хатняя старонка праекту SIMAP"
+msgstr "п╔п╟я┌п╫я▐я▐ я│я┌п╟я─п╬п╫п╨п╟ п©я─п╟п╣п╨я┌я┐ SIMAP"
 
 # my Predictor@home
 msgid "Info about Russia"
-msgstr "?нфармацыя аб камандзе Russia"
+msgstr "п├п╫я└п╟я─п╪п╟я├я▀я▐ п╟п╠ п╨п╟п╪п╟п╫п╢п╥п╣ Russia"
 
 # my Predictor@home
 msgid "Info about www.elite-games.ru"
-msgstr "?нфармацыя аб камандзе www.elite-games.ru"
+msgstr "п├п╫я└п╟я─п╪п╟я├я▀я▐ п╟п╠ п╨п╟п╪п╟п╫п╢п╥п╣ www.elite-games.ru"
 
 # my Seti@home
 msgid "View information about your team: Russia"
-msgstr "Прагляд ?нфармацы? аб камандзе, да якой вы далучыл?ся: Russia"
+msgstr "п÷я─п╟пЁп╩я▐п╢ я√п╫я└п╟я─п╪п╟я├я▀я√ п╟п╠ п╨п╟п╪п╟п╫п╢п╥п╣, п╢п╟ я▐п╨п╬п╧ п╡я▀ п╢п╟п╩я┐я┤я▀п╩я√я│я▐: Russia"
 
 # my Seti@home
 msgid "View information about your team: www.elite-games.ru"
-msgstr "Прагляд ?нфармацы? аб камандзе, да якой вы далучыл?ся: www.elite-games.ru"
+msgstr "п÷я─п╟пЁп╩я▐п╢ я√п╫я└п╟я─п╪п╟я├я▀я√ п╟п╠ п╨п╟п╪п╟п╫п╢п╥п╣, п╢п╟ я▐п╨п╬п╧ п╡я▀ п╢п╟п╩я┐я┤я▀п╩я√я│я▐: www.elite-games.ru"
 
 # my Primegrid
 msgid "View detailed statistics"
-msgstr "Прагляд падрабязнае статыстык? па праектах."
+msgstr "п÷я─п╟пЁп╩я▐п╢ п©п╟п╢я─п╟п╠я▐п╥п╫п╟п╣ я│я┌п╟я┌я▀я│я┌я▀п╨я√ п©п╟ п©я─п╟п╣п╨я┌п╟я┘."
 
 # my Primegrid
 msgid "-- Support the project --"
-msgstr "-- Падтрымка праекту --"
+msgstr "-- п÷п╟п╢я┌я─я▀п╪п╨п╟ п©я─п╟п╣п╨я┌я┐ --"
 
 # my Primegrid
 msgid "Read about donations and support the project"
-msgstr "?нфармацыя аб матэрыяльнай падтрымцы ? далейшым разв?цц? праекту"
+msgstr "п├п╫я└п╟я─п╪п╟я├я▀я▐ п╟п╠ п╪п╟я┌я█я─я▀я▐п╩я▄п╫п╟п╧ п©п╟п╢я┌я─я▀п╪я├я▀ я√ п╢п╟п╩п╣п╧я┬я▀п╪ я─п╟п╥п╡я√я├я├я√ п©я─п╟п╣п╨я┌я┐"
 
 # my Einstein
 msgid "Your messages"
-msgstr "Вашы паведамленн?"
+msgstr "п▓п╟я┬я▀ п©п╟п╡п╣п╢п╟п╪п╩п╣п╫п╫я√"
 
 # my Einstein
 msgid "Links to messages that you have posted on the Einstein@Home message boards."
-msgstr "Вашы паведамленн? на форуме Einstein@Home."
+msgstr "п▓п╟я┬я▀ п©п╟п╡п╣п╢п╟п╪п╩п╣п╫п╫я√ п╫п╟ я└п╬я─я┐п╪п╣ Einstein@Home."
 
 # my  SIMAP
 msgid "Homepage of SIMAP@home"
-msgstr "Хатняя старонка праекту SIMAP@home"
+msgstr "п╔п╟я┌п╫я▐я▐ я│я┌п╟я─п╬п╫п╨п╟ п©я─п╟п╣п╨я┌я┐ SIMAP@home"
 
 # my Rosetta
 msgid "View a listing of all the computers on which you are running Rosetta@home"
-msgstr "Прагляд ?нфармацы? аб вашых кампутарах, як?я ?дзельн?чаюць у апрацо?цы задання? праекту Rosetta@home"
+msgstr "п÷я─п╟пЁп╩я▐п╢ я√п╫я└п╟я─п╪п╟я├я▀я√ п╟п╠ п╡п╟я┬я▀я┘ п╨п╟п╪п©я┐я┌п╟я─п╟я┘, я▐п╨я√я▐ я·п╢п╥п╣п╩я▄п╫я√я┤п╟я▌я├я▄ я┐ п╟п©я─п╟я├п╬я·я├я▀ п╥п╟п╢п╟п╫п╫я▐я· п©я─п╟п╣п╨я┌я┐ Rosetta@home"
 
 # my Rosetta
 msgid "View and modify your Rosetta@home account profile and preferences"
-msgstr "Прагляд ? змена налада? вашага  зап?су ? вашага проф?ля ? праекце Rosetta@home"
+msgstr "п÷я─п╟пЁп╩я▐п╢ я√ п╥п╪п╣п╫п╟ п╫п╟п╩п╟п╢п╟я· п╡п╟я┬п╟пЁп╟  п╥п╟п©я√я│я┐ я√ п╡п╟я┬п╟пЁп╟ п©я─п╬я└я√п╩я▐ я· п©я─п╟п╣п╨я├п╣ Rosetta@home"
 
 # my Rosetta
 msgid "Correspond with other users on the Rosetta@home message boards"
-msgstr "Форум для знос?на? з ?ншым? ?дзельн?кам? праекту Rosetta@home"
+msgstr "п╓п╬я─я┐п╪ п╢п╩я▐ п╥п╫п╬я│я√п╫п╟я· п╥ я√п╫я┬я▀п╪я√ я·п╢п╥п╣п╩я▄п╫я√п╨п╟п╪я√ п©я─п╟п╣п╨я┌я┐ Rosetta@home"
 
 # my Leiden Classical
 #: clientgui/Localization.cpp:125
 msgid "Get help about Leiden Classical"
-msgstr "Дапамога па праекце Leiden Classical"
+msgstr "п■п╟п©п╟п╪п╬пЁп╟ п©п╟ п©я─п╟п╣п╨я├п╣ Leiden Classical"
 
 # my QMC@HOME
-#: clientgui/Localization.cpp:125
 msgid "Get help about QMC@HOME"
-msgstr "Дапамога па праекце QMC@HOME"
+msgstr "п■п╟п©п╟п╪п╬пЁп╟ п©п╟ п©я─п╟п╣п╨я├п╣ QMC@HOME"
 
 # my QMC@HOME
-#: clientgui/Localization.cpp:125
 msgid "More"
-msgstr "Пазнаць больш"
+msgstr "п÷п╟п╥п╫п╟я├я▄ п╠п╬п╩я▄я┬"
 
 # my QMC@HOME
-#: clientgui/Localization.cpp:125
 msgid "More on QMC@HOME"
-msgstr "Атрымаць больш ?нфармацы? аб праекце QMC@HOME"
+msgstr "п░я┌я─я▀п╪п╟я├я▄ п╠п╬п╩я▄я┬ я√п╫я└п╟я─п╪п╟я├я▀я√ п╟п╠ п©я─п╟п╣п╨я├п╣ QMC@HOME"
 
 # my QMC@HOME
-#: clientgui/Localization.cpp:125
 msgid "Project infos"
-msgstr "?нфармацыя аб праекце"
+msgstr "п├п╫я└п╟я─п╪п╟я├я▀я▐ п╟п╠ п©я─п╟п╣п╨я├п╣"
+
+# my QMC@HOME
+msgid "Project informations"
+msgstr "п├п╫я└п╟я─п╪п╟я├я▀я▐ п╟п╠ п©я─п╟п╣п╨я├п╣"
 
 # my QMC@HOME
 #: clientgui/Localization.cpp:125
 msgid "More on QMC@HOME workunits"
-msgstr "Атрымаць больш ?нфармацы? аб праекце QMC@HOME"
+msgstr "п░я┌я─я▀п╪п╟я├я▄ п╠п╬п╩я▄я┬ я√п╫я└п╟я─п╪п╟я├я▀я√ п╟п╠ п©я─п╟п╣п╨я├п╣ QMC@HOME"
 
 # my RALPH@home
 msgid "Correspond with other users on the RALPH@home message boards"
-msgstr "Форум для знос?на? з ?ншым? ?дзельн?кам? праекту RALPH@home"
+msgstr "п╓п╬я─я┐п╪ п╢п╩я▐ п╥п╫п╬я│я√п╫п╟я· п╥ я√п╫я┬я▀п╪я√ я·п╢п╥п╣п╩я▄п╫я√п╨п╟п╪я√ п©я─п╟п╣п╨я┌я┐ RALPH@home"
 
 # my RALPH@home
 msgid "View and modify your RALPH@home account profile and preferences"
-msgstr "Прагляд ? змена налада? вашага  зап?су ? вашага проф?ля ? праекце RALPH@home"
+msgstr "п÷я─п╟пЁп╩я▐п╢ я√ п╥п╪п╣п╫п╟ п╫п╟п╩п╟п╢п╟я· п╡п╟я┬п╟пЁп╟  п╥п╟п©я√я│я┐ я√ п╡п╟я┬п╟пЁп╟ п©я─п╬я└я√п╩я▐ я· п©я─п╟п╣п╨я├п╣ RALPH@home"
 
 # my RALPH@home
 msgid "View a listing of all the computers on which you are running RALPH@home"
-msgstr "Прагляд ?нфармацы? аб вашых кампутарах, як?я ?дзельн?чаюць у апрацо?цы задання? праекту RALPH@home"
+msgstr "п÷я─п╟пЁп╩я▐п╢ я√п╫я└п╟я─п╪п╟я├я▀я√ п╟п╠ п╡п╟я┬я▀я┘ п╨п╟п╪п©я┐я┌п╟я─п╟я┘, я▐п╨я√я▐ я·п╢п╥п╣п╩я▄п╫я√я┤п╟я▌я├я▄ я┐ п╟п©я─п╟я├п╬я·я├я▀ п╥п╟п╢п╟п╫п╫я▐я· п©я─п╟п╣п╨я┌я┐ RALPH@home"
 
 # my SETI@Home
 msgid "Donate"
-msgstr "Падтрымаць праект"
+msgstr "п÷п╟п╢я┌я─я▀п╪п╟я├я▄ п©я─п╟п╣п╨я┌"
 
 # my SETI@Home
 msgid "Donate to SETI@home"
-msgstr "Падтрымаць праект SETI@home матэрыяльна $ :)"
+msgstr "п÷п╟п╢я┌я─я▀п╪п╟я├я▄ п©я─п╟п╣п╨я┌ SETI@home п╪п╟я┌я█я─я▀я▐п╩я▄п╫п╟ :)"
 
 # my XtremLab
 msgid "View your account informations"
-msgstr "Прагляд ?нфармацы? аб вашым ул?ковым зап?се"
+msgstr "п÷я─п╟пЁп╩я▐п╢ я√п╫я└п╟я─п╪п╟я├я▀я√ п╟п╠ п╡п╟я┬я▀п╪ я┐п╩я√п╨п╬п╡я▀п╪ п╥п╟п©я√я│п╣"
 
 # my XtremLab
 msgid "Introduction"
-msgstr "Ап?санне праекту"
+msgstr "п░п©я√я│п╟п╫п╫п╣ п©я─п╟п╣п╨я┌я┐"
 
 # my XtremLab
 msgid "An Introduction to XtremLab"
-msgstr "Знаёмства з праектам XtremLab"
+msgstr "п≈п╫п╟я▒п╪я│я┌п╡п╟ п╥ п©я─п╟п╣п╨я┌п╟п╪ XtremLab"
 
 # my CPDN
 msgid "Help Desk"
-msgstr "Дапамога"
+msgstr "п■п╟п©п╟п╪п╬пЁп╟"
 
 # my CPDN
 msgid "Get help from project staff and users with the experiment"
-msgstr "Тут можна атрымаць дапамогу па праекце ? эксперыментам ад арган?затара? ? ?дзельн?ка?."
+msgstr "п╒я┐я┌ п╪п╬п╤п╫п╟ п╟я┌я─я▀п╪п╟я├я▄ п╢п╟п©п╟п╪п╬пЁя┐ п©п╟ п©я─п╟п╣п╨я├п╣ я√ я█п╨я│п©п╣я─я▀п╪п╣п╫я┌п╟п╪ п╟п╢ п╟я─пЁп╟п╫я√п╥п╟я┌п╟я─п╟я· я√ я·п╢п╥п╣п╩я▄п╫я√п╨п╟я·."
 
 # my CPDN
 msgid "User Forum"
-msgstr "Форум удзельн?ка?"
+msgstr "п╓п╬я─я┐п╪ я┐п╢п╥п╣п╩я▄п╫я√п╨п╟я·"
 
 # my CPDN
 msgid "Speak to other users about this experiment"
-msgstr "Форум для знос?на? з ?ншым? ?дзельн?кам? праекту"
+msgstr "п╓п╬я─я┐п╪ п╢п╩я▐ п╥п╫п╬я│я√п╫п╟я· п╥ я√п╫я┬я▀п╪я√ я·п╢п╥п╣п╩я▄п╫я√п╨п╟п╪я√ п©я─п╟п╣п╨я┌я┐"
 
 # my Chess960@home
 msgid "Get help and chat with other users"
-msgstr "Форум для знос?на? з ?ншым? ?дзельн?кам? праекту"
+msgstr "п╓п╬я─я┐п╪ п╢п╩я▐ п╥п╫п╬я│я√п╫п╟я· п╥ я√п╫я┬я▀п╪я√ я·п╢п╥п╣п╩я▄п╫я√п╨п╟п╪я√ п©я─п╟п╣п╨я┌я┐"
 
 # my Riesel Sieve Project
 msgid "Your Account"
-msgstr "Ваш ул?ковы зап?с"
+msgstr "п▓п╟я┬ я┐п╩я√п╨п╬п╡я▀ п╥п╟п©я√я│"
 
 # my Riesel Sieve Project
 msgid "View and edit project settings"
-msgstr "Прагляд ? змена налада? вашага  зап?су"
+msgstr "п÷я─п╟пЁп╩я▐п╢ я√ п╥п╪п╣п╫п╟ п╫п╟п╩п╟п╢п╟я· п╡п╟я┬п╟пЁп╟  п©я─п╟п╣п╨я┌я┐"
 
 # my Riesel Sieve Project
 msgid "Top Participant Stats"
-msgstr "Лепшыя ?дзельн?к?"
+msgstr "п⌡п╣п©я┬я▀я▐ я·п╢п╥п╣п╩я▄п╫я√п╨я√"
 
 # my Riesel Sieve Project
 msgid "Stats showing scores by user"
-msgstr "Статыстыка ?дзельн?ка? праекту"
-
-# //-------------------------old-------------------------------
-# v1.34
-#: clientgui/CompletionErrorPage.cpp:216
-msgid ""
-"An error has occurred, please check the messages tab for further\n"
-"details.\n"
-"\n"
-"Click Finish to close."
-msgstr ""
-"Адбылася памылка, падрабязнасц? можна паглядзець\n"
-"на старонцы паведамлення?.\n"
-"\n"
-"Для завяршэння нац?сн?це кнопку \"Гатова\"."
-
-# v1.34
-# не адпаведнасць колькасц? радко? у перакладзе
-#: clientgui/AccountInfoPage.cpp:446
-#, c-format
-msgid "The minimum password length for this project is %d. Please choose a different password."
-msgstr ""
-"М?н?мальная да?жыня пароля для дадзенага праекту %d знака?.\n"
-"Змен?це пароль у адпаведнасць з дадзеным крытэрам."
-
-# v1.34
-# не адпаведнасць колькасц? радко? у перакладзе
-#: clientgui/AccountInfoPage.cpp:452
-#, c-format
-msgid "The minimum password length for this account manager is %d. Please choose a different password."
-msgstr ""
-"М?н?мальная да?жыня пароля для дадзенага мэнэджэра праекта? %d знака?.\n"
-"Змен?це пароль у адпаведнасць з дадзеным крытэрам."
-
-# v1.34
-#: clientgui/AccountInfoPage.cpp:399
-msgid ""
-"Enter the email address and password you used on\n"
-"the web site."
-msgstr ""
-"Увядз?це адрас электроннае пошты ? пароль як?я\n"
-"вы паказал? пры рэг?страцы? на сайце праекту."
-
-# v1.33
-# перараб?ць !!!
-#: clientgui/DlgDialupCredentials.h:49
-msgid "BOINC Manager - Dialup Logon"
-msgstr "BOINC мэнэджэр - усталё?ка мадэмнага злучэння"
-
-# v1.33
-#: clientgui/WelcomePage.cpp:331
-msgid ""
-"We'll now guide you through the process of adding an account\n"
-"manager."
-msgstr ""
-"Дадзены майстар дапаможа вам падлучыцца да мэнэджэра\n"
-"праекта?."
-
-# v1.33
-#: clientgui/WelcomePage.cpp:307
-msgid "We'll now guide you through the process of attaching to a project."
-msgstr ""
-"Дадзены майстар дапаможа вам падлучыцца да праекту\n"
-"размеркаваных выл?чэння?."
-
-# v1.33
-#: clientgui/ViewWork.cpp:757
-msgid "Activities suspended"
-msgstr "Па?за"
-
-# v1.33
-#: clientgui/MainFrame.cpp:363
-msgid "&Account manager"
-msgstr "Мэнэджэр праекта?"
-
-# v1.33
-#: clientgui/DlgDialupCredentials.cpp:111
-msgid "Username:"
-msgstr "?мя карыстача:"
-
-# v1.33
-#: clientgui/AccountManagerInfoPage.cpp:173
-#: clientgui/ProjectInfoPage.cpp:229
-msgid "You can copy and paste the URL from your browser's address bar."
-msgstr "Можна скап?яваць дадзены адрас з  радка бра?зэра."
-
-# v1.32
-#: clientgui/ViewWork.cpp:527
-msgid "Hide application graphics window."
-msgstr "Зачын?ць акно прыкладання з граф?чнаю ?нфармацыяю"
-
-# v1.32
-#: clientgui/ViewWork.cpp:526
-msgid "Hide graphics"
-msgstr "Схаваць граф?ку"
-
-# v1.32
-#: clientgui/ProxyInfoPage.cpp:193
-msgid ""
-"BOINC failed to communicate on the Internet. The most likely\n"
-"reasons are:\n"
-"\n"
-"1) Personal firewall software is blocking BOINC. You must\n"
-"configure your personal firewall to let BOINC communicate\n"
-"on port 80. Once this is fixed, click Back to try again.\n"
-"\n"
-"2) You are using a proxy server and BOINC needs to know\n"
-"about it."
-msgstr ""
-"BOINC не можа падлучыцца да ?нтэрнэту.\n"
-"Магчымыя чынн?к? гэтага:\n"
-"\n"
-"1) Ваш персанальны брандма?эр блакуе выхад BOINC у ?нтэрнэт.\n"
-"Для рашэння гэтае праблемы дадайце ? наладах брандма?эра\n"
-"дазвол на доступ BOINC у ?нтэрнэт праз порт 80.\n"
-"Кал? праблема вырашаная, то нац?сн?це \"< Назад\" ? па?торыце спробу.\n"
-"\n"
-"2) Вы выкарыстаеце прокс? сервер для выхаду ? ?нтэрнэт."
-
-# v1.32
-#: clientgui/NotFoundPage.cpp:176
-msgid "Account not found"
-msgstr "Паказаны ?л?ковы зап?с не ?снуе"
-
-# v1.32
-#: clientgui/BOINCDialupManager.cpp:402
-#, c-format
-msgid "%s has detected it is now connected to the Internet. Updating all projects and retrying all transfers."
-msgstr "%s выяв?? усталяванае падлучэнне да ?нтэрнэту. ?дзе абмен файлам? дадзеных ? абна?ленне ?нфармацы? аб праектах."
-
-# v1.32
-#: clientgui/BOINCDialupManager.cpp:312
-#, c-format
-msgid ""
-"%s is unable to communicate with a project and no default connection is specified.\n"
-"Please connect up to the Internet or specify a default connection via the connections\n"
-"tab in the Options dialog off of the advanced menu."
-msgstr ""
-"%s не змог звязацца з праектам ? не знайшо? падлучэнн? па зма?чанн?.\n"
-"Падлучыцеся да ?нтэрнэту або задайце падлучэнне па зма?чанн?\n"
-"на ?кладцы 'Параметры падлучэння' у дыялогавым акне 'Налады'."
-
-# v1.32
-#: clientgui/BOINCDialupManager.cpp:225
-#, c-format
-msgid "%s needs a connection to the Internet to perform some maintenance, open the %s to connect up and perform the needed work."
-msgstr "%s неабходна падлучыцца да ?нтэрнэту. Адкрыйце %s для пачатку злучэння."
-
-# v1.31
-msgid "Are you sure you want to abort this task '%s'?"
-msgstr "Вы ?пэ?неныя, што жадаеце перапын?ць апрацо?ку вылучанага задання \"%s\"?"
+msgstr "п║я┌п╟я┌я▀я│я┌я▀п╨п╟ я·п╢п╥п╣п╩я▄п╫я√п╨п╟я· п©я─п╟п╣п╨я┌я┐"
 
