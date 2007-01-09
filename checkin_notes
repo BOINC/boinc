@@ -305,3 +305,18 @@ Charlie 8 Jan 2007
     mac_build/
         boinc.xcodeproj/
             project.pbxproj
+
+Rom    9 Jan 2007
+    - MGR: Fix crashing issue do to invalid type casts, wxWidgets implements
+        its own form of type casts for C++ objects which probably uses
+        the basic RTTI of the compiler at some level, but it also has a few
+        checks and balences as well. So if you get a hankering of using
+        dynamic_cast or static_cast use wxDynamicCast and wxStaticCast
+        instead.
+    - MGR: Remove the ifdefs for SIMPLE GUI, it is now enabled by default
+        on all supported platforms.
+        
+    clientgui/
+        AdvancedFrame.cpp
+        BOINCGridCtrl.cpp
+        BOINCGUIApp.cpp

@@ -323,7 +323,6 @@ bool CAdvancedFrame::CreateMenu() {
         strMenuDescription
     );
 
-#ifdef SIMPLEGUI
     // View menu
     wxMenu *menuView = new wxMenu;
 
@@ -332,7 +331,6 @@ bool CAdvancedFrame::CreateMenu() {
         _("&Simple View"),
         _("Display the simple BOINC graphical interface.")
     );
-#endif
 
     // Tools menu
     wxMenu *menuTools = new wxMenu;
@@ -528,12 +526,10 @@ bool CAdvancedFrame::CreateMenu() {
         menuFile,
         _("&File")
     );
-#ifdef SIMPLEGUI
     m_pMenubar->Append(
         menuView,
         _("&View")
     );
-#endif
     m_pMenubar->Append(
         menuTools,
         _("&Tools")
@@ -1071,9 +1067,7 @@ void CAdvancedFrame::Onread_config(wxCommandEvent& WXUNUSED(event)) {
 void CAdvancedFrame::OnSwitchGUI(wxCommandEvent& WXUNUSED(event)) {
     wxLogTrace(wxT("Function Start/End"), wxT("CAdvancedFrame::OnSwitchGUI - Function Begin"));
 
-#ifdef SIMPLEGUI
     wxGetApp().SetActiveGUI(BOINC_SIMPLEGUI, true);
-#endif
 
     wxLogTrace(wxT("Function Start/End"), wxT("CAdvancedFrame::OnSwitchGUI - Function End"));
 }

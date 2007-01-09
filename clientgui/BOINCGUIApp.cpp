@@ -38,6 +38,8 @@
 #include "miofile.h"
 #include "parse.h"
 #include "Events.h"
+#include "common/wxAnimate.h"
+#include "common/wxFlatNotebook.h"
 #include "LogBOINC.h"
 #include "BOINCGUIApp.h"
 #include "SkinManager.h"
@@ -45,16 +47,10 @@
 #include "BOINCTaskBar.h"
 #include "BOINCBaseFrame.h"
 #include "AdvancedFrame.h"
-#include "DlgGenericMessage.h"
-
-
-#ifdef SIMPLEGUI
-#include "common/wxAnimate.h"
-#include "common/wxFlatNotebook.h"
 #include "sg_ImageLoader.h"
 #include "sg_StatImageLoader.h"
 #include "sg_BoincSimpleGUI.h"
-#endif
+#include "DlgGenericMessage.h"
 
 static bool s_bSkipExitConfirmation;
 
@@ -96,11 +92,7 @@ bool CBOINCGUIApp::OnInit() {
     m_strDefaultDesktop = wxEmptyString;
     m_strDefaultDisplay = wxEmptyString;
     m_lBOINCCoreProcessId = 0;
-#ifdef SIMPLEGUI
     m_iGUISelected = BOINC_SIMPLEGUI;
-#else
-    m_iGUISelected = BOINC_ADVANCEDGUI;
-#endif
 #ifdef __WXMSW__
     m_hBOINCCoreProcess = NULL;
     m_hClientLibraryDll = NULL;
@@ -273,10 +265,8 @@ bool CBOINCGUIApp::OnInit() {
 
     m_pDocument->OnInit();
 
-#ifdef SIMPLEGUI
     // Which GUI should be displayed?
     m_iGUISelected = m_pConfig->Read(wxT("GUISelection"), BOINC_SIMPLEGUI);
-#endif
 
     // Initialize the task bar icon
 #if defined(__WXMSW__) || defined(__WXMAC__)
@@ -970,13 +960,13 @@ void CBOINCGUIApp::FireReloadSkin() {
 
 
 bool CBOINCGUIApp::SetActiveGUI(int iGUISelection, bool bShowWindow) {
-#ifdef SIMPLEGUI
     CBOINCBaseFrame* pNewFrame = NULL;
 
     // Create the new window
     if ((iGUISelection != m_iGUISelected) || !m_pFrame) {
         switch(iGUISelection) {
             case BOINC_SIMPLEGUI:
+            default:
                 // Initialize the simple gui window
                 pNewFrame = new CSimpleFrame(
                     m_pSkinManager->GetAdvanced()->GetApplicationName(), 
@@ -984,7 +974,6 @@ bool CBOINCGUIApp::SetActiveGUI(int iGUISelection, bool bShowWindow) {
                 );
                 break;
             case BOINC_ADVANCEDGUI:
-            default:
                 // Initialize the advanced gui window
                 pNewFrame = new CAdvancedFrame(
                     m_pSkinManager->GetAdvanced()->GetApplicationName(), 
@@ -1008,18 +997,6 @@ bool CBOINCGUIApp::SetActiveGUI(int iGUISelection, bool bShowWindow) {
             m_pFrame = pNewFrame;
         }
     }
-#else       // ifndef SIMPLEGUI
-    if (!m_pFrame) {
-        // Initialize the advanced gui window
-        iGUISelection = BOINC_ADVANCEDGUI;
-        m_pFrame = new CAdvancedFrame(
-            m_pSkinManager->GetAdvanced()->GetApplicationName(), 
-            m_pSkinManager->GetAdvanced()->GetApplicationIcon()
-        );
-        wxASSERT(m_pFrame);
-        SetTopWindow(m_pFrame);
-    }
-#endif
 
     // Show the new frame if needed 
     if (m_pFrame && bShowWindow) m_pFrame->Show();
