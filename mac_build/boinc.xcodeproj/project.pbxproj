@@ -292,6 +292,10 @@
 		DDB693500ABFE9C600689FD8 /* procinfo_mac.C in Sources */ = {isa = PBXBuildFile; fileRef = DDB6934F0ABFE9C600689FD8 /* procinfo_mac.C */; };
 		DDBDF4AD0987093100464F83 /* ValidateEmailAddress.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DDBDF4A90987091800464F83 /* ValidateEmailAddress.cpp */; };
 		DDC63EF10985B89600383FD2 /* DlgGenericMessage.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DDC63EEF0985B89600383FD2 /* DlgGenericMessage.cpp */; };
+		DDCDCDF40B532433009BB03C /* ViewMessagesGrid.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DDCDCDF00B532433009BB03C /* ViewMessagesGrid.cpp */; };
+		DDCDCDF50B532433009BB03C /* ViewMessagesGrid.h in CopyFiles */ = {isa = PBXBuildFile; fileRef = DDCDCDF10B532433009BB03C /* ViewMessagesGrid.h */; };
+		DDCDCDF60B532433009BB03C /* ViewProjectsGrid.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DDCDCDF20B532433009BB03C /* ViewProjectsGrid.cpp */; };
+		DDCDCDF70B532433009BB03C /* ViewProjectsGrid.h in CopyFiles */ = {isa = PBXBuildFile; fileRef = DDCDCDF30B532433009BB03C /* ViewProjectsGrid.h */; };
 		DDCE78390A70BDC6008218B6 /* app_ipc.C in Sources */ = {isa = PBXBuildFile; fileRef = AA8B6B1B046C364400A80164 /* app_ipc.C */; };
 		DDCE783B0A70BDFD008218B6 /* proxy_info.C in Sources */ = {isa = PBXBuildFile; fileRef = DD344BEF07C5B1770043025C /* proxy_info.C */; };
 		DDD095490A3EDF2D00C95BA4 /* switcher.C in Sources */ = {isa = PBXBuildFile; fileRef = DDD095480A3EDF2D00C95BA4 /* switcher.C */; };
@@ -885,6 +889,8 @@
 			files = (
 				DD3E15360A774397007E0084 /* SystemMenu.bundle in CopyFiles */,
 				DD2EA0860B4B22010073B1AA /* BOINCGridCtrl.h in CopyFiles */,
+				DDCDCDF50B532433009BB03C /* ViewMessagesGrid.h in CopyFiles */,
+				DDCDCDF70B532433009BB03C /* ViewProjectsGrid.h in CopyFiles */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1181,6 +1187,10 @@
 		DDCAD7DA0A6C603A0086C7EE /* sg_StatImageLoader.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = sg_StatImageLoader.h; path = ../clientgui/sg_StatImageLoader.h; sourceTree = SOURCE_ROOT; };
 		DDCAD7DB0A6C603A0086C7EE /* sg_ViewTabPage.cpp */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.cpp.cpp; name = sg_ViewTabPage.cpp; path = ../clientgui/sg_ViewTabPage.cpp; sourceTree = SOURCE_ROOT; };
 		DDCAD7DC0A6C603A0086C7EE /* sg_ViewTabPage.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = sg_ViewTabPage.h; path = ../clientgui/sg_ViewTabPage.h; sourceTree = SOURCE_ROOT; };
+		DDCDCDF00B532433009BB03C /* ViewMessagesGrid.cpp */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.cpp.cpp; name = ViewMessagesGrid.cpp; path = ../clientgui/ViewMessagesGrid.cpp; sourceTree = SOURCE_ROOT; };
+		DDCDCDF10B532433009BB03C /* ViewMessagesGrid.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = ViewMessagesGrid.h; path = ../clientgui/ViewMessagesGrid.h; sourceTree = SOURCE_ROOT; };
+		DDCDCDF20B532433009BB03C /* ViewProjectsGrid.cpp */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.cpp.cpp; name = ViewProjectsGrid.cpp; path = ../clientgui/ViewProjectsGrid.cpp; sourceTree = SOURCE_ROOT; };
+		DDCDCDF30B532433009BB03C /* ViewProjectsGrid.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = ViewProjectsGrid.h; path = ../clientgui/ViewProjectsGrid.h; sourceTree = SOURCE_ROOT; };
 		DDCE782E0A70BD55008218B6 /* wxAnimate.cpp */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.cpp.cpp; name = wxAnimate.cpp; path = ../clientgui/common/wxAnimate.cpp; sourceTree = SOURCE_ROOT; };
 		DDCE782F0A70BD55008218B6 /* wxAnimate.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = wxAnimate.h; path = ../clientgui/common/wxAnimate.h; sourceTree = SOURCE_ROOT; };
 		DDCE78300A70BD55008218B6 /* wxFlatNotebook.cpp */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.cpp.cpp; name = wxFlatNotebook.cpp; path = ../clientgui/common/wxFlatNotebook.cpp; sourceTree = SOURCE_ROOT; };
@@ -1602,8 +1612,12 @@
 				DD81C46507C5D29F0098A04D /* ValidateURL.h */,
 				DD81C42507C5D1D70098A04D /* ViewMessages.cpp */,
 				DD81C46407C5D29F0098A04D /* ViewMessages.h */,
+				DDCDCDF00B532433009BB03C /* ViewMessagesGrid.cpp */,
+				DDCDCDF10B532433009BB03C /* ViewMessagesGrid.h */,
 				DD81C42407C5D1D70098A04D /* ViewProjects.cpp */,
 				DD81C46307C5D29F0098A04D /* ViewProjects.h */,
+				DDCDCDF20B532433009BB03C /* ViewProjectsGrid.cpp */,
+				DDCDCDF30B532433009BB03C /* ViewProjectsGrid.h */,
 				DD81C42307C5D1D70098A04D /* ViewResources.cpp */,
 				DD81C47207C5D2BF0098A04D /* ViewResources.h */,
 				DDEF388E0802B73500E87552 /* ViewStatistics.cpp */,
@@ -2746,6 +2760,8 @@
 				DD2EA06D0B4B20570073B1AA /* ViewTransfersGrid.cpp in Sources */,
 				DD2EA06F0B4B20570073B1AA /* ViewWorkGrid.cpp in Sources */,
 				DD2EA0850B4B22010073B1AA /* BOINCGridCtrl.cpp in Sources */,
+				DDCDCDF40B532433009BB03C /* ViewMessagesGrid.cpp in Sources */,
+				DDCDCDF60B532433009BB03C /* ViewProjectsGrid.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

@@ -297,3 +297,11 @@ David  8 Jan 2007
 		client_types.h
 		cs_scheduler.C
 		scheduler_op.C
+
+Charlie 8 Jan 2007
+    - Mac: update XCode project for new ViewMessagesGrid, ViewProjectsGrid 
+        source files.
+
+    mac_build/
+        boinc.xcodeproj/
+            project.pbxproj
