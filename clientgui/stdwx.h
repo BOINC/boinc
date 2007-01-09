@@ -183,6 +183,7 @@
 #include <vector>
 #include <stack>
 #include <list>
+#include <set>
 
 
 #ifdef _WIN32

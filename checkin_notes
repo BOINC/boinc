@@ -339,3 +339,15 @@ Walt   9 Jan 2007
     
     client/
         procinfo_unix.cpp
+
+David  9 Jan 2007
+	- Manager: get rid of "CPU throttled" messages
+	- Manager: enhancements to Statistics tab
+		(can click on project name in multi-project view)
+		from Mifistor_x
+
+	clientgui/
+		ViewStatistics.cpp,h
+		ViewWork.cpp
+		ViewWorkGrid.cpp
+		stdwx.h
