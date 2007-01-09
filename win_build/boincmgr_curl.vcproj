@@ -1191,6 +1191,26 @@
 			<File
 				RelativePath="..\lib\win_util.C"
 				>
+				<FileConfiguration
+					Name="Release|Win32"
+					>
+					<Tool
+						Name="VCCLCompilerTool"
+						CompileAs="2"
+					/>
+				</FileConfiguration>
+				<FileConfiguration
+					Name="Release (SimpleGUI)|Win32"
+					>
+					<Tool
+						Name="VCCLCompilerTool"
+						CompileAs="2"
+					/>
+				</FileConfiguration>
+			</File>
+			<File
+				RelativePath="..\lib\win_util.h"
+				>
 			</File>
 		</Filter>
 		<Filter

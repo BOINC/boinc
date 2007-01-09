@@ -320,3 +320,12 @@ Rom    9 Jan 2007
         AdvancedFrame.cpp
         BOINCGridCtrl.cpp
         BOINCGUIApp.cpp
+
+Rom    9 Jan 2007
+    - Win BUILD: Remember, when adding .C files to VS project files, you need
+        to change the compiler type to C++ for ALL build configurations.
+        
+    win_build/
+        boinc_dll.vcproj
+        boinc_ss.vcproj
+        boincmgr_curl.vcproj

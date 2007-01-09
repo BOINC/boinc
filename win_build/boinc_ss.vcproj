@@ -636,6 +636,10 @@
 				RelativePath="..\client\win\win_screensaver.h"
 				>
 			</File>
+			<File
+				RelativePath="..\lib\win_util.h"
+				>
+			</File>
 		</Filter>
 		<Filter
 			Name="Resource Files"
