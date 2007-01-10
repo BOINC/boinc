@@ -200,10 +200,15 @@ void add_child_totals(PROCINFO& pi, vector<PROCINFO>& piv, int pid, int rlvl) {
         if (p.parentid == pid) {
             pi.kernel_time += p.kernel_time;
             pi.user_time += p.user_time;
-            pi.swap_size += p.swap_size;
+
+            // only count process with most swap and memory
+			if (p.swap_size > pi.swap_size) {
+                pi.swap_size = p.swap_size;
+            }
             if (p.working_set_size > pi.working_set_size) {
                 pi.working_set_size = p.working_set_size;
             }
+
             p.is_boinc_app = true;
             // look for child process of this one
             add_child_totals(pi, piv, p.id, rlvl+1); // recursion - woo hoo!

@@ -331,13 +331,13 @@ Rom    9 Jan 2007
         boincmgr_curl.vcproj
 
 Walt   9 Jan 2007
-    - core client: Change function that calculates RAM used by a
-        science project to return the max memory used by one process
+    - core client: Change function that calculates RAM and SWAP used
+        by a science project to return the max used by a process
         instead of totaling the process/child processes. Fixes the
-        problem where the same RAM used gets counted multiple times
-        for some science apps.
+        problem where the same RAM and SWAP used gets counted multiple
+        times for some science apps.
     
-    client/
+    lib/
         procinfo_unix.cpp
 
 David  9 Jan 2007
