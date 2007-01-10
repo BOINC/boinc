@@ -24,7 +24,7 @@ WX_DECLARE_OBJARRAY(double, wxArrayDouble);
 // ========================================================================
 //  wxPiePart
 // ------------------------------------------------------------------------
-///	This class is used for storing data in wxPieCtrl. 
+///	This class is used for storing data in wxPieCtrl.
 class wxPiePart
 {
 	double m_Value;
@@ -41,7 +41,7 @@ public:
 	*/
 	wxPiePart(double value, wxColour colour, wxString label = wxEmptyString);
 	/// Copy constructor
-	wxPiePart(const wxPiePart & part);	
+	wxPiePart(const wxPiePart & part);
 	/// Returns the colour of sector
 	wxColour GetColour() {return m_Colour;}
 	/// Sets the colour of sector
@@ -71,13 +71,14 @@ class wxPieCtrlLegend : public wxWindow
 	wxFont m_LabelFont;
 	bool m_IsTransparent;
 	wxColour m_TitleColour;
-	wxColour m_LabelColour;	
-	wxColour m_BackColour;	
+	wxColour m_LabelColour;
+	wxColour m_BackColour;
 	wxBitmap m_Background;
 	wxMemoryDC m_BackgroundDC;
 	unsigned int m_HorBorder;
-	unsigned int m_VerBorder;	
-	
+	unsigned int m_VerBorder;
+	wxString m_szTitle;
+
 protected:
 	void RecreateBackground(wxMemoryDC & parentdc);
 public:
@@ -89,13 +90,13 @@ public:
 		\param sz Legend window size
 		\param style Window style
 	*/
-	wxPieCtrlLegend(wxPieCtrl * parent, wxString title = wxEmptyString, 
+	wxPieCtrlLegend(wxPieCtrl * parent, wxString title = wxEmptyString,
 		wxPoint pos = wxPoint(10,10), wxSize sz = wxDefaultSize,
 		long style = 0);
 	/// Returns transparency flag of legend window
 	bool IsTransparent() {return m_IsTransparent;}
 	/// Sets transparency flag of legend window
-	void SetTransparent(bool value);	
+	void SetTransparent(bool value);
 	/// Returns the font used for displaying the labels of sectors
 	wxFont GetLabelFont() {return m_LabelFont;}
 	/// Sets the font used for displaying the labels of sectors
@@ -117,6 +118,8 @@ public:
 	/// Sets the colour used for displaying legend window background
 	void SetBackColour(wxColour colour);
 
+	void SetLabel(const wxString& label);
+
 	DECLARE_EVENT_TABLE()
 	void OnPaint(wxPaintEvent & event);
 	void OnEraseBackground(wxEraseEvent & event);
@@ -131,14 +134,14 @@ class wxPieCtrl : public wxWindow
 	double m_Angle;
 	double m_RotationAngle;
 	int m_Height;
-	wxArrayDouble m_Values;	
+	wxArrayDouble m_Values;
 	wxBitmap m_Background;
 	wxBitmap m_CanvasBitmap;
 	wxMemoryDC m_CanvasDC;
 	wxColour m_BackColour;
 	wxPieCtrlLegend * m_Legend;
-	bool m_ShowEdges;	
-	void GetPartAngles(wxArrayDouble & angles);	
+	bool m_ShowEdges;
+	void GetPartAngles(wxArrayDouble & angles);
 #if defined(__WXMSW__) || defined(__WXMAC__)
 	void DrawParts(wxMemoryDC & dc, int cx, int cy, int w, int h);
 #endif
@@ -197,7 +200,7 @@ public:
 	DECLARE_EVENT_TABLE()
 	void OnPaint(wxPaintEvent & event);
 	void OnEraseBackground(wxEraseEvent & event);
-	void OnSize(wxSizeEvent & event);	
+	void OnSize(wxSizeEvent & event);
 };
 // ========================================================================
 //  wxProgressPie
@@ -218,7 +221,7 @@ public:
 		\param value Initial value of progress pie
 		\param pos Window position
 		\param sz Window size
-		\param style Window style		
+		\param style Window style
 	*/
 	wxProgressPie(wxWindow * parent, wxWindowID id = wxID_ANY, double maxvalue = 100, double value = 50,
 		wxPoint pos = wxDefaultPosition, wxSize sz = wxDefaultSize, long style = 0);
@@ -237,7 +240,7 @@ public:
 	/// Returns the colour of sector that indicates the progress (filled)
 	wxColour GetFilledColour();
 	/// Returns the colour of sector that indicates the rest (unfilled)
-	wxColour GetUnfilledColour();	
+	wxColour GetUnfilledColour();
 };
 
 #endif
