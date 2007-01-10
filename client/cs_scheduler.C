@@ -106,7 +106,7 @@ void PROJECT::set_min_rpc_time(double future_time, const char* reason) {
     }
 }
 
-// Return true iff we should not contact the project yet.
+// Return true if we should not contact the project yet.
 //
 bool PROJECT::waiting_until_min_rpc_time() {
     return (min_rpc_time > gstate.now);
