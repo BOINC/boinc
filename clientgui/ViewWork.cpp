@@ -731,7 +731,7 @@ wxInt32 CViewWork::FormatStatus(wxInt32 item, wxString& strBuffer) const {
 
     doc->GetCoreClientStatus(status);
 
-	bool throttled = status.task_suspend_reason & SUSPEND_REASON_CPU_USAGE_LIMIT;
+	wxInt32 throttled = status.task_suspend_reason & SUSPEND_REASON_CPU_USAGE_LIMIT;
     if (result) {
         switch(result->state) {
             case RESULT_NEW:
