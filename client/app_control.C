@@ -559,6 +559,8 @@ bool ACTIVE_TASK_SET::check_rsc_limits_exceeded() {
 int ACTIVE_TASK::abort_task(int exit_status, const char* msg) {
     if (task_state == PROCESS_EXECUTING || task_state == PROCESS_SUSPENDED) {
         task_state = PROCESS_ABORT_PENDING;
+		scheduler_state = CPU_SCHED_PREEMPTED;
+			// so scheduler doesn't try to preempt it
         abort_time = gstate.now;
 		request_abort();
     } else {

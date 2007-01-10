@@ -99,9 +99,10 @@ void PROJECT::set_min_rpc_time(double future_time, const char* reason) {
         min_rpc_time = future_time;
 		possibly_backed_off = true;
         msg_printf(this, MSG_INFO,
-            "Deferring communication %s, because %s\n",
-            timediff_format(min_rpc_time - gstate.now).c_str(), reason
+            "Deferring communication for %s",
+            timediff_format(min_rpc_time - gstate.now).c_str()
         );
+        msg_printf(this, MSG_INFO, "Reason: %s\n", reason);
     }
 }
 

@@ -375,3 +375,13 @@ Charlie 9 Jan 2007
         ViewResources.cp
         common/
             wxPieCtrl.cpp,h
+
+David  10 Jan 2007
+	- core client: fix problems when user aborts result
+		(mark it as CPU_SCHED_PREEMPTED so scheduler doesn't
+		try to preempt it; that confuses things)
+	- changed format of Deferring Comm messages
+
+	client/
+		app_control.C
+		cs_scheduler.C
