@@ -116,11 +116,14 @@ function get_transform_settings_from_user($user, $options = '') {
  **/
 function bb2html($text) {
 	$urlregex = "(?:\"?)(?:(http\:\/\/)?)([^\[\"<\ ]+)(?:\"?)";
+	$httpsregex = "(?:\"?)https\:\/\/([^\[\"<\ ]+)(?:\"?)";
 	// List of allowable tags
 	$bbtags = array (
 		"@\[b\](.*?)\[/b\]@is",
 		"@\[i\](.*?)\[/i\]@is",
 		"@\[u\](.*?)\[/u\]@is",
+		"@\[url=$httpsregex\](.*?)\[/url\]@i",		
+		"@\[url\]$httpsregex\[/url\]@i",
 		"@\[link=$urlregex\](.*?)\[/link\]@i",		
 		"@\[link\]$urlregex\[/link\]@i",
 		"@\[url=$urlregex\](.*?)\[/url\]@i",		
@@ -148,6 +151,8 @@ function bb2html($text) {
 		"<b>\\1</b>",
 		"<i>\\1</i>",
 		"<u>\\1</u>",
+		"<a href=\"https://\\1\">\\2</a>",
+		"<a href=\"https://\\1\">https://\\1</a>",
 		"<a href=\"http://\\2\">\\3</a>",
 		"<a href=\"http://\\2\">http://\\2</a>",
 		"<a href=\"http://\\2\">\\3</a>",
