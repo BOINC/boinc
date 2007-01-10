@@ -202,7 +202,7 @@ void add_child_totals(PROCINFO& pi, vector<PROCINFO>& piv, int pid, int rlvl) {
             pi.user_time += p.user_time;
 
             // only count process with most swap and memory
-			if (p.swap_size > pi.swap_size) {
+            if (p.swap_size > pi.swap_size) {
                 pi.swap_size = p.swap_size;
             }
             if (p.working_set_size > pi.working_set_size) {
