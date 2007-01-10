@@ -731,6 +731,7 @@ wxInt32 CViewWork::FormatStatus(wxInt32 item, wxString& strBuffer) const {
 
     doc->GetCoreClientStatus(status);
 
+	bool throttled = status.task_suspend_reason & SUSPEND_REASON_CPU_USAGE_LIMIT;
     if (result) {
         switch(result->state) {
             case RESULT_NEW:
@@ -748,7 +749,7 @@ wxInt32 CViewWork::FormatStatus(wxInt32 item, wxString& strBuffer) const {
                     strBuffer = _("Project suspended by user");
                 } else if (result->suspended_via_gui) {
                     strBuffer = _("Task suspended by user");
-				} else if (status.task_suspend_reason > 0) {
+				} else if (status.task_suspend_reason && !throttled) {
 					strBuffer = _("Suspended");
 					if (status.task_suspend_reason & SUSPEND_REASON_BATTERIES) {
 						strBuffer += _(" - on batteries");
@@ -768,21 +769,18 @@ wxInt32 CViewWork::FormatStatus(wxInt32 item, wxString& strBuffer) const {
 					if (status.task_suspend_reason & SUSPEND_REASON_DISK_SIZE) {
 						strBuffer += _(" - need disk space");
 					}
-					if (status.task_suspend_reason & SUSPEND_REASON_CPU_USAGE_LIMIT) {
-						strBuffer += _(" - CPU throttled");
-					}
                 } else if (result->active_task) {
                     if (result->too_large) {
                         strBuffer = _("Waiting for memory");
                     } else if (result->scheduler_state == CPU_SCHED_SCHEDULED) {
                         strBuffer = _("Running");
                     } else if (result->scheduler_state == CPU_SCHED_PREEMPTED) {
-                        strBuffer = _("Waiting");
+                        strBuffer = _("Waiting to run");
                     } else if (result->scheduler_state == CPU_SCHED_UNINITIALIZED) {
-                        strBuffer = _("Ready to run");
+                        strBuffer = _("Ready to start");
                     }
                 } else {
-                    strBuffer = _("Ready to run");
+                    strBuffer = _("Ready to start");
                 }
                 break;
             case RESULT_COMPUTE_ERROR:

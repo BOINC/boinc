@@ -1676,6 +1676,9 @@ int diagnostics_dump_exception_record(PEXCEPTION_POINTERS pExPtrs) {
         case 0xC0000143:                     // STATUS_MISSING_SYSTEMFILE
             fprintf(stderr, "%s\n\n", windows_format_error_string(exception_code, message, sizeof(message)));
             break;
+        case 0xE06D7363:
+            diagnostics_dump_generic_exception("Out Of Memory (C++ Exception)", exception_code, exception_address);
+            break;
         case EXCEPTION_ACCESS_VIOLATION:
             strcpy(status, "Access Violation");
             if (pExPtrs->ExceptionRecord->NumberParameters == 2) {

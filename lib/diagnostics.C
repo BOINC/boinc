@@ -616,8 +616,10 @@ void boinc_trace(const char *pszFormat, ...) {
 // Converts the BOINCINFO macro into a single string and report it
 //   to stderr so it can be reported via the normal means.
 //
-void boinc_info(const char *pszFormat, ...){
-#ifdef BOINC_INFOMSGS
+#ifndef BOINC_INFOMSGS
+void boinc_info(const char* /*pszFormat*/, ... ){ return; }
+#else
+void boinc_info(const char* pszFormat, ...){
     static char szBuffer[4096];
     static char szDate[64];
     static char szTime[64];
@@ -647,8 +649,8 @@ void boinc_info(const char *pszFormat, ...){
         fprintf(stdout, "[%s %s] BOINCMSG: %s\n", szDate, szTime, szBuffer);
     }
 #endif
-#endif
 }
+#endif
 
 
 const char *BOINC_RCSID_4967ad204c = "$Id$";

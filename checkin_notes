@@ -13665,6 +13665,42 @@ Walt   6 Jan 2007
     clientgui/
         sg_DlgMessages.cpp
 
+David  7 Jan 2007
+    - core client: if swap space is zero, it must not have been
+        measured on this host; don't use it in process scheduling
+
+    client/
+        cpu_sched.C
+
+Rom    7 Jan 2007
+    - DIAG: Clean up some warnings and add a new exception type to the list
+        of known exceptions.
+    
+    lib/
+        diagnostics.C
+        diagnostics_win.C
+
+Rom    8 Jan 2007
+    - Win SETUP: Make Windows XP or better require passwords for the
+        service accounts again.
+    - Win SETUP: Fix a spelling mistake that JM7 found.
+    
+    boinc/win_build/installerv2/redist/Windows/src/boinccas
+        CAGrantServiceExecutionRight.cpp
+        CAVerifyServicePassword.cpp
+
+David  8 Jan 2007
+	- core client: fixed crashing bug that happens when attaching
+		to a project with wrong URL (e.g. setiathome.ssl.berkeley.edu).
+		The fix allows the project to attach but prints a warning.
+		It would be better to not allow the attach;
+		I'll get back to this later
+
+	client/
+		client_types.h
+		cs_scheduler.C
+		scheduler_op.C
+
 Walt   9 Jan 2007
     - core client: Change function that calculates RAM and SWAP used
         by a science project to return the max used by a process
@@ -13674,3 +13710,15 @@ Walt   9 Jan 2007
     
     lib/
         procinfo_unix.cpp
+
+David  9 Jan 2007
+	- Manager: get rid of "CPU throttled" messages
+	- Manager: enhancements to Statistics tab
+		(can click on project name in multi-project view)
+		from Mifistor_x
+
+	clientgui/
+		ViewStatistics.cpp,h
+		ViewWork.cpp
+		stdwx.h
+

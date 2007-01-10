@@ -31,9 +31,15 @@ wxPieCtrlLegend::wxPieCtrlLegend(wxPieCtrl * parent, wxString title,
 	m_TitleColour = wxColour(0,0,127);
 	m_LabelColour = *wxBLACK;
 	m_BackColour = wxColour(255,255,0);
-#ifdef __WXMAC__
-	m_TitleFont = *wxNORMAL_FONT;   // Prevent wxDebug assert
-#endif
+	m_TitleFont = *wxSWISS_FONT;
+	m_TitleFont.SetWeight(wxBOLD);
+	//remember the title, because Getlabel() doesn't seem to work under X
+	m_szTitle = title;
+}
+
+void wxPieCtrlLegend::SetLabel(const wxString& label) {
+	wxWindow::SetLabel(label);
+	m_szTitle = label;
 }
 
 void wxPieCtrlLegend::SetTransparent(bool value)
@@ -109,13 +115,13 @@ void wxPieCtrlLegend::OnPaint(wxPaintEvent & /*event*/)
 	//draw legend title
 	mdc.SetFont(m_TitleFont);
 	mdc.SetTextForeground(m_TitleColour);
-	mdc.GetTextExtent(this->GetTitle(),&titlew,&titleh);
-	mdc.DrawText(this->GetTitle(),m_HorBorder+2,m_VerBorder+2);
+	mdc.GetTextExtent(m_szTitle,&titlew,&titleh);
+	mdc.DrawText(m_szTitle,m_HorBorder+2,m_VerBorder+2);
 	dy += (titleh+5);
 	//draw legend items
 	mdc.SetFont(m_LabelFont);
 	mdc.SetTextForeground(m_LabelColour);
-	int maxwidth(titlew);
+	int maxwidth(titlew + 2*m_HorBorder + 15);
 	for(i = 0; i < parent->m_Series.Count(); i++)
 	{
 		mdc.GetTextExtent(parent->m_Series[i].GetLabel(), &tw, &th);
@@ -128,10 +134,9 @@ void wxPieCtrlLegend::OnPaint(wxPaintEvent & /*event*/)
 	dy += m_VerBorder;
 	if(w != maxwidth || h != dy) SetSize(maxwidth, dy);
 
-#ifdef __WXMAC__
-        // SetWindowStyle borders distort the pie circle on Mac so we draw our own
-        int x, y;
-        wxPen savedPen = mdc.GetPen();
+    // SetWindowStyle borders distort the pie circle on Mac so we draw our own
+    int x, y;
+    wxPen savedPen = mdc.GetPen();
 
 	GetSize(&x,&y);
         x--;
@@ -143,7 +148,7 @@ void wxPieCtrlLegend::OnPaint(wxPaintEvent & /*event*/)
 	mdc.DrawLine(0,y,x,y);      // bottom
 	mdc.DrawLine(x,0,x,y);      // right
         mdc.SetPen(savedPen);
-#endif
+
 	pdc.Blit(0,0,w,h,&mdc,0,0);
 }
 
@@ -207,10 +212,10 @@ void wxPieCtrl::RecreateCanvas()
 {
     int x = GetSize().GetWidth();
     int y = GetSize().GetHeight();
-#ifdef __WXMAC__
+//#ifdef __WXMAC__
     if ((x < 1) || (y < 1))
         return;
-#endif
+//#endif
  	m_CanvasBitmap.Create(x, y);
    	m_CanvasDC.SelectObject(m_CanvasBitmap);
 }

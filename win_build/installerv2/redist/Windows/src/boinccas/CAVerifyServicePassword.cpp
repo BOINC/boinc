@@ -62,6 +62,7 @@ UINT CAVerifyServicePassword::OnExecution()
 {
     tstring strServicePassword;
     tstring strServicePasswordConfirmation;
+    tstring strWindowsVersion;
     UINT    uiReturnValue = 0;
 
 
@@ -69,6 +70,9 @@ UINT CAVerifyServicePassword::OnExecution()
     if ( uiReturnValue ) return uiReturnValue;
 
     uiReturnValue = GetProperty( _T("SERVICE_CONFIRMPASSWORD"), strServicePasswordConfirmation, false );
+    if ( uiReturnValue ) return uiReturnValue;
+
+    uiReturnValue = GetProperty( _T("VersionNT"), strWindowsVersion, false );
     if ( uiReturnValue ) return uiReturnValue;
 
 

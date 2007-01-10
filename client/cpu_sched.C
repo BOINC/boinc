@@ -777,6 +777,8 @@ bool CLIENT_STATE::enforce_schedule() {
     }
 
     double swap_left = (global_prefs.vm_max_used_frac)*host_info.m_swap;
+    bool check_swap = (host_info.m_swap != 0);
+        // in case couldn't measure swap on this host
 
     // preempt and start tasks as needed
     //
@@ -787,7 +789,7 @@ bool CLIENT_STATE::enforce_schedule() {
         ) {
             action = true;
             bool preempt_by_quit = !global_prefs.leave_apps_in_memory;
-			if (swap_left < 0) {
+			if (check_swap && swap_left < 0) {
 				if (log_flags.mem_usage_debug) {
 					msg_printf(atp->result->project, MSG_INFO,
 						"[mem_usage_debug] out of swap space, will preempt by quit"

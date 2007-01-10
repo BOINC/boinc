@@ -481,8 +481,8 @@ bool SCHEDULER_OP::poll() {
             } else {
                 retval = gstate.handle_scheduler_reply(cur_proj, scheduler_url, nresults);
                 if (cur_proj->tentative) {
-                    cur_proj->tentative = false;
-                    retval = cur_proj->write_account_file();
+					cur_proj->tentative = false;
+					retval = cur_proj->write_account_file();
                     if (retval) {
                         cur_proj->attach_failed(ERR_ATTACH_FAIL_FILE_WRITE);
                     } else {
