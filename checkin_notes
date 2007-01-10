@@ -385,3 +385,11 @@ David  10 Jan 2007
 	client/
 		app_control.C
 		cs_scheduler.C
+
+David  10 Jan 2007
+	- core client: backwards > in PROJECT::some_download_stalled().
+		This caused the client to keep fetching work
+		from a project with stalled downloads.
+
+	client/
+		client_types.C
