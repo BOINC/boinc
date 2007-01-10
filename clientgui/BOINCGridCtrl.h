@@ -24,8 +24,6 @@
 #pragma interface "BOINCGridCtrl.cpp"
 #endif
 
-class CBOINCGridTable;
-
 #define CST_STRING		0
 #define CST_TIME	    1
 #define CST_LONG		2
@@ -63,6 +61,18 @@ public:
 	void Draw(wxGrid& grid, wxGridCellAttr& attr, wxDC& dc, const wxRect& rect, int row, int col, bool isSelected);	
 };
 
+/* grid table */
+class CBOINCGridTable : public wxGridStringTable {
+public:
+	CBOINCGridTable(int rows,int cols);
+	virtual ~CBOINCGridTable();	
+	void SortData(int col,bool ascending);
+	int FindRowIndexByColValue(int col,wxString& value);
+	void SetColumnSortType(int col,int sortType=CST_STRING);
+private:
+	wxArrayInt arrColumnSortTypes;
+};
+
 /* grid ctrl */
 class CBOINCGridCtrl :	public wxGrid
 {
@@ -87,6 +97,14 @@ public:
 	void SetColumnSortType(int col,int sortType=CST_STRING);
 	wxArrayInt GetSelectedRows2();
 	CBOINCGridTable* GetTable();
+	//methods to handle selection and grid cursor positions correct with sorting 
+	void SetPrimaryKeyColumn(int col);
+	void SaveSelection();
+	void RestoreSelection();
+	void SaveGridCursorPosition();
+	void RestoreGridCursorPosition();
+	void ClearSavedSelection();
+	void Setup();
 protected:
 	DECLARE_EVENT_TABLE()
 private:
@@ -96,19 +114,11 @@ private:
 	int ccollast,crowlast;
 	wxBitmap ascBitmap;
 	wxBitmap descBitmap;
+	int m_pkColumnIndex;//col index act as a primary key
+	wxArrayString m_arrSelectedKeys;//array for remembering the current selected rows by primary key column value
+	int m_cursorcol; //saved grid cursor column index
+	int m_cursorrow; //saved grid cursor row index
+	wxString m_szCursorKey;//key value for grid cursor cell	
 };
-
-/* grid table */
-class CBOINCGridTable : public wxGridStringTable {
-public:
-	CBOINCGridTable(int rows,int cols);
-	virtual ~CBOINCGridTable();	
-	void SortData(int col,bool ascending);
-	int FindRowIndexByColValue(int col,wxString& value);
-	void SetColumnSortType(int col,int sortType=CST_STRING);
-private:
-	wxArrayInt arrColumnSortTypes;
-};
-
 
 #endif //_BOINCGRIDCTRL_H_

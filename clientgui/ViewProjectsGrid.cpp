@@ -157,6 +157,7 @@ CViewProjectsGrid::CViewProjectsGrid(wxNotebook* pNotebook) :
     m_pTaskPane->UpdateControls();
 
 	// Create Grid
+	m_pGridPane->Setup();
 	m_pGridPane->SetTable(new CBOINCGridTable(1,7));
 	m_pGridPane->SetSelectionMode(wxGrid::wxGridSelectRows);
 	// init grid columns
@@ -173,6 +174,7 @@ CViewProjectsGrid::CViewProjectsGrid(wxNotebook* pNotebook) :
 	m_pGridPane->SetColumnSortType(COLUMN_RESOURCESHARE,CST_FLOAT);
 	m_pGridPane->SetColumnSortType(COLUMN_AVGCREDIT,CST_FLOAT);
 	//
+	m_pGridPane->SetPrimaryKeyColumn(COLUMN_PROJECT);
     UpdateSelection();
 }
 
@@ -438,7 +440,7 @@ void CViewProjectsGrid::UpdateSelection() {
     //
     pGroup = m_TaskGroups[0];
 	
-	if (m_pGridPane->GetFirstSelectedRow()>=0) {
+	if (m_pGridPane->GetSelectedRows2().size()==1) {
 		wxString searchName = m_pGridPane->GetCellValue(m_pGridPane->GetFirstSelectedRow(),COLUMN_PROJECT).Trim(false);
         project = pDoc->project(searchName);
         m_pTaskPane->EnableTask(pGroup->m_Tasks[BTN_UPDATE]);
@@ -472,11 +474,14 @@ void CViewProjectsGrid::UpdateSelection() {
         } else {
             m_pTaskPane->EnableTask(pGroup->m_Tasks[BTN_DETACH]);
         }
-
         UpdateWebsiteSelection(GRP_WEBSITES, project);
 
     } else {
         m_pTaskPane->DisableTaskGroupTasks(pGroup);
+		//disable website buttons if they exist
+		if(m_TaskGroups.size()>1) {
+			m_pTaskPane->DisableTaskGroupTasks(m_TaskGroups[1]);
+		}
     }
 
     CBOINCBaseView::PostUpdateSelection();
@@ -511,7 +516,7 @@ void CViewProjectsGrid::UpdateWebsiteSelection(long lControlGroup, PROJECT* proj
         }
 
         // If something is selected create the tasks and controls
-		if (m_pGridPane->GetFirstSelectedRow()>=0) {
+		if (m_pGridPane->GetSelectedRows2().size()==1) {
             if (project) {
                 // Create the web sites task group
   	            pGroup = new CTaskItemGroup( _("Web sites") );
@@ -719,20 +724,10 @@ void CViewProjectsGrid::OnListRender( wxTimerEvent& WXUNUSED(event) ) {
 	int tdoccount=this->GetDocCount();
 	//prevent grid from flicker
 	m_pGridPane->BeginBatch();
-
-	//remember selected rows 
-	wxArrayInt arrSelRows = m_pGridPane->GetSelectedRows2();
-	wxArrayString arrSelNames;
-	for(unsigned int i=0; i< arrSelRows.GetCount();i++) {
-		arrSelNames.Add(m_pGridPane->GetCellValue(arrSelRows[i],COLUMN_PROJECT));
-	}
 	//remember grid cursor position
-	int ccol = m_pGridPane->GetGridCursorCol();
-	int crow = m_pGridPane->GetGridCursorRow();
-	wxString cursorName;
-	if(crow>=0 && ccol >=0) {
-		cursorName = m_pGridPane->GetCellValue(crow,COLUMN_PROJECT);
-	}
+	m_pGridPane->SaveGridCursorPosition();
+	//remember selected row(s)
+	m_pGridPane->SaveSelection();	
 	//(re)create rows, if necessary
 	if(tdoccount!= m_pGridPane->GetRows()) {
 		//at first, delet all current rows
@@ -774,19 +769,11 @@ void CViewProjectsGrid::OnListRender( wxTimerEvent& WXUNUSED(event) ) {
 	}
 	m_pGridPane->SortData();
 	// restore grid cursor position
-	int index = m_pGridPane->GetTable()->FindRowIndexByColValue(COLUMN_PROJECT,cursorName);
-	if(index >=0) {
-		m_bIgnoreSelectionEvents =true;
-		m_pGridPane->SetGridCursor(index,ccol);		
-		m_bIgnoreSelectionEvents =false;
-	}
+	m_bIgnoreSelectionEvents =true;
+	m_pGridPane->RestoreGridCursorPosition();
+	m_bIgnoreSelectionEvents =false;
 	//restore selection
-	for(unsigned int i=0;i < arrSelNames.size();i++) {		
-		int index = m_pGridPane->GetTable()->FindRowIndexByColValue(COLUMN_PROJECT,arrSelNames[i]);
-		if(index >=0) {
-			m_pGridPane->SelectRow(index);
-		}
-	}
+	m_pGridPane->RestoreSelection();
 	m_pGridPane->EndBatch();	
 	//
 	UpdateSelection();
@@ -797,6 +784,7 @@ void CViewProjectsGrid::OnListRender( wxTimerEvent& WXUNUSED(event) ) {
 */
 void CViewProjectsGrid::OnSelectCell( wxGridEvent& ev )
 {
+	m_pGridPane->ClearSavedSelection();
     // you must call Skip() if you want the default processing
     // to occur in wxGrid
     ev.Skip();

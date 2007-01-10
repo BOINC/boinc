@@ -115,17 +115,29 @@ static int CompareDateString(const wxString& first,const wxString& second) {
 	return 0;
 }
 
-/* grid ctrl implementation */
+/* ########## grid ctrl implementation ############### */
 BEGIN_EVENT_TABLE (CBOINCGridCtrl, wxGrid)
 	EVT_GRID_LABEL_LEFT_CLICK(CBOINCGridCtrl::OnLabelLClick)
 END_EVENT_TABLE ()
 
+/* Constructor, don't call any grid methods here, because they could raise events, 
+   which couldn't be handled correctly while the grid isn't constructed completly.
+   Instead call Setup() and place all further initialization there
+   */
 CBOINCGridCtrl::CBOINCGridCtrl(wxWindow* parent, wxWindowID iGridWindowID) : wxGrid(parent, iGridWindowID) {
+	//init members
 	sortColumn=-1;
 	sortAscending=true;
+	m_pkColumnIndex=-1;
+	m_cursorcol=-1;
+	m_cursorrow=-1;		
 	//load sorting bitmaps
 	ascBitmap = wxBitmap(sortascending_xpm);
 	descBitmap = wxBitmap(sortdescending_xpm);
+}
+
+/* make settings for the grid here instead in the constructor */ 
+void CBOINCGridCtrl::Setup() {
 	//make grid cursor invisible
 	SetCellHighlightPenWidth(0);
 	SetCellHighlightROPenWidth(0);
@@ -134,13 +146,12 @@ CBOINCGridCtrl::CBOINCGridCtrl(wxWindow* parent, wxWindowID iGridWindowID) : wxG
 	SetSelectionForeground(*wxBLACK);
 	//
 	SetRowLabelSize(1);//hide row labels
-	SetColLabelSize(20); //smaller as default
+	SetColLabelSize(20); //make header row smaller as default
 	SetColLabelAlignment(wxALIGN_LEFT,wxALIGN_CENTER);
 	EnableGridLines(false);
 	EnableDragRowSize(false);//prevent the user from changing the row height with the mouse
 	EnableDragCell(false);
-	EnableEditing(false);
-	DisableCellEditControl();
+	EnableEditing(false);//make the whole grid read-only
 	SetDefaultCellBackgroundColour(*wxWHITE);
 #ifdef __WXMAC__
 	SetLabelFont(wxSystemSettings::GetFont(wxSYS_DEFAULT_GUI_FONT));
@@ -153,7 +164,8 @@ CBOINCGridCtrl::CBOINCGridCtrl(wxWindow* parent, wxWindowID iGridWindowID) : wxG
 CBOINCGridCtrl::~CBOINCGridCtrl() {
 }
 
-/* use this method instead of wxGrid::GetSelectedRows() because of a bug in wxWidgets not returning anything selected */
+/* use this method instead of wxGrid::GetSelectedRows() 
+   because a bug in wxGrid::GetSelectedRows() doesn't return anything although some rows are selected */
 wxArrayInt CBOINCGridCtrl::GetSelectedRows2() {
 	wxArrayInt ret;
 	for(int i= 0; i< this->GetRows();i++) {
@@ -168,10 +180,62 @@ wxArrayInt CBOINCGridCtrl::GetSelectedRows2() {
 	return ret;
 }
 
+/* sets the column with unique values */
+void CBOINCGridCtrl::SetPrimaryKeyColumn(int col) {
+	m_pkColumnIndex = col;
+}
+
+/* If the user clicked inside the grid, the former selected cells must be deselected.
+   Because the code in OnListRender() of the GridViews raises SelectionEvents too,
+   call to GetBatchCount() here is necessary to decide what to do
+ */
+void CBOINCGridCtrl::ClearSavedSelection() {
+	if(this->GetBatchCount()<=0) {
+		m_arrSelectedKeys.Empty();
+	}
+}
+
+/* save the key values of the currently selected rows for later restore */
+void CBOINCGridCtrl::SaveSelection() {
+	if(m_pkColumnIndex>=0) {
+		wxArrayInt arrSelRows = GetSelectedRows2();	
+		for(unsigned int i=0; i< arrSelRows.GetCount();i++) {
+			m_arrSelectedKeys.Add(GetCellValue(arrSelRows[i],m_pkColumnIndex));
+		}
+	}
+}
+
+/* select all rows, that were formerly selected
+   this raises selection events without user interaction */
+void CBOINCGridCtrl::RestoreSelection() {
+	ClearSelection();
+	for(unsigned int i=0;i < m_arrSelectedKeys.size();i++) {
+		int index = GetTable()->FindRowIndexByColValue(m_pkColumnIndex,m_arrSelectedKeys[i]);
+		if(index >=0) {
+			SelectRow(index,true);
+		}
+	}
+}
+
+void CBOINCGridCtrl::SaveGridCursorPosition() {
+	m_cursorcol = GetGridCursorCol();
+	m_cursorrow = GetGridCursorRow();	
+	if(m_cursorrow>=0 && m_cursorcol >=0) {
+		m_szCursorKey = GetCellValue(m_cursorrow,m_pkColumnIndex);
+	}
+}
+
+void CBOINCGridCtrl::RestoreGridCursorPosition() {
+	int index = GetTable()->FindRowIndexByColValue(m_pkColumnIndex,m_szCursorKey);
+	if(index >=0) {		
+		SetGridCursor(index,m_cursorcol);		
+	}
+}
+
 int CBOINCGridCtrl::GetFirstSelectedRow() {
 	int ret= -1;
 	//Row mode ?
-	wxArrayInt selRows = this->GetSelectedRows();
+	wxArrayInt selRows = this->GetSelectedRows2();
 	if(selRows.size() >0) {
 		return selRows[0];
 	}
@@ -473,7 +537,7 @@ void CBOINCGridCtrl::DrawColLabel( wxDC& dc, int col )
 void CBOINCGridCtrl::OnLabelLClick(wxGridEvent& ev) {
 	if(ev.GetCol()!= -1) {
 		//clicked on a column
-		//same column as last time, then change sort only direction
+		//same column as last time, then change only sort direction
 		if(this->sortColumn == ev.GetCol()) {
 			this->sortAscending = ! this->sortAscending;
 		}
@@ -481,7 +545,7 @@ void CBOINCGridCtrl::OnLabelLClick(wxGridEvent& ev) {
 			this->sortColumn = ev.GetCol();
 		}
 	}
-	//stop further event processing to prevent loosing the current selection and grid cursor position
+	//don't call Skip here to stop further event processing to prevent loosing the current selection and grid cursor position
 	//ev.Skip();
 }
 
@@ -493,7 +557,7 @@ void CBOINCGridCtrl::SetColumnSortType(int col,int sortType/*=CST_STRING*/) {
 	this->GetTable()->SetColumnSortType(col,sortType);
 }
 
-/* generic grid cell renderer */
+/* ################### generic grid cell renderer #################### */
 CBOINCGridCellRenderer::CBOINCGridCellRenderer() : wxGridCellStringRenderer() {
 }
 
@@ -619,14 +683,18 @@ void CBOINCGridCellRenderer::DoNormalTextDrawing(wxGrid& grid, wxGridCellAttr& a
     SetTextColoursAndFont(grid, attr, dc, isSelected);
 
 	//get a real grid class pointer
-    CBOINCGridCtrl* bgrid = wxDynamicCast(&grid, CBOINCGridCtrl);
+    CBOINCGridCtrl* bgrid = dynamic_cast<CBOINCGridCtrl*> (&grid);
 	//use the overloaded method here
 	bgrid->DrawTextRectangle(dc, grid.GetCellValue(row, col),
                            rect, hAlign, vAlign);
 
 }
 
-/* ############# message cell renderer */
+/* ############# message cell renderer ######################## */
+
+/* Constructor
+   prio argument - the column index, that holds prio values
+*/
 CBOINCGridCellMessageRenderer::CBOINCGridCellMessageRenderer(int priocol){
 	column = priocol;
 }
@@ -636,10 +704,13 @@ void CBOINCGridCellMessageRenderer::Draw(wxGrid& grid, wxGridCellAttr& attr, wxD
 	if(grid.GetCellValue(row,column).Trim(false).IsSameAs(szError)) {
 		attr.SetTextColour(*wxRED);
 	}
+	else {
+		attr.SetTextColour(*wxBLACK);
+	}
 	CBOINCGridCellRenderer::Draw(grid,attr,dc,rect,row,col,isSelected);
 }
 
-/* ############# progress cell renderer */
+/* ############# progress cell renderer ########################## */
 CBOINCGridCellProgressRenderer::CBOINCGridCellProgressRenderer(int col,bool percentAppending/*=true*/) : CBOINCGridCellRenderer()
 {
 	column = col;
@@ -655,7 +726,7 @@ void CBOINCGridCellProgressRenderer::Draw(wxGrid& grid, wxGridCellAttr& attr, wx
 	}
 }
 
-
+/* paints the progress bar */
 void CBOINCGridCellProgressRenderer::DoProgressDrawing(wxGrid& grid, wxGridCellAttr& attr, wxDC& dc, const wxRect& rectCell, int row, int col, bool isSelected) {
     wxRect rect = rectCell;
     rect.Inflate(-1);
@@ -739,6 +810,7 @@ void CBOINCGridTable::SortData(int col,bool ascending) {
 	}
 	//sort the sorting column values
 	reverseCompareOrder = !ascending;
+	//decide, which sort function to call
 	switch(arrColumnSortTypes[col]) {
 		case CST_FLOAT:
 			arColValues.Sort(CompareFloatString);
@@ -795,5 +867,5 @@ int CBOINCGridTable::FindRowIndexByColValue(int col,wxString& value) {
 
 /* for convinience purposes only */
 CBOINCGridTable* CBOINCGridCtrl::GetTable() {
-	return wxDynamicCast(wxGrid::GetTable(), CBOINCGridTable);
+	return dynamic_cast<CBOINCGridTable*>(wxGrid::GetTable());
 }

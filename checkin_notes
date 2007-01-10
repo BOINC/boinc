@@ -393,3 +393,23 @@ David  10 Jan 2007
 
 	client/
 		client_types.C
+
+David  10 Jan 2007
+	- manager: fix Unicode build problems
+		(from Frank Weiler)
+
+	clientgui/
+		ViewStatistics.cpp
+
+David  10 Jan 2007
+	- manager: various fixes
+		(from Frank Weiler)
+
+	clientgui/
+		BOINCGridCtrl.cpp,h
+		ViewMessagesGrid.cpp
+		ViewProjectsGrid.cpp
+		ViewResourcesGrid.cpp
+		ViewStatistics.cpp
+		ViewTransfersGrid.cpp
+		ViewWorkGrid.cpp

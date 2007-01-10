@@ -567,7 +567,7 @@ void CPaintStatistics::DrawLegend(wxDC &dc, PROJECTS * &proj, CMainDocument* &pD
 		y0 = wxCoord(m_WorkSpace_Y_start + ((double)(count - m_Legend_Shift) + 0.5) * m_Legend_dY + double(buffer_y1) + radius1);
 		if (x0 < 0) x0 = 0;
 		if (y0 < 0) y0 = 0;
-		if ((SelProj >= 0) || (!(m_HideProjectStatistic.count( wxString( (*i)->master_url.c_str() ) )))){
+		if ((SelProj >= 0) || (!(m_HideProjectStatistic.count( wxString( (*i)->master_url.c_str(),wxConvUTF8 ) )))){
 			myDrawPoint(dc, int(x0), int(y0), graphColour, typePoint ,m_GraphPointWidth);
 			dc.SetFont(m_font_bold);			
 		}else {
@@ -1271,10 +1271,10 @@ void CPaintStatistics::DrawAll(wxDC &dc) {
 			for (std::vector<PROJECT*>::const_iterator i = proj->projects.begin(); i != proj->projects.end(); ++i) {
 				++count;
 				if (m_ViewHideProjectStatistic == count){
-					s = m_HideProjectStatistic.find( wxString((*i)->master_url.c_str()) );
+					s = m_HideProjectStatistic.find( wxString((*i)->master_url.c_str(),wxConvUTF8) );
 					if (s != m_HideProjectStatistic.end()){
 						m_HideProjectStatistic.erase(s);
-					}else m_HideProjectStatistic.insert( wxString((*i)->master_url.c_str()) );
+					}else m_HideProjectStatistic.insert( wxString((*i)->master_url.c_str(),wxConvUTF8) );
 					break;
 				}
 			}
@@ -1292,7 +1292,7 @@ void CPaintStatistics::DrawAll(wxDC &dc) {
 		
 		if (m_Zoom_Auto){
 			for (std::vector<PROJECT*>::const_iterator i = proj->projects.begin(); i != proj->projects.end(); ++i) {
-				if (!(m_HideProjectStatistic.count( wxString((*i)->master_url.c_str()) ))){
+				if (!(m_HideProjectStatistic.count( wxString((*i)->master_url.c_str(),wxConvUTF8) ))){
 					MinMaxDayCredit(i, min_val_y, max_val_y, min_val_x, max_val_x, m_SelectedStatistic, false);
 				}
 			}
@@ -1312,7 +1312,7 @@ void CPaintStatistics::DrawAll(wxDC &dc) {
 		int count = -1;
 		for (std::vector<PROJECT*>::const_iterator i = proj->projects.begin(); i != proj->projects.end(); ++i) {
 			++count;
-			if (!(m_HideProjectStatistic.count( wxString((*i)->master_url.c_str()) ))){
+			if (!(m_HideProjectStatistic.count( wxString((*i)->master_url.c_str(),wxConvUTF8) ))){
 				wxColour graphColour = wxColour(0,0,0);
 				int  typePoint = 0;
 				getTypePoint(typePoint,count);
@@ -1946,8 +1946,8 @@ bool CViewStatistics::OnRestoreState(wxConfigBase* pConfig) {
 	wxString tmpstr1;
 	if (!(m_PaintStatistics->m_HideProjectStatistic.empty())) m_PaintStatistics->m_HideProjectStatistic.clear();
 	for (int count = 0; count < 1000; ++count) {
-		pConfig->Read(wxString::Format(wxT("%d"), count), &tmpstr1, "");
-		if (tmpstr1 == ""){ 
+		pConfig->Read(wxString::Format(wxT("%d"), count), &tmpstr1, wxT(""));
+		if (tmpstr1 == wxEmptyString){ 
 			break;
 		}else{
 			m_PaintStatistics->m_HideProjectStatistic.insert(tmpstr1);

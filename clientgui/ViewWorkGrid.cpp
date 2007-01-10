@@ -130,6 +130,7 @@ CViewWorkGrid::CViewWorkGrid(wxNotebook* pNotebook) :
     m_pTaskPane->UpdateControls();
 
 	// Create Grid (one dummy row is needed)
+	m_pGridPane->Setup();
 	m_pGridPane->SetTable(new CBOINCGridTable(1,8));
 	//don't use wxGrid->Create() here !!!!
 	m_pGridPane->SetSelectionMode(wxGrid::wxGridSelectRows);
@@ -152,7 +153,9 @@ CViewWorkGrid::CViewWorkGrid(wxNotebook* pNotebook) :
 	m_pGridPane->SetColumnSortType(COLUMN_CPUTIME,CST_TIME);
 	m_pGridPane->SetColumnSortType(COLUMN_TOCOMPLETION,CST_TIME);
 	m_pGridPane->SetColumnSortType(COLUMN_REPORTDEADLINE,CST_DATETIME);
-	//
+	//set primary key column index
+	m_pGridPane->SetPrimaryKeyColumn(COLUMN_NAME);
+
     UpdateSelection();
 }
 
@@ -362,7 +365,7 @@ void CViewWorkGrid::UpdateSelection() {
     CBOINCBaseView::PreUpdateSelection();
 
     pGroup = m_TaskGroups[0];
-    if (m_pGridPane->GetFirstSelectedRow() >= 0) {
+	if (m_pGridPane->GetSelectedRows2().size() == 1) {
 		wxString searchName = m_pGridPane->GetCellValue(m_pGridPane->GetFirstSelectedRow(),COLUMN_NAME).Trim(false);
 		result = pDoc->result(searchName);
         m_pTaskPane->EnableTask(pGroup->m_Tasks[BTN_SUSPEND]);
@@ -395,6 +398,10 @@ void CViewWorkGrid::UpdateSelection() {
         m_pTaskPane->EnableTask(pGroup->m_Tasks[BTN_ABORT]);
     } else {
         m_pTaskPane->DisableTaskGroupTasks(pGroup);
+		//disable website buttons if they exist
+		if(m_TaskGroups.size()>1) {
+			m_pTaskPane->DisableTaskGroupTasks(m_TaskGroups[1]);
+		}
     }
 
     CBOINCBaseView::PostUpdateSelection();
@@ -641,7 +648,6 @@ wxInt32 CViewWorkGrid::FormatStatus(wxInt32 item, wxString& strBuffer) const {
 
     doc->GetCoreClientStatus(status);
 
-	bool throttled = status.task_suspend_reason & SUSPEND_REASON_CPU_USAGE_LIMIT;
     if (result) {
         switch(result->state) {
             case RESULT_NEW:
@@ -659,7 +665,7 @@ wxInt32 CViewWorkGrid::FormatStatus(wxInt32 item, wxString& strBuffer) const {
                     strBuffer = _("Project suspended by user");
                 } else if (result->suspended_via_gui) {
                     strBuffer = _("Task suspended by user");
-				} else if (status.task_suspend_reason && !throttled) {
+				} else if (status.task_suspend_reason > 0) {
 					strBuffer = _("Suspended");
 					if (status.task_suspend_reason & SUSPEND_REASON_BATTERIES) {
 						strBuffer += _(" - on batteries");
@@ -679,18 +685,21 @@ wxInt32 CViewWorkGrid::FormatStatus(wxInt32 item, wxString& strBuffer) const {
 					if (status.task_suspend_reason & SUSPEND_REASON_DISK_SIZE) {
 						strBuffer += _(" - need disk space");
 					}
+					if (status.task_suspend_reason & SUSPEND_REASON_CPU_USAGE_LIMIT) {
+						strBuffer += _(" - CPU throttled");
+					}
                 } else if (result->active_task) {
                     if (result->too_large) {
                         strBuffer = _("Waiting for memory");
                     } else if (result->scheduler_state == CPU_SCHED_SCHEDULED) {
                         strBuffer = _("Running");
                     } else if (result->scheduler_state == CPU_SCHED_PREEMPTED) {
-                        strBuffer = _("Waiting to run");
+                        strBuffer = _("Preempted");
                     } else if (result->scheduler_state == CPU_SCHED_UNINITIALIZED) {
-                        strBuffer = _("Ready to start");
+                        strBuffer = _("Ready to run");
                     }
                 } else {
-                    strBuffer = _("Ready to start");
+                    strBuffer = _("Ready to run");
                 }
                 break;
             case RESULT_COMPUTE_ERROR:
@@ -780,20 +789,10 @@ void CViewWorkGrid::OnListRender( wxTimerEvent& WXUNUSED(event) ) {
 	int tdoccount= this->GetDocCount();
 	//prevent grid from flicker
 	m_pGridPane->BeginBatch();
-	//remember selected rows 
-	wxArrayInt arrSelRows = m_pGridPane->GetSelectedRows2();
-	wxArrayString arrSelNames;
-	for(unsigned int i=0; i< arrSelRows.GetCount();i++) {
-		arrSelNames.Add(m_pGridPane->GetCellValue(arrSelRows[i],COLUMN_NAME));
-	}
 	//remember grid cursor position
-	int ccol = m_pGridPane->GetGridCursorCol();
-	int crow = m_pGridPane->GetGridCursorRow();
-	wxString cursorName;
-	if(crow>=0 && ccol >=0) {
-		cursorName = m_pGridPane->GetCellValue(crow,COLUMN_NAME);
-	}
-
+	m_pGridPane->SaveGridCursorPosition();
+	//remember selected row(s)
+	m_pGridPane->SaveSelection();	
 	//(re)create rows, if necessary
 	if(tdoccount!= m_pGridPane->GetRows()) {
 		//at first, delet all current rows
@@ -837,19 +836,11 @@ void CViewWorkGrid::OnListRender( wxTimerEvent& WXUNUSED(event) ) {
 	}
 	m_pGridPane->SortData();
 	// restore grid cursor position
-	int index = m_pGridPane->GetTable()->FindRowIndexByColValue(COLUMN_NAME,cursorName);
-	if(index >=0) {
-		m_bIgnoreSelectionEvents =true;
-		m_pGridPane->SetGridCursor(index,ccol);		
-		m_bIgnoreSelectionEvents =false;
-	}
+	m_bIgnoreSelectionEvents =true;
+	m_pGridPane->RestoreGridCursorPosition();
+	m_bIgnoreSelectionEvents =false;
 	//restore selection
-	for(unsigned int i=0;i < arrSelNames.size();i++) {		
-		int index = m_pGridPane->GetTable()->FindRowIndexByColValue(COLUMN_NAME,arrSelNames[i]);
-		if(index >=0) {
-			m_pGridPane->SelectRow(index);
-		}
-	}
+	m_pGridPane->RestoreSelection();
 	m_pGridPane->EndBatch();	
 	//
 	UpdateSelection();
@@ -860,6 +851,7 @@ void CViewWorkGrid::OnListRender( wxTimerEvent& WXUNUSED(event) ) {
 */
 void CViewWorkGrid::OnSelectCell( wxGridEvent& ev )
 {
+	m_pGridPane->ClearSavedSelection();
     // you must call Skip() if you want the default processing
     // to occur in wxGrid
     ev.Skip();

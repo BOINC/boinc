@@ -34,7 +34,7 @@
 
 #include "res/mess.xpm"
 
-
+// column indexes
 #define COLUMN_PROJECT              0
 #define COLUMN_SEQNO				1
 #define COLUMN_PRIO					2
@@ -125,6 +125,7 @@ CViewMessagesGrid::CViewMessagesGrid(wxNotebook* pNotebook) :
     m_pTaskPane->UpdateControls();
 
 	// Create Grid
+	m_pGridPane->Setup();
 	m_pGridPane->SetTable(new CBOINCGridTable(1,5));
 	m_pGridPane->SetSelectionMode(wxGrid::wxGridSelectRows);
 	// init grid columns
@@ -133,12 +134,14 @@ CViewMessagesGrid::CViewMessagesGrid(wxNotebook* pNotebook) :
 	for(int i=0; i<= COLUMN_MESSAGE;i++){
 		m_pGridPane->SetColLabelValue(i,colTitles[i]);
 		m_pGridPane->SetColSize(i,colSizes[i]);
-	}
+	}	
 	//change the default cell renderer
 	m_pGridPane->SetDefaultRenderer(new CBOINCGridCellMessageRenderer(COLUMN_PRIO));
 	//set column sort types
 	m_pGridPane->SetColumnSortType(COLUMN_TIME,CST_TIME);
 	m_pGridPane->SetColumnSortType(COLUMN_SEQNO,CST_LONG);
+	//set primary key column index
+	m_pGridPane->SetPrimaryKeyColumn(COLUMN_SEQNO);
 
     UpdateSelection();
 }
@@ -263,22 +266,14 @@ bool CViewMessagesGrid::OnRestoreState(wxConfigBase* pConfig) {
 
 void CViewMessagesGrid::OnListRender (wxTimerEvent& WXUNUSED(event)) {
     wxASSERT(m_pGridPane);
+
 	int tdoccount=this->GetDocCount();
 	//prevent grid from flicker
 	m_pGridPane->BeginBatch();
-	//remember selected rows
-	wxArrayInt arrSelRows = m_pGridPane->GetSelectedRows2();
-	wxArrayString arrSelNames;
-	for(unsigned int i=0; i< arrSelRows.GetCount();i++) {
-		arrSelNames.Add(m_pGridPane->GetCellValue(arrSelRows[i],COLUMN_SEQNO));
-	}
 	//remember grid cursor position
-	int ccol = m_pGridPane->GetGridCursorCol();
-	int crow = m_pGridPane->GetGridCursorRow();
-	wxString cursorName;
-	if(crow>=0 && ccol >=0) {
-		cursorName = m_pGridPane->GetCellValue(crow,COLUMN_SEQNO);
-	}
+	m_pGridPane->SaveGridCursorPosition();
+	//remember selected row(s)
+	m_pGridPane->SaveSelection();	
 	//(re)create rows, if necessary
 	if(tdoccount!= m_pGridPane->GetRows()) {
 		//at first, delet all current rows
@@ -286,14 +281,11 @@ void CViewMessagesGrid::OnListRender (wxTimerEvent& WXUNUSED(event)) {
 			m_pGridPane->DeleteRows(0,m_pGridPane->GetRows());
 		}
 		//insert new rows
-		for(int rownum=0; rownum < tdoccount;rownum++) {
-			m_pGridPane->AppendRows();
-		}
+		m_pGridPane->AppendRows(tdoccount);
 	}
 
-	//update cell values
+	//update cell values (unsorted, like delivered from core client)
 	wxString buffer;
-
 	for(int rownum=0; rownum < tdoccount;rownum++) {
 		this->FormatProjectName(rownum,buffer);
 		m_pGridPane->SetCellValue(rownum,COLUMN_PROJECT,buffer);
@@ -310,21 +302,14 @@ void CViewMessagesGrid::OnListRender (wxTimerEvent& WXUNUSED(event)) {
 		this->FormatMessage(rownum,buffer);
 		m_pGridPane->SetCellValue(rownum,COLUMN_MESSAGE,buffer);
 	}
+	//sorting
 	m_pGridPane->SortData();
 	// restore grid cursor position
-	int index = m_pGridPane->GetTable()->FindRowIndexByColValue(COLUMN_TIME,cursorName);
-	if(index >=0) {
-		m_bIgnoreSelectionEvents =true;
-		m_pGridPane->SetGridCursor(index,ccol);
-		m_bIgnoreSelectionEvents =false;
-	}
+	m_bIgnoreSelectionEvents =true;
+	m_pGridPane->RestoreGridCursorPosition();
+	m_bIgnoreSelectionEvents =false;
 	//restore selection
-	for(unsigned int i=0;i < arrSelNames.size();i++) {
-		int index = m_pGridPane->GetTable()->FindRowIndexByColValue(COLUMN_TIME,arrSelNames[i]);
-		if(index >=0) {
-			m_pGridPane->SelectRow(index);
-		}
-	}
+	m_pGridPane->RestoreSelection();
 	m_pGridPane->EndBatch();
 	//
 	UpdateSelection();
@@ -390,10 +375,10 @@ wxInt32 CViewMessagesGrid::FormatPriority(wxInt32 item, wxString& strBuffer) con
     if (message) {
         switch(message->priority) {
         case MSG_INFO:
-            strBuffer = wxT("Info");
+			strBuffer = wxString("Info",wxConvUTF8);
             break;
         default:
-            strBuffer = wxT("Error");
+            strBuffer = wxString("Error",wxConvUTF8);
             break;
         }
     }
@@ -416,12 +401,14 @@ wxInt32 CViewMessagesGrid::FormatMessage(wxInt32 item, wxString& strBuffer) cons
 	handle selection events
 */
 void CViewMessagesGrid::OnSelectCell( wxGridEvent& ev )
-{
-    // you must call Skip() if you want the default processing
-    // to occur in wxGrid
+{	
+	m_pGridPane->ClearSavedSelection();
+	// you must call Skip() if you want the default processing
+    // to occur in wxGrid		
     ev.Skip();
+	
 	if(!m_bIgnoreSelectionEvents) {
-		m_bForceUpdateSelection = true;
+		m_bForceUpdateSelection = true;		
 	}
 }
 

@@ -121,6 +121,7 @@ CViewTransfersGrid::CViewTransfersGrid(wxNotebook* pNotebook) :
     m_pTaskPane->UpdateControls();
 
 	// Create Grid
+	m_pGridPane->Setup();
 	m_pGridPane->SetTable(new CBOINCGridTable(1,7));
 	m_pGridPane->SetSelectionMode(wxGrid::wxGridSelectRows);
 	// init grid columns
@@ -137,7 +138,8 @@ CViewTransfersGrid::CViewTransfersGrid(wxNotebook* pNotebook) :
 	m_pGridPane->SetColumnSortType(COLUMN_TIME,CST_TIME);
 	//m_pGridPane->SetColumnSortType(COLUMN_SIZE,CST_FLOAT);
 	m_pGridPane->SetColumnSortType(COLUMN_SPEED,CST_FLOAT);
-	//
+	//set primary key column index
+	m_pGridPane->SetPrimaryKeyColumn(COLUMN_FILE);
     UpdateSelection();
 }
 
@@ -243,7 +245,7 @@ void CViewTransfersGrid::UpdateSelection() {
 
     CBOINCBaseView::PreUpdateSelection();
 
-	if (m_pGridPane->GetFirstSelectedRow() >= 0) {
+	if (m_pGridPane->GetSelectedRows2().size()==1) {
         m_pTaskPane->EnableTaskGroupTasks(pGroup);
     } else {
         m_pTaskPane->DisableTaskGroupTasks(pGroup);
@@ -470,19 +472,10 @@ void CViewTransfersGrid::OnListRender( wxTimerEvent& WXUNUSED(event) ) {
 	//prevent grid from flicker
 	m_pGridPane->BeginBatch();
 	int tdoccount = this->GetDocCount();
-	//remember selected rows 
-	wxArrayInt arrSelRows = m_pGridPane->GetSelectedRows2();
-	wxArrayString arrSelNames;
-	for(unsigned int i=0; i< arrSelRows.GetCount();i++) {
-		arrSelNames.Add(m_pGridPane->GetCellValue(arrSelRows[i],COLUMN_FILE));
-	}
 	//remember grid cursor position
-	int ccol = m_pGridPane->GetGridCursorCol();
-	int crow = m_pGridPane->GetGridCursorRow();
-	wxString cursorName;
-	if(crow>=0 && ccol >=0) {
-		cursorName = m_pGridPane->GetCellValue(crow,COLUMN_FILE);
-	}
+	m_pGridPane->SaveGridCursorPosition();
+	//remember selected row(s)
+	m_pGridPane->SaveSelection();	
 	//(re)create rows, if necessary
 	if(tdoccount != m_pGridPane->GetRows()) {
 		//at first, delet all current rows
@@ -525,19 +518,11 @@ void CViewTransfersGrid::OnListRender( wxTimerEvent& WXUNUSED(event) ) {
 	}
 	m_pGridPane->SortData();
 	// restore grid cursor position
-	int index = m_pGridPane->GetTable()->FindRowIndexByColValue(COLUMN_FILE,cursorName);
-	if(index >=0) {
-		m_bIgnoreSelectionEvents =true;
-		m_pGridPane->SetGridCursor(index,ccol);		
-		m_bIgnoreSelectionEvents =false;
-	}
+	m_bIgnoreSelectionEvents =true;
+	m_pGridPane->RestoreGridCursorPosition();
+	m_bIgnoreSelectionEvents =false;
 	//restore selection
-	for(unsigned int i=0;i < arrSelNames.size();i++) {		
-		int index = m_pGridPane->GetTable()->FindRowIndexByColValue(COLUMN_FILE,arrSelNames[i]);
-		if(index >=0) {
-			m_pGridPane->SelectRow(index);
-		}
-	}
+	m_pGridPane->RestoreSelection();
 	m_pGridPane->EndBatch();	
 	//
 	UpdateSelection();
@@ -548,6 +533,7 @@ void CViewTransfersGrid::OnListRender( wxTimerEvent& WXUNUSED(event) ) {
 */
 void CViewTransfersGrid::OnSelectCell( wxGridEvent& ev )
 {
+	m_pGridPane->ClearSavedSelection();
     // you must call Skip() if you want the default processing
     // to occur in wxGrid
     ev.Skip();
