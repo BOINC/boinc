@@ -514,7 +514,7 @@ wxInt32 CViewWorkGrid::FormatApplicationName(wxInt32 item, wxString& strBuffer) 
         setlocale(LC_NUMERIC, "C");
         char buf[256];
         strcpy(buf, state_result->wup->app->user_friendly_name.c_str());
-        if (!strlen(buf) {
+        if (!strlen(buf)) {
             strcpy(buf, state_result->wup->avp->app_name.c_str());
         }
         strBuffer.Printf(
