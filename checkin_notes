@@ -436,3 +436,13 @@ Rom    10 Jan 2007
         
     client/win/
         win_screensaver.cpp
+
+David  11 Jan 2007
+    - Add script to clean up web cache.
+        Sometimes the cache gets so full that it takes 30 secs
+        just to compute free and used disk space,
+        so that normal cleanup times out before it does anything.
+        I recommend running clean_cache.php once a day.
+
+    html/ops/
+        clean_cache.php (new)
