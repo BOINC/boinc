@@ -84,13 +84,14 @@ function clean_cache($max_age, $dir) {
 // check free disk space every once in a while
 function cache_check_diskspace(){
     if (!(rand() % CACHE_SIZE_CHECK_FREQ)) {
-       $too_old=86400;
-       while ((disk_free_space("../cache") < MIN_FREE_SPACE) ||
-           (disk_usage("../cache") > MAX_CACHE_USAGE)
+        set_time_limit(0);  // this may take a while
+        $max_age = 86400;
+        while ((disk_free_space("../cache") < MIN_FREE_SPACE) ||
+            (disk_usage("../cache") > MAX_CACHE_USAGE)
         ) {
-           clean_cache($too_old, "../cache");
-           $too_old/=2;
-       }
+            clean_cache($max_age, "../cache");
+            $max_age/=2;
+        }
     }
 }
 

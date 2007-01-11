@@ -442,7 +442,16 @@ David  11 Jan 2007
         Sometimes the cache gets so full that it takes 30 secs
         just to compute free and used disk space,
         so that normal cleanup times out before it does anything.
-        I recommend running clean_cache.php once a day.
 
     html/ops/
         clean_cache.php (new)
+
+David  11 Jan 2007
+    - user web: call set_time_limit(0) in cache_check_diskspace().
+        This will hopefully avoid the situation described above.
+
+    html/
+        inc/
+            cache.inc
+        project.sample/
+            cache_parameters.inc

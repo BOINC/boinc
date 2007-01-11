@@ -1,8 +1,34 @@
 <?php
 require_once("docutil.php");
 
-page_head("Caching and translation");
+page_head("Web page caching");
 echo "
+Some pages on your project's web site are
+accessed often and require lots of database access to generate.
+To keep this from bogging down your server,
+BOINC caches these pages.
+This cache is in PROJECT/html/cache/*;
+a one-level hashed directory hierarchy is used
+to deal with large-directory performance problems.
+
+<h2>Caching configuration</h2>
+<p>
+The file html/project/cache_parameters.inc
+contains a number of parameters related to caching:
+";
+list_start();
+list_item("TEAM_PAGE_TTL", "Cache life of team pages; default 1 hour");
+list_item("USER_PAGE_TTL", "Cache life of user pages; default 1 hour");
+list_item("USER_HOST_TTL", "Cache life of user host list; default 1 hour");
+list_item("USER_PROFILE_TTL", "Cache life of profiles; default 1 hour");
+list_item("TOP_PAGES_TTL", "Cache life of user/team/host lists; default 12 hours");
+list_item("INDEX_PAGE_TTL", "Cache life of main page; default 1 hour");
+list_item("MAX_CACHE_USAGE", "Max cache size; default 100 MB");
+list_item("MIN_FREE_SPACE", "Min free space on device; default 100 MB");
+list_item("CACHE_SIZE_CHECK_FREQ", "Check cache size on every N user accesses to cached pages; default 1000");
+list_end();
+echo "
+<h2>Caching and translation</h2>
 BOINC uses several web-page caching systems,
 which support language translation in different ways.
 
