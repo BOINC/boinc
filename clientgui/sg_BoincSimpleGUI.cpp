@@ -618,7 +618,7 @@ void CSimplePanel::InitProjectView()
 {
 	// Do not update screen at this point
 	/////////////// MY PROJECTS COMPONENT /////////////////////
-    projComponent = new CProjectsComponent(this,wxPoint(31,413));
+    projComponent = new CProjectsComponent(this,wxPoint(31,414));
 	///////////////////////////////////////////////////////////
 	projectViewInitialized = true;
 }
