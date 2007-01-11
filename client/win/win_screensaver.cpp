@@ -71,7 +71,7 @@ INT WINAPI WinMain(
     DWORD        dwSize = sizeof(dwVal); 
     HKEY         hKey;
 
-
+#ifdef _DEBUG
     // Initialize Diagnostics
     retval = diagnostics_init (
         BOINC_DIAG_DUMPCALLSTACKENABLED | 
@@ -88,6 +88,7 @@ INT WINAPI WinMain(
         BOINCTRACE("WinMain - BOINC Screensaver Diagnostic Error '%d'\n", retval);
         MessageBox(NULL, NULL, "BOINC Screensaver Diagnostic Error", MB_OK);
     }
+#endif
 
     // Figure out if we're on Win9x
     OSVERSIONINFO osvi; 
