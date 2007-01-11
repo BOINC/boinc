@@ -269,7 +269,10 @@ int DAILY_STATS::parse(FILE* in) {
     char buf[256];
     clear();
     while (fgets(buf, 256, in)) {
-        if (match_tag(buf, "</daily_statistics>")) return 0;
+        if (match_tag(buf, "</daily_statistics>")) {
+            if (day == 0) return ERR_XML_PARSE;
+            return 0;
+        }
         else if (parse_double(buf, "<day>", day)) continue;
         else if (parse_double(buf, "<user_total_credit>", user_total_credit)) continue;
         else if (parse_double(buf, "<user_expavg_credit>", user_expavg_credit)) continue;
@@ -279,6 +282,10 @@ int DAILY_STATS::parse(FILE* in) {
     return ERR_XML_PARSE;
 }
 
+bool operator <  (const DAILY_STATS& x1, const DAILY_STATS& x2) {
+    return (x1.day < x2.day);
+}
+
 // parse an statistics_*.xml file
 //
 int PROJECT::parse_statistics(FILE* in) {
@@ -286,13 +293,17 @@ int PROJECT::parse_statistics(FILE* in) {
     char buf[256];
 
     while (fgets(buf, 256, in)) {
-        if (match_tag(buf, "</project_statistics>")) return 0;
+        if (match_tag(buf, "</project_statistics>")) {
+            sort(statistics.begin(), statistics.end());
+            return 0;
+        }
         else if (match_tag(buf, "<project_statistics>")) continue;
         else if (match_tag(buf, "<daily_statistics>")) {
             DAILY_STATS daily_stats;
             retval = daily_stats.parse(in);
-            if (retval) return retval;
-            statistics.push_back(daily_stats);
+            if (!retval) {
+                statistics.push_back(daily_stats);
+            }
             continue;
         }
         else if (parse_str(buf, "<master_url>", master_url, sizeof(master_url))) {
