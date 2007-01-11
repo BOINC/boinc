@@ -582,6 +582,7 @@ wxInt32 CViewWork::FormatApplicationName(wxInt32 item, wxString& strBuffer) cons
     CMainDocument* pDoc = wxGetApp().GetDocument();
     RESULT* result = wxGetApp().GetDocument()->result(item);
     RESULT* state_result = NULL;
+    wxString strLocalBuffer;
 
     wxASSERT(pDoc);
     wxASSERT(wxDynamicCast(pDoc, CMainDocument));
@@ -596,14 +597,14 @@ wxInt32 CViewWork::FormatApplicationName(wxInt32 item, wxString& strBuffer) cons
 
         wxString strLocale = wxString(setlocale(LC_NUMERIC, NULL), wxConvUTF8);
         setlocale(LC_NUMERIC, "C");
-        char buf[256];
-        strcpy(buf, state_result->wup->app->user_friendly_name.c_str());
-        if (!strlen(buf)) {
-                strcpy(buf, state_result->wup->avp->app_name.c_str());
+        if (state_result->wup->app->user_friendly_name.size()) {
+            strLocalBuffer = wxString(state_result->wup->app->user_friendly_name.c_str(), wxConvUTF8).c_str();
+        } else {
+            strLocalBuffer = wxString(state_result->wup->avp->app_name.c_str(), wxConvUTF8).c_str();
         }
         strBuffer.Printf(
             wxT("%s %.2f"), 
-            wxString(buf, wxConvUTF8).c_str(),
+            strLocalBuffer.c_str(),
             state_result->wup->avp->version_num/100.0
         );
         setlocale(LC_NUMERIC, (const char*)strLocale.mb_str());
@@ -736,7 +737,7 @@ wxInt32 CViewWork::FormatStatus(wxInt32 item, wxString& strBuffer) const {
 
     doc->GetCoreClientStatus(status);
 
-	bool throttled = status.task_suspend_reason & SUSPEND_REASON_CPU_USAGE_LIMIT;
+	wxInt32 throttled = status.task_suspend_reason & SUSPEND_REASON_CPU_USAGE_LIMIT;
     if (result) {
         switch(result->state) {
             case RESULT_NEW:
