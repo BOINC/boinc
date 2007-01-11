@@ -421,3 +421,10 @@ David  10 Jan 2007
     client/
         client_types.h
         cs_account.C
+
+David  10 Jan 2007
+	- manager: use user-friendly app names
+
+	clientgui/
+		ViewWork.cpp
+		ViewWorkGrid.cpp
