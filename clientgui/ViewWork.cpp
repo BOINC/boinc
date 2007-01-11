@@ -596,9 +596,14 @@ wxInt32 CViewWork::FormatApplicationName(wxInt32 item, wxString& strBuffer) cons
 
         wxString strLocale = wxString(setlocale(LC_NUMERIC, NULL), wxConvUTF8);
         setlocale(LC_NUMERIC, "C");
+        char buf[256];
+        strcpy(buf, state_result->wup->app->user_friendly_name.c_str());
+        if (!strlen(buf) {
+                strcpy(buf, state_result->wup->avp->app_name.c_str());
+        }
         strBuffer.Printf(
             wxT("%s %.2f"), 
-            wxString(state_result->wup->app->user_friendly_name.c_str(), wxConvUTF8).c_str(),
+            wxString(buf, wxConvUTF8).c_str(),
             state_result->wup->avp->version_num/100.0
         );
         setlocale(LC_NUMERIC, (const char*)strLocale.mb_str());
