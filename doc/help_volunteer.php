@@ -177,6 +177,16 @@ Make sure the understand the basic architecture.
 <li> How to get their friends and family interested in BOINC.
 </ul>
 
+<h2>Handling emails</h2>
+Some users may contact you initially by email.
+These are usually of the form 'I can't get BOINC to work'.
+You can either
+<ul>
+<li> Ask them to contact you by Skype
+<li> Try to resolve their problem by email.
+Here's a <a href=help_email.txt>template for getting details from the user</a>.
+</ul>
+
 <h2>What to do if you can't solve a problem</h2>
 <p>
 If you get a call with a problem that's completely outside your sphere,

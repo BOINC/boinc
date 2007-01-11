@@ -551,7 +551,7 @@ bool ACTIVE_TASK_SET::check_rsc_limits_exceeded() {
 }
 
 // If process is running, send it an "abort" message,
-// and if it doesn't exit within 5 seconds,
+// Set a flag so that if it doesn't exit within 5 seconds,
 // kill it by OS-specific mechanism (e.g. KILL signal).
 // This is done when app has exceeded CPU, disk, or mem limits,
 // or when the user has requested it.

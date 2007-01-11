@@ -413,3 +413,11 @@ David  10 Jan 2007
 		ViewStatistics.cpp
 		ViewTransfersGrid.cpp
 		ViewWorkGrid.cpp
+
+David  10 Jan 2007
+    - core client: sort daily stats records in case they get
+        out of order somehow
+
+    client/
+        client_types.h
+        cs_account.C

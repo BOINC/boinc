@@ -302,7 +302,7 @@ int boinc_truncate(const char* path, double size) {
     return 0;
 }
 
-// removes all files from specified directory
+// recursively delete everything in the specified directory
 //
 int clean_out_dir(const char* dirpath) {
     char filename[256], path[256];

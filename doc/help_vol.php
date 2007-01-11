@@ -116,7 +116,7 @@ if ($send_email) {
     if (!$vol) {
         error_page("No such volunteer $volid");
     }
-    $msg = $_GET['message'];
+    $msg = stripslashes($_GET['message']);
     $body = "The following message was sent by a BOINC Help user.\n";
     $email_addr = $_GET['email_addr'];
     if ($email_addr) {

@@ -148,6 +148,7 @@ struct DAILY_STATS {
     DAILY_STATS() {clear();}
     int parse(FILE*);
 };
+bool operator < (const DAILY_STATS&, const DAILY_STATS&);
 
 class PROJECT {
 public:
