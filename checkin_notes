@@ -428,3 +428,11 @@ David  10 Jan 2007
 	clientgui/
 		ViewWork.cpp
 		ViewWorkGrid.cpp
+
+Rom    10 Jan 2007
+    - SCR: Disable the diagnostic support for release builds of the
+        Windows screensaver. A smarter thing to do in the future is
+        to write the log files to the 'temp' directory.
+        
+    client/win/
+        win_screensaver.cpp
