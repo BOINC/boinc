@@ -259,3 +259,11 @@ David  27 Dec 2006
     
 	uppercase/
 		upper_case.C
+
+David  11 Jan 2006
+    - upper_case: if checkpoint found,
+        truncate the output file to the indicated size.
+        Otherwise a checkpoint/restart generally produces a bad result.
+
+	uppercase/
+		upper_case.C

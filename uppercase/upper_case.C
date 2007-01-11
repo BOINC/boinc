@@ -105,43 +105,56 @@ int do_checkpoint(MFILE& mf, int nchars) {
 
 
 void worker() {
-    int c, nchars = 0, retval;
+    int c, nchars = 0, retval, n;
     double fsize;
-    char resolved_name[512];
+    char input_path[512], output_path[512], chkpt_path[512];
     MFILE out;
     FILE* state, *infile;
 
-    boinc_resolve_filename(INPUT_FILENAME, resolved_name, sizeof(resolved_name));
-    infile = boinc_fopen(resolved_name, "r");
+    // open the input file (resolve logical name first)
+    //
+    boinc_resolve_filename(INPUT_FILENAME, input_path, sizeof(input_path));
+    infile = boinc_fopen(input_path, "r");
     if (!infile) {
-        fprintf(
-            stderr,
-            "Couldn't find input file, resolved name %s.\n",
-            resolved_name
+        fprintf(stderr,
+            "Couldn't find input file, resolved name %s.\n", input_path
         );
         exit(-1);
     }
 
-    file_size(resolved_name, fsize);
+    // get size of input file (used to compute fraction done)
+    //
+    file_size(input_path, fsize);
 
-    boinc_resolve_filename(CHECKPOINT_FILE, resolved_name, sizeof(resolved_name));
-    state = boinc_fopen(resolved_name, "r");
+    // open output file
+    //
+    boinc_resolve_filename(OUTPUT_FILENAME, output_path, sizeof(output_path));
+
+    // See if there's a valid checkpoint file.
+    // If so seek input file and truncate output file
+    //
+    boinc_resolve_filename(CHECKPOINT_FILE, chkpt_path, sizeof(chkpt_path));
+    state = boinc_fopen(chkpt_path, "r");
     if (state) {
-        fscanf(state, "%d", &nchars);
+        n = fscanf(state, "%d", &nchars);
         fclose(state);
+    }
+    if (state && n==1) {
         fseek(infile, nchars, SEEK_SET);
-        boinc_resolve_filename(OUTPUT_FILENAME, resolved_name, sizeof(resolved_name));
-        retval = out.open(resolved_name, "a");
+        boinc_truncate(output_path, nchars);
+        retval = out.open(output_path, "a");
     } else {
-        boinc_resolve_filename(OUTPUT_FILENAME, resolved_name, sizeof(resolved_name));
-        retval = out.open(resolved_name, "w");
+        retval = out.open(output_path, "w");
     }
     if (retval) {
         fprintf(stderr, "APP: upper_case output open failed:\n");
-        fprintf(stderr, "resolved name %s, retval %d\n", resolved_name, retval);
+        fprintf(stderr, "resolved name %s, retval %d\n", output_path, retval);
         perror("open");
         exit(1);
     }
+
+    // main loop - read characters, convert to UC, write
+    //
     for (int i=0; ; i++) {
         c = fgetc(infile);
 
@@ -180,11 +193,15 @@ void worker() {
 
         boinc_fraction_done(nchars/fsize);
     }
+
     retval = out.flush();
     if (retval) {
         fprintf(stderr, "APP: upper_case flush failed %d\n", retval);
         exit(1);
     }
+
+    // burn up some CPU time if needed
+    //
     if (cpu_time) {
         double start = dtime();
         while (1) {
