@@ -13733,7 +13733,7 @@ Charlie 9 Jan 2007
     - MGR: Updates to disk usage pie charts from Frank Weiler.
     
     clientgui/
-        ViewResources.cp
+        ViewResources.cpp
         common/
             wxPieCtrl.cpp,h
 
@@ -13787,3 +13787,16 @@ Walt   11 Jan 2007
 
     clientgui
         ViewStatistics.cpp
+
+Rom    11 Jan 2007
+    - MGR: Possible fix for the Simple GUI messages dialog?
+    
+    clientgui/
+        sg_DlgMessages.cpp
+
+Charlie 12 Jan 2007
+    - MGR: Copy missing source file from HEAD branch for Frank Weiler's pie 
+        charts updates.
+    
+    clientgui/
+        ViewResources.cpp

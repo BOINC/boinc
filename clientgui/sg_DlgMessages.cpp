@@ -94,6 +94,7 @@ CPanelMessages::CPanelMessages( wxWindow* parent ) :
 bool CPanelMessages::Create()
 {
 ////@begin CPanelMessages member initialisation
+    m_iPreviousDocCount = 0;
 	m_bProcessingRefreshEvent = false;
 ////@end CPanelMessages member initialisation
 
