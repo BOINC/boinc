@@ -280,6 +280,10 @@ struct HOST {
     int max_results_day;    // maximum # of results to send per day per CPU
         // this is dynamically adjusted to limit work sent to bad hosts
 
+    // the following not stored in DB
+    //
+    double claimed_credit_per_cpu_sec;
+
     int parse(FILE*);
     int parse_time_stats(FILE*);
     int parse_net_stats(FILE*);

@@ -434,7 +434,8 @@ void DB_HOST::db_parse(MYSQL_ROW &r) {
     max_results_day = atoi(r[i++]);
 }
 
-// update fields that differ from the argument HOST
+// update fields that differ from the argument HOST.
+// called from scheduler (handle_request.C)
 //
 int DB_HOST::update_diff(HOST& h) {
     char buf[LARGE_BLOB_SIZE], updates[LARGE_BLOB_SIZE], query[LARGE_BLOB_SIZE];
@@ -567,10 +568,6 @@ int DB_HOST::update_diff(HOST& h) {
     }
     if (n_bwup != h.n_bwup) {
         sprintf(buf, " n_bwup=%f,", n_bwup);
-        strcat(updates, buf);
-    }
-    if (credit_per_cpu_sec != h.credit_per_cpu_sec) {
-        sprintf(buf, " credit_per_cpu_sec=%f,", credit_per_cpu_sec);
         strcat(updates, buf);
     }
     if (strcmp(venue, h.venue)) {

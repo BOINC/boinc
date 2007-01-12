@@ -42,6 +42,7 @@ using namespace std;
 #include "sched_config.h"
 #include "sched_util.h"
 #include "sched_msgs.h"
+#include "validate_util.h"
 
 #define LOCKFILE "validate.out"
 #define PIDFILE  "validate.pid"
@@ -106,7 +107,10 @@ int grant_credit(RESULT& result) {
         return retval;
     }
 
-    update_average(result.sent_time, result.granted_credit, CREDIT_HALF_LIFE, user.expavg_credit, user.expavg_time);
+    update_average(
+        result.sent_time, result.granted_credit, CREDIT_HALF_LIFE,
+        user.expavg_credit, user.expavg_time
+    );
     sprintf(
         buf, "total_credit=total_credit+%f, expavg_credit=%f, expavg_time=%f",
         result.granted_credit,  user.expavg_credit, user.expavg_time
@@ -128,16 +132,18 @@ int grant_credit(RESULT& result) {
     double turnaround = result.received_time - result.sent_time;
     compute_avg_turnaround(host, turnaround);
 
-#ifdef TEST_CREDIT_PER_CPU_SEC
-    int err = update_credit_per_cpu_sec(result.granted_credit, result.cpu_time, host.credit_per_cpu_sec);
-    if (err) {
+    // compute new credit per CPU time
+    //
+    retval = update_credit_per_cpu_sec(
+        result.granted_credit, result.cpu_time, host.credit_per_cpu_sec
+    );
+    if (retval) {
         log_messages.printf(
             SCHED_MSG_LOG::MSG_CRITICAL,
             "[RESULT#%d][HOST#%d] claimed too much credit (%f) in too little CPU time (%f)\n",
             result.id, result.hostid, result.granted_credit, result.cpu_time
         );
     }
-#endif
 
     sprintf(
         buf,

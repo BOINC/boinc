@@ -406,7 +406,7 @@ static void compute_credit_rating(HOST& host) {
     x *= COBBLESTONE_FACTOR;
     x /= SECONDS_PER_DAY;
     x *= scale;
-    host.credit_per_cpu_sec  = x;
+    host.claimed_credit_per_cpu_sec  = x;
 }
 
 // modify host struct based on request.
@@ -450,7 +450,7 @@ static int modify_host_struct(SCHEDULER_REQUEST& sreq, HOST& host) {
     host.fix_nans();
 
     compute_credit_rating(host);
-    sreq.host.credit_per_cpu_sec=host.credit_per_cpu_sec;
+    sreq.host.claimed_credit_per_cpu_sec=host.claimed_credit_per_cpu_sec;
     return 0;
 }
 
@@ -799,13 +799,11 @@ int handle_results(SCHEDULER_REQUEST& sreq, SCHEDULER_REPLY& reply) {
                 rp->intops_per_cpu_sec*srip->cpu_time
             );
         } else {
-            srip->claimed_credit = srip->cpu_time * reply.host.credit_per_cpu_sec;
+            srip->claimed_credit = srip->cpu_time * reply.host.claimed_credit_per_cpu_sec;
         }
-#ifdef EINSTEIN_AT_HOME
         log_messages.printf(SCHED_MSG_LOG::MSG_DEBUG,
-            "cpu %f cpcs %f, cc %f\n", srip->cpu_time, reply.host.credit_per_cpu_sec, srip->claimed_credit
+            "cpu %f cpcs %f, cc %f\n", srip->cpu_time, reply.host.claimed_credit_per_cpu_sec, srip->claimed_credit
         );
-#endif
         srip->server_state = RESULT_SERVER_STATE_OVER;
 
         strlcpy(srip->stderr_out, rp->stderr_out, sizeof(srip->stderr_out));
@@ -1281,11 +1279,6 @@ void process_request(
     }
     
     handle_global_prefs(sreq, reply);
-
-#if 0
-    reply.deletion_policy_priority = config.deletion_policy_priority;
-    reply.deletion_policy_expire = config.deletion_policy_expire;
-#endif
 
     handle_results(sreq, reply);
 

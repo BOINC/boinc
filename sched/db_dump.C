@@ -373,6 +373,7 @@ void write_host(HOST& host, FILE* f, bool detail) {
             "  <n_bwup>%f</n_bwup>\n"
             "  <n_bwdown>%f</n_bwdown>\n"
             "  <avg_turnaround>%f</avg_turnaround>\n"
+            "  <credit_per_cpu_sec>%f</credit_per_cpu_sec>\n"
             "  <host_cpid>%s</host_cpid>\n",
             host.create_time,
             host.rpc_time,
@@ -389,6 +390,7 @@ void write_host(HOST& host, FILE* f, bool detail) {
             host.n_bwup,
             host.n_bwdown,
             host.avg_turnaround,
+            host.credit_per_cpu_sec,
             host.host_cpid
         );
     }

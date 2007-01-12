@@ -481,3 +481,30 @@ Rom    11 Jan 2007
     
     clientgui/
         sg_DlgMessages.cpp
+
+David  12 Jan 2007
+    - Server: change the usage of host.credit_per_cpu_sec
+        so that it is the recent average of granted credit per CPU sec,
+        as computed by Bruce's update_credit_per_cpu_sec() function
+        (finally, a use for hyperbolic trig functions in BOINC).
+        Prior to this it was the most recent value of
+        claimed credit per CPU sec, which is not as useful.
+        Add a new non-DB member to HOST, claimed_credit_per_cpu_sec,
+        for this purpose.
+    - db_dump.C: export host.credit_per_cpu_sec
+    - move update_credit_per_cpu_sec() from lib/util.C to sched/validate_util.C
+
+    Once a few projects pick up this change, it will be useful
+    for comparing credit-granting policies between projects
+    (for hosts that participate in multiple projects,
+    the credit per CPU second should be about the same).
+
+    db/
+        boinc_db.C,h
+    lib/
+        util.C,h
+    sched/
+        db_dump.C
+        handle_request.C
+        validate_util.C,h
+        validator.C
