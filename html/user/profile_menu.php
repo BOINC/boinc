@@ -8,7 +8,7 @@ require_once("../inc/uotd.inc");
 db_init();
 
 $option = get_str('cmd', true);
-if ($cmd) {
+if ($option) {
     select_profile($option);
     exit();
 }
