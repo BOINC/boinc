@@ -7,9 +7,9 @@ require_once("../inc/uotd.inc");
 
 db_init();
 
-$cmd = $_GET['cmd'];
+$option = get_str('cmd', true);
 if ($cmd) {
-    execute_command($cmd);
+    select_profile($option);
     exit();
 }
 
@@ -47,40 +47,39 @@ rowify("<br>");
 row1("User Profile Explorer");
 echo "<tr><td>
     <ul>
-    <li>View the <a href=" . URL_BASE . "user_profile/user_gallery_1.html>User Picture Gallery</a>.
-    <li>Browse profiles <a href=" . URL_BASE . "user_profile/profile_country.html>by country</a>.
-    <li>Browse profiles <a href=" . $_SERVER['PHP_SELF'] . "?cmd=rand&pic=-1>at random</a>,
-    <a href=" . $_SERVER['PHP_SELF'] . "?cmd=rand&pic=1>at random with pictures</a>, or 
-    <a href=" . $_SERVER['PHP_SELF'] . "?cmd=rand&pic=0>at random without pictures</a>. 
-
-    <li>Alphabetical profile listings <i></i>:<br>
+    <li>View the <a href=\"" . URL_BASE . "user_profile/user_gallery_1.html\">User Picture Gallery</a>.</li>
+    <li>Browse profiles <a href=\"" . URL_BASE . "user_profile/profile_country.html\">by country</a>.</li>
+    <li>Browse profiles <a href=\"?cmd=rand&pic=-1\">at random</a>,
+    <a href=\"?cmd=rand&pic=1\">at random with pictures</a>, or 
+    <a href=\"?cmd=rand&pic=0\">at random without pictures</a>.</li>
 ";
+if (file_exists(PROFILE_PATH . "profile_alpha.html")) {
+    echo "<li>Alphabetical profile listings:<br>";
 
-include( PROFILE_PATH . "profile_alpha.html" );
+    include( PROFILE_PATH . "profile_alpha.html" );
+}
+echo "</ul></td></tr>";
 
-echo "<br></ul></td></tr>";
-
-rowify("<br>");
 row1("Search user names");
 
 rowify("
-    <form action=user_search_action.php method=GET>
-    <input name=search_string>
-    <input type=submit value=OK>
+    <form action=\"user_search_action.php\" method=\"GET\">
+    <input name=\"search_string\">
+    <input type=\"submit\" value=\"OK\">
     </form>
 ");
 row1("Search profile text");
 rowify("
-    <form action=profile_search_action.php method=GET>
-    <input name=search_string>
-    <input type=submit value=OK>
+    <form action=\"profile_search_action.php\" method=\"GET\">
+    <input name=\"search_string\">
+    <input type=\"submit\" value=\"OK\">
     </form>
 ");
 end_table();
 
 page_tail();
 
-function execute_command($cmd) {
+function select_profile($cmd) {
     // Request for a random profile.
     //
     if ($cmd == "rand") {
