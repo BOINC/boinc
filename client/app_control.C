@@ -162,11 +162,18 @@ int ACTIVE_TASK::preempt(bool quit_task) {
         retval = request_exit();
     } else {
         if (log_flags.cpu_sched) {
-            msg_printf(result->project, MSG_INFO,
-                "[cpu_sched] Preempting %s (left in memory)",
-                result->name
-            );
-        }
+			if (quit_task) {
+				msg_printf(result->project, MSG_INFO,
+					"[cpu_sched] Preempting %s (left in memory because no checkpoint yet)",
+					result->name
+				);
+			} else {
+				msg_printf(result->project, MSG_INFO,
+					"[cpu_sched] Preempting %s (left in memory)",
+					result->name
+				);
+			}
+		}
         retval = suspend();
     }
     return 0;
@@ -552,6 +559,8 @@ bool ACTIVE_TASK_SET::check_rsc_limits_exceeded() {
 int ACTIVE_TASK::abort_task(int exit_status, const char* msg) {
     if (task_state == PROCESS_EXECUTING || task_state == PROCESS_SUSPENDED) {
         task_state = PROCESS_ABORT_PENDING;
+        scheduler_state = CPU_SCHED_PREEMPTED;
+			// so scheduler doesn't try to preempt it
         abort_time = gstate.now;
 		request_abort();
     } else {

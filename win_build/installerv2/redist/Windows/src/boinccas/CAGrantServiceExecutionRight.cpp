@@ -149,7 +149,7 @@ UINT CAGrantServiceExecutionRight::OnExecution()
             NULL,
             NULL,
             NULL,
-            _T("Failed to be able to optain the SID for the selected user on the localhost")
+            _T("Failed to be able to obtain the SID for the selected user on the localhost")
         );
         return ERROR_INSTALL_FAILURE;
     }

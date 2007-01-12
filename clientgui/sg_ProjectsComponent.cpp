@@ -29,6 +29,7 @@
 #include "parse.h"
 #include "error_numbers.h"
 #include "Events.h"
+#include "hyperlink.h"
 #include "BOINCGUIApp.h"
 #include "SkinManager.h"
 #include "MainDocument.h"
@@ -46,6 +47,7 @@
 IMPLEMENT_DYNAMIC_CLASS(CProjectsComponent, wxPanel)
 
 BEGIN_EVENT_TABLE(CProjectsComponent, wxPanel)
+    EVT_BUTTON(ID_SIMPLE_HELP, CProjectsComponent::OnHelp)
     EVT_BUTTON(ID_SIMPLE_MESSAGES, CProjectsComponent::OnMessages)
     EVT_BUTTON(ID_SIMPLE_MESSAGES_ALERT, CProjectsComponent::OnMessages)
     EVT_BUTTON(ID_SIMPLE_SUSPEND, CProjectsComponent::OnSuspend)
@@ -99,7 +101,7 @@ void CProjectsComponent::CreateComponent()
         this,
         -1,
         *pSkinSimple->GetAttachProjectButton()->GetBitmap(),
-        wxPoint(235,7),
+        wxPoint(214,7),
         wxSize(81,18),
         wxBU_AUTODRAW
     );
@@ -109,6 +111,27 @@ void CProjectsComponent::CreateComponent()
 		);
 	}
 	btnAddProj->SetToolTip(ttAddProject);
+
+    /// Help
+	wxToolTip *ttHelp = new wxToolTip(_("Get help with BOINC"));
+	btnHelp=new wxBitmapButton(
+        this,
+        ID_SIMPLE_HELP,
+        *pSkinSimple->GetHelpButton()->GetBitmap(),
+        wxPoint(300,7),
+        wxSize(
+            (*pSkinSimple->GetHelpButton()->GetBitmap()).GetWidth(),
+            (*pSkinSimple->GetHelpButton()->GetBitmap()).GetHeight()
+        ),
+        wxBU_AUTODRAW
+    );
+	if ( pSkinSimple->GetHelpButton()->GetBitmapClicked() != NULL ) {
+		btnHelp->SetBitmapSelected(
+			*pSkinSimple->GetHelpButton()->GetBitmapClicked()
+		);
+	}
+	btnHelp->SetToolTip(ttHelp);
+
 	
     /// Line
 	lnMyProjTop = new CTransparentStaticLine(this, wxID_ANY, wxPoint(29,29),wxSize(292,1));
@@ -345,6 +368,21 @@ void CProjectsComponent::UpdateDisplayedProjects() {
 }
 
 
+void CProjectsComponent::OnHelp(wxCommandEvent& /*event*/) {
+    wxLogTrace(wxT("Function Start/End"), wxT("CProjectsComponent::OnHelp - Function Begin"));
+
+	std::string url;
+	url = wxGetApp().GetSkinManager()->GetAdvanced()->GetCompanyWebsite().mb_str();
+	canonicalize_master_url(url);
+
+	wxString wxurl;
+	wxurl.Printf(wxT("%smanager_links.php?target=simple"), url.c_str());
+    wxHyperLink::ExecuteLink(wxurl);
+
+    wxLogTrace(wxT("Function Start/End"), wxT("CProjectsComponent::OnHelp - Function End"));
+}
+
+
 void CProjectsComponent::OnMessages(wxCommandEvent& /*event*/) {
     wxLogTrace(wxT("Function Start/End"), wxT("CProjectsComponent::OnMessages - Function Begin"));
 
@@ -368,11 +406,11 @@ void CProjectsComponent::OnSuspend(wxCommandEvent& /*event*/) {
     wxLogTrace(wxT("Function Start/End"), wxT("CProjectsComponent::OnSuspend - Function Begin"));
 
     CMainDocument* pDoc = wxGetApp().GetDocument();
+
     wxASSERT(pDoc);
     wxASSERT(wxDynamicCast(pDoc, CMainDocument));
 
     pDoc->SetActivityRunMode(RUN_MODE_NEVER, 3600);
-    pDoc->SetNetworkRunMode(RUN_MODE_NEVER, 3600);
 
     btnPause->Show(false);
     btnResume->Show(true);
@@ -385,19 +423,16 @@ void CProjectsComponent::OnResume(wxCommandEvent& /*event*/) {
     wxLogTrace(wxT("Function Start/End"), wxT("CProjectsComponent::OnResume - Function Begin"));
 
     CMainDocument* pDoc      = wxGetApp().GetDocument();
-    CC_STATUS      status;
+    CC_STATUS ccs;
 
     wxASSERT(pDoc);
     wxASSERT(wxDynamicCast(pDoc, CMainDocument));
 
-    pDoc->GetCoreClientStatus(status);
-    if ((status.task_mode_perm != status.task_mode) || (status.network_mode_perm != status.network_mode)) {
-        if (status.task_mode_perm != status.task_mode) {
-            pDoc->SetActivityRunMode(RUN_MODE_RESTORE, 0);
-        }
-        if (status.network_mode_perm != status.network_mode) {
-            pDoc->SetNetworkRunMode(RUN_MODE_RESTORE, 0);
-        }
+    pDoc->GetCoreClientStatus(ccs);
+    if ((RUN_MODE_NEVER == ccs.task_mode) && (0 >= ccs.task_mode_delay)) {
+        pDoc->SetActivityRunMode(RUN_MODE_AUTO, 0);
+    } else {
+        pDoc->SetActivityRunMode(RUN_MODE_RESTORE, 0);
     }
 
     btnResume->Show(false);
@@ -455,7 +490,7 @@ void CProjectsComponent::UpdateInterface()
 	// Show resume or pause as appropriate
 	CC_STATUS status;
 	pDoc->GetCoreClientStatus(status);
-    if ((RUN_MODE_NEVER == status.task_mode) && (RUN_MODE_NEVER == status.network_mode)) {
+    if (RUN_MODE_NEVER == status.task_mode) {
 		btnPause->Show(false);
 		btnResume->Show(true);
 	} else {

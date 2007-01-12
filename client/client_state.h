@@ -83,9 +83,7 @@ public:
     PROXY_INFO proxy_info;
     GUI_HTTP gui_http;
 
-    int core_client_major_version;
-    int core_client_minor_version;
-    int core_client_release;
+    VERSION_INFO core_client_version;
     string statefile_platform_name;
     int file_xfer_giveup_period;
     MODE run_mode;
@@ -149,11 +147,12 @@ public:
     bool redirect_io;
         // redirect stdout, stderr to log files
     bool disable_graphics;
-        // a condition has ocurred in which we know graphics will
-        // not be able to be displayed for the user.  So the
-        // manager and any other application should disable the
-        // ability to request graphics in the UI.
+        // a condition has occurred in which we know graphics will
+        // not be displayable.
+        // So GUIs shouldn't offer graphics.
     bool detach_console;
+    bool launched_by_manager;
+        // this affects auto-update
     double now;
     const char* platform_name;
     bool initialized;
@@ -193,10 +192,6 @@ public:
     void new_version_check();
     double new_version_check_time;
     string newer_version;
-
-// --------------- auto_update.C:
-public:
-    AUTO_UPDATE auto_update;
 
 // --------------- client_state.C:
 public:
@@ -277,7 +272,7 @@ public:
 public:
     int add_project(
         const char* master_url, const char* authenticator,
-        bool attached_via_acct_mgr=false
+        const char* project_name, bool attached_via_acct_mgr
     );
 private:
     int parse_account_files();

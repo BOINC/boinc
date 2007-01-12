@@ -33,6 +33,7 @@
 #include "BOINCGUIApp.h"
 #include "SkinManager.h"
 #include "MainDocument.h"
+#include "hyperlink.h"
 #include "sg_DlgMessages.h"
 #include "sg_SGUIListControl.h"
 
@@ -66,6 +67,7 @@ BEGIN_EVENT_TABLE( CPanelMessages, wxPanel )
     EVT_BUTTON( wxID_OK, CPanelMessages::OnOK )
     EVT_BUTTON(ID_COPYAll, CPanelMessages::OnMessagesCopyAll)
     EVT_BUTTON(ID_COPYSELECTED, CPanelMessages::OnMessagesCopySelected)
+    EVT_BUTTON(ID_SIMPLE_HELP, CPanelMessages::OnButtonHelp)
 ////@end CPanelPreferences event table entries
 END_EVENT_TABLE()
 
@@ -165,7 +167,17 @@ void CPanelMessages::CreateControls()
 #endif
 
 #ifdef wxUSE_CLIPBOARD
-    wxBitmapButton* itemButton1 = new wxBitmapButton(this, ID_COPYAll, *pSkinSimple->GetCopyAllButton()->GetBitmap(), wxDefaultPosition, wxDefaultSize, wxBU_AUTODRAW);
+    wxBitmapButton* itemButton1 = new wxBitmapButton(
+        this,
+        ID_COPYAll,
+        *pSkinSimple->GetCopyAllButton()->GetBitmap(),
+        wxDefaultPosition,
+        wxSize(
+            (*pSkinSimple->GetCopyAllButton()->GetBitmap()).GetWidth(),
+            (*pSkinSimple->GetCopyAllButton()->GetBitmap()).GetHeight()
+        ),
+        wxBU_AUTODRAW
+    );
 	if ( pSkinSimple->GetCopyAllButton()->GetBitmapClicked() != NULL ) {
 		itemButton1->SetBitmapSelected(*pSkinSimple->GetCopyAllButton()->GetBitmapClicked());
 	}
@@ -179,7 +191,17 @@ void CPanelMessages::CreateControls()
 #endif
     itemBoxSizer4->Add(itemButton1, 0, wxALIGN_CENTER_VERTICAL|wxALL, 5);
 
-    wxBitmapButton* itemButton2 = new wxBitmapButton(this, ID_COPYSELECTED, *pSkinSimple->GetCopyButton()->GetBitmap(), wxDefaultPosition, wxDefaultSize, wxBU_AUTODRAW);
+    wxBitmapButton* itemButton2 = new wxBitmapButton(
+        this,
+        ID_COPYSELECTED,
+        *pSkinSimple->GetCopyButton()->GetBitmap(),
+        wxDefaultPosition,
+        wxSize(
+            (*pSkinSimple->GetCopyButton()->GetBitmap()).GetWidth(),
+            (*pSkinSimple->GetCopyButton()->GetBitmap()).GetHeight()
+        ),
+        wxBU_AUTODRAW
+    );
 	if ( pSkinSimple->GetCopyButton()->GetBitmapClicked() != NULL ) {
 		itemButton2->SetBitmapSelected(*pSkinSimple->GetCopyButton()->GetBitmapClicked());
 	}
@@ -210,11 +232,48 @@ void CPanelMessages::CreateControls()
     itemBoxSizer4->Add(itemButton2, 0, wxALIGN_CENTER_VERTICAL|wxALL, 5);
 #endif
 
-    wxBitmapButton* itemBitmapButton44 = new wxBitmapButton(this, wxID_OK, *pSkinSimple->GetCloseButton()->GetBitmap(), wxDefaultPosition, wxDefaultSize, wxBU_AUTODRAW);
+    wxBitmapButton* itemBitmapButton44 = new wxBitmapButton(
+        this,
+        wxID_OK,
+        *pSkinSimple->GetCloseButton()->GetBitmap(),
+        wxDefaultPosition,
+        wxSize(
+            (*pSkinSimple->GetCloseButton()->GetBitmap()).GetWidth(),
+            (*pSkinSimple->GetCloseButton()->GetBitmap()).GetHeight()
+        ),
+        wxBU_AUTODRAW
+    );
 	if ( pSkinSimple->GetCloseButton()->GetBitmapClicked() != NULL ) {
 		itemBitmapButton44->SetBitmapSelected(*pSkinSimple->GetCloseButton()->GetBitmapClicked());
 	}
     itemBoxSizer4->Add(itemBitmapButton44, 0, wxALIGN_CENTER_VERTICAL|wxALL, 5);
+
+#ifndef __WXMSW__
+#ifdef __WXMAC__
+	wxBitmapButton* itemButton45 = new wxBitmapButton(
+        this,
+        ID_SIMPLE_HELP,
+        *pSkinSimple->GetHelpButton()->GetBitmap(),
+        wxDefaultPosition,
+        wxSize(
+            (*pSkinSimple->GetHelpButton()->GetBitmap()).GetWidth(),
+            (*pSkinSimple->GetHelpButton()->GetBitmap()).GetHeight()
+        ),
+        wxBU_AUTODRAW
+    );
+	if ( pSkinSimple->GetHelpButton()->GetBitmapClicked() != NULL ) {
+		itemButton45->SetBitmapSelected(*pSkinSimple->GetHelpButton()->GetBitmapClicked());
+	}
+#ifdef wxUSE_TOOLTIPS
+	itemButton45->SetToolTip(new wxToolTip(_("Get help with BOINC")));
+#endif
+    itemBoxSizer4->Add(itemButton45, 0, wxALIGN_CENTER_VERTICAL|wxALL, 5);
+#else
+    wxContextHelpButton* itemButton45 = new wxContextHelpButton(this);
+    itemBoxSizer4->Add(itemButton45, 0, wxALIGN_CENTER_VERTICAL|wxALL, 5);
+#endif
+#endif
+
 }
 
 
@@ -371,6 +430,25 @@ void CPanelMessages::OnMessagesCopySelected( wxCommandEvent& WXUNUSED(event) ) {
 }
 
 
+/*!
+ * wxEVT_COMMAND_BUTTON_CLICKED event handler for ID_SIMPLE_HELP
+ */
+
+void CPanelMessages::OnButtonHelp( wxCommandEvent& WXUNUSED(event) ) {
+    wxLogTrace(wxT("Function Start/End"), wxT("CPanelMessages::OnHelp - Function Begin"));
+
+	std::string url;
+	url = wxGetApp().GetSkinManager()->GetAdvanced()->GetCompanyWebsite().mb_str();
+	canonicalize_master_url(url);
+
+	wxString wxurl;
+	wxurl.Printf(wxT("%smanager_links.php?target=simple"), url.c_str());
+    wxHyperLink::ExecuteLink(wxurl);
+
+    wxLogTrace(wxT("Function Start/End"), wxT("CPanelMessages::OnHelp - Function End"));
+}
+
+
 bool CPanelMessages::OnSaveState(wxConfigBase* pConfig) {
     wxString    strBaseConfigLocation = wxEmptyString;
     wxListItem  liColumnInfo;
@@ -390,7 +468,9 @@ bool CPanelMessages::OnSaveState(wxConfigBase* pConfig) {
 
     // Which fields are we interested in?
     liColumnInfo.SetMask(
-        wxLIST_MASK_WIDTH
+        wxLIST_MASK_TEXT |
+        wxLIST_MASK_WIDTH |
+        wxLIST_MASK_FORMAT
     );
 
     // Cycle through the columns recording anything interesting
@@ -427,7 +507,9 @@ bool CPanelMessages::OnRestoreState(wxConfigBase* pConfig) {
 
     // Which fields are we interested in?
     liColumnInfo.SetMask(
-        wxLIST_MASK_WIDTH
+        wxLIST_MASK_TEXT |
+        wxLIST_MASK_WIDTH |
+        wxLIST_MASK_FORMAT
     );
 
     // Cycle through the columns recording anything interesting
@@ -621,6 +703,7 @@ IMPLEMENT_DYNAMIC_CLASS( CDlgMessages, wxDialog )
 
 BEGIN_EVENT_TABLE( CDlgMessages, wxDialog )
 ////@begin CDlgMessages event table entries
+    EVT_HELP(wxID_ANY, CDlgMessages::OnHelp)
     EVT_SHOW( CDlgMessages::OnShow )
     EVT_BUTTON( wxID_OK, CDlgMessages::OnOK )
 ////@end CDlgMessages event table entries
@@ -660,19 +743,21 @@ bool CDlgMessages::Create( wxWindow* parent, wxWindowID id, const wxString& capt
     if (strCaption.IsEmpty()) {
         strCaption = _("BOINC Manager - Messages");
     }
+
+    SetExtraStyle(GetExtraStyle()|wxDIALOG_EX_CONTEXTHELP|wxWS_EX_BLOCK_EVENTS);
+
     wxDialog::Create( parent, id, strCaption, pos, size, style );
 
+    SetBackgroundStyle(wxBG_STYLE_CUSTOM);
+
     Freeze();
-
-
-    CreateControls();
 
 #ifdef __WXDEBUG__
     SetBackgroundColour(wxColour(255, 0, 255));
 #endif
-    SetBackgroundStyle(wxBG_STYLE_CUSTOM);
     SetForegroundColour(*wxBLACK);
-    SetExtraStyle(GetExtraStyle()|wxWS_EX_BLOCK_EVENTS);
+
+    CreateControls();
 
     GetSizer()->Fit(this);
     GetSizer()->SetSizeHints(this);
@@ -733,6 +818,27 @@ void CDlgMessages::OnShow(wxShowEvent& event) {
 
 
 /*!
+ * wxEVT_HELP event handler for ID_DLGMESSAGES
+ */
+
+void CDlgMessages::OnHelp(wxHelpEvent& event) {
+    wxLogTrace(wxT("Function Start/End"), wxT("CDlgMessages::OnHelp - Function Begin"));
+
+    if (IsShown()) {
+		std::string url;
+		url = wxGetApp().GetSkinManager()->GetAdvanced()->GetCompanyWebsite().mb_str();
+		canonicalize_master_url(url);
+
+		wxString wxurl;
+		wxurl.Printf(wxT("%smanager_links.php?target=simple_messages&controlid=%d"), url.c_str(), event.GetId());
+        wxHyperLink::ExecuteLink(wxurl);
+    }
+
+    wxLogTrace(wxT("Function Start/End"), wxT("CDlgMessages::OnHelp - Function End"));
+}
+
+
+/*!
  * wxEVT_COMMAND_BUTTON_CLICKED event handler for wxID_OK
  */
 
@@ -761,10 +867,8 @@ bool CDlgMessages::SaveState() {
     //
     pConfig->SetPath(strBaseConfigLocation);
 
-#ifdef __WXMAC__
     // Reterieve and store the latest window dimensions.
     SaveWindowDimensions();
-#endif
 
     // Save the list ctrl state
     m_pBackgroundPanel->OnSaveState(pConfig);
@@ -813,9 +917,8 @@ bool CDlgMessages::RestoreState() {
     //
     pConfig->SetPath(strBaseConfigLocation);
 
-#ifdef __WXMAC__
+    // Restore the windows properties
     RestoreWindowDimensions();
-#endif
 
     // Restore the list ctrl state
     m_pBackgroundPanel->OnRestoreState(pConfig);

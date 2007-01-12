@@ -53,6 +53,7 @@ public:
 	wxBitmapButton *btnArwLeft;
 	wxBitmapButton *btnArwRight;
 	wxBitmapButton *btnAddProj;
+	wxBitmapButton *btnHelp;
 	wxBitmapButton *btnMessages;
 	wxBitmapButton *btnAlertMessages;
 	wxBitmapButton *btnPause;
@@ -71,6 +72,7 @@ public:
 	void OnPaint(wxPaintEvent& event); 
 	void UpdateProjectArray();
 
+    void OnHelp(wxCommandEvent& event);
     void OnPreferences(wxCommandEvent& event);
     void OnMessages(wxCommandEvent& event);
     void OnSuspend(wxCommandEvent& event);
