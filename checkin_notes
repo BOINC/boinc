@@ -13781,3 +13781,9 @@ Rom    10 Jan 2007
     - Tag for 5.8.2 release, all platforms
       boinc_core_release_5_8_2
 
+Walt   11 Jan 2007
+    - manager: Compile fixes - change wxString(foo) to wxString(foo,wxConvUTF8)
+       and "" to wxEmptyString for Unicode builds in Linux.
+
+    clientgui
+        ViewStatistics.cpp
