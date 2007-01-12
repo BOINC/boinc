@@ -508,3 +508,12 @@ David  12 Jan 2007
         handle_request.C
         validate_util.C,h
         validator.C
+
+David  12 Jan 2007
+	- manager: don't prepend "(Activities suspended by user)"
+		to result status.
+		There is no longer a notion of "activities"
+
+	clientgui/
+		ViewWork.cpp
+		ViewWorkGrid.cpp

@@ -742,11 +742,6 @@ wxInt32 CViewWorkGrid::FormatStatus(wxInt32 item, wxString& strBuffer) const {
         }
     }
 
-    if (!status.task_suspend_reason && status.task_mode == RUN_MODE_NEVER) {
-        strBuffer = wxT(" (") + strBuffer + wxT(") ");
-        strBuffer = _("Activities suspended by user") + strBuffer;
-    }
-
 	strBuffer = wxString(" ", wxConvUTF8) + strBuffer;
 
     return 0;

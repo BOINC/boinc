@@ -823,11 +823,6 @@ wxInt32 CViewWork::FormatStatus(wxInt32 item, wxString& strBuffer) const {
         }
     }
 
-    if (!status.task_suspend_reason && status.task_mode == RUN_MODE_NEVER) {
-        strBuffer = wxT(" (") + strBuffer + wxT(") ");
-        strBuffer = _("Activities suspended by user") + strBuffer;
-    }
-
     return 0;
 }
 
