@@ -517,3 +517,16 @@ David  12 Jan 2007
 	clientgui/
 		ViewWork.cpp
 		ViewWorkGrid.cpp
+
+Rom    13 Jan 2007
+    - MGR: Streamline the message dialog sync operation a little bit.
+    - MGR: Fix crashing issue do to invalid type casts, wxWidgets implements
+        its own form of type casts for C++ objects which probably uses
+        the basic RTTI of the compiler at some level, but it also has a few
+        checks and balences as well. So if you get a hankering of using
+        dynamic_cast or static_cast use wxDynamicCast and wxStaticCast
+        instead.
+
+    clientgui/
+        sg_DlgMessages.cpp
+		BOINCGridCtrl.cpp

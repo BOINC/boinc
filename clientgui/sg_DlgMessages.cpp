@@ -347,7 +347,7 @@ void CPanelMessages::OnRefresh(wxTimerEvent& event) {
 
         wxASSERT(m_pList);
 
-        wxInt32 iDocCount = GetDocCount();
+        wxInt32 iDocCount = wxGetApp().GetDocument()->GetMessageCount();
         if (0 >= iDocCount) {
             m_pList->DeleteAllItems();
         } else {
@@ -528,11 +528,6 @@ bool CPanelMessages::OnRestoreState(wxConfigBase* pConfig) {
     }
 
     return true;
-}
-
-
-wxInt32 CPanelMessages::GetDocCount() {
-    return wxGetApp().GetDocument()->GetMessageCount();
 }
 
 

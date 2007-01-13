@@ -146,8 +146,6 @@ private:
     wxInt32                 CopyToClipboard( wxInt32 item );
     bool                    CloseClipboard();
 #endif
-
-    wxInt32                 GetDocCount();
 };
 
 

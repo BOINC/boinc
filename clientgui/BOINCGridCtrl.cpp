@@ -683,7 +683,8 @@ void CBOINCGridCellRenderer::DoNormalTextDrawing(wxGrid& grid, wxGridCellAttr& a
     SetTextColoursAndFont(grid, attr, dc, isSelected);
 
 	//get a real grid class pointer
-    CBOINCGridCtrl* bgrid = dynamic_cast<CBOINCGridCtrl*> (&grid);
+    CBOINCGridCtrl* bgrid = wxDynamicCast(&grid, CBOINCGridCtrl);
+
 	//use the overloaded method here
 	bgrid->DrawTextRectangle(dc, grid.GetCellValue(row, col),
                            rect, hAlign, vAlign);
@@ -867,5 +868,5 @@ int CBOINCGridTable::FindRowIndexByColValue(int col,wxString& value) {
 
 /* for convinience purposes only */
 CBOINCGridTable* CBOINCGridCtrl::GetTable() {
-	return dynamic_cast<CBOINCGridTable*>(wxGrid::GetTable());
+	return wxDynamicCast(wxGrid::GetTable(), CBOINCGridTable);
 }
