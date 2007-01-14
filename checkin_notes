@@ -530,3 +530,8 @@ Rom    13 Jan 2007
     clientgui/
         sg_DlgMessages.cpp
 		BOINCGridCtrl.cpp
+
+Reinhard 14 Jan 2007
+	- install validate_util.h for external building of validators
+    sched/
+	Makefile.am

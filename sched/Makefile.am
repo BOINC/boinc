@@ -58,8 +58,7 @@ EXTRA_DIST =    \
     sched_send.h                                \
     sched_shmem.h                               \
     server_types.h                              \
-    start                                       \
-    validate_util.h
+    start                                       
 
 
 cgi_SOURCES = \
@@ -83,7 +82,8 @@ include_HEADERS = 	\
 	sched_config.h	\
 	sched_msgs.h	\
 	sched_util.h	\
-	../tools/backend_lib.h
+	../tools/backend_lib.h	\
+	validate_util.h
 
 
 cgi_DEPENDENCIES = $(LIB_SCHED)
