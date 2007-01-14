@@ -30,10 +30,22 @@
 #include "sched_config.h"
 #include "sched_util.h"
 
-int main(int /*argc*/, char** argv) {
+
+const char *usage = 
+"\nUsage: dir_hier_path <filename>\n"
+"   Run this in a project's root directory.\n"
+"   Prints the absolute path of the file in the download hierarchy,\n"
+"   and creates the directory if needed.\n\n";
+
+int main(int argc, char** argv) {
     SCHED_CONFIG config;
     char path[256];
     int retval;
+
+    if ( (argc == 1) ||  !strcmp(argv[1], "-h")  || !strcmp(argv[1],"--help") || (argc != 2) ) {
+      printf (usage);
+      exit(1);
+    }
 
     retval = config.parse_file(".");
     if (retval) {

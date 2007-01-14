@@ -533,5 +533,11 @@ Rom    13 Jan 2007
 
 Reinhard 14 Jan 2007
 	- install validate_util.h for external building of validators
+	- make dir_hier_move and dir_hier_path output help/usage strings 
+
     sched/
 	Makefile.am
+
+    tools/
+	dir_hier_move.C
+	dir_hier_path.C

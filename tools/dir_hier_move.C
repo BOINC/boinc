@@ -32,6 +32,10 @@
 #include "util.h"
 #include "sched_util.h"
 
+const char *usage = 
+"\nUsage: dir_hier_move <src_dir> <dst_dir> <fanout>\n"	
+"Moves files from <src_dir> (flat) into <dst_dir> (hierarchical) with the given <fanout>\n\n";
+
 int main(int argc, char** argv) {
     char* src_dir, *dst_dir;
     int fanout=0;
@@ -39,11 +43,17 @@ int main(int argc, char** argv) {
     char dst_path[256], src_path[256];
     int retval;
     
-    if (argc != 4) exit(1);
+    if ( (argc == 1) || !strcmp(argv[1], "-h")  || !strcmp(argv[1],"--help") || (argc != 4) ) {
+      printf (usage);
+      exit(1);
+    }
     src_dir = argv[1];
     dst_dir = argv[2];
     fanout = atoi(argv[3]);
-    if (!fanout) exit(1);
+    if (!fanout) {
+      printf ( usage );
+      exit(1);
+    }
 
     DirScanner scanner(src_dir);
     while (scanner.scan(filename)) {
