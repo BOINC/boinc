@@ -18,24 +18,27 @@ msgstr "Deutsch"
 msgid "LANG_NAME_INTERNATIONAL"
 msgstr "German"
 
-# for user survey
+
+########################################
+# poll-related stuff
+########################################
+
 msgid "POLL_TITLE"
 msgstr "BOINC-Benutzerumfrage"
 
 msgid "POLL_INTRO"
-msgstr "Mehrere Distributed Computing-Projekte (Verteiltes "
-"Rechnen), darunter  ClimatePrediction.net, Einstein@home und "
-"SETI@home, nutzen eine Software namens BOINC. Wenn Sie an "
-"einem solchen Projekt teilnehmen, bitten wir Sie, folgende "
-"Fragen zu beantworten. Dies wird den BOINC-basierten Projekten "
-"zu mehr Teilnehmern verhelfen und somit dazu beitragen, "
-"bedeutendere wissenschaftliche Ergebnisse zu erzielen."
+msgstr "Mehrere Volunteer Computing-Projekte, darunter "
+"ClimatePrediction.net, Einstein@home und SETI@home, nutzen eine "
+"Software namens BOINC. Wenn Sie an einem solchen Projekt "
+"teilnehmen, bitten wir Sie folgende Fragen zu beantworten. "
+"Dies wird den BOINC-basierten Projekten zu mehr Teilnehmern "
+"verhelfen und deren Forschungen vorantreiben."
 "<p>Bitte beantworten Sie so viele Fragen wie Sie möchten und "
 "bestätigen dann unten an der Seite mit einem Klick auf 'OK'. "
-"Wenn Sie die Umfrage bereits einmal ausgefüllt haben, aber "
-"inzwischen auf manche Fragen anders antworten würden, "
-"füllen Sie die Umfrage doch einfach erneut aus - Ihre alten "
-"Antworten werden dabei automatisch durch die neuen ersetzt."
+"Wenn Sie schon an der Umfrage teilgenommen haben, aber "
+"inzwischen auf manche Fragen anders antworten würden, füllen "
+"Sie die Umfrage doch einfach erneut aus - Ihre vorherigen "
+"Antworten werden automatisch durch die neuen ersetzt."
 "<p>Die aktuellen Umfrageresultate finden Sie "
 "<a href=poll_results.php>hier</a>."
 
@@ -158,7 +161,7 @@ msgid "POLL_SCHOOL"
 msgstr "In der Schule"
 
 msgid "POLL_HOW_MANY"
-msgstr "Anzahl der Computer:"
+msgstr "Anzahl der Computer"
 
 msgid "POLL_TURNED_ON"
 msgstr "Wie viele Stunden pro Tag sind diese durchschnittlich "
@@ -198,13 +201,13 @@ msgid "POLL_WPERS"
 msgstr "Freunde, Bekannte oder Arbeitskollegen"
 
 msgid "POLL_WTEAM"
-msgstr "Diskussionsforen oder Teamwebseiten"
+msgstr "Team-Diskussionsforen oder -websites"
 
 msgid "POLL_WBOINC"
-msgstr "BOINC-Webseite"
+msgstr "BOINC-Website"
 
 msgid "POLL_WWEB"
-msgstr "Andere Webseiten"
+msgstr "Andere Websites"
 
 msgid "POLL_FACTOR"
 msgstr "Was sind für Sie die wichtigsten Faktoren, wenn Sie sich "
@@ -228,7 +231,7 @@ msgid "POLL_MB_STAFF"
 msgstr "Teilnahme der Projektmitarbeiter in den Diskussionforen"
 
 msgid "POLL_WEB_SITE"
-msgstr "Informative Projektwebseite"
+msgstr "Informative Projektwebsite"
 
 msgid "POLL_SCIENCE_IMPORTANT"
 msgstr "Die Wissenschaft ist von Bedeutung und kommt der "
@@ -238,20 +241,20 @@ msgid "POLL_SCIENCE_PUBLIC"
 msgstr "Gemeinnützig, und die Resultate sind öffentlich einsehbar"
 
 msgid "POLL_RECOGNIZE"
-msgstr "Persönliche Anerkennung, wenn mein Computer etwas findet"
+msgstr "Persönliche Anerkennung, wenn Ihr Computer etwas findet"
 
 msgid "POLL_PUBLISH"
 msgstr "Veröffentlichungen des Projekts in wissenschaftlichen "
 "Zeitschriften"
 
 msgid "POLL_EMAIL"
-msgstr "Periodischer E-Mail-Newsletter vom Projekt"
+msgstr "Regelmässiger E-Mail-Newsletter vom Projekt"
 
 msgid "POLL_NPROJECTS"
 msgstr "An wie vielen BOINC-Projekten nehmen Sie teil?"
 
 msgid "POLL_SSAVER"
-msgstr "Nutzen Sie den BOINC-Bildschirmschoner?"
+msgstr "Läuft BOINC bei Ihnen als Bildschirmschoner?"
 
 msgid "POLL_YES"
 msgstr "Ja"
@@ -272,7 +275,7 @@ msgid "POLL_NONE"
 msgstr "Gar nicht"
 
 msgid "POLL_HELP"
-msgstr "Wo suchen Sie bei Problemen mit BOINC und/oder "
+msgstr "Wo suchen Sie bei Problemen mit BOINC und/oder den "
 "BOINC-Projekten nach einer Lösung?"
 
 msgid "POLL_HELP_PMB"
@@ -282,7 +285,7 @@ msgid "POLL_HELP_BMB"
 msgstr "BOINC-Diskussionsforen"
 
 msgid "POLL_HELP_BDOC"
-msgstr "BOINC-Webseite"
+msgstr "BOINC-Website"
 
 msgid "POLL_HELP_BMLIST"
 msgstr "BOINC-Mailingliste"
@@ -291,7 +294,7 @@ msgid "POLL_HELP_WIKI"
 msgstr "Inoffizielles BOINC-Wiki"
 
 msgid "POLL_HELP_TEAM"
-msgstr "Team-Webseiten"
+msgstr "Team-Websites"
 
 msgid "POLL_HELP_GOOGLE"
 msgstr "Google oder andere Suchmaschinen"
@@ -359,7 +362,7 @@ msgid "DL_MAKEYOUROWN"
 msgstr "%sIhre eigene Client-Software erstellen%s oder"
 
 msgid "DL_DL_FROM3RDP"
-msgstr "%sdas Programm von einer anderen Webseite herunterladen%s "
+msgstr "%sdas Programm von einer anderen Website herunterladen%s "
 "(für Solaris/Opteron, Linux/Opteron, Linux/PPC, HP-UX, FreeBSD, "
 "usw.)"
 
@@ -370,7 +373,7 @@ msgid "DL_MIRRORS"
 msgstr "Bitte beachten Sie: Die Dateien werden von den "
 "Spiegelservern boinc.berkeley.edu, morel.mit.edu, "
 "einstein.aei.mpg.de, einstein.astro.gla.ac.uk und "
-"einstein.aset.psu.edu heruntergeladen (Dank an die "
+"einstein.aset.psu.edu heruntergeladen (Besten Dank an die "
 "Organisationen). Der Server wird zufällig ausgewählt - wenn der "
 "Download fehlschlägt, einfach die Seite neu laden und es noch "
 "einmal versuchen."
@@ -385,8 +388,8 @@ msgstr "Systemanforderungen"
 
 msgid "SRQ_INTRO"
 msgstr "Damit BOINC auf Ihrem Computer läuft, muss er die "
-"folgenden Anforderungen erfüllen. Die BOINC-basierten haben "
-"manchmal noch zusätzliche Anforderungen."
+"folgenden Anforderungen erfüllen. Die BOINC-basierten Projekte "
+"haben manchmal noch zusätzliche Anforderungen."
 
 msgid "SRQ_MSWIN"
 msgstr "Windows"
@@ -474,7 +477,7 @@ msgstr "Problembehebung"
 
 msgid "RLN_NEWF_5_4_AM"
 msgstr "Unterstützung für 'Kontoverwaltungen' (engl. "
-"<i>Account managers</i>) - Webseiten, mit denen Sie mit wenigen "
+"<i>Account managers</i>) - Websites, mit denen Sie mit wenigen "
 "Mausklicks BOINC-Projekte an- und abmelden und die "
 "Ressourcenaufteilung und Einstellungen ändern können. "
 "Kontoverwaltungen sind insbesondere dann nützlich, wenn Sie "
@@ -553,7 +556,7 @@ msgstr "Die BOINC-Version für Linux steht als "
 "UNIX vertraut sind."
 
 msgid "RLN_LINUX_DL_FILENAME"
-msgstr "Die zu heruntergeladenden Dateien haben Namen wie "
+msgstr "Die zu herunterladenden Dateien haben Namen wie "
 "<code>%s</code>."
 
 msgid "RLN_LINUX_RUN_SEA"
@@ -614,9 +617,9 @@ msgstr "Wenn Sie Probleme mit BOINC haben, empfiehlt sich "
 msgid "RLN_TROUBLESHOOT_PRJ_SPECIFIC"
 msgstr "Wenn das Problem nur ein einzelnes Projekt betrifft, "
 "sollten Sie den 'Fragen und Antworten'-Bereich auf der "
-"Webseite des Projekts besuchen. Vielleicht findet sich dort "
-bereits eine Lösung für Ihr Problem. Wenn nicht, tragen Sie es "
-"einfach dort ein, und andere Benutzer werden Ihnen weiterhelfen."
+"Projektwebsite besuchen. Vielleicht findet sich dort bereits "
+"eine Lösung für Ihr Problem. Wenn nicht, tragen Sie es einfach "
+"dort ein, und andere Benutzer werden Ihnen weiterhelfen."
 
 msgid "RLN_TROUBLESHOOT_PROBLEM_PERSIST"
 msgstr "Wenn projekt-spezifische Probleme bestehen bleiben, "
@@ -627,3 +630,105 @@ msgstr "Wenn projekt-spezifische Probleme bestehen bleiben, "
 msgid "RLN_TROUBLESHOOT_BOINC_ITSELF"
 msgstr "Wenn Sie Probleme mit BOINC selbst haben, sollten Sie "
 "sich in den %sBOINC-Diskussionsforen%s weiterhelfen lassen."
+
+
+##############################################
+# help.php
+##############################################
+
+msgid "HELP_TITLE"
+msgstr "Hilfe zu BOINC"
+
+msgid "HELP_HEADING1"
+msgstr "Online-Hilfe"
+
+msgid "HELP_P1_1"
+msgstr "Mit der BOINC-Onlinehilfe können Sie sich persönlich mit "
+"einem erfahrenen BOINC-Nutzer unterhalten. Dieser kann: "
+"%sFragen rund um BOINC und Volunteer Computing beantworten, "
+"%sSie bei der Installation und beim Betrieb von BOINC unterstützen, "
+"%sund Problemen aller Art auf den Grund gehen."
+
+msgid "HELP_P1_2"
+msgstr "Die BOINC-Onlinehilfe basiert auf %sSkype%s, einem System "
+"zum Telefonieren über das Internet. Skype ist kostenlos (sowohl "
+"die Software, als auch die Anrufe). Wenn Sie Skype noch nicht "
+"haben, können Sie es jetzt %sherunterladen%s und installieren. "
+"Kehren Sie zu dieser Seite zurück, wenn Sie fertig sind."
+
+msgid "HELP_P1_3"
+msgstr "Am einfachsten geht es, wenn Sie direkt miteinander "
+"sprechen, wozu Sie entweder ein eingebautes Mikrofon und "
+"Lautsprecher oder ein externes Headset für Ihren Computer "
+"benötigen. Wahlweise können Sie auch das textbasierte Chat-System "
+"von Skype benutzen, um mit dem freiwilligen Helfer zu "
+"kommunizieren."
+
+msgid "HELP_P1_4"
+msgstr "Die freiwilligen Helfer sprechen verschiedenste Sprachen. "
+"Bitte wählen Sie eine Sprache:"
+
+msgid "HELP_HEADING2"
+msgstr "Andere Hilfequellen"
+
+msgid "HELP_P2_1"
+msgstr "Informationen und Rat erhalten Sie auch von: "
+"%sder BOINC-Website%s"
+"%sanderen Websites zum Thema BOINC%s" 
+"%sden BOINC-Diskussionsforen%s"
+"%sden Diskussionsforen der einzelnen BOINC-basierten Projekte.%s"
+
+msgid "HELP_HEADING3"
+msgstr "Ein freiwilliger Helfer werden"
+
+msgid "HELP_P3_1"
+msgstr "Sie sind ein erfahrener BOINC-Nutzer? Wenn dem so ist, "
+"möchten wir Sie ermutigen, ein %sfreiwilliger Helfer zu werden%s. "
+"Es ist eine wirklich tolle Möglichkeit, die wissenschaftliche "
+"Forschung zu unterstützen - und es macht einfach Spass!"
+
+msgid "HELP_P3_2"
+msgstr "Wenn Sie bereits ein freiwilliger Helfer sind, können Sie "
+"hier Ihre %sEinstellungen bearbeiten%s."
+
+##############################################
+# index.php
+##############################################
+
+msgid "HOME_HEADING1"
+msgstr "Teilnehmer"
+
+msgid "HOME_P1"
+msgstr "Bekämpfen Sie Krankheiten, studieren Sie die globale "
+"Klimaerwärmung, entdecken Sie Pulsare und stellen Sie "
+"zahlreiche andere Arten wissenschaftlicher Forschung an mit "
+"der ungenutzten Rechenleistung Ihres Computers (Windows, Mac "
+"oder Linux). Es ist sicher und einfach zugleich:"
+"%sProjekte%s auswählen"
+"Die BOINC-Software %sherunterladen%s und starten"
+"Die Projekt-URLs, Ihre E-Mailadresse und ein Passwort "
+"%seingeben%s."
+
+msgid "HOME_P2"
+msgstr "Sie können der Einfachheit halber auch eine "
+"Kontoverwaltung wie beispielsweise %sGridRepublic%s oder "
+"%sBAM!%s verwenden, wenn Sie an mehreren Projekten teilnehmen."
+
+msgid "HOME_P3"
+msgstr "Wenn Sie Fragen haben oder Hilfe beim Einstieg benötigen, "
+"können Sie sich mit einem freiwilligen Helfer unterhalten."
+
+msgid "HOME_MORE_INFO"
+msgstr "Weitere Informationen"
+
+msgid "HOME_DOWNLOAD"
+msgstr "Herunterladen"
+
+msgid "HOME_WEB_SITES"
+msgstr "Websites"
+
+msgid "HOME_ADD_ONS"
+msgstr "Add-ons"
+
+msgid "HOME_SURVEY"
+msgstr "Umfrage"
