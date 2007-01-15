@@ -598,9 +598,18 @@ David  15 Jan 2007
 
 Reinhard 15 Jan 2007
 	- add explicit build-rule for client/switcher [required to fix 'make tags']
+	- fix boinc_UnzipToMemory() 
+	- correctly build unzip-DLL [for use in boinc_UnzipToMemory()]
 
     client/
-	Makefile.am
+        Makefile.am
+
+    zip/
+        boinc_zip.cpp
+        unzip/
+            unzip.c
+            api.c
+
 
 David  15 Jan 2007
 	- fix Manager text (see above)
