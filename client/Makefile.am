@@ -20,6 +20,8 @@ lib_LIBRARIES = libbenchmark.a
 
 LIBS += libbenchmark.a 
 
+switcher_SOURCES = switcher.C
+
 boinc_client_SOURCES = \
     acct_mgr.C \
     acct_setup.C \

@@ -595,3 +595,9 @@ David  15 Jan 2007
         boinc_zip.cpp,h
         unzip/
             api.C
+
+Reinhard 15 Jan 2007
+	- add explicit build-rule for client/switcher [required to fix 'make tags']
+
+    client/
+	Makefile.am
