@@ -74,19 +74,29 @@ _DC_rmsubdir(char *name)
 	int i= 0;
 
 	if ((d= opendir(name)) == NULL)
+	{
+		DC_log(LOG_DEBUG, "Open %s: %s", name, strerror(errno));
 		return(0);
+	}
 	while ((de= readdir(d)))
 	{
 		if (strcmp(de->d_name, ".") != 0 &&
 		    strcmp(de->d_name, "..") != 0)
 		{
-			i+= _DC_rm(de->d_name);
+			char *s= malloc(strlen(name)+strlen(de->d_name) + 10);
+			strcpy(s, name);
+			strcat(s, "/");
+			strcat(s, de->d_name);
+			i+= _DC_rm(s);
+			free(s);
 		}
 	}
 	closedir(d);
 	if (rmdir(name))
+	{
 		DC_log(LOG_ERR, "Failed to rmdir %s: %s",
 		       name, strerror(errno));
+	}
 	return(i);
 }
 
@@ -101,11 +111,15 @@ _DC_rm(char *name)
 		return(0);
 	i= lstat(name, &s);
 	if (i != 0)
+	{
 		return(0);
+	}
 	if (S_ISDIR(s.st_mode) &&
 	    strcmp(name, ".") != 0 &&
 	    strcmp(name, "..") != 0)
+	{
 		return(_DC_rmsubdir(name));
+	}
 	else
 		{
 			if (remove(name))
