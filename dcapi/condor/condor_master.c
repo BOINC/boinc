@@ -340,6 +340,13 @@ DC_destroyWU(DC_Workunit *wu)
 				       "remained", i);
 			
 			g_string_printf(fn, "%s/%s", wu->data.workdir,
+					_DC_wu_cfg(wu, cfg_management_box));
+			i= _DC_rm(fn->str);
+			if (i > 0)
+				DC_log(LOG_NOTICE, "%d unhandled system messages "
+				       "remained", i);
+			
+			g_string_printf(fn, "%s/%s", wu->data.workdir,
 					_DC_wu_cfg(wu, cfg_master_message_box));
 			i= _DC_rm(fn->str);
 			if (i > 0)
@@ -378,9 +385,11 @@ DC_destroyWU(DC_Workunit *wu)
 
 			ret= rmdir(wu->data.workdir);
 			if (ret)
+			{
 				DC_log(LOG_WARNING, "Failed to remove WU working "
 				       "directory %s: %s", wu->data.workdir,
 				       strerror(errno));
+			}
 		}
 		g_free(wu->data.workdir);
 	}
@@ -648,6 +657,8 @@ DC_serializeWU(DC_Workunit *wu)
 
 		_DC_sser(ser, st_client_name, wu->data.client_name);
 
+		_DC_sser(ser, st_uuid_str, wu->data.uuid_str);
+
 		_DC_iser(ser, st_argc, wu->data.argc);
 		for (i= 0; i<wu->data.argc; i++)
 		{
@@ -749,6 +760,11 @@ DC_deserializeWU(const char *buf)
 			g_hash_table_insert(_DC_wu_table, wu->data.name, wu);
 			break;
 		}
+		case st_uuid_str:
+		{
+			_DC_wu_set_uuid_str(wu, s);
+			break;
+		}
 		case st_argc:
 		{
 			_DC_wu_set_argc(wu, _DC_iunser(s));
@@ -798,6 +814,13 @@ DC_deserializeWU(const char *buf)
 	}
 	free(b);
 
+	if (!_DC_file_exists(wu->data.workdir))
+	{
+		DC_log(LOG_ERR, "Deserialized wu: no workdir (%s)",
+		       wu->data.workdir);
+		DC_destroyWU(wu);
+		return(NULL);
+	}
 	dn= g_string_new("");
 	g_string_printf(dn, "%s/%s", wu->data.workdir,
 			_DC_wu_cfg(wu, cfg_management_box));

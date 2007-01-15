@@ -105,7 +105,8 @@ typedef enum
 	st_state,
 	st_state_name,
 	st_nuof_reported,
-	st_reported
+	st_reported,
+	st_uuid_str
 } _DC_serialized_token;
 
 
