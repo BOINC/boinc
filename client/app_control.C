@@ -159,6 +159,7 @@ int ACTIVE_TASK::preempt(bool quit_task) {
             );
         }
         pending_suspend_via_quit = true;
+        task_state = PROCESS_UNINITIALIZED;
         retval = request_exit();
     } else {
         if (log_flags.cpu_sched) {
@@ -224,7 +225,6 @@ void ACTIVE_TASK::handle_exited_app(int stat) {
         } else {
             if (pending_suspend_via_quit) {
                 pending_suspend_via_quit = false;
-                task_state = PROCESS_UNINITIALIZED;
                 close_process_handles();
                 return;
             }
@@ -255,7 +255,6 @@ void ACTIVE_TASK::handle_exited_app(int stat) {
                 //
                 if (pending_suspend_via_quit) {
                     pending_suspend_via_quit = false;
-                    task_state = PROCESS_UNINITIALIZED;
 
                     // destroy shm, since restarting app will re-create it
                     //

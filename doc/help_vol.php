@@ -8,6 +8,12 @@ $volid = $_GET['volid'];
 
 $vol = vol_lookup($volid);
 
+function is_valid_email_addr($addr) {
+    $pattern = '/^([^@]+)@([^@\.]+)\.([^@]{2,})$/';
+    $match = preg_match($pattern, $addr);
+    return (bool) $match;
+}
+
 function show_info($vol) {
     $x = "<span class=note> Country: $vol->country\n";
     if ($vol->availability) {
@@ -121,8 +127,8 @@ if ($send_email) {
     }
     $body = "The following message was sent by a BOINC Help user.\n";
     $email_addr = $_GET['email_addr'];
-    if (!$email_addr) {
-        error_page("You need to specify your email address");
+    if (!is_valid_email_addr($email_addr)) {
+        error_page("You must specify a valid email address");
     }
     $reply = "\r\nreply-to: $email_addr";
     $body .= "\n\n";

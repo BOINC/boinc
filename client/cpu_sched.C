@@ -537,7 +537,7 @@ void CLIENT_STATE::make_running_task_heap(
         atp = active_tasks.active_tasks[i];
         if (atp->result->project->non_cpu_intensive) continue;
         if (!atp->result->runnable()) continue;
-        if (atp->task_state != PROCESS_EXECUTING) continue;
+        if (atp->scheduler_state != CPU_SCHED_SCHEDULED) continue;
         running_tasks.push_back(atp);
     }
 

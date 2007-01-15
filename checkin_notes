@@ -616,3 +616,26 @@ Rom    15 Jan 2007
         
     curl/
         <numerious files>
+
+David  15 Jan 2007
+    - core client: fix a bug that could cause computation to stop.
+        The problem: if we suspended a task by sending it a <quit/> message,
+        we were changing its scheduler state to CPU_SCHED_PREEMPTED
+        but not changing its task state (PROCESS_EXECUTING).
+        If, for some reason, the process didn't exit right away,
+        the scheduler would treat it as still running,
+        since it builds its "currently running" list based on task_state.
+        Solution: the scheduler shouldn't be looking at task_state.
+        Use scheduler_state instead.
+        It's still a mystery why the app wasn't quitting.
+
+    - db_dump: don't write team.nusers; it's meaningless
+
+    client/
+        app.C,h
+        app_control.C
+        cpu_sched.C
+    html/user/
+        create_account.php
+    sched/
+        db_dump.C

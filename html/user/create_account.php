@@ -40,7 +40,7 @@ if (strlen($passwd_hash) != 32) {
 $user = lookup_user_email_addr($email_addr);
 if ($user) {
     if ($user->passwd_hash != $passwd_hash) {
-        xml_error(-206);
+        xml_error(-137);
     } else {
         $authenticator = $user->authenticator;
     }

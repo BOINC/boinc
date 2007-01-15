@@ -487,16 +487,14 @@ void write_team(TEAM& team, FILE* f, bool detail) {
         " <userid>%d</userid>\n"
         " <total_credit>%f</total_credit>\n"
         " <expavg_credit>%f</expavg_credit>\n"
-        " <expavg_time>%f</expavg_time>\n"
-        " <nusers>%d</nusers>\n",
+        " <expavg_time>%f</expavg_time>\n",
         team.id,
         team.type,
         name,
         team.userid,
         team.total_credit,
         team.expavg_credit,
-        team.expavg_time,
-        team.nusers
+        team.expavg_time
     );
 
     // show founder name since that user might not be active
