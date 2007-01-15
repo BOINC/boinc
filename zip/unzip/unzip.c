@@ -981,16 +981,6 @@ int unzip(__G__ argc, argv)
     retcode = process_zipfiles(__G);
 
 cleanup_and_exit:
-#ifdef REENTRANT
-    /* restore all signal handlers back to their state at function entry */
-    while (oldsighandlers != NULL) {
-        savsigs_info *thissigsav = oldsighandlers;
-
-        signal(thissigsav->sigtype, thissigsav->sighandler);
-        oldsighandlers = thissigsav->previous;
-        free(thissigsav);
-    }
-#endif
 #if (defined(MALLOC_WORK) && !defined(REENTRANT))
     if (G.area.Slide != (uch *)NULL) {
         free(G.area.Slide);
