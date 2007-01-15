@@ -13800,3 +13800,10 @@ Charlie 12 Jan 2007
     
     clientgui/
         ViewResources.cpp
+
+Rom    15 Jan 2007
+    - Update libCurl to 7.16.0 and use sync name resolves instead of async name
+        resolves.
+        
+    curl/
+        <numerious files>

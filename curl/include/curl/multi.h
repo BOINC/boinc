@@ -37,34 +37,6 @@
     file descriptors simultaneous easily.
 
 */
-#if defined(_WIN32) && !defined(WIN32)
-/* Chris Lewis mentioned that he doesn't get WIN32 defined, only _WIN32 so we
-   make this adjustment to catch this. */
-#define WIN32 1
-#endif
-
-#if defined(WIN32) && !defined(_WIN32_WCE) && !defined(__GNUC__) && \
-  !defined(__CYGWIN__) || defined(__MINGW32__)
-#if !(defined(_WINSOCKAPI_) || defined(_WINSOCK_H))
-/* The check above prevents the winsock2 inclusion if winsock.h already was
-   included, since they can't co-exist without problems */
-#include <winsock2.h>
-#endif
-#else
-
-/* HP-UX systems version 9, 10 and 11 lack sys/select.h and so does oldish
-   libc5-based Linux systems. Only include it on system that are known to
-   require it! */
-#if defined(_AIX) || defined(NETWARE) || defined(__NetBSD__) || defined(_MINIX)
-#include <sys/select.h>
-#endif
-
-#ifndef _WIN32_WCE
-#include <sys/socket.h>
-#endif
-#include <sys/time.h>
-#include <sys/types.h>
-#endif
 
 /*
  * This header file should not really need to include "curl.h" since curl.h
@@ -82,18 +54,6 @@ extern "C" {
 #endif
 
 typedef void CURLM;
-
-#ifndef curl_socket_typedef
-/* Public socket typedef */
-#ifdef WIN32
-typedef SOCKET curl_socket_t;
-#define CURL_SOCKET_BAD INVALID_SOCKET
-#else
-typedef int curl_socket_t;
-#define CURL_SOCKET_BAD -1
-#endif
-#define curl_socket_typedef
-#endif /* curl_socket_typedef */
 
 typedef enum {
   CURLM_CALL_MULTI_PERFORM = -1, /* please call curl_multi_perform() or
@@ -271,6 +231,20 @@ typedef int (*curl_socket_callback)(CURL *easy,      /* easy handle */
                                                         pointer */
                                     void *socketp);  /* private socket
                                                         pointer */
+/*
+ * Name:    curl_multi_timer_callback
+ *
+ * Desc:    Called by libcurl whenever the library detects a change in the
+ *          maximum number of milliseconds the app is allowed to wait before
+ *          curl_multi_socket() or curl_multi_perform() must be called
+ *          (to allow libcurl's timed events to take place).
+ *
+ * Returns: The callback should return zero.
+ */
+typedef int (*curl_multi_timer_callback)(CURLM *multi,    /* multi handle */
+                                         long timeout_ms, /* see above */
+                                         void *userp);    /* private callback
+                                                             pointer */
 
 CURL_EXTERN CURLMcode curl_multi_socket(CURLM *multi_handle, curl_socket_t s,
                                         int *running_handles);
@@ -309,6 +283,15 @@ typedef enum {
 
   /* This is the argument passed to the socket callback */
   CINIT(SOCKETDATA, OBJECTPOINT, 2),
+
+    /* set to 1 to enable pipelining for this multi handle */
+  CINIT(PIPELINING, LONG, 3),
+
+   /* This is the timer callback function pointer */
+  CINIT(TIMERFUNCTION, FUNCTIONPOINT, 4),
+
+  /* This is the argument passed to the timer callback */
+  CINIT(TIMERDATA, OBJECTPOINT, 5),
 
   CURLMOPT_LASTENTRY /* the last unused */
 } CURLMoption;
