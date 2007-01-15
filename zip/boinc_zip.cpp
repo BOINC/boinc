@@ -318,7 +318,8 @@ boinc_UnzipToMemory ( char *zip, char *file, string &retstr )
   funcs.inputfn = (InputFn *)scanf;
   funcs.pausefn = (PauseFn *)( 0x01 );
   funcs.passwdfn = (PasswdFn *)( NULL );
-  
+
+  memset( &buf, 0, sizeof(buf) );	// data-blocks needs to be empty
   ret = UzpUnzipToMemory( zip, file, &opts, &funcs, &buf );
 
   if ( ret )
