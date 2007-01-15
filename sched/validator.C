@@ -589,7 +589,7 @@ int main(int argc, char** argv) {
       "  -grant_claimed_credit	Grant the claimed credit, regardless of what other results for this workunit claimed\n"
       "  -asynch		fork, run in separate process\n"
       "  -sleep_interval n	Set sleep-interval to n\n"
-      "  -d dgblvl		Set debug-level to dgblvl\n\n";
+      "  -d level		Set debug-level\n\n";
 
     if ( (argc > 1) && ( !strcmp(argv[1], "-h") || !strcmp(argv[1], "--help") ) ) {
       printf (usage, argv[0] );
