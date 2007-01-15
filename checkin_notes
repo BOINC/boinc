@@ -609,3 +609,10 @@ David  15 Jan 2007
 		ProjectProcessingPage.cpp
 	lib/
 		error_numbers.h
+
+Rom    15 Jan 2007
+    - Update libCurl to 7.16.0 and use sync name resolves instead of async name
+        resolves.
+        
+    curl/
+        <numerious files>

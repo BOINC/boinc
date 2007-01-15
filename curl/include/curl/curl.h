@@ -133,6 +133,49 @@ extern "C" {
 #undef FILESIZEBITS
 #endif
 
+#if defined(_WIN32) && !defined(WIN32)
+/* Chris Lewis mentioned that he doesn't get WIN32 defined, only _WIN32 so we
+   make this adjustment to catch this. */
+#define WIN32 1
+#endif
+
+#if defined(WIN32) && !defined(_WIN32_WCE) && !defined(__GNUC__) && \
+  !defined(__CYGWIN__) || defined(__MINGW32__)
+#if !(defined(_WINSOCKAPI_) || defined(_WINSOCK_H))
+/* The check above prevents the winsock2 inclusion if winsock.h already was
+   included, since they can't co-exist without problems */
+#include <winsock2.h>
+#endif
+#else
+
+/* HP-UX systems version 9, 10 and 11 lack sys/select.h and so does oldish
+   libc5-based Linux systems. Only include it on system that are known to
+   require it! */
+#if defined(_AIX) || defined(NETWARE) || defined(__NetBSD__) || defined(__minix)
+#include <sys/select.h>
+#endif
+
+#ifndef _WIN32_WCE
+#include <sys/socket.h>
+#endif
+#ifndef __WATCOMC__
+#include <sys/time.h>
+#endif
+#include <sys/types.h>
+#endif
+
+#ifndef curl_socket_typedef
+/* socket typedef */
+#ifdef WIN32
+typedef SOCKET curl_socket_t;
+#define CURL_SOCKET_BAD INVALID_SOCKET
+#else
+typedef int curl_socket_t;
+#define CURL_SOCKET_BAD -1
+#endif
+#define curl_socket_typedef
+#endif /* curl_socket_typedef */
+
 struct curl_httppost {
   struct curl_httppost *next;       /* next entry in the list */
   char *name;                       /* pointer to allocated name */
@@ -184,6 +227,14 @@ typedef size_t (*curl_read_callback)(char *buffer,
                                       size_t nitems,
                                       void *instream);
 
+typedef enum  {
+  CURLSOCKTYPE_IPCXN, /* socket created for a specific IP connection */
+  CURLSOCKTYPE_LAST   /* never use */
+} curlsocktype;
+
+typedef int (*curl_sockopt_callback)(void *clientp,
+                                     curl_socket_t curlfd,
+                                     curlsocktype purpose);
 
 #ifndef CURL_NO_OLDIES
   /* not used since 7.10.8, will be removed in a future release */
@@ -339,6 +390,8 @@ typedef enum {
                                     CURLOPT_CONV_FROM_NETWORK_FUNCTION,
                                     CURLOPT_CONV_TO_NETWORK_FUNCTION, and
                                     CURLOPT_CONV_FROM_UTF8_FUNCTION */
+  CURLE_SSL_CACERT_BADFILE,      /* 77 - could not load CACERT file, missing
+                                    or wrong format */
   CURL_LAST /* never use! */
 } CURLcode;
 
@@ -436,7 +489,7 @@ typedef enum {
  */
 #if defined(__STDC__) || defined(_MSC_VER) || defined(__cplusplus) || \
   defined(__HP_aCC) || defined(__BORLANDC__) || defined(__LCC__) || \
-  defined(__POCC__) || defined(__SALFORDC__)
+  defined(__POCC__) || defined(__SALFORDC__) || defined(__HIGHC__)
   /* This compiler is believed to have an ISO compatible preprocessor */
 #define CURL_ISOCPP
 #else
@@ -890,22 +943,12 @@ typedef enum {
   CINIT(TCP_NODELAY, LONG, 121),
 
   /* 122 OBSOLETE, used in 7.12.3. Gone in 7.13.0 */
-
-  /* When doing 3rd party transfer, set the source user and password with
-     this */
-  CINIT(SOURCE_USERPWD, OBJECTPOINT, 123),
-
+  /* 123 OBSOLETE. Gone in 7.16.0 */
   /* 124 OBSOLETE, used in 7.12.3. Gone in 7.13.0 */
   /* 125 OBSOLETE, used in 7.12.3. Gone in 7.13.0 */
   /* 126 OBSOLETE, used in 7.12.3. Gone in 7.13.0 */
-
-  /* When doing 3rd party transfer, set the source pre-quote linked list
-     of commands with this */
-  CINIT(SOURCE_PREQUOTE, OBJECTPOINT, 127),
-
-  /* When doing 3rd party transfer, set the source post-quote linked list
-     of commands with this */
-  CINIT(SOURCE_POSTQUOTE, OBJECTPOINT, 128),
+  /* 127 OBSOLETE. Gone in 7.16.0 */
+  /* 128 OBSOLETE. Gone in 7.16.0 */
 
   /* When FTP over SSL/TLS is selected (with CURLOPT_FTP_SSL), this option
      can be used to change libcurl's default action which is to first try
@@ -922,12 +965,8 @@ typedef enum {
   CINIT(IOCTLFUNCTION, FUNCTIONPOINT, 130),
   CINIT(IOCTLDATA, OBJECTPOINT, 131),
 
-  /* To make a 3rd party transfer, set the source URL with this */
-  CINIT(SOURCE_URL, OBJECTPOINT, 132),
-
-  /* When doing 3rd party transfer, set the source quote linked list of
-     commands with this */
-  CINIT(SOURCE_QUOTE, OBJECTPOINT, 133),
+  /* 132 OBSOLETE. Gone in 7.16.0 */
+  /* 133 OBSOLETE. Gone in 7.16.0 */
 
   /* zero terminated string for pass on to the FTP server when asked for
      "account" info */
@@ -982,6 +1021,14 @@ typedef enum {
   /* Pointer to command string to send if USER/PASS fails. */
   CINIT(FTP_ALTERNATIVE_TO_USER, OBJECTPOINT, 147),
 
+  /* callback function for setting socket options */
+  CINIT(SOCKOPTFUNCTION, FUNCTIONPOINT, 148),
+  CINIT(SOCKOPTDATA, OBJECTPOINT, 149),
+
+  /* set to 0 to disable session ID re-use for this transfer, default is
+     enabled (== 1) */
+  CINIT(SSL_SESSIONID_CACHE, LONG, 150),
+
   CURLOPT_LASTENTRY /* the last unused */
 } CURLoption;
 
@@ -1000,18 +1047,6 @@ typedef enum {
 
 #ifndef CURL_NO_OLDIES /* define this to test if your app builds with all
                           the obsolete stuff removed! */
-#define CURLOPT_HTTPREQUEST    -1
-#define CURLOPT_FTPASCII       CURLOPT_TRANSFERTEXT
-#define CURLOPT_MUTE           -2
-#define CURLOPT_PASSWDFUNCTION -3
-#define CURLOPT_PASSWDDATA     -4
-#define CURLOPT_CLOSEFUNCTION  -5
-
-#define CURLOPT_SOURCE_HOST    -6
-#define CURLOPT_SOURCE_PATH    -7
-#define CURLOPT_SOURCE_PORT    -8
-#define CURLOPT_PASV_HOST      -9
-
 #else
 /* This is set if CURL_NO_OLDIES is defined at compile-time */
 #undef CURLOPT_DNS_USE_GLOBAL_CACHE /* soon obsolete */
