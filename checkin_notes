@@ -1,16 +1,44 @@
-David  2 Jan 2007
-	- make disk pie charts work on Linux
-		(from Frank Weiler)
+Reinhard  2 Jan 2007
+    -  fixed build of clientgui [in consultation with the Author, Frank Weiler] 
+    * corrected unicode-string handling with wxString() in     ViewTransfersGrid.cpp and ViewWorkGrid.cpp
+    * corrected wxString handling in BOINCGridCtrl.cpp
+    * add missing files BOINCGridCtrl.[cpp|h] to Makefile.am
 
-	clientgui/
-		wxPieCtrl.cpp
+    clientgui/
+        Makefile.am
+        BOINCGridCtrl.cpp
+        ViewTransfersGrid.cpp
+        ViewWorkGrid.cpp
+
+Rom    2 Jan 2007
+    - Win SETUP: Incorporate a custom action to migrate CPDNBBC data files to the
+        destination BOINC directory.
+        
+    win_build/installerv2/
+        BOINC.ism
+    win_build/installerv2/redist/Windows/src/boinccas/
+        CADetectOldInstaller.cpp, .h (Removed)
+        CAMigrateCPDNBBC.cpp, .h (Added)
+        boinccas.rc
+        boinccas95.def
+        boinccas95.vcproj
+    win_build/installerv2/redist/Windows/x86/
+        boinccas.dll
+        boinccas95.dll
+
+David  2 Jan 2007
+    - make disk pie charts work on Linux
+        (from Frank Weiler)
+
+    clientgui/
+        wxPieCtrl.cpp
 
 
 Reinhard 2 Jan 2007
-	- install lib/common_defs.h
+    - install lib/common_defs.h
 
-	lib/
-		Makefile.am
+    lib/
+        Makefile.am
 
 Charlie 2 Jan 2007
     - MGR: Fix 2 compiler warnings caused by actual coding errors.
@@ -53,15 +81,15 @@ Matt 3 Jan 2007
              project.inc
 
 Reinhard 4 Jan 2007
-	- applied Bernd's patch:
-	* restore extern "C" protection to graphics_api.h, for ANSI-C projects
-	* include boinc_api.h in graphics_impl.C to declare worker_thread_handle()
-	* remove garbage from graphics_lib.C to allow compilation under _WIN32 and __APPLE__
+    - applied Bernd's patch:
+    * restore extern "C" protection to graphics_api.h, for ANSI-C projects
+    * include boinc_api.h in graphics_impl.C to declare worker_thread_handle()
+    * remove garbage from graphics_lib.C to allow compilation under _WIN32 and __APPLE__
 
-	api/
-		graphics_api.h
-		graphics_impl.C
-		graphics_lib.C
+    api/
+        graphics_api.h
+        graphics_impl.C
+        graphics_lib.C
 
 David  4 Jan 2007
     - change "Preempted" to "Waiting" in GUI ("preempted" is geek-speak)
@@ -92,20 +120,20 @@ Kevin  4 Jan 2007
     clientgui/sg_DlgPreferences.cpp
     
 David   4 Jan 2007
-	- core client: if an app fails to start,
-		it could be that the executable has been munged.
-		So verify the files; this will find the bad file
-		and download it again.
-	- Manager: in Attach to Account Manager wizard, add some text saying
-		if they want to just attach to a single project,
-		use the Attach to Project wizard instead.
-		Some users tried to attach SETI@home using the acct mgr wizard
-		and got all bent outta shape when it didn't work.
+    - core client: if an app fails to start,
+        it could be that the executable has been munged.
+        So verify the files; this will find the bad file
+        and download it again.
+    - Manager: in Attach to Account Manager wizard, add some text saying
+        if they want to just attach to a single project,
+        use the Attach to Project wizard instead.
+        Some users tried to attach SETI@home using the acct mgr wizard
+        and got all bent outta shape when it didn't work.
 
-	client/
-		app_start.C
-	clientgui/
-		WelcomePage.cpp
+    client/
+        app_start.C
+    clientgui/
+        WelcomePage.cpp
 
 Rom    5 Jan 2007
     - Win SETUP: Add custom actions for saving and restoring user preferences
@@ -168,12 +196,12 @@ Rom    5 Jan 2007
         SkinManager.cpp, .h
 
 David  5 Jan 2007
-	- manager: improved grid views from Frank Weiler;
-		improved message when detach from project mgr
+    - manager: improved grid views from Frank Weiler;
+        improved message when detach from project mgr
 
-	clientgui/
-		BOINCGridCtrl.cpp,h
-		WelcomPage.cpp
+    clientgui/
+        BOINCGridCtrl.cpp,h
+        WelcomPage.cpp
 
 Rom    5 Jan 2007
     - MGR: Fix the help handling code for the Mac UI conventions.
@@ -208,17 +236,17 @@ Walt   6 Jan 2007
         sg_DlgMessages.cpp
 
 David  7 Jan 2007
-	- manager: fixes for new task/transfer tabs
-		(from Frank Weiler)
+    - manager: fixes for new task/transfer tabs
+        (from Frank Weiler)
 
-	clientgui/
-		BOINCGridCtrl.cpp,h
-		MainDocument.cpp,h
-		ViewTransfersGrid.cpp,h
-		ViewWorkGrid.cpp,h
-		res/
-			sortascending.xpm
-			sortdescending.xpm
+    clientgui/
+        BOINCGridCtrl.cpp,h
+        MainDocument.cpp,h
+        ViewTransfersGrid.cpp,h
+        ViewWorkGrid.cpp,h
+        res/
+            sortascending.xpm
+            sortdescending.xpm
 
 David  7 Jan 2007
     - core client: if swap space is zero, it must not have been
@@ -257,18 +285,18 @@ Charlie 8 Jan 2007
         ViewTransfersGrid.cpp
 
 David  8 Jan 2007
-	- manager: performance enhancement to grid views
-		(from Frank Weiler)
+    - manager: performance enhancement to grid views
+        (from Frank Weiler)
 
-	clientgui/
-		AdvancedFrame.cpp
-		BOINCGridCtrl.cpp,h
-		Events.h
-		MainDocument.cpp,h
-		ViewMessagesGrid.cpp, h (new)
-		ViewProjectsGrid.cpp,h
-		ViewTransfersGrid.pp
-		ViewWOrkGrid.cpp
+    clientgui/
+        AdvancedFrame.cpp
+        BOINCGridCtrl.cpp,h
+        Events.h
+        MainDocument.cpp,h
+        ViewMessagesGrid.cpp, h (new)
+        ViewProjectsGrid.cpp,h
+        ViewTransfersGrid.pp
+        ViewWOrkGrid.cpp
 
 Rom    8 Jan 2007
     - Win SETUP: Make Windows XP or better require passwords for the
@@ -287,16 +315,16 @@ David  8 Jan 2007
         prefs.inc
 
 David  8 Jan 2007
-	- core client: fixed crashing bug that happens when attaching
-		to a project with wrong URL (e.g. setiathome.ssl.berkeley.edu).
-		The fix allows the project to attach but prints a warning.
-		It would be better to not allow the attach;
-		I'll get back to this later
+    - core client: fixed crashing bug that happens when attaching
+        to a project with wrong URL (e.g. setiathome.ssl.berkeley.edu).
+        The fix allows the project to attach but prints a warning.
+        It would be better to not allow the attach;
+        I'll get back to this later
 
-	client/
-		client_types.h
-		cs_scheduler.C
-		scheduler_op.C
+    client/
+        client_types.h
+        cs_scheduler.C
+        scheduler_op.C
 
 Charlie 8 Jan 2007
     - Mac: update XCode project for new ViewMessagesGrid, ViewProjectsGrid 
@@ -341,16 +369,16 @@ Walt   9 Jan 2007
         procinfo_unix.cpp
 
 David  9 Jan 2007
-	- Manager: get rid of "CPU throttled" messages
-	- Manager: enhancements to Statistics tab
-		(can click on project name in multi-project view)
-		from Mifistor_x
+    - Manager: get rid of "CPU throttled" messages
+    - Manager: enhancements to Statistics tab
+        (can click on project name in multi-project view)
+        from Mifistor_x
 
-	clientgui/
-		ViewStatistics.cpp,h
-		ViewWork.cpp
-		ViewWorkGrid.cpp
-		stdwx.h
+    clientgui/
+        ViewStatistics.cpp,h
+        ViewWork.cpp
+        ViewWorkGrid.cpp
+        stdwx.h
 
 David  9 Jan 2007
     - user web: "old news" was broken
@@ -362,11 +390,11 @@ David  9 Jan 2007
         news.inc
 
 David  9 Jan 2007
-	- core: if we're preempting an app and leave it in memory
-		because no checkpoint yet, say so in message
+    - core: if we're preempting an app and leave it in memory
+        because no checkpoint yet, say so in message
 
-	client/
-		app_control.C
+    client/
+        app_control.C
 
 Charlie 9 Jan 2007
     - MGR: Updates to disk usage pie charts from Frank Weiler.
@@ -377,42 +405,42 @@ Charlie 9 Jan 2007
             wxPieCtrl.cpp,h
 
 David  10 Jan 2007
-	- core client: fix problems when user aborts result
-		(mark it as CPU_SCHED_PREEMPTED so scheduler doesn't
-		try to preempt it; that confuses things)
-	- changed format of Deferring Comm messages
+    - core client: fix problems when user aborts result
+        (mark it as CPU_SCHED_PREEMPTED so scheduler doesn't
+        try to preempt it; that confuses things)
+    - changed format of Deferring Comm messages
 
-	client/
-		app_control.C
-		cs_scheduler.C
-
-David  10 Jan 2007
-	- core client: backwards > in PROJECT::some_download_stalled().
-		This caused the client to keep fetching work
-		from a project with stalled downloads.
-
-	client/
-		client_types.C
+    client/
+        app_control.C
+        cs_scheduler.C
 
 David  10 Jan 2007
-	- manager: fix Unicode build problems
-		(from Frank Weiler)
+    - core client: backwards > in PROJECT::some_download_stalled().
+        This caused the client to keep fetching work
+        from a project with stalled downloads.
 
-	clientgui/
-		ViewStatistics.cpp
+    client/
+        client_types.C
 
 David  10 Jan 2007
-	- manager: various fixes
-		(from Frank Weiler)
+    - manager: fix Unicode build problems
+        (from Frank Weiler)
 
-	clientgui/
-		BOINCGridCtrl.cpp,h
-		ViewMessagesGrid.cpp
-		ViewProjectsGrid.cpp
-		ViewResourcesGrid.cpp
-		ViewStatistics.cpp
-		ViewTransfersGrid.cpp
-		ViewWorkGrid.cpp
+    clientgui/
+        ViewStatistics.cpp
+
+David  10 Jan 2007
+    - manager: various fixes
+        (from Frank Weiler)
+
+    clientgui/
+        BOINCGridCtrl.cpp,h
+        ViewMessagesGrid.cpp
+        ViewProjectsGrid.cpp
+        ViewResourcesGrid.cpp
+        ViewStatistics.cpp
+        ViewTransfersGrid.cpp
+        ViewWorkGrid.cpp
 
 David  10 Jan 2007
     - core client: sort daily stats records in case they get
@@ -423,11 +451,11 @@ David  10 Jan 2007
         cs_account.C
 
 David  10 Jan 2007
-	- manager: use user-friendly app names
+    - manager: use user-friendly app names
 
-	clientgui/
-		ViewWork.cpp
-		ViewWorkGrid.cpp
+    clientgui/
+        ViewWork.cpp
+        ViewWorkGrid.cpp
 
 Rom    10 Jan 2007
     - SCR: Disable the diagnostic support for release builds of the
@@ -457,11 +485,11 @@ David  11 Jan 2007
             cache_parameters.inc
 
 David  11 Jan 2007
-	- manager: use user-friendly app names (fix to work w/ 5.4.11)
+    - manager: use user-friendly app names (fix to work w/ 5.4.11)
 
-	clientgui/
-		ViewWork.cpp
-		ViewWorkGrid.cpp
+    clientgui/
+        ViewWork.cpp
+        ViewWorkGrid.cpp
 
 Rom    11 Jan 2007
     - MGR: Fix build break for Unicode support.
@@ -545,3 +573,25 @@ Reinhard 14 Jan 2007
 
     sched/
 	validator.C
+
+David  15 Jan 2007
+    - core client: lots of debugging messages for cpu_sched (may remove later)
+    - Manager: check for ERR_DB_NOT_UNIQUE, not ERR_NONUNIQUE_EMAIL
+    - add boinc_UnzipToMemory() (from Reinhard Prix)
+
+    client/
+        cpu_sched.C
+    clientgui/
+        ProjectProcessingPage.cpp
+    html/ops/
+        sample_server_status.php
+    lib/
+        common_defs.h
+        error_numbers.h
+        gui_rpc_client_print.C
+        util.C
+    zip/
+        Makefile.am
+        boinc_zip.cpp,h
+        unzip/
+            api.C

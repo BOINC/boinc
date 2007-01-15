@@ -57,6 +57,8 @@ bool boinc_filelist(const std::string directory,
                                   const bool bClear = true);
 int boinc_zip(int bZipType, const std::string szFileZip, const ZipFileList* pvectszFileIn);
 int boinc_zip(int bZipType, const std::string szFileZip, const std::string szFileIn);
+
+int boinc_UnzipToMemory ( char *zip, char *file, std::string &retstr );
 extern "C"
 #else
 extern

@@ -81,7 +81,7 @@ function daemon_status($host, $pidname, $progname, $disabled) {
             }
             $foo = exec($command);
             if ($foo) {
-                if (strstr($foo, $progname)) $running = 1;
+                if (strstr($foo, $pid)) $running = 1;
             }
         }
     }

@@ -33,7 +33,7 @@
   You must define `DLL' in order to include the API extensions.
 
   ---------------------------------------------------------------------------*/
-
+#define DLL
 
 #ifdef OS2
 #  define  INCL_DOSMEMMGR

@@ -9,7 +9,10 @@ extern {
 #endif
 int unzip_main(int argc, char** argv);
 int zip_main(int argc, char** argv);
+#include "./unzip/unzip.h"
 }
+
+#include "./zip/zip.h"
 
 #ifdef _WIN32
 #include <windows.h>
@@ -19,9 +22,6 @@ int zip_main(int argc, char** argv);
 #include <string.h>
 using std::string;
 #endif
-
-#include "./unzip/unzip.h"
-#include "./zip/zip.h"
 
 #include "boinc_zip.h"
 #include "filesys.h" // from BOINC for DirScan
@@ -303,6 +303,33 @@ bool boinc_filelist(const std::string directory,
     }
     return true;
 }
+
+int 
+boinc_UnzipToMemory ( char *zip, char *file, string &retstr )
+{
+  UzpOpts opts = {}; /* options for UzpUnzipToMemory() */
+  UzpCB funcs = {};  /* function pointers for UzpUnzipToMemory() */
+  UzpBuffer buf;
+  int ret;
+
+  /* Read compressed file to memory. */
+  funcs.structlen = sizeof(UzpCB);
+  funcs.msgfn = (MsgFn *)printf;
+  funcs.inputfn = (InputFn *)scanf;
+  funcs.pausefn = (PauseFn *)( 0x01 );
+  funcs.passwdfn = (PasswdFn *)( NULL );
+  
+  ret = UzpUnzipToMemory( zip, file, &opts, &funcs, &buf );
+
+  if ( ret )
+    retstr =  (string) buf.strptr;
+
+  if ( buf.strptr) free ( buf.strptr );
+  
+  return ret;
+
+} // boinc_UnzipToMemory()
+
 
 const char *BOINC_RCSID_bdf38b2dfb = "$Id$";
 

@@ -87,8 +87,7 @@ function email_contact($vol) {
     ";
     list_start();
     list_item(
-        "Your email address<br><span class=note>Optional, but $vol->name
-        won't be able to reply unless you include it</span>",
+        "Your email address",
         input("email_addr", "")
     );
     list_item("Subject<br><span class=note>Include 'BOINC' in the subject so $vol->name will know it's not spam</span>", input("subject", ""));
@@ -117,15 +116,19 @@ if ($send_email) {
         error_page("No such volunteer $volid");
     }
     $msg = stripslashes($_GET['message']);
+    if (!$msg) {
+        error_page("You must supply a message");
+    }
     $body = "The following message was sent by a BOINC Help user.\n";
     $email_addr = $_GET['email_addr'];
-    if ($email_addr) {
-        $body .= "(email address: $email_addr)\n";
+    if (!$email_addr) {
+        error_page("You need to specify your email address");
     }
+    $reply = "\r\nreply-to: $email_addr";
     $body .= "\n\n";
     $body .= $msg;
     if (!$subject) $subject = "BOINC Help request";
-    mail($vol->email_addr, $subject, $body, "From: BOINC");
+    mail($vol->email_addr, $subject, $body, "From: BOINC".$reply);
     page_head("Message sent");
     echo "Your message has been sent to $vol->name";
     page_tail();

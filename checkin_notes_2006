@@ -13902,31 +13902,3 @@ Rytis   30 Dec 2006
     
     html/user/
         forum_thread.php
-
-Reinhard  2 Jan 2007
-    -  fixed build of clientgui [in consultation with the Author, Frank Weiler] 
-	* corrected unicode-string handling with wxString() in 	ViewTransfersGrid.cpp and ViewWorkGrid.cpp
-	* corrected wxString handling in BOINCGridCtrl.cpp
-	* add missing files BOINCGridCtrl.[cpp|h] to Makefile.am
-
-    clientgui/
-	Makefile.am
-	BOINCGridCtrl.cpp
-	ViewTransfersGrid.cpp
-	ViewWorkGrid.cpp
-
-Rom    2 Jan 2007
-    - Win SETUP: Incorporate a custom action to migrate CPDNBBC data files to the
-        destination BOINC directory.
-        
-    win_build/installerv2/
-        BOINC.ism
-    win_build/installerv2/redist/Windows/src/boinccas/
-        CADetectOldInstaller.cpp, .h (Removed)
-        CAMigrateCPDNBBC.cpp, .h (Added)
-        boinccas.rc
-        boinccas95.def
-        boinccas95.vcproj
-    win_build/installerv2/redist/Windows/x86/
-        boinccas.dll
-        boinccas95.dll

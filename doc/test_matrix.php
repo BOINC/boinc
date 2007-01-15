@@ -64,8 +64,7 @@ do it only if you know what you're doing.</i>
 <li> Attach to SETI@home or other projects,
     and make sure work is downloaded and started.
 <li> <b>From the time of installation to the time that work is begun
-    there should be no long delays,
-    errors, confusing messages,
+    there should be no long delays, errors, confusing messages,
     or anything else that might bother a naive,
     non-technical computer owner.
     If there is, report it as a a bug.</b>

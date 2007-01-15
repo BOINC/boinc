@@ -31,6 +31,7 @@ libboinc_zip_a_SOURCES = boinc_zip.cpp \
 ./unzip/unshrink.c \
 ./unzip/unzip.c \
 ./unzip/zipinfo.c \
+./unzip/api.c	\
 ./zip/deflate.c \
 ./zip/trees.c \
 ./zip/util.c \

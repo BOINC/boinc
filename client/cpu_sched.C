@@ -581,6 +581,13 @@ bool CLIENT_STATE::enforce_schedule() {
 
     if (log_flags.cpu_sched_debug) {
 		msg_printf(0, MSG_INFO, "[cpu_sched_debug] enforce_schedule(): start");
+        for (i=0; i<ordered_scheduled_results.size(); i++) {
+            RESULT* rp = ordered_scheduled_results[i];
+            msg_printf(rp->project, MSG_INFO,
+                "[cpu_sched_debug] want to run: %s",
+                rp->name
+            );
+        }
     }
 
     // set temporary variables
@@ -633,6 +640,11 @@ bool CLIENT_STATE::enforce_schedule() {
     //
     for (i=0; i<ordered_scheduled_results.size(); i++) {
         RESULT* rp = ordered_scheduled_results[i];
+        if (log_flags.cpu_sched_debug) {
+            msg_printf(rp->project, MSG_INFO,
+                "[cpu_sched_debug] processing %s", rp->name
+            );
+        }
 
         // See if the result is already running.
         //
@@ -653,6 +665,12 @@ bool CLIENT_STATE::enforce_schedule() {
             }
         }
         if (atp) {
+            if (log_flags.cpu_sched_debug) {
+                msg_printf(rp->project, MSG_INFO,
+                    "[cpu_sched_debug] %s is already running", rp->name
+                );
+            }
+
             // the scheduled result is already running.
             // see if it fits in mem
             //
@@ -669,11 +687,12 @@ bool CLIENT_STATE::enforce_schedule() {
             } else {
                 ram_left -= atp->procinfo.working_set_size_smoothed;
                 atp->too_large = false;
-                continue;
             }
+            continue;
         }
 
-        // if the result already has a (non-running) active task,
+        // Here if the result is not already running.
+        // If it already has a (non-running) active task,
         // see if it fits in mem
         //
         atp = lookup_active_task_by_result(rp);
@@ -699,18 +718,19 @@ bool CLIENT_STATE::enforce_schedule() {
         bool need_to_preempt = (nrunning==ncpus) && running_tasks.size();
             // the 2nd half of the above is redundant
         if (need_to_preempt) {
+            // examine the most preemptable task.
+            // Preempt it if either
+            // 1) it's completed its time slice and has checkpointed recently
+            // 2) the scheduled result is in deadline trouble
+            //
             atp = running_tasks[0];
-            bool running_beyond_sched_period =
-                gstate.now - atp->run_interval_start_wall_time
-                > gstate.global_prefs.cpu_scheduling_period_minutes*60;
-            bool checkpointed_recently =
-                (now - atp->checkpoint_wall_time < 10);
+            double time_running = now - atp->run_interval_start_wall_time;
+            bool running_beyond_sched_period = time_running > global_prefs.cpu_scheduling_period_minutes*60;
+            double time_since_checkpoint = now - atp->checkpoint_wall_time;
+            bool checkpointed_recently = time_since_checkpoint < 10;
             if (rp->project->deadlines_missed
                 || (running_beyond_sched_period && checkpointed_recently)
             ) {
-                // only deadlines_missed results from a project
-                // will qualify for immediate enforcement.
-                //
                 if (rp->project->deadlines_missed) {
                     rp->project->deadlines_missed--;
                 }
@@ -723,6 +743,19 @@ bool CLIENT_STATE::enforce_schedule() {
                 );
                 running_tasks.pop_back();
                 run_task = true;
+                if (log_flags.cpu_sched_debug) {
+                    msg_printf(rp->project, MSG_INFO,
+                        "[cpu_sched_debug] preempting %s",
+                        atp->result->name
+                    );
+                }
+            } else {
+                if (log_flags.cpu_sched_debug) {
+                    msg_printf(rp->project, MSG_INFO,
+                        "[cpu_sched_debug] didn't preempt %s: tr %f tsc %f",
+                        atp->result->name, time_running, time_since_checkpoint
+                    );
+                }
             }
         } else {
             run_task = true;
@@ -733,6 +766,12 @@ bool CLIENT_STATE::enforce_schedule() {
             nrunning++;
             ram_left -= atp->procinfo.working_set_size_smoothed;
         }
+    }
+    if (log_flags.cpu_sched_debug) {
+        msg_printf(0, MSG_INFO,
+            "[cpu_sched_debug] finished preempt loop, nrunning %d",
+            nrunning
+        );
     }
 
     // make sure we don't exceed RAM limits
@@ -784,6 +823,12 @@ bool CLIENT_STATE::enforce_schedule() {
     //
     for (i=0; i<active_tasks.active_tasks.size(); i++) {
         atp = active_tasks.active_tasks[i];
+        if (log_flags.cpu_sched_debug) {
+            msg_printf(atp->result->project, MSG_INFO,
+                "[cpu_sched_debug] %s state %d next %d",
+                atp->result->name, atp->scheduler_state, atp->next_scheduler_state
+            );
+        }
         if (atp->scheduler_state == CPU_SCHED_SCHEDULED
             && atp->next_scheduler_state == CPU_SCHED_PREEMPTED
         ) {
@@ -822,12 +867,15 @@ bool CLIENT_STATE::enforce_schedule() {
             }
             atp->scheduler_state = CPU_SCHED_SCHEDULED;
             atp->run_interval_start_wall_time = now;
-            app_started = gstate.now;
+            app_started = now;
 			swap_left -= atp->procinfo.swap_size;
         }
     }
     if (action) {
         set_client_state_dirty("enforce_cpu_schedule");
+    }
+    if (log_flags.cpu_sched_debug) {
+        msg_printf(0, MSG_INFO, "[cpu_sched_debug] enforce_schedule: end");
     }
     return action;
 }

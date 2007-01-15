@@ -121,6 +121,11 @@ with file deletion according to project policy.
 
 <li> Server/Back End:
     <ul>
+    <li> When using HR, if the scheduler has sent one result of a WU
+        using a particular app version,
+        it should use the same app version for other results from that WU.
+        Need to change protocol to specify version num;
+        need to change client to use this.
     <li> Implement a mechanism so that server
         software detects incompatible database format
     <li> 

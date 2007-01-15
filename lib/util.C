@@ -1068,7 +1068,6 @@ const char* boincerror(int which_error) {
         case ERR_USER_PERMISSION: return "user permission";
         case ERR_BAD_EMAIL_ADDR: return "bad email address";
         case ERR_BAD_PASSWD: return "bad password";
-        case ERR_NONUNIQUE_EMAIL: return "email address is already in use";
         case ERR_SHMEM_NAME: return "can't get shared mem segment name";
         case ERR_NO_NETWORK_CONNECTION: return "no available network connection";
         case ERR_ATTACH_FAIL_INIT: return "Couldn't start master page download";

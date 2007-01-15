@@ -456,7 +456,7 @@ void CProjectProcessingPage::OnStateChange( CProjectProcessingPageEvent& WXUNUSE
                 } else {
                     SetProjectCommunitcationsSucceeded(false);
 
-                    if ((ERR_NONUNIQUE_EMAIL == ao->error_num) || CHECK_DEBUG_FLAG(WIZDEBUG_ERRACCOUNTALREADYEXISTS)) {
+                    if ((ERR_DB_NON_UNIQUE == ao->error_num) || CHECK_DEBUG_FLAG(WIZDEBUG_ERRACCOUNTALREADYEXISTS)) {
                         SetProjectAccountAlreadyExists(true);
                     } else {
                         SetProjectAccountAlreadyExists(false);
