@@ -601,3 +601,11 @@ Reinhard 15 Jan 2007
 
     client/
 	Makefile.am
+
+David  15 Jan 2007
+	- fix Manager text (see above)
+
+	clientgui/
+		ProjectProcessingPage.cpp
+	lib/
+		error_numbers.h

@@ -363,6 +363,7 @@ void CProjectProcessingPage::OnStateChange( CProjectProcessingPageEvent& WXUNUSE
     wxTimeSpan tsExecutionTime;
     bool bPostNewEvent = true;
     int iReturnValue = 0;
+	bool creating_account = false;
  
     wxASSERT(pDoc);
     wxASSERT(wxDynamicCast(pDoc, CMainDocument));
@@ -401,6 +402,7 @@ void CProjectProcessingPage::OnStateChange( CProjectProcessingPageEvent& WXUNUSE
 
                 if (pWAP->m_AccountInfoPage->m_pAccountCreateCtrl->GetValue()) {
                     pDoc->rpc.create_account(*ai);
+					creating_account = true;
 
                     // Wait until we are done processing the request.
                     dtStartExecutionTime = wxDateTime::Now();
@@ -456,7 +458,11 @@ void CProjectProcessingPage::OnStateChange( CProjectProcessingPageEvent& WXUNUSE
                 } else {
                     SetProjectCommunitcationsSucceeded(false);
 
-                    if ((ERR_DB_NON_UNIQUE == ao->error_num) || CHECK_DEBUG_FLAG(WIZDEBUG_ERRACCOUNTALREADYEXISTS)) {
+                    if ((ao->error_num == ERR_DB_NOT_UNIQUE)
+						|| (ao->error_num == ERR_NONUNIQUE_EMAIL)
+						|| (ao->error_num == ERR_BAD_PASSWD && creating_account)
+						|| CHECK_DEBUG_FLAG(WIZDEBUG_ERRACCOUNTALREADYEXISTS)
+					) {
                         SetProjectAccountAlreadyExists(true);
                     } else {
                         SetProjectAccountAlreadyExists(false);
