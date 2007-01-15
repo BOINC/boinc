@@ -577,6 +577,26 @@ int main(int argc, char** argv) {
     sleep(30);
 #endif
 
+    const char *usage = 
+      "\nUsage: %s -app <app-name> [OPTIONS]\n"
+      "Start validator for application <app-name>\n\n"
+      "Optional arguments:\n"
+      "  -one_pass_N_WU N 	Validate at most N WUs, then exit\n"
+      "  -one_pass 		Make one pass through WU table, then exit\n"
+      "  -mod n i 		Process only WUs with (id mod n) == i\n"
+      "  -max_claimed_credit X	If a result claims more credit than this, mark it as invalid\n"
+      "  -max_granted_credit X	Grant no more than this amount of credit to a result\n"
+      "  -grant_claimed_credit	Grant the claimed credit, regardless of what other results for this workunit claimed\n"
+      "  -asynch		fork, run in separate process\n"
+      "  -sleep_interval n	Set sleep-interval to n\n"
+      "  -d dgblvl		Set debug-level to dgblvl\n\n";
+
+    if ( (argc > 1) && ( !strcmp(argv[1], "-h") || !strcmp(argv[1], "--help") ) ) {
+      printf (usage, argv[0] );
+      exit(1);
+    }
+
+
     check_stop_daemons();
 
     for (i=1; i<argc; i++) {
@@ -604,9 +624,17 @@ int main(int argc, char** argv) {
         } else if (!strcmp(argv[i], "-grant_claimed_credit")) {
             grant_claimed_credit = true;
         } else {
+            fprintf(stderr, "Invalid option '%s'\nTry `%s --help` for more information\n", argv[i], argv[0]);
             log_messages.printf(SCHED_MSG_LOG::MSG_CRITICAL, "unrecognized arg: %s\n", argv[i]);
             exit(1);
         }
+    }
+
+    // -app is required
+    if ( app_name[0] == 0 ) {
+      fprintf (stderr, "\nERROR: use '-app' to specify the application to run the validator for.\n");
+      printf (usage, argv[0] );
+      exit(1);      
     }
 
     retval = config.parse_file("..");
