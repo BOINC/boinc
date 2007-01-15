@@ -236,7 +236,7 @@ t(int what)
 		printf("Ser=\"%s\"\n", s= DC_serializeWU(wu));
 		create_file("serialized_wu.txt", s);
 		free(s);
-		printf("Submitting...\n");
+		printf("WU serialized\nSubmitting...\n");
 		if ((r= DC_submitWU(wu)) != 0)
 			fail("DC_submitWU", r);
 		DC_setMasterCb(result_cb, subresult_cb, message_cb);
@@ -252,8 +252,13 @@ t(int what)
 		int r;
 		wu= DC_deserializeWU(s);
 		free(s);
+		if (!wu)
+		{
+			printf("Deserialization failed\n");
+			break;
+		}
 
-		printf("Submitting...\n");
+		printf("Submitting deserialized WU...\n");
 		if ((r= DC_submitWU(wu)) != 0)
 			fail("DC_submitWU", r);
 		DC_setMasterCb(result_cb, subresult_cb, message_cb);
@@ -286,6 +291,11 @@ main(int argc, char *argv[])
 		t(1);
 		t(2);
 		t(3);
+		t(4);
+		printf("WU serialized, now wait a bit...\n");
+		sleep(5);
+		printf("Trying to deserialize...\n");
+		t(5);
 	}
 
 	for (i= 1; i < argc; i++)
