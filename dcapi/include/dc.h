@@ -208,6 +208,9 @@ int DC_getResultExit(const DC_Result *result);
 /* Returns the local name of an output file. */
 char *DC_getResultOutput(const DC_Result *result, const char *logicalFileName);
 
+/* Returns the CPU time used by the result. */
+double DC_getResultCPUTime(const DC_Result *result);
+
 #ifdef __cplusplus
 }
 #endif

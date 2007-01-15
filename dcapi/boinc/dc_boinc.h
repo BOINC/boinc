@@ -103,6 +103,7 @@ struct _DC_Result
 	DC_Workunit		*wu;
 
 	int			exit_code;
+	double			cpu_time;
 
 	/* List of output files. Elements are of type DC_PhysicalFile */
 	GList			*output_files;
@@ -158,7 +159,7 @@ int _DC_initWUs(void) G_GNUC_INTERNAL;
 
 /* Creates a new DC_Result */
 DC_Result *_DC_createResult(const char *wu_name, int db_id,
-	const char *xml_doc_in) G_GNUC_INTERNAL;
+	const char *xml_doc_in, double cpu_time) G_GNUC_INTERNAL;
 
 /* Destroys a DC_Result */
 void _DC_destroyResult(DC_Result *result) G_GNUC_INTERNAL;

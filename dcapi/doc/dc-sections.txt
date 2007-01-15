@@ -103,5 +103,6 @@ DC_getResultCapabilities
 DC_getResultWU
 DC_getResultExit
 DC_getResultOutput
+DC_getResultCPUTime
 </SECTION>
 
