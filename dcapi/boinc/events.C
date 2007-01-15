@@ -113,7 +113,8 @@ static int process_results(void)
 		}
 
 		/* Call the callback function */
-		result = _DC_createResult(wu.name, wu.id, canonical_result.xml_doc_in);
+		result = _DC_createResult(wu.name, wu.id,
+			canonical_result.xml_doc_in, canonical_result.cpu_time);
 		if (!result)
 		{
 			mark_wu_complete(wu, TRUE);
@@ -302,7 +303,8 @@ static DC_MasterEvent *look_for_results(const char *wuFilter, const char *wuName
 
 	event = g_new(DC_MasterEvent, 1);
 	event->type = DC_MASTER_RESULT;
-	event->result = _DC_createResult(wu.name, wu.id, result.xml_doc_in);
+	event->result = _DC_createResult(wu.name, wu.id, result.xml_doc_in,
+		result.cpu_time);
 	if (!event->result)
 	{
 		mark_wu_complete(wu, FALSE);

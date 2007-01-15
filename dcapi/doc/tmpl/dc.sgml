@@ -40,7 +40,6 @@ Types of events the master application may receive.
 @DC_MASTER_RESULT: a new #DC_Result is available.
 @DC_MASTER_SUBRESULT: a subresult has arrived.
 @DC_MASTER_MESSAGE: a message has arrived.
-@DC_MASTER_SUSPEND: a work unit has been suspended.
 
 <!-- ##### STRUCT DC_Workunit ##### -->
 <para>
@@ -104,14 +103,6 @@ as invalid.
 @message: contents of the message.
 
 
-<!-- ##### USER_FUNCTION DC_SuspendCallback ##### -->
-<para>
-Prototype of the callback function used for reporting suspended work units.
-</para>
-
-@wu: the work unit that has been suspended.
-
-
 <!-- ##### FUNCTION DC_initMaster ##### -->
 <para>
 Initializes the master side of the DC-API. This function must be called first
@@ -133,38 +124,6 @@ event.
 @resultcb: the callback to be used to report results.
 @subresultcb: the callback to be used to report subresults.
 @msgcb: the callback for reporting messages.
-
-
-<!-- ##### FUNCTION DC_setMessageCb ##### -->
-<para>
-Sets the callback function used for reporting messages.
-</para>
-
-@cb: the function to call when a message arrives.
-
-
-<!-- ##### FUNCTION DC_setResultCb ##### -->
-<para>
-Sets the callback function used for reporting results.
-</para>
-
-@cb: the function to call when a result is ready.
-
-
-<!-- ##### FUNCTION DC_setSubresultCb ##### -->
-<para>
-Sets the callback function used for reporting subresults.
-</para>
-
-@cb: the function to call when a subresult arrives.
-
-
-<!-- ##### FUNCTION DC_setSuspendCb ##### -->
-<para>
-Sets the callback function used for reporting suspended work units.
-</para>
-
-@cb: the function to call when a work unit has been suspended.
 
 
 <!-- ##### FUNCTION DC_processMasterEvents ##### -->
@@ -580,5 +539,20 @@ Returns the real path name for a logical output file name.
 @Returns: the real path name of the logical file or %NULL if the client did
 	not send back a file with the requrested logical name. The returned
 	string should be deallocated using free() when it is no longer needed.
+
+
+<!-- ##### FUNCTION DC_getResultCPUTime ##### -->
+<para>
+  Returns the CPU time used for computing the result, in seconds.
+  <note>
+    <para>
+      If redundant computing is enabled, only the CPU time of the canonical
+      result is returned.
+    </para>
+  </note>
+</para>
+
+@result: a #DC_Result.
+@Returns: the CPU time needed to compute the result.
 
 

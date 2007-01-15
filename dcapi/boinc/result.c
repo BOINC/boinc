@@ -25,7 +25,7 @@
  */
 
 DC_Result *_DC_createResult(const char *wu_name, int db_id,
-	const char *xml_doc_in)
+	const char *xml_doc_in, double cpu_time)
 {
 	DC_Result *result;
 	GList *l;
@@ -43,6 +43,7 @@ DC_Result *_DC_createResult(const char *wu_name, int db_id,
 		result->wu->db_id = db_id;
 
 	result->wu->state = DC_WU_FINISHED;
+	result->cpu_time = cpu_time;
 
 	result->output_files = _DC_parseFileRefs(xml_doc_in,
 		&result->num_outputs);
@@ -197,4 +198,15 @@ char *DC_getResultOutput(const DC_Result *result, const char *logicalFileName)
 		wuname, logicalFileName);
 	g_free(wuname);
 	return NULL;
+}
+
+double DC_getResultCPUTime(const DC_Result *result)
+{
+	if (!result)
+	{
+		DC_log(LOG_ERR, "%s: Missing result", __func__);
+		return 0.0;
+	}
+
+	return result->cpu_time;
 }
