@@ -82,6 +82,8 @@
     // gets() or fgets()
 #define ERR_SCANF           -140
     // scanf() or fscanf()
+#define ERR_STRCHR          -141
+#define ERR_STRSTR          -142
 #define ERR_READDIR         -143
 #define ERR_SHMGET          -144
 #define ERR_SHMCTL          -145
