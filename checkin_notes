@@ -655,3 +655,10 @@ Walt   15 Jan 2007
 
     clientgui/
         Makefile.am
+
+Rom    16 Jan 2007
+    - MGR: Add the help button to the list of images to update when the
+        user selects a different skin.
+        
+    clientgui/
+        sg_ProjectsComponent.cpp
