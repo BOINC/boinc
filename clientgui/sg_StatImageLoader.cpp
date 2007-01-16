@@ -175,7 +175,7 @@ void StatImageLoader::OnMenuLinkClicked(wxCommandEvent& event)
 	     CBOINCBaseFrame* pFrame = wxDynamicCast(m_parent->GetParent(),CBOINCBaseFrame);
          wxASSERT(pFrame);
          wxASSERT(wxDynamicCast(pFrame, CBOINCBaseFrame));
-	     pFrame->ExecuteBrowserLink(m_prjUrl.c_str());
+	     pFrame->ExecuteBrowserLink(wxString(m_prjUrl.c_str(),wxConvUTF8));
 	 } else{
          int menuId = menuIDevt - WEBSITE_URL_MENU_ID;
 	     PROJECT* project = pDoc->state.lookup_project(m_prjUrl);
@@ -184,7 +184,7 @@ void StatImageLoader::OnMenuLinkClicked(wxCommandEvent& event)
 	     CBOINCBaseFrame* pFrame = wxDynamicCast(m_parent->GetParent(),CBOINCBaseFrame);
          wxASSERT(pFrame);
          wxASSERT(wxDynamicCast(pFrame, CBOINCBaseFrame));
-	     pFrame->ExecuteBrowserLink(project->gui_urls[menuId].url.c_str());
+	     pFrame->ExecuteBrowserLink(wxString(project->gui_urls[menuId].url.c_str(),wxConvUTF8));
 	 }
 } 
 
@@ -245,7 +245,7 @@ std::string StatImageLoader::GetProjectIconLoc() {
 	CMainDocument* pDoc = wxGetApp().GetDocument();
 	PROJECT* project = pDoc->state.lookup_project(m_prjUrl);
 	url_to_project_dir((char*)project->master_url.c_str() ,urlDirectory);
-	return (std::string)urlDirectory + "/" + wxT("stat_icon");
+	return (std::string)urlDirectory + "/stat_icon";
 }
 
 
@@ -257,7 +257,7 @@ void StatImageLoader::LoadImage() {
 	char defaultIcnPath[256];
 	if(boinc_resolve_filename(GetProjectIconLoc().c_str(), defaultIcnPath, sizeof(defaultIcnPath)) == 0){
 		wxBitmap* btmpStatIcn = new wxBitmap();
-		if ( btmpStatIcn->LoadFile(defaultIcnPath, wxBITMAP_TYPE_ANY) ) {
+		if ( btmpStatIcn->LoadFile(wxString(defaultIcnPath,wxConvUTF8), wxBITMAP_TYPE_ANY) ) {
 			LoadStatIcon(*btmpStatIcn);
 		} else {
 			LoadStatIcon(*pSkinSimple->GetProjectImage()->GetBitmap());
@@ -274,7 +274,7 @@ void StatImageLoader::ReloadProjectSpecificIcon() {
 	// Only update if it is project specific is found
 	if(boinc_resolve_filename(GetProjectIconLoc().c_str(), defaultIcnPath, sizeof(defaultIcnPath)) == 0){
 		wxBitmap* btmpStatIcn = new wxBitmap();
-		if ( btmpStatIcn->LoadFile(defaultIcnPath, wxBITMAP_TYPE_ANY) ) {
+		if ( btmpStatIcn->LoadFile(wxString(defaultIcnPath,wxConvUTF8), wxBITMAP_TYPE_ANY) ) {
 			LoadStatIcon(*btmpStatIcn);
 			RebuildMenu();
 			Refresh();

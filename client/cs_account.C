@@ -269,7 +269,10 @@ int DAILY_STATS::parse(FILE* in) {
     char buf[256];
     clear();
     while (fgets(buf, 256, in)) {
-        if (match_tag(buf, "</daily_statistics>")) return 0;
+        if (match_tag(buf, "</daily_statistics>")) {
+            if (day == 0) return ERR_XML_PARSE;
+            return 0;
+        }
         else if (parse_double(buf, "<day>", day)) continue;
         else if (parse_double(buf, "<user_total_credit>", user_total_credit)) continue;
         else if (parse_double(buf, "<user_expavg_credit>", user_expavg_credit)) continue;
@@ -279,6 +282,10 @@ int DAILY_STATS::parse(FILE* in) {
     return ERR_XML_PARSE;
 }
 
+bool operator <  (const DAILY_STATS& x1, const DAILY_STATS& x2) {
+    return (x1.day < x2.day);
+}
+
 // parse an statistics_*.xml file
 //
 int PROJECT::parse_statistics(FILE* in) {
@@ -286,13 +293,17 @@ int PROJECT::parse_statistics(FILE* in) {
     char buf[256];
 
     while (fgets(buf, 256, in)) {
-        if (match_tag(buf, "</project_statistics>")) return 0;
+        if (match_tag(buf, "</project_statistics>")) {
+            sort(statistics.begin(), statistics.end());
+            return 0;
+        }
         else if (match_tag(buf, "<project_statistics>")) continue;
         else if (match_tag(buf, "<daily_statistics>")) {
             DAILY_STATS daily_stats;
             retval = daily_stats.parse(in);
-            if (retval) return retval;
-            statistics.push_back(daily_stats);
+            if (!retval) {
+                statistics.push_back(daily_stats);
+            }
             continue;
         }
         else if (parse_str(buf, "<master_url>", master_url, sizeof(master_url))) {
@@ -392,7 +403,7 @@ int PROJECT::write_statistics_file() {
 }
 
 int CLIENT_STATE::add_project(
-    const char* master_url, const char* _auth,
+    const char* master_url, const char* _auth, const char* project_name,
     bool attached_via_acct_mgr
 ) {
     char path[256], canonical_master_url[256], auth[256], dir[256];
@@ -427,6 +438,7 @@ int CLIENT_STATE::add_project(
     project = new PROJECT;
     strcpy(project->master_url, canonical_master_url);
     strcpy(project->authenticator, auth);
+    strcpy(project->project_name, project_name);
     project->attached_via_acct_mgr = attached_via_acct_mgr;
 
     project->tentative = true;
@@ -497,6 +509,14 @@ void PROJECT::attach_failed(int error_num) {
             "BOINC was unable to create an account file for %s on your disk.\n"
             "Please check file system permissions and try again.",
             master_url
+        );
+        break;
+    case ERR_ATTACH_FAIL_SERVER_ERROR:
+        msg_printf(this, MSG_ERROR, "Can't attach - server error");
+        break;
+    default:
+        msg_printf(this, MSG_ERROR,
+            "Can't attach - unknown error %d", error_num
         );
         break;
     }

@@ -35,7 +35,7 @@ public:
     bool IsOk();
     size_t GetISPNames(wxArrayString& names);
 
-    void poll();
+    void OnPoll();
 
     int NotifyUserNeedConnection(bool bNotificationOnly);
 

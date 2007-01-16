@@ -73,8 +73,6 @@
 #define ERR_BENCHMARK_FAILED -133
 #define ERR_BAD_HEX_FORMAT  -134
     // hex-format key data is bad
-#define ERR_USER_REJECTED   -135
-    // user rejected executable file
 #define ERR_DB_NOT_FOUND    -136
     // no rows found in lookup() or enumerate()
 #define ERR_DB_NOT_UNIQUE   -137

@@ -64,7 +64,7 @@ int MFILE::vprintf(const char* format, va_list ap) {
     int n, k;
 
     k = vsnprintf(buf2, BUFSIZE, format, ap);
-    if (k<1 || k>=BUFSIZE) {
+    if (k<=-1 || k>=BUFSIZE) {
         fprintf(stderr, "ERROR: buffer too small in MFILE::vprintf()\n");
         return -1;
     }

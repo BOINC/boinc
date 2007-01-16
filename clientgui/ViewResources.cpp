@@ -37,8 +37,6 @@ WX_DEFINE_OBJARRAY(wxArrayColour);
 IMPLEMENT_DYNAMIC_CLASS(CViewResources, CBOINCBaseView)
 
 BEGIN_EVENT_TABLE (CViewResources, CBOINCBaseView)
-    EVT_LIST_ITEM_SELECTED(ID_LIST_RESOURCEUTILIZATIONVIEW, CViewResources::OnListSelected)
-    EVT_LIST_ITEM_DESELECTED(ID_LIST_RESOURCEUTILIZATIONVIEW, CViewResources::OnListDeselected)
 END_EVENT_TABLE ()
 
 
@@ -91,14 +89,10 @@ CViewResources::CViewResources(wxNotebook* pNotebook) :
 	// setup the legend
 	m_pieCtrlTotal->GetLegend()->SetTransparent(true);
 	m_pieCtrlTotal->GetLegend()->SetHorBorder(10);
-#ifndef __WXMAC__
-	m_pieCtrlTotal->GetLegend()->SetWindowStyle(wxSTATIC_BORDER);
-#endif
 	m_pieCtrlTotal->GetLegend()->SetLabelFont(*wxSWISS_FONT);
 	m_pieCtrlTotal->GetLegend()->SetLabelColour(wxColour(0,0,127));
 	m_pieCtrlTotal->GetLegend()->SetLabelColour(wxColour(0,0,127));
-	//TODO: respect title localization
-	m_pieCtrlTotal->GetLegend()->SetTitle(wxT("total disk usage"));
+	m_pieCtrlTotal->GetLegend()->SetLabel(_("total disk usage"));
 	//set the angle above PI/2 to prevent tilt
 	m_pieCtrlTotal->SetAngle(4);	
 	//disable 3D drawing
@@ -112,14 +106,10 @@ CViewResources::CViewResources(wxNotebook* pNotebook) :
 	//setup the legend
 	m_pieCtrlBOINC->GetLegend()->SetTransparent(true);
 	m_pieCtrlBOINC->GetLegend()->SetHorBorder(10);
-#ifndef __WXMAC__
-	m_pieCtrlBOINC->GetLegend()->SetWindowStyle(wxSTATIC_BORDER);
-#endif
-	m_pieCtrlTotal->GetLegend()->SetLabelFont(*wxSWISS_FONT);
 	m_pieCtrlBOINC->GetLegend()->SetLabelFont(*wxSWISS_FONT);
 	m_pieCtrlBOINC->GetLegend()->SetLabelColour(wxColour(0,0,127));
 	m_pieCtrlBOINC->GetLegend()->SetLabelColour(wxColour(0,0,127));
-	m_pieCtrlBOINC->GetLegend()->SetTitle(wxT("disk usage by BOINC projects     "));
+	m_pieCtrlBOINC->GetLegend()->SetLabel(_("disk usage by BOINC projects"));
 	m_pieCtrlBOINC->SetAngle(4);
 	m_pieCtrlBOINC->SetPaint3D(false);
 	m_pieCtrlBOINC->SetDrawCircle(true);	
@@ -158,7 +148,7 @@ const char** CViewResources::GetViewIcon() {
 }
 
 void CViewResources::UpdateSelection() {
-	//TODO: is this needed ? no list ctrl at this view
+	//TODO: is this needed ? no task buttons
     CBOINCBaseView::PreUpdateSelection();
     CBOINCBaseView::PostUpdateSelection();
 }

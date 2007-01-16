@@ -24,6 +24,7 @@ bin_PROGRAMS = boinc_gui
 
 boinc_gui_SOURCES = \
     common/wxPieCtrl.cpp \
+    common/wxFlatNotebook.cpp \
     BOINCBaseFrame.cpp \
     BOINCBaseView.cpp \
     BOINCDialupManager.cpp \
@@ -72,6 +73,18 @@ boinc_gui_SOURCES = \
     WizardAccountManager.cpp \
     WizardAttachProject.cpp \
     wizardex.cpp \
+    sg_BoincSimpleGUI.cpp \
+    sg_ClientStateIndicator.cpp \
+    sg_CustomControls.cpp \
+    sg_DlgMessages.cpp \
+    sg_DlgPreferences.cpp \
+    sg_ImageButton.cpp \
+    sg_ImageLoader.cpp \
+    sg_ProgressBar.cpp \
+    sg_ProjectsComponent.cpp \
+    sg_SGUIListControl.cpp \
+    sg_StatImageLoader.cpp \
+    sg_ViewTabPage.cpp \
     hyperlink.cpp $(mac_sources)
 
 EXTRA_DIST = *.h \

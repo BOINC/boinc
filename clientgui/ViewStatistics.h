@@ -27,7 +27,6 @@
 
 #include "BOINCBaseView.h"
 
-
 class CPaintStatistics : public wxWindow
 {
 public:
@@ -61,7 +60,8 @@ public:
     int                     m_SelectedStatistic;
     int                     m_ModeViewStatistic;
     int                     m_NextProjectStatistic;
-
+    int                     m_ViewHideProjectStatistic;
+	std::set<wxString>   m_HideProjectStatistic;
 	double                  m_Legend_dY;
 // Marker
 	double                  m_GraphMarker_X1;
@@ -198,6 +198,7 @@ public:
 
     virtual wxString&       GetViewName();
     virtual const char**    GetViewIcon();
+    virtual const int       GetViewRefreshRate();
 
     void                    OnStatisticsUserTotal( wxCommandEvent& event );
     void                    OnStatisticsUserAverage( wxCommandEvent& event );

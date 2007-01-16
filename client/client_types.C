@@ -410,7 +410,7 @@ bool PROJECT::some_download_stalled() {
         PERS_FILE_XFER* pfx = gstate.pers_file_xfers->pers_file_xfers[i];
         if (pfx->fip->project != this) continue;
         if (pfx->is_upload) continue;
-        if (pfx->next_request_time < gstate.now) return true;
+        if (pfx->next_request_time > gstate.now) return true;
     }
     return false;
 }
@@ -1577,9 +1577,9 @@ int RESULT::write(MIOFILE& out, bool to_server) {
         if (to_server) {
             out.printf(
                 "<core_client_version>%d.%d.%d</core_client_version>\n",
-                gstate.core_client_major_version,
-                gstate.core_client_minor_version,
-                gstate.core_client_release
+                gstate.core_client_version.major,
+                gstate.core_client_version.minor,
+                gstate.core_client_version.release
             );
         }
         if (n) {

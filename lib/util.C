@@ -20,6 +20,9 @@
 #if defined(_WIN32) && !defined(__STDWX_H__) && !defined(_BOINC_WIN_) && !defined(_AFX_STDAFX_H_)
 #include "boinc_win.h"
 #endif
+#ifdef _WIN32
+#include "win_util.h"
+#endif
 
 #ifndef M_LN2
 #define M_LN2      0.693147180559945309417
@@ -643,32 +646,32 @@ string timediff_format(double diff) {
     int sex = tdiff % 60;
     tdiff /= 60;
     if (!tdiff) {
-        sprintf(buf, "%d seconds", sex);
+        sprintf(buf, "%d sec", sex);
         return buf;
     }
 
     int min = tdiff % 60;
     tdiff /= 60;
     if (!tdiff) {
-        sprintf(buf, "%d minutes and %d seconds", min, sex);
+        sprintf(buf, "%d min %d sec", min, sex);
         return buf;
     }
 
     int hours = tdiff % 24;
     tdiff /= 24;
     if (!tdiff) {
-        sprintf(buf, "%d hours, %d minutes and %d seconds", hours, min, sex);
+        sprintf(buf, "%d hr %d min %d sec", hours, min, sex);
         return buf;
     }
 
     int days = tdiff % 7;
     tdiff /= 7;
     if (!tdiff) {
-        sprintf(buf, "%d days, %d hours, %d minutes and %d seconds", days, hours, min, sex);
+        sprintf(buf, "%d days %d hr %d min %d sec", days, hours, min, sex);
         return buf;
     }
 
-    sprintf(buf, "%d weeks, %d days, %d hours, %d minutes and %d seconds", (int)tdiff, days, hours, min, sex);
+    sprintf(buf, "%d weeks %d days %d hrs %d min %d sec", (int)tdiff, days, hours, min, sex);
     return buf;
 }
 
@@ -942,113 +945,6 @@ void update_average(
     avg_time = now;
 }
 
-// This function should be called from the validator whenever credit
-// is granted to a host.  It's purpose is to track the average credit
-// per cpu time for that host.
-//
-// It updates an exponentially-decaying estimate of credit_per_cpu_sec
-// Note that this does NOT decay with time, but instead decays with
-// total credits earned.  If a host stops earning credits, then this
-// quantity stops decaying.  So credit_per_cpu_sec must NOT be
-// periodically decayed using the update_stats utility or similar
-// methods.
-//
-// The intended purpose is for cross-project credit comparisons on
-// BOINC statistics pages, for hosts attached to multiple machines.
-// One day people will write PhD theses on how to normalize credit
-// values to equalize them across projects.  I hope this will be done
-// according to "Allen's principle": "Credits granted by a project
-// should be normalized so that, averaged across all hosts attached to
-// multiple projects, projects grant equal credit per cpu second."
-// This principle ensures that (on average) participants will choose
-// projects based on merit, not based on credits.  It also ensures
-// that (on average) host machines migrate to the projects for which
-// they are best suited.
-//
-// For cross-project comparison the value of credit_per_cpu_sec should
-// be exported in the statistics file host_id.gz, which is written by
-// the code in db_dump.C.
-//
-// Algorithm: credits_per_cpu_second should be updated each time that
-// a host is granted credit, according to:
-//
-//     CREDIT_AVERAGE_CONST = 500           [see Note 5]
-//     MAX_CREDIT_PER_CPU_SEC = 0.1         [see Note 6]
-//
-//     e = tanh(granted_credit/CREDIT_AVERAGE_CONST)
-//     if (e < 0) then e = 0
-//     if (e > 1) then e = 1
-//     if (credit_per_cpu_sec <= 0) then e = 1
-//     if (cpu_time <= 0) then e = 0        [see Note 4]
-//     if (granted_credit <= 0) then e = 0  [see Note 3]
-//
-//     rate = granted_credit/cpu_time
-//     if (rate < 0) rate = 0
-//     if (rate > MAX_CREDIT_PER_CPU_SEC) rate = MAX_CREDIT_PER_CPU_SEC
-//  
-//     credit_per_cpu_sec = e * rate + (1 - e) * credit_per_cpu_sec
-
-// Note 0: all quantities above should be treated as real numbers
-// Note 1: cpu_time is measured in seconds
-// Note 2: When a host is created, the initial value of
-//         credit_per_cpu_sec, should be zero.
-// Note 3: If a host has done invalid work (granted_credit==0) we have
-//         chosen not to include it.  One might argue that the
-//         boundary case granted_credit==0 should be treated the same
-//         as granted_credit>0.  However the goal here is not to
-//         identify cpus whose host machines sometimes produce
-//         rubbish.  It is to get a measure of how effectively the cpu
-//         runs the application code.
-// Note 4: e==0 means 'DO NOT include the first term on the rhs of the
-//         equation defining credit_per_cpu_sec' which is equivalent
-//         to 'DO NOT update credit_per_cpu_sec'.
-// Note 5: CREDIT_AVERAGE_CONST determines the exponential decay
-//         credit used in averaging credit_per_cpu_sec.  It may be
-//         changed at any time, even if the project database has
-//         already been populated with non-zero values of
-//         credit_per_cpu_sec.
-// Note 6: Typical VERY FAST cpus have credit_per_cpu_sec of around
-//         0.02.  This is a safety mechanism designed to prevent
-//         trouble if a client or host has reported absurd values (due
-//         to a bug in client or server software or by cheating).  In
-//         five years when cpus are five time faster, please increase
-//         the value of R.  You may also want to increase the value of
-//         CREDIT_AVERAGE_CONST.
-//
-//         Nonzero return value: host exceeded the max allowed
-//         credit/cpu_sec.
-//
-int update_credit_per_cpu_sec(
-    double  granted_credit,     // credit granted for this work
-    double  cpu_time,           // cpu time (seconds) used for this work
-    double& credit_per_cpu_sec  // (average) credit per cpu second
-) {
-    int retval = 0;
-
-    // Either of these values may be freely changed in the future.
-    // When CPUs get much faster one must increase the 'sanity-check'
-    // value of max_credit_per_cpu_sec.  At that time it would also
-    // make sense to proportionally increase the credit_average_const.
-    //
-    const double credit_average_const = 500;
-    const double max_credit_per_cpu_sec = 0.07;
-    
-    double e = tanh(granted_credit/credit_average_const);
-    if (e <= 0.0 || cpu_time == 0.0 || granted_credit == 0.0) return retval;
-    if (e > 1.0 || credit_per_cpu_sec == 0.0) e = 1.0;
-    
-    double rate =  granted_credit/cpu_time;
-    if (rate < 0.0) rate = 0.0;
-    if (rate > max_credit_per_cpu_sec) {
-        rate = max_credit_per_cpu_sec;
-        retval = 1;
-    }
-
-    credit_per_cpu_sec = e * rate + (1.0 - e) * credit_per_cpu_sec;
-
-    return retval;
-}
-
 void escape_project_url(char *in, char* out) {
     escape_url_readable(in, out);
     char& last = out[strlen(out)-1];
@@ -1108,14 +1004,11 @@ const char* boincerror(int which_error) {
         case ERR_GETRUSAGE: return "system getrusage";
         case ERR_BENCHMARK_FAILED: return "benchmark failed";
         case ERR_BAD_HEX_FORMAT: return "hex format key data bad";
-        case ERR_USER_REJECTED: return "user rejected executable file";
         case ERR_DB_NOT_FOUND: return "no database rows found in lookup/enumerate";
         case ERR_DB_NOT_UNIQUE: return "database lookup not unique";
         case ERR_DB_CANT_CONNECT: return "can't connect to datbase";
         case ERR_GETS: return "system gets/fgets";
         case ERR_SCANF: return "system scanf/fscanf";
-        case ERR_STRCHR: return "system strchr";
-        case ERR_STRSTR: return "system strstr";
         case ERR_READDIR: return "system readdir";
         case ERR_SHMGET: return "system shmget";
         case ERR_SHMCTL: return "system shmctl";
@@ -1175,7 +1068,6 @@ const char* boincerror(int which_error) {
         case ERR_USER_PERMISSION: return "user permission";
         case ERR_BAD_EMAIL_ADDR: return "bad email address";
         case ERR_BAD_PASSWD: return "bad password";
-        case ERR_NONUNIQUE_EMAIL: return "email address is already in use";
         case ERR_SHMEM_NAME: return "can't get shared mem segment name";
         case ERR_NO_NETWORK_CONNECTION: return "no available network connection";
         case ERR_ATTACH_FAIL_INIT: return "Couldn't start master page download";
@@ -1235,5 +1127,86 @@ int lookup_group(char* name, gid_t& gid) {
     return 0;
 }
 #endif
+
+// chdir into the given directory, and run a program there
+// argv is set up Unix-style, i.e. argv[0] is the program name
+//
+int run_program(char* dir, char* file, int argc, char** argv) {
+#ifdef _WIN32
+    PROCESS_INFORMATION process_info;
+    STARTUPINFO startup_info;
+    char cmdline[1024], path[1024];
+
+    memset(&process_info, 0, sizeof(process_info));
+    memset(&startup_info, 0, sizeof(startup_info));
+             
+    strcpy(cmdline, "");
+    for (int i=1; i<argc; i++) {
+        strcat(cmdline, argv[i]);
+        strcat(cmdline, " ");
+    }
+
+	sprintf(path, "%s/%s", dir, file);
+    int retval = CreateProcess(
+        path,
+        cmdline,
+        NULL,
+        NULL,
+        FALSE,
+        CREATE_NEW_PROCESS_GROUP,
+        NULL,
+        dir,
+        &startup_info,
+        &process_info
+    );
+    return retval;
+#else
+    int pid = fork();
+    if (pid == 0) {
+        chdir(dir);
+        execv(file, argv);
+        perror("execv");
+    }
+#endif
+    return 0;
+}
+
+static int get_client_mutex(char* dir) {
+#ifdef _WIN32
+    char buf[MAX_PATH] = "";
+    
+    // Global mutex on Win2k and later
+    //
+    if (IsWindows2000Compatible()) {
+        strcpy(buf, "Global\\");
+    }
+    strcat( buf, RUN_MUTEX);
+
+    HANDLE h = CreateMutex(NULL, true, buf);
+    if ((h==0) || (GetLastError() == ERROR_ALREADY_EXISTS)) {
+        return ERR_ALREADY_RUNNING;
+    }
+#else
+    char path[1024];
+    static FILE_LOCK file_lock;
+
+    sprintf(path, "%s/%s", dir, LOCK_FILE_NAME);
+    if (file_lock.lock(path)) {
+        return ERR_ALREADY_RUNNING;
+    }
+#endif
+    return 0;
+}
+
+int wait_client_mutex(char* dir, double timeout) {
+    double start = dtime();
+    while (1) {
+        int retval = get_client_mutex(dir);
+        if (!retval) return 0;
+        boinc_sleep(1);
+        if (dtime() - start > timeout) break;
+    }
+    return ERR_ALREADY_RUNNING;
+}
 
 const char *BOINC_RCSID_ab65c90e1e = "$Id$";
