@@ -29,10 +29,14 @@ static int _DC_checkpoint_made= 0;
 static char *
 _DC_cfg(enum _DC_e_param what)
 {
-	char *v= DC_getCfgStr(_DC_params[what].name);
-	if (v &&
-	    *v)
-		return(v);
+	if (what >= cfg_nuof)
+		return(NULL);
+	if (_DC_params[what].lvalue)
+		return(_DC_params[what].lvalue);
+
+	_DC_params[what].lvalue= DC_getCfgStr(_DC_params[what].name);
+	if (_DC_params[what].lvalue)
+		return(_DC_params[what].lvalue);
 	return(_DC_params[what].def);
 }
 
@@ -261,7 +265,10 @@ DC_ClientEvent *DC_checkClientEvent(void)
 		if (fn)
 		{
 			if ((f= open(fn, O_APPEND)) > 0)
+			{
 				fsync(f);
+				close(f);
+			}
 			free(fn);
 		}
 		_DC_create_message(_DC_cfg(cfg_output_cache),
@@ -272,7 +279,10 @@ DC_ClientEvent *DC_checkClientEvent(void)
 		if (fn)
 		{
 			if ((f= open(fn, O_APPEND)) > 0)
+			{
 				fsync(f);
+				close(f);
+			}
 			free(fn);
 		}
 		_DC_create_message(_DC_cfg(cfg_output_cache),
