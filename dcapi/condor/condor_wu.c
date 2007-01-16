@@ -152,16 +152,22 @@ char *
 _DC_wu_cfg(DC_Workunit *wu,
 	   enum _DC_e_param what)
 {
-	char *v;
-
 	if (!_DC_wu_check(wu))
 		return(NULL);
-	v= DC_getClientCfgStr(wu->data.client_name,
-			      _DC_params[what].name,
-			      /*TRUE*/1);
-	if (v &&
-	    *v)
-		return(v);
+	if (what >= cfg_nuof)
+		return(NULL);
+	if (!_DC_params[what].name)
+		return(NULL);
+
+	if (_DC_params[what].gvalue)
+		return(_DC_params[what].gvalue);
+
+	_DC_params[what].gvalue=
+		DC_getClientCfgStr(wu->data.client_name,
+				   _DC_params[what].name,
+				   /*TRUE*/1);
+	if (_DC_params[what].gvalue)
+		return(_DC_params[what].gvalue);
 	return(_DC_params[what].def);
 }
 
