@@ -89,6 +89,9 @@ static bool more_preemptable(ACTIVE_TASK* t0, ACTIVE_TASK* t1) {
 // 3. results with active tasks that have no process
 // 4. results with no active task
 //
+// TODO: this is called in a loop over NCPUs, which is silly. 
+// Should call it once, and have it make an ordered list per project.
+//
 void CLIENT_STATE::assign_results_to_projects() {
     unsigned int i;
     RESULT* rp;
@@ -98,6 +101,7 @@ void CLIENT_STATE::assign_results_to_projects() {
     //
     for (i=0; i<active_tasks.active_tasks.size(); i++) {
         ACTIVE_TASK *atp = active_tasks.active_tasks[i];
+        if (!atp->runnable()) continue;
         rp = atp->result;
         if (rp->already_selected) continue;
         if (!rp->runnable()) continue;

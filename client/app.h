@@ -145,6 +145,7 @@ public:
     void check_graphics_mode_ack();
     int link_user_files();
     int get_shmem_seg_name();
+    bool runnable() { return task_state != PROCESS_ABORT_PENDING; }
 
     ACTIVE_TASK();
 	~ACTIVE_TASK();

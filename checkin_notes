@@ -662,3 +662,11 @@ Rom    16 Jan 2007
         
     clientgui/
         sg_ProjectsComponent.cpp
+
+David  16 Jan 2007
+    - core client: don't try to schedule a task whose state is
+        PROCESS_ABORT_PENDING.
+
+    client/
+        app.h
+        cpu_sched.C
