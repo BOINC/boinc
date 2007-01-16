@@ -108,9 +108,10 @@ _DC_wu_update_condor_events(DC_Workunit *wu)
 				}
 			}
 			g_array_append_val(wu->condor_events, e);
-			DC_log(LOG_DEBUG, "Condor event %d %s",
+			DC_log(LOG_DEBUG, "Condor event %d %s of %p-\"%s\"",
 			       event->eventNumber,
-			       ULogEventNumberNames[event->eventNumber]);
+			       ULogEventNumberNames[event->eventNumber],
+			       wu, wu->data.name);
 		}
 		delete event;
 		i++;
