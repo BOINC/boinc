@@ -13888,3 +13888,10 @@ David  15 Jan 2007
 Rom    16 Jan 2007
     - Tag for 5.8.3 release, all platforms
       boinc_core_release_5_8_3
+
+Rom    16 Jan 2007
+    - MGR: Add the help button to the list of images to update when the
+        user selects a different skin.
+        
+    clientgui/
+        sg_ProjectsComponent.cpp

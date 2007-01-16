@@ -534,6 +534,11 @@ void CProjectsComponent::ReskinInterface()
     btnAddProj->SetBitmapLabel(*(pSkinSimple->GetAttachProjectButton()->GetBitmap()));
     btnAddProj->SetBitmapSelected(*(pSkinSimple->GetAttachProjectButton()->GetBitmapClicked()));
 
+    // help btn
+	btnHelp->SetBackgroundColour(*pSkinSimple->GetBackgroundImage()->GetBackgroundColor());
+    btnHelp->SetBitmapLabel(*(pSkinSimple->GetHelpButton()->GetBitmap()));
+    btnHelp->SetBitmapSelected(*(pSkinSimple->GetHelpButton()->GetBitmapClicked()));
+
     // messages btn
 	btnMessages->SetBackgroundColour(*pSkinSimple->GetBackgroundImage()->GetBackgroundColor());
     btnMessages->SetBitmapLabel(*(pSkinSimple->GetMessagesLink()->GetBitmap()));
