@@ -37,6 +37,8 @@ enum _DC_e_param {
 struct _DC_s_param {
 	char *name;
 	char *def;
+	char *lvalue;
+	char *gvalue;
 };
 
 
