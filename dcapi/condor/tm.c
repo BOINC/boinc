@@ -15,7 +15,9 @@
 
 #include "tc.h"
 
-DC_Workunit *wu[10];
+#define MAX_WU 100
+
+DC_Workunit *wut[MAX_WU];
 
 extern char *_DC_state_name(DC_WUState state);
 
@@ -51,7 +53,7 @@ create_long(int how_long)
 		NULL
 	};
 	char l[100];
-
+	
 	printf("Creating long...\n");
 	if (how_long > 0)
 	{
@@ -59,7 +61,7 @@ create_long(int how_long)
 		argv[0]= l;
 	}
 	wu= DC_createWU("long", (const char **)argv, 0, NULL);
-	printf("Created short wu: %p\n", wu);
+	printf("Created long wu: %p\n", wu);
 	if (!wu)
 		fail("DC_createWU", 0);
 	return(wu);
@@ -271,6 +273,43 @@ t(int what)
 		
 		printf("Destroying...\n");
 		DC_destroyWU(wu);
+		break;
+	}
+	case 6:
+	{
+		int i, nr= 40;
+		int done= 0;
+		DC_setMasterCb(result_cb, subresult_cb, message_cb);
+		printf("Creating and submitting wus...\n");
+		for (i= 0; i < nr; i++)
+		{
+			wut[i]= create_long(10);
+			DC_submitWU(wut[i]);
+		}
+		while (!done)
+		{
+			done= 1;
+			for (i= 0; i < nr; i++)
+			{
+				printf("waiting to finish %d...\n", i);
+				if (wut[i] &&
+				    DC_getWUState(wut[i]) != DC_WU_FINISHED &&
+				    DC_getWUState(wut[i]) != DC_WU_UNKNOWN)
+				{
+					done= 0;
+					process(wut[i], 1);
+				}
+			}
+		}
+		printf("All WUs finished, processing event for a while...\n");
+		DC_processMasterEvents(10);
+		printf("Destroying all WUs...\n");
+		for (i= 0; i < nr; i++)
+		{
+			printf("%2d\n", i);
+			DC_destroyWU(wut[i]);
+			wut[i]= NULL;
+		}
 		break;
 	}
 	}
