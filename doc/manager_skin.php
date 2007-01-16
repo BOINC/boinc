@@ -510,6 +510,11 @@ can be any of the following types: PNG, JPG, GIF, and BMP. The image location
 should be specified as a path relative to the skin.xml description file. The
 path seperator should be a '/' for all platforms.
 <p>
+NOTE: we have had reports of JPG files not working with background_image, 
+project_area_background_image, dialog_background_image, and 
+workunit_area_background_image. If you experience this issue swithc the
+image file format to PNG. We'll try to address this issue in 5.10.x.
+<p>
 background_color is optional and describes the backgrond color that 
 should be painted on to the dialog before the image is drawn over the top
 of it. The color is represented as an RGB value with the token being ':'.
