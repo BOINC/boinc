@@ -178,7 +178,6 @@ DC_createWU(const char *clientName,
 		_DC_wu_set_name(wu, g_strdup_printf("%s_%s",
 						    _DC_project_uuid_str,
 						    wu->data.uuid_str));
-	DC_log(LOG_DEBUG, "wu name=\"%s\"", wu->data.name);
 
 	/* Calculate & create the working directory. The working directory
 	 * has the form:
@@ -921,21 +920,33 @@ DC_processMasterEvents(int timeout)
 
 
 static DC_MasterEvent *_DC_filtered_event;
+static int _DC_counter;
 
 static gboolean
 _DC_check_filtered_wu_event(gpointer wu_name, gpointer w, gpointer ptr)
 {
 	DC_Workunit *wu= (DC_Workunit *)w;
 	char *filter= (char *)ptr;
+	char *tag;
+	int match= TRUE;
+	gboolean found;
 
-	if (filter &&
-	    ((strcmp(DC_getWUTag(wu), filter) != 0)))
+	_DC_counter++;
+	tag= DC_getWUTag(wu);
+	if (filter)
+		if (strcmp(tag, filter) != 0)
+			tag= FALSE;
+	tag?free(tag):0;
+	if (!match)
+	{
 		return(FALSE);
+	}
 	if ((_DC_filtered_event= DC_waitWUEvent(wu, 0)) != NULL)
 		DC_log(LOG_DEBUG,
-		       "DC_waitMasterEvent found an event for wu %s",
-		       wu->data.name);
-	return(!_DC_filtered_event);
+		       "DC_waitWUEvent found an event for wu %p-\"%s\"",
+		       wu, wu->data.name);
+	found= _DC_filtered_event != NULL;
+	return(found);
 }
 
 /* Checks for events and return them. */
@@ -950,26 +961,23 @@ DC_waitMasterEvent(const char *wuFilter, int timeout)
 		DC_log(LOG_DEBUG, "DC_waitMasterEvent(%s, %d)",
 		       wuFilter, timeout);
 
-	_DC_filtered_event= NULL;
-	wu= (DC_Workunit *)g_hash_table_find(_DC_wu_table,
-					     _DC_check_filtered_wu_event,
-					     (gpointer)wuFilter);
-	if (_DC_filtered_event ||
-	    timeout==0)
-		return(_DC_filtered_event);
 	start= time(NULL);
 	now= time(NULL);
-	while (now-start <= timeout)
+	do
 	{
-		sleep(1);
 		_DC_filtered_event= NULL;
+		_DC_counter= 0;
 		wu= (DC_Workunit *)
 			g_hash_table_find(_DC_wu_table,
 					  _DC_check_filtered_wu_event,
 					  (gpointer)wuFilter);
 		if (_DC_filtered_event)
 			return(_DC_filtered_event);
+		if (timeout)
+			sleep(1);
 	}
+	while (timeout != 0 &&
+	       now-start <= timeout);
 	return(NULL);
 }
 
@@ -988,36 +996,32 @@ DC_waitWUEvent(DC_Workunit *wu, int timeout)
 		DC_log(LOG_DEBUG, "DC_waitWUEvent(%p-\"%s\", %d)",
 		       wu, wu->data.name, timeout);
 
-	_DC_wu_update_condor_events(wu);
-	if ((me= _DC_wu_check_client_messages(wu)) != NULL)
-		DC_log(LOG_DEBUG, "DC_waitWUEvent found a message");
-	if (!me)
+	start= time(NULL);
+	now= start;
+	do
+	{
+		_DC_wu_update_condor_events(wu);
+		if ((me= _DC_wu_check_client_messages(wu)) != NULL)
+			DC_log(LOG_DEBUG, "DC_waitWUEvent found a message for "
+			       "wu %p-\"%s\"", wu, wu->data.name);
+		if (!me)
 		{
 			if ((me= _DC_wu_condor2api_event(wu)) != NULL)
 				DC_log(LOG_DEBUG,
-				       "DC_waitWUEvent found a condor event");
+				       "DC_waitWUEvent found a "
+				       "condor event for wu %p-\"%s\"",
+				       wu, wu->data.name);
 		}
-	if (me || timeout==0)
-		return(me);
-	start= time(NULL);
-	now= start;
-	while (now-start <= timeout)
-	{
-		sleep(1);
-		_DC_wu_update_condor_events(wu);
-		if ((me= _DC_wu_check_client_messages(wu)) != NULL)
-			DC_log(LOG_DEBUG, "DC_waitWUEvent found a message");
-		if (!me)
-			{
-				if ((me= _DC_wu_condor2api_event(wu)) != NULL)
-					DC_log(LOG_DEBUG,
-					       "DC_waitWUEvent found a "
-					       "condor event");
-			}
 		if (me)
+		{
 			return(me);
+		}
 		now= time(NULL);
+		if (timeout)
+			sleep(1);
 	}
+	while (timeout !=0 &&
+	       now-start <= timeout);
 	return(NULL);
 }
 
