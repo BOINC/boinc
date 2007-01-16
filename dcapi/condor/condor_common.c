@@ -30,6 +30,15 @@ struct _DC_s_param _DC_params[cfg_nuof];
 void
 _DC_init_common(void)
 {
+	int i;
+	
+	for (i= 0; i < cfg_nuof; i++)
+	{
+		_DC_params[i].name= 0;
+		_DC_params[i].def= 0;
+		_DC_params[i].lvalue= 0;
+		_DC_params[i].gvalue= 0;
+	}
 	_DC_params[cfg_client_message_box].name= "ClientMessageBox";
 	_DC_params[cfg_client_message_box].def= "_dcapi_client_messages";
 
