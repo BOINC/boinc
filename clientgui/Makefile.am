@@ -32,8 +32,8 @@ boinc_gui_SOURCES = \
     BOINCListCtrl.cpp \
     BOINCTaskBar.cpp \
     BOINCTaskCtrl.cpp \
-	BOINCGridCtrl.cpp	\
-	BOINCGridCtrl.h		\
+    BOINCGridCtrl.cpp	\
+    BOINCGridCtrl.h		\
     DlgAbout.cpp 		\
     DlgGenericMessage.cpp \
     DlgOptions.cpp \
@@ -47,7 +47,9 @@ boinc_gui_SOURCES = \
     ValidateEmailAddress.cpp \
     ValidateURL.cpp \
     ViewMessages.cpp \
+    ViewMessagesGrid.cpp \
     ViewProjects.cpp \
+    ViewProjectsGrid.cpp \
     ViewResources.cpp \
     ViewStatistics.cpp \
     ViewTransfers.cpp \

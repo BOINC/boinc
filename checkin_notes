@@ -648,3 +648,10 @@ David  15 Jan 2007
         create_account.php
     sched/
         db_dump.C
+
+Walt   15 Jan 2007
+    - manager: update makefile for ViewMessagesGrid and 
+      ViewProjectsGrid source files.
+
+    clientgui/
+        Makefile.am
