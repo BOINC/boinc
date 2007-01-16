@@ -13794,6 +13794,38 @@ Rom    11 Jan 2007
     clientgui/
         sg_DlgMessages.cpp
 
+David  11 Jan 2007
+    - manager: use user-friendly app names (fix to work w/ 5.4.11)
+
+    clientgui/
+        ViewWork.cpp
+
+Rom    11 Jan 2007
+    - MGR: Fix build break for Unicode support.
+
+      NOTE: The only place in the manager where it is safe to use 'char'
+      variable types for use within a string is in the gui_rpc_* files.
+      
+      Every where else needs to use wxString, otherwise the manager
+      won't build in a unicode based environment.
+      
+    clientgui/
+        ViewWork.cpp
+
+Rom    11 Jan 2007
+    - MGR: Possble fix for the Simple GUI messages dialog?
+    
+    clientgui/
+        sg_DlgMessages.cpp
+
+David  12 Jan 2007
+	- manager: don't prepend "(Activities suspended by user)"
+		to result status.
+		There is no longer a notion of "activities"
+
+	clientgui/
+		ViewWork.cpp
+
 Charlie 12 Jan 2007
     - MGR: Copy missing source file from HEAD branch for Frank Weiler's pie 
         charts updates.
@@ -13801,9 +13833,58 @@ Charlie 12 Jan 2007
     clientgui/
         ViewResources.cpp
 
+Rom    13 Jan 2007
+    - MGR: Streamline the message dialog sync operation a little bit.
+
+    clientgui/
+        sg_DlgMessages.cpp
+
+David  15 Jan 2007
+    - core client: lots of debugging messages for cpu_sched (may remove later)
+    - Manager: check for ERR_DB_NOT_UNIQUE, not ERR_NONUNIQUE_EMAIL
+
+    client/
+        cpu_sched.C
+    clientgui/
+        ProjectProcessingPage.cpp
+    lib/
+        common_defs.h
+        error_numbers.h
+        gui_rpc_client_print.C
+        util.C
+
+David  15 Jan 2007
+	- fix Manager text (see above)
+
+	clientgui/
+		ProjectProcessingPage.cpp
+	lib/
+		error_numbers.h
+
 Rom    15 Jan 2007
     - Update libCurl to 7.16.0 and use sync name resolves instead of async name
         resolves.
         
     curl/
         <numerious files>
+
+David  15 Jan 2007
+    - core client: fix a bug that could cause computation to stop.
+        The problem: if we suspended a task by sending it a <quit/> message,
+        we were changing its scheduler state to CPU_SCHED_PREEMPTED
+        but not changing its task state (PROCESS_EXECUTING).
+        If, for some reason, the process didn't exit right away,
+        the scheduler would treat it as still running,
+        since it builds its "currently running" list based on task_state.
+        Solution: the scheduler shouldn't be looking at task_state.
+        Use scheduler_state instead.
+        It's still a mystery why the app wasn't quitting.
+
+    client/
+        app.C,h
+        app_control.C
+        cpu_sched.C
+
+Rom    16 Jan 2007
+    - Tag for 5.8.3 release, all platforms
+      boinc_core_release_5_8_3

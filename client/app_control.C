@@ -159,6 +159,7 @@ int ACTIVE_TASK::preempt(bool quit_task) {
             );
         }
         pending_suspend_via_quit = true;
+        task_state = PROCESS_UNINITIALIZED;
         retval = request_exit();
     } else {
         if (log_flags.cpu_sched) {
@@ -224,7 +225,6 @@ void ACTIVE_TASK::handle_exited_app(int stat) {
         } else {
             if (pending_suspend_via_quit) {
                 pending_suspend_via_quit = false;
-                task_state = PROCESS_UNINITIALIZED;
                 close_process_handles();
                 return;
             }
@@ -255,7 +255,6 @@ void ACTIVE_TASK::handle_exited_app(int stat) {
                 //
                 if (pending_suspend_via_quit) {
                     pending_suspend_via_quit = false;
-                    task_state = PROCESS_UNINITIALIZED;
 
                     // destroy shm, since restarting app will re-create it
                     //
@@ -551,7 +550,7 @@ bool ACTIVE_TASK_SET::check_rsc_limits_exceeded() {
 }
 
 // If process is running, send it an "abort" message,
-// and if it doesn't exit within 5 seconds,
+// Set a flag so that if it doesn't exit within 5 seconds,
 // kill it by OS-specific mechanism (e.g. KILL signal).
 // This is done when app has exceeded CPU, disk, or mem limits,
 // or when the user has requested it.
@@ -559,7 +558,7 @@ bool ACTIVE_TASK_SET::check_rsc_limits_exceeded() {
 int ACTIVE_TASK::abort_task(int exit_status, const char* msg) {
     if (task_state == PROCESS_EXECUTING || task_state == PROCESS_SUSPENDED) {
         task_state = PROCESS_ABORT_PENDING;
-        scheduler_state = CPU_SCHED_PREEMPTED;
+		scheduler_state = CPU_SCHED_PREEMPTED;
 			// so scheduler doesn't try to preempt it
         abort_time = gstate.now;
 		request_abort();
