@@ -677,3 +677,11 @@ Charlie 16 Jan 2007
         
     mac_build/
         setupForBOINC.sh
+
+David  17 Jan 2007
+    - manager: show correct app name when connected to 5.4.11 client
+
+    clientgui/
+        ViewWork.cpp
+        ViewWorkGrid.cpp
+        sg_ViewTabPage.cpp

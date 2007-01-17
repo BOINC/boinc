@@ -234,6 +234,7 @@ language("Korean", array(
 ));
 
 language("Polish", array(
+    site("http://www.boinc-polska.org/", "BOINC-Polska.org"),
     site("http://www.boinc.org.pl/", "Team boinc.pl"),
     site("http://www.boinc.prv.pl", "BOINC@Kolobrzeg"),
     site("http://www.boincatpoland.org", "BOINC@Poland"),

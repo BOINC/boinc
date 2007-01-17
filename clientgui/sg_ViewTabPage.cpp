@@ -108,7 +108,11 @@ void CViewTabPage::CreatePage()
 	resState = pDoc->state.lookup_result(resultWU->project_url, resultWU->name);
 	if(resState){
 		projName = wxString(resState->project->project_name.c_str(), wxConvUTF8 );
-		projectFrName = wxString(resState->app->user_friendly_name.c_str(), wxConvUTF8);
+        if (resState->app->user_friendly_name.size()) {
+            projectFrName = wxString(resState->app->user_friendly_name.c_str(), wxConvUTF8);
+        } else {
+            projectFrName = wxString(resState->wup->avp->name.c_str(), wxConvUTF8);
+        }
 	} else {
 		projName = wxString("Not Available", wxConvUTF8 );
 		projectFrName = wxString("Not Available", wxConvUTF8);
