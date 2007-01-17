@@ -670,3 +670,10 @@ David  16 Jan 2007
     client/
         app.h
         cpu_sched.C
+
+Charlie 16 Jan 2007
+    Mac: Fix build script for Curl 7.15.5 (should have been done 
+        3 months ago.)
+        
+    mac_build/
+        setupForBOINC.sh
