@@ -709,3 +709,13 @@ David  17 Jan 2007
 
     html/inc/
         news.inc
+
+David  17 Jan 2007
+    - don't start benchmarks if they're already running
+    - Manager: "Defect from X" -> "Stop using X"
+
+    client/
+        cs_benchmark.C
+    clientgui/
+        AdvancedFrame.cpp
+        WelcomePage.cpp

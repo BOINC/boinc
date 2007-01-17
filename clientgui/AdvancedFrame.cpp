@@ -457,7 +457,7 @@ bool CAdvancedFrame::CreateMenu() {
     );
     if (is_acct_mgr_detected) {
         strMenuName.Printf(
-            _("&Defect from %s"), 
+            _("&Stop using %s"), 
             wxString(ami.acct_mgr_name.c_str(), wxConvUTF8).c_str()
         );
         menuAdvanced->Append(

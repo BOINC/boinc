@@ -319,7 +319,7 @@ void CWelcomePage::OnPageChanged( wxWizardExEvent& event ) {
         );
     } else if (IS_ACCOUNTMANAGERREMOVEWIZARD()) {
         strBuffer.Printf(
-            _("&Defect from %s"), 
+            _("&Stop using%s"), 
             pWAM->m_strProjectName.c_str()
         );
         m_pTitleStaticCtrl->SetLabel(
