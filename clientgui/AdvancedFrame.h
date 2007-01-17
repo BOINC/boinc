@@ -72,6 +72,7 @@ public:
     void OnProjectsAttachToProject( wxCommandEvent& event );
 
     void OnOptionsOptions( wxCommandEvent& event );
+	void OnDlgPreferences( wxCommandEvent& event );
 
     void OnHelp( wxHelpEvent& event );
     void OnHelpBOINCManager( wxCommandEvent& event );

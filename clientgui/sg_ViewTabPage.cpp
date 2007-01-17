@@ -111,7 +111,7 @@ void CViewTabPage::CreatePage()
         if (resState->app->user_friendly_name.size()) {
             projectFrName = wxString(resState->app->user_friendly_name.c_str(), wxConvUTF8);
         } else {
-            projectFrName = wxString(resState->wup->avp->name.c_str(), wxConvUTF8);
+            projectFrName = wxString(resState->wup->avp->app_name.c_str(), wxConvUTF8);
         }
 	} else {
 		projName = wxString("Not Available", wxConvUTF8 );

@@ -58,6 +58,7 @@
 #include "BOINCBaseWizard.h"
 #include "WizardAttachProject.h"
 #include "WizardAccountManager.h"
+#include "DlgAdvPreferences.h"
 #ifdef __WXMAC__
 #include "mac/MacGUI.pch"
 #endif
@@ -174,6 +175,7 @@ BEGIN_EVENT_TABLE (CAdvancedFrame, CBOINCBaseFrame)
     EVT_MENU(ID_PROJECTSATTACHPROJECT, CAdvancedFrame::OnProjectsAttachToProject)
     EVT_MENU(ID_COMMANDSRETRYCOMMUNICATIONS, CAdvancedFrame::OnCommandsRetryCommunications)
     EVT_MENU(ID_OPTIONSOPTIONS, CAdvancedFrame::OnOptionsOptions)
+	EVT_MENU(ID_ADVPREFSDLG, CAdvancedFrame::OnDlgPreferences)
     EVT_HELP(wxID_ANY, CAdvancedFrame::OnHelp)
     EVT_MENU(ID_HELPBOINCMANAGER, CAdvancedFrame::OnHelpBOINCManager)
     EVT_MENU(ID_HELPBOINC, CAdvancedFrame::OnHelpBOINCWebsite)
@@ -415,6 +417,12 @@ bool CAdvancedFrame::CreateMenu() {
         _("&Options..."),
         _("Configure GUI options and proxy settings")
     );
+    menuAdvanced->Append(
+		ID_ADVPREFSDLG, 
+        _("&Preferences..."),
+        _("Configure local preferences")
+    );
+
     // %s is the project name
     //    i.e. 'BOINC', 'GridRepublic'
     strMenuDescription.Printf(
@@ -1267,6 +1275,13 @@ void CAdvancedFrame::OnCommandsRetryCommunications( wxCommandEvent& WXUNUSED(eve
     wxLogTrace(wxT("Function Start/End"), wxT("CAdvancedFrame::OnCommandsRetryCommunications - Function End"));
 }
 
+
+void CAdvancedFrame::OnDlgPreferences(wxCommandEvent& WXUNUSED(event)) {
+    wxLogTrace(wxT("Function Start/End"), wxT("CAdvancedFrame::OnDlgPreferences - Function Begin"));
+	CDlgAdvPreferences dlg(this);
+	dlg.ShowModal();
+	wxLogTrace(wxT("Function Start/End"), wxT("CAdvancedFrame::OnDlgPreferences - Function End"));
+}
 
 void CAdvancedFrame::OnOptionsOptions(wxCommandEvent& WXUNUSED(event)) {
     wxLogTrace(wxT("Function Start/End"), wxT("CAdvancedFrame::OnOptionsOptions - Function Begin"));
