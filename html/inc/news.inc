@@ -1,8 +1,8 @@
 <?php
 
 function news_item($date, $text, $title="") {
-    echo "<p><span class=news_date>$date</span> $title
-        <br>$text.
+    echo "<span class=news_date>$date</span> $title
+        <br>$text<br><br>
     ";
 }
 

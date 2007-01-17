@@ -1,6 +1,13 @@
 <?
 
 $project_news = array(
+array("January 17, 2007",
+    "On Sunday the 21st Jan. at 8pm BBC 1 will broadcast
+    <a href=http://www.bbc.co.uk/bbcone/listings/programme.shtml?day=sunday&service_id=4223&filename=20070121/20070121_2000_4223_18875_60>Climate Change: Britain Under Threat</a>.
+    This will include results from the BBC and CPDN experiments,
+    and an interview with CPDN staff.
+    In addition, results should appear on the <a href=http://www.bbc.co.uk/sn/hottopics/climatechange/>BBC Climate Change website</a>."
+),
 array("January 7, 2007",
     "The <a href=http://abcathome.com>ABC@home</a> project,
     based at <a href=http://www.math.leidenuniv.nl/>Leiden University</a>

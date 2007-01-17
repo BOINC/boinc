@@ -695,6 +695,7 @@ David  17 Jan 2007
 	client/
 		gui_rpc_server_ops.C
 	clientgui/
+        Makefile.am
 		AdvancedFrame.cpp,h
 		DlgAdvPreferences.cpp,h
 		DlgAdvPreferencesBase.cpp,h
@@ -702,3 +703,9 @@ David  17 Jan 2007
 		sg_ViewTabPage.cpp
 	win_build/
 		boincmgr_curl.vcproj
+
+David  17 Jan 2007
+    - fix news formatting
+
+    html/inc/
+        news.inc

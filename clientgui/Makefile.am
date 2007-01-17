@@ -35,6 +35,8 @@ boinc_gui_SOURCES = \
     BOINCGridCtrl.cpp	\
     BOINCGridCtrl.h		\
     DlgAbout.cpp 		\
+    DlgAdvPreferences.cpp \
+    DlgAdvPreferencesBase.cpp \
     DlgGenericMessage.cpp \
     DlgOptions.cpp \
     DlgSelectComputer.cpp \
