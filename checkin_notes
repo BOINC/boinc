@@ -782,4 +782,7 @@ Eric K 18 Jan 2007
       for procfs.h
     - Removed assumption of 4k pages in procinfo_unix.C
 
-
+    lib/
+      procinfo_unix.C
+      mem_usage.C
+    configure.ac
