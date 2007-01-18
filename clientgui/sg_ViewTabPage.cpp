@@ -29,7 +29,7 @@
 #include "parse.h"
 #include "error_numbers.h"
 #include "common/wxFlatNotebook.h"
-#include "common/wxAnimate.h"
+//#include "common/wxAnimate.h"
 #include "BOINCGUIApp.h"
 #include "SkinManager.h"
 #include "MainDocument.h"

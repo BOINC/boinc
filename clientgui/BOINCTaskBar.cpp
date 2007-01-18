@@ -501,13 +501,23 @@ bool CTaskBarIcon::SetIcon(const wxIcon& icon, const wxString& tooltip) {
     result = wxGetApp().GetMacSystemMenu()->SetIcon(icon, tooltip);
 
     RestoreApplicationDockTileImage();      // Remove any previous badge
-    
+
+#if wxCHECK_VERSION(2,8,0)
+    if (m_iconTaskBarDisconnected.IsSameAs(icon))
+        macIcon = macdisconnectbadge;
+    else if (m_iconTaskBarSnooze.IsSameAs(icon))
+        macIcon = macsnoozebadge;
+    else
+        return result;
+#else
     if (icon == m_iconTaskBarDisconnected)
         macIcon = macdisconnectbadge;
     else if (icon == m_iconTaskBarSnooze)
         macIcon = macsnoozebadge;
     else
         return result;
+
+#endif
     
     // Convert the wxIcon into a wxBitmap so we can perform some
     // wxBitmap operations with it

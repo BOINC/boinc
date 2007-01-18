@@ -38,7 +38,6 @@
 #include "miofile.h"
 #include "parse.h"
 #include "Events.h"
-#include "common/wxAnimate.h"
 #include "common/wxFlatNotebook.h"
 #include "LogBOINC.h"
 #include "BOINCGUIApp.h"
