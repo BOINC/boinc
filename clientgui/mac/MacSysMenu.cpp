@@ -44,6 +44,9 @@ static const wxIcon* currentIcon = NULL;
 
 #if wxCHECK_VERSION(2,8,0)
 
+// Class declarations copied from wxMac-2.8.0/src/mac/carbon/taskbar.cpp
+// We had to copy these because they are not in a header file.
+
 class wxTaskBarIconImpl
 {
 public:
