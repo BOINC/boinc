@@ -42,6 +42,83 @@ pascal OSStatus SysMenuEventHandler( EventHandlerCallRef inHandlerCallRef,
 static const wxIcon* currentIcon = NULL;
 
 
+#if wxCHECK_VERSION(2,8,0)
+
+class wxTaskBarIconImpl
+{
+public:
+    wxTaskBarIconImpl(wxTaskBarIcon* parent);
+    virtual ~wxTaskBarIconImpl();
+
+    virtual bool IsIconInstalled() const = 0;
+    virtual bool SetIcon(const wxIcon& icon, const wxString& tooltip) = 0;
+    virtual bool RemoveIcon() = 0;
+    virtual bool PopupMenu(wxMenu *menu) = 0;
+
+    wxMenu * CreatePopupMenu()
+    { return m_parent->CreatePopupMenu(); }
+
+    wxTaskBarIcon *m_parent;
+    class wxTaskBarIconWindow *m_menuEventWindow;
+
+    DECLARE_NO_COPY_CLASS(wxTaskBarIconImpl)
+};
+
+//-----------------------------------------------------------------------------
+//
+//  wxTaskBarIconWindow
+//
+//  Event handler for menus
+//  NB: Since wxWindows in Mac HAVE to have parents we need this to be
+//  a top level window...
+//-----------------------------------------------------------------------------
+
+class wxTaskBarIconWindow : public wxTopLevelWindow
+{
+public:
+    wxTaskBarIconWindow(wxTaskBarIconImpl *impl)
+        : wxTopLevelWindow(NULL, wxID_ANY, wxEmptyString), m_impl(impl)
+    {
+        Connect(
+            -1, wxEVT_COMMAND_MENU_SELECTED,
+            wxCommandEventHandler(wxTaskBarIconWindow::OnMenuEvent) );
+    }
+
+    void OnMenuEvent(wxCommandEvent& event)
+    {
+        m_impl->m_parent->ProcessEvent(event);
+    }
+
+private:
+    wxTaskBarIconImpl *m_impl;
+};
+
+class wxDockTaskBarIcon : public wxTaskBarIconImpl
+{
+public:
+    wxDockTaskBarIcon(wxTaskBarIcon* parent);
+    virtual ~wxDockTaskBarIcon();
+
+    virtual bool IsIconInstalled() const;
+    virtual bool SetIcon(const wxIcon& icon, const wxString& tooltip);
+    virtual bool RemoveIcon();
+    virtual bool PopupMenu(wxMenu *menu);
+
+    wxMenu* DoCreatePopupMenu();
+
+    EventHandlerRef     m_eventHandlerRef;
+    EventHandlerUPP     m_eventupp;
+    wxWindow           *m_eventWindow;
+    wxMenu             *m_pMenu;
+    MenuRef             m_theLastMenu;
+    bool                m_iconAdded;
+};
+
+wxMenu* CMacSystemMenu::GetCurrentMenu() {
+    return ((wxDockTaskBarIcon*)m_impl)->m_pMenu;
+}
+#endif
+
 CMacSystemMenu::CMacSystemMenu(wxString title, wxIcon* icon, wxIcon* iconDisconnected, wxIcon* iconSnooze)
                                 : CTaskBarIcon(title, icon, iconDisconnected, iconSnooze) {
     CFBundleRef	SysMenuBundle	= NULL;
@@ -61,11 +138,19 @@ CMacSystemMenu::CMacSystemMenu(wxString title, wxIcon* icon, wxIcon* iconDisconn
         // The base class wxTaskBarIcon will install the wxDockEventHandler for 
         // each instance of the derived classes CTaskBarIcon and CMacSystemMenu.
         // We remove that handler and substitute our own.
+#if wxCHECK_VERSION(2,8,0)
+        RemoveEventHandler((EventHandlerRef&)(((wxDockTaskBarIcon*)m_impl)->m_eventHandlerRef));
+
+        InstallApplicationEventHandler(NewEventHandlerUPP(SysMenuEventHandler), 
+                                sizeof(myEvents) / sizeof(EventTypeSpec), myEvents, 
+                                                        this, (EventHandlerRef*)&(((wxDockTaskBarIcon*)m_impl)->m_eventHandlerRef)); 
+#else
         RemoveEventHandler((EventHandlerRef&)m_pEventHandlerRef);
 
         InstallApplicationEventHandler(NewEventHandlerUPP(SysMenuEventHandler), 
                                 sizeof(myEvents) / sizeof(EventTypeSpec), myEvents, 
                                                         this, (EventHandlerRef*)&m_pEventHandlerRef); 
+#endif
     }
 }
 
@@ -103,6 +188,7 @@ void CMacSystemMenu::BuildMenu() {
     wxBitmapRefData * theBitsRefData;
     PicHandle thePICT;
     wxBitmap theBits;
+    wxMenu *themenu;
     CSkinAdvanced* pSkinAdvanced = wxGetApp().GetSkinManager()->GetAdvanced();
 
     wxASSERT(pSkinAdvanced);
@@ -121,16 +207,23 @@ void CMacSystemMenu::BuildMenu() {
         // the Quit menu item.  If in the future you wish to make the system menu different 
         // from the Dock menu, override CTaskBarIcon::BuildContextMenu() and 
         // CTaskBarIcon::AdjustMenuItems().
+#if wxCHECK_VERSION(2,8,0)
+        delete ((wxDockTaskBarIcon*)m_impl)->m_pMenu;
+        ((wxDockTaskBarIcon*)m_impl)->m_pMenu = BuildContextMenu();
+        themenu = ((wxDockTaskBarIcon*)m_impl)->m_pMenu;
+#else
         delete m_pMenu;
         m_pMenu = BuildContextMenu();
-        
-        // These should appear in the Mac System Menu but not the Dock
-        m_pMenu->AppendSeparator();
-        m_pMenu->Append( wxID_EXIT, _("E&xit"), wxEmptyString );
-        
-        m_pMenu->SetEventHandler(this);
+        themenu = m_pMenu;
+#endif
 
-        SetUpSystemMenu((MenuRef)(m_pMenu->GetHMenu()), thePICT);
+        // These should appear in the Mac System Menu but not the Dock
+        themenu->AppendSeparator();
+        themenu->Append( wxID_EXIT, _("E&xit"), wxEmptyString );
+        
+        themenu->SetEventHandler(this);
+
+        SetUpSystemMenu((MenuRef)(themenu->GetHMenu()), thePICT);
         
         currentIcon = NULL;
     }
@@ -199,9 +292,9 @@ pascal OSStatus SysMenuEventHandler( EventHandlerCallRef inHandlerCallRef,
             if (commandID == 0)
                 return eventNotHandledErr;
 
-            pMSM = wxGetApp().GetMacSystemMenu();
+             pMSM = wxGetApp().GetMacSystemMenu();
                 
-            // wxMac-2.6.3 "helpfully" converts wxID_ABOUT to kHICommandAbout, wxID_EXIT to kHICommandQuit, 
+           // wxMac-2.6.3 "helpfully" converts wxID_ABOUT to kHICommandAbout, wxID_EXIT to kHICommandQuit, 
             //  wxID_PREFERENCES to kHICommandPreferences
             switch (commandID) {
             case kHICommandAbout:

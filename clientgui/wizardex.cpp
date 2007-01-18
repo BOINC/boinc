@@ -523,8 +523,13 @@ bool wxWizardEx::ShowPage(wxWizardPageEx *page, bool goingForward)
     // 1) a default bitmap was selected in constructor
     // 2) this page was constructed with a bitmap
     // 3) this bitmap is not the previous bitmap
+#if wxCHECK_VERSION(2,8,0)
+    if ( (m_statbmp && (! bmpCur.IsSameAs(bmpPrev))) ||
+         (m_statbmp && (! bmpCur.IsOk())))
+#else
     if ( (m_statbmp && (bmpCur != bmpPrev)) ||
          (m_statbmp && (bmpCur == wxNullBitmap)))
+#endif
     {
         wxBitmap bmp;
         if ( bmpIsDefault )

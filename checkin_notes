@@ -754,9 +754,13 @@ Charlie 18 Jan 2007
     clientgui/
         BOINCGUIApp.cpp
         BOINCTaskBar.cpp
+        MacSysMenu.cpp,h
         sg_BoincSimpleGUI.cpp
         sg_ImageButton.cpp
         sg_ViewTabPage.cpp
+        wizardex.cpp
+        common/
+            wxPieCtrl.h
     mac_build/
         boinc.xcodeproj/
             project.pbxproj

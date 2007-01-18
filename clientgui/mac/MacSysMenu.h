@@ -47,6 +47,10 @@ public:
     bool                        IsOpeningAboutDlg() { return m_OpeningAboutDlg; }
     void                        SetOpeningAboutDlg(bool b) { m_OpeningAboutDlg = b; }
     void                        BuildMenu(void);
+#if wxCHECK_VERSION(2,8,0)
+    wxMenu                      *GetCurrentMenu();
+#endif
+
 private:
     
     bool                        m_OpeningAboutDlg;
