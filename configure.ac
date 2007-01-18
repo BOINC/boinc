@@ -178,16 +178,6 @@ The switch --enable-client-release is only useful for building the client and wi
 fi
    
 
-dnl Unfortunately on some 32 bit systems there is a problem with wx-widgets
-dnl configuring itself for largefile support.  On these systems largefile
-dnl support breaks C++ compiles by defining away many of the C standard library
-dnl routines that should reside in namespace std::.  In order to get around
-dnl problem first we have to check the largefile support macros.  Later we will
-dnl use the macro SAH_LARGEFILE_BREAKS_CXX to check for the breakage.  If
-dnl if breakage is found LARGEFILE_BREAKS_CXX is defined in config.h.  This
-dnl define is checked in std_fixes.h and the appropriate functions are defined
-dnl in order to solve the problem.
-AC_SYS_LARGEFILE
 
 dnl Find the extensions used on shared and static libraries on this system
 SAH_LIBEXT
@@ -422,6 +412,17 @@ AC_HEADER_SYS_WAIT
 AC_HEADER_TIME
 AC_TYPE_SIGNAL
 AC_CHECK_HEADERS(windows.h arpa/inet.h dirent.h fcntl.h inttypes.h stdint.h malloc.h alloca.h memory.h netdb.h netinet/in.h netinet/tcp.h signal.h strings.h sys/auxv.h sys/file.h sys/ipc.h sys/mount.h sys/param.h sys/resource.h sys/select.h sys/shm.h sys/socket.h sys/stat.h sys/statvfs.h sys/statfs.h sys/swap.h sys/sysctl.h sys/systeminfo.h sys/time.h sys/types.h sys/utsname.h sys/vmmeter.h sys/wait.h unistd.h utmp.h errno.h procfs.h ieeefp.h)
+
+dnl Unfortunately on some 32 bit systems there is a problem with wx-widgets
+dnl configuring itself for largefile support.  On these systems largefile
+dnl support breaks C++ compiles by defining away many of the C standard library
+dnl routines that should reside in namespace std::.  In order to get around
+dnl problem first we have to check the largefile support macros.  Later we will
+dnl use the macro SAH_LARGEFILE_BREAKS_CXX to check for the breakage.  If
+dnl if breakage is found LARGEFILE_BREAKS_CXX is defined in config.h.  This
+dnl define is checked in std_fixes.h and the appropriate functions are defined
+dnl in order to solve the problem.
+AC_SYS_LARGEFILE
 
 AC_LANG_PUSH(C++)
 SAH_LARGEFILE_BREAKS_CXX
