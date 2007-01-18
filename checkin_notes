@@ -728,3 +728,18 @@ David  17 Jan 2007
 
 	client/
 		file_xfer.C
+
+Charlie 16 Jan 2007
+    Mac: add DlgAdvPreferences.cpp,h, DlgAdvPreferencesBase.cpp,h to XCode 
+        project.
+    Mac Mgr: Fix crash bug when quitting if advanced prefs dialog open.
+      Change dialog ID to 10000 (ID_ANYDIALOG).
+      
+    NOTE: All BOINC dialogs MUST have ID 10000 (ID_ANYDIALOG) or they will 
+      cause a crash bug!
+      
+    clientgui/
+        DlgAdvPreferencesBase.h
+    mac_build/
+        boinc.xcodeproj/
+            project.pbxproj

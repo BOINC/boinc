@@ -353,6 +353,8 @@
 		DDD7F08007F0686100BA3B90 /* SystemMenu.bundle in CopyFiles */ = {isa = PBXBuildFile; fileRef = DD40CDF907F0386A0096C645 /* SystemMenu.bundle */; };
 		DDD998010AC3D36100D0DACF /* app_stats_mac.C in Sources */ = {isa = PBXBuildFile; fileRef = DDD998000AC3D36100D0DACF /* app_stats_mac.C */; };
 		DDDC35260909212D006076EC /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = F51BDF4903086C46012012A7 /* InfoPlist.strings */; };
+		DDE3A7F60B5F06EC00A3621C /* DlgAdvPreferences.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DDE3A7F20B5F06EC00A3621C /* DlgAdvPreferences.cpp */; };
+		DDE3A7F80B5F06EC00A3621C /* DlgAdvPreferencesBase.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DDE3A7F40B5F06EC00A3621C /* DlgAdvPreferencesBase.cpp */; };
 		DDEF38900802B73500E87552 /* ViewStatistics.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DDEF388E0802B73500E87552 /* ViewStatistics.cpp */; };
 		DDF166AB08DF898A00C8C4A5 /* mac_backtrace.C in Sources */ = {isa = PBXBuildFile; fileRef = DDF166A908DF898A00C8C4A5 /* mac_backtrace.C */; };
 		DDF166C308DF8AEE00C8C4A5 /* mac_backtrace.C in Sources */ = {isa = PBXBuildFile; fileRef = DDF166A908DF898A00C8C4A5 /* mac_backtrace.C */; };
@@ -1204,6 +1206,10 @@
 		DDD997D80AC3D1DD00D0DACF /* AppStats */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = AppStats; sourceTree = BUILT_PRODUCTS_DIR; };
 		DDD998000AC3D36100D0DACF /* app_stats_mac.C */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.cpp.cpp; path = app_stats_mac.C; sourceTree = "<group>"; };
 		DDE2552B07C62F3E008E7D6E /* IOKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = IOKit.framework; path = /System/Library/Frameworks/IOKit.framework; sourceTree = "<absolute>"; };
+		DDE3A7F20B5F06EC00A3621C /* DlgAdvPreferences.cpp */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.cpp.cpp; name = DlgAdvPreferences.cpp; path = ../clientgui/DlgAdvPreferences.cpp; sourceTree = SOURCE_ROOT; };
+		DDE3A7F30B5F06EC00A3621C /* DlgAdvPreferences.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = DlgAdvPreferences.h; path = ../clientgui/DlgAdvPreferences.h; sourceTree = SOURCE_ROOT; };
+		DDE3A7F40B5F06EC00A3621C /* DlgAdvPreferencesBase.cpp */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.cpp.cpp; name = DlgAdvPreferencesBase.cpp; path = ../clientgui/DlgAdvPreferencesBase.cpp; sourceTree = SOURCE_ROOT; };
+		DDE3A7F50B5F06EC00A3621C /* DlgAdvPreferencesBase.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = DlgAdvPreferencesBase.h; path = ../clientgui/DlgAdvPreferencesBase.h; sourceTree = SOURCE_ROOT; };
 		DDEB3CA80981084A0087E200 /* GridRepublic.icns */ = {isa = PBXFileReference; lastKnownFileType = image.icns; name = GridRepublic.icns; path = ../client/mac/GridRepublic.icns; sourceTree = SOURCE_ROOT; };
 		DDEF388E0802B73500E87552 /* ViewStatistics.cpp */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.cpp.cpp; name = ViewStatistics.cpp; path = ../clientgui/ViewStatistics.cpp; sourceTree = SOURCE_ROOT; };
 		DDEF388F0802B73500E87552 /* ViewStatistics.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = ViewStatistics.h; path = ../clientgui/ViewStatistics.h; sourceTree = SOURCE_ROOT; };
@@ -1541,6 +1547,10 @@
 				DD58C43A08F3347D00C1DF66 /* CompletionPage.h */,
 				DD81C40207C5D1020098A04D /* DlgAbout.cpp */,
 				DD81C43707C5D2240098A04D /* DlgAbout.h */,
+				DDE3A7F20B5F06EC00A3621C /* DlgAdvPreferences.cpp */,
+				DDE3A7F30B5F06EC00A3621C /* DlgAdvPreferences.h */,
+				DDE3A7F40B5F06EC00A3621C /* DlgAdvPreferencesBase.cpp */,
+				DDE3A7F50B5F06EC00A3621C /* DlgAdvPreferencesBase.h */,
 				DDC63EEF0985B89600383FD2 /* DlgGenericMessage.cpp */,
 				DDC63EF00985B89600383FD2 /* DlgGenericMessage.h */,
 				DD81C3FF07C5D1020098A04D /* DlgOptions.cpp */,
@@ -2762,6 +2772,8 @@
 				DD2EA0850B4B22010073B1AA /* BOINCGridCtrl.cpp in Sources */,
 				DDCDCDF40B532433009BB03C /* ViewMessagesGrid.cpp in Sources */,
 				DDCDCDF60B532433009BB03C /* ViewProjectsGrid.cpp in Sources */,
+				DDE3A7F60B5F06EC00A3621C /* DlgAdvPreferences.cpp in Sources */,
+				DDE3A7F80B5F06EC00A3621C /* DlgAdvPreferencesBase.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

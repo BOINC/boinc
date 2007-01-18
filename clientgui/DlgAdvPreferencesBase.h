@@ -24,9 +24,10 @@
 #include <wx/panel.h>
 #include <wx/radiobut.h>
 
+
 ///////////////////////////////////////////////////////////////////////////
 
-#define ID_DEFAULT wxID_ANY // Default
+#define ID_DEFAULT 10000 // Default
 #define ID_CHKMEMORYWHILESUSPENDED 20000
 #define ID_CHKNETCONFIRMBEFORECONNECT 20001
 #define ID_CHKNETDISCONNECTWHENDONE 20002
@@ -195,7 +196,7 @@ class CDlgAdvPreferencesBase : public wxDialog
 		wxButton* m_btnHelp;
 	
 	public:
-		CDlgAdvPreferencesBase( wxWindow* parent, int id = -1, wxString title = wxT("BOINC Manager - Preferences"), wxPoint pos = wxDefaultPosition, wxSize size = wxSize( 603,561 ), int style = wxDEFAULT_DIALOG_STYLE );
+		CDlgAdvPreferencesBase( wxWindow* parent, int id = ID_DEFAULT, wxString title = wxT("BOINC Manager - Preferences"), wxPoint pos = wxDefaultPosition, wxSize size = wxSize( 603,561 ), int style = wxDEFAULT_DIALOG_STYLE );
 	
 };
 
