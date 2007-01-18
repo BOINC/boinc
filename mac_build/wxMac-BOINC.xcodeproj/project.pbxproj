@@ -12,6 +12,18 @@
 			buildConfigurationList = DD806D8709A6D514004892E7 /* Build configuration list for PBXAggregateTarget "Build All" */;
 			buildPhases = (
 			);
+			buildSettings = {
+				OTHER_CFLAGS = "";
+				OTHER_LDFLAGS = "";
+				OTHER_REZFLAGS = "";
+				PRODUCT_NAME = "Build All";
+				SECTORDER_FLAGS = "";
+				WARNING_CFLAGS = (
+					"-Wmost",
+					"-Wno-four-char-constants",
+					"-Wno-unknown-pragmas",
+				);
+			};
 			dependencies = (
 				4086D203063BC05E00D4CD53 /* PBXTargetDependency */,
 				4086D205063BC05E00D4CD53 /* PBXTargetDependency */,
@@ -1879,6 +1891,26 @@
 		DD806D9509A6D52A004892E7 /* utilsexc_base.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DD806D9209A6D52A004892E7 /* utilsexc_base.cpp */; };
 		DD806D9609A6D52A004892E7 /* utilsexc_base.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DD806D9209A6D52A004892E7 /* utilsexc_base.cpp */; };
 /* End PBXBuildFile section */
+
+/* Begin PBXBuildStyle section */
+		4F0BB7EC011F40E904CA0E50 /* Development */ = {
+			isa = PBXBuildStyle;
+			buildSettings = {
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_ENABLE_FIX_AND_CONTINUE = YES;
+				ZERO_LINK = YES;
+			};
+			name = Development;
+		};
+		4F0BB7ED011F40E904CA0E50 /* Deployment */ = {
+			isa = PBXBuildStyle;
+			buildSettings = {
+				GCC_ENABLE_FIX_AND_CONTINUE = NO;
+				ZERO_LINK = NO;
+			};
+			name = Deployment;
+		};
+/* End PBXBuildStyle section */
 
 /* Begin PBXContainerItemProxy section */
 		4086D202063BC05E00D4CD53 /* PBXContainerItemProxy */ = {
@@ -3893,6 +3925,58 @@
 			);
 			buildRules = (
 			);
+			buildSettings = {
+				COPY_PHASE_STRIP = NO;
+				DYLIB_COMPATIBILITY_VERSION = 2.6;
+				DYLIB_CURRENT_VERSION = 2.6.0;
+				GCC_INPUT_FILETYPE = automatic;
+				GCC_OPTIMIZATION_LEVEL = s;
+				GCC_PFE_FILE_C_DIALECTS = "c++";
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = ../include/wx/wxprec.h;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					NO_GCC_PRAGMA,
+					__WXDEBUG__,
+					__WXMAC__,
+					"wxUSE_BASE=1",
+					"_FILE_OFFSET_BITS=64",
+					_LARGE_FILES,
+					"__WXMAC_XCODE__=1",
+					"WX_PRECOMP=1",
+					MACOS_CLASSIC,
+				);
+				GCC_WARN_CHECK_SWITCH_STATEMENTS = YES;
+				GCC_WARN_EFFECTIVE_CPLUSPLUS_VIOLATIONS = NO;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES;
+				HEADER_SEARCH_PATHS = (
+					"${SYMROOT}/include",
+					../include,
+					mac/carbon/morefilex,
+					common,
+					jpeg,
+					png,
+					regex,
+					expat/lib,
+					tiff,
+					"-",
+					"$(SYSTEM_DEVELOPER_DIR)/Headers/FlatCarbon",
+					/usr/include,
+				);
+				LIBRARY_STYLE = STATIC;
+				OTHER_CFLAGS = "";
+				OTHER_LDFLAGS = "";
+				OTHER_LIBTOOL_FLAGS = "";
+				OTHER_REZFLAGS = "-d __UNIX__";
+				PRODUCT_NAME = wx_macd;
+				REZ_EXECUTABLE = NO;
+				SECTORDER_FLAGS = "";
+				USE_HEADERMAP = FALSE;
+				WARNING_CFLAGS = (
+					"-Wmost",
+					"-Wno-four-char-constants",
+					"-Wno-unknown-pragmas",
+				);
+			};
 			dependencies = (
 			);
 			name = wxStaticDebug;
@@ -3912,6 +3996,53 @@
 			);
 			buildRules = (
 			);
+			buildSettings = {
+				DYLIB_COMPATIBILITY_VERSION = 2.6;
+				DYLIB_CURRENT_VERSION = 2.6.0;
+				GCC_GENERATE_DEBUGGING_SYMBOLS = NO;
+				GCC_OPTIMIZATION_LEVEL = 3;
+				GCC_PFE_FILE_C_DIALECTS = "c++";
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = ../include/wx/wxprec.h;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					NO_GCC_PRAGMA,
+					__WXMAC__,
+					"wxUSE_BASE=1",
+					"_FILE_OFFSET_BITS=64",
+					_LARGE_FILES,
+					"__WXMAC_XCODE__=1",
+					"WX_PRECOMP=1",
+					MACOS_CLASSIC,
+				);
+				HEADER_SEARCH_PATHS = (
+					"${SYMROOT}/include",
+					../include,
+					mac/carbon/morefilex,
+					common,
+					jpeg,
+					png,
+					expat/lib,
+					regex,
+					tiff,
+					"-",
+					"$(SYSTEM_DEVELOPER_DIR)/Headers/FlatCarbon",
+					/usr/include,
+				);
+				LIBRARY_STYLE = STATIC;
+				OTHER_CFLAGS = "";
+				OTHER_LDFLAGS = "";
+				OTHER_LIBTOOL_FLAGS = "";
+				OTHER_REZFLAGS = "-d __UNIX__";
+				PRODUCT_NAME = wx_mac;
+				REZ_EXECUTABLE = NO;
+				SECTORDER_FLAGS = "";
+				USE_HEADERMAP = FALSE;
+				WARNING_CFLAGS = (
+					"-Wmost",
+					"-Wno-four-char-constants",
+					"-Wno-unknown-pragmas",
+				);
+			};
 			dependencies = (
 			);
 			name = wxStaticRelease;
@@ -3932,6 +4063,59 @@
 			);
 			buildRules = (
 			);
+			buildSettings = {
+				COPY_PHASE_STRIP = NO;
+				DYLIB_COMPATIBILITY_VERSION = 2.6;
+				DYLIB_CURRENT_VERSION = 2.6.0;
+				GCC_C_LANGUAGE_STANDARD = "compiler-default";
+				GCC_INPUT_FILETYPE = automatic;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PFE_FILE_C_DIALECTS = "c++";
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = ../include/wx/wxprec.h;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					NO_GCC_PRAGMA,
+					__WXDEBUG__,
+					WXMAKINGDLL,
+					__WXMAC__,
+					"wxUSE_BASE=1",
+					"_FILE_OFFSET_BITS=64",
+					_LARGE_FILES,
+					"__WXMAC_XCODE__=1",
+					MACOS_CLASSIC,
+					"WX_PRECOMP=1",
+				);
+				HEADER_SEARCH_PATHS = (
+					"${SYMROOT}/include",
+					../include,
+					mac/carbon/morefilex,
+					common,
+					jpeg,
+					png,
+					expat/lib,
+					regex,
+					tiff,
+					"-",
+					"$(SYSTEM_DEVELOPER_DIR)/Headers/FlatCarbon",
+					/usr/include,
+				);
+				INSTALL_PATH = "@executable_path/../Frameworks/";
+				LIBRARY_SEARCH_PATHS = /usr/lib/gcc/darwin/3.1;
+				LIBRARY_STYLE = DYNAMIC;
+				OTHER_CFLAGS = "";
+				OTHER_LDFLAGS = "\U0001-flat_namespace";
+				OTHER_LIBTOOL_FLAGS = "\U0001";
+				OTHER_REZFLAGS = "-d __UNIX__";
+				PRODUCT_NAME = libwx_macd;
+				REZ_EXECUTABLE = NO;
+				SECTORDER_FLAGS = "";
+				USE_HEADERMAP = FALSE;
+				WARNING_CFLAGS = (
+					"-Wmost",
+					"-Wno-four-char-constants",
+					"-Wno-unknown-pragmas",
+				);
+			};
 			dependencies = (
 			);
 			name = wxDynamicDebug;
@@ -3951,6 +4135,56 @@
 			);
 			buildRules = (
 			);
+			buildSettings = {
+				DYLIB_COMPATIBILITY_VERSION = 2.6;
+				DYLIB_CURRENT_VERSION = 2.6.0;
+				GCC_DEBUGGING_SYMBOLS = used;
+				GCC_GENERATE_DEBUGGING_SYMBOLS = NO;
+				GCC_OPTIMIZATION_LEVEL = 3;
+				GCC_PFE_FILE_C_DIALECTS = "c++";
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = ../include/wx/wxprec.h;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					NO_GCC_PRAGMA,
+					WXMAKINGDLL,
+					__WXMAC__,
+					"wxUSE_BASE=1",
+					"_FILE_OFFSET_BITS=64",
+					_LARGE_FILES,
+					"__WXMAC_XCODE__=1",
+					MACOS_CLASSIC,
+					"WX_PRECOMP=1",
+				);
+				HEADER_SEARCH_PATHS = (
+					"${SYMROOT}/include",
+					../include,
+					mac/carbon/morefilex,
+					jpeg,
+					common,
+					png,
+					expat/lib,
+					regex,
+					tiff,
+					"-",
+					"$(SYSTEM_DEVELOPER_DIR)/Headers/FlatCarbon",
+					/usr/include,
+				);
+				INSTALL_PATH = "@executable_path/../Frameworks/";
+				LIBRARY_STYLE = DYNAMIC;
+				OTHER_CFLAGS = "";
+				OTHER_LDFLAGS = "-flat_namespace";
+				OTHER_LIBTOOL_FLAGS = "";
+				OTHER_REZFLAGS = "-d __UNIX__";
+				PRODUCT_NAME = libwx_mac;
+				REZ_EXECUTABLE = NO;
+				SECTORDER_FLAGS = "";
+				USE_HEADERMAP = FALSE;
+				WARNING_CFLAGS = (
+					"-Wmost",
+					"-Wno-four-char-constants",
+					"-Wno-unknown-pragmas",
+				);
+			};
 			dependencies = (
 			);
 			name = wxDynamicRelease;
@@ -3965,6 +4199,12 @@
 		0867D690FE84028FC02AAC07 /* Project object */ = {
 			isa = PBXProject;
 			buildConfigurationList = DD806D8B09A6D514004892E7 /* Build configuration list for PBXProject "wxMac-BOINC" */;
+			buildSettings = {
+			};
+			buildStyles = (
+				4F0BB7EC011F40E904CA0E50 /* Development */,
+				4F0BB7ED011F40E904CA0E50 /* Deployment */,
+			);
 			hasScannedForEncodings = 1;
 			mainGroup = 0867D691FE84028FC02AAC07 /* wxWindows */;
 			productRefGroup = 034768DDFF38A45A11DB9C8B /* Products */;
