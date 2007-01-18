@@ -19,11 +19,27 @@
 
 
 #include "config.h"
+
+#ifdef HAVE_PROCFS_H
+// Can't use large file calls with solaris procfs.
+#if defined(_FILE_OFFSET_BITS) && ( _FILE_OFFSET_BITS == 64 )
+#undef _FILE_OFFSET_BITS
+#endif
+#endif
+
 #include <stdio.h>
 
 #include <ctype.h>
 #include <sys/types.h>
 #include <dirent.h>
+
+#ifdef HAVE_UNISTD_H
+#include <unistd.h>
+#endif
+
+#ifdef HAVE_PROCFS_H
+#include <procfs.h>  // definitions for solaris /proc structs
+#endif
 
 #include "procinfo.h"
 #include "client_msgs.h"
@@ -81,52 +97,52 @@ struct PROC_STAT {
 
 int PROC_STAT::parse(char* buf) {
     int n = sscanf(buf, "%d %s %c %d %d %d %d %d "
-"%lu %lu %lu %lu %lu %lu %lu "
-"%ld %ld %ld %ld %ld %ld "
-"%lu %lu "
-"%ld "
-"%lu %lu %lu %lu %lu %lu %lu %lu %lu %lu %lu %lu %lu "
-"%d %d",
-        &pid,
-        &comm,
-        &state,
-        &ppid,
-        &pgrp,
-        &session,
-        &tty_nr,
-        &tpgid,
-        &flags,
-        &minflt,
-        &cminflt,
-        &majflt,
-        &cmajflt,
-        &utime,
-        &stime,
-        &cutime,
-        &cstime,
-        &priority,
-        &nice,
-        &zero,
-        &itrealvalue,
-        &starttime,
-        &vsize,
-        &rss,
-        &rlim,
-        &startcode,
-        &endcode,
-        &startstack,
-        &kstkesp,
-        &kstkeip,
-        &signal,
-        &blocked,
-        &sigignore,
-        &sigcatch,
-        &wchan,
-        &nswap,
-        &cnswap,
-        &exit_signal,
-        &processor
-    );
+                   "%lu %lu %lu %lu %lu %lu %lu "
+                   "%ld %ld %ld %ld %ld %ld "
+                   "%lu %lu "
+                   "%ld "
+                   "%lu %lu %lu %lu %lu %lu %lu %lu %lu %lu %lu %lu %lu "
+                   "%d %d",
+                   &pid,
+                   &comm,
+                   &state,
+                   &ppid,
+                   &pgrp,
+                   &session,
+                   &tty_nr,
+                   &tpgid,
+                   &flags,
+                   &minflt,
+                   &cminflt,
+                   &majflt,
+                   &cmajflt,
+                   &utime,
+                   &stime,
+                   &cutime,
+                   &cstime,
+                   &priority,
+                   &nice,
+                   &zero,
+                   &itrealvalue,
+                   &starttime,
+                   &vsize,
+                   &rss,
+                   &rlim,
+                   &startcode,
+                   &endcode,
+                   &startstack,
+                   &kstkesp,
+                   &kstkeip,
+                   &signal,
+                   &blocked,
+                   &sigignore,
+                   &sigcatch,
+                   &wchan,
+                   &nswap,
+                   &cnswap,
+                   &exit_signal,
+                   &processor
+                  );
     return 0;
 }
 
@@ -150,8 +166,38 @@ int procinfo_setup(vector<PROCINFO>& pi) {
         piddir = readdir(dir);
         if (piddir) {
             if (isdigit(piddir->d_name[0])) {
-                sprintf(pidpath, "/proc/%s/stat", piddir->d_name);
 
+#if defined(HAVE_PROCFS_H) && defined(HAVE__PROC_SELF_PSINFO)  // solaris
+                psinfo_t psinfo;
+                sprintf(pidpath, "/proc/%s/psinfo", piddir->d_name);
+                fd = fopen(pidpath, "r");
+                if (fd) {
+                    if (fread(&psinfo, sizeof(psinfo_t), 1, fd) == 1) {
+                        p.id=psinfo.pr_pid;
+                        p.parentid=psinfo.pr_ppid;
+                        p.swap_size=psinfo.pr_size*1024.;
+                        p.working_set_size = psinfo.pr_rssize * 1024.;
+                    }
+                    fclose(fd);
+                    sprintf(pidpath, "/proc/%s/usage", piddir->d_name);
+                    prusage_t prusage;
+                    fd = fopen(pidpath, "r");
+                    if (fd) {
+                        if (fread(&prusage, sizeof(prusage_t), 1, fd) == 1) {
+                            p.user_time = (float)prusage.pr_utime.tv_sec +
+                                          ((float)prusage.pr_utime.tv_nsec)/1e+9;
+                            p.kernel_time = (float)prusage.pr_stime.tv_sec +
+                                            ((float)prusage.pr_utime.tv_nsec)/1e+9;
+                            // page faults: I/O + non I/O
+                            p.page_fault_count = prusage.pr_majf + prusage.pr_minf;
+                        }
+                        fclose(fd);
+                        p.is_boinc_app = false;
+                        pi.push_back(p);
+                    }
+                }
+#else  // linux
+                sprintf(pidpath, "/proc/%s/stat", piddir->d_name);
                 fd = fopen(pidpath, "r");
                 if (fd) {
                     fgets(buf, sizeof(buf), fd);
@@ -163,9 +209,9 @@ int procinfo_setup(vector<PROCINFO>& pi) {
                     p.swap_size=ps.vsize;
                     // rss = pages, need bytes
                     // assumes page size = 4k
-                    p.working_set_size = ps.rss * 4096.;
-					// page faults: I/O + non I/O
-					p.page_fault_count = ps.majflt + ps.minflt;
+                    p.working_set_size = ps.rss * (float)getpagesize();
+                    // page faults: I/O + non I/O
+                    p.page_fault_count = ps.majflt + ps.minflt;
                     // times are in jiffies, need seconds
                     // assumes 100 jiffies per second
                     p.user_time = ps.utime / 100.;
@@ -173,21 +219,23 @@ int procinfo_setup(vector<PROCINFO>& pi) {
                     p.is_boinc_app = false;
                     pi.push_back(p);
                 }
+#endif
+
             }
         } else {
             closedir(dir);
             return 0;
         }
     }
- 
-#endif    
+
+#endif
     return 0;
 
 }
 
 // Scan the process table adding in CPU time and mem usage.
 // Loop thru entire table as the entries aren't in order.
-// Recurse at most 4 times to get additional child processes 
+// Recurse at most 4 times to get additional child processes
 //
 void add_child_totals(PROCINFO& pi, vector<PROCINFO>& piv, int pid, int rlvl) {
     unsigned int i;
