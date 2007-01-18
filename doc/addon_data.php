@@ -268,7 +268,15 @@ array('http://home.twcny.rr.com/setiatease/cpulimit-1.1c.tar.gz',
     '',
     '1166562285'
 ),
-
+array('http://kde-apps.org/content/show.php?content=44237',
+    'KBoingMgr',
+    '0.2.2',
+    'A Linux/KDE replacement for the standard BOINC Manager',
+    'http://kde-apps.org/content/show.php?content=44237',
+    'Linux/KDE',
+    'KBoingMgr is a Linux / KDE replacement for the BOINC Manager. It add lots of features (for example, it can manage multiple BOINC clients) and is aimed at the power user.',
+    '1169069138'
+),
 array('cpulimit-1.1.tar.gz',
     'CPU limiter',
     '1.1',

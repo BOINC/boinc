@@ -868,16 +868,28 @@ bool CLIENT_STATE::garbage_collect_always() {
     while (result_iter != results.end()) {
         rp = *result_iter;
         if (rp->got_server_ack) {
-            if (log_flags.state_debug) {
-                msg_printf(0, MSG_INFO,
-                    "[state_debug] CLIENT_STATE::garbage_collect(): deleting result %s\n",
-                    rp->name
+            // see if - for some reason - there's an active task
+            // for this result.  don't want to create dangling ptr.
+            //
+            ACTIVE_TASK* atp = active_tasks.lookup_result(rp);
+            if (atp) {
+                msg_printf(0, MSG_ERROR,
+                    "garbage_collect(); still have active task for acked result; state %d",
+                    atp->task_state
                 );
+                atp->task_state = PROCESS_EXITED;   // this will get rid of it
+            } else {
+                if (log_flags.state_debug) {
+                    msg_printf(0, MSG_INFO,
+                        "[state_debug] garbage_collect: deleting result %s\n",
+                        rp->name
+                    );
+                }
+                delete rp;
+                result_iter = results.erase(result_iter);
+                action = true;
+                continue;
             }
-            delete rp;
-            result_iter = results.erase(result_iter);
-            action = true;
-            continue;
         }
         // See if the files for this result's workunit had
         // any errors (download failure, MD5, RSA, etc)

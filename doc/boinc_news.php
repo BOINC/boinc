@@ -2,6 +2,13 @@
 
 $project_news = array(
 array("January 17, 2007",
+    "Linux users: check out
+    <a href=http://kde-apps.org/content/show.php?content=44237>KBoincMgr</a>,
+    a replacement for the BOINC Manager.
+    KBoincMgr can manage multiple BOINC clients,
+    and has other features too numerous to mention."
+),
+array("January 17, 2007",
     "On Sunday the 21st Jan. at 8pm BBC 1 will broadcast
     <a href=http://www.bbc.co.uk/bbcone/listings/programme.shtml?day=sunday&service_id=4223&filename=20070121/20070121_2000_4223_18875_60>Climate Change: Britain Under Threat</a>.
     This will include results from the BBC and CPDN experiments,

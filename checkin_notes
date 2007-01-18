@@ -764,4 +764,13 @@ Charlie 18 Jan 2007
     mac_build/
         boinc.xcodeproj/
             project.pbxproj
-    
+
+David  18 Jan 2007
+    - core client: don't garbage-collect a RESULT if an ACTIVE_TASK for it
+        still exists.  In principle this shouldn't happen, but maybe it is.
+    - limit duration correction factor to the range 0.01 .. 100
+
+    client/
+        client_state.C
+        client_types.C
+        cs_scheduler.C

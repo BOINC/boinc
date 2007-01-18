@@ -1737,6 +1737,11 @@ void PROJECT::update_duration_correction_factor(RESULT* rp) {
             duration_correction_factor = duration_correction_factor*0.9 + 0.1*ratio;
         }
     }
+    // limit to [.01 .. 100]
+    //
+    if (duration_correction_factor > 100) duration_correction_factor = 100;
+    if (duration_correction_factor < 0.01) duration_correction_factor = 0.01;
+
 	if (log_flags.cpu_sched_debug || log_flags.work_fetch_debug) {
 		msg_printf(this, MSG_INFO,
             "[csd|wfd] duration correction factor: %f => %f, ratio %f",

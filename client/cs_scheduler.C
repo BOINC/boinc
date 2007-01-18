@@ -1302,6 +1302,8 @@ double CLIENT_STATE::work_needed_secs() {
     return x;
 }
 
+// called when benchmarks change
+//
 void CLIENT_STATE::scale_duration_correction_factors(double factor) {
     if (factor <= 0) return;
     for (unsigned int i=0; i<projects.size(); i++) {
@@ -1309,7 +1311,10 @@ void CLIENT_STATE::scale_duration_correction_factors(double factor) {
         p->duration_correction_factor *= factor;
     }
 	if (log_flags.cpu_sched_debug) {
-		msg_printf(NULL, MSG_INFO, "[cpu_sched_debug] scaling duration correction factors by %f", factor);
+		msg_printf(NULL, MSG_INFO,
+            "[cpu_sched_debug] scaling duration correction factors by %f",
+            factor
+        );
 	}
 }
 
