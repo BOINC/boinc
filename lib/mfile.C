@@ -66,6 +66,8 @@ int MFILE::vprintf(const char* format, va_list ap) {
     k = vsnprintf(buf2, BUFSIZE, format, ap);
     if (k<=-1 || k>=BUFSIZE) {
         fprintf(stderr, "ERROR: buffer too small in MFILE::vprintf()\n");
+        fprintf(stderr, "ERROR: format: %s\n", format);
+        fprintf(stderr, "ERROR: k=%d, BUFSIZE=%d\n", k, BUFSIZE);
         return -1;
     }
     n = (int)strlen(buf2);

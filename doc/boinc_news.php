@@ -1,6 +1,13 @@
 <?
 
 $project_news = array(
+array("January 19, 2007",
+    "Check out a
+    <a href=http://youtube.com/watch?v=kCYlZ8-l5jc>TV news segment</a>
+    and a <a href=http://www.bbc.co.uk/sn/climateexperiment/>web site</a>
+    about the results of the recently-completed
+    BBC Climate Change Experiment."
+),
 array("January 18, 2007",
     "The paper \"<a href=rosetta_ms.doc>Reporting@Home: Delivering Dynamic Graphical Feedback to Participants in Community Computing Projects</a>\"
     describes how Rosetta@home delivers personalized
@@ -14,7 +21,7 @@ array("January 17, 2007",
     and has other features too numerous to mention."
 ),
 array("January 17, 2007",
-    "On Sunday the 21st Jan. at 8pm BBC 1 will broadcast
+    "On Sunday 21 Jan. at 8pm BBC 1 will broadcast
     <a href=http://www.bbc.co.uk/bbcone/listings/programme.shtml?day=sunday&service_id=4223&filename=20070121/20070121_2000_4223_18875_60>Climate Change: Britain Under Threat</a>.
     This will include results from the BBC and CPDN experiments,
     and an interview with CPDN staff.

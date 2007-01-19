@@ -870,3 +870,9 @@ David  19 Jan 2007
 		cs_apps.C
 		cs_files.C
 		pers_file_xfer.C
+
+David  19 Jan 2007
+    - core client: print more info if MFILE vsnprintf() is too big for buffer
+
+    lib/
+        mfile.C
