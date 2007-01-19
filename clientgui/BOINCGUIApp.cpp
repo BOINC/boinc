@@ -76,6 +76,7 @@ bool CBOINCGUIApp::OnInit() {
 
     // Setup variables with default values
     m_bBOINCStartedByManager = false;
+    m_strBOINCArguments = wxEmptyString;
     m_pLocale = NULL;
     m_pSkinManager = NULL;
     m_pFrame = NULL;
@@ -367,7 +368,8 @@ void CBOINCGUIApp::OnInitCmdLine(wxCmdLineParser &parser) {
     wxApp::OnInitCmdLine(parser);
     static const wxCmdLineEntryDesc cmdLineDesc[] = {
         { wxCMD_LINE_SWITCH, wxT("s"), wxT("systray"), _("Startup BOINC so only the system tray icon is visible")},
-        { wxCMD_LINE_SWITCH, wxT("insecure"), wxT("insecure"), _("disable BOINC security users and permissions")},
+        { wxCMD_LINE_SWITCH, wxT("b"), wxT("boincargs"), _("Startup BOINC with these optional arguments")},
+        { wxCMD_LINE_SWITCH, wxT("i"), wxT("insecure"), _("disable BOINC security users and permissions")},
         { wxCMD_LINE_NONE}  //DON'T forget this line!!
     };
     parser.SetDesc(cmdLineDesc);
@@ -377,6 +379,7 @@ void CBOINCGUIApp::OnInitCmdLine(wxCmdLineParser &parser) {
 bool CBOINCGUIApp::OnCmdLineParsed(wxCmdLineParser &parser) {
     // Give default processing (-?, --help and --verbose) the chance to do something.
     wxApp::OnCmdLineParsed(parser);
+    parser.Found(wxT("boincargs"), &m_strBOINCArguments);
     if (parser.Found(wxT("systray"))) {
         m_bGUIVisible = false;
     }
@@ -440,6 +443,14 @@ void CBOINCGUIApp::InitSupportedLanguages() {
             m_astrLanguages[iIndex] = liLanguage->Description;
         }
     }
+}
+
+
+bool CBOINCGUIApp::AutoRestartBOINC() {
+    if (!IsBOINCCoreRunning() && m_bBOINCStartedByManager) {
+        StartupBOINCCore();
+    }
+    return true;
 }
 
 
@@ -576,7 +587,11 @@ void CBOINCGUIApp::StartupBOINCCore() {
 #ifdef __WXMSW__
 
         // Append boinc.exe to the end of the strExecute string and get ready to rock
-        strExecute = wxT("\"") + strDirectory + wxT("\\boinc.exe\" -redirectio -launched_by_manager");
+        strExecute.Printf(
+            wxT("\"%s\\boinc.exe\" -redirectio -launched_by_manager %s"),
+            strDirectory.c_str(),
+            m_strBOINCArguments.c_str()
+        );
 
         PROCESS_INFORMATION pi;
         STARTUPINFO         si;

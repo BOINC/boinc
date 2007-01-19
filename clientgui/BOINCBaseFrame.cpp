@@ -383,6 +383,11 @@ void CBOINCBaseFrame::ShowConnectionFailedAlert() {
 
     wxLogTrace(wxT("Function Start/End"), wxT("CBOINCBaseFrame::ShowConnectionFailedAlert - Function Begin"));
 
+
+    // Did BOINC crash? If so restart it.
+    wxGetApp().AutoRestartBOINC();
+
+
     // %s is the application name
     //    i.e. 'BOINC Manager', 'GridRepublic Manager'
     strDialogTitle.Printf(
@@ -424,6 +429,11 @@ void CBOINCBaseFrame::ShowNotCurrentlyConnectedAlert() {
 
 
     wxLogTrace(wxT("Function Start/End"), wxT("CBOINCBaseFrame::ShowNotCurrentlyConnectedAlert - Function Begin"));
+
+
+    // Did BOINC crash? If so restart it.
+    wxGetApp().AutoRestartBOINC();
+
 
     // %s is the application name
     //    i.e. 'BOINC Manager', 'GridRepublic Manager'

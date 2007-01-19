@@ -93,10 +93,6 @@ CTaskBarIcon::CTaskBarIcon(wxString title, wxIcon* icon, wxIcon* iconDisconnecte
 
     m_pRefreshTimer = new wxTimer(this, ID_TB_TIMER);
     m_pRefreshTimer->Start(1000);  // Send event every second
-
-#ifndef __WXMAC__
-    SetIcon(m_iconTaskBarNormal, m_strDefaultTitle);
-#endif
 }
 
 
@@ -147,12 +143,24 @@ void CTaskBarIcon::OnRefresh(wxTimerEvent& WXUNUSED(event)) {
 
     // Which icon should be displayed?
     if (!pDoc->IsConnected()) {
-        SetIcon(m_iconTaskBarDisconnected, m_strDefaultTitle);
+        if (IsBalloonsSupported()) {
+            SetIcon(m_iconTaskBarDisconnected, wxEmptyString);
+        } else {
+            SetIcon(m_iconTaskBarDisconnected, m_strDefaultTitle);
+        }
     } else {
         if (RUN_MODE_NEVER == status.task_mode) {
-            SetIcon(m_iconTaskBarSnooze, m_strDefaultTitle);
+            if (IsBalloonsSupported()) {
+                SetIcon(m_iconTaskBarSnooze, wxEmptyString);
+            } else {
+                SetIcon(m_iconTaskBarSnooze, m_strDefaultTitle);
+            }
         } else {
-            SetIcon(m_iconTaskBarNormal, m_strDefaultTitle);
+            if (IsBalloonsSupported()) {
+                SetIcon(m_iconTaskBarNormal, wxEmptyString);
+            } else {
+                SetIcon(m_iconTaskBarNormal, m_strDefaultTitle);
+            }
         }
     }
 
@@ -327,6 +335,9 @@ void CTaskBarIcon::OnMouseMove(wxTaskBarIconEvent& WXUNUSED(event)) {
 
         if (pDoc->IsConnected()) {
             pDoc->GetConnectedComputerName(strMachineName);
+            if (pDoc->IsComputerNameLocal(strMachineName)) {
+                strMachineName = wxT("localhost");
+            }
             strTitle = strTitle + wxT(" - (") + strMachineName + wxT(")");
 
             pDoc->GetCoreClientStatus(status);

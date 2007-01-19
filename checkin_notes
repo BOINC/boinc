@@ -876,3 +876,20 @@ David  19 Jan 2007
 
     lib/
         mfile.C
+
+Rom    19 Jan 2007
+    - MGR: If the manager detects that the CC has crashed, and it was the one
+        who started the CC to begin with, restart the CC after 30 seconds.
+    - MGR: Cleanup some of the taskbar interactions where both the tooltip and
+        balloon were being displayed on Windows. Only one should be shown.
+    - MGR: Allow arguments to be passed to the CC from the manager's parameter
+        list. /b "..." or /boincargs "..." should work.
+        
+    clientgui/
+        AdvancedFrame.cpp
+        BOINCBaseFrame.cpp
+        BOINCGUIApp.cpp, .h
+        BOINCTaskBar.cpp
+        MainDocument.cpp
+        ViewResources.cpp
+        

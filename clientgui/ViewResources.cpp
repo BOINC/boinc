@@ -157,7 +157,7 @@ wxInt32 CViewResources::FormatProjectName(PROJECT* project, wxString& strBuffer)
 }
 
 
-bool CViewResources::OnSaveState(wxConfigBase* pConfig) {
+bool CViewResources::OnSaveState(wxConfigBase* /*pConfig*/) {
     return true;/*bool bReturnValue = true;
 
     wxASSERT(pConfig);
@@ -170,7 +170,7 @@ bool CViewResources::OnSaveState(wxConfigBase* pConfig) {
     return bReturnValue;*/
 }
 
-bool CViewResources::OnRestoreState(wxConfigBase* pConfig) {
+bool CViewResources::OnRestoreState(wxConfigBase* /*pConfig*/) {
     return true;/*wxASSERT(pConfig);
     wxASSERT(m_pTaskPane);
 
