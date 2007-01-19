@@ -22,7 +22,7 @@ Also available in
 by D. Carroll, C. Rahmlow, T. Psiaki, and G. Wojtaszczyk, July 2005.
 </ul>
 
-<h2>Computer science papers</h2>
+<h2>Technical papers about BOINC</h2>
 
 <ul>
 <li>
@@ -41,12 +41,6 @@ High Performance Computing, Networking, Storage and Analysis), Tampa, November 2
 David P. Anderson and Gilles Fedak
 IEEE/ACM International Symposium on Cluster Computing and the Grid,
 Singapore, May 16-19, 2006.
-
-<li>
-<a href=http://www.climateprediction.net/science/pubs/cpdn-computing.pdf>The Challenge of Volunteer Computing With Lengthy Climate Model Simulations</a>.
-Carl Christensen, Tolu Aina and David Stainforth.
-First IEEE International Conference on e-Science and Grid Technologies.
-5-8 December 2005, Melbourne
 
 <li>
 <a href=server_perf.pdf>High-Performance Task Distribution for Volunteer Computing</a>.
@@ -76,6 +70,19 @@ November 8, 2004, Pittsburgh, USA.
 <br>
 (Also available in
 <a href=http://boinc.oocp.org/grid_paper_04.html>Japanese</a>)
+
+</ul>
+<h2>Project-specific papers</h2>
+<ul>
+<li>
+<a href=http://www.climateprediction.net/science/pubs/cpdn-computing.pdf>The Challenge of Volunteer Computing With Lengthy Climate Model Simulations</a>.
+Carl Christensen, Tolu Aina and David Stainforth.
+First IEEE International Conference on e-Science and Grid Technologies.
+5-8 December 2005, Melbourne
+<li>
+<a href=rosetta_ms.doc>Reporting@Home:  Delivering Dynamic Graphical Feedback to Participants in Community Computing Projects</a>.
+Stuart Ozer, David E. Kim, David Baker
+(in preparation).
 
 </ul>
 <h2>Powerpoint</h2>

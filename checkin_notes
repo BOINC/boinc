@@ -849,3 +849,11 @@ Rytis   19 Jan 2007
             util.inc
         user/
             sample_index.php
+
+David  19 Jan 2007
+    - lib: change retry logic for file system ops
+        so that it does does at least 5 retries
+        AND takes at least 5 seconds.
+
+    lib/
+        filesys.C

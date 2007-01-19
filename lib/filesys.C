@@ -71,6 +71,10 @@ typedef BOOL (CALLBACK* FreeFn)(LPCTSTR, PULARGE_INTEGER, PULARGE_INTEGER, PULAR
 #include "fcgi_stdio.h"
 #endif
 
+#define RETRY_INTERVAL 5
+    // On Windows, retry for this period of time, since some other program
+    // (virus scan, defrag, index) may have the file open.
+
 using std::string;
 
 char boinc_failed_file[256];
@@ -251,11 +255,12 @@ int boinc_delete_file(const char* path) {
         return 0;
     }
 #ifdef _WIN32
-    for (int i=0; i<5; i++) {
+    double start = dtime();
+    do {
         if (DeleteFile(path)) break;
         retval = GetLastError();
         boinc_sleep(drand());       // avoid lockstep
-    }
+    } while (dtime() < start + RETRY_INTERVAL);
 #else
     retval = unlink(path);
     if (retval && g_use_sandbox && (errno == EACCES)) {
@@ -384,11 +389,13 @@ FILE* boinc_fopen(const char* path, const char* mode) {
     // (since the file might be open by FastFind, Diskeeper etc.)
     //
     if (!f) {
-        for (int i=0; i<5; i++) {
-            boinc_sleep(drand());
+        double start = dtime();
+        do {
+            boinc_sleep(drand()*2);
             f = _fsopen(path, mode, _SH_DENYNO);
+                // _SH_DENYNO makes the file sharable while open
             if (f) break;
-        }
+        } while (dtime() < start + RETRY_INTERVAL);
     }
 #else
     // Unix - if call was interrupted, retry a few times
@@ -454,11 +461,12 @@ int boinc_rename(const char* old, const char* newf) {
 #ifdef _WIN32
     int retval=0;
     boinc_delete_file(newf);
-    for (int i=0; i<5; i++) {
+    double start = dtime();
+    do {
         if (MoveFile(old, newf)) break;
         retval = GetLastError();
-        boinc_sleep(drand());       // avoid lockstep
-    }
+        boinc_sleep(drand()*2);       // avoid lockstep
+    } while (dtime() < start + RETRY_INTERVAL);
     return retval;
 #else
     return rename(old, newf);

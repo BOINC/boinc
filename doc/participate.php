@@ -47,7 +47,7 @@ or need help installing BOINC, you can
 <li> <a href=teams.php>Teams</a>
 <li> <a href=acct_mgrs.php>Account managers</a>
 <li> <a href=client_msgs.php>Core client configuration</a>
-<li> <a href=http://boinc.berkeley.edu/gui_rpc_auth.php>Authorizing remote control</a>
+<li> <a href=http://boinc.berkeley.edu/gui_rpc_auth.php>Controlling BOINC remotely</a>
 </ul>
 <h3>Advanced users</h3>
 <ul>

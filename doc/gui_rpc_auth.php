@@ -1,6 +1,6 @@
 <?php
 require_once("docutil.php");
-page_head("Authorizing remote control of BOINC");
+page_head("Controlling BOINC remotely");
 echo "
 <h2>Remote control of the BOINC client</h2>
 <p>
@@ -17,8 +17,8 @@ a core client on a different host:
 <br> <center>
 <img src=gui_auth2.png>
 <br> </center>
-And BOINCView (an add-on program developed by a third party) is
-able to control many BOINC clients at once:
+You can use <a href=addons.php>add-on programs</a>
+such as BOINCView to control many BOINC clients at once:
 <br> <center>
 <img src=gui_auth3.png>
 <br> </center>
@@ -30,42 +30,30 @@ Since GUI RPCs can control the BOINC client
 it is important to protect your BOINC client from unauthorized control.
 There are two levels of protection:
 <ul>
-<li> You can associate a password with the client.
-If a password is used,
-GUI RPCs must be authenticated with this password.
-<li> You can restrict RPCs to a limited set of hosts.
+<li>
+GUI RPCs are authenticated with a <b>GUI RPC password</b>.
+This is stored with the client in the file <b>gui_rpc_auth.cfg</b>.
+When BOINC first runs, it generates a long, random password.
+You can change it if you like.
+<li> You can specify a set of hosts from which RPCs are allowed.
+By default, RPCs are allowed only from the same host.
 </ul>
 A GUI RPC is handled only if it passes both levels of protection.
-<p>
-After a standard installation, BOINC is highly secure;
-it generates its own (long, random) password,
-and it doesn't allow access from other hosts.
 
-<h2>Password protection</h2>
-<p>
-If you place a password in a file <b>gui_rpc_auth.cfg</b>
-in your BOINC directory,
-GUI RPCs must be authenticated using the password.
-<p>
-If this file is not present, there is no password protection.
-
-<h2>Remote host restriction</h2>
+<h2>Allowing RPCs from remote hosts</h2>
 <p>
 By default the core client accepts GUI RPCs only from the same host.
-
-<p>
 You can allow remote hosts to control a core client in two ways:
 <ul>
 <li> If you run the client with the
--allow_remote_gui_rpc command line option,
-it will accept connections from any host.
-This is not recommended unless the host is behind a firewall
-that blocks the GUI RPC port (1043).
+<code>-allow_remote_gui_rpc</code> command line option,
+it will accept connections from any host
+(subject to password authentication).
 <li>
 You can create
 a file <b>remote_hosts.cfg</b> in your BOINC directory containing 
 a list of allowed DNS host names or IP addresses (one per line).
-Those hosts will be able to connect.
+These hosts will be able to connect.
 The remote_hosts.cfg file can have comment lines that start with either a # 
 or a ; character as well.
 </ul>

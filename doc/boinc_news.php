@@ -1,6 +1,11 @@
 <?
 
 $project_news = array(
+array("January 18, 2007",
+    "The paper \"<a href=rosetta_ms.doc>Reporting@Home: Delivering Dynamic Graphical Feedback to Participants in Community Computing Projects</a>\"
+    describes how Rosetta@home delivers personalized
+    graphical progress reports to its volunteers."
+),
 array("January 17, 2007",
     "Linux users: check out
     <a href=http://kde-apps.org/content/show.php?content=44237>KBoincMgr</a>,
