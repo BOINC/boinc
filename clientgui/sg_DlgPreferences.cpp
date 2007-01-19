@@ -1067,7 +1067,11 @@ void CDlgPreferences::OnHelp(wxHelpEvent& event) {
  */
 
 void CDlgPreferences::OnOK( wxCommandEvent& event ) {
+#if wxCHECK_VERSION(2,8,0)
+//    event.skip();
+#else
     wxDialog::OnOK(event);
+#endif
     m_pBackgroundPanel->OnOK();
     EndModal(wxID_OK);
 }

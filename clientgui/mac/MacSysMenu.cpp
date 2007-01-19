@@ -117,14 +117,12 @@ public:
     bool                m_iconAdded;
 };
 
-wxMenu* CMacSystemMenu::GetCurrentMenu() {
-    return ((wxDockTaskBarIcon*)m_impl)->m_pMenu;
-}
 #endif
+
 
 CMacSystemMenu::CMacSystemMenu(wxString title, wxIcon* icon, wxIcon* iconDisconnected, wxIcon* iconSnooze)
                                 : CTaskBarIcon(title, icon, iconDisconnected, iconSnooze) {
-    CFBundleRef	SysMenuBundle	= NULL;
+     CFBundleRef	SysMenuBundle	= NULL;
 
     m_OpeningAboutDlg = false;
     
@@ -143,7 +141,7 @@ CMacSystemMenu::CMacSystemMenu(wxString title, wxIcon* icon, wxIcon* iconDisconn
         // We remove that handler and substitute our own.
 #if wxCHECK_VERSION(2,8,0)
         RemoveEventHandler((EventHandlerRef&)(((wxDockTaskBarIcon*)m_impl)->m_eventHandlerRef));
-
+        
         InstallApplicationEventHandler(NewEventHandlerUPP(SysMenuEventHandler), 
                                 sizeof(myEvents) / sizeof(EventTypeSpec), myEvents, 
                                                         this, (EventHandlerRef*)&(((wxDockTaskBarIcon*)m_impl)->m_eventHandlerRef)); 
@@ -233,6 +231,15 @@ void CMacSystemMenu::BuildMenu() {
 }
 
 
+#if wxCHECK_VERSION(2,8,0)
+
+wxMenu* CMacSystemMenu::GetCurrentMenu() {
+    return ((wxDockTaskBarIcon*)m_impl)->m_pMenu;
+}
+
+#endif
+
+
 //	Utility routine to load a bundle from the application's Frameworks folder.
 //	i.e. : "BOINC.app/Contents/Frameworks/SystemMenu.bundle"
 void CMacSystemMenu::LoadPrivateFrameworkBundle( CFStringRef framework, CFBundleRef *bundlePtr ) {
@@ -297,7 +304,7 @@ pascal OSStatus SysMenuEventHandler( EventHandlerCallRef inHandlerCallRef,
 
              pMSM = wxGetApp().GetMacSystemMenu();
                 
-           // wxMac-2.6.3 "helpfully" converts wxID_ABOUT to kHICommandAbout, wxID_EXIT to kHICommandQuit, 
+           // wxMac "helpfully" converts wxID_ABOUT to kHICommandAbout, wxID_EXIT to kHICommandQuit, 
             //  wxID_PREFERENCES to kHICommandPreferences
             switch (commandID) {
             case kHICommandAbout:
@@ -336,6 +343,17 @@ pascal OSStatus SysMenuEventHandler( EventHandlerCallRef inHandlerCallRef,
                     item->Check( !item->IsChecked() );
 
                 item->GetMenu()->SendEvent( commandID , item->IsCheckable() ? item->IsChecked() : -1 );
+                
+                // Under wxWidgets 2.8.0, the task bar icons must be deleted for app to 
+                // exit its main loop
+                // Note that if the main window is open, CBOINCBaseFrame::OnExit() will be 
+                // called and SysMenuEventHandler() (i.e., this code) will not be called.
+                if (commandID == wxID_EXIT) {
+                    delete pMSM;
+                    CTaskBarIcon* pTBI = wxGetApp().GetTaskBarIcon();
+                    if (pTBI)
+                        delete pTBI;
+                }
                 return noErr ;
             }
 

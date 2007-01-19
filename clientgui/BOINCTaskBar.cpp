@@ -272,7 +272,7 @@ void CTaskBarIcon::OnExit(wxCommandEvent& event) {
         OnClose(eventClose);
         if (eventClose.GetSkipped()) event.Skip();
     }
-    
+
     wxLogTrace(wxT("Function Start/End"), wxT("CTaskBarIcon::OnExit - Function End"));
 }
 

@@ -14,7 +14,9 @@
 
 using namespace std;
 
+#if ! wxCHECK_VERSION(2,8,0)
 WX_DEFINE_OBJARRAY(wxArrayDouble);
+#endif
 WX_DEFINE_OBJARRAY(wxPieSeries);
 
 BEGIN_EVENT_TABLE(wxPieCtrlLegend, wxWindow)
@@ -364,7 +366,11 @@ void wxPieCtrl::Draw(wxPaintDC & pdc)
 		m_CanvasDC.BeginDrawing();
 		m_CanvasDC.SetBackground(*wxWHITE_BRUSH);
 		m_CanvasDC.Clear();
+#if wxCHECK_VERSION(2,8,0)
+		if(m_Background.IsOk())
+#else
 		if(m_Background != wxNullBitmap)
+#endif
 		{
 			for(i = 0; i < w; i+= m_Background.GetWidth())
 			{

@@ -106,6 +106,10 @@
 #include <wx/cshelp.h>
 #include <wx/grid.h>
 
+#if wxCHECK_VERSION(2,8,0)
+#include <wx/imaglist.h>
+#endif
+
 #ifdef _WIN32
 
 // Visual Studio 2005 has extended the C Run-Time Library by including "secure"

@@ -345,18 +345,6 @@ int CBOINCGUIApp::OnExit() {
     // Shutdown the System Idle Detection code
     ClientLibraryShutdown();
 
-#if defined(__WXMSW__) || defined(__WXMAC__)
-    if (m_pTaskBarIcon) {
-        delete m_pTaskBarIcon;
-    }
-#endif
-
-#ifdef __WXMAC__
-    if (m_pMacSystemMenu) {
-        delete m_pMacSystemMenu;
-    }
-#endif
-
     if (m_pDocument) {
         m_pDocument->OnExit();
         delete m_pDocument;

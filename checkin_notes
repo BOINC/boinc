@@ -799,3 +799,29 @@ David  18 Jan 2007
 			wxPieCtrl.cpp,h
 		res/
 			warning.xpm (new)
+
+Charlie 19 Jan 2007
+    MGR: Complete my changes for wxWidgets 2.8.0.  
+    NOTE: I am aware of 3 bugs with wxWidgets 2.8.0 on the Mac:
+        - New pie chart tooltips work with wxMac-2.6.3 but not wxMac-2.8.0.
+        - Main SimpleGUI window tasks area has problems with alignment, so  
+           task tabs are obscured.
+        - Column width settings are not saved / restored.
+
+    clientgui/
+        BOINCBaseFrame.cpp
+        BOINCGUIApp.cpp
+        BOINCTaskBar.cpp
+        sg_DlgPreferences.cpp
+        stdwx.h
+        mac/
+            MacSysMenu.cpp
+        common/
+            wxPieCtrl.cpp,h
+    mac_build/
+        buildWxMac.sh
+        setupForBoinc.sh
+        wxMac-BOINC.xcodeproj/
+            project.pbxproj
+        boinc.xcodeproj/
+            project.pbxproj
