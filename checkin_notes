@@ -1,6 +1,7 @@
 Reinhard  2 Jan 2007
     -  fixed build of clientgui [in consultation with the Author, Frank Weiler] 
-    * corrected unicode-string handling with wxString() in     ViewTransfersGrid.cpp and ViewWorkGrid.cpp
+    * corrected unicode-string handling with wxString() in
+	    ViewTransfersGrid.cpp and ViewWorkGrid.cpp
     * corrected wxString handling in BOINCGridCtrl.cpp
     * add missing files BOINCGridCtrl.[cpp|h] to Makefile.am
 
@@ -857,3 +858,15 @@ David  19 Jan 2007
 
     lib/
         filesys.C
+
+David  19 Jan 2007
+	- core client: if resuming a persistent file xfer,
+		don't print error messages if file has wrong
+		size/checksum/signature.
+		That's a normal condition is a file xfer was interrupted.
+
+	client/
+		client_types.C,h
+		cs_apps.C
+		cs_files.C
+		pers_file_xfer.C

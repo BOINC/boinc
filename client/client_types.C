@@ -117,6 +117,7 @@ int PROJECT::parse_state(MIOFILE& in) {
     string str1, str2;
     int retval;
     double x;
+    bool btemp;
 
     init();
     while (in.fgets(buf, 256)) {
@@ -177,6 +178,7 @@ int PROJECT::parse_state(MIOFILE& in) {
         else if (parse_double(buf, "<duration_correction_factor>", duration_correction_factor)) continue;
         else if (match_tag(buf, "<attached_via_acct_mgr/>")) attached_via_acct_mgr = true;
         else if (parse_double(buf, "<ams_resource_share>", ams_resource_share)) continue;
+        else if (parse_bool(buf, "scheduler_rpc_in_progress", btemp)) continue;
         else {
             if (log_flags.unparsed_xml) {
                 msg_printf(0, MSG_ERROR,

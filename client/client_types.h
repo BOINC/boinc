@@ -111,7 +111,7 @@ public:
     bool had_failure(int& failnum);
     void failure_message(std::string&);
     int merge_info(FILE_INFO&);
-    int verify_file(bool);
+    int verify_file(bool, bool);
     int gzip();     // gzip file and add .gz to name
 };
 
