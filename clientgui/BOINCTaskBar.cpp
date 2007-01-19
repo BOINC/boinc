@@ -357,7 +357,7 @@ void CTaskBarIcon::OnMouseMove(wxTaskBarIconEvent& WXUNUSED(event)) {
                 strMessage += wxT("\n");
             }
 
-            iResultCount = (wxInt32)pDoc->results.results.size();
+            iResultCount = pDoc->GetWorkCount();
             for (iIndex = 0; iIndex < iResultCount; iIndex++) {
                 RESULT* result = pDoc->result(iIndex);
                 RESULT* state_result = NULL;

@@ -1272,6 +1272,18 @@
 					RelativePath="..\clientgui\DlgAbout.h">
 				</File>
 				<File
+					RelativePath="..\clientgui\DlgAdvPreferences.cpp">
+				</File>
+				<File
+					RelativePath="..\clientgui\DlgAdvPreferences.h">
+				</File>
+				<File
+					RelativePath="..\clientgui\DlgAdvPreferencesBase.cpp">
+				</File>
+				<File
+					RelativePath="..\clientgui\DlgAdvPreferencesBase.h">
+				</File>
+				<File
 					RelativePath="..\clientgui\DlgOptions.cpp">
 				</File>
 				<File

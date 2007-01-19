@@ -832,3 +832,10 @@ Walt   19 Jan 2007
 
     clientgui/
         BOINCBaseFrame.cpp
+
+Rom    19 Jan 2007
+    - MGR: Make sure the result records have been updated before
+        displaying the taskbar balloon.
+        
+    clientgui/
+        BOINCTaskBar.cpp
