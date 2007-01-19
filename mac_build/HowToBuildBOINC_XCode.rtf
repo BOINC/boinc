@@ -1,4 +1,4 @@
-{\rtf1\mac\ansicpg10000\cocoartf824\cocoasubrtf410
+{\rtf1\mac\ansicpg10000\cocoartf824\cocoasubrtf420
 {\fonttbl\f0\fswiss\fcharset77 Helvetica-Bold;\f1\fswiss\fcharset77 Helvetica;\f2\fmodern\fcharset77 Courier;
 \f3\fswiss\fcharset77 Helvetica-Oblique;\f4\fnil\fcharset77 LucidaGrande;}
 {\colortbl;\red255\green255\blue255;\red0\green0\blue239;\red78\green0\blue124;}
@@ -11,16 +11,18 @@
 \f1\b0\fs24 \cf0 \
 \pard\tx720\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640\qc
 \cf0 Written by Charlie Fenton\
-Last updated 10/3/06\
+Last updated 1/19/07\
 \pard\tx720\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640\ql\qnatural
 \cf0 \
 This document applies to BOINC version 5.6.5 and later.  It has instructions for building BOINC for Macintosh OSX, plus information for building science project applications to run under BOINC on Macintosh OSX.  \
 \
 Note: the information in this document changes from time to time for different versions of BOINC.  For any version of BOINC source files, the corresponding version of this document can be found in the source tree at:\
+\pard\tx720\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640\ql\qnatural
 
-\f2\fs26                    boinc/mac_build/HowToBuildBOINC_XCode.rtf\
+\f2\fs26 \cf0                    boinc/mac_build/HowToBuildBOINC_XCode.rtf\
+\pard\tx720\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640\ql\qnatural
 
-\f1\fs24 \
+\f1\fs24 \cf0 \
 Contents of this document:\
 \'a5 Important requirements for building BOINC software for the Mac.\
 \'a5 Building BOINC libraries to link with project applications.\
@@ -89,15 +91,15 @@ After building the libraries as Universal Binaries using the second method, you 
 
 \f1\b0\fs24 \cf0 \
 \pard\tx720\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640\ql\qnatural\pardirnatural
-\cf0 BOINC depends on three third-party libraries: wxMac-2.6.3, curl-7.5.15, and jpeg-6b.  You can obtain these from the following URLs:\
+\cf0 BOINC depends on three third-party libraries: wxMac-2.8.0, curl-7.5.15, and jpeg-6b.  You can obtain these from the following URLs:\
 \
-wxMac-2.6.3 (needed  only if you are building the BOINC Manager):\
+wxMac-2.8.0 (needed  only if you are building the BOINC Manager):\
 	{\field{\*\fldinst{HYPERLINK "http://www.wxwidgets.org"}}{\fldrslt 
 \f2\fs26 http://www.wxwidgets.org}}
 \f2\fs26 \
 
-\f1\fs24 	{\field{\*\fldinst{HYPERLINK "http://prdownloads.sourceforge.net/wxwindows/wxMac-2.6.3.tar.gz"}}{\fldrslt 
-\f2\fs26 http://prdownloads.sourceforge.net/wxwindows/wxMac-2.6.3.tar.gz}}\
+\f1\fs24 	{\field{\*\fldinst{HYPERLINK "http://prdownloads.sourceforge.net/wxwindows/wxMac-2.8.0.tar.gz"}}{\fldrslt 
+\f2\fs26 http://prdownloads.sourceforge.net/wxwindows/wxMac-2.8.0.tar.gz}}\
 \
 curl-7.5.15:\
 \pard\tx720\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640\ql\qnatural\pardirnatural
@@ -119,7 +121,7 @@ jpeg-6b (needed  only if you are building the BOINC libboinc_graphics_api.a libr
 
 \f3\i \cf0 XCode 2.2 installs autoconf 2.59 and automake 1.63.
 \f1\i0   
-\f3\i To determine the version number, type "autoconf --version" or "automake --version" .  Building wxMac-2.6.3 and curl-7.5.15 require autoconf 2.59 and automake 1.93 or later.  \
+\f3\i To determine the version number, type "autoconf --version" or "automake --version" .  Building wxMac-2.8.0 and curl-7.5.15 require autoconf 2.59 and automake 1.93 or later.  \
 \
 Upgrades for autoconf and automake are available from www.gnu.org:  \
 \pard\tx720\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640\ql\qnatural
@@ -138,7 +140,7 @@ XCode installed these utilities in the /usr/bin/ directory, but the upgrades by 
 \pard\tx720\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640\ql\qnatural\pardirnatural
 \cf0 As stated above, all BOINC software for Power PC Macs must be built using GCC 3.3 and MacOS10.3.9 SDK to assure backward compatibility with OS 10.3.  All BOINC software for Intel Macs must be built using GCC 4.0 and MacOS10.4.u SDK to allow cross-compiling.  \
 \
-These are not done by either the XCode projects which come with wxMac-2.6.3, nor  the AutoMake scripts supplied with wxMac-2.6.3, curl-7.5.15, or jpeg-6b.  So be sure to use our special scripts to build these packages.\
+These are not done by either the XCode projects which come with wxMac-2.8.0, nor  the AutoMake scripts supplied with wxMac-2.8.0, curl-7.5.15, or jpeg-6b.  So be sure to use our special scripts to build these packages.\
 \
 Building BOINC and the library packages on which it depends requires OS 10.4.4 and XCode 2.2 (or greater).  It may be possible to use XCode 2.1 and/or versions of OS X earlier than 10.4.4, but this has not been tested by the authors.\
 \pard\tx720\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640\ql\qnatural
@@ -148,7 +150,7 @@ Building BOINC and the library packages on which it depends requires OS 10.4.4 a
 [2] Put the following 3 directories inside the BOINC_dev folder (omit any you don't need):\
     curl-7.5.15\
     jpeg-6b\
-    wxMac-2.6.3\
+    wxMac-2.8.0\
 \
 Important: do not change the names of any of these 3 directories.\
 \
@@ -224,7 +226,7 @@ The options for BuildMacBOINC.sh are:\
 \f1\b0  is obsolete and should no longer be used.\
   \'a5 
 \f0\b wxMac-BOINC.xcodeproj
-\f1\b0  is used to build the wxMac-2.6.3 library in conjunction with the setupForBoinc.sh or buildWxMac.sh scripts.  Do not use it as a stand-alone project; it will not configure the wxMac libraries correctly when run outside of these scripts. \
+\f1\b0  is used to build the wxMac-2.8.0 library in conjunction with the setupForBoinc.sh or buildWxMac.sh scripts.  Do not use it as a stand-alone project; it will not configure the wxMac libraries correctly when run outside of these scripts. \
   \'a5 
 \f0\b boinc.xcodeproj
 \f1\b0  builds BOINC.  It can be used either with the BuildMacBOINC.sh script or as a stand-alone project.  It has two extra build configurations, i386-Deployment and ppc-Deployment, which can be used for testing only to build for just one architecture.  The Development build configuration builds only the native architecture and is used for debugging.  The Deployment build configuration builds a universal binary and is suitable for release builds.\
