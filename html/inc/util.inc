@@ -111,13 +111,13 @@ function page_head($title, $java_onload=null, $title_plain=null, $prefix="") {
 
     if (!$title_plain) {
         echo "<html><head><title>".strip_tags($title)."</title>
-            <link rel=stylesheet type=text/css href=\"$styleSheet\">
-            <link rel='alternate' type='text/xml' title=\"$rssname\" href=\"$rsslink\">
+            <link rel=\"stylesheet\" type=\"text/css\" href=\"$styleSheet\">
+            <link rel=\"alternate\" type=\"application/rss+xml\" title=\"$rssname\" href=\"$rsslink\">
             </head>";
     } else {
         echo "<html><head><title>".strip_tags($title_plain)."</title>
-        <link rel=stylesheet type=text/css href=\"$styleSheet\">
-        <link rel='alternate' type='text/xml' title=\"$rssname\" href=\"$rsslink\">
+        <link rel=\"stylesheet\" type=\"text/css\" href=\"$styleSheet\">
+        <link rel=\"alternate\" type=\"application/rss+xml\" title=\"$rssname\" href=\"$rsslink\">
         </head>";
     }
     if ($java_onload){

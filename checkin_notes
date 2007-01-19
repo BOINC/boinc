@@ -839,3 +839,13 @@ Rom    19 Jan 2007
         
     clientgui/
         BOINCTaskBar.cpp
+
+Rytis   19 Jan 2007
+    - user web: correct RSS feed link type to make IE7 and Safari recognise the
+        feed.
+        
+    html/
+        inc/
+            util.inc
+        user/
+            sample_index.php

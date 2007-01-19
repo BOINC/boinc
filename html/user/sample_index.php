@@ -67,7 +67,7 @@ echo "<html>
     <head>
     <title>".PROJECT."</title>
     <link rel=\"stylesheet\" type=\"text/css\" href=\"white.css\">
-    <link rel=\"alternate\" type=\"text/xml\" title=\"".$rssname."\" href=\"".$rsslink."\">
+    <link rel=\"alternate\" type=\"application/rss+xml\" title=\"".$rssname."\" href=\"".$rsslink."\">
     </head><body>
     <h1>".PROJECT."</h1>
     <table cellpadding=\"8\" cellspacing=\"4\">
