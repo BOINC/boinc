@@ -826,3 +826,9 @@ Charlie 19 Jan 2007
             project.pbxproj
         boinc.xcodeproj/
             project.pbxproj
+
+Walt   19 Jan 2007
+    MGR: Fix compiler error: GetTaskBarIcon isn't used in Linux
+
+    clientgui/
+        BOINCBaseFrame.cpp
