@@ -178,11 +178,13 @@ wxPiePart::wxPiePart(const wxPiePart & part)
 }
 
 BEGIN_EVENT_TABLE(wxPieCtrl, wxWindow)
-EVT_PAINT(wxPieCtrl::OnPaint)
-EVT_ERASE_BACKGROUND(wxPieCtrl::OnEraseBackground)
-EVT_SIZE(wxPieCtrl::OnSize)
+	EVT_PAINT(wxPieCtrl::OnPaint)
+	EVT_ERASE_BACKGROUND(wxPieCtrl::OnEraseBackground)
+	EVT_SIZE(wxPieCtrl::OnSize)
+	EVT_MOTION(wxPieCtrl::OnMouseMove)
 END_EVENT_TABLE()
 
+/* constructor */
 wxPieCtrl::wxPieCtrl(wxWindow * parent, wxWindowID id, wxPoint pos,
 		wxSize sz, long style, wxString name)
 		:wxWindow(parent, id, pos, sz, style, name), m_Angle(M_PI/12), m_RotationAngle(0), m_Height(10),
@@ -194,6 +196,42 @@ wxPieCtrl::wxPieCtrl(wxWindow * parent, wxWindowID id, wxPoint pos,
 	m_CanvasBitmap.Create(1,1);
 	RecreateCanvas();
 	m_Legend = new wxPieCtrlLegend(this, _("Pie Ctrl"), wxPoint(10,10), wxSize(100,75));
+}
+
+/* handles mouse motion events */
+void wxPieCtrl::OnMouseMove(wxMouseEvent& ev) {
+	ev.Skip();
+#if defined(__WXMSW__) || defined(__WXMAC__)
+	//get the pie part, over which the mouse pointer is
+	int piepart = GetCoveredPiePart(ev.GetX(),ev.GetY());
+	//part identified
+	if(piepart >=0) {
+		//prevent tooltip flicker
+		if(piepart != m_lastCoveredPart) {
+			wxString tooltip = this->m_Series[piepart].GetLabel();
+			this->SetToolTip(tooltip);
+			m_lastCoveredPart=piepart;
+		}
+	}
+	else {
+		this->SetToolTip(wxEmptyString);
+		m_lastCoveredPart=-1;
+	}	
+#endif //__WXMAC__ || __WXMSW__
+}
+
+/* gets the pie part on coords using pixel colour */
+int wxPieCtrl::GetCoveredPiePart(int x,int y) {
+	wxColour col;
+	wxClientDC dc(this);
+	if(dc.GetPixel(x,y,&col)) {
+		for(unsigned int i=0; i <m_Series.Count();i++) {
+			if(m_Series[i].GetColour() == col) {
+				return i;
+			}
+		}
+	}
+	return -1;
 }
 
 void wxPieCtrl::SetBackground(wxBitmap bmp)

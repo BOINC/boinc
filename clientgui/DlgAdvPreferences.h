@@ -50,6 +50,7 @@ class CDlgAdvPreferences : public CDlgAdvPreferencesBase {
 	bool IsValidTimeIntervalValue(const wxString& value);
 	void ShowErrorMessage(wxTextCtrl* errorCtrl);
 	bool EnsureTabPageVisible(wxTextCtrl* txtCtrl);
+	bool ConfirmClear();
 public:
 	CDlgAdvPreferences(wxWindow* parent=NULL);//to act as standard constructor set a default value
 	virtual ~CDlgAdvPreferences();
@@ -58,6 +59,7 @@ public:
 	//
 	void OnOK(wxCommandEvent& event);
 	void OnHelp(wxCommandEvent& event);
+	void OnClear(wxCommandEvent& event);
 private:
     GLOBAL_PREFS      prefs;
     GLOBAL_PREFS_MASK mask;

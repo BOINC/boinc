@@ -786,3 +786,16 @@ Eric K 18 Jan 2007
       procinfo_unix.C
       mem_usage.C
     configure.ac
+
+David  18 Jan 2007
+	- Manager: tweaks to advanced prefs dialog and Disks tab
+		(from Frank Weiler)
+
+	clientgui/
+		DlgAdvPreferences.cpp,.fbp,.h
+		DlgAdvPreferencesBase.cpp,.h
+		ViewResources.cpp
+		common/
+			wxPieCtrl.cpp,h
+		res/
+			warning.xpm (new)

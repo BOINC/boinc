@@ -23,32 +23,32 @@
 #include <wx/notebook.h> 
 #include <wx/panel.h>
 #include <wx/radiobut.h>
-
+#include <wx/statbmp.h>
 
 ///////////////////////////////////////////////////////////////////////////
 
-#define ID_DEFAULT 10000 // Default
-#define ID_CHKMEMORYWHILESUSPENDED 20000
-#define ID_CHKNETCONFIRMBEFORECONNECT 20001
-#define ID_CHKNETDISCONNECTWHENDONE 20002
-#define ID_CHKNETFRIDAY 20003
-#define ID_CHKNETMONDAY 20004
-#define ID_CHKNETSATURDAY 20005
-#define ID_CHKNETSKIPIMAGEVERIFICATION 20006
-#define ID_CHKNETSUNDAY 20007
-#define ID_CHKNETTHURSDAY 20008
-#define ID_CHKNETTUESDAY 20009
-#define ID_CHKNETWEDNESDAY 20010
-#define ID_CHKPROCFRIDAY 20011
-#define ID_CHKPROCINUSE 20012
-#define ID_CHKPROCMONDAY 20013
-#define ID_CHKPROCONBATTERIES 20014
-#define ID_CHKPROCSATURDAY 20015
-#define ID_CHKPROCSUNDAY 20016
-#define ID_CHKPROCTHURSDAY 20017
-#define ID_CHKPROCTUESDAY 20018
-#define ID_CHKPROCWEDNESDAY 20019
-#define ID_DLGADVPREFS 20020
+#define ID_DEFAULT wxID_ANY // Default
+#define ID_BTN_CLEAR 20000
+#define ID_CHKMEMORYWHILESUSPENDED 20001
+#define ID_CHKNETCONFIRMBEFORECONNECT 20002
+#define ID_CHKNETDISCONNECTWHENDONE 20003
+#define ID_CHKNETFRIDAY 20004
+#define ID_CHKNETMONDAY 20005
+#define ID_CHKNETSATURDAY 20006
+#define ID_CHKNETSKIPIMAGEVERIFICATION 20007
+#define ID_CHKNETSUNDAY 20008
+#define ID_CHKNETTHURSDAY 20009
+#define ID_CHKNETTUESDAY 20010
+#define ID_CHKNETWEDNESDAY 20011
+#define ID_CHKPROCFRIDAY 20012
+#define ID_CHKPROCINUSE 20013
+#define ID_CHKPROCMONDAY 20014
+#define ID_CHKPROCONBATTERIES 20015
+#define ID_CHKPROCSATURDAY 20016
+#define ID_CHKPROCSUNDAY 20017
+#define ID_CHKPROCTHURSDAY 20018
+#define ID_CHKPROCTUESDAY 20019
+#define ID_CHKPROCWEDNESDAY 20020
 #define ID_RBTNETEVERYDAY 20021
 #define ID_RBTNETSPECIALTIMES 20022
 #define ID_RBTPROCEVERYDAY 20023
@@ -96,6 +96,9 @@ class CDlgAdvPreferencesBase : public wxDialog
 	private:
 	
 	protected:
+		wxStaticBitmap* m_bmpWarning;
+		wxStaticText* m_staticText321;
+		wxButton* m_btnClear;
 		wxPanel* m_panelControls;
 		wxNotebook* m_Notebook;
 		wxPanel* m_panelProcessor;
@@ -196,7 +199,7 @@ class CDlgAdvPreferencesBase : public wxDialog
 		wxButton* m_btnHelp;
 	
 	public:
-		CDlgAdvPreferencesBase( wxWindow* parent, int id = ID_DEFAULT, wxString title = wxT("BOINC Manager - Preferences"), wxPoint pos = wxDefaultPosition, wxSize size = wxSize( 603,561 ), int style = wxDEFAULT_DIALOG_STYLE );
+		CDlgAdvPreferencesBase( wxWindow* parent, int id = -1, wxString title = wxT("BOINC Manager - Preferences"), wxPoint pos = wxDefaultPosition, wxSize size = wxSize( 547,526 ), int style = wxDEFAULT_DIALOG_STYLE|wxRESIZE_BORDER );
 	
 };
 

@@ -11,6 +11,7 @@
 #ifndef _WX_PIE_CTRL
 #define _WX_PIE_CTRL
 
+
 #include <wx/wx.h>
 #include <wx/image.h>
 #include <wx/dynarray.h>
@@ -19,9 +20,7 @@
 #define M_PI 3.14159265358979
 #endif
 
-#if ! wxCHECK_VERSION(2,8,0)
 WX_DECLARE_OBJARRAY(double, wxArrayDouble);
-#endif
 
 // ========================================================================
 //  wxPiePart
@@ -56,6 +55,7 @@ public:
 	wxString GetLabel() {return m_Label;}
 	/// Sets the label of sector
 	void SetLabel(wxString value) {m_Label = value;}
+	//
 };
 
 WX_DECLARE_OBJARRAY(wxPiePart, wxPieSeries);
@@ -143,6 +143,7 @@ class wxPieCtrl : public wxWindow
 	wxColour m_BackColour;
 	wxPieCtrlLegend * m_Legend;
 	bool m_ShowEdges;
+	int m_lastCoveredPart;
 	void GetPartAngles(wxArrayDouble & angles);
 #if defined(__WXMSW__) || defined(__WXMAC__)
 	void DrawParts(wxMemoryDC & dc, int cx, int cy, int w, int h);
@@ -198,11 +199,13 @@ public:
 	/// Returns the pointer of diagram legend
 	wxPieCtrlLegend * GetLegend() {return m_Legend;}
 	virtual void Refresh(bool eraseBackground = true, const wxRect* rect = NULL);
+	int GetCoveredPiePart(int x,int y);
 
 	DECLARE_EVENT_TABLE()
 	void OnPaint(wxPaintEvent & event);
 	void OnEraseBackground(wxEraseEvent & event);
 	void OnSize(wxSizeEvent & event);
+	void OnMouseMove(wxMouseEvent& ev);
 };
 // ========================================================================
 //  wxProgressPie

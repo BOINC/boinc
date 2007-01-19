@@ -26,10 +26,12 @@
 #include "res/usage.xpm"
 #include "res/xfer.xpm"
 #include "res/proj.xpm"
+#include "res/warning.xpm"
 #include "BOINCGUIApp.h"
 #include "MainDocument.h"
 #include "SkinManager.h"
 #include "hyperlink.h"
+#include "Events.h"
 
 IMPLEMENT_DYNAMIC_CLASS(CDlgAdvPreferences, wxDialog)
 
@@ -40,10 +42,11 @@ BEGIN_EVENT_TABLE(CDlgAdvPreferences, wxDialog)
 	//buttons
 	EVT_BUTTON(wxID_OK,CDlgAdvPreferences::OnOK)
 	EVT_BUTTON(wxID_HELP,CDlgAdvPreferences::OnHelp)
+	EVT_BUTTON(ID_BTN_CLEAR,CDlgAdvPreferences::OnClear)
 END_EVENT_TABLE()
 
 /* Constructor */
-CDlgAdvPreferences::CDlgAdvPreferences(wxWindow* parent) : CDlgAdvPreferencesBase(parent) {
+CDlgAdvPreferences::CDlgAdvPreferences(wxWindow* parent) : CDlgAdvPreferencesBase(parent,ID_ANYDIALOG) {
 	m_bInInit=false;
 	m_bDataChanged=false;
 	m_arrTabPageIds.Add(ID_TABPAGE_PROC);
@@ -66,6 +69,8 @@ CDlgAdvPreferences::CDlgAdvPreferences(wxWindow* parent) : CDlgAdvPreferencesBas
 
     iImageIndex = pImageList->Add(wxBitmap(usage_xpm));
 	m_Notebook->SetPageImage(2,iImageIndex);
+	//setting warning bitmap
+	m_bmpWarning->SetBitmap(wxBitmap(warning_xpm));
 	// init special tooltips
 	SetSpecialTooltips();
 	//setting the validators for correct input handling
@@ -121,7 +126,7 @@ void CDlgAdvPreferences::SetSpecialTooltips() {
 	m_txtNetSunday->SetToolTip(TXT_NET_TIME_TOOLTIP);
 }
 
-/* saves selected tab page */
+/* saves selected tab page and dialog size*/
 bool CDlgAdvPreferences::SaveState() {
     wxString        strBaseConfigLocation = wxString(wxT("/DlgAdvPreferences/"));
     wxConfigBase*   pConfig = wxConfigBase::Get(FALSE);
@@ -131,14 +136,16 @@ bool CDlgAdvPreferences::SaveState() {
 
 	pConfig->SetPath(strBaseConfigLocation);
 	pConfig->Write(wxT("CurrentPage"),m_Notebook->GetSelection());
+	pConfig->Write(wxT("Width"),this->GetSize().GetWidth());
+	pConfig->Write(wxT("Height"),this->GetSize().GetHeight());
 	return true;
 }
 
-/* restores former selected tab page */
+/* restores former selected tab page and dialog size*/
 bool CDlgAdvPreferences::RestoreState() {
     wxString        strBaseConfigLocation = wxString(wxT("/DlgAdvPreferences/"));
     wxConfigBase*   pConfig = wxConfigBase::Get(FALSE);
-	int				iCurrentPage;
+	int				iTemp,iTemp1;
 
 	wxASSERT(pConfig);
 
@@ -146,8 +153,11 @@ bool CDlgAdvPreferences::RestoreState() {
 
 	pConfig->SetPath(strBaseConfigLocation);
 
-	pConfig->Read(wxT("CurrentPage"), &iCurrentPage,0);
-	m_Notebook->SetSelection(iCurrentPage);
+	pConfig->Read(wxT("CurrentPage"), &iTemp,0);
+	m_Notebook->SetSelection(iTemp);	
+	pConfig->Read(wxT("Width"), &iTemp,-1);
+	pConfig->Read(wxT("Height"), &iTemp1,-1);
+	this->SetSize(iTemp,iTemp1);	
 
 	return true;
 }
@@ -161,12 +171,12 @@ void CDlgAdvPreferences::ReadPreferenceSettings() {
     wxASSERT(pDoc);
     wxASSERT(wxDynamicCast(pDoc, CMainDocument));
 
-    //get currently global prefs from core client
-	prefs = pDoc->state.global_prefs;
+    //init prefs with defaults
+	prefs.defaults();
 
 	//override the global prefs with values in global_prefs_override.xml, if this file exists
-	//mask.clear();
-	//pDoc->rpc.get_global_prefs_override_struct(prefs, mask);
+	mask.clear();
+	pDoc->rpc.get_global_prefs_override_struct(prefs, mask);
 
 	// ######### proc usage page
 	// do work between
@@ -246,192 +256,116 @@ void CDlgAdvPreferences::ReadPreferenceSettings() {
 
 /* write overridden preferences to disk (global_prefs_override.xml) */
 bool CDlgAdvPreferences::SavePreferencesSettings() {
-	bool ret=false;	
-	//check if something changed 
-	if(m_bDataChanged) {
-		double td;
-		long tl;
-		mask.clear();
-		//something was changed, take a closer look if and what exactly has changed
-		//proc page
-		if(m_chkProcOnBatteries->GetValue()!= prefs.run_on_batteries) {
-			ret=true;			
-			prefs.run_on_batteries=m_chkProcOnBatteries->GetValue();
-			mask.run_on_batteries=true;
-		}
-		//
-		if(m_chkProcInUse->GetValue()!= prefs.run_if_user_active) {
-			ret=true;			
-			prefs.run_if_user_active=m_chkProcInUse->GetValue();
-			mask.run_if_user_active=true;
-		}
-		//
-		if(m_txtProcIdleFor->IsEnabled()) {
-			m_txtProcIdleFor->GetValue().ToLong(&tl);
-			if(tl!=prefs.idle_time_to_run) {
-				ret=true;
-				prefs.idle_time_to_run=tl;
-				mask.idle_time_to_run=true;
-			}
-		}
-		//
-		if(m_txtProcEveryDayStart->IsEnabled()) {
-			m_txtProcEveryDayStart->GetValue().ToLong(&tl);
-			if(tl != prefs.start_hour) {
-				ret=true;
-				prefs.start_hour=tl;
-				mask.start_hour = true;        
-			}
-		}
-		//
-		if(m_txtProcEveryDayStop->IsEnabled()) {
-			m_txtProcEveryDayStop->GetValue().ToLong(&tl);
-			if(tl != prefs.end_hour) {
-				ret=true;
-				prefs.end_hour=tl;
-				mask.end_hour = true;        
-			}
-		}
-		//
-		m_txtProcSwitchEvery->GetValue().ToDouble(&td);
-		if(td!=prefs.cpu_scheduling_period_minutes) {
-			ret=true;
-			prefs.cpu_scheduling_period_minutes=td;
-			mask.cpu_scheduling_period_minutes=true;
-		}
-		//
-		m_txtProcUseProcessors->GetValue().ToLong(&tl);
-		if(tl!=prefs.max_cpus) {
-			ret=true;
-			prefs.max_cpus=tl;;
-			mask.max_cpus=true;
-		}
-		//
-		m_txtProcUseCPUTime->GetValue().ToDouble(&td);
-		if(td!=prefs.cpu_usage_limit) {
-			ret=true;
-			prefs.cpu_usage_limit=td;
-			mask.cpu_usage_limit=true;
-		}
-		// network page
-		m_txtNetConnectInterval->GetValue().ToDouble(&td);
-		if(td!=prefs.work_buf_min_days) {
-			ret=true;
-			prefs.work_buf_min_days=td;
-			mask.work_buf_min_days=true;
-		}
-		//
-		m_txtNetDownloadRate->GetValue().ToDouble(&td);
-		td = td * 1024;
-		if(td != prefs.max_bytes_sec_down) {
-			ret=true;
-			prefs.max_bytes_sec_down=td;
-			mask.max_bytes_sec_down=true;
-		}
-		//
-		m_txtNetUploadRate->GetValue().ToDouble(&td);
-		td = td * 1024;
-		if(td != prefs.max_bytes_sec_up) {
-			ret=true;
-			prefs.max_bytes_sec_up=td;
-			mask.max_bytes_sec_up=true;
-		}
-		//
-		if(m_chkNetSkipImageVerification->GetValue() != prefs.dont_verify_images) {
-			ret=true;
-			prefs.dont_verify_images=m_chkNetSkipImageVerification->GetValue();
-			mask.dont_verify_images=true;
-		}
-		//
-		if(m_chkNetConfirmBeforeConnect->GetValue() != prefs.confirm_before_connecting) {
-			ret=true;
-			prefs.confirm_before_connecting= m_chkNetConfirmBeforeConnect->GetValue();
-			mask.confirm_before_connecting=true;
-		}
-		//
-		if(m_chkNetDisconnectWhenDone->GetValue() != prefs.hangup_if_dialed) {
-			ret=true;
-			prefs.hangup_if_dialed= m_chkNetDisconnectWhenDone->GetValue();
-			mask.hangup_if_dialed=true;
-		}
-		//
-		if(m_txtNetEveryDayStart->IsEnabled()) {
-			m_txtNetEveryDayStart->GetValue().ToLong(&tl);
-			if(tl != prefs.net_start_hour) {
-				ret=true;
-				prefs.net_start_hour=tl;
-				mask.net_start_hour = true;        
-			}
-		}
-		//
-		if(m_txtNetEveryDayStop->IsEnabled()) {
-			m_txtNetEveryDayStop->GetValue().ToLong(&tl);
-			if(tl != prefs.net_end_hour) {
-				ret=true;
-				prefs.net_end_hour=tl;
-				mask.net_end_hour = true;        
-			}
-		}
-		//disk usage
-		m_txtDiskMaxSpace->GetValue().ToDouble(&td);
-		if(td != prefs.disk_max_used_gb) {
-			ret=true;
-			prefs.disk_max_used_gb=td;
-			mask.disk_max_used_gb=true;
-		}
-		//
-		m_txtDiskLeastFree->GetValue().ToDouble(&td);
-		if(td != prefs.disk_min_free_gb) {
-			ret=true;
-			prefs.disk_min_free_gb=td;
-			mask.disk_min_free_gb=true;
-		}
-		//
-		m_txtDiskMaxOfTotal->GetValue().ToDouble(&td);
-		if(td != prefs.disk_max_used_pct) {
-			ret=true;
-			prefs.disk_max_used_pct=td;
-			mask.disk_max_used_pct=true;
-		}
-		//
-		m_txtDiskWriteToDisk->GetValue().ToDouble(&td);
-		if(td != prefs.disk_interval) {
-			ret=true;
-			prefs.disk_interval=td;
-			mask.disk_interval=true;
-		}
-		//
-		m_txtDiskMaxSwap->GetValue().ToDouble(&td);
-		td = td / 100.0 ;
-		if(td != prefs.vm_max_used_frac) {
-			ret=true;
-			prefs.vm_max_used_frac=td;
-			mask.vm_max_used_frac=true;
-		}
-		//Memory
-		m_txtMemoryMaxInUse->GetValue().ToDouble(&td);
-		td = td / 100.0;
-		if(td != prefs.ram_max_used_busy_frac) {
-			ret=true;
-			prefs.ram_max_used_busy_frac=td;
-			mask.ram_max_used_busy_frac=true;
-		}
-		//
-		m_txtMemoryMaxOnIdle->GetValue().ToDouble(&td);
-		td = td / 100.0;
-		if(td != prefs.ram_max_used_idle_frac) {
-			ret=true;
-			prefs.ram_max_used_idle_frac=td;
-			mask.ram_max_used_idle_frac=true;
-		}
-		//
-		if(m_chkMemoryWhileSuspended->GetValue() != prefs.leave_apps_in_memory) {
-			ret = true;
-			prefs.leave_apps_in_memory = m_chkMemoryWhileSuspended->GetValue();
-			mask.leave_apps_in_memory=true;
-		}
+	double td;
+	long tl;
+
+	mask.clear();
+	//proc page
+	prefs.run_on_batteries=m_chkProcOnBatteries->GetValue();
+	mask.run_on_batteries=true;
+	//
+	prefs.run_if_user_active=m_chkProcInUse->GetValue();
+	mask.run_if_user_active=true;
+	//
+	if(m_txtProcIdleFor->IsEnabled()) {
+		m_txtProcIdleFor->GetValue().ToLong(&tl);
+		prefs.idle_time_to_run=tl;
+		mask.idle_time_to_run=true;
 	}
-	return ret;
+	//
+	if(m_txtProcEveryDayStart->IsEnabled()) {
+		m_txtProcEveryDayStart->GetValue().ToLong(&tl);
+		prefs.start_hour=tl;
+		mask.start_hour = true;        
+	}
+	//
+	if(m_txtProcEveryDayStop->IsEnabled()) {
+		m_txtProcEveryDayStop->GetValue().ToLong(&tl);
+		prefs.end_hour=tl;
+		mask.end_hour = true;        
+	}
+	//
+	m_txtProcSwitchEvery->GetValue().ToDouble(&td);
+	prefs.cpu_scheduling_period_minutes=td;
+	mask.cpu_scheduling_period_minutes=true;
+	//
+	m_txtProcUseProcessors->GetValue().ToLong(&tl);
+	prefs.max_cpus=tl;;
+	mask.max_cpus=true;
+	//
+	m_txtProcUseCPUTime->GetValue().ToDouble(&td);
+	prefs.cpu_usage_limit=td;
+	mask.cpu_usage_limit=true;
+	// network page
+	m_txtNetConnectInterval->GetValue().ToDouble(&td);
+	prefs.work_buf_min_days=td;
+	mask.work_buf_min_days=true;
+	//
+	m_txtNetDownloadRate->GetValue().ToDouble(&td);
+	td = td * 1024;
+	prefs.max_bytes_sec_down=td;
+	mask.max_bytes_sec_down=true;
+	//
+	m_txtNetUploadRate->GetValue().ToDouble(&td);
+	td = td * 1024;
+	prefs.max_bytes_sec_up=td;
+	mask.max_bytes_sec_up=true;
+	//
+	prefs.dont_verify_images=m_chkNetSkipImageVerification->GetValue();
+	mask.dont_verify_images=true;
+	//
+	prefs.confirm_before_connecting= m_chkNetConfirmBeforeConnect->GetValue();
+	mask.confirm_before_connecting=true;
+	//
+	prefs.hangup_if_dialed= m_chkNetDisconnectWhenDone->GetValue();
+	mask.hangup_if_dialed=true;
+	//
+	if(m_txtNetEveryDayStart->IsEnabled()) {
+		m_txtNetEveryDayStart->GetValue().ToLong(&tl);
+		prefs.net_start_hour=tl;
+		mask.net_start_hour = true;        
+	}
+	//
+	if(m_txtNetEveryDayStop->IsEnabled()) {
+		m_txtNetEveryDayStop->GetValue().ToLong(&tl);
+		prefs.net_end_hour=tl;
+		mask.net_end_hour = true;        
+	}
+	//disk usage
+	m_txtDiskMaxSpace->GetValue().ToDouble(&td);
+	prefs.disk_max_used_gb=td;
+	mask.disk_max_used_gb=true;
+	//
+	m_txtDiskLeastFree->GetValue().ToDouble(&td);
+	prefs.disk_min_free_gb=td;
+	mask.disk_min_free_gb=true;
+	//
+	m_txtDiskMaxOfTotal->GetValue().ToDouble(&td);
+	prefs.disk_max_used_pct=td;
+	mask.disk_max_used_pct=true;
+	//
+	m_txtDiskWriteToDisk->GetValue().ToDouble(&td);
+	prefs.disk_interval=td;
+	mask.disk_interval=true;
+	//
+	m_txtDiskMaxSwap->GetValue().ToDouble(&td);
+	td = td / 100.0 ;
+	prefs.vm_max_used_frac=td;
+	mask.vm_max_used_frac=true;
+	//Memory
+	m_txtMemoryMaxInUse->GetValue().ToDouble(&td);
+	td = td / 100.0;
+	prefs.ram_max_used_busy_frac=td;
+	mask.ram_max_used_busy_frac=true;
+	//
+	m_txtMemoryMaxOnIdle->GetValue().ToDouble(&td);
+	td = td / 100.0;
+	prefs.ram_max_used_idle_frac=td;
+	mask.ram_max_used_idle_frac=true;
+	//
+	prefs.leave_apps_in_memory = m_chkMemoryWhileSuspended->GetValue();
+	mask.leave_apps_in_memory=true;
+	return true;
 }
 
 /* set state of control depending on other control's state */
@@ -690,8 +624,6 @@ void CDlgAdvPreferences::OnOK(wxCommandEvent& ev) {
 	if(SavePreferencesSettings()) {
 		pDoc->rpc.set_global_prefs_override_struct(prefs,mask);		
 		pDoc->rpc.read_global_prefs_override();
-		//force update to pDoc->state.global_prefs member
-		pDoc->ForceCacheUpdate();
 	}
 	ev.Skip();
 }
@@ -702,4 +634,27 @@ void CDlgAdvPreferences::OnHelp(wxCommandEvent& ev) {
 	url += wxT("/prefs.php");//this seems not the right url, but which instead ?
 	wxHyperLink::ExecuteLink(url);
 	ev.Skip();
+}
+
+// handles Clear button clicked 
+void CDlgAdvPreferences::OnClear(wxCommandEvent& ev) {
+	if(this->ConfirmClear()) {
+		CMainDocument*    pDoc = wxGetApp().GetDocument();
+
+		wxASSERT(pDoc);
+		wxASSERT(wxDynamicCast(pDoc, CMainDocument));
+
+		mask.clear();
+		pDoc->rpc.set_global_prefs_override_struct(prefs,mask);		
+		pDoc->rpc.read_global_prefs_override();
+		this->EndModal(wxID_CANCEL);
+	}
+	ev.Skip();
+}
+
+bool CDlgAdvPreferences::ConfirmClear() {
+	int res = wxMessageBox(_("Do you really want to clear all local preferences ?"),
+		_("Confirmation"),wxCENTER | wxICON_QUESTION | wxYES_NO | wxNO_DEFAULT,this);
+	
+	return res==wxYES;
 }
