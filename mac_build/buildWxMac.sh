@@ -56,7 +56,7 @@ if [ ! -d src/build/include/wx ]; then
     mkdir -p src/build/include/wx
 fi
 
-cp -n include/wx/mac/setup0.h src/build/include/wx/setup.h
+cp -n include/wx/mac/setup0.h include/wx/setup.h
 
 
 if [ "$1" != "-clean" ] && [ -f src/build/Deployment/libwx_mac_static.a ]; then
