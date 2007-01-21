@@ -1454,6 +1454,15 @@ int diagnostics_capture_foreground_window(PBOINC_WINDOWCAPTURE window_info) {
     DWORD dwSize;
     DWORD dwCaptureForegroundWindow;
 
+
+    // Initialize structure variables.
+	strcpy(window_info->window_name, "");
+	strcpy(window_info->window_class, "");
+    window_info->hwnd = 0;
+    window_info->window_process_id = 0;
+    window_info->window_thread_id = 0;
+
+
     // Check the registry to see if we are aloud to capture the foreground
     //   window data. Many people were concerned about privacy issues.
     //
@@ -1495,9 +1504,6 @@ int diagnostics_capture_foreground_window(PBOINC_WINDOWCAPTURE window_info) {
 			    window_info->window_class,
 			    sizeof(window_info->window_class)
 		    );
-	    } else {
-		    strcpy(window_info->window_name, "");
-		    strcpy(window_info->window_class, "");
 	    }
     }
 

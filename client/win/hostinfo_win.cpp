@@ -390,7 +390,7 @@ int get_os_information(
 // Returns the processor make and model
 //
 int get_processor_info(
-    char* p_vendor, int p_vendor_size, char* p_model, int p_model_size
+    char* p_vendor, int p_vendor_size, char* p_model, int p_model_size, char* p_identifier, int p_identifier_size
 )
 {
 	// gets processor vendor name and model name from registry, works for intel
@@ -433,10 +433,17 @@ int get_processor_info(
 		if (retval == ERROR_SUCCESS) gotMHz = true;
 	}
 
-    if (gotVendIdent)
+    if (gotVendIdent) {
         strlcpy( p_vendor, vendorName, p_vendor_size );
-    else
+    } else {
         strlcpy( p_vendor, "Unknown", p_vendor_size );
+    }
+
+    if (gotIdent) {
+        strlcpy( p_identifier, identifierName, p_identifier_size );
+    } else {
+        strlcpy( p_identifier, "Unknown", p_identifier_size );
+    }
 
     if (gotProcName) {
         strlcpy( p_model, processorName, p_model_size );
@@ -635,7 +642,7 @@ int HOST_INFO::get_host_info() {
 
     // Detect proccessor make and model.
     get_processor_info(
-        p_vendor, sizeof(p_vendor), p_model, sizeof(p_model)
+        p_vendor, sizeof(p_vendor), p_model, sizeof(p_model), p_identifier, sizeof(p_identifier)
     );
 
     // Detect the number of CPUs
