@@ -311,9 +311,9 @@ void CBOINCBaseFrame::OnExit(wxCommandEvent& WXUNUSED(event)) {
         CTaskBarIcon* pTBI = wxGetApp().GetTaskBarIcon();
         if (pTBI)
             delete pTBI;
-
-        Close(true);
 #endif
+        Close(true);
+
     }
     wxLogTrace(wxT("Function Start/End"), wxT("CAdvancedFrame::OnExit - Function End"));
 }
