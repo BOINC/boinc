@@ -933,3 +933,12 @@ Charlie 22 Jan 2007
     mac_build/
         boinc.xcodeproj/
             project.pbxproj
+
+Rom    22 Jan 2007
+    - CC: Merge CPU capability, generation, and model information into the p_model
+        field of HOST_INFO per David's instructions.
+        
+    client/win/
+        hostinfo_win.cpp
+    lib/
+        hostinfo.C,.h

@@ -387,96 +387,6 @@ int get_os_information(
 }
 
 
-// Returns the processor make and model
-//
-int get_processor_info(
-    char* p_vendor, int p_vendor_size, char* p_model, int p_model_size, char* p_identifier, int p_identifier_size
-)
-{
-	// gets processor vendor name and model name from registry, works for intel
-	char vendorName[256], processorName[256], identifierName[256];
-	HKEY hKey = NULL;
-	LONG retval = 0;
-	DWORD nameSize = 0, procSpeed = 0;
-	bool gotIdent = false, gotProcName = false, gotMHz = false, gotVendIdent = false;
-
-	retval = RegOpenKeyEx(HKEY_LOCAL_MACHINE, "Hardware\\Description\\System\\CentralProcessor\\0", 0, KEY_QUERY_VALUE, &hKey);
-	if(retval == ERROR_SUCCESS) {
-        // Win9x and WinNT store different information in these field.
-        // NT Examples:
-        // ProcessorNameString: Intel(R) Xeon(TM) CPU 3.06GHz
-        // Identifier: x86 Family 15 Model 2 Stepping 7
-        // VendorIdentifier: GenuineIntel
-        // ~MHz: 3056
-        // 9X Examples:
-        // ProcessorNameString: <Not Defined>
-        // Identifier: Pentium(r) Processor
-        // ~MHz: <Not Defined>
-        // VendorIdentifier: GenuineIntel
-
-        // Look in various places for processor information, add'l
-		// entries suggested by mark mcclure
-		nameSize = sizeof(vendorName);
-		retval = RegQueryValueEx(hKey, "VendorIdentifier", NULL, NULL, (LPBYTE)vendorName, &nameSize);
-		if (retval == ERROR_SUCCESS) gotVendIdent = true;
-
-		nameSize = sizeof(identifierName);
-		retval = RegQueryValueEx(hKey, "Identifier", NULL, NULL, (LPBYTE)identifierName, &nameSize);
-		if (retval == ERROR_SUCCESS) gotIdent = true;
-
-		nameSize = sizeof(processorName);
-		retval = RegQueryValueEx(hKey, "ProcessorNameString", NULL, NULL, (LPBYTE)processorName, &nameSize);
-		if (retval == ERROR_SUCCESS) gotProcName = true;
-
-		nameSize = sizeof(DWORD);
-		retval = RegQueryValueEx(hKey, "~MHz", NULL, NULL, (LPBYTE)&procSpeed, &nameSize);
-		if (retval == ERROR_SUCCESS) gotMHz = true;
-	}
-
-    if (gotVendIdent) {
-        strlcpy( p_vendor, vendorName, p_vendor_size );
-    } else {
-        strlcpy( p_vendor, "Unknown", p_vendor_size );
-    }
-
-    if (gotIdent) {
-        strlcpy( p_identifier, identifierName, p_identifier_size );
-    } else {
-        strlcpy( p_identifier, "Unknown", p_identifier_size );
-    }
-
-    if (gotProcName) {
-        strlcpy( p_model, processorName, p_model_size );
-    } else if (gotIdent && gotMHz) {
-        sprintf( p_model, "%s %dMHz", identifierName, procSpeed );
-    } else if (gotVendIdent && gotMHz) {
-        sprintf( p_model, "%s %dMHz", vendorName, procSpeed );
-    } else if (gotIdent) {
-        strlcpy( p_model, identifierName, p_model_size );
-    } else if (gotVendIdent) {
-        strlcpy( p_model, vendorName, p_model_size );
-    } else {
-        strlcpy( p_model, "Unknown", p_model_size );
-    }
-
-	RegCloseKey(hKey);
-
-    return 0;
-}
-
-
-// Returns the CPU count
-//
-int get_processor_count(int& processor_count) {
-    SYSTEM_INFO SystemInfo;
-    memset( &SystemInfo, NULL, sizeof( SystemInfo ) );
-    ::GetSystemInfo( &SystemInfo );
-
-    processor_count = SystemInfo.dwNumberOfProcessors;
-    return 0;
-}
-
-
 // Check to see if a processor feature is available for use
 BOOL test_processor_feature(DWORD feature) {
     __try {
@@ -547,40 +457,128 @@ BOOL is_processor_feature_supported(DWORD feature) {
 }
 
 
-// Returns the list of capabilities supported by both the processor
-// and operating system.  The feature list should use the same
-// identifiers as defined in Linux.
+// Returns the processor make, model, and additional cpu flags supported by
+//   the processor, use the Linux CPU processor feature descriptions.
 //
-int get_processor_capabilities( char* capabilities, int capabilities_size ) {
+int get_processor_info(
+    char* p_vendor, int p_vendor_size, char* p_model, int p_model_size
+)
+{
+	char vendorName[256], processorName[256], identifierName[256], capabilities[256], temp_model[256];
+	HKEY hKey = NULL;
+	LONG retval = 0;
+	DWORD nameSize = 0, procSpeed = 0;
+	bool gotIdent = false, gotProcName = false, gotMHz = false, gotVendIdent = false;
+
+    strcpy(vendorName, "");
+    strcpy(processorName, "");
     strcpy(capabilities, "");
+    strcpy(temp_model, "");
+
+    // determine what the cpu's capabilities are
     if (!is_processor_feature_supported(PF_FLOATING_POINT_EMULATED)) {
-        strncat(capabilities, "fpu ", capabilities_size - strlen(capabilities));
+        strncat(capabilities, "fpu ", sizeof(capabilities) - strlen(capabilities));
     }
     if (is_processor_feature_supported(PF_RDTSC_INSTRUCTION_AVAILABLE)) {
-        strncat(capabilities, "tsc ", capabilities_size - strlen(capabilities));
+        strncat(capabilities, "tsc ", sizeof(capabilities) - strlen(capabilities));
     }
     if (is_processor_feature_supported(PF_PAE_ENABLED)) {
-        strncat(capabilities, "pae ", capabilities_size - strlen(capabilities));
+        strncat(capabilities, "pae ", sizeof(capabilities) - strlen(capabilities));
     }
     if (is_processor_feature_supported(PF_NX_ENABLED)) {
-        strncat(capabilities, "nx ", capabilities_size - strlen(capabilities));
+        strncat(capabilities, "nx ", sizeof(capabilities) - strlen(capabilities));
     }
     if (is_processor_feature_supported(PF_XMMI_INSTRUCTIONS_AVAILABLE)) {
-        strncat(capabilities, "sse ", capabilities_size - strlen(capabilities));
+        strncat(capabilities, "sse ", sizeof(capabilities) - strlen(capabilities));
     }
     if (is_processor_feature_supported(PF_XMMI64_INSTRUCTIONS_AVAILABLE)) {
-        strncat(capabilities, "sse2 ", capabilities_size - strlen(capabilities));
+        strncat(capabilities, "sse2 ", sizeof(capabilities) - strlen(capabilities));
     }
     if (is_processor_feature_supported(PF_SSE3_INSTRUCTIONS_AVAILABLE)) {
-        strncat(capabilities, "sse3 ", capabilities_size - strlen(capabilities));
+        strncat(capabilities, "sse3 ", sizeof(capabilities) - strlen(capabilities));
     }
     if (is_processor_feature_supported(PF_3DNOW_INSTRUCTIONS_AVAILABLE)) {
-        strncat(capabilities, "3dnow ", capabilities_size - strlen(capabilities));
+        strncat(capabilities, "3dnow ", sizeof(capabilities) - strlen(capabilities));
     }
     if (is_processor_feature_supported(PF_MMX_INSTRUCTIONS_AVAILABLE)) {
-        strncat(capabilities, "mmx ", capabilities_size - strlen(capabilities));
+        strncat(capabilities, "mmx ", sizeof(capabilities) - strlen(capabilities));
     }
     strip_whitespace(capabilities);
+
+    
+	retval = RegOpenKeyEx(HKEY_LOCAL_MACHINE, "Hardware\\Description\\System\\CentralProcessor\\0", 0, KEY_QUERY_VALUE, &hKey);
+	if(retval == ERROR_SUCCESS) {
+        // Win9x and WinNT store different information in these field.
+        // NT Examples:
+        // ProcessorNameString: Intel(R) Xeon(TM) CPU 3.06GHz
+        // Identifier: x86 Family 15 Model 2 Stepping 7
+        // VendorIdentifier: GenuineIntel
+        // ~MHz: 3056
+        // 9X Examples:
+        // ProcessorNameString: <Not Defined>
+        // Identifier: Pentium(r) Processor
+        // ~MHz: <Not Defined>
+        // VendorIdentifier: GenuineIntel
+
+        // Look in various places for processor information, add'l
+		// entries suggested by mark mcclure
+		nameSize = sizeof(vendorName);
+		retval = RegQueryValueEx(hKey, "VendorIdentifier", NULL, NULL, (LPBYTE)vendorName, &nameSize);
+		if (retval == ERROR_SUCCESS) gotVendIdent = true;
+
+		nameSize = sizeof(identifierName);
+		retval = RegQueryValueEx(hKey, "Identifier", NULL, NULL, (LPBYTE)identifierName, &nameSize);
+		if (retval == ERROR_SUCCESS) gotIdent = true;
+
+		nameSize = sizeof(processorName);
+		retval = RegQueryValueEx(hKey, "ProcessorNameString", NULL, NULL, (LPBYTE)processorName, &nameSize);
+		if (retval == ERROR_SUCCESS) gotProcName = true;
+
+		nameSize = sizeof(DWORD);
+		retval = RegQueryValueEx(hKey, "~MHz", NULL, NULL, (LPBYTE)&procSpeed, &nameSize);
+		if (retval == ERROR_SUCCESS) gotMHz = true;
+	}
+
+    // populate vendor field.
+    if (gotVendIdent) {
+        strlcpy( p_vendor, vendorName, p_vendor_size );
+    } else {
+        strlcpy( p_vendor, "Unknown", p_vendor_size );
+    }
+
+    // construct the human readable model name
+    if (gotProcName) {
+        strlcpy( temp_model, processorName, sizeof(temp_model) );
+    } else if (gotIdent && gotMHz) {
+        sprintf( temp_model, "%s %dMHz", identifierName, procSpeed );
+    } else if (gotVendIdent && gotMHz) {
+        sprintf( temp_model, "%s %dMHz", vendorName, procSpeed );
+    } else if (gotIdent) {
+        strlcpy( temp_model, identifierName, sizeof(temp_model) );
+    } else if (gotVendIdent) {
+        strlcpy( temp_model, vendorName, sizeof(temp_model) );
+    } else {
+        strlcpy( temp_model, "Unknown", sizeof(temp_model) );
+    }
+
+    // Merge all the seperate pieces of information into one.
+    snprintf(p_model, p_model_size, "%s [%s] [%s]", temp_model, identifierName, capabilities);
+    p_model[p_model_size-1] = 0;
+
+	RegCloseKey(hKey);
+
+    return 0;
+}
+
+
+// Returns the CPU count
+//
+int get_processor_count(int& processor_count) {
+    SYSTEM_INFO SystemInfo;
+    memset( &SystemInfo, NULL, sizeof( SystemInfo ) );
+    ::GetSystemInfo( &SystemInfo );
+
+    processor_count = SystemInfo.dwNumberOfProcessors;
     return 0;
 }
 
@@ -642,16 +640,11 @@ int HOST_INFO::get_host_info() {
 
     // Detect proccessor make and model.
     get_processor_info(
-        p_vendor, sizeof(p_vendor), p_model, sizeof(p_model), p_identifier, sizeof(p_identifier)
+        p_vendor, sizeof(p_vendor), p_model, sizeof(p_model)
     );
 
     // Detect the number of CPUs
     get_processor_count(p_ncpus);
-
-    // Detect processor capabilities
-    get_processor_capabilities(
-        p_capabilities, sizeof(p_capabilities)
-    );
 
     // Detect host name/ip info
     get_local_network_info();
