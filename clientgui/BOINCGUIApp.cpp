@@ -38,6 +38,7 @@
 #include "miofile.h"
 #include "parse.h"
 #include "Events.h"
+#include "common/wxFlatNotebook.h"
 #include "LogBOINC.h"
 #include "BOINCGUIApp.h"
 #include "SkinManager.h"
@@ -45,6 +46,9 @@
 #include "BOINCTaskBar.h"
 #include "BOINCBaseFrame.h"
 #include "AdvancedFrame.h"
+#include "sg_ImageLoader.h"
+#include "sg_StatImageLoader.h"
+#include "sg_BoincSimpleGUI.h"
 #include "DlgGenericMessage.h"
 
 static bool s_bSkipExitConfirmation;
