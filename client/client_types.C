@@ -117,6 +117,7 @@ int PROJECT::parse_state(MIOFILE& in) {
     string str1, str2;
     int retval;
     double x;
+    bool btemp;
 
     init();
     while (in.fgets(buf, 256)) {
@@ -177,6 +178,7 @@ int PROJECT::parse_state(MIOFILE& in) {
         else if (parse_double(buf, "<duration_correction_factor>", duration_correction_factor)) continue;
         else if (match_tag(buf, "<attached_via_acct_mgr/>")) attached_via_acct_mgr = true;
         else if (parse_double(buf, "<ams_resource_share>", ams_resource_share)) continue;
+        else if (parse_bool(buf, "scheduler_rpc_in_progress", btemp)) continue;
         else {
             if (log_flags.unparsed_xml) {
                 msg_printf(0, MSG_ERROR,
@@ -1736,6 +1738,11 @@ void PROJECT::update_duration_correction_factor(RESULT* rp) {
             duration_correction_factor = duration_correction_factor*0.9 + 0.1*ratio;
         }
     }
+    // limit to [.01 .. 100]
+    //
+    if (duration_correction_factor > 100) duration_correction_factor = 100;
+    if (duration_correction_factor < 0.01) duration_correction_factor = 0.01;
+
 	if (log_flags.cpu_sched_debug || log_flags.work_fetch_debug) {
 		msg_printf(this, MSG_INFO,
             "[csd|wfd] duration correction factor: %f => %f, ratio %f",

@@ -93,10 +93,6 @@ CTaskBarIcon::CTaskBarIcon(wxString title, wxIcon* icon, wxIcon* iconDisconnecte
 
     m_pRefreshTimer = new wxTimer(this, ID_TB_TIMER);
     m_pRefreshTimer->Start(1000);  // Send event every second
-
-#ifndef __WXMAC__
-    SetIcon(m_iconTaskBarNormal, m_strDefaultTitle);
-#endif
 }
 
 
@@ -147,12 +143,24 @@ void CTaskBarIcon::OnRefresh(wxTimerEvent& WXUNUSED(event)) {
 
     // Which icon should be displayed?
     if (!pDoc->IsConnected()) {
-        SetIcon(m_iconTaskBarDisconnected, m_strDefaultTitle);
+        if (IsBalloonsSupported()) {
+            SetIcon(m_iconTaskBarDisconnected, wxEmptyString);
+        } else {
+            SetIcon(m_iconTaskBarDisconnected, m_strDefaultTitle);
+        }
     } else {
         if (RUN_MODE_NEVER == status.task_mode) {
-            SetIcon(m_iconTaskBarSnooze, m_strDefaultTitle);
+            if (IsBalloonsSupported()) {
+                SetIcon(m_iconTaskBarSnooze, wxEmptyString);
+            } else {
+                SetIcon(m_iconTaskBarSnooze, m_strDefaultTitle);
+            }
         } else {
-            SetIcon(m_iconTaskBarNormal, m_strDefaultTitle);
+            if (IsBalloonsSupported()) {
+                SetIcon(m_iconTaskBarNormal, wxEmptyString);
+            } else {
+                SetIcon(m_iconTaskBarNormal, m_strDefaultTitle);
+            }
         }
     }
 
@@ -272,7 +280,7 @@ void CTaskBarIcon::OnExit(wxCommandEvent& event) {
         OnClose(eventClose);
         if (eventClose.GetSkipped()) event.Skip();
     }
-    
+
     wxLogTrace(wxT("Function Start/End"), wxT("CTaskBarIcon::OnExit - Function End"));
 }
 
@@ -327,6 +335,9 @@ void CTaskBarIcon::OnMouseMove(wxTaskBarIconEvent& WXUNUSED(event)) {
 
         if (pDoc->IsConnected()) {
             pDoc->GetConnectedComputerName(strMachineName);
+            if (pDoc->IsComputerNameLocal(strMachineName)) {
+                strMachineName = wxT("localhost");
+            }
             strTitle = strTitle + wxT(" - (") + strMachineName + wxT(")");
 
             pDoc->GetCoreClientStatus(status);
@@ -357,7 +368,7 @@ void CTaskBarIcon::OnMouseMove(wxTaskBarIconEvent& WXUNUSED(event)) {
                 strMessage += wxT("\n");
             }
 
-            iResultCount = (wxInt32)pDoc->results.results.size();
+            iResultCount = pDoc->GetWorkCount();
             for (iIndex = 0; iIndex < iResultCount; iIndex++) {
                 RESULT* result = pDoc->result(iIndex);
                 RESULT* state_result = NULL;
@@ -501,14 +512,14 @@ bool CTaskBarIcon::SetIcon(const wxIcon& icon, const wxString& tooltip) {
     result = wxGetApp().GetMacSystemMenu()->SetIcon(icon, tooltip);
 
     RestoreApplicationDockTileImage();      // Remove any previous badge
-    
+
     if (icon == m_iconTaskBarDisconnected)
         macIcon = macdisconnectbadge;
     else if (icon == m_iconTaskBarSnooze)
         macIcon = macsnoozebadge;
     else
         return result;
-    
+
     // Convert the wxIcon into a wxBitmap so we can perform some
     // wxBitmap operations with it
     wxBitmap bmp( macIcon ) ;

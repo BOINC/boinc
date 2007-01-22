@@ -138,9 +138,9 @@ void CNetworkConnection::Poll() {
             //   if we are connecting to the localhost we need to retry the connection
             //   for awhile so that the users can respond to firewall prompts.
             if (IsComputerNameLocal(strComputer)) {
-                retval = m_pDocument->rpc.init_asynch(NULL, 60., true);
+                retval = m_pDocument->rpc.init_asynch(NULL, 30., true);
             } else {
-                retval = m_pDocument->rpc.init_asynch(strComputer.mb_str(), 60., false);
+                retval = m_pDocument->rpc.init_asynch(strComputer.mb_str(), 30., false);
             }
 
             if (!retval) {
@@ -237,6 +237,8 @@ void CNetworkConnection::SetStateReconnecting() {
         m_bReconnectOnError = false;
         m_bForceReconnect = false;
         m_bReconnecting = true;
+        m_strNewComputerName = m_strConnectedComputerName;
+        m_strNewComputerPassword = m_strConnectedComputerPassword;
     }
 }
 

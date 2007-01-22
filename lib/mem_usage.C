@@ -23,6 +23,12 @@
 
 #ifndef _WIN32
 #include "config.h"
+#ifdef HAVE_PROCFS_H
+// Can't use large file calls with solaris procfs.
+#if defined(_FILE_OFFSET_BITS) && ( _FILE_OFFSET_BITS == 64 )
+#undef _FILE_OFFSET_BITS
+#endif
+#endif
 #include <stdio.h>
 #include <string.h>
 #include <stdlib.h>

@@ -164,9 +164,10 @@ bool wxTaskBarIconEx::SetBalloon(const wxIcon& icon, const wxString title, const
 
     if (IsBalloonsSupported())
     {
-        notifyData.uFlags |= NIF_INFO;
+        notifyData.uFlags |= NIF_INFO | NIF_TIP;
         lstrcpyn(notifyData.szInfo, WXSTRINGCAST message, sizeof(notifyData.szInfo));
         lstrcpyn(notifyData.szInfoTitle, WXSTRINGCAST title, sizeof(notifyData.szInfoTitle));
+        lstrcpyn(notifyData.szTip, WXSTRINGCAST wxEmptyString, sizeof(notifyData.szTip));
     }
     else
     {

@@ -411,6 +411,7 @@ bool CAdvancedFrame::CreateMenu() {
         _("&Options..."),
         _("Configure GUI options and proxy settings")
     );
+
     // %s is the project name
     //    i.e. 'BOINC', 'GridRepublic'
     strMenuDescription.Printf(
@@ -1671,15 +1672,14 @@ void CAdvancedFrame::OnFrameRender(wxTimerEvent &event) {
                     wxString strTitle = m_strBaseTitle;
                     wxString strLocale = wxString(setlocale(LC_NUMERIC, NULL), wxConvUTF8);
      
-                    if (pDoc->IsReconnecting())
+                    if (pDoc->IsReconnecting()) {
                         pDoc->GetConnectingComputerName(strComputerName);
-                    else
+                    } else {
                         pDoc->GetConnectedComputerName(strComputerName);
+                    }
 
                     if (pDoc->IsComputerNameLocal(strComputerName)) {
-                        strTitle += wxT(" - (localhost)");
-                    } else {
-                        strStatusText += strComputerName;
+                        strComputerName = wxT("localhost");
                     }
 
                     if (pDoc->IsReconnecting()) {

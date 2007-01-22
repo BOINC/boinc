@@ -301,6 +301,11 @@ static void handle_set_network_mode(char* buf, MIOFILE& fout) {
         fout.printf("<error>Missing mode</error>\n");
         return;
     }
+    // user is turning network on/off explicitly,
+    // so disable the "5 minute grace period" mechanism
+    //
+    gstate.gui_rpcs.time_of_last_rpc_needing_network = 0;
+
     gstate.network_mode.set(mode, duration);
     fout.printf("<success/>\n");
 }

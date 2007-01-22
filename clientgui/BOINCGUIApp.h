@@ -76,6 +76,8 @@ protected:
 #endif
 
     bool                m_bBOINCStartedByManager;
+    wxString            m_strBOINCArguments;
+
     int                 m_iDisplayExitWarning;
 
     bool                m_bGUIVisible;
@@ -99,6 +101,8 @@ public:
     wxString            m_strDefaultDisplay;
 
     bool                OnInit();
+
+    bool                AutoRestartBOINC();
 
     int                 IsNetworkAlive(long* lpdwFlags);
     int                 IsNetworkAlwaysOnline();

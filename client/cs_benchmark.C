@@ -172,6 +172,13 @@ DWORD WINAPI win_cpu_benchmarks(LPVOID p) {
 void CLIENT_STATE::start_cpu_benchmarks() {
     int i;
 
+    if (benchmarks_running) {
+        msg_printf(0, MSG_INFO,
+            "Can't start benchmarks - they're already running"
+        );
+        return;
+    }
+
     if (skip_cpu_benchmarks) {
         if (log_flags.measurement_debug) {
             msg_printf(0, MSG_INFO,

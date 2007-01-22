@@ -46,11 +46,6 @@
 #include "BOINCBaseFrame.h"
 #include "AdvancedFrame.h"
 #include "DlgGenericMessage.h"
-#include "common/wxAnimate.h"
-#include "common/wxFlatNotebook.h"
-#include "sg_ImageLoader.h"
-#include "sg_StatImageLoader.h"
-#include "sg_BoincSimpleGUI.h"
 
 static bool s_bSkipExitConfirmation;
 
@@ -77,6 +72,7 @@ bool CBOINCGUIApp::OnInit() {
 
     // Setup variables with default values
     m_bBOINCStartedByManager = false;
+    m_strBOINCArguments = wxEmptyString;
     m_pLocale = NULL;
     m_pSkinManager = NULL;
     m_pFrame = NULL;
@@ -346,18 +342,6 @@ int CBOINCGUIApp::OnExit() {
     // Shutdown the System Idle Detection code
     ClientLibraryShutdown();
 
-#if defined(__WXMSW__) || defined(__WXMAC__)
-    if (m_pTaskBarIcon) {
-        delete m_pTaskBarIcon;
-    }
-#endif
-
-#ifdef __WXMAC__
-    if (m_pMacSystemMenu) {
-        delete m_pMacSystemMenu;
-    }
-#endif
-
     if (m_pDocument) {
         m_pDocument->OnExit();
         delete m_pDocument;
@@ -380,7 +364,8 @@ void CBOINCGUIApp::OnInitCmdLine(wxCmdLineParser &parser) {
     wxApp::OnInitCmdLine(parser);
     static const wxCmdLineEntryDesc cmdLineDesc[] = {
         { wxCMD_LINE_SWITCH, wxT("s"), wxT("systray"), _("Startup BOINC so only the system tray icon is visible")},
-        { wxCMD_LINE_SWITCH, wxT("insecure"), wxT("insecure"), _("disable BOINC security users and permissions")},
+        { wxCMD_LINE_SWITCH, wxT("b"), wxT("boincargs"), _("Startup BOINC with these optional arguments")},
+        { wxCMD_LINE_SWITCH, wxT("i"), wxT("insecure"), _("disable BOINC security users and permissions")},
         { wxCMD_LINE_NONE}  //DON'T forget this line!!
     };
     parser.SetDesc(cmdLineDesc);
@@ -390,6 +375,7 @@ void CBOINCGUIApp::OnInitCmdLine(wxCmdLineParser &parser) {
 bool CBOINCGUIApp::OnCmdLineParsed(wxCmdLineParser &parser) {
     // Give default processing (-?, --help and --verbose) the chance to do something.
     wxApp::OnCmdLineParsed(parser);
+    parser.Found(wxT("boincargs"), &m_strBOINCArguments);
     if (parser.Found(wxT("systray"))) {
         m_bGUIVisible = false;
     }
@@ -453,6 +439,14 @@ void CBOINCGUIApp::InitSupportedLanguages() {
             m_astrLanguages[iIndex] = liLanguage->Description;
         }
     }
+}
+
+
+bool CBOINCGUIApp::AutoRestartBOINC() {
+    if (!IsBOINCCoreRunning() && m_bBOINCStartedByManager) {
+        StartupBOINCCore();
+    }
+    return true;
 }
 
 
@@ -589,7 +583,11 @@ void CBOINCGUIApp::StartupBOINCCore() {
 #ifdef __WXMSW__
 
         // Append boinc.exe to the end of the strExecute string and get ready to rock
-        strExecute = wxT("\"") + strDirectory + wxT("\\boinc.exe\" -redirectio");
+        strExecute.Printf(
+            wxT("\"%s\\boinc.exe\" -redirectio -launched_by_manager %s"),
+            strDirectory.c_str(),
+            m_strBOINCArguments.c_str()
+        );
 
         PROCESS_INFORMATION pi;
         STARTUPINFO         si;
@@ -624,7 +622,7 @@ void CBOINCGUIApp::StartupBOINCCore() {
 #ifndef __WXMAC__
 
         // Append boinc.exe to the end of the strExecute string and get ready to rock
-        strExecute = wxT("./boinc -redirectio");
+        strExecute = wxT("./boinc -redirectio -launched_by_manager");
         if (! g_use_sandbox)
             strExecute += wxT(" -insecure");
         m_lBOINCCoreProcessId = ::wxExecute(strExecute);
@@ -966,6 +964,7 @@ bool CBOINCGUIApp::SetActiveGUI(int iGUISelection, bool bShowWindow) {
     if ((iGUISelection != m_iGUISelected) || !m_pFrame) {
         switch(iGUISelection) {
             case BOINC_SIMPLEGUI:
+            default:
                 // Initialize the simple gui window
                 pNewFrame = new CSimpleFrame(
                     m_pSkinManager->GetAdvanced()->GetApplicationName(), 
@@ -973,7 +972,6 @@ bool CBOINCGUIApp::SetActiveGUI(int iGUISelection, bool bShowWindow) {
                 );
                 break;
             case BOINC_ADVANCEDGUI:
-            default:
                 // Initialize the advanced gui window
                 pNewFrame = new CAdvancedFrame(
                     m_pSkinManager->GetAdvanced()->GetApplicationName(), 

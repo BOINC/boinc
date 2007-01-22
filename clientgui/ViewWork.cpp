@@ -598,7 +598,7 @@ wxInt32 CViewWork::FormatApplicationName(wxInt32 item, wxString& strBuffer) cons
         wxString strLocale = wxString(setlocale(LC_NUMERIC, NULL), wxConvUTF8);
         setlocale(LC_NUMERIC, "C");
         if (state_result->wup->app->user_friendly_name.size()) {
-            strLocalBuffer = wxString(state_result->wup->app->user_friendly_name.c_str(), wxConvUTF8).c_str();
+            strLocalBuffer = wxString(state_result->app->user_friendly_name.c_str(), wxConvUTF8).c_str();
         } else {
             strLocalBuffer = wxString(state_result->wup->avp->app_name.c_str(), wxConvUTF8).c_str();
         }

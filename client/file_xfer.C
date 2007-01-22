@@ -55,7 +55,11 @@ int FILE_XFER::init_download(FILE_INFO& file_info) {
     is_upload = false;
     fip = &file_info;
     get_pathname(fip, pathname);
-    if (file_size(pathname, starting_size)) {
+
+    // if file is already as large or larger than it's supposed to be,
+    // something's screwy; start reading it from the beginning.
+    //
+    if (file_size(pathname, starting_size) || starting_size >= fip->nbytes) {
         starting_size = 0;
     }
     bytes_xferred = starting_size;

@@ -29,7 +29,7 @@
 #include "parse.h"
 #include "error_numbers.h"
 #include "common/wxFlatNotebook.h"
-#include "common/wxAnimate.h"
+//#include "common/wxAnimate.h"
 #include "BOINCGUIApp.h"
 #include "SkinManager.h"
 #include "MainDocument.h"
@@ -108,7 +108,11 @@ void CViewTabPage::CreatePage()
 	resState = pDoc->state.lookup_result(resultWU->project_url, resultWU->name);
 	if(resState){
 		projName = wxString(resState->project->project_name.c_str(), wxConvUTF8 );
-		projectFrName = wxString(resState->app->user_friendly_name.c_str(), wxConvUTF8);
+        if (resState->app->user_friendly_name.size()) {
+            projectFrName = wxString(resState->app->user_friendly_name.c_str(), wxConvUTF8);
+        } else {
+            projectFrName = wxString(resState->wup->avp->app_name.c_str(), wxConvUTF8);
+        }
 	} else {
 		projName = wxString("Not Available", wxConvUTF8 );
 		projectFrName = wxString("Not Available", wxConvUTF8);

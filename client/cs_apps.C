@@ -210,7 +210,7 @@ int CLIENT_STATE::input_files_available(RESULT* rp, bool verify) {
         // don't verify app files if using anonymous platform
         //
         if (!project->anonymous_platform) {
-            retval = fip->verify_file(verify);
+            retval = fip->verify_file(verify, true);
             if (retval) return retval;
         }
     }
@@ -219,7 +219,7 @@ int CLIENT_STATE::input_files_available(RESULT* rp, bool verify) {
         fip = wup->input_files[i].file_info;
         if (fip->generated_locally) continue;
         if (fip->status != FILE_PRESENT) return ERR_FILE_MISSING;
-        retval = fip->verify_file(verify);
+        retval = fip->verify_file(verify, true);
         if (retval) return retval;
     }
     return 0;
