@@ -371,10 +371,10 @@ $linux_libs_58= "
 ";
 
 $w583= array(
-    "num"=>"5.8.3",
+    "num"=>"5.8.4",
     "status"=>"Development version",
-    "file"=>"boinc_5.8.3_windows_intelx86.exe",
-    "date"=>"16 Jan 2007",
+    "file"=>"boinc_5.8.4_windows_intelx86.exe",
+    "date"=>"22 Jan 2007",
     "type"=>"win_new",
     "features"=>"<ul>
 ".$features_55.$features_57."
