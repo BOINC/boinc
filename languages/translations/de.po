@@ -716,7 +716,7 @@ msgstr "Sie können der Einfachheit halber auch eine "
 
 msgid "HOME_P3"
 msgstr "Wenn Sie Fragen haben oder Hilfe beim Einstieg benötigen, "
-"können Sie sich mit einem freiwilligen Helfer unterhalten."
+"können Sie sich %smit einem freiwilligen Helfer unterhalten%s."
 
 msgid "HOME_MORE_INFO"
 msgstr "Weitere Informationen"

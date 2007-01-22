@@ -955,3 +955,10 @@ Matt	22 Jan 2007
         schema.sql
     html/ops
         db_update.php
+
+David  22 Jan 2007
+    - API: use boinc_fopen() instead of fopen() in
+        string variant of boinc_resolve_filename()
+
+    lib/
+        app_ipc.C
