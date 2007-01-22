@@ -301,6 +301,11 @@ static void handle_set_network_mode(char* buf, MIOFILE& fout) {
         fout.printf("<error>Missing mode</error>\n");
         return;
     }
+    // user is turning network on/off explicitly,
+    // so disable the "5 minute grace period" mechanism
+    //
+    gstate.gui_rpcs.time_of_last_rpc_needing_network = 0;
+
     gstate.network_mode.set(mode, duration);
     fout.printf("<success/>\n");
 }
@@ -466,8 +471,12 @@ static void handle_get_host_info(char*, MIOFILE& fout) {
     gstate.host_info.write(fout);
 }
 
-static void handle_get_screensaver_mode(char*, MIOFILE& fout) {
+static void handle_get_screensaver_mode(GUI_RPC_CONN* gr, char*, MIOFILE& fout) {
     int ss_result = gstate.ss_logic.get_ss_status();
+    if (gr->au_ss_state == AU_SS_QUIT_REQ) {
+        ss_result = SS_STATUS_QUIT;
+        gr->au_ss_state = AU_SS_QUIT_SENT;
+    }
     fout.printf(
         "<screensaver_mode>\n"
         "    <status>%d</status>\n"
@@ -526,7 +535,7 @@ static void handle_get_statistics(char*, MIOFILE& fout) {
     fout.printf("</statistics>\n");
 }
 
-static void handle_get_cc_status(MIOFILE& fout) {
+static void handle_get_cc_status(GUI_RPC_CONN* gr, MIOFILE& fout) {
     fout.printf(
         "<cc_status>\n"
         "   <network_status>%d</network_status>\n"
@@ -538,8 +547,7 @@ static void handle_get_cc_status(MIOFILE& fout) {
         "   <task_mode_perm>%d</task_mode_perm>\n"
         "   <network_mode_perm>%d</network_mode_perm>\n"
         "   <task_mode_delay>%f</task_mode_delay>\n"
-        "   <network_mode_delay>%f</network_mode_delay>\n"
-        "</cc_status>\n",
+        "   <network_mode_delay>%f</network_mode_delay>\n",
         net_status.network_status(),
         gstate.acct_mgr_info.password_error?1:0,
         gstate.suspend_reason,
@@ -550,6 +558,15 @@ static void handle_get_cc_status(MIOFILE& fout) {
         gstate.network_mode.get_perm(),
 		gstate.run_mode.delay(),
 		gstate.network_mode.delay()
+    );
+    if (gr->au_mgr_state == AU_MGR_QUIT_REQ) {
+        fout.printf(
+            "   <manager_must_quit>1</manager_must_quit>\n"
+        );
+        gr->au_mgr_state = AU_MGR_QUIT_SENT;
+    }
+    fout.printf(
+        "</cc_status>\n"
     );
 }
 
@@ -638,20 +655,23 @@ static void handle_create_account_poll(char*, MIOFILE& fout) {
 }
 
 static void handle_project_attach(char* buf, MIOFILE& fout) {
-    string url, authenticator;
-    PROJECT* p = NULL;
+    string url, authenticator, project_name;
     bool use_config_file = false;
     bool already_attached = false;
     unsigned int i;
 
+    // check whether to the URL in project_init.xml
+    //
     if (!parse_bool(buf, "use_config_file", use_config_file)) {
+        // no
+        //
         if (!parse_str(buf, "<project_url>", url)) {
             fout.printf("<error>Missing URL</error>\n");
             return;
         }
 
         for (i=0; i<gstate.projects.size(); i++) {
-            p = gstate.projects[i];
+            PROJECT* p = gstate.projects[i];
             if (url == p->master_url) already_attached = true;
         }
 
@@ -669,7 +689,10 @@ static void handle_project_attach(char* buf, MIOFILE& fout) {
             fout.printf("<error>Missing authenticator</error>\n");
             return;
         }
+        parse_str(buf, "<project_name>", project_name);
     } else {
+        // yes
+        //
         if (!strlen(gstate.project_init.url)) {
             fout.printf("<error>Missing URL</error>\n");
             return;
@@ -684,11 +707,12 @@ static void handle_project_attach(char* buf, MIOFILE& fout) {
         authenticator = gstate.project_init.account_key;
     }
 
-    // clear out any previous messages from any previous attach
-    //   to project.
+    // clear messages from previous attach to project.
     //
     gstate.project_attach.messages.clear();
-    gstate.add_project(url.c_str(), authenticator.c_str());
+    gstate.add_project(
+        url.c_str(), authenticator.c_str(), project_name.c_str(), false
+    );
     gstate.project_attach.error_num = ERR_IN_PROGRESS;
     fout.printf("<success/>\n");
 }
@@ -813,6 +837,50 @@ static void handle_set_global_prefs_override(char* buf, MIOFILE& fout) {
     );
 }
 
+static void handle_get_cc_config(MIOFILE& fout) {
+    string s;
+    int retval = read_file_string(CONFIG_FILE, s);
+    if (!retval) {
+        strip_whitespace(s);
+        fout.printf("%s\n", s.c_str());
+    }
+}
+
+static void handle_set_cc_config(char* buf, MIOFILE& fout) {
+    char *p, *q=0;
+    int retval = ERR_XML_PARSE;
+
+    // strip off outer tags
+    //
+    p = strstr(buf, "<set_cc_config>\n");
+    if (p) {
+        p += strlen("<set_cc_config>\n");
+        q = strstr(p, "</set_cc_config");
+    }
+    if (q) {
+        *q = 0;
+        strip_whitespace(p);
+        if (strlen(p)) {
+            FILE* f = boinc_fopen(CONFIG_FILE, "w");
+            if (f) {
+                fprintf(f, "%s\n", p);
+                fclose(f);
+                retval = 0;
+            } else {
+                retval = ERR_FOPEN;
+            }
+        } else {
+            retval = boinc_delete_file(CONFIG_FILE);
+        }
+    }
+    fout.printf(
+        "<set_cc_config_reply>\n"
+        "    <status>%d</status>\n"
+        "</set_cc_config_reply>\n",
+        retval
+    );
+}
+
 int GUI_RPC_CONN::handle_rpc() {
     char request_msg[4096];
     int n;
@@ -859,7 +927,7 @@ int GUI_RPC_CONN::handle_rpc() {
         gstate.write_tasks_gui(mf);
         mf.printf("</results>\n");
     } else if (match_tag(request_msg, "<get_screensaver_mode")) {
-        handle_get_screensaver_mode(request_msg, mf);
+        handle_get_screensaver_mode(this, request_msg, mf);
     } else if (match_tag(request_msg, "<set_screensaver_mode")) {
         handle_set_screensaver_mode(request_msg, mf);
     } else if (match_tag(request_msg, "<get_file_transfers")) {
@@ -881,7 +949,7 @@ int GUI_RPC_CONN::handle_rpc() {
     } else if (match_tag(request_msg, "<get_newer_version>")) {
         handle_get_newer_version(mf);
     } else if (match_tag(request_msg, "<get_cc_status")) {
-        handle_get_cc_status(mf);
+        handle_get_cc_status(this, mf);
 
     // Operations that require authentication start here
 
@@ -931,6 +999,14 @@ int GUI_RPC_CONN::handle_rpc() {
         handle_get_global_prefs_override(mf);
     } else if (match_tag(request_msg, "<set_global_prefs_override")) {
         handle_set_global_prefs_override(request_msg, mf);
+    } else if (match_tag(request_msg, "<get_cc_config")) {
+        handle_get_cc_config(mf);
+    } else if (match_tag(request_msg, "<set_cc_config")) {
+        handle_set_cc_config(request_msg, mf);
+    } else if (match_tag(request_msg, "<read_cc_config/>")) {
+        read_config_file();
+        gstate.request_schedule_cpus("Core client configuration");
+        gstate.request_work_fetch("Core client configuration");
     } else {
 
         // RPCs after this point enable network communication

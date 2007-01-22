@@ -56,7 +56,7 @@ void get_pathname(FILE_INFO* fip, char* path) {
     if (p) {
         get_project_dir(p, buf);
         sprintf(path, "%s/%s", buf, fip->name);
-    } else {
+	} else {
         strcpy(path, fip->name);
     }
 }
@@ -197,6 +197,7 @@ void delete_old_slot_dirs() {
             boinc_rmdir(path);
         }
     }
+    dir_close(dirp);
 }
 
 void get_account_filename(char* master_url, char* path) {
@@ -277,15 +278,6 @@ int set_to_project_group(const char* path) {
             return ERR_CHOWN;
     }
         return 0;
-}
-
-void boinc_version_dir(VERSION_INFO& vi, char* buf) {
-    sprintf(buf, "boinc_version_%d_%d_%d", vi.major, vi.minor, vi.release);
-}
-
-bool is_version_dir(char* buf, VERSION_INFO& vi) {
-    int n = sscanf(buf, "boinc_version_%d_%d_%d", &vi.major, &vi.minor, &vi.release);
-    return (n==3);
 }
 
 const char *BOINC_RCSID_7d362a6a52 = "$Id$";

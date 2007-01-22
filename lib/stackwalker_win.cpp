@@ -46,6 +46,7 @@
 #include "boinc_win.h"
 #endif
 
+#include "diagnostics.h"
 #include "stackwalker_win.h"
 #include "stackwalker_imports.h"
 
@@ -570,10 +571,12 @@ int DebuggerInitialize( LPCSTR pszBOINCLocation, LPCSTR pszSymbolStore, BOOL bPr
     }
 
     // boinc symbol server
-    if (std::string::npos == strSymbolSearchPath.find("http://boinc.berkeley.edu/symstore")) {
-        strSymbolSearchPath += 
-            std::string( "srv*" ) + strLocalSymbolStore + 
-            std::string( "*http://boinc.berkeley.edu/symstore;" );
+    if (!diagnostics_is_flag_set(BOINC_DIAG_BOINCAPPLICATION)) {
+        if (std::string::npos == strSymbolSearchPath.find("http://boinc.berkeley.edu/symstore")) {
+            strSymbolSearchPath += 
+                std::string( "srv*" ) + strLocalSymbolStore + 
+                std::string( "*http://boinc.berkeley.edu/symstore;" );
+        }
     }
 
     if ( strSymbolSearchPath.size() > 0 ) // if we added anything, we have a trailing semicolon

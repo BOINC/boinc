@@ -59,7 +59,7 @@ void version(){
 }
 
 void help() {
-    printf("\n\n\
+    fprintf(stderr, "\n\n\
     usage: boinc_cmd [--host hostname] [--passwd passwd] command\n\n\
 Commands:\n\
  --get_state                   show entire state\n\
@@ -72,8 +72,8 @@ Commands:\n\
  --project url {reset | detach | update | suspend | resume | nomorework | allowmorework}\n\
  --project_attach url auth\n\
  --file_transfer url filename {retry | abort}\n\
- --set_run_mode {always | auto | never}\n\
- --set_network_mode {always | auto | never}\n\
+ --set_run_mode {always | auto | never} duration\n\
+ --set_network_mode {always | auto | never} duration\n\
  --get_proxy_settings\n\
  --set_proxy_settings\n\
  --get_messages seqno            show messages > seqno\n\
@@ -116,6 +116,7 @@ void show_error(int retval) {
 char* next_arg(int argc, char** argv, int& i) {
     if (i >= argc) {
         fprintf(stderr, "Missing command-line argument\n");
+        help();
         exit(1);
     }
     return argv[i++];
@@ -291,7 +292,7 @@ int main(int argc, char** argv) {
     } else if (!strcmp(cmd, "--project_attach")) {
         char* url = next_arg(argc, argv, i);
         char* auth = next_arg(argc, argv, i);
-        retval = rpc.project_attach(url, auth);
+        retval = rpc.project_attach(url, auth, "");
     } else if (!strcmp(cmd, "--file_transfer")) {
         FILE_TRANSFER ft;
 
@@ -307,7 +308,12 @@ int main(int argc, char** argv) {
         }
     } else if (!strcmp(cmd, "--set_run_mode")) {
         char* op = next_arg(argc, argv, i);
-        double duration = atof(next_arg(argc, argv, i));
+        double duration;
+        if (i >= argc || (argv[i][0] == '-')) {
+            duration = 0;
+        } else {
+            duration = atof(next_arg(argc, argv, i));
+        }
         if (!strcmp(op, "always")) {
             retval = rpc.set_run_mode(RUN_MODE_ALWAYS, duration);
         } else if (!strcmp(op, "auto")) {
@@ -319,7 +325,12 @@ int main(int argc, char** argv) {
         }
     } else if (!strcmp(cmd, "--set_network_mode")) {
         char* op = next_arg(argc, argv, i);
-        double duration = atof(next_arg(argc, argv, i));
+        double duration;
+        if (i >= argc || (argv[i][0] == '-')) {
+            duration = 0;
+        } else {
+            duration = atof(next_arg(argc, argv, i));
+        }
         if (!strcmp(op, "always")) {
             retval = rpc.set_network_mode(RUN_MODE_ALWAYS, duration);
         } else if (!strcmp(op, "auto")) {
@@ -427,6 +438,8 @@ int main(int argc, char** argv) {
         }
     } else if (!strcmp(cmd, "--read_global_prefs_override")) {
         retval = rpc.read_global_prefs_override();
+    } else if (!strcmp(cmd, "--read_cc_config")) {
+        retval = rpc.read_cc_config();
     } else if (!strcmp(cmd, "--test1")) {
         string s;
         retval = rpc.get_global_prefs_override(s);

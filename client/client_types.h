@@ -110,7 +110,7 @@ public:
     bool had_failure(int& failnum);
     void failure_message(std::string&);
     int merge_info(FILE_INFO&);
-    int verify_file(bool);
+    int verify_file(bool, bool);
     int gzip();     // gzip file and add .gz to name
 };
 
@@ -147,6 +147,7 @@ struct DAILY_STATS {
     DAILY_STATS() {clear();}
     int parse(FILE*);
 };
+bool operator < (const DAILY_STATS&, const DAILY_STATS&);
 
 class PROJECT {
 public:
@@ -204,7 +205,7 @@ public:
     int master_fetch_failures;
     double min_rpc_time;           // earliest time to contact any server
                                    // of this project (or zero)
-    void set_min_rpc_time(double future_time);
+    void set_min_rpc_time(double future_time, const char* reason);
     bool waiting_until_min_rpc_time();
         // returns true if min_rpc_time > now
     bool master_url_fetch_pending;
@@ -218,8 +219,10 @@ public:
         // should be done (as requested by server)
 	bool possibly_backed_off;
     bool trickle_up_pending;    // have trickle up to send
-    bool tentative;             // we haven't done a scheduler RPC to this project yet
-								// (still need to verify that its name isn't a dup)
+    bool tentative;
+	    // we haven't done a scheduler RPC to this project yet;
+		// still need to verify that its name isn't a dup,
+		// and that the URL is correct
     double last_rpc_time;          // when last RPC finished
 
     // Other stuff

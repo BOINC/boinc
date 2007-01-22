@@ -40,8 +40,7 @@ typedef int PROCESS_ID;
 // values of ACTIVE_TASK::task_state
 //
 #define PROCESS_UNINITIALIZED   0
-
-// states in which the process exists
+    // process doesn't exist yet
 #define PROCESS_EXECUTING       1
     // process is running, as far as we know
 #define PROCESS_SUSPENDED       9

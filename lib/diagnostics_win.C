@@ -1450,34 +1450,62 @@ int diagnostics_unhandled_exception_dump_banner() {
 // Capture the foreground window details for future use.
 //
 int diagnostics_capture_foreground_window(PBOINC_WINDOWCAPTURE window_info) {
+    DWORD dwType;
+    DWORD dwSize;
+    DWORD dwCaptureForegroundWindow;
 
-    window_info->hwnd = GetForegroundWindow();
 
-    window_info->window_thread_id = GetWindowThreadProcessId(
-        window_info->hwnd,
-        &window_info->window_process_id
+    // Initialize structure variables.
+	strcpy(window_info->window_name, "");
+	strcpy(window_info->window_class, "");
+    window_info->hwnd = 0;
+    window_info->window_process_id = 0;
+    window_info->window_thread_id = 0;
+
+
+    // Check the registry to see if we are aloud to capture the foreground
+    //   window data. Many people were concerned about privacy issues.
+    //
+    // We'll turn it off by default, but keep it around just in case we need
+    //   it.
+    //
+    dwCaptureForegroundWindow = 0;
+    dwType = REG_DWORD;
+    dwSize = sizeof(dwCaptureForegroundWindow);
+    diagnostics_get_registry_value(
+        "CaptureForegroundWindow",
+        &dwType,
+        &dwSize,
+        (LPBYTE)&dwCaptureForegroundWindow
     );
 
-	// Only query the window text from windows in a different process space.
-	//   All threads that might have windows are suspended in this process
-	//   space and attempting to get the window text will deadlock the exception
-	//   handler.
-	if (window_info->window_process_id != GetCurrentProcessId()) {
-		GetWindowText(
-			window_info->hwnd, 
-			window_info->window_name,
-			sizeof(window_info->window_name)
-		);
 
-		GetClassName(
-			window_info->hwnd,
-			window_info->window_class,
-			sizeof(window_info->window_class)
-		);
-	} else {
-		strcpy(window_info->window_name, "");
-		strcpy(window_info->window_class, "");
-	}
+    if (dwCaptureForegroundWindow) {
+        window_info->hwnd = GetForegroundWindow();
+
+        window_info->window_thread_id = GetWindowThreadProcessId(
+            window_info->hwnd,
+            &window_info->window_process_id
+        );
+
+	    // Only query the window text from windows in a different process space.
+	    //   All threads that might have windows are suspended in this process
+	    //   space and attempting to get the window text will deadlock the exception
+	    //   handler.
+	    if (window_info->window_process_id != GetCurrentProcessId()) {
+		    GetWindowText(
+			    window_info->hwnd, 
+			    window_info->window_name,
+			    sizeof(window_info->window_name)
+		    );
+
+		    GetClassName(
+			    window_info->hwnd,
+			    window_info->window_class,
+			    sizeof(window_info->window_class)
+		    );
+	    }
+    }
 
     return 0;
 }
@@ -1653,6 +1681,9 @@ int diagnostics_dump_exception_record(PEXCEPTION_POINTERS pExPtrs) {
         case 0xC0000142:                     // STATUS_DLL_INIT_FAILED
         case 0xC0000143:                     // STATUS_MISSING_SYSTEMFILE
             fprintf(stderr, "%s\n\n", windows_format_error_string(exception_code, message, sizeof(message)));
+            break;
+        case 0xE06D7363:
+            diagnostics_dump_generic_exception("Out Of Memory (C++ Exception)", exception_code, exception_address);
             break;
         case EXCEPTION_ACCESS_VIOLATION:
             strcpy(status, "Access Violation");

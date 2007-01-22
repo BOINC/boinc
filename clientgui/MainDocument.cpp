@@ -138,9 +138,9 @@ void CNetworkConnection::Poll() {
             //   if we are connecting to the localhost we need to retry the connection
             //   for awhile so that the users can respond to firewall prompts.
             if (IsComputerNameLocal(strComputer)) {
-                retval = m_pDocument->rpc.init_asynch(NULL, 60., true);
+                retval = m_pDocument->rpc.init_asynch(NULL, 30., true);
             } else {
-                retval = m_pDocument->rpc.init_asynch(strComputer.mb_str(), 60., false);
+                retval = m_pDocument->rpc.init_asynch(strComputer.mb_str(), 30., false);
             }
 
             if (!retval) {
@@ -237,6 +237,8 @@ void CNetworkConnection::SetStateReconnecting() {
         m_bReconnectOnError = false;
         m_bForceReconnect = false;
         m_bReconnecting = true;
+        m_strNewComputerName = m_strConnectedComputerName;
+        m_strNewComputerPassword = m_strConnectedComputerPassword;
     }
 }
 
@@ -448,12 +450,12 @@ int CMainDocument::FrameShutdownDetected() {
 }
 
 
-int CMainDocument::GetCoreClientStatus(CC_STATUS& ccs) {
+int CMainDocument::GetCoreClientStatus(CC_STATUS& ccs, bool bForce) {
     int     iRetVal = 0;
 
     if (IsConnected()) {
         wxTimeSpan ts(wxDateTime::Now() - m_dtCachedCCStatusTimestamp);
-        if (ts.GetSeconds() > 0) {
+        if ((ts.GetSeconds() > 0) || bForce) {
             m_dtCachedCCStatusTimestamp = wxDateTime::Now();
 
             iRetVal = rpc.get_cc_status(ccs);
@@ -472,12 +474,17 @@ int CMainDocument::GetCoreClientStatus(CC_STATUS& ccs) {
 
 
 int CMainDocument::SetActivityRunMode(int iMode, int iTimeout) {
-    int     iRetVal = 0;
+    int       iRetVal = 0;
+    CC_STATUS ccs;
 
     if (IsConnected()) {
         iRetVal = rpc.set_run_mode(iMode, iTimeout);
         if (0 == iRetVal) {
-            status.task_mode = iMode;
+            if (RUN_MODE_RESTORE == iMode) {
+                GetCoreClientStatus(ccs, true);
+            } else {
+                status.task_mode = iMode;
+            }
         }
     }
 
@@ -486,12 +493,17 @@ int CMainDocument::SetActivityRunMode(int iMode, int iTimeout) {
 
 
 int CMainDocument::SetNetworkRunMode(int iMode, int iTimeout) {
-    int     iRetVal = 0;
+    int       iRetVal = 0;
+    CC_STATUS ccs;
 
     if (IsConnected()) {
         iRetVal = rpc.set_network_mode(iMode, iTimeout);
         if (0 == iRetVal) {
-            status.network_mode = iMode;
+            if (RUN_MODE_RESTORE == iMode) {
+                GetCoreClientStatus(ccs, true);
+            } else {
+                status.network_mode = iMode;
+            }
         }
     }
 
@@ -635,12 +647,6 @@ int CMainDocument::GetProjectCount() {
 
     return iCount;
 }
-
-
-int CMainDocument::ProjectAttach(const wxString& strURL, const wxString& strAccountKey) {
-    return rpc.project_attach((const char*)strURL.mb_str(), (const char*)strAccountKey.mb_str());
-}
-
 
 int CMainDocument::ProjectDetach(int iIndex) {
     PROJECT* pProject = NULL;

@@ -117,6 +117,7 @@ int PROJECT::parse_state(MIOFILE& in) {
     string str1, str2;
     int retval;
     double x;
+    bool btemp;
 
     init();
     while (in.fgets(buf, 256)) {
@@ -177,6 +178,7 @@ int PROJECT::parse_state(MIOFILE& in) {
         else if (parse_double(buf, "<duration_correction_factor>", duration_correction_factor)) continue;
         else if (match_tag(buf, "<attached_via_acct_mgr/>")) attached_via_acct_mgr = true;
         else if (parse_double(buf, "<ams_resource_share>", ams_resource_share)) continue;
+        else if (parse_bool(buf, "scheduler_rpc_in_progress", btemp)) continue;
         else {
             if (log_flags.unparsed_xml) {
                 msg_printf(0, MSG_ERROR,
@@ -410,7 +412,7 @@ bool PROJECT::some_download_stalled() {
         PERS_FILE_XFER* pfx = gstate.pers_file_xfers->pers_file_xfers[i];
         if (pfx->fip->project != this) continue;
         if (pfx->is_upload) continue;
-        if (pfx->next_request_time < gstate.now) return true;
+        if (pfx->next_request_time > gstate.now) return true;
     }
     return false;
 }
@@ -1577,9 +1579,9 @@ int RESULT::write(MIOFILE& out, bool to_server) {
         if (to_server) {
             out.printf(
                 "<core_client_version>%d.%d.%d</core_client_version>\n",
-                gstate.core_client_major_version,
-                gstate.core_client_minor_version,
-                gstate.core_client_release
+                gstate.core_client_version.major,
+                gstate.core_client_version.minor,
+                gstate.core_client_version.release
             );
         }
         if (n) {
@@ -1736,6 +1738,11 @@ void PROJECT::update_duration_correction_factor(RESULT* rp) {
             duration_correction_factor = duration_correction_factor*0.9 + 0.1*ratio;
         }
     }
+    // limit to [.01 .. 100]
+    //
+    if (duration_correction_factor > 100) duration_correction_factor = 100;
+    if (duration_correction_factor < 0.01) duration_correction_factor = 0.01;
+
 	if (log_flags.cpu_sched_debug || log_flags.work_fetch_debug) {
 		msg_printf(this, MSG_INFO,
             "[csd|wfd] duration correction factor: %f => %f, ratio %f",

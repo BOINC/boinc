@@ -104,7 +104,7 @@ wxString CImageButton::GetStatusText() {
 	} else if ( status == TAB_STATUS_PAUSED )  {
 		return wxString(_T("Paused"));
 	} else {
-		return wxString("");
+		return wxEmptyString;
 	}
 }
 void CImageButton::OnEraseBackground(wxEraseEvent& event){

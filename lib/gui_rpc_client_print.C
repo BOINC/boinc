@@ -139,6 +139,11 @@ void FILE_TRANSFER::print() {
     printf("   upload when present: %s\n", upload_when_present?"yes":"no");
     printf("   sticky: %s\n", sticky?"yes":"no");
     printf("   generated locally: %s\n", generated_locally?"yes":"no");
+    printf("   pers xfer active: %s\n", pers_xfer_active?"yes":"no");
+    printf("   xfer active: %s\n", xfer_active?"yes":"no");
+    printf("   time_so_far: %f\n", time_so_far);
+    printf("   bytes_xferred: %f\n", bytes_xferred);
+    printf("   xfer_speed: %f\n", xfer_speed);
 }
 
 void MESSAGE::print() {

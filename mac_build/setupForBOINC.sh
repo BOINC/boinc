@@ -21,9 +21,10 @@
 #
 #
 # Master script to build Universal Binary libraries needed by BOINC:
-# curl-7.15.3, jpeg-6b and wxMac-2.6.3
+# curl-7.15.5, jpeg-6b and wxMac-2.6.3
 #
 # by Charlie Fenton 7/21/06
+# updated 1/16/07
 #
 # Download these three packages and place them in a common parent 
 # directory with the BOINC source tree.
@@ -39,23 +40,30 @@
 # This script will work even if you have renamed the boinc/ directory
 #
 
+if [ "$1" = "-clean" ]; then
+  doclean="-clean"
+else
+  doclean=""
+fi
+
+
 echo ""
 echo "----------------------------------"
-echo "------- BUILD CURL-7.15.3 --------"
+echo "------- BUILD CURL-7.15.5 --------"
 echo "----------------------------------"
 echo ""
 
 SCRIPT_DIR=`pwd`
 
-if [ ! -f ../../curl-7.15.3/lib/url.c.orig ]; then
-patch -bN ../../curl-7.15.3/lib/url.c ../curl/patches/7.15.3.Socks/url_c.patch
+if [ ! -f ../../curl-7.15.5/lib/url.c.orig ]; then
+patch -bN ../../curl-7.15.5/lib/url.c ../curl/patches/7.15.5.Socks/url_c.patch
 else
 echo "url.c already patched"
 fi
 
-cd ../../curl-7.15.3/
+cd ../../curl-7.15.5/
 if [  $? -ne 0 ]; then return 1; fi
-source "${SCRIPT_DIR}/buildcurl.sh"
+source "${SCRIPT_DIR}/buildcurl.sh" ${doclean}
 if [  $? -ne 0 ]; then return 1; fi
 
 echo ""
@@ -68,7 +76,7 @@ cd "${SCRIPT_DIR}"
 
 cd ../../jpeg-6b/
 if [  $? -ne 0 ]; then return 1; fi
-source "${SCRIPT_DIR}/buildjpeg.sh"
+source "${SCRIPT_DIR}/buildjpeg.sh" ${doclean}
 if [  $? -ne 0 ]; then return 1; fi
 
 echo ""
@@ -83,7 +91,7 @@ cp -fpR wxMac-BOINC.xcodeproj ../../wxMac-2.6.3/src/
 
 cd ../../wxMac-2.6.3/
 if [  $? -ne 0 ]; then return 1; fi
-source "${SCRIPT_DIR}/buildWxMac.sh"
+source "${SCRIPT_DIR}/buildWxMac.sh" ${doclean}
 if [  $? -ne 0 ]; then return 1; fi
 
 cd "${SCRIPT_DIR}"

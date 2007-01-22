@@ -69,9 +69,9 @@ CLIENT_STATE::CLIENT_STATE() {
     network_suspended = false;
     suspend_reason = 0;
     network_suspend_reason = 0;
-    core_client_major_version = BOINC_MAJOR_VERSION;
-    core_client_minor_version = BOINC_MINOR_VERSION;
-    core_client_release = BOINC_RELEASE;
+    core_client_version.major = BOINC_MAJOR_VERSION;
+    core_client_version.minor = BOINC_MINOR_VERSION;
+    core_client_version.release = BOINC_RELEASE;
     platform_name = HOSTTYPE;
     exit_after_app_start_secs = 0;
     app_started = 0;
@@ -112,6 +112,7 @@ CLIENT_STATE::CLIENT_STATE() {
 #else
     g_use_sandbox = false;
 #endif
+    launched_by_manager = false;
     initialized = false;
 }
 
@@ -150,8 +151,10 @@ int CLIENT_STATE::init() {
 #endif
     msg_printf(
         NULL, MSG_INFO, "Starting BOINC client version %d.%d.%d for %s%s",
-        core_client_major_version, core_client_minor_version,
-        core_client_release, platform_name, debug_str
+        core_client_version.major,
+        core_client_version.minor,
+        core_client_version.release,
+        platform_name, debug_str
     );
     log_flags.show();
 
@@ -234,15 +237,16 @@ int CLIENT_STATE::init() {
     print_summary();
     do_cmdline_actions();
 
-    if ((core_client_major_version != old_major_version)
-        || (core_client_minor_version != old_minor_version)
-        || (core_client_release != old_release)
+    if ((core_client_version.major != old_major_version)
+        || (core_client_version.minor != old_minor_version)
+        || (core_client_version.release != old_release)
     ) {
         msg_printf(NULL, MSG_INFO,
             "Version change (%d.%d.%d -> %d.%d.%d); running CPU benchmarks\n",
             old_major_version, old_minor_version, old_release,
-            core_client_major_version, core_client_minor_version,
-            core_client_release
+            core_client_version.major,
+            core_client_version.minor,
+            core_client_version.release
         );
         run_cpu_benchmarks = true;
     }
@@ -482,7 +486,6 @@ bool CLIENT_STATE::poll_slow_events() {
 
     ss_logic.poll();
 	check_project_timeout();
-    auto_update.poll();
     POLL_ACTION(active_tasks           , active_tasks.poll      );
     POLL_ACTION(garbage_collect        , garbage_collect        );
     POLL_ACTION(update_results         , update_results         );
@@ -845,14 +848,6 @@ bool CLIENT_STATE::garbage_collect_always() {
         }
     }
 
-    // reference-count auto update files
-    //
-    if (auto_update.present) {
-        for (i=0; i<auto_update.file_refs.size(); i++) {
-            auto_update.file_refs[i].file_info->ref_cnt++;
-        }
-    }
-
     // Scan through RESULTs.
     // delete RESULTs that have been reported and acked.
     // Check for results whose WUs had download failures
@@ -864,16 +859,28 @@ bool CLIENT_STATE::garbage_collect_always() {
     while (result_iter != results.end()) {
         rp = *result_iter;
         if (rp->got_server_ack) {
-            if (log_flags.state_debug) {
-                msg_printf(0, MSG_INFO,
-                    "[state_debug] CLIENT_STATE::garbage_collect(): deleting result %s\n",
-                    rp->name
+            // see if - for some reason - there's an active task
+            // for this result.  don't want to create dangling ptr.
+            //
+            ACTIVE_TASK* atp = active_tasks.lookup_result(rp);
+            if (atp) {
+                msg_printf(0, MSG_ERROR,
+                    "garbage_collect(); still have active task for acked result; state %d",
+                    atp->task_state
                 );
+                atp->task_state = PROCESS_EXITED;   // this will get rid of it
+            } else {
+                if (log_flags.state_debug) {
+                    msg_printf(0, MSG_INFO,
+                        "[state_debug] garbage_collect: deleting result %s\n",
+                        rp->name
+                    );
+                }
+                delete rp;
+                result_iter = results.erase(result_iter);
+                action = true;
+                continue;
             }
-            delete rp;
-            result_iter = results.erase(result_iter);
-            action = true;
-            continue;
         }
         // See if the files for this result's workunit had
         // any errors (download failure, MD5, RSA, etc)

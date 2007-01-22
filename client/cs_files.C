@@ -105,7 +105,7 @@ int CLIENT_STATE::make_project_dirs() {
 // to error out (via APP_VERSION::had_download_failure()
 // WORKUNIT::had_download_failure())
 //
-int FILE_INFO::verify_file(bool strict) {
+int FILE_INFO::verify_file(bool strict, bool show_errors) {
     char cksum[64], pathname[256];
     bool verified;
     int retval;
@@ -159,7 +159,7 @@ int FILE_INFO::verify_file(bool strict) {
             status = ERR_RSA_FAILED;
             return ERR_RSA_FAILED;
         }
-        if (!verified) {
+        if (!verified && show_errors) {
             msg_printf(project, MSG_ERROR,
                 "Signature verification failed for %s",
                name
@@ -180,12 +180,14 @@ int FILE_INFO::verify_file(bool strict) {
             return retval;
         }
         if (strcmp(cksum, md5_cksum)) {
-            msg_printf(project, MSG_ERROR,
-                "MD5 check failed for %s", name
-            );
-            msg_printf(project, MSG_ERROR,
-                "expected %s, got %s\n", md5_cksum, cksum
-            );
+            if (show_errors) {
+                msg_printf(project, MSG_ERROR,
+                    "MD5 check failed for %s", name
+                );
+                msg_printf(project, MSG_ERROR,
+                    "expected %s, got %s\n", md5_cksum, cksum
+                );
+            }
             error_msg = "MD5 check failed";
             status = ERR_MD5_FAILED;
             return ERR_MD5_FAILED;
@@ -257,7 +259,7 @@ bool CLIENT_STATE::handle_pers_file_xfers() {
 
                 // verify the file with RSA or MD5, and change permissions
                 //
-                retval = fip->verify_file(true);
+                retval = fip->verify_file(true, true);
                 if (retval) {
                     msg_printf(fip->project, MSG_ERROR,
                         "Checksum or signature error for %s", fip->name

@@ -958,6 +958,7 @@ int CC_STATUS::parse(MIOFILE& in) {
         if (match_tag(buf, "</cc_status>")) return 0; 
         else if (parse_int(buf, "<network_status>", network_status)) continue;
         else if (parse_bool(buf, "ams_password_error", ams_password_error)) continue;
+        else if (parse_bool(buf, "manager_must_quit", manager_must_quit)) continue;
         else if (parse_int(buf, "<task_suspend_reason>", task_suspend_reason)) continue;
         else if (parse_int(buf, "<network_suspend_reason>", network_suspend_reason)) continue;
         else if (parse_int(buf, "<task_mode>", task_mode)) continue;
@@ -973,6 +974,7 @@ int CC_STATUS::parse(MIOFILE& in) {
 void CC_STATUS::clear() {
     network_status = -1;
     ams_password_error = false;
+    manager_must_quit = false;
     task_suspend_reason = -1;
     network_suspend_reason = -1;
     task_mode = -1;
@@ -1491,27 +1493,38 @@ int RPC_CLIENT::project_op(PROJECT& project, const char* op) {
     return retval;
 }
 
-int RPC_CLIENT::project_attach(const char* url, const char* auth, bool use_config_file) {
+int RPC_CLIENT::project_attach_from_file() {
     int retval;
     SET_LOCALE sl;
     char buf[768];
     RPC rpc(this);
 
-    if (use_config_file) {
-        sprintf(buf,
-            "<project_attach>\n"
-            "  <use_config_file/>\n"
-            "</project_attach>\n"
-        );
-    } else {
-        sprintf(buf,
-            "<project_attach>\n"
-            "  <project_url>%s</project_url>\n"
-            "  <authenticator>%s</authenticator>\n"
-            "</project_attach>\n",
-            url, auth
-        );
+    sprintf(buf,
+        "<project_attach>\n"
+        "  <use_config_file/>\n"
+        "</project_attach>\n"
+    );
+    retval = rpc.do_rpc(buf);
+    if (!retval) {
+        retval = rpc.parse_reply();
     }
+    return retval;
+}
+
+int RPC_CLIENT::project_attach(const char* url, const char* auth, const char* name) {
+    int retval;
+    SET_LOCALE sl;
+    char buf[768];
+    RPC rpc(this);
+
+    sprintf(buf,
+        "<project_attach>\n"
+        "  <project_url>%s</project_url>\n"
+        "  <authenticator>%s</authenticator>\n"
+        "  <project_name>%s</project_name>\n"
+        "</project_attach>\n",
+        url, auth, name
+    );
 
     retval = rpc.do_rpc(buf);
     if (!retval) {
@@ -2060,6 +2073,15 @@ int RPC_CLIENT::set_global_prefs_override_struct(GLOBAL_PREFS& prefs, GLOBAL_PRE
     prefs.write_subset(mf, mask);
     s = buf;
     return set_global_prefs_override(s);
+}
+
+int RPC_CLIENT::read_cc_config() {
+    int retval;
+    SET_LOCALE sl;
+    RPC rpc(this);
+
+    retval = rpc.do_rpc("<read_cc_config/>");
+    return retval;
 }
 
 const char *BOINC_RCSID_90e8b8d168="$Id$";

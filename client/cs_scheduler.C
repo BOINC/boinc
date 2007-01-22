@@ -94,18 +94,19 @@ void CLIENT_STATE::check_project_timeout() {
 	}
 }
 
-void PROJECT::set_min_rpc_time(double future_time) {
+void PROJECT::set_min_rpc_time(double future_time, const char* reason) {
     if (future_time > min_rpc_time) {
         min_rpc_time = future_time;
 		possibly_backed_off = true;
         msg_printf(this, MSG_INFO,
-            "Deferring scheduler requests for %s\n",
+            "Deferring communication for %s",
             timediff_format(min_rpc_time - gstate.now).c_str()
         );
+        msg_printf(this, MSG_INFO, "Reason: %s\n", reason);
     }
 }
 
-// Return true iff we should not contact the project yet.
+// Return true if we should not contact the project yet.
 //
 bool PROJECT::waiting_until_min_rpc_time() {
     return (min_rpc_time > gstate.now);
@@ -290,9 +291,9 @@ int CLIENT_STATE::make_scheduler_request(PROJECT* p) {
         p->hostid,
         p->rpc_seqno,
         p->anonymous_platform?"anonymous":platform_name,
-        core_client_major_version,
-        core_client_minor_version,
-        core_client_release,
+        core_client_version.major,
+        core_client_version.minor,
+        core_client_version.release,
         p->work_request,
         resource_share_fraction,
         rrs_fraction,
@@ -882,14 +883,11 @@ int CLIENT_STATE::handle_scheduler_reply(
         canonicalize_master_url(sr.master_url);
         if (strcmp(sr.master_url, project->master_url)) {
             msg_printf(project, MSG_ERROR,
-                "You are using the wrong URL for this project"
+                "You used the wrong URL for this project"
             );
             msg_printf(project, MSG_ERROR,
                 "The correct URL is %s", sr.master_url
             );
-            if (project->tentative) {
-                return ERR_WRONG_URL;
-            }
             p2 = gstate.lookup_project(sr.master_url);
             if (p2) {
                 msg_printf(project, MSG_INFO,
@@ -934,7 +932,6 @@ int CLIENT_STATE::handle_scheduler_reply(
             msg_printf(project, MSG_ERROR,
                 "Consider detaching this project, then trying again"
             );
-            return ERR_DUP_NAME;
         }
     }
 
@@ -961,7 +958,7 @@ int CLIENT_STATE::handle_scheduler_reply(
     if (sr.project_is_down) {
         if (sr.request_delay) {
             double x = gstate.now + sr.request_delay;
-			project->set_min_rpc_time(x);
+			project->set_min_rpc_time(x, "project is down");
         }
         return ERR_PROJECT_DOWN;
     }
@@ -1243,7 +1240,7 @@ int CLIENT_STATE::handle_scheduler_reply(
     //
     if (sr.request_delay) {
         double x = gstate.now + sr.request_delay;
-		project->set_min_rpc_time(x);
+		project->set_min_rpc_time(x, "requested by project");
     } else {
         project->min_rpc_time = 0;
     }
@@ -1274,10 +1271,6 @@ int CLIENT_STATE::handle_scheduler_reply(
         project->rpc_seqno = 0;
     }
 
-    if (sr.auto_update.present) {
-        sr.auto_update.handle_in_reply(project);
-    }
-
     project->link_project_files(true);
 
     set_client_state_dirty("handle_scheduler_reply");
@@ -1303,6 +1296,8 @@ double CLIENT_STATE::work_needed_secs() {
     return x;
 }
 
+// called when benchmarks change
+//
 void CLIENT_STATE::scale_duration_correction_factors(double factor) {
     if (factor <= 0) return;
     for (unsigned int i=0; i<projects.size(); i++) {
@@ -1310,7 +1305,10 @@ void CLIENT_STATE::scale_duration_correction_factors(double factor) {
         p->duration_correction_factor *= factor;
     }
 	if (log_flags.cpu_sched_debug) {
-		msg_printf(NULL, MSG_INFO, "[cpu_sched_debug] scaling duration correction factors by %f", factor);
+		msg_printf(NULL, MSG_INFO,
+            "[cpu_sched_debug] scaling duration correction factors by %f",
+            factor
+        );
 	}
 }
 
@@ -1323,7 +1321,7 @@ void CLIENT_STATE::generate_new_host_cpid() {
     for (unsigned int i=0; i<projects.size(); i++) {
         if (projects[i]->attached_via_acct_mgr) {
             projects[i]->sched_rpc_pending = RPC_REASON_ACCT_MGR_REQ;
-            projects[i]->set_min_rpc_time(now + 15);
+            projects[i]->set_min_rpc_time(now + 15, "Sending new host CPID");
         }
     }
 }

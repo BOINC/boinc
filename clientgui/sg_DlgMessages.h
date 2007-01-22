@@ -47,7 +47,7 @@ class CSGUIListCtrl;
 
 ////@begin control identifiers
 #define ID_DLGMESSAGES 10000
-#define SYMBOL_CDLGMESSAGES_STYLE wxRESIZE_BORDER|wxCLOSE_BOX|wxCAPTION|wxCLIP_CHILDREN 
+#define SYMBOL_CDLGMESSAGES_STYLE wxDEFAULT_DIALOG_STYLE|wxRESIZE_BORDER
 #define SYMBOL_CDLGMESSAGES_TITLE wxT("")
 #define SYMBOL_CDLGMESSAGES_IDNAME ID_DLGMESSAGES
 #define SYMBOL_CDLGMESSAGES_SIZE wxDefaultSize
@@ -107,6 +107,9 @@ public:
     /// wxEVT_COMMAND_BUTTON_CLICKED event handler for ID_COPYSELECTED
     void OnMessagesCopySelected( wxCommandEvent& event );
 
+    /// wxEVT_COMMAND_BUTTON_CLICKED event handler for ID_SIMPLE_HELP
+    void OnButtonHelp( wxCommandEvent& event );
+
 ////@end CPanelMessages event handler declarations
 
 ////@begin CPanelMessages member function declarations
@@ -165,6 +168,9 @@ public:
 
     /// Creates the controls and sizers
     void CreateControls();
+
+    /// wxEVT_HELP event handler for ID_DLGMESSAGES
+    void OnHelp( wxHelpEvent& event );
 
     /// wxEVT_SHOW event handler for ID_DLGMESSAGES
     void OnShow( wxShowEvent& event );

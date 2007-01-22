@@ -47,6 +47,7 @@ extern "C" {
 #endif
   extern int boinc_rmdir(const char*);
   extern int remove_project_owned_file_or_dir(const char* path);
+  extern void boinc_getcwd(char*);
   extern void relative_to_absolute(const char* relname, char* path);
   extern int boinc_make_dirs(char*, char*);
   extern char boinc_failed_file[256];
@@ -107,6 +108,8 @@ struct FILE_LOCK {
 #else
     int fd;
 #endif
+    FILE_LOCK();
+    ~FILE_LOCK();
     int lock(const char* filename);
     int unlock(const char* filename);
 };

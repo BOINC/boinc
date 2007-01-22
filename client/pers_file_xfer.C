@@ -49,6 +49,7 @@ PERS_FILE_XFER::PERS_FILE_XFER() {
     next_request_time = first_request_time;
     time_so_far = 0;
     last_bytes_xferred = 0;
+    pers_xfer_done = false;
     fip = NULL;
     fxp = NULL;
 }
@@ -93,7 +94,7 @@ int PERS_FILE_XFER::start_xfer() {
 
         // see if file already exists and is valid
         //
-        if (!fip->verify_file(true)) {
+        if (!fip->verify_file(true, false)) {
             retval = fip->set_permissions();
             fip->status = FILE_PRESENT;
             pers_xfer_done = true;

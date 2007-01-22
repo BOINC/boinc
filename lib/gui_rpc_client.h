@@ -460,6 +460,7 @@ struct ACCOUNT_OUT {
 struct CC_STATUS {
     int network_status;         // values: NETWORK_STATUS_*
     bool ams_password_error;
+    bool manager_must_quit;
     int task_suspend_reason;    // bitmap, see common_defs.h
     int network_suspend_reason;
     int task_mode;              // always/auto/never; see common_defs.h
@@ -557,7 +558,10 @@ public:
     int lookup_account_poll(ACCOUNT_OUT&);
     int create_account(ACCOUNT_IN&);
     int create_account_poll(ACCOUNT_OUT&);
-    int project_attach(const char* url, const char* auth, bool use_config_file=false);
+    int project_attach(
+        const char* url, const char* auth, const char* project_name
+    );
+    int project_attach_from_file();
     int project_attach_poll(PROJECT_ATTACH_REPLY&);
     int acct_mgr_rpc(
         const char* url, const char* name, const char* passwd,
@@ -567,6 +571,7 @@ public:
 
     int get_newer_version(std::string&);
     int read_global_prefs_override();
+    int read_cc_config();
     int get_cc_status(CC_STATUS&);
     int get_global_prefs_override(std::string&);
     int set_global_prefs_override(std::string&);

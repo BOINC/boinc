@@ -13307,3 +13307,712 @@ Charlie 11 Dec 2006
     mac_build/
         boinc.xcodeproj/
             project.pbxproj
+
+Rom    12 Dec 2006 (Forked from HEAD)
+    - Branch boinc_core_release_5_8 created for the BOINC 5.8 client release.
+
+Rom    13 Dec 2006
+    - Undo the Auto-Update code David checked in on the 11th.
+    
+    client/
+        client_state.C,h
+        client_types.C
+        cs_scheduler.C
+        cs_statefile.C
+        file_names.C,h
+        scheduler_op.C,h
+
+Rom    13 Dec 2006
+    - Tag for 5.8.0 release, all platforms
+      boinc_core_release_5_8_0
+
+Charlie 13 Dec 2006
+    - MGR: Fix Compiler warnings.
+    - Mac: Undo the XCode project changes checked in on the 11th.
+    - Mac: Add user preferences file to list of BOINC files in 
+        documentation.
+    - Mac: remove WCG skin from Mac installer (undo change of 30 Nov.)
+    
+    clientgui/
+        ViewStatistics.cpp
+    doc/
+        mac_advanced.php
+        release_notes.php
+    mac_build/
+        boinc.xcodeproj/
+            project.pbxproj
+    mac_installer/
+        release_boinc.sh
+        GR-ReadMe.rtf
+        ReadMe.rtf
+
+Charlie 15 Dec 2006
+    - Mac BSG: We can't completely eliminate the Mac menu bar or 
+        the Help menu, so we might as well make them useful.
+    - Mac MGR: implement the Mac's Help keyboard shortcut.
+    
+    clientgui/
+        AdvancedFrame.cpp, .h
+        sg_BoincSimpleGUI.cpp, .h
+
+Charlie 19 Dec 2006
+    - Mac: Fix bug in setupForBOINC build script handling of -clean 
+        option.
+    mac_build/
+        setupForBOINC.sh
+
+Walt   19 Dec 2006
+    - MGR: Fix compile errors with Unicode builds
+
+    clientgui/
+        AdvancedFrame.cpp
+        sg_BoincSimpleGUI.cpp
+        sg_ClientStateIndicator.cpp, h
+        sg_ImageButton.cpp
+        sg_StatImageLoader.cpp
+        sg_ViewTabPage.cpp
+
+Walt   19 Dec 2006
+    - core client: Remove auto_update.C from makefile
+    - MGR: Add simple GUI files to makefile
+
+    client/
+        Makefile.am
+    clientgui/
+        Makefile.am
+
+Charlie 20 Dec 2006
+    - MGR: Fix compile errors.
+    
+    clientgui/
+        AdvancedFrame.cpp
+        sg_BoincSimpleGUI.cpp
+
+David  21 Dec 2006
+    - core client: improve error messages on RPC deferral
+
+    client/
+        client_types.h
+        cs_scheduler.C
+        scheduler_op.C
+    html/inc/
+        stats_sites.inc
+    lib/
+        util.C
+
+Rom    21 Dec 2006
+    - MGR: Simplify snooze so that it only applies to CPU usage.
+    - MGR: Remember message dialog size and list view column widths
+        for all platforms.
+    - MGR: Fix an annoying bug when the advanced gui suspended all
+        tasks and then you tried to resume from the simple gui.
+        
+        Restore didn't work when the task_mode_perm was equal to
+        never and their was no timeout.
+        
+        We should probably move this logic down into the CC.
+    - LIB: Don't display foreground window information unless the
+        user has agreed to allow it to happen via the registry.
+        
+        Their was concern about privacy issues with window titles.
+        
+    clientgui/
+        BOINCTaskBar.cpp
+        MainDocument.cpp, .h
+        sg_DlgMessages.cpp
+    lib/
+        diagnostics_win.C
+
+Rom    21 Dec 2006
+    - MGR: Add context help to the BSG.
+    
+    clientgui/
+        sg_DlgMessages.cpp, .h
+        sg_DlgPreferences.cpp
+        sg_ProjectsComponent.cpp, .h
+        stdwx.h
+
+Charlie 22 Dec 2006
+    -MGR: Fix crash bugs: don't call SetBackgroundColour() or 
+        SetForegroundColour() before wxDialog::Create().
+        
+    clientgui/
+        sg_DlgMessages.cpp
+        sg_DlgPreferences.cpp
+        
+David  23 Dec 2006
+    - core client: add missing error message case on attach failure
+
+    client/
+        cs_account.C
+
+David  25 Dec 2006
+    - Various changes to deal with the situation where someone
+        attaches to a project while its scheduler is down.
+        Currently the attach fails.
+        This is a relic of the attach-using-account-key era.
+        Change it so that:
+        1) the project_attach GUI RPC has a project_name argument
+            (so that we can show the project name even before
+            we've done a scheduler RPC)
+        2) the attach succeeds even if the initial RPC fails
+        Note: we can probably get rid of the PROJECT::tentative flag.
+    Note: the logic for attaching to a project with an init file
+    (or with "cached credentials", as confusingly described in the Manager
+    code) is messed up, or at least poorly documented.
+
+    client/
+        acct_mgr.C
+        client_state.h
+        cs_account.C
+        cs_cmdline.C
+		cs_scheduler.C
+		scheduler_op.C
+    clientgui/
+        MainDocument.cpp
+        ProjectProcessingPage.cpp
+		ProjectPropertiesPage.cpp
+    lib/
+        boinc_cmd.C
+        gui_rpc_client.h
+        gui_rpc_client_ops.C
+
+David  27 Dec 2006
+    - core client: remove handle leak in extremely rare case
+
+    client/
+        file_name.C
+
+David  28 Dec 2006
+	- core client: fix bugs in calculation of network status
+	- Manager: add ellipses to menu items that bring up dialogs,
+		tweak wizard text
+
+	client/
+		acct_setup.C,h
+		net_stats.C,h
+	clientgui/
+		AdvancedFrame.cpp
+		ProxyInfoPage.cpp
+
+Rom    28 Dec 2006
+    - SCRSAV: Use RegisterSystemMessage instead of using WM_USER for the
+        WM_INTERRUPTSAVER and WM_SETTIMER events.
+    - SCRSAV: Clarify which window is receiving the WM_INTERRUPTSAVER
+        event from the DataProc Thread.
+        
+    client/win/
+        win_screensaver.cpp, .h
+
+Rom    29 Dec 2006
+    - SCRSAV: Fix build break.
+    - MGR: Refactor the timer management code whithin the advanced frame.
+
+    client/win/
+        win_screensaver.cpp
+    clientgui/
+        AdvancedFrame.cpp, .h
+        BOINCBaseFrame.cpp, .h
+        BOINCBaseView.cpp, .h
+        BOINCDialupManager.cpp, .h
+        ViewStatistics.cpp, .h
+
+Rom    29 Dec 2006
+    - MGR: Make the simple preferences and messages dialogs have their
+        own help handler, apparently when the event bubbles up to the
+        frame the control ID's were being remapped to the frame window
+        ID.
+        
+    clientgui/
+        sg_DlgMessages.cpp, .h
+        sg_DlgPreferences.cpp, .h
+
+Rom    2 Jan 2007
+    - Win SETUP: Incorporate a custom action to migrate CPDNBBC data files to the
+        destination BOINC directory.
+        
+    win_build/installerv2/
+        BOINC.ism
+    win_build/installerv2/redist/Windows/x86/
+        boinccas.dll
+        boinccas95.dll
+
+David  2 Jan 2007
+	- make disk pie charts work on Linux
+		(from Frank Weiler)
+
+	clientgui/
+		wxPieCtrl.cpp
+
+David  4 Jan 2007
+    - change "Preempted" to "Waiting" in GUI ("preempted" is geek-speak)
+
+    clientgui/
+        ViewWork.cpp
+
+Rom    4 Jan 2007
+    - DIAG: Don't check for the BOINC symstore if it is a science application that
+        has crashed.
+        
+    lib/
+        stackwalker_win.cpp
+    
+Kevin  4 Jan 2007
+    - Changed the way the buttons on the simple gui preferences and messages screens are sized
+
+    clientgui/sg_DlgMessages.cpp
+    clientgui/sg_DlgPreferences.cpp
+    
+David   4 Jan 2007
+	- core client: if an app fails to start,
+		it could be that the executable has been munged.
+		So verify the files; this will find the bad file
+		and download it again.
+	- Manager: in Attach to Account Manager wizard, add some text saying
+		if they want to just attach to a single project,
+		use the Attach to Project wizard instead.
+		Some users tried to attach SETI@home using the acct mgr wizard
+		and got all bent outta shape when it didn't work.
+
+	client/
+		app_start.C
+	clientgui/
+		WelcomePage.cpp
+
+Rom    5 Jan 2007
+    - Win SETUP: Add custom actions for saving and restoring user preferences
+        to the registry
+    - Win SETUP: MoveFileEx isn't spported on the Win9x platform, so dynamically
+        load and execute it on Windows 2000 or better.
+    - Win SETUP: Remove some dead code from the custom action list.
+    - Win SETUP: On Windows XP systems or better, we no longer require the
+       service account to have a password, Microsoft has taken care of the
+       problem by not allowing incomming network connections for accounts with
+       no passwords.
+
+    win_build/installerv2/redist/Windows/x86/
+        boinccas.dll
+        boinccas95.dll
+
+Rom    5 Jan 2007
+    - Win SETUP: Fix an issue when restoring saved properties where junk was
+        being introduced into properties where no value was defined.
+    - Win SETUP: Don't attemp to restore any properties until we have actually
+        stored some from a previous iteration of setup, otherwise our defaults
+        don't kick in.
+    - Win SETUP: Saving and Restoring properties is now only enabled for those
+        using the UI deployment method, we don't want to throw anything
+        in the registry when the MSI package is being deployed through AD or
+        some other deployment mechinism.
+
+    win_build/installerv2/redist/Windows/x86/
+        boinccas.dll
+        boinccas95.dll
+
+Rom    5 Jan 2007
+    - Update localization template.
+    
+    locale/en_US/
+        BOINC Manager.mo, .po
+
+Rom    5 Jan 2007
+    - MGR: Replace the context sensitive help button on the main simple gui window
+        with a standard bitmap button and use the bitmaps WCG gave us.
+        
+    clientgui/
+        Events.h
+        sg_DlgMessages.cpp
+        sg_DlgPreferences.cpp
+        sg_ProjectsComponent.cpp, .h
+        SkinManager.cpp, .h
+
+David  5 Jan 2007
+	- improved message when detach from project mgr
+
+	clientgui/
+		WelcomPage.cpp
+
+Rom    5 Jan 2007
+    - MGR: Fix the help handling code for the Mac UI conventions.
+    
+    clientgui/
+        sg_DlgMessages.cpp, .h
+        sg_DlgPreferences.cpp, .h
+
+Charlie 5 Jan 2007
+    - MGR: Fix build breaks.
+    
+    clientgui/
+        sg_DlgMessages.cpp
+        sg_DlgPreferences.cpp
+
+Rom    5 Jan 2007
+    - Tag for 5.8.1 release, all platforms
+      boinc_core_release_5_8_1
+
+David  4 Jan 2007
+    - removed PICFLAGS from AM_CPP_FLAGS.
+        Compiling everything position-independent slows it down.
+
+    Makefile.incl
+
+
+Walt   6 Jan 2007
+    - MGR: Fix segfault in simple gui when message button is clicked.
+        SetBackgroundStyle() needs to be called after the window
+        is created.
+    
+    clientgui/
+        sg_DlgMessages.cpp
+
+David  7 Jan 2007
+    - core client: if swap space is zero, it must not have been
+        measured on this host; don't use it in process scheduling
+
+    client/
+        cpu_sched.C
+
+Rom    7 Jan 2007
+    - DIAG: Clean up some warnings and add a new exception type to the list
+        of known exceptions.
+    
+    lib/
+        diagnostics.C
+        diagnostics_win.C
+
+Rom    8 Jan 2007
+    - Win SETUP: Make Windows XP or better require passwords for the
+        service accounts again.
+    - Win SETUP: Fix a spelling mistake that JM7 found.
+    
+    boinc/win_build/installerv2/redist/Windows/src/boinccas
+        CAGrantServiceExecutionRight.cpp
+        CAVerifyServicePassword.cpp
+
+David  8 Jan 2007
+	- core client: fixed crashing bug that happens when attaching
+		to a project with wrong URL (e.g. setiathome.ssl.berkeley.edu).
+		The fix allows the project to attach but prints a warning.
+		It would be better to not allow the attach;
+		I'll get back to this later
+
+	client/
+		client_types.h
+		cs_scheduler.C
+		scheduler_op.C
+
+Walt   9 Jan 2007
+    - core client: Change function that calculates RAM and SWAP used
+        by a science project to return the max used by a process
+        instead of totaling the process/child processes. Fixes the
+        problem where the same RAM and SWAP used gets counted multiple
+        times for some science apps.
+    
+    lib/
+        procinfo_unix.cpp
+
+David  9 Jan 2007
+	- Manager: get rid of "CPU throttled" messages
+	- Manager: enhancements to Statistics tab
+		(can click on project name in multi-project view)
+		from Mifistor_x
+
+	clientgui/
+		ViewStatistics.cpp,h
+		ViewWork.cpp
+		stdwx.h
+
+David  9 Jan 2007
+	- core: if we're preempting an app and leave it in memory
+		because no checkpoint yet, say so in message
+
+	client/
+		app_control.C
+
+Charlie 9 Jan 2007
+    - MGR: Updates to disk usage pie charts from Frank Weiler.
+    
+    clientgui/
+        ViewResources.cpp
+        common/
+            wxPieCtrl.cpp,h
+
+David  10 Jan 2007
+	- core client: fix problems when user aborts result
+		(mark it as CPU_SCHED_PREEMPTED so scheduler doesn't
+		try to preempt it; that confuses things)
+	- changed format of Deferring Comm messages
+
+	client/
+		app_control.C
+		cs_scheduler.C
+
+David  10 Jan 2007
+	- core client: backwards > in PROJECT::some_download_stalled().
+		This caused the client to keep fetching work
+		from a project with stalled downloads.
+
+	client/
+		client_types.C
+
+David  10 Jan 2007
+    - core client: sort daily stats records in case they get
+        out of order somehow
+
+    client/
+        client_types.h
+        cs_account.C
+
+David  10 Jan 2007
+	- manager: use user-friendly app names
+
+	clientgui/
+		ViewWork.cpp
+
+Rom    10 Jan 2007
+    - SCR: Disable the diagnostic support for release builds of the
+        Windows screensaver. A smarter thing to do in the future is
+        to write the log files to the 'temp' directory.
+        
+    client/win/
+        win_screensaver.cpp
+
+Rom    10 Jan 2007
+    - Tag for 5.8.2 release, all platforms
+      boinc_core_release_5_8_2
+
+Walt   11 Jan 2007
+    - manager: Compile fixes - change wxString(foo) to wxString(foo,wxConvUTF8)
+       and "" to wxEmptyString for Unicode builds in Linux.
+
+    clientgui
+        ViewStatistics.cpp
+
+Rom    11 Jan 2007
+    - MGR: Possible fix for the Simple GUI messages dialog?
+    
+    clientgui/
+        sg_DlgMessages.cpp
+
+David  11 Jan 2007
+    - manager: use user-friendly app names (fix to work w/ 5.4.11)
+
+    clientgui/
+        ViewWork.cpp
+
+Rom    11 Jan 2007
+    - MGR: Fix build break for Unicode support.
+
+      NOTE: The only place in the manager where it is safe to use 'char'
+      variable types for use within a string is in the gui_rpc_* files.
+      
+      Every where else needs to use wxString, otherwise the manager
+      won't build in a unicode based environment.
+      
+    clientgui/
+        ViewWork.cpp
+
+Rom    11 Jan 2007
+    - MGR: Possble fix for the Simple GUI messages dialog?
+    
+    clientgui/
+        sg_DlgMessages.cpp
+
+David  12 Jan 2007
+	- manager: don't prepend "(Activities suspended by user)"
+		to result status.
+		There is no longer a notion of "activities"
+
+	clientgui/
+		ViewWork.cpp
+
+Charlie 12 Jan 2007
+    - MGR: Copy missing source file from HEAD branch for Frank Weiler's pie 
+        charts updates.
+    
+    clientgui/
+        ViewResources.cpp
+
+Rom    13 Jan 2007
+    - MGR: Streamline the message dialog sync operation a little bit.
+
+    clientgui/
+        sg_DlgMessages.cpp
+
+David  15 Jan 2007
+    - core client: lots of debugging messages for cpu_sched (may remove later)
+    - Manager: check for ERR_DB_NOT_UNIQUE, not ERR_NONUNIQUE_EMAIL
+
+    client/
+        cpu_sched.C
+    clientgui/
+        ProjectProcessingPage.cpp
+    lib/
+        common_defs.h
+        error_numbers.h
+        gui_rpc_client_print.C
+        util.C
+
+David  15 Jan 2007
+	- fix Manager text (see above)
+
+	clientgui/
+		ProjectProcessingPage.cpp
+	lib/
+		error_numbers.h
+
+Rom    15 Jan 2007
+    - Update libCurl to 7.16.0 and use sync name resolves instead of async name
+        resolves.
+        
+    curl/
+        <numerious files>
+
+David  15 Jan 2007
+    - core client: fix a bug that could cause computation to stop.
+        The problem: if we suspended a task by sending it a <quit/> message,
+        we were changing its scheduler state to CPU_SCHED_PREEMPTED
+        but not changing its task state (PROCESS_EXECUTING).
+        If, for some reason, the process didn't exit right away,
+        the scheduler would treat it as still running,
+        since it builds its "currently running" list based on task_state.
+        Solution: the scheduler shouldn't be looking at task_state.
+        Use scheduler_state instead.
+        It's still a mystery why the app wasn't quitting.
+
+    client/
+        app.C,h
+        app_control.C
+        cpu_sched.C
+
+Rom    16 Jan 2007
+    - Tag for 5.8.3 release, all platforms
+      boinc_core_release_5_8_3
+
+Rom    16 Jan 2007
+    - MGR: Add the help button to the list of images to update when the
+        user selects a different skin.
+        
+    clientgui/
+        sg_ProjectsComponent.cpp
+
+Charlie 16 Jan 2007
+    Mac: Fix build script for Curl 7.15.5 (should have been done 
+        3 months ago.)
+        
+    mac_build/
+        setupForBOINC.sh
+
+David  17 Jan 2007
+    - manager: show correct app name when connected to 5.4.11 client
+
+    clientgui/
+        ViewWork.cpp
+        sg_ViewTabPage.cpp
+
+David  17 Jan 2007
+	- core client: reset 5-minute timer for network activity
+		is user explicitly changes network mode
+	- Manager: initial checkin of Advanced Prefs dialog
+		(from Frank Weiler)
+
+	client/
+		gui_rpc_server_ops.C
+
+David  17 Jan 2007
+    - don't start benchmarks if they're already running
+
+    client/
+        cs_benchmark.C
+
+David  17 Jan 2007
+	- core client: if starting a file xfer, and file
+		is already as large or larger than it should be,
+		start transfer from the beginning.
+		This fixes some pathological cases found by Rattledagger.
+
+	client/
+		file_xfer.C
+
+David  18 Jan 2007
+    - core client: don't garbage-collect a RESULT if an ACTIVE_TASK for it
+        still exists.  In principle this shouldn't happen, but maybe it is.
+    - limit duration correction factor to the range 0.01 .. 100
+
+    client/
+        client_state.C
+        client_types.C
+        cs_scheduler.C
+
+Eric K 18 Jan 2007
+    - mem_usage.C Bug fix:  procfs access cannot use 64 bit files under solaris
+    - Added solaris application working set calculation
+    - Fixed problem on solaris when _FILE_OFFSET_BITS was set before testing
+      for procfs.h
+    - Removed assumption of 4k pages in procinfo_unix.C
+
+    lib/
+      procinfo_unix.C
+      mem_usage.C
+    configure.ac
+
+Rom    19 Jan 2007
+    - MGR: Make sure the result records have been updated before
+        displaying the taskbar balloon.
+        
+    clientgui/
+        BOINCTaskBar.cpp
+
+David  19 Jan 2007
+    - lib: change retry logic for file system ops
+        so that it does does at least 5 retries
+        AND takes at least 5 seconds.
+
+    lib/
+        filesys.C
+
+David  19 Jan 2007
+	- core client: if resuming a persistent file xfer,
+		don't print error messages if file has wrong
+		size/checksum/signature.
+		That's a normal condition is a file xfer was interrupted.
+
+	client/
+		client_types.C,h
+		cs_apps.C
+		cs_files.C
+		pers_file_xfer.C
+
+Rom    19 Jan 2007
+    - MGR: If the manager detects that the CC has crashed, and it was the one
+        who started the CC to begin with, restart the CC after 30 seconds.
+    - MGR: Cleanup some of the taskbar interactions where both the tooltip and
+        balloon were being displayed on Windows. Only one should be shown.
+    - MGR: Allow arguments to be passed to the CC from the manager's parameter
+        list. /b "..." or /boincargs "..." should work.
+        
+    clientgui/
+        AdvancedFrame.cpp
+        BOINCBaseFrame.cpp
+        BOINCGUIApp.cpp, .h
+        BOINCTaskBar.cpp
+        MainDocument.cpp
+
+Rom    21 Jan 2007
+    - DIAG: Fix an uninitialized string issue that cropped up after removing the
+        forground window information from the diagnostic output.
+    
+    lib/
+        diagnostics_win.C
+
+Walt   21 Jan 2007
+    - MGR: take Close() function call out of #if/#endif block so the manager
+       exits when the 'exit' menu item is selected.
+        
+    clientgui/
+        BOINCBaseFrame.cpp
+
+Rom    21 Jan 2007
+    - Tag for 5.8.4 release, all platforms
+      boinc_core_release_5_8_4
+

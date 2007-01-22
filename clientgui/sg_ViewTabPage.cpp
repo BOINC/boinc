@@ -29,7 +29,7 @@
 #include "parse.h"
 #include "error_numbers.h"
 #include "common/wxFlatNotebook.h"
-#include "common/wxAnimate.h"
+//#include "common/wxAnimate.h"
 #include "BOINCGUIApp.h"
 #include "SkinManager.h"
 #include "MainDocument.h"
@@ -108,7 +108,11 @@ void CViewTabPage::CreatePage()
 	resState = pDoc->state.lookup_result(resultWU->project_url, resultWU->name);
 	if(resState){
 		projName = wxString(resState->project->project_name.c_str(), wxConvUTF8 );
-		projectFrName = wxString(resState->app->user_friendly_name.c_str(), wxConvUTF8);
+        if (resState->app->user_friendly_name.size()) {
+            projectFrName = wxString(resState->app->user_friendly_name.c_str(), wxConvUTF8);
+        } else {
+            projectFrName = wxString(resState->wup->avp->app_name.c_str(), wxConvUTF8);
+        }
 	} else {
 		projName = wxString("Not Available", wxConvUTF8 );
 		projectFrName = wxString("Not Available", wxConvUTF8);
@@ -189,7 +193,7 @@ void CViewTabPage::LoadSlideShow(std::vector<wxBitmap> *vSlideShow) {
 		sprintf(file, "%s/slideshow_%s_%02d", urlDirectory, result->app->name.c_str(), i);
 		if(boinc_resolve_filename(file, resolvedFile, sizeof(resolvedFile)) == 0){
 			btmpSlideShow = new wxBitmap();
-			if ( btmpSlideShow->LoadFile(resolvedFile, wxBITMAP_TYPE_ANY) ) {
+			if ( btmpSlideShow->LoadFile(wxString(resolvedFile,wxConvUTF8), wxBITMAP_TYPE_ANY) ) {
 				if (btmpSlideShow->Ok() ) {
 					vSlideShow->push_back(*btmpSlideShow);
 				}
@@ -204,7 +208,7 @@ void CViewTabPage::LoadSlideShow(std::vector<wxBitmap> *vSlideShow) {
 			sprintf(file, "%s/slideshow_%02d", urlDirectory, i);
 			if(boinc_resolve_filename(file, resolvedFile, sizeof(resolvedFile)) == 0){
 				btmpSlideShow = new wxBitmap();
-				if ( btmpSlideShow->LoadFile(resolvedFile, wxBITMAP_TYPE_ANY) ) {
+				if ( btmpSlideShow->LoadFile(wxString(resolvedFile,wxConvUTF8), wxBITMAP_TYPE_ANY) ) {
 					if (btmpSlideShow->Ok() ) {
 						vSlideShow->push_back(*btmpSlideShow);
 					}

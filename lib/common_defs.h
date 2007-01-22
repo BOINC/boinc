@@ -34,6 +34,8 @@
     // restore permanent mode - used only in set_X_mode() GUI RPC
 
 // values of ACTIVE_TASK::scheduler_state and ACTIVE_TASK::next_scheduler_state
+// "SCHEDULED" is synonymous with "executing" except when CPU throttling
+// is in use.
 #define CPU_SCHED_UNINITIALIZED   0
 #define CPU_SCHED_PREEMPTED       1
 #define CPU_SCHED_SCHEDULED       2
@@ -146,5 +148,14 @@ struct VERSION_INFO {
     void write(MIOFILE&); 
     bool greater_than(VERSION_INFO&);
 };
+
+#ifdef _WIN32
+#define RUN_MUTEX           "BoincSingleInstance"
+#define REG_BLANK_NAME      "Blank"
+#define REG_BLANK_TIME      "Blank Time"
+#define REG_STARTUP_NAME    "BOINC"
+#else
+#define LOCK_FILE_NAME              "lockfile"
+#endif
 
 #endif

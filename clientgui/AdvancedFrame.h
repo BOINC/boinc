@@ -61,6 +61,8 @@ public:
     void OnRunBenchmarks( wxCommandEvent& event );
     void OnSelectComputer( wxCommandEvent& event );
     void OnSwitchGUI( wxCommandEvent& event );
+    void Onread_prefs( wxCommandEvent& event );
+    void Onread_config( wxCommandEvent& event );
 
     void OnCommandsRetryCommunications( wxCommandEvent& event );
 
@@ -89,10 +91,6 @@ public:
     void OnUpdateStatus( CFrameEvent& event );
 
     void ResetReminderTimers();
-
-    void SetFrameListPanelRenderTimerRate();  // TODO: refactor out of the frame and put the
-                                              //   relevent code in OnPageChanged function
-                                              //   and the base/statistics view.
 
     wxTimer*        m_pRefreshStateTimer;
     wxTimer*        m_pFrameRenderTimer;
@@ -125,6 +123,16 @@ private:
 
     void            UpdateActivityModeControls( CC_STATUS& status );
     void            UpdateNetworkModeControls( CC_STATUS& status );
+
+    void            StartTimers();
+    void            StopTimers();
+
+#ifdef __WXMAC__
+protected:
+
+    wxAcceleratorEntry  m_Shortcuts[1];     // For HELP keyboard shortcut
+    wxAcceleratorTable* m_pAccelTable;
+#endif
 
     DECLARE_EVENT_TABLE()
 };

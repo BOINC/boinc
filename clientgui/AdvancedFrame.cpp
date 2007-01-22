@@ -159,6 +159,8 @@ BEGIN_EVENT_TABLE (CAdvancedFrame, CBOINCBaseFrame)
     EVT_MENU(ID_FILERUNBENCHMARKS, CAdvancedFrame::OnRunBenchmarks)
     EVT_MENU(ID_FILESELECTCOMPUTER, CAdvancedFrame::OnSelectComputer)
     EVT_MENU(ID_FILESWITCHGUI, CAdvancedFrame::OnSwitchGUI)
+	EVT_MENU(ID_READ_PREFS, CAdvancedFrame::Onread_prefs)
+	EVT_MENU(ID_READ_CONFIG, CAdvancedFrame::Onread_config)
     EVT_MENU(wxID_EXIT, CAdvancedFrame::OnExit)
     EVT_MENU_RANGE(ID_FILEACTIVITYRUNALWAYS, ID_FILEACTIVITYSUSPEND, CAdvancedFrame::OnActivitySelection)
     EVT_MENU_RANGE(ID_FILENETWORKRUNALWAYS, ID_FILENETWORKSUSPEND, CAdvancedFrame::OnNetworkSelection)
@@ -317,7 +319,6 @@ bool CAdvancedFrame::CreateMenu() {
         strMenuDescription
     );
 
-#ifdef SIMPLEGUI
     // View menu
     wxMenu *menuView = new wxMenu;
 
@@ -326,7 +327,6 @@ bool CAdvancedFrame::CreateMenu() {
         _("&Simple View"),
         _("Display the simple BOINC graphical interface.")
     );
-#endif
 
     // Tools menu
     wxMenu *menuTools = new wxMenu;
@@ -334,12 +334,12 @@ bool CAdvancedFrame::CreateMenu() {
     if (!is_acct_mgr_detected) {
         menuTools->Append(
             ID_PROJECTSATTACHPROJECT, 
-            _("Attach to &project"),
+            _("Attach to &project..."),
             _("Attach to a project")
         );
         menuTools->Append(
             ID_PROJECTSATTACHACCOUNTMANAGER, 
-            _("Attach to &account manager"),
+            _("Attach to &account manager..."),
             _("Attach to an account manager")
         );
     } else {
@@ -408,9 +408,10 @@ bool CAdvancedFrame::CreateMenu() {
     wxMenu *menuAdvanced = new wxMenu;
     menuAdvanced->Append(
         ID_OPTIONSOPTIONS, 
-        _("&Options"),
+        _("&Options..."),
         _("Configure GUI options and proxy settings")
     );
+
     // %s is the project name
     //    i.e. 'BOINC', 'GridRepublic'
     strMenuDescription.Printf(
@@ -432,6 +433,16 @@ bool CAdvancedFrame::CreateMenu() {
         _("Retry &communications"),
         _("Report completed work, get latest credit, "
           "get latest preferences, and possibly get more work.")
+    );
+    menuAdvanced->Append(
+        ID_READ_CONFIG, 
+        _("Read config file"),
+        _("Read configuration info from cc-config.xml.")
+    );
+    menuAdvanced->Append(
+        ID_READ_PREFS, 
+        _("Read local prefs file"),
+        _("Read preferences from global_prefs_override.xml.")
     );
     if (is_acct_mgr_detected) {
         strMenuName.Printf(
@@ -490,7 +501,9 @@ bool CAdvancedFrame::CreateMenu() {
         strMenuDescription
     );
 
+#ifndef __WXMAC__
     menuHelp->AppendSeparator();
+#endif
 
     // %s is the project name
     //    i.e. 'BOINC Manager', 'GridRepublic Manager'
@@ -510,12 +523,10 @@ bool CAdvancedFrame::CreateMenu() {
         menuFile,
         _("&File")
     );
-#ifdef SIMPLEGUI
     m_pMenubar->Append(
         menuView,
         _("&View")
     );
-#endif
     m_pMenubar->Append(
         menuTools,
         _("&Tools")
@@ -549,6 +560,11 @@ bool CAdvancedFrame::CreateMenu() {
     // Hide Mac OS X's standard Preferences menu item, since we don't use it
     if (GetIndMenuItemWithCommandID(NULL, kHICommandPreferences, 1, &prefsMenuRef, &prefsMenuItemIndex) == noErr)
         ChangeMenuItemAttributes(prefsMenuRef, prefsMenuItemIndex, kMenuItemAttrHidden, 0);
+    
+    // Set HELP key as keyboard shortcut
+    m_Shortcuts[0].Set(wxACCEL_NORMAL, WXK_HELP, ID_HELPBOINCMANAGER);
+    m_pAccelTable = new wxAcceleratorTable(1, m_Shortcuts);
+    SetAcceleratorTable(*m_pAccelTable);
  #endif
 
     wxLogTrace(wxT("Function Start/End"), wxT("CAdvancedFrame::CreateMenu - Function End"));
@@ -1031,13 +1047,20 @@ void CAdvancedFrame::OnSelectComputer(wxCommandEvent& WXUNUSED(event)) {
     wxLogTrace(wxT("Function Start/End"), wxT("CAdvancedFrame::OnSelectComputer - Function End"));
 }
 
+void CAdvancedFrame::Onread_prefs(wxCommandEvent& WXUNUSED(event)) {
+	CMainDocument* pDoc = wxGetApp().GetDocument();
+	pDoc->rpc.read_global_prefs_override();
+}
+
+void CAdvancedFrame::Onread_config(wxCommandEvent& WXUNUSED(event)) {
+	CMainDocument* pDoc = wxGetApp().GetDocument();
+	pDoc->rpc.read_cc_config();
+}
 
 void CAdvancedFrame::OnSwitchGUI(wxCommandEvent& WXUNUSED(event)) {
     wxLogTrace(wxT("Function Start/End"), wxT("CAdvancedFrame::OnSwitchGUI - Function Begin"));
 
-#ifdef SIMPLEGUI
     wxGetApp().SetActiveGUI(BOINC_SIMPLEGUI, true);
-#endif
 
     wxLogTrace(wxT("Function Start/End"), wxT("CAdvancedFrame::OnSwitchGUI - Function End"));
 }
@@ -1055,10 +1078,8 @@ void CAdvancedFrame::OnProjectsAttachToAccountManager(wxCommandEvent& WXUNUSED(e
         return;
 
     if (pDoc->IsConnected()) {
-        m_pRefreshStateTimer->Stop();
-        m_pFrameRenderTimer->Stop();
-        m_pFrameListPanelRenderTimer->Stop();
-        m_pDocumentPollTimer->Stop();
+        // Stop all timers so that the wizard is the only thing doing anything
+        StopTimers();
 
         CWizardAccountManager* pWizard = new CWizardAccountManager(this);
 
@@ -1071,10 +1092,8 @@ void CAdvancedFrame::OnProjectsAttachToAccountManager(wxCommandEvent& WXUNUSED(e
         CreateMenu();
         FireRefreshView();
 
-        m_pRefreshStateTimer->Start();
-        m_pFrameRenderTimer->Start();
-        m_pFrameListPanelRenderTimer->Start();
-        m_pDocumentPollTimer->Start();
+        // Restart timers to continue normal operations.
+        StartTimers();
     } else {
         ShowNotCurrentlyConnectedAlert();
     }
@@ -1095,10 +1114,8 @@ void CAdvancedFrame::OnAccountManagerUpdate(wxCommandEvent& WXUNUSED(event)) {
         return;
 
     if (pDoc->IsConnected()) {
-        m_pRefreshStateTimer->Stop();
-        m_pFrameRenderTimer->Stop();
-        m_pFrameListPanelRenderTimer->Stop();
-        m_pDocumentPollTimer->Stop();
+        // Stop all timers so that the wizard is the only thing doing anything
+        StopTimers();
 
         CWizardAccountManager* pWizard = new CWizardAccountManager(this);
 
@@ -1112,10 +1129,8 @@ void CAdvancedFrame::OnAccountManagerUpdate(wxCommandEvent& WXUNUSED(event)) {
         FireRefreshView();
         ResetReminderTimers();
 
-        m_pRefreshStateTimer->Start();
-        m_pFrameRenderTimer->Start();
-        m_pFrameListPanelRenderTimer->Start();
-        m_pDocumentPollTimer->Start();
+        // Restart timers to continue normal operations.
+        StartTimers();
     } else {
         ShowNotCurrentlyConnectedAlert();
     }
@@ -1200,10 +1215,8 @@ void CAdvancedFrame::OnProjectsAttachToProject( wxCommandEvent& WXUNUSED(event) 
     if (pDoc->IsConnected()) {
         UpdateStatusText(_("Attaching to project..."));
 
-        m_pRefreshStateTimer->Stop();
-        m_pFrameRenderTimer->Stop();
-        m_pFrameListPanelRenderTimer->Stop();
-        m_pDocumentPollTimer->Stop();
+        // Stop all timers so that the wizard is the only thing doing anything
+        StopTimers();
 
         CWizardAttachProject* pWizard = new CWizardAttachProject(this);
 
@@ -1217,10 +1230,8 @@ void CAdvancedFrame::OnProjectsAttachToProject( wxCommandEvent& WXUNUSED(event) 
         DeleteMenu();
         CreateMenu();
 
-        m_pRefreshStateTimer->Start();
-        m_pFrameRenderTimer->Start();
-        m_pFrameListPanelRenderTimer->Start();
-        m_pDocumentPollTimer->Start();
+        // Restart timers to continue normal operations.
+        StartTimers();
 
         UpdateStatusText(wxT(""));
 
@@ -1383,7 +1394,8 @@ void CAdvancedFrame::OnHelp(wxHelpEvent& event) {
     wxLogTrace(wxT("Function Start/End"), wxT("CAdvancedFrame::OnHelpBOINCManager - Function Begin"));
 
     if (IsShown()) {
-		std::string url = wxGetApp().GetSkinManager()->GetAdvanced()->GetCompanyWebsite().c_str();
+		std::string url;
+		url = wxGetApp().GetSkinManager()->GetAdvanced()->GetCompanyWebsite().mb_str();
 		canonicalize_master_url(url);
 
 		wxString wxurl;
@@ -1399,10 +1411,12 @@ void CAdvancedFrame::OnHelpBOINCManager(wxCommandEvent& WXUNUSED(event)) {
     wxLogTrace(wxT("Function Start/End"), wxT("CAdvancedFrame::OnHelpBOINCManager - Function Begin"));
 
     if (IsShown()) {
-		std::string url = wxGetApp().GetSkinManager()->GetAdvanced()->GetCompanyWebsite().c_str();
+		std::string url;
+		url = wxGetApp().GetSkinManager()->GetAdvanced()->GetCompanyWebsite().mb_str();
 		canonicalize_master_url(url);
 
-		wxString wxurl = url.c_str();
+		wxString wxurl;
+		wxurl = wxString(url.c_str(), wxConvUTF8);
 		wxurl += wxT("manager_links.php?target=advanced");
 		ExecuteBrowserLink(wxurl);
     }
@@ -1415,7 +1429,7 @@ void CAdvancedFrame::OnHelpBOINCWebsite(wxCommandEvent& WXUNUSED(event)) {
     wxLogTrace(wxT("Function Start/End"), wxT("CAdvancedFrame::OnHelpBOINCWebsite - Function Begin"));
 
     if (IsShown()) {
-        wxString url = wxGetApp().GetSkinManager()->GetAdvanced()->GetCompanyWebsite().c_str();
+        wxString url = wxGetApp().GetSkinManager()->GetAdvanced()->GetCompanyWebsite();
         ExecuteBrowserLink(url);
     }
 
@@ -1509,11 +1523,8 @@ void CAdvancedFrame::OnConnect(CFrameEvent& WXUNUSED(event)) {
     DeleteMenu();
     CreateMenu();
 
-    // Only present one of the wizards if no projects are currently
-    //   detected.
-    m_pRefreshStateTimer->Stop();
-    m_pFrameRenderTimer->Stop();
-    m_pFrameListPanelRenderTimer->Stop();
+    // Stop all timers so that the wizard is the only thing doing anything
+    StopTimers();
 
 
     // If we are connected to the localhost, run a really quick screensaver
@@ -1584,9 +1595,9 @@ void CAdvancedFrame::OnConnect(CFrameEvent& WXUNUSED(event)) {
         }
     }
 
-    m_pRefreshStateTimer->Start();
-    m_pFrameRenderTimer->Start();
-    m_pFrameListPanelRenderTimer->Start();
+
+    // Restart timers to continue normal operations.
+    StartTimers();
 
     if (pAMWizard)
         pAMWizard->Destroy();
@@ -1633,7 +1644,7 @@ void CAdvancedFrame::OnFrameRender(wxTimerEvent &event) {
 
     CMainDocument*    pDoc = wxGetApp().GetDocument();
 
-    if (!bAlreadyRunningLoop) {
+    if (!bAlreadyRunningLoop && m_pFrameRenderTimer->IsRunning()) {
         bAlreadyRunningLoop = true;
 
         if (IsShown()) {
@@ -1661,15 +1672,14 @@ void CAdvancedFrame::OnFrameRender(wxTimerEvent &event) {
                     wxString strTitle = m_strBaseTitle;
                     wxString strLocale = wxString(setlocale(LC_NUMERIC, NULL), wxConvUTF8);
      
-                    if (pDoc->IsReconnecting())
+                    if (pDoc->IsReconnecting()) {
                         pDoc->GetConnectingComputerName(strComputerName);
-                    else
+                    } else {
                         pDoc->GetConnectedComputerName(strComputerName);
+                    }
 
                     if (pDoc->IsComputerNameLocal(strComputerName)) {
-                        strTitle += wxT(" - (localhost)");
-                    } else {
-                        strStatusText += strComputerName;
+                        strComputerName = wxT("localhost");
                     }
 
                     if (pDoc->IsReconnecting()) {
@@ -1708,9 +1718,8 @@ void CAdvancedFrame::OnFrameRender(wxTimerEvent &event) {
 }
 
 
-void CAdvancedFrame::OnListPanelRender(wxTimerEvent&) {
+void CAdvancedFrame::OnListPanelRender(wxTimerEvent& WXUNUSED(event)) {
     FireRefreshView();
-    SetFrameListPanelRenderTimerRate();   // Set to refresh every 5 or 60 seconds
 }
 
 
@@ -1720,7 +1729,8 @@ void CAdvancedFrame::OnNotebookSelectionChanged(wxNotebookEvent& event) {
     if ((-1 != event.GetSelection()) && IsShown()) {
         wxWindow*       pwndNotebookPage = NULL;
         CBOINCBaseView* pView = NULL;
-        wxTimerEvent    timerEvent;
+        CMainDocument*  pDoc = wxGetApp().GetDocument();
+
 
         wxASSERT(m_pNotebook);
 
@@ -1730,9 +1740,25 @@ void CAdvancedFrame::OnNotebookSelectionChanged(wxNotebookEvent& event) {
         pView = wxDynamicCast(pwndNotebookPage, CBOINCBaseView);
         wxASSERT(pView);
 
-        FireRefreshView();
+        if (m_pFrameListPanelRenderTimer->IsRunning()) {
+            m_pFrameListPanelRenderTimer->Stop();
 
-        SetFrameListPanelRenderTimerRate();
+            // View specific refresh rates only apply when a connection to the core
+            //   client has been established, otherwise the refresh rate should be 1
+            //   second.
+            if (pDoc) {
+                wxASSERT(wxDynamicCast(pDoc, CMainDocument));
+                if (pDoc->IsConnected()) {
+                    // Set new view specific refresh rate
+                    m_pFrameListPanelRenderTimer->Start(pView->GetViewRefreshRate() * 1000); 
+                } else {
+                    // Set view refresh rate to 1 second
+                    m_pFrameListPanelRenderTimer->Start(1000); 
+                }
+            }
+        }
+
+        FireRefreshView();
     }
 
     event.Skip();
@@ -1748,51 +1774,6 @@ void CAdvancedFrame::ResetReminderTimers() {
 
     m_pDialupManager->ResetReminderTimers();
 #endif
-}
-
-
-void CAdvancedFrame::SetFrameListPanelRenderTimerRate() {
-    static wxWindowID   previousPane = -1;
-    static int          connectedCount = 0;
-    wxWindowID          currentPane;
-
-    CMainDocument*      pDoc = wxGetApp().GetDocument();
-   
-    wxASSERT(m_pNotebook);
-    wxASSERT(m_pFrameListPanelRenderTimer);
-    wxASSERT(pDoc);
-    wxASSERT(wxDynamicCast(pDoc, CMainDocument));
-
-    // Keep timer at faster rate until we have been connected > 10 seconds
-    if (!pDoc->IsConnected())
-        connectedCount = 0;
-        
-    if (connectedCount < 3) {
-        connectedCount++;
-        previousPane = -1;  // Ensure an update when connectedCount reaches 3
-        
-        if (m_pFrameListPanelRenderTimer->IsRunning())
-            m_pFrameListPanelRenderTimer->Stop();
-        m_pFrameListPanelRenderTimer->Start(1000);  // Refresh every 1 seconds
-        return;
-    }
-    
-    currentPane = m_pNotebook->GetSelection() + ID_TASK_BASE;
-    if (currentPane == previousPane) 
-        return;
-        
-    previousPane = currentPane;
-    if (m_pFrameListPanelRenderTimer->IsRunning())
-        m_pFrameListPanelRenderTimer->Stop();
-
-    switch (currentPane) {
-    case ID_TASK_STATISTICSVIEW: 
-        m_pFrameListPanelRenderTimer->Start(60000); // Refresh every 1 minute
-        break;
-    default:
-        m_pFrameListPanelRenderTimer->Start(1000);  // Refresh every 1 seconds
-        break;
-    }
 }
 
 
@@ -1847,6 +1828,28 @@ void CAdvancedFrame::UpdateNetworkModeControls( CC_STATUS& status ) {
         pMenuBar->Check(ID_FILENETWORKSUSPEND, true);
     if (RUN_MODE_AUTO == status.network_mode)
         pMenuBar->Check(ID_FILENETWORKRUNBASEDONPREPERENCES, true);
+}
+
+
+void CAdvancedFrame::StartTimers() {
+    wxASSERT(m_pRefreshStateTimer);
+    wxASSERT(m_pFrameRenderTimer);
+    wxASSERT(m_pFrameListPanelRenderTimer);
+    CBOINCBaseFrame::StartTimers();
+    m_pRefreshStateTimer->Start();
+    m_pFrameRenderTimer->Start();
+    m_pFrameListPanelRenderTimer->Start();
+}
+
+
+void CAdvancedFrame::StopTimers() {
+    wxASSERT(m_pRefreshStateTimer);
+    wxASSERT(m_pFrameRenderTimer);
+    wxASSERT(m_pFrameListPanelRenderTimer);
+    CBOINCBaseFrame::StopTimers();
+    m_pRefreshStateTimer->Stop();
+    m_pFrameRenderTimer->Stop();
+    m_pFrameListPanelRenderTimer->Stop();
 }
 
 
