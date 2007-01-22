@@ -938,6 +938,10 @@ Rom    22 Jan 2007
     - CC: Merge CPU capability, generation, and model information into the p_model
         field of HOST_INFO per David's instructions.
         
+        NOTE: The finished product should look like this:
+        "Intel(R) Xeon(TM) CPU 3.06GHz [x86 Family 15 Model 2 Stepping 7] [fpu tsc "
+        "sse sse2 mmx]"
+        
     client/win/
         hostinfo_win.cpp
     lib/
