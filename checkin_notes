@@ -946,3 +946,12 @@ Rom    22 Jan 2007
         hostinfo_win.cpp
     lib/
         hostinfo.C,.h
+
+Matt	22 Jan 2007
+    - initial db changes for special "developer blog" pages
+      (adding "is_dev_blog" to forum table)
+
+    db/
+        schema.sql
+    html/ops
+        db_update.php

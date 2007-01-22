@@ -344,6 +344,7 @@ create table forum (
     post_min_interval   integer not null,
     post_min_expavg_credit integer not null,
     post_min_total_credit integer not null,
+    is_dev_blog	        tinyint not null default 0,
     primary key (id)
 ) type=InnoDB;
 

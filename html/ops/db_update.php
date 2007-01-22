@@ -346,6 +346,11 @@ function update_11_10_2006() {
     do_query("ALTER TABLE thread ADD locked TINYINT NOT NULL DEFAULT 0");
 }
 
+function update_12_22_2007() {
+    do_query("ALTER TABLE forum ADD is_dev_blog TINYINT NOT NULL DEFAULT 0");
+}
+
+
 //update_11_10_2006();
 
 ?>
