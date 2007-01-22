@@ -18,6 +18,18 @@ check_banished($logged_in_user);
 $forumid = get_int("id");
 $forum = new Forum($forumid);
 
+
+if ($forum->isDevBlog()){
+    if (
+       (!$logged_in_user->isSpecialUser(S_SCIENTIST)) &&
+       (!$logged_in_user->isSpecialUser(S_DEV)) &&
+       (!$logged_in_user->isSpecialUser(S_ADMIN))
+       ) {
+         // Since this is a devBlog only people at the project can start threads here.
+         error_page("This forum is marked as a development blog, only people directly working with the project may start a new thread here. <br/>However, you may post a reply to an existing thread.");
+    }
+}
+
 if (!$logged_in_user->isSpecialUser(S_MODERATOR) && ($logged_in_user->getTotalCredit()<$forum->getPostMinTotalCredit() || $logged_in_user->getExpavgCredit()<$forum->getPostMinExpavgCredit())) {
     //If user haven't got enough credit (according to forum regulations)
     //We do not tell the (ab)user how much this is - no need to make it easy for them to break the system.

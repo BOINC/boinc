@@ -956,6 +956,15 @@ Matt	22 Jan 2007
     html/ops
         db_update.php
 
+Matt	22 Jan 2007
+    - remaining development of dev blog stuff
+
+    html/
+       inc/
+          forum_forum.inc
+       user/
+          forum_post.inc
+
 David  22 Jan 2007
     - API: use boinc_fopen() instead of fopen() in
         string variant of boinc_resolve_filename()

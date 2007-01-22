@@ -75,6 +75,9 @@ class Forum {
     function getCategory(){
         return new Category($this->dbObj->category);
     }
+    function isDevBlog(){
+       return $this->dbObj->is_dev_blog;
+    }
     
     /**
      * Increase the post count for the forum (default by one)
