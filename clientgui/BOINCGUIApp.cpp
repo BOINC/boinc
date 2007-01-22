@@ -147,6 +147,12 @@ bool CBOINCGUIApp::OnInit() {
 
 #ifdef __WXMAC__
 
+#if wxCHECK_VERSION(2,8,0)
+// Default wxListCtrl in wxMac-2.8.0 uses DataBrowser and has buggy logic 
+// in wxListCtrl::SetColumn(), so use traditional generic implementation.
+    wxSystemOptions::SetOption(wxT("mac.listctrl.always_use_generic"), 1);
+#endif
+
     wxString strDirectory = wxEmptyString;
     bool success;
 
