@@ -27,14 +27,33 @@
  *  MacGUI.pch
  *  BOINCManager precompiled headers file for Mac
  */
+
+// To use the Development (Debug) build of wxMac (allows stepping into wxMac 
+//   source code, enables debug, trace, Asserts, etc.):
+// (1) Set USE_DEBUG_WXMAC to 0
+// (2) Select Development build configuration
+// (3) Select mgr_boinc target
+// (4) In Xcode's View menu, set "Groups & Files Column > Target Membership" on
+// (5) In the XCode project's Groups and Files column:
+//      uncheck "External Frameworks and Libraries/libwx_mac_static.a"
+// (6) In the XCode project's Groups and Files column:
+//      check "External Frameworks and Libraries/wxMac-BOINC.xcodeproj/libwx_mac_static.a"
+//
+// This will have no effect on the BOINC Manager Deployment build, which will still 
+//  use the wxMac Deployment build.
+//
+// To use the wxMac Deployment build even in BOINC Manager Development builds, reverse 
+// the above steps (setting USE_DEBUG_WXMAC to 0, etc.)
+
+#define USE_DEBUG_WXMAC 0
  
 #define WX_PRECOMP
 
 #define HAVE_SSIZE_T
 
-#ifdef _DEBUG
+#if (defined(_DEBUG) && (! USE_DEBUG_WXMAC))
 
-#undef _DEBUG       // so we don't have to link wih debug Wx libs
+#undef _DEBUG       // so we can link with Deployment Wx libs
 #undef __WXDEBUG__
 
 #include "stdwx.h"
@@ -42,11 +61,11 @@
 #define  _DEBUG     // Redefine _DEBUG for the rest of the code
 #define __WXDEBUG__
 
-#else   // _DEBUG
+#else   // ! (defined(_DEBUG) && (! USE_DEBUG_WXMAC))
 
 #include "stdwx.h"
 
-#endif  // ! _DEBUG
+#endif  // ! (defined(_DEBUG) && (! USE_DEBUG_WXMAC))
 
 #include "config.h"
 

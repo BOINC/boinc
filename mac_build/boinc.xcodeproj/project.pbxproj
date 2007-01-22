@@ -211,7 +211,7 @@
 		DDA12A6D0A36974600FBDD12 /* Security.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DD1929D80918A2F100C31BCF /* Security.framework */; };
 		DDA12AA20A369B5500FBDD12 /* SetupSecurity.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DD7748B40A356D6C0025D05E /* SetupSecurity.cpp */; };
 		DDA12AAE0A369C5800FBDD12 /* SecurityUtility.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DDA12AAD0A369C5800FBDD12 /* SecurityUtility.cpp */; };
-		DDA8F6F20B5E3D61004800EF /* libwx_mac_static.a in Frameworks */ = {isa = PBXBuildFile; fileRef = DDA8F6F10B5E3D61004800EF /* libwx_mac_static.a */; };
+		DDA90F540B646C91008F2E87 /* libwx_mac_static.a in Frameworks */ = {isa = PBXBuildFile; fileRef = DDA90F260B64673D008F2E87 /* libwx_mac_static.a */; };
 		DDAEC9FF07FA5A5C00A7BC36 /* SetVersion.C in Sources */ = {isa = PBXBuildFile; fileRef = DDAEC9E707FA58A000A7BC36 /* SetVersion.C */; };
 		DDB693500ABFE9C600689FD8 /* procinfo_mac.C in Sources */ = {isa = PBXBuildFile; fileRef = DDB6934F0ABFE9C600689FD8 /* procinfo_mac.C */; };
 		DDCDCDF40B532433009BB03C /* ViewMessagesGrid.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DDCDCDF00B532433009BB03C /* ViewMessagesGrid.cpp */; };
@@ -704,6 +704,20 @@
 			remoteGlobalIDString = DD7748970A356C880025D05E;
 			remoteInfo = SetUpSecurity;
 		};
+		DDA90E980B646172008F2E87 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = DDA90E8F0B646172008F2E87 /* wxMac-BOINC.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = 4086C8CB063AB30000D4CD53;
+			remoteInfo = static;
+		};
+		DDA90E9A0B646172008F2E87 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = DDA90E8F0B646172008F2E87 /* wxMac-BOINC.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = 4086CBE1063AB30000D4CD53;
+			remoteInfo = dynamic;
+		};
 		DDAD19CC09090824004E7DD0 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = 20286C28FDCF999611CA2CEA /* Project object */;
@@ -1029,7 +1043,8 @@
 		DD9C94A30A5A3A4100AB0D10 /* BOINCBaseFrame.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = BOINCBaseFrame.h; path = ../clientgui/BOINCBaseFrame.h; sourceTree = SOURCE_ROOT; };
 		DDA12A910A369AB500FBDD12 /* SetupSecurity.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = SetupSecurity.h; path = ../clientgui/mac/SetupSecurity.h; sourceTree = SOURCE_ROOT; };
 		DDA12AAD0A369C5800FBDD12 /* SecurityUtility.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = SecurityUtility.cpp; path = ../clientgui/mac/SecurityUtility.cpp; sourceTree = SOURCE_ROOT; };
-		DDA8F6F10B5E3D61004800EF /* libwx_mac_static.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libwx_mac_static.a; path = "../../wxMac-2.8.0/src/build/Deployment/libwx_mac_static.a"; sourceTree = SOURCE_ROOT; };
+		DDA90E8F0B646172008F2E87 /* wxMac-BOINC.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = "wxMac-BOINC.xcodeproj"; path = "../../wxMac-2.8.0/src/wxMac-BOINC.xcodeproj"; sourceTree = SOURCE_ROOT; };
+		DDA90F260B64673D008F2E87 /* libwx_mac_static.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libwx_mac_static.a; path = "../../wxMac-2.8.0/src/build/Deployment/libwx_mac_static.a"; sourceTree = SOURCE_ROOT; };
 		DDA9D3BB09189A8C0060E7A7 /* Mac_GUI.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = Mac_GUI.cpp; path = ../clientgui/mac/Mac_GUI.cpp; sourceTree = SOURCE_ROOT; };
 		DDAEC9E107FA583B00A7BC36 /* SetVersion */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = SetVersion; sourceTree = BUILT_PRODUCTS_DIR; };
 		DDAEC9E707FA58A000A7BC36 /* SetVersion.C */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.cpp.cpp; name = SetVersion.C; path = ../clientgui/mac/SetVersion.C; sourceTree = SOURCE_ROOT; };
@@ -1163,8 +1178,8 @@
 				DD3E15310A774397007E0084 /* Carbon.framework in Frameworks */,
 				DD3E15320A774397007E0084 /* IOKit.framework in Frameworks */,
 				DD3E15330A774397007E0084 /* Security.framework in Frameworks */,
-				DDA8F6F20B5E3D61004800EF /* libwx_mac_static.a in Frameworks */,
 				DDFE854B0B60CFD0009B43D9 /* AppKit.framework in Frameworks */,
+				DDA90F540B646C91008F2E87 /* libwx_mac_static.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1327,7 +1342,8 @@
 				20286C33FDCF999611CA2CEA /* Carbon.framework */,
 				DD7C5E7508110AE3002FCE1E /* ScreenSaver.framework */,
 				DD1929D80918A2F100C31BCF /* Security.framework */,
-				DDA8F6F10B5E3D61004800EF /* libwx_mac_static.a */,
+				DDA90F260B64673D008F2E87 /* libwx_mac_static.a */,
+				DDA90E8F0B646172008F2E87 /* wxMac-BOINC.xcodeproj */,
 			);
 			name = "External Frameworks and Libraries";
 			sourceTree = SOURCE_ROOT;
@@ -1506,6 +1522,15 @@
 			name = clientgui;
 			path = ../clientgui;
 			sourceTree = SOURCE_ROOT;
+		};
+		DDA90E900B646172008F2E87 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				DDA90E990B646172008F2E87 /* libwx_mac_static.a */,
+				DDA90E9B0B646172008F2E87 /* libwx_mac.dylib */,
+			);
+			name = Products;
+			sourceTree = "<group>";
 		};
 		DDCE78220A70BD29008218B6 /* common */ = {
 			isa = PBXGroup;
@@ -2057,6 +2082,12 @@
 			hasScannedForEncodings = 1;
 			mainGroup = 20286C29FDCF999611CA2CEA /* ¬´PROJECTNAME¬ª */;
 			projectDirPath = "";
+			projectReferences = (
+				{
+					ProductGroup = DDA90E900B646172008F2E87 /* Products */;
+					ProjectRef = DDA90E8F0B646172008F2E87 /* wxMac-BOINC.xcodeproj */;
+				},
+			);
 			targets = (
 				DDBD680D07FA82BB0082C20D /* Build_All */,
 				DDD74D8607CF482E0065AC9D /* BOINC_Client */,
@@ -2078,6 +2109,23 @@
 			);
 		};
 /* End PBXProject section */
+
+/* Begin PBXReferenceProxy section */
+		DDA90E990B646172008F2E87 /* libwx_mac_static.a */ = {
+			isa = PBXReferenceProxy;
+			fileType = archive.ar;
+			path = libwx_mac_static.a;
+			remoteRef = DDA90E980B646172008F2E87 /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		DDA90E9B0B646172008F2E87 /* libwx_mac.dylib */ = {
+			isa = PBXReferenceProxy;
+			fileType = "compiled.mach-o.dylib";
+			path = libwx_mac.dylib;
+			remoteRef = DDA90E9A0B646172008F2E87 /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+/* End PBXReferenceProxy section */
 
 /* Begin PBXResourcesBuildPhase section */
 		DD1277AF081F3D67007B5DE1 /* Resources */ = {
@@ -2950,8 +2998,10 @@
 					"../../wxMac-2.8.0/src/build/Deployment/",
 					../lib,
 					"$(LIBRARY_SEARCH_PATHS_QUOTED_1)",
+					"$(LIBRARY_SEARCH_PATHS_QUOTED_2)",
 				);
 				LIBRARY_SEARCH_PATHS_QUOTED_1 = "\"$(SRCROOT)/../../wxMac-2.8.0/src/build/Deployment\"";
+				LIBRARY_SEARCH_PATHS_QUOTED_2 = "\"$(SRCROOT)/../../wxMac-2.8.0/src/build/Deployment\"";
 				MACOSX_DEPLOYMENT_TARGET = "";
 				OPTIMIZATION_CFLAGS = "-O0";
 				OTHER_CFLAGS = (
@@ -3012,8 +3062,10 @@
 					"../../wxMac-2.8.0/src/build/Deployment/",
 					../lib,
 					"$(LIBRARY_SEARCH_PATHS_QUOTED_1)",
+					"$(LIBRARY_SEARCH_PATHS_QUOTED_2)",
 				);
 				LIBRARY_SEARCH_PATHS_QUOTED_1 = "\"$(SRCROOT)/../../wxMac-2.8.0/src/build/Deployment\"";
+				LIBRARY_SEARCH_PATHS_QUOTED_2 = "\"$(SRCROOT)/../../wxMac-2.8.0/src/build/Deployment\"";
 				MACOSX_DEPLOYMENT_TARGET = 10.3;
 				OTHER_CFLAGS = (
 					"-DMAC_OS_X_VERSION_MAX_ALLOWED=1030",
@@ -3072,8 +3124,10 @@
 					"../../wxMac-2.8.0/src/build/Deployment/",
 					../lib,
 					"$(LIBRARY_SEARCH_PATHS_QUOTED_1)",
+					"$(LIBRARY_SEARCH_PATHS_QUOTED_2)",
 				);
 				LIBRARY_SEARCH_PATHS_QUOTED_1 = "\"$(SRCROOT)/../../wxMac-2.8.0/src/build/Deployment\"";
+				LIBRARY_SEARCH_PATHS_QUOTED_2 = "\"$(SRCROOT)/../../wxMac-2.8.0/src/build/Deployment\"";
 				MACOSX_DEPLOYMENT_TARGET = 10.4;
 				OTHER_CFLAGS = (
 					"-DMAC_OS_X_VERSION_MAX_ALLOWED=1040",
@@ -3132,8 +3186,10 @@
 					"../../wxMac-2.8.0/src/build/Deployment/",
 					../lib,
 					"$(LIBRARY_SEARCH_PATHS_QUOTED_1)",
+					"$(LIBRARY_SEARCH_PATHS_QUOTED_2)",
 				);
 				LIBRARY_SEARCH_PATHS_QUOTED_1 = "\"$(SRCROOT)/../../wxMac-2.8.0/src/build/Deployment\"";
+				LIBRARY_SEARCH_PATHS_QUOTED_2 = "\"$(SRCROOT)/../../wxMac-2.8.0/src/build/Deployment\"";
 				MACOSX_DEPLOYMENT_TARGET = 10.4;
 				OTHER_CFLAGS = (
 					"-DHAVE_CONFIG_H",
@@ -4085,8 +4141,10 @@
 					"../../wxMac-2.8.0/src/build/Deployment/",
 					../lib,
 					"$(LIBRARY_SEARCH_PATHS_QUOTED_1)",
+					"$(LIBRARY_SEARCH_PATHS_QUOTED_2)",
 				);
 				LIBRARY_SEARCH_PATHS_QUOTED_1 = "\"$(SRCROOT)/../../wxMac-2.8.0/src/build/Deployment\"";
+				LIBRARY_SEARCH_PATHS_QUOTED_2 = "\"$(SRCROOT)/../../wxMac-2.8.0/src/build/Deployment\"";
 				MACOSX_DEPLOYMENT_TARGET = "";
 				OPTIMIZATION_CFLAGS = "-O0";
 				OTHER_CFLAGS = (
@@ -4146,8 +4204,10 @@
 					"../../wxMac-2.8.0/src/build/Deployment/",
 					../lib,
 					"$(LIBRARY_SEARCH_PATHS_QUOTED_1)",
+					"$(LIBRARY_SEARCH_PATHS_QUOTED_2)",
 				);
 				LIBRARY_SEARCH_PATHS_QUOTED_1 = "\"$(SRCROOT)/../../wxMac-2.8.0/src/build/Deployment\"";
+				LIBRARY_SEARCH_PATHS_QUOTED_2 = "\"$(SRCROOT)/../../wxMac-2.8.0/src/build/Deployment\"";
 				MACOSX_DEPLOYMENT_TARGET = 10.4;
 				OTHER_CFLAGS = (
 					"-DHAVE_CONFIG_H",

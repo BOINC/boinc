@@ -915,7 +915,15 @@ Walt   19 Jan 2007
         BOINCBaseFrame.cpp
 2019 Jan 2007
     MGR: wxPieCtrl changes from Frank Wieler.  
+    MAC: Set up XCode project so Development builds can  optionally use wxMac-2.8.8 
+         Debug build.  Add "#define USE_DEBUG_WXMAC 0" to precompiled header file.
+         See comments at top of MacGUI.pch for instructions to enable or disable this.
 
     clientgui/
         common/
             wxPieCtrl.cpp
+        mac/
+            MacGUI.pch
+    mac_build/
+        boinc.xcodeproj/
+            project.pbxproj
