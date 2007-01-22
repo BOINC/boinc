@@ -202,12 +202,11 @@ wxPieCtrl::wxPieCtrl(wxWindow * parent, wxWindowID id, wxPoint pos,
 
 /* handles mouse motion events */
 void wxPieCtrl::OnMouseMove(wxMouseEvent& ev) {
-	ev.Skip();
 #if defined(__WXMSW__) || defined(__WXMAC__)
 	//get the pie part, over which the mouse pointer is
 	int piepart = GetCoveredPiePart(ev.GetX(),ev.GetY());
 	//part identified
-	if(piepart >=0) {
+	if(piepart >=0) {		
 		//prevent tooltip flicker
 		if(piepart != m_lastCoveredPart) {
 			wxString tooltip = this->m_Series[piepart].GetLabel();
@@ -220,6 +219,7 @@ void wxPieCtrl::OnMouseMove(wxMouseEvent& ev) {
 		m_lastCoveredPart=-1;
 	}	
 #endif //__WXMAC__ || __WXMSW__
+	ev.Skip();	
 }
 
 /* gets the pie part on coords using pixel colour */
@@ -414,7 +414,7 @@ void wxPieCtrl::Draw(wxPaintDC & pdc)
 				//no angle
 				cy = (int)(h/2 - (min(w,h)/2));
 				circlew = min(w,h);
-				circleh = w;
+				circleh = circlew;
 			}
 			for(x = 0; x <= 2 * M_PI; x += 0.05)
 			{

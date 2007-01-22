@@ -913,3 +913,9 @@ Walt   19 Jan 2007
         
     clientgui/
         BOINCBaseFrame.cpp
+2019 Jan 2007
+    MGR: wxPieCtrl changes from Frank Wieler.  
+
+    clientgui/
+        common/
+            wxPieCtrl.cpp
