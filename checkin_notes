@@ -1007,3 +1007,8 @@ Rom    23 Jan 2007
         
     clientgui/
         MainDocument.cpp, .h
+
+Rom    23 Jan 2007 (HEAD)
+    - Tag for 5.9.1 release, all platforms
+      boinc_core_release_5_9_1
+
