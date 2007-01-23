@@ -59,7 +59,7 @@ function send_moderation_email($post, $message, $action) {
 This email is to inform you that one of your posts in the forum has been affected by moderation in ".PROJECT.":
     Thread:         ".$thread->getTitle()." 
     Post:           ".$post->getID()." by ".$post->getOwner()->getID()." (".$post->getOwner()->getName().")
-    Link:           ".URL_BASE."/forum_thread.php?id=".$thread->getID()."
+    Link:           ".URL_BASE."forum_thread.php?id=".$thread->getID()."
     Moderator:      ".$moderator->getName()." (".$moderator->getID().")
     Action:         ".$action."
 
@@ -96,7 +96,7 @@ function send_thread_moderation_email($thread, $message, $action) {
 
 This email is sent to inform you that one of your threads in the forum has been affected by moderation in ".PROJECT.":
     Thread:         ".$thread->getTitle()."
-    Link:           ".MASTER_URL."/forum_thread.php?id=".$thread->getID()."
+    Link:           ".MASTER_URL."forum_thread.php?id=".$thread->getID()."
     Moderator:      ".$moderator->getName()." (".$moderator->getID().")
     Action:         ".$action."
 
@@ -142,7 +142,7 @@ This email is sent to inform you that one of the posts in the forum was reported
     Thread:         ".$thread->getTitle()."
     Post:           ".$post->getID()." by ".$post->getOwner()->getID()." (".$post->getOwner()->getName().")
     Reporting User: ".$user->getID()." (".$user->getName().")
-    Link:           ".URL_BASE."/forum_thread.php?id=".$thread->getID()."#".$post->getID()."
+    Link:           ".URL_BASE."forum_thread.php?id=".$thread->getID()."#".$post->getID()."
     
 The reporting user gave this explanation to why the post was reported:
 ".$message."
