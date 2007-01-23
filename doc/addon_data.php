@@ -131,16 +131,6 @@ array('DBSetup.zip',
     'Stores Workunits into SQL database',
     1107731376
 ),
-array('http://boinc.altervista.org/stats/download.php?id=9',
-    'Spy++',
-    '',
-    'Loader for the new version of SetiSpy (3.4.1), the famous SETI addon of Roelof',
-    'http://boinc.altervista.org/',
-    '',
-    'Loader for the new version of SetiSpy (3.4.1), the famous SETI addon of Roelof
-    For more information about Spy++ project visit the web site',
-    1163903033
-),
 array('http://threadmaster.tripod.com/',
     'ThreadMaster',
     '',
