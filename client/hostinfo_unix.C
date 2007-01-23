@@ -321,6 +321,7 @@ int HOST_INFO::get_host_info() {
     int mib[2];
     unsigned int mem_size;
     size_t len;
+#ifndef __APPLE__
 
     // Get machine
     mib[0] = CTL_HW;
@@ -333,6 +334,7 @@ int HOST_INFO::get_host_info() {
     mib[1] = HW_MODEL;
     len = sizeof(p_model);
     sysctl(mib, 2, &p_model, &len, NULL, 0);
+#endif      // ! __APPLE__
 #else
 // Tru64 UNIX.
 // 2005-12-26 SMS.
@@ -514,16 +516,58 @@ int HOST_INFO::get_host_info() {
 
 #ifdef __APPLE__
 #ifdef __i386__
-    len = sizeof(p_capabilities);
-    sysctlbyname("machdep.cpu.features", p_capabilities, &len, NULL, 0);
+    char brand_string[256], capabilities[256];
+    int family, stepping, model;
+    int p_model_size = sizeof(p_model);
+    
+    len = sizeof(p_vendor);
+    sysctlbyname("machdep.cpu.vendor", p_vendor, &len, NULL, 0);
+
+    len = sizeof(brand_string);
+    sysctlbyname("machdep.cpu.brand_string", brand_string, &len, NULL, 0);
+
+    len = sizeof(family);
+    sysctlbyname("machdep.cpu.family", &family, &len, NULL, 0);
+
+    len = sizeof(model);
+    sysctlbyname("machdep.cpu.model", &model, &len, NULL, 0);
+
+    len = sizeof(stepping);
+    sysctlbyname("machdep.cpu.stepping", &stepping, &len, NULL, 0);
+
+    len = sizeof(capabilities);
+    sysctlbyname("machdep.cpu.features", capabilities, &len, NULL, 0);
+
+    snprintf(p_model, p_model_size, "%s [x86 Family %d Model %d Stepping %d] [%s]", 
+                brand_string, family, model, stepping, capabilities);
+                
 #else       // PowerPC
+    char capabilities[256], model[256];
+    int p_model_size = sizeof(p_model);
     int response = 0;
     int retval;
     len = sizeof(response);
+    safe_strcpy(p_vendor, "Power Macintosh");
     retval = sysctlbyname("hw.optional.altivec", &response, &len, NULL, 0);
     if (response && (!retval)) 
-        safe_strcpy(p_capabilities, "AltiVec");
+        safe_strcpy(capabilities, "AltiVec");
+        
+    len = sizeof(model);
+    sysctlbyname("hw.model", model, &len, NULL, 0);
+
+    snprintf(p_model, p_model_size, "%s [%s Model %s] [%s]", p_vendor, p_vendor, model, capabilities);
+
 #endif  // i386 or PowerPC
+
+    p_model[p_model_size-1] = 0;
+    char *in = p_model + 1;
+    char *out = in;
+    // Strip out runs of multiple spaces
+    do {
+        if ((!isspace(*(in-1))) || (!isspace(*in)))
+            *out++ = *in;
+        } while (*in++);
+    
 #endif  // __APPLE__
 
     get_local_network_info();

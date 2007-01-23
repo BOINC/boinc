@@ -971,3 +971,11 @@ David  22 Jan 2007
 
     lib/
         app_ipc.C
+
+Charlie 23 Jan 2007
+    - CC: Update the HOST_INFO for Intel and PowerPC Macs per David's 
+        and Rom's instructions.
+
+    client/
+        hostinfo_unix.C
+
