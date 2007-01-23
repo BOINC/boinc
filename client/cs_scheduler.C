@@ -753,7 +753,7 @@ bool CLIENT_STATE::compute_work_requests() {
     }
 
     if (pbest) {
-        pbest->work_request = max(
+        pbest->work_request = config.work_request_factor * max(
             pbest->cpu_shortfall,
             cpu_shortfall * (prrs ? pbest->resource_share/prrs : 1)
         );

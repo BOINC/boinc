@@ -29,6 +29,7 @@ This file has the following format:
         [ <ncpus>N</ncpus> ]
         [ <max_file_xfers>N</max_file_xfers> ]
         [ <max_file_xfers_per_project>N</max_file_xfers_per_project> ]
+        [ <work_request_factor>X</work_request_factor> ]
     </options>
 </cc_config>
 ")."
@@ -171,6 +172,12 @@ list_item_func("<max_file_xfers>",
 );
 list_item_func("<max_file_xfers_per_project>",
     "Maximum number of simultaneous file transfers per project (default 2)."
+);
+list_item_func("<work_request_factor>",
+    "The amount of work requested from projects will by multiplied
+    by this number.
+    Use a number larger than one if your computer often
+    runs out of work."
 );
 list_end();
 

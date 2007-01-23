@@ -1,7 +1,7 @@
 Reinhard  2 Jan 2007
     -  fixed build of clientgui [in consultation with the Author, Frank Weiler] 
     * corrected unicode-string handling with wxString() in
-	    ViewTransfersGrid.cpp and ViewWorkGrid.cpp
+        ViewTransfersGrid.cpp and ViewWorkGrid.cpp
     * corrected wxString handling in BOINCGridCtrl.cpp
     * add missing files BOINCGridCtrl.[cpp|h] to Makefile.am
 
@@ -539,13 +539,13 @@ David  12 Jan 2007
         validator.C
 
 David  12 Jan 2007
-	- manager: don't prepend "(Activities suspended by user)"
-		to result status.
-		There is no longer a notion of "activities"
+    - manager: don't prepend "(Activities suspended by user)"
+        to result status.
+        There is no longer a notion of "activities"
 
-	clientgui/
-		ViewWork.cpp
-		ViewWorkGrid.cpp
+    clientgui/
+        ViewWork.cpp
+        ViewWorkGrid.cpp
 
 Rom    13 Jan 2007
     - MGR: Streamline the message dialog sync operation a little bit.
@@ -558,22 +558,22 @@ Rom    13 Jan 2007
 
     clientgui/
         sg_DlgMessages.cpp
-		BOINCGridCtrl.cpp
+        BOINCGridCtrl.cpp
 
 Reinhard 14 Jan 2007
-	- install validate_util.h for external building of validators
-	- make dir_hier_move and dir_hier_path output help/usage strings 
-	- add help/usage string to validator.C
+    - install validate_util.h for external building of validators
+    - make dir_hier_move and dir_hier_path output help/usage strings 
+    - add help/usage string to validator.C
 
     sched/
-	Makefile.am
+    Makefile.am
 
     tools/
-	dir_hier_move.C
-	dir_hier_path.C
+    dir_hier_move.C
+    dir_hier_path.C
 
     sched/
-	validator.C
+    validator.C
 
 David  15 Jan 2007
     - core client: lots of debugging messages for cpu_sched (may remove later)
@@ -598,9 +598,9 @@ David  15 Jan 2007
             api.C
 
 Reinhard 15 Jan 2007
-	- add explicit build-rule for client/switcher [required to fix 'make tags']
-	- fix boinc_UnzipToMemory() 
-	- correctly build unzip-DLL [for use in boinc_UnzipToMemory()]
+    - add explicit build-rule for client/switcher [required to fix 'make tags']
+    - fix boinc_UnzipToMemory() 
+    - correctly build unzip-DLL [for use in boinc_UnzipToMemory()]
 
     client/
         Makefile.am
@@ -613,12 +613,12 @@ Reinhard 15 Jan 2007
 
 
 David  15 Jan 2007
-	- fix Manager text (see above)
+    - fix Manager text (see above)
 
-	clientgui/
-		ProjectProcessingPage.cpp
-	lib/
-		error_numbers.h
+    clientgui/
+        ProjectProcessingPage.cpp
+    lib/
+        error_numbers.h
 
 Rom    15 Jan 2007
     - Update libCurl to 7.16.0 and use sync name resolves instead of async name
@@ -688,22 +688,22 @@ David  17 Jan 2007
         sg_ViewTabPage.cpp
 
 David  17 Jan 2007
-	- core client: reset 5-minute timer for network activity
-		is user explicitly changes network mode
-	- Manager: initial checkin of Advanced Prefs dialog
-		(from Frank Weiler)
+    - core client: reset 5-minute timer for network activity
+        is user explicitly changes network mode
+    - Manager: initial checkin of Advanced Prefs dialog
+        (from Frank Weiler)
 
-	client/
-		gui_rpc_server_ops.C
-	clientgui/
+    client/
+        gui_rpc_server_ops.C
+    clientgui/
         Makefile.am
-		AdvancedFrame.cpp,h
-		DlgAdvPreferences.cpp,h
-		DlgAdvPreferencesBase.cpp,h
-		Events.h
-		sg_ViewTabPage.cpp
-	win_build/
-		boincmgr_curl.vcproj
+        AdvancedFrame.cpp,h
+        DlgAdvPreferences.cpp,h
+        DlgAdvPreferencesBase.cpp,h
+        Events.h
+        sg_ViewTabPage.cpp
+    win_build/
+        boincmgr_curl.vcproj
 
 David  17 Jan 2007
     - fix news formatting
@@ -722,13 +722,13 @@ David  17 Jan 2007
         WelcomePage.cpp
 
 David  17 Jan 2007
-	- core client: if starting a file xfer, and file
-		is already as large or larger than it should be,
-		start transfer from the beginning.
-		This fixes some pathological cases found by Rattledagger.
+    - core client: if starting a file xfer, and file
+        is already as large or larger than it should be,
+        start transfer from the beginning.
+        This fixes some pathological cases found by Rattledagger.
 
-	client/
-		file_xfer.C
+    client/
+        file_xfer.C
 
 Charlie 17 Jan 2007
     Mac: add DlgAdvPreferences.cpp,h, DlgAdvPreferencesBase.cpp,h to XCode 
@@ -789,17 +789,17 @@ Eric K 18 Jan 2007
     configure.ac
 
 David  18 Jan 2007
-	- Manager: tweaks to advanced prefs dialog and Disks tab
-		(from Frank Weiler)
+    - Manager: tweaks to advanced prefs dialog and Disks tab
+        (from Frank Weiler)
 
-	clientgui/
-		DlgAdvPreferences.cpp,.fbp,.h
-		DlgAdvPreferencesBase.cpp,.h
-		ViewResources.cpp
-		common/
-			wxPieCtrl.cpp,h
-		res/
-			warning.xpm (new)
+    clientgui/
+        DlgAdvPreferences.cpp,.fbp,.h
+        DlgAdvPreferencesBase.cpp,.h
+        ViewResources.cpp
+        common/
+            wxPieCtrl.cpp,h
+        res/
+            warning.xpm (new)
 
 Charlie 19 Jan 2007
     MGR: Complete my changes for wxWidgets 2.8.0.  
@@ -860,16 +860,16 @@ David  19 Jan 2007
         filesys.C
 
 David  19 Jan 2007
-	- core client: if resuming a persistent file xfer,
-		don't print error messages if file has wrong
-		size/checksum/signature.
-		That's a normal condition is a file xfer was interrupted.
+    - core client: if resuming a persistent file xfer,
+        don't print error messages if file has wrong
+        size/checksum/signature.
+        That's a normal condition is a file xfer was interrupted.
 
-	client/
-		client_types.C,h
-		cs_apps.C
-		cs_files.C
-		pers_file_xfer.C
+    client/
+        client_types.C,h
+        cs_apps.C
+        cs_files.C
+        pers_file_xfer.C
 
 David  19 Jan 2007
     - core client: print more info if MFILE vsnprintf() is too big for buffer
@@ -947,7 +947,7 @@ Rom    22 Jan 2007
     lib/
         hostinfo.C,.h
 
-Matt	22 Jan 2007
+Matt    22 Jan 2007
     - initial db changes for special "developer blog" pages
       (adding "is_dev_blog" to forum table)
 
@@ -956,7 +956,7 @@ Matt	22 Jan 2007
     html/ops
         db_update.php
 
-Matt	22 Jan 2007
+Matt    22 Jan 2007
     - remaining development of dev blog stuff
 
     html/
@@ -1037,3 +1037,13 @@ David  23 Jan 2007
         scheduler_op.C
     lib/
         util.C,h
+
+David  23 Jan 2007
+    - core client: added <work_request_factor> configuration option.
+        Multiplies work requests.
+        Use values > 1 if your computer often runs out of work
+        while disconnected.
+        
+    client/
+        cs_scheduler.C
+        log_flags.C,h

@@ -81,6 +81,7 @@ struct CONFIG {
     int ncpus;
     int max_file_xfers;
     int max_file_xfers_per_project;
+    double work_request_factor;
 
     CONFIG();
     int parse(FILE*);
