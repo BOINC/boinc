@@ -125,7 +125,7 @@ int check_set(
                 }
             }
             canonicalid = results[i].id;
-            credit = median_mean_credit(results);
+            credit = compute_granted_credit(results);
             break;
         }
     }

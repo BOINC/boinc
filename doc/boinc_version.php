@@ -22,13 +22,6 @@ consisting of three integers:
 major, minor, and release.
 
 <p>
-When a participant updates the core client,
-all results currently in progress are discarded
-(because new app versions would be needed).
-The core client reads the version number from the old
-client state file, and discards the results.
-
-<p>
 Some changes to the BOINC server software may involve
 changes to the BOINC database
 (e.g. adding a new table or field).

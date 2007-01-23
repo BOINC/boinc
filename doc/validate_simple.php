@@ -4,7 +4,7 @@ require_once("docutil.php");
 page_head("Simple validator framework");
 echo "
 To create a validator using the simple framework,
-you must supply three functions:
+you must supply four functions:
 "; block_start(); echo "
 extern int init_result(RESULT& result, void*& data);
 "; block_end(); echo "
@@ -33,6 +33,13 @@ are equivalent (within the tolerances of the application).
 extern int cleanup_result(RESULT& r, void* data);
 "; block_end(); echo "
 This frees the structure pointed to by data, if it's non-NULL.
+"; block_start(); echo "
+extern double compute_granted_credit(vector<RESULT>& results);
+"; block_end(); echo "
+Given a set of results (at least one of which is valid)
+compute the credit to be granted to all of them.
+We recommend that this function simply return
+<code>median_mean_credit(results);</code>
 <p>
 You must link these functions with the files
 validator.C, validate_util.C, and validate_util2.C.
@@ -53,7 +60,7 @@ struct DATA {
     double x;
 };
 
-int init_result(RESULT& result, void*& data) {
+int init_result(RESULT const & result, void*& data) {
     FILE* f;
     string path;
     int i, n, retval;
@@ -72,8 +79,8 @@ int init_result(RESULT& result, void*& data) {
     return 0;
 }
 
-int compare_results2(
-    RESULT& r1, void* _data1, RESULT& r2, void* _data2, bool& match
+int compare_results(
+    RESULT& r1, void* _data1, RESULT const& r2, void* _data2, bool& match
 ) {
     DATA* data1 = (DATA*)_data1;
     DATA* data2 = (DATA*)_data2;

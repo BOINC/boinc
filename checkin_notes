@@ -1012,3 +1012,15 @@ Rom    23 Jan 2007 (HEAD)
     - Tag for 5.9.1 release, all platforms
       boinc_core_release_5_9_1
 
+David  23 Jan 2007
+    - server: extend the "simple validator framework" to require
+        an additional function, compute_granted_credit().
+        Previously it always used median_mean_credit().
+        Projects: if you don't have any special needs,
+        define compute_granted_credit() to just return median_mean_credit().
+
+    sched/
+        sample_bitwise_validator.C
+        sample_trivial_validator.C
+        validate_util2.C,h
+        validator_placeholder.C
