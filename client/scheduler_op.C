@@ -301,10 +301,11 @@ int SCHEDULER_OP::init_master_fetch(PROJECT* p) {
 // parse a master file.
 //
 int SCHEDULER_OP::parse_master_file(PROJECT* p, vector<std::string> &urls) {
-    char buf[256];
+    char buf[256], buf2[256];
     char master_filename[256];
     std::string str;
     FILE* f;
+    int n;
 
     get_master_filename(*p, master_filename);
     f = boinc_fopen(master_filename, "r");
@@ -321,9 +322,22 @@ int SCHEDULER_OP::parse_master_file(PROJECT* p, vector<std::string> &urls) {
         char* q = buf;
         while (q && parse_str(q, "<scheduler>", str)) {
             strip_whitespace(str);
-            urls.push_back(str);
+            push_unique(str, urls);
             q = strstr(q, "</scheduler>");
             if (q) q += strlen("</scheduler>");
+        }
+
+        // check for new syntax: <link ...>
+        //
+        q = buf;
+        while (q) {
+            n = sscanf(q, "<link rel=\"boinc_scheduler\" href=\"%s\">", buf2);
+            if (n == 1) {
+                str = string(buf2);
+                push_unique(str, urls);
+            }
+            q = strchr(q, '>');
+            if (q) q = strchr(q, '<');
         }
     }
     fclose(f);

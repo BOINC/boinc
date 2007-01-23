@@ -27,6 +27,7 @@
 #include <cstring>
 #include <algorithm>
 #include <string>
+#include <vector>
 
 #ifdef HAVE_PTHREAD
 
@@ -75,12 +76,7 @@ extern char* precision_time_to_string(double);
 extern std::string timediff_format(double);
 extern int read_file_string(const char* pathname, std::string& result);
 extern void escape_project_url(char *in, char* out);
-
-// remove duplicated words in a comma or space delimited string.
-// result is a space delimited string.
-// "this is this a is test" -> "this is a test"
-extern void remove_duplicate_words(char *str);
-extern void remove_duplicate_words(std::string &str);
+extern void push_unique(std::string, std::vector<std::string>&);
 
 inline bool ends_with(std::string const& s, std::string const& suffix) {
     return
@@ -91,9 +87,6 @@ inline bool ends_with(std::string const& s, std::string const& suffix) {
 inline bool starts_with(std::string const& s, std::string const& prefix) {
     return s.substr(0, prefix.size()) == prefix;
 }
-
-//extern bool ends_with(const char*, const char* suffix);
-//extern bool starts_with(const char*, const char* prefix);
 
 // http://lists.debian.org/debian-gcc/2002/debian-gcc-200204/msg00092.html
 inline void downcase_string(

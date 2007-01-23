@@ -91,7 +91,7 @@ int compare_results(
 }
 
 int cleanup_result(RESULT& r, void* data) {
-    if (data) free(data);
+    if (data) delete (DATA*) data;
     return 0;
 }
 

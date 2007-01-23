@@ -1024,3 +1024,16 @@ David  23 Jan 2007
         sample_trivial_validator.C
         validate_util2.C,h
         validator_placeholder.C
+
+David  23 Jan 2007
+    - core client: allow
+        <link rel="boinc_scheduler" href="http://a.b.c">
+        in project master files, as an alternative way
+        of denoting scheduler URLs.
+        If at some point all clients upgrade to this version or later,
+        we can get rid of the old syntax <scheduler>X</scheduler>
+
+    client/
+        scheduler_op.C
+    lib/
+        util.C,h
