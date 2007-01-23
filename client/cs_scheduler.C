@@ -1071,7 +1071,9 @@ int CLIENT_STATE::handle_scheduler_reply(
     //
     for (i=0; i<sr.apps.size(); i++) {
         APP* app = lookup_app(project, sr.apps[i].name);
-        if (!app) {
+        if (app) {
+            strcpy(app->user_friendly_name, sr.apps[i].user_friendly_name);
+        } else {
             app = new APP;
             *app = sr.apps[i];
             retval = link_app(project, app);

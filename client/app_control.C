@@ -305,13 +305,17 @@ void ACTIVE_TASK::handle_exited_app(int stat) {
             );
             if (log_flags.task_debug) {
                 msg_printf(0, MSG_INFO,
-                    "[task_debug] ACTIVE_TASK::handle_exited_app(): process got signal %d\n",
+                    "[task_debug] handle_exited_app: process got signal %d",
                     signal
                 );
             }
         } else {
+            result->exit_status = -1;
             task_state = PROCESS_EXIT_UNKNOWN;
-            result->state = PROCESS_EXIT_UNKNOWN;
+            gstate.report_result_error(*result, "process exit, unknown");
+            msg_printf(0, MSG_ERROR,
+                "handle_exited_app: process exited for unknown reason"
+            );
         }
 #endif
     }
@@ -913,6 +917,18 @@ bool ACTIVE_TASK::get_app_status_msg() {
     parse_double(msg_buf, "<intops_per_cpu_sec>", result->intops_per_cpu_sec);
     parse_double(msg_buf, "<intops_cumulative>", result->intops_cumulative);
     parse_int(msg_buf, "<want_network>", want_network);
+    if (current_cpu_time < 0) {
+        msg_printf(result->project, MSG_INFO,
+            "app reporting negative CPU: %f", current_cpu_time
+        );
+        current_cpu_time = 0;
+    }
+    if (checkpoint_cpu_time < 0) {
+        msg_printf(result->project, MSG_INFO,
+            "app reporting negative checkpoint CPU: %f", checkpoint_cpu_time
+        );
+        checkpoint_cpu_time = 0;
+    }
     return true;
 }
 

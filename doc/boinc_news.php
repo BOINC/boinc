@@ -6,7 +6,10 @@ array("January 19, 2007",
     <a href=http://youtube.com/watch?v=kCYlZ8-l5jc>TV news segment</a>
     and a <a href=http://www.bbc.co.uk/sn/climateexperiment/>web site</a>
     about the results of the recently-completed
-    BBC Climate Change Experiment."
+    BBC Climate Change Experiment.
+    On January 21 BBC aired a documentary on the results of this project;
+    an excerpt is <a href=http://www.youtube.com/watch?v=mNud-goRBgE>here</a>."
+
 ),
 array("January 18, 2007",
     "The paper \"<a href=rosetta_ms.doc>Reporting@Home: Delivering Dynamic Graphical Feedback to Participants in Community Computing Projects</a>\"

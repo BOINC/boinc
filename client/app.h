@@ -55,8 +55,6 @@ typedef int PROCESS_ID;
 #define PROCESS_ABORTED         6
     // aborted process has exited
 #define PROCESS_COULDNT_START   7
-#define PROCESS_IN_LIMBO        8
-    // process exited zero, but no finish file; leave the task there.
 
 // Represents a task in progress.
 //
@@ -145,7 +143,11 @@ public:
     void check_graphics_mode_ack();
     int link_user_files();
     int get_shmem_seg_name();
-    bool runnable() { return task_state != PROCESS_ABORT_PENDING; }
+    bool runnable() {
+        return task_state == PROCESS_UNINITIALIZED
+            || task_state == PROCESS_EXECUTING
+            || task_state == PROCESS_SUSPENDED;
+    }
 
     ACTIVE_TASK();
 	~ACTIVE_TASK();

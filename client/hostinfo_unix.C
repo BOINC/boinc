@@ -278,22 +278,28 @@ void parse_cpuinfo(HOST_INFO& host) {
                 strlcpy(host.p_model, strchr(buf, ':') + 2, sizeof(host.p_model));
             }
         }
-        if ((strstr(buf, "cache size\t: ") == buf) && !cache_found) {
-            cache_found = 1;
+        if (!cache_found && (strstr(buf, "cache size\t: ") == buf)) {
+            cache_found = true;
             sscanf(buf, "cache size\t: %d", &n);
             host.m_cache = n*1024;
         }
 
-        // Some versions of the linux kernel call them flags,
-        // others call them features, so look for both.
-        //
-        if ((strstr(buf, "flags\t\t: ") == buf) && !flags_found) {
-            flags_found = 1;
-            strlcpy(host.p_capabilities, strchr(buf, ':') + 2, sizeof(host.p_capabilities));
-        }
-        if ((strstr(buf, "features\t\t: ") == buf) && !flags_found) {
-            flags_found = 1;
-            strlcpy(host.p_capabilities, strchr(buf, ':') + 2, sizeof(host.p_capabilities));
+        if (!flags_found) {
+            // Some versions of the linux kernel call them flags,
+            // others call them features, so look for both.
+            //
+            char buf2[256], buf3[1024];
+            strcpy(buf2, "");
+            if ((strstr(buf, "flags\t\t: ") == buf)) {
+                strlcpy(buf2, strchr(buf, ':') + 2, sizeof(buf2));
+            } else if ((strstr(buf, "features\t\t: ") == buf)) {
+                strlcpy(buf2, strchr(buf, ':') + 2, sizeof(buf2));
+            }
+            if (strlen(buf2)) {
+                flags_found = true;
+                sprintf(buf3, "%s [%s]", host.p_model, buf2);
+                strlcpy(host.p_model, buf3, sizeof(host.p_model));
+            }
         }
     }
 

@@ -979,3 +979,17 @@ Charlie 23 Jan 2007
     client/
         hostinfo_unix.C
 
+David  23 Jan 2007
+    - core client: fix get_host_info() for Unix
+    - core client: update APP::user_friendly_name from scheduler RPC reply
+    - core client: print error msg if get negative CPU time
+        or checkpoint CPU time from app
+    - core client: ACTIVE_TASK::runnable(): not runnable if
+        exited, aborted, signaled etc.
+    - core client: fix "app exits for unknown reason" case (Unix)
+
+    client/
+        app.h
+        app_control.C
+        cs_scheduler.C
+        hostinfo_unix.C
