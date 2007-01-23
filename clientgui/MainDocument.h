@@ -61,6 +61,7 @@ private:
     bool           m_bConnected;
     bool           m_bReconnecting;
     bool           m_bUseDefaultPassword;
+    bool           m_bNewConnection;
     wxString       m_strNewComputerName;
     wxString       m_strNewComputerPassword;
     wxString       m_strConnectedComputerName;

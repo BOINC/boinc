@@ -51,6 +51,7 @@ CNetworkConnection::CNetworkConnection(CMainDocument* pDocument) :
     m_bReconnecting = false;
     m_bForceReconnect = false;
     m_bReconnectOnError = false;
+    m_bNewConnection = false;
 }
 
 
@@ -192,6 +193,7 @@ int CNetworkConnection::SetComputer(const wxChar* szComputer, const wxChar* szPa
     m_strNewComputerPassword.Empty();
     m_bUseDefaultPassword = FALSE;
 
+    m_bNewConnection = true;
     m_strNewComputerName = szComputer;
     m_strNewComputerPassword = szPassword;
     m_bUseDefaultPassword = bUseDefaultPassword;
@@ -237,8 +239,10 @@ void CNetworkConnection::SetStateReconnecting() {
         m_bReconnectOnError = false;
         m_bForceReconnect = false;
         m_bReconnecting = true;
-        m_strNewComputerName = m_strConnectedComputerName;
-        m_strNewComputerPassword = m_strConnectedComputerPassword;
+        if (!m_bNewConnection) {
+            m_strNewComputerName = m_strConnectedComputerName;
+            m_strNewComputerPassword = m_strConnectedComputerPassword;
+        }
     }
 }
 
@@ -254,6 +258,7 @@ void CNetworkConnection::SetStateSuccess(wxString& strComputer, wxString& strCom
         m_strConnectedComputerPassword = strComputerPassword;
         m_strNewComputerName = wxEmptyString;
         m_strNewComputerPassword = wxEmptyString;
+        m_bNewConnection = false;
 
         m_bConnectEvent = false;
 
