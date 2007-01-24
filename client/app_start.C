@@ -654,7 +654,7 @@ int ACTIVE_TASK::start(bool first_time) {
     }
 
 #endif
-    task_state = PROCESS_EXECUTING;
+    set_task_state(PROCESS_EXECUTING, "start");
     return 0;
 
     // go here on error; "buf" contains error message, "retval" is nonzero
@@ -665,7 +665,7 @@ error:
 	//
 	gstate.input_files_available(result, true);
     gstate.report_result_error(*result, buf);
-    task_state = PROCESS_COULDNT_START;
+    set_task_state(PROCESS_COULDNT_START, "start");
     return retval;
 }
 
@@ -676,7 +676,7 @@ int ACTIVE_TASK::resume_or_start() {
     const char* str = "??";
     int retval;
 
-    switch (task_state) {
+    switch (task_state()) {
     case PROCESS_UNINITIALIZED:
         if (scheduler_state == CPU_SCHED_UNINITIALIZED) {
             if (!boinc_file_exists(slot_dir)) {
@@ -694,7 +694,7 @@ int ACTIVE_TASK::resume_or_start() {
             str = "Restarting";
         }
         if (retval) {
-            task_state = PROCESS_COULDNT_START;
+            set_task_state(PROCESS_COULDNT_START, "resume_or_start1");
             return retval;
         }
         break;
@@ -704,7 +704,7 @@ int ACTIVE_TASK::resume_or_start() {
             msg_printf(wup->project, MSG_ERROR,
                 "Couldn't resume task %s", result->name
             );
-            task_state = PROCESS_COULDNT_START;
+            set_task_state(PROCESS_COULDNT_START, "resume_or_start2");
             return retval;
         }
         str = "Resuming";
@@ -714,7 +714,7 @@ int ACTIVE_TASK::resume_or_start() {
         break;
     default:
         msg_printf(result->project, MSG_ERROR,
-            "Unexpected state %d for task %s", task_state, result->name
+            "Unexpected state %d for task %s", task_state(), result->name
         );
         return 0;
     }

@@ -442,7 +442,9 @@ struct RESULT {
     double fpops_cumulative;    // nonzero if reported by app
     double intops_per_cpu_sec;   // nonzero if reported by app
     double intops_cumulative;    // nonzero if reported by app
-    int state;                  // state of this result: see lib/result_state.h
+    int _state;                  // state of this result: see lib/result_state.h
+    inline int state() { return _state; }
+    void set_state(int, const char*);
     int exit_status;            // return value from the application
     std::string stderr_out;
         // the concatenation of:

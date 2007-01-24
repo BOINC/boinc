@@ -532,7 +532,7 @@ double CLIENT_STATE::time_until_work_done(
     ) {
         RESULT *rp = *iter;
         if (rp->project != p
-            || rp->state > RESULT_FILES_DOWNLOADED
+            || rp->state() > RESULT_FILES_DOWNLOADED
             || rp->ready_to_report
         ) continue;
         if (num_results_to_skip > 0) {
@@ -1181,7 +1181,7 @@ int CLIENT_STATE::handle_scheduler_reply(
             continue;
         }
         results.push_back(rp);
-        rp->state = RESULT_NEW;
+        rp->set_state(RESULT_NEW, "handle_scheduler_reply");
         nresults++;
     }
 

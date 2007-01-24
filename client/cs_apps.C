@@ -128,13 +128,13 @@ int CLIENT_STATE::app_finished(ACTIVE_TASK& at) {
         switch (rp->exit_status) {
         case ERR_ABORTED_VIA_GUI:
         case ERR_ABORTED_BY_PROJECT:
-            rp->state = RESULT_ABORTED;
+            rp->set_state(RESULT_ABORTED, "CS::app_finished");
             break;
         default:
-            rp->state = RESULT_COMPUTE_ERROR;
+            rp->set_state(RESULT_COMPUTE_ERROR, "CS::app_finished");
         }
     } else {
-        rp->state = RESULT_FILES_UPLOADING;
+        rp->set_state(RESULT_FILES_UPLOADING, "CS::app_finished");
         rp->project->update_duration_correction_factor(rp);
     }
 
@@ -158,7 +158,7 @@ bool CLIENT_STATE::handle_finished_apps() {
 
     for (i=0; i<active_tasks.active_tasks.size(); i++) {
         atp = active_tasks.active_tasks[i];
-        switch (atp->task_state) {
+        switch (atp->task_state()) {
         case PROCESS_EXITED:
         case PROCESS_WAS_SIGNALED:
         case PROCESS_EXIT_UNKNOWN:
