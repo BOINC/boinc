@@ -845,7 +845,9 @@ int ACTIVE_TASK::unsuspend() {
 		msg_printf(0, MSG_INFO, "Internal error: expected process to be suspended");
 	}
     if (log_flags.cpu_sched) {
-        msg_printf(0, MSG_INFO, "[cpu_sched] Resuming %s", result->name);
+        msg_printf(result->project, MSG_INFO,
+            "[cpu_sched] Resuming %s", result->name
+        );
     }
 	int n = process_control_queue.msg_queue_purge("<suspend/>");
 	if (n == 0) {

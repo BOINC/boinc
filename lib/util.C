@@ -1130,7 +1130,7 @@ int run_program(char* dir, char* file, int argc, char** argv) {
     return 0;
 }
 
-static int get_client_mutex(char* dir) {
+static int get_client_mutex(const char* dir) {
 #ifdef _WIN32
     char buf[MAX_PATH] = "";
     
@@ -1157,7 +1157,7 @@ static int get_client_mutex(char* dir) {
     return 0;
 }
 
-int wait_client_mutex(char* dir, double timeout) {
+int wait_client_mutex(const char* dir, double timeout) {
     double start = dtime();
     while (1) {
         int retval = get_client_mutex(dir);

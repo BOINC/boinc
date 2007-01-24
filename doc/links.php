@@ -24,7 +24,8 @@ $wiki_sites = array(
     ),
     array(
         "http://boincfaq.mundayweb.com/",
-        "The BOINC FAQ Service"
+        "The BOINC FAQ Service",
+        "(English, German and Dutch)"
     ),
     array(
         "http://boinc-wiki.ath.cx/",

@@ -1,6 +1,11 @@
 <?
 
 $project_news = array(
+array("January 24, 2007",
+    "The <a href=http://boincfaq.mundayweb.com/>BOINC FAQ Service</a>
+    answers many questions about using BOINC.
+    It is available in English, German, and Dutch."
+),
 array("January 19, 2007",
     "Check out a
     <a href=http://youtube.com/watch?v=kCYlZ8-l5jc>TV news segment</a>

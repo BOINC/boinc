@@ -95,6 +95,7 @@ The following medium-to-large development projects are available:
 </ul>
 <li> Core client:
 <ul>
+<li> Compute disk usage (total, per-project) in a separate thread.
 <li> Don't enforce RAM limits unless free RAM is low
 <li> Do per-project disk-space measurements asynchronously (in a thread).
 <li> Extend general preferences to allow users to

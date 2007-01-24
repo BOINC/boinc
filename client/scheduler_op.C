@@ -167,7 +167,7 @@ int SCHEDULER_OP::init_op_project(PROJECT* p, int r) {
 // Master-file fetch errors for tentative (new) projects
 // are handled elsewhere; no need to detach from projects here.
 //
-void SCHEDULER_OP::backoff(PROJECT* p, const char *reason ) {
+void SCHEDULER_OP::backoff(PROJECT* p, const char *reason_msg) {
     char buf[1024];
 
     if (p->master_fetch_failures >= gstate.master_fetch_retry_cap) {
@@ -203,7 +203,7 @@ void SCHEDULER_OP::backoff(PROJECT* p, const char *reason ) {
         n, gstate.sched_retry_delay_min, gstate.sched_retry_delay_max
     );
     //msg_printf(p, MSG_INFO, "simulating backoff of %f", exp_backoff);
-    p->set_min_rpc_time(gstate.now + exp_backoff, reason);
+    p->set_min_rpc_time(gstate.now + exp_backoff, reason_msg);
 }
 
 // low-level routine to initiate an RPC

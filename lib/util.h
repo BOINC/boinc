@@ -146,6 +146,6 @@ extern int check_security(int use_sandbox, int isManager);
 #endif
 
 extern int run_program(char* path, char* cdir, int argc, char** argv);
-extern int wait_client_mutex(char* dir, double timeout);
+extern int wait_client_mutex(const char* dir, double timeout);
 
 #endif
