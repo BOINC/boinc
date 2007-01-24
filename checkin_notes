@@ -1077,3 +1077,12 @@ David  24 Jan 2007
         app_control.C
     py/Boinc/
         setup_project.py
+
+Rom    24 Jan 2007 (Forked from HEAD)
+    - Branch boinc_core_release_5_8a created for the BOINC 5.8 client release.
+
+Rom    24 Jan 2007
+    - MGR: _("") causes poEdit to throw warnings, change them to wxT("").
+    
+    clientgui/
+        DlgAdvPreferencesBase.cpp
