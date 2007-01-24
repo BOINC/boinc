@@ -494,20 +494,20 @@ static VOID CALLBACK timer_handler(HWND, UINT, UINT, DWORD) {
 }
 
 void win_graphics_event_loop() {
-    MSG                    msg;        // Windows Message Structure
+    MSG msg;
 
-    // Detect platform information
+    // Get platform information
+    //
     OSVERSIONINFO osvi; 
     osvi.dwOSVersionInfoSize = sizeof(osvi);
     GetVersionEx(&osvi);
     is_windows_9x = (osvi.dwPlatformId == VER_PLATFORM_WIN32_WINDOWS);
 
-    // Initialize the graphics thread info for diagnostic
-    //   purposes.
     diagnostics_set_thread_name("Graphics");
     diagnostics_set_thread_graphics();
 
     // Register window class and graphics mode message
+    //
     reg_win_class();
 
     gfx_timer_id = SetTimer(NULL, 1, 30, &timer_handler);
@@ -517,7 +517,7 @@ void win_graphics_event_loop() {
     } else {
         set_mode(MODE_HIDE_GRAPHICS);
     }
-    while(1) {
+    while (1) {
         if (GetMessage(&msg,NULL,0,0)) {
             TranslateMessage(&msg);
             DispatchMessage(&msg);

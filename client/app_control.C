@@ -159,7 +159,6 @@ int ACTIVE_TASK::preempt(bool quit_task) {
             );
         }
         pending_suspend_via_quit = true;
-        task_state = PROCESS_UNINITIALIZED;
         retval = request_exit();
     } else {
         if (log_flags.cpu_sched) {
@@ -190,14 +189,25 @@ static void limbo_message(ACTIVE_TASK& at) {
     );
 }
 
-// deal with a process that has exited, for whatever reason
-// (including preemption)
+// deal with a process that has exited, for whatever reason:
+// - completion
+// - crash
+// - preemption via quit
 //
 #ifdef _WIN32
 void ACTIVE_TASK::handle_exited_app(unsigned long exit_code) {
 #else
 void ACTIVE_TASK::handle_exited_app(int stat) {
 #endif
+    bool will_restart = false;
+
+    if (log_flags.task_debug) {
+        msg_printf(result->project, MSG_INFO,
+            "[task_debug] Process for %s exited",
+            result->name
+        );
+    }
+
     get_app_status_msg();
     get_trickle_up_msg();
     result->final_cpu_time = current_cpu_time;
@@ -206,7 +216,9 @@ void ACTIVE_TASK::handle_exited_app(int stat) {
     } else {
 #ifdef _WIN32
         task_state = PROCESS_EXITED;
+        close_process_handles();
 
+        result->exit_status = exit_code;
         if (exit_code) {
             char szError[1024];
             gstate.report_result_error(
@@ -216,27 +228,28 @@ void ACTIVE_TASK::handle_exited_app(int stat) {
                 exit_code, exit_code
             );
 			if (log_flags.task_debug) {
-				msg_printf(NULL, MSG_INFO,
-					"Process ended: %s - exit code %d (0x%x)",
-					windows_format_error_string(exit_code, szError, sizeof(szError)),
-					exit_code, exit_code
+				msg_printf(result->project, MSG_INFO,
+					"[task_debug] Process for %s exited",
+                    result->name
+                );
+				msg_printf(result->project, MSG_INFO,
+					"[task_debug] exit code %d (0x%x): %s",
+					exit_code, exit_code,
+					windows_format_error_string(exit_code, szError, sizeof(szError))
 				);
 			}
         } else {
-            if (pending_suspend_via_quit) {
-                pending_suspend_via_quit = false;
-                close_process_handles();
-                return;
-            }
             if (!finish_file_present()) {
-                scheduler_state = CPU_SCHED_PREEMPTED;
+                will_restart = true;
                 task_state = PROCESS_UNINITIALIZED;
-                close_process_handles();
-                limbo_message(*this);
-                goto done;
+                if (pending_suspend_via_quit) {
+                    pending_suspend_via_quit = false;
+                } else {
+                    scheduler_state = CPU_SCHED_PREEMPTED;
+                    limbo_message(*this);
+                }
             }
         }
-        result->exit_status = exit_code;
 #else
         if (WIFEXITED(stat)) {
             task_state = PROCESS_EXITED;
@@ -249,39 +262,31 @@ void ACTIVE_TASK::handle_exited_app(int stat) {
                     result->exit_status, result->exit_status
                 );
             } else {
-                // check for cases where an app exits
-                // without it being done from core client's point of view;
-                // in these cases, don't clean out slot dir
-                //
-                if (pending_suspend_via_quit) {
-                    pending_suspend_via_quit = false;
-
-                    // destroy shm, since restarting app will re-create it
-                    //
-                    cleanup_task();
-                    return;
-                }
                 if (!finish_file_present()) {
-                    // The process looks like it exited normally
-                    // but there's no "finish file".
-                    // Assume it was externally killed,
-                    // and arrange for it to get restarted.
-                    //
-                    scheduler_state = CPU_SCHED_PREEMPTED;
+                    will_restart = true;
                     task_state = PROCESS_UNINITIALIZED;
-                    cleanup_task();
-                    limbo_message(*this);
-                    goto done;
+                    if (pending_suspend_via_quit) {
+                        pending_suspend_via_quit = false;
+                    } else {
+                        scheduler_state = CPU_SCHED_PREEMPTED;
+                        limbo_message(*this);
+                    }
                 }
             }
             if (log_flags.task_debug) {
-                msg_printf(0, MSG_INFO,
-                    "[task_debug] ACTIVE_TASK::handle_exited_app(): process exited: status %d\n",
+                msg_printf(result->project, MSG_INFO,
+                    "[task_debug] exit status %d\n",
                     result->exit_status
                 );
             }
         } else if (WIFSIGNALED(stat)) {
             int got_signal = WTERMSIG(stat);
+
+            if (log_flags.task_debug) {
+                msg_printf(result->project, MSG_INFO,
+                    "[task_debug] process got signal %d", signal
+                );
+            }
 
             // if the process was externally killed, allow it to restart.
             //
@@ -292,47 +297,36 @@ void ACTIVE_TASK::handle_exited_app(int stat) {
             case SIGKILL:
             case SIGTERM:
             case SIGSTOP:
+                will_restart = true;
                 scheduler_state = CPU_SCHED_PREEMPTED;
                 task_state = PROCESS_UNINITIALIZED;
                 limbo_message(*this);
-                goto done;
-            }
-            result->exit_status = stat;
-            task_state = PROCESS_WAS_SIGNALED;
-            signal = got_signal;
-            gstate.report_result_error(
-                *result, "process got signal %d", signal
-            );
-            if (log_flags.task_debug) {
-                msg_printf(0, MSG_INFO,
-                    "[task_debug] handle_exited_app: process got signal %d",
-                    signal
+                break;
+            default:
+                result->exit_status = stat;
+                task_state = PROCESS_WAS_SIGNALED;
+                signal = got_signal;
+                gstate.report_result_error(
+                    *result, "process got signal %d", signal
                 );
             }
         } else {
             result->exit_status = -1;
             task_state = PROCESS_EXIT_UNKNOWN;
             gstate.report_result_error(*result, "process exit, unknown");
-            msg_printf(0, MSG_ERROR,
-                "handle_exited_app: process exited for unknown reason"
+            msg_printf(result->project, MSG_ERROR,
+                "process exited for unknown reason"
             );
         }
 #endif
     }
 
-#ifdef _WIN32
-    if (app_client_shm.shm) {
-        detach_shmem(shm_handle, app_client_shm.shm);
-        app_client_shm.shm = NULL;
+    if (!will_restart) {
+        cleanup_task();
+        copy_output_files();
+        read_stderr_file();
+        clean_out_dir(slot_dir);
     }
-#endif
-
-    // here when task is finished for good
-    //
-    copy_output_files();
-    read_stderr_file();
-    clean_out_dir(slot_dir);
-done:
     gstate.request_schedule_cpus("application exited");
     gstate.request_work_fetch("application exited");
 }
@@ -446,12 +440,6 @@ bool ACTIVE_TASK_SET::check_app_exited() {
     int pid, stat;
 
     if ((pid = waitpid(0, &stat, WNOHANG)) > 0) {
-        if (log_flags.task_debug) {
-            msg_printf(0, MSG_INFO,
-                "[task_debug] ACTIVE_TASK_SET::check_app_exited(): process %d is done\n",
-                pid
-            );
-        }
         atp = lookup_pid(pid);
         if (!atp) {
             // if we're running benchmarks, exited process

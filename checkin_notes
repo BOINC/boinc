@@ -1062,3 +1062,18 @@ David  24 Jan 2007
 		ViewResources.cpp
 		common/
 			xwPieCtrl.cpp,h
+
+David  24 Jan 2007
+    - core client: when preempt a task by quit,
+        don't set task state to UNINITIALIZED;
+        do that when the process exits.
+        Other code cleanup.
+    - create_project: put new-style scheduler tags in schedulers.txt
+
+    api/
+        windows_opengl.C
+    client/
+        app.C
+        app_control.C
+    py/Boinc/
+        setup_project.py

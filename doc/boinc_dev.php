@@ -122,6 +122,11 @@ with file deletion according to project policy.
 
 <li> Server/Back End:
     <ul>
+    <li> Allow create_work() to specify how much work
+        will be granted for the WU.
+        Store this in workunit.xml_doc.
+        May need to add WU to compute_granted_credit in simple validator
+        framework.
     <li> When using HR, if the scheduler has sent one result of a WU
         using a particular app version,
         it should use the same app version for other results from that WU.

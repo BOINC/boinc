@@ -130,8 +130,6 @@ void ACTIVE_TASK::close_process_handles() {
 //
 void ACTIVE_TASK::cleanup_task() {
 #ifdef _WIN32
-    close_process_handles();
-
     // detach from shared mem.
     // This will destroy shmem seg since we're the last attachment
     //
