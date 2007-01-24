@@ -66,14 +66,9 @@
 
 using std::min;
 using std::string;
+using std::vector;
 
-
-// Ideally, we would access this using wxGetApp().m_use_sandbox in the Manager
-// and gstate.m_use_sandbox in the Client, but it is used by some source files
-// (filesys.C, check_security.C) that are linked with both Manager and Client 
-// so the most practical solution is to use a global.
 int      g_use_sandbox = 0;
-
 
 // Use this instead of strncpy().
 // Result will always be null-terminated, and it's faster.
@@ -395,48 +390,12 @@ void strip_whitespace(string& str) {
     }
 }
 
-void remove_duplicate_words(char *str) {
-    char *buffer=(char *)malloc(strlen(str)+1);
-    char *tok=(char *)malloc(strlen(str)+1);
-    strcpy(buffer,str);
-    str[0]=0;
-    char *p=strtok(buffer," ,");
-    while (p) {
-      strlcpy(tok,p,1024);
-      tok[strlen(p)]=' ';
-      tok[strlen(p)+1]=0;
-      if (!strstr(str,tok)) {
-        strcat(str,tok);
-      }
-      p=strtok(NULL," ,");
+void push_unique(string s, vector<string>& v) {
+    for (unsigned int i=0; i<v.size();i++) {
+        if (s == v[i]) return;
     }
-    free(tok);
-    free(buffer);
+    v.push_back(s);
 }
-
-void remove_duplicate_words(string &str) {
-    char *buffer=(char *)malloc(str.length()+1);
-    strcpy(buffer,str.c_str());
-    remove_duplicate_words(buffer);
-    str=string(buffer);
-    free(buffer);
-}
-
-#if 0
-bool starts_with(const char* str, const char* prefix) {
-    if (strstr(str, prefix) == str) return true;
-    return false;
-}
-
-bool ends_with(const char* str, const char* suffix) {
-    size_t nsuff = strlen(suffix);
-    size_t nstr = strlen(str);
-
-    if (nsuff > nstr) return false;
-    if (strcmp(str+nstr-nsuff, suffix)) return false;
-    return true;
-}
-#endif
 
 void unescape_url(char *url) {
     int x,y;

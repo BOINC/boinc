@@ -11,6 +11,7 @@
 #ifndef _WX_PIE_CTRL
 #define _WX_PIE_CTRL
 
+
 #include <wx/wx.h>
 #include <wx/image.h>
 #include <wx/dynarray.h>
@@ -19,7 +20,9 @@
 #define M_PI 3.14159265358979
 #endif
 
+#if ! wxCHECK_VERSION(2,8,0)
 WX_DECLARE_OBJARRAY(double, wxArrayDouble);
+#endif
 
 // ========================================================================
 //  wxPiePart
@@ -54,6 +57,7 @@ public:
 	wxString GetLabel() {return m_Label;}
 	/// Sets the label of sector
 	void SetLabel(wxString value) {m_Label = value;}
+	//
 };
 
 WX_DECLARE_OBJARRAY(wxPiePart, wxPieSeries);
@@ -131,116 +135,46 @@ public:
 ///	The component for drawing pie diagrams
 class wxPieCtrl : public wxWindow
 {
-	double m_Angle;
-	double m_RotationAngle;
-	int m_Height;
-	wxArrayDouble m_Values;
-	wxBitmap m_Background;
+protected:
+	int m_padding;
 	wxBitmap m_CanvasBitmap;
 	wxMemoryDC m_CanvasDC;
 	wxColour m_BackColour;
 	wxPieCtrlLegend * m_Legend;
-	bool m_ShowEdges;
-	void GetPartAngles(wxArrayDouble & angles);
-#if defined(__WXMSW__) || defined(__WXMAC__)
-	void DrawParts(wxMemoryDC & dc, int cx, int cy, int w, int h);
-#endif
-	void RecreateCanvas();
-protected:
 	bool m_CanRepaint;
-	bool m_bPaint3D;
-	bool m_bDrawCircle;
+	bool m_ShowEdges;
+	int m_lastCoveredPart;
+	//internal methods
+	void GetPartAngles(wxArrayDouble & angles);	
+	void RecreateCanvas();
+	int GetCoveredPiePart(int x,int y);
+	void DrawParts(wxRect& pieRect);
 	void Draw(wxPaintDC & pdc);
 public:
 	/// An array of wxPiePart objects for storing information about sectors
 	wxPieSeries m_Series;
-	/// Constructor
-	/*!
-		\param parent Pointer to a parent window
-		\param id Window ID
-		\param pos Window position
-		\param sz Window size
-		\param style Window style
-		\param name Window name
-	*/
+
 	wxPieCtrl(wxWindow * parent, wxWindowID id = wxID_ANY, wxPoint pos = wxDefaultPosition,
 		wxSize sz = wxDefaultSize, long style = 0, wxString name = wxT("wxPieCtrl"));
-	/// Sets the angle of vertical rotation
-	void SetAngle(double angle);
-	/// Sets the angle of horizontal rotation
-	void SetRotationAngle(double angle);
-	/// Sets the height of pie diagram
-	void SetHeight(int value) {m_Height = abs(value);}
-	/// Sets the background bitmap of the control
-	void SetBackground(wxBitmap bmp);
-	/// Returns the background colour of the control
-	wxColour GetBackColour() {return m_BackColour;}
-	/// Sets the background colour of the control
-	void SetBackColour(wxColour colour);
-	//set 3D mode
-	void SetPaint3D(bool b3D);
-	//get 3D mode
-	bool GetPaint3D();
-	//set circle mode
-	void SetDrawCircle(bool bCircle);
-	//get circle mode
-	bool GetDrawCircle();
 
-	/// Returns true if the edges of diagram are shown, otherwise returns false
-	bool GetShowEdges() {return m_ShowEdges;}
-	/// Shows or hides edges of diagram
-	/*!
-		\param value Specifies the visibility of diagram edges
-	*/
+	wxColour GetBackColour();
+	void SetBackColour(wxColour colour);
+
+	bool GetShowEdges();
 	void SetShowEdges(bool value);
+
+	void SetPadding(int pad);
+	int GetPadding();
 	/// Returns the pointer of diagram legend
 	wxPieCtrlLegend * GetLegend() {return m_Legend;}
 	virtual void Refresh(bool eraseBackground = true, const wxRect* rect = NULL);
+	
 
 	DECLARE_EVENT_TABLE()
 	void OnPaint(wxPaintEvent & event);
-	void OnEraseBackground(wxEraseEvent & event);
 	void OnSize(wxSizeEvent & event);
-};
-// ========================================================================
-//  wxProgressPie
-// ------------------------------------------------------------------------
-///	A ProgressPie is a pie digram control which shows a quantity (often time).
-class wxProgressPie : public wxPieCtrl
-{
-	double m_MaxValue;
-	double m_Value;
-	wxColour m_FilledColour;
-	wxColour m_UnfilledColour;
-public:
-	/// Constructor
-	/*!
-		\param parent Pointer to a parent window
-		\param id Window ID
-		\param maxvalue Maximal value of progress pie
-		\param value Initial value of progress pie
-		\param pos Window position
-		\param sz Window size
-		\param style Window style
-	*/
-	wxProgressPie(wxWindow * parent, wxWindowID id = wxID_ANY, double maxvalue = 100, double value = 50,
-		wxPoint pos = wxDefaultPosition, wxSize sz = wxDefaultSize, long style = 0);
-	/// Sets the value of progress pie
-	void SetValue(double value);
-	/// Returns the value of progress pie
-	double GetValue() {return m_Value;}
-	/// Sets maximal value of progress pie
-	void SetMaxValue(double value);
-	/// Returns maximal value of progress pie
-	double GetMaxValue() {return m_MaxValue;}
-	/// Sets the colour of sector that indicates the progress (filled)
-	void SetFilledColour(wxColour colour);
-	/// Sets the colour of sector that indicates the rest (unfilled)
-	void SetUnfilledColour(wxColour colour);
-	/// Returns the colour of sector that indicates the progress (filled)
-	wxColour GetFilledColour();
-	/// Returns the colour of sector that indicates the rest (unfilled)
-	wxColour GetUnfilledColour();
+	void OnMouseMove(wxMouseEvent& ev);
+	void OnEraseBackground(wxEraseEvent & /*event*/);
 };
 
 #endif

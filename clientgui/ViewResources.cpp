@@ -70,18 +70,8 @@ CViewResources::CViewResources(wxNotebook* pNotebook) :
 	m_aProjectColours.Add(wxColour(144,238,144));
 	m_aProjectColours.Add(wxColour(255,105,180));
 
-	wxFlexGridSizer* itemFlexGridSizer = new wxFlexGridSizer(3, 0, 0);
-    wxASSERT(itemFlexGridSizer);
-
-	// one row
-    itemFlexGridSizer->AddGrowableRow(0);
-	// two resizable columns for the pie charts
-    itemFlexGridSizer->AddGrowableCol(1);
-	itemFlexGridSizer->AddGrowableCol(2);
-
-	//create a default task pane 
-    m_pTaskPane = new CBOINCTaskCtrl(this, ID_TASK_RESOURCEUTILIZATIONVIEW, DEFAULT_TASK_FLAGS);
-    wxASSERT(m_pTaskPane);
+	wxGridSizer* itemGridSizer = new wxGridSizer(2, 0, 3);
+    wxASSERT(itemGridSizer);
 
 	// create pie chart ctrl for total disk usage
 	m_pieCtrlTotal = new wxPieCtrl(this, ID_LIST_RESOURCEUTILIZATIONVIEWTOTAL, wxDefaultPosition, wxSize(-1,-1));
@@ -93,12 +83,6 @@ CViewResources::CViewResources(wxNotebook* pNotebook) :
 	m_pieCtrlTotal->GetLegend()->SetLabelColour(wxColour(0,0,127));
 	m_pieCtrlTotal->GetLegend()->SetLabelColour(wxColour(0,0,127));
 	m_pieCtrlTotal->GetLegend()->SetLabel(_("total disk usage"));
-	//set the angle above PI/2 to prevent tilt
-	m_pieCtrlTotal->SetAngle(4);	
-	//disable 3D drawing
-	m_pieCtrlTotal->SetPaint3D(false);
-	//disable elliptic drawing 
-	m_pieCtrlTotal->SetDrawCircle(true);
 
 	// create pie chart ctrl for BOINC disk usage
 	m_pieCtrlBOINC = new wxPieCtrl(this, ID_LIST_RESOURCEUTILIZATIONVIEW, wxDefaultPosition, wxSize(-1,-1));
@@ -110,23 +94,13 @@ CViewResources::CViewResources(wxNotebook* pNotebook) :
 	m_pieCtrlBOINC->GetLegend()->SetLabelColour(wxColour(0,0,127));
 	m_pieCtrlBOINC->GetLegend()->SetLabelColour(wxColour(0,0,127));
 	m_pieCtrlBOINC->GetLegend()->SetLabel(_("disk usage by BOINC projects"));
-	m_pieCtrlBOINC->SetAngle(4);
-	m_pieCtrlBOINC->SetPaint3D(false);
-	m_pieCtrlBOINC->SetDrawCircle(true);	
-
 	//init the flexGrid
-    itemFlexGridSizer->Add(m_pTaskPane, 1, wxGROW|wxALL, 1);
-	itemFlexGridSizer->Add(m_pieCtrlTotal, 1, wxGROW|wxALL, 1);
-    itemFlexGridSizer->Add(m_pieCtrlBOINC, 1, wxGROW|wxALL, 1);	
-	//force same size for both piectrls
-	itemFlexGridSizer->SetFlexibleDirection(wxVERTICAL);
-	itemFlexGridSizer->SetNonFlexibleGrowMode(wxFLEX_GROWMODE_SPECIFIED);
+    itemGridSizer->Add(m_pieCtrlTotal,1,wxGROW|wxALL,1);
+    itemGridSizer->Add(m_pieCtrlBOINC,1, wxGROW|wxALL,1);	
 
-    SetSizer(itemFlexGridSizer);
+    SetSizer(itemGridSizer);
 
-    Layout();
-
-	m_pTaskPane->UpdateControls();
+    Layout();	
 
     UpdateSelection();
 }
@@ -150,7 +124,7 @@ const char** CViewResources::GetViewIcon() {
 void CViewResources::UpdateSelection() {
 	//TODO: is this needed ? no task buttons
     CBOINCBaseView::PreUpdateSelection();
-    CBOINCBaseView::PostUpdateSelection();
+    //CBOINCBaseView::PostUpdateSelection();
 }
 
 
@@ -173,8 +147,8 @@ wxInt32 CViewResources::FormatProjectName(PROJECT* project, wxString& strBuffer)
 }
 
 
-bool CViewResources::OnSaveState(wxConfigBase* pConfig) {
-    bool bReturnValue = true;
+bool CViewResources::OnSaveState(wxConfigBase* /*pConfig*/) {
+    return true;/*bool bReturnValue = true;
 
     wxASSERT(pConfig);
     wxASSERT(m_pTaskPane);
@@ -183,18 +157,18 @@ bool CViewResources::OnSaveState(wxConfigBase* pConfig) {
         bReturnValue = false;
     }
 
-    return bReturnValue;
+    return bReturnValue;*/
 }
 
-bool CViewResources::OnRestoreState(wxConfigBase* pConfig) {
-    wxASSERT(pConfig);
+bool CViewResources::OnRestoreState(wxConfigBase* /*pConfig*/) {
+    return true;/*wxASSERT(pConfig);
     wxASSERT(m_pTaskPane);
 
     if (!m_pTaskPane->OnRestoreState(pConfig)) {
         return false;
     }
 
-    return true;
+    return true;*/
 }
 
 void CViewResources::OnListRender( wxTimerEvent& WXUNUSED(event) ) {

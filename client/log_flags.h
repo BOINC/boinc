@@ -76,10 +76,12 @@ struct LOG_FLAGS {
 
 struct CONFIG {
     bool dont_check_file_sizes;
+	bool http_1_0;
     int save_stats_days;
     int ncpus;
     int max_file_xfers;
     int max_file_xfers_per_project;
+    double work_request_factor;
 
     CONFIG();
     int parse(FILE*);
@@ -88,6 +90,6 @@ struct CONFIG {
 
 extern LOG_FLAGS log_flags;
 extern CONFIG config;
-extern void read_config_file();
+extern int read_config_file();
 
 #endif

@@ -27,6 +27,7 @@
 #include <cstring>
 #include <algorithm>
 #include <string>
+#include <vector>
 
 #ifdef HAVE_PTHREAD
 
@@ -75,12 +76,7 @@ extern char* precision_time_to_string(double);
 extern std::string timediff_format(double);
 extern int read_file_string(const char* pathname, std::string& result);
 extern void escape_project_url(char *in, char* out);
-
-// remove duplicated words in a comma or space delimited string.
-// result is a space delimited string.
-// "this is this a is test" -> "this is a test"
-extern void remove_duplicate_words(char *str);
-extern void remove_duplicate_words(std::string &str);
+extern void push_unique(std::string, std::vector<std::string>&);
 
 inline bool ends_with(std::string const& s, std::string const& suffix) {
     return
@@ -91,9 +87,6 @@ inline bool ends_with(std::string const& s, std::string const& suffix) {
 inline bool starts_with(std::string const& s, std::string const& prefix) {
     return s.substr(0, prefix.size()) == prefix;
 }
-
-//extern bool ends_with(const char*, const char* suffix);
-//extern bool starts_with(const char*, const char* prefix);
 
 // http://lists.debian.org/debian-gcc/2002/debian-gcc-200204/msg00092.html
 inline void downcase_string(
@@ -119,17 +112,6 @@ static inline double drand() {
 
 #include <windows.h>
 
-#define START_SS_MSG		"BOINC_SS_START"
-#define STOP_SS_MSG			"BOINC_SS_END"
-#define SHOW_WIN_MSG		"BOINC_SHOW_MESSAGE"
-#define NET_ACTIVITY_MSG    "BOINC_NET_ACTIVITY"
-
-#define RUN_MUTEX			"BoincSingleInstance"
-#define REG_BLANK_NAME		"Blank"
-#define REG_BLANK_TIME      "Blank Time"
-#define REG_GRID_REPUBLIC   "Grid Republic"
-#define	REG_STARTUP_NAME	"BOINC"
-
 extern char* windows_error_string(char* pszBuf, int iSize);
 extern char* windows_format_error_string(
     unsigned long dwError, char* pszBuf, int iSize
@@ -140,7 +122,6 @@ extern int boinc_process_cpu_time(double& cpu);
 #endif
 
 extern void update_average(double, double, double, double&, double&);
-extern int update_credit_per_cpu_sec(double credit, double cpu_time, double& credit_per_cpu_sec);
 
 extern int boinc_calling_thread_cpu_time(double&);
 
@@ -163,5 +144,8 @@ extern pthread_mutex_t getrusage_mutex;
 extern int lookup_group(char*, gid_t& gid);
 extern int check_security(int use_sandbox, int isManager);
 #endif
+
+extern int run_program(char* path, char* cdir, int argc, char** argv);
+extern int wait_client_mutex(char* dir, double timeout);
 
 #endif
