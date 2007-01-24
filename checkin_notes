@@ -1084,3 +1084,9 @@ David  24 Jan 2007
 	client/
 		app_start.C
 		cs_apps.C
+
+Rom    24 Jan 2007
+    - MGR: _("") causes poEdit to throw warnings, change them to wxT("").
+    
+    clientgui/
+        DlgAdvPreferencesBase.cpp
