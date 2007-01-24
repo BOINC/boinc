@@ -2,7 +2,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "POT-Creation-Date: \n"
-"PO-Revision-Date: 2005-11-15 10:57+0800\n"
+"PO-Revision-Date: 2007-01-19 17:29+0800\n"
 "Last-Translator: Jose Sun <josesun@gmail.com>\n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
@@ -158,112 +158,20 @@ msgstr "這個帳號屬於 %s  團隊並且有團隊創立者自己的專案偏�
 msgid "CREATE_AC_USE_CLIENT"
 msgstr "備註：從 BOINC 5.2 版開始，你不再需要填寫此表單，可以直接從 BOINC 程式裡建立新帳號。只要執行 BOINC，選擇「加入專案」後，輸入你的電子郵件地址和密碼即可。"
 
-# ########################################
-# Account created page (account_created.php)
-# ########################################
-msgid "AC_READY_TITLE"
-msgstr "帳號已建立。"
+msgid "CREATE_AC_PASSWORD"
+msgstr "密碼"
 
-msgid "AC_READY_WELCOME"
-msgstr "恭喜你 - 你的 $PROJECT 帳號已經建立"
+msgid "CREATE_AC_PASSWORD_DESC"
+msgstr "必須大於 %s 個字元"
 
-msgid "AC_READY_PASTE"
-msgstr "請在這裡貼上你的帳號金鑰以繼續下一步："
+msgid "CREATE_AC_CONFIRM_PASSWORD"
+msgstr "密碼確認"
 
-msgid "AC_READY_CLICK"
-msgstr "然後按一下"
+msgid "AC_INVITE_REQUIRED"
+msgstr "你必須輸入邀請碼才能建立帳號。"
 
-# ########################################
-# Account setup page (account_setuo.php)
-# ########################################
-# also used in account_setup_nonfirst.php:
-msgid "AC_SETUP_TITLE"
-msgstr "帳號設定"
-
-msgid "AC_SETUP_USES_BOINC"
-msgstr "$PROJECT 使用 BOINC 軟體系統。"
-
-msgid "AC_SETUP_DIVISION"
-msgstr "BOINC 可以讓你自行分配你電腦的運算時間給數個分散式運算專案。"
-
-msgid "AC_SETUP_ISFIRST"
-msgstr "這是你的第一個 BOINC 專案嗎？"
-
-msgid "AC_SETUP_FIRST"
-msgstr "是的 - 這是我的第一個 BONIC 專案"
-
-msgid "AC_SETUP_NONFIRST"
-msgstr "不是 - 我已經參與了一個以上它的 BOINC 專案"
-
-# ########################################
-# First Account setup page (account_setup_first.php)
-# ########################################
-msgid "AC_FIRST_TITLE"
-msgstr "帳號偏好設定"
-
-msgid "AC_FIRST_CONTROL"
-msgstr "你可以控制 $PROJECT 運用你電腦的時間和方式"
-
-msgid "AC_FIRST_DEFAULT"
-msgstr "如果要套用預設的設定值，請捲動頁面到最底端並按一下 OK。"
-
-# ########################################
-# First Account setup done page (account_setup_first_done.php)
-# and (account_setup_nonfirst_done.php
-# ########################################
-msgid "AC_DONE_TITLE"
-msgstr "帳號設定：完成"
-
-msgid "AC_DONE_COMPLETE"
-msgstr "你的帳號設定已經完成。"
-
-msgid "AC_DONE_BOINC"
-msgstr "下一步你必須下載和安裝 BOINC 軟體，然後告訴你的電腦使用這個帳號。"
-
-msgid "AC_DONE_URL"
-msgstr "當 BOINC 軟體第一次執行時，它會詢問你 <b>專案網址</b> 和 <b>帳號金鑰</b> 。"
-
-msgid "AC_DONE_COPYPASTE"
-msgstr "複製下面的訊息並貼上到軟體中："
-
-msgid "AC_DONE_GETDOWNLOAD"
-msgstr "你現在可以 %s 以完成 $PROJECT 的安裝。"
-
-msgid "AC_DONE_DL_BOINC"
-msgstr "下載 BOINC 軟體"
-
-msgid "AC_DONE_THANKS"
-msgstr "感謝你參與 $PROJECT 專案"
-
-# ########################################
-# Non-first Account setup page (account_setup_nonfirst.php)
-# ########################################
-msgid "AC_NONFIRST_TITLE"
-msgstr "帳號設定：資源分享"
-
-# ########################################
-# Non-first Account setup done page (account_setup_nonfirst_done.php)
-# ########################################
-msgid "AC_DONE_MUST_USE"
-msgstr "下一步你必須告訴你電腦使用這個帳號。"
-
-msgid "AC_DONE_WIN"
-msgstr "Windows 使用者："
-
-msgid "AC_DONE_WIN_TEXT"
-msgstr "按兩下 BOINC 的系統匣圖示開啟 BOINC 應用程式視窗。然後從設定功能表選擇「加入新專案」。接下來程式會詢問你專案網址和帳號金鑰。"
-
-msgid "AC_DONE_UNIX"
-msgstr "Mac、Unix 和 Linux 的使用者："
-
-msgid "AC_DONE_UNIX_TEXT"
-msgstr "離開 BOINC 用戶端。然後以 -attach_project 選項執行 BOINC 用戶端。接下來程式會詢問你專案網址和帳號金鑰。"
-
-msgid "AC_DONE_ANYCASE"
-msgstr "所有使用者都要複製下面的訊息並貼上到軟體中："
-
-msgid "AC_DONE_INSTALLED"
-msgstr "已經完成了 $PROJECT 的安裝。"
+msgid "AC_INVITE_INVALID"
+msgstr "你輸入的邀請碼無效。"
 
 # ########################################
 # Rules and Policies page (info.php)
@@ -272,11 +180,10 @@ msgid "FORUM_TITLE"
 msgstr "$PROJECT 留言板"
 
 # ########################################
-# Different strange places:
+# Rules and Policies page (info.php)
 # ########################################
-# account_created.php
-msgid "AC_CREATED_TITLE"
-msgstr "組態你的帳號"
+msgid "FORUM_TITLE_SHORT"
+msgstr "留言板"
 
 # ########################################
 # General stuff (create_account_form.php and others)
@@ -296,10 +203,10 @@ msgstr "排名"
 msgid "USER_TABLE_NAME"
 msgstr "姓名"
 
-msgid "USER_TABLE_TOTAL_CREDIT"
+msgid "TOTAL_CREDIT"
 msgstr "總積分"
 
-msgid "USER_TABLE_EXPAVG"
+msgid "EXPAVG_CREDIT"
 msgstr "最近平均積分"
 
 msgid "USER_TABLE_COUNTRY"
@@ -316,6 +223,36 @@ msgstr "%s 團隊排名"
 
 msgid "TEAM_TABLE_MEMBERS"
 msgstr "成員"
+
+msgid "FORUM_POSTS"
+msgstr "篇數"
+
+# ########################################
+# Rules and Policies page (info.php)
+# ########################################
+msgid "FORUM_TOPIC"
+msgstr "主題"
+
+# ########################################
+# Rules and Policies page (info.php)
+# ########################################
+msgid "FORUM_THREADS"
+msgstr "討論串"
+
+msgid "FORUM_LAST_POST"
+msgstr "最後發表時間"
+
+# ########################################
+# Rules and Policies page (info.php)
+# ########################################
+msgid "FORUM_AUTHOR"
+msgstr "發表者"
+
+# ########################################
+# Rules and Policies page (info.php)
+# ########################################
+msgid "FORUM_VIEWS"
+msgstr "觀看次數"
 
 # ########################################
 # Forum
@@ -382,6 +319,30 @@ msgstr "此文章解答了我的問題"
 # ########################################
 msgid "FORUM_HTML_INFO"
 msgstr "使用 BBCode 標籤為文字加上格式"
+
+# ########################################
+# Forum thread
+# ########################################
+msgid "FORUM_THREAD_HIDDEN"
+msgstr "因管理之故，此討論串已被隱藏"
+
+msgid "FORUM_THREAD_REPLY"
+msgstr "回覆此討論串"
+
+msgid "FORUM_THREAD_SUBSCRIBED"
+msgstr "你已訂閱此討論串。"
+
+msgid "FORUM_THREAD_UNSUBSCRIBE"
+msgstr "按這裡取消訂閱"
+
+msgid "FORUM_THREAD_SUBSCRIBE"
+msgstr "訂閱此討論串"
+
+# ########################################
+# Rules and Policies page (info.php)
+# ########################################
+msgid "FORUM_SEARCH"
+msgstr "討論區搜尋"
 
 # ########################################
 # Rules and Policies page (info.php)
