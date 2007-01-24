@@ -1047,3 +1047,10 @@ David  23 Jan 2007
     client/
         cs_scheduler.C
         log_flags.C,h
+
+David  24 Jan 2007
+	- core client: in error message for unexpected active task,
+		include result name
+
+	client/
+		client_state.C

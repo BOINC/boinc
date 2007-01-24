@@ -873,9 +873,9 @@ bool CLIENT_STATE::garbage_collect_always() {
             //
             ACTIVE_TASK* atp = active_tasks.lookup_result(rp);
             if (atp) {
-                msg_printf(0, MSG_ERROR,
-                    "garbage_collect(); still have active task for acked result; state %d",
-                    atp->task_state
+                msg_printf(rp->project, MSG_ERROR,
+                    "garbage_collect(); still have active task for acked result %s; state %d",
+                    rp->name, atp->task_state
                 );
                 atp->task_state = PROCESS_EXITED;   // this will get rid of it
             } else {
