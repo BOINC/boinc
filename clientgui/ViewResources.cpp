@@ -83,12 +83,6 @@ CViewResources::CViewResources(wxNotebook* pNotebook) :
 	m_pieCtrlTotal->GetLegend()->SetLabelColour(wxColour(0,0,127));
 	m_pieCtrlTotal->GetLegend()->SetLabelColour(wxColour(0,0,127));
 	m_pieCtrlTotal->GetLegend()->SetLabel(_("total disk usage"));
-	//set the angle above PI/2 to prevent tilt
-	m_pieCtrlTotal->SetAngle(4);	
-	//disable 3D drawing
-	m_pieCtrlTotal->SetPaint3D(false);
-	//disable elliptic drawing 
-	m_pieCtrlTotal->SetDrawCircle(true);
 
 	// create pie chart ctrl for BOINC disk usage
 	m_pieCtrlBOINC = new wxPieCtrl(this, ID_LIST_RESOURCEUTILIZATIONVIEW, wxDefaultPosition, wxSize(-1,-1));
@@ -100,10 +94,6 @@ CViewResources::CViewResources(wxNotebook* pNotebook) :
 	m_pieCtrlBOINC->GetLegend()->SetLabelColour(wxColour(0,0,127));
 	m_pieCtrlBOINC->GetLegend()->SetLabelColour(wxColour(0,0,127));
 	m_pieCtrlBOINC->GetLegend()->SetLabel(_("disk usage by BOINC projects"));
-	m_pieCtrlBOINC->SetAngle(4);
-	m_pieCtrlBOINC->SetPaint3D(false);
-	m_pieCtrlBOINC->SetDrawCircle(true);	
-
 	//init the flexGrid
     itemGridSizer->Add(m_pieCtrlTotal,1,wxGROW|wxALL,1);
     itemGridSizer->Add(m_pieCtrlBOINC,1, wxGROW|wxALL,1);	

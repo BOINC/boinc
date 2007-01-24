@@ -1054,3 +1054,11 @@ David  24 Jan 2007
 
 	client/
 		client_state.C
+
+David  24 Jan 2007
+	- manager: code cleanup (from Frank Weiler)
+
+	clientgui/
+		ViewResources.cpp
+		common/
+			xwPieCtrl.cpp,h
