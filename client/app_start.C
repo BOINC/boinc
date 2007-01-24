@@ -321,12 +321,12 @@ int ACTIVE_TASK::start(bool first_time) {
 #endif
 
     if (first_time && log_flags.task) {
-        msg_printf(0, MSG_INFO,
+        msg_printf(result->project, MSG_INFO,
             "Starting %s", result->name
         );
     }
     if (log_flags.cpu_sched) {
-        msg_printf(0, MSG_INFO,
+        msg_printf(result->project, MSG_INFO,
             "[cpu_sched] Starting %s%s", result->name, first_time?" (initial)":"(resume)"
         );
     }

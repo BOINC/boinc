@@ -1077,3 +1077,10 @@ David  24 Jan 2007
         app_control.C
     py/Boinc/
         setup_project.py
+
+David  24 Jan 2007
+	- core client: tweak messages
+
+	client/
+		app_start.C
+		cs_apps.C

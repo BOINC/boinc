@@ -169,12 +169,6 @@ bool CLIENT_STATE::handle_finished_apps() {
                     "Computation for task %s finished", atp->result->name
                 );
             }
-            if (log_flags.task_debug) {
-                msg_printf(0, MSG_INFO,
-                    "[task_debug] CLIENT_STATE::handle_finished_apps(): task finished; pid %d, status %d\n",
-                    atp->pid, atp->result->exit_status
-                );
-            }
             app_finished(*atp);
             active_tasks.remove(atp);
             delete atp;
