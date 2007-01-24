@@ -604,16 +604,16 @@ bool CAdvancedFrame::CreateNotebook() {
 
 
     // create the various notebook pages
-    CreateNotebookPage(new CViewProjects(m_pNotebook));
-    CreateNotebookPage(new CViewWork(m_pNotebook));
-    CreateNotebookPage(new CViewTransfers(m_pNotebook));
+    //CreateNotebookPage(new CViewProjects(m_pNotebook));
+	CreateNotebookPage(new CViewProjectsGrid(m_pNotebook));
+    //CreateNotebookPage(new CViewWork(m_pNotebook));
+	CreateNotebookPage(new CViewWorkGrid(m_pNotebook));
+    //CreateNotebookPage(new CViewTransfers(m_pNotebook));
+	CreateNotebookPage(new CViewTransfersGrid(m_pNotebook));
     CreateNotebookPage(new CViewMessages(m_pNotebook));
 	CreateNotebookPage(new CViewStatistics(m_pNotebook));
     CreateNotebookPage(new CViewResources(m_pNotebook));
-	CreateNotebookPage(new CViewWorkGrid(m_pNotebook));
-	CreateNotebookPage(new CViewTransfersGrid(m_pNotebook));
-	CreateNotebookPage(new CViewProjectsGrid(m_pNotebook));
-	CreateNotebookPage(new CViewMessagesGrid(m_pNotebook));
+	//CreateNotebookPage(new CViewMessagesGrid(m_pNotebook));
 
 
     pPanel->SetSizer(pPanelSizer);

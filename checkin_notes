@@ -1086,3 +1086,9 @@ Rom    24 Jan 2007
     
     clientgui/
         DlgAdvPreferencesBase.cpp
+
+Rom    24 Jan 2007
+    - MGR: Disable older style views.
+    
+    clientgui/
+        AdvancedFrame.cpp
