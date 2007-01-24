@@ -785,7 +785,7 @@ void CLIENT_STATE::print_summary() {
     }
     msg_printf(0, MSG_INFO, "%d results\n", (int)results.size());
     for (i=0; i<results.size(); i++) {
-        msg_printf(0, MSG_INFO, "    %s state:%d\n", results[i]->name, results[i]->state);
+        msg_printf(0, MSG_INFO, "    %s state:%d\n", results[i]->name, results[i]->state());
     }
     msg_printf(0, MSG_INFO, "%d persistent file xfers\n", (int)pers_file_xfers->pers_file_xfers.size());
     for (i=0; i<pers_file_xfers->pers_file_xfers.size(); i++) {
@@ -875,9 +875,10 @@ bool CLIENT_STATE::garbage_collect_always() {
             if (atp) {
                 msg_printf(rp->project, MSG_ERROR,
                     "garbage_collect(); still have active task for acked result %s; state %d",
-                    rp->name, atp->task_state
+                    rp->name, atp->task_state()
                 );
-                atp->task_state = PROCESS_EXITED;   // this will get rid of it
+                atp->set_task_state(PROCESS_EXITED, "garbage_collect");
+                // this will get rid of it
             } else {
                 if (log_flags.state_debug) {
                     msg_printf(0, MSG_INFO,
@@ -1064,19 +1065,19 @@ bool CLIENT_STATE::update_results() {
     while (result_iter != results.end()) {
         rp = *result_iter;
 
-        switch (rp->state) {
+        switch (rp->state()) {
         case RESULT_NEW:
-            rp->state = RESULT_FILES_DOWNLOADING;
+            rp->set_state(RESULT_FILES_DOWNLOADING, "CS::update_results");
             action = true;
             break;
         case RESULT_FILES_DOWNLOADING:
             retval = input_files_available(rp, false);
             if (!retval) {
-                rp->state = RESULT_FILES_DOWNLOADED;
+                rp->set_state(RESULT_FILES_DOWNLOADED, "CS::update_results");
                 if (rp->wup->avp->app_files.size()==0) {
                     // if this is a file-transfer app, start the upload phase
                     //
-                    rp->state = RESULT_FILES_UPLOADING;
+                    rp->set_state(RESULT_FILES_UPLOADING, "CS::update_results");
                     rp->clear_uploaded_flags();
                 } else {
                     // else try to start the computation
@@ -1090,7 +1091,7 @@ bool CLIENT_STATE::update_results() {
             if (rp->is_upload_done()) {
                 rp->ready_to_report = true;
                 rp->completed_time = gstate.now;
-                rp->state = RESULT_FILES_UPLOADED;
+                rp->set_state(RESULT_FILES_UPLOADED, "CS::update_results");
                 action = true;
             }
             break;
@@ -1164,7 +1165,7 @@ int CLIENT_STATE::report_result_error(RESULT& res, const char* format, ...) {
     sprintf( buf, "<message>\n%s\n</message>\n", err_msg);
     res.stderr_out.append(buf);
 
-    switch(res.state) {
+    switch(res.state()) {
     case RESULT_NEW:
     case RESULT_FILES_DOWNLOADING:
         // called from:
@@ -1185,7 +1186,7 @@ int CLIENT_STATE::report_result_error(RESULT& res, const char* format, ...) {
         // ACTIVE_TASK::abort_task (if exceeded resource limit)
         // CLIENT_STATE::schedule_cpus (catch-all for resume/start errors)
         //
-        res.state = RESULT_COMPUTE_ERROR;
+        res.set_state(RESULT_COMPUTE_ERROR, "CS::report_result_error");
         if (!res.exit_status) {
             res.exit_status = ERR_RESULT_START;
         }

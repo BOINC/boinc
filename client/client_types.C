@@ -1391,6 +1391,29 @@ void WORKUNIT::clear_errors() {
     }
 }
 
+static const char* result_state_name(int val) {
+    switch (val) {
+    case RESULT_NEW: return "NEW";
+    case RESULT_FILES_DOWNLOADING: return "FILES_DOWNLOADING";
+    case RESULT_FILES_DOWNLOADED: return "FILES_DOWNLOADED";
+    case RESULT_COMPUTE_ERROR: return "COMPUTE_ERROR";
+    case RESULT_FILES_UPLOADING: return "FILES_UPLOADING";
+    case RESULT_FILES_UPLOADED: return "FILES_UPLOADED";
+    case RESULT_ABORTED: return "FILES_ABORTED";
+    }
+    return "Unknown";
+}
+
+void RESULT::set_state(int val, const char* where) {
+    _state = val;
+    if (log_flags.task_debug) {
+        msg_printf(project, MSG_INFO,
+            "[task_debug] result state=%s for %s from %s",
+            result_state_name(val), name, where
+        );
+    }
+}
+
 int RESULT::parse_name(FILE* in, const char* end_tag) {
     char buf[256];
 
@@ -1414,7 +1437,7 @@ void RESULT::clear() {
     strcpy(wu_name, "");
     report_deadline = 0;
     output_files.clear();
-    state = RESULT_NEW;
+    _state = RESULT_NEW;
     ready_to_report = false;
     completed_time = 0;
     got_server_ack = false;
@@ -1490,7 +1513,7 @@ int RESULT::parse_state(MIOFILE& in) {
             // restore some invariants in case of bad state file
             //
             if (got_server_ack || ready_to_report) {
-                state = RESULT_FILES_UPLOADED;
+                set_state(RESULT_FILES_UPLOADED, "RESULT::parse_state");
             }
             return 0;
         }
@@ -1511,7 +1534,7 @@ int RESULT::parse_state(MIOFILE& in) {
         else if (match_tag(buf, "<ready_to_report/>")) ready_to_report = true;
         else if (parse_double(buf, "<completed_time>", completed_time)) continue;
         else if (match_tag(buf, "<suspended_via_gui/>")) suspended_via_gui = true;
-        else if (parse_int(buf, "<state>", state)) continue;
+        else if (parse_int(buf, "<state>", _state)) continue;
         else if (match_tag(buf, "<stderr_out>")) {
             while (in.fgets(buf, 256)) {
                 if (match_tag(buf, "</stderr_out>")) break;
@@ -1550,7 +1573,7 @@ int RESULT::write(MIOFILE& out, bool to_server) {
         name,
         final_cpu_time,
         exit_status,
-        state
+        state()
     );
     if (fpops_per_cpu_sec) {
         out.printf("    <fpops_per_cpu_sec>%f</fpops_per_cpu_sec>\n", fpops_per_cpu_sec);
@@ -1639,7 +1662,7 @@ int RESULT::write_gui(MIOFILE& out) {
         project->master_url,
         final_cpu_time,
         exit_status,
-        state,
+        state(),
         report_deadline,
         estimated_cpu_time_remaining()
     );
@@ -1692,7 +1715,7 @@ void RESULT::clear_uploaded_flags() {
 }
 
 bool RESULT::computing_done() {
-    return (state >= RESULT_COMPUTE_ERROR || ready_to_report);
+    return (state() >= RESULT_COMPUTE_ERROR || ready_to_report);
 }
 
 double RESULT::estimated_cpu_time_uncorrected() {
@@ -1755,7 +1778,7 @@ void PROJECT::update_duration_correction_factor(RESULT* rp) {
 bool RESULT::runnable() {
     if (suspended_via_gui) return false;
     if (project->suspended_via_gui) return false;
-    if (state != RESULT_FILES_DOWNLOADED) return false;
+    if (state() != RESULT_FILES_DOWNLOADED) return false;
     return true;
 }
 
@@ -1769,7 +1792,7 @@ bool RESULT::nearly_runnable() {
 bool RESULT::downloading() {
     if (suspended_via_gui) return false;
     if (project->suspended_via_gui) return false;
-    if (state > RESULT_FILES_DOWNLOADING) return false;
+    if (state() > RESULT_FILES_DOWNLOADING) return false;
     return true;
 }
 
@@ -1819,8 +1842,8 @@ FILE_INFO* RESULT::lookup_file_logical(const char* lname) {
 // abort a result that's not currently running
 //
 void RESULT::abort_inactive(int status) {
-    if (state >= RESULT_COMPUTE_ERROR) return;
-    state = RESULT_ABORTED;
+    if (state() >= RESULT_COMPUTE_ERROR) return;
+    set_state(RESULT_ABORTED, "RESULT::abort_inactive");
     exit_status = status;
 }
 

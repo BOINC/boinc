@@ -63,7 +63,7 @@ using std::vector;
 #include "app.h"
 
 bool ACTIVE_TASK::process_exists() {
-    switch (task_state) {
+    switch (task_state()) {
     case PROCESS_EXECUTING:
     case PROCESS_SUSPENDED:
     case PROCESS_ABORT_PENDING:
@@ -103,12 +103,12 @@ int ACTIVE_TASK::kill_task(bool restart) {
     kill(pid, SIGKILL);
 #endif
 	if (restart) {
-		task_state = PROCESS_UNINITIALIZED;
+		set_task_state(PROCESS_UNINITIALIZED, "kill_task");
 		scheduler_state = CPU_SCHED_PREEMPTED;
 		gstate.request_enforce_schedule("Task restart");
 	} else {
 		cleanup_task();
-		task_state = PROCESS_ABORTED;
+		set_task_state(PROCESS_ABORTED, "kill_task");
 	}
     return 0;
 }
@@ -135,7 +135,7 @@ bool ACTIVE_TASK::has_task_exited() {
     }
 #endif
     if (exited) {
-        task_state = PROCESS_EXITED;
+        set_task_state(PROCESS_EXITED, "has_task_exited");
         cleanup_task();
     }
     return exited;
@@ -211,11 +211,11 @@ void ACTIVE_TASK::handle_exited_app(int stat) {
     get_app_status_msg();
     get_trickle_up_msg();
     result->final_cpu_time = current_cpu_time;
-    if (task_state == PROCESS_ABORT_PENDING) {
-        task_state = PROCESS_ABORTED;
+    if (task_state() == PROCESS_ABORT_PENDING) {
+        set_task_state(PROCESS_ABORTED, "handle_exited_app");
     } else {
 #ifdef _WIN32
-        task_state = PROCESS_EXITED;
+        set_task_state(PROCESS_EXITED, "handle_exited_app");
         close_process_handles();
 
         result->exit_status = exit_code;
@@ -241,7 +241,7 @@ void ACTIVE_TASK::handle_exited_app(int stat) {
         } else {
             if (!finish_file_present()) {
                 will_restart = true;
-                task_state = PROCESS_UNINITIALIZED;
+                set_task_state(PROCESS_UNINITIALIZED, "handle_exited_app");
                 if (pending_suspend_via_quit) {
                     pending_suspend_via_quit = false;
                 } else {
@@ -252,7 +252,7 @@ void ACTIVE_TASK::handle_exited_app(int stat) {
         }
 #else
         if (WIFEXITED(stat)) {
-            task_state = PROCESS_EXITED;
+            set_task_state(PROCESS_EXITED, "handle_exited_app");
             result->exit_status = WEXITSTATUS(stat);
 
             if (result->exit_status) {
@@ -264,7 +264,7 @@ void ACTIVE_TASK::handle_exited_app(int stat) {
             } else {
                 if (!finish_file_present()) {
                     will_restart = true;
-                    task_state = PROCESS_UNINITIALIZED;
+                    set_task_state(PROCESS_UNINITIALIZED, "handle_exited_app");
                     if (pending_suspend_via_quit) {
                         pending_suspend_via_quit = false;
                     } else {
@@ -299,12 +299,12 @@ void ACTIVE_TASK::handle_exited_app(int stat) {
             case SIGSTOP:
                 will_restart = true;
                 scheduler_state = CPU_SCHED_PREEMPTED;
-                task_state = PROCESS_UNINITIALIZED;
+                set_task_state(PROCESS_UNINITIALIZED, "handle_exited_app");
                 limbo_message(*this);
                 break;
             default:
                 result->exit_status = stat;
-                task_state = PROCESS_WAS_SIGNALED;
+                set_task_state(PROCESS_WAS_SIGNALED, "handle_exited_app");
                 signal = got_signal;
                 gstate.report_result_error(
                     *result, "process got signal %d", signal
@@ -312,7 +312,7 @@ void ACTIVE_TASK::handle_exited_app(int stat) {
             }
         } else {
             result->exit_status = -1;
-            task_state = PROCESS_EXIT_UNKNOWN;
+            set_task_state(PROCESS_EXIT_UNKNOWN, "handle_exited_app");
             gstate.report_result_error(*result, "process exit, unknown");
             msg_printf(result->project, MSG_ERROR,
                 "process exited for unknown reason"
@@ -433,7 +433,7 @@ bool ACTIVE_TASK_SET::check_app_exited() {
             // The process doesn't seem to be there.
             // Mark task as aborted so we don't check it again.
             //
-            atp->task_state = PROCESS_ABORTED;
+            atp->set_task_state(PROCESS_ABORTED, "check_app_exited");
         }
     }
 #else
@@ -506,7 +506,7 @@ bool ACTIVE_TASK_SET::check_rsc_limits_exceeded() {
     }
     for (i=0; i<active_tasks.size(); i++) {
         atp = active_tasks[i];
-        if (atp->task_state != PROCESS_EXECUTING) continue;
+        if (atp->task_state() != PROCESS_EXECUTING) continue;
 		if (atp->current_cpu_time > atp->max_cpu_time) {
 			msg_printf(atp->result->project, MSG_INFO,
 				"Aborting task %s: exceeded CPU time limit %f\n",
@@ -548,18 +548,18 @@ bool ACTIVE_TASK_SET::check_rsc_limits_exceeded() {
 // or when the user has requested it.
 //
 int ACTIVE_TASK::abort_task(int exit_status, const char* msg) {
-    if (task_state == PROCESS_EXECUTING || task_state == PROCESS_SUSPENDED) {
-        task_state = PROCESS_ABORT_PENDING;
+    if (task_state() == PROCESS_EXECUTING || task_state() == PROCESS_SUSPENDED) {
+        set_task_state(PROCESS_ABORT_PENDING, "abort_task");
 		scheduler_state = CPU_SCHED_PREEMPTED;
 			// so scheduler doesn't try to preempt it
         abort_time = gstate.now;
 		request_abort();
     } else {
-        task_state = PROCESS_ABORTED;
+        set_task_state(PROCESS_ABORTED, "abort_task");
     }
     result->exit_status = exit_status;
     gstate.report_result_error(*result, msg);
-    result->state = RESULT_ABORTED;
+    result->set_state(RESULT_ABORTED, "abort_task");
     return 0;
 }
 
@@ -750,7 +750,7 @@ void ACTIVE_TASK_SET::suspend_all(bool leave_apps_in_memory) {
     ACTIVE_TASK* atp;
     for (i=0; i<active_tasks.size(); i++) {
         atp = active_tasks[i];
-        if (atp->task_state != PROCESS_EXECUTING) continue;
+        if (atp->task_state() != PROCESS_EXECUTING) continue;
         atp->preempt(!leave_apps_in_memory);
     }
 }
@@ -763,13 +763,13 @@ void ACTIVE_TASK_SET::unsuspend_all() {
     for (i=0; i<active_tasks.size(); i++) {
         atp = active_tasks[i];
         if (atp->scheduler_state != CPU_SCHED_SCHEDULED) continue;
-        if (atp->task_state == PROCESS_UNINITIALIZED) {
+        if (atp->task_state() == PROCESS_UNINITIALIZED) {
             if (atp->start(false)) {
                 msg_printf(atp->wup->project, MSG_ERROR,
                     "Couldn't restart task %s", atp->result->name
                 );
             }
-        } else if (atp->task_state == PROCESS_SUSPENDED) {
+        } else if (atp->task_state() == PROCESS_SUSPENDED) {
             atp->unsuspend();
         }
     }
@@ -783,7 +783,7 @@ bool ACTIVE_TASK_SET::is_task_executing() {
     ACTIVE_TASK* atp;
     for (i=0; i<active_tasks.size(); i++) {
         atp = active_tasks[i];
-        if (atp->task_state == PROCESS_EXECUTING) {
+        if (atp->task_state() == PROCESS_EXECUTING) {
             return true;
         }
     }
@@ -823,7 +823,7 @@ void ACTIVE_TASK_SET::kill_tasks(PROJECT* proj) {
 //
 int ACTIVE_TASK::suspend() {
     if (!app_client_shm.shm) return 0;
-	if (task_state != PROCESS_EXECUTING) {
+	if (task_state() != PROCESS_EXECUTING) {
 		msg_printf(0, MSG_INFO, "Internal error: expected process to be executing");
 	}
 	int n = process_control_queue.msg_queue_purge("<resume/>");
@@ -833,7 +833,7 @@ int ACTIVE_TASK::suspend() {
 			app_client_shm.shm->process_control_request
 		);
 	}
-    task_state = PROCESS_SUSPENDED;
+    set_task_state(PROCESS_SUSPENDED, "suspend");
     return 0;
 }
 
@@ -841,7 +841,7 @@ int ACTIVE_TASK::suspend() {
 //
 int ACTIVE_TASK::unsuspend() {
     if (!app_client_shm.shm) return 0;
-	if (task_state != PROCESS_SUSPENDED) {
+	if (task_state() != PROCESS_SUSPENDED) {
 		msg_printf(0, MSG_INFO, "Internal error: expected process to be suspended");
 	}
     if (log_flags.cpu_sched) {
@@ -854,7 +854,7 @@ int ACTIVE_TASK::unsuspend() {
 			app_client_shm.shm->process_control_request
 		);
 	}
-    task_state = PROCESS_EXECUTING;
+    set_task_state(PROCESS_EXECUTING, "unsuspend");
     return 0;
 }
 

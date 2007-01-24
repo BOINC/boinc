@@ -79,7 +79,7 @@ ACTIVE_TASK::ACTIVE_TASK() {
     app_version = NULL;
     pid = 0;
     slot = 0;
-    task_state = PROCESS_UNINITIALIZED;
+    _task_state = PROCESS_UNINITIALIZED;
     scheduler_state = CPU_SCHED_UNINITIALIZED;
     signal = 0;
     strcpy(slot_dir, "");
@@ -106,6 +106,31 @@ ACTIVE_TASK::ACTIVE_TASK() {
     thread_handle = 0;
     shm_handle = 0;
 #endif
+}
+
+static const char* task_state_name(int val) {
+    switch (val) {
+    case PROCESS_UNINITIALIZED: return "UNINITIALIZED";
+    case PROCESS_EXECUTING: return "EXECUTING";
+    case PROCESS_SUSPENDED: return "SUSPENDED";
+    case PROCESS_ABORT_PENDING: return "ABORT_PENDING";
+    case PROCESS_EXITED: return "EXITED";
+    case PROCESS_WAS_SIGNALED: return "WAS_SIGNALED";
+    case PROCESS_EXIT_UNKNOWN: return "EXIT_UNKNOWN";
+    case PROCESS_ABORTED: return "ABORTED";
+    case PROCESS_COULDNT_START: return "COULDNT_START";
+    }
+    return "Unknown";
+}
+
+void ACTIVE_TASK::set_task_state(int val, const char* where) {
+    _task_state = val;
+    if (log_flags.task_debug) {
+        msg_printf(result->project, MSG_INFO,
+            "[task_debug] task_state=%s for %s from %s",
+            task_state_name(val), result->name, where
+        );
+    }
 }
 
 #ifdef _WIN32
@@ -266,7 +291,7 @@ bool ACTIVE_TASK_SET::poll() {
     action |= get_msgs();
     for (i=0; i<active_tasks.size(); i++) {
         ACTIVE_TASK* atp = active_tasks[i];
-        if (atp->task_state == PROCESS_ABORT_PENDING) {
+        if (atp->task_state() == PROCESS_ABORT_PENDING) {
             if (gstate.now > atp->abort_time + 5.0) {
                 atp->kill_task(false);
             }
@@ -403,7 +428,7 @@ int ACTIVE_TASK::write(MIOFILE& fout) {
         "%s",
         result->project->master_url,
         result->name,
-        task_state,
+        task_state(),
         app_version->version_num,
         slot,
         scheduler_state,
@@ -461,7 +486,7 @@ int ACTIVE_TASK::parse(MIOFILE& fin) {
             //
             if (result->got_server_ack
                 || result->ready_to_report
-                || result->state != RESULT_FILES_DOWNLOADED
+                || result->state() != RESULT_FILES_DOWNLOADED
             ) {
                 msg_printf(project, MSG_ERROR,
                     "State file error: result %s is in wrong state\n",

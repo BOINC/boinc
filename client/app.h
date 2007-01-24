@@ -83,7 +83,11 @@ public:
 	PROCINFO procinfo;
 
     int slot;   // subdirectory of slots/ where this runs
-    int task_state;
+    int _task_state;
+    inline int task_state() {
+        return _task_state;
+    }
+    void set_task_state(int, const char*);
     int scheduler_state;
     int next_scheduler_state; // temp
     int signal;
@@ -144,9 +148,9 @@ public:
     int link_user_files();
     int get_shmem_seg_name();
     bool runnable() {
-        return task_state == PROCESS_UNINITIALIZED
-            || task_state == PROCESS_EXECUTING
-            || task_state == PROCESS_SUSPENDED;
+        return _task_state == PROCESS_UNINITIALIZED
+            || _task_state == PROCESS_EXECUTING
+            || _task_state == PROCESS_SUSPENDED;
     }
 
     ACTIVE_TASK();

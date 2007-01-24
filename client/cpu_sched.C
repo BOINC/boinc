@@ -118,7 +118,7 @@ void CLIENT_STATE::assign_results_to_projects() {
             project->next_runnable_result
         );
 
-        if ((next_atp->task_state == PROCESS_UNINITIALIZED && atp->process_exists())
+        if ((next_atp->task_state() == PROCESS_UNINITIALIZED && atp->process_exists())
             || (next_atp->scheduler_state == CPU_SCHED_PREEMPTED
             && atp->scheduler_state == CPU_SCHED_SCHEDULED)
         ) {
