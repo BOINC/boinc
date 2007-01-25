@@ -25,6 +25,10 @@
 #include <sys/types.h>
 
 #include "local_master.h"
+#include "local_common.h"
+#include "local_utils.c"
+#include "local_wu.h"
+
 
 /********************************************************************
  * Global variables
@@ -40,6 +44,7 @@ int sleep_interval;
 
 static GHashTable *wu_table;
 
+
 /********************************************************************
  * API functions
  */
@@ -48,6 +53,8 @@ int DC_initMaster(const char *config_file)
 {
 	char *cfgval;
 	int ret;
+
+	_DC_init_common();
 
 	if (!config_file)
 		config_file = DC_CONFIG_FILE;
@@ -779,6 +786,28 @@ DC_Workunit *
 DC_deserializeWU(const char *buf)
 {
 	return(NULL/*DC_ERR_NOTIMPL*/);
+}
+
+
+/**************************************************************** Messaging */
+
+/* Sends a message to a running work unit. */
+int
+DC_sendWUMessage(DC_Workunit *wu, const char *message)
+{
+	GString *dn;
+	int ret;
+
+	/*if (!_DC_wu_check(wu))
+	  return(DC_ERR_UNKNOWN_WU);*/
+	DC_log(LOG_DEBUG, "DC_sendWUMessage(%p-\"%s\", %s)",
+	       wu, wu->name, message);
+	dn= g_string_new(wu->workdir);
+	g_string_append(dn, "/");
+	g_string_append(dn, _DC_wu_cfg(wu, cfg_master_message_box));
+	ret= _DC_create_message(dn->str, _DCAPI_MSG_MESSAGE, message, NULL);
+	g_string_free(dn, TRUE);
+	return(ret);
 }
 
 
