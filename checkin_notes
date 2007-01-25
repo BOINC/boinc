@@ -1124,3 +1124,8 @@ Charlie 24 Jan 2007
             project.pbxproj
         boinc.xcodeproj/
             project.pbxproj
+
+Rom    24 Jan 2007
+    - Tag for 5.8.5 release, all platforms
+      boinc_core_release_5_8_5
+
