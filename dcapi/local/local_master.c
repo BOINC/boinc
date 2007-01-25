@@ -1,3 +1,15 @@
+/*
+ * local/local_master.c
+ *
+ * DC-API functions of master side
+ *
+ * (c) Gabor Vida 2005-2006, Daniel Drotos, 2007
+ */
+
+/* $Id: $ */
+/* $Date: $ */
+/* $Revision: $ */
+
 #ifdef HAVE_CONFIG_H
 #include <config.h>
 #endif
@@ -734,3 +746,13 @@ int DC_setWUPriority(DC_Workunit *wu, int priority)
 	return 0;
 }
 
+DC_getWUState(DC_Workunit *wu)
+{
+  return(DC_WU_UNKNOWN);
+}
+
+/* End of local/local_master.c */
+
+/* Local variables: */
+/* c-file-style: "linux" */
+/* End: */
