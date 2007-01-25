@@ -1129,3 +1129,10 @@ Rom    24 Jan 2007
     - Tag for 5.8.5 release, all platforms
       boinc_core_release_5_8_5
 
+Rom    25 Jan 2007
+    - MGR: Disable advanced preferences dialog dox.
+    - MGR: Do not refresh the Simple GUI when the manager is hidden.
+    
+    clientgui/
+        AdvancedFrame.cpp
+        sg_BoincSimpleGUI.cpp
