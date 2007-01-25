@@ -9,7 +9,7 @@
 #include <sys/types.h>
 #include <sys/wait.h>
 
-#include "dc_local.h"
+#include "local_master.h"
 
 /********************************************************************
  * Functions

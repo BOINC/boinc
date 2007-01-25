@@ -1,6 +1,6 @@
 /* Definitions common for both the server and client side */
-#ifndef COMMON_DEFS_H
-#define COMMON_DEFS_H
+#ifndef __DC_API_LOCAL_COMMON_H
+#define __DC_API_LOCAL_COMMON_H
 
 #ifdef __cplusplus
 extern "C" {
@@ -40,4 +40,4 @@ static const char *const workdir_prefixes[] =
 }
 #endif
 
-#endif /* COMMON_DEFS_H */
+#endif /* __DC_API_LOCAL_COMMON_H */

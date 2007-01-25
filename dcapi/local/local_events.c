@@ -5,7 +5,7 @@
 #include <unistd.h>
 #include <strings.h>
 
-#include "dc_local.h"
+#include "local_master.h"
 
 int DC_processMasterEvents(int timeout)
 {

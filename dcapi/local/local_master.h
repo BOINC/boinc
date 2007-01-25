@@ -10,7 +10,7 @@ extern "C" {
 #include <uuid/uuid.h>
 #include <glib.h>
 
-#include "common_defs.h"
+#include "local_common.h"
 
 /********************************************************************
  * Constants

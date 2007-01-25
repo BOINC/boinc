@@ -12,7 +12,7 @@
 #include <sys/stat.h>
 #include <sys/types.h>
 
-#include "dc_local.h"
+#include "local_master.h"
 
 /********************************************************************
  * Global variables
