@@ -36,6 +36,18 @@ static const char *const workdir_prefixes[] =
         "in_", "out_", "checkpoint", "dc_"
 };
 
+#define _DCAPI_MSG_MESSAGE      "message"
+#define _DCAPI_MSG_LOGICAL      "logical_name"
+#define _DCAPI_MSG_COMMAND      "command"
+#define _DCAPI_MSG_ACK          "acknowledge"
+
+#define _DCAPI_CMD_SUSPEND      "suspend"
+#define _DCAPI_ACK_SUSPEND      "suspending"
+
+#define _DCAPI_CMD_RESUME       "resume"
+
+#define _DCAPI_SIG_SERIALIZED   "serialized"
+
 #ifdef __cplusplus
 }
 #endif
