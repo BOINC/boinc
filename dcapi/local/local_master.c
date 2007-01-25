@@ -746,10 +746,41 @@ int DC_setWUPriority(DC_Workunit *wu, int priority)
 	return 0;
 }
 
+/* Queries the state of a work unit. */
+DC_WUState
 DC_getWUState(DC_Workunit *wu)
 {
-	return(DC_WU_UNKNOWN);
+	return(DC_ERR_NOTIMPL);
 }
+
+/* Temporarily suspends the execution of a work unit. */
+int
+DC_suspendWU(DC_Workunit *wu)
+{
+	return(DC_ERR_NOTIMPL);
+}
+
+/* Resumes computation of a previously suspended work unit. */
+int
+DC_resumeWU(DC_Workunit *wu)
+{
+	return(DC_ERR_NOTIMPL);
+}
+
+/* Serializes a work unit description. */
+char *
+DC_serializeWU(DC_Workunit *wu)
+{
+	return(NULL/*DC_ERR_NOTIMPL*/);
+}
+
+/* Restores a serialized work unit. */
+DC_Workunit *
+DC_deserializeWU(const char *buf)
+{
+	return(NULL/*DC_ERR_NOTIMPL*/);
+}
+
 
 /* End of local/local_master.c */
 
