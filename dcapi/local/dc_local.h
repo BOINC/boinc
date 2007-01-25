@@ -1,5 +1,5 @@
-#ifndef __DC_BOINC_H_
-#define __DC_BOINC_H_
+#ifndef __DC_API_LOCAL_MASTER_H
+#define __DC_API_LOCAL_MASTER_H
 
 #ifdef __cplusplus
 extern "C" {
@@ -113,4 +113,4 @@ DC_Workunit *_DC_getWUByName(const char *name);
 }
 #endif
 
-#endif /* __DC_BOINC_H_ */
+#endif /* __DC_API_LOCAL_MASTER_H */
