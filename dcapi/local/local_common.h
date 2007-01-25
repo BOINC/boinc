@@ -1,3 +1,15 @@
+/*
+ * local/local_common.h
+ *
+ * DC-API definitions of both client and master side
+ *
+ * (c) Gabor Vida 2005-2006, Daniel Drotos, 2007
+ */
+
+/* $Id$ */
+/* $Date$ */
+/* $Revision$ */
+
 /* Definitions common for both the server and client side */
 #ifndef __DC_API_LOCAL_COMMON_H
 #define __DC_API_LOCAL_COMMON_H
@@ -25,6 +37,18 @@ extern "C" {
 #define MAX_MESSAGE_SIZE	16384
 
 /* Maximum allowed message length */
+/*
+ * local/local_master.c
+ *
+ * DC-API functions of master side
+ *
+ * (c) Gabor Vida 2005-2006, Daniel Drotos, 2007
+ */
+
+/* $Id$ */
+/* $Date$ */
+/* $Revision$ */
+
 #define MAX_SUBRESULTS		100
 
 /* Prefix for internal messages between the client-side and master-side DC-API */
@@ -53,3 +77,10 @@ static const char *const workdir_prefixes[] =
 #endif
 
 #endif /* __DC_API_LOCAL_COMMON_H */
+
+
+/* End of local/local_common.h */
+
+/* Local variables: */
+/* c-file-style: "linux" */
+/* End: */

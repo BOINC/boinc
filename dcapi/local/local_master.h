@@ -1,3 +1,15 @@
+/*
+ * local/local_master.h
+ *
+ * DC-API definitions of master side
+ *
+ * (c) Gabor Vida 2005-2006, Daniel Drotos, 2007
+ */
+
+/* $Id$ */
+/* $Date$ */
+/* $Revision$ */
+
 #ifndef __DC_API_LOCAL_MASTER_H
 #define __DC_API_LOCAL_MASTER_H
 
@@ -114,3 +126,10 @@ DC_Workunit *_DC_getWUByName(const char *name);
 #endif
 
 #endif /* __DC_API_LOCAL_MASTER_H */
+
+
+/* End of local/local_master.h */
+
+/* Local variables: */
+/* c-file-style: "linux" */
+/* End: */
