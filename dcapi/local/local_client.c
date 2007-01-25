@@ -43,6 +43,7 @@ unsigned DC_getGridCapabilities(void)
 
 int DC_initClient(void)
 {
+	_DC_init_common();
 	return 0;
 }
 
