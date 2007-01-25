@@ -1,3 +1,15 @@
+/*
+ * local/local_events.c
+ *
+ * DC-API functions related to event handling
+ *
+ * (c) Gabor Vida 2005-2006, Daniel Drotos, 2007
+ */
+
+/* $Id$ */
+/* $Date$ */
+/* $Revision$ */
+
 #ifdef HAVE_CONFIG_H
 #include <config.h>
 #endif
@@ -80,3 +92,10 @@ void DC_destroyMasterEvent(DC_MasterEvent *event)
 			break;
 	}
 }
+
+
+/* End of local/local_events.c */
+
+/* Local variables: */
+/* c-file-style: "linux" */
+/* End: */

@@ -1,10 +1,14 @@
 /*
- * condor/condor_utils.h
+ * local/local_utils.h
  *
  * DC-API usefull functions
  *
- * (c) Daniel Drotos, 2006
+ * (c) Daniel Drotos, 2006-2007
  */
+
+/* $Id$ */
+/* $Date$ */
+/* $Revision$ */
 
 #ifndef __DC_API_CONDOR_UTILS_H_
 #define __DC_API_CONDOR_UTILS_H_
@@ -48,7 +52,7 @@ extern char *_DC_unquote_string(char *str);
 
 #endif
 
-/* End of condor/condor_utils.h */
+/* End of local/local_utils.h */
 
 /* Local variables: */
 /* c-file-style: "linux" */

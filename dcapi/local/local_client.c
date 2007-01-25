@@ -1,3 +1,15 @@
+/*
+ * local/local_client.c
+ *
+ * DC-API functions of client side
+ *
+ * (c) Gabor Vida 2005-2006, Daniel Drotos, 2007
+ */
+
+/* $Id$ */
+/* $Date$ */
+/* $Revision$ */
+
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
@@ -85,3 +97,10 @@ void DC_finishClient(int exitcode)
 
 	exit(exitcode);
 }
+
+
+/* End of local/local_client.c */
+
+/* Local variables: */
+/* c-file-style: "linux" */
+/* End: */

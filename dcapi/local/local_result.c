@@ -1,3 +1,15 @@
+/*
+ * local/local_result.c
+ *
+ * DC-API functions related to result handling
+ *
+ * (c) Gabor Vida 2005-2006, Daniel Drotos, 2007
+ */
+
+/* $Id$ */
+/* $Date$ */
+/* $Revision$ */
+
 #ifdef HAVE_CONFIG_H
 #include <config.h>
 #endif
@@ -131,3 +143,9 @@ char *DC_getResultOutput(const DC_Result *result, const char *logicalFileName)
 	return NULL;
 }
 
+
+/* End of local/local_result.c */
+
+/* Local variables: */
+/* c-file-style: "linux" */
+/* End: */
