@@ -1112,3 +1112,15 @@ David  24 Jan 2007
         client_types.C,h
         cs_apps.C
         cs_scheduler.C
+
+Charlie 24 Jan 2007
+    MGR: Revert certain changes for wxWidgets 2.8.0; use 2.6.3 for 5.8.5 release.  
+
+    mac_build/
+        buildWxMac.sh
+        setupForBoinc.sh
+        HowToBuildBOINC_XCode.rtf
+        wxMac-BOINC.xcodeproj/
+            project.pbxproj
+        boinc.xcodeproj/
+            project.pbxproj
