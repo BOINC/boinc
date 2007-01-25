@@ -1049,19 +1049,19 @@ David  23 Jan 2007
         log_flags.C,h
 
 David  24 Jan 2007
-	- core client: in error message for unexpected active task,
-		include result name
+    - core client: in error message for unexpected active task,
+        include result name
 
-	client/
-		client_state.C
+    client/
+        client_state.C
 
 David  24 Jan 2007
-	- manager: code cleanup (from Frank Weiler)
+    - manager: code cleanup (from Frank Weiler)
 
-	clientgui/
-		ViewResources.cpp
-		common/
-			xwPieCtrl.cpp,h
+    clientgui/
+        ViewResources.cpp
+        common/
+            xwPieCtrl.cpp,h
 
 David  24 Jan 2007
     - core client: when preempt a task by quit,
@@ -1079,11 +1079,11 @@ David  24 Jan 2007
         setup_project.py
 
 David  24 Jan 2007
-	- core client: tweak messages
+    - core client: tweak messages
 
-	client/
-		app_start.C
-		cs_apps.C
+    client/
+        app_start.C
+        cs_apps.C
 
 Rom    24 Jan 2007
     - MGR: _("") causes poEdit to throw warnings, change them to wxT("").
@@ -1119,3 +1119,14 @@ Rom    25 Jan 2007
     
     clientgui/
         sg_BoincSimpleGUI.cpp
+
+David  25 Jan 2007
+    - Manager: use a scientifically chosen set of colors
+        for disk pie charts
+
+    clientgui/
+        ViewResources.cpp
+        common/
+            wxPieCtrl.cpp
+    win_build/
+        boinc_dll.vcproj
