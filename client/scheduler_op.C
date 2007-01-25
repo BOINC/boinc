@@ -63,7 +63,7 @@ bool SCHEDULER_OP::check_master_fetch_start() {
     if (!p) return false;
     retval = init_master_fetch(p);
     if (retval) {
-        msg_printf(p, MSG_ERROR,
+        msg_printf(p, MSG_INTERNAL_ERROR,
             "Couldn't start download of scheduler list: %s", boincerror(retval)
         );
         if (p->tentative) {
@@ -256,16 +256,20 @@ int SCHEDULER_OP::start_rpc(PROJECT* p) {
     http_op.set_proxy(&gstate.proxy_info);
     retval = http_op.init_post(scheduler_url, request_file, reply_file);
     if (retval) {
-        msg_printf(p, MSG_ERROR,
-            "Scheduler request failed: %s", boincerror(retval)
-        );
+        if (log_flags.sched_ops) {
+            msg_printf(p, MSG_INFO,
+                "Scheduler request failed: %s", boincerror(retval)
+            );
+        }
         return retval;
     }
     retval = http_ops->insert(&http_op);
     if (retval) {
-        msg_printf(p, MSG_ERROR,
-            "Scheduler request failed: %s", boincerror(retval)
-        );
+        if (log_flags.sched_ops) {
+            msg_printf(p, MSG_INFO,
+                "Scheduler request failed: %s", boincerror(retval)
+            );
+        }
         return retval;
     }
     p->rpc_seqno++;
@@ -310,7 +314,7 @@ int SCHEDULER_OP::parse_master_file(PROJECT* p, vector<std::string> &urls) {
     get_master_filename(*p, master_filename);
     f = boinc_fopen(master_filename, "r");
     if (!f) {
-        msg_printf(p, MSG_ERROR, "Can't open scheduler list file");
+        msg_printf(p, MSG_INTERNAL_ERROR, "Can't open scheduler list file");
         return ERR_FOPEN;
     }
     p->scheduler_urls.clear();
@@ -467,7 +471,7 @@ bool SCHEDULER_OP::poll() {
             http_ops->remove(&http_op);
             if (http_op.http_op_retval) {
                 if (log_flags.sched_ops) {
-                    msg_printf(cur_proj, MSG_ERROR,
+                    msg_printf(cur_proj, MSG_INFO,
                         "Scheduler request failed: %s", http_op.error_msg
                     );
                 }
@@ -652,7 +656,7 @@ int SCHEDULER_REPLY::parse(FILE* in, PROJECT* project) {
                 &global_prefs_xml
             );
             if (retval) {
-                msg_printf(project, MSG_ERROR,
+                msg_printf(project, MSG_INTERNAL_ERROR,
                     "Can't parse global prefs in scheduler reply: %s",
                     boincerror(retval)
                 );
@@ -665,7 +669,7 @@ int SCHEDULER_REPLY::parse(FILE* in, PROJECT* project) {
                 &project_prefs_xml
             );
             if (retval) {
-                msg_printf(project, MSG_ERROR,
+                msg_printf(project, MSG_INTERNAL_ERROR,
                     "Can't parse project prefs in scheduler reply: %s",
                     boincerror(retval)
                 );
@@ -675,7 +679,7 @@ int SCHEDULER_REPLY::parse(FILE* in, PROJECT* project) {
             std::string foo;
             retval = copy_element_contents(in, "</gui_urls>", foo);
             if (retval) {
-                msg_printf(project, MSG_ERROR,
+                msg_printf(project, MSG_INTERNAL_ERROR,
                     "Can't parse GUI URLs in scheduler reply: %s",
                     boincerror(retval)
                 );
@@ -690,7 +694,7 @@ int SCHEDULER_REPLY::parse(FILE* in, PROJECT* project) {
                 &code_sign_key
             );
             if (retval) {
-                msg_printf(project, MSG_ERROR,
+                msg_printf(project, MSG_INTERNAL_ERROR,
                     "Can't parse code sign key in scheduler reply: %s",
                     boincerror(retval)
                 );
@@ -703,7 +707,7 @@ int SCHEDULER_REPLY::parse(FILE* in, PROJECT* project) {
                 &code_sign_key_signature
             );
             if (retval) {
-                msg_printf(project, MSG_ERROR,
+                msg_printf(project, MSG_INTERNAL_ERROR,
                     "Can't parse code sign key signature in scheduler reply: %s",
                     boincerror(retval)
                 );
@@ -713,7 +717,7 @@ int SCHEDULER_REPLY::parse(FILE* in, PROJECT* project) {
             APP app;
             retval = app.parse(mf);
             if (retval) {
-                msg_printf(project, MSG_ERROR,
+                msg_printf(project, MSG_INTERNAL_ERROR,
                     "Can't parse application in scheduler reply: %s",
                     boincerror(retval)
                 );
@@ -724,7 +728,7 @@ int SCHEDULER_REPLY::parse(FILE* in, PROJECT* project) {
             FILE_INFO file_info;
             retval = file_info.parse(mf, true);
             if (retval) {
-                msg_printf(project, MSG_ERROR,
+                msg_printf(project, MSG_INTERNAL_ERROR,
                     "Can't parse file info in scheduler reply: %s",
                     boincerror(retval)
                 );
@@ -735,7 +739,7 @@ int SCHEDULER_REPLY::parse(FILE* in, PROJECT* project) {
             APP_VERSION av;
             retval = av.parse(mf);
             if (retval) {
-                msg_printf(project, MSG_ERROR,
+                msg_printf(project, MSG_INTERNAL_ERROR,
                     "Can't parse application version in scheduler reply: %s",
                     boincerror(retval)
                 );
@@ -746,7 +750,7 @@ int SCHEDULER_REPLY::parse(FILE* in, PROJECT* project) {
             WORKUNIT wu;
             retval = wu.parse(mf);
             if (retval) {
-                msg_printf(project, MSG_ERROR,
+                msg_printf(project, MSG_INTERNAL_ERROR,
                     "Can't parse workunit in scheduler reply: %s",
                     boincerror(retval)
                 );
@@ -758,7 +762,7 @@ int SCHEDULER_REPLY::parse(FILE* in, PROJECT* project) {
                                 // gets called each time
             retval = result.parse_server(mf);
             if (retval) {
-                msg_printf(project, MSG_ERROR,
+                msg_printf(project, MSG_INTERNAL_ERROR,
                     "Can't parse task in scheduler reply: %s",
                     boincerror(retval)
                 );
@@ -769,7 +773,7 @@ int SCHEDULER_REPLY::parse(FILE* in, PROJECT* project) {
             RESULT result;
             retval = result.parse_name(in, "</result_ack>");
             if (retval) {
-                msg_printf(project, MSG_ERROR,
+                msg_printf(project, MSG_INTERNAL_ERROR,
                     "Can't parse ack in scheduler reply: %s",
                     boincerror(retval)
                 );
@@ -780,7 +784,7 @@ int SCHEDULER_REPLY::parse(FILE* in, PROJECT* project) {
             RESULT result;
             retval = result.parse_name(in, "</result_abort>");
             if (retval) {
-                msg_printf(project, MSG_ERROR,
+                msg_printf(project, MSG_INTERNAL_ERROR,
                     "Can't parse result abort in scheduler reply: %s",
                     boincerror(retval)
                 );
@@ -791,7 +795,7 @@ int SCHEDULER_REPLY::parse(FILE* in, PROJECT* project) {
             RESULT result;
             retval = result.parse_name(in, "</result_abort_if_unstarted>");
             if (retval) {
-                msg_printf(project, MSG_ERROR,
+                msg_printf(project, MSG_INTERNAL_ERROR,
                     "Can't parse result abort-if-unstarted in scheduler reply: %s",
                     boincerror(retval)
                 );
@@ -816,7 +820,7 @@ int SCHEDULER_REPLY::parse(FILE* in, PROJECT* project) {
         } else if (match_tag(buf, "<trickle_down>")) {
             retval = gstate.handle_trickle_down(project, in);
             if (retval) {
-                msg_printf(project, MSG_ERROR,
+                msg_printf(project, MSG_INTERNAL_ERROR,
                     "handle_trickle_down failed: %s", boincerror(retval)
                 );
             }
@@ -838,16 +842,16 @@ int SCHEDULER_REPLY::parse(FILE* in, PROJECT* project) {
 #endif
         } else if (strlen(buf)>1){
             if (log_flags.unparsed_xml) {
-                msg_printf(0, MSG_ERROR,
+                msg_printf(0, MSG_INFO,
                     "[unparsed_xml] SCHEDULER_REPLY::parse(): unrecognized %s\n", buf
                 );
             }
         }
     }
     if (found_start_tag) {
-        msg_printf(project, MSG_ERROR, "No close tag in scheduler reply");
+        msg_printf(project, MSG_INTERNAL_ERROR, "No close tag in scheduler reply");
     } else {
-        msg_printf(project, MSG_ERROR, "No start tag in scheduler reply");
+        msg_printf(project, MSG_INTERNAL_ERROR, "No start tag in scheduler reply");
     }
 
     return ERR_XML_PARSE;

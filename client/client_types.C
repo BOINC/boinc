@@ -181,8 +181,8 @@ int PROJECT::parse_state(MIOFILE& in) {
         else if (parse_bool(buf, "scheduler_rpc_in_progress", btemp)) continue;
         else {
             if (log_flags.unparsed_xml) {
-                msg_printf(0, MSG_ERROR,
-                    "PROJECT::parse_state(): unrecognized: %s", buf
+                msg_printf(0, MSG_INFO,
+                    "[unparsed_xml] PROJECT::parse_state(): unrecognized: %s", buf
                 );
             }
         }
@@ -521,8 +521,8 @@ int PROJECT::parse_project_files(MIOFILE& in, bool delete_existing_symlinks) {
             project_files.push_back(file_ref);
         } else {
             if (log_flags.unparsed_xml) {
-                msg_printf(0, MSG_ERROR,
-                    "parse_project_files(): unrecognized: %s\n", buf
+                msg_printf(0, MSG_INFO,
+                    "[unparsed_xml] parse_project_files(): unrecognized: %s\n", buf
                 );
             }
         }
@@ -541,7 +541,7 @@ void PROJECT::link_project_files(bool recreate_symlink_files) {
         FILE_REF& fref = *fref_iter;
         fip = gstate.lookup_file_info(this, fref.file_name);
         if (!fip) {
-            msg_printf(this, MSG_ERROR,
+            msg_printf(this, MSG_INTERNAL_ERROR,
                 "project file refers to non-existent %s", fref.file_name
             );
             fref_iter = project_files.erase(fref_iter);
@@ -623,8 +623,8 @@ int APP::parse(MIOFILE& in) {
         else if (parse_str(buf, "<user_friendly_name>", user_friendly_name, sizeof(user_friendly_name))) continue;
         else {
             if (log_flags.unparsed_xml) {
-                msg_printf(0, MSG_ERROR,
-                    "APP::parse(): unrecognized: %s\n", buf
+                msg_printf(0, MSG_INFO,
+                    "[unparsed_xml] APP::parse(): unrecognized: %s\n", buf
                 );
             }
         }
@@ -675,7 +675,7 @@ FILE_INFO::FILE_INFO() {
 
 FILE_INFO::~FILE_INFO() {
     if (pers_file_xfer) {
-        msg_printf(NULL, MSG_ERROR,
+        msg_printf(NULL, MSG_INTERNAL_ERROR,
             "Deleting file %s while in use",
             name
         );
@@ -826,8 +826,8 @@ int FILE_INFO::parse(MIOFILE& in, bool from_server) {
             error_msg = buf2;
         } else {
             if (log_flags.unparsed_xml) {
-                msg_printf(0, MSG_ERROR,
-                    "FILE_INFO::parse(): unrecognized: %s\n", buf
+                msg_printf(0, MSG_INFO,
+                    "[unparsed_xml] FILE_INFO::parse(): unrecognized: %s\n", buf
                 );
             }
         }
@@ -927,7 +927,7 @@ int FILE_INFO::delete_file() {
     get_pathname(this, path);
     int retval = boinc_delete_file(path);
     if (retval && status != FILE_NOT_PRESENT) {
-        msg_printf(project, MSG_ERROR, "Couldn't delete file %s", path);
+        msg_printf(project, MSG_INTERNAL_ERROR, "Couldn't delete file %s", path);
     }
     status = FILE_NOT_PRESENT;
     return retval;
@@ -963,7 +963,7 @@ const char* FILE_INFO::get_init_url(bool is_upload) {
         if (!is_correct_url_type(is_upload, urls[current_url])) {
             current_url = (current_url + 1)%((int)urls.size());
             if (current_url == start_url) {
-                msg_printf(project, MSG_ERROR,
+                msg_printf(project, MSG_INTERNAL_ERROR,
                     "Couldn't find suitable URL for %s", name);
                 return NULL;
             }
@@ -995,7 +995,7 @@ const char* FILE_INFO::get_current_url(bool is_upload) {
         return get_init_url(is_upload);
     }
     if (current_url >= (int)urls.size()) {
-        msg_printf(project, MSG_ERROR,
+        msg_printf(project, MSG_INTERNAL_ERROR,
             "File %s has no URL", name
         );
         return NULL;
@@ -1125,8 +1125,8 @@ int APP_VERSION::parse(MIOFILE& in) {
         else if (parse_int(buf, "<version_num>", version_num)) continue;
         else {
             if (log_flags.unparsed_xml) {
-                msg_printf(0, MSG_ERROR,
-                    "APP_VERSION::parse(): unrecognized: %s\n", buf
+                msg_printf(0, MSG_INFO,
+                    "[unparsed_xml] APP_VERSION::parse(): unrecognized: %s\n", buf
                 );
             }
         }
@@ -1212,8 +1212,8 @@ int FILE_REF::parse(MIOFILE& in) {
 		else if (parse_bool(buf, "optional", optional)) continue;
         else {
             if (log_flags.unparsed_xml) {
-                msg_printf(0, MSG_ERROR,
-                    "FILE_REF::parse(): unrecognized: %s\n", buf
+                msg_printf(0, MSG_INFO,
+                    "[unparsed_xml] FILE_REF::parse(): unrecognized: %s\n", buf
                 );
             }
         }
@@ -1282,7 +1282,7 @@ int WORKUNIT::parse(MIOFILE& in) {
                     command_line += buf;
                 }
                 if (!found) {
-                    msg_printf(NULL, MSG_ERROR,
+                    msg_printf(NULL, MSG_INTERNAL_ERROR,
                         "Task %s: bad command line",
                         name
                     );
@@ -1304,8 +1304,8 @@ int WORKUNIT::parse(MIOFILE& in) {
         }
         else {
             if (log_flags.unparsed_xml) {
-                msg_printf(0, MSG_ERROR,
-                    "WORKUNIT::parse(): unrecognized: %s\n", buf
+                msg_printf(0, MSG_INFO,
+                    "[unparsed_xml] WORKUNIT::parse(): unrecognized: %s\n", buf
                 );
             }
         }
@@ -1423,8 +1423,8 @@ int RESULT::parse_name(FILE* in, const char* end_tag) {
         else if (parse_str(buf, "<name>", name, sizeof(name))) continue;
         else {
             if (log_flags.unparsed_xml) {
-                msg_printf(0, MSG_ERROR,
-                    "RESULT::parse_name(): unrecognized: %s\n", buf
+                msg_printf(0, MSG_INFO,
+                    "[unparsed_xml] RESULT::parse_name(): unrecognized: %s\n", buf
                 );
             }
         }
@@ -1492,7 +1492,7 @@ int RESULT::parse_server(MIOFILE& in) {
         }
         else {
             if (log_flags.unparsed_xml) {
-                msg_printf(0, MSG_ERROR,
+                msg_printf(0, MSG_INFO,
                     "[unparsed_xml] RESULT::parse(): unrecognized: %s\n", buf
                 );
             }
@@ -1550,7 +1550,7 @@ int RESULT::parse_state(MIOFILE& in) {
         else if (parse_double(buf, "<intops_cumulative>", intops_cumulative)) continue;
         else {
             if (log_flags.unparsed_xml) {
-                msg_printf(0, MSG_ERROR,
+                msg_printf(0, MSG_INFO,
                     "[unparsed_xml] RESULT::parse(): unrecognized: %s\n", buf
                 );
             }

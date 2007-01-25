@@ -218,7 +218,7 @@ int ACTIVE_TASK::write_app_init_file() {
     sprintf(init_data_path, "%s/%s", slot_dir, INIT_DATA_FILE);
     f = boinc_fopen(init_data_path, "w");
     if (!f) {
-        msg_printf(wup->project, MSG_ERROR,
+        msg_printf(wup->project, MSG_INTERNAL_ERROR,
             "Failed to open init file %s",
             init_data_path
         );
@@ -253,7 +253,7 @@ static int setup_file(
         if (input) {
             retval = boinc_copy(file_path, link_path);
             if (retval) {
-                msg_printf(wup->project, MSG_ERROR,
+                msg_printf(wup->project, MSG_INTERNAL_ERROR,
                     "Can't copy %s to %s", file_path, link_path
                 );
                 return retval;
@@ -270,7 +270,7 @@ static int setup_file(
 
     retval = make_link(buf, link_path);
     if (retval) {
-        msg_printf(wup->project, MSG_ERROR,
+        msg_printf(wup->project, MSG_INTERNAL_ERROR,
             "Can't link %s to %s", file_path, link_path
         );
         return retval;
@@ -289,7 +289,7 @@ int ACTIVE_TASK::copy_output_files() {
         get_pathname(fip, projfile);
         int retval = boinc_rename(slotfile, projfile);
         if (retval) {
-            msg_printf(wup->project, MSG_ERROR,
+            msg_printf(wup->project, MSG_INTERNAL_ERROR,
                 "Can't rename output file %s", fip->name
             );
         }
@@ -484,7 +484,7 @@ int ACTIVE_TASK::start(bool first_time) {
             break;
         }
         windows_error_string(error_msg, sizeof(error_msg));
-        msg_printf(wup->project, MSG_ERROR,
+        msg_printf(wup->project, MSG_INTERNAL_ERROR,
             "Process creation failed: %s", error_msg
         );
         boinc_sleep(drand());
@@ -639,7 +639,7 @@ int ACTIVE_TASK::start(bool first_time) {
             parse_command_line(cmdline, argv+1);
             retval = execv(buf, argv);
         }
-        msg_printf(wup->project, MSG_ERROR,
+        msg_printf(wup->project, MSG_INTERNAL_ERROR,
             "Process creation (%s) failed: %s, errno=%d\n", buf, boincerror(retval), errno
         );
         perror("execv");
@@ -701,7 +701,7 @@ int ACTIVE_TASK::resume_or_start() {
     case PROCESS_SUSPENDED:
         retval = unsuspend();
         if (retval) {
-            msg_printf(wup->project, MSG_ERROR,
+            msg_printf(wup->project, MSG_INTERNAL_ERROR,
                 "Couldn't resume task %s", result->name
             );
             set_task_state(PROCESS_COULDNT_START, "resume_or_start2");
@@ -713,7 +713,7 @@ int ACTIVE_TASK::resume_or_start() {
         return 0;
         break;
     default:
-        msg_printf(result->project, MSG_ERROR,
+        msg_printf(result->project, MSG_INTERNAL_ERROR,
             "Unexpected state %d for task %s", task_state(), result->name
         );
         return 0;

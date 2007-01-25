@@ -97,7 +97,12 @@ void show_message(PROJECT *p, char* msg, int priority) {
     // Cycle the log files if we need to
     diagnostics_cycle_logs();
 
-    strlcpy(message, msg, sizeof(message));
+    if (priority == MSG_INTERNAL_ERROR) {
+        strcpy(message, "[error] ");
+        strlcpy(message+8, msg, sizeof(message)-8);
+    } else {
+        strlcpy(message, msg, sizeof(message));
+    }
     while (strlen(message)&&message[strlen(message)-1] == '\n') {
         message[strlen(message)-1] = 0;
     }
@@ -110,20 +115,12 @@ void show_message(PROJECT *p, char* msg, int priority) {
 
     record_message(p, priority, (int)now, message);
 
-    switch (priority) {
-    case MSG_INFO:
-    case MSG_ERROR:
-    default:
-        // all messages handled the same now
-        //
-        printf("%s [%s] %s\n", time_string, x, message);
-        if (gstate.executing_as_daemon) {
+    printf("%s [%s] %s\n", time_string, x, message);
+    if (gstate.executing_as_daemon) {
 #if defined(WIN32) && defined(_CONSOLE)
-            stprintf(event_message, TEXT("%s [%s] %s\n"), time_string,  x, message);
-            ::OutputDebugString(event_message);
+        stprintf(event_message, TEXT("%s [%s] %s\n"), time_string,  x, message);
+        ::OutputDebugString(event_message);
 #endif
-        }
-        break;
     }
 }
 
@@ -273,7 +270,7 @@ static void signal_handler(int signum) {
         gstate.run_mode.set(RUN_MODE_AUTO, 0);
         break;
     default:
-        msg_printf(NULL, MSG_ERROR, "Signal not handled");
+        msg_printf(NULL, MSG_INTERNAL_ERROR, "Signal not handled");
     }
 }
 #endif

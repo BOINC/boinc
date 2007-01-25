@@ -229,14 +229,14 @@ void ACTIVE_TASK_SET::graphics_poll() {
                         //
                         atp->graphics_mode_ack_timeout = gstate.now;
 
-                        msg_printf(atp->wup->project, MSG_ERROR,
+                        msg_printf(atp->wup->project, MSG_INTERNAL_ERROR,
                             "%s not responding to screensaver, requesting exit",
                             atp->app_version->app_name
                         );
                     } else {
                         atp->exit_requested = false;
                         atp->graphics_mode_ack_timeout = 0.0;
-                        msg_printf(atp->wup->project, MSG_ERROR,
+                        msg_printf(atp->wup->project, MSG_INTERNAL_ERROR,
                             "%s not responding to screensaver, killing it",
                             atp->app_version->app_name
                         );

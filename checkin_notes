@@ -1152,3 +1152,34 @@ David  25 Jan 2007
         cs_scheduler.C
     clientgui/
         AdvancedFrame.cpp
+
+David  25 Jan 2007
+    - core client and manager: reorganize message priorities.
+        There are now three priorities:
+        MSG_USER_ERROR
+            Conditions that require user intervention.
+            These messages are written for non-tech users,
+            and tell the user exactly what to do.
+            GUI: red letters
+        MSG_INTERNAL_ERROR
+            Conditions that may indicate a problem or bug in BOINC itself,
+            or with a BOINC project or account manager.
+            The message is prepended with "[error]".
+            GUI: black letters
+        MSG_INFO
+            All other messages.
+            GUI: black letters
+
+        Note: all messages that must be enabled by cc_config.xml
+        use MSG_INFO priority
+
+    client/
+        *.C
+    clientgui/
+        ViewMessages.cpp
+        ViewMessagesGrid.cpp
+        sg_ProjectComponent.cpp
+    lib/
+        common_defs.h
+    py/Boinc/
+        setup_project.py

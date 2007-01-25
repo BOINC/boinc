@@ -201,7 +201,10 @@ int AM_ACCOUNT::parse(XML_PARSER& xp) {
     while (!xp.get(tag, sizeof(tag), is_tag)) {
 		if (!is_tag) {
 			if (log_flags.unparsed_xml) {
-				msg_printf(0, MSG_ERROR, "AM_ACCOUNT::parse: unexpected text %s", tag);
+				msg_printf(0, MSG_INFO,
+                    "[unparsed_xml] AM_ACCOUNT::parse: unexpected text %s",
+                    tag
+                );
 			}
 			continue;
 		}
@@ -243,7 +246,10 @@ int ACCT_MGR_OP::parse(FILE* f) {
     while (!xp.get(tag, sizeof(tag), is_tag)) {
 		if (!is_tag) {
 			if (log_flags.unparsed_xml) {
-				msg_printf(0, MSG_ERROR, "ACCT_MGR_OP::parse: unexpected text %s", tag);
+				msg_printf(0, MSG_INFO,
+                    "[unparsed_xml] ACCT_MGR_OP::parse: unexpected text %s",
+                    tag
+                );
 			}
 			continue;
 		}
@@ -279,7 +285,7 @@ int ACCT_MGR_OP::parse(FILE* f) {
                 &global_prefs_xml
             );
             if (retval) {
-                msg_printf(NULL, MSG_ERROR,
+                msg_printf(NULL, MSG_INTERNAL_ERROR,
                     "Can't parse global prefs in account manager reply: %s",
                     boincerror(retval)
                 );
@@ -320,12 +326,16 @@ void ACCT_MGR_OP::handle_reply(int http_op_retval) {
     // email addresses
     //
     if (error_str.size()) {
-        msg_printf(NULL, MSG_ERROR, "Account manager error: %d %s", error_num, error_str.c_str());
+        msg_printf(NULL, MSG_USER_ERROR,
+            "Account manager error: %d %s", error_num, error_str.c_str()
+        );
         if (!error_num) {
             error_num = ERR_XML_PARSE;
         }
     } else if (error_num) {
-        msg_printf(NULL, MSG_ERROR, "Account manager error: %s", boincerror(error_num));
+        msg_printf(NULL, MSG_USER_ERROR,
+            "Account manager error: %s", boincerror(error_num)
+        );
     }
 
     if (error_num) return;
@@ -336,7 +346,9 @@ void ACCT_MGR_OP::handle_reply(int http_op_retval) {
     //
     sig_ok = true;
     if (!strlen(ami.signing_key)) {
-        msg_printf(NULL, MSG_ERROR, "No signing key from account manager");
+        msg_printf(NULL, MSG_INTERNAL_ERROR,
+            "No signing key from account manager"
+        );
         sig_ok = false;
     }
 
@@ -345,7 +357,9 @@ void ACCT_MGR_OP::handle_reply(int http_op_retval) {
     if (strlen(gstate.acct_mgr_info.signing_key)
         && strcmp(gstate.acct_mgr_info.signing_key, ami.signing_key)
     ) {
-        msg_printf(NULL, MSG_ERROR, "Inconsistent signing key from account manager");
+        msg_printf(NULL, MSG_INTERNAL_ERROR,
+            "Inconsistent signing key from account manager"
+        );
         sig_ok = false;
     }
 
@@ -363,7 +377,9 @@ void ACCT_MGR_OP::handle_reply(int http_op_retval) {
             AM_ACCOUNT& acct = accounts[i];
             retval = verify_string2(acct.url.c_str(), acct.url_signature, ami.signing_key, verified);
             if (retval || !verified) {
-                msg_printf(NULL, MSG_ERROR, "Bad signature for URL %s", acct.url.c_str());
+                msg_printf(NULL, MSG_INTERNAL_ERROR,
+                    "Bad signature for URL %s", acct.url.c_str()
+                );
                 continue;
             }
             pp = gstate.lookup_project(acct.url.c_str());
@@ -372,7 +388,7 @@ void ACCT_MGR_OP::handle_reply(int http_op_retval) {
                     gstate.detach_project(pp);
                 } else {
                     if (strcmp(pp->authenticator, acct.authenticator.c_str())) {
-                        msg_printf(pp, MSG_ERROR,
+                        msg_printf(pp, MSG_INFO,
                             "Already attached under another account"
                         );
                     } else {
@@ -416,7 +432,7 @@ void ACCT_MGR_OP::handle_reply(int http_op_retval) {
                 global_prefs_xml, ami.acct_mgr_url, ami.acct_mgr_url
             );
             if (retval) {
-                msg_printf(NULL, MSG_ERROR, "Can't save global prefs");
+                msg_printf(NULL, MSG_INTERNAL_ERROR, "Can't save global prefs");
             }
             read_prefs = true;
         }

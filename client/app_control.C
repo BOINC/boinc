@@ -314,7 +314,7 @@ void ACTIVE_TASK::handle_exited_app(int stat) {
             result->exit_status = -1;
             set_task_state(PROCESS_EXIT_UNKNOWN, "handle_exited_app");
             gstate.report_result_error(*result, "process exit, unknown");
-            msg_printf(result->project, MSG_ERROR,
+            msg_printf(result->project, MSG_INTERNAL_ERROR,
                 "process exited for unknown reason"
             );
         }
@@ -446,7 +446,7 @@ bool ACTIVE_TASK_SET::check_app_exited() {
             // is probably a benchmark process; don't show error
             //
             if (!gstate.are_cpu_benchmarks_running()) {
-                msg_printf(NULL, MSG_ERROR, "Process %d not found\n", pid);
+                msg_printf(NULL, MSG_INTERNAL_ERROR, "Process %d not found\n", pid);
             }
             return false;
         }
@@ -466,7 +466,7 @@ bool ACTIVE_TASK::check_max_disk_exceeded() {
 
     retval = current_disk_usage(disk_usage);
     if (retval) {
-        msg_printf(0, MSG_ERROR,
+        msg_printf(0, MSG_INTERNAL_ERROR,
             "Can't get task disk usage: %s", boincerror(retval)
         );
     } else {
@@ -765,7 +765,7 @@ void ACTIVE_TASK_SET::unsuspend_all() {
         if (atp->scheduler_state != CPU_SCHED_SCHEDULED) continue;
         if (atp->task_state() == PROCESS_UNINITIALIZED) {
             if (atp->start(false)) {
-                msg_printf(atp->wup->project, MSG_ERROR,
+                msg_printf(atp->wup->project, MSG_INTERNAL_ERROR,
                     "Couldn't restart task %s", atp->result->name
                 );
             }

@@ -168,13 +168,13 @@ void ACTIVE_TASK::cleanup_task() {
     if (app_client_shm.shm) {
         retval = detach_shmem(app_client_shm.shm);
         if (retval) {
-            msg_printf(NULL, MSG_ERROR,
+            msg_printf(NULL, MSG_INTERNAL_ERROR,
                 "Couldn't detach shared memory: %s", boincerror(retval)
             );
         }
         retval = destroy_shmem(shmem_seg_name);
         if (retval) {
-            msg_printf(NULL, MSG_ERROR,
+            msg_printf(NULL, MSG_INTERNAL_ERROR,
                 "Couldn't destroy shared memory: %s", boincerror(retval)
             );
         }
@@ -227,7 +227,7 @@ void ACTIVE_TASK_SET::get_memory_usage() {
     retval = procinfo_setup(piv);
 	if (retval) {
 		if (log_flags.mem_usage_debug) {
-			msg_printf(0, MSG_ERROR,
+			msg_printf(0, MSG_INTERNAL_ERROR,
 				"[mem_usage_debug] procinfo_setup() returned %d", retval
 			);
 		}
@@ -319,7 +319,9 @@ int ACTIVE_TASK_SET::remove(ACTIVE_TASK* atp) {
         }
         iter++;
     }
-    msg_printf(NULL, MSG_ERROR, "Task %s not found", atp->result->name);
+    msg_printf(NULL, MSG_INTERNAL_ERROR,
+        "Task %s not found", atp->result->name
+    );
     return ERR_NOT_FOUND;
 }
 
@@ -466,7 +468,7 @@ int ACTIVE_TASK::parse(MIOFILE& fin) {
             project = gstate.lookup_project(project_master_url);
             if (!project) {
                 msg_printf(
-                    NULL, MSG_ERROR,
+                    NULL, MSG_INTERNAL_ERROR,
                     "State file error: project %s not found\n",
                     project_master_url
                 );
@@ -475,7 +477,7 @@ int ACTIVE_TASK::parse(MIOFILE& fin) {
             result = gstate.lookup_result(project, result_name);
             if (!result) {
                 msg_printf(
-                    project, MSG_ERROR,
+                    project, MSG_INTERNAL_ERROR,
                     "State file error: result %s not found\n",
                     result_name
                 );
@@ -488,7 +490,7 @@ int ACTIVE_TASK::parse(MIOFILE& fin) {
                 || result->ready_to_report
                 || result->state() != RESULT_FILES_DOWNLOADED
             ) {
-                msg_printf(project, MSG_ERROR,
+                msg_printf(project, MSG_INTERNAL_ERROR,
                     "State file error: result %s is in wrong state\n",
                     result_name
                 );
@@ -501,7 +503,7 @@ int ACTIVE_TASK::parse(MIOFILE& fin) {
             );
             if (!app_version) {
                 msg_printf(
-                    project, MSG_ERROR,
+                    project, MSG_INTERNAL_ERROR,
                     "State file error: application %s version %d not found\n",
                     result->app->name, app_version_num
                 );
@@ -513,7 +515,7 @@ int ACTIVE_TASK::parse(MIOFILE& fin) {
             for (i=0; i<gstate.active_tasks.active_tasks.size(); i++) {
                 ACTIVE_TASK* atp = gstate.active_tasks.active_tasks[i];
                 if (atp->slot == slot) {
-                    msg_printf(project, MSG_ERROR,
+                    msg_printf(project, MSG_INTERNAL_ERROR,
                         "State file error: two tasks in slot %d\n", slot
                     );
                     return ERR_BAD_RESULT_STATE;
@@ -538,7 +540,7 @@ int ACTIVE_TASK::parse(MIOFILE& fin) {
         else if (parse_int(buf, "<scheduler_state>", n)) continue;
         else {
             if (log_flags.unparsed_xml) {
-                msg_printf(0, MSG_ERROR,
+                msg_printf(0, MSG_INFO,
                     "[unparsed_xml] ACTIVE_TASK::parse(): unrecognized %s\n", buf
                 );
             }
@@ -576,7 +578,7 @@ int ACTIVE_TASK_SET::parse(MIOFILE& fin) {
             retval = atp->parse(fin);
             if (!retval) {
                 if (slot_taken(atp->slot)) {
-                    msg_printf(atp->result->project, MSG_ERROR,
+                    msg_printf(atp->result->project, MSG_INTERNAL_ERROR,
                         "slot %d in use; discarding result %s",
                         atp->slot, atp->result->name
                     );
@@ -587,7 +589,7 @@ int ACTIVE_TASK_SET::parse(MIOFILE& fin) {
             else delete atp;
         } else {
             if (log_flags.unparsed_xml) {
-                msg_printf(0, MSG_ERROR,
+                msg_printf(0, MSG_INFO,
                     "[unparsed_xml] ACTIVE_TASK_SET::parse(): unrecognized %s\n", buf
                 );
             }
@@ -681,10 +683,10 @@ void ACTIVE_TASK_SET::report_overdue() {
         atp = active_tasks[i];
         double diff = (gstate.now - atp->result->report_deadline)/86400;
         if (diff > 0) {
-            msg_printf(atp->result->project, MSG_ERROR,
+            msg_printf(atp->result->project, MSG_USER_ERROR,
                 "Task %s is %.2f days overdue.", atp->result->name, diff
             );
-            msg_printf(atp->result->project, MSG_ERROR,
+            msg_printf(atp->result->project, MSG_USER_ERROR,
                 "You may not get credit for it.  Consider aborting it."
             );
         }
@@ -715,7 +717,7 @@ int ACTIVE_TASK::handle_upload_files() {
                     fip->status = FILE_PRESENT;
                 }
             } else {
-                msg_printf(0, MSG_ERROR, "Can't find uploadable file %s", p);
+                msg_printf(0, MSG_INTERNAL_ERROR, "Can't find uploadable file %s", p);
             }
             sprintf(path, "%s/%s", slot_dir, buf);
             boinc_delete_file(path);
