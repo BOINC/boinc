@@ -487,9 +487,12 @@ PROJECT* CLIENT_STATE::find_project_with_overdue_results() {
         if (gstate.now > r->completed_time + work_buf_min()) {
             return p;
         }
+
+        // Handle the case where the report is due
+        // before the next reconnect is likely.
+        //
         if (gstate.now > r->report_deadline - work_buf_min()) {
-            return p;   // Handles the case where the report is due before the next reconnect is 
-                        // likely.
+            return p;
         }
     }
 

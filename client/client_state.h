@@ -307,6 +307,7 @@ public:
     int input_files_available(RESULT*, bool);
     ACTIVE_TASK* get_next_graphics_capable_app();
     int ncpus;
+        // number of usable cpus
 private:
     int nslots;
 

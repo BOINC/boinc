@@ -1130,3 +1130,25 @@ David  25 Jan 2007
             wxPieCtrl.cpp
     win_build/
         boinc_dll.vcproj
+
+David  25 Jan 2007
+    - core client: there was logic that wouldn't start a result
+        for a project if it had > 2 active uploads
+        (intended to prevent an unbounded buildup of files
+        for a project whose upload server is broken).
+        This was never triggered since the default is 2 active
+        transfers per project.
+        Maybe I meant persistent file transfers.
+        In any case, this is a bad policy because there may be
+        a project with lots of output files per result, possibly large,
+        and there's no reason to keep it from computing.
+        So instead, I changed it to not start a result from a project
+        if its number of results in FILES_UPLOADING state exceeds 2*ncpus.
+
+    client/
+        client_state.h
+        client_types.h
+        cpu_sched.C
+        cs_scheduler.C
+    clientgui/
+        AdvancedFrame.cpp

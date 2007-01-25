@@ -313,9 +313,9 @@ public:
         // project in the current debt interval
     struct RESULT *next_runnable_result;
         // the next result to run for this project
-    int nactive_uploads;
-        // number of file uploads in progress.
-        // Don't start new results if these exceeds 2.
+    int nuploading_results;
+        // number of results in UPLOADING state
+        // Don't start new results if these exceeds 2*ncpus.
 
     double work_request;
         // the unit is "project-normalized CPU seconds",
