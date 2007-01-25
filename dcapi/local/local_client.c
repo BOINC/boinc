@@ -3,7 +3,8 @@
 #include <string.h>
 
 #include <dc_client.h>
-#include "common_defs.h"
+
+#include "local_common.h"
 
 /********************************************************************
  * Common API functions
