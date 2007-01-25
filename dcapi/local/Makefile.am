@@ -22,12 +22,15 @@ libdc_local_la_SOURCES = \
 		local_master.c \
 		local_events.c \
 		local_result.c \
-		local_utils.c
+		local_utils.c \
+		local_common.c \
+		local_wu.c
 libdc_local_la_LIBADD = ../common/libdc-common-master.la $(GLIB_LIBS)
 
 libdc_client_local_la_SOURCES = \
 		local_client.c \
-		local_utils.c
+		local_utils.c \
+		local_common.c
 libdc_client_local_la_LIBADD = ../common/libdc-common-client.la
 
 #appdir		= $(libdir)/dcapi/local
