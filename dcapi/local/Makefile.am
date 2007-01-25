@@ -13,15 +13,21 @@ pkgconfig_DATA = dcapi-local-client.pc dcapi-local-master.pc
 
 AM_CPPFLAGS = -I$(top_srcdir)/include $(GLIB_CFLAGS)
 
-noinst_HEADERS = common_defs.h dc_local.h
+noinst_HEADERS = \
+		local_common.h \
+		local_master.h \
+		local_utils.h
 
 libdc_local_la_SOURCES = \
 		local_master.c \
 		local_events.c \
-		local_result.c
+		local_result.c \
+		local_utils.c
 libdc_local_la_LIBADD = ../common/libdc-common-master.la $(GLIB_LIBS)
 
-libdc_client_local_la_SOURCES = local_client.c
+libdc_client_local_la_SOURCES = \
+		local_client.c \
+		local_utils.c
 libdc_client_local_la_LIBADD = ../common/libdc-common-client.la
 
 #appdir		= $(libdir)/dcapi/local
