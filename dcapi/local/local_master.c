@@ -6,9 +6,9 @@
  * (c) Gabor Vida 2005-2006, Daniel Drotos, 2007
  */
 
-/* $Id: $ */
-/* $Date: $ */
-/* $Revision: $ */
+/* $Id$ */
+/* $Date$ */
+/* $Revision$ */
 
 #ifdef HAVE_CONFIG_H
 #include <config.h>
@@ -748,7 +748,7 @@ int DC_setWUPriority(DC_Workunit *wu, int priority)
 
 DC_getWUState(DC_Workunit *wu)
 {
-  return(DC_WU_UNKNOWN);
+	return(DC_WU_UNKNOWN);
 }
 
 /* End of local/local_master.c */
