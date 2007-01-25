@@ -521,47 +521,58 @@ void CSimplePanel::OnProjectsAttachToProject() {
 
 
 void CSimplePanel::OnFrameRender(wxTimerEvent& WXUNUSED(event)) {
-	CMainDocument* pDoc     = wxGetApp().GetDocument();
+    static bool       bAlreadyRunningLoop = false;
 
-	if (!projectViewInitialized) {
-		InitProjectView();
-		return;
-	} else if ( pDoc->IsConnected() ) {
-		UpdateProjectView();
-	}
+    CMainDocument*    pDoc = wxGetApp().GetDocument();
 
-	// Now check to see if we show the empty state or results
-	if ( pDoc->GetSimpleGUIWorkCount() > 0 ) {
-		// State changes can cause the BSG to crash if a dialogue is open.
-		// Defer state change until after the dialogue is closed
-		if ( (emptyViewInitialized || !notebookViewInitialized) && dlgOpen ) {
-			return;
-		}
+    if (!bAlreadyRunningLoop && m_pFrameRenderTimer->IsRunning()) {
+        bAlreadyRunningLoop = true;
 
-		// If empty was displayed, remove
-		if ( emptyViewInitialized ) {
-			DestroyEmptyView();
-		}
-		// If we hadn't previously shown the notebook, create it.
-		if ( !notebookViewInitialized ) {
-			InitNotebook();
-		}
-		wrkUnitNB->Update();
-	} else {
-		// State changes can cause the BSG to crash if a dialogue is open.
-		// Defer state change until after the dialogue is closed
-		if ( (!emptyViewInitialized || notebookViewInitialized) && dlgOpen ) {
-			return;
-		}
+        if (IsShown()) {
 
-		if ( notebookViewInitialized ) {
-			DestroyNotebook();
-		}
-		if ( !emptyViewInitialized ) {
-			InitEmptyView();
-		}
-		UpdateEmptyView();
-	}
+	        if (!projectViewInitialized) {
+		        InitProjectView();
+		        return;
+	        } else if ( pDoc->IsConnected() ) {
+		        UpdateProjectView();
+	        }
+
+	        // Now check to see if we show the empty state or results
+	        if ( pDoc->GetSimpleGUIWorkCount() > 0 ) {
+		        // State changes can cause the BSG to crash if a dialogue is open.
+		        // Defer state change until after the dialogue is closed
+		        if ( (emptyViewInitialized || !notebookViewInitialized) && dlgOpen ) {
+			        return;
+		        }
+
+		        // If empty was displayed, remove
+		        if ( emptyViewInitialized ) {
+			        DestroyEmptyView();
+		        }
+		        // If we hadn't previously shown the notebook, create it.
+		        if ( !notebookViewInitialized ) {
+			        InitNotebook();
+		        }
+		        wrkUnitNB->Update();
+	        } else {
+		        // State changes can cause the BSG to crash if a dialogue is open.
+		        // Defer state change until after the dialogue is closed
+		        if ( (!emptyViewInitialized || notebookViewInitialized) && dlgOpen ) {
+			        return;
+		        }
+
+		        if ( notebookViewInitialized ) {
+			        DestroyNotebook();
+		        }
+		        if ( !emptyViewInitialized ) {
+			        InitEmptyView();
+		        }
+		        UpdateEmptyView();
+	        }
+        }
+
+        bAlreadyRunningLoop = false;
+    }
 }
 
 

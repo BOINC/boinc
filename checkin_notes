@@ -1113,3 +1113,9 @@ David  24 Jan 2007
         client_state.h
         cs_data.C
         scheduler_op.C
+
+Rom    25 Jan 2007
+    - MGR: Do not refresh the Simple GUI when the manager is hidden.
+    
+    clientgui/
+        sg_BoincSimpleGUI.cpp
