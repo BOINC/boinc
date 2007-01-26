@@ -1208,3 +1208,12 @@ Rom    26 Jan 2007
     win_build/
         *.sln
         *.vcproj
+
+Rom    26 Jan 2007
+    - MGR: Fix the OnFrameRender function in the Simple GUI, some of the logic in it
+        blows out of the function with a return which was leaving the static variable
+        that was guarding against repeated executions to true. This in turn kept
+        the GUI from updating.
+        
+    clientgui/
+        sg_BoincSimpleGUI.cpp
