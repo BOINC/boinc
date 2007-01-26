@@ -196,7 +196,7 @@ int AM_ACCOUNT::parse(XML_PARSER& xp) {
     url = "";
     strcpy(url_signature, "");
     authenticator = "";
-    resource_share = 0;
+    resource_share = -1;
 
     while (!xp.get(tag, sizeof(tag), is_tag)) {
 		if (!is_tag) {
@@ -401,9 +401,24 @@ void ACCT_MGR_OP::handle_reply(int http_op_retval) {
                             pp->sched_rpc_pending = RPC_REASON_ACCT_MGR_REQ;
                             pp->min_rpc_time = 0;
                         }
-                        if (acct.resource_share) {
+                        if (acct.resource_share >= 0) {
                             pp->ams_resource_share = acct.resource_share;
                             pp->resource_share = pp->ams_resource_share;
+                        } else {
+                            // no host-specific resource share;
+                            // if currently have one, restore to value from web
+                            //
+                            if (pp->ams_resource_share >= 0) {
+                                pp->ams_resource_share = -1;
+                                PROJECT p2;
+                                strcpy(p2.master_url, pp->master_url);
+                                retval = p2.parse_account_file();
+                                if (!retval) {
+                                    pp->resource_share = p2.resource_share;
+                                } else {
+                                    pp->resource_share = 100;
+                                }
+                            }
                         }
                     }
                 }
