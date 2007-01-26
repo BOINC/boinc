@@ -232,7 +232,6 @@
 		DDD74D9307CF48F00065AC9D /* cs_apps.C in Sources */ = {isa = PBXBuildFile; fileRef = F54B8FC702AC0A0C01FB7237 /* cs_apps.C */; };
 		DDD74D9407CF48F10065AC9D /* cs_benchmark.C in Sources */ = {isa = PBXBuildFile; fileRef = DD344B7F07C5ADC30043025C /* cs_benchmark.C */; };
 		DDD74D9507CF48F20065AC9D /* cs_cmdline.C in Sources */ = {isa = PBXBuildFile; fileRef = DD344B8507C5ADE70043025C /* cs_cmdline.C */; };
-		DDD74D9607CF48F20065AC9D /* cs_data.C in Sources */ = {isa = PBXBuildFile; fileRef = DD344B8607C5ADE70043025C /* cs_data.C */; };
 		DDD74D9707CF48F30065AC9D /* cs_files.C in Sources */ = {isa = PBXBuildFile; fileRef = F54B8FC802AC0A0C01FB7237 /* cs_files.C */; };
 		DDD74D9807CF48F40065AC9D /* cs_prefs.C in Sources */ = {isa = PBXBuildFile; fileRef = DD344B8D07C5ADFA0043025C /* cs_prefs.C */; };
 		DDD74D9907CF48F50065AC9D /* cs_scheduler.C in Sources */ = {isa = PBXBuildFile; fileRef = F54B8FC902AC0A0C01FB7237 /* cs_scheduler.C */; };
@@ -853,7 +852,6 @@
 		DD344B7907C5AD970043025C /* cs_account.C */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.cpp.cpp; name = cs_account.C; path = ../client/cs_account.C; sourceTree = SOURCE_ROOT; };
 		DD344B7F07C5ADC30043025C /* cs_benchmark.C */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.cpp.cpp; name = cs_benchmark.C; path = ../client/cs_benchmark.C; sourceTree = SOURCE_ROOT; };
 		DD344B8507C5ADE70043025C /* cs_cmdline.C */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.cpp.cpp; name = cs_cmdline.C; path = ../client/cs_cmdline.C; sourceTree = SOURCE_ROOT; };
-		DD344B8607C5ADE70043025C /* cs_data.C */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.cpp.cpp; name = cs_data.C; path = ../client/cs_data.C; sourceTree = SOURCE_ROOT; };
 		DD344B8D07C5ADFA0043025C /* cs_prefs.C */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.cpp.cpp; name = cs_prefs.C; path = ../client/cs_prefs.C; sourceTree = SOURCE_ROOT; };
 		DD344B9307C5AE2E0043025C /* cs_statefile.C */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.cpp.cpp; name = cs_statefile.C; path = ../client/cs_statefile.C; sourceTree = SOURCE_ROOT; };
 		DD344B9407C5AE2E0043025C /* cs_trickle.C */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.cpp.cpp; name = cs_trickle.C; path = ../client/cs_trickle.C; sourceTree = SOURCE_ROOT; };
@@ -1645,7 +1643,6 @@
 				F54B8FC702AC0A0C01FB7237 /* cs_apps.C */,
 				DD344B7F07C5ADC30043025C /* cs_benchmark.C */,
 				DD344B8507C5ADE70043025C /* cs_cmdline.C */,
-				DD344B8607C5ADE70043025C /* cs_data.C */,
 				F54B8FC802AC0A0C01FB7237 /* cs_files.C */,
 				DD344B8D07C5ADFA0043025C /* cs_prefs.C */,
 				F54B8FC902AC0A0C01FB7237 /* cs_scheduler.C */,
@@ -2643,7 +2640,6 @@
 				DDD74D9307CF48F00065AC9D /* cs_apps.C in Sources */,
 				DDD74D9407CF48F10065AC9D /* cs_benchmark.C in Sources */,
 				DDD74D9507CF48F20065AC9D /* cs_cmdline.C in Sources */,
-				DDD74D9607CF48F20065AC9D /* cs_data.C in Sources */,
 				DDD74D9707CF48F30065AC9D /* cs_files.C in Sources */,
 				DDD74D9807CF48F40065AC9D /* cs_prefs.C in Sources */,
 				DDD74D9907CF48F50065AC9D /* cs_scheduler.C in Sources */,
