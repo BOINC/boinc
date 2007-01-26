@@ -389,6 +389,7 @@ private:
     int proj_min_results(PROJECT*, double);
     void generate_new_host_cpid();
 	void check_project_timeout();
+    void compute_nuploading_results();
 
 // --------------- cs_statefile.C:
 public:

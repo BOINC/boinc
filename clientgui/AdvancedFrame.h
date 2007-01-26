@@ -56,23 +56,24 @@ public:
 
     ~CAdvancedFrame(void);
 
+    void OnSwitchGUI( wxCommandEvent& event );
+
     void OnActivitySelection( wxCommandEvent& event );
     void OnNetworkSelection( wxCommandEvent& event );
-    void OnRunBenchmarks( wxCommandEvent& event );
-    void OnSelectComputer( wxCommandEvent& event );
-    void OnSwitchGUI( wxCommandEvent& event );
-    void Onread_prefs( wxCommandEvent& event );
-    void Onread_config( wxCommandEvent& event );
 
-    void OnCommandsRetryCommunications( wxCommandEvent& event );
-
+    void OnProjectsAttachToProject( wxCommandEvent& event );
     void OnProjectsAttachToAccountManager( wxCommandEvent& event );
     void OnAccountManagerUpdate( wxCommandEvent& event );
     void OnAccountManagerDetach( wxCommandEvent& event );
-    void OnProjectsAttachToProject( wxCommandEvent& event );
 
     void OnOptionsOptions( wxCommandEvent& event );
 	void OnDlgPreferences( wxCommandEvent& event );
+    void OnSelectComputer( wxCommandEvent& event );
+    void OnClientShutdown( wxCommandEvent& event );
+    void OnRunBenchmarks( wxCommandEvent& event );
+    void OnCommandsRetryCommunications( wxCommandEvent& event );
+    void Onread_prefs( wxCommandEvent& event );
+    void Onread_config( wxCommandEvent& event );
 
     void OnHelp( wxHelpEvent& event );
     void OnHelpBOINCManager( wxCommandEvent& event );

@@ -711,6 +711,12 @@ bool CLIENT_STATE::compute_work_requests() {
             }
             continue;
         }
+        if (p->nuploading_results >  2*ncpus) {
+            if (log_flags.work_fetch_debug) {
+                msg_printf(p, MSG_INFO, "[work_fetch_debug] project has %d uploading results", p->nuploading_results);
+            }
+            continue;
+        }
 
         // see if this project is better than our current best
         //
@@ -1336,5 +1342,20 @@ void CLIENT_STATE::generate_new_host_cpid() {
         }
     }
 }
+
+void CLIENT_STATE::compute_nuploading_results() {
+    unsigned int i;
+
+    for (i=0; i<projects.size(); i++) {
+        projects[i]->nuploading_results = 0;
+    }
+    for (i=0; i<results.size(); i++) {
+        RESULT* rp = results[i];
+        if (rp->state() == RESULT_FILES_UPLOADING) {
+            rp->project->nuploading_results++;
+        }
+    }
+}
+
 
 const char *BOINC_RCSID_d35a4a7711 = "$Id$";
