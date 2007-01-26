@@ -1183,3 +1183,14 @@ David  25 Jan 2007
         common_defs.h
     py/Boinc/
         setup_project.py
+
+Rom    25 Jan 2007
+    - MGR: Flip the sorting icons for the Grid Control.
+    - WIN: Remove the Release (SIMPLEGUI) and Debug (SIMPLEGUI) configurations
+        since we'll only be releasing future version with the Simple GUI included.
+        
+    clientgui/
+        BOINCGridCtrl.cpp
+    win_build/
+        *.sln
+        *.vcproj
