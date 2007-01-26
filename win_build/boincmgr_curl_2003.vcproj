@@ -897,12 +897,6 @@
 			<Filter
 				Name="Animate"
 				Filter="">
-				<File
-					RelativePath="..\clientgui\common\wxAnimate.cpp">
-				</File>
-				<File
-					RelativePath="..\clientgui\common\wxAnimate.h">
-				</File>
 			</Filter>
 			<Filter
 				Name="Validators"
