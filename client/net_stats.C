@@ -58,7 +58,7 @@ NET_STATS::NET_STATS() {
 }
 
 void NET_INFO::update(double dt, double nb, bool active) {
-    //msg_printf(NULL, MSG_ERROR, "dt %f nb %f active %d", dt, nb, active);
+    //msg_printf(NULL, MSG_INFO, "dt %f nb %f active %d", dt, nb, active);
     if (active) {
         delta_t += dt;
         delta_nbytes += nb-last_bytes;
@@ -81,7 +81,7 @@ double NET_INFO::throughput() {
     } else {
     }
 #if 0
-    msg_printf(NULL, MSG_ERROR, "start %f delta_t %f delta_nb %f new_tp %f",
+    msg_printf(NULL, MSG_INFO, "start %f delta_t %f delta_nb %f new_tp %f",
         starting_throughput, delta_t, delta_nbytes, new_tp
     );
 #endif
@@ -140,10 +140,13 @@ int NET_STATS::parse(MIOFILE& in) {
         else if (parse_double(buf, "<bwdown>", bwdown)) {
             down.starting_throughput = bwdown;
             continue;
+        } else {
+            if (log_flags.unparsed_xml) {
+                msg_printf(NULL, MSG_INFO,
+                    "[unparsed_xml] Unrecognized network statistics line: %s", buf
+                );
+            }
         }
-        else msg_printf(NULL, MSG_ERROR,
-            "Unrecognized network statistics line: %s", buf
-        );
     }
     return ERR_XML_PARSE;
 }
@@ -223,7 +226,7 @@ void NET_STATUS::got_http_error() {
 void NET_STATUS::contact_reference_site() {
     std::string url = "http://www.google.com";
 	if (log_flags.network_status_debug) {
-		msg_printf(0, MSG_ERROR,
+		msg_printf(0, MSG_INFO,
 			"[network_status_debug] need_phys_conn %d; trying google", need_physical_connection
 		);
 	}
@@ -240,7 +243,7 @@ int LOOKUP_WEBSITE_OP::do_rpc(string& url) {
         error_num = retval;
         net_status.need_physical_connection = true;
 		net_status.last_comm_time = 0;
-        msg_printf(0, MSG_ERROR,
+        msg_printf(0, MSG_USER_ERROR,
             "Access to reference web site failed - check network connection or proxy configuration."
         );
     } else {
@@ -260,7 +263,7 @@ void LOOKUP_WEBSITE_OP::handle_reply(int http_op_retval) {
     if (http_op_retval) {
         net_status.need_physical_connection = true;
 		net_status.last_comm_time = 0;
-        msg_printf(0, MSG_ERROR,
+        msg_printf(0, MSG_USER_ERROR,
             "Access to reference site failed - check network connection or proxy configuration."
         );
     } else {

@@ -1136,3 +1136,65 @@ Rom    25 Jan 2007
     clientgui/
         AdvancedFrame.cpp
         sg_BoincSimpleGUI.cpp
+
+David  25 Jan 2007
+    - Manager: use a scientifically chosen set of colors
+        for disk pie charts
+
+    clientgui/
+        ViewResources.cpp
+        common/
+            wxPieCtrl.cpp
+    win_build/
+        boinc_dll.vcproj
+
+David  25 Jan 2007
+    - core client: there was logic that wouldn't start a result
+        for a project if it had > 2 active uploads
+        (intended to prevent an unbounded buildup of files
+        for a project whose upload server is broken).
+        This was never triggered since the default is 2 active
+        transfers per project.
+        Maybe I meant persistent file transfers.
+        In any case, this is a bad policy because there may be
+        a project with lots of output files per result, possibly large,
+        and there's no reason to keep it from computing.
+        So instead, I changed it to not start a result from a project
+        if its number of results in FILES_UPLOADING state exceeds 2*ncpus.
+
+    client/
+        client_state.h
+        client_types.h
+        cpu_sched.C
+        cs_scheduler.C
+    clientgui/
+        AdvancedFrame.cpp
+
+David  25 Jan 2007
+    - core client and manager: reorganize message priorities.
+        There are now three priorities:
+        MSG_USER_ERROR
+            Conditions that require user intervention.
+            These messages are written for non-tech users,
+            and tell the user exactly what to do.
+            GUI: red letters
+        MSG_INTERNAL_ERROR
+            Conditions that may indicate a problem or bug in BOINC itself,
+            or with a BOINC project or account manager.
+            The message is prepended with "[error]".
+            GUI: black letters
+        MSG_INFO
+            All other messages.
+            GUI: black letters
+
+        Note: all messages that must be enabled by cc_config.xml
+        use MSG_INFO priority
+
+    client/
+        *.C
+    clientgui/
+        ViewMessages.cpp
+        ViewMessagesGrid.cpp
+        sg_ProjectComponent.cpp
+    lib/
+        common_defs.h

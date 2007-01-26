@@ -487,9 +487,12 @@ PROJECT* CLIENT_STATE::find_project_with_overdue_results() {
         if (gstate.now > r->completed_time + work_buf_min()) {
             return p;
         }
+
+        // Handle the case where the report is due
+        // before the next reconnect is likely.
+        //
         if (gstate.now > r->report_deadline - work_buf_min()) {
-            return p;   // Handles the case where the report is due before the next reconnect is 
-                        // likely.
+            return p;
         }
     }
 
@@ -882,10 +885,10 @@ int CLIENT_STATE::handle_scheduler_reply(
     if (strlen(sr.master_url)) {
         canonicalize_master_url(sr.master_url);
         if (strcmp(sr.master_url, project->master_url)) {
-            msg_printf(project, MSG_ERROR,
+            msg_printf(project, MSG_USER_ERROR,
                 "You used the wrong URL for this project"
             );
-            msg_printf(project, MSG_ERROR,
+            msg_printf(project, MSG_USER_ERROR,
                 "The correct URL is %s", sr.master_url
             );
             p2 = gstate.lookup_project(sr.master_url);
@@ -925,11 +928,11 @@ int CLIENT_STATE::handle_scheduler_reply(
             }
         }
         if (dup_name) {
-            msg_printf(project, MSG_ERROR,
+            msg_printf(project, MSG_USER_ERROR,
                 "Already attached to a project named %s (possibly with wrong URL)",
                 project->project_name
             );
-            msg_printf(project, MSG_ERROR,
+            msg_printf(project, MSG_USER_ERROR,
                 "Consider detaching this project, then trying again"
             );
         }
@@ -941,7 +944,7 @@ int CLIENT_STATE::handle_scheduler_reply(
     for (i=0; i<sr.messages.size(); i++) {
         USER_MESSAGE& um = sr.messages[i];
         sprintf(buf, "Message from server: %s", um.message.c_str());
-        int prio = (!strcmp(um.priority.c_str(), "high"))?MSG_ERROR:MSG_INFO;
+        int prio = (!strcmp(um.priority.c_str(), "high"))?MSG_USER_ERROR:MSG_INFO;
         show_message(project, buf, prio);
         gstate.project_attach.messages.push_back(um.message);
     }
@@ -1022,7 +1025,7 @@ int CLIENT_STATE::handle_scheduler_reply(
     if (project->gui_urls != old_gui_urls || update_project_prefs) {
         retval = project->write_account_file();
         if (retval) {
-            msg_printf(project, MSG_ERROR,
+            msg_printf(project, MSG_INTERNAL_ERROR,
                 "Can't write account file: %s", boincerror(retval)
             );
             return retval;
@@ -1055,12 +1058,12 @@ int CLIENT_STATE::handle_scheduler_reply(
                 if (!retval && signature_valid) {
                     safe_strcpy(project->code_sign_key, sr.code_sign_key);
                 } else {
-                    msg_printf(project, MSG_ERROR,
+                    msg_printf(project, MSG_INTERNAL_ERROR,
                         "New code signing key doesn't validate"
                     );
                 }
             } else {
-                msg_printf(project, MSG_ERROR,
+                msg_printf(project, MSG_INTERNAL_ERROR,
                     "Missing code sign key signature"
                 );
             }
@@ -1078,7 +1081,7 @@ int CLIENT_STATE::handle_scheduler_reply(
             *app = sr.apps[i];
             retval = link_app(project, app);
             if (retval) {
-                msg_printf(project, MSG_ERROR,
+                msg_printf(project, MSG_INTERNAL_ERROR,
                     "Can't handle application %s in scheduler reply", app->name
                 );
                 delete app;
@@ -1097,7 +1100,7 @@ int CLIENT_STATE::handle_scheduler_reply(
             *fip = sr.file_infos[i];
             retval = link_file_info(project, fip);
             if (retval) {
-                msg_printf(project, MSG_ERROR,
+                msg_printf(project, MSG_INTERNAL_ERROR,
                     "Can't handle file %s in scheduler reply", fip->name
                 );
                 delete fip;
@@ -1128,7 +1131,7 @@ int CLIENT_STATE::handle_scheduler_reply(
         *avp = sr.app_versions[i];
         retval = link_app_version(project, avp);
         if (retval) {
-             msg_printf(project, MSG_ERROR,
+             msg_printf(project, MSG_INTERNAL_ERROR,
                  "Can't handle application version %s %d in scheduler reply",
                  avp->app_name, avp->version_num
              );
@@ -1144,7 +1147,7 @@ int CLIENT_STATE::handle_scheduler_reply(
         wup->project = project;
         int vnum = choose_version_num(wup, sr);
         if (vnum < 0) {
-            msg_printf(project, MSG_ERROR,
+            msg_printf(project, MSG_INTERNAL_ERROR,
                 "Can't find application version for task %s", wup->name
             );
             delete wup;
@@ -1154,7 +1157,7 @@ int CLIENT_STATE::handle_scheduler_reply(
         wup->version_num = vnum;
         retval = link_workunit(project, wup);
         if (retval) {
-            msg_printf(project, MSG_ERROR,
+            msg_printf(project, MSG_INTERNAL_ERROR,
                 "Can't handle task %s in scheduler reply", wup->name
             );
             delete wup;
@@ -1165,7 +1168,7 @@ int CLIENT_STATE::handle_scheduler_reply(
     }
     for (i=0; i<sr.results.size(); i++) {
         if (lookup_result(project, sr.results[i].name)) {
-            msg_printf(project, MSG_ERROR,
+            msg_printf(project, MSG_INTERNAL_ERROR,
                 "Already have task %s\n", sr.results[i].name
             );
             continue;
@@ -1174,7 +1177,7 @@ int CLIENT_STATE::handle_scheduler_reply(
         *rp = sr.results[i];
         retval = link_result(project, rp);
         if (retval) {
-            msg_printf(project, MSG_ERROR,
+            msg_printf(project, MSG_INTERNAL_ERROR,
                 "Can't handle task %s in scheduler reply", rp->name
             );
             delete rp;
@@ -1198,7 +1201,7 @@ int CLIENT_STATE::handle_scheduler_reply(
         if (rp) {
             rp->got_server_ack = true;
         } else {
-            msg_printf(project, MSG_ERROR,
+            msg_printf(project, MSG_INTERNAL_ERROR,
                 "Got ack for task %s, but can't find it", sr.result_acks[i].name
             );
         }

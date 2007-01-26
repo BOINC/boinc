@@ -137,12 +137,12 @@ void CLIENT_STATE::assign_results_to_projects() {
         project = rp->project;
         if (project->next_runnable_result) continue;
 
-        // don't start results if project has > 2 uploads in progress.
+        // don't start results if project has > 2*ncpus uploading results.
         // This avoids creating an unbounded number of completed
         // results for a project that can download and compute
         // faster than it can upload.
         //
-        if (project->nactive_uploads > 2) continue;
+        if (project->nuploading_results > 2*ncpus) continue;
 
         project->next_runnable_result = rp;
     }
@@ -439,14 +439,14 @@ void CLIENT_STATE::schedule_cpus() {
     for (i=0; i<projects.size(); i++) {
         p = projects[i];
         p->next_runnable_result = NULL;
-        p->nactive_uploads = 0;
+        p->nuploading_results = 0;
         p->anticipated_debt = p->short_term_debt;
         p->deadlines_missed = p->rr_sim_deadlines_missed;
     }
-    for (i=0; i<file_xfers->file_xfers.size(); i++) {
-        FILE_XFER* fxp = file_xfers->file_xfers[i];
-        if (fxp->is_upload) {
-            fxp->fip->project->nactive_uploads++;
+    for (i=0; i<results.size(); i++) {
+        RESULT* rp = results[i];
+        if (rp->state() == RESULT_FILES_UPLOADING) {
+            rp->project->nuploading_results++;
         }
     }
 	for (i=0; i<active_tasks.active_tasks.size(); i++) {

@@ -235,7 +235,7 @@ int TIME_STATS::parse(MIOFILE& in) {
             }
         } else {
             if (log_flags.unparsed_xml) {
-                msg_printf(0, MSG_ERROR,
+                msg_printf(0, MSG_INFO,
                     "[unparsed_xml] TIME_STATS::parse(): unrecognized: %s\n", buf
                 );
             }

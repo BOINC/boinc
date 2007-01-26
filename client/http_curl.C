@@ -268,7 +268,7 @@ int HTTP_OP::libcurl_exec(
 
     curlEasy = curl_easy_init(); // get a curl_easy handle to use
     if (!curlEasy) {
-        msg_printf(0, MSG_ERROR, "Couldn't create curlEasy handle");
+        msg_printf(0, MSG_INTERNAL_ERROR, "Couldn't create curlEasy handle");
         return ERR_HTTP_ERROR; // returns 0 (CURLM_OK) on successful handle creation
     }
 
@@ -367,7 +367,7 @@ The checking this option controls is of the identity that the server claims. The
 		if (file_offset>0.0) szType[0] = 'a';
         fileOut = boinc_fopen(outfile, szType);
         if (!fileOut) {
-            msg_printf(NULL, MSG_ERROR, 
+            msg_printf(NULL, MSG_INTERNAL_ERROR, 
                 "Can't create HTTP response output file %s", outfile
             );
             http_op_retval = ERR_FOPEN;
@@ -387,7 +387,7 @@ The checking this option controls is of the identity that the server claims. The
         if (infile && strlen(infile)>0) {
             fileIn = boinc_fopen(infile, "rb");
             if (!fileIn) {
-                msg_printf(NULL, MSG_ERROR, "No HTTP input file %s", infile);
+                msg_printf(NULL, MSG_INTERNAL_ERROR, "No HTTP input file %s", infile);
                 http_op_retval = ERR_FOPEN;
                 http_op_state = HTTP_STATE_DONE;
                 return ERR_FOPEN;
@@ -472,7 +472,7 @@ The checking this option controls is of the identity that the server claims. The
 
     curlMErr = curl_multi_add_handle(g_curlMulti, curlEasy);
     if (curlMErr != CURLM_OK && curlMErr != CURLM_CALL_MULTI_PERFORM) { // bad error, couldn't attach easy curl handle
-        msg_printf(0, MSG_ERROR, "Couldn't add curlEasy handle to curlMulti");
+        msg_printf(0, MSG_INTERNAL_ERROR, "Couldn't add curlEasy handle to curlMulti");
         return ERR_HTTP_ERROR; // returns 0 (CURLM_OK) on successful handle creation
     }
 
@@ -538,7 +538,7 @@ int HTTP_OP_SET::remove(HTTP_OP* p) {
         }
         iter++;
     }
-    msg_printf(NULL, MSG_ERROR, "HTTP operation not found");
+    msg_printf(NULL, MSG_INTERNAL_ERROR, "HTTP operation not found");
     return ERR_NOT_FOUND;
 }
 
@@ -985,7 +985,7 @@ void HTTP_OP_SET::got_select(FDSET_GROUP&, double timeout) {
             }
             net_status.got_http_error();
 			if (log_flags.http_debug) {
-				msg_printf(NULL, MSG_ERROR, "[http_debug] HTTP error: %s", hop->error_msg);
+				msg_printf(NULL, MSG_INFO, "[http_debug] HTTP error: %s", hop->error_msg);
 			}
         }
 
@@ -1053,7 +1053,7 @@ void HTTP_OP::set_speed_limit(bool is_upload, double bytes_sec) {
         cc = curl_easy_setopt(curlEasy, CURLOPT_MAX_RECV_SPEED_LARGE, bs);
     }
 	if (cc && log_flags.http_debug) {
-		msg_printf(NULL, MSG_ERROR, "[http_debug] Curl error in set_speed_limit(): %s", curl_easy_strerror(cc));
+		msg_printf(NULL, MSG_INFO, "[http_debug] Curl error in set_speed_limit(): %s", curl_easy_strerror(cc));
 	}
 #endif
 }
