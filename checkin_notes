@@ -1198,3 +1198,10 @@ David  25 Jan 2007
         sg_ProjectComponent.cpp
     lib/
         common_defs.h
+
+Charlie 26 Jan 2007
+    - MAC: Change MSG_ERROR to MSG_INTERNAL_ERROR in Mac-specific 
+        source file.
+
+    lib/
+        procinfo_mac.C
