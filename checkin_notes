@@ -1259,3 +1259,9 @@ David  26 Jan 2007
         cs_scheduler.C
     sched/
         file_upload_handler.C
+
+David  26 Jan 2007
+    - oops!  left out one line in the above
+
+    client/
+        cs_scheduler.C

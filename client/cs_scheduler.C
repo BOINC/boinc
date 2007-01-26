@@ -596,6 +596,7 @@ bool CLIENT_STATE::compute_work_requests() {
     last_time = gstate.now;
     must_check_work_fetch = false;
 
+    compute_nuploading_results();
     adjust_debts();
 
     rr_simulation();
