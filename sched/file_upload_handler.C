@@ -201,14 +201,13 @@ int copy_socket_to_file(FILE* in, char* path, double offset, double nbytes) {
 
     while (bytes_left > 0) {
 
-        int n, m, to_write, errno_save;
+        int n, m, to_write;
 
         m = bytes_left<(double)BLOCK_SIZE ? (int)bytes_left : BLOCK_SIZE;
 
         // try to get m bytes from socket (n>=0 is number actually returned)
         //
         n = fread(buf, 1, m, in);
-        errno_save=errno;
 
         // try to write n bytes to file
         //
@@ -225,13 +224,27 @@ int copy_socket_to_file(FILE* in, char* path, double offset, double nbytes) {
         }
 
         // check that we got all bytes from socket that were requested
+        // Note: fread() reads less than requested only if there's
+        // an error or EOF (see the man page)
         //
         if (n != m) {
             close(fd);
-            return return_error(ERR_TRANSIENT,
-                "socket read incomplete: asked for %d, got %d: %s\n",
-                m, n, strerror(errno_save)
-            );
+            if (feof(in)) {
+                return return_error(ERR_TRANSIENT,
+                    "EOF on socket read : asked for %d, got %d\n",
+                    m, n
+                );
+            } else if (ferror(in)) {
+                return return_error(ERR_TRANSIENT,
+                    "error %d (%s) on socket read: asked for %d, got %d\n",
+                    ferror(in), strerror(ferror(in)), m, n
+                );
+            } else {
+                return return_error(ERR_TRANSIENT,
+                    "incomplete socket read: asked for %d, got %d\n",
+                    m, n
+                );
+            }
         }
 
         bytes_left -= n;

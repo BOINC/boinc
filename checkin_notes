@@ -1241,3 +1241,21 @@ Rom    26 Jan 2007
     win_build/
         boincmgr_curl.vcproj
         boincmgr_curl_2003.vcproj
+
+David  26 Jan 2007
+    - core client: another attempt at fixing the problem
+        where a project is issuing work but not uploading files.
+        New solution: don't fetch work from a project with
+        more than 2*ncpus results in FILES_UPLOADING state.
+
+        Note: this doesn't address John McLeod's point that
+        we shouldn't increase LTD for projects in this state.
+    - file upload handler: print more accurate message when
+        fread() returns less than requested
+
+    client/
+        client_state.h
+        cpu_sched.C
+        cs_scheduler.C
+    sched/
+        file_upload_handler.C

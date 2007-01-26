@@ -31,7 +31,7 @@ Usually this is en.po (English).
 <li>
 Create a translation file for your language.
 You can do this using a text editor or a specialized tool such as
-<a href=http://www.poedit.org/>poedit</a>.
+<a href=http://sourceforge.net/projects/poedit/>poedit</a>.
 <li>
 Send this to the translation manager,
 who will then install it on the project's web site.

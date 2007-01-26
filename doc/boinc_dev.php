@@ -109,6 +109,7 @@ Write a simulator for the CPU scheduler and work fetch policies
 <li> Prevent disk space usage from exceeding user preferences,
 and enforce resource shares,
 with file deletion according to project policy.
+<li> Make messages of class MSG_USER_ERROR translatable.
 </ul>
 
 <li> BOINC Manager:
