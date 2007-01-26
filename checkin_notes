@@ -1230,9 +1230,14 @@ Charlie 26 Jan 2007
 
 Rom    26 Jan 2007
     - Remove wxAnimate since it isn't used anywhere.
+    - MGR: Add a new menu item that'll shutdown the core client that the manager is
+        connected too. It'll prompt for a new computer afterwords.
     
-    clientgui/
+    clientgui/common/
         wxAnimate.cpp, .h (Removed)
+    clientgui/
+        AdvancedFrame.cpp, .h
+        Events.h
     win_build/
         boincmgr_curl.vcproj
         boincmgr_curl_2003.vcproj

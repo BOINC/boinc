@@ -160,6 +160,7 @@ IMPLEMENT_DYNAMIC_CLASS(CAdvancedFrame, CBOINCBaseFrame)
 BEGIN_EVENT_TABLE (CAdvancedFrame, CBOINCBaseFrame)
     EVT_MENU(ID_FILERUNBENCHMARKS, CAdvancedFrame::OnRunBenchmarks)
     EVT_MENU(ID_FILESELECTCOMPUTER, CAdvancedFrame::OnSelectComputer)
+    EVT_MENU(ID_SHUTDOWNCORECLIENT, CAdvancedFrame::OnClientShutdown)
     EVT_MENU(ID_FILESWITCHGUI, CAdvancedFrame::OnSwitchGUI)
 	EVT_MENU(ID_READ_PREFS, CAdvancedFrame::Onread_prefs)
 	EVT_MENU(ID_READ_CONFIG, CAdvancedFrame::Onread_config)
@@ -430,6 +431,11 @@ bool CAdvancedFrame::CreateMenu() {
         ID_FILESELECTCOMPUTER, 
         _("Select computer..."),
         strMenuDescription
+    );
+    menuAdvanced->Append(
+        ID_SHUTDOWNCORECLIENT, 
+        _("Shutdown connected client..."),
+        _("Shutdown the currently connected core client")
     );
     menuAdvanced->Append(
         ID_FILERUNBENCHMARKS, 
@@ -1055,15 +1061,42 @@ void CAdvancedFrame::OnSelectComputer(wxCommandEvent& WXUNUSED(event)) {
     wxLogTrace(wxT("Function Start/End"), wxT("CAdvancedFrame::OnSelectComputer - Function End"));
 }
 
+
+void CAdvancedFrame::OnClientShutdown(wxCommandEvent& WXUNUSED(event)) {
+    wxLogTrace(wxT("Function Start/End"), wxT("CAdvancedFrame::OnClientShutdown - Function Begin"));
+
+    CMainDocument* pDoc = wxGetApp().GetDocument();
+    wxCommandEvent evtSelectNewComputer(wxEVT_COMMAND_MENU_SELECTED, ID_FILESELECTCOMPUTER);
+
+    wxASSERT(pDoc);
+    wxASSERT(wxDynamicCast(pDoc, CMainDocument));
+
+    // Stop all timers
+    StopTimers();
+
+    pDoc->CoreClientQuit();
+
+    // Since the core cliet we were connected to just shutdown, prompt for a new one.
+    ProcessEvent(evtSelectNewComputer);
+
+    // Restart timers
+    StartTimers();
+
+    wxLogTrace(wxT("Function Start/End"), wxT("CAdvancedFrame::OnClientShutdown - Function End"));
+}
+
+
 void CAdvancedFrame::Onread_prefs(wxCommandEvent& WXUNUSED(event)) {
 	CMainDocument* pDoc = wxGetApp().GetDocument();
 	pDoc->rpc.read_global_prefs_override();
 }
 
+
 void CAdvancedFrame::Onread_config(wxCommandEvent& WXUNUSED(event)) {
 	CMainDocument* pDoc = wxGetApp().GetDocument();
 	pDoc->rpc.read_cc_config();
 }
+
 
 void CAdvancedFrame::OnSwitchGUI(wxCommandEvent& WXUNUSED(event)) {
     wxLogTrace(wxT("Function Start/End"), wxT("CAdvancedFrame::OnSwitchGUI - Function Begin"));

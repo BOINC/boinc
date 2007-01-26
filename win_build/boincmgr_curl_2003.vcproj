@@ -895,10 +895,6 @@
 				</File>
 			</Filter>
 			<Filter
-				Name="Animate"
-				Filter="">
-			</Filter>
-			<Filter
 				Name="Validators"
 				Filter="">
 				<File
