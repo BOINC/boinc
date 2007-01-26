@@ -1194,3 +1194,17 @@ Rom    25 Jan 2007
     win_build/
         *.sln
         *.vcproj
+
+Rom    26 Jan 2007
+    - WIN: Fix build breaks since not all configurations in all components were
+        kept in sync.
+    - MGR: Remove legacy tabs.
+    
+    clientgui/
+        AdvancedFrame.cpp
+        ViewProjectsGrid.cpp
+        ViewTransfersGrid.cpp
+        ViewWorkGrid.cpp
+    win_build/
+        *.sln
+        *.vcproj
