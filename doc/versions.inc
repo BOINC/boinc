@@ -371,9 +371,9 @@ $linux_libs_58= "
 ";
 
 $w586= array(
-    "num"=>"5.8.6",
+    "num"=>"5.8.6a",
     "status"=>"Development version",
-    "file"=>"boinc_5.8.6_windows_intelx86.exe",
+    "file"=>"boinc_5.8.6a_windows_intelx86.exe",
     "date"=>"26 Jan 2007",
     "type"=>"win_new",
     "features"=>"<ul>
