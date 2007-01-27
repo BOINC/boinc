@@ -185,7 +185,7 @@ CViewProjectsGrid::~CViewProjectsGrid() {
 
 
 wxString& CViewProjectsGrid::GetViewName() {
-    static wxString strViewName(_("ProjectsGrid"));
+    static wxString strViewName(_("Projects"));
     return strViewName;
 }
 

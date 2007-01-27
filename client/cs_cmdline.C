@@ -258,7 +258,7 @@ void CLIENT_STATE::do_cmdline_actions() {
             detach_project(project);
             msg_printf(project, MSG_INFO, "detached from %s\n", detach_project_url);
         } else {
-            msg_printf(NULL, MSG_ERROR, "project %s not found\n", detach_project_url);
+            msg_printf(NULL, MSG_USER_ERROR, "project %s not found\n", detach_project_url);
         }
         exit(0);
     }
@@ -269,7 +269,7 @@ void CLIENT_STATE::do_cmdline_actions() {
             reset_project(project);
             msg_printf(project, MSG_INFO, "Project %s has been reset", reset_project_url);
         } else {
-            msg_printf(NULL, MSG_ERROR, "project %s not found\n", reset_project_url);
+            msg_printf(NULL, MSG_USER_ERROR, "project %s not found\n", reset_project_url);
         }
         exit(0);
     }
@@ -279,7 +279,7 @@ void CLIENT_STATE::do_cmdline_actions() {
         if (project) {
             project->sched_rpc_pending = RPC_REASON_USER_REQ;
         } else {
-            msg_printf(NULL, MSG_ERROR, "project %s not found\n", update_prefs_url);
+            msg_printf(NULL, MSG_USER_ERROR, "project %s not found\n", update_prefs_url);
         }
     }
 

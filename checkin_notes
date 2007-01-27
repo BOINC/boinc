@@ -1077,3 +1077,203 @@ David  24 Jan 2007
         app_control.C
     py/Boinc/
         setup_project.py
+
+Rom    24 Jan 2007 (Forked from HEAD)
+    - Branch boinc_core_release_5_8a created for the BOINC 5.8 client release.
+
+David  24 Jan 2007
+	- core client: tweak messages
+
+	client/
+		app_start.C
+		cs_apps.C
+
+Rom    24 Jan 2007
+    - MGR: _("") causes poEdit to throw warnings, change them to wxT("").
+    
+    clientgui/
+        DlgAdvPreferencesBase.cpp
+
+Rom    24 Jan 2007
+    - MGR: Disable older style views.
+    
+    clientgui/
+        AdvancedFrame.cpp
+
+David  24 Jan 2007
+    - core client: the task_debug message flag now prints
+        all transitions of ACTIVE_TASK::task_state and RESULT::state
+
+    client/
+        app.C,h
+        app_control.C
+        app_start.C
+        client_state.C
+        client_types.C,h
+        cs_apps.C
+        cs_scheduler.C
+
+Charlie 24 Jan 2007
+    MGR: Revert certain changes for wxWidgets 2.8.0; use 2.6.3 for 5.8.5 release.  
+
+    mac_build/
+        buildWxMac.sh
+        setupForBoinc.sh
+        HowToBuildBOINC_XCode.rtf
+        wxMac-BOINC.xcodeproj/
+            project.pbxproj
+        boinc.xcodeproj/
+            project.pbxproj
+
+Rom    24 Jan 2007
+    - Tag for 5.8.5 release, all platforms
+      boinc_core_release_5_8_5
+
+Rom    25 Jan 2007
+    - MGR: Disable advanced preferences dialog dox.
+    - MGR: Do not refresh the Simple GUI when the manager is hidden.
+    
+    clientgui/
+        AdvancedFrame.cpp
+        sg_BoincSimpleGUI.cpp
+
+David  25 Jan 2007
+    - Manager: use a scientifically chosen set of colors
+        for disk pie charts
+
+    clientgui/
+        ViewResources.cpp
+        common/
+            wxPieCtrl.cpp
+    win_build/
+        boinc_dll.vcproj
+
+David  25 Jan 2007
+    - core client: there was logic that wouldn't start a result
+        for a project if it had > 2 active uploads
+        (intended to prevent an unbounded buildup of files
+        for a project whose upload server is broken).
+        This was never triggered since the default is 2 active
+        transfers per project.
+        Maybe I meant persistent file transfers.
+        In any case, this is a bad policy because there may be
+        a project with lots of output files per result, possibly large,
+        and there's no reason to keep it from computing.
+        So instead, I changed it to not start a result from a project
+        if its number of results in FILES_UPLOADING state exceeds 2*ncpus.
+
+    client/
+        client_state.h
+        client_types.h
+        cpu_sched.C
+        cs_scheduler.C
+    clientgui/
+        AdvancedFrame.cpp
+
+David  25 Jan 2007
+    - core client and manager: reorganize message priorities.
+        There are now three priorities:
+        MSG_USER_ERROR
+            Conditions that require user intervention.
+            These messages are written for non-tech users,
+            and tell the user exactly what to do.
+            GUI: red letters
+        MSG_INTERNAL_ERROR
+            Conditions that may indicate a problem or bug in BOINC itself,
+            or with a BOINC project or account manager.
+            The message is prepended with "[error]".
+            GUI: black letters
+        MSG_INFO
+            All other messages.
+            GUI: black letters
+
+        Note: all messages that must be enabled by cc_config.xml
+        use MSG_INFO priority
+
+    client/
+        *.C
+    clientgui/
+        ViewMessages.cpp
+        ViewMessagesGrid.cpp
+        sg_ProjectComponent.cpp
+    lib/
+        common_defs.h
+
+Rom    25 Jan 2007
+    - MGR: Flip the sorting icons for the Grid Control.
+    - WIN: Remove the Release (SIMPLEGUI) and Debug (SIMPLEGUI) configurations
+        since we'll only be releasing future version with the Simple GUI included.
+        
+    clientgui/
+        BOINCGridCtrl.cpp
+    win_build/
+        *.sln
+        *.vcproj
+
+Rom    26 Jan 2007
+    - WIN: Fix build breaks since not all configurations in all components were
+        kept in sync.
+    - MGR: Remove legacy tabs.
+    
+    clientgui/
+        AdvancedFrame.cpp
+        ViewProjectsGrid.cpp
+        ViewTransfersGrid.cpp
+        ViewWorkGrid.cpp
+    win_build/
+        *.sln
+        *.vcproj
+
+Rom    26 Jan 2007
+    - MGR: Fix the OnFrameRender function in the Simple GUI, some of the logic in it
+        blows out of the function with a return which was leaving the static variable
+        that was guarding against repeated executions to true. This in turn kept
+        the GUI from updating.
+        
+    clientgui/
+        sg_BoincSimpleGUI.cpp
+
+Charlie 26 Jan 2007
+    - MAC: Change MSG_ERROR to MSG_INTERNAL_ERROR in Mac-specific 
+        source file.
+
+    lib/
+        procinfo_mac.C
+
+Rom    26 Jan 2007
+    - Remove wxAnimate since it isn't used anywhere.
+    - MGR: Add a new menu item that'll shutdown the core client that the manager is
+        connected too. It'll prompt for a new computer afterwords.
+    
+    clientgui/common/
+        wxAnimate.cpp, .h (Removed)
+    clientgui/
+        AdvancedFrame.cpp, .h
+        Events.h
+    win_build/
+        boincmgr_curl.vcproj
+        boincmgr_curl_2003.vcproj
+
+David  26 Jan 2007
+    - core client: another attempt at fixing the problem
+        where a project is issuing work but not uploading files.
+        New solution: don't fetch work from a project with
+        more than 2*ncpus results in FILES_UPLOADING state.
+
+        Note: this doesn't address John McLeod's point that
+        we shouldn't increase LTD for projects in this state.
+
+    client/
+        client_state.h
+        cpu_sched.C
+        cs_scheduler.C
+
+David  26 Jan 2007
+    - oops!  left out one line in the above
+
+    client/
+        cs_scheduler.C
+
+Rom    26 Jan 2007
+    - Tag for 5.8.6 release, all platforms
+      boinc_core_release_5_8_6
