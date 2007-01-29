@@ -1320,3 +1320,11 @@ David  29 Jan 2007
             show_host_detail.php
     lib/
         prefs.C
+
+Rom    28 Jan 2007
+    - MGR: Update default BOINC skin.
+    
+    clientgui/res/skins/default/graphic
+        *.xpm
+    clientgui/res/templates/skins
+        *.png
