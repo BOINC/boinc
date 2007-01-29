@@ -505,7 +505,7 @@ void CViewProjectsGrid::UpdateSelection() {
             }
         }
         m_pTaskPane->EnableTask(pGroup->m_Tasks[BTN_RESET]);
-        if (project->attached_via_acct_mgr) {
+        if (project && project->attached_via_acct_mgr) {
             m_pTaskPane->DisableTask(pGroup->m_Tasks[BTN_DETACH]);
         } else {
             m_pTaskPane->EnableTask(pGroup->m_Tasks[BTN_DETACH]);

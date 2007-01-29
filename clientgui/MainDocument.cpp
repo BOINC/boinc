@@ -648,31 +648,14 @@ PROJECT* CMainDocument::project(unsigned int i) {
 }
 
 PROJECT* CMainDocument::project(const wxString& projectname) {
-    PROJECT* pProject = NULL;
-
-    // It is not safe to assume that the vector actually contains the data,
-    //   doing so will lead to those annoying dialogs about the list control
-    //   not being able to find list item such and such.  In the worst case
-    //   scenario it'll lead to a crash, so for now we'll use the at() function
-    //   which will cause an exception which can be trapped and return a NULL
-    //   pointer when the exception is thrown.
-    try {
-		if (!state.projects.empty()) {
-			for(unsigned int i=0; i< state.projects.size();i++) {
-				PROJECT* tp = state.projects.at(i);
-				wxString tname(tp->project_name.c_str(),wxConvUTF8);
-				if(tname.IsSameAs(projectname)) {
-					pProject = tp;
-					break;
-				}
-			}
-		}
-    }
-    catch (std::out_of_range e) {
-        pProject = NULL;
-    }
-
-    return pProject;
+	for (unsigned int i=0; i< state.projects.size(); i++) {
+		PROJECT* tp = state.projects[i];
+		wxString t1(tp->project_name.c_str(), wxConvUTF8);
+		if(t1.IsSameAs(projectname)) return tp;
+		wxString t2(tp->master_url.c_str(), wxConvUTF8);
+		if(t2.IsSameAs(projectname)) return tp;
+	}
+    return NULL;
 }
 
 

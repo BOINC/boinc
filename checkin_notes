@@ -1337,3 +1337,19 @@ David  29 Jan 2007
         app_start.C
     html/inc/
         prefs.inc
+
+David  29 Jan 2007
+	- Manager: fix crash if select a project that doesn't have
+		a name yet.  There were two separate problems:
+		1) CMainDocument::project() was searching by name
+			but not by master URL
+			(BTW: all that at(), out-of-range exception stuff
+			isn't needed, or the cut-and-pasted comment).
+		2) CViewProjects::UpdateSelection() (and its grid counterpart)
+			were checking for project == NULL
+			some of the time, but not all the time
+
+	clientgui/
+		MainDocument.cpp
+		ViewProjects.cpp
+		ViewProjectsGrid.cpp
