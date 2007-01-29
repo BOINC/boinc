@@ -34,7 +34,6 @@
 
 #include "res/proj.xpm"
 
-
 #define COLUMN_PROJECT              0
 #define COLUMN_ACCOUNTNAME          1
 #define COLUMN_TEAMNAME             2
@@ -54,7 +53,54 @@
 #define BTN_RESET        3
 #define BTN_DETACH       4
 
+static bool sortAscending;
+static int sortColumn;
 
+/* ompare function for projects */
+static int compareProjects(CProjectInfo** pfirst,CProjectInfo** psecond) {
+	int ret=0;
+	CProjectInfo* first = *pfirst;
+	CProjectInfo* second = *psecond;
+	double diff;
+	switch(sortColumn) {
+		case COLUMN_PROJECT:
+			ret = first->name.CmpNoCase(second->name);
+			break;
+		case COLUMN_ACCOUNTNAME:
+			ret = first->accountname.CmpNoCase(second->accountname);
+			break;
+		case COLUMN_TEAMNAME:
+			ret = first->teamname.CmpNoCase(second->teamname);
+			break;
+		case COLUMN_TOTALCREDIT:
+			diff = first->totalcredit - second->totalcredit;
+			ret =  diff > 0.0 ? 1 : diff==0 ? 0 : -1;
+			break;
+		case COLUMN_AVGCREDIT:
+			diff = first->avgcredit - second->avgcredit;
+			ret =  diff > 0.0 ? 1 : diff==0 ? 0 : -1;
+			break;
+		case COLUMN_RESOURCESHARE:
+			diff = first->resourceshare - second->resourceshare;
+			ret =  diff > 0.0 ? 1 : diff==0 ? 0 : -1;
+			break;
+		case COLUMN_STATUS:
+			ret = first->status.CmpNoCase(second->status);
+			break;
+	}
+	ret = sortAscending ? ret : ret * (-1);
+	return ret;
+}
+
+CProjectInfo::CProjectInfo() {
+	name.Clear();
+	accountname.Clear();
+	teamname.Clear();
+	totalcredit=0.0;
+	avgcredit=0.0;
+	resourceshare=0.0;
+	status.Clear();
+}
 
 IMPLEMENT_DYNAMIC_CLASS(CViewProjectsGrid, CBOINCBaseView)
 
@@ -84,7 +130,7 @@ CViewProjectsGrid::CViewProjectsGrid(wxNotebook* pNotebook) :
 
     itemFlexGridSizer->AddGrowableRow(0);
     itemFlexGridSizer->AddGrowableCol(1);
-    
+
 	m_pTaskPane = new CBOINCTaskCtrl(this, ID_TASK_PROJECTSGRIDVIEW, DEFAULT_TASK_FLAGS);
     wxASSERT(m_pTaskPane);
 
@@ -116,21 +162,21 @@ CViewProjectsGrid::CViewProjectsGrid(wxNotebook* pNotebook) :
         _("Update"),
         _("Report all completed tasks, get latest credit, "
           "get latest preferences, and possibly get more tasks."),
-        ID_TASK_PROJECT_UPDATE 
+        ID_TASK_PROJECT_UPDATE
     );
     pGroup->m_Tasks.push_back( pItem );
 
 	pItem = new CTaskItem(
         _("Suspend"),
         _("Suspend tasks for this project."),
-        ID_TASK_PROJECT_SUSPEND 
+        ID_TASK_PROJECT_SUSPEND
     );
     pGroup->m_Tasks.push_back( pItem );
 
 	pItem = new CTaskItem(
         _("No new tasks"),
         _("Don't get new tasks for this project."),
-        ID_TASK_PROJECT_NONEWWORK 
+        ID_TASK_PROJECT_NONEWWORK
     );
     pGroup->m_Tasks.push_back( pItem );
 
@@ -140,7 +186,7 @@ CViewProjectsGrid::CViewProjectsGrid(wxNotebook* pNotebook) :
           "and get new tasks.  "
           "You can update the project "
           "first to report any completed tasks."),
-        ID_TASK_PROJECT_RESET 
+        ID_TASK_PROJECT_RESET
     );
     pGroup->m_Tasks.push_back( pItem );
 
@@ -149,7 +195,7 @@ CViewProjectsGrid::CViewProjectsGrid(wxNotebook* pNotebook) :
         _("Detach computer from this project.  "
           "Tasks in progress will be lost "
           "(use 'Update' first to report any completed tasks)."),
-        ID_TASK_PROJECT_DETACH 
+        ID_TASK_PROJECT_DETACH
     );
     pGroup->m_Tasks.push_back( pItem );
 
@@ -209,7 +255,7 @@ void CViewProjectsGrid::OnProjectUpdate( wxCommandEvent& WXUNUSED(event) ) {
     wxASSERT(m_pGridPane);
 
     pFrame->UpdateStatusText(_("Updating project..."));
-	wxString searchName = m_pGridPane->GetCellValue(m_pGridPane->GetFirstSelectedRow(),COLUMN_PROJECT).Trim(false);
+	wxString searchName = m_projectCache.Item(m_pGridPane->GetFirstSelectedRow())->name;
     pDoc->ProjectUpdate(searchName);
     pFrame->UpdateStatusText(wxT(""));
 
@@ -235,7 +281,7 @@ void CViewProjectsGrid::OnProjectSuspend( wxCommandEvent& WXUNUSED(event) ) {
     wxASSERT(m_pTaskPane);
     wxASSERT(m_pGridPane);
 
-	wxString searchName = m_pGridPane->GetCellValue(m_pGridPane->GetFirstSelectedRow(),COLUMN_PROJECT).Trim(false);
+	wxString searchName = m_projectCache.Item(m_pGridPane->GetFirstSelectedRow())->name;
     PROJECT* project = pDoc->project(searchName);
     if (project->suspended_via_gui) {
         pFrame->UpdateStatusText(_("Resuming project..."));
@@ -268,7 +314,7 @@ void CViewProjectsGrid::OnProjectNoNewWork( wxCommandEvent& WXUNUSED(event) ) {
     wxASSERT(m_pTaskPane);
     wxASSERT(m_pGridPane);
 
-	wxString searchName = m_pGridPane->GetCellValue(m_pGridPane->GetFirstSelectedRow(),COLUMN_PROJECT).Trim(false);
+	wxString searchName = m_projectCache.Item(m_pGridPane->GetFirstSelectedRow())->name;
     PROJECT* project = pDoc->project(searchName);
     if (project->dont_request_more_work) {
         pFrame->UpdateStatusText(_("Telling project to allow additional task downloads..."));
@@ -293,8 +339,7 @@ void CViewProjectsGrid::OnProjectNoNewWork( wxCommandEvent& WXUNUSED(event) ) {
 void CViewProjectsGrid::OnProjectReset( wxCommandEvent& WXUNUSED(event) ) {
     wxLogTrace(wxT("Function Start/End"), wxT("CViewProjectsGrid::OnProjectReset - Function Begin"));
 
-    wxInt32  iAnswer        = 0; 
-    std::string strProjectName;
+    wxInt32  iAnswer        = 0;
     wxString strMessage     = wxEmptyString;
     CMainDocument* pDoc     = wxGetApp().GetDocument();
     CAdvancedFrame* pFrame      = wxDynamicCast(GetParent()->GetParent()->GetParent(), CAdvancedFrame);
@@ -311,14 +356,9 @@ void CViewProjectsGrid::OnProjectReset( wxCommandEvent& WXUNUSED(event) ) {
 
     pFrame->UpdateStatusText(_("Resetting project..."));
 
-	wxString searchName = m_pGridPane->GetCellValue(m_pGridPane->GetFirstSelectedRow(),COLUMN_PROJECT).Trim(false);
-    PROJECT* project = pDoc->project(searchName);
-    project->get_name(strProjectName);
-
+	wxString searchName = m_projectCache.Item(m_pGridPane->GetFirstSelectedRow())->name;
     strMessage.Printf(
-        _("Are you sure you want to reset project '%s'?"), 
-        wxString(strProjectName.c_str(), wxConvUTF8).c_str()
-    );
+        _("Are you sure you want to reset project '%s'?"),searchName.c_str());
 
     iAnswer = ::wxMessageBox(
         strMessage,
@@ -344,7 +384,7 @@ void CViewProjectsGrid::OnProjectReset( wxCommandEvent& WXUNUSED(event) ) {
 void CViewProjectsGrid::OnProjectDetach( wxCommandEvent& WXUNUSED(event) ) {
     wxLogTrace(wxT("Function Start/End"), wxT("CViewProjectsGrid::OnProjectDetach - Function Begin"));
 
-    wxInt32  iAnswer        = 0; 
+    wxInt32  iAnswer        = 0;
     std::string strProjectName;
     wxString strMessage     = wxEmptyString;
     CMainDocument* pDoc     = wxGetApp().GetDocument();
@@ -362,13 +402,9 @@ void CViewProjectsGrid::OnProjectDetach( wxCommandEvent& WXUNUSED(event) ) {
 
     pFrame->UpdateStatusText(_("Detaching from project..."));
 
-	wxString searchName = m_pGridPane->GetCellValue(m_pGridPane->GetFirstSelectedRow(),COLUMN_PROJECT).Trim(false);
-    PROJECT* project = pDoc->project(searchName);
-    project->get_name(strProjectName);
-
+	wxString searchName = m_projectCache.Item(m_pGridPane->GetFirstSelectedRow())->name;
     strMessage.Printf(
-        _("Are you sure you want to detach from project '%s'?"), 
-        wxString(strProjectName.c_str(), wxConvUTF8).c_str()
+        _("Are you sure you want to detach from project '%s'?"), searchName.c_str()
     );
 
     iAnswer = ::wxMessageBox(
@@ -439,9 +475,9 @@ void CViewProjectsGrid::UpdateSelection() {
     // Update the tasks static box buttons
     //
     pGroup = m_TaskGroups[0];
-	
+
 	if (m_pGridPane->GetSelectedRows2().size()==1) {
-		wxString searchName = m_pGridPane->GetCellValue(m_pGridPane->GetFirstSelectedRow(),COLUMN_PROJECT).Trim(false);
+		wxString searchName = m_projectCache.Item(m_pGridPane->GetFirstSelectedRow())->name;
         project = pDoc->project(searchName);
         m_pTaskPane->EnableTask(pGroup->m_Tasks[BTN_UPDATE]);
         m_pTaskPane->EnableTask(pGroup->m_Tasks[BTN_SUSPEND]);
@@ -524,8 +560,8 @@ void CViewProjectsGrid::UpdateWebsiteSelection(long lControlGroup, PROJECT* proj
 
                 // Default project url
                 pItem = new CTaskItem(
-                    wxString(project->project_name.c_str(), wxConvUTF8), 
-                    wxT(""), 
+                    wxString(project->project_name.c_str(), wxConvUTF8),
+                    wxT(""),
                     wxString(project->master_url.c_str(), wxConvUTF8),
                     ID_TASK_PROJECT_WEB_PROJDEF_MIN
                 );
@@ -550,105 +586,41 @@ void CViewProjectsGrid::UpdateWebsiteSelection(long lControlGroup, PROJECT* proj
 
 }
 
-wxInt32 CViewProjectsGrid::FormatProjectName(wxInt32 item, wxString& strBuffer) const {
-    PROJECT* project = wxGetApp().GetDocument()->project(item);
-    std::string project_name;
-
-    if (project) {
-        project->get_name(project_name);
-        strBuffer = wxString(project_name.c_str(), wxConvUTF8);
-		strBuffer = wxString(" ",wxConvUTF8) + strBuffer;
-    }
-
-    return 0;
+void CViewProjectsGrid::FormatProjectName(wxInt32 item, wxString& strBuffer) {
+	strBuffer = wxString(" ",wxConvUTF8) + m_projectCache.Item(item)->name;
 }
 
 
-wxInt32 CViewProjectsGrid::FormatAccountName(wxInt32 item, wxString& strBuffer) const {
-    PROJECT* project = wxGetApp().GetDocument()->project(item);
+void CViewProjectsGrid::FormatAccountName(wxInt32 item, wxString& strBuffer) {
+    strBuffer = wxString(" ",wxConvUTF8) + m_projectCache.Item(item)->accountname;
+}
 
-    if (project) {
-        strBuffer = wxString(" ",wxConvUTF8) + wxString(project->user_name.c_str(), wxConvUTF8);
-    }
+void CViewProjectsGrid::FormatTeamName(wxInt32 item, wxString& strBuffer) {
+   strBuffer = wxString(" ",wxConvUTF8) + m_projectCache.Item(item)->teamname;
+}
 
-    return 0;
+void CViewProjectsGrid::FormatTotalCredit(wxInt32 item, wxString& strBuffer) {
+	strBuffer.Printf(wxT(" %0.2f"), m_projectCache.Item(item)->totalcredit);
 }
 
 
-wxInt32 CViewProjectsGrid::FormatTeamName(wxInt32 item, wxString& strBuffer) const {
-    PROJECT* project = wxGetApp().GetDocument()->project(item);
-
-    if (project) {
-        strBuffer = wxString(" ",wxConvUTF8) + wxString(project->team_name.c_str(), wxConvUTF8);
-    }
-
-    return 0;
+void CViewProjectsGrid::FormatAVGCredit(wxInt32 item, wxString& strBuffer) {
+	strBuffer.Printf(wxT(" %0.2f"), m_projectCache.Item(item)->avgcredit);
 }
 
 
-wxInt32 CViewProjectsGrid::FormatTotalCredit(wxInt32 item, wxString& strBuffer) const {
-    PROJECT* project = wxGetApp().GetDocument()->project(item);
-
-    if (project) {
-        strBuffer.Printf(wxT(" %0.2f"), project->user_total_credit);
-    }
-
-    return 0;
-}
-
-
-wxInt32 CViewProjectsGrid::FormatAVGCredit(wxInt32 item, wxString& strBuffer) const {
-    PROJECT* project = wxGetApp().GetDocument()->project(item);
-
-    if (project) {
-        strBuffer.Printf(wxT(" %0.2f"), project->user_expavg_credit);
-    }
-
-    return 0;
-}
-
-
-wxInt32 CViewProjectsGrid::FormatResourceShare(wxInt32 item, wxString& strBuffer) const {
+void CViewProjectsGrid::FormatResourceShare(wxInt32 item, wxString& strBuffer){
     CMainDocument* pDoc = wxGetApp().GetDocument();
-    PROJECT*       project = wxGetApp().GetDocument()->project(item);
-
     wxASSERT(pDoc);
-    wxASSERT(wxDynamicCast(pDoc, CMainDocument));
-
-    if (project && pDoc) {
-        strBuffer.Printf(wxT(" %0.0f (%0.2f%%)"), 
-            project->resource_share, 
-            ((project->resource_share / pDoc->m_fProjectTotalResourceShare) * 100)
+    strBuffer.Printf(wxT(" %0.0f (%0.2f%%)"),
+            m_projectCache.Item(item)->resourceshare,
+            ((m_projectCache.Item(item)->resourceshare / pDoc->m_fProjectTotalResourceShare) * 100)
         );
-    }
-
-    return 0;
 }
 
 
-wxInt32 CViewProjectsGrid::FormatStatus(wxInt32 item, wxString& status) const {
-    PROJECT* project = wxGetApp().GetDocument()->project(item);
-
-    if (project) {
-		if (project->suspended_via_gui) {
-            append_to_status(status, _("Suspended by user"));
-        }
-        if (project->dont_request_more_work) {
-            append_to_status(status, _("Won't get new tasks"));
-        }
-        if (project->sched_rpc_pending) {
-            append_to_status(status, _("Scheduler request pending"));
-			append_to_status(status, wxString(rpc_reason_string(project->sched_rpc_pending), wxConvUTF8));
-        }
-        wxDateTime dtNextRPC((time_t)project->min_rpc_time);
-        wxDateTime dtNow(wxDateTime::Now());
-        if (dtNextRPC > dtNow) {
-            wxTimeSpan tsNextRPC(dtNextRPC - dtNow);
-            append_to_status(status, _("Communication deferred ") + tsNextRPC.Format());
-        }
-    }
-
-    return 0;
+void CViewProjectsGrid::FormatStatus(wxInt32 item, wxString& status) {
+	status = wxString(" ",wxConvUTF8) + m_projectCache.Item(item)->status;
 }
 
 
@@ -721,29 +693,32 @@ bool CViewProjectsGrid::OnRestoreState(wxConfigBase* pConfig) {
 }
 
 void CViewProjectsGrid::OnListRender( wxTimerEvent& WXUNUSED(event) ) {
-	int tdoccount=this->GetDocCount();
+
 	//prevent grid from flicker
 	m_pGridPane->BeginBatch();
 	//remember grid cursor position
 	m_pGridPane->SaveGridCursorPosition();
 	//remember selected row(s)
-	m_pGridPane->SaveSelection();	
+	m_pGridPane->SaveSelection();
+	//
 	//(re)create rows, if necessary
+	int tdoccount=this->GetDocCount();
 	if(tdoccount!= m_pGridPane->GetRows()) {
 		//at first, delet all current rows
 		if(m_pGridPane->GetRows()>0) {
 			m_pGridPane->DeleteRows(0,m_pGridPane->GetRows());
 		}
 		//insert new rows
-		for(int rownum=0; rownum < tdoccount;rownum++) {		
+		for(int rownum=0; rownum < tdoccount;rownum++) {
 			m_pGridPane->AppendRows();
 		}
 	}
-
+	//update cache values
+	UpdateProjectCache();
+	SortProjects();
 	//update cell values
 	wxString buffer;
-
-	for(int rownum=0; rownum < tdoccount;rownum++) {				
+	for(int rownum=0; rownum < tdoccount;rownum++) {
 		this->FormatProjectName(rownum,buffer);
 		m_pGridPane->SetCellValue(rownum,COLUMN_PROJECT,buffer);
 
@@ -751,14 +726,14 @@ void CViewProjectsGrid::OnListRender( wxTimerEvent& WXUNUSED(event) ) {
 		m_pGridPane->SetCellValue(rownum,COLUMN_ACCOUNTNAME,buffer);
 
 		this->FormatTeamName(rownum,buffer);
-		m_pGridPane->SetCellValue(rownum,COLUMN_TEAMNAME,buffer);		
+		m_pGridPane->SetCellValue(rownum,COLUMN_TEAMNAME,buffer);
 
 		this->FormatTotalCredit(rownum,buffer);
 		m_pGridPane->SetCellValue(rownum,COLUMN_TOTALCREDIT,buffer);
 
 		this->FormatAVGCredit(rownum,buffer);
 		m_pGridPane->SetCellValue(rownum,COLUMN_AVGCREDIT,buffer);
-		
+
 		this->FormatResourceShare(rownum,buffer);
 		m_pGridPane->SetCellValue(rownum,COLUMN_RESOURCESHARE,buffer);
 		m_pGridPane->SetCellAlignment(rownum,COLUMN_RESOURCESHARE,wxALIGN_CENTRE,wxALIGN_CENTRE);
@@ -767,14 +742,13 @@ void CViewProjectsGrid::OnListRender( wxTimerEvent& WXUNUSED(event) ) {
 		this->FormatStatus(rownum,buffer);
 		m_pGridPane->SetCellValue(rownum,COLUMN_STATUS,buffer);
 	}
-	m_pGridPane->SortData();
 	// restore grid cursor position
 	m_bIgnoreSelectionEvents =true;
 	m_pGridPane->RestoreGridCursorPosition();
 	m_bIgnoreSelectionEvents =false;
 	//restore selection
 	m_pGridPane->RestoreSelection();
-	m_pGridPane->EndBatch();	
+	m_pGridPane->EndBatch();
 	//
 	UpdateSelection();
 }
@@ -793,3 +767,59 @@ void CViewProjectsGrid::OnSelectCell( wxGridEvent& ev )
 	}
 }
 
+
+void CViewProjectsGrid::SortProjects() {
+	sortColumn = m_pGridPane->sortColumn;
+	sortAscending = m_pGridPane->sortAscending;
+	if(sortColumn>=0) {
+		m_projectCache.Sort(compareProjects);
+	}
+}
+
+void CViewProjectsGrid::UpdateProjectCache()
+{
+	std::string temp;
+	CMainDocument* pDoc = wxGetApp().GetDocument();
+	wxASSERT(wxDynamicCast(pDoc, CMainDocument));
+	int max = pDoc->GetProjectCount();
+	m_projectCache.clear();
+	for(int i=0; i< max; i++) {
+		PROJECT* p = pDoc->project(i);
+		CProjectInfo* info = new CProjectInfo();
+		p->get_name(temp);
+		info->name = wxString(temp.c_str(),wxConvUTF8);
+		info->accountname = wxString(p->user_name.c_str(),wxConvUTF8);
+		info->teamname = wxString(p->team_name.c_str(),wxConvUTF8);
+		info->totalcredit = p->user_total_credit;
+		info->avgcredit = p->user_expavg_credit;
+		info->resourceshare = p->resource_share;
+		info->status = this->GetReadableStatus(p);
+		m_projectCache.Add(info);
+	}
+}
+wxString CViewProjectsGrid::GetReadableStatus(PROJECT* project) {
+	wxString status=wxEmptyString;
+    if (project) {
+		if (project->suspended_via_gui) {
+            append_to_status(status, _("Suspended by user"));
+        }
+        if (project->dont_request_more_work) {
+            append_to_status(status, _("Won't get new tasks"));
+        }
+        if (project->sched_rpc_pending) {
+            append_to_status(status, _("Scheduler request pending"));
+			append_to_status(status, wxString(rpc_reason_string(project->sched_rpc_pending), wxConvUTF8));
+        }
+        wxDateTime dtNextRPC((time_t)project->min_rpc_time);
+        wxDateTime dtNow(wxDateTime::Now());
+        if (dtNextRPC > dtNow) {
+            wxTimeSpan tsNextRPC(dtNextRPC - dtNow);
+            append_to_status(status, _("Communication deferred ") + tsNextRPC.Format());
+        }
+    }
+	if(status==wxEmptyString)
+	{
+		append_to_status(status,wxT("---"));
+	}
+	return status;
+}

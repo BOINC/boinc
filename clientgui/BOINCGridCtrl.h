@@ -105,12 +105,14 @@ public:
 	void RestoreGridCursorPosition();
 	void ClearSavedSelection();
 	void Setup();
+	int sortColumn;
+	bool sortAscending;
 protected:
 	DECLARE_EVENT_TABLE()
 private:
 	wxString FormatTextWithEllipses(wxDC& dc,const wxString &text,int width);
-	int sortColumn;
-	bool sortAscending;
+	
+	
 	int ccollast,crowlast;
 	wxBitmap ascBitmap;
 	wxBitmap descBitmap;

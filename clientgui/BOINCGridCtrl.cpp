@@ -23,6 +23,7 @@
 
 #include "stdwx.h"
 #include "BOINCGridCtrl.h"
+#include "BOINCBaseView.h"
 #include "res/sortascending.xpm"
 #include "res/sortdescending.xpm"
 
@@ -159,6 +160,8 @@ void CBOINCGridCtrl::Setup() {
 #else
 	SetLabelFont(*wxNORMAL_FONT);
 #endif
+	this->SetScrollLineX(5);
+	this->SetScrollLineY(5);
 }
 
 CBOINCGridCtrl::~CBOINCGridCtrl() {
@@ -544,6 +547,9 @@ void CBOINCGridCtrl::OnLabelLClick(wxGridEvent& ev) {
 		else {
 			this->sortColumn = ev.GetCol();
 		}
+		//force immediate 
+		wxTimerEvent tEvent;
+		wxDynamicCast(this->GetParent(),CBOINCBaseView)->FireOnListRender(tEvent);
 	}
 	//don't call Skip here to stop further event processing to prevent loosing the current selection and grid cursor position
 	//ev.Skip();

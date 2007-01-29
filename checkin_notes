@@ -1280,3 +1280,11 @@ Walt   28 Jan 2007
     
     clientgui/
         DlgOptions.cpp
+
+Rom    28 Jan 2007
+    - MGR: Performance Improvements for Projects tab.
+        (from Frank Weiler)
+
+    clientgui/
+        BOINCGridCtrl.cpp, .h
+        ViewProjectsGrid.cpp, .h

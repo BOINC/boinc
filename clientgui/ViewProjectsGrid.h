@@ -27,13 +27,30 @@
 
 #include "BOINCBaseView.h"
 #include "BOINCGridCtrl.h"
+#include <wx/arrimpl.cpp>
 
+class CProjectInfo {
+public:
+	CProjectInfo();
+	wxString name;
+	wxString accountname;
+	wxString teamname;
+	double totalcredit;
+	double avgcredit;
+	double resourceshare;
+	wxString status;
+};
+
+WX_DEFINE_ARRAY(CProjectInfo*,ProjectCache);
 
 class CViewProjectsGrid : public CBOINCBaseView
 {
     DECLARE_DYNAMIC_CLASS( CViewProjectsGrid )
-
 	CBOINCGridCtrl*	m_pGridPane;
+	void UpdateProjectCache();
+	wxString GetReadableStatus(PROJECT* project);
+	void SortProjects();
+	ProjectCache m_projectCache;
 public:
     CViewProjectsGrid();
     CViewProjectsGrid(wxNotebook* pNotebook);
@@ -58,15 +75,15 @@ protected:
 
     virtual bool            OnSaveState( wxConfigBase* pConfig );
     virtual bool            OnRestoreState( wxConfigBase* pConfig );
-	virtual void            OnListRender( wxTimerEvent& event );	
+	virtual void            OnListRender( wxTimerEvent& event );
 
-    wxInt32                 FormatProjectName( wxInt32 item, wxString& strBuffer ) const;
-    wxInt32                 FormatAccountName( wxInt32 item, wxString& strBuffer ) const;
-    wxInt32                 FormatTeamName( wxInt32 item, wxString& strBuffer ) const;
-    wxInt32                 FormatTotalCredit( wxInt32 item, wxString& strBuffer ) const;
-    wxInt32                 FormatAVGCredit( wxInt32 item, wxString& strBuffer ) const;
-    wxInt32                 FormatResourceShare( wxInt32 item, wxString& strBuffer ) const;
-    wxInt32                 FormatStatus( wxInt32 item, wxString& strBuffer ) const;
+    void	                FormatProjectName( wxInt32 item, wxString& strBuffer );
+    void					FormatAccountName( wxInt32 item, wxString& strBuffer );
+    void					FormatTeamName( wxInt32 item, wxString& strBuffer );
+    void					FormatTotalCredit( wxInt32 item, wxString& strBuffer );
+    void					FormatAVGCredit( wxInt32 item, wxString& strBuffer );
+    void					FormatResourceShare( wxInt32 item, wxString& strBuffer );
+    void					FormatStatus( wxInt32 item, wxString& strBuffer );
 
     bool                    IsWebsiteLink( const wxString& strLink );
     wxInt32                 ConvertWebsiteIndexToLink( wxInt32 iProjectIndex, wxInt32 iWebsiteIndex, wxString& strLink );
