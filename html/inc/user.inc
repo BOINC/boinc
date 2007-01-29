@@ -182,7 +182,7 @@ function show_user_info_private($user) {
     row2("Country", $user->country);
     row2("Postal code", $user->postal_code);
     row2("Change", "<a href=edit_email_form.php>email address</a> | <a href=edit_passwd_form.php>password</a> | <a href=edit_user_info_form.php>other account info</a>");
-    row2("", "<a href=logout.php>Log out</a>");
+    row2("", "<a href=logout.php?".url_tokens($user->authenticator).">Log out</a>");
 
     row1("Community");
 

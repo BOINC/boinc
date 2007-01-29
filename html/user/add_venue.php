@@ -1,5 +1,4 @@
 <?php
-$cvs_version_tracker[]="\$Id$";  //Generated automatically - do not edit
 require_once("../inc/db.inc");
 require_once("../inc/util.inc");
 require_once("../inc/prefs.inc");
@@ -7,6 +6,7 @@ require_once("../inc/prefs.inc");
 db_init();
 
 $user = get_logged_in_user();
+check_tokens($user->authenticator);
 
 $action = get_str("action", true);
 $subset = get_str("subset");
@@ -76,4 +76,5 @@ if ($action) {
     print_prefs_form("add", $subset, $venue, $user, $prefs, $columns);
 }
 page_tail();
+$cvs_version_tracker[]="\$Id$";  //Generated automatically - do not edit
 ?>

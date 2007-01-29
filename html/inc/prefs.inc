@@ -564,13 +564,15 @@ function row_field($value, $type) {
 // row_links - Display Edit/Add/Remove links for all venues in 1 row
 //
 function row_links($subset, $prefs) {
-    $pre_add  = "<a href=add_venue.php?venue=";
+    global $g_logged_in_user;
+    $tokens = url_tokens($g_logged_in_user->authenticator);
+    $pre_add  = "<a href=add_venue.php?$venue=";
     $pre_edit  = "<a href=prefs_edit.php?venue=";
     $pre_remove = "<a href=prefs_remove.php?venue=";
-    $post_add = "&subset=$subset&cols=1>Add</a>";
-    $post_edit = "&subset=$subset&cols=1>Edit</a>";
-    $post_remove = "&subset=$subset&cols=1>Remove</a>";
-    $gen = "<a href=prefs_edit.php?subset=$subset&cols=1>Edit</a>";
+    $post_add = "&subset=$subset&cols=1$tokens>Add</a>";
+    $post_edit = "&subset=$subset&cols=1$tokens>Edit</a>";
+    $post_remove = "&subset=$subset&cols=1$tokens>Remove</a>";
+    $gen = "<a href=prefs_edit.php?subset=$subset&cols=1$tokens>Edit</a>";
 
     $hom  = isset($prefs->home) ? $pre_edit."home".$post_edit : $pre_add."home".$post_add;
     $schl = isset($prefs->school) ? $pre_edit."school".$post_edit : $pre_add."school".$post_add;
@@ -738,6 +740,8 @@ function subset_name($subset) {
 
 function prefs_display_venue($prefs, $venue, $subset) {
     global $project_has_beta;
+    global $g_logged_in_user;
+    $tokens = url_tokens($g_logged_in_user->authenticator);
     $x = false;
     if (isset($prefs->$venue)) $x = $prefs->$venue;
 
@@ -752,12 +756,12 @@ function prefs_display_venue($prefs, $venue, $subset) {
             if ($project_has_beta) prefs_show_beta($x);
             prefs_show_project($x);
         }
-        row2("<br>", "<a href=prefs_edit.php?venue=$venue&subset=$subset>Edit preferences</a> | <a href=prefs_remove.php?venue=$venue&subset=$subset>Remove</a>");
+        row2("<br>", "<a href=prefs_edit.php?venue=$venue&subset=$subset>Edit preferences</a> | <a href=prefs_remove.php?venue=$venue&subset=$subset$tokens>Remove</a>");
         end_table();
         echo "</td></tr>\n";
     } else {
         //$x = subset_name($subset);
-        row1("<a href=add_venue.php?venue=$venue&subset=$subset>Add separate preferences for $venue</a>", 2, "heading2");
+        row1("<a href=add_venue.php?venue=$venue&subset=$subset$tokens>Add separate preferences for $venue</a>", 2, "heading2");
     }
 }
 
@@ -851,8 +855,9 @@ function print_prefs_display($user) {
 // This functions is used in prefs_edit.php to be able to display
 // the prefs form in case of an error again.
 // $error and $project_error should be an object of the form:
-// $error->idle_time_to_run=true if an error occured
+// $error->idle_time_to_run=true if an error occurred
 // otherwise false
+//
 function print_prefs_form(
     $action, $subset, $venue, $user, $prefs, $cols, $error=false,
     $project_error=false
@@ -868,7 +873,7 @@ function print_prefs_form(
         $submit_value = "Update preferences";
     }
     echo "<form action=$script><input type=hidden name=subset value=$subset>
-    ";
+        ".form_tokens($user->authenticator);
     if ($venue) {
         echo "<input type=hidden name=venue value=$venue>\n";
     }

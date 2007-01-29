@@ -6,6 +6,7 @@ include_once("../inc/prefs.inc");
 db_init();
 
 $user = get_logged_in_user();
+check_tokens($user->authenticator);
 
 $action = get_str("action", true);
 $subset = get_str("subset");

@@ -70,17 +70,20 @@ function get_user_from_id($id) {
     return NULL;
 }
 
+$g_logged_in_user = null;
+
 function get_logged_in_user($must_be_logged_in=true) {
+    global $g_logged_in_user;
     $authenticator = init_session();
     if (!$authenticator) {
         if (isset($_COOKIE['auth'])) $authenticator = $_COOKIE['auth'];
     }
     $authenticator = process_user_text($authenticator);
-    $user = get_user_from_auth($authenticator);
+    $g_logged_in_user = get_user_from_auth($authenticator);
     if ($must_be_logged_in) {
-        require_login($user);
+        require_login($g_logged_in_user);
     }
-    return $user;
+    return $g_logged_in_user;
 }
 
 function show_login($user) {
@@ -285,6 +288,39 @@ function random_string() {
     return md5(uniqid(rand(), true));
 }
 
+function url_tokens($auth) {
+    $now = time();
+    $ttok = md5((string)$now.$auth);
+    return "&tnow=$now&ttok=$ttok";
+}
+
+function form_tokens($auth) {
+    $now = time();
+    $ttok = md5((string)$now.$auth);
+    return "<input type=hidden name=tnow value=$now>
+        <input type=hidden name=ttok value=$ttok>
+    ";
+}
+
+function valid_tokens($auth) {
+    $tnow = $_GET['tnow'];
+    $ttok = $_GET['ttok'];
+    if (!$tnow) return false;
+    if (!$ttok) return false;
+    $t = md5((string)$tnow.$auth);
+    if ($t != $ttok) return false;
+    if (time() > $tnow + 86400) return false;
+    return true;
+}
+
+function check_tokens($auth) {
+    if (valid_tokens($auth)) return;
+    error_page(
+        "Link has timed out.  Please click Back, refresh the page,
+        and try again."
+    );
+}
+
 function print_login_form_aux($next_url, $user) {
     echo "
         <form name=f method=post action=login_action.php>
@@ -313,7 +349,7 @@ function print_login_form_aux($next_url, $user) {
     if ($user) {
         row1("Log out");
         row2("You are logged in as $user->name",
-            "<a href=logout.php>Log out</a>"
+            "<a href=logout.php?".url_tokens($user->authenticator).">Log out</a>"
         );
     }
     end_table();

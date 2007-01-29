@@ -432,6 +432,16 @@ array('BOINC_User_Statistics_Widget.widget',
     'The BOINC User Statistics Widget is highly configurable and displays your choice of statistics from almost any BOINC project.',
     1149646406
 ),
+array('http://www.esea.dk/bos/BOINC%20Server%20Status.zip',
+    'BOINC Server Status',
+    '1.0',
+    'Yahoo! widget adds the BOINC Online Scheduler image to your desktop.',
+    'http://www.esea.dk/bos/BOINC%20Server%20Status.zip',
+    'Yahoo! Widget Engine - http://widgets.yahoo.com/',
+    'Adds the BOINC Online Scheduler image to your desktop.
+    (requires the <a href=http://widgets.yahoo.com/>Yahoo! widget engine</a>)',
+    1170011896
+),
 );
 
 $web = array(

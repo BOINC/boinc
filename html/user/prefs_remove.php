@@ -8,6 +8,7 @@ include_once("../inc/prefs.inc");
 db_init();
 
 $user = get_logged_in_user();
+check_tokens($user->authenticator);
 
 $subset = get_str("subset");
 $venue = get_str("venue");
@@ -28,12 +29,13 @@ if ($confirmed) {
     Header("Location: prefs.php?subset=$subset$c");
 } else {
     page_head("Confirm delete preferences");
+    $tokens = url_tokens($user->authenticator);
     echo "
         <p>
         Are you sure you want to delete your separate ", subset_name($subset),
         " preferences for $venue?
         <br><br>
-        <a href=prefs_remove.php?subset=$subset&venue=$venue&confirmed=yes$c>Yes</a>
+        <a href=prefs_remove.php?subset=$subset&venue=$venue&confirmed=yes$c$tokens>Yes</a>
         | <a href=prefs.php?subset=$subset$c>Cancel</a>
     ";
     page_tail();

@@ -40,7 +40,7 @@ function location_form($host) {
     return $x;
 }
 
-function show_host($host, $private, $ipprivate) {
+function show_host($host, $private, $ipprivate, $user) {
     start_table();
     row1("Computer information");
     if ($private) {
@@ -141,7 +141,7 @@ function show_host($host, $private, $ipprivate) {
         }
         row2("Location", location_form($host));
         if ($nresults == 0) {
-            $x = " | <a href=host_delete.php?hostid=$host->id>Delete this host</a> ";
+            $x = " | <a href=host_delete.php?hostid=$host->id".url_tokens($user->authenticator).">Delete this host</a> ";
         } else {
             $x = "";
         }

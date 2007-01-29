@@ -1298,3 +1298,25 @@ David  29 Jan 2007
 		client_types.C
 	clientgui/
 		ViewStatistics.cpp
+
+David  29 Jan 2007
+    - user web: prevent cross-site request forgeries
+    - core client: make sure that RAM limits are not zero
+
+    client/
+        cs_prefs.C
+    html/
+        inc/
+            host.inc
+            prefs.inc
+            user.inc
+            util.inc
+        user/
+            add_venue.php
+            host_delete.php
+            logout.php
+            prefs_edit.php
+            prefs_remove.php
+            show_host_detail.php
+    lib/
+        prefs.C
