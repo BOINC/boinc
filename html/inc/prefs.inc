@@ -756,7 +756,7 @@ function prefs_display_venue($prefs, $venue, $subset) {
             if ($project_has_beta) prefs_show_beta($x);
             prefs_show_project($x);
         }
-        row2("<br>", "<a href=prefs_edit.php?venue=$venue&subset=$subset>Edit preferences</a> | <a href=prefs_remove.php?venue=$venue&subset=$subset$tokens>Remove</a>");
+        row2("<br>", "<a href=prefs_edit.php?venue=$venue&subset=$subset$tokens>Edit preferences</a> | <a href=prefs_remove.php?venue=$venue&subset=$subset$tokens>Remove</a>");
         end_table();
         echo "</td></tr>\n";
     } else {
@@ -795,7 +795,8 @@ function print_prefs_display_project($user, $columns=false) {
         prefs_show_privacy($user);
         venue_show($user);
         prefs_show_project($project_prefs, false);
-        row2("", "<a href=prefs_edit.php?subset=project>Edit ".PROJECT." preferences</a>");
+        $tokens = url_tokens($user->authenticator);
+        row2("", "<a href=prefs_edit.php?subset=project$tokens>Edit ".PROJECT." preferences</a>");
         end_table();
         echo "</td></tr>\n";
         prefs_display_venue($project_prefs, "home", "project");
@@ -835,7 +836,8 @@ function print_prefs_display_global($user, $columns=false) {
         echo "<tr><td colspan=2>";
         start_table("width=100% border=4");
         prefs_show_global($global_prefs);
-        row2("<br>", "<a href=prefs_edit.php?subset=global>Edit preferences</a>");
+        $tokens = url_tokens($user->authenticator);
+        row2("<br>", "<a href=prefs_edit.php?subset=global$tokens>Edit preferences</a>");
         end_table();
         echo "</td></tr>\n";
 

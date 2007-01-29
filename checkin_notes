@@ -1321,10 +1321,19 @@ David  29 Jan 2007
     lib/
         prefs.C
 
-Rom    28 Jan 2007
+Rom    29 Jan 2007
     - MGR: Update default BOINC skin.
     
     clientgui/res/skins/default/graphic
         *.xpm
     clientgui/res/templates/skins
         *.png
+
+David  29 Jan 2007
+    - core client: on Unix, raise app stack size limit to max possible value
+        before exec'ing the program.
+
+    client/
+        app_start.C
+    html/inc/
+        prefs.inc
