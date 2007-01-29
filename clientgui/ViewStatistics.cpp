@@ -1430,15 +1430,15 @@ void CPaintStatistics::OnLeftMouseDown(wxMouseEvent& event) {
 			m_GraphZoomStart = true;
 		}else if (m_Legend_dY > 0){
 			if((double(pt.y) > m_Legend_select_Y_start) && (double(pt.y) < m_Legend_select_Y_end) && (double(pt.x) > m_Legend_select_X_start) && (double(pt.x) < m_Legend_select_X_end)){
-				int i1 = (int)floor((double(pt.y) - m_Legend_select_Y_start) / m_Legend_dY) + m_Legend_Shift_Mode1;
+				int i1 = (int)floor((double(pt.y) - m_Legend_select_Y_start) / m_Legend_dY);
 				switch (m_ModeViewStatistic){
 				case 1: 
-					m_NextProjectStatistic = i1; 
+					m_NextProjectStatistic = i1 + m_Legend_Shift_Mode1; 
 					m_Zoom_Auto = true;
 					m_GraphMarker1 = false;
 					break;
 				case 2:
-					m_ViewHideProjectStatistic = i1; 
+					m_ViewHideProjectStatistic = i1 + m_Legend_Shift_Mode2; 
 					break;
 				}
 				m_full_repaint = true;

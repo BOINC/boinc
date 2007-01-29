@@ -264,7 +264,7 @@ int PROJECT::write_state(MIOFILE& out, bool gui_rpc) {
         attached_via_acct_mgr?"    <attached_via_acct_mgr/>\n":"",
         (this == gstate.scheduler_op->cur_proj)?"   <scheduler_rpc_in_progress/>\n":""
     );
-    if (ams_resource_share) {
+    if (ams_resource_share >= 0) {
         out.printf("    <ams_resource_share>%f</ams_resource_share>\n",
             ams_resource_share
         );
@@ -333,7 +333,7 @@ void PROJECT::copy_state_fields(PROJECT& p) {
     attached_via_acct_mgr = p.attached_via_acct_mgr;
     duration_correction_factor = p.duration_correction_factor;
     ams_resource_share = p.ams_resource_share;
-    if (ams_resource_share) {
+    if (ams_resource_share > 0) {
         resource_share = ams_resource_share;
     }
 }

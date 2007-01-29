@@ -1308,7 +1308,7 @@ int CLIENT_STATE::reset_project(PROJECT* project) {
     }
 
     project->duration_correction_factor = 1;
-    project->ams_resource_share = 0;
+    project->ams_resource_share = -1;
     write_state_file();
     return 0;
 }

@@ -1288,3 +1288,13 @@ Rom    28 Jan 2007
     clientgui/
         BOINCGridCtrl.cpp, .h
         ViewProjectsGrid.cpp, .h
+
+David  29 Jan 2007
+	- core client: fix account-manager resource share logic
+	- manager: Statistics tab fixes (from Mifistor)
+
+	client/
+		client_state.C
+		client_types.C
+	clientgui/
+		ViewStatistics.cpp
