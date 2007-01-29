@@ -150,7 +150,13 @@ void CDlgOptions::CreateControls()
     itemFlexGridSizer6->Add(itemStaticText9, 0, wxALIGN_CENTER_HORIZONTAL|wxALIGN_CENTER_VERTICAL|wxALL, 5);
 
     m_ReminderFrequencyCtrl = new wxSlider;
-    m_ReminderFrequencyCtrl->Create( itemPanel4, ID_REMINDERFREQUENCY, 60, 0, 120, wxDefaultPosition, wxDefaultSize, wxSL_HORIZONTAL|wxSL_LABELS );
+    m_ReminderFrequencyCtrl->Create( itemPanel4, ID_REMINDERFREQUENCY, 60, 0, 120, wxDefaultPosition,
+#if defined(__WXMSW__) || defined(__WXMAC__)        
+                                     wxDefaultSize, 
+#else
+                                     wxSize(150, 40),
+#endif
+                                     wxSL_HORIZONTAL|wxSL_LABELS);
     if (ShowToolTips())
         m_ReminderFrequencyCtrl->SetToolTip(_("How often, in minutes, should the manager remind you of possible connection events."));
     itemFlexGridSizer6->Add(m_ReminderFrequencyCtrl, 0, wxALIGN_CENTER_HORIZONTAL|wxALIGN_CENTER_VERTICAL|wxALL, 5);

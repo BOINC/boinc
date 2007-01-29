@@ -1272,3 +1272,11 @@ David  26 Jan 2007
 
 	client/
 		acct_mgr.C
+
+Walt   28 Jan 2007
+    - MGR: fixed bug in dialog options where it doesn't set the slider size 
+        automatically.  This is a bug in wxGTK so for Linux set the size
+        explicitly.
+    
+    clientgui/
+        DlgOptions.cpp
