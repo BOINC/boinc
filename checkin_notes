@@ -1353,3 +1353,16 @@ David  29 Jan 2007
 		MainDocument.cpp
 		ViewProjects.cpp
 		ViewProjectsGrid.cpp
+
+Rom    30 Jan 2007
+    - MGR: Give the user a change to abort a core client shutdown when they
+        select 'shutdown current client'.
+    - MGR: Special case the authorization error dialog when it is attempting
+        to use the default password, so that it also informs the user they
+        need to run the manager from the same directory as the CC.
+        
+    clientgui/
+        AdvancedFrame.cpp, .h
+        BOINCBaseFrame.cpp, .h
+        MainDocument.cpp, .h
+        

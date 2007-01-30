@@ -52,6 +52,7 @@ CNetworkConnection::CNetworkConnection(CMainDocument* pDocument) :
     m_bForceReconnect = false;
     m_bReconnectOnError = false;
     m_bNewConnection = false;
+    m_bUsedDefaultPassword = false;
 }
 
 
@@ -94,6 +95,7 @@ void CNetworkConnection::Poll() {
             if (m_bUseDefaultPassword) {
                 GetLocalPassword(m_strNewComputerPassword);
                 m_bUseDefaultPassword = FALSE;
+                m_bUsedDefaultPassword = true;
             }
 
             retval = m_pDocument->rpc.authorize(m_strNewComputerPassword.mb_str());
@@ -107,6 +109,7 @@ void CNetworkConnection::Poll() {
                 wxLogTrace(wxT("Function Status"), wxT("CNetworkConnection::Poll - RPC Authorization Failed '%d'"), retval);
                 SetStateError();
             }
+            m_bUsedDefaultPassword = false;
         } else if (ERR_RETRY != retval) {
             wxLogTrace(wxT("Function Status"), wxT("CNetworkConnection::Poll - RPC Connection Failed '%d'"), retval);
             SetStateError();
@@ -211,7 +214,7 @@ void CNetworkConnection::SetStateErrorAuthentication() {
 
         m_bConnectEvent = false;
 
-        pFrame->ShowConnectionBadPasswordAlert();
+        pFrame->ShowConnectionBadPasswordAlert(m_bUsedDefaultPassword);
     }
 }
 

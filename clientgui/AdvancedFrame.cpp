@@ -50,6 +50,7 @@
 #include "DlgAbout.h"
 #include "DlgOptions.h"
 #include "DlgSelectComputer.h"
+#include "DlgGenericMessage.h"
 #include "wizardex.h"
 #include "BOINCWizards.h"
 #include "BOINCBaseWizard.h"
@@ -207,6 +208,7 @@ CAdvancedFrame::CAdvancedFrame(wxString title, wxIcon* icon) :
 
     // Working Variables
     m_strBaseTitle = title;
+    m_bDisplayShutdownClientWarning = true;
 
 
     // Initialize Application
@@ -742,6 +744,7 @@ bool CAdvancedFrame::SaveState() {
     pConfig->SetPath(strBaseConfigLocation);
 
     pConfig->Write(wxT("CurrentPage"), m_pNotebook->GetSelection());
+    pConfig->Write(wxT("DisplayShutdownClientWarning"), m_bDisplayShutdownClientWarning);
 
 
 #ifdef __WXMAC__
@@ -820,7 +823,7 @@ bool CAdvancedFrame::RestoreState() {
         pConfig->Read(wxT("CurrentPage"), &iCurrentPage, (ID_LIST_WORKVIEW - ID_LIST_BASE));
         m_pNotebook->SetSelection(iCurrentPage);
     }
-
+    pConfig->Read(wxT("DisplayShutdownClientWarning"), &m_bDisplayShutdownClientWarning, true);
 
 #ifdef __WXMAC__
     RestoreWindowDimensions();
@@ -1063,21 +1066,59 @@ void CAdvancedFrame::OnSelectComputer(wxCommandEvent& WXUNUSED(event)) {
 
 
 void CAdvancedFrame::OnClientShutdown(wxCommandEvent& WXUNUSED(event)) {
+    wxCommandEvent     evtSelectNewComputer(wxEVT_COMMAND_MENU_SELECTED, ID_FILESELECTCOMPUTER);
+    CMainDocument*     pDoc = wxGetApp().GetDocument();
+    CSkinAdvanced* pSkinAdvanced = wxGetApp().GetSkinManager()->GetAdvanced();
+    CDlgGenericMessage dlg(this);
+    wxString           strDialogTitle = wxEmptyString;
+    wxString           strDialogMessage = wxEmptyString;
+
     wxLogTrace(wxT("Function Start/End"), wxT("CAdvancedFrame::OnClientShutdown - Function Begin"));
 
-    CMainDocument* pDoc = wxGetApp().GetDocument();
-    wxCommandEvent evtSelectNewComputer(wxEVT_COMMAND_MENU_SELECTED, ID_FILESELECTCOMPUTER);
-
     wxASSERT(pDoc);
+    wxASSERT(pSkinAdvanced);
     wxASSERT(wxDynamicCast(pDoc, CMainDocument));
+    wxASSERT(wxDynamicCast(pSkinAdvanced, CSkinAdvanced));
+
 
     // Stop all timers
     StopTimers();
 
-    pDoc->CoreClientQuit();
 
-    // Since the core cliet we were connected to just shutdown, prompt for a new one.
-    ProcessEvent(evtSelectNewComputer);
+    // %s is the application name
+    //    i.e. 'BOINC Manager', 'GridRepublic Manager'
+    strDialogTitle.Printf(
+        _("Shutdown the current client..."),
+        pSkinAdvanced->GetApplicationName().c_str()
+    );
+
+    // 1st %s is the application name
+    //    i.e. 'BOINC Manager', 'GridRepublic Manager'
+    // 2nd %s is the project name
+    //    i.e. 'BOINC', 'GridRepublic'
+    strDialogMessage.Printf(
+        _("%s is going to shutdown the core client it is currently connected to.\n"
+          "NOTE: Choosing 'OK' will cause the select new computer dialog to appear \n"
+          "so you can attach to a different core client."),
+        pSkinAdvanced->GetApplicationName().c_str()
+    );
+
+    dlg.SetTitle(strDialogTitle);
+    dlg.m_DialogMessage->SetLabel(strDialogMessage);
+    dlg.Fit();
+    dlg.Centre();
+
+    if (wxID_OK == dlg.ShowModal()) {
+        if (dlg.m_DialogDisableMessage->GetValue()) {
+            m_bDisplayShutdownClientWarning = false;
+        }
+
+        pDoc->CoreClientQuit();
+
+        // Since the core cliet we were connected to just shutdown, prompt for a new one.
+        ProcessEvent(evtSelectNewComputer);
+    }
+
 
     // Restart timers
     StartTimers();
