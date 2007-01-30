@@ -617,7 +617,11 @@ int ACTIVE_TASK::start(bool first_time) {
         //
         struct rlimit rlim;
         getrlimit(RLIMIT_STACK, &rlim);
-        rlim.rlim_cur = rlim.rlim_max;
+        if (rlim.rlim_max == RLIM_INFINITY || rlim.rlim_max > 500000000) {
+            rlim.rlim_cur = 500000000; // 500 MB max
+        } else {
+            rlim.rlim_cur = rlim.rlim_max;
+        }
         setrlimit(RLIMIT_STACK, &rlim);
 
         // hook up stderr to a specially-named file

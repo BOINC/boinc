@@ -1371,3 +1371,9 @@ Rom    30 Jan 2007
 Rom    30 Jan 2007
     - Tag for 5.8.7 release, all platforms
       boinc_core_release_5_8_7
+
+David  30 Jan 2007
+    - Unix: when increasing stack size for apps, don't exceed 500 MB
+
+    client/
+        app_start.C
