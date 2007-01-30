@@ -610,6 +610,16 @@ int ACTIVE_TASK::start(bool first_time) {
             _exit(retval);
         }
 
+        // set stack size limit to the max.
+        // Some BOINC apps have reported problems with exceeding
+        // small stack limits (e.g. 8 MB)
+        // and it seems like the best thing to raise it as high as possible
+        //
+        struct rlimit rlim;
+        getrlimit(RLIMIT_STACK, &rlim);
+        rlim.rlim_cur = rlim.rlim_max;
+        setrlimit(RLIMIT_STACK, &rlim);
+
         // hook up stderr to a specially-named file
         //
         freopen(STDERR_FILE, "a", stderr);

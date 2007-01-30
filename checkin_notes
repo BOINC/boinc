@@ -1285,6 +1285,13 @@ Rom    26 Jan 2007
     - Tag for 5.8.6 release, all platforms
       boinc_core_release_5_8_6
 
+David  26 Jan 2007
+	- core client: if account manager reply doesn't specify resource share
+		for a project, revert to the share from project server
+
+	client/
+		acct_mgr.C
+
 Walt   28 Jan 2007
     - MGR: fixed bug in dialog options where it doesn't set the slider size 
         automatically.  This is a bug in wxGTK so for Linux set the size
@@ -1300,3 +1307,56 @@ Rom    28 Jan 2007
         *.xpm
     clientgui/res/templates/skins
         *.png
+
+David  29 Jan 2007
+	- core client: fix account-manager resource share logic
+	- manager: Statistics tab fixes (from Mifistor)
+
+	client/
+		client_state.C
+		client_types.C
+	clientgui/
+		ViewStatistics.cpp
+
+David  29 Jan 2007
+    - core client: make sure that RAM limits are not zero
+
+    client/
+        cs_prefs.C
+    lib/
+        prefs.C
+
+David  29 Jan 2007
+    - core client: on Unix, raise app stack size limit to max possible value
+        before exec'ing the program.
+
+    client/
+        app_start.C
+
+David  29 Jan 2007
+	- Manager: fix crash if select a project that doesn't have
+		a name yet.  There were two separate problems:
+		1) CMainDocument::project() was searching by name
+			but not by master URL
+			(BTW: all that at(), out-of-range exception stuff
+			isn't needed, or the cut-and-pasted comment).
+		2) CViewProjects::UpdateSelection() (and its grid counterpart)
+			were checking for project == NULL
+			some of the time, but not all the time
+
+	clientgui/
+		MainDocument.cpp
+		ViewProjects.cpp
+		ViewProjectsGrid.cpp
+
+Rom    30 Jan 2007
+    - MGR: Give the user a change to abort a core client shutdown when they
+        select 'shutdown current client'.
+    - MGR: Special case the authorization error dialog when it is attempting
+        to use the default password, so that it also informs the user they
+        need to run the manager from the same directory as the CC.
+        
+    clientgui/
+        AdvancedFrame.cpp, .h
+        BOINCBaseFrame.cpp, .h
+        MainDocument.cpp, .h

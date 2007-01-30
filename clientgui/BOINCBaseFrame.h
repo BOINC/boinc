@@ -69,7 +69,7 @@ public:
     void                FireRefreshView();
     void                FireConnect();
     void                FireReloadSkin();
-    void                ShowConnectionBadPasswordAlert();
+    void                ShowConnectionBadPasswordAlert( bool bUsedDefaultPassword );
     void                ShowConnectionFailedAlert();
     void                ShowNotCurrentlyConnectedAlert();
 
