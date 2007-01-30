@@ -1367,3 +1367,7 @@ Rom    30 Jan 2007
         
     clientgui/
         AdvancedFrame.cpp
+
+Rom    30 Jan 2007
+    - Tag for 5.8.7 release, all platforms
+      boinc_core_release_5_8_7
