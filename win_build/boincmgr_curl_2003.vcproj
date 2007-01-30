@@ -956,16 +956,10 @@
 					RelativePath="..\clientgui\ViewMessages.h">
 				</File>
 				<File
-					RelativePath="..\clientgui\ViewMessagesGrid.cpp">
+					RelativePath="..\clientgui\ViewProjects.cpp">
 				</File>
 				<File
-					RelativePath="..\clientgui\ViewMessagesGrid.h">
-				</File>
-				<File
-					RelativePath="..\clientgui\ViewProjectsGrid.cpp">
-				</File>
-				<File
-					RelativePath="..\clientgui\ViewProjectsGrid.h">
+					RelativePath="..\clientgui\ViewProjects.h">
 				</File>
 				<File
 					RelativePath="..\clientgui\ViewResources.cpp">
@@ -980,16 +974,16 @@
 					RelativePath="..\clientgui\ViewStatistics.h">
 				</File>
 				<File
-					RelativePath="..\clientgui\ViewTransfersGrid.cpp">
+					RelativePath="..\clientgui\ViewTransfers.cpp">
 				</File>
 				<File
-					RelativePath="..\clientgui\ViewTransfersGrid.h">
+					RelativePath="..\clientgui\ViewTransfers.h">
 				</File>
 				<File
-					RelativePath="..\clientgui\ViewWorkGrid.cpp">
+					RelativePath="..\clientgui\ViewWork.cpp">
 				</File>
 				<File
-					RelativePath="..\clientgui\ViewWorkGrid.h">
+					RelativePath="..\clientgui\ViewWork.h">
 				</File>
 			</Filter>
 			<Filter

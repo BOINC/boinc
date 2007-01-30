@@ -1360,3 +1360,10 @@ Rom    30 Jan 2007
         AdvancedFrame.cpp, .h
         BOINCBaseFrame.cpp, .h
         MainDocument.cpp, .h
+
+Rom    30 Jan 2007
+    - MGR: Revert back to original tabs, grd controls are not going to make
+        it for this release.
+        
+    clientgui/
+        AdvancedFrame.cpp

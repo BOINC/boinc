@@ -40,11 +40,10 @@
 #include "BOINCTaskBar.h"
 #include "BOINCDialupManager.h"
 #include "AdvancedFrame.h"
-#include "ViewProjectsGrid.h"
-#include "ViewWorkGrid.h"
-#include "ViewTransfersGrid.h"
+#include "ViewProjects.h"
+#include "ViewWork.h"
+#include "ViewTransfers.h"
 #include "ViewMessages.h"
-#include "ViewMessagesGrid.h"
 #include "ViewStatistics.h"
 #include "ViewResources.h"
 #include "DlgAbout.h"
@@ -609,9 +608,9 @@ bool CAdvancedFrame::CreateNotebook() {
 
 
     // create the various notebook pages
-	CreateNotebookPage(new CViewProjectsGrid(m_pNotebook));
-	CreateNotebookPage(new CViewWorkGrid(m_pNotebook));
-	CreateNotebookPage(new CViewTransfersGrid(m_pNotebook));
+	CreateNotebookPage(new CViewProjects(m_pNotebook));
+	CreateNotebookPage(new CViewWork(m_pNotebook));
+	CreateNotebookPage(new CViewTransfers(m_pNotebook));
     CreateNotebookPage(new CViewMessages(m_pNotebook));
 	CreateNotebookPage(new CViewStatistics(m_pNotebook));
     CreateNotebookPage(new CViewResources(m_pNotebook));
