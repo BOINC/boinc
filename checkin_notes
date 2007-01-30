@@ -1404,3 +1404,10 @@ David  30 Jan 2007
 
     clientgui/
         ViewProjectsGrid.cpp,h
+
+David  30 Jan 2007
+    - core client: computation of duration_correction_factor was messed up.
+        E.g. when the correct value is .5, it converges to sqrt(.5)
+
+    client/
+        client_types.C

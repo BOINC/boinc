@@ -1742,7 +1742,7 @@ double RESULT::estimated_cpu_time_remaining() {
 // completion time for this project's results
 //
 void PROJECT::update_duration_correction_factor(RESULT* rp) {
-    double ratio = rp->final_cpu_time / rp->estimated_cpu_time();
+    double ratio = rp->final_cpu_time / rp->estimated_cpu_time_uncorrected();
 	double old_dcf = duration_correction_factor;
 
     // it's OK to overestimate completion time,
@@ -1751,7 +1751,7 @@ void PROJECT::update_duration_correction_factor(RESULT* rp) {
     // but decrease it with caution
     //
     if (ratio > 1) {
-        duration_correction_factor *= ratio;
+        duration_correction_factor = ratio;
     } else {
         // in particular, don't give much weight to results
         // that completed a lot earlier than expected
