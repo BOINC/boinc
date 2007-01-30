@@ -1391,3 +1391,9 @@ David  30 Jan 2007
     tools/
         backend_lib.C,h
         create_work.C
+
+David  30 Jan 2007
+    - Unix: when increasing stack size for apps, don't exceed 500 MB
+
+    client/
+        app_start.C
