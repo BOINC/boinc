@@ -100,8 +100,8 @@ int cleanup_result(RESULT const& /*result*/, void* data) {
     return 0;
 }
 
-double compute_granted_credit(vector<RESULT>& results) {
-        return median_mean_credit(results);
+double compute_granted_credit(WORKUNIT& wu, vector<RESULT>& results) {
+        return median_mean_credit(wu, results);
 }
 
 const char *BOINC_RCSID_7ab2b7189c = "$Id$";

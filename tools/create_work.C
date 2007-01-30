@@ -41,6 +41,7 @@
 //  [ -max_error_results x ]
 //  [ -max_total_results x ]
 //  [ -max_success_results x ]
+//  [ -additional_xml x ]
 //  infile1 infile2 ...
 //
 
@@ -64,13 +65,16 @@ int main(int argc, const char** argv) {
     char* command_line=NULL;
     const char** infiles = NULL;
     int i, ninfiles;
-    char download_dir[256], db_name[256], db_passwd[256],db_user[256],db_host[256];
+    char download_dir[256], db_name[256], db_passwd[256];
+    char db_user[256],db_host[256];
     char buf[256];
+    char additional_xml[256];
     SCHED_CONFIG config;
 
     strcpy(result_template_file, "");
     strcpy(app.name, "");
     strcpy(db_passwd, "");
+    strcpy(additional_xml, "");
     const char* config_dir = ".";
     i = 1;
     ninfiles = 0;
@@ -128,6 +132,8 @@ int main(int argc, const char** argv) {
             wu.max_success_results = atoi(argv[++i]);
         } else if (!strcmp(argv[i], "-command_line")) {
             command_line= (char *)argv[++i];
+        } else if (!strcmp(argv[i], "-additional_xml")) {
+            strcpy(additional_xml, argv[++i]);
         } else {
             if (!strncmp("-",argv[i],1)) {
                 fprintf(stderr, "create_work: bad argument '%s'\n", argv[i]);
@@ -192,7 +198,8 @@ int main(int argc, const char** argv) {
         const_cast<const char **>(infiles),
         ninfiles,
         config,
-        command_line
+        command_line,
+        additional_xml
     );
     if (retval) {
         fprintf(stderr, "create_work: %d\n", retval);

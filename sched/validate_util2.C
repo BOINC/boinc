@@ -125,7 +125,7 @@ int check_set(
                 }
             }
             canonicalid = results[i].id;
-            credit = compute_granted_credit(results);
+            credit = compute_granted_credit(wu, results);
             break;
         }
     }

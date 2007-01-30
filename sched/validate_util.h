@@ -27,7 +27,7 @@
 
 extern int get_output_file_path(RESULT const& result, std::string& path);
 extern int get_output_file_paths(RESULT const& result, std::vector<std::string>&);
-extern double median_mean_credit(std::vector<RESULT>& results);
+extern double median_mean_credit(WORKUNIT&, std::vector<RESULT>& results);
 extern int update_credit_per_cpu_sec(
     double credit, double cpu_time, double& credit_per_cpu_sec
 );

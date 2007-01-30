@@ -87,7 +87,6 @@ int SCHED_CONFIG::parse(FILE* f) {
         else if (xp.parse_bool(tag, "ignore_upload_certificates", ignore_upload_certificates)) continue;
         else if (xp.parse_bool(tag, "dont_generate_upload_certificates", dont_generate_upload_certificates)) continue;
         else if (xp.parse_bool(tag, "ignore_delay_bound", ignore_delay_bound)) continue;
-        else if (xp.parse_bool(tag, "use_transactions", use_transactions)) continue;
         else if (xp.parse_int(tag, "min_sendwork_interval", min_sendwork_interval)) continue;
         else if (xp.parse_int(tag, "max_wus_to_send", max_wus_to_send)) continue;
         else if (xp.parse_int(tag, "daily_result_quota", daily_result_quota)) continue;

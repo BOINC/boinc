@@ -63,17 +63,28 @@ A workunit template file has the form
     [ <max_error_results>x</max_error_results> ]
     [ <max_total_results>x</max_total_results> ]
     [ <max_success_results>x</max_success_results> ]
+    [ <credit>X</credit> ]
 </workunit>
 "), "
 </pre>
 The components are: 
 ";
 list_start();
-list_item(htmlspecialchars("<file_info>, <file_ref>"),
-"Each pair describes an <a href=files.php#file>input file</a>
-and <a href=files.php#file_ref>the way it's referenced</a>.");
-list_item(htmlspecialchars("<command_line>"),
-"The command-line arguments to be passed to the main program.");
+list_item_func("<file_info>, <file_ref>",
+    "Each pair describes an <a href=files.php#file>input file</a>
+    and <a href=files.php#file_ref>the way it's referenced</a>."
+);
+list_item_func("<command_line>",
+    "The command-line arguments to be passed to the main program."
+);
+list_item_func("<credit>",
+    "The amount of credit to be granted for successful completion
+    of this workunit.
+    Use this only if you know in advance
+    how many FLOPs it will take.
+    Your <a href=validate_simple.php>validator</a> must
+    use get_credit_from_wu() as its compute_granted_credit() function."
+);
 list_item("Other elements",
     "<a href=work.php>Work unit attributes</a>"
 );
@@ -192,11 +203,14 @@ create_work
     [ -max_error_results x ]
     [ -max_total_results x ]
     [ -max_success_results x ]
+    [ -additional_xml 'x' ]
 
     infile_1 ... infile_m           // input files
 </pre>
-The workunit parameters are documented <a href=work.php>here</a>.
 The program must be run in the project root directory.
+The workunit parameters are documented <a href=work.php>here</a>.
+The -additional_xml argument can be used to supply, for example,
+&lt;credit>12.4&lt;/credit>.
 
 <p>
 BOINC's library (backend_lib.C,h) provides the functions:
@@ -209,7 +223,8 @@ int create_work(
     const char** infiles,                     // array of input file names
     int ninfiles
     SCHED_CONFIG&,
-    const char* command_line = NULL
+    const char* command_line = NULL,
+    const char* additional_xml = NULL
 );
 </pre>
 <p>

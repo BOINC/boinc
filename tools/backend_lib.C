@@ -166,7 +166,8 @@ static int process_wu_template(
     const char** infiles,
     int ninfiles,
     SCHED_CONFIG& config,
-    const char* command_line
+    const char* command_line,
+    const char* additional_xml
 ) {
     char* p;
     char buf[LARGE_BLOB_SIZE], md5[33], path[256], url[256], top_download_path[256];
@@ -269,6 +270,10 @@ static int process_wu_template(
                 out += "\n</command_line>\n";
             }
         } else if (match_tag(p, "</workunit>")) {
+            if (additional_xml && strlen(additional_xml)) {
+                out += additional_xml;
+                out += "\n";
+            }
             out += "</workunit>\n";
         } else if (match_tag(p, "<file_ref>")) {
             out += "<file_ref>\n";
@@ -486,7 +491,8 @@ int create_work(
     const char** infiles,
     int ninfiles,
     SCHED_CONFIG& config,
-    const char* command_line
+    const char* command_line,
+    const char* additional_xml
 ) {
     int retval;
     char _result_template[LARGE_BLOB_SIZE];
@@ -503,7 +509,7 @@ int create_work(
     strcpy(wu_template, _wu_template);
     wu.create_time = time(0);
     retval = process_wu_template(
-        wu, wu_template, infiles, ninfiles, config, command_line
+        wu, wu_template, infiles, ninfiles, config, command_line, additional_xml
     );
     if (retval) {
         fprintf(stderr, "process_wu_template: %d\n", retval);

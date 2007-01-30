@@ -487,7 +487,7 @@ int handle_wu(
         int long_delay = (int)(1.5*wu_item.delay_bound);
         wu_item.transition_time = (long_delay > ten_days) ? long_delay : ten_days;
         wu_item.transition_time += time(0);
-    }  
+    }
     for (i=0; i<items.size(); i++) {
         TRANSITIONER_ITEM& res_item = items[i];
         if (res_item.res_id) {
@@ -497,7 +497,7 @@ int handle_wu(
                 // sent_time + delay_bound
                 // because the sent_time has been updated with the later
                 // "resend" time.
-                // 
+                //
                 // x = res_item.res_sent_time + wu_item.delay_bound;
                 x = res_item.res_report_deadline;
                 if (x < wu_item.transition_time) {
@@ -550,18 +550,6 @@ bool do_pass() {
 
     if (!one_pass) check_stop_daemons();
 
-#if 0
-    if (config.use_transactions) {
-        retval = boinc_db.start_transaction();
-        if (retval) {
-            log_messages.printf(
-                SCHED_MSG_LOG::MSG_CRITICAL,
-                "transitioner.start_transaction() == %d\n", retval
-            );
-        }
-    }
-#endif
-
     // loop over entries that are due to be checked
     //
     while (!transitioner.enumerate((int)time(0), SELECT_LIMIT, mod_n, mod_i, items)) {
@@ -581,20 +569,6 @@ bool do_pass() {
 
         if (!one_pass) check_stop_daemons();
     }
-
-#if 0
-    if (config.use_transactions) {
-        retval = boinc_db.commit_transaction();
-        if (retval) {
-            log_messages.printf(
-                SCHED_MSG_LOG::MSG_CRITICAL,
-                "[WU#%d %s] transitioner.commit_transaction() == %d\n",
-                wu_item.id, wu_item.name, retval
-            );
-        }
-    }
-#endif
-
     return did_something;
 }
 

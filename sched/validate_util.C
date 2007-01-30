@@ -103,7 +103,7 @@ int get_output_file_paths(RESULT const& result, vector<string>& paths) {
 // - if N==2, return min
 // - if N>2, toss out min and max, return average of rest
 //
-double median_mean_credit(vector<RESULT>& results) {
+double median_mean_credit(WORKUNIT& /*wu*/, vector<RESULT>& results) {
     int ilow=-1, ihigh=-1;
     double credit_low = 0, credit_high = 0;
     int nvalid = 0;
@@ -147,6 +147,15 @@ double median_mean_credit(vector<RESULT>& results) {
         }
         return sum/(nvalid-2);
     }
+}
+
+double get_credit_from_wu(WORKUNIT& wu, vector<RESULT>&) {
+    double x;
+    if (parse_double(wu.xml_doc, "<credit>", x)) {
+        return x;
+    }
+    fprintf(stderr, "ERROR: <credit> missing from WU XML\n");
+    exit(1);
 }
 
 // This function should be called from the validator whenever credit

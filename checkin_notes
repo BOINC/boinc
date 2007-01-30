@@ -1366,3 +1366,28 @@ Rom    30 Jan 2007
         BOINCBaseFrame.cpp, .h
         MainDocument.cpp, .h
         
+David  30 Jan 2007
+    - Support projects that want to specify credit per WU can do so by:
+        1) add a <credit>x</credit> element to your WU template,
+            or pass an 'additional_xml' argument containing
+            <credit>x</credit> to create_work()
+            (either the function or the program)
+        2) change your validator so that compute_granted_credit()
+            calls get_credit_from_wu().
+            This parses the <credit> element in the workunit's XML,
+            and grants that much credit.
+    - Change the simple validator framework so that an
+        additional WORKUNIT& is passed to compute_granted_credit().
+
+    sched/
+        handle_request.C
+        sample_bitwise_validator.C
+        sample_trivial_validator.C
+        sched_config.C,h
+        transitioner.C
+        validate_util.C,h
+        validate_util2.C,h
+        validator_placeholder.C
+    tools/
+        backend_lib.C,h
+        create_work.C

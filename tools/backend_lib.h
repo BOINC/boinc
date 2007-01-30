@@ -56,7 +56,8 @@ extern int create_work(
     const char** infiles,
     int ninfiles,
     SCHED_CONFIG&,
-    const char* command_line = NULL
+    const char* command_line = NULL,
+    const char* additional_xml = NULL
 );
 
 #endif

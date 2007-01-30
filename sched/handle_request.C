@@ -585,16 +585,16 @@ int handle_results(SCHEDULER_REQUEST& sreq, SCHEDULER_REPLY& reply) {
     int retval;
     RESULT* rp;
     bool changed_host=false;
-    
+
     if (sreq.results.size() == 0) return 0;
-    
+
     // copy reported results to a separate vector, "result_handler",
     // initially with only the "name" field present
     //
     for (i=0; i<sreq.results.size(); i++) {
         result_handler.add_result(sreq.results[i].name);
     }
-    
+
     // read results from database into "result_handler".
     // Quantities that must be read from the DB are those
     // where srip (see below) appears as an rval.
@@ -700,7 +700,7 @@ int handle_results(SCHEDULER_REQUEST& sreq, SCHEDULER_REPLY& reply) {
                 srip->id = 0;
                 reply.result_acks.push_back(std::string(rp->name));
                 continue;
-            } 
+            }
         }
 
         if (srip->server_state == RESULT_SERVER_STATE_UNSENT) {
@@ -833,19 +833,6 @@ int handle_results(SCHEDULER_REQUEST& sreq, SCHEDULER_REPLY& reply) {
         }
     } // loop over all incoming results
 
-
-#if 0
-    if (config.use_transactions) {
-        retval = boinc_db.start_transaction();
-        if (retval) {
-            log_messages.printf(SCHED_MSG_LOG::MSG_CRITICAL,
-                "[HOST#%d] result_handler.start_transaction() == %d\n",
-                reply.host.id, retval
-            );
-        }
-    }
-#endif
-
     // Update the result records
     // (skip items that we previously marked to skip)
     //
@@ -874,19 +861,6 @@ int handle_results(SCHEDULER_REQUEST& sreq, SCHEDULER_REPLY& reply) {
             reply.host.id, retval
         );
     }
-
-#if 0
-    if (config.use_transactions) {
-        retval = boinc_db.commit_transaction();
-        if (retval) {
-            log_messages.printf(
-                SCHED_MSG_LOG::MSG_CRITICAL,
-                "[HOST#%d] result_handler.commit_transaction() == %d\n",
-                reply.host.id, retval
-            );
-        }
-    }
-#endif
     return 0;
 }
 
@@ -958,28 +932,26 @@ void warn_user_if_core_client_upgrade_scheduled(
 ) {
 
     int core_ver;
-    
+
     core_ver  = sreq.core_client_major_version*100;
     core_ver += sreq.core_client_minor_version;
-    
+
     if (core_ver < config.min_core_client_version_announced) {
 
         // time remaining in hours, before upgrade required
         int remaining = config.min_core_client_upgrade_deadline-time(0);
         remaining /= 3600;
-        
+
         if (0 < remaining) {
-            
             char msg[512];
             int days  = remaining / 24;
             int hours = remaining % 24;
-      
             sprintf(msg,
                 "Starting in %d days and %d hours, project will require a minimum "
                 "BOINC core client version of %d.%d.0.  You are currently using "
                 "version %d.%d.%d; please upgrade before this time.",
                 days, hours,
-                config.min_core_client_version_announced / 100, 
+                config.min_core_client_version_announced / 100,
                 config.min_core_client_version_announced % 100,
                 sreq.core_client_major_version,
                 sreq.core_client_minor_version,
@@ -1018,10 +990,10 @@ bool unacceptable_os(
         sreq.host.os_name, sreq.host.os_version
     );
 
-    if (!strcmp(sreq.host.os_name, "Darwin") && 
-           (!strncmp(sreq.host.os_version, "5.", 2) || 
+    if (!strcmp(sreq.host.os_name, "Darwin") &&
+           (!strncmp(sreq.host.os_version, "5.", 2) ||
             !strncmp(sreq.host.os_version, "6.", 2)
-           ) 
+           )
         ) {
         log_messages.printf(
             SCHED_MSG_LOG::MSG_NORMAL,
@@ -1040,7 +1012,7 @@ bool unacceptable_os(
 }
 #else
 bool unacceptable_os(
-        SCHEDULER_REQUEST& , SCHEDULER_REPLY& 
+        SCHEDULER_REQUEST& , SCHEDULER_REPLY&
 ) {
     return false;
 }
@@ -1277,7 +1249,7 @@ void process_request(
         reply.set_delay(DELAY_PLATFORM_UNSUPPORTED);
         goto leave;
     }
-    
+
     handle_global_prefs(sreq, reply);
 
     handle_results(sreq, reply);
@@ -1344,9 +1316,9 @@ void debug_sched(
     sprintf(tmpfilename, "sched_reply_%06d_%06d", sreq.hostid, sreq.rpc_seqno);
     // use _XXXXXX if you want random filenames rather than
     // deterministic mkstemp(tmpfilename);
-    
+
     fp=fopen(tmpfilename, "w");
-    
+
     if (!fp) {
         log_messages.printf(
             SCHED_MSG_LOG::MSG_CRITICAL,
@@ -1354,15 +1326,15 @@ void debug_sched(
         );
         return;
     }
-    
+
     log_messages.printf(
         SCHED_MSG_LOG::MSG_DEBUG,
         "Found %s, so writing %s\n", trigger, tmpfilename
     );
-    
+
     sreply.write(fp);
     fclose(fp);
-    
+
     sprintf(tmpfilename, "sched_request_%06d_%06d", sreq.hostid, sreq.rpc_seqno);
     fp=fopen(tmpfilename, "w");
 
@@ -1411,7 +1383,7 @@ void handle_request(
         if (rm && !strcmp(rm, "GET")) {
             sreply.probable_user_browser=true;
         }
-        
+
         log_messages.printf(
             SCHED_MSG_LOG::MSG_NORMAL,
             "Incomplete request received %sfrom IP %s, auth %s, platform %s, version %d.%d.%d\n",
@@ -1420,7 +1392,7 @@ void handle_request(
             sreq.core_client_major_version, sreq.core_client_minor_version,
             sreq.core_client_release
         );
-        
+
         USER_MESSAGE um("Incomplete request received.", "low");
         sreply.insert_message(um);
         sreply.nucleus_only = true;
@@ -1443,15 +1415,15 @@ void handle_request(
     int i;
     for (i=0; i<num_useless; i++) {
         char buf[256];
-        FILE_INFO& fi = sreq.files_not_needed[i];                                                                                                                             
-        sreply.file_deletes.push_back(fi);                                                                                                                              
-        log_messages.printf(                                                                                                                                            
-            SCHED_MSG_LOG::MSG_DEBUG,                                                                                                                                   
-            "[HOST#%d]: delete file %s (not needed)\n", sreply.host.id, fi.name                                                                                         
+        FILE_INFO& fi = sreq.files_not_needed[i];
+        sreply.file_deletes.push_back(fi);
+        log_messages.printf(
+            SCHED_MSG_LOG::MSG_DEBUG,
+            "[HOST#%d]: delete file %s (not needed)\n", sreply.host.id, fi.name
         );
-        sprintf(buf, "BOINC will delete file %s (no longer needed)", fi.name);                                                                                       
-        USER_MESSAGE um(buf, "low");                                                                                                                                    
-        sreply.insert_message(um);                                                                                                                                      
+        sprintf(buf, "BOINC will delete file %s (no longer needed)", fi.name);
+        USER_MESSAGE um(buf, "low");
+        sreply.insert_message(um);
      }
 #endif
 
@@ -1464,7 +1436,7 @@ void handle_request(
         //
         delete_file_from_host(sreq, sreply);
     }
-    
+
     // write all messages to log file
     for (unsigned int i=0; i<sreply.messages.size(); i++) {
         USER_MESSAGE um = sreply.messages[i];
@@ -1486,7 +1458,7 @@ void handle_request(
         debug_sched(sreq, sreply, "../debug_sched");
     }
 #endif
-    
+
     sreply.write(fout);
 
     if (strlen(config.sched_lockfile_dir)) {
