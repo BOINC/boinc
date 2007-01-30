@@ -1368,6 +1368,13 @@ Rom    30 Jan 2007
     clientgui/
         AdvancedFrame.cpp
 
+Walt   30 Jan 2007
+    - Remove ViewMessagesGrid.cpp, ViewProjectsGrid.cpp, ViewTransfersGrid.cpp
+        and ViewWorkGrid.cpp from makefile.
+
+    clientgui/
+        Makefile.am
+
 Rom    30 Jan 2007
     - Tag for 5.8.7 release, all platforms
       boinc_core_release_5_8_7
