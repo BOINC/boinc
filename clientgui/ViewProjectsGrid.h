@@ -38,6 +38,7 @@ public:
 	double totalcredit;
 	double avgcredit;
 	double resourceshare;
+	double rspercent;
 	wxString status;
 };
 

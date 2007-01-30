@@ -81,7 +81,7 @@ static int compareProjects(CProjectInfo** pfirst,CProjectInfo** psecond) {
 			ret =  diff > 0.0 ? 1 : diff==0 ? 0 : -1;
 			break;
 		case COLUMN_RESOURCESHARE:
-			diff = first->resourceshare - second->resourceshare;
+			diff = first->rspercent - second->rspercent;
 			ret =  diff > 0.0 ? 1 : diff==0 ? 0 : -1;
 			break;
 		case COLUMN_STATUS:
@@ -99,6 +99,7 @@ CProjectInfo::CProjectInfo() {
 	totalcredit=0.0;
 	avgcredit=0.0;
 	resourceshare=0.0;
+	rspercent=0.0;
 	status.Clear();
 }
 
@@ -505,7 +506,7 @@ void CViewProjectsGrid::UpdateSelection() {
             }
         }
         m_pTaskPane->EnableTask(pGroup->m_Tasks[BTN_RESET]);
-        if (project && project->attached_via_acct_mgr) {
+        if (project->attached_via_acct_mgr) {
             m_pTaskPane->DisableTask(pGroup->m_Tasks[BTN_DETACH]);
         } else {
             m_pTaskPane->EnableTask(pGroup->m_Tasks[BTN_DETACH]);
@@ -612,10 +613,8 @@ void CViewProjectsGrid::FormatAVGCredit(wxInt32 item, wxString& strBuffer) {
 void CViewProjectsGrid::FormatResourceShare(wxInt32 item, wxString& strBuffer){
     CMainDocument* pDoc = wxGetApp().GetDocument();
     wxASSERT(pDoc);
-    strBuffer.Printf(wxT(" %0.0f (%0.2f%%)"),
-            m_projectCache.Item(item)->resourceshare,
-            ((m_projectCache.Item(item)->resourceshare / pDoc->m_fProjectTotalResourceShare) * 100)
-        );
+    strBuffer.Printf(wxT(" %0.2f%% (%0.0f)"),m_projectCache.Item(item)->rspercent,
+            m_projectCache.Item(item)->resourceshare);
 }
 
 
@@ -793,6 +792,7 @@ void CViewProjectsGrid::UpdateProjectCache()
 		info->totalcredit = p->user_total_credit;
 		info->avgcredit = p->user_expavg_credit;
 		info->resourceshare = p->resource_share;
+		info->rspercent = (info->resourceshare / pDoc->m_fProjectTotalResourceShare) * 100;
 		info->status = this->GetReadableStatus(p);
 		m_projectCache.Add(info);
 	}

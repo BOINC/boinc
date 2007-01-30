@@ -1397,3 +1397,10 @@ David  30 Jan 2007
 
     client/
         app_start.C
+
+David  30 Jan 2007
+    - manager: fix progress bars for project resource shares
+        (from Frank Weiler)
+
+    clientgui/
+        ViewProjectsGrid.cpp,h
