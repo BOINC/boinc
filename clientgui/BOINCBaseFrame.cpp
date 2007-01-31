@@ -343,7 +343,7 @@ void CBOINCBaseFrame::FireReloadSkin() {
 }
 
 
-void CBOINCBaseFrame::ShowConnectionBadPasswordAlert() {
+void CBOINCBaseFrame::ShowConnectionBadPasswordAlert( bool bUsedDefaultPassword ) {
     CSkinAdvanced*      pSkinAdvanced = wxGetApp().GetSkinManager()->GetAdvanced();
     wxString            strDialogTitle = wxEmptyString;
 
@@ -361,11 +361,20 @@ void CBOINCBaseFrame::ShowConnectionBadPasswordAlert() {
         pSkinAdvanced->GetApplicationName().c_str()
     );
 
-    ShowAlert(
-        strDialogTitle,
-        _("The password you have provided is incorrect, please try again."),
-        wxOK | wxICON_ERROR
-    );
+    if ( bUsedDefaultPassword ) {
+        ShowAlert(
+            strDialogTitle,
+            _("Authorization failed connecting to running client.\n"
+              "Make sure you start this program in the same directory as the client."),
+            wxOK | wxICON_ERROR
+        );
+    } else {
+        ShowAlert(
+            strDialogTitle,
+            _("The password you have provided is incorrect, please try again."),
+            wxOK | wxICON_ERROR
+        );
+    }
 
     wxLogTrace(wxT("Function Start/End"), wxT("CBOINCBaseFrame::ShowConnectionBadPasswordAlert - Function End"));
 }

@@ -624,7 +624,7 @@ void CProjectsComponent::OnMessageCheck(wxTimerEvent& WXUNUSED(event)) {
 		for(size_t i=lastMessageId; i < pDoc->messages.messages.size(); i++) {
 			lastMessageId = i+1;
 			message = pDoc->message((unsigned int) i);
-			if ( message != NULL && message->priority == MSG_ERROR ) {
+			if ( message != NULL && message->priority == MSG_USER_ERROR ) {
 				receivedErrorMessage = true;
 				checkForMessagesTimer->Stop();
 				break;

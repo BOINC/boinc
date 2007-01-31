@@ -43,32 +43,30 @@ END_EVENT_TABLE ()
 CViewResources::CViewResources()
 {}
 
-
+#define COLOR(c) wxColour(c>>16, (c>>8)&0xff, c&0xff)
 CViewResources::CViewResources(wxNotebook* pNotebook) :  
 	CBOINCBaseView(pNotebook)
 {
-	//add 14 colors for boinc projects (anyone who have more projects attached ?)
-	// m_aProjectColours.Add(wxColour(0,139,69));
-	m_aProjectColours.Add(wxColour(135,206,235));
-	m_aProjectColours.Add(wxColour(65,105,225));
-	m_aProjectColours.Add(wxColour(255,165,0));
-	m_aProjectColours.Add(wxColour(238,130,238));
-	m_aProjectColours.Add(wxColour(205,197,191));
-	m_aProjectColours.Add(wxColour(255,127,80));
-	m_aProjectColours.Add(wxColour(250,128,114));
-	m_aProjectColours.Add(wxColour(0,255,127));
-	m_aProjectColours.Add(wxColour(205,79,57));
-	m_aProjectColours.Add(wxColour(143,188,143));
-	m_aProjectColours.Add(wxColour(153,50,204));
-	m_aProjectColours.Add(wxColour(30,144,255));
-	m_aProjectColours.Add(wxColour(0,100,0));
-	m_aProjectColours.Add(wxColour(127,255,0));
-	m_aProjectColours.Add(wxColour(205,173,0));
-	m_aProjectColours.Add(wxColour(140,34,34));
-	m_aProjectColours.Add(wxColour(152,245,255));
-	m_aProjectColours.Add(wxColour(250,240,230));
-	m_aProjectColours.Add(wxColour(144,238,144));
-	m_aProjectColours.Add(wxColour(255,105,180));
+	// generate using:
+    // http://wellstyled.com/tools/colorscheme2/index-en.html
+    // (tetrad, light pastel, 60 deg base)
+
+	m_aProjectColours.Add(COLOR(0xFFE6BF));
+	m_aProjectColours.Add(COLOR(0xBFCFFF));
+	m_aProjectColours.Add(COLOR(0xFFBFEF));
+	m_aProjectColours.Add(COLOR(0xE6FFBF));
+	m_aProjectColours.Add(COLOR(0xBF9960));
+	m_aProjectColours.Add(COLOR(0x6078BF));
+	m_aProjectColours.Add(COLOR(0xBF60A7));
+	m_aProjectColours.Add(COLOR(0x99BF60));
+	m_aProjectColours.Add(COLOR(0xFFF5E6));
+	m_aProjectColours.Add(COLOR(0xE6ECFF));
+	m_aProjectColours.Add(COLOR(0xFFE6F9));
+	m_aProjectColours.Add(COLOR(0xF5FFE6));
+	m_aProjectColours.Add(COLOR(0xFFCC80));
+	m_aProjectColours.Add(COLOR(0x809FFF));
+	m_aProjectColours.Add(COLOR(0xFF80DF));
+	m_aProjectColours.Add(COLOR(0xCCFF80));
 
 	wxGridSizer* itemGridSizer = new wxGridSizer(2, 0, 3);
     wxASSERT(itemGridSizer);
@@ -80,8 +78,7 @@ CViewResources::CViewResources(wxNotebook* pNotebook) :
 	m_pieCtrlTotal->GetLegend()->SetTransparent(true);
 	m_pieCtrlTotal->GetLegend()->SetHorBorder(10);
 	m_pieCtrlTotal->GetLegend()->SetLabelFont(*wxSWISS_FONT);
-	m_pieCtrlTotal->GetLegend()->SetLabelColour(wxColour(0,0,127));
-	m_pieCtrlTotal->GetLegend()->SetLabelColour(wxColour(0,0,127));
+	m_pieCtrlTotal->GetLegend()->SetLabelColour(wxColour(0,0,0));
 	m_pieCtrlTotal->GetLegend()->SetLabel(_("total disk usage"));
 
 	// create pie chart ctrl for BOINC disk usage
@@ -91,8 +88,7 @@ CViewResources::CViewResources(wxNotebook* pNotebook) :
 	m_pieCtrlBOINC->GetLegend()->SetTransparent(true);
 	m_pieCtrlBOINC->GetLegend()->SetHorBorder(10);
 	m_pieCtrlBOINC->GetLegend()->SetLabelFont(*wxSWISS_FONT);
-	m_pieCtrlBOINC->GetLegend()->SetLabelColour(wxColour(0,0,127));
-	m_pieCtrlBOINC->GetLegend()->SetLabelColour(wxColour(0,0,127));
+	m_pieCtrlBOINC->GetLegend()->SetLabelColour(wxColour(0,0,0));
 	m_pieCtrlBOINC->GetLegend()->SetLabel(_("disk usage by BOINC projects"));
 	//init the flexGrid
     itemGridSizer->Add(m_pieCtrlTotal,1,wxGROW|wxALL,1);
@@ -224,19 +220,19 @@ void CViewResources::OnListRender( wxTimerEvent& WXUNUSED(event) ) {
 	FormatDiskSpace(free,diskspace);		
 	part.SetLabel(_("free disk space - ") + diskspace);
 	part.SetValue(free);
-	part.SetColour(wxColour(0xe1, 0xfc, 0xac));
+	part.SetColour(wxColour(238,238,238));
 	m_pieCtrlTotal->m_Series.Add(part);
 	//used by boinc projects
 	FormatDiskSpace(boinctotal,diskspace);		
 	part.SetLabel(_("used by BOINC - ") + diskspace);
 	part.SetValue(boinctotal);
-	part.SetColour(wxColour(0xe8, 0x55, 0x6b));
+	part.SetColour(wxColour(0,0,0));
 	m_pieCtrlTotal->m_Series.Add(part);
 	//used by others
 	FormatDiskSpace(total-boinctotal-free,diskspace);
 	part.SetLabel(_("used by other programs - ") + diskspace);
 	part.SetValue(total-boinctotal-free);
-	part.SetColour(wxColour(0x3a, 0x9e, 0x8d));
+	part.SetColour(wxColour(192,192,192));
 	m_pieCtrlTotal->m_Series.Add(part);
 	m_pieCtrlTotal->Refresh();
 }

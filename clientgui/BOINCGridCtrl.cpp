@@ -529,7 +529,7 @@ void CBOINCGridCtrl::DrawColLabel( wxDC& dc, int col )
 	if(col == this->sortColumn) {
 		int x = rect.GetRight() - ascBitmap.GetWidth() - 2;
 		int y = rect.GetY();
-		dc.DrawBitmap(this->sortAscending ? ascBitmap : descBitmap,x,y,true);
+		dc.DrawBitmap(this->sortAscending ? descBitmap : ascBitmap,x,y,true);
 	}
 }
 

@@ -307,6 +307,7 @@ public:
     int input_files_available(RESULT*, bool);
     ACTIVE_TASK* get_next_graphics_capable_app();
     int ncpus;
+        // number of usable cpus
 private:
     int nslots;
 
@@ -388,6 +389,7 @@ private:
     int proj_min_results(PROJECT*, double);
     void generate_new_host_cpid();
 	void check_project_timeout();
+    void compute_nuploading_results();
 
 // --------------- cs_statefile.C:
 public:
@@ -434,36 +436,6 @@ public:
 
     void check_all();
     void free_mem();
-
-#if 0
-// ------------------ cs_data.C:
-// mechanisms for managing data saved on host
-//
-public:
-    bool get_more_disk_space(PROJECT*, double);
-    int anything_free(double &);
-    int calc_proj_size(PROJECT*);
-    int calc_all_proj_size();
-    int compute_share_disk_size(PROJECT*);
-    int total_potential_offender(PROJECT*, double &);
-    int total_potential_self(PROJECT*, double &);
-    double select_delete(PROJECT*, double, int);
-    double delete_results(PROJECT*, double);
-    double compute_resource_share(PROJECT*);
-    PROJECT* greatest_offender();
-private:
-    bool data_manager_poll();
-    bool fix_data_overflow(double, double);
-    int reset_checks();
-    int delete_inactive_results(PROJECT*);
-    int unstick_result_files(RESULT*);
-    double delete_next_file(PROJECT*, int);
-    double delete_expired(PROJECT*);
-    double offender(PROJECT*);
-    double proj_potentially_free(PROJECT*);
-    FILE_INFO* get_priority_or_lru(PROJECT*, int);
-#endif
-
 };
 
 extern CLIENT_STATE gstate;

@@ -440,6 +440,8 @@ int CLIENT_STATE::save_global_prefs(
     return 0;
 }
 
+// amount of RAM usable now
+//
 double CLIENT_STATE::available_ram() {
     if (user_active) {
         return host_info.m_nbytes * global_prefs.ram_max_used_busy_frac;
@@ -448,6 +450,8 @@ double CLIENT_STATE::available_ram() {
     }
 }
 
+// max amount that will ever be usable
+//
 double CLIENT_STATE::max_available_ram() {
 	return host_info.m_nbytes*std::max(
 		global_prefs.ram_max_used_busy_frac, global_prefs.ram_max_used_idle_frac

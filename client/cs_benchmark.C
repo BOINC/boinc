@@ -307,7 +307,7 @@ bool CLIENT_STATE::cpu_benchmarks_poll() {
     // if active tasks don't quit after 10 sec, give up on benchmark
     //
     if (now >= (cpu_benchmarks_start + 10.0) && active_tasks.is_task_executing()) {
-        msg_printf(NULL, MSG_ERROR,
+        msg_printf(NULL, MSG_INTERNAL_ERROR,
             "Failed to stop applications; aborting CPU benchmarks"
         );
         host_info.p_calculated = now;
@@ -355,7 +355,7 @@ bool CLIENT_STATE::cpu_benchmarks_poll() {
     // check for timeout
     //
     if (now > cpu_benchmarks_start + MAX_CPU_BENCHMARKS_SECONDS) {
-        msg_printf(NULL, MSG_ERROR,
+        msg_printf(NULL, MSG_INTERNAL_ERROR,
             "CPU benchmarks timed out, using default values"
         );
         abort_cpu_benchmarks();
@@ -378,7 +378,7 @@ bool CLIENT_STATE::cpu_benchmarks_poll() {
     if (ndone == ncpus) {
         double old_p_fpops = host_info.p_fpops;
         if (had_error) {
-            msg_printf(NULL, MSG_ERROR, "CPU benchmarks error");
+            msg_printf(NULL, MSG_INTERNAL_ERROR, "CPU benchmarks error");
 			cpu_benchmarks_set_defaults();
         } else {
             double p_fpops = 0;
@@ -398,12 +398,12 @@ bool CLIENT_STATE::cpu_benchmarks_poll() {
             if (p_fpops > 0) {
                 host_info.p_fpops = p_fpops;
             } else {
-                msg_printf(NULL, MSG_ERROR, "Benchmark: FP unexpectedly zero; ignoring");
+                msg_printf(NULL, MSG_INTERNAL_ERROR, "Benchmark: FP unexpectedly zero; ignoring");
             }
             if (p_iops > 0) {
                 host_info.p_iops = p_iops;
             } else {
-                msg_printf(NULL, MSG_ERROR, "Benchmark: int unexpectedly zero; ignoring");
+                msg_printf(NULL, MSG_INTERNAL_ERROR, "Benchmark: int unexpectedly zero; ignoring");
             }
             host_info.p_membw = p_membw;
             host_info.m_cache = m_cache;

@@ -377,6 +377,10 @@ wxInt32 CViewMessagesGrid::FormatPriority(wxInt32 item, wxString& strBuffer) con
         case MSG_INFO:
 			strBuffer = wxString("Info",wxConvUTF8);
             break;
+        case MSG_USER_ERROR:
+			strBuffer = wxString("Warning",wxConvUTF8);
+            break;
+        case MSG_INTERNAL_ERROR:
         default:
             strBuffer = wxString("Error",wxConvUTF8);
             break;
