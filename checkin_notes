@@ -1393,3 +1393,9 @@ Charlie 30 Jan 2007
 Rom    30 Jan 2007
     - Tag for 5.8.7 release, all platforms
       boinc_core_release_5_8_7
+
+Rom    30 Jan 2007
+    - Comment out the advanced preferences dialog again.
+    
+    clientgui/
+        AdvancedFrame.cpp

@@ -416,11 +416,11 @@ bool CAdvancedFrame::CreateMenu() {
         _("&Options..."),
         _("Configure GUI options and proxy settings")
     );
-    menuAdvanced->Append(
-		ID_ADVPREFSDLG, 
-        _("&Preferences..."),
-        _("Configure local preferences")
-    );
+//    menuAdvanced->Append(
+//		ID_ADVPREFSDLG, 
+//        _("&Preferences..."),
+//        _("Configure local preferences")
+//    );
 
     // %s is the project name
     //    i.e. 'BOINC', 'GridRepublic'
