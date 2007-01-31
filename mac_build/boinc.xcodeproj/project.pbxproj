@@ -56,8 +56,6 @@
 		DD2B9B41099C78D700136663 /* MoreBacktrace.c in Sources */ = {isa = PBXBuildFile; fileRef = DD2B9B3E099C78D700136663 /* MoreBacktrace.c */; };
 		DD2B9CB0099C9BA000136663 /* MoreBacktrace.c in Sources */ = {isa = PBXBuildFile; fileRef = DD2B9B3E099C78D700136663 /* MoreBacktrace.c */; };
 		DD2B9CB1099C9BA100136663 /* MoreAddrToSym.c in Sources */ = {isa = PBXBuildFile; fileRef = DD2B9B3C099C78D700136663 /* MoreAddrToSym.c */; };
-		DD2EA06D0B4B20570073B1AA /* ViewTransfersGrid.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DD2EA0690B4B20570073B1AA /* ViewTransfersGrid.cpp */; };
-		DD2EA06F0B4B20570073B1AA /* ViewWorkGrid.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DD2EA06B0B4B20570073B1AA /* ViewWorkGrid.cpp */; };
 		DD2EA0850B4B22010073B1AA /* BOINCGridCtrl.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DD2EA0830B4B22010073B1AA /* BOINCGridCtrl.cpp */; };
 		DD2EA0860B4B22010073B1AA /* BOINCGridCtrl.h in CopyFiles */ = {isa = PBXBuildFile; fileRef = DD2EA0840B4B22010073B1AA /* BOINCGridCtrl.h */; };
 		DD33C6F308B5BAF500768630 /* gui_http.C in Sources */ = {isa = PBXBuildFile; fileRef = DD33C6F108B5BAF500768630 /* gui_http.C */; };
@@ -214,10 +212,6 @@
 		DDA12AAE0A369C5800FBDD12 /* SecurityUtility.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DDA12AAD0A369C5800FBDD12 /* SecurityUtility.cpp */; };
 		DDAEC9FF07FA5A5C00A7BC36 /* SetVersion.C in Sources */ = {isa = PBXBuildFile; fileRef = DDAEC9E707FA58A000A7BC36 /* SetVersion.C */; };
 		DDB693500ABFE9C600689FD8 /* procinfo_mac.C in Sources */ = {isa = PBXBuildFile; fileRef = DDB6934F0ABFE9C600689FD8 /* procinfo_mac.C */; };
-		DDCDCDF40B532433009BB03C /* ViewMessagesGrid.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DDCDCDF00B532433009BB03C /* ViewMessagesGrid.cpp */; };
-		DDCDCDF50B532433009BB03C /* ViewMessagesGrid.h in CopyFiles */ = {isa = PBXBuildFile; fileRef = DDCDCDF10B532433009BB03C /* ViewMessagesGrid.h */; };
-		DDCDCDF60B532433009BB03C /* ViewProjectsGrid.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DDCDCDF20B532433009BB03C /* ViewProjectsGrid.cpp */; };
-		DDCDCDF70B532433009BB03C /* ViewProjectsGrid.h in CopyFiles */ = {isa = PBXBuildFile; fileRef = DDCDCDF30B532433009BB03C /* ViewProjectsGrid.h */; };
 		DDD095490A3EDF2D00C95BA4 /* switcher.C in Sources */ = {isa = PBXBuildFile; fileRef = DDD095480A3EDF2D00C95BA4 /* switcher.C */; };
 		DDD74D8907CF48E50065AC9D /* acct_mgr.C in Sources */ = {isa = PBXBuildFile; fileRef = DD344B3D07C5ABF40043025C /* acct_mgr.C */; };
 		DDD74D8A07CF48E70065AC9D /* app.C in Sources */ = {isa = PBXBuildFile; fileRef = F54B8FC102AC0A0C01FB7237 /* app.C */; };
@@ -272,8 +266,6 @@
 		DDD7EF4707F0526E00BA3B90 /* SystemMenu.m in Sources */ = {isa = PBXBuildFile; fileRef = DD40CDFE07F038990096C645 /* SystemMenu.m */; };
 		DDD998010AC3D36100D0DACF /* app_stats_mac.C in Sources */ = {isa = PBXBuildFile; fileRef = DDD998000AC3D36100D0DACF /* app_stats_mac.C */; };
 		DDDC35260909212D006076EC /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = F51BDF4903086C46012012A7 /* InfoPlist.strings */; };
-		DDE3A7F60B5F06EC00A3621C /* DlgAdvPreferences.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DDE3A7F20B5F06EC00A3621C /* DlgAdvPreferences.cpp */; };
-		DDE3A7F80B5F06EC00A3621C /* DlgAdvPreferencesBase.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DDE3A7F40B5F06EC00A3621C /* DlgAdvPreferencesBase.cpp */; };
 		DDF166AB08DF898A00C8C4A5 /* mac_backtrace.C in Sources */ = {isa = PBXBuildFile; fileRef = DDF166A908DF898A00C8C4A5 /* mac_backtrace.C */; };
 		DDF166C308DF8AEE00C8C4A5 /* mac_backtrace.C in Sources */ = {isa = PBXBuildFile; fileRef = DDF166A908DF898A00C8C4A5 /* mac_backtrace.C */; };
 		DDF9A32F0B2E3D4D00091FCB /* auto_update.C in Sources */ = {isa = PBXBuildFile; fileRef = DDF9A32D0B2E3D4D00091FCB /* auto_update.C */; };
@@ -791,8 +783,6 @@
 			files = (
 				DD3E15360A774397007E0084 /* SystemMenu.bundle in CopyFiles */,
 				DD2EA0860B4B22010073B1AA /* BOINCGridCtrl.h in CopyFiles */,
-				DDCDCDF50B532433009BB03C /* ViewMessagesGrid.h in CopyFiles */,
-				DDCDCDF70B532433009BB03C /* ViewProjectsGrid.h in CopyFiles */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -836,10 +826,6 @@
 		DD2B9B3F099C78D700136663 /* MoreBacktrace.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = MoreBacktrace.h; sourceTree = "<group>"; };
 		DD2D25CB07FAB41700151141 /* DlgSelectComputer.cpp */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.cpp.cpp; name = DlgSelectComputer.cpp; path = ../clientgui/DlgSelectComputer.cpp; sourceTree = SOURCE_ROOT; };
 		DD2D25CC07FAB41700151141 /* DlgSelectComputer.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = DlgSelectComputer.h; path = ../clientgui/DlgSelectComputer.h; sourceTree = SOURCE_ROOT; };
-		DD2EA0690B4B20570073B1AA /* ViewTransfersGrid.cpp */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.cpp.cpp; name = ViewTransfersGrid.cpp; path = ../clientgui/ViewTransfersGrid.cpp; sourceTree = SOURCE_ROOT; };
-		DD2EA06A0B4B20570073B1AA /* ViewTransfersGrid.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = ViewTransfersGrid.h; path = ../clientgui/ViewTransfersGrid.h; sourceTree = SOURCE_ROOT; };
-		DD2EA06B0B4B20570073B1AA /* ViewWorkGrid.cpp */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.cpp.cpp; name = ViewWorkGrid.cpp; path = ../clientgui/ViewWorkGrid.cpp; sourceTree = SOURCE_ROOT; };
-		DD2EA06C0B4B20570073B1AA /* ViewWorkGrid.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = ViewWorkGrid.h; path = ../clientgui/ViewWorkGrid.h; sourceTree = SOURCE_ROOT; };
 		DD2EA0830B4B22010073B1AA /* BOINCGridCtrl.cpp */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.cpp.cpp; name = BOINCGridCtrl.cpp; path = ../clientgui/BOINCGridCtrl.cpp; sourceTree = SOURCE_ROOT; };
 		DD2EA0840B4B22010073B1AA /* BOINCGridCtrl.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = BOINCGridCtrl.h; path = ../clientgui/BOINCGridCtrl.h; sourceTree = SOURCE_ROOT; };
 		DD2F32EF07F2A83E00645DDC /* MacSysMenu.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = MacSysMenu.h; path = ../clientgui/mac/MacSysMenu.h; sourceTree = SOURCE_ROOT; };
@@ -1079,10 +1065,6 @@
 		DDCAD7DA0A6C603A0086C7EE /* sg_StatImageLoader.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = sg_StatImageLoader.h; path = ../clientgui/sg_StatImageLoader.h; sourceTree = SOURCE_ROOT; };
 		DDCAD7DB0A6C603A0086C7EE /* sg_ViewTabPage.cpp */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.cpp.cpp; name = sg_ViewTabPage.cpp; path = ../clientgui/sg_ViewTabPage.cpp; sourceTree = SOURCE_ROOT; };
 		DDCAD7DC0A6C603A0086C7EE /* sg_ViewTabPage.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = sg_ViewTabPage.h; path = ../clientgui/sg_ViewTabPage.h; sourceTree = SOURCE_ROOT; };
-		DDCDCDF00B532433009BB03C /* ViewMessagesGrid.cpp */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.cpp.cpp; name = ViewMessagesGrid.cpp; path = ../clientgui/ViewMessagesGrid.cpp; sourceTree = SOURCE_ROOT; };
-		DDCDCDF10B532433009BB03C /* ViewMessagesGrid.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = ViewMessagesGrid.h; path = ../clientgui/ViewMessagesGrid.h; sourceTree = SOURCE_ROOT; };
-		DDCDCDF20B532433009BB03C /* ViewProjectsGrid.cpp */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.cpp.cpp; name = ViewProjectsGrid.cpp; path = ../clientgui/ViewProjectsGrid.cpp; sourceTree = SOURCE_ROOT; };
-		DDCDCDF30B532433009BB03C /* ViewProjectsGrid.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = ViewProjectsGrid.h; path = ../clientgui/ViewProjectsGrid.h; sourceTree = SOURCE_ROOT; };
 		DDCE78300A70BD55008218B6 /* wxFlatNotebook.cpp */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.cpp.cpp; name = wxFlatNotebook.cpp; path = ../clientgui/common/wxFlatNotebook.cpp; sourceTree = SOURCE_ROOT; };
 		DDCE78310A70BD55008218B6 /* wxFlatNotebook.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = wxFlatNotebook.h; path = ../clientgui/common/wxFlatNotebook.h; sourceTree = SOURCE_ROOT; };
 		DDCE78320A70BD55008218B6 /* wxFNBDropTarget.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = wxFNBDropTarget.h; path = ../clientgui/common/wxFNBDropTarget.h; sourceTree = SOURCE_ROOT; };
@@ -1094,10 +1076,6 @@
 		DDD997D80AC3D1DD00D0DACF /* AppStats */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = AppStats; sourceTree = BUILT_PRODUCTS_DIR; };
 		DDD998000AC3D36100D0DACF /* app_stats_mac.C */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.cpp.cpp; path = app_stats_mac.C; sourceTree = "<group>"; };
 		DDE2552B07C62F3E008E7D6E /* IOKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = IOKit.framework; path = /System/Library/Frameworks/IOKit.framework; sourceTree = "<absolute>"; };
-		DDE3A7F20B5F06EC00A3621C /* DlgAdvPreferences.cpp */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.cpp.cpp; name = DlgAdvPreferences.cpp; path = ../clientgui/DlgAdvPreferences.cpp; sourceTree = SOURCE_ROOT; };
-		DDE3A7F30B5F06EC00A3621C /* DlgAdvPreferences.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = DlgAdvPreferences.h; path = ../clientgui/DlgAdvPreferences.h; sourceTree = SOURCE_ROOT; };
-		DDE3A7F40B5F06EC00A3621C /* DlgAdvPreferencesBase.cpp */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.cpp.cpp; name = DlgAdvPreferencesBase.cpp; path = ../clientgui/DlgAdvPreferencesBase.cpp; sourceTree = SOURCE_ROOT; };
-		DDE3A7F50B5F06EC00A3621C /* DlgAdvPreferencesBase.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = DlgAdvPreferencesBase.h; path = ../clientgui/DlgAdvPreferencesBase.h; sourceTree = SOURCE_ROOT; };
 		DDEB3CA80981084A0087E200 /* GridRepublic.icns */ = {isa = PBXFileReference; lastKnownFileType = image.icns; name = GridRepublic.icns; path = ../client/mac/GridRepublic.icns; sourceTree = SOURCE_ROOT; };
 		DDEF388E0802B73500E87552 /* ViewStatistics.cpp */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.cpp.cpp; name = ViewStatistics.cpp; path = ../clientgui/ViewStatistics.cpp; sourceTree = SOURCE_ROOT; };
 		DDEF388F0802B73500E87552 /* ViewStatistics.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = ViewStatistics.h; path = ../clientgui/ViewStatistics.h; sourceTree = SOURCE_ROOT; };
@@ -1424,10 +1402,6 @@
 				DD58C43A08F3347D00C1DF66 /* CompletionPage.h */,
 				DD81C40207C5D1020098A04D /* DlgAbout.cpp */,
 				DD81C43707C5D2240098A04D /* DlgAbout.h */,
-				DDE3A7F20B5F06EC00A3621C /* DlgAdvPreferences.cpp */,
-				DDE3A7F30B5F06EC00A3621C /* DlgAdvPreferences.h */,
-				DDE3A7F40B5F06EC00A3621C /* DlgAdvPreferencesBase.cpp */,
-				DDE3A7F50B5F06EC00A3621C /* DlgAdvPreferencesBase.h */,
 				DDC63EEF0985B89600383FD2 /* DlgGenericMessage.cpp */,
 				DDC63EF00985B89600383FD2 /* DlgGenericMessage.h */,
 				DD81C3FF07C5D1020098A04D /* DlgOptions.cpp */,
@@ -1499,24 +1473,16 @@
 				DD81C46507C5D29F0098A04D /* ValidateURL.h */,
 				DD81C42507C5D1D70098A04D /* ViewMessages.cpp */,
 				DD81C46407C5D29F0098A04D /* ViewMessages.h */,
-				DDCDCDF00B532433009BB03C /* ViewMessagesGrid.cpp */,
-				DDCDCDF10B532433009BB03C /* ViewMessagesGrid.h */,
 				DD81C42407C5D1D70098A04D /* ViewProjects.cpp */,
 				DD81C46307C5D29F0098A04D /* ViewProjects.h */,
-				DDCDCDF20B532433009BB03C /* ViewProjectsGrid.cpp */,
-				DDCDCDF30B532433009BB03C /* ViewProjectsGrid.h */,
 				DD81C42307C5D1D70098A04D /* ViewResources.cpp */,
 				DD81C47207C5D2BF0098A04D /* ViewResources.h */,
 				DDEF388E0802B73500E87552 /* ViewStatistics.cpp */,
 				DDEF388F0802B73500E87552 /* ViewStatistics.h */,
 				DD81C42207C5D1D70098A04D /* ViewTransfers.cpp */,
 				DD81C47107C5D2BF0098A04D /* ViewTransfers.h */,
-				DD2EA0690B4B20570073B1AA /* ViewTransfersGrid.cpp */,
-				DD2EA06A0B4B20570073B1AA /* ViewTransfersGrid.h */,
 				DD81C42107C5D1D70098A04D /* ViewWork.cpp */,
 				DD81C47007C5D2BF0098A04D /* ViewWork.h */,
-				DD2EA06B0B4B20570073B1AA /* ViewWorkGrid.cpp */,
-				DD2EA06C0B4B20570073B1AA /* ViewWorkGrid.h */,
 				DD58C46308F334EA00C1DF66 /* WelcomePage.cpp */,
 				DD58C46408F334EA00C1DF66 /* WelcomePage.h */,
 				DD58C46508F334EA00C1DF66 /* WizardAccountManager.cpp */,
@@ -2511,13 +2477,7 @@
 				DD67F8140ADB9DD000B0015E /* wxPieCtrl.cpp in Sources */,
 				DD247AF90AEA308A0034104A /* SkinManager.cpp in Sources */,
 				DD1C82310AF372D900F709AC /* sg_CustomControls.cpp in Sources */,
-				DD2EA06D0B4B20570073B1AA /* ViewTransfersGrid.cpp in Sources */,
-				DD2EA06F0B4B20570073B1AA /* ViewWorkGrid.cpp in Sources */,
 				DD2EA0850B4B22010073B1AA /* BOINCGridCtrl.cpp in Sources */,
-				DDCDCDF40B532433009BB03C /* ViewMessagesGrid.cpp in Sources */,
-				DDCDCDF60B532433009BB03C /* ViewProjectsGrid.cpp in Sources */,
-				DDE3A7F60B5F06EC00A3621C /* DlgAdvPreferences.cpp in Sources */,
-				DDE3A7F80B5F06EC00A3621C /* DlgAdvPreferencesBase.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
