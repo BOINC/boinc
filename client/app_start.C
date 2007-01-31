@@ -616,13 +616,16 @@ int ACTIVE_TASK::start(bool first_time) {
         // and it seems like the best thing to raise it as high as possible
         //
         struct rlimit rlim;
+#define MIN_STACK_LIMIT 64000000
         getrlimit(RLIMIT_STACK, &rlim);
-        if (rlim.rlim_max == RLIM_INFINITY || rlim.rlim_max > 500000000) {
-            rlim.rlim_cur = 500000000; // 500 MB max
-        } else {
-            rlim.rlim_cur = rlim.rlim_max;
+        if (rlim.rlim_cur != RLIM_INFINITY && rlim.rlim_cur <= MIN_STACK_LIMIT) {
+            if (rlim.rlim_max == RLIM_INFINITY || rlim.rlim_max > MIN_STACK_LIMIT) {
+                rlim.rlim_cur = MIN_STACK_LIMIT;
+            } else {
+                rlim.rlim_cur = rlim.rlim_max;
+            }
+            setrlimit(RLIMIT_STACK, &rlim);
         }
-        setrlimit(RLIMIT_STACK, &rlim);
 
         // hook up stderr to a specially-named file
         //

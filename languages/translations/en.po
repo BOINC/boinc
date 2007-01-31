@@ -431,7 +431,7 @@ msgid "SRQ_LINUX_REQ_DISK"
 msgstr "50 MB disk space"
 
 ##############################################
-# release notes by je2bwm 2006/08/09
+# release_notes.php
 ##############################################
 msgid "RLN_PAGE_TITLE"
 msgstr "Release notes"
@@ -447,6 +447,27 @@ msgstr "Uninstalling"
 
 msgid "RLN_KNOWN_ISSUES"
 msgstr "Known issues"
+
+msgid "RLN_WIN_INSTALL_PROBLEMS"
+msgstr "In rare cases, installation may fail because "
+    "of an existing installation of BOINC.  If this happens: "
+    "%s Quit BOINC if it's running, and uninstall BOINC "
+    "using %s Start/Control Panel/Add and remove programs%s. "
+    "Install the new version again. "
+    "%s If that fails, reinstall the version of BOINC you "
+    "were previously running "
+    "(old versions can be found %shere%s). "
+    "Uninstall it as above, then install the new version. "
+    "%s If that fails, download the %sWindows Install Clean Up%s "
+    "utility from Microsoft and run it. "
+    "The old BOINC version shows up as either BOINC.msi or as "
+    "a corrupt icon .msi (it'll be the top option). "
+    "Click on it to select, then click Remove and Exit. "
+    "Reboot your computer. "
+    "Install the new version. "
+    "(Warning: leave all other .msi files as they are, "
+     "otherwise you will have problems uninstalling other programs). "
+    "%s "
 
 msgid "RLN_TROUBLESHOOT"
 msgstr "Troubleshooting"
@@ -669,8 +690,8 @@ msgstr " Use the idle time on your computer "
     " %sEnter%s the project URLs, your email address, and password. "
 
 msgid "HOME_P2"
-msgstr "Alternatively, if you run several projects, it may be easier to "
-    "use an %saccount manager%s such as %sGridRepublic%s or %sBAM!%s. "
+msgstr "Or, if you run several projects, try "
+    "an %saccount manager%s such as %sGridRepublic%s or %sBAM!%s. "
 
 msgid "HOME_P3"
 msgstr "If you have any questions, or need help getting started, you can "

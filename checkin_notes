@@ -1417,3 +1417,10 @@ David  31 Jan 2007
 
     client/
         client_types.C
+
+David  31 Jan 2007
+    - core client (Unix): tweak stack-size logic,
+        and don't bump stack size limit beyond 64K
+
+    client/
+        app_start.C
