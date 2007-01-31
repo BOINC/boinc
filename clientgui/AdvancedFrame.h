@@ -67,7 +67,7 @@ public:
     void OnAccountManagerDetach( wxCommandEvent& event );
 
     void OnOptionsOptions( wxCommandEvent& event );
-	void OnDlgPreferences( wxCommandEvent& event );
+	//void OnDlgPreferences( wxCommandEvent& event );
     void OnSelectComputer( wxCommandEvent& event );
     void OnClientShutdown( wxCommandEvent& event );
     void OnRunBenchmarks( wxCommandEvent& event );
