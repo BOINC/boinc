@@ -48,6 +48,29 @@ echo "
 <p>
 ".tr(RLN_MSWIN_INSTALL_WINSERVICE_DESC)."
 </ul>
+In rare cases, installation may fail because
+of an existing installation of BOINC.
+If this happens:
+<ul>
+<li> Quit BOINC if it's running, and uninstall BOINC
+using <b>Start/Control Panel/Add and remove programs</b>.
+Install the new version again.
+<li> If that fails, reinstall the version of BOINC you
+were previously running
+(old versions can be found
+<a href=http://boinc.berkeley.edu/download_all.php>here</a>).
+Uninstall it as above, then install the new version.
+<li> If that fails, download the
+<a href=http://support.microsoft.com/kb/290301>Windows Install Clean Up</a>
+utility from Microsoft and run it.
+The old BOINC version shows up as either BOINC.msi or as
+a corrupt icon .msi (it'll be the top option).
+Click on it to select, then click Remove and Exit.
+Reboot your computer.
+Install the new version.
+(Warning: leave all other .msi files as they are,
+otherwise you will have problems uninstalling other programs).
+</ul>
 
 <h3>Mac OS X</h3>
 <ul>

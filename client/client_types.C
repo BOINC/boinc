@@ -1742,7 +1742,8 @@ double RESULT::estimated_cpu_time_remaining() {
 // completion time for this project's results
 //
 void PROJECT::update_duration_correction_factor(RESULT* rp) {
-    double ratio = rp->final_cpu_time / rp->estimated_cpu_time_uncorrected();
+    double raw_ratio = rp->final_cpu_time/rp->estimated_cpu_time_uncorrected();
+    double adj_ratio = rp->final_cpu_time/rp->estimated_cpu_time();
 	double old_dcf = duration_correction_factor;
 
     // it's OK to overestimate completion time,
@@ -1750,16 +1751,16 @@ void PROJECT::update_duration_correction_factor(RESULT* rp) {
     // So make it easy for the factor to increase,
     // but decrease it with caution
     //
-    if (ratio > 1) {
-        duration_correction_factor = ratio;
+    if (adj_ratio > 1) {
+        duration_correction_factor = raw_ratio;
     } else {
         // in particular, don't give much weight to results
         // that completed a lot earlier than expected
         //
-        if (ratio < 0.1) {
-            duration_correction_factor = duration_correction_factor*0.99 + 0.01*ratio;
+        if (adj_ratio < 0.1) {
+            duration_correction_factor = duration_correction_factor*0.99 + 0.01*raw_ratio;
         } else {
-            duration_correction_factor = duration_correction_factor*0.9 + 0.1*ratio;
+            duration_correction_factor = duration_correction_factor*0.9 + 0.1*raw_ratio;
         }
     }
     // limit to [.01 .. 100]
@@ -1769,8 +1770,8 @@ void PROJECT::update_duration_correction_factor(RESULT* rp) {
 
 	if (log_flags.cpu_sched_debug || log_flags.work_fetch_debug) {
 		msg_printf(this, MSG_INFO,
-            "[csd|wfd] duration correction factor: %f => %f, ratio %f",
-			old_dcf, duration_correction_factor, ratio
+            "[csd|wfd] duration correction factor: %f => %f, raw_ratio %f, adj_ratio %f",
+			old_dcf, duration_correction_factor, raw_ratio, adj_ratio
 		);
 	}
 }
