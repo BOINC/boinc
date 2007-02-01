@@ -511,7 +511,7 @@ $w419 = array(
 
 $m588 = array(
     "num"=>"5.8.8",
-    "status"=>"Development version (standard GUI)",
+    "status"=>"Recommended version (standard GUI)",
     "file"=>"boinc_5.8.8_macOSX_universal.zip",
     "date"=>"30 Jan 2007",
     "type"=>"mac_advanced",
@@ -528,7 +528,7 @@ $m588 = array(
 
 $m549 = array(
     "num"=>"5.4.9",
-    "status"=>"Recommended version (standard GUI)",
+    "status"=>"Older version (standard GUI)",
     "file"=>"boinc_5.4.9_macOSX_universal.zip",
     "date"=>"5 May 2006",
     "type"=>"mac_advanced",
@@ -576,7 +576,7 @@ $m5213 = array(
 
 $m588c = array(
     "num"=>"5.8.8",
-    "status"=>"Development version (Unix command-line version)",
+    "status"=>"Recommended version (Unix command-line version)",
     "file"=>"boinc_5.8.8_universal-apple-darwin.zip",
     "date"=>"30 Jan 2007",
     "type"=>"bare_core",
@@ -595,7 +595,7 @@ $m588c = array(
 
 $m549c = array(
     "num"=>"5.4.9",
-    "status"=>"Recommended version (Unix command-line version)",
+    "status"=>"Older version (Unix command-line version)",
     "file"=>"boinc_5.4.9_universal-apple-darwin.zip",
     "date"=>"5 May 2006",
     "type"=>"bare_core",
