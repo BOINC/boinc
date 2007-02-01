@@ -372,7 +372,7 @@ $linux_libs_58= "
 
 $w588= array(
     "num"=>"5.8.8",
-    "status"=>"Development version",
+    "status"=>"Recommended version",
     "file"=>"boinc_5.8.8_windows_intelx86.exe",
     "date"=>"30 Jan 2007",
     "type"=>"win_new",
@@ -386,7 +386,7 @@ $w588= array(
 
 $w5411= array(
     "num"=>"5.4.11",
-    "status"=>"Recommended version",
+    "status"=>"Older version",
     "file"=>"boinc_5.4.11_windows_intelx86.exe",
     "date"=>"2 Aug 2006",
     "type"=>"win_new",
