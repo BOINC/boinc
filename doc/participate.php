@@ -1,6 +1,6 @@
 <?php
 require_once("docutil.php");
-page_head("Participating in BOINC projects");
+page_head("Running BOINC");
 echo "
 <h3>Beginners</h3>
 <p>

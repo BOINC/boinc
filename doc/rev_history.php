@@ -3,14 +3,23 @@ require_once("docutil.php");
 page_head("Version history");
 echo"
 
-<h3>Version 5.5</h3>
+<h3>Version 5.8</h3>
+<ul>
+<li> Snooze button
+<li> CPU Throttling
+<li> Simple GUI; skinnability, local prefs dialog
+<li> Preferences for limiting RAM usage
+<li> Disk usage pie chart
+<li> Support for advanced account manager features like
+host-specific resource share.
+</ul>
+<h3>Version 5.6</h3>
 <ul>
 <li> New CPU Scheduler.
 <li> CPU Capability detection.
-<li> Revamped logging solution.
 <li> Improved security for POSIX compliant systems
 (only implemented for the Mac)
-<li> Add support for file compression on upload.
+<li> Support for file compression on upload.
 </ul>
 
 <h3>Version 5.4</h3>

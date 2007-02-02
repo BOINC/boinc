@@ -69,7 +69,7 @@ echo "
 <li> <a href=#sites>Other BOINC-related sites</a>
 (Information, message boards, and teams)
 </ul>
-<a name=wiki></a>
+<a name=info></a>
 <h3>Help and Information</h3>
 Sites with information and documentation about BOINC.
 ";

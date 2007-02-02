@@ -104,7 +104,6 @@ int ACTIVE_TASK::kill_task(bool restart) {
 #endif
 	if (restart) {
 		set_task_state(PROCESS_UNINITIALIZED, "kill_task");
-		scheduler_state = CPU_SCHED_PREEMPTED;
 		gstate.request_enforce_schedule("Task restart");
 	} else {
 		cleanup_task();
@@ -158,7 +157,7 @@ int ACTIVE_TASK::preempt(bool quit_task) {
                 result->name
             );
         }
-        pending_suspend_via_quit = true;
+        set_task_state(PROCESS_QUIT_PENDING, "preempt");
         retval = request_exit();
     } else {
         if (log_flags.cpu_sched) {
@@ -241,13 +240,10 @@ void ACTIVE_TASK::handle_exited_app(int stat) {
         } else {
             if (!finish_file_present()) {
                 will_restart = true;
-                set_task_state(PROCESS_UNINITIALIZED, "handle_exited_app");
-                if (pending_suspend_via_quit) {
-                    pending_suspend_via_quit = false;
-                } else {
-                    scheduler_state = CPU_SCHED_PREEMPTED;
+                if (task_state() != PROCESS_QUIT_PENDING) {
                     limbo_message(*this);
                 }
+                set_task_state(PROCESS_UNINITIALIZED, "handle_exited_app");
             }
         }
 #else
@@ -264,13 +260,10 @@ void ACTIVE_TASK::handle_exited_app(int stat) {
             } else {
                 if (!finish_file_present()) {
                     will_restart = true;
-                    set_task_state(PROCESS_UNINITIALIZED, "handle_exited_app");
-                    if (pending_suspend_via_quit) {
-                        pending_suspend_via_quit = false;
-                    } else {
-                        scheduler_state = CPU_SCHED_PREEMPTED;
+                    if (task_state() != PROCESS_QUIT_PENDING) {
                         limbo_message(*this);
                     }
+                    set_task_state(PROCESS_UNINITIALIZED, "handle_exited_app");
                 }
             }
             if (log_flags.task_debug) {
@@ -298,7 +291,6 @@ void ACTIVE_TASK::handle_exited_app(int stat) {
             case SIGTERM:
             case SIGSTOP:
                 will_restart = true;
-                scheduler_state = CPU_SCHED_PREEMPTED;
                 set_task_state(PROCESS_UNINITIALIZED, "handle_exited_app");
                 limbo_message(*this);
                 break;
@@ -550,8 +542,6 @@ bool ACTIVE_TASK_SET::check_rsc_limits_exceeded() {
 int ACTIVE_TASK::abort_task(int exit_status, const char* msg) {
     if (task_state() == PROCESS_EXECUTING || task_state() == PROCESS_SUSPENDED) {
         set_task_state(PROCESS_ABORT_PENDING, "abort_task");
-		scheduler_state = CPU_SCHED_PREEMPTED;
-			// so scheduler doesn't try to preempt it
         abort_time = gstate.now;
 		request_abort();
     } else {
@@ -755,7 +745,7 @@ void ACTIVE_TASK_SET::suspend_all(bool leave_apps_in_memory) {
     }
 }
 
-// resume all currently running tasks
+// resume all currently scheduled tasks
 //
 void ACTIVE_TASK_SET::unsuspend_all() {
     unsigned int i;

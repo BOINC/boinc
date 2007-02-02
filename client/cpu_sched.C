@@ -557,6 +557,7 @@ bool CLIENT_STATE::enforce_schedule() {
     ACTIVE_TASK* atp;
     vector<ACTIVE_TASK*> running_tasks;
 	static double last_time = 0;
+    int retval;
 
     // Do this when requested, and once a minute as a safety net
     //
@@ -814,50 +815,58 @@ bool CLIENT_STATE::enforce_schedule() {
         atp = active_tasks.active_tasks[i];
         if (log_flags.cpu_sched_debug) {
             msg_printf(atp->result->project, MSG_INFO,
-                "[cpu_sched_debug] %s state %d next %d",
-                atp->result->name, atp->scheduler_state, atp->next_scheduler_state
+                "[cpu_sched_debug] %s sched state %d next %d task state %d",
+                atp->result->name, atp->scheduler_state,
+                atp->next_scheduler_state, atp->task_state()
             );
         }
-        if (atp->scheduler_state == CPU_SCHED_SCHEDULED
-            && atp->next_scheduler_state == CPU_SCHED_PREEMPTED
-        ) {
-            action = true;
-            bool preempt_by_quit = !global_prefs.leave_apps_in_memory;
-			if (check_swap && swap_left < 0) {
-				if (log_flags.mem_usage_debug) {
-					msg_printf(atp->result->project, MSG_INFO,
-						"[mem_usage_debug] out of swap space, will preempt by quit"
-					);
-				}
-				preempt_by_quit = true;
-			}
-            if (atp->too_large) {
-				if (log_flags.mem_usage_debug) {
-					msg_printf(atp->result->project, MSG_INFO,
-						"[mem_usage_debug] job using too much memory, will preempt by quit"
-					);
-				}
-				preempt_by_quit = true;
+        switch (atp->next_scheduler_state) {
+        case CPU_SCHED_PREEMPTED:
+            switch (atp->task_state()) {
+            case PROCESS_EXECUTING:
+                action = true;
+                bool preempt_by_quit = !global_prefs.leave_apps_in_memory;
+                if (check_swap && swap_left < 0) {
+                    if (log_flags.mem_usage_debug) {
+                        msg_printf(atp->result->project, MSG_INFO,
+                            "[mem_usage_debug] out of swap space, will preempt by quit"
+                        );
+                    }
+                    preempt_by_quit = true;
+                }
+                if (atp->too_large) {
+                    if (log_flags.mem_usage_debug) {
+                        msg_printf(atp->result->project, MSG_INFO,
+                            "[mem_usage_debug] job using too much memory, will preempt by quit"
+                        );
+                    }
+                    preempt_by_quit = true;
+                }
+                atp->preempt(preempt_by_quit);
+                atp->scheduler_state = CPU_SCHED_PREEMPTED;
+                break;
             }
-
-            atp->preempt(preempt_by_quit);
-            atp->scheduler_state = CPU_SCHED_PREEMPTED;
-        } else if (atp->scheduler_state != CPU_SCHED_SCHEDULED
-            && atp->next_scheduler_state == CPU_SCHED_SCHEDULED
-        ) {
-            action = true;
-            int retval = atp->resume_or_start();
-            if (retval) {
-                report_result_error(
-                    *(atp->result), "Couldn't start or resume: %d", retval
+            break;
+        case CPU_SCHED_SCHEDULED:
+            switch (atp->task_state()) {
+            case PROCESS_UNINITIALIZED:
+            case PROCESS_SUSPENDED:
+                action = true;
+                retval = atp->resume_or_start(
+                    atp->scheduler_state == CPU_SCHED_UNINITIALIZED
                 );
-                request_schedule_cpus("start failed");
-                continue;
+                if (retval) {
+                    report_result_error(
+                        *(atp->result), "Couldn't start or resume: %d", retval
+                    );
+                    request_schedule_cpus("start failed");
+                    continue;
+                }
+                atp->run_interval_start_wall_time = now;
+                app_started = now;
             }
             atp->scheduler_state = CPU_SCHED_SCHEDULED;
-            atp->run_interval_start_wall_time = now;
-            app_started = now;
-			swap_left -= atp->procinfo.swap_size;
+            swap_left -= atp->procinfo.swap_size;
         }
     }
     if (action) {

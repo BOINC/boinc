@@ -1424,3 +1424,29 @@ David  31 Jan 2007
 
     client/
         app_start.C
+
+David  2 Feb 2007
+    - core client: fix bug where client thinks an app is running but it isn't.
+        Basic problem: there are two layers
+        1) process control: start/stop/suspend/resume, handle exits.
+            files: app_*.C
+            It owns ACTIVE_TASK::task_state
+        2) CPU scheduling: decide what should run
+            files: cpu_sched.C
+            It owns ACTIVE_TASK::scheduler_state.
+        These layers weren't cleanly separated;
+        e.g. the CPU sched layer relied on the process control layer
+        to set scheduler_state in some cases,
+        and this wasn't always being done.
+        I fixed this; the layers are now separated.
+        Also: added new task_state value, PROCESS_QUIT_PENDING
+    - core client: small tweak to DCF calculation
+        
+    client/
+        app.C,h
+        app_control.C
+        app_start.C
+        client_types.C
+        cpu_sched.C
+    languages/translations/
+        en.po

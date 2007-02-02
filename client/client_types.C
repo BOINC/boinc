@@ -1751,7 +1751,7 @@ void PROJECT::update_duration_correction_factor(RESULT* rp) {
     // So make it easy for the factor to increase,
     // but decrease it with caution
     //
-    if (adj_ratio > 1) {
+    if (adj_ratio > 1.1) {
         duration_correction_factor = raw_ratio;
     } else {
         // in particular, don't give much weight to results

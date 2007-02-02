@@ -100,7 +100,16 @@ function show_vol($vol) {
 function show_vols($vols) {
     echo "<p><font size=-1>
         You can send email to a volunteer even if they're offline.
-        To do so, click their name.</font>
+        To do so, click their name.
+        <p>
+        Volunteers can answer questions about the BOINC client software,
+        not about the server software.
+        If you're setting up a BOINC project,
+        this is not the place to get help.
+        Instead, try the
+        <a href=http://boinc.berkeley.edu/email_lists.php>boinc_projects</a>
+        email list.
+        </font>
     ";
     list_start("border=0");
     list_heading_array(array(

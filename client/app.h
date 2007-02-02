@@ -46,7 +46,9 @@ typedef int PROCESS_ID;
 #define PROCESS_SUSPENDED       9
     // we've sent it a "suspend" message
 #define PROCESS_ABORT_PENDING   5
-    // process exceeded limits; killed it, waiting to exit
+    // process exceeded limits; send "abort" message, waiting to exit
+#define PROCESS_QUIT_PENDING    8
+    // we've sent it a "quit" message, waiting to exit
 
 // states in which the process has exited
 #define PROCESS_EXITED          2
@@ -115,7 +117,6 @@ public:
     double max_mem_usage;   // abort if memory usage exceeds this
     bool have_trickle_down;
     bool send_upload_file_status;
-    bool pending_suspend_via_quit;  // waiting for task to suspend via quit
     bool too_large;                 // working set too large to run now
     int want_network;
         // This task wants to do network comm (for F@h)
@@ -179,7 +180,7 @@ public:
         // can be called whether or not process exists
     bool has_task_exited();             // return true if this task has exited
     int preempt(bool quit_task);        // preempt (via suspend or quit) a running task
-    int resume_or_start();
+    int resume_or_start(bool);
     void send_network_available();
 #ifdef _WIN32
     void handle_exited_app(unsigned long);

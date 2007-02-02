@@ -107,6 +107,7 @@ function show_download($pname) {
         <p>
         <a href=system_requirements.php><nobr>".tr(DL_SYSTEMREQ)."</nobr></a>
         | <a href=release_notes.php><nobr>".tr(DL_RELNOTES)."</nobr></a>
+        | <a href=troubleshoot.php><nobr>".tr(DL_TROUBLE)."</nobr></a>
     ";
     if ($pname) {
         //echo " | <a href=download.php?all_platforms=1><nobr>".tr(DL_OTHERSYS)."</nobr></a>

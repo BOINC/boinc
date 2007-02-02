@@ -4,24 +4,27 @@ require_once("../html/inc/translation.inc");
 
 page_head(tr(RLN_PAGE_TITLE));
 
+$cur_version = "5.8";
+
 echo "
 <ul>
-    <li> <a href=#new>".sprintf(tr(RLN_WHATS_NEW),"5.4")."</a>
+    <li> <a href=#new>".sprintf(tr(RLN_WHATS_NEW), $cur_version)."</a>
     <li> <a href=#install>".tr(RLN_INSTALLING)."</a>
     <li> <a href=#uninstall>".tr(RLN_UNINSTALLING)."</a>
     <li> <a href=#issues>".tr(RLN_KNOWN_ISSUES)."</a>
-    <li> <a href=#troubleshoot>".tr(RLN_TROUBLESHOOT)."</a>
 </ul>
 
-<h2>".sprintf(tr(RLN_WHATS_NEW),"5.4")."</h2>
+<h2>".sprintf(tr(RLN_WHATS_NEW), $cur_version)."</h2>
 <ul>
-<li> ".tr(RLN_NEWF_5_4_AM)."
-<li> ".sprintf(tr(RLN_NEWF_5_4_PREF_OVERRIDE),
-          "<a href=http://boinc.berkeley.edu/prefs_override.php>","</a>")."
-<li> ".tr(RLN_NEWF_5_4_ALERTS_CONNECT)."
+<li> ".tr(RLN_5_8_SIMPLE_GUI)."
+<li> ".tr(RLN_5_8_THROTTLE)."
+<li> ".tr(RLN_5_8_SCHED)."
+<li> ".tr(RLN_5_8_MEM)."
+<li> ".tr(RLN_5_8_SANDBOX)."
+<li> ".tr(RLN_5_8_SNOOZE)."
 </ul>
 
-".sprintf(tr(RLN_RECOMMEND_LATEST_VERSION),"5.4")."
+".sprintf(tr(RLN_RECOMMEND_LATEST_VERSION), $cur_version)."
 
 <p>
 ".sprintf(tr(RLN_LINK2_VERSION_HISTORY),"<a href=rev_history.php>","</a>")."
@@ -48,7 +51,6 @@ echo "
 <p>
 ".tr(RLN_MSWIN_INSTALL_WINSERVICE_DESC)."
 </ul>
-".sprintf(tr(RLN_WIN_INSTALL_PROBLEMS), "<ul><li>", "<b>", "</b>", "<li>", "<a href=http://boinc.berkeley.edu/download_all.php>", "</a>", "<li>", "<a href=http://support.microsoft.com/kb/290301>", "</a>", "</ul>")."
 <h3>Mac OS X</h3>
 <ul>
 <li> If your browser has not already done so,
@@ -112,28 +114,10 @@ To completely remove (<b>uninstall</b>) BOINC from your Macintosh:
 <a name=issues></a>
 <h2>".tr(RLN_KNOWN_ISSUES)."</h2>
 <ul>
-<li> ".tr(RLN_ISSUE_PROXY_NTLMAUTH)."
-</ul>
-<h3>".tr(RLN_MSWIN)."</h3>
-<ul>
-<li>
-".sprintf(tr(RLN_ISSUE_MSWIN_LATEST_DIRECTX),"<a href=directx.php>","</a>")."
 <li> 
 ".tr(RLN_ISSUE_MSWIN_SCREENSAVER_XP3D)."
 <li> 
 ".tr(RLN_ISSUE_MSWIN_NO_SCREENSAVER)."
-</ul>
-
-<a name=troubleshoot></a>
-<h2>".tr(RLN_TROUBLESHOOT)."</h2>
-".tr(RLN_TROUBLESHOOT_INTRO)."
-<ul>
-<li> 
-".tr(RLN_TROUBLESHOOT_PRJ_SPECIFIC)."
-<li> 
-".tr(RLN_TROUBLESHOOT_PROBLEM_PERSIST)."
-<li> 
-".sprintf(tr(RLN_TROUBLESHOOT_BOINC_ITSELF),"<a href=dev/>","</a>")."
 </ul>
 
 ";

@@ -9,7 +9,7 @@ page_head(tr(HELP_TITLE));
 echo "
 <h2>".tr(HELP_HEADING1)."</h2>
 <p>
-".sprintf(tr(HELP_P1_1), "<ul>", "<li>", "<li>", "<li>")."
+".sprintf(tr(HELP_P1_1), "<ul><li>", "<li>", "<li>", "<li>")."
 </ul>
 <p>
 ".sprintf(tr(HELP_P1_2), "<a href=http://www.skype.com>", "</a>", "<a href=http://www.skype.com>", "</a>")."
@@ -22,20 +22,23 @@ echo "
 ";
 
 $langs = get_languages();
-$first = true;
+sort($langs);
+$n = 0;
 foreach ($langs as $lang) {
     $lang_enc = urlencode($lang);
-    if ($first) {
-        $first = false;
+    if (!$n) {
+    } else if (!($n%5)) {
+        echo "<br>";
     } else {
         echo " | ";
     }
+    $n++;
     echo "<a href=help_lang.php?lang=$lang_enc><b>$lang</b></a>";
 }
 echo "
 <h2>".tr(HELP_HEADING2)."</h2>
 <p>
-".sprintf(tr(HELP_P2_1), "<ul><li> <a href=http://boinc.berkeley.edu/>", "</a>", "<li> <a href=http://boinc.berkeley.edu/links.php>", "</a>", "<li> <a href=http://boinc.berkeley.edu/dev/>", "</a>", "<li>")."
+".sprintf(tr(HELP_P2_1), "<ul><li> <a href=http://boinc.berkeley.edu/troubleshoot.php>", "</a>", "<li> <a href=http://boinc.berkeley.edu/links.php>", "</a>", "<li> <a href=http://boinc.berkeley.edu/dev/>", "</a>", "<li>")."
 </ul>
 <h2>".tr(HELP_HEADING3)."</h2>
 <p>
