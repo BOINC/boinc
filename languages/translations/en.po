@@ -596,8 +596,11 @@ msgid "RLN_LINUX_AUTOSTART"
 msgstr "You may want to%s automatically start the core client %sat boot time."
 
 msgid "RLN_MSWIN_UNINSTALL_DESC"
-msgstr "In the Start menu, select Programs / BOINC / Uninstall. "
-    "Or in the Start menu, select Settings / Add or remove programs."
+msgstr "Select Start/Control Panel/Add or Remove Programs. "
+    "Select BOINC, then click Remove. "
+    "This removes the BOINC software only. "
+    "To completely remove BOINC, delete the BOINC data directory "
+    "(usually C:/Program Files/BOINC). "
 
 msgid "RLN_ISSUE_PROXY_NTLMAUTH"
 msgstr "If you use a proxy server, please hold off upgrading for now. "
@@ -721,7 +724,7 @@ msgstr "If you have any questions, or need help getting started, you can "
     "%stalk to a Volunteer Helper%s. "
 
 msgid "HOME_MORE_INFO"
-msgstr "More info"
+msgstr "Running BOINC"
 
 msgid "HOME_DOWNLOAD"
 msgstr "Download"

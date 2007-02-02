@@ -165,7 +165,7 @@ void CDlgAbout::CreateControls() {
     itemFlexGridSizer7->Add(itemStaticText10, 0, wxALIGN_RIGHT|wxALIGN_TOP|wxLEFT|wxRIGHT, 5);
 
     wxStaticText* itemStaticText11 = new wxStaticText;
-    itemStaticText11->Create( itemDialog1, wxID_STATIC, _("(C) 2003-2006 University of California at Berkeley.\nAll Rights Reserved."), wxDefaultPosition, wxDefaultSize, 0 );
+    itemStaticText11->Create( itemDialog1, wxID_STATIC, _("(C) 2003-2007 University of California at Berkeley.\nAll Rights Reserved."), wxDefaultPosition, wxDefaultSize, 0 );
     itemFlexGridSizer7->Add(itemStaticText11, 0, wxALIGN_LEFT|wxALIGN_CENTER_VERTICAL|wxLEFT|wxRIGHT, 5);
 
     m_AboutBOINCSloganCtrl = new wxStaticText;
@@ -173,7 +173,7 @@ void CDlgAbout::CreateControls() {
     itemBoxSizer2->Add(m_AboutBOINCSloganCtrl, 0, wxALIGN_CENTER_HORIZONTAL|wxALL, 5);
 
     wxStaticText* itemStaticText13 = new wxStaticText;
-    itemStaticText13->Create( itemDialog1, wxID_STATIC, _("A software platform for distributed computing using volunteered computer resources"), wxDefaultPosition, wxDefaultSize, 0 );
+    itemStaticText13->Create( itemDialog1, wxID_STATIC, _("A system for volunteer computing"), wxDefaultPosition, wxDefaultSize, 0 );
     itemBoxSizer2->Add(itemStaticText13, 0, wxALIGN_CENTER_HORIZONTAL|wxALL, 5);
 
     m_AboutBOINCURLCtrl = new wxHyperLink;

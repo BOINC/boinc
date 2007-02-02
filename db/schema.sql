@@ -33,18 +33,7 @@ create table platform (
     create_time         integer     not null,
     name                varchar(254) not null,
     user_friendly_name  varchar(254) not null,
-    deprecated          integer     not null,
-    primary key (id)
-) type=InnoDB;
-
-create table core_version (
-    id                  integer     not null auto_increment,
-    create_time         integer     not null,
-    version_num         integer     not null,
-    platformid          integer     not null,
-    xml_doc             blob,
-    message             varchar(254),
-    deprecated          smallint    not null,
+    deprecated          tinyint     not null default 0,
     primary key (id)
 ) type=InnoDB;
 
@@ -68,9 +57,9 @@ create table app_version (
     version_num         integer     not null,
     platformid          integer     not null,
     xml_doc             blob,
-    min_core_version    integer     not null,
-    max_core_version    integer     not null,
-    deprecated          integer     not null,
+    min_core_version    integer     not null default 0,
+    max_core_version    integer     not null default 0,
+    deprecated          tinyint     not null default 0,
     primary key (id)
 ) type=InnoDB;
 

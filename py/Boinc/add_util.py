@@ -11,12 +11,6 @@ import MySQLdb
 CREATE_TIME = ['?create_time', int(time.time())]
 TRANSITION_TIME = ['?transition_time', int(time.time())]
 
-class XCoreVersion(database.CoreVersion):
-    def __init__(self,**kwargs):
-        kwargs['xml_doc'] = tools.process_executable_file(kwargs['exec_file'])
-        del kwargs['exec_file']
-        database.CoreVersion.__init__(self, **kwargs)
-
 class XAppVersion(database.AppVersion):
     def __init__(self,**kwargs):
         kwargs['xml_doc'] = tools.process_app_version(
@@ -41,8 +35,6 @@ class XAppVersion(database.AppVersion):
 
 list_objects_to_add = [
     [ database.Platform,   'name', 'user_friendly_name', CREATE_TIME ],
-    [ XCoreVersion, 'platform', 'version_num', 'exec_file',
-      ['?message',''], ['?message_priority','']],
     [ database.App,        'name', 'user_friendly_name', ['?min_version',0], CREATE_TIME],
     [ XAppVersion, 'app', 'platform', 'version_num', 'exec_file', '?signature_file',
       CREATE_TIME ],

@@ -16,10 +16,6 @@ class front_Platform:
     def __repr__(self):
         return '<Platform#%s %s>'%(self.id, self.name)
 
-class front_CoreVersion:
-    def __repr__(self):
-        return '<CoreVersion#%s %s %s>'%(self.id, self.version_num, self.platform.name)
-
 class front_App:
     def __repr__(self):
         return '<App#%s %s>'%(self.id, self.name)
@@ -50,7 +46,6 @@ class front_Result:
         return '<Result#%s %s WU#%s %s>'%(self.id, self.name, self.workunit.id, self.workunit.name)
 
 MixIn(database.Platform, front_Platform)
-MixIn(database.CoreVersion, front_CoreVersion)
 MixIn(database.App, front_App)
 MixIn(database.AppVersion, front_AppVersion)
 MixIn(database.User, front_User)

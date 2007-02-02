@@ -142,7 +142,9 @@ int GUI_RPC_CONN_SET::get_allowed_hosts() {
             strip_whitespace(buf);
             if (!(buf[0] =='#' || buf[0] == ';') && strlen(buf) > 0 ) {
                 retval = resolve_hostname(buf, ipaddr, msg);
-                if (!retval) {
+                if (retval) {
+                    msg_printf(0, MSG_USER_ERROR, msg);
+                } else {
                     allowed_remote_ip_addresses.push_back((int)ntohl(ipaddr));
                 }
             }

@@ -1441,6 +1441,7 @@ David  2 Feb 2007
         I fixed this; the layers are now separated.
         Also: added new task_state value, PROCESS_QUIT_PENDING
     - core client: small tweak to DCF calculation
+    - core client: comment out stack-size stuff
         
     client/
         app.C,h
@@ -1450,3 +1451,35 @@ David  2 Feb 2007
         cpu_sched.C
     languages/translations/
         en.po
+
+David  2 Feb 2007
+    - DB schema: added some "default 0"s.
+        Not worth putting in db_update.php
+    - DB schema: removed core_version table
+    - core client: print error messages if gethostbyname() fails
+        for entries in remote_hosts.cfg
+    - python code: updated DB table defs (not sure this matters)
+    - python code: removed references to core_version table (doesn't exist)
+    - Manager
+        changed "defect" to "stop using"
+        changed 2006 to 2007
+    - core client (Unix): removed code for SIGTSTP and SIGCONT.
+        never got it to work, don't need anyway;
+        handle SIGPWR.
+
+    client/
+        gui_rpc_server.C
+        main.C
+    clientgui/
+        AdvancedFrame.cpp
+        DlgAbout.cpp
+    db/
+        schema.sql
+    languages/translations/
+        en.po
+    lib/
+        network.C
+    py/Boinc/
+        add_util.py
+        database.py
+        db_mid.py

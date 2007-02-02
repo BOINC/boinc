@@ -42,16 +42,6 @@ class Platform(DatabaseObject):
                     'user_friendly_name',
                     'deprecated' ])
 
-class CoreVersion(DatabaseObject):
-    _table = DatabaseTable(
-        table = 'core_version',
-        columns = [ 'create_time',
-                    'version_num',
-                    'platformid',
-                    'xml_doc',
-                    'message',
-                    'deprecated' ])
-
 class App(DatabaseObject):
     _table = DatabaseTable(
         table = 'app',
@@ -103,7 +93,10 @@ class User(DatabaseObject):
                     'seti_total_cpu',
                     'signature',
                     'has_profile',
-                    'cross_project_id'
+                    'cross_project_id',
+                    'passwd_hash',
+                    'email_validated',
+                    'donated'
                     ])
 
 class Team(DatabaseObject):
@@ -120,7 +113,12 @@ class Team(DatabaseObject):
                     'nusers',
                     'country',
                     'total_credit',
-                    'expavg_credit' ])
+                    'expavg_credit',
+                    'expavg_time',
+                    'seti_id',
+                    'ping_user',
+                    'ping_time'
+                    ])
 
 class Host(DatabaseObject):
     _table = DatabaseTable(
@@ -162,7 +160,10 @@ class Host(DatabaseObject):
                     'venue',
                     'projects',
                     'nresults_today',
-                    'avg_turnaround'
+                    'avg_turnaround',
+                    'host_cpid',
+                    'external_ip_addr',
+                    'max_results_day'
                     ])
 
 class Workunit(DatabaseObject):
@@ -272,7 +273,6 @@ def create_database(config = None, drop_first = False):
 connect_default_config = connect
 
 database_classes_ = [ Platform,
-                      CoreVersion,
                       App,
                       AppVersion,
                       User,
@@ -282,7 +282,6 @@ database_classes_ = [ Platform,
                       Result ]
 
 Platforms    = Platform._table
-CoreVersions = CoreVersion._table
 Apps         = App._table
 AppVersions  = AppVersion._table
 Users        = User._table
