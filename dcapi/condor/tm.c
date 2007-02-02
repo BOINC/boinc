@@ -154,6 +154,8 @@ t(int what)
 		DC_setMasterCb(result_cb, subresult_cb, message_cb);
 		while (DC_getWUState(wu) != DC_WU_FINISHED)
 		{
+			printf("wu is in state %s\n",
+			       _DC_state_name(DC_getWUState(wu)));
 			printf("Processing events for 1 sec...\n");
 			DC_processMasterEvents(1);
 		}
