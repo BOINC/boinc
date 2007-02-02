@@ -245,10 +245,11 @@ DC_Workunit *DC_createWU(const char *clientName, const char *arguments[],
 		return NULL;
 	}
 
-	wu->client_name = DC_getClientCfgStr(clientName, "name", FALSE);
-	wu->client_path = DC_getClientCfgStr(clientName, "path", FALSE);
+	wu->client_name = /*DC_getClientCfgStr(clientName, "name", FALSE);*/
+		strdup(clientName);
+	/*wu->client_path = DC_getClientCfgStr(clientName, "path", FALSE);*/
 
-	if (!wu->client_name || !wu->client_path)
+	if (!wu->client_name/* || !wu->client_path*/)
 	{
 		DC_log(LOG_ERR, "Failed to create WU. Cannot find client name\n"
 			"Define client application in the config file:\n"
@@ -257,8 +258,8 @@ DC_Workunit *DC_createWU(const char *clientName, const char *arguments[],
 		return NULL;
 	}
 
-	DC_log(LOG_DEBUG, "client path: %s,     client name: %s    from client: %s",
-		wu->client_path, wu->client_name, clientName);
+	DC_log(LOG_DEBUG, "client path: %%s,     client name: %s    from client: %s",
+	       /*wu->client_path,*/ wu->client_name, clientName);
 
 	if (!wu_table)
 		wu_table = g_hash_table_new_full(g_str_hash, g_str_equal,
@@ -337,7 +338,7 @@ void DC_destroyWU(DC_Workunit *wu)
 		unlink(path);
 		g_free(path);
 		g_free(wu->client_name);
-		g_free(wu->client_path);
+		/*g_free(wu->client_path);*/
 	}
 
 	if (wu->workdir)
@@ -563,7 +564,8 @@ int DC_submitWU(DC_Workunit *wu)
 	}
 
 	/* copy the exec into the workdir */
-	old_path = g_strdup_printf("%s%c%s", wu->client_path, G_DIR_SEPARATOR, wu->client_name);
+	old_path = g_strdup_printf(/*"%s%c%s", wu->client_path, G_DIR_SEPARATOR, wu->client_name*/
+		"%s", _DC_wu_cfg(wu, cfg_executable));
 	new_path = g_strdup_printf("%s%c%s", wu->workdir, G_DIR_SEPARATOR, wu->client_name);
 	if (link(old_path, new_path))
 	{
@@ -757,7 +759,7 @@ int DC_setWUPriority(DC_Workunit *wu, int priority)
 DC_WUState
 DC_getWUState(DC_Workunit *wu)
 {
-	return(DC_ERR_NOTIMPL);
+	return(/*DC_ERR_NOTIMPL*/wu->state);
 }
 
 /* Temporarily suspends the execution of a work unit. */

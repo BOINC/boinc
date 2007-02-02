@@ -51,7 +51,7 @@ struct _DC_Workunit
 {
 	/* Arguments passed to DC_createWU() */
 	char			*client_name;
-	char			*client_path;
+	/*char			*client_path;*/
 	char			**argv;
 	int			argc;
 	char			*tag;
