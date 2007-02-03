@@ -1483,3 +1483,9 @@ David  2 Feb 2007
         add_util.py
         database.py
         db_mid.py
+
+Charlie 2 Feb 2007
+    - MGR: Fix compiler warning.
+    
+    clientgui/
+        ViewProjectsGrid.cpp

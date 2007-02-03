@@ -611,7 +611,6 @@ void CViewProjectsGrid::FormatAVGCredit(wxInt32 item, wxString& strBuffer) {
 
 
 void CViewProjectsGrid::FormatResourceShare(wxInt32 item, wxString& strBuffer){
-    CMainDocument* pDoc = wxGetApp().GetDocument();
     wxASSERT(pDoc);
     strBuffer.Printf(wxT(" %0.2f%% (%0.0f)"),m_projectCache.Item(item)->rspercent,
             m_projectCache.Item(item)->resourceshare);
