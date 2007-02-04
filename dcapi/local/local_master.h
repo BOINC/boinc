@@ -121,6 +121,9 @@ void _DC_destroyResult(DC_Result *result);
 /* Looks up a WU by name */
 DC_Workunit *_DC_getWUByName(const char *name);
 
+extern char *_DC_state_name(DC_WUState state);
+
+extern char *_DC_wu_cfg(DC_Workunit *wu, enum _DC_e_param what);
 
 #ifdef __cplusplus
 }
