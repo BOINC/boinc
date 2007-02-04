@@ -820,6 +820,31 @@ DC_sendWUMessage(DC_Workunit *wu, const char *message)
 }
 
 
+static struct {
+	DC_WUState state;
+	char *name;
+}
+_DC_state_names[]= {
+	{ DC_WU_READY, "READY" },
+	{ DC_WU_RUNNING, "RUNNING" },
+	{ DC_WU_FINISHED, "FINISHED" },
+	{ DC_WU_SUSPENDED, "SUSPENDED" },
+	{ DC_WU_ABORTED, "ABORTED" },
+	{ DC_WU_UNKNOWN, "UNKNOWN" },
+	{ 0, NULL }
+};
+
+char *
+_DC_state_name(DC_WUState state)
+{
+	int i;
+	for (i= 0; _DC_state_names[i].name; i++)
+		if (_DC_state_names[i].state == state)
+			return(_DC_state_names[i].name);
+	return("(unknown)");
+}
+
+
 /* End of local/local_master.c */
 
 /* Local variables: */
