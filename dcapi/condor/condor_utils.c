@@ -404,6 +404,7 @@ _DC_state_names[]= {
 	{ 0, NULL }
 };
 
+/* move it from here to master specific utils! */
 char *
 _DC_state_name(DC_WUState state)
 {
