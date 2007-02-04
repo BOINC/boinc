@@ -279,7 +279,7 @@ static char *get_workdir_path(DC_Workunit *wu, const char *label,
 void DC_destroyWU(DC_Workunit *wu)
 {
 	char *path;
-
+	int leave= strtol(_DC_wu_cfg(wu, cfg_leave_files), 0, 0);
 	if (!wu)
 		return;
 
@@ -295,7 +295,8 @@ void DC_destroyWU(DC_Workunit *wu)
 			break;
 	}
 
-	while (wu->input_files)
+	while (wu->input_files &&
+	       !leave)
 	{
 		DC_PhysicalFile *file = (DC_PhysicalFile *)wu->input_files->data;
 
@@ -305,7 +306,8 @@ void DC_destroyWU(DC_Workunit *wu)
 		_DC_destroyPhysicalFile(file);
 	}
 
-	while (wu->output_files)
+	while (wu->output_files &&
+	       !leave)
 	{
 		char *name = (char *)wu->output_files->data;
 		char *file = g_strdup_printf("%s%c%s", wu->workdir, G_DIR_SEPARATOR, name);
@@ -319,20 +321,24 @@ void DC_destroyWU(DC_Workunit *wu)
 
 	/* checkpoint file */
 	path = g_strdup_printf("%s%c%s", wu->workdir, G_DIR_SEPARATOR, CKPT_LABEL);
-	unlink(path);
+	if (!leave)
+		unlink(path);
 	g_free(path);
 
 	/* standard output file */
 	path = g_strdup_printf("%s%c%s", wu->workdir, G_DIR_SEPARATOR, STDOUT_LABEL);
-	unlink(path);
+	if (!leave)
+		unlink(path);
 	g_free(path);
 
 	/* standard error file */
 	path = g_strdup_printf("%s%c%s", wu->workdir, G_DIR_SEPARATOR, STDERR_LABEL);
-	unlink(path);
+	if (!leave)
+		unlink(path);
 	g_free(path);
 
-	if (wu->client_name)
+	if (wu->client_name &&
+	    !leave)
 	{
 		char *path = g_strdup_printf("%s%c%s", wu->workdir, G_DIR_SEPARATOR, wu->client_name);
 		unlink(path);
@@ -341,7 +347,8 @@ void DC_destroyWU(DC_Workunit *wu)
 		/*g_free(wu->client_path);*/
 	}
 
-	if (wu->workdir)
+	if (wu->workdir &&
+	    !leave)
 	{
 		const char *name;
 		GDir *dir;
