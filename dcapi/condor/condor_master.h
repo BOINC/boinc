@@ -22,6 +22,8 @@ extern char *_DC_config_file;
 
 extern char *_DC_acfg(enum _DC_e_param what);
 
+extern char *_DC_state_name(DC_WUState state);
+
 
 #ifdef __cplusplus
 }
