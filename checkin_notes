@@ -1495,3 +1495,9 @@ David  4 Feb 2007
 
     client/
         cs_apps.C
+
+David  4 Feb 2007
+	- manager: compile fix
+
+	clientgui/
+		ViewWorkGrid.cpp
