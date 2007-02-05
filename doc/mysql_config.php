@@ -186,7 +186,9 @@ of the hardware resources that are available.
 Here are some other file directory assignments for the SETI@home environment:
 <pre>
 innodb_data_home_dir = /mydisks/a/apps/mysql/data/
-innodb_data_file_path = ibdata1:16G;ibdata2:16G;ibdata3:16G; ibdata4:16G;ibdata5:16G; ibdata6:16G;ibdata7:16G;ibdata8:16G;ibdata9:16G;ibdata10:16G;ibdata11:16G;ibdata12:16G;
+innodb_data_file_path = ibdata1:16G;ibdata2:16G;ibdata3:16G;
+    ibdata4:16G;ibdata5:16G; ibdata6:16G;ibdata7:16G;ibdata8:16G;
+    ibdata9:16G;ibdata10:16G;ibdata11:16G;ibdata12:16G;
 innodb_log_group_home_dir = /mydisks/a/apps/mysql/mysql_logs/innodb_logs/
 innodb_log_arch_dir = /mydisks/a/apps/mysql/mysql_logs/innodb_logs/
 </pre>
@@ -228,7 +230,9 @@ set-variable    = max_connect_errors=1000
 
 # Uncomment the following if you are using Innobase tables
 innodb_data_home_dir = /mydisks/a/apps/mysql/data/
-innodb_data_file_path = ibdata1:16G;ibdata2:16G;ibdata3:16G; ibdata4:16G;ibdata5:16G; ibdata6:16G;ibdata7:16G;ibdata8:16G;ibdata9:16G;ibdata10:16G;ibdata11:16G;ibdata12:16G;
+innodb_data_file_path = ibdata1:16G;ibdata2:16G;ibdata3:16G;
+    ibdata4:16G;ibdata5:16G; ibdata6:16G;ibdata7:16G;ibdata8:16G;
+    ibdata9:16G;ibdata10:16G;ibdata11:16G;ibdata12:16G;
 innodb_log_group_home_dir = /mydisks/a/apps/mysql/mysql_logs/innodb_logs/
 innodb_log_arch_dir = /mydisks/a/apps/mysql/mysql_logs/innodb_logs/
 set-variable = innodb_mirrored_log_groups=1
@@ -266,7 +270,7 @@ Here is a sample of the first lines of its output:
 MySQL on localhost (4.0.23-max-log)
  up 18+00:32:55 [10:50:21]
  Queries: 641.7M  qps:  432 Slow:   71.4k         Se/In/Up/De(%):    51/01/43/03
-             qps now:  382 Slow qps: 0.0  Threads:  413 (   2/  28) 43/01/46/09
+     qps now:  382 Slow qps: 0.0  Threads:  413 (   2/  28) 43/01/46/09
  Cache Hits: 58.2M Hits/s: 39.2 Hits now:  17.3  Ratio: 17.9% Ratio now: 10.6%
  Key Efficiency: 99.4%  Bps in/out:  1.7k/ 1.6k   Now in/out: 63.5k/338.1k
 </pre> 
@@ -344,8 +348,9 @@ the IO statistics for peripherals on a server or workstation.
 For continuous displays of extended information for all devices.
 Iostat should be invoke as follows:
 <pre>
-Iostat .x .k 5    ( this will produce an updated display every 5 seconds for all devices and give data in KB)
+Iostat .x .k 5
 </pre>
+(this will produce an updated display every 5 seconds for all devices and give data in KB)
  
 
 <h3>MySQLAdmin</h3>

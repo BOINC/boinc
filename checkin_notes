@@ -1489,3 +1489,9 @@ Charlie 2 Feb 2007
     
     clientgui/
         ViewProjectsGrid.cpp
+
+David  4 Feb 2007
+    - core client: print message if task finishes and output file is missing
+
+    client/
+        cs_apps.C

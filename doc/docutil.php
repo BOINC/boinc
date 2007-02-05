@@ -20,6 +20,12 @@ function last_mod($datefile) {
 }
 
 function page_head($title) {
+    global $book;
+    global $chap_num;
+    if ($book) {
+        echo "<br><h2>$chap_num. $title</h2>\n";
+        return;
+    }
     if (defined("CHARSET")) {
         header("Content-type: text/html; charset=".tr(CHARSET));
     }
@@ -57,6 +63,10 @@ function copyright() {
 }
 
 function page_tail($translatable=false) {
+    global $book;
+    if ($book) {
+        return;
+    }
     $datefile = $_SERVER["SCRIPT_FILENAME"];
     $d = last_mod($datefile);
     echo "

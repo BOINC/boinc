@@ -80,6 +80,11 @@ int CLIENT_STATE::app_finished(ACTIVE_TASK& at) {
                 //
                 fip->status = retval;
                 had_error = true;
+                msg_printf(
+                    rp->project, MSG_INFO,
+                    "Output file %s for task %s absent",
+                    fip->name, rp->name
+                );
             } else if (size > fip->max_nbytes) {
                 // Note: this is only checked when the application finishes.
                 // The total disk space is checked while the application is running.

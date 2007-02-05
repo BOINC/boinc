@@ -262,11 +262,14 @@ Dear <name/>:
 <p>
 Test Project continues to do pioneering computational research
 in the field of Submandibular Morphology.
-In recent months we have discovered over 17 new varieties of Frombats.
+In recent months we have discovered over
+17 new varieties of Frombats.
 <p>
 Our records show that you created a Test Project account
-on <create_time/> but that your computer hasn't completed any work.
-Possibly you encountered problems installing or using the software.
+on <create_time/> but that your computer
+hasn't completed any work.
+Possibly you encountered problems
+installing or using the software.
 Many of these problems have now been fixed,
 and we encourage you to visit
 <a href=http://a.b.c>our web site</a>,
@@ -287,13 +290,17 @@ Dear <name/>:
 
 Test Project continues to do pioneering computational research
 in the field of Submandibular Morphology.
-In recent months we have discovered over 17 new varieties of Frombats.
+In recent months we have discovered over
+17 new varieties of Frombats.
 
 Our records show that you created a Test Project account
-on <create_time/> but that your computer hasn't completed any work.
-Quite possibly you encountered problems installing or using the software.
+on <create_time/> but that your computer
+hasn't completed any work.
+Quite possibly you encountered problems
+installing or using the software.
 Many of these problems have now been fixed,
-and we encourage you to visit <a href=http://a.b.c>our web site</a>,
+and we encourage you to visit
+<a href=http://a.b.c>our web site</a>,
 download the latest version of the software, and try again.
 
 To not receive future emails from Test Project, visit

@@ -2,7 +2,6 @@
 require_once("docutil.php");
 page_head("Projects and applications");
 echo "
-<h2>Projects and applications</h2>
 A <b>project</b> is a group of one or
 more distributed applications, run by a single organization, that use BOINC.
 Projects are independent; each one has its own applications,
@@ -16,12 +15,6 @@ An organization can create
 projects to do Alpha and Beta testing of applications.
 Testers can register for these projects, in addition to or instead of the
 organization's public project.
-<p>
-The components of a project are shown below. Those in blue are the ones that
-are provided as part of BOINC.  Those in pink are the parts
-that you must write yourself, in order to BOINC-enable your own application.
-<br>
-<img vspace=10 src=project.png> 
 <p>
 The server side of a project consists of two parts: 
 <ul>

@@ -37,6 +37,8 @@ Its structure as follows:
     <disk_max_used_pct>50</disk_max_used_pct>
     <disk_min_free_gb>0.1</disk_min_free_gb>
     <vm_max_used_pct>75</vm_max_used_pct>
+    <ram_max_used_busy_pct>50</ram_max_used_busy_pct>
+    <ram_max_used_idle_pct>90</ram_max_used_idle_pct>
     <idle_time_to_run>3</idle_time_to_run>
     <max_bytes_sec_down>0</max_bytes_sec_down>
     <max_bytes_sec_up>0</max_bytes_sec_up>

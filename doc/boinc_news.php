@@ -1,6 +1,10 @@
 <?
 
 $project_news = array(
+array("February 3, 2007",
+    "The documentation on Creating BOINC Projects is now available as 
+    <a href=http://boinc.berkeley.edu/boinc.pdf>one big PDF file</a>."
+),
 array("January 24, 2007",
     "The <a href=http://boincfaq.mundayweb.com/>BOINC FAQ Service</a>
     answers many questions about using BOINC.

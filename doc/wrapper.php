@@ -108,12 +108,15 @@ to create an app version.
 
 <li>
 Run a script like
-".html_text("
+<pre>
 cp download/input `bin/dir_hier_path input`
 cp download/input2 `bin/dir_hier_path input2`
 
-bin/create_work -appname worker -wu_name worker_nodelete -wu_template templates/worker_wu -result_template templates/worker_result input input2
-")."
+bin/create_work -appname worker -wu_name worker_nodelete \
+-wu_template templates/worker_wu \
+-result_template templates/worker_result \
+input input2
+</pre>
 to generate a workunit.
 
 </ul>

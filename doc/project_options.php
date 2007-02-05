@@ -291,7 +291,7 @@ list_option("choose_download_url_by_timezone",
       http://einstein.phys.uwm.edu.  The download servers must
       have identical file hierarchies and contents, and the path to
       file and executables must start with '/download/...' as in 
-      'http://einstein.phys.uwm.edu/download/123/some_file_name'."
+      'http://X/download/123/some_file_name'."
 );
 list_option("cache_md5_info",
      "When creating work, keep a record (in files called foo.md5) of the

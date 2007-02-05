@@ -66,8 +66,8 @@ function show_participate() {
         <p>
         ".sprintf(tr(HOME_P3), "<a href=help.php>", "</a>")."
         <center>
-        <a href=participate.php><b><nobr>".tr(HOME_MORE_INFO)."</nobr></b></a> 
-        | <a href=download.php><b>".tr(HOME_DOWNLOAD)."</b></a>
+        <a href=download.php><b>".tr(HOME_DOWNLOAD)."</b></a>
+        | <a href=participate.php><b><nobr>".tr(HOME_MORE_INFO)."</nobr></b></a> 
         | <a href=links.php><b><nobr>".tr(HOME_WEB_SITES)."</nobr></b></a>
         | <a href=addons.php><b>".tr(HOME_ADD_ONS)."</b></a>
         | <a href=poll.php><b><nobr>".tr(HOME_SURVEY)."</nobr></b></a>
