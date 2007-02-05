@@ -37,8 +37,6 @@ extern int _DC_nuof_messages(char *box, char *name);
 extern char *_DC_message_name(char *box, char *name);
 extern char *_DC_read_message(char *box, char *name, int del_msg);
 
-/* remove it from here, it is a master only utility! */
-extern char *_DC_state_name(DC_WUState state);
 extern char *_DC_quote_string(char *str);
 extern char *_DC_unquote_string(char *str);
 
