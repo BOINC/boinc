@@ -4,16 +4,13 @@ page_head("Running BOINC");
 echo "
 <h3>Beginners</h3>
 <p>
-BOINC lets you use your PC to do scientific research.
-BOINC is a 'platform' that is used by a number of <i>projects</i>,
-located at various universities around the world,
-doing research in many areas.
+BOINC lets you contribute computing power on your home PC to
+<b>projects</b> doing research in many scientific areas.
+You can contribute to a single project, or to any combination of them.
 <br><center>
 <img src=projects.png>
 </center><br>
-Each project has its own web site.
-You can do work for multiple projects.
-It's easy to do, even if you have no computer experience.
+It's easy, even if you have no computer experience.
 Just <a href=index.php>follow the directions on the BOINC home page</a>.
 <p>
 If you'd like more information about BOINC,

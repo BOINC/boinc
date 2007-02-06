@@ -200,6 +200,7 @@ language("French", array(
     site("http://boinc-quebec.org", "boinc-quebec.org")
 ));
 language("German", array(
+    site("http://www.swissteam.net/", "SwissTeam.net"),
     site("http://www.unitedmacs.com/", "United Macs"),
     site("http://www.rechenkraft.net/", "Rechenkraft"),
     site("http://www.seti-leipzig.de/", "SETI-Leipzig"),

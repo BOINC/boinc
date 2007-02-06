@@ -107,37 +107,104 @@ foreach($logos as $logo) {
         </tr>
     ";
 }
+
+$banners = array(
+    array(
+        "Anthony Hern",
+        array(
+            array(
+                "logos/Knightrider_TV_1.gif",
+                "logos/Knightrider_TV_1.gif",
+                90,
+            ),
+            array(
+                "logos/Knightrider_TV_1n.gif",
+                "logos/Knightrider_TV_1n.gif",
+                90,
+            ),
+            array(
+                "logos/Knightrider_TV_1tp.gif",
+                "logos/Knightrider_TV_1tp.gif",
+                90,
+            ),
+            array("<br>"),
+            array(
+                "images/hern_logo3.gif"
+            ),
+            array(
+                "images/hern_logo4.gif"
+            ),
+        ),
+    ),
+    array("(unknown)",
+        array(
+            array("images/boincheading.jpg"),
+            array("images/boincprojectheading.jpg"),
+        ),
+    ),
+    array("Jared Hatfield",
+        array(
+            array(
+                "images/hatfield.png",
+                "images/hatfield_120.png",
+            ),
+        ),
+    ),
+    array("Myster65",
+        array(
+            array("logos/myster1.jpg"),
+            array("logos/myster2.jpg"),
+            array("<br>"),
+            array("logos/myster3.jpg"),
+            array("logos/myster4.jpg"),
+            array("<br>"),
+            array("logos/myster5.jpg"),
+            array("logos/myster6.jpg"),
+        ),
+    ),
+);
+
+echo "
+    </table>
+    <h2>Banners for BOINC projects</h2>
+    <table cellpadding=8 border=1>
+";
+
+shuffle($banners);
+
+foreach ($banners as $b) {
+    $name = $b[0];
+    echo "<tr><td>$name</td><td>";
+    $imgs = $b[1];
+    foreach ($imgs as $i) {
+        $large = $i[0];
+        $small = $i[1];
+        $size = $i[2];
+        if ($small) {
+            if ($size) {
+                echo "<a href=$large><img hspace=10 src=$small height=$size></a>";
+            } else {
+                echo "<a href=$large><img hspace=10 src=$small></a>";
+            }
+        } else {
+            if ($large == "<br>") {
+                echo $large;
+            } else {
+                echo  "<img hspace=10 src=$large>";
+            }
+        }
+    }
+    echo "</td></tr>
+        ";
+}
+
 echo "
 </table>
 
-<h2>Banners for BOINC projects</h2>
 <p>
 <table cellpadding=8 border=1>
-<tr><th>Artist</th><th>Images</th></tr>
-<tr>
-<td>Tony Hern</td>
-<td>
-<a href=logos/Knightrider_TV_1.gif><img height=90 src=logos/Knightrider_TV_1.gif></a>
-<a href=logos/Knightrider_TV_1n.gif><img height=90 src=logos/Knightrider_TV_1n.gif></a>
-<a href=logos/Knightrider_TV_1tp.gif><img height=90 src=logos/Knightrider_TV_1tp.gif></a>
-</td>
 </tr>
-<tr>
-<td>Anthony Hern</td>
-<td>
-<img src=images/hern_logo3.gif>
-<br>
-<img src=images/hern_logo4.gif>
-</td></tr>
 
-<td>(unknown)</td>
-<td>
-<img src=images/boincheading.jpg> 
-<img src=images/boincprojectheading.jpg>
-</td></tr>
-<td>Jared Hatfield</td>
-<td>
-<a href=images/hatfield.png><img src=images/hatfield_120.png></a>
 </td></tr>
 </table>
 

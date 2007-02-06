@@ -11,7 +11,7 @@ function chapter($file, $title) {
     global $book;
     if ($book) {
         $chapters[] = $file;
-        echo "<li> $count. <a href=$file>$title</a>
+        echo "<li> $count. <a href=#$file>$title</a>
         ";
         $count++;
     } else {
@@ -41,6 +41,10 @@ if ($book) {
         These pages are also available as
         <a href=create_project.php?book=1>one big HTML file</a>
         and as <a href=boinc.pdf>a PDF file</a>.
+        <p>
+        Several people have created
+        <a href=other_docs.php>other documents about
+        creating BOINC projects, and about BOINC in general</a>.
         <p>
     ";
 }
@@ -147,11 +151,6 @@ chapter("make_project.php", "The make_project script");
 chapter("tool_xadd.php", "Adding applications/platforms");
 chapter("tool_update_versions.php", "Adding application versions");
 chapter("project_cookbook.php", "Project creation cookbook");
-echo "
-<li> <a href=http://j4cques.blogspot.com/>Another cookbook, from Jacques Fontignie</a>
-<li> <a href=bashford_cookbook.txt>Another cookbook, from Don Bashford</a>
-</ul>
-";
 chapter("tool_start.php", "Project control");
 chapter("project_security.php", "Project security");
 echo "
@@ -162,7 +161,7 @@ echo "
 </ul>
 ";
 chapter("tool_upgrade.php", "Upgrading a project's server software");
-chapter("multi_host.php", "Multiple server hosts");
+chapter("multi_host.php", "Increasing server capacity");
 chapter("beta.php", "Beta-test applications");
 echo "
 
@@ -244,6 +243,7 @@ $chap_num = 1;
 echo "</td></tr></table>";
 if ($book) {
     foreach ($chapters as $c) {
+        echo "<a name=$c></a>";
         echo "<table width=800><tr><td>";
         require_once($c);
         echo "</td></tr></table>";

@@ -38,7 +38,12 @@ foreach ($langs as $lang) {
 echo "
 <h2>".tr(HELP_HEADING2)."</h2>
 <p>
-".sprintf(tr(HELP_P2_1), "<ul><li> <a href=http://boinc.berkeley.edu/troubleshoot.php>", "</a>", "<li> <a href=http://boinc.berkeley.edu/links.php>", "</a>", "<li> <a href=http://boinc.berkeley.edu/dev/>", "</a>", "<li>")."
+<ul>
+<li> <a href=participate.php>".tr(HELP_P2_ITEM1)."</a>
+<li> <a href=troubleshoot.php>".tr(HELP_P2_ITEM2)."</a>
+<li> <a href=links.php>".tr(HELP_P2_ITEM3)."</a>
+<li> <a href=dev/>".tr(HELP_P2_ITEM4)."</a>
+<li> ".tr(HELP_P2_ITEM5)."
 </ul>
 <h2>".tr(HELP_HEADING3)."</h2>
 <p>

@@ -237,6 +237,10 @@ int CLIENT_STATE::init() {
     print_summary();
     do_cmdline_actions();
 
+    // if new version of core client,
+    // - run CPU benchmarks
+    // - contact reference site (to trigger firewall alert)
+    //
     if ((core_client_version.major != old_major_version)
         || (core_client_version.minor != old_minor_version)
         || (core_client_version.release != old_release)
@@ -249,6 +253,7 @@ int CLIENT_STATE::init() {
             core_client_version.release
         );
         run_cpu_benchmarks = true;
+        net_status.need_to_contact_reference_site = true;
     }
 
     // show host IDs and venues on various projects

@@ -677,12 +677,20 @@ msgstr "Volunteers speaking several languages are available. "
 msgid "HELP_HEADING2"
 msgstr "Other sources of help"
 
-msgid "HELP_P2_1"
-msgstr "You can also get information and advice from: "
-    "%sTroubleshooting BOINC%s. "
-    "%sBOINC-related web sites%s. "
-    "%sThe BOINC message boards%s. "
-    "%sThe message boards on any BOINC-based project. "
+msgid "HELP_P2_ITEM1"
+msgstr "Running BOINC "
+
+msgid "HELP_P2_ITEM2"
+msgstr "Troubleshooting BOINC "
+
+msgid "HELP_P2_ITEM3"
+msgstr "BOINC-related web sites "
+
+msgid "HELP_P2_ITEM4"
+msgstr "The BOINC message boards "
+
+msgid "HELP_P2_ITEM5"
+msgstr "The message boards on any BOINC-based project "
 
 msgid "HELP_HEADING3"
 msgstr "Be a Help Volunteer"

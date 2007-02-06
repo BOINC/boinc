@@ -121,8 +121,20 @@ list_item("Access interval",
     "
 );
 
-list_item("Virtual memory",
-    "Limit the virtual memory used by BOINC"
+list_item("Use at most X% of page file",
+    "Maximum percentage of your virtual memory page file
+    (also called 'swap space') used by BOINC"
+);
+list_item("Use at most X% of memory when computer is in use",
+    "Limits the amount of RAM used by BOINC applications
+    when your computer is in use
+    (i.e. when there has been recent mouse or keyboard activity).
+    Setting this to a low value lets you run BOINC
+    all the time without impacting your computer's performance."
+);
+list_item("Use at most X% of memory when computer is idle",
+    "Limits the amount of RAM used by BOINC applications
+    when your computer is not in use."
 );
 
 list_bar("Network usage");

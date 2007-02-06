@@ -1,6 +1,14 @@
 <?
 
 $project_news = array(
+array("February 5, 2007",
+    "<a href=http://gridrepublic.org>GridRepublic</a>
+    has been selected as a finalist for the Web Awards
+    at the 2007 SXSW Interactive Festival. Please
+    <a href=https://secure.sxsw.com/peoples_choice/>click here</a>
+    to cast your vote for them at the SXSW website.
+    "
+),
 array("February 3, 2007",
     "The documentation on Creating BOINC Projects is now available as 
     <a href=http://boinc.berkeley.edu/boinc.pdf>one big PDF file</a>."

@@ -85,14 +85,6 @@ Stuart Ozer, David E. Kim, David Baker
 (in preparation).
 
 </ul>
-<h2>Powerpoint</h2>
-<ul>
-<li> <a href=https://uimon.cern.ch/twiki/pub/LHCAtHome/LinksAndDocs/boincciemat06.pdf>A BOINC seminar by Juan Antonio Lopez Perez of CERN</a>,
-presented at CIEMAT in Madrid, November 2005.
-Also available in a
-<a href=https://uimon.cern.ch/twiki/pub/LHCAtHome/LinksAndDocs/boincciematprint06.pdf>print version</a>.
-
-</ul>
 ";
 page_tail();
 ?>
