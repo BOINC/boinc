@@ -166,6 +166,26 @@ int DB_BASE::get_field_int(const char* field, int& val) {
     return 0;
 }
 
+int DB_BASE::get_field_str(const char* field, char* buf, int buflen) {
+    char query[MAX_QUERY_LEN];
+    int retval;
+    MYSQL_ROW row;
+    MYSQL_RES* rp;
+
+    sprintf(query, "select %s from %s where id=%d", field, table_name, get_id());
+    retval = db->do_query(query);
+    if (retval) return retval;
+    rp = mysql_store_result(db->mysql);
+    if (!rp) return -1;
+    row = mysql_fetch_row(rp);
+    if (row && row[0]) {
+        strlcpy(buf, row[0], buflen);
+    }
+    mysql_free_result(rp);
+    if (row == 0) return ERR_DB_NOT_FOUND;
+    return 0;
+}
+
 int DB_BASE::lookup(const char* clause) {
     char query[MAX_QUERY_LEN];
     int retval;

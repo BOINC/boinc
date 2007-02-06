@@ -151,8 +151,15 @@ double median_mean_credit(WORKUNIT& /*wu*/, vector<RESULT>& results) {
 
 double get_credit_from_wu(WORKUNIT& wu, vector<RESULT>&) {
     double x;
-    if (parse_double(wu.xml_doc, "<credit>", x)) {
-        return x;
+    int retval;
+    DB_WORKUNIT dbwu;
+
+    dbwu.id = wu.id;
+    retval = dbwu.get_field_str("xml_doc", dbwu.xml_doc, sizeof(dbwu.xml_doc));
+    if (!retval) {
+        if (parse_double(dbwu.xml_doc, "<credit>", x)) {
+            return x;
+        }
     }
     fprintf(stderr, "ERROR: <credit> missing from WU XML\n");
     exit(1);

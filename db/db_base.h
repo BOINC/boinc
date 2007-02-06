@@ -86,6 +86,7 @@ public:
     int update_field(const char*);
     int delete_from_db();
     int get_field_int(const char*, int&);
+    int get_field_str(const char*, char*, int);
     int lookup_id(int id);
     int lookup(const char*);
     int enumerate(const char* clause="", bool use_use_result=false);

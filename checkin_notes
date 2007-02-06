@@ -1519,3 +1519,13 @@ David  6 Feb 2007
         client_state.C
         cs_benchmark.C
         log_flags.C,h
+
+David  6 Feb 2007
+    - validator framework: the get_credit_from_wu() mechanism didn't work
+        because the WU's xml_doc wasn't among the fields ready by
+        DB_VALIDOR_ITEM_SET.  Read it separately.
+
+    db/
+        db_base.C,h
+    sched/
+        validate_util.C
