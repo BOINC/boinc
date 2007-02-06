@@ -610,19 +610,24 @@ int ACTIVE_TASK::start(bool first_time) {
             _exit(retval);
         }
 
+#if 0
         // set stack size limit to the max.
         // Some BOINC apps have reported problems with exceeding
         // small stack limits (e.g. 8 MB)
         // and it seems like the best thing to raise it as high as possible
         //
         struct rlimit rlim;
+#define MIN_STACK_LIMIT 64000000
         getrlimit(RLIMIT_STACK, &rlim);
-        if (rlim.rlim_max == RLIM_INFINITY || rlim.rlim_max > 500000000) {
-            rlim.rlim_cur = 500000000; // 500 MB max
-        } else {
-            rlim.rlim_cur = rlim.rlim_max;
+        if (rlim.rlim_cur != RLIM_INFINITY && rlim.rlim_cur <= MIN_STACK_LIMIT) {
+            if (rlim.rlim_max == RLIM_INFINITY || rlim.rlim_max > MIN_STACK_LIMIT) {
+                rlim.rlim_cur = MIN_STACK_LIMIT;
+            } else {
+                rlim.rlim_cur = rlim.rlim_max;
+            }
+            setrlimit(RLIMIT_STACK, &rlim);
         }
-        setrlimit(RLIMIT_STACK, &rlim);
+#endif
 
         // hook up stderr to a specially-named file
         //
@@ -686,13 +691,13 @@ error:
 // Resume the task if it was previously running; otherwise start it
 // Postcondition: "state" is set correctly
 //
-int ACTIVE_TASK::resume_or_start() {
+int ACTIVE_TASK::resume_or_start(bool first_time) {
     const char* str = "??";
     int retval;
 
     switch (task_state()) {
     case PROCESS_UNINITIALIZED:
-        if (scheduler_state == CPU_SCHED_UNINITIALIZED) {
+        if (first_time) {
             if (!boinc_file_exists(slot_dir)) {
                 make_slot_dir(slot);
             }
@@ -722,9 +727,6 @@ int ACTIVE_TASK::resume_or_start() {
             return retval;
         }
         str = "Resuming";
-        break;
-    case PROCESS_EXECUTING:
-        return 0;
         break;
     default:
         msg_printf(result->project, MSG_INTERNAL_ERROR,

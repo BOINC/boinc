@@ -97,7 +97,6 @@ ACTIVE_TASK::ACTIVE_TASK() {
     current_cpu_time = 0;
     have_trickle_down = false;
     send_upload_file_status = false;
-    pending_suspend_via_quit = false;
     too_large = false;
     want_network = 0;
     memset(&procinfo, 0, sizeof(procinfo));

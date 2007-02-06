@@ -1233,15 +1233,15 @@ void CAdvancedFrame::OnAccountManagerDetach(wxCommandEvent& WXUNUSED(event)) {
         pDoc->rpc.acct_mgr_info(ami);
 
         strTitle.Printf(
-            _("BOINC Manager - Detach from %s"), 
+            _("BOINC Manager - Stop using %s"), 
             wxString(ami.acct_mgr_name.c_str(), wxConvUTF8).c_str()
         );
         strMessage.Printf(
-            _("If you defect from %s,\n"
+            _("If you stop using %s,\n"
               "you'll keep all your current projects,\n"
               "but you'll have to manage projects manually.\n"
               "\n"
-              "Do you want to defect from %s?"), 
+              "Do you want to stop using %s?"), 
             wxString(ami.acct_mgr_name.c_str(), wxConvUTF8).c_str(),
             wxString(ami.acct_mgr_name.c_str(), wxConvUTF8).c_str()
         );

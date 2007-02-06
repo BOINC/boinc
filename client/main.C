@@ -257,17 +257,14 @@ static void signal_handler(int signum) {
     case SIGINT:
     case SIGQUIT:
     case SIGTERM:
+#ifdef SIGPWR
+    case SIGPWR:
+#endif
         gstate.requested_exit = true;
 #ifdef __EMX__
         // close socket
         shutdown(gstate.gui_rpcs.lsock, 2);
 #endif
-        break;
-    case SIGTSTP:
-        gstate.run_mode.set(RUN_MODE_NEVER, 0);
-        break;
-    case SIGCONT:
-        gstate.run_mode.set(RUN_MODE_AUTO, 0);
         break;
     default:
         msg_printf(NULL, MSG_INTERNAL_ERROR, "Signal not handled");
