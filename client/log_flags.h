@@ -60,7 +60,7 @@ struct LOG_FLAGS {
     bool proxy_debug;
     bool time_debug;        // changes in on_frac, active_frac, connected_frac
     bool http_xfer_debug;
-    bool measurement_debug; // host measurement notices
+    bool benchmark_debug;   // debug CPU benchmarks
     bool poll_debug;        // show what polls are responding
     bool guirpc_debug;
     bool scrsave_debug;

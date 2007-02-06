@@ -113,8 +113,8 @@ list_item_func("<time_debug>",
 list_item_func("<http_xfer_debug>",
     "Debugging information about network communication"
 );
-list_item_func("<measurement_debug>",
-    "Debugging information about CPU benchmarks, platform, disk space, etc. "
+list_item_func("<benchmark_debug>",
+    "Debugging information about CPU benchmarks"
 );
 list_item_func("<poll_debug>",
     "Show what poll functions do"

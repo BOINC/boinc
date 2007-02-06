@@ -447,16 +447,8 @@ bool CLIENT_STATE::poll_slow_events() {
     }
     tasks_suspended = (suspend_reason != 0);
 
-    // if we're doing CPU benchmarks, don't do much else
-    //
     if (suspend_reason & SUSPEND_REASON_BENCHMARKS) {
         cpu_benchmarks_poll();
-
-        // besides waiting for applications to become suspended
-        //
-        if (active_tasks.is_task_executing()) {
-            POLL_ACTION(active_tasks, active_tasks.poll);
-        }
     }
 
     check_suspend_network(network_suspend_reason);

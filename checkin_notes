@@ -1501,3 +1501,21 @@ David  4 Feb 2007
 
 	clientgui/
 		ViewWorkGrid.cpp
+
+David  6 Feb 2007
+    - core client: when new version runs for the first time,
+        do a network access to reference site.
+        This will trigger personal firewall alerts,
+        that otherwise might happen later when user is not there.
+
+    client/
+        client_state.C
+
+David  6 Feb 2007
+    - core client: add messages to debug CPU benchmarks
+    - changed name of debug flag from <measurement_debug> to <benchmark_debug>
+
+    client/
+        client_state.C
+        cs_benchmark.C
+        log_flags.C,h

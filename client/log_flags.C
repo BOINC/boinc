@@ -83,7 +83,7 @@ int LOG_FLAGS::parse(XML_PARSER& xp) {
         else if (xp.parse_bool(tag, "proxy_debug", proxy_debug)) continue;
         else if (xp.parse_bool(tag, "time_debug", time_debug)) continue;
         else if (xp.parse_bool(tag, "http_xfer_debug", http_xfer_debug)) continue;
-        else if (xp.parse_bool(tag, "measurement_debug", measurement_debug)) continue;
+        else if (xp.parse_bool(tag, "benchmark_debug", benchmark_debug)) continue;
         else if (xp.parse_bool(tag, "poll_debug", poll_debug)) continue;
         else if (xp.parse_bool(tag, "guirpc_debug", guirpc_debug)) continue;
         else if (xp.parse_bool(tag, "scrsave_debug", scrsave_debug)) continue;
@@ -135,7 +135,7 @@ void LOG_FLAGS::show() {
     show_flag(buf, proxy_debug, "proxy_debug");
     show_flag(buf, time_debug, "time_debug");
     show_flag(buf, http_xfer_debug, "http_xfer_debug");
-    show_flag(buf, measurement_debug, "measurement_debug");
+    show_flag(buf, benchmark_debug, "benchmark_debug");
     show_flag(buf, poll_debug, "poll_debug");
     show_flag(buf, guirpc_debug, "guirpc_debug");
     show_flag(buf, scrsave_debug, "scrsave_debug");
