@@ -119,7 +119,7 @@ stable
 The latest publicly-released version of the client software,
 generally well-tested.
 <b>DO NOT USE THE STABLE VERSION OF SERVER AND API SOFTWARE.
-IF YOU DO, IT WILL BE FAR OUT OF DATE.
+IF YOU DO, IT MAY BE FAR OUT OF DATE.
 USE THE CURRENT VERSION INSTEAD.</b>
 <dt>
 staging
