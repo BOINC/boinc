@@ -11,8 +11,8 @@
 #include <stdlib.h>
 #include <string.h>
 
-#include <dc_internal.h>
 #include <dc.h>
+#include <dc_internal.h>
 
 #include <glib.h>
 

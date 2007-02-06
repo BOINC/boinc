@@ -76,6 +76,20 @@ typedef enum {
 
 
 /********************************************************************
+ * Data types
+ */
+
+/* Descriptor of a physical file */
+typedef struct _DC_PhysicalFile	DC_PhysicalFile;
+struct _DC_PhysicalFile
+{
+	char			*label;
+	char			*path;
+	DC_FileMode		mode;
+};
+
+
+/********************************************************************
  * Function prototypes
  */
 
