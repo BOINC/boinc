@@ -61,15 +61,6 @@ typedef struct _DC_Workunit	DC_Workunit;
 /* Opaque type representing a result */
 typedef struct _DC_Result	DC_Result;
 
-/* Descriptor of a physical file */
-typedef struct _DC_PhysicalFile	DC_PhysicalFile;
-struct _DC_PhysicalFile
-{
-	char			*label;
-	char			*path;
-	DC_FileMode		mode;
-};
-
 /* Description of a DC-API event */
 typedef struct _DC_MasterEvent	DC_MasterEvent;
 struct _DC_MasterEvent

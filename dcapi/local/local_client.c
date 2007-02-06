@@ -20,6 +20,7 @@
 #include <errno.h>
 
 #include <dc_client.h>
+#include <dc_internal.h>
 
 #include "local_common.h"
 /*#include "local_slave.h"*/

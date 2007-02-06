@@ -19,7 +19,7 @@ extern "C" {
 #endif
 
 #include <stdio.h>
-#include <dc.h>
+#include <dc_common.h>
 
 /********************************************************************
  * Constants
