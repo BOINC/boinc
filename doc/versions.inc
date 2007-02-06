@@ -540,6 +540,23 @@ $m588 = array(
     "
 );
 
+$m589 = array(
+    "num"=>"5.8.9",
+    "status"=>"Development version (standard GUI)",
+    "file"=>"boinc_5.8.9_macOSX_universal.zip",
+    "date"=>"6 Feb 2007",
+    "type"=>"mac_advanced",
+     "features"=>"<ul>
+".$mac_changes_57."
+".$features_55."
+".$features_57."
+".$changes_57."
+     </ul>
+    ",
+    "bugs"=>"
+    "
+);
+
 $m549 = array(
     "num"=>"5.4.9",
     "status"=>"Older version (standard GUI)",
@@ -605,7 +622,22 @@ $m588c = array(
     "
 );
 
-
+$m589c = array(
+    "num"=>"5.8.9",
+    "status"=>"Development version (Unix command-line version)",
+    "file"=>"boinc_5.8.9_universal-apple-darwin.zip",
+    "date"=>"6 Feb 2007",
+    "type"=>"bare_core",
+    "features"=>"<ul>
+".$mac_changes_57."
+".$features_55."
+".$features_57."
+".$changes_57."
+     </ul>
+    ",
+    "bugs"=>"
+    "
+);
 
 $m549c = array(
     "num"=>"5.4.9",
@@ -740,6 +772,8 @@ $mac = array(
     "versions"=>array(
         $m588,
         $m588c,
+        $m589,
+        $m589c,
         $m549,
         $m549c,
         $m5213,
