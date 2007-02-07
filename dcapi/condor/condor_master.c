@@ -921,7 +921,7 @@ _DC_process_event(DC_MasterEvent *event)
 int
 DC_processMasterEvents(int timeout)
 {
-	/* call callback and destry event */
+	/* call callback and destroy event */
 	time_t start, now;
 	DC_MasterEvent *event;
 
