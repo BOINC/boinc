@@ -34,15 +34,15 @@
  * Global variables
  */
 
-DC_ResultCallback	_dc_resultcb;
-DC_SubresultCallback	_dc_subresultcb;
-DC_MessageCallback	_dc_messagecb;
+DC_ResultCallback	_DC_result_callback/*_dc_resultcb*/;
+DC_SubresultCallback	_DC_subresult_callback/*_dc_subresultcb*/;
+DC_MessageCallback	_DC_message_callback/*_dc_messagecb*/;
 
 char project_uuid_str[37];
 uuid_t project_uuid;
 int sleep_interval;
 
-static GHashTable *wu_table;
+GHashTable *_DC_wu_table;
 
 
 /********************************************************************
@@ -124,9 +124,9 @@ unsigned DC_getGridCapabilities(void)
 void DC_setMasterCb(DC_ResultCallback resultcb, DC_SubresultCallback subresultcb,
 	DC_MessageCallback msgcb)
 {
-	_dc_resultcb = resultcb;
-	_dc_subresultcb = subresultcb;
-	_dc_messagecb = msgcb;
+	_DC_result_callback = resultcb;
+	_DC_subresult_callback = subresultcb;
+	_DC_message_callback = msgcb;
 }
 
 
@@ -261,10 +261,10 @@ DC_Workunit *DC_createWU(const char *clientName, const char *arguments[],
 	DC_log(LOG_DEBUG, "client path: %%s,     client name: %s    from client: %s",
 	       /*wu->client_path,*/ wu->client_name, clientName);
 
-	if (!wu_table)
-		wu_table = g_hash_table_new_full(g_str_hash, g_str_equal,
+	if (!_DC_wu_table)
+		_DC_wu_table = g_hash_table_new_full(g_str_hash, g_str_equal,
 			NULL, NULL);
-	g_hash_table_insert(wu_table, wu->name, wu);
+	g_hash_table_insert(_DC_wu_table, wu->name, wu);
 
 	return wu;
 }
@@ -283,8 +283,8 @@ void DC_destroyWU(DC_Workunit *wu)
 	if (!wu)
 		return;
 
-	if (wu_table)
-		g_hash_table_remove(wu_table, wu->name);
+	if (_DC_wu_table)
+		g_hash_table_remove(_DC_wu_table, wu->name);
 
 	switch (wu->state)
 	{
@@ -624,9 +624,9 @@ DC_Workunit *_DC_getWUByName(const char *name)
 	uuid_t uuid;
 	int ret;
 
-	if (wu_table)
+	if (_DC_wu_table)
 	{
-		wu = (DC_Workunit *)g_hash_table_lookup(wu_table, name);
+		wu = (DC_Workunit *)g_hash_table_lookup(_DC_wu_table, name);
 		if (wu)
 			return wu;
 	}
@@ -667,57 +667,6 @@ DC_Workunit *_DC_getWUByName(const char *name)
 	return NULL;
 }
 
-static void testWUEvents(void *key, void *value, void *ptr)
-{
-	DC_Workunit *wu = (DC_Workunit *)value;
-	DC_Result *result;
-	char syscmd[256];
-	int retval;
-
-	snprintf(syscmd, 256, "ps -p %d >/dev/null", wu->pid);
-	retval = system(syscmd);
-
-	/* retval == 0 means that the process is still in output of ps
-		but it can be <defunct>.
-		So check it again.
-	*/
-	if (retval == 0) {
-		snprintf(syscmd, 256, "ps -p %d | grep defunct >/dev/null",
-			wu->pid);
-		retval = system(syscmd);
-		if (retval == 0) retval = 1; /* defunct means finished */
-		else if (retval == 1) retval = 0;
-	}
-	if (retval == 1) { /* process finished (not exists) */
-		/* create the result object */
-		DC_log(LOG_INFO, "Work unit %s with pid %d is found to be finished",
-			wu->name, wu->pid);
-		wu->state = DC_WU_FINISHED;
-
-		result = _DC_createResult(wu->name);
-		if (result)
-		{
-			_dc_resultcb(result->wu, result);
-			_DC_destroyResult(result);
-		}
-	}
-
-	return;
-}
-
-int _DC_searchForEvents()
-{
-	if (!wu_table)
-	{
-		DC_log(LOG_WARNING, "Searching for events is only usefull if there is any running work unit!");
-		return DC_ERR_BADPARAM;
-	}
-
-	g_hash_table_foreach(wu_table, (GHFunc)testWUEvents, NULL);
-
-	return DC_OK;
-}
-
 static DC_WUState matchState;
 static void countState(void *key, void *value, void *ptr)
 {
@@ -732,7 +681,7 @@ int DC_getWUNumber(DC_WUState state)
 	int val = 0;
 
 	matchState = state;
-	g_hash_table_foreach(wu_table, (GHFunc)countState, &val);
+	g_hash_table_foreach(_DC_wu_table, (GHFunc)countState, &val);
 
 	return val;
 }
@@ -750,9 +699,10 @@ char *DC_getWUId(const DC_Workunit *wu)
 
 char *DC_getWUTag(const DC_Workunit *wu)
 {
-	char *tag;
+	char *tag= NULL;
 
-	tag = strdup(wu->tag);
+	if (wu->tag)
+		tag = strdup(wu->tag);
 
 	return tag;
 }

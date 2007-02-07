@@ -72,6 +72,9 @@ struct _DC_Workunit
 	/* Output file definitions. Elements are of type char * */
 	GList			*output_files;
 	int			num_outputs;
+
+	/* by DD */
+	int			asked_to_suspend;
 };
 
 struct _DC_Result
@@ -90,9 +93,11 @@ struct _DC_Result
  * Global variables
  */
 
-extern DC_ResultCallback	_dc_resultcb;
-extern DC_SubresultCallback	_dc_subresultcb;
-extern DC_MessageCallback	_dc_messagecb;
+extern DC_ResultCallback	_DC_result_callback/*_dc_resultcb*/;
+extern DC_SubresultCallback	_DC_subresult_callback/*_dc_subresultcb*/;
+extern DC_MessageCallback	_DC_message_callback/*_dc_messagecb*/;
+
+extern GHashTable *_DC_wu_table;
 
 extern char project_uuid_str[37]; 
 extern uuid_t project_uuid;
