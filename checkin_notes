@@ -1499,3 +1499,10 @@ David  6 Feb 2007
 Rom    7 Feb 2007
     - Tag for 5.8.10 release, all platforms
       boinc_core_release_5_8_10
+
+Rom    7 Feb 2007
+    - SS: Remove reference to the Climate Change Experiment when the client is
+        being built for WCG.
+        
+    client/win/
+        boinc_ss.rc
