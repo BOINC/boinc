@@ -306,7 +306,7 @@ BEGIN
     IDS_ERR_BOINCNOTDETECTED 
                             "World Community Grid is not running.\n\nPlease launch Climate Change Experiment\nto display graphics."
     IDS_ERR_BOINCNOTDETECTEDSTARTUP 
-                            "World Community Grid is not running.\n(Automatic Startup not detected)\n\nWe recommend running Climate Change Experiment at startup;\nplease reinstall Climate Change Experiment and select this option."
+                            "World Community Grid is not running.\n(Automatic Startup not detected)\n\nWe recommend running World Community Grid at startup;\nplease reinstall World Community Grid and select this option."
     IDS_ERR_BOINCSUSPENDED  "World Community Grid is currently suspended."
     IDS_ERR_BOINCNOAPPSEXECUTING
                             "World Community Grid is currently idle."

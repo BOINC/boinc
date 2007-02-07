@@ -1529,3 +1529,10 @@ David  6 Feb 2007
         db_base.C,h
     sched/
         validate_util.C
+
+Rom    7 Feb 2007
+    - SS: Remove reference to the Climate Change Experiment when the client is
+        being built for WCG.
+        
+    client/win/
+        boinc_ss.rc
