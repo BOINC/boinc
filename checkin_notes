@@ -1542,3 +1542,9 @@ Rom    7 Feb 2007
     
     client/
         Makefile.am
+
+David  7 Feb 2008
+    - fix PHP 4 problem
+
+    html/inc
+        forum_email.inc

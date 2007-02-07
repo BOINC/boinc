@@ -55,10 +55,11 @@ function send_moderation_email($post, $message, $action) {
     $user = $post->getOwner();
     $subject = PROJECT." forum ".$action." notice";
     $body = PROJECT." notification:
+    $ownerid = $user->getID();
 
 This email is to inform you that one of your posts in the forum has been affected by moderation in ".PROJECT.":
     Thread:         ".$thread->getTitle()." 
-    Post:           ".$post->getID()." by ".$post->getOwner()->getID()." (".$post->getOwner()->getName().")
+    Post:           ".$post->getID()." by ".$user->getID()." (".$user->getName().")
     Link:           ".URL_BASE."forum_thread.php?id=".$thread->getID()."
     Moderator:      ".$moderator->getName()." (".$moderator->getID().")
     Action:         ".$action."
@@ -134,13 +135,14 @@ function send_reply_notification_email($thread, $user){
  **/
 function send_report_post_email($user, $thread,  $post, $message) {
     $body = "";
+    $owner = $post->getOwner();
 
     $subject = PROJECT." post in '".$thread->getTitle()."' reported as offensive";
     $body = PROJECT." notification:
 
 This email is sent to inform you that one of the posts in the forum was reported as offensive in ".PROJECT.":
     Thread:         ".$thread->getTitle()."
-    Post:           ".$post->getID()." by ".$post->getOwner()->getID()." (".$post->getOwner()->getName().")
+    Post:           ".$post->getID()." by ".$owner->getID()." (".$owner->getName().")
     Reporting User: ".$user->getID()." (".$user->getName().")
     Link:           ".URL_BASE."forum_thread.php?id=".$thread->getID()."#".$post->getID()."
     

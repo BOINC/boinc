@@ -2,13 +2,25 @@
 require_once("docutil.php");
 page_head("BOINC software development ");
 
+if (!$book) {
+    echo "
+        <ul>
+        <li> <a href=#addon>Writing add-on software</a></li>
+        <li> <a href=#build>Get and build BOINC software</a></li>
+        <li> <a href=#dev>BOINC development</a></li>
+        <li> <a href=#projects>Development projects</a></li>
+        </ul>
+    ";
+}
+
 echo "
+<a name=addon></a>
 <h2>Writing add-on software</h2>
 <p>
 BOINC's architecture is 'open';
 documented interfaces making it possible to
 develop various types of applications and web sites that
-interact with BOINC's core components.
+interact with BOINC components.
 Examples include:
 ";
 list_start();
@@ -32,7 +44,7 @@ list_item("<a href=web_rpc.php>Web RPCs</a>",
     obtain information about users and hosts from projects."
 );
 list_item("<a href=prefs_override.php>Local editing of preferences</a>",
-    "This mechanism lets you write a program local editing of preferences."
+    "This mechanism lets you write programs for local editing of preferences."
 );
 list_end();
 echo "
@@ -42,6 +54,7 @@ Check the
 before writing anything (it may already exist).
 The index has instructions for submitting new add-ons.
 
+<a name=build></a>
 <h2>Get and build BOINC software</h2>
     <ul> 
     <li> <a href=source_code.php>Get BOINC source code</a>
@@ -50,6 +63,7 @@ The index has instructions for submitting new add-ons.
     <li> <a href=compile_client.php>Building BOINC client software</a>
     </ul>
 
+<a name=dev></a>
 <h2>BOINC development</h2>
 <p>
 <ul>
@@ -85,6 +99,9 @@ Look at the source code and think about how you would implement it.
 Then communicate with the <a href=contact.php>area owner</a>,
 sketching what you want to do and how.
 Work the the area owner to carry out and check in the work.
+
+<a name=projects></a>
+<h2>Development projects</h2>
 <p>
 The following medium-to-large development projects are available:
 <ul>
@@ -97,7 +114,6 @@ The following medium-to-large development projects are available:
 <ul>
 <li> Compute disk usage (total, per-project) in a separate thread.
 <li> Don't enforce RAM limits unless free RAM is low
-<li> Do per-project disk-space measurements asynchronously (in a thread).
 <li> Extend general preferences to allow users to
 specify different time-of-day restrictions for different days of the week.
 <li> 
@@ -124,11 +140,6 @@ with file deletion according to project policy.
 
 <li> Server/Back End:
     <ul>
-    <li> Allow create_work() to specify how much work
-        will be granted for the WU.
-        Store this in workunit.xml_doc.
-        May need to add WU to compute_granted_credit in simple validator
-        framework.
     <li> When using HR, if the scheduler has sent one result of a WU
         using a particular app version,
         it should use the same app version for other results from that WU.
@@ -151,6 +162,9 @@ with file deletion according to project policy.
     <li> Implement a 'benchmark result' mechanism:
         every host runs a benchmark result per app version,
         and the CPU time determines credit/CPU for future results
+    <li> Use the information sent by the client
+        (queued work, fraction done, and deadlines)
+        to avoid sending jobs that won't finish by deadline.
     </ul>
 
 
