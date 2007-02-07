@@ -877,6 +877,18 @@
 			<File
 				RelativePath="..\lib\util.h">
 			</File>
+			<File
+				RelativePath="..\lib\win_util.C">
+				<FileConfiguration
+					Name="Release (SimpleGUI)|Win32">
+					<Tool
+						Name="VCCLCompilerTool"
+						CompileAs="2"/>
+				</FileConfiguration>
+			</File>
+			<File
+				RelativePath="..\lib\win_util.h">
+			</File>
 		</Filter>
 		<Filter
 			Name="Wizards"
@@ -1084,16 +1096,6 @@
 				</File>
 				<File
 					RelativePath="..\clientgui\common\wxFNBDropTarget.h">
-				</File>
-			</Filter>
-			<Filter
-				Name="Animate"
-				Filter="">
-				<File
-					RelativePath="..\clientgui\common\wxAnimate.cpp">
-				</File>
-				<File
-					RelativePath="..\clientgui\common\wxAnimate.h">
 				</File>
 			</Filter>
 			<Filter
