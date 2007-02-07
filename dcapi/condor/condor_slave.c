@@ -16,6 +16,7 @@
 
 #include "dc_common.h"
 #include "dc_client.h"
+#include "dc_internal.h"
 
 #include "condor_common.h"
 #include "condor_slave.h"
@@ -43,7 +44,7 @@ _DC_cfg(enum _DC_e_param what)
 int DC_initClient(void)
 {
 	char *message;
-	extern int _DC_parseCfg(const char *cfgfile);
+	/*extern int _DC_parseCfg(const char *cfgfile);*/
 
 	int ret= _DC_parseCfg(CLIENT_CONFIG_NAME);
 	if (ret)
@@ -166,7 +167,7 @@ int DC_sendResult(const char *logicalFileName,
 {
 	char *fn;
 	int ret;
-	extern int _DC_copyFile(const char *src, const char *dst);
+	/*extern int _DC_copyFile(const char *src, const char *dst);*/
 
 	DC_log(LOG_DEBUG, "DC_sendResult(%s,%s,%d)",
 	       logicalFileName,
