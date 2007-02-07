@@ -1536,3 +1536,9 @@ Rom    7 Feb 2007
         
     client/win/
         boinc_ss.rc
+
+Rom    7 Feb 2007
+    - *nix: Attempt to handle the various optimation flags better by default.
+    
+    client/
+        Makefile.am

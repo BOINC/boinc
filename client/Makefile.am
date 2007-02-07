@@ -16,11 +16,6 @@ if OS_DARWIN
 endif
 
 bin_PROGRAMS = boinc_client switcher
-lib_LIBRARIES = libbenchmark.a 
-
-LIBS += libbenchmark.a 
-
-switcher_SOURCES = switcher.C
 
 boinc_client_SOURCES = \
     acct_mgr.C \
@@ -58,17 +53,17 @@ boinc_client_SOURCES = \
     pers_file_xfer.C \
     scheduler_op.C \
     ss_logic.C \
-    time_stats.C 
-
+    time_stats.C \
+    whetstone.C \
+    dhrystone.C \
+    dhrystone2.C
 
 boinc_client_DEPENDENCIES = $(LIBRSA)
-boinc_client_CPPFLAGS = $(AM_CPPFLAGS)
+boinc_client_CPPFLAGS = -O3 -fomit-frame-pointer -fforce-addr -ffast-math $(AM_CPPFLAGS)
 boinc_client_LDFLAGS = -static-libgcc
 boinc_client_LDADD = -L../lib -lboinc $(PTHREAD_LIBS)
 
-# the following don't do anything
-libbenchmark_a_SOURCES = whetstone.C dhrystone.C dhrystone2.C dhrystone.h
-libbenchmark_a_CPPFLAGS = -O3
+switcher_SOURCES = switcher.C
 
 all-local: client-bin
 
