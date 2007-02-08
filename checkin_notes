@@ -1548,3 +1548,10 @@ David  7 Feb 2008
 
     html/inc
         forum_email.inc
+
+David  8 Feb 2008
+    - core client: fix bug where screensaver would turn on an off
+		if CPU throttling being used
+
+	client/
+		ss_logic.C
