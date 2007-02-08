@@ -1576,3 +1576,11 @@ Rytis  8 Feb 2008
             forum_report_post.php
             forum_subscribe.php
             forum_thread.php
+
+David  8 Feb 2008
+    - core client: fix bug that causes tasks to hang
+        (not running, but BOINC thinks it is) on Windows
+
+    client/
+        app.C
+        app_control.C

@@ -1,6 +1,12 @@
 <?
 
 $project_news = array(
+array("February 8, 2007",
+    "Marc Seil gave a talk on setting up a BOINC server
+    at the recent <a href=http://www.linuxdays.lu>LinuxDays</a>
+    conference in Luxembourg.
+    His slides are <a href=contrib/boinc_v1.3.pdf>here</a>."
+),
 array("February 5, 2007",
     "<a href=http://gridrepublic.org>GridRepublic</a>
     has been selected as a finalist for the Web Awards

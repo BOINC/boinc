@@ -21,10 +21,6 @@ Contact him at rwalton at ssl.berkeley.edu.
 <dd>
 Developer.
 
-<dt><b>Walt Gribben</b>
-<dd>
-Developer.
-
 </dl>
 
 <h2>Development organization</h2>

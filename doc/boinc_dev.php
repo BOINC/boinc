@@ -113,6 +113,7 @@ The following medium-to-large development projects are available:
 <li> Core client:
 <ul>
 <li> Compute disk usage (total, per-project) in a separate thread.
+Or (preferable?) have the Manager do RPCs in a separate thread.
 <li> Don't enforce RAM limits unless free RAM is low
 <li> Extend general preferences to allow users to
 specify different time-of-day restrictions for different days of the week.
