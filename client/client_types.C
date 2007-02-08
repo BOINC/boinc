@@ -1040,7 +1040,9 @@ int FILE_INFO::merge_info(FILE_INFO& new_info) {
 
     // replace signature
     //
-    strcpy(file_signature, new_info.file_signature);
+    if (strlen(new_info.file_signature)) {
+        strcpy(file_signature, new_info.file_signature);
+    }
 
     return 0;
 }

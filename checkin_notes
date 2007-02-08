@@ -1592,3 +1592,19 @@ Rom    8 Feb 2007
     clientlib/win/
         AuthenticatorDetection.cpp
         stdafx.h
+
+David  8 Feb 2007
+    - core client: when a scheduler reply has a FILE_INFO for a
+         file for which we already have a FILE_INFO record,
+         overwrite the file_signature field only if the
+         new record actually has one.
+
+         This fixes a bug where a project used the same file in
+         both an APP_VERSION and a WORKUNIT.
+         The scheduler reply contained two <file_info> elements for the file;
+         the first had a signature, the second didn't.
+         The second one overwrote the first,
+         and the app version was rejected because one its file wasn't signed.
+
+    client/
+        client_types.C
