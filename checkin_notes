@@ -1543,20 +1543,20 @@ Rom    7 Feb 2007
     client/
         Makefile.am
 
-David  7 Feb 2008
+David  7 Feb 2007
     - fix PHP 4 problem
 
     html/inc
         forum_email.inc
 
-David  8 Feb 2008
+David  8 Feb 2007
     - core client: fix bug where screensaver would turn on an off
 		if CPU throttling being used
 
 	client/
 		ss_logic.C
 
-Rytis  8 Feb 2008
+Rytis  8 Feb 2007
     - Forum pages: fix a cross site scripting vulnerability.
 
     html/
@@ -1577,10 +1577,18 @@ Rytis  8 Feb 2008
             forum_subscribe.php
             forum_thread.php
 
-David  8 Feb 2008
+David  8 Feb 2007
     - core client: fix bug that causes tasks to hang
         (not running, but BOINC thinks it is) on Windows
 
     client/
         app.C
         app_control.C
+
+Rom    8 Feb 2007
+    - MGR: Add simple validation for the authenticator returned by
+        InternetGetCookie.
+        
+    clientlib/win/
+        AuthenticatorDetection.cpp
+        stdafx.h
