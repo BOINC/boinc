@@ -12,7 +12,6 @@ db_init();
 
 $logged_in_user = re_get_logged_in_user();
 
-
 if (!get_str('action')) {
     error_page("You must specify an action...");
 }
@@ -28,7 +27,8 @@ $thread = $post->getThread();
 page_head('Forum');
 
 //start form
-echo "<form action=forum_moderate_post_action.php?id=".$post->getID()." method=POST>\n";
+echo "<form action=\"forum_moderate_post_action.php?id=".$post->getID()."\" method=\"POST\">\n";
+echo form_tokens($logged_in_user->getAuthenticator());
 start_table();
 row1("Moderate post");
 
@@ -36,7 +36,7 @@ if (get_str('action')=="hide") {
     //display input that selects reason
     echo "<input type=hidden name=action value=hide>";
     row2("",
-    "Select the reason category, optionally write a longer describtion of why you delete the post and then press ok to hide it.");
+    "Select the reason category, optionally write a longer description of why you delete the post and then press ok to hide it.");
     row2("Category",
     "<select name=\"category\">
     <option value=\"1\">Obscene</option>

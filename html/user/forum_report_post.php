@@ -35,12 +35,13 @@ db_init();
 //__-------------- Action part
     $success_page=0;
     if (get_str("submit",true)){
-	$reason = get_str("reason");
-	if (send_report_post_email($user, $thread, $post, $reason)){
-	    $success_page=1;
-	} else {
-	    $success_page=-1;
-	}
+        check_tokens($user->getAuthenticator());
+	    $reason = get_str("reason");
+	    if (send_report_post_email($user, $thread, $post, $reason)){
+	        $success_page=1;
+	    } else {
+	        $success_page=-1;
+	    }
     }
 
 
@@ -59,6 +60,7 @@ db_init();
 	start_forum_table(array(tr(FORUM_AUTHOR), tr(FORUM_MESSAGE),""));
 	    show_post($post,$thread, $user,0);
 	    echo "<form action=\"forum_report_post.php\" method=\"get\">\n";
+        echo form_tokens($user->getAuthenticator());
 	    row1("Report post");
 	    row2("Why do you find the post offensive:<br><font size=-1>Please include enough information so that a person that 
 	    has not yet read the thread will quickly be able to identify the issue.</font>",

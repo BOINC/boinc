@@ -14,7 +14,6 @@ $action = get_str('action');
 $threadid = get_int('thread');
 $thread = new Thread($threadid);
 
-
 function subscribe($thread, $user) {
     $thread->subscribe($user);
     if ($thread->isSubscribed($user)){
@@ -49,6 +48,7 @@ function unsubscribe($thread, $user=null) {
 
 if ($thread && $action) {
     $user = re_get_logged_in_user(true);
+    check_tokens($user->getAuthenticator());
     
     if ($action == "subscribe") {
         subscribe($thread, $user);

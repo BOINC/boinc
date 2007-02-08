@@ -70,6 +70,7 @@ if ($content){
     }  else {
         $add_signature=false;
     }
+    check_tokens($logged_in_user->getAuthenticator());
     $thread->createReply($content, $parent_post, $logged_in_user, $add_signature);
     header('Location: forum_thread.php?id='.$thread->getID());
 }
@@ -99,7 +100,9 @@ function show_message_row($thread, $parent_post) {
         $x2 .= "&post=".$parent_post->getID();
     }
 
-    $x2 .= " method=post><textarea name=content rows=18 cols=80>";
+    $x2 .= " method=\"post\">\n";
+    $x2 .= form_tokens($logged_in_user->getAuthenticator());
+    $x2 .= "<textarea name=\"content\" rows=\"18\" cols=\"80\">";
 
     if ($parent_post) $x2 .= quote_text(stripslashes(htmlspecialchars($parent_post->getContent())), 80);
     if ($logged_in_user->hasSignatureByDefault()){

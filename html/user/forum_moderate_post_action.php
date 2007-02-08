@@ -11,6 +11,7 @@ require_once("../inc/forum_std.inc");
 db_init();
 
 $user = re_get_logged_in_user();
+check_tokens($user->getAuthenticator());
 
 if (!$user->isSpecialUser(S_MODERATOR)) {
     // Can't moderate without being moderator

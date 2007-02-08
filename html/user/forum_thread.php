@@ -18,6 +18,7 @@ if ($filter != "false"){
 }
 
 $logged_in_user = re_get_logged_in_user(false);
+$tokens = url_tokens($logged_in_user->getAuthenticator());
 
 // Fetch the thread and increment the number of views
 $thread = new Thread($threadid);
@@ -103,30 +104,30 @@ if ($thread->getType()!=0 && $thread->getStatus()==0){
 
     if ($is_subscribed) {
         echo tr(FORUM_THREAD_SUBSCRIBED)." ";
-        echo "<a href=\"forum_subscribe.php?action=unsubscribe&amp;thread=".$thread->getID()."\">".tr(FORUM_THREAD_UNSUBSCRIBE)."</a>.";
+        echo "<a href=\"forum_subscribe.php?action=unsubscribe&amp;thread=".$thread->getID()."$tokens\">".tr(FORUM_THREAD_UNSUBSCRIBE)."</a>.";
     } else {
-        echo "<a href=\"forum_subscribe.php?action=subscribe&amp;thread=".$thread->getID()."\">".tr(FORUM_THREAD_SUBSCRIBE)."</a>";
+        echo "<a href=\"forum_subscribe.php?action=subscribe&amp;thread=".$thread->getID()."$tokens\">".tr(FORUM_THREAD_SUBSCRIBE)."</a>";
     }
 
     //If the logged in user is moderator enable some extra features
     if ($logged_in_user && $logged_in_user->isSpecialUser(S_MODERATOR)){
 	    if ($thread->isHidden()){
-	        echo "<br /><a href=\"forum_moderate_thread_action.php?action=unhide&amp;thread=".$thread->getID()."\">Un-Delete this thread</a>";
+	        echo "<br /><a href=\"forum_moderate_thread_action.php?action=unhide&amp;thread=".$thread->getID()."$tokens\">Un-Delete this thread</a>";
 	    } else {
 	        echo "<br /><a href=\"forum_moderate_thread.php?action=hide&amp;thread=".$thread->getID()."\">Delete this thread</a>";
 	    }
 	    if ($thread->isSticky()){
-	        echo "<br /><a href=\"forum_moderate_thread_action.php?action=desticky&amp;thread=".$thread->getID()."\">De-sticky this thread</a>"; 
+	        echo "<br /><a href=\"forum_moderate_thread_action.php?action=desticky&amp;thread=".$thread->getID()."$tokens\">De-sticky this thread</a>"; 
 	    } else {
-	        echo "<br /><a href=\"forum_moderate_thread_action.php?action=sticky&amp;thread=".$thread->getID()."\">Make this thread sticky</a>";
+	        echo "<br /><a href=\"forum_moderate_thread_action.php?action=sticky&amp;thread=".$thread->getID()."$tokens\">Make this thread sticky</a>";
 	    }
         if ($thread->isLocked()) {
-            echo "<br /><a href=\"forum_moderate_thread_action.php?action=unlock&amp;thread=".$thread->getID()."\">Unlock thread</a>";
+            echo "<br /><a href=\"forum_moderate_thread_action.php?action=unlock&amp;thread=".$thread->getID()."$tokens\">Unlock thread</a>";
         } else {
-            echo "<br /><a href=\"forum_moderate_thread_action.php?action=lock&amp;thread=".$thread->getID()."\">Lock thread</a>";
+            echo "<br /><a href=\"forum_moderate_thread_action.php?action=lock&amp;thread=".$thread->getID()."$tokens\">Lock thread</a>";
         }
-        echo "<br /><a href=\"forum_moderate_thread.php?action=move&amp;thread=".$thread->getID()."\">Move this thread</a>";
-        echo "<br /><a href=\"forum_moderate_thread.php?action=title&amp;thread=".$thread->getID()."\">Edit thread title</a>";
+        echo "<br /><a href=\"forum_moderate_thread.php?action=move&amp;thread=".$thread->getID()."$tokens\">Move this thread</a>";
+        echo "<br /><a href=\"forum_moderate_thread.php?action=title&amp;thread=".$thread->getID()."$tokens\">Edit thread title</a>";
     }
 
     // Display a box that allows the user to select sorting of the posts

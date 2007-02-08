@@ -49,6 +49,7 @@ if ($content && $title){
     }  else {
         $add_signature=false;
     }
+    check_tokens($logged_in_user->getAuthenticator());
     $thread = $forum->createThread($title, $content, $logged_in_user, $add_signature);
     header('Location: forum_thread.php?id=' . $thread->getID());
 }
@@ -58,6 +59,7 @@ page_head('Forum');
 show_forum_title($forum, NULL, $category->is_helpdesk);
 
 echo "<form action=\"forum_post.php?id=".$forum->getID()."\" method=POST>\n";
+echo form_tokens($logged_in_user->getAuthenticator());
 
 start_table();
 

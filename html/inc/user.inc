@@ -119,8 +119,8 @@ function total_posts($user) {
     $result = mysql_query(
         "select count(id) as total from post where user=$user->id"
     );
+    if (!$result) return 0;
     $foobar = mysql_fetch_object($result);
-    if (!$foobar) return 0;
     mysql_free_result($result);
     return $foobar->total;
 }

@@ -35,7 +35,7 @@ $thread_owner = $thread->getOwner();
 $can_edit_title = ($post->getParentPostID()==0 and $thread_owner->getID()==$logged_in_user->getID());
 
 if (post_str('submit',true)) {    
-    
+    check_tokens($logged_in_user->getAuthenticator());
     $post->setContent(post_str('content'));
     // If this post belongs to the creator of the thread and is at top-level 
     // (ie. not a response to another post) allow the user to modify the thread title
@@ -55,7 +55,7 @@ $category = $forum->getCategory();
 show_forum_title($forum, $thread);
 
 echo "<form action=\"forum_edit.php?id=".$post->getID()."\" method=\"POST\">\n";
-
+echo form_tokens($logged_in_user->getAuthenticator());
 start_table();
 row1("Edit your post");
 if ($can_edit_title) {

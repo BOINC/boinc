@@ -11,7 +11,7 @@ require_once("../inc/forum_std.inc");
 
 db_init();
 $logged_in_user = re_get_logged_in_user();
-
+check_tokens($logged_in_user->getAuthenticator());
 if (!post_str('action', true)) {
     if (!get_str('action', true)){
 	    error_page("You must specify an action...");
