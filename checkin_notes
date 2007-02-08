@@ -1506,3 +1506,10 @@ Rom    7 Feb 2007
         
     client/win/
         boinc_ss.rc
+
+David  8 Feb 2008
+    - core client: fix bug where screensaver would turn on an off
+		if CPU throttling being used
+
+	client/
+		ss_logic.C
