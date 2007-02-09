@@ -759,7 +759,7 @@ $windows = array(
     "name"=>"Windows",
     "dbname" => "windows_intelx86",
     "versions"=>array(
-        $w589,
+        $w5811,
         $w588,
         $w5411,
         $w5213,
