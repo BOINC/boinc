@@ -1507,9 +1507,47 @@ Rom    7 Feb 2007
     client/win/
         boinc_ss.rc
 
+Rom    7 Feb 2007
+    - *nix: Attempt to handle the various optimation flags better by default.
+    
+    client/
+        Makefile.am
+
 David  8 Feb 2008
     - core client: fix bug where screensaver would turn on an off
 		if CPU throttling being used
 
 	client/
 		ss_logic.C
+
+David  8 Feb 2007
+    - core client: fix bug that causes tasks to hang
+        (not running, but BOINC thinks it is) on Windows
+
+    client/
+        app.C
+        app_control.C
+
+Rom    8 Feb 2007
+    - MGR: Add simple validation for the authenticator returned by
+        InternetGetCookie.
+        
+    clientlib/win/
+        AuthenticatorDetection.cpp
+        stdafx.h
+
+David  8 Feb 2007
+    - core client: when a scheduler reply has a FILE_INFO for a
+         file for which we already have a FILE_INFO record,
+         overwrite the file_signature field only if the
+         new record actually has one.
+
+         This fixes a bug where a project used the same file in
+         both an APP_VERSION and a WORKUNIT.
+         The scheduler reply contained two <file_info> elements for the file;
+         the first had a signature, the second didn't.
+         The second one overwrote the first,
+         and the app version was rejected because one its file wasn't signed.
+
+    client/
+        client_types.C

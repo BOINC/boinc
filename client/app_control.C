@@ -67,6 +67,7 @@ bool ACTIVE_TASK::process_exists() {
     case PROCESS_EXECUTING:
     case PROCESS_SUSPENDED:
     case PROCESS_ABORT_PENDING:
+    case PROCESS_QUIT_PENDING:
         return true;
     }
     return false;
