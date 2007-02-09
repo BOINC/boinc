@@ -18,7 +18,9 @@ if ($filter != "false"){
 }
 
 $logged_in_user = re_get_logged_in_user(false);
-$tokens = url_tokens($logged_in_user->getAuthenticator());
+if ($logged_in_user) {
+    $tokens = url_tokens($logged_in_user->getAuthenticator());
+}
 
 // Fetch the thread and increment the number of views
 $thread = new Thread($threadid);

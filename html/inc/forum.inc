@@ -214,8 +214,10 @@ function show_post($post, $thread, $logged_in_user, $n, $controls=FORUM_CONTROLS
     $user = $post->getOwner();
     global $no_forum_rating;
 
+    if ($logged_in_user) {
+        $tokens = url_tokens($logged_in_user->getAuthenticator());
+    }
 
-    $tokens = url_tokens($logged_in_user->getAuthenticator());
     //If the user that made this post is on the list of people to ignore, change thresholds to be much more strict
     if ($logged_in_user){
         if (in_array($user->getID(),$logged_in_user->getIgnoreList())){
