@@ -87,6 +87,7 @@ const char* socket_error_str() {
 }
 
 int resolve_hostname(char* hostname, int &ip_addr, char* msg) {
+    strcpy(msg, "");
 
     // if the hostname is in Internet Standard dotted notation, 
     // return that address.

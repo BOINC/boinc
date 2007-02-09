@@ -521,47 +521,50 @@ void CSimplePanel::OnProjectsAttachToProject() {
 
 
 void CSimplePanel::OnFrameRender(wxTimerEvent& WXUNUSED(event)) {
-	CMainDocument* pDoc     = wxGetApp().GetDocument();
+    CMainDocument*    pDoc = wxGetApp().GetDocument();
 
-	if (!projectViewInitialized) {
-		InitProjectView();
-		return;
-	} else if ( pDoc->IsConnected() ) {
-		UpdateProjectView();
-	}
+    if (IsShown()) {
 
-	// Now check to see if we show the empty state or results
-	if ( pDoc->GetSimpleGUIWorkCount() > 0 ) {
-		// State changes can cause the BSG to crash if a dialogue is open.
-		// Defer state change until after the dialogue is closed
-		if ( (emptyViewInitialized || !notebookViewInitialized) && dlgOpen ) {
-			return;
-		}
+	    if (!projectViewInitialized) {
+		    InitProjectView();
+		    return;
+	    } else if ( pDoc->IsConnected() ) {
+		    UpdateProjectView();
+	    }
 
-		// If empty was displayed, remove
-		if ( emptyViewInitialized ) {
-			DestroyEmptyView();
-		}
-		// If we hadn't previously shown the notebook, create it.
-		if ( !notebookViewInitialized ) {
-			InitNotebook();
-		}
-		wrkUnitNB->Update();
-	} else {
-		// State changes can cause the BSG to crash if a dialogue is open.
-		// Defer state change until after the dialogue is closed
-		if ( (!emptyViewInitialized || notebookViewInitialized) && dlgOpen ) {
-			return;
-		}
+	    // Now check to see if we show the empty state or results
+	    if ( pDoc->GetSimpleGUIWorkCount() > 0 ) {
+		    // State changes can cause the BSG to crash if a dialogue is open.
+		    // Defer state change until after the dialogue is closed
+		    if ( (emptyViewInitialized || !notebookViewInitialized) && dlgOpen ) {
+			    return;
+		    }
 
-		if ( notebookViewInitialized ) {
-			DestroyNotebook();
-		}
-		if ( !emptyViewInitialized ) {
-			InitEmptyView();
-		}
-		UpdateEmptyView();
-	}
+		    // If empty was displayed, remove
+		    if ( emptyViewInitialized ) {
+			    DestroyEmptyView();
+		    }
+		    // If we hadn't previously shown the notebook, create it.
+		    if ( !notebookViewInitialized ) {
+			    InitNotebook();
+		    }
+		    wrkUnitNB->Update();
+	    } else {
+		    // State changes can cause the BSG to crash if a dialogue is open.
+		    // Defer state change until after the dialogue is closed
+		    if ( (!emptyViewInitialized || notebookViewInitialized) && dlgOpen ) {
+			    return;
+		    }
+
+		    if ( notebookViewInitialized ) {
+			    DestroyNotebook();
+		    }
+		    if ( !emptyViewInitialized ) {
+			    InitEmptyView();
+		    }
+		    UpdateEmptyView();
+	    }
+    }
 }
 
 
@@ -627,7 +630,7 @@ void CSimplePanel::InitNotebook()
 {
     wxLogTrace(wxT("Function Start/End"), wxT("CAdvancedFrame::InitNotebook - Function Start"));
 	// FlatNotebook
-	wrkUnitNB = new WorkunitNotebook(this, -1, wxDefaultPosition, wxSize(370,330), wxFNB_TABS_BORDER_SIMPLE | wxFNB_NO_X_BUTTON | wxFNB_NO_NAV_BUTTONS | wxFNB_FANCY_TABS);
+	wrkUnitNB = new WorkunitNotebook(this, -1, wxDefaultPosition, wxSize(370,330), wxFNB_TABS_BORDER_SIMPLE | wxFNB_NO_X_BUTTON | wxFNB_NO_NAV_BUTTONS | wxFNB_FANCY_TABS | wxFNB_NODRAG );
 	SetSizer(mainSizer);
 	mainSizer->Add(31, 68,0);
 	mainSizer->Add(343, 68,0);

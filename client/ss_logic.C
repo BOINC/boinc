@@ -140,7 +140,7 @@ void SS_LOGIC::poll() {
 
     if (!do_ss) return;
 
-    if (gstate.tasks_suspended) {
+    if (gstate.suspend_reason & (~SUSPEND_REASON_CPU_USAGE_LIMIT)) {
         reset();
         ss_status = SS_STATUS_BOINCSUSPENDED;
         return;

@@ -60,7 +60,7 @@ int LOG_FLAGS::parse(XML_PARSER& xp) {
 
     while (!xp.get(tag, sizeof(tag), is_tag)) {
         if (!is_tag) {
-            msg_printf(NULL, MSG_ERROR,
+            msg_printf(NULL, MSG_USER_ERROR,
                "Unexpected text %s in %s", tag, CONFIG_FILE
             );
             continue;
@@ -83,7 +83,7 @@ int LOG_FLAGS::parse(XML_PARSER& xp) {
         else if (xp.parse_bool(tag, "proxy_debug", proxy_debug)) continue;
         else if (xp.parse_bool(tag, "time_debug", time_debug)) continue;
         else if (xp.parse_bool(tag, "http_xfer_debug", http_xfer_debug)) continue;
-        else if (xp.parse_bool(tag, "measurement_debug", measurement_debug)) continue;
+        else if (xp.parse_bool(tag, "benchmark_debug", benchmark_debug)) continue;
         else if (xp.parse_bool(tag, "poll_debug", poll_debug)) continue;
         else if (xp.parse_bool(tag, "guirpc_debug", guirpc_debug)) continue;
         else if (xp.parse_bool(tag, "scrsave_debug", scrsave_debug)) continue;
@@ -92,7 +92,7 @@ int LOG_FLAGS::parse(XML_PARSER& xp) {
         else if (xp.parse_bool(tag, "mem_usage_debug", mem_usage_debug)) continue;
         else if (xp.parse_bool(tag, "network_status_debug", network_status_debug)) continue;
         else {
-            msg_printf(NULL, MSG_ERROR, "Unrecognized tag in %s: <%s>\n",
+            msg_printf(NULL, MSG_USER_ERROR, "Unrecognized tag in %s: <%s>\n",
                 CONFIG_FILE, tag
             );
         }
@@ -135,7 +135,7 @@ void LOG_FLAGS::show() {
     show_flag(buf, proxy_debug, "proxy_debug");
     show_flag(buf, time_debug, "time_debug");
     show_flag(buf, http_xfer_debug, "http_xfer_debug");
-    show_flag(buf, measurement_debug, "measurement_debug");
+    show_flag(buf, benchmark_debug, "benchmark_debug");
     show_flag(buf, poll_debug, "poll_debug");
     show_flag(buf, guirpc_debug, "guirpc_debug");
     show_flag(buf, scrsave_debug, "scrsave_debug");
@@ -164,7 +164,7 @@ int CONFIG::parse_options(XML_PARSER& xp) {
 
     while (!xp.get(tag, sizeof(tag), is_tag)) {
         if (!is_tag) {
-            msg_printf(NULL, MSG_ERROR,
+            msg_printf(NULL, MSG_USER_ERROR,
                "Unexpected text %s in %s", tag, CONFIG_FILE
             );
             continue;
@@ -180,7 +180,7 @@ int CONFIG::parse_options(XML_PARSER& xp) {
         else if (xp.parse_int(tag, "max_file_xfers_per_project", max_file_xfers_per_project)) continue;
         else if (xp.parse_double(tag, "work_request_factor", work_request_factor)) continue;
         else {
-            msg_printf(NULL, MSG_ERROR, "Unparsed tag in %s: <%s>\n",
+            msg_printf(NULL, MSG_USER_ERROR, "Unparsed tag in %s: <%s>\n",
                 CONFIG_FILE, tag
             );
         }
@@ -196,12 +196,12 @@ int CONFIG::parse(FILE* f) {
 
     mf.init_file(f);
     if (!xp.parse_start("cc_config")) {
-        msg_printf(NULL, MSG_ERROR, "Missing start tag in %s", CONFIG_FILE);
+        msg_printf(NULL, MSG_USER_ERROR, "Missing start tag in %s", CONFIG_FILE);
         return ERR_XML_PARSE;
     }
     while (!xp.get(tag, sizeof(tag), is_tag)) {
         if (!is_tag) {
-            msg_printf(NULL, MSG_ERROR,
+            msg_printf(NULL, MSG_USER_ERROR,
                "Unexpected text %s in %s", tag, CONFIG_FILE
             );
             continue;
@@ -213,12 +213,12 @@ int CONFIG::parse(FILE* f) {
         } else if (!strcmp(tag, "options")) {
             parse_options(xp);
         } else {
-            msg_printf(NULL, MSG_ERROR, "Unparsed tag in %s: <%s>\n",
+            msg_printf(NULL, MSG_USER_ERROR, "Unparsed tag in %s: <%s>\n",
                 CONFIG_FILE, tag
             );
         }
     }
-    msg_printf(NULL, MSG_ERROR, "Missing end tag in %s", CONFIG_FILE);
+    msg_printf(NULL, MSG_USER_ERROR, "Missing end tag in %s", CONFIG_FILE);
     return ERR_XML_PARSE;
 }
 

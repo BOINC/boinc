@@ -80,6 +80,11 @@ int CLIENT_STATE::app_finished(ACTIVE_TASK& at) {
                 //
                 fip->status = retval;
                 had_error = true;
+                msg_printf(
+                    rp->project, MSG_INFO,
+                    "Output file %s for task %s absent",
+                    fip->name, rp->name
+                );
             } else if (size > fip->max_nbytes) {
                 // Note: this is only checked when the application finishes.
                 // The total disk space is checked while the application is running.
@@ -128,13 +133,13 @@ int CLIENT_STATE::app_finished(ACTIVE_TASK& at) {
         switch (rp->exit_status) {
         case ERR_ABORTED_VIA_GUI:
         case ERR_ABORTED_BY_PROJECT:
-            rp->state = RESULT_ABORTED;
+            rp->set_state(RESULT_ABORTED, "CS::app_finished");
             break;
         default:
-            rp->state = RESULT_COMPUTE_ERROR;
+            rp->set_state(RESULT_COMPUTE_ERROR, "CS::app_finished");
         }
     } else {
-        rp->state = RESULT_FILES_UPLOADING;
+        rp->set_state(RESULT_FILES_UPLOADING, "CS::app_finished");
         rp->project->update_duration_correction_factor(rp);
     }
 
@@ -158,7 +163,7 @@ bool CLIENT_STATE::handle_finished_apps() {
 
     for (i=0; i<active_tasks.active_tasks.size(); i++) {
         atp = active_tasks.active_tasks[i];
-        switch (atp->task_state) {
+        switch (atp->task_state()) {
         case PROCESS_EXITED:
         case PROCESS_WAS_SIGNALED:
         case PROCESS_EXIT_UNKNOWN:
@@ -167,12 +172,6 @@ bool CLIENT_STATE::handle_finished_apps() {
             if (log_flags.task) {
                 msg_printf(atp->wup->project, MSG_INFO,
                     "Computation for task %s finished", atp->result->name
-                );
-            }
-            if (log_flags.task_debug) {
-                msg_printf(0, MSG_INFO,
-                    "[task_debug] CLIENT_STATE::handle_finished_apps(): task finished; pid %d, status %d\n",
-                    atp->pid, atp->result->exit_status
                 );
             }
             app_finished(*atp);

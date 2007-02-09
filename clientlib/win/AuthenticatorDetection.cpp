@@ -34,12 +34,13 @@
 EXTERN_C __declspec(dllexport) BOOL DetectSetupAuthenticator(LPCTSTR szProjectURL, LPTSTR szAuthenticator, LPDWORD lpdwSize)
 {
     BOOL        bReturnValue = FALSE;
+    BOOL        bValidates = TRUE;
     TCHAR       szCookieBuffer[2048];
-    TCHAR*      pszCookieFragment = NULL;
+    LPTSTR      pszCookieFragment = NULL;
     DWORD       dwSize = sizeof(szCookieBuffer)/sizeof(TCHAR);
-    std::string strCookieFragment;
-    std::string strCookieName;
-    std::string strCookieValue;
+    tstring     strCookieFragment;
+    tstring     strCookieName;
+    tstring     strCookieValue;
     size_t      uiDelimeterLocation;
 
     bReturnValue = InternetGetCookie(szProjectURL, NULL, szCookieBuffer, &dwSize);
@@ -59,10 +60,34 @@ EXTERN_C __declspec(dllexport) BOOL DetectSetupAuthenticator(LPCTSTR szProjectUR
             strCookieName = strCookieFragment.substr(0, uiDelimeterLocation);
             strCookieValue = strCookieFragment.substr(uiDelimeterLocation + 1);
 
-            if (std::string(_T("Setup")) == strCookieName)
+            if (tstring(_T("Setup")) == strCookieName)
             {
-                _tcsncpy(szAuthenticator, strCookieValue.c_str(), *lpdwSize);
-                *lpdwSize = (DWORD)_tcslen(szAuthenticator);
+                // Perform some basic validation of the suspect authenticator
+                //
+
+                // If the string is null then it is invalid.
+                if (0 == strCookieValue.length()) {
+                    bValidates = FALSE;
+                }
+
+                // If the string contains non alpha numeric characters it is invalid.
+                tstring::iterator it = strCookieValue.begin();
+                while (it != strCookieValue.end()) {
+                    if (!_istalpha(*it) && !_istdigit(*it)) {
+                        bValidates = FALSE;
+                    }
+                    it++;
+                }
+
+                // If validation failed, null out the Authenticator field just in case
+                //   somebody tries to use it, otherwise copy in the real deal.
+                if (!bValidates) {
+                    _tcsncpy(szAuthenticator, _T(""), *lpdwSize);
+                    *lpdwSize = 0;
+                } else {
+                    _tcsncpy(szAuthenticator, strCookieValue.c_str(), *lpdwSize);
+                    *lpdwSize = (DWORD)_tcslen(szAuthenticator);
+                }
             }
 
             pszCookieFragment = _tcstok(NULL, _T("; "));
@@ -72,6 +97,7 @@ EXTERN_C __declspec(dllexport) BOOL DetectSetupAuthenticator(LPCTSTR szProjectUR
     {
         fprintf(stderr, _T("DetectSetupAuthenticator() - InternetGetCookieEx Failed. GetLastError = '%d'"), GetLastError());
     }
+
 
     return bReturnValue;
 }

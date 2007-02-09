@@ -391,6 +391,9 @@
 				RelativePath="..\client\app_start.C">
 			</File>
 			<File
+				RelativePath="..\client\auto_update.C">
+			</File>
+			<File
 				RelativePath="..\client\check_state.C">
 			</File>
 			<File

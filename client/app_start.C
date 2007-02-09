@@ -218,7 +218,7 @@ int ACTIVE_TASK::write_app_init_file() {
     sprintf(init_data_path, "%s/%s", slot_dir, INIT_DATA_FILE);
     f = boinc_fopen(init_data_path, "w");
     if (!f) {
-        msg_printf(wup->project, MSG_ERROR,
+        msg_printf(wup->project, MSG_INTERNAL_ERROR,
             "Failed to open init file %s",
             init_data_path
         );
@@ -253,7 +253,7 @@ static int setup_file(
         if (input) {
             retval = boinc_copy(file_path, link_path);
             if (retval) {
-                msg_printf(wup->project, MSG_ERROR,
+                msg_printf(wup->project, MSG_INTERNAL_ERROR,
                     "Can't copy %s to %s", file_path, link_path
                 );
                 return retval;
@@ -270,7 +270,7 @@ static int setup_file(
 
     retval = make_link(buf, link_path);
     if (retval) {
-        msg_printf(wup->project, MSG_ERROR,
+        msg_printf(wup->project, MSG_INTERNAL_ERROR,
             "Can't link %s to %s", file_path, link_path
         );
         return retval;
@@ -289,7 +289,7 @@ int ACTIVE_TASK::copy_output_files() {
         get_pathname(fip, projfile);
         int retval = boinc_rename(slotfile, projfile);
         if (retval) {
-            msg_printf(wup->project, MSG_ERROR,
+            msg_printf(wup->project, MSG_INTERNAL_ERROR,
                 "Can't rename output file %s", fip->name
             );
         }
@@ -321,12 +321,12 @@ int ACTIVE_TASK::start(bool first_time) {
 #endif
 
     if (first_time && log_flags.task) {
-        msg_printf(0, MSG_INFO,
+        msg_printf(result->project, MSG_INFO,
             "Starting %s", result->name
         );
     }
     if (log_flags.cpu_sched) {
-        msg_printf(0, MSG_INFO,
+        msg_printf(result->project, MSG_INFO,
             "[cpu_sched] Starting %s%s", result->name, first_time?" (initial)":"(resume)"
         );
     }
@@ -484,7 +484,7 @@ int ACTIVE_TASK::start(bool first_time) {
             break;
         }
         windows_error_string(error_msg, sizeof(error_msg));
-        msg_printf(wup->project, MSG_ERROR,
+        msg_printf(wup->project, MSG_INTERNAL_ERROR,
             "Process creation failed: %s", error_msg
         );
         boinc_sleep(drand());
@@ -610,6 +610,25 @@ int ACTIVE_TASK::start(bool first_time) {
             _exit(retval);
         }
 
+#if 0
+        // set stack size limit to the max.
+        // Some BOINC apps have reported problems with exceeding
+        // small stack limits (e.g. 8 MB)
+        // and it seems like the best thing to raise it as high as possible
+        //
+        struct rlimit rlim;
+#define MIN_STACK_LIMIT 64000000
+        getrlimit(RLIMIT_STACK, &rlim);
+        if (rlim.rlim_cur != RLIM_INFINITY && rlim.rlim_cur <= MIN_STACK_LIMIT) {
+            if (rlim.rlim_max == RLIM_INFINITY || rlim.rlim_max > MIN_STACK_LIMIT) {
+                rlim.rlim_cur = MIN_STACK_LIMIT;
+            } else {
+                rlim.rlim_cur = rlim.rlim_max;
+            }
+            setrlimit(RLIMIT_STACK, &rlim);
+        }
+#endif
+
         // hook up stderr to a specially-named file
         //
         freopen(STDERR_FILE, "a", stderr);
@@ -639,7 +658,7 @@ int ACTIVE_TASK::start(bool first_time) {
             parse_command_line(cmdline, argv+1);
             retval = execv(buf, argv);
         }
-        msg_printf(wup->project, MSG_ERROR,
+        msg_printf(wup->project, MSG_INTERNAL_ERROR,
             "Process creation (%s) failed: %s, errno=%d\n", buf, boincerror(retval), errno
         );
         perror("execv");
@@ -654,7 +673,7 @@ int ACTIVE_TASK::start(bool first_time) {
     }
 
 #endif
-    task_state = PROCESS_EXECUTING;
+    set_task_state(PROCESS_EXECUTING, "start");
     return 0;
 
     // go here on error; "buf" contains error message, "retval" is nonzero
@@ -665,20 +684,20 @@ error:
 	//
 	gstate.input_files_available(result, true);
     gstate.report_result_error(*result, buf);
-    task_state = PROCESS_COULDNT_START;
+    set_task_state(PROCESS_COULDNT_START, "start");
     return retval;
 }
 
 // Resume the task if it was previously running; otherwise start it
 // Postcondition: "state" is set correctly
 //
-int ACTIVE_TASK::resume_or_start() {
+int ACTIVE_TASK::resume_or_start(bool first_time) {
     const char* str = "??";
     int retval;
 
-    switch (task_state) {
+    switch (task_state()) {
     case PROCESS_UNINITIALIZED:
-        if (scheduler_state == CPU_SCHED_UNINITIALIZED) {
+        if (first_time) {
             if (!boinc_file_exists(slot_dir)) {
                 make_slot_dir(slot);
             }
@@ -694,27 +713,24 @@ int ACTIVE_TASK::resume_or_start() {
             str = "Restarting";
         }
         if (retval) {
-            task_state = PROCESS_COULDNT_START;
+            set_task_state(PROCESS_COULDNT_START, "resume_or_start1");
             return retval;
         }
         break;
     case PROCESS_SUSPENDED:
         retval = unsuspend();
         if (retval) {
-            msg_printf(wup->project, MSG_ERROR,
+            msg_printf(wup->project, MSG_INTERNAL_ERROR,
                 "Couldn't resume task %s", result->name
             );
-            task_state = PROCESS_COULDNT_START;
+            set_task_state(PROCESS_COULDNT_START, "resume_or_start2");
             return retval;
         }
         str = "Resuming";
         break;
-    case PROCESS_EXECUTING:
-        return 0;
-        break;
     default:
-        msg_printf(result->project, MSG_ERROR,
-            "Unexpected state %d for task %s", task_state, result->name
+        msg_printf(result->project, MSG_INTERNAL_ERROR,
+            "Unexpected state %d for task %s", task_state(), result->name
         );
         return 0;
     }

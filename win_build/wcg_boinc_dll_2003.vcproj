@@ -22,6 +22,7 @@
 			<Tool
 				Name="VCCLCompilerTool"
 				Optimization="0"
+				AdditionalIncludeDirectories="../lib"
 				PreprocessorDefinitions="WIN32;_WINDOWS;_DEBUG;_USRDLL;_ATL_ATTRIBUTES"
 				MinimalRebuild="TRUE"
 				BasicRuntimeChecks="3"
@@ -89,6 +90,7 @@
 			CharacterSet="2">
 			<Tool
 				Name="VCCLCompilerTool"
+				AdditionalIncludeDirectories="../lib"
 				PreprocessorDefinitions="WIN32;_WINDOWS;NDEBUG;_USRDLL;_ATL_ATTRIBUTES"
 				RuntimeLibrary="2"
 				UsePrecompiledHeader="3"
@@ -158,6 +160,7 @@
 			<Tool
 				Name="VCCLCompilerTool"
 				Optimization="0"
+				AdditionalIncludeDirectories="../lib"
 				PreprocessorDefinitions="WIN32;_WINDOWS;_DEBUG;_USRDLL;_ATL_ATTRIBUTES"
 				MinimalRebuild="TRUE"
 				BasicRuntimeChecks="3"
@@ -225,9 +228,10 @@
 			CharacterSet="2">
 			<Tool
 				Name="VCCLCompilerTool"
-				PreprocessorDefinitions="WIN32;_WINDOWS;NDEBUG;_USRDLL;_ATL_ATTRIBUTES"
+				AdditionalIncludeDirectories="../lib"
+				PreprocessorDefinitions="WIN32;_WINDOWS;NDEBUG;_USRDLL;_ATL_ATTRIBUTES;_BOINC_DLL"
 				RuntimeLibrary="2"
-				UsePrecompiledHeader="3"
+				UsePrecompiledHeader="0"
 				WarningLevel="4"
 				Detect64BitPortabilityProblems="TRUE"
 				DebugInformationFormat="3"
@@ -301,9 +305,6 @@
 				RelativePath="..\clientlib\win\BOINCSENSSink.cpp">
 			</File>
 			<File
-				RelativePath="..\clientlib\win\Identification.cpp">
-			</File>
-			<File
 				RelativePath="..\clientlib\win\IdleTracker.cpp">
 			</File>
 			<File
@@ -339,6 +340,16 @@
 						UsePrecompiledHeader="1"/>
 				</FileConfiguration>
 			</File>
+			<File
+				RelativePath="..\lib\win_util.C">
+				<FileConfiguration
+					Name="Release (SimpleGUI)|Win32">
+					<Tool
+						Name="VCCLCompilerTool"
+						AdditionalIncludeDirectories="../clientlib/win"
+						CompileAs="2"/>
+				</FileConfiguration>
+			</File>
 		</Filter>
 		<Filter
 			Name="Header Files"
@@ -352,9 +363,6 @@
 			</File>
 			<File
 				RelativePath="..\clientlib\win\BOINCSENSSink.h">
-			</File>
-			<File
-				RelativePath="..\clientlib\win\Identification.h">
 			</File>
 			<File
 				RelativePath="..\clientlib\win\IdleTracker.h">
@@ -379,6 +387,9 @@
 			</File>
 			<File
 				RelativePath="..\clientlib\win\stdafx.h">
+			</File>
+			<File
+				RelativePath="..\lib\win_util.h">
 			</File>
 		</Filter>
 		<Filter

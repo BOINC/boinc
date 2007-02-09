@@ -115,7 +115,7 @@ int AUTO_UPDATE::validate_and_link(PROJECT* proj) {
         FILE_REF& fref = file_refs[i];
         fip = gstate.lookup_file_info(project, fref.file_name);
 		if (!fip) {
-			msg_printf(project, MSG_ERROR,
+			msg_printf(project, MSG_INTERNAL_ERROR,
                 "missing update file %s", fref.file_name
             );
             return ERR_INVALID_PARAM;
@@ -126,7 +126,9 @@ int AUTO_UPDATE::validate_and_link(PROJECT* proj) {
 	}
 
     if (nmain != 1) {
-		msg_printf(project, MSG_ERROR, "Auto update has %d main programs", nmain);
+		msg_printf(project, MSG_INTERNAL_ERROR,
+            "Auto update has %d main programs", nmain
+        );
         return ERR_INVALID_PARAM;
     }
     // create version directory
@@ -134,7 +136,7 @@ int AUTO_UPDATE::validate_and_link(PROJECT* proj) {
     boinc_version_dir(*project, version, dir);
     retval = boinc_mkdir(dir);
 	if (retval) {
-		msg_printf(project, MSG_ERROR, "Couldn't make version dir %s", dir);
+		msg_printf(project, MSG_INTERNAL_ERROR, "Couldn't make version dir %s", dir);
 		return retval;
 	}
     gstate.auto_update = *this;
@@ -160,7 +162,7 @@ void AUTO_UPDATE::install() {
         }
     }
     if (!fip) {
-        msg_printf(NULL, MSG_ERROR, "Main program not found");
+        msg_printf(NULL, MSG_INTERNAL_ERROR, "Main program not found");
         return;
     }
     boinc_version_dir(*project, version, version_dir);
