@@ -1,8 +1,8 @@
 msgid ""
 msgstr ""
-"Project-Id-Version: 1.39\n"
+"Project-Id-Version: 1.40\n"
 "POT-Creation-Date: \n"
-"PO-Revision-Date: 2007-01-27 20:37+0800\n"
+"PO-Revision-Date: 2007-02-07 20:35+0800\n"
 "Last-Translator: Yin Gang <zenith.yin@gmail.com>\n"
 "Language-Team: www.EQUN.com <zenith.yin@gmail.com>\n"
 "MIME-Version: 1.0\n"
@@ -10,7 +10,8 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "X-Poedit-Language: Chinese\n"
 "X-Poedit-Country: CHINA\n"
-"X-Poedit-Basepath: E:\\Works\\boinc_src\\dev\n"
+"X-Poedit-SourceCharset: iso-8859-1\n"
+"X-Poedit-Basepath: C:\\src\\BOINC\\Main\\boinc\n"
 "X-Poedit-SearchPath-0: clientgui\n"
 
 #: clientgui/AccountInfoPage.cpp:320
@@ -144,12 +145,12 @@ msgstr "帐号管理器的网址(&U)："
 
 #: clientgui/AccountManagerInfoPage.cpp:188
 msgid "For a list of BOINC-based account managers go to:"
-msgstr "查看BOINC项目的帐号管理器网址列表请到："
+msgstr "查看 BOINC 项目的帐号管理器网址列表请到："
 
 #: clientgui/AccountManagerProcessingPage.cpp:190
 #: clientgui/AccountManagerPropertiesPage.cpp:191
 msgid "Communicating with %s."
-msgstr "正在和%s进行通讯。"
+msgstr "正在和 %s 进行通讯。"
 
 #: clientgui/AccountManagerProcessingPage.cpp:197
 #: clientgui/AccountManagerPropertiesPage.cpp:198
@@ -167,11 +168,11 @@ msgstr "请稍候..."
 msgid "An internal server error has occurred.\n"
 msgstr "服务器上产生了一个内部错误。\n"
 
-#: clientgui/AdvancedFrame.cpp:101
+#: clientgui/AdvancedFrame.cpp:99
 msgid "Connected"
 msgstr "已连接"
 
-#: clientgui/AdvancedFrame.cpp:109
+#: clientgui/AdvancedFrame.cpp:107
 msgid "Disconnected"
 msgstr "已断开"
 
@@ -183,11 +184,11 @@ msgstr "关闭窗口(&C)\tCTRL+W"
 #: clientgui/AdvancedFrame.cpp:313
 #: clientgui/sg_BoincSimpleGUI.cpp:103
 msgid "Close BOINC Manager Window."
-msgstr "关闭BOINC Manager的窗口。"
+msgstr "关闭 BOINC Manager 的窗口。"
 
 #: clientgui/AdvancedFrame.cpp:319
 msgid "Exit the %s"
-msgstr "退出%s"
+msgstr "退出 %s"
 
 #: clientgui/AdvancedFrame.cpp:324
 #: clientgui/BOINCTaskBar.cpp:635
@@ -201,7 +202,7 @@ msgstr "简易视图(&S)"
 
 #: clientgui/AdvancedFrame.cpp:334
 msgid "Display the simple BOINC graphical interface."
-msgstr "显示简洁的BOINC图形界面。"
+msgstr "显示简洁的 BOINC 图形界面。"
 
 #: clientgui/AdvancedFrame.cpp:343
 msgid "Attach to &project..."
@@ -221,11 +222,11 @@ msgstr "加入帐号管理器"
 
 #: clientgui/AdvancedFrame.cpp:353
 msgid "&Synchronize with %s"
-msgstr "与%s进行同步(&S)"
+msgstr "与 %s 进行同步(&S)"
 
 #: clientgui/AdvancedFrame.cpp:357
 msgid "Get current settings from %s"
-msgstr "从%s获取当前的参数设定"
+msgstr "从 %s 获取当前的参数设定"
 
 #: clientgui/AdvancedFrame.cpp:372
 msgid "&Run always"
@@ -293,171 +294,193 @@ msgstr "修改本地参数设置"
 
 #: clientgui/AdvancedFrame.cpp:429
 msgid "Connect to another computer running %s"
-msgstr "连接到另外一台运行%s的计算机"
+msgstr "连接到另外一台运行 %s 的计算机"
 
 #: clientgui/AdvancedFrame.cpp:434
 msgid "Select computer..."
 msgstr "选择计算机..."
 
 #: clientgui/AdvancedFrame.cpp:439
-msgid "Run CPU &benchmarks"
-msgstr "运行CPU基准测试(&B)"
+msgid "Shutdown connected client..."
+msgstr "关闭已连接的客户端..."
 
 #: clientgui/AdvancedFrame.cpp:440
-msgid "Runs BOINC CPU benchmarks"
-msgstr "运行BOINC的CPU基准测试"
+msgid "Shutdown the currently connected core client"
+msgstr "关闭当前已连接的核心客户端"
 
 #: clientgui/AdvancedFrame.cpp:444
+msgid "Run CPU &benchmarks"
+msgstr "运行 CPU 基准测试(&B)"
+
+#: clientgui/AdvancedFrame.cpp:445
+msgid "Runs BOINC CPU benchmarks"
+msgstr "运行 BOINC 的 CPU 基准测试"
+
+#: clientgui/AdvancedFrame.cpp:449
 msgid "Retry &communications"
 msgstr "重试所有连接(&C)"
 
-#: clientgui/AdvancedFrame.cpp:445
+#: clientgui/AdvancedFrame.cpp:450
 msgid "Report completed work, get latest credit, get latest preferences, and possibly get more work."
 msgstr "上报所有完成的任务，获取最新的积分及参数设置，可能下载更多的新任务。"
 
-#: clientgui/AdvancedFrame.cpp:450
+#: clientgui/AdvancedFrame.cpp:455
 msgid "Read config file"
 msgstr "读取配置文件"
 
-#: clientgui/AdvancedFrame.cpp:451
-msgid "Read configuration info from cc-config.xml."
-msgstr "从cc-config.xml中读取配置信息。"
+#: clientgui/AdvancedFrame.cpp:456
+msgid "Read configuration info from cc_config.xml."
+msgstr "从 cc-config.xml 中读取配置信息。"
 
-#: clientgui/AdvancedFrame.cpp:455
+#: clientgui/AdvancedFrame.cpp:460
 msgid "Read local prefs file"
 msgstr "读取本地参数设置文件"
 
-#: clientgui/AdvancedFrame.cpp:456
+#: clientgui/AdvancedFrame.cpp:461
 msgid "Read preferences from global_prefs_override.xml."
-msgstr "从global_prefs_override.xml中读取参数设置。"
+msgstr "从 global_prefs_override.xml 中读取参数设置。"
 
-#: clientgui/AdvancedFrame.cpp:460
-#, c-format
+#: clientgui/AdvancedFrame.cpp:465
 msgid "&Stop using %s"
-msgstr "停止使用%s(&S)"
+msgstr "停止使用 %s(&S)"
 
-#: clientgui/AdvancedFrame.cpp:466
+#: clientgui/AdvancedFrame.cpp:471
 msgid "Remove client from account manager control."
 msgstr "将客户端退出帐号管理器。"
 
-#: clientgui/AdvancedFrame.cpp:470
+#: clientgui/AdvancedFrame.cpp:475
 msgid "Attach to &project"
 msgstr "加入项目(&P)"
 
-#: clientgui/AdvancedFrame.cpp:471
+#: clientgui/AdvancedFrame.cpp:476
 msgid "Attach to a project to begin processing work"
 msgstr "加入一个项目以开始处理任务"
 
-#: clientgui/AdvancedFrame.cpp:482
+#: clientgui/AdvancedFrame.cpp:487
 #: clientgui/sg_BoincSimpleGUI.cpp:112
 msgid "&%s"
 msgstr "&%s"
 
-#: clientgui/AdvancedFrame.cpp:488
+#: clientgui/AdvancedFrame.cpp:493
 #: clientgui/sg_BoincSimpleGUI.cpp:118
 msgid "Show information about the %s"
-msgstr "查看%s的信息"
+msgstr "查看 %s 的信息"
 
-#: clientgui/AdvancedFrame.cpp:500
+#: clientgui/AdvancedFrame.cpp:505
 #: clientgui/sg_BoincSimpleGUI.cpp:130
 msgid "%s &website"
-msgstr "%s网站(&W)"
+msgstr "%s 网站(&W)"
 
-#: clientgui/AdvancedFrame.cpp:506
+#: clientgui/AdvancedFrame.cpp:511
 #: clientgui/sg_BoincSimpleGUI.cpp:136
 msgid "Show information about BOINC and %s"
-msgstr "查看BOINC和%s的信息"
+msgstr "查看 BOINC 和 %s 的信息"
 
-#: clientgui/AdvancedFrame.cpp:522
+#: clientgui/AdvancedFrame.cpp:527
 #: clientgui/BOINCTaskBar.cpp:625
 msgid "&About %s..."
-msgstr "关于%s(&A)..."
+msgstr "关于 %s(&A)..."
 
-#: clientgui/AdvancedFrame.cpp:528
+#: clientgui/AdvancedFrame.cpp:533
 msgid "Licensing and copyright information."
 msgstr "查看许可与版权信息。"
 
-#: clientgui/AdvancedFrame.cpp:535
+#: clientgui/AdvancedFrame.cpp:540
 #: clientgui/sg_BoincSimpleGUI.cpp:159
 msgid "&File"
 msgstr "文件(&F)"
 
-#: clientgui/AdvancedFrame.cpp:539
+#: clientgui/AdvancedFrame.cpp:544
 msgid "&View"
 msgstr "视图(&V)"
 
-#: clientgui/AdvancedFrame.cpp:543
+#: clientgui/AdvancedFrame.cpp:548
 msgid "&Tools"
 msgstr "工具(&T)"
 
-#: clientgui/AdvancedFrame.cpp:547
+#: clientgui/AdvancedFrame.cpp:552
 msgid "&Activity"
 msgstr "活动(&A)"
 
-#: clientgui/AdvancedFrame.cpp:551
+#: clientgui/AdvancedFrame.cpp:556
 msgid "A&dvanced"
 msgstr "高级(&D)"
 
-#: clientgui/AdvancedFrame.cpp:555
+#: clientgui/AdvancedFrame.cpp:560
 #: clientgui/sg_BoincSimpleGUI.cpp:149
 #: clientgui/wizardex.cpp:356
 #: clientgui/wizardex.cpp:363
 msgid "&Help"
 msgstr "帮助(&H)"
 
-#: clientgui/AdvancedFrame.cpp:1177
-msgid "BOINC Manager - Detach from %s"
-msgstr "BOINC Manager - 退出%s"
+#: clientgui/AdvancedFrame.cpp:1091
+msgid "Shutdown the current client..."
+msgstr "关闭当前客户端..."
 
-#: clientgui/AdvancedFrame.cpp:1181
+#: clientgui/AdvancedFrame.cpp:1100
+#, c-format
 msgid ""
-"If you defect from %s,\n"
+"%s is going to shutdown the core client it is currently connected to.\n"
+"NOTE: Choosing 'OK' will cause the select new computer dialog to appear \n"
+"so you can attach to a different core client."
+msgstr ""
+"%s 将要关闭它当前所连接到的核心客户端。\n"
+"注意：点击“确定”后将会显示选择计算机的对话框，以便您可以连接到其它的核心客户端。"
+
+#: clientgui/AdvancedFrame.cpp:1244
+msgid "BOINC Manager - Detach from %s"
+msgstr "BOINC Manager - 退出 %s"
+
+#: clientgui/AdvancedFrame.cpp:1248
+#, c-format
+msgid ""
+"If you stop using %s,\n"
 "you'll keep all your current projects,\n"
 "but you'll have to manage projects manually.\n"
 "\n"
-"Do you want to defect from %s?"
+"Do you want to stop using %s?"
 msgstr ""
-"如果您退出%s，\n"
-"您所有的项目并不受影响，\n"
-"但您将必须手动进行管理。\n"
+"如果您停止使用 %s，\n"
+"您当前所有的项目将会保留，\n"
+"但您将必须手动对它们进行管理。\n"
 "\n"
-"您确定要退出%s吗？"
+"您确定要停止使用 %s 吗？"
 
-#: clientgui/AdvancedFrame.cpp:1231
+#: clientgui/AdvancedFrame.cpp:1298
 msgid "Attaching to project..."
 msgstr "正在加入项目..."
 
-#: clientgui/AdvancedFrame.cpp:1269
+#: clientgui/AdvancedFrame.cpp:1336
 msgid "Retrying communications for project(s)..."
 msgstr "正在重试项目的网络通讯..."
 
-#: clientgui/AdvancedFrame.cpp:1359
+#: clientgui/AdvancedFrame.cpp:1426
 msgid "%s - Language Selection"
 msgstr "%s - 语言选择"
 
-#: clientgui/AdvancedFrame.cpp:1366
+#: clientgui/AdvancedFrame.cpp:1433
 msgid "The %s's default language has been changed, in order for this change to take affect you must restart the %s."
-msgstr "%s的缺省语言已被修改，且必须重启%s才能生效。"
+msgstr "%s 的缺省语言已被修改，且必须重启 %s 才能生效。"
 
-#: clientgui/AdvancedFrame.cpp:1575
+#: clientgui/AdvancedFrame.cpp:1642
 #: clientgui/DlgAbout.cpp:105
 msgid "%s"
 msgstr "%s"
 
-#: clientgui/AdvancedFrame.cpp:1584
+#: clientgui/AdvancedFrame.cpp:1651
 msgid "%s has successfully attached to %s"
-msgstr "%s已经成功地加入了%s"
+msgstr "%s 已经成功地加入了 %s"
 
-#: clientgui/AdvancedFrame.cpp:1708
-#: clientgui/AdvancedFrame.cpp:1711
+#: clientgui/AdvancedFrame.cpp:1775
+#: clientgui/AdvancedFrame.cpp:1778
 msgid "%s - (%s)"
 msgstr "%s - (%s)"
 
-#: clientgui/AdvancedFrame.cpp:1709
+#: clientgui/AdvancedFrame.cpp:1776
 msgid "Connecting to %s"
 msgstr "正在连接至 %s"
 
-#: clientgui/AdvancedFrame.cpp:1712
+#: clientgui/AdvancedFrame.cpp:1779
 msgid "Connected to %s"
 msgstr "已连接至 %s"
 
@@ -503,38 +526,46 @@ msgstr ""
 msgid "%s - Connection Error"
 msgstr "%s - 连接错误"
 
-#: clientgui/BOINCBaseFrame.cpp:366
+#: clientgui/BOINCBaseFrame.cpp:367
+msgid ""
+"Authorization failed connecting to running client.\n"
+"Make sure you start this program in the same directory as the client."
+msgstr ""
+"连接运行中的客户端时发生验证错误。\n"
+"请务必在该客户端所在的文件目录中运行本程序。"
+
+#: clientgui/BOINCBaseFrame.cpp:374
 msgid "The password you have provided is incorrect, please try again."
 msgstr "您提供的密码不正确，请重试。"
 
-#: clientgui/BOINCBaseFrame.cpp:394
+#: clientgui/BOINCBaseFrame.cpp:403
 msgid "%s - Connection Failed"
 msgstr "%s - 连接失败"
 
-#: clientgui/BOINCBaseFrame.cpp:403
+#: clientgui/BOINCBaseFrame.cpp:412
 msgid ""
 "%s is not able to connect to a %s client.\n"
 "Would you like to try to connect again?"
 msgstr ""
-"%s无法连接至%s客户端。\n"
+"%s 无法连接至 %s 客户端。\n"
 "您想再连接一次吗？"
 
-#: clientgui/BOINCBaseFrame.cpp:441
+#: clientgui/BOINCBaseFrame.cpp:450
 msgid "%s - Connection Status"
 msgstr "%s - 连接状态"
 
-#: clientgui/BOINCBaseFrame.cpp:452
+#: clientgui/BOINCBaseFrame.cpp:461
 msgid ""
 "%s is not currently connected to a %s client.\n"
 "Please use the 'Advanced\\Select Computer...' menu option to connect up to a %s client.\n"
 "To connect up to your local computer please use 'localhost' as the host name."
 msgstr ""
-"%s当前未连接至任何%s客户端。\n"
-"请使用菜单中的'高级\\选择计算机...'以连接至一个%s客户端。\n"
+"%s 当前未连接至任何 %s 客户端。\n"
+"请使用菜单中的'高级\\选择计算机...'以连接至一个 %s 客户端。\n"
 "如果要连接至您的本地计算机，请在主机名称中填入'localhost'。"
 
 #: clientgui/BOINCBaseView.cpp:465
-#: clientgui/ViewProjectsGrid.cpp:522
+#: clientgui/ViewProjectsGrid.cpp:559
 #: clientgui/ViewWorkGrid.cpp:443
 msgid "Web sites"
 msgstr "网站"
@@ -545,14 +576,14 @@ msgstr "%s - 网络状态"
 
 #: clientgui/BOINCDialupManager.cpp:260
 msgid "%s needs to connect to the Internet.  Please click to open %s."
-msgstr "%s需要连接至互联网。请点击打开%s。"
+msgstr "%s 需要连接至互联网。请点击打开 %s。"
 
 #: clientgui/BOINCDialupManager.cpp:268
 msgid ""
 "%s is unable to communicate with a project and needs an Internet connection.\n"
 "Please connect to the Internet, then select the 'retry communications' item off the advanced menu."
 msgstr ""
-"%s无法和项目进行通讯，需要连接到互联网。\n"
+"%s 无法和项目进行通讯，需要连接到互联网。\n"
 "请连接至互联网并从菜单中选择'高级->重试所有连接'。"
 
 #: clientgui/BOINCDialupManager.cpp:314
@@ -560,12 +591,12 @@ msgid ""
 "%s needs to connect to the Internet.\n"
 "May it do so now?"
 msgstr ""
-"%s需要连接至互联网。\n"
+"%s 需要连接至互联网。\n"
 "现在就进行连接吗？"
 
 #: clientgui/BOINCDialupManager.cpp:327
 msgid "%s is connecting to the Internet."
-msgstr "%s正在连接至互联网。"
+msgstr "%s 正在连接至互联网。"
 
 #: clientgui/BOINCDialupManager.cpp:358
 msgid ""
@@ -573,52 +604,52 @@ msgid ""
 "Please connect to the Internet, or select a default connection\n"
 "using Advanced/Options/Connections."
 msgstr ""
-"%s无法在互联网上进行通讯，也没有设定缺省连接。\n"
+"%s 无法在互联网上进行通讯，也没有设定缺省连接。\n"
 "请连接至互联网或者从菜单中选择'高级->选项'然后切换到连接页面以设定一个缺省连接。"
 
 #: clientgui/BOINCDialupManager.cpp:392
 msgid "%s has successfully connected to the Internet."
-msgstr "%s已经成功地连接至互联网。"
+msgstr "%s 已经成功地连接至互联网。"
 
 #: clientgui/BOINCDialupManager.cpp:420
 msgid "%s failed to connect to the Internet."
-msgstr "%s连接至互联网失败。"
+msgstr "%s 连接至互联网失败。"
 
 #: clientgui/BOINCDialupManager.cpp:461
 msgid ""
 "%s has detected it is now connected to the Internet.\n"
 "Updating all projects and retrying all transfers."
 msgstr ""
-"%s已经检测到与互联网的连接。\n"
+"%s 已经检测到与互联网的连接。\n"
 "请更新所有项目并重试所有网络传输。"
 
 #: clientgui/BOINCDialupManager.cpp:504
 msgid "%s has successfully disconnected from the Internet."
-msgstr "%s已经成功地断开至互联网的连接。"
+msgstr "%s 已经成功地断开至互联网的连接。"
 
 #: clientgui/BOINCDialupManager.cpp:520
 msgid "%s failed to disconnected from the Internet."
-msgstr "%s断开至互联网的连接失败。"
+msgstr "%s 断开至互联网的连接失败。"
 
 #: clientgui/BOINCGUIApp.cpp:201
 msgid ""
 "BOINC ownership or permissions are not set properly; please reinstall BOINC.\n"
 "(Error code %d)"
 msgstr ""
-"BOINC的所有者或权限设置错误，请重新安装BOINC。\n"
+"BOINC 的所有者或权限设置错误，请重新安装 BOINC。\n"
 "(错误代码 %d)"
 
 #: clientgui/BOINCGUIApp.cpp:376
 msgid "Startup BOINC so only the system tray icon is visible"
-msgstr "启动BOINC时仅显示在系统托盘区"
+msgstr "启动 BOINC 时仅显示在系统托盘区"
 
 #: clientgui/BOINCGUIApp.cpp:377
 msgid "Startup BOINC with these optional arguments"
-msgstr "使用可选参数来启动BOINC"
+msgstr "使用可选参数来启动 BOINC"
 
 #: clientgui/BOINCGUIApp.cpp:378
 msgid "disable BOINC security users and permissions"
-msgstr "禁用BOINC中用户和权限相关的安全选项"
+msgstr "禁用 BOINC 中用户和权限相关的安全选项"
 
 #: clientgui/BOINCGUIApp.cpp:442
 msgid "(Automatic Detection)"
@@ -638,27 +669,27 @@ msgstr "%s - 退出确认"
 
 #: clientgui/BOINCTaskBar.cpp:349
 msgid "%s is currently suspended...\n"
-msgstr "%s已被暂停...\n"
+msgstr "%s 已被暂停...\n"
 
 #: clientgui/BOINCTaskBar.cpp:361
 msgid "%s networking is currently suspended...\n"
-msgstr "%s的网络已被暂停...\n"
+msgstr "%s 的网络已被暂停...\n"
 
 #: clientgui/BOINCTaskBar.cpp:401
 msgid "%s is currently reconnecting to a %s client...\n"
-msgstr "%s正在重新连接至一个%s客户端...\n"
+msgstr "%s 正在重新连接至一个 %s 客户端...\n"
 
 #: clientgui/BOINCTaskBar.cpp:413
 msgid "%s is not currently connected to a %s client...\n"
-msgstr "%s当前没有连接到任何%s客户端...\n"
+msgstr "%s 当前没有连接到任何 %s 客户端...\n"
 
 #: clientgui/BOINCTaskBar.cpp:606
 msgid "Open %s Web..."
-msgstr "打开%s的网站..."
+msgstr "打开 %s 的网站..."
 
 #: clientgui/BOINCTaskBar.cpp:613
 msgid "Open %s..."
-msgstr "打开%s..."
+msgstr "打开 %s..."
 
 #: clientgui/BOINCTaskBar.cpp:620
 msgid "Snooze"
@@ -720,7 +751,7 @@ msgstr "点击完成，您的浏览器将打开一个网页，您可在网页上
 
 #: clientgui/CompletionPage.cpp:236
 msgid "Update from %s completed."
-msgstr "从%s的更新已完成。"
+msgstr "从 %s 的更新已完成。"
 
 #: clientgui/CompletionPage.cpp:240
 msgid "Update completed."
@@ -728,7 +759,7 @@ msgstr "更新已完成。"
 
 #: clientgui/CompletionPage.cpp:257
 msgid "Removal from %s completed."
-msgstr "退出%s已完成。"
+msgstr "退出 %s 已完成。"
 
 #: clientgui/CompletionPage.cpp:261
 msgid "Removal succeeded!"
@@ -736,7 +767,7 @@ msgstr "退出成功！"
 
 #: clientgui/CompletionPage.cpp:278
 msgid "Attached to %s"
-msgstr "已经加入了%s"
+msgstr "已经加入了 %s"
 
 #: clientgui/CompletionPage.cpp:282
 msgid "Attached to account manager"
@@ -744,13 +775,11 @@ msgstr "已经加入到帐号管理器"
 
 #: clientgui/CompletionPage.cpp:292
 msgid "Welcome to %s!"
-msgstr "欢迎来到%s！"
+msgstr "欢迎来到 %s！"
 
 #: clientgui/CompletionPage.cpp:306
 msgid "You are now successfully attached to the %s system."
-msgstr ""
-"您已经成功地加入了%s系统。\n"
-"%s"
+msgstr "您已经成功地加入了 %s 系统。"
 
 #: clientgui/CompletionPage.cpp:310
 msgid "You are now successfully attached to this account manager."
@@ -758,7 +787,7 @@ msgstr "您已经成功地加入了当前帐号管理器。"
 
 #: clientgui/DlgAbout.cpp:99
 msgid "About %s"
-msgstr "关于%s"
+msgstr "关于 %s"
 
 #: clientgui/DlgAbout.cpp:137
 msgid "BOINC Manager"
@@ -774,10 +803,10 @@ msgstr "版权所有："
 
 #: clientgui/DlgAbout.cpp:168
 msgid ""
-"(C) 2003-2006 University of California at Berkeley.\n"
+"(C) 2003-2007 University of California at Berkeley.\n"
 "All Rights Reserved."
 msgstr ""
-"(C) 2003-2006 加州大学伯克利分校。 \n"
+"(C) 2003-2007 加州大学伯克利分校。\n"
 "保留所有权利。\n"
 "\n"
 "(中文翻译由 Youth@www.EQUN.com 完成)"
@@ -787,12 +816,12 @@ msgid "Berkeley Open Infrastructure for Network Computing"
 msgstr "伯克利开放式网络计算平台 (BOINC)"
 
 #: clientgui/DlgAbout.cpp:176
-msgid "A software platform for distributed computing using volunteered computer resources"
-msgstr "利用用户自愿捐献的计算机资源进行分布式计算的软件平台"
+msgid "A system for volunteer computing"
+msgstr "志愿计算系统"
 
 #: clientgui/DlgAbout.cpp:188
 #: clientgui/DlgGenericMessage.cpp:122
-#: clientgui/DlgOptions.cpp:320
+#: clientgui/DlgOptions.cpp:326
 #: clientgui/DlgSelectComputer.cpp:133
 msgid "&OK"
 msgstr "确定(&O)"
@@ -999,7 +1028,7 @@ msgstr "磁盘使用"
 
 #: clientgui/DlgAdvPreferencesBase.cpp:471
 msgid "Gigabytes disk space"
-msgstr "磁盘空间（GB）"
+msgstr "磁盘空间(GB)"
 
 #: clientgui/DlgAdvPreferencesBase.cpp:474
 msgid "leave at least"
@@ -1007,7 +1036,7 @@ msgstr "至少保留"
 
 #: clientgui/DlgAdvPreferencesBase.cpp:482
 msgid "Gigabytes disk space free"
-msgstr "剩余磁盘空间（GB）"
+msgstr "剩余磁盘空间(GB)"
 
 #: clientgui/DlgAdvPreferencesBase.cpp:493
 #, c-format
@@ -1067,7 +1096,7 @@ msgid "Click here to disable displaying this message in the future."
 msgstr "点击此处将禁止以后该信息的显示。"
 
 #: clientgui/DlgGenericMessage.cpp:127
-#: clientgui/DlgOptions.cpp:325
+#: clientgui/DlgOptions.cpp:331
 #: clientgui/DlgSelectComputer.cpp:138
 #: clientgui/wizardex.cpp:360
 msgid "&Cancel"
@@ -1079,95 +1108,95 @@ msgstr "语言选择："
 
 #: clientgui/DlgOptions.cpp:145
 msgid "What language should the manager display by default."
-msgstr "BOINC Manager缺省显示的语言。"
+msgstr "BOINC Manager 缺省显示的语言。"
 
 #: clientgui/DlgOptions.cpp:149
 msgid "Reminder Frequency:"
 msgstr "提醒间隔："
 
-#: clientgui/DlgOptions.cpp:155
+#: clientgui/DlgOptions.cpp:161
 msgid "How often, in minutes, should the manager remind you of possible connection events."
-msgstr "BOINC Manager应该隔多久提醒您可能的连接事件。(以分钟为单位)"
+msgstr "BOINC Manager 应该隔多久提醒您可能的连接事件。(以分钟为单位)"
 
-#: clientgui/DlgOptions.cpp:158
+#: clientgui/DlgOptions.cpp:164
 msgid "General"
 msgstr "综合"
 
-#: clientgui/DlgOptions.cpp:166
+#: clientgui/DlgOptions.cpp:172
 msgid "Dial-up and Virtual Private Network settings"
-msgstr "拨号及VPN设置"
+msgstr "拨号及 VPN 设置"
 
-#: clientgui/DlgOptions.cpp:180
+#: clientgui/DlgOptions.cpp:186
 msgid "&Set Default"
 msgstr "设置默认值(&S)"
 
-#: clientgui/DlgOptions.cpp:185
+#: clientgui/DlgOptions.cpp:191
 msgid "&Clear Default"
 msgstr "清除默认值(&C)"
 
-#: clientgui/DlgOptions.cpp:192
+#: clientgui/DlgOptions.cpp:198
 msgid "Default Connection:"
 msgstr "缺省连接："
 
-#: clientgui/DlgOptions.cpp:199
+#: clientgui/DlgOptions.cpp:205
 msgid "Connections"
 msgstr "连接"
 
-#: clientgui/DlgOptions.cpp:208
+#: clientgui/DlgOptions.cpp:214
 msgid "Connect via HTTP proxy server"
-msgstr "通过HTTP代理连接"
+msgstr "通过 HTTP 代理连接"
 
-#: clientgui/DlgOptions.cpp:212
+#: clientgui/DlgOptions.cpp:218
 msgid "HTTP Proxy Server Configuration"
-msgstr "HTTP代理配置"
+msgstr "HTTP 代理配置"
 
-#: clientgui/DlgOptions.cpp:220
-#: clientgui/DlgOptions.cpp:276
+#: clientgui/DlgOptions.cpp:226
+#: clientgui/DlgOptions.cpp:282
 msgid "Address:"
 msgstr "地址："
 
-#: clientgui/DlgOptions.cpp:228
-#: clientgui/DlgOptions.cpp:284
+#: clientgui/DlgOptions.cpp:234
+#: clientgui/DlgOptions.cpp:290
 #: clientgui/ProxyPage.cpp:346
 #: clientgui/ProxyPage.cpp:366
 msgid "Port:"
 msgstr "端口："
 
-#: clientgui/DlgOptions.cpp:235
-#: clientgui/DlgOptions.cpp:291
+#: clientgui/DlgOptions.cpp:241
+#: clientgui/DlgOptions.cpp:297
 msgid "Leave these blank if not needed"
 msgstr "下面的内容如果不需要请留空"
 
-#: clientgui/DlgOptions.cpp:241
-#: clientgui/DlgOptions.cpp:297
+#: clientgui/DlgOptions.cpp:247
+#: clientgui/DlgOptions.cpp:303
 #: clientgui/ProxyPage.cpp:349
 #: clientgui/ProxyPage.cpp:369
 msgid "User Name:"
 msgstr "用户名："
 
-#: clientgui/DlgOptions.cpp:249
-#: clientgui/DlgOptions.cpp:305
+#: clientgui/DlgOptions.cpp:255
+#: clientgui/DlgOptions.cpp:311
 #: clientgui/DlgSelectComputer.cpp:122
 #: clientgui/ProxyPage.cpp:352
 #: clientgui/ProxyPage.cpp:372
 msgid "Password:"
 msgstr "密码："
 
-#: clientgui/DlgOptions.cpp:256
+#: clientgui/DlgOptions.cpp:262
 msgid "HTTP Proxy"
-msgstr "HTTP代理"
+msgstr "HTTP 代理"
 
-#: clientgui/DlgOptions.cpp:264
+#: clientgui/DlgOptions.cpp:270
 msgid "Connect via SOCKS proxy server"
-msgstr "通过SOCKS代理连接"
+msgstr "通过 SOCKS 代理连接"
 
-#: clientgui/DlgOptions.cpp:268
+#: clientgui/DlgOptions.cpp:274
 msgid "SOCKS Proxy Server Configuration"
-msgstr "SOCKS代理配置"
+msgstr "SOCKS 代理配置"
 
-#: clientgui/DlgOptions.cpp:312
+#: clientgui/DlgOptions.cpp:318
 msgid "SOCKS Proxy"
-msgstr "SOCKS代理"
+msgstr "SOCKS 代理"
 
 #: clientgui/DlgSelectComputer.cpp:113
 msgid "Host name:"
@@ -1186,10 +1215,10 @@ msgid ""
 "BROWSER to the path of your web browser,\n"
 "then restart the %s."
 msgstr ""
-"%s试图显示该网页\n"
+"%s 试图显示该网页\n"
 "\t%s\n"
 "但无法找到网络浏览器。\n"
-"请在环境变量中设置您的网络浏览器路径，然后重新运行%s。"
+"请在环境变量中设置您的网络浏览器路径，然后重新运行 %s。"
 
 #: clientgui/Localization.cpp:33
 #: clientgui/Localization.cpp:71
@@ -1198,7 +1227,7 @@ msgstr "留言板"
 
 #: clientgui/Localization.cpp:35
 msgid "Correspond with other users on the SETI@home message boards"
-msgstr "在留言板上可以和其他SETI@home用户进行交流"
+msgstr "在留言板上可以和其他 SETI@home 用户进行交流"
 
 #: clientgui/Localization.cpp:39
 msgid "Ask questions and report problems"
@@ -1223,7 +1252,7 @@ msgstr "您的参数设置"
 
 #: clientgui/Localization.cpp:47
 msgid "View and modify your SETI@home account profile and preferences"
-msgstr "查看和修改您的SETI@home帐号及参数设置"
+msgstr "查看和修改您的 SETI@home 帐号及参数设置"
 
 #: clientgui/Localization.cpp:49
 #: clientgui/Localization.cpp:91
@@ -1242,7 +1271,7 @@ msgstr "您的计算机"
 
 #: clientgui/Localization.cpp:55
 msgid "View a listing of all the computers on which you are running SETI@Home"
-msgstr "查看您用来运行SETI@home的计算机列表"
+msgstr "查看您用来运行 SETI@home 的计算机列表"
 
 #: clientgui/Localization.cpp:57
 #: clientgui/Localization.cpp:99
@@ -1260,7 +1289,7 @@ msgstr "常见问题"
 
 #: clientgui/Localization.cpp:65
 msgid "Read the Einstein@Home Frequently Asked Question list"
-msgstr "阅读Einstein@Home的常见问答列表"
+msgstr "阅读 Einstein@Home 的常见问答列表"
 
 #: clientgui/Localization.cpp:67
 msgid "Screensaver info"
@@ -1268,11 +1297,11 @@ msgstr "屏保信息"
 
 #: clientgui/Localization.cpp:69
 msgid "Read a detailed description of the Einstein@Home screensaver"
-msgstr "阅读Einstein@Home屏保的详细信息"
+msgstr "阅读 Einstein@Home 屏保的详细信息"
 
 #: clientgui/Localization.cpp:73
 msgid "Correspond with admins and other users on the Einstein@Home message boards"
-msgstr "和管理员及其他Einstein@Home用户进行交流"
+msgstr "和管理员及其他 Einstein@Home 用户进行交流"
 
 #: clientgui/Localization.cpp:75
 msgid "Einstein status"
@@ -1280,7 +1309,7 @@ msgstr "服务器状态"
 
 #: clientgui/Localization.cpp:77
 msgid "Current status of the Einstein@Home server"
-msgstr "Einstein@Home服务器的当前状态"
+msgstr "Einstein@Home 服务器的当前状态"
 
 #: clientgui/Localization.cpp:79
 msgid "Report problems"
@@ -1288,11 +1317,11 @@ msgstr "报告问题"
 
 #: clientgui/Localization.cpp:81
 msgid "A link to the Einstein@Home problems and bug reports message board"
-msgstr "链接到Einstein@Home留言板的提问及报错版面"
+msgstr "链接到 Einstein@Home 留言板的提问及报错版面"
 
 #: clientgui/Localization.cpp:85
 msgid "View and modify your Einstein@Home account profile and preferences"
-msgstr "查看和修改您的Einstein@Home帐号及参数设置"
+msgstr "查看和修改您的 Einstein@Home 帐号及参数设置"
 
 #: clientgui/Localization.cpp:87
 msgid "Account summary"
@@ -1300,7 +1329,7 @@ msgstr "帐号概要"
 
 #: clientgui/Localization.cpp:97
 msgid "View a listing of all the computers on which you are running Einstein@Home"
-msgstr "查看您用来运行Einstein@Home的计算机列表"
+msgstr "查看您用来运行 Einstein@Home 的计算机列表"
 
 #: clientgui/Localization.cpp:103
 msgid "LIGO project"
@@ -1312,16 +1341,16 @@ msgstr "激光干涉引力波观测站(LIGO)项目的主页"
 
 #: clientgui/Localization.cpp:107
 msgid "GEO-600 project"
-msgstr "GEO-600项目"
+msgstr "GEO-600 项目"
 
 #: clientgui/Localization.cpp:109
 msgid "The home page of the GEO-600 project"
-msgstr "GEO-600项目的主页"
+msgstr "GEO-600 项目的主页"
 
 #: clientgui/Localization.cpp:117
 #: clientgui/Localization.cpp:135
 #: clientgui/ViewProjects.cpp:155
-#: clientgui/ViewProjectsGrid.cpp:165
+#: clientgui/ViewProjectsGrid.cpp:212
 #: clientgui/ViewStatistics.cpp:400
 msgid "Team"
 msgstr "团队"
@@ -1332,7 +1361,7 @@ msgstr "您的团队信息"
 
 #: clientgui/Localization.cpp:125
 msgid "Get help for climateprediction.net"
-msgstr "从CPDN得到帮助"
+msgstr "从 CPDN 得到帮助"
 
 #: clientgui/Localization.cpp:127
 msgid "News"
@@ -1340,7 +1369,7 @@ msgstr "新闻"
 
 #: clientgui/Localization.cpp:129
 msgid "climateprediction.net News"
-msgstr "CPDN的项目新闻"
+msgstr "CPDN 的项目新闻"
 
 #: clientgui/Localization.cpp:133
 msgid "View your account information, credits, and trickles"
@@ -1386,11 +1415,11 @@ msgstr "研究"
 msgid "Learn about the projects hosted at World Community Grid"
 msgstr "了解WCG平台上的项目"
 
-#: clientgui/MainDocument.cpp:325
+#: clientgui/MainDocument.cpp:328
 msgid "Retrieving system state; please wait..."
 msgstr "正在读取系统状态，请稍候..."
 
-#: clientgui/MainDocument.cpp:333
+#: clientgui/MainDocument.cpp:336
 msgid "Retrieving host information; please wait..."
 msgstr "正在读取主机信息，请稍候..."
 
@@ -1412,7 +1441,7 @@ msgid ""
 "\n"
 "Please check the URL and try again."
 msgstr ""
-"您提供的网址并不属于任何一个BOINC项目。\n"
+"您提供的网址并不属于任何一个 BOINC 项目。\n"
 "\n"
 "请检查该网址并重试。"
 
@@ -1427,7 +1456,7 @@ msgid ""
 "\n"
 "Please check the URL and try again."
 msgstr ""
-"您提供的网址并不属于任何一个基于BOINC的帐号管理器。\n"
+"您提供的网址并不属于任何一个基于 BOINC 的帐号管理器。\n"
 "\n"
 "请检查该网址并重试。"
 
@@ -1457,7 +1486,7 @@ msgstr "项目网址(&U)："
 
 #: clientgui/ProjectInfoPage.cpp:244
 msgid "For a list of BOINC-based projects go to:"
-msgstr "查看BOINC项目列表请到："
+msgstr "查看 BOINC 项目列表请到："
 
 #: clientgui/ProjectProcessingPage.cpp:326
 #: clientgui/ProjectPropertiesPage.cpp:327
@@ -1495,14 +1524,14 @@ msgid ""
 "3) You are using a proxy server.\n"
 "Click Next to configure BOINC's proxy settings."
 msgstr ""
-"BOINC无法在互联网上通讯，可能的原因有：\n"
+"BOINC 无法在互联网上通讯，可能的原因有：\n"
 "\n"
 "1) 连接问题。请检查您的网络或拨号连接并点击上一步以重试。\n"
 "\n"
 "2) 被个人防火墙阻挡，您必须配置您的防火墙以允许BOINC在80端口的通讯。\n"
 "配置完成后，请点击上一步进行重试。\n"
 "\n"
-"3) 您正在通过代理服务器接入互联网，请点击下一步以进行对BOINC的代理设置。"
+"3) 您正在通过代理服务器接入互联网，请点击下一步以进行对 BOINC 的代理设置。"
 
 #: clientgui/ProxyPage.cpp:337
 msgid "Proxy configuration"
@@ -1582,7 +1611,7 @@ msgstr "无法连接至核心客户端"
 #: clientgui/ViewMessages.cpp:110
 #: clientgui/ViewMessagesGrid.cpp:133
 #: clientgui/ViewProjects.cpp:153
-#: clientgui/ViewProjectsGrid.cpp:165
+#: clientgui/ViewProjectsGrid.cpp:212
 #: clientgui/ViewStatistics.cpp:370
 #: clientgui/ViewStatistics.cpp:1630
 #: clientgui/ViewTransfers.cpp:117
@@ -1629,7 +1658,7 @@ msgstr "复制选中的消息至剪贴板。您可以在选择的时候通过按
 #: clientgui/sg_DlgPreferences.cpp:506
 #: clientgui/sg_ProjectsComponent.cpp:116
 msgid "Get help with BOINC"
-msgstr "从BOINC得到帮助"
+msgstr "从 BOINC 得到帮助"
 
 #: clientgui/sg_DlgMessages.cpp:740
 msgid "BOINC Manager - Messages"
@@ -1850,21 +1879,21 @@ msgstr "打开一个窗口进行参数设置"
 
 #: clientgui/sg_ProjectsComponent.cpp:244
 msgid "Switch to the BOINC advanced view"
-msgstr "切换到BOINC的高级视图"
+msgstr "切换到 BOINC 的高级视图"
 
 #: clientgui/sg_StatImageLoader.cpp:103
 msgid "%s. Work done by %s: %0.2f"
-msgstr "%s。%s已经完成的任务：%0.2f"
+msgstr "%s。%s 已经完成的任务：%0.2f"
 
 #: clientgui/sg_StatImageLoader.cpp:218
 #: clientgui/ViewProjects.cpp:349
-#: clientgui/ViewProjectsGrid.cpp:370
+#: clientgui/ViewProjectsGrid.cpp:408
 msgid "Are you sure you want to detach from project '%s'?"
 msgstr "您确定要退出'%s'项目吗？"
 
 #: clientgui/sg_StatImageLoader.cpp:224
 #: clientgui/ViewProjects.cpp:355
-#: clientgui/ViewProjectsGrid.cpp:376
+#: clientgui/ViewProjectsGrid.cpp:413
 msgid "Detach from Project"
 msgstr "退出项目"
 
@@ -1900,9 +1929,9 @@ msgid ""
 "rather than to exit the application; that will allow %s to run its\n"
 "tasks at the times you selected in your preferences."
 msgstr ""
-"本操作将会退出%s及其所有任务直到重新运行%s或是重新启动%s屏保。\n"
+"本操作将会退出 %s 及其所有任务直到重新运行 %s 或是重新启动 %s 屏保。\n"
 "\n"
-"一般情况下，建议只关闭%s的窗口而不是退出应用程序，这样%s将会在您设定的时间段内进行工作。"
+"一般情况下，建议只关闭 %s 的窗口而不是退出应用程序，这样 %s 将会在您设定的时间段内进行工作。"
 
 #: clientgui/UnavailablePage.cpp:186
 msgid "Project temporarily unavailable"
@@ -2000,7 +2029,7 @@ msgstr "'%s'中未包含正确的路径。"
 #: clientgui/ViewMessages.cpp:80
 #: clientgui/ViewMessagesGrid.cpp:98
 #: clientgui/ViewProjects.cpp:105
-#: clientgui/ViewProjectsGrid.cpp:112
+#: clientgui/ViewProjectsGrid.cpp:159
 #: clientgui/ViewStatistics.cpp:1599
 #: clientgui/ViewTransfers.cpp:94
 #: clientgui/ViewTransfersGrid.cpp:101
@@ -2051,19 +2080,19 @@ msgid "Copying selected messages to Clipboard..."
 msgstr "复制选中的消息到剪贴板..."
 
 #: clientgui/ViewProjects.cpp:109
-#: clientgui/ViewProjectsGrid.cpp:116
+#: clientgui/ViewProjectsGrid.cpp:163
 msgid "Update"
 msgstr "更新"
 
 #: clientgui/ViewProjects.cpp:110
-#: clientgui/ViewProjectsGrid.cpp:117
+#: clientgui/ViewProjectsGrid.cpp:164
 msgid "Report all completed tasks, get latest credit, get latest preferences, and possibly get more tasks."
 msgstr "上报所有完成的任务，获取最新的积分及参数设置，可能下载更多的新任务。"
 
 #: clientgui/ViewProjects.cpp:117
 #: clientgui/ViewProjects.cpp:568
-#: clientgui/ViewProjectsGrid.cpp:124
-#: clientgui/ViewProjectsGrid.cpp:455
+#: clientgui/ViewProjectsGrid.cpp:171
+#: clientgui/ViewProjectsGrid.cpp:492
 #: clientgui/ViewWork.cpp:113
 #: clientgui/ViewWork.cpp:511
 #: clientgui/ViewWorkGrid.cpp:114
@@ -2073,66 +2102,66 @@ msgstr "暂停"
 
 #: clientgui/ViewProjects.cpp:118
 #: clientgui/ViewProjects.cpp:568
-#: clientgui/ViewProjectsGrid.cpp:125
-#: clientgui/ViewProjectsGrid.cpp:455
+#: clientgui/ViewProjectsGrid.cpp:172
+#: clientgui/ViewProjectsGrid.cpp:492
 msgid "Suspend tasks for this project."
 msgstr "暂停当前项目的所有任务。"
 
 #: clientgui/ViewProjects.cpp:124
 #: clientgui/ViewProjects.cpp:580
-#: clientgui/ViewProjectsGrid.cpp:131
-#: clientgui/ViewProjectsGrid.cpp:467
+#: clientgui/ViewProjectsGrid.cpp:178
+#: clientgui/ViewProjectsGrid.cpp:504
 msgid "No new tasks"
 msgstr "禁止下载新任务"
 
 #: clientgui/ViewProjects.cpp:125
-#: clientgui/ViewProjectsGrid.cpp:132
+#: clientgui/ViewProjectsGrid.cpp:179
 msgid "Don't get new tasks for this project."
 msgstr "该项目不再下载任何新任务。"
 
 #: clientgui/ViewProjects.cpp:131
-#: clientgui/ViewProjectsGrid.cpp:138
+#: clientgui/ViewProjectsGrid.cpp:185
 msgid "Reset project"
 msgstr "重置项目"
 
 #: clientgui/ViewProjects.cpp:132
-#: clientgui/ViewProjectsGrid.cpp:139
+#: clientgui/ViewProjectsGrid.cpp:186
 msgid "Delete all files and tasks associated with this project, and get new tasks.  You can update the project first to report any completed tasks."
 msgstr "删除并重新下载当前项目所有相关文件。您可以先更新当前项目以上传所有已经完成的任务。"
 
 #: clientgui/ViewProjects.cpp:141
-#: clientgui/ViewProjectsGrid.cpp:148
+#: clientgui/ViewProjectsGrid.cpp:195
 msgid "Detach"
 msgstr "退出"
 
 #: clientgui/ViewProjects.cpp:142
-#: clientgui/ViewProjectsGrid.cpp:149
+#: clientgui/ViewProjectsGrid.cpp:196
 msgid "Detach computer from this project.  Tasks in progress will be lost (use 'Update' first to report any completed tasks)."
 msgstr "在本计算机上退出当前项目。该项目所有正在计算的任务将丢失，您可以先点击“更新”按钮以上报所有已经完成的任务。"
 
 #: clientgui/ViewProjects.cpp:154
-#: clientgui/ViewProjectsGrid.cpp:165
+#: clientgui/ViewProjectsGrid.cpp:212
 #: clientgui/ViewStatistics.cpp:385
 msgid "Account"
 msgstr "帐号"
 
 #: clientgui/ViewProjects.cpp:156
-#: clientgui/ViewProjectsGrid.cpp:165
+#: clientgui/ViewProjectsGrid.cpp:212
 msgid "Work done"
 msgstr "总积分"
 
 #: clientgui/ViewProjects.cpp:157
-#: clientgui/ViewProjectsGrid.cpp:165
+#: clientgui/ViewProjectsGrid.cpp:212
 msgid "Avg. work done"
 msgstr "近期平均积分"
 
 #: clientgui/ViewProjects.cpp:158
-#: clientgui/ViewProjectsGrid.cpp:165
+#: clientgui/ViewProjectsGrid.cpp:212
 msgid "Resource share"
 msgstr "资源分享"
 
 #: clientgui/ViewProjects.cpp:159
-#: clientgui/ViewProjectsGrid.cpp:165
+#: clientgui/ViewProjectsGrid.cpp:212
 #: clientgui/ViewTransfers.cpp:123
 #: clientgui/ViewTransfersGrid.cpp:129
 #: clientgui/ViewWork.cpp:139
@@ -2141,137 +2170,134 @@ msgid "Status"
 msgstr "状态"
 
 #: clientgui/ViewProjects.cpp:172
+#: clientgui/ViewProjectsGrid.cpp:235
 msgid "Projects"
 msgstr "项目"
 
 #: clientgui/ViewProjects.cpp:195
-#: clientgui/ViewProjectsGrid.cpp:211
+#: clientgui/ViewProjectsGrid.cpp:258
 msgid "Updating project..."
 msgstr "正在更新项目..."
 
 #: clientgui/ViewProjects.cpp:223
-#: clientgui/ViewProjectsGrid.cpp:241
+#: clientgui/ViewProjectsGrid.cpp:288
 msgid "Resuming project..."
 msgstr "正在继续项目..."
 
 #: clientgui/ViewProjects.cpp:227
-#: clientgui/ViewProjectsGrid.cpp:245
+#: clientgui/ViewProjectsGrid.cpp:292
 msgid "Suspending project..."
 msgstr "正在暂停项目..."
 
 #: clientgui/ViewProjects.cpp:255
-#: clientgui/ViewProjectsGrid.cpp:274
+#: clientgui/ViewProjectsGrid.cpp:321
 msgid "Telling project to allow additional task downloads..."
 msgstr "允许项目下载更多的任务..."
 
 #: clientgui/ViewProjects.cpp:259
-#: clientgui/ViewProjectsGrid.cpp:278
+#: clientgui/ViewProjectsGrid.cpp:325
 msgid "Telling project to not fetch any additional tasks..."
 msgstr "禁止项目下载更多的任务..."
 
 #: clientgui/ViewProjects.cpp:293
-#: clientgui/ViewProjectsGrid.cpp:312
+#: clientgui/ViewProjectsGrid.cpp:358
 msgid "Resetting project..."
 msgstr "正在重置项目..."
 
 #: clientgui/ViewProjects.cpp:299
-#: clientgui/ViewProjectsGrid.cpp:319
+#: clientgui/ViewProjectsGrid.cpp:362
 msgid "Are you sure you want to reset project '%s'?"
 msgstr "您确定要重置'%s'项目吗？"
 
 #: clientgui/ViewProjects.cpp:305
-#: clientgui/ViewProjectsGrid.cpp:325
+#: clientgui/ViewProjectsGrid.cpp:366
 msgid "Reset Project"
 msgstr "重置项目"
 
 #: clientgui/ViewProjects.cpp:343
-#: clientgui/ViewProjectsGrid.cpp:363
+#: clientgui/ViewProjectsGrid.cpp:404
 msgid "Detaching from project..."
 msgstr "正在退出项目..."
 
 #: clientgui/ViewProjects.cpp:384
-#: clientgui/ViewProjectsGrid.cpp:405
+#: clientgui/ViewProjectsGrid.cpp:442
 #: clientgui/ViewWork.cpp:318
 #: clientgui/ViewWorkGrid.cpp:339
 msgid "Launching browser..."
 msgstr "正在启动浏览器..."
 
 #: clientgui/ViewProjects.cpp:564
-#: clientgui/ViewProjectsGrid.cpp:451
+#: clientgui/ViewProjectsGrid.cpp:488
 #: clientgui/ViewWork.cpp:505
 #: clientgui/ViewWorkGrid.cpp:376
 msgid "Resume"
 msgstr "继续"
 
 #: clientgui/ViewProjects.cpp:564
-#: clientgui/ViewProjectsGrid.cpp:451
+#: clientgui/ViewProjectsGrid.cpp:488
 msgid "Resume tasks for this project."
 msgstr "继续当前任务的计算。"
 
 #: clientgui/ViewProjects.cpp:576
-#: clientgui/ViewProjectsGrid.cpp:463
+#: clientgui/ViewProjectsGrid.cpp:500
 msgid "Allow new tasks"
 msgstr "允许下载新任务"
 
 #: clientgui/ViewProjects.cpp:576
-#: clientgui/ViewProjectsGrid.cpp:463
+#: clientgui/ViewProjectsGrid.cpp:500
 msgid "Allow fetching new tasks for this project."
 msgstr "允许当前项目下载新任务。"
 
 #: clientgui/ViewProjects.cpp:580
-#: clientgui/ViewProjectsGrid.cpp:467
+#: clientgui/ViewProjectsGrid.cpp:504
 msgid "Don't fetch new tasks for this project."
 msgstr "禁止当前项目下载新任务。"
 
 #: clientgui/ViewProjects.cpp:682
-#: clientgui/ViewProjectsGrid.cpp:634
+#: clientgui/ViewProjectsGrid.cpp:802
 msgid "Suspended by user"
 msgstr "已被用户暂停"
 
 #: clientgui/ViewProjects.cpp:685
-#: clientgui/ViewProjectsGrid.cpp:637
+#: clientgui/ViewProjectsGrid.cpp:805
 msgid "Won't get new tasks"
 msgstr "禁止下载新任务"
 
 #: clientgui/ViewProjects.cpp:688
-#: clientgui/ViewProjectsGrid.cpp:640
+#: clientgui/ViewProjectsGrid.cpp:808
 msgid "Scheduler request pending"
 msgstr "等待调度请求"
 
 #: clientgui/ViewProjects.cpp:695
-#: clientgui/ViewProjectsGrid.cpp:647
+#: clientgui/ViewProjectsGrid.cpp:815
 msgid "Communication deferred "
 msgstr "通讯被延迟 "
 
-#: clientgui/ViewProjectsGrid.cpp:188
-msgid "ProjectsGrid"
-msgstr "项目窗格"
-
-#: clientgui/ViewResources.cpp:85
+#: clientgui/ViewResources.cpp:82
 msgid "total disk usage"
 msgstr "总磁盘占用"
 
-#: clientgui/ViewResources.cpp:96
+#: clientgui/ViewResources.cpp:92
 msgid "disk usage by BOINC projects"
-msgstr "BOINC项目的磁盘占用"
+msgstr "BOINC 项目的磁盘占用"
 
-#: clientgui/ViewResources.cpp:115
+#: clientgui/ViewResources.cpp:111
 msgid "Disk"
 msgstr "磁盘"
 
-#: clientgui/ViewResources.cpp:209
+#: clientgui/ViewResources.cpp:205
 msgid "not attached to any BOINC project - 0 bytes"
-msgstr "未加入到任何BOINC项目 - 0字节"
+msgstr "未加入到任何 BOINC 项目 - 0字节"
 
-#: clientgui/ViewResources.cpp:225
+#: clientgui/ViewResources.cpp:221
 msgid "free disk space - "
 msgstr "剩余磁盘空间 - "
 
-#: clientgui/ViewResources.cpp:231
+#: clientgui/ViewResources.cpp:227
 msgid "used by BOINC - "
 msgstr "BOINC使用 - "
 
-#: clientgui/ViewResources.cpp:237
+#: clientgui/ViewResources.cpp:233
 msgid "used by other programs - "
 msgstr "其它程序使用 - "
 
@@ -2435,6 +2461,7 @@ msgid "Speed"
 msgstr "速度"
 
 #: clientgui/ViewTransfers.cpp:136
+#: clientgui/ViewTransfersGrid.cpp:153
 msgid "Transfers"
 msgstr "网络传输"
 
@@ -2510,10 +2537,6 @@ msgstr "等待上传"
 msgid "Download pending"
 msgstr "等待下载"
 
-#: clientgui/ViewTransfersGrid.cpp:153
-msgid "TransfersGrid"
-msgstr "传输窗格"
-
 #: clientgui/ViewWork.cpp:107
 #: clientgui/ViewWorkGrid.cpp:108
 msgid "Show application graphics in a window."
@@ -2547,7 +2570,7 @@ msgstr "任务名称"
 #: clientgui/ViewWork.cpp:135
 #: clientgui/ViewWorkGrid.cpp:140
 msgid "CPU time"
-msgstr "已用CPU时间"
+msgstr "已用 CPU 时间"
 
 #: clientgui/ViewWork.cpp:137
 #: clientgui/ViewWorkGrid.cpp:140
@@ -2560,6 +2583,7 @@ msgid "Report deadline"
 msgstr "上报期限"
 
 #: clientgui/ViewWork.cpp:152
+#: clientgui/ViewWorkGrid.cpp:168
 msgid "Tasks"
 msgstr "任务"
 
@@ -2708,10 +2732,6 @@ msgstr "等待上报"
 msgid "Error: invalid state '%d'"
 msgstr "错误：非法状态 '%d'"
 
-#: clientgui/ViewWorkGrid.cpp:168
-msgid "TasksGrid"
-msgstr "任务窗格"
-
 #: clientgui/ViewWorkGrid.cpp:301
 msgid ""
 "Are you sure you want to abort this task '%s'?\n"
@@ -2727,16 +2747,15 @@ msgid ""
 msgstr "我们将引导您完成加入一个项目的过程。"
 
 #: clientgui/WelcomePage.cpp:322
-#, c-format
 msgid "&Stop using%s"
-msgstr "停止使用%s(&S)"
+msgstr "停止使用 %s(&S)"
 
 #: clientgui/WelcomePage.cpp:329
 msgid ""
 "We'll now remove this computer from %s.  From now on,\n"
 "attach and detach projects directly from this computer.\n"
 msgstr ""
-"我们将从%s中移除当前计算机。\n"
+"我们将从 %s 中移除当前计算机。\n"
 "从现在开始，请直接在该客户端中加入或退出项目。\n"
 
 #: clientgui/WelcomePage.cpp:339
@@ -2794,11 +2813,11 @@ msgstr "加入项目失败"
 
 #: clientgui/WelcomePage.cpp:381
 msgid "Google Comm Failure"
-msgstr "连接Google失败"
+msgstr "连接 Google 失败"
 
 #: clientgui/WelcomePage.cpp:384
 msgid "Yahoo Comm Failure"
-msgstr "连接Yahoo失败"
+msgstr "连接 Yahoo 失败"
 
 #: clientgui/WelcomePage.cpp:387
 msgid "Net Detection Failure"
@@ -2853,7 +2872,7 @@ msgstr "派图"
 
 #: clientgui/DlgAbout.h:52
 msgid "About BOINC Manager"
-msgstr "关于BOINC Manager"
+msgstr "关于 BOINC Manager"
 
 #: clientgui/DlgAdvPreferences.h:31
 msgid ""
