@@ -1551,3 +1551,7 @@ David  8 Feb 2007
 
     client/
         client_types.C
+
+Rom    9 Feb 2007
+    - Tag for 5.8.11 release, all platforms
+      boinc_core_release_5_8_11
