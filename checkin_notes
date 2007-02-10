@@ -1608,3 +1608,17 @@ David  8 Feb 2007
 
     client/
         client_types.C
+
+David  9 Feb 2007
+	- core client: don't print misleading error messages when reference
+		site access succeeds on initial startup.
+	- core client: a few more messages for <benchmark_debug>
+
+	client/
+		client_state.C
+		cpu_benchmark.h
+		cs_benchmark.C
+		dhrystone.C
+		net_stats.C,h
+	win_build
+		boinc_cli_curl.vcproj

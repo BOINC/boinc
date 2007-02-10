@@ -246,7 +246,7 @@ int CLIENT_STATE::init() {
         || (core_client_version.release != old_release)
     ) {
         msg_printf(NULL, MSG_INFO,
-            "Version change (%d.%d.%d -> %d.%d.%d); running CPU benchmarks\n",
+            "Version change (%d.%d.%d -> %d.%d.%d)",
             old_major_version, old_minor_version, old_release,
             core_client_version.major,
             core_client_version.minor,

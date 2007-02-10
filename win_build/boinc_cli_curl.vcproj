@@ -956,6 +956,10 @@
 				>
 			</File>
 			<File
+				RelativePath="..\client\cpu_benchmark.h"
+				>
+			</File>
+			<File
 				RelativePath="..\client\dhrystone.h"
 				>
 			</File>
