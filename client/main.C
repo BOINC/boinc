@@ -146,8 +146,9 @@ void resume_client() {
 }
 
 // Trap logoff and shutdown events on Win9x so we can clean ourselves up.
-LRESULT CALLBACK Win9xMonitorSystemWndProc(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lParam)
-{
+LRESULT CALLBACK Win9xMonitorSystemWndProc(
+    HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lParam
+) {
     if (uMsg == WM_QUERYENDSESSION) {
         BOINCTRACE("***** Win9x Monitor System Shutdown/Logoff Event Detected *****\n");
         // Win95 is stupid, we really only need to wait until we have
@@ -297,29 +298,26 @@ static void init_core_client(int argc, char** argv) {
 
 #ifndef _WIN32
     if (g_use_sandbox)
-        umask (2);  // Set file creation mask to be writable by both user and group
-                    // Our umask will be inherited by all our child processes
+        // Set file creation mask to be writable by both user and group
+        // Our umask will be inherited by all our child processes
+        //
+        umask (2);
 #endif
 
     // Initialize the BOINC Diagnostics Framework
-    int dwDiagnosticsFlags =
+    int flags =
         BOINC_DIAG_DUMPCALLSTACKENABLED |
         BOINC_DIAG_HEAPCHECKENABLED |
         BOINC_DIAG_HEAPCHECKEVERYALLOC |
         BOINC_DIAG_TRACETOSTDOUT;
 
     if (gstate.redirect_io || gstate.executing_as_daemon || gstate.detach_console) {
-        dwDiagnosticsFlags |=
+        flags |=
             BOINC_DIAG_REDIRECTSTDERR |
             BOINC_DIAG_REDIRECTSTDOUT;
     }
 
-    diagnostics_init(
-        dwDiagnosticsFlags,
-        "stdoutdae",
-        "stderrdae"
-    );
-
+    diagnostics_init(flags, "stdoutdae", "stderrdae");
 
 	// Win32 - detach from console if requested
 #ifdef _WIN32
@@ -534,7 +532,9 @@ int finalize() {
             stprintf(event_message, 
                 TEXT("BOINC Core Client Error Message\n"
                     "Failed to cleanup the BOINC Idle Detection Interface\n"
-                    "Unload failed: %s\n"), windows_error_string(event_message, sizeof(event_message))
+                    "Unload failed: %s\n"
+                ),
+                windows_error_string(event_message, sizeof(event_message))
             );
             if (!gstate.executing_as_daemon) {
                 fprintf(stderr, event_message);
@@ -546,11 +546,13 @@ int finalize() {
     }
 
 #ifdef USE_WINSOCK
-    if ( WinsockCleanup() != 0 ) {
+    if (WinsockCleanup()) {
         stprintf(event_message, 
             TEXT("BOINC Core Client Error Message\n"
                 "Failed to cleanup the Windows Sockets interface\n"
-                "Unload failed: %s\n"), windows_error_string(event_message, sizeof(event_message))
+                "Unload failed: %s\n"
+            ),
+            windows_error_string(event_message, sizeof(event_message))
         );
         if (!gstate.executing_as_daemon) {
             fprintf(stderr, event_message);
@@ -561,8 +563,9 @@ int finalize() {
     }
 #endif
 
-    if (g_bIsWin9x && g_Win9xMonitorSystemThreadID)
+    if (g_bIsWin9x && g_Win9xMonitorSystemThreadID) {
 	    PostThreadMessage(g_Win9xMonitorSystemThreadID, WM_QUIT, 0, 0);
+    }
 
 #endif
 
@@ -582,7 +585,7 @@ int main(int argc, char** argv) {
     PROCESS_INFORMATION pi;
 
     // Allow the system to know it is running as a Windows service
-    // and adjust it's diagnostics schemes accordingly.
+    // and adjust its diagnostics schemes accordingly.
     if ( (argc > 1) && ((*argv[1] == '-') || (*argv[1] == '/')) ) {
         if ( stricmp( "daemon", argv[1]+1 ) == 0 ) {
             gstate.executing_as_daemon = true;
@@ -641,9 +644,11 @@ int main(int argc, char** argv) {
 #elif defined linux
     int i;
     
-    for (i = 1; i < argc; i++) {
+    for (i=1; i<argc; i++) {
         if (strcmp(argv[i], "-daemon") == 0 || strcmp(argv[i], "--daemon") == 0) {
-            syslog(LOG_DAEMON|LOG_INFO, "Starting Boinc-Daemon, listening on port %d.", GUI_RPC_PORT);
+            syslog(LOG_DAEMON|LOG_INFO,
+                "Starting Boinc-Daemon, listening on port %d.", GUI_RPC_PORT
+            );
             // from <unistd.h>:
             // Detach from the controlling terminal and run in the background as system daemon.
             // Don't change working directory to root ("/"), but redirect
@@ -716,8 +721,9 @@ int main(int argc, char** argv) {
     // GDB can't attach to applications which are running as a diferent user
     // or group, so fix up data with current user and group during debugging
     //
-    if (check_security(g_use_sandbox, false))
+    if (check_security(g_use_sandbox, false)) {
         SetBOINCDataOwnersGroupsAndPermissions();
+    }
 #endif  // _DEBUG && __APPLE__
     int i = check_security(g_use_sandbox, false);
     if (i) {
@@ -738,8 +744,8 @@ int main(int argc, char** argv) {
 #endif  // SANDBOX
 
 #ifdef __APPLE__
-        // Initialize Mac OS X idle time measurement / idle detection
-        gEventHandle = NXOpenEventStatus();
+    // Initialize Mac OS X idle time measurement / idle detection
+    gEventHandle = NXOpenEventStatus();
 #endif  // __APPLE__
 
     retval = boinc_main_loop();

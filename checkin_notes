@@ -1646,3 +1646,10 @@ David  12 Feb 2007
 
 	win_build/
 		boinc_zip.vcproj
+
+David  12 Feb 2007
+    - core client, Unix: add '[Family x Model x Stepping x]' in p_model string.
+        This will enable better homogeneous redundancy resolution
+
+    client/
+        hostinfo_unix.C

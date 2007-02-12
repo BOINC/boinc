@@ -176,7 +176,7 @@ int CLIENT_STATE::init() {
     LPTSTR pbuf = buf;
 
     GetUserName(pbuf, &buf_size);
-    if (executing_as_daemon && (0 != strcmp("SYSTEM", pbuf))) {
+    if (executing_as_daemon && (strcmp("SYSTEM", pbuf))) {
         msg_printf(NULL, MSG_INFO,
             "BOINC is running as a service and as a non-system user."
         );

@@ -23,6 +23,7 @@ $spoken_languages = array(
     'Gujarati',
     'Hausa',
     'Hindi',
+    'Hungarian/Magyar',
     'Italian',
     'Japanese',
     'Javanese',

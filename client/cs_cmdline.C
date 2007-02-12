@@ -35,26 +35,26 @@
 static void print_options(char* prog) {
     printf(
         "Usage: %s [options]\n"
-        "    -help                          show options\n"
-        "    -version                       show version info\n"
-        "    -exit_when_idle                Get/process/report work, then exit\n"
-        "    -show_projects                 show attached projects\n"
-        "    -return_results_immediately    contact server when have results\n"
-        "    -detach_project <URL>          detach from a project\n"
-        "    -reset_project <URL>           reset (clear) a project\n"
-        "    -attach_project <URL> <key>    attach to a project\n"
-        "    -update_prefs <URL>            contact a project to update preferences\n"
-        "    -run_cpu_benchmarks            run the CPU benchmarks\n"
-        "    -check_all_logins              for idle detection, check remote logins\n too"
-        "    -allow_remote_gui_rpc          allow remote GUI RPC connections\n"
-        "    -gui_rpc_port                  port for GUI RPCs\n"
-        "    -redirectio                    redirect stdout and stderr to log files\n"
-        "    -detach                        detach from console (Windows)\n"
-        "    -dir <path>                    use given dir as BOINC home\n"
-        "    -no_gui_rpc                    don't allow GUI RPC, don't make socket\n"
-        "    -daemon                        run as daemon (Unix)\n"
-        "    -insecure                      disable BOINC security users and permissions (Unix, Linux)\n"
-        "    -launched_by_manager           core client was launched by Manager\n"
+        "    --help                          show options\n"
+        "    --version                       show version info\n"
+        "    --exit_when_idle                Get/process/report work, then exit\n"
+        "    --show_projects                 show attached projects\n"
+        "    --return_results_immediately    contact server when have results\n"
+        "    --detach_project <URL>          detach from a project\n"
+        "    --reset_project <URL>           reset (clear) a project\n"
+        "    --attach_project <URL> <key>    attach to a project\n"
+        "    --update_prefs <URL>            contact a project to update preferences\n"
+        "    --run_cpu_benchmarks            run the CPU benchmarks\n"
+        "    --check_all_logins              for idle detection, check remote logins\n too"
+        "    --allow_remote_gui_rpc          allow remote GUI RPC connections\n"
+        "    --gui_rpc_port                  port for GUI RPCs\n"
+        "    --redirectio                    redirect stdout and stderr to log files\n"
+        "    --detach                        detach from console (Windows)\n"
+        "    --dir <path>                    use given dir as BOINC home\n"
+        "    --no_gui_rpc                    don't allow GUI RPC, don't make socket\n"
+        "    --daemon                        run as daemon (Unix)\n"
+        "    --insecure                      disable BOINC security users and permissions (Unix, Linux)\n"
+        "    --launched_by_manager           core client was launched by Manager\n"
         ,
         prog
     );
@@ -65,6 +65,8 @@ static void print_options(char* prog) {
 // (i.e. client_state.xml has not been parsed)
 // So just record the args here.
 // The actions get done in do_cmdline_actions()
+//
+// Check for both -X (deprecated) and --X
 //
 #define ARGX2(s1,s2) (!strcmp(argv[i], s1)||!strcmp(argv[i], s2))
 #define ARG(S) ARGX2("-"#S, "--"#S)
