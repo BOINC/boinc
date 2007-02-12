@@ -142,12 +142,6 @@
 				RelativePath=".\CASaveSetupState.cpp">
 			</File>
 			<File
-				RelativePath=".\CAShutdownBOINC.cpp">
-			</File>
-			<File
-				RelativePath=".\CAShutdownBOINCManager.cpp">
-			</File>
-			<File
 				RelativePath=".\CAValidateSetupType.cpp">
 			</File>
 			<File
@@ -183,12 +177,6 @@
 			</File>
 			<File
 				RelativePath=".\CASaveSetupState.h">
-			</File>
-			<File
-				RelativePath=".\CAShutdownBOINC.h">
-			</File>
-			<File
-				RelativePath=".\CAShutdownBOINCManager.h">
 			</File>
 			<File
 				RelativePath=".\CAValidateSetupType.h">

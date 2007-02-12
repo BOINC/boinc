@@ -20,6 +20,7 @@
 
 #include "stdafx.h"
 #include "boinccas.h"
+#include "terminate.h"
 #include "CAShutdownBOINCManager.h"
 
 #define CUSTOMACTION_NAME               _T("CAShutdownBOINCManager")
@@ -103,9 +104,11 @@ UINT CAShutdownBOINCManager::OnExecution()
             NULL,
             NULL,
             uiLoopCounter,
-            _T("One or more BOINC Manager applications could not be closed, please close them and then rerun setup.")
+            _T("One or more BOINC Manager applications could not be closed, terminating process(s).")
         );
-        return ERROR_INSTALL_FAILURE;
+
+        TerminateProcessEx( tstring(_T("boincmgr.exe")) );
+        TerminateProcessEx( tstring(_T("gridrepublic.exe")) );
     }
 
     return ERROR_SUCCESS;

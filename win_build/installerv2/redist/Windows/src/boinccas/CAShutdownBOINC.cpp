@@ -20,6 +20,7 @@
 
 #include "stdafx.h"
 #include "boinccas.h"
+#include "terminate.h"
 #include "CAShutdownBOINC.h"
 
 #define CUSTOMACTION_NAME               _T("CAShutdownBOINC")
@@ -61,15 +62,15 @@ CAShutdownBOINC::~CAShutdownBOINC()
 
 // OpenSCManager()
 typedef SC_HANDLE (WINAPI *tOSCM)(
-    LPCSTR lpMachineName,
-    LPCSTR lpDatabaseName,
-    DWORD  dwDesiredAccess
+    LPCWSTR lpMachineName,
+    LPCWSTR lpDatabaseName,
+    DWORD   dwDesiredAccess
 );
 
 // OpenService()
 typedef SC_HANDLE (WINAPI *tOS)(
     SC_HANDLE hSCManager,
-    LPCSTR    lpServiceName,
+    LPCWSTR   lpServiceName,
     DWORD     dwDesiredAccess
 );
 
@@ -99,10 +100,10 @@ UINT CAShutdownBOINC::OnExecution()
 
     HMODULE hAdvapi32 = LoadLibrary(_T("advapi32.dll"));
     if (hAdvapi32) {
-        pOSCM = (tOSCM)GetProcAddress(hAdvapi32, _T("OpenSCManagerA"));
-        pOS = (tOS)GetProcAddress(hAdvapi32, _T("OpenServiceA"));
-        pCS = (tCS)GetProcAddress(hAdvapi32, _T("ControlService"));
-        pQSS = (tQSS)GetProcAddress(hAdvapi32, _T("QueryServiceStatus"));
+        pOSCM = (tOSCM)GetProcAddress(hAdvapi32, "OpenSCManagerW");
+        pOS = (tOS)GetProcAddress(hAdvapi32, "OpenServiceW");
+        pCS = (tCS)GetProcAddress(hAdvapi32, "ControlService");
+        pQSS = (tQSS)GetProcAddress(hAdvapi32, "QueryServiceStatus");
         if (!pOSCM && !pOS && !pCS && !pQSS) {
             FreeLibrary(hAdvapi32);
             hAdvapi32 = NULL;
@@ -143,6 +144,8 @@ UINT CAShutdownBOINC::OnExecution()
                                 (int)GetLastError(),
                                 _T("Setup was unable to shutdown the BOINC Service.")
                             );
+
+                            TerminateProcessEx( tstring(_T("boinc.exe")) );
                         }
                     }
                 }

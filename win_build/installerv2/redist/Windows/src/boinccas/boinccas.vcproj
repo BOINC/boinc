@@ -145,6 +145,12 @@
 				RelativePath=".\CAPopulateServiceAccount.cpp">
 			</File>
 			<File
+				RelativePath=".\CAShutdownBOINC.cpp">
+			</File>
+			<File
+				RelativePath=".\CAShutdownBOINCManager.cpp">
+			</File>
+			<File
 				RelativePath=".\CAValidateServiceAccount.cpp">
 			</File>
 			<File
@@ -177,6 +183,9 @@
 						UsePrecompiledHeader="1"/>
 				</FileConfiguration>
 			</File>
+			<File
+				RelativePath=".\terminate.cpp">
+			</File>
 		</Filter>
 		<Filter
 			Name="Header Files"
@@ -195,6 +204,12 @@
 			</File>
 			<File
 				RelativePath=".\CAPopulateServiceAccount.h">
+			</File>
+			<File
+				RelativePath=".\CAShutdownBOINC.h">
+			</File>
+			<File
+				RelativePath=".\CAShutdownBOINCManager.h">
 			</File>
 			<File
 				RelativePath=".\CAValidateServiceAccount.h">
@@ -219,6 +234,9 @@
 			</File>
 			<File
 				RelativePath="stdafx.h">
+			</File>
+			<File
+				RelativePath=".\terminate.h">
 			</File>
 		</Filter>
 		<Filter

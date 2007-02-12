@@ -13,4 +13,6 @@ EXPORTS
 	ValidateServiceAccount
 	VerifyServiceExecutionRight
 	VerifyServicePassword
+	ShutdownBOINC
+	ShutdownBOINCManager
 	

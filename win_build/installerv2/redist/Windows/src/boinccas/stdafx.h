@@ -71,6 +71,7 @@
 #include <string>
 #include <iostream>
 #include <sstream>
+#include <vector>
 
 #ifdef _UNICODE
 #define tstring std::wstring

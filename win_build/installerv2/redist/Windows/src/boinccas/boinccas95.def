@@ -6,8 +6,6 @@ LIBRARY    boinccas95
 
 EXPORTS
 	DllMain
-	ShutdownBOINC
-	ShutdownBOINCManager
 	ValidateSetupType
 	MigrateCPDNBBC
 	RestoreSetupState
