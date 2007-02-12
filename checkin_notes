@@ -1555,3 +1555,11 @@ David  8 Feb 2007
 Rom    9 Feb 2007
     - Tag for 5.8.11 release, all platforms
       boinc_core_release_5_8_11
+
+Rom    12 Feb 2007
+    - WININSTALL: Force the termination of BOINC and BOINCMGR if we could
+        not gracefully shut them down.
+        
+    win_build/installerv2/redist/Windows/x86
+        boinccas.dll
+        boinccas95.dll
