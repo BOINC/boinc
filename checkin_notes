@@ -1661,3 +1661,22 @@ David  13 Feb 2007
 		boinc_zip.vcproj (removed)
 	zip/
 		boinc_zip.vcproj
+
+David  13 Feb 2007
+    - Back end: change some of the daemons to use the "read uncommitted"
+        transaction isolation mode.
+        This means that their result sets are not locked,
+        which (at least on SETI@home) greatly boosts the performance
+        of the MySQL server.
+        See:
+        http://dev.mysql.com/doc/refman/5.1/en/innodb-transaction-isolation.html
+
+    db
+        db_base.C,h
+    sched/
+        db_dump.C
+        feeder.C
+        file_deleter.C
+        update_stats.C
+    tools/
+        upgrade

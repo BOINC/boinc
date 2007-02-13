@@ -62,7 +62,7 @@ install_boinc_files(INSTALL_DIR)
 print "Upgrading files... done"
 print "You may need to do database upgrades also."
 print "(see html/ops/db_update.php)"
-print "Run `start' to restart the project."
+print "Run `bin/start' to restart the project."
 
 #if os.system(os.path.join(INSTALL_DIR,'bin/start')):
 #    raise SystemExit("Couldn't start BOINC!")

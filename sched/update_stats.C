@@ -195,6 +195,12 @@ int main(int argc, char** argv) {
         log_messages.printf(SCHED_MSG_LOG::MSG_CRITICAL, "Can't open DB\n");
         exit(1);
     }
+    retval = boinc_db.set_isolation_level(READ_UNCOMMITTED);
+    if (retval) {
+        log_messages.printf(SCHED_MSG_LOG::MSG_CRITICAL,
+            "boinc_db.set_isolation_level: %d; %s\n", retval, boinc_db.error_string()
+        );
+    }
 
     if (do_update_users) {
         retval = update_users();

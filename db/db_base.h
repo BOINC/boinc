@@ -55,12 +55,20 @@ struct CURSOR {
     CURSOR() { active = false; rp = NULL; }
 };
 
+enum ISOLATION_LEVEL {
+    READ_UNCOMMITTED,
+    READ_COMMITTED,
+    REPEATABLE_READ,
+    SERIALIZABLE
+};
+
 // represents a connection to a database
 //
 class DB_CONN {
 public:
     DB_CONN();
     int open(char* name, char* host, char* user, char* passwd);
+    int set_isolation_level(ISOLATION_LEVEL);
     int do_query(const char*);
     int affected_rows();
     void close();
