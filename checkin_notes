@@ -1688,3 +1688,9 @@ Charlie 14 Feb 2007
 
     lib/
         procinfo_mac.C
+
+David  14 Feb 2007
+    - make test_sanity.py work again
+
+    test/
+        testbase.py

@@ -255,7 +255,7 @@ class TestProject(Project):
                  num_wu=None, redundancy=None,
                  users=None, hosts=None,
                  add_to_list=True,
-                 apps=None, app_versions=None, core_versions=None,
+                 apps=None, app_versions=None,
                  resource_share=None,
                  **kwargs):
         test_init()
@@ -276,7 +276,6 @@ class TestProject(Project):
         self.hosts = hosts or [Host()]
 
         self.platforms     = [Platform()]
-        self.core_versions = core_versions or [CoreVersion(self.platforms[0])]
         self.app_versions  = app_versions or [
             AppVersion(App(appname), self.platforms[0], appname)]
         self.apps          = apps or unique(map(lambda av: av.app, self.app_versions))
@@ -317,9 +316,6 @@ class TestProject(Project):
         self.platforms = unique(map(lambda a: a.platform, self.app_versions))
         verbose_echo(1, "Setting up database: adding %d platform(s)" % len(self.platforms))
         commit(self.platforms)
-
-        verbose_echo(1, "Setting up database: adding %d core version(s)" % len(self.core_versions))
-        commit(self.core_versions)
 
         verbose_echo(1, "Setting up database: adding %d apps(s)" % len(self.apps))
         commit(self.apps)
@@ -451,18 +447,6 @@ class Platform(database.Platform):
         database.Platform.__init__(self)
         self.name = name or version.PLATFORM
         self.user_friendly_name = user_friendly_name or name
-
-class CoreVersion(database.CoreVersion):
-    def __init__(self, platform):
-        database.CoreVersion.__init__(self)
-        self.version_num = 1
-        self.platform = platform
-    def commit(self):
-        self.xml_doc = tools.process_app_file(
-            os.path.join(boinc_path_config.TOP_BUILD_DIR,'client',
-                         options.client_bin_filename),
-            quiet=True)
-        database.CoreVersion.commit(self)
 
 class User(database.User):
     def __init__(self):
