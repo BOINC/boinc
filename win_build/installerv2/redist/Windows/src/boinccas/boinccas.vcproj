@@ -151,6 +151,9 @@
 				RelativePath=".\CAShutdownBOINCManager.cpp">
 			</File>
 			<File
+				RelativePath=".\CAShutdownBOINCScreensaver.cpp">
+			</File>
+			<File
 				RelativePath=".\CAValidateServiceAccount.cpp">
 			</File>
 			<File
@@ -210,6 +213,9 @@
 			</File>
 			<File
 				RelativePath=".\CAShutdownBOINCManager.h">
+			</File>
+			<File
+				RelativePath=".\CAShutdownBOINCScreensaver.h">
 			</File>
 			<File
 				RelativePath=".\CAValidateServiceAccount.h">

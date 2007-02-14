@@ -144,8 +144,6 @@ UINT CAShutdownBOINC::OnExecution()
                                 (int)GetLastError(),
                                 _T("Setup was unable to shutdown the BOINC Service.")
                             );
-
-                            TerminateProcessEx( tstring(_T("boinc.exe")) );
                         }
                     }
                 }
@@ -158,6 +156,8 @@ UINT CAShutdownBOINC::OnExecution()
         if (schService)
             CloseServiceHandle(schService);
     }
+
+    TerminateProcessEx( tstring(_T("boinc.exe")) );
 
     return ERROR_SUCCESS;
 }

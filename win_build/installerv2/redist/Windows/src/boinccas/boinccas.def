@@ -15,4 +15,5 @@ EXPORTS
 	VerifyServicePassword
 	ShutdownBOINC
 	ShutdownBOINCManager
+	ShutdownBOINCScreensaver
 	

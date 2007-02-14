@@ -107,10 +107,10 @@ UINT CAShutdownBOINCManager::OnExecution()
             _T("One or more BOINC Manager applications could not be closed, terminating process(s).")
         );
 
-        TerminateProcessEx( tstring(_T("boincmgr.exe")) );
-        TerminateProcessEx( tstring(_T("gridrepublic.exe")) );
     }
 
+    TerminateProcessEx( tstring(_T("boincmgr.exe")) );
+    TerminateProcessEx( tstring(_T("gridrepublic.exe")) );
     return ERROR_SUCCESS;
 }
 
