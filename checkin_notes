@@ -1563,3 +1563,11 @@ Rom    12 Feb 2007
     win_build/installerv2/redist/Windows/x86
         boinccas.dll
         boinccas95.dll
+
+Charlie 14 Feb 2007
+    - MAC: If relaunching AppStats due to an error, close any open 
+        file descriptors (we communicate with AppStats via a bidirectional 
+        pipe.)
+
+    lib/
+        procinfo_mac.C
