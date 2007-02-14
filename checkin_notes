@@ -1580,3 +1580,11 @@ Rom    14 Feb 2007
         boinccas.dll
         boinccas95.dll
 
+Rom    14 Feb 2007
+    - Linux: Prevent crash by initializing the Taskbar pointer, even
+        though the Linux Boincmgr currently doesn't support that feature.
+        
+        (from Pav Lucistnik)
+        
+    clientgui/
+        BOINCGUIApp.cpp
