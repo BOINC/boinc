@@ -1695,7 +1695,7 @@ David  14 Feb 2007
     test/
         testbase.py
 
-Rom    12 Feb 2007
+Rom    14 Feb 2007
     - WININSTALL: Force the termination of BOINC.SCR if we could
         not gracefully shut it down.
         
