@@ -1,0 +1,831 @@
+msgid ""
+msgstr ""
+"Project-Id-Version: \n"
+"POT-Creation-Date: \n"
+"PO-Revision-Date: 2007-02-11 21:22+0200\n"
+"Last-Translator: أحمد غربية Ahmad Ghareia <ahmad@gharbeia.org>\n"
+"Language-Team: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=utf-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"X-Poedit-Language: Arabic\n"
+"X-Poedit-SourceCharset: utf-8\n"
+
+##########################################
+# Language: Arabic (Standard pan-Arab)
+# FileID  : $Id$
+##########################################
+# For more information please see:
+# http://boinc.berkeley.edu/web_translation.php
+##########################################
+# The charset used for the text in this file (please try to use UTF-8 if possible)
+msgid "CHARSET"
+msgstr "UTF-8"
+
+# The name of this language in this language
+msgid "LANG_NAME_NATIVE"
+msgstr "العربية"
+
+# The name of this language in an international language (English)
+msgid "LANG_NAME_INTERNATIONAL"
+msgstr "Arabic"
+
+########################################
+# poll-related stuff
+########################################msgstr ""
+
+msgid "POLL_TITLE"
+#msgstr "BOINC user survey"
+msgstr "استبيان آراء مستخدمي BOINC"
+
+msgid "POLL_INTRO"
+#msgstr "Several volunteer computing projects, including Climateprediction.net, Einstein@home, and SETI@home, use software called BOINC. If you participate in projects like this, we request that you answer the following questions. This will help BOINC-based projects increase participation and achieve greater scientific results. <p> Please answer as many questions as you want, then go to the bottom and click OK. If you previously completed the survey but your answers have changed, please complete it again - your new answers will replace the old ones. <p> The current results of the survey are <a href=poll_results.php>here</a>. "
+msgstr "<p>تستخدم مشروعات حوسبة تطوعية عديدة، مثل Climateprediction.net و&nbsp;Einstein@home و&nbsp;SETI@home برمجية اسمها BOINC. إن كنت تشارك في برامج مثل هذه فنحن نطلب منك أن تجيب على الاسئلة التالية، فهذا سيساعد المشروعات المبنية على BOINC أن تزيد عدد المشاركين فيها و&nbsp;أن تحقق المزيد من النتائج البحثية العلمية.</p><p>أجب على ما يناسبك من الأسئلة ثم اضغط على <em>موافق</em> في أدنى الصفحة. إن كنت أخذت هذا الاستبيان من قبل، لكن إجاباتك قد تغيرت، فيمكنك أن تأخذه مرة أخرى و&nbsp;سوف تحل إجاباتك الجديدة محل القديمة.<p/><p><a href=\"poll_results.php\">النتائج الحالية للاستبيان  منشورة</a></p>"
+
+msgid "POLL_RUN"
+#msgstr "Do you run BOINC?"
+msgstr "هل تشغل BOINC؟"
+
+msgid "POLL_PARTICIPATION"
+#msgstr "Your participation"
+msgstr "مشاركتك"
+
+msgid "POLL_COMPUTERS"
+#msgstr "Your computers"
+msgstr "حواسيبك"
+
+msgid "POLL_YOU"
+#msgstr "You"
+msgstr "عنك"
+
+msgid "POLL_NATIONALITY"
+#msgstr "Nationality"
+msgstr "الجنسية"
+
+msgid "POLL_COMMENTS"
+#msgstr "Comments"
+msgstr "تعليقات"
+
+msgid "POLL_COMMENTS_QUESTION"
+#msgstr "Please suggest ways that BOINC, and the projects that use it, could be improved:"
+msgstr "اقترح ما ترى أنه سيساهم في تحسين BOINC و&nbsp;المشروعات التي تستخدمه:"
+
+msgid "POLL_OTHER"
+#msgstr "Other:"
+msgstr "أخرى:"
+
+msgid "POLL_CHECK_ALL"
+#msgstr "[check all that apply]"
+msgstr "[أشِّر كل ما ينطبق]"
+
+msgid "POLL_DONE"
+#msgstr "When done click:"
+msgstr "عندما تنتهي اضغط:"
+
+msgid "POLL_CURRENT"
+#msgstr "Yes - I have been running BOINC on my computer for..."
+msgstr "نعم - أنا أشغل BOINC على حاسوبي منذ…"
+
+msgid "POLL_TWEEK"
+#msgstr "less than a week"
+msgstr "أقل من أسبوع"
+
+msgid "POLL_TMONTH"
+#msgstr "less than a month"
+msgstr "أقل من شهر"
+
+msgid "POLL_TYEAR"
+#msgstr "less than a year"
+msgstr "أقل من سنة"
+
+msgid "POLL_TMOREYEAR"
+#msgstr "more than a year"
+msgstr "أكثر من سنة"
+
+msgid "POLL_LAPSED"
+#msgstr "No - I was running BOINC, but stopped because..."
+msgstr "لا - كنت أشغل BOINC لكني توقفت بسبب…"
+
+msgid "POLL_LINTEREST"
+#msgstr "I lost interest"
+msgstr "لم أعد مهتما"
+
+msgid "POLL_LCOMPLICATED"
+#msgstr "it was too complicated"
+msgstr "كان الأمر معقدا جدا"
+
+msgid "POLL_LSTOPPED"
+#msgstr "I stopped it and forgot to start again"
+msgstr "أوقفته و&nbsp;نسيت أن أشغله مجددا"
+
+msgid "POLL_LPROBLEMS"
+#msgstr "it caused problems on my computer"
+msgstr "لأنه سبب مشاكلا في حاسوبي"
+
+msgid "POLL_LPOWER"
+#msgstr "it used too much electricity"
+msgstr "أن تشغيله يستهلك الكثير من الطاقة الكهربية"
+
+msgid "POLL_LNONBOINC"
+#msgstr "I switched to a non-BOINC computing project"
+msgstr "تحولت إلى مشروع حوسبة غير مبني على BOINC"
+
+msgid "POLL_FAILED"
+#msgstr "No - I tried running BOINC, but..."
+msgstr "لا - حاولت تشغيل BOINC لكن…"
+
+msgid "POLL_FINSTALL"
+#msgstr "the software didn't install correctly"
+msgstr "لم تثبت البرمجيات بالشكل الصحيح"
+
+msgid "POLL_FFIGURE"
+#msgstr "I couldn't figure out how to use the software"
+msgstr "لم أعرف كيف أستخدمه"
+
+msgid "POLL_FNETWORK"
+#msgstr "I had network communication problems"
+msgstr "كانت لدي مشكلات في الاتصال عبر الشبكة"
+
+msgid "POLL_FATTACH"
+#msgstr "I couldn't attach to a project"
+msgstr "لم أتمكن من الشبك بمشروع"
+
+msgid "POLL_FWORK"
+#msgstr "I attached to a project, but never got any work"
+msgstr "شبكت ببرنامج لكن لم يسند إلى أي شُغل"
+
+msgid "POLL_NEVER"
+#msgstr "No - I never tried running BOINC, because..."
+msgstr "لا - لم أحاول أبدا أن أشغل BOINC لأن…"
+
+msgid "POLL_NSECURITY"
+#msgstr "I was concerned about security"
+msgstr "أقلقني موضوع الأمان"
+
+msgid "POLL_NPROJECT"
+#msgstr "I wasn't interested in any of the projects"
+msgstr "لم أكن مهتما بأي من المشروعات"
+
+msgid "POLL_NPERMISSION"
+#msgstr "I don't have permission to run it on my computer"
+msgstr "ليس لدي تصريح بتشغيله على حاسوبي"
+
+msgid "POLL_NVERSION"
+#msgstr "No version was available for my computer"
+msgstr "لم توجد إصدارة متوافقة مع حاسوبي"
+
+msgid "POLL_KIND"
+#msgstr "What kind of computers do you have running BOINC?"
+msgstr "أي نوع من الحواسيب تشغل عليها BOINC؟"
+
+msgid "POLL_WHERE"
+#msgstr "Where are they?"
+msgstr "أين توجد؟"
+
+msgid "POLL_HOME"
+#msgstr "Home"
+msgstr "المنزل"
+
+msgid "POLL_WORK"
+#msgstr "Work"
+msgstr "العمل"
+
+msgid "POLL_SCHOOL"
+#msgstr "School"
+msgstr "المدرسة"
+
+msgid "POLL_HOW_MANY"
+#msgstr "How many computers?"
+msgstr "كم عدد الحواسيب؟"
+
+msgid "POLL_TURNED_ON"
+#msgstr "On average, how many hours per day are they powered on?"
+msgstr "ما متوسط عدد الساعات التي تعمل خلالها هذه الحواسيب؟"
+
+msgid "POLL_AGE"
+#msgstr "Age"
+msgstr "العمر"
+
+msgid "POLL_SEX"
+#msgstr "Sex"
+msgstr "الجنس"
+
+msgid "POLL_MALE"
+#msgstr "Male"
+msgstr "ذكر"
+
+msgid "POLL_FEMALE"
+#msgstr "Female"
+msgstr "أنثى"
+
+msgid "POLL_EXPERTISE"
+#msgstr "Your level of computer expertise"
+msgstr "مستوى خبرتك بالحواسيب"
+
+msgid "POLL_LEVB"
+#msgstr "Beginner"
+msgstr "مبتدئ"
+
+msgid "POLL_LEVI"
+#msgstr "Intermediate"
+msgstr "متوسط"
+
+msgid "POLL_LEVA"
+#msgstr "Advanced"
+msgstr "متقدم"
+
+msgid "POLL_LEARN_WHERE"
+#msgstr "Where did you learn about BOINC projects?"
+msgstr "من أين عرفت بمشروعات BINC؟"
+
+msgid "POLL_WTV"
+#msgstr "TV/radio/newspaper"
+msgstr "التلفزيون/الراديو/الصحف"
+
+msgid "POLL_WPERS"
+#msgstr "From friends, relatives, or coworkers"
+msgstr "من الأصدقاء، أو&nbsp;الأقارب، أو&nbsp;زملاء العمل"
+
+msgid "POLL_WTEAM"
+#msgstr "Team message boards or web sites"
+msgstr "منتديات أو&nbsp;مواقع الفِرَق"
+
+msgid "POLL_WBOINC"
+#msgstr "The BOINC web site"
+msgstr "موقع BOINC"
+
+msgid "POLL_WWEB"
+#msgstr "Other web sites"
+msgstr "مواقع أخرى"
+
+msgid "POLL_FACTOR"
+#msgstr "Which are the most important factors when you decide whether to participate in a BOINC project?"
+msgstr "ما العامل الأهم في تحديد إن كنت ستشارك في أحد مشروعات BOINC"
+
+msgid "POLL_GRAPHICS"
+#msgstr "Nice-looking screensaver graphics"
+msgstr "حافظ الشاشة جميل"
+
+msgid "POLL_CREDIT_FAIR"
+#msgstr "Fair and quick granting of credit for work done"
+msgstr "السرعة و&nbsp;العدل في منح النقاط مقابل الشغل المنجز"
+
+msgid "POLL_CREDIT_MORE"
+#msgstr "Getting more credit from this project than from others"
+msgstr "نيل نقاط أكثر في هذا المشروع عما تمنحه مشروعات أخرى"
+
+msgid "POLL_MB_FRIENDLY"
+#msgstr "Helpful and friendly message boards"
+msgstr "توافر المساعدة و&nbsp;جو&nbsp;الود في المنتدى"
+
+msgid "POLL_MB_STAFF"
+#msgstr "Participation by project staff on the message boards"
+msgstr "مساهمة العاملين في المشروع في المنتدى"
+
+msgid "POLL_WEB_SITE"
+#msgstr "Informative project web site"
+msgstr "توافر المعلومات و&nbsp;الأخبار في موقع المشروع"
+
+msgid "POLL_SCIENCE_IMPORTANT"
+#msgstr "The science is important and beneficial"
+msgstr "البحث العلمي هام و&nbsp;مفيد"
+
+msgid "POLL_SCIENCE_PUBLIC"
+#msgstr "Non-profit, and results are public"
+msgstr "غير هادف للربح و&nbsp;نتائجه معلنة"
+
+msgid "POLL_RECOGNIZE"
+#msgstr "Personal recognition if my computer finds something"
+msgstr "العرفان بدوري في حال ما توصل حاسوبي لنتيجة هامة"
+
+msgid "POLL_PUBLISH"
+#msgstr "Publication by the project in scientific journals"
+msgstr "النشر في الدوريات العلمية"
+
+msgid "POLL_EMAIL"
+#msgstr "Periodic email newsletters from the project"
+msgstr "رسائل البريد الدورية من المشروع"
+
+msgid "POLL_NPROJECTS"
+#msgstr "How many BOINC projects do you participate in?"
+msgstr "في كم مشروع BOINC تشارك"
+
+msgid "POLL_SSAVER"
+#msgstr "Do you run BOINC as a screensaver?"
+msgstr "هل تشغل BOINC كحافظ للشاشة؟"
+
+msgid "POLL_YES"
+#msgstr "Yes"
+msgstr "نعم"
+
+msgid "POLL_NO"
+#msgstr "No"
+msgstr "لا"
+
+msgid "POLL_MBOARDS"
+#msgstr "Your usage of project messages boards:"
+msgstr "استخدامك للمنتدى:"
+
+msgid "POLL_MBR"
+#msgstr "to read information"
+msgstr "للاطلاع على المنشور"
+
+msgid "POLL_MBRW"
+#msgstr "to read and post information"
+msgstr "للاطلاع و&nbsp;للمساهمة بالمداخلات"
+
+msgid "POLL_NONE"
+#msgstr "None"
+msgstr "لا أستخدمها"
+
+msgid "POLL_HELP"
+#msgstr "Where do you get information to help resolve problems with BOINC and/or BOINC projects?"
+msgstr "من أين تحصل على المعلومات التي تسعادك على حل المشكلات المتعلقة بتشغيل BOINC و&nbsp;المشروعات"
+
+msgid "POLL_HELP_PMB"
+#msgstr "The project message boards"
+msgstr "منتديات المشروع"
+
+msgid "POLL_HELP_BMB"
+#msgstr "The BOINC message boards"
+msgstr "منتديات BOINC"
+
+msgid "POLL_HELP_BDOC"
+#msgstr "The BOINC web site"
+msgstr "موقع BOINC"
+
+msgid "POLL_HELP_BMLIST"
+#msgstr "BOINC mailing lists"
+msgstr "قائمة BOINC البريدية"
+
+msgid "POLL_HELP_WIKI"
+#msgstr "The Unofficial BOINC Wiki"
+msgstr "ويكي BOINC غير الرسمية"
+
+msgid "POLL_HELP_TEAM"
+#msgstr "Team web sites"
+msgstr "مواقع الفِرَق"
+
+msgid "POLL_HELP_GOOGLE"
+#msgstr "Google or other search engines"
+msgstr "بالبحث في جوجل أو&nbsp;محركات بحث أخرى"
+
+msgid "POLL_ERROR_TITLE"
+#msgstr "Error - results not recorded"
+msgstr "خطأ - نتائج الاستبيان لم تُحفظ"
+
+msgid "POLL_ERROR_TEXT"
+#msgstr "An internal error has prevented us from recording your survey response.  Please try again later."
+msgstr "حدث خطأ داخلي حال دون حفظ نتيجة ردودك على الاستبيان. نعتذر و&nbsp;نرجو&nbsp;أن تحاول مجددا لاحقا."
+
+msgid "POLL_RECORDED"
+#msgstr "Survey response recorded"
+msgstr "نتائج الاستبيان حُفظت"
+
+msgid "POLL_THANKS"
+#msgstr "Thank you for completing the BOINC user survey."
+msgstr "نشكرك لأخذك استبيان مستخدمي BOINC."
+
+msgid "POLL_RESULTS_TITLE"
+#msgstr "Survey results"
+msgstr "نتائج الاستبيان"
+
+msgid "POLL_RESULTS_TEXT"
+#msgstr "These are the current results of the <a href=poll.php>BOINC user survey</a>.  This page is updated every hour."
+msgstr "هذه هي النتائج الحالية <a href=\"poll.php\">لاستبيان مستخدمي BOINC</a>. تُحدَّثُ هذه الصفحة كل ساعة.
+
+########################################
+# download.php 2006/08/03 by je2bwm
+########################################
+
+msgid "DL_DOWNLOAD"
+#msgstr "Download BOINC"
+msgstr "نزِّل BOINC"
+
+msgid "DL_VERSION_LNAME_SIZE"
+#msgstr "%s for %s (%s MB)"
+msgstr "%s لمنصة %s (%s م بايت)"
+
+msgid "DL_WHATS_BOINC"
+#msgstr " BOINC is a program that lets you donate        your idle computer time to science projects like        SETI@home, Climateprediction.net, Rosetta@home,        World Community Grid, and many others.        <p>        After installing BOINC on your computer,        you can connect it to as many of these projects as you like.        <p>"
+msgstr "<p>BOINC برمجية تمكنك من التبرع بقوة حاسوبك غير المستغلة لمشروعات علمية مثل <span xml:lang=\"en\" dir=\"ltr\">SETI@home</span> و&nbsp;<span xml:lang=\"en\" dir=\"ltr\">Climateprediction.net</span> و&nbsp;Rosetta@home و&nbsp;<span xml:lang=\"en\" dir=\"ltr\">World Community Grid</span> و&nbsp;غيرها.</p><p>بعد تثبيت BOINC على حاسوبك يمكنك الشبك بأي عدد تريد من تلك المشروعات.</p>"
+
+msgid "DL_SYSTEMREQ"
+#msgstr "System requirements"
+msgstr "متطلبات النظام"
+
+msgid "DL_RELNOTES"
+#msgstr "Release notes"
+msgstr "ملاحظات الإصدارة"
+
+msgid "DL_TROUBLE"
+#msgstr "Troubleshooting"
+msgstr "علاج المشكلات"
+
+msgid "DL_OTHERSYS"
+#msgstr "Other systems"
+msgstr "نظم أخرى"
+
+msgid "DL_ALLVERSIONS"
+#msgstr "All versions"
+msgstr "كل الإصدارات"
+
+msgid "DL_IF_OTHERTYPES"
+#msgstr "If your computer is not of one of the above types, you can"
+msgstr "إن لم يكن حاسوبك من أي الأنواع أعلاه فيمكنك"
+
+msgid "DL_MAKEYOUROWN"
+#msgstr "%s make your own client software %s or"
+msgstr "%s عمل البرمجية العميلة الخاصة بك %s أو"
+
+msgid "DL_DL_FROM3RDP"
+#msgstr "%s download executables from a third-party site %s (available for Solaris/Opteron, Linux/Opteron, Linux/PPC, HP-UX, and FreeBSD, and others)."
+msgstr "%s تنزيل التنفيذيات من موقع آخر %s (متاح لكل من <span title="Solaris/Opteron">سولاريس/أبتيرون</span، و&nbsp;<span title="Linux/Opteron">لينكس/أبتيرون</span>، و&nbsp;<span title="Linux/PPCs">لينكس/PPC<span>، و&nbsp;<span xml:lang=\"en\" dir=\"ltr\">HP-UX</span>، و&nbsp;<span xml:lang=\"en\" dir=\"ltr\">FreeBSD</span> و&nbsp;غيرها."
+
+msgid "DL_DOWNLOAD_TITLE"
+#msgstr "BOINC: compute for science"
+msgstr "BOINC: حوسبة لأجل العلم"
+
+msgid "DL_MIRRORS"
+#msgstr "Note: files are downloaded from mirror servers at boinc.berkeley.edu, morel.mit.edu, einstein.aei.mpg.de, einstein.astro.gla.ac.uk, and einstein.aset.psu.edu (thanks to these institutions). The server is chosen randomly - if a download fails, reload this page and try again. "
+msgstr "ملاحظات: تنزَّل الملفات من خواديم مرآة في <span dir=\"ltr\">boinc.berkeley.edu</span> و&nbsp;<span dir=\"ltr\">morel.mit.edu</span> و&nbsp;<span dir=\"ltr\">einstein.aei.mpg.de</span> و&nbsp;<span dir=\"ltr\">einstein.astro.gla.ac.uk</span> و&nbsp;<span dir=\"ltr\">einstein.aset.psu.edu</span>، حيث يختار حاسوب منها عشوائيا. إذا فشل التنزيل مرة فأعد تحميل هذه الصفحة و&nbsp;حاول مجددا."
+
+##############################################
+# system_requirements.php by je2bwm 2006/08/07
+##############################################
+
+msgid "SRQ_PAGE_TITLE"
+#msgstr "System requirements"
+msgstr "متطلبات النظام"
+
+msgid "SRQ_INTRO"
+#msgstr "Your computer must satisfy the following requirements to run BOINC. BOINC-based projects may have additional requirements."
+msgstr "ينبغي أن تتوافر في حاسوبك المتطلبات التالية لكي يتمكن من تشغيل BOINC. كما قد يكون لكل مشروع من مشروعات BOINC متطلبات إضافية."
+
+msgid "SRQ_MSWIN"
+#msgstr "Windows"
+msgstr "ويندوز"
+
+msgid "SRQ_OS"
+#msgstr "Operating systems"
+msgstr "نظم التشغيل"
+
+msgid "SRQ_MSWIN_REQ_OS"
+#msgstr "Windows 98 or later"
+msgstr "ويندوز 98 أو&nbsp;ما بعده"
+
+msgid "SRQ_MIN_HARDWARE"
+#msgstr "Minimum hardware"
+msgstr "الحد الأدنى من العتاد"
+
+msgid "SRQ_MSWIN_REQ_CPU"
+#msgstr "Pentium 233 MHz (Recommended: Pentium 500 MHz or greater)"
+msgstr "بنتيوم 233 م هرتز (يفضل: بنتيوم 500 م هرتز أو&nbsp;أكثر)"
+
+msgid "SRQ_MSWIN_REQ_RAM"
+#msgstr "64 MB RAM (Recommended: 128 MB RAM or greater)"
+msgstr "64 م بايت رام (بفضل: 128 م بايت رام أو&nbsp;أكثر)"
+
+msgid "SRQ_MSWIN_REQ_DISK"
+#msgstr "20 MB disk space"
+msgstr "20 م بايت على القرص"
+
+msgid "SRQ_APPLMAC"
+#msgstr "Macintosh"
+msgstr "ماكنتوش"
+
+msgid "SRQ_APPLMAC_REQ_OS"
+#msgstr "Mac OS X 10.3 and later"
+msgstr "ماك أوإس X 10.3 أو&nbsp;ما بعده"
+
+msgid "SRQ_APPLMAC_REQ_CPU"
+#msgstr "Macintosh computer with an Intel x86or PowerPC G3, G4, or G5 processor"
+msgstr "حواسيب ماكنتوش ذات معالجات إنتل x86 أو&nbsp;PowerPC G3 أو&nbsp;G4 أو&nbsp;G5"
+
+msgid "SRQ_APPLMAC_REQ_RAM"
+#msgstr "128 MB RAM (Recommended: 256 MB RAM or greater)"
+msgstr "128 م بايت رام (يفضل: 256 / بيات رام أو&nbsp;أكثر)"
+
+msgid "SRQ_APPLMAC_REQ_DISK"
+#msgstr "200 MB disk space"
+msgstr "200 م بايت على القرص"
+
+msgid "SRQ_LINUX"
+#msgstr "Linux"
+msgstr "لينكس"
+
+msgid "SRQ_LINUX_REQ_KERNEL"
+#msgstr "Linux kernel 2.2.14 or higher"
+msgstr "نواة لينكس 2.2.14 أو&nbsp;ما يليها"
+
+msgid "SRQ_LINUX_REQ_GLIBC"
+#msgstr "glibc 2.3.2 or higher"
+msgstr "glibc 2.3.2 أو&nbsp;ما يليها"
+
+msgid "SRQ_LINUX_REQ_XFREE86"
+#msgstr "XFree86-3.3.6 or higher"
+msgstr "<span dir=\"ltr\">XFree86-3.3.6</span> أو&nbsp;ما يليها"
+
+msgid "SRQ_LINUX_REQ_GTKPLUS"
+#msgstr "gtk+2.0 or higher"
+msgstr "<span dir=\"ltr\">gtk+2.0</span> أو&nbsp;ما يليها"
+
+msgid "SRQ_LINUX_REQ_CPU"
+#msgstr "Pentium 500 MHz or greater"
+msgstr "بنتيوم 500 م هرتز أو&nbsp;أمثر"
+
+msgid "SRQ_LINUX_REQ_RAM"
+#msgstr "64 MB RAM"
+msgstr "64 م بيات رام"
+
+msgid "SRQ_LINUX_REQ_DISK"
+#msgstr "50 MB disk space"
+msgstr "50 م بايات على القرص"
+
+##############################################
+# release_notes.php
+##############################################
+
+msgid "RLN_PAGE_TITLE"
+#msgstr "Release notes"
+msgstr "ملاحظات الإصدارة"
+
+msgid "RLN_WHATS_NEW"
+#msgstr "What's new in %s"
+msgstr "ما الجديد في %s"
+
+msgid "RLN_INSTALLING"
+#msgstr "Installing"
+msgstr "التثبيت"
+
+msgid "RLN_UNINSTALLING"
+#msgstr "Uninstalling"
+msgstr "الإزالة"
+
+msgid "RLN_KNOWN_ISSUES"
+#msgstr "Known issues"
+msgstr "مشكلات معروفة"
+
+msgid "RLN_WIN_INSTALL_PROBLEMS"
+#msgstr "(Windows) In rare cases, installation may fail because of an existing installation of BOINC.  If this happens: %s Quit BOINC if it's running, and uninstall BOINC using %s Start/Control Panel/Add and remove programs%s. Install the new version again. %s If that fails, reinstall the version of BOINC you were previously running (old versions can be found %shere%s). Uninstall it as above, then install the new version. %s If that fails, download the %sWindows Install Clean Up%s utility from Microsoft and run it. The old BOINC version shows up as either BOINC.msi or as a corrupt icon .msi (it'll be the top option). Click on it to select, then click Remove and Exit. Reboot your computer. Install the new version. (Warning: leave all other .msi files as they are, otherwise you will have problems uninstalling other programs). %s "
+msgstr "(ويندوز) في حالات نادرة قد يفشل التثبيت بسبب وجود تثبيتة قائمة من BOINC. إن حدث هذا:%s أغلق من BONC إن كان عاملا و&nbsp;أزل BOINC مستخدما  <kdb>ابدأ/لوحة التحكم/ركب و&nbsp;أزل البرمجيات</kbd>. ثبت اللإصدارة الجديدة مجددا. %s إن فشل هذا الإجراء فأعد تثبيت إصدارة BOINC السابقة التي كنت تشغلها (الإصدارات القديمة %sمتاحة للتنزيل%s)، ثم أزلها كما هو&nbsp;مشروح أعلاه و&nbsp;أعد تثبيت الجديدة. فإن فشل هذا نزَّل %sأداة تنظيف تثبيتات ويندوز%s من ميكروسوفت و&nbsp;شغلها. تظهر الإصدارة القديمة من BOINC إما باسم <span dir\"ltr\">BOINC.msi</span> أو&nbsp;كأيقونة معطوبة بالامتداد <span dir=\"ltr\">.msi</span> (ستكون أعلى القائمة). انقر عليها لتخترها ثم أصدر أمر الإزالة. بعد تمام الإزالة أعد تشغيل حاسوبك، ثم ثبت الإصدارة الجديدة. (تحذير: لا تعبث بملفات <span dir=\"ltr\">.msi</span> الأخرى و&nbsp;إلا قد لا تتمكن من إدارة تثبيتاتك الأخرى). %s"
+
+msgid "RLN_TROUBLESHOOT"
+#msgstr "Troubleshooting BOINC"
+msgstr "علاج مشكلات BOINC"
+
+msgid "RLN_NEWF_5_4_AM"
+#msgstr "Support for 'Account managers' - web sites that let you browse BOINC projects, attach/detach, change resource share and settings, all with point-and-click simplicity. Account managers are also great if you have several computers - you just have to make changes once."
+msgstr "الدعم الفني لمديري الحسابات - هي مواقع تمكنك من تصفح مشروعات BOINC و&nbsp;الشبك إليها و&nbsp;الفصل عنها و&nbsp;تغيير تضبيطات المشاركة في الموارد عن طريق استمارات بسيطة. مديرو&nbsp;الحسابات مفيدون للغاية إن كنت تشغل BOINC على حواسيب عديدة حيث يمكنك باستخدامها إحداث التغييرات في موضع واحد."
+
+msgid "RLN_NEWF_5_4_PREF_OVERRIDE"
+#msgstr "General preferences can be overridden by a local file; details are %s here %s."
+msgstr "التضبيطات العامة تتسلط عليها التضبيطات في ملف محلي؛ %sتفاصيل ذلك مشروحة في صفحة أخرى%s."
+
+msgid "RLN_NEWF_5_4_ALERTS_CONNECT"
+#msgstr "BOINC now alerts you whenever it needs you to create a network connection."
+msgstr "ينبهك BOINC الآن عند حاجته إلى عمل اتصال عبر الشبكة."
+
+msgid "RLN_5_8_SIMPLE_GUI"
+#msgstr "The BOINC Manager offers two different interfaces:  'Simple' (small, graphical, skinnable)  and 'Advanced' (maximum information).  The Simple GUI allows local editing of preferences.  You can switch back and forth between Simple and Advanced. "
+msgstr "توجد لمدير BOINC و&nbsp;اجهتان مختلفتان: 'بسيطة' (صغيرة، رسومية، قابلة للتكسية) و&nbsp;'متقدمة' (معلومات أكثر). تتيح الواجهة البسيطة تحرير التضبيطات المحلية. يمكنك التحويل ما بين الواجهتين، البسيطة و&nbsp;المتقدمة."
+
+msgid "RLN_5_8_THROTTLE"
+#msgstr " CPU throttling: you can reduce CPU heat by limiting  the fraction of time that BOINC computes. "
+msgstr "كبح المعالج: يمكنك تقليل تسخين المعالج عن طريق تقليل حصة الوقت التي يستغلها BOINC في الحسبانات."
+
+msgid "RLN_5_8_SCHED"
+#msgstr " Improved scheduling policies avoid missing job deadlines  even on a slow computer with lots of projects. "
+msgstr "سياسات جدولة محسنة تتلافى التأخر عن ماعيد تسليم المهمات حتى على الحواسيب البطيئة التي العاملة على مشروعات عديدة."
+
+msgid "RLN_5_8_MEM"
+#msgstr " You can limit the amount of memory used by BOINC;  this lets you compute all the time without losing performance. "
+msgstr "يمكنك تحديد قدر الذاكرة الذي يستغله BOINC؛ يجعلك هذا تشغل المهمات دون أن تبطأ حاسوبك."
+
+msgid "RLN_5_8_SANDBOX"
+#msgstr " Mac OS X version runs applications in an unpriviledged account,  increasing security. "
+msgstr "إصدارة ماك أوإس X تشغل التطبيقات في حساب غير متميز، مما يزيد الأمان."
+
+msgid "RLN_5_8_SNOOZE"
+#msgstr " Snooze button (in the system tray icon) lets you  stop computing for one hour. "
+msgstr "زر للإرجاء (في أيقونة صينية النظام) يجعلك توقف الحسبانات لساعة."
+
+msgid "RLN_RECOMMEND_LATEST_VERSION"
+#msgstr "We recommend that all BOINC users upgrade to %s."
+msgstr "نحث كل متخدمي BOINC على الترقية إلى %s."
+
+msgid "RLN_LINK2_VERSION_HISTORY"
+#msgstr "A detailed revision history is %shere%s."
+msgstr "%sالتاريخ التفصيلي للإصدارات%s."
+
+msgid "RLN_MSWIN"
+#msgstr "Windows"
+msgstr "ويندوز"
+
+msgid "RLN_APPLMAC"
+#msgstr "Macintosh"
+msgstr "ماكنتوش"
+
+msgid "RLN_LINUX"
+#msgstr "Linux"
+msgstr "لينكس"
+
+msgid "RLN_MSWIN_INSTALL_MODES"
+#msgstr "BOINC can be installed in any of several modes:"
+msgstr "يمكن تثبيت BOINC في أي من الأطوار التالية:"
+
+msgid "RLN_SINGLE_USER_INSTALL"
+#msgstr "Single-user installation"
+msgstr "تثبيته مستخدم واحد"
+
+msgid "RLN_MSWIN_INSTALL_SINGLE_USER_DESC"
+#msgstr "This is the recommended mode. BOINC will run while you (the installing user) are logged in. BOINC is listed in the Start menu of you,but not other users. The 'Show graphics' command in the BOINC managerworks only for you. The BOINC screensaver shows applicationgraphics only for you (other users can run the screensaver but will see  textual information only)."
+msgstr "هذا هو&nbsp;الطور الموصى به؛ فيه يعمل BOINC طالما أنك (المستخدم المثبِّت) والج إلى النظام، و&nbsp;سيدرج BOINC في قائمة <kbd>ابدأ</kbd> لك أنت وحدك و&nbsp;ليس لمستخدمي الحاسوب الآخرين، كما سيعمل أمر <kbd>أظهر الرسوميات</kbd> في مدير BOINC لك وحدك، كما لن يظهر حافظ الشاشة الرسوميات لغيرك (سيتمكن المستخدمون الآخرون من تشغيل حافظ الشاشة لكنهم لن يروا سوى معلومات نصية و&nbsp;حسب)."
+
+msgid "RLN_SHARED_INSTALL"
+#msgstr "Shared installation"
+msgstr "التثبيت المشترك"
+
+msgid "RLN_MSWIN_INSTALL_SHARED_DESC"
+#msgstr "BOINC runs whenever any user is logged in. BOINC is listed in the Start menu of all users. While BOINC is running, it runs as a particular user (either the first user to log in, or the first to run BOINC). The 'Show graphics' command in the BOINC manager works only for this user. The BOINC screensaver shows application graphics only for this user (other users can run the screensaver but will see  textual information only)."
+msgstr "يعمل BOINC في أي وقت يكون في مستخدم ما والجا إلى النظام؛ سيظهر BOINC في قائمة <kbd>ابدأ</kbd> لكل المستخدمين، و&nbsp;حينما يكون BOINC عاملا فإنه يعمل في سياق مستخدم ما (إما أول من يلج إلى النظام، أو&nbsp;أول من يشغله يدويا، حسب التضبيطات)، و&nbsp;لا يعمل أمر <kbd>أظهر الرسوميات</kbd> إلا لهذا المستخدم، كما لا يظهر حافظ الشاشة الرسوميات إلا لذات المستخدم (سيكن بوسع الآخرين رؤية المعلومات النصية و&nbsp;حسب)."
+
+msgid "RLN_WIN_SERVICE_INSTALL"
+#msgstr "Service installation"
+msgstr "التثبيتة كخدمة"
+
+msgid "RLN_MSWIN_INSTALL_WINSERVICE_DESC"
+#msgstr "BOINC runs all the time (even when no one is logged in). BOINC is listed in the Start menu of the installing user, but not other users.  The 'Show graphics' command in the BOINC manager will not work for any user. The BOINC screensaver will only show textual information."
+msgstr "يعمل BOINC طوال الوقت (حتى عندما لا يكون أحد والجا)، و&nbsp;يظهر BOINC في قائمة <kbd>ابدأ</kbd> للمستخدم الذي ثبته فقط و&nbsp;ليس للآخرين، كما لن يعمل أمر <kbd>أظهر الرسوميات</kbd> لأي مستخدم، و&nbsp;لن يظهر حافظ الشاشة سوى المعلومات النصية و&nbsp;حسب للجميع."
+
+msgid "RLN_LINUX_INSTALL_SEA_DESC"
+#msgstr "BOINC for Linux is distributed as a self-extracting archive. This type of installation requires that you be familiar with the UNIX command-line interface."
+msgstr "BOINC للينكس يوزع كأرشيف ذاتي الفك. هذا النمط من التثبيت يتطلب أن تكون عالما بواجهة سطر أوامر يونكس."
+
+msgid "RLN_LINUX_DL_FILENAME"
+#msgstr "The download files have names like <code>%s</code>."
+msgstr "لملفات التنزيل أسماء مثل <code>%s</code>."
+
+msgid "RLN_LINUX_RUN_SEA"
+#msgstr "After downloading the file, type<pre>%s</pre>"
+msgstr "بعد تنزيل المل، أدخل <pre>%s</pre>"
+
+msgid "RLN_LINUX_RESULTOF_SEA"
+#msgstr "This will create a directory BOINC/ with the following files:"
+msgstr "سيعمل هذا الدليل BOINC فيه الملفات التالية:"
+
+msgid "RLN_BOINC_CORE_CL"
+#msgstr "The BOINC core client"
+msgstr "عميل نواة BOINC"
+
+msgid "RLN_BOINC_MANAGER"
+#msgstr "The BOINC manager"
+msgstr "مدير BOINC"
+
+msgid "RLN_SCRIPT_RUN_CLIENT_DESC"
+#msgstr "A script that cd's into the BOINC directory and runs the core client."
+msgstr "سكريبت يغير الدليل العامل إلى الذي ثبت فيه BOINC و&nbsp;يشغل العميل النواة"
+
+msgid "RLN_SCRIPT_RUN_MANAGER_DESC"
+#msgstr "A script that cd's into the BOINC directory and runs the manager."
+msgstr "سكريبت يغير الدليل العامل إلى الذي ثبت فيه BOINC و&nbsp;يشغل المدير."
+
+msgid "RLN_LINUX_AUTOSTART"
+#msgstr "You may want to%s automatically start the core client %sat boot time."
+msgstr "قد ترغب في أن %sيبدأ العميل النواة ذاتيا عند بدء التشغيل%s."
+
+msgid "RLN_MSWIN_UNINSTALL_DESC"
+#msgstr "Select Start/Control Panel/Add or Remove Programs. Select BOINC, then click Remove. This removes the BOINC software only. To completely remove BOINC, delete the BOINC data directory (usually C:/Program Files/BOINC). "
+msgstr "اضغط <kdb>ابدأ/لوحة التحكم/ركب و&nbsp;أزل البرمجيات</kbd>، ثم اختر BOINC ثم أزله. سيزيل هذا برمجية BOINC فقط لكنه سيترك دليل البيانات و&nbsp;سيكون عليك حذفه يديا إن كنت لن تشغل BOINC مجددا في المستقبل عادة يكون في <span dir="ltr">C:/Program Files/BOINC</span>."
+
+msgid "RLN_ISSUE_PROXY_NTLMAUTH"
+#msgstr "If you use a proxy server, please hold off upgrading for now. We have a fix in the works for proxies that use NTLM authentication."
+msgstr "إن كنت تستخدم خادوما وسيطا فأجل الترقية لبرهة، فنحن نعمل على تصليحة تتعلق بالخواديم التي تستخدم تصريح NTLM."
+
+msgid "RLN_ISSUE_MSWIN_LATEST_DIRECTX"
+#msgstr "(Windows) If BOINC applications are repeatedly crashing on your computer, it's possibly that you need to %supgrade to the latest version (9.0c or later) of DirectX %s."
+msgstr "(ويندوز) إذا تعددت انهيارات  تطبيقات BOINC على حاسوبك، فقد تكون بحاجة لترقية Diret إلى الإصدارة 9.0C أو&nbsp;ما يليها."
+
+msgid "RLN_ISSUE_MSWIN_SCREENSAVER_XP3D"
+#msgstr "(Windows) If BOINC runs at the same time as Windows XP 3-D screensavers, the system becomes sluggish and unresponsive."
+msgstr "(ويندوز) إذا اشتغل BOINC في ذات الوقت مع حافظات شاشة ويندوز XP ثلاثية الأبعاد قفقد يصبح النظام بطيئا و&nbsp;غير مستجيب."
+
+msgid "RLN_ISSUE_MSWIN_NO_SCREENSAVER"
+#msgstr "(Windows) Applications that were built before October 2004 do not display screensaver graphics with the Service or Shared install type, or the Single-user install type with the password protect screensaver option on NT based machines."
+msgstr "(ويندوز) التطبيقات التي بنيت قبل أكتوبر 2004 لا تعرض رسوميات حافظ الشاشة في طور التثبيت كخدمة أو&nbsp;التثبيت المشترك و&nbsp;لا في طور التثبيت لمستخدم واحد في حالة وجود كلمة مرور على حافظ الشاشة و&nbsp;ذلك في النظم المبنية على NT."
+
+msgid "RLN_TROUBLESHOOT_INTRO"
+#msgstr "If you have problems with BOINC, here are some steps you can take:"
+msgstr "إن كانت لديك مشكلات مع BOINC فهذه بعض الخطوات التي يمكنك اتباعها:"
+
+msgid "RLN_TROUBLESHOOT_PRJ_SPECIFIC"
+#msgstr "If you have a problem with a particular project, go to the 'Questions and Answers' area of the project's web site. You may find the solution to your problem. If not, post it there, and you'll get help from other users. If the problem persists, use the BOINC Manager to 'reset' that project. This will erase any jobs in progress and start from scratch. "
+msgstr "إن كانت لديك مشكلة مع مشروع معين زر قسم الأسئلة و&nbsp;الأجوبة في موقع المشروع فقد تجد حلا لمشكلتك. فإن لم تجد أرسل مشكلتك هناك و&nbsp;سيساعدك المستخمون الآخرون. إذا ما ظلت المشكلة قائمة استخدم مدير BOINC لتصفير المشروع، فسيمحي هذا كل المهمات قيد التنيذ و&nbsp;يبدأ من جديد."
+
+msgid "RLN_TROUBLESHOOT_BOINC_ITSELF"
+#msgstr "If you have problems with BOINC itself, get help from the %s BOINC message boards %s."
+msgstr "إن كانت لديك مشكلات مع BOINC ذاته فابحث عن مساعدة في %sمنتدى BOINC%s"
+
+##############################################
+# help.php
+##############################################
+
+msgid "HELP_TITLE"
+#msgstr "Getting help with BOINC"
+msgstr "المساعد فيما يخص BOINC "
+
+msgid "HELP_HEADING1"
+#msgstr "Online Help"
+msgstr "المساعدة على الخط"
+
+msgid "HELP_P1_1"
+#msgstr "BOINC Online Help lets you talk one-on-one with experienced BOINC users, who can: %s answer questions about BOINC and volunteer computing; %s walk you through the process of installing and using BOINC; %s troubleshoot any problems you might have. "
+msgstr "تتيح لك المساعدة على الخط أن تتحدث شخصيا مع مستخدمي BOINC ذوي خبرة يمكنهم % إجابة أسئلتك عن BOINC و&nbsp;الحوسبة التطوعية؛ %s المشي معك خطوة بخطوة عبر إجراءات تثبيت و&nbsp;استخدام BOINC؛ %s مساعدتك حل أي مشكلات تواجهك."
+
+msgid "HELP_P1_2"
+#msgstr "BOINC Online Help is based on %sSkype%s, an Internet-based telephone system. Skype is free (both the software and the calls). If you don't already have Skype, please %sdownload and install it now%s. When you're finished, return to this page. "
+msgstr "تعتمد مساعدة BOINC على الخط على %sسكايب%s، و&nbsp;هو&nbsp;تظام هاتفي لإنترنت، مجاني (البرمجية و&nbsp;المكالمات). إذا لم تكن مستخدما لسكايب %sنزِّله و&nbsp;ثبته الآن%s و&nbsp;عندما تتم ذلك ارجع إلى هذه الصفحة."
+
+msgid "HELP_P1_3"
+#msgstr "The best way to get help is by voice, for which you need either built-in microphone and speakers or an external headset for your computer. Alternatively, you can use Skype's text-based chat system to communicate with Help Volunteers."
+msgstr "أفضل طريقة للحصول على العون هي المحادثة، و&nbsp;من أجل ذلك يلزمك سماعات و&nbsp;ميكروفون في حاسوبك. أو&nbsp;يمكنك عوضا عن ذلك استخدام خدمة الدردشة النصية في التواصل مع المتطوعين للمساعدة."
+
+msgid "HELP_P1_4"
+#msgstr "Volunteers speaking several languages are available. Please select a language: "
+msgstr "يتحدث المتطوعون لغات عدة، اختر لغة: "
+
+msgid "HELP_HEADING2"
+#msgstr "Other sources of help"
+msgstr "مصادر أخرى للمساعدة"
+
+msgid "HELP_P2_ITEM1"
+#msgstr "Running BOINC "
+msgstr "تشغيل BOINC "
+
+msgid "HELP_P2_ITEM2"
+#msgstr "Troubleshooting BOINC "
+msgstr "حل مشكلات BOINC "
+
+msgid "HELP_P2_ITEM3"
+#msgstr "BOINC-related web sites "
+msgstr "مواقع متعلقة بما يخص BOINC "
+
+msgid "HELP_P2_ITEM4"
+#msgstr "The BOINC message boards "
+msgstr "منتديات BOINC "
+
+msgid "HELP_P2_ITEM5"
+#msgstr "The message boards on any BOINC-based project "
+msgstr "منتديات أي مشروع مبني على BOINC "
+
+msgid "HELP_HEADING3"
+#msgstr "Be a Help Volunteer"
+msgstr "تطوع للمساعدة"
+
+msgid "HELP_P3_1"
+#msgstr "If you're an experienced BOINC user, we encourage you to %sbecome a Help Volunteer%s. It's a great way to help the cause of scientific research and volunteer computing - and it's fun!  "
+msgstr "إن كنت ذا خبرة في استخدام BOINC فنحن نحثك على أن %sتتطوع للمساعدة%s. هذه إحدى وسائل دعم البحث العلمي و&nbsp;الحوسبة التطوعية - كما أنها مسيلة!"
+
+msgid "HELP_P3_2"
+#msgstr "If you're already a Help Volunteer: to edit your settings, %sclick here%s. "
+msgstr "إن كنت بالفعل متطوعا للمساعدة: %sيمكنك تحرير تضبيطاتك%s."
+
+##############################################
+# index.php
+##############################################
+
+msgid "HOME_HEADING1"
+#msgstr "Volunteer"
+msgstr "تطوع"
+
+msgid "HOME_P1"
+#msgstr " Use the idle time on your computer  (Windows, Mac, or Linux)  to cure diseases, study global warming,  discover pulsars, and do many other types of scientific research.  It's safe, secure, and easy:  %sChoose%s projects  %sDownload%s and run BOINC software  %sEnter%s the project URLs, your email address, and password. "
+msgstr "استخدم وقت قوة حاسوبك غير المستغلة (ويندوز، ماك، أو&nbsp;لينكس) للبحث عن علاجات للأمراض، و&nbsp;دراسة التغير المناخي،  اكتشاف النجوم النابضات، و&nbsp;مجالات أخرى من البحث العلمي النافع، بكل يسر و&nbsp;أمان: %sاختر%س المشروعات التي تود المساهمة فيها ثم %sنزِّل%s و&nbsp;شغل برمجية BOINC ثم %sأدخل%s مسار المشروع و&nbsp;عنوان بريدك و&nbsp;كلمة مرورك."
+
+msgid "HOME_P2"
+#msgstr "Or, if you run several projects, try an %saccount manager%s such as %sGridRepublic%s or %sBAM!%s. "
+msgstr "أو، إن كنت تشغل عدة مشروعات فجرب %sمدير حسابات%s مثل %sGridRepublic%s أو&nbsp;%sBAM!%s."
+
+msgid "HOME_P3"
+#msgstr "If you have any questions, or need help getting started, you can %stalk to a Volunteer Helper%s. "
+msgstr "إن كانت لديك أسئلة أو&nbsp;إن كنت بحاجة إلى مساعدة لتبدأ فيمكنك الحديث مع %sمتطوعينا%s."
+
+msgid "HOME_MORE_INFO"
+#msgstr "Running BOINC"
+msgstr "تشغيل BOINC"
+
+msgid "HOME_DOWNLOAD"
+#msgstr "Download"
+msgstr "نزل"
+
+msgid "HOME_WEB_SITES"
+#msgstr "Web sites"
+msgstr "مواقع وب"
+
+msgid "HOME_ADD_ONS"
+#msgstr "Add-ons"
+msgstr "تركيبات"
+
+msgid "HOME_SURVEY"
+#msgstr "Survey"
+msgstr "استبيان"
