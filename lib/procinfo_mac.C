@@ -87,6 +87,15 @@ int procinfo_setup(vector<PROCINFO>& pi) {
     if (fd[0] == 0) {
         // Launch AppStats helper application with a bidirectional pipe
 RELAUNCH:
+        // If we are relaunching, close our open file decriptors
+        if (fd[0] != 0)
+            close(fd[0]);
+        fd[0] = 0;
+        
+        if (fd[1] != 0)
+            close(fd[1]);
+        fd[1] = 0;
+
         if (failed_retries > 4) // Give up after failures on 5 consecutive calls 
             return ERR_EXEC;    //  of procinfo_setup()
             

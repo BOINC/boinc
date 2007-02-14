@@ -1680,3 +1680,11 @@ David  13 Feb 2007
         update_stats.C
     tools/
         upgrade
+
+Charlie 14 Feb 2007
+    - MAC: If relaunching AppStats due to an error, close any open 
+        file descriptors (we communicate with AppStats via a bidirectional 
+        pipe.)
+
+    lib/
+        procinfo_mac.C
