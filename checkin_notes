@@ -1588,3 +1588,7 @@ Rom    14 Feb 2007
         
     clientgui/
         BOINCGUIApp.cpp
+
+Rom    15 Feb 2007
+    - Tag for 5.8.12 release, all platforms
+      boinc_core_release_5_8_12
