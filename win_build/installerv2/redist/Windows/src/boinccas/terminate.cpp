@@ -91,14 +91,13 @@ int diagnostics_update_process_list( std::vector<BOINC_PROCESS>& ps ) {
     pProcesses = (PSYSTEM_PROCESSES)pBuffer;
     do {
 
-        BOINC_PROCESS pi;
-
-        // Store the process information we now know about.
-        pi.dwProcessId = pProcesses->ProcessId;
-        pi.dwParentProcessId = pProcesses->InheritedFromProcessId;
-        pi.strProcessName = pProcesses->ProcessName.Buffer;
-
-        ps.push_back(pi);
+        if (pProcesses->ProcessId) {
+            BOINC_PROCESS pi;
+            pi.dwProcessId = pProcesses->ProcessId;
+            pi.dwParentProcessId = pProcesses->InheritedFromProcessId;
+            pi.strProcessName = pProcesses->ProcessName.Buffer;
+            ps.push_back(pi);
+        }
 
         // Move to the next structure if one exists
         if (!pProcesses->NextEntryDelta) {
@@ -153,9 +152,9 @@ BOOL TerminateProcessEx( tstring& strProcessName ) {
 
     // Terminate all child processes
 	for (i=0; i < tps.size(); i++) {
-		BOINC_PROCESS& tp = tps[i];
+		BOINC_PROCESS tp = tps[i];
 	    for (j=0; j < ps.size(); j++) {
-		    BOINC_PROCESS& p = ps[j];
+		    BOINC_PROCESS p = ps[j];
             if (tp.dwProcessId == p.dwParentProcessId) {
                 if (TerminateProcessById(p.dwProcessId)) {
                     tps.push_back(p);
