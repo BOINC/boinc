@@ -1717,3 +1717,19 @@ Rom    14 Feb 2007
         
     clientgui/
         BOINCGUIApp.cpp
+
+David  15 Feb 2007
+    - core client: don't print "finish file not found" message
+        when app quits because of preemption
+    - initial checkin for client simulator
+    - add support for page-level translation
+
+    client/
+        app_control.C
+        cpu_sched.C
+        makefile_sim
+        sim.C,h
+    html/inc/
+        page_translate.inc
+    sched/
+        sched_send.C

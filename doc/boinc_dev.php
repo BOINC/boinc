@@ -141,6 +141,8 @@ with file deletion according to project policy.
 
 <li> Server/Back End:
     <ul>
+    <li> Allow the scheduler to take a list of platforms (not just one).
+        E.g. a Win64 machine could send Win64 and Win32.
     <li> When using HR, if the scheduler has sent one result of a WU
         using a particular app version,
         it should use the same app version for other results from that WU.

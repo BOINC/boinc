@@ -792,7 +792,7 @@ int add_result_to_reply(
     if (retval) {
         log_messages.printf(
             SCHED_MSG_LOG::MSG_CRITICAL,
-            "send_work: can't insert name tags: %d\n",
+            "add_result_to_reply: can't insert name tags: %d\n",
             retval
         );
         return retval;
@@ -801,7 +801,7 @@ int add_result_to_reply(
     if (retval) {
         log_messages.printf(
             SCHED_MSG_LOG::MSG_CRITICAL,
-            "send_work: can't insert deadline tag: %d\n", retval
+            "add_result_to_reply: can't insert deadline tag: %d\n", retval
         );
         return retval;
     }

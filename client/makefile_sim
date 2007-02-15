@@ -1,0 +1,11 @@
+CXXFLAGS = -g -DSIM \
+    -I ../lib \
+    -I ..
+
+OBJS = sim.o \
+    cpu_sched.o \
+
+all: sim
+
+sim: $(OBJS)
+	$(CXX) $(CXXFLAGS) $(OBJS) -o sim

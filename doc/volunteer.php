@@ -1,4 +1,7 @@
 <?php
+require_once('../html/inc/page_translate.inc');
+find_translation("volunteer.html");
+
 require_once('docutil.php');
 page_head('Volunteer computing');
 echo "
