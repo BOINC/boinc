@@ -311,10 +311,10 @@ $mac_changes_57= "
     <li>Macintosh only:
       <ul>
         <li> Version 5.5.4 BOINC Manager for the Mac introduces new, stricter 
-            security measures.  If you experience problems with this software, 
-            you can re-install a version of BOINC prior to 5.5.4; this will 
-            automatically revert ownership and permissions to the earlier 
-            implementation.  For details, please see the ReadMe file.
+            <a href=sandbox_user.php>security measures</a>.  If you experience  
+            problems with this software, you can re-install a version of BOINC 
+            prior to 5.5.4; this will automatically revert ownership and permissions 
+            to the earlier implementation.  For details, please see the ReadMe file.
         <li> New <a href=mac_admin_tools.php>tools</a> for Macintosh system administrators are available.  
       </ul>
 ";
@@ -323,10 +323,10 @@ $mac_changes_55= "
     <li>Macintosh only:
       <ul>
         <li> Version 5.5.4 BOINC Manager for the Mac introduces new, stricter 
-            security measures.  If you experience problems with this software, 
-            you can re-install a version of BOINC prior to 5.5.4; this will 
-            automatically revert ownership and permissions to the earlier 
-            implementation.  For details, please see the ReadMe file.
+            <a href=sandbox_user.php>security measures</a>.  If you experience  
+            problems with this software, you can re-install a version of BOINC 
+            prior to 5.5.4; this will automatically revert ownership and permissions 
+            to the earlier implementation.  For details, please see the ReadMe file.
         <li> New <a href=mac_admin_tools.php>tools</a> for Macintosh system administrators are available.  
       </ul>
 ";
