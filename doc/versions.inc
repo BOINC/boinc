@@ -370,7 +370,7 @@ $linux_libs_58= "
       </ul>
 ";
 
-$w5811= array(
+$w5812= array(
     "num"=>"5.8.12",
     "status"=>"Development version",
     "file"=>"boinc_5.8.12_windows_intelx86.exe",
