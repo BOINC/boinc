@@ -51,7 +51,6 @@ echo "
 <li> ".tr(SRQ_LINUX_REQ_RAM)."
 <li> ".tr(SRQ_LINUX_REQ_DISK)."
 </ul>
-<hr>
 ";
 
 page_tail(true);

@@ -178,6 +178,12 @@ bool CLIENT_STATE::handle_finished_apps() {
             active_tasks.remove(atp);
             delete atp;
             set_client_state_dirty("handle_finished_apps");
+
+            // the following is critical; otherwise the result is
+            // still in the "scheduled" list and enforce_schedule()
+            // will try to run it again.
+            //
+            request_schedule_cpus("handle_finished_apps");
             action = true;
         }
     }

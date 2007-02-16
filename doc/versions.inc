@@ -763,8 +763,6 @@ $windows = array(
         $w5812,
         $w5811,
         $w5411,
-        $w5213,
-        $w445,
     )
 );
 $mac = array(
@@ -777,10 +775,6 @@ $mac = array(
         $m5811c,
         $m549,
         $m549c,
-        $m5213,
-        $m5213c,
-        $m443,
-        $m443c
     )
 );
 $linux = array(
@@ -790,8 +784,6 @@ $linux = array(
     "versions"=>array(
         $l5811,
         $l5411,
-        $l5213,
-        $l443,
     )
 );
 

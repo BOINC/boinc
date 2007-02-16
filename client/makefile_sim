@@ -3,7 +3,12 @@ CXXFLAGS = -g -DSIM \
     -I ..
 
 OBJS = sim.o \
+    client_msgs.o \
     cpu_sched.o \
+    log_flags.o \
+    ../lib/parse.o \
+    ../lib/mfile.o \
+    ../lib/miofile.o
 
 all: sim
 

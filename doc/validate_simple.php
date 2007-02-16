@@ -34,12 +34,14 @@ extern int cleanup_result(RESULT& r, void* data);
 "; block_end(); echo "
 This frees the structure pointed to by data, if it's non-NULL.
 "; block_start(); echo "
-extern double compute_granted_credit(vector<RESULT>& results);
+extern double compute_granted_credit(WORKUNIT&, vector<RESULT>& results);
 "; block_end(); echo "
 Given a set of results (at least one of which is valid)
 compute the credit to be granted to all of them.
-We recommend that this function simply return
-<code>median_mean_credit(results);</code>
+Normally this function simply returns
+<code>median_mean_credit(results)</code>.
+If credit is <a href=tools_work.php>specified in the workunit</a>,
+call <code>get_credit_from_wu()</code>.
 <p>
 You must link these functions with the files
 validator.C, validate_util.C, and validate_util2.C.

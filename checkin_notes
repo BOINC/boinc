@@ -1733,3 +1733,16 @@ David  15 Feb 2007
         page_translate.inc
     sched/
         sched_send.C
+
+David  15 Feb 2007
+    - core client: fix bug where if a task is aborted
+        (e.g. because it exceeds CPU limit)
+        it's restarted on the next enforce_schedule().
+        The problem: we're deleting the ACTIVE_TASK,
+        but the result is still in the ordered_scheduled_results list.
+        The solution: call request_schedule_cpus() in
+        handle_finished_apps() when an ACTIVE_TASK is deleted.
+
+    client/
+        cs_apps.C
+        makefile_sim

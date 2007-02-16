@@ -62,7 +62,7 @@ function copyright() {
     ";
 }
 
-function page_tail($translatable=false) {
+function page_tail($translatable=false, $is_main=false) {
     global $book;
     if ($book) {
         return;
@@ -71,11 +71,16 @@ function page_tail($translatable=false) {
     $d = last_mod($datefile);
     echo "
         <hr size=1>
-        <center>
-        <a href=\"/\">Return to BOINC main page</a>
-        </center><p>
-            <br>
-            <font color=888888 size='2'>
+    ";
+    if (!$is_main) {
+        echo "
+            <center>
+            <a href=\"/\">Return to BOINC main page</a>
+            </center><p>
+        ";
+    }
+    echo "
+        <font color=888888 size='2'>
     ";
     if ($translatable) {
         echo "
@@ -83,7 +88,7 @@ function page_tail($translatable=false) {
         ";
     }
     echo "
-            Last modified $d.<br>
+        Last modified $d.<br>
     ";
     copyright();
     echo "

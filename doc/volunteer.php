@@ -135,5 +135,5 @@ not computing<sup>1</sup>.
 to share CPU resources.
 
 ";
-page_tail();
+page_tail(true);
 ?>

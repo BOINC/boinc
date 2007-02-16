@@ -5,7 +5,7 @@ require_once("docutil.php");
 page_head("Web and GUI translations");
 
 echo "
-BOINC has a mechanism for non-English translations of
+BOINC has mechanisms for non-English translations of
 <ul>
 <li> Parts of this site (the <a href=download.php>Download</a>
     and <a href=poll.php>BOINC user survey</a> pages,
@@ -51,7 +51,7 @@ of the authoritative translation file.
 <h2>Translation files</h2>
 
 <p>
-All translations are based on <b>translation files</b>.
+Most translations are based on <b>translation files</b>.
 Translation files are in PO format, which
 is described
 <a href=http://www.gnu.org/software/gettext/manual/html_node/gettext_9.html#SEC9>here</a>.
@@ -102,7 +102,7 @@ Here are links to the translation files for
 </ul>
 
 
-<h2>Translatable web pages</h2>
+<h2>Writing translatable web pages</h2>
 Translatable web pages must be PHP, and must include
 <pre>
 require_once(\"../inc/translation.inc\");
@@ -118,7 +118,7 @@ is replaced with
 page_head(tr(APPS_VERSION));
 </pre>
 For BOINC projects,
-the directory html/user/translations contains a number of
+the directory html/languages/translations contains a number of
 'translation files'.
 When a person accesses the page, the browser passes a list of languages.
 The BOINC PHP code finds the first of these languages for which

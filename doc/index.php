@@ -186,11 +186,9 @@ echo "</table>";
 echo "
 </td></tr>
 </table>
-
-
-<hr>
 ";
-copyright();
+
+page_tail(true, true);
 echo "
     <script language=\"JavaScript\" type=\"text/javascript\" src=\"wz_tooltip.js\"></script>
     </body>
