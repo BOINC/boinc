@@ -1604,8 +1604,6 @@ David  9 Feb 2007
 		cs_benchmark.C
 		dhrystone.C
 		net_stats.C,h
-	win_build
-		boinc_cli_curl.vcproj
 
 David  15 Feb 2007
     - core client: fix bug where if a task is aborted
