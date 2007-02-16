@@ -176,7 +176,7 @@ int CLIENT_STATE::init() {
     LPTSTR pbuf = buf;
 
     GetUserName(pbuf, &buf_size);
-    if (executing_as_daemon && (0 != strcmp("SYSTEM", pbuf))) {
+    if (executing_as_daemon && (strcmp("SYSTEM", pbuf))) {
         msg_printf(NULL, MSG_INFO,
             "BOINC is running as a service and as a non-system user."
         );
@@ -246,7 +246,7 @@ int CLIENT_STATE::init() {
         || (core_client_version.release != old_release)
     ) {
         msg_printf(NULL, MSG_INFO,
-            "Version change (%d.%d.%d -> %d.%d.%d); running CPU benchmarks\n",
+            "Version change (%d.%d.%d -> %d.%d.%d)",
             old_major_version, old_minor_version, old_release,
             core_client_version.major,
             core_client_version.minor,

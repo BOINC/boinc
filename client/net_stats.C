@@ -220,6 +220,7 @@ void NET_STATUS::got_http_error() {
         && !need_physical_connection
     ) {
 		need_to_contact_reference_site = true;
+        show_ref_message = true;
     }
 }
 
@@ -237,7 +238,9 @@ void NET_STATUS::contact_reference_site() {
 int LOOKUP_WEBSITE_OP::do_rpc(string& url) {
     int retval;
 
-    msg_printf(0, MSG_INFO, "Project communication failed: attempting access to reference site");
+    if (net_status.show_ref_message) {
+        msg_printf(0, MSG_INFO, "Project communication failed: attempting access to reference site");
+    }
     retval = gstate.gui_http.do_rpc(this, url, LOOKUP_WEBSITE_FILENAME);
     if (retval) {
         error_num = retval;
@@ -267,9 +270,11 @@ void LOOKUP_WEBSITE_OP::handle_reply(int http_op_retval) {
             "Access to reference site failed - check network connection or proxy configuration."
         );
     } else {
-        msg_printf(0, MSG_INFO,
-            "Access to reference site succeeded - project servers may be temporarily down."
-        );
+        if (net_status.show_ref_message) {
+            msg_printf(0, MSG_INFO,
+                "Access to reference site succeeded - project servers may be temporarily down."
+            );
+        }
     }
 }
 

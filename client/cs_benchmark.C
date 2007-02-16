@@ -98,6 +98,8 @@ struct BENCHMARK_DESC {
     HOST_INFO host_info;
     bool done;
     bool error;
+    double int_loops;
+    double int_time;
 #ifdef _WIN32
     HANDLE handle;
     DWORD pid;
@@ -143,17 +145,19 @@ bool benchmark_time_to_stop(int which) {
 //
 int cpu_benchmarks(BENCHMARK_DESC* bdp) {
     HOST_INFO host_info;
-    double x, y;
+    double vax_mips, int_loops, int_time;
 
     host_info.clear_host_info();
     whetstone(host_info.p_fpops);
-    dhrystone(x, y);
-    host_info.p_iops = y*1e6;
+    dhrystone(vax_mips, int_loops, int_time);
+    host_info.p_iops = vax_mips*1e6;
     host_info.p_membw = 1e9;
     host_info.m_cache = 1e6;    // TODO: measure the cache
 
 #ifdef _WIN32
     bdp->host_info = host_info;
+    bdp->int_loops = int_loops;
+    bdp->int_time = int_time;
 #else
     FILE* finfo;
     finfo = boinc_fopen(bdp->filename, "w");
@@ -425,9 +429,11 @@ bool CLIENT_STATE::cpu_benchmarks_poll() {
             for (i=0; i<ncpus; i++) {
                 if (log_flags.benchmark_debug) {
                     msg_printf(0, MSG_INFO,
-                        "[benchmark_debug] CPU %d: fp %f int %f",
+                        "[benchmark_debug] CPU %d: fp %f int %f intloops %f inttime %f",
                         i, benchmark_descs[i].host_info.p_fpops,
-                        benchmark_descs[i].host_info.p_iops
+                        benchmark_descs[i].host_info.p_iops,
+                        benchmark_descs[i].int_loops,
+                        benchmark_descs[i].int_time
                     );
                 }
                 p_fpops += benchmark_descs[i].host_info.p_fpops;

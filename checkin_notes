@@ -1592,3 +1592,29 @@ Rom    14 Feb 2007
 Rom    15 Feb 2007
     - Tag for 5.8.12 release, all platforms
       boinc_core_release_5_8_12
+
+David  9 Feb 2007
+	- core client: don't print misleading error messages when reference
+		site access succeeds on initial startup.
+	- core client: a few more messages for <benchmark_debug>
+
+	client/
+		client_state.C
+		cpu_benchmark.h
+		cs_benchmark.C
+		dhrystone.C
+		net_stats.C,h
+	win_build
+		boinc_cli_curl.vcproj
+
+David  15 Feb 2007
+    - core client: fix bug where if a task is aborted
+        (e.g. because it exceeds CPU limit)
+        it's restarted on the next enforce_schedule().
+        The problem: we're deleting the ACTIVE_TASK,
+        but the result is still in the ordered_scheduled_results list.
+        The solution: call request_schedule_cpus() in
+        handle_finished_apps() when an ACTIVE_TASK is deleted.
+
+    client/
+        cs_apps.C
