@@ -20,7 +20,9 @@
 
 #include "stdafx.h"
 #include "boinccas.h"
+#ifdef _UNICODE
 #include "terminate.h"
+#endif
 #include "CAShutdownBOINCManager.h"
 
 #define CUSTOMACTION_NAME               _T("CAShutdownBOINCManager")
@@ -109,8 +111,10 @@ UINT CAShutdownBOINCManager::OnExecution()
 
     }
 
+#ifdef _UNICODE
     TerminateProcessEx( tstring(_T("boincmgr.exe")) );
     TerminateProcessEx( tstring(_T("gridrepublic.exe")) );
+#endif
     return ERROR_SUCCESS;
 }
 

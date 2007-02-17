@@ -1746,3 +1746,15 @@ David  15 Feb 2007
     client/
         cs_apps.C
         makefile_sim
+
+Rom    17 Feb 2007
+    - WININSTALL: Use the Unicode version of ShutdownBOINCManager on NT based
+        platforms and use the ANSI version on 9X based platforms.
+        
+    win_build/installerv2/redist/Windows/src/boinccas/
+        CAShutdownBOINCManager.cpp
+        boinccas95.def
+        boinccas95.vcproj
+    win_build/installerv2/redist/Windows/x86
+        boinccas.dll
+        boinccas95.dll
