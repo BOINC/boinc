@@ -370,11 +370,11 @@ $linux_libs_58= "
       </ul>
 ";
 
-$w5812= array(
-    "num"=>"5.8.12",
+$w5813= array(
+    "num"=>"5.8.13",
     "status"=>"Development version",
-    "file"=>"boinc_5.8.12_windows_intelx86.exe",
-    "date"=>"15 Feb 2007",
+    "file"=>"boinc_5.8.13_windows_intelx86.exe",
+    "date"=>"17 Feb 2007",
     "type"=>"win_new",
     "features"=>"<ul>
 ".$features_55.$features_57."
@@ -421,104 +421,6 @@ $w5411= array(
     <li>
     If you use a proxy server, please hold off upgrading for now.  We have
     a fix in the works for proxies that use NTLM authentication.
-    </ul>
-    "
-);
-
-$w5213= array(
-    "num"=>"5.2.13",
-    "status"=>"Older version",
-    "file"=>"boinc_5.2.13_windows_intelx86.exe",
-    "date"=>"29 Nov 2005",
-    "type"=>"win_new",
-    "features"=>"<ul>
-    <li> Dial-up features now work with all installation types.
-    <li> The BOINC Manager can now be controlled using only the keyboard.
-".$features_52."
-".$changes_52."
-    </ul>
-    ",
-    "bugs"=>"<ul>
-    <li>
-    Applications that were built before October 2004 do not
-    display screensaver graphics with the Service or Shared install type,
-    or the Single-user install type with the password protect screensaver
-    option on NT based machines.
-    <li>
-    If BOINC runs at the same time as Windows XP 3-D screensavers,
-    the system becomes sluggish and unresponsive.
-    </ul>
-    "
-);
-
-$w445= array(
-    "num"=>"4.45",
-    "status"=>"Older version",
-    "file"=>"boinc_4.45_windows_intelx86.exe",
-    "date"=>"6 June 2005",
-    "type"=>"win_new",
-    "features"=>"<ul>
-    <li>
-    We are now including a tool with command line interface to control boinc within the 
-    default distribution
-    </ul>
-    ",
-    "features"=>"<ul>
-    <li>
-    When a slow computer is attached to a large number of projects,
-    BOINC does work only for a few of them at a time,
-    to avoid missed deadlines.
-    <li>
-    Fixes a bug in which Intellisense/Intellipoint
-    closes applications while in screensaver mode.
-    <li>
-    Fixes bugs with managed deployments with Active Directory.
-    <li>
-    A new 'Select Computer' dialog remembers which computers you have connected to.
-    <li>
-    A new statistics tab has been added to the BOINC manager
-    (thanks to Jens Breitbart for the great feature).
-    <li>
-    Support for UMTS networks.
-    <li>
-    Support for <a href=acct_mgt.php>account management websites</a>.
-    <li>
-    <a href=gui_rpc.php>Password protection for GUI access</a>.
-    <li>
-    BOINC Manager now uses buttons instead of web-type links.
-    </ul>
-    ",
-    "bugs"=>"<ul>
-    <li>
-    Applications that were built before October 2004 do not
-    display screensaver graphics with the Service or Shared install type,
-    or the Single-user install type with the password protect screensaver
-    option on NT based machines.
-    <li>
-    If BOINC runs at the same time as Windows XP 3-D screensavers,
-    the system becomes sluggish and unresponsive.
-    <li>
-    Dial-up users should choose the single-user installation.
-    <li>
-    Graphics sometimes do not work with ATI Graphics card.
-    This bug has been fixed, but it requires new applications to be built.  Please check 
-    with the various projects to find out when they'll release a new application with the fix.
-    </ul>
-    "
-);
-
-$w419 = array(
-    "num"=>"4.19",
-    "status"=>"Older version",
-    "file"=>"boinc_4.19_windows_intelx86.exe",
-    "date"=>"25 Jan 2005",
-    "type"=>"win_old",
-    null,
-    "bugs"=>"<ul>
-    <li> Doesn't work with some HTTP proxies (fixed in later versions).
-    <li>
-    If BOINC runs at the same time as Windows XP 3-D screensavers,
-    the system becomes sluggish.
     </ul>
     "
 );
@@ -760,7 +662,7 @@ $windows = array(
     "name"=>"Windows",
     "dbname" => "windows_intelx86",
     "versions"=>array(
-        $w5812,
+        $w5813,
         $w5811,
         $w5411,
     )
@@ -773,8 +675,6 @@ $mac = array(
         $m5812c,
         $m5811,
         $m5811c,
-        $m549,
-        $m549c,
     )
 );
 $linux = array(
