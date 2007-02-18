@@ -600,6 +600,20 @@ $m443c = array(
     "
 );
 
+$l5813 = array(
+    "num"=>"5.8.13",
+    "status"=>"Development version (standard GUI)",
+    "file"=>"boinc_5.8.13_i686-pc-linux-gnu.sh",
+    "date"=>"17 February 2007",
+    "type"=>"sea",
+    "features"=>"<ul>
+".$features_55.$features_57."
+".$linux_libs_58." 
+".$changes_57."
+    </ul>
+    "
+);
+
 $l5811 = array(
     "num"=>"5.8.11",
     "status"=>"Recommended version (standard GUI)",
@@ -682,6 +696,7 @@ $linux = array(
     "dbname" => "i686-pc-linux-gnu",
     "url"=>"linux.php",
     "versions"=>array(
+        $l5813,
         $l5811,
         $l5411,
     )
