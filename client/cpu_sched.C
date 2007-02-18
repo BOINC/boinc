@@ -41,8 +41,12 @@
 #include "boinc_win.h"
 #endif
 
-#include "client_msgs.h"
+#ifdef SIM
+#include "sim.h"
+#else
 #include "client_state.h"
+#endif
+#include "client_msgs.h"
 #include "util.h"
 #include "log_flags.h"
 

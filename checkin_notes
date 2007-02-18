@@ -1640,3 +1640,10 @@ Rom    17 Feb 2007
     - Tag for 5.8.14 release, all platforms
       boinc_core_release_5_8_14
 
+David  15 Feb 2007
+    - core client: don't print "finish file not found" message
+        when app quits because of preemption
+
+    client/
+        app_control.C
+        cpu_sched.C

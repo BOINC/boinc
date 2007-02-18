@@ -215,12 +215,11 @@ void ACTIVE_TASK::handle_exited_app(int stat) {
         set_task_state(PROCESS_ABORTED, "handle_exited_app");
     } else {
 #ifdef _WIN32
-        set_task_state(PROCESS_EXITED, "handle_exited_app");
         close_process_handles();
-
         result->exit_status = exit_code;
         if (exit_code) {
             char szError[1024];
+            set_task_state(PROCESS_EXITED, "handle_exited_app");
             gstate.report_result_error(
                 *result,
                 "%s - exit code %d (0x%x)",
@@ -239,7 +238,9 @@ void ACTIVE_TASK::handle_exited_app(int stat) {
 				);
 			}
         } else {
-            if (!finish_file_present()) {
+            if (finish_file_present()) {
+                set_task_state(PROCESS_EXITED, "handle_exited_app");
+            } else {
                 will_restart = true;
                 if (task_state() != PROCESS_QUIT_PENDING) {
                     limbo_message(*this);
@@ -249,17 +250,19 @@ void ACTIVE_TASK::handle_exited_app(int stat) {
         }
 #else
         if (WIFEXITED(stat)) {
-            set_task_state(PROCESS_EXITED, "handle_exited_app");
             result->exit_status = WEXITSTATUS(stat);
 
             if (result->exit_status) {
+                set_task_state(PROCESS_EXITED, "handle_exited_app");
                 gstate.report_result_error(
                     *result,
                     "process exited with code %d (0x%x)",
                     result->exit_status, result->exit_status
                 );
             } else {
-                if (!finish_file_present()) {
+                if (finish_file_present()) {
+                    set_task_state(PROCESS_EXITED, "handle_exited_app");
+                } else {
                     will_restart = true;
                     if (task_state() != PROCESS_QUIT_PENDING) {
                         limbo_message(*this);
