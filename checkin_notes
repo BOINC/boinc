@@ -1629,3 +1629,14 @@ Rom    17 Feb 2007
     - Tag for 5.8.13 release, all platforms
       boinc_core_release_5_8_13
 
+Rom    17 Feb 2007
+    - WININSTALL: Forgot to make the ShutdownBOINC/ShutdownBOINCScreensaver
+        custom actions NT only.
+        
+    win_build/installerv2
+        BOINC.ism
+
+Rom    17 Feb 2007
+    - Tag for 5.8.14 release, all platforms
+      boinc_core_release_5_8_14
+
