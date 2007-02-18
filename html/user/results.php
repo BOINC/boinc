@@ -7,9 +7,7 @@ require_once("../inc/result.inc");
 
 $config = get_config();
 if (!parse_bool($config, "show_results")) {
-    page_head("Temporarily disabled");
-    page_tail();
-    exit();
+    error_page("This feature is turned off temporarily");
 }
 
 $results_per_page = 20;

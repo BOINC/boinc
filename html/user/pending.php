@@ -6,9 +6,7 @@
 
     $config = get_config();
     if (!parse_bool($config, "show_results")) {
-        echo "This feature is turned off temporarily";
-        page_tail();
-        exit();
+        error_page("This feature is turned off temporarily");
     }
 
     db_init();
@@ -20,7 +18,7 @@
     echo "<tr><th>Result ID</th><th>Claimed credit</th></tr>\n";
     while ($result = mysql_fetch_object($res)) {
         if ($result->claimed_credit > 0) {
-            echo "<tr><td><a href=result.php?resultid=$result->id>$result->id</a></td><td>",format_credit($result->claimed_credit), "</td></tr>\n";
+            echo "<tr><td><a href=\"result.php?resultid=$result->id\">$result->id</a></td><td>",format_credit($result->claimed_credit), "</td></tr>\n";
             $sum += $result->claimed_credit;
         }
     }
