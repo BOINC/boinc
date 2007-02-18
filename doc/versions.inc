@@ -370,10 +370,10 @@ $linux_libs_58= "
       </ul>
 ";
 
-$w5813= array(
-    "num"=>"5.8.13",
+$w5814= array(
+    "num"=>"5.8.14",
     "status"=>"Development version",
-    "file"=>"boinc_5.8.13_windows_intelx86.exe",
+    "file"=>"boinc_5.8.14_windows_intelx86.exe",
     "date"=>"17 Feb 2007",
     "type"=>"win_new",
     "features"=>"<ul>
@@ -676,7 +676,7 @@ $windows = array(
     "name"=>"Windows",
     "dbname" => "windows_intelx86",
     "versions"=>array(
-        $w5813,
+        $w5814,
         $w5811,
         $w5411,
     )
