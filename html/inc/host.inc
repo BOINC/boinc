@@ -263,7 +263,7 @@ function hosts_compatible($host1, $host2) {
     // we screwed around with Intel processor names,
     // so count them as compatible if both contain "Intel" and "Pentium",
     // and don't have conflicting clock rate info
-    //
+    
     $p1 = "$host1->p_vendor $host1->p_model";
     $p2 = "$host2->p_vendor $host2->p_model";
     if (strstr($p1, "Pentium") && strstr($p1, "Intel")
@@ -271,17 +271,30 @@ function hosts_compatible($host1, $host2) {
     ) {
         $g1 = ghz($p1);
         $g2 = ghz($p2);
-        if ($g1 && $g2 && ($g1!=$g2)) return false;
+        if ($g1 && $g2) {
+            if ($g1 != $g2) return false;
+        } else {
+            return false;
+        }
     } else {
         if ($host2->p_vendor != $host1->p_vendor) return false;
-        if ($host2->p_model != $host1->p_model) return false;
+        $pos = strpos($host1->p_model, '[');
+        $host1pm = $host1->p_model;
+        if($pos !== FALSE) {
+            $host1pm = trim(substr($host1->p_model, 0, $pos));
+        }
+        $pos = strpos($host2->p_model, '[');
+        $host2pm = $host2->p_model;
+        if($pos !== FALSE) {
+            $host2pm = trim(substr($host2->p_model, 0, $pos));
+        }
+        if($host2pm != $host1pm) return false;
     }
     if ($host2->os_name != $host1->os_name) return false;
 
-	// one host must strictly precede the other
-	//
-	if ($host1->rpc_time < $host2->create_time) return true;
-	if ($host2->rpc_time < $host1->create_time) return true;
+    // one host must strictly precede the other
+    if ($host1->rpc_time < $host2->create_time) return true;
+    if ($host2->rpc_time < $host1->create_time) return true;
     return false;
 }
 
