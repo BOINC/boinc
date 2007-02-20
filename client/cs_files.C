@@ -56,22 +56,25 @@ using std::vector;
 //
 bool CLIENT_STATE::start_new_file_xfer(PERS_FILE_XFER& pfx) {
     unsigned int i;
-    int n;
+    int ntotal=0, nproj=0;
 
     if (network_suspended) return false;
 
-	if ((int)file_xfers->file_xfers.size() >= config.max_file_xfers) return false;
 
     // limit the number of file transfers per project
+    // (uploads and downloads are limited separately)
     //
-    n = 0;
     for (i=0; i<file_xfers->file_xfers.size(); i++) {
         FILE_XFER* fxp = file_xfers->file_xfers[i];
-        if (pfx.fip->project == fxp->fip->project) {
-            n++;
+        if (pfx.is_upload == fxp->is_upload) {
+            ntotal++;
+            if (pfx.fip->project == fxp->fip->project) {
+                nproj++;
+            }
         }
     }
-    if (n >= config.max_file_xfers_per_project) return false;
+    if (nproj >= config.max_file_xfers_per_project) return false;
+	if (ntotal >= config.max_file_xfers) return false;
     return true;
 }
 

@@ -1243,15 +1243,15 @@ int CLIENT_STATE::reset_project(PROJECT* project) {
     msg_printf(project, MSG_INFO, "Resetting project");
     active_tasks.abort_project(project);
 
-    // TODO: close sockets and open FILEs; delete the various objects
-    //
     for (i=0; i<pers_file_xfers->pers_file_xfers.size(); i++) {
         pxp = pers_file_xfers->pers_file_xfers[i];
         if (pxp->fip->project == project) {
             if (pxp->fxp) {
                 file_xfers->remove(pxp->fxp);
+                delete pxp->fxp;
             }
             pers_file_xfers->remove(pxp);
+            delete pxp;
             i--;
         }
     }

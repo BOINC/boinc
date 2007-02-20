@@ -1782,3 +1782,20 @@ Charlie 19 Feb 2007
         postupgrade
         release_boinc.sh
         release_GridRepublic.sh
+
+David  18 Feb 2007
+	- core client: when resetting or detaching a project,
+		if a file transfer was active for a project file,
+		the file delete would fail because Curl still has the file open.
+		This would cause the manager to freeze for N*5 seconds.
+		Fix: in CLIENT_STATE::reset_project(),
+		delete FILE_XFER and PERS_FILE_XFER objects.
+	- core client: the limits on numbers of simultaneous file transfers
+		(total and per-project)
+		now apply to uploads and downloads separately.
+		We don't want a situation where an upload is blocked
+		because there are N downloads.
+
+	client/
+		client_state.C
+		cs_files.C
