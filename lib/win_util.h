@@ -22,3 +22,4 @@
 extern BOOL IsWindows2000Compatible();
 extern BOOL IsTerminalServicesEnabled();
 extern BOOL ValidateProductSuite (LPSTR SuiteName);
+extern BOOL TerminateProcessById (DWORD dwProcessId);

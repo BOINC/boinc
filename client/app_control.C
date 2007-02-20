@@ -23,6 +23,7 @@
 
 #ifdef _WIN32
 #include "boinc_win.h"
+#include "win_util.h"
 #else
 #include "config.h"
 
@@ -59,6 +60,7 @@ using std::vector;
 #include "client_msgs.h"
 #include "client_state.h"
 #include "file_names.h"
+#include "procinfo.h"
 
 #include "app.h"
 
@@ -99,7 +101,31 @@ int ACTIVE_TASK::request_abort() {
 //
 int ACTIVE_TASK::kill_task(bool restart) {
 #ifdef _WIN32
-    TerminateProcess(pid_handle, (UINT)-1);
+	unsigned int i,j;
+    std::vector<PROCINFO> ps;
+    std::vector<PROCINFO> tps;
+
+    // Get a list of currently executing processes.
+    procinfo_setup(ps);
+
+    // Terminate the parent process before the child processes
+    PROCINFO pi;
+    pi.id = pid;
+    tps.push_back(pi);
+    TerminateProcessById(pi.id);
+
+    // Terminate all child processes
+	for (i=0; i < tps.size(); i++) {
+		PROCINFO tp = tps[i];
+	    for (j=0; j < ps.size(); j++) {
+		    PROCINFO p = ps[j];
+            if (tp.id == p.parentid) {
+                if (TerminateProcessById(p.id)) {
+                    tps.push_back(p);
+                }
+            }
+	    }
+	}
 #else
     kill(pid, SIGKILL);
 #endif

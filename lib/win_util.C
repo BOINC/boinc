@@ -123,6 +123,7 @@ BOOL IsTerminalServicesEnabled() {
     return bResult;
 }
 
+
 /**
  * This function compares the passed in "suite name" string
  * to the product suite information stored in the registry.
@@ -179,3 +180,23 @@ exit:
 
     return rVal;
 }
+
+
+/**
+ * This function terminates a process by process id instead of a handle.
+ **/
+BOOL TerminateProcessById( DWORD dwProcessID ) {
+    HANDLE hProcess;
+    BOOL bRetVal = FALSE;
+
+    hProcess = OpenProcess( PROCESS_TERMINATE, FALSE, dwProcessID );
+
+    if (hProcess) {
+        bRetVal = TerminateProcess(hProcess, 1);
+    }
+
+    CloseHandle( hProcess );
+
+    return bRetVal;
+}
+

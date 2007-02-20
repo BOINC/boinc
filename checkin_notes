@@ -1783,7 +1783,7 @@ Charlie 19 Feb 2007
         release_boinc.sh
         release_GridRepublic.sh
 
-David  18 Feb 2007
+David  19 Feb 2007
 	- core client: when resetting or detaching a project,
 		if a file transfer was active for a project file,
 		the file delete would fail because Curl still has the file open.
@@ -1799,3 +1799,16 @@ David  18 Feb 2007
 	client/
 		client_state.C
 		cs_files.C
+
+Rom    20 Feb 2007
+    - core client: When we go to kill a science applicaton, make sure
+        all of the science applications child processes are killed
+        too.
+        
+      NOTE: This was already implemented once, what happened to the
+        previous implementation?
+        
+    client/
+        app_control.C
+    lib/
+        win_util.C, .h
