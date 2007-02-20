@@ -1812,3 +1812,12 @@ Rom    20 Feb 2007
         app_control.C
     lib/
         win_util.C, .h
+
+Rom    20 Feb 2007
+    - core client: If a compound application's main applicaton gracefully
+        exits but doesn't shutdown its child applications for some reason,
+        forcefully terminate them. (Windows only)
+        
+    client/
+        app.h
+        app_control.C

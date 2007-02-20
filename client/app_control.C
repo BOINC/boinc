@@ -64,6 +64,34 @@ using std::vector;
 
 #include "app.h"
 
+
+#ifdef _WIN32
+bool ACTIVE_TASK::kill_all_children() {
+	unsigned int i,j;
+    std::vector<PROCINFO> ps;
+    std::vector<PROCINFO> tps;
+
+    procinfo_setup(ps);
+
+    PROCINFO pi;
+    pi.id = pid;
+    tps.push_back(pi);
+
+	for (i=0; i < tps.size(); i++) {
+		PROCINFO tp = tps[i];
+	    for (j=0; j < ps.size(); j++) {
+		    PROCINFO p = ps[j];
+            if (tp.id == p.parentid) {
+                if (TerminateProcessById(p.id)) {
+                    tps.push_back(p);
+                }
+            }
+	    }
+	}
+    return true;
+}
+#endif
+
 bool ACTIVE_TASK::process_exists() {
     switch (task_state()) {
     case PROCESS_EXECUTING:
@@ -101,31 +129,8 @@ int ACTIVE_TASK::request_abort() {
 //
 int ACTIVE_TASK::kill_task(bool restart) {
 #ifdef _WIN32
-	unsigned int i,j;
-    std::vector<PROCINFO> ps;
-    std::vector<PROCINFO> tps;
-
-    // Get a list of currently executing processes.
-    procinfo_setup(ps);
-
-    // Terminate the parent process before the child processes
-    PROCINFO pi;
-    pi.id = pid;
-    tps.push_back(pi);
-    TerminateProcessById(pi.id);
-
-    // Terminate all child processes
-	for (i=0; i < tps.size(); i++) {
-		PROCINFO tp = tps[i];
-	    for (j=0; j < ps.size(); j++) {
-		    PROCINFO p = ps[j];
-            if (tp.id == p.parentid) {
-                if (TerminateProcessById(p.id)) {
-                    tps.push_back(p);
-                }
-            }
-	    }
-	}
+    TerminateProcessById(pid);
+    kill_all_children();
 #else
     kill(pid, SIGKILL);
 #endif
@@ -241,6 +246,7 @@ void ACTIVE_TASK::handle_exited_app(int stat) {
         set_task_state(PROCESS_ABORTED, "handle_exited_app");
     } else {
 #ifdef _WIN32
+        kill_all_children();
         close_process_handles();
         result->exit_status = exit_code;
         if (exit_code) {

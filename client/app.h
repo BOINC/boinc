@@ -74,6 +74,7 @@ class ACTIVE_TASK {
 public:
 #ifdef _WIN32
     HANDLE pid_handle, thread_handle, quitRequestEvent, shm_handle;
+    bool kill_all_children();
 #else
     //key_t shm_key;
 #endif
