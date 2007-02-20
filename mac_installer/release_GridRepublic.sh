@@ -114,7 +114,7 @@ mkdir -p "${PR_PATH}/Library/Application Support/BOINC Data/switcher"
 
 cp -fpR "$BUILDPATH/switcher" "${PR_PATH}/Library/Application Support/BOINC Data/switcher/"
 cp -fpR "$BUILDPATH/setprojectgrp" "${PR_PATH}/Library/Application Support/BOINC Data/switcher/"
-cp -fpR "$BUILDPATH/AppStats" "${PR_PATH}/Library/Application Support/BOINC Data/switcher/"
+## cp -fpR "$BUILDPATH/AppStats" "${PR_PATH}/Library/Application Support/BOINC Data/switcher/"
 
 ## Put Branding file into BOINC Data folder to make it available to screensaver 
 cp -fp "${BRANDING_FILE}" "${PR_PATH}/Library/Application Support/BOINC Data/Branding"

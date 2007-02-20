@@ -453,6 +453,7 @@ int SetBOINCDataOwnersGroupsAndPermissions() {
     }       // setprojectgrp application
 
 #ifdef __APPLE__
+#if 0       // AppStats is deprecated as of version 5.8.15
     strlcpy(fullpath, BOINCDataDirPath, MAXPATHLEN);
     strlcat(fullpath, "/", MAXPATHLEN);
     strlcat(fullpath, SWITCHER_DIR, MAXPATHLEN);
@@ -475,8 +476,8 @@ int SetBOINCDataOwnersGroupsAndPermissions() {
         if (err)
             return err;
     }       // setprojectgrp application
+#endif
 #endif  // __APPLE__
-    
 
     return noErr;
 }
