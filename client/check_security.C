@@ -393,6 +393,7 @@ int use_sandbox, int isManager
         strlcat(full_path, SWITCHER_DIR, sizeof(full_path));
 
 #ifdef __APPLE__
+#if 0       // AppStats is deprecated as of version 5.8.15
         strlcat(full_path, "/", sizeof(full_path));
         strlcat(full_path, APP_STATS_FILE_NAME, sizeof(full_path));
         retval = stat(full_path, &sbuf);
@@ -407,8 +408,9 @@ int use_sandbox, int isManager
 
         if ((sbuf.st_mode & 07777) != 04550)
             return -1048;
-    }       // if (use_sandbox)
+#endif
 #endif  // __APPLE__
+    }       // if (use_sandbox)
     
     return 0;
 }
