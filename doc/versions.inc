@@ -443,11 +443,11 @@ $m5811 = array(
 );
 
 
-$m5814 = array(
-    "num"=>"5.8.14",
+$m5815 = array(
+    "num"=>"5.8.15",
     "status"=>"Development version (standard GUI)",
-    "file"=>"boinc_5.8.14_macOSX_universal.zip",
-    "date"=>"18 Feb 2007",
+    "file"=>"boinc_5.8.15_macOSX_universal.zip",
+    "date"=>"20 Feb 2007",
     "type"=>"mac_advanced",
      "features"=>"<ul>
 ".$mac_changes_57."
@@ -525,11 +525,11 @@ $m5811c = array(
     "
 );
 
-$m5814c = array(
-    "num"=>"5.8.14",
+$m5815c = array(
+    "num"=>"5.8.15",
     "status"=>"Development version (Unix command-line version)",
-    "file"=>"boinc_5.8.14_universal-apple-darwin.zip",
-    "date"=>"18 Feb 2007",
+    "file"=>"boinc_5.8.15_universal-apple-darwin.zip",
+    "date"=>"20 Feb 2007",
     "type"=>"bare_core",
     "features"=>"<ul>
 ".$mac_changes_57."
@@ -685,8 +685,8 @@ $mac = array(
     "name"=>"Mac OS X",
     "dbname" => "powerpc-apple-darwin",
     "versions"=>array(
-        $m5814,
-        $m5814c,
+        $m5815,
+        $m5815c,
         $m5811,
         $m5811c,
     )
