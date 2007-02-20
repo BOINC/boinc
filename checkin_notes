@@ -1671,3 +1671,7 @@ Charlie 19 Feb 2007
         postupgrade
         release_boinc.sh
         release_GridRepublic.sh
+
+Rom    19 Feb 2007
+    - Tag for 5.8.15 release, all platforms
+      boinc_core_release_5_8_15
