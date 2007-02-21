@@ -1869,3 +1869,9 @@ David  21 Feb 2007
 
     client/
         cs_benchmark.C
+
+David  21 Feb 2007
+    - core client: split out work-fetch code into a separate file
+
+    client/
+        work_fetch.C (new)
