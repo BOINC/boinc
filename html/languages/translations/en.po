@@ -201,10 +201,10 @@ msgstr "Must be at least %s characters"
 msgid "CREATE_AC_CONFIRM_PASSWORD"
 msgstr "Confirm password"
 
-msgid  "AC_INVITE_CODE"
+msgid "AC_INVITE_CODE"
 msgstr "Invitation Code"
 
-msgid  "AC_INVITE_CODE_DESC"
+msgid "AC_INVITE_CODE_DESC"
 msgstr "A valid invitation code is required to create an account"
 
 msgid "AC_INVITE_REQUIRED"
@@ -380,4 +380,3 @@ msgstr "No posts containing '%s' could be found."
 #########################################
 msgid "LINKS_QA"
 msgstr "Questions and Answers"
-
