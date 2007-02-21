@@ -6,7 +6,7 @@ AC_CONFIG_SRCDIR([include/dc.h])
 AM_INIT_AUTOMAKE([foreign])
 
 AC_PROG_CC
-AC_DISABLE_SHARED
+dnl AC_DISABLE_SHARED
 AC_PROG_LIBTOOL
 
 LIBTOOL="$LIBTOOL --silent"
@@ -33,6 +33,7 @@ if test "$enable_master" = yes; then
 fi
 
 GTK_DOC_CHECK([1.3])
+MON_PKG_JAVA
 
 BACKENDS=
 
@@ -142,11 +143,13 @@ AC_CONFIG_FILES([Makefile \
 	boinc/Makefile \
 	boinc/dcapi-boinc-client.pc \
 	boinc/dcapi-boinc-master.pc \
-	local/Makefile \
-	local/dcapi-local-client.pc \
-	local/dcapi-local-master.pc \
 	condor/Makefile \
 	condor/dcapi-condor-client.pc \
 	condor/dcapi-condor-master.pc \
+	local/Makefile \
+	local/dcapi-local-client.pc \
+	local/dcapi-local-master.pc \
+	java/Makefile \
+	java/hu/sztaki/lpds/dc/client/Version.java \
 	doc/Makefile])
 AC_OUTPUT
