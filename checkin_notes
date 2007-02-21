@@ -1837,3 +1837,10 @@ Charlie 20 Feb 2007
     mac_build/
         boinc.xcodeproj/
             project.pbxproj
+
+Charlie 21 Feb 2007
+    MAC: Manager writes wxWidgets version to stdout for debugging (before 
+        redirecting stdout to stdoutgui.txt file.)
+
+    clientgui/
+        BOINCGUIApp.cpp

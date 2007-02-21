@@ -84,6 +84,7 @@ bool CBOINCGUIApp::OnInit() {
     m_pTaskBarIcon = NULL;
 #ifdef __WXMAC__
     m_pMacSystemMenu = NULL;
+    printf("Using %s.\n", wxVERSION_STRING);    // For debugging
 #endif
     m_bGUIVisible = true;
     m_strDefaultWindowStation = wxEmptyString;
