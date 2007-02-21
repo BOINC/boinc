@@ -1862,3 +1862,10 @@ David  21 Feb 2007
         *.C
     tools/
         backend_lib.C
+
+David  21 Feb 2007
+    - core client: if benchmark time is in the future (due to user tweak)
+        always run benchmarks
+
+    client/
+        cs_benchmark.C
