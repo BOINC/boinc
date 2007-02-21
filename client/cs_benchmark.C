@@ -243,10 +243,14 @@ bool CLIENT_STATE::should_run_cpu_benchmarks() {
     // (we'll just use default values in cpu_benchmarks())
     //
     if (tasks_suspended) return false;
-    return (
-        (run_cpu_benchmarks ||
-        dtime() - host_info.p_calculated > BENCHMARK_PERIOD)
-    );
+
+    // if user has changed p_calculated into the future
+    // (as part of cheating, presumably) always run benchmarks
+    //
+    double diff = now - host_info.p_calculated;
+    if (diff < 0) return true;
+
+    return ((run_cpu_benchmarks || diff > BENCHMARK_PERIOD));
 }
 
 // abort a running benchmark thread/process

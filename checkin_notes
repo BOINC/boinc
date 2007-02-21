@@ -1675,3 +1675,10 @@ Charlie 19 Feb 2007
 Rom    19 Feb 2007
     - Tag for 5.8.15 release, all platforms
       boinc_core_release_5_8_15
+
+David  21 Feb 2007
+    - core client: if benchmark time is in the future (due to user tweak)
+        always run benchmarks
+
+    client/
+        cs_benchmark.C
