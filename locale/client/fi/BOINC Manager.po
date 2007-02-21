@@ -1,0 +1,2999 @@
+msgid ""
+msgstr ""
+"Project-Id-Version: BOINC Manager 4.x\n"
+"POT-Creation-Date: \n"
+"PO-Revision-Date: 2007-02-21 23:37+0200\n"
+"Last-Translator: Maka <markusko ät edu dot kauhajoki dot fi>\n"
+"Language-Team: BOINC Development Team <rwalton@ssl.berkeley.edu>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=iso-8859-15\n"
+"Content-Transfer-Encoding: 8bit\n"
+"X-Poedit-Language: Finnish\n"
+"X-Poedit-Country: FINLAND\n"
+"X-Poedit-SourceCharset: iso-8859-1\n"
+"X-Poedit-Basepath: C:\\src\\BOINC\\Main\\boinc\n"
+"X-Poedit-SearchPath-0: clientgui\n"
+
+#: clientgui/AccountInfoPage.cpp:320
+msgid "User information"
+msgstr "Käyttäjätiedot"
+
+#: clientgui/AccountInfoPage.cpp:326
+msgid ""
+"Please enter your account information\n"
+"(to create an account, visit the project's web site)"
+msgstr ""
+"Syötä tilisi tiedot \n"
+"(luodaksesi tilin käy projektin verkkosivuilla)"
+
+#: clientgui/AccountInfoPage.cpp:332
+msgid ""
+"This project is not currently accepting new accounts.\n"
+"You can attach only if you already have an account."
+msgstr ""
+"Tämä projekti ei tällä hetkellä ota vastaan uusia tilejä.\n"
+"Voit liittyä vain, jos sinulla jo on tili."
+
+#: clientgui/AccountInfoPage.cpp:338
+msgid "Are you already running this project?"
+msgstr "Ajatko jo tätä projektia?"
+
+#: clientgui/AccountInfoPage.cpp:342
+msgid "&No, new user"
+msgstr "&Ei, uusi käyttäjä"
+
+#: clientgui/AccountInfoPage.cpp:345
+msgid "&Yes, existing user"
+msgstr "&Kyllä, olemassa oleva käyttäjä"
+
+#: clientgui/AccountInfoPage.cpp:361
+#: clientgui/AccountInfoPage.cpp:498
+msgid "&Password:"
+msgstr "&Salasana:"
+
+#: clientgui/AccountInfoPage.cpp:368
+#: clientgui/AccountInfoPage.cpp:513
+msgid "Choose a &password:"
+msgstr "Valitse &salasana:"
+
+#: clientgui/AccountInfoPage.cpp:371
+msgid "C&onfirm password:"
+msgstr "V&ahvista salasana:"
+
+#: clientgui/AccountInfoPage.cpp:395
+msgid "&Username:"
+msgstr "&Käyttäjänimi:"
+
+#: clientgui/AccountInfoPage.cpp:409
+msgid "&Email address:"
+msgstr "&Sähköpostiosoite:"
+
+#: clientgui/AccountInfoPage.cpp:416
+#, c-format
+msgid "minimum length %d"
+msgstr "vähimmäispituus %d"
+
+#: clientgui/AccountInfoPage.cpp:435
+#: clientgui/WelcomePage.cpp:314
+msgid "Attach to project"
+msgstr "Liity projektiin"
+
+#: clientgui/AccountInfoPage.cpp:437
+msgid "Update account manager"
+msgstr "Päivitä tilimanageri"
+
+#: clientgui/AccountInfoPage.cpp:439
+msgid "Attach to account manager"
+msgstr "Liitä tilimanageriin"
+
+#: clientgui/AccountInfoPage.cpp:450
+#, c-format
+msgid "The minimum password length for this project is %d. Please enter a different password."
+msgstr "Salasanan minimipituus tälle projektille on %d merkkiä. Syötä toinen salasana."
+
+#: clientgui/AccountInfoPage.cpp:456
+#, c-format
+msgid "The minimum password length for this account manager is %d. Please enter a different password."
+msgstr "Salasanan minimipituus tälle tilimanagerille on %d merkkiä. Syötä toinen salasana."
+
+#: clientgui/AccountInfoPage.cpp:467
+msgid "The password and confirmation password do not match. Please type them again."
+msgstr "Salasanat eivät täsmää. Kirjoita ne uudelleen."
+
+#: clientgui/AccountKeyPage.cpp:225
+msgid "Enter account key"
+msgstr "Syötä tiliavain"
+
+#: clientgui/AccountKeyPage.cpp:228
+msgid ""
+"This project uses an \"account key\" to identify you.\n"
+"\n"
+"Go to the project's web site to create an account. Your account\n"
+"key will be emailed to you."
+msgstr ""
+"Tämä projekti käyttää \"tiliavainta\" tunnistaakseen sinut.\n"
+"\n"
+"Mene projektin verkkosivuille luodaksesi tilin. Tiliavaimesi\n"
+"lähetetään sinulle sähköpostitse."
+
+#: clientgui/AccountKeyPage.cpp:234
+msgid "An account key looks like:"
+msgstr "Tiliavain näyttää tältä:"
+
+#: clientgui/AccountKeyPage.cpp:237
+msgid "82412313ac88e9a3638f66ea82186948"
+msgstr "82412313ac88e9a3638f66ea82186948"
+
+#: clientgui/AccountKeyPage.cpp:240
+msgid "Account key:"
+msgstr "Tiliavain:"
+
+#: clientgui/AccountManagerInfoPage.cpp:175
+msgid "Account Manager URL"
+msgstr "Tilimanagerin verkko-osoite"
+
+#: clientgui/AccountManagerInfoPage.cpp:178
+msgid "Enter the URL of the account manager's web site."
+msgstr "Syötä tilimanagerin verkkosivujen osoite."
+
+#: clientgui/AccountManagerInfoPage.cpp:181
+#: clientgui/ProjectInfoPage.cpp:237
+msgid ""
+"You can copy and paste the URL from your browser's\n"
+"address bar."
+msgstr ""
+"Voit kopioida ja liittää verkko-osoitteen selaimesi\n"
+"osoiteriviltä."
+
+#: clientgui/AccountManagerInfoPage.cpp:185
+msgid "Account Manager &URL:"
+msgstr "Tilimanagerin verkko-osoite:"
+
+#: clientgui/AccountManagerInfoPage.cpp:188
+msgid "For a list of BOINC-based account managers go to:"
+msgstr "Lista BOINC:iin perustuvista tilimanagereista:"
+
+#: clientgui/AccountManagerProcessingPage.cpp:190
+#: clientgui/AccountManagerPropertiesPage.cpp:191
+#, c-format
+msgid "Communicating with %s."
+msgstr "Ollaan yhteydessä %s:n."
+
+#: clientgui/AccountManagerProcessingPage.cpp:197
+#: clientgui/AccountManagerPropertiesPage.cpp:198
+msgid "Communicating with server."
+msgstr "Ollaan yhteydessä palvelimeen."
+
+#: clientgui/AccountManagerProcessingPage.cpp:202
+#: clientgui/AccountManagerPropertiesPage.cpp:203
+msgid "Please wait..."
+msgstr "Odota..."
+
+#: clientgui/AccountManagerProcessingPage.cpp:313
+#: clientgui/ProjectProcessingPage.cpp:488
+#: clientgui/ProjectProcessingPage.cpp:546
+msgid "An internal server error has occurred.\n"
+msgstr "Sisäinen palvelinvirhe.\n"
+
+#: clientgui/AdvancedFrame.cpp:99
+msgid "Connected"
+msgstr "Yhteydessä"
+
+#: clientgui/AdvancedFrame.cpp:107
+msgid "Disconnected"
+msgstr "Yhteys katkaistu"
+
+#: clientgui/AdvancedFrame.cpp:312
+#: clientgui/sg_BoincSimpleGUI.cpp:102
+msgid "&Close Window\tCTRL+W"
+msgstr "&Sulje ikkuna\tCTRL+W"
+
+#: clientgui/AdvancedFrame.cpp:313
+#: clientgui/sg_BoincSimpleGUI.cpp:103
+msgid "Close BOINC Manager Window."
+msgstr "Sulje BOINC Manager -ikkuna."
+
+#: clientgui/AdvancedFrame.cpp:319
+#, c-format
+msgid "Exit the %s"
+msgstr "Lopeta %s"
+
+#: clientgui/AdvancedFrame.cpp:324
+#: clientgui/BOINCTaskBar.cpp:635
+#: clientgui/mac/MacSysMenu.cpp:223
+msgid "E&xit"
+msgstr "L&opeta"
+
+#: clientgui/AdvancedFrame.cpp:333
+msgid "&Simple View"
+msgstr "&Selkeä näkymä"
+
+#: clientgui/AdvancedFrame.cpp:334
+msgid "Display the simple BOINC graphical interface."
+msgstr "Näytä BOINC:in selkeä graafinen käyttöliittymä."
+
+#: clientgui/AdvancedFrame.cpp:343
+msgid "Attach to &project..."
+msgstr "Liity &projektiin..."
+
+#: clientgui/AdvancedFrame.cpp:344
+msgid "Attach to a project"
+msgstr "Liity projektiin"
+
+#: clientgui/AdvancedFrame.cpp:348
+msgid "Attach to &account manager..."
+msgstr "Liitä &tilimanageriin..."
+
+#: clientgui/AdvancedFrame.cpp:349
+msgid "Attach to an account manager"
+msgstr "Liitä tilimanageriin"
+
+#: clientgui/AdvancedFrame.cpp:353
+#, c-format
+msgid "&Synchronize with %s"
+msgstr "&Synkronoi %s:n kanssa"
+
+#: clientgui/AdvancedFrame.cpp:357
+#, c-format
+msgid "Get current settings from %s"
+msgstr "Hae nykyiset asetukset %s:sta"
+
+#: clientgui/AdvancedFrame.cpp:372
+msgid "&Run always"
+msgstr "&Suorita aina"
+
+#: clientgui/AdvancedFrame.cpp:373
+msgid "Allow work regardless of preferences"
+msgstr "Salli työ asetuksista huolimatta"
+
+#: clientgui/AdvancedFrame.cpp:377
+msgid "Run based on &preferences"
+msgstr "Suorita &asetusten perusteella"
+
+#: clientgui/AdvancedFrame.cpp:378
+msgid "Allow work according to your preferences"
+msgstr "Salli työ asetustesi mukaisesti"
+
+#: clientgui/AdvancedFrame.cpp:382
+msgid "&Suspend"
+msgstr "&Hyllytä"
+
+#: clientgui/AdvancedFrame.cpp:383
+msgid "Stop work regardless of preferences"
+msgstr "Pysäytä työ asetuksista huolimatta"
+
+#: clientgui/AdvancedFrame.cpp:399
+msgid "&Network activity always available"
+msgstr "&Verkkoyhteys aina käytettävissä"
+
+#: clientgui/AdvancedFrame.cpp:400
+msgid "Allow network activity regardless of preferences"
+msgstr "Salli verkkoyhteys asetuksista huolimatta"
+
+#: clientgui/AdvancedFrame.cpp:404
+msgid "Network activity based on &preferences"
+msgstr "Verkkoyhteys as&etusten perusteella"
+
+#: clientgui/AdvancedFrame.cpp:405
+msgid "Allow network activity according to your preferences"
+msgstr "Salli verkkoyhteys asetustesi mukaisesti"
+
+#: clientgui/AdvancedFrame.cpp:409
+msgid "&Network activity suspended"
+msgstr "Verkkoyhteys h&yllytetty"
+
+#: clientgui/AdvancedFrame.cpp:410
+msgid "Stop BOINC network activity"
+msgstr "Estä BOINC:in yhteys verkkoon"
+
+#: clientgui/AdvancedFrame.cpp:417
+msgid "&Options..."
+msgstr "&Asetukset..."
+
+#: clientgui/AdvancedFrame.cpp:418
+msgid "Configure GUI options and proxy settings"
+msgstr "Muuta graafisen käyttöliittymän ja välityspalvelimen asetuksia"
+
+#: clientgui/AdvancedFrame.cpp:422
+msgid "&Preferences..."
+msgstr "&Asetukset..."
+
+#: clientgui/AdvancedFrame.cpp:423
+msgid "Configure local preferences"
+msgstr "Muuta paikallisia asetuksia"
+
+#: clientgui/AdvancedFrame.cpp:429
+#, c-format
+msgid "Connect to another computer running %s"
+msgstr "Ota yhteys toiseen koneeseen, joka ajaa %s:ia"
+
+#: clientgui/AdvancedFrame.cpp:434
+msgid "Select computer..."
+msgstr "Valitse tietokone..."
+
+#: clientgui/AdvancedFrame.cpp:439
+msgid "Shutdown connected client..."
+msgstr "Sulje yhdistetty ydinohjelma..."
+
+#: clientgui/AdvancedFrame.cpp:440
+msgid "Shutdown the currently connected core client"
+msgstr "Sulje tällä hetkellä yhdistetty ydinohjelma"
+
+#: clientgui/AdvancedFrame.cpp:444
+msgid "Run CPU &benchmarks"
+msgstr "Aja &suorituskykytestit"
+
+#: clientgui/AdvancedFrame.cpp:445
+msgid "Runs BOINC CPU benchmarks"
+msgstr "Aja BOINC:in suoritintehotestit"
+
+#: clientgui/AdvancedFrame.cpp:449
+msgid "Retry &communications"
+msgstr "Yritä &yhdistää uudelleen"
+
+#: clientgui/AdvancedFrame.cpp:450
+msgid "Report completed work, get latest credit, get latest preferences, and possibly get more work."
+msgstr "Raportoi valmiit työpaketit, hae viimeisimmät pisteet ja asetukset sekä mahdollisesti lisää paketteja."
+
+#: clientgui/AdvancedFrame.cpp:455
+msgid "Read config file"
+msgstr "Lue kokoonpanotiedosto"
+
+#: clientgui/AdvancedFrame.cpp:456
+msgid "Read configuration info from cc_config.xml."
+msgstr "Lue kokoonpanotiedot tiedostosta cc-config.xml."
+
+#: clientgui/AdvancedFrame.cpp:460
+msgid "Read local prefs file"
+msgstr "Lue paikallinen asetustiedosto"
+
+#: clientgui/AdvancedFrame.cpp:461
+msgid "Read preferences from global_prefs_override.xml."
+msgstr "Lue asetukset tiedostosta global_prefs_override.xml."
+
+#: clientgui/AdvancedFrame.cpp:465
+#, c-format
+msgid "&Stop using %s"
+msgstr "&Lopeta %s:n käyttäminen"
+
+#: clientgui/AdvancedFrame.cpp:471
+msgid "Remove client from account manager control."
+msgstr "Poista kone tilimanagerin alaisuudesta."
+
+#: clientgui/AdvancedFrame.cpp:475
+msgid "Attach to &project"
+msgstr "Liity &projektiin"
+
+#: clientgui/AdvancedFrame.cpp:476
+msgid "Attach to a project to begin processing work"
+msgstr "Liity projektiin laskeaksesi työpaketteja"
+
+#: clientgui/AdvancedFrame.cpp:487
+#: clientgui/sg_BoincSimpleGUI.cpp:112
+#, c-format
+msgid "&%s"
+msgstr "&%s"
+
+#: clientgui/AdvancedFrame.cpp:493
+#: clientgui/sg_BoincSimpleGUI.cpp:118
+#, c-format
+msgid "Show information about the %s"
+msgstr "Näytä tietoja %s:ista"
+
+#: clientgui/AdvancedFrame.cpp:505
+#: clientgui/sg_BoincSimpleGUI.cpp:130
+#, c-format
+msgid "%s &website"
+msgstr "%s:in verkkosivusto"
+
+#: clientgui/AdvancedFrame.cpp:511
+#: clientgui/sg_BoincSimpleGUI.cpp:136
+#, c-format
+msgid "Show information about BOINC and %s"
+msgstr "Näytä tietoja BOINC:ista ja %s:ista"
+
+#: clientgui/AdvancedFrame.cpp:527
+#: clientgui/BOINCTaskBar.cpp:625
+#, c-format
+msgid "&About %s..."
+msgstr "Tietoja %s:&ista..."
+
+#: clientgui/AdvancedFrame.cpp:533
+msgid "Licensing and copyright information."
+msgstr "Tietoa lisensoinnista ja tekijänoikeudesta."
+
+#: clientgui/AdvancedFrame.cpp:540
+#: clientgui/sg_BoincSimpleGUI.cpp:159
+msgid "&File"
+msgstr "&Tiedosto"
+
+#: clientgui/AdvancedFrame.cpp:544
+msgid "&View"
+msgstr "&Näytä"
+
+#: clientgui/AdvancedFrame.cpp:548
+msgid "&Tools"
+msgstr "T&yökalut"
+
+#: clientgui/AdvancedFrame.cpp:552
+msgid "&Activity"
+msgstr "T&oiminta"
+
+#: clientgui/AdvancedFrame.cpp:556
+msgid "A&dvanced"
+msgstr "&Lisäasetukset"
+
+#: clientgui/AdvancedFrame.cpp:560
+#: clientgui/sg_BoincSimpleGUI.cpp:149
+#: clientgui/wizardex.cpp:356
+#: clientgui/wizardex.cpp:363
+msgid "&Help"
+msgstr "&Apua"
+
+#: clientgui/AdvancedFrame.cpp:1091
+msgid "Shutdown the current client..."
+msgstr "Sulje käytössä oleva ydinohjelma..."
+
+#: clientgui/AdvancedFrame.cpp:1100
+#, c-format
+msgid ""
+"%s is going to shutdown the core client it is currently connected to.\n"
+"NOTE: Choosing 'OK' will cause the select new computer dialog to appear \n"
+"so you can attach to a different core client."
+msgstr ""
+"%s sulkee ydinohjelman, johon se on tällä hetkellä yhteydessä.\n"
+"HUOMIO: Jos valitset \"OK\", ilmestyy valintaikkuna, jossa voit valita uuden\n"
+"tietokoneen yhditääksesi toiseen ydinohelmaan."
+
+#: clientgui/AdvancedFrame.cpp:1244
+#, c-format
+msgid "BOINC Manager - Detach from %s"
+msgstr "BOINC Manager - Irrottaudu %s:sta"
+
+#: clientgui/AdvancedFrame.cpp:1248
+#, c-format
+msgid ""
+"If you stop using %s,\n"
+"you'll keep all your current projects,\n"
+"but you'll have to manage projects manually.\n"
+"\n"
+"Do you want to stop using %s?"
+msgstr ""
+"Jos luovut %s:sta,\n"
+"kaikki nykyiset projektisi säilyvät,\n"
+"mutta sinun on käsiteltävä projekteja manuaalisesti.\n"
+"\n"
+"Haluatko luopua %s:sta?"
+
+#: clientgui/AdvancedFrame.cpp:1298
+msgid "Attaching to project..."
+msgstr "Liitytään projektiin..."
+
+#: clientgui/AdvancedFrame.cpp:1336
+msgid "Retrying communications for project(s)..."
+msgstr "Otetaan projekteihin uudelleen yhteyttä ..."
+
+#: clientgui/AdvancedFrame.cpp:1426
+#, c-format
+msgid "%s - Language Selection"
+msgstr "%s - Kielen valinta"
+
+#: clientgui/AdvancedFrame.cpp:1433
+#, c-format
+msgid "The %s's default language has been changed, in order for this change to take affect you must restart the %s."
+msgstr "%s:in oletuskieltä on muutettu. Käynnistä %s uudelleen, jotta muutos astuisi voimaan."
+
+#: clientgui/AdvancedFrame.cpp:1642
+#: clientgui/DlgAbout.cpp:105
+#, c-format
+msgid "%s"
+msgstr "%s"
+
+#: clientgui/AdvancedFrame.cpp:1651
+#, c-format
+msgid "%s has successfully attached to %s"
+msgstr "%s on liitetty onnistuneesti %s:n"
+
+#: clientgui/AdvancedFrame.cpp:1775
+#: clientgui/AdvancedFrame.cpp:1778
+#, c-format
+msgid "%s - (%s)"
+msgstr "%s - (%s)"
+
+#: clientgui/AdvancedFrame.cpp:1776
+#, c-format
+msgid "Connecting to %s"
+msgstr "Otetaan yhteyttä %s:n"
+
+#: clientgui/AdvancedFrame.cpp:1779
+#, c-format
+msgid "Connected to %s"
+msgstr "Yhteydessä %s:n"
+
+#: clientgui/AlreadyAttachedPage.cpp:182
+msgid "Already attached to project"
+msgstr "Projektiin on jo liitytty"
+
+#: clientgui/AlreadyAttachedPage.cpp:185
+msgid "You are already attached to this project."
+msgstr "Olet jo liittynyt tähän projektiin."
+
+#: clientgui/AlreadyExistsPage.cpp:185
+msgid "Username already in use"
+msgstr "Käyttäjänimi on jo käytössä"
+
+#: clientgui/AlreadyExistsPage.cpp:188
+msgid ""
+"An account with that username already exists and has a\n"
+"different password than the one you entered.\n"
+"\n"
+"Please visit the project's web site and follow the instructions there."
+msgstr ""
+"Tällä käyttäjänimellä on jo tili, jonka\n"
+"salasana on eri kuin syöttämäsi.\n"
+"\n"
+"Käy projektin verkkosivuilla ja seuraa siellä ohjeita."
+
+#: clientgui/AlreadyExistsPage.cpp:195
+msgid "Email address already in use"
+msgstr "Sähköpostiosoite on jo käytössä"
+
+#: clientgui/AlreadyExistsPage.cpp:198
+msgid ""
+"An account with that email address already exists and has a\n"
+"different password than the one you entered.\n"
+"\n"
+"Please visit the project's web site and follow the instructions there."
+msgstr ""
+"Tällä sähköpostiosoitteella on jo tili, jonka \n"
+"salasana on eri kuin syöttämäsi.\n"
+"\n"
+"Käy projektin verkkosivuilla ja seuraa siellä ohjeita."
+
+#: clientgui/BOINCBaseFrame.cpp:360
+#, c-format
+msgid "%s - Connection Error"
+msgstr "%s - Yhteysvirhe"
+
+#: clientgui/BOINCBaseFrame.cpp:367
+msgid ""
+"Authorization failed connecting to running client.\n"
+"Make sure you start this program in the same directory as the client."
+msgstr ""
+"Käyttöoikeusvirhe yhdistettäessä asiakasohjelmaan.\n"
+"Varmista,että ajat tämän ohjelman samasta kansiosta kuin asiakasohjelman."
+
+#: clientgui/BOINCBaseFrame.cpp:374
+msgid "The password you have provided is incorrect, please try again."
+msgstr "Syöttämäsi salasana on väärä. Yritä uudelleen."
+
+#: clientgui/BOINCBaseFrame.cpp:403
+#, c-format
+msgid "%s - Connection Failed"
+msgstr "%s - Yhteydenotto epäonnistui"
+
+#: clientgui/BOINCBaseFrame.cpp:412
+#, c-format
+msgid ""
+"%s is not able to connect to a %s client.\n"
+"Would you like to try to connect again?"
+msgstr ""
+"%s ei pysty ottamaan yhteyttä %s-asiakasohjelmaan.\n"
+"Haluatko yrittää ottaa yhteyttä uudelleen?"
+
+#: clientgui/BOINCBaseFrame.cpp:450
+#, c-format
+msgid "%s - Connection Status"
+msgstr "%s - Yhteyden tila"
+
+#: clientgui/BOINCBaseFrame.cpp:461
+#, c-format
+msgid ""
+"%s is not currently connected to a %s client.\n"
+"Please use the 'Advanced\\Select Computer...' menu option to connect up to a %s client.\n"
+"To connect up to your local computer please use 'localhost' as the host name."
+msgstr ""
+"%s ei ole tällä hetkellä yhteydessä %s-asiakasohjelmaan.\n"
+"Käytä valintaa \"Lisäasetukset/Valitse tietokone...\" ottaaksesi yhteyden %s-ohjelmaan.\n"
+"Ottaaksesi yhteyden paikalliseen tietokoneeseen laita konenimeksi \"localhost\"."
+
+#: clientgui/BOINCBaseView.cpp:465
+#: clientgui/ViewProjectsGrid.cpp:559
+#: clientgui/ViewWorkGrid.cpp:443
+msgid "Web sites"
+msgstr "Web-sivustot"
+
+#: clientgui/BOINCDialupManager.cpp:63
+#, c-format
+msgid "%s - Network Status"
+msgstr "%s - Verkon tila"
+
+#: clientgui/BOINCDialupManager.cpp:260
+#, c-format
+msgid "%s needs to connect to the Internet.  Please click to open %s."
+msgstr "%s:n täytyy saada yhteys Internettiin. Paina avataksesi %s:n."
+
+#: clientgui/BOINCDialupManager.cpp:268
+#, c-format
+msgid ""
+"%s is unable to communicate with a project and needs an Internet connection.\n"
+"Please connect to the Internet, then select the 'retry communications' item off the advanced menu."
+msgstr ""
+"%s ei pysty ottamaan yhteyttä projektiin ja tarvitsee Internet-yhteyden.\n"
+"Ota yhteys Internettiin, valitse '\"Yritä yhdistää uudelleen\" \"Lisäasetukset\"-valikosta."
+
+#: clientgui/BOINCDialupManager.cpp:314
+#, c-format
+msgid ""
+"%s needs to connect to the Internet.\n"
+"May it do so now?"
+msgstr ""
+"%s:n täytyy ottaa yhteys Internettiin.\n"
+"Voiko se tehdä niin?"
+
+#: clientgui/BOINCDialupManager.cpp:327
+#, c-format
+msgid "%s is connecting to the Internet."
+msgstr "%s on yhteydessä Internettiin."
+
+#: clientgui/BOINCDialupManager.cpp:358
+#, c-format
+msgid ""
+"%s couldn't do Internet communication, and no default connection is selected.\n"
+"Please connect to the Internet, or select a default connection\n"
+"using Advanced/Options/Connections."
+msgstr ""
+"%s ei saanut yhteyttä Internettiin, eikä oletusyhteyttä ole valittu.\n"
+"Ota yhteys Internettiin tai valitse oletusyhteys\n"
+"kohdasta \"Lisäasetukset/Asetukset/Yhteydet\"."
+
+#: clientgui/BOINCDialupManager.cpp:392
+#, c-format
+msgid "%s has successfully connected to the Internet."
+msgstr "%s otti onnistuneesti yhteyden Internettiin."
+
+#: clientgui/BOINCDialupManager.cpp:420
+#, c-format
+msgid "%s failed to connect to the Internet."
+msgstr "%s ei saanut yhteyttä Internettiin."
+
+#: clientgui/BOINCDialupManager.cpp:461
+#, c-format
+msgid ""
+"%s has detected it is now connected to the Internet.\n"
+"Updating all projects and retrying all transfers."
+msgstr ""
+"%s havaitsi olevansa yhteydessä Internettiin.\n"
+"Päivitetään kaikki projektit ja yritetään uudelleen tiedostojen siirtoa."
+
+#: clientgui/BOINCDialupManager.cpp:504
+#, c-format
+msgid "%s has successfully disconnected from the Internet."
+msgstr "%s sulki onnistuneesti Internet-yhteyden "
+
+#: clientgui/BOINCDialupManager.cpp:520
+#, c-format
+msgid "%s failed to disconnected from the Internet."
+msgstr "%s ei saanut suljettua Internet-yhteyttä."
+
+#: clientgui/BOINCGUIApp.cpp:201
+#, c-format
+msgid ""
+"BOINC ownership or permissions are not set properly; please reinstall BOINC.\n"
+"(Error code %d)"
+msgstr ""
+"BOINC:in omistus- ja käyttöoikeuksia ei ole asetettu oikein. Asenna BOINC uudelleen.\n"
+"(Virhekoodi %d)"
+
+#: clientgui/BOINCGUIApp.cpp:376
+msgid "Startup BOINC so only the system tray icon is visible"
+msgstr "Vain ilmoitusalueen kuvake näkyviin, kun BOINC käynnistetään"
+
+#: clientgui/BOINCGUIApp.cpp:377
+msgid "Startup BOINC with these optional arguments"
+msgstr "Käynnistä BOINC näillä lisäargumenteillä"
+
+#: clientgui/BOINCGUIApp.cpp:378
+msgid "disable BOINC security users and permissions"
+msgstr "älä välitä BOINC:in omistus- ja käyttöoikeuksista"
+
+#: clientgui/BOINCGUIApp.cpp:442
+msgid "(Automatic Detection)"
+msgstr "(Automaattitunnistus)"
+
+#: clientgui/BOINCGUIApp.cpp:443
+msgid "(Unknown)"
+msgstr "(Tuntematon)"
+
+#: clientgui/BOINCGUIApp.cpp:444
+msgid "(User Defined)"
+msgstr "(Käyttäjän määrittämä)"
+
+#: clientgui/BOINCGUIApp.cpp:1044
+#, c-format
+msgid "%s - Exit Confirmation"
+msgstr "%s - Poistumisvahvistus"
+
+#: clientgui/BOINCTaskBar.cpp:349
+#, c-format
+msgid "%s is currently suspended...\n"
+msgstr "%s on tällä hetkellä hyllytetty...\n"
+
+#: clientgui/BOINCTaskBar.cpp:361
+#, c-format
+msgid "%s networking is currently suspended...\n"
+msgstr "%s verkkoyhteys on tällä hetkellä estetty...\n"
+
+#: clientgui/BOINCTaskBar.cpp:401
+#, c-format
+msgid "%s is currently reconnecting to a %s client...\n"
+msgstr "%s yrittää tällä hetkellä ottaa yhteyttä %s-asiakasohjemaan...\n"
+
+#: clientgui/BOINCTaskBar.cpp:413
+#, c-format
+msgid "%s is not currently connected to a %s client...\n"
+msgstr "%s ei ole tällä hetkellä yhteydessä %s-asiakasohjelmaan...\n"
+
+#: clientgui/BOINCTaskBar.cpp:606
+#, c-format
+msgid "Open %s Web..."
+msgstr "Avaa %s verkossa..."
+
+#: clientgui/BOINCTaskBar.cpp:613
+#, c-format
+msgid "Open %s..."
+msgstr "Avaa %s..."
+
+#: clientgui/BOINCTaskBar.cpp:620
+msgid "Snooze"
+msgstr "Hyllytä tunniksi"
+
+#: clientgui/CompletionErrorPage.cpp:202
+msgid "Failed to attach to project"
+msgstr "Projektiin liittyminen epäonnistui"
+
+#: clientgui/CompletionErrorPage.cpp:207
+msgid "Failed to update account manager"
+msgstr "Tilimanagerin päivittäminen epäonnistui"
+
+#: clientgui/CompletionErrorPage.cpp:211
+msgid "Failed to remove account manager"
+msgstr "Tilimanagerin poistaminen epäonnistui"
+
+#: clientgui/CompletionErrorPage.cpp:215
+msgid "Failed to attach to account manager"
+msgstr "Tilimanageriin liittyminen epäonnistui"
+
+#: clientgui/CompletionErrorPage.cpp:224
+msgid ""
+"An error has occurred;\n"
+"check Messages for details.\n"
+"\n"
+"Click Finish to close."
+msgstr ""
+"Tapahtui virhe.\n"
+"Lisätietoja kohdassa \"Viestit\".\n"
+"\n"
+"Paina \"Lopeta\" sulkeaksesi."
+
+#: clientgui/CompletionErrorPage.cpp:231
+#: clientgui/CompletionPage.cpp:223
+#: clientgui/CompletionPage.cpp:246
+#: clientgui/CompletionPage.cpp:267
+#: clientgui/CompletionPage.cpp:316
+msgid "Click Finish to close."
+msgstr "Paina \"Lopeta\" sulkeaksesi."
+
+#: clientgui/CompletionErrorPage.cpp:240
+msgid "Messages from server:"
+msgstr "Viestit palvelimelta: "
+
+#: clientgui/CompletionPage.cpp:207
+msgid "Attached to project"
+msgstr "Liityttiin projektiin"
+
+#: clientgui/CompletionPage.cpp:213
+msgid "You are now successfully attached to this project."
+msgstr "Olet nyt onnistuneesti liittynyt tähän projektiin."
+
+#: clientgui/CompletionPage.cpp:218
+msgid ""
+"When you click Finish, your web browser will go to a page where\n"
+"you can set your account name and preferences."
+msgstr ""
+"Kun painat \"Lopeta\", Internet-selaimesi menee sivuille,\n"
+"jonne voit syöttää nimesi ja asetuksesi."
+
+#: clientgui/CompletionPage.cpp:236
+#, c-format
+msgid "Update from %s completed."
+msgstr "Päivitys %s:sta on valmis."
+
+#: clientgui/CompletionPage.cpp:240
+msgid "Update completed."
+msgstr "Päivitys on valmis."
+
+#: clientgui/CompletionPage.cpp:257
+#, c-format
+msgid "Removal from %s completed."
+msgstr "Irrottautuminen %s:sta on valmis."
+
+#: clientgui/CompletionPage.cpp:261
+msgid "Removal succeeded!"
+msgstr "Irrottautuminen onnistui!"
+
+#: clientgui/CompletionPage.cpp:278
+#, c-format
+msgid "Attached to %s"
+msgstr "Liityttiin %s:n"
+
+#: clientgui/CompletionPage.cpp:282
+msgid "Attached to account manager"
+msgstr "Liityttin tilimanageriin"
+
+#: clientgui/CompletionPage.cpp:292
+#, c-format
+msgid "Welcome to %s!"
+msgstr "Tervetuloa %s:n!"
+
+#: clientgui/CompletionPage.cpp:306
+#, c-format
+msgid "You are now successfully attached to the %s system."
+msgstr "Olet liittynyt onnistuneesti %s-järjestelmään."
+
+#: clientgui/CompletionPage.cpp:310
+msgid "You are now successfully attached to this account manager."
+msgstr "Olet liittynyt onnistuneesti tilimanageriin."
+
+#: clientgui/DlgAbout.cpp:99
+#, c-format
+msgid "About %s"
+msgstr "Tietoja %s:ista"
+
+#: clientgui/DlgAbout.cpp:137
+msgid "BOINC Manager"
+msgstr "BOINC Manager"
+
+#: clientgui/DlgAbout.cpp:156
+msgid "Version:"
+msgstr "Versio:"
+
+#: clientgui/DlgAbout.cpp:164
+msgid "Copyright:"
+msgstr "Tekijänoikeus:"
+
+#: clientgui/DlgAbout.cpp:168
+msgid ""
+"(C) 2003-2007 University of California at Berkeley.\n"
+"All Rights Reserved."
+msgstr ""
+"(C) 2003-2007 Kalifornian yliopisto Berkeleyssä.\n"
+"Kaikki oikeudet pidätetään."
+
+#: clientgui/DlgAbout.cpp:172
+msgid "Berkeley Open Infrastructure for Network Computing"
+msgstr "Berkeleyn avoin infrastruktuuri verkotettuun laskentaan"
+
+#: clientgui/DlgAbout.cpp:176
+msgid "A system for volunteer computing"
+msgstr "Vapaaehtoisten laskentaresursseja käyttävä hajautetun laskennan ohjelmistoalusta"
+
+#: clientgui/DlgAbout.cpp:188
+#: clientgui/DlgGenericMessage.cpp:122
+#: clientgui/DlgOptions.cpp:326
+#: clientgui/DlgSelectComputer.cpp:133
+msgid "&OK"
+msgstr "&OK"
+
+#: clientgui/DlgAdvPreferences.cpp:523
+msgid "invalid value detected"
+msgstr "havaittiin virheellinen arvo"
+
+#: clientgui/DlgAdvPreferences.cpp:523
+msgid "Validation Error"
+msgstr "Vahvistusvirhe"
+
+#: clientgui/DlgAdvPreferences.cpp:656
+msgid "Do you really want to clear all local preferences ?"
+msgstr "Haluatko varmasti tyhjentää kaikki paikalliset asetukset?"
+
+#: clientgui/DlgAdvPreferences.cpp:657
+msgid "Confirmation"
+msgstr "Vahvistus"
+
+#: clientgui/DlgAdvPreferencesBase.cpp:38
+msgid ""
+"This dialog controls preferences on this computer only.\n"
+"On Save - preferences will be stored locally.\n"
+"If you would like to revert to web-based settings, click the Clear-Button."
+msgstr ""
+"Tässä valintaikkunassa voit muokata vain tämän tietokoneen asetuksia.\n"
+"Asetukset tallentuvat paikallisesti.\n"
+"Jos haluat palauttaa asetukset Internetistä, paina \"Tyhjennä\" nappia."
+
+#: clientgui/DlgAdvPreferencesBase.cpp:41
+msgid "Clear"
+msgstr "Tyhjennä"
+
+#: clientgui/DlgAdvPreferencesBase.cpp:64
+msgid "when do work"
+msgstr "työskentele,"
+
+#: clientgui/DlgAdvPreferencesBase.cpp:66
+msgid "while computer is on batteries"
+msgstr "kun kone käy akulla"
+
+#: clientgui/DlgAdvPreferencesBase.cpp:72
+msgid "while computer is in use"
+msgstr "kun kone on käytössä"
+
+#: clientgui/DlgAdvPreferencesBase.cpp:84
+msgid "only if computer is idle for"
+msgstr "vain kun kone on ollut joutilas"
+
+#: clientgui/DlgAdvPreferencesBase.cpp:92
+#: clientgui/DlgAdvPreferencesBase.cpp:231
+#: clientgui/sg_DlgPreferences.cpp:450
+msgid "minutes"
+msgstr "minuuttia"
+
+#: clientgui/DlgAdvPreferencesBase.cpp:103
+msgid "work time restrictions"
+msgstr "laskenta-ajan rajoitukset"
+
+#: clientgui/DlgAdvPreferencesBase.cpp:108
+msgid "every day between hours of"
+msgstr "joka päivä aikavälillä"
+
+#: clientgui/DlgAdvPreferencesBase.cpp:118
+#: clientgui/DlgAdvPreferencesBase.cpp:347
+#: clientgui/sg_DlgPreferences.cpp:359
+#: clientgui/sg_DlgPreferences.cpp:381
+msgid "and"
+msgstr "-"
+
+#: clientgui/DlgAdvPreferencesBase.cpp:128
+msgid "as specified here:"
+msgstr "seuraavasti:"
+
+#: clientgui/DlgAdvPreferencesBase.cpp:144
+#: clientgui/DlgAdvPreferencesBase.cpp:374
+msgid "Monday"
+msgstr "maanantai"
+
+#: clientgui/DlgAdvPreferencesBase.cpp:153
+#: clientgui/DlgAdvPreferencesBase.cpp:383
+msgid "Tuesday"
+msgstr "tiistai"
+
+#: clientgui/DlgAdvPreferencesBase.cpp:162
+#: clientgui/DlgAdvPreferencesBase.cpp:392
+msgid "Wednesday"
+msgstr "keskiviikko"
+
+#: clientgui/DlgAdvPreferencesBase.cpp:171
+#: clientgui/DlgAdvPreferencesBase.cpp:401
+msgid "Thursday"
+msgstr "torstai"
+
+#: clientgui/DlgAdvPreferencesBase.cpp:180
+#: clientgui/DlgAdvPreferencesBase.cpp:408
+msgid "Friday"
+msgstr "perjantai"
+
+#: clientgui/DlgAdvPreferencesBase.cpp:189
+#: clientgui/DlgAdvPreferencesBase.cpp:417
+msgid "Saturday"
+msgstr "lauantai"
+
+#: clientgui/DlgAdvPreferencesBase.cpp:198
+#: clientgui/DlgAdvPreferencesBase.cpp:426
+msgid "Sunday"
+msgstr "sunnuntai"
+
+#: clientgui/DlgAdvPreferencesBase.cpp:217
+msgid "other options"
+msgstr "muut asetukset"
+
+#: clientgui/DlgAdvPreferencesBase.cpp:225
+msgid "switch between applications between every"
+msgstr "vaihda sovellusta, kun on työskennelty"
+
+#: clientgui/DlgAdvPreferencesBase.cpp:234
+msgid "on multiprocessor systems, use at most"
+msgstr "käytä monisuorioritinjärjestelmissä enintään"
+
+#: clientgui/DlgAdvPreferencesBase.cpp:240
+msgid "processors"
+msgstr "suoritinta"
+
+#: clientgui/DlgAdvPreferencesBase.cpp:243
+#: clientgui/DlgAdvPreferencesBase.cpp:463
+#: clientgui/DlgAdvPreferencesBase.cpp:485
+#: clientgui/DlgAdvPreferencesBase.cpp:505
+#: clientgui/DlgAdvPreferencesBase.cpp:527
+#: clientgui/DlgAdvPreferencesBase.cpp:536
+msgid "use at most"
+msgstr "käytä enintään"
+
+#: clientgui/DlgAdvPreferencesBase.cpp:249
+#, c-format
+msgid "% CPU time"
+msgstr "% suoritinajasta"
+
+#: clientgui/DlgAdvPreferencesBase.cpp:259
+msgid "processor usage"
+msgstr "suorittimen käyttö"
+
+#: clientgui/DlgAdvPreferencesBase.cpp:267
+msgid "general options"
+msgstr "yleisasetukset"
+
+#: clientgui/DlgAdvPreferencesBase.cpp:275
+msgid "connect about every"
+msgstr "ota yhteys projektiin noin"
+
+#: clientgui/DlgAdvPreferencesBase.cpp:283
+msgid "days"
+msgstr "päivän välein"
+
+#: clientgui/DlgAdvPreferencesBase.cpp:286
+msgid "maximum download rate"
+msgstr "lataamisen maksiminopeus"
+
+#: clientgui/DlgAdvPreferencesBase.cpp:292
+#: clientgui/DlgAdvPreferencesBase.cpp:301
+msgid "KBytes/second"
+msgstr "kilotavua/sekunti"
+
+#: clientgui/DlgAdvPreferencesBase.cpp:295
+msgid "maximum upload rate"
+msgstr "lähetyksen maksiminopeus"
+
+#: clientgui/DlgAdvPreferencesBase.cpp:304
+msgid "skip image file verification"
+msgstr "ohita kuvatiedostojen varmennus"
+
+#: clientgui/DlgAdvPreferencesBase.cpp:315
+msgid "connect options"
+msgstr "yhteysasetukset"
+
+#: clientgui/DlgAdvPreferencesBase.cpp:317
+msgid "confirm before connecting to internet"
+msgstr "vahvista ennen Internettiin yhdistämistä"
+
+#: clientgui/DlgAdvPreferencesBase.cpp:323
+msgid "disconnect when done"
+msgstr "katkaise yhteys, kun on valmista"
+
+#: clientgui/DlgAdvPreferencesBase.cpp:332
+msgid "usage restrictions"
+msgstr "käyttörajoitukset"
+
+#: clientgui/DlgAdvPreferencesBase.cpp:337
+msgid "use network only between the hours of"
+msgstr "käytä verkkoa vain aikavälillä"
+
+#: clientgui/DlgAdvPreferencesBase.cpp:357
+msgid "use network only as specified here:"
+msgstr "käytä verkkoa vain seuraavasti:"
+
+#: clientgui/DlgAdvPreferencesBase.cpp:447
+msgid "network usage"
+msgstr "verkon käyttö"
+
+#: clientgui/DlgAdvPreferencesBase.cpp:455
+msgid "disk usage"
+msgstr "levyn käyttö"
+
+#: clientgui/DlgAdvPreferencesBase.cpp:471
+msgid "Gigabytes disk space"
+msgstr "gigatavua levytilaa"
+
+#: clientgui/DlgAdvPreferencesBase.cpp:474
+msgid "leave at least"
+msgstr "jätä vähintään"
+
+#: clientgui/DlgAdvPreferencesBase.cpp:482
+msgid "Gigabytes disk space free"
+msgstr "gigatavua vapaata tilaa"
+
+#: clientgui/DlgAdvPreferencesBase.cpp:493
+#, c-format
+msgid "% of total disk space"
+msgstr "% levyn kokonaiskapasiteetista"
+
+#: clientgui/DlgAdvPreferencesBase.cpp:496
+msgid "write to disk at most every"
+msgstr "kirjoita levylle korkeintaa joka"
+
+#: clientgui/DlgAdvPreferencesBase.cpp:502
+msgid "seconds"
+msgstr "sekunti"
+
+#: clientgui/DlgAdvPreferencesBase.cpp:511
+#, c-format
+msgid "% of page file (swap space)"
+msgstr "% sivutustiedostosta (näennäismuistista)"
+
+#: clientgui/DlgAdvPreferencesBase.cpp:519
+msgid "memory usage"
+msgstr "muistin käyttö"
+
+#: clientgui/DlgAdvPreferencesBase.cpp:533
+msgid "% when computer is in use"
+msgstr "%, kun kone on käytössä"
+
+#: clientgui/DlgAdvPreferencesBase.cpp:542
+msgid "% when computer is idle"
+msgstr "%, kun kone on joutilaana"
+
+#: clientgui/DlgAdvPreferencesBase.cpp:547
+msgid "leave applications in memory while suspended"
+msgstr "jätä sovellukset muistiin, hyllyttämisen ajaksi"
+
+#: clientgui/DlgAdvPreferencesBase.cpp:558
+msgid "disk and memory usage"
+msgstr "levyn ja muistin käyttö"
+
+#: clientgui/DlgAdvPreferencesBase.cpp:571
+msgid "OK"
+msgstr "OK"
+
+#: clientgui/DlgAdvPreferencesBase.cpp:576
+msgid "Cancel"
+msgstr "Peruuta"
+
+#: clientgui/DlgAdvPreferencesBase.cpp:581
+#: clientgui/Localization.cpp:37
+#: clientgui/Localization.cpp:123
+#: clientgui/Localization.cpp:141
+msgid "Help"
+msgstr "Apua"
+
+#: clientgui/DlgGenericMessage.cpp:114
+msgid "Click here to disable displaying this message in the future."
+msgstr "Älä näytä tätä viestiä tulevaisuudessa."
+
+#: clientgui/DlgGenericMessage.cpp:127
+#: clientgui/DlgOptions.cpp:331
+#: clientgui/DlgSelectComputer.cpp:138
+#: clientgui/wizardex.cpp:360
+msgid "&Cancel"
+msgstr "&Peruuta"
+
+#: clientgui/DlgOptions.cpp:138
+msgid "Language Selection:"
+msgstr "Kielen valinta:"
+
+#: clientgui/DlgOptions.cpp:145
+msgid "What language should the manager display by default."
+msgstr "Mitä kieltä managerin tulisi käyttää oletuksena?"
+
+#: clientgui/DlgOptions.cpp:149
+msgid "Reminder Frequency:"
+msgstr "Muistutuksen toisto:"
+
+#: clientgui/DlgOptions.cpp:161
+msgid "How often, in minutes, should the manager remind you of possible connection events."
+msgstr "Miten usein - minuutteina - managerin tulisi muistuttaa sinua mahdollisista yhteystapahtumista?"
+
+#: clientgui/DlgOptions.cpp:164
+msgid "General"
+msgstr "Yleisasetukset"
+
+#: clientgui/DlgOptions.cpp:172
+msgid "Dial-up and Virtual Private Network settings"
+msgstr "Puhelinverkko- ja Virtual Private Network -yhteyden asetukset"
+
+#: clientgui/DlgOptions.cpp:186
+msgid "&Set Default"
+msgstr "&Aseta oletukset"
+
+#: clientgui/DlgOptions.cpp:191
+msgid "&Clear Default"
+msgstr "&Tyhjennä oletukset"
+
+#: clientgui/DlgOptions.cpp:198
+msgid "Default Connection:"
+msgstr "Oletusyhteys:"
+
+#: clientgui/DlgOptions.cpp:205
+msgid "Connections"
+msgstr "Yhteydet"
+
+#: clientgui/DlgOptions.cpp:214
+msgid "Connect via HTTP proxy server"
+msgstr "Yhdistä HTTP-välityspalvelimen kautta"
+
+#: clientgui/DlgOptions.cpp:218
+msgid "HTTP Proxy Server Configuration"
+msgstr "HTTP-välityspalvelimen asetukset"
+
+#: clientgui/DlgOptions.cpp:226
+#: clientgui/DlgOptions.cpp:282
+msgid "Address:"
+msgstr "Osoite:"
+
+#: clientgui/DlgOptions.cpp:234
+#: clientgui/DlgOptions.cpp:290
+#: clientgui/ProxyPage.cpp:346
+#: clientgui/ProxyPage.cpp:366
+msgid "Port:"
+msgstr "Portti:"
+
+#: clientgui/DlgOptions.cpp:241
+#: clientgui/DlgOptions.cpp:297
+msgid "Leave these blank if not needed"
+msgstr "Jätä nämä tyhjiksi, ellet tarvitse niitä"
+
+#: clientgui/DlgOptions.cpp:247
+#: clientgui/DlgOptions.cpp:303
+#: clientgui/ProxyPage.cpp:349
+#: clientgui/ProxyPage.cpp:369
+msgid "User Name:"
+msgstr "Käyttäjänimi:"
+
+#: clientgui/DlgOptions.cpp:255
+#: clientgui/DlgOptions.cpp:311
+#: clientgui/DlgSelectComputer.cpp:122
+#: clientgui/ProxyPage.cpp:352
+#: clientgui/ProxyPage.cpp:372
+msgid "Password:"
+msgstr "Salasana:"
+
+#: clientgui/DlgOptions.cpp:262
+msgid "HTTP Proxy"
+msgstr "HTTP-välityspalvelin"
+
+#: clientgui/DlgOptions.cpp:270
+msgid "Connect via SOCKS proxy server"
+msgstr "Yhdistä SOCKS-välityspalvelimen kautta"
+
+#: clientgui/DlgOptions.cpp:274
+msgid "SOCKS Proxy Server Configuration"
+msgstr "SOCKS-välityspalvelimen asetukset"
+
+#: clientgui/DlgOptions.cpp:318
+msgid "SOCKS Proxy"
+msgstr "SOCKS-välityspalvelin"
+
+#: clientgui/DlgSelectComputer.cpp:113
+msgid "Host name:"
+msgstr "Konenimi:"
+
+#: clientgui/hyperlink.cpp:181
+#, c-format
+msgid "%s - Can't find web browser"
+msgstr "%s - Web-selainta ei löydy"
+
+#: clientgui/hyperlink.cpp:192
+#, c-format
+msgid ""
+"%s tried to display the web page\n"
+"\t%s\n"
+"but couldn't find a web browser.\n"
+"To fix this, set the environment variable\n"
+"BROWSER to the path of your web browser,\n"
+"then restart the %s."
+msgstr ""
+"%s yritti avata verkkosivun\n"
+"\t%s,\n"
+"mutta web-selainta ei löytynyt.\n"
+"Korjataksesi tämän aseta ympäristö-\n"
+"muuttuja BROWSER verkkoselaimesi polkuun\n"
+"ja käynnistä %s uudelleen."
+
+#: clientgui/Localization.cpp:33
+#: clientgui/Localization.cpp:71
+msgid "Message boards"
+msgstr "Keskustelualueet"
+
+#: clientgui/Localization.cpp:35
+msgid "Correspond with other users on the SETI@home message boards"
+msgstr "Keskustele muiden käyttäjien kanssa SETI@home:n keskustelualueilla"
+
+#: clientgui/Localization.cpp:39
+msgid "Ask questions and report problems"
+msgstr "Esitä kysymyksiä ja kerro ongelmista"
+
+#: clientgui/Localization.cpp:41
+#: clientgui/Localization.cpp:83
+#: clientgui/Localization.cpp:113
+#: clientgui/Localization.cpp:131
+msgid "Your account"
+msgstr "Tilisi"
+
+#: clientgui/Localization.cpp:43
+#: clientgui/Localization.cpp:89
+#: clientgui/Localization.cpp:115
+msgid "View your account information and credit totals"
+msgstr "Näytä tilisi tiedot ja kokonaispisteet"
+
+#: clientgui/Localization.cpp:45
+msgid "Your preferences"
+msgstr "Asetuksesi"
+
+#: clientgui/Localization.cpp:47
+msgid "View and modify your SETI@home account profile and preferences"
+msgstr "Näytä ja muokkaa SETI@home-tilisi profiilia ja asetuksia"
+
+#: clientgui/Localization.cpp:49
+#: clientgui/Localization.cpp:91
+msgid "Your results"
+msgstr "Tuloksesi"
+
+#: clientgui/Localization.cpp:51
+#: clientgui/Localization.cpp:93
+msgid "View your last week (or more) of computational results and work"
+msgstr "Näytä laskentatuloksesi ja työsi viime viikolta (tai pidemmältä ajalta)"
+
+#: clientgui/Localization.cpp:53
+#: clientgui/Localization.cpp:95
+msgid "Your computers"
+msgstr "Tietokoneesi"
+
+#: clientgui/Localization.cpp:55
+msgid "View a listing of all the computers on which you are running SETI@Home"
+msgstr "Näytä lista kaikista koneista, joilla ajat SETI@home:a"
+
+#: clientgui/Localization.cpp:57
+#: clientgui/Localization.cpp:99
+msgid "Your team"
+msgstr "Tiimisi"
+
+#: clientgui/Localization.cpp:59
+#: clientgui/Localization.cpp:101
+msgid "View information about your team"
+msgstr "Näytä tietoja tiimistäsi"
+
+#: clientgui/Localization.cpp:63
+msgid "Common questions"
+msgstr "Yleisimmät kysymykset"
+
+#: clientgui/Localization.cpp:65
+msgid "Read the Einstein@Home Frequently Asked Question list"
+msgstr "Lue Einstein@Home:n Usein kysytyt kysymykset -listaa"
+
+#: clientgui/Localization.cpp:67
+msgid "Screensaver info"
+msgstr "Tietoja näytönsäästäjästä"
+
+#: clientgui/Localization.cpp:69
+msgid "Read a detailed description of the Einstein@Home screensaver"
+msgstr "Lue yksityiskohtainen kuvaus Einstein@Home:n näytönsäästäjästä"
+
+#: clientgui/Localization.cpp:73
+msgid "Correspond with admins and other users on the Einstein@Home message boards"
+msgstr "Keskustele ylläpitäjien ja muiden käyttäjien kanssa Einstein@home:n keskustelupalstoilla"
+
+#: clientgui/Localization.cpp:75
+msgid "Einstein status"
+msgstr "Einsteinin tila"
+
+#: clientgui/Localization.cpp:77
+msgid "Current status of the Einstein@Home server"
+msgstr "Einstein@Home:n palvelimen tämänhetkinen tila"
+
+#: clientgui/Localization.cpp:79
+msgid "Report problems"
+msgstr "Ilmoita ongelmista"
+
+#: clientgui/Localization.cpp:81
+msgid "A link to the Einstein@Home problems and bug reports message board"
+msgstr "Linkki Einstein@Home:n ongelmien ja ohjelmointivirheiden raportointipalstalle"
+
+#: clientgui/Localization.cpp:85
+msgid "View and modify your Einstein@Home account profile and preferences"
+msgstr "Näytä ja muokkaa Einstein@Home-tilisi profiilia ja asetuksia"
+
+#: clientgui/Localization.cpp:87
+msgid "Account summary"
+msgstr "Tilin yhteenveto"
+
+#: clientgui/Localization.cpp:97
+msgid "View a listing of all the computers on which you are running Einstein@Home"
+msgstr "Näytä listaus kaikista tietokoneistasi, jotka ajavat Einstein@Home:a"
+
+#: clientgui/Localization.cpp:103
+msgid "LIGO project"
+msgstr "LIGO-projekti"
+
+#: clientgui/Localization.cpp:105
+msgid "The home page of the Laser Interferometer Gravitational-wave Observatory (LIGO) project"
+msgstr "Laser Interferometer Gravitational-wave Observatory (LIGO) -projektin kotisivut"
+
+#: clientgui/Localization.cpp:107
+msgid "GEO-600 project"
+msgstr "GEO-600-projekti"
+
+#: clientgui/Localization.cpp:109
+msgid "The home page of the GEO-600 project"
+msgstr "GEO-600-projektin kotisivut"
+
+#: clientgui/Localization.cpp:117
+#: clientgui/Localization.cpp:135
+#: clientgui/ViewProjects.cpp:155
+#: clientgui/ViewProjectsGrid.cpp:212
+#: clientgui/ViewStatistics.cpp:400
+msgid "Team"
+msgstr "Tiimisi"
+
+#: clientgui/Localization.cpp:119
+msgid "Info about your Team"
+msgstr "Tietoja tiimistäsi"
+
+#: clientgui/Localization.cpp:125
+msgid "Get help for climateprediction.net"
+msgstr "Hae apua climateprediction.net:in käyttöön"
+
+#: clientgui/Localization.cpp:127
+msgid "News"
+msgstr "Uutiset"
+
+#: clientgui/Localization.cpp:129
+msgid "climateprediction.net News"
+msgstr "climateprediction.net-uutisia"
+
+#: clientgui/Localization.cpp:133
+msgid "View your account information, credits, and trickles"
+msgstr "Näytä tilisi tiedot, pisteet ja väliraportit"
+
+#: clientgui/Localization.cpp:137
+msgid "Info about your team"
+msgstr "Tietoja tiimistäsi"
+
+#: clientgui/Localization.cpp:143
+msgid "Search for help in our help system"
+msgstr "Etsi apua apujärjestelmästämme"
+
+#: clientgui/Localization.cpp:145
+msgid "Global Statistics"
+msgstr "Maailmanlaajuiset tilastot"
+
+#: clientgui/Localization.cpp:147
+msgid "Summary statistics for World Community Grid"
+msgstr "World Community Grid:in yhteistilastot"
+
+#: clientgui/Localization.cpp:149
+msgid "My Grid"
+msgstr "Minun Gridini"
+
+#: clientgui/Localization.cpp:151
+msgid "Your statistics and settings"
+msgstr "Tilastosi ja asetuksesi"
+
+#: clientgui/Localization.cpp:153
+msgid "Device Profiles"
+msgstr "Laiteprofiilit"
+
+#: clientgui/Localization.cpp:155
+msgid "Update your device settings"
+msgstr "Päivitä laitteittesi asetukset"
+
+#: clientgui/Localization.cpp:157
+msgid "Research"
+msgstr "Tutkimus"
+
+#: clientgui/Localization.cpp:159
+msgid "Learn about the projects hosted at World Community Grid"
+msgstr "Lue lisää World Community Grid:in ylläpitämistä projekteistä"
+
+#: clientgui/MainDocument.cpp:328
+msgid "Retrieving system state; please wait..."
+msgstr "Tutkitaan järjestelmän tilaa, odota..."
+
+#: clientgui/MainDocument.cpp:336
+msgid "Retrieving host information; please wait..."
+msgstr "Haetaan tietoja koneesta, odota..."
+
+#: clientgui/NoInternetConnectionPage.cpp:182
+msgid "No Internet connection"
+msgstr "Ei Internet-yhteyttä"
+
+#: clientgui/NoInternetConnectionPage.cpp:185
+msgid "Please connect to the Internet and try again."
+msgstr "Ota yhteys Internettiin ja yritä uudelleen."
+
+#: clientgui/NotDetectedPage.cpp:184
+msgid "Project not found"
+msgstr "Projektia ei löydy"
+
+#: clientgui/NotDetectedPage.cpp:187
+msgid ""
+"The URL you supplied is not that of a BOINC-based project.\n"
+"\n"
+"Please check the URL and try again."
+msgstr ""
+"Syöttämäsi verkko-osoite ei kuulu BOINC:iin perustuvalle projektille.\n"
+"\n"
+"Tarkista osoite ja yritä uudelleen."
+
+#: clientgui/NotDetectedPage.cpp:193
+msgid "Account manager not found"
+msgstr "Tilimanageria ei löytynyt"
+
+#: clientgui/NotDetectedPage.cpp:196
+msgid ""
+"The URL you supplied is not that of a BOINC-based account\n"
+"manager.\n"
+"\n"
+"Please check the URL and try again."
+msgstr ""
+"Syöttämäsi verkko-osoite ei kuulu BOINC:iin perustuvalle tilimanagerille.\n"
+"\n"
+"Tarkista osoite ja yritä uudelleen."
+
+#: clientgui/NotFoundPage.cpp:184
+msgid "Login Failed."
+msgstr "Kirjautuminen epäonnistui."
+
+#: clientgui/NotFoundPage.cpp:188
+msgid "Check the username and password, and try again."
+msgstr "Tarkista käyttäjänimi ja salasana sekä yritä uudelleen."
+
+#: clientgui/NotFoundPage.cpp:192
+msgid "Check the email address and password, and try again."
+msgstr "Tarkista sähköpostiosoite ja salansana sekä yritä uudelleen."
+
+#: clientgui/ProjectInfoPage.cpp:231
+msgid "Project URL"
+msgstr "Projektin verkko-osoite"
+
+#: clientgui/ProjectInfoPage.cpp:234
+msgid "Enter the URL of the project's web site."
+msgstr "Syötä projektin verkko-osoite.Syötä projektin verkko-osoite."
+
+#: clientgui/ProjectInfoPage.cpp:241
+msgid "Project &URL:"
+msgstr "Projektin &verkko-osoite:"
+
+#: clientgui/ProjectInfoPage.cpp:244
+msgid "For a list of BOINC-based projects go to:"
+msgstr "Lista BOINC:iin perustuvista projekteista:"
+
+#: clientgui/ProjectProcessingPage.cpp:326
+#: clientgui/ProjectPropertiesPage.cpp:327
+msgid ""
+"Communicating with project\n"
+"Please wait..."
+msgstr ""
+"Ollaan yhteydessä projektiin\n"
+"Odota..."
+
+#: clientgui/ProjectProcessingPage.cpp:484
+msgid ""
+"Required wizard file(s) are missing from the target server.\n"
+"(lookup_account.php/create_account.php)\n"
+msgstr ""
+"Velhon tarvitsemat tiedostot puuttuvat palvelimelta.\n"
+"(lookup_account.php/create_account.php)\n"
+
+#: clientgui/ProxyInfoPage.cpp:198
+msgid "Network communication failure"
+msgstr "Virhe verkkoyhteydessä"
+
+#: clientgui/ProxyInfoPage.cpp:201
+msgid ""
+"BOINC failed to communicate on the Internet. The most likely\n"
+"reasons are:\n"
+"\n"
+"1) Connectivity problem.  Check your network\n"
+"or modem connection and click Back to try again.\n"
+"\n"
+"2) Personal firewall software is blocking BOINC.\n"
+"Configure your personal firewall to let BOINC\n"
+"communicate on port 80, then click Back to try again.\n"
+"\n"
+"3) You are using a proxy server.\n"
+"Click Next to configure BOINC's proxy settings."
+msgstr ""
+"BOINC ei saanut yhteyttä Internettiin. Todennäköiset syyt ovat:\n"
+"\n"
+"1) Yhteysongelma. Tarkista verkko- tai modeemi-\n"
+"yhteytesi ja paina \"Takaisin\" yrittääksesi uudelleen.\n"
+"\n"
+"2) Palomuuriohjelmistosi torjuu BOINC:in.\n"
+"Muuta palomuurisi asetuksia salliaksesi BOINC:in\n"
+"yhteyden portin 80 kautta. Paina sitten \"Takaisin\"\n"
+"ja yritä uudelleen.\n"
+"\n"
+"3) Käytät välityspalvelinta.\n"
+"Paina \"Seuraava\" muokataksesi BOINC:in\n"
+"välityspalvelinasetuksia."
+
+#: clientgui/ProxyPage.cpp:337
+msgid "Proxy configuration"
+msgstr "Välityspalvelimen asetukset"
+
+#: clientgui/ProxyPage.cpp:340
+msgid "HTTP proxy"
+msgstr "HTTP-välityspalvelin"
+
+#: clientgui/ProxyPage.cpp:343
+#: clientgui/ProxyPage.cpp:363
+msgid "Server:"
+msgstr "Palvelin:"
+
+#: clientgui/ProxyPage.cpp:356
+msgid "Autodetect"
+msgstr "Automaattitunnistus"
+
+#: clientgui/ProxyPage.cpp:360
+msgid "SOCKS proxy"
+msgstr "SOCKS-välityspalvelin"
+
+#: clientgui/sg_ClientStateIndicator.cpp:289
+msgid "Retrieving current status."
+msgstr "Tutkitaan tämänhetkistä tilaa."
+
+#: clientgui/sg_ClientStateIndicator.cpp:292
+msgid "You don't have any projects.  Please Add a Project."
+msgstr "Et ole liittynyt yhteenkään projektiin. Liity projektiin."
+
+#: clientgui/sg_ClientStateIndicator.cpp:295
+msgid "Downloading work from the server."
+msgstr "Ladataan työtä palvelimelta."
+
+#: clientgui/sg_ClientStateIndicator.cpp:300
+msgid "Processing Suspended:  Running On Batteries."
+msgstr "Laskenta hyllytetty:  Kone käy akulla."
+
+#: clientgui/sg_ClientStateIndicator.cpp:302
+msgid "Processing Suspended:  User Active."
+msgstr "Laskenta hyllytetty:  Käyttäjä työskentelee."
+
+#: clientgui/sg_ClientStateIndicator.cpp:304
+msgid "Processing Suspended:  User paused processing."
+msgstr "Laskenta hyllytetty:  Käyttäjän hyllyttämä."
+
+#: clientgui/sg_ClientStateIndicator.cpp:306
+msgid "Processing Suspended:  Time of Day."
+msgstr "Laskenta hyllytetty:  Kellonaika."
+
+#: clientgui/sg_ClientStateIndicator.cpp:308
+msgid "Processing Suspended:  Benchmarks Running."
+msgstr "Laskenta hyllytetty:  Ajetaan suorituskykytestejä."
+
+#: clientgui/sg_ClientStateIndicator.cpp:310
+msgid "Processing Suspended."
+msgstr "Laskenta hyllytetty."
+
+#: clientgui/sg_ClientStateIndicator.cpp:314
+msgid "Waiting to contact project servers."
+msgstr "Odotetaan yhteyttä projektin palvelimiin."
+
+#: clientgui/sg_ClientStateIndicator.cpp:318
+#: clientgui/sg_ClientStateIndicator.cpp:326
+msgid "Retrieving current status"
+msgstr "Tutkitaan tämänhetkistä tilaa"
+
+#: clientgui/sg_ClientStateIndicator.cpp:321
+msgid "No work available to process"
+msgstr "Ei laksettavaa työtä saatavilla"
+
+#: clientgui/sg_ClientStateIndicator.cpp:323
+msgid "Unable to connect to the core client"
+msgstr "Ei voitu yhdistää ydinohjelmaan"
+
+#: clientgui/sg_DlgMessages.cpp:107
+#: clientgui/ViewMessages.cpp:110
+#: clientgui/ViewMessagesGrid.cpp:133
+#: clientgui/ViewProjects.cpp:153
+#: clientgui/ViewProjectsGrid.cpp:212
+#: clientgui/ViewStatistics.cpp:370
+#: clientgui/ViewStatistics.cpp:1630
+#: clientgui/ViewTransfers.cpp:117
+#: clientgui/ViewTransfersGrid.cpp:129
+#: clientgui/ViewWork.cpp:132
+#: clientgui/ViewWorkGrid.cpp:140
+msgid "Project"
+msgstr "Projekti"
+
+#: clientgui/sg_DlgMessages.cpp:108
+#: clientgui/ViewMessages.cpp:111
+#: clientgui/ViewMessagesGrid.cpp:133
+msgid "Time"
+msgstr "Aika"
+
+#: clientgui/sg_DlgMessages.cpp:109
+#: clientgui/ViewMessages.cpp:112
+#: clientgui/ViewMessagesGrid.cpp:133
+msgid "Message"
+msgstr "Viesti"
+
+#: clientgui/sg_DlgMessages.cpp:186
+#: clientgui/sg_DlgMessages.cpp:190
+#: clientgui/ViewMessages.cpp:85
+#: clientgui/ViewMessagesGrid.cpp:103
+msgid "Copy all the messages to the clipboard."
+msgstr "Kopioi kaikki viestit leikepöydälle."
+
+#: clientgui/sg_DlgMessages.cpp:211
+#: clientgui/sg_DlgMessages.cpp:223
+#: clientgui/ViewMessages.cpp:93
+#: clientgui/ViewMessagesGrid.cpp:111
+msgid "Copy the selected messages to the clipboard. You can select multiple messages by holding down the shift or command key while clicking on messages."
+msgstr "Kopioi valitut viestit leikepöydälle. Voit valita monta viestiä kerralla pitämällä pohjassa Shift- tai Command-näppäintä napsauttaessasi viestejä."
+
+#: clientgui/sg_DlgMessages.cpp:215
+#: clientgui/sg_DlgMessages.cpp:227
+#: clientgui/ViewMessages.cpp:97
+#: clientgui/ViewMessagesGrid.cpp:115
+msgid "Copy the selected messages to the clipboard. You can select multiple messages by holding down the shift or control key while clicking on messages."
+msgstr "Kopioi valitut viestit leikepöydälle. Voit valita monta viestiä pitämällä pohjassa Shift- tai Control-näppäintä napsauttaessasi viestejä."
+
+#: clientgui/sg_DlgMessages.cpp:269
+#: clientgui/sg_DlgPreferences.cpp:506
+#: clientgui/sg_ProjectsComponent.cpp:116
+msgid "Get help with BOINC"
+msgstr "Hae apua BOINC:in käyttöön"
+
+#: clientgui/sg_DlgMessages.cpp:740
+msgid "BOINC Manager - Messages"
+msgstr "BOINC Manager - Viestit"
+
+#: clientgui/sg_DlgPreferences.cpp:92
+msgid "100 MB"
+msgstr "100 Mt"
+
+#: clientgui/sg_DlgPreferences.cpp:93
+msgid "200 MB"
+msgstr "200 Mt"
+
+#: clientgui/sg_DlgPreferences.cpp:94
+msgid "500 MB"
+msgstr "500 Mt"
+
+#: clientgui/sg_DlgPreferences.cpp:95
+msgid "1 GB"
+msgstr "1 Gt"
+
+#: clientgui/sg_DlgPreferences.cpp:96
+msgid "2 GB"
+msgstr "2 Gt"
+
+#: clientgui/sg_DlgPreferences.cpp:97
+msgid "5 GB"
+msgstr "5 Gt"
+
+#: clientgui/sg_DlgPreferences.cpp:98
+msgid "10 GB"
+msgstr "10 Gt"
+
+#: clientgui/sg_DlgPreferences.cpp:99
+msgid "20 GB"
+msgstr "20 Gt"
+
+#: clientgui/sg_DlgPreferences.cpp:100
+msgid "50 GB"
+msgstr "50 Gt"
+
+#: clientgui/sg_DlgPreferences.cpp:101
+msgid "100 GB"
+msgstr "100 Gt"
+
+#: clientgui/sg_DlgPreferences.cpp:132
+msgid "10%"
+msgstr "10%"
+
+#: clientgui/sg_DlgPreferences.cpp:133
+msgid "20%"
+msgstr "20%"
+
+#: clientgui/sg_DlgPreferences.cpp:134
+msgid "30%"
+msgstr "30%"
+
+#: clientgui/sg_DlgPreferences.cpp:135
+msgid "40%"
+msgstr "40%"
+
+#: clientgui/sg_DlgPreferences.cpp:136
+msgid "50%"
+msgstr "50%"
+
+#: clientgui/sg_DlgPreferences.cpp:137
+msgid "60%"
+msgstr "60%"
+
+#: clientgui/sg_DlgPreferences.cpp:138
+msgid "70%"
+msgstr "70%"
+
+#: clientgui/sg_DlgPreferences.cpp:139
+msgid "80%"
+msgstr "80%"
+
+#: clientgui/sg_DlgPreferences.cpp:140
+msgid "90%"
+msgstr "90%"
+
+#: clientgui/sg_DlgPreferences.cpp:141
+msgid "100%"
+msgstr "100%"
+
+#: clientgui/sg_DlgPreferences.cpp:166
+msgid "1"
+msgstr "1"
+
+#: clientgui/sg_DlgPreferences.cpp:167
+msgid "3"
+msgstr "3"
+
+#: clientgui/sg_DlgPreferences.cpp:168
+msgid "5"
+msgstr "5"
+
+#: clientgui/sg_DlgPreferences.cpp:169
+msgid "10"
+msgstr "10"
+
+#: clientgui/sg_DlgPreferences.cpp:170
+msgid "15"
+msgstr "15"
+
+#: clientgui/sg_DlgPreferences.cpp:171
+msgid "30"
+msgstr "30"
+
+#: clientgui/sg_DlgPreferences.cpp:172
+msgid "60"
+msgstr "60"
+
+#: clientgui/sg_DlgPreferences.cpp:281
+msgid "Skin"
+msgstr "Kuoret"
+
+#: clientgui/sg_DlgPreferences.cpp:288
+msgid "Skin:"
+msgstr "Kuori:"
+
+#: clientgui/sg_DlgPreferences.cpp:304
+msgid "Preferences"
+msgstr "Asetukset"
+
+#: clientgui/sg_DlgPreferences.cpp:321
+msgid "I want to customize my preferences for this computer only."
+msgstr "Haluan muokata asetuksiani vain tämän koneen osalta."
+
+#: clientgui/sg_DlgPreferences.cpp:330
+msgid "Customized Preferences"
+msgstr "Muokatut asetukset"
+
+#: clientgui/sg_DlgPreferences.cpp:346
+msgid "Do work only between:"
+msgstr "Työskentele vain aikavälilllä:"
+
+#: clientgui/sg_DlgPreferences.cpp:368
+msgid "Connect to internet only between:"
+msgstr "Ota yhteys Internettiin vain aikavälillä:"
+
+#: clientgui/sg_DlgPreferences.cpp:390
+#: clientgui/sg_DlgPreferences.cpp:407
+msgid "Use no more than:"
+msgstr "Käytä enintään:"
+
+#: clientgui/sg_DlgPreferences.cpp:403
+msgid "of disk space"
+msgstr "levytilaa"
+
+#: clientgui/sg_DlgPreferences.cpp:420
+msgid "of the processor"
+msgstr "suoritintehosta"
+
+#: clientgui/sg_DlgPreferences.cpp:424
+msgid "Do work while on battery?"
+msgstr "Työskennelläänkö akun varassa?"
+
+#: clientgui/sg_DlgPreferences.cpp:437
+msgid "Do work after idle for:"
+msgstr "Työskentele koneen oltua joutilas:"
+
+#: clientgui/sg_DlgPreferences.cpp:670
+#: clientgui/sg_DlgPreferences.cpp:673
+#: clientgui/sg_DlgPreferences.cpp:733
+#: clientgui/sg_DlgPreferences.cpp:737
+#: clientgui/sg_DlgPreferences.cpp:749
+#: clientgui/sg_DlgPreferences.cpp:753
+#: clientgui/sg_DlgPreferences.cpp:911
+#: clientgui/sg_DlgPreferences.cpp:922
+msgid "Anytime"
+msgstr "Aina"
+
+#: clientgui/sg_DlgPreferences.cpp:769
+#, c-format
+msgid "%d MB"
+msgstr "%d Mt"
+
+#: clientgui/sg_DlgPreferences.cpp:771
+#, c-format
+msgid "%4.2f GB"
+msgstr "%4.2f Gt"
+
+#: clientgui/sg_DlgPreferences.cpp:812
+#, c-format
+msgid "%d%%"
+msgstr "%d%%"
+
+#: clientgui/sg_DlgPreferences.cpp:848
+msgid "0 (Run Always)"
+msgstr "0 (Aina)"
+
+#: clientgui/sg_DlgPreferences.cpp:851
+#, c-format
+msgid "%d"
+msgstr "%d"
+
+#: clientgui/sg_DlgPreferences.cpp:1014
+msgid "BOINC Manager - Preferences"
+msgstr "BOINC Manager - Asetukset"
+
+#: clientgui/sg_ProjectsComponent.cpp:99
+msgid "Attach to an additional project"
+msgstr "Liity uuteen projektiin"
+
+#: clientgui/sg_ProjectsComponent.cpp:169
+#: clientgui/sg_ProjectsComponent.cpp:180
+msgid "Open a window to view messages"
+msgstr "Avaa ikkuna nähdäksesi viestit"
+
+#: clientgui/sg_ProjectsComponent.cpp:198
+msgid "Stop all activity"
+msgstr "Keskeytä kaikki toiminta"
+
+#: clientgui/sg_ProjectsComponent.cpp:210
+msgid "Resume activity"
+msgstr "Jatka toimintaa"
+
+#: clientgui/sg_ProjectsComponent.cpp:227
+msgid "Open a window to set your preferences"
+msgstr "Avaa ikkuna muuttaaksesi asetuksia"
+
+#: clientgui/sg_ProjectsComponent.cpp:244
+msgid "Switch to the BOINC advanced view"
+msgstr "Vaihda BOINC:in laajempaan näkymään%.1lf"
+
+#: clientgui/sg_StatImageLoader.cpp:103
+#, c-format
+msgid "%s. Work done by %s: %0.2f"
+msgstr "%s. Suorittanut %s: %0.2f"
+
+#: clientgui/sg_StatImageLoader.cpp:218
+#: clientgui/ViewProjects.cpp:349
+#: clientgui/ViewProjectsGrid.cpp:408
+#, c-format
+msgid "Are you sure you want to detach from project '%s'?"
+msgstr "Haluatko varmasti irrottautua projektista \"%s\"?"
+
+#: clientgui/sg_StatImageLoader.cpp:224
+#: clientgui/ViewProjects.cpp:355
+#: clientgui/ViewProjectsGrid.cpp:413
+msgid "Detach from Project"
+msgstr "Irrottaudu projektista"
+
+#: clientgui/sg_ViewTabPage.cpp:134
+#: clientgui/sg_ViewTabPage.cpp:272
+#, c-format
+msgid "%.1lf"
+msgstr "%.1lf"
+
+#: clientgui/sg_ViewTabPage.cpp:401
+#, c-format
+msgid "%d hr %d min %d sec"
+msgstr "%d h %d min %d s"
+
+#: clientgui/sg_ViewTabPage.cpp:415
+#: clientgui/ViewWork.cpp:214
+#: clientgui/ViewWorkGrid.cpp:231
+msgid "Are you sure you want to display graphics on a remote machine?"
+msgstr "Haluatko varmasti näyttää grafiikat etäkoneella?"
+
+#: clientgui/sg_ViewTabPage.cpp:416
+#: clientgui/ViewWork.cpp:106
+#: clientgui/ViewWork.cpp:215
+#: clientgui/ViewWorkGrid.cpp:107
+#: clientgui/ViewWorkGrid.cpp:232
+msgid "Show graphics"
+msgstr "Näytä grafiikat"
+
+#: clientgui/SkinManager.cpp:975
+#, c-format
+msgid ""
+"This will shut down %s and its tasks entirely until either the\n"
+"%s application or the %s screen saver is run again.\n"
+"\n"
+"In most cases, it is better just to close the %s window\n"
+"rather than to exit the application; that will allow %s to run its\n"
+"tasks at the times you selected in your preferences."
+msgstr ""
+"%s ja sen tehtävät suljetaan, kunnes joko \n"
+"%s tai %s-näytönsäästäjä käynnistetään uudelleen.\n"
+"\n"
+"Useimmiten on parempi vain sulkea %s:in ikkuna,\n"
+"kuin lopettaa koko ohjelma. Tällöin %s suorittaa\n"
+"tehtäviään asetuksissa määrittämälläsi tavalla."
+
+#: clientgui/UnavailablePage.cpp:186
+msgid "Project temporarily unavailable"
+msgstr "Projekti väliaikaisesti tavoittamattomissa."
+
+#: clientgui/UnavailablePage.cpp:189
+msgid ""
+"The project is temporarily unavailable.\n"
+"\n"
+"Please try again later."
+msgstr ""
+"Projekti on väliaikaisesi tavoittamattomissa.\n"
+"\n"
+"Yritä myöhemmin uudelleen."
+
+#: clientgui/UnavailablePage.cpp:193
+msgid "Account manager temporarily unavailable"
+msgstr "Tilimanageri väliaikaisesi tavoittamattomissa"
+
+#: clientgui/UnavailablePage.cpp:196
+msgid ""
+"The account manager is temporarily unavailable.\n"
+"\n"
+"Please try again later."
+msgstr ""
+"Tilimanageri on väliaikaisesi tavoittamattomissa.\n"
+"\n"
+"Yritä myöhemmin uudelleen."
+
+#: clientgui/ValidateAccountKey.cpp:69
+msgid "Please specify an account key to continue."
+msgstr "Syötä tiliavain jatkaaksesi."
+
+#: clientgui/ValidateAccountKey.cpp:72
+msgid "Invalid Account Key; please enter a valid Account Key"
+msgstr "Virheellinen tiliavain. Syötä käypä tiliavain"
+
+#: clientgui/ValidateAccountKey.cpp:83
+#: clientgui/ValidateEmailAddress.cpp:87
+msgid "Validation conflict"
+msgstr "Varmistusvirhe"
+
+#: clientgui/ValidateEmailAddress.cpp:73
+msgid "Please specify an email address"
+msgstr "Syötä sähköpostiosoite"
+
+#: clientgui/ValidateEmailAddress.cpp:76
+msgid "Invalid email address; please enter a valid email address"
+msgstr "Virheellinen sähköpostiosoite. Syötä käypä sähköpostiosoite."
+
+#: clientgui/ValidateURL.cpp:70
+msgid "Missing URL"
+msgstr "Verkko-osoite puuttuu"
+
+#: clientgui/ValidateURL.cpp:71
+msgid ""
+"Please specify a URL.\n"
+"For example:\n"
+"http://www.example.com/"
+msgstr ""
+"Syötä verkko-osoite.\n"
+"Esimerkiksi:\n"
+"http://www.esimerkki.fi/"
+
+#: clientgui/ValidateURL.cpp:84
+#: clientgui/ValidateURL.cpp:88
+#: clientgui/ValidateURL.cpp:92
+#: clientgui/ValidateURL.cpp:104
+#: clientgui/ValidateURL.cpp:108
+#: clientgui/ValidateURL.cpp:111
+msgid "Invalid URL"
+msgstr "Verkko-osoite on virheellinen"
+
+#: clientgui/ValidateURL.cpp:85
+#: clientgui/ValidateURL.cpp:89
+#: clientgui/ValidateURL.cpp:93
+msgid ""
+"Please specify a valid URL.\n"
+"For example:\n"
+"http://boincproject.example.com"
+msgstr ""
+"Syötä käypä verkko-osoite.\n"
+"Esimerkiksi:\n"
+"http://boincprojekti.esimerkki.fi"
+
+#: clientgui/ValidateURL.cpp:105
+#: clientgui/ValidateURL.cpp:109
+#, c-format
+msgid "'%s' does not contain a valid host name."
+msgstr "\"%s\" ei ole käypä konenimi"
+
+#: clientgui/ValidateURL.cpp:112
+#, c-format
+msgid "'%s' does not contain a valid path."
+msgstr "\"%s\" ei sisällä käypää polkua"
+
+#: clientgui/ViewMessages.cpp:80
+#: clientgui/ViewMessagesGrid.cpp:98
+#: clientgui/ViewProjects.cpp:105
+#: clientgui/ViewProjectsGrid.cpp:159
+#: clientgui/ViewStatistics.cpp:1599
+#: clientgui/ViewTransfers.cpp:94
+#: clientgui/ViewTransfersGrid.cpp:101
+#: clientgui/ViewWork.cpp:102
+#: clientgui/ViewWorkGrid.cpp:103
+msgid "Commands"
+msgstr "Komennot"
+
+#: clientgui/ViewMessages.cpp:84
+#: clientgui/ViewMessagesGrid.cpp:102
+msgid "Copy all messages"
+msgstr "Kopioi kaikki viestit"
+
+#: clientgui/ViewMessages.cpp:91
+#: clientgui/ViewMessagesGrid.cpp:109
+msgid "Copy selected messages"
+msgstr "Kopioi valitut viestit"
+
+#: clientgui/ViewMessages.cpp:136
+msgid "Messages"
+msgstr "Viestit"
+
+#: clientgui/ViewMessages.cpp:158
+#: clientgui/ViewMessagesGrid.cpp:178
+msgid "Copying all messages to the clipboard..."
+msgstr "Kopioidaan kaikki viestit leikepöydälle..."
+
+#: clientgui/ViewMessages.cpp:190
+#: clientgui/ViewTransfers.cpp:190
+#: clientgui/ViewTransfersGrid.cpp:209
+msgid "Aborting transfer..."
+msgstr "Keskeytetään siirtoa..."
+
+#: clientgui/ViewMessagesGrid.cpp:133
+msgid "ID"
+msgstr "ID"
+
+#: clientgui/ViewMessagesGrid.cpp:133
+msgid "Priority"
+msgstr "Prioriteetti"
+
+#: clientgui/ViewMessagesGrid.cpp:156
+msgid "MessagesGrid"
+msgstr "GridViestit"
+
+#: clientgui/ViewMessagesGrid.cpp:208
+msgid "Copying selected messages to Clipboard..."
+msgstr "Kopioidaan valittuja viestejä leikepöydälle..."
+
+#: clientgui/ViewProjects.cpp:109
+#: clientgui/ViewProjectsGrid.cpp:163
+msgid "Update"
+msgstr "Päivitä"
+
+#: clientgui/ViewProjects.cpp:110
+#: clientgui/ViewProjectsGrid.cpp:164
+msgid "Report all completed tasks, get latest credit, get latest preferences, and possibly get more tasks."
+msgstr "Raportoi kaikki valmiit työpaketit, hae viimeisimmät pisteet ja asetukset sekä mahdollisesti lisää paketteja."
+
+#: clientgui/ViewProjects.cpp:117
+#: clientgui/ViewProjects.cpp:568
+#: clientgui/ViewProjectsGrid.cpp:171
+#: clientgui/ViewProjectsGrid.cpp:492
+#: clientgui/ViewWork.cpp:113
+#: clientgui/ViewWork.cpp:511
+#: clientgui/ViewWorkGrid.cpp:114
+#: clientgui/ViewWorkGrid.cpp:382
+msgid "Suspend"
+msgstr "Hyllytä"
+
+#: clientgui/ViewProjects.cpp:118
+#: clientgui/ViewProjects.cpp:568
+#: clientgui/ViewProjectsGrid.cpp:172
+#: clientgui/ViewProjectsGrid.cpp:492
+msgid "Suspend tasks for this project."
+msgstr "Hyllytä tämän projektin työpaketit."
+
+#: clientgui/ViewProjects.cpp:124
+#: clientgui/ViewProjects.cpp:580
+#: clientgui/ViewProjectsGrid.cpp:178
+#: clientgui/ViewProjectsGrid.cpp:504
+msgid "No new tasks"
+msgstr "Ei uusia paketteja"
+
+#: clientgui/ViewProjects.cpp:125
+#: clientgui/ViewProjectsGrid.cpp:179
+msgid "Don't get new tasks for this project."
+msgstr "Älä lataa uusia työpaketteja tälle projektille."
+
+#: clientgui/ViewProjects.cpp:131
+#: clientgui/ViewProjectsGrid.cpp:185
+msgid "Reset project"
+msgstr "Nollaa projekti"
+
+#: clientgui/ViewProjects.cpp:132
+#: clientgui/ViewProjectsGrid.cpp:186
+msgid "Delete all files and tasks associated with this project, and get new tasks.  You can update the project first to report any completed tasks."
+msgstr "Poista tämän projektin kaikki työpaketit ja tiedostot, ja lataa uusia paketteja. Voit ensin päivittää projektin raportoidaksesi valmiit tulokset."
+
+#: clientgui/ViewProjects.cpp:141
+#: clientgui/ViewProjectsGrid.cpp:195
+msgid "Detach"
+msgstr "Irrottaudu"
+
+#: clientgui/ViewProjects.cpp:142
+#: clientgui/ViewProjectsGrid.cpp:196
+msgid "Detach computer from this project.  Tasks in progress will be lost (use 'Update' first to report any completed tasks)."
+msgstr "Irrota kone tästä projektista. Nykyiset työpaketit menetetään (paina \"Päivitä\" raportoidaksesi valmiit tulokset)."
+
+#: clientgui/ViewProjects.cpp:154
+#: clientgui/ViewProjectsGrid.cpp:212
+#: clientgui/ViewStatistics.cpp:385
+msgid "Account"
+msgstr "Tili"
+
+#: clientgui/ViewProjects.cpp:156
+#: clientgui/ViewProjectsGrid.cpp:212
+msgid "Work done"
+msgstr "Pisteet"
+
+#: clientgui/ViewProjects.cpp:157
+#: clientgui/ViewProjectsGrid.cpp:212
+msgid "Avg. work done"
+msgstr "Pisteet keskim."
+
+#: clientgui/ViewProjects.cpp:158
+#: clientgui/ViewProjectsGrid.cpp:212
+msgid "Resource share"
+msgstr "Resurssien jako"
+
+#: clientgui/ViewProjects.cpp:159
+#: clientgui/ViewProjectsGrid.cpp:212
+#: clientgui/ViewTransfers.cpp:123
+#: clientgui/ViewTransfersGrid.cpp:129
+#: clientgui/ViewWork.cpp:139
+#: clientgui/ViewWorkGrid.cpp:140
+msgid "Status"
+msgstr "Tila"
+
+#: clientgui/ViewProjects.cpp:172
+#: clientgui/ViewProjectsGrid.cpp:235
+msgid "Projects"
+msgstr "Projektit"
+
+#: clientgui/ViewProjects.cpp:195
+#: clientgui/ViewProjectsGrid.cpp:258
+msgid "Updating project..."
+msgstr "Päivitetään projektia..."
+
+#: clientgui/ViewProjects.cpp:223
+#: clientgui/ViewProjectsGrid.cpp:288
+msgid "Resuming project..."
+msgstr "Jatketaan projektia..."
+
+#: clientgui/ViewProjects.cpp:227
+#: clientgui/ViewProjectsGrid.cpp:292
+msgid "Suspending project..."
+msgstr "Hyllytetään projektia..."
+
+#: clientgui/ViewProjects.cpp:255
+#: clientgui/ViewProjectsGrid.cpp:321
+msgid "Telling project to allow additional task downloads..."
+msgstr "Käsketään projektin lähettää uusia työpaketteja..."
+
+#: clientgui/ViewProjects.cpp:259
+#: clientgui/ViewProjectsGrid.cpp:325
+msgid "Telling project to not fetch any additional tasks..."
+msgstr "Käsketään projektin olemaan lähettämättä uusia työpaketteja..."
+
+#: clientgui/ViewProjects.cpp:293
+#: clientgui/ViewProjectsGrid.cpp:358
+msgid "Resetting project..."
+msgstr "Nollataan projektia..."
+
+#: clientgui/ViewProjects.cpp:299
+#: clientgui/ViewProjectsGrid.cpp:362
+#, c-format
+msgid "Are you sure you want to reset project '%s'?"
+msgstr "Haluatko varmasti nollata projektin \"%s\"?"
+
+#: clientgui/ViewProjects.cpp:305
+#: clientgui/ViewProjectsGrid.cpp:366
+msgid "Reset Project"
+msgstr "Nollaa projekti"
+
+#: clientgui/ViewProjects.cpp:343
+#: clientgui/ViewProjectsGrid.cpp:404
+msgid "Detaching from project..."
+msgstr "Irrottaudutaan projektista..."
+
+#: clientgui/ViewProjects.cpp:384
+#: clientgui/ViewProjectsGrid.cpp:442
+#: clientgui/ViewWork.cpp:318
+#: clientgui/ViewWorkGrid.cpp:339
+msgid "Launching browser..."
+msgstr "Käynnistetään selainta..."
+
+#: clientgui/ViewProjects.cpp:564
+#: clientgui/ViewProjectsGrid.cpp:488
+#: clientgui/ViewWork.cpp:505
+#: clientgui/ViewWorkGrid.cpp:376
+msgid "Resume"
+msgstr "Jatka"
+
+#: clientgui/ViewProjects.cpp:564
+#: clientgui/ViewProjectsGrid.cpp:488
+msgid "Resume tasks for this project."
+msgstr "Jatka tämän projektin suorittamista."
+
+#: clientgui/ViewProjects.cpp:576
+#: clientgui/ViewProjectsGrid.cpp:500
+msgid "Allow new tasks"
+msgstr "Salli uusi työ"
+
+#: clientgui/ViewProjects.cpp:576
+#: clientgui/ViewProjectsGrid.cpp:500
+msgid "Allow fetching new tasks for this project."
+msgstr "Salli tämän projektin ladata uusia työpaketteja."
+
+#: clientgui/ViewProjects.cpp:580
+#: clientgui/ViewProjectsGrid.cpp:504
+msgid "Don't fetch new tasks for this project."
+msgstr "Älä lataa uusia työpaketteja tälle projektille"
+
+#: clientgui/ViewProjects.cpp:682
+#: clientgui/ViewProjectsGrid.cpp:802
+msgid "Suspended by user"
+msgstr "Käyttäjän hyllyttämä"
+
+#: clientgui/ViewProjects.cpp:685
+#: clientgui/ViewProjectsGrid.cpp:805
+msgid "Won't get new tasks"
+msgstr "Älä lataa uutta työtä"
+
+#: clientgui/ViewProjects.cpp:688
+#: clientgui/ViewProjectsGrid.cpp:808
+msgid "Scheduler request pending"
+msgstr "Odotetaan pyyntöä aikatauluttajalle"
+
+#: clientgui/ViewProjects.cpp:695
+#: clientgui/ViewProjectsGrid.cpp:815
+msgid "Communication deferred "
+msgstr "Yhteyttä lykätty "
+
+#: clientgui/ViewResources.cpp:82
+msgid "total disk usage"
+msgstr "levyn kokonaiskäyttö"
+
+#: clientgui/ViewResources.cpp:92
+msgid "disk usage by BOINC projects"
+msgstr "BOINC-projektien levynkäyttö"
+
+#: clientgui/ViewResources.cpp:111
+msgid "Disk"
+msgstr "Levy"
+
+#: clientgui/ViewResources.cpp:205
+msgid "not attached to any BOINC project - 0 bytes"
+msgstr "yhteenkään BOINC-projektiin ei ole liitytty - 0 tavua"
+
+#: clientgui/ViewResources.cpp:221
+msgid "free disk space - "
+msgstr "vapaata levytilaa - "
+
+#: clientgui/ViewResources.cpp:227
+msgid "used by BOINC - "
+msgstr "BOINC:in käytössä - "
+
+#: clientgui/ViewResources.cpp:233
+msgid "used by other programs - "
+msgstr "muiden ohjelmien käytössä - "
+
+#: clientgui/ViewStatistics.cpp:1126
+msgid "User Total"
+msgstr "Käyttäjän kokonaispisteet"
+
+#: clientgui/ViewStatistics.cpp:1127
+msgid "User Average"
+msgstr "Käyttäjän keskiarvo"
+
+#: clientgui/ViewStatistics.cpp:1128
+msgid "Host Total"
+msgstr "Koneen kokonaispisteet"
+
+#: clientgui/ViewStatistics.cpp:1129
+msgid "Host Average"
+msgstr "Koneen keskiarvo"
+
+#: clientgui/ViewStatistics.cpp:1234
+#, c-format
+msgid "Last update: %.0f days ago"
+msgstr "Edellinen päivitys: %.0f päivää sitten"
+
+#: clientgui/ViewStatistics.cpp:1603
+msgid "Show user total"
+msgstr "Käyttäjän kokonaispisteet"
+
+#: clientgui/ViewStatistics.cpp:1604
+msgid "Show total credit for user"
+msgstr "Näytä käyttäjän kokonaispisteet"
+
+#: clientgui/ViewStatistics.cpp:1610
+msgid "Show user average"
+msgstr "Käyttäjän keskiarvo"
+
+#: clientgui/ViewStatistics.cpp:1611
+msgid "Show average credit for user"
+msgstr "Näytä käyttäjän keskimääräiset pisteet"
+
+#: clientgui/ViewStatistics.cpp:1617
+msgid "Show host total"
+msgstr "Koneen kokonaispisteet"
+
+#: clientgui/ViewStatistics.cpp:1618
+msgid "Show total credit for host"
+msgstr "Näytä koneen kokonaispisteet"
+
+#: clientgui/ViewStatistics.cpp:1624
+msgid "Show host average"
+msgstr "Koneen keskiarvo"
+
+#: clientgui/ViewStatistics.cpp:1625
+msgid "Show average credit for host"
+msgstr "Näytä koneen keskimääräiset pisteet"
+
+#: clientgui/ViewStatistics.cpp:1634
+msgid "< &Previous project"
+msgstr "< &Edellinen projekti"
+
+#: clientgui/ViewStatistics.cpp:1635
+msgid "Show chart for previous project"
+msgstr "Näytä edellisen projektin taulukko"
+
+#: clientgui/ViewStatistics.cpp:1640
+msgid "&Next project >"
+msgstr "&Seuraava projekti >"
+
+#: clientgui/ViewStatistics.cpp:1641
+msgid "Show chart for next project"
+msgstr "Näytä seuraavan projektin taulukko"
+
+#: clientgui/ViewStatistics.cpp:1646
+msgid "Mode view"
+msgstr "Näkymä"
+
+#: clientgui/ViewStatistics.cpp:1649
+msgid "All projects"
+msgstr "Kaikki projektit"
+
+#: clientgui/ViewStatistics.cpp:1650
+msgid "Show all projects, one chart per project"
+msgstr "Näytä kaikki projektit, jokainen omassa taulukossaan"
+
+#: clientgui/ViewStatistics.cpp:1656
+msgid "One project"
+msgstr "Yksi projekti"
+
+#: clientgui/ViewStatistics.cpp:1657
+msgid "Show one chart with selected project"
+msgstr "Näytä yksi taulukko valitulle projektille"
+
+#: clientgui/ViewStatistics.cpp:1663
+msgid "All projects(sum)"
+msgstr "Kaikki projektit (yhdessä)"
+
+#: clientgui/ViewStatistics.cpp:1664
+msgid "Show one chart with all projects"
+msgstr "Näytä kaikki projektit yhdessä taulukossa"
+
+#: clientgui/ViewStatistics.cpp:1681
+msgid "Statistics"
+msgstr "Tilastot"
+
+#: clientgui/ViewStatistics.cpp:1701
+#: clientgui/ViewStatistics.cpp:1722
+#: clientgui/ViewStatistics.cpp:1743
+#: clientgui/ViewStatistics.cpp:1765
+#: clientgui/ViewStatistics.cpp:1786
+#: clientgui/ViewStatistics.cpp:1809
+#: clientgui/ViewStatistics.cpp:1832
+#: clientgui/ViewStatistics.cpp:1855
+#: clientgui/ViewStatistics.cpp:1877
+msgid "Updating charts..."
+msgstr "Päivitetään taulukkoja..."
+
+#: clientgui/ViewTransfers.cpp:98
+#: clientgui/ViewTransfersGrid.cpp:105
+msgid "Retry Now"
+msgstr "Yritä uudelleen nyt"
+
+#: clientgui/ViewTransfers.cpp:99
+#: clientgui/ViewTransfersGrid.cpp:106
+msgid "Click 'Retry now' to transfer the file now"
+msgstr "Paina \"Yritä uudelleen nyt\" siirtääksesi tiedoston heti"
+
+#: clientgui/ViewTransfers.cpp:105
+#: clientgui/ViewTransfersGrid.cpp:112
+msgid "Abort Transfer"
+msgstr "Keskeytä siirto"
+
+#: clientgui/ViewTransfers.cpp:106
+#: clientgui/ViewTransfersGrid.cpp:113
+msgid "Click 'Abort transfer' to delete the file from the transfer queue. This will prevent you from being granted credit for this result."
+msgstr "Paina \"Keskeytä siirto\" poistaaksesi tiedoston siirtojonosta. Tällöin et saa pisteitä tästä paketista."
+
+#: clientgui/ViewTransfers.cpp:118
+#: clientgui/ViewTransfersGrid.cpp:129
+msgid "File"
+msgstr "Tiedosto"
+
+#: clientgui/ViewTransfers.cpp:119
+#: clientgui/ViewTransfersGrid.cpp:129
+#: clientgui/ViewWork.cpp:136
+#: clientgui/ViewWorkGrid.cpp:140
+msgid "Progress"
+msgstr "Suoritettu"
+
+#: clientgui/ViewTransfers.cpp:120
+#: clientgui/ViewTransfersGrid.cpp:129
+msgid "Size"
+msgstr "Koko"
+
+#: clientgui/ViewTransfers.cpp:121
+#: clientgui/ViewTransfersGrid.cpp:129
+msgid "Elapsed Time"
+msgstr "Kulunut aika"
+
+#: clientgui/ViewTransfers.cpp:122
+#: clientgui/ViewTransfersGrid.cpp:129
+msgid "Speed"
+msgstr "Nopeus"
+
+#: clientgui/ViewTransfers.cpp:136
+#: clientgui/ViewTransfersGrid.cpp:153
+msgid "Transfers"
+msgstr "Siirrot"
+
+#: clientgui/ViewTransfers.cpp:159
+#: clientgui/ViewTransfersGrid.cpp:176
+msgid "Retrying transfer now..."
+msgstr "Yritetään siirtoa uudelleen..."
+
+#: clientgui/ViewTransfers.cpp:193
+#: clientgui/ViewTransfersGrid.cpp:213
+#, c-format
+msgid ""
+"Are you sure you want to abort this file transfer '%s'?\n"
+"NOTE: Aborting a transfer will invalidate a task and you\n"
+"will not receive credit for it."
+msgstr ""
+"Haluatko varmasti keskeyttää tämän tiedoston \"%s\"siirron?\n"
+"HUOMIO: Siirron keskeyttäminen mitätöi paketin, etkä saa\n"
+"siitä pisteitä."
+
+#: clientgui/ViewTransfers.cpp:201
+#: clientgui/ViewTransfersGrid.cpp:221
+msgid "Abort File Transfer"
+msgstr "Keskeytä tiedostojen siirrot"
+
+#: clientgui/ViewTransfers.cpp:522
+#: clientgui/ViewTransfersGrid.cpp:408
+msgid "Retry in "
+msgstr "Uusi yritys: "
+
+#: clientgui/ViewTransfers.cpp:524
+#: clientgui/ViewTransfersGrid.cpp:410
+#: clientgui/ViewWork.cpp:748
+#: clientgui/ViewWorkGrid.cpp:665
+msgid "Download failed"
+msgstr "Lataaminen epäonnistui"
+
+#: clientgui/ViewTransfers.cpp:526
+#: clientgui/ViewTransfersGrid.cpp:412
+#: clientgui/ViewWork.cpp:797
+#: clientgui/ViewWorkGrid.cpp:714
+msgid "Upload failed"
+msgstr "Lähettäminen epäonnistui"
+
+#: clientgui/ViewTransfers.cpp:529
+#: clientgui/ViewTransfers.cpp:542
+#: clientgui/ViewTransfersGrid.cpp:415
+#: clientgui/ViewTransfersGrid.cpp:428
+#: clientgui/ViewWork.cpp:759
+#: clientgui/ViewWorkGrid.cpp:676
+msgid "Suspended"
+msgstr "Hyllytetty"
+
+#: clientgui/ViewTransfers.cpp:532
+#: clientgui/ViewTransfersGrid.cpp:418
+#: clientgui/ViewWork.cpp:799
+#: clientgui/ViewWorkGrid.cpp:716
+msgid "Uploading"
+msgstr "Lähetetään"
+
+#: clientgui/ViewTransfers.cpp:532
+#: clientgui/ViewTransfersGrid.cpp:418
+#: clientgui/ViewWork.cpp:750
+#: clientgui/ViewWorkGrid.cpp:667
+msgid "Downloading"
+msgstr "Ladataan"
+
+#: clientgui/ViewTransfers.cpp:534
+#: clientgui/ViewTransfersGrid.cpp:420
+msgid "Upload pending"
+msgstr "Odotetaan lähettämistä"
+
+#: clientgui/ViewTransfers.cpp:534
+#: clientgui/ViewTransfersGrid.cpp:420
+msgid "Download pending"
+msgstr "Odotetaan lataamista"
+
+#: clientgui/ViewWork.cpp:107
+#: clientgui/ViewWorkGrid.cpp:108
+msgid "Show application graphics in a window."
+msgstr "Näytä sovelluksen grafiikat ikkunassa."
+
+#: clientgui/ViewWork.cpp:114
+#: clientgui/ViewWorkGrid.cpp:115
+msgid "Suspend work for this result."
+msgstr "Hyllytä tämä työpaketti"
+
+#: clientgui/ViewWork.cpp:120
+#: clientgui/ViewWorkGrid.cpp:121
+msgid "Abort"
+msgstr "Keskeytä"
+
+#: clientgui/ViewWork.cpp:121
+#: clientgui/ViewWorkGrid.cpp:122
+msgid "Abandon work on the result. You will get no credit for it."
+msgstr "Haluatko varmasti hylätä tämän työpaketin. Et saa siitä pisteitä."
+
+#: clientgui/ViewWork.cpp:133
+#: clientgui/ViewWorkGrid.cpp:140
+msgid "Application"
+msgstr "Sovellus"
+
+#: clientgui/ViewWork.cpp:134
+#: clientgui/ViewWorkGrid.cpp:140
+msgid "Name"
+msgstr "Nimi"
+
+#: clientgui/ViewWork.cpp:135
+#: clientgui/ViewWorkGrid.cpp:140
+msgid "CPU time"
+msgstr "Suoritinaika"
+
+#: clientgui/ViewWork.cpp:137
+#: clientgui/ViewWorkGrid.cpp:140
+msgid "To completion"
+msgstr "Aikaa valmistumiseen"
+
+#: clientgui/ViewWork.cpp:138
+#: clientgui/ViewWorkGrid.cpp:140
+msgid "Report deadline"
+msgstr "Raportoinnin takaraja"
+
+#: clientgui/ViewWork.cpp:152
+#: clientgui/ViewWorkGrid.cpp:168
+msgid "Tasks"
+msgstr "Työpaketit"
+
+#: clientgui/ViewWork.cpp:177
+#: clientgui/ViewWorkGrid.cpp:194
+msgid "Resuming task..."
+msgstr "Jatketaan pakettia..."
+
+#: clientgui/ViewWork.cpp:181
+#: clientgui/ViewWorkGrid.cpp:198
+msgid "Suspending task..."
+msgstr "Hyllytetään pakettia..."
+
+#: clientgui/ViewWork.cpp:207
+#: clientgui/ViewWorkGrid.cpp:224
+msgid "Showing graphics for task..."
+msgstr "Näytetään paketin grafiikkoja..."
+
+#: clientgui/ViewWork.cpp:272
+#: clientgui/ViewWorkGrid.cpp:290
+msgid "Aborting result..."
+msgstr "Keskeytetään pakettia..."
+
+#: clientgui/ViewWork.cpp:280
+#, c-format
+msgid ""
+"Are you sure you want to abort this task '%s'?\n"
+"(Progress: %s, Status: %s)"
+msgstr ""
+"Haluatko varmasti keskeyttää tämän paketin \"%s\"?\n"
+"(suoritettu: %s, tila: %s)"
+
+#: clientgui/ViewWork.cpp:289
+#: clientgui/ViewWorkGrid.cpp:310
+msgid "Abort task"
+msgstr "Keskeytä paketti"
+
+#: clientgui/ViewWork.cpp:506
+#: clientgui/ViewWorkGrid.cpp:377
+msgid "Resume work for this task."
+msgstr "Jatka tämän paketin laskemista."
+
+#: clientgui/ViewWork.cpp:512
+#: clientgui/ViewWorkGrid.cpp:383
+msgid "Suspend work for this task."
+msgstr "Hyllytä tämä paketti."
+
+#: clientgui/ViewWork.cpp:744
+#: clientgui/ViewWorkGrid.cpp:661
+msgid "New"
+msgstr "Uusi"
+
+#: clientgui/ViewWork.cpp:755
+#: clientgui/ViewWorkGrid.cpp:672
+msgid "Project suspended by user"
+msgstr "Projekti on käyttäjän hyllyttämä"
+
+#: clientgui/ViewWork.cpp:757
+#: clientgui/ViewWorkGrid.cpp:674
+msgid "Task suspended by user"
+msgstr "Tehtävä on käyttäjän hyllyttämä"
+
+#: clientgui/ViewWork.cpp:761
+#: clientgui/ViewWorkGrid.cpp:678
+msgid " - on batteries"
+msgstr " - kone käy akulla"
+
+#: clientgui/ViewWork.cpp:764
+#: clientgui/ViewWorkGrid.cpp:681
+msgid " - user active"
+msgstr " - käyttäjä työskentelee"
+
+#: clientgui/ViewWork.cpp:767
+#: clientgui/ViewWorkGrid.cpp:684
+msgid " - computation suspended"
+msgstr " - laskenta hyllytetty"
+
+#: clientgui/ViewWork.cpp:770
+#: clientgui/ViewWorkGrid.cpp:687
+msgid " - time of day"
+msgstr " - kellonaika"
+
+#: clientgui/ViewWork.cpp:773
+#: clientgui/ViewWorkGrid.cpp:690
+msgid " - CPU benchmarks"
+msgstr " - suorituskykytestit"
+
+#: clientgui/ViewWork.cpp:776
+#: clientgui/ViewWorkGrid.cpp:693
+msgid " - need disk space"
+msgstr " - tarvitaan levytilaa"
+
+#: clientgui/ViewWork.cpp:780
+#: clientgui/ViewWorkGrid.cpp:697
+msgid "Waiting for memory"
+msgstr "Odotetaan muistia"
+
+#: clientgui/ViewWork.cpp:782
+#: clientgui/ViewWorkGrid.cpp:699
+msgid "Running"
+msgstr "Suoritetaan"
+
+#: clientgui/ViewWork.cpp:784
+#: clientgui/ViewWorkGrid.cpp:701
+msgid "Waiting to run"
+msgstr "Odotetaan suoritusta"
+
+#: clientgui/ViewWork.cpp:786
+#: clientgui/ViewWork.cpp:789
+#: clientgui/ViewWorkGrid.cpp:703
+#: clientgui/ViewWorkGrid.cpp:706
+msgid "Ready to start"
+msgstr "Valmis laskemiseen"
+
+#: clientgui/ViewWork.cpp:793
+#: clientgui/ViewWorkGrid.cpp:710
+msgid "Computation error"
+msgstr "Laskentavirhe"
+
+#: clientgui/ViewWork.cpp:805
+#: clientgui/ViewWorkGrid.cpp:722
+msgid "Aborted by user"
+msgstr "Käyttäjän hylkäämä"
+
+#: clientgui/ViewWork.cpp:808
+#: clientgui/ViewWorkGrid.cpp:725
+msgid "Aborted by project"
+msgstr "Projektin hylkäämä"
+
+#: clientgui/ViewWork.cpp:811
+#: clientgui/ViewWorkGrid.cpp:728
+msgid "Aborted"
+msgstr "Hylätty"
+
+#: clientgui/ViewWork.cpp:816
+#: clientgui/ViewWorkGrid.cpp:733
+msgid "Acknowledged"
+msgstr "Hyväksytty"
+
+#: clientgui/ViewWork.cpp:818
+#: clientgui/ViewWorkGrid.cpp:735
+msgid "Ready to report"
+msgstr "Valmis raportointiin"
+
+#: clientgui/ViewWork.cpp:820
+#: clientgui/ViewWorkGrid.cpp:737
+#, c-format
+msgid "Error: invalid state '%d'"
+msgstr "Virhe: virhetila \"%d\""
+
+#: clientgui/ViewWorkGrid.cpp:301
+#, c-format
+msgid ""
+"Are you sure you want to abort this task '%s'?\n"
+"(Progress: %s %%, Status: %s)"
+msgstr ""
+"Haluatko varmasti keskeyttää tämän paketin \"%s\"?\n"
+"(suoritettu: %s, tila: %s)"
+
+#: clientgui/WelcomePage.cpp:317
+msgid ""
+"We'll now guide you through the process of attaching\n"
+"to a project."
+msgstr ""
+"Tämä toiminto opastaa sinua projektiin\n"
+"liittymisessä."
+
+#: clientgui/WelcomePage.cpp:322
+#, c-format
+msgid "&Stop using%s"
+msgstr "&Lopeta %s:n käyttäminen"
+
+#: clientgui/WelcomePage.cpp:329
+#, c-format
+msgid ""
+"We'll now remove this computer from %s.  From now on,\n"
+"attach and detach projects directly from this computer.\n"
+msgstr ""
+"Kone poistetaan nyt %s:sta. Tästä lähtien sinun täytyy\n"
+"liittää ja irrottaa projektit suoraan tältä koneelta.\n"
+
+#: clientgui/WelcomePage.cpp:339
+msgid "Account manager"
+msgstr "Tilimanageri"
+
+#: clientgui/WelcomePage.cpp:342
+msgid ""
+"We'll now guide you through the process of attaching\n"
+"to an account manager.\n"
+"\n"
+"If you want to attach to a single project, click Cancel,\n"
+"then select the 'Attach to project' menu item instead."
+msgstr ""
+"Tämä toiminto opastaa sinua\n"
+"tilimanageriin liittymisessä.\n"
+"\n"
+"Jos haluat liittyä johonkin projektiin,\n"
+"paina \"Peruuta\", ja valitse kohta \"Liity projektiin\"."
+
+#: clientgui/WelcomePage.cpp:354
+msgid "Debug Flags"
+msgstr "Debuggausvalitsimet"
+
+#: clientgui/WelcomePage.cpp:357
+msgid "Project Properties Failure"
+msgstr "Virhe projektin asetuksissa"
+
+#: clientgui/WelcomePage.cpp:360
+msgid "Project Comm Failure"
+msgstr "Projektin yhteysvirhe"
+
+#: clientgui/WelcomePage.cpp:363
+msgid "Project Properties URL Failure"
+msgstr "Virhe projektin asetusten verkko-osoitteessa"
+
+#: clientgui/WelcomePage.cpp:366
+msgid "Account Creation Disabled"
+msgstr "Tilin luominen estetty"
+
+#: clientgui/WelcomePage.cpp:369
+msgid "Client Account Creation Disabled"
+msgstr "Asiakastilin luominen estetty"
+
+#: clientgui/WelcomePage.cpp:372
+msgid "Account Already Exists"
+msgstr "Tili on jo olemassa"
+
+#: clientgui/WelcomePage.cpp:375
+msgid "Project Already Attached"
+msgstr "Projektiin on jo liitytty"
+
+#: clientgui/WelcomePage.cpp:378
+msgid "Project Attach Failure"
+msgstr "Virhe liityttäessä projektiin"
+
+#: clientgui/WelcomePage.cpp:381
+msgid "Google Comm Failure"
+msgstr "Google-yhteysvirhe"
+
+#: clientgui/WelcomePage.cpp:384
+msgid "Yahoo Comm Failure"
+msgstr "Yahoo-yhteysvirhe"
+
+#: clientgui/WelcomePage.cpp:387
+msgid "Net Detection Failure"
+msgstr "Verkon tunnistusvirhe"
+
+#: clientgui/WelcomePage.cpp:392
+msgid "To continue, click Next."
+msgstr "Paina \"Seuraava\" jatkaaksesi."
+
+#: clientgui/WizardAccountManager.cpp:437
+#: clientgui/WizardAttachProject.cpp:474
+msgid "Do you really want to cancel?"
+msgstr "Haluatko varmasti peruuttaa?"
+
+#: clientgui/WizardAccountManager.cpp:438
+#: clientgui/WizardAttachProject.cpp:475
+msgid "Question"
+msgstr "Kysymys"
+
+#: clientgui/wizardex.cpp:359
+#: clientgui/wizardex.cpp:553
+msgid "&Next >"
+msgstr "&Seuraava >"
+
+#: clientgui/wizardex.cpp:365
+msgid "< &Back"
+msgstr "< &Takaisin"
+
+#: clientgui/wizardex.cpp:551
+msgid "&Finish"
+msgstr "&Valmis"
+
+#: clientgui/common/wxFlatNotebook.cpp:182
+#, c-format
+msgid "New page inserted. Index = %i"
+msgstr "Uusi sivu asetettu. Indeksi = %i"
+
+#: clientgui/common/wxFlatNotebook.cpp:187
+#, c-format
+msgid "New page appended. Index = %i"
+msgstr "Uusi sivu lisätty. Indeksi = %i"
+
+#: clientgui/common/wxFlatNotebook.cpp:2048
+#, c-format
+msgid "Old Page Index = %i"
+msgstr "Vanha sivuindeksi = %i"
+
+#: clientgui/common/wxFlatNotebook.cpp:2053
+#, c-format
+msgid "OnDropTarget: index by HitTest = %i"
+msgstr "OnDropTarget: index by HitTest = %i"
+
+#: clientgui/common/wxPieCtrl.cpp:209
+msgid "Pie Ctrl"
+msgstr "Ympyrädiagrammin hallinta"
+
+#: clientgui/DlgAbout.h:52
+msgid "About BOINC Manager"
+msgstr "Tietoja BOINC Manager:ista"
+
+#: clientgui/DlgAdvPreferences.h:31
+msgid ""
+"specify work start and stop hours in format HH:MM-HH:MM\n"
+"start must be lower than stop"
+msgstr ""
+"määritä työskentelyn aloitamis- ja lopettamisajat (muotoa HH:MM-HH:MM)\n"
+"alun täytyy olla loppua aikaisempi"
+
+#: clientgui/DlgAdvPreferences.h:32
+msgid ""
+"specify network usage start and stop hours in format HH:MM-HH:MM\n"
+"start must be lower than stop"
+msgstr ""
+"määritä verkon käytön aloitamis- ja lopettamisajat (muotoa HH:MM-HH:MM)\n"
+"alun täytyy olla loppua aikaisempi"
+
+#: clientgui/DlgOptions.h:49
+msgid "BOINC Manager - Options"
+msgstr "BOINC Manager - Asetukset"
+
+#: clientgui/DlgSelectComputer.h:49
+msgid "BOINC Manager - Select Computer"
+msgstr "BOINC Manager - Valitse tietokone"
+
