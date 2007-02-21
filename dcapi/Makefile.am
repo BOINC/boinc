@@ -17,5 +17,9 @@ if WITH_LOCAL
 SUBDIRS += local
 endif
 
+if HAVE_JAVA
+SUBDIRS += java
+endif
+
 aclocaldir = $(datadir)/aclocal
 dist_aclocal_DATA = cf/dcapi.m4
