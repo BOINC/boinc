@@ -1821,3 +1821,19 @@ Rom    20 Feb 2007
     client/
         app.h
         app_control.C
+
+Charlie 20 Feb 2007
+    MAC: Better work-around for bugs in wxMac-2.8.0 wxListCtrl::SetColumn() 
+         which failed to restore proper column widths from saved info than my 
+         fix of 22 Jan.  Use the new DataBrowser implementation of wxListCtrl, 
+         but add calls to SetColumnWidth() and GetColumnWidth().
+    - Mac: Remove obsolete files ViewTransfers.cpp,.h, ViewWork.cpp,.h, 
+        ViewProjects.cpp,.h from XCode project.
+
+    clientgui/
+        BOINCGUIApp.cpp
+        BOINCListCtrl.cpp
+        sg_DlgMessages.cpp
+    mac_build/
+        boinc.xcodeproj/
+            project.pbxproj

@@ -121,11 +121,6 @@
 		DD3E15120A774397007E0084 /* ValidateAccountKey.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DD81C42707C5D1D70098A04D /* ValidateAccountKey.cpp */; };
 		DD3E15130A774397007E0084 /* ValidateEmailAddress.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DDBDF4A90987091800464F83 /* ValidateEmailAddress.cpp */; };
 		DD3E15140A774397007E0084 /* ValidateURL.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DD81C42607C5D1D70098A04D /* ValidateURL.cpp */; };
-		DD3E15150A774397007E0084 /* ViewMessages.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DD81C42507C5D1D70098A04D /* ViewMessages.cpp */; };
-		DD3E15160A774397007E0084 /* ViewProjects.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DD81C42407C5D1D70098A04D /* ViewProjects.cpp */; };
-		DD3E15170A774397007E0084 /* ViewResources.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DD81C42307C5D1D70098A04D /* ViewResources.cpp */; };
-		DD3E15180A774397007E0084 /* ViewTransfers.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DD81C42207C5D1D70098A04D /* ViewTransfers.cpp */; };
-		DD3E15190A774397007E0084 /* ViewWork.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DD81C42107C5D1D70098A04D /* ViewWork.cpp */; };
 		DD3E151A0A774397007E0084 /* ViewStatistics.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DDEF388E0802B73500E87552 /* ViewStatistics.cpp */; };
 		DD3E151B0A774397007E0084 /* UnavailablePage.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DD58C46108F334EA00C1DF66 /* UnavailablePage.cpp */; };
 		DD3E151C0A774397007E0084 /* WelcomePage.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DD58C46308F334EA00C1DF66 /* WelcomePage.cpp */; };
@@ -209,13 +204,14 @@
 		DD73E3B608A07FC600656EB1 /* gui_rpc_client_ops.C in Sources */ = {isa = PBXBuildFile; fileRef = DD73E34E08A0694000656EB1 /* gui_rpc_client_ops.C */; };
 		DD7748B50A356D6C0025D05E /* SetupSecurity.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DD7748B40A356D6C0025D05E /* SetupSecurity.cpp */; };
 		DD7749680A3596380025D05E /* Security.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DD1929D80918A2F100C31BCF /* Security.framework */; };
+		DD7DD79A0B8BFA2F00B11279 /* ViewMessagesGrid.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DDCDCDF00B532433009BB03C /* ViewMessagesGrid.cpp */; };
+		DD7DD79B0B8BFA4000B11279 /* ViewResources.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DD81C42307C5D1D70098A04D /* ViewResources.cpp */; };
+		DD7DD7C90B8BFD4800B11279 /* ViewMessages.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DD81C42507C5D1D70098A04D /* ViewMessages.cpp */; };
 		DDA12A6D0A36974600FBDD12 /* Security.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DD1929D80918A2F100C31BCF /* Security.framework */; };
 		DDA12AA20A369B5500FBDD12 /* SetupSecurity.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DD7748B40A356D6C0025D05E /* SetupSecurity.cpp */; };
 		DDA12AAE0A369C5800FBDD12 /* SecurityUtility.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DDA12AAD0A369C5800FBDD12 /* SecurityUtility.cpp */; };
 		DDAEC9FF07FA5A5C00A7BC36 /* SetVersion.C in Sources */ = {isa = PBXBuildFile; fileRef = DDAEC9E707FA58A000A7BC36 /* SetVersion.C */; };
 		DDB693500ABFE9C600689FD8 /* procinfo_mac.C in Sources */ = {isa = PBXBuildFile; fileRef = DDB6934F0ABFE9C600689FD8 /* procinfo_mac.C */; };
-		DDCDCDF40B532433009BB03C /* ViewMessagesGrid.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DDCDCDF00B532433009BB03C /* ViewMessagesGrid.cpp */; };
-		DDCDCDF50B532433009BB03C /* ViewMessagesGrid.h in CopyFiles */ = {isa = PBXBuildFile; fileRef = DDCDCDF10B532433009BB03C /* ViewMessagesGrid.h */; };
 		DDCDCDF60B532433009BB03C /* ViewProjectsGrid.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DDCDCDF20B532433009BB03C /* ViewProjectsGrid.cpp */; };
 		DDCDCDF70B532433009BB03C /* ViewProjectsGrid.h in CopyFiles */ = {isa = PBXBuildFile; fileRef = DDCDCDF30B532433009BB03C /* ViewProjectsGrid.h */; };
 		DDD095490A3EDF2D00C95BA4 /* switcher.C in Sources */ = {isa = PBXBuildFile; fileRef = DDD095480A3EDF2D00C95BA4 /* switcher.C */; };
@@ -776,7 +772,6 @@
 			files = (
 				DD3E15360A774397007E0084 /* SystemMenu.bundle in CopyFiles */,
 				DD2EA0860B4B22010073B1AA /* BOINCGridCtrl.h in CopyFiles */,
-				DDCDCDF50B532433009BB03C /* ViewMessagesGrid.h in CopyFiles */,
 				DDCDCDF70B532433009BB03C /* ViewProjectsGrid.h in CopyFiles */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -1001,10 +996,7 @@
 		DD81C41407C5D13E0098A04D /* LogBOINC.cpp */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.cpp.cpp; name = LogBOINC.cpp; path = ../clientgui/LogBOINC.cpp; sourceTree = SOURCE_ROOT; };
 		DD81C41607C5D13E0098A04D /* MainDocument.cpp */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.cpp.cpp; name = MainDocument.cpp; path = ../clientgui/MainDocument.cpp; sourceTree = SOURCE_ROOT; };
 		DD81C41707C5D13E0098A04D /* stdwx.cpp */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.cpp.cpp; name = stdwx.cpp; path = ../clientgui/stdwx.cpp; sourceTree = SOURCE_ROOT; };
-		DD81C42107C5D1D70098A04D /* ViewWork.cpp */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.cpp.cpp; name = ViewWork.cpp; path = ../clientgui/ViewWork.cpp; sourceTree = SOURCE_ROOT; };
-		DD81C42207C5D1D70098A04D /* ViewTransfers.cpp */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.cpp.cpp; name = ViewTransfers.cpp; path = ../clientgui/ViewTransfers.cpp; sourceTree = SOURCE_ROOT; };
 		DD81C42307C5D1D70098A04D /* ViewResources.cpp */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.cpp.cpp; name = ViewResources.cpp; path = ../clientgui/ViewResources.cpp; sourceTree = SOURCE_ROOT; };
-		DD81C42407C5D1D70098A04D /* ViewProjects.cpp */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.cpp.cpp; name = ViewProjects.cpp; path = ../clientgui/ViewProjects.cpp; sourceTree = SOURCE_ROOT; };
 		DD81C42507C5D1D70098A04D /* ViewMessages.cpp */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.cpp.cpp; name = ViewMessages.cpp; path = ../clientgui/ViewMessages.cpp; sourceTree = SOURCE_ROOT; };
 		DD81C42607C5D1D70098A04D /* ValidateURL.cpp */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.cpp.cpp; name = ValidateURL.cpp; path = ../clientgui/ValidateURL.cpp; sourceTree = SOURCE_ROOT; };
 		DD81C42707C5D1D70098A04D /* ValidateAccountKey.cpp */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.cpp.cpp; name = ValidateAccountKey.cpp; path = ../clientgui/ValidateAccountKey.cpp; sourceTree = SOURCE_ROOT; };
@@ -1020,12 +1012,9 @@
 		DD81C44F07C5D2470098A04D /* MainDocument.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = MainDocument.h; path = ../clientgui/MainDocument.h; sourceTree = SOURCE_ROOT; };
 		DD81C45007C5D2470098A04D /* LogBOINC.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = LogBOINC.h; path = ../clientgui/LogBOINC.h; sourceTree = SOURCE_ROOT; };
 		DD81C45B07C5D2880098A04D /* stdwx.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = stdwx.h; path = ../clientgui/stdwx.h; sourceTree = SOURCE_ROOT; };
-		DD81C46307C5D29F0098A04D /* ViewProjects.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = ViewProjects.h; path = ../clientgui/ViewProjects.h; sourceTree = SOURCE_ROOT; };
 		DD81C46407C5D29F0098A04D /* ViewMessages.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = ViewMessages.h; path = ../clientgui/ViewMessages.h; sourceTree = SOURCE_ROOT; };
 		DD81C46507C5D29F0098A04D /* ValidateURL.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = ValidateURL.h; path = ../clientgui/ValidateURL.h; sourceTree = SOURCE_ROOT; };
 		DD81C46607C5D29F0098A04D /* ValidateAccountKey.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = ValidateAccountKey.h; path = ../clientgui/ValidateAccountKey.h; sourceTree = SOURCE_ROOT; };
-		DD81C47007C5D2BF0098A04D /* ViewWork.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = ViewWork.h; path = ../clientgui/ViewWork.h; sourceTree = SOURCE_ROOT; };
-		DD81C47107C5D2BF0098A04D /* ViewTransfers.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = ViewTransfers.h; path = ../clientgui/ViewTransfers.h; sourceTree = SOURCE_ROOT; };
 		DD81C47207C5D2BF0098A04D /* ViewResources.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = ViewResources.h; path = ../clientgui/ViewResources.h; sourceTree = SOURCE_ROOT; };
 		DD81C5CC07C5D7D90098A04D /* gui_rpc_client.C */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.cpp.cpp; name = gui_rpc_client.C; path = ../lib/gui_rpc_client.C; sourceTree = SOURCE_ROOT; };
 		DD81C5F007C5D8290098A04D /* boinc_win.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = boinc_win.h; path = ../lib/boinc_win.h; sourceTree = SOURCE_ROOT; };
@@ -1489,20 +1478,14 @@
 				DD81C46407C5D29F0098A04D /* ViewMessages.h */,
 				DDCDCDF00B532433009BB03C /* ViewMessagesGrid.cpp */,
 				DDCDCDF10B532433009BB03C /* ViewMessagesGrid.h */,
-				DD81C42407C5D1D70098A04D /* ViewProjects.cpp */,
-				DD81C46307C5D29F0098A04D /* ViewProjects.h */,
 				DDCDCDF20B532433009BB03C /* ViewProjectsGrid.cpp */,
 				DDCDCDF30B532433009BB03C /* ViewProjectsGrid.h */,
 				DD81C42307C5D1D70098A04D /* ViewResources.cpp */,
 				DD81C47207C5D2BF0098A04D /* ViewResources.h */,
 				DDEF388E0802B73500E87552 /* ViewStatistics.cpp */,
 				DDEF388F0802B73500E87552 /* ViewStatistics.h */,
-				DD81C42207C5D1D70098A04D /* ViewTransfers.cpp */,
-				DD81C47107C5D2BF0098A04D /* ViewTransfers.h */,
 				DD2EA0690B4B20570073B1AA /* ViewTransfersGrid.cpp */,
 				DD2EA06A0B4B20570073B1AA /* ViewTransfersGrid.h */,
-				DD81C42107C5D1D70098A04D /* ViewWork.cpp */,
-				DD81C47007C5D2BF0098A04D /* ViewWork.h */,
 				DD2EA06B0B4B20570073B1AA /* ViewWorkGrid.cpp */,
 				DD2EA06C0B4B20570073B1AA /* ViewWorkGrid.h */,
 				DD58C46308F334EA00C1DF66 /* WelcomePage.cpp */,
@@ -2450,11 +2433,6 @@
 				DD3E15120A774397007E0084 /* ValidateAccountKey.cpp in Sources */,
 				DD3E15130A774397007E0084 /* ValidateEmailAddress.cpp in Sources */,
 				DD3E15140A774397007E0084 /* ValidateURL.cpp in Sources */,
-				DD3E15150A774397007E0084 /* ViewMessages.cpp in Sources */,
-				DD3E15160A774397007E0084 /* ViewProjects.cpp in Sources */,
-				DD3E15170A774397007E0084 /* ViewResources.cpp in Sources */,
-				DD3E15180A774397007E0084 /* ViewTransfers.cpp in Sources */,
-				DD3E15190A774397007E0084 /* ViewWork.cpp in Sources */,
 				DD3E151A0A774397007E0084 /* ViewStatistics.cpp in Sources */,
 				DD3E151B0A774397007E0084 /* UnavailablePage.cpp in Sources */,
 				DD3E151C0A774397007E0084 /* WelcomePage.cpp in Sources */,
@@ -2486,10 +2464,12 @@
 				DD2EA06D0B4B20570073B1AA /* ViewTransfersGrid.cpp in Sources */,
 				DD2EA06F0B4B20570073B1AA /* ViewWorkGrid.cpp in Sources */,
 				DD2EA0850B4B22010073B1AA /* BOINCGridCtrl.cpp in Sources */,
-				DDCDCDF40B532433009BB03C /* ViewMessagesGrid.cpp in Sources */,
 				DDCDCDF60B532433009BB03C /* ViewProjectsGrid.cpp in Sources */,
 				DDFE84E50B60CD66009B43D9 /* DlgAdvPreferences.cpp in Sources */,
 				DDFE84E70B60CD66009B43D9 /* DlgAdvPreferencesBase.cpp in Sources */,
+				DD7DD79A0B8BFA2F00B11279 /* ViewMessagesGrid.cpp in Sources */,
+				DD7DD79B0B8BFA4000B11279 /* ViewResources.cpp in Sources */,
+				DD7DD7C90B8BFD4800B11279 /* ViewMessages.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

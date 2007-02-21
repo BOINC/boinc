@@ -481,6 +481,10 @@ bool CPanelMessages::OnSaveState(wxConfigBase* pConfig) {
         pConfig->SetPath(strBaseConfigLocation + liColumnInfo.GetText());
 
         pConfig->Write(wxT("Width"), liColumnInfo.GetWidth());
+        
+#if (defined(__WXMAC__) &&  wxCHECK_VERSION(2,8,0))
+        pConfig->Write(wxT("Width"), m_pList->GetColumnWidth(iIndex)); // Work around bug in wxMac-2.8.0 wxListCtrl::SetColumn()
+#endif
     }
 
 
@@ -522,6 +526,9 @@ bool CPanelMessages::OnRestoreState(wxConfigBase* pConfig) {
         pConfig->Read(wxT("Width"), &iTempValue, -1);
         if (-1 != iTempValue) {
             liColumnInfo.SetWidth(iTempValue);
+#if (defined(__WXMAC__) &&  wxCHECK_VERSION(2,8,0))
+            m_pList->SetColumnWidth(iIndex,iTempValue); // Work around bug in wxMac-2.8.0 wxListCtrl::SetColumn()
+#endif
         }
 
         m_pList->SetColumn(iIndex, liColumnInfo);

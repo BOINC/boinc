@@ -86,6 +86,10 @@ bool CBOINCListCtrl::OnSaveState(wxConfigBase* pConfig) {
         pConfig->SetPath(strBaseConfigLocation + liColumnInfo.GetText());
 
         pConfig->Write(wxT("Width"), liColumnInfo.GetWidth());
+        
+#if (defined(__WXMAC__) &&  wxCHECK_VERSION(2,8,0))
+        pConfig->Write(wxT("Width"), GetColumnWidth(iIndex)); // Work around bug in wxMac-2.8.0 wxListCtrl::SetColumn()
+#endif
     }
 
 
@@ -125,6 +129,9 @@ bool CBOINCListCtrl::OnRestoreState(wxConfigBase* pConfig) {
         pConfig->Read(wxT("Width"), &iTempValue, -1);
         if (-1 != iTempValue) {
             liColumnInfo.SetWidth(iTempValue);
+#if (defined(__WXMAC__) &&  wxCHECK_VERSION(2,8,0))
+            SetColumnWidth(iIndex,iTempValue); // Work around bug in wxMac-2.8.0 wxListCtrl::SetColumn()
+#endif
         }
 
         pConfig->Read(wxT("Format"), &iTempValue, -1);
