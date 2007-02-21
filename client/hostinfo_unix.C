@@ -73,7 +73,7 @@
 #include "client_types.h"
 #include "filesys.h"
 #include "error_numbers.h"
-#include "util.h"
+#include "str_util.h"
 #include "client_state.h"
 #include "hostinfo_network.h"
 

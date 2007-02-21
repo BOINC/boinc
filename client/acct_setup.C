@@ -29,7 +29,7 @@
 #include "file_names.h"
 #include "parse.h"
 #include "filesys.h"
-#include "util.h"
+#include "str_util.h"
 #include "client_msgs.h"
 
 #include "acct_setup.h"

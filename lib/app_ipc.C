@@ -24,11 +24,12 @@
 #ifndef _WIN32
 #include "config.h"
 #include <cstring>
+#include <string>
 #endif
 
 #include "parse.h"
 #include "error_numbers.h"
-#include "util.h"
+#include "str_util.h"
 #include "filesys.h"
 #include "miofile.h"
 #include "app_ipc.h"

@@ -40,7 +40,7 @@
 #endif
 
 #include "error_numbers.h"
-#include "util.h"
+#include "str_util.h"
 #include "parse.h"
 
 #ifdef _USING_FCGI_

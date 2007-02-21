@@ -39,6 +39,7 @@ using namespace std;
 #include "backend_lib.h"
 #include "error_numbers.h"
 #include "parse.h"
+#include "str_util.h"
 #include "util.h"
 #include "filesys.h"
 

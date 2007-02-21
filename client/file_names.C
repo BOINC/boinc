@@ -32,6 +32,7 @@
 
 #include "filesys.h"
 #include "error_numbers.h"
+#include "str_util.h"
 #include "util.h"
 #include "client_msgs.h"
 #include "client_state.h"

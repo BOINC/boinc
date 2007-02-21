@@ -64,7 +64,7 @@
 
 #include "diagnostics.h"
 #include "parse.h"
-#include "util.h"
+#include "str_util.h"
 #include "error_numbers.h"
 #include "miofile.h"
 #include "md5_file.h"

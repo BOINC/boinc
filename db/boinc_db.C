@@ -30,7 +30,7 @@
 #include <ieeefp.h>
 #endif
 
-#include "util.h"
+#include "str_util.h"
 #include "error_numbers.h"
 #include "boinc_db.h"
 

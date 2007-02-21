@@ -55,6 +55,7 @@ using std::vector;
 #include "filesys.h"
 #include "error_numbers.h"
 #include "util.h"
+#include "str_util.h"
 #include "parse.h"
 #include "shmem.h"
 #include "client_msgs.h"

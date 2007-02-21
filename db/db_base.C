@@ -24,7 +24,7 @@
 #include <mysql.h>
 
 #include "error_numbers.h"
-#include "util.h"
+#include "str_util.h"
 #include "db_base.h"
 
 #ifdef _USING_FCGI_

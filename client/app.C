@@ -65,7 +65,7 @@
 #include "file_names.h"
 #include "parse.h"
 #include "shmem.h"
-#include "util.h"
+#include "str_util.h"
 #include "client_msgs.h"
 #include "procinfo.h"
 #include "app.h"

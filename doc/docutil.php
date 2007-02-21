@@ -19,6 +19,15 @@ function last_mod($datefile) {
     return gmdate("g:i A \U\T\C, F d Y", filemtime($datefile));
 }
 
+function html_tag() {
+    global $language_in_use;
+    if ($language_in_use == 'ar') {
+        echo "<html dir=\"rtl\">";
+    } else {
+        echo "<html>";
+    }
+}
+
 function page_head($title) {
     global $book;
     global $chap_num;
@@ -30,8 +39,8 @@ function page_head($title) {
         header("Content-type: text/html; charset=".tr(CHARSET));
     }
 
+    html_tag();
     echo "
-        <html>
         <head>
         <link rel=\"stylesheet\" type=\"text/css\" href=\"white.css\"/>
         <link rel=\"shortcut icon\" href=\"iconsmall.ico\"/>

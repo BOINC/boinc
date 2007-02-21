@@ -47,7 +47,7 @@
 #include "client_state.h"
 #endif
 #include "client_msgs.h"
-#include "util.h"
+#include "str_util.h"
 #include "log_flags.h"
 
 using std::vector;

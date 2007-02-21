@@ -193,6 +193,10 @@ public:
     double new_version_check_time;
     string newer_version;
 
+// --------------- app_graphics.C:
+public:
+    ACTIVE_TASK* get_next_graphics_capable_app();
+
 // --------------- auto_update.C:
 public:
     AUTO_UPDATE auto_update;
@@ -214,7 +218,6 @@ public:
     RESULT* lookup_result(PROJECT*, const char*);
     WORKUNIT* lookup_workunit(PROJECT*, const char*);
     APP_VERSION* lookup_app_version(APP*, int);
-    ACTIVE_TASK* lookup_active_task_by_result(RESULT*);
     int detach_project(PROJECT*);
     int report_result_error(RESULT&, const char *format, ...);
     int reset_project(PROJECT*);
@@ -305,7 +308,7 @@ public:
     double estimate_cpu_time(WORKUNIT&);
     double get_fraction_done(RESULT* result);
     int input_files_available(RESULT*, bool);
-    ACTIVE_TASK* get_next_graphics_capable_app();
+    ACTIVE_TASK* lookup_active_task_by_result(RESULT*);
     int ncpus;
         // number of usable cpus
 private:

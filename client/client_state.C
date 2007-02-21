@@ -35,6 +35,7 @@
 #endif
 
 #include "parse.h"
+#include "str_util.h"
 #include "util.h"
 #include "error_numbers.h"
 #include "filesys.h"
@@ -609,17 +610,6 @@ FILE_INFO* CLIENT_STATE::lookup_file_info(PROJECT* p, const char* name) {
         }
     }
     return 0;
-}
-
-// Find the active task for a given result
-//
-ACTIVE_TASK* CLIENT_STATE::lookup_active_task_by_result(RESULT* rep) {
-    for (unsigned int i = 0; i < active_tasks.active_tasks.size(); i ++) {
-        if (active_tasks.active_tasks[i]->result == rep) {
-            return active_tasks.active_tasks[i];
-        }
-    }
-    return NULL;
 }
 
 // functions to create links between state objects

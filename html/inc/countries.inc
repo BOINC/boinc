@@ -96,6 +96,7 @@ $countries = array(
     "Guinea-Bissau",
     "Guyana",
     "Haiti",
+    "Holy See (Vatican City)",
     "Honduras",
     "Hong Kong",
     "Hungary",

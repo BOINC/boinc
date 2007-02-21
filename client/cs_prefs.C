@@ -35,7 +35,7 @@
 #endif
 #endif
 
-#include "util.h"
+#include "str_util.h"
 #include "filesys.h"
 #include "parse.h"
 #include "file_names.h"

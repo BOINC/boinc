@@ -32,7 +32,7 @@
 #include "error_numbers.h"
 #include "md5_file.h"
 #include "parse.h"
-#include "util.h"
+#include "str_util.h"
 #include "filesys.h"
 
 #include "log_flags.h"
@@ -413,11 +413,9 @@ int PERS_FILE_XFER::parse(MIOFILE& fin) {
         if (match_tag(buf, "</persistent_file_xfer>")) return 0;
         else if (parse_int(buf, "<num_retries>", nretry)) continue;
         else if (parse_double(buf, "<first_request_time>", first_request_time)) {
-            validate_time(first_request_time);
             continue;
         }
         else if (parse_double(buf, "<next_request_time>", next_request_time)) {
-            validate_time(next_request_time);
             continue;
         }
         else if (parse_double(buf, "<time_so_far>", time_so_far)) continue;

@@ -36,6 +36,7 @@
 #include "log_flags.h"
 #include "parse.h"
 #include "util.h"
+#include "str_util.h"
 #include "client_state.h"
 #include "pers_file_xfer.h"
 
@@ -137,7 +138,6 @@ int PROJECT::parse_state(MIOFILE& in) {
         else if (parse_double(buf, "<user_total_credit>", user_total_credit)) continue;
         else if (parse_double(buf, "<user_expavg_credit>", user_expavg_credit)) continue;
         else if (parse_double(buf, "<user_create_time>", user_create_time)) {
-            validate_time(user_create_time);
             continue;
         }
         else if (parse_int(buf, "<rpc_seqno>", rpc_seqno)) continue;
@@ -145,7 +145,6 @@ int PROJECT::parse_state(MIOFILE& in) {
         else if (parse_double(buf, "<host_total_credit>", host_total_credit)) continue;
         else if (parse_double(buf, "<host_expavg_credit>", host_expavg_credit)) continue;
         else if (parse_double(buf, "<host_create_time>", host_create_time)) {
-            validate_time(user_create_time);
             continue;
         }
         else if (match_tag(buf, "<code_sign_key>")) {
@@ -160,7 +159,6 @@ int PROJECT::parse_state(MIOFILE& in) {
         else if (parse_int(buf, "<nrpc_failures>", nrpc_failures)) continue;
         else if (parse_int(buf, "<master_fetch_failures>", master_fetch_failures)) continue;
         else if (parse_double(buf, "<min_rpc_time>", min_rpc_time)) {
-            validate_time(min_rpc_time);
             continue;
         }
         else if (match_tag(buf, "<master_url_fetch_pending/>")) master_url_fetch_pending = true;
@@ -1484,7 +1482,6 @@ int RESULT::parse_server(MIOFILE& in) {
         if (parse_str(buf, "<name>", name, sizeof(name))) continue;
         if (parse_str(buf, "<wu_name>", wu_name, sizeof(wu_name))) continue;
         if (parse_double(buf, "<report_deadline>", report_deadline)) {
-            validate_time(report_deadline);
             continue;
         }
         if (match_tag(buf, "<file_ref>")) {
@@ -1522,7 +1519,6 @@ int RESULT::parse_state(MIOFILE& in) {
         if (parse_str(buf, "<name>", name, sizeof(name))) continue;
         if (parse_str(buf, "<wu_name>", wu_name, sizeof(wu_name))) continue;
         if (parse_double(buf, "<report_deadline>", report_deadline)) {
-            validate_time(report_deadline);
             continue;
         }
         if (match_tag(buf, "<file_ref>")) {

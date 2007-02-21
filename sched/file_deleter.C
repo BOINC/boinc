@@ -37,7 +37,7 @@
 #include "boinc_db.h"
 #include "parse.h"
 #include "error_numbers.h"
-#include "util.h"
+#include "str_util.h"
 #include "filesys.h"
 #include "strings.h"
 

@@ -61,6 +61,7 @@ typedef BOOL (CALLBACK* FreeFn)(LPCTSTR, PULARGE_INTEGER, PULARGE_INTEGER, PULAR
 #endif
 
 #include "util.h"
+#include "str_util.h"
 #include "error_numbers.h"
 #include "filesys.h"
 #ifdef SANDBOX

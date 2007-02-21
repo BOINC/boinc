@@ -66,6 +66,7 @@ libboinc_a_SOURCES = \
     procinfo_unix.C \
     proxy_info.C \
     shmem.C \
+    str_util.C \
     util.C	\
 	$(mac_sources)
 
@@ -86,6 +87,7 @@ include_HEADERS = \
     prefs.h \
     proxy_info.h \
     std_fixes.h \
+    str_util.h \
     util.h
 
 ## install header-files with prefix-subdir BOINC/ to avoid name-conflicts

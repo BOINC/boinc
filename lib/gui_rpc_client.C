@@ -42,6 +42,7 @@
 
 #include "diagnostics.h"
 #include "parse.h"
+#include "str_util.h"
 #include "util.h"
 #include "error_numbers.h"
 #include "miofile.h"

@@ -542,7 +542,7 @@ FROM result WHERE
         $main_query .= "workunitid=$query_wuid and ";
     }
     if ($query_mod_time) {
-        $main_query .= "mod_time > DATE_SUB( NOW()+0, INTERVAL $query_mod_time SECOND )+0 and ";
+        $main_query .= "mod_time > DATE_SUB( NOW(), INTERVAL $query_mod_time SECOND )+0 and ";
     }
 
     $main_query .= "1=1";

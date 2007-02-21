@@ -36,7 +36,7 @@
 
 #include "md5_file.h"
 #include "crypt.h"
-#include "util.h"
+#include "str_util.h"
 #include "filesys.h"
 #include "error_numbers.h"
 

@@ -24,7 +24,7 @@ using namespace std;
 
 #include "parse.h"
 #include "error_numbers.h"
-#include "util.h"
+#include "str_util.h"
 #include "main.h"
 #include "sched_util.h"
 #include "sched_msgs.h"

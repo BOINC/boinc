@@ -55,7 +55,7 @@ extern "C"{
 #include "boinc_glut.h"
 
 #include "filesys.h"
-#include "util.h"
+#include "str_util.h"
 
 #include "gutil.h"
 

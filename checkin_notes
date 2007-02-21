@@ -1844,3 +1844,21 @@ Charlie 21 Feb 2007
 
     clientgui/
         BOINCGUIApp.cpp
+
+David  21 Feb 2007
+    - split out string-related utility functions into a new file, str_util.C
+    - more work on simulator
+    - Add "Holy See" to country list
+
+    api/
+        gutil_text.C
+    client/
+        *.C
+    db/
+        *.C
+    lib/
+        *.C
+    sched/
+        *.C
+    tools/
+        backend_lib.C

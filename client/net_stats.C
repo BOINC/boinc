@@ -38,7 +38,7 @@
 
 #include "parse.h"
 #include "time.h"
-#include "util.h"
+#include "str_util.h"
 #include "error_numbers.h"
 
 #include "client_msgs.h"

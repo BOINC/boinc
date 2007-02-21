@@ -28,6 +28,7 @@
 #include <string>
 #endif
 
+#include "str_util.h"
 #include "util.h"
 #include "msg_log.h"
 

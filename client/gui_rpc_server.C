@@ -42,6 +42,7 @@
 #include <fcntl.h>
 #endif
 
+#include "str_util.h"
 #include "util.h"
 #include "error_numbers.h"
 #include "network.h"

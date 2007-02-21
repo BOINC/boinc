@@ -38,6 +38,7 @@
 #include "filesys.h"
 #include "client_msgs.h"
 #include "log_flags.h"
+#include "str_util.h"
 #include "util.h"
 
 #include "network.h"

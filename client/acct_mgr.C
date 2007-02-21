@@ -28,7 +28,7 @@
 #include "parse.h"
 #include "error_numbers.h"
 #include "client_msgs.h"
-#include "util.h"
+#include "str_util.h"
 #include "file_names.h"
 #include "filesys.h"
 #include "client_state.h"

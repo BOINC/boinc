@@ -374,4 +374,16 @@ void CLIENT_STATE::request_work_fetch(const char* where) {
     must_check_work_fetch = true;
 }
 
+// Find the active task for a given result
+//
+ACTIVE_TASK* CLIENT_STATE::lookup_active_task_by_result(RESULT* rep) {
+    for (unsigned int i = 0; i < active_tasks.active_tasks.size(); i ++) {
+        if (active_tasks.active_tasks[i]->result == rep) {
+            return active_tasks.active_tasks[i];
+        }
+    }
+    return NULL;
+}
+
+
 const char *BOINC_RCSID_7bf63ad771 = "$Id$";

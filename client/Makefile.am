@@ -39,6 +39,8 @@ boinc_client_SOURCES = \
     cs_scheduler.C \
     cs_statefile.C \
     cs_trickle.C \
+    dhrystone.C \
+    dhrystone2.C \
     file_names.C \
     file_xfer.C \
     gui_http.C \
@@ -55,8 +57,7 @@ boinc_client_SOURCES = \
     ss_logic.C \
     time_stats.C \
     whetstone.C \
-    dhrystone.C \
-    dhrystone2.C
+    work_fetch.C
 
 boinc_client_DEPENDENCIES = $(LIBRSA)
 boinc_client_CPPFLAGS = -O3 -fomit-frame-pointer -fforce-addr -ffast-math $(AM_CPPFLAGS)

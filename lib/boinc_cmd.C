@@ -41,6 +41,7 @@ using std::string;
 #include "gui_rpc_client.h"
 #include "error_numbers.h"
 #include "util.h"
+#include "str_util.h"
 #include "version.h"
 #include "common_defs.h"
 

@@ -47,7 +47,7 @@
 #include <Carbon/Carbon.h>
 #endif
 
-#include "util.h"
+#include "str_util.h"
 #include "parse.h"
 #include "file_names.h"
 #include "client_msgs.h"

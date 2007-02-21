@@ -28,6 +28,7 @@
 #endif
 
 #include "main.h"
+#include "str_util.h"
 #include "util.h"
 #include "client_msgs.h"
 #include "client_state.h"

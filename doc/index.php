@@ -139,8 +139,8 @@ function show_nsf() {
     ";
 }
 
+html_tag();
 echo "
-<html>
 <head>
 <link rel=\"shortcut icon\" href=\"iconsmall.ico\">
 <link rel=\"stylesheet\" type=text/css href=white.css>

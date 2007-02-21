@@ -32,7 +32,7 @@
 #include "error_numbers.h"
 #include "md5_file.h"
 #include "parse.h"
-#include "util.h"
+#include "str_util.h"
 #include "filesys.h"
 #include "sched_util.h"
 
