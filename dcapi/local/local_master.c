@@ -26,7 +26,7 @@
 
 #include "local_master.h"
 #include "local_common.h"
-#include "local_utils.c"
+#include "local_utils.h"
 #include "local_wu.h"
 
 
