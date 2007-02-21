@@ -260,10 +260,22 @@ David  27 Dec 2006
 	uppercase/
 		upper_case.C
 
-David  11 Jan 2006
+David  11 Jan 2007
     - upper_case: if checkpoint found,
         truncate the output file to the indicated size.
         Otherwise a checkpoint/restart generally produces a bad result.
 
 	uppercase/
 		upper_case.C
+
+David  21 Feb 2007
+	- compile fixes
+
+	sleeper/
+		sleeper.C
+	uppercase/
+		upper_case.C
+	win_build/
+		libboinc.vcproj
+	wrapper/
+		wrapper.C

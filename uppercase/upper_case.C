@@ -53,6 +53,7 @@
 #endif
 
 #include "diagnostics.h"
+#include "str_util.h"
 #include "util.h"
 #include "filesys.h"
 #include "boinc_api.h"

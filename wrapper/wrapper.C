@@ -47,6 +47,7 @@
 #include "diagnostics.h"
 #include "filesys.h"
 #include "parse.h"
+#include "str_util.h"
 #include "util.h"
 #include "error_numbers.h"
 
@@ -76,6 +77,8 @@ struct TASK {
 vector<TASK> tasks;
 
 bool app_suspended = false;
+
+FILE* debug;
 
 int TASK::parse(XML_PARSER& xp) {
     char tag[1024];
@@ -377,6 +380,10 @@ void send_status_message(TASK& task) {
 int main(int argc, char** argv) {
     BOINC_OPTIONS options;
     int retval;
+
+    debug = fopen("wrapper_log", "a");
+    setbuf(debug, 0);
+    fprintf(debug, "foobar\n");
 
     boinc_init_diagnostics(
         BOINC_DIAG_DUMPCALLSTACKENABLED

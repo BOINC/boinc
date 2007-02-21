@@ -20,6 +20,7 @@
 // Application for testing non-CPU-intensive features of BOINC.
 // TODO: make it exit after a certain amount of time
 
+#include "str_util.h"
 #include "util.h"
 #include "boinc_api.h"
 

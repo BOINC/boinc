@@ -305,6 +305,10 @@
 				</FileConfiguration>
 			</File>
 			<File
+				RelativePath="..\..\boinc\lib\str_util.C"
+				>
+			</File>
+			<File
 				RelativePath="..\..\boinc\lib\util.C"
 				>
 				<FileConfiguration
