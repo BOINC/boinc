@@ -1892,3 +1892,17 @@ David  21 Feb 2007
 		boinc_ss.vcproj
 		boincmgr_cur.vcproj
 		libboinc.vcproj
+
+David  21 Feb 2007
+    - code shuffling to get simulator to compile (it does now)
+
+    client/
+        app.C
+        app_control.C
+        client_types.C
+        cpu_sched.C
+        cs_apps.C
+        cs_statefile.C
+        makefile_sim
+        net_stats.h
+        sim.C,h

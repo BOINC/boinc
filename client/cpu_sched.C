@@ -48,6 +48,7 @@
 #endif
 #include "client_msgs.h"
 #include "str_util.h"
+#include "util.h"
 #include "log_flags.h"
 
 using std::vector;
@@ -1226,5 +1227,113 @@ void CLIENT_STATE::request_schedule_cpus(const char* where) {
     }
     must_schedule_cpus = true;
 }
+
+// Find the active task for a given result
+//
+ACTIVE_TASK* CLIENT_STATE::lookup_active_task_by_result(RESULT* rep) {
+    for (unsigned int i = 0; i < active_tasks.active_tasks.size(); i ++) {
+        if (active_tasks.active_tasks[i]->result == rep) {
+            return active_tasks.active_tasks[i];
+        }
+    }
+    return NULL;
+}
+
+bool RESULT::computing_done() {
+    return (state() >= RESULT_COMPUTE_ERROR || ready_to_report);
+}
+
+// find total resource shares of all projects
+//
+double CLIENT_STATE::total_resource_share() {
+    double x = 0;
+    for (unsigned int i=0; i<projects.size(); i++) {
+        if (!projects[i]->non_cpu_intensive ) {
+            x += projects[i]->resource_share;
+        }
+    }
+    return x;
+}
+
+// same, but only runnable projects (can use CPU right now)
+//
+double CLIENT_STATE::runnable_resource_share() {
+    double x = 0;
+    for (unsigned int i=0; i<projects.size(); i++) {
+        PROJECT* p = projects[i];
+        if (p->non_cpu_intensive) continue;
+        if (p->runnable()) {
+            x += p->resource_share;
+        }
+    }
+    return x;
+}
+
+// same, but potentially runnable (could ask for work right now)
+//
+double CLIENT_STATE::potentially_runnable_resource_share() {
+    double x = 0;
+    for (unsigned int i=0; i<projects.size(); i++) {
+        PROJECT* p = projects[i];
+        if (p->non_cpu_intensive) continue;
+        if (p->potentially_runnable()) {
+            x += p->resource_share;
+        }
+    }
+    return x;
+}
+
+// same, but nearly runnable (could be downloading work right now)
+//
+double CLIENT_STATE::nearly_runnable_resource_share() {
+    double x = 0;
+    for (unsigned int i=0; i<projects.size(); i++) {
+        PROJECT* p = projects[i];
+        if (p->non_cpu_intensive) continue;
+        if (p->nearly_runnable()) {
+            x += p->resource_share;
+        }
+    }
+    return x;
+}
+
+bool ACTIVE_TASK::process_exists() {
+    switch (task_state()) {
+    case PROCESS_EXECUTING:
+    case PROCESS_SUSPENDED:
+    case PROCESS_ABORT_PENDING:
+    case PROCESS_QUIT_PENDING:
+        return true;
+    }
+    return false;
+}
+
+// if there's not an active task for the result, make one
+//
+ACTIVE_TASK* CLIENT_STATE::get_task(RESULT* rp) {
+    ACTIVE_TASK *atp = lookup_active_task_by_result(rp);
+    if (!atp) {
+        atp = new ACTIVE_TASK;
+        atp->slot = active_tasks.get_free_slot();
+        atp->init(rp);
+        active_tasks.active_tasks.push_back(atp);
+    }
+    return atp;
+}
+
+// Results must be complete early enough to report before the report deadline.
+// Not all hosts are connected all of the time.
+//
+double RESULT::computation_deadline() {
+    return report_deadline - (
+        gstate.global_prefs.work_buf_min_days * SECONDS_PER_DAY
+            // Seconds that the host will not be connected to the Internet
+        + gstate.global_prefs.cpu_scheduling_period_minutes * 60
+            // Seconds that the CPU may be busy with some other result
+        + SECONDS_PER_DAY
+            // Deadline cusion
+    );
+}
+
 
 const char *BOINC_RCSID_e830ee1 = "$Id$";

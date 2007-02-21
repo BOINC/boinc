@@ -349,20 +349,6 @@ int ACTIVE_TASK::move_trickle_file() {
     return 0;
 }
 
-// Returns the estimated CPU time to completion (in seconds) of this task.
-// Compute this as a weighted average of estimates based on
-// 1) the workunit's flops count
-// 2) the current reported CPU time and fraction done
-//
-double ACTIVE_TASK::est_cpu_time_to_completion() {
-    if (fraction_done >= 1) return 0;
-    double wu_est = result->estimated_cpu_time();
-    if (fraction_done <= 0) return wu_est;
-    double frac_est = (current_cpu_time / fraction_done) - current_cpu_time;
-    double fraction_left = 1-fraction_done;
-    return fraction_done*frac_est + fraction_left*fraction_left*wu_est;
-}
-
 // size of output files and files in slot dir
 //
 int ACTIVE_TASK::current_disk_usage(double& size) {

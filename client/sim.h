@@ -24,6 +24,7 @@ public:
     double available_ram();
     double max_available_ram();
     void set_client_state_dirty(const char*);
+    RESULT* lookup_result(PROJECT*, const char*);
 
 // cpu_sched.C
 private:
@@ -87,6 +88,11 @@ private:
     bool handle_finished_apps();
 public:
     ACTIVE_TASK* get_task(RESULT*);
+};
+
+class NET_STATUS {
+public:
+    bool have_sporadic_connection;
 };
 
 extern CLIENT_STATE gstate;

@@ -384,72 +384,6 @@ const char* PROJECT::get_scheduler_url(int index, double r) {
     return scheduler_urls[i].c_str();
 }
 
-bool PROJECT::runnable() {
-    if (suspended_via_gui) return false;
-    for (unsigned int i=0; i<gstate.results.size(); i++) {
-        RESULT* rp = gstate.results[i];
-        if (rp->project != this) continue;
-        if (rp->runnable()) return true;
-    }
-    return false;
-}
-
-bool PROJECT::downloading() {
-    if (suspended_via_gui) return false;
-    for (unsigned int i=0; i<gstate.results.size(); i++) {
-        RESULT* rp = gstate.results[i];
-        if (rp->project != this) continue;
-        if (rp->downloading()) return true;
-    }
-    return false;
-}
-
-bool PROJECT::some_download_stalled() {
-    unsigned int i;
-    for (i=0; i<gstate.pers_file_xfers->pers_file_xfers.size(); i++) {
-        PERS_FILE_XFER* pfx = gstate.pers_file_xfers->pers_file_xfers[i];
-        if (pfx->fip->project != this) continue;
-        if (pfx->is_upload) continue;
-        if (pfx->next_request_time > gstate.now) return true;
-    }
-    return false;
-}
-
-bool PROJECT::some_result_suspended() {
-    unsigned int i;
-    for (i=0; i<gstate.results.size(); i++) {
-         RESULT *rp = gstate.results[i];
-         if (rp->project != this) continue;
-         if (rp->suspended_via_gui) return true;
-     }
-    return false;
-}
-
-bool PROJECT::contactable() {
-    if (suspended_via_gui) return false;
-    if (master_url_fetch_pending) return false;
-    if (min_rpc_time > gstate.now) return false;
-    if (dont_request_more_work) return false;
-    return true;
-}
-
-bool PROJECT::potentially_runnable() {
-    if (runnable()) return true;
-    if (contactable()) return true;
-    if (downloading()) return true;
-    return false;
-}
-
-bool PROJECT::nearly_runnable() {
-    if (runnable()) return true;
-    if (downloading()) return true;
-    return false;
-}
-
-bool PROJECT::overworked() {
-    return long_term_debt < -gstate.global_prefs.cpu_scheduling_period_minutes * 60;
-}
-
 double PROJECT::next_file_xfer_time(const bool is_upload) {
     return (is_upload ? next_file_xfer_up : next_file_xfer_down);
 }
@@ -1456,20 +1390,6 @@ void RESULT::clear() {
     project = NULL;
 }
 
-// Results must be complete early enough to report before the report deadline.
-// Not all hosts are connected all of the time.
-//
-double RESULT::computation_deadline() {
-    return report_deadline - (
-        gstate.global_prefs.work_buf_min_days * SECONDS_PER_DAY
-            // Seconds that the host will not be connected to the Internet
-        + gstate.global_prefs.cpu_scheduling_period_minutes * 60
-            // Seconds that the CPU may be busy with some other result
-        + SECONDS_PER_DAY
-            // Deadline cusion
-    );
-}
-
 // parse a <result> element from scheduling server.
 //
 int RESULT::parse_server(MIOFILE& in) {
@@ -1712,29 +1632,6 @@ void RESULT::clear_uploaded_flags() {
     }
 }
 
-bool RESULT::computing_done() {
-    return (state() >= RESULT_COMPUTE_ERROR || ready_to_report);
-}
-
-double RESULT::estimated_cpu_time_uncorrected() {
-    return wup->rsc_fpops_est/gstate.host_info.p_fpops;
-}
-
-// estimate how long a result will take on this host
-//
-double RESULT::estimated_cpu_time() {
-    return estimated_cpu_time_uncorrected()*project->duration_correction_factor;
-}
-
-double RESULT::estimated_cpu_time_remaining() {
-    if (computing_done()) return 0;
-    ACTIVE_TASK* atp = gstate.lookup_active_task_by_result(this);
-    if (atp) {
-        return atp->est_cpu_time_to_completion();
-    }
-    return estimated_cpu_time();
-}
-
 // The given result has just completed successfully.
 // Update the correction factor used to predict
 // completion time for this project's results
@@ -1772,27 +1669,6 @@ void PROJECT::update_duration_correction_factor(RESULT* rp) {
 			old_dcf, duration_correction_factor, raw_ratio, adj_ratio
 		);
 	}
-}
-
-bool RESULT::runnable() {
-    if (suspended_via_gui) return false;
-    if (project->suspended_via_gui) return false;
-    if (state() != RESULT_FILES_DOWNLOADED) return false;
-    return true;
-}
-
-bool RESULT::nearly_runnable() {
-    return runnable() || downloading();
-}
-
-// Return true if the result is waiting for its files to download,
-// and nothing prevents this from happening soon
-//
-bool RESULT::downloading() {
-    if (suspended_via_gui) return false;
-    if (project->suspended_via_gui) return false;
-    if (state() > RESULT_FILES_DOWNLOADING) return false;
-    return true;
 }
 
 // return true if some file needed by this result (input or application)

@@ -30,6 +30,9 @@
 
 #include "miofile.h"
 
+class FILE_XFER_SET;
+class HTTP_OP_SET;
+
 // there's one of these each for upload and download
 //
 struct NET_INFO {

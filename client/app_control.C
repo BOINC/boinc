@@ -93,17 +93,6 @@ bool ACTIVE_TASK::kill_all_children() {
 }
 #endif
 
-bool ACTIVE_TASK::process_exists() {
-    switch (task_state()) {
-    case PROCESS_EXECUTING:
-    case PROCESS_SUSPENDED:
-    case PROCESS_ABORT_PENDING:
-    case PROCESS_QUIT_PENDING:
-        return true;
-    }
-    return false;
-}
-
 // Send a quit message.
 //
 int ACTIVE_TASK::request_exit() {
@@ -738,34 +727,6 @@ int ACTIVE_TASK_SET::abort_project(PROJECT* project) {
     }
     project->long_term_debt = 0;
     return 0;
-}
-
-// Find the ACTIVE_TASK in the current set with the matching PID
-//
-ACTIVE_TASK* ACTIVE_TASK_SET::lookup_pid(int pid) {
-    unsigned int i;
-    ACTIVE_TASK* atp;
-
-    for (i=0; i<active_tasks.size(); i++) {
-        atp = active_tasks[i];
-        if (atp->pid == pid) return atp;
-    }
-    return NULL;
-}
-
-// Find the ACTIVE_TASK in the current set with the matching result
-//
-ACTIVE_TASK* ACTIVE_TASK_SET::lookup_result(RESULT* result) {
-    unsigned int i;
-    ACTIVE_TASK* atp;
-
-    for (i=0; i<active_tasks.size(); i++) {
-        atp = active_tasks[i];
-        if (atp->result == result) {
-            return atp;
-        }
-    }
-    return NULL;
 }
 
 // suspend all currently running tasks

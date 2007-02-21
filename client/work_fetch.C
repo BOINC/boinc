@@ -625,5 +625,133 @@ void CLIENT_STATE::compute_nuploading_results() {
     }
 }
 
+bool PROJECT::runnable() {
+    if (suspended_via_gui) return false;
+    for (unsigned int i=0; i<gstate.results.size(); i++) {
+        RESULT* rp = gstate.results[i];
+        if (rp->project != this) continue;
+        if (rp->runnable()) return true;
+    }
+    return false;
+}
+
+bool PROJECT::downloading() {
+    if (suspended_via_gui) return false;
+    for (unsigned int i=0; i<gstate.results.size(); i++) {
+        RESULT* rp = gstate.results[i];
+        if (rp->project != this) continue;
+        if (rp->downloading()) return true;
+    }
+    return false;
+}
+
+bool PROJECT::some_download_stalled() {
+    unsigned int i;
+    for (i=0; i<gstate.pers_file_xfers->pers_file_xfers.size(); i++) {
+        PERS_FILE_XFER* pfx = gstate.pers_file_xfers->pers_file_xfers[i];
+        if (pfx->fip->project != this) continue;
+        if (pfx->is_upload) continue;
+        if (pfx->next_request_time > gstate.now) return true;
+    }
+    return false;
+}
+
+bool PROJECT::some_result_suspended() {
+    unsigned int i;
+    for (i=0; i<gstate.results.size(); i++) {
+         RESULT *rp = gstate.results[i];
+         if (rp->project != this) continue;
+         if (rp->suspended_via_gui) return true;
+     }
+    return false;
+}
+
+bool PROJECT::contactable() {
+    if (suspended_via_gui) return false;
+    if (master_url_fetch_pending) return false;
+    if (min_rpc_time > gstate.now) return false;
+    if (dont_request_more_work) return false;
+    return true;
+}
+
+bool PROJECT::potentially_runnable() {
+    if (runnable()) return true;
+    if (contactable()) return true;
+    if (downloading()) return true;
+    return false;
+}
+
+bool PROJECT::nearly_runnable() {
+    if (runnable()) return true;
+    if (downloading()) return true;
+    return false;
+}
+
+bool PROJECT::overworked() {
+    return long_term_debt < -gstate.global_prefs.cpu_scheduling_period_minutes * 60;
+}
+
+bool RESULT::runnable() {
+    if (suspended_via_gui) return false;
+    if (project->suspended_via_gui) return false;
+    if (state() != RESULT_FILES_DOWNLOADED) return false;
+    return true;
+}
+
+bool RESULT::nearly_runnable() {
+    return runnable() || downloading();
+}
+
+// Return true if the result is waiting for its files to download,
+// and nothing prevents this from happening soon
+//
+bool RESULT::downloading() {
+    if (suspended_via_gui) return false;
+    if (project->suspended_via_gui) return false;
+    if (state() > RESULT_FILES_DOWNLOADING) return false;
+    return true;
+}
+
+double RESULT::estimated_cpu_time_uncorrected() {
+    return wup->rsc_fpops_est/gstate.host_info.p_fpops;
+}
+
+// estimate how long a result will take on this host
+//
+double RESULT::estimated_cpu_time() {
+    return estimated_cpu_time_uncorrected()*project->duration_correction_factor;
+}
+
+double RESULT::estimated_cpu_time_remaining() {
+    if (computing_done()) return 0;
+    ACTIVE_TASK* atp = gstate.lookup_active_task_by_result(this);
+    if (atp) {
+        return atp->est_cpu_time_to_completion();
+    }
+    return estimated_cpu_time();
+}
+
+// Returns the estimated CPU time to completion (in seconds) of this task.
+// Compute this as a weighted average of estimates based on
+// 1) the workunit's flops count
+// 2) the current reported CPU time and fraction done
+//
+double ACTIVE_TASK::est_cpu_time_to_completion() {
+    if (fraction_done >= 1) return 0;
+    double wu_est = result->estimated_cpu_time();
+    if (fraction_done <= 0) return wu_est;
+    double frac_est = (current_cpu_time / fraction_done) - current_cpu_time;
+    double fraction_left = 1-fraction_done;
+    return fraction_done*frac_est + fraction_left*fraction_left*wu_est;
+}
+
+// trigger work fetch
+// 
+void CLIENT_STATE::request_work_fetch(const char* where) {
+    if (log_flags.work_fetch_debug) {
+        msg_printf(0, MSG_INFO, "[work_fetch_debug] Request work fetch: %s", where);
+    }
+    must_check_work_fetch = true;
+}
 
 const char *BOINC_RCSID_d3a4a7711 = "$Id$";

@@ -4,14 +4,10 @@ CXXFLAGS = -g -DSIM \
 
 OBJS = sim.o \
     client_msgs.o \
-    client_types.o \
-    cs_apps.o \
-    cs_prefs.o \
     cpu_sched.o \
     log_flags.o \
     time_stats.o \
     work_fetch.o \
-    ../lib/hostinfo.o \
     ../lib/filesys.o \
     ../lib/mfile.o \
     ../lib/miofile.o \

@@ -230,75 +230,6 @@ int CLIENT_STATE::input_files_available(RESULT* rp, bool verify) {
     return 0;
 }
 
-
-// if there's not an active task for the result, make one
-//
-ACTIVE_TASK* CLIENT_STATE::get_task(RESULT* rp) {
-    ACTIVE_TASK *atp = lookup_active_task_by_result(rp);
-    if (!atp) {
-        atp = new ACTIVE_TASK;
-        atp->slot = active_tasks.get_free_slot();
-        atp->init(rp);
-        active_tasks.active_tasks.push_back(atp);
-    }
-    return atp;
-}
-
-
-// find total resource shares of all projects
-//
-double CLIENT_STATE::total_resource_share() {
-    double x = 0;
-    for (unsigned int i=0; i<projects.size(); i++) {
-        if (!projects[i]->non_cpu_intensive ) {
-            x += projects[i]->resource_share;
-        }
-    }
-    return x;
-}
-
-// same, but only runnable projects (can use CPU right now)
-//
-double CLIENT_STATE::runnable_resource_share() {
-    double x = 0;
-    for (unsigned int i=0; i<projects.size(); i++) {
-        PROJECT* p = projects[i];
-        if (p->non_cpu_intensive) continue;
-        if (p->runnable()) {
-            x += p->resource_share;
-        }
-    }
-    return x;
-}
-
-// same, but potentially runnable (could ask for work right now)
-//
-double CLIENT_STATE::potentially_runnable_resource_share() {
-    double x = 0;
-    for (unsigned int i=0; i<projects.size(); i++) {
-        PROJECT* p = projects[i];
-        if (p->non_cpu_intensive) continue;
-        if (p->potentially_runnable()) {
-            x += p->resource_share;
-        }
-    }
-    return x;
-}
-
-// same, but nearly runnable (could be downloading work right now)
-//
-double CLIENT_STATE::nearly_runnable_resource_share() {
-    double x = 0;
-    for (unsigned int i=0; i<projects.size(); i++) {
-        PROJECT* p = projects[i];
-        if (p->non_cpu_intensive) continue;
-        if (p->nearly_runnable()) {
-            x += p->resource_share;
-        }
-    }
-    return x;
-}
-
 // called at startup (after get_host_info())
 // and when general prefs have been parsed
 //
@@ -365,25 +296,32 @@ int CLIENT_STATE::choose_version_num(WORKUNIT* wup, SCHEDULER_REPLY& sr) {
     return best;
 }
 
-// trigger work fetch
-// 
-void CLIENT_STATE::request_work_fetch(const char* where) {
-    if (log_flags.work_fetch_debug) {
-        msg_printf(0, MSG_INFO, "[work_fetch_debug] Request work fetch: %s", where);
-    }
-    must_check_work_fetch = true;
-}
-
-// Find the active task for a given result
+// Find the ACTIVE_TASK in the current set with the matching PID
 //
-ACTIVE_TASK* CLIENT_STATE::lookup_active_task_by_result(RESULT* rep) {
-    for (unsigned int i = 0; i < active_tasks.active_tasks.size(); i ++) {
-        if (active_tasks.active_tasks[i]->result == rep) {
-            return active_tasks.active_tasks[i];
-        }
+ACTIVE_TASK* ACTIVE_TASK_SET::lookup_pid(int pid) {
+    unsigned int i;
+    ACTIVE_TASK* atp;
+
+    for (i=0; i<active_tasks.size(); i++) {
+        atp = active_tasks[i];
+        if (atp->pid == pid) return atp;
     }
     return NULL;
 }
 
+// Find the ACTIVE_TASK in the current set with the matching result
+//
+ACTIVE_TASK* ACTIVE_TASK_SET::lookup_result(RESULT* result) {
+    unsigned int i;
+    ACTIVE_TASK* atp;
+
+    for (i=0; i<active_tasks.size(); i++) {
+        atp = active_tasks[i];
+        if (atp->result == result) {
+            return atp;
+        }
+    }
+    return NULL;
+}
 
 const char *BOINC_RCSID_7bf63ad771 = "$Id$";
