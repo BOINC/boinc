@@ -910,6 +910,10 @@
 				RelativePath="..\client\win\win_service.cpp"
 				>
 			</File>
+			<File
+				RelativePath="..\client\work_fetch.C"
+				>
+			</File>
 		</Filter>
 		<Filter
 			Name="Header Files"

@@ -32,6 +32,7 @@
 #include "diagnostics.h"
 #include "diagnostics_win.h"
 #include "error_numbers.h"
+#include "str_util.h"
 #include "util.h"
 
 

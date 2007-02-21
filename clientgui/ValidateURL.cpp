@@ -23,7 +23,7 @@
 
 #include "stdwx.h"
 #include "ValidateURL.h"
-#include "util.h"
+#include "str_util.h"
 
 
 IMPLEMENT_DYNAMIC_CLASS(CValidateURL, wxValidator)

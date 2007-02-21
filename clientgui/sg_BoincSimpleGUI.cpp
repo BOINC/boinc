@@ -24,7 +24,7 @@
 
 #include "stdwx.h"
 #include "diagnostics.h"
-#include "util.h"
+#include "str_util.h"
 #include "mfile.h"
 #include "miofile.h"
 #include "parse.h"

@@ -1875,3 +1875,20 @@ David  21 Feb 2007
 
     client/
         work_fetch.C (new)
+
+David  21 Feb 2007
+	- windows compile fixes
+
+	client/
+		cs_statefile.C
+		win/
+			hostinfo_win.cpp
+	clientgui/
+		(several).cpp
+	lib/
+		diagnostics_win.C
+	win_build/
+		boinc_cli_curl.vcproj
+		boinc_ss.vcproj
+		boincmgr_cur.vcproj
+		libboinc.vcproj

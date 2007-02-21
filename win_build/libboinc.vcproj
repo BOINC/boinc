@@ -305,6 +305,10 @@
 				</FileConfiguration>
 			</File>
 			<File
+				RelativePath="..\lib\str_util.C"
+				>
+			</File>
+			<File
 				RelativePath="..\lib\util.C"
 				>
 				<FileConfiguration
@@ -408,6 +412,10 @@
 			</File>
 			<File
 				RelativePath="..\lib\std_fixes.h"
+				>
+			</File>
+			<File
+				RelativePath="..\lib\str_util.h"
 				>
 			</File>
 			<File

@@ -865,6 +865,10 @@
 				>
 			</File>
 			<File
+				RelativePath="..\lib\str_util.C"
+				>
+			</File>
+			<File
 				RelativePath="..\lib\util.C"
 				>
 				<FileConfiguration
