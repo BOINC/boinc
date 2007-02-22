@@ -1924,3 +1924,9 @@ David  22 Feb 2007
         app_control.C
         log_flags.C,h
         sim.C
+
+David  22 Feb 2007
+	- core client, Win: set processor affinity mask for benchmark threads
+
+	client/
+		cs_benchmark.C
