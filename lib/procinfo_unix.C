@@ -98,13 +98,13 @@ struct PROC_STAT {
 int PROC_STAT::parse(char* buf) {
     int n = sscanf(buf, "%d %s %c %d %d %d %d %d "
                    "%lu %lu %lu %lu %lu %lu %lu "
-                   "%ld %ld %ld %ld %ld %ld "
+                   "%d %d %d %d %d %d "
                    "%lu %lu "
-                   "%ld "
+                   "%d "
                    "%lu %lu %lu %lu %lu %lu %lu %lu %lu %lu %lu %lu %lu "
                    "%d %d",
                    &pid,
-                   &comm,
+                   comm,
                    &state,
                    &ppid,
                    &pgrp,
@@ -143,7 +143,11 @@ int PROC_STAT::parse(char* buf) {
                    &exit_signal,
                    &processor
                   );
-    return 0;
+    if (n == 39) return 0;
+
+    // I don't see a good choice of ERR_ for this...
+    //
+    return 1;
 }
 
 // build table of all processes in system

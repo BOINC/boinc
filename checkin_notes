@@ -1906,3 +1906,13 @@ David  21 Feb 2007
         makefile_sim
         net_stats.h
         sim.C,h
+
+Bruce 22 Feb 2007
+    - fix scan format bug in reading proc info (UNTESTED!)
+      [David, Rom, should we add an ERR_SCANF to errnum.h ?]
+    - insert shmem hack for E@H
+
+    lib/
+        procinfo_unix.C
+        shmem.C
+

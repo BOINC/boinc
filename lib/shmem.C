@@ -166,7 +166,11 @@ int create_shmem(key_t key, int size, gid_t gid, void** pp) {
     // seems like some platforms require one or the other
     // (this may be superstition)
     //
+#ifdef EINSTEIN_AT_HOME
+    id = shmget(key, size, IPC_CREAT|0666);
+#else
     id = shmget(key, size, IPC_CREAT|0660);
+#endif
     if (id < 0) {
         id = shmget(key, size, IPC_CREAT|SHM_R|SHM_W);
     }
