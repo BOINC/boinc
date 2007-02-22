@@ -35,7 +35,7 @@ array("January 19, 2007",
 
 ),
 array("January 18, 2007",
-    "The paper \"<a href=rosetta_ms.doc>Reporting@Home: Delivering Dynamic Graphical Feedback to Participants in Community Computing Projects</a>\"
+    "The paper \"<a href=http://research.microsoft.com/research/pubs/view.aspx?type=Technical%20Report&id=1259>Reporting@Home: Delivering Dynamic Graphical Feedback to Participants in Community Computing Projects</a>\"
     describes how Rosetta@home delivers personalized
     graphical progress reports to its volunteers."
 ),

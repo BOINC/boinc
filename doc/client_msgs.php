@@ -137,6 +137,9 @@ list_item_func("<mem_usage_debug>",
 list_item_func("<network_status_debug>",
     "Network status (whether need physical connection)."
 );
+list_item_func("<checkpoint_debug>",
+    "Show when applications checkpoint"
+);
 list_end();
 echo "
 <h2>Behavioral parameters</h2>

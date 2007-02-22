@@ -75,8 +75,6 @@ public:
 #ifdef _WIN32
     HANDLE pid_handle, thread_handle, quitRequestEvent, shm_handle;
     bool kill_all_children();
-#else
-    //key_t shm_key;
 #endif
     SHMEM_SEG_NAME shmem_seg_name;
     RESULT* result;

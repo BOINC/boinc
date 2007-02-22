@@ -955,6 +955,11 @@ bool ACTIVE_TASK_SET::get_msgs() {
                         "[task_debug] result %s checkpointed",
                         atp->result->name
                     );
+                } else if (log_flags.checkpoint_debug) {
+                    msg_printf(atp->wup->project, MSG_INFO,
+                        "[checkpoint_debug] result %s checkpointed",
+                        atp->result->name
+                    );
                 }
             }
         }

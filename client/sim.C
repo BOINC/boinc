@@ -1,3 +1,7 @@
+// usage:
+// sim [--projects X] [--host X] [--prefs X] [--duration X]
+//   defaults: projects.xml, host.xml, prefs.xml, 86400
+
 #include "str_util.h"
 #include "sim.h"
 
@@ -125,4 +129,11 @@ int ACTIVE_TASK::init(RESULT*){
 
 
 int main(int argc, char** argv) {
+    char projects[256], host[256], prefs[256];
+    double duration = 86400;
+
+    strcpy(projects, "projects.xml");
+    strcpy(host, "host.xml");
+    strcpy(prefs, "prefs.xml");
+
 }

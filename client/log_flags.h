@@ -68,6 +68,7 @@ struct LOG_FLAGS {
     bool app_msg_receive;    // show shared-mem message from apps
 	bool mem_usage_debug;	// memory usage
 	bool network_status_debug;
+    bool checkpoint_debug;
 
     LOG_FLAGS();
     int parse(XML_PARSER&);

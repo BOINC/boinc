@@ -1916,3 +1916,11 @@ Bruce 22 Feb 2007
         procinfo_unix.C
         shmem.C
 
+David  22 Feb 2007
+    - add <checkpoint_debug> message flag; shows when apps checkpoint.
+
+    client/
+        app.h
+        app_control.C
+        log_flags.C,h
+        sim.C
