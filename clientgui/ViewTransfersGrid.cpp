@@ -423,11 +423,6 @@ wxInt32 CViewTransfersGrid::FormatStatus(wxInt32 item, wxString& strBuffer) cons
         }
     }
 
-    if (status.task_mode == RUN_MODE_NEVER) {
-        strBuffer = wxT(" (") + strBuffer + wxT(") ");
-        strBuffer = _("Suspended") + strBuffer;
-    }
-
 	strBuffer = wxString(" ", wxConvUTF8) + strBuffer;
 
     return 0;

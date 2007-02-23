@@ -1955,3 +1955,15 @@ David  23 Feb 2007
         sim.C,h
     sched/
         server_types.C
+
+David  23 Feb 2007
+	- core client: disable connection caching in Curl.
+		This may reduce cases where file uploads hang
+		because a server process holds file lock.
+	- manager: fix status text for file transfers
+
+	client/
+		http_curl.C
+	clientgui/
+		ViewTransfers.cpp
+		ViewTransfersGrid.cpp

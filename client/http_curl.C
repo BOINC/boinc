@@ -339,6 +339,11 @@ The checking this option controls is of the identity that the server claims. The
     curlErr = curl_easy_setopt(curlEasy, CURLOPT_AUTOREFERER, 1L);
     curlErr = curl_easy_setopt(curlEasy, CURLOPT_FOLLOWLOCATION, 1L);
 
+    // disable connection caching; if a file upload handler connection
+    // is interrupted, the file will stay locked indefinitely
+    //
+    curlErr = curl_easy_setopt(curlEasy, CURLOPT_FORBID_REUSE, 1L);
+
     // if we tell Curl to accept any encoding (e.g. deflate)
     // it seems to accept them all, which screws up projects that
     // use gzip at the application level.
@@ -461,7 +466,7 @@ The checking this option controls is of the identity that the server claims. The
     }
 
     // turn on debug info if tracing enabled
-    if (log_flags.http_xfer_debug) {
+    if (log_flags.http_debug) {
         static int trace_count = 0;
         curlErr = curl_easy_setopt(curlEasy, CURLOPT_DEBUGFUNCTION, libcurl_debugfunction);
         curlErr = curl_easy_setopt(curlEasy, CURLOPT_DEBUGDATA, this );
