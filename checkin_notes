@@ -1930,3 +1930,9 @@ David  22 Feb 2007
 
 	client/
 		cs_benchmark.C
+22 Feb17 Jan 2007
+    Mac: add str_util.C,h, work_fetch.C to XCode project.
+
+    mac_build/
+        boinc.xcodeproj/
+            project.pbxproj

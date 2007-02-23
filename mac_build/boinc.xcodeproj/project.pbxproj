@@ -204,6 +204,12 @@
 		DD73E3B608A07FC600656EB1 /* gui_rpc_client_ops.C in Sources */ = {isa = PBXBuildFile; fileRef = DD73E34E08A0694000656EB1 /* gui_rpc_client_ops.C */; };
 		DD7748B50A356D6C0025D05E /* SetupSecurity.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DD7748B40A356D6C0025D05E /* SetupSecurity.cpp */; };
 		DD7749680A3596380025D05E /* Security.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DD1929D80918A2F100C31BCF /* Security.framework */; };
+		DD7BF7D90B8E7A9800A009F7 /* str_util.C in Sources */ = {isa = PBXBuildFile; fileRef = DD7BF7D70B8E7A9800A009F7 /* str_util.C */; };
+		DD7BF7DA0B8E7A9800A009F7 /* str_util.C in Sources */ = {isa = PBXBuildFile; fileRef = DD7BF7D70B8E7A9800A009F7 /* str_util.C */; };
+		DD7BF7E10B8E7B3700A009F7 /* str_util.C in Sources */ = {isa = PBXBuildFile; fileRef = DD7BF7D70B8E7A9800A009F7 /* str_util.C */; };
+		DD7BF7E40B8E7B5000A009F7 /* str_util.C in Sources */ = {isa = PBXBuildFile; fileRef = DD7BF7D70B8E7A9800A009F7 /* str_util.C */; };
+		DD7BF7E60B8E7B6C00A009F7 /* str_util.C in Sources */ = {isa = PBXBuildFile; fileRef = DD7BF7D70B8E7A9800A009F7 /* str_util.C */; };
+		DD7BF7E80B8E7BBE00A009F7 /* work_fetch.C in Sources */ = {isa = PBXBuildFile; fileRef = DD7BF7E70B8E7BBE00A009F7 /* work_fetch.C */; };
 		DD7DD79A0B8BFA2F00B11279 /* ViewMessagesGrid.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DDCDCDF00B532433009BB03C /* ViewMessagesGrid.cpp */; };
 		DD7DD79B0B8BFA4000B11279 /* ViewResources.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DD81C42307C5D1D70098A04D /* ViewResources.cpp */; };
 		DD7DD7C90B8BFD4800B11279 /* ViewMessages.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DD81C42507C5D1D70098A04D /* ViewMessages.cpp */; };
@@ -984,6 +990,9 @@
 		DD73E3A408A078AF00656EB1 /* Localization.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = Localization.h; path = ../clientgui/Localization.h; sourceTree = SOURCE_ROOT; };
 		DD7748980A356C880025D05E /* SetUpSecurity */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = SetUpSecurity; sourceTree = BUILT_PRODUCTS_DIR; };
 		DD7748B40A356D6C0025D05E /* SetupSecurity.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = SetupSecurity.cpp; path = ../clientgui/mac/SetupSecurity.cpp; sourceTree = SOURCE_ROOT; };
+		DD7BF7D70B8E7A9800A009F7 /* str_util.C */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.cpp.cpp; name = str_util.C; path = ../lib/str_util.C; sourceTree = SOURCE_ROOT; };
+		DD7BF7D80B8E7A9800A009F7 /* str_util.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = str_util.h; path = ../lib/str_util.h; sourceTree = SOURCE_ROOT; };
+		DD7BF7E70B8E7BBE00A009F7 /* work_fetch.C */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.cpp.cpp; name = work_fetch.C; path = ../client/work_fetch.C; sourceTree = SOURCE_ROOT; };
 		DD7C5E7508110AE3002FCE1E /* ScreenSaver.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = ScreenSaver.framework; path = /System/Library/Frameworks/ScreenSaver.framework; sourceTree = "<absolute>"; };
 		DD81C3D507C5CEB50098A04D /* cpp.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = cpp.h; path = ../client/cpp.h; sourceTree = SOURCE_ROOT; };
 		DD81C3FE07C5D1020098A04D /* BOINCBaseView.cpp */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.cpp.cpp; name = BOINCBaseView.cpp; path = ../clientgui/BOINCBaseView.cpp; sourceTree = SOURCE_ROOT; };
@@ -1586,6 +1595,8 @@
 				AAA31C97042157A800A80164 /* shmem.C */,
 				AAA31C98042157A800A80164 /* shmem.h */,
 				DD407ADC07D2FDF700163EF5 /* std_fixes.h */,
+				DD7BF7D70B8E7A9800A009F7 /* str_util.C */,
+				DD7BF7D80B8E7A9800A009F7 /* str_util.h */,
 				DD407AED07D2FE7200163EF5 /* synch.C */,
 				DD407AEA07D2FE6500163EF5 /* synch.h */,
 				F5EAD479031AF001018E201A /* util.C */,
@@ -1664,6 +1675,7 @@
 				F54B8FE502AC0A0C01FB7237 /* time_stats.h */,
 				DD5EF08807C5B7C7007CCE8D /* version.h */,
 				DD5EF07007C5B329007CCE8D /* whetstone.C */,
+				DD7BF7E70B8E7BBE00A009F7 /* work_fetch.C */,
 				DDFF2AE80A53D599002BC19D /* setprojectgrp.C */,
 				DDD095480A3EDF2D00C95BA4 /* switcher.C */,
 			);
@@ -2470,6 +2482,7 @@
 				DD7DD79A0B8BFA2F00B11279 /* ViewMessagesGrid.cpp in Sources */,
 				DD7DD79B0B8BFA4000B11279 /* ViewResources.cpp in Sources */,
 				DD7DD7C90B8BFD4800B11279 /* ViewMessages.cpp in Sources */,
+				DD7BF7E60B8E7B6C00A009F7 /* str_util.C in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -2520,6 +2533,7 @@
 				DD64DF0509DCC5E000668B3A /* gutil_text.C in Sources */,
 				DD65020A09F599B9008E8A3A /* texfont.c in Sources */,
 				DD65020B09F599B9008E8A3A /* txf_util.C in Sources */,
+				DD7BF7D90B8E7A9800A009F7 /* str_util.C in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -2548,6 +2562,7 @@
 				DD4EC65A08A0A7AF009AA08F /* gui_rpc_client_ops.C in Sources */,
 				DD4EC65B08A0A83F009AA08F /* gui_rpc_client_print.C in Sources */,
 				DD69FF0C084171CF00C01361 /* network.C in Sources */,
+				DD7BF7E10B8E7B3700A009F7 /* str_util.C in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -2578,6 +2593,7 @@
 				DDFD5F2D0818F372002B23D4 /* parse.C in Sources */,
 				DDFD5F2E0818F3A1002B23D4 /* util.C in Sources */,
 				DD0A06F50869A2D2007CD86E /* prefs.C in Sources */,
+				DD7BF7DA0B8E7A9800A009F7 /* str_util.C in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -2663,6 +2679,8 @@
 				DD431F240A415EE70060585A /* SetupSecurity.cpp in Sources */,
 				DDB693500ABFE9C600689FD8 /* procinfo_mac.C in Sources */,
 				DDF9A32F0B2E3D4D00091FCB /* auto_update.C in Sources */,
+				DD7BF7E40B8E7B5000A009F7 /* str_util.C in Sources */,
+				DD7BF7E80B8E7BBE00A009F7 /* work_fetch.C in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
