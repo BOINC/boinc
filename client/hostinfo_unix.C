@@ -89,8 +89,6 @@ extern "C" {
 #ifdef __cplusplus
 }	// extern "C"
 #endif
-
-NXEventHandle gEventHandle;
 #endif  // __APPLE__
 
 #ifdef _HPUX_SOURCE
@@ -732,6 +730,94 @@ inline bool all_logins_idle(time_t t) {
 }
 #endif
 
+#ifdef __APPLE__
+#include <Carbon/Carbon.h>
+
+#ifdef __i386__
+
+#include <ApplicationServices/ApplicationServices.h>
+
+// Returns the system idle time in seconds
+static double GetOSXIdleTime(void) {
+    return (double)CGEventSourceSecondsSinceLastEventType (kCGEventSourceStateCombinedSessionState, kCGAnyInputEventType);
+}
+
+#else
+
+// CGEventSourceSecondsSinceLastEventType() is available only in OS 10.4 and later.  
+// Since the OS10.3.9 SDK doesn't have this function, the PowerPC build would fail 
+// with a link error even with weak linking.  So we have to do this the hard way.
+
+extern "C" {
+    extern double CGSSecondsSinceLastInputEvent(long evType); //  private API for pre-10.4 systems
+}
+
+enum {
+    kCGEventSourceStatePrivate = -1,
+    kCGEventSourceStateCombinedSessionState = 0,
+    kCGEventSourceStateHIDSystemState = 1
+};
+
+#define kCGAnyInputEventType ((CGEventType)(~0))
+typedef uint32_t CGEventSourceStateID;
+typedef uint32_t CGEventType;
+
+CG_EXTERN CFTimeInterval CGEventSourceSecondsSinceLastEventType( CGEventSourceStateID source, CGEventType eventType );
+
+typedef CFTimeInterval (*GetIdleTimeProc)( CGEventSourceStateID source, CGEventType eventType );
+
+// Returns the system idle time in seconds
+static double GetOSXIdleTime(void) {
+    static CFBundleRef bundleRef = NULL;
+    static GetIdleTimeProc GetSysIdleTime = NULL;
+    CFURLRef frameworkURL = NULL;
+    double idleTime = 0;
+    static bool tryNewAPI = true;
+
+    if (tryNewAPI) {
+        if (bundleRef == NULL) {
+            frameworkURL = CFURLCreateWithFileSystemPath (kCFAllocatorSystemDefault, 
+                                CFSTR("/System/Library/Frameworks/ApplicationServices.framework"), kCFURLPOSIXPathStyle, true);
+            if (frameworkURL) {
+                bundleRef = CFBundleCreate(kCFAllocatorSystemDefault, frameworkURL);
+                CFRelease( frameworkURL );
+            }
+        }
+        
+        if (bundleRef) {
+            if ( (GetSysIdleTime == NULL) || 
+                    ( ! CFBundleIsExecutableLoaded( bundleRef ) ) )     // Is this test necessary ?
+                GetSysIdleTime = (GetIdleTimeProc) 
+                            CFBundleGetFunctionPointerForName( bundleRef, CFSTR("CGEventSourceSecondsSinceLastEventType") );
+        }
+        
+        if (GetSysIdleTime)
+            idleTime = (double)GetSysIdleTime (kCGEventSourceStateCombinedSessionState, kCGAnyInputEventType);
+        else {
+            CFRelease( bundleRef );
+            bundleRef = NULL;
+            tryNewAPI = false;  // CGEventSourceSecondsSinceLastEventType() API is not available on this system
+        }
+           
+printf("kCGEventSourceStateCombinedSessionState() returned idleTime = %lf\n", idleTime);
+        if (GetSysIdleTime) 
+            return idleTime;
+    }   // if (tryNewAPI)
+    
+    // On 10.3 use this SPI
+    // From Adium:
+    // On MDD Powermacs, the above function will return a large value when the machine 
+    // is active (-1?).  18446744073.0 is the lowest I've seen on my MDD -ai
+    // Here we check for that value and correctly return a 0 idle time.
+    idleTime = CGSSecondsSinceLastInputEvent (-1);
+    if (idleTime >= 18446744000.0) idleTime = 0.0;
+printf("CGSSecondsSinceLastInputEvent() returned idleTime = %lf\n", idleTime);
+    return (1000.0 * idleTime);
+//    return (double)NXIdleTime(gEventHandle);      // Very old and very slow API
+}
+#endif  // ! __i386__
+#endif  // __APPLE__
+
 bool HOST_INFO::users_idle(bool check_all_logins, double idle_time_to_run) {
 #ifdef HAVE__DEV_TTY1
     char device_tty[] = "/dev/tty1";
@@ -751,7 +837,7 @@ bool HOST_INFO::users_idle(bool check_all_logins, double idle_time_to_run) {
         && (check_all_logins || all_tty_idle(idle_time, device_tty, '1', 7))
 #endif
 #ifdef __APPLE__
-        && (NXIdleTime(gEventHandle) > (60 * idle_time_to_run))
+        && (GetOSXIdleTime() > (60 * idle_time_to_run))
 #endif  // __APPLE__
 
         ;

@@ -1937,3 +1937,11 @@ Charlie 22 Feb 2007
     mac_build/
         boinc.xcodeproj/
             project.pbxproj
+
+Charlie 23 Feb 2007
+    Mac: Create new OSXIdleTime() function to replace deprecated NxIdleTime() API; 
+    client/
+        hostinf_unix.C
+        main.C
+    lib/
+        hostinfo.h

@@ -77,19 +77,4 @@ public:
     void generate_host_cpid();
 };
 
-#ifdef __APPLE__
-#ifdef __cplusplus
-extern "C" {
-#endif
-#include <mach/port.h>
-typedef mach_port_t NXEventHandle;
-NXEventHandle NXOpenEventStatus(void);
-extern double NXIdleTime(NXEventHandle handle);
-#ifdef __cplusplus
-}	// extern "C"
-#endif
-
-extern NXEventHandle gEventHandle;
-#endif
-
 #endif
