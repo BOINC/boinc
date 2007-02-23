@@ -1945,3 +1945,13 @@ Charlie 23 Feb 2007
         main.C
     lib/
         hostinfo.h
+
+David  23 Feb 2007
+    - scheduler: remove <?xml> tag at the start of scheduler reply.
+        This apparently breaks 4.19 clients
+
+    client/
+        client_state.h
+        sim.C,h
+    sched/
+        server_types.C

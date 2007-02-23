@@ -415,9 +415,13 @@ int SCHEDULER_REPLY::write(FILE* fout) {
     unsigned int i, j;
     char buf[LARGE_BLOB_SIZE];
 
+    // Note: at one point we had
+    // "<?xml version=\"1.0\" encoding=\"ISO-8859-1\" ?>\n"
+    // after the Content-type (to make it legit XML),
+    // but this broke 4.19 clients
+    //
     fprintf(fout,
         "Content-type: text/xml\n\n"
-        "<?xml version=\"1.0\" encoding=\"ISO-8859-1\" ?>\n"
         "<scheduler_reply>\n"
         "<scheduler_version>%d</scheduler_version>\n",
         BOINC_MAJOR_VERSION*100+BOINC_MINOR_VERSION

@@ -112,6 +112,9 @@ The following medium-to-large development projects are available:
 </ul>
 <li> Core client:
 <ul>
+<li> After an applications exits (for whatever reaason)
+make sure (after a few second delay) that its subprocesses are gone too.
+Unix: use process groups and killpg().
 <li> Compute disk usage (total, per-project) in a separate thread.
 Or (preferable?) have the Manager do RPCs in a separate thread.
 <li> Don't enforce RAM limits unless free RAM is low

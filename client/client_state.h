@@ -263,7 +263,6 @@ private:
 		return global_prefs.work_buf_min_days * 86400;
 	}
 public:
-	double overall_cpu_frac();
     void request_enforce_schedule(const char*);
     void request_schedule_cpus(const char*);
         // Check for reschedule CPUs ASAP.  Called when:
@@ -370,29 +369,16 @@ private:
 
 // --------------- cs_scheduler.C:
 public:
-    double work_needed_secs();
-    PROJECT* next_project_master_pending();
-    PROJECT* next_project_need_work();
     int make_scheduler_request(PROJECT*);
     int handle_scheduler_reply(PROJECT*, char* scheduler_url, int& nresults);
-    bool compute_work_requests();
     SCHEDULER_OP* scheduler_op;
-    void scale_duration_correction_factors(double);
 private:
     bool contacted_sched_server;
     int overall_work_fetch_urgency;
 
-    PROJECT* find_project_with_overdue_results();
-    PROJECT* next_project_sched_rpc_pending();
-    PROJECT* next_project_trickle_up_pending();
     bool scheduler_rpc_poll();
-    double time_until_work_done(PROJECT*, int, double);
     double avg_proc_rate();
     bool should_get_work();
-    int proj_min_results(PROJECT*, double);
-    void generate_new_host_cpid();
-	void check_project_timeout();
-    void compute_nuploading_results();
 
 // --------------- cs_statefile.C:
 public:
@@ -439,6 +425,24 @@ public:
 
     void check_all();
     void free_mem();
+
+// --------------- work_fetch.C:
+public:
+    int proj_min_results(PROJECT*, double);
+	void check_project_timeout();
+    PROJECT* next_project_master_pending();
+    PROJECT* next_project_sched_rpc_pending();
+    PROJECT* next_project_trickle_up_pending();
+    PROJECT* next_project_need_work();
+    PROJECT* find_project_with_overdue_results();
+	double overall_cpu_frac();
+    double time_until_work_done(PROJECT*, int, double);
+    bool compute_work_requests();
+    double work_needed_secs();
+    void scale_duration_correction_factors(double);
+    void generate_new_host_cpid();
+    void compute_nuploading_results();
+
 };
 
 extern CLIENT_STATE gstate;

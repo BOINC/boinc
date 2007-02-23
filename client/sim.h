@@ -2,6 +2,7 @@
 
 #include "app.h"
 #include "time_stats.h"
+#include "client_types.h"
 
 using std::vector;
 
@@ -53,7 +54,6 @@ private:
         return global_prefs.work_buf_min_days * 86400;
     }
 public:
-    double overall_cpu_frac();
     void request_enforce_schedule(const char*);
     void request_schedule_cpus(const char*);
 
@@ -88,6 +88,29 @@ private:
     bool handle_finished_apps();
 public:
     ACTIVE_TASK* get_task(RESULT*);
+
+// --------------- work_fetch.C:
+public:
+    int proj_min_results(PROJECT*, double);
+	void check_project_timeout();
+    PROJECT* next_project_master_pending();
+    PROJECT* next_project_sched_rpc_pending();
+    PROJECT* next_project_trickle_up_pending();
+    PROJECT* next_project_need_work();
+    PROJECT* find_project_with_overdue_results();
+	double overall_cpu_frac();
+    double time_until_work_done(PROJECT*, int, double);
+    bool compute_work_requests();
+    double work_needed_secs();
+    void scale_duration_correction_factors(double);
+    void generate_new_host_cpid();
+    void compute_nuploading_results();
+
+//////////////////
+    int parse_projects(char*);
+    int parse_host(char*);
+    void simulate(double);
+    bool scheduler_rpc_poll();
 };
 
 class NET_STATUS {
@@ -96,3 +119,53 @@ public:
 };
 
 extern CLIENT_STATE gstate;
+
+////////////////////////
+
+class DIST {
+public:
+    virtual double sample();
+};
+
+class NORMAL_DIST: public DIST {
+public:
+    double mean;
+    double var;
+    double sample();
+};
+
+class UNIFORM_DIST: public DIST {
+public:
+    double lo;
+    double hi;
+    double sample();
+};
+
+class RAND_PROCESS {
+public:
+    double fraction_up;
+    double up_lambda;
+};
+
+class SIM_APP: public APP {
+public:
+    double latency_bound;
+    DIST* fpops;
+    DIST* checkpoint_period;
+    double working_set;
+
+    int parse(XML_PARSER&);
+};
+
+class SIM_PROJECT: public PROJECT {
+public:
+    RAND_PROCESS available;
+    int parse(XML_PARSER&);
+};
+
+class SIM_HOST: public HOST_INFO {
+public:
+    RAND_PROCESS available;
+    RAND_PROCESS idle;
+    int parse(XML_PARSER&);
+};

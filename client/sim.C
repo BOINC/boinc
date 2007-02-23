@@ -109,6 +109,33 @@ RESULT* CLIENT_STATE::lookup_result(PROJECT* p, const char* name) {
     return 0;
 }
 
+bool CLIENT_STATE::scheduler_rpc_poll() {
+    PROJECT *p;
+    bool action=false;
+
+    p = next_project_sched_rpc_pending();
+    if (p) {
+        // simulate RPC
+        return true;
+    }
+    
+    p = find_project_with_overdue_results();
+    if (p) {
+        // simulate RPC
+        return true;
+    }
+    p = next_project_need_work();
+    if (p) {
+        // simulate RPC
+        return true;
+    }
+    return false;
+}
+
+bool ACTIVE_TASK_SET::poll() {
+    return false;
+}
+
 //////////////// FUNCTIONS WE NEED TO IMPLEMENT /////////////
 
 ACTIVE_TASK::ACTIVE_TASK() {
@@ -127,13 +154,51 @@ int ACTIVE_TASK::init(RESULT*){
     return 0;
 }
 
+//////////////// OTHER
+
+int SIM_APP::parse(XML_PARSER& p) {
+}
+
+int SIM_PROJECT::parse(XML_PARSER& p) {
+}
+
+int SIM_HOST::parse(XML_PARSER& p) {
+}
+
+int CLIENT_STATE::parse_projects(char*) {
+}
+
+int CLIENT_STATE::parse_host(char*) {
+}
+
+void CLIENT_STATE::simulate(double duration) {
+    bool action;
+    now = 0;
+    while (1) {
+        while (1) {
+            action = active_tasks.poll();
+            action |= possibly_schedule_cpus();
+            action |= enforce_schedule();
+            action |= compute_work_requests();
+            action |= scheduler_rpc_poll();
+            if (!action) break;
+        }
+        now += 60;
+        if (now > duration) break;
+    }
+}
 
 int main(int argc, char** argv) {
     char projects[256], host[256], prefs[256];
     double duration = 86400;
+    bool flag;
 
     strcpy(projects, "projects.xml");
     strcpy(host, "host.xml");
     strcpy(prefs, "prefs.xml");
 
+    gstate.parse_projects(projects);
+    gstate.parse_host(host);
+    gstate.global_prefs.parse_file(prefs, "", flag);
+    gstate.simulate(duration);
 }
