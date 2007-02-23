@@ -235,6 +235,7 @@ private:
     bool garbage_collect();
     bool garbage_collect_always();
     bool update_results();
+    int nresults_for_project(PROJECT*);
 
 // --------------- cpu_sched.C:
 private:

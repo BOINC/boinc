@@ -255,8 +255,10 @@ f72103eb0995be77cac54f253c0ba639a814d3293646ae11894e9d1367a98790
 .
        </url_signature>
        <authenticator>KEY</authenticator>
-       [ <update/> ]
-       [ <detach/> ]
+       [ <update>0|1</update> ]
+       [ <detach>0|1</detach> ]
+       [ <dont_request_more_work>0|1</dont_request_more_work> ]
+       [ <detach_when_done>0|1</detach_when_done> ]
        [ <resource_share>X</resource_share> ]
     </account>
     ...
@@ -318,10 +320,14 @@ list_item("action",
     <dt>authenticator
     <dd>The account's authenticator.
     <dt>detach
-    <dd>If present, the client should detach this project.
+    <dd>If nonzero, the client should detach this project.
     <dt>update
-    <dd>If present, the client should contact this project
+    <dd>If nonzero, the client should contact this project
         to get new global preferences.
+    <dt>dont_request_more_work
+    <dd>If nonzero, don't request any more work from this project.
+    <dt>detach_when_done
+    <dd>If nonzero, detach from this project when all work is completed
     <dt>resource_share
     <dd>Specifies a resource share for this project.
         If present, this overrides the resource share reported by the project.

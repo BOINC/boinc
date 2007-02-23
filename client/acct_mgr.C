@@ -193,6 +193,8 @@ int AM_ACCOUNT::parse(XML_PARSER& xp) {
 
     detach = false;
     update = false;
+    dont_request_more_work = false;
+    detach_when_done = false;
     url = "";
     strcpy(url_signature, "");
     authenticator = "";
@@ -222,6 +224,8 @@ int AM_ACCOUNT::parse(XML_PARSER& xp) {
         if (xp.parse_string(tag, "authenticator", authenticator)) continue;
         if (xp.parse_bool(tag, "detach", detach)) continue;
         if (xp.parse_bool(tag, "update", update)) continue;
+        if (xp.parse_bool(tag, "dont_request_more_work", dont_request_more_work)) continue;
+        if (xp.parse_bool(tag, "detach_when_done", detach_when_done)) continue;
         if (xp.parse_double(tag, "resource_share", resource_share)) continue;
     }
     return ERR_XML_PARSE;
@@ -394,6 +398,8 @@ void ACCT_MGR_OP::handle_reply(int http_op_retval) {
                     } else {
                         //msg_printf(pp, MSG_INFO, "Already attached");
                         pp->attached_via_acct_mgr = true;
+                        pp->dont_request_more_work = acct.dont_request_more_work;
+                        pp->detach_when_done = acct.detach_when_done;
 
                         // initiate a scheduler RPC if requested by AMS
                         //

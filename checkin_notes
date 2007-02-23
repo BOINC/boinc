@@ -1967,3 +1967,20 @@ David  23 Feb 2007
 	clientgui/
 		ViewTransfers.cpp
 		ViewTransfersGrid.cpp
+
+David  23 Feb 2007
+    - core client: add bool detach_when_done to PROJECT.
+        If set, detach from project when it has not results
+        (i.e. when all work is finished and acknowledged).
+        Save/restore in client state file.
+    - core client: add optional <detach_when_done>
+        and <dont_request_more_work> flags to account element
+        in account manager reply messages.
+        See acct_mgt.php
+
+    client/
+        acct_mgr.C,h
+        client_state.C,h
+        client_types.C,h
+    sched/
+        handle_request.C

@@ -114,7 +114,7 @@ list_item_func("<http_xfer_debug>",
     "Debugging information about network communication"
 );
 list_item_func("<benchmark_debug>",
-    "Debugging information about CPU benchmarks"
+    "Debugging information about CPU benchmarks (version 5.8+)"
 );
 list_item_func("<poll_debug>",
     "Show what poll functions do"
@@ -138,7 +138,7 @@ list_item_func("<network_status_debug>",
     "Network status (whether need physical connection)."
 );
 list_item_func("<checkpoint_debug>",
-    "Show when applications checkpoint"
+    "Show when applications checkpoint (version 5.10+)"
 );
 list_end();
 echo "

@@ -91,6 +91,7 @@ void PROJECT::init() {
     send_file_list = false;
     suspended_via_gui = false;
     dont_request_more_work = false;
+    detach_when_done = false;
     attached_via_acct_mgr = false;
     strcpy(code_sign_key, "");
     user_files.clear();
@@ -170,6 +171,7 @@ int PROJECT::parse_state(MIOFILE& in) {
         else if (parse_bool(buf, "verify_files_on_app_start", verify_files_on_app_start)) continue;
         else if (match_tag(buf, "<suspended_via_gui/>")) suspended_via_gui = true;
         else if (match_tag(buf, "<dont_request_more_work/>")) dont_request_more_work = true;
+        else if (match_tag(buf, "<detach_when_done/>")) detach_when_done = true;
         else if (parse_double(buf, "<short_term_debt>", short_term_debt)) continue;
         else if (parse_double(buf, "<long_term_debt>", long_term_debt)) continue;
         else if (parse_double(buf, "<resource_share>", x)) continue;    // not authoritative
@@ -226,7 +228,7 @@ int PROJECT::write_state(MIOFILE& out, bool gui_rpc) {
         "    <resource_share>%f</resource_share>\n"
         "    <duration_correction_factor>%f</duration_correction_factor>\n"
 		"    <sched_rpc_pending>%d</sched_rpc_pending>\n"
-        "%s%s%s%s%s%s%s%s%s",
+        "%s%s%s%s%s%s%s%s%s%s",
         master_url,
         project_name,
         symstore,
@@ -259,6 +261,7 @@ int PROJECT::write_state(MIOFILE& out, bool gui_rpc) {
         verify_files_on_app_start?"    <verify_files_on_app_start/>\n":"",
         suspended_via_gui?"    <suspended_via_gui/>\n":"",
         dont_request_more_work?"    <dont_request_more_work/>\n":"",
+        detach_when_done?"    <detach_when_done/>\n":"",
         attached_via_acct_mgr?"    <attached_via_acct_mgr/>\n":"",
         (this == gstate.scheduler_op->cur_proj)?"   <scheduler_rpc_in_progress/>\n":""
     );
@@ -328,6 +331,7 @@ void PROJECT::copy_state_fields(PROJECT& p) {
     verify_files_on_app_start = p.verify_files_on_app_start;
     suspended_via_gui = p.suspended_via_gui;
     dont_request_more_work = p.dont_request_more_work;
+    detach_when_done = p.detach_when_done;
     attached_via_acct_mgr = p.attached_via_acct_mgr;
     duration_correction_factor = p.duration_correction_factor;
     ams_resource_share = p.ams_resource_share;

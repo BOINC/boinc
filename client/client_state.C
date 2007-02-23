@@ -784,12 +784,36 @@ void CLIENT_STATE::print_summary() {
     }
 }
 
+int CLIENT_STATE::nresults_for_project(PROJECT* p) {
+    int n=0;
+    for (unsigned int i=0; i<results.size(); i++) {
+        if (results[i]->project == p) n++;
+    }
+    return n;
+}
+
 bool CLIENT_STATE::garbage_collect() {
     static double last_time=0;
     if (gstate.now - last_time < 1.0) return false;
     last_time = gstate.now;
 
-    return garbage_collect_always();
+    bool action = garbage_collect_always();
+    if (action) return true;
+
+    // Detach projects that are marked for detach when done
+    // and are in fact done (have no results).
+    // This is done here (not in garbage_collect_always())
+    // because detach_project() calls garbage_collect_always(),
+    // and we need to avoid infinite recursion
+    //
+    for (unsigned i=0; i<projects.size(); i++) {
+        PROJECT* p = projects[i];
+        if (p->detach_when_done && !nresults_for_project(p)) {
+            detach_project(p);
+            action = true;
+        }
+    }
+    return action;
 }
 
 // delete unneeded records and files
