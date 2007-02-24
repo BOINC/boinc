@@ -15,6 +15,9 @@ bool user_active;
 
 //////////////// FUNCTIONS MODIFIED OR STUBBED OUT /////////////
 
+CLIENT_STATE::CLIENT_STATE() {
+}
+
 FILE* boinc_fopen(const char* path, const char* mode) {
     return fopen(path, mode);
 }

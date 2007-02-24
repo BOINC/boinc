@@ -8,7 +8,6 @@ OBJS = sim.o \
     log_flags.o \
     time_stats.o \
     work_fetch.o \
-    ../lib/filesys.o \
     ../lib/mfile.o \
     ../lib/miofile.o \
     ../lib/parse.o \

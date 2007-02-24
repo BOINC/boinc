@@ -17,6 +17,7 @@ public:
     GLOBAL_PREFS global_prefs;
     HOST_INFO host_info;
     TIME_STATS time_stats;
+    CLIENT_STATE();
 
 private:
     double app_started;
