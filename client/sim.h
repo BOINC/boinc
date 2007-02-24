@@ -12,6 +12,7 @@ public:
     vector<PROJECT*> projects;
     vector<WORKUNIT*> workunits;
     vector<RESULT*> results;
+    vector<APP*> apps;
     ACTIVE_TASK_SET active_tasks;
     GLOBAL_PREFS global_prefs;
     HOST_INFO host_info;
@@ -122,36 +123,34 @@ extern CLIENT_STATE gstate;
 
 ////////////////////////
 
-class DIST {
-public:
-    virtual double sample();
-};
-
-class NORMAL_DIST: public DIST {
+class NORMAL_DIST {
 public:
     double mean;
     double var;
+    int parse(XML_PARSER&, char* end_tag);
     double sample();
 };
 
-class UNIFORM_DIST: public DIST {
+class UNIFORM_DIST {
 public:
     double lo;
     double hi;
+    int parse(XML_PARSER&, char* end_tag);
     double sample();
 };
 
-class RAND_PROCESS {
+class RANDOM_PROCESS {
 public:
-    double fraction_up;
-    double up_lambda;
+    double frac;
+    double lambda;
+    int parse(XML_PARSER&, char* end_tag);
 };
 
 class SIM_APP: public APP {
 public:
     double latency_bound;
-    DIST* fpops;
-    DIST* checkpoint_period;
+    NORMAL_DIST fpops;
+    NORMAL_DIST checkpoint_period;
     double working_set;
 
     int parse(XML_PARSER&);
@@ -159,13 +158,13 @@ public:
 
 class SIM_PROJECT: public PROJECT {
 public:
-    RAND_PROCESS available;
+    RANDOM_PROCESS available;
     int parse(XML_PARSER&);
 };
 
 class SIM_HOST: public HOST_INFO {
 public:
-    RAND_PROCESS available;
-    RAND_PROCESS idle;
+    RANDOM_PROCESS available;
+    RANDOM_PROCESS idle;
     int parse(XML_PARSER&);
 };

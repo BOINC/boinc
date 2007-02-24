@@ -1984,3 +1984,13 @@ David  23 Feb 2007
         client_types.C,h
     sched/
         handle_request.C
+
+David  23 Feb 2007
+	- client simulator: wrote more code, added Windows project
+
+	client/
+		sim.C,h
+		work_fetch.C
+	win_build/
+		boinc.sln
+		sim.vcproj

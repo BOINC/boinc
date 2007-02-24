@@ -2,7 +2,10 @@
 // sim [--projects X] [--host X] [--prefs X] [--duration X]
 //   defaults: projects.xml, host.xml, prefs.xml, 86400
 
+#include "error_numbers.h"
 #include "str_util.h"
+#include "filesys.h"
+#include "network.h"
 #include "sim.h"
 
 CLIENT_STATE gstate;
@@ -12,14 +15,18 @@ bool user_active;
 
 //////////////// FUNCTIONS MODIFIED OR STUBBED OUT /////////////
 
+FILE* boinc_fopen(const char* path, const char* mode) {
+    return fopen(path, mode);
+}
+
 void CLIENT_STATE::set_client_state_dirty(char const*) {
 }
 
 void HOST_INFO::generate_host_cpid() {}
 
-bool get_connected_state() {return true;}
+int get_connected_state() {return CONNECTED_STATE_CONNECTED;}
 
-int CLIENT_STATE::report_result_error(RESULT& res, const char* format, ...) {}
+int CLIENT_STATE::report_result_error(RESULT& , const char* , ...) {return 0;}
 
 void show_message(PROJECT *p, char* msg, int priority) {
     const char* x;
@@ -111,7 +118,6 @@ RESULT* CLIENT_STATE::lookup_result(PROJECT* p, const char* name) {
 
 bool CLIENT_STATE::scheduler_rpc_poll() {
     PROJECT *p;
-    bool action=false;
 
     p = next_project_sched_rpc_pending();
     if (p) {
@@ -156,19 +162,139 @@ int ACTIVE_TASK::init(RESULT*){
 
 //////////////// OTHER
 
-int SIM_APP::parse(XML_PARSER& p) {
+PROJECT::PROJECT() {}
+
+int NORMAL_DIST::parse(XML_PARSER& xp, char* end_tag) {
+    char tag[256];
+    bool is_tag;
+    while(!xp.get(tag, sizeof(tag), is_tag)) {
+        if (!is_tag) return ERR_XML_PARSE;
+        if (xp.parse_double(tag, "mean", mean)) continue;
+        else if (xp.parse_double(tag, "var", var)) continue;
+        else if (!strcmp(tag, end_tag)) return 0;
+        else return ERR_XML_PARSE;
+    }
+    return ERR_XML_PARSE;
 }
 
-int SIM_PROJECT::parse(XML_PARSER& p) {
+int UNIFORM_DIST::parse(XML_PARSER& xp, char* end_tag) {
+    char tag[256];
+    bool is_tag;
+    while(!xp.get(tag, sizeof(tag), is_tag)) {
+        if (!is_tag) return ERR_XML_PARSE;
+        if (xp.parse_double(tag, "lo", lo)) continue;
+        else if (xp.parse_double(tag, "hi", hi)) continue;
+        else if (!strcmp(tag, end_tag)) return 0;
+        else return ERR_XML_PARSE;
+    }
+    return ERR_XML_PARSE;
 }
 
-int SIM_HOST::parse(XML_PARSER& p) {
+int RANDOM_PROCESS::parse(XML_PARSER& xp, char* end_tag) {
+    char tag[256];
+    bool is_tag;
+    while(!xp.get(tag, sizeof(tag), is_tag)) {
+        if (!is_tag) return ERR_XML_PARSE;
+        if (xp.parse_double(tag, "frac", frac)) continue;
+        else if (xp.parse_double(tag, "lambda", lambda)) continue;
+        else if (!strcmp(tag, end_tag)) return 0;
+        else return ERR_XML_PARSE;
+    }
+    return ERR_XML_PARSE;
 }
 
-int CLIENT_STATE::parse_projects(char*) {
+int SIM_APP::parse(XML_PARSER& xp) {
+    char tag[256];
+    bool is_tag;
+    int retval;
+
+    while(!xp.get(tag, sizeof(tag), is_tag)) {
+        if (!is_tag) return ERR_XML_PARSE;
+        if (!strcmp(tag, "/app")) {
+            return 0;
+        } else if (xp.parse_double(tag, "latency_bound", latency_bound)) continue;
+        else if (!strcmp(tag, "fpops")) {
+            retval = fpops.parse(xp, "/fpops");
+            if (retval) return retval;
+        } else if (!strcmp(tag, "checkpoint_period")) {
+            retval = checkpoint_period.parse(xp, "/checkpoint_period");
+            if (retval) return retval;
+        } else if (xp.parse_double(tag, "working_set", working_set)) continue;
+        else return ERR_XML_PARSE;
+    }
+    return ERR_XML_PARSE;
+}
+
+int SIM_PROJECT::parse(XML_PARSER& xp) {
+    char tag[256];
+    bool is_tag;
+    int retval;
+
+    while(!xp.get(tag, sizeof(tag), is_tag)) {
+        if (!is_tag) return ERR_XML_PARSE;
+        if (!strcmp(tag, "/project")) return 0;
+        else if (xp.parse_str(tag, "project_name", project_name, sizeof(project_name))) continue;
+        else if (!strcmp(tag, "app")) {
+            SIM_APP* sap = new SIM_APP;
+            retval = sap->parse(xp);
+            if (retval) return retval;
+            gstate.apps.push_back(sap);
+        } else if (!strcmp(tag, "available")) {
+            retval = available.parse(xp, "/available");
+            if (retval) return retval;
+        } else return ERR_XML_PARSE;
+    }
+    return ERR_XML_PARSE;
+}
+
+int SIM_HOST::parse(XML_PARSER& xp) {
+    char tag[256];
+    bool is_tag;
+    int retval;
+
+    while(!xp.get(tag, sizeof(tag), is_tag)) {
+        if (!is_tag) return ERR_XML_PARSE;
+        if (!strcmp(tag, "/host")) return 0;
+        else if (xp.parse_double(tag, "p_fpops", p_fpops)) continue;
+        else if (xp.parse_double(tag, "m_nbytes", m_nbytes)) continue;
+        else if (!strcmp(tag, "available")) {
+            retval = available.parse(xp, "/available");
+            if (retval) return retval;
+        } else if (!strcmp(tag, "idle")) {
+            retval = idle.parse(xp, "/idle");
+            if (retval) return retval;
+        } else return ERR_XML_PARSE;
+    }       
+    return ERR_XML_PARSE;
+}
+
+int CLIENT_STATE::parse_projects(char* name) {
+    char tag[256];
+    bool is_tag;
+    MIOFILE mf;
+    int retval;
+
+    FILE* f = fopen(name, "r");
+    if (!f) return ERR_FOPEN;
+    mf.init_file(f);
+    XML_PARSER xp(&mf);
+    if (!xp.parse_start("projects")) return ERR_XML_PARSE;
+    while(!xp.get(tag, sizeof(tag), is_tag)) {
+        if (!is_tag) return ERR_XML_PARSE;
+        if (!strcmp(tag, "project")) {
+            SIM_PROJECT *p = new SIM_PROJECT;
+            retval = p->parse(xp);
+            if (retval) return retval;
+            projects.push_back(p);
+        } else if (!strcmp(tag, "/projects")) {
+            return 0;
+        }
+    }
+    return ERR_XML_PARSE;
 }
 
 int CLIENT_STATE::parse_host(char*) {
+    return 0;
 }
 
 void CLIENT_STATE::simulate(double duration) {
@@ -192,13 +318,26 @@ int main(int argc, char** argv) {
     char projects[256], host[256], prefs[256];
     double duration = 86400;
     bool flag;
+    int retval; 
 
     strcpy(projects, "projects.xml");
     strcpy(host, "host.xml");
     strcpy(prefs, "prefs.xml");
 
-    gstate.parse_projects(projects);
-    gstate.parse_host(host);
-    gstate.global_prefs.parse_file(prefs, "", flag);
+    retval = gstate.parse_projects(projects);
+    if (retval) {
+        printf("can't parse projects\n");
+        exit(1);
+    }
+    retval = gstate.parse_host(host);
+    if (retval) {
+        printf("can't parse host\n");
+        exit(1);
+    }
+    retval = gstate.global_prefs.parse_file(prefs, "", flag);
+    if (retval) {
+        printf("can't parse prefs\n");
+        exit(1);
+    }
     gstate.simulate(duration);
 }

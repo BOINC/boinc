@@ -38,7 +38,6 @@
 #include <set>
 #endif
 
-#include "crypt.h"
 #include "error_numbers.h"
 #include "file_names.h"
 #include "filesys.h"
