@@ -36,7 +36,11 @@
 #include "util.h"
 #include "error_numbers.h"
 #include "client_msgs.h"
+#ifdef SIM
+#include "sim.h"
+#else
 #include "client_state.h"
+#endif
 #include "network.h"
 #include "log_flags.h"
 

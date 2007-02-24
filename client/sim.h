@@ -6,6 +6,19 @@
 
 using std::vector;
 
+#define WORK_FETCH_DONT_NEED 0
+    // project: suspended, deferred, or no new work (can't ask for more work)
+    // overall: not work_fetch_ok (from CPU policy)
+#define WORK_FETCH_OK        1
+    // project: has more than min queue * share, not suspended/def/nonewwork
+    // overall: at least min queue, work fetch OK
+#define WORK_FETCH_NEED      2
+    // project: less than min queue * resource share of DL/runnable results
+    // overall: less than min queue
+#define WORK_FETCH_NEED_IMMEDIATELY 3
+    // project: no downloading or runnable results
+    // overall: at least one idle CPU
+
 class CLIENT_STATE {
 public:
     double now;
@@ -91,6 +104,12 @@ private:
 public:
     ACTIVE_TASK* get_task(RESULT*);
 
+// --------------- cs_scheduler.C
+private:
+    bool contacted_sched_server;
+    int overall_work_fetch_urgency;
+    double avg_proc_rate();
+
 // --------------- work_fetch.C:
 public:
     int proj_min_results(PROJECT*, double);
@@ -121,6 +140,7 @@ public:
 };
 
 extern CLIENT_STATE gstate;
+extern NET_STATUS net_status;
 
 ////////////////////////
 

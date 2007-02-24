@@ -48,7 +48,11 @@
 #include "client_msgs.h"
 #include "scheduler_op.h"
 
+#ifdef SIM
+#include "sim.h"
+#else
 #include "client_state.h"
+#endif
 
 using std::max;
 using std::vector;

@@ -49,7 +49,7 @@
 				Name="VCCLCompilerTool"
 				Optimization="0"
 				AdditionalIncludeDirectories="../curl/include;../lib/;../api/;../client/win/;../client;.."
-				PreprocessorDefinitions="WIN32;_DEBUG;_MT;_DLL;_WINDOWS;_CONSOLE"
+				PreprocessorDefinitions="WIN32;_DEBUG;_MT;_DLL;_WINDOWS;_CONSOLE;SIM"
 				BasicRuntimeChecks="3"
 				RuntimeLibrary="3"
 				BufferSecurityCheck="true"
@@ -285,7 +285,19 @@
 			Filter="h;hpp;hxx;hm;inl"
 			>
 			<File
+				RelativePath="..\client\app.h"
+				>
+			</File>
+			<File
+				RelativePath="..\client\client_types.h"
+				>
+			</File>
+			<File
 				RelativePath="..\client\sim.h"
+				>
+			</File>
+			<File
+				RelativePath="..\client\time_stats.h"
 				>
 			</File>
 		</Filter>
