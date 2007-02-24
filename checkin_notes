@@ -1994,3 +1994,22 @@ David  23 Feb 2007
 	win_build/
 		boinc.sln
 		sim.vcproj
+
+David  23 Feb 2007
+    - boinc_cmd: change account_lookup and create_account commands
+        so that they poll until operation,
+        and show a meaningful result (e.g. an account key).
+        Remove account_lookup_poll and create_account_poll commands
+    - more work on simulator
+
+    client/
+        client_types.C
+        cpu_sched.C
+        sim.C,h
+        work_fetch.C
+    lib/
+        boinc_cmd.C
+        gui_rpc_client.h
+        gui_rpc_client_print.C
+        parse.C
+        str_util.C

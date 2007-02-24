@@ -14,20 +14,36 @@ boinc_cmd [--host hostname] [--passwd passwd] command
 The options and commands are as follows:
 ";
 list_start();
-list_item("--help, -h", "help (show commands)");
-list_item("--version, -V", "show version");
+list_bar("Core client connection");
 list_item("--host hostname[:port]", "The host to connect to 
     (default: localhost)");
 list_item("--password", "The password for RPC authentication
     (default: boinc_cmd will look for a file 'gui_rpc_auth.cfg'
      and use the password it contains)"
 );
-list_item("--get_state", "show client state");
+list_bar("Account query and attach");
+list_item("--lookup_account URL email password",
+    "Look up account and print account key"
+);
+list_item("--create_account URL email password name",
+    "Create account with the given email address, password, and user name"
+);
+list_item("--project_attach URL auth","Attach to an account");
+list_bar("State queries");
+list_item("--get_state", "show complete client state");
 list_item("--get_results", "show results");
 list_item("--get_simple_gui_info", "show projects and active results");
 list_item("--get_file_transfers", "show file transfers");
 list_item("--get_project_status", "show status of all projects");
 list_item("--get_disk_usage", "Show disk usage by project");
+list_item("--get_proxy_settings", "Get proxy settings");
+list_item("--get_messages seqno",
+    "show messages with sequence numbers beyond the given seqno"
+);
+list_item("--get_host_info", "Show host info");
+list_item("--get_screensaver_mode", "");
+list_item("--version, -V", "show core client version");
+list_bar("Control operations");
 list_item("--result URL result_name
      <br>{suspend | resume | abort | graphics_window | graphics_fullscreen}
      <br>{--window_station ws} {--desktop dt} {--display dp}
@@ -60,7 +76,6 @@ list_item("--project URL
     </ul>
     "
 );
-list_item("--project_attach URL auth","Attach to an account");
 list_item("--file_transfer URL filename
         {retry | abort}
         ",
@@ -81,7 +96,6 @@ list_item("--set_network_mode {always | auto | never} [ duration ]",
     <br> Like set_run_mode but applies to network transfers
     "
 );
-list_item("--get_proxy_settings", "Get proxy settings");
 list_item(
     "--set_proxy_settings
     http_server_name
@@ -96,15 +110,10 @@ list_item(
     ",
     "Set proxy settings (all fields are mandatory)"
 );
-list_item("--get_messages seqno",
-    "show messages with sequence numbers beyond the given seqno"
-);
-list_item("--get_host_info", "Show host info");
 list_item("--acct_mgr_rpc URL name password",
     "Instruct core client to contact an account manager server."
 );
 list_item("--run_benchmarks", "Run CPU benchmarks");
-list_item("--get_screensaver_mode", "");
 list_item(
     "--set_screensaver_mode on|off blank_time
     <br>{--desktop desktop}
@@ -122,7 +131,9 @@ list_item("--read_global_prefs_override",
     file, and incorporate any global preferences indicated there.
     "
 );
-list_item("--quit", "");
+list_item("--quit", "Tell the core client to quit");
+list_bar("Miscellaneous");
+list_item("--help, -h", "show options and commands");
 list_end();
 
 page_tail();

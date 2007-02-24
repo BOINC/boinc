@@ -86,9 +86,7 @@ Commands:\n\
  --get_project_config url\n\
  --get_project_config_poll\n\
  --lookup_account url email passwd\n\
- --lookup_account_poll\n\
  --create_account url email passwd name\n\
- --create_account_poll\n\
  --quit\n\
    ");
     exit(1);
@@ -412,14 +410,24 @@ int main(int argc, char** argv) {
         lai.email_addr = next_arg(argc, argv, i);
         lai.passwd = next_arg(argc, argv, i);
         retval = rpc.lookup_account(lai);
-        printf("retval: %d\n", retval);
-    } else if (!strcmp(cmd, "--lookup_account_poll")) {
-        ACCOUNT_OUT lao;
-        retval = rpc.lookup_account_poll(lao);
-        if (retval) {
-            printf("retval: %d\n", retval);
-        } else {
-            lao.print();
+        printf("status: %s\n", boincerror(retval));
+        if (!retval) {
+            ACCOUNT_OUT lao;
+            while (1) {
+                retval = rpc.lookup_account_poll(lao);
+                if (retval) {
+                    printf("poll status: %s\n", boincerror(retval));
+                } else {
+                    if (lao.error_num) {
+                        printf("poll status: %s\n", boincerror(lao.error_num));
+                        if (lao.error_num != ERR_IN_PROGRESS) break;
+                        boinc_sleep(1);
+                    } else {
+                        lao.print();
+                        break;
+                    }
+                }
+            }
         }
     } else if (!strcmp(cmd, "--create_account")) {
         ACCOUNT_IN cai;
@@ -428,14 +436,24 @@ int main(int argc, char** argv) {
         cai.passwd = next_arg(argc, argv, i);
         cai.user_name = next_arg(argc, argv, i);
         retval = rpc.create_account(cai);
-        printf("retval: %d\n", retval);
-    } else if (!strcmp(cmd, "--create_account_poll")) {
-        ACCOUNT_OUT cao;
-        retval = rpc.create_account_poll(cao);
-        if (retval) {
-            printf("retval: %d\n", retval);
-        } else {
-            cao.print();
+        printf("status: %s\n", boincerror(retval));
+        if (!retval) {
+            ACCOUNT_OUT lao;
+            while (1) {
+                retval = rpc.create_account_poll(lao);
+                if (retval) {
+                    printf("poll status: %s\n", boincerror(retval));
+                } else {
+                    if (lao.error_num) {
+                        printf("poll status: %s\n", boincerror(lao.error_num));
+                        if (lao.error_num != ERR_IN_PROGRESS) break;
+                        boinc_sleep(1);
+                    } else {
+                        lao.print();
+                        break;
+                    }
+                }
+            }
         }
     } else if (!strcmp(cmd, "--read_global_prefs_override")) {
         retval = rpc.read_global_prefs_override();

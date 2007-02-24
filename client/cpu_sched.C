@@ -590,6 +590,7 @@ bool CLIENT_STATE::enforce_schedule() {
     for (i=0; i<projects.size(); i++){
         projects[i]->deadlines_missed = projects[i]->rr_sim_deadlines_missed;
     }
+
     for (i=0; i< active_tasks.active_tasks.size(); i++) {
         atp = active_tasks.active_tasks[i];
         if (atp->result->runnable()) {

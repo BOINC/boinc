@@ -19,6 +19,53 @@ using std::vector;
     // project: no downloading or runnable results
     // overall: at least one idle CPU
 
+
+class NORMAL_DIST {
+public:
+    double mean;
+    double var;
+    int parse(XML_PARSER&, char* end_tag);
+    double sample();
+};
+
+class UNIFORM_DIST {
+public:
+    double lo;
+    double hi;
+    int parse(XML_PARSER&, char* end_tag);
+    double sample();
+};
+
+class RANDOM_PROCESS {
+public:
+    double frac;
+    double lambda;
+    int parse(XML_PARSER&, char* end_tag);
+};
+
+class SIM_APP: public APP {
+public:
+    double latency_bound;
+    NORMAL_DIST fpops;
+    NORMAL_DIST checkpoint_period;
+    double working_set;
+
+    int parse(XML_PARSER&);
+};
+
+class SIM_PROJECT: public PROJECT {
+public:
+    RANDOM_PROCESS available;
+    int parse(XML_PARSER&);
+};
+
+class SIM_HOST: public HOST_INFO {
+public:
+    RANDOM_PROCESS available;
+    RANDOM_PROCESS idle;
+    int parse(XML_PARSER&);
+};
+
 class CLIENT_STATE {
 public:
     double now;
@@ -28,7 +75,7 @@ public:
     vector<APP*> apps;
     ACTIVE_TASK_SET active_tasks;
     GLOBAL_PREFS global_prefs;
-    HOST_INFO host_info;
+    SIM_HOST host_info;
     TIME_STATS time_stats;
     CLIENT_STATE();
 
@@ -132,6 +179,7 @@ public:
     int parse_host(char*);
     void simulate(double);
     bool scheduler_rpc_poll();
+    void simulate_rpc(PROJECT*);
 };
 
 class NET_STATUS {
@@ -141,51 +189,3 @@ public:
 
 extern CLIENT_STATE gstate;
 extern NET_STATUS net_status;
-
-////////////////////////
-
-class NORMAL_DIST {
-public:
-    double mean;
-    double var;
-    int parse(XML_PARSER&, char* end_tag);
-    double sample();
-};
-
-class UNIFORM_DIST {
-public:
-    double lo;
-    double hi;
-    int parse(XML_PARSER&, char* end_tag);
-    double sample();
-};
-
-class RANDOM_PROCESS {
-public:
-    double frac;
-    double lambda;
-    int parse(XML_PARSER&, char* end_tag);
-};
-
-class SIM_APP: public APP {
-public:
-    double latency_bound;
-    NORMAL_DIST fpops;
-    NORMAL_DIST checkpoint_period;
-    double working_set;
-
-    int parse(XML_PARSER&);
-};
-
-class SIM_PROJECT: public PROJECT {
-public:
-    RANDOM_PROCESS available;
-    int parse(XML_PARSER&);
-};
-
-class SIM_HOST: public HOST_INFO {
-public:
-    RANDOM_PROCESS available;
-    RANDOM_PROCESS idle;
-    int parse(XML_PARSER&);
-};

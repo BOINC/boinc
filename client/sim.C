@@ -4,6 +4,7 @@
 
 #include "error_numbers.h"
 #include "str_util.h"
+#include "log_flags.h"
 #include "filesys.h"
 #include "network.h"
 #include "sim.h"
@@ -55,6 +56,9 @@ void show_message(PROJECT *p, char* msg, int priority) {
     printf("%s [%s] %s\n", time_string, x, message);
 }
 bool RESULT::some_download_stalled() {
+    return false;
+}
+bool PROJECT::some_download_stalled() {
     return false;
 }
 
@@ -119,23 +123,27 @@ RESULT* CLIENT_STATE::lookup_result(PROJECT* p, const char* name) {
     return 0;
 }
 
+void CLIENT_STATE::simulate_rpc(PROJECT* p) {
+    RESULT* rp = new RESULT;
+}
+
 bool CLIENT_STATE::scheduler_rpc_poll() {
     PROJECT *p;
 
     p = next_project_sched_rpc_pending();
     if (p) {
-        // simulate RPC
+        simulate_rpc(p);
         return true;
     }
     
     p = find_project_with_overdue_results();
     if (p) {
-        // simulate RPC
+        simulate_rpc(p);
         return true;
     }
     p = next_project_need_work();
     if (p) {
-        // simulate RPC
+        simulate_rpc(p);
         return true;
     }
     return false;
@@ -245,6 +253,8 @@ int SIM_PROJECT::parse(XML_PARSER& xp) {
         } else if (!strcmp(tag, "available")) {
             retval = available.parse(xp, "/available");
             if (retval) return retval;
+        } else if (xp.parse_double(tag, "resource_share", resource_share)) {
+            continue;
         } else return ERR_XML_PARSE;
     }
     return ERR_XML_PARSE;
@@ -255,11 +265,13 @@ int SIM_HOST::parse(XML_PARSER& xp) {
     bool is_tag;
     int retval;
 
+    p_ncpus = 1;
     while(!xp.get(tag, sizeof(tag), is_tag)) {
         if (!is_tag) return ERR_XML_PARSE;
         if (!strcmp(tag, "/host")) return 0;
         else if (xp.parse_double(tag, "p_fpops", p_fpops)) continue;
         else if (xp.parse_double(tag, "m_nbytes", m_nbytes)) continue;
+        else if (xp.parse_int(tag, "p_ncpus", p_ncpus)) continue;
         else if (!strcmp(tag, "available")) {
             retval = available.parse(xp, "/available");
             if (retval) return retval;
@@ -296,13 +308,26 @@ int CLIENT_STATE::parse_projects(char* name) {
     return ERR_XML_PARSE;
 }
 
-int CLIENT_STATE::parse_host(char*) {
-    return 0;
+int CLIENT_STATE::parse_host(char* name) {
+    char tag[256];
+    bool is_tag;
+    MIOFILE mf;
+    int retval;
+
+    FILE* f = fopen(name, "r");
+    if (!f) return ERR_FOPEN;
+    mf.init_file(f);
+    XML_PARSER xp(&mf);
+    if (!xp.parse_start("host")) return ERR_XML_PARSE;
+    retval = host_info.parse(xp);
+    printf("ncpus: %d\n", host_info.p_ncpus);
+    return retval;
 }
 
 void CLIENT_STATE::simulate(double duration) {
     bool action;
     now = 0;
+    printf("n: %d\n", active_tasks.active_tasks.size());
     while (1) {
         while (1) {
             action = active_tasks.poll();
@@ -319,13 +344,15 @@ void CLIENT_STATE::simulate(double duration) {
 
 int main(int argc, char** argv) {
     char projects[256], host[256], prefs[256];
-    double duration = 86400;
+    double duration = 100;
     bool flag;
     int retval; 
 
     strcpy(projects, "projects.xml");
     strcpy(host, "host.xml");
     strcpy(prefs, "prefs.xml");
+
+    read_config_file();
 
     retval = gstate.parse_projects(projects);
     if (retval) {
@@ -342,5 +369,9 @@ int main(int argc, char** argv) {
         printf("can't parse prefs\n");
         exit(1);
     }
+    gstate.ncpus = gstate.host_info.p_ncpus;
+    printf("ncpus: %d\n", gstate.ncpus);
+    gstate.request_work_fetch("init");
+    printf("ncpus: %d\n", gstate.ncpus);
     gstate.simulate(duration);
 }

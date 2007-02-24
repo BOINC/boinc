@@ -40,6 +40,7 @@
 #include "diagnostics.h"
 #include "parse.h"
 #include "util.h"
+#include "str_util.h"
 #include "error_numbers.h"
 #include "miofile.h"
 #include "md5_file.h"
@@ -276,11 +277,11 @@ void PROJECT_CONFIG::print() {
 }
 
 void ACCOUNT_OUT::print() {
-    printf(
-        "error_num: %d\n"
-        "authenticator: %s\n",
-        error_num,
-        authenticator.c_str()
-    );
+    if (error_num) {
+        printf("error in account lookup: %s\n", boincerror(error_num));
+    } else {
+        printf("account key: %s\n", authenticator.c_str());
+    }
 }
+
 const char *BOINC_RCSID_2bed1889d8="$Id$";
