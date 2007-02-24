@@ -1996,10 +1996,10 @@ David  23 Feb 2007
 		sim.vcproj
 
 David  23 Feb 2007
-    - boinc_cmd: change account_lookup and create_account commands
-        so that they poll until operation,
-        and show a meaningful result (e.g. an account key).
-        Remove account_lookup_poll and create_account_poll commands
+    - boinc_cmd: change --lookup_account and --create_account commands
+        so that they poll until the operation is done,
+        and then show a meaningful result (e.g. an account key).
+        Remove --lookup_account_poll and --create_account_poll commands
     - more work on simulator
 
     client/
