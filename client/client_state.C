@@ -1393,6 +1393,15 @@ int CLIENT_STATE::detach_project(PROJECT* project) {
         );
     }
 
+    get_sched_request_filename(*project, path);
+    retval = boinc_delete_file(path);
+
+    get_sched_reply_filename(*project, path);
+    retval = boinc_delete_file(path);
+
+    get_master_filename(*project, path);
+    retval = boinc_delete_file(path);
+
     // remove project directory and its contents
     //
     retval = remove_project_dir(*project);

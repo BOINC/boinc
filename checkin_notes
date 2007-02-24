@@ -1995,7 +1995,7 @@ David  23 Feb 2007
 		boinc.sln
 		sim.vcproj
 
-David  23 Feb 2007
+David  24 Feb 2007
     - boinc_cmd: change --lookup_account and --create_account commands
         so that they poll until the operation is done,
         and then show a meaningful result (e.g. an account key).
@@ -2013,3 +2013,10 @@ David  23 Feb 2007
         gui_rpc_client_print.C
         parse.C
         str_util.C
+
+David  24 Feb 2007
+    - core client: when detach from a project, delete its
+        sched_request, sched_reply, and master files
+
+    client/
+        client_state.C
