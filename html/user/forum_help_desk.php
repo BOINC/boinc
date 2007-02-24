@@ -9,15 +9,20 @@ db_init();
 
 page_head("Questions and answers");
 
-echo "
+echo "<p>
     Talk live via Skype with a volunteer, in any of several languages.
     Go to
-    <a href=http://boinc.berkeley.edu/help.php>BOINC Online Help</a>.
+    <a href=\"http://boinc.berkeley.edu/help.php\">BOINC Online Help</a>.</p>
     <p>
-    Select a topic or do a
-    <a href=forum_search.php>keyword search</a>
-    to find what you're looking for.
-    <p>
+    <form action=\"forum_search_action.php\" method=\"POST\">
+    <input type=\"hidden\" name=\"search_max_time\" value=\"30\">
+    <input type=\"hidden\" name=\"search_forum\" value=\"-1\">
+    <input type=\"hidden\" name=\"search_sort\" value=\"5\">
+    <input type=\"text\" name=\"search_keywords\">
+    <input type=\"submit\" value=\"Start forum search\">
+    <span class=\"smalltext\">or do <a href=\"forum_search.php\">advanced search</a></span>
+    </form>
+    </p>
 ";
 
 start_forum_table(array("Topic", "# Questions", "Last post"));
