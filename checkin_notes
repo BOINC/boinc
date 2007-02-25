@@ -2042,6 +2042,6 @@ Bruce 25 Feb 2007
         sched_locality.C
 
 Charlie 25 Feb 2007
-    Mac: Fix PowerPC bug in new OSXIdleTime() function. 
+    Mac: Fix OS 10.3 bug in new OSXIdleTime() function. 
     client/
         hostinf_unix.C
