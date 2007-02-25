@@ -799,7 +799,6 @@ static double GetOSXIdleTime(void) {
             tryNewAPI = false;  // CGEventSourceSecondsSinceLastEventType() API is not available on this system
         }
            
-printf("kCGEventSourceStateCombinedSessionState() returned idleTime = %lf\n", idleTime);
         if (GetSysIdleTime) 
             return idleTime;
     }   // if (tryNewAPI)
@@ -811,8 +810,7 @@ printf("kCGEventSourceStateCombinedSessionState() returned idleTime = %lf\n", id
     // Here we check for that value and correctly return a 0 idle time.
     idleTime = CGSSecondsSinceLastInputEvent (-1);
     if (idleTime >= 18446744000.0) idleTime = 0.0;
-printf("CGSSecondsSinceLastInputEvent() returned idleTime = %lf\n", idleTime);
-    return (1000.0 * idleTime);
+    return idleTime;
 //    return (double)NXIdleTime(gEventHandle);      // Very old and very slow API
 }
 #endif  // ! __i386__
