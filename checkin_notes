@@ -2020,3 +2020,24 @@ David  24 Feb 2007
 
     client/
         client_state.C
+
+Bruce 25 Feb 2007
+    - scheduler: stop logging error messages about unrecognized
+      <no_forum_rating> tag.
+    - locality scheduler: when getting a working set file name
+      using glob(3), do not glob multiple times, possibly getting
+      back the same file name again.  Instead glob once and then
+      randomly choose file names, crossing items off the list one
+      at a time. Note: I wrote this code using STL vectors and
+      strings, but now regret this: the necessary vector insertions
+      are potentially inefficient..  Sometime next week I will 
+      recode this using a C-style pointer arrays with guaranteed O(1)
+      efficiency.  But I want to get this into CVS while it's
+      working.
+    - locality scheduler: fix is_host_slow() function following
+      David's Jan 12 checkins to use claimed_credit_per_cpu_sec.
+
+    sched/
+        sched_config.C
+        sched_locality.C
+

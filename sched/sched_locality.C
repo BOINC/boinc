@@ -39,6 +39,11 @@
 #include "sched_locality.h"
 #include "sched_util.h"
 
+#include <vector>
+#include <string>
+#include <cstring>
+using namespace std;
+
 #define VERBOSE_DEBUG
 
 // returns zero if there is a file we can delete.
@@ -364,55 +369,116 @@ int make_more_work_for_file(char* filename) {
 
 // Get a randomly-chosen filename in the working set.
 //
-static int get_working_set_filename(char *filename, bool slowhost) {
+// We store a static list to prevent duplicate filename returns
+// and to cut down on invocations of glob
+//
+//
+
+std::vector<string> filenamelist;
+int list_type = 0; // 0: none, 1: slowhost, 2: fasthost
+
+static void build_working_set_namelist(bool slowhost) {
     glob_t globbuf;
-    int retglob, random_file;
-    char *last_slash;
+    int retglob;
+    unsigned int i;
     const char *pattern = "../locality_scheduling/work_available/*";
+    const char *errtype = "unrecognized error";
+    const char *hosttype = "fasthost";
 
 #ifdef EINSTEIN_AT_HOME
-    if (slowhost) pattern = "../locality_scheduling/work_available/*_0[0-3]*";
+    if (slowhost) {
+        hosttype = "slowhost";
+        pattern = "../locality_scheduling/work_available/*_0[0-3]*";
+    }
 #endif
 
     retglob=glob(pattern, GLOB_ERR|GLOB_NOSORT|GLOB_NOCHECK, NULL, &globbuf);
     
     if (retglob || !globbuf.gl_pathc) {
-        // directory did not exist or is not readable
-        goto error_exit;
+        errtype = "no directory or not readable";
+    } else {
+        if (globbuf.gl_pathc==1 && !strcmp(pattern, globbuf.gl_pathv[0])) {
+            errtype = "empty directory";
+        } else {
+            for (i=0; i<globbuf.gl_pathc; i++)
+                filenamelist.push_back(globbuf.gl_pathv[i]);
+            log_messages.printf(SCHED_MSG_LOG::MSG_DEBUG,
+                "build_working_set_namelist(%s): pattern %s has %d matches\n", hosttype, pattern, globbuf.gl_pathc
+            );
+            globfree(&globbuf);
+            return;
+        }
     }
 
-    if (globbuf.gl_pathc==1 && !strcmp(pattern, globbuf.gl_pathv[0])) {
-        // directory was empty
-        goto error_exit;
-    }
-
-    // Choose a file at random.
-    random_file = rand() % globbuf.gl_pathc;
-
-    // remove trailing slash from randomly-selected file path
-    last_slash = rindex(globbuf.gl_pathv[random_file], '/');
-    if (!last_slash || *last_slash=='\0' || *(++last_slash)=='\0') {
-        // no trailing slash found, or it's a directory name
-        goto error_exit;
-    }
-
-    strcpy(filename, last_slash);
-    globfree(&globbuf);
-    
-    log_messages.printf(SCHED_MSG_LOG::MSG_DEBUG,
-        "get_working_set_filename(%s): returning %s\n", slowhost?"slowhost":"fasthost", filename
-    );
-
-    return 0;
-
-error_exit:
     log_messages.printf(SCHED_MSG_LOG::MSG_CRITICAL,
-        "get_working_set_filename(): pattern %s not found\n", pattern
+        "build_working_set_namelist(%s): pattern %s not found (%s)\n", hosttype, pattern, errtype
     );
-
     globfree(&globbuf);        
+    return;
+}
+
+static int get_working_set_filename(char *filename, bool slowhost) {
+
+    const char* errtype = NULL;
+
+    if (!list_type) {
+        build_working_set_namelist(slowhost);
+        list_type = slowhost ? 1 : 2;
+    }
+
+    if (list_type == 1 && filenamelist.size() == 0) {
+        slowhost = false;
+        build_working_set_namelist(slowhost);
+        list_type = 2;
+    }
+
+    if (list_type == 1 && !slowhost) {
+        filenamelist.clear();
+        build_working_set_namelist(slowhost);
+        list_type = 2;
+    }
+
+    const char *hosttype = slowhost ? "slowhost" : "fasthost" ;
+
+    if (filenamelist.size() == 0) {
+        errtype = "file list empty";
+    } else {
+
+        // take out a random file and remove it from the vector
+        //
+        int random_file_num = rand() % filenamelist.size();
+        string thisname = filenamelist[random_file_num];
+        filenamelist[random_file_num] = filenamelist.back();
+        filenamelist.pop_back();
+
+        // locate trailing file name
+        //
+        string slash = "/";
+        string::size_type last_slash_pos = thisname.rfind(slash);
+        if (last_slash_pos == string::npos) {
+            errtype = "no trailing slash";
+        } else {
+            // extract file name
+            thisname = thisname.substr(last_slash_pos);
+            if (thisname.length() < 2) {
+                errtype = "zero length filename";
+            } else {
+                thisname = thisname.substr(1);
+                strcpy(filename, thisname.c_str());
+                log_messages.printf(SCHED_MSG_LOG::MSG_DEBUG,
+                    "get_working_set_filename(%s): returning %s\n", hosttype, filename
+                );
+                return 0;
+            }
+        }
+    }
+
+    log_messages.printf(SCHED_MSG_LOG::MSG_CRITICAL,
+        "get_working_set_filename(%s): pattern not found (%s)\n", hosttype, errtype
+    );
     return 1;
 }
+
 
 static void flag_for_possible_removal(char* filename) {
     char path[256];
@@ -709,7 +775,17 @@ static bool is_host_slow(SCHEDULER_REQUEST& sreq) {
     // should make this a config parameter in the future,
     // if this idea works.
     //
-    if (sreq.host.credit_per_cpu_sec < 0.0013) return true;
+
+    static int speed_not_printed = 1;
+    double hostspeed = sreq.host.claimed_credit_per_cpu_sec;
+
+    if (speed_not_printed) {
+        speed_not_printed = 0;
+        log_messages.printf(SCHED_MSG_LOG::MSG_DEBUG,
+            "Host speed %f\n", hostspeed
+        );
+    }
+    if (hostspeed < 0.0013) return true;
     return false;
 }
 
@@ -724,7 +800,9 @@ static int send_new_file_work_deterministic(
     int getfile_retval, nsent=0;
 
     // get random filename as starting point for deterministic search
-    if ((getfile_retval = get_working_set_filename(start_filename, is_host_slow(sreq)))) {
+    // If at this point, we have probably failed to find a suitable file
+    // for a slow host, so ignore speed of host.
+    if ((getfile_retval = get_working_set_filename(start_filename, /* is_host_slow(sreq) */ false))) {
         strcpy(start_filename, "");
     }
   
@@ -805,7 +883,7 @@ static int send_new_file_work(
         if (retval_sow==ERR_NO_APP_VERSION || retval_sow==ERR_INSUFFICIENT_RESOURCE) return retval_sow;
 
     
-        while (reply.work_needed(true) && retry<10) {
+        while (reply.work_needed(true) && retry<5) {
             log_messages.printf(SCHED_MSG_LOG::MSG_DEBUG,
                 "send_new_file_work(%d): try to send from working set\n", retry
             );
