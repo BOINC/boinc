@@ -652,13 +652,6 @@ void CTaskBarIcon::AdjustMenuItems(wxMenu* pMenu) {
     wxASSERT(pDoc);
     wxASSERT(wxDynamicCast(pDoc, CMainDocument));
 
-    pDoc->GetCoreClientStatus(status);
-    if (RUN_MODE_NEVER == status.task_mode) {
-        pMenu->Check(ID_TB_SUSPEND, true);
-    } else {
-        pMenu->Check(ID_TB_SUSPEND, false);
-    }
-
     // BOINC Manager crashes if user selects "Exit" from taskbar menu while 
     //  a dialog is open, so we must disable the "Exit" menu item if a dialog 
     //  is open. So lets search for the dialog by ID since all of BOINC
@@ -702,6 +695,13 @@ void CTaskBarIcon::AdjustMenuItems(wxMenu* pMenu) {
         }
     }
 #endif
+
+    pDoc->GetCoreClientStatus(status);
+    if (RUN_MODE_NEVER == status.task_mode) {
+        pMenu->Check(ID_TB_SUSPEND, true);
+    } else {
+        pMenu->Check(ID_TB_SUSPEND, false);
+    }
 }
 
 const char *BOINC_RCSID_531575eeaa = "$Id$";

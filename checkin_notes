@@ -1682,3 +1682,20 @@ David  21 Feb 2007
 
     client/
         cs_benchmark.C
+
+Charlie 25 Feb 2007
+    Win: Fix check mark on Snooze taskbar menu item on Windows XP
+    
+    clientgui/
+        BOINCTaskBar.cpp
+
+Charlie 26 Feb 2007
+    Mac: Fix OS 10.3.x permissions problem when running debug build; 
+        this problem caused shared memory communications to fail between 
+        client and project applications. 
+
+    client/
+        check_security.C
+    clientgui/
+        mac/
+            SetupSecurity.cpp
