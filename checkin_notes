@@ -14118,3 +14118,9 @@ David  24 Jan 2007
     client/
         app.C
         app_control.C
+
+Charlie 25 Feb 2007
+    Win: Fix check mark on Snooze taskbar menu item on Windows XP
+    
+    clientgui/
+        BOINCTaskBar.cpp
