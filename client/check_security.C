@@ -28,6 +28,11 @@
 #include <sys/param.h>  // for MAXPATHLEN
 #include <dirent.h>
 #include <cerrno>
+
+#if (defined(__APPLE__) && defined(_DEBUG))
+#include <Carbon/Carbon.h>
+#endif
+
 #include "util.h"
 #include "error_numbers.h"
 #include "file_names.h"
@@ -68,6 +73,10 @@ int use_sandbox, int isManager
     struct stat         sbuf;
     int                 retval;
     int                 useFakeProjectUserAndGroup = 0;
+#if (defined(__APPLE__) && defined(_DEBUG))
+    long                response;
+    OSStatus            err = noErr;
+#endif
 #ifdef __WXMAC__                            // If Mac BOINC Manager
     ProcessSerialNumber ourPSN;
     ProcessInfoRec      pInfo;
@@ -78,11 +87,17 @@ int use_sandbox, int isManager
     char                *p;
 #endif
 
-#if (defined(_DEBUG) && defined(DEBUG_WITH_FAKE_PROJECT_USER_AND_GROUP))
-    useFakeProjectUserAndGroup = 1;
-#else
     useFakeProjectUserAndGroup = ! use_sandbox;
+#ifdef _DEBUG
+#ifdef DEBUG_WITH_FAKE_PROJECT_USER_AND_GROUP
+        useFakeProjectUserAndGroup = 1;
 #endif
+#ifdef __APPLE__
+    err = Gestalt(gestaltSystemVersion, &response);
+    if ((err == noErr) && (response < 0x1040))
+        useFakeProjectUserAndGroup = 1;
+#endif      // __APPLE__
+#endif      // _DEBUG
 
 // GDB can't attach to applications which are running as a diferent user or group so 
 //  it ignores the S_ISUID and S_ISGID permisison bits when launching an application.
