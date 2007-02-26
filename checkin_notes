@@ -2043,5 +2043,9 @@ Bruce 25 Feb 2007
 
 Charlie 25 Feb 2007
     Mac: Fix OS 10.3 bug in new OSXIdleTime() function. 
+    Win: Fix check mark on Snooze taskbar menu item on Windows XP
+    
     client/
         hostinf_unix.C
+    clientgui/
+        BOINCTaskBar.cpp
