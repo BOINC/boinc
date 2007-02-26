@@ -372,23 +372,9 @@ $linux_libs_58= "
 
 $w5815= array(
     "num"=>"5.8.15",
-    "status"=>"Development version",
+    "status"=>"Recommended version",
     "file"=>"boinc_5.8.15_windows_intelx86.exe",
     "date"=>"19 Feb 2007",
-    "type"=>"win_new",
-    "features"=>"<ul>
-".$features_55.$features_57."
-".$changes_57."
-    </ul>
-    ",
-    "bugs"=>""
-);
-
-$w5811= array(
-    "num"=>"5.8.11",
-    "status"=>"Recommended version",
-    "file"=>"boinc_5.8.11_windows_intelx86.exe",
-    "date"=>"9 Feb 2007",
     "type"=>"win_new",
     "features"=>"<ul>
 ".$features_55.$features_57."
@@ -425,27 +411,9 @@ $w5411= array(
     "
 );
 
-$m5811 = array(
-    "num"=>"5.8.11",
-    "status"=>"Recommended version (standard GUI)",
-    "file"=>"boinc_5.8.11_macOSX_universal.zip",
-    "date"=>"9 Feb 2007",
-    "type"=>"mac_advanced",
-     "features"=>"<ul>
-".$mac_changes_57."
-".$features_55."
-".$features_57."
-".$changes_57."
-     </ul>
-    ",
-    "bugs"=>"
-    "
-);
-
-
 $m5815 = array(
     "num"=>"5.8.15",
-    "status"=>"Development version (standard GUI)",
+    "status"=>"Recommended version (standard GUI)",
     "file"=>"boinc_5.8.15_macOSX_universal.zip",
     "date"=>"20 Feb 2007",
     "type"=>"mac_advanced",
@@ -508,26 +476,9 @@ $m5213 = array(
     "
 );
 
-$m5811c = array(
-    "num"=>"5.8.11",
-    "status"=>"Recommended version (Unix command-line version)",
-    "file"=>"boinc_5.8.11_universal-apple-darwin.zip",
-    "date"=>"9 Feb 2007",
-    "type"=>"bare_core",
-    "features"=>"<ul>
-".$mac_changes_57."
-".$features_55."
-".$features_57."
-".$changes_57."
-     </ul>
-    ",
-    "bugs"=>"
-    "
-);
-
 $m5815c = array(
     "num"=>"5.8.15",
-    "status"=>"Development version (Unix command-line version)",
+    "status"=>"Recommended version (Unix command-line version)",
     "file"=>"boinc_5.8.15_universal-apple-darwin.zip",
     "date"=>"20 Feb 2007",
     "type"=>"bare_core",
@@ -602,23 +553,9 @@ $m443c = array(
 
 $l5815 = array(
     "num"=>"5.8.15",
-    "status"=>"Development version (standard GUI)",
+    "status"=>"Recommended version (standard GUI)",
     "file"=>"boinc_5.8.15_i686-pc-linux-gnu.sh",
     "date"=>"20 February 2007",
-    "type"=>"sea",
-    "features"=>"<ul>
-".$features_55.$features_57."
-".$linux_libs_58." 
-".$changes_57."
-    </ul>
-    "
-);
-
-$l5811 = array(
-    "num"=>"5.8.11",
-    "status"=>"Recommended version (standard GUI)",
-    "file"=>"boinc_5.8.11_i686-pc-linux-gnu.sh",
-    "date"=>"9 February 2007",
     "type"=>"sea",
     "features"=>"<ul>
 ".$features_55.$features_57."
@@ -677,7 +614,6 @@ $windows = array(
     "dbname" => "windows_intelx86",
     "versions"=>array(
         $w5815,
-        $w5811,
         $w5411,
     )
 );
@@ -687,8 +623,6 @@ $mac = array(
     "versions"=>array(
         $m5815,
         $m5815c,
-        $m5811,
-        $m5811c,
     )
 );
 $linux = array(
@@ -697,7 +631,6 @@ $linux = array(
     "url"=>"linux.php",
     "versions"=>array(
         $l5815,
-        $l5811,
         $l5411,
     )
 );
