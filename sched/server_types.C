@@ -823,6 +823,8 @@ int HOST::parse_time_stats(FILE* fin) {
         else if (parse_double(buf, "<connected_frac>", connected_frac)) continue;
         else if (parse_double(buf, "<active_frac>", active_frac)) continue;
         else if (parse_double(buf, "<cpu_efficiency>", cpu_efficiency)) continue;
+        else if (match_tag(buf, "<outages>")) continue;
+        else if (match_tag(buf, "<outage>")) continue;
         else {
             log_messages.printf(
                 SCHED_MSG_LOG::MSG_NORMAL,
