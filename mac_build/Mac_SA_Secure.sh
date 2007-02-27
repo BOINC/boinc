@@ -28,6 +28,16 @@
 #
 # Create groups and users, set file/dir ownership and protection
 #
+# IMPORTANT NOTE: earlier versions of the Mac_SA_Insecure.sh and 
+# Mac_SA_Secure.sh scripts had serious problems when run under OS 10.3.x.
+# They sometimes created bad users and groups with IDs that were duplicates 
+# of other users and groups.  They ran correctly under OS 10.4.x
+#
+# If you ran an older version of either script under OS 10.3.x, you should 
+# first run the current version of Mac_SA_Insecure.sh to delete the bad 
+# entries and then run Mac_SA_Secure.sh to create new good entries.
+#
+#
 # Execute this as root in the BOINC directory:
 # cd {path_to_boinc_directory}
 # sudo sh {path}/Mac_SA_Secure.sh
@@ -54,18 +64,18 @@
 # sudo dscl . -delete /groups/boinc_master users mary
 # 
 
-# Last updated 9/21/06
+# Last updated 2/27/07
 
 function make_boinc_user() {
     # Check whether group already exists
-    name=$(dscl . search /groups RecordName $1 | cut -f1 -)
+    name=$(dscl . search /groups RecordName $1 | cut -f1 -s)
     if [ "$name" = "$1" ] ; then
-        gid=$(dscl . read /groups/$1 PrimaryGroupID | cut -d" " -f2 -)
+        gid=$(dscl . read /groups/$1 PrimaryGroupID | cut -d" " -f2 -s)
     else
         # Find an unused group ID
         gid="25"
         while true; do
-            name=$(dscl . search /groups PrimaryGroupID $gid | cut -f1 -)
+            name=$(dscl . search /groups PrimaryGroupID $gid | cut -f1 -s)
             if [ -z "$name" ] ; then
                 break
             fi
@@ -76,17 +86,17 @@ function make_boinc_user() {
     fi
     
     # Check whether user already exists
-    name=$(dscl . search /users RecordName $1 | cut -f1 -)
+    name=$(dscl . search /users RecordName $1 | cut -f1 -s)
     if [ -z "$name" ] ; then
 
         # Is uid=gid available?
         uid=$gid
-        name=$(dscl . search /users UniqueID $uid | cut -f1 -)
+        name=$(dscl . search /users UniqueID $uid | cut -f1 -s)
         if [ -n "$name" ] ; then
             # uid=gid already in use, so find an unused user ID
             uid="25"
             while true; do
-                name=$(dscl . search /groups UniqueID $uid | cut -f1 -)
+                name=$(dscl . search /groups UniqueID $uid | cut -f1 -s)
                 if [ -z "$name" ] ; then
                     break
                 fi
