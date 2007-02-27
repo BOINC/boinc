@@ -814,7 +814,16 @@ static double GetOSXIdleTime(void) {
 //    return (double)NXIdleTime(gEventHandle);      // Very old and very slow API
 }
 #endif  // ! __i386__
-#endif  // __APPLE__
+
+bool HOST_INFO::users_idle(bool check_all_logins, double idle_time_to_run, double *actual_idle_time) {
+    double idleTime = GetOSXIdleTime();
+    
+    if (actual_idle_time)
+        *actual_idle_time = idleTime;
+    return (idleTime > (60 * idle_time_to_run));
+}
+
+#else  // ! __APPLE__
 
 bool HOST_INFO::users_idle(bool check_all_logins, double idle_time_to_run) {
 #ifdef HAVE__DEV_TTY1
@@ -834,12 +843,10 @@ bool HOST_INFO::users_idle(bool check_all_logins, double idle_time_to_run) {
 #ifdef HAVE__DEV_TTY1
         && (check_all_logins || all_tty_idle(idle_time, device_tty, '1', 7))
 #endif
-#ifdef __APPLE__
-        && (GetOSXIdleTime() > (60 * idle_time_to_run))
-#endif  // __APPLE__
 
         ;
 }
 
+#endif  // ! __APPLE__
 
 const char *BOINC_RCSID_2cf92d205b = "$Id$";

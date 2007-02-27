@@ -2060,3 +2060,23 @@ Charlie 26 Feb 2007
     clientgui/
         mac/
             SetupSecurity.cpp
+
+Charlie 27 Feb 2007
+    Mac: Add an optional argument to HOST_INFO::users_idle() to allow 
+        returning the actual idle time.  This change is __APPLE__ only.
+    Mac: Fix serious bugs in Mac_SA_Insecure.sh and Mac_SA_Secure.sh 
+        scripts when run under OS 10.3.x.  They sometimes created bad 
+        users and groups with IDs that were duplicates of other users 
+        and groups.  They ran correctly under OS 10.4.x.
+        Users who ran an older version of either script under OS 10.3.x 
+        should first run the current version of Mac_SA_Insecure.sh to 
+        delete the bad entries and then run Mac_SA_Secure.sh to create 
+        new good entries.
+        
+    client/
+        hostinf_unix.C
+    lib/
+        hostinfo.h
+    mac_build/
+        Mac_SA_Insecure.sh
+        Mac_SA_Secure.sh

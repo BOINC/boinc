@@ -69,7 +69,11 @@ public:
     void print();
 
     bool host_is_running_on_batteries();
+#ifdef __APPLE__
+    bool users_idle(bool check_all_logins, double idle_time_to_run, double *actual_idle_time=NULL);
+#else
     bool users_idle(bool check_all_logins, double idle_time_to_run);
+#endif
     int get_host_info();
     int get_local_network_info();
     void clear_host_info();
