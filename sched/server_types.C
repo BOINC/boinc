@@ -795,6 +795,15 @@ int HOST::parse(FILE* fin) {
         else if (match_tag(buf, "<p_capabilities>")) continue;
         else if (match_tag(buf, "<accelerators>")) continue;
 
+        // not sure where thees fields belong in the above
+        // categories
+        //
+        else if (match_tag(buf, "<cpu_caps>")) continue;
+        else if (match_tag(buf, "<cache_l1>")) continue;
+        else if (match_tag(buf, "<cache_l2>")) continue;
+        else if (match_tag(buf, "<cache_l3>")) continue;
+        
+
         else {
             log_messages.printf(SCHED_MSG_LOG::MSG_NORMAL,
                 "HOST::parse(): unrecognized: %s\n", buf

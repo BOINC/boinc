@@ -2080,3 +2080,10 @@ Charlie 27 Feb 2007
     mac_build/
         Mac_SA_Insecure.sh
         Mac_SA_Secure.sh
+
+Bruce 27 Feb 2007
+    Scheduler: stop complaining about some unrecognized tags.
+
+    sched/
+        server_types.C
+
