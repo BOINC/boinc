@@ -25,6 +25,11 @@
 # - Set file/dir ownership to the specified user and group
 # - Remove BOINC groups and users
 #
+# IMPORTANT NOTE: earlier versions of the Mac_SA_Insecure.sh and 
+# Mac_SA_Secure.sh scripts had serious problems when run under OS 10.3.x.
+# They sometimes created bad users and groups with IDs that were duplicates 
+# of other users and groups.  They ran correctly under OS 10.4.x
+#
 # If you ran an older version of either script under OS 10.3.x, you should 
 # first run the current version of Mac_SA_Insecure.sh to delete the bad 
 # entries and then run Mac_SA_Secure.sh to create new good entries.
@@ -33,11 +38,6 @@
 # Execute this as root in the BOINC directory:
 # cd {path_to_boinc_directory}
 # sudo sh {path}/Mac_SA_Insecure.sh user group
-#
-# IMPORTANT NOTE: earlier versions of the Mac_SA_Insecure.sh and 
-# Mac_SA_Secure.sh scripts had serious problems when run under OS 10.3.x.
-# They sometimes created bad users and groups with IDs that were duplicates 
-# of other users and groups.  They ran correctly under OS 10.4.x
 #
 # After running this script, the boinc client must be run with 
 # the --insecure option.
