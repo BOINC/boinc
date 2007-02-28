@@ -129,7 +129,7 @@ int ACTIVE_TASK::kill_task(bool restart) {
         // if project application is running as user boinc_project and 
         // core client is running as user boinc_master, we cannot send
         // a signal directly, so use switcher.
-        sprintf(cmd, "%s/%s /bin/kill -s SIGKILL %d", SWITCHER_DIR, SWITCHER_FILE_NAME, pid);
+        sprintf(cmd, "%s/%s /bin/kill -s KILL %d", SWITCHER_DIR, SWITCHER_FILE_NAME, pid);
         system(cmd);
     }
     // Always try to kill project app directly, just to be safe:
