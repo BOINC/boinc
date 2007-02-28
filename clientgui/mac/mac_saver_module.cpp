@@ -424,23 +424,21 @@ void closeBOINCSaver() {
         gTerminationQueue = NULL;
     }
     
-    if (rpc)
+    if (rpc) {
+        if (CoreClientPID && (!wasAlreadyRunning)) {
+            rpc->quit();    // Kill core client if we launched it
+        }
         delete rpc;
+    }
     rpc = NULL;
 
     setBannerText(0, NULL);
    
-    // Kill core client if we launched it
-    if (!wasAlreadyRunning)
-        if (CoreClientPID)
-        {
-            kill(CoreClientPID, SIGTERM);
-        }
-        CoreClientPID = 0;
-        gQuitCounter = 0;
-        wasAlreadyRunning = false;
-        gQuitRPCThread = false;
-        saverState = SaverState_Idle;
+    CoreClientPID = 0;
+    gQuitCounter = 0;
+    wasAlreadyRunning = false;
+    gQuitRPCThread = false;
+    saverState = SaverState_Idle;
 }
 
 
