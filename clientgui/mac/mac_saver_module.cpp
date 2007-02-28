@@ -430,22 +430,20 @@ void closeBOINCSaver() {
         gTerminationQueue = NULL;
     }
     
-    if (rpc)
-        delete rpc;
-    rpc = NULL;
-
-    setBannerText(0, NULL);
-   
-    if (!wasAlreadyRunning)
+    if (rpc) {
 #if 0       // OS X quits screensaver when energy saver puts display to 
             // sleep, but we want to keep crunching.  So don't kill it.
             // Code in core client now quits on user activity if screen
             // saver launched it (2/28/07).
-        if (CoreClientPID)
-        {
-            kill(CoreClientPID, SIGTERM);   // Kill core client if we launched it
+        if (CoreClientPID && (!wasAlreadyRunning)) {
+            rpc->quit();    // Kill core client if we launched it
         }
 #endif
+        delete rpc;
+    }
+
+    setBannerText(0, NULL);
+
     CoreClientPID = 0;
     gQuitCounter = 0;
     wasAlreadyRunning = false;

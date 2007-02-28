@@ -122,6 +122,18 @@ int ACTIVE_TASK::kill_task(bool restart) {
     TerminateProcessById(pid);
     kill_all_children();
 #else
+#ifdef SANDBOX
+    char cmd[1024];
+    
+    if (g_use_sandbox) {
+        // if project application is running as user boinc_project and 
+        // core client is running as user boinc_master, we cannot send
+        // a signal directly, so use switcher.
+        sprintf(cmd, "%s/%s /bin/kill -s SIGKILL %d", SWITCHER_DIR, SWITCHER_FILE_NAME, pid);
+        system(cmd);
+    }
+    // Always try to kill project app directly, just to be safe:
+#endif
     kill(pid, SIGKILL);
 #endif
 	if (restart) {
