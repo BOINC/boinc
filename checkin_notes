@@ -2090,7 +2090,7 @@ Bruce 27 Feb 2007
 Charlie 28 Feb 2007
     SANDBOX: only the super-user can send signal to another users' process. 
         Core client runs as user boinc_master, but project applications run 
-        as user boinc_project, so ACTIVE_TASK::kill_task probably could not
+        as user boinc_project, so ACTIVE_TASK::kill_task() probably could not
         work as written.  I added code which uses switcher helper application 
         to kill the tasks, but also left in the direct kill call just to be 
         safe.
