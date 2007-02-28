@@ -749,7 +749,7 @@ pid_t FindProcessPID(char* name, pid_t thePID)
     size_t n = 0;
     pid_t aPID;
     
-    if (name != NULL)     // Search ny name
+    if (name != NULL)     // Search by name
         n = strlen(name);
     
     f = popen("ps -a -x -c -o command,pid", "r");
@@ -758,7 +758,7 @@ pid_t FindProcessPID(char* name, pid_t thePID)
     
     while (PersistentFGets(buf, sizeof(buf), f))
     {
-        if (name != NULL) {     // Search ny name
+        if (name != NULL) {     // Search by name
             if (strncmp(buf, name, n) == 0)
             {
                 aPID = atol(buf+16);
