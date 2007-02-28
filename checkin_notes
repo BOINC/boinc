@@ -1715,14 +1715,6 @@ Charlie 27 Feb 2007
         Mac_SA_Secure.sh
 
 Charlie 28 Feb 2007
-    SANDBOX: only the super-user can send signal to another users' process. 
-        Core client runs as user boinc_master, but project applications run 
-        as user boinc_project, so ACTIVE_TASK::kill_task() probably could not
-        work as written.  I added code which uses switcher helper application 
-        to kill the tasks, but also left in the direct kill call just to be 
-        safe.
-    Note: CBOINCGUIApp::ShutdownBOINCCore() probably has this same problem, 
-        but this kill() is only used in extraordinary circumstances. 
      Mac: if we started core client, close it with rpc->quit() instead of 
         kill().
         
