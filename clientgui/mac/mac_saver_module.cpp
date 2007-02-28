@@ -145,7 +145,7 @@ const char *  BOINCNoProjectsDetectedMsg = "BOINC is not attached to any project
 const char *  BOINCNoGraphicAppsExecutingMsg = "Project does not support screensaver graphics: ";
 const char *  BOINCNoGraphicsSupportedMsg = "This BOINC installation does not support screensaver graphics: ";
 const char *  BOINCUnrecoverableErrorMsg = "Sorry, an unrecoverable error occurred";
-const char *  BOINCTestmodeMg = "This BOINC screensaver does not support Test mode";
+const char *  BOINCTestmodeMg = "BOINC screensaver is running, but cannot display graphics in test mode.";
 //const char *  BOINCExitedSaverMode = "BOINC is no longer in screensaver mode.";
 
 
@@ -216,7 +216,8 @@ OSStatus initBOINCApp() {
     pid_t myPid;
     int status;
     OSStatus err;
-
+    static int retryCount = 0;
+    
     saverState = SaverState_CantLaunchCoreClient;
     
     CoreClientPID = FindProcessPID("boinc", 0);
@@ -226,6 +227,11 @@ OSStatus initBOINCApp() {
         return noErr;
     }
     
+    wasAlreadyRunning = false;
+    
+    if (++retryCount > 3)
+        return -1;
+
     err = GetpathToBOINCManagerApp(boincPath, sizeof(boincPath));
     if (err) {   // If we couldn't find BOINCManager.app, try default path
         strcpy(boincPath, "/Applications/");
@@ -257,7 +263,7 @@ OSStatus initBOINCApp() {
             _exit(status);
         }
 
-        status = execl(boincPath, boincPath, "-redirectio", (char *) 0);
+        status = execl(boincPath, boincPath, "-redirectio", "-saver", (char *) 0);
         fflush(NULL);
         _exit(127);         // execl error (execl should never return)
     } else {
@@ -430,17 +436,21 @@ void closeBOINCSaver() {
 
     setBannerText(0, NULL);
    
-    // Kill core client if we launched it
     if (!wasAlreadyRunning)
+#if 0       // OS X quits screensaver when energy saver puts display to 
+            // sleep, but we want to keep crunching.  So don't kill it.
+            // Code in core client now quits on user activity if screen
+            // saver launched it (2/28/07).
         if (CoreClientPID)
         {
-            kill(CoreClientPID, SIGTERM);
+            kill(CoreClientPID, SIGTERM);   // Kill core client if we launched it
         }
-        CoreClientPID = 0;
-        gQuitCounter = 0;
-        wasAlreadyRunning = false;
-        gQuitRPCThread = false;
-        saverState = SaverState_Idle;
+#endif
+    CoreClientPID = 0;
+    gQuitCounter = 0;
+    wasAlreadyRunning = false;
+    gQuitRPCThread = false;
+    saverState = SaverState_Idle;
 }
 
 
@@ -480,9 +490,10 @@ OSStatus RPCThread(void* param) {
         if (val == noErr)
             break;
         
-        // Attempt to reinitialize the RPC client and state
+        // Attempt to restart BOINC Client if needed, reinitialize the RPC client and state
         rpc->close();
-        rpc->init(NULL);
+        initBOINCApp();
+        MPExit(noErr);       // Exit the thread
         // Error message after timeout?
     }
 
@@ -499,9 +510,10 @@ OSStatus RPCThread(void* param) {
 
         val = rpc->get_screensaver_mode(gClientSaverStatus);
         if (val) {
-            // Attempt to reinitialize the RPC client and state
+            // Attempt to restart BOINC Client if needed, reinitialize the RPC client and state
             rpc->close();
-            rpc->init(NULL);
+            initBOINCApp();
+            MPExit(noErr);      // Exit the thread
             // Error message after timeout?
         }
 
@@ -550,8 +562,10 @@ OSStatus RPCThread(void* param) {
                         }           // end for() loop
                         gStatusMessageUpdated = true;
                     } else {        // rpc call returned error
+                        // Attempt to restart BOINC Client if needed, reinitialize the RPC client and state
                         rpc->close();
-                        rpc->init(NULL);
+                        initBOINCApp();
+                        MPExit(noErr);      // Exit the thread
                     }               // end if (rpc.get_results(results) {} else {}
                     
                 }   // end if (! gStatusMessageUpdated)

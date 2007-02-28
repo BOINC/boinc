@@ -2087,3 +2087,21 @@ Bruce 27 Feb 2007
     sched/
         server_types.C
 
+Charlie 28 Feb 2007
+    Mac: The Mac screensaver launches the core client if not already running.
+        In this case, it used to kill the cc when screensaver was dismissed.
+        But Mac OS X dismisses screensavers when energy saver puts displays 
+        to sleep, so we want cc to then continue running.  New code launches 
+        cc with -saver flag, lets cc run when saver quits.  New logic in cc
+        quits if (launched by screensaver) and (recent user activity) and 
+        (parent [screensaver] has exited).  This takes into account that if 
+        user invoked screensaver by moving mouse into "hot corner" there will 
+        be recent user activity.  Added logic to screensaver to relaunch cc in 
+        case of certain race conditions (e.g., screensaver started, dismissed, 
+        restarted in rapid succession.)
+        
+    client/
+        cs_prefs.C
+    clientgui/
+        mac/
+            mac_saver_module.cpp

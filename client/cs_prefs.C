@@ -129,7 +129,9 @@ inline bool now_between_two_hours(int start_hour, int end_hour) {
 //
 void CLIENT_STATE::check_suspend_activities(int& reason) {
     reason = 0;
-
+#ifdef __APPLE__
+    double idletime;
+#endif
     // Don't work while we're running CPU benchmarks
     //
     if (are_cpu_benchmarks_running()) {
@@ -140,11 +142,25 @@ void CLIENT_STATE::check_suspend_activities(int& reason) {
 	bool old_user_active = user_active;
     user_active = !host_info.users_idle(
         check_all_logins, global_prefs.idle_time_to_run
+#ifdef __APPLE__
+         , &idletime
+#endif
     );
 
 	if (user_active != old_user_active) {
 		request_schedule_cpus("Idle state change");
 	}
+#ifdef __APPLE__
+    // Mac screensaver launches client if not already running.  OS X 
+    // quits screensaver when energy saver puts display to sleep, but 
+    // we want to keep crunching.  Also, user can start Mac screensaver 
+    // by putting cursor in "hot corner" so idletime may be very small 
+    // initially.  If screensaver started client, this code tells client 
+    // to exit when user becomes active, accounting for all these factors.
+    if (started_by_screensaver && (idletime < 30) && 
+            (getppid() == 1) )                // true if parent has exited
+        gstate.requested_exit = true;
+#endif
 
     switch(run_mode.get_current()) {
     case RUN_MODE_ALWAYS: break;
