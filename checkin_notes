@@ -2099,9 +2099,11 @@ Charlie 28 Feb 2007
         be recent user activity.  Added logic to screensaver to relaunch cc in 
         case of certain race conditions (e.g., screensaver started, dismissed, 
         restarted in rapid succession.)
+    - Mac Manager: add -launched_by_manager arg when launching core client.
         
     client/
         cs_prefs.C
     clientgui/
+        BOINCGUIApp.cpp
         mac/
             mac_saver_module.cpp

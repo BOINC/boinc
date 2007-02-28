@@ -530,7 +530,7 @@ void CBOINCGUIApp::StartupBOINCCore() {
 
         {
             wxChar buf[1024];
-            wxChar *argv[4];
+            wxChar *argv[5];
             ProcessSerialNumber ourPSN;
             FSRef ourFSRef;
             OSErr err;
@@ -547,17 +547,18 @@ void CBOINCGUIApp::StartupBOINCCore() {
 #if 0   // The Mac version of wxExecute(wxString& ...) crashes if there is a space in the path
                 strExecute = wxT("\"");            
                 strExecute += wxT(buf);
-                strExecute += wxT("/Contents/Resources/boinc\" -redirectio");
+                strExecute += wxT("/Contents/Resources/boinc\" -redirectio -launched_by_manager");
                 m_lBOINCCoreProcessId = ::wxExecute(strExecute);
 #else   // Use wxExecute(wxChar **argv ...) instead of wxExecute(wxString& ...)
                 strcat(buf, "/Contents/Resources/boinc");
                 argv[0] = buf;
                 argv[1] = "-redirectio";
-                argv[2] = NULL;
+                argv[2] = "-launched_by_manager";
+                argv[3] = NULL;
 #ifdef SANDBOX
                 if (! g_use_sandbox) {
-                    argv[2] = "-insecure";
-                    argv[3] = NULL;
+                    argv[3] = "-insecure";
+                    argv[4] = NULL;
                 }
 #endif  
                 m_lBOINCCoreProcessId = ::wxExecute(argv);
