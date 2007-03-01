@@ -1816,3 +1816,8 @@ Charlie 28 Feb 2007
     clientgui/
         mac/
             mac_saver_module.cpp
+
+Rom    1 Mar 2007
+    - Tag for 5.8.16 release, all platforms
+      boinc_core_release_5_8_16
+
