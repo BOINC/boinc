@@ -241,6 +241,8 @@ public:
         // Used for a clean exit to a project,
         // or if a user wants to pause doing work for the project
     bool attached_via_acct_mgr;
+    bool detach_when_done;
+        // when no results for this project, detach it.
     char code_sign_key[MAX_KEY_LEN];
     std::vector<FILE_REF> user_files;
     std::vector<FILE_REF> project_files;

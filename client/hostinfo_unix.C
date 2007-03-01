@@ -248,10 +248,11 @@ bool HOST_INFO::host_is_running_on_batteries() {
 // See http://people.nl.linux.org/~hch/cpuinfo/ for some examples.
 //
 void parse_cpuinfo(HOST_INFO& host) {
-    char buf[256];
+    char buf[256], features[1024], model_buf[1024];
     bool vendor_found=false, model_found=false;
-    bool cache_found=false, flags_found=false;
+    bool cache_found=false, features_found=false;
     int n;
+    int family=-1, model=-1, stepping=-1;
 
     FILE* f = fopen("/proc/cpuinfo", "r");
     if (!f) return;
@@ -264,6 +265,7 @@ void parse_cpuinfo(HOST_INFO& host) {
     vendor_found = true;
 #endif
 
+    strcpy(features, "");
     while (fgets(buf, 256, f)) {
         strip_whitespace(buf);
         if (strstr(buf, "vendor_id\t: ") || strstr(buf, "system type\t\t: ")) {
@@ -278,31 +280,59 @@ void parse_cpuinfo(HOST_INFO& host) {
                 strlcpy(host.p_model, strchr(buf, ':') + 2, sizeof(host.p_model));
             }
         }
+        if (strstr(buf, "cpu family\t: ") && family<0) {
+            family = atoi(buf+strlen("cpu family\t: "));
+        }
+        if (strstr(buf, "model\t\t: ") && model<0) {
+            model = atoi(buf+strlen("model\t\t: "));
+        }
+        if (strstr(buf, "stepping\t: ") && stepping<0) {
+            stepping = atoi(buf+strlen("stepping\t: "));
+        }
         if (!cache_found && (strstr(buf, "cache size\t: ") == buf)) {
             cache_found = true;
             sscanf(buf, "cache size\t: %d", &n);
             host.m_cache = n*1024;
         }
 
-        if (!flags_found) {
+        if (!features_found) {
             // Some versions of the linux kernel call them flags,
             // others call them features, so look for both.
             //
-            char buf2[256], buf3[1024];
-            strcpy(buf2, "");
             if ((strstr(buf, "flags\t\t: ") == buf)) {
-                strlcpy(buf2, strchr(buf, ':') + 2, sizeof(buf2));
+                strlcpy(features, strchr(buf, ':') + 2, sizeof(features));
             } else if ((strstr(buf, "features\t\t: ") == buf)) {
-                strlcpy(buf2, strchr(buf, ':') + 2, sizeof(buf2));
+                strlcpy(features, strchr(buf, ':') + 2, sizeof(features));
             }
-            if (strlen(buf2)) {
-                flags_found = true;
-                sprintf(buf3, "%s [%s]", host.p_model, buf2);
-                strlcpy(host.p_model, buf3, sizeof(host.p_model));
+            if (strlen(features)) {
+                features_found = true;
             }
         }
     }
+    strcpy(model_buf, host.p_model);
+    if (family>=0 || model>=0 || stepping>0) {
+        strcat(model_buf, " [");
+        if (family>=0) {
+            sprintf(buf, "Family %d ", family);
+            strcat(model_buf, buf);
+        }
+        if (model>=0) {
+            sprintf(buf, "Model %d ", model);
+            strcat(model_buf, buf);
+        }
+        if (stepping>=0) {
+            sprintf(buf, "Stepping %d", stepping);
+            strcat(model_buf, buf);
+        }
+        strcat(model_buf, "]");
+    }
+    if (strlen(features)) {
+        strcat(model_buf, "[");
+        strcat(model_buf, features);
+        strcat(model_buf, "]");
+    }
 
+    strlcpy(host.p_model, model_buf, sizeof(host.p_model));
     fclose(f);
 }
 

@@ -611,17 +611,6 @@ FILE_INFO* CLIENT_STATE::lookup_file_info(PROJECT* p, const char* name) {
     return 0;
 }
 
-// Find the active task for a given result
-//
-ACTIVE_TASK* CLIENT_STATE::lookup_active_task_by_result(RESULT* rep) {
-    for (unsigned int i = 0; i < active_tasks.active_tasks.size(); i ++) {
-        if (active_tasks.active_tasks[i]->result == rep) {
-            return active_tasks.active_tasks[i];
-        }
-    }
-    return NULL;
-}
-
 // functions to create links between state objects
 // (which, in their XML form, reference one another by name)
 // Return nonzero if already in client state.
@@ -794,12 +783,36 @@ void CLIENT_STATE::print_summary() {
     }
 }
 
+int CLIENT_STATE::nresults_for_project(PROJECT* p) {
+    int n=0;
+    for (unsigned int i=0; i<results.size(); i++) {
+        if (results[i]->project == p) n++;
+    }
+    return n;
+}
+
 bool CLIENT_STATE::garbage_collect() {
     static double last_time=0;
     if (gstate.now - last_time < 1.0) return false;
     last_time = gstate.now;
 
-    return garbage_collect_always();
+    bool action = garbage_collect_always();
+    if (action) return true;
+
+    // Detach projects that are marked for detach when done
+    // and are in fact done (have no results).
+    // This is done here (not in garbage_collect_always())
+    // because detach_project() calls garbage_collect_always(),
+    // and we need to avoid infinite recursion
+    //
+    for (unsigned i=0; i<projects.size(); i++) {
+        PROJECT* p = projects[i];
+        if (p->detach_when_done && !nresults_for_project(p)) {
+            detach_project(p);
+            action = true;
+        }
+    }
+    return action;
 }
 
 // delete unneeded records and files
@@ -1243,15 +1256,15 @@ int CLIENT_STATE::reset_project(PROJECT* project) {
     msg_printf(project, MSG_INFO, "Resetting project");
     active_tasks.abort_project(project);
 
-    // TODO: close sockets and open FILEs; delete the various objects
-    //
     for (i=0; i<pers_file_xfers->pers_file_xfers.size(); i++) {
         pxp = pers_file_xfers->pers_file_xfers[i];
         if (pxp->fip->project == project) {
             if (pxp->fxp) {
                 file_xfers->remove(pxp->fxp);
+                delete pxp->fxp;
             }
             pers_file_xfers->remove(pxp);
+            delete pxp;
             i--;
         }
     }
@@ -1378,6 +1391,15 @@ int CLIENT_STATE::detach_project(PROJECT* project) {
             "Can't delete account file: %s", boincerror(retval)
         );
     }
+
+    get_sched_request_filename(*project, path);
+    retval = boinc_delete_file(path);
+
+    get_sched_reply_filename(*project, path);
+    retval = boinc_delete_file(path);
+
+    get_master_filename(*project, path);
+    retval = boinc_delete_file(path);
 
     // remove project directory and its contents
     //

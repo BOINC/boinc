@@ -23,6 +23,7 @@
 
 #ifdef _WIN32
 #include "boinc_win.h"
+#include "win_util.h"
 #else
 #include "config.h"
 
@@ -62,16 +63,6 @@ using std::vector;
 
 #include "app.h"
 
-bool ACTIVE_TASK::process_exists() {
-    switch (task_state()) {
-    case PROCESS_EXECUTING:
-    case PROCESS_SUSPENDED:
-    case PROCESS_ABORT_PENDING:
-    case PROCESS_QUIT_PENDING:
-        return true;
-    }
-    return false;
-}
 
 // Send a quit message.
 //
@@ -707,34 +698,6 @@ int ACTIVE_TASK_SET::abort_project(PROJECT* project) {
     return 0;
 }
 
-// Find the ACTIVE_TASK in the current set with the matching PID
-//
-ACTIVE_TASK* ACTIVE_TASK_SET::lookup_pid(int pid) {
-    unsigned int i;
-    ACTIVE_TASK* atp;
-
-    for (i=0; i<active_tasks.size(); i++) {
-        atp = active_tasks[i];
-        if (atp->pid == pid) return atp;
-    }
-    return NULL;
-}
-
-// Find the ACTIVE_TASK in the current set with the matching result
-//
-ACTIVE_TASK* ACTIVE_TASK_SET::lookup_result(RESULT* result) {
-    unsigned int i;
-    ACTIVE_TASK* atp;
-
-    for (i=0; i<active_tasks.size(); i++) {
-        atp = active_tasks[i];
-        if (atp->result == result) {
-            return atp;
-        }
-    }
-    return NULL;
-}
-
 // suspend all currently running tasks
 // called only from CLIENT_STATE::suspend_tasks(),
 // e.g. because on batteries, time of day, benchmarking, CPU throttle, etc.
@@ -959,6 +922,11 @@ bool ACTIVE_TASK_SET::get_msgs() {
                 if (log_flags.task_debug) {
                     msg_printf(atp->wup->project, MSG_INFO,
                         "[task_debug] result %s checkpointed",
+                        atp->result->name
+                    );
+                } else if (log_flags.checkpoint_debug) {
+                    msg_printf(atp->wup->project, MSG_INFO,
+                        "[checkpoint_debug] result %s checkpointed",
                         atp->result->name
                     );
                 }

@@ -1676,12 +1676,105 @@ Rom    19 Feb 2007
     - Tag for 5.8.15 release, all platforms
       boinc_core_release_5_8_15
 
+David  12 Feb 2007
+    - core client, Unix: add '[Family x Model x Stepping x]' in p_model string.
+        This will enable better homogeneous redundancy resolution
+
+    client/
+        hostinfo_unix.C
+
 David  21 Feb 2007
     - core client: if benchmark time is in the future (due to user tweak)
         always run benchmarks
 
     client/
         cs_benchmark.C
+
+David  19 Feb 2007
+	- core client: when resetting or detaching a project,
+		if a file transfer was active for a project file,
+		the file delete would fail because Curl still has the file open.
+		This would cause the manager to freeze for N*5 seconds.
+		Fix: in CLIENT_STATE::reset_project(),
+		delete FILE_XFER and PERS_FILE_XFER objects.
+	- core client: the limits on numbers of simultaneous file transfers
+		(total and per-project)
+		now apply to uploads and downloads separately.
+		We don't want a situation where an upload is blocked
+		because there are N downloads.
+
+	client/
+		client_state.C
+		cs_files.C
+
+David  21 Feb 2007
+    - core client: if benchmark time is in the future (due to user tweak)
+        always run benchmarks
+
+    client/
+        cs_benchmark.C
+
+David  22 Feb 2007
+    - add <checkpoint_debug> message flag; shows when apps checkpoint.
+
+    client/
+        app_control.C
+        log_flags.C,h
+
+David  22 Feb 2007
+	- core client, Win: set processor affinity mask for benchmark threads
+
+	client/
+		cs_benchmark.C
+
+David  23 Feb 2007
+	- core client: disable connection caching in Curl.
+		This may reduce cases where file uploads hang
+		because a server process holds file lock.
+	- manager: fix status text for file transfers
+
+	client/
+		http_curl.C
+	clientgui/
+		ViewTransfers.cpp
+
+David  23 Feb 2007
+    - core client: add bool detach_when_done to PROJECT.
+        If set, detach from project when it has not results
+        (i.e. when all work is finished and acknowledged).
+        Save/restore in client state file.
+    - core client: add optional <detach_when_done>
+        and <dont_request_more_work> flags to account element
+        in account manager reply messages.
+        See acct_mgt.php
+
+    client/
+        acct_mgr.C,h
+        client_state.C,h
+        client_types.C,h
+
+David  24 Feb 2007
+    - boinc_cmd: change --lookup_account and --create_account commands
+        so that they poll until the operation is done,
+        and then show a meaningful result (e.g. an account key).
+        Remove --lookup_account_poll and --create_account_poll commands
+
+    client/
+        client_types.C
+        cpu_sched.C
+        work_fetch.C
+    lib/
+        boinc_cmd.C
+        gui_rpc_client.h
+        gui_rpc_client_print.C
+        parse.C
+
+David  24 Feb 2007
+    - core client: when detach from a project, delete its
+        sched_request, sched_reply, and master files
+
+    client/
+        client_state.C
 
 Charlie 25 Feb 2007
     Win: Fix check mark on Snooze taskbar menu item on Windows XP

@@ -430,12 +430,8 @@ struct PROJECT_CONFIG {
 struct ACCOUNT_IN {
     std::string url;
     std::string email_addr;
-        // this is the account identifier.  on systems that use
-        // usernames it is the username, on systems that use
-        // email addresses it is an email address for the user.
+        // this is the account identifier (email address or user name)
     std::string user_name;
-        // this is the suggested friendly name for the user
-        // during account creation.
     std::string passwd;
 
     ACCOUNT_IN();
