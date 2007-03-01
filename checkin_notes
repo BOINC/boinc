@@ -1817,6 +1817,14 @@ Charlie 28 Feb 2007
         mac/
             mac_saver_module.cpp
 
+Charlie 1 Mar 2007
+    Mac: add work_fetch.C to XCode project.
+
+    mac_build/
+        boinc.xcodeproj/
+            project.pbxproj
+
+
 Rom    1 Mar 2007
     - Tag for 5.8.16 release, all platforms
       boinc_core_release_5_8_16
