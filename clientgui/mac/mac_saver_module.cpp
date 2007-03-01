@@ -56,7 +56,8 @@ OSErr FindBOINCApplication(FSSpecPtr applicationFSSpecPtr);
 pid_t FindProcessPID(char* name, pid_t thePID);
 OSErr GetpathToBOINCManagerApp(char* path, int maxLen);
 OSStatus RPCThread(void* param);
-OSErr KillScreenSaver();
+void HandleRPCError(void);
+OSErr KillScreenSaver(void);
 
 #ifdef __cplusplus
 }	// extern "C"
@@ -98,6 +99,7 @@ enum SaverState {
     SaverState_Idle,
     SaverState_LaunchingCoreClient,
     SaverState_CoreClientRunning,
+    SaverState_RelaunchCoreClient,
     SaverState_CoreClientSetToSaverMode,
     
     SaverState_CantLaunchCoreClient,
@@ -109,7 +111,7 @@ enum SaverState {
 extern int gGoToBlank;      // True if we are to blank the screen
 extern int gBlankingTime;   // Delay in minutes before blanking the screen
 
-
+static time_t SaverStartTime;
 static Boolean wasAlreadyRunning = false;
 static pid_t CoreClientPID = nil;
 static char msgBuf[2048], bannerText[2048];
@@ -166,7 +168,7 @@ int initBOINCSaver(Boolean ispreview) {
     // Test button in the System Prefs Screensaver control panel, the 
     // control panel calls our stopAnimation function as soon as the 
     // science application opens a GLUT window.  This problem does not 
-    // occur when the screensaver is run nornally (from the screensaver 
+    // occur when the screensaver is run normally (from the screensaver 
     // engine.)  So we just display a message and don't access the core 
     // client.
     GetCurrentProcess(&psn);
@@ -196,6 +198,8 @@ int initBOINCSaver(Boolean ispreview) {
     // multiple times (once for each display), so we need to guard 
     // against launching multiple instances of the core client
     if (saverState == SaverState_Idle) {
+        SaverStartTime = time(0);
+        
         err = initBOINCApp();
 
         if (saverState == SaverState_LaunchingCoreClient)
@@ -229,7 +233,7 @@ OSStatus initBOINCApp() {
     
     wasAlreadyRunning = false;
     
-    if (++retryCount > 3)
+    if (++retryCount > 3)   // Limit to 3 relaunches to prevent thrashing
         return -1;
 
     err = GetpathToBOINCManagerApp(boincPath, sizeof(boincPath));
@@ -289,6 +293,10 @@ int drawGraphics(GrafPtr aPort) {
     statusUpdateCounter++;
 
     switch (saverState) {
+    case SaverState_RelaunchCoreClient:
+        err = initBOINCApp();
+        break;
+    
     case  SaverState_LaunchingCoreClient:
         if (wasAlreadyRunning)
             setBannerText(ConnectingCCMsg, aPort);
@@ -327,9 +335,14 @@ int drawGraphics(GrafPtr aPort) {
                 saverState = SaverState_UnrecoverableError;
                 break;
             }
-        }
-        // ToDo: Add a timeout after which we display error message
-        break;
+            // ToDo: Add a timeout after which we display error message
+        } else
+            // Take care of the possible race condition where the Core Client was in the  
+            // process of shutting down just as ScreenSaver started, so initBOINCApp() 
+            // found it already running but now it has shut down.
+            if (wasAlreadyRunning)  // If we launched it, then just wait for it to start
+                saverState = SaverState_RelaunchCoreClient;
+         break;
 
     case SaverState_CoreClientRunning:
             // set_screensaver_mode RPC called in RPCThread()
@@ -475,10 +488,10 @@ OSStatus RPCThread(void* param) {
         timeToUnblock = AddDurationToAbsolute(durationSecond/4, UpTime());
         MPDelayUntil(&timeToUnblock);
 
-        // Calculate the estimated blank time by adding the current time
-        //   and and the user specified time which is in minutes
+        // Calculate the estimated blank time by adding the starting 
+        //  time and and the user-specified time which is in minutes
         if (gGoToBlank)
-            time_to_blank = time(0) + (gBlankingTime * 60);
+            time_to_blank = SaverStartTime + (gBlankingTime * 60);
         else
             time_to_blank = 0;
 
@@ -487,12 +500,8 @@ OSStatus RPCThread(void* param) {
 #endif
         if (val == noErr)
             break;
-        
-        // Attempt to restart BOINC Client if needed, reinitialize the RPC client and state
-        rpc->close();
-        initBOINCApp();
-        MPExit(noErr);       // Exit the thread
-        // Error message after timeout?
+
+        HandleRPCError();
     }
 
     saverState = SaverState_CoreClientSetToSaverMode;
@@ -507,13 +516,8 @@ OSStatus RPCThread(void* param) {
         MPDelayUntil(&timeToUnblock);
 
         val = rpc->get_screensaver_mode(gClientSaverStatus);
-        if (val) {
-            // Attempt to restart BOINC Client if needed, reinitialize the RPC client and state
-            rpc->close();
-            initBOINCApp();
-            MPExit(noErr);      // Exit the thread
-            // Error message after timeout?
-        }
+        if (val)
+            HandleRPCError();
 
 #if SIMULATE_NO_GRAPHICS /* FOR TESTING */
         gClientSaverStatus = SS_STATUS_NOGRAPHICSAPPSEXECUTING;
@@ -560,10 +564,7 @@ OSStatus RPCThread(void* param) {
                         }           // end for() loop
                         gStatusMessageUpdated = true;
                     } else {        // rpc call returned error
-                        // Attempt to restart BOINC Client if needed, reinitialize the RPC client and state
-                        rpc->close();
-                        initBOINCApp();
-                        MPExit(noErr);      // Exit the thread
+                        HandleRPCError();
                     }               // end if (rpc.get_results(results) {} else {}
                     
                 }   // end if (! gStatusMessageUpdated)
@@ -577,6 +578,24 @@ OSStatus RPCThread(void* param) {
         }
     }                           // end while(true)
             return noErr;       // should never get here; it fixes compiler warning
+}
+
+
+void HandleRPCError() {
+    // Attempt to restart BOINC Client if needed, reinitialize the RPC client and state
+    rpc->close();
+    
+    // There is a possible race condition where the Core Client was in the  
+    // process of shutting down just as ScreenSaver started, so initBOINCApp() 
+    // found it already running but now it has shut down.  This code takes 
+    // care of that and other situations where the Core Client quits unexpectedy.  
+    if (FindProcessPID("boinc", 0) == 0) {
+        saverState = SaverState_RelaunchCoreClient;
+        MPExit(noErr);      // Exit the thread
+     }
+    
+    rpc->init(NULL);    // Otherwise just reinitialize the RPC client and state and keep trying
+    // Error message after timeout?
 }
 
 
