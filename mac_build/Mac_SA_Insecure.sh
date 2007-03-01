@@ -104,7 +104,7 @@ chmod -R u+rw-s,g+r-w-s,o+r-w .
 chmod 600 gui_rpc_auth.cfg
 
 if [ -f switcher/AppStats ] ; then 
-# AppStats application must run setuid root (used in BOINC 5.7 and later)
+# AppStats application must run setuid root (used in BOINC 5.7 through 5.8.14 only)
 chown root:${group} switcher/AppStats
 chmod 4550 switcher/AppStats
 fi

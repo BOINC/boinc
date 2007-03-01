@@ -198,7 +198,7 @@ if [ -d slots ] ; then
     update_nested_dirs slots
 fi
 
-# AppStats application must run setuid root (used in BOINC 5.7 and later)
+# AppStats application must run setuid root (used in BOINC 5.7 through 5.8.14 only)
 if [ -f switcher/AppStats ] ; then 
 set_perm switcher/AppStats root boinc_master 4550
 fi
