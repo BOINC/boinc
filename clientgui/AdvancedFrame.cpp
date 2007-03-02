@@ -41,24 +41,20 @@
 #include "BOINCDialupManager.h"
 #include "AdvancedFrame.h"
 #include "ViewProjects.h"
-#include "ViewProjectsGrid.h"
 #include "ViewWork.h"
-#include "ViewWorkGrid.h"
 #include "ViewTransfers.h"
-#include "ViewTransfersGrid.h"
 #include "ViewMessages.h"
-#include "ViewMessagesGrid.h"
 #include "ViewStatistics.h"
 #include "ViewResources.h"
 #include "DlgAbout.h"
 #include "DlgOptions.h"
 #include "DlgSelectComputer.h"
+#include "DlgGenericMessage.h"
 #include "wizardex.h"
 #include "BOINCWizards.h"
 #include "BOINCBaseWizard.h"
 #include "WizardAttachProject.h"
 #include "WizardAccountManager.h"
-#include "DlgAdvPreferences.h"
 #ifdef __WXMAC__
 #include "mac/MacGUI.pch"
 #endif
@@ -163,6 +159,7 @@ IMPLEMENT_DYNAMIC_CLASS(CAdvancedFrame, CBOINCBaseFrame)
 BEGIN_EVENT_TABLE (CAdvancedFrame, CBOINCBaseFrame)
     EVT_MENU(ID_FILERUNBENCHMARKS, CAdvancedFrame::OnRunBenchmarks)
     EVT_MENU(ID_FILESELECTCOMPUTER, CAdvancedFrame::OnSelectComputer)
+    EVT_MENU(ID_SHUTDOWNCORECLIENT, CAdvancedFrame::OnClientShutdown)
     EVT_MENU(ID_FILESWITCHGUI, CAdvancedFrame::OnSwitchGUI)
 	EVT_MENU(ID_READ_PREFS, CAdvancedFrame::Onread_prefs)
 	EVT_MENU(ID_READ_CONFIG, CAdvancedFrame::Onread_config)
@@ -175,7 +172,6 @@ BEGIN_EVENT_TABLE (CAdvancedFrame, CBOINCBaseFrame)
     EVT_MENU(ID_PROJECTSATTACHPROJECT, CAdvancedFrame::OnProjectsAttachToProject)
     EVT_MENU(ID_COMMANDSRETRYCOMMUNICATIONS, CAdvancedFrame::OnCommandsRetryCommunications)
     EVT_MENU(ID_OPTIONSOPTIONS, CAdvancedFrame::OnOptionsOptions)
-	EVT_MENU(ID_ADVPREFSDLG, CAdvancedFrame::OnDlgPreferences)
     EVT_HELP(wxID_ANY, CAdvancedFrame::OnHelp)
     EVT_MENU(ID_HELPBOINCMANAGER, CAdvancedFrame::OnHelpBOINCManager)
     EVT_MENU(ID_HELPBOINC, CAdvancedFrame::OnHelpBOINCWebsite)
@@ -209,6 +205,7 @@ CAdvancedFrame::CAdvancedFrame(wxString title, wxIcon* icon) :
 
     // Working Variables
     m_strBaseTitle = title;
+    m_bDisplayShutdownClientWarning = true;
 
 
     // Initialize Application
@@ -417,11 +414,6 @@ bool CAdvancedFrame::CreateMenu() {
         _("&Options..."),
         _("Configure GUI options and proxy settings")
     );
-    menuAdvanced->Append(
-		ID_ADVPREFSDLG, 
-        _("&Preferences..."),
-        _("Configure local preferences")
-    );
 
     // %s is the project name
     //    i.e. 'BOINC', 'GridRepublic'
@@ -433,6 +425,11 @@ bool CAdvancedFrame::CreateMenu() {
         ID_FILESELECTCOMPUTER, 
         _("Select computer..."),
         strMenuDescription
+    );
+    menuAdvanced->Append(
+        ID_SHUTDOWNCORECLIENT, 
+        _("Shutdown connected client..."),
+        _("Shutdown the currently connected core client")
     );
     menuAdvanced->Append(
         ID_FILERUNBENCHMARKS, 
@@ -448,7 +445,7 @@ bool CAdvancedFrame::CreateMenu() {
     menuAdvanced->Append(
         ID_READ_CONFIG, 
         _("Read config file"),
-        _("Read configuration info from cc-config.xml.")
+        _("Read configuration info from cc_config.xml.")
     );
     menuAdvanced->Append(
         ID_READ_PREFS, 
@@ -604,16 +601,12 @@ bool CAdvancedFrame::CreateNotebook() {
 
 
     // create the various notebook pages
-    CreateNotebookPage(new CViewProjects(m_pNotebook));
-    CreateNotebookPage(new CViewWork(m_pNotebook));
-    CreateNotebookPage(new CViewTransfers(m_pNotebook));
+	CreateNotebookPage(new CViewProjects(m_pNotebook));
+	CreateNotebookPage(new CViewWork(m_pNotebook));
+	CreateNotebookPage(new CViewTransfers(m_pNotebook));
     CreateNotebookPage(new CViewMessages(m_pNotebook));
 	CreateNotebookPage(new CViewStatistics(m_pNotebook));
     CreateNotebookPage(new CViewResources(m_pNotebook));
-	CreateNotebookPage(new CViewWorkGrid(m_pNotebook));
-	CreateNotebookPage(new CViewTransfersGrid(m_pNotebook));
-	CreateNotebookPage(new CViewProjectsGrid(m_pNotebook));
-	CreateNotebookPage(new CViewMessagesGrid(m_pNotebook));
 
 
     pPanel->SetSizer(pPanelSizer);
@@ -743,6 +736,7 @@ bool CAdvancedFrame::SaveState() {
     pConfig->SetPath(strBaseConfigLocation);
 
     pConfig->Write(wxT("CurrentPage"), m_pNotebook->GetSelection());
+    pConfig->Write(wxT("DisplayShutdownClientWarning"), m_bDisplayShutdownClientWarning);
 
 
 #ifdef __WXMAC__
@@ -821,7 +815,7 @@ bool CAdvancedFrame::RestoreState() {
         pConfig->Read(wxT("CurrentPage"), &iCurrentPage, (ID_LIST_WORKVIEW - ID_LIST_BASE));
         m_pNotebook->SetSelection(iCurrentPage);
     }
-
+    pConfig->Read(wxT("DisplayShutdownClientWarning"), &m_bDisplayShutdownClientWarning, true);
 
 #ifdef __WXMAC__
     RestoreWindowDimensions();
@@ -1062,15 +1056,80 @@ void CAdvancedFrame::OnSelectComputer(wxCommandEvent& WXUNUSED(event)) {
     wxLogTrace(wxT("Function Start/End"), wxT("CAdvancedFrame::OnSelectComputer - Function End"));
 }
 
+
+void CAdvancedFrame::OnClientShutdown(wxCommandEvent& WXUNUSED(event)) {
+    wxCommandEvent     evtSelectNewComputer(wxEVT_COMMAND_MENU_SELECTED, ID_FILESELECTCOMPUTER);
+    CMainDocument*     pDoc = wxGetApp().GetDocument();
+    CSkinAdvanced* pSkinAdvanced = wxGetApp().GetSkinManager()->GetAdvanced();
+    CDlgGenericMessage dlg(this);
+    wxString           strDialogTitle = wxEmptyString;
+    wxString           strDialogMessage = wxEmptyString;
+
+    wxLogTrace(wxT("Function Start/End"), wxT("CAdvancedFrame::OnClientShutdown - Function Begin"));
+
+    wxASSERT(pDoc);
+    wxASSERT(pSkinAdvanced);
+    wxASSERT(wxDynamicCast(pDoc, CMainDocument));
+    wxASSERT(wxDynamicCast(pSkinAdvanced, CSkinAdvanced));
+
+
+    // Stop all timers
+    StopTimers();
+
+
+    // %s is the application name
+    //    i.e. 'BOINC Manager', 'GridRepublic Manager'
+    strDialogTitle.Printf(
+        _("Shutdown the current client..."),
+        pSkinAdvanced->GetApplicationName().c_str()
+    );
+
+    // 1st %s is the application name
+    //    i.e. 'BOINC Manager', 'GridRepublic Manager'
+    // 2nd %s is the project name
+    //    i.e. 'BOINC', 'GridRepublic'
+    strDialogMessage.Printf(
+        _("%s is going to shutdown the core client it is currently connected to.\n"
+          "NOTE: Choosing 'OK' will cause the select new computer dialog to appear \n"
+          "so you can attach to a different core client."),
+        pSkinAdvanced->GetApplicationName().c_str()
+    );
+
+    dlg.SetTitle(strDialogTitle);
+    dlg.m_DialogMessage->SetLabel(strDialogMessage);
+    dlg.Fit();
+    dlg.Centre();
+
+    if (wxID_OK == dlg.ShowModal()) {
+        if (dlg.m_DialogDisableMessage->GetValue()) {
+            m_bDisplayShutdownClientWarning = false;
+        }
+
+        pDoc->CoreClientQuit();
+
+        // Since the core cliet we were connected to just shutdown, prompt for a new one.
+        ProcessEvent(evtSelectNewComputer);
+    }
+
+
+    // Restart timers
+    StartTimers();
+
+    wxLogTrace(wxT("Function Start/End"), wxT("CAdvancedFrame::OnClientShutdown - Function End"));
+}
+
+
 void CAdvancedFrame::Onread_prefs(wxCommandEvent& WXUNUSED(event)) {
 	CMainDocument* pDoc = wxGetApp().GetDocument();
 	pDoc->rpc.read_global_prefs_override();
 }
 
+
 void CAdvancedFrame::Onread_config(wxCommandEvent& WXUNUSED(event)) {
 	CMainDocument* pDoc = wxGetApp().GetDocument();
 	pDoc->rpc.read_cc_config();
 }
+
 
 void CAdvancedFrame::OnSwitchGUI(wxCommandEvent& WXUNUSED(event)) {
     wxLogTrace(wxT("Function Start/End"), wxT("CAdvancedFrame::OnSwitchGUI - Function Begin"));
@@ -1174,15 +1233,15 @@ void CAdvancedFrame::OnAccountManagerDetach(wxCommandEvent& WXUNUSED(event)) {
         pDoc->rpc.acct_mgr_info(ami);
 
         strTitle.Printf(
-            _("BOINC Manager - Detach from %s"), 
+            _("BOINC Manager - Stop using %s"), 
             wxString(ami.acct_mgr_name.c_str(), wxConvUTF8).c_str()
         );
         strMessage.Printf(
-            _("If you defect from %s,\n"
+            _("If you stop using %s,\n"
               "you'll keep all your current projects,\n"
               "but you'll have to manage projects manually.\n"
               "\n"
-              "Do you want to defect from %s?"), 
+              "Do you want to stop using %s?"), 
             wxString(ami.acct_mgr_name.c_str(), wxConvUTF8).c_str(),
             wxString(ami.acct_mgr_name.c_str(), wxConvUTF8).c_str()
         );
@@ -1275,13 +1334,6 @@ void CAdvancedFrame::OnCommandsRetryCommunications( wxCommandEvent& WXUNUSED(eve
     wxLogTrace(wxT("Function Start/End"), wxT("CAdvancedFrame::OnCommandsRetryCommunications - Function End"));
 }
 
-
-void CAdvancedFrame::OnDlgPreferences(wxCommandEvent& WXUNUSED(event)) {
-    wxLogTrace(wxT("Function Start/End"), wxT("CAdvancedFrame::OnDlgPreferences - Function Begin"));
-	CDlgAdvPreferences dlg(this);
-	dlg.ShowModal();
-	wxLogTrace(wxT("Function Start/End"), wxT("CAdvancedFrame::OnDlgPreferences - Function End"));
-}
 
 void CAdvancedFrame::OnOptionsOptions(wxCommandEvent& WXUNUSED(event)) {
     wxLogTrace(wxT("Function Start/End"), wxT("CAdvancedFrame::OnOptionsOptions - Function Begin"));

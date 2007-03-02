@@ -165,7 +165,7 @@ CViewWorkGrid::~CViewWorkGrid() {
 
 
 wxString& CViewWorkGrid::GetViewName() {
-    static wxString strViewName(_("TasksGrid"));
+    static wxString strViewName(_("Tasks"));
     return strViewName;
 }
 

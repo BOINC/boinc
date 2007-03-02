@@ -269,10 +269,12 @@ int GLOBAL_PREFS::parse_override(
             mask.vm_max_used_frac = true;
             continue;
         } else if (xp.parse_double(tag, "ram_max_used_busy_pct", dtemp)) {
+            if (!dtemp) dtemp = 100;
 			ram_max_used_busy_frac = dtemp/100;
             mask.ram_max_used_busy_frac = true;
             continue;
         } else if (xp.parse_double(tag, "ram_max_used_idle_pct", dtemp)) {
+            if (!dtemp) dtemp = 100;
 			ram_max_used_idle_frac = dtemp/100;
             mask.ram_max_used_idle_frac = true;
             continue;

@@ -130,7 +130,7 @@ int remove_project_dir(PROJECT& p) {
     get_project_dir(&p, buf);
     retval = clean_out_dir(buf);
     if (retval) {
-        msg_printf(&p, MSG_ERROR, "Can't delete file %s", boinc_failed_file);
+        msg_printf(&p, MSG_INTERNAL_ERROR, "Can't delete file %s", boinc_failed_file);
         return retval;
     }
     return boinc_rmdir(buf);
@@ -141,7 +141,7 @@ int remove_project_dir(PROJECT& p) {
 int make_slot_dir(int slot) {
     char buf[256];
     if (slot<0) {
-        msg_printf(NULL, MSG_ERROR, "Bad slot number %d", slot);
+        msg_printf(NULL, MSG_INTERNAL_ERROR, "Bad slot number %d", slot);
         return ERR_NEG;
     }
     boinc_mkdir(SLOTS_DIR);
@@ -211,7 +211,7 @@ void get_account_filename(char* master_url, char* path) {
 }
 
 static bool bad_account_filename(const char* filename) {
-    msg_printf(NULL, MSG_ERROR, "Invalid account filename: %s", filename);
+    msg_printf(NULL, MSG_INTERNAL_ERROR, "Invalid account filename: %s", filename);
     return false;
 }
 

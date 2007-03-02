@@ -241,6 +241,8 @@ public:
         // Used for a clean exit to a project,
         // or if a user wants to pause doing work for the project
     bool attached_via_acct_mgr;
+    bool detach_when_done;
+        // when no results for this project, detach it.
     char code_sign_key[MAX_KEY_LEN];
     std::vector<FILE_REF> user_files;
     std::vector<FILE_REF> project_files;
@@ -313,9 +315,9 @@ public:
         // project in the current debt interval
     struct RESULT *next_runnable_result;
         // the next result to run for this project
-    int nactive_uploads;
-        // number of file uploads in progress.
-        // Don't start new results if these exceeds 2.
+    int nuploading_results;
+        // number of results in UPLOADING state
+        // Don't start new results if these exceeds 2*ncpus.
 
     double work_request;
         // the unit is "project-normalized CPU seconds",
@@ -442,7 +444,9 @@ struct RESULT {
     double fpops_cumulative;    // nonzero if reported by app
     double intops_per_cpu_sec;   // nonzero if reported by app
     double intops_cumulative;    // nonzero if reported by app
-    int state;                  // state of this result: see lib/result_state.h
+    int _state;                  // state of this result: see lib/result_state.h
+    inline int state() { return _state; }
+    void set_state(int, const char*);
     int exit_status;            // return value from the application
     std::string stderr_out;
         // the concatenation of:

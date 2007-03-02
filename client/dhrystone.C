@@ -76,7 +76,7 @@ bool      Func_2(DS_DATA&, Str_30 , Str_30 );
 bool Func_3(Enumeration EnumParIn);
 
 void dhrystone(
-   double& Dhrystones_Per_Second, double& Vax_Mips
+   double& Vax_Mips, double& int_loops, double& int_time
 ){
         One_Fifty       Int_1_Loc;
   REG   One_Fifty       Int_2_Loc;
@@ -91,6 +91,7 @@ void dhrystone(
 
     double                  startclock, endclock;
     double                  benchtime;
+    double Dhrystones_Per_Second;
 
     register unsigned long  Run_Index;
 
@@ -163,6 +164,8 @@ void dhrystone(
 
     Dhrystones_Per_Second = (double) Loops / benchtime;
     Vax_Mips = Dhrystones_Per_Second / 1757.0;
+    int_loops = Loops;
+    int_time = benchtime;
 #if 0
     printf ("Dhrystones per Second:                      ");
     printf ("%10.0lf \n", Dhrystones_Per_Second);

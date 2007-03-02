@@ -80,6 +80,11 @@ int CLIENT_STATE::app_finished(ACTIVE_TASK& at) {
                 //
                 fip->status = retval;
                 had_error = true;
+                msg_printf(
+                    rp->project, MSG_INFO,
+                    "Output file %s for task %s absent",
+                    fip->name, rp->name
+                );
             } else if (size > fip->max_nbytes) {
                 // Note: this is only checked when the application finishes.
                 // The total disk space is checked while the application is running.
@@ -128,13 +133,13 @@ int CLIENT_STATE::app_finished(ACTIVE_TASK& at) {
         switch (rp->exit_status) {
         case ERR_ABORTED_VIA_GUI:
         case ERR_ABORTED_BY_PROJECT:
-            rp->state = RESULT_ABORTED;
+            rp->set_state(RESULT_ABORTED, "CS::app_finished");
             break;
         default:
-            rp->state = RESULT_COMPUTE_ERROR;
+            rp->set_state(RESULT_COMPUTE_ERROR, "CS::app_finished");
         }
     } else {
-        rp->state = RESULT_FILES_UPLOADING;
+        rp->set_state(RESULT_FILES_UPLOADING, "CS::app_finished");
         rp->project->update_duration_correction_factor(rp);
     }
 
@@ -158,7 +163,7 @@ bool CLIENT_STATE::handle_finished_apps() {
 
     for (i=0; i<active_tasks.active_tasks.size(); i++) {
         atp = active_tasks.active_tasks[i];
-        switch (atp->task_state) {
+        switch (atp->task_state()) {
         case PROCESS_EXITED:
         case PROCESS_WAS_SIGNALED:
         case PROCESS_EXIT_UNKNOWN:
@@ -169,16 +174,16 @@ bool CLIENT_STATE::handle_finished_apps() {
                     "Computation for task %s finished", atp->result->name
                 );
             }
-            if (log_flags.task_debug) {
-                msg_printf(0, MSG_INFO,
-                    "[task_debug] CLIENT_STATE::handle_finished_apps(): task finished; pid %d, status %d\n",
-                    atp->pid, atp->result->exit_status
-                );
-            }
             app_finished(*atp);
             active_tasks.remove(atp);
             delete atp;
             set_client_state_dirty("handle_finished_apps");
+
+            // the following is critical; otherwise the result is
+            // still in the "scheduled" list and enforce_schedule()
+            // will try to run it again.
+            //
+            request_schedule_cpus("handle_finished_apps");
             action = true;
         }
     }
@@ -223,75 +228,6 @@ int CLIENT_STATE::input_files_available(RESULT* rp, bool verify) {
         if (retval) return retval;
     }
     return 0;
-}
-
-
-// if there's not an active task for the result, make one
-//
-ACTIVE_TASK* CLIENT_STATE::get_task(RESULT* rp) {
-    ACTIVE_TASK *atp = lookup_active_task_by_result(rp);
-    if (!atp) {
-        atp = new ACTIVE_TASK;
-        atp->slot = active_tasks.get_free_slot();
-        atp->init(rp);
-        active_tasks.active_tasks.push_back(atp);
-    }
-    return atp;
-}
-
-
-// find total resource shares of all projects
-//
-double CLIENT_STATE::total_resource_share() {
-    double x = 0;
-    for (unsigned int i=0; i<projects.size(); i++) {
-        if (!projects[i]->non_cpu_intensive ) {
-            x += projects[i]->resource_share;
-        }
-    }
-    return x;
-}
-
-// same, but only runnable projects (can use CPU right now)
-//
-double CLIENT_STATE::runnable_resource_share() {
-    double x = 0;
-    for (unsigned int i=0; i<projects.size(); i++) {
-        PROJECT* p = projects[i];
-        if (p->non_cpu_intensive) continue;
-        if (p->runnable()) {
-            x += p->resource_share;
-        }
-    }
-    return x;
-}
-
-// same, but potentially runnable (could ask for work right now)
-//
-double CLIENT_STATE::potentially_runnable_resource_share() {
-    double x = 0;
-    for (unsigned int i=0; i<projects.size(); i++) {
-        PROJECT* p = projects[i];
-        if (p->non_cpu_intensive) continue;
-        if (p->potentially_runnable()) {
-            x += p->resource_share;
-        }
-    }
-    return x;
-}
-
-// same, but nearly runnable (could be downloading work right now)
-//
-double CLIENT_STATE::nearly_runnable_resource_share() {
-    double x = 0;
-    for (unsigned int i=0; i<projects.size(); i++) {
-        PROJECT* p = projects[i];
-        if (p->non_cpu_intensive) continue;
-        if (p->nearly_runnable()) {
-            x += p->resource_share;
-        }
-    }
-    return x;
 }
 
 // called at startup (after get_host_info())
@@ -360,13 +296,32 @@ int CLIENT_STATE::choose_version_num(WORKUNIT* wup, SCHEDULER_REPLY& sr) {
     return best;
 }
 
-// trigger work fetch
-// 
-void CLIENT_STATE::request_work_fetch(const char* where) {
-    if (log_flags.work_fetch_debug) {
-        msg_printf(0, MSG_INFO, "[work_fetch_debug] Request work fetch: %s", where);
+// Find the ACTIVE_TASK in the current set with the matching PID
+//
+ACTIVE_TASK* ACTIVE_TASK_SET::lookup_pid(int pid) {
+    unsigned int i;
+    ACTIVE_TASK* atp;
+
+    for (i=0; i<active_tasks.size(); i++) {
+        atp = active_tasks[i];
+        if (atp->pid == pid) return atp;
     }
-    must_check_work_fetch = true;
+    return NULL;
+}
+
+// Find the ACTIVE_TASK in the current set with the matching result
+//
+ACTIVE_TASK* ACTIVE_TASK_SET::lookup_result(RESULT* result) {
+    unsigned int i;
+    ACTIVE_TASK* atp;
+
+    for (i=0; i<active_tasks.size(); i++) {
+        atp = active_tasks[i];
+        if (atp->result == result) {
+            return atp;
+        }
+    }
+    return NULL;
 }
 
 const char *BOINC_RCSID_7bf63ad771 = "$Id$";

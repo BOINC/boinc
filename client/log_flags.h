@@ -60,7 +60,7 @@ struct LOG_FLAGS {
     bool proxy_debug;
     bool time_debug;        // changes in on_frac, active_frac, connected_frac
     bool http_xfer_debug;
-    bool measurement_debug; // host measurement notices
+    bool benchmark_debug;   // debug CPU benchmarks
     bool poll_debug;        // show what polls are responding
     bool guirpc_debug;
     bool scrsave_debug;
@@ -68,6 +68,7 @@ struct LOG_FLAGS {
     bool app_msg_receive;    // show shared-mem message from apps
 	bool mem_usage_debug;	// memory usage
 	bool network_status_debug;
+    bool checkpoint_debug;
 
     LOG_FLAGS();
     int parse(XML_PARSER&);

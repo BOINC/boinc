@@ -142,7 +142,9 @@ int GUI_RPC_CONN_SET::get_allowed_hosts() {
             strip_whitespace(buf);
             if (!(buf[0] =='#' || buf[0] == ';') && strlen(buf) > 0 ) {
                 retval = resolve_hostname(buf, ipaddr, msg);
-                if (!retval) {
+                if (retval) {
+                    msg_printf(0, MSG_USER_ERROR, msg);
+                } else {
                     allowed_remote_ip_addresses.push_back((int)ntohl(ipaddr));
                 }
             }
@@ -166,7 +168,7 @@ int GUI_RPC_CONN_SET::init() {
 
     retval = boinc_socket(lsock);
     if (retval) {
-        msg_printf(NULL, MSG_ERROR,
+        msg_printf(NULL, MSG_INTERNAL_ERROR,
             "GUI RPC failed to create socket: %d", lsock
         );
         return retval;
@@ -205,7 +207,7 @@ int GUI_RPC_CONN_SET::init() {
 #ifndef _WIN32
         retval = errno;     // Display the real error code
 #endif
-        msg_printf(NULL, MSG_ERROR, "GUI RPC bind failed: %d", retval);
+        msg_printf(NULL, MSG_INTERNAL_ERROR, "GUI RPC bind failed: %d", retval);
         boinc_close_socket(lsock);
         lsock = -1;
         return ERR_BIND;
@@ -216,7 +218,7 @@ int GUI_RPC_CONN_SET::init() {
 
     retval = listen(lsock, 999);
     if (retval) {
-        msg_printf(NULL, MSG_ERROR, "GUI RPC listen failed: %d", retval);
+        msg_printf(NULL, MSG_INTERNAL_ERROR, "GUI RPC listen failed: %d", retval);
         boinc_close_socket(lsock);
         lsock = -1;
         return ERR_LISTEN;
@@ -239,13 +241,13 @@ static void show_connect_error(in_addr ia) {
         last_time = gstate.now;
     }
     msg_printf(
-        NULL, MSG_ERROR,
+        NULL, MSG_USER_ERROR,
         "GUI RPC request from non-allowed address %s",
         inet_ntoa(ia)
     );
     if (count > 1) {
         msg_printf(
-            NULL, MSG_ERROR,
+            NULL, MSG_USER_ERROR,
             "%d connections rejected in last 10 minutes",
             count
         );

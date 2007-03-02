@@ -537,11 +537,6 @@ wxInt32 CViewTransfers::FormatStatus(wxInt32 item, wxString& strBuffer) const {
         }
     }
 
-    if (status.task_mode == RUN_MODE_NEVER) {
-        strBuffer = wxT(" (") + strBuffer + wxT(") ");
-        strBuffer = _("Suspended") + strBuffer;
-    }
-
     return 0;
 }
 

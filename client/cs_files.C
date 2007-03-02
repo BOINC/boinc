@@ -36,8 +36,8 @@
 
 #include "md5_file.h"
 #include "crypt.h"
-#include "util.h"
 #include "filesys.h"
+#include "util.h"
 #include "error_numbers.h"
 
 #include "file_names.h"
@@ -56,22 +56,25 @@ using std::vector;
 //
 bool CLIENT_STATE::start_new_file_xfer(PERS_FILE_XFER& pfx) {
     unsigned int i;
-    int n;
+    int ntotal=0, nproj=0;
 
     if (network_suspended) return false;
 
-	if ((int)file_xfers->file_xfers.size() >= config.max_file_xfers) return false;
 
     // limit the number of file transfers per project
+    // (uploads and downloads are limited separately)
     //
-    n = 0;
     for (i=0; i<file_xfers->file_xfers.size(); i++) {
         FILE_XFER* fxp = file_xfers->file_xfers[i];
-        if (pfx.fip->project == fxp->fip->project) {
-            n++;
+        if (pfx.is_upload == fxp->is_upload) {
+            ntotal++;
+            if (pfx.fip->project == fxp->fip->project) {
+                nproj++;
+            }
         }
     }
-    if (n >= config.max_file_xfers_per_project) return false;
+    if (nproj >= config.max_file_xfers_per_project) return false;
+	if (ntotal >= config.max_file_xfers) return false;
     return true;
 }
 
@@ -137,10 +140,10 @@ int FILE_INFO::verify_file(bool strict, bool show_errors) {
 
     if (signature_required) {
         if (!strlen(file_signature)) {
-            msg_printf(project, MSG_ERROR,
+            msg_printf(project, MSG_INTERNAL_ERROR,
                 "Application file %s missing signature", name
             );
-            msg_printf(project, MSG_ERROR,
+            msg_printf(project, MSG_INTERNAL_ERROR,
                 "BOINC cannot accept this file"
             );
             error_msg = "missing signature";
@@ -151,7 +154,7 @@ int FILE_INFO::verify_file(bool strict, bool show_errors) {
             pathname, file_signature, project->code_sign_key, verified
         );
         if (retval) {
-            msg_printf(project, MSG_ERROR,
+            msg_printf(project, MSG_INTERNAL_ERROR,
                 "Signature verification error for %s",
                 name
             );
@@ -160,7 +163,7 @@ int FILE_INFO::verify_file(bool strict, bool show_errors) {
             return ERR_RSA_FAILED;
         }
         if (!verified && show_errors) {
-            msg_printf(project, MSG_ERROR,
+            msg_printf(project, MSG_INTERNAL_ERROR,
                 "Signature verification failed for %s",
                name
             );
@@ -171,7 +174,7 @@ int FILE_INFO::verify_file(bool strict, bool show_errors) {
     } else if (strlen(md5_cksum)) {
         retval = md5_file(pathname, cksum, local_nbytes);
         if (retval) {
-            msg_printf(project, MSG_ERROR,
+            msg_printf(project, MSG_INTERNAL_ERROR,
                 "MD5 computation error for %s: %s\n",
                 name, boincerror(retval)
             );
@@ -181,10 +184,10 @@ int FILE_INFO::verify_file(bool strict, bool show_errors) {
         }
         if (strcmp(cksum, md5_cksum)) {
             if (show_errors) {
-                msg_printf(project, MSG_ERROR,
+                msg_printf(project, MSG_INTERNAL_ERROR,
                     "MD5 check failed for %s", name
                 );
-                msg_printf(project, MSG_ERROR,
+                msg_printf(project, MSG_INTERNAL_ERROR,
                     "expected %s, got %s\n", md5_cksum, cksum
                 );
             }
@@ -261,7 +264,7 @@ bool CLIENT_STATE::handle_pers_file_xfers() {
                 //
                 retval = fip->verify_file(true, true);
                 if (retval) {
-                    msg_printf(fip->project, MSG_ERROR,
+                    msg_printf(fip->project, MSG_INTERNAL_ERROR,
                         "Checksum or signature error for %s", fip->name
                     );
                     fip->status = retval;

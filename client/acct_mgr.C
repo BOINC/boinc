@@ -193,15 +193,20 @@ int AM_ACCOUNT::parse(XML_PARSER& xp) {
 
     detach = false;
     update = false;
+    dont_request_more_work = false;
+    detach_when_done = false;
     url = "";
     strcpy(url_signature, "");
     authenticator = "";
-    resource_share = 0;
+    resource_share = -1;
 
     while (!xp.get(tag, sizeof(tag), is_tag)) {
 		if (!is_tag) {
 			if (log_flags.unparsed_xml) {
-				msg_printf(0, MSG_ERROR, "AM_ACCOUNT::parse: unexpected text %s", tag);
+				msg_printf(0, MSG_INFO,
+                    "[unparsed_xml] AM_ACCOUNT::parse: unexpected text %s",
+                    tag
+                );
 			}
 			continue;
 		}
@@ -219,6 +224,8 @@ int AM_ACCOUNT::parse(XML_PARSER& xp) {
         if (xp.parse_string(tag, "authenticator", authenticator)) continue;
         if (xp.parse_bool(tag, "detach", detach)) continue;
         if (xp.parse_bool(tag, "update", update)) continue;
+        if (xp.parse_bool(tag, "dont_request_more_work", dont_request_more_work)) continue;
+        if (xp.parse_bool(tag, "detach_when_done", detach_when_done)) continue;
         if (xp.parse_double(tag, "resource_share", resource_share)) continue;
     }
     return ERR_XML_PARSE;
@@ -243,7 +250,10 @@ int ACCT_MGR_OP::parse(FILE* f) {
     while (!xp.get(tag, sizeof(tag), is_tag)) {
 		if (!is_tag) {
 			if (log_flags.unparsed_xml) {
-				msg_printf(0, MSG_ERROR, "ACCT_MGR_OP::parse: unexpected text %s", tag);
+				msg_printf(0, MSG_INFO,
+                    "[unparsed_xml] ACCT_MGR_OP::parse: unexpected text %s",
+                    tag
+                );
 			}
 			continue;
 		}
@@ -279,7 +289,7 @@ int ACCT_MGR_OP::parse(FILE* f) {
                 &global_prefs_xml
             );
             if (retval) {
-                msg_printf(NULL, MSG_ERROR,
+                msg_printf(NULL, MSG_INTERNAL_ERROR,
                     "Can't parse global prefs in account manager reply: %s",
                     boincerror(retval)
                 );
@@ -320,12 +330,16 @@ void ACCT_MGR_OP::handle_reply(int http_op_retval) {
     // email addresses
     //
     if (error_str.size()) {
-        msg_printf(NULL, MSG_ERROR, "Account manager error: %d %s", error_num, error_str.c_str());
+        msg_printf(NULL, MSG_USER_ERROR,
+            "Account manager error: %d %s", error_num, error_str.c_str()
+        );
         if (!error_num) {
             error_num = ERR_XML_PARSE;
         }
     } else if (error_num) {
-        msg_printf(NULL, MSG_ERROR, "Account manager error: %s", boincerror(error_num));
+        msg_printf(NULL, MSG_USER_ERROR,
+            "Account manager error: %s", boincerror(error_num)
+        );
     }
 
     if (error_num) return;
@@ -336,7 +350,9 @@ void ACCT_MGR_OP::handle_reply(int http_op_retval) {
     //
     sig_ok = true;
     if (!strlen(ami.signing_key)) {
-        msg_printf(NULL, MSG_ERROR, "No signing key from account manager");
+        msg_printf(NULL, MSG_INTERNAL_ERROR,
+            "No signing key from account manager"
+        );
         sig_ok = false;
     }
 
@@ -345,7 +361,9 @@ void ACCT_MGR_OP::handle_reply(int http_op_retval) {
     if (strlen(gstate.acct_mgr_info.signing_key)
         && strcmp(gstate.acct_mgr_info.signing_key, ami.signing_key)
     ) {
-        msg_printf(NULL, MSG_ERROR, "Inconsistent signing key from account manager");
+        msg_printf(NULL, MSG_INTERNAL_ERROR,
+            "Inconsistent signing key from account manager"
+        );
         sig_ok = false;
     }
 
@@ -363,7 +381,9 @@ void ACCT_MGR_OP::handle_reply(int http_op_retval) {
             AM_ACCOUNT& acct = accounts[i];
             retval = verify_string2(acct.url.c_str(), acct.url_signature, ami.signing_key, verified);
             if (retval || !verified) {
-                msg_printf(NULL, MSG_ERROR, "Bad signature for URL %s", acct.url.c_str());
+                msg_printf(NULL, MSG_INTERNAL_ERROR,
+                    "Bad signature for URL %s", acct.url.c_str()
+                );
                 continue;
             }
             pp = gstate.lookup_project(acct.url.c_str());
@@ -372,12 +392,14 @@ void ACCT_MGR_OP::handle_reply(int http_op_retval) {
                     gstate.detach_project(pp);
                 } else {
                     if (strcmp(pp->authenticator, acct.authenticator.c_str())) {
-                        msg_printf(pp, MSG_ERROR,
+                        msg_printf(pp, MSG_INFO,
                             "Already attached under another account"
                         );
                     } else {
                         //msg_printf(pp, MSG_INFO, "Already attached");
                         pp->attached_via_acct_mgr = true;
+                        pp->dont_request_more_work = acct.dont_request_more_work;
+                        pp->detach_when_done = acct.detach_when_done;
 
                         // initiate a scheduler RPC if requested by AMS
                         //
@@ -385,9 +407,24 @@ void ACCT_MGR_OP::handle_reply(int http_op_retval) {
                             pp->sched_rpc_pending = RPC_REASON_ACCT_MGR_REQ;
                             pp->min_rpc_time = 0;
                         }
-                        if (acct.resource_share) {
+                        if (acct.resource_share >= 0) {
                             pp->ams_resource_share = acct.resource_share;
                             pp->resource_share = pp->ams_resource_share;
+                        } else {
+                            // no host-specific resource share;
+                            // if currently have one, restore to value from web
+                            //
+                            if (pp->ams_resource_share >= 0) {
+                                pp->ams_resource_share = -1;
+                                PROJECT p2;
+                                strcpy(p2.master_url, pp->master_url);
+                                retval = p2.parse_account_file();
+                                if (!retval) {
+                                    pp->resource_share = p2.resource_share;
+                                } else {
+                                    pp->resource_share = 100;
+                                }
+                            }
                         }
                     }
                 }
@@ -416,7 +453,7 @@ void ACCT_MGR_OP::handle_reply(int http_op_retval) {
                 global_prefs_xml, ami.acct_mgr_url, ami.acct_mgr_url
             );
             if (retval) {
-                msg_printf(NULL, MSG_ERROR, "Can't save global prefs");
+                msg_printf(NULL, MSG_INTERNAL_ERROR, "Can't save global prefs");
             }
             read_prefs = true;
         }

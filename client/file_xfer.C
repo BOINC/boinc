@@ -152,7 +152,7 @@ int FILE_XFER::parse_upload_response(double &nbytes) {
     }
 
     if (parse_str(req1, "<message>", buf, sizeof(buf))) {
-        msg_printf(fip->project, MSG_ERROR, "Error on file upload: %s", buf);
+        msg_printf(fip->project, MSG_INTERNAL_ERROR, "Error on file upload: %s", buf);
     }
 
     return status;
@@ -195,7 +195,7 @@ int FILE_XFER_SET::remove(FILE_XFER* fxp) {
         }
         iter++;
     }
-    msg_printf(NULL, MSG_ERROR,
+    msg_printf(NULL, MSG_INTERNAL_ERROR,
         "File transfer for %s not found", fxp->fip->name
     );
     return ERR_NOT_FOUND;
