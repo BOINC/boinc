@@ -54,6 +54,7 @@ boinc_client_SOURCES = \
     scheduler_op.C \
     ss_logic.C \
     time_stats.C \
+    work_fetch.C \
     whetstone.C \
     dhrystone.C \
     dhrystone2.C

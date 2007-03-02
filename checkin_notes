@@ -1824,6 +1824,11 @@ Charlie 1 Mar 2007
         boinc.xcodeproj/
             project.pbxproj
 
+Walt    1 Mar 2007
+    Linux: add work_fetch.C to Makefile.am
+
+    client/
+        Makefile.am
 
 Rom    1 Mar 2007
     - Tag for 5.8.16 release, all platforms
