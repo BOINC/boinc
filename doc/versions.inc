@@ -425,6 +425,23 @@ $w5411= array(
     "
 );
 
+$m5816 = array(
+    "num"=>"5.8.16",
+    "status"=>"Development version (standard GUI)",
+    "file"=>"boinc_5.8.16_macOSX_universal.zip",
+    "date"=>"1 Mar 2007",
+    "type"=>"mac_advanced",
+     "features"=>"<ul>
+".$mac_changes_57."
+".$features_55."
+".$features_57."
+".$changes_57."
+     </ul>
+    ",
+    "bugs"=>"
+    "
+);
+
 $m5815 = array(
     "num"=>"5.8.15",
     "status"=>"Recommended version (standard GUI)",
@@ -484,6 +501,23 @@ $m5213 = array(
      admin user becomes the owner.
 ".$features_52."
 ".$changes_52."
+     </ul>
+    ",
+    "bugs"=>"
+    "
+);
+
+$m5816c = array(
+    "num"=>"5.8.16",
+    "status"=>"Development version (Unix command-line version)",
+    "file"=>"boinc_5.8.16_universal-apple-darwin.zip",
+    "date"=>"1 Mar 2007",
+    "type"=>"bare_core",
+    "features"=>"<ul>
+".$mac_changes_57."
+".$features_55."
+".$features_57."
+".$changes_57."
      </ul>
     ",
     "bugs"=>"
@@ -650,8 +684,12 @@ $mac = array(
     "name"=>"Mac OS X",
     "dbname" => "powerpc-apple-darwin",
     "versions"=>array(
+        $m5816,
+        $m5816c,
         $m5815,
         $m5815c,
+        $m549,
+        $m549c,
     )
 );
 $linux = array(
