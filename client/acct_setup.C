@@ -314,19 +314,23 @@ int GET_PROJECT_LIST_OP::do_rpc() {
     return retval;
 }
 
-void GET_PROJECT_LIST_OP::handle_reply(int) {
+void GET_PROJECT_LIST_OP::handle_reply(int http_op_retval) {
+    if (http_op_retval) {
+        error_num = http_op_retval;
+        return;
+    }
+    gstate.project_list_check_time = gstate.now;
 }
 
 #define PROJECT_LIST_CHECK_PERIOD (14*86400)
 
 void CLIENT_STATE::project_list_check() {
     if (project_list_check_time) {
-        if (now - project_list_check_time > PROJECT_LIST_CHECK_PERIOD) {
-            get_project_list_op.do_rpc();
+        if (now - project_list_check_time < PROJECT_LIST_CHECK_PERIOD) {
+            return;
         }
-    } else {
-        project_list_check_time = now;
     }
+    get_project_list_op.do_rpc();
 }
 
 const char *BOINC_RCSID_84df3fc17e="$Id$";
