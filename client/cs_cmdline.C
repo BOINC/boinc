@@ -211,11 +211,10 @@ void CLIENT_STATE::parse_env_vars() {
         }
     }
 
-    proxy_info.socks_version =
-        getenv("SOCKS5_SERVER")?SOCKS_VERSION_5:
-        getenv("SOCKS4_SERVER")?SOCKS_VERSION_4:
-        getenv("SOCKS_SERVER")?SOCKS_VERSION_5:
-        SOCKS_VERSION_5;
+    proxy_info.socks_version = SOCKS_VERSION_5;
+    if (getenv("SOCKS4_SERVER")) {
+        proxy_info.socks_version = SOCKS_VERSION_4;
+    }
 
     p = getenv("SOCKS4_SERVER");
     if (p && strlen(p)) {

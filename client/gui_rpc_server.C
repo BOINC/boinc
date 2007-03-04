@@ -86,8 +86,9 @@ int GUI_RPC_CONN_SET::get_password() {
     if (boinc_file_exists(GUI_RPC_PASSWD_FILE)) {
         f = fopen(GUI_RPC_PASSWD_FILE, "r");
         if (f) {
-            fgets(password, 256, f);
-            strip_whitespace(password);
+            if (fgets(password, 256, f)) {
+                strip_whitespace(password);
+            }
             fclose(f);
         }
     } else {

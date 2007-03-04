@@ -124,7 +124,18 @@ RESULT* CLIENT_STATE::lookup_result(PROJECT* p, const char* name) {
 }
 
 void CLIENT_STATE::simulate_rpc(PROJECT* p) {
+    static int i=0;
     RESULT* rp = new RESULT;
+    WORKUNIT* wup = new WORKUNIT;
+    rp->project = p;
+    rp->wup = wup;
+    sprintf(rp->name, "result_%d", i++);
+    rp->set_state(RESULT_FILES_DOWNLOADED, "simulate_rpc");
+    wup->project = p;
+    wup->rsc_fpops_est = 10000000;
+    wup->rsc_fpops_bound = 10000000;
+    results.push_back(rp);
+    request_schedule_cpus("simulate_rpc");
 }
 
 bool CLIENT_STATE::scheduler_rpc_poll() {
@@ -167,13 +178,21 @@ int ACTIVE_TASK::preempt(bool quit_task) {
 int ACTIVE_TASK_SET::get_free_slot(){
     return 0;
 }
-int ACTIVE_TASK::init(RESULT*){
+int ACTIVE_TASK::init(RESULT* rp) {
+    result = rp;
+    wup = rp->wup;
+    app_version = wup->avp;
+    max_cpu_time = rp->wup->rsc_fpops_bound/gstate.host_info.p_fpops;
+    max_disk_usage = rp->wup->rsc_disk_bound;
+    max_mem_usage = rp->wup->rsc_memory_bound;
     return 0;
 }
 
 //////////////// OTHER
 
-PROJECT::PROJECT() {}
+PROJECT::PROJECT() {
+    duration_correction_factor = 1;
+}
 
 int NORMAL_DIST::parse(XML_PARSER& xp, char* end_tag) {
     char tag[256];

@@ -415,7 +415,7 @@ void ACTIVE_TASK_SET::process_control_poll() {
         if (!atp->process_exists()) continue;
         if (!atp->app_client_shm.shm) continue;
 
-		// if app has had the same message in its send buffer for 10 sec,
+		// if app has had the same message in its send buffer for 180 sec,
 		// assume it's hung and restart it
 		//
 		if (atp->process_control_queue.timeout(180)) {

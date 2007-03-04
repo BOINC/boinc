@@ -82,6 +82,7 @@ extern bool is_version_dir(char*, VERSION_INFO&);
 #define CREATE_ACCOUNT_FILENAME     "create_account.xml"
 #define LOOKUP_WEBSITE_FILENAME     "lookup_website.html"
 #define GET_CURRENT_VERSION_FILENAME    "get_current_version.xml"
+#define PROJECT_LIST_FILENAME       "project_list.xml"
 #define SWITCHER_FILE_NAME          "switcher"
 #define SETPROJECTGRP_FILE_NAME     "setprojectgrp"
 

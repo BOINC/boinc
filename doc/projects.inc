@@ -6,7 +6,7 @@ $biomed = array(
         array(
             "Proteins@Home",
             "http://biology.polytechnique.fr/proteinsathome",
-            "&Eacute;cole Polytechnique, Paris",
+            "Ecole Polytechnique, Paris",
             "Protein structure prediction",
             "By joining Proteins@Home, you will be part of a large-scale protein structure prediction project and help to advance an important area of science. By increasing our knowledge of proteins, you will contribute to a better understanding of many diseases and pathologies, and to progress in both medicine and technology. Proteins@Home is not for profit.",
             "proteinsathome.gif"
@@ -24,7 +24,7 @@ $biomed = array(
             "http://issofty17.is.noda.tus.ac.jp/",
             "Tokyo University of Science",
             "Biology",
-            "To predict protein structure and function from genetic sequences, using the \'Brownian Dynamics\' (BD) method.  This method enables us to simulate more efficiently than conventional methods.",
+            "To predict protein structure and function from genetic sequences, using the 'Brownian Dynamics' (BD) method.  This method enables us to simulate more efficiently than conventional methods.",
             "tanpaku.jpg"
         ),
 //        array(
@@ -40,7 +40,7 @@ $biomed = array(
             "http://boinc.bakerlab.org/rosetta/",
             "University of Washington",
             "Biology",
-            "Determine the 3-dimensional shapes of proteins in research that may ultimately lead to finding cures for some major human diseases. By running Rosetta@home you will help us speed up and extend our research in ways we couldn\'t possibly attempt without your help. You will also be helping our efforts at designing new proteins to fight diseases such as HIV, Malaria, Cancer, and Alzheimer\'s",
+            "Determine the 3-dimensional shapes of proteins in research that may ultimately lead to finding cures for some major human diseases. By running Rosetta@home you will help us speed up and extend our research in ways we couldn't possibly attempt without your help. You will also be helping our efforts at designing new proteins to fight diseases such as HIV, Malaria, Cancer, and Alzheimer's",
             "rosetta_at_home_logo.jpg"
         ),
         array(
@@ -77,7 +77,7 @@ $earth = array(
             "http://bbc.cpdn.org/",
             "Oxford University",
             "Earth sciences",
-            "The experiment adds the processing power of your home or office computer to thousands of others to predict climate change. The same model that the Met Office uses to make daily weather forecasts has been adapted by climateprediction.net to run on home PCs.<p> The model incorporates many variable parameters, allowing thousands of sets of conditions. Your computer will run one individual set of conditions -  in effect your individual version of how the world\'s climate works - and then report back to the climateprediction.net team what it calculates.",
+            "The experiment adds the processing power of your home or office computer to thousands of others to predict climate change. The same model that the Met Office uses to make daily weather forecasts has been adapted by climateprediction.net to run on home PCs. The model incorporates many variable parameters, allowing thousands of sets of conditions. Your computer will run one individual set of conditions -  in effect your individual version of how the world's climate works - and then report back to the climateprediction.net team what it calculates.",
 
             "cpn_logo_world_1.jpg"
         ),
@@ -95,11 +95,11 @@ $astro_phys_chem = array(
             "leiden_classical.png"
         ),
         array(
-            "&micro;Fluids@home",
+            "uFluids@home",
             "http://www.ufluids.net/",
             "Purdue University",
             "Physics/Aeronautics",
-            "The &micro;Fluids project simulates two-phase fluid behavior in microgravity and microfluidics problems. Our goal is to design better satellite propellant management devices and address two-phase flow in microchannel and MEMS devices.",
+            "The uFluids project simulates two-phase fluid behavior in microgravity and microfluidics problems. Our goal is to design better satellite propellant management devices and address two-phase flow in microchannel and MEMS devices.",
             "ufluids.gif"
         ),
         array(
@@ -115,7 +115,7 @@ $astro_phys_chem = array(
             "http://lhcathome.cern.ch/",
             "CERN (European Organization for Nuclear Research)",
             "Physics",
-            "The Large Hadron Collider (LHC) is a particle accelerator which is being built at CERN, the European Organization for Nuclear Research, the world\'s largest particle physics laboratory. When it switches on in 2007, it will be the most powerful instrument ever built to investigate on particles proprieties. LHC@home simulates particles traveling around the LHC to study the stability of their orbits.",
+            "The Large Hadron Collider (LHC) is a particle accelerator which is being built at CERN, the European Organization for Nuclear Research, the world's largest particle physics laboratory. When it switches on in 2007, it will be the most powerful instrument ever built to investigate on particles proprieties. LHC@home simulates particles traveling around the LHC to study the stability of their orbits.",
             "lhc.jpg"
         ),
         array(
@@ -152,7 +152,7 @@ $math = array(
             "http://abcathome.com/",
             "Mathematical Institute of Leiden University / Kennislink",
             "Mathematics",
-            "Search for \'abc-triples\': positive integers a,b,c such that a+b=c, a &lt; b &lt; c, a,b,c have no common divisors and c > rad(abc), where rad(n) is the product of the distinct prime factors of n. The ABC conjecture says that there are only finitely many a,b,c such that log(c)/log(rad(abc)) > h for any real h > 1. The ABC conjecture is currently one of the greatest open problems in mathematics. If it is proven to be true, a lot of other open problems can be answered directly from it.",
+            "Search for 'abc-triples': positive integers a,b,c such that a+b=c, a &lt; b &lt; c, a,b,c have no common divisors and c > rad(abc), where rad(n) is the product of the distinct prime factors of n. The ABC conjecture says that there are only finitely many a,b,c such that log(c)/log(rad(abc)) > h for any real h > 1. The ABC conjecture is currently one of the greatest open problems in mathematics. If it is proven to be true, a lot of other open problems can be answered directly from it.",
             ""
         ),
         array(

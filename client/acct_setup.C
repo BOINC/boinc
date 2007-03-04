@@ -298,4 +298,35 @@ void CLIENT_STATE::new_version_check() {
     }
 }
 
+int GET_PROJECT_LIST_OP::do_rpc() {
+    int retval;
+    char buf[256];
+
+    sprintf(buf, "http://boinc.berkeley.edu/project_list.php");
+    retval = gstate.gui_http.do_rpc(
+        this, string(buf), PROJECT_LIST_FILENAME
+    );
+    if (retval) {
+        error_num = retval;
+    } else {
+        error_num = ERR_IN_PROGRESS;
+    }
+    return retval;
+}
+
+void GET_PROJECT_LIST_OP::handle_reply(int) {
+}
+
+#define PROJECT_LIST_CHECK_PERIOD (14*86400)
+
+void CLIENT_STATE::project_list_check() {
+    if (project_list_check_time) {
+        if (now - project_list_check_time > PROJECT_LIST_CHECK_PERIOD) {
+            get_project_list_op.do_rpc();
+        }
+    } else {
+        project_list_check_time = now;
+    }
+}
+
 const char *BOINC_RCSID_84df3fc17e="$Id$";

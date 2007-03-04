@@ -5,18 +5,55 @@ echo"
 
 <h3>Version 5.8</h3>
 <ul>
-<li> Snooze button
-<li> CPU Throttling
-<li> Simple GUI; skinnability, local prefs dialog
-<li> Preferences for limiting RAM usage
-<li> Disk usage pie chart
+<li> Snooze button.
+<li> CPU throttling.
+<li> Simple GUI; skinnability, local prefs dialog.
+<li> Preferences for limiting RAM usage.
+<li> Disk usage pie chart.
 <li> Support for advanced account manager features like
 host-specific resource share.
+
+<h4>Version 5.8.16</h4>
+<ul>
+<li> CPU model string includes Family/Model/Stepping.
+<li> Fix errors if detach project while file transfers active.
+<li> Limits on # of file transfers apply to uploads
+and downloads separately.
+<li> Add checkpoint_debug log flag.
+<li> Set processor affinity mask for benchmark threads (Windows)
+<li> Disable connection caching in Curl.
+<li> Add 'Detach when done' flag to projects
+(for clean detach, e.g. from account manager).
+<li> Delete all files when detach from project.
+<li> Fix bugs on Mac OS X 10.3 that could create bad users/groups.
+</ul>
+
+<h4>Version 5.8.15</h4>
+<ul>
+<li> Mac: eliminate AppStats helper application.
+</ul>
+
+<h4>Version 5.8.14</h4>
+<ul>
+<li> Win: installer fixes.
+</ul>
+
+<h4>Version 5.8.13</h4>
+<ul>
+<li> Fix bug where tasks are erroneously restarted after abort.
+<li> Win: installer fixes.
+</ul>
+
+<h4>Version 5.8.12</h4>
+<ul>
+<li> Win: installer fixes.
+</ul>
+
 </ul>
 <h3>Version 5.6</h3>
 <ul>
 <li> New CPU Scheduler.
-<li> CPU Capability detection.
+<li> CPU capability detection.
 <li> Improved security for POSIX compliant systems
 (only implemented for the Mac)
 <li> Support for file compression on upload.

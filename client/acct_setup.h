@@ -89,6 +89,15 @@ struct GET_CURRENT_VERSION_OP: public GUI_HTTP_OP {
     GET_CURRENT_VERSION_OP(){error_num = BOINC_SUCCESS;}
 };
 
+struct GET_PROJECT_LIST_OP: public GUI_HTTP_OP {
+    int error_num;
+
+    virtual ~GET_PROJECT_LIST_OP(){}
+    int do_rpc();
+    virtual void handle_reply(int http_op_retval);
+    GET_PROJECT_LIST_OP(){error_num = BOINC_SUCCESS;}
+};
+
 struct PROJECT_ATTACH {
     int error_num;
     std::vector<std::string> messages;

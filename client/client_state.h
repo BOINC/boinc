@@ -189,8 +189,11 @@ public:
     LOOKUP_WEBSITE_OP lookup_website_op;
     PROJECT_ATTACH project_attach;
     GET_CURRENT_VERSION_OP get_current_version_op;
+    GET_PROJECT_LIST_OP get_project_list_op;
     void new_version_check();
+    void project_list_check();
     double new_version_check_time;
+    double project_list_check_time;
     string newer_version;
 
 // --------------- app_graphics.C:

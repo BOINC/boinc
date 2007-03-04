@@ -9,6 +9,12 @@ A fast-and-easy script that makes recommendations
 for tuning server variables is
 <a href=http://www.day32.com/MySQL/>here</a>.
 
+<p>
+The mysqlreport utility gives a variety of information
+that can be useful for adjusting buffer pool allocations.
+It's available at
+<a href=http://www.hackmysql.com/mysqlreport>http://www.hackmysql.com/mysqlreport</a>.
+
 <hr>
 <h2>Introduction</h2>
 

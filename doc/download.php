@@ -1,5 +1,8 @@
 <?php
 
+// NOTE: the core client fetches download.php?xml=1 every so often;
+// don't break this!!!
+
 require_once("docutil.php");
 require_once("versions.inc");
 require_once("../html/inc/translation.inc");

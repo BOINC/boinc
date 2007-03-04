@@ -1,6 +1,19 @@
 <?
 
 $project_news = array(
+array("March 1, 2007",
+    "With <a href=http://boincpe.schreiter.info/>BOINCpe</a>
+    you can run a dedicated BOINC machine using a RAM disk,
+    starting from only 256 MB of total RAM.
+    This lets you operate a BOINC farm more energy-efficiently
+    or to use machines without hard disk drives for BOINC."
+),
+array("February 28, 2007",
+    "The BOINC web server recently underwent a
+    hardware and software upgrade. Certain projects and
+    pages may still be offline as we continue to configure
+    the new system."
+),
 array("February 8, 2007",
     "Marc Seil gave a talk on setting up a BOINC server
     at the recent <a href=http://www.linuxdays.lu>LinuxDays</a>

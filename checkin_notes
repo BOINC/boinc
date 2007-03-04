@@ -2116,3 +2116,24 @@ Charlie 28 Feb 2007
         BOINCGUIApp.cpp
         mac/
             mac_saver_module.cpp
+
+David  3 Mar 2007
+    - core client: add "get project list" RPC, called every 2 weeks
+    - fix a few compiler warnings from gcc 4.1
+    - more simulator work
+
+    client/
+        acct_mgr.C
+        acct_setup.C,h
+        app_control.C
+        client_state.C,h
+        client_types.C
+        cpu_sched.C
+        cs_cmdline.C
+        cs_statefile.C
+        file_names.h
+        gui_rpc_server.C
+        scheduler_op.C
+        sim.C
+    html/inc/
+        stats_sites.inc

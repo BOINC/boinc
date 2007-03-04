@@ -149,8 +149,10 @@ int SCHEDULER_OP::init_op_project(PROJECT* p, int r) {
     } else {
         // RPC started OK, so we must have network connectivity.
         // Now's a good time to check for new BOINC versions
+        // and project list
         //
         gstate.new_version_check();
+        gstate.project_list_check();
     }
     return retval;
 }

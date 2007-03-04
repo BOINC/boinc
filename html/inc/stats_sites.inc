@@ -79,7 +79,7 @@ $stats_sites = array(
 $team_stats_sites = array(
     array("http://www.spacepage.be/component/option,com_boinc/", "Spacepage"),
     array("http://boinc.radax.net/de_boinc.htm", "BOINC@Austria"),
-    array("http://www.premiumwanadoo.com/oxxam/boinc/", "L'Alliance Francophone"),
+    array("http://www.oxxam.net/", "L'Alliance Francophone"),
     array("http://boincdenmark.dk/", "BOINC@Denmark", "(Danish)"),
     array("http://boincdenmark.dk/default_en.html", "BOINC@Denmark", "(English)"),
     array("http://www.bigbee.be/comp/boinc/index.php",

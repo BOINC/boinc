@@ -1336,5 +1336,28 @@ double RESULT::computation_deadline() {
     );
 }
 
+static const char* result_state_name(int val) {
+    switch (val) {
+    case RESULT_NEW: return "NEW";
+    case RESULT_FILES_DOWNLOADING: return "FILES_DOWNLOADING";
+    case RESULT_FILES_DOWNLOADED: return "FILES_DOWNLOADED";
+    case RESULT_COMPUTE_ERROR: return "COMPUTE_ERROR";
+    case RESULT_FILES_UPLOADING: return "FILES_UPLOADING";
+    case RESULT_FILES_UPLOADED: return "FILES_UPLOADED";
+    case RESULT_ABORTED: return "FILES_ABORTED";
+    }
+    return "Unknown";
+}
+
+void RESULT::set_state(int val, const char* where) {
+    _state = val;
+    if (log_flags.task_debug) {
+        msg_printf(project, MSG_INFO,
+            "[task_debug] result state=%s for %s from %s",
+            result_state_name(val), name, where
+        );
+    }
+}
+
 
 const char *BOINC_RCSID_e830ee1 = "$Id$";

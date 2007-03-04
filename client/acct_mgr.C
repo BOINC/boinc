@@ -131,8 +131,9 @@ int ACCT_MGR_OP::do_rpc(
             strcpy(password, "");
             pwdf = fopen(GUI_RPC_PASSWD_FILE, "r");
             if (pwdf) {
-                fgets(password, 256, pwdf);
-                strip_whitespace(password);
+                if (fgets(password, 256, pwdf)) {
+                    strip_whitespace(password);
+                }
                 fclose(pwdf);
             }
             fprintf(f,"   <gui_rpc_password>%s</gui_rpc_password>\n", password);
