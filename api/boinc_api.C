@@ -93,7 +93,6 @@ static volatile int time_until_fraction_done_update;
 static volatile double fraction_done;
 static volatile double last_checkpoint_cpu_time;
 static volatile bool ready_to_checkpoint = false;
-static volatile bool in_critical_section = false;
 static volatile double last_wu_cpu_time;
 static volatile bool standalone          = false;
 static volatile double initial_wu_cpu_time;
@@ -135,9 +134,11 @@ bool g_sleep = false;
 static HANDLE hSharedMem;
 HANDLE worker_thread_handle;
     // used to suspend worker thread, and to measure its CPU time
+HANDLE suspend_mutex;
 #else
 static pthread_t timer_thread_handle;
 static struct rusage worker_thread_ru;
+static pthread_mutex_t suspend_mutex = PTHREAD_MUTEX_INITIALIZER;
 #endif
 
 static BOINC_OPTIONS options;
@@ -305,6 +306,10 @@ int boinc_init_options_general(BOINC_OPTIONS& opt) {
             boinc_exit(0);           // not un-recoverable ==> status=0
         }
     }
+
+#ifdef _WIN32
+    suspend_mutex = CreateMutex(NULL, FALSE, NULL);
+#endif
 
     retval = boinc_parse_init_data_file();
     if (retval) {
@@ -606,7 +611,7 @@ static void handle_heartbeat_msg() {
 }
 
 static void handle_upload_file_status() {
-    char path[256], buf[256], log_name[256];
+    char path[256], buf[256], log_name[256], *p;
     std::string filename;
     int status;
 
@@ -621,9 +626,9 @@ static void handle_upload_file_status() {
             fprintf(stderr, "handle_file_upload_status: can't open %s\n", filename.c_str());
             continue;
         }
-        fgets(buf, 256, f);
+        p = fgets(buf, 256, f);
         fclose(f);
-        if (parse_int(buf, "<status>", status)) {
+        if (p && parse_int(buf, "<status>", status)) {
             UPLOAD_FILE_STATUS uf;
             uf.name = std::string(log_name);
             uf.status = status;
@@ -703,7 +708,6 @@ static void worker_timer(int /*a*/) {
         }
     }
 
-	//fprintf(stderr, "worker_timer: in_critical_section %d\n", in_critical_section);
     // handle messages from the core client
     //
     if (app_client_shm) {
@@ -713,16 +717,19 @@ static void worker_timer(int /*a*/) {
         if (options.handle_trickle_downs) {
             handle_trickle_down_msg();
         }
-        if (!in_critical_section && options.handle_process_control) {
-            handle_process_control_msg();
+        if (options.handle_process_control) {
+            if (boinc_try_critical_section()) {
+                handle_process_control_msg();
+                boinc_end_critical_section();
+            }
         }
     }
 
     // see if the core client has died, which means we need to die too
     // (unless we're in a critical section)
     //
-    if (!in_critical_section && options.check_heartbeat && heartbeat_active) {
-        if (heartbeat_giveup_time < interrupt_count) {
+    if (options.check_heartbeat && heartbeat_active && (heartbeat_giveup_time < interrupt_count)) {
+        if (boinc_try_critical_section()) {
             fprintf(stderr,
                 "No heartbeat from core client for %d sec - exiting\n",
                 interrupt_count - (heartbeat_giveup_time - HEARTBEAT_GIVEUP_PERIOD)
@@ -732,6 +739,7 @@ static void worker_timer(int /*a*/) {
             } else {
                 boinc_status.no_heartbeat = true;
             }
+            boinc_end_critical_section();
         }
     }
 
@@ -915,7 +923,7 @@ int boinc_send_trickle_up(char* variety, char* p) {
 //
 int boinc_time_to_checkpoint() {
     if (ready_to_checkpoint) {
-        in_critical_section = true;
+        boinc_begin_critical_section();
         return 1;
     }
     return 0;
@@ -928,17 +936,41 @@ int boinc_checkpoint_completed() {
     last_checkpoint_cpu_time = last_wu_cpu_time;
     update_app_progress(last_checkpoint_cpu_time, last_checkpoint_cpu_time);
     time_until_checkpoint = (int)aid.checkpoint_period;
-    in_critical_section = false;
+    boinc_end_critical_section();
     ready_to_checkpoint = false;
 
     return 0;
 }
 
+int boinc_try_critical_section() {
+#ifdef _WIN32
+    if (WaitForSingleObject(suspend_mutex, 0L) == WAIT_OBJECT_0) {
+        return 1;
+    }
+    return 0;
+#else
+    if (pthread_mutex_trylock(&suspend_mutex) == 0) {
+        return 1;
+    } else {
+        return 0;
+    }
+#endif
+}
+
 void boinc_begin_critical_section() {
-    in_critical_section = true;
+#ifdef _WIN32
+    WaitForSingleObject(suspend_mutex, INFINITE);
+#else
+    pthread_mutex_lock(&suspend_mutex);
+#endif
+
 }
 void boinc_end_critical_section() {
-    in_critical_section = false;
+#ifdef _WIN32
+    ReleaseMutex(suspend_mutex);
+#else
+    pthread_mutex_unlock(&suspend_mutex);
+#endif
 }
 
 int boinc_fraction_done(double x) {

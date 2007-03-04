@@ -2137,3 +2137,12 @@ David  3 Mar 2007
         sim.C
     html/inc/
         stats_sites.inc
+
+David  4 Mar 2007
+    - API: use a mutex instead of a boolean variable for
+        mutual exclusion during checkpoint.
+        This should fix a race condition that can result in
+        applications being suspended and not responding to resume messages
+
+    api/
+        boinc_api.C,h
