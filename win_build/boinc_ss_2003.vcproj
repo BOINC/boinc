@@ -219,6 +219,9 @@
 				RelativePath="..\lib\stackwalker_win.cpp">
 			</File>
 			<File
+				RelativePath="..\lib\str_util.C">
+			</File>
+			<File
 				RelativePath="..\lib\util.C">
 			</File>
 			<File
@@ -293,6 +296,9 @@
 			</File>
 			<File
 				RelativePath="..\lib\stackwalker_win.h">
+			</File>
+			<File
+				RelativePath="..\lib\str_util.h">
 			</File>
 			<File
 				RelativePath="..\lib\util.h">

@@ -662,6 +662,18 @@
 				RelativePath="..\lib\std_fixes.h">
 			</File>
 			<File
+				RelativePath="..\lib\str_util.C">
+				<FileConfiguration
+					Name="Release|Win32">
+					<Tool
+						Name="VCCLCompilerTool"
+						CompileAs="2"/>
+				</FileConfiguration>
+			</File>
+			<File
+				RelativePath="..\lib\str_util.h">
+			</File>
+			<File
 				RelativePath="..\lib\util.C">
 				<FileConfiguration
 					Name="Release|Win32">
