@@ -18,7 +18,7 @@
 // 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 
 // The BOINC file upload handler.
-// See doc/upload.html for protocol spec.
+// See doc/upload.php for protocol spec.
 //
 
 #include "config.h"
@@ -213,11 +213,17 @@ int copy_socket_to_file(FILE* in, char* path, double offset, double nbytes) {
         //
         to_write=n;
         while (to_write > 0) {
-            ssize_t ret=write(fd, buf+n-to_write, to_write);
+            ssize_t ret = write(fd, buf+n-to_write, to_write);
             if (ret < 0) { 
                 close(fd);
+                char* errmsg;
+                if (errno == ENOSPC) {
+                    errmsg = "No space left on server";
+                } else {
+                    errmsg = strerror(errno);
+                }
                 return return_error(ERR_TRANSIENT,
-                    "can't write file %s: %s\n", path, strerror(errno)
+                    "can't write file %s: %s\n", path, errmsg
                 );
             }
             to_write -= ret;

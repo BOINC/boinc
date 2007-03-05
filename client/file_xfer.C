@@ -72,7 +72,7 @@ int FILE_XFER::init_download(FILE_INFO& file_info) {
 }
 
 // for uploads, we need to build a header with xml_signature etc.
-// (see doc/upload.html)
+// (see doc/upload.php)
 // Do this in memory.
 //
 int FILE_XFER::init_upload(FILE_INFO& file_info) {

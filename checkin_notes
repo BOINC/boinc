@@ -2167,3 +2167,17 @@ David  4 Mar 2007
         app_ipc.C
         gui_rpc_client.h
         gui_rpc_client_ops.C
+
+David  5 Mar 2007
+    - core client: if can't chdir to the dir specified by --dir, quit
+    - show_shmem: show homogeneous redundancy class
+    - file upload handler: say "out of space on server" instead of
+        "out of space on device"; users get confused by the latter,
+        think it refers to their disk
+
+    client/
+        cs_cmdline.C
+        file_xfer.C
+    sched/
+        file_upload_handler.C
+        show_shmem.C

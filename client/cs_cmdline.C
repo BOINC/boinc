@@ -169,9 +169,13 @@ void CLIENT_STATE::parse_cmdline(int argc, char** argv) {
             print_options(argv[0]);
             exit(0);
         } else if (ARG(dir)) {
-            if (i == argc-1) show_options = true;
-            if (chdir(argv[++i])) {
-                perror("chdir");
+            if (i == argc-1) {
+                show_options = true;
+            } else {
+                if (chdir(argv[++i])) {
+                    perror("chdir");
+                    exit(1);
+                }
             }
         } else if (ARG(no_gui_rpc)) {
             no_gui_rpc = true;
