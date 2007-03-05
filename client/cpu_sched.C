@@ -432,6 +432,7 @@ void CLIENT_STATE::schedule_cpus() {
     for (i=0; i<results.size(); i++) {
         rp = results[i];
         rp->already_selected = false;
+        rp->edf_scheduled = false;
     }
     for (i=0; i<projects.size(); i++) {
         p = projects[i];
@@ -477,6 +478,7 @@ void CLIENT_STATE::schedule_cpus() {
 
         rp->project->anticipated_debt -= (1 - rp->project->resource_share / rrs) * expected_pay_off;
         rp->project->deadlines_missed--;
+        rp->edf_scheduled = true;
         if (log_flags.cpu_sched_debug) {
             msg_printf(rp->project, MSG_INFO,
 				"[cpu_sched_debug] scheduling (deadline) %s",

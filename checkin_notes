@@ -2146,3 +2146,24 @@ David  4 Mar 2007
 
     api/
         boinc_api.C,h
+
+David  4 Mar 2007
+    - GUI RPC: add several scheduling-related items
+        (not used by Manager, but possibly useful for 3rd-party GUIs)
+
+        // tells you if a result is running in EDF mode
+        bool RESULT::edf_scheduled
+
+        // the following were already in the XML but not parsed
+        // into the C structs
+        double PROJECT::short_term_debt
+        double PROJECT::long_term_debt
+        double PROJECT::duration_correction_factor
+
+    client/
+        client_types.C,h
+        cpu_sched.C
+    lib/
+        app_ipc.C
+        gui_rpc_client.h
+        gui_rpc_client_ops.C

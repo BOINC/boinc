@@ -501,7 +501,8 @@ struct RESULT {
     bool some_download_stalled();
         // some input or app file is downloading, and backed off
         // i.e. it may be a long time before we can run this result
-    // temporaries used in CLIENT_STATE::rr_misses_deadline():
+
+    // temporaries used in CLIENT_STATE::rr_simulation():
     double rrsim_cpu_left;
     double rrsim_finish_delay;
     bool already_selected;
@@ -512,6 +513,9 @@ struct RESULT {
         // a pre-emption of running results.
     bool rr_sim_misses_deadline;
     bool last_rr_sim_missed_deadline;
+
+    // temporary used to tell GUI that this result is deadline-scheduled
+    bool edf_scheduled;
 };
 
 // represents an always/auto/never value, possibly temporarily overridden

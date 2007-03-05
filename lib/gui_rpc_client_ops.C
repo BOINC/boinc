@@ -121,6 +121,9 @@ void PROJECT::copy(PROJECT& p) {
     master_fetch_failures = p.master_fetch_failures;
     nrpc_failures = p.nrpc_failures;
     min_rpc_time = p.min_rpc_time;
+    short_term_debt = p.short_term_debt;
+    long_term_debt = p.long_term_debt;
+    duration_correction_factor = p.duration_correction_factor;
     master_url_fetch_pending = p.master_url_fetch_pending;
     sched_rpc_pending = p.sched_rpc_pending;
     tentative = p.tentative;
@@ -129,6 +132,7 @@ void PROJECT::copy(PROJECT& p) {
     dont_request_more_work = p.dont_request_more_work;
     scheduler_rpc_in_progress = p.scheduler_rpc_in_progress;
     attached_via_acct_mgr = p.attached_via_acct_mgr;
+    detach_when_done = p.detach_when_done;
     project_files_downloaded_time = p.project_files_downloaded_time;
     last_rpc_time = p.last_rpc_time;
 }
@@ -152,6 +156,9 @@ int PROJECT::parse(MIOFILE& in) {
         else if (parse_int(buf, "<nrpc_failures>", nrpc_failures)) continue;
         else if (parse_int(buf, "<master_fetch_failures>", master_fetch_failures)) continue;
         else if (parse_double(buf, "<min_rpc_time>", min_rpc_time)) continue;
+        else if (parse_double(buf, "<short_term_debt>", short_term_debt)) continue;
+        else if (parse_double(buf, "<long_term_debt>", long_term_debt)) continue;
+        else if (parse_double(buf, "<duration_correction_factor>", duration_correction_factor)) continue;
         else if (match_tag(buf, "<master_url_fetch_pending/>")) {
             master_url_fetch_pending = true;
             continue;
@@ -179,6 +186,10 @@ int PROJECT::parse(MIOFILE& in) {
         }
         else if (match_tag(buf, "<attached_via_acct_mgr/>")) {
             attached_via_acct_mgr = true;
+            continue;
+        }
+        else if (match_tag(buf, "<detach_when_done/>")) {
+            detach_when_done = true;
             continue;
         }
         else if (match_tag(buf, "<gui_urls>")) {
@@ -213,6 +224,9 @@ void PROJECT::clear() {
     nrpc_failures = 0;
     master_fetch_failures = 0;
     min_rpc_time = 0;
+    short_term_debt = 0;
+    long_term_debt = 0;
+    duration_correction_factor = 0;
     master_url_fetch_pending = false;
     sched_rpc_pending = 0;
     tentative = false;
@@ -221,6 +235,7 @@ void PROJECT::clear() {
     dont_request_more_work = false;
     scheduler_rpc_in_progress = false;
     attached_via_acct_mgr = false;
+    detach_when_done = false;
     project_files_downloaded_time = 0;
     last_rpc_time = 0;
     gui_urls.clear();
@@ -372,6 +387,10 @@ int RESULT::parse(MIOFILE& in) {
             too_large = true;
             continue;
         }
+        else if (match_tag(buf, "<edf_scheduled/>")) {
+            edf_scheduled = true;
+            continue;
+        }
     }
     return ERR_XML_PARSE;
 }
@@ -404,6 +423,7 @@ void RESULT::clear() {
     supports_graphics = false;
     graphics_mode_acked = 0;
     too_large = false;
+    edf_scheduled = false;
 
     app = NULL;
     wup = NULL;

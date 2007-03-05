@@ -298,7 +298,7 @@ void APP_CLIENT_SHM::reset_msgs() {
 //
 int boinc_resolve_filename(const char *virtual_name, char *physical_name, int len) {
     FILE *fp;
-    char buf[512];
+    char buf[512], *p;
 
     if (!virtual_name) return ERR_NULL;
     strlcpy(physical_name, virtual_name, len);
@@ -311,13 +311,13 @@ int boinc_resolve_filename(const char *virtual_name, char *physical_name, int le
     // must initialize buf since fgets() on an empty file won't do anything
     //
     buf[0] = 0;
-    fgets(buf, 512, fp);
+    p =fgets(buf, 512, fp);
     fclose(fp);
 
     // If it's the <soft_link> XML tag, return its value,
     // otherwise, return the original file name
     //
-    parse_str(buf, "<soft_link>", physical_name, len);
+    if (p) parse_str(buf, "<soft_link>", physical_name, len);
     return 0;
 }
 
@@ -325,15 +325,15 @@ int boinc_resolve_filename(const char *virtual_name, char *physical_name, int le
 // same, std::string version
 //
 int boinc_resolve_filename_s(const char *virtual_name, string& physical_name) {
-    char buf[512];
+    char buf[512], *p;
     if (!virtual_name) return ERR_NULL;
     physical_name = virtual_name;
     FILE *fp = boinc_fopen(virtual_name, "r");
     if (!fp) return ERR_FOPEN;
     buf[0] = 0;
-    fgets(buf, 512, fp);
+    p = fgets(buf, 512, fp);
     fclose(fp);
-    parse_str(buf, "<soft_link>", physical_name);
+    if (p) parse_str(buf, "<soft_link>", physical_name);
     return 0;
 }
 

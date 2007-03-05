@@ -1570,6 +1570,7 @@ int RESULT::write_gui(MIOFILE& out) {
     if (completed_time) out.printf("    <completed_time>%f</completed_time>\n", completed_time);
     if (suspended_via_gui) out.printf("    <suspended_via_gui/>\n");
     if (project->suspended_via_gui) out.printf("    <project_suspended_via_gui/>\n");
+    if (edf_scheduled) out.printf("    <edf_scheduled/>\n");
     ACTIVE_TASK* atp = gstate.active_tasks.lookup_result(this);
     if (atp) {
         atp->write(out);

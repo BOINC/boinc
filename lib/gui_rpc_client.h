@@ -75,6 +75,9 @@ public:
                                 // contact all scheduling servers
     int master_fetch_failures;
     double min_rpc_time;           // earliest time to contact any server
+    double short_term_debt;
+    double long_term_debt;
+    double duration_correction_factor;
 
     bool master_url_fetch_pending; // need to fetch and parse the master URL
     int sched_rpc_pending;      // contact scheduling server for preferences
@@ -84,6 +87,7 @@ public:
     bool dont_request_more_work;
     bool scheduler_rpc_in_progress;
     bool attached_via_acct_mgr;
+    bool detach_when_done;
     double project_files_downloaded_time;
         // when the last project file download was finished
         // (i.e. the time when ALL project files were finished downloading)
@@ -92,7 +96,7 @@ public:
     std::vector<DAILY_STATS> statistics; // credit data over the last x days
 
     // NOTE: if you add any data items above,
-    // update copy() and clear() to include them!!
+    // update parse(), copy() and clear() to include them!!
 
     PROJECT();
     ~PROJECT();
@@ -187,6 +191,7 @@ public:
     bool supports_graphics;
     int graphics_mode_acked;
     bool too_large;
+    bool edf_scheduled;
 
     APP* app;
     WORKUNIT* wup;
