@@ -2181,3 +2181,16 @@ David  5 Mar 2007
     sched/
         file_upload_handler.C
         show_shmem.C
+
+Rom    5 Mar 2007
+    - MGR: Rough draft for presenting an interface of known projects
+        based on David's March 3rd "get project list" checkin.
+        
+    clietgui/
+        AccountInfoPage.cpp
+        AccountManagerInfoPage.cpp
+        BOINCWizards.h
+        ProjectInfoPage.cpp, .h
+    lib/
+        gui_rpc_client.h
+        gui_rpc_client_ops.C

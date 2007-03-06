@@ -53,6 +53,9 @@ public:
     /// wxEVT_WIZARD_PAGE_CHANGING event handler for ID_PROJECTINFOPAGE
     void OnPageChanging( wxWizardExEvent& event );
 
+    /// wxEVT_COMMAND_COMBOBOX_SELECTED event handler for ID_PROJECTSELECTIONCTRL
+    void OnProjectSelectionChanged( wxCommandEvent& event );
+
     /// wxEVT_WIZARD_CANCEL event handler for ID_PROJECTINFOPAGE
     void OnCancel( wxWizardExEvent& event );
 
@@ -83,12 +86,16 @@ public:
     wxStaticText* m_pTitleStaticCtrl;
     wxStaticText* m_pDescriptionStaticCtrl;
     wxStaticText* m_pDescription2StaticCtrl;
+    wxComboBox* m_pProjectSelectionCtrl;
+    wxStaticBox* m_pProjectSelectionStaticCtrl;
+    wxStaticText* m_pProjectSelectionDescriptionStaticCtrl;
+    wxStaticText* m_pProjectUrlDescriptionStaticCtrl;
     wxStaticText* m_pProjectUrlStaticCtrl;
     wxTextCtrl* m_pProjectUrlCtrl;
-    wxStaticText* m_pBOINCPromoStaticCtrl;
-    wxHyperLink* m_pBOINCPromoUrlCtrl;
     wxString m_strProjectURL;
 ////@end CProjectInfoPage member variables
+
+    PROJECTLIST pl;
 };
 
 #endif // _WIZ_PROJECTINFOPAGE_H_

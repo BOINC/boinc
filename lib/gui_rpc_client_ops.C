@@ -91,6 +91,45 @@ int GUI_URL::parse(MIOFILE& in) {
     return ERR_XML_PARSE;
 }
 
+
+PROJECTLISTENTRY::PROJECTLISTENTRY() {
+    clear();
+}
+
+PROJECTLISTENTRY::~PROJECTLISTENTRY() {
+    clear();
+}
+
+int PROJECTLISTENTRY::parse(MIOFILE& in) {
+    char buf[256];
+
+    while (in.fgets(buf, 256)) {
+        if (match_tag(buf, "</project>")) return 0;
+        if (match_tag(buf, "</projects>")) break;
+        else if (parse_str(buf, "<name>", name)) continue;
+        else if (parse_str(buf, "<url>", url)) continue;
+        else if (parse_str(buf, "<general_area>", general_area)) continue;
+        else if (parse_str(buf, "<specific_area>", specific_area)) continue;
+        else if (match_tag(buf, "<desc>" )) {
+            copy_element_contents(in, "</desc>", description);
+            continue;
+        }
+        else if (parse_str(buf, "<home>", home)) continue;
+        else if (parse_str(buf, "<img>", image)) continue;
+    }
+    return ERR_XML_PARSE;
+}
+
+void PROJECTLISTENTRY::clear() {
+    name.clear();
+    url.clear();
+    general_area.clear();
+    specific_area.clear();
+    description.clear();
+    home.clear();
+    image.clear();
+}
+
 PROJECT::PROJECT() {
     clear();
 }
@@ -719,6 +758,22 @@ RESULT* CC_STATE::lookup_result(PROJECT* project, string& str) {
     return 0;
 }
 
+PROJECTLIST::PROJECTLIST() {
+    clear();
+}
+
+PROJECTLIST::~PROJECTLIST() {
+    clear();
+}
+
+void PROJECTLIST::clear() {
+    unsigned int i;
+    for (i=0; i<projects.size(); i++) {
+        delete projects[i];
+    }
+    projects.clear();
+}
+
 PROJECTS::~PROJECTS() {
     clear();
 }
@@ -1322,6 +1377,33 @@ int RPC_CLIENT::get_project_status(CC_STATE& state) {
                 }
             }
         }
+    }
+    return retval;
+}
+
+int RPC_CLIENT::get_project_list(PROJECTLIST& pl) {
+    int retval = 0;
+    SET_LOCALE sl;
+    char buf[256];
+    MIOFILE mf;
+    FILE*   f;
+    PROJECTLISTENTRY* project;
+
+    pl.clear();
+
+    f = fopen("project_list.xml", "r");
+    if (f) {
+        mf.init_file(f);
+        while(mf.fgets(buf, sizeof(buf))) {
+            if (match_tag(buf, "</projects>")) break;
+            else if (match_tag(buf, "<project>")) {
+                project = new PROJECTLISTENTRY();
+                retval = project->parse(mf);
+                pl.projects.push_back(project);
+                continue;
+            }
+        }
+        fclose(f);
     }
     return retval;
 }

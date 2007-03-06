@@ -55,6 +55,7 @@ BEGIN_EVENT_TABLE( CProjectInfoPage, wxWizardPageEx )
 ////@begin CProjectInfoPage event table entries
     EVT_WIZARDEX_PAGE_CHANGED( -1, CProjectInfoPage::OnPageChanged )
     EVT_WIZARDEX_PAGE_CHANGING( -1, CProjectInfoPage::OnPageChanging )
+    EVT_COMBOBOX( ID_PROJECTSELECTIONCTRL, CProjectInfoPage::OnProjectSelectionChanged )
     EVT_WIZARDEX_CANCEL( -1, CProjectInfoPage::OnCancel )
 
 ////@end CProjectInfoPage event table entries
@@ -84,10 +85,9 @@ bool CProjectInfoPage::Create( CBOINCBaseWizard* parent )
     m_pTitleStaticCtrl = NULL;
     m_pDescriptionStaticCtrl = NULL;
     m_pDescription2StaticCtrl = NULL;
+    m_pProjectSelectionCtrl = NULL;
     m_pProjectUrlStaticCtrl = NULL;
     m_pProjectUrlCtrl = NULL;
-    m_pBOINCPromoStaticCtrl = NULL;
-    m_pBOINCPromoUrlCtrl = NULL;
 ////@end CProjectInfoPage member initialisation
  
 ////@begin CProjectInfoPage creation
@@ -127,29 +127,51 @@ void CProjectInfoPage::CreateControls()
     m_pDescription2StaticCtrl->Create( itemWizardPage23, wxID_STATIC, wxEmptyString, wxDefaultPosition, wxDefaultSize, 0 );
     itemBoxSizer24->Add(m_pDescription2StaticCtrl, 0, wxALIGN_LEFT|wxALL, 5);
 
-    itemBoxSizer24->Add(5, 5, 0, wxALIGN_LEFT|wxALL, 5);
+    wxBoxSizer* itemBoxSizer8 = new wxBoxSizer(wxHORIZONTAL);
+    itemBoxSizer24->Add(itemBoxSizer8, 0, wxALIGN_LEFT|wxALL, 5);
 
-    wxFlexGridSizer* itemFlexGridSizer30 = new wxFlexGridSizer(1, 2, 0, 0);
-    itemFlexGridSizer30->AddGrowableCol(1);
-    itemBoxSizer24->Add(itemFlexGridSizer30, 0, wxALIGN_LEFT|wxALL, 5);
+    itemBoxSizer8->Add(5, 5, 0, wxALIGN_CENTER_VERTICAL|wxALL, 5);
+
+    wxString* strProjectSelectionCtrlStrings = NULL;
+    m_pProjectSelectionCtrl = new wxComboBox;
+    m_pProjectSelectionCtrl->Create( itemWizardPage23, ID_PROJECTSELECTIONCTRL, wxEmptyString, wxDefaultPosition, wxSize(300, -1), 0, strProjectSelectionCtrlStrings, wxCB_DROPDOWN | wxCB_READONLY);
+    itemBoxSizer8->Add(m_pProjectSelectionCtrl, 0, wxALIGN_CENTER_VERTICAL|wxALL, 5);
+
+    wxFlexGridSizer* itemFlexGridSizer11 = new wxFlexGridSizer(2, 1, 0, 0);
+    itemFlexGridSizer11->AddGrowableRow(0);
+    itemFlexGridSizer11->AddGrowableCol(0);
+    itemBoxSizer24->Add(itemFlexGridSizer11, 0, wxGROW|wxALL, 0);
+
+    m_pProjectSelectionStaticCtrl = new wxStaticBox(itemWizardPage23, wxID_STATIC, wxEmptyString);
+    wxStaticBoxSizer* itemStaticBoxSizer12 = new wxStaticBoxSizer(m_pProjectSelectionStaticCtrl, wxVERTICAL);
+    itemFlexGridSizer11->Add(itemStaticBoxSizer12, 0, wxGROW|wxALL, 0);
+
+    m_pProjectSelectionDescriptionStaticCtrl = new wxStaticText;
+    m_pProjectSelectionDescriptionStaticCtrl->Create( itemWizardPage23, wxID_STATIC, wxEmptyString, wxDefaultPosition, wxSize(300, 110), wxST_NO_AUTORESIZE );
+    itemStaticBoxSizer12->Add(m_pProjectSelectionDescriptionStaticCtrl, 0, wxALL, 5);
+    m_pProjectSelectionDescriptionStaticCtrl->Wrap(300);
+
+    wxBoxSizer* itemBoxSizer22 = new wxBoxSizer(wxVERTICAL);
+    itemFlexGridSizer11->Add(itemBoxSizer22, 0, wxGROW|wxALL, 0);
+
+    m_pProjectUrlDescriptionStaticCtrl = new wxStaticText;
+    m_pProjectUrlDescriptionStaticCtrl->Create( itemWizardPage23, ID_PROJECTURLDESCRIPTIONSTATICCTRL, wxEmptyString, wxDefaultPosition, wxDefaultSize, 0 );
+    itemBoxSizer22->Add(m_pProjectUrlDescriptionStaticCtrl, 0, wxALIGN_LEFT|wxALL, 5);
+    m_pProjectUrlDescriptionStaticCtrl->Hide();
+
+    wxFlexGridSizer* itemFlexGridSizer14 = new wxFlexGridSizer(1, 2, 0, 0);
+    itemFlexGridSizer14->AddGrowableCol(1);
+    itemBoxSizer22->Add(itemFlexGridSizer14, 0, wxGROW|wxALIGN_CENTER_VERTICAL|wxALL, 0);
 
     m_pProjectUrlStaticCtrl = new wxStaticText;
     m_pProjectUrlStaticCtrl->Create( itemWizardPage23, ID_PROJECTURLSTATICCTRL, wxEmptyString, wxDefaultPosition, wxDefaultSize, 0 );
-    itemFlexGridSizer30->Add(m_pProjectUrlStaticCtrl, 0, wxALIGN_CENTER_HORIZONTAL|wxALIGN_CENTER_VERTICAL|wxALL, 5);
+    itemFlexGridSizer14->Add(m_pProjectUrlStaticCtrl, 0, wxALIGN_CENTER_HORIZONTAL|wxALIGN_CENTER_VERTICAL|wxALL, 5);
+    m_pProjectUrlStaticCtrl->Hide();
 
     m_pProjectUrlCtrl = new wxTextCtrl;
     m_pProjectUrlCtrl->Create( itemWizardPage23, ID_PROJECTURLCTRL, wxEmptyString, wxDefaultPosition, wxSize(200, -1), 0 );
-    itemFlexGridSizer30->Add(m_pProjectUrlCtrl, 0, wxGROW|wxALIGN_CENTER_VERTICAL|wxALL, 5);
-
-    itemBoxSizer24->Add(5, 5, 0, wxALIGN_LEFT|wxALL, 5);
-
-    m_pBOINCPromoStaticCtrl = new wxStaticText;
-    m_pBOINCPromoStaticCtrl->Create( itemWizardPage23, wxID_STATIC, wxEmptyString, wxDefaultPosition, wxDefaultSize, 0 );
-    itemBoxSizer24->Add(m_pBOINCPromoStaticCtrl, 0, wxALIGN_LEFT|wxALL, 5);
-
-    m_pBOINCPromoUrlCtrl = new wxHyperLink;
-    m_pBOINCPromoUrlCtrl->Create( itemWizardPage23, ID_BOINCHYPERLINK, wxEmptyString, wxDefaultPosition, wxDefaultSize, wxNO_BORDER );
-    itemBoxSizer24->Add(m_pBOINCPromoUrlCtrl, 0, wxALIGN_LEFT|wxALL, 5);
+    itemFlexGridSizer14->Add(m_pProjectUrlCtrl, 0, wxGROW|wxALIGN_CENTER_VERTICAL|wxALL, 5);
+    m_pProjectUrlCtrl->Hide();
 
     // Set validators
     m_pProjectUrlCtrl->SetValidator( CValidateURL( & m_strProjectURL) );
@@ -219,36 +241,49 @@ wxIcon CProjectInfoPage::GetIconResource( const wxString& WXUNUSED(name) )
 void CProjectInfoPage::OnPageChanged( wxWizardExEvent& event ) {
     if (event.GetDirection() == false) return;
 
+    unsigned int i;
+    CMainDocument*            pDoc = wxGetApp().GetDocument();
+
+    wxASSERT(pDoc);
+    wxASSERT(wxDynamicCast(pDoc, CMainDocument));
     wxASSERT(m_pTitleStaticCtrl);
     wxASSERT(m_pDescriptionStaticCtrl);
     wxASSERT(m_pDescription2StaticCtrl);
+    wxASSERT(m_pProjectSelectionCtrl);
     wxASSERT(m_pProjectUrlStaticCtrl);
     wxASSERT(m_pProjectUrlCtrl);
-    wxASSERT(m_pBOINCPromoStaticCtrl);
-    wxASSERT(m_pBOINCPromoUrlCtrl);
 
     m_pTitleStaticCtrl->SetLabel(
-        _("Project URL")
+        _("Project Selection")
     );
     m_pDescriptionStaticCtrl->SetLabel(
-        _("Enter the URL of the project's web site.")
+        _("Choose which project you would like to participate in.")
     );
     m_pDescription2StaticCtrl->SetLabel(
+        _("Project selection list:")
+    );
+    m_pProjectSelectionStaticCtrl->SetLabel(
+        _("Project Description")
+    );
+    m_pProjectUrlDescriptionStaticCtrl->SetLabel(
         _("You can copy and paste the URL from your browser's\n"
 		  "address bar.")
     );
     m_pProjectUrlStaticCtrl->SetLabel(
         _("Project &URL:")
     );
-    m_pBOINCPromoStaticCtrl->SetLabel(
-        _("For a list of BOINC-based projects go to:")
-    );
-    m_pBOINCPromoUrlCtrl->SetLabel(
-        wxT("http://boinc.berkeley.edu/")
-    );
+
+
+    // Populate the combo box with project information
+    //
+    pDoc->rpc.get_project_list(pl);
+    for (i=0; i<pl.projects.size(); i++) {
+        m_pProjectSelectionCtrl->Append(wxString(pl.projects[i]->name.c_str(), wxConvUTF8));
+    }
 
     Fit();
-    m_pProjectUrlCtrl->SetFocus();
+    m_pProjectSelectionCtrl->SetValue(wxString(pl.projects[0]->name.c_str(), wxConvUTF8));
+    m_pProjectSelectionCtrl->SetFocus();
 }
   
 /*!
@@ -257,6 +292,31 @@ void CProjectInfoPage::OnPageChanged( wxWizardExEvent& event ) {
 
 void CProjectInfoPage::OnPageChanging( wxWizardExEvent& event ) {
     event.Skip();
+}
+  
+/*!
+ * wxEVT_COMMAND_COMBOBOX_SELECTED event handler for ID_PROJECTSELECTIONCTRL
+ */
+
+void CProjectInfoPage::OnProjectSelectionChanged( wxCommandEvent& /*event*/ ) {
+    if (m_pProjectSelectionCtrl->GetValue() == _("Other")) {
+        m_pProjectSelectionStaticCtrl->Hide();
+        m_pProjectSelectionDescriptionStaticCtrl->Hide();
+        m_pProjectUrlDescriptionStaticCtrl->Show();
+        m_pProjectUrlStaticCtrl->Show();
+        m_pProjectUrlCtrl->Show();
+    } else {
+        m_pProjectSelectionStaticCtrl->Show();
+        m_pProjectSelectionDescriptionStaticCtrl->Show();
+        m_pProjectUrlDescriptionStaticCtrl->Hide();
+        m_pProjectUrlStaticCtrl->Hide();
+        m_pProjectUrlCtrl->Hide();
+
+        m_pProjectSelectionDescriptionStaticCtrl->SetLabel(
+            wxString(pl.projects[m_pProjectSelectionCtrl->GetSelection()]->description.c_str(), wxConvUTF8)
+        );
+    }
+    Fit();
 }
   
 /*!

@@ -58,6 +58,24 @@ struct DAILY_STATS {
 };
 
 
+class PROJECTLISTENTRY {
+public:
+    std::string name;
+    std::string url;
+    std::string general_area;
+    std::string specific_area;
+    std::string description;
+    std::string home;
+    std::string image;
+
+    PROJECTLISTENTRY();
+    ~PROJECTLISTENTRY();
+
+    int parse(MIOFILE&);
+    void clear();
+};
+
+
 class PROJECT {
 public:
     std::string master_url;
@@ -303,6 +321,16 @@ public:
     void clear();
 };
 
+class PROJECTLIST {
+public:
+    std::vector<PROJECTLISTENTRY*> projects;
+
+    PROJECTLIST();
+    ~PROJECTLIST();
+
+    void clear();
+};
+
 class PROJECTS {
 public:
     std::vector<PROJECT*> projects;
@@ -519,6 +547,7 @@ public:
     int get_simple_gui_info(CC_STATE&, RESULTS&);
     int get_project_status(CC_STATE&);
     int get_project_status(PROJECTS&);
+    int get_project_list(PROJECTLIST&);
     int get_disk_usage(DISK_USAGE&);
     int show_graphics(
         const char* project, const char* result_name, int graphics_mode,

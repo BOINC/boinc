@@ -191,8 +191,8 @@ void CAccountManagerInfoPage::OnPageChanged( wxWizardExEvent& event ) {
         wxT("http://boinc.berkeley.edu/")
     );
 
-    m_pProjectUrlCtrl->SetFocus();
     Fit();
+    m_pProjectUrlCtrl->SetFocus();
 }
 
 /*!
