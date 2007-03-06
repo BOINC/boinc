@@ -2214,3 +2214,9 @@ David  6 Mar 2007
             prefs.inc
         user/
             host_venue_action.php
+
+Rom    6 Mar 2007
+    - MGR: Use just the project name in the project list for now.
+        
+    clientgui/
+        ProjectInfoPage.cpp

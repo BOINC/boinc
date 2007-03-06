@@ -358,18 +358,14 @@ void CProjectInfoPage::OnCancel( wxWizardExEvent& event ) {
 
 
 /*!
- * wxEVT_WIZARD_CANCEL event handler for ID_PROJECTINFOPAGE
+ * Construct what the string should look like for a project in the
+ *   drop down combo box.
  */
 
 wxString CProjectInfoPage::ConstructProjectTitle( int iIndex ) {
     wxString strReturnValue;
 
-    strReturnValue = 
-        wxString(pl.projects[iIndex]->name.c_str(), wxConvUTF8) +
-        _T(" - ") +
-        wxString(pl.projects[iIndex]->home.c_str(), wxConvUTF8) +
-        _T(" - ") +
-        wxString(pl.projects[iIndex]->general_area.c_str(), wxConvUTF8);
+    strReturnValue = wxString(pl.projects[iIndex]->name.c_str(), wxConvUTF8);
 
     return strReturnValue;
 }
