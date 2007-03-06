@@ -2204,3 +2204,13 @@ Rom    6 Mar 2007
     lib/
         gui_rpc_client.h
         gui_rpc_client_ops.C
+
+David  6 Mar 2007
+    - User web: add "none" as an option for default host venue;
+        display this as "---" or "--- (none)"
+
+    html/
+        inc/
+            prefs.inc
+        user/
+            host_venue_action.php

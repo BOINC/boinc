@@ -1,6 +1,12 @@
 <?
 
 $project_news = array(
+array("March 6, 2007",
+    "The article <a href=http://www.linux-magazine.com/issue/71/Distributed_Applications_With_BOINC.pdf>Idle Cycles - building distributed applications with BOINC</a> Seil appears in the Oct 2006 issue of
+<a href=http://www.linux-magazine.com/issue/71>Linux Magazine</a>.
+In it, author Marc Seil
+provides a detailed description of how to set up a BOINC project."
+),
 array("March 1, 2007",
     "With <a href=http://boincpe.schreiter.info/>BOINCpe</a>
     you can run a dedicated BOINC machine using a RAM disk,

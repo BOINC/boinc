@@ -1128,16 +1128,20 @@ function prefs_form_project($prefs_xml, $error=false) {
 }
 
 function venue_show($user) {
-    row2("Default computer location", $user->venue);
+    $venue = $user->venue;
+    if ($venue =='') $venue = '---';
+    row2("Default computer location", $venue);
 }
 
 function venue_form($user) {
-    $h=$w=$s="";
-    if ($user->venue == "home") $h = "selected";
-    if ($user->venue == "work") $w = "selected";
-    if ($user->venue == "school") $s = "selected";
-    row2("Default computer location",
+    $n=$h=$w=$s='';
+    if ($user->venue == '') $n = 'selected';
+    if ($user->venue == 'home') $h = 'selected';
+    if ($user->venue == 'work') $w = 'selected';
+    if ($user->venue == 'school') $s = 'selected';
+    row2('Default computer location',
         "<select name=default_venue>
+        <option value=\"\" $n>---
         <option value=home $h>Home
         <option value=work $w>Work
         <option value=school $s>School
