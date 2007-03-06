@@ -82,6 +82,9 @@ public:
     /// Should we show tooltips?
     static bool ShowToolTips();
 
+    /// Construct project title
+    wxString ConstructProjectTitle( int iIndex );
+
 ////@begin CProjectInfoPage member variables
     wxStaticText* m_pTitleStaticCtrl;
     wxStaticText* m_pDescriptionStaticCtrl;

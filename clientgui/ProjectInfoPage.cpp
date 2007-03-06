@@ -61,7 +61,8 @@ BEGIN_EVENT_TABLE( CProjectInfoPage, wxWizardPageEx )
 ////@end CProjectInfoPage event table entries
  
 END_EVENT_TABLE()
- 
+
+
 /*!
  * CProjectInfoPage constructors
  */
@@ -69,12 +70,13 @@ END_EVENT_TABLE()
 CProjectInfoPage::CProjectInfoPage( )
 {
 }
- 
+
 CProjectInfoPage::CProjectInfoPage( CBOINCBaseWizard* parent )
 {
     Create( parent );
 }
- 
+
+
 /*!
  * WizardPage creator
  */
@@ -99,7 +101,8 @@ bool CProjectInfoPage::Create( CBOINCBaseWizard* parent )
 ////@end CProjectInfoPage creation
     return TRUE;
 }
- 
+
+
 /*!
  * Control creation for WizardPage
  */
@@ -134,7 +137,7 @@ void CProjectInfoPage::CreateControls()
 
     wxString* strProjectSelectionCtrlStrings = NULL;
     m_pProjectSelectionCtrl = new wxComboBox;
-    m_pProjectSelectionCtrl->Create( itemWizardPage23, ID_PROJECTSELECTIONCTRL, wxEmptyString, wxDefaultPosition, wxSize(300, -1), 0, strProjectSelectionCtrlStrings, wxCB_DROPDOWN | wxCB_READONLY);
+    m_pProjectSelectionCtrl->Create( itemWizardPage23, ID_PROJECTSELECTIONCTRL, wxEmptyString, wxDefaultPosition, wxSize(320, -1), 0, strProjectSelectionCtrlStrings, wxCB_DROPDOWN | wxCB_READONLY);
     itemBoxSizer8->Add(m_pProjectSelectionCtrl, 0, wxALIGN_CENTER_VERTICAL|wxALL, 5);
 
     wxFlexGridSizer* itemFlexGridSizer11 = new wxFlexGridSizer(2, 1, 0, 0);
@@ -144,12 +147,12 @@ void CProjectInfoPage::CreateControls()
 
     m_pProjectSelectionStaticCtrl = new wxStaticBox(itemWizardPage23, wxID_STATIC, wxEmptyString);
     wxStaticBoxSizer* itemStaticBoxSizer12 = new wxStaticBoxSizer(m_pProjectSelectionStaticCtrl, wxVERTICAL);
-    itemFlexGridSizer11->Add(itemStaticBoxSizer12, 0, wxGROW|wxALL, 0);
+    itemFlexGridSizer11->Add(itemStaticBoxSizer12, 0, wxALL, 0);
 
     m_pProjectSelectionDescriptionStaticCtrl = new wxStaticText;
-    m_pProjectSelectionDescriptionStaticCtrl->Create( itemWizardPage23, wxID_STATIC, wxEmptyString, wxDefaultPosition, wxSize(300, 110), wxST_NO_AUTORESIZE );
+    m_pProjectSelectionDescriptionStaticCtrl->Create( itemWizardPage23, wxID_STATIC, wxEmptyString, wxDefaultPosition, wxSize(320, 115), wxST_NO_AUTORESIZE );
     itemStaticBoxSizer12->Add(m_pProjectSelectionDescriptionStaticCtrl, 0, wxALL, 5);
-    m_pProjectSelectionDescriptionStaticCtrl->Wrap(300);
+    m_pProjectSelectionDescriptionStaticCtrl->Wrap(320);
 
     wxBoxSizer* itemBoxSizer22 = new wxBoxSizer(wxVERTICAL);
     itemFlexGridSizer11->Add(itemBoxSizer22, 0, wxGROW|wxALL, 0);
@@ -177,7 +180,8 @@ void CProjectInfoPage::CreateControls()
     m_pProjectUrlCtrl->SetValidator( CValidateURL( & m_strProjectURL) );
 ////@end CProjectInfoPage content construction
 }
- 
+
+
 /*!
  * Gets the previous page.
  */
@@ -185,7 +189,8 @@ wxWizardPageEx* CProjectInfoPage::GetPrev() const
 {
     return PAGE_TRANSITION_BACK;
 }
- 
+
+
 /*!
  * Gets the next page.
  */
@@ -200,7 +205,8 @@ wxWizardPageEx* CProjectInfoPage::GetNext() const
     }
     return NULL;
 }
- 
+
+
 /*!
  * Should we show tooltips?
  */
@@ -209,7 +215,8 @@ bool CProjectInfoPage::ShowToolTips()
 {
     return TRUE;
 }
- 
+
+
 /*!
  * Get bitmap resources
  */
@@ -221,7 +228,8 @@ wxBitmap CProjectInfoPage::GetBitmapResource( const wxString& WXUNUSED(name) )
     return wxNullBitmap;
 ////@end CProjectInfoPage bitmap retrieval
 }
- 
+
+
 /*!
  * Get icon resources
  */
@@ -233,7 +241,8 @@ wxIcon CProjectInfoPage::GetIconResource( const wxString& WXUNUSED(name) )
     return wxNullIcon;
 ////@end CProjectInfoPage icon retrieval
 }
-  
+
+
 /*!
  * wxEVT_WIZARD_PAGE_CHANGED event handler for ID_PROJECTINFOPAGE
  */
@@ -241,8 +250,8 @@ wxIcon CProjectInfoPage::GetIconResource( const wxString& WXUNUSED(name) )
 void CProjectInfoPage::OnPageChanged( wxWizardExEvent& event ) {
     if (event.GetDirection() == false) return;
 
-    unsigned int i;
-    CMainDocument*            pDoc = wxGetApp().GetDocument();
+    unsigned int   i;
+    CMainDocument* pDoc = wxGetApp().GetDocument();
 
     wxASSERT(pDoc);
     wxASSERT(wxDynamicCast(pDoc, CMainDocument));
@@ -278,14 +287,25 @@ void CProjectInfoPage::OnPageChanged( wxWizardExEvent& event ) {
     //
     pDoc->rpc.get_project_list(pl);
     for (i=0; i<pl.projects.size(); i++) {
-        m_pProjectSelectionCtrl->Append(wxString(pl.projects[i]->name.c_str(), wxConvUTF8));
+        m_pProjectSelectionCtrl->Append(ConstructProjectTitle(i));
     }
+    m_pProjectSelectionCtrl->Append(_("Other"));
+
 
     Fit();
-    m_pProjectSelectionCtrl->SetValue(wxString(pl.projects[0]->name.c_str(), wxConvUTF8));
+    m_pProjectSelectionCtrl->SetValue(
+        ConstructProjectTitle(0)
+    );
+    m_pProjectSelectionDescriptionStaticCtrl->SetLabel(
+        wxString(pl.projects[0]->description.c_str(), wxConvUTF8)
+    );
+    m_pProjectUrlCtrl->SetValue(
+        wxString(pl.projects[0]->url.c_str(), wxConvUTF8)
+    );
     m_pProjectSelectionCtrl->SetFocus();
 }
-  
+
+
 /*!
  * wxEVT_WIZARD_PAGE_CHANGING event handler for ID_PROJECTINFOPAGE
  */
@@ -293,7 +313,8 @@ void CProjectInfoPage::OnPageChanged( wxWizardExEvent& event ) {
 void CProjectInfoPage::OnPageChanging( wxWizardExEvent& event ) {
     event.Skip();
 }
-  
+
+
 /*!
  * wxEVT_COMMAND_COMBOBOX_SELECTED event handler for ID_PROJECTSELECTIONCTRL
  */
@@ -305,6 +326,10 @@ void CProjectInfoPage::OnProjectSelectionChanged( wxCommandEvent& /*event*/ ) {
         m_pProjectUrlDescriptionStaticCtrl->Show();
         m_pProjectUrlStaticCtrl->Show();
         m_pProjectUrlCtrl->Show();
+
+        m_pProjectUrlCtrl->SetValue(
+            _T("")
+        );
     } else {
         m_pProjectSelectionStaticCtrl->Show();
         m_pProjectSelectionDescriptionStaticCtrl->Show();
@@ -315,15 +340,37 @@ void CProjectInfoPage::OnProjectSelectionChanged( wxCommandEvent& /*event*/ ) {
         m_pProjectSelectionDescriptionStaticCtrl->SetLabel(
             wxString(pl.projects[m_pProjectSelectionCtrl->GetSelection()]->description.c_str(), wxConvUTF8)
         );
+        m_pProjectUrlCtrl->SetValue(
+            wxString(pl.projects[m_pProjectSelectionCtrl->GetSelection()]->url.c_str(), wxConvUTF8)
+        );
     }
     Fit();
 }
-  
+
+
 /*!
  * wxEVT_WIZARD_CANCEL event handler for ID_PROJECTINFOPAGE
  */
 
 void CProjectInfoPage::OnCancel( wxWizardExEvent& event ) {
     PROCESS_CANCELEVENT(event);
+}
+
+
+/*!
+ * wxEVT_WIZARD_CANCEL event handler for ID_PROJECTINFOPAGE
+ */
+
+wxString CProjectInfoPage::ConstructProjectTitle( int iIndex ) {
+    wxString strReturnValue;
+
+    strReturnValue = 
+        wxString(pl.projects[iIndex]->name.c_str(), wxConvUTF8) +
+        _T(" - ") +
+        wxString(pl.projects[iIndex]->home.c_str(), wxConvUTF8) +
+        _T(" - ") +
+        wxString(pl.projects[iIndex]->general_area.c_str(), wxConvUTF8);
+
+    return strReturnValue;
 }
 

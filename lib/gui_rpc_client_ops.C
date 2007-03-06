@@ -100,22 +100,41 @@ PROJECTLISTENTRY::~PROJECTLISTENTRY() {
     clear();
 }
 
-int PROJECTLISTENTRY::parse(MIOFILE& in) {
-    char buf[256];
+int PROJECTLISTENTRY::parse(XML_PARSER& xp) {
+    char tag[256], buf[4096];
+    bool is_tag;
 
-    while (in.fgets(buf, 256)) {
-        if (match_tag(buf, "</project>")) return 0;
-        if (match_tag(buf, "</projects>")) break;
-        else if (parse_str(buf, "<name>", name)) continue;
-        else if (parse_str(buf, "<url>", url)) continue;
-        else if (parse_str(buf, "<general_area>", general_area)) continue;
-        else if (parse_str(buf, "<specific_area>", specific_area)) continue;
-        else if (match_tag(buf, "<desc>" )) {
-            copy_element_contents(in, "</desc>", description);
+    while (!xp.get(tag, sizeof(tag), is_tag)) {
+        if (strstr(tag, "/project")) return 0;
+        if (strstr(tag, "/projects")) break;
+        else if (xp.parse_str(tag, "name", buf, sizeof(buf))) {
+            name = string(buf);
             continue;
         }
-        else if (parse_str(buf, "<home>", home)) continue;
-        else if (parse_str(buf, "<img>", image)) continue;
+        else if (xp.parse_str(tag, "url", buf, sizeof(buf))) {
+            url = string(buf);
+            continue;
+        }
+        else if (xp.parse_str(tag, "general_area", buf, sizeof(buf))) {
+            general_area = string(buf);
+            continue;
+        }
+        else if (xp.parse_str(tag, "specific_area", buf, sizeof(buf))) {
+            specific_area = string(buf);
+            continue;
+        }
+        else if (xp.parse_str(tag, "desc", buf, sizeof(buf))) {
+            description = string(buf);
+            continue;
+        }
+        else if (xp.parse_str(tag, "home", buf, sizeof(buf))) {
+            home = string(buf);
+            continue;
+        }
+        else if (xp.parse_str(tag, "img", buf, sizeof(buf))) {
+            image = string(buf);
+            continue;
+        }
     }
     return ERR_XML_PARSE;
 }
@@ -1384,7 +1403,8 @@ int RPC_CLIENT::get_project_status(CC_STATE& state) {
 int RPC_CLIENT::get_project_list(PROJECTLIST& pl) {
     int retval = 0;
     SET_LOCALE sl;
-    char buf[256];
+    char tag[256];
+    bool is_tag;
     MIOFILE mf;
     FILE*   f;
     PROJECTLISTENTRY* project;
@@ -1394,11 +1414,12 @@ int RPC_CLIENT::get_project_list(PROJECTLIST& pl) {
     f = fopen("project_list.xml", "r");
     if (f) {
         mf.init_file(f);
-        while(mf.fgets(buf, sizeof(buf))) {
-            if (match_tag(buf, "</projects>")) break;
-            else if (match_tag(buf, "<project>")) {
+        XML_PARSER xp(&mf);
+        while (!xp.get(tag, sizeof(tag), is_tag)) {
+            if (strstr(tag, "/projects")) break;
+            else if (strstr(tag, "project")) {
                 project = new PROJECTLISTENTRY();
-                retval = project->parse(mf);
+                retval = project->parse(xp);
                 pl.projects.push_back(project);
                 continue;
             }

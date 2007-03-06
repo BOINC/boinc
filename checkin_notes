@@ -2194,3 +2194,13 @@ Rom    5 Mar 2007
     lib/
         gui_rpc_client.h
         gui_rpc_client_ops.C
+
+Rom    6 Mar 2007
+    - MGR: Choosing from the project list now works, although the
+        combo box is really busy right now.
+        
+    clientgui/
+        ProjectInfoPage.cpp, .h
+    lib/
+        gui_rpc_client.h
+        gui_rpc_client_ops.C

@@ -71,7 +71,7 @@ public:
     PROJECTLISTENTRY();
     ~PROJECTLISTENTRY();
 
-    int parse(MIOFILE&);
+    int parse(XML_PARSER&);
     void clear();
 };
 
