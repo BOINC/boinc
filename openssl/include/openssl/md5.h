@@ -60,6 +60,7 @@
 #define HEADER_MD5_H
 
 #include <openssl/e_os2.h>
+#include <stddef.h>
 
 #ifdef  __cplusplus
 extern "C" {
@@ -114,4 +115,3 @@ void MD5_Transform(MD5_CTX *c, const unsigned char *b);
 #endif
 
 #endif
-

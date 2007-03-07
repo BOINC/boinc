@@ -107,4 +107,3 @@ int TXT_DB_insert(TXT_DB *db,char **value);
 #endif
 
 #endif
-

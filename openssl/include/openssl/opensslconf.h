@@ -7,6 +7,9 @@
 #endif
 #ifndef OPENSSL_DOING_MAKEDEPEND
 
+#ifndef OPENSSL_NO_CAMELLIA
+# define OPENSSL_NO_CAMELLIA
+#endif
 #ifndef OPENSSL_NO_GMP
 # define OPENSSL_NO_GMP
 #endif
@@ -19,13 +22,13 @@
 #ifndef OPENSSL_NO_RC5
 # define OPENSSL_NO_RC5
 #endif
+#ifndef OPENSSL_NO_RFC3779
+# define OPENSSL_NO_RFC3779
+#endif
 
 #endif /* OPENSSL_DOING_MAKEDEPEND */
 #ifndef OPENSSL_THREADS
 # define OPENSSL_THREADS
-#endif
-#ifndef OPENSSL_NO_DYNAMIC_ENGINE
-# define OPENSSL_NO_DYNAMIC_ENGINE
 #endif
 
 /* The OPENSSL_NO_* macros are also defined as NO_* if the application
@@ -33,6 +36,9 @@
    who haven't had the time to do the appropriate changes in their
    applications.  */
 #ifdef OPENSSL_ALGORITHM_DEFINES
+# if defined(OPENSSL_NO_CAMELLIA) && !defined(NO_CAMELLIA)
+#  define NO_CAMELLIA
+# endif
 # if defined(OPENSSL_NO_GMP) && !defined(NO_GMP)
 #  define NO_GMP
 # endif
@@ -45,6 +51,9 @@
 # if defined(OPENSSL_NO_RC5) && !defined(NO_RC5)
 #  define NO_RC5
 # endif
+# if defined(OPENSSL_NO_RFC3779) && !defined(NO_RFC3779)
+#  define NO_RFC3779
+# endif
 #endif
 
 /* crypto/opensslconf.h.in */
@@ -54,8 +63,8 @@
 
 #if !(defined(VMS) || defined(__VMS)) /* VMS uses logical names instead */
 #if defined(HEADER_CRYPTLIB_H) && !defined(OPENSSLDIR)
-#define ENGINESDIR "/usr/local/ssl/lib/engines"
-#define OPENSSLDIR "/usr/local/ssl"
+#define ENGINESDIR "c:/Src/BOINC/SDKs/openssl-0.9.8e/lib/engines"
+#define OPENSSLDIR "c:/Src/BOINC/SDKs/openssl-0.9.8e/ssl"
 #endif
 #endif
 
@@ -207,4 +216,3 @@ YOU SHOULD NOT HAVE BOTH DES_RISC1 AND DES_RISC2 DEFINED!!!!!
 
 #endif /* DES_DEFAULT_OPTIONS */
 #endif /* HEADER_DES_LOCL_H */
-

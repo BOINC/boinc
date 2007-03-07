@@ -429,36 +429,36 @@ typedef int (EVP_PBE_KEYGEN)(EVP_CIPHER_CTX *ctx, const char *pass, int passlen,
 #define EVP_get_cipherbynid(a) EVP_get_cipherbyname(OBJ_nid2sn(a))
 #define EVP_get_cipherbyobj(a) EVP_get_cipherbynid(OBJ_obj2nid(a))
 
-#define EVP_MD_type(e)			((e)->type)
+int EVP_MD_type(const EVP_MD *md);
 #define EVP_MD_nid(e)			EVP_MD_type(e)
 #define EVP_MD_name(e)			OBJ_nid2sn(EVP_MD_nid(e))
-#define EVP_MD_pkey_type(e)		((e)->pkey_type)
-#define EVP_MD_size(e)			((e)->md_size)
-#define EVP_MD_block_size(e)		((e)->block_size)
+int EVP_MD_pkey_type(const EVP_MD *md);	
+int EVP_MD_size(const EVP_MD *md);
+int EVP_MD_block_size(const EVP_MD *md);
 
-#define EVP_MD_CTX_md(e)		((e)->digest)
-#define EVP_MD_CTX_size(e)		EVP_MD_size((e)->digest)
-#define EVP_MD_CTX_block_size(e)	EVP_MD_block_size((e)->digest)
-#define EVP_MD_CTX_type(e)		EVP_MD_type((e)->digest)
+const EVP_MD * EVP_MD_CTX_md(const EVP_MD_CTX *ctx);
+#define EVP_MD_CTX_size(e)		EVP_MD_size(EVP_MD_CTX_md(e))
+#define EVP_MD_CTX_block_size(e)	EVP_MD_block_size(EVP_MD_CTX_md(e))
+#define EVP_MD_CTX_type(e)		EVP_MD_type(EVP_MD_CTX_md(e))
 
-#define EVP_CIPHER_nid(e)		((e)->nid)
+int EVP_CIPHER_nid(const EVP_CIPHER *cipher);
 #define EVP_CIPHER_name(e)		OBJ_nid2sn(EVP_CIPHER_nid(e))
-#define EVP_CIPHER_block_size(e)	((e)->block_size)
-#define EVP_CIPHER_key_length(e)	((e)->key_len)
-#define EVP_CIPHER_iv_length(e)		((e)->iv_len)
-#define EVP_CIPHER_flags(e)		((e)->flags)
-#define EVP_CIPHER_mode(e)		(((e)->flags) & EVP_CIPH_MODE)
+int EVP_CIPHER_block_size(const EVP_CIPHER *cipher);
+int EVP_CIPHER_key_length(const EVP_CIPHER *cipher);
+int EVP_CIPHER_iv_length(const EVP_CIPHER *cipher);
+unsigned long EVP_CIPHER_flags(const EVP_CIPHER *cipher);
+#define EVP_CIPHER_mode(e)		(EVP_CIPHER_flags(e) & EVP_CIPH_MODE)
 
-#define EVP_CIPHER_CTX_cipher(e)	((e)->cipher)
-#define EVP_CIPHER_CTX_nid(e)		((e)->cipher->nid)
-#define EVP_CIPHER_CTX_block_size(e)	((e)->cipher->block_size)
-#define EVP_CIPHER_CTX_key_length(e)	((e)->key_len)
-#define EVP_CIPHER_CTX_iv_length(e)	((e)->cipher->iv_len)
-#define EVP_CIPHER_CTX_get_app_data(e)	((e)->app_data)
-#define EVP_CIPHER_CTX_set_app_data(e,d) ((e)->app_data=(char *)(d))
+const EVP_CIPHER * EVP_CIPHER_CTX_cipher(const EVP_CIPHER_CTX *ctx);
+int EVP_CIPHER_CTX_nid(const EVP_CIPHER_CTX *ctx);
+int EVP_CIPHER_CTX_block_size(const EVP_CIPHER_CTX *ctx);
+int EVP_CIPHER_CTX_key_length(const EVP_CIPHER_CTX *ctx);
+int EVP_CIPHER_CTX_iv_length(const EVP_CIPHER_CTX *ctx);
+void * EVP_CIPHER_CTX_get_app_data(const EVP_CIPHER_CTX *ctx);
+void EVP_CIPHER_CTX_set_app_data(EVP_CIPHER_CTX *ctx, void *data);
 #define EVP_CIPHER_CTX_type(c)         EVP_CIPHER_type(EVP_CIPHER_CTX_cipher(c))
-#define EVP_CIPHER_CTX_flags(e)		((e)->cipher->flags)
-#define EVP_CIPHER_CTX_mode(e)		((e)->cipher->flags & EVP_CIPH_MODE)
+unsigned long EVP_CIPHER_CTX_flags(const EVP_CIPHER_CTX *ctx);
+#define EVP_CIPHER_CTX_mode(e)		(EVP_CIPHER_CTX_flags(e) & EVP_CIPH_MODE)
 
 #define EVP_ENCODE_LENGTH(l)	(((l+2)/3*4)+(l/48+1)*2+80)
 #define EVP_DECODE_LENGTH(l)	((l+3)/4*3+80)
@@ -479,10 +479,14 @@ void BIO_set_md(BIO *,const EVP_MD *md);
 #endif
 #define BIO_get_md(b,mdp)		BIO_ctrl(b,BIO_C_GET_MD,0,(char *)mdp)
 #define BIO_get_md_ctx(b,mdcp)     BIO_ctrl(b,BIO_C_GET_MD_CTX,0,(char *)mdcp)
+#define BIO_set_md_ctx(b,mdcp)     BIO_ctrl(b,BIO_C_SET_MD_CTX,0,(char *)mdcp)
 #define BIO_get_cipher_status(b)	BIO_ctrl(b,BIO_C_GET_CIPHER_STATUS,0,NULL)
 #define BIO_get_cipher_ctx(b,c_pp)	BIO_ctrl(b,BIO_C_GET_CIPHER_CTX,0,(char *)c_pp)
 
-#define	EVP_Cipher(c,o,i,l)	(c)->cipher->do_cipher((c),(o),(i),(l))
+int EVP_Cipher(EVP_CIPHER_CTX *c,
+		unsigned char *out,
+		const unsigned char *in,
+		unsigned int inl);
 
 #define EVP_add_cipher_alias(n,alias) \
 	OBJ_NAME_add((alias),OBJ_NAME_TYPE_CIPHER_METH|OBJ_NAME_ALIAS,(n))
@@ -498,9 +502,9 @@ int	EVP_MD_CTX_cleanup(EVP_MD_CTX *ctx);
 EVP_MD_CTX *EVP_MD_CTX_create(void);
 void	EVP_MD_CTX_destroy(EVP_MD_CTX *ctx);
 int     EVP_MD_CTX_copy_ex(EVP_MD_CTX *out,const EVP_MD_CTX *in);  
-#define EVP_MD_CTX_set_flags(ctx,flgs) ((ctx)->flags|=(flgs))
-#define EVP_MD_CTX_clear_flags(ctx,flgs) ((ctx)->flags&=~(flgs))
-#define EVP_MD_CTX_test_flags(ctx,flgs) ((ctx)->flags&(flgs))
+void	EVP_MD_CTX_set_flags(EVP_MD_CTX *ctx, int flags);
+void	EVP_MD_CTX_clear_flags(EVP_MD_CTX *ctx, int flags);
+int 	EVP_MD_CTX_test_flags(const EVP_MD_CTX *ctx,int flags);
 int	EVP_DigestInit_ex(EVP_MD_CTX *ctx, const EVP_MD *type, ENGINE *impl);
 int	EVP_DigestUpdate(EVP_MD_CTX *ctx,const void *d,
 			 size_t cnt);
@@ -580,6 +584,8 @@ int	EVP_DecodeBlock(unsigned char *t, const unsigned char *f, int n);
 
 void EVP_CIPHER_CTX_init(EVP_CIPHER_CTX *a);
 int EVP_CIPHER_CTX_cleanup(EVP_CIPHER_CTX *a);
+EVP_CIPHER_CTX *EVP_CIPHER_CTX_new(void);
+void EVP_CIPHER_CTX_free(EVP_CIPHER_CTX *a);
 int EVP_CIPHER_CTX_set_key_length(EVP_CIPHER_CTX *x, int keylen);
 int EVP_CIPHER_CTX_set_padding(EVP_CIPHER_CTX *c, int pad);
 int EVP_CIPHER_CTX_ctrl(EVP_CIPHER_CTX *ctx, int type, int arg, void *ptr);
@@ -736,6 +742,29 @@ const EVP_CIPHER *EVP_aes_256_ofb(void);
 const EVP_CIPHER *EVP_aes_256_ctr(void);
 #endif
 #endif
+#ifndef OPENSSL_NO_CAMELLIA
+const EVP_CIPHER *EVP_camellia_128_ecb(void);
+const EVP_CIPHER *EVP_camellia_128_cbc(void);
+const EVP_CIPHER *EVP_camellia_128_cfb1(void);
+const EVP_CIPHER *EVP_camellia_128_cfb8(void);
+const EVP_CIPHER *EVP_camellia_128_cfb128(void);
+# define EVP_camellia_128_cfb EVP_camellia_128_cfb128
+const EVP_CIPHER *EVP_camellia_128_ofb(void);
+const EVP_CIPHER *EVP_camellia_192_ecb(void);
+const EVP_CIPHER *EVP_camellia_192_cbc(void);
+const EVP_CIPHER *EVP_camellia_192_cfb1(void);
+const EVP_CIPHER *EVP_camellia_192_cfb8(void);
+const EVP_CIPHER *EVP_camellia_192_cfb128(void);
+# define EVP_camellia_192_cfb EVP_camellia_192_cfb128
+const EVP_CIPHER *EVP_camellia_192_ofb(void);
+const EVP_CIPHER *EVP_camellia_256_ecb(void);
+const EVP_CIPHER *EVP_camellia_256_cbc(void);
+const EVP_CIPHER *EVP_camellia_256_cfb1(void);
+const EVP_CIPHER *EVP_camellia_256_cfb8(void);
+const EVP_CIPHER *EVP_camellia_256_cfb128(void);
+# define EVP_camellia_256_cfb EVP_camellia_256_cfb128
+const EVP_CIPHER *EVP_camellia_256_ofb(void);
+#endif
 
 void OPENSSL_add_all_algorithms_noconf(void);
 void OPENSSL_add_all_algorithms_conf(void);
@@ -852,6 +881,7 @@ void ERR_load_EVP_strings(void);
 
 /* Function codes. */
 #define EVP_F_AES_INIT_KEY				 133
+#define EVP_F_CAMELLIA_INIT_KEY				 159
 #define EVP_F_D2I_PKEY					 100
 #define EVP_F_DSAPKEY2PKCS8				 134
 #define EVP_F_DSA_PKEY2PKCS8				 135
@@ -895,6 +925,7 @@ void ERR_load_EVP_strings(void);
 #define EVP_R_BAD_KEY_LENGTH				 137
 #define EVP_R_BN_DECODE_ERROR				 112
 #define EVP_R_BN_PUBKEY_ERROR				 113
+#define EVP_R_CAMELLIA_KEY_SETUP_FAILED			 157
 #define EVP_R_CIPHER_PARAMETER_ERROR			 122
 #define EVP_R_CTRL_NOT_IMPLEMENTED			 132
 #define EVP_R_CTRL_OPERATION_NOT_IMPLEMENTED		 133
@@ -937,4 +968,3 @@ void ERR_load_EVP_strings(void);
 }
 #endif
 #endif
-

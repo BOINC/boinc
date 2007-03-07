@@ -81,4 +81,3 @@ int _ossl_old_des_read_pw(char *buf,char *buff,int size,const char *prompt,int v
 }
 #endif
 #endif
-

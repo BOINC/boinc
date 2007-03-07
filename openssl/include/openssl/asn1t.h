@@ -99,7 +99,7 @@ extern "C" {
 #define ASN1_ITEM_start(itname) \
 	const ASN1_ITEM * itname##_it(void) \
 	{ \
-		static const ASN1_ITEM local_it = { \
+		static const ASN1_ITEM local_it = { 
 
 #define ASN1_ITEM_end(itname) \
 		}; \
@@ -884,4 +884,3 @@ int asn1_enc_save(ASN1_VALUE **pval, const unsigned char *in, int inlen, const A
 }
 #endif
 #endif
-

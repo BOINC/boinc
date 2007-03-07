@@ -2220,3 +2220,9 @@ Rom    6 Mar 2007
         
     clientgui/
         ProjectInfoPage.cpp
+
+Rom    7 Mar 2007
+    - Update OpenSSL modules for windows to OpenSSL 0.9.8e.
+    
+    openssl/
+        <All Files>
