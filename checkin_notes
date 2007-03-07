@@ -2226,3 +2226,9 @@ Rom    7 Mar 2007
     
     openssl/
         <All Files>
+
+Rom    7 Mar 2007
+    - Update cURL modules for windows to cURL 7.16.1.
+    
+    curl/
+        <All Files>
