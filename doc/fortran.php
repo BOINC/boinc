@@ -2,6 +2,11 @@
 require_once("docutil.php");
 page_head("FORTRAN applications");?>
 
+<h2>F2X</h2>
+One option is to use f2c to convert your FORTRAN program to C.
+M.F. Somers has created a
+<a href=http://boinc.gorlaeus.net/F2c.php>BOINC-enabled f2c library</a>
+that simplifies this process.
 <h2>Windows: cygwin</h2>
 <p>
 Include the file 'boinc_api_fortran.C' in the api/Makefile.am,

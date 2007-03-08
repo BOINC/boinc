@@ -109,14 +109,32 @@ The following medium-to-large development projects are available:
 <ul>
 <li> Write an example compound application
 (and suggest API revisions to make this easier).
+<li> Create Makefiles and project files to build
+the sample applications using MinGW and DevC++.
+<li> Extend wrapper application handle multiple tasks,
+and test/debug it.
+<li> Investigate the  crlibm library for generating
+identical results across processors
+(or at least reducing the number of cases for HR).
+<li> Graphics in separate program.
+<li> Java support: core client checks for the existence of JVM,
+    reports version to scheduler.
+    Write Java wrapper (runs JVM, gives it jar files).
+<li> Same, .NET
+<li> Distributed Python
+<li> Write example FORTRAN application and Makefiles/ project files
 </ul>
 <li> Core client:
 <ul>
-<li> After an applications exits (for whatever reaason)
+<li> After an applications exits (for whatever reason)
 make sure (after a few second delay) that its subprocesses are gone too.
 Unix: use process groups and killpg().
-<li> Compute disk usage (total, per-project) in a separate thread.
-Or (preferable?) have the Manager do RPCs in a separate thread.
+<li> More generally: make a better state machine for shutting down apps:
+tell them to checkpoint, wait a little, tell them to quit,
+clean up straggler processes.
+<li> Integrate BitTorrent with the core client.
+<li> Do potentially slow RPCs and other tasks
+(such as computing disk usage) in a separate thread.
 <li> Don't enforce RAM limits unless free RAM is low
 <li> Extend general preferences to allow users to
 specify different time-of-day restrictions for different days of the week.
@@ -130,10 +148,21 @@ Write a simulator for the CPU scheduler and work fetch policies
 and enforce resource shares,
 with file deletion according to project policy.
 <li> Make messages of class MSG_USER_ERROR translatable.
+<li> GUI RPC to tell apps to checkpoint and quit.
+<li> Vista: if get 'about to shut down' msg from OS,
+stop apps immediately (don't tell them to checkpoint).
+Investigate.
 </ul>
 
 <li> BOINC Manager:
 <ul>
+<li> Make simple GUI accessible to visually impaired.
+<li> Properties pages for projects, jobs
+<li> Project list (Rom's working on this)
+<li> Turn off alerts (Rom's working on this)
+<li> Have the Manager do RPCs in a separate thread.
+<br>
+(The following are currently in progress by Frank Weiler)
 <li> Advanced prefs dialog
 
 <li> Show progress bars for file transfers and in-progress results
@@ -168,11 +197,28 @@ with file deletion according to project policy.
     <li> Implement a 'benchmark result' mechanism:
         every host runs a benchmark result per app version,
         and the CPU time determines credit/CPU for future results
-    <li> Use the information sent by the client
-        (queued work, fraction done, and deadlines)
-        to avoid sending jobs that won't finish by deadline.
     </ul>
 
+<li> Web features:
+    <ul>
+        <li> Propagate profiles between projects.
+            If you create a profile on one project,
+            it (and associated images) get copied to other projects
+            you attach to.
+            Could do this via the client (like general prefs)
+            or externally (via web RPCs).
+        <li> Combine user pages and profiles
+        <li> Add new profile features:
+            <ul>
+            <li> 'Buddy lists'
+                where each buddy is name,
+                URL of image and thumbnail,
+                URL of profile (may be on another site?)
+            <li> 'Message bookmarks': posts this person thinks are interesting
+            <li> list of recent posts (on this and other projects);
+                and threads this person has created
+            </ul>
+    </ul>
 
 </ul>
 Please check with <a href=contact.php>David Anderson</a>

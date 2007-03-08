@@ -817,9 +817,12 @@ void worker_signal_handler(int) {
         getrusage(RUSAGE_SELF, &worker_thread_ru);
         pthread_mutex_unlock(&getrusage_mutex);
     }
-    if (options.direct_process_action) {
-        while (boinc_status.suspended) {
-            sleep(1);   // don't use boinc_sleep() because it does FP math
+    if (options.direct_process_action && boinc_status.suspended) {
+        if (boinc_try_critical_section()) {
+            while (boinc_status.suspended) {
+                sleep(1);   // don't use boinc_sleep() because it does FP math
+            }
+            boinc_end_critical_section();
         }
     }
 }

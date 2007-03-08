@@ -42,7 +42,7 @@ struct FDSET_GROUP {
     }
 };
 
-extern int resolve_hostname(char* hostname, int& ip_addr, char* msg);
+extern int resolve_hostname(char* hostname, int& ip_addr);
 extern int boinc_socket(int& sock);
 extern int boinc_socket_asynch(int sock, bool asynch);
 extern void boinc_close_socket(int sock);

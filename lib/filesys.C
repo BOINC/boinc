@@ -318,8 +318,8 @@ int clean_out_dir(const char* dirpath) {
     dirp = dir_open(dirpath);
     if (!dirp) {
         if (g_use_sandbox && (errno == EACCES)) {
-            // We may not have permission to read subdirectories created by projects
-                return remove_project_owned_file_or_dir(dirpath);
+            // dir may be owned by boinc_apps
+            return remove_project_owned_file_or_dir(dirpath);
         }
         return 0;    // if dir doesn't exist, it's empty
     }
@@ -511,8 +511,15 @@ int remove_project_owned_file_or_dir(const char* path) {
     char cmd[1024];
     
     if (g_use_sandbox) {
-        sprintf(cmd, "%s/%s /bin/rm rm -fR \"%s\"", SWITCHER_DIR, SWITCHER_FILE_NAME, path);
-        return system(cmd);
+        sprintf(cmd, "%s/%s /bin/rm rm -fR \"%s\"",
+            SWITCHER_DIR, SWITCHER_FILE_NAME, path
+        );
+        if (system(cmd)) {
+            perror(cmd);
+            return ERR_UNLINK;
+        } else {
+            return 0;
+        }
     }
 #endif
     return ERR_UNLINK;

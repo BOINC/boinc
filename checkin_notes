@@ -2232,3 +2232,17 @@ Rom    7 Mar 2007
     
     curl/
         <All Files>
+
+David  8 Mar 2007
+    - API (Unix): there was still a race condition in the runtime library.
+        Fix it (I hope) by having worker_signal_handler()
+        acquire the mutex before suspending worker thread.
+    - remove msg parameter of resolve_hostname()
+
+    api/
+        boinc_api.C
+    client/
+        gui_rpc_server.C
+    lib/
+        filesys.C
+        network.C,h

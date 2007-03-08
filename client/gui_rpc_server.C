@@ -121,7 +121,7 @@ int GUI_RPC_CONN_SET::get_password() {
 
 int GUI_RPC_CONN_SET::get_allowed_hosts() {
     int ipaddr, retval;
-    char buf[256], msg[256];
+    char buf[256];
 
     allowed_remote_ip_addresses.clear();
 
@@ -143,9 +143,12 @@ int GUI_RPC_CONN_SET::get_allowed_hosts() {
         while (fgets(buf, 256, f)) {
             strip_whitespace(buf);
             if (!(buf[0] =='#' || buf[0] == ';') && strlen(buf) > 0 ) {
-                retval = resolve_hostname(buf, ipaddr, msg);
+                retval = resolve_hostname(buf, ipaddr);
                 if (retval) {
-                    msg_printf(0, MSG_USER_ERROR, msg);
+                    msg_printf(0, MSG_USER_ERROR,
+                        "Can't resolve hostname %s in %s",
+                        buf, REMOTEHOST_FILE_NAME
+                    );
                 } else {
                     allowed_remote_ip_addresses.push_back((int)ntohl(ipaddr));
                 }
