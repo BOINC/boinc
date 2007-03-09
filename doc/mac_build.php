@@ -104,7 +104,7 @@ After building the libraries as Universal Binaries using the second method, you 
 <h2>Building BOINC Manager with embedded Core Client plus libraries libboinc.a and libboinc_graphics_api.a</h2>
 
 
-BOINC depends on three third-party libraries: wxMac-2.6.3, curl-7.5.15, and jpeg-6b.  You can obtain these from the following URLs:
+BOINC depends on three third-party libraries: wxMac-2.6.3, curl-7.15.5, and jpeg-6b.  You can obtain these from the following URLs:
 
 
 <p>
@@ -115,10 +115,10 @@ show_link("http://www.wxwidgets.org");
 show_link("http://prdownloads.sourceforge.net/wxwindows/wxMac-2.6.3.tar.gz");
 echo "
 <p>
-curl-7.5.15:
+curl-7.15.5:
 ";
 show_link("http://curl.haxx.se");
-show_link("http://curl.haxx.se/download/curl-7.5.15.tar.gz");
+show_link("http://curl.haxx.se/download/curl-7.15.5.tar.gz");
 echo "
 <p>
 jpeg-6b (needed  only if you are building the BOINC libboinc_graphics_api.a library):
@@ -129,7 +129,7 @@ show_link("ftp://ftp.uu.net/graphics/jpeg/jpegsrc.v6b.tar.gz");
 echo "
 <p>
 
-XCode 2.2 installs autoconf 2.59 and automake 1.63.  To determine the version number, type 'autoconf --version' or 'automake --version' .  Building wxMac-2.6.3 and curl-7.5.15 require autoconf 2.59 and automake 1.93 or later.  
+XCode 2.2 installs autoconf 2.59 and automake 1.63.  To determine the version number, type 'autoconf --version' or 'automake --version' .  Building wxMac-2.6.3 and curl-7.15.5 require autoconf 2.59 and automake 1.93 or later.  
 
 <p>
 Upgrades for autoconf and automake are available from www.gnu.org:  
@@ -147,7 +147,7 @@ As stated above, all BOINC software for Power PC Macs must be built using GCC 3.
 
 
 <p>
-These are not done by either the XCode projects which come with wxMac-2.6.3, nor  the AutoMake scripts supplied with wxMac-2.6.3, curl-7.5.15, or jpeg-6b.  So be sure to use our special scripts to build these packages.
+These are not done by either the XCode projects which come with wxMac-2.6.3, nor  the AutoMake scripts supplied with wxMac-2.6.3, curl-7.15.5, or jpeg-6b.  So be sure to use our special scripts to build these packages.
 
 
 <p>
@@ -161,7 +161,7 @@ Building BOINC and the library packages on which it depends requires OS 10.4.4 a
 <li> Put the following 3 directories inside the BOINC_dev folder (omit any you don't need):
 
 <pre>
-curl-7.5.15
+curl-7.15.5
 jpeg-6b
 wxMac-2.6.3
 </pre>

@@ -1839,3 +1839,13 @@ Rom    1 Mar 2007
       boinc_core_release_5_8_17
 
     NOTE: So walt can release a Linux package using GCC 4.1.
+
+Charlie 8 Mar 2007
+    - Mac: Delete unused target AppStats from XCode project.
+    - Mac: Fix documentation typos.
+
+    mac_build/
+        boinc.xcodeproj/
+            project.pbxproj
+    doc/
+        mac_build.php
