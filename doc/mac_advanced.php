@@ -5,7 +5,7 @@ echo "
 <ul>
 <li> If your browser has not already done so,
 expand the zip archive by double-clicking on it in the Finder.
-<li> Double-click on <b>BOINC.pkg</b> to run the installer,
+<li> Double-click on the <b>BOINC Installer</b> application to run the installer,
 then follow the prompts.
 <li> Close the installer when it is finished.
 This will automatically launch the BOINC Manager.

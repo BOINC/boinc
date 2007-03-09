@@ -2260,3 +2260,10 @@ Charlie 8 Mar 2007
             project.pbxproj
     doc/
         mac_build.php
+
+Charlie 9 Mar 2007
+    -Mac: update installation documentation: say to double-click on 
+        "BOINC Installer" application, not on BOINC.pkg.
+    doc/
+        mac_advanced.php
+        release_notes.php
