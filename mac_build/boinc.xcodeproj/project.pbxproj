@@ -25,7 +25,6 @@
 				DDD095510A3EE09900C95BA4 /* PBXTargetDependency */,
 				DD1AFEE60A512FF000EE5B82 /* PBXTargetDependency */,
 				DD45C4A10A53E73500E923D1 /* PBXTargetDependency */,
-				DD58E60D0AC7D69F0049DBB6 /* PBXTargetDependency */,
 			);
 			name = Build_All;
 			productName = Build_All;
@@ -660,13 +659,6 @@
 			remoteGlobalIDString = DD3E14D30A774397007E0084;
 			remoteInfo = mgr_boinc;
 		};
-		DD58E60C0AC7D69F0049DBB6 /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = 20286C28FDCF999611CA2CEA /* Project object */;
-			proxyType = 1;
-			remoteGlobalIDString = DDD997D70AC3D1DD00D0DACF;
-			remoteInfo = AppStats;
-		};
 		DD664F18084321A2009BFB11 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = 20286C28FDCF999611CA2CEA /* Project object */;
@@ -833,8 +825,6 @@
 		DD33C6F708B5BB4500768630 /* acct_setup.C */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.cpp.cpp; name = acct_setup.C; path = ../client/acct_setup.C; sourceTree = SOURCE_ROOT; };
 		DD33C70208B5BEDE00768630 /* http_curl.C */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.cpp.cpp; name = http_curl.C; path = ../client/http_curl.C; sourceTree = SOURCE_ROOT; };
 		DD33C70308B5BEDE00768630 /* http_curl.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = http_curl.h; path = ../client/http_curl.h; sourceTree = SOURCE_ROOT; };
-		DD33C74208B5C72F00768630 /* curl.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = curl.h; path = ../curl/include/curl/curl.h; sourceTree = SOURCE_ROOT; };
-		DD33C74308B5C72F00768630 /* curlver.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = curlver.h; path = ../curl/include/curl/curlver.h; sourceTree = SOURCE_ROOT; };
 		DD344B3D07C5ABF40043025C /* acct_mgr.C */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.cpp.cpp; name = acct_mgr.C; path = ../client/acct_mgr.C; sourceTree = SOURCE_ROOT; };
 		DD344B3E07C5ABF40043025C /* acct_mgr.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = acct_mgr.h; path = ../client/acct_mgr.h; sourceTree = SOURCE_ROOT; };
 		DD344B4807C5AC4C0043025C /* app_control.C */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.cpp.cpp; name = app_control.C; path = ../client/app_control.C; sourceTree = SOURCE_ROOT; };
@@ -1071,7 +1061,6 @@
 		DDD0953F0A3EDD2500C95BA4 /* switcher */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = switcher; sourceTree = BUILT_PRODUCTS_DIR; };
 		DDD095480A3EDF2D00C95BA4 /* switcher.C */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.cpp.cpp; path = switcher.C; sourceTree = "<group>"; };
 		DDD74D8707CF482E0065AC9D /* boinc */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = boinc; sourceTree = BUILT_PRODUCTS_DIR; };
-		DDD997D80AC3D1DD00D0DACF /* AppStats */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = AppStats; sourceTree = BUILT_PRODUCTS_DIR; };
 		DDE2552B07C62F3E008E7D6E /* IOKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = IOKit.framework; path = /System/Library/Frameworks/IOKit.framework; sourceTree = "<absolute>"; };
 		DDEB3CA80981084A0087E200 /* GridRepublic.icns */ = {isa = PBXFileReference; lastKnownFileType = image.icns; name = GridRepublic.icns; path = ../client/mac/GridRepublic.icns; sourceTree = SOURCE_ROOT; };
 		DDEF388E0802B73500E87552 /* ViewStatistics.cpp */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.cpp.cpp; name = ViewStatistics.cpp; path = ../clientgui/ViewStatistics.cpp; sourceTree = SOURCE_ROOT; };
@@ -1248,13 +1237,6 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
-		DDD997D60AC3D1DD00D0DACF /* Frameworks */ = {
-			isa = PBXFrameworksBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
 		DDFF2ACD0A53D4AE002BC19D /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
@@ -1283,7 +1265,6 @@
 				DD1AFEBA0A512D8700EE5B82 /* BOINC Installer.app */,
 				DDFF2AD30A53D4AE002BC19D /* setprojectgrp */,
 				DD3E15420A774397007E0084 /* BOINCManager.app */,
-				DDD997D80AC3D1DD00D0DACF /* AppStats */,
 			);
 			name = Products;
 			sourceTree = SOURCE_ROOT;
@@ -1293,7 +1274,6 @@
 			children = (
 				DD40827D07D30AA800163EF5 /* jpeglib.h */,
 				F54B8FBE02AC0A0C01FB7237 /* client */,
-				DD33C72A08B5C70700768630 /* curl */,
 				DD81C3F707C5D03B0098A04D /* clientgui */,
 				DD1277BC081F3E59007B5DE1 /* mac_installer */,
 				DDF9385307E288F0004DC076 /* Documentation */,
@@ -1351,15 +1331,6 @@
 			);
 			name = mac_installer;
 			sourceTree = SOURCE_ROOT;
-		};
-		DD33C72A08B5C70700768630 /* curl */ = {
-			isa = PBXGroup;
-			children = (
-				DD33C74208B5C72F00768630 /* curl.h */,
-				DD33C74308B5C72F00768630 /* curlver.h */,
-			);
-			name = curl;
-			sourceTree = "<group>";
 		};
 		DD81C3F707C5D03B0098A04D /* clientgui */ = {
 			isa = PBXGroup;
@@ -2026,22 +1997,6 @@
 			productReference = DDD74D8707CF482E0065AC9D /* boinc */;
 			productType = "com.apple.product-type.tool";
 		};
-		DDD997D70AC3D1DD00D0DACF /* AppStats */ = {
-			isa = PBXNativeTarget;
-			buildConfigurationList = DDD997DA0AC3D1FB00D0DACF /* Build configuration list for PBXNativeTarget "AppStats" */;
-			buildPhases = (
-				DDD997D50AC3D1DD00D0DACF /* Sources */,
-				DDD997D60AC3D1DD00D0DACF /* Frameworks */,
-			);
-			buildRules = (
-			);
-			dependencies = (
-			);
-			name = AppStats;
-			productName = AppStats;
-			productReference = DDD997D80AC3D1DD00D0DACF /* AppStats */;
-			productType = "com.apple.product-type.tool";
-		};
 		DDFF2ACA0A53D4AE002BC19D /* setprojectgrp */ = {
 			isa = PBXNativeTarget;
 			buildConfigurationList = DDFF2ACE0A53D4AE002BC19D /* Build configuration list for PBXNativeTarget "setprojectgrp" */;
@@ -2090,7 +2045,6 @@
 				DD1AFEA40A512D8700EE5B82 /* Install_BOINC */,
 				DDFF2ACA0A53D4AE002BC19D /* setprojectgrp */,
 				DD3E14D30A774397007E0084 /* mgr_boinc */,
-				DDD997D70AC3D1DD00D0DACF /* AppStats */,
 			);
 		};
 /* End PBXProject section */
@@ -2680,13 +2634,6 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
-		DDD997D50AC3D1DD00D0DACF /* Sources */ = {
-			isa = PBXSourcesBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
 		DDFF2ACB0A53D4AE002BC19D /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
@@ -2737,11 +2684,6 @@
 			isa = PBXTargetDependency;
 			target = DD3E14D30A774397007E0084 /* mgr_boinc */;
 			targetProxy = DD58247C0B198BDD003B6A2F /* PBXContainerItemProxy */;
-		};
-		DD58E60D0AC7D69F0049DBB6 /* PBXTargetDependency */ = {
-			isa = PBXTargetDependency;
-			target = DDD997D70AC3D1DD00D0DACF /* AppStats */;
-			targetProxy = DD58E60C0AC7D69F0049DBB6 /* PBXContainerItemProxy */;
 		};
 		DD664F19084321A2009BFB11 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
@@ -3558,7 +3500,7 @@
 				GCC_OPTIMIZATION_LEVEL = 0;
 				GCC_PRECOMPILE_PREFIX_HEADER = NO;
 				GCC_PREFIX_HEADER = "";
-				HEADER_SEARCH_PATHS = "../../curl-7.15.5/include";
+				HEADER_SEARCH_PATHS = "../../curl-7.16.1/include";
 				INSTALL_PATH = "";
 				LIBRARY_SEARCH_PATHS = "";
 				MACOSX_DEPLOYMENT_TARGET = "";
@@ -3608,7 +3550,7 @@
 				GCC_ENABLE_FIX_AND_CONTINUE = NO;
 				GCC_PRECOMPILE_PREFIX_HEADER = NO;
 				GCC_PREFIX_HEADER = "";
-				HEADER_SEARCH_PATHS = "../../curl-7.15.5/include";
+				HEADER_SEARCH_PATHS = "../../curl-7.16.1/include";
 				INSTALL_PATH = "";
 				LIBRARY_SEARCH_PATHS = "";
 				MACOSX_DEPLOYMENT_TARGET = 10.4;
@@ -4535,7 +4477,7 @@
 				GCC_ENABLE_FIX_AND_CONTINUE = NO;
 				GCC_PRECOMPILE_PREFIX_HEADER = NO;
 				GCC_PREFIX_HEADER = "";
-				HEADER_SEARCH_PATHS = "../../curl-7.15.5/include";
+				HEADER_SEARCH_PATHS = "../../curl-7.16.1/include";
 				INSTALL_PATH = "";
 				LIBRARY_SEARCH_PATHS = "";
 				MACOSX_DEPLOYMENT_TARGET = 10.4;
@@ -5068,7 +5010,7 @@
 				GCC_OPTIMIZATION_LEVEL = 0;
 				GCC_PRECOMPILE_PREFIX_HEADER = NO;
 				GCC_PREFIX_HEADER = "";
-				HEADER_SEARCH_PATHS = "../../curl-7.15.5/include";
+				HEADER_SEARCH_PATHS = "../../curl-7.16.1/include";
 				INSTALL_PATH = "";
 				LIBRARY_SEARCH_PATHS = "";
 				MACOSX_DEPLOYMENT_TARGET = "";
@@ -5116,7 +5058,7 @@
 				GCC_ENABLE_FIX_AND_CONTINUE = NO;
 				GCC_PRECOMPILE_PREFIX_HEADER = NO;
 				GCC_PREFIX_HEADER = "";
-				HEADER_SEARCH_PATHS = "../../curl-7.15.5/include";
+				HEADER_SEARCH_PATHS = "../../curl-7.16.1/include";
 				INSTALL_PATH = "";
 				LIBRARY_SEARCH_PATHS = /usr/lib/gcc/darwin/3.3;
 				MACOSX_DEPLOYMENT_TARGET = 10.3;
@@ -5638,7 +5580,7 @@
 				GCC_ENABLE_FIX_AND_CONTINUE = NO;
 				GCC_PRECOMPILE_PREFIX_HEADER = NO;
 				GCC_PREFIX_HEADER = "";
-				HEADER_SEARCH_PATHS = "../../curl-7.15.5/include";
+				HEADER_SEARCH_PATHS = "../../curl-7.16.1/include";
 				INSTALL_PATH = "";
 				LIBRARY_SEARCH_PATHS = /usr/lib/gcc/darwin/4.0;
 				MACOSX_DEPLOYMENT_TARGET = 10.4;
@@ -5889,106 +5831,6 @@
 				ZERO_LINK = NO;
 			};
 			name = Deployment;
-		};
-		DDD997DB0AC3D1FB00D0DACF /* Development */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				COPY_PHASE_STRIP = NO;
-				FRAMEWORK_SEARCH_PATHS = "$(inherited)";
-				GCC_DYNAMIC_NO_PIC = NO;
-				GCC_ENABLE_FIX_AND_CONTINUE = YES;
-				GCC_GENERATE_DEBUGGING_SYMBOLS = YES;
-				GCC_MODEL_TUNING = G5;
-				GCC_OPTIMIZATION_LEVEL = 0;
-				HEADER_SEARCH_PATHS = "..//**";
-				INSTALL_PATH = "";
-				PREBINDING = NO;
-				PRODUCT_NAME = AppStats;
-				SKIP_INSTALL = YES;
-				ZERO_LINK = NO;
-			};
-			name = Development;
-		};
-		DDD997DC0AC3D1FB00D0DACF /* Dev_noSandbox */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				FRAMEWORK_SEARCH_PATHS = "$(inherited)";
-				GCC_ENABLE_FIX_AND_CONTINUE = YES;
-				GCC_MODEL_TUNING = G5;
-				HEADER_SEARCH_PATHS = "..//**";
-				INSTALL_PATH = "";
-				PREBINDING = NO;
-				PRODUCT_NAME = AppStats;
-				SKIP_INSTALL = YES;
-				ZERO_LINK = NO;
-			};
-			name = Dev_noSandbox;
-		};
-		DDD997DD0AC3D1FB00D0DACF /* ppc_Deployment */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				FRAMEWORK_SEARCH_PATHS = "$(inherited)";
-				GCC_ENABLE_FIX_AND_CONTINUE = YES;
-				GCC_MODEL_TUNING = G5;
-				HEADER_SEARCH_PATHS = "..//**";
-				INSTALL_PATH = "";
-				PREBINDING = NO;
-				PRODUCT_NAME = AppStats;
-				SKIP_INSTALL = YES;
-				STRIP_INSTALLED_PRODUCT = YES;
-				ZERO_LINK = NO;
-			};
-			name = ppc_Deployment;
-		};
-		DDD997DE0AC3D1FB00D0DACF /* i386_Deployment */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				FRAMEWORK_SEARCH_PATHS = "$(inherited)";
-				GCC_ENABLE_FIX_AND_CONTINUE = YES;
-				GCC_MODEL_TUNING = G5;
-				HEADER_SEARCH_PATHS = "..//**";
-				INSTALL_PATH = "";
-				PREBINDING = NO;
-				PRODUCT_NAME = AppStats;
-				SKIP_INSTALL = YES;
-				STRIP_INSTALLED_PRODUCT = YES;
-				ZERO_LINK = NO;
-			};
-			name = i386_Deployment;
-		};
-		DDD997DF0AC3D1FB00D0DACF /* Deployment */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				COPY_PHASE_STRIP = YES;
-				FRAMEWORK_SEARCH_PATHS = "$(inherited)";
-				GCC_ENABLE_FIX_AND_CONTINUE = NO;
-				GCC_GENERATE_DEBUGGING_SYMBOLS = NO;
-				GCC_MODEL_TUNING = G5;
-				HEADER_SEARCH_PATHS = "..//**";
-				INSTALL_PATH = "";
-				PREBINDING = NO;
-				PRODUCT_NAME = AppStats;
-				SKIP_INSTALL = YES;
-				STRIP_INSTALLED_PRODUCT = YES;
-				ZERO_LINK = NO;
-			};
-			name = Deployment;
-		};
-		DDD997E00AC3D1FB00D0DACF /* Deploy_noSandbox */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				FRAMEWORK_SEARCH_PATHS = "$(inherited)";
-				GCC_ENABLE_FIX_AND_CONTINUE = YES;
-				GCC_MODEL_TUNING = G5;
-				HEADER_SEARCH_PATHS = "..//**";
-				INSTALL_PATH = "";
-				PREBINDING = NO;
-				PRODUCT_NAME = AppStats;
-				SKIP_INSTALL = YES;
-				STRIP_INSTALLED_PRODUCT = YES;
-				ZERO_LINK = NO;
-			};
-			name = Deploy_noSandbox;
 		};
 		DDFF2ACF0A53D4AE002BC19D /* Development */ = {
 			isa = XCBuildConfiguration;
@@ -6260,19 +6102,6 @@
 				DDD095440A3EDD4300C95BA4 /* i386_Deployment */,
 				DDD095450A3EDD4300C95BA4 /* Deployment */,
 				DD62C3960A801FB500B3D68A /* Deploy_noSandbox */,
-			);
-			defaultConfigurationIsVisible = 0;
-			defaultConfigurationName = ppc_Deployment;
-		};
-		DDD997DA0AC3D1FB00D0DACF /* Build configuration list for PBXNativeTarget "AppStats" */ = {
-			isa = XCConfigurationList;
-			buildConfigurations = (
-				DDD997DB0AC3D1FB00D0DACF /* Development */,
-				DDD997DC0AC3D1FB00D0DACF /* Dev_noSandbox */,
-				DDD997DD0AC3D1FB00D0DACF /* ppc_Deployment */,
-				DDD997DE0AC3D1FB00D0DACF /* i386_Deployment */,
-				DDD997DF0AC3D1FB00D0DACF /* Deployment */,
-				DDD997E00AC3D1FB00D0DACF /* Deploy_noSandbox */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = ppc_Deployment;

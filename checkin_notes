@@ -2246,3 +2246,17 @@ David  8 Mar 2007
     lib/
         filesys.C
         network.C,h
+
+Charlie 8 Mar 2007
+    - Mac: Update build scripts, XCode project and build instructions 
+        for cURL 7.16.1.
+    - Mac: Delete unused target AppStats from XCode project.
+
+    mac_build/
+        buildcurl.sh
+        HowToBuildBOINC_XCode.rtf
+        setupForBOINC.sh
+        boinc.xcodeproj/
+            project.pbxproj
+    doc/
+        mac_build.php
