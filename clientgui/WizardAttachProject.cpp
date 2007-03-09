@@ -182,88 +182,87 @@ void CWizardAttachProject::CreateControls()
 
     m_WelcomePage = new CWelcomePage;
     m_WelcomePage->Create( itemWizard1 );
+    GetPageAreaSizer()->Add(m_WelcomePage);
 
-    itemWizard1->FitToPage(m_WelcomePage);
     m_ProjectInfoPage = new CProjectInfoPage;
     m_ProjectInfoPage->Create( itemWizard1 );
+    GetPageAreaSizer()->Add(m_ProjectInfoPage);
 
-    itemWizard1->FitToPage(m_ProjectInfoPage);
     m_ProjectPropertiesPage = new CProjectPropertiesPage;
     m_ProjectPropertiesPage->Create( itemWizard1 );
+    GetPageAreaSizer()->Add(m_ProjectPropertiesPage);
 
-    itemWizard1->FitToPage(m_ProjectPropertiesPage);
     m_AccountKeyPage = new CAccountKeyPage;
     m_AccountKeyPage->Create( itemWizard1 );
+    GetPageAreaSizer()->Add(m_AccountKeyPage);
 
-    itemWizard1->FitToPage(m_AccountKeyPage);
     m_AccountInfoPage = new CAccountInfoPage;
     m_AccountInfoPage->Create( itemWizard1 );
+    GetPageAreaSizer()->Add(m_AccountInfoPage);
 
-    itemWizard1->FitToPage(m_AccountInfoPage);
     m_ProjectProcessingPage = new CProjectProcessingPage;
     m_ProjectProcessingPage->Create( itemWizard1 );
+    GetPageAreaSizer()->Add(m_ProjectProcessingPage);
 
-    itemWizard1->FitToPage(m_ProjectProcessingPage);
     m_CompletionPage = new CCompletionPage;
     m_CompletionPage->Create( itemWizard1 );
+    GetPageAreaSizer()->Add(m_CompletionPage);
 
-    itemWizard1->FitToPage(m_CompletionPage);
     m_CompletionErrorPage = new CCompletionErrorPage;
     m_CompletionErrorPage->Create( itemWizard1 );
+    GetPageAreaSizer()->Add(m_CompletionErrorPage);
 
-    itemWizard1->FitToPage(m_CompletionErrorPage);
     m_ErrNotDetectedPage = new CErrNotDetectedPage;
     m_ErrNotDetectedPage->Create( itemWizard1 );
+    GetPageAreaSizer()->Add(m_ErrNotDetectedPage);
 
-    itemWizard1->FitToPage(m_ErrNotDetectedPage);
     m_ErrUnavailablePage = new CErrUnavailablePage;
     m_ErrUnavailablePage->Create( itemWizard1 );
+    GetPageAreaSizer()->Add(m_ErrUnavailablePage);
 
-    itemWizard1->FitToPage(m_ErrUnavailablePage);
     m_ErrAlreadyAttachedPage = new CErrAlreadyAttachedPage;
     m_ErrAlreadyAttachedPage->Create( itemWizard1 );
+    GetPageAreaSizer()->Add(m_ErrAlreadyAttachedPage);
 
-    itemWizard1->FitToPage(m_ErrAlreadyAttachedPage);
     m_ErrNoInternetConnectionPage = new CErrNoInternetConnectionPage;
     m_ErrNoInternetConnectionPage->Create( itemWizard1 );
+    GetPageAreaSizer()->Add(m_ErrNoInternetConnectionPage);
 
-    itemWizard1->FitToPage(m_ErrNoInternetConnectionPage);
     m_ErrNotFoundPage = new CErrNotFoundPage;
     m_ErrNotFoundPage->Create( itemWizard1 );
+    GetPageAreaSizer()->Add(m_ErrNotFoundPage);
 
-    itemWizard1->FitToPage(m_ErrNotFoundPage);
     m_ErrAlreadyExistsPage = new CErrAlreadyExistsPage;
     m_ErrAlreadyExistsPage->Create( itemWizard1 );
+    GetPageAreaSizer()->Add(m_ErrAlreadyExistsPage);
 
-    itemWizard1->FitToPage(m_ErrAlreadyExistsPage);
     m_ErrProxyInfoPage = new CErrProxyInfoPage;
     m_ErrProxyInfoPage->Create( itemWizard1 );
+    GetPageAreaSizer()->Add(m_ErrProxyInfoPage);
 
-    itemWizard1->FitToPage(m_ErrProxyInfoPage);
     m_ErrProxyPage = new CErrProxyPage;
     m_ErrProxyPage->Create( itemWizard1 );
-
-    itemWizard1->FitToPage(m_ErrProxyPage);
+    GetPageAreaSizer()->Add(m_ErrProxyPage);
 
 ////@end CWizardAttachProject content construction
  
     wxLogTrace(wxT("Function Status"), wxT("CWizardAttachProject::CreateControls - Begin Page Map"));
-    wxLogTrace(wxT("Function Status"), wxT("CWizardAttachProject::CreateControls -     m_WelcomePage = id: '%d', location: '%p'"), ID_WELCOMEPAGE, m_WelcomePage);
-    wxLogTrace(wxT("Function Status"), wxT("CWizardAttachProject::CreateControls -     m_ProjectInfoPage = id: '%d', location: '%p'"), ID_PROJECTINFOPAGE, m_ProjectInfoPage);
-    wxLogTrace(wxT("Function Status"), wxT("CWizardAttachProject::CreateControls -     m_ProjectPropertiesPage = id: '%d', location: '%p'"), ID_PROJECTPROPERTIESPAGE, m_ProjectPropertiesPage);
-    wxLogTrace(wxT("Function Status"), wxT("CWizardAttachProject::CreateControls -     m_AccountKeyPage = id: '%d', location: '%p'"), ID_ACCOUNTKEYPAGE, m_AccountKeyPage);
-    wxLogTrace(wxT("Function Status"), wxT("CWizardAttachProject::CreateControls -     m_AccountInfoPage = id: '%d', location: '%p'"), ID_ACCOUNTINFOPAGE, m_AccountInfoPage);
-    wxLogTrace(wxT("Function Status"), wxT("CWizardAttachProject::CreateControls -     m_ProjectProcessingPage = id: '%d', location: '%p'"), ID_PROJECTPROCESSINGPAGE, m_ProjectProcessingPage);
-    wxLogTrace(wxT("Function Status"), wxT("CWizardAttachProject::CreateControls -     m_CompletionPage = id: '%d', location: '%p'"), ID_COMPLETIONPAGE, m_CompletionPage);
-    wxLogTrace(wxT("Function Status"), wxT("CWizardAttachProject::CreateControls -     m_CompletionErrorPage = id: '%d', location: '%p'"), ID_COMPLETIONERRORPAGE, m_CompletionErrorPage);
-    wxLogTrace(wxT("Function Status"), wxT("CWizardAttachProject::CreateControls -     m_ErrNotDetectedPage = id: '%d', location: '%p'"), ID_ERRNOTDETECTEDPAGE, m_ErrNotDetectedPage);
-    wxLogTrace(wxT("Function Status"), wxT("CWizardAttachProject::CreateControls -     m_ErrUnavailablePage = id: '%d', location: '%p'"), ID_ERRUNAVAILABLEPAGE, m_ErrUnavailablePage);
-    wxLogTrace(wxT("Function Status"), wxT("CWizardAttachProject::CreateControls -     m_ErrAlreadyAttachedPage = id: '%d', location: '%p'"), ID_ERRALREADYATTACHEDPAGE, m_ErrAlreadyAttachedPage);
-    wxLogTrace(wxT("Function Status"), wxT("CWizardAttachProject::CreateControls -     m_ErrNoInternetConnectionPage = id: '%d', location: '%p'"), ID_ERRNOINTERNETCONNECTIONPAGE, m_ErrNoInternetConnectionPage);
-    wxLogTrace(wxT("Function Status"), wxT("CWizardAttachProject::CreateControls -     m_ErrNotFoundPage = id: '%d', location: '%p'"), ID_ERRNOTFOUNDPAGE, m_ErrNotFoundPage);
-    wxLogTrace(wxT("Function Status"), wxT("CWizardAttachProject::CreateControls -     m_ErrAlreadyExistsPage = id: '%d', location: '%p'"), ID_ERRALREADYEXISTSPAGE, m_ErrAlreadyExistsPage);
-    wxLogTrace(wxT("Function Status"), wxT("CWizardAttachProject::CreateControls -     m_ErrProxyInfoPage = id: '%d', location: '%p'"), ID_ERRPROXYINFOPAGE, m_ErrProxyInfoPage);
-    wxLogTrace(wxT("Function Status"), wxT("CWizardAttachProject::CreateControls -     m_ErrProxyPage = id: '%d', location: '%p'"), ID_ERRPROXYPAGE, m_ErrProxyPage);
+    wxLogTrace(wxT("Function Status"), wxT("CWizardAttachProject::CreateControls -     m_WelcomePage = id: '%d', location: '%p'"), m_WelcomePage->GetId(), m_WelcomePage);
+    wxLogTrace(wxT("Function Status"), wxT("CWizardAttachProject::CreateControls -     m_ProjectInfoPage = id: '%d', location: '%p'"), m_ProjectInfoPage->GetId(), m_ProjectInfoPage);
+    wxLogTrace(wxT("Function Status"), wxT("CWizardAttachProject::CreateControls -     m_ProjectPropertiesPage = id: '%d', location: '%p'"), m_ProjectPropertiesPage->GetId(), m_ProjectPropertiesPage);
+    wxLogTrace(wxT("Function Status"), wxT("CWizardAttachProject::CreateControls -     m_AccountKeyPage = id: '%d', location: '%p'"), m_AccountKeyPage->GetId(), m_AccountKeyPage);
+    wxLogTrace(wxT("Function Status"), wxT("CWizardAttachProject::CreateControls -     m_AccountInfoPage = id: '%d', location: '%p'"), m_AccountInfoPage->GetId(), m_AccountInfoPage);
+    wxLogTrace(wxT("Function Status"), wxT("CWizardAttachProject::CreateControls -     m_ProjectProcessingPage = id: '%d', location: '%p'"), m_ProjectProcessingPage->GetId(), m_ProjectProcessingPage);
+    wxLogTrace(wxT("Function Status"), wxT("CWizardAttachProject::CreateControls -     m_CompletionPage = id: '%d', location: '%p'"), m_CompletionPage->GetId(), m_CompletionPage);
+    wxLogTrace(wxT("Function Status"), wxT("CWizardAttachProject::CreateControls -     m_CompletionErrorPage = id: '%d', location: '%p'"), m_CompletionErrorPage->GetId(), m_CompletionErrorPage);
+    wxLogTrace(wxT("Function Status"), wxT("CWizardAttachProject::CreateControls -     m_ErrNotDetectedPage = id: '%d', location: '%p'"), m_ErrNotDetectedPage->GetId(), m_ErrNotDetectedPage);
+    wxLogTrace(wxT("Function Status"), wxT("CWizardAttachProject::CreateControls -     m_ErrUnavailablePage = id: '%d', location: '%p'"), m_ErrUnavailablePage->GetId(), m_ErrUnavailablePage);
+    wxLogTrace(wxT("Function Status"), wxT("CWizardAttachProject::CreateControls -     m_ErrAlreadyAttachedPage = id: '%d', location: '%p'"), m_ErrAlreadyAttachedPage->GetId(), m_ErrAlreadyAttachedPage);
+    wxLogTrace(wxT("Function Status"), wxT("CWizardAttachProject::CreateControls -     m_ErrNoInternetConnectionPage = id: '%d', location: '%p'"), m_ErrNoInternetConnectionPage->GetId(), m_ErrNoInternetConnectionPage);
+    wxLogTrace(wxT("Function Status"), wxT("CWizardAttachProject::CreateControls -     m_ErrNotFoundPage = id: '%d', location: '%p'"), m_ErrNotFoundPage->GetId(), m_ErrNotFoundPage);
+    wxLogTrace(wxT("Function Status"), wxT("CWizardAttachProject::CreateControls -     m_ErrAlreadyExistsPage = id: '%d', location: '%p'"), m_ErrAlreadyExistsPage->GetId(), m_ErrAlreadyExistsPage);
+    wxLogTrace(wxT("Function Status"), wxT("CWizardAttachProject::CreateControls -     m_ErrProxyInfoPage = id: '%d', location: '%p'"), m_ErrProxyInfoPage->GetId(), m_ErrProxyInfoPage);
+    wxLogTrace(wxT("Function Status"), wxT("CWizardAttachProject::CreateControls -     m_ErrProxyPage = id: '%d', location: '%p'"), m_ErrProxyPage->GetId(), m_ErrProxyPage);
     wxLogTrace(wxT("Function Status"), wxT("CWizardAttachProject::CreateControls - End Page Map"));
     wxLogTrace(wxT("Function Start/End"), wxT("CWizardAttachProject::CreateControls - Function End"));
 }

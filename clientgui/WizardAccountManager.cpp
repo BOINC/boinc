@@ -165,73 +165,72 @@ void CWizardAccountManager::CreateControls()
 
     m_WelcomePage = new CWelcomePage;
     m_WelcomePage->Create( itemWizard1 );
+    GetPageAreaSizer()->Add(m_WelcomePage);
 
-    itemWizard1->FitToPage(m_WelcomePage);
     m_AccountManagerInfoPage = new CAccountManagerInfoPage;
     m_AccountManagerInfoPage->Create( itemWizard1 );
+    GetPageAreaSizer()->Add(m_AccountManagerInfoPage);
 
-    itemWizard1->FitToPage(m_AccountManagerInfoPage);
     m_AccountManagerPropertiesPage = new CAccountManagerPropertiesPage;
     m_AccountManagerPropertiesPage->Create( itemWizard1 );
+    GetPageAreaSizer()->Add(m_AccountManagerPropertiesPage);
 
-    itemWizard1->FitToPage(m_AccountManagerPropertiesPage);
     m_AccountInfoPage = new CAccountInfoPage;
     m_AccountInfoPage->Create( itemWizard1 );
+    GetPageAreaSizer()->Add(m_AccountInfoPage);
 
-    itemWizard1->FitToPage(m_AccountInfoPage);
     m_AccountManagerProcessingPage = new CAccountManagerProcessingPage;
     m_AccountManagerProcessingPage->Create( itemWizard1 );
+    GetPageAreaSizer()->Add(m_AccountManagerProcessingPage);
 
-    itemWizard1->FitToPage(m_AccountManagerProcessingPage);
     m_CompletionPage = new CCompletionPage;
     m_CompletionPage->Create( itemWizard1 );
+    GetPageAreaSizer()->Add(m_CompletionPage);
 
-    itemWizard1->FitToPage(m_CompletionPage);
     m_CompletionErrorPage = new CCompletionErrorPage;
     m_CompletionErrorPage->Create( itemWizard1 );
+    GetPageAreaSizer()->Add(m_CompletionErrorPage);
 
-    itemWizard1->FitToPage(m_CompletionErrorPage);
     m_ErrNotDetectedPage = new CErrNotDetectedPage;
     m_ErrNotDetectedPage->Create( itemWizard1 );
+    GetPageAreaSizer()->Add(m_ErrNotDetectedPage);
 
-    itemWizard1->FitToPage(m_ErrNotDetectedPage);
     m_ErrUnavailablePage = new CErrUnavailablePage;
     m_ErrUnavailablePage->Create( itemWizard1 );
+    GetPageAreaSizer()->Add(m_ErrUnavailablePage);
 
-    itemWizard1->FitToPage(m_ErrUnavailablePage);
     m_ErrNoInternetConnectionPage = new CErrNoInternetConnectionPage;
     m_ErrNoInternetConnectionPage->Create( itemWizard1 );
+    GetPageAreaSizer()->Add(m_ErrNoInternetConnectionPage);
 
-    itemWizard1->FitToPage(m_ErrNoInternetConnectionPage);
     m_ErrNotFoundPage = new CErrNotFoundPage;
     m_ErrNotFoundPage->Create( itemWizard1 );
+    GetPageAreaSizer()->Add(m_ErrNotFoundPage);
 
-    itemWizard1->FitToPage(m_ErrNotFoundPage);
     m_ErrProxyInfoPage = new CErrProxyInfoPage;
     m_ErrProxyInfoPage->Create( itemWizard1 );
+    GetPageAreaSizer()->Add(m_ErrProxyInfoPage);
 
-    itemWizard1->FitToPage(m_ErrProxyInfoPage);
     m_ErrProxyPage = new CErrProxyPage;
     m_ErrProxyPage->Create( itemWizard1 );
-
-    itemWizard1->FitToPage(m_ErrProxyPage);
+    GetPageAreaSizer()->Add(m_ErrProxyPage);
 
 ////@end CWizardAccountManager content construction
  
     wxLogTrace(wxT("Function Status"), wxT("CWizardAccountManager::CreateControls - Begin Page Map"));
-    wxLogTrace(wxT("Function Status"), wxT("CWizardAccountManager::CreateControls -     m_WelcomePage = id: '%d', location: '%p'"), ID_WELCOMEPAGE, m_WelcomePage);
-    wxLogTrace(wxT("Function Status"), wxT("CWizardAccountManager::CreateControls -     m_AccountManagerInfoPage = id: '%d', location: '%p'"), ID_ACCOUNTMANAGERINFOPAGE, m_AccountManagerInfoPage);
-    wxLogTrace(wxT("Function Status"), wxT("CWizardAccountManager::CreateControls -     m_AccountManagerPropertiesPage = id: '%d', location: '%p'"), ID_ACCOUNTMANAGERPROPERTIESPAGE, m_AccountManagerPropertiesPage);
-    wxLogTrace(wxT("Function Status"), wxT("CWizardAccountManager::CreateControls -     m_AccountInfoPage = id: '%d', location: '%p'"), ID_ACCOUNTINFOPAGE, m_AccountInfoPage);
-    wxLogTrace(wxT("Function Status"), wxT("CWizardAccountManager::CreateControls -     m_AccountManagerProcessingPage = id: '%d', location: '%p'"), ID_ACCOUNTMANAGERPROCESSINGPAGE, m_AccountManagerProcessingPage);
-    wxLogTrace(wxT("Function Status"), wxT("CWizardAccountManager::CreateControls -     m_CompletionPage = id: '%d', location: '%p'"), ID_COMPLETIONPAGE, m_CompletionPage);
-    wxLogTrace(wxT("Function Status"), wxT("CWizardAccountManager::CreateControls -     m_CompletionErrorPage = id: '%d', location: '%p'"), ID_COMPLETIONERRORPAGE, m_CompletionErrorPage);
-    wxLogTrace(wxT("Function Status"), wxT("CWizardAccountManager::CreateControls -     m_ErrNotDetectedPage = id: '%d', location: '%p'"), ID_ERRNOTDETECTEDPAGE, m_ErrNotDetectedPage);
-    wxLogTrace(wxT("Function Status"), wxT("CWizardAccountManager::CreateControls -     m_ErrUnavailablePage = id: '%d', location: '%p'"), ID_ERRUNAVAILABLEPAGE, m_ErrUnavailablePage);
-    wxLogTrace(wxT("Function Status"), wxT("CWizardAccountManager::CreateControls -     m_ErrNoInternetConnectionPage = id: '%d', location: '%p'"), ID_ERRNOINTERNETCONNECTIONPAGE, m_ErrNoInternetConnectionPage);
-    wxLogTrace(wxT("Function Status"), wxT("CWizardAccountManager::CreateControls -     m_ErrNotFoundPage = id: '%d', location: '%p'"), ID_ERRNOTFOUNDPAGE, m_ErrNotFoundPage);
-    wxLogTrace(wxT("Function Status"), wxT("CWizardAccountManager::CreateControls -     m_ErrProxyInfoPage = id: '%d', location: '%p'"), ID_ERRPROXYINFOPAGE, m_ErrProxyInfoPage);
-    wxLogTrace(wxT("Function Status"), wxT("CWizardAccountManager::CreateControls -     m_ErrProxyPage = id: '%d', location: '%p'"), ID_ERRPROXYPAGE, m_ErrProxyPage);
+    wxLogTrace(wxT("Function Status"), wxT("CWizardAccountManager::CreateControls -     m_WelcomePage = id: '%d', location: '%p'"), m_WelcomePage->GetId(), m_WelcomePage);
+    wxLogTrace(wxT("Function Status"), wxT("CWizardAccountManager::CreateControls -     m_AccountManagerInfoPage = id: '%d', location: '%p'"), m_AccountManagerInfoPage->GetId(), m_AccountManagerInfoPage);
+    wxLogTrace(wxT("Function Status"), wxT("CWizardAccountManager::CreateControls -     m_AccountManagerPropertiesPage = id: '%d', location: '%p'"), m_AccountManagerPropertiesPage->GetId(), m_AccountManagerPropertiesPage);
+    wxLogTrace(wxT("Function Status"), wxT("CWizardAccountManager::CreateControls -     m_AccountInfoPage = id: '%d', location: '%p'"), m_AccountInfoPage->GetId(), m_AccountInfoPage);
+    wxLogTrace(wxT("Function Status"), wxT("CWizardAccountManager::CreateControls -     m_AccountManagerProcessingPage = id: '%d', location: '%p'"), m_AccountManagerProcessingPage->GetId(), m_AccountManagerProcessingPage);
+    wxLogTrace(wxT("Function Status"), wxT("CWizardAccountManager::CreateControls -     m_CompletionPage = id: '%d', location: '%p'"), m_CompletionPage->GetId(), m_CompletionPage);
+    wxLogTrace(wxT("Function Status"), wxT("CWizardAccountManager::CreateControls -     m_CompletionErrorPage = id: '%d', location: '%p'"), m_CompletionErrorPage->GetId(), m_CompletionErrorPage);
+    wxLogTrace(wxT("Function Status"), wxT("CWizardAccountManager::CreateControls -     m_ErrNotDetectedPage = id: '%d', location: '%p'"), m_ErrNotDetectedPage->GetId(), m_ErrNotDetectedPage);
+    wxLogTrace(wxT("Function Status"), wxT("CWizardAccountManager::CreateControls -     m_ErrUnavailablePage = id: '%d', location: '%p'"), m_ErrUnavailablePage->GetId(), m_ErrUnavailablePage);
+    wxLogTrace(wxT("Function Status"), wxT("CWizardAccountManager::CreateControls -     m_ErrNoInternetConnectionPage = id: '%d', location: '%p'"), m_ErrNoInternetConnectionPage->GetId(), m_ErrNoInternetConnectionPage);
+    wxLogTrace(wxT("Function Status"), wxT("CWizardAccountManager::CreateControls -     m_ErrNotFoundPage = id: '%d', location: '%p'"), m_ErrNotFoundPage->GetId(), m_ErrNotFoundPage);
+    wxLogTrace(wxT("Function Status"), wxT("CWizardAccountManager::CreateControls -     m_ErrProxyInfoPage = id: '%d', location: '%p'"), m_ErrProxyInfoPage->GetId(), m_ErrProxyInfoPage);
+    wxLogTrace(wxT("Function Status"), wxT("CWizardAccountManager::CreateControls -     m_ErrProxyPage = id: '%d', location: '%p'"), m_ErrProxyPage->GetId(), m_ErrProxyPage);
     wxLogTrace(wxT("Function Status"), wxT("CWizardAccountManager::CreateControls - End Page Map"));
     wxLogTrace(wxT("Function Start/End"), wxT("CWizardAccountManager::CreateControls - Function End"));
 }

@@ -90,7 +90,7 @@ bool CCompletionPage::Create( CBOINCBaseWizard* parent )
  
 ////@begin CCompletionPage creation
     wxBitmap wizardBitmap(wxNullBitmap);
-    wxWizardPageEx::Create( parent, wizardBitmap );
+    wxWizardPageEx::Create( parent, ID_COMPLETIONPAGE, wizardBitmap );
 
     CreateControls();
     GetSizer()->Fit(this);

@@ -2267,3 +2267,32 @@ Charlie 9 Mar 2007
     doc/
         mac_advanced.php
         release_notes.php
+
+Rom    9 Mar 2007
+    - MGR: Fix the wizard classes so they are compatible with both
+        wxWidgets 2.4 and 2.8.
+        
+    clientgui/
+        AccountInfoPage.cpp
+        AccountKeyPage.cpp
+        AccountManagerInfoPage.cpp
+        AccountManagerProcessingPage.cpp
+        AccountManagerPropertiesPage.cpp
+        AlreadyAttachedPage.cpp
+        AlreadyExistsPage.cpp
+        CompletionErrorPage.cpp
+        CompletionPage.cpp
+        NoInternetConnectionPage.cpp
+        NotDetectedPage.cpp
+        NotFoundPage.cpp
+        ProjectInfoPage.cpp
+        ProjectProcessingPage.cpp
+        ProjectPropertiesPage.cpp
+        ProxyInfoPage.cpp
+        ProxyPage.cpp
+        stdwx.cpp
+        UnavailablePage.cpp
+        WelcomePage.cpp, .h
+        WizardAccountManager.cpp
+        WizardAttachProject.cpp
+        wizardex.cpp, .h

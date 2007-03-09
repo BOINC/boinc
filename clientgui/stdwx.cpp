@@ -19,14 +19,6 @@
 
 #include "stdwx.h"
 
-#ifdef __WXMSW__
-
-#ifndef __WIN95__
-#error An error in wxWindows version 2.4.0 and 2.4.1 require that you set WINVER=0x400 in the project settings!
-#endif
-
-#endif
-
 // TODO: reference any additional headers you need in STDAFX.H
 // and not in this file
 

@@ -119,7 +119,7 @@ bool CAccountManagerPropertiesPage::Create( CBOINCBaseWizard* parent )
  
 ////@begin CAccountManagerPropertiesPage creation
     wxBitmap wizardBitmap(wxNullBitmap);
-    wxWizardPageEx::Create( parent, wizardBitmap );
+    wxWizardPageEx::Create( parent, ID_ACCOUNTMANAGERPROPERTIESPAGE, wizardBitmap );
 
     CreateControls();
     GetSizer()->Fit(this);

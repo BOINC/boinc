@@ -56,6 +56,12 @@ public:
     /// wxEVT_WIZARD_CANCEL event handler for ID_WELCOMEPAGE
     void OnCancel( wxWizardExEvent& event );
 
+    /// wxEVT_SET_FOCUS event handler for ID_WELCOMEPAGE
+    void OnSetFocus( wxFocusEvent& event );
+
+    /// wxEVT_SHOW event handler for ID_WELCOMEPAGE
+    void OnShow( wxShowEvent& event );
+
 ////@end CWelcomePage event handler declarations
 
 ////@begin CWelcomePage member function declarations

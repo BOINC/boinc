@@ -84,7 +84,7 @@ bool CErrAlreadyExistsPage::Create( CBOINCBaseWizard* parent )
  
 ////@begin CErrAlreadyExistsPage creation
     wxBitmap wizardBitmap(wxNullBitmap);
-    wxWizardPageEx::Create( parent, wizardBitmap );
+    wxWizardPageEx::Create( parent, ID_ERRALREADYEXISTSPAGE, wizardBitmap );
 
     CreateControls();
     GetSizer()->Fit(this);

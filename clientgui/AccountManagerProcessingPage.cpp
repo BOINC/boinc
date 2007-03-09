@@ -118,7 +118,7 @@ bool CAccountManagerProcessingPage::Create( CBOINCBaseWizard* parent )
  
 ////@begin CAccountManagerProcessingPage creation
     wxBitmap wizardBitmap(wxNullBitmap);
-    wxWizardPageEx::Create( parent, wizardBitmap );
+    wxWizardPageEx::Create( parent, ID_ACCOUNTMANAGERPROCESSINGPAGE, wizardBitmap );
 
     CreateControls();
     GetSizer()->Fit(this);

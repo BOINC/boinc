@@ -84,7 +84,7 @@ bool CErrNotDetectedPage::Create( CBOINCBaseWizard* parent )
  
 ////@begin CErrNotDetectedPage creation
     wxBitmap wizardBitmap(wxNullBitmap);
-    wxWizardPageEx::Create( parent, wizardBitmap );
+    wxWizardPageEx::Create( parent, ID_ERRNOTDETECTEDPAGE, wizardBitmap );
 
     CreateControls();
     GetSizer()->Fit(this);

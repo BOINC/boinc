@@ -43,13 +43,19 @@ public:
     // of the default one for this wizard (should be of the same size). Notice
     // that no other parameters are needed because the wizard will resize and
     // reposition the page anyhow
-    wxWizardPageEx(wxWizardEx *parent,
+    wxWizardPageEx(
+                 wxWizardEx *parent,
+                 int id = wxID_ANY,
                  const wxBitmap& bitmap = wxNullBitmap,
-                 const wxChar* resource = NULL);
+                 const wxChar* resource = NULL
+    );
 
-    virtual bool Create(wxWizardEx *parent,
+    virtual bool Create(
+                wxWizardEx *parent,
+                int id = wxID_ANY,
                 const wxBitmap& bitmap = wxNullBitmap,
-                const wxChar* resource = NULL);
+                const wxChar* resource = NULL
+    );
 
     // these functions are used by the wizard to show another page when the
     // user chooses "Back" or "Next" button
@@ -66,15 +72,18 @@ public:
     /// Override the base functions to allow a validator to be assigned to this page.
     bool TransferDataToWindow()
     {
-        return GetValidator() ? GetValidator()->TransferToWindow() : wxPanel::TransferDataToWindow();
+        return GetValidator() ? GetValidator()->TransferToWindow() 
+                              : wxPanel::TransferDataToWindow();
     }
     bool TransferDataFromWindow()
     {
-        return GetValidator() ? GetValidator()->TransferFromWindow() : wxPanel::TransferDataFromWindow();
+        return GetValidator() ? GetValidator()->TransferFromWindow() 
+                              : wxPanel::TransferDataFromWindow();
     }
     bool Validate()
     {
-        return GetValidator() ? GetValidator()->Validate(this) : wxPanel::Validate();
+        return GetValidator() ? GetValidator()->Validate(this) 
+                              : wxPanel::Validate();
     }
 #endif // wxUSE_VALIDATOR
 
@@ -225,10 +234,6 @@ private:
     void AddBackNextPair(wxBoxSizer *buttonRow);
     void AddButtonRow(wxBoxSizer *mainColumn);
 
-    void FinishLayout();
-
-    wxSize GetManualPageSize() const;
-
     // the page size requested by user
     wxSize m_sizePage;
 
@@ -253,6 +258,12 @@ private:
 
     // Whether RunWizard() was called
     bool m_started;
+
+    // Whether was modal (modeless has to be destroyed on finish or cancel)
+    bool m_wasModal;
+
+    // True if pages are laid out using the sizer
+    bool m_usingSizer;
 
     // Page area sizer will be inserted here with padding
     wxBoxSizer *m_sizerBmpAndPage;

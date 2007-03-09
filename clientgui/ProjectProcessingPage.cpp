@@ -120,7 +120,7 @@ bool CProjectProcessingPage::Create( CBOINCBaseWizard* parent )
  
 ////@begin CProjectProcessingPage creation
     wxBitmap wizardBitmap(wxNullBitmap);
-    wxWizardPageEx::Create( parent, wizardBitmap );
+    wxWizardPageEx::Create( parent, ID_PROJECTPROCESSINGPAGE, wizardBitmap );
 
     CreateControls();
     GetSizer()->Fit(this);

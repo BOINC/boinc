@@ -94,7 +94,7 @@ bool CProjectInfoPage::Create( CBOINCBaseWizard* parent )
  
 ////@begin CProjectInfoPage creation
     wxBitmap wizardBitmap(wxNullBitmap);
-    wxWizardPageEx::Create( parent, wizardBitmap );
+    wxWizardPageEx::Create( parent, ID_PROJECTINFOPAGE, wizardBitmap );
 
     CreateControls();
     GetSizer()->Fit(this);

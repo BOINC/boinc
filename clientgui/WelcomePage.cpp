@@ -61,7 +61,8 @@ BEGIN_EVENT_TABLE( CWelcomePage, wxWizardPageEx )
     EVT_WIZARDEX_PAGE_CHANGED( -1, CWelcomePage::OnPageChanged )
     EVT_WIZARDEX_PAGE_CHANGING( -1, CWelcomePage::OnPageChanging )
     EVT_WIZARDEX_CANCEL( -1, CWelcomePage::OnCancel )
-
+    EVT_SET_FOCUS( CWelcomePage::OnSetFocus )
+    EVT_SHOW( CWelcomePage::OnShow )
 ////@end CWelcomePage event table entries
  
 END_EVENT_TABLE()
@@ -108,7 +109,7 @@ bool CWelcomePage::Create( CBOINCBaseWizard* parent )
  
 ////@begin CWelcomePage creation
     wxBitmap wizardBitmap(wxNullBitmap);
-    wxWizardPageEx::Create( parent, wizardBitmap );
+    wxWizardPageEx::Create( parent, ID_WELCOMEPAGE, wizardBitmap );
 
     CreateControls();
     GetSizer()->Fit(this);
@@ -214,6 +215,8 @@ void CWelcomePage::CreateControls()
     m_pDirectionsStaticCtrl->Create( itemWizardPage2, wxID_STATIC, wxEmptyString, wxDefaultPosition, wxDefaultSize, 0 );
     itemBoxSizer3->Add(m_pDirectionsStaticCtrl, 0, wxALIGN_LEFT|wxALL, 5);
 
+    itemWizardPage2->SetSizer(itemBoxSizer3);
+
 ////@end CWelcomePage content construction
 }
 
@@ -283,6 +286,7 @@ wxIcon CWelcomePage::GetIconResource( const wxString& WXUNUSED(name) )
  */
  
 void CWelcomePage::OnPageChanged( wxWizardExEvent& event ) {
+    wxLogTrace(wxT("Function Start/End"), wxT("CWelcomePage::OnPageChanged - Function Begin"));
     if (event.GetDirection() == false) return;
 
     // Be careful about which pointer you use in which scenario.
@@ -393,6 +397,7 @@ void CWelcomePage::OnPageChanged( wxWizardExEvent& event ) {
     );
 
     Fit();
+    wxLogTrace(wxT("Function Start/End"), wxT("CWelcomePage::OnPageChanged - Function End"));
 }
   
 /*!
@@ -449,5 +454,26 @@ void CWelcomePage::OnPageChanging( wxWizardExEvent& event ) {
  
 void CWelcomePage::OnCancel( wxWizardExEvent& event ) {
     PROCESS_CANCELEVENT(event);
+}
+
+
+/*!
+ * wxEVT_SET_FOCUS event handler for ID_WELCOMEPAGE
+ */
+ 
+void CWelcomePage::OnSetFocus( wxFocusEvent& event ) {
+    wxLogTrace(wxT("Function Start/End"), wxT("CWelcomePage::OnSetFocus - Function Begin"));
+    event.Skip();    
+    wxLogTrace(wxT("Function Start/End"), wxT("CWelcomePage::OnSetFocus - Function End"));
+}
+
+/*!
+ * wxEVT_SHOW event handler for ID_WELCOMEPAGE
+ */
+
+void CWelcomePage::OnShow( wxShowEvent& event ) {
+    wxLogTrace(wxT("Function Start/End"), wxT("CWelcomePage::OnShow - Function Begin"));
+    event.Skip();    
+    wxLogTrace(wxT("Function Start/End"), wxT("CWelcomePage::OnShow - Function End"));
 }
 
