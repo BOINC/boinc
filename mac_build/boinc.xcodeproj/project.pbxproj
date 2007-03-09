@@ -3516,7 +3516,7 @@
 				OTHER_LDFLAGS = (
 					"-framework",
 					Security,
-					"../../curl-7.15.5/lib/.libs/libcurl.a",
+					"../../curl-7.16.1/lib/.libs/libcurl.a",
 					"-lcrypto",
 					"-lssl",
 					"-lz",
@@ -3563,7 +3563,7 @@
 				OTHER_CFLAGS_ppc = "-DMAC_OS_X_VERSION_MAX_ALLOWED=1030 -D_THREAD_SAFE -D__WXMAC -include ../clientgui/mac/config.h";
 				OTHER_CPLUSPLUSFLAGS = "$(OTHER_CFLAGS)";
 				OTHER_LDFLAGS = (
-					"../../curl-7.15.5/lib/.libs/libcurl.a",
+					"../../curl-7.16.1/lib/.libs/libcurl.a",
 					"-lcrypto",
 					"-lssl",
 					"-lz",
@@ -4491,7 +4491,7 @@
 				OTHER_CFLAGS_ppc = "-DMAC_OS_X_VERSION_MAX_ALLOWED=1030 -D_THREAD_SAFE -D__WXMAC -include ../clientgui/mac/config.h";
 				OTHER_CPLUSPLUSFLAGS = "$(OTHER_CFLAGS)";
 				OTHER_LDFLAGS = (
-					"../../curl-7.15.5/lib/.libs/libcurl.a",
+					"../../curl-7.16.1/lib/.libs/libcurl.a",
 					"-lcrypto",
 					"-lssl",
 					"-lz",
@@ -5027,7 +5027,7 @@
 				OTHER_LDFLAGS = (
 					"-framework",
 					Security,
-					"../../curl-7.15.5/lib/.libs/libcurl.a",
+					"../../curl-7.16.1/lib/.libs/libcurl.a",
 					"-lcrypto",
 					"-lssl",
 					"-lz",
@@ -5072,7 +5072,7 @@
 				);
 				OTHER_CPLUSPLUSFLAGS = "$(OTHER_CFLAGS)";
 				OTHER_LDFLAGS = (
-					"../../curl-7.15.5/lib/.libs/libcurl.a",
+					"../../curl-7.16.1/lib/.libs/libcurl.a",
 					"-lcrypto",
 					"-lssl",
 					"-lz",
@@ -5592,7 +5592,7 @@
 				);
 				OTHER_CPLUSPLUSFLAGS = "$(OTHER_CFLAGS)";
 				OTHER_LDFLAGS = (
-					"../../curl-7.15.5/lib/.libs/libcurl.a",
+					"../../curl-7.16.1/lib/.libs/libcurl.a",
 					"-lcrypto",
 					"-lssl",
 					"-lz",
