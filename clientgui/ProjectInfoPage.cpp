@@ -294,7 +294,7 @@ void CProjectInfoPage::OnPageChanged( wxWizardExEvent& event ) {
 
     Fit();
     m_pProjectSelectionCtrl->SetValue(
-        ConstructProjectTitle(wxString(pl.projects[0]->name.c_str(), wxConvUTF8))
+        wxString(pl.projects[0]->name.c_str(), wxConvUTF8)
     );
     m_pProjectSelectionDescriptionStaticCtrl->SetLabel(
         wxString(pl.projects[0]->description.c_str(), wxConvUTF8)
