@@ -1,6 +1,12 @@
 <?
 
 $project_news = array(
+array("March 9, 2007",
+    "<img align=right src=images/stamps/stamps-rosetta1.jpg>
+    Don't use them for postage, but check out the
+    <a href=images/stamps>BOINC stamps</a>
+    created by Myster65."
+),
 array("March 6, 2007",
     "The article <a href=http://www.linux-magazine.com/issue/71/Distributed_Applications_With_BOINC.pdf>Idle Cycles - building distributed applications with BOINC</a> Seil appears in the Oct 2006 issue of
 <a href=http://www.linux-magazine.com/issue/71>Linux Magazine</a>.

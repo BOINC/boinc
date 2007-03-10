@@ -2302,3 +2302,9 @@ Rom    9 Mar 2007
     
     clientgui/
         ProjectInfoPage.cpp, .h
+
+David  10 Mar 2007
+    - unix compile fix (from Frank Thomas)
+
+    lib/
+        boinc_cmd.C
