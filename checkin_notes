@@ -2296,3 +2296,9 @@ Rom    9 Mar 2007
         WizardAccountManager.cpp
         WizardAttachProject.cpp
         wizardex.cpp, .h
+
+Rom    9 Mar 2007
+    - MGR: Fix a segfault on Linux.
+    
+    clientgui/
+        ProjectInfoPage.cpp, .h

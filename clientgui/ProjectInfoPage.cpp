@@ -287,14 +287,14 @@ void CProjectInfoPage::OnPageChanged( wxWizardExEvent& event ) {
     //
     pDoc->rpc.get_project_list(pl);
     for (i=0; i<pl.projects.size(); i++) {
-        m_pProjectSelectionCtrl->Append(ConstructProjectTitle(i));
+        m_pProjectSelectionCtrl->Append(wxString(pl.projects[i]->name.c_str(), wxConvUTF8));
     }
     m_pProjectSelectionCtrl->Append(_("Other"));
 
 
     Fit();
     m_pProjectSelectionCtrl->SetValue(
-        ConstructProjectTitle(0)
+        ConstructProjectTitle(wxString(pl.projects[0]->name.c_str(), wxConvUTF8))
     );
     m_pProjectSelectionDescriptionStaticCtrl->SetLabel(
         wxString(pl.projects[0]->description.c_str(), wxConvUTF8)
@@ -354,19 +354,5 @@ void CProjectInfoPage::OnProjectSelectionChanged( wxCommandEvent& /*event*/ ) {
 
 void CProjectInfoPage::OnCancel( wxWizardExEvent& event ) {
     PROCESS_CANCELEVENT(event);
-}
-
-
-/*!
- * Construct what the string should look like for a project in the
- *   drop down combo box.
- */
-
-wxString CProjectInfoPage::ConstructProjectTitle( int iIndex ) {
-    wxString strReturnValue;
-
-    strReturnValue = wxString(pl.projects[iIndex]->name.c_str(), wxConvUTF8);
-
-    return strReturnValue;
 }
 
