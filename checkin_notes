@@ -2308,3 +2308,10 @@ David  10 Mar 2007
 
     lib/
         boinc_cmd.C
+
+David  10 Mar 2007
+    - scheduler: use 1024-char buffer for parsing
+        (handle large CPU model strings)
+
+    sched/
+        server_types.C

@@ -202,21 +202,24 @@ Investigate.
 <li> Web features:
     <ul>
         <li> Propagate profiles between projects.
-            If you create a profile on one project,
-            it (and associated images) get copied to other projects
-            you attach to.
-            Could do this via the client (like general prefs)
-            or externally (via web RPCs).
-        <li> Combine user pages and profiles
+            When create or edit profile,
+            if attached to other projects,
+            show 'propagate changes' page,
+            with checkboxes for other projects
+            (must have same password on other projects).
+            Add web RPCs for updating profile
+            (args: user ID, profile, password hash)
+            Implement this so that page doesn't block
+            waiting for replies from RPCs.
+        <li> Same for forum preferences
+        <li> Combine user page and profile
         <li> Add new profile features:
             <ul>
             <li> 'Buddy lists'
-                where each buddy is name,
-                URL of image and thumbnail,
-                URL of profile (may be on another site?)
-            <li> 'Message bookmarks': posts this person thinks are interesting
-            <li> list of recent posts (on this and other projects);
-                and threads this person has created
+            <li> personal messages
+            <li> list of recent posts and threads this person created,
+                on this and other projects
+            <li> other features from networking sites?
             </ul>
     </ul>
 

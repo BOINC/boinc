@@ -757,7 +757,7 @@ int RESULT::parse_from_client(FILE* fin) {
 }
 
 int HOST::parse(FILE* fin) {
-    char buf[256];
+    char buf[1024];
 
     p_ncpus = 1;
     while (fgets(buf, 256, fin)) {
