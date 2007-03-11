@@ -100,6 +100,8 @@ Use the Apache 2.0 mod_deflate module to automatically
 compress files on the fly.
 This method will work with all BOINC clients,
 but it will do compression only for 5.4+ clients.
+Here is a <a href=apache_deflate.txt>cookbook</a>
+on how to configure this.
 
 <li>
 Compress files and give them a filename suffix such as '.gz'.

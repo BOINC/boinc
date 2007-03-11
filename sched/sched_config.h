@@ -41,6 +41,7 @@ public:
     char upload_dir[256];
     char sched_lockfile_dir[256];
     bool one_result_per_user_per_wu;
+    bool one_result_per_host_per_wu;
     bool msg_to_host;
     int min_sendwork_interval;
     int max_wus_to_send;

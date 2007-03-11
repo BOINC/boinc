@@ -2315,3 +2315,12 @@ David  10 Mar 2007
 
     sched/
         server_types.C
+
+David  10 Mar 2007
+    - scheduler: add one_result_per_host_per_wu option.
+        This is useful if you use homogeneous redundancy
+        and most hosts of a particular class belong to a single user.
+
+    sched/
+        sched_array.C
+        sched_config.C,h

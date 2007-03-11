@@ -79,6 +79,7 @@ int SCHED_CONFIG::parse(FILE* f) {
         else if (xp.parse_str(tag, "upload_dir", upload_dir, sizeof(upload_dir))) continue;
         else if (xp.parse_str(tag, "sched_lockfile_dir", sched_lockfile_dir, sizeof(sched_lockfile_dir))) continue;
         else if (xp.parse_bool(tag, "one_result_per_user_per_wu", one_result_per_user_per_wu)) continue;
+        else if (xp.parse_bool(tag, "one_result_per_host_per_wu", one_result_per_host_per_wu)) continue;
         else if (xp.parse_bool(tag, "non_cpu_intensive", non_cpu_intensive)) continue;
         else if (xp.parse_bool(tag, "verify_files_on_app_start", verify_files_on_app_start)) continue;
         else if (xp.parse_bool(tag, "homogeneous_redundancy", homogeneous_redundancy)) continue;

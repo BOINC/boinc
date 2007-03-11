@@ -110,8 +110,8 @@ void scan_work_array(
         	}
         }
         
-        // If we are looking for infeasible results and the result is not infeasiable
-        // then move on
+        // don't send if we are looking for infeasible results
+        // and the result is not infeasible
         //
         if (reply.wreq.infeasible_only && (wu_result.infeasible_count==0)) {
             continue;
@@ -119,7 +119,7 @@ void scan_work_array(
         
         // don't send if we're already sending a result for same WU
         //
-        if (config.one_result_per_user_per_wu) {
+        if (config.one_result_per_user_per_wu || config.one_result_per_host_per_wu) {
             if (wu_already_in_reply(wu_result.workunit, reply)) {
         		continue;
             }
@@ -190,6 +190,33 @@ void scan_work_array(
                         SCHED_MSG_LOG::MSG_DEBUG,
                         "send_work: user %d already has %d result(s) for WU %d\n",
                         reply.user.id, n, wu_result.workunit.id
+                    );
+                    goto dont_send;
+                }
+            }
+        } else if (config.one_result_per_host_per_wu) {
+            // Don't send if we've already sent a result
+            // of this WU to this host.
+            // We only have to check this
+            // if we don't send one result per user.
+            //
+            sprintf(buf,
+                "where workunitid=%d and hostid=%d",
+                wu_result.workunit.id, reply.host.id
+            );
+            retval = result.count(n, buf);
+            if (retval) {
+                log_messages.printf(
+                    SCHED_MSG_LOG::MSG_CRITICAL,
+                    "send_work: can't get result count (%d)\n", retval
+                );
+                goto dont_send;
+            } else {
+                if (n>0) {
+                    log_messages.printf(
+                        SCHED_MSG_LOG::MSG_DEBUG,
+                        "send_work: host %d already has %d result(s) for WU %d\n",
+                        reply.host.id, n, wu_result.workunit.id
                     );
                     goto dont_send;
                 }

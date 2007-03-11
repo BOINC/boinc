@@ -208,6 +208,7 @@ echo html_text("
 [ <default_disk_max_used_gb> X </default_disk_max_used_gb> ]
 [ <default_disk_max_used_pct> X </default_disk_max_used_pct> ]
 [ <default_disk_min_free_gb> X </default_disk_min_used_pct> ]
+[ <one_result_per_host_per_wu/> ]
 ");
 list_start();
 list_option("one_result_per_user_per_wu",
@@ -373,6 +374,12 @@ list_item("reliable_time<br> reliable_min_avg_credit<br>
     The delay bound is multiplied by <b>reliable_reduced_delay_bound</b>
     (typically 0.5 or so).
     "
+);
+list_option("one_result_per_host_per_wu",
+    "If present, send at most one result of a given workunit to a given host.
+    This is weaker than one_result_per_user_per_wu;
+    it is useful if you're using homogeneous redundancy and
+    most of the hosts of a particular class belong to a single user."
 );
 list_end();
 
