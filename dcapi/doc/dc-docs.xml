@@ -19,7 +19,7 @@
     <title>Backend-specific information</title>
     <xi:include href="boinc.xml"/>
     <xi:include href="condor.xml"/>
-    <!-- <xi:include href="local.xml"/> -->
+    <xi:include href="local.xml"/>
   </chapter>
 
   <chapter id="reference">
