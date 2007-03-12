@@ -132,7 +132,7 @@
 	    Name of the directory in workunit's working directory
 	    where <function><link
 	    linkend="DC-sendWUMessage">DC_sendWUMessage()</link></function>
-	    places messaged sent by the master to the client. Default
+	    places messages sent by the master to the client. Default
 	    value is <filename>_dcapi_master_messages</filename>.
 
 	    </para>
