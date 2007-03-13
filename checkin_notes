@@ -2324,3 +2324,14 @@ David  10 Mar 2007
     sched/
         sched_array.C
         sched_config.C,h
+
+Charlie 12 Mar 2007
+   - CC: On Mac OS X, sysctl with selectors CTL_HW, HW_PHYSMEM returns only a 
+        4-byte value, even if passed an 8-byte buffer, and limits the returned 
+        value to 2GB when the actual RAM size is > 2GB.  So use Mac-specific
+        API Gestalt(gestaltPhysicalRAMSizeInMegabytes, &mem_size) and add a 
+        #error statement to the old method to alert any porters if their 
+        platforms were using sysctl {CTL_HW, HW_PHYSMEM{.
+
+    client/
+        hostinfo_unix.C

@@ -80,6 +80,8 @@
 using std::string;
 
 #ifdef __APPLE__
+#include "client_msgs.h"
+#include <Carbon/Carbon.h>
 #include <CoreFoundation/CoreFoundation.h>
 #ifdef __cplusplus
 extern "C" {
@@ -353,9 +355,11 @@ int HOST_INFO::get_host_info() {
 #else
 #if HAVE_SYS_SYSCTL_H
     int mib[2];
-    unsigned int mem_size;
     size_t len;
-#ifndef __APPLE__
+#ifdef __APPLE__
+    long mem_size;
+#else
+    unsigned int mem_size;
 
     // Get machine
     mib[0] = CTL_HW;
@@ -424,7 +428,16 @@ int HOST_INFO::get_host_info() {
 #elif defined(_SC_PHYS_PAGES)
     m_nbytes = (double)sysconf(_SC_PAGESIZE) * (double)sysconf(_SC_PHYS_PAGES);
     // Linux
+#elif defined(__APPLE__)
+    // On Mac OS X, sysctl with selectors CTL_HW, HW_PHYSMEM returns only a 
+    // 4-byte value, even if passed an 8-byte buffer, and limits the returned 
+    // value to 2GB when the actual RAM size is > 2GB.  The Gestalt selector 
+    // gestaltPhysicalRAMSizeInMegabytes is available starting with OS 10.3.0.
+    if (Gestalt(gestaltPhysicalRAMSizeInMegabytes, &mem_size))
+        msg_printf(NULL, MSG_INTERNAL_ERROR, "Couldn't determine physical RAM size");
+    m_nbytes = (1024. * 1024.) * (double)mem_size;
 #elif defined(HAVE_SYS_SYSCTL_H) && defined(CTL_HW) && defined(HW_PHYSMEM)
+#error This code won't properly report physical RAM size > 2GB (see comment above for __APPLE__)
     mib[0] = CTL_HW;
     mib[1] = HW_PHYSMEM;
     len = sizeof(mem_size);
