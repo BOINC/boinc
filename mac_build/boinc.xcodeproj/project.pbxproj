@@ -169,6 +169,7 @@
 		DD40826507D3076400163EF5 /* x_opengl.C in Sources */ = {isa = PBXBuildFile; fileRef = DD40825A07D3076400163EF5 /* x_opengl.C */; };
 		DD431F240A415EE70060585A /* SetupSecurity.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DD7748B40A356D6C0025D05E /* SetupSecurity.cpp */; };
 		DD431FAA0A41660D0060585A /* Carbon.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 20286C33FDCF999611CA2CEA /* Carbon.framework */; };
+		DD4329910BA63DEC007CDF2A /* str_util.C in Sources */ = {isa = PBXBuildFile; fileRef = DD7BF7D70B8E7A9800A009F7 /* str_util.C */; };
 		DD48091F081A66F100A174AA /* BOINCSaver.nib in Resources */ = {isa = PBXBuildFile; fileRef = DD48091E081A66F100A174AA /* BOINCSaver.nib */; };
 		DD4C56160AD389A2009E23C6 /* sg_ClientStateIndicator.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DD4C560A0AD389A2009E23C6 /* sg_ClientStateIndicator.cpp */; };
 		DD4C56180AD389A2009E23C6 /* sg_DlgMessages.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DD4C560C0AD389A2009E23C6 /* sg_DlgMessages.cpp */; };
@@ -2464,6 +2465,7 @@
 				DD407A6907D2FBC200163EF5 /* proxy_info.C in Sources */,
 				DD407A6B07D2FBC700163EF5 /* shmem.C in Sources */,
 				DD407A6D07D2FBD100163EF5 /* util.C in Sources */,
+				DD4329910BA63DEC007CDF2A /* str_util.C in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
