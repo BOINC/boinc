@@ -2348,3 +2348,13 @@ Charlie 13 Mar 2007
         boinc.xcodeproj/
             project.pbxproj
 
+Rom    13 Mar 2007
+    - WIN: Change the sse3 CPU feature detection flag from 'sse3' to 'pni'.
+    - MGR: Commit Frank Weiler's lastest ViewProjectsGrid.
+    
+    client/win/
+        hostinfo_win.cpp
+    client/
+        sg_BoincSimpleGUI.cpp
+        sg_ViewTabPage.cpp
+        ViewProjectsGrid.cpp, .h

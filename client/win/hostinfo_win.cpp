@@ -495,7 +495,7 @@ int get_processor_info(
         strncat(capabilities, "sse2 ", sizeof(capabilities) - strlen(capabilities));
     }
     if (is_processor_feature_supported(PF_SSE3_INSTRUCTIONS_AVAILABLE)) {
-        strncat(capabilities, "sse3 ", sizeof(capabilities) - strlen(capabilities));
+        strncat(capabilities, "pni ", sizeof(capabilities) - strlen(capabilities));
     }
     if (is_processor_feature_supported(PF_3DNOW_INSTRUCTIONS_AVAILABLE)) {
         strncat(capabilities, "3dnow ", sizeof(capabilities) - strlen(capabilities));

@@ -63,9 +63,6 @@ static int compareProjects(CProjectInfo** pfirst,CProjectInfo** psecond) {
 	CProjectInfo* second = *psecond;
 	double diff;
 	switch(sortColumn) {
-		case COLUMN_PROJECT:
-			ret = first->name.CmpNoCase(second->name);
-			break;
 		case COLUMN_ACCOUNTNAME:
 			ret = first->accountname.CmpNoCase(second->accountname);
 			break;
@@ -87,6 +84,9 @@ static int compareProjects(CProjectInfo** pfirst,CProjectInfo** psecond) {
 		case COLUMN_STATUS:
 			ret = first->status.CmpNoCase(second->status);
 			break;
+		default://sorting by project name as default
+			ret = first->name.CmpNoCase(second->name);			
+			break;
 	}
 	ret = sortAscending ? ret : ret * (-1);
 	return ret;
@@ -101,8 +101,14 @@ CProjectInfo::CProjectInfo() {
 	resourceshare=0.0;
 	rspercent=0.0;
 	status.Clear();
+	hashKey.Clear();
 }
 
+void CProjectInfo::makeHashKey() {
+	hashKey.Printf("%s%s%s%f%f%f%f%s",name,accountname,teamname,totalcredit,avgcredit,resourceshare,rspercent,status);
+}
+
+//###############
 IMPLEMENT_DYNAMIC_CLASS(CViewProjectsGrid, CBOINCBaseView)
 
 BEGIN_EVENT_TABLE (CViewProjectsGrid, CBOINCBaseView)
@@ -113,6 +119,7 @@ BEGIN_EVENT_TABLE (CViewProjectsGrid, CBOINCBaseView)
     EVT_BUTTON(ID_TASK_PROJECT_DETACH, CViewProjectsGrid::OnProjectDetach)
     EVT_CUSTOM_RANGE(wxEVT_COMMAND_BUTTON_CLICKED, ID_TASK_PROJECT_WEB_PROJDEF_MIN, ID_TASK_PROJECT_WEB_PROJDEF_MAX, CViewProjectsGrid::OnProjectWebsiteClicked)
 	EVT_GRID_SELECT_CELL( CViewProjectsGrid::OnSelectCell )
+	EVT_GRID_RANGE_SELECT( CViewProjectsGrid::OnSelectRange)
 END_EVENT_TABLE ()
 
 
@@ -260,6 +267,7 @@ void CViewProjectsGrid::OnProjectUpdate( wxCommandEvent& WXUNUSED(event) ) {
     pDoc->ProjectUpdate(searchName);
     pFrame->UpdateStatusText(wxT(""));
 
+	pDoc->ForceCacheUpdate();
     m_bForceUpdateSelection = true;
     UpdateSelection();
     pFrame->ResetReminderTimers();
@@ -293,7 +301,8 @@ void CViewProjectsGrid::OnProjectSuspend( wxCommandEvent& WXUNUSED(event) ) {
         pDoc->ProjectSuspend(searchName);
         pFrame->UpdateStatusText(wxT(""));
     }
-
+	
+	pDoc->ForceCacheUpdate();
     m_bForceUpdateSelection = true;
     UpdateSelection();
     pFrame->FireRefreshView();
@@ -327,6 +336,7 @@ void CViewProjectsGrid::OnProjectNoNewWork( wxCommandEvent& WXUNUSED(event) ) {
         pFrame->UpdateStatusText(wxT(""));
     }
 
+	pDoc->ForceCacheUpdate();
     m_bForceUpdateSelection = true;
     UpdateSelection();
     pFrame->FireRefreshView();
@@ -374,6 +384,7 @@ void CViewProjectsGrid::OnProjectReset( wxCommandEvent& WXUNUSED(event) ) {
 
     pFrame->UpdateStatusText(wxT(""));
 
+	pDoc->ForceCacheUpdate();
     m_bForceUpdateSelection = true;
     UpdateSelection();
     pFrame->FireRefreshView();
@@ -421,6 +432,7 @@ void CViewProjectsGrid::OnProjectDetach( wxCommandEvent& WXUNUSED(event) ) {
 
     pFrame->UpdateStatusText(wxT(""));
 
+	pDoc->ForceCacheUpdate();
     m_bForceUpdateSelection = true;
     UpdateSelection();
     pFrame->FireRefreshView();
@@ -469,6 +481,9 @@ void CViewProjectsGrid::UpdateSelection() {
     wxASSERT(m_pTaskPane);
     wxASSERT(m_pGridPane);
 
+	if(!m_bForceUpdateSelection) {
+		return;
+	}
 
     CBOINCBaseView::PreUpdateSelection();
 
@@ -522,6 +537,7 @@ void CViewProjectsGrid::UpdateSelection() {
     }
 
     CBOINCBaseView::PostUpdateSelection();
+	m_bForceUpdateSelection=false;
 }
 
 void CViewProjectsGrid::UpdateWebsiteSelection(long lControlGroup, PROJECT* project){
@@ -534,7 +550,7 @@ void CViewProjectsGrid::UpdateWebsiteSelection(long lControlGroup, PROJECT* proj
 
     // Update the websites list
     //
-    if (m_bForceUpdateSelection) {
+
         if (m_TaskGroups.size() > 1) {
 
             // Delete task group, objects, and controls.
@@ -581,10 +597,6 @@ void CViewProjectsGrid::UpdateWebsiteSelection(long lControlGroup, PROJECT* proj
                 }
             }
         }
-
-        m_bForceUpdateSelection = false;
-    }
-
 }
 
 void CViewProjectsGrid::FormatProjectName(wxInt32 item, wxString& strBuffer) {
@@ -689,65 +701,66 @@ bool CViewProjectsGrid::OnRestoreState(wxConfigBase* pConfig) {
     return true;
 }
 
+// set up the grid's content
 void CViewProjectsGrid::OnListRender( wxTimerEvent& WXUNUSED(event) ) {
-
-	//prevent grid from flicker
-	m_pGridPane->BeginBatch();
-	//remember grid cursor position
+	wxLogTrace(wxT("Function Start/End"), wxT("CViewProjectsGrid::OnListRender - Function Start"));
+	//remember grid cursor position (invisible)
 	m_pGridPane->SaveGridCursorPosition();
 	//remember selected row(s)
-	m_pGridPane->SaveSelection();
-	//
+	m_pGridPane->SaveSelection();	
 	//(re)create rows, if necessary
-	int tdoccount=this->GetDocCount();
-	if(tdoccount!= m_pGridPane->GetRows()) {
-		//at first, delet all current rows
+	if(this->GetDocCount()!= m_pGridPane->GetRows()) {
+		//prevent grid from flicker
+		m_pGridPane->BeginBatch();
+		//at first, delete all current rows
 		if(m_pGridPane->GetRows()>0) {
 			m_pGridPane->DeleteRows(0,m_pGridPane->GetRows());
 		}
-		//insert new rows
-		for(int rownum=0; rownum < tdoccount;rownum++) {
-			m_pGridPane->AppendRows();
+		//append new rows
+		m_pGridPane->AppendRows(this->GetDocCount());		
+		m_pGridPane->EndBatch();
+	}
+	//update cell values only if project info or sorting were changed
+	if(UpdateProjectCache() || SortProjects()) {
+		//prevent grid from flicker
+		m_pGridPane->BeginBatch();
+		wxString buffer;
+		int rowmax = m_pGridPane->GetRows();
+		for(int rownum=0; rownum < rowmax;rownum++) {
+			this->FormatProjectName(rownum,buffer);
+			m_pGridPane->SetCellValue(rownum,COLUMN_PROJECT,buffer);
+
+			this->FormatAccountName(rownum,buffer);
+			m_pGridPane->SetCellValue(rownum,COLUMN_ACCOUNTNAME,buffer);
+
+			this->FormatTeamName(rownum,buffer);
+			m_pGridPane->SetCellValue(rownum,COLUMN_TEAMNAME,buffer);
+
+			this->FormatTotalCredit(rownum,buffer);
+			m_pGridPane->SetCellValue(rownum,COLUMN_TOTALCREDIT,buffer);
+
+			this->FormatAVGCredit(rownum,buffer);
+			m_pGridPane->SetCellValue(rownum,COLUMN_AVGCREDIT,buffer);
+
+			this->FormatResourceShare(rownum,buffer);
+			m_pGridPane->SetCellValue(rownum,COLUMN_RESOURCESHARE,buffer);
+			m_pGridPane->SetCellAlignment(rownum,COLUMN_RESOURCESHARE,wxALIGN_CENTRE,wxALIGN_CENTRE);
+
+			buffer = wxEmptyString;
+			this->FormatStatus(rownum,buffer);
+			m_pGridPane->SetCellValue(rownum,COLUMN_STATUS,buffer);
 		}
-	}
-	//update cache values
-	UpdateProjectCache();
-	SortProjects();
-	//update cell values
-	wxString buffer;
-	for(int rownum=0; rownum < tdoccount;rownum++) {
-		this->FormatProjectName(rownum,buffer);
-		m_pGridPane->SetCellValue(rownum,COLUMN_PROJECT,buffer);
-
-		this->FormatAccountName(rownum,buffer);
-		m_pGridPane->SetCellValue(rownum,COLUMN_ACCOUNTNAME,buffer);
-
-		this->FormatTeamName(rownum,buffer);
-		m_pGridPane->SetCellValue(rownum,COLUMN_TEAMNAME,buffer);
-
-		this->FormatTotalCredit(rownum,buffer);
-		m_pGridPane->SetCellValue(rownum,COLUMN_TOTALCREDIT,buffer);
-
-		this->FormatAVGCredit(rownum,buffer);
-		m_pGridPane->SetCellValue(rownum,COLUMN_AVGCREDIT,buffer);
-
-		this->FormatResourceShare(rownum,buffer);
-		m_pGridPane->SetCellValue(rownum,COLUMN_RESOURCESHARE,buffer);
-		m_pGridPane->SetCellAlignment(rownum,COLUMN_RESOURCESHARE,wxALIGN_CENTRE,wxALIGN_CENTRE);
-
-		buffer = wxEmptyString;
-		this->FormatStatus(rownum,buffer);
-		m_pGridPane->SetCellValue(rownum,COLUMN_STATUS,buffer);
-	}
-	// restore grid cursor position
-	m_bIgnoreSelectionEvents =true;
-	m_pGridPane->RestoreGridCursorPosition();
-	m_bIgnoreSelectionEvents =false;
-	//restore selection
-	m_pGridPane->RestoreSelection();
-	m_pGridPane->EndBatch();
+		// restore grid cursor position, force ignore the internal from wxWidgets thrown selection events
+		m_bIgnoreSelectionEvents =true;
+		m_pGridPane->RestoreGridCursorPosition();
+		m_bIgnoreSelectionEvents =false;
+		//restore selection
+		m_pGridPane->RestoreSelection();		
+		m_pGridPane->EndBatch();
+	}	
 	//
 	UpdateSelection();
+	wxLogTrace(wxT("Function Start/End"), wxT("CViewProjectsGrid::OnListRender - Function End"));
 }
 
 /**
@@ -760,41 +773,106 @@ void CViewProjectsGrid::OnSelectCell( wxGridEvent& ev )
     // to occur in wxGrid
     ev.Skip();
 	if(!m_bIgnoreSelectionEvents) {
-		m_bForceUpdateSelection = true;
-	}
+		m_bForceUpdateSelection=true;
+	}	
 }
 
+// handles multi-selection events (to update TaskButtons)
+void CViewProjectsGrid::OnSelectRange(wxGridRangeSelectEvent& ev) {
+	ev.Skip();
+	if(!m_bIgnoreSelectionEvents) {
+		m_bForceUpdateSelection=true;
+	}	
+}
 
-void CViewProjectsGrid::SortProjects() {
-	sortColumn = m_pGridPane->sortColumn;
-	sortAscending = m_pGridPane->sortAscending;
-	if(sortColumn>=0) {
+// sorts projects only, if sorting column or sort order were changed
+bool CViewProjectsGrid::SortProjects() {
+	bool didSorting=false;
+	if(sortColumn != m_pGridPane->sortColumn || sortAscending != m_pGridPane->sortAscending) {
+		sortColumn = m_pGridPane->sortColumn;
+		sortAscending = m_pGridPane->sortAscending;
 		m_projectCache.Sort(compareProjects);
+		didSorting=true;
 	}
+	return didSorting;
 }
 
-void CViewProjectsGrid::UpdateProjectCache()
+// synchronizes values in view internal chache with document cache
+bool CViewProjectsGrid::UpdateProjectCache()
 {
+	bool didUpdate=false;
 	std::string temp;
 	CMainDocument* pDoc = wxGetApp().GetDocument();
 	wxASSERT(wxDynamicCast(pDoc, CMainDocument));
-	int max = pDoc->GetProjectCount();
-	m_projectCache.clear();
-	for(int i=0; i< max; i++) {
-		PROJECT* p = pDoc->project(i);
-		CProjectInfo* info = new CProjectInfo();
-		p->get_name(temp);
-		info->name = wxString(temp.c_str(),wxConvUTF8);
-		info->accountname = wxString(p->user_name.c_str(),wxConvUTF8);
-		info->teamname = wxString(p->team_name.c_str(),wxConvUTF8);
-		info->totalcredit = p->user_total_credit;
-		info->avgcredit = p->user_expavg_credit;
-		info->resourceshare = p->resource_share;
-		info->rspercent = (info->resourceshare / pDoc->m_fProjectTotalResourceShare) * 100;
-		info->status = this->GetReadableStatus(p);
-		m_projectCache.Add(info);
+	//check if projects in cache that not exists any longer
+	for(unsigned int i=0; i < m_projectCache.GetCount();i++) {
+		PROJECT* p = pDoc->project(m_projectCache.Item(i)->name);
+		if(p==NULL) {
+			m_projectCache.RemoveAt(i);
+			didUpdate=true;
+		}
 	}
+	//
+	int max = pDoc->GetProjectCount();	
+	for(int i=0; i< max; i++) {
+		PROJECT* p = pDoc->project(i);				
+		p->get_name(temp);		
+		wxString pname(temp.c_str(),wxConvUTF8);
+		CProjectInfo* info = FindProjectInCache(pname);		
+		if(info!=NULL) {
+			if(IsProjectInfoOutOfDate(p,info)) {
+				FillProjectInfo(p,info);
+				didUpdate=true;
+			}
+		}
+		else {
+			info = new CProjectInfo();
+			FillProjectInfo(p,info);
+			m_projectCache.Add(info);
+			didUpdate=true;
+		}		
+	}
+	return didUpdate;
 }
+
+//
+CProjectInfo* CViewProjectsGrid::FindProjectInCache(wxString& name) {
+	for(unsigned int i=0; i< m_projectCache.Count();i++) {
+		if(m_projectCache.Item(i)->name.IsSameAs(name)) {
+			return m_projectCache.Item(i);
+		}
+	}
+	return NULL;
+}
+
+// fills view internal data structure 
+void CViewProjectsGrid::FillProjectInfo(PROJECT* p,CProjectInfo* info) {
+	std::string temp;
+	CMainDocument* pDoc = wxGetApp().GetDocument();
+
+	p->get_name(temp);
+	info->name = wxString(temp.c_str(),wxConvUTF8);
+	info->accountname = wxString(p->user_name.c_str(),wxConvUTF8);
+	info->teamname = wxString(p->team_name.c_str(),wxConvUTF8);
+	info->totalcredit = p->user_total_credit;
+	info->avgcredit = p->user_expavg_credit;
+	info->resourceshare = p->resource_share;
+	info->rspercent = (info->resourceshare / pDoc->m_fProjectTotalResourceShare) * 100;
+	info->status = this->GetReadableStatus(p);
+	info->makeHashKey();
+}
+
+// checks, if values in view internal projectcache identical with document cache
+bool CViewProjectsGrid::IsProjectInfoOutOfDate(PROJECT* p,CProjectInfo* info) {	
+	bool rc=false;
+	CProjectInfo* infonew = new CProjectInfo();
+	FillProjectInfo(p,infonew);
+	rc = !infonew->hashKey.IsSameAs(info->hashKey);
+	delete infonew;
+	return rc;
+}
+
+// returns a human readable value for project status
 wxString CViewProjectsGrid::GetReadableStatus(PROJECT* project) {
 	wxString status=wxEmptyString;
     if (project) {

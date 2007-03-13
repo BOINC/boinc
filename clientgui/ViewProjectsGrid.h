@@ -40,6 +40,9 @@ public:
 	double resourceshare;
 	double rspercent;
 	wxString status;
+	wxString hashKey;
+
+	void makeHashKey();
 };
 
 WX_DEFINE_ARRAY(CProjectInfo*,ProjectCache);
@@ -48,10 +51,14 @@ class CViewProjectsGrid : public CBOINCBaseView
 {
     DECLARE_DYNAMIC_CLASS( CViewProjectsGrid )
 	CBOINCGridCtrl*	m_pGridPane;
-	void UpdateProjectCache();
+	bool UpdateProjectCache();
 	wxString GetReadableStatus(PROJECT* project);
-	void SortProjects();
+	bool SortProjects();
 	ProjectCache m_projectCache;
+	
+	void FillProjectInfo(PROJECT* p,CProjectInfo* info);
+	bool IsProjectInfoOutOfDate(PROJECT* p,CProjectInfo* info);
+	CProjectInfo* FindProjectInCache(wxString& name);
 public:
     CViewProjectsGrid();
     CViewProjectsGrid(wxNotebook* pNotebook);
@@ -91,6 +98,7 @@ protected:
     wxInt32                 ConvertLinkToWebsiteIndex( const wxString& strLink, wxInt32& iProjectIndex, wxInt32& iWebsiteIndex );
 
 	void					OnSelectCell( wxGridEvent& );
+	void					OnSelectRange(wxGridRangeSelectEvent& ev);
     DECLARE_EVENT_TABLE()
 private:
 	bool					m_bIgnoreSelectionEvents;

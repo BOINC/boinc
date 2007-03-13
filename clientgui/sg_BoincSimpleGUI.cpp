@@ -631,7 +631,7 @@ void CSimplePanel::InitNotebook()
     wxLogTrace(wxT("Function Start/End"), wxT("CAdvancedFrame::InitNotebook - Function Start"));
 	// FlatNotebook
 	wrkUnitNB = new WorkunitNotebook(this, -1, wxDefaultPosition, wxSize(370,330), wxFNB_TABS_BORDER_SIMPLE | wxFNB_NO_X_BUTTON | wxFNB_NO_NAV_BUTTONS | wxFNB_FANCY_TABS | wxFNB_NODRAG );
-	SetSizer(mainSizer);
+    SetSizer(mainSizer);
 	mainSizer->Add(31, 68,0);
 	mainSizer->Add(343, 68,0);
 	mainSizer->Add(31, 68,0);
