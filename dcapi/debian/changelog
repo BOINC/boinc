@@ -1,3 +1,9 @@
+dcapi (0.9-13) unstable; urgency=low
+
+  * Enable the local backend
+
+ -- Gábor Gombás <gombasg@sztaki.hu>  Tue, 13 Mar 2007 15:38:42 +0100
+
 dcapi (0.9-12) unstable; urgency=low
 
   * Bugzilla bugs fixed:

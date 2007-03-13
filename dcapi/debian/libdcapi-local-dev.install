@@ -1,0 +1,2 @@
+debian/tmp/usr/lib/libdc*-local.a
+debian/tmp/usr/lib/pkgconfig/dcapi-local*.pc
