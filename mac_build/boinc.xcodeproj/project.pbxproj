@@ -1052,8 +1052,6 @@
 		DDCDCDF10B532433009BB03C /* ViewMessagesGrid.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = ViewMessagesGrid.h; path = ../clientgui/ViewMessagesGrid.h; sourceTree = SOURCE_ROOT; };
 		DDCDCDF20B532433009BB03C /* ViewProjectsGrid.cpp */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.cpp.cpp; name = ViewProjectsGrid.cpp; path = ../clientgui/ViewProjectsGrid.cpp; sourceTree = SOURCE_ROOT; };
 		DDCDCDF30B532433009BB03C /* ViewProjectsGrid.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = ViewProjectsGrid.h; path = ../clientgui/ViewProjectsGrid.h; sourceTree = SOURCE_ROOT; };
-		DDCE782E0A70BD55008218B6 /* wxAnimate.cpp */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.cpp.cpp; name = wxAnimate.cpp; path = ../clientgui/common/wxAnimate.cpp; sourceTree = SOURCE_ROOT; };
-		DDCE782F0A70BD55008218B6 /* wxAnimate.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = wxAnimate.h; path = ../clientgui/common/wxAnimate.h; sourceTree = SOURCE_ROOT; };
 		DDCE78300A70BD55008218B6 /* wxFlatNotebook.cpp */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.cpp.cpp; name = wxFlatNotebook.cpp; path = ../clientgui/common/wxFlatNotebook.cpp; sourceTree = SOURCE_ROOT; };
 		DDCE78310A70BD55008218B6 /* wxFlatNotebook.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = wxFlatNotebook.h; path = ../clientgui/common/wxFlatNotebook.h; sourceTree = SOURCE_ROOT; };
 		DDCE78320A70BD55008218B6 /* wxFNBDropTarget.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = wxFNBDropTarget.h; path = ../clientgui/common/wxFNBDropTarget.h; sourceTree = SOURCE_ROOT; };
@@ -1491,8 +1489,6 @@
 		DDCE78220A70BD29008218B6 /* common */ = {
 			isa = PBXGroup;
 			children = (
-				DDCE782E0A70BD55008218B6 /* wxAnimate.cpp */,
-				DDCE782F0A70BD55008218B6 /* wxAnimate.h */,
 				DDCE78300A70BD55008218B6 /* wxFlatNotebook.cpp */,
 				DDCE78310A70BD55008218B6 /* wxFlatNotebook.h */,
 				DDCE78320A70BD55008218B6 /* wxFNBDropTarget.h */,
