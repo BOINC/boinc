@@ -2419,3 +2419,12 @@ David  13 Mar 2007
 
 	clientgui/
 		ProjectInfoPage.cpp,h
+
+David  13 Mar 2007
+    - work fetch fixes (from John McLeod)
+        - implement work_fetch_factor correctly
+        - ignore duration_correction_factor if it's out of bounds
+
+    client/
+        cpu_sched.C
+        work_fetch.C

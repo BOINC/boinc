@@ -499,6 +499,32 @@ bool CLIENT_STATE::compute_work_requests() {
             continue;
         }
 
+        // If the project's DCF is outside of reasonable limits,
+        // the project's WU FLOP estimates are not useful for predicting
+        // completion time.
+        // Switch to a simpler policy: ask for 1 sec of work if
+        // we don't have any.
+        //
+        if (p->duration_correction_factor < 0.02 || p->duration_correction_factor > 80.0) {
+            if (p->runnable()) {
+                if (log_flags.work_fetch_debug) {
+                    msg_printf(p, MSG_INFO,
+                        "[work_fetch_debug] project duration correction factor %f out of range",
+                        p->duration_correction_factor
+                    );
+                }
+                continue;
+            } else {
+                if (log_flags.work_fetch_debug) {
+                    msg_printf(p, MSG_INFO,
+                        "[work_fetch_debug] project duration correction factor %f out of range: changing shortfall %f to 1.0", 
+                         p->duration_correction_factor, p->cpu_shortfall
+                    );
+                }
+                p->cpu_shortfall = 1.0;
+            }
+        }
+
         // see if this project is better than our current best
         //
         if (pbest) {
@@ -543,7 +569,7 @@ bool CLIENT_STATE::compute_work_requests() {
     }
 
     if (pbest) {
-        pbest->work_request = config.work_request_factor * max(
+        pbest->work_request = max(
             pbest->cpu_shortfall,
             cpu_shortfall * (prrs ? pbest->resource_share/prrs : 1)
         );
