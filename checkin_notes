@@ -1851,14 +1851,14 @@ Charlie 8 Mar 2007
         mac_build.php
 
 Charlie 9 Mar 2007
-    -Mac: update installation documentation: say to double-click on 
+    - Mac: update installation documentation: say to double-click on 
         "BOINC Installer" application, not on BOINC.pkg.
     doc/
         mac_advanced.php
         release_notes.php
 
 Charlie 12 Mar 2007
-   - CC: On Mac OS X, sysctl with selectors CTL_HW, HW_PHYSMEM returns only a 
+    - CC: On Mac OS X, sysctl with selectors CTL_HW, HW_PHYSMEM returns only a 
         4-byte value, even if passed an 8-byte buffer, and limits the returned 
         value to 2GB when the actual RAM size is > 2GB.  So use Mac-specific
         API Gestalt(gestaltPhysicalRAMSizeInMegabytes, &mem_size) and add a 
