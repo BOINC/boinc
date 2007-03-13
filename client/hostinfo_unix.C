@@ -437,7 +437,7 @@ int HOST_INFO::get_host_info() {
         msg_printf(NULL, MSG_INTERNAL_ERROR, "Couldn't determine physical RAM size");
     m_nbytes = (1024. * 1024.) * (double)mem_size;
 #elif defined(HAVE_SYS_SYSCTL_H) && defined(CTL_HW) && defined(HW_PHYSMEM)
-#error This code won't properly report physical RAM size > 2GB (see comment above for __APPLE__)
+#error This code does not properly report physical RAM size > 2GB (see comment above for __APPLE__)
     mib[0] = CTL_HW;
     mib[1] = HW_PHYSMEM;
     len = sizeof(mem_size);
