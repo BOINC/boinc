@@ -2413,3 +2413,9 @@ David  13 Mar 2007
         str_util.C
     sched/
         sched_config.C
+
+David  13 Mar 2007
+	- compile fix
+
+	clientgui/
+		ProjectInfoPage.cpp,h

@@ -285,7 +285,7 @@ void CProjectInfoPage::OnPageChanged( wxWizardExEvent& event ) {
 
     // Populate the combo box with project information
     //
-    pDoc->rpc.get_project_list(pl);
+    pDoc->rpc.get_all_projects_list(pl);
     for (i=0; i<pl.projects.size(); i++) {
         m_pProjectSelectionCtrl->Append(wxString(pl.projects[i]->name.c_str(), wxConvUTF8));
     }

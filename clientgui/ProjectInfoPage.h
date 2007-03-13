@@ -95,7 +95,7 @@ public:
     wxString m_strProjectURL;
 ////@end CProjectInfoPage member variables
 
-    PROJECTLIST pl;
+    ALL_PROJECTS_LIST pl;
 };
 
 #endif // _WIZ_PROJECTINFOPAGE_H_
