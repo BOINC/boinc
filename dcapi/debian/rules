@@ -42,8 +42,8 @@ config.status: configure
 		--enable-gtk-doc \
 		--enable-backend-boinc \
 		--enable-backend-condor \
+		--enable-backend-local \
 		--with-condor-headers=/usr/include/condor \
-		--disable-backend-local \
 		--with-html-dir=/usr/share/doc/libdcapi-doc/html \
 		CFLAGS="$(CFLAGS)" \
 		CXXFLAGS="$(CXXFLAGS)"
