@@ -21,6 +21,7 @@
 #define _CLIENT_STATE_
 
 #ifndef _WIN32
+#include <string>
 #include <vector>
 #include <ctime>
 #endif

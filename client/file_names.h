@@ -26,13 +26,13 @@
 
 // get the pathname (relative to client home dir) of a project file
 //
-extern void get_pathname(FILE_INFO* fip, char* path);
-extern void get_project_dir(PROJECT*, char*);
+extern void get_pathname(FILE_INFO* fip, char* path, int len);
+extern void get_project_dir(PROJECT*, char*, int);
 
 // get the pathname (relative to client home dir) of the
 // directory used for a particular application "slot"
 //
-extern void get_slot_dir(int slot, char* path);
+extern void get_slot_dir(int slot, char* path, int len);
 
 extern int make_project_dir(PROJECT&);
 extern int remove_project_dir(PROJECT&);
@@ -45,9 +45,9 @@ extern bool is_statistics_file(const char*);
 extern void get_statistics_filename(char* master_url, char* path);
 extern bool is_image_file(const char*);
 
-extern void get_sched_request_filename(PROJECT&, char*);
-extern void get_sched_reply_filename(PROJECT&, char*);
-extern void get_master_filename(PROJECT&, char*);
+extern void get_sched_request_filename(PROJECT&, char*, int len);
+extern void get_sched_reply_filename(PROJECT&, char*, int len);
+extern void get_master_filename(PROJECT&, char*, int len);
 extern int set_to_project_group(const char* path);
 extern void boinc_version_dir(PROJECT&, VERSION_INFO&, char*);
 extern bool is_version_dir(char*, VERSION_INFO&);
@@ -82,7 +82,7 @@ extern bool is_version_dir(char*, VERSION_INFO&);
 #define CREATE_ACCOUNT_FILENAME     "create_account.xml"
 #define LOOKUP_WEBSITE_FILENAME     "lookup_website.html"
 #define GET_CURRENT_VERSION_FILENAME    "get_current_version.xml"
-#define PROJECT_LIST_FILENAME       "project_list.xml"
+#define ALL_PROJECTS_LIST_FILENAME "all_projects_list.xml"
 #define SWITCHER_FILE_NAME          "switcher"
 #define SETPROJECTGRP_FILE_NAME     "setprojectgrp"
 

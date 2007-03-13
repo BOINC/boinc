@@ -194,7 +194,7 @@ int ACTIVE_TASK::init(RESULT* rp) {
     max_cpu_time = rp->wup->rsc_fpops_bound/gstate.host_info.p_fpops;
     max_disk_usage = rp->wup->rsc_disk_bound;
     max_mem_usage = rp->wup->rsc_memory_bound;
-    get_slot_dir(slot, slot_dir);
+    get_slot_dir(slot, slot_dir, sizeof(slot_dir));
     return 0;
 }
 
@@ -329,10 +329,10 @@ int ACTIVE_TASK_SET::remove(ACTIVE_TASK* atp) {
 // Move it from slot dir to project dir
 //
 int ACTIVE_TASK::move_trickle_file() {
-    char project_dir[256], new_path[256], old_path[256];
+    char project_dir[256], new_path[1024], old_path[1024];
     int retval;
 
-    get_project_dir(result->project, project_dir);
+    get_project_dir(result->project, project_dir, sizeof(project_dir));
     sprintf(old_path, "%s/trickle_up.xml", slot_dir);
     sprintf(new_path,
         "%s/trickle_up_%s_%d.xml",
@@ -356,13 +356,13 @@ int ACTIVE_TASK::current_disk_usage(double& size) {
     unsigned int i;
     int retval;
     FILE_INFO* fip;
-    char path[256];
+    char path[1024];
 
     retval = dir_size(slot_dir, size);
     if (retval) return retval;
     for (i=0; i<result->output_files.size(); i++) {
         fip = result->output_files[i].file_info;
-        get_pathname(fip, path);
+        get_pathname(fip, path, sizeof(path));
         retval = file_size(path, x);
         if (!retval) size += x;
     }
@@ -685,7 +685,7 @@ void ACTIVE_TASK_SET::report_overdue() {
 //
 int ACTIVE_TASK::handle_upload_files() {
     std::string filename;
-    char buf[256], path[256];
+    char buf[256], path[1024];
     int retval;
 
     DirScanner dirscan(slot_dir);
@@ -695,7 +695,7 @@ int ACTIVE_TASK::handle_upload_files() {
             char* p = buf+strlen(UPLOAD_FILE_REQ_PREFIX);
             FILE_INFO* fip = result->lookup_file_logical(p);
             if (fip) {
-                get_pathname(fip, path);
+                get_pathname(fip, path, sizeof(path));
                 retval = md5_file(path, fip->md5_cksum, fip->nbytes);
                 if (retval) {
                     fip->status = retval;

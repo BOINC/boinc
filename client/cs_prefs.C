@@ -72,13 +72,13 @@ int CLIENT_STATE::project_disk_usage(PROJECT* p, double& size) {
     unsigned int i;
     double s;
 
-    get_project_dir(p, buf);
+    get_project_dir(p, buf, sizeof(buf));
     dir_size(buf, size);
 
     for (i=0; i<active_tasks.active_tasks.size(); i++) {
         ACTIVE_TASK* atp = active_tasks.active_tasks[i];
         if (atp->wup->project != p) continue;
-        get_slot_dir(atp->slot, buf);
+        get_slot_dir(atp->slot, buf, sizeof(buf));
         dir_size(buf, s);
         size += s;
     }

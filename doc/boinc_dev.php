@@ -221,6 +221,8 @@ Investigate.
                 on this and other projects
             <li> other features from networking sites?
             </ul>
+        <li> Change the ops/ web pages to require login
+            by a user with admin privileges.
     </ul>
 
 </ul>

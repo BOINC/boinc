@@ -104,14 +104,14 @@ int ACTIVE_TASK::link_user_files() {
     unsigned int i;
     FILE_REF fref;
     FILE_INFO* fip;
-    char link_path[256], buf[256], file_path[256];
+    char link_path[1024], buf[256], file_path[1024];
     int retval;
 
     for (i=0; i<project->user_files.size(); i++) {
         fref = project->user_files[i];
         fip = fref.file_info;
         if (fip->status != FILE_PRESENT) continue;
-        get_pathname(fip, file_path);
+        get_pathname(fip, file_path, sizeof(file_path));
         sprintf(link_path, "%s/%s", slot_dir, strlen(fref.open_name)?fref.open_name:fip->name);
         sprintf(buf, "../../%s", file_path);
         retval = make_link(buf, link_path);
@@ -180,7 +180,7 @@ int ACTIVE_TASK::write_app_init_file() {
     if (wup->project->project_specific_prefs.length()) {
         aid.project_preferences = strdup(wup->project->project_specific_prefs.c_str());
     }
-    get_project_dir(wup->project, project_dir);
+    get_project_dir(wup->project, project_dir, sizeof(project_dir));
     relative_to_absolute(project_dir, project_path);
     strcpy(aid.project_dir, project_path);
     relative_to_absolute("", aid.boinc_dir);
@@ -287,7 +287,7 @@ int ACTIVE_TASK::copy_output_files() {
         if (!fref.copy_file) continue;
         FILE_INFO* fip = fref.file_info;
         sprintf(slotfile, "%s/%s", slot_dir, fref.open_name);
-        get_pathname(fip, projfile);
+        get_pathname(fip, projfile, sizeof(projfile));
         int retval = boinc_rename(slotfile, projfile);
         if (retval) {
             msg_printf(wup->project, MSG_INTERNAL_ERROR,
@@ -377,7 +377,7 @@ int ACTIVE_TASK::start(bool first_time) {
     for (i=0; i<app_version->app_files.size(); i++) {
         fref = app_version->app_files[i];
         fip = fref.file_info;
-        get_pathname(fip, file_path);
+        get_pathname(fip, file_path, sizeof(file_path));
         if (fref.main_program) {
             if (is_image_file(fip->name)) {
                 sprintf(buf, "Main program %s is an image file", fip->name);
@@ -415,7 +415,7 @@ int ACTIVE_TASK::start(bool first_time) {
         for (i=0; i<wup->input_files.size(); i++) {
             fref = wup->input_files[i];
             fip = fref.file_info;
-            get_pathname(fref.file_info, file_path);
+            get_pathname(fref.file_info, file_path, sizeof(file_path));
             retval = setup_file(wup, fip, fref, file_path, slot_dir, true);
             if (retval) {
                 strcpy(buf, "Can't link input file");
@@ -426,7 +426,7 @@ int ACTIVE_TASK::start(bool first_time) {
             fref = result->output_files[i];
             if (fref.copy_file) continue;
             fip = fref.file_info;
-            get_pathname(fref.file_info, file_path);
+            get_pathname(fref.file_info, file_path, sizeof(file_path));
             retval = setup_file(wup, fip, fref, file_path, slot_dir, false);
             if (retval) {
                 strcpy(buf, "Can't link output file");
@@ -600,7 +600,7 @@ int ACTIVE_TASK::start(bool first_time) {
         // add project dir to library path
         //
         char libpath[8192];
-        get_project_dir(wup->project, buf);
+        get_project_dir(wup->project, buf, sizeof(buf));
         sprintf(libpath, "%s:%s", getenv("LD_LIBRARY_PATH"), buf);
         setenv("LD_LIBRARY_PATH", libpath, 1);
 

@@ -30,6 +30,9 @@ This file has the following format:
         [ <max_file_xfers>N</max_file_xfers> ]
         [ <max_file_xfers_per_project>N</max_file_xfers_per_project> ]
         [ <work_request_factor>X</work_request_factor> ]
+        [ <suppress_net_info>0|1</suppress_net_info> ]
+        [ <disallow_attach>0|1</disallow_attach> ]
+        [ <os_random_only>0|1</os_random_only> ]
     </options>
 </cc_config>
 ")."
@@ -180,7 +183,30 @@ list_item_func("<work_request_factor>",
     "The amount of work requested from projects will by multiplied
     by this number.
     Use a number larger than one if your computer often
-    runs out of work."
+    runs out of work.
+    Implemented on version 5.10+.
+    "
+);
+list_item_func("suppress_net_info",
+    "If nonzero, don't send this host's IP address and domain name to servers.
+    Otherwise, this information is sent to, and stored on, servers.
+    It is visible to you (but not others) via the web.
+    Implemented on version 5.10+.
+    "
+);
+list_item_func("disallow_attach",
+    "If nonzero, the client won't attach to new projects.
+    Implemented on version 5.10+.
+    "
+);
+list_item_func("os_random_only",
+    "If nonzero, the client will use only OS-level functions
+    to generate a random GUI RPC password,
+    and will exit if these functions fail.
+    Otherwise, the client will fall back to a random-string generator
+    based on time of day, free disk space, and other host-specific information.
+    Implemented on version 5.10+.
+    "
 );
 list_end();
 

@@ -411,6 +411,10 @@ int CLIENT_STATE::add_project(
     FILE* f;
     int retval;
 
+    if (config.disallow_attach) {
+        return ERR_USER_PERMISSION;
+    }
+
     safe_strcpy(canonical_master_url, master_url);
     strip_whitespace(canonical_master_url);
     canonicalize_master_url(canonical_master_url);
@@ -456,7 +460,7 @@ int CLIENT_STATE::add_project(
     // (unless PROJECT/app_info.xml is found, so that
     // people using anonymous platform don't have to get apps again)
     //
-    get_project_dir(project, dir);
+    get_project_dir(project, dir, sizeof(dir));
     sprintf(path, "%s/%s", dir, APP_INFO_FILE_NAME);
     if (!boinc_file_exists(path)) {
         retval = remove_project_dir(*project);

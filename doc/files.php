@@ -28,6 +28,7 @@ and must be given a different name than the original.
 Files have various properties, including:
 <ul>
 <li> <b>Name</b>: unique identifier for the file.
+Must be nonempty, at most 255 chars, and may not contain '..' or '%'.
 <li> <b>Sticky</b>: don't delete file on client (see below).
 <li> <b>Report on RPC</b>: include a description of this file
 in scheduler requests.

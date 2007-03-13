@@ -39,17 +39,17 @@
 
 #include "file_names.h"
 
-void get_project_dir(PROJECT* p, char* path) {
-    char buf[256];
+void get_project_dir(PROJECT* p, char* path, int len) {
+    char buf[1024];
     escape_project_url(p->master_url, buf);
-    sprintf(path, "%s/%s", PROJECTS_DIR, buf);
+    snprintf(path, len, "%s/%s", PROJECTS_DIR, buf);
 }
 
 // Gets the pathname of a file
 //
-void get_pathname(FILE_INFO* fip, char* path) {
+void get_pathname(FILE_INFO* fip, char* path, int len) {
     PROJECT* p = fip->project;
-    char buf[256];
+    char buf[1024];
 
     // for testing purposes, it's handy to allow a FILE_INFO without
     // an associated PROJECT.
@@ -58,45 +58,45 @@ void get_pathname(FILE_INFO* fip, char* path) {
 		if (fip->is_auto_update_file) {
 			boinc_version_dir(*p, gstate.auto_update.version, buf);
 		} else {
-            get_project_dir(p, buf);
+            get_project_dir(p, buf, sizeof(buf));
 		}
-	    sprintf(path, "%s/%s", buf, fip->name);
+	    snprintf(path, len, "%s/%s", buf, fip->name);
 	} else {
-        strcpy(path, fip->name);
+        strlcpy(path, fip->name, len);
     }
 }
 
-void get_sched_request_filename(PROJECT& project, char* buf) {
-    char url[256];
+void get_sched_request_filename(PROJECT& project, char* buf, int len) {
+    char url[1024];
 
     escape_project_url(project.master_url, url);
-    sprintf(buf, "%s%s.xml", SCHED_OP_REQUEST_BASE, url);
+    snprintf(buf, len, "%s%s.xml", SCHED_OP_REQUEST_BASE, url);
 }
 
-void get_sched_reply_filename(PROJECT& project, char* buf) {
-    char url[256];
+void get_sched_reply_filename(PROJECT& project, char* buf, int len) {
+    char url[1024];
 
     escape_project_url(project.master_url, url);
-    sprintf(buf, "%s%s.xml", SCHED_OP_REPLY_BASE, url);
+    snprintf(buf, len, "%s%s.xml", SCHED_OP_REPLY_BASE, url);
 }
 
-void get_master_filename(PROJECT& project, char* buf) {
-    char url[256];
+void get_master_filename(PROJECT& project, char* buf, int len) {
+    char url[1024];
 
     escape_project_url(project.master_url, url);
-    sprintf(buf, "%s%s.xml", MASTER_BASE, url);
+    snprintf(buf, len, "%s%s.xml", MASTER_BASE, url);
 }
 
 // Returns the location of a numbered slot directory
 //
-void get_slot_dir(int slot, char* path) {
-    sprintf(path, "%s/%d", SLOTS_DIR, slot);
+void get_slot_dir(int slot, char* path, int len) {
+    snprintf(path, len, "%s/%d", SLOTS_DIR, slot);
 }
 
 // Create the directory for the project p
 //
 int make_project_dir(PROJECT& p) {
-    char buf[256];
+    char buf[1024];
     int retval;
 
     boinc_mkdir(PROJECTS_DIR);
@@ -109,7 +109,7 @@ int make_project_dir(PROJECT& p) {
             );
     }
 #endif
-    get_project_dir(&p, buf);
+    get_project_dir(&p, buf, sizeof(buf));
     retval = boinc_mkdir(buf);
 #ifndef _WIN32
     if (g_use_sandbox) {
@@ -125,10 +125,10 @@ int make_project_dir(PROJECT& p) {
 }
 
 int remove_project_dir(PROJECT& p) {
-    char buf[256];
+    char buf[1024];
     int retval;
 
-    get_project_dir(&p, buf);
+    get_project_dir(&p, buf, sizeof(buf));
     retval = clean_out_dir(buf);
     if (retval) {
         msg_printf(&p, MSG_INTERNAL_ERROR, "Can't delete file %s", boinc_failed_file);
@@ -140,7 +140,7 @@ int remove_project_dir(PROJECT& p) {
 // Create the slot directory for the specified slot #
 //
 int make_slot_dir(int slot) {
-    char buf[256];
+    char buf[1024];
     if (slot<0) {
         msg_printf(NULL, MSG_INTERNAL_ERROR, "Bad slot number %d", slot);
         return ERR_NEG;
@@ -155,7 +155,7 @@ int make_slot_dir(int slot) {
             );
     }
 #endif
-    get_slot_dir(slot, buf);
+    get_slot_dir(slot, buf, sizeof(buf));
     int retval = boinc_mkdir(buf);
 #ifndef _WIN32
     if (g_use_sandbox) {
@@ -175,7 +175,7 @@ int make_slot_dir(int slot) {
 // Rename it to DELETE_ME_x
 //
 int rename_slot_dir(int slot) {
-    char oldname[256], newname[256];
+    char oldname[1024], newname[1024];
     sprintf(oldname, "%s/%d", SLOTS_DIR, slot);
     sprintf(newname, "%s/DELETE_ME_%d_%d", SLOTS_DIR, slot, (int)gstate.now);
     int retval = rename(oldname, newname);
@@ -186,7 +186,7 @@ int rename_slot_dir(int slot) {
 // delete directories created by the above
 //
 void delete_old_slot_dirs() {
-    char filename[256], path[256];
+    char filename[1024], path[1024];
     DIRREF dirp;
     int retval;
 
@@ -206,7 +206,7 @@ void delete_old_slot_dirs() {
 }
 
 void get_account_filename(char* master_url, char* path) {
-    char buf[256];
+    char buf[1024];
     escape_project_url(master_url, buf);
     sprintf(path, "account_%s.xml", buf);
 }
@@ -286,8 +286,8 @@ int set_to_project_group(const char* path) {
 }
 
 void boinc_version_dir(PROJECT& p, VERSION_INFO& vi, char* buf) {
-	char projdir[256];
-	get_project_dir(&p, projdir);
+	char projdir[1024];
+	get_project_dir(&p, projdir, sizeof(projdir));
     sprintf(buf, "%s/boinc_version_%d_%d_%d", projdir, vi.major, vi.minor, vi.release);
 }
 

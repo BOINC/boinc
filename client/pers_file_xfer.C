@@ -90,7 +90,7 @@ int PERS_FILE_XFER::start_xfer() {
     //
     if (!is_upload) {
         char pathname[256];
-        get_pathname(fip, pathname);
+        get_pathname(fip, pathname, sizeof(pathname));
 
         // see if file already exists and is valid
         //

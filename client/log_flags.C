@@ -181,6 +181,9 @@ int CONFIG::parse_options(XML_PARSER& xp) {
         else if (xp.parse_int(tag, "max_file_xfers", max_file_xfers)) continue;
         else if (xp.parse_int(tag, "max_file_xfers_per_project", max_file_xfers_per_project)) continue;
         else if (xp.parse_double(tag, "work_request_factor", work_request_factor)) continue;
+        else if (xp.parse_bool(tag, "suppress_net_info", suppress_net_info)) continue;
+        else if (xp.parse_bool(tag, "disallow_attach", disallow_attach)) continue;
+        else if (xp.parse_bool(tag, "os_random_only", os_random_only)) continue;
         else {
             msg_printf(NULL, MSG_USER_ERROR, "Unparsed tag in %s: <%s>\n",
                 CONFIG_FILE, tag

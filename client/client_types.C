@@ -228,6 +228,7 @@ int PROJECT::write_state(MIOFILE& out, bool gui_rpc) {
         "    <resource_share>%f</resource_share>\n"
         "    <duration_correction_factor>%f</duration_correction_factor>\n"
 		"    <sched_rpc_pending>%d</sched_rpc_pending>\n"
+		"    <rr_sim_deadlines_missed>%d</rr_sim_deadlines_missed>\n"
         "%s%s%s%s%s%s%s%s%s%s",
         master_url,
         project_name,
@@ -254,6 +255,7 @@ int PROJECT::write_state(MIOFILE& out, bool gui_rpc) {
         resource_share,
         duration_correction_factor,
 		sched_rpc_pending,
+		rr_sim_deadlines_missed,
         master_url_fetch_pending?"    <master_url_fetch_pending/>\n":"",
         trickle_up_pending?"    <trickle_up_pending/>\n":"",
         send_file_list?"    <send_file_list/>\n":"",
@@ -440,7 +442,7 @@ int PROJECT::parse_project_files(MIOFILE& in, bool delete_existing_symlinks) {
         // to ensure that we get rid of sym links for
         // project files no longer in use
         //
-        get_project_dir(this, project_dir);
+        get_project_dir(this, project_dir, sizeof(project_dir));
         for (i=0; i<project_files.size(); i++) {
             FILE_REF& fref = project_files[i];
             sprintf(path, "%s/%s", project_dir, fref.open_name);
@@ -518,7 +520,7 @@ int PROJECT::write_symlink_for_project_file(FILE_INFO* fip) {
     char project_dir[256], path[256];
     unsigned int i;
 
-    get_project_dir(this, project_dir);
+    get_project_dir(this, project_dir, sizeof(project_dir));
     for (i=0; i<project_files.size(); i++) {
         FILE_REF& fref = project_files[i];
         if (fref.file_info != fip) continue;
@@ -635,7 +637,7 @@ int FILE_INFO::set_permissions() {
 #else
     int retval;
     char pathname[256];
-    get_pathname(this, pathname);
+    get_pathname(this, pathname, sizeof(pathname));
 
     // give read/exec permissions for user, group and others
     // in case someone runs BOINC from different user
@@ -685,7 +687,12 @@ int FILE_INFO::parse(MIOFILE& in, bool from_server) {
     int retval;
 
     while (in.fgets(buf, 256)) {
-        if (match_tag(buf, "</file_info>")) return 0;
+        if (match_tag(buf, "</file_info>")) {
+            if (!strlen(name)) return ERR_BAD_FILENAME;
+            if (strstr(name, "..")) return ERR_BAD_FILENAME;
+            if (strstr(name, "%")) return ERR_BAD_FILENAME;
+            return 0;
+        }
         else if (match_tag(buf, "<xml_signature>")) {
             retval = copy_element_contents(
                 in,
@@ -860,7 +867,7 @@ int FILE_INFO::write_gui(MIOFILE& out) {
 int FILE_INFO::delete_file() {
     char path[256];
 
-    get_pathname(this, path);
+    get_pathname(this, path, sizeof(path));
     int retval = boinc_delete_file(path);
     if (retval && status != FILE_NOT_PRESENT) {
         msg_printf(project, MSG_INTERNAL_ERROR, "Couldn't delete file %s", path);
@@ -1019,7 +1026,7 @@ int FILE_INFO::gzip() {
     char buf[BUFSIZE];
     char inpath[256], outpath[256];
 
-    get_pathname(this, inpath);
+    get_pathname(this, inpath, sizeof(inpath));
     strcpy(outpath, inpath);
     strcat(outpath, ".gz");
     FILE* in = boinc_fopen(inpath, "rb");

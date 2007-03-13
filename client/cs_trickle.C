@@ -44,7 +44,7 @@ int CLIENT_STATE::read_trickle_files(PROJECT* project, FILE* f) {
     time_t t;
     int retval;
 
-    get_project_dir(project, project_dir);
+    get_project_dir(project, project_dir, sizeof(project_dir));
     DirScanner ds(project_dir);
 
     // trickle-up filenames are of the form trickle_up_RESULTNAME_TIME[.sent]
@@ -93,7 +93,7 @@ int CLIENT_STATE::remove_trickle_files(PROJECT* project) {
     char project_dir[256], path[256], fname[256];
     string fn;
 
-    get_project_dir(project, project_dir);
+    get_project_dir(project, project_dir, sizeof(project_dir));
     DirScanner ds(project_dir);
 
     while (ds.scan(fn)) {

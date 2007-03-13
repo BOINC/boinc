@@ -16,7 +16,7 @@ Read <a href=bare_core.php>Installing the command-line client</a>.
 ";
 $site_list = array(
 array(
-    "<a href=http://blog.schreiter.info/index.php/>BOINCpe</a>",
+    "<a href=http://boincpe.schreiter.info/>BOINCpe</a>",
     "Run BOINC from a RAM disk, on machines with as little as 256 MB RAM",
     "BOINC core client and Manager"
 ),

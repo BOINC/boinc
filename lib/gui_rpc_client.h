@@ -58,7 +58,7 @@ struct DAILY_STATS {
 };
 
 
-class PROJECTLISTENTRY {
+class PROJECT_LIST_ENTRY {
 public:
     std::string name;
     std::string url;
@@ -68,8 +68,8 @@ public:
     std::string home;
     std::string image;
 
-    PROJECTLISTENTRY();
-    ~PROJECTLISTENTRY();
+    PROJECT_LIST_ENTRY();
+    ~PROJECT_LIST_ENTRY();
 
     int parse(XML_PARSER&);
     void clear();
@@ -99,6 +99,7 @@ public:
 
     bool master_url_fetch_pending; // need to fetch and parse the master URL
     int sched_rpc_pending;      // contact scheduling server for preferences
+    int rr_sim_deadlines_missed;
     bool tentative;             // master URL and account ID not confirmed
     bool non_cpu_intensive;
     bool suspended_via_gui;
@@ -321,12 +322,12 @@ public:
     void clear();
 };
 
-class PROJECTLIST {
+class ALL_PROJECTS_LIST {
 public:
-    std::vector<PROJECTLISTENTRY*> projects;
+    std::vector<PROJECT_LIST_ENTRY*> projects;
 
-    PROJECTLIST();
-    ~PROJECTLIST();
+    ALL_PROJECTS_LIST();
+    ~ALL_PROJECTS_LIST();
 
     void clear();
 };
@@ -547,7 +548,7 @@ public:
     int get_simple_gui_info(CC_STATE&, RESULTS&);
     int get_project_status(CC_STATE&);
     int get_project_status(PROJECTS&);
-    int get_project_list(PROJECTLIST&);
+    int get_all_projects_list(ALL_PROJECTS_LIST&);
     int get_disk_usage(DISK_USAGE&);
     int show_graphics(
         const char* project, const char* result_name, int graphics_mode,

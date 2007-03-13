@@ -54,8 +54,9 @@ void MIOFILE::init_buf_read(const char* _buf) {
     buf = _buf;
 }
 
-void MIOFILE::init_buf_write(char* _buf) {
+void MIOFILE::init_buf_write(char* _buf, int _len) {
     wbuf = _buf;
+    len = _len;
 	wbuf[0] = 0;
 }
 
@@ -69,7 +70,9 @@ int MIOFILE::printf(const char* format, ...) {
     } else if (f) {
         retval = vfprintf(f, format, ap);
     } else {
-        retval = vsprintf(wbuf+strlen(wbuf), format, ap);
+        int cursize = strlen(wbuf);
+        int remaining_len = len - cursize;
+        retval = vsnprintf(wbuf+cursize, remaining_len, format, ap);
     }
     va_end(ap);
     return retval;

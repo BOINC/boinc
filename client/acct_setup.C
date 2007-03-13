@@ -304,7 +304,7 @@ int GET_PROJECT_LIST_OP::do_rpc() {
 
     sprintf(buf, "http://boinc.berkeley.edu/project_list.php");
     retval = gstate.gui_http.do_rpc(
-        this, string(buf), PROJECT_LIST_FILENAME
+        this, string(buf), ALL_PROJECTS_LIST_FILENAME
     );
     if (retval) {
         error_num = retval;

@@ -471,7 +471,7 @@ int CLIENT_STATE::write_state(MIOFILE& f) {
     int retval;
 
     f.printf("<client_state>\n");
-    retval = host_info.write(f);
+    retval = host_info.write(f, false);
     if (retval) return retval;
     retval = time_stats.write(f, false);
     if (retval) return retval;
@@ -565,7 +565,7 @@ void CLIENT_STATE::check_anonymous() {
 
     for (i=0; i<projects.size(); i++) {
         PROJECT* p = projects[i];
-        get_project_dir(p, dir);
+        get_project_dir(p, dir, sizeof(dir));
         sprintf(path, "%s/%s", dir, APP_INFO_FILE_NAME);
         f = fopen(path, "r");
         if (!f) continue;
@@ -645,7 +645,7 @@ int CLIENT_STATE::write_state_gui(MIOFILE& f) {
 
     f.printf("<client_state>\n");
 
-    retval = host_info.write(f);
+    retval = host_info.write(f, false);
     if (retval) return retval;
     retval = time_stats.write(f, false);
     if (retval) return retval;

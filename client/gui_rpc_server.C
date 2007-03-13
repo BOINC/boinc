@@ -96,6 +96,13 @@ int GUI_RPC_CONN_SET::get_password() {
         //
         retval = make_random_string(password);
         if (retval) {
+            if (config.os_random_only) {
+                msg_printf(
+                    NULL, MSG_INTERNAL_ERROR,
+                    "OS random string generation failed, exiting"
+                );
+                exit(1);
+            }
             gstate.host_info.make_random_string("guirpc", password);
         }
         f = fopen(GUI_RPC_PASSWD_FILE, "w");

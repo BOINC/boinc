@@ -171,6 +171,7 @@
 #define ERR_CHOWN           -223
 #define ERR_FILE_NOT_FOUND  -224
     // represents HTTP 404 error
+#define ERR_BAD_FILENAME    -225
 
 // PLEASE: add a text description of your error to 
 // the text description function boincerror() in util.C.

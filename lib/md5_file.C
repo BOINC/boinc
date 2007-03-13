@@ -105,8 +105,9 @@ int make_random_string(char* out) {
     if (!f) {
         return -1;
     }
-    fread(buf, 32, 1, f);
+    int n = fread(buf, 32, 1, f);
     fclose(f);
+    if (n != 1) return -1;
 #endif
     md5_block((const unsigned char*)buf, 32, out);
     return 0;

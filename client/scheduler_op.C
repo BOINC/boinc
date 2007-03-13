@@ -253,8 +253,8 @@ int SCHEDULER_OP::start_rpc(PROJECT* p) {
         }
     }
 
-    get_sched_request_filename(*p, request_file);
-    get_sched_reply_filename(*p, reply_file);
+    get_sched_request_filename(*p, request_file, sizeof(request_file));
+    get_sched_reply_filename(*p, reply_file, sizeof(reply_file));
 
     http_op.set_proxy(&gstate.proxy_info);
     retval = http_op.init_post(scheduler_url, request_file, reply_file);
@@ -287,7 +287,7 @@ int SCHEDULER_OP::init_master_fetch(PROJECT* p) {
     int retval;
     char master_filename[256];
 
-    get_master_filename(*p, master_filename);
+    get_master_filename(*p, master_filename, sizeof(master_filename));
 
     if (log_flags.sched_op_debug) {
         msg_printf(0, MSG_INFO,
@@ -314,7 +314,7 @@ int SCHEDULER_OP::parse_master_file(PROJECT* p, vector<std::string> &urls) {
     FILE* f;
     int n;
 
-    get_master_filename(*p, master_filename);
+    get_master_filename(*p, master_filename, sizeof(master_filename));
     f = boinc_fopen(master_filename, "r");
     if (!f) {
         msg_printf(p, MSG_INTERNAL_ERROR, "Can't open scheduler list file");

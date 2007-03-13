@@ -114,7 +114,7 @@ int FILE_INFO::verify_file(bool strict, bool show_errors) {
     int retval;
     double size, local_nbytes;
 
-    get_pathname(this, pathname);
+    get_pathname(this, pathname, sizeof(pathname));
 
     // If the file isn't there at all, set status to FILE_NOT_PRESENT;
     // this will trigger a new download rather than erroring out
@@ -313,7 +313,7 @@ void CLIENT_STATE::check_file_existence() {
     for (i=0; i<file_infos.size(); i++) {
         FILE_INFO* fip = file_infos[i];
         if (fip->status == FILE_PRESENT) {
-            get_pathname(fip, path);
+            get_pathname(fip, path, sizeof(path));
             if (!boinc_file_exists(path)) {
                 fip->status = FILE_NOT_PRESENT;
                 msg_printf(NULL, MSG_INFO,

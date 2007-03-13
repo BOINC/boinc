@@ -469,7 +469,7 @@ static void handle_result_op(char* buf, MIOFILE& fout, const char* op) {
 }
 
 static void handle_get_host_info(char*, MIOFILE& fout) {
-    gstate.host_info.write(fout);
+    gstate.host_info.write(fout, false);
 }
 
 static void handle_get_screensaver_mode(GUI_RPC_CONN* gr, char*, MIOFILE& fout) {
@@ -847,6 +847,15 @@ static void handle_get_cc_config(MIOFILE& fout) {
     }
 }
 
+static void read_all_projects_list_file(MIOFILE& fout) {
+    string s;
+    int retval = read_file_string(ALL_PROJECTS_LIST_FILENAME, s);
+    if (!retval) {
+        strip_whitespace(s);
+        fout.printf("%s\n", s.c_str());
+    }
+}
+
 static void handle_set_cc_config(char* buf, MIOFILE& fout) {
     char *p, *q=0;
     int retval = ERR_XML_PARSE;
@@ -1008,6 +1017,8 @@ int GUI_RPC_CONN::handle_rpc() {
         read_config_file();
         gstate.request_schedule_cpus("Core client configuration");
         gstate.request_work_fetch("Core client configuration");
+    } else if (match_tag(request_msg, "<get_all_projects_list/>")) {
+        read_all_projects_list_file(mf);
     } else {
 
         // RPCs after this point enable network communication

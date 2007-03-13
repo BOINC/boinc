@@ -63,7 +63,7 @@ public:
 
     HOST_INFO();
     int parse(MIOFILE&);
-    int write(MIOFILE&);
+    int write(MIOFILE&, bool suppress_net_info);
     int parse_cpu_benchmarks(FILE*);
     int write_cpu_benchmarks(FILE*);
     void print();

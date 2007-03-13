@@ -92,54 +92,46 @@ int GUI_URL::parse(MIOFILE& in) {
 }
 
 
-PROJECTLISTENTRY::PROJECTLISTENTRY() {
+PROJECT_LIST_ENTRY::PROJECT_LIST_ENTRY() {
     clear();
 }
 
-PROJECTLISTENTRY::~PROJECTLISTENTRY() {
+PROJECT_LIST_ENTRY::~PROJECT_LIST_ENTRY() {
     clear();
 }
 
-int PROJECTLISTENTRY::parse(XML_PARSER& xp) {
-    char tag[256], buf[4096];
+int PROJECT_LIST_ENTRY::parse(XML_PARSER& xp) {
+    char tag[256];
     bool is_tag;
 
     while (!xp.get(tag, sizeof(tag), is_tag)) {
-        if (strstr(tag, "/project")) return 0;
-        if (strstr(tag, "/projects")) break;
-        else if (xp.parse_str(tag, "name", buf, sizeof(buf))) {
-            name = string(buf);
+        if (!strcmp(tag, "/project")) return 0;
+        else if (xp.parse_string(tag, "name", name)) {
             continue;
         }
-        else if (xp.parse_str(tag, "url", buf, sizeof(buf))) {
-            url = string(buf);
+        else if (xp.parse_string(tag, "url", url)) {
             continue;
         }
-        else if (xp.parse_str(tag, "general_area", buf, sizeof(buf))) {
-            general_area = string(buf);
+        else if (xp.parse_string(tag, "general_area", general_area)) {
             continue;
         }
-        else if (xp.parse_str(tag, "specific_area", buf, sizeof(buf))) {
-            specific_area = string(buf);
+        else if (xp.parse_string(tag, "specific_area", specific_area)) {
             continue;
         }
-        else if (xp.parse_str(tag, "desc", buf, sizeof(buf))) {
-            description = string(buf);
+        else if (xp.parse_string(tag, "description", description)) {
             continue;
         }
-        else if (xp.parse_str(tag, "home", buf, sizeof(buf))) {
-            home = string(buf);
+        else if (xp.parse_string(tag, "home", home)) {
             continue;
         }
-        else if (xp.parse_str(tag, "img", buf, sizeof(buf))) {
-            image = string(buf);
+        else if (xp.parse_string(tag, "image", image)) {
             continue;
         }
     }
     return ERR_XML_PARSE;
 }
 
-void PROJECTLISTENTRY::clear() {
+void PROJECT_LIST_ENTRY::clear() {
     name.clear();
     url.clear();
     general_area.clear();
@@ -222,6 +214,7 @@ int PROJECT::parse(MIOFILE& in) {
             continue;
         }
         else if (parse_int(buf, "<sched_rpc_pending>", sched_rpc_pending)) continue;
+        else if (parse_int(buf, "<rr_sim_deadlines_missed>", rr_sim_deadlines_missed)) continue;
         else if (match_tag(buf, "<non_cpu_intensive/>")) {
             non_cpu_intensive = true;
             continue;
@@ -777,15 +770,14 @@ RESULT* CC_STATE::lookup_result(PROJECT* project, string& str) {
     return 0;
 }
 
-PROJECTLIST::PROJECTLIST() {
+ALL_PROJECTS_LIST::ALL_PROJECTS_LIST() {
+}
+
+ALL_PROJECTS_LIST::~ALL_PROJECTS_LIST() {
     clear();
 }
 
-PROJECTLIST::~PROJECTLIST() {
-    clear();
-}
-
-void PROJECTLIST::clear() {
+void ALL_PROJECTS_LIST::clear() {
     unsigned int i;
     for (i=0; i<projects.size(); i++) {
         delete projects[i];
@@ -1400,33 +1392,35 @@ int RPC_CLIENT::get_project_status(CC_STATE& state) {
     return retval;
 }
 
-int RPC_CLIENT::get_project_list(PROJECTLIST& pl) {
+int RPC_CLIENT::get_all_projects_list(ALL_PROJECTS_LIST& pl) {
     int retval = 0;
     SET_LOCALE sl;
     char tag[256];
     bool is_tag;
     MIOFILE mf;
     FILE*   f;
-    PROJECTLISTENTRY* project;
+    PROJECT_LIST_ENTRY* project;
+    RPC rpc(this);
 
     pl.clear();
 
-    f = fopen("project_list.xml", "r");
-    if (f) {
-        mf.init_file(f);
-        XML_PARSER xp(&mf);
-        while (!xp.get(tag, sizeof(tag), is_tag)) {
-            if (strstr(tag, "/projects")) break;
-            else if (strstr(tag, "project")) {
-                project = new PROJECTLISTENTRY();
-                retval = project->parse(xp);
+    retval = rpc.do_rpc("<get_all_projects_list/>\n");
+    if (retval) return retval;
+    XML_PARSER xp(&rpc.fin);
+    while (!xp.get(tag, sizeof(tag), is_tag)) {
+        if (strstr(tag, "/projects")) break;
+        else if (strstr(tag, "project")) {
+            project = new PROJECT_LIST_ENTRY();
+            retval = project->parse(xp);
+            if (!retval) {
                 pl.projects.push_back(project);
-                continue;
+            } else {
+                delete project;
             }
+            continue;
         }
-        fclose(f);
     }
-    return retval;
+    return 0;
 }
 
 int RPC_CLIENT::get_disk_usage(DISK_USAGE& du) {
@@ -2192,7 +2186,7 @@ int RPC_CLIENT::set_global_prefs_override_struct(GLOBAL_PREFS& prefs, GLOBAL_PRE
     MIOFILE mf;
     string s;
 
-    mf.init_buf_write(buf);
+    mf.init_buf_write(buf, sizeof(buf));
     prefs.write_subset(mf, mask);
     s = buf;
     return set_global_prefs_override(s);

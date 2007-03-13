@@ -49,6 +49,7 @@ class MIOFILE {
     MFILE* mf;
     FILE* f;
     char* wbuf;
+    int len;
 	const char* buf;
 public:
     MIOFILE();
@@ -56,7 +57,7 @@ public:
     void init_mfile(MFILE*);
     void init_file(FILE*);
     void init_buf_read(const char*);
-	void init_buf_write(char*);
+	void init_buf_write(char*, int len);
     int printf(const char* format, ...);
     char* fgets(char*, int);
     int _ungetc(int);

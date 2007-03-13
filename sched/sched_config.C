@@ -153,7 +153,7 @@ int SCHED_CONFIG::parse_file(const char* dir) {
 }
 
 void get_project_dir(char* p, int len) {
-    getcwd(p, len);
+    char* foo = getcwd(p, len);
     char* q = strrchr(p, '/');
     if (q) *q = 0;
 }

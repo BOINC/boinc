@@ -191,7 +191,7 @@ bool HOST_INFO::host_is_running_on_batteries() {
         int     apm_ac_line_status=1;
 
         // Supposedly we're on batteries if the 5th entry is zero.
-        fscanf(fapm, "%10s %d.%d %x %x",
+        int n = fscanf(fapm, "%10s %d.%d %x %x",
             apm_driver_version,
             &apm_major_version,
             &apm_minor_version,
@@ -223,7 +223,7 @@ bool HOST_INFO::host_is_running_on_batteries() {
             }
 
             if (facpi) {
-                fgets(buf, 128, facpi);
+                char* p = fgets(buf, 128, facpi);
                 fclose(facpi);
 
                 // only valid state if it contains "state" (newer) or "Status" (older)
@@ -251,50 +251,137 @@ void parse_cpuinfo(HOST_INFO& host) {
     char buf[256], features[1024], model_buf[1024];
     bool vendor_found=false, model_found=false;
     bool cache_found=false, features_found=false;
+    bool icache_found=false,dcache_found=false;
+    bool model_hack=false, vendor_hack=false;
     int n;
     int family=-1, model=-1, stepping=-1;
+    char buf2[256];
 
     FILE* f = fopen("/proc/cpuinfo", "r");
     if (!f) return;
 
 #ifdef __mips__
     strcpy(host.p_model, "MIPS ");
-    model_found = true;
+    model_hack = true;
 #elif __alpha__
     strcpy(host.p_vendor, "HP (DEC) ");
-    vendor_found = true;
+    vendor_hack = true;
+#elif __hppa__
+    strcpy(host.p_vendor, "HP ");
+    vendor_hack = true;
+#elif __ia64__
+    strcpy(host.p_model, "IA-64 ");
+    model_hack = true;
 #endif
 
+    host.m_cache=-1;
     strcpy(features, "");
     while (fgets(buf, 256, f)) {
         strip_whitespace(buf);
-        if (strstr(buf, "vendor_id\t: ") || strstr(buf, "system type\t\t: ")) {
-            if (!vendor_found) {
+         if (
+                /* there might be conflicts if we dont #ifdef */
+#ifdef __ia64__
+                strstr(buf, "vendor     : ")
+#elif __hppa__		
+		strstr(buf, "cpu\t\t: ")
+#elif __powerpc__
+                strstr(buf, "machine\t\t: ")
+#elif __sparc__
+		strstr(buf, "type\t\t: ")
+#elif __alpha__
+		strstr(buf, "cpu\t\t\t: ")
+#else
+		strstr(buf, "vendor_id\t: ") || strstr(buf, "system type\t\t: ")
+#endif
+		) {
+            if (!vendor_hack && !vendor_found) {
                 vendor_found = true;
                 strlcpy(host.p_vendor, strchr(buf, ':') + 2, sizeof(host.p_vendor));
+            } else if (!vendor_found) {
+	    	vendor_found = true;
+		strlcpy(buf2, strchr(buf, ':') + 2, sizeof(host.p_vendor) - strlen(host.p_vendor) - 1);
+		strcat(host.p_vendor, buf2);
             }
         }
-        if (strstr(buf, "model name\t: ") || strstr(buf, "cpu model\t\t: ")) {
-            if (!model_found) {
+        if (
+#ifdef __ia64__
+		strstr(buf, "family     : ") || strstr(buf, "model name : ")
+#elif __powerpc__ || __sparc__
+		strstr(buf, "cpu\t\t: ")
+#else
+		strstr(buf, "model name\t: ") || strstr(buf, "cpu model\t\t: ")
+#endif
+                ) {
+            if (!model_hack && !model_found) {
                 model_found = true;
+#ifdef __powerpc__
+	    char *coma = NULL;
+            if ((coma = strrchr(buf, ','))) {   /* we have ", altivec supported" */
+	    	*coma = '\0';	/* strip the unwanted line */
+                strcpy(features, "altivec");
+                features_found = true;
+            }
+#endif
                 strlcpy(host.p_model, strchr(buf, ':') + 2, sizeof(host.p_model));
+            } else if (!model_found) {
+#ifdef __ia64__
+		/* depending on kernel version, family can be either
+		a number or a string. If number, we have a model name,
+		else we don't */
+		char *testc = NULL;
+		testc = strrchr(buf, ':')+2;
+		if (isdigit(*testc)) {
+			family = atoi(testc);
+			continue;	/* skip this line */
+		}
+#endif
+		model_found = true;
+		strlcpy(buf2, strchr(buf, ':') + 2, sizeof(host.p_model) - strlen(host.p_model) - 1);
+		strcat(host.p_model, buf2);
             }
         }
+#ifndef __hppa__
+	/* XXX hppa: "cpu family\t: PA-RISC 2.0" */
         if (strstr(buf, "cpu family\t: ") && family<0) {
             family = atoi(buf+strlen("cpu family\t: "));
         }
-        if (strstr(buf, "model\t\t: ") && model<0) {
+        /* XXX hppa: "model\t\t: 9000/785/J6000" */
+	/* XXX alpha: "cpu model\t\t: EV6" -> ==buf necessary */
+        if ((strstr(buf, "model\t\t: ") == buf) && model<0) {
             model = atoi(buf+strlen("model\t\t: "));
         }
+        /* ia64 */
+        if (strstr(buf, "model      : ") && model<0) {
+            model = atoi(buf+strlen("model     : "));
+        }
+#endif
         if (strstr(buf, "stepping\t: ") && stepping<0) {
             stepping = atoi(buf+strlen("stepping\t: "));
         }
+#ifdef __hppa__
+        if (!icache_found && strstr(buf, "I-cache\t\t: ")) {
+            icache_found = true;
+            sscanf(buf, "I-cache\t\t: %d", &n);
+            host.m_cache += n*1024;
+        }
+        if (!dcache_found && strstr(buf, "D-cache\t\t: ")) {
+            dcache_found = true;
+            sscanf(buf, "D-cache\t\t: %d", &n);
+            host.m_cache += n*1024;
+        }
+#elif __powerpc__
+        if (!cache_found && strstr(buf, "L2 cache\t: ")) {
+            cache_found = true;
+            sscanf(buf, "L2 cache\t: %d", &n);
+            host.m_cache = n*1024;
+        }
+#else
         if (!cache_found && (strstr(buf, "cache size\t: ") == buf)) {
             cache_found = true;
             sscanf(buf, "cache size\t: %d", &n);
             host.m_cache = n*1024;
         }
-
+#endif
         if (!features_found) {
             // Some versions of the linux kernel call them flags,
             // others call them features, so look for both.
@@ -303,6 +390,8 @@ void parse_cpuinfo(HOST_INFO& host) {
                 strlcpy(features, strchr(buf, ':') + 2, sizeof(features));
             } else if ((strstr(buf, "features\t\t: ") == buf)) {
                 strlcpy(features, strchr(buf, ':') + 2, sizeof(features));
+            } else if ((strstr(buf, "features   : ") == buf)) {	/* ia64 */
+	    	strlcpy(features, strchr(buf, ':') + 2, sizeof(features));
             }
             if (strlen(features)) {
                 features_found = true;

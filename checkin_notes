@@ -2340,21 +2340,76 @@ Charlie 12 Mar 2007
         boinc.xcodeproj/
             project.pbxproj
 
-Charlie 13 Mar 2007
-    Mac: remove wxAnimate.cpp,.h from XCode project. (This was done 
-        on 26 Jan 2007 in 5.a branch of CVS).
+David  13 Mar 2007
+    A bunch of security-related changes:
+    - Most functions that return paths now take an additional
+        "length" parameter to prevent buffer overrun if the
+        project URL or filename is extremely long.
+    - Use snprintf() and vsnprintf() in a bunch of places
+        to avoid buffer overrun.
+    - Core client: Add suppress_net_info config flag
+        (don't send IP address and domain name to servers)
+    - Core client: Add disallow_attach config file
+        (don't allow attach to new projects)
+    - Core client: Add os_random_only config flag.
+        (exit if OS-level random string functions fail
+        when generating GUI RPC password)
+    - Core client: if a filename (in <FILE_INFO>s from server)
+        contains directory traversal chars (..),
+        or format conversion chars (%),
+        or is empty,
+        reject it.
 
-    mac_build/
-        boinc.xcodeproj/
-            project.pbxproj
+    Other changes:
+    - Core client: change size of path buffers from 256 to 1024.
+        Should make this a #define at some point.
+    - GUI RPC: rename PROJECTLISTENTRY -> PROJECT_LIST_ENTRY
+        (let's stick with BOINC coding standards)
+    - GUI RPC: rename PROJECTLIST -> ALL_PROJECTS_LIST
+        (let's not confuse currently attached projects with all projects)
+    - GUI RPC: make get_all_projects_list() into an actual RPC,
+        not just reading a file (which won't exist in the RPC client's
+        current dir, e.g. if it's remote).
+    - GUI RPC: rename desc -> description and img -> image
+        in project list XML exported by BOINC server.
+        Let's NEVER have different spelling between
+        XML tabs and structure fields!!
+    - GUI RPC: Include rr_sim_deadlines_missed in PROJECT
+    - core client: rename file project_list.xml -> all_projects_list.xml
+    - core client, Linux: add improved code for
+        parsing CPU info (from Thibaut Varene)
+    - added test program for CPU info
 
-Rom    13 Mar 2007
-    - WIN: Change the sse3 CPU feature detection flag from 'sse3' to 'pni'.
-    - MGR: Commit Frank Weiler's lastest ViewProjectsGrid.
-    
-    client/win/
-        hostinfo_win.cpp
     client/
-        sg_BoincSimpleGUI.cpp
-        sg_ViewTabPage.cpp
-        ViewProjectsGrid.cpp, .h
+        app.C
+        app_start.C
+        client_state.C,h
+        client_types.C
+        cs_account.C
+        cs_apps.C
+        cs_files.C
+        cs_prefs.C
+        cs_scheduler.C
+        cs_statefile.C
+        cs_trickle.C
+        file_names.C,h
+        file_xfer.C
+        gui_rpc_server.C
+        gui_rpc_server_ops.C
+        hostinfo_unix.C
+        hostinfo_unix_test.C (new)
+        log_flags.C,h
+        pers_file_xfer.C
+        scheduler_op.C
+    lib/
+        app_ipc.C
+        boinc_cmd.C
+        error_numbers.h
+        gui_rpc_client.C
+        gui_rpc_client_ops.C
+        hostinfo.C,h
+        md5_file.C
+        miofile.C,h
+        str_util.C
+    sched/
+        sched_config.C

@@ -99,11 +99,11 @@ void parse_display_args(char** argv, int& i, DISPLAY_INFO& di) {
     strcpy(di.display, "");
     while (argv[i]) {
         if (!strcmp(argv[i], "--window_station")) {
-            strcpy(di.window_station, argv[++i]);
+            strlcpy(di.window_station, argv[++i], sizeof(di.window_station));
         } else if (!strcpy(argv[i], "--desktop")) {
-            strcpy(di.desktop, argv[++i]);
+            strlcpy(di.desktop, argv[++i], sizeof(di.desktop));
         } else if (!strcpy(argv[i], "--display")) {
-            strcpy(di.display, argv[++i]);
+            strlcpy(di.display, argv[++i], sizeof(di.display));
         }
         i++;
     }
@@ -168,7 +168,7 @@ int main(int argc, char** argv) {
 
     if (!strcmp(argv[i], "--host")) {
         if (++i == argc) usage();
-        strcpy(hostname_buf, argv[i]);
+        strlcpy(hostname_buf, argv[i], sizeof(hostname_buf));
         hostname = hostname_buf;
         p = strchr(hostname, ':');
         if (p) {

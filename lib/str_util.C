@@ -383,9 +383,7 @@ void escape_url(string& url) {
 }
 
 // Escape a URL for the project directory, cutting off the "http://",
-// converting '\' '/' and ' ' to '_',
-// and converting the non alphanumeric characters to %XY
-// where XY is their hexadecimal equivalent
+// converting everthing other than alphanumbers, ., - and _ to "_".
 //
 void escape_url_readable(char *in, char* out) {
     int x, y;
@@ -676,6 +674,7 @@ const char* boincerror(int which_error) {
         case ERR_GETGRNAM: return "Group not found";
         case ERR_CHOWN: return "can't change owner";
         case ERR_FILE_NOT_FOUND: return "file not found";
+        case ERR_BAD_FILENAME: return "file name is empty or has '..'";
         case 404: return "HTTP file not found";
         case 407: return "HTTP proxy authentication failure";
         case 416: return "HTTP range request error";

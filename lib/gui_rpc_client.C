@@ -201,7 +201,7 @@ int RPC_CLIENT::init_poll() {
 
 int RPC_CLIENT::authorize(const char* passwd) {
     bool found=false;
-    int retval;
+    int retval, n;
     char buf[256], nonce[256], nonce_hash[256];
     RPC rpc(this);
 
@@ -217,7 +217,8 @@ int RPC_CLIENT::authorize(const char* passwd) {
         return ERR_AUTHENTICATOR;
     }
 
-    sprintf(buf, "%s%s", nonce, passwd);
+    n = snprintf(buf, sizeof(buf), "%s%s", nonce, passwd);
+    if (n >= sizeof(buf)) return ERR_AUTHENTICATOR;
     md5_block((const unsigned char*)buf, (int)strlen(buf), nonce_hash);
     sprintf(buf, "<auth2/>\n<nonce_hash>%s</nonce_hash>\n", nonce_hash);
     retval = rpc.do_rpc(buf);

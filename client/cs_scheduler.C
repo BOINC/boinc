@@ -75,7 +75,7 @@ int CLIENT_STATE::make_scheduler_request(PROJECT* p) {
     int retval;
     double disk_total, disk_project;
 
-    get_sched_request_filename(*p, buf);
+    get_sched_request_filename(*p, buf, sizeof(buf));
     FILE* f = boinc_fopen(buf, "wb");
 
     double trs = total_resource_share();
@@ -201,7 +201,7 @@ int CLIENT_STATE::make_scheduler_request(PROJECT* p) {
     // update hardware info, and write host info
     //
     host_info.get_host_info();
-    retval = host_info.write(mf);
+    retval = host_info.write(mf, config.suppress_net_info);
     if (retval) return retval;
 
     // get and write disk usage
@@ -365,7 +365,7 @@ int CLIENT_STATE::handle_scheduler_reply(
     contacted_sched_server = true;
     project->last_rpc_time = now;
 
-    get_sched_reply_filename(*project, filename);
+    get_sched_reply_filename(*project, filename, sizeof(filename));
 
     f = fopen(filename, "r");
     if (!f) return ERR_FOPEN;

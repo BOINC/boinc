@@ -54,7 +54,7 @@ FILE_XFER::~FILE_XFER() {
 int FILE_XFER::init_download(FILE_INFO& file_info) {
     is_upload = false;
     fip = &file_info;
-    get_pathname(fip, pathname);
+    get_pathname(fip, pathname, sizeof(pathname));
 
     // if file is already as large or larger than it's supposed to be,
     // something's screwy; start reading it from the beginning.
@@ -81,7 +81,7 @@ int FILE_XFER::init_upload(FILE_INFO& file_info) {
     // TODO: give priority to unfinished upload if there are multiple choices
     //
     fip = &file_info;
-    get_pathname(fip, pathname);
+    get_pathname(fip, pathname, sizeof(pathname));
 
     is_upload = true;
 
@@ -278,7 +278,7 @@ bool FILE_XFER_SET::poll() {
         // deal with various error cases for downloads
         //
         if (!fxp->is_upload) {
-            get_pathname(fxp->fip, pathname);
+            get_pathname(fxp->fip, pathname, sizeof(pathname));
             if (file_size(pathname, size)) continue;
             double diff = size - fxp->starting_size;
             if (fxp->http_op_retval == 0) {
@@ -320,7 +320,7 @@ bool FILE_XFER_SET::poll() {
         if (!fxp->is_upload && fxp->starting_size
             && fxp->response==HTTP_STATUS_OK
         ) {
-            get_pathname(fxp->fip, pathname);
+            get_pathname(fxp->fip, pathname, sizeof(pathname));
             if (file_size(pathname, size)) continue;
             if (size > fxp->fip->nbytes) {
                 FILE* f1 = boinc_fopen(pathname, "rb");

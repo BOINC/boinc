@@ -113,12 +113,21 @@ int HOST_INFO::parse(MIOFILE& in) {
 // Write the host information, to the client state XML file
 // or in a scheduler request message
 //
-int HOST_INFO::write(MIOFILE& out) {
+int HOST_INFO::write(MIOFILE& out, bool suppress_net_info) {
     out.printf(
         "<host_info>\n"
-        "    <timezone>%d</timezone>\n"
-        "    <domain_name>%s</domain_name>\n"
-        "    <ip_addr>%s</ip_addr>\n"
+        "    <timezone>%d</timezone>\n",
+        timezone
+    );
+    if (!suppress_net_info) {
+        out.printf(
+            "    <domain_name>%s</domain_name>\n"
+            "    <ip_addr>%s</ip_addr>\n",
+            domain_name,
+            ip_addr
+        );
+    }
+    out.printf(
         "    <host_cpid>%s</host_cpid>\n"
         "    <p_ncpus>%d</p_ncpus>\n"
         "    <p_vendor>%s</p_vendor>\n"
@@ -136,9 +145,6 @@ int HOST_INFO::write(MIOFILE& out) {
         "    <os_version>%s</os_version>\n"
         "    <accelerators>%s</accelerators>\n"
         "</host_info>\n",
-        timezone,
-        domain_name,
-        ip_addr,
         host_cpid,
         p_ncpus,
         p_vendor,
