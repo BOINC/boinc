@@ -1,3 +1,10 @@
+dcapi (0.9-12) unstable; urgency=low
+
+  * Bugzilla bugs fixed:
+    #1318: _DC_parseCfg() es _DC_copyFile() keruljon at a kozosbe
+
+ -- Gábor Gombás <gombasg@sztaki.hu>  Tue,  6 Feb 2007 16:00:49 +0100
+
 dcapi (0.9-11) unstable; urgency=low
 
   * Add the license text to debian/copyright
