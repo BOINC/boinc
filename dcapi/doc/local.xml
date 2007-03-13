@@ -84,7 +84,7 @@
 	    <para>
 
 	    REQUIRED. Identification of running instance of the
-	    application. For CONDOR backend it can be any string not
+	    application. For Standalone backend it can be any string not
 	    just an UUID.
 
 	    </para>
