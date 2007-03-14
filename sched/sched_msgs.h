@@ -17,6 +17,9 @@
 // or write to the Free Software Foundation, Inc.,
 // 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 
+#ifndef _BOINC_SCHED_MSGS_H_
+#define _BOINC_SCHED_MSGS_H_
+
 #include "msg_log.h"
 
 class SCHED_MSG_LOG : public MSG_LOG {
@@ -34,3 +37,4 @@ public:
 };
 
 extern SCHED_MSG_LOG log_messages;
+#endif
