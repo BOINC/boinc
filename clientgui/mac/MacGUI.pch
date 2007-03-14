@@ -30,7 +30,7 @@
 
 // To use the Development (Debug) build of wxMac (allows stepping into wxMac 
 //   source code, enables debug, trace, Asserts, etc.):
-// (1) Set USE_DEBUG_WXMAC to 0
+// (1) Set USE_DEBUG_WXMAC to 1
 // (2) Select Development build configuration
 // (3) Select mgr_boinc target
 // (4) In Xcode's View menu, set "Groups & Files Column > Target Membership" on
