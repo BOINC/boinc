@@ -382,6 +382,7 @@ is P.work_request_size
 divided by P's resource share fraction relative to
 potentially runnable projects.
 <hr>
+<a name=server_policy></a>
 <h2>Scheduler work-send policy</h2>
 <p>
 NOTE: the following has not been implemented,

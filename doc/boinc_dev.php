@@ -83,9 +83,15 @@ If you have one or more of the relevant technical skills
 (C++ system programming, PHP/MySQL web development,
 WxWidgets programming, autoconf/automake expertise, etc.)
 you may be able to help us maintain and enhance BOINC.
-The University of California holds the copyright on all BOINC source code;
-by contributing code to BOINC you implicitly assign the copyright
-to the University of California.
+
+<p>
+The University of California holds the copyright on all BOINC source code.
+By submitting contributions to the BOINC code, you irrevocably assign
+all right, title, and interest, including copyright and all copyright
+rights, in such contributions to The Regents of the University of
+California, who may then use the code for any purpose that it desires.
+
+<p>
 In any case, you are welcome to browse the source code and give us feedback.
 You should understand how BOINC works
 (for both <a href=participate.php>participants</a>
