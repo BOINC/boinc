@@ -17,6 +17,9 @@
 // or write to the Free Software Foundation, Inc.,
 // 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 
+#ifndef _BOINC_MSG_LOG_H_
+#define _BOINC_MSG_LOG_H_
+
 #include <cstdio>
 #include <cstdarg>
 
@@ -89,3 +92,4 @@ public:
 #pragma warning(default: 4512) // assignment operator could not be generated
 #endif
 
+#endif
