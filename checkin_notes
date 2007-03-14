@@ -2428,3 +2428,10 @@ David  13 Mar 2007
     client/
         cpu_sched.C
         work_fetch.C
+
+Charlie 13 Mar 2007
+    - Fix compiler warnings.
+    
+    client/
+        gui_rpc_server.C
+        gui_rpc_server_ops.C

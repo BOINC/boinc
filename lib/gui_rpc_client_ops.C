@@ -1398,7 +1398,6 @@ int RPC_CLIENT::get_all_projects_list(ALL_PROJECTS_LIST& pl) {
     char tag[256];
     bool is_tag;
     MIOFILE mf;
-    FILE*   f;
     PROJECT_LIST_ENTRY* project;
     RPC rpc(this);
 
