@@ -2438,3 +2438,17 @@ Charlie 13 Mar 2007
         gui_rpc_server_ops.C
     clientgui/
         ViewProjectsGrid.cpp
+
+Matt 14 Mar 2007
+    - updated db_init and db_init_aux code in util.inc, db.inc to enable
+      possible use of replica (i.e. read-only) database (for pages that
+      lookup stats, print profiles, etc. but don't make any updates).
+      Implemented in top_{users,teams,hosts}.php
+
+    html/inc
+        db.inc
+        util.inc
+    html/user
+        top_users.php
+        top_hosts.php
+        top_teams.php

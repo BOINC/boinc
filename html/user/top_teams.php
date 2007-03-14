@@ -62,7 +62,7 @@ if ($offset < ITEM_LIMIT) {
     if ($cacheddata){ //If we have got the data in cache
         $data = store_to_teams($cacheddata); // use the cached data
     } else { //if not do queries etc to generate new data
-        db_init();
+        db_init(true);
         $data = get_top_teams($offset,$sort_by,$type);
         
         // We need to calculate nusers before storing into the cache

@@ -8,7 +8,13 @@ require_once("../inc/translation.inc");
 
 $generating_xml = false;
 
-function db_init() {
+// db_init
+// Connects to database server and selects database as noted in config.xml
+// (Or, in some cases, if only read-only access is necessary, tries instead
+// to connect to replica database server noted in <replica_db_host> tag. If
+// this tag doesn't exist, db_init will revert to connecting to <db_host>.)
+//
+function db_init($try_replica=false) {
     if (web_stopped()) {
         page_head("Not available");
         echo "This page requires database access.
@@ -18,7 +24,7 @@ function db_init() {
         page_tail();
         exit();
     }
-    $retval = db_init_aux();
+    $retval = db_init_aux($try_replica);
     if ($retval == 1) {
         echo "Unable to connect to database - please try again later\n";
         echo "Error: ", mysql_errno(), mysql_error();

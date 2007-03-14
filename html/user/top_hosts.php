@@ -28,7 +28,7 @@ if ($offset < 1000) {
 require_once("../inc/db.inc");
 require_once("../inc/host.inc");
 
-db_init();
+db_init(true);
 page_head("Top computers");
 if ($sort_by == "total_credit") {
     $sort_clause = "total_credit desc";

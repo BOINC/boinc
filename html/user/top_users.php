@@ -45,7 +45,7 @@ if ($offset < ITEM_LIMIT) {
     if ($cacheddata){ //If we have got the data in cache
 	$data = store_to_participants($cacheddata); // use the cached data
     } else { //if not do queries etc to generate new data
-	db_init();
+	db_init(true);
 	$data = get_top_participants($offset,$sort_by);
 	set_cache_data(participants_to_store($data),$cache_args); //save data in cache
     };

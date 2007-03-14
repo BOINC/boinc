@@ -5,11 +5,17 @@ require_once('../inc/util.inc');
 // database-related functions.
 // Presentation code (HTML) shouldn't be here
 
-function db_init_aux() {
+function db_init_aux($try_replica=false) {
     $config = get_config();
 	$user = parse_config($config, "<db_user>");
 	$pass = parse_config($config, "<db_passwd>");
-	$host = parse_config($config, "<db_host>");
+    $host = null;
+    if ($try_replica == true) {
+	  $host = parse_config($config, "<replica_db_host>");
+    }
+    if ($host == null) {
+  	  $host = parse_config($config, "<db_host>");
+    }
     if ($host == null) {
         $host = "localhost";
     }
