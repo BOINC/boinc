@@ -105,7 +105,9 @@ CProjectInfo::CProjectInfo() {
 }
 
 void CProjectInfo::makeHashKey() {
-	hashKey.Printf("%s%s%s%f%f%f%f%s",name,accountname,teamname,totalcredit,avgcredit,resourceshare,rspercent,status);
+	hashKey.Printf(wxT("%s%s%s%f%f%f%f%s"),
+            name.c_str(), accountname.c_str(), teamname.c_str(), totalcredit,
+            avgcredit, resourceshare, rspercent, status.c_str());
 }
 
 //###############

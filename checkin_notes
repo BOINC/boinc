@@ -2430,8 +2430,11 @@ David  13 Mar 2007
         work_fetch.C
 
 Charlie 13 Mar 2007
-    - Fix compiler warnings.
+    - Fix compiler warnings, including one in CProjectInfo::makeHashKey() 
+        which warned "call will abort at runtime."
     
     client/
         gui_rpc_server.C
         gui_rpc_server_ops.C
+    clientgui/
+        ViewProjectsGrid.cpp
