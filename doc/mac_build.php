@@ -104,15 +104,15 @@ After building the libraries as Universal Binaries using the second method, you 
 <h2>Building BOINC Manager with embedded Core Client plus libraries libboinc.a and libboinc_graphics_api.a</h2>
 
 
-BOINC depends on three third-party libraries: wxMac-2.8.0, curl-7.16.1, and jpeg-6b.  You can obtain these from the following URLs:
+BOINC depends on three third-party libraries: wxMac-2.8.2, curl-7.16.1, and jpeg-6b.  You can obtain these from the following URLs:
 
 
 <p>
-wxMac-2.8.0 (needed  only if you are building the BOINC Manager):
+wxMac-2.8.2 (needed  only if you are building the BOINC Manager):
 
 ";
 show_link("http://www.wxwidgets.org");
-show_link("http://prdownloads.sourceforge.net/wxwindows/wxMac-2.8.0.tar.gz");
+show_link("http://prdownloads.sourceforge.net/wxwindows/wxMac-2.8.2.tar.gz");
 echo "
 <p>
 curl-7.16.1:
@@ -129,7 +129,7 @@ show_link("ftp://ftp.uu.net/graphics/jpeg/jpegsrc.v6b.tar.gz");
 echo "
 <p>
 
-XCode 2.2 installs autoconf 2.59 and automake 1.63.  To determine the version number, type 'autoconf --version' or 'automake --version' .  Building wxMac-2.8.0 and curl-7.16.1 require autoconf 2.59 and automake 1.93 or later.  
+XCode 2.2 installs autoconf 2.59 and automake 1.63.  To determine the version number, type 'autoconf --version' or 'automake --version' .  Building wxMac-2.8.2 and curl-7.16.1 require autoconf 2.59 and automake 1.93 or later.  
 
 <p>
 Upgrades for autoconf and automake are available from www.gnu.org:  
@@ -147,7 +147,7 @@ As stated above, all BOINC software for Power PC Macs must be built using GCC 3.
 
 
 <p>
-These are not done by either the XCode projects which come with wxMac-2.8.0, nor  the AutoMake scripts supplied with wxMac-2.8.0, curl-7.16.1, or jpeg-6b.  So be sure to use our special scripts to build these packages.
+These are not done by either the XCode projects which come with wxMac-2.8.2, nor  the AutoMake scripts supplied with wxMac-2.8.2, curl-7.16.1, or jpeg-6b.  So be sure to use our special scripts to build these packages.
 
 
 <p>
@@ -163,7 +163,7 @@ Building BOINC and the library packages on which it depends requires OS 10.4.4 a
 <pre>
 curl-7.16.1
 jpeg-6b
-wxMac-2.8.0
+wxMac-2.8.2
 </pre>
 
 
@@ -266,7 +266,7 @@ Note: You may find three XCode projects in the BOINC_dev/boinc/mac_build/ direct
 <ul>
   <li> boinc.pbproj is obsolete and should no longer be used.
 
-  <li> wxMac-BOINC.xcodeproj is used to build the wxMac-2.8.0 library in conjunction with the setupForBoinc.sh or buildWxMac.sh scripts.  Do not use it as a stand-alone project; it will not configure the wxMac libraries correctly when run outside of these scripts. 
+  <li> wxMac-BOINC.xcodeproj is used to build the wxMac-2.8.2 library in conjunction with the setupForBoinc.sh or buildWxMac.sh scripts.  Do not use it as a stand-alone project; it will not configure the wxMac libraries correctly when run outside of these scripts. 
 
   <li> boinc.xcodeproj builds BOINC.  It can be used either with the BuildMacBOINC.sh script or as a stand-alone project.  It has two extra build configurations, i386-Deployment and ppc-Deployment, which can be used for testing only to build for just one architecture.  The Development build configuration builds only the native architecture and is used for debugging.  The Deployment build configuration builds a universal binary and is suitable for release builds.
 

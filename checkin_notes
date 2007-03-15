@@ -2452,3 +2452,18 @@ Matt 14 Mar 2007
         top_users.php
         top_hosts.php
         top_teams.php
+
+Charlie 14 Mar 2007
+    - Mac: Update build scripts, XCode project and build instructions 
+        for wxMac-2.8.2.
+    - Mac: Delete unused target AppStats from XCode project.
+
+    mac_build/
+        buildWxMac.sh
+        HowToBuildBOINC_XCode.rtf
+        setupForBOINC.sh
+        boinc.xcodeproj/
+            project.pbxproj
+    doc/
+        mac_build.php
+    

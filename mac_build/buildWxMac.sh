@@ -20,21 +20,14 @@
 # 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 #
 #
-# Script to build the wxMac-2.8.0 library for BOINC as a Universal Binary
+# Script to build the wxMac-2.8.1 library for BOINC as a Universal Binary
 #
 # by Charlie Fenton    7/21/06
-# Updated for wx-Mac 2.8.0 1/19/07
+# Updated for wx-Mac 2.8.2 3/14/07
 
 #
-## Before running this script, you must first copy the special XCode 
-## project
-##    boinc/mac_build/wxMac-BOINC.xcodeproj 
-## to 
-##    wxMac-2.8.0/src/
-#
-#
-## In Terminal, CD to the wxMac-2.8.0 directory.
-##    cd [path]/wxMac-2.8.0/
+## In Terminal, CD to the wxMac-2.8.2 directory.
+##    cd [path]/wxMac-2.8.2/
 ## then run this script:
 ##    source [ path_to_this_script ] [ -clean ]
 ##
@@ -48,21 +41,14 @@ else
   doclean=""
 fi
 
-mv -n include/wx/mac/setup.h include/wx/mac/setup_obs.h
-cp -np include/wx/mac/setup0.h include/wx/mac/setup.h
-
-# Create wx include directory if necessary
-if [ ! -d src/build/include/wx ]; then
-    mkdir -p src/build/include/wx
-fi
-
-cp -n include/wx/mac/setup0.h include/wx/setup.h
-
+## The following line is needed because the XCode project is missing the 
+## "Run script" phase which should run the wxMac-2.8.2/distrib/mac/pbsetup-sh script
+sh distrib/mac/pbsetup-sh src src/build
 
 if [ "$1" != "-clean" ] && [ -f src/build/Deployment/libwx_mac_static.a ]; then
     echo "Deployment libwx_mac_static.a already built"
 else
-    xcodebuild -project src/wxMac-BOINC.xcodeproj -target static  -configuration Deployment $doclean build GCC_VERSION_ppc=3.3 MACOSX_DEPLOYMENT_TARGET_ppc=10.3 SDKROOT_ppc=/Developer/SDKs/MacOSX10.3.9.sdk
+    xcodebuild -project src/wxWindows.xcodeproj -target static  -configuration Deployment $doclean build GCC_VERSION_ppc=3.3 MACOSX_DEPLOYMENT_TARGET_ppc=10.3 SDKROOT_ppc=/Developer/SDKs/MacOSX10.3.9.sdk
 
 if [  $? -ne 0 ]; then return 1; fi
 fi
@@ -70,7 +56,7 @@ fi
 if [ "$1" != "-clean" ] && [ -f src/build/Development/libwx_mac_static.a ]; then
     echo "Development libwx_mac_static.a already built"
 else
-    xcodebuild -project src/wxMac-BOINC.xcodeproj -target static  -configuration Development $doclean build GCC_VERSION_ppc=3.3 MACOSX_DEPLOYMENT_TARGET_ppc=10.3 SDKROOT_ppc=/Developer/SDKs/MacOSX10.3.9.sdk
+    xcodebuild -project src/wxWindows.xcodeproj -target static  -configuration Development $doclean build GCC_VERSION_ppc=3.3 MACOSX_DEPLOYMENT_TARGET_ppc=10.3 SDKROOT_ppc=/Developer/SDKs/MacOSX10.3.9.sdk
 
 if [  $? -ne 0 ]; then return 1; fi
 fi
