@@ -2469,3 +2469,15 @@ Charlie 14 Mar 2007
     doc/
         mac_build.php
     
+Charlie 15 Mar 2007
+    - SG: On timer events, update only the panel for the currently selected 
+        task tab.  Due to an apparent bug in wxMac-2.8.2, dc.DrawBitmap() 
+        and dc.DrawText() actually draw to the screen even though the tab 
+        panel should be hidden.  Also, updating hidden panels is inefficient 
+        on all platforms.  
+    - Added a new WorkunitNotebook::OnTabChanged() event handler to update 
+        the panel when its tab is first selected, so stale data is not shown.
+    - Fixed a logic error when deleting inactive tabs.
+
+    clientgui/
+        sg_ViewTabPage.cpp,h

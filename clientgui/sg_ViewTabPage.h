@@ -95,7 +95,7 @@ public:
 	void UpdateInterface();
 	void ReskinInterface();
 	void OnWorkShowGraphics();
-	void OnPaint(wxPaintEvent& event); 
+ 	void OnPaint(wxPaintEvent& event); 
 	void OnLeftUp(wxMouseEvent& event);
 	void DrawText();
 	void OnImageButton();
@@ -146,6 +146,8 @@ public:
 	void ReskinAppGUI();
 	void Update();
 	void OnChangeSlide(wxTimerEvent& WXUNUSED(event));
+	void OnTabChanged(wxFlatNotebookEvent& WXUNUSED(event));
+
 
 protected:
 

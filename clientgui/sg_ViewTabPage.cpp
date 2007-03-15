@@ -516,7 +516,7 @@ CSkinSimple* pSkinSimple = wxGetApp().GetSkinManager()->GetSimple();
 
     wxLogTrace(wxT("Function Start/End"), wxT("CViewTabPage::DrawText - Begin"));
 #if (defined(__WXMAC__) && (! wxCHECK_VERSION(2,8,0)))
-    // wxBufferedDC.GetTextExtent() fails on Mac, causing Manager to hang
+    // wxBufferedDC.GetTextExtent() fails with wxMac-2.6.3, causing Manager to hang
     wxClientDC dc(this);
 #else
     wxClientDC dcc(this);
@@ -634,6 +634,7 @@ void MyCanvas::AdvanceSlide() {
 
 BEGIN_EVENT_TABLE(WorkunitNotebook, wxFlatNotebook)
 	EVT_TIMER(ID_CHANGE_SLIDE_TIMER, WorkunitNotebook::OnChangeSlide)
+        EVT_FLATNOTEBOOK_PAGE_CHANGED(wxID_ANY, WorkunitNotebook::OnTabChanged)
 END_EVENT_TABLE()
 
 WorkunitNotebook::WorkunitNotebook(wxWindow* parent, wxWindowID id, const wxPoint& pos, const wxSize& size, long style, const wxString& name) :
@@ -794,9 +795,7 @@ void WorkunitNotebook::Update() {
 			CViewTabPage *currTab = m_windows[j];
 			if(result->name == currTab->GetTabName()){
 				currTab->resultWU = result;
-#ifdef __WXMAC__
                                 if (GetSelection() == j)
-#endif
                                     currTab->UpdateInterface();
 				if(isRunning(result) && this->GetPageImageIndex(j) != 0){
 					SetPageImageIndex(j, 0); // this result is current running
@@ -816,16 +815,12 @@ void WorkunitNotebook::Update() {
 
 	}
 
-	int deleteIndex = 0;
-	for(int x = 0; x < (int)m_windows.size(); x ++) {
+        // Check pages in descending order so deletion won't change indexes of pages yet to be checked
+	for(int x = (int)m_windows.size()-1; x >=0; x--) {
 		CViewTabPage *currTab = m_windows[x];
 		if(!currTab->isAlive){
-			//delete the notebook page
-			DeletePage(deleteIndex);
-			//delete the page in vector
-			m_windows.erase(m_windows.begin()+x);
-		}else{
-			deleteIndex++;
+			DeletePage(x);                          // delete the notebook page
+			m_windows.erase(m_windows.begin()+x);   // delete the page in vector
 		}
 	}
 }
@@ -839,4 +834,10 @@ void WorkunitNotebook::OnChangeSlide(wxTimerEvent& WXUNUSED(event)) {
 	}
 }
 
-
+void WorkunitNotebook::OnTabChanged(wxFlatNotebookEvent& WXUNUSED(event)) {
+        int index = GetSelection();
+        if (index < (int)m_windows.size()) {
+            CViewTabPage *currTab = m_windows[index];
+            currTab->UpdateInterface();
+        }
+}
