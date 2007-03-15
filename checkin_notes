@@ -2340,6 +2340,17 @@ Charlie 12 Mar 2007
         boinc.xcodeproj/
             project.pbxproj
 
+Rom    13 Mar 2007
+    - WIN: Change the sse3 CPU feature detection flag from 'sse3' to 'pni'.
+    - MGR: Commit Frank Weiler's lastest ViewProjectsGrid.
+    
+    client/win/
+        hostinfo_win.cpp
+    clientgui/
+        sg_BoincSimpleGUI.cpp
+        sg_ViewTabPage.cpp
+        ViewProjectsGrid.cpp, .h
+
 David  13 Mar 2007
     A bunch of security-related changes:
     - Most functions that return paths now take an additional
@@ -2481,3 +2492,10 @@ Charlie 15 Mar 2007
 
     clientgui/
         sg_ViewTabPage.cpp,h
+
+Rom    15 Mar 2007
+    - MGR: Do not allow multiple dial-up promtps to appear when the CC needs
+        to connect, it is annoying and will eventually blow the stack.
+    
+    clientgui/
+        BOINCDialupManager.cpp

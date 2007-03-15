@@ -95,6 +95,7 @@ size_t CBOINCDialUpManager::GetISPNames(wxArrayString& names) {
 void CBOINCDialUpManager::OnPoll() {
     CMainDocument*      pDoc = wxGetApp().GetDocument();
     CBOINCBaseFrame*    pFrame = wxGetApp().GetFrame();
+    static bool         bAlreadyRunningLoop = false;
 #if defined(__WXMSW__)
 //    CTaskBarIcon*       pTaskbar = wxGetApp().GetTaskBarIcon();
 #endif
@@ -107,12 +108,13 @@ void CBOINCDialUpManager::OnPoll() {
 
 
     // We are ready to rock and roll.
-    if (pDoc) {
+    if (!bAlreadyRunningLoop && pDoc) {
         wxASSERT(wxDynamicCast(pDoc, CMainDocument));
         wxASSERT(wxDynamicCast(pFrame, CBOINCBaseFrame));
 #if defined(__WXMSW__)
-//        wxASSERT(wxDynamicCast(pTaskbar, CTaskBarIcon));
+//      wxASSERT(wxDynamicCast(pTaskbar, CTaskBarIcon));
 #endif
+        bAlreadyRunningLoop = true;
 
         // cache the various states
 
@@ -231,6 +233,7 @@ void CBOINCDialUpManager::OnPoll() {
             m_bWasDialing = true;
         }
 #endif
+        bAlreadyRunningLoop = false;
     }
 }
 
