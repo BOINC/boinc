@@ -2454,10 +2454,12 @@ Matt 14 Mar 2007
         top_teams.php
 
 Charlie 14 Mar 2007
+    - Mac: Fix Mac bugs in SimpleGUI under wxMac-2.8.2.
     - Mac: Update build scripts, XCode project and build instructions 
         for wxMac-2.8.2.
-    - Mac: Delete unused target AppStats from XCode project.
 
+    clientgui/
+        sg_ViewTabPage.cpp
     mac_build/
         buildWxMac.sh
         HowToBuildBOINC_XCode.rtf

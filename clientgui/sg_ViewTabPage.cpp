@@ -515,7 +515,8 @@ CSkinSimple* pSkinSimple = wxGetApp().GetSkinManager()->GetSimple();
     wxASSERT(wxDynamicCast(pSkinSimple, CSkinSimple));
 
     wxLogTrace(wxT("Function Start/End"), wxT("CViewTabPage::DrawText - Begin"));
-#ifdef __WXMAC__    // wxBufferedDC.GetTextExtent() fails on Mac, causing Manager to hang
+#if (defined(__WXMAC__) && (! wxCHECK_VERSION(2,8,0)))
+    // wxBufferedDC.GetTextExtent() fails on Mac, causing Manager to hang
     wxClientDC dc(this);
 #else
     wxClientDC dcc(this);
@@ -525,8 +526,6 @@ CSkinSimple* pSkinSimple = wxGetApp().GetSkinManager()->GetSimple();
     dc.DrawBitmap(*(pSkinSimple->GetWorkunitAreaBackgroundImage()->GetBitmap()), 0, 0);
 	WriteText(&dc);
 
-#ifdef __WXMAC__    // wDrawBitMap of GetWorkunitAreaBackgroundImage erased gauge and animation area
-#endif
     wxLogTrace(wxT("Function Start/End"), wxT("CViewTabPage::DrawText - End"));
 }
 
@@ -685,6 +684,14 @@ WorkunitNotebook::WorkunitNotebook(wxWindow* parent, wxWindowID id, const wxPoin
 	changeSlideTimer->Start(10000); 
 
     Update();
+#ifdef __WXMAC__
+        // If no applications are running, the page corresponding to the last tab 
+        // would be displayed intially, but that tab itself is not visible if there 
+        // are more tabs than fit on page, causing problems.  So we select the 
+        // first tab as a default.
+    if (m_windows.size())       // If tab 0 exists
+        SetSelection(0);
+#endif
 
     for (int i=0; i< (int) m_windows.size(); i++) {
 		if ( isRunning(m_windows.at(i)->resultWU) ) {
@@ -718,16 +725,8 @@ void WorkunitNotebook::AddTab(RESULT* result) {
 	std::string index = " ";
 	appShortName += wxString(index.c_str(), wxConvUTF8 );
 	CViewTabPage *wTab = new CViewTabPage(this,result,nme,projUrl);
-	
-#ifdef __WXMAC__
-        // Setting "selected" arg true causes the page corresponding to the last tab 
-        // to be displayed intially, but that tab itself is not visible if there are 
-        // more tabss than fit on page, causing problems.  
-        // By setting it false, the page corresponding to the first tab is displayed.
-	AddPage(wTab, appShortName, false);	
-#else
+
 	AddPage(wTab, appShortName, true);	
-#endif
 	if(isRunning(resState) ){
 		int pageIndex = GetPageIndex(wTab);
 		SetPageImageIndex(pageIndex, 0); // this is a running process
@@ -795,7 +794,10 @@ void WorkunitNotebook::Update() {
 			CViewTabPage *currTab = m_windows[j];
 			if(result->name == currTab->GetTabName()){
 				currTab->resultWU = result;
-		        currTab->UpdateInterface();
+#ifdef __WXMAC__
+                                if (GetSelection() == j)
+#endif
+                                    currTab->UpdateInterface();
 				if(isRunning(result) && this->GetPageImageIndex(j) != 0){
 					SetPageImageIndex(j, 0); // this result is current running
 				} else if ( !isRunning(result) && this->GetPageImageIndex(j) != -1 ) {
