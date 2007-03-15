@@ -309,10 +309,12 @@ int boinc_truncate(const char* path, double size) {
 }
 
 // recursively delete everything in the specified directory
+// (but not the directory itself).
+// If an error occurs, delete as much as you can.
 //
 int clean_out_dir(const char* dirpath) {
     char filename[256], path[256];
-    int retval;
+    int retval, final_retval = 0;
     DIRREF dirp;
 
     dirp = dir_open(dirpath);
@@ -329,16 +331,18 @@ int clean_out_dir(const char* dirpath) {
         retval = dir_scan(filename, dirp, sizeof(filename));
         if (retval) break;
         sprintf(path, "%s/%s", dirpath,  filename);
-        clean_out_dir(path);
-        boinc_rmdir(path);
-        retval = boinc_delete_file(path);
-        if (retval) {
-            dir_close(dirp);
-            return retval;
+        if (is_dir(path)) {
+            retval = clean_out_dir(path);
+            if (retval) final_retval = retval;
+            retval = boinc_rmdir(path);
+            if (retval) final_retval = retval;
+        } else {
+            retval = boinc_delete_file(path);
+            if (retval) final_retval = retval;
         }
     }
     dir_close(dirp);
-    return 0;
+    return final_retval;
 }
 
 // return total size of files in directory and its subdirectories
@@ -622,7 +626,7 @@ void boinc_getcwd(char* path) {
 #if defined(_WIN32) && !defined(__CYGWIN32__)
     _getcwd(path, 256);
 #else
-    getcwd(path, 256);
+    char* p = getcwd(path, 256);
 #endif
 }
 
@@ -630,7 +634,7 @@ void relative_to_absolute(const char* relname, char* path) {
 #if defined(_WIN32) && !defined(__CYGWIN32__)
     _getcwd(path, 256);
 #else
-    getcwd(path, 256);
+    char* p = getcwd(path, 256);
 #endif
     if (strlen(relname)) {
         strcat(path, "/");

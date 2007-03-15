@@ -369,22 +369,49 @@ int ACTIVE_TASK::current_disk_usage(double& size) {
     return 0;
 }
 
-// Get the next free slot
+bool ACTIVE_TASK_SET::is_slot_in_use(int slot) {
+    unsigned int i;
+    for (i=0; i<active_tasks.size(); i++) {
+        if (active_tasks[i]->slot == slot) {
+            return true;
+        }
+    }
+    return false;
+}
+
+bool ACTIVE_TASK_SET::is_slot_dir_in_use(char* dir) {
+    char path[1024];
+    unsigned int i;
+    for (i=0; i<active_tasks.size(); i++) {
+        get_slot_dir(active_tasks[i]->slot, path, sizeof(path));
+        if (!strcmp(path, dir)) return true;
+    }
+    return false;
+}
+
+// Get a free slot,
+// and make a slot dir if needed
 //
 int ACTIVE_TASK_SET::get_free_slot() {
     unsigned int i;
-    int j;
-    bool found;
+    int j, retval;
+    char path[1024];
 
     for (j=0; ; j++) {
-        found = false;
-        for (i=0; i<active_tasks.size(); i++) {
-            if (active_tasks[i]->slot == j) {
-                found = true;
-                break;
+        if (is_slot_in_use(j)) continue;
+
+        // make sure we can make an empty directory for this slot
+        //
+        get_slot_dir(j, path, sizeof(path));
+        if (boinc_file_exists(path)) {
+            if (is_dir(path)) {
+                retval = clean_out_dir(path);
+                if (!retval) return j;
             }
+        } else {
+            retval = make_slot_dir(j);
+            if (!retval) return j;
         }
-        if (!found) return j;
     }
     return ERR_NOT_FOUND;   // probably never get here
 }

@@ -170,20 +170,7 @@ int make_slot_dir(int slot) {
     return retval;
 }
 
-// A slot dir can't be cleaned out
-// (e.g. a virus-checker has a file locked).
-// Rename it to DELETE_ME_x
-//
-int rename_slot_dir(int slot) {
-    char oldname[1024], newname[1024];
-    sprintf(oldname, "%s/%d", SLOTS_DIR, slot);
-    sprintf(newname, "%s/DELETE_ME_%d_%d", SLOTS_DIR, slot, (int)gstate.now);
-    int retval = rename(oldname, newname);
-    if (retval) return ERR_RENAME;
-    return 0;
-}
-
-// delete directories created by the above
+// delete unused stuff in the slots/ directory
 //
 void delete_old_slot_dirs() {
     char filename[1024], path[1024];
@@ -196,10 +183,14 @@ void delete_old_slot_dirs() {
         strcpy(filename, "");
         retval = dir_scan(filename, dirp, sizeof(filename));
         if (retval) break;
-        if (strstr(filename, "DELETE_ME")) {
-            sprintf(path, "%s/%s", SLOTS_DIR, filename);
-            clean_out_dir(path);
-            boinc_rmdir(path);
+        sprintf(path, "%s/%s", SLOTS_DIR, filename);
+        if (is_dir(path)) {
+            if (!gstate.active_tasks.is_slot_dir_in_use(path)) {
+                clean_out_dir(path);
+                boinc_rmdir(path);
+            }
+        } else {
+            boinc_delete_file(path);
         }
     }
     dir_close(dirp);

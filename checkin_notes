@@ -2525,3 +2525,31 @@ David  15 Mar 2007
     lib/
         hostinfo.C
         prefs.C,h
+
+David  15 Mar 2007
+    - core client: change the way slot directories are assigned,
+        and the way things are cleaned up.
+        The new design ensures that apps always start running
+        in an empty directory.
+        Old:
+            assign new ACTIVE_TASK the lowest slot number not in use.
+            When the app starts, try to clean out the slot dir.
+            If can't clean it out, rename it (to DELETE_ME_*)
+            and create another dir.
+            On startup, delete dirs named DELETE_ME_*
+            The problem: if you can't clean out a dir (on Windows)
+            you're not going to be able to rename it.
+            So the app will start in a non-empty dir.
+        New:
+            assign new ACTIVE_TASK the lowest slot number not in use
+            and for which an empty directory can be created.
+            On start, delete dirs and files not in use by an active task.
+    - core client: fix bug where clean_out_dir() could return zero
+        even though the dir isn't emptied.
+        
+    client/
+        app.C,h
+        app_start.C
+        file_names.C,h
+    lib/
+        filesys.C

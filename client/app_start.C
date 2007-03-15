@@ -699,14 +699,6 @@ int ACTIVE_TASK::resume_or_start(bool first_time) {
     switch (task_state()) {
     case PROCESS_UNINITIALIZED:
         if (first_time) {
-            if (!boinc_file_exists(slot_dir)) {
-                make_slot_dir(slot);
-            }
-            retval = clean_out_dir(slot_dir);
-            if (retval) {
-                retval = rename_slot_dir(slot);
-                if (!retval) retval = make_slot_dir(slot);
-            }
             retval = start(true);
             str = "Starting";
         } else {

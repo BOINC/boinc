@@ -37,7 +37,6 @@ extern void get_slot_dir(int slot, char* path, int len);
 extern int make_project_dir(PROJECT&);
 extern int remove_project_dir(PROJECT&);
 extern int make_slot_dir(int);
-extern int rename_slot_dir(int);
 extern void delete_old_slot_dirs();
 extern void get_account_filename(char* master_url, char* path);
 extern bool is_account_file(const char*);
