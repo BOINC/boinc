@@ -836,6 +836,7 @@ void WorkunitNotebook::OnChangeSlide(wxTimerEvent& WXUNUSED(event)) {
 
 void WorkunitNotebook::OnTabChanged(wxFlatNotebookEvent& WXUNUSED(event)) {
         int index = GetSelection();
+        if (index < 0) return;      // No tabs
         if (index < (int)m_windows.size()) {
             CViewTabPage *currTab = m_windows[index];
             currTab->UpdateInterface();
