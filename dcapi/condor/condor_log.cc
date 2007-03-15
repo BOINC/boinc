@@ -226,12 +226,16 @@ _DC_wu_exit_code(DC_Workunit *wu, int *res)
 double
 DC_getResultCPUTime(const DC_Result *result)
 {
-	DC_Workunit *wu= DC_getResultWU(result);
-	int i;
+	DC_Workunit *wu;
+	unsigned int i;
 	time_t start= (time_t)-1, end= (time_t)-1;
 
+	if (result == NULL)
+		return(0.0);
+	wu= result->wu;
 	if (wu == NULL)
 		return(0.0);
+
 	for (i= 0; i < wu->condor_events->len; i++)
 	{
 		struct _DC_condor_event *ce;
