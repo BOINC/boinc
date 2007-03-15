@@ -172,6 +172,7 @@ int DAY_PREFS::parse(XML_PARSER& xp) {
         if (!strcmp(tag, "/day_prefs")) {
             if (day_of_week < 0 || day_of_week) return ERR_XML_PARSE;
             return 0;
+        } else if (xp.parse_int(tag, "day_of_week", day_of_week)) {
         } else if (xp.parse_int(tag, "start_hour", time_prefs.start_hour)) {
             continue;
         } else if (xp.parse_int(tag, "end_hour", time_prefs.end_hour)) {
