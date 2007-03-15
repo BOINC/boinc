@@ -221,6 +221,37 @@ _DC_wu_exit_code(DC_Workunit *wu, int *res)
 }
 
 
+/* Returns the CPU time used for computing the result, in seconds. */
+
+double
+DC_getResultCPUTime(const DC_Result *result)
+{
+	DC_Workunit *wu= DC_getResultWU(result);
+	int i;
+	time_t start= (time_t)-1, end= (time_t)-1;
+
+	if (wu == NULL)
+		return(0.0);
+	for (i= 0; i < wu->condor_events->len; i++)
+	{
+		struct _DC_condor_event *ce;
+		ce= &g_array_index(wu->condor_events,
+				   struct _DC_condor_event,
+				   i);
+		if (ce->event == ULOG_EXECUTE)
+			start= ce->time;
+		if (ce->event == ULOG_JOB_TERMINATED ||
+		    ce->event == ULOG_JOB_ABORTED)
+			end= ce->time;
+	}
+	if (start == (time_t)-1 ||
+	    end == (time_t)-1)
+		return(0.0);
+	
+	return difftime(end, start);
+}
+
+
 /* End of condor_log.cc */
 
 /* Local variables: */
