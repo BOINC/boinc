@@ -104,6 +104,7 @@ private:
     void assign_results_to_projects();
     RESULT* largest_debt_project_best_result();
     RESULT* earliest_deadline_result();
+    void reset_debt_accounting();
     void adjust_debts();
     bool possibly_schedule_cpus();
     void schedule_cpus();

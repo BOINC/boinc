@@ -733,15 +733,15 @@ bool CPanelPreferences::ReadPreferenceSettings() {
     aWorkBetweenBegin.Insert(_("Anytime"), 0);
 
     m_WorkBetweenBeginCtrl->Append(aWorkBetweenBegin);
-    if (display_global_preferences.start_hour == display_global_preferences.end_hour) {
+    if (display_global_preferences.time_prefs.start_hour == display_global_preferences.time_prefs.end_hour) {
         m_strWorkBetweenBegin = _("Anytime");
     } else {
-        m_strWorkBetweenBegin = astrTimeOfDayStrings[display_global_preferences.start_hour];
+        m_strWorkBetweenBegin = astrTimeOfDayStrings[display_global_preferences.time_prefs.start_hour];
     }
 
     //   End:
     m_WorkBetweenEndCtrl->Append(wxArrayString(iTimeOfDayArraySize, astrTimeOfDayStrings));
-    m_strWorkBetweenEnd = astrTimeOfDayStrings[display_global_preferences.end_hour];
+    m_strWorkBetweenEnd = astrTimeOfDayStrings[display_global_preferences.time_prefs.end_hour];
 
     // Connect to internet only between:
     //   Start:
@@ -749,15 +749,15 @@ bool CPanelPreferences::ReadPreferenceSettings() {
     aConnectBetweenBegin.Insert(_("Anytime"), 0);
 
     m_ConnectBetweenBeginCtrl->Append(aConnectBetweenBegin);
-    if (display_global_preferences.net_start_hour == display_global_preferences.net_end_hour) {
+    if (display_global_preferences.time_prefs.net_start_hour == display_global_preferences.time_prefs.net_end_hour) {
         m_strConnectBetweenBegin = _("Anytime");
     } else {
-        m_strConnectBetweenBegin = astrTimeOfDayStrings[display_global_preferences.net_start_hour];
+        m_strConnectBetweenBegin = astrTimeOfDayStrings[display_global_preferences.time_prefs.net_start_hour];
     }
 
     //   End:
     m_ConnectBetweenEndCtrl->Append(wxArrayString(iTimeOfDayArraySize, astrTimeOfDayStrings));
-    m_strConnectBetweenEnd = astrTimeOfDayStrings[display_global_preferences.net_end_hour];
+    m_strConnectBetweenEnd = astrTimeOfDayStrings[display_global_preferences.time_prefs.net_end_hour];
 
     // Use no more than %s of disk space
     wxArrayString aDiskUsage = wxArrayString(iDiskUsageArraySize, astrDiskUsageStrings);
@@ -909,22 +909,22 @@ bool CPanelPreferences::ReadSkinSettings() {
 bool CPanelPreferences::SavePreferenceSettings() {
     // Do work only between:
     if (_("Anytime") == m_strWorkBetweenBegin) {
-        global_preferences_override.start_hour = 0;
-        global_preferences_override.end_hour = 0;
+        global_preferences_override.time_prefs.start_hour = 0;
+        global_preferences_override.time_prefs.end_hour = 0;
     } else {
-        m_strWorkBetweenBegin.ToLong((long*)&global_preferences_override.start_hour);
-        m_strWorkBetweenEnd.ToLong((long*)&global_preferences_override.end_hour);
+        m_strWorkBetweenBegin.ToLong((long*)&global_preferences_override.time_prefs.start_hour);
+        m_strWorkBetweenEnd.ToLong((long*)&global_preferences_override.time_prefs.end_hour);
     }
     global_preferences_mask.start_hour = true;        
     global_preferences_mask.end_hour = true;
 
     // Connect to internet only between:
     if (_("Anytime") == m_strConnectBetweenBegin) {
-        global_preferences_override.net_start_hour = 0;
-        global_preferences_override.net_end_hour = 0;
+        global_preferences_override.time_prefs.net_start_hour = 0;
+        global_preferences_override.time_prefs.net_end_hour = 0;
     } else {
-        m_strConnectBetweenBegin.ToLong((long*)&global_preferences_override.net_start_hour);
-        m_strConnectBetweenEnd.ToLong((long*)&global_preferences_override.net_end_hour);
+        m_strConnectBetweenBegin.ToLong((long*)&global_preferences_override.time_prefs.net_start_hour);
+        m_strConnectBetweenEnd.ToLong((long*)&global_preferences_override.time_prefs.net_end_hour);
     }
     global_preferences_mask.net_start_hour = true;        
     global_preferences_mask.net_end_hour = true;        

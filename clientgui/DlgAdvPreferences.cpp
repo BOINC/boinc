@@ -181,9 +181,9 @@ void CDlgAdvPreferences::ReadPreferenceSettings() {
 	// ######### proc usage page
 	// do work between
 	m_rbtProcEveryDay->SetValue(true);
-	buffer.Printf(wxT("%02d:00"),prefs.start_hour);
+	buffer.Printf(wxT("%02d:00"),prefs.time_prefs.start_hour);
 	*m_txtProcEveryDayStart << buffer;
-	buffer.Printf(wxT("%02d:00"),prefs.end_hour);
+	buffer.Printf(wxT("%02d:00"),prefs.time_prefs.end_hour);
 	*m_txtProcEveryDayStop << buffer;
 	// on batteries
 	m_chkProcOnBatteries->SetValue(prefs.run_on_batteries);
@@ -205,9 +205,9 @@ void CDlgAdvPreferences::ReadPreferenceSettings() {
 	// ######### net usage page
 	// use network between
 	m_rbtNetEveryDay->SetValue(true);
-	buffer.Printf(wxT("%02d:00"),prefs.net_start_hour);
+	buffer.Printf(wxT("%02d:00"),prefs.time_prefs.net_start_hour);
 	*m_txtNetEveryDayStart << buffer;
-	buffer.Printf(wxT("%02d:00"),prefs.net_end_hour);
+	buffer.Printf(wxT("%02d:00"),prefs.time_prefs.net_end_hour);
 	*m_txtNetEveryDayStop << buffer;
 	// connection interval
 	buffer.Printf(wxT("%01.4f"),prefs.work_buf_min_days);
@@ -275,13 +275,13 @@ bool CDlgAdvPreferences::SavePreferencesSettings() {
 	//
 	if(m_txtProcEveryDayStart->IsEnabled()) {
 		m_txtProcEveryDayStart->GetValue().ToLong(&tl);
-		prefs.start_hour=tl;
+		prefs.time_prefs.start_hour=tl;
 		mask.start_hour = true;        
 	}
 	//
 	if(m_txtProcEveryDayStop->IsEnabled()) {
 		m_txtProcEveryDayStop->GetValue().ToLong(&tl);
-		prefs.end_hour=tl;
+		prefs.time_prefs.end_hour=tl;
 		mask.end_hour = true;        
 	}
 	//
@@ -322,13 +322,13 @@ bool CDlgAdvPreferences::SavePreferencesSettings() {
 	//
 	if(m_txtNetEveryDayStart->IsEnabled()) {
 		m_txtNetEveryDayStart->GetValue().ToLong(&tl);
-		prefs.net_start_hour=tl;
+		prefs.time_prefs.net_start_hour=tl;
 		mask.net_start_hour = true;        
 	}
 	//
 	if(m_txtNetEveryDayStop->IsEnabled()) {
 		m_txtNetEveryDayStop->GetValue().ToLong(&tl);
-		prefs.net_end_hour=tl;
+		prefs.time_prefs.net_end_hour=tl;
 		mask.net_end_hour = true;        
 	}
 	//disk usage

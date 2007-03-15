@@ -2553,3 +2553,12 @@ David  15 Mar 2007
         file_names.C,h
     lib/
         filesys.C
+
+David  15 Mar 2007
+	- compile fixes
+
+	client/
+		sim.h
+	clientgui/
+		DlgAdvPreferences.cpp
+		sg_DlgPreferences.cpp
