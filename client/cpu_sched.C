@@ -217,6 +217,21 @@ RESULT* CLIENT_STATE::earliest_deadline_result() {
     return best_result;
 }
 
+void CLIENT_STATE::reset_debt_accounting() {
+    unsigned int i;
+    for (i=0; i<projects.size(); i++) {
+        PROJECT* p = projects[i];
+        p->wall_cpu_time_this_debt_interval = 0.0;
+    }
+    for (i = 0; i < active_tasks.active_tasks.size(); ++i) {
+        ACTIVE_TASK* atp = active_tasks.active_tasks[i];
+        atp->debt_interval_start_cpu_time = atp->current_cpu_time;
+    }
+    total_wall_cpu_time_this_debt_interval = 0.0;
+    total_cpu_time_this_debt_interval = 0.0;
+    debt_interval_start = now;
+}
+
 // adjust project debts (short, long-term)
 //
 void CLIENT_STATE::adjust_debts() {
@@ -227,9 +242,25 @@ void CLIENT_STATE::adjust_debts() {
     int nprojects=0, nrprojects=0;
     PROJECT *p;
     double share_frac;
-    double wall_cpu_time = gstate.now - debt_interval_start;
+    double wall_cpu_time = now - debt_interval_start;
 
     if (wall_cpu_time < 1) return;
+
+    // if the elapsed time is more than the scheduling period,
+    // it must be because the host was suspended for a long time.
+    // Currently we don't have a way to estimate how long this was for,
+    // so ignore the last period and reset counters.
+    //
+    if (wall_cpu_time > global_prefs.cpu_scheduling_period_minutes*60*2) {
+        if (log_flags.debt_debug) {
+            msg_printf(NULL, MSG_INFO,
+                "[debt_debug] adjust_debt: elapsed time (%d min) longer than sched period (%d min).  Ignoring this period.",
+                wall_cpu_time/60, global_prefs.cpu_scheduling_period_minutes
+            );
+        }
+        reset_debt_accounting();
+        return;
+    }
 
     // Total up total and per-project "wall CPU" since last CPU reschedule.
     // "Wall CPU" is the wall time during which a task was
@@ -334,19 +365,7 @@ void CLIENT_STATE::adjust_debts() {
         }
     }
 
-    // reset work accounting
-    //
-    for (i=0; i<projects.size(); i++) {
-        p = projects[i];
-        p->wall_cpu_time_this_debt_interval = 0.0;
-    }
-    for (i = 0; i < active_tasks.active_tasks.size(); ++i) {
-        ACTIVE_TASK* atp = active_tasks.active_tasks[i];
-        atp->debt_interval_start_cpu_time = atp->current_cpu_time;
-    }
-    total_wall_cpu_time_this_debt_interval = 0.0;
-    total_cpu_time_this_debt_interval = 0.0;
-    debt_interval_start = gstate.now;
+    reset_debt_accounting();
 }
 
 
@@ -365,8 +384,8 @@ bool CLIENT_STATE::possibly_schedule_cpus() {
     // or if must_schedule_cpus is set
     // (meaning a new result is available, or a CPU has been freed).
     //
-    elapsed_time = gstate.now - last_reschedule;
-    if (elapsed_time >= gstate.global_prefs.cpu_scheduling_period_minutes * 60) {
+    elapsed_time = now - last_reschedule;
+    if (elapsed_time >= global_prefs.cpu_scheduling_period_minutes * 60) {
         request_schedule_cpus("Scheduling period elapsed.");
     }
 
@@ -446,7 +465,7 @@ void CLIENT_STATE::schedule_cpus() {
 
     adjust_debts();
 
-    expected_pay_off = gstate.global_prefs.cpu_scheduling_period_minutes * 60;
+    expected_pay_off = global_prefs.cpu_scheduling_period_minutes * 60;
     ordered_scheduled_results.clear();
 	double ram_left = available_ram();
 

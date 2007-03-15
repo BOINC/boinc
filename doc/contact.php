@@ -109,6 +109,7 @@ echo "<table bgcolor=ddddff width=100% border=2 cellpadding=6>\n";
 show_name("Tolu Aina");
 show_name("Bruce Allen");
 show_name("David Anderson");
+show_name("Jonathan Armstrong");
 show_name("Noaa Avital");
 show_name("Don Bashford");
 show_name("Lars Bausch");

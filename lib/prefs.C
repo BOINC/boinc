@@ -84,6 +84,13 @@ bool GLOBAL_PREFS_MASK::are_simple_prefs_set() {
     return false;
 }
 
+void TIME_PREFS::clear() {
+    start_hour = 0;
+    end_hour = 0;
+    net_start_hour = 0;
+    net_end_hour = 0;
+}
+
 // The following values determine how the client behaves
 // if there are no global prefs (e.g. on our very first RPC).
 // These should impose minimal restrictions,
@@ -92,10 +99,7 @@ bool GLOBAL_PREFS_MASK::are_simple_prefs_set() {
 void GLOBAL_PREFS::defaults() {
     run_on_batteries = true;
     run_if_user_active = true;
-    start_hour = 0;
-    end_hour = 0;
-    net_start_hour = 0;
-    net_end_hour = 0;
+    time_prefs.clear();
     leave_apps_in_memory = false;
     confirm_before_connecting = true;
     hangup_if_dialed = false;
@@ -114,6 +118,7 @@ void GLOBAL_PREFS::defaults() {
     max_bytes_sec_up = 0;
     max_bytes_sec_down = 0;
     cpu_usage_limit = 100;
+    week_prefs.present = false;
 
     // don't initialize source_project, source_scheduler,
     // mod_time, host_specific here
@@ -130,6 +135,9 @@ void GLOBAL_PREFS::clear_bools() {
     confirm_before_connecting = false;
     hangup_if_dialed = false;
     dont_verify_images = false;
+    for (int i=0; i<7; i++) {
+        week_prefs.days[i].present = false;
+    }
 }
 
 GLOBAL_PREFS::GLOBAL_PREFS() {
@@ -153,6 +161,30 @@ int GLOBAL_PREFS::parse(
     return parse_override(xp, host_venue, found_venue, mask);
 }
 
+int DAY_PREFS::parse(XML_PARSER& xp) {
+    char tag[256];
+    bool is_tag;
+
+    day_of_week = -1;
+    time_prefs.clear();
+    while (!xp.get(tag, sizeof(tag), is_tag)) {
+        if (!is_tag) continue;
+        if (!strcmp(tag, "/day_prefs")) {
+            if (day_of_week < 0 || day_of_week) return ERR_XML_PARSE;
+            return 0;
+        } else if (xp.parse_int(tag, "start_hour", time_prefs.start_hour)) {
+            continue;
+        } else if (xp.parse_int(tag, "end_hour", time_prefs.end_hour)) {
+            continue;
+        } else if (xp.parse_int(tag, "net_start_hour", time_prefs.net_start_hour)) {
+            continue;
+        } else if (xp.parse_int(tag, "net_end_hour", time_prefs.net_end_hour)) {
+            continue;
+        }
+    }
+    return ERR_XML_PARSE;
+}
+
 // Parse global prefs, overriding whatever is currently in the structure.
 //
 // If host_venue is nonempty and we find an element of the form
@@ -170,6 +202,7 @@ int GLOBAL_PREFS::parse_override(
     char tag[256], buf2[256];
     bool in_venue = false, in_correct_venue=false, is_tag;
     double dtemp;
+    int retval;
 
     found_venue = false;
     mask.clear();
@@ -215,18 +248,26 @@ int GLOBAL_PREFS::parse_override(
         } else if (xp.parse_bool(tag, "run_if_user_active", run_if_user_active)) {
             mask.run_if_user_active = true;
             continue;
-        } else if (xp.parse_int(tag, "start_hour", start_hour)) {
+        } else if (xp.parse_int(tag, "start_hour", time_prefs.start_hour)) {
             mask.start_hour = true;
             continue;
-        } else if (xp.parse_int(tag, "end_hour", end_hour)) {
+        } else if (xp.parse_int(tag, "end_hour", time_prefs.end_hour)) {
             mask.end_hour = true;
             continue;
-        } else if (xp.parse_int(tag, "net_start_hour", net_start_hour)) {
+        } else if (xp.parse_int(tag, "net_start_hour", time_prefs.net_start_hour)) {
             mask.net_start_hour = true;
             continue;
-        } else if (xp.parse_int(tag, "net_end_hour", net_end_hour)) {
+        } else if (xp.parse_int(tag, "net_end_hour", time_prefs.net_end_hour)) {
             mask.net_end_hour = true;
             continue;
+        } else if (!strcmp(tag, "day_prefs")) {
+            DAY_PREFS dp;
+            retval = dp.parse(xp);
+            if (!retval) {
+                dp.present = true;
+                week_prefs.present = true;
+                week_prefs.days[dp.day_of_week] = dp;
+            }
         } else if (xp.parse_bool(tag, "leave_apps_in_memory", leave_apps_in_memory)) {
             mask.leave_apps_in_memory = true;
             continue;
@@ -361,10 +402,10 @@ int GLOBAL_PREFS::write(MIOFILE& f) {
         mod_time,
         run_on_batteries?"   <run_on_batteries/>\n":"",
         run_if_user_active?"   <run_if_user_active/>\n":"",
-        start_hour,
-        end_hour,
-        net_start_hour,
-        net_end_hour,
+        time_prefs.start_hour,
+        time_prefs.end_hour,
+        time_prefs.net_start_hour,
+        time_prefs.net_end_hour,
         leave_apps_in_memory?"   <leave_apps_in_memory/>\n":"",
         confirm_before_connecting?"   <confirm_before_connecting/>\n":"",
         hangup_if_dialed?"   <hangup_if_dialed/>\n":"",
@@ -405,16 +446,16 @@ int GLOBAL_PREFS::write_subset(MIOFILE& f, GLOBAL_PREFS_MASK& mask) {
         );
     }
     if (mask.start_hour) {
-        f.printf("   <start_hour>%d</start_hour>\n", start_hour);
+        f.printf("   <start_hour>%d</start_hour>\n", time_prefs.start_hour);
     }
     if (mask.end_hour) {
-        f.printf("   <end_hour>%d</end_hour>\n", end_hour);
+        f.printf("   <end_hour>%d</end_hour>\n", time_prefs.end_hour);
     }
     if (mask.net_start_hour) {
-        f.printf("   <net_start_hour>%d</net_start_hour>\n", net_start_hour);
+        f.printf("   <net_start_hour>%d</net_start_hour>\n", time_prefs.net_start_hour);
     }
     if (mask.net_end_hour) {
-        f.printf("   <net_end_hour>%d</net_end_hour>\n", net_end_hour);
+        f.printf("   <net_end_hour>%d</net_end_hour>\n", time_prefs.net_end_hour);
     }
     if (mask.leave_apps_in_memory) {
         f.printf("   <leave_apps_in_memory>%d</leave_apps_in_memory>\n",

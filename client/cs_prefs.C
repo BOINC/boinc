@@ -180,7 +180,7 @@ void CLIENT_STATE::check_suspend_activities(int& reason) {
             return;
         }
 
-        if (!now_between_two_hours(global_prefs.start_hour, global_prefs.end_hour)) {
+        if (!now_between_two_hours(global_prefs.time_prefs.start_hour, global_prefs.time_prefs.end_hour)) {
             reason = SUSPEND_REASON_TIME_OF_DAY;
             return;
         }
@@ -264,7 +264,7 @@ void CLIENT_STATE::check_suspend_network(int& reason) {
         reason |= SUSPEND_REASON_USER_REQ;
         return;
     }
-    if (!now_between_two_hours(global_prefs.net_start_hour, global_prefs.net_end_hour)) {
+    if (!now_between_two_hours(global_prefs.time_prefs.net_start_hour, global_prefs.time_prefs.net_end_hour)) {
         reason |= SUSPEND_REASON_TIME_OF_DAY;
     }
     return;

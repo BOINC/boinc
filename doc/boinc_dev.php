@@ -5,64 +5,21 @@ page_head("BOINC software development ");
 if (!$book) {
     echo "
         <ul>
-        <li> <a href=#addon>Writing add-on software</a></li>
-        <li> <a href=#build>Get and build BOINC software</a></li>
+        <li> Get and build BOINC software</li>
+            <ul> 
+            <li> <a href=source_code.php>Get BOINC source code</a>
+            <li> <a href=server.php>Building server software</a>
+            <li> <a href=compile_app.php>Building applications</a>
+            <li> <a href=compile_client.php>Building BOINC client software</a>
+            </ul>
         <li> <a href=#dev>BOINC development</a></li>
         <li> <a href=#projects>Development projects</a></li>
+        <li> <a href=#addon>Writing add-on software</a></li>
         </ul>
     ";
 }
 
 echo "
-<a name=addon></a>
-<h2>Writing add-on software</h2>
-<p>
-BOINC's architecture is 'open';
-documented interfaces making it possible to
-develop various types of applications and web sites that
-interact with BOINC components.
-Examples include:
-";
-list_start();
-list_item("<a href=gui_rpc.php>Client GUIs</a>",
-    "Application that control a local or remote core client."
-);
-list_item("<a href=stats.php>Credit statistics web sites</a>",
-    "Web sites showing credit information
-    (project totals, user/team/country leaderboards)
-    based on daily XML feeds of statistics data from BOINC projects."
-);
-list_item("<a href=acct_mgt.php>Account managers</a>",
-    "Web sites that let BOINC users create and manage accounts
-    on multiple projects."
-);
-list_item("<a href=server_status.php>Server status web sites</a>",
-    "Web sites showing the server status of BOINC projects."
-);
-list_item("<a href=web_rpc.php>Web RPCs</a>",
-    "These interfaces let a program or web site
-    obtain information about users and hosts from projects."
-);
-list_item("<a href=prefs_override.php>Local editing of preferences</a>",
-    "This mechanism lets you write programs for local editing of preferences."
-);
-list_end();
-echo "
-<p>
-Check the
-<a href=addons.php>index of add-on software</a>
-before writing anything (it may already exist).
-The index has instructions for submitting new add-ons.
-
-<a name=build></a>
-<h2>Get and build BOINC software</h2>
-    <ul> 
-    <li> <a href=source_code.php>Get BOINC source code</a>
-    <li> <a href=server.php>Building server software</a>
-    <li> <a href=compile_app.php>Building applications</a>
-    <li> <a href=compile_client.php>Building BOINC client software</a>
-    </ul>
-
 <a name=dev></a>
 <h2>BOINC development</h2>
 <p>
@@ -132,6 +89,10 @@ identical results across processors
 </ul>
 <li> Core client:
 <ul>
+<li> Have the core client sense CPU temperature
+    and throttle CPU if it goes too high.
+    Open-source software for this (on Linux) is at
+    http://www.lm-sensors.org/.
 <li> After an applications exits (for whatever reason)
 make sure (after a few second delay) that its subprocesses are gone too.
 Unix: use process groups and killpg().
@@ -234,6 +195,47 @@ Investigate.
 </ul>
 Please check with <a href=contact.php>David Anderson</a>
 before undertaking any of these.
+
+<a name=addon></a>
+<h2>Writing add-on software</h2>
+<p>
+BOINC's architecture is 'open';
+documented interfaces making it possible to
+develop various types of applications and web sites that
+interact with BOINC components.
+Examples include:
+";
+list_start();
+list_item("<a href=gui_rpc.php>Client GUIs</a>",
+    "Application that control a local or remote core client."
+);
+list_item("<a href=stats.php>Credit statistics web sites</a>",
+    "Web sites showing credit information
+    (project totals, user/team/country leaderboards)
+    based on daily XML feeds of statistics data from BOINC projects."
+);
+list_item("<a href=acct_mgt.php>Account managers</a>",
+    "Web sites that let BOINC users create and manage accounts
+    on multiple projects."
+);
+list_item("<a href=server_status.php>Server status web sites</a>",
+    "Web sites showing the server status of BOINC projects."
+);
+list_item("<a href=web_rpc.php>Web RPCs</a>",
+    "These interfaces let a program or web site
+    obtain information about users and hosts from projects."
+);
+list_item("<a href=prefs_override.php>Local editing of preferences</a>",
+    "This mechanism lets you write programs for local editing of preferences."
+);
+list_end();
+echo "
+<p>
+Check the
+<a href=addons.php>index of add-on software</a>
+before writing anything (it may already exist).
+The index has instructions for submitting new add-ons.
+
 ";
 
 page_tail();

@@ -72,15 +72,6 @@ $earth = array(
             "To investigate the approximations that have to be made in state-of-the-art climate models. By running the model thousands of times we hope to find out how the model responds to slight tweaks to these approximations - slight enough to not make the approximations any less realistic. This will allow us to improve our understanding of how sensitive our models are to small changes and also to things like changes in carbon dioxide and the sulphur cycle. This will allow us to explore how climate may change in the next century under a wide range of different scenarios.",
             "cpn_logo_world_1.jpg"
         ),
-        array(
-            "BBC Climate Change Experiment",
-            "http://bbc.cpdn.org/",
-            "Oxford University",
-            "Earth sciences",
-            "The experiment adds the processing power of your home or office computer to thousands of others to predict climate change. The same model that the Met Office uses to make daily weather forecasts has been adapted by climateprediction.net to run on home PCs. The model incorporates many variable parameters, allowing thousands of sets of conditions. Your computer will run one individual set of conditions -  in effect your individual version of how the world's climate works - and then report back to the climateprediction.net team what it calculates.",
-
-            "cpn_logo_world_1.jpg"
-        ),
     ),
 );
 $astro_phys_chem = array(

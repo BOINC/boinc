@@ -40,7 +40,7 @@ if ($user->hasAvatar()){
     $zero_select="checked=\"true\"";
 }
 row1("Avatar");
-row2("<font size=-2>The virtual representation of you on the message boards<br/>Note: Forced size of 100x100 pixels<br>format: jpg/png - size: at most 42k</font>",
+row2("<font size=-2>The virtual representation of you on the message boards<br/>Note: Forced size of 100x100 pixels<br>format: jpg/png - size: at most 4k</font>",
     "
         <table>
             <tr><td><input type=\"radio\" name=\"avatar_select\" value=\"0\" ".$zero_select.">Don't use an avatar</td><td></td></tr>

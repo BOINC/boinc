@@ -66,20 +66,39 @@ struct GLOBAL_PREFS_MASK {
     bool are_simple_prefs_set();
 };
 
+struct TIME_PREFS {
+    int start_hour;     // 0..23; no restriction if start==end
+    int end_hour;
+    int net_start_hour;     // 0..23; no restriction if start==end
+    int net_end_hour;
+
+    void clear();
+};
+
+struct DAY_PREFS {
+    bool present;
+    int day_of_week;    // 0..6, Sun-Sat
+    TIME_PREFS time_prefs;
+
+    int parse(XML_PARSER&);
+};
+
+struct WEEK_PREFS {
+    bool present;       // at least one day is present
+    DAY_PREFS days[7];
+};
+
 // The following structure is a parsed version of the prefs file
 //
 struct GLOBAL_PREFS {
     int mod_time;
     bool run_on_batteries;
     bool run_if_user_active;
-    int start_hour;     // 0..23; no restriction if start==end
-    int end_hour;
-    int net_start_hour;     // 0..23; no restriction if start==end
-    int net_end_hour;
     bool leave_apps_in_memory;
     bool confirm_before_connecting;
     bool hangup_if_dialed;
     bool dont_verify_images;
+    TIME_PREFS time_prefs;
     double work_buf_min_days;
     int max_cpus;
     double cpu_scheduling_period_minutes;
@@ -97,6 +116,7 @@ struct GLOBAL_PREFS {
     char source_project[256];
     char source_scheduler[256];
     bool host_specific;
+    WEEK_PREFS week_prefs;
 
     GLOBAL_PREFS();
     void defaults();

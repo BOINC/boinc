@@ -28,8 +28,11 @@ please <a href=contact.php>contact us</a>.
 list_start();
 list_heading("name", "description");
 list_item("windows_intelx86", "Microsoft Windows (98 or later) running on an Intel x86-compatible CPU");
+list_item("windows_x86_64", "Microsoft Windows running on an AMD x86_64 or Intel EM64T CPU");
 list_item("i686-pc-linux-gnu", "Linux running on an Intel x86-compatible CPU");
 list_item("x86_64-pc-linux-gnu", "Linux running on an AMD x86_64 or Intel EM64T CPU");
+list_item("ppc64-linux-gnu", "Linux running on a
+    <a href=http://en.wikipedia.org/wiki/Ppc64>64-bit PowerPC processor</a>");
 list_item("powerpc-apple-darwin", "Mac OS X 10.3 or later running on Motorola PowerPC");
 list_item("i686-apple-darwin", "Mac OS 10.4 or later running on Intel");
 list_item("sparc-sun-solaris2.7", "Solaris 2.7 running on a SPARC-compatible CPU");

@@ -71,10 +71,10 @@ void HOST_INFO::clear_host_info() {
 }
 
 int HOST_INFO::parse(MIOFILE& in) {
-    char buf[256];
+    char buf[1024];
 
     memset(this, 0, sizeof(HOST_INFO));
-    while (in.fgets(buf, 256)) {
+    while (in.fgets(buf, sizeof(buf))) {
         if (match_tag(buf, "</host_info>")) return 0;
         else if (parse_int(buf, "<timezone>", timezone)) continue;
         else if (parse_str(buf, "<domain_name>", domain_name, sizeof(domain_name))) continue;

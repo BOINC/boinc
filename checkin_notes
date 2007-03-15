@@ -2499,3 +2499,29 @@ Rom    15 Mar 2007
     
     clientgui/
         BOINCDialupManager.cpp
+
+David  15 Mar 2007
+    - API: my checkin of Mar 8 was flawed and causes an app hang.
+        Revert to the previous way (bool var, not mutex)
+        but with an additional check in worker_signal_handler()
+        that should fix the original race condition
+        (from Jonathan Armstrong)
+    - core client: fix bug where, if host is in "suspended to disk"
+        state for a long time, its next debt adjustment
+        assumes that apps were running the entire time.
+        The fix: if more than 2xcpu_sched_period has elapsed
+        since last debt adjustment, ignore the period.
+    - Add data structures for day-of-week preferences
+        (but don't actually implement much)
+
+    api/
+        boinc_api.C
+    client/
+        client_state.h
+        cpu_sched.C
+        cs_prefs.C
+    html/user/
+        edit_form_preferences_form.php
+    lib/
+        hostinfo.C
+        prefs.C,h
