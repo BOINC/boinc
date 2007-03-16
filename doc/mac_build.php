@@ -3,7 +3,7 @@ require_once("docutil.php");
 page_head("Building BOINC Clients and Applications on Macintosh OS X");
 
 echo "
-This document applies to BOINC version 5.6.5 and later.
+This document applies to BOINC version 5.9.2 and later.
 It has instructions for building BOINC for Macintosh OS X,
 plus information for building science project applications to run under
 BOINC on Macintosh OS X.  
@@ -266,7 +266,7 @@ Note: You may find three XCode projects in the BOINC_dev/boinc/mac_build/ direct
 <ul>
   <li> boinc.pbproj is obsolete and should no longer be used.
 
-  <li> wxMac-BOINC.xcodeproj is used to build the wxMac-2.8.2 library in conjunction with the setupForBoinc.sh or buildWxMac.sh scripts.  Do not use it as a stand-alone project; it will not configure the wxMac libraries correctly when run outside of these scripts. 
+  <li> wxMac-BOINC.xcodeproj was needed for building older versions of the wxMac library in conjunction with the older versions of the setupForBoinc.sh or buildWxMac.sh scripts.  It is not used for BOINC 5.9.2 or later. 
 
   <li> boinc.xcodeproj builds BOINC.  It can be used either with the BuildMacBOINC.sh script or as a stand-alone project.  It has two extra build configurations, i386-Deployment and ppc-Deployment, which can be used for testing only to build for just one architecture.  The Development build configuration builds only the native architecture and is used for debugging.  The Deployment build configuration builds a universal binary and is suitable for release builds.
 
