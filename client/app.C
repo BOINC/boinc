@@ -393,7 +393,6 @@ bool ACTIVE_TASK_SET::is_slot_dir_in_use(char* dir) {
 // and make a slot dir if needed
 //
 int ACTIVE_TASK_SET::get_free_slot() {
-    unsigned int i;
     int j, retval;
     char path[1024];
 

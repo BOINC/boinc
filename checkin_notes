@@ -2562,3 +2562,13 @@ David  15 Mar 2007
 	clientgui/
 		DlgAdvPreferences.cpp
 		sg_DlgPreferences.cpp
+
+Charlie 15 Mar 2007
+    - Fix compiler warnings.
+    
+    client/
+        app.C
+        cpu_sched.C
+    lib/
+        filesys.C
+        hostinfo.C

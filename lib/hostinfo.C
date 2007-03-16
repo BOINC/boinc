@@ -172,7 +172,7 @@ int HOST_INFO::write(MIOFILE& out, bool suppress_net_info) {
 int HOST_INFO::parse_cpu_benchmarks(FILE* in) {
     char buf[256];
 
-    char* p = fgets(buf, 256, in);
+    fgets(buf, 256, in);
     while (fgets(buf, 256, in)) {
         if (match_tag(buf, "<cpu_benchmarks>"));
         else if (match_tag(buf, "</cpu_benchmarks>")) return 0;
