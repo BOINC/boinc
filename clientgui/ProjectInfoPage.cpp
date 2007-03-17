@@ -38,6 +38,7 @@
 #include "BOINCWizards.h"
 #include "BOINCBaseWizard.h"
 #include "ProjectInfoPage.h"
+#include "ProjectListCtrl.h"
 
 
 /*!
@@ -55,9 +56,8 @@ BEGIN_EVENT_TABLE( CProjectInfoPage, wxWizardPageEx )
 ////@begin CProjectInfoPage event table entries
     EVT_WIZARDEX_PAGE_CHANGED( -1, CProjectInfoPage::OnPageChanged )
     EVT_WIZARDEX_PAGE_CHANGING( -1, CProjectInfoPage::OnPageChanging )
-    EVT_COMBOBOX( ID_PROJECTSELECTIONCTRL, CProjectInfoPage::OnProjectSelectionChanged )
     EVT_WIZARDEX_CANCEL( -1, CProjectInfoPage::OnCancel )
-
+    EVT_PROJECTLISTCTRL_SELECTION_CHANGED( CProjectInfoPage::OnProjectSelectionChanged )
 ////@end CProjectInfoPage event table entries
  
 END_EVENT_TABLE()
@@ -86,8 +86,7 @@ bool CProjectInfoPage::Create( CBOINCBaseWizard* parent )
 ////@begin CProjectInfoPage member initialisation
     m_pTitleStaticCtrl = NULL;
     m_pDescriptionStaticCtrl = NULL;
-    m_pDescription2StaticCtrl = NULL;
-    m_pProjectSelectionCtrl = NULL;
+    m_pProjectListCtrl = NULL;
     m_pProjectUrlStaticCtrl = NULL;
     m_pProjectUrlCtrl = NULL;
 ////@end CProjectInfoPage member initialisation
@@ -124,57 +123,34 @@ void CProjectInfoPage::CreateControls()
     m_pDescriptionStaticCtrl->Create( itemWizardPage23, wxID_STATIC, wxEmptyString, wxDefaultPosition, wxDefaultSize, 0 );
     itemBoxSizer24->Add(m_pDescriptionStaticCtrl, 0, wxALIGN_LEFT|wxALL, 5);
 
-    itemBoxSizer24->Add(5, 5, 0, wxALIGN_LEFT|wxALL, 5);
+    wxFlexGridSizer* itemFlexGridSizer3 = new wxFlexGridSizer(1, 1, 0, 0);
+    itemFlexGridSizer3->AddGrowableRow(0);
+    itemFlexGridSizer3->AddGrowableCol(0);
+    itemBoxSizer24->Add(itemFlexGridSizer3, 1, wxGROW|wxALL, 5);
 
-    m_pDescription2StaticCtrl = new wxStaticText;
-    m_pDescription2StaticCtrl->Create( itemWizardPage23, wxID_STATIC, wxEmptyString, wxDefaultPosition, wxDefaultSize, 0 );
-    itemBoxSizer24->Add(m_pDescription2StaticCtrl, 0, wxALIGN_LEFT|wxALL, 5);
-
-    wxBoxSizer* itemBoxSizer8 = new wxBoxSizer(wxHORIZONTAL);
-    itemBoxSizer24->Add(itemBoxSizer8, 0, wxALIGN_LEFT|wxALL, 5);
-
-    itemBoxSizer8->Add(5, 5, 0, wxALIGN_CENTER_VERTICAL|wxALL, 5);
-
-    wxString* strProjectSelectionCtrlStrings = NULL;
-    m_pProjectSelectionCtrl = new wxComboBox;
-    m_pProjectSelectionCtrl->Create( itemWizardPage23, ID_PROJECTSELECTIONCTRL, wxEmptyString, wxDefaultPosition, wxSize(320, -1), 0, strProjectSelectionCtrlStrings, wxCB_DROPDOWN | wxCB_READONLY);
-    itemBoxSizer8->Add(m_pProjectSelectionCtrl, 0, wxALIGN_CENTER_VERTICAL|wxALL, 5);
+    m_pProjectListCtrl = new CProjectListCtrl;
+    m_pProjectListCtrl->Create( itemWizardPage23 );
+    itemFlexGridSizer3->Add(m_pProjectListCtrl, 0, wxGROW|wxRIGHT, 10);
 
     wxFlexGridSizer* itemFlexGridSizer11 = new wxFlexGridSizer(2, 1, 0, 0);
     itemFlexGridSizer11->AddGrowableRow(0);
     itemFlexGridSizer11->AddGrowableCol(0);
     itemBoxSizer24->Add(itemFlexGridSizer11, 0, wxGROW|wxALL, 0);
 
-    m_pProjectSelectionStaticCtrl = new wxStaticBox(itemWizardPage23, wxID_STATIC, wxEmptyString);
-    wxStaticBoxSizer* itemStaticBoxSizer12 = new wxStaticBoxSizer(m_pProjectSelectionStaticCtrl, wxVERTICAL);
-    itemFlexGridSizer11->Add(itemStaticBoxSizer12, 0, wxALL, 0);
-
-    m_pProjectSelectionDescriptionStaticCtrl = new wxStaticText;
-    m_pProjectSelectionDescriptionStaticCtrl->Create( itemWizardPage23, wxID_STATIC, wxEmptyString, wxDefaultPosition, wxSize(320, 115), wxST_NO_AUTORESIZE );
-    itemStaticBoxSizer12->Add(m_pProjectSelectionDescriptionStaticCtrl, 0, wxALL, 5);
-    m_pProjectSelectionDescriptionStaticCtrl->Wrap(320);
-
     wxBoxSizer* itemBoxSizer22 = new wxBoxSizer(wxVERTICAL);
     itemFlexGridSizer11->Add(itemBoxSizer22, 0, wxGROW|wxALL, 0);
 
-    m_pProjectUrlDescriptionStaticCtrl = new wxStaticText;
-    m_pProjectUrlDescriptionStaticCtrl->Create( itemWizardPage23, ID_PROJECTURLDESCRIPTIONSTATICCTRL, wxEmptyString, wxDefaultPosition, wxDefaultSize, 0 );
-    itemBoxSizer22->Add(m_pProjectUrlDescriptionStaticCtrl, 0, wxALIGN_LEFT|wxALL, 5);
-    m_pProjectUrlDescriptionStaticCtrl->Hide();
-
     wxFlexGridSizer* itemFlexGridSizer14 = new wxFlexGridSizer(1, 2, 0, 0);
     itemFlexGridSizer14->AddGrowableCol(1);
-    itemBoxSizer22->Add(itemFlexGridSizer14, 0, wxGROW|wxALIGN_CENTER_VERTICAL|wxALL, 0);
+    itemBoxSizer22->Add(itemFlexGridSizer14, 0, wxGROW|wxALIGN_CENTER_VERTICAL|wxRIGHT, 10);
 
     m_pProjectUrlStaticCtrl = new wxStaticText;
     m_pProjectUrlStaticCtrl->Create( itemWizardPage23, ID_PROJECTURLSTATICCTRL, wxEmptyString, wxDefaultPosition, wxDefaultSize, 0 );
     itemFlexGridSizer14->Add(m_pProjectUrlStaticCtrl, 0, wxALIGN_CENTER_HORIZONTAL|wxALIGN_CENTER_VERTICAL|wxALL, 5);
-    m_pProjectUrlStaticCtrl->Hide();
 
     m_pProjectUrlCtrl = new wxTextCtrl;
     m_pProjectUrlCtrl->Create( itemWizardPage23, ID_PROJECTURLCTRL, wxEmptyString, wxDefaultPosition, wxSize(200, -1), 0 );
     itemFlexGridSizer14->Add(m_pProjectUrlCtrl, 0, wxGROW|wxALIGN_CENTER_VERTICAL|wxALL, 5);
-    m_pProjectUrlCtrl->Hide();
 
     // Set validators
     m_pProjectUrlCtrl->SetValidator( CValidateURL( & m_strProjectURL) );
@@ -257,8 +233,7 @@ void CProjectInfoPage::OnPageChanged( wxWizardExEvent& event ) {
     wxASSERT(wxDynamicCast(pDoc, CMainDocument));
     wxASSERT(m_pTitleStaticCtrl);
     wxASSERT(m_pDescriptionStaticCtrl);
-    wxASSERT(m_pDescription2StaticCtrl);
-    wxASSERT(m_pProjectSelectionCtrl);
+    wxASSERT(m_pProjectListCtrl);
     wxASSERT(m_pProjectUrlStaticCtrl);
     wxASSERT(m_pProjectUrlCtrl);
 
@@ -266,17 +241,8 @@ void CProjectInfoPage::OnPageChanged( wxWizardExEvent& event ) {
         _("Project Selection")
     );
     m_pDescriptionStaticCtrl->SetLabel(
-        _("Choose which project you would like to participate in.")
-    );
-    m_pDescription2StaticCtrl->SetLabel(
-        _("Project selection list:")
-    );
-    m_pProjectSelectionStaticCtrl->SetLabel(
-        _("Project Description")
-    );
-    m_pProjectUrlDescriptionStaticCtrl->SetLabel(
-        _("You can copy and paste the URL from your browser's\n"
-		  "address bar.")
+        _("Choose which project you would like to participate in by clicking on its\n"
+          "name, or type the project URL below.")
     );
     m_pProjectUrlStaticCtrl->SetLabel(
         _("Project &URL:")
@@ -287,22 +253,21 @@ void CProjectInfoPage::OnPageChanged( wxWizardExEvent& event ) {
     //
     pDoc->rpc.get_all_projects_list(pl);
     for (i=0; i<pl.projects.size(); i++) {
-        m_pProjectSelectionCtrl->Append(wxString(pl.projects[i]->name.c_str(), wxConvUTF8));
+        m_pProjectListCtrl->Append(
+            wxString(pl.projects[i]->name.c_str(), wxConvUTF8),
+            wxString(pl.projects[i]->home.c_str(), wxConvUTF8),
+            wxString(pl.projects[i]->url.c_str(), wxConvUTF8),
+            wxNullBitmap,
+            wxString(pl.projects[i]->general_area.c_str(), wxConvUTF8),
+            wxString(pl.projects[i]->specific_area.c_str(), wxConvUTF8),
+            wxString(pl.projects[i]->description.c_str(), wxConvUTF8)
+        );
     }
-    m_pProjectSelectionCtrl->Append(_("Other"));
 
-
+    Layout();
     Fit();
-    m_pProjectSelectionCtrl->SetValue(
-        wxString(pl.projects[0]->name.c_str(), wxConvUTF8)
-    );
-    m_pProjectSelectionDescriptionStaticCtrl->SetLabel(
-        wxString(pl.projects[0]->description.c_str(), wxConvUTF8)
-    );
-    m_pProjectUrlCtrl->SetValue(
-        wxString(pl.projects[0]->url.c_str(), wxConvUTF8)
-    );
-    m_pProjectSelectionCtrl->SetFocus();
+    m_pProjectListCtrl->Layout();
+    m_pProjectListCtrl->SetFocus();
 }
 
 
@@ -316,35 +281,13 @@ void CProjectInfoPage::OnPageChanging( wxWizardExEvent& event ) {
 
 
 /*!
- * wxEVT_COMMAND_COMBOBOX_SELECTED event handler for ID_PROJECTSELECTIONCTRL
+ * wxEVT_PROJECTLISTCTRL_SELECTION_CHANGED event handler for ID_PROJECTSELECTIONCTRL
  */
 
-void CProjectInfoPage::OnProjectSelectionChanged( wxCommandEvent& /*event*/ ) {
-    if (m_pProjectSelectionCtrl->GetValue() == _("Other")) {
-        m_pProjectSelectionStaticCtrl->Hide();
-        m_pProjectSelectionDescriptionStaticCtrl->Hide();
-        m_pProjectUrlDescriptionStaticCtrl->Show();
-        m_pProjectUrlStaticCtrl->Show();
-        m_pProjectUrlCtrl->Show();
-
-        m_pProjectUrlCtrl->SetValue(
-            _T("")
-        );
-    } else {
-        m_pProjectSelectionStaticCtrl->Show();
-        m_pProjectSelectionDescriptionStaticCtrl->Show();
-        m_pProjectUrlDescriptionStaticCtrl->Hide();
-        m_pProjectUrlStaticCtrl->Hide();
-        m_pProjectUrlCtrl->Hide();
-
-        m_pProjectSelectionDescriptionStaticCtrl->SetLabel(
-            wxString(pl.projects[m_pProjectSelectionCtrl->GetSelection()]->description.c_str(), wxConvUTF8)
-        );
-        m_pProjectUrlCtrl->SetValue(
-            wxString(pl.projects[m_pProjectSelectionCtrl->GetSelection()]->url.c_str(), wxConvUTF8)
-        );
-    }
-    Fit();
+void CProjectInfoPage::OnProjectSelectionChanged( ProjectListCtrlEvent& event ) {
+    m_pProjectUrlCtrl->SetValue(
+        event.GetURL()
+    );
 }
 
 

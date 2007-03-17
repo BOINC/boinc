@@ -2572,3 +2572,14 @@ Charlie 15 Mar 2007
     lib/
         filesys.C
         hostinfo.C
+
+Rom    17 Mar 2007
+    - MGR: Revamped project selection list. It is mostly done, I just have to
+        figure out how to trap static text click events, right now you have
+        to click on areas where there isn't any text.
+        
+    clientgui/
+        ProjectInfoPage.cpp, .h
+        ProjectListCtrl.cpp, .h (Added)
+    win_build/
+        boincmgr_curl_2003.vcproj

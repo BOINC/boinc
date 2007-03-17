@@ -97,8 +97,6 @@ public:
     virtual wxEvent *Clone() const { return new wxTaskBarIconExEvent(*this); }
 };
 
-typedef void (wxEvtHandler::*wxTaskBarIconExEventFunction)(wxTaskBarIconExEvent&);
-
 BEGIN_DECLARE_EVENT_TYPES()
     DECLARE_EVENT_TYPE( wxEVT_TASKBAR_CREATED, 1557 )
     DECLARE_EVENT_TYPE( wxEVT_TASKBAR_CONTEXT_MENU, 1558 )
@@ -110,6 +108,8 @@ BEGIN_DECLARE_EVENT_TYPES()
     DECLARE_EVENT_TYPE( wxEVT_TASKBAR_BALLOON_USERCLICK, 1564 )
     DECLARE_EVENT_TYPE( wxEVT_TASKBAR_SHUTDOWN, 1565 )
 END_DECLARE_EVENT_TYPES()
+
+typedef void (wxEvtHandler::*wxTaskBarIconExEventFunction)(wxTaskBarIconExEvent&);
 
 #define wxTaskBarIconExEventHandler(func) \
     (wxObjectEventFunction)(wxEventFunction)wxStaticCastEvent(wxTaskBarIconExEventFunction, &func)

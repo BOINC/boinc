@@ -24,6 +24,9 @@
 #pragma interface "ProjectInfoPage.cpp"
 #endif
 
+class CProjectListCtrl;
+class ProjectListCtrlEvent;
+
 /*!
  * CProjectInfoPage class declaration
  */
@@ -53,8 +56,8 @@ public:
     /// wxEVT_WIZARD_PAGE_CHANGING event handler for ID_PROJECTINFOPAGE
     void OnPageChanging( wxWizardExEvent& event );
 
-    /// wxEVT_COMMAND_COMBOBOX_SELECTED event handler for ID_PROJECTSELECTIONCTRL
-    void OnProjectSelectionChanged( wxCommandEvent& event );
+    /// wxEVT_PROJECTLISTCTRL_SELECTION_CHANGED event handler for ID_PROJECTSELECTIONCTRL
+    void OnProjectSelectionChanged( ProjectListCtrlEvent& event );
 
     /// wxEVT_WIZARD_CANCEL event handler for ID_PROJECTINFOPAGE
     void OnCancel( wxWizardExEvent& event );
@@ -85,11 +88,7 @@ public:
 ////@begin CProjectInfoPage member variables
     wxStaticText* m_pTitleStaticCtrl;
     wxStaticText* m_pDescriptionStaticCtrl;
-    wxStaticText* m_pDescription2StaticCtrl;
-    wxComboBox* m_pProjectSelectionCtrl;
-    wxStaticBox* m_pProjectSelectionStaticCtrl;
-    wxStaticText* m_pProjectSelectionDescriptionStaticCtrl;
-    wxStaticText* m_pProjectUrlDescriptionStaticCtrl;
+    CProjectListCtrl* m_pProjectListCtrl;
     wxStaticText* m_pProjectUrlStaticCtrl;
     wxTextCtrl* m_pProjectUrlCtrl;
     wxString m_strProjectURL;

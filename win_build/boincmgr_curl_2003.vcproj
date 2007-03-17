@@ -839,6 +839,12 @@
 				<File
 					RelativePath="..\clientgui\BOINCWizards.h">
 				</File>
+				<File
+					RelativePath="..\clientgui\ProjectListCtrl.cpp">
+				</File>
+				<File
+					RelativePath="..\clientgui\ProjectListCtrl.h">
+				</File>
 			</Filter>
 			<Filter
 				Name="Infrastructure"
