@@ -2648,3 +2648,11 @@ David  19 Mar 2007
     lib/
         boinc_cmd.C
         prefs.C,h
+
+David  19 Mar 2007
+	- compile fixes
+
+	client/
+		hostinfo_win.C
+	win_build/
+		boinc_cli_curl.vcproj

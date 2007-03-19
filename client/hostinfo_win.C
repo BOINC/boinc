@@ -461,7 +461,8 @@ BOOL is_processor_feature_supported(DWORD feature) {
 //   the processor, use the Linux CPU processor feature descriptions.
 //
 int get_processor_info(
-    char* p_vendor, int p_vendor_size, char* p_model, int p_model_size
+    char* p_vendor, int p_vendor_size, char* p_model, int p_model_size,
+    char* p_features, int p_features_size
 )
 {
 	char vendorName[256], processorName[256], identifierName[256], capabilities[256], temp_model[256];
@@ -564,7 +565,7 @@ int get_processor_info(
     // Merge all the seperate pieces of information into one.
     snprintf(p_model, p_model_size, "%s [%s] [%s]", temp_model, identifierName);
     p_model[p_model_size-1] = 0;
-    strlcpy(p_features, sizeof(p_features), capabilities);
+    strlcpy(p_features, capabilities, p_features_size);
 
 	RegCloseKey(hKey);
 
@@ -641,7 +642,9 @@ int HOST_INFO::get_host_info() {
 
     // Detect proccessor make and model.
     get_processor_info(
-        p_vendor, sizeof(p_vendor), p_model, sizeof(p_model)
+        p_vendor, sizeof(p_vendor),
+        p_model, sizeof(p_model),
+        p_features, sizeof(p_features)
     );
 
     // Detect the number of CPUs
