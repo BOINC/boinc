@@ -2611,3 +2611,9 @@ David  19 Mar 2007
         client_types.C
         cs_statefile.C
         scheduler_op.C
+
+Rom    19 Mar 2007
+    - MGR: Strip out all the extra fluff, and add a website link.
+        
+    clientgui/
+        ProjectListCtrl.cpp, .h

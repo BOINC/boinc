@@ -23,6 +23,7 @@
 
 #include "stdwx.h"
 #include "BOINCGUIApp.h"
+#include "hyperlink.h"
 #include "ProjectListCtrl.h"
 
 ////@begin XPM images
@@ -218,6 +219,7 @@ bool CProjectListItemCtrl::Create( wxWindow* parent )
 {
 ////@begin CProjectListItemCtrl member initialisation
     m_pTitleStaticCtrl = NULL;
+    m_pWebsiteCtrl = NULL;
     m_pHomeStaticCtrl = NULL;
     m_pImageCtrl = NULL;
     m_pGeneralAreaDescriptionStaticCtrl = NULL;
@@ -251,11 +253,19 @@ void CProjectListItemCtrl::CreateControls()
     wxBoxSizer* itemBoxSizer3 = new wxBoxSizer(wxVERTICAL);
     SetSizer(itemBoxSizer3);
 
+    wxBoxSizer* itemBoxSizer4 = new wxBoxSizer(wxHORIZONTAL);
+    itemBoxSizer3->Add(itemBoxSizer4);
+
     m_pTitleStaticCtrl = new CProjectListItemStaticCtrl;
     m_pTitleStaticCtrl->Create( this, wxID_ANY, wxEmptyString, wxDefaultPosition, wxDefaultSize, 0 );
     m_pTitleStaticCtrl->SetFont(wxFont(8, wxSWISS, wxNORMAL, wxBOLD, false, _T("Tahoma")));
-    itemBoxSizer3->Add(m_pTitleStaticCtrl, 0, wxALIGN_LEFT|wxALL, 1);
+    itemBoxSizer4->Add(m_pTitleStaticCtrl, 0, wxALIGN_LEFT|wxALL, 1);
 
+    m_pWebsiteCtrl = new wxHyperLink;
+    m_pWebsiteCtrl->Create( this, wxID_ANY, wxEmptyString, wxDefaultPosition, wxDefaultSize, 0 );
+    itemBoxSizer4->Add(m_pWebsiteCtrl, 0, wxALIGN_LEFT|wxALL, 1);
+
+/*
     m_pHomeStaticCtrl = new CProjectListItemStaticCtrl;
     m_pHomeStaticCtrl->Create( this, wxID_ANY, wxEmptyString, wxDefaultPosition, wxDefaultSize, 0 );
     itemBoxSizer3->Add(m_pHomeStaticCtrl, 0, wxALIGN_LEFT|wxALL, 1);
@@ -296,6 +306,7 @@ void CProjectListItemCtrl::CreateControls()
     m_pDescriptionStaticCtrl = new CProjectListItemStaticCtrl;
     m_pDescriptionStaticCtrl->Create( this, wxID_ANY, wxEmptyString, wxDefaultPosition, wxDefaultSize, 0 );
     itemBoxSizer8->Add(m_pDescriptionStaticCtrl, 0, wxALIGN_LEFT||wxALIGN_CENTER_VERTICAL|wxALL, 1);
+*/
 
 ////@end CProjectListItemCtrl content construction
 }
@@ -380,6 +391,10 @@ bool CProjectListItemCtrl::SetDescription( wxString strDescription ) {
 
 
 bool CProjectListItemCtrl::SetURL( wxString strURL ) {
+    if (m_pWebsiteCtrl) {
+        m_pWebsiteCtrl->SetLabel(wxT("Website"));
+        m_pWebsiteCtrl->SetURL(strURL);
+    }
     m_strURL = strURL;
     return true;
 }

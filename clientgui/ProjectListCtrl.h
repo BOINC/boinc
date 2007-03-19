@@ -27,6 +27,7 @@
 
 class CProjectListItemCtrl;
 class CProjectListItemStaticCtrl;
+class wxHyperLink;
 class ProjectListCtrlEvent;
 class ProjectListItemCtrlEvent;
 
@@ -165,6 +166,7 @@ public:
 
 private:
     CProjectListItemStaticCtrl* m_pTitleStaticCtrl;
+    wxHyperLink*                m_pWebsiteCtrl;
     CProjectListItemStaticCtrl* m_pHomeStaticCtrl;
     wxStaticBitmap*             m_pImageCtrl;
     CProjectListItemStaticCtrl* m_pGeneralAreaDescriptionStaticCtrl;
