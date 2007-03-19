@@ -319,14 +319,14 @@ void GET_PROJECT_LIST_OP::handle_reply(int http_op_retval) {
         error_num = http_op_retval;
         return;
     }
-    gstate.project_list_check_time = gstate.now;
+    gstate.all_projects_list_check_time = gstate.now;
 }
 
-#define PROJECT_LIST_CHECK_PERIOD (14*86400)
+#define ALL_PROJECTS_LIST_CHECK_PERIOD (14*86400)
 
-void CLIENT_STATE::project_list_check() {
-    if (project_list_check_time) {
-        if (now - project_list_check_time < PROJECT_LIST_CHECK_PERIOD) {
+void CLIENT_STATE::all_projects_list_check() {
+    if (all_projects_list_check_time) {
+        if (now - all_projects_list_check_time < ALL_PROJECTS_LIST_CHECK_PERIOD) {
             return;
         }
     }

@@ -107,7 +107,7 @@ CLIENT_STATE::CLIENT_STATE() {
     must_enforce_cpu_schedule = true;
     no_gui_rpc = false;
     new_version_check_time = 0;
-    project_list_check_time = 0;
+    all_projects_list_check_time = 0;
     detach_console = false;
 #ifdef SANDBOX
     g_use_sandbox = true; // User can override with -insecure command-line arg
@@ -344,6 +344,10 @@ int CLIENT_STATE::init() {
 #endif
 
     check_file_existence();
+    if (!boinc_file_exists(ALL_PROJECTS_LIST_FILENAME)) {
+        all_projects_list_check_time = 0;
+        all_projects_list_check();
+    }
 
     initialized = true;
     return 0;

@@ -1267,11 +1267,11 @@ David  26 Jan 2007
         cs_scheduler.C
 
 David  26 Jan 2007
-	- core client: if account manager reply doesn't specify resource share
-		for a project, revert to the share from project server
+    - core client: if account manager reply doesn't specify resource share
+        for a project, revert to the share from project server
 
-	client/
-		acct_mgr.C
+    client/
+        acct_mgr.C
 
 Walt   28 Jan 2007
     - MGR: fixed bug in dialog options where it doesn't set the slider size 
@@ -1290,14 +1290,14 @@ Rom    28 Jan 2007
         ViewProjectsGrid.cpp, .h
 
 David  29 Jan 2007
-	- core client: fix account-manager resource share logic
-	- manager: Statistics tab fixes (from Mifistor)
+    - core client: fix account-manager resource share logic
+    - manager: Statistics tab fixes (from Mifistor)
 
-	client/
-		client_state.C
-		client_types.C
-	clientgui/
-		ViewStatistics.cpp
+    client/
+        client_state.C
+        client_types.C
+    clientgui/
+        ViewStatistics.cpp
 
 David  29 Jan 2007
     - user web: prevent cross-site request forgeries
@@ -1339,20 +1339,20 @@ David  29 Jan 2007
         prefs.inc
 
 David  29 Jan 2007
-	- Manager: fix crash if select a project that doesn't have
-		a name yet.  There were two separate problems:
-		1) CMainDocument::project() was searching by name
-			but not by master URL
-			(BTW: all that at(), out-of-range exception stuff
-			isn't needed, or the cut-and-pasted comment).
-		2) CViewProjects::UpdateSelection() (and its grid counterpart)
-			were checking for project == NULL
-			some of the time, but not all the time
+    - Manager: fix crash if select a project that doesn't have
+        a name yet.  There were two separate problems:
+        1) CMainDocument::project() was searching by name
+            but not by master URL
+            (BTW: all that at(), out-of-range exception stuff
+            isn't needed, or the cut-and-pasted comment).
+        2) CViewProjects::UpdateSelection() (and its grid counterpart)
+            were checking for project == NULL
+            some of the time, but not all the time
 
-	clientgui/
-		MainDocument.cpp
-		ViewProjects.cpp
-		ViewProjectsGrid.cpp
+    clientgui/
+        MainDocument.cpp
+        ViewProjects.cpp
+        ViewProjectsGrid.cpp
 
 Rom    30 Jan 2007
     - MGR: Give the user a change to abort a core client shutdown when they
@@ -1497,10 +1497,10 @@ David  4 Feb 2007
         cs_apps.C
 
 David  4 Feb 2007
-	- manager: compile fix
+    - manager: compile fix
 
-	clientgui/
-		ViewWorkGrid.cpp
+    clientgui/
+        ViewWorkGrid.cpp
 
 David  6 Feb 2007
     - core client: when new version runs for the first time,
@@ -1551,10 +1551,10 @@ David  7 Feb 2007
 
 David  8 Feb 2007
     - core client: fix bug where screensaver would turn on an off
-		if CPU throttling being used
+        if CPU throttling being used
 
-	client/
-		ss_logic.C
+    client/
+        ss_logic.C
 
 Rytis  8 Feb 2007
     - Forum pages: fix a cross site scripting vulnerability.
@@ -1610,18 +1610,18 @@ David  8 Feb 2007
         client_types.C
 
 David  9 Feb 2007
-	- core client: don't print misleading error messages when reference
-		site access succeeds on initial startup.
-	- core client: a few more messages for <benchmark_debug>
+    - core client: don't print misleading error messages when reference
+        site access succeeds on initial startup.
+    - core client: a few more messages for <benchmark_debug>
 
-	client/
-		client_state.C
-		cpu_benchmark.h
-		cs_benchmark.C
-		dhrystone.C
-		net_stats.C,h
-	win_build
-		boinc_cli_curl.vcproj
+    client/
+        client_state.C
+        cpu_benchmark.h
+        cs_benchmark.C
+        dhrystone.C
+        net_stats.C,h
+    win_build
+        boinc_cli_curl.vcproj
 
 Rom    12 Feb 2007
     - WININSTALL: Force the termination of BOINC and BOINCMGR if we could
@@ -1642,10 +1642,10 @@ Rom    12 Feb 2007
         boinccas95.dll
 
 David  12 Feb 2007
-	- Win build fix (from Carl)
+    - Win build fix (from Carl)
 
-	win_build/
-		boinc_zip.vcproj
+    win_build/
+        boinc_zip.vcproj
 
 David  12 Feb 2007
     - core client, Unix: add '[Family x Model x Stepping x]' in p_model string.
@@ -1655,12 +1655,12 @@ David  12 Feb 2007
         hostinfo_unix.C
 
 David  13 Feb 2007
-	- put zip project in the right place
+    - put zip project in the right place
 
-	win_build/
-		boinc_zip.vcproj (removed)
-	zip/
-		boinc_zip.vcproj
+    win_build/
+        boinc_zip.vcproj (removed)
+    zip/
+        boinc_zip.vcproj
 
 David  13 Feb 2007
     - Back end: change some of the daemons to use the "read uncommitted"
@@ -1784,21 +1784,21 @@ Charlie 19 Feb 2007
         release_GridRepublic.sh
 
 David  19 Feb 2007
-	- core client: when resetting or detaching a project,
-		if a file transfer was active for a project file,
-		the file delete would fail because Curl still has the file open.
-		This would cause the manager to freeze for N*5 seconds.
-		Fix: in CLIENT_STATE::reset_project(),
-		delete FILE_XFER and PERS_FILE_XFER objects.
-	- core client: the limits on numbers of simultaneous file transfers
-		(total and per-project)
-		now apply to uploads and downloads separately.
-		We don't want a situation where an upload is blocked
-		because there are N downloads.
+    - core client: when resetting or detaching a project,
+        if a file transfer was active for a project file,
+        the file delete would fail because Curl still has the file open.
+        This would cause the manager to freeze for N*5 seconds.
+        Fix: in CLIENT_STATE::reset_project(),
+        delete FILE_XFER and PERS_FILE_XFER objects.
+    - core client: the limits on numbers of simultaneous file transfers
+        (total and per-project)
+        now apply to uploads and downloads separately.
+        We don't want a situation where an upload is blocked
+        because there are N downloads.
 
-	client/
-		client_state.C
-		cs_files.C
+    client/
+        client_state.C
+        cs_files.C
 
 Rom    20 Feb 2007
     - core client: When we go to kill a science applicaton, make sure
@@ -1877,21 +1877,21 @@ David  21 Feb 2007
         work_fetch.C (new)
 
 David  21 Feb 2007
-	- windows compile fixes
+    - windows compile fixes
 
-	client/
-		cs_statefile.C
-		win/
-			hostinfo_win.cpp
-	clientgui/
-		(several).cpp
-	lib/
-		diagnostics_win.C
-	win_build/
-		boinc_cli_curl.vcproj
-		boinc_ss.vcproj
-		boincmgr_cur.vcproj
-		libboinc.vcproj
+    client/
+        cs_statefile.C
+        win/
+            hostinfo_win.cpp
+    clientgui/
+        (several).cpp
+    lib/
+        diagnostics_win.C
+    win_build/
+        boinc_cli_curl.vcproj
+        boinc_ss.vcproj
+        boincmgr_cur.vcproj
+        libboinc.vcproj
 
 David  21 Feb 2007
     - code shuffling to get simulator to compile (it does now)
@@ -1926,10 +1926,10 @@ David  22 Feb 2007
         sim.C
 
 David  22 Feb 2007
-	- core client, Win: set processor affinity mask for benchmark threads
+    - core client, Win: set processor affinity mask for benchmark threads
 
-	client/
-		cs_benchmark.C
+    client/
+        cs_benchmark.C
 
 Charlie 22 Feb 2007
     Mac: add str_util.C,h, work_fetch.C to XCode project.
@@ -1957,16 +1957,16 @@ David  23 Feb 2007
         server_types.C
 
 David  23 Feb 2007
-	- core client: disable connection caching in Curl.
-		This may reduce cases where file uploads hang
-		because a server process holds file lock.
-	- manager: fix status text for file transfers
+    - core client: disable connection caching in Curl.
+        This may reduce cases where file uploads hang
+        because a server process holds file lock.
+    - manager: fix status text for file transfers
 
-	client/
-		http_curl.C
-	clientgui/
-		ViewTransfers.cpp
-		ViewTransfersGrid.cpp
+    client/
+        http_curl.C
+    clientgui/
+        ViewTransfers.cpp
+        ViewTransfersGrid.cpp
 
 David  23 Feb 2007
     - core client: add bool detach_when_done to PROJECT.
@@ -1986,14 +1986,14 @@ David  23 Feb 2007
         handle_request.C
 
 David  23 Feb 2007
-	- client simulator: wrote more code, added Windows project
+    - client simulator: wrote more code, added Windows project
 
-	client/
-		sim.C,h
-		work_fetch.C
-	win_build/
-		boinc.sln
-		sim.vcproj
+    client/
+        sim.C,h
+        work_fetch.C
+    win_build/
+        boinc.sln
+        sim.vcproj
 
 David  24 Feb 2007
     - boinc_cmd: change --lookup_account and --create_account commands
@@ -2426,10 +2426,10 @@ David  13 Mar 2007
         sched_config.C
 
 David  13 Mar 2007
-	- compile fix
+    - compile fix
 
-	clientgui/
-		ProjectInfoPage.cpp,h
+    clientgui/
+        ProjectInfoPage.cpp,h
 
 David  13 Mar 2007
     - work fetch fixes (from John McLeod)
@@ -2555,13 +2555,13 @@ David  15 Mar 2007
         filesys.C
 
 David  15 Mar 2007
-	- compile fixes
+    - compile fixes
 
-	client/
-		sim.h
-	clientgui/
-		DlgAdvPreferences.cpp
-		sg_DlgPreferences.cpp
+    client/
+        sim.h
+    clientgui/
+        DlgAdvPreferences.cpp
+        sg_DlgPreferences.cpp
 
 Charlie 15 Mar 2007
     - Fix compiler warnings.
@@ -2600,3 +2600,14 @@ Rom    19 Mar 2007
         
     clientgui/
         ProjectListCtrl.cpp, .h
+
+David  19 Mar 2007
+    - core client: fetch all-projects list at startup if it's not there.
+    - core client:  write rr_sim_missed_deadline only for GUI RPC, not statefile
+
+    client/
+        acct_setup.C
+        client_state.C,h
+        client_types.C
+        cs_statefile.C
+        scheduler_op.C

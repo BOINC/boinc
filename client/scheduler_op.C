@@ -152,7 +152,7 @@ int SCHEDULER_OP::init_op_project(PROJECT* p, int r) {
         // and project list
         //
         gstate.new_version_check();
-        gstate.project_list_check();
+        gstate.all_projects_list_check();
     }
     return retval;
 }

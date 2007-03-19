@@ -228,7 +228,6 @@ int PROJECT::write_state(MIOFILE& out, bool gui_rpc) {
         "    <resource_share>%f</resource_share>\n"
         "    <duration_correction_factor>%f</duration_correction_factor>\n"
 		"    <sched_rpc_pending>%d</sched_rpc_pending>\n"
-		"    <rr_sim_deadlines_missed>%d</rr_sim_deadlines_missed>\n"
         "%s%s%s%s%s%s%s%s%s%s",
         master_url,
         project_name,
@@ -255,7 +254,6 @@ int PROJECT::write_state(MIOFILE& out, bool gui_rpc) {
         resource_share,
         duration_correction_factor,
 		sched_rpc_pending,
-		rr_sim_deadlines_missed,
         master_url_fetch_pending?"    <master_url_fetch_pending/>\n":"",
         trickle_up_pending?"    <trickle_up_pending/>\n":"",
         send_file_list?"    <send_file_list/>\n":"",
@@ -275,8 +273,10 @@ int PROJECT::write_state(MIOFILE& out, bool gui_rpc) {
     if (gui_rpc) {
         out.printf("%s", gui_urls.c_str());
         out.printf(
+		    "    <rr_sim_deadlines_missed>%d</rr_sim_deadlines_missed>\n"
             "    <last_rpc_time>%f</last_rpc_time>\n"
             "    <project_files_downloaded_time>%f</project_files_downloaded_time>\n",
+		    rr_sim_deadlines_missed,
             last_rpc_time,
             project_files_downloaded_time
         );

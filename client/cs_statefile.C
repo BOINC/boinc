@@ -352,7 +352,7 @@ int CLIENT_STATE::parse_state_file() {
             }
         } else if (parse_str(buf, "<host_venue>", main_host_venue, sizeof(main_host_venue))) {
         } else if (parse_double(buf, "<new_version_check_time>", new_version_check_time)) {
-        } else if (parse_double(buf, "<project_list_check_time>", project_list_check_time)) {
+        } else if (parse_double(buf, "<all_projects_list_check_time>", all_projects_list_check_time)) {
         } else if (parse_str(buf, "<newer_version>", newer_version)) {
         } else if (match_tag(buf, "<auto_update>")) {
             if (!project) {
@@ -517,7 +517,7 @@ int CLIENT_STATE::write_state(MIOFILE& f) {
         "<user_network_request>%d</user_network_request>\n"
         "%s"
         "<new_version_check_time>%f</new_version_check_time>\n"
-        "<project_list_check_time>%f</project_list_check_time>\n",
+        "<all_projects_list_check_time>%f</all_projects_list_check_time>\n",
         platform_name,
         core_client_version.major,
         core_client_version.minor,
@@ -526,7 +526,7 @@ int CLIENT_STATE::write_state(MIOFILE& f) {
         network_mode.get_perm(),
         cpu_benchmarks_pending?"<cpu_benchmarks_pending/>\n":"",
         new_version_check_time,
-        project_list_check_time
+        all_projects_list_check_time
     );
     if (newer_version.size()) {
         f.printf("<newer_version>%s</newer_version>\n", newer_version.c_str());
