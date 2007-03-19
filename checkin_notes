@@ -2637,3 +2637,14 @@ David  19 Mar 2007
     lib/
         filesys.C
         hostinfo.C,h
+
+David  19 Mar 2007
+    - core client: added more support for day-of-week time preferences.
+        They're now enforced,
+        and times are expressed as doubles (hours, 0..24)
+
+    client/
+        cs_prefs.C
+    lib/
+        boinc_cmd.C
+        prefs.C,h

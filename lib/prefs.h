@@ -66,18 +66,24 @@ struct GLOBAL_PREFS_MASK {
     bool are_simple_prefs_set();
 };
 
+#define PREFS_CPU       0
+#define PREFS_NETWORK   1
+
 struct TIME_PREFS {
-    int start_hour;     // 0..23; no restriction if start==end
-    int end_hour;
-    int net_start_hour;     // 0..23; no restriction if start==end
-    int net_end_hour;
+    double start_hour;     // 0..24
+        // run always if start==end or start==0, end=24
+        // don't run at all if start=24, end=0
+    double end_hour;
+    double net_start_hour;     // 0..24; no restriction if start==end
+    double net_end_hour;
 
     void clear();
+    bool suspended(double hour, int which);
 };
 
 struct DAY_PREFS {
     bool present;
-    int day_of_week;    // 0..6, Sun-Sat
+    int day_of_week;
     TIME_PREFS time_prefs;
 
     int parse(XML_PARSER&);
@@ -85,7 +91,7 @@ struct DAY_PREFS {
 
 struct WEEK_PREFS {
     bool present;       // at least one day is present
-    DAY_PREFS days[7];
+    DAY_PREFS days[7];  // sun..sat
 };
 
 // The following structure is a parsed version of the prefs file
@@ -126,6 +132,7 @@ struct GLOBAL_PREFS {
     int parse_file(const char* filename, const char* venue, bool& found_venue);
     int write(MIOFILE&);
     int write_subset(MIOFILE&, GLOBAL_PREFS_MASK&);
+    bool suspended_time_of_day(int);
 };
 
 #endif

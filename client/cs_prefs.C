@@ -106,24 +106,6 @@ int CLIENT_STATE::allowed_project_disk_usage(double& size) {
 }
 #endif
 
-// returns true if start_hour == end_hour or start_hour <= now < end_hour
-//
-inline bool now_between_two_hours(int start_hour, int end_hour) {
-    if (start_hour == end_hour) {
-        return true;
-    }
-
-    time_t now = time(0);
-    struct tm *tmp = localtime(&now);
-    int hour = tmp->tm_hour;
-    if (start_hour < end_hour) {
-        return (hour >= start_hour && hour < end_hour);
-    } else {
-        return !(hour >= end_hour && hour < start_hour);
-    }
-}
-
-
 // See if (on the basis of user run request and prefs)
 // we should suspend activities.
 //
@@ -180,7 +162,7 @@ void CLIENT_STATE::check_suspend_activities(int& reason) {
             return;
         }
 
-        if (!now_between_two_hours(global_prefs.time_prefs.start_hour, global_prefs.time_prefs.end_hour)) {
+        if (global_prefs.suspended_time_of_day(PREFS_CPU)) {
             reason = SUSPEND_REASON_TIME_OF_DAY;
             return;
         }
@@ -264,7 +246,7 @@ void CLIENT_STATE::check_suspend_network(int& reason) {
         reason |= SUSPEND_REASON_USER_REQ;
         return;
     }
-    if (!now_between_two_hours(global_prefs.time_prefs.net_start_hour, global_prefs.time_prefs.net_end_hour)) {
+    if (global_prefs.suspended_time_of_day(PREFS_NETWORK)) {
         reason |= SUSPEND_REASON_TIME_OF_DAY;
     }
     return;

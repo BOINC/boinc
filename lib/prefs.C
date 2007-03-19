@@ -26,6 +26,7 @@
 #include <cstdio>
 #include <cstring>
 #include <cstdlib>
+#include <time.h>
 #endif
 
 #include "parse.h"
@@ -140,6 +141,43 @@ void GLOBAL_PREFS::clear_bools() {
     }
 }
 
+bool TIME_PREFS::suspended(double hour, int which) {
+    double start, end;
+    switch (which) {
+    case PREFS_CPU:
+        start = start_hour;
+        end = end_hour;
+        break;
+    case PREFS_NETWORK:
+        start = net_start_hour;
+        end = net_end_hour;
+        break;
+    default:
+        return false;
+    }
+    if (start==end) return false;
+    if (start==0 && end==24) return false;  // redundant?
+    if (start==24 && end==0) return true;
+    if (start < end) {
+        return (hour >= start && hour < end);
+    } else {
+        return !(hour >= end && hour < start);
+    }
+}
+
+bool GLOBAL_PREFS::suspended_time_of_day(int which) {
+    time_t now = time(0);
+    struct tm *tmp = localtime(&now);
+    double hour = (tmp->tm_hour*3600 + tmp->tm_min*60 + tmp->tm_sec)/3600.;
+    int day = tmp->tm_wday;
+
+    if (week_prefs.present && week_prefs.days[day].present) {
+        return week_prefs.days[day].time_prefs.suspended(hour, which);
+    } else {
+        return time_prefs.suspended(hour, which);
+    }
+}
+
 GLOBAL_PREFS::GLOBAL_PREFS() {
     defaults();
 }
@@ -173,13 +211,13 @@ int DAY_PREFS::parse(XML_PARSER& xp) {
             if (day_of_week < 0 || day_of_week) return ERR_XML_PARSE;
             return 0;
         } else if (xp.parse_int(tag, "day_of_week", day_of_week)) {
-        } else if (xp.parse_int(tag, "start_hour", time_prefs.start_hour)) {
+        } else if (xp.parse_double(tag, "start_hour", time_prefs.start_hour)) {
             continue;
-        } else if (xp.parse_int(tag, "end_hour", time_prefs.end_hour)) {
+        } else if (xp.parse_double(tag, "end_hour", time_prefs.end_hour)) {
             continue;
-        } else if (xp.parse_int(tag, "net_start_hour", time_prefs.net_start_hour)) {
+        } else if (xp.parse_double(tag, "net_start_hour", time_prefs.net_start_hour)) {
             continue;
-        } else if (xp.parse_int(tag, "net_end_hour", time_prefs.net_end_hour)) {
+        } else if (xp.parse_double(tag, "net_end_hour", time_prefs.net_end_hour)) {
             continue;
         }
     }
@@ -249,16 +287,16 @@ int GLOBAL_PREFS::parse_override(
         } else if (xp.parse_bool(tag, "run_if_user_active", run_if_user_active)) {
             mask.run_if_user_active = true;
             continue;
-        } else if (xp.parse_int(tag, "start_hour", time_prefs.start_hour)) {
+        } else if (xp.parse_double(tag, "start_hour", time_prefs.start_hour)) {
             mask.start_hour = true;
             continue;
-        } else if (xp.parse_int(tag, "end_hour", time_prefs.end_hour)) {
+        } else if (xp.parse_double(tag, "end_hour", time_prefs.end_hour)) {
             mask.end_hour = true;
             continue;
-        } else if (xp.parse_int(tag, "net_start_hour", time_prefs.net_start_hour)) {
+        } else if (xp.parse_double(tag, "net_start_hour", time_prefs.net_start_hour)) {
             mask.net_start_hour = true;
             continue;
-        } else if (xp.parse_int(tag, "net_end_hour", time_prefs.net_end_hour)) {
+        } else if (xp.parse_double(tag, "net_end_hour", time_prefs.net_end_hour)) {
             mask.net_end_hour = true;
             continue;
         } else if (!strcmp(tag, "day_prefs")) {

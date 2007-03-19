@@ -38,7 +38,8 @@ This document has the structure
     [
       <platforms>
         <platform>windows_intelx86</platform>
-        <platform>i686-pc-linux-gnu powerpc-apple-darwin</platform>
+        <platform>i686-pc-linux-gnu</platform>
+        <platform>powerpc-apple-darwin</platform>
         ...
       </platforms>
     ]

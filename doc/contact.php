@@ -74,7 +74,7 @@ Each area is managed by an 'owner'.
 <tr>
     <td>Web features</td>
     <td>Rytis Slatkevicius</td>
-    <td><a href=http://rob.axpr.net/>Rob Ogilvie</a></td>
+    <td></td>
 </tr>
 <tr>
     <td>Wiki-based documentation</td>
