@@ -579,8 +579,7 @@ int main(int argc, char** argv) {
     int retval = 0;
 
 #ifdef _WIN32
-    int i;
-    int len;
+    int i, len;
     char *commandLine;
     STARTUPINFO si;
     PROCESS_INFORMATION pi;
@@ -654,7 +653,7 @@ int main(int argc, char** argv) {
             // Detach from the controlling terminal and run in the background as system daemon.
             // Don't change working directory to root ("/"), but redirect
             // standard input, standard output and standard error to /dev/null.
-            daemon(1, 0);
+            retval = daemon(1, 0);
             break;
         }
     }

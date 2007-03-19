@@ -53,9 +53,11 @@ while ($app = mysql_fetch_object($result)) {
             $y = pretty_time_str($newest->create_time);
             if ($xml) {
                 echo "    <version>\n";
-                echo "        <platform>$platform->user_friendly_name</platform>\n";
+                echo "        <platform_short>$platform->name</platform_short>\n";
+                echo "        <platform_long>$platform->user_friendly_name</platform_long>\n";
                 echo "        <version_num>$newest->version_num</version_num>\n";
                 echo "        <date>$y</date>\n";
+                echo "        <date_unix>$newest->create_time</date_unix>\n";
                 echo "    </version>\n";
             } else {
                 $x = sprintf("%0.2f", $newest->version_num/100);

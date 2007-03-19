@@ -562,8 +562,9 @@ int get_processor_info(
     }
 
     // Merge all the seperate pieces of information into one.
-    snprintf(p_model, p_model_size, "%s [%s] [%s]", temp_model, identifierName, capabilities);
+    snprintf(p_model, p_model_size, "%s [%s] [%s]", temp_model, identifierName);
     p_model[p_model_size-1] = 0;
+    strlcpy(p_features, sizeof(p_features), capabilities);
 
 	RegCloseKey(hKey);
 

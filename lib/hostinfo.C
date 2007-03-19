@@ -52,6 +52,7 @@ void HOST_INFO::clear_host_info() {
     p_ncpus = 0;
     strcpy(p_vendor, "");
     strcpy(p_model, "");
+    strcpy(p_features, "");
     p_fpops = 0;
     p_iops = 0;
     p_membw = 0;
@@ -83,6 +84,7 @@ int HOST_INFO::parse(MIOFILE& in) {
         else if (parse_int(buf, "<p_ncpus>", p_ncpus)) continue;
         else if (parse_str(buf, "<p_vendor>", p_vendor, sizeof(p_vendor))) continue;
         else if (parse_str(buf, "<p_model>", p_model, sizeof(p_model))) continue;
+        else if (parse_str(buf, "<p_features>", p_features, sizeof(p_features))) continue;
         else if (parse_double(buf, "<p_fpops>", p_fpops)) {
             // fix foolishness that could result in negative value here
             //
@@ -132,6 +134,7 @@ int HOST_INFO::write(MIOFILE& out, bool suppress_net_info) {
         "    <p_ncpus>%d</p_ncpus>\n"
         "    <p_vendor>%s</p_vendor>\n"
         "    <p_model>%s</p_model>\n"
+        "    <p_features>%s</p_features>\n"
         "    <p_fpops>%f</p_fpops>\n"
         "    <p_iops>%f</p_iops>\n"
         "    <p_membw>%f</p_membw>\n"
@@ -149,6 +152,7 @@ int HOST_INFO::write(MIOFILE& out, bool suppress_net_info) {
         p_ncpus,
         p_vendor,
         p_model,
+        p_features,
         p_fpops,
         p_iops,
         p_membw,
@@ -172,7 +176,7 @@ int HOST_INFO::write(MIOFILE& out, bool suppress_net_info) {
 int HOST_INFO::parse_cpu_benchmarks(FILE* in) {
     char buf[256];
 
-    fgets(buf, 256, in);
+    char* p = fgets(buf, 256, in);
     while (fgets(buf, 256, in)) {
         if (match_tag(buf, "<cpu_benchmarks>"));
         else if (match_tag(buf, "</cpu_benchmarks>")) return 0;

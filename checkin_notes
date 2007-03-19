@@ -2617,3 +2617,23 @@ Rom    19 Mar 2007
         
     clientgui/
         ProjectListCtrl.cpp, .h
+
+David  19 Mar 2007
+    - removed [features] from p_model;
+        move it to a separate field, p_features,
+        which is stored on the client and sent to server
+        but not stored in server DB.
+    - fix gcc 4.x warnings
+    - user web: change of app version list XML
+
+    client/
+        hostinfo_unix.C
+        hostinfo_win.C (new)
+        main.C
+        win/
+            hostinfo_win.cpp (removed)
+    html/user/
+        apps.php
+    lib/
+        filesys.C
+        hostinfo.C,h
