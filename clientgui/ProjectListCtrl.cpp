@@ -251,13 +251,13 @@ void CProjectListItemCtrl::CreateControls()
     wxBoxSizer* itemBoxSizer3 = new wxBoxSizer(wxVERTICAL);
     SetSizer(itemBoxSizer3);
 
-    m_pTitleStaticCtrl = new wxStaticText;
-    m_pTitleStaticCtrl->Create( this, wxID_STATIC, wxEmptyString, wxDefaultPosition, wxDefaultSize, 0 );
+    m_pTitleStaticCtrl = new CProjectListItemStaticCtrl;
+    m_pTitleStaticCtrl->Create( this, wxID_ANY, wxEmptyString, wxDefaultPosition, wxDefaultSize, 0 );
     m_pTitleStaticCtrl->SetFont(wxFont(8, wxSWISS, wxNORMAL, wxBOLD, false, _T("Tahoma")));
     itemBoxSizer3->Add(m_pTitleStaticCtrl, 0, wxALIGN_LEFT|wxALL, 1);
 
-    m_pHomeStaticCtrl = new wxStaticText;
-    m_pHomeStaticCtrl->Create( this, wxID_STATIC, wxEmptyString, wxDefaultPosition, wxDefaultSize, 0 );
+    m_pHomeStaticCtrl = new CProjectListItemStaticCtrl;
+    m_pHomeStaticCtrl->Create( this, wxID_ANY, wxEmptyString, wxDefaultPosition, wxDefaultSize, 0 );
     itemBoxSizer3->Add(m_pHomeStaticCtrl, 0, wxALIGN_LEFT|wxALL, 1);
 
     wxFlexGridSizer* itemFlexGridSizer6 = new wxFlexGridSizer(1, 2, 0, 0);
@@ -267,7 +267,7 @@ void CProjectListItemCtrl::CreateControls()
 
     wxBitmap m_pImageCtrlBitmap(wxNullBitmap);
     m_pImageCtrl = new wxStaticBitmap;
-    m_pImageCtrl->Create( this, wxID_STATIC, m_pImageCtrlBitmap, wxDefaultPosition, wxDefaultSize, 0 );
+    m_pImageCtrl->Create( this, wxID_ANY, m_pImageCtrlBitmap, wxDefaultPosition, wxDefaultSize, 0 );
     itemFlexGridSizer6->Add(m_pImageCtrl, 0, wxALIGN_CENTER_HORIZONTAL|wxALIGN_CENTER_VERTICAL|wxALL, 2);
 
     wxBoxSizer* itemBoxSizer8 = new wxBoxSizer(wxVERTICAL);
@@ -277,24 +277,24 @@ void CProjectListItemCtrl::CreateControls()
     itemFlexGridSizer9->AddGrowableCol(1);
     itemBoxSizer8->Add(itemFlexGridSizer9, 0, wxALIGN_LEFT|wxALL, 0);
 
-    m_pGeneralAreaDescriptionStaticCtrl = new wxStaticText;
-    m_pGeneralAreaDescriptionStaticCtrl->Create( this, wxID_STATIC, _("General Area:"), wxDefaultPosition, wxDefaultSize, 0 );
+    m_pGeneralAreaDescriptionStaticCtrl = new CProjectListItemStaticCtrl;
+    m_pGeneralAreaDescriptionStaticCtrl->Create( this, wxID_ANY, _("General Area:"), wxDefaultPosition, wxDefaultSize, 0 );
     itemFlexGridSizer9->Add(m_pGeneralAreaDescriptionStaticCtrl, 0, wxALIGN_LEFT|wxALIGN_CENTER_VERTICAL|wxALL|wxADJUST_MINSIZE, 1);
 
-    m_pGeneralAreaStaticCtrl = new wxStaticText;
-    m_pGeneralAreaStaticCtrl->Create( this, wxID_STATIC, wxEmptyString, wxDefaultPosition, wxDefaultSize, 0 );
+    m_pGeneralAreaStaticCtrl = new CProjectListItemStaticCtrl;
+    m_pGeneralAreaStaticCtrl->Create( this, wxID_ANY, wxEmptyString, wxDefaultPosition, wxDefaultSize, 0 );
     itemFlexGridSizer9->Add(m_pGeneralAreaStaticCtrl, 0, wxALIGN_LEFT|wxALIGN_CENTER_VERTICAL|wxALL, 1);
 
-    m_pSpecificAreaDescriptionStaticCtrl = new wxStaticText;
-    m_pSpecificAreaDescriptionStaticCtrl->Create( this, wxID_STATIC, _("Specific Area:"), wxDefaultPosition, wxDefaultSize, 0 );
+    m_pSpecificAreaDescriptionStaticCtrl = new CProjectListItemStaticCtrl;
+    m_pSpecificAreaDescriptionStaticCtrl->Create( this, wxID_ANY, _("Specific Area:"), wxDefaultPosition, wxDefaultSize, 0 );
     itemFlexGridSizer9->Add(m_pSpecificAreaDescriptionStaticCtrl, 0, wxALIGN_LEFT|wxALIGN_CENTER_VERTICAL|wxALL|wxADJUST_MINSIZE, 1);
 
-    m_pSpecificAreaStaticCtrl = new wxStaticText;
-    m_pSpecificAreaStaticCtrl->Create( this, wxID_STATIC, wxEmptyString, wxDefaultPosition, wxDefaultSize, 0 );
+    m_pSpecificAreaStaticCtrl = new CProjectListItemStaticCtrl;
+    m_pSpecificAreaStaticCtrl->Create( this, wxID_ANY, wxEmptyString, wxDefaultPosition, wxDefaultSize, 0 );
     itemFlexGridSizer9->Add(m_pSpecificAreaStaticCtrl, 0, wxALIGN_LEFT|wxALIGN_CENTER_VERTICAL|wxALL, 1);
 
-    m_pDescriptionStaticCtrl = new wxStaticText;
-    m_pDescriptionStaticCtrl->Create( this, wxID_STATIC, wxEmptyString, wxDefaultPosition, wxDefaultSize, 0 );
+    m_pDescriptionStaticCtrl = new CProjectListItemStaticCtrl;
+    m_pDescriptionStaticCtrl->Create( this, wxID_ANY, wxEmptyString, wxDefaultPosition, wxDefaultSize, 0 );
     itemBoxSizer8->Add(m_pDescriptionStaticCtrl, 0, wxALIGN_LEFT||wxALIGN_CENTER_VERTICAL|wxALL, 1);
 
 ////@end CProjectListItemCtrl content construction
@@ -341,6 +341,7 @@ void CProjectListItemCtrl::OnMouseClick( wxMouseEvent& event ) {
 
 bool CProjectListItemCtrl::SetTitle( wxString strTitle ) {
     if (m_pTitleStaticCtrl) m_pTitleStaticCtrl->SetLabel( strTitle );
+    m_strTitle = strTitle;
     return true;
 }
 
@@ -381,5 +382,83 @@ bool CProjectListItemCtrl::SetDescription( wxString strDescription ) {
 bool CProjectListItemCtrl::SetURL( wxString strURL ) {
     m_strURL = strURL;
     return true;
+}
+
+
+/*!
+ * CProjectListItemStaticCtrl type definition
+ */
+ 
+IMPLEMENT_DYNAMIC_CLASS( CProjectListItemStaticCtrl, wxStaticText )
+
+/*!
+ * CProjectListItemStaticCtrl event table definition
+ */
+ 
+BEGIN_EVENT_TABLE( CProjectListItemStaticCtrl, wxStaticText )
+
+////@begin CProjectListItemStaticCtrl event table entries
+    EVT_ENTER_WINDOW( CProjectListItemStaticCtrl::OnMouseEnterLeave )
+    EVT_LEAVE_WINDOW( CProjectListItemStaticCtrl::OnMouseEnterLeave )
+    EVT_LEFT_DOWN( CProjectListItemStaticCtrl::OnMouseClick )
+    EVT_LEFT_UP( CProjectListItemStaticCtrl::OnMouseClick )
+////@end CProjectListItemStaticCtrl event table entries
+ 
+END_EVENT_TABLE()
+ 
+/*!
+ * CProjectListItemStaticCtrl constructors
+ */
+ 
+CProjectListItemStaticCtrl::CProjectListItemStaticCtrl( )
+{
+}
+ 
+CProjectListItemStaticCtrl::CProjectListItemStaticCtrl( 
+    wxWindow *parent, wxWindowID id, const wxString& label, const wxPoint& pos, const wxSize& size, long style, const wxString& name
+)
+{
+    Create (parent, id, label, pos, size, style, name);
+}
+ 
+/*!
+ * CProjectListItemStaticCtrl creator
+ */
+ 
+bool CProjectListItemStaticCtrl::Create( 
+    wxWindow *parent, wxWindowID id, const wxString& label, const wxPoint& pos, const wxSize& size, long style, const wxString& name
+)
+{
+    bool okay = FALSE;
+
+    // create static text
+    okay = wxStaticText::Create (parent, id, label, pos, size, style, name);
+    wxASSERT_MSG (okay, wxT("Failed to create wxStaticText, needed by wxHyperLink!"));
+
+    return okay;
+}
+
+
+/*!
+ * wxEVT_ENTER_WINDOW, wxEVT_LEAVE_WINDOW event handler for window
+ */
+
+void CProjectListItemStaticCtrl::OnMouseEnterLeave( wxMouseEvent& event ) {
+    CProjectListItemCtrl* pParent = wxDynamicCast(GetParent(), CProjectListItemCtrl);
+    if (pParent) {
+        pParent->OnMouseEnterLeave( event );
+    }
+}
+
+
+/*!
+ * wxEVT_LEFT_DOWN, wxEVT_LEFT_UP event handler for window
+ */
+
+void CProjectListItemStaticCtrl::OnMouseClick( wxMouseEvent& event ) {
+    CProjectListItemCtrl* pParent = wxDynamicCast(GetParent(), CProjectListItemCtrl);
+    if (pParent) {
+        pParent->OnMouseClick( event );
+    }
 }
 

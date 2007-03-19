@@ -26,6 +26,7 @@
 
 
 class CProjectListItemCtrl;
+class CProjectListItemStaticCtrl;
 class ProjectListCtrlEvent;
 class ProjectListItemCtrlEvent;
 
@@ -151,7 +152,7 @@ public:
 ////@end CProjectListItemCtrl event handler declarations
 
     /// Methods
-    wxString GetTitle() { return m_pTitleStaticCtrl->GetLabel(); };
+    wxString GetTitle() { return m_strTitle; };
     wxString GetURL() { return m_strURL; };
 
     bool SetTitle( wxString strTitle );
@@ -163,16 +164,17 @@ public:
     bool SetURL( wxString strURL );
 
 private:
-    wxStaticText*   m_pTitleStaticCtrl;
-    wxStaticText*   m_pHomeStaticCtrl;
-    wxStaticBitmap* m_pImageCtrl;
-    wxStaticText*   m_pGeneralAreaDescriptionStaticCtrl;
-    wxStaticText*   m_pGeneralAreaStaticCtrl;
-    wxStaticText*   m_pSpecificAreaDescriptionStaticCtrl;
-    wxStaticText*   m_pSpecificAreaStaticCtrl;
-    wxStaticText*   m_pDescriptionStaticCtrl;
-    wxString        m_strURL;
-    bool            m_bLeftButtonDownDetected;
+    CProjectListItemStaticCtrl* m_pTitleStaticCtrl;
+    CProjectListItemStaticCtrl* m_pHomeStaticCtrl;
+    wxStaticBitmap*             m_pImageCtrl;
+    CProjectListItemStaticCtrl* m_pGeneralAreaDescriptionStaticCtrl;
+    CProjectListItemStaticCtrl* m_pGeneralAreaStaticCtrl;
+    CProjectListItemStaticCtrl* m_pSpecificAreaDescriptionStaticCtrl;
+    CProjectListItemStaticCtrl* m_pSpecificAreaStaticCtrl;
+    CProjectListItemStaticCtrl* m_pDescriptionStaticCtrl;
+    wxString                    m_strTitle;
+    wxString                    m_strURL;
+    bool                        m_bLeftButtonDownDetected;
 };
 
 
@@ -216,6 +218,52 @@ typedef void (wxEvtHandler::*ProjectListItemCtrlEventFunction)(ProjectListItemCt
     wx__DECLARE_EVT0(wxEVT_PROJECTLISTITEMCTRL_ ## evt, ProjectListItemCtrlEventHandler(fn))
 
 #define EVT_PROJECTLISTITEMCTRL_CLICKED(fn) wx__DECLARE_PROJECTLISTITEMCTRLEVT(CLICKED, fn)
+
+
+/*!
+ * CProjectListItemStaticCtrl class declaration
+ */
+
+class CProjectListItemStaticCtrl: public wxStaticText
+{    
+    DECLARE_DYNAMIC_CLASS( CProjectListItemCtrl )
+    DECLARE_EVENT_TABLE()
+
+public:
+    /// Constructors
+    CProjectListItemStaticCtrl();
+
+    CProjectListItemStaticCtrl(
+        wxWindow *parent,
+        wxWindowID id,
+        const wxString &label = wxEmptyString,
+        const wxPoint &pos = wxDefaultPosition,
+        const wxSize &size = wxDefaultSize,
+        long style = 0,
+        const wxString &name = _T("ProjectListItemStaticCtrl")
+    );
+
+    /// Creation
+    bool Create (
+        wxWindow *parent,
+        wxWindowID id,
+        const wxString &label = wxEmptyString,
+        const wxPoint &pos = wxDefaultPosition,
+        const wxSize &size = wxDefaultSize,
+        long style = 0,
+        const wxString &name = _T("ProjectListItemStaticCtrl")
+    );
+
+////@begin CProjectListItemCtrl event handler declarations
+
+    /// wxEVT_ENTER_WINDOW, wxEVT_LEAVE_WINDOW event handler for window
+    void OnMouseEnterLeave( wxMouseEvent& event );
+
+    /// wxEVT_LEFT_DOWN, wxEVT_LEFT_UP event handler for window
+    void OnMouseClick( wxMouseEvent& event );
+
+////@end CProjectListItemCtrl event handler declarations
+};
 
 
 #endif // _WIZ_PROJECTLISTCTRL_H_

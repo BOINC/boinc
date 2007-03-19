@@ -2593,3 +2593,10 @@ David  18 Mar 2007
         apps.php
     sched/
         sched_config.C
+
+Rom    19 Mar 2007
+    - MGR: Fill in the missing piece with trapping static text control mouse
+        movement and clicks.
+        
+    clientgui/
+        ProjectListCtrl.cpp, .h
