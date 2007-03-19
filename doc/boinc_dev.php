@@ -93,6 +93,7 @@ identical results across processors
     and throttle CPU if it goes too high.
     Open-source software for this (on Linux) is at
     http://www.lm-sensors.org/.
+<li> Windows: get proxy config info directly from the OS
 <li> After an applications exits (for whatever reason)
 make sure (after a few second delay) that its subprocesses are gone too.
 Unix: use process groups and killpg().

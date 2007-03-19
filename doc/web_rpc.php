@@ -21,14 +21,15 @@ echo "
 <li> <a href=#edit_forum_preferences_action>Set forum preferences</a>
 <li> <a href=#forum_get_user_posts>Get last user's posts from the forum</a>
 <li> <a href=#forum_get_user_threads>Get last user's threads from the forum</a>
+<li> <a href=#apps>Get list of applications and versions</a>
 </ul>
 
 <a name=overview></a>
 <h3>Overview</h3>
 <p>
 BOINC projects export a number of Web RPCs
-that can be used to create, query and update
-accounts and host records.
+for creating, querying and updating accounts and host records,
+and miscellaneous other purposes.
 These can be used for
 <a href=acct_mgt.php>account management systems</a> and
 credit statistics web sites.
@@ -93,6 +94,7 @@ This RPC is documented
 ";
 
 list_start();
+list_bar('Create account');
 list_item("URL", "project_url/create_account.php");
 list_item(
     "input",
@@ -548,6 +550,19 @@ list_item('output',
 );
 list_item('action',
     'Get last user\'s threads from the forums.'
+);
+list_end();
+echo "
+<a name=\"apps\"></a>
+<h3>Get list of application versions</h3>
+";
+list_start();
+list_item('URL',
+    'project/apps.php'
+);
+list_item('output',
+    'List of applications and application versions;
+    this shows what platforms are supported by the project.'
 );
 list_end();
 

@@ -2583,3 +2583,13 @@ Rom    17 Mar 2007
         ProjectListCtrl.cpp, .h (Added)
     win_build/
         boincmgr_curl_2003.vcproj
+
+David  18 Mar 2007
+    - user web: make an XML variant of apps.php
+    - scheduler: parse uldl_pid etc. in config file
+        to avoid XML parse warnings (from David Braun)
+
+    html/user/
+        apps.php
+    sched/
+        sched_config.C

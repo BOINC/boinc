@@ -4,13 +4,6 @@ require_once("../inc/db.inc");
 require_once("../inc/util.inc");
 require_once("../inc/translation.inc");
 
-function nresults($app, $state) {
-    $r = mysql_query("select count(*) as nresults from result where appid=$app->id and server_state=$state");
-    $foobar = mysql_fetch_object($r);
-    mysql_free_result($r);
-    return $foobar->nresults;
-}
-
 init_session();
 db_init();
 
@@ -22,28 +15,30 @@ while ($platform = mysql_fetch_object($r2)) {
 }
 mysql_free_result($r2);
 
-page_head(tr(APPS_TITLE));
-echo tr(APPS_DESCRIPTION)."<br><br>
-";
+$xml = $_GET['xml'];
+if ($xml) {
+    require_once('../inc/xml.inc');
+    xml_header();
+    echo "<app_versions>\n";
+} else {
+    page_head(tr(APPS_TITLE));
+    echo tr(APPS_DESCRIPTION)."<br><br>
+    ";
+    start_table();
+}
 $result = mysql_query("select * from app where deprecated=0");
-start_table();
 
 
 while ($app = mysql_fetch_object($result)) {
-    echo "<tr><th colspan=3>$app->user_friendly_name</th></tr>\n";
-if (0) {    // this is too inefficient
-    $nunsent = nresults($app, 2);
-    $ninprogress = nresults($app, 4);
-    $ndone = nresults($app, 5);
-    echo "<tr><td colspan=3>
-        $nunsent results unsent
-        <br> $ninprogress results in progress
-        <br> $ndone results done
-        </td></tr>
-    ";
-}
-
-    echo "<tr><th>".tr(APPS_PLATFORM)."</th><th>".tr(APPS_VERSION)."</th><th>".tr(APPS_INSTALLTIME)."</th></tr>\n";
+    if ($xml) {
+        echo "<application>\n";
+        echo "    <name>$app->user_friendly_name</name>\n";
+    } else {
+        echo "
+            <tr><th colspan=3>$app->user_friendly_name</th></tr>
+            <tr><th>".tr(APPS_PLATFORM)."</th><th>".tr(APPS_VERSION)."</th><th>".tr(APPS_INSTALLTIME)."</th></tr>\n
+        ";
+    }
     for ($i=0; $i<sizeof($platforms); $i++) {
         $platform = $platforms[$i];
         $newest = null;
@@ -55,18 +50,33 @@ if (0) {    // this is too inefficient
             }
         }
         if ($newest) {
-            $x = sprintf("%0.2f", $newest->version_num/100);
             $y = pretty_time_str($newest->create_time);
-            echo "<tr>
-                <td>$platform->user_friendly_name</td>
-                <td>$x</td>
-                <td>$y</td>
-                </tr>
-            ";
+            if ($xml) {
+                echo "    <version>\n";
+                echo "        <platform>$platform->user_friendly_name</platform>\n";
+                echo "        <version_num>$newest->version_num</version_num>\n";
+                echo "        <date>$y</date>\n";
+                echo "    </version>\n";
+            } else {
+                $x = sprintf("%0.2f", $newest->version_num/100);
+                echo "<tr>
+                    <td>$platform->user_friendly_name</td>
+                    <td>$x</td>
+                    <td>$y</td>
+                    </tr>
+                ";
+            }
         }
     }
+    if ($xml) {
+        echo "    </application>\n";
+    }
 }
-end_table();
 mysql_free_result($result);
-page_tail();
+if ($xml) {
+    echo "</app_versions>\n";
+} else {
+    end_table();
+    page_tail();
+}
 ?>
