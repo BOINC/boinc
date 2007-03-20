@@ -29,7 +29,7 @@
 				PrecompiledHeaderFile="$(IntDir)/boinc_win.pch"
 				BrowseInformation="1"
 				WarningLevel="4"
-				Detect64BitPortabilityProblems="TRUE"
+				Detect64BitPortabilityProblems="FALSE"
 				DebugInformationFormat="4"
 				CompileAs="2"
 				DisableSpecificWarnings="4127;4702;4244"

@@ -139,6 +139,11 @@ void PROJECT_LIST_ENTRY::clear() {
     description.clear();
     home.clear();
     image.clear();
+    rand = 0.0;
+}
+
+bool PROJECT_LIST_ENTRY::operator<(const PROJECT_LIST_ENTRY& compare) {
+    return rand < compare.rand;
 }
 
 PROJECT::PROJECT() {
@@ -777,6 +782,10 @@ ALL_PROJECTS_LIST::~ALL_PROJECTS_LIST() {
     clear();
 }
 
+void ALL_PROJECTS_LIST::shuffle() {
+    sort(projects.begin(), projects.end());
+}
+
 void ALL_PROJECTS_LIST::clear() {
     unsigned int i;
     for (i=0; i<projects.size(); i++) {
@@ -1412,6 +1421,7 @@ int RPC_CLIENT::get_all_projects_list(ALL_PROJECTS_LIST& pl) {
             project = new PROJECT_LIST_ENTRY();
             retval = project->parse(xp);
             if (!retval) {
+                project->rand = rand();
                 pl.projects.push_back(project);
             } else {
                 delete project;
@@ -1419,6 +1429,7 @@ int RPC_CLIENT::get_all_projects_list(ALL_PROJECTS_LIST& pl) {
             continue;
         }
     }
+    pl.shuffle();
     return 0;
 }
 

@@ -67,14 +67,16 @@ public:
     std::string description;
     std::string home;
     std::string image;
+    int         rand;
 
     PROJECT_LIST_ENTRY();
     ~PROJECT_LIST_ENTRY();
 
     int parse(XML_PARSER&);
     void clear();
-};
 
+    bool operator<(const PROJECT_LIST_ENTRY& compare);
+};
 
 class PROJECT {
 public:
@@ -330,6 +332,7 @@ public:
     ~ALL_PROJECTS_LIST();
 
     void clear();
+    void shuffle();
 };
 
 class PROJECTS {

@@ -63,12 +63,7 @@ public:
     /// Methods
     bool Append(
         wxString strTitle,
-        wxString strHome,
-        wxString strURL,
-        wxBitmap bmpImage,
-        wxString strGeneralArea,
-        wxString strSpecificArea,
-        wxString strDescription
+        wxString strURL
     );
 
 private:
@@ -157,23 +152,11 @@ public:
     wxString GetURL() { return m_strURL; };
 
     bool SetTitle( wxString strTitle );
-    bool SetHome( wxString strHome );
-    bool SetImage( wxBitmap strImage );
-    bool SetGeneralArea( wxString strGeneralArea );
-    bool SetSpecificArea( wxString strSpecificArea );
-    bool SetDescription( wxString strDescription );
     bool SetURL( wxString strURL );
 
 private:
-    CProjectListItemStaticCtrl* m_pTitleStaticCtrl;
     wxHyperLink*                m_pWebsiteCtrl;
-    CProjectListItemStaticCtrl* m_pHomeStaticCtrl;
-    wxStaticBitmap*             m_pImageCtrl;
-    CProjectListItemStaticCtrl* m_pGeneralAreaDescriptionStaticCtrl;
-    CProjectListItemStaticCtrl* m_pGeneralAreaStaticCtrl;
-    CProjectListItemStaticCtrl* m_pSpecificAreaDescriptionStaticCtrl;
-    CProjectListItemStaticCtrl* m_pSpecificAreaStaticCtrl;
-    CProjectListItemStaticCtrl* m_pDescriptionStaticCtrl;
+    CProjectListItemStaticCtrl* m_pTitleStaticCtrl;
     wxString                    m_strTitle;
     wxString                    m_strURL;
     bool                        m_bLeftButtonDownDetected;

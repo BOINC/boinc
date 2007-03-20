@@ -2695,3 +2695,14 @@ Rom    19 Mar 2007
     lib/
         boinc_win.h
         filesys.C
+
+Rom    20 Mar 2007
+    - MGR: Randomize the project selection list
+    - MGR: Last few tweaks to the project selection list
+    
+    clientgui/
+        ProjectInfoPage.cpp
+        ProjectListCtrl.cpp, .h
+    lib/
+        gui_rpc_client.h
+        gui_rpc_client_ops.C

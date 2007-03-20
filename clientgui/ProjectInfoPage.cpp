@@ -241,8 +241,8 @@ void CProjectInfoPage::OnPageChanged( wxWizardExEvent& event ) {
         _("Project Selection")
     );
     m_pDescriptionStaticCtrl->SetLabel(
-        _("Choose which project you would like to participate in by clicking on its\n"
-          "name, or type the project URL below.")
+        _("Choose which project you would like to participate in by\n"
+          "clicking on its name, or type the project URL below.")
     );
     m_pProjectUrlStaticCtrl->SetLabel(
         _("Project &URL:")
@@ -255,12 +255,7 @@ void CProjectInfoPage::OnPageChanged( wxWizardExEvent& event ) {
     for (i=0; i<pl.projects.size(); i++) {
         m_pProjectListCtrl->Append(
             wxString(pl.projects[i]->name.c_str(), wxConvUTF8),
-            wxString(pl.projects[i]->home.c_str(), wxConvUTF8),
-            wxString(pl.projects[i]->url.c_str(), wxConvUTF8),
-            wxNullBitmap,
-            wxString(pl.projects[i]->general_area.c_str(), wxConvUTF8),
-            wxString(pl.projects[i]->specific_area.c_str(), wxConvUTF8),
-            wxString(pl.projects[i]->description.c_str(), wxConvUTF8)
+            wxString(pl.projects[i]->url.c_str(), wxConvUTF8)
         );
     }
 

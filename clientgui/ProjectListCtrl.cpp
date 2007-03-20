@@ -145,23 +145,13 @@ void CProjectListCtrl::OnItemClicked( ProjectListItemCtrlEvent& event ) {
  
 bool CProjectListCtrl::Append(
     wxString strTitle,
-    wxString strHome,
-    wxString strURL,
-    wxBitmap bmpImage,
-    wxString strGeneralArea,
-    wxString strSpecificArea,
-    wxString strDescription
+    wxString strURL
 )
 {
     CProjectListItemCtrl* pItem = new CProjectListItemCtrl();
     pItem->Create( this );
     pItem->SetTitle( strTitle );
-    pItem->SetHome( strHome );
     pItem->SetURL( strURL );
-    pItem->SetImage( bmpImage );
-    pItem->SetGeneralArea( strGeneralArea );
-    pItem->SetSpecificArea( strSpecificArea );
-    pItem->SetDescription( strDescription );
     m_pMainSizer->Add( pItem, 0, wxEXPAND );
 
     FitInside();
@@ -218,15 +208,9 @@ CProjectListItemCtrl::CProjectListItemCtrl( wxWindow* parent )
 bool CProjectListItemCtrl::Create( wxWindow* parent )
 {
 ////@begin CProjectListItemCtrl member initialisation
-    m_pTitleStaticCtrl = NULL;
     m_pWebsiteCtrl = NULL;
-    m_pHomeStaticCtrl = NULL;
-    m_pImageCtrl = NULL;
-    m_pGeneralAreaDescriptionStaticCtrl = NULL;
-    m_pGeneralAreaStaticCtrl = NULL;
-    m_pSpecificAreaDescriptionStaticCtrl = NULL;
-    m_pSpecificAreaStaticCtrl = NULL;
-    m_pDescriptionStaticCtrl = NULL;
+    m_pTitleStaticCtrl = NULL;
+    m_strTitle = wxEmptyString;
     m_strURL = wxEmptyString;
     m_bLeftButtonDownDetected = false;
 ////@end CProjectListItemCtrl member initialisation
@@ -256,57 +240,13 @@ void CProjectListItemCtrl::CreateControls()
     wxBoxSizer* itemBoxSizer4 = new wxBoxSizer(wxHORIZONTAL);
     itemBoxSizer3->Add(itemBoxSizer4);
 
-    m_pTitleStaticCtrl = new CProjectListItemStaticCtrl;
-    m_pTitleStaticCtrl->Create( this, wxID_ANY, wxEmptyString, wxDefaultPosition, wxDefaultSize, 0 );
-    m_pTitleStaticCtrl->SetFont(wxFont(8, wxSWISS, wxNORMAL, wxBOLD, false, _T("Tahoma")));
-    itemBoxSizer4->Add(m_pTitleStaticCtrl, 0, wxALIGN_LEFT|wxALL, 1);
-
     m_pWebsiteCtrl = new wxHyperLink;
     m_pWebsiteCtrl->Create( this, wxID_ANY, wxEmptyString, wxDefaultPosition, wxDefaultSize, 0 );
     itemBoxSizer4->Add(m_pWebsiteCtrl, 0, wxALIGN_LEFT|wxALL, 1);
 
-/*
-    m_pHomeStaticCtrl = new CProjectListItemStaticCtrl;
-    m_pHomeStaticCtrl->Create( this, wxID_ANY, wxEmptyString, wxDefaultPosition, wxDefaultSize, 0 );
-    itemBoxSizer3->Add(m_pHomeStaticCtrl, 0, wxALIGN_LEFT|wxALL, 1);
-
-    wxFlexGridSizer* itemFlexGridSizer6 = new wxFlexGridSizer(1, 2, 0, 0);
-    itemFlexGridSizer6->AddGrowableCol(0);
-    itemFlexGridSizer6->AddGrowableCol(1);
-    itemBoxSizer3->Add(itemFlexGridSizer6, 0, wxALIGN_LEFT|wxALL, 2);
-
-    wxBitmap m_pImageCtrlBitmap(wxNullBitmap);
-    m_pImageCtrl = new wxStaticBitmap;
-    m_pImageCtrl->Create( this, wxID_ANY, m_pImageCtrlBitmap, wxDefaultPosition, wxDefaultSize, 0 );
-    itemFlexGridSizer6->Add(m_pImageCtrl, 0, wxALIGN_CENTER_HORIZONTAL|wxALIGN_CENTER_VERTICAL|wxALL, 2);
-
-    wxBoxSizer* itemBoxSizer8 = new wxBoxSizer(wxVERTICAL);
-    itemFlexGridSizer6->Add(itemBoxSizer8, 0, wxALIGN_CENTER_HORIZONTAL|wxALIGN_CENTER_VERTICAL|wxALL, 2);
-
-    wxFlexGridSizer* itemFlexGridSizer9 = new wxFlexGridSizer(2, 2, 0, 0);
-    itemFlexGridSizer9->AddGrowableCol(1);
-    itemBoxSizer8->Add(itemFlexGridSizer9, 0, wxALIGN_LEFT|wxALL, 0);
-
-    m_pGeneralAreaDescriptionStaticCtrl = new CProjectListItemStaticCtrl;
-    m_pGeneralAreaDescriptionStaticCtrl->Create( this, wxID_ANY, _("General Area:"), wxDefaultPosition, wxDefaultSize, 0 );
-    itemFlexGridSizer9->Add(m_pGeneralAreaDescriptionStaticCtrl, 0, wxALIGN_LEFT|wxALIGN_CENTER_VERTICAL|wxALL|wxADJUST_MINSIZE, 1);
-
-    m_pGeneralAreaStaticCtrl = new CProjectListItemStaticCtrl;
-    m_pGeneralAreaStaticCtrl->Create( this, wxID_ANY, wxEmptyString, wxDefaultPosition, wxDefaultSize, 0 );
-    itemFlexGridSizer9->Add(m_pGeneralAreaStaticCtrl, 0, wxALIGN_LEFT|wxALIGN_CENTER_VERTICAL|wxALL, 1);
-
-    m_pSpecificAreaDescriptionStaticCtrl = new CProjectListItemStaticCtrl;
-    m_pSpecificAreaDescriptionStaticCtrl->Create( this, wxID_ANY, _("Specific Area:"), wxDefaultPosition, wxDefaultSize, 0 );
-    itemFlexGridSizer9->Add(m_pSpecificAreaDescriptionStaticCtrl, 0, wxALIGN_LEFT|wxALIGN_CENTER_VERTICAL|wxALL|wxADJUST_MINSIZE, 1);
-
-    m_pSpecificAreaStaticCtrl = new CProjectListItemStaticCtrl;
-    m_pSpecificAreaStaticCtrl->Create( this, wxID_ANY, wxEmptyString, wxDefaultPosition, wxDefaultSize, 0 );
-    itemFlexGridSizer9->Add(m_pSpecificAreaStaticCtrl, 0, wxALIGN_LEFT|wxALIGN_CENTER_VERTICAL|wxALL, 1);
-
-    m_pDescriptionStaticCtrl = new CProjectListItemStaticCtrl;
-    m_pDescriptionStaticCtrl->Create( this, wxID_ANY, wxEmptyString, wxDefaultPosition, wxDefaultSize, 0 );
-    itemBoxSizer8->Add(m_pDescriptionStaticCtrl, 0, wxALIGN_LEFT||wxALIGN_CENTER_VERTICAL|wxALL, 1);
-*/
+    m_pTitleStaticCtrl = new CProjectListItemStaticCtrl;
+    m_pTitleStaticCtrl->Create( this, wxID_ANY, wxEmptyString, wxDefaultPosition, wxDefaultSize, 0 );
+    itemBoxSizer4->Add(m_pTitleStaticCtrl, 0, wxALIGN_LEFT|wxALL, 1);
 
 ////@end CProjectListItemCtrl content construction
 }
@@ -357,42 +297,9 @@ bool CProjectListItemCtrl::SetTitle( wxString strTitle ) {
 }
 
 
-bool CProjectListItemCtrl::SetHome( wxString strHome ) {
-    if (m_pHomeStaticCtrl) m_pHomeStaticCtrl->SetLabel( strHome );
-    return true;
-}
-
-
-bool CProjectListItemCtrl::SetImage( wxBitmap bmpImage ) {
-    if (m_pImageCtrl) m_pImageCtrl->SetBitmap( bmpImage );
-    return true;
-}
-
-
-bool CProjectListItemCtrl::SetGeneralArea( wxString strGeneralArea ) {
-    if (m_pGeneralAreaStaticCtrl) m_pGeneralAreaStaticCtrl->SetLabel( strGeneralArea );
-    return true;
-}
-
-
-bool CProjectListItemCtrl::SetSpecificArea( wxString strSpecificArea ) {
-    if (m_pSpecificAreaStaticCtrl) m_pSpecificAreaStaticCtrl->SetLabel( strSpecificArea );
-    return true;
-}
-
-
-bool CProjectListItemCtrl::SetDescription( wxString strDescription ) {
-    if (m_pDescriptionStaticCtrl) {
-        m_pDescriptionStaticCtrl->SetLabel( strDescription );
-        m_pDescriptionStaticCtrl->Wrap(300);
-    }
-    return true;
-}
-
-
 bool CProjectListItemCtrl::SetURL( wxString strURL ) {
     if (m_pWebsiteCtrl) {
-        m_pWebsiteCtrl->SetLabel(wxT("Website"));
+        m_pWebsiteCtrl->SetLabel(_("Web"));
         m_pWebsiteCtrl->SetURL(strURL);
     }
     m_strURL = strURL;
