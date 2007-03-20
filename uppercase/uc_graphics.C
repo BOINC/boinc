@@ -156,6 +156,8 @@ static void app_init_camera(double dist) {
     set_viewpoint(dist);
 }
 
+extern "C" {
+
 void app_graphics_render(int xs, int ys, double time_of_day) {
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
     mode_unshaded();
@@ -218,3 +220,4 @@ void boinc_app_key_press(int, int){}
 
 void boinc_app_key_release(int, int){}
 
+}

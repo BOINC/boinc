@@ -19,9 +19,10 @@ CXXFLAGS = -g \
     -L.
 
 # the following should be freeglut; use nm to check
+# you may have to change the paths for your system
 LIBGLUT = /usr/local/lib/libglut.a
-LIBGLU = /usr/X11R6/lib/libGLU.a
-LIBJPEG = /usr/lib/libjpeg.a
+LIBGLU = /usr/local/lib/libGLU.a
+LIBJPEG = /usr/local/lib/libjpeg.a
 
 PROGS = upper_case upper_case.so
 
@@ -43,4 +44,5 @@ upper_case.so: uc_graphics.o $(BOINC_LIB_DIR)/libboinc.a $(BOINC_API_DIR)/libboi
     libstdc++.a \
     -lboinc_graphics_impl -lboinc \
     $(LIBGLUT) $(LIBGLU) $(LIBJPEG) \
-    -lGL -lX11 -lXmu -lm \
+    -lGL -lX11 -lXmu -lm; \
+    chcon -t texrel_shlib_t upper_case.so

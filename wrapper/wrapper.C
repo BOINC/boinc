@@ -41,6 +41,7 @@
 #else
 #include <unistd.h>
 #include <sys/wait.h>
+#include "procinfo.h"
 #endif
 
 #include "boinc_api.h"
@@ -358,18 +359,14 @@ double TASK::cpu_time() {
     double cpu = totTime / 1.e7;
     return cpu;
 #else
-	// Unix variant:  return elapsed wall time
-	// TODO: get CPU time from /proc
-	//
-    static double t=0, cpu;
-    if (t) {
-        double now = dtime();
-        cpu += now-t;
-        t = now;
-    } else {
-        t = dtime();
-    }
-    return cpu;
+    vector<PROCINFO> pi;
+    procinfo_setup(pi);
+    PROCINFO proc;
+    memset(&proc, 0, sizeof(proc));
+    proc.id = pid;
+    procinfo_app(proc, pi);
+    printf("time: %f\n", proc.user_time+proc.kernel_time);
+    return proc.user_time + proc.kernel_time;
 #endif
 }
 

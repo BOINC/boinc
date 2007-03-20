@@ -279,3 +279,13 @@ David  21 Feb 2007
 		libboinc.vcproj
 	wrapper/
 		wrapper.C
+
+David  20 Mar 2007
+    - wrapper (Unix) get actual CPU time of child (not wall time)
+    - uppercase (Unix): change makefile to work on FC6
+
+    uppercase/
+        Makefile
+        uc_graphics.C
+    wrapper/
+        wrapper.C
