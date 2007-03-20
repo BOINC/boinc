@@ -2668,6 +2668,7 @@ Charlie 19 Mar 2007
     -- Mac: Add ProjectListCtrl.cpp to XCode project.
     
     client/
+        hostinfo_unix.C
         http_curl.C
     clientgui/
         DlgAdvPreferences.cpp
