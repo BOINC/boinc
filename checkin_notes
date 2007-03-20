@@ -2722,3 +2722,15 @@ David  20 Mar 2007
         cs_benchmark.C
     lib/
         util.C,h
+
+David  20 Mar 2007
+    - API: boinc_checkpoint_completed(): don't call update_app_progress()
+        unless options.send_status_msgs is set
+        (fixes bug in wrappers that call this)
+    - lib: add linux_cpu_time() function (get CPU time of another process)
+
+    api/
+        boinc_api.C
+    lib/
+        procinfo_unix.C
+        util.C,h

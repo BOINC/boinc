@@ -489,4 +489,23 @@ int wait_client_mutex(const char* dir, double timeout) {
     return ERR_ALREADY_RUNNING;
 }
 
+#ifndef _WIN32
+// (linux) return current CPU time of the given process
+//
+double linux_cpu_time(int pid) {
+    FILE *file;
+    char file_name[24];
+    unsigned long utime = 0, stime = 0;
+    int n;
+
+    sprintf(file_name,"/proc/%d/stat",pid);
+    if ((file = fopen(file_name,"r")) != NULL) {
+        n = fscanf(file,"%*s%*s%*s%*s%*s%*s%*s%*s%*s%*s%*s%*s%*s%lu%lu",&utime,&stime);
+        fclose(file);
+        if (n != 2) return 0;
+    }
+    return (double)(utime + stime)/100;
+}
+#endif
+
 const char *BOINC_RCSID_ab65c90e1e = "$Id$";

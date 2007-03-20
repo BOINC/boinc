@@ -96,53 +96,54 @@ struct PROC_STAT {
 };
 
 int PROC_STAT::parse(char* buf) {
-    int n = sscanf(buf, "%d %s %c %d %d %d %d %d "
-                   "%lu %lu %lu %lu %lu %lu %lu "
-                   "%d %d %d %d %d %d "
-                   "%lu %lu "
-                   "%d "
-                   "%lu %lu %lu %lu %lu %lu %lu %lu %lu %lu %lu %lu %lu "
-                   "%d %d",
-                   &pid,
-                   comm,
-                   &state,
-                   &ppid,
-                   &pgrp,
-                   &session,
-                   &tty_nr,
-                   &tpgid,
-                   &flags,
-                   &minflt,
-                   &cminflt,
-                   &majflt,
-                   &cmajflt,
-                   &utime,
-                   &stime,
-                   &cutime,
-                   &cstime,
-                   &priority,
-                   &nice,
-                   &zero,
-                   &itrealvalue,
-                   &starttime,
-                   &vsize,
-                   &rss,
-                   &rlim,
-                   &startcode,
-                   &endcode,
-                   &startstack,
-                   &kstkesp,
-                   &kstkeip,
-                   &signal,
-                   &blocked,
-                   &sigignore,
-                   &sigcatch,
-                   &wchan,
-                   &nswap,
-                   &cnswap,
-                   &exit_signal,
-                   &processor
-                  );
+    int n = sscanf(buf,
+        "%d %s %c %d %d %d %d %d "
+        "%lu %lu %lu %lu %lu %lu %lu "
+        "%d %d %d %d %d %d "
+        "%lu %lu "
+        "%d "
+        "%lu %lu %lu %lu %lu %lu %lu %lu %lu %lu %lu %lu %lu "
+        "%d %d",
+        &pid,
+        comm,
+        &state,
+        &ppid,
+        &pgrp,
+        &session,
+        &tty_nr,
+        &tpgid,
+        &flags,
+        &minflt,
+        &cminflt,
+        &majflt,
+        &cmajflt,
+        &utime,
+        &stime,
+        &cutime,
+        &cstime,
+        &priority,
+        &nice,
+        &zero,
+        &itrealvalue,
+        &starttime,
+        &vsize,
+        &rss,
+        &rlim,
+        &startcode,
+        &endcode,
+        &startstack,
+        &kstkesp,
+        &kstkeip,
+        &signal,
+        &blocked,
+        &sigignore,
+        &sigcatch,
+        &wchan,
+        &nswap,
+        &cnswap,
+        &exit_signal,
+        &processor
+    );
     if (n == 39) return 0;
 
     // I don't see a good choice of ERR_ for this...
@@ -189,9 +190,9 @@ int procinfo_setup(vector<PROCINFO>& pi) {
                     if (fd) {
                         if (fread(&prusage, sizeof(prusage_t), 1, fd) == 1) {
                             p.user_time = (float)prusage.pr_utime.tv_sec +
-                                          ((float)prusage.pr_utime.tv_nsec)/1e+9;
+                                ((float)prusage.pr_utime.tv_nsec)/1e+9;
                             p.kernel_time = (float)prusage.pr_stime.tv_sec +
-                                            ((float)prusage.pr_utime.tv_nsec)/1e+9;
+                                ((float)prusage.pr_utime.tv_nsec)/1e+9;
                             // page faults: I/O + non I/O
                             p.page_fault_count = prusage.pr_majf + prusage.pr_minf;
                         }

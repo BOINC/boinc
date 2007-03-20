@@ -925,7 +925,9 @@ int boinc_checkpoint_completed() {
     boinc_worker_thread_cpu_time(cur_cpu);
     last_wu_cpu_time = cur_cpu + aid.wu_cpu_time;
     last_checkpoint_cpu_time = last_wu_cpu_time;
-    update_app_progress(last_checkpoint_cpu_time, last_checkpoint_cpu_time);
+    if (options.send_status_msgs) {
+        update_app_progress(last_checkpoint_cpu_time, last_checkpoint_cpu_time);
+    }
     time_until_checkpoint = (int)aid.checkpoint_period;
     in_critical_section = false;
     ready_to_checkpoint = false;

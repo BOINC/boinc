@@ -71,6 +71,7 @@ extern int check_security(int use_sandbox, int isManager);
 // setpriority(2) arg to run in background
 // (don't use 20 because
 static const int PROCESS_IDLE_PRIORITY = 19;
+extern double linux_cpu_time(int pid);
 #endif
 
 extern void update_average(double, double, double, double&, double&);
