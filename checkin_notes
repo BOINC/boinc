@@ -289,3 +289,9 @@ David  20 Mar 2007
         uc_graphics.C
     wrapper/
         wrapper.C
+
+David  20 Mar 2007
+    - wrapper (Unix): use more efficient way of getting CPU time
+
+    wrapper/
+        wrapper.C
