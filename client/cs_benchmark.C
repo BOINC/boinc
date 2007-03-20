@@ -34,9 +34,7 @@
 
 #ifdef _WIN32
 #include "boinc_win.h"
-#endif
-
-#ifndef _WIN32
+#else
 #include "config.h"
 #if HAVE_SYS_TYPES_H
 #include <sys/types.h>
@@ -48,9 +46,7 @@
 #if HAVE_SYS_SIGNAL_H
 #include <sys/signal.h>
 #endif
-#ifdef HAVE_UNISTD_H
 #include <unistd.h>
-#endif
 
 #include <cstdio>
 #include <cstdlib>
@@ -223,6 +219,11 @@ void CLIENT_STATE::start_cpu_benchmarks() {
         sprintf(benchmark_descs[i].filename, "%s_%d.xml", CPU_BENCHMARKS_FILE_NAME, i);
         PROCESS_ID pid = fork();
         if (pid == 0) {
+#ifdef HAVE_SETPRIORITY
+            if (setpriority(PRIO_PROCESS, 0, PROCESS_IDLE_PRIORITY)) {
+                perror("setpriority");
+            }
+#endif
             int retval = cpu_benchmarks(benchmark_descs+i);
             fflush(NULL);
             _exit(retval);

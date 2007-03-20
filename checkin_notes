@@ -2706,3 +2706,19 @@ Rom    20 Mar 2007
     lib/
         gui_rpc_client.h
         gui_rpc_client_ops.C
+
+David  20 Mar 2007
+    - core client, Unix: run CPU benchmarks at low priority,
+        same as applications.
+        On some systems, the clock governor (powersaved)
+        will slow the CPU clock if nothing's running at regular priority
+        (but it ignores processes running at low priority).
+        If benchmarks run at regular priority,
+        this could result in a erroneous claimed-credit numbers.
+        (from Evandro Menezes)
+
+    client/
+        app_start.C
+        cs_benchmark.C
+    lib/
+        util.C,h

@@ -30,9 +30,7 @@
 #include <vector>
 
 #ifdef HAVE_PTHREAD
-
 #include <pthread.h>
-
 #endif
 
 // Ideally, we would access this using wxGetApp().m_use_sandbox in the Manager
@@ -58,7 +56,6 @@ static inline double drand() {
 }
 
 #ifdef _WIN32
-
 #include <windows.h>
 
 extern char* windows_error_string(char* pszBuf, int iSize);
@@ -67,7 +64,13 @@ extern char* windows_format_error_string(
 );
 extern int boinc_thread_cpu_time(HANDLE thread_handle, double& cpu);
 extern int boinc_process_cpu_time(double& cpu);
+#else
+extern int lookup_group(char*, gid_t& gid);
+extern int check_security(int use_sandbox, int isManager);
 
+// setpriority(2) arg to run in background
+// (don't use 20 because
+static const int PROCESS_IDLE_PRIORITY = 19;
 #endif
 
 extern void update_average(double, double, double, double&, double&);
@@ -80,11 +83,6 @@ extern void mysql_timestamp(double, char*);
 
 #ifdef HAVE_PTHREAD
 extern pthread_mutex_t getrusage_mutex;
-#endif
-
-#ifndef _WIN32
-extern int lookup_group(char*, gid_t& gid);
-extern int check_security(int use_sandbox, int isManager);
 #endif
 
 extern int run_program(char* path, char* cdir, int argc, char** argv);

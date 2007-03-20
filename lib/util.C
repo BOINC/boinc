@@ -410,6 +410,7 @@ int lookup_group(char* name, gid_t& gid) {
 // argv is set up Unix-style, i.e. argv[0] is the program name
 //
 int run_program(char* dir, char* file, int argc, char** argv) {
+    int retval;
 #ifdef _WIN32
     PROCESS_INFORMATION process_info;
     STARTUPINFO startup_info;
@@ -425,7 +426,7 @@ int run_program(char* dir, char* file, int argc, char** argv) {
     }
 
 	sprintf(path, "%s/%s", dir, file);
-    int retval = CreateProcess(
+    retval = CreateProcess(
         path,
         cmdline,
         NULL,
@@ -441,7 +442,8 @@ int run_program(char* dir, char* file, int argc, char** argv) {
 #else
     int pid = fork();
     if (pid == 0) {
-        chdir(dir);
+        retval = chdir(dir);
+        if (retval) return retval;
         execv(file, argv);
         perror("execv");
     }

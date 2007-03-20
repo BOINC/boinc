@@ -65,9 +65,6 @@ using std::vector;
 
 #include "app.h"
 
-// value for setpriority(2)
-static const int PROCESS_IDLE_PRIORITY = 19;
-
 // Goes through an array of strings, and prints each string
 //
 #ifndef _WIN32
