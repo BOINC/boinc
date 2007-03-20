@@ -16,7 +16,8 @@ AM_CPPFLAGS = -I$(top_srcdir)/include $(GLIB_CFLAGS)
 noinst_HEADERS = \
 		local_common.h \
 		local_master.h \
-		local_utils.h
+		local_utils.h \
+		local_wu.h
 
 libdc_local_la_SOURCES = \
 		local_master.c \
