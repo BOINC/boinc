@@ -128,13 +128,15 @@ char* next_arg(int argc, char** argv, int& i) {
 void read_password_from_file(char* buf) {
 	FILE* f = fopen("gui_rpc_auth.cfg", "r");
 	if (!f) return;
-	char* p __attribute__ ((unused)) = fgets(buf, 256, f);
-	int n = (int)strlen(buf);
+	char* p = fgets(buf, 256, f);
+        if (p) {                // Fixes compiler warning
+            int n = (int)strlen(buf);
 
-	// trim CR
-	//
-	if (n && buf[n-1]=='\n') {
-		buf[n-1] = 0;
+            // trim CR
+            //
+            if (n && buf[n-1]=='\n') {
+                    buf[n-1] = 0;
+            }
 	}
 	fclose(f);
 }
