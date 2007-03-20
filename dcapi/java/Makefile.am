@@ -89,7 +89,7 @@ libdc_java_client_la_DEPENDENCIES = jni_export.sym
 
 # jni_proto.h contains both the consumer and producer-side JNI prototypes
 jni_proto.h: $(JARFILES)
-	$(JAVAH) -classpath $(CLIENT_JAR):$(PRODUCER_JAR) -o $@ -jni $(CLIENT_CLASSNAMES) $(PRODUCER_CLASSNAMES)
+	$(JAVAH) -classpath $(COMMON_JAR):$(CLIENT_JAR) -o $@ -jni $(COMMON_CLASSNAMES) $(CLIENT_CLASSNAMES)
 	-touch $@
 
 # Generate the list of to-be-exported symbols from jni_proto.h
@@ -116,8 +116,8 @@ EXTRA_DIST = \
 		$(DOCFILES)
 
 MOSTLYCLEANFILES = \
+		$(COMMON_CLASSES) \
 		$(CLIENT_CLASSES) \
-		$(PRODUCER_CLASSES) \
 		$(JARFILES) \
 		javacore.txt \
 		core.*
@@ -131,13 +131,13 @@ CLEANFILES = \
 #######################################################################
 # Build and install the API documentation
 
-TARGET_DIR = $(DOC_DIR)/java
+TARGET_DIR = $(docdir)/java
 
 doc.stamp: classnoinst.stamp $(DOCFILES)
 	-mkdir $(top_builddir)/java/doc 2>/dev/null
 	$(JAVADOC) -quiet -d $(top_builddir)/java/doc \
 		-sourcepath $(srcdir) \
-		-classpath $(CLIENT_JAR):$(PRODUCER_JAR) \
+		-classpath $(COMMON_JAR):$(CLIENT_JAR) \
 		-overview $(srcdir)/$(CLASSDIR)/overview.html \
 		hu.sztaki.lpds.dc
 	-touch $@
@@ -148,8 +148,8 @@ clean-local:
 	-rm -rf doc
 
 install-data-local:
-	$(mkinstalldirs) $(DESTDIR)$(DOC_DIR)/java/$(CLASSDIR)
-	$(mkinstalldirs) $(DESTDIR)$(DOC_DIR)/java/$(CLASSDIR)/producer
+	$(mkinstalldirs) $(DESTDIR)$(TARGET_DIR)/$(CLASSDIR)
+	$(mkinstalldirs) $(DESTDIR)$(TARGET_DIR)/$(CLASSDIR)/producer
 	(installfiles=`echo $(srcdir)/doc/*.html $(srcdir)/doc/*.css`; \
 	if test "$$installfiles" = '$(srcdir)/doc/*.html $(srcdir)/doc/*.css'; \
 	then echo '-- Nothing to install' ; \
