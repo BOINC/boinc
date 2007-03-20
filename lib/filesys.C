@@ -72,6 +72,7 @@ typedef BOOL (CALLBACK* FreeFn)(LPCTSTR, PULARGE_INTEGER, PULARGE_INTEGER, PULAR
 #include "fcgi_stdio.h"
 #endif
 
+
 #define RETRY_INTERVAL 5
     // On Windows, retry for this period of time, since some other program
     // (virus scan, defrag, index) may have the file open.
@@ -623,19 +624,11 @@ int FILE_LOCK::unlock(const char* filename) {
 }
 
 void boinc_getcwd(char* path) {
-#if defined(_WIN32) && !defined(__CYGWIN32__)
-    char* p = _getcwd(path, 256);
-#else
     char* p __attribute__ ((unused)) = getcwd(path, 256);
-#endif
 }
 
 void relative_to_absolute(const char* relname, char* path) {
-#if defined(_WIN32) && !defined(__CYGWIN32__)
-    char* p = _getcwd(path, 256);
-#else
     char* p __attribute__ ((unused)) = getcwd(path, 256);
-#endif
     if (strlen(relname)) {
         strcat(path, "/");
         strcat(path, relname);

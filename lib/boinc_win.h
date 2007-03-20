@@ -204,8 +204,6 @@ typedef LPCSTR PCTSTR, LPCTSTR, PCUTSTR, LPCUTSTR;
 #endif
 
 
-
-
 #ifndef __CYGWIN__
 
 #define vsnprintf               _vsnprintf
@@ -222,7 +220,12 @@ typedef LPCSTR PCTSTR, LPCTSTR, PCUTSTR, LPCUTSTR;
 #define finite					_finite
 #define strdate                 _strdate
 #define strtime                 _strtime
+#define getcwd                  _getcwd
 
+#endif
+
+#ifndef __GNUC__
+#define __attribute__(x)
 #endif
 
 #ifdef __MINGW32__

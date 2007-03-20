@@ -2686,3 +2686,12 @@ David  19 Mar 2007
 
 	lib/
 		prefs.C
+
+Rom    19 Mar 2007
+    - Add some more cross compiler tweaks to the precompiled header for Windows.
+    
+    clientgui/
+        stdwx.h
+    lib/
+        boinc_win.h
+        filesys.C

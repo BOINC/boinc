@@ -191,17 +191,28 @@
 
 
 #ifdef _WIN32
+
 #define vsnprintf               _vsnprintf
 #define snprintf                _snprintf
-#define fdopen                  _fdopen
-#define dup                     _dup
-#define unlink                  _unlink
-#define strdup                  _strdup
-#define read                    _read
-#define stat                    _stat
-#define finite                  _finite
+#define stprintf                _stprintf
+#define stricmp					_stricmp
+#define strdup					_strdup
+#define fdopen					_fdopen
+#define dup						_dup
+#define unlink					_unlink
+#define read					_read
+#define stat					_stat
+#define chdir					_chdir
+#define finite					_finite
+#define strdate                 _strdate
+#define strtime                 _strtime
+#define getcwd                  _getcwd
+
 #endif
 
+#ifndef __GNUC__
+#define __attribute__(x)
+#endif
 
 // On the Win32 platform include file and line number information for each
 //   memory allocation/deallocation
