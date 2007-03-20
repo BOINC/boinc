@@ -159,9 +159,9 @@ bool TIME_PREFS::suspended(double hour, int which) {
     if (start==0 && end==24) return false;  // redundant?
     if (start==24 && end==0) return true;
     if (start < end) {
-        return (hour >= start && hour < end);
+        return (hour < start || hour > end);
     } else {
-        return !(hour >= end && hour < start);
+        return (hour >= end && hour < start);
     }
 }
 
@@ -418,10 +418,10 @@ int GLOBAL_PREFS::write(MIOFILE& f) {
         "<global_preferences>\n"
         "   <mod_time>%d</mod_time>\n"
         "%s%s"
-        "   <start_hour>%d</start_hour>\n"
-        "   <end_hour>%d</end_hour>\n"
-        "   <net_start_hour>%d</net_start_hour>\n"
-        "   <net_end_hour>%d</net_end_hour>\n"
+        "   <start_hour>%f</start_hour>\n"
+        "   <end_hour>%f</end_hour>\n"
+        "   <net_start_hour>%f</net_start_hour>\n"
+        "   <net_end_hour>%f</net_end_hour>\n"
         "%s%s%s%s"
         "   <work_buf_min_days>%f</work_buf_min_days>\n"
         "   <max_cpus>%d</max_cpus>\n"
