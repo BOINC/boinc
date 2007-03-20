@@ -626,7 +626,7 @@ void boinc_getcwd(char* path) {
 #if defined(_WIN32) && !defined(__CYGWIN32__)
     char* p = _getcwd(path, 256);
 #else
-    char* p = getcwd(path, 256);
+    char* p __attribute__ ((unused)) = getcwd(path, 256);
 #endif
 }
 
@@ -634,7 +634,7 @@ void relative_to_absolute(const char* relname, char* path) {
 #if defined(_WIN32) && !defined(__CYGWIN32__)
     char* p = _getcwd(path, 256);
 #else
-    char* p = getcwd(path, 256);
+    char* p __attribute__ ((unused)) = getcwd(path, 256);
 #endif
     if (strlen(relname)) {
         strcat(path, "/");

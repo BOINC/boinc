@@ -736,12 +736,12 @@ bool CPanelPreferences::ReadPreferenceSettings() {
     if (display_global_preferences.time_prefs.start_hour == display_global_preferences.time_prefs.end_hour) {
         m_strWorkBetweenBegin = _("Anytime");
     } else {
-        m_strWorkBetweenBegin = astrTimeOfDayStrings[display_global_preferences.time_prefs.start_hour];
+        m_strWorkBetweenBegin = astrTimeOfDayStrings[(int)display_global_preferences.time_prefs.start_hour];
     }
 
     //   End:
     m_WorkBetweenEndCtrl->Append(wxArrayString(iTimeOfDayArraySize, astrTimeOfDayStrings));
-    m_strWorkBetweenEnd = astrTimeOfDayStrings[display_global_preferences.time_prefs.end_hour];
+    m_strWorkBetweenEnd = astrTimeOfDayStrings[(int)display_global_preferences.time_prefs.end_hour];
 
     // Connect to internet only between:
     //   Start:
@@ -752,12 +752,12 @@ bool CPanelPreferences::ReadPreferenceSettings() {
     if (display_global_preferences.time_prefs.net_start_hour == display_global_preferences.time_prefs.net_end_hour) {
         m_strConnectBetweenBegin = _("Anytime");
     } else {
-        m_strConnectBetweenBegin = astrTimeOfDayStrings[display_global_preferences.time_prefs.net_start_hour];
+        m_strConnectBetweenBegin = astrTimeOfDayStrings[(int)display_global_preferences.time_prefs.net_start_hour];
     }
 
     //   End:
     m_ConnectBetweenEndCtrl->Append(wxArrayString(iTimeOfDayArraySize, astrTimeOfDayStrings));
-    m_strConnectBetweenEnd = astrTimeOfDayStrings[display_global_preferences.time_prefs.net_end_hour];
+    m_strConnectBetweenEnd = astrTimeOfDayStrings[(int)display_global_preferences.time_prefs.net_end_hour];
 
     // Use no more than %s of disk space
     wxArrayString aDiskUsage = wxArrayString(iDiskUsageArraySize, astrDiskUsageStrings);

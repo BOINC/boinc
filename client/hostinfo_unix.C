@@ -649,6 +649,7 @@ int HOST_INFO::get_host_info() {
 #endif
 
 #ifdef __APPLE__
+    int p_model_size = sizeof(p_model);
 #ifdef __i386__
     char brand_string[256];
     int family, stepping, model;
@@ -679,7 +680,6 @@ int HOST_INFO::get_host_info() {
                 
 #else       // PowerPC
     char capabilities[256], model[256];
-    int p_model_size = sizeof(p_model);
     int response = 0;
     int retval;
     len = sizeof(response);

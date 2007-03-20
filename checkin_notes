@@ -2656,3 +2656,26 @@ David  19 Mar 2007
 		hostinfo_win.C
 	win_build/
 		boinc_cli_curl.vcproj
+
+Charlie 19 Mar 2007
+    - Mac: fix compile errors (must cast double variable to int to use it 
+        as array index.)
+    - Fix compiler warnings. GCC on Linux and Mac have conflicting warnings:
+        Mac complains about unused variables, Linux about ignoring returns 
+        from functions like getcwd() which returns the result in 2 places.  
+        Try to satisfy both compilers using __attribute__ ((unused)) construct.
+        This may not work for Windows compiler, though.
+    -- Mac: Add ProjectListCtrl.cpp to XCode project.
+    
+    client/
+        http_curl.C
+    clientgui/
+        DlgAdvPreferences.cpp
+        sg_DlgPreferences.cpp
+    lib/
+        boinc_cmd.C
+        filesys.C
+        hostinfo.C
+    mac_build/
+        boinc.xcodeproj/
+            project.pbxproj

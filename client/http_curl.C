@@ -1010,7 +1010,7 @@ void HTTP_OP_SET::got_select(FDSET_GROUP&, double timeout) {
                 fseek(hop->fileOut, 0, SEEK_SET);
                 // CMC Note: req1 is a pointer to "header" which is 4096
                 memset(hop->req1, 0, 4096);
-                size_t temp = fread(hop->req1, 1, (size_t) dSize, hop->fileOut); 
+                size_t temp __attribute__ ((unused)) = fread(hop->req1, 1, (size_t) dSize, hop->fileOut); 
             }
         }
 

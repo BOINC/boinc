@@ -177,6 +177,7 @@ int HOST_INFO::parse_cpu_benchmarks(FILE* in) {
     char buf[256];
 
     char* p = fgets(buf, 256, in);
+    if (!p) return 0;           // Fixes compiler warning
     while (fgets(buf, 256, in)) {
         if (match_tag(buf, "<cpu_benchmarks>"));
         else if (match_tag(buf, "</cpu_benchmarks>")) return 0;
