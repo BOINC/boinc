@@ -291,7 +291,7 @@ void CProjectListItemCtrl::OnMouseClick( wxMouseEvent& event ) {
 
 
 bool CProjectListItemCtrl::SetTitle( wxString strTitle ) {
-    if (m_pTitleStaticCtrl) m_pTitleStaticCtrl->SetLabel( strTitle );
+    if (m_pTitleStaticCtrl) m_pTitleStaticCtrl->SetLabel(_("  ")+strTitle );
     m_strTitle = strTitle;
     return true;
 }
@@ -299,7 +299,7 @@ bool CProjectListItemCtrl::SetTitle( wxString strTitle ) {
 
 bool CProjectListItemCtrl::SetURL( wxString strURL ) {
     if (m_pWebsiteCtrl) {
-        m_pWebsiteCtrl->SetLabel(_("Web"));
+        m_pWebsiteCtrl->SetLabel(_("(web)"));
         m_pWebsiteCtrl->SetURL(strURL);
     }
     m_strURL = strURL;

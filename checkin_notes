@@ -2734,3 +2734,9 @@ David  20 Mar 2007
     lib/
         procinfo_unix.C
         util.C,h
+
+David  20 Mar 2007
+	- Manager: cosmetic tweaks to project select
+
+	clientgui/
+		ProjectListCtrl.cpp
