@@ -244,6 +244,8 @@ DLLAPI int        FCGI_pclose(FCGI_FILE *);
 
 #endif /* _FCGI_STDIO */
 
+#define	feof     FCGI_feof
+#define	ferror   FCGI_ferror
 #define	freopen  FCGI_freopen
 #define	fopen    FCGI_fopen
 #define	fprintf  FCGI_fprintf
