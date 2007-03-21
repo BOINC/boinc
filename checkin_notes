@@ -2750,3 +2750,16 @@ David  20 Mar 2007
 
     client/
         acct_mgr.C,h
+
+Jeff  21 Mar 2007
+    - added :
+        #define feof     FCGI_feof
+        #define ferror   FCGI_ferror
+      to the list of such defines at the bottom of file fcgi_stdio.h.
+      This was needed to complile the fcgi version of the file upload
+      handler.  Note that this list of defines is the only difference 
+      between our fcgi_stdio.h and /usr/include/fcgi_stdio.h on the 
+      linux box used for this build.
+
+    sched/
+        fcgi_stdio.h
