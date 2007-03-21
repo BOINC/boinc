@@ -58,6 +58,20 @@ struct ACCT_MGR_INFO {
     bool poll();
 };
 
+struct OPTIONAL_BOOL {
+    bool present;
+    bool value;
+    inline void init() {present=false;}
+    inline void set(bool v) {value=v; present=true;}
+};
+
+struct OPTIONAL_DOUBLE {
+    bool present;
+    double value;
+    inline void init() {present=false;}
+    inline void set(double v) {value=v; present=true;}
+};
+
 // stuff after here related to RPCs to account managers
 
 struct AM_ACCOUNT {
@@ -66,9 +80,9 @@ struct AM_ACCOUNT {
     char url_signature[MAX_SIGNATURE_LEN];
     bool detach;
     bool update;
-    bool dont_request_more_work;
-    bool detach_when_done;
-    double resource_share;
+    OPTIONAL_BOOL dont_request_more_work;
+    OPTIONAL_BOOL detach_when_done;
+    OPTIONAL_DOUBLE resource_share;
 
     int parse(XML_PARSER&);
     AM_ACCOUNT() {}

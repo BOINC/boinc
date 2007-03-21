@@ -189,17 +189,18 @@ int ACCT_MGR_OP::do_rpc(
 
 int AM_ACCOUNT::parse(XML_PARSER& xp) {
     char tag[256];
-	bool is_tag;
+	bool is_tag, btemp;
 	int retval;
+    double dtemp;
 
     detach = false;
     update = false;
-    dont_request_more_work = false;
-    detach_when_done = false;
+    dont_request_more_work.init();
+    detach_when_done.init();
     url = "";
     strcpy(url_signature, "");
     authenticator = "";
-    resource_share = -1;
+    resource_share.init();
 
     while (!xp.get(tag, sizeof(tag), is_tag)) {
 		if (!is_tag) {
@@ -225,9 +226,15 @@ int AM_ACCOUNT::parse(XML_PARSER& xp) {
         if (xp.parse_string(tag, "authenticator", authenticator)) continue;
         if (xp.parse_bool(tag, "detach", detach)) continue;
         if (xp.parse_bool(tag, "update", update)) continue;
-        if (xp.parse_bool(tag, "dont_request_more_work", dont_request_more_work)) continue;
-        if (xp.parse_bool(tag, "detach_when_done", detach_when_done)) continue;
-        if (xp.parse_double(tag, "resource_share", resource_share)) continue;
+        if (xp.parse_bool(tag, "dont_request_more_work", btemp)) {
+            dont_request_more_work.set(btemp);
+        }
+        if (xp.parse_bool(tag, "detach_when_done", btemp)) {
+            detach_when_done.set(btemp);
+        }
+        if (xp.parse_double(tag, "resource_share", dtemp)) {
+            resource_share.set(dtemp);
+        }
     }
     return ERR_XML_PARSE;
 }
@@ -399,8 +406,12 @@ void ACCT_MGR_OP::handle_reply(int http_op_retval) {
                     } else {
                         //msg_printf(pp, MSG_INFO, "Already attached");
                         pp->attached_via_acct_mgr = true;
-                        pp->dont_request_more_work = acct.dont_request_more_work;
-                        pp->detach_when_done = acct.detach_when_done;
+                        if (acct.dont_request_more_work.present) {
+                            pp->dont_request_more_work = acct.dont_request_more_work.value;
+                        }
+                        if (acct.detach_when_done.present) {
+                            pp->detach_when_done = acct.detach_when_done.value;
+                        }
 
                         // initiate a scheduler RPC if requested by AMS
                         //
@@ -408,8 +419,8 @@ void ACCT_MGR_OP::handle_reply(int http_op_retval) {
                             pp->sched_rpc_pending = RPC_REASON_ACCT_MGR_REQ;
                             pp->min_rpc_time = 0;
                         }
-                        if (acct.resource_share >= 0) {
-                            pp->ams_resource_share = acct.resource_share;
+                        if (acct.resource_share.present) {
+                            pp->ams_resource_share = acct.resource_share.value;
                             pp->resource_share = pp->ams_resource_share;
                         } else {
                             // no host-specific resource share;

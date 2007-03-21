@@ -2650,12 +2650,12 @@ David  19 Mar 2007
         prefs.C,h
 
 David  19 Mar 2007
-	- compile fixes
+    - compile fixes
 
-	client/
-		hostinfo_win.C
-	win_build/
-		boinc_cli_curl.vcproj
+    client/
+        hostinfo_win.C
+    win_build/
+        boinc_cli_curl.vcproj
 
 Charlie 19 Mar 2007
     - Mac: fix compile errors (must cast double variable to int to use it 
@@ -2682,10 +2682,10 @@ Charlie 19 Mar 2007
             project.pbxproj
 
 David  19 Mar 2007
-	- core client: bug fixes in prefs
+    - core client: bug fixes in prefs
 
-	lib/
-		prefs.C
+    lib/
+        prefs.C
 
 Rom    19 Mar 2007
     - Add some more cross compiler tweaks to the precompiled header for Windows.
@@ -2736,7 +2736,17 @@ David  20 Mar 2007
         util.C,h
 
 David  20 Mar 2007
-	- Manager: cosmetic tweaks to project select
+    - Manager: cosmetic tweaks to project select
 
-	clientgui/
-		ProjectListCtrl.cpp
+    clientgui/
+        ProjectListCtrl.cpp
+
+David  20 Mar 2007
+    - core client: if "no more work" or "detach when done" tag
+        is missing from account manager reply, don't change value.
+        Note: this is implemented using new
+        OPTIONAL_BOOL and OPTIONAL_DOUBLE types
+        that may be useful elsewere as well.
+
+    client/
+        acct_mgr.C,h
