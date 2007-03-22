@@ -149,7 +149,7 @@ extern void boinc_info(const char *pszFormat, ...);
 #define BOINCASSERT(expr)   wxASSERT(expr)
 #define BOINCTRACE          wxLogDebug
 
-#elif defined(_CONSOLE)
+#elif defined(_CONSOLE) && !(defined(__MINGW32__) || defined(__CYGWIN32__))
 
 // Microsoft CRT
 //
@@ -162,7 +162,7 @@ extern void boinc_info(const char *pszFormat, ...);
 #else  // _DEBUG
 
 #if defined(__MINGW32__) || defined(__CYGWIN32__)
-#define BOINCASSERT(expr)   
+#define BOINCASSERT(expr)   assert(expr)
 #define BOINCTRACE(...)     boinc_trace
 #else  // __MINGW32__
 #define BOINCASSERT(expr)   __noop
