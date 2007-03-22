@@ -16,19 +16,36 @@ function show_nav() {
     $config = get_config();
     $master_url = parse_config($config, "<master_url>");
     echo "<div id=\"mainnav\">
-        <h2>Join ".PROJECT."</h2>
+        <h2>About ".PROJECT."</h2>
+        XXX is a research project that uses Internet-connected
+        computers to do research in XXX.
+        You can participate by downloading and running a free program
+        on your computer.
         <p>
-        <ol>
+        XXX is based at research lab of Professor XXX
+        at <a href=xxx>the University of XXX</a>.
+        <ul>
+        <li> <a href=xxx>Our research</a>
+        <li> <a href=xxx>Project personnel</a>
+        <li> <a href=\"apps.php\">".tr(APPS_TITLE)."</a>
+        </ul>
+        <h2>Join ".PROJECT."</h2>
+        <ul>
         <li><a href=\"info.php\">".tr(RULES_TITLE)."</a>
-        <li><a target=\"_new\" href=\"http://boinc.berkeley.edu/download.php\">Download BOINC</a>
-        <li> When prompted, enter <b>".$master_url."</b>
-        </ol>
+        <li> This project uses BOINC.
+            If you're already running BOINC, select Attach to Project.
+            If not, <a target=\"_new\" href=\"http://boinc.berkeley.edu/download.php\">download BOINC</a>.
+        <li> When prompted, enter <br><b>".$master_url."</b>
+        <li> If you're running a command-line or pre-5.0 version of BOINC,
+            <a href=create_account_form.php>create an account</a> first.
+        <li> If you have any problems,
+            <a href=http://boinc.berkeley.edu/help.php>get help here</a>.
+        </ul>
 
         <h2>Returning participants</h2>
         <ul>
         <li><a href=\"home.php\">Your account</a> - view stats, modify preferences
         <li><a href=\"team.php\">Teams</a> - create or join a team
-        <li><a href=\"apps.php\">".tr(APPS_TITLE)."</a>
         <li><a href=\"cert1.php\">Certificate</a>
         </ul>
         <h2>Community</h2>
@@ -36,13 +53,7 @@ function show_nav() {
         <li><a href=\"".URL_BASE."profile_menu.php\">Participant profiles</a>
         <li><a href=\"forum_index.php\">Message boards</a>
         <li><a href=\"forum_help_desk.php\">Questions and answers</a>
-        </ul>
-        <h2>Project totals and leader boards</h2>
-        <ul>
-        <li><a href=\"top_users.php\">Top participants</a>
-        <li><a href=\"top_hosts.php\">Top computers</a>
-        <li><a href=\"top_teams.php\">Top teams</a>
-        <li><a href=\"stats.php\">Other statistics</a>
+        <li><a href=\"stats.php\">Statistics</a>
         </ul>
         </div>
     ";
