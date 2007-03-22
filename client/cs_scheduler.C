@@ -722,15 +722,25 @@ int CLIENT_STATE::handle_scheduler_reply(
             } else {
                 rp->abort_inactive(ERR_ABORTED_BY_PROJECT);
             }
+        } else {
+            msg_printf(project, MSG_INTERNAL_ERROR,
+                "Server requested abort of unknown task %s",
+                sr.result_abort[i].name
+            );
         }
     }
-    for (i=0; i<sr.result_abort_if_unstarted.size(); i++) {
-        RESULT* rp = lookup_result(project, sr.result_abort[i].name);
+    for (i=0; i<sr.result_abort_if_not_started.size(); i++) {
+        RESULT* rp = lookup_result(project, sr.result_abort_if_not_started[i].name);
         if (rp) {
             ACTIVE_TASK* atp = lookup_active_task_by_result(rp);
             if (!atp) {
                 rp->abort_inactive(ERR_ABORTED_BY_PROJECT);
             }
+        } else {
+            msg_printf(project, MSG_INTERNAL_ERROR,
+                "Server requested conditional abort of unknown task %s",
+                sr.result_abort_if_not_started[i].name
+            );
         }
     }
 

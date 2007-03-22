@@ -114,7 +114,7 @@ struct SCHEDULER_REPLY {
     std::vector<RESULT> results;
     std::vector<RESULT> result_acks;
     std::vector<RESULT> result_abort;
-    std::vector<RESULT> result_abort_if_unstarted;
+    std::vector<RESULT> result_abort_if_not_started;
     char* code_sign_key;
     char* code_sign_key_signature;
     bool message_ack;

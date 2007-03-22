@@ -2765,5 +2765,21 @@ Jeff  21 Mar 2007
         fcgi_stdio.h
 
 David  21 Mar 2007
+	- update sample web site front page
+
     html/user/
         sample_index.php
+
+David  21 Mar 2007
+	- core client: fixed bug where a <result_abort_if_unstarted>
+		in scheduler reply would crash client.
+		Also, change this tag to <result_abort_if_not_started>
+		Note: the syntax is
+			<result_abort_if_not_started>
+				<name>xxx</name>
+			</result_abort_if_not_started>
+		where xxx is the result name.
+
+	client/
+		cs_scheduler.C
+		scheduler_op.C,h

@@ -794,16 +794,16 @@ int SCHEDULER_REPLY::parse(FILE* in, PROJECT* project) {
             } else {
                 result_abort.push_back(result);
             }
-        } else if (match_tag(buf, "<result_abort_if_unstarted>")) {
+        } else if (match_tag(buf, "<result_abort_if_not_started>")) {
             RESULT result;
-            retval = result.parse_name(in, "</result_abort_if_unstarted>");
+            retval = result.parse_name(in, "</result_abort_if_not_started>");
             if (retval) {
                 msg_printf(project, MSG_INTERNAL_ERROR,
-                    "Can't parse result abort-if-unstarted in scheduler reply: %s",
+                    "Can't parse result abort-if-not-started in scheduler reply: %s",
                     boincerror(retval)
                 );
             } else {
-                result_abort_if_unstarted.push_back(result);
+                result_abort_if_not_started.push_back(result);
             }
         } else if (parse_str(buf, "<delete_file_info>", delete_file_name)) {
             file_deletes.push_back(delete_file_name);
