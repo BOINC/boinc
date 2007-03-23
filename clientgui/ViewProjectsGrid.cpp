@@ -879,20 +879,23 @@ wxString CViewProjectsGrid::GetReadableStatus(PROJECT* project) {
 	wxString status=wxEmptyString;
     if (project) {
 		if (project->suspended_via_gui) {
-            append_to_status(status, _("Suspended by user"));
+            append_to_status(status, _("suspended by user"));
         }
         if (project->dont_request_more_work) {
-            append_to_status(status, _("Won't get new tasks"));
+            append_to_status(status, _("won't get new tasks"));
+        }
+        if (project->detach_when_done) {
+            append_to_status(status, _("detach when done"));
         }
         if (project->sched_rpc_pending) {
-            append_to_status(status, _("Scheduler request pending"));
+            append_to_status(status, _("scheduler request pending"));
 			append_to_status(status, wxString(rpc_reason_string(project->sched_rpc_pending), wxConvUTF8));
         }
         wxDateTime dtNextRPC((time_t)project->min_rpc_time);
         wxDateTime dtNow(wxDateTime::Now());
         if (dtNextRPC > dtNow) {
             wxTimeSpan tsNextRPC(dtNextRPC - dtNow);
-            append_to_status(status, _("Communication deferred ") + tsNextRPC.Format());
+            append_to_status(status, _("communication deferred ") + tsNextRPC.Format());
         }
     }
 	if(status==wxEmptyString)

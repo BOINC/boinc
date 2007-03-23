@@ -2790,3 +2790,12 @@ David  23 Mar 2007
         sim.C
     languages/translations/
         en.po
+
+David  23 Mar 2007
+	- Manager: show "detach when done" if set
+
+	clientgui/
+		ViewProjects.cpp
+		ViewProjectsGrid.cpp
+	win_build/
+		sim.vcproj
