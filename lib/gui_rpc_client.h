@@ -67,7 +67,7 @@ public:
     std::string description;
     std::string home;
     std::string image;
-    int         rand;
+    double rand;
 
     PROJECT_LIST_ENTRY();
     ~PROJECT_LIST_ENTRY();

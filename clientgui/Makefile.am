@@ -22,11 +22,20 @@ endif
 
 bin_PROGRAMS = boinc_gui
 
+# keep the following alphabetic
+
 boinc_gui_SOURCES = \
-    common/wxPieCtrl.cpp \
-    common/wxFlatNotebook.cpp \
+    AccountInfoPage.cpp \
+    AccountKeyPage.cpp \
+    AccountManagerInfoPage.cpp \
+    AccountManagerProcessingPage.cpp \
+    AccountManagerPropertiesPage.cpp \
+    AdvancedFrame.cpp \
+    AlreadyAttachedPage.cpp \
+    AlreadyExistsPage.cpp \
     BOINCBaseFrame.cpp \
     BOINCBaseView.cpp \
+    BOINCBaseWizard.cpp \
     BOINCDialupManager.cpp \
     BOINCGUIApp.cpp \
     BOINCListCtrl.cpp \
@@ -34,17 +43,43 @@ boinc_gui_SOURCES = \
     BOINCTaskCtrl.cpp \
     BOINCGridCtrl.cpp	\
     BOINCGridCtrl.h		\
+    CompletionErrorPage.cpp \
+    CompletionPage.cpp \
+    common/wxPieCtrl.cpp \
+    common/wxFlatNotebook.cpp \
     DlgAbout.cpp 		\
     DlgAdvPreferences.cpp \
     DlgAdvPreferencesBase.cpp \
     DlgGenericMessage.cpp \
     DlgOptions.cpp \
     DlgSelectComputer.cpp \
+    hyperlink.cpp \
     LogBOINC.cpp \
-    SkinManager.cpp \
     MainDocument.cpp \
-    AdvancedFrame.cpp \
+    NoInternetConnectionPage.cpp \
+    NotDetectedPage.cpp \
+    NotFoundPage.cpp \
+    ProjectInfoPage.cpp \
+    ProjectListCtrl.cpp \
+    ProjectProcessingPage.cpp \
+    ProjectPropertiesPage.cpp \
+    ProxyInfoPage.cpp \
+    ProxyPage.cpp \
+    sg_BoincSimpleGUI.cpp \
+    sg_ClientStateIndicator.cpp \
+    sg_CustomControls.cpp \
+    sg_DlgMessages.cpp \
+    sg_DlgPreferences.cpp \
+    sg_ImageButton.cpp \
+    sg_ImageLoader.cpp \
+    sg_ProgressBar.cpp \
+    sg_ProjectsComponent.cpp \
+    sg_SGUIListControl.cpp \
+    sg_StatImageLoader.cpp \
+    sg_ViewTabPage.cpp \
+    SkinManager.cpp \
     stdwx.cpp \
+    UnavailablePage.cpp \
     ValidateAccountKey.cpp \
     ValidateEmailAddress.cpp \
     ValidateURL.cpp \
@@ -58,42 +93,11 @@ boinc_gui_SOURCES = \
     ViewTransfersGrid.cpp \
     ViewWork.cpp \
     ViewWorkGrid.cpp \
-    AccountInfoPage.cpp \
-    AccountKeyPage.cpp \
-    AccountManagerInfoPage.cpp \
-    AccountManagerProcessingPage.cpp \
-    AccountManagerPropertiesPage.cpp \
-    AlreadyAttachedPage.cpp \
-    AlreadyExistsPage.cpp \
-    BOINCBaseWizard.cpp \
-    CompletionErrorPage.cpp \
-    CompletionPage.cpp \
-    NoInternetConnectionPage.cpp \
-    NotDetectedPage.cpp \
-    NotFoundPage.cpp \
-    ProjectInfoPage.cpp \
-    ProjectProcessingPage.cpp \
-    ProjectPropertiesPage.cpp \
-    ProxyInfoPage.cpp \
-    ProxyPage.cpp \
-    UnavailablePage.cpp \
     WelcomePage.cpp \
     WizardAccountManager.cpp \
     WizardAttachProject.cpp \
     wizardex.cpp \
-    sg_BoincSimpleGUI.cpp \
-    sg_ClientStateIndicator.cpp \
-    sg_CustomControls.cpp \
-    sg_DlgMessages.cpp \
-    sg_DlgPreferences.cpp \
-    sg_ImageButton.cpp \
-    sg_ImageLoader.cpp \
-    sg_ProgressBar.cpp \
-    sg_ProjectsComponent.cpp \
-    sg_SGUIListControl.cpp \
-    sg_StatImageLoader.cpp \
-    sg_ViewTabPage.cpp \
-    hyperlink.cpp $(mac_sources)
+    $(mac_sources)
 
 EXTRA_DIST = *.h \
     res \

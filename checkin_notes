@@ -2799,3 +2799,9 @@ David  23 Mar 2007
 		ViewProjectsGrid.cpp
 	win_build/
 		sim.vcproj
+
+David  23 Mar 2007
+    - manager build fix
+
+    clientgui/
+        Makefile.am

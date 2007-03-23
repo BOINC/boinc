@@ -65,6 +65,7 @@
 #include "diagnostics.h"
 #include "parse.h"
 #include "str_util.h"
+#include "util.h"
 #include "error_numbers.h"
 #include "miofile.h"
 #include "md5_file.h"
@@ -1421,7 +1422,7 @@ int RPC_CLIENT::get_all_projects_list(ALL_PROJECTS_LIST& pl) {
             project = new PROJECT_LIST_ENTRY();
             retval = project->parse(xp);
             if (!retval) {
-                project->rand = rand();
+                project->rand = drand();
                 pl.projects.push_back(project);
             } else {
                 delete project;
