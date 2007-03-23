@@ -1,11 +1,20 @@
 <?
 
 $project_news = array(
+array("March 23, 2007",
+    "Africa@home (with support from the
+    Geneva International Academic Network)
+    is sponsoring an
+    <a href=images/africa_at_home_workshop.pdf>intensive one-week workshop on volunteer computing</a>
+    for qualified African students,
+    to be held at the African Institute for Mathematical Sciences
+    in Muizenberg, South Africa, 16-22 July 2007."
+),
 array("March 9, 2007",
-    "<img align=right src=images/stamps/stamps-rosetta1.jpg>
+    "<img align=right src=images/stamps/stamp-rosetta.png>
     Don't use them for postage, but check out the
     <a href=images/stamps>BOINC stamps</a>
-    created by Myster65."
+    created by Myster65 and Rebirther."
 ),
 array("March 6, 2007",
     "The article <a href=http://www.linux-magazine.com/issue/71/Distributed_Applications_With_BOINC.pdf>Idle Cycles - building distributed applications with BOINC</a> Seil appears in the Oct 2006 issue of

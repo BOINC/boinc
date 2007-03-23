@@ -2783,3 +2783,10 @@ David  21 Mar 2007
 	client/
 		cs_scheduler.C
 		scheduler_op.C,h
+
+David  23 Mar 2007
+    client/
+        app.h
+        sim.C
+    languages/translations/
+        en.po

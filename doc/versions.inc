@@ -723,13 +723,14 @@ function is_dev($v) {
     return (strstr($v["status"], "Development") != null);
 }
 
-switch(rand(0,4)) {
+switch(rand(0,5)) {
     case 0: $url_base = "http://boinc.berkeley.edu/dl/"; break;
     case 1: $url_base = "http://morel.mit.edu/download/boinc/dl/"; break;
     case 2: $url_base = "http://einstein.aei.mpg.de/download/boinc/dl/"; break;
     case 3: $url_base = "http://einstein.astro.gla.ac.uk/download/boinc/dl/"; break;
     case 4: $url_base = "http://einstein.aset.psu.edu/download/boinc/dl/"; break;
-    //case 5: $url_base = "http://einstein.phys.uwm.edu/download/boinc/dl/"; break;
+    case 5: $url_base = "http://einstein.ligo.caltech.edu/download/boinc/dl/"; break;
+    //case 6: $url_base = "http://einstein.phys.uwm.edu/download/boinc/dl/"; break;
 }
 
 ?>

@@ -209,6 +209,7 @@ echo html_text("
 [ <default_disk_max_used_pct> X </default_disk_max_used_pct> ]
 [ <default_disk_min_free_gb> X </default_disk_min_used_pct> ]
 [ <one_result_per_host_per_wu/> ]
+[ <next_rpc_delay>x</next_rpc_delay> ]
 ");
 list_start();
 list_option("one_result_per_user_per_wu",
@@ -380,6 +381,9 @@ list_option("one_result_per_host_per_wu",
     This is weaker than one_result_per_user_per_wu;
     it is useful if you're using homogeneous redundancy and
     most of the hosts of a particular class belong to a single user."
+);
+list_option("next_rpc_delay",
+    "Tell clients to do another scheduler RPC after X seconds."
 );
 list_end();
 

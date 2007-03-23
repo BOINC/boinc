@@ -7,6 +7,7 @@
 #include "log_flags.h"
 #include "filesys.h"
 #include "network.h"
+#include "client_msgs.h"
 #include "sim.h"
 
 CLIENT_STATE gstate;
@@ -67,6 +68,32 @@ GRAPHICS_MSG::GRAPHICS_MSG() {}
 HOST_INFO::HOST_INFO() {}
 
 //////////////// FUNCTIONS COPIED /////////////
+
+static const char* task_state_name(int val) {
+    switch (val) {
+    case PROCESS_UNINITIALIZED: return "UNINITIALIZED";
+    case PROCESS_EXECUTING: return "EXECUTING";
+    case PROCESS_SUSPENDED: return "SUSPENDED";
+    case PROCESS_ABORT_PENDING: return "ABORT_PENDING";
+    case PROCESS_EXITED: return "EXITED";
+    case PROCESS_WAS_SIGNALED: return "WAS_SIGNALED";
+    case PROCESS_EXIT_UNKNOWN: return "EXIT_UNKNOWN";
+    case PROCESS_ABORTED: return "ABORTED";
+    case PROCESS_COULDNT_START: return "COULDNT_START";
+    case PROCESS_QUIT_PENDING: return "QUIT_PENDING";
+    }
+    return "Unknown";
+}
+
+void ACTIVE_TASK::set_task_state(int val, const char* where) {
+    _task_state = val;
+    if (log_flags.task_debug) {
+        msg_printf(result->project, MSG_INFO,
+            "[task_debug] task_state=%s for %s from %s",
+            task_state_name(val), result->name, where
+        );
+    }
+}
 
 char* PROJECT::get_project_name() {
     if (strlen(project_name)) {
@@ -161,18 +188,43 @@ bool CLIENT_STATE::scheduler_rpc_poll() {
 }
 
 bool ACTIVE_TASK_SET::poll() {
-    return false;
+    unsigned int i;
+    bool action = false;
+    static double last_time = 0;
+    double diff = gstate.now - last_time;
+    if (diff < 1.0) return false;
+    last_time = gstate.now;
+
+    for (i=0; i<active_tasks.size(); i++) {
+        ACTIVE_TASK* atp = active_tasks[i];
+        switch (atp->task_state()) {
+        case PROCESS_EXECUTING:
+            atp->cpu_time_left -= diff;
+            if (atp->cpu_time_left <= 0) {
+                atp->set_task_state(PROCESS_EXITED, "poll");
+            }
+        }
+    }
+                     
+    return action;
 }
 
 //////////////// FUNCTIONS WE NEED TO IMPLEMENT /////////////
 
 ACTIVE_TASK::ACTIVE_TASK() {
 }
+
 int ACTIVE_TASK::resume_or_start(bool first_time) {
+    set_task_state(PROCESS_EXECUTING, "start");
     return 0;
 }
 
 int ACTIVE_TASK::preempt(bool quit_task) {
+    if (quit_task) {
+        set_task_state(PROCESS_UNINITIALIZED, "start");
+    } else {
+        set_task_state(PROCESS_SUSPENDED, "start");
+    }
     return 0;
 }
 int ACTIVE_TASK_SET::get_free_slot(){
@@ -185,6 +237,7 @@ int ACTIVE_TASK::init(RESULT* rp) {
     max_cpu_time = rp->wup->rsc_fpops_bound/gstate.host_info.p_fpops;
     max_disk_usage = rp->wup->rsc_disk_bound;
     max_mem_usage = rp->wup->rsc_memory_bound;
+    cpu_time_left = 100;
     return 0;
 }
 
