@@ -167,13 +167,17 @@ For further information and assistance with ".PROJECT." go to ".MASTER_URL;
     return success;
 }
 
-function send_banish_email($user) {
+function send_banish_email($user, $duration, $reason) {
     $subject = PROJECT." posting privileges suspended";
     $body = "
 This email is to inform you that you will not be able to
-post to the ".PROJECT." message boards for two weeks,
+post to the ".PROJECT." message boards until ".date('M j, Y G:i', $duration).",
 because your postings have not followed our guidelines.
     ";
+    if ($reason) {
+        $body .= "\n\nThe moderator gave the following explanation about your suspension:\n";
+        $body .= $reason;
+    }
     $emails = explode("|", POST_REPORT_EMAILS);
     $success = true;
     foreach ($emails as $email) {

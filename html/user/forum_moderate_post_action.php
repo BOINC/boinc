@@ -50,17 +50,23 @@ if ($action=="hide"){
       // Can't banish without being administrator
       error_page("You are not authorized to banish this user.");
     }
-    $userid = get_int('userid');
+    $userid = post_int('userid');
     $user = newUser($userid);
     if (!$user) {
         error_page("no user");
     }
-    $t = time() + 14*86400;     // two weeks
+    $duration = post_int('duration');
+    if ($duration == -1) {
+        $t = 2147483647; // Maximum integer value
+    } else {
+        $t = time() + $duration;
+    }
+    $reason = post_str("reason", true);
     $query = "update forum_preferences set banished_until=$t where userid=$userid";
     $result = mysql_query($query);
     if ($result) {
-        echo "User $user->name has been banished for 2 weeks.";
-        send_banish_email($user);
+        echo "User $user->name has been banished.";
+        send_banish_email($user, $t, $reason);
     } else {
         echo "DB failure for $query";
         echo mysql_error();

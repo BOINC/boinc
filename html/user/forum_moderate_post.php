@@ -58,28 +58,34 @@ if (get_str('action')=="hide") {
     }
     $x = $user->getBanishedUntil();
     if ($x>time()) {
-        echo "User is already banished";
-        exit();
+        error_page("User is already banished");
     }
-    echo "Are you sure you want to banish $user->name?
-        This will prevent $user->name from posting for 2 weeks.
-        It should be done only if $user->name
-        has consistently exhibited trollish behavior.
-        <p>
-        <a href=forum_moderate_post_action.php?action=banish_user&id=$postid&userid=$userid&confirmed=yes>Yes, banish $user->name</a>
-    ";
-    page_tail();
-    exit();
+    row1("Are you sure you want to banish ".$user->getName()."?
+        This will prevent ".$user->getName()." from posting for chosen time period.<br />
+        It should be done only if ".$user->getName()."
+        has consistently exhibited trollish behavior.");
+    row2("Ban duration", "<select name=\"duration\">
+            <option value=\"14400\">4 hours</option>
+            <option value=\"86400\">1 day</option>
+            <option value=\"604800\">1 week</option>
+            <option value=\"1209600\" selected=\"selected\">2 weeks</option>
+            <option value=\"2592000\">1 month</option>
+            <option value=\"-1\">Forever</option>
+        </select>");
+    echo "<input type=\"hidden\" name=\"action\" value=\"banish_user\">\n";
+    echo "<input type=\"hidden\" name=\"id\" value=\"".$postid."\">\n";
+    echo "<input type=\"hidden\" name=\"userid\" value=\"".$userid."\">\n";
+    echo "<input type=\"hidden\" name=\"confirmed\" value=\"yes\">\n";
 } else {
     error_page( "Unknown action");
 }
 
 row2("Reason<br>Mailed if nonempty",
-    "<textarea name=\"reason\"></textarea>");
+    "<textarea name=\"reason\" rows=\"10\" cols=\"80\"></textarea>");
 
 row2(
     "",
-    "<input type=\"submit\" name=\"submit\" value=\"OK\">"
+    "<input type=\"submit\" name=\"submit\" value=\"Proceed with moderation\">"
 );
 
 end_table();

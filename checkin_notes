@@ -2805,3 +2805,13 @@ David  23 Mar 2007
 
     clientgui/
         Makefile.am
+
+Rytis  24 Mar 2007
+    - Forum: duration selection and optional message to the user.
+
+    html/
+        user/
+            forum_moderate_post.php
+            forum_moderate_post_action.php
+        inc/
+            forum_email.inc
