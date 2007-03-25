@@ -2815,3 +2815,11 @@ Rytis  24 Mar 2007
             forum_moderate_post_action.php
         inc/
             forum_email.inc
+
+David  24 Mar 2007
+    - admin web: added script to banish user for various periods,
+        independently of forum tools (from Eric Myers)
+
+    html/ops/
+        index.php
+        manage_user.php

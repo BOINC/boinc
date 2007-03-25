@@ -79,6 +79,11 @@ echo "
 	<li><a href=\"repair_validator_problem.php\">Repair a validator problem</a></li>
 	<li><a href=\"problem_host.php\">Email user with misconfigured host</a></li>
 	<li><a href=\"cancel_wu_form.php\">Cancel workunits</a></li>
+	<li><form action=\"manage_user.php\">
+        <input type=submit value=\"Manage user\"</a>
+        ID: <input name=userid>
+        </form>
+    </li>
 	<li>
 	    <form method=\"get\" action=\"clear_host.php\">
 	    Clear Host: 
