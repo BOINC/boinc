@@ -506,6 +506,18 @@
 				RelativePath="..\lib\app_ipc.h">
 			</File>
 			<File
+				RelativePath="..\lib\browser.C">
+			</File>
+			<File
+				RelativePath="..\lib\browser.h">
+			</File>
+			<File
+				RelativePath="..\lib\browser_firefox.C">
+			</File>
+			<File
+				RelativePath="..\lib\browser_ie.C">
+			</File>
+			<File
 				RelativePath="..\lib\diagnostics.C">
 				<FileConfiguration
 					Name="Release|Win32">

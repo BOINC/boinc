@@ -31,6 +31,7 @@
 #include "wizardex.h"
 #include "error_numbers.h"
 #include "hyperlink.h"
+#include "browser.h"
 #include "BOINCGUIApp.h"
 #include "SkinManager.h"
 #include "MainDocument.h"
@@ -277,26 +278,20 @@ bool CWizardAttachProject::Run( wxString& WXUNUSED(strName), wxString& strURL, b
         m_bCredentialsCached = bCredentialsCached;
     }
 
-#ifdef __WXMSW__
-
     // If credentials are not cached, then we should try one last place to look up the
     //   authenticator.  Some projects will set a "Setup" cookie off of their URL with a
     //   pretty short timeout.  Lets take a crack at detecting it.
     //
-    // Only Internet Explorer is supported at this time.
-    //
     if (!bCredentialsCached) {
-        TCHAR  szAuthenticator[512];
-        DWORD dwSize = sizeof(szAuthenticator)/sizeof(TCHAR);
+        std::string url = strURL.mb_str();
+        std::string authenticator;
 
-        if (DetectSetupAuthenticator(strURL.mbc_str(), szAuthenticator, &dwSize)) {
+        if (detect_setup_authenticator(url, authenticator)) {
             m_bCredentialsDetected = true;
             close_when_completed = true;
-            m_AccountKeyPage->m_strAccountKey = szAuthenticator;
+            m_AccountKeyPage->m_strAccountKey = wxString(authenticator.c_str(), wxConvUTF8);
         }
     }
-
-#endif
 
     if ( strURL.Length() && (bCredentialsCached || m_bCredentialsDetected) && m_ProjectProcessingPage) {
         return RunWizard(m_ProjectProcessingPage);

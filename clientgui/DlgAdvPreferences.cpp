@@ -145,7 +145,7 @@ bool CDlgAdvPreferences::SaveState() {
 bool CDlgAdvPreferences::RestoreState() {
     wxString        strBaseConfigLocation = wxString(wxT("/DlgAdvPreferences/"));
     wxConfigBase*   pConfig = wxConfigBase::Get(FALSE);
-	int				iTemp,iTemp1;
+	int				p,w,h;
 
 	wxASSERT(pConfig);
 
@@ -153,13 +153,30 @@ bool CDlgAdvPreferences::RestoreState() {
 
 	pConfig->SetPath(strBaseConfigLocation);
 
-	pConfig->Read(wxT("CurrentPage"), &iTemp,0);
-	m_Notebook->SetSelection(iTemp);	
-	pConfig->Read(wxT("Width"), &iTemp,-1);
-	pConfig->Read(wxT("Height"), &iTemp1,-1);
-	this->SetSize(iTemp,iTemp1);	
+	pConfig->Read(wxT("CurrentPage"), &p,0);
+	m_Notebook->SetSelection(p);	
+	pConfig->Read(wxT("Width"), &w,-1);
+	pConfig->Read(wxT("Height"), &h,-1);
+	this->SetSize(w,h);	
 
 	return true;
+}
+
+// convert a Timestring HH:MM into a double
+double CDlgAdvPreferences::TimeStringToDouble(wxString timeStr) {
+	double hour;
+	double minutes;
+	timeStr.SubString(0,timeStr.First(':')).ToDouble(&hour);
+	timeStr.SubString(timeStr.First(':')+1,timeStr.Length()).ToDouble(&minutes);
+	minutes = minutes/60.0;
+	return hour + minutes;
+}
+
+// convert a double into a timestring HH:MM
+wxString CDlgAdvPreferences::DoubleToTimeString(double dt) {
+	int hour = (int)dt;
+	int minutes = (int)(60.0 * (dt - hour));
+	return wxString::Format(wxT("%02d:%02d"),hour,minutes);
 }
 
 /* read preferences from core client and initialize control values */
@@ -180,11 +197,30 @@ void CDlgAdvPreferences::ReadPreferenceSettings() {
 
 	// ######### proc usage page
 	// do work between
-	m_rbtProcEveryDay->SetValue(true);
-	buffer.Printf(wxT("%02d:00"),(int)prefs.time_prefs.start_hour);
-	*m_txtProcEveryDayStart << buffer;
-	buffer.Printf(wxT("%02d:00"),(int)prefs.time_prefs.end_hour);
-	*m_txtProcEveryDayStop << buffer;
+	m_rbtProcEveryDay->SetValue(true);	
+	
+	*m_txtProcEveryDayStart << DoubleToTimeString(prefs.time_prefs.start_hour);	
+	*m_txtProcEveryDayStop << DoubleToTimeString(prefs.time_prefs.end_hour);
+	//special day times
+	if(prefs.week_prefs.present) {		
+		bool isRestricted=false;
+		wxCheckBox* aChks[] = {m_chkProcSunday,m_chkProcMonday,m_chkProcTuesday,m_chkProcWednesday,m_chkProcThursday,m_chkProcFriday,m_chkProcSaturday};
+		wxTextCtrl* aTxts[] = {m_txtProcSunday,m_txtProcMonday,m_txtProcTuesday,m_txtProcWednesday,m_txtProcThursday,m_txtProcFriday,m_txtProcSaturday};
+		for(int i=0; i< 7;i++) {
+			if(prefs.week_prefs.days[i].present && 
+				prefs.week_prefs.days[i].time_prefs.start_hour != prefs.week_prefs.days[i].time_prefs.end_hour) {
+				aChks[prefs.week_prefs.days[i].day_of_week]->SetValue(true);
+				wxString timeStr = DoubleToTimeString(prefs.week_prefs.days[i].time_prefs.start_hour) +
+									wxT("-") + DoubleToTimeString(prefs.week_prefs.days[i].time_prefs.end_hour);
+				aTxts[i]->SetValue(timeStr);
+				isRestricted=true;
+			}
+		}
+		if(isRestricted) {
+			m_rbtProcSpecialTimes->SetValue(true);
+		}
+	}
+	
 	// on batteries
 	m_chkProcOnBatteries->SetValue(prefs.run_on_batteries);
 	// in use
@@ -205,10 +241,27 @@ void CDlgAdvPreferences::ReadPreferenceSettings() {
 	// ######### net usage page
 	// use network between
 	m_rbtNetEveryDay->SetValue(true);
-	buffer.Printf(wxT("%02d:00"),(int)prefs.time_prefs.net_start_hour);
-	*m_txtNetEveryDayStart << buffer;
-	buffer.Printf(wxT("%02d:00"),(int)prefs.time_prefs.net_end_hour);
-	*m_txtNetEveryDayStop << buffer;
+	*m_txtNetEveryDayStart << DoubleToTimeString(prefs.time_prefs.net_start_hour);
+	*m_txtNetEveryDayStop << DoubleToTimeString(prefs.time_prefs.net_end_hour);
+	//special day times
+	if(prefs.week_prefs.present) {
+		bool isRestricted = false;
+		wxCheckBox* aChks[] = {m_chkNetSunday,m_chkNetMonday,m_chkNetTuesday,m_chkNetWednesday,m_chkNetThursday,m_chkNetFriday,m_chkNetSaturday};
+		wxTextCtrl* aTxts[] = {m_txtNetSunday,m_txtNetMonday,m_txtNetTuesday,m_txtNetWednesday,m_txtNetThursday,m_txtNetFriday,m_txtNetSaturday};
+		for(int i=0; i< 7;i++) {
+			if(prefs.week_prefs.days[i].present &&
+				prefs.week_prefs.days[i].time_prefs.net_start_hour != prefs.week_prefs.days[i].time_prefs.net_end_hour) {
+				aChks[prefs.week_prefs.days[i].day_of_week]->SetValue(true);
+				wxString timeStr = DoubleToTimeString(prefs.week_prefs.days[i].time_prefs.net_start_hour) +
+									wxT("-") + DoubleToTimeString(prefs.week_prefs.days[i].time_prefs.net_end_hour);
+				aTxts[i]->SetValue(timeStr);
+				isRestricted = true;
+			}
+		}
+		if(isRestricted) {
+			m_rbtNetSpecialTimes->SetValue(true);
+		}
+	}
 	// connection interval
 	buffer.Printf(wxT("%01.4f"),prefs.work_buf_min_days);
 	*m_txtNetConnectInterval << buffer;
@@ -260,6 +313,12 @@ bool CDlgAdvPreferences::SavePreferencesSettings() {
 	long tl;
 
 	mask.clear();
+	//clear special times settings
+	prefs.week_prefs.present=false;
+	for(int i=0; i< 7;i++) {
+		prefs.week_prefs.days[i].present=false;
+		prefs.week_prefs.days[i].time_prefs.clear();
+	}
 	//proc page
 	prefs.run_on_batteries=m_chkProcOnBatteries->GetValue();
 	mask.run_on_batteries=true;
@@ -273,18 +332,32 @@ bool CDlgAdvPreferences::SavePreferencesSettings() {
 		mask.idle_time_to_run=true;
 	}
 	//
-	if(m_txtProcEveryDayStart->IsEnabled()) {
-		m_txtProcEveryDayStart->GetValue().ToLong(&tl);
-		prefs.time_prefs.start_hour=tl;
+	if(m_txtProcEveryDayStart->IsEnabled()) {		
+		prefs.time_prefs.start_hour=TimeStringToDouble(m_txtProcEveryDayStart->GetValue());
 		mask.start_hour = true;        
 	}
 	//
 	if(m_txtProcEveryDayStop->IsEnabled()) {
-		m_txtProcEveryDayStop->GetValue().ToLong(&tl);
-		prefs.time_prefs.end_hour=tl;
+		prefs.time_prefs.end_hour=TimeStringToDouble(m_txtProcEveryDayStop->GetValue());
 		mask.end_hour = true;        
 	}
 	//
+	if(m_rbtProcSpecialTimes->GetValue()) {
+		prefs.week_prefs.present=true;
+		wxCheckBox* aChks[] = {m_chkProcSunday,m_chkProcMonday,m_chkProcTuesday,m_chkProcWednesday,m_chkProcThursday,m_chkProcFriday,m_chkProcSaturday};
+		wxTextCtrl* aTxts[] = {m_txtProcSunday,m_txtProcMonday,m_txtProcTuesday,m_txtProcWednesday,m_txtProcThursday,m_txtProcFriday,m_txtProcSaturday};
+		for(int i=0; i< 7;i++) {
+			if(aChks[i]->GetValue()) {
+				prefs.week_prefs.days[i].day_of_week =i;
+				prefs.week_prefs.days[i].present =true;
+				wxString timeStr = aTxts[i]->GetValue();
+				wxString startStr = timeStr.SubString(0,timeStr.First('-'));
+				wxString endStr = timeStr.SubString(timeStr.First('-')+1,timeStr.Length());
+				prefs.week_prefs.days[i].time_prefs.start_hour = TimeStringToDouble(startStr);
+				prefs.week_prefs.days[i].time_prefs.end_hour = TimeStringToDouble(endStr);
+			}
+		}
+	}
 	m_txtProcSwitchEvery->GetValue().ToDouble(&td);
 	prefs.cpu_scheduling_period_minutes=td;
 	mask.cpu_scheduling_period_minutes=true;
@@ -321,15 +394,29 @@ bool CDlgAdvPreferences::SavePreferencesSettings() {
 	mask.hangup_if_dialed=true;
 	//
 	if(m_txtNetEveryDayStart->IsEnabled()) {
-		m_txtNetEveryDayStart->GetValue().ToLong(&tl);
-		prefs.time_prefs.net_start_hour=tl;
+		prefs.time_prefs.net_start_hour=TimeStringToDouble(m_txtNetEveryDayStart->GetValue());
 		mask.net_start_hour = true;        
 	}
 	//
-	if(m_txtNetEveryDayStop->IsEnabled()) {
-		m_txtNetEveryDayStop->GetValue().ToLong(&tl);
-		prefs.time_prefs.net_end_hour=tl;
+	if(m_txtNetEveryDayStop->IsEnabled()) {		
+		prefs.time_prefs.net_end_hour=TimeStringToDouble(m_txtNetEveryDayStop->GetValue());
 		mask.net_end_hour = true;        
+	}
+	if(m_rbtNetSpecialTimes->GetValue()) {
+		prefs.week_prefs.present=true;
+		wxCheckBox* aChks[] = {m_chkNetSunday,m_chkNetMonday,m_chkNetTuesday,m_chkNetWednesday,m_chkNetThursday,m_chkNetFriday,m_chkNetSaturday};
+		wxTextCtrl* aTxts[] = {m_txtNetSunday,m_txtNetMonday,m_txtNetTuesday,m_txtNetWednesday,m_txtNetThursday,m_txtNetFriday,m_txtNetSaturday};
+		for(int i=0; i< 7;i++) {
+			if(aChks[i]->GetValue()) {
+				prefs.week_prefs.days[i].day_of_week =i;
+				prefs.week_prefs.days[i].present =true;
+				wxString timeStr = aTxts[i]->GetValue();
+				wxString startStr = timeStr.SubString(0,timeStr.First('-'));
+				wxString endStr = timeStr.SubString(timeStr.First('-')+1,timeStr.Length());
+				prefs.week_prefs.days[i].time_prefs.net_start_hour = TimeStringToDouble(startStr);
+				prefs.week_prefs.days[i].time_prefs.net_end_hour = TimeStringToDouble(endStr);
+			}
+		}
 	}
 	//disk usage
 	m_txtDiskMaxSpace->GetValue().ToDouble(&td);
@@ -593,9 +680,10 @@ bool CDlgAdvPreferences::IsValidTimeIntervalValue(const wxString& value) {
 	wxDateTime dtStart,dtStop;
 	dtStart.ParseFormat(start,wxT("%H:%M"));
 	dtStop.ParseFormat(stop,wxT("%H:%M"));
-	if(dtStart>=dtStop) {
+	//
+	/*if(dtStart>=dtStop) {
 		return false;
-	}
+	}*/
 	return true;
 }
 
@@ -658,3 +746,4 @@ bool CDlgAdvPreferences::ConfirmClear() {
 	
 	return res==wxYES;
 }
+

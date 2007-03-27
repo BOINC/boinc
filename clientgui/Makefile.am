@@ -97,6 +97,8 @@ boinc_gui_SOURCES = \
     WizardAccountManager.cpp \
     WizardAttachProject.cpp \
     wizardex.cpp \
+    ../lib/browser.C \
+    ../lib/browser_firefox.C \    
     $(mac_sources)
 
 EXTRA_DIST = *.h \
@@ -105,8 +107,8 @@ EXTRA_DIST = *.h \
     ../lib/error_numbers.h \
     locale $(mac_headers)
 
-boinc_gui_CPPFLAGS = $(AM_CPPFLAGS) $(WX_CPPFLAGS) $(CLIENTGUIFLAGS) -I../wizards
-boinc_gui_CXXFLAGS = $(AM_CXXFLAGS) $(WX_CXXFLAGS) $(CLIENTGUIFLAGS) -I../wizards
+boinc_gui_CPPFLAGS = $(AM_CPPFLAGS) $(WX_CPPFLAGS) $(CLIENTGUIFLAGS)
+boinc_gui_CXXFLAGS = $(AM_CXXFLAGS) $(WX_CXXFLAGS) $(CLIENTGUIFLAGS)
 boinc_gui_LDADD = -L../lib -lboinc $(CLIENTGUILIBS)
 
 all-local: client_gui-bin

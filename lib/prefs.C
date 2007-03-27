@@ -120,7 +120,9 @@ void GLOBAL_PREFS::defaults() {
     max_bytes_sec_down = 0;
     cpu_usage_limit = 100;
     week_prefs.present = false;
-
+	for(int i=0;i<7;i++) {		
+		week_prefs.days[i].time_prefs.clear();
+	}
     // don't initialize source_project, source_scheduler,
     // mod_time, host_specific here
     // since they are outside of <venue> elements,
@@ -208,7 +210,7 @@ int DAY_PREFS::parse(XML_PARSER& xp) {
     while (!xp.get(tag, sizeof(tag), is_tag)) {
         if (!is_tag) continue;
         if (!strcmp(tag, "/day_prefs")) {
-            if (day_of_week < 0 || day_of_week) return ERR_XML_PARSE;
+            if (day_of_week < 0 || day_of_week > 6) return ERR_XML_PARSE;
             return 0;
         } else if (xp.parse_int(tag, "day_of_week", day_of_week)) {
         } else if (xp.parse_double(tag, "start_hour", time_prefs.start_hour)) {
@@ -558,9 +560,32 @@ int GLOBAL_PREFS::write_subset(MIOFILE& f, GLOBAL_PREFS_MASK& mask) {
     if (mask.cpu_usage_limit) {
         f.printf("   <cpu_usage_limit>%f</cpu_usage_limit>\n", cpu_usage_limit);
     }
+	if (week_prefs.present) {
+		for(int i=0; i< 7;i++) {
+			DAY_PREFS dp = week_prefs.days[i];
+			//write only when needed
+			if(dp.present && 
+				(dp.time_prefs.start_hour != dp.time_prefs.end_hour || 
+				dp.time_prefs.net_start_hour != dp.time_prefs.net_end_hour)) {
+				
+				f.printf("   <day_prefs>\n");				
+				f.printf("      <day_of_week>%d</day_of_week>\n",dp.day_of_week);
+				if(dp.time_prefs.start_hour != dp.time_prefs.end_hour) {
+					f.printf("      <start_hour>%.02f</start_hour>\n",dp.time_prefs.start_hour);
+					f.printf("      <end_hour>%.02f</end_hour>\n",dp.time_prefs.end_hour);
+				}
+				if(dp.time_prefs.net_start_hour != dp.time_prefs.net_end_hour) {
+					f.printf("      <net_start_hour>%.02f</net_start_hour>\n",dp.time_prefs.net_start_hour);
+					f.printf("      <net_end_hour>%.02f</net_end_hour>\n",dp.time_prefs.net_end_hour);
+				}
+				f.printf("   </day_prefs>\n");
+			}
+		}
+	}
     f.printf("</global_preferences>\n");
     
     return 0;
 }
 
 const char *BOINC_RCSID_3fb442bb02 = "$Id$";
+

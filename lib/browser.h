@@ -17,6 +17,22 @@
 // or write to the Free Software Foundation, Inc.,
 // 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 
-#pragma once
+#ifndef _BROWSER_
+#define _BROWSER_
 
-EXTERN_C __declspec(dllexport) BOOL DetectSetupAuthenticator(LPCTSTR szProjectURL, LPTSTR szAuthenticator, LPDWORD lpdwSize);
+//
+// The BOINC client now supports the ability to lookup a users
+//   authenticator during automatic attachments via a browser
+//   cookie.
+//
+
+bool detect_setup_authenticator(std::string& project_url, std::string& authenticator);
+
+// These functions are browser specific functions
+//
+#ifdef _WIN32
+bool detect_setup_authenticator_ie(std::string& project_url, std::string& authenticator);
+#endif
+bool detect_setup_authenticator_firefox(std::string& project_url, std::string& authenticator);
+
+#endif

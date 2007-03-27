@@ -2823,3 +2823,27 @@ David  24 Mar 2007
     html/ops/
         index.php
         manage_user.php
+
+Rom    27 Mar 2007
+    - MGR: Extend browser cookie detection framework so that additional
+        browsers can be used.
+    - MGR: Checkin Frank's latest changes to the Advanced Preferences
+        dialog.
+        
+    clientgui/
+        DlgAdvPreferences.cpp, .h
+        Makefile.am
+        stdwx.h
+        WizardAttachProject.cpp
+    clientlib/win/
+        AuthenticatorDetection.cpp, .h (Removed)
+    lib/
+        boinc_win.h
+        browser.C, .h (Added)
+        browser_firefox.C (Added)
+        browser_ie.C (Added - Windows Only)
+    win_build/
+        boinc_dll.vcproj
+        boinc_dll_2003.vcproj
+        boincmgr_curl.vcproj
+        boincmgr_curl_2003.vcproj

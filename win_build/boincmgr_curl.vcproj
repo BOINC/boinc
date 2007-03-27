@@ -657,6 +657,22 @@
 				>
 			</File>
 			<File
+				RelativePath="..\lib\browser.C"
+				>
+			</File>
+			<File
+				RelativePath="..\lib\browser.h"
+				>
+			</File>
+			<File
+				RelativePath="..\lib\browser_firefox.C"
+				>
+			</File>
+			<File
+				RelativePath="..\lib\browser_ie.C"
+				>
+			</File>
+			<File
 				RelativePath="..\lib\diagnostics.C"
 				>
 				<FileConfiguration
@@ -866,6 +882,10 @@
 			</File>
 			<File
 				RelativePath="..\lib\str_util.C"
+				>
+			</File>
+			<File
+				RelativePath="..\lib\str_util.h"
 				>
 			</File>
 			<File

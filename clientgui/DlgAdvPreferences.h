@@ -51,6 +51,8 @@ class CDlgAdvPreferences : public CDlgAdvPreferencesBase {
 	void ShowErrorMessage(wxTextCtrl* errorCtrl);
 	bool EnsureTabPageVisible(wxTextCtrl* txtCtrl);
 	bool ConfirmClear();
+	wxString DoubleToTimeString(double dt);
+	double TimeStringToDouble(wxString timeStr);
 public:
 	CDlgAdvPreferences(wxWindow* parent=NULL);//to act as standard constructor set a default value
 	virtual ~CDlgAdvPreferences();
@@ -69,3 +71,4 @@ private:
 };
 
 #endif // _DLGADVPREFERENCES_H_
+

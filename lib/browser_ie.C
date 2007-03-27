@@ -18,49 +18,48 @@
 // 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 
 
-#include "stdafx.h"
-#include "win_util.h"
+#if defined(_WIN32) && !defined(__STDWX_H__) && !defined(_BOINC_WIN_) && !defined(_AFX_STDAFX_H_)
+#include "boinc_win.h"
+#endif
+
+#include "browser.h"
 
 
-/**
- * Detect what authenticator to use from the current users cookie cache.
- *
- * A project will assign an authenticator from some web based signup system as part
- * of their HTTP cookie, from there we can query Internet Explorer and get the
- * authenticator and use it during the attach to project wizard execution.
- *
- * Internet Explorer is the only browser supported at present.
- **/
-EXTERN_C __declspec(dllexport) BOOL DetectSetupAuthenticator(LPCTSTR szProjectURL, LPTSTR szAuthenticator, LPDWORD lpdwSize)
+//
+// Detect the 'Setup' cookie in Internet Explorer by using the InternetGetCookie API.
+//
+// This is a Windows only browser.
+//
+bool detect_setup_authenticator_ie(std::string& project_url, std::string& authenticator)
 {
-    BOOL        bReturnValue = FALSE;
+    bool        bReturnValue = FALSE;
     BOOL        bValidates = TRUE;
-    TCHAR       szCookieBuffer[2048];
-    LPTSTR      pszCookieFragment = NULL;
-    DWORD       dwSize = sizeof(szCookieBuffer)/sizeof(TCHAR);
-    tstring     strCookieFragment;
-    tstring     strCookieName;
-    tstring     strCookieValue;
+    char        szCookieBuffer[2048];
+    char*       pszCookieFragment = NULL;
+    DWORD       dwSize = sizeof(szCookieBuffer)/sizeof(char);
+    std::string strCookieFragment;
+    std::string strCookieName;
+    std::string strCookieValue;
     size_t      uiDelimeterLocation;
 
-    bReturnValue = InternetGetCookie(szProjectURL, NULL, szCookieBuffer, &dwSize);
+    bReturnValue = InternetGetCookie(project_url.c_str(), NULL, szCookieBuffer, &dwSize) == TRUE;
     if (bReturnValue)
     {
         // Format of cookie buffer:
         // 'cookie1=value1; cookie2=value2; cookie3=value3;
         //
-        pszCookieFragment = _tcstok(szCookieBuffer, _T("; "));
+        pszCookieFragment = strtok(szCookieBuffer, "; ");
         while(pszCookieFragment)
         {
             // Convert to a std::string so we can go to town
             strCookieFragment = pszCookieFragment;
 
             // Extract the name & value
-            uiDelimeterLocation = strCookieFragment.find(_T("="), 0);
+            uiDelimeterLocation = strCookieFragment.find("=", 0);
             strCookieName = strCookieFragment.substr(0, uiDelimeterLocation);
             strCookieValue = strCookieFragment.substr(uiDelimeterLocation + 1);
 
-            if (tstring(_T("Setup")) == strCookieName)
+            if (std::string("Setup") == strCookieName)
             {
                 // Perform some basic validation of the suspect authenticator
                 //
@@ -71,7 +70,7 @@ EXTERN_C __declspec(dllexport) BOOL DetectSetupAuthenticator(LPCTSTR szProjectUR
                 }
 
                 // If the string contains non alpha numeric characters it is invalid.
-                tstring::iterator it = strCookieValue.begin();
+                std::string::iterator it = strCookieValue.begin();
                 while (it != strCookieValue.end()) {
                     if (!_istalpha(*it) && !_istdigit(*it)) {
                         bValidates = FALSE;
@@ -79,25 +78,18 @@ EXTERN_C __declspec(dllexport) BOOL DetectSetupAuthenticator(LPCTSTR szProjectUR
                     it++;
                 }
 
-                // If validation failed, null out the Authenticator field just in case
+                // If validation failed, null out the authenticator just in case
                 //   somebody tries to use it, otherwise copy in the real deal.
                 if (!bValidates) {
-                    _tcsncpy(szAuthenticator, _T(""), *lpdwSize);
-                    *lpdwSize = 0;
+                    authenticator = "";
                 } else {
-                    _tcsncpy(szAuthenticator, strCookieValue.c_str(), *lpdwSize);
-                    *lpdwSize = (DWORD)_tcslen(szAuthenticator);
+                    authenticator = strCookieValue;
                 }
             }
 
-            pszCookieFragment = _tcstok(NULL, _T("; "));
+            pszCookieFragment = strtok(NULL, "; ");
         }
     }
-    else
-    {
-        fprintf(stderr, _T("DetectSetupAuthenticator() - InternetGetCookieEx Failed. GetLastError = '%d'"), GetLastError());
-    }
-
 
     return bReturnValue;
 }
