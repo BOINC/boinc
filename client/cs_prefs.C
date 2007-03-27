@@ -49,23 +49,21 @@ using std::string;
 #define MAX_PROJ_PREFS_LEN  65536
     // max length of project-specific prefs
 
-#if 0
 // Return the maximum allowed disk usage as determined by user preferences.
 // There are three different settings in the prefs;
 // return the least of the three.
 //
-int CLIENT_STATE::allowed_disk_usage(double& size) {
+double CLIENT_STATE::allowed_disk_usage() {
     double percent_space, min_val;
 
     percent_space = host_info.d_total*global_prefs.disk_max_used_pct/100.0;
 
     min_val = host_info.d_free - global_prefs.disk_min_free_gb*1e9;
 
-    size = min(min(global_prefs.disk_max_used_gb*(1e9), percent_space), min_val);
+    double size = min(min(global_prefs.disk_max_used_gb*(1e9), percent_space), min_val);
     if (size < 0) size = 0;
-    return 0;
+    return size;
 }
-#endif
 
 int CLIENT_STATE::project_disk_usage(PROJECT* p, double& size) {
     char buf[256];
@@ -400,6 +398,10 @@ void CLIENT_STATE::read_global_prefs() {
         fclose(f);
     }
 
+    msg_printf(NULL, MSG_INFO,
+        "Preferences limit memory usage to %.2fMB, disk usage to %.2fGB",
+        max_available_ram()/MEGA, allowed_disk_usage()/GIGA
+    );
     // max_cpus, bandwidth limits may have changed
     //
     set_ncpus();

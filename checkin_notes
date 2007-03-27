@@ -2847,3 +2847,12 @@ Rom    27 Mar 2007
         boinc_dll_2003.vcproj
         boincmgr_curl.vcproj
         boincmgr_curl_2003.vcproj
+
+David  27 Mar 2007
+    - client: on startup, show how much RAM and disk are usable
+        (taking prefs into account)
+
+    client/
+        cs_prefs.C
+    lib/
+        str_util.h
