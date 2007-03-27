@@ -51,7 +51,7 @@ void remove_quotes(char* p) {
 int CLIENT_APP_VERSION::parse(FILE* f) {
     char buf[256];
 
-    while (fgets(buf, 256, f)) {
+    while (fgets(buf, sizeof(buf), f)) {
         if (match_tag(buf, "</app_version>")) return 0;
         if (parse_str(buf, "<app_name>", app_name, 256)) continue;
         if (parse_int(buf, "<version_num>", version_num)) continue;
@@ -63,7 +63,7 @@ int FILE_INFO::parse(FILE* f) {
     char buf[256];
 
     memset(this, 0, sizeof(FILE_INFO));
-    while (fgets(buf, 256, f)) {
+    while (fgets(buf, sizeof(buf), f)) {
         if (match_tag(buf, "</file_info>")) {
             if (!strlen(name)) return ERR_XML_PARSE;
             return 0;
@@ -77,7 +77,7 @@ int OTHER_RESULT::parse(FILE* f) {
     char buf[256];
 
     name = "";
-    while (fgets(buf, 256, f)) {
+    while (fgets(buf, sizeof(buf), f)) {
         if (match_tag(buf, "</other_result>")) {
             if (name=="") return ERR_XML_PARSE;
             return 0;
@@ -92,7 +92,7 @@ int IP_RESULT::parse(FILE* f) {
 
     report_deadline = 0;
     cpu_time_remaining = 0;
-    while (fgets(buf, 256, f)) {
+    while (fgets(buf, sizeof(buf), f)) {
         if (match_tag(buf, "</ip_result>")) {
             return 0;
         }
@@ -135,9 +135,9 @@ int SCHEDULER_REQUEST::parse(FILE* fin) {
     have_other_results_list = false;
     have_ip_results_list = false;
 
-    fgets(buf, 256, fin);
+    fgets(buf, sizeof(buf), fin);
     if (!match_tag(buf, "<scheduler_request>")) return ERR_XML_PARSE;
-    while (fgets(buf, 256, fin)) {
+    while (fgets(buf, sizeof(buf), fin)) {
         if (match_tag(buf, "</scheduler_request>")) return 0;
         else if (parse_str(buf, "<authenticator>", authenticator, sizeof(authenticator))) {
             remove_quotes(authenticator);
@@ -148,7 +148,7 @@ int SCHEDULER_REQUEST::parse(FILE* fin) {
         else if (parse_int(buf, "<rpc_seqno>", rpc_seqno)) continue;
         else if (parse_str(buf, "<platform_name>", platform_name, sizeof(platform_name))) continue;
         else if (match_tag(buf, "<app_versions>")) {
-            while (fgets(buf, 256, fin)) {
+            while (fgets(buf, sizeof(buf), fin)) {
                 if (match_tag(buf, "</app_versions>")) break;
                 if (match_tag(buf, "<app_version>")) {
                     CLIENT_APP_VERSION cav;
@@ -170,14 +170,14 @@ int SCHEDULER_REQUEST::parse(FILE* fin) {
 
         else if (match_tag(buf, "<global_preferences>")) {
             strcpy(global_prefs_xml, "<global_preferences>\n");
-            while (fgets(buf, 256, fin)) {
+            while (fgets(buf, sizeof(buf), fin)) {
                 if (strstr(buf, "</global_preferences>")) break;
                 safe_strcat(global_prefs_xml, buf);
             }
             safe_strcat(global_prefs_xml, "</global_preferences>\n");
         }
         else if (match_tag(buf, "<working_global_preferences>")) {
-            while (fgets(buf, 256, fin)) {
+            while (fgets(buf, sizeof(buf), fin)) {
                 if (strstr(buf, "</working_global_preferences>")) break;
                 safe_strcat(working_global_prefs_xml, buf);
             }
@@ -224,7 +224,7 @@ int SCHEDULER_REQUEST::parse(FILE* fin) {
             continue;
         } else if (match_tag(buf, "<other_results>")) {
             have_other_results_list = true;
-            while (fgets(buf, 256, fin)) {
+            while (fgets(buf, sizeof(buf), fin)) {
                 if (match_tag(buf, "</other_results>")) break;
                 if (match_tag(buf, "<other_result>")) {
                     OTHER_RESULT o_r;
@@ -237,7 +237,7 @@ int SCHEDULER_REQUEST::parse(FILE* fin) {
             continue;
         } else if (match_tag(buf, "<in_progress_results>")) {
             have_ip_results_list = true;
-            while (fgets(buf, 256, fin)) {
+            while (fgets(buf, sizeof(buf), fin)) {
                 if (match_tag(buf, "</in_progress_results>")) break;
                 if (match_tag(buf, "<ip_result>")) {
                     IP_RESULT ir;
@@ -383,7 +383,7 @@ int MSG_FROM_HOST_DESC::parse(FILE* fin) {
     char buf[256];
 
     msg_text = "";
-    while (fgets(buf, 256, fin)) {
+    while (fgets(buf, sizeof(buf), fin)) {
         if (match_tag(buf, "</msg_from_host>")) return 0;
         if (parse_str(buf, "<variety>", variety, sizeof(variety))) continue;
         msg_text += buf;
@@ -721,7 +721,7 @@ int RESULT::parse_from_client(FILE* fin) {
     // should be non-zero if exit_status is not found
     exit_status = ERR_NO_EXIT_STATUS;
     memset(this, 0, sizeof(RESULT));
-    while (fgets(buf, 256, fin)) {
+    while (fgets(buf, sizeof(buf), fin)) {
         if (match_tag(buf, "</result>")) return 0;
         else if (parse_str(buf, "<name>", name, sizeof(name))) continue;
         else if (parse_int(buf, "<state>", client_state)) continue;
@@ -734,13 +734,13 @@ int RESULT::parse_from_client(FILE* fin) {
         else if (parse_double(buf, "<intops_cumulative>", intops_cumulative)) continue;
         else if (match_tag(buf, "<file_info>")) {
             safe_strcat(xml_doc_out, buf);
-            while (fgets(buf, 256, fin)) {
+            while (fgets(buf, sizeof(buf), fin)) {
                 safe_strcat(xml_doc_out, buf);
                 if (match_tag(buf, "</file_info>")) break;
             }
             continue;
         } else if (match_tag(buf, "<stderr_out>" )) {
-            while (fgets(buf, 256, fin)) {
+            while (fgets(buf, sizeof(buf), fin)) {
                 if (match_tag(buf, "</stderr_out>")) break;
                 safe_strcat(stderr_out, buf);
             }
@@ -760,7 +760,7 @@ int HOST::parse(FILE* fin) {
     char buf[1024];
 
     p_ncpus = 1;
-    while (fgets(buf, 256, fin)) {
+    while (fgets(buf, sizeof(buf), fin)) {
         if (match_tag(buf, "</host_info>")) return 0;
         else if (parse_int(buf, "<timezone>", timezone)) continue;
         else if (parse_str(buf, "<domain_name>", domain_name, sizeof(domain_name))) continue;
@@ -817,7 +817,7 @@ int HOST::parse(FILE* fin) {
 int HOST::parse_time_stats(FILE* fin) {
     char buf[256];
 
-    while (fgets(buf, 256, fin)) {
+    while (fgets(buf, sizeof(buf), fin)) {
         if (match_tag(buf, "</time_stats>")) return 0;
         else if (parse_double(buf, "<on_frac>", on_frac)) continue;
         else if (parse_double(buf, "<connected_frac>", connected_frac)) continue;
@@ -839,7 +839,7 @@ int HOST::parse_time_stats(FILE* fin) {
 int HOST::parse_net_stats(FILE* fin) {
     char buf[256];
 
-    while (fgets(buf, 256, fin)) {
+    while (fgets(buf, sizeof(buf), fin)) {
         if (match_tag(buf, "</net_stats>")) return 0;
         else if (parse_double(buf, "<bwup>", n_bwup)) continue;
         else if (parse_double(buf, "<bwdown>", n_bwdown)) continue;
@@ -857,7 +857,7 @@ int HOST::parse_net_stats(FILE* fin) {
 int HOST::parse_disk_usage(FILE* fin) {
     char buf[256];
 
-    while (fgets(buf, 256, fin)) {
+    while (fgets(buf, sizeof(buf), fin)) {
         if (match_tag(buf, "</disk_usage>")) return 0;
         else if (parse_double(buf, "<d_boinc_used_total>", d_boinc_used_total)) continue;
         else if (parse_double(buf, "<d_boinc_used_project>", d_boinc_used_project)) continue;

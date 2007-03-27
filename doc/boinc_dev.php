@@ -191,6 +191,13 @@ Investigate.
             </ul>
         <li> Change the ops/ web pages to require login
             by a user with admin privileges.
+        <li> Add 'referral' mechanism:
+            new user creates account, enters email of 'referrer'
+            (or goes to URL that has it embedded).
+            Add referrerid to DB.
+            Give referrer a fraction of credit
+            (or a 1-time bonus).
+            List referrals on user page (show only those still active).
     </ul>
 
 </ul>

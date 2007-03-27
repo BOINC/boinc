@@ -2863,3 +2863,11 @@ Walt   27 Mar 2007
         
     clientgui/
         Makefile.am
+
+David  27 Mar 2007
+    - scheduler: fix bug that cause <p_model> parse error
+        for Linux hosts with long strings
+        (from Andre Kerstens)
+
+    sched/
+        server_types.C
