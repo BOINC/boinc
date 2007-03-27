@@ -283,7 +283,7 @@ bool CWizardAttachProject::Run( wxString& WXUNUSED(strName), wxString& strURL, b
     //   pretty short timeout.  Lets take a crack at detecting it.
     //
     if (!bCredentialsCached) {
-        std::string url = strURL.mb_str();
+        std::string url = std::string(strURL.mb_str());
         std::string authenticator;
 
         if (detect_setup_authenticator(url, authenticator)) {

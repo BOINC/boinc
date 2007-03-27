@@ -22,6 +22,10 @@
 #include "boinc_win.h"
 #endif
 
+#ifndef _WIN32
+#include <string>
+#endif
+
 #include "browser.h"
 
 

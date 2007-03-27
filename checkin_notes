@@ -2871,3 +2871,11 @@ David  27 Mar 2007
 
     sched/
         server_types.C
+
+Walt   27 Mar 2007
+    - MGR: Fix compile errors
+        
+    clientgui/
+        WizardAttachProject.cpp
+    lib/
+        browser_firefox.C
