@@ -273,14 +273,20 @@ function show_post($post, $thread, $logged_in_user, $n, $controls=FORUM_CONTROLS
         if ($user->hasAvatar() && (!$logged_in_user || ($logged_in_user->hasHideAvatars()==false))) {
             echo "<img width=\"".AVATAR_WIDTH."\" height=\"".AVATAR_HEIGHT."\" src=\"".$user->getAvatar()."\" alt=\"Avatar\"><br>";
         }
-        echo "Joined: ", gmdate('M j, Y', $user->getCreateTime()), "<br>Posts: ".$user->getPostCount()."<br>";
+        echo "Joined: ", gmdate('M j, Y', $user->getCreateTime()), "<br>";
     }
-    // circumvent various forms of identity spoofing
-    // by displaying the  user id of the poster.
-    // its cheap, easy, and doesn't require any additional database calls.
-    echo "ID: ".$user->getID()."<br>";
-    echo "Credit: ".number_format($user->getTotalCredit())."<br>";
-    echo "RAC: ".number_format($user->getExpavgCredit())."<br>";
+    
+    if(function_exists('project_forum_user_info')){
+        project_forum_user_info($user);
+    } else { // default
+        // circumvent various forms of identity spoofing
+        // by displaying the  user id of the poster.
+        // its cheap, easy, and doesn't require any additional database calls.
+        echo "Posts: ".$user->getPostCount()."<br>";
+        echo "ID: ".$user->getID()."<br>";
+        echo "Credit: ".number_format($user->getTotalCredit())."<br>";
+        echo "RAC: ".number_format($user->getExpavgCredit())."<br>";
+    }
     echo "</span></div></td>";
 
     if ($controls == FORUM_CONTROLS) {
