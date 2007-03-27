@@ -2856,3 +2856,10 @@ David  27 Mar 2007
         cs_prefs.C
     lib/
         str_util.h
+
+Walt   27 Mar 2007
+    - MGR: Fix Makefile.am to remove whitespace after
+        continuation character.
+        
+    clientgui/
+        Makefile.am

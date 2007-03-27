@@ -98,7 +98,7 @@ boinc_gui_SOURCES = \
     WizardAttachProject.cpp \
     wizardex.cpp \
     ../lib/browser.C \
-    ../lib/browser_firefox.C \    
+    ../lib/browser_firefox.C \
     $(mac_sources)
 
 EXTRA_DIST = *.h \
