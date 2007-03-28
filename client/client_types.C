@@ -102,6 +102,7 @@ void PROJECT::init() {
     work_request = 0;
     work_request_urgency = WORK_FETCH_DONT_NEED;
     duration_correction_factor = 1;
+    duration_variability = 1;
     project_files_downloaded_time = 0;
 
     // Initialize scratch variables.
@@ -176,6 +177,7 @@ int PROJECT::parse_state(MIOFILE& in) {
         else if (parse_double(buf, "<long_term_debt>", long_term_debt)) continue;
         else if (parse_double(buf, "<resource_share>", x)) continue;    // not authoritative
         else if (parse_double(buf, "<duration_correction_factor>", duration_correction_factor)) continue;
+        else if (parse_double(buf, "<duration_variability>", duration_variability)) continue;
         else if (match_tag(buf, "<attached_via_acct_mgr/>")) attached_via_acct_mgr = true;
         else if (parse_double(buf, "<ams_resource_share>", ams_resource_share)) continue;
         else if (parse_bool(buf, "scheduler_rpc_in_progress", btemp)) continue;
@@ -227,6 +229,7 @@ int PROJECT::write_state(MIOFILE& out, bool gui_rpc) {
         "    <long_term_debt>%f</long_term_debt>\n"
         "    <resource_share>%f</resource_share>\n"
         "    <duration_correction_factor>%f</duration_correction_factor>\n"
+        "    <duration_variability>%f</duration_variability>\n"
 		"    <sched_rpc_pending>%d</sched_rpc_pending>\n"
         "%s%s%s%s%s%s%s%s%s%s",
         master_url,
@@ -253,6 +256,7 @@ int PROJECT::write_state(MIOFILE& out, bool gui_rpc) {
         long_term_debt,
         resource_share,
         duration_correction_factor,
+        duration_variability,
 		sched_rpc_pending,
         master_url_fetch_pending?"    <master_url_fetch_pending/>\n":"",
         trickle_up_pending?"    <trickle_up_pending/>\n":"",
@@ -336,6 +340,7 @@ void PROJECT::copy_state_fields(PROJECT& p) {
     detach_when_done = p.detach_when_done;
     attached_via_acct_mgr = p.attached_via_acct_mgr;
     duration_correction_factor = p.duration_correction_factor;
+    duration_variability = p.duration_variability;
     ams_resource_share = p.ams_resource_share;
     if (ams_resource_share > 0) {
         resource_share = ams_resource_share;
@@ -1629,6 +1634,7 @@ void PROJECT::update_duration_correction_factor(RESULT* rp) {
     double raw_ratio = rp->final_cpu_time/rp->estimated_cpu_time_uncorrected();
     double adj_ratio = rp->final_cpu_time/rp->estimated_cpu_time();
 	double old_dcf = duration_correction_factor;
+    double old_dv = duration_variability;
 
     // it's OK to overestimate completion time,
     // but bad to underestimate it.
@@ -1652,10 +1658,16 @@ void PROJECT::update_duration_correction_factor(RESULT* rp) {
     if (duration_correction_factor > 100) duration_correction_factor = 100;
     if (duration_correction_factor < 0.01) duration_correction_factor = 0.01;
 
+    // calculate duration variability
+    //
+    double variability_factor = adj_ratio > 1 ? 1 / adj_ratio : adj_ratio;
+    duration_variability = sqrt(duration_variability*variability_factor);
+
 	if (log_flags.cpu_sched_debug || log_flags.work_fetch_debug) {
 		msg_printf(this, MSG_INFO,
-            "[csd|wfd] duration correction factor: %f => %f, raw_ratio %f, adj_ratio %f",
-			old_dcf, duration_correction_factor, raw_ratio, adj_ratio
+            "[csd|wfd] DCF: %f->%f, var: %f->%f, raw_ratio %f, adj_ratio %f",
+			old_dcf, duration_correction_factor, old_dv, duration_variability,
+            raw_ratio, adj_ratio
 		);
 	}
 }

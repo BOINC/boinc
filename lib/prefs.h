@@ -46,6 +46,7 @@ struct GLOBAL_PREFS_MASK {
     bool hangup_if_dialed;
     bool dont_verify_images;
     bool work_buf_min_days;
+    bool work_buf_additional_days;
     bool max_cpus;
     bool cpu_scheduling_period_minutes;
     bool disk_interval;
@@ -106,6 +107,7 @@ struct GLOBAL_PREFS {
     bool dont_verify_images;
     TIME_PREFS time_prefs;
     double work_buf_min_days;
+    double work_buf_additional_days;
     int max_cpus;
     double cpu_scheduling_period_minutes;
     double disk_interval;

@@ -65,6 +65,7 @@ FLAGS log_flags;
 
 struct PREFS {
     double work_buf_min_days;
+    double work_buf_additional_days;
     double cpu_scheduling_period_minutes;
 };
 
@@ -83,6 +84,9 @@ struct CLIENT_STATE {
     bool rr_simulation();
     double work_buf_min() {
         return global_prefs.work_buf_min_days*86400;
+    }
+    double work_buf_additional() {
+        return global_prefs.work_buf_additional_days * 86400;
     }
 };
 
@@ -209,7 +213,7 @@ bool CLIENT_STATE::rr_simulation() {
         //
         if (!p->active.size()) {
 			double rsf = trs ? p->resource_share/trs : 1;
-            p->cpu_shortfall = work_buf_min() * overall_cpu_frac() * ncpus * rsf;
+            p->cpu_shortfall = (work_buf_min()+work_buf_additional) * overall_cpu_frac() * ncpus * rsf;
             if (log_flags.rr_simulation) {
                 msg_printf(p, MSG_INFO,
                     "no results; shortfall %f wbm %f ocf %f rsf %f",
@@ -219,7 +223,7 @@ bool CLIENT_STATE::rr_simulation() {
         }
     }
 
-    double buf_end = now + work_buf_min();
+    double buf_end = now + work_buf_min() + work_buf_additional();
 
     // Simulation loop.  Keep going until work done
     //
@@ -401,6 +405,7 @@ int main() {
     log_flags.rr_simulation = true;
 
     gstate.global_prefs.work_buf_min_days = 1;
+    gstate.global_prefs.work_buf_additional_days = 1;
     gstate.global_prefs.cpu_scheduling_period_minutes = 60;
     gstate.ncpus = 1;
     gstate.now = 0;

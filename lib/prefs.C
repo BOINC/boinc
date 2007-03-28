@@ -56,6 +56,7 @@ bool GLOBAL_PREFS_MASK::are_prefs_set() {
     if (hangup_if_dialed) return true;
     if (dont_verify_images) return true;
     if (work_buf_min_days) return true;
+    if (work_buf_additional_days) return true;
     if (max_cpus) return true;
     if (cpu_scheduling_period_minutes) return true;
     if (disk_interval) return true;
@@ -106,6 +107,7 @@ void GLOBAL_PREFS::defaults() {
     hangup_if_dialed = false;
     dont_verify_images = false;
     work_buf_min_days = 0.1;
+    work_buf_additional_days = 1.0;
     max_cpus = 16;
     cpu_scheduling_period_minutes = 60;
     disk_interval = 60;
@@ -325,6 +327,10 @@ int GLOBAL_PREFS::parse_override(
             if (work_buf_min_days < 0.01) work_buf_min_days = 0.01;
             mask.work_buf_min_days = true;
             continue;
+        } else if (xp.parse_double(tag, "work_buf_additional_days", work_buf_additional_days)) {
+            if (work_buf_additional_days < 0) work_buf_additional_days = 0;
+            mask.work_buf_additional_days = true;
+            continue;
         } else if (xp.parse_int(tag, "max_cpus", max_cpus)) {
             if (max_cpus < 1) max_cpus = 1;
             mask.max_cpus = true;
@@ -426,6 +432,7 @@ int GLOBAL_PREFS::write(MIOFILE& f) {
         "   <net_end_hour>%f</net_end_hour>\n"
         "%s%s%s%s"
         "   <work_buf_min_days>%f</work_buf_min_days>\n"
+        "   <work_buf_additional_days>%f</work_buf_additional_days>\n"
         "   <max_cpus>%d</max_cpus>\n"
         "   <cpu_scheduling_period_minutes>%f</cpu_scheduling_period_minutes>\n"
         "   <disk_interval>%f</disk_interval>\n"
@@ -452,6 +459,7 @@ int GLOBAL_PREFS::write(MIOFILE& f) {
         hangup_if_dialed?"   <hangup_if_dialed/>\n":"",
         dont_verify_images?"   <dont_verify_images/>\n":"",
         work_buf_min_days,
+        work_buf_additional_days,
         max_cpus,
         cpu_scheduling_period_minutes,
         disk_interval,
@@ -520,6 +528,9 @@ int GLOBAL_PREFS::write_subset(MIOFILE& f, GLOBAL_PREFS_MASK& mask) {
     }
     if (mask.work_buf_min_days) {
         f.printf("   <work_buf_min_days>%f</work_buf_min_days>\n", work_buf_min_days);
+    }
+    if (mask.work_buf_additional_days) {
+        f.printf("   <work_buf_additional_days>%f</work_buf_additional_days>\n", work_buf_additional_days);
     }
     if (mask.max_cpus) {
         f.printf("   <max_cpus>%d</max_cpus>\n", max_cpus);

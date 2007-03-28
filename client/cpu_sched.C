@@ -201,7 +201,16 @@ RESULT* CLIENT_STATE::earliest_deadline_result() {
         if (rp->project->non_cpu_intensive) continue;
         if (rp->already_selected) continue;
         if (!rp->project->deadlines_missed) continue;
-        if (!best_result || rp->report_deadline < best_result->report_deadline) {
+
+        // Pick the earliest deadline result.
+        // If there is a tie, pick the one with the least remaining CPU time.
+        //
+        if (!best_result
+            || rp->report_deadline < best_result->report_deadline
+            || (rp->report_deadline == best_result->report_deadline
+                && rp->estimated_cpu_time_remaining() < best_result->estimated_cpu_time_remaining()
+                )
+        ) {
             best_result = rp;
         }
     }
@@ -1035,7 +1044,7 @@ void CLIENT_STATE::rr_simulation() {
         //
         if (!p->active.size()) {
 			double rsf = trs ? p->resource_share/trs : 1;
-            p->cpu_shortfall = work_buf_min() * overall_cpu_frac() * ncpus * rsf * config.work_request_factor;
+            p->cpu_shortfall = (work_buf_min() + work_buf_additional()) * overall_cpu_frac() * ncpus * rsf;
             if (log_flags.rr_simulation) {
                 msg_printf(p, MSG_INFO,
                     "[rr_sim] no results; shortfall %f wbm %f ocf %f rsf %f",
@@ -1045,7 +1054,7 @@ void CLIENT_STATE::rr_simulation() {
         }
     }
 
-    double buf_end = now + work_buf_min()*config.work_request_factor;
+    double buf_end = now + work_buf_min() + work_buf_additional();
 
     // Simulation loop.  Keep going until work done
     //

@@ -2879,3 +2879,27 @@ Walt   27 Mar 2007
         WizardAttachProject.cpp
     lib/
         browser_firefox.C
+
+David  28 Mar 2007
+    - core client: add work_buf_additional_days preference;
+        track variability in completion times
+        (from John McLeod VII)
+    - add browser.C to lib/ makefile;
+        do NOT use ../* in other makefiles
+
+    client/
+        client_state.C,h
+        client_types.C,h
+        cpu_sched.C
+        cs_scheduler.C
+        log_flags.C,h
+        rrsim_test.C
+        sim.h
+    clientgui/
+        Makefile.am
+    lib/
+        Makefile.am
+        browser.C
+        browser_firefox.C (removed)
+        browser_ie.C (removed)
+        prefs.c,h

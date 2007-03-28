@@ -157,7 +157,6 @@ CONFIG::CONFIG() {
     save_stats_days = 30;
     max_file_xfers = MAX_FILE_XFERS;
     max_file_xfers_per_project = MAX_FILE_XFERS_PER_PROJECT;
-    work_request_factor = 1;
 }
 
 int CONFIG::parse_options(XML_PARSER& xp) {
@@ -180,7 +179,6 @@ int CONFIG::parse_options(XML_PARSER& xp) {
         else if (xp.parse_int(tag, "ncpus", ncpus)) continue;
         else if (xp.parse_int(tag, "max_file_xfers", max_file_xfers)) continue;
         else if (xp.parse_int(tag, "max_file_xfers_per_project", max_file_xfers_per_project)) continue;
-        else if (xp.parse_double(tag, "work_request_factor", work_request_factor)) continue;
         else if (xp.parse_bool(tag, "suppress_net_info", suppress_net_info)) continue;
         else if (xp.parse_bool(tag, "disallow_attach", disallow_attach)) continue;
         else if (xp.parse_bool(tag, "os_random_only", os_random_only)) continue;

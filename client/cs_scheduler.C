@@ -120,7 +120,8 @@ int CLIENT_STATE::make_scheduler_request(PROJECT* p) {
         "    <rrs_fraction>%f</rrs_fraction>\n"
         "    <prrs_fraction>%f</prrs_fraction>\n"
         "    <estimated_delay>%f</estimated_delay>\n"
-        "    <duration_correction_factor>%f</duration_correction_factor>\n",
+        "    <duration_correction_factor>%f</duration_correction_factor>\n"
+        "    <duration_variability>%f</duration_variability>\n",
         p->authenticator,
         p->hostid,
         p->rpc_seqno,
@@ -133,7 +134,8 @@ int CLIENT_STATE::make_scheduler_request(PROJECT* p) {
         rrs_fraction,
         prrs_fraction,
         time_until_work_done(p, proj_min_results(p, prrs)-1, prrs),
-        p->duration_correction_factor
+        p->duration_correction_factor,
+        p->duration_variability
     );
     if (p->anonymous_platform) {
         fprintf(f, "    <app_versions>\n");

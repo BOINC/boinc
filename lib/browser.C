@@ -29,15 +29,16 @@
 #include "browser.h"
 
 //
-// Some projects perfer to use there web sites as the primary means of setting up
-//   there user accounts, so walk through the various browsers looking up the
+//   walk through the various browsers looking up the
 //   project cookies until the projects 'Setup' cookie is found.
 //
 // Give preference to the default platform specific browers first before going
 //   to the platform independant browsers since most people don't switch from
 //   the default.
 // 
-bool detect_setup_authenticator(std::string& project_url, std::string& authenticator) {
+bool detect_setup_authenticator(
+    std::string& project_url, std::string& authenticator
+) {
 #ifdef _WIN32
     if (detect_setup_authenticator_ie(project_url, authenticator)) {
         return true;
@@ -50,3 +51,79 @@ bool detect_setup_authenticator(std::string& project_url, std::string& authentic
     return false;
 }
 
+bool detect_setup_authenticator_firefox(
+    std::string& project_url, std::string& authenticator
+) {
+    return false;
+}
+
+#ifdef _WIN32
+//
+// Detect the 'Setup' cookie in Internet Explorer by using the InternetGetCookie API.
+//
+// This is a Windows only browser.
+//
+bool detect_setup_authenticator_ie(std::string& project_url, std::string& authenticator)
+{
+    bool        bReturnValue = FALSE;
+    BOOL        bValidates = TRUE;
+    char        szCookieBuffer[2048];
+    char*       pszCookieFragment = NULL;
+    DWORD       dwSize = sizeof(szCookieBuffer)/sizeof(char);
+    std::string strCookieFragment;
+    std::string strCookieName;
+    std::string strCookieValue;
+    size_t      uiDelimeterLocation;
+
+    bReturnValue = InternetGetCookie(project_url.c_str(), NULL, szCookieBuffer, &dwSize) == TRUE;
+    if (bReturnValue)
+    {
+        // Format of cookie buffer:
+        // 'cookie1=value1; cookie2=value2; cookie3=value3;
+        //
+        pszCookieFragment = strtok(szCookieBuffer, "; ");
+        while(pszCookieFragment)
+        {
+            // Convert to a std::string so we can go to town
+            strCookieFragment = pszCookieFragment;
+
+            // Extract the name & value
+            uiDelimeterLocation = strCookieFragment.find("=", 0);
+            strCookieName = strCookieFragment.substr(0, uiDelimeterLocation);
+            strCookieValue = strCookieFragment.substr(uiDelimeterLocation + 1);
+
+            if (std::string("Setup") == strCookieName)
+            {
+                // Perform some basic validation of the suspect authenticator
+                //
+
+                // If the string is null then it is invalid.
+                if (0 == strCookieValue.length()) {
+                    bValidates = FALSE;
+                }
+
+                // If the string contains non alpha numeric characters it is invalid.
+                std::string::iterator it = strCookieValue.begin();
+                while (it != strCookieValue.end()) {
+                    if (!_istalpha(*it) && !_istdigit(*it)) {
+                        bValidates = FALSE;
+                    }
+                    it++;
+                }
+
+                // If validation failed, null out the authenticator just in case
+                //   somebody tries to use it, otherwise copy in the real deal.
+                if (!bValidates) {
+                    authenticator = "";
+                } else {
+                    authenticator = strCookieValue;
+                }
+            }
+
+            pszCookieFragment = strtok(NULL, "; ");
+        }
+    }
+
+    return bReturnValue;
+}
+#endif

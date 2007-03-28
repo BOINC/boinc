@@ -82,7 +82,6 @@ struct CONFIG {
     int ncpus;
     int max_file_xfers;
     int max_file_xfers_per_project;
-    double work_request_factor;
     bool suppress_net_info;
     bool disallow_attach;
     bool os_random_only;

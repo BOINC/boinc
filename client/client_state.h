@@ -268,6 +268,9 @@ private:
 	inline double work_buf_min() {
 		return global_prefs.work_buf_min_days * 86400;
 	}
+    inline double work_buf_additional() {
+        return global_prefs.work_buf_additional_days *86400;
+    }
 public:
     void request_enforce_schedule(const char*);
     void request_schedule_cpus(const char*);

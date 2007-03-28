@@ -47,6 +47,7 @@ endif
 libboinc_a_SOURCES = \
     app_ipc.C \
     base64.C \
+    browser.C \
     crypt.C \
     diagnostics.C \
     filesys.C \
