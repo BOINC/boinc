@@ -30,7 +30,8 @@ function intelligently_scale_image($sourcefile, $fw, $fh) {
 
     if ($newGD){
         $tempImage = imageCreateTrueColor($tempw, $temph);
-        imageAntiAlias($tempImage, true);
+        // Seems not to work:
+        // imageAntiAlias($tempImage, true);
         imagecopyresampled($tempImage, $srcImage, 0, 0, 0, 0, $tempw, $temph, $ow, $oh);
     } else {
         $tempImage = imageCreate($tempw, $temph);
@@ -49,7 +50,8 @@ function intelligently_scale_image($sourcefile, $fw, $fh) {
 
     if ($newGD){
         $destImage = imageCreateTrueColor($fw, $fh);
-        imageAntiAlias($tempImage, true);
+        // Seems not to work:
+        // imageAntiAlias($tempImage, true);
         imagecopyresampled($destImage, $tempImage, 0, 0, $offsetx, $offsety, $fw, $fh, $fw, $fh);
     } else {
         $destImage = imageCreate($fw, $fh);

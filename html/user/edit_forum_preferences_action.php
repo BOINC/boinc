@@ -10,7 +10,16 @@ require_once("../inc/image.inc"); // Avatar scaling
 require_once("../inc/forum_std.inc");
 
 db_init();
-$user = re_get_logged_in_user();
+
+if (post_str("account_key", true) != null) {
+    $user = lookup_user_auth(post_str("account_key"));
+    // Cast old style user to object-oriented user
+    $user = newUser($user->id);
+    $rpc = true;
+} else {
+    $user = re_get_logged_in_user();
+    $rpc = false;
+}
 
 // If the user has requested a total reset of preferences:
 $dbhandler = $mainFactory->getDatabaseHandler();
@@ -38,8 +47,13 @@ if ($avatar_type==0){
     }
     $avatar_url="";
 } elseif ($avatar_type==2){
-    if ($_FILES['picture']['tmp_name']!=""){
-        $file=$_FILES['picture']['tmp_name'];
+    if (($rpc && (post_str("avatar_url", true) != null)) || ($_FILES['picture']['tmp_name']!="")) {
+        if ($_FILES['picture']['tmp_name']!="") {
+            $file = $_FILES['picture']['tmp_name'];
+        } else {
+            // Remote image. Download and store locally
+            $file = post_str("avatar_url");
+        }
         $size = getImageSize($file);
         if ($size[2]!=2 and $size[2]!=3){
             //Not the right kind of file
@@ -57,7 +71,6 @@ if ($avatar_type==0){
         $avatar_url="";
     }
 }
-$user->setAvatar($avatar_url);
 
 // Update some simple prefs that are either on or off
 $images_as_links = ($_POST["forum_images_as_links"]!="");
@@ -74,6 +87,9 @@ $user->setHideSignatures($hide_signatures);
 $user->setJumpToUnread($jump_to_unread);
 $user->setIgnoreStickyPosts($ignore_sticky_posts);
 $user->setSignatureByDefault($signature_by_default);
+
+// Update avatar
+$user->setAvatar($avatar_url);
 
 // Update the rating thresholds for display of posts
 $low_rating_threshold = post_int("forum_low_rating_threshold");
@@ -121,8 +137,14 @@ $user->setMinimumWrapPostcount($minimum_wrap_postcount);
 $user->setDisplayWrapPostcount($display_wrap_postcount);
 
 
-// If we get down here everything went ok so let's redirect the user to the setup page again
-// so that they can view their new preferences in action in the previews.
-Header("Location: edit_forum_preferences_form.php");
+if ($rpc == false) {
+    // If we get down here everything went ok so let's redirect the user to the setup page again
+    // so that they can view their new preferences in action in the previews.
+    Header("Location: edit_forum_preferences_form.php");
+} else {
+    echo "<status>\n";
+    echo "    <success>1</success>\n";
+    echo "</status>\n";
+}
 
 ?>

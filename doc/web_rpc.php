@@ -451,7 +451,7 @@ list_item('URL',
 );
 list_item('input',
     'account_key
-    <br>avatar_url
+    <br>avatar_url <i>Note: the image will be downloaded and stored locally. Only JPG and PNG accepted.</i>
     <br>avatar_select
     <br>forum_images_as_links
     <br>forum_link_externally
@@ -461,8 +461,8 @@ list_item('input',
     <br>forum_ignore_sticky_posts
     <br>forum_low_rating_threshold
     <br>forum_high_rating_threshold
-    <br>forum_minimum_wrap_poastcound
-    <br>forum_display_wrap_poastcound
+    <br>forum_minimum_wrap_postcount
+    <br>forum_display_wrap_postcount
     <br>signature_enabled
     <br>signature
     <br>forum_sort
