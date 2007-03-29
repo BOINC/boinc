@@ -2950,3 +2950,11 @@ David  29 Mar 2007
 
     client/
         file_xfer.C
+
+Rom    29 Mar 2007
+    - MGR: Prevent crash in the projects tab by checking to see if there
+        is really anything to display, if not delete all rows and then
+        return.
+        
+    clientgui/
+        ViewProjectsGrid.cpp

@@ -706,12 +706,26 @@ bool CViewProjectsGrid::OnRestoreState(wxConfigBase* pConfig) {
 // set up the grid's content
 void CViewProjectsGrid::OnListRender( wxTimerEvent& WXUNUSED(event) ) {
 	wxLogTrace(wxT("Function Start/End"), wxT("CViewProjectsGrid::OnListRender - Function Start"));
+
+    // We haven't connected up to the CC yet, there is nothing to display, make sure
+    //   everything is deleted.
+    if ( GetDocCount() < 0 ) {
+        if ( m_pGridPane->GetNumberRows() ) {
+    		m_pGridPane->BeginBatch();
+            m_pGridPane->DeleteRows(0, m_pGridPane->GetNumberRows());
+    		m_pGridPane->EndBatch();
+        }
+        return;
+    }
+
 	//remember grid cursor position (invisible)
 	m_pGridPane->SaveGridCursorPosition();
-	//remember selected row(s)
-	m_pGridPane->SaveSelection();	
+
+    //remember selected row(s)
+	m_pGridPane->SaveSelection();
+
 	//(re)create rows, if necessary
-	if(this->GetDocCount()!= m_pGridPane->GetRows()) {
+	if(this->GetDocCount() != m_pGridPane->GetRows()) {
 		//prevent grid from flicker
 		m_pGridPane->BeginBatch();
 		//at first, delete all current rows
@@ -722,7 +736,8 @@ void CViewProjectsGrid::OnListRender( wxTimerEvent& WXUNUSED(event) ) {
 		m_pGridPane->AppendRows(this->GetDocCount());		
 		m_pGridPane->EndBatch();
 	}
-	//update cell values only if project info or sorting were changed
+
+    //update cell values only if project info or sorting were changed
 	if(UpdateProjectCache() || SortProjects()) {
 		//prevent grid from flicker
 		m_pGridPane->BeginBatch();
@@ -760,9 +775,11 @@ void CViewProjectsGrid::OnListRender( wxTimerEvent& WXUNUSED(event) ) {
 		m_pGridPane->RestoreSelection();		
 		m_pGridPane->EndBatch();
 	}	
-	//
+
+
 	UpdateSelection();
-	wxLogTrace(wxT("Function Start/End"), wxT("CViewProjectsGrid::OnListRender - Function End"));
+
+    wxLogTrace(wxT("Function Start/End"), wxT("CViewProjectsGrid::OnListRender - Function End"));
 }
 
 /**
