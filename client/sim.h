@@ -46,9 +46,11 @@ public:
 class SIM_APP: public APP {
 public:
     double latency_bound;
+    double fpops_est;
     NORMAL_DIST fpops;
     NORMAL_DIST checkpoint_period;
     double working_set;
+    double weight;
 
     int parse(XML_PARSER&);
 };

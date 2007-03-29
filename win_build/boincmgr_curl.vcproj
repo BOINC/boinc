@@ -665,14 +665,6 @@
 				>
 			</File>
 			<File
-				RelativePath="..\lib\browser_firefox.C"
-				>
-			</File>
-			<File
-				RelativePath="..\lib\browser_ie.C"
-				>
-			</File>
-			<File
 				RelativePath="..\lib\diagnostics.C"
 				>
 				<FileConfiguration

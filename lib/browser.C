@@ -57,6 +57,7 @@ bool detect_setup_authenticator_firefox(
     return false;
 }
 
+
 #ifdef _WIN32
 //
 // Detect the 'Setup' cookie in Internet Explorer by using the InternetGetCookie API.
@@ -65,6 +66,7 @@ bool detect_setup_authenticator_firefox(
 //
 bool detect_setup_authenticator_ie(std::string& project_url, std::string& authenticator)
 {
+#if 0
     bool        bReturnValue = FALSE;
     BOOL        bValidates = TRUE;
     char        szCookieBuffer[2048];
@@ -125,5 +127,7 @@ bool detect_setup_authenticator_ie(std::string& project_url, std::string& authen
     }
 
     return bReturnValue;
+#endif
+    return false;
 }
 #endif

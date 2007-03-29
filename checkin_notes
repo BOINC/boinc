@@ -2909,3 +2909,16 @@ David  28 Mar 2007
 
     html/inc/
         prefs.inc
+
+David  29 Mar 2007
+	- core client: fix some debug messages
+	- more code-shuffling for client simulator
+
+	client/
+		cpu_sched.C
+		file_xfer.h
+		log_flags.C,h
+		sim.C,h
+	win_build/
+		boincmgr_curl.vcproj
+		sim.vcproj

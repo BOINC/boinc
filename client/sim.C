@@ -69,6 +69,92 @@ HOST_INFO::HOST_INFO() {}
 
 //////////////// FUNCTIONS COPIED /////////////
 
+void PROJECT::init() {
+    strcpy(master_url, "");
+    strcpy(authenticator, "");
+    project_specific_prefs = "";
+    gui_urls = "";
+    resource_share = 100;
+    strcpy(host_venue, "");
+    using_venue_specific_prefs = false;
+    scheduler_urls.clear();
+    strcpy(project_name, "");
+    strcpy(symstore, "");
+    strcpy(user_name, "");
+    strcpy(team_name, "");
+    strcpy(email_hash, "");
+    strcpy(cross_project_id, "");
+    user_total_credit = 0;
+    user_expavg_credit = 0;
+    user_create_time = 0;
+    ams_resource_share = 0;
+    rpc_seqno = 0;
+    hostid = 0;
+    host_total_credit = 0;
+    host_expavg_credit = 0;
+    host_create_time = 0;
+    nrpc_failures = 0;
+    master_fetch_failures = 0;
+    min_rpc_time = 0;
+	possibly_backed_off = true;
+    master_url_fetch_pending = false;
+    sched_rpc_pending = 0;
+    next_rpc_time = 0;
+    last_rpc_time = 0;
+    trickle_up_pending = false;
+    tentative = false;
+    anonymous_platform = false;
+    non_cpu_intensive = false;
+    verify_files_on_app_start = false;
+    short_term_debt = 0;
+    long_term_debt = 0;
+    send_file_list = false;
+    suspended_via_gui = false;
+    dont_request_more_work = false;
+    detach_when_done = false;
+    attached_via_acct_mgr = false;
+    strcpy(code_sign_key, "");
+    user_files.clear();
+    project_files.clear();
+    anticipated_debt = 0;
+    wall_cpu_time_this_debt_interval = 0;
+    next_runnable_result = NULL;
+    work_request = 0;
+    work_request_urgency = WORK_FETCH_DONT_NEED;
+    duration_correction_factor = 1;
+    project_files_downloaded_time = 0;
+
+    // Initialize scratch variables.
+    rrsim_proc_rate = 0.0;
+    cpu_shortfall = 0.0;
+    rr_sim_deadlines_missed = 0;
+    deadlines_missed = 0;
+}
+
+void RESULT::clear() {
+    strcpy(name, "");
+    strcpy(wu_name, "");
+    report_deadline = 0;
+    output_files.clear();
+    _state = RESULT_NEW;
+    ready_to_report = false;
+    completed_time = 0;
+    got_server_ack = false;
+    final_cpu_time = 0;
+    exit_status = 0;
+    stderr_out = "";
+    suspended_via_gui = false;
+    rr_sim_misses_deadline = false;
+    last_rr_sim_missed_deadline = false;
+    fpops_per_cpu_sec = 0;
+    fpops_cumulative = 0;
+    intops_per_cpu_sec = 0;
+    intops_cumulative = 0;
+    app = NULL;
+    wup = NULL;
+    project = NULL;
+}
+
 static const char* task_state_name(int val) {
     switch (val) {
     case PROCESS_UNINITIALIZED: return "UNINITIALIZED";
@@ -151,17 +237,32 @@ RESULT* CLIENT_STATE::lookup_result(PROJECT* p, const char* name) {
 }
 
 void CLIENT_STATE::simulate_rpc(PROJECT* p) {
-    static int i=0;
-    RESULT* rp = new RESULT;
-    WORKUNIT* wup = new WORKUNIT;
-    rp->project = p;
-    rp->wup = wup;
-    sprintf(rp->name, "result_%d", i++);
-    rp->set_state(RESULT_FILES_DOWNLOADED, "simulate_rpc");
-    wup->project = p;
-    wup->rsc_fpops_est = 10000000;
-    wup->rsc_fpops_bound = 10000000;
-    results.push_back(rp);
+    unsigned int i;
+    double net_fpops = host_info.p_fpops;
+    while (1) {
+        // pick a random app
+        SIM_APP* ap;
+        double x = drand();
+        for (i=0; i<apps.size();i++) {
+            ap = (SIM_APP*)&apps[i];
+            if (ap->project != p) continue;
+            x -= ap->weight;
+            if (x <= 0) break;
+        }
+        RESULT* rp = new RESULT;
+        WORKUNIT* wup = new WORKUNIT;
+        rp->clear();
+        rp->project = p;
+        rp->wup = wup;
+        sprintf(rp->name, "result_%d", i++);
+        rp->set_state(RESULT_FILES_DOWNLOADED, "simulate_rpc");
+        wup->project = p;
+        wup->rsc_fpops_est = ap->fpops.sample();
+        results.push_back(rp);
+        double est_cpu = ap->fpops_est/net_fpops;
+        p->work_request -= est_cpu;
+        if (p->work_request <= 0) break;
+    }
     request_schedule_cpus("simulate_rpc");
 }
 
@@ -238,13 +339,18 @@ int ACTIVE_TASK::init(RESULT* rp) {
     max_disk_usage = rp->wup->rsc_disk_bound;
     max_mem_usage = rp->wup->rsc_memory_bound;
     cpu_time_left = 100;
+    _task_state = PROCESS_UNINITIALIZED;
+    scheduler_state = CPU_SCHED_UNINITIALIZED;
     return 0;
 }
 
 //////////////// OTHER
 
 PROJECT::PROJECT() {
-    duration_correction_factor = 1;
+}
+
+double NORMAL_DIST::sample() {
+    return 1;
 }
 
 int NORMAL_DIST::parse(XML_PARSER& xp, char* end_tag) {
@@ -295,7 +401,9 @@ int SIM_APP::parse(XML_PARSER& xp) {
         if (!is_tag) return ERR_XML_PARSE;
         if (!strcmp(tag, "/app")) {
             return 0;
-        } else if (xp.parse_double(tag, "latency_bound", latency_bound)) continue;
+        }
+        else if (xp.parse_double(tag, "latency_bound", latency_bound)) continue;
+        else if (xp.parse_double(tag, "fpops_est", fpops_est)) continue;
         else if (!strcmp(tag, "fpops")) {
             retval = fpops.parse(xp, "/fpops");
             if (retval) return retval;
@@ -370,6 +478,7 @@ int CLIENT_STATE::parse_projects(char* name) {
         if (!is_tag) return ERR_XML_PARSE;
         if (!strcmp(tag, "project")) {
             SIM_PROJECT *p = new SIM_PROJECT;
+            p->init();
             retval = p->parse(xp);
             if (retval) return retval;
             projects.push_back(p);
@@ -418,11 +527,11 @@ int main(int argc, char** argv) {
     char projects[256], host[256], prefs[256];
     double duration = 100;
     bool flag;
-    int retval; 
+    int retval;
 
-    strcpy(projects, "projects.xml");
-    strcpy(host, "host.xml");
-    strcpy(prefs, "prefs.xml");
+    strcpy(projects, "sim_projects.xml");
+    strcpy(host, "sim_host.xml");
+    strcpy(prefs, "sim_prefs.xml");
 
     read_config_file();
 

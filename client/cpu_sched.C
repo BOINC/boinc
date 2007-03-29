@@ -1229,7 +1229,7 @@ void CLIENT_STATE::rr_simulation() {
             }
         }
         msg_printf(NULL, MSG_INFO,
-            "rr_simulation: end; total shortfall %f\n",
+            "[rr_sim] done; total shortfall %f\n",
             cpu_shortfall
         );
     }

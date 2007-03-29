@@ -33,7 +33,6 @@
 #include "common_defs.h"
 #include "file_names.h"
 #include "client_msgs.h"
-#include "file_xfer.h"
 #include "parse.h"
 #include "filesys.h"
 

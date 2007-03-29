@@ -30,6 +30,10 @@
 #include <stdio.h>
 #endif
 
+#define MAX_FILE_XFERS_PER_PROJECT      2
+#define MAX_FILE_XFERS                  8
+    // kind of arbitrary
+
 class XML_PARSER;
 
 struct LOG_FLAGS {
