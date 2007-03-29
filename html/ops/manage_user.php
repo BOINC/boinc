@@ -3,8 +3,10 @@
  * Manage user settings
  *  
  * Displays user settings, allows one to control special user status
- * and forum suspension (banishment).   Put this in html/ops
+ * and forum suspension (banishment).   Put this in html/ops,
+ * (or could be used by moderators for bans < 24 hrs).
  *
+ * @(#) $Id$
 \***********************************************************************/
 
 require_once("../inc/util.inc");
@@ -14,49 +16,70 @@ require_once("../inc/util_ops.inc");
 require_once("../inc/profile.inc");
 require_once("../project/project.inc");
 
-// Stuff for user roles and wiki interface.
-// (Should work even if you comment these out)
-/**
-require_once("../include/roles.php");
-require_once("../include/mediawiki.php");
-**/
-
-
 db_init();
 
-$logged_in_user = get_logged_in_user(true);
-$logged_in_user= getForumPreferences($logged_in_user);
+$is_admin = true;
+$Nbf = sizeof($special_user_bitfield);
 
-if( function_exists('is_Administrator') ){ // only (now) on Pirates@Home
-    if( !is_Administrator($logged_in_user) ){ 
-        error_page("You must be a project administrator to use this page.");
-    }    
- }
+/**
+ * Process user search form
+ */
+
+$matches="";
+
+if( isset($_POST['search_submit']) ){
+    $search_name = post_str('search_text');
+    $search_name = process_user_text(strip_tags($search_name));
+
+    if( !empty($search_name) ){ 
+        $result = mysql_query("SELECT * FROM user WHERE name='$search_name'");
+
+        if( mysql_num_rows($result)==1 ) {
+            $user = mysql_fetch_object($result);
+            mysql_free_result($result);
+        }
+        else {
+            $q = "SELECT * FROM user WHERE name LIKE '%".$search_name."%'";
+            $result = mysql_query($q);
+            if( mysql_num_rows($result)==1 ) {
+                $user = mysql_fetch_object($result);
+                mysql_free_result($result);
+            }
+            if( mysql_num_rows($result)>1 ) { 
+                while( $row = mysql_fetch_object($result) ){ 
+                    if( !empty($matches) ) $matches .= ",  ";
+                    $matches .= $row->name;
+                }
+                mysql_free_result($result);
+            }
+        }
+    }
+}
+
+
+/**
+ * Look up the user 
+ */
 
 $id = get_int("userid", true);
-if(!isset($id) ) $id = post_int("userid", true);
-
-if( !$id || !is_numeric($id) || $id <= 0 ) {
-    error_page("Must specify a userid");
+if( empty($id) ) $id = post_int("userid", true);
+if( !empty($id) ){ 
+    $user = lookup_user_id($id);
 }
 
+// but clear if page was reset (forcing search form) 
 
-// Look up the user
-
-$user=lookup_user_id($id);
-if( !$user ) {
-    error_page("Cannot find user $id");
+if( isset($_POST['reset_page']) ){
+    unset($user);
 }
 
-$self = $_SERVER['PHP_SELF'];
-$Nbf = sizeof($special_user_bitfield);
 
 
 /**
  * Process special user settings
  */
 
-if( isset($_POST['special_user']) ){
+if( isset($_POST['special_user']) && $user && $is_admin ){
     $bits="";
     for($i=0;$i<$Nbf;$i++) {
         $bits .= $_POST['special_user_'.$i] ? "1" : "0" ;
@@ -70,14 +93,16 @@ if( isset($_POST['special_user']) ){
  * Process a suspension:
  */
 
-if( isset($_POST['suspend_submit']) ){
+if( isset($_POST['suspend_submit']) && !empty($user) && $is_admin ){
     $dt = post_int('suspend_for',true);
-    if( user_has_permission('moderator') ){
+
+    if( $is_admin || ($is_mod && $dt < 86400) ){
         $reason = $_POST['suspend_reason'];
         if( $dt > 0 && empty($reason)  ) {
             error_page("You must supply a reason for a suspension.
                 <p><a href='$self?userid=$user->id'>Try again</a>");
-        } else {
+        }
+        else {
             if( is_numeric($dt) ) {
                 $t = time()+$dt;
                 $q = "UPDATE forum_preferences SET banished_until=$t WHERE userid=$id";
@@ -91,7 +116,7 @@ if( isset($_POST['suspend_submit']) ){
 
                 /* Send suspension e-mail to user and administrators */
 
-                if($dt>0){
+                if( $dt>0 ){
                     $subject = PROJECT." posting privileges suspended for ". $user->name;
                     $body = "
 Forum posting privileges for the " .PROJECT. " user \"".$user->name."\"
@@ -117,18 +142,18 @@ have been restored by ".$logged_in_user->name."\n";
                     $admin->email_addr = $email;
                     send_email($admin, $subject, $body);
                 }
-
-            }//
+            }//numerical($dt)
         }
     }
 }// suspend_submit
 
 
 
-// Now update from whatever was set
+// Now update from whatever might have been set above
 
-$user=getForumPreferences($user);
-
+if( !empty($user) ) {
+    $user=getForumPreferences($user);
+}
 
 /********************************
  * Output:
@@ -138,24 +163,49 @@ admin_page_head("User Management: $user->name");
 echo "\n<link rel='stylesheet' type=text/css href='". URL_BASE. "new_forum.css'>\n";
 echo "\n<link rel='stylesheet' type=text/css href='" .URL_BASE. "arrgh.css'>\n";
 
+echo "<h2>User Managment</h2>\n";
+
 if (!defined("POST_REPORT_EMAILS")) {
-  echo "<p><font color='RED'>
+    echo "<p><font color='RED'>
    There is no addministrative e-mail address defined for reporting problems
 or abuse in the forums.  Please define POST_REPORT_EMAILS in project.inc
         </font></p>\n";
- }
+}
 
 echo "<form name='manage_user' action='$self' method='POST'>
-        <input type='hidden' name='userid' value='$id'>  \n";
+        <input type='hidden' name='userid' value='". $user->id."'>  \n";
 
 start_table();
-row1("<b>User: </b> ".$user->name
+
+if( empty($user->id) ) {
+    if( !empty($search_name) ){
+        echo "No match found. ";
+        if( !empty($matches) ) {
+            echo " Partial matches are:
+                   <blockquote> $matches </blockquote>\n";
+        }
+    }
+    echo " Enter user name:
+        <blockquote>
+         <input type='text' name='search_text' >
+         <input type='submit' name='search_submit' value='Search'>
+        </form>\n";
+    admin_page_tail();
+    exit();
+}
+
+
+row1("<b>User: </b> ".$user->name. "<br/>
+      Id# ". $user->id 
      . "<div align='right'>
+        <input name='reset_page'  type='submit' value='Reset'>
         <input name='manage_user' type='submit' value='Update'></div>");
 show_user_summary_public($user);
 show_profile_link($user);
+if( $is_admin ) {
+    row2("E-mail:", "$user->email_addr");
+}
 project_user_summary($user);
-//row2("E-mail:", $user->email_addr);
 end_table();
 project_user_page_private($user);
 
@@ -171,7 +221,7 @@ echo "\n\n<P>
    <td width='50%' valign='TOP'> \n";
 
 echo "<form name='special_user' action='$self' method=\"POST\">
-        <input type='hidden' name='userid' value='$id'>  \n";
+        <input type='hidden' name='userid' value='".$user->id."'>  \n";
 
 start_table();
 row1("Special User Status: $user->name", $Nbf );
@@ -187,24 +237,23 @@ for($i=0;$i<$Nbf;$i++) {
 }
 echo "</tr>";
 
-echo "</tr><td colspan=$Nbf align='RIGHT'>
+if( $is_admin ) {
+    echo "</tr><td colspan=$Nbf align='RIGHT'>
         <input name='special_user' type='SUBMIT' value='Apply'>
         </td></tr>\n";
+}
 end_table();
 echo "</form>\n";
 
 echo "\n\n</td><td valign='TOP'>\n\n";
 
 
-
 /**********************
  * Suspended posting privileges
  */
 
-//function suspend_user_form($user) {
-
 echo "<form name='banishment' action='$self' method=\"POST\">
-        <input type='hidden' name='userid' value='$user->id'>  \n";
+        <input type='hidden' name='userid' value='".$user->id."'>  \n";
 start_table();
 row1("Suspension: $user->name");
 
@@ -218,24 +267,24 @@ if( $user->banished_until ) {
         $x = " last suspended " . time_str($user->banished_until);
     }
     row1($x);
-}
+ }
 
 echo "<tr><td>
 Suspend user for:
  <blockquote>
         <input type='radio' name='suspend_for' value='3600'> 1 hour   <br/>
         <input type='radio' name='suspend_for' value='7200'> 2 hours  <br/>
-        <input type='radio' name='suspend_for' value='18000'> 5 hours  <br/>
-        <input type='radio' name='suspend_for' value='36000'> 10 hours  <br/>
+        <input type='radio' name='suspend_for' value='18000'> 6 hours  <br/>
+        <input type='radio' name='suspend_for' value='36000'> 12 hours  <br/>
         <input type='radio' name='suspend_for' value='86400'> 24 hours  <br/>
-        <input type='radio' name='suspend_for' value='172800'> 48 hours  <br/>";
-
-if( is_Administrator($logged_in_user) ){ // in case we are only a moderator
+";
+if( $is_admin ){ // in case we are only a moderator
     echo "
+        <input type='radio' name='suspend_for' value='172800'> 48 hours  <br/>
         <input type='radio' name='suspend_for' value='",86400*7,"'> 1 week  <br/>
         <input type='radio' name='suspend_for' value='",86400*14,"'> 2 weeks  <br/>
 ";
-}
+ }
 
 
 if($dt>0) {
@@ -265,9 +314,7 @@ echo "</td></tr>
 
 if($q) {
     echo "<P><font color='grey'>Query: $q </font>";
-}
-
-
+ }
 
 admin_page_tail();
 
