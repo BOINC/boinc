@@ -29,7 +29,6 @@ This file has the following format:
         [ <ncpus>N</ncpus> ]
         [ <max_file_xfers>N</max_file_xfers> ]
         [ <max_file_xfers_per_project>N</max_file_xfers_per_project> ]
-        [ <work_request_factor>X</work_request_factor> ]
         [ <suppress_net_info>0|1</suppress_net_info> ]
         [ <disallow_attach>0|1</disallow_attach> ]
         [ <os_random_only>0|1</os_random_only> ]
@@ -178,14 +177,6 @@ list_item_func("<max_file_xfers>",
 );
 list_item_func("<max_file_xfers_per_project>",
     "Maximum number of simultaneous file transfers per project (default 2)."
-);
-list_item_func("<work_request_factor>",
-    "The amount of work requested from projects will by multiplied
-    by this number.
-    Use a number larger than one if your computer often
-    runs out of work.
-    Implemented on version 5.10+.
-    "
 );
 list_item_func("suppress_net_info",
     "If nonzero, don't send this host's IP address and domain name to servers.

@@ -2903,3 +2903,9 @@ David  28 Mar 2007
         browser_firefox.C (removed)
         browser_ie.C (removed)
         prefs.c,h
+
+David  28 Mar 2007
+    - user web: support for work_buf_additional_days pref
+
+    html/inc/
+        prefs.inc

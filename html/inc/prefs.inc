@@ -68,9 +68,14 @@ define("HANGUP_IF_DIALED_DESC",
     "Disconnect when done?
     <br><span class=note>(matters only if you have a modem, ISDN or VPN connection)</span>"
 );
-define("WORK_BUF_DESC",
+define("WORK_BUF_MIN_DAYS_DESC",
     "Connect to network about every
-    <br><span class=note>(determines size of work cache; maximum 10 days)</span>
+    <br><span class=note>(maximum 10 days)</span>
+    "
+);
+define("WORK_BUF_ADDITIONAL_DAYS_DESC",
+    "Cache enough work for an additional
+    <br><span class=note>(maximum 10 days; requires 5.10+ client)</span>
     "
 );
 define("MAX_CPUS_DESC", "On multiprocessors, use at most");
@@ -312,6 +317,9 @@ function element_end_global($parser, $name) {
     case "work_buf_min_days":
         $parse_result->work_buf_min_days = $text;
         break;
+    case "work_buf_additional_days":
+        $parse_result->work_buf_additional_days = $text;
+        break;
     case "max_cpus":
         $parse_result->max_cpus = $text;
         break;
@@ -385,6 +393,7 @@ function default_prefs_global() {
     $p->confirm_before_connecting = false;
     $p->hangup_if_dialed = true;
     $p->work_buf_min_days = .1;
+    $p->work_buf_additional_days = 1;
     $p->max_cpus = 16;
     $p->cpu_usage_limit = 100;
     $p->disk_interval = 60;
@@ -624,7 +633,8 @@ function prefs_show_columns_global($prefs) {
     row_defs(USE_AT_MOST3, "ram_max_used_idle_pct", RAM_MAX_USED_IDLE_PCT_DESC2, "", $prefs);
 
     row_top(NETWORK_LIMIT_DESC);
-    row_defs(WORK_BUF_DESC, "work_buf_min_days", " days", "", $prefs);
+    row_defs(WORK_BUF_MIN_DAYS_DESC, "work_buf_min_days", " days", "", $prefs);
+    row_defs(WORK_BUF_ADDITIONAL_DAYS_DESC, "work_buf_additional_days", " days", "", $prefs);
     row_defs(CONFIRM_BEFORE_CONNECTING_DESC, "confirm_before_connecting", "", "yesno", $prefs);
     row_defs(HANGUP_IF_DIALED_DESC, "hangup_if_dialed", "", "yesno", $prefs);
     row_defs(MAX_BYTES_SEC_DOWN_DESC, "max_bytes_sec_down", "", "limit", $prefs);
@@ -670,7 +680,8 @@ function prefs_show_global($prefs) {
     row2(USE_AT_MOST3, "$prefs->ram_max_used_busy_pct".RAM_MAX_USED_BUSY_PCT_DESC2);
     row2(USE_AT_MOST3, "$prefs->ram_max_used_idle_pct".RAM_MAX_USED_IDLE_PCT_DESC2);
     row1(NETWORK_LIMIT_DESC);
-    row2(WORK_BUF_DESC, "$prefs->work_buf_min_days days");
+    row2(WORK_BUF_MIN_DAYS_DESC, "$prefs->work_buf_min_days days");
+    row2(WORK_BUF_ADDITIONAL_DAYS_DESC, "$prefs->work_buf_additional_days days");
     row2(CONFIRM_BEFORE_CONNECTING_DESC, $prefs->confirm_before_connecting?"yes":"no");
     row2(HANGUP_IF_DIALED_DESC, $prefs->hangup_if_dialed?"yes":"no");
     $x = max_bytes_display_mode($prefs->max_bytes_sec_down);
@@ -1020,10 +1031,16 @@ function prefs_form_global($user, $prefs, $error=false) {
     );
 
     row1(NETWORK_LIMIT_DESC);
-    $x = WORK_BUF_DESC;
+    $x = WORK_BUF_MIN_DAYS_DESC;
     $y = "<input size=5 name=work_buf_min_days value='$prefs->work_buf_min_days'> days";
     $show_error = false;
     if (isset($error->work_buf_min_days)) $show_error= true;
+    row2($x, $y, $show_error);
+
+    $x = WORK_BUF_ADDITIONAL_DAYS_DESC;
+    $y = "<input size=5 name=work_buf_additional_days value='$prefs->work_buf_additional_days'> days";
+    $show_error = false;
+    if (isset($error->work_buf_additional_days)) $show_error= true;
     row2($x, $y, $show_error);
 
     $x = CONFIRM_BEFORE_CONNECTING_DESC;
@@ -1181,6 +1198,7 @@ function prefs_global_parse_form(&$prefs) {
     $ram_max_used_busy_pct = $_GET["ram_max_used_busy_pct"];
     $ram_max_used_idle_pct = $_GET["ram_max_used_idle_pct"];
     $work_buf_min_days = $_GET["work_buf_min_days"];
+    $work_buf_additional_days = $_GET["work_buf_additional_days"];
     $confirm_before_connecting = $_GET["confirm_before_connecting"];
     $hangup_if_dialed = $_GET["hangup_if_dialed"];
     $max_bytes_sec_down = $_GET["max_bytes_sec_down"];
@@ -1203,6 +1221,7 @@ function prefs_global_parse_form(&$prefs) {
     if (!verify_numeric($ram_max_used_busy_pct, 0, 100)) $error->ram_max_used_busy_pct = true;
     if (!verify_numeric($ram_max_used_idle_pct, 0, 100)) $error->ram_max_used_idle_pct = true;
     if (!verify_numeric($work_buf_min_days, 0, 10)) $error->work_buf_min_days = true;
+    if (!verify_numeric($work_buf_additional_days, 0, 10)) $error->work_buf_additional_days = true;
     if (!verify_numeric($max_bytes_sec_down, '')) $error->max_bytes_sec_down = true;
     if (!verify_numeric($max_bytes_sec_up, '')) $error->max_bytes_sec_up = true;
     if (!verify_numeric($net_start_hour, 0)) $error->net_start_hour = true;
@@ -1225,6 +1244,7 @@ function prefs_global_parse_form(&$prefs) {
     $prefs->ram_max_used_busy_pct = $ram_max_used_busy_pct;
     $prefs->ram_max_used_idle_pct = $ram_max_used_idle_pct;
     $prefs->work_buf_min_days = $work_buf_min_days;
+    $prefs->work_buf_additional_days = $work_buf_additional_days;
     $prefs->confirm_before_connecting = ($confirm_before_connecting == "yes");
     $prefs->hangup_if_dialed = ($hangup_if_dialed == "yes");
     $prefs->max_bytes_sec_down = max_bytes_db_mode($max_bytes_sec_down);
@@ -1311,6 +1331,7 @@ function global_prefs_make_xml($prefs, $primary=true) {
     }
     $xml = $xml
         ."<work_buf_min_days>$prefs->work_buf_min_days</work_buf_min_days>\n"
+        ."<work_buf_additional_days>$prefs->work_buf_additional_days</work_buf_additional_days>\n"
         ."<max_cpus>$prefs->max_cpus</max_cpus>\n"
         ."<cpu_usage_limit>$prefs->cpu_usage_limit</cpu_usage_limit>\n"
         ."<disk_interval>$prefs->disk_interval</disk_interval>\n";
