@@ -29,6 +29,7 @@ The request message has the form:
 <data_server_request>
     <core_client_major_version>1</core_client_major_version>
     <core_client_minor_version>1</core_client_minor_version>
+    <core_client_release>1</core_client_release>
     <get_file_size>filename</get_file_size>
 </data_server_request>
 "), "</pre>
@@ -61,6 +62,7 @@ Request message format:
 <data_server_request>
 <core_client_major_version>1</core_client_major_version>
 <core_client_minor_version>1</core_client_minor_version>
+    <core_client_release>1</core_client_release>
 <file_upload>
 <file_info>
    ...
@@ -69,6 +71,7 @@ Request message format:
 </xml_signature>
 </file_info>
 <nbytes>x</nbytes>
+<md5_cksum>x</md5_cksum>
 <offset>x</offset>
 <data>
 ... (nbytes bytes of data; may include non-ASCII data)
@@ -80,6 +83,7 @@ scheduling server to the client.
 It includes a signature based on the project's file upload
 authentication key pair.
 &lt;nbytes> is the size of the file.
+&lt;md5_cksum> is MD5 of the entire file.
 &lt;offset> is the offset within the file.
 <p>
 Reply message format:

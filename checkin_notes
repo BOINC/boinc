@@ -2940,3 +2940,13 @@ David  29 Mar 2007
 
     api/
         boinc_api.C
+
+David  29 Mar 2007
+    - core client: include MD5 in file upload handler requests,
+        so that the server can (if it wants) verify the MD5.
+        NOTE: I don't think this should be necessary.
+
+        Also include core client release # in all requests
+
+    client/
+        file_xfer.C
