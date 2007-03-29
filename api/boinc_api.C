@@ -734,7 +734,9 @@ static void worker_timer(int /*a*/) {
         }
     }
 
-    if (options.send_status_msgs) {
+    // don't bother reporting CPU time etc. if we're suspended
+    //
+    if (options.send_status_msgs && !boinc_status.suspended) {
         time_until_fraction_done_update -= TIMER_PERIOD;
         if (time_until_fraction_done_update <= 0) {
             double cur_cpu;

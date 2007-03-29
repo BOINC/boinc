@@ -411,6 +411,17 @@ array('http://setihometoolbar.ourtoolbar.com/',
     '',
     1162833635
 ),
+array('http://widgets.yahoo.com/gallery/view.php?widget=41595',
+    'BOINC Statistics',
+    '',
+    'Shows your statistics for any BOINC project
+    (requires the <a href=http://widgets.yahoo.com/>Yahoo! widget engine</a>)',
+    'http://widgets.yahoo.com/gallery/view.php?widget=41595',
+    'Yahoo! Widget Engine',
+    'Shows your statistics for any BOINC project.  Based on the SetiStats Dashboard widget from UnitedMacs.
+    (requires the <a href=http://widgets.yahoo.com/>Yahoo! widget engine</a>)',
+    1175144122
+),
 array('sahuserstats.xpi',
     'SAH User Statistics',
     '',
@@ -492,6 +503,8 @@ array('phpboinc10.zip',
     'This is a PHP script that will interpret your client statistics and display it on a webpage. By default it points to client_state.xml, but can be changed to point to any location. It includes an example output at the bottom of the script.',
     1110197681
 ),
+
+
 );
 
 ?>

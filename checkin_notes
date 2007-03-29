@@ -2933,3 +2933,10 @@ David  29 Mar 2007
 		DlgAdvPreferences.fbp
 		DlgAdvPreferencesBase.cpp,h
 		ViewTransfersGrid.cpp
+
+David  29 Mar 2007
+    - API: don't report CPU time and fraction done while suspended
+        (not needed, and wastes CPU time)
+
+    api/
+        boinc_api.C
