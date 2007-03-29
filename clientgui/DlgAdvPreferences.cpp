@@ -97,6 +97,7 @@ void CDlgAdvPreferences::SetValidators() {
 	m_txtNetConnectInterval->SetValidator(wxTextValidator(wxFILTER_NUMERIC));
 	m_txtNetDownloadRate->SetValidator(wxTextValidator(wxFILTER_NUMERIC));
 	m_txtNetUploadRate->SetValidator(wxTextValidator(wxFILTER_NUMERIC));
+	m_txtNetAdditionalDays->SetValidator(wxTextValidator(wxFILTER_NUMERIC));
 	//disk and memory page
 	m_txtDiskMaxSpace->SetValidator(wxTextValidator(wxFILTER_NUMERIC));
 	m_txtDiskLeastFree->SetValidator(wxTextValidator(wxFILTER_NUMERIC));
@@ -105,6 +106,7 @@ void CDlgAdvPreferences::SetValidators() {
 	m_txtDiskMaxSwap->SetValidator(wxTextValidator(wxFILTER_NUMERIC));
 	m_txtMemoryMaxInUse->SetValidator(wxTextValidator(wxFILTER_NUMERIC));
 	m_txtMemoryMaxOnIdle->SetValidator(wxTextValidator(wxFILTER_NUMERIC));
+	
 }
 
 /* some controls share the same tooltip, set them here */
@@ -271,6 +273,9 @@ void CDlgAdvPreferences::ReadPreferenceSettings() {
 	// upload rate
 	buffer.Printf(wxT("%.2f"),prefs.max_bytes_sec_up / 1024);
 	*m_txtNetUploadRate << buffer;
+	//
+	buffer.Printf(wxT("%.2f"),prefs.work_buf_additional_days / 86400);
+	*m_txtNetAdditionalDays << buffer;
 	// skip image verification
 	m_chkNetSkipImageVerification->SetValue(prefs.dont_verify_images);
 	// confirm before connect
@@ -392,6 +397,11 @@ bool CDlgAdvPreferences::SavePreferencesSettings() {
 	//
 	prefs.hangup_if_dialed= m_chkNetDisconnectWhenDone->GetValue();
 	mask.hangup_if_dialed=true;
+	//
+	m_txtNetAdditionalDays->GetValue().ToDouble(&td);
+	td = td * 86400.0;
+	prefs.work_buf_additional_days = td;
+	mask.work_buf_additional_days = true;
 	//
 	if(m_txtNetEveryDayStart->IsEnabled()) {
 		prefs.time_prefs.net_start_hour=TimeStringToDouble(m_txtNetEveryDayStart->GetValue());
@@ -556,6 +566,13 @@ bool CDlgAdvPreferences::ValidateInput() {
 			ShowErrorMessage(m_txtNetEveryDayStop);
 			return false;
 		}
+	}
+	//limit additional days from 0 to 10
+	double td;
+	m_txtNetAdditionalDays->GetValue().ToDouble(&td);
+	if(td>10.0 || td < 0.0) {
+		ShowErrorMessage(m_txtNetAdditionalDays);
+		return false;
 	}
 	//all text ctrls in net special time panel
 	if(m_panelNetSpecialTimes->IsEnabled()) {

@@ -62,31 +62,32 @@
 #define ID_TXTDISKWRITETODISK 20031
 #define ID_TXTMEMORYMAXINUSE 20032
 #define ID_TXTMEMORYMAXONIDLE 20033
-#define ID_TXTNETCONNECTINTERVAL 20034
-#define ID_TXTNETDOWNLOADRATE 20035
-#define ID_TXTNETEVERYDAYSTART 20036
-#define ID_TXTNETEVERYDAYSTOP 20037
-#define ID_TXTNETFRIDAY 20038
-#define ID_TXTNETMONDAY 20039
-#define ID_TXTNETSATURDAY 20040
-#define ID_TXTNETSUNDAY 20041
-#define ID_TXTNETTHURSDAY 20042
-#define ID_TXTNETTUESDAY 20043
-#define ID_TXTNETUPLOADRATE 20044
-#define ID_TXTNETWEDNESDAY 20045
-#define ID_TXTPOCUSECPUTIME 20046
-#define ID_TXTPROCEVERYDAYSTART 20047
-#define ID_TXTPROCEVERYDAYSTOP 20048
-#define ID_TXTPROCFRIDAY 20049
-#define ID_TXTPROCIDLEFOR 20050
-#define ID_TXTPROCMONDAY 20051
-#define ID_TXTPROCSATURDAY 20052
-#define ID_TXTPROCSUNDAY 20053
-#define ID_TXTPROCSWITCHEVERY 20054
-#define ID_TXTPROCTHURSDAY 20055
-#define ID_TXTPROCTUESDAY 20056
-#define ID_TXTPROCUSEPROCESSORS 20057
-#define ID_TXTPROCWEDNESDAY 20058
+#define ID_TXTNETADDITIONALDAYS 20034
+#define ID_TXTNETCONNECTINTERVAL 20035
+#define ID_TXTNETDOWNLOADRATE 20036
+#define ID_TXTNETEVERYDAYSTART 20037
+#define ID_TXTNETEVERYDAYSTOP 20038
+#define ID_TXTNETFRIDAY 20039
+#define ID_TXTNETMONDAY 20040
+#define ID_TXTNETSATURDAY 20041
+#define ID_TXTNETSUNDAY 20042
+#define ID_TXTNETTHURSDAY 20043
+#define ID_TXTNETTUESDAY 20044
+#define ID_TXTNETUPLOADRATE 20045
+#define ID_TXTNETWEDNESDAY 20046
+#define ID_TXTPOCUSECPUTIME 20047
+#define ID_TXTPROCEVERYDAYSTART 20048
+#define ID_TXTPROCEVERYDAYSTOP 20049
+#define ID_TXTPROCFRIDAY 20050
+#define ID_TXTPROCIDLEFOR 20051
+#define ID_TXTPROCMONDAY 20052
+#define ID_TXTPROCSATURDAY 20053
+#define ID_TXTPROCSUNDAY 20054
+#define ID_TXTPROCSWITCHEVERY 20055
+#define ID_TXTPROCTHURSDAY 20056
+#define ID_TXTPROCTUESDAY 20057
+#define ID_TXTPROCUSEPROCESSORS 20058
+#define ID_TXTPROCWEDNESDAY 20059
 
 /**
  * Class CDlgAdvPreferencesBase
@@ -138,15 +139,18 @@ class CDlgAdvPreferencesBase : public wxDialog
 		wxTextCtrl* m_txtProcUseCPUTime;
 		wxStaticText* m_staticText23;
 		wxPanel* m_panelNetwork;
-		wxStaticText* m_staticText30;
-		wxTextCtrl* m_txtNetConnectInterval;
-		wxStaticText* m_staticText31;
 		wxStaticText* m_staticText32;
 		wxTextCtrl* m_txtNetDownloadRate;
 		wxStaticText* m_staticText33;
 		wxStaticText* m_staticText34;
 		wxTextCtrl* m_txtNetUploadRate;
 		wxStaticText* m_staticText35;
+		wxStaticText* m_staticText30;
+		wxTextCtrl* m_txtNetConnectInterval;
+		wxStaticText* m_staticText31;
+		wxStaticText* m_staticText331;
+		wxTextCtrl* m_txtNetAdditionalDays;
+		wxStaticText* m_staticText341;
 		wxCheckBox* m_chkNetSkipImageVerification;
 		wxCheckBox* m_chkNetConfirmBeforeConnect;
 		wxCheckBox* m_chkNetDisconnectWhenDone;

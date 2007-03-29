@@ -174,9 +174,14 @@ void CViewTransfersGrid::OnTransfersRetryNow( wxCommandEvent& WXUNUSED(event) ) 
     wxASSERT(m_pGridPane);
 
     pFrame->UpdateStatusText(_("Retrying transfer now..."));
-    //pDoc->TransferRetryNow(m_pGridPane->GetFirstSelectedRow());
-	wxString searchName = m_pGridPane->GetCellValue(m_pGridPane->GetFirstSelectedRow(),COLUMN_FILE).Trim(false);
-	pDoc->TransferRetryNow(searchName);
+    
+	wxArrayInt aRows = m_pGridPane->GetSelectedRows2();
+	for(unsigned int i=0; i< aRows.Count();i++) {
+		int row = aRows.Item(i);
+		wxString searchName = m_pGridPane->GetCellValue(row,COLUMN_FILE).Trim(false);
+		pDoc->TransferRetryNow(searchName);		
+	}
+
     pFrame->UpdateStatusText(wxT(""));
 
     UpdateSelection();
@@ -206,27 +211,20 @@ void CViewTransfersGrid::OnTransfersAbort( wxCommandEvent& WXUNUSED(event) ) {
     if (!pDoc->IsUserAuthorized())
         return;
 
-    pFrame->UpdateStatusText(_("Aborting transfer..."));
-
-	wxString searchName = m_pGridPane->GetCellValue(m_pGridPane->GetFirstSelectedRow(),COLUMN_FILE).Trim(false);
-    strMessage.Printf(
-        _("Are you sure you want to abort this file transfer '%s'?\n"
+    pFrame->UpdateStatusText(_("Aborting transfer(s)..."));
+	strMessage.Printf(
+        _("Are you sure you want to abort this file(s) transfer ?\n"
           "NOTE: Aborting a transfer will invalidate a task and you\n"
-          "will not receive credit for it."), 
-        wxString(searchName, wxConvUTF8).c_str()
-    );
-
-    iAnswer = ::wxMessageBox(
-        strMessage,
-        _("Abort File Transfer"),
-        wxYES_NO | wxICON_QUESTION,
-        this
-    );
-
-    if (wxYES == iAnswer) {
-        pDoc->TransferAbort(searchName);
-    }
-
+          "will not receive credit for it."));
+    iAnswer = ::wxMessageBox(strMessage,_("Abort File Transfer(s)"),wxYES_NO | wxICON_QUESTION,this);
+	if (wxYES == iAnswer) {
+		wxArrayInt aRows = m_pGridPane->GetSelectedRows2();
+		for(unsigned int i=0; i< aRows.Count();i++) {
+			int row = aRows.Item(i);
+			wxString searchName = m_pGridPane->GetCellValue(row,COLUMN_FILE).Trim(false);
+			pDoc->TransferAbort(searchName);
+		}		
+	}
     pFrame->UpdateStatusText(wxT(""));
 
     UpdateSelection();
@@ -245,7 +243,7 @@ void CViewTransfersGrid::UpdateSelection() {
 
     CBOINCBaseView::PreUpdateSelection();
 
-	if (m_pGridPane->GetSelectedRows2().size()==1) {
+	if (m_pGridPane->GetSelectedRows2().size()>0) {
         m_pTaskPane->EnableTaskGroupTasks(pGroup);
     } else {
         m_pTaskPane->DisableTaskGroupTasks(pGroup);

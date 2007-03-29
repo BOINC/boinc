@@ -2922,3 +2922,14 @@ David  29 Mar 2007
 	win_build/
 		boincmgr_curl.vcproj
 		sim.vcproj
+
+David  29 Mar 2007
+	- Manager: add work_buf_additional_days to adv prefs dialog;
+		add multi-selection to transfer tab
+		(from Frank Weiler)
+
+	clientgui/
+		DlgAdvPreferences.cpp
+		DlgAdvPreferences.fbp
+		DlgAdvPreferencesBase.cpp,h
+		ViewTransfersGrid.cpp
