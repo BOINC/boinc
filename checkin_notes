@@ -2958,3 +2958,10 @@ Rom    29 Mar 2007
         
     clientgui/
         ViewProjectsGrid.cpp
+
+David  29 Mar 2007
+    - Manager: text tweaks
+
+    clientgui/
+        AdvancedFrame.cpp
+        DlgAbout.cpp

@@ -436,8 +436,8 @@ bool CAdvancedFrame::CreateMenu() {
     );
     menuAdvanced->Append(
         ID_SHUTDOWNCORECLIENT, 
-        _("Shutdown connected client..."),
-        _("Shutdown the currently connected core client")
+        _("Shut down connected client..."),
+        _("Shut down the currently connected core client")
     );
     menuAdvanced->Append(
         ID_FILERUNBENCHMARKS, 
@@ -447,8 +447,7 @@ bool CAdvancedFrame::CreateMenu() {
     menuAdvanced->Append(
         ID_COMMANDSRETRYCOMMUNICATIONS, 
         _("Retry &communications"),
-        _("Report completed work, get latest credit, "
-          "get latest preferences, and possibly get more work.")
+        _("Retry all deferred network communication.")
     );
     menuAdvanced->Append(
         ID_READ_CONFIG, 

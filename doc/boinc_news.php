@@ -1,6 +1,10 @@
 <?
 
 $project_news = array(
+array("March 29, 2007",
+    "If you can read Czech, czech out an excellent
+    <a href=http://www.kd-web.info/clanky.php>Flash-based BOINC tutorials</a>."
+),
 array("March 23, 2007",
     "Africa@home (with support from the
     Geneva International Academic Network)

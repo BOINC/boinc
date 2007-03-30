@@ -116,11 +116,22 @@ Show if the servers of various projects are up or down.
 </ul>
 <a name=misc></a>
 <h3>Miscellaneous</h3>
-
-<ul>
-<li> <a href=http://www.myboinc.com/>BOINC Users of the Day</a>
-<li> <a href=http://groups.myspace.com/BOINConMYSPACE>BOINC on MySpace</a>
-<li> <a href=http://www.boincuk.com/repository.php>bunc</a> (excellent newsletter produced by BOINC UK)
+";
+$misc_sites = array(
+    array("http://www.kd-web.info/clanky.php", "Flash-based BOINC tutorial", "(in Czech)"),
+    array("http://www.myboinc.com/", "BOINC Users of the Day"),
+    array("http://groups.myspace.com/BOINConMYSPACE", "BOINC on MySpace"),
+    array("http://www.boincuk.com/repository.php", "bunc", "(excellent newsletter produced by BOINC UK)"),
+);
+echo "<ul>";
+foreach ($misc_sites as $m) {
+    $u = $m[0];
+    $t1 = $m[1];
+    $t2 = $m[2];
+    echo "<li> <a href=$u>$t1</a> $t2
+    ";
+}
+echo "
 </ul>
 <a name=skins></a>
 <h3>Skins for the BOINC Manager</h3>
