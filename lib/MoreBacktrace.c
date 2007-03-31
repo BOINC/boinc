@@ -64,6 +64,9 @@
 	Change History (most recent first):
 
 $Log$
+Revision 1.2  2007/03/31 01:32:35  charlief
+*** empty log message ***
+
 Revision 1.1  2006/02/10 17:27:12  charlief
 *** empty log message ***
 
@@ -707,7 +710,6 @@ static int BacktraceCore(MoreBTContext *context)
 			} else {
 				frameOutPtr = &tmpFrameOut;
 			}
-			context->frameCountOut += 1;
 
 			// Record this entry.
 			
@@ -741,7 +743,8 @@ static int BacktraceCore(MoreBTContext *context)
 			   ) {
 				frameOutPtr->flags |= kMoreBTFrameBadMask;
 				stopNow = true;
-			}
+			} else
+                            context->frameCountOut += 1;
 
 			if ( (err == 0) && ! stopNow) {
 				
@@ -1251,9 +1254,9 @@ static int PowerPCCrossSignalFrame(MoreBTContext *context, MoreBTAddr thisFrame,
 			// idea how to detect such a system at runtime.
 		} else {
 			// Mac OS X 10.3 and later
-			offsetToPC = 0x90;
-			offsetToFP = 0x9c;
-			offsetToLR = 0x188;
+			offsetToPC = 0xf8;                  // 0xd8 + offsetof(struct mcontext, ss.srr0)
+			offsetToFP = 0x104;                 // 0xd8 + offsetof(struct mcontext, ss.r1)
+			offsetToLR = 0x168;                 // 0xd8 + offsetof(struct mcontext, ss.lr)
 		}
 	}
 	
@@ -1446,6 +1449,11 @@ static int IntelGetFrameNextPC(MoreBTContext *context, MoreBTAddr thisFrame, Mor
 	
 	Things to note about the above:
 	
+        ** The following does not appear to be entirely correct; mcontext does 
+        ** always seem to be at a fixed offset of 0x30 from the frame start.  
+        ** Also, siginfo_t.si_addr does not contain the offending PC in cases 
+        ** where an actual bus error or segment violation occurred.  -- CAF 3/30/07
+        
 	o The kernel aligns the stack such that the catcher field of the 
 	  sigframe structure is aligned on a 16 byte boundary.  This means that 
 	  there's a variable amount of pad between sigframe and mcontext.  
@@ -1478,12 +1486,9 @@ static int IntelCrossSignalFrame(MoreBTContext *context, MoreBTAddr thisFrame, M
 	
 	err = ReadAddr(context, thisFrame + 0x14, &sigInfo);
 	
-	// Get the previous PC from si_addr field of siginfo_t.
-	
-	if (err == 0) {
-		err = ReadAddr(context, sigInfo + 0x18, nextPCPtr);
-	}
-	
+	// Get the previous PC from ss.eip field of mcontext.
+        err = ReadAddr(context, thisFrame + 0x64, nextPCPtr);   // 0x30 + offsetof(struct mcontext, ss.eip) = 0x64
+
 	// Get the previous frame by simply reading from the frame pointer. 
 	// Because of the way things work, this ends up being correct.
 	
@@ -1650,33 +1655,19 @@ extern int MoreBacktraceMachThread(
 
 #if TARGET_CPU_PPC
 
-    #if 0                           // Changed for BOINC: this won't compile under GCC3.3 ??
-	#define InitThreadState(threadState)	\
-		do {								\
-			uint32_t tmpPC = 0;				\
-			uint32_t tmpFP = 0;				\
-			asm {							\
-					bl		next ;			\
-			next:	mflr	tmpPC ;			\
-					mr		tmpFP,sp		\
-			}								\
-			((ppc_thread_state_t *) threadState)->srr0 = tmpPC;		\
-			((ppc_thread_state_t *) threadState)->r1   = tmpFP;		\
+        // GCC 3.3 seems to reject the block syntax, so we use the following
+	#define InitThreadState(threadState)                                            \
+		do {                                                                    \
+			uint32_t tmpPC = 0;                                             \
+			uint32_t tmpFP = 0;                                             \
+                        __asm__ volatile("bl    next");                                 \
+                        __asm__ volatile("next: mflr		%0" : "=r" (tmpPC));    \
+                        __asm__ volatile("mr		%0,r1" : "=r" (tmpFP));         \
+                                                                                        \
+			((ppc_thread_state_t *) threadState)->srr0 = tmpPC;             \
+			((ppc_thread_state_t *) threadState)->r1   = tmpFP;             \
 		} while (0)
-    #else
 
-        void InitThreadState(threadState) {
-			uint32_t tmpPC = 0;
-			uint32_t tmpFP = 0;        
-        
-                        __asm__ volatile("mflr		%0" : "=r" (tmpPC));
-                        __asm__ volatile("mr		%0,r1" : "=r" (tmpFP));
-        
-			((ppc_thread_state_t *) threadState)->srr0 = tmpPC;
-			((ppc_thread_state_t *) threadState)->r1   = tmpFP;
-        
-        }
-     #endif
 #elif TARGET_CPU_PPC64
 
 	#define InitThreadState(threadState)	\

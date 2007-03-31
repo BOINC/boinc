@@ -2965,3 +2965,18 @@ David  29 Mar 2007
     clientgui/
         AdvancedFrame.cpp
         DlgAbout.cpp
+
+Charlie 30 Mar 2007
+    - Mac: Major fixes and improvements to backtrace: correctly show 
+        address of instruction which caused SIGSEGV or SIGBUS faults, 
+        remove bogus NULL stack frame at end of trace; improve output 
+        format, etc.
+    - Mac: Add browser.C,h to XCode project.
+    
+    lib/
+        mac_backtrace.C
+        MoreBacktrace.C
+    mac_build/
+        boinc.xcodeproj/
+            project.pbxproj
+
