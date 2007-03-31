@@ -64,6 +64,9 @@
 	Change History (most recent first):
 
 $Log$
+Revision 1.3  2007/03/31 13:55:42  charlief
+*** empty log message ***
+
 Revision 1.2  2007/03/31 01:32:35  charlief
 *** empty log message ***
 
@@ -1487,7 +1490,10 @@ static int IntelCrossSignalFrame(MoreBTContext *context, MoreBTAddr thisFrame, M
 	err = ReadAddr(context, thisFrame + 0x14, &sigInfo);
 	
 	// Get the previous PC from ss.eip field of mcontext.
-        err = ReadAddr(context, thisFrame + 0x64, nextPCPtr);   // 0x30 + offsetof(struct mcontext, ss.eip) = 0x64
+        
+	if (err == 0) {
+            err = ReadAddr(context, thisFrame + 0x64, nextPCPtr);   // 0x30 + offsetof(struct mcontext, ss.eip) = 0x64
+	}
 
 	// Get the previous frame by simply reading from the frame pointer. 
 	// Because of the way things work, this ends up being correct.
