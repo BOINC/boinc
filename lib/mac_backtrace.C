@@ -75,12 +75,14 @@ enum {
 
 #define SKIPFRAME 4 /* Number frames overhead for signal handler and backtrace */
 
-static void PrintNameOfThisApp(void);
+static void GetNameOfThisApp(char *nameBuf, int buflen);
 static void PrintOSVersion(char *minorVersion);
 static int OutputFrames(const MoreBTFrame *frameArray, unsigned long frameCount, unsigned char lookupSymbolNames);
 
 void PrintBacktrace(void) {
     int                         err;
+    char                        nameBuf[1024];
+    const NXArchInfo            *localArch;
     MoreBTFrame                 frames[kFrameCount];
     unsigned long               frameCount;
     unsigned long               validFrames;
@@ -93,7 +95,17 @@ void PrintBacktrace(void) {
     mach_msg_type_number_t	threadCount, thisThread;
 
 
-    PrintNameOfThisApp();
+    GetNameOfThisApp(nameBuf, sizeof(nameBuf));
+    if (nameBuf[0])
+        fprintf(stderr, "\nCrashed executable name: %s\n", nameBuf);
+
+#ifdef BOINC_VERSION_STRING
+    fprintf(stderr, "built using BOINC library version %s\n", BOINC_VERSION_STRING);
+#endif
+
+    localArch = NXGetLocalArchInfo();
+    fprintf(stderr, "Machine type %s\n", localArch->description);
+
     PrintOSVersion(&OSMinorVersion);
 
     time(&t);
@@ -128,6 +140,10 @@ void PrintBacktrace(void) {
             }
         }       // End for (thisThread) loop
     }           // End if (threadList != NULL)
+    
+    if (nameBuf[0])
+        fprintf(stderr, "\nThe host computer's crash logs may have more info at:\n"
+                        "  ~/Library/Logs/CrashReporter/%s.crash.log\n", nameBuf);
 }
 
 
@@ -150,12 +166,11 @@ static char * PersistentFGets(char *buf, size_t buflen, FILE *f) {
 }
 
 
-static void PrintNameOfThisApp() {
+static void GetNameOfThisApp(char *nameBuf, int buflen) {
     FILE *f;
-    char buf[64], nameBuf[1024];
+    char buf[64];
     pid_t myPID = getpid();
     int i;
-    const NXArchInfo *localArch;
     
     nameBuf[0] = 0;    // in case of failure
     
@@ -163,9 +178,9 @@ static void PrintNameOfThisApp() {
     f = popen(buf,  "r");
     if (!f)
         return;
-    PersistentFGets(nameBuf, sizeof(nameBuf), f);  // Skip over line of column headings
+    PersistentFGets(nameBuf, buflen, f);  // Skip over line of column headings
     nameBuf[0] = 0;
-    PersistentFGets(nameBuf, sizeof(nameBuf), f);  // Get the UNIX command which ran us
+    PersistentFGets(nameBuf, buflen, f);  // Get the UNIX command which ran us
     fclose(f);
 
     for (i=strlen(nameBuf)-1; i>=0; --i) {
@@ -174,17 +189,6 @@ static void PrintNameOfThisApp() {
         else
             break;
     }
-    
-    if (nameBuf[0])
-        fprintf(stderr, "\nCrashed executable name: %s\n", nameBuf);
-
-#ifdef BOINC_VERSION_STRING
-    fprintf(stderr, "built using BOINC library version %s\n", BOINC_VERSION_STRING);
-#endif
-
-    localArch = NXGetLocalArchInfo();
-    fprintf(stderr, "Machine type %s\n", localArch->description);
-
 }
 
 
