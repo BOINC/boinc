@@ -495,16 +495,16 @@ int GLOBAL_PREFS::write_subset(MIOFILE& f, GLOBAL_PREFS_MASK& mask) {
         );
     }
     if (mask.start_hour) {
-        f.printf("   <start_hour>%d</start_hour>\n", time_prefs.start_hour);
+        f.printf("   <start_hour>%f</start_hour>\n", time_prefs.start_hour);
     }
     if (mask.end_hour) {
-        f.printf("   <end_hour>%d</end_hour>\n", time_prefs.end_hour);
+        f.printf("   <end_hour>%f</end_hour>\n", time_prefs.end_hour);
     }
     if (mask.net_start_hour) {
-        f.printf("   <net_start_hour>%d</net_start_hour>\n", time_prefs.net_start_hour);
+        f.printf("   <net_start_hour>%f</net_start_hour>\n", time_prefs.net_start_hour);
     }
     if (mask.net_end_hour) {
-        f.printf("   <net_end_hour>%d</net_end_hour>\n", time_prefs.net_end_hour);
+        f.printf("   <net_end_hour>%f</net_end_hour>\n", time_prefs.net_end_hour);
     }
     if (mask.leave_apps_in_memory) {
         f.printf("   <leave_apps_in_memory>%d</leave_apps_in_memory>\n",

@@ -52,6 +52,7 @@ public:
     double working_set;
     double weight;
 
+    SIM_APP::SIM_APP(){}
     int parse(XML_PARSER&);
 };
 

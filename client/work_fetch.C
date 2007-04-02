@@ -368,7 +368,7 @@ bool CLIENT_STATE::compute_work_requests() {
     if (gstate.now - last_time >= 60) {
         gstate.request_work_fetch("timer");
     }
-    if (!must_check_work_fetch) return 0;
+    if (!must_check_work_fetch) return false;
 
     if (log_flags.work_fetch_debug) {
         msg_printf(0, MSG_INFO, "[work_fetch_debug] compute_work_requests(): start");

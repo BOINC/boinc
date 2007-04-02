@@ -199,27 +199,18 @@ void CDlgAdvPreferences::ReadPreferenceSettings() {
 
 	// ######### proc usage page
 	// do work between
-	m_rbtProcEveryDay->SetValue(true);	
-	
 	*m_txtProcEveryDayStart << DoubleToTimeString(prefs.time_prefs.start_hour);	
 	*m_txtProcEveryDayStop << DoubleToTimeString(prefs.time_prefs.end_hour);
 	//special day times
-	if(prefs.week_prefs.present) {		
-		bool isRestricted=false;
-		wxCheckBox* aChks[] = {m_chkProcSunday,m_chkProcMonday,m_chkProcTuesday,m_chkProcWednesday,m_chkProcThursday,m_chkProcFriday,m_chkProcSaturday};
-		wxTextCtrl* aTxts[] = {m_txtProcSunday,m_txtProcMonday,m_txtProcTuesday,m_txtProcWednesday,m_txtProcThursday,m_txtProcFriday,m_txtProcSaturday};
-		for(int i=0; i< 7;i++) {
-			if(prefs.week_prefs.days[i].present && 
-				prefs.week_prefs.days[i].time_prefs.start_hour != prefs.week_prefs.days[i].time_prefs.end_hour) {
-				aChks[prefs.week_prefs.days[i].day_of_week]->SetValue(true);
-				wxString timeStr = DoubleToTimeString(prefs.week_prefs.days[i].time_prefs.start_hour) +
-									wxT("-") + DoubleToTimeString(prefs.week_prefs.days[i].time_prefs.end_hour);
-				aTxts[i]->SetValue(timeStr);
-				isRestricted=true;
-			}
-		}
-		if(isRestricted) {
-			m_rbtProcSpecialTimes->SetValue(true);
+	wxCheckBox* aChks[] = {m_chkProcSunday,m_chkProcMonday,m_chkProcTuesday,m_chkProcWednesday,m_chkProcThursday,m_chkProcFriday,m_chkProcSaturday};
+	wxTextCtrl* aTxts[] = {m_txtProcSunday,m_txtProcMonday,m_txtProcTuesday,m_txtProcWednesday,m_txtProcThursday,m_txtProcFriday,m_txtProcSaturday};
+	for(int i=0; i< 7;i++) {
+		if(prefs.week_prefs.days[i].present && 
+			prefs.week_prefs.days[i].time_prefs.start_hour != prefs.week_prefs.days[i].time_prefs.end_hour) {
+			aChks[prefs.week_prefs.days[i].day_of_week]->SetValue(true);
+			wxString timeStr = DoubleToTimeString(prefs.week_prefs.days[i].time_prefs.start_hour) +
+								wxT("-") + DoubleToTimeString(prefs.week_prefs.days[i].time_prefs.end_hour);
+			aTxts[i]->SetValue(timeStr);
 		}
 	}
 	
@@ -242,26 +233,18 @@ void CDlgAdvPreferences::ReadPreferenceSettings() {
 
 	// ######### net usage page
 	// use network between
-	m_rbtNetEveryDay->SetValue(true);
 	*m_txtNetEveryDayStart << DoubleToTimeString(prefs.time_prefs.net_start_hour);
 	*m_txtNetEveryDayStop << DoubleToTimeString(prefs.time_prefs.net_end_hour);
 	//special day times
-	if(prefs.week_prefs.present) {
-		bool isRestricted = false;
-		wxCheckBox* aChks[] = {m_chkNetSunday,m_chkNetMonday,m_chkNetTuesday,m_chkNetWednesday,m_chkNetThursday,m_chkNetFriday,m_chkNetSaturday};
-		wxTextCtrl* aTxts[] = {m_txtNetSunday,m_txtNetMonday,m_txtNetTuesday,m_txtNetWednesday,m_txtNetThursday,m_txtNetFriday,m_txtNetSaturday};
-		for(int i=0; i< 7;i++) {
-			if(prefs.week_prefs.days[i].present &&
-				prefs.week_prefs.days[i].time_prefs.net_start_hour != prefs.week_prefs.days[i].time_prefs.net_end_hour) {
-				aChks[prefs.week_prefs.days[i].day_of_week]->SetValue(true);
-				wxString timeStr = DoubleToTimeString(prefs.week_prefs.days[i].time_prefs.net_start_hour) +
-									wxT("-") + DoubleToTimeString(prefs.week_prefs.days[i].time_prefs.net_end_hour);
-				aTxts[i]->SetValue(timeStr);
-				isRestricted = true;
-			}
-		}
-		if(isRestricted) {
-			m_rbtNetSpecialTimes->SetValue(true);
+	wxCheckBox* aChks2[] = {m_chkNetSunday,m_chkNetMonday,m_chkNetTuesday,m_chkNetWednesday,m_chkNetThursday,m_chkNetFriday,m_chkNetSaturday};
+	wxTextCtrl* aTxts2[] = {m_txtNetSunday,m_txtNetMonday,m_txtNetTuesday,m_txtNetWednesday,m_txtNetThursday,m_txtNetFriday,m_txtNetSaturday};
+	for(int i=0; i< 7;i++) {
+		if(prefs.week_prefs.days[i].present &&
+			prefs.week_prefs.days[i].time_prefs.net_start_hour != prefs.week_prefs.days[i].time_prefs.net_end_hour) {
+			aChks2[prefs.week_prefs.days[i].day_of_week]->SetValue(true);
+			wxString timeStr = DoubleToTimeString(prefs.week_prefs.days[i].time_prefs.net_start_hour) +
+								wxT("-") + DoubleToTimeString(prefs.week_prefs.days[i].time_prefs.net_end_hour);
+			aTxts2[i]->SetValue(timeStr);
 		}
 	}
 	// connection interval
@@ -337,30 +320,24 @@ bool CDlgAdvPreferences::SavePreferencesSettings() {
 		mask.idle_time_to_run=true;
 	}
 	//
-	if(m_txtProcEveryDayStart->IsEnabled()) {		
-		prefs.time_prefs.start_hour=TimeStringToDouble(m_txtProcEveryDayStart->GetValue());
-		mask.start_hour = true;        
-	}
+	prefs.time_prefs.start_hour=TimeStringToDouble(m_txtProcEveryDayStart->GetValue());
+	mask.start_hour = true;        
 	//
-	if(m_txtProcEveryDayStop->IsEnabled()) {
-		prefs.time_prefs.end_hour=TimeStringToDouble(m_txtProcEveryDayStop->GetValue());
-		mask.end_hour = true;        
-	}
+	prefs.time_prefs.end_hour=TimeStringToDouble(m_txtProcEveryDayStop->GetValue());
+	mask.end_hour = true;        
 	//
-	if(m_rbtProcSpecialTimes->GetValue()) {
-		prefs.week_prefs.present=true;
-		wxCheckBox* aChks[] = {m_chkProcSunday,m_chkProcMonday,m_chkProcTuesday,m_chkProcWednesday,m_chkProcThursday,m_chkProcFriday,m_chkProcSaturday};
-		wxTextCtrl* aTxts[] = {m_txtProcSunday,m_txtProcMonday,m_txtProcTuesday,m_txtProcWednesday,m_txtProcThursday,m_txtProcFriday,m_txtProcSaturday};
-		for(int i=0; i< 7;i++) {
-			if(aChks[i]->GetValue()) {
-				prefs.week_prefs.days[i].day_of_week =i;
-				prefs.week_prefs.days[i].present =true;
-				wxString timeStr = aTxts[i]->GetValue();
-				wxString startStr = timeStr.SubString(0,timeStr.First('-'));
-				wxString endStr = timeStr.SubString(timeStr.First('-')+1,timeStr.Length());
-				prefs.week_prefs.days[i].time_prefs.start_hour = TimeStringToDouble(startStr);
-				prefs.week_prefs.days[i].time_prefs.end_hour = TimeStringToDouble(endStr);
-			}
+	wxCheckBox* aChks[] = {m_chkProcSunday,m_chkProcMonday,m_chkProcTuesday,m_chkProcWednesday,m_chkProcThursday,m_chkProcFriday,m_chkProcSaturday};
+	wxTextCtrl* aTxts[] = {m_txtProcSunday,m_txtProcMonday,m_txtProcTuesday,m_txtProcWednesday,m_txtProcThursday,m_txtProcFriday,m_txtProcSaturday};
+	for(int i=0; i< 7;i++) {
+		if(aChks[i]->GetValue()) {
+			prefs.week_prefs.present=true;
+			prefs.week_prefs.days[i].day_of_week =i;
+			prefs.week_prefs.days[i].present =true;
+			wxString timeStr = aTxts[i]->GetValue();
+			wxString startStr = timeStr.SubString(0,timeStr.First('-'));
+			wxString endStr = timeStr.SubString(timeStr.First('-')+1,timeStr.Length());
+			prefs.week_prefs.days[i].time_prefs.start_hour = TimeStringToDouble(startStr);
+			prefs.week_prefs.days[i].time_prefs.end_hour = TimeStringToDouble(endStr);
 		}
 	}
 	m_txtProcSwitchEvery->GetValue().ToDouble(&td);
@@ -403,29 +380,24 @@ bool CDlgAdvPreferences::SavePreferencesSettings() {
 	prefs.work_buf_additional_days = td;
 	mask.work_buf_additional_days = true;
 	//
-	if(m_txtNetEveryDayStart->IsEnabled()) {
-		prefs.time_prefs.net_start_hour=TimeStringToDouble(m_txtNetEveryDayStart->GetValue());
-		mask.net_start_hour = true;        
-	}
+	prefs.time_prefs.net_start_hour=TimeStringToDouble(m_txtNetEveryDayStart->GetValue());
+	mask.net_start_hour = true;        
 	//
-	if(m_txtNetEveryDayStop->IsEnabled()) {		
-		prefs.time_prefs.net_end_hour=TimeStringToDouble(m_txtNetEveryDayStop->GetValue());
-		mask.net_end_hour = true;        
-	}
-	if(m_rbtNetSpecialTimes->GetValue()) {
-		prefs.week_prefs.present=true;
-		wxCheckBox* aChks[] = {m_chkNetSunday,m_chkNetMonday,m_chkNetTuesday,m_chkNetWednesday,m_chkNetThursday,m_chkNetFriday,m_chkNetSaturday};
-		wxTextCtrl* aTxts[] = {m_txtNetSunday,m_txtNetMonday,m_txtNetTuesday,m_txtNetWednesday,m_txtNetThursday,m_txtNetFriday,m_txtNetSaturday};
-		for(int i=0; i< 7;i++) {
-			if(aChks[i]->GetValue()) {
-				prefs.week_prefs.days[i].day_of_week =i;
-				prefs.week_prefs.days[i].present =true;
-				wxString timeStr = aTxts[i]->GetValue();
-				wxString startStr = timeStr.SubString(0,timeStr.First('-'));
-				wxString endStr = timeStr.SubString(timeStr.First('-')+1,timeStr.Length());
-				prefs.week_prefs.days[i].time_prefs.net_start_hour = TimeStringToDouble(startStr);
-				prefs.week_prefs.days[i].time_prefs.net_end_hour = TimeStringToDouble(endStr);
-			}
+	prefs.time_prefs.net_end_hour=TimeStringToDouble(m_txtNetEveryDayStop->GetValue());
+	mask.net_end_hour = true;        
+		
+	wxCheckBox* aChks2[] = {m_chkNetSunday,m_chkNetMonday,m_chkNetTuesday,m_chkNetWednesday,m_chkNetThursday,m_chkNetFriday,m_chkNetSaturday};
+	wxTextCtrl* aTxts2[] = {m_txtNetSunday,m_txtNetMonday,m_txtNetTuesday,m_txtNetWednesday,m_txtNetThursday,m_txtNetFriday,m_txtNetSaturday};
+	for(int i=0; i< 7;i++) {
+		if(aChks2[i]->GetValue()) {
+			prefs.week_prefs.present=true;
+			prefs.week_prefs.days[i].day_of_week =i;
+			prefs.week_prefs.days[i].present =true;
+			wxString timeStr = aTxts2[i]->GetValue();
+			wxString startStr = timeStr.SubString(0,timeStr.First('-'));
+			wxString endStr = timeStr.SubString(timeStr.First('-')+1,timeStr.Length());
+			prefs.week_prefs.days[i].time_prefs.net_start_hour = TimeStringToDouble(startStr);
+			prefs.week_prefs.days[i].time_prefs.net_end_hour = TimeStringToDouble(endStr);
 		}
 	}
 	//disk usage
@@ -468,16 +440,6 @@ bool CDlgAdvPreferences::SavePreferencesSettings() {
 /* set state of control depending on other control's state */
 void CDlgAdvPreferences::UpdateControlStates() {
 	//proc usage page
-	if(m_rbtProcEveryDay->GetValue()) {
-		m_panelProcSpecialTimes->Disable();
-		m_txtProcEveryDayStart->Enable();
-		m_txtProcEveryDayStop->Enable();
-	}
-	else {
-		m_panelProcSpecialTimes->Enable();
-		m_txtProcEveryDayStart->Disable();
-		m_txtProcEveryDayStop->Disable();
-	}
 	m_txtProcIdleFor->Enable(!m_chkProcInUse->IsChecked());
 	m_txtProcMonday->Enable(m_chkProcMonday->IsChecked());
 	m_txtProcTuesday->Enable(m_chkProcTuesday->IsChecked());
@@ -488,16 +450,6 @@ void CDlgAdvPreferences::UpdateControlStates() {
 	m_txtProcSunday->Enable(m_chkProcSunday->IsChecked());
 
 	//net usage page
-	if(m_rbtNetEveryDay->GetValue()) {
-		m_panelNetSpecialTimes->Disable();
-		m_txtNetEveryDayStart->Enable();
-		m_txtNetEveryDayStop->Enable();
-	}
-	else {
-		m_panelNetSpecialTimes->Enable();
-		m_txtNetEveryDayStart->Disable();
-		m_txtNetEveryDayStop->Disable();
-	}
 	m_txtNetMonday->Enable(m_chkNetMonday->IsChecked());
 	m_txtNetTuesday->Enable(m_chkNetTuesday->IsChecked());
 	m_txtNetWednesday->Enable(m_chkNetWednesday->IsChecked());
@@ -509,96 +461,91 @@ void CDlgAdvPreferences::UpdateControlStates() {
 
 /* validates the entered informations */
 bool CDlgAdvPreferences::ValidateInput() {
+	wxString invMsgFloat = _("invalid float");
+	wxString invMsgTime = _("invalid time, format is HH:MM");
+	wxString invMsgInterval = _("invalid time interval, format is HH:MM-HH:MM");
 	wxString buffer;
 	//proc page
 	if(m_txtProcIdleFor->IsEnabled()) {
 		buffer = m_txtProcIdleFor->GetValue();
 		if(!IsValidFloatValue(buffer)) {
-			ShowErrorMessage(m_txtProcIdleFor);
+			ShowErrorMessage(invMsgFloat,m_txtProcIdleFor);
 			return false;
 		}
 	}
-	if(m_txtProcEveryDayStart->IsEnabled()) {
-		buffer = m_txtProcEveryDayStart->GetValue();
-		if(!IsValidTimeValue(buffer)) {
-			ShowErrorMessage(m_txtProcEveryDayStart);
-			return false;
-		}
+	
+	buffer = m_txtProcEveryDayStart->GetValue();
+	if(!IsValidTimeValue(buffer)) {
+		ShowErrorMessage(invMsgTime,m_txtProcEveryDayStart);
+		return false;
 	}
-	if(m_txtProcEveryDayStop->IsEnabled()) {
-		buffer = m_txtProcEveryDayStop->GetValue();
-		if(!IsValidTimeValue(buffer)) {
-			ShowErrorMessage(m_txtProcEveryDayStop);
-			return false;
-		}
+	buffer = m_txtProcEveryDayStop->GetValue();
+	if(!IsValidTimeValue(buffer)) {
+		ShowErrorMessage(invMsgTime,m_txtProcEveryDayStop);
+		return false;
 	}
 	//all text ctrls in proc special time panel
-	if(m_panelProcSpecialTimes->IsEnabled()) {
-		wxWindowList children = m_panelProcSpecialTimes->GetChildren();
-		wxWindowListNode* node = children.GetFirst();
-		while(node) {
-			if(node->GetData()->IsKindOf(CLASSINFO(wxTextCtrl))) {
-				wxTextCtrl*  txt = wxDynamicCast(node->GetData(),wxTextCtrl);
-				if(txt) {
-					if(txt->IsEnabled()) {
-						buffer = txt->GetValue();
-						if(!IsValidTimeIntervalValue(buffer)) {
-							ShowErrorMessage(txt);
-							return false;
-						}
+	wxWindowList children = m_panelProcSpecialTimes->GetChildren();
+	wxWindowListNode* node = children.GetFirst();
+	while(node) {
+		if(node->GetData()->IsKindOf(CLASSINFO(wxTextCtrl))) {
+			wxTextCtrl*  txt = wxDynamicCast(node->GetData(),wxTextCtrl);
+			if(txt) {
+				if(txt->IsEnabled()) {
+					buffer = txt->GetValue();
+					if(!IsValidTimeIntervalValue(buffer)) {
+						ShowErrorMessage(invMsgInterval,txt);
+						return false;
 					}
 				}
 			}
-			node = node->GetNext();
-		}		
-	}
+		}
+		node = node->GetNext();
+	}		
 	//net page
-	if(m_txtNetEveryDayStart->IsEnabled()) {
-		buffer = m_txtNetEveryDayStart->GetValue();
-		if(!IsValidTimeValue(buffer)) {
-			ShowErrorMessage(m_txtNetEveryDayStart);
-			return false;
-		}
+
+	buffer = m_txtNetEveryDayStart->GetValue();
+	if(!IsValidTimeValue(buffer)) {
+		ShowErrorMessage(invMsgTime,m_txtNetEveryDayStart);
+		return false;
 	}
-	if(m_txtNetEveryDayStop->IsEnabled()) {
-		buffer = m_txtNetEveryDayStop->GetValue();
-		if(!IsValidTimeValue(buffer)) {
-			ShowErrorMessage(m_txtNetEveryDayStop);
-			return false;
-		}
+
+	buffer = m_txtNetEveryDayStop->GetValue();
+	if(!IsValidTimeValue(buffer)) {
+		ShowErrorMessage(invMsgTime,m_txtNetEveryDayStop);
+		return false;
 	}
 	//limit additional days from 0 to 10
 	double td;
 	m_txtNetAdditionalDays->GetValue().ToDouble(&td);
 	if(td>10.0 || td < 0.0) {
-		ShowErrorMessage(m_txtNetAdditionalDays);
+		ShowErrorMessage(invMsgFloat,m_txtNetAdditionalDays);
 		return false;
 	}
 	//all text ctrls in net special time panel
-	if(m_panelNetSpecialTimes->IsEnabled()) {
-		wxWindowList children = m_panelNetSpecialTimes->GetChildren();
-		wxWindowListNode* node = children.GetFirst();
-		while(node) {
-			if(node->GetData()->IsKindOf(CLASSINFO(wxTextCtrl))) {
-				wxTextCtrl*  txt = wxDynamicCast(node->GetData(),wxTextCtrl);
-				if(txt) {
-					if(txt->IsEnabled()) {
-						buffer = txt->GetValue();
-						if(!IsValidTimeIntervalValue(buffer)) {
-							ShowErrorMessage(txt);
-							return false;
-						}
-					}//if(txt->IsEnabled())
-				}//if(txt)
-			}//if(node->GetData()
-			node = node->GetNext();
-		}		
-	}
+
+	children = m_panelNetSpecialTimes->GetChildren();
+	node = children.GetFirst();
+	while(node) {
+		if(node->GetData()->IsKindOf(CLASSINFO(wxTextCtrl))) {
+			wxTextCtrl*  txt = wxDynamicCast(node->GetData(),wxTextCtrl);
+			if(txt) {
+				if(txt->IsEnabled()) {
+					buffer = txt->GetValue();
+					if(!IsValidTimeIntervalValue(buffer)) {
+						ShowErrorMessage(invMsgInterval,txt);
+						return false;
+					}
+				}//if(txt->IsEnabled())
+			}//if(txt)
+		}//if(node->GetData()
+		node = node->GetNext();
+	}		
 
 	return true;
 }
 
-/* ensures that the page whioch contains txtCtrl is selected */
+/* ensures that the page which contains txtCtrl is selected */
 bool CDlgAdvPreferences::EnsureTabPageVisible(wxTextCtrl* txtCtrl) {	
 	wxWindow* parent = txtCtrl->GetParent();
 	wxASSERT(parent);
@@ -620,11 +567,14 @@ bool CDlgAdvPreferences::EnsureTabPageVisible(wxTextCtrl* txtCtrl) {
 }
 
 /* show an error message and set the focus to the control that caused the error */
-void CDlgAdvPreferences::ShowErrorMessage(wxTextCtrl* errorCtrl) {
+void CDlgAdvPreferences::ShowErrorMessage(wxString& message,wxTextCtrl* errorCtrl) {
 	wxASSERT(this->EnsureTabPageVisible(errorCtrl));
 	errorCtrl->SetFocus();	
 	//
-	wxMessageBox(_("invalid value detected"),_("Validation Error"),wxOK | wxCENTRE | wxICON_ERROR,this);
+	if(message.IsEmpty()){
+		message = _("invalid input value detected");
+	}
+	wxMessageBox(message,_("Validation Error"),wxOK | wxCENTRE | wxICON_ERROR,this);
 }
 
 /* checks if ch is a valid character for float values */

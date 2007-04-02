@@ -28,8 +28,8 @@
 #include "DlgAdvPreferencesBase.h"
 #include "prefs.h"
 
-#define TXT_PROC_TIME_TOOLTIP _("specify work start and stop hours in format HH:MM-HH:MM\nstart must be lower than stop")
-#define TXT_NET_TIME_TOOLTIP _("specify network usage start and stop hours in format HH:MM-HH:MM\nstart must be lower than stop")
+#define TXT_PROC_TIME_TOOLTIP _("specify work start and stop hours in format HH:MM-HH:MM")
+#define TXT_NET_TIME_TOOLTIP _("specify network usage start and stop hours in format HH:MM-HH:MM")
 
 class CDlgAdvPreferences : public CDlgAdvPreferencesBase {
 	DECLARE_DYNAMIC_CLASS( CDlgAdvPreferences )
@@ -48,7 +48,7 @@ class CDlgAdvPreferences : public CDlgAdvPreferencesBase {
 	bool IsValidTimeValue(const wxString& value);
 	bool IsValidTimeIntervalChar(const wxChar& ch);
 	bool IsValidTimeIntervalValue(const wxString& value);
-	void ShowErrorMessage(wxTextCtrl* errorCtrl);
+	void ShowErrorMessage(wxString& msg,wxTextCtrl* errorCtrl);
 	bool EnsureTabPageVisible(wxTextCtrl* txtCtrl);
 	bool ConfirmClear();
 	wxString DoubleToTimeString(double dt);

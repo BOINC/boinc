@@ -22,7 +22,6 @@
 #include <wx/button.h>
 #include <wx/notebook.h> 
 #include <wx/panel.h>
-#include <wx/radiobut.h>
 #include <wx/statbmp.h>
 
 ///////////////////////////////////////////////////////////////////////////
@@ -49,45 +48,41 @@
 #define ID_CHKPROCTHURSDAY 20018
 #define ID_CHKPROCTUESDAY 20019
 #define ID_CHKPROCWEDNESDAY 20020
-#define ID_RBTNETEVERYDAY 20021
-#define ID_RBTNETSPECIALTIMES 20022
-#define ID_RBTPROCEVERYDAY 20023
-#define ID_RBTPROCSPECIALTIMES 20024
-#define ID_TABPAGE_DISK 20025
-#define ID_TABPAGE_NET 20026
-#define ID_TABPAGE_PROC 20027
-#define ID_TXTDISKLEASTFREE 20028
-#define ID_TXTDISKMAXOFTOTAL 20029
-#define ID_TXTDISKMAXSPACE 20030
-#define ID_TXTDISKWRITETODISK 20031
-#define ID_TXTMEMORYMAXINUSE 20032
-#define ID_TXTMEMORYMAXONIDLE 20033
-#define ID_TXTNETADDITIONALDAYS 20034
-#define ID_TXTNETCONNECTINTERVAL 20035
-#define ID_TXTNETDOWNLOADRATE 20036
-#define ID_TXTNETEVERYDAYSTART 20037
-#define ID_TXTNETEVERYDAYSTOP 20038
-#define ID_TXTNETFRIDAY 20039
-#define ID_TXTNETMONDAY 20040
-#define ID_TXTNETSATURDAY 20041
-#define ID_TXTNETSUNDAY 20042
-#define ID_TXTNETTHURSDAY 20043
-#define ID_TXTNETTUESDAY 20044
-#define ID_TXTNETUPLOADRATE 20045
-#define ID_TXTNETWEDNESDAY 20046
-#define ID_TXTPOCUSECPUTIME 20047
-#define ID_TXTPROCEVERYDAYSTART 20048
-#define ID_TXTPROCEVERYDAYSTOP 20049
-#define ID_TXTPROCFRIDAY 20050
-#define ID_TXTPROCIDLEFOR 20051
-#define ID_TXTPROCMONDAY 20052
-#define ID_TXTPROCSATURDAY 20053
-#define ID_TXTPROCSUNDAY 20054
-#define ID_TXTPROCSWITCHEVERY 20055
-#define ID_TXTPROCTHURSDAY 20056
-#define ID_TXTPROCTUESDAY 20057
-#define ID_TXTPROCUSEPROCESSORS 20058
-#define ID_TXTPROCWEDNESDAY 20059
+#define ID_TABPAGE_DISK 20021
+#define ID_TABPAGE_NET 20022
+#define ID_TABPAGE_PROC 20023
+#define ID_TXTDISKLEASTFREE 20024
+#define ID_TXTDISKMAXOFTOTAL 20025
+#define ID_TXTDISKMAXSPACE 20026
+#define ID_TXTDISKWRITETODISK 20027
+#define ID_TXTMEMORYMAXINUSE 20028
+#define ID_TXTMEMORYMAXONIDLE 20029
+#define ID_TXTNETADDITIONALDAYS 20030
+#define ID_TXTNETCONNECTINTERVAL 20031
+#define ID_TXTNETDOWNLOADRATE 20032
+#define ID_TXTNETEVERYDAYSTART 20033
+#define ID_TXTNETEVERYDAYSTOP 20034
+#define ID_TXTNETFRIDAY 20035
+#define ID_TXTNETMONDAY 20036
+#define ID_TXTNETSATURDAY 20037
+#define ID_TXTNETSUNDAY 20038
+#define ID_TXTNETTHURSDAY 20039
+#define ID_TXTNETTUESDAY 20040
+#define ID_TXTNETUPLOADRATE 20041
+#define ID_TXTNETWEDNESDAY 20042
+#define ID_TXTPOCUSECPUTIME 20043
+#define ID_TXTPROCEVERYDAYSTART 20044
+#define ID_TXTPROCEVERYDAYSTOP 20045
+#define ID_TXTPROCFRIDAY 20046
+#define ID_TXTPROCIDLEFOR 20047
+#define ID_TXTPROCMONDAY 20048
+#define ID_TXTPROCSATURDAY 20049
+#define ID_TXTPROCSUNDAY 20050
+#define ID_TXTPROCSWITCHEVERY 20051
+#define ID_TXTPROCTHURSDAY 20052
+#define ID_TXTPROCTUESDAY 20053
+#define ID_TXTPROCUSEPROCESSORS 20054
+#define ID_TXTPROCWEDNESDAY 20055
 
 /**
  * Class CDlgAdvPreferencesBase
@@ -109,11 +104,11 @@ class CDlgAdvPreferencesBase : public wxDialog
 		wxTextCtrl* m_txtProcIdleFor;
 		wxStaticText* m_staticText27;
 		wxStaticText* m_staticText28;
-		wxRadioButton* m_rbtProcEveryDay;
+		wxStaticText* m_staticText351;
 		wxTextCtrl* m_txtProcEveryDayStart;
 		wxStaticText* m_staticText25;
 		wxTextCtrl* m_txtProcEveryDayStop;
-		wxRadioButton* m_rbtProcSpecialTimes;
+		wxStaticText* m_staticText36;
 		wxPanel* m_panelProcSpecialTimes;
 		wxCheckBox* m_chkProcMonday;
 		wxTextCtrl* m_txtProcMonday;
@@ -154,11 +149,11 @@ class CDlgAdvPreferencesBase : public wxDialog
 		wxCheckBox* m_chkNetSkipImageVerification;
 		wxCheckBox* m_chkNetConfirmBeforeConnect;
 		wxCheckBox* m_chkNetDisconnectWhenDone;
-		wxRadioButton* m_rbtNetEveryDay;
+		wxStaticText* m_staticText38;
 		wxTextCtrl* m_txtNetEveryDayStart;
 		wxStaticText* m_staticText37;
 		wxTextCtrl* m_txtNetEveryDayStop;
-		wxRadioButton* m_rbtNetSpecialTimes;
+		wxStaticText* m_staticText39;
 		wxPanel* m_panelNetSpecialTimes;
 		wxCheckBox* m_chkNetMonday;
 		wxTextCtrl* m_txtNetMonday;

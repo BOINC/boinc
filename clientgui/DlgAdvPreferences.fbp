@@ -192,7 +192,7 @@
                                                     <property name="flag">wxEXPAND</property>
                                                     <property name="proportion">0</property>
                                                     <object class="wxStaticBoxSizer">
-                                                        <property name="label">when do work</property>
+                                                        <property name="label">do work</property>
                                                         <property name="minimum_size"></property>
                                                         <property name="name">sbSizer4</property>
                                                         <property name="orient">wxVERTICAL</property>
@@ -383,23 +383,22 @@
                                                                     <property name="border">5</property>
                                                                     <property name="flag">wxALL</property>
                                                                     <property name="proportion">0</property>
-                                                                    <object class="wxRadioButton">
+                                                                    <object class="wxStaticText">
                                                                         <property name="bg"></property>
                                                                         <property name="enabled">1</property>
                                                                         <property name="fg"></property>
                                                                         <property name="font"></property>
                                                                         <property name="hidden">0</property>
-                                                                        <property name="id">ID_RBTPROCEVERYDAY</property>
-                                                                        <property name="label">every day between hours of</property>
+                                                                        <property name="id">ID_DEFAULT</property>
+                                                                        <property name="label">every day between hour of</property>
                                                                         <property name="minimum_size"></property>
-                                                                        <property name="name">m_rbtProcEveryDay</property>
+                                                                        <property name="name">m_staticText351</property>
                                                                         <property name="permission">protected</property>
                                                                         <property name="pos"></property>
                                                                         <property name="size"></property>
-                                                                        <property name="style">wxRB_GROUP</property>
+                                                                        <property name="style"></property>
                                                                         <property name="subclass"></property>
-                                                                        <property name="tooltip">sets worktime restrictions for every day of the week&#x0A;(no restrictions if values are equal)</property>
-                                                                        <property name="value">0</property>
+                                                                        <property name="tooltip"></property>
                                                                         <property name="window_extra_style"></property>
                                                                         <property name="window_style"></property>
                                                                     </object>
@@ -484,23 +483,22 @@
                                                             <property name="border">5</property>
                                                             <property name="flag">wxALL</property>
                                                             <property name="proportion">0</property>
-                                                            <object class="wxRadioButton">
+                                                            <object class="wxStaticText">
                                                                 <property name="bg"></property>
                                                                 <property name="enabled">1</property>
                                                                 <property name="fg"></property>
                                                                 <property name="font"></property>
                                                                 <property name="hidden">0</property>
-                                                                <property name="id">ID_RBTPROCSPECIALTIMES</property>
-                                                                <property name="label">as specified here:</property>
+                                                                <property name="id">ID_DEFAULT</property>
+                                                                <property name="label">additional restrictions:</property>
                                                                 <property name="minimum_size"></property>
-                                                                <property name="name">m_rbtProcSpecialTimes</property>
+                                                                <property name="name">m_staticText36</property>
                                                                 <property name="permission">protected</property>
                                                                 <property name="pos"></property>
                                                                 <property name="size"></property>
                                                                 <property name="style"></property>
                                                                 <property name="subclass"></property>
-                                                                <property name="tooltip">set special work time restrictions for checked days</property>
-                                                                <property name="value">0</property>
+                                                                <property name="tooltip"></property>
                                                                 <property name="window_extra_style"></property>
                                                                 <property name="window_style"></property>
                                                             </object>
@@ -564,7 +562,7 @@
                                                                                     <property name="size"></property>
                                                                                     <property name="style"></property>
                                                                                     <property name="subclass"></property>
-                                                                                    <property name="tooltip">check this, if you want that work is done on monday</property>
+                                                                                    <property name="tooltip"></property>
                                                                                     <property name="window_extra_style"></property>
                                                                                     <property name="window_style"></property>
                                                                                 </object>
@@ -614,7 +612,7 @@
                                                                                     <property name="size"></property>
                                                                                     <property name="style"></property>
                                                                                     <property name="subclass"></property>
-                                                                                    <property name="tooltip">check this, if you want that work is done on tuesday</property>
+                                                                                    <property name="tooltip"></property>
                                                                                     <property name="window_extra_style"></property>
                                                                                     <property name="window_style"></property>
                                                                                 </object>
@@ -664,7 +662,7 @@
                                                                                     <property name="size"></property>
                                                                                     <property name="style"></property>
                                                                                     <property name="subclass"></property>
-                                                                                    <property name="tooltip">check this, if you want that work is done on wednesday</property>
+                                                                                    <property name="tooltip"></property>
                                                                                     <property name="window_extra_style"></property>
                                                                                     <property name="window_style"></property>
                                                                                 </object>
@@ -714,7 +712,7 @@
                                                                                     <property name="size"></property>
                                                                                     <property name="style"></property>
                                                                                     <property name="subclass"></property>
-                                                                                    <property name="tooltip">check this, if you want that work is done on thursday</property>
+                                                                                    <property name="tooltip"></property>
                                                                                     <property name="window_extra_style"></property>
                                                                                     <property name="window_style"></property>
                                                                                 </object>
@@ -764,7 +762,7 @@
                                                                                     <property name="size"></property>
                                                                                     <property name="style"></property>
                                                                                     <property name="subclass"></property>
-                                                                                    <property name="tooltip">check this, if you want that work is done on friday</property>
+                                                                                    <property name="tooltip"></property>
                                                                                     <property name="window_extra_style"></property>
                                                                                     <property name="window_style"></property>
                                                                                 </object>
@@ -814,7 +812,7 @@
                                                                                     <property name="size"></property>
                                                                                     <property name="style"></property>
                                                                                     <property name="subclass"></property>
-                                                                                    <property name="tooltip">check this, if you want that work is done on saturday</property>
+                                                                                    <property name="tooltip"></property>
                                                                                     <property name="window_extra_style"></property>
                                                                                     <property name="window_style"></property>
                                                                                 </object>
@@ -864,7 +862,7 @@
                                                                                     <property name="size"></property>
                                                                                     <property name="style"></property>
                                                                                     <property name="subclass"></property>
-                                                                                    <property name="tooltip">check this, if you want that work is done on sunday</property>
+                                                                                    <property name="tooltip"></property>
                                                                                     <property name="window_extra_style"></property>
                                                                                     <property name="window_style"></property>
                                                                                 </object>
@@ -1586,7 +1584,7 @@
                                                     <property name="flag">wxEXPAND</property>
                                                     <property name="proportion">0</property>
                                                     <object class="wxStaticBoxSizer">
-                                                        <property name="label">usage restrictions</property>
+                                                        <property name="label">network usage restrictions</property>
                                                         <property name="minimum_size"></property>
                                                         <property name="name">sbSizer9</property>
                                                         <property name="orient">wxVERTICAL</property>
@@ -1602,23 +1600,22 @@
                                                                     <property name="border">5</property>
                                                                     <property name="flag">wxALL</property>
                                                                     <property name="proportion">0</property>
-                                                                    <object class="wxRadioButton">
+                                                                    <object class="wxStaticText">
                                                                         <property name="bg"></property>
                                                                         <property name="enabled">1</property>
                                                                         <property name="fg"></property>
                                                                         <property name="font"></property>
                                                                         <property name="hidden">0</property>
-                                                                        <property name="id">ID_RBTNETEVERYDAY</property>
-                                                                        <property name="label">use network only between the hours of</property>
+                                                                        <property name="id">ID_DEFAULT</property>
+                                                                        <property name="label">every day between hours of</property>
                                                                         <property name="minimum_size"></property>
-                                                                        <property name="name">m_rbtNetEveryDay</property>
+                                                                        <property name="name">m_staticText38</property>
                                                                         <property name="permission">protected</property>
                                                                         <property name="pos"></property>
                                                                         <property name="size"></property>
-                                                                        <property name="style">wxRB_GROUP</property>
+                                                                        <property name="style"></property>
                                                                         <property name="subclass"></property>
-                                                                        <property name="tooltip">sets network usage restriction for every day of the week</property>
-                                                                        <property name="value">0</property>
+                                                                        <property name="tooltip"></property>
                                                                         <property name="window_extra_style"></property>
                                                                         <property name="window_style"></property>
                                                                     </object>
@@ -1703,23 +1700,22 @@
                                                             <property name="border">5</property>
                                                             <property name="flag">wxALL</property>
                                                             <property name="proportion">0</property>
-                                                            <object class="wxRadioButton">
+                                                            <object class="wxStaticText">
                                                                 <property name="bg"></property>
                                                                 <property name="enabled">1</property>
                                                                 <property name="fg"></property>
                                                                 <property name="font"></property>
                                                                 <property name="hidden">0</property>
-                                                                <property name="id">ID_RBTNETSPECIALTIMES</property>
-                                                                <property name="label">use network only as specified here:</property>
+                                                                <property name="id">ID_DEFAULT</property>
+                                                                <property name="label">additional restrictions:</property>
                                                                 <property name="minimum_size"></property>
-                                                                <property name="name">m_rbtNetSpecialTimes</property>
+                                                                <property name="name">m_staticText39</property>
                                                                 <property name="permission">protected</property>
                                                                 <property name="pos"></property>
                                                                 <property name="size"></property>
                                                                 <property name="style"></property>
                                                                 <property name="subclass"></property>
-                                                                <property name="tooltip">sets special network usage restrictions for checked days</property>
-                                                                <property name="value">0</property>
+                                                                <property name="tooltip"></property>
                                                                 <property name="window_extra_style"></property>
                                                                 <property name="window_style"></property>
                                                             </object>
@@ -1783,7 +1779,7 @@
                                                                                     <property name="size"></property>
                                                                                     <property name="style"></property>
                                                                                     <property name="subclass"></property>
-                                                                                    <property name="tooltip">use network on monday</property>
+                                                                                    <property name="tooltip"></property>
                                                                                     <property name="window_extra_style"></property>
                                                                                     <property name="window_style"></property>
                                                                                 </object>
@@ -1833,7 +1829,7 @@
                                                                                     <property name="size"></property>
                                                                                     <property name="style"></property>
                                                                                     <property name="subclass"></property>
-                                                                                    <property name="tooltip">use network on tuesday</property>
+                                                                                    <property name="tooltip"></property>
                                                                                     <property name="window_extra_style"></property>
                                                                                     <property name="window_style"></property>
                                                                                 </object>
@@ -1883,7 +1879,7 @@
                                                                                     <property name="size"></property>
                                                                                     <property name="style"></property>
                                                                                     <property name="subclass"></property>
-                                                                                    <property name="tooltip">use network on wednesday</property>
+                                                                                    <property name="tooltip"></property>
                                                                                     <property name="window_extra_style"></property>
                                                                                     <property name="window_style"></property>
                                                                                 </object>
@@ -1983,7 +1979,7 @@
                                                                                     <property name="size"></property>
                                                                                     <property name="style"></property>
                                                                                     <property name="subclass"></property>
-                                                                                    <property name="tooltip">use network on friday</property>
+                                                                                    <property name="tooltip"></property>
                                                                                     <property name="window_extra_style"></property>
                                                                                     <property name="window_style"></property>
                                                                                 </object>
@@ -2033,7 +2029,7 @@
                                                                                     <property name="size"></property>
                                                                                     <property name="style"></property>
                                                                                     <property name="subclass"></property>
-                                                                                    <property name="tooltip">use network on saturday</property>
+                                                                                    <property name="tooltip"></property>
                                                                                     <property name="window_extra_style"></property>
                                                                                     <property name="window_style"></property>
                                                                                 </object>
@@ -2083,7 +2079,7 @@
                                                                                     <property name="size"></property>
                                                                                     <property name="style"></property>
                                                                                     <property name="subclass"></property>
-                                                                                    <property name="tooltip">use network on sunday</property>
+                                                                                    <property name="tooltip"></property>
                                                                                     <property name="window_extra_style"></property>
                                                                                     <property name="window_style"></property>
                                                                                 </object>
@@ -2782,7 +2778,7 @@
                                     <property name="font"></property>
                                     <property name="hidden">0</property>
                                     <property name="id">wxID_OK</property>
-                                    <property name="label">OK</property>
+                                    <property name="label">&amp;OK</property>
                                     <property name="minimum_size"></property>
                                     <property name="name">m_btnOK</property>
                                     <property name="permission">protected</property>

@@ -2980,3 +2980,15 @@ Charlie 30 Mar 2007
         boinc.xcodeproj/
             project.pbxproj
 
+David  2 Apr 2007
+	- Manager: improvements to advanced Prefs dialog
+		(from Frank Weiler)
+	- Client simulator work
+
+	client/
+		sim.C,h
+		work_fetch.C
+	clientgui/
+		DlgAdvPreferences*
+	lib/
+		prefs.C

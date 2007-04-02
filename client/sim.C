@@ -244,7 +244,7 @@ void CLIENT_STATE::simulate_rpc(PROJECT* p) {
         SIM_APP* ap;
         double x = drand();
         for (i=0; i<apps.size();i++) {
-            ap = (SIM_APP*)&apps[i];
+            ap = (SIM_APP*)apps[i];
             if (ap->project != p) continue;
             x -= ap->weight;
             if (x <= 0) break;
@@ -257,12 +257,13 @@ void CLIENT_STATE::simulate_rpc(PROJECT* p) {
         sprintf(rp->name, "result_%d", i++);
         rp->set_state(RESULT_FILES_DOWNLOADED, "simulate_rpc");
         wup->project = p;
-        wup->rsc_fpops_est = ap->fpops.sample();
+        wup->rsc_fpops_est = ap->fpops_est;
         results.push_back(rp);
-        double est_cpu = ap->fpops_est/net_fpops;
-        p->work_request -= est_cpu;
+        rp->rrsim_cpu_left = ap->fpops.sample()/net_fpops;
+        p->work_request -= ap->fpops_est/net_fpops;
         if (p->work_request <= 0) break;
     }
+    p->work_request = 0;
     request_schedule_cpus("simulate_rpc");
 }
 
@@ -338,7 +339,7 @@ int ACTIVE_TASK::init(RESULT* rp) {
     max_cpu_time = rp->wup->rsc_fpops_bound/gstate.host_info.p_fpops;
     max_disk_usage = rp->wup->rsc_disk_bound;
     max_mem_usage = rp->wup->rsc_memory_bound;
-    cpu_time_left = 100;
+    cpu_time_left = rp->rrsim_cpu_left;
     _task_state = PROCESS_UNINITIALIZED;
     scheduler_state = CPU_SCHED_UNINITIALIZED;
     return 0;
@@ -350,7 +351,15 @@ PROJECT::PROJECT() {
 }
 
 double NORMAL_DIST::sample() {
-    return 1;
+    int i;
+    double x=0;
+    for (i=0; i<9; i++) {
+        x += rand();
+    }
+    x /= 3;
+    x *= var;
+    x += mean;
+    return x;
 }
 
 int NORMAL_DIST::parse(XML_PARSER& xp, char* end_tag) {
