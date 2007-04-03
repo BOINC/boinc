@@ -230,32 +230,6 @@ int CLIENT_STATE::input_files_available(RESULT* rp, bool verify) {
     return 0;
 }
 
-// called at startup (after get_host_info())
-// and when general prefs have been parsed
-//
-void CLIENT_STATE::set_ncpus() {
-    int ncpus_old = ncpus;
-
-    if (config.ncpus>0) {
-        ncpus = config.ncpus;
-    } else if (host_info.p_ncpus>0) {
-        ncpus = host_info.p_ncpus;
-    } else {
-        ncpus = 1;
-    }
-    if (ncpus > global_prefs.max_cpus) ncpus = global_prefs.max_cpus;
-
-    if (initialized && ncpus != ncpus_old) {
-        msg_printf(0, MSG_INFO,
-            "Number of usable CPUs has changed from %d to %d.  Running benchmarks.",
-            ncpus_old, ncpus
-        );
-        run_cpu_benchmarks = true;
-        request_schedule_cpus("Number of usable CPUs has changed");
-        request_work_fetch("Number of usable CPUs has changed");
-    }
-}
-
 inline double force_fraction(double f) {
     if (f < 0) return 0;
     if (f > 1) return 1;

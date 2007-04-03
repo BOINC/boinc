@@ -52,7 +52,7 @@ public:
     double working_set;
     double weight;
 
-    SIM_APP::SIM_APP(){}
+    SIM_APP(){}
     int parse(XML_PARSER&);
 };
 
@@ -81,6 +81,8 @@ public:
     SIM_HOST host_info;
     TIME_STATS time_stats;
     CLIENT_STATE();
+    bool initialized;
+    bool run_cpu_benchmarks;
 
 private:
     double app_started;

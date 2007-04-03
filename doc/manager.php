@@ -3,16 +3,11 @@ require_once("docutil.php");
 page_head("The BOINC manager");
 echo "
 <p>
-The <b>BOINC manager</b> program is available for Windows, Mac OS X
-and Linux.  It controls the use of your computer's disk, network, and
-processor resources, and is normally started at boot time.
-<br>
-<br>On Windows, the BOINC Manager is represented by an icon in the system tray.
-<br>On Mac OS X, it is represented by icons in both the menubar and the Dock.
-<!-- ** ROM ** is there an equivalent on Linux to the system tray icon? -->
-
-<p>
-On Windows:
+This page describes the <b>BOINC manager</b>,
+the 'control panel' for BOINC.
+<a href=help.php>Go here</a> for general help with BOINC.
+<h2>The BOINC Manager icon and menu</h2>
+On Windows, the Manager is represented by an icon in the system tray.
     <ul>
     <li>Double-click on the icon to open the BOINC manager window.
     <li>Right-click on the icon to access its menu (shown below).
@@ -21,7 +16,7 @@ On Windows:
 <a name=icon/></a>
 <img src=mgrsystraymenu.png>
 <br>
-On Mac OS X:
+On Mac OS X, the Manager is represented by icons in both the menubar and the Dock.
     <ul>
     <li>Click on the icon in the menubar or Dock and hold the
     button down until the menu appears.
@@ -45,8 +40,8 @@ No further work will take place until you run the BOINC manager again.
 Hovering over the BOINC icon will display a status balloon which contains
 the project it is currently working on, how far along it is, and which
 computer it is connected to (Windows only).
-<h1>BOINC Manager Tabs</h1>
-<h2>Projects</h2>
+
+<h2>The Projects tab</h2>
 <p>
 Shows the projects in which this computer is participating.
 <br><br>
@@ -97,7 +92,7 @@ Click on a project name to enable the following additional buttons:
 <p>Project administrators can add <a href=gui_urls.php>buttons</a>
    to the manager to quickly navigate the project website.
 
-<h2>Tasks</h2>
+<h2>The Tasks tab</h2>
 <p>Shows the tasks currently on your computer.
 <br><br>
 <img src=mgrwork.png>
@@ -149,7 +144,7 @@ Click on a result name to enable the following additional buttons:
     Suspends any further processing of this task.
 </ul>
 
-<h2>Transfers</h2>
+<h2>The Transfers tab</h2>
 <p>
 Shows file transfers (uploads and downloads).
     These may be ready to start, in progress, and completed.
@@ -178,7 +173,7 @@ Shows file transfers (uploads and downloads).
     for any work already completed.
 </ul>
 
-<h2>Messages</h2>
+<h2>The Messages tab</h2>
 <p>
 Shows status and error messages.
     You can <a href=client_msgs.php>control what messages are shown</a>.
@@ -200,7 +195,7 @@ Click on one or more messages to enable the following additional buttons:
     to the clipboard.
 </ul>
 
-<h2>Statistics</h2>
+<h2>The Statistics tab</h2>
 <p>
 Shows some simple charts and graphs about the user and host progress
 <br><br>
@@ -243,12 +238,12 @@ Click on any of the buttons to change the view:
     Shows all projects in one chart.
 </ul>
 
-<h2>Disk</h2>
+<h2>The Disk tab</h2>
 <p>This shows how much disk space is currently being used by each project.
 <br><br>
 <img src=mgrdisk.png>
 
-<h1>BOINC Manager Menus</h1>
+<h2>BOINC Manager Menus</h2>
 
 The BOINC manager has the following menus:
 <ul>
@@ -343,17 +338,6 @@ cancels <b>Snooze</b>.
 <p>
 Menu names and other text in the BOINC manager can be displayed in
 <a href=translation.php>languages other than English</a>.
-<p>
-To select the <b>BOINC screensaver</b>:
-    <ul>
-    <li> <b>Windows</b>: use the Display Properties dialog.
-    <li> <b>Mac OS X</b>: select System Preferences under the Apple menu and
-        click on \"Screen Saver\".
-    </ul>
- <p>
- For dialup configuration in Windows, see the <a href=dialup.php>
- Dial-up Connections</a> page.
-
 ";
 page_tail();
 ?>

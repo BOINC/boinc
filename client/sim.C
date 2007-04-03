@@ -18,6 +18,7 @@ bool user_active;
 //////////////// FUNCTIONS MODIFIED OR STUBBED OUT /////////////
 
 CLIENT_STATE::CLIENT_STATE() {
+    initialized = false;
 }
 
 FILE* boinc_fopen(const char* path, const char* mode) {
@@ -510,7 +511,6 @@ int CLIENT_STATE::parse_host(char* name) {
     XML_PARSER xp(&mf);
     if (!xp.parse_start("host")) return ERR_XML_PARSE;
     retval = host_info.parse(xp);
-    printf("ncpus: %d\n", host_info.p_ncpus);
     return retval;
 }
 
@@ -532,6 +532,11 @@ void CLIENT_STATE::simulate(double duration) {
     }
 }
 
+void parse_error(char* file) {
+    printf("can't parse %s\n", file);
+    exit(1);
+}
+
 int main(int argc, char** argv) {
     char projects[256], host[256], prefs[256];
     double duration = 100;
@@ -545,23 +550,14 @@ int main(int argc, char** argv) {
     read_config_file();
 
     retval = gstate.parse_projects(projects);
-    if (retval) {
-        printf("can't parse projects\n");
-        exit(1);
-    }
+    if (retval) parse_error("projects");
     retval = gstate.parse_host(host);
-    if (retval) {
-        printf("can't parse host\n");
-        exit(1);
-    }
+    if (retval) parse_error("host");
     retval = gstate.global_prefs.parse_file(prefs, "", flag);
-    if (retval) {
-        printf("can't parse prefs\n");
-        exit(1);
-    }
-    gstate.ncpus = gstate.host_info.p_ncpus;
+    if (retval) parse_error("prefs");
+
+    gstate.set_ncpus();
     printf("ncpus: %d\n", gstate.ncpus);
     gstate.request_work_fetch("init");
-    printf("ncpus: %d\n", gstate.ncpus);
     gstate.simulate(duration);
 }

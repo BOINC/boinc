@@ -89,13 +89,16 @@ identical results across processors
 </ul>
 <li> Core client:
 <ul>
+<li> Add a preferences for total download and upload in a month
+    (many Australian ISPs have monthly limits)
 <li> Have the core client sense CPU temperature
     and throttle CPU if it goes too high.
     Open-source software for this (on Linux) is at
     http://www.lm-sensors.org/.
 <li> Windows: get proxy config info directly from the OS
-<li> After an applications exits (for whatever reason)
+<li> After an applications exits or is killed (for whatever reason)
 make sure (after a few second delay) that its subprocesses are gone too.
+Don't restart the job until this happens.
 Unix: use process groups and killpg().
 <li> More generally: make a better state machine for shutting down apps:
 tell them to checkpoint, wait a little, tell them to quit,

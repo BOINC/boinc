@@ -3058,3 +3058,13 @@ Rom    3 Apr 2007
         stackwalker_win.cpp
     win_build/
         boincmgr_curl.vcproj
+
+David  3 Apr 2007
+    - core client: don't print "process not found" unless task_debug set
+    - simulator stuff
+
+    client/
+        app_control.C
+        cpu_sched.C
+        cs_apps.C
+        sim.C,h
