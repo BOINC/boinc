@@ -236,11 +236,19 @@
 			Filter="cpp;c;cxx;rc;def;r;odl;idl;hpj;bat"
 			>
 			<File
+				RelativePath="..\client\app.C"
+				>
+			</File>
+			<File
 				RelativePath="..\client\client_msgs.C"
 				>
 			</File>
 			<File
 				RelativePath="..\client\cpu_sched.C"
+				>
+			</File>
+			<File
+				RelativePath="..\client\cs_apps.C"
 				>
 			</File>
 			<File

@@ -238,8 +238,23 @@ RESULT* CLIENT_STATE::lookup_result(PROJECT* p, const char* name) {
 }
 
 void CLIENT_STATE::simulate_rpc(PROJECT* p) {
-    unsigned int result_num=0;
+    static int result_num=0;
     double net_fpops = host_info.p_fpops;
+
+    // remove ready-to-report results
+    //
+    vector<RESULT*>::iterator result_iter;
+    result_iter = results.begin();
+    while (result_iter != results.end()) {
+        RESULT* rp = *result_iter;
+        if (rp->ready_to_report) {
+            delete rp;
+            result_iter = results.erase(result_iter);
+        } else {
+            result_iter++;
+        }
+    }
+
     while (1) {
         // pick a random app
         SIM_APP* ap=0;

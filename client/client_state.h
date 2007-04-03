@@ -265,13 +265,13 @@ private:
     void rr_simulation();
     void make_running_task_heap(vector<ACTIVE_TASK*>&);
     void print_deadline_misses();
+public:
 	inline double work_buf_min() {
 		return global_prefs.work_buf_min_days * 86400;
 	}
     inline double work_buf_additional() {
         return global_prefs.work_buf_additional_days *86400;
     }
-public:
     void request_enforce_schedule(const char*);
     void request_schedule_cpus(const char*);
         // Check for reschedule CPUs ASAP.  Called when:

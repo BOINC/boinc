@@ -95,15 +95,15 @@ bool CLIENT_STATE::handle_finished_apps() {
 //
 int CLIENT_STATE::app_finished(ACTIVE_TASK& at) {
     RESULT* rp = at.result;
+    bool had_error = false;
+
+#ifndef SIM
     FILE_INFO* fip;
     unsigned int i;
     char path[256];
     int retval;
     double size;
 
-    bool had_error = false;
-
-#ifndef SIM
     // scan the output files, check if missing or too big
     // Don't bother doing this if result was aborted via GUI
 
@@ -184,7 +184,13 @@ int CLIENT_STATE::app_finished(ACTIVE_TASK& at) {
             rp->set_state(RESULT_COMPUTE_ERROR, "CS::app_finished");
         }
     } else {
+#ifdef SIM
+        rp->set_state(RESULT_FILES_UPLOADED, "CS::app_finished");
+        rp->ready_to_report = true;
+        rp->completed_time = now;
+#else
         rp->set_state(RESULT_FILES_UPLOADING, "CS::app_finished");
+#endif
         rp->project->update_duration_correction_factor(rp);
     }
 
