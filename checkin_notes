@@ -2994,15 +2994,19 @@ David  2 Apr 2007
 		prefs.C
 
 Charlie 3 Apr 2007
-    - Mac: Change name of Postinstall.app to PostInstall.app to fix a problem 
-        on some Macs where the postinstall or postupgrade script failed to 
-        launch PostInstall.app due to the lower-case I.  I don't know why some 
+    - Mac Installer: Change name of Postinstall.app to PostInstall.app to fix a 
+        problem on some Macs where the postinstall or postupgrade script failed 
+        to launch PostInstall.app due to the lower-case I.  I don't know why some 
         Macs would be case-sensitive here while others aren't, but user feedback 
         seems to confirm this problem.
+    - Mac Installer: Add directions for removing users boinc_master and boinc_user 
+        to uninstall instructions.
         
     mac_build/
         boinc.xcodeproj/
             project.pbxproj
     mac_installer/
+        GR-ReadMe.rtf
+        ReadMe.rtf
         release_boinc.sh
         release_GridRepublic.sh
