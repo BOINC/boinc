@@ -25,6 +25,7 @@
 #ifndef _WIN32
 #include <string>
 #include <vector>
+#include <time.h>
 #endif
 
 #include "error_numbers.h"
@@ -281,6 +282,9 @@ bool find_project_cookie_mozilla_generic(
 
         // is this the right host?
         if (!strstr(host, hostname.c_str())) continue;
+
+        // has the cookie expired?
+        if (time(0) > expires) continue;
 
         // is this the right cookie?
         if (starts_with(name, "Setup")) {
