@@ -3068,3 +3068,11 @@ David  3 Apr 2007
         cpu_sched.C
         cs_apps.C
         sim.C,h
+
+David  3 Apr 2007
+	- simulator
+
+	client/
+		app_control.C
+		cpu_sched.C
+		sim.C,h

@@ -238,13 +238,13 @@ RESULT* CLIENT_STATE::lookup_result(PROJECT* p, const char* name) {
 }
 
 void CLIENT_STATE::simulate_rpc(PROJECT* p) {
-    unsigned int i;
+    unsigned int result_num=0;
     double net_fpops = host_info.p_fpops;
     while (1) {
         // pick a random app
-        SIM_APP* ap;
+        SIM_APP* ap=0;
         double x = drand();
-        for (i=0; i<apps.size();i++) {
+        for (unsigned int i=0; i<apps.size();i++) {
             ap = (SIM_APP*)apps[i];
             if (ap->project != p) continue;
             x -= ap->weight;
@@ -255,7 +255,7 @@ void CLIENT_STATE::simulate_rpc(PROJECT* p) {
         rp->clear();
         rp->project = p;
         rp->wup = wup;
-        sprintf(rp->name, "result_%d", i++);
+        sprintf(rp->name, "result_%d", result_num++);
         rp->set_state(RESULT_FILES_DOWNLOADED, "simulate_rpc");
         wup->project = p;
         wup->rsc_fpops_est = ap->fpops_est;
@@ -305,6 +305,8 @@ bool ACTIVE_TASK_SET::poll() {
             atp->cpu_time_left -= diff;
             if (atp->cpu_time_left <= 0) {
                 atp->set_task_state(PROCESS_EXITED, "poll");
+                gstate.request_schedule_cpus("ATP poll");
+                gstate.request_work_fetch("ATP poll");
             }
         }
     }
@@ -317,19 +319,30 @@ bool ACTIVE_TASK_SET::poll() {
 ACTIVE_TASK::ACTIVE_TASK() {
 }
 
+int ACTIVE_TASK::suspend() {
+    if (task_state() != PROCESS_EXECUTING) {
+        msg_printf(0, MSG_INFO, "Internal error: expected process to be executing");
+    }
+    set_task_state(PROCESS_SUSPENDED, "suspend");
+    return 0;
+}
+
+int ACTIVE_TASK::request_exit() {
+    set_task_state(PROCESS_UNINITIALIZED, "request_exit");
+    return 0;
+}
+
 int ACTIVE_TASK::resume_or_start(bool first_time) {
+    if (log_flags.task) {
+        msg_printf(result->project, MSG_INFO,
+            "[task] %s task %s",
+            first_time?"Starting":"Resuming", result->name
+        );
+    }
     set_task_state(PROCESS_EXECUTING, "start");
     return 0;
 }
 
-int ACTIVE_TASK::preempt(bool quit_task) {
-    if (quit_task) {
-        set_task_state(PROCESS_UNINITIALIZED, "start");
-    } else {
-        set_task_state(PROCESS_SUSPENDED, "start");
-    }
-    return 0;
-}
 int ACTIVE_TASK_SET::get_free_slot(){
     return 0;
 }
@@ -500,34 +513,31 @@ int CLIENT_STATE::parse_projects(char* name) {
 }
 
 int CLIENT_STATE::parse_host(char* name) {
-    char tag[256];
-    bool is_tag;
     MIOFILE mf;
-    int retval;
 
     FILE* f = fopen(name, "r");
     if (!f) return ERR_FOPEN;
     mf.init_file(f);
     XML_PARSER xp(&mf);
     if (!xp.parse_start("host")) return ERR_XML_PARSE;
-    retval = host_info.parse(xp);
-    return retval;
+    return host_info.parse(xp);
 }
 
-void CLIENT_STATE::simulate(double duration) {
+void CLIENT_STATE::simulate(double duration, double delta) {
     bool action;
     now = 0;
     printf("n: %d\n", active_tasks.active_tasks.size());
     while (1) {
         while (1) {
             action = active_tasks.poll();
+            action |= handle_finished_apps();
             action |= possibly_schedule_cpus();
             action |= enforce_schedule();
             action |= compute_work_requests();
             action |= scheduler_rpc_poll();
             if (!action) break;
         }
-        now += 60;
+        now += delta;
         if (now > duration) break;
     }
 }
@@ -537,11 +547,34 @@ void parse_error(char* file) {
     exit(1);
 }
 
+void help(char* prog) {
+    fprintf(stderr, "usage: %s [--duration X] [--delta X]\n", prog);
+    exit(1);
+}
+
+char* next_arg(int argc, char** argv, int& i) {
+    if (i >= argc) {
+        fprintf(stderr, "Missing command-line argument\n");
+        help(argv[0]);
+    }
+    return argv[i++];
+}
+
 int main(int argc, char** argv) {
     char projects[256], host[256], prefs[256];
-    double duration = 100;
+    double duration = 2000, delta = 10;
     bool flag;
-    int retval;
+    int i, retval;
+
+    for (i=1; i<argc; i++) {
+        if (!strcmp(argv[i], "--duration")) {
+            duration = atoi(next_arg(argc, argv, i));
+        } else if (!strcmp(argv[i], "--delta")) {
+            delta = atoi(next_arg(argc, argv, i));
+        } else {
+            help(argv[0]);
+        }
+    }
 
     strcpy(projects, "sim_projects.xml");
     strcpy(host, "sim_host.xml");
@@ -559,5 +592,5 @@ int main(int argc, char** argv) {
     gstate.set_ncpus();
     printf("ncpus: %d\n", gstate.ncpus);
     gstate.request_work_fetch("init");
-    gstate.simulate(duration);
+    gstate.simulate(duration, delta);
 }

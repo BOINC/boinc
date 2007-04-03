@@ -53,12 +53,15 @@
 
 using std::vector;
 
-#define MAX_DEBT    (86400)
-    // maximum project debt
+#define MAX_STD   (86400)
+    // maximum short-term debt
 
 #define CPU_PESSIMISM_FACTOR 0.9
     // assume actual CPU utilization will be this multiple
     // of what we've actually measured recently
+
+#define DEADLINE_CUSHION    0
+    // try to finish jobs this much in advance of their deadline
 
 static bool more_preemptable(ACTIVE_TASK* t0, ACTIVE_TASK* t1) {
     // returning true means t1 is more preemptable than t0,
@@ -161,7 +164,7 @@ void CLIENT_STATE::assign_results_to_projects() {
 //
 RESULT* CLIENT_STATE::largest_debt_project_best_result() {
     PROJECT *best_project = NULL;
-    double best_debt = -MAX_DEBT;
+    double best_debt = -MAX_STD;
     bool first = true;
     unsigned int i;
 
@@ -345,7 +348,7 @@ void CLIENT_STATE::adjust_debts() {
     // long-term debt:
     //  normalize so mean is zero,
     // short-term debt:
-    //  normalize so mean is zero, and limit abs value at MAX_DEBT
+    //  normalize so mean is zero, and limit abs value at MAX_STD
     //
     double avg_long_term_debt = total_long_term_debt / nprojects;
     double avg_short_term_debt = 0;
@@ -357,11 +360,11 @@ void CLIENT_STATE::adjust_debts() {
         if (p->non_cpu_intensive) continue;
         if (p->runnable()) {
             p->short_term_debt -= avg_short_term_debt;
-            if (p->short_term_debt > MAX_DEBT) {
-                p->short_term_debt = MAX_DEBT;
+            if (p->short_term_debt > MAX_STD) {
+                p->short_term_debt = MAX_STD;
             }
-            if (p->short_term_debt < -MAX_DEBT) {
-                p->short_term_debt = -MAX_DEBT;
+            if (p->short_term_debt < -MAX_STD) {
+                p->short_term_debt = -MAX_STD;
             }
         }
 
@@ -1205,7 +1208,7 @@ void CLIENT_STATE::rr_simulation() {
 					
 				);
 				msg_printf(0, MSG_INFO,
-					"rr_sim proj %s: last active %d, active %d, shortfall %f",
+					"[rr_sim] proj %s: last active %d, active %d, shortfall %f",
 					pbest->get_project_name(), last_proj_active_size, (int)pbest->active.size(),
 					pbest->cpu_shortfall
 				);
@@ -1357,12 +1360,11 @@ ACTIVE_TASK* CLIENT_STATE::get_task(RESULT* rp) {
 //
 double RESULT::computation_deadline() {
     return report_deadline - (
-        gstate.global_prefs.work_buf_min_days * SECONDS_PER_DAY
+        gstate.work_buf_min()
             // Seconds that the host will not be connected to the Internet
         + gstate.global_prefs.cpu_scheduling_period_minutes * 60
             // Seconds that the CPU may be busy with some other result
-        + SECONDS_PER_DAY
-            // Deadline cusion
+        + DEADLINE_CUSHION
     );
 }
 
@@ -1414,5 +1416,44 @@ void CLIENT_STATE::set_ncpus() {
         request_work_fetch("Number of usable CPUs has changed");
     }
 }
+
+// preempt this task
+// called from the CLIENT_STATE::schedule_cpus()
+// if quit_task is true do this by quitting
+//
+int ACTIVE_TASK::preempt(bool quit_task) {
+    int retval;
+
+    // If the app hasn't checkpoint yet, suspend instead of quit
+    // (accommodate apps that never checkpoint)
+    //
+    if (quit_task && (checkpoint_cpu_time>0)) {
+        if (log_flags.cpu_sched) {
+            msg_printf(result->project, MSG_INFO,
+                "[cpu_sched] Preempting %s (removed from memory)",
+                result->name
+            );
+        }
+        set_task_state(PROCESS_QUIT_PENDING, "preempt");
+        retval = request_exit();
+    } else {
+        if (log_flags.cpu_sched) {
+			if (quit_task) {
+				msg_printf(result->project, MSG_INFO,
+					"[cpu_sched] Preempting %s (left in memory because no checkpoint yet)",
+					result->name
+				);
+			} else {
+				msg_printf(result->project, MSG_INFO,
+					"[cpu_sched] Preempting %s (left in memory)",
+					result->name
+				);
+			}
+		}
+        retval = suspend();
+    }
+    return 0;
+}
+
 
 const char *BOINC_RCSID_e830ee1 = "$Id$";

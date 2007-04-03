@@ -174,43 +174,6 @@ bool ACTIVE_TASK::has_task_exited() {
     return exited;
 }
 
-// preempt this task
-// called from the CLIENT_STATE::schedule_cpus()
-// if quit_task is true do this by quitting
-//
-int ACTIVE_TASK::preempt(bool quit_task) {
-    int retval;
-
-    // If the app hasn't checkpoint yet, suspend instead of quit
-    // (accommodate apps that never checkpoint)
-    //
-    if (quit_task && (checkpoint_cpu_time>0)) {
-        if (log_flags.cpu_sched) {
-            msg_printf(result->project, MSG_INFO,
-                "[cpu_sched] Preempting %s (removed from memory)",
-                result->name
-            );
-        }
-        set_task_state(PROCESS_QUIT_PENDING, "preempt");
-        retval = request_exit();
-    } else {
-        if (log_flags.cpu_sched) {
-			if (quit_task) {
-				msg_printf(result->project, MSG_INFO,
-					"[cpu_sched] Preempting %s (left in memory because no checkpoint yet)",
-					result->name
-				);
-			} else {
-				msg_printf(result->project, MSG_INFO,
-					"[cpu_sched] Preempting %s (left in memory)",
-					result->name
-				);
-			}
-		}
-        retval = suspend();
-    }
-    return 0;
-}
 
 static void limbo_message(ACTIVE_TASK& at) {
     msg_printf(at.result->project, MSG_INFO,
