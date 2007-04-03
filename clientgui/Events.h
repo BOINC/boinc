@@ -45,7 +45,7 @@
 #define ID_READ_PREFS							6021
 #define ID_READ_CONFIG							6022
 #define ID_OPTIONSOPTIONS                       6023
-#define ID_HELPBOINC                            6024
+#define ID_HELPBOINCWEBSITE                     6024
 #define ID_HELPBOINCMANAGER                     6025
 #define ID_TOOLSAMUPDATENOW                     6026
 #define ID_ADVANCEDAMDEFECT                     6027
@@ -56,6 +56,7 @@
 #define ID_FILECLOSEWINDOW                      6032
 #define ID_ADVPREFSDLG							6033
 #define ID_SHUTDOWNCORECLIENT                   6034
+#define ID_HELPBOINC                            6035
 #define ID_SIMPLEFRAME                          6100
 #define ID_SIMPLEMESSAGECHECKTIMER              6101
 #define ID_SIMPLE_ATTACHTOPROJECT               6600

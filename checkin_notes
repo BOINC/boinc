@@ -3010,3 +3010,47 @@ Charlie 3 Apr 2007
         ReadMe.rtf
         release_boinc.sh
         release_GridRepublic.sh
+
+Rom    3 Apr 2007
+    - MGR: Check firefox cookies for a projects authenticator which might have
+        been assigned during a web based registration scenario
+    - MGR: Fix detech from project crashing condition
+    - MGR: Fix variuos performance problems with the Grid based views. Best
+        rule of thumb is to not set/change any value in a control unless it
+        has really changed. Doing so causes the RECT to become invalidated
+        which causes the OS to want to repaint it. Data processing is always
+        faster than repainting.
+    - MGR: Don't delete all the rows of a grid just to recreate them a few
+        steps later, you really only need to add or delete the difference
+        since the last update.
+    - MGR: Avoid using 'wxString("Some static Text", wxConvUTF8)' to handle
+        literal strings for Unicode, the wxT() macro allows the compiler to
+        take care of it at compile time, instead of run-time.
+    - MGR: Add a generic 'BOINC help' link that can be used to go to help.php.
+    - MGR: All help menu items are now redirected using the manager_links.php
+        page.
+    - MGR: Add version information to the manager_links.php requests.
+    - CC: Fix the display of the processor features. It is useful for those
+        who want to run optimized clients but don't really know what processor
+        features are supported by their processor/os combination.
+
+    client/
+        client_state.C
+        hostinfo_win.C
+    client/win/
+        win_screensaver.cpp
+    clientgui/
+        AdvancedFrame.cpp, .h
+        Events.h
+        ViewMessagesGrid.cpp
+        ViewProjectsGrid.cpp
+        ViewTransfersGrid.cpp
+        ViewWorkGrid.cpp
+        WizardAttachProject.cpp
+        sg_BoincSimpleGUI.cpp
+        stdwx.h
+    lib/
+        boinc_win.h
+        browser.C
+    win_build/
+        boincmgr_curl.vcproj

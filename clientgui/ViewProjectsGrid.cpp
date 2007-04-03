@@ -523,11 +523,12 @@ void CViewProjectsGrid::UpdateSelection() {
             }
         }
         m_pTaskPane->EnableTask(pGroup->m_Tasks[BTN_RESET]);
-        if (project->attached_via_acct_mgr) {
+        if (project && project->attached_via_acct_mgr) {
             m_pTaskPane->DisableTask(pGroup->m_Tasks[BTN_DETACH]);
         } else {
             m_pTaskPane->EnableTask(pGroup->m_Tasks[BTN_DETACH]);
         }
+
         UpdateWebsiteSelection(GRP_WEBSITES, project);
 
     } else {
@@ -602,36 +603,32 @@ void CViewProjectsGrid::UpdateWebsiteSelection(long lControlGroup, PROJECT* proj
 }
 
 void CViewProjectsGrid::FormatProjectName(wxInt32 item, wxString& strBuffer) {
-	strBuffer = wxString(" ",wxConvUTF8) + m_projectCache.Item(item)->name;
+	strBuffer = wxT(" ") + m_projectCache.Item(item)->name;
 }
 
-
 void CViewProjectsGrid::FormatAccountName(wxInt32 item, wxString& strBuffer) {
-    strBuffer = wxString(" ",wxConvUTF8) + m_projectCache.Item(item)->accountname;
+    strBuffer = wxT(" ") + m_projectCache.Item(item)->accountname;
 }
 
 void CViewProjectsGrid::FormatTeamName(wxInt32 item, wxString& strBuffer) {
-   strBuffer = wxString(" ",wxConvUTF8) + m_projectCache.Item(item)->teamname;
+   strBuffer = wxT(" ") + m_projectCache.Item(item)->teamname;
 }
 
 void CViewProjectsGrid::FormatTotalCredit(wxInt32 item, wxString& strBuffer) {
 	strBuffer.Printf(wxT(" %0.2f"), m_projectCache.Item(item)->totalcredit);
 }
 
-
 void CViewProjectsGrid::FormatAVGCredit(wxInt32 item, wxString& strBuffer) {
 	strBuffer.Printf(wxT(" %0.2f"), m_projectCache.Item(item)->avgcredit);
 }
-
 
 void CViewProjectsGrid::FormatResourceShare(wxInt32 item, wxString& strBuffer){
     strBuffer.Printf(wxT(" %0.2f%% (%0.0f)"),m_projectCache.Item(item)->rspercent,
             m_projectCache.Item(item)->resourceshare);
 }
 
-
-void CViewProjectsGrid::FormatStatus(wxInt32 item, wxString& status) {
-	status = wxString(" ",wxConvUTF8) + m_projectCache.Item(item)->status;
+void CViewProjectsGrid::FormatStatus(wxInt32 item, wxString& strBuffer) {
+	strBuffer = wxT(" ") + m_projectCache.Item(item)->status;
 }
 
 
@@ -709,73 +706,83 @@ void CViewProjectsGrid::OnListRender( wxTimerEvent& WXUNUSED(event) ) {
 
     // We haven't connected up to the CC yet, there is nothing to display, make sure
     //   everything is deleted.
-    if ( GetDocCount() < 0 ) {
+    if ( GetDocCount() <= 0 ) {
         if ( m_pGridPane->GetNumberRows() ) {
-    		m_pGridPane->BeginBatch();
             m_pGridPane->DeleteRows(0, m_pGridPane->GetNumberRows());
-    		m_pGridPane->EndBatch();
         }
         return;
     }
 
-	//remember grid cursor position (invisible)
-	m_pGridPane->SaveGridCursorPosition();
+    //remember grid cursor position (invisible)
+    m_pGridPane->SaveGridCursorPosition();
 
     //remember selected row(s)
-	m_pGridPane->SaveSelection();
+    m_pGridPane->SaveSelection();
 
-	//(re)create rows, if necessary
-	if(this->GetDocCount() != m_pGridPane->GetRows()) {
-		//prevent grid from flicker
-		m_pGridPane->BeginBatch();
-		//at first, delete all current rows
-		if(m_pGridPane->GetRows()>0) {
-			m_pGridPane->DeleteRows(0,m_pGridPane->GetRows());
-		}
-		//append new rows
-		m_pGridPane->AppendRows(this->GetDocCount());		
-		m_pGridPane->EndBatch();
-	}
+    // Right-size the grid so that the number of rows matches
+    //   the document state.
+    if(GetDocCount() != m_pGridPane->GetNumberRows()) {
+        if (GetDocCount() > m_pGridPane->GetNumberRows()) {
+    	    m_pGridPane->AppendRows(GetDocCount() - m_pGridPane->GetNumberRows());
+        } else {
+            int iRowCount = m_pGridPane->GetNumberRows() - GetDocCount();
+		    m_pGridPane->DeleteRows(m_pGridPane->GetNumberRows() - iRowCount, iRowCount);
+        }
+        wxASSERT(GetDocCount() == m_pGridPane->GetNumberRows());
+    }
 
     //update cell values only if project info or sorting were changed
-	if(UpdateProjectCache() || SortProjects()) {
-		//prevent grid from flicker
-		m_pGridPane->BeginBatch();
-		wxString buffer;
-		int rowmax = m_pGridPane->GetRows();
-		for(int rownum=0; rownum < rowmax;rownum++) {
-			this->FormatProjectName(rownum,buffer);
-			m_pGridPane->SetCellValue(rownum,COLUMN_PROJECT,buffer);
+    if(UpdateProjectCache() || SortProjects()) {
+	    wxString strBuffer;
+	    int iMax = m_pGridPane->GetNumberRows();
+	    for(int iRow = 0; iRow < iMax; iRow++) {
+		    
+            FormatProjectName(iRow, strBuffer);
+            if (m_pGridPane->GetCellValue(iRow, COLUMN_PROJECT) != strBuffer) {
+		        m_pGridPane->SetCellValue(iRow, COLUMN_PROJECT, strBuffer);
+            }
 
-			this->FormatAccountName(rownum,buffer);
-			m_pGridPane->SetCellValue(rownum,COLUMN_ACCOUNTNAME,buffer);
+		    FormatAccountName(iRow, strBuffer);
+            if (m_pGridPane->GetCellValue(iRow, COLUMN_ACCOUNTNAME) != strBuffer) {
+		        m_pGridPane->SetCellValue(iRow, COLUMN_ACCOUNTNAME, strBuffer);
+            }
 
-			this->FormatTeamName(rownum,buffer);
-			m_pGridPane->SetCellValue(rownum,COLUMN_TEAMNAME,buffer);
+		    FormatTeamName(iRow, strBuffer);
+            if (m_pGridPane->GetCellValue(iRow, COLUMN_TEAMNAME) != strBuffer) {
+	    	    m_pGridPane->SetCellValue(iRow, COLUMN_TEAMNAME, strBuffer);
+            }
 
-			this->FormatTotalCredit(rownum,buffer);
-			m_pGridPane->SetCellValue(rownum,COLUMN_TOTALCREDIT,buffer);
+		    FormatTotalCredit(iRow, strBuffer);
+            if (m_pGridPane->GetCellValue(iRow, COLUMN_TOTALCREDIT) != strBuffer) {
+    		    m_pGridPane->SetCellValue(iRow, COLUMN_TOTALCREDIT, strBuffer);
+            }
 
-			this->FormatAVGCredit(rownum,buffer);
-			m_pGridPane->SetCellValue(rownum,COLUMN_AVGCREDIT,buffer);
+		    FormatAVGCredit(iRow, strBuffer);
+            if (m_pGridPane->GetCellValue(iRow, COLUMN_AVGCREDIT) != strBuffer) {
+		        m_pGridPane->SetCellValue(iRow, COLUMN_AVGCREDIT, strBuffer);
+            }
 
-			this->FormatResourceShare(rownum,buffer);
-			m_pGridPane->SetCellValue(rownum,COLUMN_RESOURCESHARE,buffer);
-			m_pGridPane->SetCellAlignment(rownum,COLUMN_RESOURCESHARE,wxALIGN_CENTRE,wxALIGN_CENTRE);
+		    FormatResourceShare(iRow, strBuffer);
+            if (m_pGridPane->GetCellValue(iRow, COLUMN_RESOURCESHARE) != strBuffer) {
+	    	    m_pGridPane->SetCellValue(iRow, COLUMN_RESOURCESHARE, strBuffer);
+		        m_pGridPane->SetCellAlignment(iRow, COLUMN_RESOURCESHARE, wxALIGN_CENTRE, wxALIGN_CENTRE);
+            }
 
-			buffer = wxEmptyString;
-			this->FormatStatus(rownum,buffer);
-			m_pGridPane->SetCellValue(rownum,COLUMN_STATUS,buffer);
-		}
-		// restore grid cursor position, force ignore the internal from wxWidgets thrown selection events
-		m_bIgnoreSelectionEvents =true;
-		m_pGridPane->RestoreGridCursorPosition();
-		m_bIgnoreSelectionEvents =false;
-		//restore selection
-		m_pGridPane->RestoreSelection();		
-		m_pGridPane->EndBatch();
-	}	
+		    strBuffer = wxEmptyString;
+		    FormatStatus(iRow, strBuffer);
+            if (m_pGridPane->GetCellValue(iRow, COLUMN_STATUS) != strBuffer) {
+    		    m_pGridPane->SetCellValue(iRow, COLUMN_STATUS, strBuffer);
+            }
+	    }
 
+        // restore grid cursor position, force ignore the internal from wxWidgets thrown selection events
+	    m_bIgnoreSelectionEvents = true;
+	    m_pGridPane->RestoreGridCursorPosition();
+	    m_bIgnoreSelectionEvents = false;
+
+        //restore selection
+	    m_pGridPane->RestoreSelection();		
+    }
 
 	UpdateSelection();
 
@@ -792,7 +799,7 @@ void CViewProjectsGrid::OnSelectCell( wxGridEvent& ev )
     // to occur in wxGrid
     ev.Skip();
 	if(!m_bIgnoreSelectionEvents) {
-		m_bForceUpdateSelection=true;
+		m_bForceUpdateSelection = true;
 	}	
 }
 
@@ -800,7 +807,7 @@ void CViewProjectsGrid::OnSelectCell( wxGridEvent& ev )
 void CViewProjectsGrid::OnSelectRange(wxGridRangeSelectEvent& ev) {
 	ev.Skip();
 	if(!m_bIgnoreSelectionEvents) {
-		m_bForceUpdateSelection=true;
+		m_bForceUpdateSelection = true;
 	}	
 }
 

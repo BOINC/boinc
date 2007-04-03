@@ -27,7 +27,6 @@
 #include <windowsx.h>
 #include <mmsystem.h>
 #include <regstr.h>
-#include <shlobj.h>
 #define COMPILE_MULTIMON_STUBS
 #include <multimon.h>
 #include <strsafe.h>

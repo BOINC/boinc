@@ -124,6 +124,9 @@ void CLIENT_STATE::show_host_info() {
         "Processor: %d %s %s",
         host_info.p_ncpus, host_info.p_vendor, host_info.p_model
     );
+    msg_printf(NULL, MSG_INFO,
+        "Processor features: %s", host_info.p_features
+    );
 
     nbytes_to_string(host_info.m_nbytes, 0, buf, sizeof(buf));
     nbytes_to_string(host_info.m_swap, 0, buf2, sizeof(buf2));

@@ -282,7 +282,7 @@ bool CWizardAttachProject::Run( wxString& WXUNUSED(strName), wxString& strURL, b
     //   authenticator.  Some projects will set a "Setup" cookie off of their URL with a
     //   pretty short timeout.  Lets take a crack at detecting it.
     //
-    if (!bCredentialsCached) {
+    if (!strURL.IsEmpty() && !bCredentialsCached) {
         std::string url = std::string(strURL.mb_str());
         std::string authenticator;
 

@@ -76,8 +76,7 @@ public:
     void Onread_config( wxCommandEvent& event );
 
     void OnHelp( wxHelpEvent& event );
-    void OnHelpBOINCManager( wxCommandEvent& event );
-    void OnHelpBOINCWebsite( wxCommandEvent& event );
+    void OnHelpBOINC( wxCommandEvent& event );
     void OnHelpAbout( wxCommandEvent& event );
 
     void OnShow( wxShowEvent& event );

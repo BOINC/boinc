@@ -258,13 +258,13 @@ int get_os_information(
                 else if ( (osvi.wProductType == VER_NT_SERVER) || (osvi.wProductType == VER_NT_DOMAIN_CONTROLLER) ) {
                     if( (osvi.dwMajorVersion == 6 && osvi.dwMinorVersion == 0) || (osvi.dwMajorVersion == 5 && osvi.dwMinorVersion == 2) ) {
 
-                        if ( si.wProcessorArchitecture==PROCESSOR_ARCHITECTURE_IA64 ) {
+                        if ( si.wProcessorArchitecture == PROCESSOR_ARCHITECTURE_IA64 ) {
                             if( osvi.wSuiteMask & VER_SUITE_DATACENTER ) {
                                 strcpy( szSKU, "Datacenter Edition for Itanium-based Systems" );
                             } else if( osvi.wSuiteMask & VER_SUITE_ENTERPRISE ) {
                                 strcpy( szSKU, "Enterprise Edition for Itanium-based Systems" );
                             }
-                        } else if ( si.wProcessorArchitecture==PROCESSOR_ARCHITECTURE_AMD64 ) {
+                        } else if ( si.wProcessorArchitecture == PROCESSOR_ARCHITECTURE_AMD64 ) {
                             if( osvi.wSuiteMask & VER_SUITE_DATACENTER ) {
                                 strcpy( szSKU, "Datacenter x64 Edition" );
                             } else if( osvi.wSuiteMask & VER_SUITE_ENTERPRISE ) {
@@ -563,7 +563,7 @@ int get_processor_info(
     }
 
     // Merge all the seperate pieces of information into one.
-    snprintf(p_model, p_model_size, "%s [%s] [%s]", temp_model, identifierName);
+    snprintf(p_model, p_model_size, "%s [%s]", temp_model, identifierName);
     p_model[p_model_size-1] = 0;
     strlcpy(p_features, capabilities, p_features_size);
 

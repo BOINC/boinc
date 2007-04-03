@@ -26,6 +26,7 @@
 #endif
 
 #include "stdwx.h"
+#include "verson.h"
 #include "diagnostics.h"
 #include "str_util.h"
 #include "mfile.h"
@@ -176,8 +177,9 @@ BEGIN_EVENT_TABLE (CAdvancedFrame, CBOINCBaseFrame)
     EVT_MENU(ID_OPTIONSOPTIONS, CAdvancedFrame::OnOptionsOptions)
 	EVT_MENU(ID_ADVPREFSDLG, CAdvancedFrame::OnDlgPreferences)
     EVT_HELP(wxID_ANY, CAdvancedFrame::OnHelp)
-    EVT_MENU(ID_HELPBOINCMANAGER, CAdvancedFrame::OnHelpBOINCManager)
-    EVT_MENU(ID_HELPBOINC, CAdvancedFrame::OnHelpBOINCWebsite)
+    EVT_MENU(ID_HELPBOINC, CAdvancedFrame::OnHelpBOINC)
+    EVT_MENU(ID_HELPBOINCMANAGER, CAdvancedFrame::OnHelpBOINC)
+    EVT_MENU(ID_HELPBOINCWEBSITE, CAdvancedFrame::OnHelpBOINC)
     EVT_MENU(wxID_ABOUT, CAdvancedFrame::OnHelpAbout)
     EVT_SHOW(CAdvancedFrame::OnShow)
     EVT_FRAME_REFRESH(CAdvancedFrame::OnRefreshView)
@@ -480,10 +482,28 @@ bool CAdvancedFrame::CreateMenu() {
     // Help menu
     wxMenu *menuHelp = new wxMenu;
 
+    // %s is the project name
+    //    i.e. 'BOINC', 'GridRepublic'
+    strMenuName.Printf(
+        _("%s &help"), 
+        pSkinAdvanced->GetProjectName().c_str()
+    );
+    // %s is the project name
+    //    i.e. 'BOINC', 'GridRepublic'
+    strMenuDescription.Printf(
+        _("Show information about %s"), 
+        pSkinAdvanced->GetProjectName().c_str()
+    );
+    menuHelp->Append(
+        ID_HELPBOINC,
+        strMenuName, 
+        strMenuDescription
+    );
+
     // %s is the application name
     //    i.e. 'BOINC Manager', 'GridRepublic Manager'
     strMenuName.Printf(
-        _("&%s"), 
+        _("&%s help"), 
         pSkinAdvanced->GetApplicationName().c_str()
     );
     // %s is the application name
@@ -511,7 +531,7 @@ bool CAdvancedFrame::CreateMenu() {
         pSkinAdvanced->GetApplicationName().c_str()
     );
     menuHelp->Append(
-        ID_HELPBOINC,
+        ID_HELPBOINCWEBSITE,
         strMenuName, 
         strMenuDescription
     );
@@ -1495,8 +1515,8 @@ void CAdvancedFrame::OnHelp(wxHelpEvent& event) {
 }
 
 
-void CAdvancedFrame::OnHelpBOINCManager(wxCommandEvent& WXUNUSED(event)) {
-    wxLogTrace(wxT("Function Start/End"), wxT("CAdvancedFrame::OnHelpBOINCManager - Function Begin"));
+void CAdvancedFrame::OnHelpBOINC(wxCommandEvent& event) {
+    wxLogTrace(wxT("Function Start/End"), wxT("CAdvancedFrame::OnHelpBOINC - Function Begin"));
 
     if (IsShown()) {
 		std::string url;
@@ -1504,24 +1524,16 @@ void CAdvancedFrame::OnHelpBOINCManager(wxCommandEvent& WXUNUSED(event)) {
 		canonicalize_master_url(url);
 
 		wxString wxurl;
-		wxurl = wxString(url.c_str(), wxConvUTF8);
-		wxurl += wxT("manager_links.php?target=advanced");
-		ExecuteBrowserLink(wxurl);
+		wxurl.Printf(
+            wxT("%smanager_links.php?target=advanced&version=%s&controlid=%d"),
+            url.c_str(),
+            BOINC_VERSION_STRING,
+            event.GetId()
+        );
+        ExecuteBrowserLink(wxurl);
     }
 
-    wxLogTrace(wxT("Function Start/End"), wxT("CAdvancedFrame::OnHelpBOINCManager - Function End"));
-}
-
-
-void CAdvancedFrame::OnHelpBOINCWebsite(wxCommandEvent& WXUNUSED(event)) {
-    wxLogTrace(wxT("Function Start/End"), wxT("CAdvancedFrame::OnHelpBOINCWebsite - Function Begin"));
-
-    if (IsShown()) {
-        wxString url = wxGetApp().GetSkinManager()->GetAdvanced()->GetCompanyWebsite();
-        ExecuteBrowserLink(url);
-    }
-
-    wxLogTrace(wxT("Function Start/End"), wxT("CAdvancedFrame::OnHelpBOINCWebsite - Function End"));
+    wxLogTrace(wxT("Function Start/End"), wxT("CAdvancedFrame::OnHelpBOINC - Function End"));
 }
 
 

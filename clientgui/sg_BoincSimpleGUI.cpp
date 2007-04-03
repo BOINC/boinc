@@ -60,7 +60,7 @@ BEGIN_EVENT_TABLE(CSimpleFrame, CBOINCBaseFrame)
     EVT_FRAME_RELOADSKIN(CSimpleFrame::OnReloadSkin)
     // We can't eliminate the Mac Help menu, so we might as well make it useful.
     EVT_MENU(ID_HELPBOINCMANAGER, CSimpleFrame::OnHelpBOINCManager)
-    EVT_MENU(ID_HELPBOINC, CSimpleFrame::OnHelpBOINCWebsite)
+    EVT_MENU(ID_HELPBOINCWEBSITE, CSimpleFrame::OnHelpBOINCWebsite)
 END_EVENT_TABLE()
 
 CSimpleFrame::CSimpleFrame() {
@@ -137,7 +137,7 @@ CSimpleFrame::CSimpleFrame(wxString title, wxIcon* icon) :
         pSkinAdvanced->GetApplicationName().c_str()
     );
     menuHelp->Append(
-        ID_HELPBOINC,
+        ID_HELPBOINCWEBSITE,
         strMenuName, 
         strMenuDescription
     );

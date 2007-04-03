@@ -485,7 +485,7 @@ wxInt32 CViewWorkGrid::FormatProjectName(wxInt32 item, wxString& strBuffer) cons
         state_project = doc->state.lookup_project(result->project_url);
         if (state_project) {
             state_project->get_name(project_name);
-            strBuffer = wxString(" ", wxConvUTF8) + wxString(project_name.c_str(), wxConvUTF8);
+            strBuffer = wxT(" ") + wxString(project_name.c_str(), wxConvUTF8);
         } else {
             doc->ForceCacheUpdate();
         }
@@ -573,7 +573,7 @@ wxInt32 CViewWorkGrid::FormatCPUTime(wxInt32 item, wxString& strBuffer) const {
 
         ts = wxTimeSpan(iHour, iMin, iSec);
 
-        strBuffer = wxString(" ", wxConvUTF8) + ts.Format();
+        strBuffer = wxT(" ") + ts.Format();
     }
 
     return 0;
@@ -623,7 +623,7 @@ wxInt32 CViewWorkGrid::FormatTimeToCompletion(wxInt32 item, wxString& strBuffer)
 
         ts = wxTimeSpan(iHour, iMin, iSec);
 
-        strBuffer = wxString(" ", wxConvUTF8) + ts.Format();
+        strBuffer = wxT(" ") + ts.Format();
     }
 
     return 0;
@@ -738,7 +738,7 @@ wxInt32 CViewWorkGrid::FormatStatus(wxInt32 item, wxString& strBuffer) const {
         }
         break;
     }
-	strBuffer = wxString(" ", wxConvUTF8) + strBuffer;
+	strBuffer = wxT(" ") + strBuffer;
     return 0;
 }
 
@@ -782,63 +782,91 @@ wxInt32 CViewWorkGrid::GetDocCount() {
 }
 
 void CViewWorkGrid::OnListRender( wxTimerEvent& WXUNUSED(event) ) {
-	int tdoccount= this->GetDocCount();
-	//prevent grid from flicker
-	m_pGridPane->BeginBatch();
+    // We haven't connected up to the CC yet, there is nothing to display, make sure
+    //   everything is deleted.
+    if ( GetDocCount() <= 0 ) {
+        if ( m_pGridPane->GetNumberRows() ) {
+            m_pGridPane->DeleteRows(0, m_pGridPane->GetNumberRows());
+        }
+        return;
+    }
+    
 	//remember grid cursor position
 	m_pGridPane->SaveGridCursorPosition();
-	//remember selected row(s)
+
+    //remember selected row(s)
 	m_pGridPane->SaveSelection();	
-	//(re)create rows, if necessary
-	if(tdoccount!= m_pGridPane->GetRows()) {
-		//at first, delet all current rows
-		if(m_pGridPane->GetRows()>0) {
-			m_pGridPane->DeleteRows(0,m_pGridPane->GetRows());
-		}
-		//insert new rows
-		for(int rownum=0; rownum < tdoccount;rownum++) {		
-			m_pGridPane->AppendRows();
-		}
-	}
+
+    // Right-size the grid so that the number of rows matches
+    //   the document state.
+    if(GetDocCount() != m_pGridPane->GetNumberRows()) {
+        if (GetDocCount() > m_pGridPane->GetNumberRows()) {
+    	    m_pGridPane->AppendRows(GetDocCount() - m_pGridPane->GetNumberRows());
+        } else {
+            int iRowCount = m_pGridPane->GetNumberRows() - GetDocCount();
+		    m_pGridPane->DeleteRows(m_pGridPane->GetNumberRows() - iRowCount, iRowCount);
+        }
+        wxASSERT(GetDocCount() == m_pGridPane->GetNumberRows());
+    }
 
 	//update cell values	
-	wxString buffer;
-	for(int rownum=0; rownum < tdoccount;rownum++) {				
-		this->FormatProjectName(rownum,buffer);
-		m_pGridPane->SetCellValue(rownum,COLUMN_PROJECT,buffer);
+	wxString strBuffer;
+    int iMax = m_pGridPane->GetNumberRows();
+	for(int iRow = 0; iRow < iMax; iRow++) {
 
-		this->FormatApplicationName(rownum,buffer);
-		m_pGridPane->SetCellValue(rownum,COLUMN_APPLICATION,buffer);
+		FormatProjectName(iRow, strBuffer);
+        if (m_pGridPane->GetCellValue(iRow, COLUMN_PROJECT) != strBuffer) {
+    		m_pGridPane->SetCellValue(iRow, COLUMN_PROJECT, strBuffer);
+        }
 
-		this->FormatName(rownum,buffer);
-		m_pGridPane->SetCellValue(rownum,COLUMN_NAME,buffer);
+		FormatApplicationName(iRow, strBuffer);
+        if (m_pGridPane->GetCellValue(iRow, COLUMN_APPLICATION) != strBuffer) {
+    		m_pGridPane->SetCellValue(iRow, COLUMN_APPLICATION, strBuffer);
+        }
 
-		this->FormatCPUTime(rownum,buffer);
-		m_pGridPane->SetCellValue(rownum,COLUMN_CPUTIME,buffer);
+		FormatName(iRow, strBuffer);
+        if (m_pGridPane->GetCellValue(iRow, COLUMN_NAME) != strBuffer) {
+	    	m_pGridPane->SetCellValue(iRow, COLUMN_NAME, strBuffer);
+        }
 
-		this->FormatProgress(rownum,buffer);
-		m_pGridPane->SetCellValue(rownum,COLUMN_PROGRESS,buffer);
-		m_pGridPane->SetCellAlignment(rownum,COLUMN_PROGRESS,wxALIGN_CENTRE,wxALIGN_CENTRE);
+		FormatCPUTime(iRow, strBuffer);
+        if (m_pGridPane->GetCellValue(iRow, COLUMN_CPUTIME) != strBuffer) {
+		    m_pGridPane->SetCellValue(iRow, COLUMN_CPUTIME, strBuffer);
+        }
 
-		this->FormatTimeToCompletion(rownum,buffer);
-		m_pGridPane->SetCellValue(rownum,COLUMN_TOCOMPLETION,buffer);
+		FormatProgress(iRow, strBuffer);
+        if (m_pGridPane->GetCellValue(iRow, COLUMN_PROGRESS) != strBuffer) {
+    		m_pGridPane->SetCellValue(iRow, COLUMN_PROGRESS, strBuffer);
+	    	m_pGridPane->SetCellAlignment(iRow, COLUMN_PROGRESS, wxALIGN_CENTRE, wxALIGN_CENTRE);
+        }
 
-		this->FormatReportDeadline(rownum,buffer);
-		m_pGridPane->SetCellValue(rownum,COLUMN_REPORTDEADLINE,buffer);
+		FormatTimeToCompletion(iRow, strBuffer);
+        if (m_pGridPane->GetCellValue(iRow, COLUMN_TOCOMPLETION) != strBuffer) {
+		    m_pGridPane->SetCellValue(iRow, COLUMN_TOCOMPLETION, strBuffer);
+        }
+
+		FormatReportDeadline(iRow, strBuffer);
+        if (m_pGridPane->GetCellValue(iRow, COLUMN_REPORTDEADLINE) != strBuffer) {
+		    m_pGridPane->SetCellValue(iRow, COLUMN_REPORTDEADLINE, strBuffer);
+        }
 		
-		this->FormatStatus(rownum,buffer);
-		m_pGridPane->SetCellValue(rownum,COLUMN_STATUS,buffer);
-
+        strBuffer = wxEmptyString;
+		FormatStatus(iRow, strBuffer);
+        if (m_pGridPane->GetCellValue(iRow, COLUMN_STATUS) != strBuffer) {
+		    m_pGridPane->SetCellValue(iRow, COLUMN_STATUS, strBuffer);
+        }
 	}
-	m_pGridPane->SortData();
-	// restore grid cursor position
-	m_bIgnoreSelectionEvents =true;
+
+    m_pGridPane->SortData();
+
+    // restore grid cursor position
+	m_bIgnoreSelectionEvents = true;
 	m_pGridPane->RestoreGridCursorPosition();
-	m_bIgnoreSelectionEvents =false;
-	//restore selection
+	m_bIgnoreSelectionEvents = false;
+
+    //restore selection
 	m_pGridPane->RestoreSelection();
-	m_pGridPane->EndBatch();	
-	//
+
 	UpdateSelection();
 }
 

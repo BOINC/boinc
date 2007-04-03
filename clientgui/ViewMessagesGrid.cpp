@@ -153,7 +153,7 @@ CViewMessagesGrid::~CViewMessagesGrid() {
 
 
 wxString& CViewMessagesGrid::GetViewName() {
-    static wxString strViewName(_("MessagesGrid"));
+    static wxString strViewName(_("Messages"));
     return strViewName;
 }
 
@@ -267,52 +267,76 @@ bool CViewMessagesGrid::OnRestoreState(wxConfigBase* pConfig) {
 void CViewMessagesGrid::OnListRender (wxTimerEvent& WXUNUSED(event)) {
     wxASSERT(m_pGridPane);
 
-	int tdoccount=this->GetDocCount();
-	//prevent grid from flicker
-	m_pGridPane->BeginBatch();
-	//remember grid cursor position
-	m_pGridPane->SaveGridCursorPosition();
-	//remember selected row(s)
+    // We haven't connected up to the CC yet, there is nothing to display, make sure
+    //   everything is deleted.
+    if ( GetDocCount() <= 0 ) {
+        if ( m_pGridPane->GetNumberRows() ) {
+            m_pGridPane->DeleteRows(0, m_pGridPane->GetNumberRows());
+        }
+        return;
+    }
+
+    //remember grid cursor position
+    m_pGridPane->SaveGridCursorPosition();
+
+    //remember selected row(s)
 	m_pGridPane->SaveSelection();	
-	//(re)create rows, if necessary
-	if(tdoccount!= m_pGridPane->GetRows()) {
-		//at first, delet all current rows
-		if(m_pGridPane->GetRows()>0) {
-			m_pGridPane->DeleteRows(0,m_pGridPane->GetRows());
-		}
-		//insert new rows
-		m_pGridPane->AppendRows(tdoccount);
-	}
+
+    // Right-size the grid so that the number of rows matches
+    //   the document state.
+    if(GetDocCount() != m_pGridPane->GetNumberRows()) {
+        if (GetDocCount() > m_pGridPane->GetNumberRows()) {
+    	    m_pGridPane->AppendRows(GetDocCount() - m_pGridPane->GetNumberRows());
+        } else {
+            int iRowCount = m_pGridPane->GetNumberRows() - GetDocCount();
+		    m_pGridPane->DeleteRows(m_pGridPane->GetNumberRows() - iRowCount, iRowCount);
+        }
+        wxASSERT(GetDocCount() == m_pGridPane->GetNumberRows());
+    }
 
 	//update cell values (unsorted, like delivered from core client)
-	wxString buffer;
-	for(int rownum=0; rownum < tdoccount;rownum++) {
-		this->FormatProjectName(rownum,buffer);
-		m_pGridPane->SetCellValue(rownum,COLUMN_PROJECT,buffer);
+	wxString strBuffer;
+    int iMax = m_pGridPane->GetNumberRows();
+	for(int iRow = 0; iRow < iMax; iRow++) {
 
-		this->FormatSeqNo(rownum,buffer);
-		m_pGridPane->SetCellValue(rownum,COLUMN_SEQNO,buffer);
+        FormatProjectName(iRow, strBuffer);
+        if (m_pGridPane->GetCellValue(iRow, COLUMN_PROJECT) != strBuffer) {
+		    m_pGridPane->SetCellValue(iRow, COLUMN_PROJECT, strBuffer);
+        }
 
-		this->FormatPriority(rownum,buffer);
-		m_pGridPane->SetCellValue(rownum,COLUMN_PRIO,buffer);
+		FormatSeqNo(iRow, strBuffer);
+        if (m_pGridPane->GetCellValue(iRow, COLUMN_SEQNO) != strBuffer) {
+    		m_pGridPane->SetCellValue(iRow, COLUMN_SEQNO, strBuffer);
+        }
 
-		this->FormatTime(rownum,buffer);
-		m_pGridPane->SetCellValue(rownum,COLUMN_TIME,buffer);
+		FormatPriority(iRow, strBuffer);
+        if (m_pGridPane->GetCellValue(iRow, COLUMN_PRIO) != strBuffer) {
+    		m_pGridPane->SetCellValue(iRow, COLUMN_PRIO, strBuffer);
+        }
 
-		this->FormatMessage(rownum,buffer);
-		m_pGridPane->SetCellValue(rownum,COLUMN_MESSAGE,buffer);
-	}
-	//sorting
+		FormatTime(iRow, strBuffer);
+        if (m_pGridPane->GetCellValue(iRow, COLUMN_TIME) != strBuffer) {
+    		m_pGridPane->SetCellValue(iRow, COLUMN_TIME, strBuffer);
+        }
+
+		FormatMessage(iRow, strBuffer);
+        if (m_pGridPane->GetCellValue(iRow, COLUMN_MESSAGE) != strBuffer) {
+    		m_pGridPane->SetCellValue(iRow, COLUMN_MESSAGE, strBuffer);
+        }
+    }
+
+    //sorting
 	m_pGridPane->SortData();
-	// restore grid cursor position
-	m_bIgnoreSelectionEvents =true;
+
+    // restore grid cursor position
+	m_bIgnoreSelectionEvents = true;
 	m_pGridPane->RestoreGridCursorPosition();
-	m_bIgnoreSelectionEvents =false;
-	//restore selection
+	m_bIgnoreSelectionEvents = false;
+
+    //restore selection
 	m_pGridPane->RestoreSelection();
-	m_pGridPane->EndBatch();
-	//
-	UpdateSelection();
+
+    UpdateSelection();
 }
 
 void CViewMessagesGrid::UpdateSelection() {
@@ -375,14 +399,14 @@ wxInt32 CViewMessagesGrid::FormatPriority(wxInt32 item, wxString& strBuffer) con
     if (message) {
         switch(message->priority) {
         case MSG_INFO:
-			strBuffer = wxString("Info",wxConvUTF8);
+			strBuffer = _("Info");
             break;
         case MSG_USER_ERROR:
-			strBuffer = wxString("Warning",wxConvUTF8);
+			strBuffer = _("Warning");
             break;
         case MSG_INTERNAL_ERROR:
         default:
-            strBuffer = wxString("Error",wxConvUTF8);
+            strBuffer = _("Error");
             break;
         }
     }
