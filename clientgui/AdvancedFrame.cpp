@@ -26,7 +26,6 @@
 #endif
 
 #include "stdwx.h"
-#include "verson.h"
 #include "diagnostics.h"
 #include "str_util.h"
 #include "mfile.h"
@@ -58,6 +57,9 @@
 #include "WizardAttachProject.h"
 #include "WizardAccountManager.h"
 #include "DlgAdvPreferences.h"
+#ifdef __WXMSW__
+#include "version.h"
+#endif
 #ifdef __WXMAC__
 #include "mac/MacGUI.pch"
 #endif
