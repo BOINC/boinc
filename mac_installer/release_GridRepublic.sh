@@ -20,7 +20,7 @@
 ## 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 
 ##
-# Release Script for Macintosh GridRepublic Desktop 4/28/06 by Charlie Fenton
+# Release Script for Macintosh GridRepublic Desktop 4/3/07 by Charlie Fenton
 ##
 
 ## Usage:
@@ -97,7 +97,7 @@ sed -i "" s/"<VER_NUM>"/"$1.$2.$3"/g "${IR_PATH}/ReadMe.rtf"
 cp -fp mac_installer/postinstall "${IR_PATH}/"
 cp -fp mac_installer/postupgrade "${IR_PATH}/"
 
-cp -fpR "$BUILDPATH/Postinstall.app" "${IR_PATH}/"
+cp -fpR "$BUILDPATH/PostInstall.app" "${IR_PATH}/"
 
 mkdir -p "${PR_PATH}"
 mkdir -p "${PR_PATH}/Applications"
