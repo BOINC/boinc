@@ -320,6 +320,10 @@ wxInt32 CViewMessages::FormatPriority(wxInt32 item, wxString& strBuffer) const {
         case MSG_INFO:
             strBuffer = wxT("I");
             break;
+        case MSG_USER_ERROR:
+            strBuffer = wxT("W");
+            break;
+        case MSG_INTERNAL_ERROR:
         default:
             strBuffer = wxT("E");
             break;

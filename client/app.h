@@ -46,7 +46,9 @@ typedef int PROCESS_ID;
 #define PROCESS_SUSPENDED       9
     // we've sent it a "suspend" message
 #define PROCESS_ABORT_PENDING   5
-    // process exceeded limits; killed it, waiting to exit
+    // process exceeded limits; send "abort" message, waiting to exit
+#define PROCESS_QUIT_PENDING    8
+    // we've sent it a "quit" message, waiting to exit
 
 // states in which the process has exited
 #define PROCESS_EXITED          2
@@ -72,8 +74,7 @@ class ACTIVE_TASK {
 public:
 #ifdef _WIN32
     HANDLE pid_handle, thread_handle, quitRequestEvent, shm_handle;
-#else
-    //key_t shm_key;
+    bool kill_all_children();
 #endif
     SHMEM_SEG_NAME shmem_seg_name;
     RESULT* result;
@@ -83,7 +84,11 @@ public:
 	PROCINFO procinfo;
 
     int slot;   // subdirectory of slots/ where this runs
-    int task_state;
+    int _task_state;
+    inline int task_state() {
+        return _task_state;
+    }
+    void set_task_state(int, const char*);
     int scheduler_state;
     int next_scheduler_state; // temp
     int signal;
@@ -111,7 +116,6 @@ public:
     double max_mem_usage;   // abort if memory usage exceeds this
     bool have_trickle_down;
     bool send_upload_file_status;
-    bool pending_suspend_via_quit;  // waiting for task to suspend via quit
     bool too_large;                 // working set too large to run now
     int want_network;
         // This task wants to do network comm (for F@h)
@@ -144,9 +148,9 @@ public:
     int link_user_files();
     int get_shmem_seg_name();
     bool runnable() {
-        return task_state == PROCESS_UNINITIALIZED
-            || task_state == PROCESS_EXECUTING
-            || task_state == PROCESS_SUSPENDED;
+        return _task_state == PROCESS_UNINITIALIZED
+            || _task_state == PROCESS_EXECUTING
+            || _task_state == PROCESS_SUSPENDED;
     }
 
     ACTIVE_TASK();
@@ -175,7 +179,7 @@ public:
         // can be called whether or not process exists
     bool has_task_exited();             // return true if this task has exited
     int preempt(bool quit_task);        // preempt (via suspend or quit) a running task
-    int resume_or_start();
+    int resume_or_start(bool);
     void send_network_available();
 #ifdef _WIN32
     void handle_exited_app(unsigned long);

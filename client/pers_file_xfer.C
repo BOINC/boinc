@@ -67,7 +67,7 @@ int PERS_FILE_XFER::init(FILE_INFO* f, bool is_file_upload) {
     pers_xfer_done = false;
     const char* p = f->get_init_url(is_file_upload);
     if (!p) {
-        msg_printf(NULL, MSG_ERROR, "No URL for file transfer of %s", f->name);
+        msg_printf(NULL, MSG_INTERNAL_ERROR, "No URL for file transfer of %s", f->name);
         return ERR_NULL;
     }
     return 0;
@@ -128,14 +128,16 @@ int PERS_FILE_XFER::start_xfer() {
     fxp = file_xfer;
     if (!retval) retval = gstate.file_xfers->insert(file_xfer);
     if (retval) {
-        msg_printf(
-            fip->project, MSG_ERROR, "Couldn't start %s of %s",
-            (is_upload ? "upload" : "download"), fip->name
-        );
-        msg_printf(
-            fip->project, MSG_ERROR, "URL %s: %s",
-            fip->get_current_url(is_upload), boincerror(retval)
-        );
+        if (log_flags.http_debug) {
+            msg_printf(
+                fip->project, MSG_INFO, "[file_xfer_debug] Couldn't start %s of %s",
+                (is_upload ? "upload" : "download"), fip->name
+            );
+            msg_printf(
+                fip->project, MSG_INFO, "[file_xfer_debug] URL %s: %s",
+                fip->get_current_url(is_upload), boincerror(retval)
+            );
+        }
 
         fxp->file_xfer_retval = retval;
         handle_xfer_failure();
@@ -276,10 +278,12 @@ void PERS_FILE_XFER::xfer_failed(const char* why) {
         fip->status = ERR_GIVEUP_DOWNLOAD;
     }
     pers_xfer_done = true;
-    msg_printf(
-        fip->project, MSG_ERROR, "Giving up on %s of %s: %s",
-        is_upload?"upload":"download", fip->name, why
-    );
+    if (log_flags.file_xfer) {
+        msg_printf(
+            fip->project, MSG_INFO, "Giving up on %s of %s: %s",
+            is_upload?"upload":"download", fip->name, why
+        );
+    }
     fip->error_msg = why;
 }
 
@@ -420,8 +424,8 @@ int PERS_FILE_XFER::parse(MIOFILE& fin) {
         else if (parse_double(buf, "<last_bytes_xferred>", last_bytes_xferred)) continue;
         else {
             if (log_flags.unparsed_xml) {
-                msg_printf(NULL, MSG_ERROR,
-                    "Unparsed line in file transfer info: %s", buf
+                msg_printf(NULL, MSG_INFO,
+                    "[unparsed_xml] Unparsed line in file transfer info: %s", buf
                 );
             }
         }
@@ -521,7 +525,7 @@ int PERS_FILE_XFER_SET::remove(PERS_FILE_XFER* pfx) {
         iter++;
     }
     msg_printf(
-        pfx->fip->project, MSG_ERROR,
+        pfx->fip->project, MSG_INTERNAL_ERROR,
         "Persistent file transfer object not found"
     );
     return ERR_NOT_FOUND;

@@ -41,8 +41,12 @@
 #include "boinc_win.h"
 #endif
 
-#include "client_msgs.h"
+#ifdef SIM
+#include "sim.h"
+#else
 #include "client_state.h"
+#endif
+#include "client_msgs.h"
 #include "util.h"
 #include "log_flags.h"
 
@@ -118,7 +122,7 @@ void CLIENT_STATE::assign_results_to_projects() {
             project->next_runnable_result
         );
 
-        if ((next_atp->task_state == PROCESS_UNINITIALIZED && atp->process_exists())
+        if ((next_atp->task_state() == PROCESS_UNINITIALIZED && atp->process_exists())
             || (next_atp->scheduler_state == CPU_SCHED_PREEMPTED
             && atp->scheduler_state == CPU_SCHED_SCHEDULED)
         ) {
@@ -136,14 +140,6 @@ void CLIENT_STATE::assign_results_to_projects() {
 
         project = rp->project;
         if (project->next_runnable_result) continue;
-
-        // don't start results if project has > 2 uploads in progress.
-        // This avoids creating an unbounded number of completed
-        // results for a project that can download and compute
-        // faster than it can upload.
-        //
-        if (project->nactive_uploads > 2) continue;
-
         project->next_runnable_result = rp;
     }
 
@@ -439,15 +435,8 @@ void CLIENT_STATE::schedule_cpus() {
     for (i=0; i<projects.size(); i++) {
         p = projects[i];
         p->next_runnable_result = NULL;
-        p->nactive_uploads = 0;
         p->anticipated_debt = p->short_term_debt;
         p->deadlines_missed = p->rr_sim_deadlines_missed;
-    }
-    for (i=0; i<file_xfers->file_xfers.size(); i++) {
-        FILE_XFER* fxp = file_xfers->file_xfers[i];
-        if (fxp->is_upload) {
-            fxp->fip->project->nactive_uploads++;
-        }
     }
 	for (i=0; i<active_tasks.active_tasks.size(); i++) {
 		active_tasks.active_tasks[i]->too_large = false;
@@ -572,6 +561,7 @@ bool CLIENT_STATE::enforce_schedule() {
     ACTIVE_TASK* atp;
     vector<ACTIVE_TASK*> running_tasks;
 	static double last_time = 0;
+    int retval;
 
     // Do this when requested, and once a minute as a safety net
     //
@@ -599,6 +589,7 @@ bool CLIENT_STATE::enforce_schedule() {
     for (i=0; i<projects.size(); i++){
         projects[i]->deadlines_missed = projects[i]->rr_sim_deadlines_missed;
     }
+
     for (i=0; i< active_tasks.active_tasks.size(); i++) {
         atp = active_tasks.active_tasks[i];
         if (atp->result->runnable()) {
@@ -829,50 +820,58 @@ bool CLIENT_STATE::enforce_schedule() {
         atp = active_tasks.active_tasks[i];
         if (log_flags.cpu_sched_debug) {
             msg_printf(atp->result->project, MSG_INFO,
-                "[cpu_sched_debug] %s state %d next %d",
-                atp->result->name, atp->scheduler_state, atp->next_scheduler_state
+                "[cpu_sched_debug] %s sched state %d next %d task state %d",
+                atp->result->name, atp->scheduler_state,
+                atp->next_scheduler_state, atp->task_state()
             );
         }
-        if (atp->scheduler_state == CPU_SCHED_SCHEDULED
-            && atp->next_scheduler_state == CPU_SCHED_PREEMPTED
-        ) {
-            action = true;
-            bool preempt_by_quit = !global_prefs.leave_apps_in_memory;
-			if (check_swap && swap_left < 0) {
-				if (log_flags.mem_usage_debug) {
-					msg_printf(atp->result->project, MSG_INFO,
-						"[mem_usage_debug] out of swap space, will preempt by quit"
-					);
-				}
-				preempt_by_quit = true;
-			}
-            if (atp->too_large) {
-				if (log_flags.mem_usage_debug) {
-					msg_printf(atp->result->project, MSG_INFO,
-						"[mem_usage_debug] job using too much memory, will preempt by quit"
-					);
-				}
-				preempt_by_quit = true;
+        switch (atp->next_scheduler_state) {
+        case CPU_SCHED_PREEMPTED:
+            switch (atp->task_state()) {
+            case PROCESS_EXECUTING:
+                action = true;
+                bool preempt_by_quit = !global_prefs.leave_apps_in_memory;
+                if (check_swap && swap_left < 0) {
+                    if (log_flags.mem_usage_debug) {
+                        msg_printf(atp->result->project, MSG_INFO,
+                            "[mem_usage_debug] out of swap space, will preempt by quit"
+                        );
+                    }
+                    preempt_by_quit = true;
+                }
+                if (atp->too_large) {
+                    if (log_flags.mem_usage_debug) {
+                        msg_printf(atp->result->project, MSG_INFO,
+                            "[mem_usage_debug] job using too much memory, will preempt by quit"
+                        );
+                    }
+                    preempt_by_quit = true;
+                }
+                atp->preempt(preempt_by_quit);
+                atp->scheduler_state = CPU_SCHED_PREEMPTED;
+                break;
             }
-
-            atp->preempt(preempt_by_quit);
-            atp->scheduler_state = CPU_SCHED_PREEMPTED;
-        } else if (atp->scheduler_state != CPU_SCHED_SCHEDULED
-            && atp->next_scheduler_state == CPU_SCHED_SCHEDULED
-        ) {
-            action = true;
-            int retval = atp->resume_or_start();
-            if (retval) {
-                report_result_error(
-                    *(atp->result), "Couldn't start or resume: %d", retval
+            break;
+        case CPU_SCHED_SCHEDULED:
+            switch (atp->task_state()) {
+            case PROCESS_UNINITIALIZED:
+            case PROCESS_SUSPENDED:
+                action = true;
+                retval = atp->resume_or_start(
+                    atp->scheduler_state == CPU_SCHED_UNINITIALIZED
                 );
-                request_schedule_cpus("start failed");
-                continue;
+                if (retval) {
+                    report_result_error(
+                        *(atp->result), "Couldn't start or resume: %d", retval
+                    );
+                    request_schedule_cpus("start failed");
+                    continue;
+                }
+                atp->run_interval_start_wall_time = now;
+                app_started = now;
             }
             atp->scheduler_state = CPU_SCHED_SCHEDULED;
-            atp->run_interval_start_wall_time = now;
-            app_started = now;
-			swap_left -= atp->procinfo.swap_size;
+            swap_left -= atp->procinfo.swap_size;
         }
     }
     if (action) {
@@ -1228,5 +1227,113 @@ void CLIENT_STATE::request_schedule_cpus(const char* where) {
     }
     must_schedule_cpus = true;
 }
+
+// Find the active task for a given result
+//
+ACTIVE_TASK* CLIENT_STATE::lookup_active_task_by_result(RESULT* rep) {
+    for (unsigned int i = 0; i < active_tasks.active_tasks.size(); i ++) {
+        if (active_tasks.active_tasks[i]->result == rep) {
+            return active_tasks.active_tasks[i];
+        }
+    }
+    return NULL;
+}
+
+bool RESULT::computing_done() {
+    return (state() >= RESULT_COMPUTE_ERROR || ready_to_report);
+}
+
+// find total resource shares of all projects
+//
+double CLIENT_STATE::total_resource_share() {
+    double x = 0;
+    for (unsigned int i=0; i<projects.size(); i++) {
+        if (!projects[i]->non_cpu_intensive ) {
+            x += projects[i]->resource_share;
+        }
+    }
+    return x;
+}
+
+// same, but only runnable projects (can use CPU right now)
+//
+double CLIENT_STATE::runnable_resource_share() {
+    double x = 0;
+    for (unsigned int i=0; i<projects.size(); i++) {
+        PROJECT* p = projects[i];
+        if (p->non_cpu_intensive) continue;
+        if (p->runnable()) {
+            x += p->resource_share;
+        }
+    }
+    return x;
+}
+
+// same, but potentially runnable (could ask for work right now)
+//
+double CLIENT_STATE::potentially_runnable_resource_share() {
+    double x = 0;
+    for (unsigned int i=0; i<projects.size(); i++) {
+        PROJECT* p = projects[i];
+        if (p->non_cpu_intensive) continue;
+        if (p->potentially_runnable()) {
+            x += p->resource_share;
+        }
+    }
+    return x;
+}
+
+// same, but nearly runnable (could be downloading work right now)
+//
+double CLIENT_STATE::nearly_runnable_resource_share() {
+    double x = 0;
+    for (unsigned int i=0; i<projects.size(); i++) {
+        PROJECT* p = projects[i];
+        if (p->non_cpu_intensive) continue;
+        if (p->nearly_runnable()) {
+            x += p->resource_share;
+        }
+    }
+    return x;
+}
+
+bool ACTIVE_TASK::process_exists() {
+    switch (task_state()) {
+    case PROCESS_EXECUTING:
+    case PROCESS_SUSPENDED:
+    case PROCESS_ABORT_PENDING:
+    case PROCESS_QUIT_PENDING:
+        return true;
+    }
+    return false;
+}
+
+// if there's not an active task for the result, make one
+//
+ACTIVE_TASK* CLIENT_STATE::get_task(RESULT* rp) {
+    ACTIVE_TASK *atp = lookup_active_task_by_result(rp);
+    if (!atp) {
+        atp = new ACTIVE_TASK;
+        atp->slot = active_tasks.get_free_slot();
+        atp->init(rp);
+        active_tasks.active_tasks.push_back(atp);
+    }
+    return atp;
+}
+
+// Results must be complete early enough to report before the report deadline.
+// Not all hosts are connected all of the time.
+//
+double RESULT::computation_deadline() {
+    return report_deadline - (
+        gstate.global_prefs.work_buf_min_days * SECONDS_PER_DAY
+            // Seconds that the host will not be connected to the Internet
+        + gstate.global_prefs.cpu_scheduling_period_minutes * 60
+            // Seconds that the CPU may be busy with some other result
+        + SECONDS_PER_DAY
+            // Deadline cusion
+    );
+}
+
 
 const char *BOINC_RCSID_e830ee1 = "$Id$";

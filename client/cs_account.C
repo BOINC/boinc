@@ -129,7 +129,7 @@ int PROJECT::parse_account(FILE* in) {
             continue;
         } else {
             if (log_flags.unparsed_xml) {
-                msg_printf(0, MSG_ERROR,
+                msg_printf(0, MSG_INFO,
                     "[unparsed_xml] PROJECT::parse_account(): unrecognized: %s\n", buf
                 );
             }
@@ -185,7 +185,7 @@ int PROJECT::parse_account_file_venue() {
             continue;
         } else {
             if (log_flags.unparsed_xml) {
-                msg_printf(0, MSG_ERROR,
+                msg_printf(0, MSG_INFO,
                     "[unparsed_xml] parse_account_file_venue(): unrecognized: %s\n", buf
                 );
             }
@@ -243,13 +243,13 @@ int CLIENT_STATE::parse_account_files() {
         retval = project->parse_account(f);
         fclose(f);
         if (retval) {
-            msg_printf(NULL, MSG_ERROR,
+            msg_printf(NULL, MSG_INTERNAL_ERROR,
                 "Couldn't parse account file %s", name.c_str()
             );
             delete project;
         } else {
             if (lookup_project(project->master_url)) {
-                msg_printf(NULL, MSG_ERROR,
+                msg_printf(NULL, MSG_INFO,
                     "Duplicate account file %s - ignoring", name.c_str()
                 );
                 delete project;
@@ -312,7 +312,7 @@ int PROJECT::parse_statistics(FILE* in) {
         }
         else {
             if (log_flags.unparsed_xml) {
-                msg_printf(0, MSG_ERROR,
+                msg_printf(0, MSG_INFO,
                     "[unparsed_xml] PROJECT::parse_statistics(): unrecognized: %s\n", buf
                 );
             }
@@ -336,13 +336,13 @@ int CLIENT_STATE::parse_statistics_files() {
             retval = temp->parse_statistics(f);
             fclose(f);
             if (retval) {
-                msg_printf(NULL, MSG_ERROR,
+                msg_printf(NULL, MSG_INTERNAL_ERROR,
                     "Couldn't parse %s", name.c_str()
                 );
             } else {
                 project=lookup_project(temp->master_url);
                 if (project==NULL) {
-                    msg_printf(NULL, MSG_ERROR,
+                    msg_printf(NULL, MSG_INFO,
                         "Project for %s not found - ignoring",
                         name.c_str()
                     );
@@ -415,21 +415,21 @@ int CLIENT_STATE::add_project(
     strip_whitespace(canonical_master_url);
     canonicalize_master_url(canonical_master_url);
     if (!valid_master_url(canonical_master_url)) {
-        msg_printf(0, MSG_ERROR, "Invalid URL: %s", canonical_master_url);
+        msg_printf(0, MSG_USER_ERROR, "Invalid URL: %s", canonical_master_url);
         return ERR_INVALID_URL;
     }
 
     safe_strcpy(auth, _auth);
     strip_whitespace(auth);
     if (!strlen(auth)) {
-        msg_printf(0, MSG_ERROR, "Missing account key");
+        msg_printf(0, MSG_USER_ERROR, "Missing account key");
         return ERR_AUTHENTICATOR;
     }
 
     // check if we're already attached to this project
     //
     if (lookup_project(canonical_master_url)) {
-        msg_printf(0, MSG_ERROR, "Already attached to %s", canonical_master_url);
+        msg_printf(0, MSG_USER_ERROR, "Already attached to %s", canonical_master_url);
         return ERR_ALREADY_ATTACHED;
     }
 
@@ -476,21 +476,21 @@ void PROJECT::attach_failed(int error_num) {
     gstate.project_attach.error_num = error_num;
     switch(error_num){
     case ERR_ATTACH_FAIL_INIT:
-        msg_printf(this, MSG_ERROR,
+        msg_printf(this, MSG_USER_ERROR,
             "Couldn't connect to URL %s"
             "Please check URL.",
             master_url
         );
         break;
     case ERR_ATTACH_FAIL_DOWNLOAD:
-        msg_printf(this, MSG_ERROR,
+        msg_printf(this, MSG_USER_ERROR,
             "Couldn't access URL %s.\n"
             "The project's servers may be down; please try again later",
             master_url
         );
         break;
     case ERR_ATTACH_FAIL_PARSE:
-        msg_printf(this, MSG_ERROR,
+        msg_printf(this, MSG_USER_ERROR,
             "The web page at %s contains no BOINC information.\n"
             "It may not be the URL of a BOINC project.\n"
             "Please check the URL and try again.",
@@ -498,24 +498,24 @@ void PROJECT::attach_failed(int error_num) {
         );
         break;
     case ERR_ATTACH_FAIL_BAD_KEY:
-        msg_printf(this, MSG_ERROR,
+        msg_printf(this, MSG_USER_ERROR,
             "The account key you provided for %s was not valid.\n"
             "Please check the account key and try again.",
             master_url
         );
         break;
     case ERR_ATTACH_FAIL_FILE_WRITE:
-        msg_printf(this, MSG_ERROR,
+        msg_printf(this, MSG_USER_ERROR,
             "BOINC was unable to create an account file for %s on your disk.\n"
             "Please check file system permissions and try again.",
             master_url
         );
         break;
     case ERR_ATTACH_FAIL_SERVER_ERROR:
-        msg_printf(this, MSG_ERROR, "Can't attach - server error");
+        msg_printf(this, MSG_USER_ERROR, "Can't attach - server error");
         break;
     default:
-        msg_printf(this, MSG_ERROR,
+        msg_printf(this, MSG_USER_ERROR,
             "Can't attach - unknown error %d", error_num
         );
         break;

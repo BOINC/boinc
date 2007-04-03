@@ -150,7 +150,7 @@ CViewTransfersGrid::~CViewTransfersGrid() {
 
 
 wxString& CViewTransfersGrid::GetViewName() {
-    static wxString strViewName(_("TransfersGrid"));
+    static wxString strViewName(_("Transfers"));
     return strViewName;
 }
 

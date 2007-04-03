@@ -32,7 +32,7 @@ wxPieCtrlLegend::wxPieCtrlLegend(wxPieCtrl * parent, wxString title,
 		: wxWindow(parent, -1, pos, sz, style), m_IsTransparent(false),
 		m_HorBorder(5), m_VerBorder(5)
 {
-	m_TitleColour = wxColour(0,0,127);
+	m_TitleColour = wxColour(0,0,0);
 	m_LabelColour = *wxBLACK;
 	m_BackColour = wxColour(255,255,0);
 	m_TitleFont = *wxSWISS_FONT;

@@ -212,7 +212,7 @@ static void handle_project_op(char* buf, MIOFILE& fout, const char* op) {
         gstate.reset_project(p);    // writes state file
     } else if (!strcmp(op, "suspend")) {
         if (p->non_cpu_intensive) {
-            msg_printf(p, MSG_ERROR, "Can't suspend non-CPU-intensive project");
+            msg_printf(p, MSG_USER_ERROR, "Can't suspend non-CPU-intensive project");
         } else {
             p->suspended_via_gui = true;
             gstate.request_schedule_cpus("project suspended by user");
@@ -226,7 +226,7 @@ static void handle_project_op(char* buf, MIOFILE& fout, const char* op) {
         gstate.set_client_state_dirty("Project resumed by user");
     } else if (!strcmp(op, "detach")) {
         if (p->attached_via_acct_mgr) {
-            msg_printf(p, MSG_ERROR,
+            msg_printf(p, MSG_USER_ERROR,
                 "This project must be detached using the account manager web site."
             );
             fout.printf("<error>must detach using account manager</error>");
@@ -240,7 +240,7 @@ static void handle_project_op(char* buf, MIOFILE& fout, const char* op) {
         if (!strcmp(p->master_url, gstate.project_init.url)) {
             retval = gstate.project_init.remove();
             if (retval) {
-                msg_printf(p, MSG_ERROR,
+                msg_printf(p, MSG_INTERNAL_ERROR,
                     "Can't delete project init file: %s", boincerror(retval)
                 );
             }
@@ -454,7 +454,7 @@ static void handle_result_op(char* buf, MIOFILE& fout, const char* op) {
         gstate.request_work_fetch("result aborted by user");
     } else if (!strcmp(op, "suspend")) {
         if (p->non_cpu_intensive) {
-            msg_printf(p, MSG_ERROR, "Can't suspend non-CPU-intensive result");
+            msg_printf(p, MSG_USER_ERROR, "Can't suspend non-CPU-intensive result");
         } else {
             rp->suspended_via_gui = true;
             gstate.request_work_fetch("result suspended by user");

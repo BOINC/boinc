@@ -90,6 +90,7 @@ void PROJECT::init() {
     send_file_list = false;
     suspended_via_gui = false;
     dont_request_more_work = false;
+    detach_when_done = false;
     attached_via_acct_mgr = false;
     strcpy(code_sign_key, "");
     user_files.clear();
@@ -137,7 +138,6 @@ int PROJECT::parse_state(MIOFILE& in) {
         else if (parse_double(buf, "<user_total_credit>", user_total_credit)) continue;
         else if (parse_double(buf, "<user_expavg_credit>", user_expavg_credit)) continue;
         else if (parse_double(buf, "<user_create_time>", user_create_time)) {
-            validate_time(user_create_time);
             continue;
         }
         else if (parse_int(buf, "<rpc_seqno>", rpc_seqno)) continue;
@@ -145,7 +145,6 @@ int PROJECT::parse_state(MIOFILE& in) {
         else if (parse_double(buf, "<host_total_credit>", host_total_credit)) continue;
         else if (parse_double(buf, "<host_expavg_credit>", host_expavg_credit)) continue;
         else if (parse_double(buf, "<host_create_time>", host_create_time)) {
-            validate_time(user_create_time);
             continue;
         }
         else if (match_tag(buf, "<code_sign_key>")) {
@@ -160,7 +159,6 @@ int PROJECT::parse_state(MIOFILE& in) {
         else if (parse_int(buf, "<nrpc_failures>", nrpc_failures)) continue;
         else if (parse_int(buf, "<master_fetch_failures>", master_fetch_failures)) continue;
         else if (parse_double(buf, "<min_rpc_time>", min_rpc_time)) {
-            validate_time(min_rpc_time);
             continue;
         }
         else if (match_tag(buf, "<master_url_fetch_pending/>")) master_url_fetch_pending = true;
@@ -172,6 +170,7 @@ int PROJECT::parse_state(MIOFILE& in) {
         else if (parse_bool(buf, "verify_files_on_app_start", verify_files_on_app_start)) continue;
         else if (match_tag(buf, "<suspended_via_gui/>")) suspended_via_gui = true;
         else if (match_tag(buf, "<dont_request_more_work/>")) dont_request_more_work = true;
+        else if (match_tag(buf, "<detach_when_done/>")) detach_when_done = true;
         else if (parse_double(buf, "<short_term_debt>", short_term_debt)) continue;
         else if (parse_double(buf, "<long_term_debt>", long_term_debt)) continue;
         else if (parse_double(buf, "<resource_share>", x)) continue;    // not authoritative
@@ -181,8 +180,8 @@ int PROJECT::parse_state(MIOFILE& in) {
         else if (parse_bool(buf, "scheduler_rpc_in_progress", btemp)) continue;
         else {
             if (log_flags.unparsed_xml) {
-                msg_printf(0, MSG_ERROR,
-                    "PROJECT::parse_state(): unrecognized: %s", buf
+                msg_printf(0, MSG_INFO,
+                    "[unparsed_xml] PROJECT::parse_state(): unrecognized: %s", buf
                 );
             }
         }
@@ -228,7 +227,7 @@ int PROJECT::write_state(MIOFILE& out, bool gui_rpc) {
         "    <resource_share>%f</resource_share>\n"
         "    <duration_correction_factor>%f</duration_correction_factor>\n"
 		"    <sched_rpc_pending>%d</sched_rpc_pending>\n"
-        "%s%s%s%s%s%s%s%s%s",
+        "%s%s%s%s%s%s%s%s%s%s",
         master_url,
         project_name,
         symstore,
@@ -261,10 +260,11 @@ int PROJECT::write_state(MIOFILE& out, bool gui_rpc) {
         verify_files_on_app_start?"    <verify_files_on_app_start/>\n":"",
         suspended_via_gui?"    <suspended_via_gui/>\n":"",
         dont_request_more_work?"    <dont_request_more_work/>\n":"",
+        detach_when_done?"    <detach_when_done/>\n":"",
         attached_via_acct_mgr?"    <attached_via_acct_mgr/>\n":"",
         (this == gstate.scheduler_op->cur_proj)?"   <scheduler_rpc_in_progress/>\n":""
     );
-    if (ams_resource_share) {
+    if (ams_resource_share >= 0) {
         out.printf("    <ams_resource_share>%f</ams_resource_share>\n",
             ams_resource_share
         );
@@ -330,10 +330,11 @@ void PROJECT::copy_state_fields(PROJECT& p) {
     verify_files_on_app_start = p.verify_files_on_app_start;
     suspended_via_gui = p.suspended_via_gui;
     dont_request_more_work = p.dont_request_more_work;
+    detach_when_done = p.detach_when_done;
     attached_via_acct_mgr = p.attached_via_acct_mgr;
     duration_correction_factor = p.duration_correction_factor;
     ams_resource_share = p.ams_resource_share;
-    if (ams_resource_share) {
+    if (ams_resource_share > 0) {
         resource_share = ams_resource_share;
     }
 }
@@ -384,72 +385,6 @@ const char* PROJECT::get_scheduler_url(int index, double r) {
     int ir = (int)(r*n);
     int i = (index + ir)%n;
     return scheduler_urls[i].c_str();
-}
-
-bool PROJECT::runnable() {
-    if (suspended_via_gui) return false;
-    for (unsigned int i=0; i<gstate.results.size(); i++) {
-        RESULT* rp = gstate.results[i];
-        if (rp->project != this) continue;
-        if (rp->runnable()) return true;
-    }
-    return false;
-}
-
-bool PROJECT::downloading() {
-    if (suspended_via_gui) return false;
-    for (unsigned int i=0; i<gstate.results.size(); i++) {
-        RESULT* rp = gstate.results[i];
-        if (rp->project != this) continue;
-        if (rp->downloading()) return true;
-    }
-    return false;
-}
-
-bool PROJECT::some_download_stalled() {
-    unsigned int i;
-    for (i=0; i<gstate.pers_file_xfers->pers_file_xfers.size(); i++) {
-        PERS_FILE_XFER* pfx = gstate.pers_file_xfers->pers_file_xfers[i];
-        if (pfx->fip->project != this) continue;
-        if (pfx->is_upload) continue;
-        if (pfx->next_request_time > gstate.now) return true;
-    }
-    return false;
-}
-
-bool PROJECT::some_result_suspended() {
-    unsigned int i;
-    for (i=0; i<gstate.results.size(); i++) {
-         RESULT *rp = gstate.results[i];
-         if (rp->project != this) continue;
-         if (rp->suspended_via_gui) return true;
-     }
-    return false;
-}
-
-bool PROJECT::contactable() {
-    if (suspended_via_gui) return false;
-    if (master_url_fetch_pending) return false;
-    if (min_rpc_time > gstate.now) return false;
-    if (dont_request_more_work) return false;
-    return true;
-}
-
-bool PROJECT::potentially_runnable() {
-    if (runnable()) return true;
-    if (contactable()) return true;
-    if (downloading()) return true;
-    return false;
-}
-
-bool PROJECT::nearly_runnable() {
-    if (runnable()) return true;
-    if (downloading()) return true;
-    return false;
-}
-
-bool PROJECT::overworked() {
-    return long_term_debt < -gstate.global_prefs.cpu_scheduling_period_minutes * 60;
 }
 
 double PROJECT::next_file_xfer_time(const bool is_upload) {
@@ -521,8 +456,8 @@ int PROJECT::parse_project_files(MIOFILE& in, bool delete_existing_symlinks) {
             project_files.push_back(file_ref);
         } else {
             if (log_flags.unparsed_xml) {
-                msg_printf(0, MSG_ERROR,
-                    "parse_project_files(): unrecognized: %s\n", buf
+                msg_printf(0, MSG_INFO,
+                    "[unparsed_xml] parse_project_files(): unrecognized: %s\n", buf
                 );
             }
         }
@@ -541,7 +476,7 @@ void PROJECT::link_project_files(bool recreate_symlink_files) {
         FILE_REF& fref = *fref_iter;
         fip = gstate.lookup_file_info(this, fref.file_name);
         if (!fip) {
-            msg_printf(this, MSG_ERROR,
+            msg_printf(this, MSG_INTERNAL_ERROR,
                 "project file refers to non-existent %s", fref.file_name
             );
             fref_iter = project_files.erase(fref_iter);
@@ -623,8 +558,8 @@ int APP::parse(MIOFILE& in) {
         else if (parse_str(buf, "<user_friendly_name>", user_friendly_name, sizeof(user_friendly_name))) continue;
         else {
             if (log_flags.unparsed_xml) {
-                msg_printf(0, MSG_ERROR,
-                    "APP::parse(): unrecognized: %s\n", buf
+                msg_printf(0, MSG_INFO,
+                    "[unparsed_xml] APP::parse(): unrecognized: %s\n", buf
                 );
             }
         }
@@ -675,7 +610,7 @@ FILE_INFO::FILE_INFO() {
 
 FILE_INFO::~FILE_INFO() {
     if (pers_file_xfer) {
-        msg_printf(NULL, MSG_ERROR,
+        msg_printf(NULL, MSG_INTERNAL_ERROR,
             "Deleting file %s while in use",
             name
         );
@@ -826,8 +761,8 @@ int FILE_INFO::parse(MIOFILE& in, bool from_server) {
             error_msg = buf2;
         } else {
             if (log_flags.unparsed_xml) {
-                msg_printf(0, MSG_ERROR,
-                    "FILE_INFO::parse(): unrecognized: %s\n", buf
+                msg_printf(0, MSG_INFO,
+                    "[unparsed_xml] FILE_INFO::parse(): unrecognized: %s\n", buf
                 );
             }
         }
@@ -927,7 +862,7 @@ int FILE_INFO::delete_file() {
     get_pathname(this, path);
     int retval = boinc_delete_file(path);
     if (retval && status != FILE_NOT_PRESENT) {
-        msg_printf(project, MSG_ERROR, "Couldn't delete file %s", path);
+        msg_printf(project, MSG_INTERNAL_ERROR, "Couldn't delete file %s", path);
     }
     status = FILE_NOT_PRESENT;
     return retval;
@@ -963,7 +898,7 @@ const char* FILE_INFO::get_init_url(bool is_upload) {
         if (!is_correct_url_type(is_upload, urls[current_url])) {
             current_url = (current_url + 1)%((int)urls.size());
             if (current_url == start_url) {
-                msg_printf(project, MSG_ERROR,
+                msg_printf(project, MSG_INTERNAL_ERROR,
                     "Couldn't find suitable URL for %s", name);
                 return NULL;
             }
@@ -995,7 +930,7 @@ const char* FILE_INFO::get_current_url(bool is_upload) {
         return get_init_url(is_upload);
     }
     if (current_url >= (int)urls.size()) {
-        msg_printf(project, MSG_ERROR,
+        msg_printf(project, MSG_INTERNAL_ERROR,
             "File %s has no URL", name
         );
         return NULL;
@@ -1040,7 +975,9 @@ int FILE_INFO::merge_info(FILE_INFO& new_info) {
 
     // replace signature
     //
-    strcpy(file_signature, new_info.file_signature);
+    if (strlen(new_info.file_signature)) {
+        strcpy(file_signature, new_info.file_signature);
+    }
 
     return 0;
 }
@@ -1125,8 +1062,8 @@ int APP_VERSION::parse(MIOFILE& in) {
         else if (parse_int(buf, "<version_num>", version_num)) continue;
         else {
             if (log_flags.unparsed_xml) {
-                msg_printf(0, MSG_ERROR,
-                    "APP_VERSION::parse(): unrecognized: %s\n", buf
+                msg_printf(0, MSG_INFO,
+                    "[unparsed_xml] APP_VERSION::parse(): unrecognized: %s\n", buf
                 );
             }
         }
@@ -1212,8 +1149,8 @@ int FILE_REF::parse(MIOFILE& in) {
 		else if (parse_bool(buf, "optional", optional)) continue;
         else {
             if (log_flags.unparsed_xml) {
-                msg_printf(0, MSG_ERROR,
-                    "FILE_REF::parse(): unrecognized: %s\n", buf
+                msg_printf(0, MSG_INFO,
+                    "[unparsed_xml] FILE_REF::parse(): unrecognized: %s\n", buf
                 );
             }
         }
@@ -1282,7 +1219,7 @@ int WORKUNIT::parse(MIOFILE& in) {
                     command_line += buf;
                 }
                 if (!found) {
-                    msg_printf(NULL, MSG_ERROR,
+                    msg_printf(NULL, MSG_INTERNAL_ERROR,
                         "Task %s: bad command line",
                         name
                     );
@@ -1304,8 +1241,8 @@ int WORKUNIT::parse(MIOFILE& in) {
         }
         else {
             if (log_flags.unparsed_xml) {
-                msg_printf(0, MSG_ERROR,
-                    "WORKUNIT::parse(): unrecognized: %s\n", buf
+                msg_printf(0, MSG_INFO,
+                    "[unparsed_xml] WORKUNIT::parse(): unrecognized: %s\n", buf
                 );
             }
         }
@@ -1391,6 +1328,29 @@ void WORKUNIT::clear_errors() {
     }
 }
 
+static const char* result_state_name(int val) {
+    switch (val) {
+    case RESULT_NEW: return "NEW";
+    case RESULT_FILES_DOWNLOADING: return "FILES_DOWNLOADING";
+    case RESULT_FILES_DOWNLOADED: return "FILES_DOWNLOADED";
+    case RESULT_COMPUTE_ERROR: return "COMPUTE_ERROR";
+    case RESULT_FILES_UPLOADING: return "FILES_UPLOADING";
+    case RESULT_FILES_UPLOADED: return "FILES_UPLOADED";
+    case RESULT_ABORTED: return "FILES_ABORTED";
+    }
+    return "Unknown";
+}
+
+void RESULT::set_state(int val, const char* where) {
+    _state = val;
+    if (log_flags.task_debug) {
+        msg_printf(project, MSG_INFO,
+            "[task_debug] result state=%s for %s from %s",
+            result_state_name(val), name, where
+        );
+    }
+}
+
 int RESULT::parse_name(FILE* in, const char* end_tag) {
     char buf[256];
 
@@ -1400,8 +1360,8 @@ int RESULT::parse_name(FILE* in, const char* end_tag) {
         else if (parse_str(buf, "<name>", name, sizeof(name))) continue;
         else {
             if (log_flags.unparsed_xml) {
-                msg_printf(0, MSG_ERROR,
-                    "RESULT::parse_name(): unrecognized: %s\n", buf
+                msg_printf(0, MSG_INFO,
+                    "[unparsed_xml] RESULT::parse_name(): unrecognized: %s\n", buf
                 );
             }
         }
@@ -1414,7 +1374,7 @@ void RESULT::clear() {
     strcpy(wu_name, "");
     report_deadline = 0;
     output_files.clear();
-    state = RESULT_NEW;
+    _state = RESULT_NEW;
     ready_to_report = false;
     completed_time = 0;
     got_server_ack = false;
@@ -1433,20 +1393,6 @@ void RESULT::clear() {
     project = NULL;
 }
 
-// Results must be complete early enough to report before the report deadline.
-// Not all hosts are connected all of the time.
-//
-double RESULT::computation_deadline() {
-    return report_deadline - (
-        gstate.global_prefs.work_buf_min_days * SECONDS_PER_DAY
-            // Seconds that the host will not be connected to the Internet
-        + gstate.global_prefs.cpu_scheduling_period_minutes * 60
-            // Seconds that the CPU may be busy with some other result
-        + SECONDS_PER_DAY
-            // Deadline cusion
-    );
-}
-
 // parse a <result> element from scheduling server.
 //
 int RESULT::parse_server(MIOFILE& in) {
@@ -1459,7 +1405,6 @@ int RESULT::parse_server(MIOFILE& in) {
         if (parse_str(buf, "<name>", name, sizeof(name))) continue;
         if (parse_str(buf, "<wu_name>", wu_name, sizeof(wu_name))) continue;
         if (parse_double(buf, "<report_deadline>", report_deadline)) {
-            validate_time(report_deadline);
             continue;
         }
         if (match_tag(buf, "<file_ref>")) {
@@ -1469,7 +1414,7 @@ int RESULT::parse_server(MIOFILE& in) {
         }
         else {
             if (log_flags.unparsed_xml) {
-                msg_printf(0, MSG_ERROR,
+                msg_printf(0, MSG_INFO,
                     "[unparsed_xml] RESULT::parse(): unrecognized: %s\n", buf
                 );
             }
@@ -1490,14 +1435,13 @@ int RESULT::parse_state(MIOFILE& in) {
             // restore some invariants in case of bad state file
             //
             if (got_server_ack || ready_to_report) {
-                state = RESULT_FILES_UPLOADED;
+                set_state(RESULT_FILES_UPLOADED, "RESULT::parse_state");
             }
             return 0;
         }
         if (parse_str(buf, "<name>", name, sizeof(name))) continue;
         if (parse_str(buf, "<wu_name>", wu_name, sizeof(wu_name))) continue;
         if (parse_double(buf, "<report_deadline>", report_deadline)) {
-            validate_time(report_deadline);
             continue;
         }
         if (match_tag(buf, "<file_ref>")) {
@@ -1511,7 +1455,7 @@ int RESULT::parse_state(MIOFILE& in) {
         else if (match_tag(buf, "<ready_to_report/>")) ready_to_report = true;
         else if (parse_double(buf, "<completed_time>", completed_time)) continue;
         else if (match_tag(buf, "<suspended_via_gui/>")) suspended_via_gui = true;
-        else if (parse_int(buf, "<state>", state)) continue;
+        else if (parse_int(buf, "<state>", _state)) continue;
         else if (match_tag(buf, "<stderr_out>")) {
             while (in.fgets(buf, 256)) {
                 if (match_tag(buf, "</stderr_out>")) break;
@@ -1527,7 +1471,7 @@ int RESULT::parse_state(MIOFILE& in) {
         else if (parse_double(buf, "<intops_cumulative>", intops_cumulative)) continue;
         else {
             if (log_flags.unparsed_xml) {
-                msg_printf(0, MSG_ERROR,
+                msg_printf(0, MSG_INFO,
                     "[unparsed_xml] RESULT::parse(): unrecognized: %s\n", buf
                 );
             }
@@ -1550,7 +1494,7 @@ int RESULT::write(MIOFILE& out, bool to_server) {
         name,
         final_cpu_time,
         exit_status,
-        state
+        state()
     );
     if (fpops_per_cpu_sec) {
         out.printf("    <fpops_per_cpu_sec>%f</fpops_per_cpu_sec>\n", fpops_per_cpu_sec);
@@ -1639,7 +1583,7 @@ int RESULT::write_gui(MIOFILE& out) {
         project->master_url,
         final_cpu_time,
         exit_status,
-        state,
+        state(),
         report_deadline,
         estimated_cpu_time_remaining()
     );
@@ -1691,35 +1635,13 @@ void RESULT::clear_uploaded_flags() {
     }
 }
 
-bool RESULT::computing_done() {
-    return (state >= RESULT_COMPUTE_ERROR || ready_to_report);
-}
-
-double RESULT::estimated_cpu_time_uncorrected() {
-    return wup->rsc_fpops_est/gstate.host_info.p_fpops;
-}
-
-// estimate how long a result will take on this host
-//
-double RESULT::estimated_cpu_time() {
-    return estimated_cpu_time_uncorrected()*project->duration_correction_factor;
-}
-
-double RESULT::estimated_cpu_time_remaining() {
-    if (computing_done()) return 0;
-    ACTIVE_TASK* atp = gstate.lookup_active_task_by_result(this);
-    if (atp) {
-        return atp->est_cpu_time_to_completion();
-    }
-    return estimated_cpu_time();
-}
-
 // The given result has just completed successfully.
 // Update the correction factor used to predict
 // completion time for this project's results
 //
 void PROJECT::update_duration_correction_factor(RESULT* rp) {
-    double ratio = rp->final_cpu_time / rp->estimated_cpu_time();
+    double raw_ratio = rp->final_cpu_time/rp->estimated_cpu_time_uncorrected();
+    double adj_ratio = rp->final_cpu_time/rp->estimated_cpu_time();
 	double old_dcf = duration_correction_factor;
 
     // it's OK to overestimate completion time,
@@ -1727,16 +1649,16 @@ void PROJECT::update_duration_correction_factor(RESULT* rp) {
     // So make it easy for the factor to increase,
     // but decrease it with caution
     //
-    if (ratio > 1) {
-        duration_correction_factor *= ratio;
+    if (adj_ratio > 1.1) {
+        duration_correction_factor = raw_ratio;
     } else {
         // in particular, don't give much weight to results
         // that completed a lot earlier than expected
         //
-        if (ratio < 0.1) {
-            duration_correction_factor = duration_correction_factor*0.99 + 0.01*ratio;
+        if (adj_ratio < 0.1) {
+            duration_correction_factor = duration_correction_factor*0.99 + 0.01*raw_ratio;
         } else {
-            duration_correction_factor = duration_correction_factor*0.9 + 0.1*ratio;
+            duration_correction_factor = duration_correction_factor*0.9 + 0.1*raw_ratio;
         }
     }
     // limit to [.01 .. 100]
@@ -1746,31 +1668,21 @@ void PROJECT::update_duration_correction_factor(RESULT* rp) {
 
 	if (log_flags.cpu_sched_debug || log_flags.work_fetch_debug) {
 		msg_printf(this, MSG_INFO,
-            "[csd|wfd] duration correction factor: %f => %f, ratio %f",
-			old_dcf, duration_correction_factor, ratio
+            "[csd|wfd] duration correction factor: %f => %f, raw_ratio %f, adj_ratio %f",
+			old_dcf, duration_correction_factor, raw_ratio, adj_ratio
 		);
 	}
 }
 
-bool RESULT::runnable() {
-    if (suspended_via_gui) return false;
-    if (project->suspended_via_gui) return false;
-    if (state != RESULT_FILES_DOWNLOADED) return false;
-    return true;
-}
-
-bool RESULT::nearly_runnable() {
-    return runnable() || downloading();
-}
-
-// Return true if the result is waiting for its files to download,
-// and nothing prevents this from happening soon
-//
-bool RESULT::downloading() {
-    if (suspended_via_gui) return false;
-    if (project->suspended_via_gui) return false;
-    if (state > RESULT_FILES_DOWNLOADING) return false;
-    return true;
+bool PROJECT::some_download_stalled() {
+    unsigned int i;
+    for (i=0; i<gstate.pers_file_xfers->pers_file_xfers.size(); i++) {
+        PERS_FILE_XFER* pfx = gstate.pers_file_xfers->pers_file_xfers[i];
+        if (pfx->fip->project != this) continue;
+        if (pfx->is_upload) continue;
+        if (pfx->next_request_time > gstate.now) return true;
+    }
+    return false;
 }
 
 // return true if some file needed by this result (input or application)
@@ -1819,8 +1731,8 @@ FILE_INFO* RESULT::lookup_file_logical(const char* lname) {
 // abort a result that's not currently running
 //
 void RESULT::abort_inactive(int status) {
-    if (state >= RESULT_COMPUTE_ERROR) return;
-    state = RESULT_ABORTED;
+    if (state() >= RESULT_COMPUTE_ERROR) return;
+    set_state(RESULT_ABORTED, "RESULT::abort_inactive");
     exit_status = status;
 }
 

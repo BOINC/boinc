@@ -20,7 +20,7 @@
 ## 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 
 ##
-# Release Script for Macintosh BOINC Manager 9/21/06 by Charlie Fenton
+# Release Script for Macintosh BOINC Manager 4/3/07 by Charlie Fenton
 ##
 
 ## Usage:
@@ -79,7 +79,7 @@ sed -i "" s/"<VER_NUM>"/"$1.$2.$3"/g ../BOINC_Installer/Installer\ Resources/Rea
 cp -fp mac_installer/postinstall ../BOINC_Installer/Installer\ Resources/
 cp -fp mac_installer/postupgrade ../BOINC_Installer/Installer\ Resources/
 
-cp -fpR $BUILDPATH/Postinstall.app ../BOINC_Installer/Installer\ Resources/
+cp -fpR $BUILDPATH/PostInstall.app ../BOINC_Installer/Installer\ Resources/
 
 mkdir -p ../BOINC_Installer/Pkg_Root
 mkdir -p ../BOINC_Installer/Pkg_Root/Applications
@@ -92,7 +92,7 @@ mkdir -p ../BOINC_Installer/Pkg_Root/Library/Application\ Support/BOINC\ Data/sw
 
 cp -fpR $BUILDPATH/switcher ../BOINC_Installer/Pkg_Root/Library/Application\ Support/BOINC\ Data/switcher/
 cp -fpR $BUILDPATH/setprojectgrp ../BOINC_Installer/Pkg_Root/Library/Application\ Support/BOINC\ Data/switcher/
-cp -fpR $BUILDPATH/AppStats ../BOINC_Installer/Pkg_Root/Library/Application\ Support/BOINC\ Data/switcher/
+## cp -fpR $BUILDPATH/AppStats ../BOINC_Installer/Pkg_Root/Library/Application\ Support/BOINC\ Data/switcher/
 
 ## FOR NOW - Don't install WCG Skins.  If you reinstate this, also reinstate preinstall & preupgrade above
 ## Copy the World Community Grid skins into the installer tree, minus the CVS files
@@ -168,7 +168,7 @@ cp -fpR curl/ca-bundle.crt ../BOINC_Installer/New_Release_$1_$2_$3/boinc_$1.$2.$
 mkdir -p ../BOINC_Installer/New_Release_$1_$2_$3/boinc_$1.$2.$3_universal-apple-darwin/move_to_boinc_dir/switcher
 cp -fpR $BUILDPATH/switcher ../BOINC_Installer/New_Release_$1_$2_$3/boinc_$1.$2.$3_universal-apple-darwin/move_to_boinc_dir/switcher/
 cp -fpR $BUILDPATH/setprojectgrp ../BOINC_Installer/New_Release_$1_$2_$3/boinc_$1.$2.$3_universal-apple-darwin/move_to_boinc_dir/switcher/
-cp -fpR $BUILDPATH/AppStats ../BOINC_Installer/New_Release_$1_$2_$3/boinc_$1.$2.$3_universal-apple-darwin/move_to_boinc_dir/switcher/
+## cp -fpR $BUILDPATH/AppStats ../BOINC_Installer/New_Release_$1_$2_$3/boinc_$1.$2.$3_universal-apple-darwin/move_to_boinc_dir/switcher/
 
 sudo chown -R root:admin ../BOINC_Installer/New_Release_$1_$2_$3/boinc_$1.$2.$3_universal-apple-darwin/move_to_boinc_dir/*
 sudo chmod -R u+rw-s,g+r-ws,o+r-w ../BOINC_Installer/New_Release_$1_$2_$3/boinc_$1.$2.$3_universal-apple-darwin/move_to_boinc_dir/*

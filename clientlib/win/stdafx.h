@@ -53,6 +53,14 @@
 #include <vector>
 #include <string>
 
+#ifdef _UNICODE
+#define tstring std::wstring
+#define tostringstream std::wostringstream
+#else
+#define tstring std::string
+#define tostringstream std::ostringstream
+#endif
+
 #import "SENS.DLL" raw_interfaces_only, raw_native_types, no_namespace, named_guids 
 
 using namespace ATL;

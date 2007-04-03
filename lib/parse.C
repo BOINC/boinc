@@ -704,7 +704,7 @@ void parse(FILE* f) {
     char tag[256];
     bool is_tag, flag;
     MIOFILE mf;
-    XML_PARSER xp(f);
+    XML_PARSER xp(&mf);
     char name[256];
     int val;
     double x;

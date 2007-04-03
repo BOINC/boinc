@@ -1077,3 +1077,821 @@ David  24 Jan 2007
         app_control.C
     py/Boinc/
         setup_project.py
+
+Rom    24 Jan 2007 (Forked from HEAD)
+    - Branch boinc_core_release_5_8a created for the BOINC 5.8 client release.
+
+David  24 Jan 2007
+	- core client: tweak messages
+
+	client/
+		app_start.C
+		cs_apps.C
+
+Rom    24 Jan 2007
+    - MGR: _("") causes poEdit to throw warnings, change them to wxT("").
+    
+    clientgui/
+        DlgAdvPreferencesBase.cpp
+
+Rom    24 Jan 2007
+    - MGR: Disable older style views.
+    
+    clientgui/
+        AdvancedFrame.cpp
+
+David  24 Jan 2007
+    - core client: the task_debug message flag now prints
+        all transitions of ACTIVE_TASK::task_state and RESULT::state
+
+    client/
+        app.C,h
+        app_control.C
+        app_start.C
+        client_state.C
+        client_types.C,h
+        cs_apps.C
+        cs_scheduler.C
+
+Charlie 24 Jan 2007
+    MGR: Revert certain changes for wxWidgets 2.8.0; use 2.6.3 for 5.8.5 release.  
+
+    mac_build/
+        buildWxMac.sh
+        setupForBoinc.sh
+        HowToBuildBOINC_XCode.rtf
+        wxMac-BOINC.xcodeproj/
+            project.pbxproj
+        boinc.xcodeproj/
+            project.pbxproj
+
+Rom    24 Jan 2007
+    - Tag for 5.8.5 release, all platforms
+      boinc_core_release_5_8_5
+
+Rom    25 Jan 2007
+    - MGR: Disable advanced preferences dialog dox.
+    - MGR: Do not refresh the Simple GUI when the manager is hidden.
+    
+    clientgui/
+        AdvancedFrame.cpp
+        sg_BoincSimpleGUI.cpp
+
+David  25 Jan 2007
+    - Manager: use a scientifically chosen set of colors
+        for disk pie charts
+
+    clientgui/
+        ViewResources.cpp
+        common/
+            wxPieCtrl.cpp
+    win_build/
+        boinc_dll.vcproj
+
+David  25 Jan 2007
+    - core client: there was logic that wouldn't start a result
+        for a project if it had > 2 active uploads
+        (intended to prevent an unbounded buildup of files
+        for a project whose upload server is broken).
+        This was never triggered since the default is 2 active
+        transfers per project.
+        Maybe I meant persistent file transfers.
+        In any case, this is a bad policy because there may be
+        a project with lots of output files per result, possibly large,
+        and there's no reason to keep it from computing.
+        So instead, I changed it to not start a result from a project
+        if its number of results in FILES_UPLOADING state exceeds 2*ncpus.
+
+    client/
+        client_state.h
+        client_types.h
+        cpu_sched.C
+        cs_scheduler.C
+    clientgui/
+        AdvancedFrame.cpp
+
+David  25 Jan 2007
+    - core client and manager: reorganize message priorities.
+        There are now three priorities:
+        MSG_USER_ERROR
+            Conditions that require user intervention.
+            These messages are written for non-tech users,
+            and tell the user exactly what to do.
+            GUI: red letters
+        MSG_INTERNAL_ERROR
+            Conditions that may indicate a problem or bug in BOINC itself,
+            or with a BOINC project or account manager.
+            The message is prepended with "[error]".
+            GUI: black letters
+        MSG_INFO
+            All other messages.
+            GUI: black letters
+
+        Note: all messages that must be enabled by cc_config.xml
+        use MSG_INFO priority
+
+    client/
+        *.C
+    clientgui/
+        ViewMessages.cpp
+        ViewMessagesGrid.cpp
+        sg_ProjectComponent.cpp
+    lib/
+        common_defs.h
+
+Rom    25 Jan 2007
+    - MGR: Flip the sorting icons for the Grid Control.
+    - WIN: Remove the Release (SIMPLEGUI) and Debug (SIMPLEGUI) configurations
+        since we'll only be releasing future version with the Simple GUI included.
+        
+    clientgui/
+        BOINCGridCtrl.cpp
+    win_build/
+        *.sln
+        *.vcproj
+
+Rom    26 Jan 2007
+    - WIN: Fix build breaks since not all configurations in all components were
+        kept in sync.
+    - MGR: Remove legacy tabs.
+    
+    clientgui/
+        AdvancedFrame.cpp
+        ViewProjectsGrid.cpp
+        ViewTransfersGrid.cpp
+        ViewWorkGrid.cpp
+    win_build/
+        *.sln
+        *.vcproj
+
+Rom    26 Jan 2007
+    - MGR: Fix the OnFrameRender function in the Simple GUI, some of the logic in it
+        blows out of the function with a return which was leaving the static variable
+        that was guarding against repeated executions to true. This in turn kept
+        the GUI from updating.
+        
+    clientgui/
+        sg_BoincSimpleGUI.cpp
+
+Charlie 26 Jan 2007
+    - MAC: Change MSG_ERROR to MSG_INTERNAL_ERROR in Mac-specific 
+        source file.
+
+    lib/
+        procinfo_mac.C
+
+Rom    26 Jan 2007
+    - Remove wxAnimate since it isn't used anywhere.
+    - MGR: Add a new menu item that'll shutdown the core client that the manager is
+        connected too. It'll prompt for a new computer afterwords.
+    
+    clientgui/common/
+        wxAnimate.cpp, .h (Removed)
+    clientgui/
+        AdvancedFrame.cpp, .h
+        Events.h
+    win_build/
+        boincmgr_curl.vcproj
+        boincmgr_curl_2003.vcproj
+
+David  26 Jan 2007
+    - core client: another attempt at fixing the problem
+        where a project is issuing work but not uploading files.
+        New solution: don't fetch work from a project with
+        more than 2*ncpus results in FILES_UPLOADING state.
+
+        Note: this doesn't address John McLeod's point that
+        we shouldn't increase LTD for projects in this state.
+
+    client/
+        client_state.h
+        cpu_sched.C
+        cs_scheduler.C
+
+David  26 Jan 2007
+    - oops!  left out one line in the above
+
+    client/
+        cs_scheduler.C
+
+Charlie 26 Jan 2007
+    Mac: remove wxAnimate.cpp,.h from XCode project.
+
+    mac_build/
+        boinc.xcodeproj/
+            project.pbxproj
+
+Rom    26 Jan 2007
+    - Tag for 5.8.6 release, all platforms
+      boinc_core_release_5_8_6
+
+David  26 Jan 2007
+	- core client: if account manager reply doesn't specify resource share
+		for a project, revert to the share from project server
+
+	client/
+		acct_mgr.C
+
+Walt   28 Jan 2007
+    - MGR: fixed bug in dialog options where it doesn't set the slider size 
+        automatically.  This is a bug in wxGTK so for Linux set the size
+        explicitly.
+    
+    clientgui/
+        DlgOptions.cpp
+
+Rom    28 Jan 2007
+    - MGR: Update default BOINC skin.
+    
+    clientgui/res/skins/default/graphic
+        *.xpm
+    clientgui/res/templates/skins
+        *.png
+
+David  29 Jan 2007
+	- core client: fix account-manager resource share logic
+	- manager: Statistics tab fixes (from Mifistor)
+
+	client/
+		client_state.C
+		client_types.C
+	clientgui/
+		ViewStatistics.cpp
+
+David  29 Jan 2007
+    - core client: make sure that RAM limits are not zero
+
+    client/
+        cs_prefs.C
+    lib/
+        prefs.C
+
+David  29 Jan 2007
+    - core client: on Unix, raise app stack size limit to max possible value
+        before exec'ing the program.
+
+    client/
+        app_start.C
+
+David  29 Jan 2007
+	- Manager: fix crash if select a project that doesn't have
+		a name yet.  There were two separate problems:
+		1) CMainDocument::project() was searching by name
+			but not by master URL
+			(BTW: all that at(), out-of-range exception stuff
+			isn't needed, or the cut-and-pasted comment).
+		2) CViewProjects::UpdateSelection() (and its grid counterpart)
+			were checking for project == NULL
+			some of the time, but not all the time
+
+	clientgui/
+		MainDocument.cpp
+		ViewProjects.cpp
+		ViewProjectsGrid.cpp
+
+Rom    30 Jan 2007
+    - MGR: Give the user a change to abort a core client shutdown when they
+        select 'shutdown current client'.
+    - MGR: Special case the authorization error dialog when it is attempting
+        to use the default password, so that it also informs the user they
+        need to run the manager from the same directory as the CC.
+        
+    clientgui/
+        AdvancedFrame.cpp, .h
+        BOINCBaseFrame.cpp, .h
+        MainDocument.cpp, .h
+
+Rom    30 Jan 2007
+    - MGR: Revert back to original tabs, grd controls are not going to make
+        it for this release.
+        
+    clientgui/
+        AdvancedFrame.cpp
+
+Walt   30 Jan 2007
+    - Remove ViewMessagesGrid.cpp, ViewProjectsGrid.cpp, ViewTransfersGrid.cpp
+        and ViewWorkGrid.cpp from makefile.
+
+    clientgui/
+        Makefile.am
+
+David  30 Jan 2007
+    - Unix: when increasing stack size for apps, don't exceed 500 MB
+
+    client/
+        app_start.C
+        
+Charlie 30 Jan 2007
+    - MAC: Remove from XCode project: ViewMessagesGrid.cpp,h, 
+        ViewProjectsGrid.cpp,h,  ViewTransfersGrid.cpp,h, ViewWorkGrid.cpp,h,  
+        DlgAdvPreferences.cpp,h DlgAdvPreferencesBase.cpp,h.
+        
+    mac_build/
+        boinc.xcodeproj/
+            project.pbxproj
+
+Rom    30 Jan 2007
+    - Tag for 5.8.7 release, all platforms
+      boinc_core_release_5_8_7
+
+Rom    30 Jan 2007
+    - Comment out the advanced preferences dialog again.
+    
+    clientgui/
+        AdvancedFrame.cpp
+
+Rom    30 Jan 2007
+    - Tag for 5.8.8 release, all platforms
+      boinc_core_release_5_8_8
+
+David  30 Jan 2007
+    - core client: computation of duration_correction_factor was messed up.
+        E.g. when the correct value is .5, it converges to sqrt(.5)
+
+    client/
+        client_types.C
+
+David  31 Jan 2007
+    - core client: tweak DCF update computation
+
+    client/
+        client_types.C
+
+David  31 Jan 2007
+    - core client (Unix): tweak stack-size logic,
+        and don't bump stack size limit beyond 64K
+
+    client/
+        app_start.C
+
+David  2 Feb 2007
+    - core client: fix bug where client thinks an app is running but it isn't.
+        Basic problem: there are two layers
+        1) process control: start/stop/suspend/resume, handle exits.
+            files: app_*.C
+            It owns ACTIVE_TASK::task_state
+        2) CPU scheduling: decide what should run
+            files: cpu_sched.C
+            It owns ACTIVE_TASK::scheduler_state.
+        These layers weren't cleanly separated;
+        e.g. the CPU sched layer relied on the process control layer
+        to set scheduler_state in some cases,
+        and this wasn't always being done.
+        I fixed this; the layers are now separated.
+        Also: added new task_state value, PROCESS_QUIT_PENDING
+    - core client: small tweak to DCF calculation
+    - core client: comment out stack-size stuff
+        
+    client/
+        app.C,h
+        app_control.C
+        app_start.C
+        client_types.C
+        cpu_sched.C
+
+David  2 Feb 2007
+    - core client: print error messages if gethostbyname() fails
+        for entries in remote_hosts.cfg
+    - Manager
+        changed "defect" to "stop using"
+        changed 2006 to 2007
+    - core client (Unix): removed code for SIGTSTP and SIGCONT.
+        never got it to work, don't need anyway;
+        handle SIGPWR.
+
+    client/
+        gui_rpc_server.C
+        main.C
+    clientgui/
+        AdvancedFrame.cpp
+        DlgAbout.cpp
+    lib/
+        network.C
+
+David  4 Feb 2007
+    - core client: print message if task finishes and output file is missing
+
+    client/
+        cs_apps.C
+
+Rom    6 Feb 2007
+    - Tag for 5.8.9 release, all platforms
+      boinc_core_release_5_8_9
+
+David  6 Feb 2007
+    - core client: when new version runs for the first time,
+        do a network access to reference site.
+        This will trigger personal firewall alerts,
+        that otherwise might happen later when user is not there.
+
+    client/
+        client_state.C
+
+David  6 Feb 2007
+    - core client: add messages to debug CPU benchmarks
+    - changed name of debug flag from <measurement_debug> to <benchmark_debug>
+
+    client/
+        client_state.C
+        cs_benchmark.C
+        log_flags.C,h
+
+Rom    7 Feb 2007
+    - Tag for 5.8.10 release, all platforms
+      boinc_core_release_5_8_10
+
+Rom    7 Feb 2007
+    - SS: Remove reference to the Climate Change Experiment when the client is
+        being built for WCG.
+        
+    client/win/
+        boinc_ss.rc
+
+Rom    7 Feb 2007
+    - *nix: Attempt to handle the various optimation flags better by default.
+    
+    client/
+        Makefile.am
+
+David  8 Feb 2008
+    - core client: fix bug where screensaver would turn on an off
+		if CPU throttling being used
+
+	client/
+		ss_logic.C
+
+David  8 Feb 2007
+    - core client: fix bug that causes tasks to hang
+        (not running, but BOINC thinks it is) on Windows
+
+    client/
+        app.C
+        app_control.C
+
+Rom    8 Feb 2007
+    - MGR: Add simple validation for the authenticator returned by
+        InternetGetCookie.
+        
+    clientlib/win/
+        AuthenticatorDetection.cpp
+        stdafx.h
+
+David  8 Feb 2007
+    - core client: when a scheduler reply has a FILE_INFO for a
+         file for which we already have a FILE_INFO record,
+         overwrite the file_signature field only if the
+         new record actually has one.
+
+         This fixes a bug where a project used the same file in
+         both an APP_VERSION and a WORKUNIT.
+         The scheduler reply contained two <file_info> elements for the file;
+         the first had a signature, the second didn't.
+         The second one overwrote the first,
+         and the app version was rejected because one its file wasn't signed.
+
+    client/
+        client_types.C
+
+Rom    9 Feb 2007
+    - Tag for 5.8.11 release, all platforms
+      boinc_core_release_5_8_11
+
+Rom    12 Feb 2007
+    - WININSTALL: Force the termination of BOINC and BOINCMGR if we could
+        not gracefully shut them down.
+        
+    win_build/installerv2/redist/Windows/x86
+        boinccas.dll
+        boinccas95.dll
+
+Charlie 14 Feb 2007
+    - MAC: If relaunching AppStats due to an error, close any open 
+        file descriptors (we communicate with AppStats via a bidirectional 
+        pipe.)
+
+    lib/
+        procinfo_mac.C
+
+Rom    14 Feb 2007
+    - WININSTALL: Force the termination of BOINC.SCR if we could
+        not gracefully shut it down.
+        
+    win_build/installerv2/redist/Windows/x86
+        boinccas.dll
+        boinccas95.dll
+
+Rom    14 Feb 2007
+    - Linux: Prevent crash by initializing the Taskbar pointer, even
+        though the Linux Boincmgr currently doesn't support that feature.
+        
+        (from Pav Lucistnik)
+        
+    clientgui/
+        BOINCGUIApp.cpp
+
+Rom    15 Feb 2007
+    - Tag for 5.8.12 release, all platforms
+      boinc_core_release_5_8_12
+
+David  9 Feb 2007
+	- core client: don't print misleading error messages when reference
+		site access succeeds on initial startup.
+	- core client: a few more messages for <benchmark_debug>
+
+	client/
+		client_state.C
+		cpu_benchmark.h
+		cs_benchmark.C
+		dhrystone.C
+		net_stats.C,h
+
+David  15 Feb 2007
+    - core client: fix bug where if a task is aborted
+        (e.g. because it exceeds CPU limit)
+        it's restarted on the next enforce_schedule().
+        The problem: we're deleting the ACTIVE_TASK,
+        but the result is still in the ordered_scheduled_results list.
+        The solution: call request_schedule_cpus() in
+        handle_finished_apps() when an ACTIVE_TASK is deleted.
+
+    client/
+        cs_apps.C
+
+Rom    17 Feb 2007
+    - WININSTALL: Use the Unicode version of ShutdownBOINCManager on NT based
+        platforms and use the ANSI version on 9X based platforms.
+        
+    win_build/installerv2/redist/Windows/x86
+        boinccas.dll
+        boinccas95.dll
+
+Rom    17 Feb 2007
+    - Tag for 5.8.13 release, all platforms
+      boinc_core_release_5_8_13
+
+Rom    17 Feb 2007
+    - WININSTALL: Forgot to make the ShutdownBOINC/ShutdownBOINCScreensaver
+        custom actions NT only.
+        
+    win_build/installerv2
+        BOINC.ism
+
+Rom    17 Feb 2007
+    - Tag for 5.8.14 release, all platforms
+      boinc_core_release_5_8_14
+
+David  15 Feb 2007
+    - core client: don't print "finish file not found" message
+        when app quits because of preemption
+
+    client/
+        app_control.C
+        cpu_sched.C
+
+Charlie 19 Feb 2007
+    - MAC: Eliminate use of AppStats helper application, which needed to be 
+        run setuid root.  We weren't using the extra items it returns, so 
+        revert to older method of using popen(ps ...).
+    - MAC Installer: Add debugging statements to postinstall, postupgrade 
+        scripts
+    
+    client/
+        check_security.C
+        file_names.h
+    clientgui/
+        mac/
+            SetupSecurity.cpp
+    lib/
+        procinfo_mac.C
+    mac_build/
+        boinc.xcodeproj/
+            project.pbxproj
+    mac_installer/
+        postinstall
+        postupgrade
+        release_boinc.sh
+        release_GridRepublic.sh
+
+Rom    19 Feb 2007
+    - Tag for 5.8.15 release, all platforms
+      boinc_core_release_5_8_15
+
+David  12 Feb 2007
+    - core client, Unix: add '[Family x Model x Stepping x]' in p_model string.
+        This will enable better homogeneous redundancy resolution
+
+    client/
+        hostinfo_unix.C
+
+David  21 Feb 2007
+    - core client: if benchmark time is in the future (due to user tweak)
+        always run benchmarks
+
+    client/
+        cs_benchmark.C
+
+David  19 Feb 2007
+	- core client: when resetting or detaching a project,
+		if a file transfer was active for a project file,
+		the file delete would fail because Curl still has the file open.
+		This would cause the manager to freeze for N*5 seconds.
+		Fix: in CLIENT_STATE::reset_project(),
+		delete FILE_XFER and PERS_FILE_XFER objects.
+	- core client: the limits on numbers of simultaneous file transfers
+		(total and per-project)
+		now apply to uploads and downloads separately.
+		We don't want a situation where an upload is blocked
+		because there are N downloads.
+
+	client/
+		client_state.C
+		cs_files.C
+
+David  21 Feb 2007
+    - core client: if benchmark time is in the future (due to user tweak)
+        always run benchmarks
+
+    client/
+        cs_benchmark.C
+
+David  22 Feb 2007
+    - add <checkpoint_debug> message flag; shows when apps checkpoint.
+
+    client/
+        app_control.C
+        log_flags.C,h
+
+David  22 Feb 2007
+	- core client, Win: set processor affinity mask for benchmark threads
+
+	client/
+		cs_benchmark.C
+
+David  23 Feb 2007
+	- core client: disable connection caching in Curl.
+		This may reduce cases where file uploads hang
+		because a server process holds file lock.
+	- manager: fix status text for file transfers
+
+	client/
+		http_curl.C
+	clientgui/
+		ViewTransfers.cpp
+
+David  23 Feb 2007
+    - core client: add bool detach_when_done to PROJECT.
+        If set, detach from project when it has not results
+        (i.e. when all work is finished and acknowledged).
+        Save/restore in client state file.
+    - core client: add optional <detach_when_done>
+        and <dont_request_more_work> flags to account element
+        in account manager reply messages.
+        See acct_mgt.php
+
+    client/
+        acct_mgr.C,h
+        client_state.C,h
+        client_types.C,h
+
+David  24 Feb 2007
+    - boinc_cmd: change --lookup_account and --create_account commands
+        so that they poll until the operation is done,
+        and then show a meaningful result (e.g. an account key).
+        Remove --lookup_account_poll and --create_account_poll commands
+
+    client/
+        client_types.C
+        cpu_sched.C
+        work_fetch.C
+    lib/
+        boinc_cmd.C
+        gui_rpc_client.h
+        gui_rpc_client_print.C
+        parse.C
+
+David  24 Feb 2007
+    - core client: when detach from a project, delete its
+        sched_request, sched_reply, and master files
+
+    client/
+        client_state.C
+
+Charlie 25 Feb 2007
+    Win: Fix check mark on Snooze taskbar menu item on Windows XP
+    
+    clientgui/
+        BOINCTaskBar.cpp
+
+Charlie 26 Feb 2007
+    Mac: Fix OS 10.3.x permissions problem when running debug build; 
+        this problem caused shared memory communications to fail between 
+        client and project applications. 
+
+    client/
+        check_security.C
+    clientgui/
+        mac/
+            SetupSecurity.cpp
+
+Charlie 27 Feb 2007
+    Mac: Fix serious bugs in Mac_SA_Insecure.sh and Mac_SA_Secure.sh 
+        scripts when run under OS 10.3.x.  They sometimes created bad 
+        users and groups with IDs that were duplicates of other users 
+        and groups.  They ran correctly under OS 10.4.x.
+        Users who ran an older version of either script under OS 10.3.x 
+        should first run the current version of Mac_SA_Insecure.sh to 
+        delete the bad entries and then run Mac_SA_Secure.sh to create 
+        new good entries.
+        
+    mac_build/
+        Mac_SA_Insecure.sh
+        Mac_SA_Secure.sh
+
+Charlie 28 Feb 2007
+     Mac: if we started core client, close it with rpc->quit() instead of 
+        kill().
+        
+    client/
+        app_control.C
+    clientgui/
+        mac/
+            mac_saver_module.cpp
+
+Charlie 1 Mar 2007
+    Mac: add work_fetch.C to XCode project.
+
+    mac_build/
+        boinc.xcodeproj/
+            project.pbxproj
+
+Walt    1 Mar 2007
+    Linux: add work_fetch.C to Makefile.am
+
+    client/
+        Makefile.am
+
+Rom    1 Mar 2007
+    - Tag for 5.8.16 release, all platforms
+      boinc_core_release_5_8_16
+
+Rom    1 Mar 2007
+    - Tag for 5.8.17 release, all platforms
+      boinc_core_release_5_8_17
+
+    NOTE: So walt can release a Linux package using GCC 4.1.
+
+Charlie 8 Mar 2007
+    - Mac: Delete unused target AppStats from XCode project.
+    - Mac: Fix documentation typos.
+
+    mac_build/
+        boinc.xcodeproj/
+            project.pbxproj
+    doc/
+        mac_build.php
+
+Charlie 9 Mar 2007
+    - Mac: update installation documentation: say to double-click on 
+        "BOINC Installer" application, not on BOINC.pkg.
+    doc/
+        mac_advanced.php
+        release_notes.php
+
+Charlie 12 Mar 2007
+    - CC: On Mac OS X, sysctl with selectors CTL_HW, HW_PHYSMEM returns only a 
+        4-byte value, even if passed an 8-byte buffer, and limits the returned 
+        value to 2GB when the actual RAM size is > 2GB.  So use Mac-specific
+        API Gestalt(gestaltPhysicalRAMSizeInMegabytes, &mem_size) and add a 
+        #error statement to the old method to alert any porters if their 
+        platforms were using sysctl {CTL_HW, HW_PHYSMEM}.
+
+    client/
+        hostinfo_unix.C
+
+Charlie 30 Mar 2007
+    - Mac: Major fixes and improvements to backtrace: correctly show 
+        address of instruction which caused SIGSEGV or SIGBUS faults, 
+        remove bogus NULL stack frame at end of trace; improve output 
+        format, etc.
+    
+    lib/
+        mac_backtrace.C
+        MoreBacktrace.C
+
+Charlie 3 Apr 2007
+    - Mac Installer: Change name of Postinstall.app to PostInstall.app to fix a 
+        problem on some Macs where the postinstall or postupgrade script failed 
+        to launch PostInstall.app due to the lower-case I.  I don't know why some 
+        Macs would be case-sensitive here while others aren't, but user feedback 
+        seems to confirm this problem.
+    - Mac Installer: Add directions for removing users boinc_master and boinc_user 
+        to uninstall instructions.
+        
+    mac_build/
+        boinc.xcodeproj/
+            project.pbxproj
+    mac_installer/
+        GR-ReadMe.rtf
+        ReadMe.rtf
+        release_boinc.sh
+        release_GridRepublic.sh

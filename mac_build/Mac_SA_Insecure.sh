@@ -25,6 +25,16 @@
 # - Set file/dir ownership to the specified user and group
 # - Remove BOINC groups and users
 #
+# IMPORTANT NOTE: earlier versions of the Mac_SA_Insecure.sh and 
+# Mac_SA_Secure.sh scripts had serious problems when run under OS 10.3.x.
+# They sometimes created bad users and groups with IDs that were duplicates 
+# of other users and groups.  They ran correctly under OS 10.4.x
+#
+# If you ran an older version of either script under OS 10.3.x, you should 
+# first run the current version of Mac_SA_Insecure.sh to delete the bad 
+# entries and then run Mac_SA_Secure.sh to create new good entries.
+#
+#
 # Execute this as root in the BOINC directory:
 # cd {path_to_boinc_directory}
 # sudo sh {path}/Mac_SA_Insecure.sh user group
@@ -33,25 +43,25 @@
 # the --insecure option.
 # NOTE: running BOINC with security disabled is not recommended.
 #
-# Last updated 9/21/06
+# Last updated 2/27/07
 
 function remove_boinc_users() {
-    name=$(dscl . search /users RecordName boinc_master | cut -f1 -)
+    name=$(dscl . search /users RecordName boinc_master | cut -f1 -s)
     if [ "$name" = "boinc_master" ] ; then
         sudo dscl . -delete /users/boinc_master
     fi
 
-    name=$(dscl . search /groups RecordName boinc_master | cut -f1 -)
+    name=$(dscl . search /groups RecordName boinc_master | cut -f1 -s)
     if [ "$name" = "boinc_master" ] ; then
         sudo dscl . -delete /groups/boinc_master
     fi
     
-    name=$(dscl . search /users RecordName boinc_project | cut -f1 -)
+    name=$(dscl . search /users RecordName boinc_project | cut -f1 -s)
     if [ "$name" = "boinc_project" ] ; then
         sudo dscl . -delete /users/boinc_project
     fi
 
-    name=$(dscl . search /groups RecordName boinc_project | cut -f1 -)
+    name=$(dscl . search /groups RecordName boinc_project | cut -f1 -s)
     if [ "$name" = "boinc_project" ] ; then
         sudo dscl . -delete /groups/boinc_project
     fi
@@ -94,7 +104,7 @@ chmod -R u+rw-s,g+r-w-s,o+r-w .
 chmod 600 gui_rpc_auth.cfg
 
 if [ -f switcher/AppStats ] ; then 
-# AppStats application must run setuid root (used in BOINC 5.7 and later)
+# AppStats application must run setuid root (used in BOINC 5.7 through 5.8.14 only)
 chown root:${group} switcher/AppStats
 chmod 4550 switcher/AppStats
 fi

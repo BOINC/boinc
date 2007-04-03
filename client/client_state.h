@@ -193,6 +193,10 @@ public:
     double new_version_check_time;
     string newer_version;
 
+// --------------- app_graphics.C:
+public:
+    ACTIVE_TASK* get_next_graphics_capable_app();
+
 // --------------- auto_update.C:
 public:
     AUTO_UPDATE auto_update;
@@ -214,7 +218,6 @@ public:
     RESULT* lookup_result(PROJECT*, const char*);
     WORKUNIT* lookup_workunit(PROJECT*, const char*);
     APP_VERSION* lookup_app_version(APP*, int);
-    ACTIVE_TASK* lookup_active_task_by_result(RESULT*);
     int detach_project(PROJECT*);
     int report_result_error(RESULT&, const char *format, ...);
     int reset_project(PROJECT*);
@@ -232,6 +235,7 @@ private:
     bool garbage_collect();
     bool garbage_collect_always();
     bool update_results();
+    int nresults_for_project(PROJECT*);
 
 // --------------- cpu_sched.C:
 private:
@@ -260,7 +264,6 @@ private:
 		return global_prefs.work_buf_min_days * 86400;
 	}
 public:
-	double overall_cpu_frac();
     void request_enforce_schedule(const char*);
     void request_schedule_cpus(const char*);
         // Check for reschedule CPUs ASAP.  Called when:
@@ -305,8 +308,9 @@ public:
     double estimate_cpu_time(WORKUNIT&);
     double get_fraction_done(RESULT* result);
     int input_files_available(RESULT*, bool);
-    ACTIVE_TASK* get_next_graphics_capable_app();
+    ACTIVE_TASK* lookup_active_task_by_result(RESULT*);
     int ncpus;
+        // number of usable cpus
 private:
     int nslots;
 
@@ -366,28 +370,16 @@ private:
 
 // --------------- cs_scheduler.C:
 public:
-    double work_needed_secs();
-    PROJECT* next_project_master_pending();
-    PROJECT* next_project_need_work();
     int make_scheduler_request(PROJECT*);
     int handle_scheduler_reply(PROJECT*, char* scheduler_url, int& nresults);
-    bool compute_work_requests();
     SCHEDULER_OP* scheduler_op;
-    void scale_duration_correction_factors(double);
 private:
     bool contacted_sched_server;
     int overall_work_fetch_urgency;
 
-    PROJECT* find_project_with_overdue_results();
-    PROJECT* next_project_sched_rpc_pending();
-    PROJECT* next_project_trickle_up_pending();
     bool scheduler_rpc_poll();
-    double time_until_work_done(PROJECT*, int, double);
     double avg_proc_rate();
     bool should_get_work();
-    int proj_min_results(PROJECT*, double);
-    void generate_new_host_cpid();
-	void check_project_timeout();
 
 // --------------- cs_statefile.C:
 public:
@@ -435,34 +427,22 @@ public:
     void check_all();
     void free_mem();
 
-#if 0
-// ------------------ cs_data.C:
-// mechanisms for managing data saved on host
-//
+// --------------- work_fetch.C:
 public:
-    bool get_more_disk_space(PROJECT*, double);
-    int anything_free(double &);
-    int calc_proj_size(PROJECT*);
-    int calc_all_proj_size();
-    int compute_share_disk_size(PROJECT*);
-    int total_potential_offender(PROJECT*, double &);
-    int total_potential_self(PROJECT*, double &);
-    double select_delete(PROJECT*, double, int);
-    double delete_results(PROJECT*, double);
-    double compute_resource_share(PROJECT*);
-    PROJECT* greatest_offender();
-private:
-    bool data_manager_poll();
-    bool fix_data_overflow(double, double);
-    int reset_checks();
-    int delete_inactive_results(PROJECT*);
-    int unstick_result_files(RESULT*);
-    double delete_next_file(PROJECT*, int);
-    double delete_expired(PROJECT*);
-    double offender(PROJECT*);
-    double proj_potentially_free(PROJECT*);
-    FILE_INFO* get_priority_or_lru(PROJECT*, int);
-#endif
+    int proj_min_results(PROJECT*, double);
+	void check_project_timeout();
+    PROJECT* next_project_master_pending();
+    PROJECT* next_project_sched_rpc_pending();
+    PROJECT* next_project_trickle_up_pending();
+    PROJECT* next_project_need_work();
+    PROJECT* find_project_with_overdue_results();
+	double overall_cpu_frac();
+    double time_until_work_done(PROJECT*, int, double);
+    bool compute_work_requests();
+    double work_needed_secs();
+    void scale_duration_correction_factors(double);
+    void generate_new_host_cpid();
+    void compute_nuploading_results();
 
 };
 

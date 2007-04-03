@@ -453,6 +453,7 @@ int SetBOINCDataOwnersGroupsAndPermissions() {
     }       // setprojectgrp application
 
 #ifdef __APPLE__
+#if 0       // AppStats is deprecated as of version 5.8.15
     strlcpy(fullpath, BOINCDataDirPath, MAXPATHLEN);
     strlcat(fullpath, "/", MAXPATHLEN);
     strlcat(fullpath, SWITCHER_DIR, MAXPATHLEN);
@@ -475,8 +476,8 @@ int SetBOINCDataOwnersGroupsAndPermissions() {
         if (err)
             return err;
     }       // setprojectgrp application
+#endif
 #endif  // __APPLE__
-    
 
     return noErr;
 }
@@ -721,6 +722,8 @@ static OSStatus SetFakeMasterNames() {
     group               *grp;
     gid_t               boinc_master_gid;
     uid_t               boinc_master_uid;
+    long                response;
+    OSStatus            err = noErr;
 
     boinc_master_uid = geteuid();
     pw = getpwuid(boinc_master_uid);
@@ -734,15 +737,19 @@ static OSStatus SetFakeMasterNames() {
         return -1;
     strlcpy(boinc_master_group_name, grp->gr_name, sizeof(boinc_master_group_name));
     
-#ifdef DEBUG_WITH_FAKE_PROJECT_USER_AND_GROUP
-    // For easier debugging of project applications
-    strlcpy(boinc_project_user_name, pw->pw_name, sizeof(boinc_project_user_name));
-    strlcpy(boinc_project_group_name, grp->gr_name, sizeof(boinc_project_group_name));
-#else
+    err = Gestalt(gestaltSystemVersion, &response);
+#ifndef DEBUG_WITH_FAKE_PROJECT_USER_AND_GROUP
+    if ((err == noErr) && (response >= 0x1040)) {
     // For better debugging of SANDBOX permissions logic
     strlcpy(boinc_project_user_name, REAL_BOINC_PROJECT_NAME, sizeof(boinc_project_user_name));
     strlcpy(boinc_project_group_name, REAL_BOINC_PROJECT_NAME, sizeof(boinc_project_group_name));
+    } else 
 #endif
+    {
+        // For easier debugging of project applications; required under OS 10.3.x
+        strlcpy(boinc_project_user_name, pw->pw_name, sizeof(boinc_project_user_name));
+        strlcpy(boinc_project_group_name, grp->gr_name, sizeof(boinc_project_group_name));
+     }
     
     return noErr;
 }

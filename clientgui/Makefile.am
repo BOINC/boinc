@@ -49,15 +49,11 @@ boinc_gui_SOURCES = \
     ValidateEmailAddress.cpp \
     ValidateURL.cpp \
     ViewMessages.cpp \
-    ViewMessagesGrid.cpp \
     ViewProjects.cpp \
-    ViewProjectsGrid.cpp \
     ViewResources.cpp \
     ViewStatistics.cpp \
     ViewTransfers.cpp \
-    ViewTransfersGrid.cpp \
     ViewWork.cpp \
-    ViewWorkGrid.cpp \
     AccountInfoPage.cpp \
     AccountKeyPage.cpp \
     AccountManagerInfoPage.cpp \

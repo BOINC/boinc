@@ -85,8 +85,4 @@ extern bool is_version_dir(char*, VERSION_INFO&);
 #define SWITCHER_FILE_NAME          "switcher"
 #define SETPROJECTGRP_FILE_NAME     "setprojectgrp"
 
-#ifdef __APPLE__
-#define APP_STATS_FILE_NAME          "AppStats"
-#endif
-
 #endif

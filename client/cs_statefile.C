@@ -102,13 +102,13 @@ int CLIENT_STATE::parse_state_file() {
             PROJECT temp_project;
             retval = temp_project.parse_state(mf);
             if (retval) {
-                msg_printf(NULL, MSG_ERROR, "Can't parse project in state file");
+                msg_printf(NULL, MSG_INTERNAL_ERROR, "Can't parse project in state file");
             } else {
                 project = lookup_project(temp_project.master_url);
                 if (project) {
                     project->copy_state_fields(temp_project);
                 } else {
-                    msg_printf(&temp_project, MSG_ERROR,
+                    msg_printf(&temp_project, MSG_INTERNAL_ERROR,
                         "Project %s is in state file but no account file found",
                         temp_project.get_project_name()
                     );
@@ -118,7 +118,7 @@ int CLIENT_STATE::parse_state_file() {
             APP* app = new APP;
             retval = app->parse(mf);
             if (!project) {
-                msg_printf(NULL, MSG_ERROR,
+                msg_printf(NULL, MSG_INTERNAL_ERROR,
                     "Application %s outside project in state file",
                     app->name
                 );
@@ -130,7 +130,7 @@ int CLIENT_STATE::parse_state_file() {
                 continue;
             }
             if (retval) {
-                msg_printf(NULL, MSG_ERROR,
+                msg_printf(NULL, MSG_INTERNAL_ERROR,
                     "Can't parse application in state file"
                 );
                 delete app;
@@ -138,7 +138,7 @@ int CLIENT_STATE::parse_state_file() {
             }
             retval = link_app(project, app);
             if (retval) {
-                msg_printf(project, MSG_ERROR,
+                msg_printf(project, MSG_INTERNAL_ERROR,
                     "Can't handle application %s in state file",
                     app->name
                 );
@@ -150,14 +150,14 @@ int CLIENT_STATE::parse_state_file() {
             FILE_INFO* fip = new FILE_INFO;
             retval = fip->parse(mf, false);
             if (!project) {
-                msg_printf(NULL, MSG_ERROR,
+                msg_printf(NULL, MSG_INTERNAL_ERROR,
                     "File info outside project in state file"
                 );
                 delete fip;
                 continue;
             }
             if (retval) {
-                msg_printf(NULL, MSG_ERROR,
+                msg_printf(NULL, MSG_INTERNAL_ERROR,
                     "Can't handle file info in state file"
                 );
                 delete fip;
@@ -169,7 +169,7 @@ int CLIENT_STATE::parse_state_file() {
                 continue;
             }
             if (retval) {
-                msg_printf(project, MSG_ERROR,
+                msg_printf(project, MSG_INTERNAL_ERROR,
                     "Can't handle file info %s in state file",
                     fip->name
                 );
@@ -189,14 +189,14 @@ int CLIENT_STATE::parse_state_file() {
             if (fip->pers_file_xfer) {
                 retval = fip->pers_file_xfer->init(fip, fip->upload_when_present);
                 if (retval) {
-                    msg_printf(project, MSG_ERROR,
+                    msg_printf(project, MSG_INTERNAL_ERROR,
                         "Can't initialize file transfer for %s",
                         fip->name
                     );
                 }
                 retval = pers_file_xfers->insert(fip->pers_file_xfer);
                 if (retval) {
-                    msg_printf(project, MSG_ERROR,
+                    msg_printf(project, MSG_INTERNAL_ERROR,
                         "Can't start persistent file transfer for %s",
                         fip->name
                     );
@@ -206,7 +206,7 @@ int CLIENT_STATE::parse_state_file() {
             APP_VERSION* avp = new APP_VERSION;
             retval = avp->parse(mf);
             if (!project) {
-                msg_printf(NULL, MSG_ERROR,
+                msg_printf(NULL, MSG_INTERNAL_ERROR,
                     "Application version outside project in state file"
                 );
                 delete avp;
@@ -217,15 +217,15 @@ int CLIENT_STATE::parse_state_file() {
                 continue;
             }
             if (retval) {
-                msg_printf(NULL, MSG_ERROR,
-                    "Can't parse appliation version in state file"
+                msg_printf(NULL, MSG_INTERNAL_ERROR,
+                    "Can't parse application version in state file"
                 );
                 delete avp;
                 continue;
             } 
             retval = link_app_version(project, avp);
             if (retval) {
-                msg_printf(project, MSG_ERROR,
+                msg_printf(project, MSG_INTERNAL_ERROR,
                     "Can't handle application version in state file"
                 );
                 delete avp;
@@ -236,14 +236,14 @@ int CLIENT_STATE::parse_state_file() {
             WORKUNIT* wup = new WORKUNIT;
             retval = wup->parse(mf);
             if (!project) {
-                msg_printf(NULL, MSG_ERROR,
+                msg_printf(NULL, MSG_INTERNAL_ERROR,
                     "Workunit outside project in state file"
                 );
                 delete wup;
                 continue;
             }
             if (retval) {
-                msg_printf(NULL, MSG_ERROR,
+                msg_printf(NULL, MSG_INTERNAL_ERROR,
                     "Can't parse workunit in state file"
                 );
                 delete wup;
@@ -251,7 +251,7 @@ int CLIENT_STATE::parse_state_file() {
             }
             retval = link_workunit(project, wup);
             if (retval) {
-                msg_printf(project, MSG_ERROR,
+                msg_printf(project, MSG_INTERNAL_ERROR,
                     "Can't handle workunit in state file"
                 );
                 delete wup;
@@ -262,7 +262,7 @@ int CLIENT_STATE::parse_state_file() {
             RESULT* rp = new RESULT;
             retval = rp->parse_state(mf);
             if (!project) {
-                msg_printf(NULL, MSG_ERROR,
+                msg_printf(NULL, MSG_INTERNAL_ERROR,
                     "Task %s outside project in state file",
                     rp->name
                 );
@@ -270,7 +270,7 @@ int CLIENT_STATE::parse_state_file() {
                 continue;
             }
             if (retval) {
-                msg_printf(NULL, MSG_ERROR,
+                msg_printf(NULL, MSG_INTERNAL_ERROR,
                     "Can't parse task in state file"
                 );
                 delete rp;
@@ -278,7 +278,7 @@ int CLIENT_STATE::parse_state_file() {
             }
             retval = link_result(project, rp);
             if (retval) {
-                msg_printf(project, MSG_ERROR,
+                msg_printf(project, MSG_INTERNAL_ERROR,
                     "Can't link task %s in state file",
                     rp->name
                 );
@@ -288,7 +288,7 @@ int CLIENT_STATE::parse_state_file() {
             results.push_back(rp);
         } else if (match_tag(buf, "<project_files>")) {
             if (!project) {
-                msg_printf(NULL, MSG_ERROR,
+                msg_printf(NULL, MSG_INTERNAL_ERROR,
                     "Project files outside project in state file"
                 );
                 skip_unrecognized(buf, f);
@@ -299,28 +299,28 @@ int CLIENT_STATE::parse_state_file() {
         } else if (match_tag(buf, "<host_info>")) {
             retval = host_info.parse(mf);
             if (retval) {
-                msg_printf(NULL, MSG_ERROR,
+                msg_printf(NULL, MSG_INTERNAL_ERROR,
                     "Can't parse host info in state file"
                 );
             }
         } else if (match_tag(buf, "<time_stats>")) {
             retval = time_stats.parse(mf);
             if (retval) {
-                msg_printf(NULL, MSG_ERROR,
+                msg_printf(NULL, MSG_INTERNAL_ERROR,
                     "Can't parse time stats in state file"
                 );
             }
         } else if (match_tag(buf, "<net_stats>")) {
             retval = net_stats.parse(mf);
             if (retval) {
-                msg_printf(NULL, MSG_ERROR,
+                msg_printf(NULL, MSG_INTERNAL_ERROR,
                     "Can't parse network stats in state file"
                 );
             }
         } else if (match_tag(buf, "<active_task_set>")) {
             retval = active_tasks.parse(mf);
             if (retval) {
-                msg_printf(NULL, MSG_ERROR,
+                msg_printf(NULL, MSG_INTERNAL_ERROR,
                     "Can't parse active tasks in state file"
                 );
             }
@@ -342,7 +342,7 @@ int CLIENT_STATE::parse_state_file() {
         } else if (match_tag(buf, "<proxy_info>")) {
             retval = proxy_info.parse(mf);
             if (retval) {
-                msg_printf(NULL, MSG_ERROR,
+                msg_printf(NULL, MSG_INTERNAL_ERROR,
                     "Can't parse proxy info in state file"
                 );
             }
@@ -351,7 +351,7 @@ int CLIENT_STATE::parse_state_file() {
         } else if (parse_str(buf, "<newer_version>", newer_version)) {
         } else if (match_tag(buf, "<auto_update>")) {
             if (!project) {
-                msg_printf(NULL, MSG_ERROR,
+                msg_printf(NULL, MSG_INTERNAL_ERROR,
                     "auto update outside project in state file"
                 );
                 skip_unrecognized(buf, f);
@@ -362,7 +362,7 @@ int CLIENT_STATE::parse_state_file() {
             }
         } else {
             if (log_flags.unparsed_xml) {
-                msg_printf(0, MSG_ERROR,
+                msg_printf(0, MSG_INFO,
                     "[unparsed_xml] state_file: unrecognized: %s", buf
                 );
             }
@@ -393,7 +393,7 @@ int CLIENT_STATE::write_state_file() {
     retval = mf.open(STATE_FILE_NEXT, "w");
 #endif
     if (retval) {
-        msg_printf(0, MSG_ERROR,
+        msg_printf(0, MSG_INTERNAL_ERROR,
             "Can't open %s: %s",
             STATE_FILE_NEXT, boincerror(retval)
         );
@@ -413,7 +413,7 @@ int CLIENT_STATE::write_state_file() {
             retval = boinc_delete_file(STATE_FILE_PREV);
 #ifdef _WIN32
             if (retval) {
-                msg_printf(0, MSG_ERROR,
+                msg_printf(0, MSG_USER_ERROR,
                     "Can't delete previous state file; %s",
                     windows_error_string(win_error_msg, sizeof(win_error_msg))
                 );
@@ -424,7 +424,7 @@ int CLIENT_STATE::write_state_file() {
         retval = boinc_rename(STATE_FILE_NAME, STATE_FILE_PREV);
 #ifdef _WIN32
         if (retval) {
-            msg_printf(0, MSG_ERROR,
+            msg_printf(0, MSG_USER_ERROR,
                 "Can't rename current state file to previous state file; %s",
                 windows_error_string(win_error_msg, sizeof(win_error_msg))
             );
@@ -441,17 +441,17 @@ int CLIENT_STATE::write_state_file() {
     if (retval) {
 #ifdef _WIN32
         if (retval == ERROR_ACCESS_DENIED) {
-            msg_printf(0, MSG_ERROR,
+            msg_printf(0, MSG_USER_ERROR,
                 "Can't rename state file; access denied; check file and directory permissions"
             );
         } else {
-            msg_printf(0, MSG_ERROR,
+            msg_printf(0, MSG_USER_ERROR,
                 "Can't rename state file; %s",
                 windows_error_string(win_error_msg, sizeof(win_error_msg))
             );
         }
 #else
-        msg_printf(0, MSG_ERROR,
+        msg_printf(0, MSG_USER_ERROR,
             "Can't rename %s to %s; check file and directory permissions",
             STATE_FILE_NEXT, STATE_FILE_NAME
         );
@@ -623,7 +623,11 @@ int CLIENT_STATE::parse_app_info(PROJECT* p, FILE* in) {
             app_versions.push_back(avp);
             continue;
         }
-        msg_printf(p, MSG_ERROR, "Unparsed line in app_info.xml: %s", buf);
+        if (log_flags.unparsed_xml) {
+            msg_printf(p, MSG_INFO,
+                "[unparsed_xml] Unparsed line in app_info.xml: %s", buf
+            );
+        }
     }
     return ERR_XML_PARSE;
 }

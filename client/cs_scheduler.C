@@ -62,173 +62,6 @@ using std::string;
 //
 #define REPORT_DEADLINE_CUSHION ((double)SECONDS_PER_DAY)
 
-static const char* urgency_name(int urgency) {
-    switch(urgency) {
-    case WORK_FETCH_DONT_NEED: return "Don't need";
-    case WORK_FETCH_OK: return "OK";
-    case WORK_FETCH_NEED: return "Need";
-    case WORK_FETCH_NEED_IMMEDIATELY: return "Need immediately";
-    }
-    return "Unknown";
-}
-
-// how many CPUs should this project occupy on average,
-// based on its resource share relative to a given set
-//
-int CLIENT_STATE::proj_min_results(PROJECT* p, double subset_resource_share) {
-    if (p->non_cpu_intensive) {
-        return 1;
-    }
-    if (!subset_resource_share) return 1;   // TODO - fix
-    return (int)(ceil(ncpus*p->resource_share/subset_resource_share));
-}
-
-void CLIENT_STATE::check_project_timeout() {
-	unsigned int i;
-	for (i=0; i<projects.size(); i++) {
-		PROJECT* p = projects[i];
-		if (p->possibly_backed_off && now > p->min_rpc_time) {
-			p->possibly_backed_off = false;
-			request_work_fetch("Project backoff ended");
-		}
-	}
-}
-
-void PROJECT::set_min_rpc_time(double future_time, const char* reason) {
-    if (future_time > min_rpc_time) {
-        min_rpc_time = future_time;
-		possibly_backed_off = true;
-        msg_printf(this, MSG_INFO,
-            "Deferring communication for %s",
-            timediff_format(min_rpc_time - gstate.now).c_str()
-        );
-        msg_printf(this, MSG_INFO, "Reason: %s\n", reason);
-    }
-}
-
-// Return true if we should not contact the project yet.
-//
-bool PROJECT::waiting_until_min_rpc_time() {
-    return (min_rpc_time > gstate.now);
-}
-
-// find a project that needs to have its master file fetched
-//
-PROJECT* CLIENT_STATE::next_project_master_pending() {
-    unsigned int i;
-    PROJECT* p;
-
-    for (i=0; i<projects.size(); i++) {
-        p = projects[i];
-        if (p->waiting_until_min_rpc_time()) continue;
-        if (p->suspended_via_gui) continue;
-        if (p->master_url_fetch_pending) {
-            return p;
-        }
-    }
-    return 0;
-}
-
-// find a project for which a scheduler RPC is pending
-// and we're not backed off
-//
-PROJECT* CLIENT_STATE::next_project_sched_rpc_pending() {
-    unsigned int i;
-    PROJECT* p;
-
-    for (i=0; i<projects.size(); i++) {
-        p = projects[i];
-        if (p->waiting_until_min_rpc_time()) continue;
-        if (p->next_rpc_time && p->next_rpc_time<now) {
-            p->sched_rpc_pending = RPC_REASON_PROJECT_REQ;
-            p->next_rpc_time = 0;
-        }
-        //if (p->suspended_via_gui) continue;
-        // do the RPC even if suspended.
-        // This is critical for acct mgrs, to propagate new host CPIDs
-        //
-        if (p->sched_rpc_pending) {
-            return p;
-        }
-    }
-    return 0;
-}
-
-PROJECT* CLIENT_STATE::next_project_trickle_up_pending() {
-    unsigned int i;
-    PROJECT* p;
-
-    for (i=0; i<projects.size(); i++) {
-        p = projects[i];
-        if (p->waiting_until_min_rpc_time()) continue;
-        if (p->suspended_via_gui) continue;
-        if (p->trickle_up_pending) {
-            return p;
-        }
-    }
-    return 0;
-}
-
-// Return the best project to fetch work from, NULL if none
-//
-// Pick the one with largest (long term debt - amount of current work)
-//
-// PRECONDITIONS:
-//   - work_request_urgency and work_request set for all projects
-//   - CLIENT_STATE::overall_work_fetch_urgency is set
-// (by previous call to compute_work_requests())
-//
-PROJECT* CLIENT_STATE::next_project_need_work() {
-    PROJECT *p, *p_prospect = NULL;
-    unsigned int i;
-
-    for (i=0; i<projects.size(); i++) {
-        p = projects[i];
-        if (p->work_request_urgency == WORK_FETCH_DONT_NEED) continue;
-        if (p->work_request == 0) continue;
-        if (!p->contactable()) continue;
-
-        // if we don't need work, only get work from non-cpu intensive projects.
-        //
-        if (overall_work_fetch_urgency == WORK_FETCH_DONT_NEED && !p->non_cpu_intensive) continue;
-
-        // if we don't really need work,
-        // and we don't really need work from this project, pass.
-        //
-        if (overall_work_fetch_urgency == WORK_FETCH_OK) {
-            if (p->work_request_urgency <= WORK_FETCH_OK) {
-                continue;
-            }
-        }
-
-        if (p_prospect) {
-            if (p->work_request_urgency == WORK_FETCH_OK && 
-                p_prospect->work_request_urgency > WORK_FETCH_OK
-            ) {
-                continue;
-            }
-
-            if (p->long_term_debt + p->cpu_shortfall < p_prospect->long_term_debt + p_prospect->cpu_shortfall
-                && !p->non_cpu_intensive
-            ) {
-                continue;
-            }
-        }
-
-        p_prospect = p;
-    }
-    if (p_prospect && (p_prospect->work_request <= 0)) {
-        p_prospect->work_request = 1.0;
-        if (log_flags.work_fetch_debug) {
-            msg_printf(0, MSG_INFO,
-                "[work_fetch_debug] next_project_need_work: project picked %s",
-                p_prospect->project_name
-            );
-        }
-    }
-
-    return p_prospect;
-}
 
 // Write a scheduler request to a disk file,
 // to be sent to a scheduling server
@@ -454,333 +287,6 @@ int CLIENT_STATE::make_scheduler_request(PROJECT* p) {
     return 0;
 }
 
-// find a project with finished results that should be reported.
-// This means:
-//    - we're not backing off contacting the project
-//    - the result is ready_to_report (compute done; files uploaded)
-//    - we're either within a day of the report deadline,
-//      or at least work_buf_min_days time has elapsed since
-//      result was completed,
-//      or we have a sporadic connection
-//
-PROJECT* CLIENT_STATE::find_project_with_overdue_results() {
-    unsigned int i;
-    RESULT* r;
-
-    for (i=0; i<results.size(); i++) {
-        r = results[i];
-        // return the project for this result to report if:
-        //
-
-        PROJECT* p = r->project;
-        if (p->waiting_until_min_rpc_time()) continue;
-        if (p->suspended_via_gui) continue;
-
-        if (!r->ready_to_report) continue;
-        if (net_status.have_sporadic_connection) {
-            return p;
-        }
-        double cushion = std::max(REPORT_DEADLINE_CUSHION, work_buf_min());
-        if (gstate.now > r->report_deadline - cushion) {
-            return p;
-        }
-        if (gstate.now > r->completed_time + work_buf_min()) {
-            return p;
-        }
-        if (gstate.now > r->report_deadline - work_buf_min()) {
-            return p;   // Handles the case where the report is due before the next reconnect is 
-                        // likely.
-        }
-    }
-
-    return 0;
-}
-
-// the fraction of time a given CPU is working for BOINC
-//
-double CLIENT_STATE::overall_cpu_frac() {
-    double running_frac = time_stats.on_frac * time_stats.active_frac * time_stats.cpu_efficiency;
-    if (running_frac < 0.01) running_frac = 0.01;
-    if (running_frac > 1) running_frac = 1;
-	return running_frac;
-}
-
-// the expected number of CPU seconds completed by the client
-// in a second of wall-clock time.
-// May be > 1 on a multiprocessor.
-//
-double CLIENT_STATE::avg_proc_rate() {
-    return ncpus*overall_cpu_frac();
-}
-
-// estimate wall-clock time until the number of uncompleted results
-// for project p will reach k,
-// given the total resource share of a set of competing projects
-//
-double CLIENT_STATE::time_until_work_done(
-    PROJECT *p, int k, double subset_resource_share
-) {
-    int num_results_to_skip = k;
-    double est = 0;
-    
-    // total up the estimated time for this project's unstarted
-    // and partially completed results,
-    // omitting the last k
-    //
-    for (vector<RESULT*>::reverse_iterator iter = results.rbegin();
-         iter != results.rend(); iter++
-    ) {
-        RESULT *rp = *iter;
-        if (rp->project != p
-            || rp->state > RESULT_FILES_DOWNLOADED
-            || rp->ready_to_report
-        ) continue;
-        if (num_results_to_skip > 0) {
-            --num_results_to_skip;
-            continue;
-        }
-        if (rp->project->non_cpu_intensive) {
-            // if it is a non_cpu intensive project,
-            // it needs only one at a time.
-            //
-            est = max(rp->estimated_cpu_time_remaining(), work_buf_min());  
-        } else {
-            est += rp->estimated_cpu_time_remaining();
-        }
-    }
-	if (log_flags.work_fetch_debug) {
-		msg_printf(NULL, MSG_INFO,
-			"[work_fetch_debug] time_until_work_done(): est %f ssr %f apr %f prs %f",
-			est, subset_resource_share, avg_proc_rate(), p->resource_share
-		);
-	}
-    if (subset_resource_share) {
-        double apr = avg_proc_rate()*p->resource_share/subset_resource_share;
-        return est/apr;
-    } else {
-        return est/avg_proc_rate();     // TODO - fix
-    }
-}
-
-// Top-level function for work fetch policy.
-// Outputs:
-// - overall_work_fetch_urgency
-// - for each contactable project:
-//     - work_request and work_request_urgency
-//
-// Notes:
-// - at most 1 CPU-intensive project will have a nonzero work_request
-//      and a work_request_urgency higher than DONT_NEED.
-//      This prevents projects with low LTD from getting work
-//      even though there was a higher LTD project that should get work.
-// - all non-CPU-intensive projects that need work
-//      and are contactable will have a work request of 1.
-//
-// return false
-//
-bool CLIENT_STATE::compute_work_requests() {
-    unsigned int i;
-    static double last_time = 0;
-
-    if (gstate.now - last_time >= 60) {
-        gstate.request_work_fetch("timer");
-    }
-    if (!must_check_work_fetch) return 0;
-
-    if (log_flags.work_fetch_debug) {
-        msg_printf(0, MSG_INFO, "[work_fetch_debug] compute_work_requests(): start");
-    }
-    last_time = gstate.now;
-    must_check_work_fetch = false;
-
-    adjust_debts();
-
-    rr_simulation();
-
-    // compute per-project and overall urgency
-    //
-    bool possible_deadline_miss = false;
-    bool project_shortfall = false;
-    bool non_cpu_intensive_needs_work = false;
-    for (i=0; i< projects.size(); i++) {
-        PROJECT* p = projects[i];
-        if (p->non_cpu_intensive) {
-            if (p->runnable() || !p->contactable()) {
-                p->work_request = 0;
-                p->work_request_urgency = WORK_FETCH_DONT_NEED;
-            } else {
-                p->work_request = 1.0;
-                p->work_request_urgency = WORK_FETCH_NEED_IMMEDIATELY;
-				non_cpu_intensive_needs_work = true;
-				if (log_flags.work_fetch_debug) {
-					msg_printf(p, MSG_INFO,
-						"[work_fetch_debug] non-CPU-intensive project needs work"
-					);
-				}
-				return false;
-            }
-        } else {
-            p->work_request_urgency = WORK_FETCH_DONT_NEED;
-            p->work_request = 0;
-			if (p->rr_sim_deadlines_missed) {
-				possible_deadline_miss = true;
-			}
-            if (p->cpu_shortfall && p->long_term_debt > -global_prefs.cpu_scheduling_period_minutes * 60) {
-                project_shortfall = true;
-            }
-        }
-    }
-
-    if (cpu_shortfall <= 0.0 && (possible_deadline_miss || !project_shortfall)) {
-        overall_work_fetch_urgency = WORK_FETCH_DONT_NEED;
-    } else if (no_work_for_a_cpu()) {
-        overall_work_fetch_urgency = WORK_FETCH_NEED_IMMEDIATELY;
-    } else if (cpu_shortfall > 0) {
-        overall_work_fetch_urgency = WORK_FETCH_NEED;
-    } else {
-        overall_work_fetch_urgency = WORK_FETCH_OK;
-    }
-    if (log_flags.work_fetch_debug) {
-        msg_printf(0, MSG_INFO,
-            "[work_fetch_debug] compute_work_requests(): cpu_shortfall %f, overall urgency %s",
-            cpu_shortfall, urgency_name(overall_work_fetch_urgency)
-        );
-    }
-    if (overall_work_fetch_urgency == WORK_FETCH_DONT_NEED) {
-        if (non_cpu_intensive_needs_work) {
-            overall_work_fetch_urgency = WORK_FETCH_NEED_IMMEDIATELY;
-        }
-        return false;
-    }
-
-    // loop over projects, and pick one to get work from
-    //
-    double prrs = potentially_runnable_resource_share();
-    PROJECT *pbest = NULL;
-    for (i=0; i<projects.size(); i++) {
-        PROJECT *p = projects[i];
-
-        // see if this project can be ruled out completely
-        //
-        if (p->non_cpu_intensive) continue;
-        if (!p->contactable()) {
-            if (log_flags.work_fetch_debug) {
-                msg_printf(p, MSG_INFO, "[work_fetch_debug] work fetch: project not contactable");
-            }
-            continue;
-        }
-        if (p->deadlines_missed
-            && overall_work_fetch_urgency != WORK_FETCH_NEED_IMMEDIATELY
-        ) {
-            if (log_flags.work_fetch_debug) {
-                msg_printf(p, MSG_INFO,
-                    "[work_fetch_debug] project has %d deadline misses",
-                    p->deadlines_missed
-                );
-            }
-            continue;
-        }
-        if (p->some_download_stalled()) {
-            if (log_flags.work_fetch_debug) {
-                msg_printf(p, MSG_INFO,
-                    "[work_fetch_debug] project has stalled download"
-                );
-            }
-            continue;
-        }
-
-        if (p->some_result_suspended()) {
-            if (log_flags.work_fetch_debug) {
-                msg_printf(p, MSG_INFO, "[work_fetch_debug] project has suspended result");
-            }
-            continue;
-        }
-
-        if (p->overworked() && overall_work_fetch_urgency < WORK_FETCH_NEED) {
-            if (log_flags.work_fetch_debug) {
-                msg_printf(p, MSG_INFO, "[work_fetch_debug] project is overworked");
-            }
-            continue;
-        }
-        if (p->cpu_shortfall == 0.0 && overall_work_fetch_urgency < WORK_FETCH_NEED) {
-            if (log_flags.work_fetch_debug) {
-                msg_printf(p, MSG_INFO, "[work_fetch_debug] project has no shortfall");
-            }
-            continue;
-        }
-
-        // see if this project is better than our current best
-        //
-        if (pbest) {
-            // avoid getting work from a project in deadline trouble
-            //
-            if (p->deadlines_missed && !pbest->deadlines_missed) {
-                if (log_flags.work_fetch_debug) {
-                    msg_printf(p, MSG_INFO,
-                        "[work_fetch_debug] project has deadline misses, %s doesn't",
-                        pbest->get_project_name()
-                    );
-                }
-                continue;
-            }
-            // avoid getting work from an overworked project
-            //
-            if (p->overworked() && !pbest->overworked()) {
-                if (log_flags.work_fetch_debug) {
-                    msg_printf(p, MSG_INFO,
-                        "[work_fetch_debug] project is overworked, %s isn't",
-                        pbest->get_project_name()
-                    );
-                }
-                continue;
-            }
-            // get work from project with highest LTD
-            //
-            if (pbest->long_term_debt + pbest->cpu_shortfall > p->long_term_debt + p->cpu_shortfall) {
-                if (log_flags.work_fetch_debug) {
-                    msg_printf(p, MSG_INFO,
-                        "[work_fetch_debug] project has less LTD than %s",
-                        pbest->get_project_name()
-                    );
-                }
-                continue;
-            }
-        }
-        pbest = p;
-        if (log_flags.work_fetch_debug) {
-            msg_printf(pbest, MSG_INFO, "[work_fetch_debug] best project so far");
-        }
-    }
-
-    if (pbest) {
-        pbest->work_request = config.work_request_factor * max(
-            pbest->cpu_shortfall,
-            cpu_shortfall * (prrs ? pbest->resource_share/prrs : 1)
-        );
-        
-        if (!pbest->nearly_runnable()) {
-            pbest->work_request_urgency = WORK_FETCH_NEED_IMMEDIATELY;
-        } else if (pbest->cpu_shortfall) {
-            pbest->work_request_urgency = WORK_FETCH_NEED;
-        } else {
-            pbest->work_request_urgency = WORK_FETCH_OK;
-        }
-
-        if (log_flags.work_fetch_debug) {
-            msg_printf(pbest, MSG_INFO,
-				"[work_fetch_debug] compute_work_requests(): work req %f, shortfall %f, urgency %s\n",
-				pbest->work_request, pbest->cpu_shortfall,
-                urgency_name(pbest->work_request_urgency)
-            );
-        }
-    } else if (non_cpu_intensive_needs_work) {
-        overall_work_fetch_urgency = WORK_FETCH_NEED_IMMEDIATELY;
-    }
-
-
-    return false;
-}
-
 // called from the client's polling loop.
 // initiate scheduler RPC activity if needed and possible
 //
@@ -882,10 +388,10 @@ int CLIENT_STATE::handle_scheduler_reply(
     if (strlen(sr.master_url)) {
         canonicalize_master_url(sr.master_url);
         if (strcmp(sr.master_url, project->master_url)) {
-            msg_printf(project, MSG_ERROR,
+            msg_printf(project, MSG_USER_ERROR,
                 "You used the wrong URL for this project"
             );
-            msg_printf(project, MSG_ERROR,
+            msg_printf(project, MSG_USER_ERROR,
                 "The correct URL is %s", sr.master_url
             );
             p2 = gstate.lookup_project(sr.master_url);
@@ -925,11 +431,11 @@ int CLIENT_STATE::handle_scheduler_reply(
             }
         }
         if (dup_name) {
-            msg_printf(project, MSG_ERROR,
+            msg_printf(project, MSG_USER_ERROR,
                 "Already attached to a project named %s (possibly with wrong URL)",
                 project->project_name
             );
-            msg_printf(project, MSG_ERROR,
+            msg_printf(project, MSG_USER_ERROR,
                 "Consider detaching this project, then trying again"
             );
         }
@@ -941,7 +447,7 @@ int CLIENT_STATE::handle_scheduler_reply(
     for (i=0; i<sr.messages.size(); i++) {
         USER_MESSAGE& um = sr.messages[i];
         sprintf(buf, "Message from server: %s", um.message.c_str());
-        int prio = (!strcmp(um.priority.c_str(), "high"))?MSG_ERROR:MSG_INFO;
+        int prio = (!strcmp(um.priority.c_str(), "high"))?MSG_USER_ERROR:MSG_INFO;
         show_message(project, buf, prio);
         gstate.project_attach.messages.push_back(um.message);
     }
@@ -1022,7 +528,7 @@ int CLIENT_STATE::handle_scheduler_reply(
     if (project->gui_urls != old_gui_urls || update_project_prefs) {
         retval = project->write_account_file();
         if (retval) {
-            msg_printf(project, MSG_ERROR,
+            msg_printf(project, MSG_INTERNAL_ERROR,
                 "Can't write account file: %s", boincerror(retval)
             );
             return retval;
@@ -1055,12 +561,12 @@ int CLIENT_STATE::handle_scheduler_reply(
                 if (!retval && signature_valid) {
                     safe_strcpy(project->code_sign_key, sr.code_sign_key);
                 } else {
-                    msg_printf(project, MSG_ERROR,
+                    msg_printf(project, MSG_INTERNAL_ERROR,
                         "New code signing key doesn't validate"
                     );
                 }
             } else {
-                msg_printf(project, MSG_ERROR,
+                msg_printf(project, MSG_INTERNAL_ERROR,
                     "Missing code sign key signature"
                 );
             }
@@ -1078,7 +584,7 @@ int CLIENT_STATE::handle_scheduler_reply(
             *app = sr.apps[i];
             retval = link_app(project, app);
             if (retval) {
-                msg_printf(project, MSG_ERROR,
+                msg_printf(project, MSG_INTERNAL_ERROR,
                     "Can't handle application %s in scheduler reply", app->name
                 );
                 delete app;
@@ -1097,7 +603,7 @@ int CLIENT_STATE::handle_scheduler_reply(
             *fip = sr.file_infos[i];
             retval = link_file_info(project, fip);
             if (retval) {
-                msg_printf(project, MSG_ERROR,
+                msg_printf(project, MSG_INTERNAL_ERROR,
                     "Can't handle file %s in scheduler reply", fip->name
                 );
                 delete fip;
@@ -1128,7 +634,7 @@ int CLIENT_STATE::handle_scheduler_reply(
         *avp = sr.app_versions[i];
         retval = link_app_version(project, avp);
         if (retval) {
-             msg_printf(project, MSG_ERROR,
+             msg_printf(project, MSG_INTERNAL_ERROR,
                  "Can't handle application version %s %d in scheduler reply",
                  avp->app_name, avp->version_num
              );
@@ -1144,7 +650,7 @@ int CLIENT_STATE::handle_scheduler_reply(
         wup->project = project;
         int vnum = choose_version_num(wup, sr);
         if (vnum < 0) {
-            msg_printf(project, MSG_ERROR,
+            msg_printf(project, MSG_INTERNAL_ERROR,
                 "Can't find application version for task %s", wup->name
             );
             delete wup;
@@ -1154,7 +660,7 @@ int CLIENT_STATE::handle_scheduler_reply(
         wup->version_num = vnum;
         retval = link_workunit(project, wup);
         if (retval) {
-            msg_printf(project, MSG_ERROR,
+            msg_printf(project, MSG_INTERNAL_ERROR,
                 "Can't handle task %s in scheduler reply", wup->name
             );
             delete wup;
@@ -1165,7 +671,7 @@ int CLIENT_STATE::handle_scheduler_reply(
     }
     for (i=0; i<sr.results.size(); i++) {
         if (lookup_result(project, sr.results[i].name)) {
-            msg_printf(project, MSG_ERROR,
+            msg_printf(project, MSG_INTERNAL_ERROR,
                 "Already have task %s\n", sr.results[i].name
             );
             continue;
@@ -1174,14 +680,14 @@ int CLIENT_STATE::handle_scheduler_reply(
         *rp = sr.results[i];
         retval = link_result(project, rp);
         if (retval) {
-            msg_printf(project, MSG_ERROR,
+            msg_printf(project, MSG_INTERNAL_ERROR,
                 "Can't handle task %s in scheduler reply", rp->name
             );
             delete rp;
             continue;
         }
         results.push_back(rp);
-        rp->state = RESULT_NEW;
+        rp->set_state(RESULT_NEW, "handle_scheduler_reply");
         nresults++;
     }
 
@@ -1198,7 +704,7 @@ int CLIENT_STATE::handle_scheduler_reply(
         if (rp) {
             rp->got_server_ack = true;
         } else {
-            msg_printf(project, MSG_ERROR,
+            msg_printf(project, MSG_INTERNAL_ERROR,
                 "Got ack for task %s, but can't find it", sr.result_acks[i].name
             );
         }
@@ -1289,49 +795,6 @@ int CLIENT_STATE::handle_scheduler_reply(
         print_summary();
     }
     return 0;
-}
-
-double CLIENT_STATE::work_needed_secs() {
-    double total_work = 0;
-    for(unsigned int i=0; i<results.size(); i++) {
-        if (results[i]->project->non_cpu_intensive) continue;
-        total_work += results[i]->estimated_cpu_time_remaining();
-    }
-    double x = work_buf_min() * avg_proc_rate() - total_work;
-    if (x < 0) {
-        return 0;
-    }
-    return x;
-}
-
-// called when benchmarks change
-//
-void CLIENT_STATE::scale_duration_correction_factors(double factor) {
-    if (factor <= 0) return;
-    for (unsigned int i=0; i<projects.size(); i++) {
-        PROJECT* p = projects[i];
-        p->duration_correction_factor *= factor;
-    }
-	if (log_flags.cpu_sched_debug) {
-		msg_printf(NULL, MSG_INFO,
-            "[cpu_sched_debug] scaling duration correction factors by %f",
-            factor
-        );
-	}
-}
-
-// Choose a new host CPID.
-// If using account manager, do scheduler RPCs
-// to all acct-mgr-attached projects to propagate the CPID
-//
-void CLIENT_STATE::generate_new_host_cpid() {
-    host_info.generate_host_cpid();
-    for (unsigned int i=0; i<projects.size(); i++) {
-        if (projects[i]->attached_via_acct_mgr) {
-            projects[i]->sched_rpc_pending = RPC_REASON_ACCT_MGR_REQ;
-            projects[i]->set_min_rpc_time(now + 15, "Sending new host CPID");
-        }
-    }
 }
 
 const char *BOINC_RCSID_d35a4a7711 = "$Id$";
