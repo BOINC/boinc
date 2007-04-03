@@ -24,41 +24,15 @@
 #pragma interface "ViewProjectsGrid.cpp"
 #endif
 
+class CBOINCGridCtrl;
 
-#include "BOINCBaseView.h"
-#include "BOINCGridCtrl.h"
-#include <wx/arrimpl.cpp>
-
-class CProjectInfo {
-public:
-	CProjectInfo();
-	wxString name;
-	wxString accountname;
-	wxString teamname;
-	double totalcredit;
-	double avgcredit;
-	double resourceshare;
-	double rspercent;
-	wxString status;
-	wxString hashKey;
-
-	void makeHashKey();
-};
-
-WX_DEFINE_ARRAY(CProjectInfo*,ProjectCache);
 
 class CViewProjectsGrid : public CBOINCBaseView
 {
     DECLARE_DYNAMIC_CLASS( CViewProjectsGrid )
-	CBOINCGridCtrl*	m_pGridPane;
-	bool UpdateProjectCache();
-	wxString GetReadableStatus(PROJECT* project);
-	bool SortProjects();
-	ProjectCache m_projectCache;
-	
-	void FillProjectInfo(PROJECT* p,CProjectInfo* info);
-	bool IsProjectInfoOutOfDate(PROJECT* p,CProjectInfo* info);
-	CProjectInfo* FindProjectInCache(wxString& name);
+
+    CBOINCGridCtrl*	m_pGridPane;
+
 public:
     CViewProjectsGrid();
     CViewProjectsGrid(wxNotebook* pNotebook);

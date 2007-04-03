@@ -725,6 +725,24 @@ static void ShowStackRM(HANDLE hThread, CONTEXT& Context)
     _ftprintf(stderr, _T("- Registers -\n"));
 
     // Dump the Context data
+#if defined(_WIN64) && defined(_M_X64)
+    _ftprintf(stderr, 
+        _T("rax=%.16x rbx=%.16x rcx=%.16x rdx=%.16x rsi=%.16x rdi=%.16x\n"),
+        Context.Rax, Context.Rbx, Context.Rcx, Context.Rdx, Context.Rsi, Context.Rdi
+    );
+    _ftprintf(stderr, 
+        _T("r8=%.16x r9=%.16x r10=%.16x r11=%.16x r12=%.16x r13=%.16x\n"),
+        Context.R8, Context.R9, Context.R10, Context.R11, Context.R12, Context.R13
+    );
+    _ftprintf(stderr, 
+        _T("r14=%.16x r15=%.16x rip=%.16x rsp=%.16x rbp=%.16x\n"),
+        Context.R14, Context.R15, Context.Rip, Context.Rsp, Context.Rbp
+    );
+    _ftprintf(stderr, 
+        _T("cs=%.4x  ss=%.4x  ds=%.4x  es=%.4x  fs=%.4x  gs=%.4x             efl=%.8x\n\n"),
+        Context.SegCs, Context.SegSs, Context.SegDs,  Context.SegEs,  Context.SegFs,  Context.SegGs, Context.EFlags
+    );
+#else
     _ftprintf(stderr, 
         _T("eax=%.8x ebx=%.8x ecx=%.8x edx=%.8x esi=%.8x edi=%.8x\n"),
         Context.Eax, Context.Ebx, Context.Ecx, Context.Edx, Context.Esi, Context.Edi
@@ -737,6 +755,7 @@ static void ShowStackRM(HANDLE hThread, CONTEXT& Context)
         _T("cs=%.4x  ss=%.4x  ds=%.4x  es=%.4x  fs=%.4x  gs=%.4x             efl=%.8x\n\n"),
         Context.SegCs, Context.SegSs, Context.SegDs,  Context.SegEs,  Context.SegFs,  Context.SegGs, Context.EFlags
     );
+#endif
 
     // Stack Header
     _ftprintf(stderr, _T("- Callstack -\n"));

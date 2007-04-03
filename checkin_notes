@@ -3030,9 +3030,12 @@ Rom    3 Apr 2007
     - MGR: All help menu items are now redirected using the manager_links.php
         page.
     - MGR: Add version information to the manager_links.php requests.
+    - MGR: Remove the CProjectInfo cache from ViewProjectsGrid.
     - CC: Fix the display of the processor features. It is useful for those
         who want to run optimized clients but don't really know what processor
         features are supported by their processor/os combination.
+    - DBG: Include all the 64-bit registers in the debug output on a 64-bit
+        Windows machine.
 
     client/
         client_state.C
@@ -3043,7 +3046,7 @@ Rom    3 Apr 2007
         AdvancedFrame.cpp, .h
         Events.h
         ViewMessagesGrid.cpp
-        ViewProjectsGrid.cpp
+        ViewProjectsGrid.cpp, .h
         ViewTransfersGrid.cpp
         ViewWorkGrid.cpp
         WizardAttachProject.cpp
@@ -3052,5 +3055,6 @@ Rom    3 Apr 2007
     lib/
         boinc_win.h
         browser.C
+        stackwalker_win.cpp
     win_build/
         boincmgr_curl.vcproj
