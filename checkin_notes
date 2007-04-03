@@ -3076,3 +3076,17 @@ David  3 Apr 2007
 		app_control.C
 		cpu_sched.C
 		sim.C,h
+
+David  3 Apr 2007
+    - core client: fix parsing of <link rel="boinc_scheduler" ...
+        in scheduler reply
+	- simulator
+
+    client/
+        app.C
+        client_types.C
+        cpu_sched.C
+        cs_apps.C
+        makefile_sim
+        scheduler_op.C
+        sim.C

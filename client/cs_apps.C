@@ -41,9 +41,52 @@
 #include "shmem.h"
 #include "log_flags.h"
 #include "client_msgs.h"
+#ifdef SIM
+#include "sim.h"
+#else
 #include "client_state.h"
+#endif
 
 using std::vector;
+
+// clean up after finished apps
+//
+bool CLIENT_STATE::handle_finished_apps() {
+    unsigned int i;
+    ACTIVE_TASK* atp;
+    bool action = false;
+    static double last_time = 0;
+    if (gstate.now - last_time < 1.0) return false;
+    last_time = gstate.now;
+
+    for (i=0; i<active_tasks.active_tasks.size(); i++) {
+        atp = active_tasks.active_tasks[i];
+        switch (atp->task_state()) {
+        case PROCESS_EXITED:
+        case PROCESS_WAS_SIGNALED:
+        case PROCESS_EXIT_UNKNOWN:
+        case PROCESS_COULDNT_START:
+        case PROCESS_ABORTED:
+            if (log_flags.task) {
+                msg_printf(atp->wup->project, MSG_INFO,
+                    "Computation for task %s finished", atp->result->name
+                );
+            }
+            app_finished(*atp);
+            active_tasks.remove(atp);
+            delete atp;
+            set_client_state_dirty("handle_finished_apps");
+
+            // the following is critical; otherwise the result is
+            // still in the "scheduled" list and enforce_schedule()
+            // will try to run it again.
+            //
+            request_schedule_cpus("handle_finished_apps");
+            action = true;
+        }
+    }
+    return action;
+}
 
 // Handle a task that has finished.
 // Mark its output files as present, and delete scratch files.
@@ -60,6 +103,7 @@ int CLIENT_STATE::app_finished(ACTIVE_TASK& at) {
 
     bool had_error = false;
 
+#ifndef SIM
     // scan the output files, check if missing or too big
     // Don't bother doing this if result was aborted via GUI
 
@@ -124,6 +168,7 @@ int CLIENT_STATE::app_finished(ACTIVE_TASK& at) {
             }
         }
     }
+#endif
 
     if (rp->exit_status != 0) {
         had_error = true;
@@ -151,44 +196,7 @@ int CLIENT_STATE::app_finished(ACTIVE_TASK& at) {
     return 0;
 }
 
-// clean up after finished apps
-//
-bool CLIENT_STATE::handle_finished_apps() {
-    unsigned int i;
-    ACTIVE_TASK* atp;
-    bool action = false;
-    static double last_time = 0;
-    if (gstate.now - last_time < 1.0) return false;
-    last_time = gstate.now;
-
-    for (i=0; i<active_tasks.active_tasks.size(); i++) {
-        atp = active_tasks.active_tasks[i];
-        switch (atp->task_state()) {
-        case PROCESS_EXITED:
-        case PROCESS_WAS_SIGNALED:
-        case PROCESS_EXIT_UNKNOWN:
-        case PROCESS_COULDNT_START:
-        case PROCESS_ABORTED:
-            if (log_flags.task) {
-                msg_printf(atp->wup->project, MSG_INFO,
-                    "Computation for task %s finished", atp->result->name
-                );
-            }
-            app_finished(*atp);
-            active_tasks.remove(atp);
-            delete atp;
-            set_client_state_dirty("handle_finished_apps");
-
-            // the following is critical; otherwise the result is
-            // still in the "scheduled" list and enforce_schedule()
-            // will try to run it again.
-            //
-            request_schedule_cpus("handle_finished_apps");
-            action = true;
-        }
-    }
-    return action;
-}
+#ifndef SIM
 
 // Returns true iff all the input files for a result are present
 // (both WU and app version)
@@ -297,5 +305,6 @@ ACTIVE_TASK* ACTIVE_TASK_SET::lookup_result(RESULT* result) {
     }
     return NULL;
 }
+#endif
 
 const char *BOINC_RCSID_7bf63ad771 = "$Id$";

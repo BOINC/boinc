@@ -2,10 +2,13 @@ CXXFLAGS = -g -DSIM \
     -I ../lib \
     -I ..
 
-OBJS = sim.o \
+OBJS = \
+    app.o \
     client_msgs.o \
+    cs_apps.o \
     cpu_sched.o \
     log_flags.o \
+    sim.o \
     time_stats.o \
     work_fetch.o \
     ../lib/mfile.o \

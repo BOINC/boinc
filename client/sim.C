@@ -305,6 +305,7 @@ bool ACTIVE_TASK_SET::poll() {
             atp->cpu_time_left -= diff;
             if (atp->cpu_time_left <= 0) {
                 atp->set_task_state(PROCESS_EXITED, "poll");
+                atp->result->exit_status = 0;
                 gstate.request_schedule_cpus("ATP poll");
                 gstate.request_work_fetch("ATP poll");
             }

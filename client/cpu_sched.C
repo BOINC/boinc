@@ -1455,5 +1455,50 @@ int ACTIVE_TASK::preempt(bool quit_task) {
     return 0;
 }
 
+// The given result has just completed successfully.
+// Update the correction factor used to predict
+// completion time for this project's results
+//
+void PROJECT::update_duration_correction_factor(RESULT* rp) {
+    double raw_ratio = rp->final_cpu_time/rp->estimated_cpu_time_uncorrected();
+    double adj_ratio = rp->final_cpu_time/rp->estimated_cpu_time();
+	double old_dcf = duration_correction_factor;
+    double old_dv = duration_variability;
+
+    // it's OK to overestimate completion time,
+    // but bad to underestimate it.
+    // So make it easy for the factor to increase,
+    // but decrease it with caution
+    //
+    if (adj_ratio > 1.1) {
+        duration_correction_factor = raw_ratio;
+    } else {
+        // in particular, don't give much weight to results
+        // that completed a lot earlier than expected
+        //
+        if (adj_ratio < 0.1) {
+            duration_correction_factor = duration_correction_factor*0.99 + 0.01*raw_ratio;
+        } else {
+            duration_correction_factor = duration_correction_factor*0.9 + 0.1*raw_ratio;
+        }
+    }
+    // limit to [.01 .. 100]
+    //
+    if (duration_correction_factor > 100) duration_correction_factor = 100;
+    if (duration_correction_factor < 0.01) duration_correction_factor = 0.01;
+
+    // calculate duration variability
+    //
+    double variability_factor = adj_ratio > 1 ? 1 / adj_ratio : adj_ratio;
+    duration_variability = sqrt(duration_variability*variability_factor);
+
+	if (log_flags.cpu_sched_debug || log_flags.work_fetch_debug) {
+		msg_printf(this, MSG_INFO,
+            "[csd|wfd] DCF: %f->%f, var: %f->%f, raw_ratio %f, adj_ratio %f",
+			old_dcf, duration_correction_factor, old_dv, duration_variability,
+            raw_ratio, adj_ratio
+		);
+	}
+}
 
 const char *BOINC_RCSID_e830ee1 = "$Id$";

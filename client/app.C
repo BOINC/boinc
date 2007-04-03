@@ -58,8 +58,13 @@
 
 #endif
 
+#ifdef SIM
+#include "sim.h"
+#else
 #include "client_state.h"
 #include "client_types.h"
+#endif
+
 #include "error_numbers.h"
 #include "filesys.h"
 #include "file_names.h"
@@ -72,6 +77,34 @@
 
 using std::max;
 using std::min;
+
+// Remove an ACTIVE_TASK from the set.
+// Does NOT delete the ACTIVE_TASK object.
+//
+int ACTIVE_TASK_SET::remove(ACTIVE_TASK* atp) {
+    vector<ACTIVE_TASK*>::iterator iter;
+
+    iter = active_tasks.begin();
+    while (iter != active_tasks.end()) {
+        if (*iter == atp) {
+            iter = active_tasks.erase(iter);
+            return 0;
+        }
+        iter++;
+    }
+    msg_printf(NULL, MSG_INTERNAL_ERROR,
+        "Task %s not found", atp->result->name
+    );
+    return ERR_NOT_FOUND;
+}
+
+ACTIVE_TASK::~ACTIVE_TASK() {
+#ifndef SIM
+    cleanup_task();
+#endif
+}
+
+#ifndef SIM
 
 ACTIVE_TASK::ACTIVE_TASK() {
     result = NULL;
@@ -181,10 +214,6 @@ void ACTIVE_TASK::cleanup_task() {
         app_client_shm.shm = NULL;
     }
 #endif
-}
-
-ACTIVE_TASK::~ACTIVE_TASK() {
-    cleanup_task();
 }
 
 int ACTIVE_TASK::init(RESULT* rp) {
@@ -303,26 +332,6 @@ bool ACTIVE_TASK_SET::poll() {
     }
 
     return action;
-}
-
-// Remove an ACTIVE_TASK from the set.
-// Does NOT delete the ACTIVE_TASK object.
-//
-int ACTIVE_TASK_SET::remove(ACTIVE_TASK* atp) {
-    vector<ACTIVE_TASK*>::iterator iter;
-
-    iter = active_tasks.begin();
-    while (iter != active_tasks.end()) {
-        if (*iter == atp) {
-            iter = active_tasks.erase(iter);
-            return 0;
-        }
-        iter++;
-    }
-    msg_printf(NULL, MSG_INTERNAL_ERROR,
-        "Task %s not found", atp->result->name
-    );
-    return ERR_NOT_FOUND;
 }
 
 // There's a new trickle file.
@@ -793,5 +802,7 @@ void ACTIVE_TASK_SET::init() {
         atp->scheduler_state = CPU_SCHED_PREEMPTED;
     }
 }
+
+#endif
 
 const char *BOINC_RCSID_778b61195e = "$Id$";

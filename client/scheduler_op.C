@@ -338,8 +338,10 @@ int SCHEDULER_OP::parse_master_file(PROJECT* p, vector<std::string> &urls) {
         //
         q = buf;
         while (q) {
-            n = sscanf(q, "<link rel=\"boinc_scheduler\" href=\"%s\">", buf2);
+            n = sscanf(q, "<link rel=\"boinc_scheduler\" href=\"%s", buf2);
             if (n == 1) {
+                char* q = strchr(buf2, '\"');
+                if (q) *q = 0;
                 str = string(buf2);
                 push_unique(str, urls);
             }
