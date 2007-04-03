@@ -2332,7 +2332,7 @@ Charlie 12 Mar 2007
         value to 2GB when the actual RAM size is > 2GB.  So use Mac-specific
         API Gestalt(gestaltPhysicalRAMSizeInMegabytes, &mem_size) and add a 
         #error statement to the old method to alert any porters if their 
-        platforms were using sysctl {CTL_HW, HW_PHYSMEM{.
+        platforms were using sysctl {CTL_HW, HW_PHYSMEM}.
 
     client/
         hostinfo_unix.C
@@ -2992,3 +2992,17 @@ David  2 Apr 2007
 		DlgAdvPreferences*
 	lib/
 		prefs.C
+
+Charlie 3 Apr 2007
+    - Mac: Change name of Postinstall.app to PostInstall.app to fix a problem 
+        on some Macs where the postinstall or postupgrade script failed to 
+        launch PostInstall.app due to the lower-case I.  I don't know why some 
+        Macs would be case-sensitive here while others aren't, but user feedback 
+        seems to confirm this problem.
+        
+    mac_build/
+        boinc.xcodeproj/
+            project.pbxproj
+    mac_installer/
+        release_boinc.sh
+        release_GridRepublic.sh

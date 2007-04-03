@@ -789,7 +789,7 @@
 		DD0C59590816573E00CEC5D7 /* Mac_Saver_ModuleView.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = Mac_Saver_ModuleView.h; path = ../clientgui/mac/Mac_Saver_ModuleView.h; sourceTree = SOURCE_ROOT; };
 		DD0C595A0816573E00CEC5D7 /* Mac_Saver_ModuleView.m */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.objc; name = Mac_Saver_ModuleView.m; path = ../clientgui/mac/Mac_Saver_ModuleView.m; sourceTree = SOURCE_ROOT; };
 		DD0C5A8A0816711400CEC5D7 /* boinc.tiff */ = {isa = PBXFileReference; lastKnownFileType = image.tiff; name = boinc.tiff; path = ../clientgui/mac/boinc.tiff; sourceTree = SOURCE_ROOT; };
-		DD1277B3081F3D67007B5DE1 /* Postinstall.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Postinstall.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		DD1277B3081F3D67007B5DE1 /* PostInstall.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = PostInstall.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		DD1277B5081F3D67007B5DE1 /* PostInstall-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.xml; path = "PostInstall-Info.plist"; sourceTree = "<group>"; };
 		DD1277BE081F3E73007B5DE1 /* LoginItemAPI.c */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.c; name = LoginItemAPI.c; path = ../mac_installer/LoginItemAPI.c; sourceTree = SOURCE_ROOT; };
 		DD1277BF081F3E73007B5DE1 /* LoginItemAPI.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = LoginItemAPI.h; path = ../mac_installer/LoginItemAPI.h; sourceTree = SOURCE_ROOT; };
@@ -1262,7 +1262,7 @@
 				DD40CDF907F0386A0096C645 /* SystemMenu.bundle */,
 				DDAEC9E107FA583B00A7BC36 /* SetVersion */,
 				DD96AFF90811075000A06F22 /* BOINCSaver.saver */,
-				DD1277B3081F3D67007B5DE1 /* Postinstall.app */,
+				DD1277B3081F3D67007B5DE1 /* PostInstall.app */,
 				DD69FEE808416C1300C01361 /* boinc_cmd */,
 				DD6381EA0870DC9D007A2F8E /* MakeAppIcon_h */,
 				DD7748980A356C880025D05E /* SetUpSecurity */,
@@ -1733,7 +1733,7 @@
 			);
 			name = PostInstall;
 			productName = Installer;
-			productReference = DD1277B3081F3D67007B5DE1 /* Postinstall.app */;
+			productReference = DD1277B3081F3D67007B5DE1 /* PostInstall.app */;
 			productType = "com.apple.product-type.application";
 		};
 		DD1AFEA40A512D8700EE5B82 /* Install_BOINC */ = {
@@ -3685,7 +3685,7 @@
 					Carbon,
 				);
 				OTHER_REZFLAGS = "";
-				PRODUCT_NAME = Postinstall;
+				PRODUCT_NAME = PostInstall;
 				SECTORDER_FLAGS = "";
 				WARNING_CFLAGS = (
 					"-Wmost",
@@ -3718,7 +3718,7 @@
 					Carbon,
 				);
 				OTHER_REZFLAGS = "";
-				PRODUCT_NAME = Postinstall;
+				PRODUCT_NAME = PostInstall;
 				SECTORDER_FLAGS = "";
 				WARNING_CFLAGS = (
 					"-Wmost",
@@ -4576,7 +4576,7 @@
 					Carbon,
 				);
 				OTHER_REZFLAGS = "";
-				PRODUCT_NAME = Postinstall;
+				PRODUCT_NAME = PostInstall;
 				SECTORDER_FLAGS = "";
 				WARNING_CFLAGS = (
 					"-Wmost",
@@ -5189,7 +5189,7 @@
 					Carbon,
 				);
 				OTHER_REZFLAGS = "";
-				PRODUCT_NAME = Postinstall;
+				PRODUCT_NAME = PostInstall;
 				SECTORDER_FLAGS = "";
 				WARNING_CFLAGS = (
 					"-Wmost",
@@ -5224,7 +5224,7 @@
 					Carbon,
 				);
 				OTHER_REZFLAGS = "";
-				PRODUCT_NAME = Postinstall;
+				PRODUCT_NAME = PostInstall;
 				SECTORDER_FLAGS = "";
 				WARNING_CFLAGS = (
 					"-Wmost",
@@ -5673,7 +5673,7 @@
 					Carbon,
 				);
 				OTHER_REZFLAGS = "";
-				PRODUCT_NAME = Postinstall;
+				PRODUCT_NAME = PostInstall;
 				SECTORDER_FLAGS = "";
 				WARNING_CFLAGS = (
 					"-Wmost",

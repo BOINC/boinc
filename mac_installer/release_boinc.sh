@@ -20,7 +20,7 @@
 ## 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 
 ##
-# Release Script for Macintosh BOINC Manager 9/21/06 by Charlie Fenton
+# Release Script for Macintosh BOINC Manager 4/3/07 by Charlie Fenton
 ##
 
 ## Usage:
@@ -79,7 +79,7 @@ sed -i "" s/"<VER_NUM>"/"$1.$2.$3"/g ../BOINC_Installer/Installer\ Resources/Rea
 cp -fp mac_installer/postinstall ../BOINC_Installer/Installer\ Resources/
 cp -fp mac_installer/postupgrade ../BOINC_Installer/Installer\ Resources/
 
-cp -fpR $BUILDPATH/Postinstall.app ../BOINC_Installer/Installer\ Resources/
+cp -fpR $BUILDPATH/PostInstall.app ../BOINC_Installer/Installer\ Resources/
 
 mkdir -p ../BOINC_Installer/Pkg_Root
 mkdir -p ../BOINC_Installer/Pkg_Root/Applications
