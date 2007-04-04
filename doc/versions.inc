@@ -35,6 +35,7 @@ $features_510 = "
     <li> Grid based views.
     <li> Advanced preferences dialog.
     <li> Project list in the attach to project wizard.
+    <li> Improved Windows Vista compatibility.
 ";
 
 $features_57 = "
