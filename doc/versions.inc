@@ -31,6 +31,12 @@ function type_text($type) {
     }
 }
 
+$features_510 = "
+    <li> Grid based views.
+    <li> Advanced preferences dialog.
+    <li> Project list in the attach to project wizard.
+";
+
 $features_57 = "
     <li> BOINC Simple GUI.
     <li> Added memory usage limits for BOINC applications. (Check preferences for new settings)
@@ -89,6 +95,9 @@ $features_52 = "
     you must delete gui_rpc_auth.cfg from your BOINC directory.
     <li> Alert boxes now provide feedback when certain errors occur.
     <li> BOINC supports 'Account Management Systems' (to be announced).
+";
+
+$changes_510 = "
 ";
 
 $changes_57 = "
@@ -380,6 +389,20 @@ $linux_libs_gcc41= "
       </ul>
 ";
 
+$w593= array(
+    "num"=>"5.9.3",
+    "status"=>"Development version",
+    "file"=>"boinc_5.9.3_windows_intelx86.exe",
+    "date"=>"4 Apr 2007",
+    "type"=>"win_new",
+    "features"=>"<ul>
+".$features_510."
+".$changes_510."
+    </ul>
+    ",
+    "bugs"=>""
+);
+
 $w5816= array(
     "num"=>"5.8.16",
     "status"=>"Recommended version",
@@ -533,6 +556,7 @@ $windows = array(
     "name"=>"Windows",
     "dbname" => "windows_intelx86",
     "versions"=>array(
+        $w593,
         $w5816,
         $w5411,
     )
