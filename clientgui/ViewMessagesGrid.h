@@ -31,8 +31,8 @@
 class CViewMessagesGrid : public CBOINCBaseView
 {
     DECLARE_DYNAMIC_CLASS( CViewMessagesGrid )
+    DECLARE_EVENT_TABLE()
 
-	CBOINCGridCtrl*			m_pGridPane;
 public:
     CViewMessagesGrid();
     CViewMessagesGrid(wxNotebook* pNotebook);
@@ -60,6 +60,8 @@ protected:
 	wxInt32                 FormatSeqNo( wxInt32 item, wxString& strBuffer ) const;
 	wxInt32                 FormatPriority( wxInt32 item, wxString& strBuffer ) const;
 
+	CBOINCGridCtrl*			m_pGridPane;
+
 #ifdef wxUSE_CLIPBOARD
     bool                    m_bClipboardOpen;
     wxString                m_strClipboardData;
@@ -67,12 +69,6 @@ protected:
     wxInt32                 CopyToClipboard( wxInt32 item );
     bool                    CloseClipboard();
 #endif
-	
-	void					OnSelectCell( wxGridEvent& );
-
-    DECLARE_EVENT_TABLE()
-private: 
-	bool					m_bIgnoreSelectionEvents;
 };
 
 #endif

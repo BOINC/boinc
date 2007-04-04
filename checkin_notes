@@ -3134,6 +3134,21 @@ Rom    4 Apr 2007
         ViewTransfersGrid.cpp
         ViewWorkGrid.cpp
 
+Rom    4 Apr 2007
+    - MGR: Move grid event trapping code into the BOINCBaseView class and
+        delete the duplicated code from each of the views
+    - MGR: UpdateSelection should be called on any selection change.
+    
+    clientgui/
+        BOINCBaseView.cpp, .h
+        ViewMessages.h
+        ViewMessagesGrid.cpp, .h
+        ViewProjectsGrid.cpp, .h
+        ViewResources.h
+        ViewStatistics.h
+        ViewTransfersGrid.cpp, .h
+        ViewWorkGrid.cpp, .h        
+
 Rom    4 Apr 2007 (HEAD)
     - Tag for 5.9.3 release, all platforms
       boinc_core_release_5_9_3

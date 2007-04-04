@@ -34,6 +34,7 @@ WX_DECLARE_OBJARRAY(wxColour, wxArrayColour);
 class CViewResources : public CBOINCBaseView
 {
     DECLARE_DYNAMIC_CLASS( CViewResources )
+	DECLARE_EVENT_TABLE()
 
 public:
     CViewResources();
@@ -59,8 +60,6 @@ protected:
     virtual bool            OnSaveState( wxConfigBase* pConfig );
     virtual bool            OnRestoreState( wxConfigBase* pConfig );
 	virtual void            OnListRender( wxTimerEvent& event );
-
-	DECLARE_EVENT_TABLE()
 };
 
 

@@ -119,6 +119,9 @@ protected:
     virtual int             OnListGetItemImage( long item ) const;
     virtual wxListItemAttr* OnListGetItemAttr( long item ) const;
 
+    virtual void            OnGridSelectCell( wxGridEvent& event );
+    virtual void            OnGridSelectRange( wxGridRangeSelectEvent& event );
+
     virtual int             GetDocCount();
     virtual wxString        OnDocGetItemText( long item, long column ) const;
     virtual wxString        OnDocGetItemImage( long item ) const;

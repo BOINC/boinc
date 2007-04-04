@@ -32,8 +32,8 @@
 class CViewWorkGrid : public CBOINCBaseView
 {
     DECLARE_DYNAMIC_CLASS( CViewWorkGrid )
+    DECLARE_EVENT_TABLE()
 	
-	CBOINCGridCtrl*			m_pGridPane;
 public:
     CViewWorkGrid();
     CViewWorkGrid(wxNotebook* pNotebook);
@@ -69,10 +69,7 @@ protected:
 
 	void					UpdateWebsiteSelection(long lControlGroup, PROJECT* project);
 	
-	void					OnSelectCell( wxGridEvent& );
-    DECLARE_EVENT_TABLE()
-private: 
-	bool					m_bIgnoreSelectionEvents;
+	CBOINCGridCtrl*			m_pGridPane;
 };
 
 

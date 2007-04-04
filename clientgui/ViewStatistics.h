@@ -189,6 +189,7 @@ protected:
 class CViewStatistics : public CBOINCBaseView
 {
     DECLARE_DYNAMIC_CLASS( CViewStatistics )
+	DECLARE_EVENT_TABLE()
 
 public:
     CViewStatistics();
@@ -220,8 +221,6 @@ protected:
     virtual void            OnListRender( wxTimerEvent& event );
 
     virtual void            UpdateSelection();
-
-	DECLARE_EVENT_TABLE()
 };
 
 

@@ -30,8 +30,7 @@ class CBOINCGridCtrl;
 class CViewProjectsGrid : public CBOINCBaseView
 {
     DECLARE_DYNAMIC_CLASS( CViewProjectsGrid )
-
-    CBOINCGridCtrl*	m_pGridPane;
+    DECLARE_EVENT_TABLE()
 
 public:
     CViewProjectsGrid();
@@ -71,11 +70,7 @@ protected:
     wxInt32                 ConvertWebsiteIndexToLink( wxInt32 iProjectIndex, wxInt32 iWebsiteIndex, wxString& strLink );
     wxInt32                 ConvertLinkToWebsiteIndex( const wxString& strLink, wxInt32& iProjectIndex, wxInt32& iWebsiteIndex );
 
-	void					OnSelectCell( wxGridEvent& );
-	void					OnSelectRange(wxGridRangeSelectEvent& ev);
-    DECLARE_EVENT_TABLE()
-private:
-	bool					m_bIgnoreSelectionEvents;
+    CBOINCGridCtrl*	m_pGridPane;
 };
 
 

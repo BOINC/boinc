@@ -61,7 +61,8 @@ BEGIN_EVENT_TABLE (CViewWorkGrid, CBOINCBaseView)
     EVT_BUTTON(ID_TASK_WORK_SHOWGRAPHICS, CViewWorkGrid::OnWorkShowGraphics)
     EVT_BUTTON(ID_TASK_WORK_ABORT, CViewWorkGrid::OnWorkAbort)
     EVT_CUSTOM_RANGE(wxEVT_COMMAND_BUTTON_CLICKED, ID_TASK_PROJECT_WEB_PROJDEF_MIN, ID_TASK_PROJECT_WEB_PROJDEF_MAX, CViewWorkGrid::OnProjectWebsiteClicked)
-	EVT_GRID_SELECT_CELL( CViewWorkGrid::OnSelectCell )
+	EVT_GRID_SELECT_CELL(CViewWorkGrid::OnGridSelectCell)
+	EVT_GRID_RANGE_SELECT(CViewWorkGrid::OnGridSelectRange)
 END_EVENT_TABLE ()
 
 
@@ -855,13 +856,3 @@ void CViewWorkGrid::OnListRender( wxTimerEvent& WXUNUSED(event) ) {
 	UpdateSelection();
 }
 
-/**
-	handle selection events
-*/
-void CViewWorkGrid::OnSelectCell( wxGridEvent& ev )
-{
-	if(!m_bIgnoreSelectionEvents) {
-		m_bForceUpdateSelection = true;
-	}
-    ev.Skip();
-}

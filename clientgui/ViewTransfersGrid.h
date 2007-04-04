@@ -28,10 +28,11 @@
 #include "BOINCBaseView.h"
 #include "BOINCGridCtrl.h"
 
-class CViewTransfersGrid : public CBOINCBaseView {
+class CViewTransfersGrid : public CBOINCBaseView
+{
     DECLARE_DYNAMIC_CLASS( CViewTransfersGrid )
+    DECLARE_EVENT_TABLE()
 	
-	CBOINCGridCtrl*			m_pGridPane;
 public:
     CViewTransfersGrid();
     CViewTransfersGrid(wxNotebook* pNotebook);
@@ -62,10 +63,7 @@ protected:
     wxInt32                 FormatSpeed( wxInt32 item, wxString& strBuffer ) const;
     wxInt32                 FormatStatus( wxInt32 item, wxString& strBuffer ) const;
 
-	void					OnSelectCell( wxGridEvent& );
-    DECLARE_EVENT_TABLE()
-private: 
-	bool					m_bIgnoreSelectionEvents;
+	CBOINCGridCtrl*			m_pGridPane;
 };
 
 

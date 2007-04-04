@@ -51,7 +51,8 @@ IMPLEMENT_DYNAMIC_CLASS(CViewMessagesGrid, CBOINCBaseView)
 BEGIN_EVENT_TABLE (CViewMessagesGrid, CBOINCBaseView)
     EVT_BUTTON(ID_TASK_MESSAGES_COPYALL, CViewMessagesGrid::OnMessagesCopyAll)
     EVT_BUTTON(ID_TASK_MESSAGES_COPYSELECTED, CViewMessagesGrid::OnMessagesCopySelected)
-	EVT_GRID_SELECT_CELL( CViewMessagesGrid::OnSelectCell )
+	EVT_GRID_SELECT_CELL(CViewMessagesGrid::OnGridSelectCell)
+	EVT_GRID_RANGE_SELECT(CViewMessagesGrid::OnGridSelectRange)
 END_EVENT_TABLE ()
 
 
@@ -410,17 +411,6 @@ wxInt32 CViewMessagesGrid::FormatMessage(wxInt32 item, wxString& strBuffer) cons
     return 0;
 }
 
-/**
-	handle selection events
-*/
-void CViewMessagesGrid::OnSelectCell( wxGridEvent& ev )
-{	
-	if(!m_bIgnoreSelectionEvents) {
-		m_bForceUpdateSelection = true;		
-	}
-    ev.Skip();
-}
-
 
 #ifdef wxUSE_CLIPBOARD
 bool CViewMessagesGrid::OpenClipboard() {
@@ -480,5 +470,4 @@ bool CViewMessagesGrid::CloseClipboard() {
 }
 
 #endif
-
 

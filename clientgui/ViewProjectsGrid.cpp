@@ -65,8 +65,8 @@ BEGIN_EVENT_TABLE (CViewProjectsGrid, CBOINCBaseView)
     EVT_BUTTON(ID_TASK_PROJECT_RESET, CViewProjectsGrid::OnProjectReset)
     EVT_BUTTON(ID_TASK_PROJECT_DETACH, CViewProjectsGrid::OnProjectDetach)
     EVT_CUSTOM_RANGE(wxEVT_COMMAND_BUTTON_CLICKED, ID_TASK_PROJECT_WEB_PROJDEF_MIN, ID_TASK_PROJECT_WEB_PROJDEF_MAX, CViewProjectsGrid::OnProjectWebsiteClicked)
-	EVT_GRID_SELECT_CELL( CViewProjectsGrid::OnSelectCell )
-	EVT_GRID_RANGE_SELECT( CViewProjectsGrid::OnSelectRange)
+	EVT_GRID_SELECT_CELL(CViewProjectsGrid::OnGridSelectCell)
+	EVT_GRID_RANGE_SELECT(CViewProjectsGrid::OnGridSelectRange)
 END_EVENT_TABLE ()
 
 
@@ -769,24 +769,5 @@ void CViewProjectsGrid::OnListRender( wxTimerEvent& WXUNUSED(event) ) {
 	UpdateSelection();
 
     wxLogTrace(wxT("Function Start/End"), wxT("CViewProjectsGrid::OnListRender - Function End"));
-}
-
-/**
-	handle selection events
-*/
-void CViewProjectsGrid::OnSelectCell( wxGridEvent& ev )
-{
-	if(!m_bIgnoreSelectionEvents) {
-		m_bForceUpdateSelection = true;
-	}	
-    ev.Skip();
-}
-
-// handles multi-selection events (to update TaskButtons)
-void CViewProjectsGrid::OnSelectRange(wxGridRangeSelectEvent& ev) {
-	if(!m_bIgnoreSelectionEvents) {
-		m_bForceUpdateSelection = true;
-	}	
-	ev.Skip();
 }
 

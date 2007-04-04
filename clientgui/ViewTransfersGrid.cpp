@@ -54,7 +54,8 @@ IMPLEMENT_DYNAMIC_CLASS(CViewTransfersGrid, CBOINCBaseView)
 BEGIN_EVENT_TABLE (CViewTransfersGrid, CBOINCBaseView)
     EVT_BUTTON(ID_TASK_TRANSFERS_RETRYNOW, CViewTransfersGrid::OnTransfersRetryNow)
     EVT_BUTTON(ID_TASK_TRANSFERS_ABORT, CViewTransfersGrid::OnTransfersAbort)
-	EVT_GRID_SELECT_CELL( CViewTransfersGrid::OnSelectCell )
+	EVT_GRID_SELECT_CELL(CViewTransfersGrid::OnGridSelectCell)
+	EVT_GRID_RANGE_SELECT(CViewTransfersGrid::OnGridSelectRange)
 END_EVENT_TABLE ()
 
 
@@ -243,7 +244,7 @@ void CViewTransfersGrid::UpdateSelection() {
 
     CBOINCBaseView::PreUpdateSelection();
 
-	if (m_pGridPane->GetSelectedRows2().size()>0) {
+	if (m_pGridPane->GetSelectedRows2().size() > 0) {
         m_pTaskPane->EnableTaskGroupTasks(pGroup);
     } else {
         m_pTaskPane->DisableTaskGroupTasks(pGroup);
@@ -531,13 +532,3 @@ void CViewTransfersGrid::OnListRender( wxTimerEvent& WXUNUSED(event) ) {
 	UpdateSelection();
 }
 
-/**
-	handle selection events
-*/
-void CViewTransfersGrid::OnSelectCell( wxGridEvent& ev )
-{
-	if(!m_bIgnoreSelectionEvents) {
-		m_bForceUpdateSelection = true;
-	}
-    ev.Skip();
-}

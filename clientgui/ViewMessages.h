@@ -32,6 +32,7 @@ class CBOINCBaseView;
 class CViewMessages : public CBOINCBaseView
 {
     DECLARE_DYNAMIC_CLASS( CViewMessages )
+    DECLARE_EVENT_TABLE()
 
 public:
     CViewMessages();
@@ -75,8 +76,6 @@ protected:
     wxInt32                 CopyToClipboard( wxInt32 item );
     bool                    CloseClipboard();
 #endif
-
-    DECLARE_EVENT_TABLE()
 };
 
 #endif
