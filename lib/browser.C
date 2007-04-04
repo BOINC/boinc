@@ -46,10 +46,11 @@ typedef HRESULT (WINAPI *MYSHGETFOLDERPATH)(HWND hwnd, int csidl, HANDLE hToken,
 
 #endif
 
-// reterieve the user's application data directory.
+// retrieve the user's application data directory.
 // Win  : C:\Documents and Settings\<username>\Application Data
-// Linux: ~/
-bool get_home_dir_path( std::string& path ) {
+// Unix: ~/
+//
+void get_home_dir_path( std::string& path ) {
 #ifdef _WIN32
     TCHAR               szBuffer[MAX_PATH];
     HMODULE             hShell32;
@@ -57,8 +58,9 @@ bool get_home_dir_path( std::string& path ) {
 
     // Attempt to link to dynamic function if it exists
     hShell32 = LoadLibrary(_T("SHELL32.DLL"));
-    if (NULL != hShell32)
+    if (NULL != hShell32) {
         pfnMySHGetFolderPath = (MYSHGETFOLDERPATH) GetProcAddress(hShell32, _T("SHGetFolderPathA"));
+    }
 
     if (NULL != pfnMySHGetFolderPath) {
 		if (SUCCEEDED((pfnMySHGetFolderPath)(NULL, CSIDL_APPDATA|CSIDL_FLAG_CREATE, NULL, SHGFP_TYPE_CURRENT, szBuffer))) {
@@ -68,15 +70,13 @@ bool get_home_dir_path( std::string& path ) {
     }
 
 	// Free the dynamically linked to library
-    if (NULL != hShell32)
+    if (NULL != hShell32) {
     	FreeLibrary(hShell32);
+    }
 
 #else
-    path = std::string(_T("~/"));
+    path = std::string("~/");
 #endif
-    if (!path.empty())
-        return true;
-    return false;
 }
 
 // parse name value pairs based on INI file rules.

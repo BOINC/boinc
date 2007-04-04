@@ -237,10 +237,10 @@ RESULT* CLIENT_STATE::lookup_result(PROJECT* p, const char* name) {
     return 0;
 }
 
-void CLIENT_STATE::simulate_rpc(PROJECT* p) {
-    static int result_num=0;
+void CLIENT_STATE::simulate_rpc(PROJECT* _p) {
     double net_fpops = host_info.p_fpops;
     char buf[256];
+    SIM_PROJECT* p = (SIM_PROJECT*) _p;
 
     // remove ready-to-report results
     //
@@ -255,7 +255,7 @@ void CLIENT_STATE::simulate_rpc(PROJECT* p) {
             result_iter++;
         }
     }
-    sprintf(buf, "<br>RPC to %s; asking for %f", p->project_name, p->work_request);
+    sprintf(buf, "RPC to %s; asking for %f<br>", p->project_name, p->work_request);
     html_msg += buf;
 
     while (p->work_request > 0) {
@@ -273,14 +273,14 @@ void CLIENT_STATE::simulate_rpc(PROJECT* p) {
         rp->clear();
         rp->project = p;
         rp->wup = wup;
-        sprintf(rp->name, "%s_%d", p->project_name, result_num++);
+        sprintf(rp->name, "%s_%d", p->project_name, p->result_index++);
         rp->set_state(RESULT_FILES_DOWNLOADED, "simulate_rpc");
         wup->project = p;
         wup->rsc_fpops_est = ap->fpops_est;
         results.push_back(rp);
         double ops = ap->fpops.sample();
         rp->final_cpu_time = ops/net_fpops;
-        sprintf(buf, "<br>got job %s: %f", rp->name, rp->final_cpu_time);
+        sprintf(buf, "got job %s: %f<br>", rp->name, rp->final_cpu_time);
         html_msg += buf;
         p->work_request -= ap->fpops_est/net_fpops;
     }
@@ -329,7 +329,7 @@ bool ACTIVE_TASK_SET::poll() {
                 atp->result->exit_status = 0;
                 gstate.request_schedule_cpus("ATP poll");
                 gstate.request_work_fetch("ATP poll");
-                sprintf(buf, "<br>result %s finished\n", atp->result->name);
+                sprintf(buf, "result %s finished<br>", atp->result->name);
                 gstate.html_msg += buf;
             }
         }
@@ -365,7 +365,7 @@ int ACTIVE_TASK::resume_or_start(bool first_time) {
     }
     set_task_state(PROCESS_EXECUTING, "start");
     char buf[256];
-    sprintf(buf, "<br>Starting %s: %f", result->name, cpu_time_left);
+    sprintf(buf, "Starting %s: %f<br>", result->name, cpu_time_left);
     gstate.html_msg += buf;
     return 0;
 }
@@ -392,15 +392,26 @@ PROJECT::PROJECT() {
 }
 
 double NORMAL_DIST::sample() {
-    int i;
-    double x=0;
-    for (i=0; i<9; i++) {
-        x += drand();
-    }
-    x /= 3;
-    x *= var;
-    x += mean;
-    return x;
+  const double p0 = 0.322232431088;     const double q0 = 0.099348462606;
+  const double p1 = 1.0;                const double q1 = 0.588581570495;
+  const double p2 = 0.342242088547;     const double q2 = 0.531103462366;
+  const double p3 = 0.204231210245e-1;  const double q3 = 0.103537752850;
+  const double p4 = 0.453642210148e-4;  const double q4 = 0.385607006340e-2;
+  double u, t, p, q, z;
+
+  u   = drand();
+  if (u < 0.5)
+    t = sqrt(-2.0 * log(u));
+  else
+    t = sqrt(-2.0 * log(1.0 - u));
+  p   = p0 + t * (p1 + t * (p2 + t * (p3 + t * p4)));
+  q   = q0 + t * (q1 + t * (q2 + t * (q3 + t * q4)));
+  if (u < 0.5)
+    z = (p / q) - t;
+  else
+    z = t - (p / q);
+  return (mean + stdev * z);
+
 }
 
 int NORMAL_DIST::parse(XML_PARSER& xp, char* end_tag) {
@@ -409,9 +420,12 @@ int NORMAL_DIST::parse(XML_PARSER& xp, char* end_tag) {
     while(!xp.get(tag, sizeof(tag), is_tag)) {
         if (!is_tag) return ERR_XML_PARSE;
         if (xp.parse_double(tag, "mean", mean)) continue;
-        else if (xp.parse_double(tag, "var", var)) continue;
+        else if (xp.parse_double(tag, "stdev", stdev)) continue;
         else if (!strcmp(tag, end_tag)) return 0;
-        else return ERR_XML_PARSE;
+        else {
+            printf("unrecognized: %s\n", tag);
+            return ERR_XML_PARSE;
+        }
     }
     return ERR_XML_PARSE;
 }
@@ -424,7 +438,10 @@ int UNIFORM_DIST::parse(XML_PARSER& xp, char* end_tag) {
         if (xp.parse_double(tag, "lo", lo)) continue;
         else if (xp.parse_double(tag, "hi", hi)) continue;
         else if (!strcmp(tag, end_tag)) return 0;
-        else return ERR_XML_PARSE;
+        else {
+            printf("unrecognized: %s\n", tag);
+            return ERR_XML_PARSE;
+        }
     }
     return ERR_XML_PARSE;
 }
@@ -437,7 +454,10 @@ int RANDOM_PROCESS::parse(XML_PARSER& xp, char* end_tag) {
         if (xp.parse_double(tag, "frac", frac)) continue;
         else if (xp.parse_double(tag, "lambda", lambda)) continue;
         else if (!strcmp(tag, end_tag)) return 0;
-        else return ERR_XML_PARSE;
+        else {
+            printf("unrecognized: %s\n", tag);
+            return ERR_XML_PARSE;
+        }
     }
     return ERR_XML_PARSE;
 }
@@ -461,7 +481,10 @@ int SIM_APP::parse(XML_PARSER& xp) {
             retval = checkpoint_period.parse(xp, "/checkpoint_period");
             if (retval) return retval;
         } else if (xp.parse_double(tag, "working_set", working_set)) continue;
-        else return ERR_XML_PARSE;
+        else {
+            printf("unrecognized: %s\n", tag);
+            return ERR_XML_PARSE;
+        }
     }
     return ERR_XML_PARSE;
 }
@@ -485,7 +508,10 @@ int SIM_PROJECT::parse(XML_PARSER& xp) {
             if (retval) return retval;
         } else if (xp.parse_double(tag, "resource_share", resource_share)) {
             continue;
-        } else return ERR_XML_PARSE;
+        } else {
+            printf("unrecognized: %s\n", tag);
+            return ERR_XML_PARSE;
+        }
     }
     return ERR_XML_PARSE;
 }
@@ -508,7 +534,10 @@ int SIM_HOST::parse(XML_PARSER& xp) {
         } else if (!strcmp(tag, "idle")) {
             retval = idle.parse(xp, "/idle");
             if (retval) return retval;
-        } else return ERR_XML_PARSE;
+        } else {
+            printf("unrecognized: %s\n", tag);
+            return ERR_XML_PARSE;
+        }
     }       
     return ERR_XML_PARSE;
 }
@@ -517,7 +546,7 @@ int CLIENT_STATE::parse_projects(char* name) {
     char tag[256];
     bool is_tag;
     MIOFILE mf;
-    int retval;
+    int retval, index=0;
 
     FILE* f = fopen(name, "r");
     if (!f) return ERR_FOPEN;
@@ -531,9 +560,14 @@ int CLIENT_STATE::parse_projects(char* name) {
             p->init();
             retval = p->parse(xp);
             if (retval) return retval;
+            p->index = index++;
+            p->result_index = 0;
             projects.push_back(p);
         } else if (!strcmp(tag, "/projects")) {
             return 0;
+        } else {
+            printf("unrecognized: %s\n", tag);
+            return ERR_XML_PARSE;
         }
     }
     return ERR_XML_PARSE;
@@ -550,6 +584,15 @@ int CLIENT_STATE::parse_host(char* name) {
     return host_info.parse(xp);
 }
 
+char* colors[] = {
+    "#ffffdd",
+    "#ffddff",
+    "#ddffff",
+    "#ddffdd",
+    "#ddddff",
+    "#ffdddd",
+};
+
 void CLIENT_STATE::html_start() {
     html_out = fopen("sim_out.html", "w");
     fprintf(html_out, "<table border=1>\n");
@@ -561,7 +604,9 @@ void CLIENT_STATE::html_rec() {
     for (unsigned int i=0; i<active_tasks.active_tasks.size(); i++) {
         ACTIVE_TASK* atp = active_tasks.active_tasks[i];
         if (atp->task_state() == PROCESS_EXECUTING) {
-            fprintf(html_out, "<td>%s: %.2f</td>", atp->result->name, atp->cpu_time_left);
+            SIM_PROJECT* p = (SIM_PROJECT*)atp->result->project;
+            fprintf(html_out, "<td bgcolor=%s>%s: %.2f</td>",
+            colors[p->index], atp->result->name, atp->cpu_time_left);
         }
         n++;
     }
@@ -572,7 +617,7 @@ void CLIENT_STATE::html_rec() {
         fprintf(html_out, "<td><br></td>");
         n++;
     }
-    fprintf(html_out, "<td>%s</td></tr>\n", html_msg.c_str());
+    fprintf(html_out, "<td><font size=-2>%s</font></td></tr>\n", html_msg.c_str());
     html_msg = "";
 }
 
@@ -603,8 +648,8 @@ void CLIENT_STATE::simulate(double duration, double delta) {
     html_end();
 }
 
-void parse_error(char* file) {
-    printf("can't parse %s\n", file);
+void parse_error(char* file, int retval) {
+    printf("can't parse %s: %d\n", file, retval);
     exit(1);
 }
 
@@ -623,7 +668,7 @@ char* next_arg(int argc, char** argv, int& i) {
 
 int main(int argc, char** argv) {
     char projects[256], host[256], prefs[256];
-    double duration = 20000, delta = 10;
+    double duration = 200, delta = 10;
     bool flag;
     int i, retval;
 
@@ -647,11 +692,11 @@ int main(int argc, char** argv) {
     read_config_file();
 
     retval = gstate.parse_projects(projects);
-    if (retval) parse_error("projects");
+    if (retval) parse_error(projects, retval);
     retval = gstate.parse_host(host);
-    if (retval) parse_error("host");
+    if (retval) parse_error(host, retval);
     retval = gstate.global_prefs.parse_file(prefs, "", flag);
-    if (retval) parse_error("prefs");
+    if (retval) parse_error(prefs, retval);
 
     gstate.set_ncpus();
     printf("ncpus: %d\n", gstate.ncpus);

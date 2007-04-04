@@ -3126,3 +3126,15 @@ Rom    4 Apr 2007
 Rom    4 Apr 2007 (HEAD)
     - Tag for 5.9.3 release, all platforms
       boinc_core_release_5_9_3
+
+David  5 Apr 2007
+    - core client: round fractional work request up to 1 sec
+    - simulator now working
+
+    client/
+        scheduler_op.C
+        sim.C,h
+        sim_host/prefs/projects.xml (new)
+    lib/
+        browser.C
+        prefs.C

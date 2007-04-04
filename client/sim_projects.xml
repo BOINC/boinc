@@ -1,0 +1,36 @@
+<projects>
+    <project>
+        <project_name>P1</project_name>
+        <resource_share>100</resource_share>
+        <app>
+            <latency_bound>1000</latency_bound>
+			<fpops_est>100</fpops_est>
+            <fpops>
+                <mean>100</mean>
+                <stdev>10</stdev>
+            </fpops>
+            <working_set>1e7</working_set>
+        </app>
+        <available>
+            <frac>.7</frac>
+            <lambda>1000</lambda>
+        </available>
+    </project>
+    <project>
+        <project_name>P2</project_name>
+        <resource_share>50</resource_share>
+        <app>
+            <latency_bound>500</latency_bound>
+			<fpops_est>50</fpops_est>
+            <fpops>
+                <mean>50</mean>
+                <stdev>10</stdev>
+            </fpops>
+            <working_set>1e7</working_set>
+        </app>
+        <available>
+            <frac>.7</frac>
+            <lambda>1000</lambda>
+        </available>
+    </project>
+</projects>

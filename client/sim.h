@@ -23,7 +23,7 @@ using std::vector;
 class NORMAL_DIST {
 public:
     double mean;
-    double var;
+    double stdev;
     int parse(XML_PARSER&, char* end_tag);
     double sample();
 };
@@ -59,6 +59,8 @@ public:
 class SIM_PROJECT: public PROJECT {
 public:
     RANDOM_PROCESS available;
+    int index;
+    int result_index;
     int parse(XML_PARSER&);
 };
 

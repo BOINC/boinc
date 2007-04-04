@@ -8,7 +8,6 @@ THIS FILE IS DEPRECATED. DON'T LINK TO IT.
 <ul>
 <li> <a href=build.php>Software prerequisites</a>
 <li> <a href=source_code.php>Getting source code</a>
-<li> <a href=road_map.php>Source code road map</a>
 </ul>
 
 <h3>Platform-specific cookbooks</h3>

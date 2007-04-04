@@ -107,7 +107,7 @@ void GLOBAL_PREFS::defaults() {
     hangup_if_dialed = false;
     dont_verify_images = false;
     work_buf_min_days = 0.1;
-    work_buf_additional_days = 1.0;
+    work_buf_additional_days = 0;
     max_cpus = 16;
     cpu_scheduling_period_minutes = 60;
     disk_interval = 60;
@@ -324,7 +324,7 @@ int GLOBAL_PREFS::parse_override(
             mask.dont_verify_images = true;
             continue;
         } else if (xp.parse_double(tag, "work_buf_min_days", work_buf_min_days)) {
-            if (work_buf_min_days < 0.01) work_buf_min_days = 0.01;
+            if (work_buf_min_days < 0.00001) work_buf_min_days = 0.00001;
             mask.work_buf_min_days = true;
             continue;
         } else if (xp.parse_double(tag, "work_buf_additional_days", work_buf_additional_days)) {
