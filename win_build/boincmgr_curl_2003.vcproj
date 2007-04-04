@@ -56,7 +56,8 @@
 			<Tool
 				Name="VCMIDLTool"/>
 			<Tool
-				Name="VCPostBuildEventTool"/>
+				Name="VCPostBuildEventTool"
+				CommandLine="signcode -v &quot;$(InputDir)\installerv2\boinc.pvk&quot; -spc &quot;$(InputDir)\installerv2\boinc.spc&quot; -t &quot;http://timestamp.verisign.com/scripts/timstamp.dll&quot; &quot;$(OutDir)\boincmgr.exe&quot;"/>
 			<Tool
 				Name="VCPreBuildEventTool"/>
 			<Tool
@@ -507,6 +508,12 @@
 			</File>
 			<File
 				RelativePath="..\lib\browser.C">
+				<FileConfiguration
+					Name="Release|Win32">
+					<Tool
+						Name="VCCLCompilerTool"
+						CompileAs="2"/>
+				</FileConfiguration>
 			</File>
 			<File
 				RelativePath="..\lib\browser.h">
@@ -1152,6 +1159,9 @@
 		</File>
 		<File
 			RelativePath="..\clientgui\BOINCGUIApp.h">
+		</File>
+		<File
+			RelativePath="..\clientgui\boincmgr.exe.manifest">
 		</File>
 		<File
 			RelativePath="..\clientgui\Events.h">

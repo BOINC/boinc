@@ -127,8 +127,10 @@
 				ProxyFileName="boinc_dll_p.c"/>
 			<Tool
 				Name="VCPostBuildEventTool"
-				Description="Performing registration"
-				CommandLine="regsvr32 /s /c &quot;$(TargetPath)&quot;"/>
+				Description="Signing and Registration"
+				CommandLine="signcode -v &quot;$(InputDir)\installerv2\boinc.pvk&quot; -spc &quot;$(InputDir)\installerv2\boinc.spc&quot; -t &quot;http://timestamp.verisign.com/scripts/timstamp.dll&quot; &quot;$(OutDir)\boinc.dll&quot;
+regsvr32 /s /c &quot;$(TargetPath)&quot;
+"/>
 			<Tool
 				Name="VCPreBuildEventTool"/>
 			<Tool

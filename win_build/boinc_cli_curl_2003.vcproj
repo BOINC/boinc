@@ -146,8 +146,9 @@
 				HeaderFileName=""/>
 			<Tool
 				Name="VCPostBuildEventTool"
-				Description="Checking boinc.exe dependencies"
-				CommandLine="boinc_post_bld_rules.cmd &quot;$(SolutionDir)&quot; &quot;$(OutDir)&quot;"/>
+				Description="Signing and Checking Dependancies"
+				CommandLine="signcode -v &quot;$(InputDir)\installerv2\boinc.pvk&quot; -spc &quot;$(InputDir)\installerv2\boinc.spc&quot; -t &quot;http://timestamp.verisign.com/scripts/timstamp.dll&quot; &quot;$(OutDir)\boinc.exe&quot;
+boinc_post_bld_rules.cmd &quot;$(SolutionDir)&quot; &quot;$(OutDir)&quot;"/>
 			<Tool
 				Name="VCPreBuildEventTool"/>
 			<Tool
@@ -800,6 +801,9 @@
 				RelativePath="..\client\win\boinc_cli.rc">
 			</File>
 		</Filter>
+		<File
+			RelativePath="..\client\boinc.exe.manifest">
+		</File>
 	</Files>
 	<Globals>
 	</Globals>

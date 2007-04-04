@@ -144,7 +144,8 @@
 				TypeLibraryName=".\Build\Release/boinc_guirpctest.tlb"
 				HeaderFileName=""/>
 			<Tool
-				Name="VCPostBuildEventTool"/>
+				Name="VCPostBuildEventTool"
+				CommandLine="signcode -v &quot;$(InputDir)\installerv2\boinc.pvk&quot; -spc &quot;$(InputDir)\installerv2\boinc.spc&quot; -t &quot;http://timestamp.verisign.com/scripts/timstamp.dll&quot; &quot;$(OutDir)\boinccmd.exe&quot;"/>
 			<Tool
 				Name="VCPreBuildEventTool"/>
 			<Tool
@@ -202,6 +203,9 @@
 				RelativePath="..\client\win\boinc_cmd.rc">
 			</File>
 		</Filter>
+		<File
+			RelativePath="..\client\win\boinccmd.exe.manifest">
+		</File>
 	</Files>
 	<Globals>
 	</Globals>

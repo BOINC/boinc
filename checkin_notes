@@ -3090,3 +3090,36 @@ David  3 Apr 2007
         makefile_sim
         scheduler_op.C
         sim.C
+
+Rom    4 Apr 2007
+    - WIN: Introduce assembly manifests for all binaries produced for
+        Windows.
+    - WIN: Code sign each of the binaries produced for Windows.
+    
+      NOTE: Windows Vista has so many levels of protection that it makes
+        it hard to debug specific issues without triping up on one of them.
+        
+        Until we can perform our Vista work items we'll work around the
+        issue by informing Vista that we need admin rights via the
+        assembly manifest before Vista launches us.
+        
+    /
+        configure.ac
+        version.h
+    client/win/
+        boinc.exe.manifest (Added)
+        boinc.scr.manifest (Added)
+        boinc_cli.rc
+        boinc_cmd.rc
+        boinc_ss.rc
+        boinccmd.exe.manifest (Added)
+    clientgui/
+        BOINCGUIApp.rc
+        boincmgr.exe.manifest (Added)
+    win_build/
+        boinc_cli_curl_2003.vcproj
+        boinc_dll_2003.vcproj
+        boinc_ss_2003.vcproj
+        boinccmd_2003.vcproj
+        boincmgr_curl_2003.vcproj
+

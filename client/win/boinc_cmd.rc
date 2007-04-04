@@ -14,6 +14,50 @@
 #undef APSTUDIO_READONLY_SYMBOLS
 
 /////////////////////////////////////////////////////////////////////////////
+// Neutral resources
+
+#if !defined(AFX_RESOURCE_DLL) || defined(AFX_TARG_NEU)
+#ifdef _WIN32
+LANGUAGE LANG_NEUTRAL, SUBLANG_NEUTRAL
+#pragma code_page(1252)
+#endif //_WIN32
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// Icon
+//
+
+// Icon with lowest ID value placed first to ensure application icon
+// remains consistent on all systems.
+#if   defined(_GRIDREPUBLIC)
+
+#elif defined(_wCG)
+
+IDI_MAIN_ICON           ICON                    "res\\wcg.ico"
+
+#else
+
+IDI_MAIN_ICON           ICON                    "res\\icon.ico"
+
+#endif
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// Assembly Manifest
+//
+
+#ifndef MANIFEST_RESOURCE_ID
+#define MANIFEST_RESOURCE_ID 1
+#endif
+
+MANIFEST_RESOURCE_ID 	RT_MANIFEST		"boinccmd.exe.manifest"
+
+/////////////////////////////////////////////////////////////////////////////
+
+#endif    // Neutral resources
+
+
+/////////////////////////////////////////////////////////////////////////////
 // English (U.S.) resources
 
 #if !defined(AFX_RESOURCE_DLL) || defined(AFX_TARG_ENU)
@@ -206,26 +250,6 @@ END
 
 #endif    // English (U.S.) resources
 /////////////////////////////////////////////////////////////////////////////
-
-/////////////////////////////////////////////////////////////////////////////
-//
-// Icon
-//
-
-// Icon with lowest ID value placed first to ensure application icon
-// remains consistent on all systems.
-#if   defined(_GRIDREPUBLIC)
-
-#elif defined(_wCG)
-
-IDI_MAIN_ICON           ICON                    "res\\wcg.ico"
-
-#else
-
-IDI_MAIN_ICON           ICON                    "res\\icon.ico"
-
-#endif
-
 
 #ifndef APSTUDIO_INVOKED
 /////////////////////////////////////////////////////////////////////////////
