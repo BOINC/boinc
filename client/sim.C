@@ -595,7 +595,10 @@ char* colors[] = {
 
 void CLIENT_STATE::html_start() {
     html_out = fopen("sim_out.html", "w");
-    fprintf(html_out, "<table border=1>\n");
+    fprintf(html_out, "<h2>Simulator output</h2>"
+        "<a href=sim_out.txt>message log</a><p>"
+        "<table border=1>\n"
+    );
 }
 
 void CLIENT_STATE::html_rec() {
@@ -607,8 +610,8 @@ void CLIENT_STATE::html_rec() {
             SIM_PROJECT* p = (SIM_PROJECT*)atp->result->project;
             fprintf(html_out, "<td bgcolor=%s>%s: %.2f</td>",
             colors[p->index], atp->result->name, atp->cpu_time_left);
+            n++;
         }
-        n++;
     }
     if (n > ncpus) {
         fprintf(html_out, "<td>TOO MANY JOBS RUNNING</td>");
@@ -629,7 +632,6 @@ void CLIENT_STATE::html_end() {
 void CLIENT_STATE::simulate(double duration, double delta) {
     bool action;
     now = 0;
-    printf("n: %d\n", active_tasks.active_tasks.size());
     html_start();
     while (1) {
         while (1) {
@@ -675,14 +677,24 @@ int main(int argc, char** argv) {
     freopen("sim_out.txt", "w", stdout);
 
 
-    for (i=1; i<argc; i++) {
-        if (!strcmp(argv[i], "--duration")) {
-            duration = atoi(next_arg(argc, argv, i));
-        } else if (!strcmp(argv[i], "--delta")) {
-            delta = atoi(next_arg(argc, argv, i));
+    for (i=1; i<argc;) {
+        char* opt = argv[i++];
+        if (!strcmp(opt, "--duration")) {
+            duration = atof(next_arg(argc, argv, i));
+        } else if (!strcmp(opt, "--delta")) {
+            delta = atof(next_arg(argc, argv, i));
         } else {
             help(argv[0]);
         }
+    }
+
+    if (duration <= 0) {
+        printf("non-pos duration\n");
+        exit(1);
+    }
+    if (delta <= 0) {
+        printf("non-pos delta\n");
+        exit(1);
     }
 
     strcpy(projects, "sim_projects.xml");
