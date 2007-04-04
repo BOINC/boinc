@@ -529,7 +529,7 @@ void CBOINCGridCtrl::DrawColLabel( wxDC& dc, int col )
     rect.SetHeight( m_colLabelHeight - 4 );
     DrawTextRectangle( dc, GetColLabelValue( col ), rect, hAlign, vAlign, orient );
 	//paint sorting indicators, if needed
-	if(col == this->sortColumn) {
+	if(col == sortColumn) {
 		int x = rect.GetRight() - ascBitmap.GetWidth() - 2;
 		int y = rect.GetY();
 		dc.DrawBitmap(this->sortAscending ? descBitmap : ascBitmap,x,y,true);
@@ -538,29 +538,37 @@ void CBOINCGridCtrl::DrawColLabel( wxDC& dc, int col )
 
 /* handles left mouse click on column header */
 void CBOINCGridCtrl::OnLabelLClick(wxGridEvent& ev) {
-	if(ev.GetCol()!= -1) {
-		//clicked on a column
-		//same column as last time, then change only sort direction
-		if(this->sortColumn == ev.GetCol()) {
-			this->sortAscending = ! this->sortAscending;
+	if(ev.GetCol() != -1) {
+        //same column as last time, then change only sort direction
+        if(sortColumn == ev.GetCol()) {
+			sortAscending = ! sortAscending;
+		} else {
+            int tmpOldColumn = sortColumn;
+
+            sortColumn = ev.GetCol();
+			sortAscending = true;
+
+            // Force a repaint of the label
+            SetColLabelValue(tmpOldColumn, GetColLabelValue(tmpOldColumn));
 		}
-		else {
-			this->sortColumn = ev.GetCol();
-		}
-		//force immediate 
+
+        // Force a repaint of the label
+        SetColLabelValue(ev.GetCol(), GetColLabelValue(ev.GetCol()));
+
+		// Update and sort data
 		wxTimerEvent tEvent;
-		wxDynamicCast(this->GetParent(),CBOINCBaseView)->FireOnListRender(tEvent);
+		wxDynamicCast(GetParent(),CBOINCBaseView)->FireOnListRender(tEvent);
 	}
-	//don't call Skip here to stop further event processing to prevent loosing the current selection and grid cursor position
-	//ev.Skip();
+
+	ev.Skip();
 }
 
 void CBOINCGridCtrl::SortData() {
-	this->GetTable()->SortData(this->sortColumn,this->sortAscending);
+	GetTable()->SortData(sortColumn,sortAscending);
 }
 
 void CBOINCGridCtrl::SetColumnSortType(int col,int sortType/*=CST_STRING*/) {
-	this->GetTable()->SetColumnSortType(col,sortType);
+	GetTable()->SetColumnSortType(col,sortType);
 }
 
 /* ################### generic grid cell renderer #################### */

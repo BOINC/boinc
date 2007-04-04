@@ -791,20 +791,13 @@ void CViewWorkGrid::OnListRender( wxTimerEvent& WXUNUSED(event) ) {
         return;
     }
     
-	//remember grid cursor position
-	m_pGridPane->SaveGridCursorPosition();
-
-    //remember selected row(s)
-	m_pGridPane->SaveSelection();	
-
     // Right-size the grid so that the number of rows matches
     //   the document state.
     if(GetDocCount() != m_pGridPane->GetNumberRows()) {
         if (GetDocCount() > m_pGridPane->GetNumberRows()) {
     	    m_pGridPane->AppendRows(GetDocCount() - m_pGridPane->GetNumberRows());
         } else {
-            int iRowCount = m_pGridPane->GetNumberRows() - GetDocCount();
-		    m_pGridPane->DeleteRows(m_pGridPane->GetNumberRows() - iRowCount, iRowCount);
+		    m_pGridPane->DeleteRows(0, m_pGridPane->GetNumberRows() - GetDocCount());
         }
         wxASSERT(GetDocCount() == m_pGridPane->GetNumberRows());
     }
@@ -859,14 +852,6 @@ void CViewWorkGrid::OnListRender( wxTimerEvent& WXUNUSED(event) ) {
 
     m_pGridPane->SortData();
 
-    // restore grid cursor position
-	m_bIgnoreSelectionEvents = true;
-	m_pGridPane->RestoreGridCursorPosition();
-	m_bIgnoreSelectionEvents = false;
-
-    //restore selection
-	m_pGridPane->RestoreSelection();
-
 	UpdateSelection();
 }
 
@@ -875,11 +860,8 @@ void CViewWorkGrid::OnListRender( wxTimerEvent& WXUNUSED(event) ) {
 */
 void CViewWorkGrid::OnSelectCell( wxGridEvent& ev )
 {
-	m_pGridPane->ClearSavedSelection();
-    // you must call Skip() if you want the default processing
-    // to occur in wxGrid
-    ev.Skip();
 	if(!m_bIgnoreSelectionEvents) {
 		m_bForceUpdateSelection = true;
 	}
+    ev.Skip();
 }

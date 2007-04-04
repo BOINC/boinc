@@ -3123,6 +3123,17 @@ Rom    4 Apr 2007
         boinccmd_2003.vcproj
         boincmgr_curl_2003.vcproj
 
+Rom    4 Apr 2007
+    - MGR: Remove save/restore selection calls from the various Grid based
+        views as it isn't needed anymore.
+        
+    clientgui/
+        BOINCGridCtrl.cpp
+        ViewMessagesGrid.cpp
+        ViewProjectsGrid.cpp
+        ViewTransfersGrid.cpp
+        ViewWorkGrid.cpp
+
 Rom    4 Apr 2007 (HEAD)
     - Tag for 5.9.3 release, all platforms
       boinc_core_release_5_9_3
