@@ -240,6 +240,7 @@ RESULT* CLIENT_STATE::lookup_result(PROJECT* p, const char* name) {
 void CLIENT_STATE::simulate_rpc(PROJECT* p) {
     static int result_num=0;
     double net_fpops = host_info.p_fpops;
+    char buf[256];
 
     // remove ready-to-report results
     //
@@ -254,8 +255,10 @@ void CLIENT_STATE::simulate_rpc(PROJECT* p) {
             result_iter++;
         }
     }
+    sprintf(buf, "<br>RPC to %s; asking for %f", p->project_name, p->work_request);
+    html_msg += buf;
 
-    while (1) {
+    while (p->work_request > 0) {
         // pick a random app
         SIM_APP* ap=0;
         double x = drand();
@@ -270,15 +273,16 @@ void CLIENT_STATE::simulate_rpc(PROJECT* p) {
         rp->clear();
         rp->project = p;
         rp->wup = wup;
-        sprintf(rp->name, "result_%d", result_num++);
+        sprintf(rp->name, "%s_%d", p->project_name, result_num++);
         rp->set_state(RESULT_FILES_DOWNLOADED, "simulate_rpc");
         wup->project = p;
         wup->rsc_fpops_est = ap->fpops_est;
         results.push_back(rp);
         double ops = ap->fpops.sample();
-        rp->rrsim_cpu_left = ops/net_fpops;
+        rp->final_cpu_time = ops/net_fpops;
+        sprintf(buf, "<br>got job %s: %f", rp->name, rp->final_cpu_time);
+        html_msg += buf;
         p->work_request -= ap->fpops_est/net_fpops;
-        if (p->work_request <= 0) break;
     }
     p->work_request = 0;
     request_schedule_cpus("simulate_rpc");
@@ -319,8 +323,6 @@ bool ACTIVE_TASK_SET::poll() {
         ACTIVE_TASK* atp = active_tasks[i];
         switch (atp->task_state()) {
         case PROCESS_EXECUTING:
-            sprintf(buf, "0x%x left %f", atp, atp->cpu_time_left);
-            gstate.html_msg += buf;
             atp->cpu_time_left -= diff;
             if (atp->cpu_time_left <= 0) {
                 atp->set_task_state(PROCESS_EXITED, "poll");
@@ -363,7 +365,7 @@ int ACTIVE_TASK::resume_or_start(bool first_time) {
     }
     set_task_state(PROCESS_EXECUTING, "start");
     char buf[256];
-    sprintf(buf, "<br>0x%x Starting %s: %f", this, result->name, cpu_time_left);
+    sprintf(buf, "<br>Starting %s: %f", result->name, cpu_time_left);
     gstate.html_msg += buf;
     return 0;
 }
@@ -378,7 +380,7 @@ int ACTIVE_TASK::init(RESULT* rp) {
     max_cpu_time = rp->wup->rsc_fpops_bound/gstate.host_info.p_fpops;
     max_disk_usage = rp->wup->rsc_disk_bound;
     max_mem_usage = rp->wup->rsc_memory_bound;
-    cpu_time_left = rp->rrsim_cpu_left;
+    cpu_time_left = rp->final_cpu_time;
     _task_state = PROCESS_UNINITIALIZED;
     scheduler_state = CPU_SCHED_UNINITIALIZED;
     return 0;
@@ -554,14 +556,17 @@ void CLIENT_STATE::html_start() {
 }
 
 void CLIENT_STATE::html_rec() {
-    fprintf(html_out, "<tr><td>%f</td>", now);
+    fprintf(html_out, "<tr><td>%s</td>", time_to_string(now));
     int n=0;
     for (unsigned int i=0; i<active_tasks.active_tasks.size(); i++) {
         ACTIVE_TASK* atp = active_tasks.active_tasks[i];
         if (atp->task_state() == PROCESS_EXECUTING) {
-            fprintf(html_out, "<td>%s</td>", atp->result->name);
+            fprintf(html_out, "<td>%s: %.2f</td>", atp->result->name, atp->cpu_time_left);
         }
         n++;
+    }
+    if (n > ncpus) {
+        fprintf(html_out, "<td>TOO MANY JOBS RUNNING</td>");
     }
     while (n<ncpus) {
         fprintf(html_out, "<td><br></td>");
@@ -573,6 +578,7 @@ void CLIENT_STATE::html_rec() {
 
 void CLIENT_STATE::html_end() {
     fprintf(html_out, "</table>\n");
+    fclose(html_out);
 }
 
 void CLIENT_STATE::simulate(double duration, double delta) {
@@ -617,9 +623,12 @@ char* next_arg(int argc, char** argv, int& i) {
 
 int main(int argc, char** argv) {
     char projects[256], host[256], prefs[256];
-    double duration = 200, delta = 10;
+    double duration = 20000, delta = 10;
     bool flag;
     int i, retval;
+
+    freopen("sim_out.txt", "w", stdout);
+
 
     for (i=1; i<argc; i++) {
         if (!strcmp(argv[i], "--duration")) {
