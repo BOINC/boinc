@@ -382,23 +382,9 @@ $linux_libs_gcc41= "
 
 $w5816= array(
     "num"=>"5.8.16",
-    "status"=>"Development version",
+    "status"=>"Recommended version",
     "file"=>"boinc_5.8.16_windows_intelx86.exe",
     "date"=>"1 Mar 2007",
-    "type"=>"win_new",
-    "features"=>"<ul>
-".$features_55.$features_57."
-".$changes_57."
-    </ul>
-    ",
-    "bugs"=>""
-);
-
-$w5815= array(
-    "num"=>"5.8.15",
-    "status"=>"Recommended version",
-    "file"=>"boinc_5.8.15_windows_intelx86.exe",
-    "date"=>"19 Feb 2007",
     "type"=>"win_new",
     "features"=>"<ul>
 ".$features_55.$features_57."
@@ -437,26 +423,9 @@ $w5411= array(
 
 $m5817 = array(
     "num"=>"5.8.17",
-    "status"=>"Development version (standard GUI)",
+    "status"=>"Recommended version (standard GUI)",
     "file"=>"boinc_5.8.17_macOSX_universal.zip",
     "date"=>"3 Apr 2007",
-    "type"=>"mac_advanced",
-     "features"=>"<ul>
-".$mac_changes_57."
-".$features_55."
-".$features_57."
-".$changes_57."
-     </ul>
-    ",
-    "bugs"=>"
-    "
-);
-
-$m5815 = array(
-    "num"=>"5.8.15",
-    "status"=>"Recommended version (standard GUI)",
-    "file"=>"boinc_5.8.15_macOSX_universal.zip",
-    "date"=>"20 Feb 2007",
     "type"=>"mac_advanced",
      "features"=>"<ul>
 ".$mac_changes_57."
@@ -494,51 +463,11 @@ $m549 = array(
     "
 );
 
-$m5213 = array(
-    "num"=>"5.2.13",
-    "status"=>"Older version (standard GUI)",
-    "file"=>"boinc_5.2.13_macOSX.zip",
-    "date"=>"29 November 2005",
-    "type"=>"mac_advanced",
-     "features"=>"<ul>
-     <li>
-     BOINC now works with OS 10.3.0 or higher.
-     <li>
-     Closing the BOINC Manager window now hides the application, and vice-versa.
-     <li>
-     The installer no longer always sets ownership to user 501. If the installing user 
-     has admin privileges, that user becomes the owner; otherwise the first non-root 
-     admin user becomes the owner.
-".$features_52."
-".$changes_52."
-     </ul>
-    ",
-    "bugs"=>"
-    "
-);
-
 $m5817c = array(
     "num"=>"5.8.17",
-    "status"=>"Development version (Unix command-line version)",
+    "status"=>"Recommended version (Unix command-line version)",
     "file"=>"boinc_5.8.17_universal-apple-darwin.zip",
     "date"=>"3 Apr 2007",
-    "type"=>"bare_core",
-    "features"=>"<ul>
-".$mac_changes_57."
-".$features_55."
-".$features_57."
-".$changes_57."
-     </ul>
-    ",
-    "bugs"=>"
-    "
-);
-
-$m5815c = array(
-    "num"=>"5.8.15",
-    "status"=>"Recommended version (Unix command-line version)",
-    "file"=>"boinc_5.8.15_universal-apple-darwin.zip",
-    "date"=>"20 Feb 2007",
     "type"=>"bare_core",
     "features"=>"<ul>
 ".$mac_changes_57."
@@ -573,65 +502,15 @@ $m549c = array(
     "
 );
 
-$m5213c = array(
-    "num"=>"5.2.13",
-    "status"=>"Older Unix command-line version",
-    "file"=>"boinc_5.2.13_powerpc-apple-darwin.zip",
-    "date"=>"29 November 2005",
-    "type"=>"bare_core",
-    "features"=>"<ul>
-     <li>
-     BOINC now works with OS 10.3.0 or higher.
-    <li>
-    We are now including a tool with command line interface to control boinc within the 
-    default distribution
-    </ul>
-    ",
-    "bugs"=>"
-    "
-);
-
-$m443 = array(
-    "num"=>"4.43",
-    "status"=>"Older version (standard GUI)",
-    "file"=>"boinc_4.43_macOSX.zip",
-    "date"=>"21 May 2005",
-    "type"=>"mac_advanced",
-);
-
-$m443c = array(
-    "num"=>"4.43",
-    "status"=>"Older version (Unix command-line version)",
-    "file"=>"boinc_4.43_powerpc-apple-darwin.zip",
-    "date"=>"21 May 2005",
-    "type"=>"bare_core",
-    "bugs"=>"
-    "
-);
-
 $l5817 = array(
     "num"=>"5.8.17",
-    "status"=>"Development version (standard GUI)",
+    "status"=>"Recommended version (standard GUI)",
     "file"=>"boinc_5.8.17_i686-pc-linux-gnu.sh",
     "date"=>"7 March 2007",
     "type"=>"sea",
     "features"=>"<ul>
 ".$features_55.$features_57."
 ".$linux_libs_gcc41." 
-".$changes_57."
-    </ul>
-    "
-);
-
-$l5815 = array(
-    "num"=>"5.8.15",
-    "status"=>"Recommended version (standard GUI)",
-    "file"=>"boinc_5.8.15_i686-pc-linux-gnu.sh",
-    "date"=>"20 February 2007",
-    "type"=>"sea",
-    "features"=>"<ul>
-".$features_55.$features_57."
-".$linux_libs_58." 
 ".$changes_57."
     </ul>
     "
@@ -650,43 +529,11 @@ $l5411 = array(
     "
 );
 
-$l5213 = array(
-    "num"=>"5.2.13",
-    "status"=>"Older version",
-    "file"=>"boinc_5.2.13_i686-pc-linux-gnu.sh",
-    "date"=>"29 Nov 2005",
-    "type"=>"sea",
-    "features"=>"<ul>
-".$features_52."
-".$changes_52."
-    </ul>
-    "
-);
-
-$l443 = array(
-    "num"=>"4.43",
-    "status"=>"Older version",
-    "file"=>"boinc_4.43_i686-pc-linux-gnu.sh",
-    "date"=>"23 May 2005",
-    "type"=>"sea",
-    "bugs"=>"<ul>
-     <li>
-     boincmgr currently requires a later version of glibc than what we want.  When running
-     boincmgr you might see this error message:<br>
-         boincmgr: /lib/libpthread.so.0: version `GLIBC_2.3.2' not found (required by boincmgr)<br><br>
-     We are investigating this issue.
-     <li>
-     Cutting and pasting does not appear to work.
-     </ul>
-    "
-);
-
 $windows = array(
     "name"=>"Windows",
     "dbname" => "windows_intelx86",
     "versions"=>array(
         $w5816,
-        $w5815,
         $w5411,
     )
 );
@@ -696,8 +543,6 @@ $mac = array(
     "versions"=>array(
         $m5817,
         $m5817c,
-        $m5815,
-        $m5815c,
         $m549,
         $m549c,
     )
@@ -708,7 +553,6 @@ $linux = array(
     "url"=>"linux.php",
     "versions"=>array(
         $l5817,
-        $l5815,
         $l5411,
     )
 );
