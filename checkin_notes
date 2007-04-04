@@ -3123,44 +3123,6 @@ Rom    4 Apr 2007
         boinccmd_2003.vcproj
         boincmgr_curl_2003.vcproj
 
-Rom    4 Apr 2007
-    - MGR: Remove save/restore selection calls from the various Grid based
-        views as it isn't needed anymore.
-        
-    clientgui/
-        BOINCGridCtrl.cpp
-        ViewMessagesGrid.cpp
-        ViewProjectsGrid.cpp
-        ViewTransfersGrid.cpp
-        ViewWorkGrid.cpp
-
-Rom    4 Apr 2007
-    - MGR: Move grid event trapping code into the BOINCBaseView class and
-        delete the duplicated code from each of the views
-    - MGR: UpdateSelection should be called on any selection change.
-    
-    clientgui/
-        BOINCBaseView.cpp, .h
-        ViewMessages.h
-        ViewMessagesGrid.cpp, .h
-        ViewProjectsGrid.cpp, .h
-        ViewResources.h
-        ViewStatistics.h
-        ViewTransfersGrid.cpp, .h
-        ViewWorkGrid.cpp, .h        
-
 Rom    4 Apr 2007 (HEAD)
     - Tag for 5.9.3 release, all platforms
       boinc_core_release_5_9_3
-
-David  5 Apr 2007
-    - core client: round fractional work request up to 1 sec
-    - simulator now working
-
-    client/
-        scheduler_op.C
-        sim.C,h
-        sim_host/prefs/projects.xml (new)
-    lib/
-        browser.C
-        prefs.C
