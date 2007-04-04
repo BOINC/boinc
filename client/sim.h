@@ -83,6 +83,11 @@ public:
     CLIENT_STATE();
     bool initialized;
     bool run_cpu_benchmarks;
+    FILE* html_out;
+    void html_start();
+    void html_rec();
+    void html_end();
+    std::string html_msg;
 
 private:
     double app_started;

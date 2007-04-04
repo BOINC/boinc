@@ -275,7 +275,8 @@ void CLIENT_STATE::simulate_rpc(PROJECT* p) {
         wup->project = p;
         wup->rsc_fpops_est = ap->fpops_est;
         results.push_back(rp);
-        rp->rrsim_cpu_left = ap->fpops.sample()/net_fpops;
+        double ops = ap->fpops.sample();
+        rp->rrsim_cpu_left = ops/net_fpops;
         p->work_request -= ap->fpops_est/net_fpops;
         if (p->work_request <= 0) break;
     }
@@ -307,6 +308,7 @@ bool CLIENT_STATE::scheduler_rpc_poll() {
 
 bool ACTIVE_TASK_SET::poll() {
     unsigned int i;
+    char buf[256];
     bool action = false;
     static double last_time = 0;
     double diff = gstate.now - last_time;
@@ -317,12 +319,16 @@ bool ACTIVE_TASK_SET::poll() {
         ACTIVE_TASK* atp = active_tasks[i];
         switch (atp->task_state()) {
         case PROCESS_EXECUTING:
+            sprintf(buf, "0x%x left %f", atp, atp->cpu_time_left);
+            gstate.html_msg += buf;
             atp->cpu_time_left -= diff;
             if (atp->cpu_time_left <= 0) {
                 atp->set_task_state(PROCESS_EXITED, "poll");
                 atp->result->exit_status = 0;
                 gstate.request_schedule_cpus("ATP poll");
                 gstate.request_work_fetch("ATP poll");
+                sprintf(buf, "<br>result %s finished\n", atp->result->name);
+                gstate.html_msg += buf;
             }
         }
     }
@@ -356,6 +362,9 @@ int ACTIVE_TASK::resume_or_start(bool first_time) {
         );
     }
     set_task_state(PROCESS_EXECUTING, "start");
+    char buf[256];
+    sprintf(buf, "<br>0x%x Starting %s: %f", this, result->name, cpu_time_left);
+    gstate.html_msg += buf;
     return 0;
 }
 
@@ -384,7 +393,7 @@ double NORMAL_DIST::sample() {
     int i;
     double x=0;
     for (i=0; i<9; i++) {
-        x += rand();
+        x += drand();
     }
     x /= 3;
     x *= var;
@@ -539,10 +548,38 @@ int CLIENT_STATE::parse_host(char* name) {
     return host_info.parse(xp);
 }
 
+void CLIENT_STATE::html_start() {
+    html_out = fopen("sim_out.html", "w");
+    fprintf(html_out, "<table border=1>\n");
+}
+
+void CLIENT_STATE::html_rec() {
+    fprintf(html_out, "<tr><td>%f</td>", now);
+    int n=0;
+    for (unsigned int i=0; i<active_tasks.active_tasks.size(); i++) {
+        ACTIVE_TASK* atp = active_tasks.active_tasks[i];
+        if (atp->task_state() == PROCESS_EXECUTING) {
+            fprintf(html_out, "<td>%s</td>", atp->result->name);
+        }
+        n++;
+    }
+    while (n<ncpus) {
+        fprintf(html_out, "<td><br></td>");
+        n++;
+    }
+    fprintf(html_out, "<td>%s</td></tr>\n", html_msg.c_str());
+    html_msg = "";
+}
+
+void CLIENT_STATE::html_end() {
+    fprintf(html_out, "</table>\n");
+}
+
 void CLIENT_STATE::simulate(double duration, double delta) {
     bool action;
     now = 0;
     printf("n: %d\n", active_tasks.active_tasks.size());
+    html_start();
     while (1) {
         while (1) {
             action = active_tasks.poll();
@@ -554,8 +591,10 @@ void CLIENT_STATE::simulate(double duration, double delta) {
             if (!action) break;
         }
         now += delta;
+        html_rec();
         if (now > duration) break;
     }
+    html_end();
 }
 
 void parse_error(char* file) {
@@ -578,7 +617,7 @@ char* next_arg(int argc, char** argv, int& i) {
 
 int main(int argc, char** argv) {
     char projects[256], host[256], prefs[256];
-    double duration = 2000, delta = 10;
+    double duration = 200, delta = 10;
     bool flag;
     int i, retval;
 
