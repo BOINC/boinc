@@ -269,7 +269,7 @@ static int get_host_info(SCHEDULER_REPLY& reply) {
 
 		pos = str.find("<app_id>", pos) + 1;
 	}
-    temp_int = parse_int(buf,"<allow_beta_work>",temp_int);
+    temp_int = parse_int(buf,"<allow_beta_work>", temp_int);
     reply.wreq.host_info.allow_beta_work = temp_int;
  
     // Decide whether or not this computer is a 'reliable' computer
@@ -717,18 +717,17 @@ int add_result_to_reply(
     result.sent_time = time(0);
     int old_server_state = result.server_state;
 
-    // If the workunit needs reliable and is being sent to a reliable host,
-    // then shorten the delay bound by the percent specified
-    //
     int delay_bound = wu.delay_bound;
-    if (config.reliable_time && reply.wreq.host_info.reliable && config.reliable_reduced_delay_bound > 0.01) {
-        if ((wu.create_time + config.reliable_time) <= time(0)) {
-            delay_bound = (int) (delay_bound * config.reliable_reduced_delay_bound);
-        }
-    }
-
-
     if (result.server_state != RESULT_SERVER_STATE_IN_PROGRESS) {
+     	// If the workunit needs reliable and is being sent to a reliable host,
+    	// then shorten the delay bound by the percent specified
+    	//
+    	if (config.reliable_time && reply.wreq.host_info.reliable && config.reliable_reduced_delay_bound > 0.01) {
+        	if ((wu.create_time + config.reliable_time) <= time(0)) {
+            	delay_bound = (int) (delay_bound * config.reliable_reduced_delay_bound);
+        	}
+    	}
+    	
         // We are sending this result for the first time
         //
         result.report_deadline = result.sent_time + delay_bound;

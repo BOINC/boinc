@@ -53,6 +53,7 @@ struct WU_RESULT {
     WORKUNIT workunit;
     int resultid;
     int time_added_to_shared_memory;
+    int result_priority;
 };
 
 struct SCHED_SHMEM {

@@ -393,7 +393,8 @@ int create_result(
     char* result_name_suffix,
     R_RSA_PRIVATE_KEY& key,
     SCHED_CONFIG& config,
-    char* query_string
+    char* query_string,
+    int priority_increase
         // if nonzero, write value list here; else do insert
 ) {
     DB_RESULT result;
@@ -403,6 +404,7 @@ int create_result(
 
     result.clear();
     initialize_result(result, wu);
+    result.priority = result.priority + priority_increase;
     sprintf(result.name, "%s_%s", wu.name, result_name_suffix);
     sprintf(base_outfile_name, "%s_", result.name);
 

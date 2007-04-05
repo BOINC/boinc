@@ -345,7 +345,7 @@ make_new_host:
 got_host:
         reply.host = host;
         reply.hostid = reply.host.id;
-            // this tells client to updates its host ID
+        // this tells client to updates its host ID
         sreq.rpc_seqno = 0;
             // this value eventually gets written to host DB record;
             // for new hosts it must be zero.
@@ -483,6 +483,87 @@ static int update_host_record(HOST& initial_host, HOST& xhost, USER& user) {
         log_messages.printf(SCHED_MSG_LOG::MSG_CRITICAL, "host.update() failed: %d\n", retval);
     }
     return 0;
+}
+
+int send_result_abort(
+    SCHEDULER_REQUEST& sreq, SCHEDULER_REPLY& reply, PLATFORM& platform,
+    SCHED_SHMEM& ss
+) {
+	int aborts_sent = 0;
+    DB_IN_PROGRESS_RESULT result;
+    std::string result_names;
+    int i;
+    int retval;
+    
+    if (sreq.other_results.size() == 0) {
+    	return 0;
+    }
+
+    // initially mark all results for abort and build list of results
+    // to query
+    for (i=0; i<sreq.other_results.size(); i++) {
+        OTHER_RESULT& orp=sreq.other_results[i];
+        orp.abort = true;
+        orp.abort_if_not_started = false;
+        if ( i > 0 ) result_names.append(", ");
+        result_names.append("'");
+        result_names.append(orp.name);
+        result_names.append("'");
+        log_messages.printf(SCHED_MSG_LOG::MSG_DEBUG,
+            "Result is on [HOST#%d]: %s\n",
+            reply.host.id, orp.name.c_str()
+        );
+    }
+    // query the db for the results and set the appropriate flag
+    while (!result.enumerate(reply.host.id, result_names.c_str())) {
+        for (i=0; i<sreq.other_results.size(); i++) {
+            OTHER_RESULT& orp = sreq.other_results[i];
+            if (!strcmp(orp.name.c_str(), result.result_name)) {
+            	if ( result.error_mask&WU_ERROR_CANCELLED ) {
+            		// do nothing, it should be aborted
+            	} else if ( result.assimilate_state == ASSIMILATE_DONE ) {
+            		// only send abort if not started
+            		orp.abort = false;
+            		orp.abort_if_not_started = true;
+            	} else if ( result.server_state == RESULT_SERVER_STATE_OVER && result.outcome == RESULT_OUTCOME_NO_REPLY ) {
+            		// the result is late so abort it if it hasn't been started
+            		orp.abort=false;
+            		orp.abort_if_not_started = true;
+            	} else {
+            		// all is good with the result - let it process
+            		orp.abort=false;
+            	}
+            	break;
+            }
+        }
+    }
+    
+    // loop through the results and send the appropriate message (if any)
+    for (i=0; i<sreq.other_results.size(); i++) {
+    	OTHER_RESULT& orp = sreq.other_results[i];
+    	if ( orp.abort ) {
+    		reply.result_aborts.push_back(orp.name);
+			log_messages.printf(SCHED_MSG_LOG::MSG_NORMAL,
+            	"[HOST#%d]: Send result_abort for result %s\n",
+            	reply.host.id, orp.name.c_str()
+        		); 
+        	// send user message 
+            char buf[256];
+            sprintf(buf, "Result %s is no longer usable\n", orp.name.c_str());
+            USER_MESSAGE um(buf, "high");
+            reply.insert_message(um);
+        } else if ( orp.abort_if_not_started ) {
+        	/* commented out becuase this crashes the core client
+    		reply.result_abort_if_unstarteds.push_back(orp.name);
+			log_messages.printf(SCHED_MSG_LOG::MSG_NORMAL,
+            	"[HOST#%d]: Send result_abort_if_unstarted for result %s\n",
+            	reply.host.id, orp.name.c_str()
+        		); 
+        	*/   	
+    	}
+    }
+    
+	return aborts_sent;
 }
 
 // 1) Decide which global prefs to use for sched decisions: either
@@ -1013,7 +1094,7 @@ bool unacceptable_os(
 }
 #else
 bool unacceptable_os(
-        SCHEDULER_REQUEST& , SCHEDULER_REPLY&
+    SCHEDULER_REQUEST& , SCHEDULER_REPLY&
 ) {
     return false;
 }
@@ -1261,6 +1342,10 @@ void process_request(
         }
     }
 
+    if (config.send_result_abort && sreq.have_other_results_list) {
+        send_result_abort(sreq, reply, *platform, ss);
+    }
+    
     // if last RPC was within config.min_sendwork_interval, don't send work
     //
     if (!have_no_work && ok_to_send_work && sreq.work_req_seconds > 0) {

@@ -2765,24 +2765,24 @@ Jeff  21 Mar 2007
         fcgi_stdio.h
 
 David  21 Mar 2007
-	- update sample web site front page
+    - update sample web site front page
 
     html/user/
         sample_index.php
 
 David  21 Mar 2007
-	- core client: fixed bug where a <result_abort_if_unstarted>
-		in scheduler reply would crash client.
-		Also, change this tag to <result_abort_if_not_started>
-		Note: the syntax is
-			<result_abort_if_not_started>
-				<name>xxx</name>
-			</result_abort_if_not_started>
-		where xxx is the result name.
+    - core client: fixed bug where a <result_abort_if_unstarted>
+        in scheduler reply would crash client.
+        Also, change this tag to <result_abort_if_not_started>
+        Note: the syntax is
+            <result_abort_if_not_started>
+                <name>xxx</name>
+            </result_abort_if_not_started>
+        where xxx is the result name.
 
-	client/
-		cs_scheduler.C
-		scheduler_op.C,h
+    client/
+        cs_scheduler.C
+        scheduler_op.C,h
 
 David  23 Mar 2007
     client/
@@ -2792,13 +2792,13 @@ David  23 Mar 2007
         en.po
 
 David  23 Mar 2007
-	- Manager: show "detach when done" if set
+    - Manager: show "detach when done" if set
 
-	clientgui/
-		ViewProjects.cpp
-		ViewProjectsGrid.cpp
-	win_build/
-		sim.vcproj
+    clientgui/
+        ViewProjects.cpp
+        ViewProjectsGrid.cpp
+    win_build/
+        sim.vcproj
 
 David  23 Mar 2007
     - manager build fix
@@ -2911,28 +2911,28 @@ David  28 Mar 2007
         prefs.inc
 
 David  29 Mar 2007
-	- core client: fix some debug messages
-	- more code-shuffling for client simulator
+    - core client: fix some debug messages
+    - more code-shuffling for client simulator
 
-	client/
-		cpu_sched.C
-		file_xfer.h
-		log_flags.C,h
-		sim.C,h
-	win_build/
-		boincmgr_curl.vcproj
-		sim.vcproj
+    client/
+        cpu_sched.C
+        file_xfer.h
+        log_flags.C,h
+        sim.C,h
+    win_build/
+        boincmgr_curl.vcproj
+        sim.vcproj
 
 David  29 Mar 2007
-	- Manager: add work_buf_additional_days to adv prefs dialog;
-		add multi-selection to transfer tab
-		(from Frank Weiler)
+    - Manager: add work_buf_additional_days to adv prefs dialog;
+        add multi-selection to transfer tab
+        (from Frank Weiler)
 
-	clientgui/
-		DlgAdvPreferences.cpp
-		DlgAdvPreferences.fbp
-		DlgAdvPreferencesBase.cpp,h
-		ViewTransfersGrid.cpp
+    clientgui/
+        DlgAdvPreferences.cpp
+        DlgAdvPreferences.fbp
+        DlgAdvPreferencesBase.cpp,h
+        ViewTransfersGrid.cpp
 
 David  29 Mar 2007
     - API: don't report CPU time and fraction done while suspended
@@ -2981,17 +2981,17 @@ Charlie 30 Mar 2007
             project.pbxproj
 
 David  2 Apr 2007
-	- Manager: improvements to advanced Prefs dialog
-		(from Frank Weiler)
-	- Client simulator work
+    - Manager: improvements to advanced Prefs dialog
+        (from Frank Weiler)
+    - Client simulator work
 
-	client/
-		sim.C,h
-		work_fetch.C
-	clientgui/
-		DlgAdvPreferences*
-	lib/
-		prefs.C
+    client/
+        sim.C,h
+        work_fetch.C
+    clientgui/
+        DlgAdvPreferences*
+    lib/
+        prefs.C
 
 Charlie 3 Apr 2007
     - Mac Installer: Change name of Postinstall.app to PostInstall.app to fix a 
@@ -3070,17 +3070,17 @@ David  3 Apr 2007
         sim.C,h
 
 David  3 Apr 2007
-	- simulator
+    - simulator
 
-	client/
-		app_control.C
-		cpu_sched.C
-		sim.C,h
+    client/
+        app_control.C
+        cpu_sched.C
+        sim.C,h
 
 David  3 Apr 2007
     - core client: fix parsing of <link rel="boinc_scheduler" ...
         in scheduler reply
-	- simulator
+    - simulator
 
     client/
         app.C
@@ -3153,7 +3153,7 @@ Rom    4 Apr 2007 (HEAD)
     - Tag for 5.9.3 release, all platforms
       boinc_core_release_5_9_3
 
-David  5 Apr 2007
+David  4 Apr 2007
     - core client: round fractional work request up to 1 sec
     - simulator now working
 
@@ -3164,3 +3164,66 @@ David  5 Apr 2007
     lib/
         browser.C
         prefs.C
+
+David  5 Apr 2007
+    - Scheduler: add option <send_result_abort>. If set:
+        - If client is processing a result for a WU that has
+            been cancelled or is not in the DB
+            (i.e. there's no chance of getting credit)
+            send <result_abort>.
+        - If client is processing a result for a WU that has
+            been assimilated or is overdue
+            (i.e. there's a chance of not getting credit)
+            send <result_abort_if_not_started>
+    - Scheduler: enhancements to replication policy
+        (which attempts to send additional replicas of a WU
+        only to reliable/fast hosts).
+        There are several new config options which let projects
+        tailor the policy in various ways:
+        - <reliable_min_avg_credit>: a host must have at least
+            this avg credit to be considered reliable
+        - <reliable_max_avg_turnaround>: a host must have at most
+            this avg_turnaround to be considered reliable
+        - <reliable_on_priority>: results with at least 
+            this priority will be sent only to reliable hosts
+        - <reliable_priority_on_over>:
+            increase priority of additional replicas by this amount
+        - <reliable_priority_on_over_except_error>
+            increase priority of additional replicas
+            triggered by timeout (but not error) by this amount
+        - <reliable_time>: send results for WUs at least this old
+            only to reliable hosts
+        - <reliable_reduced_delay_bound>: if a WU is at least
+            "reliable_time" old, multiply its latency bound
+            by this factor (0..1)
+    - Transitioner: add the notion of "grace period"
+        so users get credit even if results are somewhat late.
+        - <grace_period_hours>: defer the deletion of
+            the canonical result for this many hours
+            after the deadline of any pending result
+    - Transitioner: add option <delete_delay_hours>:
+        delay the deletion of WU input files for this
+        interval after last result has been returned
+
+    Implementation details::
+    - add TRANSITIONER_ITEM::res_received_time
+    - add WORK_ITEM::res_priority
+        (read by feeder, stored in shared mem, used by scheduler)
+    - add IN_PROGRESS_RESULT to enumerate in-progress results
+    - read appid in VALIDATOR_ITEM
+    - add priority_increase arg to create_result()
+
+    (all the above from Kevin Reed)
+
+    db/
+        boinc_db.C,h
+    sched/
+        feeder.C
+        handle_request.C
+        sched_config.C,h
+        sched_send.C
+        sched_shmem.h
+        server_types.C,h
+        transitioner.C
+    tools/
+        backend_lib.C,h

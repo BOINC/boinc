@@ -505,6 +505,7 @@ struct TRANSITIONER_ITEM {
     int res_file_delete_state;
     int res_sent_time;
     int res_hostid;
+    int res_received_time;
 
     void clear();
     void parse(MYSQL_ROW&);
@@ -649,6 +650,7 @@ public:
 //
 struct WORK_ITEM {
     int res_id;
+    int res_priority;
     WORKUNIT wu;
     void parse(MYSQL_ROW& row);
 };
@@ -665,6 +667,24 @@ public:
     int update();
         // used by scheduler to update WU transition time
         // and various result fields
+};
+
+// Used by the scheduler to send <result_abort> or <result_abort_if_not_started>
+// messages if the result is no longer needed.
+//
+struct IN_PROGRESS_RESULT {
+	char result_name[256];
+	int assimilate_state;
+	int error_mask;
+	int server_state;
+	int outcome;
+    void parse(MYSQL_ROW& row);
+};
+
+class DB_IN_PROGRESS_RESULT : public IN_PROGRESS_RESULT, public DB_BASE_SPECIAL {
+public:
+    DB_IN_PROGRESS_RESULT(DB_CONN* p=0);
+    int enumerate(int hostid, const char* result_names);
 };
 
 // Used by the scheduler to handle results reported by clients

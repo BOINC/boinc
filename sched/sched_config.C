@@ -101,6 +101,7 @@ int SCHED_CONFIG::parse(FILE* f) {
         else if (xp.parse_bool(tag, "cache_md5_info", cache_md5_info)) continue;
         else if (xp.parse_bool(tag, "nowork_skip", nowork_skip)) continue;
         else if (xp.parse_bool(tag, "resend_lost_results", resend_lost_results)) continue;
+        else if (xp.parse_bool(tag, "send_result_abort", send_result_abort)) continue;
         else if (xp.parse_double(tag, "fp_benchmark_weight", fp_benchmark_weight)) {
             if (fp_benchmark_weight < 0 || fp_benchmark_weight > 1) {
                 fprintf(stderr,
@@ -121,7 +122,13 @@ int SCHED_CONFIG::parse(FILE* f) {
         else if (xp.parse_int(tag, "reliable_min_avg_credit", reliable_min_avg_credit)) continue;
         else if (xp.parse_int(tag, "reliable_max_avg_turnaround", reliable_max_avg_turnaround)) continue;
         else if (xp.parse_int(tag, "reliable_time", reliable_time)) continue;
+        else if (xp.parse_int(tag, "reliable_priority_on_over", reliable_priority_on_over)) continue;
+        else if (xp.parse_int(tag, "reliable_priority_on_over_except_error", reliable_priority_on_over_except_error)) continue;
+        else if (xp.parse_int(tag, "reliable_on_priority", reliable_on_priority)) continue;
         else if (xp.parse_double(tag, "reliable_reduced_delay_bound", reliable_reduced_delay_bound)) continue;
+
+        else if (xp.parse_int(tag, "grace_period_hours", grace_period_hours)) continue;
+        else if (xp.parse_int(tag, "delete_delay_hours", delete_delay_hours)) continue;
 		
         // some tags that scheduler doesn't care about
         //

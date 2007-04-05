@@ -93,6 +93,8 @@ DB_VALIDATOR_ITEM_SET::DB_VALIDATOR_ITEM_SET(DB_CONN* dc) :
     DB_BASE_SPECIAL(dc?dc:&boinc_db){}
 DB_WORK_ITEM::DB_WORK_ITEM(DB_CONN* dc) :
     DB_BASE_SPECIAL(dc?dc:&boinc_db){}
+DB_IN_PROGRESS_RESULT::DB_IN_PROGRESS_RESULT(DB_CONN* dc) :
+    DB_BASE_SPECIAL(dc?dc:&boinc_db){}
 DB_SCHED_RESULT_ITEM_SET::DB_SCHED_RESULT_ITEM_SET(DB_CONN* dc) :
     DB_BASE_SPECIAL(dc?dc:&boinc_db){}
 
@@ -875,6 +877,7 @@ void TRANSITIONER_ITEM::parse(MYSQL_ROW& r) {
     res_file_delete_state = safe_atoi(r[i++]);
     res_sent_time = safe_atoi(r[i++]);
     res_hostid = safe_atoi(r[i++]);
+    res_received_time = safe_atoi(r[i++]);
 }
 
 int DB_TRANSITIONER_ITEM_SET::enumerate(
@@ -929,7 +932,8 @@ int DB_TRANSITIONER_ITEM_SET::enumerate(
             "   res.validate_state, "
             "   res.file_delete_state, "
             "   res.sent_time, "
-            "   res.hostid "
+            "   res.hostid, "
+            "   res.received_time "
             "FROM "
             "   workunit AS wu "
             "       LEFT JOIN result AS res ON wu.id = res.workunitid "
@@ -1076,6 +1080,7 @@ void VALIDATOR_ITEM::parse(MYSQL_ROW& r) {
     res.hostid = atoi(r[i++]);
     res.sent_time = atoi(r[i++]);
     res.received_time = atoi(r[i++]);
+    res.appid = atoi(r[i++]);
 }
 
 int DB_VALIDATOR_ITEM_SET::enumerate(
@@ -1132,7 +1137,8 @@ int DB_VALIDATOR_ITEM_SET::enumerate(
             "   res.exit_status, "
             "   res.hostid, "
             "   res.sent_time, "
-            "   res.received_time "
+            "   res.received_time, "
+            "   res.appid "
             "FROM "
             "   workunit AS wu, result AS res where wu.id = res.workunitid "
             "   and wu.appid = %d and wu.need_validate > 0 %s "
@@ -1231,6 +1237,7 @@ void WORK_ITEM::parse(MYSQL_ROW& r) {
     int i=0;
     memset(this, 0, sizeof(WORK_ITEM));
     res_id = atoi(r[i++]);
+    res_priority = atoi(r[i++]);
     wu.id = atoi(r[i++]);
     wu.create_time = atoi(r[i++]);
     wu.appid = atoi(r[i++]);
@@ -1267,7 +1274,7 @@ int DB_WORK_ITEM::enumerate(
     MYSQL_ROW row;
     if (!cursor.active) {
         sprintf(query,
-            "select high_priority result.id, workunit.* from result, workunit "
+            "select high_priority result.id, result.priority, workunit.* from result, workunit "
             "where workunit.id = result.workunitid "
             "and result.server_state=%d "
             " %s "
@@ -1297,6 +1304,52 @@ int DB_WORK_ITEM::enumerate(
     return 0;
 }
 
+
+void IN_PROGRESS_RESULT::parse(MYSQL_ROW& r) {
+    int i=0;
+    memset(this, 0, sizeof(IN_PROGRESS_RESULT));
+    strcpy2(result_name,r[i++]);
+    error_mask = atoi(r[i++]);
+    assimilate_state = atoi(r[i++]);
+    server_state = atoi(r[i++]);
+    outcome = atoi(r[i++]);
+}
+
+int DB_IN_PROGRESS_RESULT::enumerate(int hostid, const char* result_names) {
+    char query[MAX_QUERY_LEN];
+    int retval;
+    MYSQL_ROW row;
+    if (!cursor.active) {
+        sprintf(query,
+            "select high_priority result.name, workunit.error_mask, workunit.assimilate_state, result.server_state, result.outcome "
+            " from result, workunit "
+            " where result.hostid = %d and workunit.id = result.workunitid "
+            " and (result.server_state=%d or ( result.server_state = %d and result.outcome = %d ) ) "
+            " and result.name in (%s) ",
+            hostid,
+            RESULT_SERVER_STATE_IN_PROGRESS,
+            RESULT_SERVER_STATE_OVER,
+            RESULT_OUTCOME_NO_REPLY,
+            result_names
+        );
+        retval = db->do_query(query);
+        if (retval) return mysql_errno(db->mysql);
+        cursor.rp = mysql_store_result(db->mysql);
+        if (!cursor.rp) return mysql_errno(db->mysql);
+        cursor.active = true;
+    }
+    row = mysql_fetch_row(cursor.rp);
+    if (!row) {
+        mysql_free_result(cursor.rp);
+        cursor.active = false;
+        retval = mysql_errno(db->mysql);
+        if (retval) return retval;
+        return ERR_DB_NOT_FOUND;
+    } else {
+        parse(row);
+    }
+    return 0;
+}
 
 // The items that appear here must agree with those that appear in the
 // enumerate method just below!

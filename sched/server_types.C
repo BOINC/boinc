@@ -578,6 +578,28 @@ int SCHEDULER_REPLY::write(FILE* fout) {
         );
     }
 
+    // abort results
+    //
+    for (i=0; i<result_aborts.size(); i++) {
+        fprintf(fout,
+            "<result_abort>\n"
+            "    <name>%s</name>\n"
+            "</result_abort>\n",
+            result_aborts[i].c_str()
+        );
+    }
+
+    // abort results not started
+    //
+    for (i=0; i<result_abort_if_not_starteds.size(); i++) {
+        fprintf(fout,
+            "<result_abort_if_not_started>\n"
+            "    <name>%s</name>\n"
+            "</result_abort_if_not_started>\n",
+            result_abort_if_not_starteds[i].c_str()
+        );
+    }
+
     for (i=0; i<apps.size(); i++) {
         apps[i].write(fout);
     }

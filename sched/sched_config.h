@@ -40,6 +40,8 @@ public:
     char upload_url[256];
     char upload_dir[256];
     char sched_lockfile_dir[256];
+    int grace_period_hours;
+    int delete_delay_hours;
     bool one_result_per_user_per_wu;
     bool one_result_per_host_per_wu;
     bool msg_to_host;
@@ -64,6 +66,7 @@ public:
     bool cache_md5_info;
     bool nowork_skip;
     bool resend_lost_results;
+    bool send_result_abort;
     bool use_benchmark_weights;
     double fp_benchmark_weight;
     double default_disk_max_used_gb;
@@ -75,9 +78,12 @@ public:
     int sched_debug_level;
     int fuh_debug_level;
     int reliable_time; // age of workunit before requiring reliable
-    int reliable_min_avg_credit;
-    int reliable_max_avg_turnaround;
-    double reliable_reduced_delay_bound;
+    int reliable_min_avg_credit;  // min average credit for a host to be declared reliable
+    int reliable_max_avg_turnaround;  // max average turnaround for a host to be declared reliable
+    int reliable_priority_on_over; // additional results generated after at least one result is over will have their priority boosted by this amount    
+    int reliable_priority_on_over_except_error; // additional results generated after at least one result is over (unless their is an error) will have their priority boosted by this amount
+    int reliable_on_priority;  // results with a priority equal or greater than this value will be sent to reliable hosts
+    double reliable_reduced_delay_bound;  // Reduce the delay bounds for reliable hosts by this percent
 
     int parse(FILE*);
     int parse_file(const char* dir=".");

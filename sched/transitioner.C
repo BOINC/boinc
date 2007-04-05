@@ -350,9 +350,15 @@ int handle_wu(
                 sprintf(suffix, "%d", max_result_suffix+j+1);
                 char rtfpath[256];
                 sprintf(rtfpath, "../%s", wu_item.result_template_file);
+                int priority_increase = 0;
+                if ( nover && config.reliable_priority_on_over ) {
+                    priority_increase = priority_increase + config.reliable_priority_on_over;
+                } else if (nover && !nerrors && config.reliable_priority_on_over_except_error) {
+                    priority_increase = priority_increase + config.reliable_priority_on_over_except_error;
+                }
 #ifdef BATCH_INSERT
                 retval = create_result(
-                    wu_item, rtfpath, suffix, key, config, value_buf
+                    wu_item, rtfpath, suffix, key, config, value_buf, priority_increase
                 );
                 if (retval) {
                     log_messages.printf(
@@ -370,7 +376,7 @@ int handle_wu(
                 }
 #else
                 retval = create_result(
-                    wu_item, rtfpath, suffix, key, config, 0
+                    wu_item, rtfpath, suffix, key, config, 0, priority_increase
                 );
                 if (retval) {
                     log_messages.printf(
@@ -401,14 +407,22 @@ int handle_wu(
     //  - see if all over and validated
     //
     all_over_and_validated = true;
+	int most_recently_returned = 0;
     for (i=0; i<items.size(); i++) {
         TRANSITIONER_ITEM& res_item = items[i];
         if (res_item.res_id) {
             if (res_item.res_server_state == RESULT_SERVER_STATE_OVER) {
+            	if ( res_item.res_received_time > most_recently_returned ) {
+            		most_recently_returned = res_item.res_received_time;
+            	}
                 if (res_item.res_outcome == RESULT_OUTCOME_SUCCESS) {
                     if (res_item.res_validate_state == VALIDATE_STATE_INIT) {
                         all_over_and_validated = false;
                     }
+                } else if ( res_item.res_outcome == RESULT_OUTCOME_NO_REPLY ) {
+                	if ( ( res_item.res_report_deadline + config.grace_period_hours*60*60 ) > now ) {
+                		all_over_and_validated = false;
+                	}
                 }
             } else {
                 all_over_and_validated = false;
@@ -418,7 +432,7 @@ int handle_wu(
 
     // if WU is assimilated, trigger file deletion
     //
-    if (wu_item.assimilate_state == ASSIMILATE_DONE) {
+    if (wu_item.assimilate_state == ASSIMILATE_DONE && ((most_recently_returned + config.delete_delay_hours*60*60) < now)) {
         // can delete input files if all results OVER
         //
         if (all_over_and_validated && wu_item.file_delete_state == FILE_DELETE_INIT) {
@@ -472,6 +486,8 @@ int handle_wu(
                 }
             }
         }
+    } else if ( wu_item.assimilate_state == ASSIMILATE_DONE ) {
+		log_messages.printf(SCHED_MSG_LOG::MSG_DEBUG, "[WU#%d %s] not checking for items to be ready for delete because the deferred delete time has not expired.  That will occur in %d seconds\n", wu_item.id, wu_item.name, most_recently_returned + config.delete_delay_hours*60*60-now);
     }
 
     // compute next transition time = minimum timeout of in-progress results
@@ -488,6 +504,7 @@ int handle_wu(
         wu_item.transition_time = (long_delay > ten_days) ? long_delay : ten_days;
         wu_item.transition_time += time(0);
     }
+    int max_grace_or_delay_time = 0;  
     for (i=0; i<items.size(); i++) {
         TRANSITIONER_ITEM& res_item = items[i];
         if (res_item.res_id) {
@@ -503,10 +520,33 @@ int handle_wu(
                 if (x < wu_item.transition_time) {
                     wu_item.transition_time = x;
                 }
+            } else if ( res_item.res_server_state == RESULT_SERVER_STATE_OVER  ) {
+            	if ( res_item.res_outcome == RESULT_OUTCOME_NO_REPLY ) {
+            		// Transition again after the grace period has expired
+                	if ( ( res_item.res_report_deadline + config.grace_period_hours*60*60 ) > now ) {
+                		x = res_item.res_report_deadline + config.grace_period_hours*60*60;
+    					if (x > max_grace_or_delay_time) {
+                    		max_grace_or_delay_time = x;
+            			}
+        			}
+                } else if ( res_item.res_outcome == RESULT_OUTCOME_SUCCESS || res_item.res_outcome == RESULT_OUTCOME_CLIENT_ERROR || res_item.res_outcome == RESULT_OUTCOME_VALIDATE_ERROR) {
+            		// Transition again after deferred delete period has experied
+                	if ( (res_item.res_received_time + config.delete_delay_hours*60*60) > now ) {
+                		x = res_item.res_received_time + config.delete_delay_hours*60*60;
+    					if (x > max_grace_or_delay_time && res_item.res_received_time > 0) {
+                    		max_grace_or_delay_time = x;
+   					    }
+                	}
+                }
             }
         }
     }
-
+    // If either of the grace period or delete delay is less then the next transition time then use that value
+    if ( max_grace_or_delay_time < wu_item.transition_time && max_grace_or_delay_time > now && ninprogress == 0) {
+        wu_item.transition_time = max_grace_or_delay_time;
+        log_messages.printf(SCHED_MSG_LOG::MSG_NORMAL,"[WU#%d %s] Delaying transition due to grace period or delete day.  New transition time = %d sec\n",wu_item.id, wu_item.name, wu_item.transition_time);    
+    }
+    
     // If transition time is in the past,
     // the system is bogged down and behind schedule.
     // Delay processing of the WU by an amount DOUBLE the amount

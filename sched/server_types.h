@@ -128,6 +128,8 @@ struct IP_RESULT {
 
 struct OTHER_RESULT {
     std::string name;
+    bool abort;
+    bool abort_if_not_started;
 
     int parse(FILE*);
 };
@@ -223,6 +225,8 @@ struct SCHEDULER_REPLY {
     std::vector<WORKUNIT>wus;
     std::vector<RESULT>results;
     std::vector<std::string>result_acks;
+    std::vector<std::string>result_aborts;
+    std::vector<std::string>result_abort_if_not_starteds;
     std::vector<MSG_TO_HOST>msgs_to_host;
     std::vector<FILE_INFO>file_deletes;
     char code_sign_key[4096];

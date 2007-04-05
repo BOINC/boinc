@@ -45,7 +45,8 @@ extern int create_result(
     char* suffix,
     R_RSA_PRIVATE_KEY& key, 
     SCHED_CONFIG& config,
-    char* query_string=0
+    char* query_string=0,
+    int priority_increase=0
 );
 
 extern int create_work(

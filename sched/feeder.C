@@ -390,6 +390,7 @@ static void scan_work_array(
                     wi->res_id, i
                 );
                 wu_result.resultid = wi->res_id;
+                wu_result.result_priority = wi->res_priority;
                 wu_result.workunit = wi->wu;
                 wu_result.state = WR_STATE_PRESENT;
                 // If the workunit has already been allocated to a certain
@@ -408,6 +409,9 @@ static void scan_work_array(
                 	if ((wu_result.workunit.create_time + config.reliable_time) <= time(0)) {
                 		wu_result.need_reliable = true;
                 	}
+                }
+                if (config.reliable_on_priority && wu_result.result_priority >= config.reliable_on_priority) {
+                    wu_result.need_reliable = true;
                 }
                 wu_result.time_added_to_shared_memory = time(NULL);
                 nadditions++;
