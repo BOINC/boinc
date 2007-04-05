@@ -526,7 +526,7 @@ $m549c = array(
     "
 );
 
-$l5817 = array(
+$l593 = array(
     "num"=>"5.9.3",
     "status"=>"Development version (standard GUI)",
     "file"=>"boinc_5.9.3_i686-pc-linux-gnu.sh",
