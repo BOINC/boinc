@@ -1,8 +1,14 @@
 <?
 
 $project_news = array(
+array("April 4, 2007",
+    "Dr. Anderson gave the keynote talk,
+    <a href=talks/ipdps_07_kn.ppt>Volunteer Computing: Planting the Flag</a>,
+    at the PCGrid 2007 workshop,
+    held at the IPDPS conference in Long Beach on March 30."
+),
 array("March 29, 2007",
-    "If you can read Czech, czech out an excellent
+    "If you can read Czech, czech out some excellent
     <a href=http://www.kd-web.info/clanky.php>Flash-based BOINC tutorials</a>."
 ),
 array("March 23, 2007",

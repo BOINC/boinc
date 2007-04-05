@@ -315,24 +315,25 @@ list_option("resend_lost_results",
     in scheduler request,
     resend any in-progress results not in the list.
     This is recommended;
-    it should increase the efficiency of your project.  Note that
-    in an ideal world, it would never be necessary to resend results.
-    The first time that they were sent from the server, the client would
-    receive them and no resending would be needed.  However it is the
-    experience of several projects that, for reasons that are
-    not well understood, a BOINC client sometimes fails to receive the
-    scheduler reply.  This flag addresses that issue: it causes the SAME results to be RESENT
+    it may increase the efficiency of your project.
+    For reasons that are not well understood,
+    a BOINC client sometimes fails to receive the scheduler reply.
+    This flag addresses that issue: it causes the SAME results to be resent
     by the scheduler, if the client has failed to receive them.
-    It works as follows.  In its scheduler request, the BOINC
-    client includes a list of results that it has already received.  The scheduler
-    checks these against the database to be sure that the client has received
-    ALL results which should be present.  If there are missing results on
-    client, and this flag is set, then those results are RESENT by the
-    scheduler before any new work is sent."
+    "
 );
-
+list_option("send_result_abort",
+    "If set, and the client is processing a result for a WU that has
+    been cancelled or is not in the DB
+    (i.e. there's no chance of getting credit)
+    send &lt;result_abort>.
+    If client is processing a result for a WU that has
+    been assimilated or is overdue
+    (i.e. there's a chance of not getting credit)
+    send &lt;result_abort_if_not_started>.
+");
 list_option("default_disk_max_used_gb", "Sets the default value for
-    the disk_max_used_gb preference so its consistent between the
+    the disk_max_used_gb preference so it's consistent between the
     scheduler and web pages.  The scheduler uses it when a request
     for work doesn't include preferences, or the preference is set
     to zero.  The web page scripts use it to set the initial value
@@ -360,20 +361,25 @@ list_option("default_disk_min_free_gb", "Sets the default value for
     to keep from filling up the drive.  Recommend setting this no
     smaller than .001 (1MB or 1,000,000 bytes).  Default is .001.
 ");
-list_item("reliable_time<br> reliable_min_avg_credit<br>
-    reliable_min_avg_turnaround<br> reliable_reduced_delay_bound",
-    "These parameters control a mechanism that attempts to send
-    old results (e.g. those whose siblings have timed out or failed)
-    to fast, reliable hosts.
-    <p>
-    This mechanism is used when the age of a workunit exceeds
-    <b>reliable_time</b> (typically 2-3X the delay bound).
-    The results are sent to hosts for which
+list_item("reliable_min_avg_credit<br> reliable_min_avg_turnaround",
+    "Hosts for which
     expavg_credit/ncpus is at least <b>reliable_min_avg_credit</b>
     and whose average turnaround is at most
-    <b>reliable_max_avg_turnaround</b>.
-    The delay bound is multiplied by <b>reliable_reduced_delay_bound</b>
+    <b>reliable_max_avg_turnaround</b> are considered 'reliable'.
+");
+list_item("reliable_time<br> reliable_reduced_delay_bound",
+    "When the age of a workunit exceeds
+    <b>reliable_time</b> (typically 2-3X the delay bound),
+    send results only to reliable hosts,
+    and multiply the delay bound by <b>reliable_reduced_delay_bound</b>
     (typically 0.5 or so).
+");
+list_item("reliable_on_priority <br> reliable_on_over <br> reliable_on_over_except_error",
+    "Results with priority at least 'reliable_on_priority' will be sent
+    only to reliable hosts;
+    increase priority of duplicate results by 'reliable_on_over';
+    increase priority of duplicates caused by timeout (not error)
+    by 'reliable_on_over_except_error'.
     "
 );
 list_option("one_result_per_host_per_wu",

@@ -60,9 +60,10 @@ public:
 class GUI_RPC_CONN_SET {
     std::vector<GUI_RPC_CONN*> gui_rpcs;
     std::vector<int> allowed_remote_ip_addresses;
-    int get_allowed_hosts();
+    int get_allowed_hosts(bool last_time);
     int get_password();
     int insert(GUI_RPC_CONN*);
+    bool check_allowed_list(int ip_addr);
 public:
     int lsock;
     double time_of_last_rpc_needing_network;
@@ -72,7 +73,7 @@ public:
     char password[256];
     void get_fdset(FDSET_GROUP&, FDSET_GROUP&);
     void got_select(FDSET_GROUP&);
-    int init();
+    int init(bool last_time);
     void close();
     bool recent_rpc_needs_network(double interval);
     void send_quits();

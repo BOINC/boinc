@@ -1,8 +1,20 @@
 <?php
 require_once("docutil.php");
-page_head("Papers related to BOINC");
+page_head("Papers and talks BOINC");
 echo"
 
+<h2>Slides from talks on BOINC</h2>
+<ul>
+<li> <a href=talks/ipdps_07_kn.ppt>Volunteer Computing: Planting the Flag</a>,
+keynote address at the PCGrid 2007 workshop held at the IPDPS conference,
+March 30, 2007.
+<li> <a href=talks/ipdps_07_sched.ppt>Talk on client scheduling</a>
+at the PCGrid 2007 workshop held at the IPDPS conference, March 30, 2007.
+<li> <a href=talks/singapore_public.pdf>A Million Years of Computing</a>,
+talk at the Singapore National Library, May 2006.
+<li> <a href=talks/condor_boinc_06.ppt>Talk at Condor Week</a>
+, Madison WI, April 2006.
+</ul>
 <h2>Popular articles</h2>
 <ul>
 <li>
@@ -22,7 +34,7 @@ Also available in
 by D. Carroll, C. Rahmlow, T. Psiaki, and G. Wojtaszczyk, July 2005.
 </ul>
 
-<h2>Technical papers about BOINC</h2>
+<h2>Technical papers</h2>
 
 <ul>
 <li>

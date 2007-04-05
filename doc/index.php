@@ -114,7 +114,7 @@ function show_other() {
             <li> <a href=contact.php>Personnel and contributors</a>
             <li> BOINC <a href=email_lists.php>email lists</a>
             <li> BOINC <a href=dev/>message boards</a>
-            <li> <a href=papers.php>Papers related to BOINC</a>
+            <li> <a href=papers.php>Papers and talks</a> about BOINC
             <li> <a href=logo.php>Logos and graphics</a>
             <li> <a href=events.php>Events</a>
             </ul>

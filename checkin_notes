@@ -3227,3 +3227,16 @@ David  5 Apr 2007
         transitioner.C
     tools/
         backend_lib.C,h
+
+David  5 Apr 2007
+    - core client: fix bug where, if client runs at boot time
+        and DNS system isn't up yet,
+        entries in remote_hosts.cfg will fail to resolve,
+        and the core client will be inaccessible.
+        Fix: we already have a mechanism in which GUI_RPC_CONN_SET::init()
+        is called 30 times, at 1-sec interval, until it succeeds.
+        Extend this to cover the parsing of remote_hosts.cfg also.
+
+    client/
+        client_state.C
+        gui_rpc_server.C,h

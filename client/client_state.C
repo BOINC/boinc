@@ -312,7 +312,8 @@ int CLIENT_STATE::init() {
         // So retry a few times.
         //
         for (i=0; i<30; i++) {
-            retval = gui_rpcs.init();
+            bool last_time = (i==29);
+            retval = gui_rpcs.init(last_time);
             if (!retval) break;
             boinc_sleep(1.0);
         }

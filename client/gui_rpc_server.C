@@ -126,8 +126,11 @@ int GUI_RPC_CONN_SET::get_password() {
     return 0;
 }
 
-int GUI_RPC_CONN_SET::get_allowed_hosts() {
-    int ipaddr, retval;
+// If 'last time', show errors, try all entries, return zero
+// Otherwise return nonzero on first failed entry, don't show errors
+//
+int GUI_RPC_CONN_SET::get_allowed_hosts(bool last_time) {
+    int ipaddr, retval, overall_retval=0;
     char buf[256];
 
     allowed_remote_ip_addresses.clear();
@@ -152,10 +155,15 @@ int GUI_RPC_CONN_SET::get_allowed_hosts() {
             if (!(buf[0] =='#' || buf[0] == ';') && strlen(buf) > 0 ) {
                 retval = resolve_hostname(buf, ipaddr);
                 if (retval) {
-                    msg_printf(0, MSG_USER_ERROR,
-                        "Can't resolve hostname %s in %s",
-                        buf, REMOTEHOST_FILE_NAME
-                    );
+                    overall_retval = retval;
+                    if (last_time) {
+                        msg_printf(0, MSG_USER_ERROR,
+                            "Can't resolve hostname %s in %s",
+                            buf, REMOTEHOST_FILE_NAME
+                        );
+                    } else {
+                        break;
+                    }
                 } else {
                     allowed_remote_ip_addresses.push_back((int)ntohl(ipaddr));
                 }
@@ -163,7 +171,7 @@ int GUI_RPC_CONN_SET::get_allowed_hosts() {
         }
         fclose(f);
     }
-    return 0;
+    return overall_retval;
 }
 
 int GUI_RPC_CONN_SET::insert(GUI_RPC_CONN* p) {
@@ -171,18 +179,27 @@ int GUI_RPC_CONN_SET::insert(GUI_RPC_CONN* p) {
     return 0;
 }
 
-int GUI_RPC_CONN_SET::init() {
+// If the core client runs at boot time,
+// it may be a while (~10 sec) before the DNS system is working.
+// If this returns an error, it will get called once a second
+// for up to 30 seconds.
+// On the last call, "last_time" is set; print error messages then.
+//
+int GUI_RPC_CONN_SET::init(bool last_time) {
     sockaddr_in addr;
     int retval;
 
-    get_allowed_hosts();
+    retval = get_allowed_hosts(last_time);
+    if (retval) return retval;
     get_password();
 
     retval = boinc_socket(lsock);
     if (retval) {
-        msg_printf(NULL, MSG_INTERNAL_ERROR,
-            "GUI RPC failed to create socket: %d", lsock
-        );
+        if (last_time) {
+            msg_printf(NULL, MSG_INTERNAL_ERROR,
+                "GUI RPC failed to create socket: %d", lsock
+            );
+        }
         return retval;
     }
 
@@ -219,7 +236,11 @@ int GUI_RPC_CONN_SET::init() {
 #ifndef _WIN32
         retval = errno;     // Display the real error code
 #endif
-        msg_printf(NULL, MSG_INTERNAL_ERROR, "GUI RPC bind failed: %d", retval);
+        if (last_time) {
+            msg_printf(NULL, MSG_INTERNAL_ERROR,
+                "GUI RPC bind failed: %d", retval
+            );
+        }
         boinc_close_socket(lsock);
         lsock = -1;
         return ERR_BIND;
@@ -230,7 +251,11 @@ int GUI_RPC_CONN_SET::init() {
 
     retval = listen(lsock, 999);
     if (retval) {
-        msg_printf(NULL, MSG_INTERNAL_ERROR, "GUI RPC listen failed: %d", retval);
+        if (last_time) {
+            msg_printf(NULL, MSG_INTERNAL_ERROR,
+                "GUI RPC listen failed: %d", retval
+            );
+        }
         boinc_close_socket(lsock);
         lsock = -1;
         return ERR_LISTEN;
@@ -289,6 +314,18 @@ void GUI_RPC_CONN_SET::get_fdset(FDSET_GROUP& fg, FDSET_GROUP& all) {
     if (lsock > all.max_fd) all.max_fd = lsock;
 }
 
+bool GUI_RPC_CONN_SET::check_allowed_list(int peer_ip) {
+    vector<int>::iterator remote_iter = allowed_remote_ip_addresses.begin();
+    while (remote_iter != allowed_remote_ip_addresses.end() ) {
+        int remote_host = *remote_iter;
+        if (peer_ip == remote_host) {
+            return true;
+        }
+        remote_iter++;
+    }
+    return false;
+}
+
 void GUI_RPC_CONN_SET::got_select(FDSET_GROUP& fg) {
     int sock, retval;
     vector<GUI_RPC_CONN*>::iterator iter;
@@ -324,26 +361,7 @@ void GUI_RPC_CONN_SET::got_select(FDSET_GROUP& fg) {
 #endif
 
         int peer_ip = (int) ntohl(addr.sin_addr.s_addr);
-
-        bool allowed = false;
-
-        // check list of allowed remote hosts.
-        //
-        if (allowed_remote_ip_addresses.size()) {
-            // reread it because IP addresses might have changed
-            //
-            get_allowed_hosts();
-
-            vector<int>::iterator remote_iter = allowed_remote_ip_addresses.begin();
-            while (remote_iter != allowed_remote_ip_addresses.end() ) {
-                int remote_host = *remote_iter;
-                if (peer_ip == remote_host) {
-                    allowed = true;
-                    break;
-                }
-                remote_iter++;
-            }
-        }
+        bool allowed;
          
         // accept the connection if:
         // 1) allow_remote_gui_rpc is set or
@@ -353,6 +371,11 @@ void GUI_RPC_CONN_SET::got_select(FDSET_GROUP& fg) {
         if (peer_ip == 0x7f000001) {
             allowed = true;
             is_local = true;
+        } else {
+            // reread it because IP addresses might have changed
+            //
+            get_allowed_hosts(true);
+            allowed = check_allowed_list(peer_ip);
         }
 
         if (!(gstate.allow_remote_gui_rpc) && !(allowed)) {
