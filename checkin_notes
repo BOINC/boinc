@@ -3164,3 +3164,13 @@ David  5 Apr 2007
     lib/
         browser.C
         prefs.C
+
+Charlie 5 Apr 2007
+    - CC: on Mac/UNIX/Linux systems, fix ACTIVE_TASK::handle_exited_app()
+        error code display by sign-extending the signed byte status code.  
+        For example, ERR_SIGNAL_CATCH is -125, so the status code was 0x83, 
+        which was being incorrectly reported as "131 (0x83)."  It now 
+        correctly displays "-125 (0xff83).
+        
+    client/
+        app_control.C

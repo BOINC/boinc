@@ -247,14 +247,15 @@ void ACTIVE_TASK::handle_exited_app(int stat) {
         }
 #else
         if (WIFEXITED(stat)) {
-            result->exit_status = WEXITSTATUS(stat);
+            // Exit code is a signed byte - sign extend it to a full int.
+            result->exit_status = (int)((char)(WEXITSTATUS(stat) & 0xff));
 
             if (result->exit_status) {
                 set_task_state(PROCESS_EXITED, "handle_exited_app");
                 gstate.report_result_error(
                     *result,
                     "process exited with code %d (0x%x)",
-                    result->exit_status, result->exit_status
+                    result->exit_status, (result->exit_status & 0xffff)
                 );
             } else {
                 if (finish_file_present()) {
