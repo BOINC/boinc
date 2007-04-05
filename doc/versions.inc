@@ -527,6 +527,19 @@ $m549c = array(
 );
 
 $l5817 = array(
+    "num"=>"5.9.3",
+    "status"=>"Development version (standard GUI)",
+    "file"=>"boinc_5.9.3_i686-pc-linux-gnu.sh",
+    "date"=>"4 April 2007",
+    "type"=>"sea",
+    "features"=>"<ul>
+".$features_510."
+".$linux_libs_gcc41." 
+".$changes_510."
+    </ul>
+    "
+);
+$l5817 = array(
     "num"=>"5.8.17",
     "status"=>"Recommended version (standard GUI)",
     "file"=>"boinc_5.8.17_i686-pc-linux-gnu.sh",
@@ -577,6 +590,7 @@ $linux = array(
     "dbname" => "i686-pc-linux-gnu",
     "url"=>"linux.php",
     "versions"=>array(
+        $l593,
         $l5817,
         $l5411,
     )
