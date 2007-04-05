@@ -449,16 +449,16 @@ bool CLIENT_STATE::compute_work_requests() {
         if (p->non_cpu_intensive) continue;
         if (!p->contactable()) {
             if (log_flags.work_fetch_debug) {
-                msg_printf(p, MSG_INFO, "[work_fetch_debug] work fetch: project not contactable");
+                msg_printf(p, MSG_INFO, "[work_fetch_debug] work fetch: project not contactable; skipping");
             }
             continue;
         }
-        if (p->deadlines_missed
+        if ((p->deadlines_missed >= ncpus)
             && overall_work_fetch_urgency != WORK_FETCH_NEED_IMMEDIATELY
         ) {
             if (log_flags.work_fetch_debug) {
                 msg_printf(p, MSG_INFO,
-                    "[work_fetch_debug] project has %d deadline misses",
+                    "[work_fetch_debug] project has %d deadline misses; skipping",
                     p->deadlines_missed
                 );
             }
@@ -467,7 +467,7 @@ bool CLIENT_STATE::compute_work_requests() {
         if (p->some_download_stalled()) {
             if (log_flags.work_fetch_debug) {
                 msg_printf(p, MSG_INFO,
-                    "[work_fetch_debug] project has stalled download"
+                    "[work_fetch_debug] project has stalled download; skipping"
                 );
             }
             continue;
@@ -475,26 +475,29 @@ bool CLIENT_STATE::compute_work_requests() {
 
         if (p->some_result_suspended()) {
             if (log_flags.work_fetch_debug) {
-                msg_printf(p, MSG_INFO, "[work_fetch_debug] project has suspended result");
+                msg_printf(p, MSG_INFO, "[work_fetch_debug] project has suspended result; skipping");
             }
             continue;
         }
 
         if (p->overworked() && overall_work_fetch_urgency < WORK_FETCH_NEED) {
             if (log_flags.work_fetch_debug) {
-                msg_printf(p, MSG_INFO, "[work_fetch_debug] project is overworked");
+                msg_printf(p, MSG_INFO, "[work_fetch_debug] project is overworked; skipping");
             }
             continue;
         }
         if (p->cpu_shortfall == 0.0 && overall_work_fetch_urgency < WORK_FETCH_NEED) {
             if (log_flags.work_fetch_debug) {
-                msg_printf(p, MSG_INFO, "[work_fetch_debug] project has no shortfall");
+                msg_printf(p, MSG_INFO, "[work_fetch_debug] project has no shortfall; skipping");
             }
             continue;
         }
         if (p->nuploading_results >  2*ncpus) {
             if (log_flags.work_fetch_debug) {
-                msg_printf(p, MSG_INFO, "[work_fetch_debug] project has %d uploading results", p->nuploading_results);
+                msg_printf(p, MSG_INFO,
+                    "[work_fetch_debug] project has %d uploading results; skipping",
+                    p->nuploading_results
+                );
             }
             continue;
         }
@@ -509,7 +512,7 @@ bool CLIENT_STATE::compute_work_requests() {
             if (p->runnable()) {
                 if (log_flags.work_fetch_debug) {
                     msg_printf(p, MSG_INFO,
-                        "[work_fetch_debug] project duration correction factor %f out of range",
+                        "[work_fetch_debug] project DCF %f out of range and have work; skipping",
                         p->duration_correction_factor
                     );
                 }
@@ -517,7 +520,7 @@ bool CLIENT_STATE::compute_work_requests() {
             } else {
                 if (log_flags.work_fetch_debug) {
                     msg_printf(p, MSG_INFO,
-                        "[work_fetch_debug] project duration correction factor %f out of range: changing shortfall %f to 1.0", 
+                        "[work_fetch_debug] project DCF %f out of range: changing shortfall %f to 1.0", 
                          p->duration_correction_factor, p->cpu_shortfall
                     );
                 }

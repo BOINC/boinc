@@ -605,7 +605,7 @@ int ACTIVE_TASK::start(bool first_time) {
         if (retval) {
             perror("chdir");
             fflush(NULL);
-            _exit(retval);
+            _exit(errno);
         }
 
 #if 0

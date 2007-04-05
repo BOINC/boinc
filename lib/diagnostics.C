@@ -551,7 +551,7 @@ void boinc_catch_signal(int signal) {
 #endif
 
     fprintf(stderr, "\nExiting...\n");
-    exit(ERR_SIGNAL_CATCH);
+    exit(EXIT_SIGNAL);
 }
 
 

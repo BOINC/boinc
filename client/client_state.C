@@ -532,7 +532,7 @@ bool CLIENT_STATE::poll_slow_events() {
             msg_printf(NULL, MSG_INTERNAL_ERROR,
                 "Couldn't write state file: %s; giving up", boincerror(retval)
             );
-            exit(retval);
+            exit(EXIT_STATEFILE_WRITE);
         }
     }
     if (log_flags.poll_debug) {

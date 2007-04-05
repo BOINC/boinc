@@ -3240,3 +3240,22 @@ David  5 Apr 2007
     client/
         client_state.C
         gui_rpc_server.C,h
+
+David  5 Apr 2007
+    - core client: work fetch skip a project if its # deadline misses
+         is >= #cpus (not just > 0)
+    - define a set of process exit codes (currently just 3 of them)
+        separate from function return values.
+        Process exit codes are limited to 8 bits in Unix;
+        use positive numbers starting at 192
+
+    api/
+        boinc_api.C
+    client/
+        app_start.C
+        client_state.C
+        sim.C,h
+        work_fetch.C
+    lib/
+        diagnostics.C
+        error_numbers.h

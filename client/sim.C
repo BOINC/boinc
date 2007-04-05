@@ -237,10 +237,18 @@ RESULT* CLIENT_STATE::lookup_result(PROJECT* p, const char* name) {
     return 0;
 }
 
-void CLIENT_STATE::simulate_rpc(PROJECT* _p) {
+bool CLIENT_STATE::simulate_rpc(PROJECT* _p) {
     double net_fpops = host_info.p_fpops;
     char buf[256];
     SIM_PROJECT* p = (SIM_PROJECT*) _p;
+    static double last_time=0;
+
+    double diff = now - last_time;
+    if (diff && diff < work_buf_min()) {
+        printf("diff: %f\n", diff);
+        return false;
+    }
+    last_time = now;
 
     // remove ready-to-report results
     //
@@ -260,13 +268,20 @@ void CLIENT_STATE::simulate_rpc(PROJECT* _p) {
 
     while (p->work_request > 0) {
         // pick a random app
-        SIM_APP* ap=0;
+        SIM_APP* ap1, *ap=0;
         double x = drand();
         for (unsigned int i=0; i<apps.size();i++) {
-            ap = (SIM_APP*)apps[i];
-            if (ap->project != p) continue;
-            x -= ap->weight;
-            if (x <= 0) break;
+            ap1 = (SIM_APP*)apps[i];
+            if (ap1->project != p) continue;
+            x -= ap1->weight;
+            if (x <= 0) {
+                ap = ap1;
+                break;
+            }
+        }
+        if (!ap) {
+            printf("ERROR-NO APP\n");
+            break;
         }
         RESULT* rp = new RESULT;
         WORKUNIT* wup = new WORKUNIT;
@@ -280,12 +295,17 @@ void CLIENT_STATE::simulate_rpc(PROJECT* _p) {
         results.push_back(rp);
         double ops = ap->fpops.sample();
         rp->final_cpu_time = ops/net_fpops;
-        sprintf(buf, "got job %s: %f<br>", rp->name, rp->final_cpu_time);
+        rp->report_deadline = now + ap->latency_bound;
+        sprintf(buf, "got job %s: CPU time %.2f, deadline %s<br>",
+            rp->name, rp->final_cpu_time, time_to_string(rp->report_deadline)
+        );
         html_msg += buf;
         p->work_request -= ap->fpops_est/net_fpops;
     }
     p->work_request = 0;
     request_schedule_cpus("simulate_rpc");
+    request_work_fetch("simulate_rpc");
+    return true;
 }
 
 bool CLIENT_STATE::scheduler_rpc_poll() {
@@ -293,19 +313,16 @@ bool CLIENT_STATE::scheduler_rpc_poll() {
 
     p = next_project_sched_rpc_pending();
     if (p) {
-        simulate_rpc(p);
-        return true;
+        return simulate_rpc(p);
     }
     
     p = find_project_with_overdue_results();
     if (p) {
-        simulate_rpc(p);
-        return true;
+        return simulate_rpc(p);
     }
     p = next_project_need_work();
     if (p) {
-        simulate_rpc(p);
-        return true;
+        return simulate_rpc(p);
     }
     return false;
 }
@@ -326,10 +343,16 @@ bool ACTIVE_TASK_SET::poll() {
             atp->cpu_time_left -= diff;
             if (atp->cpu_time_left <= 0) {
                 atp->set_task_state(PROCESS_EXITED, "poll");
-                atp->result->exit_status = 0;
+                RESULT* rp = atp->result;
+                rp->exit_status = 0;
                 gstate.request_schedule_cpus("ATP poll");
                 gstate.request_work_fetch("ATP poll");
-                sprintf(buf, "result %s finished<br>", atp->result->name);
+                sprintf(buf, "result %s finished; %s<br>",
+                    rp->name,
+                    (gstate.now > rp->report_deadline)?
+                    "<font color=#cc0000>MISSED DEADLINE</font>":
+                    "<font color=#00cc00>MADE DEADLINE</font>"
+                );
                 gstate.html_msg += buf;
             }
         }
@@ -467,6 +490,7 @@ int SIM_APP::parse(XML_PARSER& xp) {
     bool is_tag;
     int retval;
 
+    weight = 1;
     while(!xp.get(tag, sizeof(tag), is_tag)) {
         if (!is_tag) return ERR_XML_PARSE;
         if (!strcmp(tag, "/app")) {
@@ -474,6 +498,7 @@ int SIM_APP::parse(XML_PARSER& xp) {
         }
         else if (xp.parse_double(tag, "latency_bound", latency_bound)) continue;
         else if (xp.parse_double(tag, "fpops_est", fpops_est)) continue;
+        else if (xp.parse_double(tag, "weight", weight)) continue;
         else if (!strcmp(tag, "fpops")) {
             retval = fpops.parse(xp, "/fpops");
             if (retval) return retval;
@@ -502,6 +527,7 @@ int SIM_PROJECT::parse(XML_PARSER& xp) {
             SIM_APP* sap = new SIM_APP;
             retval = sap->parse(xp);
             if (retval) return retval;
+            sap->project = this;
             gstate.apps.push_back(sap);
         } else if (!strcmp(tag, "available")) {
             retval = available.parse(xp, "/available");

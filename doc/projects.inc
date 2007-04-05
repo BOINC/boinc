@@ -27,14 +27,14 @@ $biomed = array(
             "To predict protein structure and function from genetic sequences, using the 'Brownian Dynamics' (BD) method.  This method enables us to simulate more efficiently than conventional methods.",
             "tanpaku.jpg"
         ),
-//        array(
-//            "Predictor@home",
-//            "http://predictor.scripps.edu",
-//            "Scripps Research Institute",
-//            "Biology",
-//            "Protein structure prediction starts from a sequence of amino acids and attempts to predict the folded, functioning, form of the protein.  Predicting the structure of an unknown protein is a critical problem in enabling structure-based drug design to treat new and existing diseases.",
-//            "predictor.jpg"
-//        ),
+        array(
+            "Predictor@home",
+            "http://predictor.scripps.edu",
+            "Scripps Research Institute",
+            "Biology",
+            "Protein structure prediction starts from a sequence of amino acids and attempts to predict the folded, functioning, form of the protein.  Predicting the structure of an unknown protein is a critical problem in enabling structure-based drug design to treat new and existing diseases.",
+            "predictor.jpg"
+        ),
         array(
             "Rosetta@home",
             "http://boinc.bakerlab.org/rosetta/",

@@ -195,7 +195,7 @@ public:
     int parse_host(char*);
     void simulate(double dur, double delta);
     bool scheduler_rpc_poll();
-    void simulate_rpc(PROJECT*);
+    bool simulate_rpc(PROJECT*);
 };
 
 class NET_STATUS {

@@ -20,6 +20,16 @@
 #ifndef _ERROR_NUMBERS_H_
 #define _ERROR_NUMBERS_H_
 
+// The following are process exit codes (not function return values).
+// They are used by the core client and apps.
+// NOTE: Unix passes only 8 bits of exit code,
+// and Unix uses roughly 1-137, so let's start at 192
+
+#define EXIT_STATEFILE_WRITE    192
+#define EXIT_SIGNAL             193
+#define EXIT_ABORTED_VIA_GUI    194
+
+// Function return values.
 // NOTE:  add new errors to the end of the list and don't change
 // old error numbers to avoid confusion between versions.
 // Add a text description of your error to boincerror() in util.C.
