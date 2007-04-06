@@ -375,11 +375,37 @@ int main(int argc, char** argv) {
         HOST_INFO hi;
         retval = rpc.get_host_info(hi);
         if (!retval) hi.print();
-    } else if (!strcmp(cmd, "--acct_mgr_rpc")) {
+    } else if (!strcmp(cmd, "--join_acct_mgr")) {
         char* am_url = next_arg(argc, argv, i);
         char* am_name = next_arg(argc, argv, i);
         char* am_passwd = next_arg(argc, argv, i);
         retval = rpc.acct_mgr_rpc(am_url, am_name, am_passwd);
+        if (!retval) {
+            while (1) {
+                ACCT_MGR_RPC_REPLY amrr;
+                retval = rpc.acct_mgr_rpc_poll(amrr);
+                if (retval) {
+                    printf("poll status: %s\n", boincerror(retval));
+                } else {
+                    if (amrr.error_num) {
+                        printf("poll status: %s\n", boincerror(amrr.error_num));
+                        if (amrr.error_num != ERR_IN_PROGRESS) break;
+                        boinc_sleep(1);
+                    } else {
+                        unsigned int i, n = amrr.messages.size();
+                        if (n) {
+                            printf("Messages from account manager:\n");
+                            for (i=0; i<n; i++) {
+                                printf("%s\n", amrr.messages[i].c_str());
+                            }
+                        }
+                        break;
+                    }
+                }
+            }
+        }
+    } else if (!strcmp(cmd, "--quit_acct_mgr")) {
+        retval = rpc.acct_mgr_rpc("", "", "");
     } else if (!strcmp(cmd, "--run_benchmarks")) {
         retval = rpc.run_benchmarks();
     } else if (!strcmp(cmd, "--get_screensaver_mode")) {

@@ -29,6 +29,12 @@ list_item("--create_account URL email password name",
     "Create account with the given email address, password, and user name"
 );
 list_item("--project_attach URL auth","Attach to an account");
+list_item("--join_acct_mgr URL name password",
+    "Attach to an account manager (or do RPC if already attached)."
+);
+list_item("--quit_acct_mgr",
+    "Quit the current account manager."
+);
 list_bar("State queries");
 list_item("--get_state", "show complete client state");
 list_item("--get_results", "show results");
@@ -109,9 +115,6 @@ list_item(
     socks5_user_passwd
     ",
     "Set proxy settings (all fields are mandatory)"
-);
-list_item("--acct_mgr_rpc URL name password",
-    "Instruct core client to contact an account manager server."
 );
 list_item("--run_benchmarks", "Run CPU benchmarks");
 list_item(

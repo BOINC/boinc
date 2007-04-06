@@ -3259,3 +3259,13 @@ David  5 Apr 2007
     lib/
         diagnostics.C
         error_numbers.h
+
+David  5 Apr 2007
+    - core client: canonicalize account manager URL
+    - boinc_cmd: add --join_acct_mgr, --quit_acct_mgr commands;
+        remove --acct_mgr_op command.
+
+    client/
+        acct_mgr.C
+    lib/
+        boinc_cmd.C
