@@ -3,6 +3,8 @@
  * This file allows people to search for posts or a thread.  Takes input from 
  * forum_search.php
  **/
+
+$cvs_version_tracker[]="\$Id$";  //Generated automatically - do not edit
  
 require_once('../inc/forum.inc');
 require_once('../inc/forum_std.inc');
@@ -44,11 +46,11 @@ if ($thread_ids){
     foreach ($thread_ids as $key => $thread_id){
 	$thread = new Thread($thread_id);
 	if ($thread->isHidden()) continue;
-    $thread_forum = $thread->getForum();
+        $thread_forum = $thread->getForum();
 	echo '
 	<tr>
-	    <td>'.$thread_forum->getTitle().'</td>
-	    <td class="threadline"><a href="forum_thread.php?id='.$thread->getID().'"><b>'.$thread->getTitle().'</b></a></td>';
+	    <td>'.cleanup_title($thread_forum->getTitle()).'</td>
+	    <td class="threadline"><a href="forum_thread.php?id='.$thread->getID().'"><b>'.cleanup_title($thread->getTitle()).'</b></a></td>';
 	echo '
     	    <td>'.($thread->getPostCount()+1).'</td>
     	    <td align="left"><div class="authorcol">'.re_user_links($thread->getOwner()).'</div></td>
@@ -78,11 +80,11 @@ if ($post_ids){
 	if ($post->isHidden()) continue;
 	$options->setHighlightTerms($search_list);
 	$contents = output_transform($post->getContent(),$options);
-    $thread_forum = $thread->getForum();
+	$thread_forum = $thread->getForum();
 	echo '
 	<tr>
-	    <th>'.$thread_forum->getTitle().'</th>
-	    <th class="threadline"><a href="forum_thread.php?id='.$thread->getID().'"><b>'.$thread->getTitle().'</b></a></th>
+	    <th>'.cleanup_title($thread_forum->getTitle()).'</th>
+	    <th class="threadline"><a href="forum_thread.php?id='.$thread->getID().'"><b>'.cleanup_title($thread->getTitle()).'</b></a></th>
     	    <th align="left"><div class="authorcol">'.re_user_links($post->getOwner()).'</div></th>
     	    <th style="text-align:right">'.time_diff_str($post->getTimestamp(), time()).'</th>
 	</tr>
