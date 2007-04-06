@@ -14,6 +14,9 @@ CLIENT_STATE gstate;
 NET_STATUS net_status;
 bool g_use_sandbox;
 bool user_active;
+double cpu_idle=0;
+double cpu_used=0;
+double cpu_wasted=0;
 
 //////////////// FUNCTIONS MODIFIED OR STUBBED OUT /////////////
 
@@ -250,6 +253,9 @@ bool CLIENT_STATE::simulate_rpc(PROJECT* _p) {
     }
     last_time = now;
 
+    sprintf(buf, "RPC to %s; asking for %f<br>", p->project_name, p->work_request);
+    html_msg += buf;
+
     // remove ready-to-report results
     //
     vector<RESULT*>::iterator result_iter;
@@ -257,14 +263,24 @@ bool CLIENT_STATE::simulate_rpc(PROJECT* _p) {
     while (result_iter != results.end()) {
         RESULT* rp = *result_iter;
         if (rp->ready_to_report) {
+            sprintf(buf, "result %s reported; %s<br>",
+                rp->name,
+                (gstate.now > rp->report_deadline)?
+                "<font color=#cc0000>MISSED DEADLINE</font>":
+                "<font color=#00cc00>MADE DEADLINE</font>"
+            );
+            if (gstate.now > rp->report_deadline) {
+                cpu_wasted += rp->final_cpu_time;
+            } else {
+                cpu_used += rp->final_cpu_time;
+            }
+            gstate.html_msg += buf;
             delete rp;
             result_iter = results.erase(result_iter);
         } else {
             result_iter++;
         }
     }
-    sprintf(buf, "RPC to %s; asking for %f<br>", p->project_name, p->work_request);
-    html_msg += buf;
 
     while (p->work_request > 0) {
         // pick a random app
@@ -336,6 +352,7 @@ bool ACTIVE_TASK_SET::poll() {
     if (diff < 1.0) return false;
     last_time = gstate.now;
 
+    int n=0;
     for (i=0; i<active_tasks.size(); i++) {
         ACTIVE_TASK* atp = active_tasks[i];
         switch (atp->task_state()) {
@@ -345,17 +362,21 @@ bool ACTIVE_TASK_SET::poll() {
                 atp->set_task_state(PROCESS_EXITED, "poll");
                 RESULT* rp = atp->result;
                 rp->exit_status = 0;
+                rp->ready_to_report = true;
                 gstate.request_schedule_cpus("ATP poll");
                 gstate.request_work_fetch("ATP poll");
-                sprintf(buf, "result %s finished; %s<br>",
-                    rp->name,
-                    (gstate.now > rp->report_deadline)?
-                    "<font color=#cc0000>MISSED DEADLINE</font>":
-                    "<font color=#00cc00>MADE DEADLINE</font>"
-                );
+                sprintf(buf, "result %s finished<br>", rp->name);
                 gstate.html_msg += buf;
             }
+            n++;
         }
+    }
+    if (n < gstate.ncpus) {
+        cpu_idle += diff*(gstate.ncpus-n);
+    }
+    if (n > gstate.ncpus) {
+        sprintf(buf, "TOO MANY JOBS RUNNING");
+        gstate.html_msg += buf;
     }
                      
     return action;
@@ -639,9 +660,6 @@ void CLIENT_STATE::html_rec() {
             n++;
         }
     }
-    if (n > ncpus) {
-        fprintf(html_out, "<td>TOO MANY JOBS RUNNING</td>");
-    }
     while (n<ncpus) {
         fprintf(html_out, "<td><br></td>");
         n++;
@@ -651,7 +669,16 @@ void CLIENT_STATE::html_rec() {
 }
 
 void CLIENT_STATE::html_end() {
-    fprintf(html_out, "</table>\n");
+    double cpu_total=cpu_used + cpu_wasted + cpu_idle;
+    fprintf(html_out,
+        "</table>\n"
+        "<p>CPU used: %.2f (%.2f%%)\n"
+        "<p>CPU wasted: %.2f (%.2f%%)\n"
+        "<p>CPU idle: %.2f (%.2f%%)\n",
+        cpu_used, (cpu_used/cpu_total)*100,
+        cpu_wasted, (cpu_wasted/cpu_total)*100,
+        cpu_idle, (cpu_idle/cpu_total)*100
+    );
     fclose(html_out);
 }
 
