@@ -193,7 +193,7 @@ public:
 //////////////////
     int parse_projects(char*);
     int parse_host(char*);
-    void simulate(double dur, double delta);
+    void simulate();
     bool scheduler_rpc_poll();
     bool simulate_rpc(PROJECT*);
 };

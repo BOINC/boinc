@@ -1,6 +1,37 @@
+// Berkeley Open Infrastructure for Network Computing
+// http://boinc.berkeley.edu
+// Copyright (C) 2006 University of California
+//
+// This is free software; you can redistribute it and/or
+// modify it under the terms of the GNU Lesser General Public
+// License as published by the Free Software Foundation;
+// either version 2.1 of the License, or (at your option) any later version.
+//
+// This software is distributed in the hope that it will be useful,
+// but WITHOUT ANY WARRANTY; without even the implied warranty of
+// MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
+// See the GNU Lesser General Public License for more details.
+//
+// To view the GNU Lesser General Public License visit
+// http://www.gnu.org/copyleft/lesser.html
+// or write to the Free Software Foundation, Inc.,
+// 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
+
+// BOINC client simulator.
+//
 // usage:
-// sim [--projects X] [--host X] [--prefs X] [--duration X]
-//   defaults: projects.xml, host.xml, prefs.xml, 86400
+// sim [--duration x] [--delta x] [--dirs dir ...]
+//  duration = simulation duration (default 86400)
+//  delta = simulation time step (default 10)
+//
+// If no dirs are specified:
+// reads input files
+//    sim_projects.xml, sim_host.xml, sim_prefs.xml, cc_config.xml
+// and does simulation, generating output files
+//    sim_log.txt, sim_out.html
+//
+// If dirs are specified, chdir into each directory in sequence,
+// do the above for each one, and write summary info to stdout
 
 #include "error_numbers.h"
 #include "str_util.h"
@@ -14,9 +45,44 @@ CLIENT_STATE gstate;
 NET_STATUS net_status;
 bool g_use_sandbox;
 bool user_active;
-double cpu_idle=0;
-double cpu_used=0;
-double cpu_wasted=0;
+double duration = 86400, delta = 60;
+FILE* logfile;
+
+struct SIM_RESULTS {
+    double cpu_used;
+    double cpu_wasted;
+    double cpu_idle;
+
+    void print(FILE* f) {
+        fprintf(f, "used %f wasted %f idle %f\n",
+            cpu_used, cpu_wasted, cpu_idle
+        );
+    }
+    void print_pct(const char* title, FILE* f) {
+        double total = cpu_used + cpu_wasted + cpu_idle;
+        printf("%s used %.2f%%, wasted %.2f%%, idle %.2f%%\n",
+            title,
+            (cpu_used/total)*100,
+            (cpu_wasted/total)*100,
+            (cpu_idle/total)*100
+        );
+    }
+    void parse(FILE* f) {
+        fscanf(f, "used %lf wasted %lf idle %lf",
+            &cpu_used, &cpu_wasted, &cpu_idle
+        );
+    }
+    void add(SIM_RESULTS& r) {
+        cpu_used += r.cpu_used;
+        cpu_wasted += r.cpu_wasted;
+        cpu_idle += r.cpu_idle;
+    }
+    SIM_RESULTS() {
+        cpu_used = 0; cpu_wasted=0; cpu_idle=0;
+    }
+};
+
+SIM_RESULTS sim_results;
 
 //////////////// FUNCTIONS MODIFIED OR STUBBED OUT /////////////
 
@@ -58,7 +124,7 @@ void show_message(PROJECT *p, char* msg, int priority) {
         x = "---";
     }
 
-    printf("%s [%s] %s\n", time_string, x, message);
+    fprintf(logfile, "%s [%s] %s\n", time_string, x, message);
 }
 bool RESULT::some_download_stalled() {
     return false;
@@ -248,7 +314,6 @@ bool CLIENT_STATE::simulate_rpc(PROJECT* _p) {
 
     double diff = now - last_time;
     if (diff && diff < work_buf_min()) {
-        printf("diff: %f\n", diff);
         return false;
     }
     last_time = now;
@@ -270,9 +335,9 @@ bool CLIENT_STATE::simulate_rpc(PROJECT* _p) {
                 "<font color=#00cc00>MADE DEADLINE</font>"
             );
             if (gstate.now > rp->report_deadline) {
-                cpu_wasted += rp->final_cpu_time;
+                sim_results.cpu_wasted += rp->final_cpu_time;
             } else {
-                cpu_used += rp->final_cpu_time;
+                sim_results.cpu_used += rp->final_cpu_time;
             }
             gstate.html_msg += buf;
             delete rp;
@@ -372,7 +437,7 @@ bool ACTIVE_TASK_SET::poll() {
         }
     }
     if (n < gstate.ncpus) {
-        cpu_idle += diff*(gstate.ncpus-n);
+        sim_results.cpu_idle += diff*(gstate.ncpus-n);
     }
     if (n > gstate.ncpus) {
         sprintf(buf, "TOO MANY JOBS RUNNING");
@@ -643,7 +708,7 @@ char* colors[] = {
 void CLIENT_STATE::html_start() {
     html_out = fopen("sim_out.html", "w");
     fprintf(html_out, "<h2>Simulator output</h2>"
-        "<a href=sim_out.txt>message log</a><p>"
+        "<a href=sim_log.txt>message log</a><p>"
         "<table border=1>\n"
     );
 }
@@ -669,20 +734,20 @@ void CLIENT_STATE::html_rec() {
 }
 
 void CLIENT_STATE::html_end() {
-    double cpu_total=cpu_used + cpu_wasted + cpu_idle;
+    double cpu_total=sim_results.cpu_used + sim_results.cpu_wasted + sim_results.cpu_idle;
     fprintf(html_out,
         "</table>\n"
         "<p>CPU used: %.2f (%.2f%%)\n"
         "<p>CPU wasted: %.2f (%.2f%%)\n"
         "<p>CPU idle: %.2f (%.2f%%)\n",
-        cpu_used, (cpu_used/cpu_total)*100,
-        cpu_wasted, (cpu_wasted/cpu_total)*100,
-        cpu_idle, (cpu_idle/cpu_total)*100
+        sim_results.cpu_used, (sim_results.cpu_used/cpu_total)*100,
+        sim_results.cpu_wasted, (sim_results.cpu_wasted/cpu_total)*100,
+        sim_results.cpu_idle, (sim_results.cpu_idle/cpu_total)*100
     );
     fclose(html_out);
 }
 
-void CLIENT_STATE::simulate(double duration, double delta) {
+void CLIENT_STATE::simulate() {
     bool action;
     now = 0;
     html_start();
@@ -721,14 +786,17 @@ char* next_arg(int argc, char** argv, int& i) {
     return argv[i++];
 }
 
+#define PROJECTS_FILE "sim_projects.xml"
+#define HOST_FILE "sim_host.xml"
+#define PREFS_FILE "sim_prefs.xml"
+#define SUMMARY_FILE "sim_summary.txt"
+#define LOG_FILE "sim_log.txt"
+
 int main(int argc, char** argv) {
-    char projects[256], host[256], prefs[256];
-    double duration = 200, delta = 10;
-    bool flag;
     int i, retval;
+    vector<std::string> dirs;
 
-    freopen("sim_out.txt", "w", stdout);
-
+    logfile = fopen("sim_log.txt", "w");
 
     for (i=1; i<argc;) {
         char* opt = argv[i++];
@@ -736,6 +804,10 @@ int main(int argc, char** argv) {
             duration = atof(next_arg(argc, argv, i));
         } else if (!strcmp(opt, "--delta")) {
             delta = atof(next_arg(argc, argv, i));
+        } else if (!strcmp(opt, "--dirs")) {
+            while (i<argc) {
+                dirs.push_back(argv[i++]);
+            }
         } else {
             help(argv[0]);
         }
@@ -750,21 +822,51 @@ int main(int argc, char** argv) {
         exit(1);
     }
 
-    strcpy(projects, "sim_projects.xml");
-    strcpy(host, "sim_host.xml");
-    strcpy(prefs, "sim_prefs.xml");
+    if (dirs.size()) {
+        // If we need to do several simulations,
+        // use system() to do each one in a separate process,
+        // because there are lots of static variables and we need to ensure
+        // that they start off with the right initial values
+        //
+        unsigned int i;
+        SIM_RESULTS total_results;
+        for (i=0; i<dirs.size(); i++) {
+            std::string dir = dirs[i];
+            retval = chdir(dir.c_str());
+            if (retval) {
+                fprintf(stderr, "can't chdir into %s: ", dir.c_str());
+                perror("chdir");
+                continue;
+            }
+            char buf[256];
+            sprintf(
+                buf, "../sim --duration %f --delta %f > %s",
+                duration, delta, SUMMARY_FILE
+            );
+            system(buf);
+            FILE* f = fopen(SUMMARY_FILE, "r");
+            sim_results.parse(f);
+            fclose(f);
+            sim_results.print_pct(dir.c_str(), stdout);
+            total_results.add(sim_results);
+            chdir("..");
+        }
+        total_results.print_pct("Total", stdout);
+    } else {
+        read_config_file();
+        int retval;
+        bool flag;
 
-    read_config_file();
+        retval = gstate.parse_projects(PROJECTS_FILE);
+        if (retval) parse_error(PROJECTS_FILE, retval);
+        retval = gstate.parse_host(HOST_FILE);
+        if (retval) parse_error(HOST_FILE, retval);
+        retval = gstate.global_prefs.parse_file(PREFS_FILE, "", flag);
+        if (retval) parse_error(PREFS_FILE, retval);
 
-    retval = gstate.parse_projects(projects);
-    if (retval) parse_error(projects, retval);
-    retval = gstate.parse_host(host);
-    if (retval) parse_error(host, retval);
-    retval = gstate.global_prefs.parse_file(prefs, "", flag);
-    if (retval) parse_error(prefs, retval);
-
-    gstate.set_ncpus();
-    printf("ncpus: %d\n", gstate.ncpus);
-    gstate.request_work_fetch("init");
-    gstate.simulate(duration, delta);
+        gstate.set_ncpus();
+        gstate.request_work_fetch("init");
+        gstate.simulate();
+        sim_results.print(stdout);
+    }
 }

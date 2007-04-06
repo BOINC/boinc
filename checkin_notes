@@ -3269,3 +3269,11 @@ David  5 Apr 2007
         acct_mgr.C
     lib/
         boinc_cmd.C
+
+David  5 Apr 2007
+    - client simulator: add the ability to do many simulations,
+        each specified in a separate directory,
+        and show the individual and total results.
+
+    client/
+        sim.C,h
