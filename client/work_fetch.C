@@ -576,7 +576,17 @@ bool CLIENT_STATE::compute_work_requests() {
             pbest->cpu_shortfall,
             cpu_shortfall * (prrs ? pbest->resource_share/prrs : 1)
         );
-        
+
+        // sanity check
+        //
+        double x = (work_buf_additional() + work_buf_min())*ncpus;
+        if (pbest->work_request > x) {
+        	msg_printf(NULL, MSG_INTERNAL_ERROR,
+        	    "Proposed work request %f bigger than max %f",
+        	    pbest->work_request, x
+        	);
+        	pbest->work_request = x;
+        }
         if (!pbest->nearly_runnable()) {
             pbest->work_request_urgency = WORK_FETCH_NEED_IMMEDIATELY;
         } else if (pbest->cpu_shortfall) {
