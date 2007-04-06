@@ -68,6 +68,8 @@ class SIM_HOST: public HOST_INFO {
 public:
     RANDOM_PROCESS available;
     RANDOM_PROCESS idle;
+    double connection_interval;
+        // min time between network connections
     int parse(XML_PARSER&);
 };
 

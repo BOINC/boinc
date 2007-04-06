@@ -313,7 +313,7 @@ bool CLIENT_STATE::simulate_rpc(PROJECT* _p) {
     static double last_time=0;
 
     double diff = now - last_time;
-    if (diff && diff < work_buf_min()) {
+    if (diff && diff < host_info.connection_interval) {
         return false;
     }
     last_time = now;
@@ -634,11 +634,13 @@ int SIM_HOST::parse(XML_PARSER& xp) {
     int retval;
 
     p_ncpus = 1;
+    connection_interval = 0;
     while(!xp.get(tag, sizeof(tag), is_tag)) {
         if (!is_tag) return ERR_XML_PARSE;
         if (!strcmp(tag, "/host")) return 0;
         else if (xp.parse_double(tag, "p_fpops", p_fpops)) continue;
         else if (xp.parse_double(tag, "m_nbytes", m_nbytes)) continue;
+        else if (xp.parse_double(tag, "connection_interval", connection_interval)) continue;
         else if (xp.parse_int(tag, "p_ncpus", p_ncpus)) continue;
         else if (!strcmp(tag, "available")) {
             retval = available.parse(xp, "/available");
