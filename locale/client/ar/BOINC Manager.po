@@ -2,8 +2,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: BOINC Manager 4.x\n"
 "POT-Creation-Date: \n"
-"PO-Revision-Date: 2007-02-14 07:42+0100\n"
-"Last-Translator: Jens Seidler <webmaster@boinc.de>\n"
+"PO-Revision-Date: 2007-02-10 05:13+0200\n"
+"Last-Translator: أحمد غربية Ahmad Ghareia <ahmad@gharbeia.org>\n"
 "Language-Team: BOINC Development Team <rwalton@ssl.berkeley.edu>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=utf-8\n"
@@ -13,7 +13,6 @@ msgstr ""
 "X-Poedit-SourceCharset: utf-8\n"
 "X-Poedit-Basepath: C:\\src\\BOINC\\Main\\boinc\n"
 "X-Poedit-SearchPath-0: clientgui\n"
-
 ##########################################
 # Language: Arabic (Standard pan-Arab)
 # FileID  : $Id$
@@ -21,6 +20,8 @@ msgstr ""
 # For more information please see:
 # http://boinc.berkeley.edu/web_translation.php
 ##########################################
+
+
 #: clientgui/AccountInfoPage.cpp:320
 msgid "User information"
 msgstr "معلومات المستخدم"
@@ -626,8 +627,7 @@ msgstr ""
 msgid ""
 "%s needs to connect to the Internet.\n"
 "May it do so now?"
-msgstr ""
-"%s يحتاج للاتصال بإنترنت.\n"
+msgstr "%s يحتاج للاتصال بإنترنت.\n"
 "هل له أن يتصل الآن؟"
 
 #: clientgui/BOINCDialupManager.cpp:327
@@ -679,8 +679,7 @@ msgstr "فشل %s في قطع اتصاله بإنترنت."
 msgid ""
 "BOINC ownership or permissions are not set properly; please reinstall BOINC.\n"
 "(Error code %d)"
-msgstr ""
-"ملكية و أذون BOINC غير مضبوطة كما ينبغي؛ أعد تثبيت BOINC.\n"
+msgstr "ملكية و أذون BOINC غير مضبوطة كما ينبغي؛ أعد تثبيت BOINC.\n"
 "(Error code %d)"
 
 #: clientgui/BOINCGUIApp.cpp:376
@@ -1013,6 +1012,7 @@ msgid "use at most"
 msgstr "استغل بحد أقصى"
 
 #: clientgui/DlgAdvPreferencesBase.cpp:249
+
 msgid "% CPU time"
 msgstr "% من وقت المعالج"
 
@@ -1557,7 +1557,8 @@ msgstr ""
 msgid ""
 "Required wizard file(s) are missing from the target server.\n"
 "(lookup_account.php/create_account.php)\n"
-msgstr "تعذر إيجاد ملفات مطلوبة للمرشد على الخادوم المحدد.\n"
+msgstr ""
+"تعذر إيجاد ملفات مطلوبة للمرشد على الخادوم المحدد.\n"
 
 #: clientgui/ProxyInfoPage.cpp:198
 msgid "Network communication failure"
@@ -1585,6 +1586,7 @@ msgstr ""
 "اضبط جدار النار للسماح باتصالات BOINC غبر ميناء 80 بالمرور ثم اضغط 'عد' لتحاول مجددا.\n"
 "3) أنت تستخدم خادوما وسيطا.\n"
 "اضغط 'تابع' لتضبط إعدادات BOINC المتعلقة بالوسطاء"
+
 
 #: clientgui/ProxyPage.cpp:337
 msgid "Proxy configuration"
@@ -1698,18 +1700,14 @@ msgstr "ينسخ كل الرسائل إلى لوح القصاصات"
 #: clientgui/ViewMessages.cpp:93
 #: clientgui/ViewMessagesGrid.cpp:111
 msgid "Copy the selected messages to the clipboard. You can select multiple messages by holding down the shift or command key while clicking on messages."
-msgstr ""
-"ينسخ الرسالة المختارة إلى لوح القصاصات.\n"
-"يمكنك اختيار عدة رسائل بالإبقاء على Shift أو Command مضغوطا أثناء النقر بالفأرة."
+msgstr "ينسخ الرسالة المختارة إلى لوح القصاصات.\nيمكنك اختيار عدة رسائل بالإبقاء على Shift أو Command مضغوطا أثناء النقر بالفأرة."
 
 #: clientgui/sg_DlgMessages.cpp:215
 #: clientgui/sg_DlgMessages.cpp:227
 #: clientgui/ViewMessages.cpp:97
 #: clientgui/ViewMessagesGrid.cpp:115
 msgid "Copy the selected messages to the clipboard. You can select multiple messages by holding down the shift or control key while clicking on messages."
-msgstr ""
-"ينسخ الرسالة المختارة إلى لوح القصاصات.\n"
-"يمكنك اختيار عدة رسائل بالإبقاء على Shift أو Control مضغوطا أثناء النقر بالفأرة."
+msgstr "ينسخ الرسالة المختارة إلى لوح القصاصات.\nيمكنك اختيار عدة رسائل بالإبقاء على Shift أو Control مضغوطا أثناء النقر بالفأرة."
 
 #: clientgui/sg_DlgMessages.cpp:269
 #: clientgui/sg_DlgPreferences.cpp:506
@@ -2831,7 +2829,8 @@ msgstr "أو&قف استخدام %s"
 msgid ""
 "We'll now remove this computer from %s.  From now on,\n"
 "attach and detach projects directly from this computer.\n"
-msgstr "سنزيل الآن هذا الحاسوب من %s. من الآن فصاعدا اشبك و افصل المشروعات من هذا الحاسوب.\n"
+msgstr ""
+"سنزيل الآن هذا الحاسوب من %s. من الآن فصاعدا اشبك و افصل المشروعات من هذا الحاسوب.\n"
 
 #: clientgui/WelcomePage.cpp:339
 msgid "Account manager"
@@ -2967,6 +2966,7 @@ msgid ""
 msgstr ""
 "حدد ساعات بدء و توقف استغلال الشبكة في الصيغة HH:MM-HH:MM\n"
 "يجب أن يكون وقت البدء أقل من وقت التوقف"
+
 
 #: clientgui/DlgOptions.h:49
 msgid "BOINC Manager - Options"
