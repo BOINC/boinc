@@ -174,7 +174,12 @@ void AUTO_UPDATE::install() {
     char version_dir[1024];
     char cwd[256];
     char* argv[10];
-    int retval, argc, pid;
+    int retval, argc;
+#ifdef _WIN32
+    HANDLE pid;
+#else
+    int pid;
+#endif
 
     msg_printf(NULL, MSG_INFO, "Installing new version of BOINC: %d.%d.%d",
         version.major, version.minor, version.release

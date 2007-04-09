@@ -3279,11 +3279,11 @@ David  6 Apr 2007
         sim.C,h
 
 David  6 Apr 2007
-	- core client: sanity check on work request size
-		(from John McLeod)
+    - core client: sanity check on work request size
+        (from John McLeod)
 
-	client/
-		work_fetch.C
+    client/
+        work_fetch.C
 
 David  8 Apr 2007
     - updater:
@@ -3313,3 +3313,11 @@ David  8 Apr 2007
         util.C,h
     tools/
         updater.C
+
+David  9 Apr 2007
+    - win compile fixes
+
+    client/
+        auto_update.C
+    lib/
+        util.C

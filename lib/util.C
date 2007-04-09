@@ -417,6 +417,7 @@ int run_program(
     PROCESS_INFORMATION process_info;
     STARTUPINFO startup_info;
     char cmdline[1024], path[1024];
+    unsigned long status;
 
     memset(&process_info, 0, sizeof(process_info));
     memset(&startup_info, 0, sizeof(startup_info));
@@ -443,7 +444,7 @@ int run_program(
     if (retval) return retval;
     if (nsecs) {
         boinc_sleep(nsecs);
-        if (GetExitCodeProcess(pid_handle, &status)) {
+        if (GetExitCodeProcess(process_info.hProcess, &status)) {
             if (status != STILL_ACTIVE) {
                 return -1;
             }
@@ -479,7 +480,7 @@ int run_program(
 
 #ifdef _WIN32
 void kill_program(HANDLE pid) {
-    TerminateProcess(pid);
+    TerminateProcess(pid, 0);
 }
 #else
 void kill_program(int pid) {
@@ -498,6 +499,7 @@ int get_exit_status(HANDLE pid_handle) {
         }
     }
     return (int) status;
+}
 #else
 int get_exit_status(int pid) {
     int status;
