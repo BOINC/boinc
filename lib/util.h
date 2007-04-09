@@ -86,7 +86,20 @@ extern void mysql_timestamp(double, char*);
 extern pthread_mutex_t getrusage_mutex;
 #endif
 
-extern int run_program(char* path, char* cdir, int argc, char** argv);
+#ifdef _WIN32
+extern int run_program(
+    char* path, char* cdir, int argc, char** argv, double, HANDLE&
+);
+extern void kill_program(HANDLE);
+extern int get_exit_status(HANDLE);
+#else
+extern int run_program(
+    char* path, char* cdir, int argc, char** argv, double, int&
+);
+extern void kill_program(int);
+extern int get_exit_status(int);
+#endif
+
 extern int wait_client_mutex(const char* dir, double timeout);
 
 #endif

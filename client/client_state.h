@@ -154,6 +154,7 @@ public:
     bool detach_console;
     bool launched_by_manager;
         // this affects auto-update
+    bool run_by_updater;
     double now;
     const char* platform_name;
     bool initialized;

@@ -31,11 +31,13 @@ using std::vector;
 class AUTO_UPDATE {
 public:
     bool present;
+    bool install_failed;
     VERSION_INFO version;
     vector<FILE_REF> file_refs;
     PROJECT* project;
 
     AUTO_UPDATE();
+    void init();
     int parse(MIOFILE&);
     void write(MIOFILE&);
     int validate_and_link(PROJECT*);

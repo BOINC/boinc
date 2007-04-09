@@ -353,6 +353,8 @@ int CLIENT_STATE::init() {
         all_projects_list_check();
     }
 
+    auto_update.init();
+
     initialized = true;
     return 0;
 }

@@ -37,10 +37,17 @@ public:
 };
 
 class RANDOM_PROCESS {
+    double last_time;
+    double time_left;
+    bool value;
+    double off_lambda;
 public:
     double frac;
     double lambda;
     int parse(XML_PARSER&, char* end_tag);
+    bool sample(double);
+    void init();
+    RANDOM_PROCESS();
 };
 
 class SIM_APP: public APP {

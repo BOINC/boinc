@@ -18,13 +18,28 @@
 // 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 
 // Program to install files as part of auto-update.
-// Run in a version directory.
+// Run in a directory that contains the new files.
 // Arguments:
 //
 // --install_dir X      copy files to X (required)
 // --run_manager        when done, run Manager
-// --run_core           when done, run core client
 // --run_as_service     when done, run core client as service
+//
+// What it does:
+// 1) wait for a mutex, to ensure that the core client has exited
+// 2) create or empty out a "previous-version" dir
+// 3) copy files from install dir to previous-version dir
+// 4) copy files from current dir to install dir
+// 5) run the new core client and/or manager
+//
+// If we get an error in 2) or 3):
+// 6) run the (old) core client and/or manager
+//    We pass it a "--run_from_updater" option; this causes it to
+//    mark the update as failed, so it won't try again.
+// If we get an error in 4) or 5):
+// 7) copy files from previous-version dir back to install dir
+// 8) run the old core client and/or manager
+
 
 #include <stdio.h>
 #ifdef _WIN32
@@ -33,8 +48,12 @@
 #include <errno.h>
 #endif
 
+#include <vector>
+
 #include "filesys.h"
 #include "util.h"
+
+using std::vector;
 
 #ifdef _WIN32
 #define CORE_NAME "boinc.exe"
@@ -45,12 +64,11 @@
 #endif
 
 char* install_dir;
+char prev_dir[1024];
 
 int prepare_prev_dir() {
-    char prev_dir[256];
     int retval;
 
-    sprintf(prev_dir, "%s/prev_version", install_dir);
     if (is_dir(prev_dir)) {
         retval = clean_out_dir(prev_dir);
         if (retval) return retval;
@@ -61,26 +79,46 @@ int prepare_prev_dir() {
     return 0;
 }
 
-int move_to_prev(char* file) {
-    char oldname[1024], newname[1024];
-    sprintf(oldname, "%s/%s", install_dir, file);
-    sprintf(newname, "%s/prev_version/%s", install_dir, file);
-    return boinc_rename(oldname, newname);
+int move_file(char* file, char* old_dir, char* new_dir) {
+    char old_path[1024], new_path[1024];
+    sprintf(old_path, "%s/%s", old_dir, file);
+    sprintf(new_path, "%s/%s", new_dir, file);
+    int retval = boinc_rename(old_path, new_path);
+    fprintf(stderr, "rename %s to %s\n", old_path, new_path);
+    if (retval) {
+        fprintf(stderr, "couldn't rename %s to %s\n", old_path, new_path);
+    }
+    return retval;
 }
 
-int copy_to_main(char* file) {
-    char newname[1024];
-    sprintf(newname, "%s/%s", install_dir, file);
-    return boinc_copy(file, newname);
+// try to move all; return 0 if moved all
+//
+int move_files(vector<char*> files, char* old_dir, char* new_dir) {
+    int retval = 0;
+    for (unsigned int i=0; i<files.size(); i++) {
+        int ret = move_file(files[i], old_dir, new_dir);
+        if (ret) retval = ret;
+    }
+    return retval;
 }
+
+// NOTE: this program must always (re)start the core client before exiting
 
 int main(int argc, char** argv) {
     int i, retval, argc2;
+#ifdef _WIN32
+    HANDLE core_pid, mgr_pid;
+#else
+    int core_pid, mgr_pid;
+#endif
     bool run_as_service = false;
     bool run_core = false;
     bool run_manager = false;
     char* argv2[10];
     char path[1024];
+    char cur_dir[1024];
+    bool new_version_installed = false;
+    vector<char*> files;
 
     install_dir = 0;
     for (i=1; i<argc; i++) {
@@ -89,34 +127,77 @@ int main(int argc, char** argv) {
             run_as_service = true;
         } else if (!strcmp(argv[i], "--run_manager")) {
             run_manager = true;
-        } else if (!strcmp(argv[i], "--run_core")) {
-            run_core = true;
         } else if (!strcmp(argv[i], "--install_dir")) {
             install_dir = argv[++i];
         }
     }
     if (!install_dir) {
         fprintf(stderr, "updater: install dir not specified\n");
-        exit(1);
+        retval = 1;
+        goto restart;
     }
+    sprintf(prev_dir, "%s/prev_version", install_dir);
+    boinc_getcwd(cur_dir);
+    printf("%s\n", cur_dir);
 
     wait_client_mutex(install_dir, 30);
     retval = prepare_prev_dir();
-    if (retval) exit(retval);
-    move_to_prev(CORE_NAME);
-    //move_to_prev(MANAGER_NAME);
-    copy_to_main(CORE_NAME);
-    //copy_to_main(MANAGER_NAME);
-    if (run_core) {
-        argv2[0] = CORE_NAME;
-        argv2[1] = 0;
-        argc2 = 1;
-        run_program(install_dir, CORE_NAME, argc2, argv2);
+    if (retval) {
+        fprintf(stderr, "couldn't prepare prev_dir %s: %d\n", prev_dir, retval);
+        goto restart;
+    }
+
+    files.push_back(CORE_NAME);
+    files.push_back(MANAGER_NAME);
+
+    // save existing files to "previous version" dir
+    //
+    retval = move_files(files, install_dir, prev_dir);
+    if (retval) {
+        move_files(files, prev_dir, install_dir);
+        goto restart;
+    }
+
+    retval = move_files(files, cur_dir, install_dir);
+    if (retval) {
+        move_files(files, prev_dir, install_dir);
+        goto restart;
+    }
+
+    new_version_installed = true;
+    retval = 0;
+
+restart:
+    argv2[0] = CORE_NAME;
+    argv2[1] = "--run_by_updater";
+    argv2[2] = 0;
+    argc2 = 2;
+    retval = run_program(install_dir, CORE_NAME, argc2, argv2, 5, core_pid);
+    if (retval) {
+        fprintf(stderr, "failed to run core client (%d); backing out\n", retval);
+        if (new_version_installed) {
+            retval = move_files(files, prev_dir, install_dir);
+            if (retval) exit(retval);   // abandon ship
+            new_version_installed = false;
+            goto restart;
+        }
+        exit(retval);
     }
     if (run_manager) {
         argv2[0] = MANAGER_NAME;
         argv2[1] = 0;
         argc2 = 1;
-        run_program(install_dir, MANAGER_NAME, argc2, argv2);
+        retval = run_program(install_dir, MANAGER_NAME, argc2, argv2, 5, mgr_pid);
+        if (retval) {
+            fprintf(stderr, "failed to run manager (%d); backing out\n", retval);
+            if (new_version_installed) {
+                kill_program(core_pid);
+                retval = move_files(files, prev_dir, install_dir);
+                if (retval) exit(retval);
+                new_version_installed = false;
+                goto restart;
+            }
+            exit(retval);
+        }
     }
 }

@@ -326,7 +326,7 @@ int clean_out_dir(const char* dirpath) {
         }
         return 0;    // if dir doesn't exist, it's empty
     }
-    
+
     while (1) {
         strcpy(filename, "");
         retval = dir_scan(filename, dirp, sizeof(filename));
@@ -434,21 +434,21 @@ int boinc_file_exists(const char* path) {
 //
 int boinc_touch_file(const char *path) {
     FILE *fp;
-                                                                                                                                                                               
+
     if (boinc_file_exists(path)) {
         return 0;
     }
-    fp = fopen(path, "w");                                                                                                                                                                  
+    fp = fopen(path, "w");
     if (fp) {
         fclose(fp);
         return 0;
-    }                                                                                                                                                                    
+    }
     return -1;
 }
 
 int boinc_copy(const char* orig, const char* newf) {
 #ifdef _WIN32
-    if (!CopyFile(orig, newf, FALSE)) {
+    if (!CopyFile(orig, newf, FALSE)) {     // FALSE means overwrite OK
         return GetLastError();
     }
     return 0;
@@ -514,7 +514,7 @@ int boinc_rmdir(const char* name) {
 int remove_project_owned_file_or_dir(const char* path) {
 #ifdef SANDBOX
     char cmd[1024];
-    
+
     if (g_use_sandbox) {
         sprintf(cmd, "%s/%s /bin/rm rm -fR \"%s\"",
             SWITCHER_DIR, SWITCHER_FILE_NAME, path

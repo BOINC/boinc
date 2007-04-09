@@ -42,16 +42,14 @@
 #include <cctype>
 #include <sys/types.h>
 #include <sys/stat.h>
+#include <sys/wait.h>
 #include <fcntl.h>
 #include <grp.h>
-#ifdef HAVE_SYS_TIME_H
+#include <errno.h>
 #include <sys/time.h>
-#endif
 #include <sys/resource.h>
 #include <unistd.h>
-#ifdef HAVE_SYS_FILE_H
 #include <sys/file.h>
-#endif
 #endif
 
 
@@ -406,12 +404,16 @@ int lookup_group(char* name, gid_t& gid) {
 }
 #endif
 
-// chdir into the given directory, and run a program there
+// chdir into the given directory, and run a program there.
+// If nsecs is nonzero, make sure it's still running after that many seconds.
+//
 // argv is set up Unix-style, i.e. argv[0] is the program name
 //
-int run_program(char* dir, char* file, int argc, char** argv) {
-    int retval;
 #ifdef _WIN32
+int run_program(
+    char* dir, char* file, int argc, char** argv, double nsecs, HANDLE& id
+) {
+    int retval;
     PROCESS_INFORMATION process_info;
     STARTUPINFO startup_info;
     char cmdline[1024], path[1024];
@@ -438,18 +440,71 @@ int run_program(char* dir, char* file, int argc, char** argv) {
         &startup_info,
         &process_info
     );
-    return retval;
+    if (retval) return retval;
+    if (nsecs) {
+        boinc_sleep(nsecs);
+        if (GetExitCodeProcess(pid_handle, &status)) {
+            if (status != STILL_ACTIVE) {
+                return -1;
+            }
+        }
+    }
+    id = process_info.hProcess;
+    return 0;
+}
 #else
+int run_program(
+    char* dir, char* file, int argc, char** argv, double nsecs, int& id
+) {
+    int retval;
     int pid = fork();
     if (pid == 0) {
         retval = chdir(dir);
         if (retval) return retval;
         execv(file, argv);
         perror("execv");
+        exit(errno);
     }
-#endif
+
+    if (nsecs) {
+        boinc_sleep(3);
+        if (waitpid(pid, 0, WNOHANG) == pid) {
+            return -1;
+        }
+    }
+    id = pid;
     return 0;
 }
+#endif
+
+#ifdef _WIN32
+void kill_program(HANDLE pid) {
+    TerminateProcess(pid);
+}
+#else
+void kill_program(int pid) {
+    kill(pid, SIGKILL);
+}
+#endif
+
+#ifdef _WIN32
+int get_exit_status(HANDLE pid_handle) {
+    unsigned long status=1;
+    while (1) {
+        if (GetExitCodeProcess(pid_handle, &status)) {
+            if (status == STILL_ACTIVE) {
+                boinc_sleep(1);
+            }
+        }
+    }
+    return (int) status;
+#else
+int get_exit_status(int pid) {
+    int status;
+    waitpid(pid, &status, 0);
+    return status;
+}
+#endif
 
 static int get_client_mutex(const char* dir) {
 #ifdef _WIN32

@@ -38,6 +38,26 @@
 
 AUTO_UPDATE::AUTO_UPDATE() {
     present = false;
+    install_failed = false;
+}
+
+void AUTO_UPDATE::init() {
+    if (!present) return;
+
+    // if we (the core client) were run by the updater,
+    // and we're not the same as the new version,
+    // the install must have failed.
+    // Mark it as such so we don't try it again.
+    //
+    if (version.greater_than(gstate.core_client_version)) {
+        if (gstate.run_by_updater) {
+            install_failed = true;
+            msg_printf(0, MSG_INTERNAL_ERROR,
+                "Client auto-update failed; keeping existing version"
+            );
+            gstate.set_client_state_dirty("auto update init");
+        }
+    }
 }
 
 int AUTO_UPDATE::parse(MIOFILE& in) {
@@ -47,6 +67,8 @@ int AUTO_UPDATE::parse(MIOFILE& in) {
     while (in.fgets(buf, 256)) {
         if (match_tag(buf, "</auto_update>")) {
             return 0;
+        } else if (parse_bool(buf, "install_failed", install_failed)) {
+            continue;
         } else if (match_tag(buf, "<version>")) {
             version.parse(in);
         } else if (match_tag(buf, "<file_ref>")) {
@@ -68,6 +90,9 @@ void AUTO_UPDATE::write(MIOFILE& out) {
         "<auto_update>\n"
     );
     version.write(out);
+    if (install_failed) {
+        out.printf("<install_failed>1</install_failed>\n");
+    }
     for (unsigned int i=0; i<file_refs.size(); i++) {
         file_refs[i].write(out);
     }
@@ -149,7 +174,7 @@ void AUTO_UPDATE::install() {
     char version_dir[1024];
     char cwd[256];
     char* argv[10];
-    int argc;
+    int retval, argc, pid;
 
     msg_printf(NULL, MSG_INFO, "Installing new version of BOINC: %d.%d.%d",
         version.major, version.minor, version.release
@@ -173,8 +198,16 @@ void AUTO_UPDATE::install() {
     argv[3] = "--run_core";
     argv[4] = 0;
     argc = 4;
-    run_program(version_dir, fip->name, argc, argv);
-    gstate.requested_exit = true;
+    retval = run_program(version_dir, fip->name, argc, argv, 5, pid);
+    if (retval) {
+        msg_printf(NULL, MSG_INTERNAL_ERROR,
+            "Couldn't launch updater; staying with current version"
+        );
+        install_failed = true;
+        gstate.set_client_state_dirty("auto update install");
+    } else {
+        gstate.requested_exit = true;
+    }
 }
 
 // When an update is ready to install, we may need to wait a little:
@@ -192,6 +225,7 @@ void AUTO_UPDATE::poll() {
     static bool ready_to_install = false;
     static double quits_sent = 0;
 
+    if (install_failed) return;
     if (gstate.now - last_time < 10) return;
     last_time = gstate.now;
 

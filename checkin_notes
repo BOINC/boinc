@@ -3284,3 +3284,32 @@ David  6 Apr 2007
 
 	client/
 		work_fetch.C
+
+David  8 Apr 2007
+    - updater:
+        - make program more general (array of files)
+        - if get an error before installing new version,
+            run the old version (core and/or mgr).
+        - if launch of new core client or manager fails
+            or program exits within 5 seconds,
+            back out the update and run old version
+        - when running core client (old or new) pass --run_by_updater flag
+        - move files instead of copy
+    - core client:
+        - add --run_by_updater cmdlines option;
+            if set, and updater version > client version,
+            set "install_failed" flag in AUTO_UPDATE.
+            This prevents the client from trying the update again.
+        - if updater doesn't run or exits within 5 seconds,
+            mark update as failed (stick with current version)
+
+    client/
+        auto_update.C,h
+        client_state.C,h
+        cs_cmdline.C
+        sim.C,h
+    lib/
+        filesys.C
+        util.C,h
+    tools/
+        updater.C

@@ -47,6 +47,7 @@ bool g_use_sandbox;
 bool user_active;
 double duration = 86400, delta = 60;
 FILE* logfile;
+bool running;
 
 struct SIM_RESULTS {
     double cpu_used;
@@ -417,6 +418,8 @@ bool ACTIVE_TASK_SET::poll() {
     if (diff < 1.0) return false;
     last_time = gstate.now;
 
+    if (!running) return false;
+
     int n=0;
     for (i=0; i<active_tasks.size(); i++) {
         ACTIVE_TASK* atp = active_tasks[i];
@@ -443,7 +446,7 @@ bool ACTIVE_TASK_SET::poll() {
         sprintf(buf, "TOO MANY JOBS RUNNING");
         gstate.html_msg += buf;
     }
-                     
+
     return action;
 }
 
@@ -500,6 +503,7 @@ int ACTIVE_TASK::init(RESULT* rp) {
 PROJECT::PROJECT() {
 }
 
+// http://www.cs.wm.edu/~va/software/park/rvgs.c
 double NORMAL_DIST::sample() {
   const double p0 = 0.322232431088;     const double q0 = 0.099348462606;
   const double p1 = 1.0;                const double q1 = 0.588581570495;
@@ -521,6 +525,37 @@ double NORMAL_DIST::sample() {
     z = t - (p / q);
   return (mean + stdev * z);
 
+}
+
+inline double exponential(double mean) {
+    return -mean*log(1-drand());
+}
+
+bool RANDOM_PROCESS::sample(double t) {
+    if (frac==1) return true;
+    double diff = t-last_time;
+    last_time = t;
+    time_left -= diff;
+    if (time_left < 0) {
+        if (value) {
+            time_left += exponential(off_lambda);
+            value = false;
+        } else {
+            time_left += exponential(lambda);
+            value = true;
+        }
+    }
+    return value;
+}
+
+RANDOM_PROCESS::RANDOM_PROCESS() {
+    frac = 1;
+}
+
+void RANDOM_PROCESS::init() {
+    value = true;
+    time_left = exponential(lambda);
+    off_lambda = lambda/frac - lambda;
 }
 
 int NORMAL_DIST::parse(XML_PARSER& xp, char* end_tag) {
@@ -645,9 +680,11 @@ int SIM_HOST::parse(XML_PARSER& xp) {
         else if (!strcmp(tag, "available")) {
             retval = available.parse(xp, "/available");
             if (retval) return retval;
+            available.init();
         } else if (!strcmp(tag, "idle")) {
             retval = idle.parse(xp, "/idle");
             if (retval) return retval;
+            idle.init();
         } else {
             printf("unrecognized: %s\n", tag);
             return ERR_XML_PARSE;
@@ -717,19 +754,26 @@ void CLIENT_STATE::html_start() {
 
 void CLIENT_STATE::html_rec() {
     fprintf(html_out, "<tr><td>%s</td>", time_to_string(now));
-    int n=0;
-    for (unsigned int i=0; i<active_tasks.active_tasks.size(); i++) {
-        ACTIVE_TASK* atp = active_tasks.active_tasks[i];
-        if (atp->task_state() == PROCESS_EXECUTING) {
-            SIM_PROJECT* p = (SIM_PROJECT*)atp->result->project;
-            fprintf(html_out, "<td bgcolor=%s>%s: %.2f</td>",
-            colors[p->index], atp->result->name, atp->cpu_time_left);
+
+    if (!running) {
+        for (int j=0; j<ncpus; j++) {
+            fprintf(html_out, "<td bgcolor=#888888><br></td>");
+        }
+    } else {
+        int n=0;
+        for (unsigned int i=0; i<active_tasks.active_tasks.size(); i++) {
+            ACTIVE_TASK* atp = active_tasks.active_tasks[i];
+            if (atp->task_state() == PROCESS_EXECUTING) {
+                SIM_PROJECT* p = (SIM_PROJECT*)atp->result->project;
+                fprintf(html_out, "<td bgcolor=%s>%s: %.2f</td>",
+                colors[p->index], atp->result->name, atp->cpu_time_left);
+                n++;
+            }
+        }
+        while (n<ncpus) {
+            fprintf(html_out, "<td><br></td>");
             n++;
         }
-    }
-    while (n<ncpus) {
-        fprintf(html_out, "<td><br></td>");
-        n++;
     }
     fprintf(html_out, "<td><font size=-2>%s</font></td></tr>\n", html_msg.c_str());
     html_msg = "";
@@ -754,13 +798,16 @@ void CLIENT_STATE::simulate() {
     now = 0;
     html_start();
     while (1) {
+        running = host_info.available.sample(now);
         while (1) {
             action = active_tasks.poll();
-            action |= handle_finished_apps();
-            action |= possibly_schedule_cpus();
-            action |= enforce_schedule();
-            action |= compute_work_requests();
-            action |= scheduler_rpc_poll();
+            if (running) {
+                action |= handle_finished_apps();
+                action |= possibly_schedule_cpus();
+                action |= enforce_schedule();
+                action |= compute_work_requests();
+                action |= scheduler_rpc_poll();
+            }
             if (!action) break;
         }
         now += delta;
