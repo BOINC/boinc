@@ -213,7 +213,6 @@ class ACTIVE_TASK_SET {
 public:
     typedef std::vector<ACTIVE_TASK*> active_tasks_v;
     active_tasks_v active_tasks;
-    int remove(ACTIVE_TASK*);
     ACTIVE_TASK* lookup_pid(int);
     ACTIVE_TASK* lookup_result(RESULT*);
     void init();

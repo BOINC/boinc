@@ -3321,3 +3321,13 @@ David  9 Apr 2007
         auto_update.C
     lib/
         util.C
+
+David  9 Apr 2007
+	- bug fix in simulator (possibly core client too):
+		in handle_finished_apps(),
+		do the vector erase directly instead of calling remove()
+		(which could cause you to skip one task)
+
+	client/
+		app.C,h
+		cs_apps.C

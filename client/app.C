@@ -78,26 +78,6 @@
 using std::max;
 using std::min;
 
-// Remove an ACTIVE_TASK from the set.
-// Does NOT delete the ACTIVE_TASK object.
-//
-int ACTIVE_TASK_SET::remove(ACTIVE_TASK* atp) {
-    vector<ACTIVE_TASK*>::iterator iter;
-
-    iter = active_tasks.begin();
-    while (iter != active_tasks.end()) {
-        if (*iter == atp) {
-            iter = active_tasks.erase(iter);
-            return 0;
-        }
-        iter++;
-    }
-    msg_printf(NULL, MSG_INTERNAL_ERROR,
-        "Task %s not found", atp->result->name
-    );
-    return ERR_NOT_FOUND;
-}
-
 ACTIVE_TASK::~ACTIVE_TASK() {
 #ifndef SIM
     cleanup_task();

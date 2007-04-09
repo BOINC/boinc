@@ -52,15 +52,17 @@ using std::vector;
 // clean up after finished apps
 //
 bool CLIENT_STATE::handle_finished_apps() {
-    unsigned int i;
     ACTIVE_TASK* atp;
     bool action = false;
     static double last_time = 0;
     if (gstate.now - last_time < 1.0) return false;
     last_time = gstate.now;
 
-    for (i=0; i<active_tasks.active_tasks.size(); i++) {
-        atp = active_tasks.active_tasks[i];
+    vector<ACTIVE_TASK*>::iterator iter;
+
+    iter = active_tasks.active_tasks.begin();
+    while (iter != active_tasks.active_tasks.end()) {
+        atp = *iter;
         switch (atp->task_state()) {
         case PROCESS_EXITED:
         case PROCESS_WAS_SIGNALED:
@@ -73,7 +75,7 @@ bool CLIENT_STATE::handle_finished_apps() {
                 );
             }
             app_finished(*atp);
-            active_tasks.remove(atp);
+            iter = active_tasks.active_tasks.erase(iter);
             delete atp;
             set_client_state_dirty("handle_finished_apps");
 
@@ -83,6 +85,9 @@ bool CLIENT_STATE::handle_finished_apps() {
             //
             request_schedule_cpus("handle_finished_apps");
             action = true;
+            break;
+        default:
+            iter++;
         }
     }
     return action;
