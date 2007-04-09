@@ -10,7 +10,7 @@ $cpid_stats_sites = array(
         "http://www.boincsynergy.com/stats/boinc-individual.php?cpid=%s"
     ),
     array("BOINC Combined Statistics",
-        "http://boinc.netsoft-online.com/get_user.php?cpid=%s&html=1"
+        "http://boinc.netsoft-online.com/e107_plugins/boinc/get_user.php?cpid=%s&html=1"
     ),
     array("The Knights Who Say 'Ni!'",
         "http://stats.kwsn.net/user.php?proj=all&cpid=%s"

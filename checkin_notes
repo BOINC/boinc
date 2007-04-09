@@ -3331,3 +3331,10 @@ David  9 Apr 2007
 	client/
 		app.C,h
 		cs_apps.C
+
+David  9 Apr 2007
+    - update netsoft URL
+
+    html/inc/
+        stats_sites.inc
+        user.inc
