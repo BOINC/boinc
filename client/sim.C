@@ -49,40 +49,6 @@ double duration = 86400, delta = 60;
 FILE* logfile;
 bool running;
 
-struct SIM_RESULTS {
-    double cpu_used;
-    double cpu_wasted;
-    double cpu_idle;
-
-    void print(FILE* f) {
-        fprintf(f, "used %f wasted %f idle %f\n",
-            cpu_used, cpu_wasted, cpu_idle
-        );
-    }
-    void print_pct(const char* title, FILE* f) {
-        double total = cpu_used + cpu_wasted + cpu_idle;
-        printf("%s used %.2f%%, wasted %.2f%%, idle %.2f%%\n",
-            title,
-            (cpu_used/total)*100,
-            (cpu_wasted/total)*100,
-            (cpu_idle/total)*100
-        );
-    }
-    void parse(FILE* f) {
-        fscanf(f, "used %lf wasted %lf idle %lf",
-            &cpu_used, &cpu_wasted, &cpu_idle
-        );
-    }
-    void add(SIM_RESULTS& r) {
-        cpu_used += r.cpu_used;
-        cpu_wasted += r.cpu_wasted;
-        cpu_idle += r.cpu_idle;
-    }
-    SIM_RESULTS() {
-        cpu_used = 0; cpu_wasted=0; cpu_idle=0;
-    }
-};
-
 SIM_RESULTS sim_results;
 
 //////////////// FUNCTIONS MODIFIED OR STUBBED OUT /////////////
@@ -140,7 +106,7 @@ HOST_INFO::HOST_INFO() {}
 
 //////////////// FUNCTIONS COPIED /////////////
 
-void PROJECT::init() {
+void SIM_PROJECT::init() {
     strcpy(master_url, "");
     strcpy(authenticator, "");
     project_specific_prefs = "";
@@ -200,6 +166,9 @@ void PROJECT::init() {
     cpu_shortfall = 0.0;
     rr_sim_deadlines_missed = 0;
     deadlines_missed = 0;
+
+    idle_period_duration = 0;
+    idle_period_sumsq = 0;
 }
 
 void RESULT::clear() {
@@ -335,10 +304,17 @@ bool CLIENT_STATE::simulate_rpc(PROJECT* _p) {
                 "<font color=#cc0000>MISSED DEADLINE</font>":
                 "<font color=#00cc00>MADE DEADLINE</font>"
             );
+            SIM_PROJECT* spp = (SIM_PROJECT*)rp->project;
             if (gstate.now > rp->report_deadline) {
                 sim_results.cpu_wasted += rp->final_cpu_time;
+                sim_results.nresults_missed_deadline++;
+                spp->project_results.nresults_missed_deadline++;
+                spp->project_results.cpu_wasted += rp->final_cpu_time;
             } else {
                 sim_results.cpu_used += rp->final_cpu_time;
+                sim_results.nresults_met_deadline++;
+                spp->project_results.nresults_met_deadline++;
+                spp->project_results.cpu_used += rp->final_cpu_time;
             }
             gstate.html_msg += buf;
             delete rp;
@@ -417,8 +393,14 @@ bool ACTIVE_TASK_SET::poll() {
     double diff = gstate.now - last_time;
     if (diff < 1.0) return false;
     last_time = gstate.now;
+    SIM_PROJECT* p;
 
     if (!running) return false;
+
+    for (i=0; i<gstate.projects.size(); i++) {
+        p = (SIM_PROJECT*) gstate.projects[i];
+        p->idle = true;
+    }
 
     int n=0;
     for (i=0; i<active_tasks.size(); i++) {
@@ -426,9 +408,9 @@ bool ACTIVE_TASK_SET::poll() {
         switch (atp->task_state()) {
         case PROCESS_EXECUTING:
             atp->cpu_time_left -= diff;
+            RESULT* rp = atp->result;
             if (atp->cpu_time_left <= 0) {
                 atp->set_task_state(PROCESS_EXITED, "poll");
-                RESULT* rp = atp->result;
                 rp->exit_status = 0;
                 rp->ready_to_report = true;
                 gstate.request_schedule_cpus("ATP poll");
@@ -436,6 +418,7 @@ bool ACTIVE_TASK_SET::poll() {
                 sprintf(buf, "result %s finished<br>", rp->name);
                 gstate.html_msg += buf;
             }
+            ((SIM_PROJECT*)rp->project)->idle = false;
             n++;
         }
     }
@@ -445,6 +428,20 @@ bool ACTIVE_TASK_SET::poll() {
     if (n > gstate.ncpus) {
         sprintf(buf, "TOO MANY JOBS RUNNING");
         gstate.html_msg += buf;
+    }
+
+    for (i=0; i<gstate.projects.size(); i++) {
+        p = (SIM_PROJECT*) gstate.projects[i];
+        if (p->idle) {
+            p->idle_period_duration += diff;
+        } else {
+            if (p->idle_period_duration) {
+                double ipd = p->idle_period_duration;
+                p->idle_period_sumsq += ipd*ipd;
+                p->nidle_periods++;
+                p->idle_period_duration = 0;
+            }
+        }
     }
 
     return action;
@@ -497,6 +494,14 @@ int ACTIVE_TASK::init(RESULT* rp) {
     scheduler_state = CPU_SCHED_UNINITIALIZED;
     return 0;
 }
+
+void CLIENT_STATE::print_project_results(FILE* f) {
+    for (unsigned int i=0; i<projects.size(); i++) {
+        SIM_PROJECT* p = (SIM_PROJECT*) projects[i];
+        p->print_results(f, sim_results);
+    }
+}
+
 
 //////////////// OTHER
 
@@ -633,6 +638,103 @@ int SIM_APP::parse(XML_PARSER& xp) {
         }
     }
     return ERR_XML_PARSE;
+}
+
+// return the fraction of CPU time that was spent in violation of shares
+// i.e., if a project got X and it should have got Y,
+// add up |X-Y| over all projects, and divide by total CPU
+//
+double CLIENT_STATE::share_violation() {
+    double x = 0;
+    unsigned int i;
+
+    double tot = 0, trs=0;
+    for (i=0; i<projects.size(); i++) {
+        SIM_PROJECT* p = (SIM_PROJECT*) projects[i];
+        tot += p->project_results.cpu_used + p->project_results.cpu_wasted;
+        trs += p->resource_share;
+    }
+    double sum = 0;
+    for (i=0; i<projects.size(); i++) {
+        SIM_PROJECT* p = (SIM_PROJECT*) projects[i];
+        double t = p->project_results.cpu_used + p->project_results.cpu_wasted;
+        double rs = p->resource_share/trs;
+        double rt = tot*rs;
+        sum += fabs(t - rt);
+    }
+    return sum/tot;
+
+}
+
+// "variety" is defined as the RMS of the duration of idle periods
+// across all projects
+//
+double CLIENT_STATE::variety() {
+    double sum = 0;
+    int n = 0;
+    unsigned int i;
+    for (i=0; i<projects.size(); i++) {
+        SIM_PROJECT* p = (SIM_PROJECT*) projects[i];
+        sum += p->idle_period_sumsq;
+        n += p->nidle_periods;
+    }
+    return sqrt(sum/n);
+}
+
+// top-level results (for aggregating multiple simulations)
+//
+void SIM_RESULTS::print(FILE* f) {
+    double total = cpu_used + cpu_wasted + cpu_idle;
+    fprintf(f, "wasted %f idle %f share_violation %f variety %f\n",
+        cpu_wasted/total, cpu_idle/total,
+        gstate.share_violation(),
+        gstate.variety()
+    );
+}
+
+// all results (human-readable)
+//
+void SIM_RESULTS::print_pct(const char* title, FILE* f) {
+    double total = cpu_used + cpu_wasted + cpu_idle;
+    fprintf(f, "%s used %.2f%%, wasted %.2f%%, idle %.2f%%\n",
+        title,
+        (cpu_used/total)*100,
+        (cpu_wasted/total)*100,
+        (cpu_idle/total)*100
+    );
+}
+void SIM_RESULTS::parse(FILE* f) {
+    fscanf(f, "used %lf wasted %lf idle %lf met %d missed %d",
+        &cpu_used, &cpu_wasted, &cpu_idle,
+        &nresults_met_deadline, &nresults_missed_deadline
+    );
+}
+void SIM_RESULTS::add(SIM_RESULTS& r) {
+    cpu_used += r.cpu_used;
+    cpu_wasted += r.cpu_wasted;
+    cpu_idle += r.cpu_idle;
+    nresults_met_deadline += r.nresults_met_deadline;
+    nresults_missed_deadline += r.nresults_missed_deadline;
+}
+
+SIM_RESULTS::SIM_RESULTS() {
+    cpu_used = 0; cpu_wasted=0; cpu_idle=0;
+    nresults_met_deadline = 0; nresults_missed_deadline = 0;
+}
+
+void SIM_PROJECT::print_results(FILE* f, SIM_RESULTS& sr) {
+    double t = project_results.cpu_used + project_results.cpu_wasted;
+    double gt = sr.cpu_used + sr.cpu_wasted;
+    fprintf(f, "%s: share %.2f total CPU %2f (%.2f%%)\n"
+        "   used %.2f wasted %.2f\n"
+        "   met %d missed %d\n",
+        project_name, resource_share,
+        t, (t/gt)*100,
+        project_results.cpu_used,
+        project_results.cpu_wasted,
+        project_results.nresults_met_deadline,
+        project_results.nresults_missed_deadline
+    );
 }
 
 int SIM_PROJECT::parse(XML_PARSER& xp) {
@@ -781,15 +883,11 @@ void CLIENT_STATE::html_rec() {
 
 void CLIENT_STATE::html_end() {
     double cpu_total=sim_results.cpu_used + sim_results.cpu_wasted + sim_results.cpu_idle;
-    fprintf(html_out,
-        "</table>\n"
-        "<p>CPU used: %.2f (%.2f%%)\n"
-        "<p>CPU wasted: %.2f (%.2f%%)\n"
-        "<p>CPU idle: %.2f (%.2f%%)\n",
-        sim_results.cpu_used, (sim_results.cpu_used/cpu_total)*100,
-        sim_results.cpu_wasted, (sim_results.cpu_wasted/cpu_total)*100,
-        sim_results.cpu_idle, (sim_results.cpu_idle/cpu_total)*100
-    );
+    fprintf(html_out, "</table><pre>\n");
+    sim_results.print(html_out);
+    sim_results.print_pct("Total:", html_out);
+    print_project_results(html_out);
+    fprintf(html_out, "</pre>\n");
     fclose(html_out);
 }
 
@@ -916,6 +1014,7 @@ int main(int argc, char** argv) {
         gstate.set_ncpus();
         gstate.request_work_fetch("init");
         gstate.simulate();
+        gstate.print_project_results(stdout);
         sim_results.print(stdout);
     }
 }

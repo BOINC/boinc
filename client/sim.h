@@ -19,6 +19,31 @@ using std::vector;
     // project: no downloading or runnable results
     // overall: at least one idle CPU
 
+struct SIM_RESULTS {
+    double cpu_used;
+    double cpu_wasted;
+    double cpu_idle;
+    int nresults_met_deadline;
+    int nresults_missed_deadline;
+
+    // top-level results (for aggregating multiple simulations)
+    //
+    void print(FILE* f);
+
+    // all results (human-readable)
+    //
+    void print_pct(const char* title, FILE* f);
+    void parse(FILE* f);
+    void add(SIM_RESULTS& r);
+    SIM_RESULTS();
+};
+
+struct PROJECT_RESULTS {
+    double cpu_used;
+    double cpu_wasted;
+    int nresults_met_deadline;
+    int nresults_missed_deadline;
+};
 
 class NORMAL_DIST {
 public:
@@ -68,7 +93,15 @@ public:
     RANDOM_PROCESS available;
     int index;
     int result_index;
+    int nidle_periods;
+    double idle_period_duration;
+    double idle_period_sumsq;
+    bool idle;
+
     int parse(XML_PARSER&);
+    PROJECT_RESULTS project_results;
+    void print_results(FILE*, SIM_RESULTS&);
+    void init();
 };
 
 class SIM_HOST: public HOST_INFO {
@@ -99,6 +132,8 @@ public:
     void html_rec();
     void html_end();
     std::string html_msg;
+    double share_violation();
+    double variety();
 
 private:
     double app_started;
@@ -205,6 +240,7 @@ public:
     void simulate();
     bool scheduler_rpc_poll();
     bool simulate_rpc(PROJECT*);
+    void print_project_results(FILE*);
 };
 
 class NET_STATUS {
