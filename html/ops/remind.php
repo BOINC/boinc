@@ -118,13 +118,19 @@ function replace($user, $template) {
         '/<user_id\/>/',
         '/<lapsed_interval\/>/',
     );
+    $most_recent = 0;
+    $result = mysql_query("select * from host where userid=" . $user->id);
+    while ($host = mysql_fetch_object($result)) {
+        if ($host->rpc_time > $most_recent) { $most_recent = $host->rpc_time; }
+    }
+    mysql_free_result($result);
     $rep = array(
         $user->name,
         gmdate('d F Y', $user->create_time),
         number_format($user->total_credit, 0),
         URL_BASE."opt_out.php?code=".salted_key($user->authenticator)."&userid=$user->id",
         $user->id,
-        $user->lapsed_interval,
+        floor((time() - $most_recent) / 86400),
     );
     return preg_replace($pat, $rep, $template);
 }
