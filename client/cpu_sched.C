@@ -507,7 +507,7 @@ void CLIENT_STATE::schedule_cpus() {
 			ram_left -= atp->procinfo.working_set_size_smoothed;
 		}
 
-        rp->project->anticipated_debt -= (1 - rp->project->resource_share / rrs) * expected_pay_off;
+        rp->project->anticipated_debt -= (rp->project->resource_share / rrs) * expected_pay_off;
         rp->project->deadlines_missed--;
         rp->edf_scheduled = true;
         if (log_flags.cpu_sched_debug) {
@@ -541,7 +541,8 @@ void CLIENT_STATE::schedule_cpus() {
             }
 			ram_left -= atp->procinfo.working_set_size_smoothed;
 		}
-        rp->project->anticipated_debt -= (1 - rp->project->resource_share / rrs) * expected_pay_off;
+        double xx = (rp->project->resource_share / rrs) * expected_pay_off;
+        rp->project->anticipated_debt -= xx;
         if (log_flags.cpu_sched_debug) {
             msg_printf(NULL, MSG_INFO, "[cpu_sched_debug] scheduling (regular) %s", rp->name);
         }

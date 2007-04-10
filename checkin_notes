@@ -3365,3 +3365,12 @@ Rom    10 Apr 2007
         
     clientgui/
         BOINCGridCtrl.cpp
+
+David  10 Apr 2007
+    - core client: adjustment to anticipated debt is
+       resource_share*expected_payoff, not
+       (1-resource_share)*expected_payoff
+
+    client/
+        cpu_sched.C
+        sim.C,h

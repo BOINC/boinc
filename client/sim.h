@@ -25,14 +25,13 @@ struct SIM_RESULTS {
     double cpu_idle;
     int nresults_met_deadline;
     int nresults_missed_deadline;
+    double share_violation;
+    double variety;
+    double cpu_wasted_frac;
+    double cpu_idle_frac;
 
-    // top-level results (for aggregating multiple simulations)
-    //
-    void print(FILE* f);
-
-    // all results (human-readable)
-    //
-    void print_pct(const char* title, FILE* f);
+    void compute();
+    void print(FILE* f, const char* title=0);
     void parse(FILE* f);
     void add(SIM_RESULTS& r);
     SIM_RESULTS();

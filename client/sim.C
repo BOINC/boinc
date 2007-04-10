@@ -409,6 +409,11 @@ bool ACTIVE_TASK_SET::poll() {
         case PROCESS_EXECUTING:
             atp->cpu_time_left -= diff;
             RESULT* rp = atp->result;
+
+            double cpu_time_used = rp->final_cpu_time - atp->cpu_time_left;
+            atp->fraction_done = cpu_time_used/rp->final_cpu_time;
+            atp->checkpoint_wall_time = gstate.now;
+
             if (atp->cpu_time_left <= 0) {
                 atp->set_task_state(PROCESS_EXITED, "poll");
                 rp->exit_status = 0;
@@ -435,13 +440,11 @@ bool ACTIVE_TASK_SET::poll() {
         if (p->idle) {
             p->idle_period_duration += diff;
         } else {
-            if (p->idle_period_duration) {
-                double ipd = p->idle_period_duration;
-                p->idle_period_sumsq += ipd*ipd;
-                p->nidle_periods++;
-                p->idle_period_duration = 0;
-            }
+            p->idle_period_duration = 0;
         }
+        double ipd = p->idle_period_duration;
+        p->idle_period_sumsq += ipd*ipd;
+        p->nidle_periods++;
     }
 
     return action;
@@ -681,32 +684,28 @@ double CLIENT_STATE::variety() {
     return sqrt(sum/n);
 }
 
+void SIM_RESULTS::compute() {
+    double total = cpu_used + cpu_wasted + cpu_idle;
+    cpu_wasted_frac = cpu_wasted/total;
+    cpu_idle_frac = cpu_idle/total;
+    share_violation = gstate.share_violation();
+    variety = gstate.variety();
+}
+
 // top-level results (for aggregating multiple simulations)
 //
-void SIM_RESULTS::print(FILE* f) {
-    double total = cpu_used + cpu_wasted + cpu_idle;
+void SIM_RESULTS::print(FILE* f, const char* title) {
+    if (title) {
+        fprintf(f, title);
+    }
     fprintf(f, "wasted %f idle %f share_violation %f variety %f\n",
-        cpu_wasted/total, cpu_idle/total,
-        gstate.share_violation(),
-        gstate.variety()
+        cpu_wasted_frac, cpu_idle_frac, share_violation, variety
     );
 }
 
-// all results (human-readable)
-//
-void SIM_RESULTS::print_pct(const char* title, FILE* f) {
-    double total = cpu_used + cpu_wasted + cpu_idle;
-    fprintf(f, "%s used %.2f%%, wasted %.2f%%, idle %.2f%%\n",
-        title,
-        (cpu_used/total)*100,
-        (cpu_wasted/total)*100,
-        (cpu_idle/total)*100
-    );
-}
 void SIM_RESULTS::parse(FILE* f) {
-    fscanf(f, "used %lf wasted %lf idle %lf met %d missed %d",
-        &cpu_used, &cpu_wasted, &cpu_idle,
-        &nresults_met_deadline, &nresults_missed_deadline
+    fscanf(f, "wasted %lf idle %lf share_violation %lf variety %lf",
+        &cpu_wasted, &cpu_idle, &share_violation, &variety
     );
 }
 void SIM_RESULTS::add(SIM_RESULTS& r) {
@@ -884,8 +883,8 @@ void CLIENT_STATE::html_rec() {
 void CLIENT_STATE::html_end() {
     double cpu_total=sim_results.cpu_used + sim_results.cpu_wasted + sim_results.cpu_idle;
     fprintf(html_out, "</table><pre>\n");
+    sim_results.compute();
     sim_results.print(html_out);
-    sim_results.print_pct("Total:", html_out);
     print_project_results(html_out);
     fprintf(html_out, "</pre>\n");
     fclose(html_out);
@@ -994,11 +993,11 @@ int main(int argc, char** argv) {
             FILE* f = fopen(SUMMARY_FILE, "r");
             sim_results.parse(f);
             fclose(f);
-            sim_results.print_pct(dir.c_str(), stdout);
+            sim_results.print(stdout, dir.c_str());
             total_results.add(sim_results);
             chdir("..");
         }
-        total_results.print_pct("Total", stdout);
+        total_results.print(stdout, "Total");
     } else {
         read_config_file();
         int retval;
@@ -1014,7 +1013,13 @@ int main(int argc, char** argv) {
         gstate.set_ncpus();
         gstate.request_work_fetch("init");
         gstate.simulate();
-        gstate.print_project_results(stdout);
+
+        sim_results.compute();
+
+        // print machine-readable first
         sim_results.print(stdout);
+
+        // then other
+        gstate.print_project_results(stdout);
     }
 }
