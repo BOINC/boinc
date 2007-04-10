@@ -549,7 +549,9 @@ void CBOINCGridCtrl::OnLabelLClick(wxGridEvent& ev) {
 			sortAscending = true;
 
             // Force a repaint of the label
-            SetColLabelValue(tmpOldColumn, GetColLabelValue(tmpOldColumn));
+			if ( -1 != tmpOldColumn ) {
+				SetColLabelValue(tmpOldColumn, GetColLabelValue(tmpOldColumn));
+			}
 		}
 
         // Force a repaint of the label

@@ -3357,3 +3357,11 @@ David  10 Apr 2007
 
     client/
         sim.C,h
+
+Rom    10 Apr 2007
+    - MGR: Do not attempt a refresh of the old grid header if the
+        old value is -1.
+        (From Walt G.)
+        
+    clientgui/
+        BOINCGridCtrl.cpp
