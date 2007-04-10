@@ -3339,10 +3339,15 @@ David  9 Apr 2007
         stats_sites.inc
         user.inc
 
-Charlie 3 Apr 2007
+Charlie 9 Apr 2007
     - change boinc_catch_signal() to exit with exit code EXIT_SIGNAL 
         instead of ERR_SIGNAL_CATCH.
         
     lib/
         diagnostics.C
 
+Charlie 10 Apr 2007
+    - Mac: Add support for Firefox on Mac.
+    
+    lib/
+        browser.C

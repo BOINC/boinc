@@ -73,7 +73,8 @@ void get_home_dir_path( std::string& path ) {
     if (NULL != hShell32) {
     	FreeLibrary(hShell32);
     }
-
+#elif defined(__APPLE__)
+    path = std::string(getenv("HOME") )+ std::string("/");
 #else
     path = std::string("~/");
 #endif
@@ -392,6 +393,8 @@ bool get_firefox_profiles_root( std::string& profiles_root ) {
     get_home_dir_path( profiles_root );
 #ifdef _WIN32
     profiles_root += std::string("Mozilla\\Firefox\\");
+#elif defined(__APPLE__)
+    profiles_root += std::string("Library/Application Support/Firefox/");
 #else
     profiles_root += std::string(".mozilla/firefox/");
 #endif
