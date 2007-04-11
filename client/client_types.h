@@ -265,7 +265,6 @@ public:
     // the factor is set to X.
     //
     double duration_correction_factor;
-    double duration_variability;
     void update_duration_correction_factor(RESULT*);
     
     // fields used by CPU scheduler and work fetch

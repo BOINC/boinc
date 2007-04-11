@@ -34,8 +34,10 @@
 
 #include "parse.h"
 #include "util.h"
+#include "filesys.h"
 #include "error_numbers.h"
 #include "client_msgs.h"
+#include "file_names.h"
 #ifdef SIM
 #include "sim.h"
 #else
@@ -53,10 +55,6 @@
 const float ALPHA = (SECONDS_PER_DAY*10);
 //const float ALPHA = 60;   // for testing
 
-bool BOINC_OUTAGE::is_recent() const {
-    return gstate.now - 60 * SECONDS_PER_DAY < end;
-}
-
 TIME_STATS::TIME_STATS() {
     last_update = 0;
     first = true;
@@ -64,6 +62,57 @@ TIME_STATS::TIME_STATS() {
     connected_frac = 1;
     active_frac = 1;
     cpu_efficiency = 1;
+    previous_connected_state = CONNECTED_STATE_UNINITIALIZED;
+    inactive_start = 0;
+    trim_stats_log();
+    time_stats_log = fopen(TIME_STATS_LOG, "a");
+    if (time_stats_log) {
+        setbuf(time_stats_log, 0);
+    }
+}
+
+// if log file is over a meg, discard everything older than a year
+//
+void TIME_STATS::trim_stats_log() {
+    double size;
+    char buf[256];
+    int retval;
+    double x;
+
+    retval = file_size(TIME_STATS_LOG, size);
+    if (retval) return;
+    if (size < 1e6) return;
+    FILE* f = fopen(TIME_STATS_LOG, "r");
+    FILE* f2 = fopen(TEMP_FILE_NAME, "w");
+    if (!f || !f2) return;
+    while (fgets(buf, 256, f)) {
+        int n = sscanf(buf, "%lf", &x);
+        if (n != 1) continue;
+        if (x < gstate.now-86400*365) continue;
+        fputs(buf, f2);
+    }
+    fclose(f);
+    fclose(f2);
+}
+
+// copy the log file after a given time
+//
+void TIME_STATS::get_log_after(double t, MIOFILE& mf) {
+    double x;
+    char buf[256];
+
+    fclose(time_stats_log);     // win: can't open twice
+    FILE* f = fopen(TIME_STATS_LOG, "r");
+    if (!f) return;
+
+    while (fgets(buf, 256, f)) {
+        int n = sscanf(buf, "%lf", &x);
+        if (n != 1) continue;
+        if (x < t) continue;
+        mf.printf("%s", buf);
+    }
+    fclose(f);
+    time_stats_log = fopen(TIME_STATS_LOG, "a");
 }
 
 // Update time statistics based on current activities
@@ -71,9 +120,10 @@ TIME_STATS::TIME_STATS() {
 // so these get written to disk only when other activities
 // cause this to happen.  Maybe should change this.
 //
-void TIME_STATS::update(bool is_active) {
+void TIME_STATS::update(int suspend_reason) {
     double dt, w1, w2;
 
+    bool is_active = !(suspend_reason & ~SUSPEND_REASON_CPU_USAGE_LIMIT);
     if (last_update == 0) {
         // this is the first time this client has executed.
         // Assume that everything is active
@@ -83,6 +133,7 @@ void TIME_STATS::update(bool is_active) {
         active_frac = 1;
         first = false;
         last_update = gstate.now;
+        log_append("power_on", gstate.now);
     } else {
         dt = gstate.now - last_update;
         if (dt <= 10) return;
@@ -94,17 +145,19 @@ void TIME_STATS::update(bool is_active) {
         // but leave it here for now
         //
         int connected_state = get_connected_state();
+#ifndef SIM
+        if (gstate.network_suspend_reason) {
+            connected_state = CONNECTED_STATE_NOT_CONNECTED;
+        }
+#endif
 
         if (first) {
             // the client has just started; this is the first call.
             //
             on_frac *= w2;
             first = false;
-            BOINC_OUTAGE outage;
-            outage.start = last_update;
-            outage.end = gstate.now;
-            outages.push_back(outage);
-            gstate.set_client_state_dirty("Outage");
+            log_append("power_off", last_update);
+            log_append("power_on", gstate.now);
         } else {
             on_frac = w1 + w2*on_frac;
             if (connected_frac < 0) connected_frac = 0;
@@ -119,19 +172,20 @@ void TIME_STATS::update(bool is_active) {
             case CONNECTED_STATE_UNKNOWN:
                 connected_frac = -1;
             }
+            if (connected_state != previous_connected_state) {
+                log_append_net(connected_state);
+                previous_connected_state = connected_state;
+            }
             active_frac *= w2;
             if (is_active) {
                 active_frac += w1;
                 if (inactive_start) {
-                    BOINC_OUTAGE outage;
-                    outage.start = inactive_start;
-                    outage.end = gstate.now;
-                    outages.push_back(outage);
-                    gstate.set_client_state_dirty("Outage");
                     inactive_start = 0;
+                    log_append("proc_start", gstate.now);
                 }
             } else if (inactive_start == 0){
                 inactive_start = gstate.now;
+                log_append("proc_stop", gstate.now);
             }
         }
         last_update = gstate.now;
@@ -222,21 +276,6 @@ int TIME_STATS::parse(MIOFILE& in) {
             if (cpu_efficiency < 0) cpu_efficiency = 1;
             if (cpu_efficiency > 1) cpu_efficiency = 1;
             continue;
-        } else if (match_tag(buf, "<outages>")){
-            while(in.fgets(buf, 256)) {
-                if (match_tag(buf, "</outages>")) break;
-                else if (match_tag(buf, "<outage>")) {
-                    BOINC_OUTAGE outage;
-                    while (in.fgets(buf, 256)) {
-                        if (match_tag(buf, "</outage>")) {
-                            outages.push_back(outage);
-                            break;
-                        }
-                        else if (parse_double(buf, "<start>", outage.start)) continue;
-                        else if (parse_double(buf, "<end>", outage.end)) continue;
-                    }
-                }
-            }
         } else {
             if (log_flags.unparsed_xml) {
                 msg_printf(0, MSG_INFO,
@@ -248,16 +287,29 @@ int TIME_STATS::parse(MIOFILE& in) {
     return ERR_XML_PARSE;
 }
 
-double TIME_STATS::get_longest_boinc_outage() const {
-    unsigned int i;
-    double longest_outage = 0;
-    for (i=0; i<outages.size(); i++) {
-        if (outages[i].is_recent()) {
-            double outage_length = outages[i].end - outages[i].start;
-            if (outage_length > longest_outage) longest_outage = outage_length;
-        }
+void TIME_STATS::quit() {
+    log_append("power_off", gstate.now);
+}
+
+void TIME_STATS::log_append(const char* msg, double t) {
+#ifndef SIM
+    if (!time_stats_log) return;
+    fprintf(time_stats_log, "%f %s\n", t, msg);
+#endif
+}
+
+void TIME_STATS::log_append_net(int new_state) {
+    switch(new_state) {
+    case CONNECTED_STATE_NOT_CONNECTED:
+        log_append("net_not_connected", gstate.now);
+        break;
+    case CONNECTED_STATE_CONNECTED:
+        log_append("net_connected", gstate.now);
+        break;
+    case CONNECTED_STATE_UNKNOWN:
+        log_append("net_unknown", gstate.now);
+        break;
     }
-    return longest_outage;
 }
 
 const char *BOINC_RCSID_472504d8c2 = "$Id$";

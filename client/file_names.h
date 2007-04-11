@@ -84,5 +84,6 @@ extern bool is_version_dir(char*, VERSION_INFO&);
 #define ALL_PROJECTS_LIST_FILENAME "all_projects_list.xml"
 #define SWITCHER_FILE_NAME          "switcher"
 #define SETPROJECTGRP_FILE_NAME     "setprojectgrp"
+#define TIME_STATS_LOG              "time_stats_log"
 
 #endif

@@ -257,7 +257,7 @@ void CDlgAdvPreferences::ReadPreferenceSettings() {
 	buffer.Printf(wxT("%.2f"),prefs.max_bytes_sec_up / 1024);
 	*m_txtNetUploadRate << buffer;
 	//
-	buffer.Printf(wxT("%.2f"),prefs.work_buf_additional_days / 86400);
+	buffer.Printf(wxT("%.2f"),prefs.work_buf_additional_days);
 	*m_txtNetAdditionalDays << buffer;
 	// skip image verification
 	m_chkNetSkipImageVerification->SetValue(prefs.dont_verify_images);

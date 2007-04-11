@@ -439,7 +439,7 @@ bool CLIENT_STATE::compute_work_requests() {
 
     // loop over projects, and pick one to get work from
     //
-    double prrs = potentially_runnable_resource_share();
+    double prrs = fetchable_resource_share();
     PROJECT *pbest = NULL;
     for (i=0; i<projects.size(); i++) {
         PROJECT *p = projects[i];

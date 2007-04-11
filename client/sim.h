@@ -149,6 +149,7 @@ private:
     double debt_interval_start;
     double total_wall_cpu_time_this_debt_interval;
         // "wall CPU time" accumulated since last adjust_debts()
+    double fetchable_resource_share();
     double total_cpu_time_this_debt_interval;
     double cpu_shortfall;
     bool work_fetch_no_new_work;

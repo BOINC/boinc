@@ -3401,3 +3401,30 @@ David  11 Apr 2007
         remind.php
     lib/
         boinc_cmd.C
+
+David  11 Apr 2007
+    - client: write availability info to a log file
+        Don't let file exceed 1 MB or 1 year, whichever is larger
+    - client: work fetch tweak: add notion of fetchable_resource_share
+    - client: remove BOINC_OUTAGE code
+    - client: remove leftover CURL temp files (blc*) on startup
+    - client: remove duration_variability code
+    - client: in maintaining availability info (TIME_STATS),
+        ignore CPU throttling.
+    - Manager: don't divide work_buf_additional_days by 86400 (??)
+
+    client/
+        client_state.C,h
+        client_types.C,h
+        cpu_sched.C
+        cs_scheduler.C
+        file_names.h
+        http_curl.C,h
+        rrsim_test.C
+        sim.h
+        time_stats.C,h
+        work_fetch.C
+    clientgui/
+        DlgAdvPreferences.cpp
+    lib/
+        network.h

@@ -302,6 +302,7 @@ private:
     double total_resource_share();
     double potentially_runnable_resource_share();
     double nearly_runnable_resource_share();
+    double fetchable_resource_share();
 public:
     double runnable_resource_share();
     void request_work_fetch(const char*);

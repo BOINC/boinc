@@ -213,7 +213,7 @@ bool CLIENT_STATE::rr_simulation() {
         //
         if (!p->active.size()) {
 			double rsf = trs ? p->resource_share/trs : 1;
-            p->cpu_shortfall = (work_buf_min()+work_buf_additional) * overall_cpu_frac() * ncpus * rsf;
+            p->cpu_shortfall = (work_buf_min()+work_buf_additional()) * overall_cpu_frac() * ncpus * rsf;
             if (log_flags.rr_simulation) {
                 msg_printf(p, MSG_INFO,
                     "no results; shortfall %f wbm %f ocf %f rsf %f",

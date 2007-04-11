@@ -70,6 +70,7 @@ typedef BOINC_SOCKLEN_T boinc_socklen_t;
 #endif
 
 
+#define CONNECTED_STATE_UNINITIALIZED   -1
 #define CONNECTED_STATE_NOT_CONNECTED   0
 #define CONNECTED_STATE_CONNECTED       1
 #define CONNECTED_STATE_UNKNOWN         2

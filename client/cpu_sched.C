@@ -1318,6 +1318,19 @@ double CLIENT_STATE::potentially_runnable_resource_share() {
     return x;
 }
 
+double CLIENT_STATE::fetchable_resource_share() {
+    double x = 0;
+    for (unsigned int i=0; i<projects.size(); i++) {
+        PROJECT* p = projects[i];
+        if (p->non_cpu_intensive) continue;
+        if (p->long_term_debt < -this->global_prefs.cpu_scheduling_period_minutes * 60) continue;
+        if (p->nearly_runnable()) {
+            x += p->resource_share;
+        }
+    }
+    return x;
+}
+
 // same, but nearly runnable (could be downloading work right now)
 //
 double CLIENT_STATE::nearly_runnable_resource_share() {
@@ -1464,7 +1477,6 @@ void PROJECT::update_duration_correction_factor(RESULT* rp) {
     double raw_ratio = rp->final_cpu_time/rp->estimated_cpu_time_uncorrected();
     double adj_ratio = rp->final_cpu_time/rp->estimated_cpu_time();
 	double old_dcf = duration_correction_factor;
-    double old_dv = duration_variability;
 
     // it's OK to overestimate completion time,
     // but bad to underestimate it.
@@ -1488,16 +1500,10 @@ void PROJECT::update_duration_correction_factor(RESULT* rp) {
     if (duration_correction_factor > 100) duration_correction_factor = 100;
     if (duration_correction_factor < 0.01) duration_correction_factor = 0.01;
 
-    // calculate duration variability
-    //
-    double variability_factor = adj_ratio > 1 ? 1 / adj_ratio : adj_ratio;
-    duration_variability = sqrt(duration_variability*variability_factor);
-
 	if (log_flags.cpu_sched_debug || log_flags.work_fetch_debug) {
 		msg_printf(this, MSG_INFO,
-            "[csd|wfd] DCF: %f->%f, var: %f->%f, raw_ratio %f, adj_ratio %f",
-			old_dcf, duration_correction_factor, old_dv, duration_variability,
-            raw_ratio, adj_ratio
+            "[csd|wfd] DCF: %f->%f, raw_ratio %f, adj_ratio %f",
+			old_dcf, duration_correction_factor, raw_ratio, adj_ratio
 		);
 	}
 }

@@ -354,6 +354,7 @@ int CLIENT_STATE::init() {
     }
 
     auto_update.init();
+    http_ops->cleanup_temp_files();
 
     initialized = true;
     return 0;
@@ -545,7 +546,7 @@ bool CLIENT_STATE::poll_slow_events() {
     if (actions > 0) {
         return true;
     } else {
-        time_stats.update(!tasks_suspended);
+        time_stats.update(suspend_reason);
 
         // on some systems, gethostbyname() only starts working
         // a few minutes after system boot.
@@ -1330,7 +1331,6 @@ int CLIENT_STATE::reset_project(PROJECT* project) {
     }
 
     project->duration_correction_factor = 1;
-    project->duration_variability = 0.9;
     project->ams_resource_share = -1;
     write_state_file();
     return 0;
@@ -1450,6 +1450,7 @@ int CLIENT_STATE::quit_activities() {
     write_state_file();
     gui_rpcs.close();
     abort_cpu_benchmarks();
+    time_stats.quit();
     return 0;
 }
 

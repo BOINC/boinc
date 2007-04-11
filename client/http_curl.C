@@ -1064,4 +1064,19 @@ void HTTP_OP::set_speed_limit(bool is_upload, double bytes_sec) {
 #endif
 }
 
+void HTTP_OP_SET::cleanup_temp_files() {
+    char filename[256];
+    int reval;
+
+    DIRREF d = dir_open(".");
+    while (1) {
+        int retval = dir_scan(filename, d, sizeof(filename));
+        if (retval) break;
+        if (strstr(filename, "blc") != filename) continue;
+        if (!is_file(filename)) continue;
+        boinc_delete_file(filename);
+    }
+    dir_close(d);
+}
+
 const char *BOINC_RCSID_57f273bb60 = "$Id$";

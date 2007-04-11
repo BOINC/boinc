@@ -167,6 +167,7 @@ public:
 	void get_fdset(FDSET_GROUP&);
     void got_select(FDSET_GROUP&, double);
     HTTP_OP* lookup_curl(CURL* pcurl);   // lookup by easycurl handle
+    void cleanup_temp_files();
 
 };
 
