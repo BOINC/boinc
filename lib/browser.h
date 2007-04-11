@@ -26,13 +26,26 @@
 //   cookie.
 //
 
+#ifdef __cplusplus
+extern "C" {
+#endif
+
 bool detect_setup_authenticator(std::string& project_url, std::string& authenticator);
+// is_authenticator_valid() is used by detect_setup_authenticator_safari() in mac_bowser.m
+bool is_authenticator_valid(const std::string authenticator);
 
 // These functions are browser specific functions
 //
+#ifdef __APPLE__
+bool detect_setup_authenticator_safari(std::string& project_url, std::string& authenticator);
+#endif
 #ifdef _WIN32
 bool detect_setup_authenticator_ie(std::string& project_url, std::string& authenticator);
 #endif
 bool detect_setup_authenticator_firefox(std::string& project_url, std::string& authenticator);
+
+#ifdef __cplusplus
+} // extern "C"
+#endif
 
 #endif

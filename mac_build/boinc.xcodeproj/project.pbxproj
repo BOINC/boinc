@@ -213,6 +213,7 @@
 		DD7DD79A0B8BFA2F00B11279 /* ViewMessagesGrid.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DDCDCDF00B532433009BB03C /* ViewMessagesGrid.cpp */; };
 		DD7DD79B0B8BFA4000B11279 /* ViewResources.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DD81C42307C5D1D70098A04D /* ViewResources.cpp */; };
 		DD7DD7C90B8BFD4800B11279 /* ViewMessages.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DD81C42507C5D1D70098A04D /* ViewMessages.cpp */; };
+		DD893FB60BCCCE89009EA401 /* mac_browser.mm in Sources */ = {isa = PBXBuildFile; fileRef = DD893FB50BCCCE89009EA401 /* mac_browser.mm */; };
 		DD9986830BBDF11000B690C2 /* browser.C in Sources */ = {isa = PBXBuildFile; fileRef = DD9986810BBDF11000B690C2 /* browser.C */; };
 		DDA12A6D0A36974600FBDD12 /* Security.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DD1929D80918A2F100C31BCF /* Security.framework */; };
 		DDA12AA20A369B5500FBDD12 /* SetupSecurity.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DD7748B40A356D6C0025D05E /* SetupSecurity.cpp */; };
@@ -1019,6 +1020,7 @@
 		DD81C5CC07C5D7D90098A04D /* gui_rpc_client.C */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.cpp.cpp; name = gui_rpc_client.C; path = ../lib/gui_rpc_client.C; sourceTree = SOURCE_ROOT; };
 		DD81C5F007C5D8290098A04D /* boinc_win.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = boinc_win.h; path = ../lib/boinc_win.h; sourceTree = SOURCE_ROOT; };
 		DD81C60307C5D8630098A04D /* gui_rpc_client.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = gui_rpc_client.h; path = ../lib/gui_rpc_client.h; sourceTree = SOURCE_ROOT; };
+		DD893FB50BCCCE89009EA401 /* mac_browser.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = mac_browser.mm; sourceTree = "<group>"; };
 		DD8DD4A509D9432F0043019E /* BOINCDialupManager.cpp */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.cpp.cpp; name = BOINCDialupManager.cpp; path = ../clientgui/BOINCDialupManager.cpp; sourceTree = SOURCE_ROOT; };
 		DD8DD4A609D9432F0043019E /* BOINCDialupManager.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = BOINCDialupManager.h; path = ../clientgui/BOINCDialupManager.h; sourceTree = SOURCE_ROOT; };
 		DD96AFF90811075000A06F22 /* BOINCSaver.saver */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = BOINCSaver.saver; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -1541,6 +1543,7 @@
 				DD344BB707C5AEEE0043025C /* hostinfo.h */,
 				DDF166A908DF898A00C8C4A5 /* mac_backtrace.C */,
 				DDF166AA08DF898A00C8C4A5 /* mac_backtrace.h */,
+				DD893FB50BCCCE89009EA401 /* mac_browser.mm */,
 				F5159562029EB02001F5651B /* md5.c */,
 				F5159563029EB02001F5651B /* md5.h */,
 				F5159564029EB02001F5651B /* md5_file.C */,
@@ -2442,6 +2445,7 @@
 				DD7BF7E60B8E7B6C00A009F7 /* str_util.C in Sources */,
 				DD205A1A0BAF596E0008D473 /* ProjectListCtrl.cpp in Sources */,
 				DD9986830BBDF11000B690C2 /* browser.C in Sources */,
+				DD893FB60BCCCE89009EA401 /* mac_browser.mm in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

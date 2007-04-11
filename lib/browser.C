@@ -87,7 +87,7 @@ bool parse_name_value_pair(char* buf, std::string& name, std::string& value) {
 
     s = std::string(buf);
     i = s.find("=", 0);
-    if ( i != -1 ) {
+    if ( i < s.npos ) {
         name = s.substr(0, i);
         value = s.substr(i + 1);
         strip_whitespace(name);
@@ -107,6 +107,8 @@ bool parse_hostname(std::string& project_url, std::string& hostname) {
     end   = project_url.find("/", start);
 
     hostname = project_url.substr(start, end - start);
+    if (starts_with(hostname.c_str(), "www"))
+        hostname.erase(0, 3);
     if (!hostname.empty())
         return true;
     return false;
@@ -295,8 +297,8 @@ bool find_project_cookie_mozilla_generic(
                 authenticator = "";
             } else {
                 authenticator = cookie;
+                retval = true;
             }
-            retval = true;
         }
     }
 
@@ -484,6 +486,11 @@ bool detect_setup_authenticator(
 ) {
 #ifdef _WIN32
     if (detect_setup_authenticator_ie(project_url, authenticator)) {
+        return true;
+    }
+#endif
+#ifdef __APPLE__
+    if (detect_setup_authenticator_safari(project_url, authenticator)) {
         return true;
     }
 #endif

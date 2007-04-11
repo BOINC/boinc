@@ -3374,3 +3374,15 @@ David  10 Apr 2007
     client/
         cpu_sched.C
         sim.C,h
+
+Charlie 11 Apr 2007
+    - Mac: Add support for Safari on Mac.
+    - Fix bugs in Firefx / Mozilla cookie detection:
+        - Don't require match for a leading "www" in URL.
+        - Don't return true if is_authenticator_valid(cookie) fails.
+        - Check for std::string.find() returning npos if it fails, not -1.
+        - Add extern "C" to browser.h file.
+    
+    lib/
+        browser.C,h
+        mac_browser.m (new, Mac only)
