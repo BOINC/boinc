@@ -31,7 +31,7 @@ extern "C" {
 #endif
 
 bool detect_setup_authenticator(std::string& project_url, std::string& authenticator);
-// is_authenticator_valid() is used by detect_setup_authenticator_safari() in mac_bowser.m
+// is_authenticator_valid() is used by detect_setup_authenticator_safari() in mac_bowser.mm
 bool is_authenticator_valid(const std::string authenticator);
 
 // These functions are browser specific functions

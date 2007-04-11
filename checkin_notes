@@ -3385,4 +3385,4 @@ Charlie 11 Apr 2007
     
     lib/
         browser.C,h
-        mac_browser.m (new, Mac only)
+        mac_browser.mm (new, Mac only)
