@@ -3428,3 +3428,9 @@ David  11 Apr 2007
         DlgAdvPreferences.cpp
     lib/
         network.h
+
+David  11 Apr 2007
+    - user web: wrong URL for BOINC Combined Stats
+
+    html/inc/
+        user.inc

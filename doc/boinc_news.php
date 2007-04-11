@@ -1,6 +1,13 @@
 <?
 
 $project_news = array(
+array("April 11, 2007",
+    "The BBC documentary 'Meltdown',
+    which highlights <a href=http://climateprediction.net>Climateprediction.net</a>,
+    has been nominated for
+    a <a href=http://www.bafta.org/site/page129.html>British Academy of
+    Film and Television Arts</a> academy award."
+),
 array("April 4, 2007",
     "Dr. Anderson gave the keynote talk,
     <a href=talks/ipdps_07_kn.ppt>Volunteer Computing: Planting the Flag</a>,
