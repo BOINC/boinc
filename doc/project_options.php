@@ -34,7 +34,6 @@ echo html_text("
 <upload_dir>            /path/to/directory    </upload_dir>
 <cgi_url>               http://A/URL          </cgi_url>
 <!-- optional; defaults as indicated: -->
-<project_dir>  ../      </project_dir>  <!-- relative to location of 'start' -->
     <bin_dir>      bin      </bin_dir>      <!-- relative to project_dir -->
     <cgi_bin_dir>  cgi-bin  </cgi_dir>      <!-- relative to project_dir -->
 [ <sched_lockfile_dir> path </sched_lockfile_dir> ]

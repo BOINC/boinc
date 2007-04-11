@@ -135,8 +135,9 @@ function replace($user, $template) {
     return preg_replace($pat, $rep, $template);
 }
 
-function mail_type($user, $email_file) {
+function mail_type($user, $email_files, $type) {
     global $testing;
+    $email_file = $email_files[$type];
     if ($email_file['html']) {
         $html = replace($user, $email_file['html']);
     } else {
@@ -160,13 +161,13 @@ function mail_type($user, $email_file) {
             $html
         );
         $now = time();
-        mysql_query("update user set posts=$now where id=$user->id");
+        $ntype = 0;
+        if $type == 'lapsed') $ntype = 2;
+        if $type == 'failed') $ntype = 3;
+        $query = "insert into sent_email values($user->id, $now, $ntype)";
+        mysql_query($query);
     }
 }
-
-// NOTE: we're using user.posts (a deprecated field)
-// to store the time the user was last sent an email.
-// At some point maybe we'll rename this field.
 
 function handle_user($user, $email_files) {
     global $lapsed_interval;
@@ -179,7 +180,7 @@ function handle_user($user, $email_files) {
         if ($testing) {
             echo "zero credit, sending failed email\n";
         }
-        mail_type($user, $email_files['failed']);
+        mail_type($user, $email_files, 'failed');
     } else {
         $t = last_rpc_time($user);
         if ($t < time() - $lapsed_interval) {
@@ -187,9 +188,21 @@ function handle_user($user, $email_files) {
             if ($testing) {
                 echo "nonzero credit, last RPC $user->lapsed_interval days ago, sending lapsed email\n";
             }
-            mail_type($user, $email_files['lapsed']);
+            mail_type($user, $email_files, 'lapsed');
         }
     }
+}
+
+function last_reminder_time($user) {
+    $query = "select * from sent_email where $userid=$user->id";
+    $result = mysql_query($query);
+    $t = 0;
+    while ($r = mysql_fetch_object($result)) {
+        if ($r->email_type !=2 && $r->email_type != 3) continue;
+        if ($r->time_sent > $t) $t = $time_sent;
+    }
+    mysql_free_result($result);
+    return $t;
 }
 
 function do_batch($email_files, $startid, $n) {
@@ -199,9 +212,10 @@ function do_batch($email_files, $startid, $n) {
     $max_email_time = time() - $email_interval;
     $max_create_time = time() - $start_interval;
     $result = mysql_query(
-        "select * from user where id>$startid and send_email<>0 and posts<$max_email_time and create_time<$max_create_time and expavg_credit < 10 order by id limit $n"
+        "select * from user where id>$startid and send_email<>0 and create_time<$max_create_time and expavg_credit < 10 order by id limit $n"
     );
     while ($user = mysql_fetch_object($result)) {
+        if (last_reminder_time($user) > $max_email_time) continue;
         handle_user($user, $email_files);
         $startid = $user->id;
     }
@@ -233,8 +247,8 @@ if ($userid) {
         echo "No such user: $userid\n";
         exit();
     }
-    mail_type($user, $email_files['failed']);
-    mail_type($user, $email_files['lapsed']);
+    mail_type($user, $email_files, 'failed');
+    mail_type($user, $email_files, 'lapsed');
 } else {
     main($email_files);
 }

@@ -350,7 +350,16 @@ function update_12_22_2007() {
     do_query("ALTER TABLE forum ADD is_dev_blog TINYINT NOT NULL DEFAULT 0");
 }
 
+function update_4_07_2007() {
+    do_query('create table sent_email
+            userid              integer     not null,
+            time_sent           integer     not null,
+            email_type          smallint    not null,
+            primary key(userid)
+        ) TYPE=MyISAM;'
+    );
+}
 
-//update_12_22_2007();
+//update_4_07_2007();
 
 ?>

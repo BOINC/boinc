@@ -437,3 +437,17 @@ create table post_ratings (
     rating              tinyint     not null,
     primary key(post, user)
 ) TYPE=MyISAM;
+
+create table sent_email (
+    userid              integer     not null,
+    time_sent           integer     not null,
+    email_type          smallint    not null,
+        -- 0 = other
+        -- 1 = newsletter
+        -- 2 = lapsed reminder
+        -- 3 = failed reminder
+        -- 4 = forum post hide
+        -- 5 = forum ban
+        -- 6 = fundraising appeal
+    primary key(userid)
+) TYPE=MyISAM;

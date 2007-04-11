@@ -3,6 +3,51 @@ require_once("docutil.php");
 page_head("Version history");
 echo"
 
+<h3>Version 5.9</h3>
+<ul>
+<li> Manager
+    <ul>
+    <li> Project selection list in Attach Project wizard
+    <li> Advanced preferences dialog
+    <li> Grid-based views: column sorting, progress bars, line shading
+    <li> Ability to find browser cookies on some platforms;
+        enables web-only attach.
+    <li> Don't allow multiple connection-request dialogs
+    </ul>
+<li> Core client
+    <ul>
+    <li> Improved slot directory logic makes it impossible
+        for two apps to run in same slot
+    <li> Reject directory-traversal and format conversion characters
+        in filenames from projects
+    <li> Add security-related configuration options:
+        suppress_net_info, disallow_attach, os_random_only.
+    <li> Support new work_buf_additional_days preference
+    <li> Various changes to prevent buffer overruns.
+    <li> Day-of-week preference enforcement
+    <li> Work correctly if core client starts up
+        before DNS system is working
+    <li> Export scheduling info in GUI RPCs
+    </ul>
+<li> Windows
+    <ul>
+    <li> Work around Vista problems
+        by running all components with administrative rights
+    </ul>
+<li> Windows
+    <ul>
+    <li> Correctly report RAM > 2 GB
+    <li> If screensaver launched BOINC, don't stop running when
+        energy saver puts display to sleep
+    <li> Improved user idle detection
+    <li> More robust installer
+    </ul>
+<li> Library upgrades
+    <ul>
+    <li> OpenSSL 0.9.8e
+    <li> LibcURL 7.16.1
+    </ul>
+</ul>
 <h3>Version 5.8</h3>
 <ul>
 <li> Snooze button.

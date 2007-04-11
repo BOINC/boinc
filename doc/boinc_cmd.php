@@ -135,6 +135,7 @@ list_item("--read_global_prefs_override",
     "
 );
 list_item("--quit", "Tell the core client to quit");
+list_item("--read_cc_config", "Reread the configuration file (cc_config.xml)");
 list_bar("Miscellaneous");
 list_item("--help, -h", "show options and commands");
 list_end();

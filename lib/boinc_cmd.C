@@ -88,6 +88,7 @@ Commands:\n\
  --get_project_config_poll\n\
  --lookup_account url email passwd\n\
  --create_account url email passwd name\n\
+ --read_cc_config\n\
  --quit\n\
    ");
     exit(1);
@@ -512,6 +513,8 @@ int main(int argc, char** argv) {
         printf("retval %d\n", retval);
     } else if (!strcmp(cmd, "--quit")) {
         retval = rpc.quit();
+    } else if (!strcmp(cmd, "read_cc_config")) {
+        retval = rpc.read_cc_config();
     } else {
         fprintf(stderr, "unrecognized command %s\n", cmd);
     }

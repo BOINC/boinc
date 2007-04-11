@@ -3386,3 +3386,18 @@ Charlie 11 Apr 2007
     lib/
         browser.C,h
         mac_browser.mm (new, Mac only)
+
+David  11 Apr 2007
+    - database: add sent_email table; keep track of emails sent to users
+    - boinc_cmd: add --read_cc_config command
+
+    db/
+        boinc_db.h
+        schema.sql
+    client/
+        cs_cmdline.C
+    html/ops/
+        db_update.php
+        remind.php
+    lib/
+        boinc_cmd.C

@@ -48,7 +48,7 @@ static void print_options(char* prog) {
         "    --run_cpu_benchmarks            run the CPU benchmarks\n"
         "    --check_all_logins              for idle detection, check remote logins\n too"
         "    --allow_remote_gui_rpc          allow remote GUI RPC connections\n"
-        "    --gui_rpc_port                  port for GUI RPCs\n"
+        "    --gui_rpc_port <port>           port for GUI RPCs\n"
         "    --redirectio                    redirect stdout and stderr to log files\n"
         "    --detach                        detach from console (Windows)\n"
         "    --dir <path>                    use given dir as BOINC home\n"
