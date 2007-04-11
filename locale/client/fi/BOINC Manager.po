@@ -2,7 +2,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: BOINC Manager 4.x\n"
 "POT-Creation-Date: \n"
-"PO-Revision-Date: 2007-02-21 23:37+0200\n"
+"PO-Revision-Date: 2007-04-07 21:50+0200\n"
 "Last-Translator: Maka <markusko ät edu dot kauhajoki dot fi>\n"
 "Language-Team: BOINC Development Team <rwalton@ssl.berkeley.edu>\n"
 "MIME-Version: 1.0\n"
@@ -80,11 +80,11 @@ msgstr "Liity projektiin"
 
 #: clientgui/AccountInfoPage.cpp:437
 msgid "Update account manager"
-msgstr "Päivitä tilimanageri"
+msgstr "Päivitä tilihallitsin"
 
 #: clientgui/AccountInfoPage.cpp:439
 msgid "Attach to account manager"
-msgstr "Liitä tilimanageriin"
+msgstr "Liitä tilihallitsimeen"
 
 #: clientgui/AccountInfoPage.cpp:450
 #, c-format
@@ -94,7 +94,7 @@ msgstr "Salasanan minimipituus tälle projektille on %d merkkiä. Syötä toinen sal
 #: clientgui/AccountInfoPage.cpp:456
 #, c-format
 msgid "The minimum password length for this account manager is %d. Please enter a different password."
-msgstr "Salasanan minimipituus tälle tilimanagerille on %d merkkiä. Syötä toinen salasana."
+msgstr "Salasanan minimipituus tälle tilihallitsimelle on %d merkkiä. Syötä toinen salasana."
 
 #: clientgui/AccountInfoPage.cpp:467
 msgid "The password and confirmation password do not match. Please type them again."
@@ -130,11 +130,11 @@ msgstr "Tiliavain:"
 
 #: clientgui/AccountManagerInfoPage.cpp:175
 msgid "Account Manager URL"
-msgstr "Tilimanagerin verkko-osoite"
+msgstr "Tilihallitsimen verkko-osoite"
 
 #: clientgui/AccountManagerInfoPage.cpp:178
 msgid "Enter the URL of the account manager's web site."
-msgstr "Syötä tilimanagerin verkkosivujen osoite."
+msgstr "Syötä tilihallitsimen verkkosivujen osoite."
 
 #: clientgui/AccountManagerInfoPage.cpp:181
 #: clientgui/ProjectInfoPage.cpp:237
@@ -147,11 +147,11 @@ msgstr ""
 
 #: clientgui/AccountManagerInfoPage.cpp:185
 msgid "Account Manager &URL:"
-msgstr "Tilimanagerin verkko-osoite:"
+msgstr "Tilihallitsimen verkko-osoite:"
 
 #: clientgui/AccountManagerInfoPage.cpp:188
 msgid "For a list of BOINC-based account managers go to:"
-msgstr "Lista BOINC:iin perustuvista tilimanagereista:"
+msgstr "Lista BOINCiin perustuvista tilihallitsimista:"
 
 #: clientgui/AccountManagerProcessingPage.cpp:190
 #: clientgui/AccountManagerPropertiesPage.cpp:191
@@ -210,7 +210,7 @@ msgstr "&Selkeä näkymä"
 
 #: clientgui/AdvancedFrame.cpp:334
 msgid "Display the simple BOINC graphical interface."
-msgstr "Näytä BOINC:in selkeä graafinen käyttöliittymä."
+msgstr "Näytä BOINCin selkeä graafinen käyttöliittymä."
 
 #: clientgui/AdvancedFrame.cpp:343
 msgid "Attach to &project..."
@@ -222,11 +222,11 @@ msgstr "Liity projektiin"
 
 #: clientgui/AdvancedFrame.cpp:348
 msgid "Attach to &account manager..."
-msgstr "Liitä &tilimanageriin..."
+msgstr "Liitä &tilihallitsimeen..."
 
 #: clientgui/AdvancedFrame.cpp:349
 msgid "Attach to an account manager"
-msgstr "Liitä tilimanageriin"
+msgstr "Liitä tilihallitsimeen"
 
 #: clientgui/AdvancedFrame.cpp:353
 #, c-format
@@ -244,7 +244,7 @@ msgstr "&Suorita aina"
 
 #: clientgui/AdvancedFrame.cpp:373
 msgid "Allow work regardless of preferences"
-msgstr "Salli työ asetuksista huolimatta"
+msgstr "Salli työskentely asetuksistasi huolimatta"
 
 #: clientgui/AdvancedFrame.cpp:377
 msgid "Run based on &preferences"
@@ -252,7 +252,7 @@ msgstr "Suorita &asetusten perusteella"
 
 #: clientgui/AdvancedFrame.cpp:378
 msgid "Allow work according to your preferences"
-msgstr "Salli työ asetustesi mukaisesti"
+msgstr "Salli työskentely asetustesi mukaisesti"
 
 #: clientgui/AdvancedFrame.cpp:382
 msgid "&Suspend"
@@ -260,7 +260,7 @@ msgstr "&Hyllytä"
 
 #: clientgui/AdvancedFrame.cpp:383
 msgid "Stop work regardless of preferences"
-msgstr "Pysäytä työ asetuksista huolimatta"
+msgstr "Keskeytä työskentely asetuksistasi huolimatta"
 
 #: clientgui/AdvancedFrame.cpp:399
 msgid "&Network activity always available"
@@ -268,7 +268,7 @@ msgstr "&Verkkoyhteys aina käytettävissä"
 
 #: clientgui/AdvancedFrame.cpp:400
 msgid "Allow network activity regardless of preferences"
-msgstr "Salli verkkoyhteys asetuksista huolimatta"
+msgstr "Salli verkkoyhteys asetuksistasi huolimatta"
 
 #: clientgui/AdvancedFrame.cpp:404
 msgid "Network activity based on &preferences"
@@ -280,11 +280,11 @@ msgstr "Salli verkkoyhteys asetustesi mukaisesti"
 
 #: clientgui/AdvancedFrame.cpp:409
 msgid "&Network activity suspended"
-msgstr "Verkkoyhteys h&yllytetty"
+msgstr "Verkkoyhteys &estetty"
 
 #: clientgui/AdvancedFrame.cpp:410
 msgid "Stop BOINC network activity"
-msgstr "Estä BOINC:in yhteys verkkoon"
+msgstr "Estä BOINCin yhteys verkkoon"
 
 #: clientgui/AdvancedFrame.cpp:417
 msgid "&Options..."
@@ -325,7 +325,7 @@ msgstr "Aja &suorituskykytestit"
 
 #: clientgui/AdvancedFrame.cpp:445
 msgid "Runs BOINC CPU benchmarks"
-msgstr "Aja BOINC:in suoritintehotestit"
+msgstr "Aja BOINCin suoritintehotestit"
 
 #: clientgui/AdvancedFrame.cpp:449
 msgid "Retry &communications"
@@ -358,7 +358,7 @@ msgstr "&Lopeta %s:n käyttäminen"
 
 #: clientgui/AdvancedFrame.cpp:471
 msgid "Remove client from account manager control."
-msgstr "Poista kone tilimanagerin alaisuudesta."
+msgstr "Poista kone tilihallitsimen alaisuudesta."
 
 #: clientgui/AdvancedFrame.cpp:475
 msgid "Attach to &project"
@@ -378,25 +378,25 @@ msgstr "&%s"
 #: clientgui/sg_BoincSimpleGUI.cpp:118
 #, c-format
 msgid "Show information about the %s"
-msgstr "Näytä tietoja %s:ista"
+msgstr "Näytä tietoja %s:sta"
 
 #: clientgui/AdvancedFrame.cpp:505
 #: clientgui/sg_BoincSimpleGUI.cpp:130
 #, c-format
 msgid "%s &website"
-msgstr "%s:in verkkosivusto"
+msgstr "%s:n verkkosivusto"
 
 #: clientgui/AdvancedFrame.cpp:511
 #: clientgui/sg_BoincSimpleGUI.cpp:136
 #, c-format
 msgid "Show information about BOINC and %s"
-msgstr "Näytä tietoja BOINC:ista ja %s:ista"
+msgstr "Näytä tietoja BOINCista ja %s:sta"
 
 #: clientgui/AdvancedFrame.cpp:527
 #: clientgui/BOINCTaskBar.cpp:625
 #, c-format
 msgid "&About %s..."
-msgstr "Tietoja %s:&ista..."
+msgstr "&Tietoja %s:sta..."
 
 #: clientgui/AdvancedFrame.cpp:533
 msgid "Licensing and copyright information."
@@ -561,7 +561,7 @@ msgid ""
 "Make sure you start this program in the same directory as the client."
 msgstr ""
 "Käyttöoikeusvirhe yhdistettäessä asiakasohjelmaan.\n"
-"Varmista,että ajat tämän ohjelman samasta kansiosta kuin asiakasohjelman."
+"Varmista, että ajat tämän ohjelman samasta kansiosta kuin asiakasohjelman."
 
 #: clientgui/BOINCBaseFrame.cpp:374
 msgid "The password you have provided is incorrect, please try again."
@@ -620,7 +620,7 @@ msgid ""
 "Please connect to the Internet, then select the 'retry communications' item off the advanced menu."
 msgstr ""
 "%s ei pysty ottamaan yhteyttä projektiin ja tarvitsee Internet-yhteyden.\n"
-"Ota yhteys Internettiin, valitse '\"Yritä yhdistää uudelleen\" \"Lisäasetukset\"-valikosta."
+"Ota yhteys Internettiin ja valitse '\"Yritä yhdistää uudelleen\" \"Lisäasetukset\"-valikosta."
 
 #: clientgui/BOINCDialupManager.cpp:314
 #, c-format
@@ -682,7 +682,7 @@ msgid ""
 "BOINC ownership or permissions are not set properly; please reinstall BOINC.\n"
 "(Error code %d)"
 msgstr ""
-"BOINC:in omistus- ja käyttöoikeuksia ei ole asetettu oikein. Asenna BOINC uudelleen.\n"
+"BOINCin omistus- ja käyttöoikeuksia ei ole asetettu oikein. Asenna BOINC uudelleen.\n"
 "(Virhekoodi %d)"
 
 #: clientgui/BOINCGUIApp.cpp:376
@@ -695,7 +695,7 @@ msgstr "Käynnistä BOINC näillä lisäargumenteillä"
 
 #: clientgui/BOINCGUIApp.cpp:378
 msgid "disable BOINC security users and permissions"
-msgstr "älä välitä BOINC:in omistus- ja käyttöoikeuksista"
+msgstr "älä välitä BOINCin omistus- ja käyttöoikeuksista"
 
 #: clientgui/BOINCGUIApp.cpp:442
 msgid "(Automatic Detection)"
@@ -746,7 +746,7 @@ msgstr "Avaa %s..."
 
 #: clientgui/BOINCTaskBar.cpp:620
 msgid "Snooze"
-msgstr "Hyllytä tunniksi"
+msgstr "Pidä tunnin tauko"
 
 #: clientgui/CompletionErrorPage.cpp:202
 msgid "Failed to attach to project"
@@ -754,15 +754,15 @@ msgstr "Projektiin liittyminen epäonnistui"
 
 #: clientgui/CompletionErrorPage.cpp:207
 msgid "Failed to update account manager"
-msgstr "Tilimanagerin päivittäminen epäonnistui"
+msgstr "Tilihallitsimen päivittäminen epäonnistui"
 
 #: clientgui/CompletionErrorPage.cpp:211
 msgid "Failed to remove account manager"
-msgstr "Tilimanagerin poistaminen epäonnistui"
+msgstr "Tilihallitsimen poistaminen epäonnistui"
 
 #: clientgui/CompletionErrorPage.cpp:215
 msgid "Failed to attach to account manager"
-msgstr "Tilimanageriin liittyminen epäonnistui"
+msgstr "Tilihallitsimeen liittyminen epäonnistui"
 
 #: clientgui/CompletionErrorPage.cpp:224
 msgid ""
@@ -829,7 +829,7 @@ msgstr "Liityttiin %s:n"
 
 #: clientgui/CompletionPage.cpp:282
 msgid "Attached to account manager"
-msgstr "Liityttin tilimanageriin"
+msgstr "Liityttiin tilihallitsimeen"
 
 #: clientgui/CompletionPage.cpp:292
 #, c-format
@@ -843,12 +843,12 @@ msgstr "Olet liittynyt onnistuneesti %s-järjestelmään."
 
 #: clientgui/CompletionPage.cpp:310
 msgid "You are now successfully attached to this account manager."
-msgstr "Olet liittynyt onnistuneesti tilimanageriin."
+msgstr "Olet liittynyt onnistuneesti tilihallitsimeen."
 
 #: clientgui/DlgAbout.cpp:99
 #, c-format
 msgid "About %s"
-msgstr "Tietoja %s:ista"
+msgstr "Tietoja %s:sta"
 
 #: clientgui/DlgAbout.cpp:137
 msgid "BOINC Manager"
@@ -1019,7 +1019,7 @@ msgstr "käytä enintään"
 #: clientgui/DlgAdvPreferencesBase.cpp:249
 #, c-format
 msgid "% CPU time"
-msgstr "% suoritinajasta"
+msgstr "\"%\" suoritinajasta"
 
 #: clientgui/DlgAdvPreferencesBase.cpp:259
 msgid "processor usage"
@@ -1168,7 +1168,7 @@ msgstr "Kielen valinta:"
 
 #: clientgui/DlgOptions.cpp:145
 msgid "What language should the manager display by default."
-msgstr "Mitä kieltä managerin tulisi käyttää oletuksena?"
+msgstr "Mitä kieltä hallitsimen tulisi käyttää oletuksena?"
 
 #: clientgui/DlgOptions.cpp:149
 msgid "Reminder Frequency:"
@@ -1176,7 +1176,7 @@ msgstr "Muistutuksen toisto:"
 
 #: clientgui/DlgOptions.cpp:161
 msgid "How often, in minutes, should the manager remind you of possible connection events."
-msgstr "Miten usein - minuutteina - managerin tulisi muistuttaa sinua mahdollisista yhteystapahtumista?"
+msgstr "Miten usein - minuutteina - hallitsimen tulisi muistuttaa sinua mahdollisista yhteystapahtumista?"
 
 #: clientgui/DlgOptions.cpp:164
 msgid "General"
@@ -1417,7 +1417,7 @@ msgstr "GEO-600-projektin kotisivut"
 #: clientgui/ViewProjectsGrid.cpp:212
 #: clientgui/ViewStatistics.cpp:400
 msgid "Team"
-msgstr "Tiimisi"
+msgstr "Tiimi"
 
 #: clientgui/Localization.cpp:119
 msgid "Info about your Team"
@@ -1505,13 +1505,13 @@ msgid ""
 "\n"
 "Please check the URL and try again."
 msgstr ""
-"Syöttämäsi verkko-osoite ei kuulu BOINC:iin perustuvalle projektille.\n"
+"Syöttämäsi verkko-osoite ei kuulu BOINCiin perustuvalle projektille.\n"
 "\n"
 "Tarkista osoite ja yritä uudelleen."
 
 #: clientgui/NotDetectedPage.cpp:193
 msgid "Account manager not found"
-msgstr "Tilimanageria ei löytynyt"
+msgstr "Tilihallitsinta ei löytynyt"
 
 #: clientgui/NotDetectedPage.cpp:196
 msgid ""
@@ -1520,7 +1520,7 @@ msgid ""
 "\n"
 "Please check the URL and try again."
 msgstr ""
-"Syöttämäsi verkko-osoite ei kuulu BOINC:iin perustuvalle tilimanagerille.\n"
+"Syöttämäsi verkko-osoite ei kuulu BOINCiin perustuvalle tilihallitsimelle.\n"
 "\n"
 "Tarkista osoite ja yritä uudelleen."
 
@@ -1542,7 +1542,7 @@ msgstr "Projektin verkko-osoite"
 
 #: clientgui/ProjectInfoPage.cpp:234
 msgid "Enter the URL of the project's web site."
-msgstr "Syötä projektin verkko-osoite.Syötä projektin verkko-osoite."
+msgstr "Syötä projektin verkko-osoite."
 
 #: clientgui/ProjectInfoPage.cpp:241
 msgid "Project &URL:"
@@ -1550,7 +1550,7 @@ msgstr "Projektin &verkko-osoite:"
 
 #: clientgui/ProjectInfoPage.cpp:244
 msgid "For a list of BOINC-based projects go to:"
-msgstr "Lista BOINC:iin perustuvista projekteista:"
+msgstr "Lista BOINCiin perustuvista projekteista:"
 
 #: clientgui/ProjectProcessingPage.cpp:326
 #: clientgui/ProjectPropertiesPage.cpp:327
@@ -1593,13 +1593,13 @@ msgstr ""
 "1) Yhteysongelma. Tarkista verkko- tai modeemi-\n"
 "yhteytesi ja paina \"Takaisin\" yrittääksesi uudelleen.\n"
 "\n"
-"2) Palomuuriohjelmistosi torjuu BOINC:in.\n"
-"Muuta palomuurisi asetuksia salliaksesi BOINC:in\n"
+"2) Palomuuriohjelmistosi torjuu BOINCin.\n"
+"Muuta palomuurisi asetuksia salliaksesi BOINCin\n"
 "yhteyden portin 80 kautta. Paina sitten \"Takaisin\"\n"
 "ja yritä uudelleen.\n"
 "\n"
 "3) Käytät välityspalvelinta.\n"
-"Paina \"Seuraava\" muokataksesi BOINC:in\n"
+"Paina \"Seuraava\" muokataksesi BOINCin\n"
 "välityspalvelinasetuksia."
 
 #: clientgui/ProxyPage.cpp:337
@@ -1727,7 +1727,7 @@ msgstr "Kopioi valitut viestit leikepöydälle. Voit valita monta viestiä pitämäll
 #: clientgui/sg_DlgPreferences.cpp:506
 #: clientgui/sg_ProjectsComponent.cpp:116
 msgid "Get help with BOINC"
-msgstr "Hae apua BOINC:in käyttöön"
+msgstr "Hae apua BOINCin käyttöön"
 
 #: clientgui/sg_DlgMessages.cpp:740
 msgid "BOINC Manager - Messages"
@@ -1952,7 +1952,7 @@ msgstr "Avaa ikkuna muuttaaksesi asetuksia"
 
 #: clientgui/sg_ProjectsComponent.cpp:244
 msgid "Switch to the BOINC advanced view"
-msgstr "Vaihda BOINC:in laajempaan näkymään%.1lf"
+msgstr "Vaihda BOINCin laajempaan näkymään"
 
 #: clientgui/sg_StatImageLoader.cpp:103
 #, c-format
@@ -2030,7 +2030,7 @@ msgstr ""
 
 #: clientgui/UnavailablePage.cpp:193
 msgid "Account manager temporarily unavailable"
-msgstr "Tilimanageri väliaikaisesi tavoittamattomissa"
+msgstr "Tilihallitsin väliaikaisesi tavoittamattomissa"
 
 #: clientgui/UnavailablePage.cpp:196
 msgid ""
@@ -2038,7 +2038,7 @@ msgid ""
 "\n"
 "Please try again later."
 msgstr ""
-"Tilimanageri on väliaikaisesi tavoittamattomissa.\n"
+"Tilihallitsin on väliaikaisesi tavoittamattomissa.\n"
 "\n"
 "Yritä myöhemmin uudelleen."
 
@@ -2379,7 +2379,7 @@ msgstr "vapaata levytilaa - "
 
 #: clientgui/ViewResources.cpp:227
 msgid "used by BOINC - "
-msgstr "BOINC:in käytössä - "
+msgstr "BOINCin käytössä - "
 
 #: clientgui/ViewResources.cpp:233
 msgid "used by other programs - "
@@ -2506,7 +2506,7 @@ msgstr "Yritä uudelleen nyt"
 #: clientgui/ViewTransfers.cpp:99
 #: clientgui/ViewTransfersGrid.cpp:106
 msgid "Click 'Retry now' to transfer the file now"
-msgstr "Paina \"Yritä uudelleen nyt\" siirtääksesi tiedoston heti"
+msgstr "Paina \"Yritä uudelleen nyt\" siirtääksesi tiedoston heti."
 
 #: clientgui/ViewTransfers.cpp:105
 #: clientgui/ViewTransfersGrid.cpp:112
@@ -2563,7 +2563,7 @@ msgid ""
 "NOTE: Aborting a transfer will invalidate a task and you\n"
 "will not receive credit for it."
 msgstr ""
-"Haluatko varmasti keskeyttää tämän tiedoston \"%s\"siirron?\n"
+"Haluatko varmasti keskeyttää tiedoston \"%s\" siirron?\n"
 "HUOMIO: Siirron keskeyttäminen mitätöi paketin, etkä saa\n"
 "siitä pisteitä."
 
@@ -2617,12 +2617,12 @@ msgstr "Ladataan"
 #: clientgui/ViewTransfers.cpp:534
 #: clientgui/ViewTransfersGrid.cpp:420
 msgid "Upload pending"
-msgstr "Odotetaan lähettämistä"
+msgstr "Odottaa lähettämistä"
 
 #: clientgui/ViewTransfers.cpp:534
 #: clientgui/ViewTransfersGrid.cpp:420
 msgid "Download pending"
-msgstr "Odotetaan lataamista"
+msgstr "Odottaa lataamista"
 
 #: clientgui/ViewWork.cpp:107
 #: clientgui/ViewWorkGrid.cpp:108
@@ -2637,12 +2637,12 @@ msgstr "Hyllytä tämä työpaketti"
 #: clientgui/ViewWork.cpp:120
 #: clientgui/ViewWorkGrid.cpp:121
 msgid "Abort"
-msgstr "Keskeytä"
+msgstr "Hylkää"
 
 #: clientgui/ViewWork.cpp:121
 #: clientgui/ViewWorkGrid.cpp:122
 msgid "Abandon work on the result. You will get no credit for it."
-msgstr "Haluatko varmasti hylätä tämän työpaketin. Et saa siitä pisteitä."
+msgstr "Hylkää tämä työpaketti. Et saa siitä pisteitä."
 
 #: clientgui/ViewWork.cpp:133
 #: clientgui/ViewWorkGrid.cpp:140
@@ -2692,7 +2692,7 @@ msgstr "Näytetään paketin grafiikkoja..."
 #: clientgui/ViewWork.cpp:272
 #: clientgui/ViewWorkGrid.cpp:290
 msgid "Aborting result..."
-msgstr "Keskeytetään pakettia..."
+msgstr "Hylätään pakettia..."
 
 #: clientgui/ViewWork.cpp:280
 #, c-format
@@ -2700,13 +2700,13 @@ msgid ""
 "Are you sure you want to abort this task '%s'?\n"
 "(Progress: %s, Status: %s)"
 msgstr ""
-"Haluatko varmasti keskeyttää tämän paketin \"%s\"?\n"
+"Haluatko varmasti hylätä paketin \"%s\"?\n"
 "(suoritettu: %s, tila: %s)"
 
 #: clientgui/ViewWork.cpp:289
 #: clientgui/ViewWorkGrid.cpp:310
 msgid "Abort task"
-msgstr "Keskeytä paketti"
+msgstr "Hylkää paketti"
 
 #: clientgui/ViewWork.cpp:506
 #: clientgui/ViewWorkGrid.cpp:377
@@ -2776,14 +2776,14 @@ msgstr "Suoritetaan"
 #: clientgui/ViewWork.cpp:784
 #: clientgui/ViewWorkGrid.cpp:701
 msgid "Waiting to run"
-msgstr "Odotetaan suoritusta"
+msgstr "Odottaa suorittamista"
 
 #: clientgui/ViewWork.cpp:786
 #: clientgui/ViewWork.cpp:789
 #: clientgui/ViewWorkGrid.cpp:703
 #: clientgui/ViewWorkGrid.cpp:706
 msgid "Ready to start"
-msgstr "Valmis laskemiseen"
+msgstr "Valmiina aloitettavaksi"
 
 #: clientgui/ViewWork.cpp:793
 #: clientgui/ViewWorkGrid.cpp:710
@@ -2813,7 +2813,7 @@ msgstr "Hyväksytty"
 #: clientgui/ViewWork.cpp:818
 #: clientgui/ViewWorkGrid.cpp:735
 msgid "Ready to report"
-msgstr "Valmis raportointiin"
+msgstr "Valmiina raportoitavaksi"
 
 #: clientgui/ViewWork.cpp:820
 #: clientgui/ViewWorkGrid.cpp:737
@@ -2827,16 +2827,14 @@ msgid ""
 "Are you sure you want to abort this task '%s'?\n"
 "(Progress: %s %%, Status: %s)"
 msgstr ""
-"Haluatko varmasti keskeyttää tämän paketin \"%s\"?\n"
-"(suoritettu: %s, tila: %s)"
+"Haluatko varmasti hylätä paketin \"%s\"?\n"
+"(suoritettu: %s %%, tila: %s)"
 
 #: clientgui/WelcomePage.cpp:317
 msgid ""
 "We'll now guide you through the process of attaching\n"
 "to a project."
-msgstr ""
-"Tämä toiminto opastaa sinua projektiin\n"
-"liittymisessä."
+msgstr "Tämä toiminto opastaa sinua projektiin liittymisessä."
 
 #: clientgui/WelcomePage.cpp:322
 #, c-format
@@ -2854,7 +2852,7 @@ msgstr ""
 
 #: clientgui/WelcomePage.cpp:339
 msgid "Account manager"
-msgstr "Tilimanageri"
+msgstr "Tilihallitsin"
 
 #: clientgui/WelcomePage.cpp:342
 msgid ""
@@ -2865,7 +2863,7 @@ msgid ""
 "then select the 'Attach to project' menu item instead."
 msgstr ""
 "Tämä toiminto opastaa sinua\n"
-"tilimanageriin liittymisessä.\n"
+"tilihallitsimeen liittymisessä.\n"
 "\n"
 "Jos haluat liittyä johonkin projektiin,\n"
 "paina \"Peruuta\", ja valitse kohta \"Liity projektiin\"."
@@ -2971,14 +2969,14 @@ msgstr "Ympyrädiagrammin hallinta"
 
 #: clientgui/DlgAbout.h:52
 msgid "About BOINC Manager"
-msgstr "Tietoja BOINC Manager:ista"
+msgstr "Tietoja BOINC Managerista"
 
 #: clientgui/DlgAdvPreferences.h:31
 msgid ""
 "specify work start and stop hours in format HH:MM-HH:MM\n"
 "start must be lower than stop"
 msgstr ""
-"määritä työskentelyn aloitamis- ja lopettamisajat (muotoa HH:MM-HH:MM)\n"
+"määritä työskentelyn aloitus- ja lopetusajat (muotoa HH:MM-HH:MM)\n"
 "alun täytyy olla loppua aikaisempi"
 
 #: clientgui/DlgAdvPreferences.h:32
@@ -2986,7 +2984,7 @@ msgid ""
 "specify network usage start and stop hours in format HH:MM-HH:MM\n"
 "start must be lower than stop"
 msgstr ""
-"määritä verkon käytön aloitamis- ja lopettamisajat (muotoa HH:MM-HH:MM)\n"
+"määritä verkon käytön aloitus- ja lopetusajat (muotoa HH:MM-HH:MM)\n"
 "alun täytyy olla loppua aikaisempi"
 
 #: clientgui/DlgOptions.h:49
