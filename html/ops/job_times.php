@@ -136,6 +136,11 @@ function analyze($appid, $platformid, $nresults) {
         }
     }
 
+    if (!$n) {
+        echo "No done results for that app";
+        exit;
+    }
+
     ksort($hist);
     show_stats($hist);
     echo "<hr>\n";
@@ -161,6 +166,10 @@ function show_form() {
 if ($_GET['submit']=='OK') {
     set_time_limit(0);
     $appid = $_GET['appid'];
+    if (!$appid) {
+        echo "Must supply an appid";
+        exit;
+    }
     $platformid = $_GET['platformid'];
     $quantum = $_GET['quantum'];
     $nresults = $_GET['nresults'];

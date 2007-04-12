@@ -75,9 +75,8 @@ echo "
 	<li><a href='manage_apps.php'>Manage applications</a></li>
 	<li><a href='manage_app_versions.php'>Manage application versions</a></li>
 	<li><a href='mass_email.php'>Send mass email to a selected set of users</a></li>
-	<li><a href=\"forum_repair.php\">Forum repair</a></li>
-	<li><a href=\"repair_validator_problem.php\">Repair a validator problem</a></li>
 	<li><a href=\"problem_host.php\">Email user with misconfigured host</a></li>
+    <li><a href=job_times.php>FLOP count statistics</a>
 	<li><a href=\"cancel_wu_form.php\">Cancel workunits</a></li>
 	<li><form action=\"manage_user.php\">
         <input type=submit value=\"Manage user\"</a>
