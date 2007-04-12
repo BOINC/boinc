@@ -3463,3 +3463,16 @@ Charlie 12 Apr 2007
         
     clientgui/
         sg_DlgPreferences.cpp
+
+Rom    12 Apr 2007
+    - Change directory layout for 32-bit Windows client
+        dependancies (curl, openssl, zlib)
+    - Include 64-bit Windows client dependancies
+        (curl, openssl, zlib)
+        
+    curl/
+        <Many Files>
+    openssl/
+        <Many Files>
+    zlib/
+        <Many Files>
