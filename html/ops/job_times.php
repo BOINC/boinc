@@ -154,7 +154,7 @@ function show_form() {
         <form method=get action=job_times.php>
         App ID: <input name=appid>
         <br>platform ID (0 for all): <input name=platformid value=0>
-        <br>FLOP quantum: <input name=quantum value=1e10>
+        <br>FLOP quantum: <input name=quantum value=1e12>
         <br># of results: <input name=nresults value=1000>
         <br><input type=submit name=submit value=OK>
         </form>
