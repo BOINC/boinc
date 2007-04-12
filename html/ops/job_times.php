@@ -159,6 +159,7 @@ function show_form() {
 }
 
 if ($_GET['submit']=='OK') {
+    set_time_limit(0);
     $appid = $_GET['appid'];
     $platformid = $_GET['platformid'];
     $quantum = $_GET['quantum'];
