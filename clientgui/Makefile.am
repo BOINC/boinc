@@ -12,7 +12,8 @@ if OS_DARWIN
                  mac/mac_saver_module.cpp \
                  mac/Mac_Saver_ModuleView.m \
                  mac/MacSysMenu.cpp \
-                 mac/Mac_GUI.cpp
+                 mac/Mac_GUI.cpp\
+                 browser_safari.mm
 
     mac_headers = mac/*.h
 else
@@ -43,6 +44,7 @@ boinc_gui_SOURCES = \
     BOINCTaskCtrl.cpp \
     BOINCGridCtrl.cpp	\
     BOINCGridCtrl.h		\
+    browser.C \
     CompletionErrorPage.cpp \
     CompletionPage.cpp \
     common/wxPieCtrl.cpp \

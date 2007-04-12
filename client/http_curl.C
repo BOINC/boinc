@@ -1066,7 +1066,6 @@ void HTTP_OP::set_speed_limit(bool is_upload, double bytes_sec) {
 
 void HTTP_OP_SET::cleanup_temp_files() {
     char filename[256];
-    int reval;
 
     DIRREF d = dir_open(".");
     while (1) {

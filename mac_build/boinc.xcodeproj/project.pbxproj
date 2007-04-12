@@ -177,6 +177,8 @@
 		DD4C561A0AD389A2009E23C6 /* sg_ImageButton.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DD4C560E0AD389A2009E23C6 /* sg_ImageButton.cpp */; };
 		DD4C561C0AD389A2009E23C6 /* sg_ProgressBar.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DD4C56100AD389A2009E23C6 /* sg_ProgressBar.cpp */; };
 		DD4C561E0AD389A2009E23C6 /* sg_SGUIListControl.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DD4C56120AD389A2009E23C6 /* sg_SGUIListControl.cpp */; };
+		DD4E704B0BCDAC360010A522 /* browser_safari.mm in Sources */ = {isa = PBXBuildFile; fileRef = DD4E70480BCDAC360010A522 /* browser_safari.mm */; };
+		DD4E704C0BCDAC360010A522 /* browser.C in Sources */ = {isa = PBXBuildFile; fileRef = DD4E70490BCDAC360010A522 /* browser.C */; };
 		DD4EC61108A0A083009AA08F /* texture.C in Sources */ = {isa = PBXBuildFile; fileRef = DD4EC60F08A0A083009AA08F /* texture.C */; };
 		DD4EC65A08A0A7AF009AA08F /* gui_rpc_client_ops.C in Sources */ = {isa = PBXBuildFile; fileRef = DD73E34E08A0694000656EB1 /* gui_rpc_client_ops.C */; };
 		DD4EC65B08A0A83F009AA08F /* gui_rpc_client_print.C in Sources */ = {isa = PBXBuildFile; fileRef = DD73E34F08A0694100656EB1 /* gui_rpc_client_print.C */; };
@@ -213,8 +215,6 @@
 		DD7DD79A0B8BFA2F00B11279 /* ViewMessagesGrid.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DDCDCDF00B532433009BB03C /* ViewMessagesGrid.cpp */; };
 		DD7DD79B0B8BFA4000B11279 /* ViewResources.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DD81C42307C5D1D70098A04D /* ViewResources.cpp */; };
 		DD7DD7C90B8BFD4800B11279 /* ViewMessages.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DD81C42507C5D1D70098A04D /* ViewMessages.cpp */; };
-		DD893FB60BCCCE89009EA401 /* mac_browser.mm in Sources */ = {isa = PBXBuildFile; fileRef = DD893FB50BCCCE89009EA401 /* mac_browser.mm */; };
-		DD9986830BBDF11000B690C2 /* browser.C in Sources */ = {isa = PBXBuildFile; fileRef = DD9986810BBDF11000B690C2 /* browser.C */; };
 		DDA12A6D0A36974600FBDD12 /* Security.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DD1929D80918A2F100C31BCF /* Security.framework */; };
 		DDA12AA20A369B5500FBDD12 /* SetupSecurity.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DD7748B40A356D6C0025D05E /* SetupSecurity.cpp */; };
 		DDA12AAE0A369C5800FBDD12 /* SecurityUtility.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DDA12AAD0A369C5800FBDD12 /* SecurityUtility.cpp */; };
@@ -907,6 +907,9 @@
 		DD4C56110AD389A2009E23C6 /* sg_ProgressBar.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = sg_ProgressBar.h; path = ../clientgui/sg_ProgressBar.h; sourceTree = SOURCE_ROOT; };
 		DD4C56120AD389A2009E23C6 /* sg_SGUIListControl.cpp */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.cpp.cpp; name = sg_SGUIListControl.cpp; path = ../clientgui/sg_SGUIListControl.cpp; sourceTree = SOURCE_ROOT; };
 		DD4C56130AD389A2009E23C6 /* sg_SGUIListControl.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = sg_SGUIListControl.h; path = ../clientgui/sg_SGUIListControl.h; sourceTree = SOURCE_ROOT; };
+		DD4E70480BCDAC360010A522 /* browser_safari.mm */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.cpp.objcpp; name = browser_safari.mm; path = ../clientgui/browser_safari.mm; sourceTree = SOURCE_ROOT; };
+		DD4E70490BCDAC360010A522 /* browser.C */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.cpp.cpp; name = browser.C; path = ../clientgui/browser.C; sourceTree = SOURCE_ROOT; };
+		DD4E704A0BCDAC360010A522 /* browser.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = browser.h; path = ../clientgui/browser.h; sourceTree = SOURCE_ROOT; };
 		DD4EC60F08A0A083009AA08F /* texture.C */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.cpp.cpp; name = texture.C; path = ../api/texture.C; sourceTree = SOURCE_ROOT; };
 		DD4EC61008A0A083009AA08F /* texture.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = texture.h; path = ../api/texture.h; sourceTree = SOURCE_ROOT; };
 		DD58C41808F3343F00C1DF66 /* AccountInfoPage.cpp */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.cpp.cpp; name = AccountInfoPage.cpp; path = ../clientgui/AccountInfoPage.cpp; sourceTree = SOURCE_ROOT; };
@@ -1020,13 +1023,10 @@
 		DD81C5CC07C5D7D90098A04D /* gui_rpc_client.C */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.cpp.cpp; name = gui_rpc_client.C; path = ../lib/gui_rpc_client.C; sourceTree = SOURCE_ROOT; };
 		DD81C5F007C5D8290098A04D /* boinc_win.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = boinc_win.h; path = ../lib/boinc_win.h; sourceTree = SOURCE_ROOT; };
 		DD81C60307C5D8630098A04D /* gui_rpc_client.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = gui_rpc_client.h; path = ../lib/gui_rpc_client.h; sourceTree = SOURCE_ROOT; };
-		DD893FB50BCCCE89009EA401 /* mac_browser.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = mac_browser.mm; sourceTree = "<group>"; };
 		DD8DD4A509D9432F0043019E /* BOINCDialupManager.cpp */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.cpp.cpp; name = BOINCDialupManager.cpp; path = ../clientgui/BOINCDialupManager.cpp; sourceTree = SOURCE_ROOT; };
 		DD8DD4A609D9432F0043019E /* BOINCDialupManager.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = BOINCDialupManager.h; path = ../clientgui/BOINCDialupManager.h; sourceTree = SOURCE_ROOT; };
 		DD96AFF90811075000A06F22 /* BOINCSaver.saver */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = BOINCSaver.saver; sourceTree = BUILT_PRODUCTS_DIR; };
 		DD96AFFA0811075100A06F22 /* ScreenSaver-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.xml; path = "ScreenSaver-Info.plist"; sourceTree = SOURCE_ROOT; };
-		DD9986810BBDF11000B690C2 /* browser.C */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.cpp.cpp; name = browser.C; path = ../lib/browser.C; sourceTree = SOURCE_ROOT; };
-		DD9986820BBDF11000B690C2 /* browser.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = browser.h; path = ../lib/browser.h; sourceTree = SOURCE_ROOT; };
 		DD9C94A00A5A3A4100AB0D10 /* AdvancedFrame.cpp */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.cpp.cpp; name = AdvancedFrame.cpp; path = ../clientgui/AdvancedFrame.cpp; sourceTree = SOURCE_ROOT; };
 		DD9C94A10A5A3A4100AB0D10 /* AdvancedFrame.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = AdvancedFrame.h; path = ../clientgui/AdvancedFrame.h; sourceTree = SOURCE_ROOT; };
 		DD9C94A20A5A3A4100AB0D10 /* BOINCBaseFrame.cpp */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.cpp.cpp; name = BOINCBaseFrame.cpp; path = ../clientgui/BOINCBaseFrame.cpp; sourceTree = SOURCE_ROOT; };
@@ -1377,6 +1377,9 @@
 				DD81C40607C5D1020098A04D /* BOINCTaskCtrl.cpp */,
 				DD81C43807C5D2240098A04D /* BOINCTaskCtrl.h */,
 				DD58C43608F3347D00C1DF66 /* BOINCWizards.h */,
+				DD4E70480BCDAC360010A522 /* browser_safari.mm */,
+				DD4E70490BCDAC360010A522 /* browser.C */,
+				DD4E704A0BCDAC360010A522 /* browser.h */,
 				DDCE78220A70BD29008218B6 /* common */,
 				DD58C43708F3347D00C1DF66 /* CompletionErrorPage.cpp */,
 				DD58C43808F3347D00C1DF66 /* CompletionErrorPage.h */,
@@ -1525,8 +1528,6 @@
 				DD344B6407C5ACEB0043025C /* base64.h */,
 				DD69FEF608416C9A00C01361 /* boinc_cmd.C */,
 				DD81C5F007C5D8290098A04D /* boinc_win.h */,
-				DD9986810BBDF11000B690C2 /* browser.C */,
-				DD9986820BBDF11000B690C2 /* browser.h */,
 				DD7168360AAD72040051642B /* common_defs.h */,
 				F51DA64D02DB97FF010E292A /* crypt.C */,
 				F51DA64E02DB97FF010E292A /* crypt.h */,
@@ -1543,7 +1544,6 @@
 				DD344BB707C5AEEE0043025C /* hostinfo.h */,
 				DDF166A908DF898A00C8C4A5 /* mac_backtrace.C */,
 				DDF166AA08DF898A00C8C4A5 /* mac_backtrace.h */,
-				DD893FB50BCCCE89009EA401 /* mac_browser.mm */,
 				F5159562029EB02001F5651B /* md5.c */,
 				F5159563029EB02001F5651B /* md5.h */,
 				F5159564029EB02001F5651B /* md5_file.C */,
@@ -2444,8 +2444,8 @@
 				DD7DD7C90B8BFD4800B11279 /* ViewMessages.cpp in Sources */,
 				DD7BF7E60B8E7B6C00A009F7 /* str_util.C in Sources */,
 				DD205A1A0BAF596E0008D473 /* ProjectListCtrl.cpp in Sources */,
-				DD9986830BBDF11000B690C2 /* browser.C in Sources */,
-				DD893FB60BCCCE89009EA401 /* mac_browser.mm in Sources */,
+				DD4E704B0BCDAC360010A522 /* browser_safari.mm in Sources */,
+				DD4E704C0BCDAC360010A522 /* browser.C in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

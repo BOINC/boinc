@@ -3434,3 +3434,24 @@ David  11 Apr 2007
 
     html/inc/
         user.inc
+
+Charlie 11 Apr 2007
+    - Move browser.C,h from lib/ to clientgui/
+    - Move lib/mac_browser.mm to clientgui/browser_safari.mm
+    - Adjust makefiles and XCode project for above changes
+    - Remove extern "C" from browser.h
+    - Fix compiler warning in http_curl.C
+
+    client/
+        http_curl.C
+    clientgui/
+        browser.C,h (added)
+        browser_safari.mm (added)
+        makefile.am
+    lib/
+        browser.C,h (removed)
+        mac_browser.mm (removed)
+        makefile.am
+    mac_build/
+        boinc.xcodeproj/
+            project.pbxproj
