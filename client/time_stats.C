@@ -74,6 +74,7 @@ TIME_STATS::TIME_STATS() {
 // if log file is over a meg, discard everything older than a year
 //
 void TIME_STATS::trim_stats_log() {
+#ifndef SIM
     double size;
     char buf[256];
     int retval;
@@ -93,6 +94,7 @@ void TIME_STATS::trim_stats_log() {
     }
     fclose(f);
     fclose(f2);
+#endif
 }
 
 // copy the log file after a given time

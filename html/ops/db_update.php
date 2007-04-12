@@ -351,7 +351,7 @@ function update_12_22_2007() {
 }
 
 function update_4_07_2007() {
-    do_query('create table sent_email
+    do_query('create table sent_email (
             userid              integer     not null,
             time_sent           integer     not null,
             email_type          smallint    not null,
