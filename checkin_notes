@@ -3455,3 +3455,11 @@ Charlie 11 Apr 2007
     mac_build/
         boinc.xcodeproj/
             project.pbxproj
+
+Charlie 12 Apr 2007
+    - MGR: Fix bug in SimpleGUI prefs: it wasn't resetting the 
+        <run_if_user_active> tag when changing "Do work when user 
+        idle" override from "0 (Run Always)" to an idle time value. 
+        
+    clientgui/
+        sg_DlgPreferences.cpp

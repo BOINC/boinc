@@ -946,12 +946,14 @@ bool CPanelPreferences::SavePreferenceSettings() {
 
     // Do work after computer is idle for:
     m_strWorkWhenIdle.ToDouble((double*)&global_preferences_override.idle_time_to_run);
-	if (0 == global_preferences_override.idle_time_to_run) {
-		global_preferences_override.run_if_user_active = true;
-		global_preferences_mask.run_if_user_active = true;        
-	} else {
-		global_preferences_mask.idle_time_to_run = true;
-	}
+    if (0 == global_preferences_override.idle_time_to_run) {
+        global_preferences_override.run_if_user_active = true;
+        global_preferences_mask.idle_time_to_run = false;
+    } else {
+        global_preferences_override.run_if_user_active = false;
+        global_preferences_mask.idle_time_to_run = true;
+    }
+    global_preferences_mask.run_if_user_active = true;        
 
     return true;
 }
