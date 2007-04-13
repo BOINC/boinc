@@ -3486,13 +3486,18 @@ David  12 Apr 2007
 
 Charlie 12 Apr 2007
     - Fix compile error: #include <sys/resource.h> in cs_benchmark.C
-    - Fix minor  XCode project bug in ppc_Deployment build configuration 
+    - Mac: Update XCode project, build scripts and build instructions to use 
+        wxMac-2.8.3.
+    - Mac: Fix minor XCode project bug in ppc_Deployment build configuration 
         of target BOINC_Client (this build configuration is not used 
         for release builds.)
 
     client/
         cs_benchmark.C
     mac_build/
+        buildWxMac.sh
+        HowToBuildBOINC_XCode.rtf
+        setupForBOINC.sh
         boinc.xcodeproj/
             project.pbxproj
 

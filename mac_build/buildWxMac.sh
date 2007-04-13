@@ -20,14 +20,14 @@
 # 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 #
 #
-# Script to build the wxMac-2.8.1 library for BOINC as a Universal Binary
+# Script to build the wxMac-2.8.3 library for BOINC as a Universal Binary
 #
 # by Charlie Fenton    7/21/06
-# Updated for wx-Mac 2.8.2 3/14/07
+# Updated for wx-Mac 2.8.3 4/12/07
 
 #
-## In Terminal, CD to the wxMac-2.8.2 directory.
-##    cd [path]/wxMac-2.8.2/
+## In Terminal, CD to the wxMac-2.8.3 directory.
+##    cd [path]/wxMac-2.8.3/
 ## then run this script:
 ##    source [ path_to_this_script ] [ -clean ]
 ##
@@ -41,14 +41,10 @@ else
   doclean=""
 fi
 
-## The following line is needed because the XCode project is missing the 
-## "Run script" phase which should run the wxMac-2.8.2/distrib/mac/pbsetup-sh script
-sh distrib/mac/pbsetup-sh src src/build
-
 if [ "$1" != "-clean" ] && [ -f src/build/Deployment/libwx_mac_static.a ]; then
     echo "Deployment libwx_mac_static.a already built"
 else
-    xcodebuild -project src/wxWindows.xcodeproj -target static  -configuration Deployment $doclean build GCC_VERSION_ppc=3.3 MACOSX_DEPLOYMENT_TARGET_ppc=10.3 SDKROOT_ppc=/Developer/SDKs/MacOSX10.3.9.sdk
+    xcodebuild -project src/wxWindows.xcodeproj -target static -configuration Deployment $doclean build GCC_VERSION_ppc=3.3 MACOSX_DEPLOYMENT_TARGET_ppc=10.3 SDKROOT_ppc=/Developer/SDKs/MacOSX10.3.9.sdk
 
 if [  $? -ne 0 ]; then return 1; fi
 fi
@@ -56,7 +52,10 @@ fi
 if [ "$1" != "-clean" ] && [ -f src/build/Development/libwx_mac_static.a ]; then
     echo "Development libwx_mac_static.a already built"
 else
-    xcodebuild -project src/wxWindows.xcodeproj -target static  -configuration Development $doclean build GCC_VERSION_ppc=3.3 MACOSX_DEPLOYMENT_TARGET_ppc=10.3 SDKROOT_ppc=/Developer/SDKs/MacOSX10.3.9.sdk
+    xcodebuild -project src/wxWindows.xcodeproj -target static -configuration Development $doclean build GCC_VERSION_ppc=3.3 MACOSX_DEPLOYMENT_TARGET_ppc=10.3 SDKROOT_ppc=/Developer/SDKs/MacOSX10.3.9.sdk
+## The above line does Development build for only the native architecture.  
+## Use line below instead for Universal Binary Development build
+##    xcodebuild -project src/wxWindows.xcodeproj -target static -configuration Development $doclean build ARCHS="i386 ppc" GCC_VERSION_ppc=3.3 MACOSX_DEPLOYMENT_TARGET_ppc=10.3 SDKROOT_ppc=/Developer/SDKs/MacOSX10.3.9.sdk
 
 if [  $? -ne 0 ]; then return 1; fi
 fi

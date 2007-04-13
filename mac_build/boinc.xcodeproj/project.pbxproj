@@ -691,6 +691,20 @@
 			remoteGlobalIDString = DD96AFF80811075000A06F22;
 			remoteInfo = ScreenSaver;
 		};
+		DD80329B0BCF477500DEF3C7 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = DDF0940F0BA8C606003BB0FF /* wxWindows.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = 4086C8CB063AB30000D4CD53;
+			remoteInfo = static;
+		};
+		DD80329D0BCF477500DEF3C7 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = DDF0940F0BA8C606003BB0FF /* wxWindows.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = 4086CBE1063AB30000D4CD53;
+			remoteInfo = dynamic;
+		};
 		DDA12AD00A369DEC00FBDD12 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = 20286C28FDCF999611CA2CEA /* Project object */;
@@ -746,20 +760,6 @@
 			proxyType = 1;
 			remoteGlobalIDString = DDD0953E0A3EDD2500C95BA4;
 			remoteInfo = switcher;
-		};
-		DDF094180BA8C606003BB0FF /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = DDF0940F0BA8C606003BB0FF /* wxWindows.xcodeproj */;
-			proxyType = 2;
-			remoteGlobalIDString = 4086C8CB063AB30000D4CD53;
-			remoteInfo = static;
-		};
-		DDF0941A0BA8C606003BB0FF /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = DDF0940F0BA8C606003BB0FF /* wxWindows.xcodeproj */;
-			proxyType = 2;
-			remoteGlobalIDString = 4086CBE1063AB30000D4CD53;
-			remoteInfo = dynamic;
 		};
 /* End PBXContainerItemProxy section */
 
@@ -1071,7 +1071,7 @@
 		DDEB3CA80981084A0087E200 /* GridRepublic.icns */ = {isa = PBXFileReference; lastKnownFileType = image.icns; name = GridRepublic.icns; path = ../client/mac/GridRepublic.icns; sourceTree = SOURCE_ROOT; };
 		DDEF388E0802B73500E87552 /* ViewStatistics.cpp */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.cpp.cpp; name = ViewStatistics.cpp; path = ../clientgui/ViewStatistics.cpp; sourceTree = SOURCE_ROOT; };
 		DDEF388F0802B73500E87552 /* ViewStatistics.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = ViewStatistics.h; path = ../clientgui/ViewStatistics.h; sourceTree = SOURCE_ROOT; };
-		DDF0940F0BA8C606003BB0FF /* wxWindows.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = wxWindows.xcodeproj; path = "../../wxMac-2.8.2/src/wxWindows.xcodeproj"; sourceTree = SOURCE_ROOT; };
+		DDF0940F0BA8C606003BB0FF /* wxWindows.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = wxWindows.xcodeproj; path = "../../wxMac-2.8.3/src/wxWindows.xcodeproj"; sourceTree = SOURCE_ROOT; };
 		DDF166A908DF898A00C8C4A5 /* mac_backtrace.C */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.cpp.cpp; name = mac_backtrace.C; path = ../lib/mac_backtrace.C; sourceTree = SOURCE_ROOT; };
 		DDF166AA08DF898A00C8C4A5 /* mac_backtrace.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = mac_backtrace.h; path = ../lib/mac_backtrace.h; sourceTree = SOURCE_ROOT; };
 		DDF1F47A09822C3400482C89 /* preinstall */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = text.script.csh; name = preinstall; path = ../mac_installer/preinstall; sourceTree = SOURCE_ROOT; };
@@ -1339,6 +1339,15 @@
 			name = mac_installer;
 			sourceTree = SOURCE_ROOT;
 		};
+		DD8032960BCF477500DEF3C7 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				DD80329C0BCF477500DEF3C7 /* libwx_mac_static.a */,
+				DD80329E0BCF477500DEF3C7 /* libwx_mac.dylib */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
 		DD81C3F707C5D03B0098A04D /* clientgui */ = {
 			isa = PBXGroup;
 			children = (
@@ -1500,15 +1509,6 @@
 				DD40E75E0ADB87BC00214518 /* wxPieCtrl.h */,
 			);
 			name = common;
-			sourceTree = "<group>";
-		};
-		DDF094100BA8C606003BB0FF /* Products */ = {
-			isa = PBXGroup;
-			children = (
-				DDF094190BA8C606003BB0FF /* libwx_mac_static.a */,
-				DDF0941B0BA8C606003BB0FF /* libwx_mac.dylib */,
-			);
-			name = Products;
 			sourceTree = "<group>";
 		};
 		DDF9385307E288F0004DC076 /* Documentation */ = {
@@ -2034,7 +2034,7 @@
 			projectDirPath = "";
 			projectReferences = (
 				{
-					ProductGroup = DDF094100BA8C606003BB0FF /* Products */;
+					ProductGroup = DD8032960BCF477500DEF3C7 /* Products */;
 					ProjectRef = DDF0940F0BA8C606003BB0FF /* wxWindows.xcodeproj */;
 				},
 			);
@@ -2060,18 +2060,18 @@
 /* End PBXProject section */
 
 /* Begin PBXReferenceProxy section */
-		DDF094190BA8C606003BB0FF /* libwx_mac_static.a */ = {
+		DD80329C0BCF477500DEF3C7 /* libwx_mac_static.a */ = {
 			isa = PBXReferenceProxy;
 			fileType = archive.ar;
 			path = libwx_mac_static.a;
-			remoteRef = DDF094180BA8C606003BB0FF /* PBXContainerItemProxy */;
+			remoteRef = DD80329B0BCF477500DEF3C7 /* PBXContainerItemProxy */;
 			sourceTree = BUILT_PRODUCTS_DIR;
 		};
-		DDF0941B0BA8C606003BB0FF /* libwx_mac.dylib */ = {
+		DD80329E0BCF477500DEF3C7 /* libwx_mac.dylib */ = {
 			isa = PBXReferenceProxy;
 			fileType = "compiled.mach-o.dylib";
 			path = libwx_mac.dylib;
-			remoteRef = DDF0941A0BA8C606003BB0FF /* PBXContainerItemProxy */;
+			remoteRef = DD80329D0BCF477500DEF3C7 /* PBXContainerItemProxy */;
 			sourceTree = BUILT_PRODUCTS_DIR;
 		};
 /* End PBXReferenceProxy section */
@@ -2930,8 +2930,8 @@
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = ../clientgui/mac/MacGUI.pch;
 				HEADER_SEARCH_PATHS = (
-					"../../wxMac-2.8.2/src/build/include/",
-					"../../wxMac-2.8.2/include",
+					"../../wxMac-2.8.3/src/build/include/",
+					"../../wxMac-2.8.3/include",
 					../clientgui,
 				);
 				INFOPLIST_FILE = Info.plist;
@@ -2940,10 +2940,10 @@
 					"$(LIBRARY_SEARCH_PATHS_QUOTED_4)",
 					"$(LIBRARY_SEARCH_PATHS_QUOTED_5)",
 				);
-				LIBRARY_SEARCH_PATHS_QUOTED_1 = "\"$(SRCROOT)/../../wxMac-2.8.2/src/build/Deployment\"";
-				LIBRARY_SEARCH_PATHS_QUOTED_2 = "\"$(SRCROOT)/../../wxMac-2.8.2/src/build/Deployment\"";
-				LIBRARY_SEARCH_PATHS_QUOTED_3 = "\"$(SRCROOT)/../../wxMac-2.8.2/src/build/Deployment\"";
-				LIBRARY_SEARCH_PATHS_QUOTED_4 = "\"../../wxMac-2.8.2/src/build/Deployment/\"";
+				LIBRARY_SEARCH_PATHS_QUOTED_1 = "\"$(SRCROOT)/../../wxMac-2.8.3/src/build/Deployment\"";
+				LIBRARY_SEARCH_PATHS_QUOTED_2 = "\"$(SRCROOT)/../../wxMac-2.8.3/src/build/Deployment\"";
+				LIBRARY_SEARCH_PATHS_QUOTED_3 = "\"$(SRCROOT)/../../wxMac-2.8.3/src/build/Deployment\"";
+				LIBRARY_SEARCH_PATHS_QUOTED_4 = "\"../../wxMac-2.8.3/src/build/Deployment/\"";
 				LIBRARY_SEARCH_PATHS_QUOTED_5 = "\"../lib\"";
 				MACOSX_DEPLOYMENT_TARGET = "";
 				OPTIMIZATION_CFLAGS = "-O0";
@@ -2995,8 +2995,8 @@
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = ../clientgui/mac/MacGUI.pch;
 				HEADER_SEARCH_PATHS = (
-					"../../wxMac-2.8.2/src/build/include/",
-					"../../wxMac-2.8.2/include",
+					"../../wxMac-2.8.3/src/build/include/",
+					"../../wxMac-2.8.3/include",
 					../clientgui,
 				);
 				INFOPLIST_FILE = Info.plist;
@@ -3005,10 +3005,10 @@
 					"$(LIBRARY_SEARCH_PATHS_QUOTED_4)",
 					"$(LIBRARY_SEARCH_PATHS_QUOTED_5)",
 				);
-				LIBRARY_SEARCH_PATHS_QUOTED_1 = "\"$(SRCROOT)/../../wxMac-2.8.2/src/build/Deployment\"";
-				LIBRARY_SEARCH_PATHS_QUOTED_2 = "\"$(SRCROOT)/../../wxMac-2.8.2/src/build/Deployment\"";
-				LIBRARY_SEARCH_PATHS_QUOTED_3 = "\"$(SRCROOT)/../../wxMac-2.8.2/src/build/Deployment\"";
-				LIBRARY_SEARCH_PATHS_QUOTED_4 = "\"../../wxMac-2.8.2/src/build/Deployment/\"";
+				LIBRARY_SEARCH_PATHS_QUOTED_1 = "\"$(SRCROOT)/../../wxMac-2.8.3/src/build/Deployment\"";
+				LIBRARY_SEARCH_PATHS_QUOTED_2 = "\"$(SRCROOT)/../../wxMac-2.8.3/src/build/Deployment\"";
+				LIBRARY_SEARCH_PATHS_QUOTED_3 = "\"$(SRCROOT)/../../wxMac-2.8.3/src/build/Deployment\"";
+				LIBRARY_SEARCH_PATHS_QUOTED_4 = "\"../../wxMac-2.8.3/src/build/Deployment/\"";
 				LIBRARY_SEARCH_PATHS_QUOTED_5 = "\"../lib\"";
 				MACOSX_DEPLOYMENT_TARGET = 10.3;
 				OTHER_CFLAGS = (
@@ -3058,8 +3058,8 @@
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = ../clientgui/mac/MacGUI.pch;
 				HEADER_SEARCH_PATHS = (
-					"../../wxMac-2.8.2/src/build/include/",
-					"../../wxMac-2.8.2/include",
+					"../../wxMac-2.8.3/src/build/include/",
+					"../../wxMac-2.8.3/include",
 					../clientgui,
 				);
 				INFOPLIST_FILE = Info.plist;
@@ -3068,10 +3068,10 @@
 					"$(LIBRARY_SEARCH_PATHS_QUOTED_4)",
 					"$(LIBRARY_SEARCH_PATHS_QUOTED_5)",
 				);
-				LIBRARY_SEARCH_PATHS_QUOTED_1 = "\"$(SRCROOT)/../../wxMac-2.8.2/src/build/Deployment\"";
-				LIBRARY_SEARCH_PATHS_QUOTED_2 = "\"$(SRCROOT)/../../wxMac-2.8.2/src/build/Deployment\"";
-				LIBRARY_SEARCH_PATHS_QUOTED_3 = "\"$(SRCROOT)/../../wxMac-2.8.2/src/build/Deployment\"";
-				LIBRARY_SEARCH_PATHS_QUOTED_4 = "\"../../wxMac-2.8.2/src/build/Deployment/\"";
+				LIBRARY_SEARCH_PATHS_QUOTED_1 = "\"$(SRCROOT)/../../wxMac-2.8.3/src/build/Deployment\"";
+				LIBRARY_SEARCH_PATHS_QUOTED_2 = "\"$(SRCROOT)/../../wxMac-2.8.3/src/build/Deployment\"";
+				LIBRARY_SEARCH_PATHS_QUOTED_3 = "\"$(SRCROOT)/../../wxMac-2.8.3/src/build/Deployment\"";
+				LIBRARY_SEARCH_PATHS_QUOTED_4 = "\"../../wxMac-2.8.3/src/build/Deployment/\"";
 				LIBRARY_SEARCH_PATHS_QUOTED_5 = "\"../lib\"";
 				MACOSX_DEPLOYMENT_TARGET = 10.4;
 				OTHER_CFLAGS = (
@@ -3121,8 +3121,8 @@
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = ../clientgui/mac/MacGUI.pch;
 				HEADER_SEARCH_PATHS = (
-					"../../wxMac-2.8.2/src/build/include/",
-					"../../wxMac-2.8.2/include",
+					"../../wxMac-2.8.3/src/build/include/",
+					"../../wxMac-2.8.3/include",
 					../clientgui,
 				);
 				INFOPLIST_FILE = Info.plist;
@@ -3131,10 +3131,10 @@
 					"$(LIBRARY_SEARCH_PATHS_QUOTED_4)",
 					"$(LIBRARY_SEARCH_PATHS_QUOTED_5)",
 				);
-				LIBRARY_SEARCH_PATHS_QUOTED_1 = "\"$(SRCROOT)/../../wxMac-2.8.2/src/build/Deployment\"";
-				LIBRARY_SEARCH_PATHS_QUOTED_2 = "\"$(SRCROOT)/../../wxMac-2.8.2/src/build/Deployment\"";
-				LIBRARY_SEARCH_PATHS_QUOTED_3 = "\"$(SRCROOT)/../../wxMac-2.8.2/src/build/Deployment\"";
-				LIBRARY_SEARCH_PATHS_QUOTED_4 = "\"../../wxMac-2.8.2/src/build/Deployment/\"";
+				LIBRARY_SEARCH_PATHS_QUOTED_1 = "\"$(SRCROOT)/../../wxMac-2.8.3/src/build/Deployment\"";
+				LIBRARY_SEARCH_PATHS_QUOTED_2 = "\"$(SRCROOT)/../../wxMac-2.8.3/src/build/Deployment\"";
+				LIBRARY_SEARCH_PATHS_QUOTED_3 = "\"$(SRCROOT)/../../wxMac-2.8.3/src/build/Deployment\"";
+				LIBRARY_SEARCH_PATHS_QUOTED_4 = "\"../../wxMac-2.8.3/src/build/Deployment/\"";
 				LIBRARY_SEARCH_PATHS_QUOTED_5 = "\"../lib\"";
 				MACOSX_DEPLOYMENT_TARGET = 10.4;
 				OTHER_CFLAGS = (
@@ -4077,8 +4077,8 @@
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = ../clientgui/mac/MacGUI.pch;
 				HEADER_SEARCH_PATHS = (
-					"../../wxMac-2.8.2/src/build/include/",
-					"../../wxMac-2.8.2/include",
+					"../../wxMac-2.8.3/src/build/include/",
+					"../../wxMac-2.8.3/include",
 					../clientgui,
 				);
 				INFOPLIST_FILE = Info.plist;
@@ -4087,10 +4087,10 @@
 					"$(LIBRARY_SEARCH_PATHS_QUOTED_4)",
 					"$(LIBRARY_SEARCH_PATHS_QUOTED_5)",
 				);
-				LIBRARY_SEARCH_PATHS_QUOTED_1 = "\"$(SRCROOT)/../../wxMac-2.8.2/src/build/Deployment\"";
-				LIBRARY_SEARCH_PATHS_QUOTED_2 = "\"$(SRCROOT)/../../wxMac-2.8.2/src/build/Deployment\"";
-				LIBRARY_SEARCH_PATHS_QUOTED_3 = "\"$(SRCROOT)/../../wxMac-2.8.2/src/build/Deployment\"";
-				LIBRARY_SEARCH_PATHS_QUOTED_4 = "\"../../wxMac-2.8.2/src/build/Deployment/\"";
+				LIBRARY_SEARCH_PATHS_QUOTED_1 = "\"$(SRCROOT)/../../wxMac-2.8.3/src/build/Deployment\"";
+				LIBRARY_SEARCH_PATHS_QUOTED_2 = "\"$(SRCROOT)/../../wxMac-2.8.3/src/build/Deployment\"";
+				LIBRARY_SEARCH_PATHS_QUOTED_3 = "\"$(SRCROOT)/../../wxMac-2.8.3/src/build/Deployment\"";
+				LIBRARY_SEARCH_PATHS_QUOTED_4 = "\"../../wxMac-2.8.3/src/build/Deployment/\"";
 				LIBRARY_SEARCH_PATHS_QUOTED_5 = "\"../lib\"";
 				MACOSX_DEPLOYMENT_TARGET = "";
 				OPTIMIZATION_CFLAGS = "-O0";
@@ -4141,8 +4141,8 @@
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = ../clientgui/mac/MacGUI.pch;
 				HEADER_SEARCH_PATHS = (
-					"../../wxMac-2.8.2/src/build/include/",
-					"../../wxMac-2.8.2/include",
+					"../../wxMac-2.8.3/src/build/include/",
+					"../../wxMac-2.8.3/include",
 					../clientgui,
 				);
 				INFOPLIST_FILE = Info.plist;
@@ -4151,10 +4151,10 @@
 					"$(LIBRARY_SEARCH_PATHS_QUOTED_4)",
 					"$(LIBRARY_SEARCH_PATHS_QUOTED_5)",
 				);
-				LIBRARY_SEARCH_PATHS_QUOTED_1 = "\"$(SRCROOT)/../../wxMac-2.8.2/src/build/Deployment\"";
-				LIBRARY_SEARCH_PATHS_QUOTED_2 = "\"$(SRCROOT)/../../wxMac-2.8.2/src/build/Deployment\"";
-				LIBRARY_SEARCH_PATHS_QUOTED_3 = "\"$(SRCROOT)/../../wxMac-2.8.2/src/build/Deployment\"";
-				LIBRARY_SEARCH_PATHS_QUOTED_4 = "\"../../wxMac-2.8.2/src/build/Deployment/\"";
+				LIBRARY_SEARCH_PATHS_QUOTED_1 = "\"$(SRCROOT)/../../wxMac-2.8.3/src/build/Deployment\"";
+				LIBRARY_SEARCH_PATHS_QUOTED_2 = "\"$(SRCROOT)/../../wxMac-2.8.3/src/build/Deployment\"";
+				LIBRARY_SEARCH_PATHS_QUOTED_3 = "\"$(SRCROOT)/../../wxMac-2.8.3/src/build/Deployment\"";
+				LIBRARY_SEARCH_PATHS_QUOTED_4 = "\"../../wxMac-2.8.3/src/build/Deployment/\"";
 				LIBRARY_SEARCH_PATHS_QUOTED_5 = "\"../lib\"";
 				MACOSX_DEPLOYMENT_TARGET = 10.4;
 				OTHER_CFLAGS = (
