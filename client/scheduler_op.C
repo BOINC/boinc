@@ -590,6 +590,8 @@ int SCHEDULER_REPLY::parse(FILE* in, PROJECT* project) {
     message_ack = false;
     project_is_down = false;
     send_file_list = false;
+    send_time_stats_log = 0;
+    send_job_log = 0;
     messages.clear();
     scheduler_version = 0;
 
@@ -835,6 +837,10 @@ int SCHEDULER_REPLY::parse(FILE* in, PROJECT* project) {
             continue;
         } else if (match_tag(buf, "<request_file_list/>")) {
             send_file_list = true;
+        } else if (parse_int(buf, "<send_time_stats_log>", send_time_stats_log)){
+            continue;
+        } else if (parse_int(buf, "<send_job_log>", send_job_log)) {
+            continue;
         } else if (parse_int(buf, "<scheduler_version>", scheduler_version)) {
             continue;
         } else if (match_tag(buf, "<project_files>")) {

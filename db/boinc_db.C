@@ -1274,9 +1274,8 @@ int DB_WORK_ITEM::enumerate(
     MYSQL_ROW row;
     if (!cursor.active) {
         sprintf(query,
-            "select high_priority result.id, result.priority, workunit.* from result, workunit "
-            "where workunit.id = result.workunitid "
-            "and result.server_state=%d "
+            "select high_priority r2.id, r2.priority, workunit.* from result r1, result r2, workunit "
+            " where r1.server_state=%d and r2.id=r1.id and r1.workunitid=workunit.id "
             " %s "
             " %s "
             "limit %d",

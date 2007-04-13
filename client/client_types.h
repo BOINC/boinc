@@ -127,7 +127,8 @@ struct FILE_REF {
     int fd;
     bool main_program;
     FILE_INFO* file_info;
-    bool copy_file;  // if true, core client will copy the file instead of linking
+    bool copy_file;
+        // if true, core client will copy the file instead of linking
 	bool optional;
 		// for output files: app may not generate file;
 		// don't treat as error if file is missing.
@@ -232,9 +233,18 @@ public:
                             // use those apps rather then getting from server
     bool non_cpu_intensive;
     bool verify_files_on_app_start;
+
+    // items send in scheduler replies, requesting that
+    // various things be sent in the next request
+    //
     bool send_file_list;
-        // send the list of permanent files associated/with the project
+        // send the list of permanent files associated with the project
         // in the next scheduler reply
+    int send_time_stats_log;
+        // if nonzero, send time stats log from that point on
+    int send_job_log;
+        // if nonzero, send this project's job log from that point on
+
     bool suspended_via_gui;
     bool dont_request_more_work; 
         // Return work, but don't request more
@@ -258,13 +268,13 @@ public:
         // called when a project file download finishes.
         // If it's the last one, set project_files_downloaded_time to now
 
-    // Multiply by this when estimating the CPU time of a result
-    // (based on FLOPs estimated and benchmarks).
-    // This is dynamically updated in a way that maintains an upper bound.
-    // it goes down slowly but if a new estimate X is larger,
-    // the factor is set to X.
-    //
     double duration_correction_factor;
+        // Multiply by this when estimating the CPU time of a result
+        // (based on FLOPs estimated and benchmarks).
+        // This is dynamically updated in a way that maintains an upper bound.
+        // it goes down slowly but if a new estimate X is larger,
+        // the factor is set to X.
+        //
     void update_duration_correction_factor(RESULT*);
     
     // fields used by CPU scheduler and work fetch

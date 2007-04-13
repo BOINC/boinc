@@ -34,6 +34,14 @@ list_item(
     "-retry_errors",
     "Retry file deletions that failed previously."
 );
+list_item(
+    "-delete_antiques",
+    "periodically (once per hour) removes any files in the
+    upload/ directory that are older than the oldest WU in the
+    database.  These files are created when BOINC clients
+    return work really late after the deadline -- so late that
+    the corresponding WU has been deleted from the database."
+);
 list_end();
 echo "
 

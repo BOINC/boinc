@@ -97,16 +97,12 @@ void TIME_STATS::trim_stats_log() {
 #endif
 }
 
-// copy the log file after a given time
-//
-void TIME_STATS::get_log_after(double t, MIOFILE& mf) {
-    double x;
+void send_log_after(char* filename, double t, MIOFILE& mf) {
     char buf[256];
+    double x;
 
-    fclose(time_stats_log);     // win: can't open twice
-    FILE* f = fopen(TIME_STATS_LOG, "r");
+    FILE* f = fopen(filename, "r");
     if (!f) return;
-
     while (fgets(buf, 256, f)) {
         int n = sscanf(buf, "%lf", &x);
         if (n != 1) continue;
@@ -114,6 +110,13 @@ void TIME_STATS::get_log_after(double t, MIOFILE& mf) {
         mf.printf("%s", buf);
     }
     fclose(f);
+}
+
+// copy the log file after a given time
+//
+void TIME_STATS::get_log_after(double t, MIOFILE& mf) {
+    fclose(time_stats_log);     // win: can't open twice
+    send_log_after(TIME_STATS_LOG, t, mf);
     time_stats_log = fopen(TIME_STATS_LOG, "a");
 }
 

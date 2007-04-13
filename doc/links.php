@@ -43,7 +43,7 @@ $wiki_sites = array(
         "(in German)",
     ),
     array(
-        "http://www.boincfrance.org/wakka.php?wiki=BienVenue",
+        "http://www.boincfrance.org/",
         "BOINCFrance.org",
         "(in French)",
     ),

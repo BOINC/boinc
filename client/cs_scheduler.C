@@ -247,6 +247,20 @@ int CLIENT_STATE::make_scheduler_request(PROJECT* p) {
         );
     }
 
+    // NOTE: there's also a send_file_list flag, not currently used
+
+    if (p->send_time_stats_log) {
+        fprintf(f, "<time_stats_log>\n");
+        gstate.time_stats.get_log_after(p->send_time_stats_log, mf);
+        fprintf(f, "</time_stats_log>\n");
+    }
+    if (p->send_job_log) {
+        fprintf(f, "<job_log>\n");
+        job_log_filename(*p, buf, sizeof(buf));
+        send_log_after(buf, p->send_job_log, mf);
+        fprintf(f, "</job_log>\n");
+    }
+
     // send names of results in progress for this project
     //
     fprintf(f, "<other_results>\n");
@@ -752,6 +766,8 @@ int CLIENT_STATE::handle_scheduler_reply(
     if (sr.send_file_list) {
         project->send_file_list = true;
     }
+    project->send_time_stats_log = sr.send_time_stats_log;
+    project->send_job_log = sr.send_job_log;
     project->sched_rpc_pending = 0;
     project->trickle_up_pending = false;
 

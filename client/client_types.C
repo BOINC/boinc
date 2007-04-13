@@ -89,6 +89,8 @@ void PROJECT::init() {
     short_term_debt = 0;
     long_term_debt = 0;
     send_file_list = false;
+    send_time_stats_log = 0;
+    send_job_log = 0;
     suspended_via_gui = false;
     dont_request_more_work = false;
     detach_when_done = false;
@@ -167,6 +169,8 @@ int PROJECT::parse_state(MIOFILE& in) {
         else if (parse_double(buf, "<next_rpc_time>", next_rpc_time)) continue;
         else if (match_tag(buf, "<trickle_up_pending/>")) trickle_up_pending = true;
         else if (match_tag(buf, "<send_file_list/>")) send_file_list = true;
+        else if (parse_int(buf, "<send_time_stats_log>", send_time_stats_log)) continue;
+        else if (parse_int(buf, "<send_job_log>", send_job_log)) continue;
         else if (match_tag(buf, "<non_cpu_intensive/>")) non_cpu_intensive = true;
         else if (parse_bool(buf, "verify_files_on_app_start", verify_files_on_app_start)) continue;
         else if (match_tag(buf, "<suspended_via_gui/>")) suspended_via_gui = true;
@@ -228,6 +232,8 @@ int PROJECT::write_state(MIOFILE& out, bool gui_rpc) {
         "    <resource_share>%f</resource_share>\n"
         "    <duration_correction_factor>%f</duration_correction_factor>\n"
 		"    <sched_rpc_pending>%d</sched_rpc_pending>\n"
+		"    <send_time_stats_log>%d</send_time_stats_log>\n"
+		"    <send_job_log>%d</send_job_log>\n"
         "%s%s%s%s%s%s%s%s%s%s",
         master_url,
         project_name,
@@ -254,6 +260,8 @@ int PROJECT::write_state(MIOFILE& out, bool gui_rpc) {
         resource_share,
         duration_correction_factor,
 		sched_rpc_pending,
+        send_time_stats_log,
+        send_job_log,
         master_url_fetch_pending?"    <master_url_fetch_pending/>\n":"",
         trickle_up_pending?"    <trickle_up_pending/>\n":"",
         send_file_list?"    <send_file_list/>\n":"",
@@ -329,6 +337,8 @@ void PROJECT::copy_state_fields(PROJECT& p) {
     short_term_debt = p.short_term_debt;
     long_term_debt = p.long_term_debt;
     send_file_list = p.send_file_list;
+    send_time_stats_log = p.send_time_stats_log;
+    send_job_log = p.send_job_log;
     non_cpu_intensive = p.non_cpu_intensive;
     verify_files_on_app_start = p.verify_files_on_app_start;
     suspended_via_gui = p.suspended_via_gui;

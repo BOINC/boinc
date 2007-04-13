@@ -53,6 +53,10 @@ If you have an opinion, or think you can do better,
 <tr><th>Artist</th><th>Images (click for hi-res version)</th></tr>
 ";
 $logos = array(
+    array("Keijo Simonen",
+        "<img src=logos/BOINC_logo_16b.png>
+        <img src=logos/BOINC_logo_16c.png>"
+    ),
     array("Markus Beck",
         "<img src=logos/markus/Logo3/BoincNeu2.jpg>
         <img src=logos/markus/Logo2/MarkusBoinc.jpg>

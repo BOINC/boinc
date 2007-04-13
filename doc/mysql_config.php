@@ -206,6 +206,7 @@ Example of a MySQL config file:
 #datadir=/var/lib/mysql
 #datadir=/home/mysql/data/
 datadir=/mydisks/a/apps/mysql/data/
+join_buffer_size = 84M
 #log-bin      ##/// this comment line disables replication
 log-slow-queries = /mydisks/a/apps/mysql/jocelyn_slow.log
 server-id       =       13
