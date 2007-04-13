@@ -388,6 +388,11 @@ int get_os_information(
 
 
 // Check to see if a processor feature is available for use
+#ifdef _WIN64
+BOOL test_processor_feature(DWORD /*feature*/) {
+    return 0;
+}
+#else
 BOOL test_processor_feature(DWORD feature) {
     __try {
         switch (feature) {
@@ -423,7 +428,7 @@ BOOL test_processor_feature(DWORD feature) {
     }
     return 1;
 }
-
+#endif
 
 // Detect to see if a processor feature is available for use
 

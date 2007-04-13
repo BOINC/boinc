@@ -16,3 +16,6 @@ boinccmd.vcproj.ROMWNET.romw.user
 boincmgr_curl.vcproj.ROMWNET.romw.user
 libboinc.vcproj.ROMWNET.romw.user
 updater.vcproj.ROMWNET.romw.user
+sim.vcproj.ROMWNET.romw.user
+boinc.pvk
+boinc.spc

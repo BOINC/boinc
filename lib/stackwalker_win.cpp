@@ -768,12 +768,19 @@ static void ShowStackRM(HANDLE hThread, CONTEXT& Context)
     // Notes: will have to be #ifdef-ed for Alphas; MIPSes are dead anyway,
     // and good riddance.
     memset( &StackFrame, '\0', sizeof(STACKFRAME64) );
-    StackFrame.AddrPC.Offset = Context.Eip;
+#if defined(_WIN64) && defined(_M_X64)
+	StackFrame.AddrPC.Offset = Context.Rip;
+    StackFrame.AddrPC.Mode = AddrModeFlat;
+    StackFrame.AddrFrame.Offset = Context.Rbp;
+    StackFrame.AddrFrame.Mode = AddrModeFlat;
+#else
+	StackFrame.AddrPC.Offset = Context.Eip;
     StackFrame.AddrPC.Mode = AddrModeFlat;
     StackFrame.AddrFrame.Offset = Context.Ebp;
     StackFrame.AddrFrame.Mode = AddrModeFlat;
+#endif
 
-    memset( pSymbol, '\0', sizeof(SymbolBuffer) );
+	memset( pSymbol, '\0', sizeof(SymbolBuffer) );
     pSymbol->SizeOfStruct = sizeof(SYMBOL_INFO);
     pSymbol->MaxNameLen = MAX_SYM_NAME;
 
@@ -794,6 +801,19 @@ static void ShowStackRM(HANDLE hThread, CONTEXT& Context)
         // if this returns ERROR_INVALID_ADDRESS (487) or ERROR_NOACCESS (998), you can
         // assume that either you are done, or that the stack is so hosed that the next
         // deeper frame could not be found.
+#if defined(_WIN64) && defined(_M_X64)
+        bRetVal = pSW(
+            IMAGE_FILE_MACHINE_AMD64,
+            g_hProcess,
+            hThread,
+            &StackFrame,
+            &Context,
+            NULL,
+            (PFUNCTION_TABLE_ACCESS_ROUTINE64)pSFTA,
+            (PGET_MODULE_BASE_ROUTINE64)pSGMB,
+            NULL
+        );
+#else
         bRetVal = pSW(
             IMAGE_FILE_MACHINE_I386,
             g_hProcess,
@@ -805,7 +825,7 @@ static void ShowStackRM(HANDLE hThread, CONTEXT& Context)
             (PGET_MODULE_BASE_ROUTINE64)pSGMB,
             NULL
         );
-
+#endif
         if (!bRetVal)
             break;
 

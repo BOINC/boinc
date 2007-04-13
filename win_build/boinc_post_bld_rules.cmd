@@ -21,10 +21,37 @@ rem
 
 FOR /F "usebackq delims==" %%I IN ('%1') DO set PROJECTROOTDIR=%%~I\..
 FOR /F "usebackq delims==" %%J IN ('%2') DO set OUTPUTDIR=%%~J
+FOR /F "usebackq delims==" %%K IN ('%3') DO set PLATFORMNAME=%%~K
+
+
+if not exist %OUTPUTDIR%\dbghelp.dll (
+    echo Coping dbghelp to the output directory...
+    copy "%PROJECTROOTDIR%\win_build\installerv2\redist\Windows\%PLATFORMNAME%\dbghelp.dll" "%OUTPUTDIR%"
+)
+
+if not exist %OUTPUTDIR%\dbghelp95.dll (
+    echo Coping dbghelp95 to the output directory...
+    copy "%PROJECTROOTDIR%\win_build\installerv2\redist\Windows\%PLATFORMNAME%\dbghelp95.dll" "%OUTPUTDIR%"
+)
+
+if not exist %OUTPUTDIR%\symsrv.dll (
+    echo Coping symsrv to the output directory...
+    copy "%PROJECTROOTDIR%\win_build\installerv2\redist\Windows\%PLATFORMNAME%\symsrv.dll" "%OUTPUTDIR%"
+)
+
+if not exist %OUTPUTDIR%\symsrv.yes (
+    echo Coping symsrv.yes to the output directory...
+    copy "%PROJECTROOTDIR%\win_build\installerv2\redist\Windows\%PLATFORMNAME%\symsrv.yes" "%OUTPUTDIR%"
+)
+
+if not exist %OUTPUTDIR%\srcsrv.dll (
+    echo Coping srcsrv.dll to the output directory...
+    copy "%PROJECTROOTDIR%\win_build\installerv2\redist\Windows\%PLATFORMNAME%\srcsrv.dll" "%OUTPUTDIR%"
+)
 
 if not exist %OUTPUTDIR%\libcurl.dll (
     echo Coping libcurl to the output directory...
-    copy "%PROJECTROOTDIR%\curl\mswin\%PROCESSOR_ARCHITECTURE%\bin\libcurl.dll" "%OUTPUTDIR%"
+    copy "%PROJECTROOTDIR%\curl\mswin\%PLATFORMNAME%\bin\libcurl.dll" "%OUTPUTDIR%"
 )
 
 if not exist %OUTPUTDIR%\ca-bundle.crt (
@@ -34,40 +61,16 @@ if not exist %OUTPUTDIR%\ca-bundle.crt (
 
 if not exist %OUTPUTDIR%\libeay32.dll (
     echo Coping libeay32 to the output directory...
-    copy "%PROJECTROOTDIR%\openssl\mswin\%PROCESSOR_ARCHITECTURE%\bin\libeay32.dll" "%OUTPUTDIR%"
+    copy "%PROJECTROOTDIR%\openssl\mswin\%PLATFORMNAME%\bin\libeay32.dll" "%OUTPUTDIR%"
 )
 
 if not exist %OUTPUTDIR%\ssleay32.dll (
     echo Coping ssleay32 to the output directory...
-    copy "%PROJECTROOTDIR%\openssl\mswin\%PROCESSOR_ARCHITECTURE%\bin\ssleay32.dll" "%OUTPUTDIR%"
+    copy "%PROJECTROOTDIR%\openssl\mswin\%PLATFORMNAME%\bin\ssleay32.dll" "%OUTPUTDIR%"
 )
 
 if not exist %OUTPUTDIR%\zlib1.dll (
     echo Coping zlib1 to the output directory...
-    copy "%PROJECTROOTDIR%\zlib\mswin\%PROCESSOR_ARCHITECTURE%\bin\zlib1.dll" "%OUTPUTDIR%"
+    copy "%PROJECTROOTDIR%\zlib\mswin\%PLATFORMNAME%\bin\zlib1.dll" "%OUTPUTDIR%"
 )
 
-if not exist %OUTPUTDIR%\dbghelp.dll (
-    echo Coping dbghelp to the output directory...
-    copy "%PROJECTROOTDIR%\win_build\installerv2\redist\Windows\%PROCESSOR_ARCHITECTURE%\dbghelp.dll" "%OUTPUTDIR%"
-)
-
-if not exist %OUTPUTDIR%\dbghelp95.dll (
-    echo Coping dbghelp95 to the output directory...
-    copy "%PROJECTROOTDIR%\win_build\installerv2\redist\Windows\%PROCESSOR_ARCHITECTURE%\dbghelp95.dll" "%OUTPUTDIR%"
-)
-
-if not exist %OUTPUTDIR%\symsrv.dll (
-    echo Coping symsrv to the output directory...
-    copy "%PROJECTROOTDIR%\win_build\installerv2\redist\Windows\%PROCESSOR_ARCHITECTURE%\symsrv.dll" "%OUTPUTDIR%"
-)
-
-if not exist %OUTPUTDIR%\symsrv.yes (
-    echo Coping symsrv.yes to the output directory...
-    copy "%PROJECTROOTDIR%\win_build\installerv2\redist\Windows\%PROCESSOR_ARCHITECTURE%\symsrv.yes" "%OUTPUTDIR%"
-)
-
-if not exist %OUTPUTDIR%\srcsrv.dll (
-    echo Coping srcsrv.dll to the output directory...
-    copy "%PROJECTROOTDIR%\win_build\installerv2\redist\Windows\%PROCESSOR_ARCHITECTURE%\srcsrv.dll" "%OUTPUTDIR%"
-)

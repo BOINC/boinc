@@ -35,17 +35,6 @@ IDI_MAIN_ICON           ICON                    "res\\icon.ico"
 #endif
 
 /////////////////////////////////////////////////////////////////////////////
-//
-// Assembly Manifest
-//
-
-#ifndef MANIFEST_RESOURCE_ID
-#define MANIFEST_RESOURCE_ID 1
-#endif
-
-MANIFEST_RESOURCE_ID 	RT_MANIFEST		"boinc.exe.manifest"
-
-/////////////////////////////////////////////////////////////////////////////
 
 #endif    // Neutral resources
 
