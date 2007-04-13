@@ -3483,3 +3483,15 @@ David  12 Apr 2007
     html/ops/
         index.php
         job_times.php
+
+Charlie 12 Apr 2007
+    - Fix compile error: #include <sys/resource.h> in cs_benchmark.C
+    - Fix minor  XCode project bug in ppc_Deployment build configuration 
+        of target BOINC_Client (this build configuration is not used 
+        for release builds.)
+
+    client/
+        cs_benchmark.C
+    mac_build/
+        boinc.xcodeproj/
+            project.pbxproj

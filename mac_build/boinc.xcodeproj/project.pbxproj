@@ -5074,7 +5074,6 @@
 					"-DMAC_OS_X_VERSION_MAX_ALLOWED=1030",
 					"-D_THREAD_SAFE",
 					"-DSANDBOX",
-					"fasm-blocks",
 					"-include",
 					../clientgui/mac/config.h,
 				);
