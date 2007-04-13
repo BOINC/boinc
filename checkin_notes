@@ -3495,3 +3495,11 @@ Charlie 12 Apr 2007
     mac_build/
         boinc.xcodeproj/
             project.pbxproj
+
+David  12 Apr 2007
+    - client: log job completions
+
+    client/
+        client_types.C,h
+        cs_apps.C
+        file_names.C,h

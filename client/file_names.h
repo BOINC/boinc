@@ -47,6 +47,7 @@ extern bool is_image_file(const char*);
 extern void get_sched_request_filename(PROJECT&, char*, int len);
 extern void get_sched_reply_filename(PROJECT&, char*, int len);
 extern void get_master_filename(PROJECT&, char*, int len);
+extern void job_log_filename(PROJECT&, char*, int);
 extern int set_to_project_group(const char* path);
 extern void boinc_version_dir(PROJECT&, VERSION_INFO&, char*);
 extern bool is_version_dir(char*, VERSION_INFO&);
@@ -85,5 +86,6 @@ extern bool is_version_dir(char*, VERSION_INFO&);
 #define SWITCHER_FILE_NAME          "switcher"
 #define SETPROJECTGRP_FILE_NAME     "setprojectgrp"
 #define TIME_STATS_LOG              "time_stats_log"
+#define JOB_LOG_BASE                "job_log_"
 
 #endif

@@ -484,6 +484,7 @@ struct RESULT {
         // abort the result if it hasn't started computing yet
         // Called only for results with no active task
         // (otherwise you need to abort the active task)
+    void append_log_record();
 
     // stuff related to CPU scheduling
 

@@ -87,6 +87,13 @@ void get_master_filename(PROJECT& project, char* buf, int len) {
     snprintf(buf, len, "%s%s.xml", MASTER_BASE, url);
 }
 
+void job_log_filename(PROJECT& project, char* buf, int len) {
+    char url[1024];
+
+    escape_project_url(project.master_url, url);
+    snprintf(buf, len, "%s%s", JOB_LOG_BASE, url);
+}
+
 // Returns the location of a numbered slot directory
 //
 void get_slot_dir(int slot, char* path, int len) {

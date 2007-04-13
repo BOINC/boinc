@@ -1,9 +1,15 @@
 <?php
 require_once("docutil.php");
-page_head("Advanced validator framework");
+page_head("Low-level validator framework");
 
 echo "
-To make a validator program using the advanced framework, link validator.C
+BOINC's <a href=validate_simple.php>simple validator framework</a>
+is sufficient in almost all cases.
+If for some reason you need more control,
+you can use the low-level framework
+(on which the simple framework is based).
+<p>
+To make a validator program using the low-level framework, link validator.C
 with two application-specific functions:
 <pre>",
 htmlspecialchars("
@@ -28,9 +34,8 @@ If, when an output file for a result has a nonrecoverable error
 then it must set the result's outcome (in memory, not database)
 to outcome=RESULT_OUTCOME_VALIDATE_ERROR and validate_state=VALIDATE_STATE_INVALID.
 <p>
-Note: use BOINC's
-<a href=backend_util.php>back-end utility functions</a>
-to get file pathnames
+Use BOINC's <a href=backend_util.php>back-end utility functions</a>
+(in sched/validate_util.C) to get file pathnames
 and to distinguish recoverable and nonrecoverable file-open errors.
 <li>
 If a canonical result is found, check_set() must set the
@@ -78,7 +83,11 @@ This tells the validator to write an error message and exit.
 <p>
 Neither function should delete files or access the BOINC database.
 <p>
-A more detailed description is <a href=validate_logic.txt>here</a>.
+Examples of these two functions may be found in
+validate_util2.C, which implements the
+<a href=validate_simple.php>simple validator framework</a>. 
+<p>
+More detailed information is <a href=validate_logic.txt>here</a>.
 ";
 page_tail();
 ?>

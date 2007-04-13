@@ -24,6 +24,9 @@
 //  [-one_pass]         // make one pass through WU table, then exit
 //  [-asynch]           // fork, run in separate process
 //  [-mod n i]          // process only WUs with (id mod n) == i
+//  [-max_granted_credit X]  // limit maximum granted credit to X
+//  [-max_claimed_credit Y]  // invalid if claims more than Y
+//  [-grant_claimed_credit]  // just grant whatever is claimed 
 //
 // This program must be linked with two project-specific functions:
 // check_set() and check_pair().

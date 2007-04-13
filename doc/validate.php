@@ -35,7 +35,7 @@ BOINC supplies a <a href=validate_simple.php>simple validator framework</a>
 in which you plug in a few short application-specific functions.
 This is sufficient for most projects.
 If you need more control over the validation process,
-you can use BOINC's <a href=validate_advanced.php>advanced validator framework</a>.
+you can use BOINC's <a href=validate_advanced.php>low-level validator framework</a>.
 </ul>
 
 <p>

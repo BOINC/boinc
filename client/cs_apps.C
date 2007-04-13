@@ -195,6 +195,7 @@ int CLIENT_STATE::app_finished(ACTIVE_TASK& at) {
         rp->completed_time = now;
 #else
         rp->set_state(RESULT_FILES_UPLOADING, "CS::app_finished");
+        rp->append_log_record();
 #endif
         rp->project->update_duration_correction_factor(rp);
     }

@@ -1675,6 +1675,18 @@ FILE_INFO* RESULT::lookup_file_logical(const char* lname) {
     return 0;
 }
 
+void RESULT::append_log_record() {
+    char filename[256];
+    job_log_filename(*project, filename, sizeof(filename));
+    FILE* f = fopen(filename, "ab");
+    if (!f) return;
+    fprintf(f, "%f ue %f ct %f fe %f nm %s\n",
+        estimated_cpu_time_uncorrected(), final_cpu_time,
+        wup->rsc_fpops_est, name
+    );
+    fclose(f);
+}
+
 // abort a result that's not currently running
 //
 void RESULT::abort_inactive(int status) {

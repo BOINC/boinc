@@ -34,7 +34,7 @@ extern int cleanup_result(RESULT& r, void* data);
 "; block_end(); echo "
 This frees the structure pointed to by data, if it's non-NULL.
 "; block_start(); echo "
-extern double compute_granted_credit(WORKUNIT&, vector<RESULT>& results);
+extern double compute_granted_credit(WORKUNIT&, vector&lt;RESULT>& results);
 "; block_end(); echo "
 Given a set of results (at least one of which is valid)
 compute the credit to be granted to all of them.
@@ -95,6 +95,10 @@ int compare_results(
 int cleanup_result(RESULT& r, void* data) {
     if (data) delete (DATA*) data;
     return 0;
+}
+
+double compute_granted_credit(WORKUNIT&, vector<RESULT>& results) {
+    return median_mean_credit(results);
 }
 
 "; block_end(); echo "
