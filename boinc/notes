@@ -1,0 +1,324 @@
+Abstractions
+
+--------------------
+Client files
+two main files:
+
+prefs.xml
+    user preferences.
+    includes list of projects; for each:
+        master URL
+        authenticator
+        project-specific prefs
+        resource share
+    prefs mod time
+
+client_state.xml
+    hostid
+    per-project info
+        list of sched servers for project
+        project name
+        hostid
+        next_request_time
+        rpc_seqno (specific to this host)
+        work info
+    files, WUs, results etc.
+
+NOTES
+- On startup, if there's no prefs.xml, the client prompts
+  for a master URL and authenticator,
+  and creates an initial prefs.xml with a zero mod time
+  (so that any web-created prefs file will override)
+- We need to safeguard against a buggy scheduling server
+  sending back an incomplete or empty prefs file.
+  Suggestions:
+    1) verify that at least the responding project is present in the prefs;
+       (or contain at least 1 project)
+    2) back up the old prefs file (prefs.xml.date)
+- prefs.xml has priority over client_state.xml
+  If there's a project in prefs with no counterpart in client_state,
+  a new entry in client_state is created.
+  Entries in client_state absent from prefs are deleted.
+
+- to "clone" an installation on a new computer,
+  just need to copy the core client (or run the installer)
+  then copy the account.xml file.
+
+- a scheduler request can specify that no client_state.xml
+  was found, so a new host record should be created.
+
+--------------------
+When does client contact scheduling server?
+Each result has a max notification delay,
+so when a client completes it there's a deadline for notification.
+
+Contact a scheduling server if:
+- you're below the low-water mark in work for that project,
+  or you have a result past its deadline
+- AND there's no delay in effect for that project.
+    A delay may be explicitly returned by the scheduling server,
+    or may be because of exponential backoff after failed attempts.
+--------------------
+Given that we can estimate the time it will take to get back
+a result from a given host, it might be possible to assign
+deadlines to results, and only send them to hosts that are fast enough
+--------------------
+Client logging
+write events to log file:
+    start/stop client
+    start/finish file xfer
+    start/finish application execution
+    start/finish scheduling server call
+    error messages
+
+logging flag is part of preferences
+--------------------
+file xfer commands
+    implemented as WU/result pairs whose app is "file_xfer".
+    Can have just one input file, one output.
+    Application servers can leaves these in a "message" directory,
+    where the scheduling server can find them and give to
+    client next time they contact.
+--------------------
+result states in client
+    don't have files yet
+    have files, not started
+    have files, started
+    completed, sending output files
+    output files sent
+    output files sent, some sticky files deleted
+
+--------------------
+result attributes in DB, sched server
+    state:
+        unsent
+        sent, in progress
+        timed out
+    file state
+        all output files are openly available
+        (i.e. have been uploaded)
+
+WU attributes in DB, sched server
+    input file state (set by app server)
+        all input files are available
+        not all input files available
+
+--------------------
+Client logic
+    ["network xfer" object encapsulates a set of file xfers in progress]
+    ["processor" object: one for each CPU]
+
+    read config file
+    loop
+        check user activity - turn off computations if needed
+        start a computation if possible
+            all necessary files present,
+            and workunit not done or in progress.
+        check processes (fail, done)
+        start new network xfers if possible
+        xfer 16KB if possible (use select)
+            if xfer complete, update state
+        if estimated work below low-water mark
+            while estimated work below high-water mark
+                pick project with work due, OK dont_contact_until
+                contact a control server; request high-current work
+                if can't get connection, update dont_contact_until
+            end
+        end
+    end
+--------------------
+Application logic
+--------------------
+Control RPC protocol
+--------------------
+Web site functions
+--------------------
+Startup scenarios
+
+- How a user initially signs up:
+Visit the project's URL.
+Create an account:
+    enter email address
+    wait for password to arrive in email.
+    download installer
+    installer installs agent, initial config file
+    run agent; type in password.
+
+- How a user adds a project
+Same as above, but don't download agent.
+Go to "home" web site and add project.
+
+- How a user removes a project
+Go to "home" web site and remove project
+
+------------------------------
+Versions
+
+Core client:
+
+When and how does a scheduler tell a core agent
+that a newer version can/should be downloaded?
+
+How is compatibility between application agents
+and core agents represented?
+--------------------------------------
+Distributed storage
+
+Projects can use clients for storage using "sticky" files
+(which are either sent to clients, or generated by the client).
+
+The core client is free to delete sticky files any time.
+
+Scheduler requests include a list of the sticky files held by the host.
+This list is stored in a blob in the host record.
+
+Scheduler replies can include <file_info> tags
+instructing the client to download files.
+These files need not be associated with applications or workunits.
+
+Scheduler replies can include <file_info> tags
+instructing the client to upload
+
+--------------------------------
+Preferences
+
+CPU usage
+    don't run or communicate if on batteries
+    don't run or communicate if user is active
+    confirm before making network connection
+    minimum, maximum work buffer
+
+Disk usage
+    use at most X GB
+    leave at least X GB free
+    leave at least X% free
+
+Projects
+    For each project:
+        user name
+        project's master URL
+        email address
+        authenticator
+        resource %
+        show email address on web site?
+        accept emails from project?
+        project-specific prefs
+------------------------------
+retry policies:
+general issues:
+    when and where to retry?
+    when to declare overall failure?
+    what to do if overall failure?
+    what needs to be saved in state file?
+
+file xfer
+    download
+        round-robin through URLs with random exponential backoff
+        after connection failure or HTTP error.
+        2X from 1 minute up to 256 minutes
+        Overall failure after 1 week since last successful xfer
+            flag result as "file download failed",
+            abort other file xfers,
+            delete other files.
+            write log entry
+        State file:
+            record time of last successful xfer
+    upload
+        same as for download?
+        Use HTTP features to find file size on server
+
+scheduler RPC
+    order projects according to hosts's "debt" to them.
+    Attempt to contact them in this order.
+    For each project, try all URLs in sequence with no delay.
+    If still need more work after a given RPC,
+    keep going to next project.
+    If still not enough work after a given "round",
+        do exponential backoff
+        2X from 1 minute up to 256 minutes
+        If reach 256 minutes, show error message to user and write to log
+    nothing saved in state file
+------------------
+Core/App connection
+    two unidirectional message streams.
+    files "core_to_app.xml" and "app_to_core.xml".
+
+    core->app:
+        initially:
+            requested frequency of app->core messages
+            app preferences
+            name of graphics shared-mem segment
+            recommended graphics parameters
+                frame rate
+                size
+            recommended checkpoint period
+            whether to do graphics
+        thereafter:
+            recommended graphics params
+    app->core
+        percent done
+        I just checkpointed
+        CPU time so far
+-------------------
+File upload security
+Each project has a "file upload key pair"
+Scheduling server has private key;
+data servers have public key.
+The key pair may be changed periodically;
+data servers have to store old and new during transitions
+
+- in DB, result XML has format
+    <result>
+        <file_info>
+            <max_size>123123</max_size>
+        </file_info>
+        ...
+    </result>
+
+- RPC reply: result XML info has format
+    <result>
+        <file_info>
+        ...
+        <expiration>...</expiration>        (added by server)
+    </result>
+    <result_signature>
+        <name>foo</name>
+        ...         (digital signature of <result> element; added by server)
+    </result_signature>
+
+- Client stores:
+    for each result (in state file, in memory)
+        exact text of <result> tag
+        signature
+
+- On file upload, client sends
+    <result> element (exact text)
+    <result_signature>
+        ...
+    </result_signature>
+    <filename>blah</filename>
+    <offset>123</offset>
+    <total_size>1234</total_size>
+    <data_start/>
+    ... data
+
+- file upload handler does:
+    parse header (up to <data_start/>)
+    validate signature of <result>
+    verify that filename is in list of file_infos
+    verify that total size is within limit
+
+----------------------------
+Project main URL scheme
+
+Each project advertises (and is identified by) a "root URL".
+This URL returns a browser-visible "root page" describing the project,
+linking to the registration, etc.
+It also contains (in elements inside HTML comments)
+one or more <scheduler_server_url> elements,
+each containing the URL of a scheduling server
+
+When the core client initially runs, it fetches and parses
+the root page, and records the scheduling server URLs.
+Whenever it can't contact any scheduling server, it reloads
+the root page; the scheduling server URLs may have changed.

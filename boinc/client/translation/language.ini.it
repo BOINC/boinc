@@ -1,0 +1,156 @@
+# Italian language.ini file
+# Questo e' il file di inizializzazione
+# per BOINC in lingua italiana
+#
+# PROJECT_ID
+[HEADER-Projects]
+Title=Progetti
+Project=Progetto
+Account=Conto
+Total Credit=Credito totale
+Avg. Credit=Credito medio
+Resource Share=Quota di risorse
+
+# RESULT_ID
+[HEADER-Work]
+Title=Lavoro
+Project=Progetto
+Application=Applicazione
+Name=Nome
+CPU time=Tempo di CPU
+Progress=Avanzamento
+To Completion=Al Completamento
+Status=Stato
+
+# XFER_ID
+[HEADER-Transfers]
+Title=Trasmissione
+Project=Progetto
+File=File
+Progress=Avanzamento
+Size=Dimensioni
+Time=Tempo
+Speed=Velocità
+Status=Stato
+
+# MESSAGE_ID
+[HEADER-Messages]
+Title=Messaggi
+Project=Progetto
+Time=Tempo
+Message=Messaggio
+
+# USAGE_ID
+[HEADER-Disk]
+Title=Disco
+Free space: not available for use=Spazio libero: non disponibile
+Free space: available for use=Spazio libero: disponibile
+Used space: other than BOINC=Spazio usato: da altri programmi, non da BOINC
+Used space: BOINC=Spazio usato: da BOINC
+Used space:=Spazio usato:
+
+# miscellaneous text
+[HEADER-MISC]
+New=Nuovo
+Running=Attivo
+Ready to run=Pronto per essere eseguito
+Computation done=Calcolo terminato
+Results uploaded=Risultati inviati
+Acknowledged=Confermato
+Error: invalid state=Errore: Stato non valido
+Completed=Completato
+Uploading=Sta inviando
+Downloading=Sta ricevendo
+Retry in=Nuovo tentativo fra
+Upload failed=Invio fallito
+Download failed=Ricezione fallita
+
+# menu items
+[MENU-File]
+Title=&File
+Show Graphics=Mostra &grafici
+Clear Messages=Cancella &messaggi
+Clear Inactive=Cancella &inattivi
+Suspend=&Sospendere
+Resume=&Continuare
+Exit=&Terminare
+
+[MENU-Settings]
+Title=&Settaggi
+Login to Project...=&Accedere al progetto...
+Quit Project...=Abban&donare progetto...
+Proxy Server...=Impostazioni Prox&y...
+
+[MENU-Connection]
+Title=&Connessione
+Connect Now=Connetti &adesso
+Hangup Connection if Dialed=&Chiudere connessione
+Confirm Before Connecting=&Conferma prima di connettere
+
+[MENU-Help]
+Title=A&iuto
+About...=&Informazioni
+
+[MENU-StatusIcon]
+Suspend=&Sospendere
+Resume=&Continuare
+Exit=&Terminare
+
+[MENU-Project]
+Relogin...=&Accedere al progetto...
+Quit Project...=Abban&donare il progetto...
+
+[MENU-Work]
+Show Graphics=Mostra &grafici
+
+[DIALOG-LOGIN]
+Title=Accesso al progetto
+URL:=URL:
+Account Key:=Chiave personale:
+OK=Accetta
+Cancel=Annulla
+#Cancel=Cancellare
+The URL for the website of the project.=URL della pagina web del progetto.
+The authorization code recieved in your confirmation email.=Il codice di autorizzazione ricevuto nell'e-mail di conferma.
+
+[DIALOG-QUIT]
+Title=Abbandonare un progetto
+URL:=URL:
+Account Key:=Chiave personale:
+OK=Accetta
+Cancel=Annulla
+#Cancel=Cancellare
+Select the project you wish to quit.=Selezionare il progetto che si desidera abbandonare.
+
+[DIALOG-CONNECT]
+Title=Connessione alla rete
+BOINC needs to connect to the network.  May it do so now?=BOINC desidera connettersi alla rete. Puo' connettersi ora?
+Don't ask this again (connect automatically)=Non chiedere nuovamente (connetti automaticamente)
+OK=Accetta
+Cancel=Annulla
+#Cancel=Cancellare
+
+[DIALOG-ABOUT]
+Title=BOINC versione beta
+Berkeley Open Infrastructure for Network Computing=Berkeley Open Infrastructure for Network Computing
+Open Beta=Beta aperto (Open Beta)
+OK=Accetta
+
+[DIALOG-PROXY]
+Title=Impostazioni del Server Proxy
+#Title=Settaggio Proxy
+Some organizations use an "HTTP proxy" or a "SOCKS proxy" (or both) for increased security.  If you need to use a proxy, fill in the information below.  If you need help, ask your System Administrator or Internet Service Provider.=Alcuni provider o organizzazioni utilizzano un "HTTP Proxy" o un "SOCKS Proxy" (o ambedue) per questioni di sicurezza. Se si deve utilizzare un proxy, si inseriscano le informazioni. Se si necessita di aiuto, ci si rivolga all'amministratore di sistema o al provider internet.
+HTTP Proxy=HTTP proxy
+Connect via HTTP Proxy Server=Connetti tramite Server HTTP Proxy
+http://=http://
+Port Number:=Porta n°:
+SOCKS Proxy=SOCKS Proxy
+Connect via SOCKS Proxy Server=Connetti via Server SOCKS Proxy
+SOCKS Host:=SOCKS Host:
+Port Number:=Porta n°:
+Leave these blank if not needed=Lasciare vuoto se non utilizzato
+SOCKS User Name:=SOCKS Nome:
+SOCKS Password:=SOCKS Password:
+OK=Accetta
+Cancel=Annulla
+#Cancel=Cancellare

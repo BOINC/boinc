@@ -1,0 +1,333 @@
+Stripchart version 2.0
+----------------------
+Author: Matt Lebofsky
+        BOINC/SETI@home - University of California, Berkeley
+        mattl@ssl.berkeley.edu
+        
+Date of recent version: November 4, 2002
+
+Requirements:
+  * a gnuplot with the ability to generate gifs
+  * perl 
+  * apache or other cgi-enabled web browser
+
+Send all thoughts and queries to: mattl@ssl.berkeley.edu
+
+This software is free to edit, distribute and use by anybody, as long as
+I get credit for it in some form or another. Thanks.
+----------------------
+
+Contents:
+
+I. Some questions and answers
+II. So how does it work?
+III. Known bugs, things to do, etc.
+
+----------------------
+I. Some questions and answers
+
+Q: What is stripchart?
+
+A: Well, it's actually two relatively small perl programs:
+
+   1. stripchart
+   
+      stripchart reads in time-based user data and, depending on a flurry of
+      command line options, generates a web-friendly .gif plotting the data.
+      The user can supply the time range, the y axis range, even the color
+      scheme, and more.
+
+   2. stripchart.cgi
+
+      stripchart.cgi is a web-based GUI interface that allows users to easily
+      select multiple data sources and various parameters to plot, allowing
+      fast comparisons without having to deal with a command line interface.
+
+Q: Why do you bother writing this program?
+
+A: Working as a systems administrator (amongst other things) for SETI@home,
+   we kept finding ourselves in dire problem-solving situations, i.e. Why
+   did the database stop working? Why is load on our web server so high? 
+      
+   So we started collecting data in flat files, keeping track of server
+   loads, database checkpoint times, even CPU temperatures. When these files
+   grew too large and unwieldy, I found myself writing (and rewriting) simple
+   scripts to generate plots on this data. Sick of constant revision whenever
+   a new problem arose, I wrote stripchart version 1.0.
+
+   Its usefulness became immediately apparent when I added on stripchart.cgi.
+   I couldn't bear to teach everybody the many command line options to 
+   stripchart, so I wrote this CGI to do all the dirty work. Suddenly we were
+   able to line up several plots, look for causes and effects, or just enjoy
+   watching the counts in our database tables grow to impossibly high numbers.
+
+   The SETI@home network has proven to be a delicate system, and keeping track
+   of all the data server, user, and web statistics has proven to be quite a
+   life saver. So when BOINC came around we felt that any project aiming to
+   embark on a similar project may need this tool. So I rewrote stripchart to
+   be a bit more friendly and general. 
+
+Q: Why don't you make .pngs or .jpgs instead of .gifs? The latest gnuplot
+   doesn't support .gifs.
+
+A: Basically gnuplot support for other graphic file formats isn't as good. For
+   example, you cannot control exact window size, font size, and colors unless
+   you make .gifs. I'm not exactly sure why this is the case, but there you have it.
+   Anywho, you can find older gnuplot distributions out there - you'll need to
+   get the gd libs first, by the way.
+
+----------------------
+II. So how does it work?
+
+You can use stripchart as a stand alone command-line program to produce plots
+whenever you like, but we highly recommend using it in conjunction with the
+stripchart.cgi for ease of use. But here's how to do it both ways.
+
+stripchart (stand alone)
+
+Before anything, look at the section GLOBAL/DEFAULT VARS in the program
+stripchart and see if you need to edit anything (usually pathnames to
+executables and such).
+
+Let's just start with the usage (obtained by typing "stripchart -h"):
+
+stripchart: creates stripchart .gif graphic based on data in flat files
+options:
+  -i: input FILE      - name of input data file (mandatory)
+  -o: output FILE     - name of output .gif file (default: STDOUT)
+  -O: output FILE     - name of output .gif file and dump to STDOUT as well
+  -f: from TIME       - stripchart with data starting at TIME 
+                        (default: 24 hours ago)
+  -t: to TIME         - stripchart with data ending at TIME (default: now)
+  -r: range RANGE     - stripchart data centered around "from" time the size
+                        of RANGE (overrides -t)
+  -l: last LINES      - stripchart last number of LINES in data file
+                        (overrides -f and -t and -r)
+  -T: title TITLE     - title to put on graphic (default: FILE RANGE)
+  -x: column X        - time or "x" column (default: 2)
+  -y: column Y        - value or "y" column (default: 3)
+  -Y: column Y'       - overplot second "y" column (default: none)
+  -b: baseline VALUE  - overplot baseline of arbitrary value VALUE
+  -B: baseline-avg    - overrides -b, it plots baseline of computed average
+  -d: dump low VALUE  - ignore data less than VALUE
+  -D: dump high VALUE - ignore data higher than VALUE
+  -v: verbose         - puts verbose runtime output to STDERR
+  -L: log             - makes y axis log scale
+  -c: colors "COLORS" - set gnuplot colors for graph/axis/fonts/data (default:
+                        "xffffff x000000 xc0c0c0 x00a000 x0000a0 x2020c0"
+                        in order: bground, axis/fonts, grids, pointcolor1,2,3)
+  -C: cgi             - output CGI header to STDOUT if being called as CGI
+  -s: stats           - turn extra plot stats on (current, avg, min, max)
+  -j: julian times    - time columns is in local julian date (legacy stuff)
+
+notes:
+  * TIME either unix date, julian date, or civil date in the form:
+      YYYY:MM:DD:HH:MM (year, month, day, hour, minute)
+    If you enter something with colons, it assumes it is civil date
+    If you have a decimal point, it assumes it is julian date
+    If it is an integer, it assumes it is unix date (epoch seconds)
+    If it is a negative number, it is in decimal days from current time
+      (i.e. -2.5 = two and a half days ago)
+    * All times on command line are assumed to be "local" times
+    * All times in the data file must be in unix date (epoch seconds)
+  * RANGE is given in decimal days (i.e. 1.25 = 1 day, 6 hours)
+  * if LINES == 0, (i.e. -l 0) then the whole data file is read in
+  * columns (given with -x, -y, -Y flags) start at 1
+  * titles given with -T can contain the following key words which will
+    be converted:
+      FILE - basename of input file
+      RANGE - pretty civil date range (in local time zone)
+    the default title is: FILE RANGE
+
+...okay that's a lot to ingest, but it's really simple. Let's take a look at an
+example (you'll find in the samples directory two files get_load and crontab).
+
+You have a machine that you want to monitor it's load. Here's a script that
+will output a single line containing two fields for time and the third with the
+actual data. For example:
+
+2002:11:05:12:51 1036529480 0.25
+
+The first field is time in an arbitrary human readable format
+(year:month:day:hour:minute), the second in epoch seconds (standard
+unix time format - the number of seconds since 00:00 1/1/1970 GMT),
+and the third is the load at this time.
+
+And we'll start collecting data every five minutes on this particular machine
+by add such a line to the crontab:
+
+0,5,10,15,20,25,30,35,40,45,50,55 * * * * /usr/local/stripchart/samples/get_load >> /disks/matt/data/machine_load
+
+So the file "machine_load" will quickly fill with lines such as the above.
+Now you may ask yourself - why two columns representing time in two different
+formats? Well sometime you just want to look at the data file itself, in which
+case the human-readable first column is quite handy to have around, but when
+making linear time plots, having time in epoch seconds is much faster to
+manipulate. So generally, we like to have at least the two time fields first,
+and the actual data in the third column. That's what stripchart expects by
+default.
+
+Note: stripchart will understand time in both epoch seconds and julian date.
+If the second time field is in julian date, you should supply the command line
+flag "-j" to warn stripchart so it knows how to handle it. 
+
+Okay. So you have this data file now. A very common thing to plot would be the
+data over the past 24 hours. Turns out that's the default! If you type on the
+command line:
+
+stripchart -i machine_load -o machine_load.gif
+
+you will quickly get a new file "machine_load.gif" with all the goods.
+
+Note: you always have to supply an input file via -i. If you don't supply
+an output file via "-o" it .gif gets dumped to stdout. If you supply an
+output file via "-O" the output is stored in both the file and to stdout.
+
+Now let's play with the time ranges. You can supply times in a variety of
+formats on the command line:
+
+   "civil date" i.e. 2002:11:05:12:51 (YYYY:MM:DD:hh:mm)
+   "epoch seconds" i.e. 1036529480
+   "julian date" i.e. 2452583.52345
+
+You can supply a date range using the -f and -t flags (from and to):
+
+stripchart -i machine_load -f 2002:11:01:00:00 -t 2002:11:04:00:00
+
+Usually the "to" time is right now, so you can quickly tell stripchart
+to plot starting at some arbitrary time "ago." This is done also via the
+"-f" flag - if it's negative it will assume you mean that many decimal
+days from now as a starting point. So "-f -3.5" will plot from 3 and a
+half days ago until now.
+
+You can also supply a "range" centered around the from time. For example,
+to plot the 24 hours centered around 2002:11:01:13:40:
+
+stripchart -i machine_load -f 2002:11:01:13:40 -r 1
+
+On some rare occasions you might want to plot the last number of lines
+in a file, regardless of what time they were. If you supply the number
+of lines via the "-l" flag, it overrides any time ranges you may have
+supplied.
+
+Moving on to some other useful flags in no particular order:
+
+To change the default title (which is the basename of the file and
+the time range being plotted), you can do so via the "-T" command.
+Make sure to put the title in quotes. Within the title string the
+all-uppercase string "FILE" will be replaced with the file basename,
+and the string "RANGE" will be replaced by the time range. So in
+essence, the default title string is "FILE RANGE".
+
+If you have data files in different formats, you can specify the data
+columns using the "-x" and "-y" flags. By default -x is 2 and -y is 3.
+Sometimes we have datafiles with many columns so we actively have to tell
+stripchart which is the correct data column.
+
+However, you might want to overplot one column on top of another. If your
+data file has a second data column, you can specify what that is via the
+-Y flag, and this data will be overplotted onto the data from the first
+data column.
+
+Sometime you want to plot a horizontal rule or a "baseline". You can
+turn this feature on by specifying the value with the "-b" flag. If you
+use the "-B" flag (without any values) it automatically computes the
+average over the time range and plots that as the baseline. Simple!
+
+If you want to excise certain y values, you can do so with the dump
+flags, i.e. "-d" and "-D". In particular, any values lower than the one
+supplied with "-d" will be dumped, and any values higher supplied by
+"-D" will be dumped. 
+
+To log the y axis, use the "-L" flag. Quite straightforward.
+
+A very useful flag is "-s" which outputs a line of stats underneath
+the plot title. It shows the current value, and the minimum, maximum
+and average values during the plot range.
+
+For verbose output to stderr, use the "-v" flag. It may not make much
+sense, but it's useful for debugging.
+
+Using the "-C" flag causes stripchart to spit out the "Content-type"
+lines necessary for incorporating stripchart plots into CGIs. This
+doesn't work so well now, but there it is.
+
+Okay. That's enough about the flags, and hopefully enough to get you
+playing around with stripchart and plotting some stuff. Now onto:
+
+stripchart.cgi
+
+First and foremost, you need to do the following before running the
+CGI version of stripchart:
+
+1. Put stripchart.cgi in a cgi-enabled web-accessible directory
+2. Make a "lib" directory somewhere that the web server can read/write to
+3. Edit stripchart.cgi GLOBAL/DEFAULT VARS to point to proper paths, including
+   the files "querylist" and "datafiles" in the aforementioned "lib" directory.
+4. Edit the "lib/datafiles" file to contain entries for all your data files.
+   You can find an example datafiles in the samples directory. Follow the
+   instructions in the comment lines, adding your entries below the header.
+
+That should be it, I think. Now go to the URL wherever your stripchart.cgi
+is sitting. If all is well..
+
+You will be immediately presented with a web form. Ignore the "select query"
+pulldown menu for now. Underneath that you will see a line:
+
+Number of stripcharts: 1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 18 19 20 
+
+By default stripchart.cgi presents you with the ability to plot 4 simultaneous
+stripcharts, but you can select any number 1-20 by clicking on those numbers.
+The less plots, the faster a web page gets generated.
+
+For each plot, you get a pull down menu which should contain all the entries
+you already put in "datafiles". Here you are selecting your data source.
+
+Then you can select the time of time range: last x hours, last x days, or
+an arbitrary date range. By default the last x hours radio button is selected -
+to pick another type of time range make sure you select the radio button
+before it. Then enter the range via the pull down menus.
+
+Then you get a simple list of checkbox/input options. You can check to log
+the y axis, baseline the average, baseline an arbitrary value (which you
+enter in the window, enter a y minimum, or enter a maximum. 
+
+When everything is selected, click on the "click here" button to plot.
+Depending on the speed of your machine, you should soon be presented with
+all the plots your desired, and the form underneath the plots which can
+edit to your heart's content. If you want to reset the form values, click
+on the "reset form" link.
+
+Note the "save images in /tmp" checkbox. If that is checked and you plot
+the stripcharts, numbered .gif files will be placed in /tmp on the web
+server machine so you can copy them elsewhere (files will be named:
+stripchart_plot_1.gif, etc.).
+
+On the topmost "click here" button you will note an "enter name to save
+query" balloon. If you enter a name here (any old string) this exact query
+will be saved into the "querylist" file which will then later appear in the
+pulldown menu at the top. That way if you have a favorite set of diagnostic
+plots which you check every morning, you don't have to enter the entire form
+every time.
+
+If you want to delete a query, enter the name in that same field but click
+the "delete" checkbox next to it. Next time you "click here" the query will
+be deleted.
+
+----------------------
+III. Known bugs, things to do, etc.
+
+* stripchart -C flag is kind of pointless and doesn't work in practice.
+* plots on data collected over small time ranges (points every few seconds, for
+  example) hasn't been tested.
+* plots that don't work via stripchart.cgi either show ugly broken image icons
+  or nothing at all - either way it's ungraceful.
+* pulldown menus and various plots sometimes need to be refreshed via a hard
+  refresh (i.e. shift-refresh). 
+* this readme kinda stinks.
+* and many many other issues I'm failing to detail now!
+
+If you have any problems using the product, feel free to e-mail me at:
+
+	mattl@ssl.berkeley.edu
+

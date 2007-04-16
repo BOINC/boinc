@@ -1,0 +1,51 @@
+;; $Id$
+
+These notes/hints are for ourselves (SSL SETI/BOINC group) but they might be
+useful to others
+
+COMPILING
+=========
+
+32-bit:
+-------
+
+Use 32-bit mysql CLIENT libraries (although server could be 64-bit) in
+/usr/local/mysql_32bit: 
+
+        ./configure MYSQL_CONFIG=/usr/local/mysql_32bit/bin/mysql_config
+
+64-bit:
+-------
+
+On Koloth, use these flags to link with mysql-max-64bit:
+     -L /usr/local/mysql/lib -lmysqlclient -lsocket -lnsl -lm -m64 -Wl,-R,/usr/local/gcc/lib/sparcv9
+
+Therefore configure like this:
+      ./configure CFLAGS=-m64 CXXFLAGS=-m64 LDFLAGS='-Wl,-R,/usr/local/gcc/lib/sparcv9'
+
+The -m64 compile flag generates 64-bit code and is necessary because the mysql
+libraries are 64-bit.
+
+The -Wl,-R tells the linker to set the dynamic library search path (for C++)
+to the 64-bit versions (default /usr/local/gcc/lib has 32-bit libraries with
+the same name).
+
+
+CRON SETUP
+==========
+
+Need to set PATH to include python executable; need to set PYTHONPATH to
+include PyXML module.
+
+crontab:
+
+0,5,10,15,20,25,30,35,40,45,50,55 * * * * /mydisks/a/users/boincadm/projects/cron/cron-astropulse
+
+cron-astropulse:
+
+
+PATH=/opt/misc/bin:/usr/bin:/bin
+PYTHONPATH=/disks/koloth/a/users/boincadm/pkg/Pyxml/PyXML-0.8.2/build/lib.solaris-2.9-sun4u-2.2
+export PATH PYTHONPATH
+
+/mydisks/a/users/boincadm/projects/AstroPulse_Beta/bin/start --cron

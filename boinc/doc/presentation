@@ -1,0 +1,118 @@
+Global view
+    Projects
+        Applications
+        Scheduling server
+        Database
+        Project back end (interacts with scheduler via DB, files)
+        web server
+        Data servers
+    Clients
+        core client, applications, files
+        single download
+        preferences
+
+
+Abstractions
+    projects
+    applications
+    Workunits -> input file descriptors -> files
+    Results -> output file descriptors -> files
+
+    file descriptors can give name/FD
+    files can have various properties
+        files up/downloaded to servers; may be "sticky"
+        client-generated scratch files; may be "sticky"
+        some files originate on servers and are sent to clients;
+        some files originate on client and are deleted after the WU
+        some files originate on client and become input for later WUs
+        some files originate on client and are uploaded (and maybe kept)
+
+    Results are generated in advance
+    (alternative: let clients fill in template)
+
+Properties of workunits
+    disk/RAM max needs
+    IOPs/FLOPs/memBW needs
+
+File transfer requests
+
+Result sequences
+
+Examples
+    SETI@home case: generate multiple results; generate more as needed
+    CP.com case: result sequences
+        normal case
+        interrupted/restarted case
+        access to large output files
+
+How things work on the scheduling server
+    WUs and results described by XML files (has file, resource info)
+    user preferences described by XML files
+    file transfer requests described by XML files
+    DB keeps track of
+        apps
+        hosts
+        platforms
+        users
+        app versions
+        core versions
+        WUs
+            all input files available?
+        results
+            unsent/sent/completed/error/timed out
+
+Host measurements
+    CPU: #cpus, int, FP, mem BW
+    mem: total, cache, swap
+    disk: total, free
+    network: bandwidth up/down.  IP address history
+    on fraction
+    connected fraction
+
+How we keep track of different hosts
+    RPC seqno
+
+The scheduling server algorithm
+
+Project back end: examples
+
+How things work in the client
+    FSM model
+    network stack
+    processor slots
+
+    account file, client state file
+
+    main loop of client
+
+When does the client ask for work?
+    hi/lo water marks
+    server backoff requests
+    failed connection backoff
+
+What are user preferences?
+    max RAM to use while user active
+    confirm before connect?
+    don't compute while on batteries
+    min time between disk I/O
+    max disk space to use (absolute, or % of free)
+    list of projects
+        % of resources (disk, CPU)
+    hours to communicate/compute
+    max #bytes to upload each day
+    max #bytes to download each day
+
+How are preferences adjusted?
+    Web interface
+    XML file
+    (extensible set of preferences w/o server change)
+
+How a users starts up
+
+How a user adds/removes projects
+
+How a project starts up
+
+Security mechanisms
+
+Result validation and credit

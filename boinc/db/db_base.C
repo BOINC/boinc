@@ -1,0 +1,244 @@
+#include <stdio.h>
+#include <string.h>
+#include <stdlib.h>
+
+#include "error_numbers.h"
+#include "db_base.h"
+
+#define MAX_QUERY_LEN 256000
+    // TODO: use "string" instead of char[]
+
+DB_CONN::DB_CONN() {
+    mysql = 0;
+}
+
+int DB_CONN::open(char* db_name, char* db_host, char* db_user, char* dbpassword) {
+    mysql = mysql_init(0);
+    if (!mysql) return ERR_DB_CANT_INIT;
+    mysql = mysql_real_connect(mysql, db_host, db_user, dbpassword, db_name, 0, 0, 0);
+    if (mysql == 0) return ERR_DB_CANT_CONNECT;
+    return 0;
+}
+
+void DB_CONN::close() {
+    if (mysql) mysql_close(mysql);
+}
+
+int DB_CONN::do_query(char* p) {
+    int retval;
+    retval = mysql_query(mysql, p);
+    if (retval) {
+        fprintf(stderr, "Database error: query=%s\n", p);
+    }
+    return retval;
+}
+
+int DB_CONN::insert_id() {
+    int retval;
+    MYSQL_ROW row;
+    MYSQL_RES* rp;
+            
+    retval = do_query("select LAST_INSERT_ID()");
+    if (retval) return retval;
+    rp = mysql_store_result(mysql);
+    row = mysql_fetch_row(rp);
+    return atoi(row[0]);
+}
+
+void DB_CONN::print_error(char* p) {
+    if (mysql) {
+        fprintf(stderr, "%s: Database error: %s\n", p, mysql_error(mysql));
+    } else {
+        fprintf(stderr, "%s: Database error\n", p);
+    }
+}
+
+const char* DB_CONN::error_string() {
+    return mysql?mysql_error(mysql):"Not connected";
+}
+
+DB_BASE::DB_BASE(DB_CONN& p, char *tn) : db(&p), table_name(tn) {
+    cursor.active = false;
+}
+
+int DB_BASE::get_id() { return 0;}
+void DB_BASE::db_print(char*) {}
+
+void DB_BASE::db_parse(MYSQL_ROW&) {}
+
+int DB_BASE::insert() {
+    char vals[MAX_QUERY_LEN], query[MAX_QUERY_LEN];
+    db_print(vals);
+    sprintf(query, "insert into %s set %s", table_name, vals);
+    return db->do_query(query);
+}
+
+// update an entire record
+//
+int DB_BASE::update() {
+    char vals[MAX_QUERY_LEN], query[MAX_QUERY_LEN];
+    db_print(vals);
+    sprintf(query, "update %s set %s where id=%d", table_name, vals, get_id());
+    return db->do_query(query);
+}
+
+// update one or more fields
+// "clause" is something like "foo=5, blah='xxx'" or "foo=foo+5"
+//
+int DB_BASE::update_field(char* clause) {
+    char query[MAX_QUERY_LEN];
+    sprintf(query, "update %s set %s where id=%d", table_name, clause, get_id());
+    return db->do_query(query);
+}
+
+int DB_BASE::lookup(char* clause) {
+    char query[MAX_QUERY_LEN];
+    int retval;
+    MYSQL_ROW row;
+    MYSQL_RES* rp;
+
+    sprintf(query, "select * from %s %s", table_name, clause);
+    retval = db->do_query(query);
+    if (retval) return retval;
+    rp = mysql_store_result(db->mysql);
+    if (!rp) return -1;
+    row = mysql_fetch_row(rp);
+    if (row) db_parse(row);
+    mysql_free_result(rp);
+    if (row == 0) return ERR_DB_NOT_FOUND;
+
+    // make sure there's exactly one row
+    //
+    row = mysql_fetch_row(rp);
+    if (row) return ERR_DB_NOT_UNIQUE;
+    return 0;
+}
+
+int DB_BASE::lookup_id(int id) {
+    char query[MAX_QUERY_LEN];
+    int retval;
+    MYSQL_ROW row;
+    MYSQL_RES* rp;
+
+    sprintf(query, "select * from %s where id=%d", table_name, id);
+    retval = db->do_query(query);
+    if (retval) return retval;
+    rp = mysql_store_result(db->mysql);
+    if (!rp) return -1;
+    row = mysql_fetch_row(rp);
+    if (row) db_parse(row);
+    mysql_free_result(rp);
+    if (row == 0) return ERR_DB_NOT_FOUND;
+
+    // don't bother checking for uniqueness here
+    return 0;
+}
+
+int DB_BASE::enumerate(char* clause) {
+    int x;
+    char query[MAX_QUERY_LEN];
+    MYSQL_ROW row;
+
+    if (!cursor.active) {
+        cursor.active = true;
+        sprintf(query, "select * from %s %s", table_name, clause);
+        x = db->do_query(query);
+        if (x) return mysql_errno(db->mysql);
+        cursor.rp = mysql_store_result(db->mysql);
+        if (!cursor.rp) return mysql_errno(db->mysql);
+    }
+    row = mysql_fetch_row(cursor.rp);
+    if (!row) {
+        mysql_free_result(cursor.rp);
+        cursor.active = false;
+        return 1;
+    } else {
+        db_parse(row);
+    }
+    return 0;
+}
+
+int DB_BASE::get_integer(char* query, int& n) {
+    int retval;
+    MYSQL_ROW row;
+    MYSQL_RES* resp;
+
+    retval = db->do_query(query);
+    if (retval) return retval;
+    resp = mysql_store_result(db->mysql);
+    if (!resp) return ERR_DB_NOT_FOUND;
+    row = mysql_fetch_row(resp);
+    if (!row) return ERR_DB_NOT_FOUND;
+    if (!row[0]) return ERR_DB_NOT_FOUND;
+    n = atoi(row[0]);
+    mysql_free_result(resp);
+    return 0;
+}
+
+int DB_BASE::get_double(char* query, double& x) {
+    int retval;
+    MYSQL_ROW row;
+    MYSQL_RES* resp;
+
+    retval = db->do_query(query);
+    if (retval) return retval;
+    resp = mysql_store_result(db->mysql);
+    if (!resp) return ERR_DB_NOT_FOUND;
+    row = mysql_fetch_row(resp);
+    if (!row) return ERR_DB_NOT_FOUND;
+    if (!row[0]) return ERR_DB_NOT_FOUND;
+    x = atof(row[0]);
+    mysql_free_result(resp);
+    return 0;
+}
+
+int DB_BASE::count(int& n, char* clause) {
+    char query[MAX_QUERY_LEN];
+    sprintf(query, "select count(*) from %s %s", table_name, clause);
+    return get_integer(query, n);
+}
+
+int DB_BASE::sum(double& x, char* field, char* clause) {
+    char query[MAX_QUERY_LEN];
+    sprintf(query, "select sum(%s) from %s %s", field, table_name, clause);
+    return get_double(query, x);
+}
+
+#if 0
+void strcpy2(char* dest, char* src) {
+    if (!src) *dest = 0;
+    else strcpy(dest, src);
+}
+#endif
+
+// convert a string into a form that allows it to be used
+// in SQL queries delimited by single quotes
+//
+void escape_string(char* field) {
+    char buf[MAX_QUERY_LEN];
+    char* q = buf, *p = field;
+    while (*p) {
+        if (*p == '\'') {
+            *q++ = '\\';
+            *q++ = '\'';
+        } else if (*p == '\\') {
+            *q++ = '\\';
+            *q++ = '\\';
+        } else {
+            *q++ = *p;
+        }
+        p++;
+    }
+    *q = 0;
+    strcpy(field, buf);
+}
+
+void unescape_string(char* p) {
+    while (*p) {
+        if (*p == '\\') {
+            strcpy(p, p+1);
+        }
+        p++;
+    }
+}
+

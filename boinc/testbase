@@ -1,0 +1,51 @@
+#!/bin/sh
+
+## $Id$
+
+# Automate a clean check out, make all, check, distcheck.  On error, complain
+# to stdout and return 1.  Suitable for a cron job.
+
+# need to set PATH because we might be running from a cron job.
+# on our Solaris servers, cvs is in /opt/misc/bin
+
+if [ -d /disks/asimov ]; then
+    PATH=/disks/philmor/a/users/quarl/local/Node-SOLARIS/bin:/disks/philmor/a/users/quarl/local/bin:/disks/philmor/a/users/quarl/bin:/usr/local/gcc/bin:/usr/local/gdb/bin:/usr/ccs/bin:/usr/local/cygnus:/disks/milkyway/a/users/anderson/seti/bin:/disks/cyclops/c/users/seti/s4/siren/bin:/disks/cyclops/c/users/seti/s4/siren/scripts:/disks/cyclops/c/users/seti/s4/siren/scripts/s4pipeline:/opt/misc/bin:/usr/ucb:/usr/bin:/usr/sbin:/usr/openwin/bin:/usr/dt/bin:/opt/misc/rsi/idl/bin:/opt/misc/lib/teTeX/bin:/disks/asimov/a/lang/gcc/bin:.:/usr/local/sbin:/usr/local/bin:/sbin:/usr/games
+    export PATH
+fi
+
+CHECKOUT="CVSROOT=/usr/local/warez/cvsroot cvs co boinc"
+TMPDIR=/tmp/testbase
+
+die()
+{
+    echo "ERROR in testbase on `hostname`:"
+    echo "$1"
+    [ "$2" ] && cat "$2"
+    exit 1
+}
+
+reqeval()
+{
+    eval "$1" || die "error executing: $1"
+}
+
+reqeval_log()
+{
+    eval "$1" > $2 2>&1 || die "error executing: $1" $2
+}
+
+if [ -z "$USER" ]; then
+    USER=$LOGNAME
+    export USER
+fi
+
+chmod -R u+w $TMPDIR 2>/dev/null
+reqeval "rm -rf $TMPDIR"
+reqeval "mkdir -p $TMPDIR"
+reqeval "cd $TMPDIR"
+reqeval_log "$CHECKOUT"      checkout.log
+reqeval "cd boinc"
+reqeval_log "./configure"    configure.log
+reqeval_log "make all"       make_all.log
+reqeval_log "make check"     make_check.log
+# reqeval_log "make distcheck" make_distcheck.log

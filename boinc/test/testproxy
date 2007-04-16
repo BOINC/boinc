@@ -1,0 +1,245 @@
+#!/usr/bin/env perl
+
+# -T
+
+# $Id$
+
+# testproxy - proxy a TCP/IP connection with configurable mid-way
+#             disconnections, for simulating internet transfer failures
+
+use strict;
+use warnings;
+use Carp;
+use IO::Socket::INET;
+
+my $listen_port = shift;
+my $target_server = shift;
+my $testcode = join(' ', @ARGV);
+
+if (!$listen_port || !$target_server) {
+    print STDERR <<HELP;
+syntax: $0 <listen_port> <target_server:port> CODE...
+
+CODE is evaluated every 128 bytes transferred from server to client.
+  Some variables you can access/modify:
+      \$target, \$client  : perl IO::Handle::INET objects
+      \$nconnections      : number of connections so far
+      \$url               : url of request (if applicable)
+      \$time              : seconds since server started
+      \$chars, \$nchars   : characters & length about to send to client.
+      \$bytes_transferred : characters already sent to client
+      \$start             : beginning of connection
+      \$done, \$success   : finished transfer; successful transfer
+      \$n, \$m            : unused variables initialized to 0
+
+      For more, view the code.
+
+  Functions:
+      close_connection, kill_server, if_done_kill, if_done_ping, logmsg
+
+  You can also call standard perl functions such as print, sleep, exit.
+
+Examples:
+  # fail connections for first 3 connections
+  $0 8080 localhost:80 'close_connection if \$nconnections < 4'
+
+  # sleep 5 seconds in the middle of transfer, and print "success" if
+  # transfer succeeds; kill the server after the first connection
+  $0 8080 localhost:80 'sleep 5 if \$bytes_transferred == 256;
+       if (\$done) { print "success\\n" if \$success; kill_server; \$success }'
+
+  # equivalent to above:
+  $0 8080 localhost:80 'sleep 5 if \$bytes_transferred == 256;
+       if_done_kill(); if_done_ping();'
+
+HELP
+    ;
+    exit(1);
+}
+
+if ($target_server !~ /:/) {
+    $target_server .= ':http';
+}
+
+my $N = "\015\012";
+
+sub proxy;
+sub spawn;
+use POSIX qw/strftime/;
+sub logmsg { print STDERR "$0 $$ ", strftime("%Y/%m/%d %H:%M:%S", localtime), ": @_\n" }
+
+my $server = IO::Socket::INET->new(Listen    => 5,
+                                   LocalAddr => inet_ntoa(INADDR_ANY),
+                                   LocalPort => $listen_port,
+                                   Proto     => 'tcp',
+                                   ReuseAddr => 1)
+  or die "$0: creating socket on port $listen_port: $!";
+
+logmsg "server started on port $listen_port proxy to $target_server";
+
+my $waitedpid = 0;
+my $paddr;
+my $server_pid = $$;
+
+use POSIX ":sys_wait_h";
+sub REAPER {
+    while (($waitedpid = waitpid(-1,WNOHANG)) > 0) {
+        logmsg "reaped $waitedpid" . ($? ? " with exit $?" : '');
+    }
+    # $SIG{CHLD} = \&REAPER;      # loathe sysV
+}
+
+# $SIG{CHLD} = \&REAPER;
+
+my $time_started = time();
+my $nconnections = 0;
+my $cclient;
+
+# for ( $waitedpid = 0;
+#       ($cclient = $server->accept()) || $waitedpid;
+#       $waitedpid = 0)
+while (($cclient = $server->accept()))
+{
+    # next if $waitedpid and not $cclient;
+    die unless $cclient;
+    REAPER();
+    my $paddr = $cclient->peername();
+    my($port,$iaddr) = sockaddr_in($paddr);
+    my $name = gethostbyaddr($iaddr,AF_INET);
+
+    logmsg "connection from $name:$port"; # [", inet_ntoa($iaddr), "]"
+
+    ++$nconnections;
+
+    spawn \&proxy, $cclient;
+}
+
+sub spawn {
+    my $coderef = shift;
+
+    unless ($coderef && ref($coderef) eq 'CODE') {
+        confess "usage: spawn CODEREF";
+    }
+
+    my $pid;
+    if (!defined($pid = fork)) {
+        logmsg "cannot fork: $!";
+        return;
+    } elsif ($pid) {
+        logmsg "begat $pid";
+        return;                 # I'm the parent
+    }
+    # else I'm the child -- go spawn
+
+    exit &$coderef(@_);
+}
+
+sub kill_server()
+{
+    kill "INT", $server_pid;
+}
+
+my $start = 0;
+my $done = 0;
+my $success = 0;
+my $url;
+my $n = 0;
+my $m = 0;
+my $bytes_transferred = 0;
+my $chars;
+my $nchars;
+
+sub if_done_ping()
+{
+    if ($done) {
+        if ($success) {
+            print "success\n";
+        } else {
+            print "failed\n";
+            return 0;
+        }
+    }
+}
+
+sub if_done_kill()
+{
+    if ($done) {
+        kill_server();
+    }
+}
+
+sub eval_test_code()
+{
+    return unless $testcode;
+    my $time = time() - $time_started;
+    warn "test code failed: $!" unless defined eval $testcode;
+}
+
+my ($client, $target);
+
+sub close_connection {
+    my $ok = (shift) ? 1 : 0;
+    logmsg "closing connection ok=$ok";
+    # $client->close(), $target->close() doesn't always work for some reason
+    # (maybe to do with forked processes)
+    $client->shutdown(2);
+    $target->shutdown(2);
+    logmsg "exiting";
+    exit !$ok;
+}
+
+sub proxy {
+    $client = shift or die;
+
+    $target = IO::Socket::INET->new(PeerAddr => $target_server)
+      or die "$0: couldn't connect to $target_server: $!";
+
+    $client->autoflush(1);
+    $target->autoflush(1);
+
+    {
+        $bytes_transferred = 0;
+        $chars = undef; $nchars = 0;
+        $done = 0;
+        $success = 0;
+        $start = 1;
+        $url = '';
+        eval_test_code();
+        $start = 0;
+    }
+
+    # transfer lines from client -> server until we get an empty line
+
+    while (my $line = $client->getline()) {
+        if ($. == 1 && $line =~ /^(GET|PUT|POST) ([^\s]+)/) {
+            $url = $2;
+            logmsg "url = $url";
+        }
+        $target->print($line);
+        $line =~ s/[\015\012]+$//;
+        last unless $line;
+    }
+
+    # indicate we have stopped reading data from client and stopped writing
+    # data to server (not sure if this helps)
+    $client->shutdown(0);
+    $target->shutdown(1);
+
+    # transfer from server->client
+
+    while ($nchars = $target->read($chars, 128)) {
+        eval_test_code();
+        $bytes_transferred += $nchars;
+        $client->write($chars, $nchars);
+    }
+
+    {
+        $chars = undef; $nchars = 0;
+        $done = 1;
+        $success = $client->connected() && 1;
+        eval_test_code();
+    }
+
+    close_connection(1);
+    return 0;
+}

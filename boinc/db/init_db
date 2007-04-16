@@ -1,0 +1,8 @@
+#!/bin/sh
+
+if [ -z "$1" ]; then
+    echo "syntax: $0 DB_NAME"
+    exit 1
+fi
+
+mysql $1 < schema.sql

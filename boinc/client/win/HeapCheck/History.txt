@@ -1,0 +1,12 @@
+September 2001:	  HeapCheck v1.2
+
+-  Incorporated suggested changes for stack-trace capabilities
+	(Works for Intel CPUs and compatibles - AMD, Cyrix,...)
+-  Handles multi-threading issues with a CRITICAL_SECTION
+-  C++ Handling cleaned up
+-  Up to 50% more memory available (guard pages are no longer physical)
+-  Minor bugs removed
+
+1999:	  HeapCheck v1.0
+
+-  First version released to the public

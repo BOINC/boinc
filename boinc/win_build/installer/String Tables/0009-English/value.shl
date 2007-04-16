@@ -1,0 +1,24 @@
+[Data]
+TITLE_MAIN=BOINC
+ERROR_COMPONENT=Component:
+COMPANY_NAME=UC Berkeley Space Sciences Laboratory
+COMPANY_NAME16=Company
+ERROR_FILEGROUP=File Group:
+ERROR_MOVEDATA=An error occurred during the move data process: %d
+PRODUCT_VERSION=1.09
+UNINST_KEY=BOINC
+TITLE_CAPTIONBAR=BOINC Setup
+PRODUCT_NAME16=Product
+FOLDER_NAME=BOINC
+ERROR_FILE=File:
+ERROR_VGARESOLUTION=This program requires VGA or better resolution.
+PRODUCT_KEY=boinc_gui.exe
+UNINST_DISPLAY_NAME=BOINC
+ERROR_UNINSTSETUP=unInstaller setup failed to initialize.  You may not be able to uninstall this product.
+PRODUCT_NAME=BOINC
+
+[General]
+Language=0009
+Type=STRINGTABLESPECIFIC
+Version=1.00.000
+

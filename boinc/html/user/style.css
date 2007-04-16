@@ -1,0 +1,50 @@
+a:link {
+	color: blue;
+}
+
+a:visited {
+	color: navy;
+}
+
+a:active {
+	color: red;
+}
+
+body , table , input , select {
+	font-family: Verdana, Arial, Sans Serif;
+	font-size: small;
+}
+
+body {
+	background-color: white;
+}
+
+input , select {
+	vertical-align: middle;
+}
+
+h1 , h2 {
+	color: black;
+	font-size: large;
+	font-variant: small-caps;
+	font-weight: normal;
+	margin-top: 10px;
+}
+
+h3 , h4 {
+	color: black;
+    text-decoration: underline;
+	font-size: small;
+	font-variant: small-caps;
+	font-weight: bold;
+}
+
+.title {
+	font-size: small;
+	font-weight: bold;
+}
+
+.description {
+	font-size: 80%;
+	font-weight: normal;
+}

@@ -1,0 +1,849 @@
+// The contents of this file are subject to the BOINC Public License
+// Version 1.0 (the "License"); you may not use this file except in
+// compliance with the License. You may obtain a copy of the License at
+// http://boinc.berkeley.edu/license_1.0.txt
+//
+// Software distributed under the License is distributed on an "AS IS"
+// basis, WITHOUT WARRANTY OF ANY KIND, either express or implied. See the
+// License for the specific language governing rights and limitations
+// under the License.
+//
+// The Original Code is the Berkeley Open Infrastructure for Network Computing.
+//
+// The Initial Developer of the Original Code is the SETI@home project.
+// Portions created by the SETI@home project are Copyright (C) 2002
+// University of California at Berkeley. All Rights Reserved.
+//
+// Contributor(s):
+//
+
+// Code that's in the BOINC app library (but NOT in the core client)
+// graphics-related code goes in graphics_api.C, not here
+
+#ifdef _WIN32
+#include "stdafx.h"
+#else
+#include "config.h"
+#endif
+
+#ifndef _WIN32
+#ifdef HAVE_UNISTD_H
+#include <unistd.h>
+#endif
+#ifdef HAVE_SYS_TIME_H
+#include <sys/time.h>
+#include <sys/resource.h>
+#endif
+
+#include <stdlib.h>
+#include <stdio.h>
+#include <stdarg.h>
+#include <string.h>
+#include <string>
+#ifdef HAVE_SIGNAL_H
+#include <signal.h>
+#endif
+#include <fcntl.h>
+#include <algorithm>
+#include <sys/types.h>
+
+using namespace std;
+#endif
+
+#include "parse.h"
+#include "shmem.h"
+#include "util.h"
+#include "filesys.h"
+#include "error_numbers.h"
+#include "app_ipc.h"
+#include "boinc_api.h"
+#include "sighandle.h"
+
+static APP_INIT_DATA		aid;
+APP_CLIENT_SHM		*app_client_shm;
+
+static	double				timer_period = 1.0/50.0;    // 50 Hz timer
+static	double				time_until_checkpoint;
+static	double				time_until_fraction_done_update;
+static	double				fraction_done;
+static	double				last_checkpoint_cpu_time;
+static	bool				ready_to_checkpoint = false;
+static	bool				this_process_active;
+static	bool				time_to_quit = false;
+static	double				last_wu_cpu_time;
+static	bool				standalone = false;
+static	double				initial_wu_cpu_time;
+static	bool				have_new_trickle = false;
+
+#ifdef _WIN32
+HANDLE				hErrorNotification;
+HANDLE				hQuitRequest;
+HANDLE				hSuspendRequest;
+HANDLE				hResumeRequest;
+HANDLE				hSharedMem;
+HANDLE				worker_thread_handle;
+MMRESULT			timer_id;
+#endif
+
+
+//
+// Forward declare implementation functions.
+//
+static void		setup_shared_mem();
+static void		cleanup_shared_mem();
+static int		update_app_progress(double frac_done, double cpu_t, double cp_cpu_t, double ws_t);
+static int		set_timer(double period);
+
+#ifdef _WIN32
+
+// Forward declare implementation functions - Windows Platform Only.
+LONG CALLBACK boinc_catch_signal(EXCEPTION_POINTERS *ExceptionInfo);
+
+#endif
+
+
+// ****************************************************************************
+// ****************************************************************************
+//
+// Diagnostics Support for Windows 95/98/ME/2000/XP/2003
+//
+// ****************************************************************************
+// ****************************************************************************
+
+#ifdef _WIN32
+
+//
+// Function: boinc_install_signal_handlers
+//
+// Purpose:  Used to setup an unhandled exception filter on Windows
+//
+// Date:     01/29/04
+//
+int boinc_install_signal_handlers() {
+
+	SetUnhandledExceptionFilter( boinc_catch_signal );
+
+	return 0;
+}
+
+//
+// Function: boinc_catch_signal
+//
+// Purpose:  Used to unwind the stack and spew the callstack to stderr. Terminate the
+//               process afterwards and return the exception code as the exit code.
+//
+// Date:     01/29/04
+//
+LONG CALLBACK boinc_catch_signal(EXCEPTION_POINTERS *pExPtrs) {
+
+	// Snagged from the latest stackwalker code base.  This allows us to grab
+	//   callstacks even in a stack overflow scenario
+	if ( pExPtrs->ExceptionRecord->ExceptionCode == EXCEPTION_STACK_OVERFLOW )
+	{
+		static char MyStack[1024*128];  // be sure that we have enought space...
+		// it assumes that DS and SS are the same!!! (this is the case for Win32)
+		// change the stack only if the selectors are the same (this is the case for Win32)
+		//__asm push offset MyStack[1024*128];
+		//__asm pop esp;
+		__asm mov eax,offset MyStack[1024*128];
+		__asm mov esp,eax;
+	}
+
+	PVOID exceptionAddr = pExPtrs->ExceptionRecord->ExceptionAddress;
+    DWORD exceptionCode = pExPtrs->ExceptionRecord->ExceptionCode;
+
+	LONG  lReturnValue = NULL;
+	char  status[256];
+	char  substatus[256];
+    
+	static long   lDetectNestedException = 0;
+
+    // If we've been in this procedure before, something went wrong so we immediately exit
+	if ( InterlockedIncrement(&lDetectNestedException) > 1 ) {
+		TerminateProcess( GetCurrentProcess(), ERR_SIGNAL_CATCH );
+	}
+
+    switch ( exceptionCode ) {
+        case EXCEPTION_ACCESS_VIOLATION:
+			safe_strncpy( status, "Access Violation", sizeof(status) );
+			if ( pExPtrs->ExceptionRecord->NumberParameters == 2 ) {
+				switch( pExPtrs->ExceptionRecord->ExceptionInformation[0] ) {
+				case 0: // read attempt
+					sprintf( substatus, "read attempt to address 0x%8.8X", pExPtrs->ExceptionRecord->ExceptionInformation[1] );
+					break;
+				case 1: // write attempt
+					sprintf( substatus, "write attempt to address 0x%8.8X", pExPtrs->ExceptionRecord->ExceptionInformation[1] );
+					break;
+				}
+			}
+			break;
+        case EXCEPTION_DATATYPE_MISALIGNMENT: 
+			safe_strncpy( status, "Data Type Misalignment", sizeof(status) );
+			break;
+        case EXCEPTION_BREAKPOINT: 
+			safe_strncpy( status, "Breakpoint Encountered", sizeof(status) );
+			break;
+        case EXCEPTION_SINGLE_STEP: 
+			safe_strncpy( status, "Single Instruction Executed", sizeof(status) );
+			break;
+        case EXCEPTION_ARRAY_BOUNDS_EXCEEDED: 
+			safe_strncpy( status, "Array Bounds Exceeded", sizeof(status) );
+			break;
+        case EXCEPTION_FLT_DENORMAL_OPERAND: 
+			safe_strncpy( status, "Float Denormal Operand", sizeof(status) );
+			break;
+        case EXCEPTION_FLT_DIVIDE_BY_ZERO: 
+			safe_strncpy( status, "Divide by Zero", sizeof(status) ); 
+			break;
+        case EXCEPTION_FLT_INEXACT_RESULT: 
+			safe_strncpy( status, "Float Inexact Result", sizeof(status) ); 
+			break;
+        case EXCEPTION_FLT_INVALID_OPERATION: 
+			safe_strncpy( status, "Float Invalid Operation", sizeof(status) );
+			break;
+        case EXCEPTION_FLT_OVERFLOW: 
+			safe_strncpy( status, "Float Overflow", sizeof(status) );
+			break;
+        case EXCEPTION_FLT_STACK_CHECK: 
+			safe_strncpy( status, "Float Stack Check", sizeof(status) );
+			break;
+        case EXCEPTION_FLT_UNDERFLOW: 
+			safe_strncpy( status, "Float Underflow", sizeof(status) );
+			break;
+        case EXCEPTION_INT_DIVIDE_BY_ZERO: 
+			safe_strncpy( status, "Integer Divide by Zero", sizeof(status) );
+			break;
+        case EXCEPTION_INT_OVERFLOW: 
+			safe_strncpy( status, "Integer Overflow", sizeof(status) );
+			break;
+        case EXCEPTION_PRIV_INSTRUCTION: 
+			safe_strncpy( status, "Privileged Instruction", sizeof(status) );
+			break;
+        case EXCEPTION_IN_PAGE_ERROR: 
+			safe_strncpy( status, "In Page Error", sizeof(status) );
+			break;
+        case EXCEPTION_ILLEGAL_INSTRUCTION: 
+			safe_strncpy( status, "Illegal Instruction", sizeof(status) );
+			break;
+        case EXCEPTION_NONCONTINUABLE_EXCEPTION: 
+			safe_strncpy( status, "Noncontinuable Exception", sizeof(status) );
+			break;
+        case EXCEPTION_STACK_OVERFLOW: 
+			safe_strncpy( status, "Stack Overflow", sizeof(status) );
+			break;
+        case EXCEPTION_INVALID_DISPOSITION: 
+			safe_strncpy( status, "Invalid Disposition", sizeof(status) );
+			break;
+        case EXCEPTION_GUARD_PAGE: 
+			safe_strncpy( status, "Guard Page Violation", sizeof(status) );
+			break;
+        case EXCEPTION_INVALID_HANDLE: 
+			safe_strncpy( status, "Invalid Handle", sizeof(status) );
+			break;
+        case CONTROL_C_EXIT: 
+			safe_strncpy( status, "Ctrl+C Exit", sizeof(status) );
+			break;
+        default: 
+			safe_strncpy( status, "Unknown exception", sizeof(status) );
+			break;
+    }
+
+	fprintf( stderr, "\n***UNHANDLED EXCEPTION****\n" );
+	if ( EXCEPTION_ACCESS_VIOLATION == exceptionCode ) {
+		fprintf( stderr, "Reason: %s (0x%x) at address 0x%p %s\n\n", status, exceptionCode, exceptionAddr, substatus );
+	} else {
+		fprintf( stderr, "Reason: %s (0x%x) at address 0x%p\n\n", status, exceptionCode, exceptionAddr );
+	}
+    fflush(stderr);
+
+	// Unwind the stack and spew it to stderr
+	StackwalkFilter(pExPtrs, EXCEPTION_EXECUTE_HANDLER, NULL);
+
+	fprintf(stderr, "Exiting...\n");
+    fflush(stderr);
+
+	// Force terminate the app letting BOINC know an unknown exception has occurred.
+	TerminateProcess(GetCurrentProcess(), pExPtrs->ExceptionRecord->ExceptionCode);
+
+	// We won't make it to this point, but make the compiler happy anyway.
+	return 1;
+}
+
+
+//
+// Function: boinc_message_reporting
+//
+// Purpose:  Trap ASSERTs and TRACEs from the CRT and spew them to stderr.
+//
+// Date:     01/29/04
+//
+int __cdecl boinc_message_reporting( int reportType, char *szMsg, int *retVal ){ 
+	(*retVal) = 0; 
+
+	switch(reportType){
+
+		case _CRT_WARN:
+			fprintf( stderr, "%s", szMsg );
+			fflush( stderr );
+			break;
+		case _CRT_ERROR:
+			fprintf( stderr, "ERROR: %s", szMsg );
+			fflush( stderr );
+			break;
+		case _CRT_ASSERT:
+			fprintf( stderr, "ASSERT: %s\n", szMsg );
+			fflush( stderr );
+			(*retVal) = 1;
+			break;
+
+	}
+
+	return(TRUE);
+} 
+
+
+#ifdef _DEBUG
+
+//
+// Function: boinc_trace
+//
+// Purpose:  Converts the BOINCTRACE macro into a single string and report it
+//             to the CRT so it can be reported via the normal means.
+//
+// Date:     01/29/04
+//
+void boinc_trace(const char *pszFormat, ...)
+{
+	static char szBuffer[4096];
+
+	memset(szBuffer, 0, sizeof(szBuffer));
+
+	va_list ptr;
+	va_start(ptr, pszFormat);
+
+	BOINCASSERT( -1 != _vsnprintf(szBuffer, sizeof(szBuffer), pszFormat, ptr) );
+
+	va_end(ptr);
+
+	_CrtDbgReport(_CRT_WARN, NULL, NULL, NULL, "%s", szBuffer);
+}
+
+
+//
+// Function: boinc_error_debug
+//
+// Purpose:  Converts the BOINCERROR macro into a single string and report it
+//             to the CRT so it can be reported via the normal means.
+//
+// Date:     01/29/04
+//
+void boinc_error_debug(int iExitCode, const char *pszFormat, ...)
+{
+	static char szBuffer[4096];
+
+	memset(szBuffer, 0, sizeof(szBuffer));
+
+	va_list ptr;
+	va_start(ptr, pszFormat);
+
+	BOINCASSERT( -1 != _vsnprintf(szBuffer, sizeof(szBuffer), pszFormat, ptr) );
+
+	va_end(ptr);
+
+	_CrtDbgReport(_CRT_ERROR, NULL, NULL, NULL, "%s", szBuffer);
+}
+
+#else // _DEBUG
+
+//
+// Function: boinc_error_release
+//
+// Purpose:  Converts the BOINCERROR macro into a single string and report it
+//             to stderr so it can be reported via the normal means.
+//
+// Date:     01/29/04
+//
+void boinc_error_release(int iExitCode, const char *pszFormat, ...)
+{
+	static char szBuffer[4096];
+
+	memset(szBuffer, 0, sizeof(szBuffer));
+
+	va_list ptr;
+	va_start(ptr, pszFormat);
+
+	_vsnprintf(szBuffer, sizeof(szBuffer), pszFormat, ptr);
+
+	va_end(ptr);
+
+	fprintf( stderr, "ERROR: %s", szBuffer );
+	fflush( stderr );
+}
+
+
+#endif // _DEBUG
+
+#endif // _WIN32
+
+
+// ****************************************************************************
+// ****************************************************************************
+//
+// Diagnostics for POSIX Compatible systems.
+//
+// ****************************************************************************
+// ****************************************************************************
+
+#ifdef HAVE_SIGNAL_H
+
+int boinc_install_signal_handlers() {
+    boinc_set_signal_handler(SIGHUP, boinc_catch_signal);
+    boinc_set_signal_handler(SIGINT, boinc_catch_signal);
+    boinc_set_signal_handler(SIGQUIT, boinc_catch_signal);
+    boinc_set_signal_handler(SIGILL, boinc_catch_signal);
+    boinc_set_signal_handler(SIGABRT, boinc_catch_signal);
+    boinc_set_signal_handler(SIGBUS, boinc_catch_signal);
+    boinc_set_signal_handler(SIGSEGV, boinc_catch_signal);
+    boinc_set_signal_handler(SIGSYS, boinc_catch_signal);
+    boinc_set_signal_handler(SIGPIPE, boinc_catch_signal);
+    return 0;
+}
+
+RETSIGTYPE boinc_catch_signal(int signal) {
+    switch(signal) {
+        case SIGHUP: fprintf(stderr, "SIGHUP: terminal line hangup"); break;
+        case SIGINT: fprintf(stderr, "SIGINT: interrupt program"); break;
+        case SIGILL: fprintf(stderr, "SIGILL: illegal instruction"); break;
+        case SIGABRT: fprintf(stderr, "SIGABRT: abort called"); break;
+        case SIGBUS: fprintf(stderr, "SIGBUS: bus error"); break;
+        case SIGSEGV: fprintf(stderr, "SIGSEGV: segmentation violation"); break;
+        case SIGSYS: fprintf(stderr, "SIGSYS: system call given invalid argument"); break;
+        case SIGPIPE: fprintf(stderr, "SIGPIPE: write on a pipe with no reader"); break;
+        default: fprintf(stderr, "unknown signal %d", signal); break;
+    }
+    fprintf(stderr, "\nExiting...\n");
+    exit(ERR_SIGNAL_CATCH);
+}
+
+void boinc_quit(int sig) {
+    signal(SIGQUIT, boinc_quit);    // reset signal
+    time_to_quit = true;
+}
+
+#endif /* HAVE_SIGNAL_H */
+
+
+// ****************************************************************************
+// ****************************************************************************
+//
+// Standard BOINC API's
+//
+// ****************************************************************************
+// ****************************************************************************
+
+
+int boinc_init(bool standalone_ /* = false */) {
+    FILE* f;
+    int retval;
+
+#ifdef _WIN32
+
+	// Redirect stderr earlier then boinc_init so we can trap errors earlier.
+    freopen(STDERR_FILE, "a", stderr);
+
+	// Define how messages should me formatted to sdterr
+	_CrtSetReportHook( boinc_message_reporting );
+
+    SET_CRT_DEBUG_FIELD(
+        _CRTDBG_LEAK_CHECK_DF |
+        _CRTDBG_CHECK_EVERY_1024_DF
+    ); 
+
+	DuplicateHandle(
+        GetCurrentProcess(),
+        GetCurrentThread(),
+        GetCurrentProcess(),
+        &worker_thread_handle,
+        0,
+        FALSE,
+        DUPLICATE_SAME_ACCESS
+    );
+
+#endif
+
+	// Install unhandled exception filters and signal traps.
+    boinc_install_signal_handlers();
+
+    // Store startup mode for later use.
+    standalone = standalone_;
+
+	// Parse initial data file.
+    retval = boinc_parse_init_data_file();
+    if (retval) return retval;
+
+    // copy the WU CPU time to a separate var,
+    // since we may reread the structure again later.
+    //
+    initial_wu_cpu_time = aid.wu_cpu_time;
+
+    f = boinc_fopen(FD_INIT_FILE, "r");
+    if (f) {
+        parse_fd_init_file(f);
+        fclose(f);
+    }
+
+    time_until_checkpoint = aid.checkpoint_period;
+    last_checkpoint_cpu_time = aid.wu_cpu_time;
+    time_until_fraction_done_update = aid.fraction_done_update_period;
+    this_process_active = true;
+    last_wu_cpu_time = aid.wu_cpu_time;
+
+    set_timer(timer_period);
+    setup_shared_mem();
+
+    return 0;
+}
+
+
+int boinc_finish(int status) {
+    double cur_mem;
+
+    boinc_thread_cpu_time(last_checkpoint_cpu_time, cur_mem);
+    last_checkpoint_cpu_time += aid.wu_cpu_time;
+    update_app_progress(fraction_done, last_checkpoint_cpu_time, last_checkpoint_cpu_time, cur_mem);
+#ifdef _WIN32
+    // Stop the timer
+    timeKillEvent(timer_id);
+    CloseHandle(worker_thread_handle);
+#endif
+    cleanup_shared_mem();
+    exit(status);
+    return 0;
+}
+
+
+bool boinc_is_standalone() {
+    return standalone;
+}
+
+
+// parse the init data file.
+// This is done at startup, and also if a "reread prefs" message is received
+//
+int boinc_parse_init_data_file() {
+    FILE* f;
+    int retval;
+
+    // If in standalone mode, use init files if they're there,
+    // but don't demand that they exist
+    //
+    f = boinc_fopen(INIT_DATA_FILE, "r");
+    if (!f) {
+        if (standalone) {
+            safe_strncpy(aid.app_preferences, "", sizeof(aid.app_preferences));
+            safe_strncpy(aid.user_name, "Unknown user", sizeof(aid.user_name));
+            safe_strncpy(aid.team_name, "Unknown team", sizeof(aid.team_name));
+            aid.wu_cpu_time = 1000;
+            aid.user_total_credit = 1000;
+            aid.user_expavg_credit = 500;
+            aid.host_total_credit = 1000;
+            aid.host_expavg_credit = 500;
+            aid.checkpoint_period = DEFAULT_CHECKPOINT_PERIOD;
+            aid.fraction_done_update_period = DEFAULT_FRACTION_DONE_UPDATE_PERIOD;
+        } else {
+            fprintf(stderr,
+                "boinc_parse_init_data_file(): can't open init data file\n"
+            );
+            return ERR_FOPEN;
+        }
+    } else {
+        retval = parse_init_data_file(f, aid);
+        fclose(f);
+        if (retval) {
+            fprintf(stderr,
+                "boinc_parse_init_data_file(): can't parse init data file\n"
+            );
+            return retval;
+        }
+    }
+    return 0;
+}
+
+
+// communicate to the core client (via shared mem)
+// the current CPU time and fraction done
+//
+static int update_app_progress(
+    double frac_done, double cpu_t, double cp_cpu_t, double ws_t
+) {
+    char msg_buf[SHM_SEG_SIZE];
+
+    if (!app_client_shm) return 0;
+
+    sprintf(msg_buf,
+        "<fraction_done>%2.8f</fraction_done>\n"
+        "<current_cpu_time>%10.4f</current_cpu_time>\n"
+        "<checkpoint_cpu_time>%.15e</checkpoint_cpu_time>\n"
+        "<working_set_size>%f</working_set_size>\n",
+        frac_done, cpu_t, cp_cpu_t, ws_t
+    );
+    if (have_new_trickle) {
+        strcat(msg_buf, "<have_new_trickle/>\n");
+        have_new_trickle = false;
+    }
+
+    return app_client_shm->send_msg(msg_buf, APP_CORE_WORKER_SEG);
+}
+
+int boinc_get_init_data(APP_INIT_DATA& app_init_data) {
+    app_init_data = aid;
+    return 0;
+}
+
+
+// this can be called from the graphics thread
+//
+int boinc_wu_cpu_time(double& cpu_t) {
+    cpu_t = last_wu_cpu_time;
+    return 0;
+}
+
+#ifdef _WIN32
+int boinc_thread_cpu_time(HANDLE thread_handle, double& cpu, double& ws) {
+    FILETIME creationTime,exitTime,kernelTime,userTime;
+    static bool first = true;
+    static DWORD first_count = 0;
+
+    if (first) {
+        first_count = GetTickCount();
+        first = false;
+    }
+    if (GetThreadTimes(
+        thread_handle, &creationTime, &exitTime, &kernelTime, &userTime)
+    ) {
+        ULARGE_INTEGER tKernel, tUser;
+        LONGLONG totTime;
+
+        tKernel.LowPart  = kernelTime.dwLowDateTime;
+        tKernel.HighPart = kernelTime.dwHighDateTime;
+        tUser.LowPart    = userTime.dwLowDateTime;
+        tUser.HighPart   = userTime.dwHighDateTime;
+        totTime = tKernel.QuadPart + tUser.QuadPart;
+
+        // Runtimes in 100-nanosecond units
+        cpu = totTime / 1.e7;
+		ws = 0;
+    } else {
+        // TODO: Handle timer wraparound
+        DWORD cur = GetTickCount();
+	    cpu = ((cur - first_count)/1000.);
+	    ws = 0;
+    }
+    return 0;
+}
+
+int boinc_worker_thread_cpu_time(double& cpu, double& ws) {
+    return boinc_thread_cpu_time(worker_thread_handle, cpu, ws);
+}
+
+int boinc_thread_cpu_time(double& cpu, double& ws) {
+    return boinc_thread_cpu_time(GetCurrentThread(), cpu, ws);
+}
+#else
+#ifdef HAVE_SYS_RESOURCE_H
+int boinc_worker_thread_cpu_time(double &cpu_t, double &ws_t) {
+    int retval;
+    struct rusage ru;
+    retval = getrusage(RUSAGE_SELF, &ru);
+    if (retval) {
+        fprintf(stderr, "error: could not get CPU time\n");
+    	return ERR_GETRUSAGE;
+    }
+    // Sum the user and system time spent in this process
+    cpu_t = (double)ru.ru_utime.tv_sec + (((double)ru.ru_utime.tv_usec) / ((double)1000000.0));
+    cpu_t += (double)ru.ru_stime.tv_sec + (((double)ru.ru_stime.tv_usec) / ((double)1000000.0));
+    ws_t = ru.ru_idrss;     // TODO: fix this (mult by page size)
+    return 0;
+}
+
+int boinc_thread_cpu_time(double& cpu, double& ws) {
+    return boinc_worker_thread_cpu_time(cpu, ws);
+}
+#endif
+#endif  // _WIN32
+
+#ifdef _WIN32
+static void CALLBACK on_timer(UINT uTimerID, UINT uMsg, DWORD dwUser, DWORD dw1, DWORD dw2) {
+#else
+static RETSIGTYPE on_timer(int a) {
+#endif
+
+    if (!ready_to_checkpoint) {
+        time_until_checkpoint -= timer_period;
+        if (time_until_checkpoint <= 0) {
+            ready_to_checkpoint = true;
+        }
+    }
+
+    if (this_process_active) {
+        time_until_fraction_done_update -= timer_period;
+        if (time_until_fraction_done_update <= 0) {
+            double cur_cpu;
+            double cur_mem;
+            boinc_worker_thread_cpu_time(cur_cpu, cur_mem);
+            last_wu_cpu_time = cur_cpu + initial_wu_cpu_time;
+            update_app_progress(fraction_done, last_wu_cpu_time, last_checkpoint_cpu_time, cur_mem);
+            time_until_fraction_done_update = aid.fraction_done_update_period;
+        }
+    }
+}
+
+
+static int set_timer(double period) {
+    int retval=0;
+#ifdef _WIN32
+    char buf[256];
+
+    // Use Windows multimedia timer, since it is more accurate
+    // than SetTimer and doesn't require an associated event loop
+    timer_id = timeSetEvent(
+        (int)(period*1000), // uDelay
+        (int)(period*1000), // uResolution
+        on_timer, // lpTimeProc
+        NULL, // dwUser
+        TIME_PERIODIC  // fuEvent
+    );
+    sprintf(buf, "%s%s", QUIT_PREFIX, aid.comm_obj_name);
+    hQuitRequest = OpenEvent(EVENT_ALL_ACCESS, FALSE, buf);
+#endif
+
+#if HAVE_SIGNAL_H
+#if HAVE_SYS_TIME_H
+    struct sigaction sa;
+    itimerval value;
+    sa.sa_handler = on_timer;
+    sa.sa_flags = SA_RESTART;
+    retval = sigaction(SIGALRM, &sa, NULL);
+    if (retval) {
+        perror("boinc set_timer() sigaction");
+        return retval;
+    }
+    value.it_value.tv_sec = (int)period;
+    value.it_value.tv_usec = ((int)(period*1000000))%1000000;
+    value.it_interval = value.it_value;
+    retval = setitimer(ITIMER_REAL, &value, NULL);
+    if (retval) {
+        perror("boinc set_timer() setitimer");
+    }
+#endif
+#endif
+    return retval;
+}
+
+static void setup_shared_mem() {
+    if (standalone) {
+        fprintf(stderr, "Standalone mode, so not using shared memory.\n");
+        return;
+    }
+	app_client_shm = new APP_CLIENT_SHM;
+
+#ifdef _WIN32
+    char buf[256];
+    sprintf(buf, "%s%s", SHM_PREFIX, aid.comm_obj_name);
+    hSharedMem = attach_shmem(buf, (void**)&app_client_shm->shm);
+    if (hSharedMem == NULL) {
+        app_client_shm = NULL;
+    }
+#endif
+
+#ifdef HAVE_SYS_SHM_H
+#ifdef HAVE_SYS_IPC_H
+    if (attach_shmem(aid.shm_key, (void**)&app_client_shm->shm)) {
+        app_client_shm = NULL;
+    }
+#endif
+#endif
+}
+
+static void cleanup_shared_mem() {
+    if (!app_client_shm) return;
+
+#ifdef _WIN32
+    detach_shmem(hSharedMem, app_client_shm->shm);
+#endif
+
+#ifdef HAVE_SYS_SHM_H
+#ifdef HAVE_SYS_IPC_H
+    detach_shmem(app_client_shm->shm);
+#endif
+#endif
+}
+
+
+int boinc_trickle(char* p) {
+    FILE* f = boinc_fopen("trickle", "wb");
+    if (!f) return ERR_FOPEN;
+    size_t n = fwrite(p, strlen(p), 1, f);
+    fclose(f);
+    if (n != 1) return ERR_WRITE;
+    have_new_trickle = true;
+    return 0;
+}
+
+
+
+bool boinc_time_to_checkpoint() {
+#ifdef _WIN32
+    DWORD eventState;
+    // Check if core client has requested us to exit
+    eventState = WaitForSingleObject(hQuitRequest, 0L);
+
+    switch (eventState) {
+    case WAIT_OBJECT_0:
+    case WAIT_ABANDONED:
+        time_to_quit = true;
+        break;
+    }
+#endif
+
+    // If the application has received a quit request it should checkpoint
+    //
+    if (time_to_quit) {
+        return true;
+    }
+
+    return ready_to_checkpoint;
+}
+
+int boinc_checkpoint_completed() {
+    double cur_cpu, cur_mem;
+    boinc_thread_cpu_time(cur_cpu, cur_mem);
+    last_wu_cpu_time = cur_cpu + aid.wu_cpu_time;
+    last_checkpoint_cpu_time = last_wu_cpu_time;
+    update_app_progress(fraction_done, last_checkpoint_cpu_time, last_checkpoint_cpu_time, cur_mem);
+    ready_to_checkpoint = false;
+    time_until_checkpoint = aid.checkpoint_period;
+
+    // If it's time to quit, call boinc_finish which will exit the app properly
+    //
+    if (time_to_quit) {
+        fprintf(stderr, "Received quit request from core client\n");
+        boinc_finish(ERR_QUIT_REQUEST);
+    }
+    return 0;
+}
+
+int boinc_fraction_done(double x) {
+    fraction_done = x;
+    return 0;
+}
+
+int boinc_child_start() {
+    this_process_active = false;
+    return 0;
+}
+
+int boinc_child_done(double cpu) {
+    this_process_active = true;
+    return 0;
+}

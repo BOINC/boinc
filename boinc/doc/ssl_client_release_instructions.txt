@@ -1,0 +1,182 @@
+Generating and releasing core client installers
+
+
+
+<verno> represents the new version number.
+At the time of this update, the latest version was 2.17,
+so the new version number would be 2.18.
+Substitute 2.18 everywhere you see <verno>
+
+Required:
+  Unix/Linux/Mac:
+    These machines should have everything you need by default, but make
+    sure you have the following:
+       gmake
+       gcc 3.3 - especially on the Mac
+       autoconf (v2.54 or greater)
+       screen - this is useful for managing the builds and tests on
+                all *nix platforms
+  Windows:
+    Visual C++ 7.0
+    InstallShield 5.5 Pro
+    InstallShield Package for the Web v2
+
+    boinc\win_build\installer\Media folder
+
+Administrivia:
+    do this on a unix machine:
+    (note: the make in your default path must be gmake
+    IN BOTH YOUR NORMAL SHELL AND SH
+    or else set-version will fail towards the end)
+
+    Check out a new copy of the BOINC source tree
+    Make an entry in checkin_notes w/ platforms, version#
+
+    Set the version number:
+        see clien/win/win_config.h to find last version#
+        (or look on web site)
+
+        % ./set-version <verno>
+        (this revises client/win/win_config.h, makefile.in's)
+        % cvs commit -m 'version <verno>'
+
+    Make a source tarball and zip:
+        % make dist
+            (if you have problems here, such as the make choking on
+            emacs save files, try "make -i dist")
+        % cp boinc-<verno>.tar.gz boinc-<verno>.zip ~davea/boinc/doc/source/
+
+Build
+ Windows:
+    NOTE: currently we are distributing the debug version of the core client.
+    This is reflected in:
+        - where you copy dbghelp.dll to
+        - the "File Groups" tab of Installshield (link type)
+
+    Use the HP Kayak windows box (bart) in 329 or the Dell (skinner) in 325.
+
+    set up:
+        check out new source tree
+        copy Media.zip into win_build/installer; unzip
+        make sure "Media" is at top level of installer
+        Right-click on top BOINC folder;
+        CVS/preferences/policy; clear "prune empty folders" checkbox
+        copy "client/win/dbghelp.dll" to "win_build/Build/Debug"
+
+    Open 'BOINC'
+
+    Right click in the folder; select 'cvs update'
+    resolve any M(erge) problems
+
+    Open 'win_build'
+
+    Open 'BOINC.sln'  (or .dsw if VC6.0)
+
+    in the visual c++ menu, pick
+        Build->Clean solution
+        Build->build solution
+          the exe will be in win_build\Build\Debug
+
+    Open 'win_build/installer'
+
+    open 'BOINC.ipr' (installshield project)
+
+    in the installshield menu, pick
+        Build->Media->Build Default Media
+        [bonus: automate this process]
+    exit installshield
+    
+    open 'BOINC.pfw' (package for the web project)
+       build everything, changing only the version numbers
+       [note: there are nine screens to go through. the version
+              numbers are on screen #1 and screen #9. Do not
+              change anything else]
+       [bonus: automate this process]
+
+        The new windows installer (BOINC_<verno>_intelx86_windows.exe)
+        will be left in this folder when you exit Package for the Web
+
+    Do a CVS commit of win_build/installer/BOINC.pfw (to get version#, year)
+        (possibly)
+
+    SFTP to boincadm@koloth:
+
+    copy BOINC_<verno>_intelx86_windows.exe to the projects/AstroPulse_Beta/apps/boinc directory
+
+
+ Linux/Solaris:
+    use these hosts:
+       Linux: milhouse
+       solaris2.7: milkyway
+
+    note 1: The solaris 2.7 build should be statically linked, and should support
+            solaris 2.7-2.9
+
+    do a clean check out; compile; copy to koloth:
+        % cd ~
+        % mkdir proj
+        % cd proj
+        % mkdir <platform name>
+        % cd <platform name>
+        % cvs co boinc
+        % cd boinc
+        % ./configure && make
+            (tee to a file if you want to look at logs later)
+        % scp client/boinc_<verno>_<platform>.gz boincadm@koloth:projects/AstroPulse_Beta/apps/boinc/
+
+    [bonus: automate this process]
+
+ Mac OS X:
+    use the G3 OS X 10.2 mac in 329 (setisf2):
+
+    note:  The mac os x build is identical to the unix/linux builds, except that
+           the configure step requires the --build argument to set a generic
+           host type (see below). The mac os x client will run on either os x
+           10.2 or 10.3 [10.1 or earlier is not supported])
+
+    do a clean check out; compile; copy to koloth:
+        % cd ~
+        % mkdir proj
+        % cd proj
+        % cvs co boinc
+        % cd boinc
+        % ./configure --build=powerpc-apple-darwin
+        % make
+        % cd client
+        % rename  boinc_<verno>_<plat>.gz to b_<verno>_<plat>.gz
+            (to work around Mac IE 31-char filename bug)
+        % scp b_<verno>_*.gz boincadm@koloth:projects/AstroPulse_Beta/apps/boinc/
+
+    Note1: This same technique applies to building the setiathome application.
+    Note2: The .gz filename is longer than the maximum filename length imposed
+           by some macintosh browsers, such as IE and Safari (this limit was
+           left over from OS 9, and doesn't exist in OS X. Why the OS X browsers
+           continue to enforce it is a mystery). For the next release and going
+           forward, we should change the os x .gz file name to something shorter,
+           such as boinc_<verno>_OSX.gz (but leave the platform name the same
+           as before: powerpc-apple-darwin). This will solve a lot of download
+           problems for mac users.
+
+    [bonus: automate this process]
+
+Test
+ Test the installer(s) and start the new version on each test machine:
+   Solaris 2.7 - milkyway
+   Solaris 2.8 - kodos
+   Solaris 2.9 - setisf1
+   Linux - shaggy
+   Mac OS X 10.2 - setisf2
+   Mac OS X 10.3 - seti2
+   WinXP - bart (329) or skinner (325)
+   Win2K - kent (Aaron's desk)
+   Win98 - marge [aka drake] (Matt's desk)
+
+If all is well...
+
+Update the server:
+    ssh boincadm@koloth
+    cd projects/Astropulse_Beta/bin
+    ./update_versions
+    ./stop
+    ./start
+

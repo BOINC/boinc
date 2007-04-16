@@ -1,0 +1,433 @@
+// The contents of this file are subject to the BOINC Public License
+// Version 1.0 (the "License"); you may not use this file except in
+// compliance with the License. You may obtain a copy of the License at
+// http://boinc.berkeley.edu/license_1.0.txt
+//
+// Software distributed under the License is distributed on an "AS IS"
+// basis, WITHOUT WARRANTY OF ANY KIND, either express or implied. See the
+// License for the specific language governing rights and limitations
+// under the License.
+//
+// The Original Code is the Berkeley Open Infrastructure for Network Computing.
+//
+// The Initial Developer of the Original Code is the SETI@home project.
+// Portions created by the SETI@home project are Copyright (C) 2002
+// University of California at Berkeley. All Rights Reserved.
+//
+// Contributor(s):
+//
+// The BOINC file upload handler.
+// See doc/upload.html for protocol spec.
+//
+// Revision History:
+//
+// $Log$
+// Revision 1.55  2004/01/22 01:35:09  boincadm
+// *** empty log message ***
+//
+// Revision 1.54  2004/01/15 21:24:55  boincadm
+// *** empty log message ***
+//
+// Revision 1.53  2003/12/17 19:14:17  korpela
+// Added include of <unistd.h> (when found) to get definition of gethostname()
+// under solaris.
+//
+//
+
+#include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
+#include <time.h>
+#include <sys/stat.h>
+#include <sys/types.h>
+#include <errno.h>
+#ifdef HAVE_UNISTD_H
+#include <unistd.h>
+#include <signal.h>
+#endif
+
+#include "parse.h"
+#include "util.h"
+#include "sched_config.h"
+#include "sched_util.h"
+#include "crypt.h"
+
+SCHED_CONFIG config;
+
+#define ERR_TRANSIENT   true
+#define ERR_PERMANENT   false
+
+#define DEBUG_LEVEL     SchedMessages::NORMAL
+
+void get_log_path(char* p) {
+    char buf[256];
+    gethostname(buf, 256);
+    sprintf(p, "../log_%s/file_upload_handler.log", buf);
+}
+
+struct FILE_INFO {
+    char name[256];
+    double max_nbytes;
+    char* xml_signature;
+    char* signed_xml;
+    int parse(FILE*);
+};
+
+int FILE_INFO::parse(FILE* in) {
+    char buf[256];
+    int retval;
+
+    memset(this, 0, sizeof(FILE_INFO));
+    signed_xml = strdup("");
+    while (fgets(buf, 256, in)) {
+        log_messages.printf(SchedMessages::DEBUG, buf, "FILE_INFO::parse: ");
+        if (match_tag(buf, "</file_info>")) return 0;
+        else if (match_tag(buf, "<xml_signature>")) {
+            retval = dup_element_contents(in, "</xml_signature>", &xml_signature);
+            if (retval) return retval;
+            continue;
+        }
+        strcatdup(signed_xml, buf);
+        if (parse_str(buf, "<name>", name, sizeof(name))) continue;
+        if (parse_double(buf, "<max_nbytes>", max_nbytes)) continue;
+        if (match_tag(buf, "<generated_locally/>")) continue;
+        if (match_tag(buf, "<upload_when_present/>")) continue;
+        if (match_tag(buf, "<url>")) continue;
+        log_messages.printf(SchedMessages::NORMAL, "FILE_INFO::parse: unrecognized: %s \n", buf);
+    }
+    return 1;
+}
+
+inline static const char* get_remote_addr() {
+    char* p = getenv("REMOTE_ADDR");
+    if (p) return p;
+    return "Unknown remote address";
+}
+
+int return_error(bool transient, const char* message, ...) {
+    printf(
+        "Content-type: text/plain\n\n"
+        "<data_server_reply>\n"
+        "    <status>%d</status>\n"
+        "    <message>%s</message>\n"
+        "</data_server_reply>\n",
+        transient?1:-1,
+        message
+    );
+
+    va_list va;
+    va_start(va, message);
+    char buf[10240];
+    vsprintf(buf, message, va);
+    va_end(va);
+
+    log_messages.printf(
+        SchedMessages::NORMAL, "Returning error to client %s: %s (%s)\n",
+        get_remote_addr(), buf,
+        transient?"transient":"permanent"
+    );
+    return 1;
+}
+
+int return_success(char* text) {
+    printf(
+        "Content-type: text/plain\n\n"
+        "<data_server_reply>\n"
+        "    <status>0</status>\n"
+    );
+    if (text) {
+        printf("    %s\n", text);
+    }
+    printf("</data_server_reply>\n");
+    return 0;
+}
+
+#define BLOCK_SIZE  16382
+
+// read from socket, write to file
+// ALWAYS returns an HTML reply
+//
+int copy_socket_to_file(FILE* in, char* path, double offset, double nbytes) {
+    unsigned char buf[BLOCK_SIZE];
+    char buf2[256];
+    FILE* out;
+    int retval, n, m;
+    double bytes_left;
+
+    out = fopen(path, "ab");
+    if (!out) {
+        return return_error(ERR_TRANSIENT, "can't open file: %s", strerror(errno));
+    }
+
+    // TODO: use a 64-bit variant
+
+    retval = fseek(out, (long)offset, SEEK_CUR);
+
+    if (retval) {
+        fclose(out);
+        return return_error(ERR_TRANSIENT, "can't seek file: %s", strerror(errno));
+    }
+    bytes_left = nbytes - offset;
+    if (bytes_left == 0) {
+        fclose(out);
+        log_messages.printf(SchedMessages::DEBUG, "offset == nbytes: %f\n", nbytes);
+        return return_success(0);
+    }
+
+    while (1) {
+        m = BLOCK_SIZE;
+        if (m > bytes_left) m = (int)bytes_left;
+        n = fread(buf, 1, m, in);
+        if (n <= 0) {
+            fclose(out);
+            sprintf(buf2, "can't read file: asked for %d, got %d: %s", m, n, strerror(errno));
+            return return_error(ERR_TRANSIENT, buf2);
+        }
+        m = fwrite(buf, 1, n, out);
+        if (m != n) {
+            fclose(out);
+            return return_error(ERR_TRANSIENT, "can't write file: %s", strerror(errno));
+        }
+        bytes_left -= n;
+        if (bytes_left == 0) break;
+    }
+    fclose(out);
+    return return_success(0);
+}
+
+// read from socket, discard data
+//
+void copy_socket_to_null(FILE* in) {
+    unsigned char buf[BLOCK_SIZE];
+
+    while (1) {
+        int n = fread(buf, 1, BLOCK_SIZE, in);
+        if (n <= 0) return;
+    }
+}
+
+// ALWAYS generates an HTML reply
+//
+int handle_file_upload(FILE* in, R_RSA_PUBLIC_KEY& key) {
+    char buf[256], path[256];
+    FILE_INFO file_info;
+    int retval;
+    double nbytes=-1, offset=0;
+    bool is_valid;
+
+    while (fgets(buf, 256, in)) {
+        if (match_tag(buf, "<file_info>")) {
+            retval = file_info.parse(in);
+            if (retval) {
+                return return_error(ERR_PERMANENT, "FILE_INFO::parse");
+            }
+            retval = verify_string(
+                file_info.signed_xml, file_info.xml_signature, key, is_valid
+            );
+            if (retval || !is_valid) {
+                log_messages.printf(SchedMessages::CRITICAL,
+                    "verify_string() = %d, is_valid = %d\n",
+                    retval, is_valid
+                );
+                log_messages.printf(SchedMessages::NORMAL, file_info.signed_xml, "signed xml: ");
+                log_messages.printf(SchedMessages::NORMAL, file_info.xml_signature, "signature: ");
+                return return_error(ERR_PERMANENT, "invalid signature");
+            }
+            continue;
+        }
+        else if (parse_double(buf, "<offset>", offset)) continue;
+        else if (parse_double(buf, "<nbytes>", nbytes)) continue;
+        else if (match_tag(buf, "<data>")) {
+            if (nbytes < 0) {
+                return return_error(ERR_PERMANENT, "nbytes missing or negative");
+            }
+
+            // enforce limits in signed XML
+            //
+            if (nbytes > file_info.max_nbytes) {
+                sprintf(buf,
+                    "file size (%d KB) exceeds limit (%d KB)",
+                    (int)(nbytes/1024), (int)(file_info.max_nbytes/1024)
+                );
+                copy_socket_to_null(in);
+                return return_error(ERR_PERMANENT, buf);
+            }
+
+            // make sure filename is legit
+            //
+            if (strstr(file_info.name, "..")) {
+                return return_error(ERR_PERMANENT,
+                    "file_upload_handler: .. found in filename: %s",
+                    file_info.name
+                );
+            }
+
+            sprintf(path, "%s/%s", config.upload_dir, file_info.name);
+            log_messages.printf(
+                SchedMessages::NORMAL,
+                "Handling upload of %s from %s [offset=%.0f, nbytes=%.0f]\n",
+                file_info.name,
+                get_remote_addr(),
+                offset, nbytes
+            );
+            if (offset >= nbytes) {
+                log_messages.printf(
+                    SchedMessages::CRITICAL,
+                    "ERROR: offset >= nbytes!!\n"
+                );
+                return return_success(0);
+            }
+            return copy_socket_to_file(in, path, offset, nbytes);
+        } else {
+            log_messages.printf(SchedMessages::CRITICAL,
+                "unrecognized: %s", buf
+            );
+        }
+    }
+    return return_error(ERR_PERMANENT, "Missing <data> tag");
+}
+
+// always returns HTML reply
+//
+int handle_get_file_size(char* file_name) {
+    struct stat sbuf;
+    char path[256], buf[256];
+    int retval;
+
+    // TODO: check to ensure path doesn't point somewhere bad
+    // Use 64-bit variant
+    //
+    sprintf(path, "%s/%s", config.upload_dir, file_name );
+    retval = stat( path, &sbuf );
+    if (retval && errno != ENOENT) {
+        log_messages.printf(SchedMessages::DEBUG, "handle_get_file_size(): [%s] returning error\n", file_name);
+        return return_error(ERR_TRANSIENT, "cannot open file" );
+    } else if (retval) {
+        log_messages.printf(SchedMessages::DEBUG, "handle_get_file_size(): [%s] returning zero\n", file_name);
+        return return_success("<file_size>0</file_size>");
+    } else {
+        log_messages.printf(
+            SchedMessages::DEBUG, "handle_get_file_size(): [%s] returning %d\n",
+            file_name, (int)sbuf.st_size
+        );
+        sprintf(buf, "<file_size>%d</file_size>", (int)sbuf.st_size);
+        return return_success(buf);
+    }
+    return 0;
+}
+
+// always generates an HTML reply
+//
+int handle_request(FILE* in, R_RSA_PUBLIC_KEY& key) {
+    char buf[256];
+    char file_name[256];
+    int major, minor, retval=0;
+    bool got_version = false;
+    bool did_something = false;
+
+    while (fgets(buf, 256, in)) {
+        log_messages.printf(SchedMessages::DEBUG, buf, "handle_request: ");
+        if (parse_int(buf, "<core_client_major_version>", major)) {
+            if (major != MAJOR_VERSION) {
+                retval = return_error(ERR_PERMANENT,
+                    "Core client has major version %d; "
+                    "expected %d.",
+                    major, MAJOR_VERSION
+                );
+                break;
+            } else {
+                got_version = true;
+            }
+        } else if (parse_int(buf, "<core_client_minor_version>", minor)) {
+            continue;
+        } else if (match_tag(buf, "<file_upload>")) {
+            if (!got_version) {
+                retval = return_error(ERR_PERMANENT, "Missing version");
+            } else {
+                retval = handle_file_upload(in, key);
+            }
+            did_something = true;
+            break;
+        } else if (parse_str(buf, "<get_file_size>", file_name, sizeof(file_name))) {
+            if (!got_version) {
+                retval = return_error(ERR_PERMANENT, "Missing version");
+            } else {
+                retval = handle_get_file_size(file_name);
+            }
+            did_something = true;
+            break;
+        } else {
+            log_messages.printf(SchedMessages::DEBUG, "handle_request: unrecognized %s\n", buf);
+        }
+    }
+    if (!did_something) {
+        log_messages.printf(SchedMessages::CRITICAL, "handle_request: no command\n");
+        return return_error(ERR_PERMANENT, "no command");
+    }
+
+    return retval;
+}
+
+int get_key(R_RSA_PUBLIC_KEY& key) {
+    FILE* f;
+    int retval;
+    char buf[256];
+    sprintf(buf, "%s/upload_public", config.key_dir);
+    f = fopen(buf, "r");
+    if (!f) return -1;
+    retval = scan_key_hex(f, (KEY*)&key, sizeof(key));
+    fclose(f);
+    if (retval) return retval;
+    return 0;
+}
+
+void boinc_catch_signal(int x) {
+}
+
+void installer() {
+    signal(SIGHUP, boinc_catch_signal);  // terminal line hangup
+    signal(SIGINT, boinc_catch_signal);  // interrupt program
+    signal(SIGQUIT, boinc_catch_signal);         // quit program
+    signal(SIGILL, boinc_catch_signal);  // illegal instruction
+    signal(SIGTRAP, boinc_catch_signal);  // illegal instruction
+    signal(SIGABRT, boinc_catch_signal); // abort(2) call
+    signal(SIGFPE, boinc_catch_signal);  // bus error
+    signal(SIGKILL, boinc_catch_signal);  // bus error
+    signal(SIGBUS, boinc_catch_signal);  // bus error
+    signal(SIGSEGV, boinc_catch_signal); // segmentation violation
+    signal(SIGSYS, boinc_catch_signal);  // system call given invalid argument
+    signal(SIGPIPE, boinc_catch_signal); // write on a pipe with no reader
+    signal(SIGTERM, boinc_catch_signal); // write on a pipe with no reader
+    signal(SIGSTOP, boinc_catch_signal); // write on a pipe with no reader
+}
+
+int main() {
+    int retval;
+    R_RSA_PUBLIC_KEY key;
+    char log_path[256];
+
+    get_log_path(log_path);
+    if (!freopen(log_path, "a", stderr)) {
+        fprintf(stderr, "Can't open log file\n");
+        exit(1);
+    }
+
+    //installer();
+
+    log_messages.set_debug_level(DEBUG_LEVEL);
+
+    retval = config.parse_file("..");
+    if (retval) {
+        return_error(ERR_TRANSIENT, "can't read config file");
+        exit(1);
+    }
+
+    retval = get_key(key);
+    if (retval) {
+        return_error(ERR_TRANSIENT, "can't read key file");
+        exit(1);
+    }
+
+    handle_request(stdin, key);
+    return 0;
+}

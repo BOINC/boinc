@@ -1,0 +1,149 @@
+#Traduction française de l'interface BOINC - Version du 29/03 par Rasta Knight
+#PROJECT_ID
+[HEADER-Projects]
+Title=Projets
+Project=Projet
+Account=Compte
+Total Credit=Crédit total
+Avg. Credit=Crédit moyen
+Resource Share=Ressources allouées
+
+#RESULT_ID
+[HEADER-Work]
+Title=Unité
+Project=Projet
+Application=Application
+Name=Identifiant
+CPU time=Temps CPU
+Progress=Avancement
+To Completion=Temps restant
+Status=Etat
+
+#XFER_ID
+[HEADER-Transfers]
+Title=Transferts
+Project=Projet
+File=Fichier
+Progress=Progression
+Size=Taille
+Time=Heure
+Speed=Vitesse de téléchargement
+Status=Etat
+
+#MESSAGE_ID
+[HEADER-Messages]
+Title=Messages
+Project=Projet
+Time=Heure
+Message=Message
+
+#USAGE_ID
+[HEADER-Disk]
+Title=Disque
+Free space: not available for use=Espace libre : non disponible
+Free space: available for use=Espace libre : disponible pour BOINC
+Used space: other than BOINC=Espace occupé : autre que BOINC
+Used space: BOINC=Espace utilisé : par BOINC
+Used space:=Espace utilisé
+
+#miscellaneous text
+[HEADER-MISC]
+New=En cours de téléchargement
+Running=En cours
+Ready to run=Prêt à débuter
+Computation done=Traitement terminé
+Results uploaded=Résultat envoyé
+Acknowledged=Bien reçu
+Error: invalid state=Erreur: état anormal
+Completed=Terminé
+Uploading=Envoi
+Downloading=Réception
+Retry in=Réessayer dans
+Upload failed=Erreur durant l'envoi
+Download failed=Erreur durant le téléchargement
+
+#menu items
+[MENU-File]
+Title=&Fichier
+Show Graphics=Voir les &graphiques
+Clear Messages=Effacer les &messages
+Clear Inactive=Effacer les projets &inactifs
+Suspend=Mettre en &attente
+Resume=&Reprendre
+Exit=&Quitter
+
+[MENU-Settings]
+Title=&Paramètres
+Login to Project...=&Rejoindre un projet...
+Quit Project...=&Quitter un projet...
+Proxy Server...=Serveur pro&xy...
+
+[MENU-Connection]
+Title=&Connexion
+Connect To Scheduling Server=&Se connecter au serveur maître
+Connect Now=Se connecter &maintenant
+Hangup Connection if Dialed=Etablir la &connexion si nécessaire
+Confirm Before Connecting=Confirmer &avant de se connecter
+
+[MENU-Help]
+Title=&Aide
+About...=&A propos
+
+[MENU-StatusIcon]
+Suspend=Mettre en &attente
+Resume=&Reprendre
+Exit=&Quitter
+
+[MENU-Project]
+Relogin...=&Joindre à nouveau un projet
+Quit Project...=&Quitter le projet
+
+[MENU-Work]
+Show Graphics=Voir les &graphiques
+
+[DIALOG-LOGIN]
+Title=Participer à un projet
+URL:=Adresse Web:
+Account Key:=Numéro de compte:
+OK=OK
+Cancel=Annuler
+The URL for the website of the project.=L'adresse du site web du projet.
+The authorization code recieved in your confirmation email.=Le code d'autorisation reçu dans votre mail de confirmation.
+
+[DIALOG-QUIT]
+Title=Quitter un projet
+URL:=Adresse web:
+Account Key:=Numéro de compte:
+OK=OK
+Cancel=Annuler
+Select the project you wish to quit.=Sélectionner le projet que vous souhaitez quitter
+
+[DIALOG-CONNECT]
+Title=Se connecter au réseau
+BOINC needs to connect to the network.  May it do so now?=BOINC a besoin de se connecter à Internet. Le faire maintenant?
+Don't ask this again (connect automatically)=Ne plus le demander(se connecter automatiquement)
+OK=OK
+Cancel=Annuler
+
+[DIALOG-ABOUT]
+Title=Boinc Version Beta
+Berkeley Open Infrastructure for Network Computing=Berkeley Open Infrastructure for Network Computing
+Open Beta=Beta libre
+OK=OK
+
+[DIALOG-PROXY]
+Title=Paramètres du serveur proxy
+Some organizations use an "HTTP proxy" or a "SOCKS proxy" (or both) for increased security.  If you need to use a proxy, fill in the information below.  If you need help, ask your System Administrator or Internet Service Provider.=Certaines organisations utilisent un "proxy HTTP" ou un "proxy SOCKS" (ou les deux) pour une question de sécurité. Si vous devez utiliser un proxy, remplissez les informations ci-dessous. Si vous avez besoin d'aide, demandez à votre administrateur système ou à votre fournisseur d'accés Internet.
+HTTP Proxy=Proxy HTTP
+Connect via HTTP Proxy Server=Se connecter via un serveur proxy HTTP
+http://=http://
+Port Number:=Port:
+SOCKS Proxy=Proxy SOCKS
+Connect via SOCKS Proxy Server=Se connecter via un serveur proxy SOCKS
+SOCKS Host:=Hôte SOCKS:
+Port Number:=Port:
+Leave these blank if not needed=Laisser ceci blanc si il n'est pas nécessaire de les remplir
+SOCKS User Name:=Nom d'utilisateur SOCKS:
+SOCKS Password:=Mot de passe SOCKS:
+OK=OK
+Cancel=Annuler

@@ -1,0 +1,8 @@
+## $Id$
+
+# define version numbers using autoconf
+MAJOR_VERSION = @MAJOR_VERSION@
+MINOR_VERSION = @MINOR_VERSION@
+VERSION_STRING = "@VERSION@"
+CLIENT_BIN_FILENAME = "@CLIENT_BIN_FILENAME@"
+PLATFORM = "@host@"
