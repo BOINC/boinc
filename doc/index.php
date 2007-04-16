@@ -46,6 +46,9 @@ function show_news_items() {
     echo "
         <p><font size=-2>News is available as an
         <a href=rss_main.php>RSS feed</a> <img src=xml.gif></font>
+        <br>
+        <font size=-2>You can help
+        <a href=wwl.php>translate these news items to other languages</a>.
         </td></tr></table>
         <p>
     ";
