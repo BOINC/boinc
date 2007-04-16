@@ -84,6 +84,7 @@ int SCHED_CONFIG::parse(FILE* f) {
         else if (xp.parse_bool(tag, "verify_files_on_app_start", verify_files_on_app_start)) continue;
         else if (xp.parse_bool(tag, "homogeneous_redundancy", homogeneous_redundancy)) continue;
         else if (xp.parse_bool(tag, "locality_scheduling", locality_scheduling)) continue;
+        else if (xp.parse_bool(tag, "locality_scheduling_sorted_order", locality_scheduling_sorted_order)) continue;
         else if (xp.parse_bool(tag, "msg_to_host", msg_to_host)) continue;
         else if (xp.parse_bool(tag, "ignore_upload_certificates", ignore_upload_certificates)) continue;
         else if (xp.parse_bool(tag, "dont_generate_upload_certificates", dont_generate_upload_certificates)) continue;
@@ -163,7 +164,7 @@ int SCHED_CONFIG::parse_file(const char* dir) {
 }
 
 void get_project_dir(char* p, int len) {
-    char* foo = getcwd(p, len);
+    getcwd(p, len);
     char* q = strrchr(p, '/');
     if (q) *q = 0;
 }

@@ -4,7 +4,7 @@ require_once("docutil.php");
 page_head("Development information flow");
 
 echo "
-This page describes the (proposed) structure of the
+This page describes the structure of the
 BOINC development, debugging, and release management processes.
 The basic information flow is shown below.
 Ovals represent people, rectangles represent information channels.
@@ -14,7 +14,7 @@ actually there are more than five).
 'Owner A' represents the person who owns area A,
 as listed in <a href=contact.php>Personnel</a>.
 <p>
-BOINCzilla is <a href=http://bbugs.axpr.net/index.php>here</a>.
+BOINC/Trac is <a href=http://boinc.berkeley.edu/trac/>here</a>.
 The email lists are <a href=email_lists.php>here</a>.
 BOINC message boards are <a href=dev/>here</a>.
 

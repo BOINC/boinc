@@ -148,7 +148,7 @@ $math = array(
         ),
         array(
             "PrimeGrid",
-            "http://primegrid.com",
+            "http://www.primegrid.com",
             "Private",
             "Cryptography",
             "Primegrid is generating a public sequential prime number database, and is searching for large twin primes of the form k*2<sup>n</sup>+1 and k*2<sup>n</sup>-1",

@@ -997,6 +997,11 @@ static int send_old_work(
     return retval;
 }
 
+bool file_info_order(const FILE_INFO& fi1, const FILE_INFO& fi2) {
+    if (strncmp(fi1.name, fi2.name, 256) < 0) return true;
+    return false;
+}
+
 void send_work_locality(
     SCHEDULER_REQUEST& sreq, SCHEDULER_REPLY& reply, PLATFORM& platform,
     SCHED_SHMEM& ss
@@ -1059,9 +1064,15 @@ void send_work_locality(
                 "[HOST#%d] has file %s\n", reply.host.id, sreq.file_infos[i].name
         );
 
-    if (!nfiles)
-        nfiles=1;
-    j = rand()%nfiles;
+    // Look for work in order of increasing file name, or randomly?
+    //
+    if (config.locality_scheduling_sorted_order) {
+        sort(sreq.file_infos.begin(), sreq.file_infos.end(), file_info_order);
+        j = 0;
+    } else {
+        if (!nfiles) nfiles = 1;
+        j = rand()%nfiles;
+    }
 
     // send old work if there is any. send this only to hosts which have
     // high-bandwidth connections, since asking dial-up users to upload

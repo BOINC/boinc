@@ -492,8 +492,7 @@ int send_result_abort(
 	int aborts_sent = 0;
     DB_IN_PROGRESS_RESULT result;
     std::string result_names;
-    int i;
-    int retval;
+    unsigned int i;
     
     if (sreq.other_results.size() == 0) {
     	return 0;

@@ -37,11 +37,16 @@ Locality scheduling works as follows:
 <li> Each scheduler RPC contains a list of the
 large files already on the host, if any.
 <li> The scheduler attempts to send results that use a file
-already on the host.
+already on the host.  This search for results by file is done in a random non-deterministic
+order.
 <li> For each file that is on the host and for which
 no results are available for sending,
 the scheduler instructs the host to delete the file.
 </ul>
+Note that one can have a deterministic search, in increasing file-name
+order, by enabling
+".html_text("
+<locality_scheduling_sorted_order/> ")."
 
 <h2>On-demand work generation</h2>
 <p>
@@ -132,7 +137,7 @@ is responsible for maintaining this.
 If the scheduler finds that there are no sendable results for a file,
 it makes a file with that name in
 <pre>
-PROJECT/sched_locality/files_no_work/
+PROJECT/locality_scheduling/files_no_work/
 </pre>
 The working set manager should poll this directory
 and remove those files from the working set.

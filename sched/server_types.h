@@ -74,7 +74,6 @@ struct WORK_REQ {
 //
 struct FILE_INFO {
     char name[256];
-
     int parse(FILE*);
 };
 

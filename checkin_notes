@@ -3525,3 +3525,25 @@ David  13 Apr 2007
         time_stats.C
     db/
         boinc_db.C
+
+Bruce 16 April 2007
+    - scheduler: remove compiler warnings
+    - feeder: broken because of David's checkin to db/boinc_db.C above.
+      David, please confirm if result.appid -> r1.appid is correct.
+    - locality scheduler: add new boolean config option
+        locality_scheduling_sorted_order.  If this is enabled,
+        then instead of looking for work starting with a random
+        file on the host,
+        the scheduler will search for work in sorted order of the filenames,
+        starting with the lexagraphically smallest file
+        and moving upwards until work is found.
+
+    sched/
+        handle_request.C
+        feeder.C
+        sched_config.C
+        sched_config.h
+        sched_locality.C
+        server_types.h
+    doc/
+        sched_locality.php

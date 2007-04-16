@@ -349,7 +349,7 @@ static void scan_work_array(
     			work_item_index = i % ssp->napps;
     			enum_size = (int) floor(0.5 + ((double)ENUM_LIMIT)/ssp->napps);
     		}
-    		sprintf(mod_select_clause, "%s and result.appid=%d",
+    		sprintf(mod_select_clause, "%s and r1.appid=%d",
     		    select_clause, ssp->apps[work_item_index].id
     		);
     	} else {

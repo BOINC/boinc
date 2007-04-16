@@ -51,6 +51,7 @@ public:
     bool verify_files_on_app_start;
     bool homogeneous_redundancy;
     bool locality_scheduling;
+    bool locality_scheduling_sorted_order;
     bool ignore_upload_certificates;
     bool dont_generate_upload_certificates;
     bool ignore_delay_bound;

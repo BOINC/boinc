@@ -107,7 +107,7 @@ void GLOBAL_PREFS::defaults() {
     hangup_if_dialed = false;
     dont_verify_images = false;
     work_buf_min_days = 0.1;
-    work_buf_additional_days = 0;
+    work_buf_additional_days = 0.25;
     max_cpus = 16;
     cpu_scheduling_period_minutes = 60;
     disk_interval = 60;

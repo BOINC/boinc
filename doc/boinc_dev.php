@@ -26,9 +26,8 @@ echo "
 <ul>
 <li> <a href=contact.php>Personnel and contributors</a>
 <li> <a href=dev_flow.php>Development information flow</a>
-<li> The <a href=http://bbugs.axpr.net/index.php>BOINCzilla bug database</a>.
-<li> <a href=email_lists.php>boinc_dev</a>,
-an email list for BOINC developers.
+<li> <a href=http://boinc.berkeley.edu/trac/>BOINC/Trac</a> (bug database, source code browsing)
+<li> <a href=email_lists.php>boinc_dev</a>, an email list for BOINC developers.
 <li> <a href=impl_notes.php>Implementation notes</a>
 <li> <a href=coding.php>BOINC coding style</a>
 <li> <a href=test.php>The BOINC testing framework</a>
@@ -83,8 +82,12 @@ identical results across processors
 <li> Java support: core client checks for the existence of JVM,
     reports version to scheduler.
     Write Java wrapper (runs JVM, gives it jar files).
+    Note: Szataki has already done some part of this.
 <li> Same, .NET
-<li> Distributed Python
+<li> Distributed Python:
+    Borrow or invent a notation for master/slave execution in Python.
+    Develop a system that implements this on BOINC,
+    i.e., creates WUs and applications, and harvests the results.
 <li> Write example FORTRAN application and Makefiles/ project files
 </ul>
 <li> Core client:
@@ -144,6 +147,9 @@ Investigate.
 
 <li> Server/Back End:
     <ul>
+    <li> Add a 'validity' field to host.
+        Exponential average of fraction of valid results.
+        Demand more replicas if some are from suspect hosts.
     <li> Allow the scheduler to take a list of platforms (not just one).
         E.g. a Win64 machine could send Win64 and Win32.
     <li> When using HR, if the scheduler has sent one result of a WU
