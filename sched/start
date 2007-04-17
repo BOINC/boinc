@@ -530,8 +530,9 @@ def command_disable_stop():
         else:
             print "Staying in DISABLED mode"
     run_state.enabled = 0
+    write_stop_sched()  # do this before stop_daemons(),
+                        # else scheduler will complained about no shared mem
     stop_daemons()
-    write_stop_sched()
     remove_cached_home_page()
 
 def command_status():

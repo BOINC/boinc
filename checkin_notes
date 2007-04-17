@@ -3683,3 +3683,10 @@ Charlie 17 Apr 2007
             mac_backtrace.C
             QBacktrace.c
             QCrashReport.c
+
+David  17 Apr 2007
+    - "start" script: stop scheduler before daemons; otherwise can get
+        "no shared memory" errors from scheduler
+
+    sched/
+        start

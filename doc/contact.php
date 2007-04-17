@@ -157,6 +157,7 @@ show_name("Gilson Laurent");
 show_name("Matt Lebofsky");
 show_name("Pav Lucistnik");
 show_name("Bernd Machenschalk");
+show_name("Nicolas Maire");
 show_name("Christopher Malton");
 show_name("Sebastian Masch");
 show_name("John McLeod VII");
