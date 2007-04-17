@@ -3595,7 +3595,7 @@ Charlie 17 Apr 2007
     - Mac: Delete very old obsolete files.
 
     client/
-        mac/
+        mac/      (directory removed)
             BOINC.term (removed)
             BoincLaunch.app.zip (removed)
             BoincLaunch.zip (removed)
@@ -3618,3 +3618,11 @@ Charlie 17 Apr 2007
         mac/
             QMachOImage.c
             QMachOImageList.c
+    mac_build/
+        boinc.xcodeproj/
+            project.pbxproj
+        English.lproj/
+            AboutBox.nib (removed)
+            boinc.nib (removed)
+            JoinDialog.nib (removed)
+            PrefsDialog.nib (removed)
