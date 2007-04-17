@@ -225,21 +225,13 @@
 		DDA6BD1D0BD4551F008F7921 /* QMachOImageList.c in Sources */ = {isa = PBXBuildFile; fileRef = DDA6BD0C0BD4551F008F7921 /* QMachOImageList.c */; };
 		DDA6BD1E0BD4551F008F7921 /* QSymbols.c in Sources */ = {isa = PBXBuildFile; fileRef = DDA6BD0E0BD4551F008F7921 /* QSymbols.c */; };
 		DDA6BD1F0BD4551F008F7921 /* QTaskMemory.c in Sources */ = {isa = PBXBuildFile; fileRef = DDA6BD100BD4551F008F7921 /* QTaskMemory.c */; };
-		DDA6BD200BD4551F008F7921 /* dyld_gdb.h in CopyFiles */ = {isa = PBXBuildFile; fileRef = DDA6BD030BD4551F008F7921 /* dyld_gdb.h */; };
 		DDA6BD210BD4551F008F7921 /* mac_backtrace.C in Sources */ = {isa = PBXBuildFile; fileRef = DDA6BD040BD4551F008F7921 /* mac_backtrace.C */; };
-		DDA6BD220BD4551F008F7921 /* mac_backtrace.h in CopyFiles */ = {isa = PBXBuildFile; fileRef = DDA6BD050BD4551F008F7921 /* mac_backtrace.h */; };
 		DDA6BD230BD4551F008F7921 /* QBacktrace.c in Sources */ = {isa = PBXBuildFile; fileRef = DDA6BD060BD4551F008F7921 /* QBacktrace.c */; };
-		DDA6BD240BD4551F008F7921 /* QBacktrace.h in CopyFiles */ = {isa = PBXBuildFile; fileRef = DDA6BD070BD4551F008F7921 /* QBacktrace.h */; };
 		DDA6BD250BD4551F008F7921 /* QCrashReport.c in Sources */ = {isa = PBXBuildFile; fileRef = DDA6BD080BD4551F008F7921 /* QCrashReport.c */; };
-		DDA6BD260BD4551F008F7921 /* QCrashReport.h in CopyFiles */ = {isa = PBXBuildFile; fileRef = DDA6BD090BD4551F008F7921 /* QCrashReport.h */; };
 		DDA6BD270BD4551F008F7921 /* QMachOImage.c in Sources */ = {isa = PBXBuildFile; fileRef = DDA6BD0A0BD4551F008F7921 /* QMachOImage.c */; };
-		DDA6BD280BD4551F008F7921 /* QMachOImage.h in CopyFiles */ = {isa = PBXBuildFile; fileRef = DDA6BD0B0BD4551F008F7921 /* QMachOImage.h */; };
 		DDA6BD290BD4551F008F7921 /* QMachOImageList.c in Sources */ = {isa = PBXBuildFile; fileRef = DDA6BD0C0BD4551F008F7921 /* QMachOImageList.c */; };
-		DDA6BD2A0BD4551F008F7921 /* QMachOImageList.h in CopyFiles */ = {isa = PBXBuildFile; fileRef = DDA6BD0D0BD4551F008F7921 /* QMachOImageList.h */; };
 		DDA6BD2B0BD4551F008F7921 /* QSymbols.c in Sources */ = {isa = PBXBuildFile; fileRef = DDA6BD0E0BD4551F008F7921 /* QSymbols.c */; };
-		DDA6BD2C0BD4551F008F7921 /* QSymbols.h in CopyFiles */ = {isa = PBXBuildFile; fileRef = DDA6BD0F0BD4551F008F7921 /* QSymbols.h */; };
 		DDA6BD2D0BD4551F008F7921 /* QTaskMemory.c in Sources */ = {isa = PBXBuildFile; fileRef = DDA6BD100BD4551F008F7921 /* QTaskMemory.c */; };
-		DDA6BD2E0BD4551F008F7921 /* QTaskMemory.h in CopyFiles */ = {isa = PBXBuildFile; fileRef = DDA6BD110BD4551F008F7921 /* QTaskMemory.h */; };
 		DDAEC9FF07FA5A5C00A7BC36 /* SetVersion.C in Sources */ = {isa = PBXBuildFile; fileRef = DDAEC9E707FA58A000A7BC36 /* SetVersion.C */; };
 		DDB693500ABFE9C600689FD8 /* procinfo_mac.C in Sources */ = {isa = PBXBuildFile; fileRef = DDB6934F0ABFE9C600689FD8 /* procinfo_mac.C */; };
 		DDCDCDF60B532433009BB03C /* ViewProjectsGrid.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DDCDCDF20B532433009BB03C /* ViewProjectsGrid.cpp */; };
@@ -791,14 +783,6 @@
 			dstSubfolderSpec = 10;
 			files = (
 				DD3E15360A774397007E0084 /* SystemMenu.bundle in CopyFiles */,
-				DDA6BD200BD4551F008F7921 /* dyld_gdb.h in CopyFiles */,
-				DDA6BD220BD4551F008F7921 /* mac_backtrace.h in CopyFiles */,
-				DDA6BD240BD4551F008F7921 /* QBacktrace.h in CopyFiles */,
-				DDA6BD260BD4551F008F7921 /* QCrashReport.h in CopyFiles */,
-				DDA6BD280BD4551F008F7921 /* QMachOImage.h in CopyFiles */,
-				DDA6BD2A0BD4551F008F7921 /* QMachOImageList.h in CopyFiles */,
-				DDA6BD2C0BD4551F008F7921 /* QSymbols.h in CopyFiles */,
-				DDA6BD2E0BD4551F008F7921 /* QTaskMemory.h in CopyFiles */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1107,13 +1091,13 @@
 		DDD095480A3EDF2D00C95BA4 /* switcher.C */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.cpp.cpp; path = switcher.C; sourceTree = "<group>"; };
 		DDD74D8707CF482E0065AC9D /* boinc */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = boinc; sourceTree = BUILT_PRODUCTS_DIR; };
 		DDE2552B07C62F3E008E7D6E /* IOKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = IOKit.framework; path = /System/Library/Frameworks/IOKit.framework; sourceTree = "<absolute>"; };
-		DDEB3CA80981084A0087E200 /* GridRepublic.icns */ = {isa = PBXFileReference; lastKnownFileType = image.icns; name = GridRepublic.icns; path = ../client/mac/GridRepublic.icns; sourceTree = SOURCE_ROOT; };
+		DDEB3CA80981084A0087E200 /* gridrepublic.icns */ = {isa = PBXFileReference; lastKnownFileType = image.icns; name = gridrepublic.icns; path = ../clientgui/res/gridrepublic.icns; sourceTree = SOURCE_ROOT; };
 		DDEF388E0802B73500E87552 /* ViewStatistics.cpp */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.cpp.cpp; name = ViewStatistics.cpp; path = ../clientgui/ViewStatistics.cpp; sourceTree = SOURCE_ROOT; };
 		DDEF388F0802B73500E87552 /* ViewStatistics.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = ViewStatistics.h; path = ../clientgui/ViewStatistics.h; sourceTree = SOURCE_ROOT; };
 		DDF0940F0BA8C606003BB0FF /* wxWindows.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = wxWindows.xcodeproj; path = "../../wxMac-2.8.3/src/wxWindows.xcodeproj"; sourceTree = SOURCE_ROOT; };
 		DDF1F47A09822C3400482C89 /* preinstall */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = text.script.csh; name = preinstall; path = ../mac_installer/preinstall; sourceTree = SOURCE_ROOT; };
 		DDF1F4A409822F8A00482C89 /* GR-Branding */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = text; name = "GR-Branding"; path = "../mac_installer/GR-Branding"; sourceTree = SOURCE_ROOT; };
-		DDF3028907CCCE2C00701169 /* BOINCMgr.icns */ = {isa = PBXFileReference; lastKnownFileType = image.icns; name = BOINCMgr.icns; path = ../client/mac/BOINCMgr.icns; sourceTree = SOURCE_ROOT; };
+		DDF3028907CCCE2C00701169 /* BOINCMgr.icns */ = {isa = PBXFileReference; lastKnownFileType = image.icns; name = BOINCMgr.icns; path = ../clientgui/res/BOINCMgr.icns; sourceTree = SOURCE_ROOT; };
 		DDF9385407E28906004DC076 /* checkin_notes */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = text; name = checkin_notes; path = ../checkin_notes; sourceTree = SOURCE_ROOT; };
 		DDF9A32D0B2E3D4D00091FCB /* auto_update.C */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.cpp.cpp; name = auto_update.C; path = ../client/auto_update.C; sourceTree = SOURCE_ROOT; };
 		DDF9A32E0B2E3D4D00091FCB /* auto_update.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = auto_update.h; path = ../client/auto_update.h; sourceTree = SOURCE_ROOT; };
@@ -1340,7 +1324,7 @@
 				DD0C5A8A0816711400CEC5D7 /* boinc.tiff */,
 				DDF3028907CCCE2C00701169 /* BOINCMgr.icns */,
 				DD48091E081A66F100A174AA /* BOINCSaver.nib */,
-				DDEB3CA80981084A0087E200 /* GridRepublic.icns */,
+				DDEB3CA80981084A0087E200 /* gridrepublic.icns */,
 				DDF1F4A409822F8A00482C89 /* GR-Branding */,
 				DD64E7D507D89DB800B176C8 /* Info.plist */,
 				F51BDF4903086C46012012A7 /* InfoPlist.strings */,

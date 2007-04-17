@@ -3599,6 +3599,7 @@ Charlie 17 Apr 2007
             BOINC.term (removed)
             BoincLaunch.app.zip (removed)
             BoincLaunch.zip (removed)
+            GridRepublic.icns (extra copy removed)
             mac_about.cpp,h (removed)
             mac_join.cpp,h (removed)
             mac_main.cpp,h (removed)
@@ -3610,7 +3611,6 @@ Charlie 17 Apr 2007
             browser_safari.mm (moved from clientgui/browser_safari.mm)
         res/
             BOINCMgr.icns (moved from client/mac/BOINCMgr.icns)
-            GridRepublic.icns (moved from client/mac/GridRepublic.icns)
     lib/
         makefile.am
         MoreAddrToSym.c,h (removed)
