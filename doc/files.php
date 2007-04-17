@@ -77,7 +77,7 @@ The file may deleted by an explicit
 <a href=delete_file.php>server request</a>.
 The file may also be deleted at any time by the core client
 in order to honor limits on disk-space usage.
-<li> On the server, the <a href=file_deleter.php>file deleter daemon</a>
+<li> On the server, the <a href=trac/wiki/FileDeleter>file deleter daemon</a>
 deletes input and output files that are no longer needed.
 This can be suppressed using the 'no_delete' flag,
 or using command-line options to the file deleter.

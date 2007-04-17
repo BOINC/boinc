@@ -17,7 +17,7 @@ This causes problems:
 for example, when the file upload handler creates a
 directory in the <a href=hier_dir.php>upload hierarchy</a>,
 it's owned by (apache, apache),
-and the <a href=file_deleter.php>file deleter</a>
+and the <a href=trac/wiki/FileDeleter>file deleter</a>
 (which runs as boincadm)
 won't be able to delete the files there.
 

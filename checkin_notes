@@ -3642,3 +3642,9 @@ David  17 Apr 2007
     sched/
         sched_config.C,h
         file_deleter.C
+
+David  17 Apr 2007
+    - compile fix for FCGI
+
+    lib/
+        util.C

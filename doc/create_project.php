@@ -176,7 +176,11 @@ chapter("backend_programs.php", "Work-handling daemons");
 chapter("tools_work.php", "Generating work");
 chapter("validate.php", "Result validation");
 chapter("assimilate.php", "Result assimilation");
-chapter("file_deleter.php", "Server-side file deletion");
+if ($book) {
+    chapter("file_deleter.php", "Server-side file deletion");
+} else {
+    chapter("trac/wiki/FileDeleter", "Server-side file deletion");
+}
 chapter("db_purge.php", "Database purging utility");
 echo "
 </ul>

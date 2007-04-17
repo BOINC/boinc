@@ -546,6 +546,7 @@ int wait_client_mutex(const char* dir, double timeout) {
     return ERR_ALREADY_RUNNING;
 }
 
+#ifndef _USING_FCGI_
 #ifndef _WIN32
 // (linux) return current CPU time of the given process
 //
@@ -563,6 +564,7 @@ double linux_cpu_time(int pid) {
     }
     return (double)(utime + stime)/100;
 }
+#endif
 #endif
 
 const char *BOINC_RCSID_ab65c90e1e = "$Id$";

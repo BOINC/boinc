@@ -120,7 +120,7 @@ record results in a database and perhaps generating more work.
 
 <h3>File deletion</h3>
 The application-independent program
-<a href=file_deleter.php>file_deleter</a>
+<a href=trac/wiki/FileDeleter>file_deleter</a>
 deletes input and output files when they are no longer needed.
 
 <h3>Database purging</h3>
