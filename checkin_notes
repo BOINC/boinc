@@ -3626,7 +3626,7 @@ Charlie 17 Apr 2007
             boinc.nib (removed)
             JoinDialog.nib (removed)
             PrefsDialog.nib (removed)
-    
+
 David  17 Apr 2007
     - file deleter:
         - Antique deletion is now default; it gets done once/day
@@ -3673,3 +3673,13 @@ David  17 Apr 2007
         prefs.inc
     test/
         testbase.py
+
+Charlie 17 Apr 2007
+    - Mac: Trim bogus extra frame and post-signal frames from backtrace 
+        reports, like the old Mac backtrace did.
+    
+    lib/
+        mac/
+            mac_backtrace.C
+            QBacktrace.c
+            QCrashReport.c

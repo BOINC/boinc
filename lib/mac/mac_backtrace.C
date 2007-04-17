@@ -85,6 +85,25 @@ void PrintBacktrace(void) {
     char                        OSMinorVersion;
     time_t                      t;
 
+#if 0
+// To debug backtrace logic:
+//  * Enable this block of code.
+//  * Set a breakpoint at sleep(1) call, and wherever else you wish.
+//  * Launch built development application from Finder.
+//  * Get this application's pid from Activity Monitor.
+//  * Attach Debugger to this application.
+//  * Continue until you reach this breakpoint.
+//  * Change wait variable to 0 (false).
+// This is necessary because GDB intercepts signals even if you tell it 
+// not to, so you must attach GDB after the signal handler is invoked.
+
+    bool wait = true;
+    
+    while (wait) {
+        fprintf(stderr, "waiting\n");
+        sleep(1);
+    }
+#endif
 
     GetNameOfThisApp(nameBuf, sizeof(nameBuf));
     if (nameBuf[0])

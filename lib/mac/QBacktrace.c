@@ -653,7 +653,6 @@ static int BacktraceCore(QBTContext *context, size_t *frameCountPtr)
 			} else {
 				frameOutPtr = &tmpFrameOut;
 			}
-			context->frameCountOut += 1;
 
 			// Record this entry.
 			
@@ -690,7 +689,7 @@ static int BacktraceCore(QBTContext *context, size_t *frameCountPtr)
 			}
 
 			if ( ! stopNow ) {
-				
+
 				// Move to the next frame, either by crossing a signal handler frame 
 				// or by the usual mechanism.
 				
@@ -768,6 +767,8 @@ static int BacktraceCore(QBTContext *context, size_t *frameCountPtr)
 				// Set up for the next iteration.
 				
 				if ( (err == 0) && ! stopNow ) {
+                                        context->frameCountOut += 1;
+                                        
 					lowerBound = thisFrame;
 					thisPC     = nextPC;
 					thisFrame  = nextFrame;
