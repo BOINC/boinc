@@ -63,18 +63,24 @@ bool detect_setup_authenticator_safari(std::string& project_url, std::string& au
             
         theNameString = [ aCookie name ];
         // is this the right cookie?
-        if (starts_with([ theNameString cStringUsingEncoding:NSMacOSRomanStringEncoding ], "Setup")) {
-            theValueString = [ aCookie value ];
-            authenticator = [ theValueString cStringUsingEncoding:NSMacOSRomanStringEncoding ];
-
-            // If validation failed, null out the authenticator just in case
-            //   somebody tries to use it, otherwise copy in the real deal.
-            if (is_authenticator_valid(authenticator)) {
-                retval = true;
-                break;
-            } else {
-                authenticator = "";
-            }
+#ifdef cStringUsingEncoding     // Available only is OS 10.4 and later
+        if (!starts_with([ theNameString cStringUsingEncoding:NSMacOSRomanStringEncoding ], "Setup"))
+            continue;
+        theValueString = [ aCookie value ];
+        authenticator = [ theValueString cStringUsingEncoding:NSMacOSRomanStringEncoding ];
+#else
+        if (!starts_with([ theNameString cString ], "Setup"))
+            continue;
+        theValueString = [ aCookie value ];
+        authenticator = [ theValueString cString ];
+#endif
+        // If validation failed, null out the authenticator just in case
+        //   somebody tries to use it, otherwise copy in the real deal.
+        if (is_authenticator_valid(authenticator)) {
+            retval = true;
+            break;
+        } else {
+            authenticator = "";
         }
     }
 
