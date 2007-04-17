@@ -714,7 +714,7 @@ class Proxy:
         # check if child process died
         (pid,status) = os.waitpid(self.pid, os.WNOHANG)
         if pid:
-            fatal_error("testproxy failed")
+            fatal_error("testproxy failed; see testproxy.log for details")
             self.pid = 0
         else:
             atexit.register(self.stop)

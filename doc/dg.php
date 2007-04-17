@@ -13,7 +13,8 @@ echo "
 <b>Desktop grid computing</b>
 is a form of distributed computing in which
 an organization (such as a business)
-uses its existing desktop PCs to handle long-running computational tasks.
+uses its existing desktop PCs to handle its own
+long-running computational tasks.
 This differs from volunteer computing in several ways:
 <ul>
 <li> The computing resources can be trusted;
@@ -58,9 +59,15 @@ this can be done using <a href=win_deploy.php>Active Directories</a>.
 </ul>
 
 <p>
-To ensure that outside PC can't participate in your project
+To ensure that outside hosts can't participate in your project
 or access its files,
 configure your firewall to prevent HTTP access to your BOINC server.
+
+<p>
+For more information on desktop grid computing using BOINC,
+and some useful pre-compiled software, visit
+<a href=http://desktopgrid.hu/>Desktopgrid.hu</a>.
+
 ";
 
 page_tail(true);

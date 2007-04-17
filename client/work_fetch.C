@@ -579,7 +579,7 @@ bool CLIENT_STATE::compute_work_requests() {
 
         // sanity check
         //
-        double x = (work_buf_additional() + work_buf_min())*ncpus;
+        double x = work_buf_total()*ncpus;
         if (pbest->work_request > x) {
         	msg_printf(NULL, MSG_INTERNAL_ERROR,
         	    "Proposed work request %f bigger than max %f",
@@ -608,19 +608,6 @@ bool CLIENT_STATE::compute_work_requests() {
 
 
     return false;
-}
-
-double CLIENT_STATE::work_needed_secs() {
-    double total_work = 0;
-    for(unsigned int i=0; i<results.size(); i++) {
-        if (results[i]->project->non_cpu_intensive) continue;
-        total_work += results[i]->estimated_cpu_time_remaining();
-    }
-    double x = work_buf_min() * avg_proc_rate() - total_work;
-    if (x < 0) {
-        return 0;
-    }
-    return x;
 }
 
 // called when benchmarks change

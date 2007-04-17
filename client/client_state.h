@@ -273,6 +273,11 @@ public:
     inline double work_buf_additional() {
         return global_prefs.work_buf_additional_days *86400;
     }
+    inline double work_buf_total() {
+        double x = work_buf_min() + work_buf_additional();
+        if (x < 1) x = 1;
+        return x;
+    }
     void request_enforce_schedule(const char*);
     void request_schedule_cpus(const char*);
         // Check for reschedule CPUs ASAP.  Called when:
@@ -449,7 +454,6 @@ public:
 	double overall_cpu_frac();
     double time_until_work_done(PROJECT*, int, double);
     bool compute_work_requests();
-    double work_needed_secs();
     void scale_duration_correction_factors(double);
     void generate_new_host_cpid();
     void compute_nuploading_results();

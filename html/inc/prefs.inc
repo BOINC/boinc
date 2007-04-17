@@ -69,13 +69,14 @@ define("HANGUP_IF_DIALED_DESC",
     <br><span class=note>(matters only if you have a modem, ISDN or VPN connection)</span>"
 );
 define("WORK_BUF_MIN_DAYS_DESC",
-    "Connect to network about every
-    <br><span class=note>(maximum 10 days)</span>
+    "Computer is connected to the Internet about every
+    <br><span class=note>(Leave blank or 0 if always connected.
+    <br>BOINC will try to maintain at least this much work.)</span>
     "
 );
 define("WORK_BUF_ADDITIONAL_DAYS_DESC",
-    "Cache enough work for an additional
-    <br><span class=note>(maximum 10 days; requires 5.10+ client)</span>
+    "Maintain enough work for an additional
+    <br><span class=note>(Requires 5.10+ client.)</span>
     "
 );
 define("MAX_CPUS_DESC", "On multiprocessors, use at most");
@@ -392,8 +393,8 @@ function default_prefs_global() {
     $p->cpu_scheduling_period_minutes = 60;
     $p->confirm_before_connecting = false;
     $p->hangup_if_dialed = true;
-    $p->work_buf_min_days = .1;
-    $p->work_buf_additional_days = 1;
+    $p->work_buf_min_days = "";
+    $p->work_buf_additional_days = 0.25;
     $p->max_cpus = 16;
     $p->cpu_usage_limit = 100;
     $p->disk_interval = 60;

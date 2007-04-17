@@ -54,7 +54,7 @@ you don't need to build the Core client or BOINC Manager.</b>
     <td><br></td>
 </tr>
 <tr>
-    <td>MySQL 4.0+ or 4.1+
+    <td>MySQL 4.0 or higher
         <br>MySQL client
     </td>
     <td>X</td>
@@ -91,7 +91,7 @@ you don't need to build the Core client or BOINC Manager.</b>
     <td><br></td>
 </tr>
 <tr>
-    <td><a href=http://www.wxwidgets.org/>WxWidgets</a> 2.6.3
+    <td><a href=http://www.wxwidgets.org/>WxWidgets</a> 2.8.3
     <p>
 <ul>
 <li>Configure with the <code>--with-gtk --disable-shared</code> options

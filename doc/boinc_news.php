@@ -1,6 +1,23 @@
 <?
 
 $project_news = array(
+array("April 17, 2007",
+    "<a href=http://desktopgrid.hu/>Desktopgrid.hu</a>
+    has been created by the Computer and Automation Research Institute
+    (SZATAKI) of the Hungarian Academy of Sciences (MTA).
+    It provides information (and software downloads) for using
+    BOINC for <a href=dg.php>desktop Grid computing</a>."
+),
+array("April 16, 2007",
+    "BOINC is now using <a href=http://trac.edgewall.org/>Trac</a>,
+    an integrated software project management system.
+    In particular:
+    1) the BOINC source code repository now uses Subversion;
+    2) the BOINC bug database has been moved to Trac;
+    3) documentation will be moved to a Wiki.
+    See <a href=trac/>the BOINC/Trac page</a>.
+    "
+),
 array("April 11, 2007",
     "The BBC documentary 'Meltdown',
     which highlights <a href=http://climateprediction.net>Climateprediction.net</a>,

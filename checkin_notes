@@ -3648,3 +3648,28 @@ David  17 Apr 2007
 
     lib/
         util.C
+
+David  17 Apr 2007
+    - client: define work_buf_total as
+        max(1, work_buf_min + work_buf_additional).
+        Allow both work_buf_min and work_buf_additional to be zero.
+    - client: remove work_needed_secs()
+
+    client/
+        client_state.h
+        cpu_sched.C
+        sim.h
+        work_fetch.C
+
+David  17 Apr 2007
+    - user web: better text for work-buf preferences;
+        defaults are 0 and 0.25.
+    - remove test_sanity.py stuff from configure.ac.
+        It's relevant only to the automated testing framework,
+        which no one uses except us.
+
+    configure.ac
+    html/inc/
+        prefs.inc
+    test/
+        testbase.py

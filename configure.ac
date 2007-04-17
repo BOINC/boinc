@@ -691,36 +691,3 @@ AC_OUTPUT
 
 echo "--- Configuring BOINC AC_PACKAGE_VERSION (${build_state}) ---"
 echo "--- Build Components: (${configured_to_build}) ---"
-
-[
-true || $TOP_SOURCE_DIR/test/test_sanity.py || (
-    cat <<EOF
-
-******************************************************************************
-**  
-** The framework sanity check failed.
-**  
-** If you only want to compile (and run) the client or compile (and run) the
-** server, this may be okay.
-**  
-** If you are developing BOINC and want to run the automated tests, you need a
-** MySQL server installed and running, with permission to create databases.
-**
-** You can run this sanity check using test/test_sanity.py
-**
-******************************************************************************
-
-EOF
-
-)
-
-if test "${enable_server}" = yes ; then
-  cat<<EOF
-
-We recommend you run test/test_sanity.py to make sure your host is configured
-properly for building the BOINC server.
-
-EOF
-fi
-
-]

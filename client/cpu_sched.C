@@ -1006,8 +1006,8 @@ void CLIENT_STATE::rr_simulation() {
 
 	if (log_flags.rr_simulation) {
 		msg_printf(0, MSG_INFO,
-            "[rr_sim] rr_sim start: work_buf_min %f rrs %f trs %f ncpus %d",
-            work_buf_min(), rrs, trs, ncpus
+            "[rr_sim] rr_sim start: work_buf_total %f rrs %f trs %f ncpus %d",
+            work_buf_total(), rrs, trs, ncpus
         );
 	}
 
@@ -1048,17 +1048,17 @@ void CLIENT_STATE::rr_simulation() {
         //
         if (!p->active.size()) {
 			double rsf = trs ? p->resource_share/trs : 1;
-            p->cpu_shortfall = (work_buf_min() + work_buf_additional()) * overall_cpu_frac() * ncpus * rsf;
+            p->cpu_shortfall = work_buf_total() * overall_cpu_frac() * ncpus * rsf;
             if (log_flags.rr_simulation) {
                 msg_printf(p, MSG_INFO,
-                    "[rr_sim] no results; shortfall %f wbm %f ocf %f rsf %f",
-                    p->cpu_shortfall, work_buf_min(), overall_cpu_frac(), rsf
+                    "[rr_sim] no results; shortfall %f wbt %f ocf %f rsf %f",
+                    p->cpu_shortfall, work_buf_total(), overall_cpu_frac(), rsf
                 );
             }
         }
     }
 
-    double buf_end = now + work_buf_min() + work_buf_additional();
+    double buf_end = now + work_buf_total();
 
     // Simulation loop.  Keep going until work done
     //
