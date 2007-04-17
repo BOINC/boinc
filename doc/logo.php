@@ -156,14 +156,11 @@ $banners = array(
     ),
     array("Myster65",
         array(
-            array("logos/myster1.jpg"),
-            array("logos/myster2.jpg"),
+            array("logos/boinc-myster65-1.png"),
+            array("logos/boinc-myster65-2.png"),
             array("<br>"),
-            array("logos/myster3.jpg"),
-            array("logos/myster4.jpg"),
-            array("<br>"),
-            array("logos/myster5.jpg"),
-            array("logos/myster6.jpg"),
+            array("logos/boinc-myster65-3.png"),
+            array("logos/boinc-myster65-4.png"),
         ),
     ),
 );

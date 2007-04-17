@@ -75,7 +75,6 @@ public:
     double default_disk_min_free_gb;
     char symstore[256];
     double next_rpc_delay;
-    bool dont_delete_batches;
     int sched_debug_level;
     int fuh_debug_level;
     int reliable_time; // age of workunit before requiring reliable

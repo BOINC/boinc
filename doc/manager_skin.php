@@ -91,7 +91,7 @@ Both the <a href=\"#Advanced\">advanced</a> and <a href=\"#Wizards\">wizards</a>
 
 <h4><a name=\"Sample\">Sample</a></h4>
 <p>
-The World Community Grid skin can be found <a href=\"http://setiathome.berkeley.edu/cgi-bin/cvsweb.cgi/boinc/clientgui/skins/World%20Community%20Grid/skin.xml?rev=1.2;content-type=text%2Fplain\">here</a>.
+The World Community Grid skin can be found <a href=http://boinc.berkeley.edu/trac/browser/trunk/boinc/clientgui/skins/World%20Community%20Grid>here</a>.
 <p>
 
 <h3><a name=\"SkinCollections\">Skin Collections</a></h3>

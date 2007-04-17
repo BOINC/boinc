@@ -170,19 +170,20 @@ wxMac-2.8.2
 Important: do not change the names of any of these 3 directories.
 
 
-<li> Get the BOINC source tree from CVS, and put it in the same BOINC_dev folder.  To do this, type the following in Terminal:
+<li> Get the BOINC source tree from SVN, and put it in the same BOINC_dev folder.  To do this, type the following in Terminal:
 
 
 <pre>
 cd {path}/BOINC_dev/
-cvs -d :pserver:anonymous:@alien.ssl.berkeley.edu:/home/cvs/cvsroot checkout boinc  
+svn co http://boinc.berkeley.edu/svn/trunk/boinc
 </pre>
 
 (You may change the name of the boinc directory to anything you wish.)
 
     <p>
 
-The command above retrieves the source code from the HEAD or development branch of the CVS repository.  For more information on getting the BOINC source code, see:
+The command above retrieves the source code from the HEAD or development branch of the SVN repository.
+For more information on getting the BOINC source code, see:
 
 ";
 show_link("http://boinc.berkeley.edu/source_code.php");
@@ -408,7 +409,7 @@ All BOINC software for Intel Macs must be built using GCC 4.0 and MacOS10.4.u SD
 
 
 <p>
-You can find examples of how to do this for two different kinds of configure / make scripts in the HEAD branch of the BOINC CVS tree at boinc/mac_build/buildcurl.sh and boinc/mac_build/buildjpeg.sh.  
+You can find examples of how to do this for two different kinds of configure / make scripts in the HEAD branch of the BOINC SVN tree at boinc/mac_build/buildcurl.sh and boinc/mac_build/buildjpeg.sh.  
 
 
 <p>

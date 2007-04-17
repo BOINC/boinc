@@ -117,7 +117,6 @@ int SCHED_CONFIG::parse(FILE* f) {
         else if (xp.parse_double(tag, "default_disk_min_free_gb", default_disk_min_free_gb)) continue;
         else if (xp.parse_str(tag, "symstore", symstore, sizeof(symstore))) continue;
         else if (xp.parse_double(tag, "next_rpc_delay", next_rpc_delay)) continue;
-        else if (xp.parse_bool(tag, "dont_delete_batches", dont_delete_batches)) continue;
         else if (xp.parse_int(tag, "sched_debug_level", sched_debug_level)) continue;
         else if (xp.parse_int(tag, "fuh_debug_level", fuh_debug_level)) continue;
         else if (xp.parse_int(tag, "reliable_min_avg_credit", reliable_min_avg_credit)) continue;

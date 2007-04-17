@@ -30,20 +30,20 @@ BOINC message boards are <a href=dev/>here</a>.
 <ul>
 <li> Reads the relevant BOINC message board on a regular basis.
 Decides if new bugs are present.
-Adds entries to BOINCzilla.
+Adds entries to the BOINC/Trac bug database.
 <li>
-Monitors the relevant categories of BOINCzilla.
+Monitors the relevant categories of the BOINC/Trac bug database.
 Manages entries (delete, merge, prioritize, assign).
 </ul>
 <h3>Developers</h3>
 <ul>
-<li> Are assigned tasks via BOINCzilla.
+<li> Are assigned tasks via BOINC/Trac.
 </ul>
 <h3>Alpha testers</h3>
 <ul>
 <li> The boinc_alpha email list is used to give instructions,
 and for discussion of tests and procedures.
-<li> If find bugs, log them in BOINCzilla.
+<li> If find bugs, log them in BOINC/Trac.
 <li> Use web-based interface for submitting test summaries.
 </ul>
 <h3>Release manager</h3>
@@ -52,7 +52,7 @@ and for discussion of tests and procedures.
 communicate with alpha testers via email list.
 <li> Decide when to make public releases,
 based on web-based reports
-and on contents of BOINCzilla.
+and on contents of BOINC/Trac.
 </ul>
 
 ";

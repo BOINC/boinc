@@ -3627,4 +3627,18 @@ Charlie 17 Apr 2007
             JoinDialog.nib (removed)
             PrefsDialog.nib (removed)
     
+David  17 Apr 2007
+    - file deleter:
+        - Antique deletion is now default; it gets done once/day
+            (pass -dont_delete_antiques to turn it off)
+        - retry of errors is now default; it gets done once/day
+            (pass -dont_retry_errors to turn it off)
+        - add -dont_delete_batches option,
+            and remove <dont_delete_batches> option from config file
+    - client: fix format string in job log write
 
+    client/
+        client_types.C
+    sched/
+        sched_config.C,h
+        file_deleter.C

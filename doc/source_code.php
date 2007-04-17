@@ -4,9 +4,9 @@ require_once("docutil.php");
 page_head("Getting source code");
 echo "
 
-<h2>CVS modules</h2>
+<h2>SVN modules</h2>
 
-The BOINC source code consists of two CVS modules:
+The BOINC source code consists of two directories:
 <ul>
 <li><b>boinc</b> contains the source code for all parts of BOINC itself
 (client, server, web, database).
@@ -19,32 +19,18 @@ that many applications will need, but which are not part of BOINC.
 Check out this module in the same parent directory as <b>boinc</b>.
 </ul>
 The modules are accessible as follows:
-<p>
-Protocol: pserver
-<br>
-Server: alien.ssl.berkeley.edu
-<br>
-User: anonymous
-<br>
-Folder: /home/cvs/cvsroot
-
-<p>
-For example, to check out a module on a Unix system, type a command like
 <pre>
-cvs -d :pserver:anonymous:@alien.ssl.berkeley.edu:/home/cvs/cvsroot checkout boinc
+svn co http://boinc.berkeley.edu/svn/trunk/boinc
+svn co http://boinc.berkeley.edu/svn/trunk/boinc_samples
 </pre>
-On Windows, get a CVS client
-(we like <a href=http://www.tortoisecvs.org/>Tortoise CVS</a>),
-right-click on the parent directory,
-select 'CVS checkout', and fill in the dialog with the above values.
+On Windows, get a SVN client like Tortoise SVN.
+Right-click on the parent directory,
+select 'SVN checkout', and fill in the dialog with the above URL.
 <p>
 <h2>Browsing source code via the web</h2>
 <p>
-You can browse the 
-<a href=http://boinc.berkeley.edu/cgi-bin/cvsweb.cgi/boinc/>boinc</a>
-or
-<a href=http://setiathome.berkeley.edu/cgi-bin/cvsweb.cgi/boinc_samples/>boinc_samples</a> modules
-via a web-based interface.
+You can browse the boinc or boinc_samples code via
+<a href=http://boinc.berkeley.edu/trac/>a web-based interface</a>.
 This is useful for getting individual files, or seeing the revision history.
 
 <h2>Source code road map</h2>
@@ -105,7 +91,7 @@ list_item("zip",
 list_end();
 
 echo "
-<h2>CVS tags</h2>
+<h2>SVN tags</h2>
 <p>
 <b>We maintain tags for the client software (core client and manager)
 in the boinc module.
@@ -130,16 +116,6 @@ boinc_core_release_x_y_z
 <dd>
 The source code for version x.y.z.
 </dl>
-For a list of available tags, go
-<a href=http://boinc.berkeley.edu/cgi-bin/cvsweb.cgi/boinc/>here</a>,
-scroll to the bottom of the page,
-and look at the popup menu after 'tag:'.
-
-<h2>Mac Menubar code</h2>
-The source code for the Mac Menubar,
-a simple GUI for Mac OS X that we no longer support,
-is <a href=menubar>here</a>.
-If anyone wants to maintain this, let us know and we'll put it under CVS.
 
 ";
 

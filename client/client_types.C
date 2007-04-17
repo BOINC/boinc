@@ -1691,7 +1691,7 @@ void RESULT::append_log_record() {
     FILE* f = fopen(filename, "ab");
     if (!f) return;
     fprintf(f, "%f ue %f ct %f fe %f nm %s\n",
-        estimated_cpu_time_uncorrected(), final_cpu_time,
+        gstate.now, estimated_cpu_time_uncorrected(), final_cpu_time,
         wup->rsc_fpops_est, name
     );
     fclose(f);

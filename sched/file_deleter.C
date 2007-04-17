@@ -18,7 +18,57 @@
 // 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 
 
-// file_deleter: deletes files that are no longer needed
+// file_deleter: deletes files that are no longer needed.
+//
+// default operation:
+// 1) enumerate N WUs and M results (N,M compile params)
+//    that are ready to file-delete, and try to delete their files
+// 2) if the enums didn't yield anything, sleep for K seconds
+// 3) repeat from 1)
+// 4) every 1 hour, enumerate everything in state FILE_DELETE_ERROR
+//    and try to delete it.
+// 5) after 1 hour, and every 24 hours thereafter,
+//    scan for and delete all files in the upload/download directories
+//    that are older than any WU in the database,
+//    and were created at least one month ago.
+//    This deletes files uploaded by hosts after the WU was deleted.
+//
+// options:
+//
+// -d N
+//      set debug output level (1/2/3)
+// -mod M R
+//      handle only WUs with ID mod M == R
+// -one_pass
+//      instead of sleeping in 2), exit
+// -dont_retry_error
+//      don't do 4)
+// -dont_delete_antiques
+//      don't do 5)
+// -preserve_result_files
+//      update the DB, but don't delete output files.
+//      For debugging.
+// -preserve_wu_files
+//      update the DB, but don't delete input files.
+//      For debugging.
+// -dont_delete_batches
+//      don't delete anything with positive batch number
+
+// enum sizes.  RESULT_PER_ENUM is three times larger on the
+// assumption of 3-fold average redundancy.
+// This balances the rate at which input and output files are deleted
+//
+#define WUS_PER_ENUM        500
+#define RESULTS_PER_ENUM    1500
+
+// how long to wait until delete antiques, and how often to do it
+//
+#define ANTIQUE_DELAY       3600
+#define ANTIQUE_INTERVAL    86400
+
+// how often to retry errors
+//
+#define ERROR_INTERVAL      86400
 
 #include "config.h"
 #include <list>
@@ -37,6 +87,7 @@
 #include "boinc_db.h"
 #include "parse.h"
 #include "error_numbers.h"
+#include "util.h"
 #include "str_util.h"
 #include "filesys.h"
 #include "strings.h"
@@ -56,6 +107,9 @@ using namespace std;
 SCHED_CONFIG config;
 
 int id_modulus=0, id_remainder=0;
+bool dont_retry_errors = false;
+bool dont_delete_antiques = false;
+bool dont_delete_batches = false;
 
 // Given a filename, find its full path in the upload directory hierarchy
 // Return an error if file isn't there.
@@ -206,7 +260,6 @@ bool do_pass(bool retry_error) {
     char buf[256];
     char clause[256];
     int retval;
-    int result_loop_count;
 
     check_stop_daemons();
 
@@ -214,21 +267,16 @@ bool do_pass(bool retry_error) {
     if (id_modulus) {
         sprintf(clause, " and id %% %d = %d ", id_modulus, id_remainder);
     }
-    if (config.dont_delete_batches) {
+    if (dont_delete_batches) {
         strcat(clause, " and batch <= 0 ");
     }
 
-    if (retry_error) {
-        sprintf(buf,
-            "where file_delete_state=%d or file_delete_state=%d %s limit 1000",
-            FILE_DELETE_READY, FILE_DELETE_ERROR, clause
-        );
-    } else {
-        sprintf(buf,
-            "where file_delete_state=%d %s limit 1000",
-            FILE_DELETE_READY, clause
-        );
-    }
+    sprintf(buf,
+        "where file_delete_state=%d %s limit %d",
+        retry_error?FILE_DELETE_ERROR:FILE_DELETE_READY,
+        clause, WUS_PER_ENUM
+    );
+
     while (!wu.enumerate(buf)) {
         did_something = true;
 
@@ -248,41 +296,32 @@ bool do_pass(bool retry_error) {
         retval= wu.update_field(buf);
     }
 
-    for (result_loop_count=0; result_loop_count < RESULTS_PER_WU; result_loop_count++) {
+    sprintf(buf,
+        "where file_delete_state=%d %s limit %d",
+        retry_error?FILE_DELETE_ERROR:FILE_DELETE_READY,
+        clause, RESULTS_PER_ENUM
+    );
 
-        if (retry_error) {
-            sprintf(buf,
-                "where file_delete_state=%d or file_delete_state=%d %s limit 1000", 
-                FILE_DELETE_READY, FILE_DELETE_ERROR, clause);
-        } else {
-            sprintf(buf,
-                "where file_delete_state=%d %s limit 1000",
-                FILE_DELETE_READY, clause
+    while (!result.enumerate(buf)) {
+        did_something = true;
+        retval = 0;
+        if (!preserve_result_files) {
+            retval = result_delete_files(result);
+        }
+        if (retval) {
+            result.file_delete_state = FILE_DELETE_ERROR;
+            log_messages.printf(SCHED_MSG_LOG::MSG_CRITICAL,
+                "[RESULT#%d] update failed: %d\n", result.id, retval
             );
+        } else {
+            result.file_delete_state = FILE_DELETE_DONE;
         }
-
-        while (!result.enumerate(buf)) {
-            did_something = true;
-            retval = 0;
-            if (!preserve_result_files) {
-                retval = result_delete_files(result);
-            }
-            if (retval) {
-                result.file_delete_state = FILE_DELETE_ERROR;
-                log_messages.printf(SCHED_MSG_LOG::MSG_CRITICAL,
-                    "[RESULT#%d] update failed: %d\n", result.id, retval
-                );
-            } else {
-                result.file_delete_state = FILE_DELETE_DONE;
-            }
-            sprintf(buf, "file_delete_state=%d", result.file_delete_state); 
-            retval= result.update_field(buf);
-        }
+        sprintf(buf, "file_delete_state=%d", result.file_delete_state); 
+        retval= result.update_field(buf);
     } 
 
     return did_something;
 }
-
 
 struct FILE_RECORD {
      string name;
@@ -294,39 +333,24 @@ bool operator == (const FILE_RECORD& fr1, const FILE_RECORD& fr2) {
 }
 
 bool operator < (const FILE_RECORD& fr1, const FILE_RECORD& fr2) {
-    if (fr1.date_modified < fr2.date_modified)
-        return true;
-    else if (fr1.date_modified > fr2.date_modified)
-        return false;
-    else if (fr1.name < fr2.name)
-        return true;
-    else
-        return false;
+    if (fr1.date_modified < fr2.date_modified) return true;
+    if (fr1.date_modified > fr2.date_modified) return false;
+    if (fr1.name < fr2.name) return true;
+    return false;
 }
 
-// list of antique files to delete.  If order is
-// NOT sorted by mod time (primary key) and name
-// (secondary key) then unsorted==true.
+// list of antique files to delete,
+// sorted by mod time (primary key) and name(secondary key)
 //
 std::list<FILE_RECORD> files_to_delete;
-bool unsorted = true;
 
-// delete files from list of old files.  Returns number
-// of files deleted, or negative for error.
-int delete_antique_files(int max_to_delete) {
+// delete files in antique files list, and empty the list.
+// Returns number of files deleted, or negative for error.
+//
+int delete_antique_files() {
     int nfiles=0;
 
-    if (files_to_delete.empty()) return 0;
-
-    // sort list and eliminate duplicates
-    //
-    if (unsorted) {
-        files_to_delete.sort();
-        files_to_delete.unique();
-        unsorted = false;
-    }
-
-    while (nfiles<max_to_delete && !files_to_delete.empty()) {
+    while (!files_to_delete.empty()) {
         char timestamp[128];
         char pathname[1024];
         int retval;
@@ -349,7 +373,7 @@ int delete_antique_files(int max_to_delete) {
         strcpy(timestamp, time_to_string(fr.date_modified));
         log_messages.printf(SCHED_MSG_LOG::MSG_DEBUG,
             "deleting [antique %s] %s\n",
-          timestamp, pathname 
+            timestamp, pathname 
         );
         if (unlink(pathname)) {
             int save_error=errno;
@@ -362,13 +386,13 @@ int delete_antique_files(int max_to_delete) {
             nfiles++;
             files_to_delete.pop_front();
         }
-    } // while
+    }
     return nfiles;
 }
 
 
-// construct a list of old files.  return number of files
-// added to list, or negative number for error.
+// construct a list "file_to_delete" of old files.
+// Return number of files added to list, or negative for error.
 //
 int add_antiques_to_list(int days) {
     char command[256];
@@ -456,7 +480,6 @@ int add_antiques_to_list(int days) {
         fr.date_modified = statbuf.st_mtime;
         fr.name = fname_at_end;
         files_to_delete.push_back(fr);
-        unsorted = true;
         nfiles++;
        
     } // while (fgets(single_line, 1024, fp)) {  
@@ -465,6 +488,8 @@ int add_antiques_to_list(int days) {
         "Found %d antique files to delete\n",
         nfiles 
     );
+    files_to_delete.sort();
+    files_to_delete.unique();
     return nfiles;
 }
 
@@ -473,19 +498,14 @@ int add_antiques_to_list(int days) {
 int find_antique_files() {
     char buf[256];
     DB_WORKUNIT wu;
-    static int nextrun=0;
 
     check_stop_daemons();
 
-    // list files once per day
-    //
-    if (time(0) < nextrun) return 0;
-    nextrun = time(0)+86400;
-
-    // Find the oldest workunit.  We could add "where
-    // file_delete_state!=FILE_DELETE_DONE" to the query, but this
-    // might create some race condition with the 'regular' file delete
-    // mechanism, so better to do it like this.
+    // Find the oldest workunit.  We could add
+    // "where file_delete_state!=FILE_DELETE_DONE" to the query,
+    // but this might create some race condition
+    // with the 'regular' file delete mechanism,
+    // so better to do it like this.
     //
     sprintf(buf, "order by create_time limit 1");
     if (!wu.enumerate(buf)) {
@@ -499,100 +519,72 @@ int find_antique_files() {
     return 0;
 }
 
-bool do_antique_pass(bool& delete_antiques) {
-    bool did_something=false;
-
-    if (!delete_antiques) return did_something;
+void do_antique_pass() {
+    int retval;
 
     // If any problems appear in deleting antique files
     // immediately DISABLE this feature.
     //
-    int howmany = find_antique_files();
-    if (howmany < 0) {
+    retval = find_antique_files();
+    if (retval < 0) {
         log_messages.printf(SCHED_MSG_LOG::MSG_CRITICAL,
-            "Problem 1 [%d] in antique file deletion: turning OFF -delete_antiques switch\n", howmany
+            "Problem 1 [%d] in antique file deletion: turning OFF -delete_antiques switch\n", retval
         );
-        delete_antiques=false;
-        return did_something;
+        dont_delete_antiques = true;
+        return;
     }
 
-    howmany = delete_antique_files(10);
-    if (howmany < 0) {
+    retval = delete_antique_files();
+    if (retval < 0) {
         log_messages.printf(SCHED_MSG_LOG::MSG_CRITICAL,
-            "Problem 2 [%d] in antique file deletion: turning OFF -delete_antiques switch\n", howmany
+            "Problem 2 [%d] in antique file deletion: turning OFF -delete_antiques switch\n", retval
         );
-        delete_antiques=false;
+        dont_delete_antiques = true;
     }
-    if (howmany > 0) did_something=true;   
-
-    return did_something;
 }
-
 
 int main(int argc, char** argv) {
     int retval;
-    bool asynch = false, one_pass = false, retry_error = false, delete_antiques = false;
+    bool one_pass = false, retry_error = false, delete_antiques = false;
     int i;
 
     check_stop_daemons();
     for (i=1; i<argc; i++) {
-        if (!strcmp(argv[i], "-asynch")) {
-            asynch = true;
-        } else if (!strcmp(argv[i], "-one_pass")) {
+        if (!strcmp(argv[i], "-one_pass")) {
             one_pass = true;
-        } else if (!strcmp(argv[i], "-retry_error")) {
-            retry_error=true;
+        } else if (!strcmp(argv[i], "-dont_retry_errors")) {
+            dont_retry_errors = true;
         } else if (!strcmp(argv[i], "-preserve_wu_files")) {
-            // This option is primarily for testing.
-            // If enabled, the file_deleter will function 'normally'
-            // and will update the database,
-            // but will not actually delete the workunit input files.
-            // It's equivalent to setting <no_delete/>
-            // for all workunit input files.
-            //
             preserve_wu_files = true;
         } else if (!strcmp(argv[i], "-preserve_result_files")) {
-            // This option is primarily for testing.
-            // If enabled, the file_deleter will function 'normally'
-            // and will update the database,
-            // but will not actually delete the result output files.
-            // It's equivalent to setting <no_delete/>
-            // for all result output files.
-            //
             preserve_result_files = true;
         } else if (!strcmp(argv[i], "-d")) {
             log_messages.set_debug_level(atoi(argv[++i]));
         } else if (!strcmp(argv[i], "-mod")) {
             id_modulus   = atoi(argv[++i]);
             id_remainder = atoi(argv[++i]);
-        } else if (!strcmp(argv[i], "-delete_antiques")) {
-          // If turned on, look for and then delete files in the
-          // upload/ directory which are OLDER than any workunit in
-          // the database.  Such files are ones that were uploaded
-          // by hosts which turned in results far after the
-          // deadline. These files are not deleted from the upload
-          // directory unless you have this option enabled.
-          delete_antiques = true;
+        } else if (!strcmp(argv[i], "-dont_delete_antiques")) {
+            dont_delete_antiques = true;
         } else {
-            log_messages.printf(SCHED_MSG_LOG::MSG_CRITICAL, "Unrecognized arg: %s\n", argv[i]);
+            log_messages.printf(SCHED_MSG_LOG::MSG_CRITICAL,
+                "Unrecognized arg: %s\n", argv[i]
+            );
         }
     }
 
     if (id_modulus) {
-        log_messages.printf(SCHED_MSG_LOG::MSG_DEBUG, "Using mod'ed WU/result enumeration.  modulus = %d  remainder = %d\n",
-                            id_modulus, id_remainder);
+        log_messages.printf(SCHED_MSG_LOG::MSG_DEBUG,
+            "Using mod'ed WU/result enumeration.  mod = %d  rem = %d\n",
+            id_modulus, id_remainder
+        );
     }
 
     retval = config.parse_file("..");
     if (retval) {
-        log_messages.printf(SCHED_MSG_LOG::MSG_CRITICAL, "Can't parse config file\n");
+        log_messages.printf(SCHED_MSG_LOG::MSG_CRITICAL,
+            "Can't parse config file\n"
+        );
         exit(1);
-    }
-
-    if (asynch) {
-        if (fork()) {
-            exit(0);
-        }
     }
 
     log_messages.printf(SCHED_MSG_LOG::MSG_NORMAL, "Starting\n");
@@ -609,12 +601,40 @@ int main(int argc, char** argv) {
         );
     }
     install_stop_signal_handler();
+
+    bool retry_errors_now = !dont_retry_errors;
+    double next_error_time=0;
+    double next_antique_time = dtime() + ANTIQUE_DELAY;
     while (1) {
-        if (!do_pass(retry_error)) {
-            if (one_pass) break;
-            if (!do_antique_pass(delete_antiques)) {
-                sleep(SLEEP_INTERVAL);
+        bool got_any = do_pass(false);
+        if (retry_errors_now) {
+            bool got_any_errors = do_pass(true);
+            if (got_any_errors) {
+                got_any = true;
+            } else {
+                retry_errors_now = false;
+                next_error_time = dtime() + ERROR_INTERVAL;
+                log_messages.printf(SCHED_MSG_LOG::MSG_DEBUG,
+                    "ending retry of previous errors\n"
+                );
             }
+        }
+        if (!got_any) {
+            if (one_pass) break;
+            sleep(SLEEP_INTERVAL);
+        }
+        if (!dont_delete_antiques && (dtime() > next_antique_time)) {
+            log_messages.printf(SCHED_MSG_LOG::MSG_DEBUG,
+                "Doing antique deletion pass\n"
+            );
+            do_antique_pass();
+            next_antique_time = dtime() + ANTIQUE_INTERVAL;
+        }
+        if (!dont_retry_errors && !retry_errors_now && (dtime() > next_error_time)) {
+            retry_errors_now = true;
+            log_messages.printf(SCHED_MSG_LOG::MSG_DEBUG,
+                "starting retry of previous errors\n"
+            );
         }
     }
 }

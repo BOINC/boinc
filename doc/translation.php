@@ -96,9 +96,9 @@ the character set (e.g. iso-8859-1) used in the translation.
 <p>
 Here are links to the translation files for
 <ul>
-<li> <a href=http://setiathome.berkeley.edu/cgi-bin/cvsweb.cgi/boinc/languages/translations/>this web site</a>
-<li> <a href=http://setiathome.berkeley.edu/cgi-bin/cvsweb.cgi/boinc/html/languages/translations/>the BOINC-supplied part of project web sites.
-<li> <a href=http://setiathome.berkeley.edu/cgi-bin/cvsweb.cgi/boinc/locale/client/>the BOINC Manager</a>.
+<li> <a href=http://boinc.berkeley.edu/trac/browser/trunk/boinc/languages/translations/>this web site</a>
+<li> <a href=http://boinc.berkeley.edu/trac/browser/trunk/boinc/html/languages/translations/>the BOINC-supplied part of project web sites.
+<li> <a href=http://boinc.berkeley.edu/trac/browser/trunk/boinc/locale/client/>the BOINC Manager</a>.
 </ul>
 
 
