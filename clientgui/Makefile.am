@@ -13,7 +13,7 @@ if OS_DARWIN
                  mac/Mac_Saver_ModuleView.m \
                  mac/MacSysMenu.cpp \
                  mac/Mac_GUI.cpp\
-                 browser_safari.mm
+                 mac/browser_safari.mm
 
     mac_headers = mac/*.h
 else

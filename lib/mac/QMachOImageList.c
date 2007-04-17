@@ -171,7 +171,7 @@ static int ImageListForTaskNew(
 {
 	int							err;
 	struct dyld_all_image_infos	allImageInfo;
-	uint32_t					infoCount;
+	uint32_t					infoCount = 0;
 	uint32_t					infoIndex;
 	QTMAddr						infoArrayAddr;
 	size_t						infoArraySize;

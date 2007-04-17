@@ -170,7 +170,6 @@
 		DD4C561A0AD389A2009E23C6 /* sg_ImageButton.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DD4C560E0AD389A2009E23C6 /* sg_ImageButton.cpp */; };
 		DD4C561C0AD389A2009E23C6 /* sg_ProgressBar.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DD4C56100AD389A2009E23C6 /* sg_ProgressBar.cpp */; };
 		DD4C561E0AD389A2009E23C6 /* sg_SGUIListControl.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DD4C56120AD389A2009E23C6 /* sg_SGUIListControl.cpp */; };
-		DD4E704B0BCDAC360010A522 /* browser_safari.mm in Sources */ = {isa = PBXBuildFile; fileRef = DD4E70480BCDAC360010A522 /* browser_safari.mm */; };
 		DD4E704C0BCDAC360010A522 /* browser.C in Sources */ = {isa = PBXBuildFile; fileRef = DD4E70490BCDAC360010A522 /* browser.C */; };
 		DD4EC61108A0A083009AA08F /* texture.C in Sources */ = {isa = PBXBuildFile; fileRef = DD4EC60F08A0A083009AA08F /* texture.C */; };
 		DD4EC65A08A0A7AF009AA08F /* gui_rpc_client_ops.C in Sources */ = {isa = PBXBuildFile; fileRef = DD73E34E08A0694000656EB1 /* gui_rpc_client_ops.C */; };
@@ -192,6 +191,7 @@
 		DD69FEF508416C6B00C01361 /* gui_rpc_client.C in Sources */ = {isa = PBXBuildFile; fileRef = DD81C5CC07C5D7D90098A04D /* gui_rpc_client.C */; };
 		DD69FEF708416C9A00C01361 /* boinc_cmd.C in Sources */ = {isa = PBXBuildFile; fileRef = DD69FEF608416C9A00C01361 /* boinc_cmd.C */; };
 		DD69FF0C084171CF00C01361 /* network.C in Sources */ = {isa = PBXBuildFile; fileRef = DD6D0A8507E9A61B007F882B /* network.C */; };
+		DD6ABCD10BD4C5CA009AA7A1 /* browser_safari.mm in Sources */ = {isa = PBXBuildFile; fileRef = DD6ABCD00BD4C5CA009AA7A1 /* browser_safari.mm */; };
 		DD6D0A8707E9A61E007F882B /* network.C in Sources */ = {isa = PBXBuildFile; fileRef = DD6D0A8507E9A61B007F882B /* network.C */; };
 		DD6D82DE08131B72008F7200 /* macglutfix.m in Sources */ = {isa = PBXBuildFile; fileRef = DD6D82DA08131AB1008F7200 /* macglutfix.m */; };
 		DD73E36E08A0720500656EB1 /* gui_rpc_server_ops.C in Sources */ = {isa = PBXBuildFile; fileRef = DD73E36208A06ED400656EB1 /* gui_rpc_server_ops.C */; };
@@ -931,7 +931,6 @@
 		DD4C56110AD389A2009E23C6 /* sg_ProgressBar.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = sg_ProgressBar.h; path = ../clientgui/sg_ProgressBar.h; sourceTree = SOURCE_ROOT; };
 		DD4C56120AD389A2009E23C6 /* sg_SGUIListControl.cpp */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.cpp.cpp; name = sg_SGUIListControl.cpp; path = ../clientgui/sg_SGUIListControl.cpp; sourceTree = SOURCE_ROOT; };
 		DD4C56130AD389A2009E23C6 /* sg_SGUIListControl.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = sg_SGUIListControl.h; path = ../clientgui/sg_SGUIListControl.h; sourceTree = SOURCE_ROOT; };
-		DD4E70480BCDAC360010A522 /* browser_safari.mm */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.cpp.objcpp; name = browser_safari.mm; path = ../clientgui/browser_safari.mm; sourceTree = SOURCE_ROOT; };
 		DD4E70490BCDAC360010A522 /* browser.C */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.cpp.cpp; name = browser.C; path = ../clientgui/browser.C; sourceTree = SOURCE_ROOT; };
 		DD4E704A0BCDAC360010A522 /* browser.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = browser.h; path = ../clientgui/browser.h; sourceTree = SOURCE_ROOT; };
 		DD4EC60F08A0A083009AA08F /* texture.C */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.cpp.cpp; name = texture.C; path = ../api/texture.C; sourceTree = SOURCE_ROOT; };
@@ -998,6 +997,7 @@
 		DD6617870A3FFD8C00FFEBEB /* check_security.C */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = check_security.C; sourceTree = "<group>"; };
 		DD69FEE808416C1300C01361 /* boinc_cmd */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = boinc_cmd; sourceTree = BUILT_PRODUCTS_DIR; };
 		DD69FEF608416C9A00C01361 /* boinc_cmd.C */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.cpp.cpp; name = boinc_cmd.C; path = ../lib/boinc_cmd.C; sourceTree = SOURCE_ROOT; };
+		DD6ABCD00BD4C5CA009AA7A1 /* browser_safari.mm */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.cpp.objcpp; name = browser_safari.mm; path = ../clientgui/mac/browser_safari.mm; sourceTree = SOURCE_ROOT; };
 		DD6D0A8507E9A61B007F882B /* network.C */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.cpp.cpp; name = network.C; path = ../lib/network.C; sourceTree = SOURCE_ROOT; };
 		DD6D0A8607E9A61B007F882B /* network.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = network.h; path = ../lib/network.h; sourceTree = SOURCE_ROOT; };
 		DD6D82DA08131AB1008F7200 /* macglutfix.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = macglutfix.m; sourceTree = "<group>"; };
@@ -1423,7 +1423,6 @@
 				DD81C40607C5D1020098A04D /* BOINCTaskCtrl.cpp */,
 				DD81C43807C5D2240098A04D /* BOINCTaskCtrl.h */,
 				DD58C43608F3347D00C1DF66 /* BOINCWizards.h */,
-				DD4E70480BCDAC360010A522 /* browser_safari.mm */,
 				DD4E70490BCDAC360010A522 /* browser.C */,
 				DD4E704A0BCDAC360010A522 /* browser.h */,
 				DDCE78220A70BD29008218B6 /* common */,
@@ -1752,6 +1751,7 @@
 		F5C5403402BFC5C701BEDAB8 /* mac */ = {
 			isa = PBXGroup;
 			children = (
+				DD6ABCD00BD4C5CA009AA7A1 /* browser_safari.mm */,
 				DD30446A0864332D00D73756 /* config.h */,
 				DD1F0ACD0822069E00AFC5FA /* MacGUI.pch */,
 				DD2F32F707F2A88B00645DDC /* MacSysMenu.cpp */,
@@ -2496,7 +2496,6 @@
 				DD7DD7C90B8BFD4800B11279 /* ViewMessages.cpp in Sources */,
 				DD7BF7E60B8E7B6C00A009F7 /* str_util.C in Sources */,
 				DD205A1A0BAF596E0008D473 /* ProjectListCtrl.cpp in Sources */,
-				DD4E704B0BCDAC360010A522 /* browser_safari.mm in Sources */,
 				DD4E704C0BCDAC360010A522 /* browser.C in Sources */,
 				DDA6BD210BD4551F008F7921 /* mac_backtrace.C in Sources */,
 				DDA6BD230BD4551F008F7921 /* QBacktrace.c in Sources */,
@@ -2505,6 +2504,7 @@
 				DDA6BD290BD4551F008F7921 /* QMachOImageList.c in Sources */,
 				DDA6BD2B0BD4551F008F7921 /* QSymbols.c in Sources */,
 				DDA6BD2D0BD4551F008F7921 /* QTaskMemory.c in Sources */,
+				DD6ABCD10BD4C5CA009AA7A1 /* browser_safari.mm in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

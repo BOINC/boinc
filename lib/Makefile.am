@@ -33,13 +33,22 @@ lib_LIBRARIES = libboinc.a
 EXTRA_DIST = *.h *.C
 
 if OS_DARWIN
-mac_sources = 			\
-	mac_backtrace.C 	\
-	mac_backtrace.h  	\
-	MoreAddrToSym.c  	\
-	MoreAddrToSym.h  	\
-	MoreBacktrace.c  	\
-	MoreBacktrace.h
+mac_sources = \
+	mac/dyld_gdb.h \
+	mac/mac_backtrace.C \
+	mac/mac_backtrace.h \
+	mac/QBacktrace.c \
+	mac/QBacktrace.h \
+	mac/QCrashReport.c \
+	mac/QCrashReport.h \
+	mac/QMachOImage.c \
+	mac/QMachOImage.h \
+	mac/QMachOImageList.c \
+	mac/QMachOImageList.h \
+	mac/QSymbols.c \
+	mac/QSymbols.h \
+	mac/QTaskMemory.c \
+	mac/QTaskMemory.h
 else
 mac_sources = 
 endif

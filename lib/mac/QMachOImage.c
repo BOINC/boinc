@@ -1413,7 +1413,7 @@ static int FindBestFatArchitecture(
 	int						err;
 	uint32_t				archCount;
 	struct fat_arch *		arches;
-	const struct fat_arch *	bestArch;
+	const struct fat_arch *	bestArch = NULL;
 
 	assert( (cputype != CPU_TYPE_ANY) || (cpusubtype == 0) );
 	

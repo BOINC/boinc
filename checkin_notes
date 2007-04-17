@@ -3575,6 +3575,26 @@ Charlie 16 Apr 2007
             QMachOImageList.c,h (added)
             QSymbols.c,h (added)
             QTaskMemory.c,h (added)
+    mac_build/
+        boinc.xcodeproj/
+            project.pbxproj
 
 Rom    17 Apr 2007
     - Test SVN Commit Email
+
+Charlie 17 Apr 2007
+    - Mac: Fix Safari cookie logic for OS 10.3, move to Mac directory.
+    - Mac: Remove remaining obsolete backtrace source files, fix compiler 
+        warnings, update makefile for changes.
+
+    clientgui/
+        makefile.am
+        mac/
+            browser_safari.mm (moved)
+    lib/
+        makefile.am
+        MoreAddrToSym.c,h (removed)
+        MoreBacktrace.c,h (removed)
+        mac/
+            QMachOImage.c
+            QMachOImageList.c
