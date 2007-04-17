@@ -3549,6 +3549,7 @@ Bruce 16 April 2007
         sched_locality.php
 
 Charlie 16 Apr 2007
+    - Mac: fix Mac Stuffit file corrupted in switch from CVS to Subversion.
     - Mac: Update backtrace to use entirely new code from Apple Developer 
         Technical Support.  The format is now compatible with OS X's 
         built-in Crash Reporter, and is ready for 64-bit Mac Intel 
@@ -3564,6 +3565,9 @@ Charlie 16 Apr 2007
         Macs in 2006, so this backtrace code does not support 64-bit PowerPC 
         G5 applications.
         
+    clientgui/
+        mac/
+            BOINCSaver.nib.sit
     lib/
         mac_backtrace.C,h (removed)
         mac/
@@ -3586,11 +3590,27 @@ Charlie 17 Apr 2007
     - Mac: Fix Safari cookie logic for OS 10.3, move to Mac directory.
     - Mac: Remove remaining obsolete backtrace source files, fix compiler 
         warnings, update makefile for changes.
+    - Mac: fix Mac icon files corrupted in switch from CVS to Subversion 
+        and move to directory with other icon files. 
+    - Mac: Delete very old obsolete files.
 
+    client/
+        mac/
+            BOINC.term (removed)
+            BoincLaunch.app.zip (removed)
+            BoincLaunch.zip (removed)
+            mac_about.cpp,h (removed)
+            mac_join.cpp,h (removed)
+            mac_main.cpp,h (removed)
+            mac_prefs.cpp,h (removed)
+            postinstall (removed)
     clientgui/
         makefile.am
         mac/
-            browser_safari.mm (moved)
+            browser_safari.mm (moved from clientgui/browser_safari.mm)
+        res/
+            BOINCMgr.icns (moved from client/mac/BOINCMgr.icns)
+            GridRepublic.icns (moved from client/mac/GridRepublic.icns)
     lib/
         makefile.am
         MoreAddrToSym.c,h (removed)
