@@ -1,0 +1,24 @@
+#!/bin/sh
+
+#
+# Script to launch java applications in a BOINC environment
+#
+
+set +v
+
+file=`sed -n '/^<soft_link>/ s/<[^>]*>//gp' libdc-jre.tar`
+
+jar=`sed -n '/^<soft_link>/ s/<[^>]*>//gp' Uppercase.jar`
+
+if
+  [ ! -d jre ]
+then
+  tar xzf $file
+fi
+
+  path=`pwd`
+
+  LD_LIBRARY_PATH=$path/lib
+  export LD_LIBRARY_PATH
+
+./jre/bin/java -jar $jar
