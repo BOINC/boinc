@@ -3730,3 +3730,18 @@ David  18 Apr 2007
         update_stats.C
         validator.C
         validator_placeholder.C (removed)
+
+Rom    18 Apr 2007
+    - fixes #7: Includes the last remaining files needed to build and
+        package up 64-bit files for setup. We can now build and create
+        64-bit windows installer packages.
+        
+    win_build/installerv2/
+        BOINC.ism
+        BOINCx64.ism
+    win_build/installerv2/redist/Windows/src/
+        <Numerious Files>
+    win_build/installerv2/redist/Windows/x64/
+        boinccas.dll (Added)
+        boinccas95.dll (Added)
+        dbghelp95.dll (Added)
