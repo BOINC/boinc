@@ -91,6 +91,10 @@ int LOG_FLAGS::parse(XML_PARSER& xp) {
         else if (xp.parse_bool(tag, "mem_usage_debug", mem_usage_debug)) continue;
         else if (xp.parse_bool(tag, "network_status_debug", network_status_debug)) continue;
         else if (xp.parse_bool(tag, "checkpoint_debug", checkpoint_debug)) continue;
+		// experimental stuff
+		else if (xp.parse_bool(tag, "experimental_server_deadlines", experimental_server_deadlines)) continue;
+		else if (xp.parse_bool(tag, "experimental_rr_only_cpu_scheduler", experimental_rr_only_cpu_scheduler)) continue;
+		else if (xp.parse_bool(tag, "experimental_no_dcf", experimental_no_dcf)) continue;
         else {
             msg_printf(NULL, MSG_USER_ERROR, "Unrecognized tag in %s: <%s>\n",
                 CONFIG_FILE, tag

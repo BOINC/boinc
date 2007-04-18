@@ -74,6 +74,11 @@ struct LOG_FLAGS {
 	bool network_status_debug;
     bool checkpoint_debug;
 
+	// experimental stuff
+	bool experimental_server_deadlines;
+	bool experimental_rr_only_cpu_scheduler;
+	bool experimental_no_dcf;
+
     LOG_FLAGS();
     int parse(XML_PARSER&);
     void show();

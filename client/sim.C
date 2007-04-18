@@ -324,23 +324,75 @@ bool CLIENT_STATE::simulate_rpc(PROJECT* _p) {
         }
     }
 
-    while (p->work_request > 0) {
-        // pick a random app
-        SIM_APP* ap1, *ap=0;
-        double x = drand();
-        for (unsigned int i=0; i<apps.size();i++) {
-            ap1 = (SIM_APP*)apps[i];
-            if (ap1->project != p) continue;
-            x -= ap1->weight;
-            if (x <= 0) {
-                ap = ap1;
-                break;
-            }
-        }
-        if (!ap) {
-            printf("ERROR-NO APP\n");
-            break;
-        }
+	// setup the infeasibility for the applications.
+	// Note that this only works because each application has only one fpops estimate.
+	int infeasible_count = 0;
+	while (p->work_request > 0 && infeasible_count < p->max_infeasible_count) {
+		// pick a random app
+		SIM_APP* ap1, *ap=0;
+		double x = drand();
+		// if there are no applications that can send work because of 
+		// deadlines, quit.
+		for (unsigned int i=0; i<apps.size();i++) {
+			ap1 = (SIM_APP*)apps[i];
+			if (ap1->project != p) continue;
+			x -= ap1->weight;
+			if (x <= 0) {
+				ap = ap1;
+				break;
+			}
+		}
+		if (!ap) {
+			printf("ERROR-NO APP\n");
+			break;
+		}
+		// this app has a latency bound less than the minimum queue size, the work 
+		// * WILL * be late.
+		// NOTE: this test should be modified to take into account information about how long
+		// connected periods last, and how much more connected period is expected.
+		// if the connected period has enough time to finish the task, and report it, then,
+		// why not send it.
+		if (log_flags.experimental_server_deadlines) {
+			if (ap->latency_bound < gstate.global_prefs.work_buf_min_days * 86400) {
+				printf("application %s latency less than min queue", ap->name);
+				++infeasible_count;
+				continue;
+			}
+		}
+
+		std::vector<RESULT*> existing_results;
+		std::vector<double> estimated_cpu_time_per_cpu;
+		if (log_flags.experimental_server_deadlines) {
+
+			// next set up an array to be sorted, and sort it.
+			for (unsigned int i = 0; i < results.size(); ++i)
+			{
+				existing_results.push_back(results[i]);
+			}
+			std::sort(existing_results.begin(), existing_results.end(), results_by_deadline);
+			// set up an array of CPU simulators.
+			estimated_cpu_time_per_cpu.resize(ncpus);
+			for (unsigned int i = 0; i < estimated_cpu_time_per_cpu.size(); ++i) {
+				estimated_cpu_time_per_cpu[i] = 0.0;
+			}
+			for (unsigned int i = 0; i < results.size(); ++i) {
+				unsigned int cpu_index = 0;
+				for (int j = 1; j < ncpus; ++j) {
+					if (estimated_cpu_time_per_cpu[j] < estimated_cpu_time_per_cpu[cpu_index]) {
+						cpu_index = j;
+					}
+				}
+				estimated_cpu_time_per_cpu[cpu_index] += results[i]->estimated_cpu_time_remaining();
+				if (results[i]->computation_deadline() < (estimated_cpu_time_per_cpu[cpu_index] + gstate.now)) {
+					// it is going to be late, let us mark it as such.
+					results[i]->sim_deadline_missed_by = 
+						(estimated_cpu_time_per_cpu[cpu_index] + gstate.now) - results[i]->computation_deadline();
+				} else {
+					results[i]->sim_deadline_missed_by = 0;
+				}
+			}
+		}
+
         RESULT* rp = new RESULT;
         WORKUNIT* wup = new WORKUNIT;
         rp->clear();
@@ -350,7 +402,42 @@ bool CLIENT_STATE::simulate_rpc(PROJECT* _p) {
         rp->set_state(RESULT_FILES_DOWNLOADED, "simulate_rpc");
         wup->project = p;
         wup->rsc_fpops_est = ap->fpops_est;
-        results.push_back(rp);
+		if (log_flags.experimental_server_deadlines) {
+			// test the new result before adding it to the results.
+			rp->sim_deadline_missed_by = 0;
+			existing_results.push_back(rp);
+			std::sort(existing_results.begin(), existing_results.end(), results_by_deadline);
+			for (unsigned int i = 0; i < estimated_cpu_time_per_cpu.size(); ++i) {
+				estimated_cpu_time_per_cpu[i] = 0.0;
+			}
+			bool infeasible = false;
+			for (unsigned int i = 0; i < results.size(); ++i) {
+				unsigned int cpu_index = 0;
+				for (int j = 1; j < ncpus; ++j) {
+					if (estimated_cpu_time_per_cpu[j] < estimated_cpu_time_per_cpu[cpu_index]) {
+						cpu_index = j;
+					}
+				}
+				estimated_cpu_time_per_cpu[cpu_index] += results[i]->estimated_cpu_time_remaining();
+				if (results[i]->sim_deadline_missed_by < 
+						(estimated_cpu_time_per_cpu[cpu_index] + gstate.now - results[i]->computation_deadline())) {
+					// it is going to be later than originally, mark the app as non-feasible and bail.
+					printf("deadline misses extended\n");
+					delete rp;
+					delete wup;
+					rp = NULL;
+					wup = NULL;
+					++infeasible_count;
+					infeasible = true;
+					break;
+				}
+			}
+			if (infeasible) {
+				continue;
+			}
+		}
+
+		results.push_back(rp);
         double ops = ap->fpops.sample();
         rp->final_cpu_time = ops/net_fpops;
         rp->report_deadline = now + ap->latency_bound;
@@ -359,6 +446,7 @@ bool CLIENT_STATE::simulate_rpc(PROJECT* _p) {
         );
         html_msg += buf;
         p->work_request -= ap->fpops_est/net_fpops;
+		if (infeasible_count >=p->max_infeasible_count) p->min_rpc_time = now + 1;
     }
     p->work_request = 0;
     request_schedule_cpus("simulate_rpc");
@@ -741,6 +829,8 @@ int SIM_PROJECT::parse(XML_PARSER& xp) {
     bool is_tag;
     int retval;
 
+	max_infeasible_count = 50;
+
     while(!xp.get(tag, sizeof(tag), is_tag)) {
         if (!is_tag) return ERR_XML_PARSE;
         if (!strcmp(tag, "/project")) return 0;
@@ -756,7 +846,9 @@ int SIM_PROJECT::parse(XML_PARSER& xp) {
             if (retval) return retval;
         } else if (xp.parse_double(tag, "resource_share", resource_share)) {
             continue;
-        } else {
+		} else if (xp.parse_int(tag, "max_infeasible_count", max_infeasible_count)){
+			continue;
+		} else {
             printf("unrecognized: %s\n", tag);
             return ERR_XML_PARSE;
         }
@@ -920,7 +1012,7 @@ void parse_error(char* file, int retval) {
 }
 
 void help(char* prog) {
-    fprintf(stderr, "usage: %s [--duration X] [--delta X]\n", prog);
+    fprintf(stderr, "usage: %s [--duration X] [--delta X] [--dirs dir ...]\n", prog);
     exit(1);
 }
 
@@ -985,10 +1077,17 @@ int main(int argc, char** argv) {
                 continue;
             }
             char buf[256];
+#ifdef WIN32
+            sprintf(
+                buf, "..\\boincsim --duration %f --delta %f > %s",
+                duration, delta, SUMMARY_FILE
+            );
+#else
             sprintf(
                 buf, "../sim --duration %f --delta %f > %s",
                 duration, delta, SUMMARY_FILE
             );
+#endif
             system(buf);
             FILE* f = fopen(SUMMARY_FILE, "r");
             sim_results.parse(f);

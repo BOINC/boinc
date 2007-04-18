@@ -527,6 +527,10 @@ struct RESULT {
 
     // temporary used to tell GUI that this result is deadline-scheduled
     bool edf_scheduled;
+
+#ifdef SIM
+	double sim_deadline_missed_by;
+#endif
 };
 
 // represents an always/auto/never value, possibly temporarily overridden

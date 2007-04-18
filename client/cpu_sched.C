@@ -483,41 +483,43 @@ void CLIENT_STATE::schedule_cpus() {
 
     // First choose results from projects with P.deadlines_missed>0
     //
-    while ((int)ordered_scheduled_results.size() < ncpus) {
-        rp = earliest_deadline_result();
-        if (!rp) break;
-        rp->already_selected = true;
+	if (!log_flags.experimental_rr_only_cpu_scheduler) {
+		while ((int)ordered_scheduled_results.size() < ncpus) {
+			rp = earliest_deadline_result();
+			if (!rp) break;
+			rp->already_selected = true;
 
-		// see if it fits in available RAM
-		//
-		atp = lookup_active_task_by_result(rp);
-		if (atp) {
-			if (atp->procinfo.working_set_size_smoothed > ram_left) {
-				if (log_flags.cpu_sched_debug) {
-					msg_printf(rp->project, MSG_INFO,
-						"[cpu_sched_debug]  %s misses deadline but too large: %.2fMB",
-						rp->name, atp->procinfo.working_set_size_smoothed/MEGA
-					);
+			// see if it fits in available RAM
+			//
+			atp = lookup_active_task_by_result(rp);
+			if (atp) {
+				if (atp->procinfo.working_set_size_smoothed > ram_left) {
+					if (log_flags.cpu_sched_debug) {
+						msg_printf(rp->project, MSG_INFO,
+							"[cpu_sched_debug]  %s misses deadline but too large: %.2fMB",
+							rp->name, atp->procinfo.working_set_size_smoothed/MEGA
+						);
+					}
+					atp->too_large = true;
+					continue;
+				} else {
+					atp->too_large = false;
 				}
-                atp->too_large = true;
-				continue;
-			} else {
-                atp->too_large = false;
-            }
-			ram_left -= atp->procinfo.working_set_size_smoothed;
-		}
+				ram_left -= atp->procinfo.working_set_size_smoothed;
+			}
 
-        rp->project->anticipated_debt -= (rp->project->resource_share / rrs) * expected_pay_off;
-        rp->project->deadlines_missed--;
-        rp->edf_scheduled = true;
-        if (log_flags.cpu_sched_debug) {
-            msg_printf(rp->project, MSG_INFO,
-				"[cpu_sched_debug] scheduling (deadline) %s",
-				rp->name
-			);
-        }
-        ordered_scheduled_results.push_back(rp);
-    }
+			rp->project->anticipated_debt -= (rp->project->resource_share / rrs) * expected_pay_off;
+			rp->project->deadlines_missed--;
+			rp->edf_scheduled = true;
+			if (log_flags.cpu_sched_debug) {
+				msg_printf(rp->project, MSG_INFO,
+					"[cpu_sched_debug] scheduling (deadline) %s",
+					rp->name
+				);
+			}
+			ordered_scheduled_results.push_back(rp);
+		}
+	}
 
     // Next, choose results from projects with large debt
     //
@@ -1474,6 +1476,12 @@ int ACTIVE_TASK::preempt(bool quit_task) {
 // completion time for this project's results
 //
 void PROJECT::update_duration_correction_factor(RESULT* rp) {
+	if (log_flags.experimental_no_dcf) {
+		// note that this is not ever going to be the default.
+		// This is just for comparisson in the client simulator.
+		duration_correction_factor = 1.0;
+		return;
+	}
     double raw_ratio = rp->final_cpu_time/rp->estimated_cpu_time_uncorrected();
     double adj_ratio = rp->final_cpu_time/rp->estimated_cpu_time();
 	double old_dcf = duration_correction_factor;

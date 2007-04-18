@@ -96,6 +96,7 @@ public:
     double idle_period_duration;
     double idle_period_sumsq;
     bool idle;
+	int max_infeasible_count;
 
     int parse(XML_PARSER&);
     PROJECT_RESULTS project_results;
@@ -252,6 +253,8 @@ class NET_STATUS {
 public:
     bool have_sporadic_connection;
 };
+
+inline bool results_by_deadline(RESULT * r1, RESULT *r2) {return (r1->report_deadline > r2->report_deadline);};
 
 extern CLIENT_STATE gstate;
 extern NET_STATUS net_status;

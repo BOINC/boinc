@@ -758,6 +758,7 @@ double ACTIVE_TASK::est_cpu_time_to_completion() {
     if (fraction_done >= 1) return 0;
     double wu_est = result->estimated_cpu_time();
     if (fraction_done <= 0) return wu_est;
+	current_cpu_time = std::max(0.0, current_cpu_time);
     double frac_est = (current_cpu_time / fraction_done) - current_cpu_time;
     double fraction_left = 1-fraction_done;
     return fraction_done*frac_est + fraction_left*fraction_left*wu_est;
