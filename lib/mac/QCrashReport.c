@@ -742,7 +742,7 @@ extern void QCRPrintBacktraces(QCrashReportRef crRef, FILE *f)
     const char *    symbol;
     char            offsetStr[32];
     QTMAddr         pc;
-    size_t          skipframe = 0;     // Added for BOINC
+    size_t          startframe = 0;     // Added for BOINC
    
     assert( QCRIsValid(crRef) );
     assert( f != NULL );
@@ -756,13 +756,15 @@ extern void QCRPrintBacktraces(QCrashReportRef crRef, FILE *f)
         if (err == 0) {
 
         // If this is the thread that crashed, skip frames after the one that generated the signal. (Added for BOINC)
+        startframe = 0;
+        
         if (threadIndex == crRef->crashedThreadIndex)
             for (frameIndex = 0; frameIndex < frameCount; frameIndex++) {
                 if ((frames[frameIndex-1].flags & kQBTSignalHandlerMask))
-                    skipframe = frameIndex;
+                    startframe = frameIndex;
             }
             
-            for (frameIndex = skipframe; frameIndex < frameCount; frameIndex++) {
+            for (frameIndex = startframe; frameIndex < frameCount; frameIndex++) {
 
                 // The way that CrashReporter prints the library name is pretty 
                 // wacky, and would require me to use functions that aren't 
@@ -807,7 +809,7 @@ extern void QCRPrintBacktraces(QCrashReportRef crRef, FILE *f)
                 fprintf(
                     f, 
                     "%3d %-30s %#0*llx %s%s\n", 
-                    (int) (frameIndex - skipframe),            // skipframe added for BOINC
+                    (int) (frameIndex - startframe),            // startframe added for BOINC
                     libraryName,
                     is64Bit ? 18 : 10,
                     pc,
