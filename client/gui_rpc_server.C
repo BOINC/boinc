@@ -130,7 +130,7 @@ int GUI_RPC_CONN_SET::get_password() {
 // Otherwise return nonzero on first failed entry, don't show errors
 //
 int GUI_RPC_CONN_SET::get_allowed_hosts(bool last_time) {
-    int ipaddr, retval, overall_retval=0;
+    int ipaddr, retval, overall_retval=ERR_GETHOSTBYNAME;
     char buf[256];
 
     allowed_remote_ip_addresses.clear();
@@ -155,16 +155,16 @@ int GUI_RPC_CONN_SET::get_allowed_hosts(bool last_time) {
             if (!(buf[0] =='#' || buf[0] == ';') && strlen(buf) > 0 ) {
                 retval = resolve_hostname(buf, ipaddr);
                 if (retval) {
-                    overall_retval = retval;
                     if (last_time) {
                         msg_printf(0, MSG_USER_ERROR,
                             "Can't resolve hostname %s in %s",
                             buf, REMOTEHOST_FILE_NAME
                         );
                     } else {
-                        break;
+                        continue;
                     }
                 } else {
+                    overall_retval = retval;
                     allowed_remote_ip_addresses.push_back((int)ntohl(ipaddr));
                 }
             }
