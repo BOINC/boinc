@@ -1,0 +1,2093 @@
+<?xml version="1.0"?>
+<Include xmlns="http://schemas.microsoft.com/wix/2006/wi">
+  <UI>
+    <Property Id="DefaultUIFont">Tahoma8</Property>
+    <Property Id="ErrorDialog">SetupError</Property>
+    <Property Id="AcceptLicense">0</Property>
+    <TextStyle Id="Tahoma8"
+               FaceName="Tahoma"
+               Size="8" />
+    <TextStyle Id="TahomaBold10"
+               FaceName="Tahoma"
+               Size="10"
+               Bold="yes" />
+    <TextStyle Id="MSSansBold8"
+               FaceName="Tahoma"
+               Size="8"
+               Bold="yes" />
+    <UIText Id="NewFolder">Fldr|New Folder</UIText>
+    <UIText Id="AbsentPath"><![CDATA[]]></UIText>
+    <UIText Id="bytes">bytes</UIText>
+    <UIText Id="GB">GB</UIText>
+    <UIText Id="KB">KB</UIText>
+    <UIText Id="MB">MB</UIText>
+    <UIText Id="MenuAbsent">This feature will not be available.</UIText>
+    <UIText Id="MenuAdvertise">This feature will be installed when required.</UIText>
+    <UIText Id="MenuAllCD">This feature, and all subfeatures, will be installed to run from the CD.</UIText>
+    <UIText Id="MenuAllLocal">This feature, and all subfeatures, will be installed on local hard drive.</UIText>
+    <UIText Id="MenuAllNetwork">This feature, and all subfeatures, will be installed to run from the network.</UIText>
+    <UIText Id="MenuCD">This feature will be installed to run from CD.</UIText>
+    <UIText Id="MenuLocal">This feature will be installed on local hard drive.</UIText>
+    <UIText Id="MenuNetwork">This feature will be installed to run from network.</UIText>
+    <UIText Id="SelAbsentAbsent">GB</UIText>
+    <UIText Id="SelAbsentAdvertise">This feature will be set to be installed when required.</UIText>
+    <UIText Id="SelAbsentCD">This feature will be installed to run from CD.</UIText>
+    <UIText Id="SelAbsentLocal">This feature will be installed on the local hard drive.</UIText>
+    <UIText Id="SelAbsentNetwork">This feature will be installed to run from the network.</UIText>
+    <UIText Id="SelAdvertiseAbsent">This feature will become unavailable.</UIText>
+    <UIText Id="SelAdvertiseAdvertise">Will be installed when required.</UIText>
+    <UIText Id="SelAdvertiseCD">This feature will be available to run from CD.</UIText>
+    <UIText Id="SelAdvertiseLocal">This feature will be installed on your local hard drive.</UIText>
+    <UIText Id="SelAdvertiseNetwork">This feature will be available to run from the network.</UIText>
+    <UIText Id="SelCDAbsent">This feature will be uninstalled completely, and you won't be able to run it from CD.</UIText>
+    <UIText Id="SelCDAdvertise">This feature was run from the CD but will be set to be installed when required.</UIText>
+    <UIText Id="SelCDCD">This feature will continue to be run from the CD</UIText>
+    <UIText Id="SelCDLocal">This feature was run from the CD but will be installed on the local hard drive.</UIText>
+    <UIText Id="SelChildCostNeg">This feature frees up [1] on your hard drive.</UIText>
+    <UIText Id="SelChildCostPos">This feature requires [1] on your hard drive.</UIText>
+    <UIText Id="SelCostPending">Compiling cost for this feature...</UIText>
+    <UIText Id="SelLocalAbsent">This feature will be completely removed.</UIText>
+    <UIText Id="SelLocalAdvertise">This feature will be removed from your local hard drive but will be set to be installed when required.</UIText>
+    <UIText Id="SelLocalCD">This feature will be removed from your local hard drive but will still be available to run from CD.</UIText>
+    <UIText Id="SelLocalLocal">This feature will remain on your local hard drive.</UIText>
+    <UIText Id="SelLocalNetwork">This feature will be removed from your local hard drive, but will be still available to run from the network.</UIText>
+    <UIText Id="SelNetworkAbsent">This feature will be uninstalled completely, and you won't be able to run it from the network.</UIText>
+    <UIText Id="SelNetworkAdvertise">This feature was run from the network but will be installed when required.</UIText>
+    <UIText Id="SelNetworkLocal">This feature was run from the network but will be installed on the local hard drive.</UIText>
+    <UIText Id="SelNetworkNetwork">This feature will continue to be run from the network</UIText>
+    <UIText Id="SelParentCostNegNeg">This feature frees up [1] on your hard drive. It has [2] of [3] subfeatures selected. The subfeatures free up [4] on your hard drive.</UIText>
+    <UIText Id="SelParentCostNegPos">This feature frees up [1] on your hard drive. It has [2] of [3] subfeatures selected. The subfeatures require [4] on your hard drive.</UIText>
+    <UIText Id="SelParentCostPosNeg">This feature requires [1] on your hard drive. It has [2] of [3] subfeatures selected. The subfeatures free up [4] on your hard drive.</UIText>
+    <UIText Id="SelParentCostPosPos">This feature requires [1] on your hard drive. It has [2] of [3] subfeatures selected. The subfeatures require [4] on your hard drive.</UIText>
+    <UIText Id="TimeRemaining">Time remaining: {[1] min }[2] sec</UIText>
+    <UIText Id="VolumeCostAvailable">Available</UIText>
+    <UIText Id="VolumeCostDifference">Differences</UIText>
+    <UIText Id="VolumeCostRequired">Required</UIText>
+    <UIText Id="VolumeCostSize">Disk Size</UIText>
+    <UIText Id="VolumeCostVolume">Volume</UIText>
+    <ProgressText Action="AppSearch"
+                  Template="Property: [1], Signature: [2]"><![CDATA[Searching for installed applications]]></ProgressText>
+    <ProgressText Action="BindImage"
+                  Template="File: [1]"><![CDATA[Binding executables]]></ProgressText>
+    <ProgressText Action="CCPSearch"><![CDATA[Unregistering modules]]></ProgressText>
+    <ProgressText Action="CostFinalize"><![CDATA[Computing space requirements]]></ProgressText>
+    <ProgressText Action="CostInitialize"><![CDATA[Computing space requirements]]></ProgressText>
+    <ProgressText Action="FileCost"><![CDATA[Computing space requirements]]></ProgressText>
+    <ProgressText Action="InstallAdminPackage"
+                  Template="File: [1], Directory: [9], Size: [6]"><![CDATA[Copying files to the network]]></ProgressText>
+    <ProgressText Action="InstallFiles"
+                  Template="File: [1],  Directory: [9],  Size: [6]"><![CDATA[Copying new files]]></ProgressText>
+    <ProgressText Action="InstallValidate"><![CDATA[Validating install]]></ProgressText>
+    <ProgressText Action="CreateShortcuts"
+                  Template="Shortcut: [1]"><![CDATA[Creating shortcuts]]></ProgressText>
+    <ProgressText Action="PublishComponents"
+                  Template="Component ID: [1], Qualifier: [2]"><![CDATA[Publishing qualified components]]></ProgressText>
+    <ProgressText Action="PublishFeatures"
+                  Template="Feature: [1]"><![CDATA[Publishing product features]]></ProgressText>
+    <ProgressText Action="PublishProduct"><![CDATA[Publishing product information]]></ProgressText>
+    <ProgressText Action="RegisterClassInfo"
+                  Template="Class ID: [1]"><![CDATA[Registering class servers]]></ProgressText>
+    <ProgressText Action="RegisterExtensionInfo"
+                  Template="Extension: [1]"><![CDATA[Registering extension servers]]></ProgressText>
+    <ProgressText Action="RegisterMIMEInfo"
+                  Template="MIME Content Type: [1], Extension: [2]"><![CDATA[Registering MIME info]]></ProgressText>
+    <ProgressText Action="RegisterProgIdInfo"
+                  Template="ProgID: [1]"><![CDATA[Registering program identifiers]]></ProgressText>
+    <ProgressText Action="RegisterTypeLibraries"
+                  Template="LibID: [1]"><![CDATA[Registering type libraries]]></ProgressText>
+    <ProgressText Action="AllocateRegistrySpace"
+                  Template="Free space: [1]"><![CDATA[Allocating registry space]]></ProgressText>
+    <ProgressText Action="CreateFolders"
+                  Template="Folder: [1]"><![CDATA[Creating folders]]></ProgressText>
+    <ProgressText Action="DeleteServices"
+                  Template="Service: [1]"><![CDATA[Deleting services]]></ProgressText>
+    <ProgressText Action="DuplicateFiles"
+                  Template="File: [1],  Directory: [9],  Size: [6]"><![CDATA[Creating duplicate files]]></ProgressText>
+    <ProgressText Action="FindRelatedProducts"
+                  Template="Found application: [1]"><![CDATA[Searching for related applications]]></ProgressText>
+    <ProgressText Action="InstallODBC"><![CDATA[Installing ODBC components]]></ProgressText>
+    <ProgressText Action="InstallServices"
+                  Template="Service: [2]"><![CDATA[Installing new services]]></ProgressText>
+    <ProgressText Action="LaunchConditions"><![CDATA[Evaluating launch conditions]]></ProgressText>
+    <ProgressText Action="MigrateFeatureStates"
+                  Template="Application: [1]"><![CDATA[Migrating feature states from related applications]]></ProgressText>
+    <ProgressText Action="MoveFiles"
+                  Template="File: [1],  Directory: [9],  Size: [6]"><![CDATA[Moving files]]></ProgressText>
+    <ProgressText Action="PatchFiles"
+                  Template="File: [1],  Directory: [2],  Size: [3]"><![CDATA[Patching files]]></ProgressText>
+    <ProgressText Action="ProcessComponents"><![CDATA[Updating component registration]]></ProgressText>
+    <ProgressText Action="RegisterComPlus"
+                  Template="AppId: [1]{{, AppType: [2], Users: [3], RSN: [4]}}"><![CDATA[Registering COM+ Applications and Components]]></ProgressText>
+    <ProgressText Action="RegisterFonts"
+                  Template="Font: [1]"><![CDATA[Registering fonts]]></ProgressText>
+    <ProgressText Action="RegisterProduct"
+                  Template="[1]"><![CDATA[Registering product]]></ProgressText>
+    <ProgressText Action="RegisterUser"
+                  Template="[1]"><![CDATA[Registering user]]></ProgressText>
+    <ProgressText Action="RemoveDuplicateFiles"
+                  Template="File: [1], Directory: [9]"><![CDATA[Removing duplicated files]]></ProgressText>
+    <ProgressText Action="RemoveEnvironmentStrings"
+                  Template="Name: [1], Value: [2], Action [3]"><![CDATA[Updating environment strings]]></ProgressText>
+    <ProgressText Action="RemoveExistingProducts"
+                  Template="Application: [1], Command line: [2]"><![CDATA[Removing applications]]></ProgressText>
+    <ProgressText Action="RemoveFiles"
+                  Template="File: [1], Directory: [9]"><![CDATA[Removing files]]></ProgressText>
+    <ProgressText Action="RemoveFolders"
+                  Template="Folder: [1]"><![CDATA[Removing folders]]></ProgressText>
+    <ProgressText Action="RemoveIniValues"
+                  Template="File: [1],  Section: [2],  Key: [3], Value: [4]"><![CDATA[Removing INI file entries]]></ProgressText>
+    <ProgressText Action="RemoveODBC"><![CDATA[Removing ODBC components]]></ProgressText>
+    <ProgressText Action="RemoveRegistryValues"
+                  Template="Key: [1], Name: [2]"><![CDATA[Removing system registry values]]></ProgressText>
+    <ProgressText Action="RemoveShortcuts"
+                  Template="Shortcut: [1]"><![CDATA[Removing shortcuts]]></ProgressText>
+    <ProgressText Action="RMCCPSearch"><![CDATA[Searching for qualifying products]]></ProgressText>
+    <ProgressText Action="SelfRegModules"
+                  Template="File: [1], Folder: [2]"><![CDATA[Registering modules]]></ProgressText>
+    <ProgressText Action="SelfUnregModules"
+                  Template="File: [1], Folder: [2]"><![CDATA[Unregistering modules]]></ProgressText>
+    <ProgressText Action="SetODBCFolders"><![CDATA[Initializing ODBC directories]]></ProgressText>
+    <ProgressText Action="StartServices"
+                  Template="Service: [1]"><![CDATA[Starting services]]></ProgressText>
+    <ProgressText Action="StopServices"
+                  Template="Service: [1]"><![CDATA[Stopping services]]></ProgressText>
+    <ProgressText Action="UnpublishComponents"
+                  Template="Component ID: [1], Qualifier: [2]"><![CDATA[Unpublishing Qualified Components]]></ProgressText>
+    <ProgressText Action="UnpublishFeatures"
+                  Template="Feature: [1]"><![CDATA[Unpublishing product features]]></ProgressText>
+    <ProgressText Action="UnregisterClassInfo"
+                  Template="Class ID: [1]"><![CDATA[Unregister class servers]]></ProgressText>
+    <ProgressText Action="UnregisterComPlus"
+                  Template="AppId: [1]{{, AppType: [2]}}"><![CDATA[Unregistering COM+ Applications and Components]]></ProgressText>
+    <ProgressText Action="UnregisterExtensionInfo"
+                  Template="Extension: [1]"><![CDATA[Unregistering extension servers]]></ProgressText>
+    <ProgressText Action="UnregisterFonts"
+                  Template="Font: [1]"><![CDATA[Unregistering fonts]]></ProgressText>
+    <ProgressText Action="UnregisterMIMEInfo"
+                  Template="MIME Content Type: [1], Extension: [2]"><![CDATA[Unregistering MIME info]]></ProgressText>
+    <ProgressText Action="UnregisterProgIdInfo"
+                  Template="ProgID: [1]"><![CDATA[Unregistering program identifiers]]></ProgressText>
+    <ProgressText Action="UnregisterTypeLibraries"
+                  Template="LibID: [1]"><![CDATA[Unregistering type libraries]]></ProgressText>
+    <ProgressText Action="WriteEnvironmentStrings"
+                  Template="Name: [1], Value: [2], Action [3]"><![CDATA[Updating environment strings]]></ProgressText>
+    <ProgressText Action="WriteIniValues"
+                  Template="File: [1],  Section: [2],  Key: [3], Value: [4]"><![CDATA[Writing INI file values]]></ProgressText>
+    <ProgressText Action="WriteRegistryValues"
+                  Template="Key: [1], Name: [2], Value: [3]"><![CDATA[Writing system registry values]]></ProgressText>
+    <ProgressText Action="Advertise"><![CDATA[Advertising application]]></ProgressText>
+    <ProgressText Action="caCreateVRoots"><![CDATA[Creating IIS Virtual Roots...]]></ProgressText>
+    <ProgressText Action="caRemoveVRoots"><![CDATA[Removing IIS Virtual Roots...]]></ProgressText>
+    <ProgressText Action="GenerateScript"
+                  Template="[1]"><![CDATA[Generating script operations for action:]]></ProgressText>
+    <ProgressText Action="InstallSFPCatalogFile"
+                  Template="File: [1],  Dependencies: [2]"><![CDATA[Installing system catalog]]></ProgressText>
+    <ProgressText Action="Rollback"
+                  Template="[1]"><![CDATA[Rolling back action:]]></ProgressText>
+    <ProgressText Action="RollbackCleanup"
+                  Template="File: [1]"><![CDATA[Removing backup files]]></ProgressText>
+    <ProgressText Action="UnmoveFiles"
+                  Template="File: [1], Directory: [9]"><![CDATA[Removing moved files]]></ProgressText>
+    <ProgressText Action="UnpublishProduct"><![CDATA[Unpublishing product information]]></ProgressText>
+    <ProgressText Action="ShutdownBOINCManager"><![CDATA[Closing any running instances of the BOINC Manager]]></ProgressText>
+
+    <?include Welcome.wxi ?>
+    <?include Configuration.wxi ?>
+    <Dialog Id="SetupCompleteError"
+            Width="374"
+            Height="266"
+            Title="!(loc.WizardTitle)"
+            NoMinimize="yes">
+      <?include TemplatePoster.wxi ?>
+      <Control Id="Finish"
+               Type="PushButton"
+               X="230"
+               Y="243"
+               Width="66"
+               Height="17"
+               Default="yes"
+               Cancel="yes"
+               Text="&amp;Finish">
+        <Publish Event="EndDialog"
+                 Value="Exit"><![CDATA[1]]></Publish>
+        <Condition Action="default"><![CDATA[NOT UpdateStarted]]></Condition>
+      </Control>
+      <Control Id="Cancel"
+               Type="PushButton"
+               X="301"
+               Y="243"
+               Width="66"
+               Height="17"
+               Disabled="yes"
+               Text="Cancel">
+        <Publish Property="Suspend"
+                 Value="1"><![CDATA[1]]></Publish>
+        <Publish Event="EndDialog"
+                 Value="Return"><![CDATA[1]]></Publish>
+        <Condition Action="disable"><![CDATA[NOT UpdateStarted]]></Condition>
+        <Condition Action="enable"><![CDATA[UpdateStarted]]></Condition>
+      </Control>
+      <Control Id="Back"
+               Type="PushButton"
+               X="164"
+               Y="243"
+               Width="66"
+               Height="17"
+               Disabled="yes"
+               Text="!(loc.Back)">
+        <Publish Property="Suspend"
+                 Value="{}"><![CDATA[1]]></Publish>
+        <Publish Event="EndDialog"
+                 Value="Return"><![CDATA[1]]></Publish>
+        <Condition Action="disable"><![CDATA[NOT UpdateStarted]]></Condition>
+        <Condition Action="enable"><![CDATA[UpdateStarted]]></Condition>
+        <Condition Action="default"><![CDATA[UpdateStarted]]></Condition>
+      </Control>
+      <Control Id="TextLine2"
+               Type="Text"
+               X="135"
+               Y="55"
+               Width="228"
+               Height="25"
+               Transparent="yes">
+        <Text><![CDATA[The wizard was interrupted before [ProductName] could be completely installed.]]></Text>
+      </Control>
+      <Control Id="FinishText1"
+               Type="Text"
+               X="135"
+               Y="80"
+               Width="228"
+               Height="50"
+               Transparent="yes">
+        <Text><![CDATA[Your system has not been modified. To complete installation at another time, please run setup again.]]></Text>
+        <Condition Action="hide"><![CDATA[UpdateStarted]]></Condition>
+        <Condition Action="show"><![CDATA[NOT UpdateStarted]]></Condition>
+      </Control>
+      <Control Id="FinishText2"
+               Type="Text"
+               X="135"
+               Y="135"
+               Width="228"
+               Height="25"
+               Transparent="yes">
+        <Text><![CDATA[Click Finish to exit the wizard.]]></Text>
+        <Condition Action="hide"><![CDATA[UpdateStarted]]></Condition>
+        <Condition Action="show"><![CDATA[NOT UpdateStarted]]></Condition>
+      </Control>
+      <Control Id="RestContText1"
+               Type="Text"
+               X="135"
+               Y="80"
+               Width="228"
+               Height="50"
+               Transparent="yes">
+        <Text><![CDATA[You can either keep any existing installed elements on your system to continue this installation at a later time or you can restore your system to its original state prior to the installation.]]></Text>
+        <Condition Action="hide"><![CDATA[NOT UpdateStarted]]></Condition>
+        <Condition Action="show"><![CDATA[UpdateStarted]]></Condition>
+      </Control>
+      <Control Id="RestContText2"
+               Type="Text"
+               X="135"
+               Y="135"
+               Width="228"
+               Height="25"
+               Transparent="yes">
+        <Text><![CDATA[Click Restore or Continue Later to exit the wizard.]]></Text>
+        <Condition Action="hide"><![CDATA[NOT UpdateStarted]]></Condition>
+        <Condition Action="show"><![CDATA[UpdateStarted]]></Condition>
+      </Control>
+    </Dialog>
+    <Dialog Id="SetupCompleteSuccess"
+            Width="374"
+            Height="266"
+            Title="!(loc.WizardTitle)"
+            NoMinimize="yes">
+      <?include TemplatePoster.wxi ?>
+      <Control Id="OK"
+               Type="PushButton"
+               X="230"
+               Y="243"
+               Width="66"
+               Height="17"
+               Default="yes"
+               Cancel="yes"
+               Text="&amp;Finish">
+        <Publish Property="IS_CRAP"
+                 Value="IS_LAUNCH_MY_PROGRAM_PLEASE"><![CDATA[LAUNCHPROGRAM]]></Publish>
+        <Publish Event="EndDialog"
+                 Value="Exit"><![CDATA[1]]></Publish>
+        <Publish Property="IS_CRAP"
+                 Value="LaunchProgram"><![CDATA[LAUNCHPROGRAM = 1]]></Publish>
+      </Control>
+      <Control Id="Cancel"
+               Type="PushButton"
+               X="301"
+               Y="243"
+               Width="66"
+               Height="17"
+               Disabled="yes"
+               Text="Cancel" />
+      <Control Id="Back"
+               Type="PushButton"
+               X="164"
+               Y="243"
+               Width="66"
+               Height="17"
+               Disabled="yes"
+               Text="!(loc.Back)" />
+      <Control Id="LaunchProgramText"
+               Type="Text"
+               X="165"
+               Y="114"
+               Width="198"
+               Height="15"
+               Property="NewProperty1"
+               Transparent="yes"
+               TabSkip="no"
+               Text="Launch [ProductName]">
+        <Condition Action="hide"><![CDATA[_IsMaintenance = "Remove" Or _IsMaintenance = "Reinstall"]]></Condition>
+      </Control>
+      <Control Id="LaunchProgramCheck"
+               Type="CheckBox"
+               X="151"
+               Y="114"
+               Width="10"
+               Height="9"
+               Property="LAUNCHPROGRAM"
+               CheckBoxValue="1"
+               Integer="yes">
+        <Property Id="LAUNCHPROGRAM"><![CDATA[1]]></Property>
+        <Condition Action="hide"><![CDATA[_IsMaintenance = "Remove" Or _IsMaintenance = "Reinstall"]]></Condition>
+      </Control>
+      <Control Id="UpdateTextLine1"
+               Type="Text"
+               X="135"
+               Y="30"
+               Width="228"
+               Height="45"
+               Hidden="yes"
+               Transparent="yes">
+        <Text><![CDATA[Setup has finished installing [ProductName].]]></Text>
+        <Condition Action="show"><![CDATA[ISENABLEDWUSFINISHDIALOG And NOT Installed And ACTION="INSTALL"]]></Condition>
+      </Control>
+    </Dialog>
+    <Dialog Id="Prepare"
+            Width="374"
+            Height="266"
+            Title="!(loc.WizardTitle)"
+            Modeless="yes">
+      <?include TemplatePoster.wxi ?>
+      <Control Id="Cancel"
+               Type="PushButton"
+               X="301"
+               Y="243"
+               Width="66"
+               Height="17"
+               Default="yes"
+               Cancel="yes"
+               Text="!(loc.Cancel)">
+        <Publish Event="SpawnDialog"
+                 Value="CancelSetup"><![CDATA[1]]></Publish>
+      </Control>
+      <Control Id="ActionText"
+               Type="Text"
+               X="135"
+               Y="109"
+               Width="220"
+               Height="36"
+               Transparent="yes">
+        <Subscribe Event="ActionText"
+                   Attribute="Text" />
+      </Control>
+      <Control Id="Back"
+               Type="PushButton"
+               X="164"
+               Y="243"
+               Width="66"
+               Height="17"
+               Disabled="yes"
+               TabSkip="yes"
+               Text="!(loc.Back)" />
+      <Control Id="Next"
+               Type="PushButton"
+               X="230"
+               Y="243"
+               Width="66"
+               Height="17"
+               Disabled="yes"
+               TabSkip="yes"
+               Text="!(loc.Next)" />
+      <Control Id="ActionData"
+               Type="Text"
+               X="135"
+               Y="125"
+               Width="228"
+               Height="12"
+               Transparent="yes">
+        <Subscribe Event="ActionData"
+                   Attribute="Text" />
+      </Control>
+    </Dialog>
+    <Dialog Id="SetupInterrupted"
+            Width="374"
+            Height="266"
+            Title="!(loc.WizardTitle)"
+            NoMinimize="yes">
+      <?include TemplatePoster.wxi ?>
+      <Control Id="Finish"
+               Type="PushButton"
+               X="230"
+               Y="243"
+               Width="66"
+               Height="17"
+               Default="yes"
+               Cancel="yes"
+               Text="&amp;Finish">
+        <Publish Event="EndDialog"
+                 Value="Exit"><![CDATA[1]]></Publish>
+        <Condition Action="default"><![CDATA[NOT UpdateStarted]]></Condition>
+      </Control>
+      <Control Id="Cancel"
+               Type="PushButton"
+               X="301"
+               Y="243"
+               Width="66"
+               Height="17"
+               Disabled="yes"
+               TabSkip="yes"
+               Text="Cancel">
+        <Publish Property="Suspend"
+                 Value="1"><![CDATA[1]]></Publish>
+        <Publish Event="EndDialog"
+                 Value="Exit"><![CDATA[1]]></Publish>
+        <Condition Action="disable"><![CDATA[NOT UpdateStarted]]></Condition>
+        <Condition Action="enable"><![CDATA[UpdateStarted]]></Condition>
+      </Control>
+      <Control Id="Back"
+               Type="PushButton"
+               X="164"
+               Y="243"
+               Width="66"
+               Height="17"
+               Disabled="yes"
+               TabSkip="yes"
+               Text="!(loc.Back)">
+        <Publish Property="Suspend"
+                 Value="{}"><![CDATA[1]]></Publish>
+        <Publish Event="EndDialog"
+                 Value="Exit"><![CDATA[1]]></Publish>
+        <Condition Action="disable"><![CDATA[NOT UpdateStarted]]></Condition>
+        <Condition Action="enable"><![CDATA[UpdateStarted]]></Condition>
+        <Condition Action="default"><![CDATA[UpdateStarted]]></Condition>
+      </Control>
+      <Control Id="TextLine2"
+               Type="Text"
+               X="135"
+               Y="55"
+               Width="228"
+               Height="25"
+               Transparent="yes">
+        <Text><![CDATA[The wizard was interrupted before [ProductName] could be completely installed.]]></Text>
+      </Control>
+      <Control Id="FinishText1"
+               Type="Text"
+               X="135"
+               Y="80"
+               Width="228"
+               Height="50"
+               Transparent="yes">
+        <Text><![CDATA[Your system has not been modified. To install this program at a later time, please run the installation again.]]></Text>
+        <Condition Action="hide"><![CDATA[UpdateStarted]]></Condition>
+        <Condition Action="show"><![CDATA[NOT UpdateStarted]]></Condition>
+      </Control>
+      <Control Id="FinishText2"
+               Type="Text"
+               X="135"
+               Y="135"
+               Width="228"
+               Height="25"
+               Transparent="yes">
+        <Text><![CDATA[Click Finish to exit the wizard.]]></Text>
+        <Condition Action="hide"><![CDATA[UpdateStarted]]></Condition>
+        <Condition Action="show"><![CDATA[NOT UpdateStarted]]></Condition>
+      </Control>
+      <Control Id="RestContText1"
+               Type="Text"
+               X="135"
+               Y="80"
+               Width="228"
+               Height="50"
+               Transparent="yes">
+        <Text><![CDATA[You can either keep any existing installed elements on your system to continue this installation at a later time or you can restore your system to its original state prior to the installation.]]></Text>
+        <Condition Action="hide"><![CDATA[NOT UpdateStarted]]></Condition>
+        <Condition Action="show"><![CDATA[UpdateStarted]]></Condition>
+      </Control>
+      <Control Id="RestContText2"
+               Type="Text"
+               X="135"
+               Y="135"
+               Width="228"
+               Height="25"
+               Transparent="yes">
+        <Text><![CDATA[Click Restore or Continue Later to exit the wizard.]]></Text>
+        <Condition Action="hide"><![CDATA[NOT UpdateStarted]]></Condition>
+        <Condition Action="show"><![CDATA[UpdateStarted]]></Condition>
+      </Control>
+    </Dialog>
+    <Dialog Id="SetupProgress"
+            Width="374"
+            Height="266"
+            Title="!(loc.WizardTitle)"
+            Modeless="yes">
+      <?include TemplateBanner.wxi ?>
+      <Control Id="Cancel"
+               Type="PushButton"
+               X="301"
+               Y="243"
+               Width="66"
+               Height="17"
+               Default="yes"
+               Cancel="yes"
+               Text="Cancel">
+        <Publish Event="SpawnDialog"
+                 Value="CancelSetup"><![CDATA[1]]></Publish>
+      </Control>
+      <Control Id="Back"
+               Type="PushButton"
+               X="164"
+               Y="243"
+               Width="66"
+               Height="17"
+               Disabled="yes"
+               Text="!(loc.Back)" />
+      <Control Id="Next"
+               Type="PushButton"
+               X="230"
+               Y="243"
+               Width="66"
+               Height="17"
+               Disabled="yes"
+               Text="!(loc.Next)" />
+      <Control Id="ActionText"
+               Type="Text"
+               X="59"
+               Y="100"
+               Width="275"
+               Height="12">
+        <Subscribe Event="ActionText"
+                   Attribute="Text" />
+      </Control>
+      <Control Id="DlgDesc"
+               Type="Text"
+               X="21"
+               Y="23"
+               Width="292"
+               Height="25"
+               Hidden="yes"
+               Transparent="yes">
+        <Text><![CDATA[The program features you selected are being installed.]]></Text>
+        <Condition Action="show"><![CDATA[ProgressType2="installed"]]></Condition>
+      </Control>
+      <Control Id="DlgTitle"
+               Type="Text"
+               X="13"
+               Y="6"
+               Width="292"
+               Height="25"
+               Hidden="yes"
+               Transparent="yes">
+        <Text><![CDATA[{&MSSansBold8}Installing [ProductName]]]></Text>
+        <Condition Action="show"><![CDATA[ProgressType1="Installing"]]></Condition>
+      </Control>
+      <Control Id="DlgTitle2"
+               Type="Text"
+               X="13"
+               Y="6"
+               Width="292"
+               Height="25"
+               Hidden="yes"
+               Transparent="yes">
+        <Text><![CDATA[{&MSSansBold8}Uninstalling [ProductName]]]></Text>
+        <Condition Action="show"><![CDATA[ProgressType1="Uninstalling"]]></Condition>
+      </Control>
+      <Control Id="DlgDesc2"
+               Type="Text"
+               X="21"
+               Y="23"
+               Width="292"
+               Height="25"
+               Hidden="yes"
+               Transparent="yes">
+        <Text><![CDATA[The program features you selected are being uninstalled.]]></Text>
+        <Condition Action="show"><![CDATA[ProgressType2="uninstalled"]]></Condition>
+      </Control>
+      <Control Id="ActionProgress95"
+               Type="ProgressBar"
+               X="59"
+               Y="113"
+               Width="275"
+               Height="12"
+               ProgressBlocks="yes"
+               Text="Progress done">
+        <Subscribe Event="InstallFiles"
+                   Attribute="Progress" />
+        <Subscribe Event="MoveFiles"
+                   Attribute="Progress" />
+        <Subscribe Event="RemoveFiles"
+                   Attribute="Progress" />
+        <Subscribe Event="RemoveRegistryValues"
+                   Attribute="Progress" />
+        <Subscribe Event="WriteIniValues"
+                   Attribute="Progress" />
+        <Subscribe Event="WriteRegistryValues"
+                   Attribute="Progress" />
+        <Subscribe Event="UnmoveFiles"
+                   Attribute="Progress" />
+        <Subscribe Event="AdminInstallFinalize"
+                   Attribute="Progress" />
+        <Subscribe Event="SetProgress"
+                   Attribute="Progress" />
+      </Control>
+      <Control Id="LbSec"
+               Type="Text"
+               X="172"
+               Y="139"
+               Width="32"
+               Height="12"
+               Hidden="yes"
+               Text="(Hidden for now)Sec." />
+      <Control Id="LbStatus"
+               Type="Text"
+               X="59"
+               Y="85"
+               Width="70"
+               Height="12"
+               Text="Status:" />
+      <Control Id="ShowTime"
+               Type="Text"
+               X="155"
+               Y="139"
+               Width="17"
+               Height="12"
+               Hidden="yes"
+               Text="(Hidden for now)" />
+      <Control Id="TextTime"
+               Type="Text"
+               X="59"
+               Y="139"
+               Width="96"
+               Height="12"
+               Hidden="yes">
+        <Text><![CDATA[)Hidden for now)Estimated time remaining:]]></Text>
+      </Control>
+    </Dialog>
+    <Dialog Id="SetupError"
+            Y="10"
+            Width="270"
+            Height="110"
+            Title="[ProductName] Installer Information"
+            ErrorDialog="yes">
+      <Control Id="ErrorText"
+               Type="Text"
+               X="50"
+               Y="15"
+               Width="200"
+               Height="50"
+               TabSkip="no">
+        <Text><![CDATA[<error text goes here><error text goes here><error text goes here><error text goes here><error text goes here><error text goes here><error text goes here><error text goes here><error text goes here><error text goes here><error text goes here>]]></Text>
+      </Control>
+      <Control Id="Y"
+               Type="PushButton"
+               X="192"
+               Y="80"
+               Width="66"
+               Height="17"
+               TabSkip="yes"
+               Text="&amp;Yes">
+        <Publish Event="EndDialog"
+                 Value="ErrorYes"><![CDATA[1]]></Publish>
+      </Control>
+      <Control Id="N"
+               Type="PushButton"
+               X="192"
+               Y="80"
+               Width="66"
+               Height="17"
+               TabSkip="yes"
+               Text="&amp;No">
+        <Publish Event="EndDialog"
+                 Value="ErrorNo"><![CDATA[1]]></Publish>
+      </Control>
+      <Control Id="A"
+               Type="PushButton"
+               X="192"
+               Y="80"
+               Width="66"
+               Height="17"
+               TabSkip="yes"
+               Text="&amp;Abort">
+        <Publish Event="EndDialog"
+                 Value="ErrorAbort"><![CDATA[1]]></Publish>
+      </Control>
+      <Control Id="C"
+               Type="PushButton"
+               X="192"
+               Y="80"
+               Width="66"
+               Height="17"
+               Cancel="yes"
+               TabSkip="yes"
+               Text="&amp;Cancel">
+        <Publish Event="EndDialog"
+                 Value="ErrorCancel"><![CDATA[1]]></Publish>
+      </Control>
+      <Control Id="I"
+               Type="PushButton"
+               X="192"
+               Y="80"
+               Width="66"
+               Height="17"
+               TabSkip="yes"
+               Text="&amp;Ignore">
+        <Publish Event="EndDialog"
+                 Value="ErrorIgnore"><![CDATA[1]]></Publish>
+      </Control>
+      <Control Id="O"
+               Type="PushButton"
+               X="192"
+               Y="80"
+               Width="66"
+               Height="17"
+               Default="yes"
+               TabSkip="yes"
+               Text="&amp;OK">
+        <Publish Event="EndDialog"
+                 Value="ErrorOk"><![CDATA[1]]></Publish>
+      </Control>
+      <Control Id="R"
+               Type="PushButton"
+               X="192"
+               Y="80"
+               Width="66"
+               Height="17"
+               TabSkip="yes"
+               Text="&amp;Retry">
+        <Publish Event="EndDialog"
+                 Value="ErrorRetry"><![CDATA[1]]></Publish>
+      </Control>
+      <Control Id="WarningIcon"
+               Type="Icon"
+               X="15"
+               Y="15"
+               Width="24"
+               Height="24"
+               FixedSize="yes"
+               IconSize="32"
+               Text="WarningIcon" />
+    </Dialog>
+    <Dialog Id="SetupResume"
+            Width="374"
+            Height="266"
+            Title="!(loc.WizardTitle)"
+            NoMinimize="yes">
+      <?include TemplatePoster.wxi ?>
+      <Control Id="Next"
+               Type="PushButton"
+               X="230"
+               Y="243"
+               Width="66"
+               Height="17"
+               Default="yes"
+               Text="!(loc.Next)">
+        <Publish Event="NewDialog"
+                 Value="OutOfSpace"><![CDATA[OutOfNoRbDiskSpace = 1]]></Publish>
+        <Publish Event="EndDialog"
+                 Value="Return"><![CDATA[OutOfNoRbDiskSpace <> 1]]></Publish>
+      </Control>
+      <Control Id="Cancel"
+               Type="PushButton"
+               X="301"
+               Y="243"
+               Width="66"
+               Height="17"
+               Cancel="yes"
+               Text="Cancel">
+        <Publish Event="SpawnDialog"
+                 Value="CancelSetup"><![CDATA[1]]></Publish>
+      </Control>
+      <Control Id="Back"
+               Type="PushButton"
+               X="164"
+               Y="243"
+               Width="66"
+               Height="17"
+               Disabled="yes"
+               Text="!(loc.Back)" />
+      <Control Id="TextLine1"
+               Type="Text"
+               X="135"
+               Y="8"
+               Width="225"
+               Height="45"
+               Transparent="yes">
+        <Text><![CDATA[{&TahomaBold10}Upgrading [ProductName]]]></Text>
+      </Control>
+    </Dialog>
+    <Dialog Id="LicenseAgreement"
+            Width="374"
+            Height="266"
+            Title="!(loc.WizardTitle)"
+            Hidden="yes"
+            NoMinimize="yes">
+      <?include TemplateBanner.wxi ?>
+      <Control Id="Agree"
+               Type="RadioButtonGroup"
+               X="8"
+               Y="190"
+               Width="291"
+               Height="40"
+               Property="AcceptLicense">
+        <RadioButtonGroup Property="AcceptLicense">
+          <RadioButton Value="0"
+                       X="0"
+                       Y="15"
+                       Width="291"
+                       Height="15"
+                       Text="I &amp;do not accept the terms in the license agreement" />
+          <RadioButton Value="1"
+                       X="0"
+                       Y="0"
+                       Width="291"
+                       Height="15"
+                       Text="I &amp;accept the terms in the license agreement" />
+        </RadioButtonGroup>
+      </Control>
+      <Control Id="Back"
+               Type="PushButton"
+               X="164"
+               Y="243"
+               Width="66"
+               Height="17"
+               Text="!(loc.Back)">
+        <Publish Event="NewDialog"
+                 Value="InstallWelcome"><![CDATA[1]]></Publish>
+      </Control>
+      <Control Id="Next"
+               Type="PushButton"
+               X="230"
+               Y="243"
+               Width="66"
+               Height="17"
+               Default="yes"
+               Text="!(loc.Next)">
+        <Publish Event="NewDialog"
+                 Value="DestinationFolder">AcceptLicense = 1</Publish>
+        <Condition Action="disable">AcceptLicense &lt;&gt; 1</Condition>
+        <Condition Action="enable">AcceptLicense = 1</Condition>
+      </Control>
+      <Control Id="Cancel"
+               Type="PushButton"
+               X="301"
+               Y="243"
+               Width="66"
+               Height="17"
+               Cancel="yes"
+               Text="Cancel">
+        <Publish Event="SpawnDialog"
+                 Value="CancelSetup">1</Publish>
+      </Control>
+      <Control Id="DlgDesc"
+               Type="Text"
+               X="21"
+               Y="23"
+               Width="292"
+               Height="25"
+               Transparent="yes">
+        <Text>Please read the following license agreement carefully.</Text>
+      </Control>
+      <Control Id="DlgTitle"
+               Type="Text"
+               X="13"
+               Y="6"
+               Width="292"
+               Height="25"
+               Transparent="yes">
+        <Text><![CDATA[{&MSSansBold8}License Agreement]]></Text>
+      </Control>
+      <Control Id="Memo"
+               Type="ScrollableText"
+               X="8"
+               Y="55"
+               Width="358"
+               Height="130"
+               Sunken="yes">
+        <Text>
+          <![CDATA[{\rtf1\ansi\deff0{\fonttbl{\f0\fnil\fcharset0 Courier New;}}
+{\*\generator Msftedit 5.41.21.2500;}\viewkind4\uc1\pard\lang1033\f0\fs20 Berkeley Open Infrastructure for Network Computing (BOINC)\par
+\par
+License Agreement\par
+\par
+Please carefully read the following terms and conditions before using this software.  Your use of this software indicates your acceptance of this license agreement and warranty.\par
+\par
+Disclaimer of Warranty\par
+\par
+THIS SOFTWARE AND THE ACCOMPANYING FILES ARE DISTRIBUTED "AS IS" AND WITHOUT WARRANTIES AS TO PERFORMANCE OR MERCHANTABILITY OR ANY OTHER WARRANTIES WHETHER EXPRESSED OR IMPLIED.  NO WARRANTY OF FITNESS FOR A PARTICULAR PURPOSE IS OFFERED.\par
+\par
+Restrictions\par
+\par
+You may use this software on a computer system only if you own the system or have the permission of the owner.\par
+\par
+Distribution\par
+\par
+This is free software.
+It is distributed under the terms of the GNU Lesser General Public License
+as published by the Free Software Foundation (http://www.fsf.org/).
+The source code may be obtained
+from the BOINC web site (http://boinc.berkeley.edu).\par
+\par
+}
+]]>
+        </Text>
+      </Control>
+    </Dialog>
+    <Dialog Id="ReadyToInstall"
+            Width="374"
+            Height="266"
+            Title="!(loc.WizardTitle)"
+            NoMinimize="yes"
+            TrackDiskSpace="yes">
+      <?include TemplateBanner.wxi ?>
+      <Control Id="InstallNow"
+               Type="PushButton"
+               X="230"
+               Y="243"
+               Width="66"
+               Height="17"
+               Default="yes"
+               Text="&amp;Install">
+        <Publish Event="EndDialog"
+                 Value="Return"><![CDATA[OutOfNoRbDiskSpace <> 1]]></Publish>
+        <Publish Event="NewDialog"
+                 Value="OutOfSpace"><![CDATA[OutOfNoRbDiskSpace = 1]]></Publish>
+        <Publish Property="ProgressType1"
+                 Value="Installing"><![CDATA[1]]></Publish>
+        <Publish Property="ProgressType2"
+                 Value="installed"><![CDATA[1]]></Publish>
+        <Publish Property="ProgressType3"
+                 Value="installs"><![CDATA[1]]></Publish>
+      </Control>
+      <Control Id="Cancel"
+               Type="PushButton"
+               X="301"
+               Y="243"
+               Width="66"
+               Height="17"
+               Cancel="yes"
+               Text="Cancel">
+        <Publish Event="SpawnDialog"
+                 Value="CancelSetup"><![CDATA[1]]></Publish>
+      </Control>
+      <Control Id="Back"
+               Type="PushButton"
+               X="164"
+               Y="243"
+               Width="66"
+               Height="17"
+               Text="!(loc.Back)">
+        <Publish Event="NewDialog"
+                 Value="BasicConfig">NOT Installed</Publish>
+        <Publish Event="NewDialog"
+                 Value="MaintenanceType"><![CDATA[Installed AND _IsMaintenance = "Reinstall"]]></Publish>
+      </Control>
+      <Control Id="DlgDesc"
+               Type="Text"
+               X="21"
+               Y="23"
+               Width="292"
+               Height="25"
+               Transparent="yes">
+        <Text><![CDATA[The wizard is ready to begin installation.]]></Text>
+      </Control>
+      <Control Id="DlgTitle"
+               Type="Text"
+               X="13"
+               Y="6"
+               Width="292"
+               Height="25"
+               Hidden="yes"
+               Transparent="yes">
+        <Text><![CDATA[{&MSSansBold8}Ready to Modify the Program]]></Text>
+        <Condition Action="show"><![CDATA[ProgressType0="Modify"]]></Condition>
+      </Control>
+      <Control Id="DlgText"
+               Type="Text"
+               X="21"
+               Y="51"
+               Width="326"
+               Height="20">
+        <Text><![CDATA[Click Install to begin the installation.]]></Text>
+      </Control>
+      <Control Id="DlgTitle2"
+               Type="Text"
+               X="13"
+               Y="6"
+               Width="292"
+               Height="25"
+               Hidden="yes"
+               Transparent="yes">
+        <Text><![CDATA[{&MSSansBold8}Ready to Repair the Program]]></Text>
+        <Condition Action="show"><![CDATA[ProgressType0="Repair"]]></Condition>
+      </Control>
+      <Control Id="DlgTitle3"
+               Type="Text"
+               X="13"
+               Y="6"
+               Width="292"
+               Height="25"
+               Hidden="yes"
+               Transparent="yes">
+        <Text><![CDATA[{&MSSansBold8}Ready to Install the Program]]></Text>
+        <Condition Action="show"><![CDATA[ProgressType0="install"]]></Condition>
+      </Control>
+      <Control Id="DlgText1"
+               Type="Text"
+               X="21"
+               Y="70"
+               Width="330"
+               Height="24">
+        <Text><![CDATA[If you want to review or change any of your installation settings, click Back. Click Cancel to exit the wizard.]]></Text>
+      </Control>
+    </Dialog>
+    <Dialog Id="CancelSetup"
+            Width="260"
+            Height="85"
+            Title="!(loc.WizardTitle)"
+            NoMinimize="yes">
+      <Control Id="No"
+               Type="PushButton"
+               X="135"
+               Y="57"
+               Width="66"
+               Height="17"
+               Default="yes"
+               Cancel="yes"
+               Text="&amp;No">
+        <Publish Event="EndDialog"
+                 Value="Return">1</Publish>
+      </Control>
+      <Control Id="Yes"
+               Type="PushButton"
+               X="62"
+               Y="57"
+               Width="66"
+               Height="17"
+               Text="&amp;Yes">
+        <Publish Event="EndDialog"
+                 Value="Exit">1</Publish>
+      </Control>
+      <Control Id="Text"
+               Type="Text"
+               X="18"
+               Y="15"
+               Width="224"
+               Height="30">
+        <Text>Are you sure you want to cancel this installation?</Text>
+      </Control>
+    </Dialog>
+    <Dialog Id="AdminNetworkLocation"
+            Width="374"
+            Height="266"
+            Title="!(loc.WizardTitle)"
+            NoMinimize="yes">
+      <?include TemplateBanner.wxi ?>
+      <Control Id="InstallNow"
+               Type="PushButton"
+               X="230"
+               Y="243"
+               Width="66"
+               Height="17"
+               Default="yes"
+               Text="&amp;Install">
+        <Publish Event="SetTargetPath"
+                 Value="TARGETDIR"><![CDATA[1]]></Publish>
+        <Publish Event="NewDialog"
+                 Value="OutOfSpace"><![CDATA[OutOfNoRbDiskSpace = 1]]></Publish>
+        <Publish Event="EndDialog"
+                 Value="Return"><![CDATA[OutOfNoRbDiskSpace <> 1]]></Publish>
+      </Control>
+      <Control Id="Cancel"
+               Type="PushButton"
+               X="301"
+               Y="243"
+               Width="66"
+               Height="17"
+               Cancel="yes"
+               Text="Cancel">
+        <Publish Event="SpawnDialog"
+                 Value="CancelSetup"><![CDATA[1]]></Publish>
+      </Control>
+      <Control Id="SetupPathEdit"
+               Type="PathEdit"
+               X="21"
+               Y="102"
+               Width="330"
+               Height="17"
+               Property="TARGETDIR" />
+      <Control Id="Browse"
+               Type="PushButton"
+               X="286"
+               Y="124"
+               Width="66"
+               Height="17"
+               Text="&amp;Change...">
+        <Publish Event="SpawnDialog"
+                 Value="AdminChangeFolder"><![CDATA[1]]></Publish>
+      </Control>
+      <Control Id="Back"
+               Type="PushButton"
+               X="164"
+               Y="243"
+               Width="66"
+               Height="17"
+               Text="!(loc.Back)">
+        <Publish Event="NewDialog"
+                 Value="AdminWelcome"><![CDATA[1]]></Publish>
+      </Control>
+      <Control Id="DlgDesc"
+               Type="Text"
+               X="21"
+               Y="23"
+               Width="292"
+               Height="25"
+               Transparent="yes">
+        <Text><![CDATA[Specify a network location for the server image of the product.]]></Text>
+      </Control>
+      <Control Id="DlgTitle"
+               Type="Text"
+               X="13"
+               Y="6"
+               Width="292"
+               Height="25"
+               Transparent="yes">
+        <Text><![CDATA[{&MSSansBold8}Network Location]]></Text>
+      </Control>
+      <Control Id="DlgText"
+               Type="Text"
+               X="21"
+               Y="51"
+               Width="326"
+               Height="40">
+        <Text><![CDATA[Enter the network location or click Change to browse to a location.  Click Install to create a server image of [ProductName] at the specified network location or click Cancel to exit the wizard.]]></Text>
+      </Control>
+      <Control Id="LBBrowse"
+               Type="Text"
+               X="21"
+               Y="90"
+               Width="100"
+               Height="10"
+               Text="&amp;Network location:" />
+    </Dialog>
+    <Dialog Id="AdminChangeFolder"
+            Width="374"
+            Height="266"
+            Title="!(loc.WizardTitle)"
+            NoMinimize="yes">
+      <?include TemplateBanner.wxi ?>
+      <Control Id="Tail"
+               Type="PathEdit"
+               X="21"
+               Y="207"
+               Width="332"
+               Height="17"
+               Property="TARGETDIR" />
+      <Control Id="OK"
+               Type="PushButton"
+               X="230"
+               Y="243"
+               Width="66"
+               Height="17"
+               Default="yes"
+               Text="OK">
+        <Publish Event="EndDialog"
+                 Value="Return"><![CDATA[1]]></Publish>
+        <Publish Event="SetTargetPath"
+                 Value="TARGETDIR"><![CDATA[1]]></Publish>
+      </Control>
+      <Control Id="Cancel"
+               Type="PushButton"
+               X="301"
+               Y="243"
+               Width="66"
+               Height="17"
+               Cancel="yes"
+               Text="Cancel">
+        <Publish Event="Reset"
+                 Value="0"><![CDATA[1]]></Publish>
+        <Publish Event="EndDialog"
+                 Value="Return"><![CDATA[1]]></Publish>
+      </Control>
+      <Control Id="ComboText"
+               Type="Text"
+               X="21"
+               Y="50"
+               Width="99"
+               Height="14"
+               TabSkip="no"
+               Text="&amp;Look in:" />
+      <Control Id="Combo"
+               Type="DirectoryCombo"
+               X="21"
+               Y="64"
+               Width="277"
+               Height="80"
+               Property="TARGETDIR"
+               Removable="yes"
+               Fixed="yes"
+               Remote="yes" />
+      <Control Id="Up"
+               Type="PushButton"
+               X="310"
+               Y="66"
+               Width="19"
+               Height="19"
+               ToolTip="Up one level"
+               Icon="yes"
+               FixedSize="yes"
+               IconSize="16"
+               Text="Up16Icon">
+        <Publish Event="DirectoryListUp"
+                 Value="0"><![CDATA[1]]></Publish>
+      </Control>
+      <Control Id="NewFolder"
+               Type="PushButton"
+               X="335"
+               Y="66"
+               Width="19"
+               Height="19"
+               ToolTip="Create new folder"
+               Icon="yes"
+               FixedSize="yes"
+               IconSize="16"
+               Text="FolderNew16Icon">
+        <Publish Event="DirectoryListNew"
+                 Value="0"><![CDATA[1]]></Publish>
+      </Control>
+      <Control Id="List"
+               Type="DirectoryList"
+               X="21"
+               Y="90"
+               Width="332"
+               Height="97"
+               Property="TARGETDIR"
+               Sunken="yes"
+               TabSkip="no" />
+      <Control Id="TailText"
+               Type="Text"
+               X="21"
+               Y="193"
+               Width="99"
+               Height="13"
+               TabSkip="no"
+               Text="&amp;Folder name:" />
+      <Control Id="DlgDesc"
+               Type="Text"
+               X="21"
+               Y="23"
+               Width="292"
+               Height="25"
+               Transparent="yes">
+        <Text><![CDATA[Browse to the destination folder.]]></Text>
+      </Control>
+      <Control Id="DlgTitle"
+               Type="Text"
+               X="13"
+               Y="6"
+               Width="292"
+               Height="25"
+               Transparent="yes">
+        <Text><![CDATA[{&MSSansBold8}Change Current Destination Folder]]></Text>
+      </Control>
+    </Dialog>
+    <Dialog Id="OutOfSpace"
+            Width="374"
+            Height="266"
+            Title="!(loc.WizardTitle)"
+            NoMinimize="yes">
+      <?include TemplateBanner.wxi ?>
+      <Control Id="Resume"
+               Type="PushButton"
+               X="301"
+               Y="243"
+               Width="66"
+               Height="17"
+               Default="yes"
+               Cancel="yes"
+               Text="OK">
+        <Publish Event="NewDialog"
+                 Value="AdminNetworkLocation"><![CDATA[ACTION = "ADMIN"]]></Publish>
+      </Control>
+      <Control Id="DlgDesc"
+               Type="Text"
+               X="21"
+               Y="23"
+               Width="292"
+               Height="25"
+               Transparent="yes">
+        <Text><![CDATA[Disk space required for the installation exceeds available disk space.]]></Text>
+      </Control>
+      <Control Id="DlgTitle"
+               Type="Text"
+               X="13"
+               Y="6"
+               Width="292"
+               Height="25"
+               Transparent="yes">
+        <Text><![CDATA[{&MSSansBold8}Out of Disk Space]]></Text>
+      </Control>
+      <Control Id="DlgText"
+               Type="Text"
+               X="21"
+               Y="51"
+               Width="326"
+               Height="43">
+        <Text><![CDATA[The highlighted volumes do not have enough disk space available for the currently selected features. You can remove files from the highlighted volumes, choose to install fewer features onto local drives, or select different destination drives.]]></Text>
+      </Control>
+      <Control Id="List"
+               Type="VolumeCostList"
+               X="21"
+               Y="95"
+               Width="332"
+               Height="120"
+               Sunken="yes"
+               Fixed="yes"
+               Remote="yes">
+        <Text><![CDATA[{120}{70}{70}{70}{70}]]></Text>
+      </Control>
+    </Dialog>
+    <Dialog Id="DestinationFolder"
+            Width="374"
+            Height="266"
+            Title="!(loc.WizardTitle)"
+            NoMinimize="yes">
+      <?include TemplateBanner.wxi ?>
+      <Control Id="Next"
+               Type="PushButton"
+               X="230"
+               Y="243"
+               Width="66"
+               Height="17"
+               Default="yes"
+               Text="!(loc.Next)">
+        <Publish Event="NewDialog"
+                 Value="BasicConfig"><![CDATA[1]]></Publish>
+      </Control>
+      <Control Id="Cancel"
+               Type="PushButton"
+               X="301"
+               Y="243"
+               Width="66"
+               Height="17"
+               Cancel="yes"
+               Text="Cancel">
+        <Publish Event="SpawnDialog"
+                 Value="CancelSetup">1</Publish>
+      </Control>
+      <Control Id="ChangeFolder"
+               Type="PushButton"
+               X="301"
+               Y="65"
+               Width="66"
+               Height="17"
+               Text="&amp;Change...">
+        <Publish Event="SpawnDialog"
+                 Value="ChangeFolder">1</Publish>
+        <Publish Property="_BrowseProperty"
+                 Value="INSTALLDIR">1</Publish>
+      </Control>
+      <Control Id="Back"
+               Type="PushButton"
+               X="164"
+               Y="243"
+               Width="66"
+               Height="17"
+               Text="!(loc.Back)">
+        <Publish Event="NewDialog"
+                 Value="LicenseAgreement">1</Publish>
+      </Control>
+      <Control Id="DlgDesc"
+               Type="Text"
+               X="21"
+               Y="23"
+               Width="292"
+               Height="25"
+               Transparent="yes">
+        <Text><![CDATA[Click Next to install to this folder, or click Change to install to a different folder.]]></Text>
+      </Control>
+      <Control Id="DlgTitle"
+               Type="Text"
+               X="13"
+               Y="6"
+               Width="292"
+               Height="25"
+               Transparent="yes">
+        <Text><![CDATA[{&MSSansBold8}Destination Folder]]></Text>
+      </Control>
+      <Control Id="DestFolder"
+               Type="Icon"
+               X="21"
+               Y="52"
+               Width="24"
+               Height="24"
+               FixedSize="yes"
+               IconSize="32"
+               Text="FolderIcon" />
+      <Control Id="LocLabel"
+               Type="Text"
+               X="57"
+               Y="52"
+               Width="290"
+               Height="10">
+        <Text><![CDATA[Install [ProductName] to:]]></Text>
+      </Control>
+      <Control Id="Location"
+               Type="Text"
+               X="57"
+               Y="65"
+               Width="240"
+               Height="40"
+               Property="_BrowseProperty"
+               Text="[INSTALLDIR]" />
+    </Dialog>
+    <Dialog Id="ChangeFolder"
+            Width="374"
+            Height="266"
+            Title="!(loc.WizardTitle)"
+            NoMinimize="yes">
+      <?include TemplateBanner.wxi ?>
+      <Control Id="Tail"
+               Type="PathEdit"
+               X="21"
+               Y="207"
+               Width="332"
+               Height="17"
+               Property="_BrowseProperty"
+               Sunken="yes"
+               Indirect="yes" />
+      <Control Id="OK"
+               Type="PushButton"
+               X="230"
+               Y="243"
+               Width="66"
+               Height="17"
+               Default="yes"
+               Text="!(loc.OK)">
+        <Publish Event="SetTargetPath"
+                 Value="[_BrowseProperty]"><![CDATA[1]]></Publish>
+        <Publish Event="EndDialog"
+                 Value="Return"><![CDATA[1]]></Publish>
+      </Control>
+      <Control Id="Cancel"
+               Type="PushButton"
+               X="301"
+               Y="243"
+               Width="66"
+               Height="17"
+               Cancel="yes"
+               Text="!(loc.Cancel)">
+        <Publish Event="Reset"
+                 Value="0">1</Publish>
+        <Publish Event="EndDialog"
+                 Value="Return">1</Publish>
+      </Control>
+      <Control Id="ComboLabel"
+               Type="Text"
+               X="21"
+               Y="50"
+               Width="99"
+               Height="14"
+               TabSkip="no"
+               Text="!(loc.ChangeFolderComboLabel)" />
+      <Control Id="Combo"
+               Type="DirectoryCombo"
+               X="21"
+               Y="64"
+               Width="277"
+               Height="80"
+               Property="_BrowseProperty"
+               Indirect="yes"
+               Removable="yes"
+               Fixed="yes"
+               Remote="yes"
+               CDROM="yes"
+               RAMDisk="yes"
+               Floppy="yes" />
+      <Control Id="Up"
+               Type="PushButton"
+               X="310"
+               Y="66"
+               Width="19"
+               Height="19"
+               ToolTip="!(loc.ChangeFolderUpTooltip)"
+               Icon="yes"
+               FixedSize="yes"
+               IconSize="16"
+               Text="Up16Icon">
+        <Publish Event="DirectoryListUp"
+                 Value="0">1</Publish>
+      </Control>
+      <Control Id="NewFolder"
+               Type="PushButton"
+               X="335"
+               Y="66"
+               Width="19"
+               Height="19"
+               ToolTip="!(loc.ChangeFolderNewFolderTooltip)"
+               Icon="yes"
+               FixedSize="yes"
+               IconSize="16"
+               Text="FolderNew16Icon">
+        <Publish Event="DirectoryListNew"
+                 Value="0">1</Publish>
+      </Control>
+      <Control Id="List"
+               Type="DirectoryList"
+               X="21"
+               Y="90"
+               Width="332"
+               Height="97"
+               Property="_BrowseProperty"
+               Sunken="yes"
+               Indirect="yes"
+               TabSkip="no" />
+      <Control Id="PathLabel"
+               Type="Text"
+               X="21"
+               Y="193"
+               Width="99"
+               Height="13"
+               TabSkip="no"
+               Text="!(loc.ChangeFolderPathLabel)" />
+      <Control Id="Description"
+               Type="Text"
+               X="21"
+               Y="23"
+               Width="292"
+               Height="25"
+               Transparent="yes">
+        <Text>!(loc.ChangeFolderDescription)</Text>
+      </Control>
+      <Control Id="Title"
+               Type="Text"
+               X="13"
+               Y="6"
+               Width="292"
+               Height="25"
+               Transparent="yes">
+        <Text>!(loc.ChangeFolderTitle)</Text>
+      </Control>
+    </Dialog>
+    <Dialog Id="DiskSpaceRequirements"
+            Width="374"
+            Height="266"
+            Title="!(loc.WizardTitle)"
+            NoMinimize="yes">
+      <?include TemplateBanner.wxi ?>
+      <Control Id="OK"
+               Type="PushButton"
+               X="301"
+               Y="243"
+               Width="66"
+               Height="17"
+               Default="yes"
+               Cancel="yes"
+               Text="OK">
+        <Publish Event="EndDialog"
+                 Value="Return"><![CDATA[1]]></Publish>
+      </Control>
+      <Control Id="DlgDesc"
+               Type="Text"
+               X="17"
+               Y="23"
+               Width="292"
+               Height="25"
+               Transparent="yes">
+        <Text><![CDATA[The disk space required for the installation of the selected features.]]></Text>
+      </Control>
+      <Control Id="DlgTitle"
+               Type="Text"
+               X="9"
+               Y="6"
+               Width="292"
+               Height="25"
+               Transparent="yes">
+        <Text><![CDATA[{&MSSansBold8}Disk Space Requirements]]></Text>
+      </Control>
+      <Control Id="DlgText"
+               Type="Text"
+               X="10"
+               Y="185"
+               Width="358"
+               Height="41">
+        <Text><![CDATA[The highlighted volumes do not have enough disk space available for the currently selected features. You can remove files from the highlighted volumes, choose to install fewer features onto local drives, or select different destination drives.]]></Text>
+      </Control>
+      <Control Id="List"
+               Type="VolumeCostList"
+               X="8"
+               Y="55"
+               Width="358"
+               Height="125"
+               Sunken="yes"
+               Fixed="yes"
+               Remote="yes">
+        <Text><![CDATA[{120}{70}{70}{70}{70}]]></Text>
+      </Control>
+    </Dialog>
+    <Dialog Id="FilesInUse"
+            Width="374"
+            Height="266"
+            Title="!(loc.WizardTitle)"
+            NoMinimize="yes"
+            KeepModeless="yes">
+      <?include TemplateBanner.wxi ?>
+      <Control Id="Retry"
+               Type="PushButton"
+               X="164"
+               Y="243"
+               Width="66"
+               Height="17"
+               Default="yes"
+               Text="&amp;Retry">
+        <Publish Event="EndDialog"
+                 Value="Retry"><![CDATA[1]]></Publish>
+      </Control>
+      <Control Id="Ignore"
+               Type="PushButton"
+               X="230"
+               Y="243"
+               Width="66"
+               Height="17"
+               Text="&amp;Ignore">
+        <Publish Event="EndDialog"
+                 Value="Ignore"><![CDATA[1]]></Publish>
+      </Control>
+      <Control Id="Exit"
+               Type="PushButton"
+               X="301"
+               Y="243"
+               Width="66"
+               Height="17"
+               Cancel="yes"
+               Text="&amp;Exit">
+        <Publish Event="EndDialog"
+                 Value="Exit"><![CDATA[1]]></Publish>
+      </Control>
+      <Control Id="List"
+               Type="ListBox"
+               X="21"
+               Y="87"
+               Width="331"
+               Height="135"
+               Property="FileInUseProcess"
+               Sunken="yes" />
+      <Control Id="DlgDesc"
+               Type="Text"
+               X="21"
+               Y="23"
+               Width="292"
+               Height="25"
+               Transparent="yes">
+        <Text><![CDATA[Some files that need to be updated are currently in use.]]></Text>
+      </Control>
+      <Control Id="DlgTitle"
+               Type="Text"
+               X="13"
+               Y="6"
+               Width="292"
+               Height="25"
+               Transparent="yes">
+        <Text><![CDATA[{&MSSansBold8}Files in Use]]></Text>
+      </Control>
+      <Control Id="DlgText"
+               Type="Text"
+               X="21"
+               Y="51"
+               Width="348"
+               Height="29">
+        <Text><![CDATA[The following applications are using files that need to be updated by this setup. Close these applications and click Retry to continue.]]></Text>
+      </Control>
+    </Dialog>
+    <Dialog Id="MaintenanceType"
+            Width="374"
+            Height="266"
+            Title="!(loc.WizardTitle)"
+            NoMinimize="yes">
+      <?include TemplateBanner.wxi ?>
+      <Control Id="RadioGroup"
+               Type="RadioButtonGroup"
+               X="21"
+               Y="55"
+               Width="290"
+               Height="170"
+               Property="MaintenanceType">
+        <RadioButtonGroup Property="MaintenanceType">
+          <RadioButton Value="Reinstall"
+                       X="0"
+                       Y="0"
+                       Width="290"
+                       Height="14"
+                       Text="{&amp;MSSansBold8}Re&amp;pair" />
+          <RadioButton Value="Remove"
+                       X="0"
+                       Y="60"
+                       Width="290"
+                       Height="14"
+                       Text="{&amp;MSSansBold8}&amp;Remove" />
+        </RadioButtonGroup>
+      </Control>
+      <Control Id="Back"
+               Type="PushButton"
+               X="164"
+               Y="243"
+               Width="66"
+               Height="17"
+               Text="!(loc.Back)">
+        <Publish Event="NewDialog"
+                 Value="MaintenanceWelcome"><![CDATA[1]]></Publish>
+      </Control>
+      <Control Id="Next"
+               Type="PushButton"
+               X="230"
+               Y="243"
+               Width="66"
+               Height="17"
+               Default="yes"
+               Text="!(loc.Next)">
+        <Publish Property="ProgressType0"
+                 Value="Repair"><![CDATA[_IsMaintenance = "Reinstall"]]></Publish>
+        <Publish Property="ProgressType1"
+                 Value="Repairing"><![CDATA[_IsMaintenance = "Reinstall"]]></Publish>
+        <Publish Property="ProgressType2"
+                 Value="repairs"><![CDATA[_IsMaintenance = "Reinstall"]]></Publish>
+        <Publish Property="ProgressType3"
+                 Value="repairs"><![CDATA[_IsMaintenance = "Reinstall"]]></Publish>
+        <Publish Event="ReinstallMode"
+                 Value="[ReinstallModeText]"><![CDATA[_IsMaintenance = "Reinstall"]]></Publish>
+        <Publish Event="Reinstall"
+                 Value="ALL"><![CDATA[_IsMaintenance = "Reinstall"]]></Publish>
+        <Publish Event="NewDialog"
+                 Value="ReadyToRemove"><![CDATA[_IsMaintenance = "Remove"]]></Publish>
+        <Publish Event="NewDialog"
+                 Value="ReadyToInstall"><![CDATA[_IsMaintenance = "Reinstall"]]></Publish>
+      </Control>
+      <Control Id="Cancel"
+               Type="PushButton"
+               X="301"
+               Y="243"
+               Width="66"
+               Height="17"
+               Cancel="yes"
+               Text="Cancel">
+        <Publish Event="SpawnDialog"
+                 Value="CancelSetup"><![CDATA[1]]></Publish>
+      </Control>
+      <Control Id="DlgDesc"
+              Type="Text"
+              X="21"
+              Y="23"
+              Width="292"
+              Height="25"
+              Transparent="yes">
+        <Text><![CDATA[Modify, repair, or remove the program.]]></Text>
+      </Control>
+      <Control Id="DlgTitle"
+               Type="Text"
+               X="13"
+               Y="6"
+               Width="292"
+               Height="25"
+               Transparent="yes">
+        <Text><![CDATA[{&MSSansBold8}Program Maintenance]]></Text>
+      </Control>
+      <Control Id="Ico2"
+               Type="Icon"
+               X="35"
+               Y="75"
+               Width="24"
+               Height="24"
+               FixedSize="yes"
+               IconSize="32"
+               Text="PackageIcon" />
+      <Control Id="Ico3"
+               Type="Icon"
+               X="35"
+               Y="135"
+               Width="24"
+               Height="24"
+               FixedSize="yes"
+               IconSize="32"
+               Text="PackageIcon" />
+      <Control Id="Text2"
+               Type="Text"
+               X="80"
+               Y="75"
+               Width="260"
+               Height="35">
+        <Text><![CDATA[Repair installation errors in the program. This option fixes missing or corrupt files, shortcuts, and registry entries.]]></Text>
+      </Control>
+      <Control Id="Text3"
+               Type="Text"
+               X="80"
+               Y="135"
+               Width="260"
+               Height="35">
+        <Text><![CDATA[Remove [ProductName] from your computer.]]></Text>
+      </Control>
+    </Dialog>
+    <Dialog Id="ReadyToRemove"
+            Width="374"
+            Height="266"
+            Title="!(loc.WizardTitle)"
+            NoMinimize="yes">
+      <?include TemplateBanner.wxi ?>
+      <Control Id="RemoveNow"
+               Type="PushButton"
+               X="230"
+               Y="243"
+               Width="66"
+               Height="17"
+               Default="yes"
+               Text="&amp;Remove">
+        <Publish Property="ProgressType1"
+                 Value="Uninstalling"><![CDATA[1]]></Publish>
+        <Publish Property="ProgressType2"
+                 Value="uninstalled"><![CDATA[1]]></Publish>
+        <Publish Property="ProgressType3"
+                 Value="uninstalls"><![CDATA[1]]></Publish>
+        <Publish Event="Remove"
+                 Value="ALL"><![CDATA[1]]></Publish>
+        <Publish Event="NewDialog"
+                 Value="OutOfSpace"><![CDATA[OutOfNoRbDiskSpace = 1]]></Publish>
+        <Publish Event="EndDialog"
+                 Value="Return"><![CDATA[OutOfNoRbDiskSpace <> 1]]></Publish>
+      </Control>
+      <Control Id="Cancel"
+               Type="PushButton"
+               X="301"
+               Y="243"
+               Width="66"
+               Height="17"
+               Cancel="yes"
+               Text="Cancel">
+        <Publish Event="SpawnDialog"
+                 Value="CancelSetup"><![CDATA[1]]></Publish>
+      </Control>
+      <Control Id="Back"
+               Type="PushButton"
+               X="164"
+               Y="243"
+               Width="66"
+               Height="17"
+               Text="!(loc.Back)">
+        <Publish Event="NewDialog"
+                 Value="MaintenanceType"><![CDATA[1]]></Publish>
+      </Control>
+      <Control Id="DlgDesc"
+               Type="Text"
+               X="21"
+               Y="23"
+               Width="292"
+               Height="25"
+               Transparent="yes">
+        <Text><![CDATA[You have chosen to remove the program from your system.]]></Text>
+      </Control>
+      <Control Id="DlgTitle"
+               Type="Text"
+               X="13"
+               Y="6"
+               Width="292"
+               Height="25"
+               Transparent="yes">
+        <Text><![CDATA[{&MSSansBold8}Remove the Program]]></Text>
+      </Control>
+      <Control Id="DlgText"
+               Type="Text"
+               X="21"
+               Y="51"
+               Width="326"
+               Height="24">
+        <Text><![CDATA[Click Remove to remove [ProductName] from your computer. After removal, this program will no longer be available for use.]]></Text>
+      </Control>
+      <Control Id="DlgText2"
+               Type="Text"
+               X="21"
+               Y="102"
+               Width="330"
+               Height="24" />
+      <Control Id="DlgText1"
+               Type="Text"
+               X="21"
+               Y="79"
+               Width="330"
+               Height="23">
+        <Text><![CDATA[If you want to review or change any settings, click Back.]]></Text>
+      </Control>
+    </Dialog>
+    <Error Id="0"><![CDATA[{{Fatal error: }}]]></Error>
+    <Error Id="1"><![CDATA[Error [1].]]></Error>
+    <Error Id="2"><![CDATA[Warning [1].]]></Error>
+    <Error Id="4"><![CDATA[Info [1].]]></Error>
+    <Error Id="5"><![CDATA[Internal Error [1]. [2]{, [3]}{, [4]}]]></Error>
+    <Error Id="7"><![CDATA[{{Disk full: }}]]></Error>
+    <Error Id="8"><![CDATA[Action [Time]: [1]. [2]]]></Error>
+    <Error Id="9"><![CDATA[[ProductName]]]></Error>
+    <Error Id="10"><![CDATA[{[2]}{, [3]}{, [4]}]]></Error>
+    <Error Id="11"><![CDATA[Message type: [1], Argument: [2]]]></Error>
+    <Error Id="12"><![CDATA[=== Logging started: [Date]  [Time] ===]]></Error>
+    <Error Id="13"><![CDATA[=== Logging stopped: [Date]  [Time] ===]]></Error>
+    <Error Id="14"><![CDATA[Action start [Time]: [1].]]></Error>
+    <Error Id="15"><![CDATA[Action ended [Time]: [1]. Return value [2].]]></Error>
+    <Error Id="16"><![CDATA[Time remaining: {[1] minutes }{[2] seconds}]]></Error>
+    <Error Id="17"><![CDATA[Out of memory. Shut down other applications before retrying.]]></Error>
+    <Error Id="18"><![CDATA[Installer is no longer responding.]]></Error>
+    <Error Id="19"><![CDATA[Installer terminated prematurely.]]></Error>
+    <Error Id="20"><![CDATA[Please wait while Windows configures [ProductName]]]></Error>
+    <Error Id="21"><![CDATA[Gathering required information...]]></Error>
+    <Error Id="22"><![CDATA[Removing older versions of this application]]></Error>
+    <Error Id="23"><![CDATA[Preparing to remove older versions of this application]]></Error>
+    <Error Id="32"><![CDATA[{[ProductName] }Setup completed successfully.]]></Error>
+    <Error Id="33"><![CDATA[{[ProductName] }Setup failed.]]></Error>
+    <Error Id="1101"><![CDATA[Error reading from file: [2]. {{ System error [3].}}  Verify that the file exists and that you can access it.]]></Error>
+    <Error Id="1301"><![CDATA[Cannot create the file [3].  A directory with this name already exists.  Cancel the installation and try installing to a different location.]]></Error>
+    <Error Id="1302"><![CDATA[Please insert the disk: [2]]]></Error>
+    <Error Id="1303"><![CDATA[The installer has insufficient privileges to access this directory: [2].  The installation cannot continue.  Log on as an administrator or contact your system administrator.]]></Error>
+    <Error Id="1304"><![CDATA[Error writing to file [2].  Verify that you have access to that directory.]]></Error>
+    <Error Id="1305"><![CDATA[Error reading from file [2].  Verify that the file exists and that you can access it.]]></Error>
+    <Error Id="1306"><![CDATA[Another application has exclusive access to the file [2].  Please shut down all other applications, then click Retry.]]></Error>
+    <Error Id="1307"><![CDATA[There is not enough disk space to install the file [2].  Free some disk space and click Retry, or click Cancel to exit.]]></Error>
+    <Error Id="1308"><![CDATA[Source file not found: [2].  Verify that the file exists and that you can access it.]]></Error>
+    <Error Id="1309"><![CDATA[Error reading from file: [3]. {{ System error [2].}}  Verify that the file exists and that you can access it.]]></Error>
+    <Error Id="1310"><![CDATA[Error writing to file: [3]. {{ System error [2].}}  Verify that you have access to that directory.]]></Error>
+    <Error Id="1311"><![CDATA[Source file not found{{(cabinet)}}: [2].  Verify that the file exists and that you can access it.]]></Error>
+    <Error Id="1312"><![CDATA[Cannot create the directory [2].  A file with this name already exists.  Please rename or remove the file and click Retry, or click Cancel to exit.]]></Error>
+    <Error Id="1313"><![CDATA[The volume [2] is currently unavailable.  Please select another.]]></Error>
+    <Error Id="1314"><![CDATA[The specified path [2] is unavailable.]]></Error>
+    <Error Id="1315"><![CDATA[Unable to write to the specified folder [2].]]></Error>
+    <Error Id="1316"><![CDATA[A network error occurred while attempting to read from the file [2]]]></Error>
+    <Error Id="1317"><![CDATA[An error occurred while attempting to create the directory [2]]]></Error>
+    <Error Id="1318"><![CDATA[A network error occurred while attempting to create the directory [2]]]></Error>
+    <Error Id="1319"><![CDATA[A network error occurred while attempting to open the source file cabinet [2].]]></Error>
+    <Error Id="1320"><![CDATA[The specified path is too long [2].]]></Error>
+    <Error Id="1321"><![CDATA[The Installer has insufficient privileges to modify the file [2].]]></Error>
+    <Error Id="1322"><![CDATA[A portion of the path [2] exceeds the length allowed by the system.]]></Error>
+    <Error Id="1323"><![CDATA[The path [2] contains words that are not valid in folders.]]></Error>
+    <Error Id="1324"><![CDATA[The path [2] contains an invalid character.]]></Error>
+    <Error Id="1325"><![CDATA[[2] is not a valid short file name.]]></Error>
+    <Error Id="1326"><![CDATA[Error getting file security: [3] GetLastError: [2]]]></Error>
+    <Error Id="1327"><![CDATA[Invalid Drive: [2]]]></Error>
+    <Error Id="1328"><![CDATA[Error applying patch to file [2].  It has probably been updated by other means, and can no longer be modified by this patch.  For more information contact your patch vendor.  {{System Error: [3]}}]]></Error>
+    <Error Id="1401"><![CDATA[Could not create key [2]. {{ System error [3].}}  Verify that you have sufficient access to that key, or contact your support personnel.]]></Error>
+    <Error Id="1402"><![CDATA[Could not open key: [2]. {{ System error [3].}}  Verify that you have sufficient access to that key, or contact your support personnel.]]></Error>
+    <Error Id="1403"><![CDATA[Could not delete value [2] from key [3]. {{ System error [4].}}  Verify that you have sufficient access to that key, or contact your support personnel.]]></Error>
+    <Error Id="1404"><![CDATA[Could not delete key [2]. {{ System error [3].}}  Verify that you have sufficient access to that key, or contact your support personnel.]]></Error>
+    <Error Id="1405"><![CDATA[Could not read value [2] from key [3]. {{ System error [4].}}  Verify that you have sufficient access to that key, or contact your support personnel.]]></Error>
+    <Error Id="1406"><![CDATA[Could not write value [2] to key [3]. {{ System error [4].}}  Verify that you have sufficient access to that key, or contact your support personnel.]]></Error>
+    <Error Id="1407"><![CDATA[Could not get value names for key [2]. {{ System error [3].}}  Verify that you have sufficient access to that key, or contact your support personnel.]]></Error>
+    <Error Id="1408"><![CDATA[Could not get sub key names for key [2]. {{ System error [3].}}  Verify that you have sufficient access to that key, or contact your support personnel.]]></Error>
+    <Error Id="1409"><![CDATA[Could not read security information for key [2]. {{ System error [3].}}  Verify that you have sufficient access to that key, or contact your support personnel.]]></Error>
+    <Error Id="1410"><![CDATA[Could not increase the available registry space. [2] KB of free registry space is required for the installation of this application.]]></Error>
+    <Error Id="1500"><![CDATA[Another installation is in progress. You must complete that installation before continuing this one.]]></Error>
+    <Error Id="1501"><![CDATA[Error accessing secured data. Please make sure the Windows Installer is configured properly and try the installation again.]]></Error>
+    <Error Id="1502"><![CDATA[User [2] has previously initiated an installation for product [3].  That user will need to run that installation again before using that product.  Your current installation will now continue.]]></Error>
+    <Error Id="1503"><![CDATA[User [2] has previously initiated an installation for product [3].  That user will need to run that installation again before using that product.]]></Error>
+    <Error Id="1601"><![CDATA[Out of disk space -- Volume: '[2]'; required space: [3] KB; available space: [4] KB.  Free some disk space and retry.]]></Error>
+    <Error Id="1602"><![CDATA[Are you sure you want to cancel?]]></Error>
+    <Error Id="1603"><![CDATA[The file [2][3] is being held in use{ by the following process: Name: [4], ID: [5], Window Title: [6]}.  Close that application and retry.]]></Error>
+    <Error Id="1604"><![CDATA[The product [2] is already installed, preventing the installation of this product.  The two products are incompatible.]]></Error>
+    <Error Id="1605"><![CDATA[Out of disk space -- Volume: [2]; required space: [3] KB; available space: [4] KB.  If rollback is disabled, enough space is available. Click Cancel to quit, Retry to check available disk space again, or Ignore to continue without rollback.]]></Error>
+    <Error Id="1606"><![CDATA[Could not access network location [2].]]></Error>
+    <Error Id="1607"><![CDATA[The following applications should be closed before continuing the installation:]]></Error>
+    <Error Id="1608"><![CDATA[Could not find any previously installed compliant products on the machine for installing this product.]]></Error>
+    <Error Id="1701"><![CDATA[The key [2] is not valid.  Verify that you entered the correct key.]]></Error>
+    <Error Id="1702"><![CDATA[The installer must restart your system before configuration of [2] can continue.  Click Yes to restart now or No if you plan to restart later.]]></Error>
+    <Error Id="1703"><![CDATA[You must restart your system for the configuration changes made to [2] to take effect. Click Yes to restart now or No if you plan to restart later.]]></Error>
+    <Error Id="1704"><![CDATA[An installation for [2] is currently suspended.  You must undo the changes made by that installation to continue.  Do you want to undo those changes?]]></Error>
+    <Error Id="1705"><![CDATA[A previous installation for this product is in progress.  You must undo the changes made by that installation to continue.  Do you want to undo those changes?]]></Error>
+    <Error Id="1706"><![CDATA[No valid source could be found for product [2].  The Windows Installer cannot continue.]]></Error>
+    <Error Id="1707"><![CDATA[Installation operation completed successfully.]]></Error>
+    <Error Id="1708"><![CDATA[Installation operation failed.]]></Error>
+    <Error Id="1709"><![CDATA[Product: [2] -- [3]]]></Error>
+    <Error Id="1710"><![CDATA[You may either restore your computer to its previous state or continue the installation later. Would you like to restore?]]></Error>
+    <Error Id="1711"><![CDATA[An error occurred while writing installation information to disk.  Check to make sure enough disk space is available, and click Retry, or Cancel to end the installation.]]></Error>
+    <Error Id="1712"><![CDATA[One or more of the files required to restore your computer to its previous state could not be found.  Restoration will not be possible.]]></Error>
+    <Error Id="1713"><![CDATA[[2] cannot install one of its required products. Contact your technical support group.  {{System Error: [3].}}]]></Error>
+    <Error Id="1714"><![CDATA[The older version of [2] cannot be removed.  Contact your technical support group.  {{System Error [3].}}]]></Error>
+    <Error Id="1801"><![CDATA[The path [2] is not valid.  Please specify a valid path.]]></Error>
+    <Error Id="1802"><![CDATA[Out of memory. Shut down other applications before retrying.]]></Error>
+    <Error Id="1803"><![CDATA[There is no disk in drive [2]. Please insert one and click Retry, or click Cancel to go back to the previously selected volume.]]></Error>
+    <Error Id="1804"><![CDATA[There is no disk in drive [2]. Please insert one and click Retry, or click Cancel to return to the browse dialog and select a different volume.]]></Error>
+    <Error Id="1805"><![CDATA[The folder [2] does not exist.  Please enter a path to an existing folder.]]></Error>
+    <Error Id="1806"><![CDATA[You have insufficient privileges to read this folder.]]></Error>
+    <Error Id="1807"><![CDATA[A valid destination folder for the installation could not be determined.]]></Error>
+    <Error Id="1901"><![CDATA[Error attempting to read from the source installation database: [2].]]></Error>
+    <Error Id="1902"><![CDATA[Scheduling reboot operation: Renaming file [2] to [3]. Must reboot to complete operation.]]></Error>
+    <Error Id="1903"><![CDATA[Scheduling reboot operation: Deleting file [2]. Must reboot to complete operation.]]></Error>
+    <Error Id="1904"><![CDATA[Module [2] failed to register.  HRESULT [3].  Contact your support personnel.]]></Error>
+    <Error Id="1905"><![CDATA[Module [2] failed to unregister.  HRESULT [3].  Contact your support personnel.]]></Error>
+    <Error Id="1906"><![CDATA[Failed to cache package [2]. Error: [3]. Contact your support personnel.]]></Error>
+    <Error Id="1907"><![CDATA[Could not register font [2].  Verify that you have sufficient permissions to install fonts, and that the system supports this font.]]></Error>
+    <Error Id="1908"><![CDATA[Could not unregister font [2]. Verify that you have sufficient permissions to remove fonts.]]></Error>
+    <Error Id="1909"><![CDATA[Could not create shortcut [2]. Verify that the destination folder exists and that you can access it.]]></Error>
+    <Error Id="1910"><![CDATA[Could not remove shortcut [2]. Verify that the shortcut file exists and that you can access it.]]></Error>
+    <Error Id="1911"><![CDATA[Could not register type library for file [2].  Contact your support personnel.]]></Error>
+    <Error Id="1912"><![CDATA[Could not unregister type library for file [2].  Contact your support personnel.]]></Error>
+    <Error Id="1913"><![CDATA[Could not update the INI file [2][3].  Verify that the file exists and that you can access it.]]></Error>
+    <Error Id="1914"><![CDATA[Could not schedule file [2] to replace file [3] on reboot.  Verify that you have write permissions to file [3].]]></Error>
+    <Error Id="1920"><![CDATA[Service [2] ([3]) failed to start.  Verify that you have sufficient privileges to start system services.]]></Error>
+    <Error Id="1921"><![CDATA[Service [2] ([3]) could not be stopped.  Verify that you have sufficient privileges to stop system services.]]></Error>
+    <Error Id="1922"><![CDATA[Service [2] ([3]) could not be deleted.  Verify that you have sufficient privileges to remove system services.]]></Error>
+    <Error Id="1923"><![CDATA[Service [2] ([3]) could not be installed.  Verify that you have sufficient privileges to install system services.]]></Error>
+    <Error Id="1924"><![CDATA[Could not update environment variable [2].  Verify that you have sufficient privileges to modify environment variables.]]></Error>
+    <Error Id="1925"><![CDATA[You do not have sufficient privileges to complete this installation for all users of the machine.  Log on as an administrator and then retry this installation.]]></Error>
+    <Error Id="1926"><![CDATA[Could not set file security for file [3]. Error: [2].  Verify that you have sufficient privileges to modify the security permissions for this file.]]></Error>
+    <Error Id="1930"><![CDATA[The description for service '[2]' ([3]) could not be changed.]]></Error>
+    <Error Id="1931"><![CDATA[The Windows Installer service cannot update the system file [2] because the file is protected by Windows.  You may need to update your operating system for this program to work correctly. {{Package version: [3], OS Protected version: [4]}}]]></Error>
+    <Error Id="1932"><![CDATA[The Windows Installer service cannot update the protected Windows file [2]. {{Package version: [3], OS Protected version: [4], SFP Error: [5]}}]]></Error>
+    <Error Id="1933"><![CDATA[The Windows Installer service cannot update one or more protected Windows files. SFP Error: [2]. List of protected files: [3]]]></Error>
+    <Error Id="1934"><![CDATA[User installations are disabled via policy on the machine.]]></Error>
+    <Error Id="2331"><![CDATA[Error loading library [2] or finding entry point [3].]]></Error>
+    <AdminUISequence>
+      <Show Dialog="SetupCompleteError"
+            OnExit="error" />
+      <Show Dialog="Prepare"
+             After="LaunchConditions" />
+      <Show Dialog="AdminWelcome"
+            After="CostFinalize" />
+      <Show Dialog="SetupProgress"
+            After="AdminWelcome" />
+      <Show Dialog="SetupInterrupted"
+            OnExit="cancel" />
+      <Show Dialog="SetupCompleteSuccess"
+            OnExit="success" />
+    </AdminUISequence>
+    <InstallUISequence>
+      <Show Dialog="Prepare" After="LaunchConditions" />
+      <Show Dialog="SetupResume"
+            After="InstallWelcome"><![CDATA[Installed And (RESUME Or Preselected) And Not PATCH]]></Show>
+      <Show Dialog="SetupInterrupted"
+            OnExit="cancel" />
+      <Show Dialog="SetupCompleteSuccess"
+            OnExit="success" />
+      <Show Dialog="PatchWelcome"
+            After="MigrateFeatureStates"><![CDATA[PATCH And Not IS_MAJOR_UPGRADE]]></Show>
+      <ResolveSource After="IsolateComponents"><![CDATA[Not Installed And Not PATCH]]></ResolveSource>
+      <Show Dialog="SetupCompleteError"
+            OnExit="error" />
+      <Show Dialog="InstallWelcome"
+            After="PatchWelcome"><![CDATA[Not Installed And (Not PATCH Or IS_MAJOR_UPGRADE)]]></Show>
+      <Show Dialog="MaintenanceWelcome"
+            After="SetupResume"><![CDATA[Installed And Not RESUME And Not Preselected And Not PATCH]]></Show>
+      <Show Dialog="SetupProgress"
+            After="MaintenanceWelcome" />
+    </InstallUISequence>
+  </UI>
+</Include>

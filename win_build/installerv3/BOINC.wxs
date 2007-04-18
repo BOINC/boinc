@@ -1,0 +1,111 @@
+<?xml version="1.0"?>
+<Wix xmlns="http://schemas.microsoft.com/wix/2006/wi">
+  <Product Id="8DD2C81D-E718-4D7D-832B-4B14F265BA60"
+           UpgradeCode="E913E54D-5080-42EC-A312-B21948BA1C02"
+           Name="!(wix.ProductName)"
+           Language="1033"
+           Version="5.9.1"
+           Manufacturer="Space Sciences Laboratory, U.C. Berkeley">
+    <!-- Do not brand or localize the Summary information. -->
+    <Package Description="BOINC for Windows"
+             Comments="Provides all the infrastructure for BOINC to download workunits and process them without user interaction."
+             Manufacturer="Space Sciences Laboratory, U.C. Berkeley"
+             InstallerVersion="200"
+             Platforms="Intel"
+             Languages="1033"
+             SummaryCodepage="1252"
+             Compressed="yes" />
+    <Media Id="1"
+           EmbedCab="yes"
+           Cabinet="BOINC.cab" />
+    <FragmentRef Id="Branding" />
+    <WixVariable Id="ProductName" Overridable="yes" Value="BOINC" />
+    <!--
+    INSTALLDIR
+    The location to install BOINC too.
+    Example: 'C:\BOINC'
+    SETUPTYPE
+    The type of installation to perform.
+    Valid Values: 'Single', 'Shared', 'Service'.
+    ALLUSERS
+    Whether the shortcuts appear for just one user or all users.
+    Valid Values: '0' for Single, '1' for shared, '1' for service.
+    ENABLESCREENSAVER
+    Whether to automatically enable the screensaver.
+    Valid Values: '0' for disabled, '1' for enabled.
+    ENABLELAUNCHATLOGON
+    Whether to automatically start BOINC when the installing user or all users sign on to the computer.
+    Valid Values: '0' for disabled, '1' for enabled.
+    LAUNCHPROGRAM
+    Whether to automatically launch BOINC Manager after setup completes.
+    Valid Values: '0' for disabled, '1' for enabled.
+    SERVICE_DOMAINUSERNAME
+    Which user account should the service use.
+    Valid Values: '%ComputerName%\%UserName%'
+    %ComputerName% can be either the local computername or a domain name.
+    %UserName% should be the username of the user to use.
+    SERVICE_PASSWORD
+    The password for the account described in the SERVICE_DOMAINUSERNAME property.
+    Valid Values: '%Password%'
+    %Password% the password for the SERVICE_DOMAINUSERNAME user account.
+    SERVICE_GRANTEXECUTIONRIGHT
+    Grant the above user account the 'Logon as a Service' user right.
+    Valid Values: '0' for disabled, '1' for enabled.
+-->
+    
+    <!--
+    INSTALLDIR
+    SERVICEDIR
+    DATADIR
+    -->
+    <!-- BOINC public properties -->
+    <Property Id="ENABLELAUNCHATLOGON">1</Property>
+    <Property Id="SETUPTYPE">Service</Property>
+	  
+    <!-- Add or Remove Programs properties -->
+    <Property Id="ARPCOMMENTS">Berkeley Open Infrastructure for Network Computing (BOINC)</Property>
+    <Property Id="ARPHELPLINK">http://boinc.berkeley.edu/</Property>
+    <Property Id="ARPURLINFOABOUT">http://boinc.berkeley.edu/</Property>
+    <Property Id="ARPURLUPDATEINFO">http://boinc.berkeley.edu/</Property>
+    <Property Id="ARPPRODUCTICON">boincicon.exe</Property>
+
+    <!-- Standard properties -->
+    <Property Id="DiskPrompt">[1]</Property>
+    <Property Id="INSTALLLEVEL">100</Property>
+
+    <!-- <Property Id="SERVICE_DOMAINUSERNAME">LocalSystem</Property> -->
+    
+    <!-- Internal properties -->
+    <Property Id="InstallType">0</Property>
+    <Property Id="ServiceAccount">LocalSystem</Property>
+    <Property Id="MaintenanceType">Reinstall</Property>
+
+
+    <!-- <?include Components.wxi ?> -->
+    <?include DummyComponents.wxi ?>
+
+    <!-- Branding binaries -->
+    <Binary Id="BannerBinary"
+            SourceFile="!(wix.BannerImage)" />
+    <Binary Id="PosterBinary"
+            SourceFile="!(wix.PosterImage)" />
+    <Icon Id="boincicon.exe"
+          SourceFile="Binary\boinc.ico"/>
+    
+    <!-- Standard binaries -->
+    <Binary Id="FolderIcon"
+            SourceFile="Binary\folder.ico" />
+    <Binary Id="Up16Icon"
+            SourceFile="Binary\go-up.ico" />
+    <Binary Id="PackageIcon"
+            SourceFile="Binary\package-x-generic.ico" />
+    <Binary Id="WarningIcon"
+            SourceFile="Binary\dialog-warning.ico" />
+    <Binary Id="FolderNew16Icon"
+            SourceFile="Binary\folder-new.ico" />
+
+
+    <?include UI.wxi ?>
+  </Product>
+
+</Wix>

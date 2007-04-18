@@ -1,0 +1,19 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<VisualStudioToolFile
+	Name="WiX Build"
+	Version="8.00"
+	>
+	<Rules>
+		<CustomBuildRule
+			Name="candle"
+			DisplayName="WiX preprocessor (candle)"
+			CommandLine="candle -nologo -out $(IntDir)\$(InputName).wixobj [inputs]"
+			Outputs="$(InputName).wixobj"
+			FileExtensions="*.wxs"
+			ExecutionDescription="Preprocessing WiX files (candle)"
+			>
+			<Properties>
+			</Properties>
+		</CustomBuildRule>
+	</Rules>
+</VisualStudioToolFile>
