@@ -3690,3 +3690,43 @@ David  17 Apr 2007
 
     sched/
         start
+
+David  18 Apr 2007
+    - Server: added sample_assimilator.C
+        (an assimilator that copies output files to a directory)
+    - Server: added sample_work_generator.C
+
+    Note: until now we haven't supplied an example of of a work generator.
+    The above two components (and the uppercase app) let us create
+    an example project that actually does something.
+    My plan is to have make_project install all this stuff
+
+    - Server: added count_unsent_results() to sched_util
+    - backend code: remove the -asynch arg from all programs.
+        This was used by old PHP test framework, not needed now.
+    - backend code: got rid of some compile warnings
+    - removed assimilator_placeholder and validator_placeholder.
+        These serve no useful purpose
+        (they're copies of other files, and they don't actually
+        act as placeholders since they get overwritten on a SVN update)
+
+    sched/
+        Makefile.am
+        assimilator.C
+        assimilator_placeholder.C (removed)
+        db_dump.C
+        db_purge.C
+        feeder.C
+        handle_request.C
+        make_work.C
+        message_handler.C
+        sample_assimilator.C (new)
+        sample_work_generator.C (new)
+        sched_config.C,h
+        sched_util.C,h
+        server_types.C
+        transitioner.C
+        trickle_handler.C
+        update_stats.C
+        validator.C
+        validator_placeholder.C (removed)

@@ -87,6 +87,8 @@ public:
 
     int parse(FILE*);
     int parse_file(const char* dir=".");
+
+    void upload_path(const char*, char*);
 };
 
 // get the project's home directory

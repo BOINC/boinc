@@ -4,25 +4,25 @@ include $(top_srcdir)/Makefile.incl
 
 noinst_PROGRAMS =                               \
     cgi                                         \
-    feeder                                      \
     db_dump                                     \
     db_purge                                    \
+    delete_file					\
+    feeder                                      \
     file_deleter                                \
     file_upload_handler                         \
+    get_file					\
     make_work                                   \
-    show_shmem                                  \
-    transitioner                                \
     message_handler                             \
-    update_stats                                \
-    assimilator_placeholder			\
+    request_file_list				\
+    sample_assimilator \
     sample_dummy_assimilator                    \
-    validator_placeholder                       \
     sample_bitwise_validator                    \
     sample_trivial_validator                    \
-    get_file					\
+    sample_work_generator \
     send_file					\
-    request_file_list				\
-    delete_file					\
+    show_shmem                                  \
+    transitioner                                \
+    update_stats                                \
     wu_check
 
 lib_LIBRARIES = libsched.a
@@ -109,14 +109,14 @@ sample_bitwise_validator_DEPENDENCIES = $(LIB_SCHED)
 sample_trivial_validator_SOURCES = validator.C sample_trivial_validator.C validate_util.C validate_util.h validate_util2.C
 sample_trivial_validator_DEPENDENCIES = $(LIB_SCHED)
 
-validator_placeholder_SOURCES = validator.C validator_placeholder.C validate_util.C validate_util.h validate_util2.C
-validator_placeholder_DEPENDENCIES = $(LIB_SCHED)
-
 sample_dummy_assimilator_SOURCES = assimilator.C sample_dummy_assimilator.C validate_util.C validate_util.h
 sample_dummy_assimilator_DEPENDENCIES = $(LIB_SCHED)
 
-assimilator_placeholder_SOURCES = assimilator.C assimilator_placeholder.C validate_util.C validate_util.h
-assimilator_placeholder_DEPENDENCIES = $(LIB_SCHED)
+sample_assimilator_SOURCES = assimilator.C sample_assimilator.C validate_util.C validate_util.h
+sample_assimilator_DEPENDENCIES = $(LIB_SCHED)
+
+sample_work_generator_SOURCES = sample_work_generator.C
+sample_work_generator_DEPENDENCIES = $(LIB_SCHED)
 
 db_dump_SOURCES = db_dump.C
 db_dump_DEPENDENCIES = $(LIB_SCHED)

@@ -266,17 +266,30 @@ public:
 
     void close() {
         char buf[256];
+        int retval;
         if (f) {
             fprintf(f, "</%s>\n", tag.c_str());
             fclose(f);
             switch(compression) {
             case COMPRESSION_ZIP:
                 sprintf(buf, "zip -q %s", current_path);
-                system(buf);
+                retval = system(buf);
+                if (retval) {
+                    log_messages.printf(SCHED_MSG_LOG::MSG_CRITICAL,
+                        "%s failed: %d\n", buf, retval
+                    );
+                    exit(retval);
+                }
                 break;
             case COMPRESSION_GZIP:
                 sprintf(buf, "gzip -fq %s", current_path);
-                system(buf);
+                retval = system(buf);
+                if (retval) {
+                    log_messages.printf(SCHED_MSG_LOG::MSG_CRITICAL,
+                        "%s failed: %d\n", buf, retval
+                    );
+                    exit(retval);
+                }
                 break;
             }
             f = 0;
@@ -829,7 +842,13 @@ int main(int argc, char** argv) {
     tables_file(spec.output_dir);
 
     sprintf(buf, "cp %s %s/db_dump.xml", spec_filename, spec.output_dir);
-    system(buf);
+    retval = system(buf);
+    if (retval) {
+        log_messages.printf(SCHED_MSG_LOG::MSG_CRITICAL,
+            "%s failed: %d\n", buf, retval
+        );
+        exit(retval);
+    }
 
     // rename the old stats dir to a name that includes the date
 

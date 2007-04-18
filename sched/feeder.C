@@ -20,7 +20,6 @@
 // -------------------------------
 //
 // feeder
-//  [ -asynch ]           fork and run in a separate process
 //  [ -d x ]              debug level x
 //  [ -random_order ]     order by "random" field of result
 //  [ -priority_order ]   order by decreasing "priority" field of result
@@ -506,7 +505,6 @@ void feeder_loop() {
 
 int main(int argc, char** argv) {
     int i, retval;
-    bool asynch = false;
     void* p;
     char path[256];
 
@@ -519,9 +517,7 @@ int main(int argc, char** argv) {
     }
 
     for (i=1; i<argc; i++) {
-        if (!strcmp(argv[i], "-asynch")) {
-            asynch = true;
-        } else if (!strcmp(argv[i], "-d")) {
+        if (!strcmp(argv[i], "-d")) {
             log_messages.set_debug_level(atoi(argv[++i]));
         } else if (!strcmp(argv[i], "-random_order")) {
             order_clause = "order by random ";
@@ -544,12 +540,6 @@ int main(int argc, char** argv) {
                 "bad cmdline arg: %s\n", argv[i]
             );
             exit(1);
-        }
-    }
-
-    if (asynch) {
-        if (fork()!=0) {
-            exit(0);
         }
     }
 

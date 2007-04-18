@@ -135,7 +135,7 @@ int SCHEDULER_REQUEST::parse(FILE* fin) {
     have_other_results_list = false;
     have_ip_results_list = false;
 
-    fgets(buf, sizeof(buf), fin);
+    char* unused = fgets(buf, sizeof(buf), fin);
     if (!match_tag(buf, "<scheduler_request>")) return ERR_XML_PARSE;
     while (fgets(buf, sizeof(buf), fin)) {
         if (match_tag(buf, "</scheduler_request>")) return 0;

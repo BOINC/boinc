@@ -91,7 +91,7 @@ int lock_sched(SCHEDULER_REPLY& reply) {
     // write PID into the CGI_<HOSTID> file and flush to disk
     //
     count = sprintf(pid_string, "%d\n", getpid());
-    write(fd, pid_string, count);
+    int unused = write(fd, pid_string, count);
     fsync(fd);
 
     reply.lockfile_fd = fd;

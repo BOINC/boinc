@@ -27,6 +27,7 @@
 #include "error_numbers.h"
 
 #include "sched_msgs.h"
+#include "sched_util.h"
 #include "sched_config.h"
 
 #ifdef _USING_FCGI_
@@ -162,8 +163,12 @@ int SCHED_CONFIG::parse_file(const char* dir) {
     return retval;
 }
 
+void SCHED_CONFIG::upload_path(const char* filename, char* path) {
+    ::dir_hier_path(filename, upload_dir, uldl_dir_fanout, path);
+}
+
 void get_project_dir(char* p, int len) {
-    getcwd(p, len);
+    char* unused = getcwd(p, len);
     char* q = strrchr(p, '/');
     if (q) *q = 0;
 }

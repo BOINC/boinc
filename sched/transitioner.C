@@ -23,7 +23,6 @@
 //    - assimilation is finished
 //
 // cmdline:
-//   [ -asynch ]            be asynchronous
 //   [ -one_pass ]          do one pass, then exit
 //   [ -d x ]               debug level x
 //   [ -mod n i ]           process only WUs with (id mod n) == i
@@ -631,14 +630,11 @@ void main_loop() {
 
 int main(int argc, char** argv) {
     int i, retval;
-    bool asynch = false;
     char path[256];
 
     startup_time = time(0);
     for (i=1; i<argc; i++) {
-        if (!strcmp(argv[i], "-asynch")) {
-            asynch = true;
-        } else if (!strcmp(argv[i], "-one_pass")) {
+        if (!strcmp(argv[i], "-one_pass")) {
             one_pass = true;
         } else if (!strcmp(argv[i], "-d")) {
             log_messages.set_debug_level(atoi(argv[++i]));
@@ -661,12 +657,6 @@ int main(int argc, char** argv) {
     if (retval) {
         log_messages.printf(SCHED_MSG_LOG::MSG_CRITICAL, "can't read key\n");
         exit(1);
-    }
-
-    if (asynch) {
-        if (fork()) {
-            exit(0);
-        }
     }
 
     log_messages.printf(SCHED_MSG_LOG::MSG_NORMAL, "Starting\n");

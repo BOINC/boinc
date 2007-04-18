@@ -166,6 +166,7 @@ chapter("beta.php", "Beta-test applications");
 echo "
 
 </ul>
+</ul>
 
 <font size=+1><b>
 Getting work done

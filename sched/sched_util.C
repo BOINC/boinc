@@ -163,6 +163,8 @@ int dir_hier_path(
     return 0;
 }
 
+// same, but the output is a URL (used by tools/backend_lib.C)
+//
 int dir_hier_url(
     const char* filename, const char* root, int fanout,
 	char* result
@@ -239,6 +241,28 @@ double fpops_to_credit(double fpops, double intops) {
     double fpc = (fpops/1e9)*COBBLESTONE_FACTOR/SECONDS_PER_DAY;
     double intc = (intops/1e9)*COBBLESTONE_FACTOR/SECONDS_PER_DAY;
     return std::max(fpc, intc);
+}
+
+
+int count_results(char* query, int& n) {
+    DB_RESULT result;
+    int retval = result.count(n, query);
+    if (retval) return retval;
+    return 0;
+}
+
+int count_workunits(int& n, const char* query) {
+    DB_WORKUNIT workunit;
+    int retval = workunit.count(n, const_cast<char*>(query));
+    if (retval) return retval;
+    return 0;
+}
+
+int count_unsent_results(int& n) {
+    char buf[256];
+    sprintf(buf, "where server_state=%d", RESULT_SERVER_STATE_UNSENT);
+    return count_results(buf, n);
+
 }
 
 const char *BOINC_RCSID_affa6ef1e4 = "$Id$";
