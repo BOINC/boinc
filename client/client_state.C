@@ -74,6 +74,7 @@ CLIENT_STATE::CLIENT_STATE() {
     core_client_version.minor = BOINC_MINOR_VERSION;
     core_client_version.release = BOINC_RELEASE;
     platform_name = HOSTTYPE;
+    alt_platform_name = HOSTTYPE;
     exit_after_app_start_secs = 0;
     app_started = 0;
     exit_before_upload = false;

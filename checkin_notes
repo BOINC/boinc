@@ -3752,3 +3752,21 @@ David  18 Apr 2007
     sched/
         sched_config.C,h
         sample_work_generator.C
+
+Rom    19 Apr 2007
+    - Fix a minor compile problem on 64-bit Windows platforms with the
+        call to SetTimer.
+    - fixes #80: Introduce the notion of an alternate platform for 64-bit
+        Windows clients, which can also run 32-bit Windows apps.
+        
+      TODO: We'll need to refactor the whole platform section in the
+        scheduler request creation section so that it can handle
+        multiple alternate platforms and for Linux/Mac.
+        
+    api/
+        windows_opengl.C
+    client/
+        client_state.C, .h
+        cpp.h
+        cs_scheduler.C
+
