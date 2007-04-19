@@ -64,7 +64,7 @@ int make_job() {
     // Create the input file.
     // Put it at the right place in the download dir hierarchy
     //
-    config.upload_path(name, path);
+    config.download_path(name, path);
     FILE* f = fopen(path, "w");
     if (!f) return ERR_FOPEN;
     fprintf(f, "This is the input file for job %s", name);

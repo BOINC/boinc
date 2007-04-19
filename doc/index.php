@@ -85,7 +85,7 @@ function show_create() {
         A BOINC project with a single Linux server
         can provide computing power equivalent
         to a cluster with tens of thousands of CPUs.
-        Learn how to <a href=create_project.php>create
+        Learn how to <a href=trac/wiki/CreateProjectOutline>create
         and operate a BOINC project</a>.
         <ul>
         <li> <b>Scientists</b>: if your group has moderate
@@ -110,7 +110,7 @@ function show_other() {
         <tr><td>
             <ul>
             <li> <a href=intro.php>Overview</a>
-            <li> <a href=boinc_dev.php>Software development</a>
+            <li> <a href=trac/>Software development</a>
             <li> <a href=translation.php>Translation</a> of web and GUI text
             <li> <a href=contact.php>Personnel and contributors</a>
             <li> BOINC <a href=email_lists.php>email lists</a>

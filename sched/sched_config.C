@@ -164,7 +164,11 @@ int SCHED_CONFIG::parse_file(const char* dir) {
 }
 
 void SCHED_CONFIG::upload_path(const char* filename, char* path) {
-    ::dir_hier_path(filename, upload_dir, uldl_dir_fanout, path);
+    ::dir_hier_path(filename, upload_dir, uldl_dir_fanout, path, true);
+}
+
+void SCHED_CONFIG::download_path(const char* filename, char* path) {
+    ::dir_hier_path(filename, download_dir, uldl_dir_fanout, path);
 }
 
 void get_project_dir(char* p, int len) {

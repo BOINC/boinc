@@ -3745,3 +3745,10 @@ Rom    18 Apr 2007
         boinccas.dll (Added)
         boinccas95.dll (Added)
         dbghelp95.dll (Added)
+
+David  18 Apr 2007
+    - bug fixes for sample work generator
+
+    sched/
+        sched_config.C,h
+        sample_work_generator.C

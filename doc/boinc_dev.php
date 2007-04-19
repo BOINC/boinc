@@ -1,6 +1,6 @@
 <?php
 require_once("docutil.php");
-page_head("BOINC software development ");
+page_head("BOINC software development [deprecated - Wiki]");
 
 if (!$book) {
     echo "
@@ -33,7 +33,7 @@ echo "
 <li> <a href=test.php>The BOINC testing framework</a>
 </ul>
 <p>
-BOINC is free software, distributed under the Lesser GNU Public License (LGPL).
+BOINC is free software, distributed under the Lesser General Public License (LGPL).
 We need volunteers to help with software testing and development.
 If you have one or more of the relevant technical skills
 (C++ system programming, PHP/MySQL web development,

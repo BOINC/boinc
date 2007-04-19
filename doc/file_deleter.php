@@ -1,6 +1,6 @@
 <?php
 require_once("docutil.php");
-page_head("Server-side file deletion");
+page_head("Server-side file deletion [deprecated - Wiki]");
 echo "
 Files are deleted from the data server's upload and download directories
 by the <b>file_deleter</b> daemon.
