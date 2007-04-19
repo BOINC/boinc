@@ -1196,6 +1196,7 @@ void process_request(
     bool have_no_work;
     char buf[256];
     HOST initial_host;
+    unsigned int i;
 
     // if different major version of BOINC, just send a message
     //
@@ -1318,14 +1319,20 @@ void process_request(
 
     // look up the client's platform in the DB
     //
-    platform = ss.lookup_platform(sreq.platform_name);
+    platform = ss.lookup_platform(sreq.platform.name);
     if (!platform) {
-        sprintf(buf, "platform '%s' not found", sreq.platform_name);
+        for (i=0; i<sreq.alt_platforms.size(); i++) {
+            platform = ss.lookup_platform(sreq.alt_platforms[i].name);
+            if (platform) break;
+        }
+    }
+    if (!platform) {
+        sprintf(buf, "platform '%s' not found", sreq.platform.name);
         USER_MESSAGE um(buf, "low");
         reply.insert_message(um);
         log_messages.printf(
             SCHED_MSG_LOG::MSG_CRITICAL, "[HOST#%d] platform '%s' not found\n",
-            reply.host.id, sreq.platform_name
+            reply.host.id, sreq.platform.name
         );
         reply.set_delay(DELAY_PLATFORM_UNSUPPORTED);
         goto leave;
@@ -1454,7 +1461,7 @@ void handle_request(
         log_messages.printf(
              SCHED_MSG_LOG::MSG_NORMAL,
              "Handling request: IP %s, auth %s, host %d, platform %s, version %d.%d.%d, RSF %f\n",
-             get_remote_addr(), sreq.authenticator, sreq.hostid, sreq.platform_name,
+             get_remote_addr(), sreq.authenticator, sreq.hostid, sreq.platform.name,
              sreq.core_client_major_version, sreq.core_client_minor_version,
              sreq.core_client_release,
              sreq.resource_share_fraction
@@ -1473,7 +1480,7 @@ void handle_request(
             SCHED_MSG_LOG::MSG_NORMAL,
             "Incomplete request received %sfrom IP %s, auth %s, platform %s, version %d.%d.%d\n",
             sreply.probable_user_browser?"(probably a browser) ":"",
-            get_remote_addr(), sreq.authenticator, sreq.platform_name,
+            get_remote_addr(), sreq.authenticator, sreq.platform.name,
             sreq.core_client_major_version, sreq.core_client_minor_version,
             sreq.core_client_release
         );

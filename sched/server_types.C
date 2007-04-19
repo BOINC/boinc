@@ -102,6 +102,19 @@ int IP_RESULT::parse(FILE* f) {
     return ERR_XML_PARSE;
 }
 
+int CLIENT_PLATFORM::parse(FILE* fin) {
+    char buf[256];
+    strcpy(name, "");
+    while (fgets(buf, sizeof(buf), fin)) {
+        if (match_tag(buf, "</alt_platform>")) {
+            return 0;
+        } else if (parse_str(buf, "<name>", name, sizeof(name))) {
+            continue;
+        }
+    }
+    return ERR_XML_PARSE;
+}
+
 SCHEDULER_REQUEST::SCHEDULER_REQUEST() {
 }
 
@@ -114,7 +127,7 @@ int SCHEDULER_REQUEST::parse(FILE* fin) {
     int retval;
 
     strcpy(authenticator, "");
-    strcpy(platform_name, "");
+    strcpy(platform.name, "");
     strcpy(cross_project_id, "");
     hostid = 0;
     core_client_major_version = 0;
@@ -146,7 +159,14 @@ int SCHEDULER_REQUEST::parse(FILE* fin) {
         else if (parse_str(buf, "<cross_project_id>", cross_project_id, sizeof(cross_project_id))) continue;
         else if (parse_int(buf, "<hostid>", hostid)) continue;
         else if (parse_int(buf, "<rpc_seqno>", rpc_seqno)) continue;
-        else if (parse_str(buf, "<platform_name>", platform_name, sizeof(platform_name))) continue;
+        else if (parse_str(buf, "<platform_name>", platform.name, sizeof(platform.name))) continue;
+        else if (match_tag(buf, "<alt_platform>")) {
+            CLIENT_PLATFORM cp;
+            retval = cp.parse(fin);
+            if (!retval) {
+                alt_platforms.push_back(cp);
+            }
+        }
         else if (match_tag(buf, "<app_versions>")) {
             while (fgets(buf, sizeof(buf), fin)) {
                 if (match_tag(buf, "</app_versions>")) break;
@@ -280,7 +300,7 @@ int SCHEDULER_REQUEST::write(FILE* fout) {
         "  <code_sign_key>%s</code_sign_key>\n"
         "  <anonymous_platform>%s</anonymous_platform>\n",
         authenticator,
-        platform_name,
+        platform.name,
         cross_project_id,
         hostid,
         core_client_major_version,
@@ -293,7 +313,7 @@ int SCHEDULER_REQUEST::write(FILE* fout) {
         prrs_fraction,
         estimated_delay,
         code_sign_key,
-          anonymous_platform?"true":"false"
+        anonymous_platform?"true":"false"
     );
 
     for (i=0; i<client_app_versions.size(); i++) {

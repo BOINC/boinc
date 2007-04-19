@@ -3789,3 +3789,18 @@ David  19 Apr 2007
         make_project
         project.xml
         Makefile.am
+
+David  19 Apr 2007
+    - scheduler: accept elements of the form
+        <alt_platform>
+            <name>windows_x86</name>
+        </alt_platform>
+        in request messages.
+        These are platforms that the client can handle,
+        other than its main one,
+        listed in order of decreasing preferences.
+        fixes #81.
+
+    sched/
+        handle_request.C
+        server_types.C,h
