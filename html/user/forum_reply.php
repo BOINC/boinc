@@ -3,10 +3,10 @@
  * Using this file you can post a reply to a thread.  Both input (form) and
  * action take place here.
  **/
-
 require_once('../inc/forum_email.inc');
 require_once('../inc/forum.inc');
 require_once('../inc/forum_std.inc');
+require_once('../inc/akismet.inc');
 
 db_init();
 
@@ -71,6 +71,7 @@ if ($content){
         $add_signature=false;
     }
     check_tokens($logged_in_user->getAuthenticator());
+    akismet_check($logged_in_user, $content);
     $thread->createReply($content, $parent_post, $logged_in_user, $add_signature);
     header('Location: forum_thread.php?id='.$thread->getID());
 }
