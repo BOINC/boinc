@@ -34,7 +34,7 @@
 			<Tool
 				Name="VCCustomBuildTool"
 				Description="Building MSI package with WiX linker (light)"
-				CommandLine="light -nologo -sice:ICE30 -b installerv3 -out $(OutDir)\BOINC.msi $(OutDir)\BOINC.wixobj $(OutDir)\Branding.wixobj -loc installerv3\Localization\en-us.wxl&#x0D;&#x0A;"
+				CommandLine="light -nologo -sice:ICE30 -b installerv3 -out $(OutDir)\BOINC.msi $(OutDir)\BOINC.wixobj $(OutDir)\Strings.wixobj $(OutDir)\Branding.wixobj -loc installerv3\Localization\en-us.wxl&#x0D;&#x0A;"
 				AdditionalDependencies="$(IntDir)\BOINC.wixobj;$(IntDir)\Branding.wixobj"
 				Outputs="$(OutDir)\BOINC.msi"
 			/>
@@ -225,6 +225,11 @@
 			</File>
 			<File
 				RelativePath=".\installerv3\DummyComponents.wxi"
+				FileType="13"
+				>
+			</File>
+			<File
+				RelativePath=".\installerv3\Strings.wxs"
 				FileType="13"
 				>
 			</File>

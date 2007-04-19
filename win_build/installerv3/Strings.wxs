@@ -1,0 +1,379 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<!--
+  Berkeley Open Infrastructure for Network Computing
+  http://boinc.berkeley.edu
+  Copyright (C) 2007 University of California
+
+  This is free software; you can redistribute it and/or
+  modify it under the terms of the GNU Lesser General Public
+  License as published by the Free Software Foundation;
+  either version 2.1 of the License, or (at your option) any later version.
+
+  This software is distributed in the hope that it will be useful,
+  but WITHOUT ANY WARRANTY; without even the implied warranty of
+  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
+  See the GNU Lesser General Public License for more details.
+
+  To view the GNU Lesser General Public License visit
+  http://www.gnu.org/copyleft/lesser.html
+  or write to the Free Software Foundation, Inc.,
+  59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
+-->
+<Wix xmlns="http://schemas.microsoft.com/wix/2006/wi">
+  <Fragment>
+    <!--
+    Localizable strings for UIText, ActionText and Error tables.
+    Just a mapping from IDs to localized text.
+    -->
+    <UI Id="Strings">
+      <!-- UIText table -->
+      <UIText Id="NewFolder">Fldr|New Folder</UIText>
+      <UIText Id="bytes">!(loc.UITextbytes)</UIText>
+      <UIText Id="GB">!(loc.UITextGB)</UIText>
+      <UIText Id="KB">!(loc.UITextKB)</UIText>
+      <UIText Id="MB">!(loc.UITextMB)</UIText>
+
+      <UIText Id="MenuAbsent">!(loc.UITextMenuAbsent)</UIText>
+      <UIText Id="MenuAdvertise">!(loc.UITextMenuAdvertise)</UIText>
+      <UIText Id="MenuAllCD">!(loc.UITextMenuAllCD)</UIText>
+      <UIText Id="MenuAllLocal">!(loc.UITextMenuAllLocal)</UIText>
+      <UIText Id="MenuAllNetwork">!(loc.UITextMenuAllNetwork)</UIText>
+      <UIText Id="MenuCD">!(loc.UITextMenuCD)</UIText>
+      <UIText Id="MenuLocal">!(loc.UITextMenuLocal)</UIText>
+      <UIText Id="MenuNetwork">!(loc.UITextMenuNetwork)</UIText>
+
+      <UIText Id="SelAbsentAbsent">!(loc.UITextMenuAbsent)</UIText>
+      <UIText Id="SelAbsentAdvertise">!(loc.UITextMenuAdvertise)</UIText>
+      <UIText Id="SelAbsentCD">!(loc.UITextMenuCD)</UIText>
+      <UIText Id="SelAbsentLocal">!(loc.UITextMenuLocal)</UIText>
+      <UIText Id="SelAbsentNetwork">!(loc.UITextMenuNetwork)</UIText>
+
+      <UIText Id="SelAdvertiseAbsent">!(loc.UITextMenuAbsent)</UIText>
+      <UIText Id="SelAdvertiseAdvertise">!(loc.UITextMenuAdvertise)</UIText>
+      <UIText Id="SelAdvertiseCD">!(loc.UITextMenuCD)</UIText>
+      <UIText Id="SelAdvertiseLocal">!(loc.UITextMenuLocal)</UIText>
+      <UIText Id="SelAdvertiseNetwork">!(loc.UITextMenuNetwork)</UIText>
+
+      <UIText Id="SelCDAbsent">!(loc.UITextSelCDAbsent)</UIText>
+      <UIText Id="SelCDAdvertise">!(loc.UITextSelCDAdvertise)</UIText>
+      <UIText Id="SelCDCD">!(loc.UITextSelCDCD)</UIText>
+      <UIText Id="SelCDLocal">!(loc.UITextSelCDLocal)</UIText>
+
+      <UIText Id="SelChildCostNeg">!(loc.UITextSelChildCostNeg)</UIText>
+      <UIText Id="SelChildCostPos">!(loc.UITextSelChildCostPos)</UIText>
+      <UIText Id="SelCostPending">!(loc.UITextSelCostPending)</UIText>
+
+      <UIText Id="SelLocalAbsent">!(loc.UITextSelLocalAbsent)</UIText>
+      <UIText Id="SelLocalAdvertise">!(loc.UITextSelLocalAdvertise)</UIText>
+      <UIText Id="SelLocalCD">!(loc.UITextSelLocalCD)</UIText>
+      <UIText Id="SelLocalLocal">!(loc.UITextSelLocalLocal)</UIText>
+      <UIText Id="SelLocalNetwork">!(loc.UITextSelLocalNetwork)</UIText>
+
+      <UIText Id="SelNetworkAbsent">!(loc.UITextSelNetworkAbsent)</UIText>
+      <UIText Id="SelNetworkAdvertise">!(loc.UITextSelNetworkAdvertise)</UIText>
+      <UIText Id="SelNetworkLocal">!(loc.UITextSelNetworkLocal)</UIText>
+      <UIText Id="SelNetworkNetwork">!(loc.UITextSelNetworkNetwork)</UIText>
+
+      <UIText Id="SelParentCostNegNeg">!(loc.UITextSelParentCostNegNeg)</UIText>
+      <UIText Id="SelParentCostNegPos">!(loc.UITextSelParentCostNegPos)</UIText>
+      <UIText Id="SelParentCostPosNeg">!(loc.UITextSelParentCostPosNeg)</UIText>
+      <UIText Id="SelParentCostPosPos">!(loc.UITextSelParentCostPosPos)</UIText>
+
+      <UIText Id="ScriptInProgress">!(loc.UITextScriptInProgress)</UIText>
+      <UIText Id="TimeRemaining">!(loc.UITextTimeRemaining)</UIText>
+      <UIText Id="VolumeCostAvailable">!(loc.UITextVolumeCostAvailable)</UIText>
+      <UIText Id="VolumeCostDifference">!(loc.UITextVolumeCostDifference)</UIText>
+      <UIText Id="VolumeCostRequired">!(loc.UITextVolumeCostRequired)</UIText>
+      <UIText Id="VolumeCostSize">!(loc.UITextVolumeCostSize)</UIText>
+      <UIText Id="VolumeCostVolume">!(loc.UITextVolumeCostVolume)</UIText>
+
+      <!-- ActionText table -->
+      <ProgressText Action="Advertise">!(loc.ProgressTextAdvertise)</ProgressText>
+      <ProgressText Action="AllocateRegistrySpace"
+                Template="!(loc.ProgressTextAllocateRegistrySpaceTemplate)">!(loc.ProgressTextAllocateRegistrySpace)</ProgressText>
+      <ProgressText Action="AppSearch"
+                    Template="!(loc.ProgressTextAppSearchTemplate)">!(loc.ProgressTextAppSearch)</ProgressText>
+      <ProgressText Action="BindImage"
+                    Template="!(loc.ProgressTextBindImageTemplate)">!(loc.ProgressTextBindImage)</ProgressText>
+      <ProgressText Action="CCPSearch">!(loc.ProgressTextCCPSearch)</ProgressText>
+      <ProgressText Action="CostFinalize">!(loc.ProgressTextCostFinalize)</ProgressText>
+      <ProgressText Action="CostInitialize">!(loc.ProgressTextCostInitialize)</ProgressText>
+      <ProgressText Action="CreateFolders"
+            Template="!(loc.ProgressTextCreateFoldersTemplate)">!(loc.ProgressTextCreateFolders)</ProgressText>
+      <ProgressText Action="CreateShortcuts"
+                  Template="!(loc.ProgressTextCreateShortcutsTemplate)">!(loc.ProgressTextCreateShortcuts)</ProgressText>
+      <ProgressText Action="DeleteServices"
+                    Template="!(loc.ProgressTextDeleteServicesTemplate)">!(loc.ProgressTextDeleteServices)</ProgressText>
+      <ProgressText Action="DuplicateFiles"
+                    Template="!(loc.ProgressTextDuplicateFilesTemplate)">!(loc.ProgressTextDuplicateFiles)</ProgressText>
+      <ProgressText Action="FileCost">!(loc.ProgressTextFileCost)</ProgressText>
+      <ProgressText Action="FindRelatedProducts"
+                    Template="!(loc.ProgressTextFindRelatedProductsTemplate)">!(loc.ProgressTextFindRelatedProducts)</ProgressText>
+      <ProgressText Action="GenerateScript"
+                    Template="!(loc.ProgressTextGenerateScriptTemplate)">!(loc.ProgressTextGenerateScript)</ProgressText>
+      <ProgressText Action="InstallAdminPackage"
+                    Template="!(loc.ProgressTextInstallAdminPackageTemplate)">!(loc.ProgressTextInstallAdminPackage)</ProgressText>
+      <ProgressText Action="InstallFiles"
+                    Template="!(loc.ProgressTextInstallFilesTemplate)">!(loc.ProgressTextInstallFiles)</ProgressText>
+      <ProgressText Action="InstallODBC">!(loc.ProgressTextInstallODBC)</ProgressText>
+      <ProgressText Action="InstallServices"
+                    Template="!(loc.ProgressTextInstallServicesTemplate)">!(loc.ProgressTextInstallServices)</ProgressText>
+      <ProgressText Action="InstallSFPCatalogFile"
+                Template="!(loc.ProgressTextInstallSFPCatalogFileTemplate)">!(loc.ProgressTextInstallSFPCatalogFile)</ProgressText>
+      <ProgressText Action="InstallValidate">!(loc.ProgressTextInstallValidate)</ProgressText>
+      <ProgressText Action="LaunchConditions">!(loc.ProgressTextLaunchConditions)</ProgressText>
+      <ProgressText Action="MigrateFeatureStates"
+                    Template="!(loc.ProgressTextMigrateFeatureStatesTemplate)">!(loc.ProgressTextMigrateFeatureStates)</ProgressText>
+      <ProgressText Action="MoveFiles"
+                    Template="!(loc.ProgressTextMoveFilesTemplate)">!(loc.ProgressTextMoveFiles)</ProgressText>
+      <ProgressText Action="MsiPublishAssemblies"
+        Template="!(loc.ProgressTextMsiPublishAssembliesTemplate)">!(loc.ProgressTextMsiPublishAssemblies)</ProgressText>
+      <ProgressText Action="MsiUnpublishAssemblies"
+            Template="!(loc.ProgressTextMsiUnpublishAssembliesTemplate)">!(loc.ProgressTextMsiUnpublishAssemblies)</ProgressText>
+      <ProgressText Action="PatchFiles"
+                    Template="!(loc.ProgressTextPatchFilesTemplate)">!(loc.ProgressTextPatchFiles)</ProgressText>
+      <ProgressText Action="ProcessComponents">!(loc.ProgressTextProcessComponents)</ProgressText>
+      <ProgressText Action="PublishComponents"
+                    Template="!(loc.ProgressTextPublishComponentsTemplate)">!(loc.ProgressTextPublishComponents)</ProgressText>
+      <ProgressText Action="PublishFeatures"
+                    Template="!(loc.ProgressTextPublishFeaturesTemplate)">!(loc.ProgressTextPublishFeatures)</ProgressText>
+      <ProgressText Action="PublishProduct">!(loc.ProgressTextPublishProduct)</ProgressText>
+      <ProgressText Action="RegisterClassInfo"
+                    Template="!(loc.ProgressTextRegisterClassInfoTemplate)">!(loc.ProgressTextRegisterClassInfo)</ProgressText>
+      <ProgressText Action="RegisterComPlus"
+                Template="!(loc.ProgressTextRegisterComPlusTemplate)">!(loc.ProgressTextRegisterComPlus)</ProgressText>
+      <ProgressText Action="RegisterExtensionInfo"
+                    Template="!(loc.ProgressTextRegisterExtensionInfoTemplate)">!(loc.ProgressTextRegisterExtensionInfo)</ProgressText>
+      <ProgressText Action="RegisterFonts"
+                Template="!(loc.ProgressTextRegisterFontsTemplate)">!(loc.ProgressTextRegisterFonts)</ProgressText>
+      <ProgressText Action="RegisterMIMEInfo"
+                    Template="!(loc.ProgressTextRegisterMIMEInfoTemplate)">!(loc.ProgressTextRegisterMIMEInfo)</ProgressText>
+      <ProgressText Action="RegisterProduct"
+                Template="!(loc.ProgressTextRegisterProductTemplate)">!(loc.ProgressTextRegisterProduct)</ProgressText>
+      <ProgressText Action="RegisterProgIdInfo"
+                    Template="!(loc.ProgressTextRegisterProgIdInfoTemplate)">!(loc.ProgressTextRegisterProgIdInfo)</ProgressText>
+      <ProgressText Action="RegisterTypeLibraries"
+                    Template="!(loc.ProgressTextRegisterTypeLibrariesTemplate)">!(loc.ProgressTextRegisterTypeLibraries)</ProgressText>
+
+      <ProgressText Action="RegisterUser"
+                    Template="!(loc.ProgressTextRegisterUserTemplate)">!(loc.ProgressTextRegisterUser)</ProgressText>
+
+      <ProgressText Action="RemoveDuplicateFiles"
+                    Template="!(loc.ProgressTextRemoveDuplicateFilesTemplate)">!(loc.ProgressTextRemoveDuplicateFiles)</ProgressText>
+      <ProgressText Action="RemoveEnvironmentStrings"
+                    Template="!(loc.ProgressTextRemoveEnvironmentStringsTemplate)">!(loc.ProgressTextRemoveEnvironmentStrings)</ProgressText>
+      <ProgressText Action="RemoveExistingProducts"
+                    Template="!(loc.ProgressTextRemoveExistingProductsTemplate)">!(loc.ProgressTextRemoveExistingProducts)</ProgressText>
+      <ProgressText Action="RemoveFiles"
+                    Template="!(loc.ProgressTextRemoveFilesTemplate)">!(loc.ProgressTextRemoveFiles)</ProgressText>
+      <ProgressText Action="RemoveFolders"
+                    Template="!(loc.ProgressTextRemoveFoldersTemplate)">!(loc.ProgressTextRemoveFolders)</ProgressText>
+      <ProgressText Action="RemoveIniValues"
+                    Template="!(loc.ProgressTextRemoveIniValuesTemplate)">!(loc.ProgressTextRemoveIniValues)</ProgressText>
+      <ProgressText Action="RemoveODBC">!(loc.ProgressTextRemoveODBC)</ProgressText>
+      <ProgressText Action="RemoveRegistryValues"
+                    Template="!(loc.ProgressTextRemoveRegistryValuesTemplate)">!(loc.ProgressTextRemoveRegistryValues)</ProgressText>
+      <ProgressText Action="RemoveShortcuts"
+                    Template="!(loc.ProgressTextRemoveShortcutsTemplate)">!(loc.ProgressTextRemoveShortcuts)</ProgressText>
+      <ProgressText Action="RMCCPSearch">!(loc.ProgressTextRMCCPSearch)</ProgressText>
+
+      <ProgressText Action="Rollback"
+                    Template="!(loc.ProgressTextRollbackTemplate)">!(loc.ProgressTextRollback)</ProgressText>
+      <ProgressText Action="RollbackCleanup"
+                    Template="!(loc.ProgressTextRollbackCleanupTemplate)">!(loc.ProgressTextRollbackCleanup)</ProgressText>
+      <ProgressText Action="SelfRegModules"
+                    Template="!(loc.ProgressTextSelfRegModulesTemplate)">!(loc.ProgressTextSelfRegModules)</ProgressText>
+      <ProgressText Action="SelfUnregModules"
+                    Template="!(loc.ProgressTextSelfUnregModulesTemplate)">!(loc.ProgressTextSelfUnregModules)</ProgressText>
+      <ProgressText Action="SetODBCFolders">!(loc.ProgressTextSetODBCFolders)</ProgressText>
+      <ProgressText Action="ShutdownBOINCManager">!(loc.ProgressTextShutdownBOINCManager)</ProgressText>
+      <ProgressText Action="StartServices"
+                    Template="!(loc.ProgressTextStartServicesTemplate)">!(loc.ProgressTextStartServices)</ProgressText>
+      <ProgressText Action="StopServices"
+                    Template="!(loc.ProgressTextStopServicesTemplate)">!(loc.ProgressTextStopServices)</ProgressText>
+      <ProgressText Action="UnmoveFiles"
+                Template="!(loc.ProgressTextUnmoveFilesTemplate)">!(loc.ProgressTextUnmoveFiles)</ProgressText>
+      <ProgressText Action="UnpublishComponents"
+                    Template="!(loc.ProgressTextUnpublishComponentsTemplate)">!(loc.ProgressTextUnpublishComponents)</ProgressText>
+      <ProgressText Action="UnpublishFeatures"
+                    Template="!(loc.ProgressTextUnpublishFeaturesTemplate)">!(loc.ProgressTextUnpublishFeatures)</ProgressText>
+      <ProgressText Action="UnpublishProduct">!(loc.ProgressTextUnpublishProduct)</ProgressText>
+      <ProgressText Action="UnregisterClassInfo"
+                    Template="!(loc.ProgressTextUnregisterClassInfoTemplate)">!(loc.ProgressTextUnregisterClassInfo)</ProgressText>
+      <ProgressText Action="UnregisterComPlus"
+                    Template="!(loc.ProgressTextUnregisterComPlusTemplate)">!(loc.ProgressTextUnregisterComPlus)</ProgressText>
+      <ProgressText Action="UnregisterExtensionInfo"
+                    Template="!(loc.ProgressTextUnregisterExtensionInfoTemplate)">!(loc.ProgressTextUnregisterExtensionInfo)</ProgressText>
+      <ProgressText Action="UnregisterFonts"
+                    Template="!(loc.ProgressTextUnregisterFontsTemplate)">!(loc.ProgressTextUnregisterFonts)</ProgressText>
+      <ProgressText Action="UnregisterMIMEInfo"
+                    Template="!(loc.ProgressTextUnregisterMIMEInfoTemplate)">!(loc.ProgressTextUnregisterMIMEInfo)</ProgressText>
+      <ProgressText Action="UnregisterProgIdInfo"
+                    Template="!(loc.ProgressTextUnregisterProgIdInfoTemplate)">!(loc.ProgressTextUnregisterProgIdInfo)</ProgressText>
+      <ProgressText Action="UnregisterTypeLibraries"
+                    Template="!(loc.ProgressTextUnregisterTypeLibrariesTemplate)">!(loc.ProgressTextUnregisterTypeLibraries)</ProgressText>
+      <ProgressText Action="WriteEnvironmentStrings"
+                    Template="!(loc.ProgressTextWriteEnvironmentStringsTemplate)">!(loc.ProgressTextWriteEnvironmentStrings)</ProgressText>
+      <ProgressText Action="WriteIniValues"
+                    Template="!(loc.ProgressTextWriteIniValuesTemplate)">!(loc.ProgressTextWriteIniValues)</ProgressText>
+      <ProgressText Action="WriteRegistryValues"
+                    Template="!(loc.ProgressTextWriteRegistryValuesTemplate)">!(loc.ProgressTextWriteRegistryValues)</ProgressText>
+
+      <!-- Error table -->
+      <Error Id="0">!(loc.Error0)</Error>
+      <Error Id="1">!(loc.Error1)</Error>
+      <Error Id="2">!(loc.Error2)</Error>
+      <Error Id="4">!(loc.Error4)</Error>
+      <Error Id="5">!(loc.Error5)</Error>
+      <Error Id="7">!(loc.Error7)</Error>
+      <Error Id="8">!(loc.Error8)</Error>
+      <Error Id="9">!(loc.Error9)</Error>
+      <Error Id="10">!(loc.Error10)</Error>
+      <Error Id="11">!(loc.Error11)</Error>
+      <Error Id="12">!(loc.Error12)</Error>
+      <Error Id="13">!(loc.Error13)</Error>
+      <Error Id="14">!(loc.Error14)</Error>
+      <Error Id="15">!(loc.Error15)</Error>
+      <Error Id="16">!(loc.Error16)</Error>
+      <Error Id="17">!(loc.Error17)</Error>
+      <Error Id="18">!(loc.Error18)</Error>
+      <Error Id="19">!(loc.Error19)</Error>
+      <Error Id="20">!(loc.Error20)</Error>
+      <Error Id="21">!(loc.Error21)</Error>
+      <Error Id="22">!(loc.Error22)</Error>
+      <Error Id="23">!(loc.Error23)</Error>
+      <Error Id="32">!(loc.Error32)</Error>
+      <Error Id="33">!(loc.Error33)</Error>
+      <Error Id="1101">!(loc.Error1101)</Error>
+      <Error Id="1301">!(loc.Error1301)</Error>
+      <Error Id="1302">!(loc.Error1302)</Error>
+      <Error Id="1303">!(loc.Error1303)</Error>
+      <Error Id="1304">!(loc.Error1304)</Error>
+      <Error Id="1305">!(loc.Error1305)</Error>
+      <Error Id="1306">!(loc.Error1306)</Error>
+      <Error Id="1307">!(loc.Error1307)</Error>
+      <Error Id="1308">!(loc.Error1308)</Error>
+      <Error Id="1309">!(loc.Error1309)</Error>
+      <Error Id="1310">!(loc.Error1310)</Error>
+      <Error Id="1311">!(loc.Error1311)</Error>
+      <Error Id="1312">!(loc.Error1312)</Error>
+      <Error Id="1313">!(loc.Error1313)</Error>
+      <Error Id="1314">!(loc.Error1314)</Error>
+      <Error Id="1315">!(loc.Error1315)</Error>
+      <Error Id="1316">!(loc.Error1316)</Error>
+      <Error Id="1317">!(loc.Error1317)</Error>
+      <Error Id="1318">!(loc.Error1318)</Error>
+      <Error Id="1319">!(loc.Error1319)</Error>
+      <Error Id="1320">!(loc.Error1320)</Error>
+      <Error Id="1321">!(loc.Error1321)</Error>
+      <Error Id="1322">!(loc.Error1322)</Error>
+      <Error Id="1323">!(loc.Error1323)</Error>
+      <Error Id="1324">!(loc.Error1324)</Error>
+      <Error Id="1325">!(loc.Error1325)</Error>
+      <Error Id="1326">!(loc.Error1326)</Error>
+      <Error Id="1327">!(loc.Error1327)</Error>
+      <Error Id="1328">!(loc.Error1328)</Error>
+      <Error Id="1329">!(loc.Error1329)</Error>
+      <Error Id="1330">!(loc.Error1330)</Error>
+      <Error Id="1331">!(loc.Error1331)</Error>
+      <Error Id="1332">!(loc.Error1332)</Error>
+      <Error Id="1333">!(loc.Error1333)</Error>
+      <Error Id="1334">!(loc.Error1334)</Error>
+      <Error Id="1335">!(loc.Error1335)</Error>
+      <Error Id="1336">!(loc.Error1336)</Error>
+      <Error Id="1401">!(loc.Error1401)</Error>
+      <Error Id="1402">!(loc.Error1402)</Error>
+      <Error Id="1403">!(loc.Error1403)</Error>
+      <Error Id="1404">!(loc.Error1404)</Error>
+      <Error Id="1405">!(loc.Error1405)</Error>
+      <Error Id="1406">!(loc.Error1406)</Error>
+      <Error Id="1407">!(loc.Error1407)</Error>
+      <Error Id="1408">!(loc.Error1408)</Error>
+      <Error Id="1409">!(loc.Error1409)</Error>
+      <Error Id="1410">!(loc.Error1410)</Error>
+      <Error Id="1500">!(loc.Error1500)</Error>
+      <Error Id="1501">!(loc.Error1501)</Error>
+      <Error Id="1502">!(loc.Error1502)</Error>
+      <Error Id="1503">!(loc.Error1503)</Error>
+      <Error Id="1601">!(loc.Error1601)</Error>
+      <Error Id="1602">!(loc.Error1602)</Error>
+      <Error Id="1603">!(loc.Error1603)</Error>
+      <Error Id="1604">!(loc.Error1604)</Error>
+      <Error Id="1605">!(loc.Error1605)</Error>
+      <Error Id="1606">!(loc.Error1606)</Error>
+      <Error Id="1607">!(loc.Error1607)</Error>
+      <Error Id="1608">!(loc.Error1608)</Error>
+      <Error Id="1609">!(loc.Error1609)</Error>
+      <Error Id="1701">!(loc.Error1701)</Error>
+      <Error Id="1702">!(loc.Error1702)</Error>
+      <Error Id="1703">!(loc.Error1703)</Error>
+      <Error Id="1704">!(loc.Error1704)</Error>
+      <Error Id="1705">!(loc.Error1705)</Error>
+      <Error Id="1706">!(loc.Error1706)</Error>
+      <Error Id="1707">!(loc.Error1707)</Error>
+      <Error Id="1708">!(loc.Error1708)</Error>
+      <Error Id="1709">!(loc.Error1709)</Error>
+      <Error Id="1710">!(loc.Error1710)</Error>
+      <Error Id="1711">!(loc.Error1711)</Error>
+      <Error Id="1712">!(loc.Error1712)</Error>
+      <Error Id="1713">!(loc.Error1713)</Error>
+      <Error Id="1714">!(loc.Error1714)</Error>
+      <Error Id="1715">!(loc.Error1715)</Error>
+      <Error Id="1716">!(loc.Error1716)</Error>
+      <Error Id="1717">!(loc.Error1717)</Error>
+      <Error Id="1718">!(loc.Error1718)</Error>
+      <Error Id="1719">!(loc.Error1719)</Error>
+      <Error Id="1720">!(loc.Error1720)</Error>
+      <Error Id="1721">!(loc.Error1721)</Error>
+      <Error Id="1722">!(loc.Error1722)</Error>
+      <Error Id="1723">!(loc.Error1723)</Error>
+      <Error Id="1724">!(loc.Error1724)</Error>
+      <Error Id="1725">!(loc.Error1725)</Error>
+      <Error Id="1726">!(loc.Error1726)</Error>
+      <Error Id="1727">!(loc.Error1727)</Error>
+      <Error Id="1728">!(loc.Error1728)</Error>
+      <Error Id="1729">!(loc.Error1729)</Error>
+      <Error Id="1730">!(loc.Error1730)</Error>
+      <Error Id="1731">!(loc.Error1731)</Error>
+      <Error Id="1732">!(loc.Error1732)</Error>
+      <Error Id="1801">!(loc.Error1801)</Error>
+      <Error Id="1802">!(loc.Error1802)</Error>
+      <Error Id="1803">!(loc.Error1803)</Error>
+      <Error Id="1804">!(loc.Error1804)</Error>
+      <Error Id="1805">!(loc.Error1805)</Error>
+      <Error Id="1806">!(loc.Error1806)</Error>
+      <Error Id="1807">!(loc.Error1807)</Error>
+      <Error Id="1901">!(loc.Error1901)</Error>
+      <Error Id="1902">!(loc.Error1902)</Error>
+      <Error Id="1903">!(loc.Error1903)</Error>
+      <Error Id="1904">!(loc.Error1904)</Error>
+      <Error Id="1905">!(loc.Error1905)</Error>
+      <Error Id="1906">!(loc.Error1906)</Error>
+      <Error Id="1907">!(loc.Error1907)</Error>
+      <Error Id="1908">!(loc.Error1908)</Error>
+      <Error Id="1909">!(loc.Error1909)</Error>
+      <Error Id="1910">!(loc.Error1910)</Error>
+      <Error Id="1911">!(loc.Error1911)</Error>
+      <Error Id="1912">!(loc.Error1912)</Error>
+      <Error Id="1913">!(loc.Error1913)</Error>
+      <Error Id="1914">!(loc.Error1914)</Error>
+      <Error Id="1920">!(loc.Error1920)</Error>
+      <Error Id="1921">!(loc.Error1921)</Error>
+      <Error Id="1922">!(loc.Error1922)</Error>
+      <Error Id="1923">!(loc.Error1923)</Error>
+      <Error Id="1924">!(loc.Error1924)</Error>
+      <Error Id="1925">!(loc.Error1925)</Error>
+      <Error Id="1926">!(loc.Error1926)</Error>
+      <Error Id="1930">!(loc.Error1930)</Error>
+      <Error Id="1931">!(loc.Error1931)</Error>
+      <Error Id="1932">!(loc.Error1932)</Error>
+      <Error Id="1933">!(loc.Error1933)</Error>
+      <Error Id="1934">!(loc.Error1934)</Error>
+      <Error Id="1935">!(loc.Error1935)</Error>
+      <Error Id="1936">!(loc.Error1936)</Error>
+      <Error Id="1937">!(loc.Error1937)</Error>
+      <Error Id="1938">!(loc.Error1938)</Error>
+      <Error Id="2331">!(loc.Error2331)</Error>
+    </UI>
+  </Fragment>
+</Wix>

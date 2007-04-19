@@ -1,4 +1,24 @@
 <?xml version="1.0" encoding="utf-8"?>
+<!--
+  Berkeley Open Infrastructure for Network Computing
+  http://boinc.berkeley.edu
+  Copyright (C) 2007 University of California
+
+  This is free software; you can redistribute it and/or
+  modify it under the terms of the GNU Lesser General Public
+  License as published by the Free Software Foundation;
+  either version 2.1 of the License, or (at your option) any later version.
+
+  This software is distributed in the hope that it will be useful,
+  but WITHOUT ANY WARRANTY; without even the implied warranty of
+  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
+  See the GNU Lesser General Public License for more details.
+
+  To view the GNU Lesser General Public License visit
+  http://www.gnu.org/copyleft/lesser.html
+  or write to the Free Software Foundation, Inc.,
+  59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
+-->
 <WixLocalization Culture="en-us" xmlns="http://schemas.microsoft.com/wix/2006/localization">
   <String Id="Back" Overridable="yes">&lt; &amp;Back</String>
   <String Id="Next" Overridable="yes">&amp;Next &gt;</String>
@@ -154,29 +174,7 @@
   <String Id="VerifyReadyDlgRemoveTitle" Overridable="yes">{\WixUI_Font_Title}Ready to remove [ProductName]</String>
 
 
-  <String Id="ProgressTextInstallValidate" Overridable="yes">Validating install</String>
-  <String Id="ProgressTextInstallFiles" Overridable="yes">Copying new files</String>
-  <String Id="ProgressTextInstallFilesTemplate" Overridable="yes">File: [1],  Directory: [9],  Size: [6]</String>
-  <String Id="ProgressTextInstallAdminPackage" Overridable="yes">Copying network install files</String>
-  <String Id="ProgressTextInstallAdminPackageTemplate" Overridable="yes">File: [1], Directory: [9], Size: [6]</String>
-  <String Id="ProgressTextFileCost" Overridable="yes">Computing space requirements</String>
-  <String Id="ProgressTextCostInitialize" Overridable="yes">Computing space requirements</String>
-  <String Id="ProgressTextCostFinalize" Overridable="yes">Computing space requirements</String>
-  <String Id="ProgressTextCreateShortcuts" Overridable="yes">Creating shortcuts</String>
-  <String Id="ProgressTextCreateShortcutsTemplate" Overridable="yes">Shortcut: [1]</String>
-  <String Id="ProgressTextPublishComponents" Overridable="yes">Publishing Qualified Components</String>
-  <String Id="ProgressTextPublishComponentsTemplate" Overridable="yes">Component ID: [1], Qualifier: [2]</String>
-  <String Id="ProgressTextPublishFeatures" Overridable="yes">Publishing Product Features</String>
-  <String Id="ProgressTextPublishFeaturesTemplate" Overridable="yes">Feature: [1]</String>
-  <String Id="ProgressTextPublishProduct" Overridable="yes">Publishing product information</String>
-  <String Id="ProgressTextRegisterClassInfo" Overridable="yes">Registering Class servers</String>
-  <String Id="ProgressTextRegisterClassInfoTemplate" Overridable="yes">Class Id: [1]</String>
-  <String Id="ProgressTextRegisterExtensionInfo" Overridable="yes">Registering extension servers</String>
-  <String Id="ProgressTextRegisterExtensionInfoTemplate" Overridable="yes">Extension: [1]</String>
-  <String Id="ProgressTextRegisterMIMEInfo" Overridable="yes">Registering MIME info</String>
-  <String Id="ProgressTextRegisterMIMEInfoTemplate" Overridable="yes">MIME Content Type: [1], Extension: [2]</String>
-  <String Id="ProgressTextRegisterProgIdInfo" Overridable="yes">Registering program identifiers</String>
-  <String Id="ProgressTextRegisterProgIdInfoTemplate" Overridable="yes">ProgId: [1]</String>
+  <String Id="ProgressTextAdvertise" Overridable="yes">Advertising application</String>
   <String Id="ProgressTextAllocateRegistrySpace" Overridable="yes">Allocating registry space</String>
   <String Id="ProgressTextAllocateRegistrySpaceTemplate" Overridable="yes">Free space: [1]</String>
   <String Id="ProgressTextAppSearch" Overridable="yes">Searching for installed applications</String>
@@ -184,31 +182,65 @@
   <String Id="ProgressTextBindImage" Overridable="yes">Binding executables</String>
   <String Id="ProgressTextBindImageTemplate" Overridable="yes">File: [1]</String>
   <String Id="ProgressTextCCPSearch" Overridable="yes">Searching for qualifying products</String>
-  <String Id="ProgressTextCreateFolders" Overridable="yes">Creating folders</String>
+  <String Id="ProgressTextCostFinalize" Overridable="yes">Computing space requirements</String>
+  <String Id="ProgressTextCostInitialize" Overridable="yes">Computing space requirements</String>
+
+   <String Id="ProgressTextCreateFolders" Overridable="yes">Creating folders</String>
   <String Id="ProgressTextCreateFoldersTemplate" Overridable="yes">Folder: [1]</String>
+  <String Id="ProgressTextCreateShortcuts" Overridable="yes">Creating shortcuts</String>
+  <String Id="ProgressTextCreateShortcutsTemplate" Overridable="yes">Shortcut: [1]</String>
   <String Id="ProgressTextDeleteServices" Overridable="yes">Deleting services</String>
   <String Id="ProgressTextDeleteServicesTemplate" Overridable="yes">Service: [1]</String>
   <String Id="ProgressTextDuplicateFiles" Overridable="yes">Creating duplicate files</String>
   <String Id="ProgressTextDuplicateFilesTemplate" Overridable="yes">File: [1],  Directory: [9],  Size: [6]</String>
+  <String Id="ProgressTextFileCost" Overridable="yes">Computing space requirements</String>
   <String Id="ProgressTextFindRelatedProducts" Overridable="yes">Searching for related applications</String>
   <String Id="ProgressTextFindRelatedProductsTemplate" Overridable="yes">Found application: [1]</String>
+  <String Id="ProgressTextGenerateScript" Overridable="yes">Generating script operations for action:</String>
+  <String Id="ProgressTextGenerateScriptTemplate" Overridable="yes">[1]</String>
+  <String Id="ProgressTextInstallAdminPackage" Overridable="yes">Copying files to the network</String>
+  <String Id="ProgressTextInstallAdminPackageTemplate" Overridable="yes">File: [1], Directory: [9], Size: [6]</String>
+  <String Id="ProgressTextInstallFiles" Overridable="yes">Copying new files</String>
+  <String Id="ProgressTextInstallFilesTemplate" Overridable="yes">File: [1],  Directory: [9],  Size: [6]</String>
   <String Id="ProgressTextInstallODBC" Overridable="yes">Installing ODBC components</String>
   <String Id="ProgressTextInstallServices" Overridable="yes">Installing new services</String>
   <String Id="ProgressTextInstallServicesTemplate" Overridable="yes">Service: [2]</String>
+  <String Id="ProgressTextInstallSFPCatalogFile" Overridable="yes">Installing system catalog</String>
+  <String Id="ProgressTextInstallSFPCatalogFileTemplate" Overridable="yes">File: [1],  Dependencies: [2]</String>
+  <String Id="ProgressTextInstallValidate" Overridable="yes">Validating install</String>
   <String Id="ProgressTextLaunchConditions" Overridable="yes">Evaluating launch conditions</String>
   <String Id="ProgressTextMigrateFeatureStates" Overridable="yes">Migrating feature states from related applications</String>
   <String Id="ProgressTextMigrateFeatureStatesTemplate" Overridable="yes">Application: [1]</String>
   <String Id="ProgressTextMoveFiles" Overridable="yes">Moving files</String>
   <String Id="ProgressTextMoveFilesTemplate" Overridable="yes">File: [1],  Directory: [9],  Size: [6]</String>
+  <String Id="ProgressTextMsiPublishAssemblies" Overridable="yes">Publishing assembly information</String>
+  <String Id="ProgressTextMsiPublishAssembliesTemplate" Overridable="yes">Application Context:[1], Assembly Name:[2]</String>
+  <String Id="ProgressTextMsiUnpublishAssemblies" Overridable="yes">Unpublishing assembly information</String>
+  <String Id="ProgressTextMsiUnpublishAssembliesTemplate" Overridable="yes">Application Context:[1], Assembly Name:[2]</String>
   <String Id="ProgressTextPatchFiles" Overridable="yes">Patching files</String>
   <String Id="ProgressTextPatchFilesTemplate" Overridable="yes">File: [1],  Directory: [2],  Size: [3]</String>
   <String Id="ProgressTextProcessComponents" Overridable="yes">Updating component registration</String>
+
+  <String Id="ProgressTextPublishComponents" Overridable="yes">Publishing Qualified Components</String>
+  <String Id="ProgressTextPublishComponentsTemplate" Overridable="yes">Component ID: [1], Qualifier: [2]</String>
+  <String Id="ProgressTextPublishFeatures" Overridable="yes">Publishing Product Features</String>
+  <String Id="ProgressTextPublishFeaturesTemplate" Overridable="yes">Feature: [1]</String>
+  <String Id="ProgressTextPublishProduct" Overridable="yes">Publishing product information</String>
+  <String Id="ProgressTextRegisterClassInfo" Overridable="yes">Registering Class servers</String>
+  <String Id="ProgressTextRegisterClassInfoTemplate" Overridable="yes">Class Id: [1]</String>
   <String Id="ProgressTextRegisterComPlus" Overridable="yes">Registering COM+ Applications and Components</String>
   <String Id="ProgressTextRegisterComPlusTemplate" Overridable="yes">AppId: [1]{{, AppType: [2], Users: [3], RSN: [4]}}</String>
+  <String Id="ProgressTextRegisterExtensionInfo" Overridable="yes">Registering extension servers</String>
+  <String Id="ProgressTextRegisterExtensionInfoTemplate" Overridable="yes">Extension: [1]</String>
   <String Id="ProgressTextRegisterFonts" Overridable="yes">Registering fonts</String>
   <String Id="ProgressTextRegisterFontsTemplate" Overridable="yes">Font: [1]</String>
+  <String Id="ProgressTextRegisterMIMEInfo" Overridable="yes">Registering MIME info</String>
+  <String Id="ProgressTextRegisterMIMEInfoTemplate" Overridable="yes">MIME Content Type: [1], Extension: [2]</String>
   <String Id="ProgressTextRegisterProduct" Overridable="yes">Registering product</String>
   <String Id="ProgressTextRegisterProductTemplate" Overridable="yes">[1]</String>
+  <String Id="ProgressTextRegisterProgIdInfo" Overridable="yes">Registering program identifiers</String>
+  <String Id="ProgressTextRegisterProgIdInfoTemplate" Overridable="yes">ProgId: [1]</String>
+
   <String Id="ProgressTextRegisterTypeLibraries" Overridable="yes">Registering type libraries</String>
   <String Id="ProgressTextRegisterTypeLibrariesTemplate" Overridable="yes">LibID: [1]</String>
   <String Id="ProgressTextRegisterUser" Overridable="yes">Registering user</String>
@@ -231,19 +263,27 @@
   <String Id="ProgressTextRemoveShortcuts" Overridable="yes">Removing shortcuts</String>
   <String Id="ProgressTextRemoveShortcutsTemplate" Overridable="yes">Shortcut: [1]</String>
   <String Id="ProgressTextRMCCPSearch" Overridable="yes">Searching for qualifying products</String>
+  <String Id="ProgressTextRollback" Overridable="yes">Rolling back action:</String>
+  <String Id="ProgressTextRollbackTemplate" Overridable="yes">[1]</String>
+  <String Id="ProgressTextRollbackCleanup" Overridable="yes">Removing backup files</String>
+  <String Id="ProgressTextRollbackCleanupTemplate" Overridable="yes">File: [1]</String>
   <String Id="ProgressTextSelfRegModules" Overridable="yes">Registering modules</String>
   <String Id="ProgressTextSelfRegModulesTemplate" Overridable="yes">File: [1], Folder: [2]</String>
   <String Id="ProgressTextSelfUnregModules" Overridable="yes">Unregistering modules</String>
   <String Id="ProgressTextSelfUnregModulesTemplate" Overridable="yes">File: [1], Folder: [2]</String>
   <String Id="ProgressTextSetODBCFolders" Overridable="yes">Initializing ODBC directories</String>
+  <String Id="ProgressTextShutdownBOINCManager" Overridable="yes">Closing any running instances of the BOINC Manager</String>
   <String Id="ProgressTextStartServices" Overridable="yes">Starting services</String>
   <String Id="ProgressTextStartServicesTemplate" Overridable="yes">Service: [1]</String>
   <String Id="ProgressTextStopServices" Overridable="yes">Stopping services</String>
   <String Id="ProgressTextStopServicesTemplate" Overridable="yes">Service: [1]</String>
+  <String Id="ProgressTextUnmoveFiles" Overridable="yes">Removing moved files</String>
+  <String Id="ProgressTextUnmoveFilesTemplate" Overridable="yes">File: [1], Directory: [9]</String>
   <String Id="ProgressTextUnpublishComponents" Overridable="yes">Unpublishing Qualified Components</String>
   <String Id="ProgressTextUnpublishComponentsTemplate" Overridable="yes">Component ID: [1], Qualifier: [2]</String>
   <String Id="ProgressTextUnpublishFeatures" Overridable="yes">Unpublishing Product Features</String>
   <String Id="ProgressTextUnpublishFeaturesTemplate" Overridable="yes">Feature: [1]</String>
+  <String Id="ProgressTextUnpublishProduct" Overridable="yes">Unpublishing product information</String>
   <String Id="ProgressTextUnregisterClassInfo" Overridable="yes">Unregister Class servers</String>
   <String Id="ProgressTextUnregisterClassInfoTemplate" Overridable="yes">Class Id: [1]</String>
   <String Id="ProgressTextUnregisterComPlus" Overridable="yes">Unregistering COM+ Applications and Components</String>
@@ -264,22 +304,8 @@
   <String Id="ProgressTextWriteIniValuesTemplate" Overridable="yes">File: [1],  Section: [2],  Key: [3], Value: [4]</String>
   <String Id="ProgressTextWriteRegistryValues" Overridable="yes">Writing system registry values</String>
   <String Id="ProgressTextWriteRegistryValuesTemplate" Overridable="yes">Key: [1], Name: [2], Value: [3]</String>
-  <String Id="ProgressTextAdvertise" Overridable="yes">Advertising application</String>
-  <String Id="ProgressTextGenerateScript" Overridable="yes">Generating script operations for action:</String>
-  <String Id="ProgressTextGenerateScriptTemplate" Overridable="yes">[1]</String>
-  <String Id="ProgressTextInstallSFPCatalogFile" Overridable="yes">Installing system catalog</String>
-  <String Id="ProgressTextInstallSFPCatalogFileTemplate" Overridable="yes">File: [1],  Dependencies: [2]</String>
-  <String Id="ProgressTextMsiPublishAssemblies" Overridable="yes">Publishing assembly information</String>
-  <String Id="ProgressTextMsiPublishAssembliesTemplate" Overridable="yes">Application Context:[1], Assembly Name:[2]</String>
-  <String Id="ProgressTextMsiUnpublishAssemblies" Overridable="yes">Unpublishing assembly information</String>
-  <String Id="ProgressTextMsiUnpublishAssembliesTemplate" Overridable="yes">Application Context:[1], Assembly Name:[2]</String>
-  <String Id="ProgressTextRollback" Overridable="yes">Rolling back action:</String>
-  <String Id="ProgressTextRollbackTemplate" Overridable="yes">[1]</String>
-  <String Id="ProgressTextRollbackCleanup" Overridable="yes">Removing backup files</String>
-  <String Id="ProgressTextRollbackCleanupTemplate" Overridable="yes">File: [1]</String>
-  <String Id="ProgressTextUnmoveFiles" Overridable="yes">Removing moved files</String>
-  <String Id="ProgressTextUnmoveFilesTemplate" Overridable="yes">File: [1], Directory: [9]</String>
-  <String Id="ProgressTextUnpublishProduct" Overridable="yes">Unpublishing product information</String>
+
+
 
   <String Id="Error0" Overridable="yes">{{Fatal error: }}</String>
   <String Id="Error1" Overridable="yes">{{Error [1]. }}</String>
@@ -418,11 +444,6 @@
   <String Id="Error1912" Overridable="yes">Could not unregister type library for file [2]. Contact your support personnel.</String>
   <String Id="Error1913" Overridable="yes">Could not update the ini file [2][3]. Verify that the file exists and that you can access it.</String>
   <String Id="Error1914" Overridable="yes">Could not schedule file [2] to replace file [3] on reboot. Verify that you have write permissions to file [3].</String>
-  <String Id="Error1915" Overridable="yes">Error removing ODBC driver manager, ODBC error [2]: [3]. Contact your support personnel.</String>
-  <String Id="Error1916" Overridable="yes">Error installing ODBC driver manager, ODBC error [2]: [3]. Contact your support personnel.</String>
-  <String Id="Error1917" Overridable="yes">Error removing ODBC driver: [4], ODBC error [2]: [3]. Verify that you have sufficient privileges to remove ODBC drivers.</String>
-  <String Id="Error1918" Overridable="yes">Error installing ODBC driver: [4], ODBC error [2]: [3]. Verify that the file [4] exists and that you can access it.</String>
-  <String Id="Error1919" Overridable="yes">Error configuring ODBC data source: [4], ODBC error [2]: [3]. Verify that the file [4] exists and that you can access it.</String>
   <String Id="Error1920" Overridable="yes">Service '[2]' ([3]) failed to start. Verify that you have sufficient privileges to start system services.</String>
   <String Id="Error1921" Overridable="yes">Service '[2]' ([3]) could not be stopped. Verify that you have sufficient privileges to stop system services.</String>
   <String Id="Error1922" Overridable="yes">Service '[2]' ([3]) could not be deleted. Verify that you have sufficient privileges to remove system services.</String>
@@ -430,9 +451,6 @@
   <String Id="Error1924" Overridable="yes">Could not update environment variable '[2]'. Verify that you have sufficient privileges to modify environment variables.</String>
   <String Id="Error1925" Overridable="yes">You do not have sufficient privileges to complete this installation for all users of the machine. Log on as administrator and then retry this installation.</String>
   <String Id="Error1926" Overridable="yes">Could not set file security for file '[3]'. Error: [2]. Verify that you have sufficient privileges to modify the security permissions for this file.</String>
-  <String Id="Error1927" Overridable="yes">Component Services (COM+ 1.0) are not installed on this computer. This installation requires Component Services in order to complete successfully. Component Services are available on Windows 2000.</String>
-  <String Id="Error1928" Overridable="yes">Error registering COM+ Application. Contact your support personnel for more information.</String>
-  <String Id="Error1929" Overridable="yes">Error unregistering COM+ Application. Contact your support personnel for more information.</String>
   <String Id="Error1930" Overridable="yes">The description for service '[2]' ([3]) could not be changed.</String>
   <String Id="Error1931" Overridable="yes">The Windows Installer service cannot update the system file [2] because the file is protected by Windows. You may need to update your operating system for this program to work correctly. {{Package version: [3], OS Protected version: [4]}}</String>
   <String Id="Error1932" Overridable="yes">The Windows Installer service cannot update the protected Windows file [2]. {{Package version: [3], OS Protected version: [4], SFP Error: [5]}}</String>
@@ -442,50 +460,48 @@
   <String Id="Error1936" Overridable="yes">An error occurred during the installation of assembly '[6]'. The assembly is not strongly named or is not signed with the minimal key length. HRESULT: [3]. {{assembly interface: [4], function: [5], component: [2]}}</String>
   <String Id="Error1937" Overridable="yes">An error occurred during the installation of assembly '[6]'. The signature or catalog could not be verified or is not valid. HRESULT: [3]. {{assembly interface: [4], function: [5], component: [2]}}</String>
   <String Id="Error1938" Overridable="yes">An error occurred during the installation of assembly '[6]'. One or more modules of the assembly could not be found. HRESULT: [3]. {{assembly interface: [4], function: [5], component: [2]}}</String>
+  <String Id="Error2331" Overridable="yes">Error loading library [2] or finding entry point [3].</String>
 
   <String Id="UITextbytes" Overridable="yes">bytes</String>
   <String Id="UITextGB" Overridable="yes">GB</String>
   <String Id="UITextKB" Overridable="yes">KB</String>
   <String Id="UITextMB" Overridable="yes">MB</String>
-  <String Id="UITextMenuAbsent" Overridable="yes">Entire feature will be unavailable</String>
-  <String Id="UITextMenuAdvertise" Overridable="yes">Feature will be installed when required</String>
-  <String Id="UITextMenuAllCD" Overridable="yes">Entire feature will be installed to run from CD</String>
-  <String Id="UITextMenuAllLocal" Overridable="yes">Entire feature will be installed on local hard drive</String>
-  <String Id="UITextMenuAllNetwork" Overridable="yes">Entire feature will be installed to run from network</String>
-  <String Id="UITextMenuCD" Overridable="yes">Will be installed to run from CD</String>
-  <String Id="UITextMenuLocal" Overridable="yes">Will be installed on local hard drive</String>
-  <String Id="UITextMenuNetwork" Overridable="yes">Will be installed to run from network</String>
-  <String Id="UITextScriptInProgress" Overridable="yes">Gathering required information...</String>
-  <String Id="UITextSelAbsentAbsent" Overridable="yes">This feature will remain uninstalled</String>
-  <String Id="UITextSelAbsentAdvertise" Overridable="yes">This feature will be set to be installed when required</String>
-  <String Id="UITextSelAbsentCD" Overridable="yes">This feature will be installed to run from CD</String>
-  <String Id="UITextSelAbsentLocal" Overridable="yes">This feature will be installed on the local hard drive</String>
-  <String Id="UITextSelAbsentNetwork" Overridable="yes">This feature will be installed to run from the network</String>
-  <String Id="UITextSelAdvertiseAbsent" Overridable="yes">This feature will become unavailable</String>
-  <String Id="UITextSelAdvertiseAdvertise" Overridable="yes">Will be installed when required</String>
-  <String Id="UITextSelAdvertiseCD" Overridable="yes">This feature will be available to run from CD</String>
-  <String Id="UITextSelAdvertiseLocal" Overridable="yes">This feature will be installed on your local hard drive</String>
-  <String Id="UITextSelAdvertiseNetwork" Overridable="yes">This feature will be available to run from the network</String>
-  <String Id="UITextSelCDAbsent" Overridable="yes">This feature will be uninstalled completely, you won't be able to run it from CD</String>
-  <String Id="UITextSelCDAdvertise" Overridable="yes">This feature will change from run from CD state to set to be installed when required</String>
-  <String Id="UITextSelCDCD" Overridable="yes">This feature will remain to be run from CD</String>
-  <String Id="UITextSelCDLocal" Overridable="yes">This feature will change from run from CD state to be installed on the local hard drive</String>
+  
+  <String Id="UITextMenuAbsent" Overridable="yes">This feature will not be available.</String>
+  <String Id="UITextMenuAdvertise" Overridable="yes">This feature will be installed when required.</String>
+  <String Id="UITextMenuAllCD" Overridable="yes">This feature, and all subfeatures, will be installed to run from the CD.</String>
+  <String Id="UITextMenuAllLocal" Overridable="yes">This feature, and all subfeatures, will be installed on the local hard drive.</String>
+  <String Id="UITextMenuAllNetwork" Overridable="yes">This feature, and all subfeatures, will be installed to run from the network.</String>
+  <String Id="UITextMenuCD" Overridable="yes">This feature will be installed to run from CD.</String>
+  <String Id="UITextMenuLocal" Overridable="yes">This feature will be installed on the local hard drive.</String>
+  <String Id="UITextMenuNetwork" Overridable="yes">This feature will be installed to run from the network.</String>
+
+  <String Id="UITextSelCDAbsent" Overridable="yes">This feature will be uninstalled completely, you won't be able to run it from CD.</String>
+  <String Id="UITextSelCDAdvertise" Overridable="yes">This feature was run from the CD but will be set to be installed when required.</String>
+  <String Id="UITextSelCDCD" Overridable="yes">This feature will continue to be run from the CD.</String>
+  <String Id="UITextSelCDLocal" Overridable="yes">This feature was run from the CD but will be installed on the local hard drive.</String>
+
   <String Id="UITextSelChildCostNeg" Overridable="yes">This feature frees up [1] on your hard drive.</String>
   <String Id="UITextSelChildCostPos" Overridable="yes">This feature requires [1] on your hard drive.</String>
   <String Id="UITextSelCostPending" Overridable="yes">Compiling cost for this feature...</String>
-  <String Id="UITextSelLocalAbsent" Overridable="yes">This feature will be completely removed</String>
+
+  <String Id="UITextSelLocalAbsent" Overridable="yes">This feature will be completely removed.</String>
   <String Id="UITextSelLocalAdvertise" Overridable="yes">This feature will be removed from your local hard drive, but will be set to be installed when required</String>
   <String Id="UITextSelLocalCD" Overridable="yes">This feature will be removed from your local hard drive, but will be still available to run from CD</String>
-  <String Id="UITextSelLocalLocal" Overridable="yes">This feature will remain on you local hard drive</String>
-  <String Id="UITextSelLocalNetwork" Overridable="yes">This feature will be removed from your local hard drive, but will be still available to run from the network</String>
-  <String Id="UITextSelNetworkAbsent" Overridable="yes">This feature will be uninstalled completely, you won't be able to run it from the network</String>
-  <String Id="UITextSelNetworkAdvertise" Overridable="yes">This feature will change from run from network state to set to be installed when required</String>
-  <String Id="UITextSelNetworkLocal" Overridable="yes">This feature will change from run from network state to be installed on the local hard drive</String>
-  <String Id="UITextSelNetworkNetwork" Overridable="yes">This feature will remain to be run from the network</String>
+  <String Id="UITextSelLocalLocal" Overridable="yes">This feature will remain on you local hard drive.</String>
+  <String Id="UITextSelLocalNetwork" Overridable="yes">This feature will be removed from your local hard drive, but will still be available to run from the network.</String>
+
+  <String Id="UITextSelNetworkAbsent" Overridable="yes">This feature will be uninstalled completely, you won't be able to run it from the network.</String>
+  <String Id="UITextSelNetworkAdvertise" Overridable="yes">This feature was run from the network but will be installed when required.</String>
+  <String Id="UITextSelNetworkLocal" Overridable="yes">This feature was run from the network but will be installed on the local hard drive.</String>
+  <String Id="UITextSelNetworkNetwork" Overridable="yes">This feature will continue to be run from the network.</String>
+
   <String Id="UITextSelParentCostNegNeg" Overridable="yes">This feature frees up [1] on your hard drive. It has [2] of [3] subfeatures selected. The subfeatures free up [4] on your hard drive.</String>
   <String Id="UITextSelParentCostNegPos" Overridable="yes">This feature frees up [1] on your hard drive. It has [2] of [3] subfeatures selected. The subfeatures require [4] on your hard drive.</String>
   <String Id="UITextSelParentCostPosNeg" Overridable="yes">This feature requires [1] on your hard drive. It has [2] of [3] subfeatures selected. The subfeatures free up [4] on your hard drive.</String>
   <String Id="UITextSelParentCostPosPos" Overridable="yes">This feature requires [1] on your hard drive. It has [2] of [3] subfeatures selected. The subfeatures require [4] on your hard drive.</String>
+
+  <String Id="UITextScriptInProgress" Overridable="yes">Gathering required information...</String>
   <String Id="UITextTimeRemaining" Overridable="yes">Time remaining: {[1] minutes }{[2] seconds}</String>
   <String Id="UITextVolumeCostAvailable" Overridable="yes">Available</String>
   <String Id="UITextVolumeCostDifference" Overridable="yes">Difference</String>
