@@ -56,6 +56,7 @@ int make_job() {
     DB_WORKUNIT wu;
     char name[256], path[256], buf[256];
     const char* infiles[1];
+    int retval;
 
     // make a unique name (for the job and its input file)
     //
@@ -64,7 +65,8 @@ int make_job() {
     // Create the input file.
     // Put it at the right place in the download dir hierarchy
     //
-    config.download_path(name, path);
+    retval = config.download_path(name, path);
+    if (retval) return retval;
     FILE* f = fopen(path, "w");
     if (!f) return ERR_FOPEN;
     fprintf(f, "This is the input file for job %s", name);
@@ -76,15 +78,15 @@ int make_job() {
     wu.appid = app.id;
     strcpy(wu.name, name);
     wu.target_nresults = REPLICATION_FACTOR;
-    infiles[0] = path;
+    infiles[0] = name;
 
     // Register the job with BOINC
     //
     return create_work(
         wu,
         wu_template,
-        "result_uppercase.xml",
-        "../templates/results_uppercase.xml",
+        "uc_result",
+        "../templates/uc_result",
         infiles,
         1,
         config
@@ -101,9 +103,17 @@ void main_loop() {
         if (n > CUSHION) {
             sleep(60);
         } else {
-            int njobs = n/REPLICATION_FACTOR;
+            int njobs = (CUSHION-n)/REPLICATION_FACTOR+1;
+            log_messages.printf(SCHED_MSG_LOG::MSG_DEBUG,
+                "Making %d jobs\n", njobs
+            );
             for (int i=0; i<njobs; i++) {
                 retval = make_job();
+                if (retval) {
+                    log_messages.printf(SCHED_MSG_LOG::MSG_CRITICAL,
+                        "can't make job: %d\n", retval
+                    );
+                }
             }
         }
     }
@@ -130,13 +140,15 @@ int main() {
         log_messages.printf(SCHED_MSG_LOG::MSG_CRITICAL, "can't find app\n");
         exit(1);
     }
-    if (read_file_malloc("../templates/wu_uppercase.xml", wu_template)) {
-        log_messages.printf(SCHED_MSG_LOG::MSG_CRITICAL, "can't read template\n");
+    if (read_file_malloc("../templates/uc_wu", wu_template)) {
+        log_messages.printf(SCHED_MSG_LOG::MSG_CRITICAL, "can't read WU template\n");
         exit(1);
     }
 
     start_time = time(0);
     seqno = 0;
+
+    log_messages.printf(SCHED_MSG_LOG::MSG_NORMAL, "Starting\n");
 
     main_loop();
 }

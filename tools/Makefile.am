@@ -21,12 +21,12 @@ sign_executable_LDADD = $(BOINC_LIB) $(RSA_LIBS) $(MYSQL_LIBS)
 dir_hier_path_SOURCES = \
     dir_hier_path.C
 
-dir_hier_path_LDADD = $(SCHED_LIB) $(BOINC_LIB)
+dir_hier_path_LDADD = $(SCHED_LIB) $(BOINC_LIB) $(MYSQL_LIBS)
 
 dir_hier_move_SOURCES = \
     dir_hier_move.C
 
-dir_hier_move_LDADD = $(SCHED_LIB) $(BOINC_LIB)
+dir_hier_move_LDADD = $(SCHED_LIB) $(BOINC_LIB) $(MYSQL_LIBS)
 
 updater_SOURCES = updater.C
 

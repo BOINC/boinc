@@ -28,7 +28,7 @@
 // NOTE: this is NOT a sample BOINC application.
 // Look in boinc_samples/uppercase for that.
 // This is a bare-bones application (no graphics)
-// that's used by the test_uc.py script.
+// that's used for testing and as a placeholder.
 
 #ifdef _WIN32
 #include "boinc_win.h"

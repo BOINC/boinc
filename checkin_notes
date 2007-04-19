@@ -3770,3 +3770,22 @@ Rom    19 Apr 2007
         cpp.h
         cs_scheduler.C
 
+David  19 Apr 2007
+    - Change things so that make_project installs a test application
+        (uppercase) and the daemons to go along with it
+        (sample_work_generator, sample_bitwise_validator, sample_assimilator).
+        This is mostly working, not completely.
+
+    apps
+        upper_case.C
+    html/ops/
+        mass_email_script.php
+    py/Boinc/
+        setup_project.py
+    sched/
+        sched_config.C,h
+        sample_work_generator.C
+    tools/
+        make_project
+        project.xml
+        Makefile.am

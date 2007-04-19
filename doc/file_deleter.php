@@ -42,6 +42,10 @@ list_item(
     return work really late after the deadline -- so late that
     the corresponding WU has been deleted from the database."
 );
+list_item(
+    "-dont_delete_batches",
+    "If this boolean is set, the file deleter won't delete any files for which the corresponding workunit or result record has a positive value of the the 'batch' field. This lets you keep files on disk until you're done with them. Create workunits with a positive batch number, and zero out (or negate) the batch number when you're done looking at the files (you can do this with a SQL query). If you use this option, replace the indices on file_delete_state with indices on (file_delete_state, batch)."
+);
 list_end();
 echo "
 
