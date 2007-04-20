@@ -3827,3 +3827,28 @@ Rom    19 Apr 2007 (HEAD)
     - Tag for 5.9.4 release, all platforms
       boinc_core_release_5_9_4
 
+David  20 Apr 2007
+    - make_project: add periodic tasks to default config.xml:
+        dp_dump, update_uotd, update_forum_activities, update_stats,
+        update_profile_pages
+    - backend_lib.C: refuse to create a job for which some necessary
+        parameter (rsc_fpops_est, rsc_fpops_bound, etc.) is missing
+    - Unix build: don't include std_fixes.h in config.h.
+        std_fixes.h is (I think) deprecated
+    - sched_util: default sched log level is MSG_NORMAL
+    - client: add ".txt" to job log filename
+    - compile fixes
+
+    configure.ac
+    api/
+        reduce_main.C
+    client/
+        file_names.C
+    lib/
+        str_util.h
+    sched/
+        sample_work_generator.C
+        sched_msgs.h
+    tools/
+        backend_lib.C
+        make_project

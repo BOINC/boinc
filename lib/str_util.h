@@ -26,6 +26,7 @@
 #include <cstring>
 #include <string>
 #include <vector>
+#include <algorithm>
 
 #define MEGA (1048576.0)
 #define GIGA (1024.*1048576.0)

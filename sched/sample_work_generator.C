@@ -34,9 +34,9 @@
 #include "backend_lib.h"
 #include "parse.h"
 
-#include "sched_msgs.h"
 #include "sched_config.h"
 #include "sched_util.h"
+#include "sched_msgs.h"
 
 #define CUSHION 100
     // maintain at least this many unsent results
@@ -113,14 +113,25 @@ void main_loop() {
                     log_messages.printf(SCHED_MSG_LOG::MSG_CRITICAL,
                         "can't make job: %d\n", retval
                     );
+                    exit(retval);
                 }
             }
         }
     }
 }
 
-int main() {
-    int retval;
+int main(int argc, char** argv) {
+    int i, retval;
+
+    for (i=1; i<argc; i++) {
+        if (!strcmp(argv[i], "-d")) {
+            log_messages.set_debug_level(atoi(argv[++i]));
+        } else {
+            log_messages.printf(SCHED_MSG_LOG::MSG_CRITICAL,
+                "bad cmdline arg: %s", argv[i]
+            );
+        }
+    }
 
     if (config.parse_file("..")) {
         log_messages.printf(SCHED_MSG_LOG::MSG_CRITICAL,

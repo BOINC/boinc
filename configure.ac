@@ -397,8 +397,6 @@ AH_TOP([
 
 ])
 AH_BOTTOM([
-/* include fixes for the most common problems */
-#include "std_fixes.h"
 
 /* end double-inclusion protection for config.h */
 #endif /* #ifndef BOINC_CONFIG_H */

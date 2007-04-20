@@ -220,7 +220,35 @@ if not options.no_test_app:
     project.config.daemons.make_node_and_append("daemon").cmd = 'sample_work_generator -d 3'
     project.config.daemons.make_node_and_append("daemon").cmd = 'sample_bitwise_validator -d 3 -app uppercase'
     project.config.daemons.make_node_and_append("daemon").cmd = 'sample_assimilator -d 3 -app uppercase'
-    project.config.write()
+
+# set up default tasks
+
+t = project.config.tasks.make_node_and_append("task")
+t.period = '24 hours'
+t.output = 'db_dump.out'
+t.cmd = 'db_dump -d 2 -dump_spec ../db_dump_spec.xml'
+
+t = project.config.tasks.make_node_and_append("task")
+t.period = '1 days'
+t.output = 'update_uotd.out'
+t.cmd = 'run_in_ops update_uotd.php'
+
+t = project.config.tasks.make_node_and_append("task")
+t.period = '1 hour'
+t.output = 'update_forum_activities.out'
+t.cmd = 'run_in_ops update_forum_activities.php'
+
+t = project.config.tasks.make_node_and_append("task")
+t.period = '7 days'
+t.output = 'update_stats.out'
+t.cmd = 'update_stats'
+
+t = project.config.tasks.make_node_and_append("task")
+t.period = '24 hours'
+t.output = 'update_profile_pages.out'
+t.cmd = 'run_in_ops update_profile_pages.php'
+
+project.config.write()
 
 print '''Done installing default daemons.'''
 

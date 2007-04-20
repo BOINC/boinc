@@ -91,7 +91,7 @@ void job_log_filename(PROJECT& project, char* buf, int len) {
     char url[1024];
 
     escape_project_url(project.master_url, url);
-    snprintf(buf, len, "%s%s", JOB_LOG_BASE, url);
+    snprintf(buf, len, "%s%s.txt", JOB_LOG_BASE, url);
 }
 
 // Returns the location of a numbered slot directory
