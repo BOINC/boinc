@@ -3864,6 +3864,14 @@ David  20 Apr 2007
     lib/
         str_util.C,h
 
+David  20 Apr 2007
+	- Advanced prefs: remove incorrect multiplication by 86400
+
+	client/
+		cs_prefs.C
+	clientgui/
+		DlgAdvPreferences.cpp
+
 Rom    20 Apr 2007
     - Fix: Win x64's alternate platform is really windows_intelx86
         not windows_x86_64.
