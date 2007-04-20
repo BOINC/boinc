@@ -3852,3 +3852,14 @@ David  20 Apr 2007
     tools/
         backend_lib.C
         make_project
+
+David  20 Apr 2007
+    - str_util: don't use std::transform, since it causes problems
+        with VC++ express edition
+
+    clientgui/
+        sg_SGUIListControl.h
+    html/ops/
+        db_update.php
+    lib/
+        str_util.C,h

@@ -70,15 +70,14 @@ inline bool starts_with(std::string const& s, std::string const& prefix) {
     return s.substr(0, prefix.size()) == prefix;
 }
 
-// http://lists.debian.org/debian-gcc/2002/debian-gcc-200204/msg00092.html
-inline void downcase_string(
-    std::string::iterator begin, std::string::iterator end, std::string::iterator src
-) {
-	transform(begin, end, src, (int(*)(int))tolower);
-}
-
 inline void downcase_string(std::string& w) {
-    downcase_string(w.begin(), w.end(), w.begin());
+    char buf[1024];
+    strlcpy(buf, w.c_str(), sizeof(buf));
+    int n = strlen(buf);
+    for (int i=0; i<n; i++) {
+        buf[i] = tolower(buf[i]);
+    }
+    w = buf;
 }
 
 // convert UNIX time to MySQL timestamp (yyyymmddhhmmss)

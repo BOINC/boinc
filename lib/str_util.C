@@ -433,7 +433,7 @@ void canonicalize_master_url(char* url) {
     if (buf[n-1] != '/') {
         strcat(buf, "/");
     }
-	sprintf(url, "http%s://%s", (bSSL ? "s" : ""), buf); // CMC Here -- add SSL if needed
+	sprintf(url, "http%s://%s", (bSSL ? "s" : ""), buf);
 }
 
 void canonicalize_master_url(string& url) {
