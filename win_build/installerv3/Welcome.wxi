@@ -178,7 +178,7 @@
              Width="225"
              Height="45"
              Transparent="yes">
-      <Text>{&amp;TahomaBold10}Welcome to the Patch for [ProductName]</Text>
+      <Text>{&amp;PosterTitle}Welcome to the Patch for [ProductName]</Text>
     </Control>
   </Dialog>
 </Include>

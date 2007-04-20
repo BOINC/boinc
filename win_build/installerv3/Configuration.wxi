@@ -20,13 +20,13 @@
                      Y="0"
                      Width="270"
                      Height="15"
-                     Text="{&amp;MSSansBold8}&amp;Single-User Installation" />
+                     Text="{&amp;BannerTitle}&amp;Single-User Installation" />
         <RadioButton Value="1"
                      X="0"
                      Y="38"
                      Width="270"
                      Height="15"
-                     Text="{&amp;MSSansBold8}S&amp;hared Installation" />
+                     Text="{&amp;BannerTitle}S&amp;hared Installation" />
       </RadioButtonGroup>
     </Control>
     <Control Id="Back"
@@ -81,7 +81,7 @@
              Width="292"
              Height="25"
              Transparent="yes">
-      <Text><![CDATA[{&MSSansBold8}Setup Type]]></Text>
+      <Text><![CDATA[{&BannerTitle}Setup Type]]></Text>
     </Control>
     <Control Id="DlgText"
              Type="Text"

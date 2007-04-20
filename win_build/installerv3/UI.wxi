@@ -8,13 +8,13 @@
     <TextStyle Id="Tahoma8"
                FaceName="Tahoma"
                Size="8" />
-    <TextStyle Id="TahomaBold10"
-               FaceName="Tahoma"
-               Size="10"
+    <TextStyle Id="PosterTitle"
+               FaceName="Verdana"
+               Size="11"
                Bold="yes" />
-    <TextStyle Id="MSSansBold8"
-               FaceName="Tahoma"
-               Size="8"
+    <TextStyle Id="BannerTitle"
+               FaceName="Verdana"
+               Size="9"
                Bold="yes" />
 
 
@@ -34,10 +34,9 @@
                Height="17"
                Default="yes"
                Cancel="yes"
-               Text="&amp;Finish">
+               Text="!(loc.Finish)">
         <Publish Event="EndDialog"
-                 Value="Exit"><![CDATA[1]]></Publish>
-        <Condition Action="default"><![CDATA[NOT UpdateStarted]]></Condition>
+                 Value="Exit">1</Publish>
       </Control>
       <Control Id="Cancel"
                Type="PushButton"
@@ -46,13 +45,7 @@
                Width="66"
                Height="17"
                Disabled="yes"
-               Text="Cancel">
-        <Publish Property="Suspend"
-                 Value="1"><![CDATA[1]]></Publish>
-        <Publish Event="EndDialog"
-                 Value="Return"><![CDATA[1]]></Publish>
-        <Condition Action="disable"><![CDATA[NOT UpdateStarted]]></Condition>
-        <Condition Action="enable"><![CDATA[UpdateStarted]]></Condition>
+               Text="!(loc.Cancel)">
       </Control>
       <Control Id="Back"
                Type="PushButton"
@@ -62,66 +55,42 @@
                Height="17"
                Disabled="yes"
                Text="!(loc.Back)">
-        <Publish Property="Suspend"
-                 Value="{}"><![CDATA[1]]></Publish>
-        <Publish Event="EndDialog"
-                 Value="Return"><![CDATA[1]]></Publish>
-        <Condition Action="disable"><![CDATA[NOT UpdateStarted]]></Condition>
-        <Condition Action="enable"><![CDATA[UpdateStarted]]></Condition>
-        <Condition Action="default"><![CDATA[UpdateStarted]]></Condition>
       </Control>
-      <Control Id="TextLine2"
+      <Control Id="Title"
+        Type="Text"
+        X="135"
+        Y="8"
+        Width="225"
+        Height="45"
+        Transparent="yes">
+        <Text>!(loc.SetupCompleteErrorTitle)</Text>
+      </Control>
+      <Control Id="Description"
                Type="Text"
                X="135"
                Y="55"
                Width="228"
                Height="25"
                Transparent="yes">
-        <Text><![CDATA[The wizard was interrupted before [ProductName] could be completely installed.]]></Text>
+        <Text>!(loc.SetupCompleteErrorDescription)</Text>
       </Control>
-      <Control Id="FinishText1"
+      <Control Id="Finish1"
                Type="Text"
                X="135"
                Y="80"
                Width="228"
                Height="50"
                Transparent="yes">
-        <Text><![CDATA[Your system has not been modified. To complete installation at another time, please run setup again.]]></Text>
-        <Condition Action="hide"><![CDATA[UpdateStarted]]></Condition>
-        <Condition Action="show"><![CDATA[NOT UpdateStarted]]></Condition>
+        <Text>!(loc.SetupCompleteErrorFinish1)</Text>
       </Control>
-      <Control Id="FinishText2"
+      <Control Id="Finish2"
                Type="Text"
                X="135"
                Y="135"
                Width="228"
                Height="25"
                Transparent="yes">
-        <Text><![CDATA[Click Finish to exit the wizard.]]></Text>
-        <Condition Action="hide"><![CDATA[UpdateStarted]]></Condition>
-        <Condition Action="show"><![CDATA[NOT UpdateStarted]]></Condition>
-      </Control>
-      <Control Id="RestContText1"
-               Type="Text"
-               X="135"
-               Y="80"
-               Width="228"
-               Height="50"
-               Transparent="yes">
-        <Text><![CDATA[You can either keep any existing installed elements on your system to continue this installation at a later time or you can restore your system to its original state prior to the installation.]]></Text>
-        <Condition Action="hide"><![CDATA[NOT UpdateStarted]]></Condition>
-        <Condition Action="show"><![CDATA[UpdateStarted]]></Condition>
-      </Control>
-      <Control Id="RestContText2"
-               Type="Text"
-               X="135"
-               Y="135"
-               Width="228"
-               Height="25"
-               Transparent="yes">
-        <Text><![CDATA[Click Restore or Continue Later to exit the wizard.]]></Text>
-        <Condition Action="hide"><![CDATA[NOT UpdateStarted]]></Condition>
-        <Condition Action="show"><![CDATA[UpdateStarted]]></Condition>
+        <Text>!(loc.SetupCompleteErrorFinish2)</Text>
       </Control>
     </Dialog>
     <Dialog Id="SetupCompleteSuccess"
@@ -138,13 +107,9 @@
                Height="17"
                Default="yes"
                Cancel="yes"
-               Text="&amp;Finish">
-        <Publish Property="IS_CRAP"
-                 Value="IS_LAUNCH_MY_PROGRAM_PLEASE"><![CDATA[LAUNCHPROGRAM]]></Publish>
+               Text="!(loc.Finish)">
         <Publish Event="EndDialog"
-                 Value="Exit"><![CDATA[1]]></Publish>
-        <Publish Property="IS_CRAP"
-                 Value="LaunchProgram"><![CDATA[LAUNCHPROGRAM = 1]]></Publish>
+                 Value="Exit">1</Publish>
       </Control>
       <Control Id="Cancel"
                Type="PushButton"
@@ -153,7 +118,7 @@
                Width="66"
                Height="17"
                Disabled="yes"
-               Text="Cancel" />
+               Text="!(loc.Cancel)" />
       <Control Id="Back"
                Type="PushButton"
                X="164"
@@ -162,40 +127,23 @@
                Height="17"
                Disabled="yes"
                Text="!(loc.Back)" />
-      <Control Id="LaunchProgramText"
-               Type="Text"
-               X="165"
-               Y="114"
-               Width="198"
-               Height="15"
-               Property="NewProperty1"
-               Transparent="yes"
-               TabSkip="no"
-               Text="Launch [ProductName]">
-        <Condition Action="hide"><![CDATA[_IsMaintenance = "Remove" Or _IsMaintenance = "Reinstall"]]></Condition>
+      <Control Id="Title"
+  Type="Text"
+  X="135"
+  Y="8"
+  Width="225"
+  Height="45"
+  Transparent="yes">
+        <Text>!(loc.SetupCompleteSuccessTitle)</Text>
       </Control>
-      <Control Id="LaunchProgramCheck"
-               Type="CheckBox"
-               X="151"
-               Y="114"
-               Width="10"
-               Height="9"
-               Property="LAUNCHPROGRAM"
-               CheckBoxValue="1"
-               Integer="yes">
-        <Property Id="LAUNCHPROGRAM"><![CDATA[1]]></Property>
-        <Condition Action="hide"><![CDATA[_IsMaintenance = "Remove" Or _IsMaintenance = "Reinstall"]]></Condition>
-      </Control>
-      <Control Id="UpdateTextLine1"
+      <Control Id="Description"
                Type="Text"
                X="135"
-               Y="30"
+               Y="135"
                Width="228"
-               Height="45"
-               Hidden="yes"
+               Height="25"
                Transparent="yes">
-        <Text><![CDATA[Setup has finished installing [ProductName].]]></Text>
-        <Condition Action="show"><![CDATA[ISENABLEDWUSFINISHDIALOG And NOT Installed And ACTION="INSTALL"]]></Condition>
+        <Text>!(loc.SetupCompleteSuccessDescription)</Text>
       </Control>
     </Dialog>
     <Dialog Id="Prepare"
@@ -214,14 +162,14 @@
                Cancel="yes"
                Text="!(loc.Cancel)">
         <Publish Event="SpawnDialog"
-                 Value="CancelSetup"><![CDATA[1]]></Publish>
+                 Value="CancelSetup">1</Publish>
       </Control>
       <Control Id="ActionText"
                Type="Text"
                X="135"
-               Y="109"
-               Width="220"
-               Height="36"
+             Y="55"
+             Width="228"
+             Height="45"
                Transparent="yes">
         <Subscribe Event="ActionText"
                    Attribute="Text" />
@@ -247,19 +195,29 @@
       <Control Id="ActionData"
                Type="Text"
                X="135"
-               Y="125"
-               Width="228"
-               Height="12"
+              Y="120"
+             Width="228"
+             Height="45"
                Transparent="yes">
         <Subscribe Event="ActionData"
                    Attribute="Text" />
       </Control>
+      <!-- Uses same title as Welcome dialog -->
+      <Control Id="Title"
+        Type="Text"
+        X="135"
+        Y="8"
+        Width="225"
+        Height="45"
+        Transparent="yes">
+        <Text>!(loc.InstallWelcomeTitle)</Text>
+      </Control>
     </Dialog>
     <Dialog Id="SetupInterrupted"
-            Width="374"
-            Height="266"
-            Title="!(loc.WizardTitle)"
-            NoMinimize="yes">
+        Width="374"
+        Height="266"
+        Title="!(loc.WizardTitle)"
+        NoMinimize="yes">
       <?include TemplatePoster.wxi ?>
       <Control Id="Finish"
                Type="PushButton"
@@ -375,9 +333,9 @@
                Height="17"
                Default="yes"
                Cancel="yes"
-               Text="Cancel">
+               Text="!(loc.Cancel)">
         <Publish Event="SpawnDialog"
-                 Value="CancelSetup"><![CDATA[1]]></Publish>
+                 Value="CancelSetup">1</Publish>
       </Control>
       <Control Id="Back"
                Type="PushButton"
@@ -403,19 +361,8 @@
                Height="12">
         <Subscribe Event="ActionText"
                    Attribute="Text" />
-      </Control>
-      <Control Id="DlgDesc"
-               Type="Text"
-               X="21"
-               Y="23"
-               Width="292"
-               Height="25"
-               Hidden="yes"
-               Transparent="yes">
-        <Text><![CDATA[The program features you selected are being installed.]]></Text>
-        <Condition Action="show"><![CDATA[ProgressType2="installed"]]></Condition>
-      </Control>
-      <Control Id="DlgTitle"
+      </Control> 
+      <Control Id="TitleInstalling"
                Type="Text"
                X="13"
                Y="6"
@@ -423,21 +370,10 @@
                Height="25"
                Hidden="yes"
                Transparent="yes">
-        <Text><![CDATA[{&MSSansBold8}Installing [ProductName]]]></Text>
-        <Condition Action="show"><![CDATA[ProgressType1="Installing"]]></Condition>
+        <Text>!(loc.SetupProgressTitleInstalling)</Text>
+        <Condition Action="show">ProgressType1="Installing"</Condition>
       </Control>
-      <Control Id="DlgTitle2"
-               Type="Text"
-               X="13"
-               Y="6"
-               Width="292"
-               Height="25"
-               Hidden="yes"
-               Transparent="yes">
-        <Text><![CDATA[{&MSSansBold8}Uninstalling [ProductName]]]></Text>
-        <Condition Action="show"><![CDATA[ProgressType1="Uninstalling"]]></Condition>
-      </Control>
-      <Control Id="DlgDesc2"
+      <Control Id="TextInstalling"
                Type="Text"
                X="21"
                Y="23"
@@ -445,17 +381,40 @@
                Height="25"
                Hidden="yes"
                Transparent="yes">
-        <Text><![CDATA[The program features you selected are being uninstalled.]]></Text>
-        <Condition Action="show"><![CDATA[ProgressType2="uninstalled"]]></Condition>
+        <Text>!(loc.SetupProgressTextInstalling)</Text>
+        <Condition Action="show">ProgressType2="installed"</Condition>
       </Control>
-      <Control Id="ActionProgress95"
+
+      <Control Id="TitleRemoving"
+               Type="Text"
+               X="13"
+               Y="6"
+               Width="292"
+               Height="25"
+               Hidden="yes"
+               Transparent="yes">
+        <Text>!(loc.SetupProgressTitleRemoving)</Text>
+        <Condition Action="show">ProgressType1="Uninstalling"</Condition>
+      </Control>
+      <Control Id="TextRemoving"
+               Type="Text"
+               X="21"
+               Y="23"
+               Width="292"
+               Height="25"
+               Hidden="yes"
+               Transparent="yes">
+        <Text>!(loc.SetupProgressTextRemoving)</Text>
+        <Condition Action="show">ProgressType2="uninstalled"</Condition>
+      </Control>
+      <Control Id="ProgressBar"
                Type="ProgressBar"
                X="59"
                Y="113"
                Width="275"
                Height="12"
                ProgressBlocks="yes"
-               Text="Progress done">
+               Text="!(loc.SetupProgressProgressBar)">
         <Subscribe Event="InstallFiles"
                    Attribute="Progress" />
         <Subscribe Event="MoveFiles"
@@ -475,38 +434,13 @@
         <Subscribe Event="SetProgress"
                    Attribute="Progress" />
       </Control>
-      <Control Id="LbSec"
-               Type="Text"
-               X="172"
-               Y="139"
-               Width="32"
-               Height="12"
-               Hidden="yes"
-               Text="(Hidden for now)Sec." />
-      <Control Id="LbStatus"
+      <Control Id="StatusLabel"
                Type="Text"
                X="59"
                Y="85"
                Width="70"
                Height="12"
-               Text="Status:" />
-      <Control Id="ShowTime"
-               Type="Text"
-               X="155"
-               Y="139"
-               Width="17"
-               Height="12"
-               Hidden="yes"
-               Text="(Hidden for now)" />
-      <Control Id="TextTime"
-               Type="Text"
-               X="59"
-               Y="139"
-               Width="96"
-               Height="12"
-               Hidden="yes">
-        <Text><![CDATA[)Hidden for now)Estimated time remaining:]]></Text>
-      </Control>
+               Text="!(loc.SetupProgressStatusLabel)" />
     </Dialog>
     <Dialog Id="SetupError"
             Y="10"
@@ -521,7 +455,6 @@
                Width="200"
                Height="50"
                TabSkip="no">
-        <Text><![CDATA[<error text goes here><error text goes here><error text goes here><error text goes here><error text goes here><error text goes here><error text goes here><error text goes here><error text goes here><error text goes here><error text goes here>]]></Text>
       </Control>
       <Control Id="Y"
                Type="PushButton"
@@ -530,9 +463,9 @@
                Width="66"
                Height="17"
                TabSkip="yes"
-               Text="&amp;Yes">
+               Text="!(loc.Yes)">
         <Publish Event="EndDialog"
-                 Value="ErrorYes"><![CDATA[1]]></Publish>
+                 Value="ErrorYes">1</Publish>
       </Control>
       <Control Id="N"
                Type="PushButton"
@@ -541,9 +474,9 @@
                Width="66"
                Height="17"
                TabSkip="yes"
-               Text="&amp;No">
+               Text="!(loc.No)">
         <Publish Event="EndDialog"
-                 Value="ErrorNo"><![CDATA[1]]></Publish>
+                 Value="ErrorNo">1</Publish>
       </Control>
       <Control Id="A"
                Type="PushButton"
@@ -552,9 +485,9 @@
                Width="66"
                Height="17"
                TabSkip="yes"
-               Text="&amp;Abort">
+               Text="!(loc.Abort)">
         <Publish Event="EndDialog"
-                 Value="ErrorAbort"><![CDATA[1]]></Publish>
+                 Value="ErrorAbort">1</Publish>
       </Control>
       <Control Id="C"
                Type="PushButton"
@@ -564,9 +497,9 @@
                Height="17"
                Cancel="yes"
                TabSkip="yes"
-               Text="&amp;Cancel">
+               Text="!(loc.Cancel)">
         <Publish Event="EndDialog"
-                 Value="ErrorCancel"><![CDATA[1]]></Publish>
+                 Value="ErrorCancel">1</Publish>
       </Control>
       <Control Id="I"
                Type="PushButton"
@@ -575,9 +508,9 @@
                Width="66"
                Height="17"
                TabSkip="yes"
-               Text="&amp;Ignore">
+               Text="!(loc.Ignore)">
         <Publish Event="EndDialog"
-                 Value="ErrorIgnore"><![CDATA[1]]></Publish>
+                 Value="ErrorIgnore">1</Publish>
       </Control>
       <Control Id="O"
                Type="PushButton"
@@ -587,9 +520,9 @@
                Height="17"
                Default="yes"
                TabSkip="yes"
-               Text="&amp;OK">
+               Text="!(loc.OK)">
         <Publish Event="EndDialog"
-                 Value="ErrorOk"><![CDATA[1]]></Publish>
+                 Value="ErrorOk">1</Publish>
       </Control>
       <Control Id="R"
                Type="PushButton"
@@ -598,9 +531,9 @@
                Width="66"
                Height="17"
                TabSkip="yes"
-               Text="&amp;Retry">
+               Text="!(loc.Retry)">
         <Publish Event="EndDialog"
-                 Value="ErrorRetry"><![CDATA[1]]></Publish>
+                 Value="ErrorRetry">1</Publish>
       </Control>
       <Control Id="WarningIcon"
                Type="Icon"
@@ -657,7 +590,7 @@
                Width="225"
                Height="45"
                Transparent="yes">
-        <Text><![CDATA[{&TahomaBold10}Upgrading [ProductName]]]></Text>
+        <Text><![CDATA[{&PosterTitle}Upgrading [ProductName]]]></Text>
       </Control>
     </Dialog>
     <Dialog Id="LicenseAgreement"
@@ -739,7 +672,7 @@
                Width="292"
                Height="25"
                Transparent="yes">
-        <Text><![CDATA[{&MSSansBold8}License Agreement]]></Text>
+        <Text><![CDATA[{&BannerTitle}License Agreement]]></Text>
       </Control>
       <Control Id="Memo"
                Type="ScrollableText"
@@ -766,10 +699,10 @@ You may use this software on a computer system only if you own the system or hav
 \par
 Distribution\par
 \par
-This is free software.
-It is distributed under the terms of the GNU Lesser General Public License
-as published by the Free Software Foundation (http://www.fsf.org/).
-The source code may be obtained
+This is free software. 
+It is distributed under the terms of the GNU Lesser General Public License 
+as published by the Free Software Foundation (http://www.fsf.org/). 
+The source code may be obtained 
 from the BOINC web site (http://boinc.berkeley.edu).\par
 \par
 }
@@ -791,17 +724,17 @@ from the BOINC web site (http://boinc.berkeley.edu).\par
                Width="66"
                Height="17"
                Default="yes"
-               Text="&amp;Install">
+               Text="!(loc.ReadyToInstallInstall)">
         <Publish Event="EndDialog"
-                 Value="Return"><![CDATA[OutOfNoRbDiskSpace <> 1]]></Publish>
+                 Value="Return">OutOfNoRbDiskSpace &lt;&gt; 1</Publish>
         <Publish Event="NewDialog"
-                 Value="OutOfSpace"><![CDATA[OutOfNoRbDiskSpace = 1]]></Publish>
+                 Value="OutOfSpace">OutOfNoRbDiskSpace = 1</Publish>
         <Publish Property="ProgressType1"
-                 Value="Installing"><![CDATA[1]]></Publish>
+                 Value="Installing">1</Publish>
         <Publish Property="ProgressType2"
-                 Value="installed"><![CDATA[1]]></Publish>
+                 Value="installed">1</Publish>
         <Publish Property="ProgressType3"
-                 Value="installs"><![CDATA[1]]></Publish>
+                 Value="installs">1</Publish>
       </Control>
       <Control Id="Cancel"
                Type="PushButton"
@@ -810,9 +743,9 @@ from the BOINC web site (http://boinc.berkeley.edu).\par
                Width="66"
                Height="17"
                Cancel="yes"
-               Text="Cancel">
+               Text="!(loc.Cancel)">
         <Publish Event="SpawnDialog"
-                 Value="CancelSetup"><![CDATA[1]]></Publish>
+                 Value="CancelSetup">1</Publish>
       </Control>
       <Control Id="Back"
                Type="PushButton"
@@ -826,16 +759,16 @@ from the BOINC web site (http://boinc.berkeley.edu).\par
         <Publish Event="NewDialog"
                  Value="MaintenanceType"><![CDATA[Installed AND _IsMaintenance = "Reinstall"]]></Publish>
       </Control>
-      <Control Id="DlgDesc"
+      <Control Id="Description"
                Type="Text"
                X="21"
                Y="23"
                Width="292"
                Height="25"
                Transparent="yes">
-        <Text><![CDATA[The wizard is ready to begin installation.]]></Text>
+        <Text>!(loc.ReadyToInstallDescription)</Text>
       </Control>
-      <Control Id="DlgTitle"
+      <Control Id="ChangeTitle"
                Type="Text"
                X="13"
                Y="6"
@@ -843,18 +776,18 @@ from the BOINC web site (http://boinc.berkeley.edu).\par
                Height="25"
                Hidden="yes"
                Transparent="yes">
-        <Text><![CDATA[{&MSSansBold8}Ready to Modify the Program]]></Text>
-        <Condition Action="show"><![CDATA[ProgressType0="Modify"]]></Condition>
+        <Text>!(loc.ReadyToInstallChangeTitle)</Text>
+        <Condition Action="show">ProgressType0="Modify"</Condition>
       </Control>
-      <Control Id="DlgText"
+      <Control Id="InstallText"
                Type="Text"
                X="21"
                Y="51"
                Width="326"
                Height="20">
-        <Text><![CDATA[Click Install to begin the installation.]]></Text>
+        <Text>!(loc.ReadyToInstallInstallText)</Text>
       </Control>
-      <Control Id="DlgTitle2"
+      <Control Id="RepairTitle"
                Type="Text"
                X="13"
                Y="6"
@@ -862,27 +795,26 @@ from the BOINC web site (http://boinc.berkeley.edu).\par
                Height="25"
                Hidden="yes"
                Transparent="yes">
-        <Text><![CDATA[{&MSSansBold8}Ready to Repair the Program]]></Text>
-        <Condition Action="show"><![CDATA[ProgressType0="Repair"]]></Condition>
+        <Text>!(loc.ReadyToInstallRepairTitle)</Text>
+        <Condition Action="show">ProgressType0="Repair"</Condition>
       </Control>
-      <Control Id="DlgTitle3"
-               Type="Text"
-               X="13"
-               Y="6"
-               Width="292"
-               Height="25"
-               Hidden="yes"
-               Transparent="yes">
-        <Text><![CDATA[{&MSSansBold8}Ready to Install the Program]]></Text>
-        <Condition Action="show"><![CDATA[ProgressType0="install"]]></Condition>
+      <Control Id="InstallTitle"
+     Type="Text"
+             X="13"
+             Y="6"
+             Width="292"
+             Height="25"
+             Transparent="yes">
+        <Text>!(loc.ReadyToInstallInstallTitle)</Text>
+        <Condition Action="show">ProgressType0="install"</Condition>
       </Control>
-      <Control Id="DlgText1"
+      <Control Id="ReviewText"
                Type="Text"
                X="21"
                Y="70"
                Width="330"
                Height="24">
-        <Text><![CDATA[If you want to review or change any of your installation settings, click Back. Click Cancel to exit the wizard.]]></Text>
+        <Text>!(loc.ReadyToInstallReviewText)</Text>
       </Control>
     </Dialog>
     <Dialog Id="CancelSetup"
@@ -898,7 +830,7 @@ from the BOINC web site (http://boinc.berkeley.edu).\par
                Height="17"
                Default="yes"
                Cancel="yes"
-               Text="&amp;No">
+               Text="!(loc.No)">
         <Publish Event="EndDialog"
                  Value="Return">1</Publish>
       </Control>
@@ -908,7 +840,7 @@ from the BOINC web site (http://boinc.berkeley.edu).\par
                Y="57"
                Width="66"
                Height="17"
-               Text="&amp;Yes">
+               Text="!(loc.Yes)">
         <Publish Event="EndDialog"
                  Value="Exit">1</Publish>
       </Control>
@@ -918,7 +850,7 @@ from the BOINC web site (http://boinc.berkeley.edu).\par
                Y="15"
                Width="224"
                Height="30">
-        <Text>Are you sure you want to cancel this installation?</Text>
+        <Text>!(loc.CancelSetupText)</Text>
       </Control>
     </Dialog>
     <Dialog Id="AdminNetworkLocation"
@@ -927,6 +859,7 @@ from the BOINC web site (http://boinc.berkeley.edu).\par
             Title="!(loc.WizardTitle)"
             NoMinimize="yes">
       <?include TemplateBanner.wxi ?>
+      <!-- Admin dialogs not localized yet -->
       <Control Id="InstallNow"
                Type="PushButton"
                X="230"
@@ -996,7 +929,7 @@ from the BOINC web site (http://boinc.berkeley.edu).\par
                Width="292"
                Height="25"
                Transparent="yes">
-        <Text><![CDATA[{&MSSansBold8}Network Location]]></Text>
+        <Text><![CDATA[{&BannerTitle}Network Location]]></Text>
       </Control>
       <Control Id="DlgText"
                Type="Text"
@@ -1020,6 +953,8 @@ from the BOINC web site (http://boinc.berkeley.edu).\par
             Title="!(loc.WizardTitle)"
             NoMinimize="yes">
       <?include TemplateBanner.wxi ?>
+      <!-- Admin dialogs not localized yet -->
+      <!-- Fold into ChangeFolder -->
       <Control Id="Tail"
                Type="PathEdit"
                X="21"
@@ -1132,7 +1067,7 @@ from the BOINC web site (http://boinc.berkeley.edu).\par
                Width="292"
                Height="25"
                Transparent="yes">
-        <Text><![CDATA[{&MSSansBold8}Change Current Destination Folder]]></Text>
+        <Text><![CDATA[{&BannerTitle}Change Current Destination Folder]]></Text>
       </Control>
     </Dialog>
     <Dialog Id="OutOfSpace"
@@ -1169,7 +1104,7 @@ from the BOINC web site (http://boinc.berkeley.edu).\par
                Width="292"
                Height="25"
                Transparent="yes">
-        <Text><![CDATA[{&MSSansBold8}Out of Disk Space]]></Text>
+        <Text><![CDATA[{&BannerTitle}Out of Disk Space]]></Text>
       </Control>
       <Control Id="DlgText"
                Type="Text"
@@ -1206,7 +1141,7 @@ from the BOINC web site (http://boinc.berkeley.edu).\par
                Default="yes"
                Text="!(loc.Next)">
         <Publish Event="NewDialog"
-                 Value="BasicConfig"><![CDATA[1]]></Publish>
+                 Value="BasicConfig">1</Publish>
       </Control>
       <Control Id="Cancel"
                Type="PushButton"
@@ -1225,7 +1160,7 @@ from the BOINC web site (http://boinc.berkeley.edu).\par
                Y="65"
                Width="66"
                Height="17"
-               Text="&amp;Change...">
+               Text="!(loc.DestinationFolderChange)">
         <Publish Event="SpawnDialog"
                  Value="ChangeFolder">1</Publish>
         <Publish Property="_BrowseProperty"
@@ -1241,23 +1176,23 @@ from the BOINC web site (http://boinc.berkeley.edu).\par
         <Publish Event="NewDialog"
                  Value="LicenseAgreement">1</Publish>
       </Control>
-      <Control Id="DlgDesc"
+      <Control Id="Description"
                Type="Text"
                X="21"
                Y="23"
                Width="292"
                Height="25"
                Transparent="yes">
-        <Text><![CDATA[Click Next to install to this folder, or click Change to install to a different folder.]]></Text>
+        <Text>!(loc.DestinationFolderDescription)</Text>
       </Control>
-      <Control Id="DlgTitle"
+      <Control Id="Title"
                Type="Text"
                X="13"
                Y="6"
                Width="292"
                Height="25"
                Transparent="yes">
-        <Text><![CDATA[{&MSSansBold8}Destination Folder]]></Text>
+        <Text>!(loc.DestinationFolderTitle)</Text>
       </Control>
       <Control Id="DestFolder"
                Type="Icon"
@@ -1268,13 +1203,13 @@ from the BOINC web site (http://boinc.berkeley.edu).\par
                FixedSize="yes"
                IconSize="32"
                Text="FolderIcon" />
-      <Control Id="LocLabel"
+      <Control Id="FolderLabel"
                Type="Text"
                X="57"
                Y="52"
                Width="290"
                Height="10">
-        <Text><![CDATA[Install [ProductName] to:]]></Text>
+        <Text>!(loc.DestinationFolderFolderLabel)</Text>
       </Control>
       <Control Id="Location"
                Type="Text"
@@ -1309,9 +1244,9 @@ from the BOINC web site (http://boinc.berkeley.edu).\par
                Default="yes"
                Text="!(loc.OK)">
         <Publish Event="SetTargetPath"
-                 Value="[_BrowseProperty]"><![CDATA[1]]></Publish>
+                 Value="[_BrowseProperty]">1</Publish>
         <Publish Event="EndDialog"
-                 Value="Return"><![CDATA[1]]></Publish>
+                 Value="Return">1</Publish>
       </Control>
       <Control Id="Cancel"
                Type="PushButton"
@@ -1447,7 +1382,7 @@ from the BOINC web site (http://boinc.berkeley.edu).\par
                Width="292"
                Height="25"
                Transparent="yes">
-        <Text><![CDATA[{&MSSansBold8}Disk Space Requirements]]></Text>
+        <Text><![CDATA[{&BannerTitle}Disk Space Requirements]]></Text>
       </Control>
       <Control Id="DlgText"
                Type="Text"
@@ -1532,7 +1467,7 @@ from the BOINC web site (http://boinc.berkeley.edu).\par
                Width="292"
                Height="25"
                Transparent="yes">
-        <Text><![CDATA[{&MSSansBold8}Files in Use]]></Text>
+        <Text><![CDATA[{&BannerTitle}Files in Use]]></Text>
       </Control>
       <Control Id="DlgText"
                Type="Text"
@@ -1562,13 +1497,13 @@ from the BOINC web site (http://boinc.berkeley.edu).\par
                        Y="0"
                        Width="290"
                        Height="14"
-                       Text="{&amp;MSSansBold8}Re&amp;pair" />
+                       Text="{&amp;BannerTitle}Re&amp;pair" />
           <RadioButton Value="Remove"
                        X="0"
                        Y="60"
                        Width="290"
                        Height="14"
-                       Text="{&amp;MSSansBold8}&amp;Remove" />
+                       Text="{&amp;BannerTitle}&amp;Remove" />
         </RadioButtonGroup>
       </Control>
       <Control Id="Back"
@@ -1633,7 +1568,7 @@ from the BOINC web site (http://boinc.berkeley.edu).\par
                Width="292"
                Height="25"
                Transparent="yes">
-        <Text><![CDATA[{&MSSansBold8}Program Maintenance]]></Text>
+        <Text><![CDATA[{&BannerTitle}Program Maintenance]]></Text>
       </Control>
       <Control Id="Ico2"
                Type="Icon"
@@ -1734,7 +1669,7 @@ from the BOINC web site (http://boinc.berkeley.edu).\par
                Width="292"
                Height="25"
                Transparent="yes">
-        <Text><![CDATA[{&MSSansBold8}Remove the Program]]></Text>
+        <Text><![CDATA[{&BannerTitle}Remove the Program]]></Text>
       </Control>
       <Control Id="DlgText"
                Type="Text"
@@ -1778,20 +1713,20 @@ from the BOINC web site (http://boinc.berkeley.edu).\par
     <InstallUISequence>
       <Show Dialog="Prepare" After="LaunchConditions" />
       <Show Dialog="SetupResume"
-            After="InstallWelcome"><![CDATA[Installed And (RESUME Or Preselected) And Not PATCH]]></Show>
+            After="InstallWelcome">Installed And (RESUME Or Preselected) And Not PATCH</Show>
       <Show Dialog="SetupInterrupted"
             OnExit="cancel" />
       <Show Dialog="SetupCompleteSuccess"
             OnExit="success" />
       <Show Dialog="PatchWelcome"
-            After="MigrateFeatureStates"><![CDATA[PATCH And Not IS_MAJOR_UPGRADE]]></Show>
-      <ResolveSource After="IsolateComponents"><![CDATA[Not Installed And Not PATCH]]></ResolveSource>
+            After="MigrateFeatureStates">PATCH And Not IS_MAJOR_UPGRADE</Show>
+      <ResolveSource After="IsolateComponents">Not Installed And Not PATCH</ResolveSource>
       <Show Dialog="SetupCompleteError"
             OnExit="error" />
       <Show Dialog="InstallWelcome"
-            After="PatchWelcome"><![CDATA[Not Installed And (Not PATCH Or IS_MAJOR_UPGRADE)]]></Show>
+            After="PatchWelcome">Not Installed And (Not PATCH Or IS_MAJOR_UPGRADE)</Show>
       <Show Dialog="MaintenanceWelcome"
-            After="SetupResume"><![CDATA[Installed And Not RESUME And Not Preselected And Not PATCH]]></Show>
+            After="SetupResume">Installed And Not RESUME And Not Preselected And Not PATCH</Show>
       <Show Dialog="SetupProgress"
             After="MaintenanceWelcome" />
     </InstallUISequence>

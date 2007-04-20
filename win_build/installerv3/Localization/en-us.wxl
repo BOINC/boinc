@@ -25,30 +25,31 @@
   <String Id="Cancel" Overridable="yes">Cancel</String>
   <String Id="Finish" Overridable="yes">&amp;Finish</String>
   <String Id="Retry" Overridable="yes">&amp;Retry</String>
+  <String Id="Abort" Overridable="yes">&amp;Abort</String>
   <String Id="Ignore" Overridable="yes">&amp;Ignore</String>
   <String Id="Yes" Overridable="yes">&amp;Yes</String>
   <String Id="No" Overridable="yes">&amp;No</String>
   <String Id="OK" Overridable="yes">OK</String>
 
-
+  
   <String Id="WizardTitle" Overridable="yes">[ProductName] Setup</String>
 
   <!-- Welcome dialogs -->
-  <String Id="InstallWelcomeTitle" Overridable="yes">{\TahomaBold10}Welcome to the [ProductName] Setup Wizard</String>
+  <String Id="InstallWelcomeTitle" Overridable="yes">{\PosterTitle}Welcome to the [ProductName] Setup Wizard</String>
   <String Id="InstallWelcomeDescription" Overridable="yes">The Setup Wizard will install [ProductName] on your computer. Please click Next to continue.</String>
 
   
-  <String Id="MaintenanceWelcomeDlgTitle" Overridable="yes">{\TahomaBold10}Welcome to the [ProductName] Setup Wizard</String>
+  <String Id="MaintenanceWelcomeDlgTitle" Overridable="yes">{\PosterTitle}Welcome to the [ProductName] Setup Wizard</String>
   <String Id="MaintenanceWelcomeDlgDescription" Overridable="yes">The Setup Wizard allows you to change the way [ProductName] features are installed on your computer or to remove it from your computer. Click Next to continue or Cancel to exit the Setup Wizard.</String>
 
   <!-- BOINC configuration dialogs -->
-  <String Id="BasicConfigTitle" Overridable="yes">{\MSSansBold8}Configuration</String>
+  <String Id="BasicConfigTitle" Overridable="yes">{\BannerTitle}Configuration</String>
   <String Id="BasicConfigDescription" Overridable="yes">Allows you to configure the screensaver settings for the installation</String>
   <String Id="BasicConfigText1" Overridable="yes">BOINC will run even when the screensaver isn't showing.</String>
   <String Id="BasicConfigSSCheckBox" Overridable="yes">&amp;Make BOINC your default screensaver.</String>
   <String Id="BasicConfigAdvanced" Overridable="yes">Advanced...</String>
 
-  <String Id="AdvancedConfigTitle" Overridable="yes">{\MSSansBold8}Advanced Configuration</String>
+  <String Id="AdvancedConfigTitle" Overridable="yes">{\BannerTitle}Advanced Configuration</String>
   <String Id="AdvancedConfigDescription" Overridable="yes">Allows you to configure advanced settings for [ProductName]</String>
   <String Id="AdvancedConfigManagerGroupBox" Overridable="yes">BOINC Manager Options</String>
   <String Id="AdvancedConfigStartup" Overridable="yes">&amp;Start BOINC Manager when logging on.</String>
@@ -60,24 +61,67 @@
   <String Id="AdvancedConfigPasswordLabel" Overridable="yes">&amp;Password:</String>
   
   <!-- Standard dialogs -->
-  <String Id="ChangeFolderTitle" Overridable="yes">{\MSSansBold8}Change destination folder</String>
+  <String Id="SetupCompleteErrorTitle" Overridable="yes">{\PosterTitle}[ProductName] Setup Wizard was interrupted</String>
+  <String Id="SetupCompleteErrorDescription" Overridable="yes">The wizard was interrupted before [ProductName] could be completely installed.</String>
+  <String Id="SetupCompleteErrorFinish1" Overridable="yes">Your system has not been modified. To complete installation at another time, please run setup again.</String>
+  <String Id="SetupCompleteErrorFinish2" Overridable="yes">Click Finish to exit the wizard.</String>
+  
+  <String Id="SetupCompleteSuccessTitle" Overridable="yes">{\PosterTitle}Completed the [ProductName] Setup Wizard</String>
+  <String Id="SetupCompleteSuccessDescription" Overridable="yes">Click the Finish button to exit the Setup Wizard.</String>
+
+   <String Id="ErrorDlgErrorText" Overridable="yes">Information text</String>
+  <String Id="ErrorDlgErrorIconTooltip" Overridable="yes">Information icon</String>
+  
+  <String Id="SetupProgressTitleInstalling" Overridable="yes">{\BannerTitle}Installing [ProductName]</String>
+  <String Id="SetupProgressTextInstalling" Overridable="yes">Please wait while the Setup Wizard installs [ProductName].</String>
+  <String Id="SetupProgressTitleRemoving" Overridable="yes">{\BannerTitle}Removing [ProductName]</String>
+  <String Id="SetupProgressTextRemoving" Overridable="yes">Please wait while the Setup Wizard removes [ProductName].</String>  
+  <!-- Add these? -->
+  <!-- 
+  <String Id="SetupProgressTextChanging" Overridable="yes">Please wait while the Setup Wizard changes [ProductName].</String>
+  <String Id="SetupProgressTitleChanging" Overridable="yes">{\BannerTitle}Changing [ProductName]</String>
+  <String Id="SetupProgressTextRepairing" Overridable="yes">Please wait while the Setup Wizard repairs [ProductName].</String>
+  <String Id="SetupProgressTitleRepairing" Overridable="yes">{\BannerTitle}Repairing [ProductName]</String>
+  -->
+  <String Id="SetupProgressProgressBar" Overridable="yes">Progress done</String>
+  <String Id="SetupProgressStatusLabel" Overridable="yes">Status:</String>
+
+  <String Id="ReadyToInstallInstallTitle" Overridable="yes">{\BannerTitle}Ready to install [ProductName]</String>
+  <String Id="ReadyToInstallDescription" Overridable="yes">The wizard is ready to begin installation.</String>
+  <String Id="ReadyToInstallInstallText" Overridable="yes">Click Install to begin the installation.</String>
+  <String Id="ReadyToInstallReviewText" Overridable="yes">If you want to review or change any of your installation settings, click Back. Click Cancel to exit the wizard.</String>
+  <String Id="ReadyToInstallInstall" Overridable="yes">&amp;Install</String>
+  <String Id="ReadyToInstallChangeTitle" Overridable="yes">{\BannerTitle}Ready to change [ProductName]</String>  
+    <String Id="ReadyToInstallRepairTitle" Overridable="yes">{\BannerTitle}Ready to repair [ProductName]</String> 
+  <String Id="ReadyToInstallRemoveTitle" Overridable="yes">{\BannerTitle}Ready to remove [ProductName]</String>
+  <!--
+  <String Id="ReadyToInstallChange" Overridable="yes">&amp;Change</String>
+  <String Id="ReadyToInstallChangeText" Overridable="yes">Click Change to begin the installation. Click Back to review or change any of your installation settings. Click Cancel to exit the wizard.</String>
+
+  <String Id="ReadyToInstallRepair" Overridable="yes">Re&amp;pair</String>
+  <String Id="ReadyToInstallRepairText" Overridable="yes">Click Repair to repair the installation of [ProductName]. Click Back to review or change any of your installation settings. Click Cancel to exit the wizard.</String>
+
+  <String Id="ReadyToInstallRemove" Overridable="yes">&amp;Remove</String>
+  <String Id="ReadyToInstallRemoveText" Overridable="yes">Click Remove to remove [ProductName] from your computer. Click Back to review or change any of your installation settings. Click Cancel to exit the wizard.</String>
+-->
+
+  <String Id="CancelSetupText" Overridable="yes">Are you sure you want to cancel [ProductName] installation?</String>
+  
+  <!-- skipped a few -->
+
+  <String Id="DestinationFolderTitle" Overridable="yes">{\BannerTitle}Destination Folder</String>
+  <String Id="DestinationFolderDescription" Overridable="yes">Click Next to install to this folder, or click Change to install to a different folder.</String>
+  <String Id="DestinationFolderFolderLabel" Overridable="yes">Install [ProductName] to:</String>
+  <String Id="DestinationFolderChange" Overridable="yes">&amp;Change...</String>
+
+  <String Id="ChangeFolderTitle" Overridable="yes">{\BannerTitle}Change destination folder</String>
   <String Id="ChangeFolderDescription" Overridable="yes">Browse to the destination folder</String>
   <String Id="ChangeFolderComboLabel" Overridable="yes">&amp;Look in:</String>
   <String Id="ChangeFolderUpTooltip" Overridable="yes">Up one level</String>
   <String Id="ChangeFolderNewFolderTooltip" Overridable="yes">Create a new folder</String>
   <String Id="ChangeFolderPathLabel" Overridable="yes">&amp;Folder name:</String>
-
-
-
-  <String Id="CancelDlgText" Overridable="yes">Are you sure you want to cancel [ProductName] installation?</String>
-
-   <String Id="ErrorDlgErrorText" Overridable="yes">Information text</String>
-  <String Id="ErrorDlgErrorIconTooltip" Overridable="yes">Information icon</String>
-
-
-  <String Id="ExitDialogDescription" Overridable="yes">Click the Finish button to exit the Setup Wizard.</String>
-  <String Id="ExitDialogTitle" Overridable="yes">{\WixUI_Font_Bigger}Completed the [ProductName] Setup Wizard</String>
-
+  
+  <!-- up to here -->
   <String Id="FatalErrorTitle" Overridable="yes">{\WixUI_Font_Bigger}[ProductName] Setup Wizard ended prematurely</String>
   <String Id="FatalErrorDescription1" Overridable="yes">[ProductName] Setup Wizard ended prematurely because of an error. Your system has not been modified. To install this program at a later time, run Setup Wizard again.</String>
   <String Id="FatalErrorDescription2" Overridable="yes">Click the Finish button to exit the Setup Wizard.</String>
@@ -87,12 +131,7 @@
   <String Id="FilesInUseDescription" Overridable="yes">Some files that need to be updated are currently in use.</String>
   <String Id="FilesInUseTitle" Overridable="yes">{\WixUI_Font_Title}Files in Use</String>
 
-  <String Id="InstallDirDlg_Title" Overridable="yes">[ProductName] Setup</String>
-  <String Id="InstallDirDlgChange" Overridable="yes">&amp;Change...</String>
-  <String Id="InstallDirDlgTitle" Overridable="yes">{\WixUI_Font_Title}Destination Folder</String>
-  <String Id="InstallDirDlgDescription" Overridable="yes">Click Next to install to the default folder or click Change to choose another</String>
-  <String Id="InstallDirDlgBannerBitmap" Overridable="yes">WixUI_Bmp_Banner</String>
-  <String Id="InstallDirDlgFolderLabel" Overridable="yes">Install [ProductName] to:</String>
+
 
 
 
@@ -123,55 +162,20 @@
   <String Id="MsiRMFilesInUseUseRM" Overridable="yes">&amp;Close the applications and attempt to restart them.</String>
   <String Id="MsiRMFilesInUseDontUseRM" Overridable="yes">&amp;Do not close applications. A reboot will be required.</String>
 
-  <String Id="OutOfDiskDlgText" Overridable="yes">The highlighted volumes do not have enough disk space available for the currently selected features. You can remove some files from the highlighted volumes, install fewer features, or select a different destination drive.</String>
-  <String Id="OutOfDiskDlgDescription" Overridable="yes">Disk space required for the installation exceeds available disk space.</String>
-  <String Id="OutOfDiskDlgTitle" Overridable="yes">{\WixUI_Font_Title}Out of Disk Space</String>
-  <String Id="OutOfDiskDlgVolumeList" Overridable="yes">{120}{70}{70}{70}{70}</String>
-
-  <String Id="OutOfRbDiskDlgText" Overridable="yes">The highlighted volumes do not have enough disk space available for the currently selected features. You can remove some files from the highlighted volumes, install fewer features, or select a different destination drive.</String>
-  <String Id="OutOfRbDiskDlgDescription" Overridable="yes">Disk space required for the installation exceeds available disk space.</String>
-  <String Id="OutOfRbDiskDlgTitle" Overridable="yes">{\WixUI_Font_Title}Out of Disk Space</String>
-  <String Id="OutOfRbDiskDlgVolumeList" Overridable="yes">{120}{70}{70}{70}{70}</String>
-  <String Id="OutOfRbDiskDlgText2" Overridable="yes">Alternatively, you may choose to disable the installer's rollback functionality. Disabling rollback prevents the installer from restoring your computer's original state should the installation be interrupted in any way. Click Yes if you wish to take the risk of disabling rollback.</String>
 
 
   <String Id="PrepareDlgDescription" Overridable="yes">Please wait while the Setup Wizard prepares to guide you through the installation.</String>
   <String Id="PrepareDlgTitle" Overridable="yes">{\WixUI_Font_Bigger}Welcome to the [ProductName] Setup Wizard</String>
 
 
-  <String Id="ProgressDlgTextInstalling" Overridable="yes">Please wait while the Setup Wizard installs [ProductName].</String>
-  <String Id="ProgressDlgTitleInstalling" Overridable="yes">{\WixUI_Font_Title}Installing [ProductName]</String>
-  <String Id="ProgressDlgTextChanging" Overridable="yes">Please wait while the Setup Wizard changes [ProductName].</String>
-  <String Id="ProgressDlgTitleChanging" Overridable="yes">{\WixUI_Font_Title}Changing [ProductName]</String>
-  <String Id="ProgressDlgTextRepairing" Overridable="yes">Please wait while the Setup Wizard repairs [ProductName].</String>
-  <String Id="ProgressDlgTitleRepairing" Overridable="yes">{\WixUI_Font_Title}Repairing [ProductName]</String>
-  <String Id="ProgressDlgTextRemoving" Overridable="yes">Please wait while the Setup Wizard removes [ProductName].</String>
-  <String Id="ProgressDlgTitleRemoving" Overridable="yes">{\WixUI_Font_Title}Removing [ProductName]</String>
-  <String Id="ProgressDlgProgressBar" Overridable="yes">Progress done</String>
-  <String Id="ProgressDlgStatusLabel" Overridable="yes">Status:</String>
+
 
   <String Id="ResumeDlgInstall" Overridable="yes">&amp;Install</String>
   <String Id="ResumeDlgDescription" Overridable="yes">The Setup Wizard will complete the installation of [ProductName] on your computer. Click Install to continue or Cancel to exit the Setup Wizard.</String>
   <String Id="ResumeDlgTitle" Overridable="yes">{\WixUI_Font_Bigger}Resuming the [ProductName] Setup Wizard</String>
 
 
-  <String Id="UserExitTitle" Overridable="yes">{\WixUI_Font_Bigger}[ProductName] Setup Wizard was interrupted</String>
-  <String Id="UserExitDescription1" Overridable="yes">[ProductName] setup was interrupted. Your system has not been modified. To install this program at a later time, please run the installation again.</String>
-  <String Id="UserExitDescription2" Overridable="yes">Click the Finish button to exit the Setup Wizard.</String>
 
-
-  <String Id="VerifyReadyDlgInstall" Overridable="yes">&amp;Install</String>
-  <String Id="VerifyReadyDlgInstallText" Overridable="yes">Click Install to begin the installation. Click Back to review or change any of your installation settings. Click Cancel to exit the wizard.</String>
-  <String Id="VerifyReadyDlgInstallTitle" Overridable="yes">{\WixUI_Font_Title}Ready to install [ProductName]</String>
-  <String Id="VerifyReadyDlgChange" Overridable="yes">&amp;Change</String>
-  <String Id="VerifyReadyDlgChangeText" Overridable="yes">Click Change to begin the installation. Click Back to review or change any of your installation settings. Click Cancel to exit the wizard.</String>
-  <String Id="VerifyReadyDlgChangeTitle" Overridable="yes">{\WixUI_Font_Title}Ready to change [ProductName]</String>
-  <String Id="VerifyReadyDlgRepair" Overridable="yes">Re&amp;pair</String>
-  <String Id="VerifyReadyDlgRepairText" Overridable="yes">Click Repair to repair the installation of [ProductName]. Click Back to review or change any of your installation settings. Click Cancel to exit the wizard.</String>
-  <String Id="VerifyReadyDlgRepairTitle" Overridable="yes">{\WixUI_Font_Title}Ready to repair [ProductName]</String>
-  <String Id="VerifyReadyDlgRemove" Overridable="yes">&amp;Remove</String>
-  <String Id="VerifyReadyDlgRemoveText" Overridable="yes">Click Remove to remove [ProductName] from your computer. Click Back to review or change any of your installation settings. Click Cancel to exit the wizard.</String>
-  <String Id="VerifyReadyDlgRemoveTitle" Overridable="yes">{\WixUI_Font_Title}Ready to remove [ProductName]</String>
 
 
   <String Id="ProgressTextAdvertise" Overridable="yes">Advertising application</String>
