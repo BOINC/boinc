@@ -400,11 +400,11 @@ void CLIENT_STATE::read_global_prefs() {
 
     msg_printf(NULL, MSG_INFO,
 		"Preferences: limit memory usage when active to %.2fMB",
-        (host_info.m_nbytes*global_prefs.ram_max_used_busy_frac)/MEGA,
+        (host_info.m_nbytes*global_prefs.ram_max_used_busy_frac)/MEGA
     );
     msg_printf(NULL, MSG_INFO,
 		"Preferences: limit memory usage when idle to %.2fMB",
-		(host_info.m_nbytes*global_prefs.ram_max_used_idle_frac)/MEGA,
+		(host_info.m_nbytes*global_prefs.ram_max_used_idle_frac)/MEGA
     );
     msg_printf(NULL, MSG_INFO,
 		"Preferences: limit disk usage to %.2fGB",
