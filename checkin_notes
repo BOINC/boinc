@@ -3815,3 +3815,10 @@ Rom    19 Apr 2007
     client/
         cs_prefs.C
         cs_scheduler.C
+        
+Rom    19 Apr 2007
+    - Statistics view update.
+      (From Mifistor)
+      
+    clientgui/
+        ViewStatistics.cpp, .h

@@ -35,11 +35,11 @@ public:
 	
 	void DrawMainHead(wxDC &dc, const wxString head_name);
 	
-	void DrawProjectHead(wxDC &dc, PROJECT * &project1, const wxString head_name_last);
+	void DrawProjectHead(wxDC &dc, PROJECT* project1, const wxString head_name_last);
 
-	void DrawLegend(wxDC &dc, PROJECTS * &proj, CMainDocument* &pDoc, int SelProj, bool bColour, int &m_Legend_Shift);
+	void DrawLegend(wxDC &dc, PROJECTS* proj, CMainDocument* pDoc, int SelProj, bool bColour, int &m_Legend_Shift);
 	
-	void DrawAxis(wxDC &dc, const double max_val_y, const double min_val_y, const double max_val_x, const double min_val_x);
+	void DrawAxis(wxDC &dc, const double max_val_y, const double min_val_y, const double max_val_x, const double min_val_x, wxColour pen_AxisColour, const double max_val_y_all, const double min_val_y_all);
 	
 	void DrawGraph(wxDC &dc, std::vector<PROJECT*>::const_iterator &i, const wxColour graphColour, const int typePoint, const int m_SelectedStatistic);
 	
@@ -48,6 +48,8 @@ public:
 	void getDrawColour(wxColour &graphColour, int number);
 
 	void ClearXY();
+
+	void ClearLegendXY();
 	
 	void AB(const double x_coord1, const double y_coord1, const double x_coord2, const double y_coord2, const double x_val1, const double y_val1, const double x_val2, const double y_val2);
 //--------------------------
@@ -74,7 +76,14 @@ public:
 	wxCoord                  m_GraphZoom_Y2;
 	wxCoord                  m_GraphZoom_X2_old;
 	wxCoord                  m_GraphZoom_Y2_old;
-	bool                    m_GraphZoomStart;
+	bool                     m_GraphZoomStart;
+
+	wxCoord                  m_GraphMove_X1;
+	wxCoord                  m_GraphMove_Y1;
+	wxCoord                  m_GraphMove_X2;
+	wxCoord                  m_GraphMove_Y2;
+	bool                     m_GraphMoveStart;
+	bool                     m_GraphMoveGo;
 
 	double                  m_Zoom_max_val_X;
 	double                  m_Zoom_min_val_X;
@@ -84,6 +93,7 @@ public:
 // Shift Legend
 	int                     m_Legend_Shift_Mode1;
 	int                     m_Legend_Shift_Mode2;
+	bool                    m_LegendDraw;
 // old
     wxString                heading;
 // X'=AX+B; Y'=AY+B;
@@ -140,6 +150,8 @@ public:
 
 	wxColour                m_brush_AxisColour;
     wxColour                m_pen_AxisColour;
+    wxColour                m_pen_AxisColourAutoZoom;
+    wxColour                m_pen_AxisColourZoom;
     wxColour                m_pen_AxisXColour;
     wxColour                m_pen_AxisYColour;
     wxColour                m_pen_AxisXTextColour;
@@ -179,8 +191,10 @@ protected:
     void OnSize(wxSizeEvent& event);
     void OnLeftMouseDown(wxMouseEvent& event);
     void OnLeftMouseUp(wxMouseEvent& event);
+	void OnLeftMouseDoubleClick(wxMouseEvent& event);
 	void OnMouseMotion(wxMouseEvent& event);
     void OnRightMouseDown(wxMouseEvent& event);
+    void OnRightMouseUp(wxMouseEvent& event);
 	void OnMouseLeaveWindows(wxMouseEvent& event);
 
 	DECLARE_EVENT_TABLE()
