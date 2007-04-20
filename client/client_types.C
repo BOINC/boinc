@@ -293,7 +293,7 @@ int PROJECT::write_state(MIOFILE& out, bool gui_rpc) {
 	out.printf(	
 		"    <completed_task_count>%d</completed_task_count>\n"
 		"    <completions_ratio_mean>%f</completions_ratio_mean>\n"
-		"    <completions_ratio_s>"%f</completions_ratio_s>\n"
+		"    <completions_ratio_s>%f</completions_ratio_s>\n"
 		"    <completions_ratio_stdev>%f</completions_ratio_stdev>\n"
 		"    <completions_required_stdevs>%f</completions_required_stdevs>\n"
 		"    <deadline_missed_by>%f</deadline_missed_by>\n",

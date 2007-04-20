@@ -195,7 +195,7 @@ public:
 
     bool get_app_status_msg();
     bool get_trickle_up_msg();
-    double est_cpu_time_to_completion();
+    double est_cpu_time_to_completion(bool for_work_fetch = false);
     bool read_stderr_file();
     bool finish_file_present();
     bool supports_graphics();

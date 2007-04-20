@@ -1489,7 +1489,7 @@ void PROJECT::update_duration_correction_factor(RESULT* rp) {
 		double delta = raw_ratio - completions_ratio_mean;
 		completions_ratio_mean += delta / completed_task_count;
 		completions_ratio_s += delta * ( raw_ratio - completions_ratio_mean);
-		if (completed_tasks > 1) {
+		if (completed_task_count > 1) {
 			completions_ratio_stdev = completions_ratio_s / (completed_task_count - 1);
 			double required_stdev = (raw_ratio - completions_ratio_mean) / completions_ratio_stdev;
 			if (required_stdev > completions_required_stdevs) {

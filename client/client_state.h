@@ -457,8 +457,12 @@ public:
     void scale_duration_correction_factors(double);
     void generate_new_host_cpid();
     void compute_nuploading_results();
+	// experimental
+	void calculate_shortfalls();
 
 };
+
+inline bool results_by_deadline(RESULT * r1, RESULT *r2) {return (r1->report_deadline > r2->report_deadline);};
 
 extern CLIENT_STATE gstate;
 

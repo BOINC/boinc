@@ -187,7 +187,7 @@ int CONFIG::parse_options(XML_PARSER& xp) {
 		else if (xp.parse_bool(tag, "experimental_no_dcf", experimental_no_dcf)) continue;
 		else if (xp.parse_bool(tag, "experimental_stats_based_dcf", experimental_stats_based_dcf)) continue;
 		else if (xp.parse_bool(tag, "experimental_by_project_pessimism", experimental_by_project_pessimism)) continue;
-
+		else if (xp.parse_bool(tag, "experimental_dual_dcf", experimental_dual_dcf)) continue;
         else {
             msg_printf(NULL, MSG_USER_ERROR, "Unparsed tag in %s: <%s>\n",
                 CONFIG_FILE, tag

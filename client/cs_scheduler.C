@@ -119,8 +119,8 @@ int CLIENT_STATE::make_scheduler_request(PROJECT* p) {
         "    <resource_share_fraction>%f</resource_share_fraction>\n"
         "    <rrs_fraction>%f</rrs_fraction>\n"
         "    <prrs_fraction>%f</prrs_fraction>\n"
-        "    <estimated_delay>%f</estimated_delay>\n"
-        "    <duration_correction_factor>%f</duration_correction_factor>\n",
+        "    <estimated_delay>%f</estimated_delay>\n",
+//        "    <duration_correction_factor>%f</duration_correction_factor>\n",
         p->authenticator,
         p->hostid,
         p->rpc_seqno,
@@ -132,9 +132,17 @@ int CLIENT_STATE::make_scheduler_request(PROJECT* p) {
         resource_share_fraction,
         rrs_fraction,
         prrs_fraction,
-        time_until_work_done(p, proj_min_results(p, prrs)-1, prrs),
-        p->duration_correction_factor
+        time_until_work_done(p, proj_min_results(p, prrs)-1, prrs)//,
+//        p->duration_correction_factor
     );
+	if (config.experimental_stats_based_dcf) {
+		fprintf(f, "    <duration_correction_factor>%f</duration_correction_factor>\n", p->completions_ratio_mean);
+		if (config.experimental_dual_dcf) {
+			fprintf(f, "    <cpu_correction_factor>%f</cpu_correction_factor>\n", p->duration_correction_factor);
+		}
+	} else {
+		fprintf(f, "    <duration_correction_factor>%f</duration_correction_factor>\n", p->duration_correction_factor);
+	}
     if (p->anonymous_platform) {
         fprintf(f, "    <app_versions>\n");
         for (i=0; i<app_versions.size(); i++) {

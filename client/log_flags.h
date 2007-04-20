@@ -96,6 +96,7 @@ struct CONFIG {
 	bool experimental_no_dcf;
 	bool experimental_stats_based_dcf;
 	bool experimental_by_project_pessimism;
+	bool experimental_dual_dcf;  // requires stats_based_dcf to work.
 
     CONFIG();
     int parse(FILE*);

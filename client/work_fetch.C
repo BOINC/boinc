@@ -380,6 +380,10 @@ bool CLIENT_STATE::compute_work_requests() {
     adjust_debts();
 
     rr_simulation();
+	if (config.experimental_dual_dcf) {
+		calculate_shortfalls();  // the one in rr_simulation cannot be made to work reliably
+								// with different dcf values.
+	}
 
     // compute per-project and overall urgency
     //
@@ -736,17 +740,18 @@ double RESULT::estimated_cpu_time_uncorrected() {
 
 // estimate how long a result will take on this host
 //
-double RESULT::estimated_cpu_time() {
+double RESULT::estimated_cpu_time(bool for_work_fetch) {
+	if (for_work_fetch && project->completions_ratio_mean) return estimated_cpu_time_uncorrected()*project->completions_ratio_mean;
     return estimated_cpu_time_uncorrected()*project->duration_correction_factor;
 }
 
-double RESULT::estimated_cpu_time_remaining() {
+double RESULT::estimated_cpu_time_remaining(bool for_work_fetch) {
     if (computing_done()) return 0;
     ACTIVE_TASK* atp = gstate.lookup_active_task_by_result(this);
     if (atp) {
-        return atp->est_cpu_time_to_completion();
+        return atp->est_cpu_time_to_completion(for_work_fetch);
     }
-    return estimated_cpu_time();
+    return estimated_cpu_time(for_work_fetch);
 }
 
 // Returns the estimated CPU time to completion (in seconds) of this task.
@@ -754,9 +759,9 @@ double RESULT::estimated_cpu_time_remaining() {
 // 1) the workunit's flops count
 // 2) the current reported CPU time and fraction done
 //
-double ACTIVE_TASK::est_cpu_time_to_completion() {
+double ACTIVE_TASK::est_cpu_time_to_completion(bool for_work_fetch) {
     if (fraction_done >= 1) return 0;
-    double wu_est = result->estimated_cpu_time();
+    double wu_est = result->estimated_cpu_time(for_work_fetch);
     if (fraction_done <= 0) return wu_est;
 	current_cpu_time = std::max(0.0, current_cpu_time);
     double frac_est = (current_cpu_time / fraction_done) - current_cpu_time;
@@ -771,6 +776,56 @@ void CLIENT_STATE::request_work_fetch(const char* where) {
         msg_printf(0, MSG_INFO, "[work_fetch_debug] Request work fetch: %s", where);
     }
     must_check_work_fetch = true;
+}
+
+void CLIENT_STATE::calculate_shortfalls() {
+	double trs = total_resource_share();
+	std::vector<RESULT*> sorted_results;
+	sorted_results = results;
+	std::sort(sorted_results.begin(), sorted_results.end(), results_by_deadline);
+	std::vector<double> cpus_time;
+	cpus_time.resize(ncpus);
+	for (int i = 0; i < ncpus; ++i) cpus_time[i] = 0.0;
+	std::map<PROJECT *, std::vector<double> > project_cpus_time;
+	for (unsigned int i = 0; i < projects.size(); ++i) {
+		if (projects[i]->non_cpu_intensive) continue;
+		std::vector<double> cpus;
+		cpus.resize(proj_min_results(projects[i], projects[i]->resource_share / trs));
+		for (unsigned int j = 0; j < cpus.size(); ++j) cpus[j] = 0;
+		project_cpus_time.insert(std::pair <PROJECT *, std::vector<double> >(projects[i], cpus));
+	}
+	for (unsigned int i = 0; i < sorted_results.size(); ++i) {
+		if (sorted_results[i]->project->non_cpu_intensive) continue;
+		// first find the best cpu overall.
+		unsigned int best_cpu = 0;
+		for (unsigned int j = 1; j < cpus_time.size(); ++j) {
+			if (cpus_time[j] < cpus_time[best_cpu]) best_cpu = j;
+		}
+		cpus_time[best_cpu] =+ sorted_results[i]->estimated_cpu_time(true);
+		// now do the same for the project cpu list
+		best_cpu = 0;
+		for (unsigned int j = 1; j < project_cpus_time[sorted_results[i]->project].size(); ++j) {
+			if (project_cpus_time[sorted_results[i]->project][j] < project_cpus_time[sorted_results[i]->project][best_cpu]) {
+				best_cpu = j;
+			}
+		}
+		project_cpus_time[sorted_results[i]->project][best_cpu] += sorted_results[i]->estimated_cpu_time(true);
+	}
+	cpu_shortfall = 0;
+	for (unsigned int i = 0; i < cpus_time.size(); ++i) {
+		if (cpus_time[i] < work_buf_total()) cpu_shortfall += work_buf_total() - cpus_time[i];
+	}
+	std::map<PROJECT *, std::vector<double> >::iterator it;
+	for (it = project_cpus_time.begin(); it != project_cpus_time.end(); ++it) {
+		(*it).first->cpu_shortfall = 0;
+		for (unsigned int i = 0; i < (*it).second.size(); ++i) {
+			double time_for_project = work_buf_total() * 
+				((*it).first->resource_share/trs) * (ncpus/(*it).second.size());
+			if ((*it).second[i] < time_for_project) {
+				(*it).first->cpu_shortfall += time_for_project - (*it).second[i];
+			}
+		}
+	}
 }
 
 const char *BOINC_RCSID_d3a4a7711 = "$Id$";
