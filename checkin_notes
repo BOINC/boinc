@@ -3822,3 +3822,8 @@ Rom    19 Apr 2007
       
     clientgui/
         ViewStatistics.cpp, .h
+
+Rom    19 Apr 2007 (HEAD)
+    - Tag for 5.9.4 release, all platforms
+      boinc_core_release_5_9_4
+
