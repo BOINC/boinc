@@ -3804,3 +3804,14 @@ David  19 Apr 2007
     sched/
         handle_request.C
         server_types.C,h
+
+Rom    19 Apr 2007
+    - Match the client-side and server-side XML for alternate
+        platforms.
+    - Print both the max active memory usage and max idle
+        memory usage after all the preference information has
+        been parsed.
+        
+    client/
+        cs_prefs.C
+        cs_scheduler.C

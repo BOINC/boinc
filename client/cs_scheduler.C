@@ -113,9 +113,9 @@ int CLIENT_STATE::make_scheduler_request(PROJECT* p) {
         "    <rpc_seqno>%d</rpc_seqno>\n"
         "    <platform_name>%s</platform_name>\n"
 #ifdef _WIN64
-        "    <alternate_platform>\n"
+        "    <alt_platform>\n"
 		"        <name>%s</name>\n"
-		"    </alternate_platform>\n"
+		"    </alt_platform>\n"
 #endif
         "    <core_client_major_version>%d</core_client_major_version>\n"
         "    <core_client_minor_version>%d</core_client_minor_version>\n"
