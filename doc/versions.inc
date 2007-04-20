@@ -390,6 +390,34 @@ $linux_libs_gcc41= "
       </ul>
 ";
 
+$w594= array(
+    "num"=>"5.9.4",
+    "status"=>"Development version",
+    "file"=>"boinc_5.9.4_windows_intelx86.msi",
+    "date"=>"20 Apr 2007",
+    "type"=>"win_new",
+    "features"=>"<ul>
+".$features_510."
+".$changes_510."
+    </ul>
+    ",
+    "bugs"=>""
+);
+
+$w594x64= array(
+    "num"=>"5.9.4",
+    "status"=>"Development version",
+    "file"=>"boinc_5.9.4_windows_x86_64.msi",
+    "date"=>"20 Apr 2007",
+    "type"=>"win_new",
+    "features"=>"<ul>
+".$features_510."
+".$changes_510."
+    </ul>
+    ",
+    "bugs"=>""
+);
+
 $w593= array(
     "num"=>"5.9.3",
     "status"=>"Development version",
@@ -570,11 +598,21 @@ $windows = array(
     "name"=>"Windows",
     "dbname" => "windows_intelx86",
     "versions"=>array(
+        $w594,
         $w593,
         $w5816,
         $w5411,
     )
 );
+
+$windowsx64 = array(
+    "name"=>"Windows x64",
+    "dbname" => "windows_x86_64",
+    "versions"=>array(
+        $w594x64,
+    )
+);
+
 $mac = array(
     "name"=>"Mac OS X",
     "dbname" => "powerpc-apple-darwin",
@@ -598,6 +636,7 @@ $linux = array(
 
 $platforms = array(
     "win"=>$windows,
+    "winx64"=>$windowsx64,
     "mac"=>$mac,
     "linux"=>$linux,
 );
