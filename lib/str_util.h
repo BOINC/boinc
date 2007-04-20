@@ -74,7 +74,7 @@ inline bool starts_with(std::string const& s, std::string const& prefix) {
 inline void downcase_string(
     std::string::iterator begin, std::string::iterator end, std::string::iterator src
 ) {
-	std::transform(begin, end, src, (int(*)(int))tolower);
+	transform(begin, end, src, (int(*)(int))tolower);
 }
 
 inline void downcase_string(std::string& w) {
