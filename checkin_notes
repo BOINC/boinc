@@ -3863,3 +3863,11 @@ David  20 Apr 2007
         db_update.php
     lib/
         str_util.C,h
+
+David  20 Apr 2007
+	- Advanced prefs: remove incorrect multiplication by 86400
+
+	client/
+		cs_prefs.C
+	clientgui/
+		DlgAdvPreferences.cpp
