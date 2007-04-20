@@ -352,7 +352,7 @@ bool CLIENT_STATE::simulate_rpc(PROJECT* _p) {
 		// connected periods last, and how much more connected period is expected.
 		// if the connected period has enough time to finish the task, and report it, then,
 		// why not send it.
-		if (log_flags.experimental_server_deadlines) {
+		if (config.experimental_server_deadlines) {
 			if (ap->latency_bound < gstate.global_prefs.work_buf_min_days * 86400) {
 				printf("application %s latency less than min queue", ap->name);
 				++infeasible_count;
@@ -362,7 +362,7 @@ bool CLIENT_STATE::simulate_rpc(PROJECT* _p) {
 
 		std::vector<RESULT*> existing_results;
 		std::vector<double> estimated_cpu_time_per_cpu;
-		if (log_flags.experimental_server_deadlines) {
+		if (config.experimental_server_deadlines) {
 
 			// next set up an array to be sorted, and sort it.
 			for (unsigned int i = 0; i < results.size(); ++i)
@@ -402,7 +402,7 @@ bool CLIENT_STATE::simulate_rpc(PROJECT* _p) {
         rp->set_state(RESULT_FILES_DOWNLOADED, "simulate_rpc");
         wup->project = p;
         wup->rsc_fpops_est = ap->fpops_est;
-		if (log_flags.experimental_server_deadlines) {
+		if (config.experimental_server_deadlines) {
 			// test the new result before adding it to the results.
 			rp->sim_deadline_missed_by = 0;
 			existing_results.push_back(rp);

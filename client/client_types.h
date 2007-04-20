@@ -385,6 +385,16 @@ public:
     int parse_statistics(FILE*);
     int write_statistics(MIOFILE&, bool gui_rpc=false);
     int write_statistics_file();
+
+	// Experimental code
+	// Dual DCFs (one for work fetch and one for CPU scheduling) based on 
+	// Mean and standard deviation.
+	int completed_task_count;
+	double completions_ratio_mean;
+	double completions_ratio_s;
+	double completions_ratio_stdev;
+	double completions_required_stdevs;
+	double deadline_missed_by;
 };
 
 struct APP {

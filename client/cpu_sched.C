@@ -483,7 +483,7 @@ void CLIENT_STATE::schedule_cpus() {
 
     // First choose results from projects with P.deadlines_missed>0
     //
-	if (!log_flags.experimental_rr_only_cpu_scheduler) {
+	if (!config.experimental_rr_only_cpu_scheduler) {
 		while ((int)ordered_scheduled_results.size() < ncpus) {
 			rp = earliest_deadline_result();
 			if (!rp) break;
@@ -1476,10 +1476,28 @@ int ACTIVE_TASK::preempt(bool quit_task) {
 // completion time for this project's results
 //
 void PROJECT::update_duration_correction_factor(RESULT* rp) {
-	if (log_flags.experimental_no_dcf) {
+	if (config.experimental_no_dcf) {
 		// note that this is not ever going to be the default.
 		// This is just for comparisson in the client simulator.
 		duration_correction_factor = 1.0;
+		return;
+	}
+	if (config.experimental_stats_based_dcf) {
+		double raw_ratio = rp->final_cpu_time/rp->estimated_cpu_time_uncorrected();
+		// algorythim from Donald Knuth reference Wikipedia.
+		++completed_task_count;
+		double delta = raw_ratio - completions_ratio_mean;
+		completions_ratio_mean += delta / completed_task_count;
+		completions_ratio_s += delta * ( raw_ratio - completions_ratio_mean);
+		if (completed_tasks > 1) {
+			completions_ratio_stdev = completions_ratio_s / (completed_task_count - 1);
+			double required_stdev = (raw_ratio - completions_ratio_mean) / completions_ratio_stdev;
+			if (required_stdev > completions_required_stdevs) {
+				completions_required_stdevs = std::min(required_stdev, 7.0);
+			}
+		}
+		duration_correction_factor = completions_ratio_mean + 
+			completions_required_stdevs * completions_ratio_stdev;
 		return;
 	}
     double raw_ratio = rp->final_cpu_time/rp->estimated_cpu_time_uncorrected();

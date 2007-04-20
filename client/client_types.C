@@ -111,6 +111,14 @@ void PROJECT::init() {
     cpu_shortfall = 0.0;
     rr_sim_deadlines_missed = 0;
     deadlines_missed = 0;
+
+	// initialize experimental variables
+	completed_task_count = 0;
+	completions_ratio_mean = 0.0;
+	completions_ratio_s = 0.0;
+	completions_ratio_stdev = 0.1;  // for the first couple of completions - guess.
+	completions_required_stdevs = 3.0;
+	deadline_missed_by = 0.0;
 }
 
 // parse project fields from client_state.xml
@@ -183,6 +191,14 @@ int PROJECT::parse_state(MIOFILE& in) {
         else if (match_tag(buf, "<attached_via_acct_mgr/>")) attached_via_acct_mgr = true;
         else if (parse_double(buf, "<ams_resource_share>", ams_resource_share)) continue;
         else if (parse_bool(buf, "scheduler_rpc_in_progress", btemp)) continue;
+		// experimental variables
+		else if (parse_int(buf, "<completed_task_count>", completed_task_count)) continue;
+		else if (parse_double(buf, "<completions_ratio_mean>", completions_ratio_mean)) continue;
+		else if (parse_double(buf, "<completions_ratio_s>", completions_ratio_s)) continue;
+		else if (parse_double(buf, "<completions_ratio_stdev>", completions_ratio_stdev)) continue;
+		else if (parse_double(buf, "<completions_required_stdevs>", completions_required_stdevs)) continue;
+		else if (parse_double(buf, "<deadline_missed_by>", deadline_missed_by)) continue;
+
         else {
             if (log_flags.unparsed_xml) {
                 msg_printf(0, MSG_INFO,
@@ -273,6 +289,21 @@ int PROJECT::write_state(MIOFILE& out, bool gui_rpc) {
         attached_via_acct_mgr?"    <attached_via_acct_mgr/>\n":"",
         (this == gstate.scheduler_op->cur_proj)?"   <scheduler_rpc_in_progress/>\n":""
     );
+	// experimental 
+	out.printf(	
+		"    <completed_task_count>%d</completed_task_count>\n"
+		"    <completions_ratio_mean>%f</completions_ratio_mean>\n"
+		"    <completions_ratio_s>"%f</completions_ratio_s>\n"
+		"    <completions_ratio_stdev>%f</completions_ratio_stdev>\n"
+		"    <completions_required_stdevs>%f</completions_required_stdevs>\n"
+		"    <deadline_missed_by>%f</deadline_missed_by>\n",
+		completed_task_count,
+		completions_ratio_mean,
+		completions_ratio_s,
+		completions_ratio_stdev,
+		completions_required_stdevs,
+		deadline_missed_by);
+
     if (ams_resource_share >= 0) {
         out.printf("    <ams_resource_share>%f</ams_resource_share>\n",
             ams_resource_share
@@ -350,6 +381,13 @@ void PROJECT::copy_state_fields(PROJECT& p) {
     if (ams_resource_share > 0) {
         resource_share = ams_resource_share;
     }
+	// experimental
+	completed_task_count = p.completed_task_count;
+	completions_ratio_mean = p.completions_ratio_mean;
+	completions_ratio_s = p.completions_ratio_s;
+	completions_ratio_stdev = p.completions_ratio_stdev;
+	completions_required_stdevs = p.completions_required_stdevs;
+	deadline_missed_by = p.deadline_missed_by;
 }
 
 // Write project statistic to project statistics file

@@ -74,11 +74,6 @@ struct LOG_FLAGS {
 	bool network_status_debug;
     bool checkpoint_debug;
 
-	// experimental stuff
-	bool experimental_server_deadlines;
-	bool experimental_rr_only_cpu_scheduler;
-	bool experimental_no_dcf;
-
     LOG_FLAGS();
     int parse(XML_PARSER&);
     void show();
@@ -94,6 +89,13 @@ struct CONFIG {
     bool suppress_net_info;
     bool disallow_attach;
     bool os_random_only;
+
+		// experimental stuff
+	bool experimental_server_deadlines;
+	bool experimental_rr_only_cpu_scheduler;
+	bool experimental_no_dcf;
+	bool experimental_stats_based_dcf;
+	bool experimental_by_project_pessimism;
 
     CONFIG();
     int parse(FILE*);
