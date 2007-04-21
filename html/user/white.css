@@ -238,10 +238,20 @@ span.news_date {
     font-size: 0.9em;
 }
 
-
 .code {
-    font-family: System, Fixed, sans-serif;
+    font-family: "Consolas", "Courier New", courier, monospace;
+    display: block;
+    margin-left: 5em;
+    border-left: 3px solid #ccaaaa; 
+    padding-left: 1em;
+    white-space: nowrap;
+    overflow: auto;
     color: #000000;
+}
+
+* html body .code {
+    /* IE hack */
+    white-space: normal;
 }
 
 #news {
