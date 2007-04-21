@@ -462,7 +462,8 @@ public:
 
 };
 
-inline bool results_by_deadline(RESULT * r1, RESULT *r2) {return (r1->report_deadline > r2->report_deadline);};
+inline bool results_by_deadline(RESULT * r1, RESULT *r2) {return r1->report_deadline > r2->report_deadline;};
+inline bool results_longest_first(RESULT *r1, RESULT *r2) {return r1->estimated_cpu_time(true) < r2->estimated_cpu_time(true);};
 
 extern CLIENT_STATE gstate;
 

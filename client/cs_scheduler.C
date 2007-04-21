@@ -829,6 +829,10 @@ int CLIENT_STATE::handle_scheduler_reply(
         );
         print_summary();
     }
+
+	// 5.10 should have the server side support for client deadlines
+	// TODO change this number if 5.10 does not have server support for client deadlines
+	project->server_support_for_client_deadlines = sr.scheduler_version > 509;
     return 0;
 }
 

@@ -119,6 +119,7 @@ void PROJECT::init() {
 	completions_ratio_stdev = 0.1;  // for the first couple of completions - guess.
 	completions_required_stdevs = 3.0;
 	deadline_missed_by = 0.0;
+	server_support_for_client_deadlines = false;
 }
 
 // parse project fields from client_state.xml
@@ -198,6 +199,7 @@ int PROJECT::parse_state(MIOFILE& in) {
 		else if (parse_double(buf, "<completions_ratio_stdev>", completions_ratio_stdev)) continue;
 		else if (parse_double(buf, "<completions_required_stdevs>", completions_required_stdevs)) continue;
 		else if (parse_double(buf, "<deadline_missed_by>", deadline_missed_by)) continue;
+		else if (parse_bool(buf, "<server_support_for_client_deadlines>", server_support_for_client_deadlines)) continue;
 
         else {
             if (log_flags.unparsed_xml) {
@@ -296,13 +298,15 @@ int PROJECT::write_state(MIOFILE& out, bool gui_rpc) {
 		"    <completions_ratio_s>%f</completions_ratio_s>\n"
 		"    <completions_ratio_stdev>%f</completions_ratio_stdev>\n"
 		"    <completions_required_stdevs>%f</completions_required_stdevs>\n"
-		"    <deadline_missed_by>%f</deadline_missed_by>\n",
+		"    <deadline_missed_by>%f</deadline_missed_by>\n"
+		"    <server_support_for_client_deadlines>%d</server_support_for_client_deadlines>\n",
 		completed_task_count,
 		completions_ratio_mean,
 		completions_ratio_s,
 		completions_ratio_stdev,
 		completions_required_stdevs,
-		deadline_missed_by);
+		deadline_missed_by,
+		(server_support_for_client_deadlines ? 1 : 0));
 
     if (ams_resource_share >= 0) {
         out.printf("    <ams_resource_share>%f</ams_resource_share>\n",
@@ -388,6 +392,7 @@ void PROJECT::copy_state_fields(PROJECT& p) {
 	completions_ratio_stdev = p.completions_ratio_stdev;
 	completions_required_stdevs = p.completions_required_stdevs;
 	deadline_missed_by = p.deadline_missed_by;
+	server_support_for_client_deadlines = p.server_support_for_client_deadlines;
 }
 
 // Write project statistic to project statistics file

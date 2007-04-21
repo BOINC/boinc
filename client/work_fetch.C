@@ -458,7 +458,8 @@ bool CLIENT_STATE::compute_work_requests() {
             continue;
         }
         if ((p->deadlines_missed >= ncpus)
-            && overall_work_fetch_urgency != WORK_FETCH_NEED_IMMEDIATELY
+            && overall_work_fetch_urgency != WORK_FETCH_NEED_IMMEDIATELY 
+			&& !(config.experimental_server_deadlines && p->server_support_for_client_deadlines)
         ) {
             if (log_flags.work_fetch_debug) {
                 msg_printf(p, MSG_INFO,
@@ -782,7 +783,7 @@ void CLIENT_STATE::calculate_shortfalls() {
 	double trs = total_resource_share();
 	std::vector<RESULT*> sorted_results;
 	sorted_results = results;
-	std::sort(sorted_results.begin(), sorted_results.end(), results_by_deadline);
+	std::sort(sorted_results.begin(), sorted_results.end(), results_longest_first);
 	std::vector<double> cpus_time;
 	cpus_time.resize(ncpus);
 	for (int i = 0; i < ncpus; ++i) cpus_time[i] = 0.0;
@@ -811,19 +812,30 @@ void CLIENT_STATE::calculate_shortfalls() {
 		}
 		project_cpus_time[sorted_results[i]->project][best_cpu] += sorted_results[i]->estimated_cpu_time(true);
 	}
-	cpu_shortfall = 0;
+	cpu_shortfall = 0.0;
 	for (unsigned int i = 0; i < cpus_time.size(); ++i) {
 		if (cpus_time[i] < work_buf_total()) cpu_shortfall += work_buf_total() - cpus_time[i];
 	}
+	if (log_flags.rr_simulation) {
+		msg_printf(0, MSG_INFO, "[calc_shortfalls] cpu_shortfall %f", cpu_shortfall);
+	}
 	std::map<PROJECT *, std::vector<double> >::iterator it;
 	for (it = project_cpus_time.begin(); it != project_cpus_time.end(); ++it) {
-		(*it).first->cpu_shortfall = 0;
+		if ((*it).first->nearly_runnable()) {
+			(*it).first->cpu_shortfall = 0;
+		} else {
+			(*it).first->cpu_shortfall = work_buf_total() * (*it).first->resource_share / trs;
+		}
+
+		double time_for_project = work_buf_total() * 
+			((*it).first->resource_share/trs) * (ncpus/(*it).second.size());
 		for (unsigned int i = 0; i < (*it).second.size(); ++i) {
-			double time_for_project = work_buf_total() * 
-				((*it).first->resource_share/trs) * (ncpus/(*it).second.size());
 			if ((*it).second[i] < time_for_project) {
 				(*it).first->cpu_shortfall += time_for_project - (*it).second[i];
 			}
+		}
+		if (log_flags.rr_simulation && (*it).first->cpu_shortfall > 0.0) {
+			msg_printf((*it).first, MSG_INFO, "[calc_shortfalls] cpu_shortfall %f", (*it).first->cpu_shortfall);
 		}
 	}
 }

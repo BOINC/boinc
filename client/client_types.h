@@ -395,6 +395,7 @@ public:
 	double completions_ratio_stdev;
 	double completions_required_stdevs;
 	double deadline_missed_by;
+	bool server_support_for_client_deadlines;
 };
 
 struct APP {
