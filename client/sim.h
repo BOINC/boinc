@@ -113,6 +113,7 @@ public:
     int parse(XML_PARSER&);
 };
 
+
 class CLIENT_STATE {
 public:
     double now;
@@ -240,6 +241,7 @@ public:
     void generate_new_host_cpid();
     void compute_nuploading_results();
 
+	void calculate_shortfalls();
 //////////////////
     int parse_projects(char*);
     int parse_host(char*);
@@ -248,6 +250,9 @@ public:
     bool simulate_rpc(PROJECT*);
     void print_project_results(FILE*);
 };
+
+inline bool results_by_deadline(RESULT * r1, RESULT *r2) {return r1->report_deadline > r2->report_deadline;};
+inline bool results_longest_first(RESULT *r1, RESULT *r2) {return r1->estimated_cpu_time(true) < r2->estimated_cpu_time(true);};
 
 class NET_STATUS {
 public:

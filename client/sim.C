@@ -439,13 +439,14 @@ bool CLIENT_STATE::simulate_rpc(PROJECT* _p) {
 
 		results.push_back(rp);
         double ops = ap->fpops.sample();
+		ops = std::max(0.0, ops);
         rp->final_cpu_time = ops/net_fpops;
         rp->report_deadline = now + ap->latency_bound;
         sprintf(buf, "got job %s: CPU time %.2f, deadline %s<br>",
             rp->name, rp->final_cpu_time, time_to_string(rp->report_deadline)
         );
         html_msg += buf;
-        p->work_request -= ap->fpops_est/net_fpops;
+		p->work_request -= ap->fpops_est * p->duration_correction_factor/net_fpops;
 		if (infeasible_count >=p->max_infeasible_count) p->min_rpc_time = now + 1;
     }
     p->work_request = 0;
