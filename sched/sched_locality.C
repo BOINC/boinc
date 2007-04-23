@@ -1020,8 +1020,8 @@ void send_work_locality(
     for (i=0; i<nfiles; i++) {
         char *fname = eah_copy[i].name;
 
-        // here, put a list of patterns of ALL files that are not needed anymore
-        // and should simply be deleted as soon as possible.
+        // here, put a list of patterns of ALL files that should be kept
+        // for locality scheduling
         //
         bool useful = strlen(fname) > 10 ||
                       (
@@ -1038,20 +1038,30 @@ void send_work_locality(
         // do not have associated WU with names FILENAME__*
         //
         bool data_files = strncmp("grid_", fname, 5) && strncmp("skygrid_", fname, 8) && strncmp("Config_", fname, 7);
+        if (strlen(fname)==15 && !strncmp("l1_", fname, 3)) data_files = false;
+
 
         if (!useful) {
+            // these files WILL be deleted from the host
+            //
             sreq.files_not_needed.push_back(eah_copy[i]);
             log_messages.printf(
                 SCHED_MSG_LOG::MSG_DEBUG,
                 "[HOST#%d] adding file %s to files_not_needed list\n", reply.host.id, fname
             );
         } else if (!data_files) {
+            // these files MIGHT be deleted from host if we need to make
+            // disk space there
+            //
             sreq.file_delete_candidates.push_back(eah_copy[i]);
             log_messages.printf(
                 SCHED_MSG_LOG::MSG_DEBUG,
                 "[HOST#%d] removing file %s from file_infos list\n", reply.host.id, fname
             );
         } else {
+            // these are files that we will use for locality scheduling and
+            // to search for work
+            //
             sreq.file_infos.push_back(eah_copy[i]);
         }
     }

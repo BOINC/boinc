@@ -3878,3 +3878,10 @@ Rom    20 Apr 2007
     
     client/
         client_state.C
+
+Bruce  20 April 2007
+    - Minor locality sched change for E@H
+
+    sched/
+        sched_locality.C
+
