@@ -387,6 +387,10 @@
 				>
 			</File>
 			<File
+				RelativePath="..\..\boinc\lib\str_util.h"
+				>
+			</File>
+			<File
 				RelativePath="..\..\boinc\lib\util.h"
 				>
 			</File>
