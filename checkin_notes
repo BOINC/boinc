@@ -3914,3 +3914,17 @@ David  23 Apr 2007
     tools/
         make_project
         uc_wu, uc_result (new)
+
+Rom    23 Apr 2007
+    - fixes #120 - Rebuild all 32-bit Windows dependencies using
+        VS 2005 so tht they all depend on the new CRT runtime. Make
+        sure all dependencies include an application manifest.
+    - WIN: Rebuild libcurl for x64 and include an application
+        manifest so that it can find MSVCR80 when executing.
+        
+    curl/
+        <multiple files>
+    openssl/
+        <multiple files>
+    zlib/
+        <multiple files>
