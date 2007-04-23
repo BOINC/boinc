@@ -44,7 +44,7 @@ function download_link($pname) {
             (Gentoo, Fedora, Debian, Ubuntu);
             check this first before downloading from this page.
             <p>
-            Note: 5.8.17+ requires GLIBC 2.3 or better to run. This
+            Note: 5.9.1+ requires GLIBC 2.4 or better to run. This
             change was required for the benchmarks to be similar
             to the other platforms.
         ";

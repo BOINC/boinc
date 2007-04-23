@@ -567,15 +567,14 @@ $l593 = array(
     </ul>
     "
 );
-$l5817 = array(
-    "num"=>"5.8.17",
+$l5816 = array(
+    "num"=>"5.8.16",
     "status"=>"Recommended version (standard GUI)",
-    "file"=>"boinc_5.8.17_i686-pc-linux-gnu.sh",
+    "file"=>"boinc_5.8.16_i686-pc-linux-gnu.sh",
     "date"=>"7 March 2007",
     "type"=>"sea",
     "features"=>"<ul>
 ".$features_55.$features_57."
-".$linux_libs_gcc41." 
 ".$changes_57."
     </ul>
     "
@@ -629,7 +628,7 @@ $linux = array(
     "url"=>"linux.php",
     "versions"=>array(
         $l593,
-        $l5817,
+        $l5816,
         $l5411,
     )
 );
