@@ -3928,3 +3928,10 @@ Rom    23 Apr 2007
         <multiple files>
     zlib/
         <multiple files>
+
+David  23 Apr 2007
+	- client: fix bug where client is unresponsive if
+		there are unresolvable names in remote_hosts.cfg file
+
+	client/
+		gui_rpc_server.C,h

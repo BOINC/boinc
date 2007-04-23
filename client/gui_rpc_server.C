@@ -126,20 +126,18 @@ int GUI_RPC_CONN_SET::get_password() {
     return 0;
 }
 
-// If 'last time', show errors, try all entries, return zero
-// Otherwise return nonzero on first failed entry, don't show errors
-//
-int GUI_RPC_CONN_SET::get_allowed_hosts(bool last_time) {
-    int ipaddr, retval, overall_retval=0;
+int GUI_RPC_CONN_SET::get_allowed_hosts() {
+    int ipaddr, retval;
     char buf[256];
 
     allowed_remote_ip_addresses.clear();
+    remote_hosts_file_exists = false;
 
-    // open file remote_hosts.cfg and read in the
-    // allowed host list and resolve them to an ip address
+    // scan remote_hosts.cfg, convert names to IP addresses
     //
     FILE* f = fopen(REMOTEHOST_FILE_NAME, "r");
-    if (f) {    
+    if (f) {
+        remote_hosts_file_exists = true;
         if (log_flags.guirpc_debug) {
             msg_printf(0, MSG_INFO,
                 "[guirpc_debug] found allowed hosts list"
@@ -155,15 +153,10 @@ int GUI_RPC_CONN_SET::get_allowed_hosts(bool last_time) {
             if (!(buf[0] =='#' || buf[0] == ';') && strlen(buf) > 0 ) {
                 retval = resolve_hostname(buf, ipaddr);
                 if (retval) {
-                    overall_retval = retval;
-                    if (last_time) {
-                        msg_printf(0, MSG_USER_ERROR,
-                            "Can't resolve hostname %s in %s",
-                            buf, REMOTEHOST_FILE_NAME
-                        );
-                    } else {
-                        break;
-                    }
+                    msg_printf(0, MSG_USER_ERROR,
+                        "Can't resolve hostname %s in %s",
+                        buf, REMOTEHOST_FILE_NAME
+                    );
                 } else {
                     allowed_remote_ip_addresses.push_back((int)ntohl(ipaddr));
                 }
@@ -171,7 +164,7 @@ int GUI_RPC_CONN_SET::get_allowed_hosts(bool last_time) {
         }
         fclose(f);
     }
-    return overall_retval;
+    return 0;
 }
 
 int GUI_RPC_CONN_SET::insert(GUI_RPC_CONN* p) {
@@ -189,9 +182,8 @@ int GUI_RPC_CONN_SET::init(bool last_time) {
     sockaddr_in addr;
     int retval;
 
-    retval = get_allowed_hosts(last_time);
-    if (retval) return retval;
     get_password();
+    get_allowed_hosts();
 
     retval = boinc_socket(lsock);
     if (retval) {
@@ -215,7 +207,7 @@ int GUI_RPC_CONN_SET::init(bool last_time) {
 #ifdef __APPLE__
     addr.sin_addr.s_addr = htonl(INADDR_ANY);
 #else
-    if (gstate.allow_remote_gui_rpc || allowed_remote_ip_addresses.size() > 0) {
+    if (gstate.allow_remote_gui_rpc || remote_hosts_file_exists) {
         addr.sin_addr.s_addr = htonl(INADDR_ANY);
         if (log_flags.guirpc_debug) {
             msg_printf(NULL, MSG_INFO, "[guirpc_debug] Remote control allowed");
@@ -372,9 +364,9 @@ void GUI_RPC_CONN_SET::got_select(FDSET_GROUP& fg) {
             allowed = true;
             is_local = true;
         } else {
-            // reread it because IP addresses might have changed
+            // reread host file because IP addresses might have changed
             //
-            get_allowed_hosts(true);
+            get_allowed_hosts();
             allowed = check_allowed_list(peer_ip);
         }
 
